@@ -1,188 +1,236 @@
-Return-Path: <Harish.Sadineni@windriver.com>
+Return-Path: <hsimeliere.opensource@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE4ACD4F54
-	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 10:02:10 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8692.1779271320941521869
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12A2CCD4F54
+	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 10:09:10 +0000 (UTC)
+Received: from mx-relay18-hz12-if1.hornetsecurity.com (mx-relay18-hz12-if1.hornetsecurity.com [94.100.139.218])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8898.1779271746147117791
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 May 2026 03:02:01 -0700
+ Wed, 20 May 2026 03:09:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=rBcYrRUj;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9600e7f06c=harish.sadineni@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64K9XkSt1748946
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 10:02:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=vufViU9ug
-	E3z3XEDYgK9vXTHOpb4nWBgnWQiUsPOlow=; b=rBcYrRUjPUodvC2DBJDEJyJMg
-	hhkuUKBqRuXzfl0Skvy45IYYxg5mgEztErPvANW7VK81BeZ0URLxeYSrmDXMR7C/
-	uwahH3anw2Ei0TndWEv3AABShVr188jMZiax0YSgXhvB6TB0hySP34qq/4AF1FO+
-	t3InQdBjfrzqjVdXTDPhTEZqHkqxqRDOeKMlvtZe1Skz5R6RQk8ISqs1vKauFOJl
-	SyF7aMKkWEsg66usbjmCYnptb/1dokx09Z0IY+BhcNx+k1F/UyBUOqmrKZKsX2V+
-	2r/5Q7jOLtfhRMxS/jZ0oZtBZ8U3wmY952Ui6BxZltO0nBkMipUv0kDB1OmUA==
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010005.outbound.protection.outlook.com [40.93.198.5])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e6fj3w2e2-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 10:01:59 +0000 (GMT)
+ dkim=pass header.i=@witekio.com header.s=selector1 header.b=CiZsOrdA;
+ spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.139.218, mailfrom: hsimeliere@witekio.com)
+Received: from mail-swedencentralazon11023096.outbound.protection.outlook.com ([52.101.83.96]) by mx-gate18-hz12;
+ Wed, 20 May 2026 12:09:03 +0200
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f3jzsheaKYa+2MBc50IZi7T0m+lBbLocaflkH+ggppV5U59N2XSMj6rK8TmGTCPXU/Jn+GOy2DnrMq0dm6mKFZJyfRyUjzfssYuXLgl3ELuf78RdTYbEWeN+zzNmvRqP47m5GLBuFUziets4NkiPeYOD2mn7Oa5KfXwd5QLO2iA823WYewOIyducbdRee0MQ3hqdyIbTx19BzkwLtM8j5OsxQhfoJMZnMik5T9GVGXiuM217bPQFY++zFWDLg70Baps6PhAXiXxlSANpCE7yo3tNg0Mzg9W/FFeS92vr+M9cEzIddCxZFp0dCKQXaBUrlR6XUETgdqQKO2YZBuOqJA==
+ b=BGJvU57eZGkP8hFJDuBKx3tXbh9O6RM4YNOoqQOjznOXDw+oaTHyZCmG4DoJvadDwF53ySB6DmGqlVScAKXoRAJxN6s8dOzymx3BqUbBsg141X9iJEv/Eie14r2nU/y9uWWMavxnd38gLf94WYfH3vOsqsWsPpS+ovbe3q8JC2il3haCkRtx2ZTq2MfbO6E5UIbVDejdEBa0cFx+ISXeVrlDQxZeGUGc+UuGpnG7WC0qUJBNldwrNmzYQHdJOSyW13ZyG20s1x5Z7xOWc6IzrQs9BbWLN2RnfD65k6SmQKIccJXhhh+Wo7ed38yjP/BV/d0dGdzEjK61gTPLrTMSWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vufViU9ugE3z3XEDYgK9vXTHOpb4nWBgnWQiUsPOlow=;
- b=dnNVO5mFhEfQP2WiN/XKxHRWhERQrV8yFkDJs+Pr5onAq4OP8EdeoujDGORX7ZYyx/eTaNUTNMGI5fuVN7m2NmjoR78hpPDStduyqYBTCOooQ4U1NQlw0bLvW/fL2QZI6IxSswt9u4SQ1GW1mbqp5e9N4nIpv1Lnq2MaxTW9VmC9c9k/suXEi5kw54n1nyWAD2pThhow2ojJSqxBuwC/Dz9VbciwtVVRl3CtLwGdZBCt+DzS2ygY97B2jFBcAJ7z0CZDMNvFbzcj4PJvwjga5Uv6yMG0pgi8VyEilLk3jQ+GOc4knBW1Cr/gLGhcSpKEhGOZWBUzDPDnB6FOFNwa/A==
+ bh=ZJrDf5kCn4RM5ogjOEO0DBsIitWyn9trIU3DfCEjFcM=;
+ b=GD9ISKPxJYIZx7sEv9CLsJ6/EdwQuoClP/bYYXZoB/ahNBWzYDiX9YBrijEt20vXPvOg+khmqK4fhMQWfYgveTf3kXBI7aXdb+HX65UcnKVGi7EN6lED7c3/GaK7KDgv3enu/Oyd1+Mhy2agHrru16cwfedvHgm566p2YlGZBbWLlO725FTAALkyjb9DGl4kBylGnjzUSzXLQO8n+CR3Jyz08ltDSNgH+YQA4V5aSx0Yi1DpqzNj+Vd3zMNTC785+3k707ckPN1UnGb/Q63OxFOn+IqNWQAsyLim+spLMkzJxOINghdxpAAJOSXXH9nL7zjb6iOJCH3Q/9REqjSMBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
- by DSWPR11MB9956.namprd11.prod.outlook.com (2603:10b6:8:3a4::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Wed, 20 May
- 2026 10:01:57 +0000
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9%6]) with mapi id 15.21.0048.013; Wed, 20 May 2026
- 10:01:57 +0000
-From: Harish.Sadineni@windriver.com
+ smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
+ dkim=pass header.d=witekio.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZJrDf5kCn4RM5ogjOEO0DBsIitWyn9trIU3DfCEjFcM=;
+ b=CiZsOrdA8j5BRpf37L/JX6qtDsa+c3YOagH5xgm1Os43dUJbed72QTSlHEYKPplCpBycveYfG8N/zUKX275RKUK/1mzkwlHVX7UtxzAJz+KtCTDMfENptYtW+tRGUCN1rZhVtwwsIgl0DVYd/N4cprETQgphxH0ITWK6o5Iv4GscjVGXmRmrnUNHk3KpoUmkNTi19qD4Bbt79eC2drkpuRqnob2Ef4v5NFZdFdmZWJN0X8nYdjv1vZzmbu1i6cI3w8VNz66cfmAZs0dtGIz+Er7tVd5Hlow/J975Lw3PaZhIyCTJIx6rMAd78sEgkPvyIPkknNWuVtYIK3DUfLVSOQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=witekio.com;
+Received: from MRWP192MB3504.EURP192.PROD.OUTLOOK.COM (2603:10a6:501:87::6) by
+ AS4P192MB1648.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:4bc::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.48.14; Wed, 20 May 2026 10:08:57 +0000
+Received: from MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
+ ([fe80::e437:672a:5abc:a0f4]) by MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
+ ([fe80::e437:672a:5abc:a0f4%6]) with mapi id 15.21.0025.020; Wed, 20 May 2026
+ 10:08:57 +0000
+From: hsimeliere.opensource@witekio.com
 To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-Subject: [PATCH] perf: disable BUILD_BPF_SKEL by default
-Date: Wed, 20 May 2026 03:01:37 -0700
-Message-ID: <20260520100137.2414829-1-Harish.Sadineni@windriver.com>
-X-Mailer: git-send-email 2.49.0
+Cc: "Hugo SIMELIERE (Schneider Electric)" <hsimeliere.opensource@witekio.com>,
+	Bruno VERNAY <bruno.vernay@se.com>
+Subject: [OE-core][scarthgap][PATCH] xz: Fix CVE-2026-34743
+Date: Wed, 20 May 2026 12:08:48 +0200
+Message-ID: <20260520100848.3096463-1-hsimeliere.opensource@witekio.com>
+X-Mailer: git-send-email 2.43.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0209.namprd05.prod.outlook.com
- (2603:10b6:a03:330::34) To PH0PR11MB5658.namprd11.prod.outlook.com
- (2603:10b6:510:e2::23)
+X-ClientProxiedBy: LO4P265CA0309.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:391::13) To MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:501:87::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|DSWPR11MB9956:EE_
-X-MS-Office365-Filtering-Correlation-Id: 249e0f96-f2f6-43e5-d284-08deb656d3b9
+X-MS-TrafficTypeDiagnostic: MRWP192MB3504:EE_|AS4P192MB1648:EE_
+X-MS-Office365-Filtering-Correlation-Id: d9a19ac1-6b8c-4492-f0d9-08deb657ce40
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|18002099003|38350700014|11063799006|56012099003;
+	BCL:0;ARA:13230040|376014|52116014|10070799003|1800799024|366016|13003099007|56012099003|18002099003|12006099003;
 X-Microsoft-Antispam-Message-Info: 
-	dhb0mSpfRr4miMYI+QIsi2nXNxGMpgVGwM6PmlqGp36VEltgea4/S4SFDTtT+SYfxzM3LISwWTATPksnD/P7kVd/gB9AFD0iW70YbLTh7YSbjnKQkaXf5B3aMBKYzSTGvXWb+v+o+rYPMqsozj6UpSqgR/LTq9jZnwLT9n3VqeRVPthsbHDm9TuRG50nRkckjbr5Crm/3wfEQum7ZWRiu9KPF/bGBxmt2HN6MIzZee0WKKDKRBl1fZO5cD/4MOh79tPpdzsTLexb6yv7CuGojPUxmJnHJ/647/+2sKLAN2qCWdnPvOnhEYC4L587cTD5IqK672sokbKhXQ+Ypik8Zo7d0p0V1scH2R30TXDgO3yQUXvJz4Enajc5lkihx7GbFBxBgkRdKKCAuP9ezQafzUBkeVg4In3lglRV+bLrYJj9Dw4yjB1zN0rPIOBM6qAUshIP1MSx8iuOnWg/JLPxvakhg3ZivpfKa+iyT6v1qNjgsHOxxL6qkdUWMpOz/PMPoTKLPqvIL5Lpj/lOpILhkAw/cw8DfOWaS9U+BmUHbbcyazyjJW6nIF/ZpHVv6tJhqR0i7Q2PAFr1fy55EHLzZ+EfqzfqiSEU0AnRYhgKda+bopas0Cz8//mEK9pzpg+7Jg0+5nS9YFC8mfoEfbHs/Ah62RZQqWmrgejAalcinKV5U23e+WaurPXMyRA2sbBlHT97R/wemnfyL6MqhcrX+Pc/RMVjqf+5JubPPdW8JJ7kZd7JgwB46q/WBt/UGzUb
+	pmnyLXMQDw3TlM3rj1nBduMHsHnLNZHBM9fxzrAqB29jB4IWs5YfiVwwa6/ULO6bOGrKQ3O51qoPkwCYISd1R0QyyKNMbK1x2+sJAUKTfkEGMeSzyiw1HWx9s3scL9kX7KvTjOjlR3cv0f2Zsd7WX0LRfcA3O3sM7Wif4bIjespTq0xWWGR1+cTiD0ROeqNZ8xCXDiglB3fouSU22LUYVfDmVTlcmu3Z7rK4RApU/BQDVktMapvqOhzWFqAk9ogEUHYBXRT77+gisk8hNOAIIwSCQslyzBe5HTUNWkwWu7yPGUhtoINputZcR8MUKuiG91RsijCGfHq/4ZB0wPqPxyYy5fmkdq8mnhz/WifGMTiQ5EF0dblk6s3jbJe+/IYKrzxV34WiY/83rZ0X0tcKg7X09Nbm/ouDjBEBTrqoXmlGHRatC3B+W66X7gW3BW8/quD0pc8OYOmggd/1+hRExUnAFtmCnLcpPH9RKcxapsC/eT+mchZWs5pJqsBj9dl+lT0V8rXrbcnOd9w7PY0sWOdKCxFqBLemh+2JtMo88jP9GXNyBAMzT9y986mgV170dJ0XQK8y6OlSGoF1gewGF8KKQ8vH+CJvGY9hnh9U03zT8faQJygM6k+Mfw4VzDDzp5VwolW+gdE+wBbf7CkwLWSYj4geM325cHeTaJCDZ93yfrmXXLzEUdAz2Xh/IyMAFjRTGdfvbRlbfs/UTAeWUA==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(18002099003)(38350700014)(11063799006)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRWP192MB3504.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(10070799003)(1800799024)(366016)(13003099007)(56012099003)(18002099003)(12006099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ta+YqxJK6VMlII0w8wochx6+WidXi51LMiriKSdhs/vSGBEUwSWLQtYuyVEd?=
- =?us-ascii?Q?W7Y2FAu2pStHViPlaCw4jQkRWsj9N2024G2yBsZqvBE7Q0s8354h1ceVm/Su?=
- =?us-ascii?Q?wD2eKXF85qWozhh+L3yuhYQ4lC57obE9XqBocIEGVv85UY34ovvNDF2H2qCr?=
- =?us-ascii?Q?2gpNuZ1hMNPNC8LDaX6TiJf8azkH1BGsU79aqwBvPsvDzIfSgh9fnT2Vw03X?=
- =?us-ascii?Q?5TBJDAgGU5u33guCMbmFSu2BhdtfP1lFkHSPR9fbpa/yrnT5l5QecBBEEQlv?=
- =?us-ascii?Q?ERQlKA+Co0DcybUy4A0uV0xQNXYjg9ZjM99WImrTkiz6jsajPP0CJ4YVdXPR?=
- =?us-ascii?Q?gHrG4Fh+24VOvGHHQA5Ud0WrT6DyHO++ld+DwCTIMA+uyEcq5TI6PtNNjKuj?=
- =?us-ascii?Q?ma7he2PptCoHB0E1IU7QgcwtFEy5Vp22l8ygUb5FtuJgWn+vDLoHqKBJBSKF?=
- =?us-ascii?Q?vUzB+L5nI6fQaPnWCq6+/2/K8m217YgHNMsoaWkGtj2xJpxxfTG77ukpLlUx?=
- =?us-ascii?Q?W5RJz7wTvr7yLPiqyyd8Ijp45fA1tUGcuKl2N5KSPkRwj86PjT3qBaXi9Qoe?=
- =?us-ascii?Q?TayGwD9azCnu3eL86UJUUievjR99KcMRAiKZRp92i1WjlRJg3BRLuLNKg487?=
- =?us-ascii?Q?UOvyhqroPVTjoTvodm+ljplIWJU1KPOs/sBr3m00CCPPxkRDiB/IJe4pi4es?=
- =?us-ascii?Q?fReQDvko180wt8ZH5YCjA2oYHNMVKQAhqD30KdmuRL/bXAx7vWkinH+EVOMi?=
- =?us-ascii?Q?1rAem1IuvdPJiqRwnjygdrZIcwGxx+BPVz2iKhWG34+8nTgo5KBbhN034Ru6?=
- =?us-ascii?Q?Mzr4wa67I9dNqR+pQObhXnbWfEBtpUMRC9ASMDykWaC5hxpXNKoawCFnCyFw?=
- =?us-ascii?Q?QatjkBsSq7nplMFb/69JwzJdqi8u6DkojdujCF88unvU0XBBFN3YyxfwIoJ+?=
- =?us-ascii?Q?HHlaQkBWj8iwWwYW6usebsGN3rNhNRu4kTW3JXElglIB0vZep2oZoQQjFOAA?=
- =?us-ascii?Q?zIELvpk6q56oYpnCOKl6lCfp/wy9N+8NPhS2ITNMI64N/aoZohQW61byq0DD?=
- =?us-ascii?Q?lhvoauGD7BCD2Lu8kfYoembreYGZSqU83+iUMlW1Zep+3Nw28JhQ2gYeRB96?=
- =?us-ascii?Q?rIpyLaQ4Y+7h5ftMJNMCFm4bXORyv2d/+McJofQuHLA4kzFSx8uRBaXCYW0q?=
- =?us-ascii?Q?enY2fFT5d3/y1n57bQed4URUw5B8JjmBiY415FmJpawanMjem8XGu0g+aW4P?=
- =?us-ascii?Q?B/8qTe3DjODP4fL2RyG3elPoxJaloqqHGaAA9HQseDjpNV3pUrSRKULV8gbL?=
- =?us-ascii?Q?pXW9snODblrsA13o2SHyGzkYtg+LzfDr97+IAofTbMxjSoz+3uXZZSb032Pm?=
- =?us-ascii?Q?VQ27XJiiCc/Q0UY2prECrOvHpoIJVvr20FbXtKQ6LHUHA+53b2TS5kWB/ZSS?=
- =?us-ascii?Q?8eKO4ZKeIvyM2ibrvzhJ13bMHsxk3c2713c0XVaPvGUBuNssEZ/kHsiRqmok?=
- =?us-ascii?Q?UjLM7mHE5B0nDl4IuTeuu5yZhNUONYQHqnb7JQvEjvVtWvxsAcXwdM78/lbc?=
- =?us-ascii?Q?HCmlzVEGtthZ3wpbgYOt0ze2IF2jh49+e3yp/EtAARZOPkRlt0E6faXA0aJT?=
- =?us-ascii?Q?qp+K1V1KFw1wmA0IFEDyL6B2PtNySCW84ewMShLWTj1YCxcrws96jTPl50hl?=
- =?us-ascii?Q?5Twnm84VVDR3qo0Auw2VLQY6O3A3c0aUjBJU3u4pNUB2Fmwnptj/p8KfXEPV?=
- =?us-ascii?Q?Q8TflWdmTHDbRwyHT0fSBgPqvbOjphQ=3D?=
+	=?us-ascii?Q?rh0IPS8VDEmp2GSxRdTVCtTdbPeUA6JfWNdNbVg/yNEEc99RP4UZCItaI+5m?=
+ =?us-ascii?Q?a9+HDiXIbJZM+u/vrhz05P7j43zyKlHOi22fZqSb1r4aYY+a5nYRPsJ3y7tB?=
+ =?us-ascii?Q?oaJH9eAzwzegzEiic6UXb7tMx+/TgN6PpXimovaSfdmaimqHzqOl5QBYNlXS?=
+ =?us-ascii?Q?DAK2YxMELY0ZDhsPDz5GBN+LmGeVk0k7Px4I71Qx5nMDit1IV3eWcd5CvTiJ?=
+ =?us-ascii?Q?ug8X8Yw0movr6E+yz2x3VQWTUaD8/I4MmkPApDQa5Y8CqHLnMuRNMd9DuWa5?=
+ =?us-ascii?Q?6THFMEDZCGyK6Q12dXas1CI2+3NgqzAwgNdsmHd72xGMJTScwG5Eal/WBrQ9?=
+ =?us-ascii?Q?j5nJz2KKHxoZVqUoBXhrDgyxSleNKajTzSn/X+UC48aNCUUsgqUVHFUTasjP?=
+ =?us-ascii?Q?eivpfqlXiOGb9gbkX2NF1SGXGbx9xsMyivBQ2g+0GwKG2oEh5HLfXm08YKJ2?=
+ =?us-ascii?Q?Yo7giqbdsgLZsQPwDQ0EgOGS0p7CkHBNf2qb1LU5ZrK/Wl+SIHS1xPWOh/3t?=
+ =?us-ascii?Q?YbqAZJvejgqJw8osQWNdo0icW7SYiKM+HBzV7QaNsPyKDk+ymL3fZbkLXgFl?=
+ =?us-ascii?Q?vjiuWMHkgu6b3jFtH58d1UkxR2xSeMwMB741CKgapNi0eNyV0WCtmzu0+VIF?=
+ =?us-ascii?Q?aUbvCGAYbZUjVaNoyPFE47B2o6pLo4IMpMkQfDbuMOgQ75zZqpZY9q87Kvca?=
+ =?us-ascii?Q?34bnmuuben9fsHg3Csyq40CDSNFgOGJogbCN/GiZO9jVncrC4oKeIVfOMmmj?=
+ =?us-ascii?Q?RLwHNOSwmJQQ4soLn+yUaSmRzzDZPj0tzCVjG0f7C9NFZ+snUmfp/l/WNIGX?=
+ =?us-ascii?Q?PpQKHyBl24Bg4x2UH1FvxvPXGx5DsnNamHgqU+gH0Y2d0UGAAr0fuir5i9Ly?=
+ =?us-ascii?Q?yrtNg7b2IwGLqt6rUaJg6WKB4yYGRRYxdXAmtpkkgOi2yGwXEW5wZN+Gd6b8?=
+ =?us-ascii?Q?NpTHFraJM3Il1AU99mg+xdKSW/0nZckFqClR8dNzjmzT9INWWtxAfhZ76TVA?=
+ =?us-ascii?Q?4zPY5aXoXNu+e1epKNRywtDzCGpqTLnQ3w8HK2CqMvuVn2Hx6d20S3Gz38yI?=
+ =?us-ascii?Q?dK6nSfJUy7oY8HSd8N7zFA61skMw6dzZfnqEqN2PfrYvtxhDIJ04G1Uw78qz?=
+ =?us-ascii?Q?76Kh1nQoYTRP/HBbhUP+GDTRgUvupKt5Y4vh8CbSwIoNW7pLtlVBomrBbFJa?=
+ =?us-ascii?Q?P600OGrQhaPkzM18wS8hz5dqBH5wE5vtT7uP6hnAr/4VQ/kG7WXk9YI/+h2f?=
+ =?us-ascii?Q?QFnaPyee8G2yHFNffQ9JSf4RhAfvmvjPu6qj59NlY5Ec/0PGRZHDzWfA0nvO?=
+ =?us-ascii?Q?3AVBb3eUROKN9YpIn1Rufhbw9ecfsYwto+5VRp76gEH7BfUAw+BerhK73JVF?=
+ =?us-ascii?Q?+XYsmvFiZHkUFk/98QOi1Khmx29zwk0bnJrRC/n+yJZaDiRZq6plSucLRpdV?=
+ =?us-ascii?Q?kXjXGPa2sV2xDjcc+QLjpx+gplflWRyRAgC/SekRnAaN2upzXRwF3GJ4S0+2?=
+ =?us-ascii?Q?YE5HB2O5EkoQJJCFxZpvO2td94wr5IioZbo3F6dBPdrSz1TVUS8ZWDQm6gTs?=
+ =?us-ascii?Q?AWLWe/oAeNmj9vxSVgHINeNu/J5bxQkcy29IxKNRJEy/KswXU0Z1t35rwoeo?=
+ =?us-ascii?Q?s+CFVbJ7CR2nxI0a5nYFwcp8wsEDwmgHcmAmdM4AmmeQN7BLwzTtM4c8284S?=
+ =?us-ascii?Q?o1rGyXuBZp+jC6Y1gV5QBINyr+K8+NOq6FfzvyfD9zrzUsBlSVw9I/MkEIzZ?=
+ =?us-ascii?Q?TGnZWztEglwNSa2xsXyjwFsDNt6e3sgHCz60HXeFKmnt03OqHPRlKbirVBRS?=
+X-MS-Exchange-AntiSpam-MessageData-1: fP++N0oHupYShQ==
 X-Exchange-RoutingPolicyChecked: 
-	ojKD9jNMuPDWy8ruFmriVbgESAHiVydbitYx/htqoIgk81JwNrV/eY2A1EdDMoACedzri7+vAFEQqruRkcb1fzcXmGG2lKTF0SSNPNa3ULNUZzAD748frBbaq1CyovVivei3C25Hj1lxUgTeBYNnKvp1hKjPJRh82u08bu6Ropc5r981cpu5PQgiLEguERxZMvT5R6/pmqUmFAvKcrok10G5faOZ4Yd174UXbPlrM9MdGPvBSVt5YQQVpeu0M/Hu76RnzcSt7UgDP4br9W96ZIBPU3CU9wMYMUUzkxkFv13McQ3Zm1NGDuvNFZR4N1TyIyHBOVH1ffdEXjdR3nyt6Q==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 249e0f96-f2f6-43e5-d284-08deb656d3b9
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+	c0RK+PIr13g7Hiul3EBN+Mbxd3ZS3dwUjWnsXUrLb8KngtRrbfVZNhkAVFt9vDOyhy+O8iC4BqxA1U6B1DNeA+jukEbCnuIAa7+Rkv85RN7Gp0roTiQzSQscklDNsNE5SboDZ0BmE/q54iDheZZkKkWfWtR96V0Yn7aY/RUEg9/rlyVho3aU0/TC8dKBlE6Oa/JWIUwxjUAWYG7igmmKImyySE5vUjPBdHIV/i0yD/q6l7vYD47/qftMaO5+S/mrJ1HexFWBqpEXCNVlSVoLk91jHJY4KH/PGqdujgbJ7eb/k+VXe4s9DY59Yfkubx43SyaZAwWuELVRdXlLB0xKpQ==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	kvxVoCED1FhbS1ct6URUs8tCywOaBXC9og64TlriLGDCgeUKcn8arl/kdzgu0YQCvzUlYSLXXtXAobnmVeLW2h7KGZ22RphQlNdcqiGLU2Yzg9GTzCySRlGGb0AiY99Zf7O6gE1v7RP3f6b5DN0KnCo4UXhOtJ7bvKaLym6/HGshVZSRa/25Dr324Wtj5JZ2XxPlH92R3FbLFLNQhhT5ucQW2GWT5xTbsUXBlAqaiWys1gMFfInkGypqQt4Jxkp3y9u9kF4Gix96M89fbwx66kJaiObCaQ6LigmawmjefvpY87hqZFbI+9msTBSjYu0rz/sGfmn33Td7V0ykKbVZoL4jHRqyzJ4jIWkXlhSHB3p/GPqOSTEwYl2t3ZzUQsHHhZT9FDiDMbjiX17auMxuQFwKV5nsvwWRMIlD9jR9uNFoJ87qJ7BFb1cdFpzF072/vEUyU8K9F54KdpF7fOjUxHClt8eVS63IzwHq/aQ8oWMInI8dMtLkY5XIBl2yhtARL7nz0ianZbKUMUWODgzwlZLMbf4G8LTH7V2to8xLCowfQ2S1WPTLFTcgmJZe+v2Nu/k9AnIRZD1GzEIMfhSb6jMOIGhw2aApzQ7s4NBp7Ugbr0Wf2fCFctkNzQaCPNpW
+X-OriginatorOrg: witekio.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9a19ac1-6b8c-4492-f0d9-08deb657ce40
+X-MS-Exchange-CrossTenant-AuthSource: MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 10:01:57.0337
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 10:08:57.2967
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ueyy8KEA2IbHrVQZPPPR1zbb9OzcnK5+RcYpYpX5ni1IpuiYeLvvoImHQNhW/N/LRbnd/8S/c3IUOlQf3KmPY5DYv0p4ZZGfuiOkFdvidNA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSWPR11MB9956
-X-Proofpoint-GUID: rWOTKHcbUYz0e_56EPFkB2GvjiiCdU__
-X-Proofpoint-ORIG-GUID: rWOTKHcbUYz0e_56EPFkB2GvjiiCdU__
-X-Authority-Analysis: v=2.4 cv=VssTxe2n c=1 sm=1 tr=0 ts=6a0d8697 cx=c_pps
- a=bt8r0o3PvT4lvF5YbTRm1A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
- a=tfS-ctL4uiHXehzguyEA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDA5NiBTYWx0ZWRfX6K8fohLrtspn
- bkVaAPPagnnbf4H8ygRyPaxXfoYHVyHpuBOtinoJ+o7VvtzdogL5PR/2Qv0ARdpHoGgSkmhoEi0
- RFrQ6m6VojmA2uu7q94t5gucm5UTs1I6F/gaI1AJo6HbqheUn1dvF/nIkeVb2S3Fd17I0v4zBGq
- DI36X0YpyVrTeX6wBRhGzq98AtMIT3+yVpNZX5zTIlJQk4wmwM9inX0RFWAEi9xTy6C0AKJkEs2
- yG+DK9Cjxm7EZyi/TT//P/kTGCsPliXgOJeR9tjpgGq+5bt76C3BJn1PUHcUOmZ8Oj6bIlDhtSm
- zr9LuRkR+5sqFzNHbdGfWv14xrvzrt+gpdQqpdwyomuodL70vXUKeMl91tPjxhMN/38zOh6lSjF
- hNhFxjTkfZRntLwUMwSr6T+TTUB7amSCGM4zWIzksHXrixvIVWuCmlRz4bP7q/iOhsL91Q8SocK
- 6WAaT/jk0eJDF2IuFxg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-20_02,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0
- adultscore=0 spamscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605200096
+X-MS-Exchange-CrossTenant-UserPrincipalName: iOxjMW6BbN58TIxcNS//5IiTMg3F8q8bR73yj+SMon0JyQS4izzpctVkN4xfwn564gTNfJ61ViY6TybwvzJvJw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P192MB1648
+X-cloud-security-sender: hsimeliere@witekio.com
+X-cloud-security-recipient: openembedded-core@lists.openembedded.org
+X-cloud-security-crypt: load encryption module
+X-cloud-security-Mailarchiv: E-Mail archived for: hsimeliere.opensource@witekio.com
+X-cloud-security-Mailarchivtype: outbound
+X-cloud-security-Virusscan: CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate18-hz12 with 4gL6hC4mhyz2fSyD
+X-cloud-security-connect: mail-swedencentralazon11023096.outbound.protection.outlook.com[52.101.83.96], TLS=1, IP=52.101.83.96
+X-cloud-security-Digest: 89dd894ac37ea206c52bd752be7be4a1
+X-cloud-security: scantime:1.420
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 10:02:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237440
+ <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 10:09:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237441
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+From: "Hugo SIMELIERE (Schneider Electric)" <hsimeliere.opensource@witekio.com>
 
-Enabling the Rust in-kernel feature pulls in clang-native as a
-dependency for the kernel build. During the perf build, the presence of clang
-causes all BUILD_BPF_SKEL dependency checks to succeed, which makes perf attempt
-to build bpftool as part of its build process and make build to fail.
+Pick patch from [1] as 5.4.x upstream backport of [2] mentioned in Debian report in [3].
 
-Previously, When Rust support was not enabled, BUILD_BPF_SKEL is set 0 due to missing
-clang dependency.
+[1] https://github.com/tukaani-project/xz/commit/8538443d08591693a8c61f3a03656650f39c7c32
+[2] https://github.com/tukaani-project/xz/commit/c8c22869e780ff57c96b46939c3d79ff99395f87
+[3] https://security-tracker.debian.org/tracker/CVE-2026-34743
 
-The perf recipe does not currently provide/support the required
-bpftool build environment, resulting in build failures such as:
-
-Error:
-| make[3]: *** ../bpf/bpftool: No such file or directory.  Stop.
-
-As a workaround currently disabling BUILD_BPF_SKEL by default to make perf to build.
-
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
+Reviewed-by: Bruno VERNAY <bruno.vernay@se.com>
 ---
- meta/recipes-kernel/perf/perf.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../xz/xz/CVE-2026-34743.patch                | 68 +++++++++++++++++++
+ meta/recipes-extended/xz/xz_5.4.7.bb          |  1 +
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-extended/xz/xz/CVE-2026-34743.patch
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index c3ef25fd99..e3e5d55e39 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -438,3 +438,9 @@ perf_fix_sources () {
- 		fi
- 	done
- }
+diff --git a/meta/recipes-extended/xz/xz/CVE-2026-34743.patch b/meta/recipes-extended/xz/xz/CVE-2026-34743.patch
+new file mode 100644
+index 0000000000..f890851cb2
+--- /dev/null
++++ b/meta/recipes-extended/xz/xz/CVE-2026-34743.patch
+@@ -0,0 +1,68 @@
++From ae7abca7c721c73bb4aadf41a82a720a842a4364 Mon Sep 17 00:00:00 2001
++From: Lasse Collin <lasse.collin@tukaani.org>
++Date: Sun, 29 Mar 2026 19:11:21 +0300
++Subject: [PATCH] liblzma: Fix a buffer overflow in lzma_index_append()
 +
-+# Disable BUILD_BPF_SKEL by default.
-+# Rust in kernel support pulls in clang-native, which satisfies the
-+# BUILD_BPF_SKEL dependency checks and causes perf to attempt
-+# building bpftool, resulting in a build failure.
-+PACKAGECONFIG[bpf-skel] = ",BUILD_BPF_SKEL=0" 
++If lzma_index_decoder() was used to decode an Index that contained no
++Records, the resulting lzma_index had an invalid internal "prealloc"
++value. If lzma_index_append() was called on this lzma_index, too
++little memory would be allocated and a buffer overflow would occur.
++
++While this combination of the API functions is meant to work, in the
++real-world apps this call sequence is rare or might not exist at all.
++
++This bug is older than xz 5.0.0, so all stable releases are affected.
++
++CVE: CVE-2026-34743
++Upstream-Status: Backport [https://github.com/tukaani-project/xz/commit/8538443d08591693a8c61f3a03656650f39c7c32]
++
++Reported-by: GitHub user christos-spearbit
++(cherry picked from commit c8c22869e780ff57c96b46939c3d79ff99395f87)
++(cherry picked from commit 8538443d08591693a8c61f3a03656650f39c7c32)
++Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
++---
++ src/liblzma/common/index.c | 21 +++++++++++++++++++++
++ 1 file changed, 21 insertions(+)
++
++diff --git a/src/liblzma/common/index.c b/src/liblzma/common/index.c
++index 8a35f439..dae7cab5 100644
++--- a/src/liblzma/common/index.c
+++++ b/src/liblzma/common/index.c
++@@ -434,6 +434,26 @@ lzma_index_prealloc(lzma_index *i, lzma_vli records)
++ 	if (records > PREALLOC_MAX)
++ 		records = PREALLOC_MAX;
++ 
+++	// If index_decoder.c calls us with records == 0, it's decoding
+++	// an Index that has no Records. In that case the decoder won't call
+++	// lzma_index_append() at all, and i->prealloc isn't used during
+++	// the Index decoding either.
+++	//
+++	// Normally the first lzma_index_append() call from the Index decoder
+++	// would reset i->prealloc to INDEX_GROUP_SIZE. With no Records,
+++	// lzma_index_append() isn't called and the resetting of prealloc
+++	// won't occur either. Thus, if records == 0, use the default value
+++	// INDEX_GROUP_SIZE instead.
+++	//
+++	// NOTE: lzma_index_append() assumes i->prealloc > 0. liblzma <= 5.8.2
+++	// didn't have this check and could set i->prealloc = 0, which would
+++	// result in a buffer overflow if the application called
+++	// lzma_index_append() after decoding an empty Index. Appending
+++	// Records after decoding an Index is a rare thing to do, but
+++	// it is supposed to work.
+++	if (records == 0)
+++		records = INDEX_GROUP_SIZE;
+++
++ 	i->prealloc = (size_t)(records);
++ 	return;
++ }
++@@ -686,6 +706,7 @@ lzma_index_append(lzma_index *i, const lzma_allocator *allocator,
++ 		++g->last;
++ 	} else {
++ 		// We need to allocate a new group.
+++		assert(i->prealloc > 0);
++ 		g = lzma_alloc(sizeof(index_group)
++ 				+ i->prealloc * sizeof(index_record),
++ 				allocator);
++-- 
++2.43.0
++
+diff --git a/meta/recipes-extended/xz/xz_5.4.7.bb b/meta/recipes-extended/xz/xz_5.4.7.bb
+index 30a4c8e88c..72759edea0 100644
+--- a/meta/recipes-extended/xz/xz_5.4.7.bb
++++ b/meta/recipes-extended/xz/xz_5.4.7.bb
+@@ -30,6 +30,7 @@ SRC_URI = "https://github.com/tukaani-project/xz/releases/download/v${PV}/xz-${P
+            file://CVE-2025-31115-02.patch \
+            file://CVE-2025-31115-03.patch \
+            file://CVE-2025-31115-04.patch \
++           file://CVE-2026-34743.patch \
+           "
+ SRC_URI[sha256sum] = "8db6664c48ca07908b92baedcfe7f3ba23f49ef2476864518ab5db6723836e71"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v(?P<pver>\d+(\.\d+)+)"
 -- 
-2.49.0
+2.43.0
 
 
