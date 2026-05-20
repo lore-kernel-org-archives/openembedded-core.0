@@ -1,209 +1,178 @@
-Return-Path: <martin@geanix.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74BB0CD4F54
-	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 06:52:18 +0000 (UTC)
-Received: from mail-106105.protonmail.ch (mail-106105.protonmail.ch [79.135.106.105])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6270.1779259931563962640
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2808ECD4F54
+	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 07:37:29 +0000 (UTC)
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6940.1779262641588123171
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2026 23:52:11 -0700
+ Wed, 20 May 2026 00:37:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=protonmail3 header.b=nxPKJlQD;
- spf=pass (domain: geanix.com, ip: 79.135.106.105, mailfrom: martin@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=geanix.com;
-	s=protonmail3; t=1779259929; x=1779519129;
-	bh=b+eU5Zj/uXwEo4ajrvi68wk9hoc/QLRH1QYIKpbEzls=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=nxPKJlQDg463ShmBKImARYv1QodhYneCZarWM4PyC+btaj89q+HXN0J4k5TjpVI0/
-	 /qapSZOlhMnEFwQCvnm/tFylrJX9axV4YGvfaFWOct965sYyekarRjs6LOaWj5f6uY
-	 /UzA+YYy56NsosHuoCopA00z+ZwgcEOwuYX1yYcqidJ7WVRj+tkjEY0Dihovy8mCj4
-	 p4YsBhdhBPw2VYIMJ07dv7H8vD6OgQwi47dFRVx63XUPvKNFgvl6669+GaSKVmRe2F
-	 07xb5q5VWOmbOGkNHi0DycmHJwjAIojomu6+r+hR/yrS4abpvWx0I7nV0ti1xDzGPN
-	 T+pMhHS9+Gr/Q==
-Date: Wed, 20 May 2026 06:52:04 +0000
-To: saisneha196@gmail.com, openembedded-core@lists.openembedded.org
-From: =?utf-8?Q?Martin_Hundeb=C3=B8ll?= <martin@geanix.com>
-Cc: yoann.congal@smile.fr, corentin.guillevic@smile.fr
-Subject: Re: [OE-core] [PATCH v2 0/3] Add missing SRCREV check for SCM URIs
-Message-ID: <3135866948b9f03fd55f43509a5e803261caef5c.camel@geanix.com>
-In-Reply-To: <20260519103249.236132-1-saisneha196@gmail.com>
-References: <20260519103249.236132-1-saisneha196@gmail.com>
-Feedback-ID: 134068524:user:proton
-X-Pm-Message-ID: d6d60bc75da94e652460d6b3fcf259f0890964c2
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=Ab6y57fz;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=K6JGEcD2;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.144, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id AEDF21D000B0;
+	Wed, 20 May 2026 03:37:20 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Wed, 20 May 2026 03:37:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1779262640; x=1779349040; bh=BZg4w0/cQa
+	eREiMt/zG7LyZFAjyncdT3K/+NimYeT0c=; b=Ab6y57fzykKIs4YRyP0ASSDka9
+	bw+A3StaQs3gT1Bf0K0HrRhXaTDJxDpbyxMG1IWR0YgIi5AY2elEBGFZfOr+l0oy
+	SALflqRXo53d0kcaoOhF7nSrIcpo0g0+KOOfhrg/Jwca3MSE0YtBEvmJ+TOe6kMO
+	jVX0jjZDicYv1p0uHf8/bftOEGJRkANMeM0MwffwQH+OogOnbNlZU/JB4UPDRB+o
+	6CjhrWvnJIvGf6LFHdQtgfjd5GbyEj1Nt58N/Ty0rdpb8D7OPqypud05wesW7v2G
+	ijhBkrWB8zJc21l47+9cV6IZTeW1D4t/Khx8/Rb/S7nhKWOZKece249NsMxg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1779262640; x=1779349040; bh=BZg4w0/cQaeREiMt/zG7LyZFAjyncdT3K/+
+	NimYeT0c=; b=K6JGEcD2dQX97MJi6aoopJbpFJeDW/pXF4IGdICPrraud/yxBOd
+	fSF1VhHFTCLSfYciWHW8g/EFAdAC0eHbf8ukxNCeULMwvoJzrBesPMDia//cDHTd
+	OZiacHG78qjU77zPcPZRhAep9SyGTbh0O7I1dkgoNZPv3H59CiSddncE9GqEBed5
+	D/xxErKaL3Xvj0d9WdZRJHYXEwNVIdZbenlid00ifv+zrgv1+hgSXSQn6kIlEz0S
+	zwgE5ElXgHy/w4QZ4WhABXGxFkoQh4z2ZrXWWuQ/ea8HOvJNij38qw7tRjPdl3a9
+	LrRKpdeBpbVr+1N4NGMVi4au1Tmypd/+xHA==
+X-ME-Sender: <xms:sGQNaoVEEN79c8JSoOkA1--tfz3HA6h_YWdzXlt_QsGm0WJ42ylwmw>
+    <xme:sGQNailKrINqoliOkg5VOYByDicpQjrUylepzZyYefLWBkJB6rM5kNLcA75NCDRhP
+    LqO33eJU_lU3WQkBzKdmMr6yXz0R-pXMKfxccpGFjpX163wpbVj8dY>
+X-ME-Received: <xmr:sGQNaqBfEfv9pip0Cob-3il1YdfBZrVdLofBExFBpHc015O_PRrHL2I9Mr81MDx3C_eoLFNtI7pMxQXKeUK5vSWARWvusYwqSTcRFDo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeegtdehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefkuffhvfffjghftggfggesghdtreertd
+    erjeenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdr
+    uggvvheqnecuggftrfgrthhtvghrnhepudegteehueffvddthfelgfeuffejgeehgedtue
+    etkeetveetvddtgfekuefhjeetnecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdr
+    ohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomhepphgruhhlsehpsggrrhhkvghrrdguvghvpdhnsggprhgtphht
+    thhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeihohgrnhhnrdgtohhngh
+    grlhesshhmihhlvgdrfhhrpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhr
+    vgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
+X-ME-Proxy: <xmx:sGQNaifAqZG_-NSSRkgSd6IyFZoF3wrvNMgZNwsRQnrxloj1ZwIyrg>
+    <xmx:sGQNalJYpGdEkxgvt_C7BcKgQUD9s1Q7oBzLjwHpTAeFepVcE4oGhQ>
+    <xmx:sGQNalcyg-1rASDF8Wh5lmQcZNzSURY9KUwsqw3ZHxZ16jZJjJxVFg>
+    <xmx:sGQNas1L37WanCg30ZR6DkTHANJnZJoR3vXR3A8535ySRG5x05HAPg>
+    <xmx:sGQNaq5zirW6SrFAiZVp4ScRu6M7xBfR_DGx7xuMxjULDSC4BMvLQxdz>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 20 May 2026 03:37:19 -0400 (EDT)
+Message-ID: <e18168d2da604d9645b4116d37ac99a572477cae.camel@pbarker.dev>
+Subject: Re: [OE-core][wrynose 11/28] libsdl2: set status for CVE-2026-35444
+From: Paul Barker <paul@pbarker.dev>
+To: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
+Date: Wed, 20 May 2026 08:37:16 +0100
+In-Reply-To: <e2ea9d60afddf38e5a8d4a7c4d22e5efd98a5e4e.1779232800.git.yoann.congal@smile.fr>
+References: <cover.1779232800.git.yoann.congal@smile.fr>
+	 <e2ea9d60afddf38e5a8d4a7c4d22e5efd98a5e4e.1779232800.git.yoann.congal@smile.fr>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-iuvLdng5iDdK98hqBPbQ"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 06:52:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237386
+ <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 07:37:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237387
 
-Hi Sai,
 
-Please add a changelog to the patches, so we can follow the evolution
-of the patches.
+--=-iuvLdng5iDdK98hqBPbQ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-And remember to update the version in the cover letter subject too.
+On Wed, 2026-05-20 at 01:29 +0200, Yoann Congal via
+lists.openembedded.org wrote:
+> From: Peter Marko <peter.marko@siemens.com>
+>=20
+> This CVE is for SDL_IMAGE, not SDL.
+>=20
+> Mapping in sbom-cve-check tool seems to be wrong at [1].
+> It maps both SDL and SDL_IMAGE to the same CPE.
+>=20
+> [1] https://github.com/bootlin/sbom-cve-check/blob/v1.3.0/src/sbom_cve_ch=
+eck/products/products.toml#L1608
+>=20
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit fef169063e49f516ea96e2243869808ba58550d0)
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 
-// Martin
+Hi Yoann,
 
-On Tue, 2026-05-19 at 16:02 +0530, Sai Sneha via lists.openembedded.org
-wrote:
-> This patch series adds a check for git:// (and other SCM) URIs in
-> SRC_URI that are missing a corresponding SRCREV, addressing
-> Bugzilla #16051 [1] and building on Corentin Guillevic's RFC series
-> [2].
->=20
-> =3D=3D Problem =3D=3D
->=20
-> A recipe with a git:// URI and no SRCREV causes two problems:
->=20
-> 1. Under BB_NO_NETWORK=3D1, parsing fails with a FetchError that halts
-> =C2=A0=C2=A0 parsing of ALL recipes, not just the offending one. This bre=
-aks CI
-> =C2=A0=C2=A0 pipelines that use "bitbake --parse-only" as a sanity check,=
- which
-> =C2=A0=C2=A0 was the original motivation reported by Ross Burton [3].
->=20
-> 2. Without BB_NO_NETWORK, BitBake silently queries the remote
-> =C2=A0=C2=A0 repository on every parse, breaking reproducibility.
->=20
-> =3D=3D Why the trivial fix doesn't work =3D=3D
->=20
-> The obvious fix of checking SRCREV in insane.bbclass do_recipe_qa
-> was attempted by Corentin Guillevic [2] but fails because
-> fetcher_hashes_dummyfunc[vardepvalue] expands SRCREV at parse time
-> BEFORE QA checks run. This triggers get_autorev() which causes:
->=20
-> =C2=A0 "AUTOREV/SRCPV set too late for the fetcher to work properly"
->=20
-> This was confirmed by Mathieu Dubois-Briand's autobuilder testing
-> [2].
-> Corentin's series needed 4 patches including devtool/recipetool
-> workarounds to paper over the expansion crash.
->=20
-> =3D=3D This series' approach =3D=3D
->=20
-> We intercept at the vardepvalue expansion point itself in
-> base.bbclass:
->=20
-> =C2=A0 fetcher_hashes_dummyfunc[vardepvalue] =3D \
-> =C2=A0=C2=A0=C2=A0 "${@bb.fetch.get_hashvalue(d) if check_srcrev_set(d) e=
-lse ''}"
->=20
-> check_srcrev_set() uses d.getVar(candidate, False) =E2=80=94 the False fl=
-ag
-> prevents expansion entirely, so get_autorev() is never triggered and
-> no network access occurs. This solves the root cause in one patch
-> without needing devtool/recipetool changes.
->=20
-> =3D=3D Design decisions =3D=3D
->=20
-> 1. Why not use srcrev_internal_helper()?
->=20
-> =C2=A0=C2=A0 srcrev_internal_helper() expands SRCREV internally, which tr=
-iggers
-> =C2=A0=C2=A0 get_autorev() and live git ls-remote calls =E2=80=94 exactly=
- what we are
-> =C2=A0=C2=A0 trying to prevent. We intentionally use d.getVar(candidate, =
-False)
-> =C2=A0=C2=A0 instead. Our fallback chain mirrors BitBake's resolution ord=
-er
-> =C2=A0=C2=A0 exactly, as confirmed by BitBake's own error messages:
-> =C2=A0=C2=A0=C2=A0=C2=A0 SRCREV_default:pn-X, SRCREV_default, SRCREV:pn-X=
-, SRCREV
->=20
-> 2. Why duplicate warnings at parse time AND QA time?
->=20
-> =C2=A0=C2=A0 Parse-time warnings (base.bbclass) are necessary for CI pipe=
-lines
-> =C2=A0=C2=A0 running "bitbake --parse-only" with BB_NO_NETWORK=3D1 =
-=E2=80=94 they would
-> =C2=A0=C2=A0 miss the issue entirely if only QA-time warnings existed.
-> =C2=A0=C2=A0 QA-time warnings (insane.bbclass) are necessary for proper
-> =C2=A0=C2=A0 WARN_QA/ERROR_QA layer control and QA framework integration.
-> =C2=A0=C2=A0 This pattern is already established =E2=80=94 src-uri-bad fi=
-res at both
-> =C2=A0=C2=A0 parse and QA time.
->=20
-> 3. Why hardcode git/gitsm/hg/svn schemes?
->=20
-> =C2=A0=C2=A0 These are the fetchers that require SRCREV. This is a known
-> =C2=A0=C2=A0 limitation =E2=80=94 if new SCM fetchers are added in future=
-, this list
-> =C2=A0=C2=A0 will need updating. Noted as a follow-on improvement.
->=20
-> =3D=3D Enforcement levels =3D=3D
->=20
-> =C2=A0 Normal builds, all layers=C2=A0 =E2=86=92=C2=A0 WARN_QA=C2=A0=
-=C2=A0 (warning, build continues)
-> =C2=A0 oe-core layer=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=86=92=C2=A0 ERROR_QA=C2=A0 (error, stric=
-t enforcement)
-> =C2=A0 yocto-check-layer runs=C2=A0=C2=A0=C2=A0=C2=A0 =E2=86=92=C2=A0 ERR=
-OR=C2=A0=C2=A0=C2=A0=C2=A0 (layer validation fails)
->=20
-> This matches the graduated enforcement requested in Bug 16051
-> Comments 2 and 3.
->=20
-> =3D=3D Testing =3D=3D
->=20
-> Tested on openembedded-core with:
->=20
-> - Recipe with missing SRCREV =E2=86=92 WARNING/ERROR at parse time =
-=E2=9C=93
-> - Recipe with SRCREV =3D "${AUTOREV}" =E2=86=92 silent passthrough =
-=E2=9C=93
-> - Recipe with rev=3D in URI =E2=86=92 no false positive =E2=9C=93
-> - Recipe with multiple SCM URIs =E2=86=92 all missing SRCREVs reported =
-=E2=9C=93
-> - oe-core recipe =E2=86=92 ERROR instead of WARNING =E2=9C=93
-> - yocto-check-layer on layer with missing SRCREV =E2=86=92 FAIL =E2=9C=
-=93
-> - 952 other recipes parse cleanly =E2=86=92 0 errors =E2=9C=93
->=20
-> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16051
-> [2]
-> https://lore.kernel.org/openembedded-core/20260304104342.869457-1-corenti=
-n.guillevic@smile.fr/
-> [3]
-> https://lists.openembedded.org/g/openembedded-devel/topic/115911777
->=20
-> Sai Sneha (3):
-> =C2=A0 base.bbclass: warn when SRCREV is missing for SCM URIs at parse
-> time
-> =C2=A0 insane.bbclass: add missing-srcrev QA check for SCM URIs
-> =C2=A0 yocto-check-layer.bbclass: enforce missing SRCREV check during
-> layer validation
->=20
-> =C2=A0meta/classes-global/base.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 40
-> +++++++++++++++++++
-> =C2=A0meta/classes-global/insane.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 32 +++++++++++++++
-> =C2=A0meta/classes-global/yocto-check-layer.bbclass| 32 +++++++++++++++
-> =C2=A03 files changed, 104 insertions(+), 2 deletions(-)
->=20
->=20
-> --
-> Note: This patch series was developed with assistance from Anthropic
-> Claude (AI). All code has been reviewed, tested, and verified by the
-> contributor. The Signed-off-by line represents the contributor's own
-> certification per the Developer's Certificate of Origin.
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#237306):
-> https://lists.openembedded.org/g/openembedded-core/message/237306
-> Mute This Topic: https://lists.openembedded.org/mt/119387995/3618414
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> martin@geanix.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+We should not need to backport this if we take the update to
+sbom-cve-check 1.3.1 (earlier in this series) as it fixes the offending
+products.toml entries.
 
+https://github.com/bootlin/sbom-cve-check/commit/30a5b3e94bbdd27557d3b8b7b1=
+917b9980fc2564
+
+Best regards,
+
+--=20
+Paul Barker
+
+
+
+--=-iuvLdng5iDdK98hqBPbQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCag1krBEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0br2TAP9KOJHoasbEnEoBfMq+cr4ll6sOTBPznYyg
+GOqcH2Nl0wD+J6YWnZLn08fvhrwgff1BNM6QLI7/9tcbWD/FfL22LAE=
+=pa7m
+-----END PGP SIGNATURE-----
+
+--=-iuvLdng5iDdK98hqBPbQ--
 
