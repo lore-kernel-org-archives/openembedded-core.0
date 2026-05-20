@@ -2,693 +2,252 @@ Return-Path: <SunilKumar.Dora@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED328CD5BAA
-	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 17:30:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEBE5CD5BA4
+	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 17:35:16 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18083.1779298224597396818
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18185.1779298506741945929
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 May 2026 10:30:24 -0700
+ Wed, 20 May 2026 10:35:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hsl7EbId;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=gZjojpoW;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=96001520eb=sunilkumar.dora@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64KFCIZW2821108
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 10:30:24 -0700
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64KFC5bP2799967
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 10:35:06 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=Iuf4fxpmY
-	M/Nix+5inenavtNwz5Xkv2ElJTOlvhMnQc=; b=hsl7EbIdYaDV+Ai1aWhkUsmDH
-	jfXYSOSNPKfPPJu/dX2t++fEcSNOkEe1XLwTPX1PfY1/BV3S4LaNLQV0rHP8/qCr
-	kB5nqohM3V9RRQNqQh3CFA3XeajmZBUzC7q8FmZTzjIaOyB6xYx3wI1i594UP4vI
-	p6ILBt+UZmj5TI3b8hWa/MZyZTnvedF6dmhhVWDIhuBE82WgBYXFRpb+Kw5XJ46D
-	0EF0+7kAdCf/fih1Qfj4pUqW/jZKg+xGCP5QD4oiyAvifvFIk7AKpb0/7hFqakpA
-	43yAgjKFunyNaQmH9oKzgMTyK8t0/v2++pMl/b8MfJ16+DVlaQINPlri4cnWQ==
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010019.outbound.protection.outlook.com [40.93.198.19])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e6kux5qv5-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 10:30:23 -0700 (PDT)
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=zbbDRV+l5
+	Ciz+mSXkOSz93h2hn1FTjZkFJvBiK97bbM=; b=gZjojpoWjaK/cbzXpKzdsORLM
+	5VgLKEpnyJN2VAJ8RBTa8Kqcin1hFcHl1AXa2wDhpbh4cLOjxCLDHGqji2unLNLF
+	0OW1fpkgTeJrZYWH4oj1giCaiYt4TurLfKJxvN8Uz5ZYREPFleXtQO67eWVMYskB
+	hashNStq7B4gj+c1UW6Ne54OzsHotUJtD5i1Lz4TrDPdVRA+GnBS1GRV3QmGqCZy
+	bmFmK9gt54Pl8U4hAk+Zjr0gpxbsQUL4hsWUUfgCgpCJxeJs/xevEJsIJ878sSJ6
+	Lv+WEz0kx+sfehoIcNjAOES5F2mR+j+gF80mZXck0J5AylcR+swxiJzEIJi6Q==
+Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012015.outbound.protection.outlook.com [40.107.209.15])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e6r3gdng8-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 20 May 2026 10:35:05 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eA1Kz8Z09znNvCW8VqeueNkR+d1zzKNsdQ52asfzONtpxZm0JMO1pmbl89XmOB3+3n461YwLl5d6GxdtHHXLmgf5c+rjXBDrg35/+LpahRtV1nFrhPc4ChjMvVZerCug10kmWIj+Vz9EkkuwIXEltR+bLSdMT7AwGFK/KSSQtzz1Pr76KPCeMJmCgAxEZdbaQEeAYFtmQtcJ65bRGbsFJ+RoYVDC5O8ZexRII7HIvuKXGCcpsJPCNpF0zC88FBVTNZJgTY43vxIViXI1fWbbeg6123E9TbOFR4BmOFLFvfaDvIW4+ol+MX8Z+Repbd170bg25eMdROxFj9gGUj+4mg==
+ b=BTMvQ7N0aLh+Fsyl5KE9I0MLyfu1i1CjyrsU+W+RvD5G9qc2KQmb2PcBiO6ivA+neFEB1OR/uxuxKVd/kqxA4BURdbrkA2vVgOQGQpIcCw1Wc64djqh4aSUsqVMS1rU6W82qXDkcNr1SYyUHOkhJr/agDVhMjS5gtjkt+tJR7MPkZ3jV3OrkKea8MlqhyjJw22HqdD5KqOwZir47rnWGvPjHCrE4jCTnW1UbLBXuzNuBz7T3tQ0gnenKiRGCrJftnWSmtXIC1GS5PUdCSjez6sKAPAQ+5ak6zh0kzVXJ7Rg9I/RHz5RBJTjWqQ+d4pY5oF9DTelOmK6h4e+Jie2sbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Iuf4fxpmYM/Nix+5inenavtNwz5Xkv2ElJTOlvhMnQc=;
- b=eul1NEUNoULM+xLRp5jivVBublpdr9EfOWkXyyyXvRx9IZvWD1SXIJxl5uOHBTL94n5Y3MAZxf2yfx2vJzTQwlec5+D9Yi4Ld4ccYoxDgbrZ2nfFHFQv1NHtkWg40bmo3JnGDwbXFBXZywClRrdr21b2R16IuXlb23WcCy7gHkS9GMQAwzoRuAPOI308Yzbpr3KlF6n023BXF1IazCK7UYYfuPO92nSSgKTMkHgGa5FjMMw+TvZt6fh/gUqlLReW0ELW3Ta3tAiGrmHlGM5y7pllnnLvzjY5CX2WFDH6FD4gAxNtPXqaqn0GwbouQxURJU1LXVdncwOQIgI+a2u+NA==
+ bh=zbbDRV+l5Ciz+mSXkOSz93h2hn1FTjZkFJvBiK97bbM=;
+ b=aRhi0N2/r6dt64jjl3K8Ho+p0TwVZSfwahRZG7jyvzFC/0DcBtM6f/ITy8XNkXOWSqP+mREOCU2Tv+XAgen8+1SXB8CLCFtp+7oNysZqoimET3l0mIfJuj/cV9QO2w4ZWEGk+BhhgmLcnEcpU6m5ClvR0biorfzhJZHT9GBcCwIDiGix1Erm1gvolE9B/Gugj7idslLiWV0Z51kDaBCoXJvSIoeomdyLrq1IPeqYE38ddjPXjYyrUKRVm1KR7jRoinsj36wsgMSftP7YXLTMB5LfEdfqb7O/JX3cwlKLfd17VvKwgf8ZnCKdDeoSCYzBmR7+3znoXAddREH6kdTbWQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
- PH7PR11MB7123.namprd11.prod.outlook.com (2603:10b6:510:20e::18) with
+ BL1PR11MB5240.namprd11.prod.outlook.com (2603:10b6:208:30a::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.16; Wed, 20 May
- 2026 17:30:17 +0000
+ 2026 17:35:03 +0000
 Received: from DS0PR11MB7901.namprd11.prod.outlook.com
  ([fe80::4293:7c4b:a0b5:eb5f]) by DS0PR11MB7901.namprd11.prod.outlook.com
  ([fe80::4293:7c4b:a0b5:eb5f%3]) with mapi id 15.21.0048.013; Wed, 20 May 2026
- 17:30:17 +0000
+ 17:35:03 +0000
 From: sunilkumar.dora@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, SunilKumar.Dora@windriver.com
-Subject: [PATCH] gdb: Upgrade 17.1 -> 17.2
-Date: Wed, 20 May 2026 10:30:02 -0700
-Message-ID: <20260520173002.932063-1-sunilkumar.dora@windriver.com>
+Cc: Sundeep.Kokkonda@windriver.com, SunilKumar.Dora@windriver.com,
+        raj.khem@gmail.com
+Subject: [PATCH v2] clang/llvm: Upgrade to 22.1.5 release
+Date: Wed, 20 May 2026 10:34:50 -0700
+Message-ID: <20260520173450.933044-1-sunilkumar.dora@windriver.com>
 X-Mailer: git-send-email 2.49.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0063.namprd03.prod.outlook.com
- (2603:10b6:a03:331::8) To DS0PR11MB7901.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0PR05CA0076.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::21) To DS0PR11MB7901.namprd11.prod.outlook.com
  (2603:10b6:8:f4::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|PH7PR11MB7123:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0cd86e86-f0bb-4ee1-1fe7-08deb69575c3
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|BL1PR11MB5240:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65e2f003-074d-41a2-96f1-08deb6962029
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|18002099003|56012099003|38350700014|3023799007|11063799006|6133799003;
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014|18002099003|56012099003|3023799007|11063799006|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	54fV9psMVo9gZshx3lgCUv066kKd0QTxdVz1pyI3ihYTwzhRXMXGbKZB8gvpZ8VBNpUnD1qTZE8pLA+xMuDTLhOeUSyMHQJU3wEqfW8ilTJofVxAiyRHfBMQ+UylGUevmsNNgPxcR+MIQudGmxqxuCtRYCj1s9Qh3EXxMSmgUZOSkycEnah0OaSyW0aG4zm463ecdMSE5SmOCraxMUKSz9E7b9qHf1qJZhj1iRNtVpBMZEd0Tk/gap7QiwGyS56aWL0ifiyT9GtwMpNH6qRAsIYYLLDnkyxOxbSOxyzeUZW3jLhO45ujFoWFqEDEKlIO9APAHk38cYJY8iGRISBgSmbGKoofJmo5l8BdTX7N7V9NwDPi3XF5S9Gl9ZsoosdTLPh7GEpmU9PYc/xiWIabsY2DK6k8TEgK18KXm9htsaYWjy5hvWzv57jiiMxv5ig64nG1+eBIbCPR1ii1FG9/H3ScYWwCn6fOHXpUIxaIzxvtkN0eXCeikxQYPcG7nLkJi8IZ0Czb/uh5Q2MgOXxCu1xQENPeewZTwiQ+a7OPUdBeslJDr9fmfXnJlfqMgHOjSBwodJZhHUwhfnkLVqzXfpwmigV9eORXMBUkw+JiA6Az8ySjgptVAtKKPZa2WyWMN2YMvqHyZgDhJ84L00C0zGuqpsXylrd+q05YV7qGYyzZXHNnXASbrPctt1N/ksup9vBU8M16hA2EmI5Cs2ZOrA==
+	C/XPS94z/ZtDxcQwjFmXjVfrSSPJyUxxEfV99q4lCC2Ocna+JE86d1DbpmFMz+8uHKTexVTerOOIA2062O75lkINLKmVztbDtko0jsIGDlxPqGIMfUPAearg4HxJbsc9dZL84aQEj72hLiO4UWxqN+8Ac91PRYa/eVqByQAehxuCTfz1FTtZ4ZaFMY/1N3VGRMtGbTFMTUoWaR07c7UIMwc12DY0JAv39JOWws+LCG+hk5nkp8yb8POmbVaWIRXVchWhImHHD7yqvQX2BPxHajoJDWqyr5Hw62toJtwY7gcLgzeB8XcqUP96EIuvX22McQD+fNxqR8bw4PF9sAwQLxRertr6ujF6ZfpnjHzJKh0z0U+2UiVX0WUa6x034LBtAjZqbCCQnZxmOSBtRA4Ubiwwkwgpg4Vcsb5F8zM7DGWDD54+qBIBgnKuFypyr+ZlNHZ/ZP7cXJmOPi5IzFfpxmkNuTUQOFYzW2OP+FtnAU+mccIbl81VF3Pezy4O6PSy3rkWD2ytvaonQz4+q+/VbfdNQpDfS+5VABbfpQxzxwJyFhbdeBpGI6v/ftjFA+a7Xdko8DoifP5u+otnYREQzItRmNk76NqNFiWh6oelRusiqq2V6HQcjPNaSkLKHnoHSCgie82I9S1HKyUFGvNEPArQN0vx8BUBT6c00i5k/fI5qsLPrHx3cv22kQcIg3Y7ffQDBvJ+GjUtTnDR2bb5seoi63jlvO0aoe8Bn1sgbdbEgRpkkLM+l2Bu1N5EXbod
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(18002099003)(56012099003)(38350700014)(3023799007)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014)(18002099003)(56012099003)(3023799007)(11063799006)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?d4deSPEOYbLm66GE5rHPA5qu1Yq1KI3di+7p7thyGf5W0oeyU3KlfTp5qzLi?=
- =?us-ascii?Q?U/IHeuvAP2dhpwKyGvIIGifotj8sW0zVOnnYUzQeHnM4m3D8/5NQHz6hAyre?=
- =?us-ascii?Q?vvEAVI1Be3dTFxR8Mep63qM7SCMZmKeX7orEQx1LJfE9VFMjG/GFOEsAqbx+?=
- =?us-ascii?Q?5gjaBh2zJHXakijGc89+DmrPRMHwi0RreLiS51/B8xkpaUc2OMRs2rv/mxMK?=
- =?us-ascii?Q?jxUEPc+W7HUrvmVJ9InycUfgKsslYU9KZ7t7K9OCLzhls/L4zPL9In73XLHR?=
- =?us-ascii?Q?E1hTqFb9l534+MiB0h0ivHon2SOon7BPDYswy4FZDZm0erQdNpZOOb9RCBnW?=
- =?us-ascii?Q?AQWFOuRkcHxxnptJsb3rPTe8SfM3PehkebMNqhKdpeYl5d1/dbqHg4cPel1E?=
- =?us-ascii?Q?JkH+m6nDTDrp3qtbyiGtGV4ROoqhflJnYLMj++lqqdPcnNY/CTfP6KYHFoj2?=
- =?us-ascii?Q?T+flN1Z/65Lm9J/qDCTclSCCbqwBya1yJ0NEbgqyoCfisWOGNL8++nN0RsUS?=
- =?us-ascii?Q?ZsaMUeog1JWoCK83J22CkNzcKME49Fa3PZ8knSGDYBP1ymX/17S0QCfiiAsY?=
- =?us-ascii?Q?daclKMhPvNBIFr9sMRh9hhwTbad3mqH7J2ugMKOB/fY4fG6fX3QoX/ZmqSr4?=
- =?us-ascii?Q?MnuwNpTd1ce690GqyhBY3e0mfTYgMh3NBLXsIQJR9U0G+qU6CMIxLZfkHRvu?=
- =?us-ascii?Q?KJihsbtFXtocIQrp/5Qq9AcKIAuAqD+Xo2pMvVmvU89/GwOgUkia1Y8/kXsN?=
- =?us-ascii?Q?9gJ607Pn0aXnNUCuyqZEZ3G3RIPWhBvBmXhnqfaYTN7I3XWO3ooloBPakXlr?=
- =?us-ascii?Q?qHaQsECptVcpCszaSq1bjbJmshRbGfZVRD31927MYufkmFQF69MXP016r35+?=
- =?us-ascii?Q?UMit8Rig8CbR6X4JyHoT/kIR7ShfZifSahzcCwsQ+xPVYm+/SiovIsEf/kno?=
- =?us-ascii?Q?py883tnktqwuKqjUG+P7sC4e0qtK/oFhFGfM9PdhNADsYMfEx2MM6JYFCQ3Y?=
- =?us-ascii?Q?5cym99y3yx7TMeSY+1kR1XN71MbybKJ4oRoSFoMyvpcZbCp0BGRuCdvGcAwj?=
- =?us-ascii?Q?LfECaz88tGVVMUTYEU7UO2XEc8WModtYPywWisCxJBtpE3hket4blM93sIqS?=
- =?us-ascii?Q?6RyOCtiFMFKd6I3jtZ9f0Kqklq59P6e8kMLj7p6yYVHh9PWAbNn2FPP4CtfT?=
- =?us-ascii?Q?wS6BIxn7muVmhIHF9Fpw16kiseTMchkrMeYXdd3TYLa0FhTmKCMMt99sa4fA?=
- =?us-ascii?Q?E/bX0AariwRKYJNuTUX9hC0PWff2cOGFuTx/C1TCw+bUTROSkBS9rwEkIlnb?=
- =?us-ascii?Q?0Fxl61nxFa8yOUEyQaVIm/r4gqJbwtL5WbqjNOgQfbeO8KGveDH1RgX79Jt0?=
- =?us-ascii?Q?jUzwEZwuoyn87M8IMPYWUI5Paf6Fsfj+zfw072NYLHH1g1P+8bTQi6udt65a?=
- =?us-ascii?Q?+n32i00gQiJ0xL1xyB3T+8i8U3yayGMPmuSCZck5sZu6yh2qu3xEwE5Ku90J?=
- =?us-ascii?Q?3cTAI0Ef+w12JuUP0OkSs5gqri2H6KDvr3bjYR7UiVj3oef4lWe2qQavMvKK?=
- =?us-ascii?Q?H+xbXzOktTOJHokYlXtQbWlHZjZPg6bI/w/GD2Ly/Dfcw4H0UocB9gmrr75B?=
- =?us-ascii?Q?mBg1NI43qeUICEimwq2EgmYN2xzxaAoIVK8qlcpob+S7lV2MacbS91eMwHLN?=
- =?us-ascii?Q?2bZ9pse4uKshVi1FN5umejYcLsU/xo0yWy5uPWT8vr7mSfnfKt0ireFiOQME?=
- =?us-ascii?Q?y8Is0VCMc7jP1L/glUR1edoPVi64f6c=3D?=
+	=?us-ascii?Q?MOdCSBG26/XJqtKb6Z6LNg+rKCnSoGrY8FE91FHgMLNOE25kbF/ZkmQh8hSl?=
+ =?us-ascii?Q?Ur+HO08Hbfk2r0hcug1DMn8NzeJ/YqfX5bWScHsW0S09Tt9nQCPNudJWRbd2?=
+ =?us-ascii?Q?s9E2TOKc7QQvskoWYjiIdqhG03Jk8Wd9XXIeX1WD0loEbKcnhiUHX0VnyBZz?=
+ =?us-ascii?Q?xGrbot3NVBI/qsNG/byDIjjZmJ9YugMjwMvz0w9RdYE/slp03+O58iVSlDRN?=
+ =?us-ascii?Q?ZAv8lcEPQjZjDX/HzgaLpQOdFJyj6qAm1O88fs5J3QVEyRXz+X/jfnwoMPrm?=
+ =?us-ascii?Q?AifZR/9jqQrZ+jhEu4nfvI/hqDt8fmSYelIwbW/FJMQdFiSdigl5wvlnSRoI?=
+ =?us-ascii?Q?3HsqThnAyiCsxT8YgEyuw/ePprsEgemq6YOuug5rlTfxjDNTgP3evVpKi3th?=
+ =?us-ascii?Q?0akE8E5+FDYiZ2zUKJ2VrXzzic5ahcj6nxw3eNUYcwAqf7L2T502HRE3KQth?=
+ =?us-ascii?Q?AYg/lUOSnrNjdADqohPV7VkWz+C+C8uk/2l1IkeITBTLyuPSmghOVdYlwTDH?=
+ =?us-ascii?Q?wWGAikLYXmAoo6l0hWekyEq8L2IU7KtOX9mowdydZtKo0ZuDIgI+9JhlJSFn?=
+ =?us-ascii?Q?9V8AsIbjdJdbYUDbMMlarvzt2UeBlIRl4c27IvxKO1ga1hIROAdnf/GJ4bCh?=
+ =?us-ascii?Q?Ytu/kFXWthEznvG5YeCA5ta3oB+ij9JCNS5zczKNdGs8qK0OEUDt2AjpWs/3?=
+ =?us-ascii?Q?Qqx454qNohDH2BC+FIdfvevbLIB0CvYFvr4xhG9THZke7C0+Ki2Kgo6Nrzt2?=
+ =?us-ascii?Q?z8bD76u78/rno6SgD/eyqPwsm9vVwWE+XeP3J46vjbV04KxZdEGAbhcQeSrE?=
+ =?us-ascii?Q?4kk7Xv+f9idyyOgBCJhDkzCSD+y4NqWuTFAae6kMHjecMPYAacJ7dsDN/gEq?=
+ =?us-ascii?Q?Ulgwq+8JdIyHa2WPHJ0jAMNZcrjf89UBs2YQ2/IqaHr/VAP0FM9W5hdjWT4G?=
+ =?us-ascii?Q?+PRtYPVSz3hGOQ8Nb77Y0I1eUSY7QPkubCz4XSqGyGCqx2Bt6OzlA/tIX3A/?=
+ =?us-ascii?Q?f3LK1EWhBXfyZqxr+EI36bQWAyyes+MtC2Lk1tHeX704Wrad1mS/nnwMPW3z?=
+ =?us-ascii?Q?aPF0zuui80bnnUh+zgRQWgRvU83sMEAD8kdIB0M5kAY+voFin5IwmI407fb4?=
+ =?us-ascii?Q?mVijTMoEL8JvMRbviG4hj0EntRfctD4cxYU2dSRQ5J82wWp6nWUfeqyX18i3?=
+ =?us-ascii?Q?Nct5Z82gUzgFRlO7EewWMwbHiJD8ck6oMIq8DqhhQjfuScLFrweT5g2fBc4n?=
+ =?us-ascii?Q?YMLmcPOeDblMCWhy7vZJzQlnuNB8/Pm8L/m8MmOjY/St+z63Q8rDt1kHULYL?=
+ =?us-ascii?Q?IG1429c/du6DwqvIUod5IZaqLeYtiktqZ4kx2p6HyHTBW/k0hvGAYLL/23WY?=
+ =?us-ascii?Q?esPzRoxNEUgz4RIjVi+/Yi1dAt6xVIvQOgc6lbDbcim6R3QXk++lXp8PGgdY?=
+ =?us-ascii?Q?AovO7GlmRR262m6VakH2EIFogrXIzHwpUdTv16LrM56ieiW+VANdg5Em6Y0E?=
+ =?us-ascii?Q?BCBTSheddcgHyRjJyHGDhFVooZtRwFM+5/7p6oOJZZ5FGjf78Ws/Bi/2RF4M?=
+ =?us-ascii?Q?SHGIitn++PlmGjKaTd2EiDC+Q1dIq/I+uOuTj4BLlefviwgIXvHvYV57CnlE?=
+ =?us-ascii?Q?Mdw7L+rsPO/WxyH1YcUmTUEzxnZncL4x4ycAfKlRv1R225Bg60TsqDJUQKky?=
+ =?us-ascii?Q?mxJ4yg8YU1RhD/n8cfFO+TAbvdWQXv1NyLh6otZQSXAem2hJ1T2dgPzmwZQ/?=
+ =?us-ascii?Q?hZvgiZjbvrAYZl392zjYVyvlFzLg8PI=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	XQjZDyQRT8xzCZoGAmNGY3RJbqhAMqitTR7mfG34v2GpvtCHPlUl7YDehg/PUv8LYwB+V3m4DKGxNpGaeGLPi+NViamAd94kgkH9WcxyaTsR5wtUC53shKnT62DR4UMXSGO342AUO7jnXmY/g6leg5r1fapjVTKKEZRMmZ76AWxQd8WK3dn3HcMijfQ80hu1IpriHWXzDVNt6rV1bpuAcQWsYKyXLvj1S/9s4o43UdgZTU8JF335p0BJLaDAKiIW+Ctmbx3fAKP5MOHtJDmwdDKz5KQmjtT+tlpbSzkp2m4ML8/bb/VYoeX0rOmSZvV4xLXQwySGj39BKY8Qp9UOgw==
+	QtiSP3xKC6p8jLgGSZ9eWWOpu1Dau3Y8pBIw9J8wZfV7l8yoGuzy5m/UDTwlgunsuT0Dke9ZFXr2GirAeg5kfg1Itsz72NjwCluxFPUiqCk/vAHeZrWQMCJGFl+c0otA7q5zq3IpzJRg71tmbdFExBQN1pzu4qVy9GlPAzFGfe1kuy/qTy7kYICCajtfNFQQh9eEkKIFSAaDnEPJ+Ut6XLXi6H7of5cCTandPFE0EGwhfPdHUkYakyxdH+eyFmXdKs8u+SjXOtRAZy57zxHyiHDBsu8K6qj4zp7UVT56u8YiUNtzK/tyCJfi3kcLsaZ2bDQEYKrElqq79TrRXfmkxw==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0cd86e86-f0bb-4ee1-1fe7-08deb69575c3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65e2f003-074d-41a2-96f1-08deb6962029
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 17:30:17.7129
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 17:35:03.5698
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o8WxIMNRoh6RO29j2za+GnALlSbcOG477B5g00c8CphhBfldUOFUGDRCRCwN8shuFvXrag9YsXZQaHvASH1LEYZmxNKTfG7MD+7Oh/LHg+s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7123
-X-Proofpoint-GUID: j-3SDBRZzk5FZ5EgNM7L2VicpMTeMsUz
-X-Proofpoint-ORIG-GUID: j-3SDBRZzk5FZ5EgNM7L2VicpMTeMsUz
-X-Authority-Analysis: v=2.4 cv=NMblPU6g c=1 sm=1 tr=0 ts=6a0defaf cx=c_pps
- a=xx7W88v/Jz1hHwbI4fXbew==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: lPKwWbj5nj11fviMawx81yY+kiFBZx6D8neVZ0aqAdoF+j/3Bgzv4m7bjxJeMkJlSAD9o7kI9/zO62TOVgD+1Cb00RIu2Nj7Qs/GyfvHJm4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5240
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: zRATzz0JQ0BDBIDYWYYLU0Cu0jXKnvW4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDE3MSBTYWx0ZWRfX0aXP+vNhB6xq
+ 2qbi5pneiE9sM57Gg6vbI4puPrH1swG21Oj46UVh8VIIQ2w1yXCtyLiVAfhckD9+kQph20aLVIW
+ wQUHq7e4td43s6t1pb1wWuTFibhUTRu0B0/6vdd7L/mwTQX7hQOamytJuVlGkUtLG3nPuO47mLT
+ 3n16yt+n/tCx6ZSipkEhe2t6rx8NgFoSiudQsebQUf0AArDkAUvsl/IrpqjCjiyrJDhgPZp6KYH
+ v7pXUS17YxULZl6K//7mRo7uRZu42aGnhdFXdTSdAoBcj6ql/1wr3c1RmIEOg6La5qGNJ0MM93R
+ 0uTRTR/DqpUS7qWAJLzq3Ufs23syutNcYqO0PMwrT/jEOwBJiTnC6h55r8eT/P1v5m0PgqYBoOI
+ gPOTUn6tlzk33whkIAPUa0U1+qG5kYSL4OpBjtzEFncvmia9YVEr/tzE49MzZfhmsvMtR8AwQrD
+ evs67bbkyaj/dr1uybw==
+X-Authority-Analysis: v=2.4 cv=I45Vgtgg c=1 sm=1 tr=0 ts=6a0df0ca cx=c_pps
+ a=YvmT30J82QCmV9938MlLOg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=CCpqsmhAAAAA:8
- a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=BcPKCTjPAAAA:8 a=KKAkSRfTAAAA:8
- a=pGLkceISAAAA:8 a=m7CUszNA7STTOgLsIdMA:9 a=HCINmKHFQ_U6d0ff:21
- a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22 a=MNXww67FyIVnWKX2fotq:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDE3MCBTYWx0ZWRfX7lyz4lWBcYye
- skXQWyKdXbz1ol3NK+5oBsA8LzXu8BfoyYHOsJdgb9sntZmXkj01gB7LE6qrC9YctyahpzvHlfp
- TSTOTkbHDn7W3UCtTOCt3/2eso602xv7eQbAy9CdrNGM7XPA5iwrKAE6uzQy6Uu1Q8Jay48i349
- 4QIJcY4x0dYBXUmXytFgbF2JBtmJhWd+qnUEQ8bGRJJ6fiK185nCNLfjQDS1VEVo7/de1yJxdrS
- f800gub2OhHSUSE1M0Uij/Nd5OSBMYA/OX4mpErdaDztMRg6PBfU8jF29/LyYekZHEguIQ0/6G0
- 2UfGLbI7KXdY1VD7RHgF4kanOJycn051hyIMJwtxo+glLUMS5AOsve6jGxIYjjqIAK7QQ3zMvwH
- Z0hgc4P6RquqvLeutNgBl1QSnWZXlbDH2OmuO+VczGAfZ777bXoN5FWEGzWuKfEASYYnQxyWaK5
- wUaTLHL8XvaRkUMKIiQ==
+ a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=NEAV23lmAAAA:8
+ a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=iGHA9ds3AAAA:8 a=f4FRIwN8j0KLBVNNJjwA:9
+ a=FdTzh2GWekK77mhwV6Dw:22 a=nM-MV4yxpKKO9kiQg6Ot:22
+X-Proofpoint-ORIG-GUID: 2WBX_t8zHdCoLWZ90gBpqOkexvc0_lEh
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-20_03,2026-05-18_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- malwarescore=0 spamscore=0 suspectscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605200170
+ phishscore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
+ adultscore=0 clxscore=1015 spamscore=0 malwarescore=0 impostorscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
+ definitions=main-2605200171
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 17:30:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237461
+ <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 17:35:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237462
 
 From: Sunil Dora <sunilkumar.dora@windriver.com>
 
-GDB 17.2 brings the following fixes and enhancements over GDB 17.1:
-https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=blob_plain;f=gdb/NEWS;hb=gdb-17.2-release
+Brings following fixes:
 
- * PR dap/33228 ([gdb/dap] error while listing register children)
-
- * PR gdb/33737 (gdb --help says 'For more information, type "stream"
-   from within GDB', but "stream" is not a defined command)
-
- * PR build/33747 (Incompatible with MUSL libc: no member named 'c_ospeed'
-   in 'termios')
-
- * PR gdb/33748 (gdb17 regression with displaying ANSI colors)
-
- * PR gdb/33753 (Out-of-bounds writes in string_{v}printf -- threads
-   and static data don't mix)
-
- * PR cli/33761 (Setting style colors is broken on MS-Windows)
-
- * PR gdb/33768 (Loading compressed GDB scripts from .debug_gdb_scripts fails)
-
- * PR symtab/33775 ([gdb/symtab] data race in
-   dwarf2_per_cu::{set_addr_size,set_offset_size,set_ref_addr_size})
-
- * PR symtab/33777 ([gdb/symtab] dw2_get_file_names doesn't cache result
-   for dummy CU)
-
- * PR symtab/33825 ([dwz] Extremely slow symbol lookup with DWZ-compressed
-   debug info (thousands of partial units))
-
- * PR testsuite/33845 (gdb: There are 4 unexpected failures in
-   breakpoint-in-ro-region.exp)
-
- * PR gdb/33872 (`skip -gfile` has inverted logic)
-
- * PR gdb/33926 (GDB 17.1 AArch64: redefinition of user_gcs struct on musl)
-
- * PR breakpoints/34112 (rbreak `file:regex` sets breakpoints for matches
-   outside of `file` [reproducer attached])
-
-Drop patches merged upstream:
-  * 0009-PR-gdb-33747-gdb-ser-unix-modernize-Linux-custom-bau.patch
-  * 0010-GDB-aarch64-linux-Fix-build-failure-on-musl-systems.patch
+  * 5ea218a153f4 [CMake] Add multi-target cross to ARM/AArch64 Linux toolchain CMake cache file. (#179598)
+  * 7237429c2edc [AArch64] Fix `shufflevector` miscompilation on `aarch64_be` (#193076)
+  * 5e29d8aa0481 Prevent undefined behavior caused by combination of branch and load delay slots on MIPS1 (#185427)
+  * c61be37fe844 [clang][CodeView] Prevent the input name from appearing in LF_BUILDINFO (#194140)
+  * a4aca5a91cc3 [libunwind] fix build errors on x32 and mips n32 (#194310)
+  * 57370e18b8a9 [Coverage] Fix quadratic propagation in RawCoverageMappingReader (#194996)
+  * 932756ad6c64 [X86][FastISel] Restore support for struct returns (#194586)
+  * 19f65f31105c [LLD][ELF] Fix performance regression when using linker scripts (#194668)
+  * 5c9647b8e680 release/22.x: [WebAssembly] Fix EHPadStack calculation in fixCallUnwindMismatches (#194184)
+  * f3ce7a7db0dc [clang] fix crash with c-style casts involving dependent member-pointer types (#194696)
+  * 692d49bdb7ad [clang-tidy] Add note about removal of `hicpp` module
+  * ca0698598261 [SystemZ] Enable -fpatchable-function-entry=M,N (#178191)
+  * 0d37e79da8db [X86] lowerV4F32Shuffle - don't use INSERTPS if SHUFPS will suffice (#186468)
+  * 9b722024f1be [compiler-rt][sanitizer] Remove linux/scc.h (#194116)
+  * 7bf7d99b794d [NFC][AArch64] Allocate AArch64Subtarget on the heap instead of stack (#176488)
+  * 98348c38cf17 [C++20] [Modules] Add VisiblePromoted module ownership kind (#189903)
+  * a9fb4799dcad [clang] NFC: Add test case for #178324 and mark it as fixed (#190490)
+  * f131d162201b [clang] fix error: cannot compile this l-value expression yet (#187755)
+  * 20fd94cf9314 [SLP] Fix a very long loads offset, being stored in DenseMap
+  * 267ce6017a57 [lldb] Add EXPORT to lldb-tblgen (#192610)
+  * c4b74e87ca35 Bump version to 22.1.5
+  * 35990504507d [Hexagon] Add missing MIRParser link dependency (#191010)
+  * 22ad4d688a72 [Hexagon][MIR] Serialize HexagonMachineFunctionInfo::StackAlignBaseReg to MIR (#190003)
+  * a1a9924414aa [Hexagon] Add AP register to liveins when used for frame index access (#188942)
+  * 7eb182991920 [Hexagon] Fix use-before-def of AP register in prologue CSR spills (#188504)
+  * 74049f6e3a70 [VectorCombine] Fix transitive Uses in foldShuffleToIdentity (#188989)
+  * a01a45066dae [NFC][test] Precommit test for pr188989 (#188667)
+  * 9f29c1e3fd8a [X86] Fix missing ByValTemporaries update in CopyViaTemp path for musttail calls (#190540)
+  * d46116b2e464 Suppress octal literal diagnostics from system macros (#192481)
+  * a5564a033004 [OpenMP][OMPT] Revert `control_tool.c` changes from #191429 (#192069)
+  * 3f9b9936be95 [OpenMP][OMPT] Fix `omp_control_tool` before any directive (#191429)
+  * d1c9116f8442 [clang-format] Correctly annotate binary stars in braced init lists (#186732)
+  * 99031a474bb1 release/22.x: [Clang] Track constraint's SubstIndex only if it contains outer parameter packs
+  * 5a1590c14433 [ClangLinkerWrapper] Fix `-v` for newer CMake passing it directly (#188883)
+  * c8e984d27b27 [X86] Fix VPMOVPattern folding for extended registers (#191760)
+  * 07c19c303387 [compiler-rt] [Darwin] Move macOS ASAN reservation above 512G (#191039)
+  * fa56327584fe [22.x][LoongArch] Revert musttail/byval/sret Changes
+  * 10be0a255205 [clang] Allow -Wno-error=X to downgrade -pedantic-errors diagnostics to warnings (#184756)
+  * c2aea991dba1 [Hexagon]  Fix O(N^2) compile-time regression in HexagonOptAddrMode (#189531)
+  * f444cca96bd5 [AArch64][SME] Preserve ZA in agnostic ZA functions without +sme (#190141)
+  * 5d161731998c MIPS/expandAtomicBinOp: Remove tailing kill dead register operands (#186055)
+  * def143a6c624 [clang] fix getReplacedTemplateParameter for function template specializations (#189559)
+  * 5b4dd04594bd [pdb] Fix public symbol hashing in GSIHashStreamBuilder::finalizeBuckets (#190133)
+  * f42d371a5d72 [WebAssembly] Fix: fixCallUnwindMismatches after fixCatchUnwindMismatches (#187484)
+  * e9a36c0cca40 [CodeGen] Preserve big-endian trunc in concat_vectors (#190701)
+  * 53c41b3a599f [PowerPC] Optimize bitcast(truncate) patterns using vbpermq (#181233)
+  * ab2f55b13bcb [LLD] [COFF] Fix crashes for conflicting exports with -export-all-symbols (#190492)
+  * f0593ab291c7 Bump version to 22.1.4
 
 Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 ---
- ...ian_17.1.bb => gdb-cross-canadian_17.2.bb} |   0
- .../{gdb-cross_17.1.bb => gdb-cross_17.2.bb}  |   0
- meta/recipes-devtools/gdb/gdb.inc             |   4 +-
- ...-ser-unix-modernize-Linux-custom-bau.patch | 248 ------------------
- ...ux-Fix-build-failure-on-musl-systems.patch | 196 --------------
- .../gdb/{gdb_17.1.bb => gdb_17.2.bb}          |   0
- 6 files changed, 1 insertion(+), 447 deletions(-)
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_17.1.bb => gdb-cross-canadian_17.2.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb-cross_17.1.bb => gdb-cross_17.2.bb} (100%)
- delete mode 100644 meta/recipes-devtools/gdb/gdb/0009-PR-gdb-33747-gdb-ser-unix-modernize-Linux-custom-bau.patch
- delete mode 100644 meta/recipes-devtools/gdb/gdb/0010-GDB-aarch64-linux-Fix-build-failure-on-musl-systems.patch
- rename meta/recipes-devtools/gdb/{gdb_17.1.bb => gdb_17.2.bb} (100%)
+ meta/conf/distro/include/maintainers.inc     | 2 +-
+ meta/recipes-devtools/clang/common-clang.inc | 2 +-
+ meta/recipes-devtools/clang/common.inc       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_17.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_17.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross-canadian_17.1.bb
-rename to meta/recipes-devtools/gdb/gdb-cross-canadian_17.2.bb
-diff --git a/meta/recipes-devtools/gdb/gdb-cross_17.1.bb b/meta/recipes-devtools/gdb/gdb-cross_17.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross_17.1.bb
-rename to meta/recipes-devtools/gdb/gdb-cross_17.2.bb
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index d367486d02..cbb5885459 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -13,7 +13,5 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
-            file://0006-Fix-invalid-sigprocmask-call.patch \
-            file://0007-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
-            file://0008-Add-fix-for-packages-that-are-not-compatible-with-C2.patch \
--           file://0009-PR-gdb-33747-gdb-ser-unix-modernize-Linux-custom-bau.patch \
--           file://0010-GDB-aarch64-linux-Fix-build-failure-on-musl-systems.patch \
-            "
--SRC_URI[sha256sum] = "14996f5f74c9f68f5a543fdc45bca7800207f91f92aeea6c2e791822c7c6d876"
-+SRC_URI[sha256sum] = "1c036c0d72e4b3d1fb5c94c88632add6f9d76f4d7c4d2ea793c12a9f19a3228c"
-diff --git a/meta/recipes-devtools/gdb/gdb/0009-PR-gdb-33747-gdb-ser-unix-modernize-Linux-custom-bau.patch b/meta/recipes-devtools/gdb/gdb/0009-PR-gdb-33747-gdb-ser-unix-modernize-Linux-custom-bau.patch
-deleted file mode 100644
-index 30d22b21f9..0000000000
---- a/meta/recipes-devtools/gdb/gdb/0009-PR-gdb-33747-gdb-ser-unix-modernize-Linux-custom-bau.patch
-+++ /dev/null
-@@ -1,248 +0,0 @@
--From 1a77c71303b552140613d49595baebdff1a4716e Mon Sep 17 00:00:00 2001
--From: Sunil Dora <sunilkumar.dora@windriver.com>
--Date: Tue, 17 Mar 2026 01:58:55 -0700
--Subject: [PATCH] PR gdb/33747: gdb/ser-unix: modernize Linux custom baud rate
-- support
--
--The Linux custom baud rate implementation previously accessed the
--struct termios members c_ispeed and c_ospeed directly. These fields
--exist in glibc but are not exposed by musl, causing builds to fail on
--musl-based systems.
--
--Update set_custom_baudrate_linux to use a capability-based approach,
--with three distinct code paths:
--
--1) If POSIX cfsetispeed/cfsetospeed accept arbitrary baud rates
--   (HAVE_CFSETSPEED_ARBITRARY), use them to set input and output
--   speeds.
--
--2) Else if Linux termios2 interface is available (TCGETS2/BOTHER),
--   use it to support arbitrary baud rates.
--
--3) Else if legacy struct termios supports c_ispeed/c_ospeed, use
--   the TCGETS/TCSETS fallback (primarily for glibc on older
--   architectures).
--
--4) Otherwise, emit an error indicating that custom baud rates are
--   unsupported on this platform.
--
--This preserves existing behavior on glibc systems while restoring
--build compatibility with musl and other libc implementations.
--
--Bug: https://sourceware.org/bugzilla/show_bug.cgi?id=33747
--
--Upstream-Status: Submitted [https://sourceware.org/pipermail/gdb-patches/2026-March/225952.html]
--
--Suggested-by: Kevin Buettner <kevinb@redhat.com>
--Suggested-by: Maciej W. Rozycki <macro@orcam.me.uk>
--Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
-----
-- gdb/config.in    |  6 ++++++
-- gdb/configure    | 52 +++++++++++++++++++++++++++++++++++++++++++++
-- gdb/configure.ac | 22 +++++++++++++++++++
-- gdb/ser-unix.c   | 55 ++++++++++++++++++++++++++++++++++--------------
-- 4 files changed, 119 insertions(+), 16 deletions(-)
--
--diff --git a/gdb/config.in b/gdb/config.in
--index efc3100cb9e..b2469c8dabd 100644
----- a/gdb/config.in
--+++ b/gdb/config.in
--@@ -110,6 +110,9 @@
--    the CoreFoundation framework. */
-- #undef HAVE_CFPREFERENCESCOPYAPPVALUE
-- 
--+/* Define if cfsetispeed/cfsetospeed accept arbitrary baud rates */
--+#undef HAVE_CFSETSPEED_ARBITRARY
--+
-- /* Define if compiling support to gdb compile. */
-- #undef HAVE_COMPILE
-- 
--@@ -517,6 +520,9 @@
-- /* Define to 1 if `st_blocks' is a member of `struct stat'. */
-- #undef HAVE_STRUCT_STAT_ST_BLOCKS
-- 
--+/* Define to 1 if `c_ospeed' is a member of `struct termios'. */
--+#undef HAVE_STRUCT_TERMIOS_C_OSPEED
--+
-- /* Define to 1 if `td_pcb' is a member of `struct thread'. */
-- #undef HAVE_STRUCT_THREAD_TD_PCB
-- 
--diff --git a/gdb/configure b/gdb/configure
--index d0bdba6eb36..8a0e2fa2771 100755
----- a/gdb/configure
--+++ b/gdb/configure
--@@ -27336,6 +27336,58 @@ if test "$ac_res" != no; then :
-- fi
-- 
-- 
--+# Check whether cfsetispeed/cfsetospeed accept arbitrary baud rates.
--+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether cfsetispeed/cfsetospeed accept arbitrary baud rates" >&5
--+$as_echo_n "checking whether cfsetispeed/cfsetospeed accept arbitrary baud rates... " >&6; }
--+if ${gdb_cv_cfsetspeed_arbitrary+:} false; then :
--+  $as_echo_n "(cached) " >&6
--+else
--+
--+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
--+/* end confdefs.h.  */
--+#include <termios.h>
--+int
--+main ()
--+{
--+
--+       #if B9600 != 9600
--+       #error B-constants are not numeric symbols
--+       #endif
--+
--+  ;
--+  return 0;
--+}
--+_ACEOF
--+if ac_fn_c_try_compile "$LINENO"; then :
--+  gdb_cv_cfsetspeed_arbitrary=yes
--+else
--+  gdb_cv_cfsetspeed_arbitrary=no
--+fi
--+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
--+
--+fi
--+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gdb_cv_cfsetspeed_arbitrary" >&5
--+$as_echo "$gdb_cv_cfsetspeed_arbitrary" >&6; }
--+
--+if test "$gdb_cv_cfsetspeed_arbitrary" = yes; then
--+
--+$as_echo "#define HAVE_CFSETSPEED_ARBITRARY 1" >>confdefs.h
--+
--+fi
--+
--+# Check for members required by the legacy Linux custom baud rate path.
--+ac_fn_c_check_member "$LINENO" "struct termios" "c_ospeed" "ac_cv_member_struct_termios_c_ospeed" "#include <termios.h>
--+"
--+if test "x$ac_cv_member_struct_termios_c_ospeed" = xyes; then :
--+
--+cat >>confdefs.h <<_ACEOF
--+#define HAVE_STRUCT_TERMIOS_C_OSPEED 1
--+_ACEOF
--+
--+
--+fi
--+
--+
-- 
-- 
-- # Check whether --with-jit-reader-dir was given.
--diff --git a/gdb/configure.ac b/gdb/configure.ac
--index 52924106bca..26e8d1ee276 100644
----- a/gdb/configure.ac
--+++ b/gdb/configure.ac
--@@ -733,6 +733,28 @@ AC_CONFIG_FILES([jit-reader.h:jit-reader.in])
-- 
-- AC_SEARCH_LIBS(dlopen, dl)
-- 
--+# Check whether cfsetispeed/cfsetospeed accept arbitrary baud rates.
--+AC_CACHE_CHECK([whether cfsetispeed/cfsetospeed accept arbitrary baud rates],
--+  [gdb_cv_cfsetspeed_arbitrary], [
--+  AC_COMPILE_IFELSE(
--+    [AC_LANG_PROGRAM([[#include <termios.h>]],
--+      [[
--+       #if B9600 != 9600
--+       #error B-constants are not numeric symbols
--+       #endif
--+      ]])],
--+    [gdb_cv_cfsetspeed_arbitrary=yes],
--+    [gdb_cv_cfsetspeed_arbitrary=no])
--+])
--+
--+if test "$gdb_cv_cfsetspeed_arbitrary" = yes; then
--+  AC_DEFINE([HAVE_CFSETSPEED_ARBITRARY], [1],
--+           [Define if cfsetispeed/cfsetospeed accept arbitrary baud rates])
--+fi
--+
--+# Check for members required by the legacy Linux custom baud rate path.
--+AC_CHECK_MEMBERS([struct termios.c_ospeed], [], [], [[#include <termios.h>]])
--+
-- GDB_AC_WITH_DIR([JIT_READER_DIR], [jit-reader-dir],
--                 [directory to load the JIT readers from],
--                 [${libdir}/gdb])
--diff --git a/gdb/ser-unix.c b/gdb/ser-unix.c
--index 6f2766518be..fbd73970dbb 100644
----- a/gdb/ser-unix.c
--+++ b/gdb/ser-unix.c
--@@ -508,36 +508,59 @@ set_baudcode_baudrate (struct serial *scb, int baud_code)
-- 
-- #if HAVE_CUSTOM_BAUDRATE_SUPPORT && defined(BOTHER)
-- 
---/* Set a custom baud rate using the termios BOTHER.  */
--+/* Set a custom baud rate.
--+
--+   Prefer the POSIX cfsetispeed/cfsetospeed interface when it accepts
--+   arbitrary baud rates.  Otherwise fall back to Linux-specific termios2
--+   (BOTHER) or legacy termios interfaces.  */
-- 
-- static void
-- set_custom_baudrate_linux (int fd, int rate)
-- {
---#ifdef TCGETS2
---  struct termios2 tio;
---  const unsigned long req_get = TCGETS2;
---  const unsigned long req_set = TCSETS2;
---#else
--+#if defined(HAVE_CFSETSPEED_ARBITRARY)
--   struct termios tio;
---  const unsigned long req_get = TCGETS;
---  const unsigned long req_set = TCSETS;
---#endif
--+  if (tcgetattr (fd, &tio) < 0)
--+    perror_with_name (_("Cannot get current baud rate"));
--+
--+  cfsetispeed (&tio, rate);
--+  cfsetospeed (&tio, rate);
--+
--+  if (tcsetattr (fd, TCSANOW, &tio) < 0)
--+    perror_with_name (_("Cannot set custom baud rate"));
--+
--+#elif defined(TCGETS2)
--+  struct termios2 tio2;
--+  if (ioctl (fd, TCGETS2, &tio2) < 0)
--+    perror_with_name (_("Cannot get current baud rate"));
--+
--+  tio2.c_cflag &= ~CBAUD;
--+  tio2.c_cflag |= BOTHER;
--+  tio2.c_ospeed = rate;
--+  tio2.c_cflag &= ~(CBAUD << IBSHIFT);
--+  tio2.c_cflag |= BOTHER << IBSHIFT;
--+  tio2.c_ispeed = rate;
-- 
---  if (ioctl (fd, req_get, &tio) < 0)
---    perror_with_name (_("Can not get current baud rate"));
--+  if (ioctl (fd, TCSETS2, &tio2) < 0)
--+    perror_with_name (_("Cannot set custom baud rate"));
--+
--+#elif defined(HAVE_STRUCT_TERMIOS_C_OSPEED)
--+  struct termios tio;
--+  if (ioctl (fd, TCGETS, &tio) < 0)
--+    perror_with_name (_("Cannot get current baud rate"));
-- 
---  /* Clear the current output baud rate and fill a new value.  */
--   tio.c_cflag &= ~CBAUD;
--   tio.c_cflag |= BOTHER;
--   tio.c_ospeed = rate;
---
---  /* Clear the current input baud rate and fill a new value.  */
--   tio.c_cflag &= ~(CBAUD << IBSHIFT);
--   tio.c_cflag |= BOTHER << IBSHIFT;
--   tio.c_ispeed = rate;
-- 
---  if (ioctl (fd, req_set, &tio) < 0)
---    perror_with_name (_("Can not set custom baud rate"));
--+  if (ioctl (fd, TCSETS, &tio) < 0)
--+    perror_with_name (_("Cannot set custom baud rate"));
--+
--+#else
--+  error (_("Custom baud rate not supported on this platform"));
--+#endif
-- }
-- 
-- #elif HAVE_CUSTOM_BAUDRATE_SUPPORT && defined(IOSSIOSPEED)
---- 
--2.49.0
--
-diff --git a/meta/recipes-devtools/gdb/gdb/0010-GDB-aarch64-linux-Fix-build-failure-on-musl-systems.patch b/meta/recipes-devtools/gdb/gdb/0010-GDB-aarch64-linux-Fix-build-failure-on-musl-systems.patch
-deleted file mode 100644
-index 2d91a351d2..0000000000
---- a/meta/recipes-devtools/gdb/gdb/0010-GDB-aarch64-linux-Fix-build-failure-on-musl-systems.patch
-+++ /dev/null
-@@ -1,196 +0,0 @@
--From 654223c799910837c80d0964a971fbdf7808864a Mon Sep 17 00:00:00 2001
--From: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
--Date: Tue, 17 Mar 2026 02:24:48 -0700
--Subject: [PATCH] GDB: aarch64-linux: Fix build failure on musl systems
--
--(cherry picked from commit 02090062127d59978ccc312dabf63c6ea838cd85)
--
--When building against musl (e.g. on Alpine Linux), the following error
--happens:
--
--    CXX    linux-aarch64-low.o
--  In file included from /home/bauermann/src/binutils-gdb/gdbserver/linux-aarch64-low.cc:42:
--  /home/bauermann/src/binutils-gdb/gdbserver/../gdb/arch/aarch64-gcs-linux.h:35:8: error: redefinition of 'struct user_gcs'
--     35 | struct user_gcs
--        |        ^~~~~~~~
--  In file included from /home/bauermann/src/binutils-gdb/gdbserver/linux-aarch64-low.cc:35:
--  /usr/include/asm/ptrace.h:329:8: note: previous definition of 'struct user_gcs'
--    329 | struct user_gcs {
--        |        ^~~~~~~~
--  make[2]: *** [Makefile:565: linux-aarch64-low.o] Error 1
--
--aarch64-linux-tdep.c fails to build in the same way.  This happens because
--aarch64-gcs-linux.h uses GCS_MAGIC to see whether the system headers
--have GCS-related definitions.  The problem is that GCS_MAGIC is defined in
--<asm/sigcontext.h> while struct gcs_user is defined in <asm/ptrace.h>.
--It's fine on glibc systems because in the set of system headers that
--linux-aarch64-low.cc and aarch64-linux-tdep.c include, <asm/sigcontext.h>
--ends up being included implicitly as well.  This doesn't happen when using
--musl's headers though.
--
--There isn't a macro in <asm/ptrace.h> whose presence is correlated with
--the presence of the struct user_gcs definition, so a configure check is
--needed to detect it and conditionally define the struct.
--
--Also, this change requires aarch64-linux-tdep.c to stop using
--struct user_gcs because target-dependent code can't include <asm/ptrace.h>
--and thus even if HAVE_STRUCT_USER_GCS is set, the file won't have the
--struct definition available. To fix this problem, also backport the
--definition of AARCH64_LINUX_SIZEOF_GCS_REGSET and use it there.
--
--Note that there's another build issue with musl, described in
--PR gdb/33747 affecting compilation of gdb/ser-unix.c.  In order to be
--able to test this patch, I applied the patch in comment 11 there.
--
--Tested with a native build on an Alpine Linux aarch64 system, and also
--verified that all gdb.arch/aarch64-gcs*.exp tests pass on it.
--
--Bug: https://sourceware.org/bugzilla/show_bug.cgi?id=33926
--
--Upstream-Status: Submitted [https://sourceware.org/pipermail/gdb-patches/2026-March/226049.html]
--
--Co-authored-by: Chris Packham <judge.packham@gmail.com>
--Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
-----
-- gdb/aarch64-linux-tdep.c     |  5 +++--
-- gdb/arch/aarch64-gcs-linux.h |  8 +++++---
-- gdbsupport/config.in         |  3 +++
-- gdbsupport/configure         | 36 ++++++++++++++++++++++++++++++++++++
-- gdbsupport/configure.ac      | 19 +++++++++++++++++++
-- 5 files changed, 66 insertions(+), 5 deletions(-)
--
--diff --git a/gdb/aarch64-linux-tdep.c b/gdb/aarch64-linux-tdep.c
--index 76bde85188b..6c402e7ecdd 100644
----- a/gdb/aarch64-linux-tdep.c
--+++ b/gdb/aarch64-linux-tdep.c
--@@ -1684,8 +1684,9 @@ aarch64_linux_iterate_over_regset_sections (struct gdbarch *gdbarch,
-- 	  gcs_regmap, regcache_supply_regset, regcache_collect_regset
-- 	};
-- 
---      cb (".reg-aarch-gcs", sizeof (user_gcs), sizeof (user_gcs),
---	  &aarch64_linux_gcs_regset, "GCS registers", cb_data);
--+      cb (".reg-aarch-gcs", AARCH64_LINUX_SIZEOF_GCS_REGSET,
--+	  AARCH64_LINUX_SIZEOF_GCS_REGSET, &aarch64_linux_gcs_regset,
--+	  "GCS registers", cb_data);
--     }
-- }
-- 
--diff --git a/gdb/arch/aarch64-gcs-linux.h b/gdb/arch/aarch64-gcs-linux.h
--index 018ca37a522..632823a8120 100644
----- a/gdb/arch/aarch64-gcs-linux.h
--+++ b/gdb/arch/aarch64-gcs-linux.h
--@@ -27,8 +27,7 @@
-- #define HWCAP_GCS (1ULL << 32)
-- #endif
-- 
---/* Make sure we only define these if the kernel header doesn't.  */
---#ifndef GCS_MAGIC
--+#ifndef HAVE_STRUCT_USER_GCS
-- 
-- /* GCS state (NT_ARM_GCS).  */
-- 
--@@ -39,6 +38,9 @@ struct user_gcs
--   uint64_t gcspr_el0;
-- };
-- 
---#endif /* GCS_MAGIC */
--+#endif /* HAVE_STRUCT_USER_GCS */
--+
--+/* The GCS regset consists of 3 64-bit registers.  */
--+#define AARCH64_LINUX_SIZEOF_GCS_REGSET (3 * 8)
-- 
-- #endif /* GDB_ARCH_AARCH64_GCS_LINUX_H */
--diff --git a/gdbsupport/config.in b/gdbsupport/config.in
--index 0beacf22c05..2957ee0f030 100644
----- a/gdbsupport/config.in
--+++ b/gdbsupport/config.in
--@@ -271,6 +271,9 @@
-- /* Define to 1 if `st_blocks' is a member of `struct stat'. */
-- #undef HAVE_STRUCT_STAT_ST_BLOCKS
-- 
--+/* Define to 1 if your system has struct user_gcs. */
--+#undef HAVE_STRUCT_USER_GCS
--+
-- /* Define to 1 if you have the <sys/param.h> header file. */
-- #undef HAVE_SYS_PARAM_H
-- 
--diff --git a/gdbsupport/configure b/gdbsupport/configure
--index 133ddfa7f6c..66135791aa5 100755
----- a/gdbsupport/configure
--+++ b/gdbsupport/configure
--@@ -14307,6 +14307,42 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
-- 
-- 
-- 
--+# Check for `struct user_gcs`
--+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for struct user_gcs" >&5
--+$as_echo_n "checking for struct user_gcs... " >&6; }
--+if ${gdb_cv_struct_user_gcs+:} false; then :
--+  $as_echo_n "(cached) " >&6
--+else
--+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
--+/* end confdefs.h.  */
--+#include <sys/ptrace.h>
--+	 #include <asm/ptrace.h>
--+int
--+main ()
--+{
--+struct user_gcs u;
--+
--+  ;
--+  return 0;
--+}
--+_ACEOF
--+if ac_fn_c_try_compile "$LINENO"; then :
--+  gdb_cv_struct_user_gcs=yes
--+else
--+  gdb_cv_struct_user_gcs=no
--+
--+fi
--+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
--+
--+fi
--+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gdb_cv_struct_user_gcs" >&5
--+$as_echo "$gdb_cv_struct_user_gcs" >&6; }
--+if test "$gdb_cv_struct_user_gcs" = yes; then
--+
--+$as_echo "#define HAVE_STRUCT_USER_GCS 1" >>confdefs.h
--+
--+fi
--+
-- # Set the 'development' global.
-- . $srcdir/../bfd/development.sh
-- 
--diff --git a/gdbsupport/configure.ac b/gdbsupport/configure.ac
--index b7ccfabd6c6..d3b4c05daeb 100644
----- a/gdbsupport/configure.ac
--+++ b/gdbsupport/configure.ac
--@@ -68,6 +68,25 @@ GDB_AC_PTRACE
-- AM_GDB_COMPILER_TYPE
-- AM_GDB_WARNINGS
-- 
--+# Check for `struct user_gcs`
--+AC_CACHE_CHECK(
--+  [for struct user_gcs],
--+  [gdb_cv_struct_user_gcs],
--+  [AC_COMPILE_IFELSE(
--+     [AC_LANG_PROGRAM(
--+	[#include <sys/ptrace.h>
--+	 #include <asm/ptrace.h>],
--+	[struct user_gcs u;]
--+      )],
--+     [gdb_cv_struct_user_gcs=yes],
--+     [gdb_cv_struct_user_gcs=no]
--+  )]
--+)
--+if test "$gdb_cv_struct_user_gcs" = yes; then
--+  AC_DEFINE(HAVE_STRUCT_USER_GCS, 1,
--+	    [Define to 1 if your system has struct user_gcs.])
--+fi
--+
-- # Set the 'development' global.
-- . $srcdir/../bfd/development.sh
-- 
---- 
--2.49.0
--
-diff --git a/meta/recipes-devtools/gdb/gdb_17.1.bb b/meta/recipes-devtools/gdb/gdb_17.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb_17.1.bb
-rename to meta/recipes-devtools/gdb/gdb_17.2.bb
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 24c5a9d712..86e8716171 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -481,7 +481,7 @@ RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.co
+ RECIPE_MAINTAINER:pn-lld = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-lldb = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-llvm = "Khem Raj <raj.khem@gmail.com>"
+-RECIPE_MAINTAINER:pn-llvm-project-source-22.1.3 = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER:pn-llvm-project-source-22.1.5 = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-llvm-tblgen-native = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-log4cplus = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
+diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
+index 1b8909eeb5..d6ad546c59 100644
+--- a/meta/recipes-devtools/clang/common-clang.inc
++++ b/meta/recipes-devtools/clang/common-clang.inc
+@@ -5,7 +5,7 @@ LLVM_HTTP ?= "https://github.com/llvm"
+ 
+ MAJOR_VER = "22"
+ MINOR_VER = "1"
+-PATCH_VER = "3"
++PATCH_VER = "5"
+ # could be 'rcX' or 'git' or empty ( for release )
+ VER_SUFFIX = ""
+ 
+diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
+index 9d45898c68..9c700eb5fb 100644
+--- a/meta/recipes-devtools/clang/common.inc
++++ b/meta/recipes-devtools/clang/common.inc
+@@ -17,7 +17,7 @@ BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}${VER_SUFFI
+ UPSTREAM_CHECK_URI = "${LLVM_HTTP}/llvm-project/releases/"
+ UPSTREAM_CHECK_REGEX = "releases/tag/llvmorg-?(?P<pver>\d+(\.\d+)+)"
+ SOURCEDIR ?= "llvm-project-${PV}${VER_SUFFIX}.src"
+-SRC_URI[sha256sum] = "2488c33a959eafba1c44f253e5bbe7ac958eb53fa626298a3a5f4b87373767cd"
++SRC_URI[sha256sum] = "7972b87b705a003ce70ab55f9f0fb495d156887cba0eb296d284731139118e2c"
+ 
+ SRC_URI = "\
+     ${BASEURI} \
 -- 
 2.49.0
 
