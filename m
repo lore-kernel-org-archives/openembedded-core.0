@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17C9FCD5BAE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 464B4CD5BB0
 	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 08:21:23 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7288.1779265278216757831
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7286.1779265275433365107
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 May 2026 01:21:18 -0700
+ Wed, 20 May 2026 01:21:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=YCi1Qw9Q;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43fe608cb92so2801214f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 01:21:18 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=J9kGH9QF;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-44985f4ab0fso2361019f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 01:21:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1779265276; x=1779870076; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1779265274; x=1779870074; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=anIYBu1zkZjK1cbWlFzdT2gKSQQvZGvTcy0l8NTP14M=;
-        b=YCi1Qw9QGazeZYA9VhwY6GVi4G4x2lQE3r467daZjvYfxZ0F71owh6nUu23+qsSLbg
-         fpBHWHz7jmHHjVBuy3/Y7GGB++TJFJirQRAkeYP340bfrHNKLuTOMx2k3+s1YL0KYjeU
-         0Rb0v2ONI9mpR0xkVfWeVUv3itF8IL8H/VraM=
+        bh=B1GXrRW342AwGA2SuNA1VeBk7ja6+XtkxSDW1/dFPa8=;
+        b=J9kGH9QF2UkRWe0sDPZRdDT68rEvYR5ihSD7ql0KYhlLKkPLse8VXNxPxiAnGRuz5r
+         dYViHyMV2+RGZpK4fqgSPo2HxfL1qu95eT1aW2/4yv4bmmBHyh8o8rEbGQbT3gGjWWPR
+         RzsRP/GjBRbYxSBX6SDUuvucNIPdfQiFSzWWQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779265276; x=1779870076;
+        d=1e100.net; s=20251104; t=1779265274; x=1779870074;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=anIYBu1zkZjK1cbWlFzdT2gKSQQvZGvTcy0l8NTP14M=;
-        b=mM6Ddo89Fc3jF5PwmLzOoEhSoriGzn3XqXi3pK0mmNCikGy+OiZzWP8qUutZm1lijT
-         2ngCsHA2Y8AfkuK7IMerheaGY7DIRxC8MHmeGMZVE3lg/ORq0YSlAC7BEuULvBBQlbd5
-         BNFOee5IZfVGmOkso8d8iumjHD7bRg6sQTo8FWb/0kt5eAevfTzJf4HTg9s05hfwDSwY
-         VS8FLq7eN5YYcD/g02R98OnvTxiWfWrQTPX3yCLN6CVPNBvYppTqDrqvJWn2wSzZJ8Xy
-         FilO06YylbcZQsNri+bvxLT77cTPI4OD4d9fKNc5mDpqa8KPfXioqlZxwXA5ijRRk2hD
-         u2Ug==
-X-Gm-Message-State: AOJu0YxFdZ3BSu/3YeNKtfKHhf5x6vI+iloMr9CyK0EqKb5pO/gIRgr7
-	LUk7ctGwXrY9fm5pBjth+R2p49ixyI9rSXllNN41LrgM2gbJoiVRSkDi+JG+HqwuO9AUn4kXlWg
-	cIGSr
-X-Gm-Gg: Acq92OHevW44SE17cr2RfeRUUVu0f4n2XmBT4jLCjZRE7TAIqPl8KE/rpfr7rgerKMp
-	CrURuqQCicgflPyfBe5SmfvCl294aAQkyfEZX7guz3dM6rKpI0tnAc6F7X5cyp06SgDbMjyTroY
-	ZWfHkGTM9ZVnH0vR1hCQJD63oyVPXJIZJGK3dM9/YZsflxSR1Xbi5F3aG3NXYdt5j85zvXFg8wm
-	7/YP2+e/MFNSL+226pRmQFSDtrt2fgJzsZUJ161iShqq3Ro89erNE5O/30ootO7BUgKqferdXYC
-	e+K+UDLQAtqSeEi0wXkO/Hk1Z+5MREriZ0kF0TdQlfPRWZX6gFxzWQKx25KgBao+fVo5ulcDcRA
-	IlRM7mplb0fqluQ1gBdCNamuLOknntu+HetSE1Xro/hwb1ZHgtd5ixPb7zxQEzs9gPo7h1tyuBX
-	6BqTeCDfhW1Pq6NOBmSBaiEg0jfc8HaAfjdmNq5RtOdPPdkI71ZiOOcfAPD+axJERj27e1Laq+F
-	dobXAdGhxX29IH1FeTsrui6b4YW
-X-Received: by 2002:a05:6000:4205:b0:44f:9b70:2996 with SMTP id ffacd0b85a97d-45e5c5bfba8mr36151726f8f.21.1779265276397;
-        Wed, 20 May 2026 01:21:16 -0700 (PDT)
+        bh=B1GXrRW342AwGA2SuNA1VeBk7ja6+XtkxSDW1/dFPa8=;
+        b=NHWm5Pq4KYEUUm1IRwVs/biHORfRbCFs4b0qBadyiEYFl9TpjRmdFHrp62yM52c+57
+         3kZgp65N//DoerX0/gi42nfqoHR79tDIw4aqRBJIqCLayqX8FWTNs+ek59EhYF7gGK+F
+         Z6Lu0IDsLWVY0yIgnhlps7YZzf2/avb/I5obbI2i2EUZAFWR0WMgfJlKUFIhPjmXic/M
+         OvU/AK/eOaGW2gs6FG/Q+6Q90aD/lypvfcg1/sUYjakS1XMZ/hB/NBggk+ttEY++OFIK
+         /lu2yO+khUVKdM6hXnHBVKnLAI6jsJ6gz6gMovB4XRF8CMxHafYBkZh6aoLd90M0Z9ZW
+         9FXg==
+X-Gm-Message-State: AOJu0Yy1dG0dfnxi3wtWotl+xYjgHMRjr0ym4O2CvXJ9HEpDyUloczlr
+	aibkQuttprOp1UITsiF2dcHk0VVjSblwaHnrIOPgVHhQeRrzrFTPKDqQodBLwUTBV0NjrMyHZa+
+	VMpg6
+X-Gm-Gg: Acq92OHN83X7foug5yp+PZ7AoEzpTRrlzdv+2BYU8wWNsbVonTvE/7OFSHfSLdc99Yl
+	hGfQPboCJC+q8y3uYbGlB72nisEDFDhbP8ApwbHWD1RYbJWl+OhS0y9eiAr9LtP0PD8jVMFObP6
+	+bi92fYBbVSIhDp07o0+tDnJLIrQbAoG9JjFZAUJYGNIioYoHp9RPTNWjDyXPDoxlLzX01k9JE8
+	VCUNFORuOQKge4eWsTIDvM9pfKPOKHnYsmoH9Zh0JJp1I8jkR6KCBuZ0WWzhTIAYloFfQlfec+j
+	TmG3TeEmqGrHe9LteOxanYo+JLWJvDXE0KmXQF79K19yLcWJGX8bSd6kN8ZE9Wfp21pXzomAem/
+	YnX7TN4CG3BKyru54I/3+UkjIPH+RD1VqXPWV3dCZvw84Z79fSQLgQXnqvskNVRWvatA/tNclwR
+	50FhB5RrFeKvRJd4hkVSDpc5z8CBwPYbcg/yYR3hk9TGayEBapY+Wgk1by8UdYBZgkpNDWSMuVx
+	ahDWYNqMPtdJuSI3aOenv4Br4MG
+X-Received: by 2002:a05:600c:6992:b0:48e:6f39:f7be with SMTP id 5b1f17b1804b1-48fe60ea533mr341072195e9.10.1779265273750;
+        Wed, 20 May 2026 01:21:13 -0700 (PDT)
 Received: from localhost.localdomain (2a02-8440-250c-63aa-0256-2b9f-d16e-d784.rev.sfr.net. [2a02:8440:250c:63aa:256:2b9f:d16e:d784])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ec39ff1sm56350642f8f.10.2026.05.20.01.21.15
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ec39ff1sm56350642f8f.10.2026.05.20.01.21.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 01:21:15 -0700 (PDT)
+        Wed, 20 May 2026 01:21:13 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose v2 22/28] scripts/makefile-getvar: quote MAKEFILE variable
-Date: Wed, 20 May 2026 10:20:23 +0200
-Message-ID: <0582dfa5c472dc646e629a5b9a54c8505cf1c463.1779264709.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose v2 20/28] shadow-native: Change upstream status of disable_syslog.patch
+Date: Wed, 20 May 2026 10:20:21 +0200
+Message-ID: <1348a20d64b400db893ceda947255c68ac3ccc45.1779264709.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1779264709.git.yoann.congal@smile.fr>
 References: <cover.1779264709.git.yoann.congal@smile.fr>
@@ -66,35 +66,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 08:21:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237421
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237419
 
-From: Thomas Perrot <thomas.perrot@bootlin.com>
+From: Dmitry Sakhonchik <frezidok1@gmail.com>
 
-$MAKEFILE was unquoted in the -f test and the error echo, causing
-word-splitting on paths that contain spaces.
+Upstream has accepted configure option and merged it into their master branch.
 
-Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+https://github.com/shadow-maint/shadow/pull/1618
+
+After they release v4.20 we can remove the patch and rewrite recipe with the configure option.
+
+Fixes [YOCTO #15785]
+
+Signed-off-by: Dmitry Sakhonchik <frezidok1@gmail.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c98243b8e2a5f1e538024131ca94991c5befc59f)
+(cherry picked from commit b0ce3150e43cb6fb0d726cf86725715b8fd06147)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- scripts/makefile-getvar | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/shadow/files/disable_syslog.patch | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/makefile-getvar b/scripts/makefile-getvar
-index e8a98327667..238d9567adc 100755
---- a/scripts/makefile-getvar
-+++ b/scripts/makefile-getvar
-@@ -20,8 +20,8 @@ fi
- MAKEFILE=$1
- shift
+diff --git a/meta/recipes-extended/shadow/files/disable_syslog.patch b/meta/recipes-extended/shadow/files/disable_syslog.patch
+index 7299a8e61cd..9f8ffcd379d 100644
+--- a/meta/recipes-extended/shadow/files/disable_syslog.patch
++++ b/meta/recipes-extended/shadow/files/disable_syslog.patch
+@@ -2,8 +2,9 @@ When building images using shadow-native, we shouldn't be spamming the host's
+ log with lots of syslog messages which aren't relavent. Disable syslog use
+ in the native case.
  
--if [ ! -f $MAKEFILE ]; then
--	echo $MAKEFILE is not a file
-+if [ ! -f "$MAKEFILE" ]; then
-+	echo "$MAKEFILE is not a file"
- 	exit 1
- fi
+-Upstream-Status: Inappropriate [Would upstream accept a configure option?]
++Upstream-Status: Inappropriate [upstream has accepted a better patch at https://github.com/shadow-maint/shadow/pull/1618]
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Signed-off-by: Dmitry Sakhonchik <frezidok1@gmail.com>
  
+ Index: shadow-4.17.2/lib/defines.h
+ ===================================================================
 
