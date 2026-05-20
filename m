@@ -1,227 +1,266 @@
-Return-Path: <Quan.Sun@windriver.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C13F3CD4F5E
-	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 20:25:47 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22032.1779308739440838907
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18D19CD4F54
+	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 20:59:27 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22742.1779310756327852124
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 May 2026 13:25:39 -0700
+ Wed, 20 May 2026 13:59:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=i370MJbr;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=96008878a8=quan.sun@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64KFG8XS2344647
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 20:25:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=oDPdKbD+F5GLnN+/4MJsMR9n3XZ1p7SUKaW++DD5SzM=; b=
-	i370MJbrIMKrPGpPRHyaCQJrwQMSc3ftIT88spWnsY6B56VOtR4y96hv9K1OVaFc
-	B+zJJ7c2U3cYIuiFyqUDAv7YSzC5NJ9CxuLjobZ7z9z7rQ1Ej+4DQTNybCndGeik
-	0Bi1XEenb3qcPJl5TZeiUKi83yRJ33HuKkTz1U1YVmTMnRepmehL5jnP0BBD+690
-	uCEgWfrdSS2CRPftdmkFlB5VaJIcUZbhZsI5PDSI1Jrv+/yiMu3YRxGUPLzTbHzC
-	VHPurrtsPdT9R/419E8FeGNjxb3sgWp8gY1EyCV5qVJYMYXlqnCXmrJqnv5YjC49
-	0svKRiTvJqIAX9XjAT1n5A==
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011001.outbound.protection.outlook.com [40.107.208.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e6fj3x30c-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 20 May 2026 20:25:37 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nlBrSUmgTJDM5Ughf4IP/jzVpEPjX2SmKYfaqJ9VcGf9bV8bZ2SugU25xgZyiIlARFBsGNNE/zoE0eeAFTKP/g4rN4oRDrFi0Kb6Vttr5b9seAGHPTQSM2s4WhkEgw6sRhjNiYihGpTobTrvxWEeCg0lb7O5a4spzzMFvGCuNFnnhf8bL3l2Bj3/Q0xjUlk/BY+z8KAB3SZYbbKIsTg1kBQcPjXNAEq5a0O13KUSff4ni2tTtfbL7OIeu4+scq5AJcabD7HX2Nmda1HJsltpwrydwuP8impynYcttLg6uooEqCTYLAUt0MyHk3XU0MMg8SShVCd0v/tI+YFoTmoWPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oDPdKbD+F5GLnN+/4MJsMR9n3XZ1p7SUKaW++DD5SzM=;
- b=IV/FbSET4Cazgnmy/tbadEk4OUV/lhVsYUNBE/YmmuXyXYpCiYd0lKFWdcLX/cm/YKGTdK3P87/cL2Je4l0hfHNttYkuw+pPGGVx0Y1Xb78bSQv99fBgU1t/be3z9CKpQvuf3KC+mtWsSA0nPXWOZfAdqCOO37QgK/BoFSlTEyZt9vwiK0+caY+VOs5jo0CrSqNxO9tCoD58N1nqTHdxSSbt72voXPdvEC4lHqihEgsMSpux0vVaGKG8+qd6abUHvub6lwxbzThVMcekVVGXm1CPsC8U5vNYFLTKfpAm7LaMU7bRFGgA4qdUr26xZDmCrAXTTZ7p9/M2/BJk0i5AnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from IA0PR11MB7283.namprd11.prod.outlook.com (2603:10b6:208:439::10)
- by PH8PR11MB6708.namprd11.prod.outlook.com (2603:10b6:510:1c7::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Wed, 20 May
- 2026 20:25:33 +0000
-Received: from IA0PR11MB7283.namprd11.prod.outlook.com
- ([fe80::6e41:656f:120e:8e8]) by IA0PR11MB7283.namprd11.prod.outlook.com
- ([fe80::6e41:656f:120e:8e8%5]) with mapi id 15.21.0025.023; Wed, 20 May 2026
- 20:25:33 +0000
-Message-ID: <3e4f1f40-ec7c-40f2-baef-d9522c1a4de7@windriver.com>
-Date: Wed, 20 May 2026 16:25:31 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH] qemu: fix iotlb_to_section() for different
- AddressSpace
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        openembedded-core@lists.openembedded.org
-Cc: Randy MacLeod <randy.macleod@windriver.com>,
-        "antonin.godard" <antonin.godard@bootlin.com>
-References: <20260511205209.511914-1-Quan.Sun@windriver.com>
- <6c03f986e436cacfacbf9bef36bb4e37d75b7cf8.camel@linuxfoundation.org>
-Content-Language: en-US
-From: Quan Sun <Quan.Sun@windriver.com>
-In-Reply-To: <6c03f986e436cacfacbf9bef36bb4e37d75b7cf8.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: YQBPR0101CA0117.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:5::20) To IA0PR11MB7283.namprd11.prod.outlook.com
- (2603:10b6:208:439::10)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR11MB7283:EE_|PH8PR11MB6708:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f787806-746c-43bd-e532-08deb6adf157
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|4143699003|18002099003|56012099003|22082099003|11063799006|6133799003;
-X-Microsoft-Antispam-Message-Info: 
-	8TJNUfydO80qKEiOLHHN4wiYCMJbiwHY1JEijUwylzl3KxqfTmOf0MnbPucHZcHCjZsIxp6XmRpaQQgg3Q4g7Ls0tD4UDvAAkriyBV4blGkcFEFFqZye4iLwLoKGeC4xGWKu0F2vzY6f0kTuu2HtW9cgKTLSA3/6nzJ3wTixXvdScMOERjIK41uU5aE0q6TeTd4shBzGE4tMh/8uO9O10kBu2twQA2BC4OSQmdiSOwlOQBqETQXcjHI2ay+mNFJdiprDkl8ZbdN24lsxCFSYyuuM7Vm1y1H0srpX84kD8vda3FRw7uifcq2xuhqnKaoWWwcheq6AoNYhj9PytbAN2u/h0xUdJpxPRhj3c8GysbmywBQXJ/4aNyOCV8hi2LEV0alod76g4pjl0zYC9CFulDqBpEbiy9n1eh7kXmxjmqmr8qN7SVZebVipeDlVgvsegZ2MtU16vMjC7WD3Vv13hgz8cLVkaGlEh5agw/odKKZbFW9m5Jf01+VZO8UhcvODtib+iOUU0xfIheiAyKsyuInbn5L77t6w+nxB28UgI3JSbkdlBk5ouHI93IxDCJbdh/VA5SQIaSS0ikgMS9S2jjvgFYRFnh22gX1y5RAu1Y8tuA6MV+Pk4pd8ZlsETlMqC2NEgMZtckafGJCZJsVOZA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(4143699003)(18002099003)(56012099003)(22082099003)(11063799006)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?b2hWbzJ5SjVHTHNmckJGYVYxa3pyNzhPY1JaRjN0a1ZPSm16aFpoRGdqQ3dL?=
- =?utf-8?B?ck1rWVdKOW5ISTQ3dkF0NENvdWQ4dDU0VU5WVlRSWVZxaHorc3pmYTZINWNO?=
- =?utf-8?B?SXQ2Vk5xRWlmaWV3VWJoSUhoRENwWTdqRUk2aDhtU1N3U01ZVzh4NVFjS0Vx?=
- =?utf-8?B?ckNFdXk3S0pJa3h2THkxUjhKeXozWU1WSDZjbXo4VTQzaFlySFlzaWlmMEdN?=
- =?utf-8?B?NVlXQklEQ0ZPcCtoeEkzM3BqRmtYUHc0RExvaGZobWxybkhIK1E5NXJ2SkRU?=
- =?utf-8?B?N2xBSjZpRGRsTWs4ZDdYNll4eHZFOTdLSUwxclJzV05DTXMwd1lJMmZtZDNw?=
- =?utf-8?B?cTViY3kyRk4zWlNmUFUrNVhBUTBLQUoyWHZIMVNwMnJaNDR3TUJUWThwL3M4?=
- =?utf-8?B?KzVHR2RnbkFkVHU5YTFPM0g5Ukk1ME9qTStmOE5WN3BjTVVkTXRIQWg1Wk93?=
- =?utf-8?B?NXlTQno0dlB5ZEkvcXZZQ3VvS1FPb2xZWU80eFFLU3lKaW9IS291d3NqNGdB?=
- =?utf-8?B?ZkZpR2tNU0VZN3dyeVpYZGpFazdSeTNMNUlaT0QvMk84M3YrRmNTQlQ3N201?=
- =?utf-8?B?bm9DellscDhYUFJuclpIRXl0cDhxNlpmZi9pM3Jqb0tmd0htMHZQdmlIa2ZY?=
- =?utf-8?B?dmJjT203NTl0ZEkrbXAyR0d6R1ZrdVdIQXNEVEM3T0pGbmZyaHBhQkQxT1pw?=
- =?utf-8?B?SjFyUTQ4MVpRdHBEb21xT2xwc3AxdHpTRDM2bnd5L29aWDdaZmh6dWt2SzVk?=
- =?utf-8?B?elZTWU9hTUxCV2hUNkF3SEN2WmwrWE5rd2E3TkNtR21VWDNKdTFuUGtHRkhP?=
- =?utf-8?B?STdwZCtRdE9IcjVnMStOZ2dPd0VJNUJ2ZGlXaHN6a210OVM1R1VkbjZ1bk10?=
- =?utf-8?B?UkdkcVFhOTFlZ2k5cmZvZXowVTh4bjlyYnUrVE93dDQwTytVcEdyd1ZXTE1x?=
- =?utf-8?B?Q0trdVltODNFWkhuYXg5RGx5VjVYVU0wUWNWOWl6bFZUWm1yUmhjcnphdG01?=
- =?utf-8?B?YlJBclNSUFl2WU9UQUw3MmlrMEtkT2lKZCswMlBtOFJ5U0ZjZ05JaUd2NHVJ?=
- =?utf-8?B?TUdaSjdYWW5NL0lTSFV4MXZqRGprU01vejNQUjVwSHNYRmpSTVV1cWErLzlW?=
- =?utf-8?B?QUtyb2g5dVpTeVkxVStaZFdzcURMSk84OHlHU1h5S2xwSnJRS0QrcEYvUHlC?=
- =?utf-8?B?Wk1kZXdiMEkybGRNYitOaUlXUzQ2YUhOd0NLYXgxMFhzTUNCbGJiWS9LeWlN?=
- =?utf-8?B?NXZmNjVvaXNMVjU0WjZrOGg2dllCNWxON3BJVlR0M0VMQko3bHZiZEUrdW9B?=
- =?utf-8?B?ajlITWJFd0R3ejNIM1ZwZWpPNG1OM2tPenBzeDN3WHIydWM0UWFlUy82Ykx0?=
- =?utf-8?B?R1JpcXEweXQrbzhaSEVGUzRnbHFFczZRVDNldVNFR2NDM1dDbnU4cHRvdHZZ?=
- =?utf-8?B?b244ZWE4THVJOE1oMWt2ZVJDbWk4ZW96dVQrRjFlcVVSdlNjRXBtcHBvVUpl?=
- =?utf-8?B?ZUZJWDVRajN3QitVbUozODRXVlNMaEplVGhxUDgwNGZhMGNTbFBEZWF5SVRn?=
- =?utf-8?B?aUtVNlJJelZYRlhOZmxEMlM5VXZvcWttRVkyVm9FRHRSdGJuL0JyZjA2R1NY?=
- =?utf-8?B?dSt1K1VzS1BmTHhvNnh0ZzVLUlo2MFR5RUJPUzRUYVNTckdnTkVsSllSMjlX?=
- =?utf-8?B?ZDMxQ0doZjZBeW5uWWgwNGVoSElQTUE1NDk2V1hPQS9kWGQyZDYvaXJodC94?=
- =?utf-8?B?VkJHVFJRNTNZYkRvRUVOR00vbU1GVU1GUkxEaUp0aE1Ga3Nyb2JobDExUnFO?=
- =?utf-8?B?dUsyZGxES1VyaUlQdlpJN3JaYXp2dG1TclQreWJKVmhTMXMwVm9jTHZMSGFW?=
- =?utf-8?B?ai9YVFlLSEsrbWZ4VGVTVlRnUmJaSEpBclNSaDkydmFKRmVqdC9qZWkvQUE4?=
- =?utf-8?B?Qi9BRWY0RmtKSU16Q0F2SVRBWWhlWWU5Vjk2QlhYUjlkSlZWVDFKUmVOQ0VE?=
- =?utf-8?B?WmNNaS9UK1JXVDhydmtBb1ZaUmVDVG5hb0Y0amhvQ2J2UWU3MnpzNmtjR0R2?=
- =?utf-8?B?aVFmWFROM3haNGdpTTlMdWk4MEQ2bUVuTXR6NENrTlh4OHc3cVV2RWRQQjZ6?=
- =?utf-8?B?OGxPMlk3R0xSMmdCcm5SeTVGeDlPWUdsaDkrMmFHV093WjA3K3N6TnluY1d2?=
- =?utf-8?B?RFBWRVloQXZldGhGbm5ndEVVR3l2cXI0L3l5Q20yeFNoeUkwNFVMY2xRVkhI?=
- =?utf-8?B?bjZCQnJDZ3hMUk12bzNwc29DZW5lZTd3NTFKUldqd09wS1lCeWh0YVVDcy9m?=
- =?utf-8?B?bGQ2eDQ5S3dJWjlJT3hjUzA2ZHB0bGFJSVZuSnQvQUUzSkFzTk94Zz09?=
-X-Exchange-RoutingPolicyChecked: 
-	Im7Xqs+EDjJmr/FCm2/w4rpx82NG1ZwV/FQPFvOevMZr9ozc/YCQWalmuQHorNzaH/Mxmg8uezpvAQ4xqLXwVDsimDG7pxOWd5l6/CVVMAyICmYDyZv8E0Qnm74bIddxAaSZvY7/407+BkYwytzsF3RJ5/bqONLTE3a9TxoSKiqXBUL2T9t4gLgH8BWnaPumVRt3XfKqcyK/0+o+uSkAmrP23TzYym7SlHu7eTP64/IP/lVGm7C3Z+4ETGFK1NaH91OdZUUKM2I7EIEfbJvbpZFEhejAMliknW2n2HbvSK95FWDjj7f6+a0+vHjre1oMYAPfcQhZPD+DMMF7zCDYkA==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f787806-746c-43bd-e532-08deb6adf157
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7283.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 20:25:32.9752
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HCrnftjBTeFUmUiq9uZWuuviJiWE6OPqTAMrREE8DwFu7KCGf670Vvvu0kxUhgkTvYzrcWQtVUiG4pExXC0EBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6708
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: JflUq_P_Oe5on2YVH4jsFZk_VQmQUd0M
-X-Proofpoint-ORIG-GUID: wcOtwXbOoZBNHhoRooaYzVXrQ7JfTtTn
-X-Authority-Analysis: v=2.4 cv=VssTxe2n c=1 sm=1 tr=0 ts=6a0e18c2 cx=c_pps
- a=+gGuMjfID3j0L7k8h/8w9A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
- a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=X6hXcU7WkWuPGJr4uHsA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDE5OSBTYWx0ZWRfX3O2BD7gGX2bU
- gtGPaDrBC7ILPg9G0MQ9QuCB9x5+qkANwpM8078nk0QcpeheajYlzviHQdudD0qRUJI9e2VOFyq
- YXy8VeuP9NZIz38n/6+xUMQCF5Y7ZEGsqdZIx2QMObJOg51+QDkoknL5GA3faY+DGTe/jF8rlpo
- q5j0vHGHta6Bqi4FdmZkbK/Hh62aVHT3cYzjHnS26haqV5AHbrCIVD/HcDlF7lzFuQfVBViW5up
- W7M3A87I0oS2KJwZuE0YAF+I2KqOOmxJA1xj/QDxnkQgf2ZVGHKuLBsQqDRjj4CUfnxX6KMVHJD
- yrbeaiAC/JEYGcK6XM8gAXRQGGV/QuM7+c880CYX5p8eJttZgH7pvhcAa6TXYhwqSqgZqsd+50C
- E7QcVaroODmxeigUjbzh7R2iOWBjdFJKs4KtLbf0Gywjpf3qNwdDfLuB1VQeiy0/ZiWS/gXgeQv
- pgvgI9+KfZ+MChP3xRw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-20_03,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0
- adultscore=0 spamscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605200199
+ dkim=pass header.i=@smile.fr header.s=google header.b=gnSAk93C;
+ spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-44a14580111so3990137f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 13:59:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1779310754; x=1779915554; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=voe7TXFLNfslWd/sIPSS0ESCz5HxCbyI0g2L761pZgQ=;
+        b=gnSAk93CkTyaRI3c8BsU177PXvbDQ4awPn0G0/Z74QxXDiFpaeZnUE6lteYfvz4Am1
+         HZxofaLMIgczWPXw0eEJb10pFyvx4B8tukdXEjeB7nwucEUPl+D+5ML+Ejypl/b8cBcP
+         0m42F9pzYYT47N3jcUEyuty2Ejn17+4xnzL44=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779310754; x=1779915554;
+        h=in-reply-to:references:subject:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=voe7TXFLNfslWd/sIPSS0ESCz5HxCbyI0g2L761pZgQ=;
+        b=aV46ViKL3YyVfUZ3d07QIK91GqhV9BGk2IoKuaLuTjlP1WsYQvhaOLQoIhmJuB2mQZ
+         cdftCss2JAKu1EPMCyRERmk9TG93zaVwEeNROkEJxEJ6IGcdeiXM7JOomJ8j0v1FEK7r
+         UjE2cIGKKcIs+p8l1veRzTPamYUGXSkvJFWxlmGYJr/Gv4TdPjo2B8HTj3Ysc4Tc8ciG
+         cxR6g+kxhjEjZ3CEPgdOwumwx5qE7CoupX1ukEaY+UuVA113FBasCTgaLgtWrGE3AMLq
+         dwCdS+XcgLuScHUzLLmtustZ8taSpyt7txYYsbXcj7x/+7LX0nBiQQUlZcfM1PQIvjlB
+         DSYw==
+X-Forwarded-Encrypted: i=1; AFNElJ9zlseuksJqBJnMhDl5Pg6DI16ibxqc1ipYdNuzxl4va+r3L8qKX7WK0gG/t8/Fau2qMLW76emqyRV2Piae+DzSeA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yxuz3cOJjiifW/hPdwFavOlyXqs71/D6CHPtQ+0T/QOZHhPMVes
+	R4eOUF6kf5xm1WtZTEZ0LBK4GC9INEPaJryYL8SqfVnJ79IiBQjP2UDxezYpv9peaD8=
+X-Gm-Gg: Acq92OHN4eSgRV56QJGsivGXm4/+D6WWr+xRRhR1Q4wmTrx0ZpbOvZd+U8k4LYjR6YL
+	5G0gGkySkhh06D4EickIsGUOCPVfhdC+LJRBd3FAiOYUvY3lS0FdYwNo+0BXGc7R83+jefv7VHC
+	iI9srnNu291wFadD9IPpL/Zi7/OoEVbT5yRNGfpZ8Y2RHNGAoFahRxvsTjMOnjEVL8bb7XTTTIg
+	6qCmh6SlIMu8PQw0IdqPZ0Mq/3ZSG0dXAsUXAbyNwfnlJrrRahZ5F8DnPtWsWVJSIp2+QuStdsy
+	qaYWqTdxqiWoKpOnSpKc1/0E0CCfrMFf4aS6/sBVUvmfbDxYl0k+sPTMnRgq3BoyxrNb7h1jdTp
+	AtQ+6hKnHaHhH1o7VWxkRtxydSKD9LQYg/nt4pq6kdyd1kVwbxKfneGIxm1D5UYpMYM6uXS1Xb3
+	Dul+NEweAvqIlmChffuSLs4P10Srhe7jaLvWFKevQUJ19PPcI9YjXqznrGpqmkwDeNmYFdy9rBv
+	dztaLKuBOoJ3HY=
+X-Received: by 2002:a05:6000:22c5:b0:43d:7d24:b510 with SMTP id ffacd0b85a97d-45e5c5fd8demr42678888f8f.22.1779310754566;
+        Wed, 20 May 2026 13:59:14 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45e7c22d8b7sm27687146f8f.6.2026.05.20.13.59.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 May 2026 13:59:14 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 64KFG8XS2344647
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 20 May 2026 22:59:13 +0200
+Message-Id: <DINT0RVVGKUL.307JZTH39LFTH@smile.fr>
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: "Yoann Congal" <yoann.congal@smile.fr>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][wrynose v2 00/28] Patch review
+X-Mailer: aerc 0.20.0
+References: <cover.1779264709.git.yoann.congal@smile.fr>
+In-Reply-To: <cover.1779264709.git.yoann.congal@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 20:25:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237467
+ <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 20:59:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237468
 
-
-On 5/20/26 6:36 AM, Richard Purdie wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
+On Wed May 20, 2026 at 10:20 AM CEST, Yoann Congal wrote:
+> Please review this set of changes for wrynose and have comments back by
+> end of day Thursday, May 21.
 >
-> On Mon, 2026-05-11 at 13:52 -0700, Quan Sun via lists.openembedded.org =
-wrote:
->> From: Quan Sun <Quan.Sun@windriver.com>
->>
->> Backport upstream commit 854cd16e318e ("accel/tcg: Fix iotlb_to_sectio=
-n()
->> for different AddressSpace") to qemu 10.2.0.
->>
->> The bug causes incorrect memory load/store when CPU access goes throug=
+> This is the v2 of https://lore.kernel.org/openembedded-core/cover.1779232=
+800.git.yoann.congal@smile.fr/T/#t
+> v1->v2:
+> * Removed "[OE-core][wrynose 11/28] libsdl2: set status for CVE-2026-3544=
+4"=20
+> * Added "busybox: fix CVE-2026-29004"
+>
+> A build for this v2 series is running here:
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/3851
+> I've run the added busybox patch through autobuilder in an earlier
+> series, so I'm confident that this build will be OK (AB-INT excepted).
+
+Got some AB-INTs but nothing related to this series:
+* qemux86 https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/build=
+s/3766
+  =3D> Bug #16284 =E2=80=93 AB-INT: do_testsdkext failed with no clear reas=
+on
+  retried as https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/bu=
+ilds/3767
+* oe-selftest-debian https://autobuilder.yoctoproject.org/valkyrie/#/builde=
+rs/35/builds/3884
+  & oe-selftest-fedora https://autobuilder.yoctoproject.org/valkyrie/#/buil=
+ders/48/builds/3746
+  git.yoctoproject.org/git.openembedded.org hung up the HTTP git clone conn=
+ection
+  retried as:
+    https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3885
+    https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3747
+* qemuriscv64-ptest https://autobuilder.yoctoproject.org/valkyrie/#/builder=
+s/56/builds/1616
+  =3D> I reported it: #16290 =E2=80=93 AB-INT PTEST RISCV64: procps ptest f=
+ailure (pgrep_match_against_full_process_name)
+  Retried as https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/bu=
+ilds/1617
+
+>
+> The following changes since commit 080e184ad9a07b469da7e8b045a93cefd5bf24=
+38:
+>
+>   glibc: Fix recipe bug that disabled stack protector (2026-05-12 16:18:2=
+7 +0200)
+>
+> are available in the Git repository at:
+>
+>   https://git.openembedded.org/openembedded-core-contrib stable/wrynose-n=
+ut
+>   https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/=
+wrynose-nut
+>
+> for you to fetch changes up to 42adcd87a15f5921f0cc95424efd930876743824:
+>
+>   pseudo: Upgrade 1.9.6 -> 1.9.7 (2026-05-20 10:03:07 +0200)
+>
+> ----------------------------------------------------------------
+>
+> Alexander Kanavin (1):
+>   sbom-cve-check: set PV from upstream tags and ensure version checks
+>     are correct
+>
+> Andrew Geissler (1):
+>   efivar: Backport patch to fix -march issue for ppc64le
+>
+> Ankur Tyagi (2):
+>   tzdata/tzcode-native: upgrade 2026a -> 2026b
+>   wireless-regdb: upgrade 2026.02.04 -> 2026.03.18
+>
+> Benjamin Robin (Schneider Electric) (3):
+>   python3-sbom-cve-check: Update to version 1.3.1
+>   sbom-cve-check-update-cvelist-native: Update source revision
+>   sbom-cve-check-update-nvd-native: Update source revision
+>
+> Chen Qi (1):
+>   busybox: fix CVE-2026-29004
+>
+> Daniel McGregor (1):
+>   python3-requests: Increase chardet upper limit
+>
+> Dmitry Sakhonchik (1):
+>   shadow-native: Change upstream status of disable_syslog.patch
+>
+> Jinwang Li (1):
+>   bluez5: add patches to fix 8.56 gatt issue
+>
+> Jo=C3=A3o Marcos Costa (1):
+>   default-distrovars.inc: add missing spaces in append overrides
+>
+> Peter Marko (7):
+>   busybox: patch CVE-2024-58251
+>   libsoup: set status for CVE-2026-2369
+>   tiff: patch CVE-2026-4775
+>   libssh2: patch CVE-2026-7598
+>   libarchive: set status of CVE-2026-5745
+>   libsoup: patch CVE-2026-2708
+>   glibc: stable 2.43 branch updates
+>
+> Quan Sun (1):
+>   qemu: fix iotlb_to_section() for different AddressSpace
+>
+> Richard Purdie (2):
+>   utils: Handle unexpanded variables in DISTRO_FEATURES
+>   pseudo: Upgrade 1.9.6 -> 1.9.7
+>
+> Robert P. J. Day (1):
+>   features-check.bbclass: add reference to required TUNE_FEATURES
+>
+> Sam Kent (1):
+>   oe-pkgdata-util: fix empty runtime-rprovides directory handling
+>
+> Thomas Perrot (2):
+>   oe-pkgdata-util: fix runtime-rprovides handling in lookup_pkg error
+>     path
+>   scripts/makefile-getvar: quote MAKEFILE variable
+>
+> Yoann Congal (2):
+>   README: Add wrynose subject-prefix to git-send-email suggestion
+>   b4-config: add send-prefixes for wrynose
+>
+>  .b4-config                                    |   1 +
+>  README.OE-Core.md                             |   2 +-
+>  meta/classes-recipe/crosssdk.bbclass          |   3 +-
+>  meta/classes-recipe/features_check.bbclass    |   2 +-
+>  meta/classes-recipe/native.bbclass            |   3 +-
+>  meta/classes-recipe/nativesdk.bbclass         |   3 +-
+>  .../distro/include/default-distrovars.inc     |   8 +-
+>  meta/lib/oe/utils.py                          |   9 +
+>  .../0003-fix-march-issue-for-ppc64le.patch    |  45 +++
+>  meta/recipes-bsp/efivar/efivar_39.bb          |   1 +
+>  meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+>  ...use-after-free-caused-by-reentrant-c.patch |  59 ++++
+>  .../busybox/busybox/CVE-2024-58251.patch      |  51 ++++
+>  .../busybox/busybox/CVE-2026-29004-01.patch   |  42 +++
+>  .../busybox/busybox/CVE-2026-29004-02.patch   |  47 +++
+>  meta/recipes-core/busybox/busybox_1.37.0.bb   |   3 +
+>  meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+>  meta/recipes-core/glibc/glibc_2.43.bb         |   4 +-
+>  meta/recipes-devtools/pseudo/pseudo_git.bb    |   4 +-
+>  ...01-Increase-chardet-upper-limit-to-8.patch |  25 ++
+>  .../python/python3-requests_2.32.5.bb         |   1 +
+>  meta/recipes-devtools/qemu/qemu.inc           |   1 +
+>  ...tlb_to_section-for-different-Address.patch | 274 ++++++++++++++++++
+>  ...3.0.bb =3D> python3-sbom-cve-check_1.3.1.bb} |   4 +-
+>  ...check-update-cvelist-native_2026-05-07.bb} |   4 +-
+>  ...ck-update-nvd-native_2026.05.07-000006.bb} |   4 +-
+>  .../libarchive/libarchive_3.8.7.bb            |   1 +
+>  .../shadow/files/disable_syslog.patch         |   3 +-
+>  meta/recipes-extended/timezone/timezone.inc   |   6 +-
+>  ....02.04.bb =3D> wireless-regdb_2026.03.18.bb} |   2 +-
+>  .../libtiff/tiff/CVE-2026-4775.patch          |  55 ++++
+>  meta/recipes-multimedia/libtiff/tiff_4.7.1.bb |   1 +
+>  .../libsoup/libsoup/CVE-2026-2708.patch       | 218 ++++++++++++++
+>  meta/recipes-support/libsoup/libsoup_3.6.6.bb |   2 +
+>  .../libssh2/libssh2/CVE-2026-7598.patch       |  56 ++++
+>  .../recipes-support/libssh2/libssh2_1.11.1.bb |   1 +
+>  scripts/makefile-getvar                       |   4 +-
+>  scripts/oe-pkgdata-util                       |  19 +-
+>  38 files changed, 934 insertions(+), 37 deletions(-)
+>  create mode 100644 meta/recipes-bsp/efivar/efivar/0003-fix-march-issue-f=
+or-ppc64le.patch
+>  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-gatt-cli=
+ent-Fix-use-after-free-caused-by-reentrant-c.patch
+>  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2024-58251.patc=
 h
->> an IOMMUMemoryRegion that returns a different target AddressSpace, and=
- the
->> fix replaces the section_index lookup with a direct MemoryRegionSectio=
-n
->> pointer stored in CPUTLBEntryFull.
->>
->> Note that the fix primarily targets ARM/RISC-V, but since it eliminate=
-s
->> iotlb_to_section() and performs the lookup based on CPUTLBEntryFull,
->> it may also help address some currently observed QEMU boot issues
->> on x86, e.g. the https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1=
-6259.
->>
->> AI-Generated: kiro-cli
->>
->> Signed-off-by: Quan Sun <Quan.Sun@windriver.com>
->> ---
->>   meta/recipes-devtools/qemu/qemu.inc           |=C2=A0=C2=A0 1 +
->>   ...tlb_to_section-for-different-Address.patch | 274 ++++++++++++++++=
-++
->>   2 files changed, 275 insertions(+)
->>   create mode 100644 meta/recipes-devtools/qemu/qemu/0001-accel-tcg-Fi=
-x-iotlb_to_section-for-different-Address.patch
-> I noticed this failure on one of my current builds:
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/3615
->
-> which looks a bit like some of the errors we were hoping this fixed?
->
-This looks like a graphics-related issue (I remember earlier we had=20
-similar one). The last kernel message is about the PL110 display=20
-controller and deferred probes. The Sato image starts X11/Sato desktop=20
-which requires the framebuffer to be functional. If the display device=20
-doesn't complete=C2=A0 initialization, X11 startup blocks, which blocks t=
-he=20
-init sequence, which prevents the login prompt from appearing. It's=20
-possible this issue may still exist even with QEMU upgraded to 11.0.0.
+>  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-29004-01.p=
+atch
+>  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-29004-02.p=
+atch
+>  create mode 100644 meta/recipes-devtools/python/python3-requests/0001-In=
+crease-chardet-upper-limit-to-8.patch
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/0001-accel-tcg-Fix-io=
+tlb_to_section-for-different-Address.patch
+>  rename meta/recipes-devtools/sbom-cve-check/{python3-sbom-cve-check_1.3.=
+0.bb =3D> python3-sbom-cve-check_1.3.1.bb} (76%)
+>  rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-cveli=
+st-native.bb =3D> sbom-cve-check-update-cvelist-native_2026-05-07.bb} (77%)
+>  rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-nvd-n=
+ative.bb =3D> sbom-cve-check-update-nvd-native_2026.05.07-000006.bb} (79%)
+>  rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2026.02.04.bb =
+=3D> wireless-regdb_2026.03.18.bb} (94%)
+>  create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2026-4775.pa=
+tch
+>  create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2026-2708.pa=
+tch
+>  create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-7598.pa=
+tch
 
-Thanks,
 
-Quan
+--=20
+Yoann Congal
+Smile ECS
 
 
