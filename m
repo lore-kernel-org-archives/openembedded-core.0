@@ -1,300 +1,234 @@
-Return-Path: <vpuar@qti.qualcomm.com>
+Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA0E0CD4F54
-	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 05:11:55 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5434.1779253914453687082
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA6E5CD4F54
+	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 05:18:25 +0000 (UTC)
+Received: from TYDPR03CU002.outbound.protection.outlook.com (TYDPR03CU002.outbound.protection.outlook.com [52.101.127.76])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5368.1779254288678780765
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2026 22:11:54 -0700
+ Tue, 19 May 2026 22:18:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=W7oi2v/o;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: vpuar@qti.qualcomm.com)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64JMmF9t341539
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 05:11:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=eLKOfHJMYQsAWaxudN80pk
-	spZTajFfKA11wokNCcmTw=; b=W7oi2v/o3seAXtGdFfkq1w90/12AB/gjjirO2g
-	y1GthYgHbcs7PrqYYIIJ7vG0fjQS6g8UnHUHzBoCbuvgWAD7ThzxmFv/zJcrdzZJ
-	H59masvpChD26LCvi+1uBxSKkId1qR7gAJzjEFQQDdsA5Hb5hOWp3oaCTRTcY5P7
-	Hczm7/UfPI1GJKU2eIl7fCZySEQQ+ZstdoG2VI0hBlN66HqYps9Nlt3fsngmKWel
-	5aYL4jZsdpuwQHB0IPk39GfJlkRaob8OnCpvNVEFl2rt8Nvfadm2GrebIQUCbfE3
-	3MCP3xyhZHyQXo/gfbM/8GCfDZ01Ow64toHknwlI4OeiIMIA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e8t3vb0c2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 05:11:53 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTPS id 64K5Bqxl022743
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 05:11:52 GMT
-Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 19 May 2026 22:11:50 -0700
-From: Vivek Puar <vpuar@qti.qualcomm.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <vpuar@qti.qualcomm.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH] linux-firmware: upgrade 20260410 -> 20260519
-Date: Wed, 20 May 2026 10:41:36 +0530
-Message-ID: <20260520051136.2806904-1-vpuar@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@aspeedtech.com header.s=selector1 header.b=iJ4Ljv3N;
+ spf=pass (domain: aspeedtech.com, ip: 52.101.127.76, mailfrom: jamin_lin@aspeedtech.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FePh/PskEu/6UAPVYkmn4gkRgVe/+H7vJ+wmmjt9HQC/Eb6YCNSpKcbX71arxlKmT/z3R59tNLbmm6TNCMr0D4bj4ucRYN+12CNRx08mpq+vsGa8muQMoErYkUOhrAajeC6Rkw+9sgJ8u1LFXmjbPwOQDqo5zAmtmYmypNL/Nkcm9i6aXwDu8zOK2d3InktbFqy9YpfgjWk5UKpqaeIB/uZbLQUnCw6QtPybK5jMTuETAtvtSdC+Mjayj1Ja8COjDyAtJhC+QArCYu5lVaa7riJbX5ZKJ1nTd3SQwp6PUilbPvM9fxoRRoJQzUBLBvhVdGA1qclqhS8s3d7/6aLD/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gOJflKtXjsOb7Gt8xD6R3ZfqzVqf+e0pdRe0sKo6u2w=;
+ b=PLRULPBMUnykj5vZuw9uDDQPmc8/DCoz5pETt0LPeTM6/1BeWyw12K49Des2yjfhd/aXyC/7rVWCbkoSu1Ny6QnLUd79hgPuAZHfOjC/2aM84cG8XYPazqVuAJt8a4EC2zySAheMZPVY1qyA/8xZLddcJeLZ2LHAQYgrbrQZDAdzGQeYhR/2FSq69mQ4flIoASyP1/+UF5KFM3JO/DoRNd4TZkiXkAgtK3y5jeYK4w0DHKmnqvjsKlDR71I0FiJr2ir77iJhNOlB7NmLAbueJe0UrIPc4b42VJdi6ajsapir1Mix7NOhG2amohQH7DcX5wZp4uEG25+m87tGr4zZoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gOJflKtXjsOb7Gt8xD6R3ZfqzVqf+e0pdRe0sKo6u2w=;
+ b=iJ4Ljv3NZmNaD2sBCyMBzyz5BmsZ29hJ/4SxgYbKVEkGLVQCYbqxhCsjtSXtJefjiNK+WtN3eJKJIFZ5kkh0iSoOq6Li2C8MGV+4v19vyk+AG7LmIUMgE3cYyrkup3hHBEt+gzERhnc8RqCceEVwcdR4NqlijH+sPUPEycsPu6iYmgyojuUQzX9STzDJZFLv04bzVcCN8+oLOJZuJR3x2xcfMvyaLGDl311mLhNgPK9DJqpIKg4kaL7pyJHDqFQWBd14o7RyMGtSzyfBLTK/zXCJeEeohhFGoGZFkhJVEOeDXGXkqgMGpp2TEWR2fOmMxTlgKBHc577rLsr+LUl5QQ==
+Received: from TYPPR06MB8206.apcprd06.prod.outlook.com (2603:1096:405:383::19)
+ by SEYPR06MB5939.apcprd06.prod.outlook.com (2603:1096:101:d5::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.24; Wed, 20 May
+ 2026 05:18:01 +0000
+Received: from TYPPR06MB8206.apcprd06.prod.outlook.com
+ ([fe80::e659:1ead:77cb:f6d3]) by TYPPR06MB8206.apcprd06.prod.outlook.com
+ ([fe80::e659:1ead:77cb:f6d3%2]) with mapi id 15.21.0025.023; Wed, 20 May 2026
+ 05:18:01 +0000
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Troy Lee <troy_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>,
+	Vince Chang <vince_chang@aspeedtech.com>, "paul@pbarker.dev"
+	<paul@pbarker.dev>
+Subject: [PATCH v1] scripts/scriptutils: Convert nested git repos to
+ standalone clones in devtool workspace
+Thread-Topic: [PATCH v1] scripts/scriptutils: Convert nested git repos to
+ standalone clones in devtool workspace
+Thread-Index: AQHc6BgHN1CBr1epV0S10IbNYRkvLw==
+Date: Wed, 20 May 2026 05:18:01 +0000
+Message-ID: <20260520051800.1951624-1-jamin_lin@aspeedtech.com>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYPPR06MB8206:EE_|SEYPR06MB5939:EE_
+x-ms-office365-filtering-correlation-id: 00d2a4f5-808e-450a-e85d-08deb62f29d4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|366016|56012099003|38070700021|18002099003;
+x-microsoft-antispam-message-info: 
+ Dt3k0LR1b2m+45o/h2UYK/6eBXLsuIA0L5swQz+NHZrpfe7JlnMHY9/TIuNhYCdsZKfdh9vvAC0q+ZSxp0O/5LGiCTMZu7Qr/Z6eqaRd9TcQY13eLKyye9IAXggzg5Eg/Siqb3CnMlh6a/ruYz74xBRV9vwmpjfidHezi2vrUHjAKT95EgA59Wum0+IEOU0QEATLN7zEkLRfTT5LTPluLPXq1BcfrjcR/HUWBTJa/rU1secnr2VQAOKI8FYTioYuV8nm4qqUihWHF+ABAMFkGPsN8f2X8F4q0PPy/EfPwJZxki8QpJw6KZOO86kpnEBMkp0N6BcUZpMO943Guv7VrbIuR++2czCvtIATzRUtXFl/SoYPyjZGPzstP82aGo67RUP/zy/sVMQ9kXRo3TWw2vQy5zDfBONhn7KsIUJQXYjMdcLtHOmcVEZecCCZ65vyQJpbVSsAetNRAQWfn6zmlVofhpwvkxzDm42bR2OH2iMY9F3KFOaCWJ9gcIjl0ni3cKzUkA1Xfr3cat1bAEwHLGYO7GnIf4+lTT2qeqdGY1dw5jkGHjIxGSbrc2Mu2aJ6l9Iu+VxNIiz4lcBgaliqVTsE89lSa/gUZkYV9BfFafrSnAMEEbEFEUduorIB7oT7xTn3IAnnyr+g1lRg79Oeh8jfCikq7nw6VGuttZ8hvHe7lTHNpQpm5bcDeDz9YpoiMzhP3TwCTi+OT622YA/QmpBmVTZuxuTHMsA5+wAFswJiWU4LngSF6dhUnkN3H15F
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYPPR06MB8206.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(56012099003)(38070700021)(18002099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?xzK8GMI+QuuisjZwIWQ0LJQKkhcpfKtUJ8WntHD9uuSZENx191qBw8J2b26O?=
+ =?us-ascii?Q?NUWxah7EJQgz1QHD6xuWy77mEk/ja9BtF5nMp4ieYhgUmUfCo1CBYa+/bzzG?=
+ =?us-ascii?Q?tZngvPv3l5fLBtiLmsku4aDCWObESmb5qvTWZaxiJjrxoQXCNbkZcimKbPCO?=
+ =?us-ascii?Q?7isD2wcJKA3IfMmMcsLZAFzBHSz2ONEp8IQ33m/ycHsFWYKwjaVpRAHrPe6Y?=
+ =?us-ascii?Q?0kvrEJFoYHaHk/3+utCcdqPnuqX/3Um4BGfDFI1Lw+SvmfTGqCxpcH6tacd6?=
+ =?us-ascii?Q?gyWLqt4k/xtsgQqGYuihj5PMYwPh4aliLbn1xFTwK/CDb2tgBSM7ReH2uBHT?=
+ =?us-ascii?Q?vmMrFJC53XlwAAKy9SAuoXBUW/HNv9vLMoH2CMegcwfq+uDNeaENGAlLPqg3?=
+ =?us-ascii?Q?3CQUd9joWAzgoFSWlsg2BmGUtHBMozAlVN+E8P9WuuMLvz7U55Qgl09rb/K2?=
+ =?us-ascii?Q?XboW4LAUxkte/O+/FzpVOM0berdo9WaeuCK2ypkeD36y+76ap8UUHSi+/M+I?=
+ =?us-ascii?Q?Wsrn8M4jJnVvnj5NVzEs8ARq4thXRVttIWanizOsv6dC9vIc7Z3rD2Dl8pOK?=
+ =?us-ascii?Q?xLE0zj/31t5m+GGmdEA8U/8MiSnZ8Tf2XWjyGTew3AzXhOHdxS0YAneE3Y2c?=
+ =?us-ascii?Q?qnUZcVoIMUrM+PodWMMrSl27/pz3+ycfDS5zG2cGaxrq5ka6IiHmiHLOceGy?=
+ =?us-ascii?Q?Lmc26ODYrtIE9DhVNkAmJPzxkKjuINJA9+AkyJOLbGJGkAfKnPcigsmx6DJZ?=
+ =?us-ascii?Q?KvOhiPpf+W7aMV2exzqLixdgEm96bjYgI0xWT5XqgnnIxYUGDVgjkEo2poMI?=
+ =?us-ascii?Q?oJQgnIcFh0hfDTEcVQT42ltI/959VCOfyRNty/bSPky2viKTgCxN3aDEmZvG?=
+ =?us-ascii?Q?v5LHa3E863sKWWyDxhLQvv36P8YePp/vPzlOP2dB5Vxtg1ofOUS+zBlNzNpD?=
+ =?us-ascii?Q?9izVCYgMz/GANxUc7G9L0JRp5TGiA9W5A2gdSt0mh5MwhJ8dHiJiiB0jyz51?=
+ =?us-ascii?Q?+3ynuntsNYc0EoqvcNBpZ1XhXN4l+dhVyaQ9zq74CDlx1d11bFhafnar7HGO?=
+ =?us-ascii?Q?xtMmwe8UI3vHPrPsK3NpmSABfqM+mCRuZr5mRTpnuBI6TVOCGbBTDiyFLdlO?=
+ =?us-ascii?Q?tGHM7llsRdIsh9DYw3PNlnsZNnIz7rgpgGhAVuGILIXZq5p5S3uAYRw6HyRA?=
+ =?us-ascii?Q?P+Ne93ylsQ4NroQ393SB5RpdDAox+EM9jTGzLy0s+RqzPmjHgB2ECJsl3wvn?=
+ =?us-ascii?Q?Sc9TsZRHC9EK7yOyEQ3t8hBPYkWuNuUy8owOUMZrU9XQ614OMLZiEtXlKryr?=
+ =?us-ascii?Q?miIGp7P+y7NNto+npVNNx/tzwvdCmGp3nt1LglNmykJvRujCvRY27VW4npuK?=
+ =?us-ascii?Q?Rex1MHZuZf1rQyiB5CLxtxKbSuarGyaYg2FtNq3FIlwyUycbILADms1CmMux?=
+ =?us-ascii?Q?Ai9Ip+6doAwPMjf0RpPRIuf59Qtsqjfs8F3NCrpDabs7hOJeYEV6LJE4dhD0?=
+ =?us-ascii?Q?ur+HcIKYR1qX6cmhadNuUlRt7JEw278VvrG6/UAd1b3p9nvHlWMPzUnb8eXQ?=
+ =?us-ascii?Q?U3JvjSavB8hQ49oPqcDgoTzbSrNx9FczQSv2GgvoB4CnbCG3sus8knZfmq7/?=
+ =?us-ascii?Q?5v0qylTcuRt2CkcWw9XBq8ycJosCD7wpnoQL1sARrDwGDj5Wd2LVDKLMlmvA?=
+ =?us-ascii?Q?/0B8EYul41735ysQYpv0/66r9Gv/5vZ1dvu34FWb9b+GYSqfHuPqzfUs0+Ky?=
+ =?us-ascii?Q?f0Y1Hbzj/Q=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-GUID: sB-umyhxBRZgdjlg-pgckg0XNHt8Y0Nl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDA0NyBTYWx0ZWRfXywIzmReGcmCo
- RjPT/hiU19nPQ76JFqqCvKWCrcpacOU/jBYsCFYmAlGiNWVrkuoSp7f+E8BF6EQgSCRp7N7/7uT
- cGlWYI7ihiHIRQVzUHGTH4FpOqbv8ksTLFc6QhfNuM6oXY4n8U8DcB3Wu+22RyichOqxVTYmPvu
- 9I5iOkFm9HajR9ouywMMzzY97oSjmQTj+dUQaLxZTXVWTYE4eUJxhD2LiCcx8WEaVm/K2/rKkUm
- bXCNz98taVdFcLAouKaio1HRD0UX6QG7Sj36Rp2bBAGr4rK0vTZxB+0xo3SAUU5B7qPmO8LfnLe
- SZnBMVVeBAbVVeAjucYPo0vCQMy4i/qQxAOv3Xh7uKb9HbFuEPbdGbgARKcg08V1kmY9OVyBNSr
- dHSI9vPM7/ETib3lY5/2h1vydHPTxKIeZE+PCneWX7ryKffCxA0Q5eDe9M8F78PYuPA6OFTA1ja
- oKaK3LejTk79ZrjgtGQ==
-X-Authority-Analysis: v=2.4 cv=JuPBas4C c=1 sm=1 tr=0 ts=6a0d4299 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8
- a=VwQbUJbxAAAA:8 a=G7KpAmuA_FgF0sezETUA:9
-X-Proofpoint-ORIG-GUID: sB-umyhxBRZgdjlg-pgckg0XNHt8Y0Nl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-20_01,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
- phishscore=0 impostorscore=0 malwarescore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605200047
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYPPR06MB8206.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00d2a4f5-808e-450a-e85d-08deb62f29d4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 May 2026 05:18:01.4346
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: t28ZsCUHWKcTq44tgC5y1cPv0qmQ6P3xTteC7sdH3UCbZc6Fz22+81VglQs5HinSuWim4AxMX9f62ThmL04Fb2eLQ6uzzgIq2bI+uJAorOk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5939
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 05:11:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237381
+ <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 05:18:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237382
 
-Upgrade the firmware package to latest release. Add compute package
-for shikra. Add packages ${PN}-ath12k-{ipq5424, qcc2072} for ath12k
-based chips. Add Texas Instruments PCM6240 firmware, firmware for
-tas2783A projects, firmware for Lontium LT7911EXC and LT9611C. Move
-lt*_fw.bin firmware to Lontium subdir. Add HP ISH firmware for Intel
-Panther Lake systems. Add RDEPENDS on ${PN}-qcom-license for Dell
-XPS13 packages as qcom/NOTICE.txt is applicable to those firmwares.
-
-Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- ...20260410.bb => linux-firmware_20260519.bb} | 62 +++++++++++++++----
- 1 file changed, 50 insertions(+), 12 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260410.bb => linux-firmware_20260519.bb} (98%)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260410.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260519.bb
-similarity index 98%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20260410.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20260519.bb
-index b34f8ef255..7eb9bf35fb 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260410.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260519.bb
-@@ -314,7 +314,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "1468492365c9cec2e7ebf71c79d2e8f5"
-+WHENCE_CHKSUM  = "6048e3ea8acf04b4c415db8a9e35a912"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -452,7 +452,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "b7812ed6d59f6b09ecceddaa0be842a7e82a79cc0e46ca60478a4ebf02f1e178"
-+SRC_URI[sha256sum] = "b14e7197a290a7e5569f5ef790cde289bddc47e32126f2eb262a8e677fc39727"
- 
- inherit allarch
- 
-@@ -564,7 +564,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-mwl8k ${PN}-mwlwifi\
-              ${PN}-ti-connectivity-license ${PN}-wl1251-license ${PN}-wlcommon ${PN}-wl1251 ${PN}-wl12xx ${PN}-wl18xx ${PN}-cc33xx \
-              ${PN}-ti-keystone-license ${PN}-ti-keystone \
--             ${PN}-ti-tspa-license ${PN}-ti-tas2563 ${PN}-ti-tas2781 ${PN}-ti-tas2783 ${PN}-ti-vpe \
-+             ${PN}-ti-tspa-license ${PN}-ti-pcm6240 ${PN}-ti-tas2563 ${PN}-ti-tas2781 ${PN}-ti-tas2783 ${PN}-ti-vpe \
-              ${PN}-ti-usb-3410-5052 \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rs9113 ${PN}-rs9116 ${PN}-rsi-91x \
-@@ -641,6 +641,8 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-ath11k-wcn6750 \
-              ${PN}-ath11k-wcn6855 \
-              ${PN}-ath12k \
-+             ${PN}-ath12k-ipq5424 \
-+             ${PN}-ath12k-qcc2072 \
-              ${PN}-ath12k-qcn9274 \
-              ${PN}-ath12k-wcn7850 \
-              ${PN}-qca \
-@@ -748,7 +750,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute \
-              ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
-              ${PN}-qcom-sdx35-foxconn-firehose ${PN}-qcom-sdx61-foxconn-firehose \
--             ${PN}-qcom-shikra-qupv3fw \
-+             ${PN}-qcom-shikra-compute ${PN}-qcom-shikra-qupv3fw \
-              ${PN}-qcom-sm8150-adreno \
-              ${PN}-qcom-sm8250-adreno ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
-              ${PN}-qcom-sm8250-thundercomm-rb5-sensors \
-@@ -776,7 +778,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qla2xxx ${PN}-qla2xxx-license \
-              ${PN}-rockchip-license ${PN}-rockchip-dptx \
-              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
--             ${PN}-lt8713sx ${PN}-lt9611uxc ${PN}-lontium-license \
-+             ${PN}-lt7911exc ${PN}-lt8713sx ${PN}-lt9611c ${PN}-lt9611uxc ${PN}-lontium-license \
-              ${PN}-wfx-license ${PN}-wfx \
-              ${PN}-whence-license \
-              ${PN}-xc4000-license ${PN}-xc4000 \
-@@ -785,7 +787,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-typhoon-license ${PN}-typhoon \
-              ${PN}-intel-license ${PN}-ish-lnlm \
-              ${PN}-dell-license ${PN}-ish-lnlm-39ceeaf8 ${PN}-ish-ptl-39ceeaf8 \
--             ${PN}-hp-license ${PN}-ish-lnlm-12128606 \
-+             ${PN}-hp-license ${PN}-ish-lnlm-12128606 ${PN}-ish-ptl-12128606 \
-              ${PN}-lenovo-license ${PN}-ish-lnlm-53c4ffad ${PN}-ish-ptl-53c4ffad \
-              ${PN}-ish-ptl ${PN}-ish-wcl \
-              ${PN}-advansys-license ${PN}-advansys \
-@@ -954,6 +956,8 @@ LICENSE:${PN}-ath11k-qcn9074 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath11k-wcn6750 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath11k-wcn6855 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath12k = "Firmware-qualcommAthos_ath10k"
-+LICENSE:${PN}-ath12k-ipq5424 = "Firmware-qualcommAthos_ath10k"
-+LICENSE:${PN}-ath12k-qcc2072 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath12k-qcn9274 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath12k-wcn7850 = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-qca-qca2066 = "Firmware-qualcommAthos_ath10k"
-@@ -999,6 +1003,8 @@ FILES:${PN}-ath11k-wcn6855 = "${firmwaredir}/ath11k/WCN6855"
- # -ath11k is a virtual package that depends upon all ath11k packages.
- ALLOW_EMPTY:${PN}-ath11k = "1"
- 
-+FILES:${PN}-ath12k-ipq5424 = "${firmwaredir}/ath12k/IPQ5424"
-+FILES:${PN}-ath12k-qcc2072 = "${firmwaredir}/ath12k/QCC2072"
- FILES:${PN}-ath12k-qcn9274 = "${firmwaredir}/ath12k/QCN9274"
- FILES:${PN}-ath12k-wcn7850 = "${firmwaredir}/ath12k/WCN7850"
- # -ath12k is a virtual package that depends upon all ath12k packages.
-@@ -1127,6 +1133,8 @@ RDEPENDS:${PN}-ath11k-qcn9074 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath11k-wcn6750 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath11k-wcn6855 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath12k += "${PN}-ath10k-license"
-+RDEPENDS:${PN}-ath12k-ipq5424 += "${PN}-ath10k-license"
-+RDEPENDS:${PN}-ath12k-qcc2072 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath12k-qcn9274 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath12k-wcn7850 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-qca += "${PN}-ath10k-license ${PN}-qcom-license"
-@@ -1344,12 +1352,16 @@ RDEPENDS:${PN}-amdgpu-vega12 += "${PN}-amdgpu-license"
- RDEPENDS:${PN}-amdgpu-misc += "${PN}-amdgpu-license"
- 
- # For lontium
-+LICENSE:${PN}-lt7911exc = "Firmware-Lontium"
- LICENSE:${PN}-lt8713sx = "Firmware-Lontium"
-+LICENSE:${PN}-lt9611c = "Firmware-Lontium"
- LICENSE:${PN}-lt9611uxc = "Firmware-Lontium"
- 
- FILES:${PN}-lontium-license = "${firmwaredir}/LICENSE.Lontium"
--FILES:${PN}-lt8713sx = "${firmwaredir}/lt8713sx_fw.bin*"
--FILES:${PN}-lt9611uxc = "${firmwaredir}/lt9611uxc_fw.bin*"
-+FILES:${PN}-lt7911exc = "${firmwaredir}/Lontium/lt7911exc_fw.bin*"
-+FILES:${PN}-lt8713sx = "${firmwaredir}/lt8713sx_fw.bin* ${firmwaredir}/Lontium/lt8713sx_fw.bin*"
-+FILES:${PN}-lt9611c = "${firmwaredir}/Lontium/lt9611c_fw.bin*"
-+FILES:${PN}-lt9611uxc = "${firmwaredir}/lt9611uxc_fw.bin* ${firmwaredir}/Lontium/lt9611uxc_fw.bin*"
- 
- # For Arm Mali
- FILES:${PN}-mali-csffw-license = "${firmwaredir}/LICENCE.mali_csffw"
-@@ -1830,6 +1842,13 @@ FILES:${PN}-ti-tas2563 = "\
- "
- RDEPENDS:${PN}-ti-tas2563 = "${PN}-ti-tspa-license"
- 
-+# For ti-pcm6240 - pcm6240 firmware
-+LICENSE:${PN}-ti-pcm6240 = "Firmware-ti-tspa"
-+FILES:${PN}-ti-pcm6240 = "\
-+    ${firmwaredir}/ti/pcm6240/pcm6240-i2c-1-2dev.bin* \
-+"
-+RDEPENDS:${PN}-ti-pcm6240 = "${PN}-ti-tspa-license"
-+
- # For ti-tas2781 - tas2781 firmware
- LICENSE:${PN}-ti-tas2781 = "Firmware-ti-tspa"
- FILES:${PN}-ti-tas2781 = "\
-@@ -1843,7 +1862,17 @@ RDEPENDS:${PN}-ti-tas2781 = "${PN}-ti-tspa-license"
- # For ti-tas2783 - tas2783 firmware
- LICENSE:${PN}-ti-tas2783 = "Firmware-ti-tspa"
- FILES:${PN}-ti-tas2783 = "\
--    ${firmwaredir}/8E[8F]*-?-?.bin* \
-+    ${firmwaredir}/1534-2-*.bin* \
-+    ${firmwaredir}/16F4-1-*.bin* \
-+    ${firmwaredir}/1714-1-*.bin* \
-+    ${firmwaredir}/19[569]4-?-?-*.bin* \
-+    ${firmwaredir}/1A[CD]4-?-?-*.bin* \
-+    ${firmwaredir}/1B[09]4-?-?-*.bin* \
-+    ${firmwaredir}/3??1-?-0x*.bin* \
-+    ${firmwaredir}/8E??-?-0x*.bin* \
-+    ${firmwaredir}/8E??-?-?-0x*.bin* \
-+    ${firmwaredir}/8F??-?-0x*.bin* \
-+    ${firmwaredir}/8F??-?-?-0x*.bin* \
-     ${firmwaredir}/ti/audio/tas2783/* \
- "
- RDEPENDS:${PN}-ti-tas2781 = "${PN}-ti-tspa-license"
-@@ -2401,6 +2430,7 @@ LICENSE:${PN}-qcom-sdm845-modem = "Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "Firmware-qcom"
- LICENSE:${PN}-qcom-sdx35-foxconn-firehose = "Firmware-qcom"
- LICENSE:${PN}-qcom-sdx61-foxconn-firehose = "Firmware-qcom"
-+LICENSE:${PN}-qcom-shikra-compute = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-shikra-qupv3fw = "Firmware-qcom"
- LICENSE:${PN}-qcom-sm8150-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-sm8250-adreno = "Firmware-qcom"
-@@ -2564,6 +2594,7 @@ FILES:${PN}-qcom-sdm845-modem = "${firmwaredir}/qcom/sdm845/mba.mbn* ${firmwared
- FILES:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${firmwaredir}/qcom/sdm845/Thundercomm/db845c/slpi*.*"
- FILES:${PN}-qcom-sdx35-foxconn-firehose = "${firmwaredir}/qcom/sdx35/foxconn/xbl_s_devprg_ns.melf*"
- FILES:${PN}-qcom-sdx61-foxconn-firehose = "${firmwaredir}/qcom/sdx61/foxconn/prog_firehose_lite.elf*"
-+FILES:${PN}-qcom-shikra-compute = "${firmwaredir}/qcom/shikra/cdsp*.*"
- FILES:${PN}-qcom-shikra-qupv3fw = "${firmwaredir}/qcom/shikra/qupv3fw.elf*"
- FILES:${PN}-qcom-sm8150-adreno = "${firmwaredir}/qcom/sm8150/a640*.*"
- FILES:${PN}-qcom-sm8250-adreno = "${firmwaredir}/qcom/sm8250/a650*.*"
-@@ -2725,6 +2756,7 @@ RDEPENDS:${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdx35-foxconn-firehose = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdx61-foxconn-firehose = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-shikra-compute = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-shikra-qupv3fw = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sm8150-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sm8250-adreno = "${PN}-qcom-license"
-@@ -2749,9 +2781,9 @@ RDEPENDS:${PN}-qcom-x1e80100-asus-vivobook-s15-audio-tplg = "${PN}-linaro-licens
- RDEPENDS:${PN}-qcom-x1e80100-asus-zenbook-a14-audio-tplg = "${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-x1e80100-dell-inspiron-14-plus-7441-audio-tplg = "${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-x1e80100-dell-latitude-7455-audio-tplg = "${PN}-linaro-license"
--RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-adreno = "${PN}-dell-license"
--RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-audio = "${PN}-dell-license ${PN}-linaro-license"
--RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-compute = "${PN}-dell-license"
-+RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-adreno = "${PN}-dell-license ${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-audio = "${PN}-dell-license ${PN}-linaro-license ${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-x1e80100-dell-xps13-9345-compute = "${PN}-dell-license ${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-x1e80100-hp-omnibook-x14-audio-tplg = "${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-x1e80100-lenovo-t14s-g6-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-x1e80100-lenovo-t14s-g6-audio = "${PN}-qcom-license ${PN}-linaro-license"
-@@ -2835,6 +2867,12 @@ FILES:${PN}-ish-lnlm-12128606 = " \
- "
- RDEPENDS:${PN}-ish-lnlm-12128606 = "${PN}-hp-license"
- 
-+LICENSE:${PN}-ish-ptl-12128606 = "Firmware-HP"
-+FILES:${PN}-ish-ptl-12128606 = " \
-+    ${firmwaredir}/HP/ish/ish_ptl_12128606_*.bin* \
-+"
-+RDEPENDS:${PN}-ish-ptl-12128606 = "${PN}-hp-license"
-+
- # For LENOVO ish - Intel Integrated Sensor Hub
- LICENSE:${PN}-lenovo-license = "Firmware-lenovo"
- FILES:${PN}-lenovo-license = "${firmwaredir}/LICENCE.lenovo"
--- 
-2.34.1
-
+When a recipe uses multiple git SRC_URI entries with different destsuffix=
+=0A=
+values (e.g. Zephyr-based recipes with separate repositories for the=0A=
+kernel, modules and application), do_unpack clones each source tree with=0A=
+'git clone -n -s'.=0A=
+=0A=
+The -s flag uses git's shared-object mechanism:=0A=
+instead of copying objects locally it writes a .git/objects/info/alternates=
+ file=0A=
+pointing back to the bare repository under the downloads directory (DL_DIR/=
+git2/).=0A=
+=0A=
+git_convert_standalone_clone() is called by devtool_post_unpack to make=0A=
+the workspace standalone: it runs 'git repack -a' to copy all objects=0A=
+into the local object store and then removes the alternates file.=0A=
+=0A=
+However it only processes the top-level source directory.  Each nested=0A=
+git repo created by a separate SRC_URI entry retains its own alternates=0A=
+file still pointing into downloads/.=0A=
+=0A=
+Steps to reproduce:=0A=
+  1. devtool modify <recipe-with-multiple-git-SRC_URI>=0A=
+  2. bitbake -c cleanall <recipe>=0A=
+  3. bitbake <recipe>=0A=
+=0A=
+At step 2, 'bitbake -c cleanall' calls fetcher.clean() which deletes=0A=
+the bare repositories from downloads/git2/. The top-level workspace=0A=
+repo is standalone (alternates already removed by the original code),=0A=
+but the nested repos still hold alternates pointing to the now-deleted=0A=
+paths.=0A=
+=0A=
+At step 3, srctree_hash_files() runs 'git add -A .' with a custom=0A=
+GIT_INDEX_FILE. Git internally calls 'git status --porcelain=3D2' on=0A=
+each nested repo to check for changes; this fails with exit 128 because=0A=
+the nested alternates are broken:=0A=
+  error: unable to normalize alternate object path:=0A=
+         .../downloads/git2/github.com.zephyrproject-rtos.acpica//objects=
+=0A=
+  fatal: bad object HEAD=0A=
+  fatal: 'git status --porcelain=3D2' failed in submodule modules/lib/acpic=
+a=0A=
+=0A=
+This halts the BitBake parse phase with a CalledProcessError and leaves=0A=
+the workspace in an unrecoverable state without manual intervention.=0A=
+=0A=
+Fix by extending git_convert_standalone_clone() to walk the source tree=0A=
+and apply the same 'git repack -a' + remove-alternates treatment to=0A=
+every nested git repository found, making the entire workspace fully=0A=
+standalone at devtool modify time.  The walk uses dirs[:] =3D [] to stop=0A=
+at each git boundary so it never descends into already-converted repos.=0A=
+=0A=
+Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>=0A=
+---=0A=
+ scripts/lib/scriptutils.py | 28 ++++++++++++++++++++++++----=0A=
+ 1 file changed, 24 insertions(+), 4 deletions(-)=0A=
+=0A=
+diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py=0A=
+index 32e749dbb1..0a83470373 100644=0A=
+--- a/scripts/lib/scriptutils.py=0A=
++++ b/scripts/lib/scriptutils.py=0A=
+@@ -100,16 +100,36 @@ def load_plugins(logger, plugins, pluginpath):=0A=
+ =0A=
+ =0A=
+ def git_convert_standalone_clone(repodir):=0A=
+-    """If specified directory is a git repository, ensure it's a standalon=
+e clone"""=0A=
++    """=0A=
++    If specified directory is a git repository, ensure it's a standalone c=
+lone.=0A=
++    Also converts any nested git repositories (created by multiple SRC_URI=
+ git=0A=
++    entries with different destsuffix values) so that none of their conten=
+ts=0A=
++    depend on the shared downloads directory via alternates.=0A=
++    """=0A=
++=0A=
+     import bb.process=0A=
+-    if os.path.exists(os.path.join(repodir, '.git')):=0A=
+-        alternatesfile =3D os.path.join(repodir, '.git', 'objects', 'info'=
+, 'alternates')=0A=
++=0A=
++    def _convert(gitdir, workdir):=0A=
++        alternatesfile =3D os.path.join(gitdir, 'objects', 'info', 'altern=
+ates')=0A=
+         if os.path.exists(alternatesfile):=0A=
+             # This will have been cloned with -s, so we need to convert it=
+ so none=0A=
+             # of the contents is shared=0A=
+-            bb.process.run('git repack -a', cwd=3Drepodir)=0A=
++            bb.process.run('git repack -a', cwd=3Dworkdir)=0A=
+             os.remove(alternatesfile)=0A=
+ =0A=
++    if os.path.exists(os.path.join(repodir, '.git')):=0A=
++        _convert(os.path.join(repodir, '.git'), repodir)=0A=
++=0A=
++    # Also handle nested git repos created by multiple SRC_URI git entries=
+=0A=
++    # with different destsuffix values. Each nested repo is cloned with -s=
+=0A=
++    # and has its own alternates pointing to the downloads directory.=0A=
++    for root, dirs, files in os.walk(repodir):=0A=
++        if root =3D=3D repodir:=0A=
++            continue=0A=
++        if '.git' in dirs:=0A=
++            _convert(os.path.join(root, '.git'), root)=0A=
++            dirs[:] =3D []  # don't recurse into nested repos=0A=
++=0A=
+ def _get_temp_recipe_dir(d):=0A=
+     # This is a little bit hacky but we need to find a place where we can =
+put=0A=
+     # the recipe so that bitbake can find it. We're going to delete it at =
+the=0A=
+-- =0A=
+2.43.0=0A=
 
