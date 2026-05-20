@@ -1,264 +1,247 @@
-Return-Path: <hsimeliere.opensource@witekio.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FB49CD4F54
-	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 10:44:40 +0000 (UTC)
-Received: from mx-relay14-hz12-if1.hornetsecurity.com (mx-relay14-hz12-if1.hornetsecurity.com [94.100.139.214])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9368.1779273871533182049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E7E2CD4F54
+	for <webhook@archiver.kernel.org>; Wed, 20 May 2026 10:45:50 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.34])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9317.1779273944044076761
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 May 2026 03:44:32 -0700
+ Wed, 20 May 2026 03:45:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@witekio.com header.s=selector1 header.b=qBbNE0gk;
- spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.139.214, mailfrom: hsimeliere@witekio.com)
-Received: from mail-francesouthazon11021100.outbound.protection.outlook.com ([40.107.130.100]) by mx-gate14-hz12;
- Wed, 20 May 2026 12:44:29 +0200
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=gi2jwET0;
+ spf=pass (domain: cherry.de, ip: 52.101.70.34, mailfrom: quentin.schulz@cherry.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Dup9BXUIp4kI+HgCPNaztJlNJKi7P8EmFRJVDWvAYs66M10gyEgsUDM0gUNgzUY7fEJAUcEOxgQFoBwrwvB1RBVK2Da9uuSgDZnqV/XxJU67JlhKt/dSHkB1chJFbWePAnYr+wuMaPzSE1B1QuwJay9/yvnYUARcfXG/BEPFfTFJyyRexpVxc5ZMUaszXhyg1kOIJ3Mq5Kfxlfs+VO82/6HAzDj8O4Z/ZFT2NIP46uakhlWsci9IfdXgAjODzOLMLlEDTQkoFjpHIuiMBfKWPntT4AxSEN+n4c9MPse17uy8GxH00+KoSkghVtpnPx1vRYeOhR+JvnB5Yxm1fo8L5A==
+ b=oX9fNPsN3OeyZ146ojqneYPixLHR4URltXWYFHBacYzrbLmB0q5uI26wYLi26DIK0Z2bhZWN5VSgr1vDB85sSW6nw6ugSzDzk9WyF/XydR/YDhbq9gP8uo8s6afJJfsz8T/hzV0A9mlLJA8/rR2bI2KyOjfLj3IH6e/wqiuiO/I4x6sKCIq9r1aiqegXlc6ZLuHkBQWd4XKiNzeCAGRMdtAhXQ8usaMgWx+SoovIdln1HtvkpjPdVDjmdBSFeYlsDYgZLettJyWzVz0DaVIJnYXHDY+d/VlF7OIXG8nnb6U/yZeD/IJ89jHfouXBv8i4Y7AnKX5Ycxyi8Nhr4XY/TQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XsMvgXGjn/7ZiG6MwpI4pHEaV5fbj8CL40PnPMIf9nM=;
- b=YJeYIn8/TQFjRrDc9JZiHCiSVlMwmdevBnyz/XHTLgyvWhSVO5Orj4MsCOFaKpP39bN9roVs/9lPF+3XtiLuP3bg9qzo+rVXWU3KJeMzKw7vG9wo+QVP1pS931nyEkoqeEGYIRLNPSzaD0VTSrV28RAT7z1Zyy1h1qMwXC1A+Ok2K69/+7H6c/SRMum/5gQ4wJonwqaOqlHb8M12Zv0FlVaxVU+ATZZ7ObMnCh83Xzz6UVtNGDCEpNdZHQLsYWpogUbVQ+zFXEMBQ2ypqqs0uPzZ6HKldhzWkwdn93GEqhOYerdOdY6zA1psUOArGJl3DtbBwthMfjReoIehXcuZqw==
+ bh=1qM1zxbKAy5Ne2KlMRFQ+zwqoIC1996p07bPQj8chEc=;
+ b=IWXn54gE4QPtP21yi086wkB39hqiXuxoPUiDuj4tkNyYJAk/zFUlnb46cZtpbDt4xrzuKmcklYjcjlgRvoBW38+vsuVpWlaa+KnH/izQbYr0VGYqdkC1TpIyEcnq0FqXCXq21BPROZZtkQe+37CmpEHB5iCDKhbGqBV508Gy0D/0BmQaSzIqKC3K5gpCgKCdgupWytvNyqzkejFkCuvBnOJfQlPp7+SpRTOKStH+17yMn1sx1KY/GQP01kI0VKzxlhwxvMJlk8Zr+DkKSk+bIZeyTGN7s9dr+AgUMNosPBDYgq9k8eox7yBHcV1jJvR+9CYESoi/r53oRh7pmdOBYA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
- dkim=pass header.d=witekio.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XsMvgXGjn/7ZiG6MwpI4pHEaV5fbj8CL40PnPMIf9nM=;
- b=qBbNE0gkbfRHjC3rFlOa2wHUaxYVpSS13Ffntu1ff8eNTJ/ibkmO4xfPYt8xg9bVbidg89am9bgyMdqH6e3YbgfacCrbKYwJJS9bmf4dPIZtpBY58pp9aDQsda9LtPAFTuKS8tgD9LOwR+kewM7pdHt3YLJ3hGuyeso0wQfNSjgyv6E5UCfQDkQdC2PeWEJhW/cXrkiPoka0uHSUPC7IyCErGNAz4/OaYAPvq2HFUz3X5HdIhAbACqSL+zkqYDUAbf1SPnpQ1Mjwxk9VqNtXYc0Np/udSwPlD7O8otBjfBnYE8eSQe29jh6Frdr3nQXhNVbFnPeCI+xseoH8A14HJg==
+ bh=1qM1zxbKAy5Ne2KlMRFQ+zwqoIC1996p07bPQj8chEc=;
+ b=gi2jwET0kN+37VPHrqYtsVtDKbIqieYbmw91KwFWIgtdi4nuSHJQIocdQdW8YK2bJGK0aQW1vndmdzFg8o6Ci/AQ0zb80/cPfceYP5CQ6c6kRCTAS8f354sQu7vaHEhr/XQi7AoPu1bBagUweBPesR+myLveMavim26ootIfsxE=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=witekio.com;
-Received: from MRWP192MB3504.EURP192.PROD.OUTLOOK.COM (2603:10a6:501:87::6) by
- DB9P192MB1564.EURP192.PROD.OUTLOOK.COM (2603:10a6:10:33a::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.48.14; Wed, 20 May 2026 10:44:21 +0000
-Received: from MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
- ([fe80::e437:672a:5abc:a0f4]) by MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
- ([fe80::e437:672a:5abc:a0f4%6]) with mapi id 15.21.0025.020; Wed, 20 May 2026
- 10:44:21 +0000
-From: hsimeliere.opensource@witekio.com
-To: openembedded-core@lists.openembedded.org
-Cc: "Hugo SIMELIERE (Schneider Electric)" <hsimeliere.opensource@witekio.com>,
-	Bruno VERNAY <bruno.vernay@se.com>
-Subject: [OE-core][scarthgap][PATCH] busybox: Fix CVE-2026-29004
-Date: Wed, 20 May 2026 12:44:13 +0200
-Message-ID: <20260520104413.3108569-1-hsimeliere.opensource@witekio.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0479.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a8::16) To MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:501:87::6)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
+ by AM9PR04MB7553.eurprd04.prod.outlook.com (2603:10a6:20b:2d5::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.24; Wed, 20 May
+ 2026 10:45:37 +0000
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00%3]) with mapi id 15.20.9913.009; Wed, 20 May 2026
+ 10:45:37 +0000
+Message-ID: <af2b27f3-71c2-4914-a80a-0ba7d92b2cef@cherry.de>
+Date: Wed, 20 May 2026 12:45:36 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] tools: mkeficapsule: Rework pkcs11 support
+To: Wojciech Dubowik <Wojciech.Dubowik@mt.com>, u-boot@lists.denx.de
+Cc: Franz Schnyder <fra.schnyder@gmail.com>, trini@konsulko.com,
+ "openembedded-core @ lists . openembedded . org"
+ <openembedded-core@lists.openembedded.org>,
+ Francesco Dolcini <francesco@dolcini.it>, Simon Glass <sjg@chromium.org>,
+ David Lechner <dlechner@baylibre.com>
+References: <20260513044537.22773-1-Wojciech.Dubowik@mt.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20260513044537.22773-1-Wojciech.Dubowik@mt.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR08CA0220.eurprd08.prod.outlook.com
+ (2603:10a6:802:15::29) To DBBPR04MB7737.eurprd04.prod.outlook.com
+ (2603:10a6:10:1e5::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MRWP192MB3504:EE_|DB9P192MB1564:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5eebd3ed-7a40-4150-cf99-08deb65cc082
+X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|AM9PR04MB7553:EE_
+X-MS-Office365-Filtering-Correlation-Id: b951d0f4-57e9-4635-4b41-08deb65cedb1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|10070799003|1800799024|366016|13003099007|56012099003|18002099003|12006099003;
+	BCL:0;ARA:13230040|376014|366016|1800799024|22082099003|56012099003|18002099003|11063799006;
 X-Microsoft-Antispam-Message-Info: 
-	ys1UlWLJCdRdTo7EMavr0jnDkbVqpUv3pTYe3sPUuIahYwZFZBTXdC2ztF3Bswc9pf2e2obVE7l9V2IsweVSFcCppti153EcOEOHtqT00LnHzcUwsO4f3RwREN873RByfP+UYaKSZKutOdLiJD88DgFMal8D3fK/OZxii5RB73uoyApMQRu+e0SLo4useOKS9rLXH7txqYg85WIGBhpclkJRB5wJUvDWfH+a6DOg15I+U19SlMz0r7zCNCUW/U/uBDv6hDz9obPYMuvybkLSMh58UPwhHqOHWhjWF0R3F4sPcVrfGyRBUJWXdbu9DfZ6FLU2+ygjxyTG09rPl3nLpF+MLX6CAI9hHkbHzSGwAco1IEgpJ9KJAKYaH/IdKpUe9BcQpL2PUMs+Omq6/kPC4X289m8LFdIwJMpeYp5DilWKHd0Fb65iR1K0WZ42cy7bhqj15t9ohfx7G6oXQACiXhXSw64UZZcYE2vFGX4LFF02AUOpYEfQHXvDYReQCHi7o2xJ1Nl+Nxcjdj1ayEm/pSo0OghFwmjX6xgfsrftTlEB0I2jd78Hqlq886IIZ+J8+gEXcC3ASLW0yHoLeUPLeZUJeXvGDPrNejrn67vPq3djEXYVxbma9q4gA0bgE95i+9krXR6R/3rtWXJFaeWg6eKz4NhD8MWoIwl1xH9BpWK6RtAzROIii0/fC153dH20ZZb44f/0daO0mOl00wWbHg==
+	tiwBnOLbLu3q2fNZsSUha35Ccz36y3QErqkOusHRy7ZsUM7Er6uJ+4Upf+2XFOoNgdgyqbiMwzlcfHKHvFCFQzvl/g4mBcmskh0ZKbJ9pZLsFs7DgRcYucs2lzyyp7qcYKmDIBaxRHtaXx5CSJFPA7U6CipBB4ajlLfCpTlDKV8qOXgl3snf13ItaJRdCAeVVcDY/9gGpOw9EO7pEyiu8N43sRIzxFvfMj7+p8XP8/W6kCJMG0AqlYlw26gV2tzgqH6ly43PGsRDxlYtSdto8LcZUjPNYULwEKM4x/FsGh6vr1flnSLc8y4AkVXf226dgDcsXgm7UJgK88hQrg9mD6QAwoz1z/70oY9NH1jH+qFLZ31Xcvbm/VG2g+GRs6HoCHVedanFL2Z02RHwGpxN/0/kQQgbFE79ASB5zde38LIrovUvpR4Cc2mXaZVpZgJ2BH3nqu+cPv7hZ6q7zFAqsko2C+4yZmXT6c3GThYvLuNWFPxE93zysgbvbPyeP9dJSAh9dZ2+6W9QLL0uKxxLbgghbJdIcZnBmO74f/gPWSChfENdqNU8j0xd+f/MEjMquLN/WtQZAfK8d/3dTx4sUG1LF65d+j55bH+IUCQNvNpp+H9LVVAQBRQCIo1+rY1Jh9UCE9x5IZ0avd8dyS8l8758yX77MxgemA8N3ekpvxHBu2+ohX1JyCu0v4mLJi0b
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRWP192MB3504.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(10070799003)(1800799024)(366016)(13003099007)(56012099003)(18002099003)(12006099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(22082099003)(56012099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?8gklWdOYVxN93P0Pw113NZ+wFkH8Z2sJLapFrxSVXEgpdQYVCdKJLYThep2A?=
- =?us-ascii?Q?2JRm2BqDXRCFb7kymss38gLyCPAe07rCCz+++IyHtsONepouv1B2cCtC2LPx?=
- =?us-ascii?Q?Rx5gUq+ReUm3JwXwR2Gz5dIJ/1R9UDX7L7TFDe22QkqIfBOTbVWxnhWR3vY5?=
- =?us-ascii?Q?DuaUj7LMeOl/x99erJgm4rFjIZIdY6clPdJ5ivPJ1YTiDUu2LY8qBGuyjih0?=
- =?us-ascii?Q?H+GjI7nUeu4G5y14S3OW0vJhUH9fgHDjY+/C3UqQDKPMCLl8Js0o0Zage1N7?=
- =?us-ascii?Q?Lh1rgTmcloWplyjVKNYZF2FsSI6skJ/PmdF2/c7p4XLxhVZIZ34y7lxcA9CB?=
- =?us-ascii?Q?kMvX/YkSNIrTsj490axOhvXoIUZisnBq1rhV2Rn7ySF63wmqZ1Bl8yT0myrI?=
- =?us-ascii?Q?XDm7vZKyugC2pRxxPVaagadnHI1eSPuaJHUkOoDZsAimad9aIp86IcoA/o8c?=
- =?us-ascii?Q?QGH8O0ZXNhSPHzeYagfp0Ja6lpsjsGRuv4Rg762gWHPvccdQ6AiHqbprT1Ro?=
- =?us-ascii?Q?WvloDB2Ebb2XbFNvUyCVpJBBZF9vC7MaUsTVAyayxCQzzn+YpQxYNElTqXUG?=
- =?us-ascii?Q?fBn7ugmlRStg7AE1EE5zlIbS7jfUjwl0qR8YwKJkSOsPdzRBrcWw8eAKMuhe?=
- =?us-ascii?Q?4D142QcLXTXST9DLcQUM57wvekUS0+sJ86QxP8JlYCR0HdKBOysjrlmuE1J9?=
- =?us-ascii?Q?tMDSKJqpQ1/Upi4PQQZ/mqsWwdQgwf8cnUI5q1OuiwCRaKsCzopdXVRiYlWT?=
- =?us-ascii?Q?+pFyD9FUUOpmt/ZD4sXiM1OYf8gDMmQCFIwWA0qsju5xVP1a1A5B3ppPTOzX?=
- =?us-ascii?Q?GdfTnpB+WltuNz214pZo5Aftu836CYwK1zNCgp3cf5FaKFb0PTu9WU+K6Hst?=
- =?us-ascii?Q?apWg0ID6GS8Ik87X9sslrTDnQkef9PhChCfSHe7Te5rhJ+gZSX0gtPNEr9Hk?=
- =?us-ascii?Q?KFOzYMyBWuiAqeGS+XmP9EO8cgyjn4AZILb+0is1+oNNZDFGleWZdZoBZ0rs?=
- =?us-ascii?Q?rUOMuXPdN9/RywrbPpg22bJeY+LkNFCkiW/8WbGpNRORBkA/F3aRwmGJ/Ud9?=
- =?us-ascii?Q?FH7bkjme+7HZT4b6oUSnhDtNJJPH/itmpaceHLPUWFZswEOchSuMp8zThVoP?=
- =?us-ascii?Q?buyDdgjDYwtrUYx58b109y/kAxKWmzOJfWqNAx4Ryn5RMTUTrqobDopyuFmw?=
- =?us-ascii?Q?QuGRR01Ocu1VnW/rdhCPOoE1xXYeZg8GyOiVt5Dkt4PDbuhHwRMMDtrTqJ+L?=
- =?us-ascii?Q?4Iy40zw5WcT3IAdmqfOQDaTIJEh/EgZBc2ALyZlQ9xw5U7yS9IIx42WWeuYv?=
- =?us-ascii?Q?OKSK+NjbQynHden2pGcgVZET5ZAe5qcW0IKhymIPnlN67tyLiai7jhnf8+Yp?=
- =?us-ascii?Q?IvOWptzK0kfs/phZ0j+9Cpk4Za1Tzaogby1jfxfABXco3oi34G8QL8aL6uSa?=
- =?us-ascii?Q?ve7WyEuBjr2U44kJZoz7OfW5K4OnyPYRQ69MHvGmLaQY4OcVECf3iJwt6Mnu?=
- =?us-ascii?Q?Qvah0XTG8x8w3nCLDZHuL6U/yWgaN2h2aLwnL3YPlEPdo52LZVUNW7Lc6yYw?=
- =?us-ascii?Q?5oD673OTLybzzo6VdgnI+pJEcmV28utKty86jvkOfeUNdPTZiU21jPayaOMP?=
- =?us-ascii?Q?+YHuOF9jUhAnZ9Yh1SNksOsogVFU95HRqXGsM9QZxk32cfu+riAsOdk338db?=
- =?us-ascii?Q?3BCajz3afzdwSzqDLhP9MBzpg1o32lKbbShp2CC7DjugpFmm7bSf7ZJWj3/+?=
- =?us-ascii?Q?xYmHezWyWexe6iQa0qEQ/POFG0JR4sVD3nKgmgUiUl2vuuLxjqKegdSLOjdZ?=
-X-MS-Exchange-AntiSpam-MessageData-1: sjO4knuX8sV+Lw==
-X-Exchange-RoutingPolicyChecked: 
-	B5P4bHbBRtQLBmOV8BSmlQ/MgdJ/60YFU/20CxlbqyE7Cn2TlPKTtLt349kO581UBZw7UWDrxsyluRCiijH1KfNDGPCzfVQo2h+AztwHLjclmmfp9+Og58KTLftZc8D7gl5rZCkMWTcKfPSVeGaG9oIRUcOZ5htww9OLLGAPrgtSb3TVqMCIXQryQRCCT7HVUc6vSaakA9J8YsBnGM0EmKA2r9kzE/ZRYDwanCccazfR944t2Jx0CwoIUiaTHzq795OeTeHfcoaBSz3ghGYlyIQvyeQcyDja/TmHxT6CdPg4b2eLaI6TonvOo3i1+KAVQOm1HXStrvV/oD1h1aRkxQ==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	ylN9UZrClg7aCJLa1BFu7NDAhgyd14yLSl2kB0awFrttsMsC1JmEXmblHrxcSx9cPBUdB7zIfdQPZVkhMZa/xXc9FXTnabHhcDnJ/CtBgw3k1mc0DOZGx+0QPGoBl+hs62kebtK3GIxBToMRrL4PU+xpZlG28lhHyE/4lgxTEGOlcXsy4VCPI7HVr3g3Clm9IUWm+rNyMk9wC7i86Ed3XtTjwVB9OV+hevSvF6r37cmtxW+nOyIOmYqY3681lAzVMG9f6UK7fIj8ovzsegcJ00Dkw+3UtdCVD6JPTIWDVjnAWtruvFxYiA+BihxoQJ0ou52zDc3apRABfAil3hljO1DHkdS04Muhsg/0a0QP+hiK3Xgfo2jJTpljnKFFpZO96jsdqGJNM01GKW1tr+tPOV2PGQX+VtqHSyWmUflXacqYS8KgWqa75shnADNeoMZQWApPFKEyoOsbeoLujbjjpQBDUUTno5Def6nICqHIMLN5xvDWBbytiB8EZnv6KE6B6nVWnJPe9TPmfhRUOG5rEnmopa0wwXtK8z3Ffi9/BpWjjovg4QKHBdAas4D0vzX67VwAqn69T/CGqUKXDooTm8F1dPMu9hZ4uGNphRpH1/P+i6ube7tvpzVXY+SS5rKw
-X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5eebd3ed-7a40-4150-cf99-08deb65cc082
-X-MS-Exchange-CrossTenant-AuthSource: MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
+	=?utf-8?B?RnliV0Q1eGhHaHhyZjgzd3M2SEpkVzJ4SWtCQTNibDlaTm1RbzZ2Ym5ZYTNt?=
+ =?utf-8?B?WGJ1clpMaVNBeWJuaEg2TG9GenpzbjdMZGdlYUI5b201ZGJ2ZDE1alQwNlFo?=
+ =?utf-8?B?c3hMWXNIZGRlSFVvZ1FzdzY5K0lpTms0KzRqL2VRYUVTa2piVGNRYmJveWtU?=
+ =?utf-8?B?L3ZaZmkzMHE2WnNFWTBSUnIrVXBOZlozTlFFR0plMXB2eE9ESnFTdVdGVjgz?=
+ =?utf-8?B?UjlGeGYwcmdHemllRGtyYU9KVTV2YS9MdmZjTFd4VHN6aTNXZ21VL3FMMjIw?=
+ =?utf-8?B?RkZkcTJBUU0zdklkdUplM3hnVWVxTjBmbndsc1F1cDY1ZlUwdlN4cmkzdHRG?=
+ =?utf-8?B?blBlVVNXYlhsblRKVkViNnFhSVF2WXd6L0pJYmJTTG5Gd0JkNG9XaXRLelVU?=
+ =?utf-8?B?SXFMRmdzc0d1L1hkYmJJalU3MG0wdTI1TzkxUVV1YnRmM0FaaHZXeU8zZVdm?=
+ =?utf-8?B?dFRxNVpTZFVubHAvVG42WkJCc3FWTGFVK1ZhQ2JHMmtOc1pHdzA1bnNxdmpT?=
+ =?utf-8?B?Q1ZFdW00TklOeDJRYmlmclE4RGFVZ1k0TWNob0dwN2lnQWlVOGVRS0NLdDR5?=
+ =?utf-8?B?cm9Kc0hlcnVjMjVxZ1VQMytHbUZ0NlRYaFZ5Wm1oNzZIc3ZFekI0RTBQa1VT?=
+ =?utf-8?B?cmlGNGhaYkZDVkRJQzV6Qnk3RVZEK2RUQitqSEc1ZEVkRW5pYVEyYXlyVUVU?=
+ =?utf-8?B?YWlRcUM1YVlpYkdwRlowUGhsS0RKUy94Vzc0YmFHNWVMWGdIemFDRHQrS0lF?=
+ =?utf-8?B?N0NQMDBFOFRrSG4vMHpJcXdWWi9nZE1LMk4xUnFHSWR3bzFkcjBDWnpxeTA3?=
+ =?utf-8?B?UTJiNDBabE9zTzVsMjdHZTk4Z01YdkF4UjlHVDJDSU5ZdThpMFVTOHUzSnFT?=
+ =?utf-8?B?bUZ1YW5RcGhCTzhTekx3WllIbWdjbE5EcExiWUVoZERCSXJnTHJxVGEzeHAy?=
+ =?utf-8?B?b203L1dmWG9UbkJ2RWRxWWNwdlAwdG00c3pJeWRXdjBOdUs0MDVJS3psSEN1?=
+ =?utf-8?B?YmZaQUNsYnBGSjczalpCTTlnQ0JCNUlhQ2ZIK285YUlUb05WWTlpZElLN1Q5?=
+ =?utf-8?B?OWg5d2FLby9kZnhacEF4cjU4YWovWTlvRFI3YU9nZ0gvTm91ZnZlR3MvQXpx?=
+ =?utf-8?B?VWxpYlFsV1FKdkRHd2pWRHh6OHEyK20vcE9Ca2FpcHQ1OEJka2ZvU0FLZ0Ez?=
+ =?utf-8?B?NGRuNzMxMFh2QnM4NXNDeDM0emZra0ZqVmJsVFZteG1mbHVuaFIydTZ2Q2pT?=
+ =?utf-8?B?QThTYVIxQ1FmN3NPNmdGUzdTUmlveGlyUnJ0WG5vWWQ2bVMvUk9rSURWaFA4?=
+ =?utf-8?B?QVJ0bnBUa3pab0YrU2JmTG91TFVsbHR6Uk04S2syVUNNUVpvSk1SZ2FrK0NG?=
+ =?utf-8?B?Ymg0L2tRaDhrczNqUWlMNndpaDlpYzVrUUlGUGdnMWpsdHByZ0srREgraDNT?=
+ =?utf-8?B?bVdXSTZDR2twTXdWV3NsRmFyRDNTNFo5RFVoVjBqVkttS1hta1BqZFNvbTMx?=
+ =?utf-8?B?ZlFTTnBZaXpGL092WVJQUUEvamNWWkdUTFJsQnlPU0hVUk1yUnphWEkraXpr?=
+ =?utf-8?B?d2s0VWJmdWozY2ZUTi9DYmZxa0cwQVdiU2R5RHhCZjkzVmE1OTNRSkgxLzkw?=
+ =?utf-8?B?T2JIb2NLRU8vM1hxalFBZFVrS2NPUnFabWpSNG1GdHdTc0FOTERKMVN0OC95?=
+ =?utf-8?B?VnlQR3lPbWFHMkpCZ0tvbnM0NVlqdkcrb2h4OEJaRzRkYXNMRWpZSUc5ZnJ2?=
+ =?utf-8?B?UXJrS0NZblZ6SElNT0hsaXpUQndITUtsRTVybU9WUzZrak5UcFR5ejNTeFVm?=
+ =?utf-8?B?ZzVBWGNEbUZlSkRaUDN3ZUs3UnROak50QW5hWndLb1I4bFNmdmtkcE12TzZV?=
+ =?utf-8?B?cWYwcmMrbkw1YWdNdVkvMXMxaDlDSzQyK2gxR2daU0JVMzlMR1RBVlRGUEty?=
+ =?utf-8?B?S1J2STEzN0xmZHNZRHVoMTJmYzFXNVlNWWVxZGhqRjc3dm5aZFEvME5nZWIz?=
+ =?utf-8?B?OStxNFV0M1JCVzVDV2NrZWgyWURpZ3RxTzgvRytoaVV1U3NTS1ZZQzlLYjlW?=
+ =?utf-8?B?ZWVPR3JKbisvVjJBb0g5Mm9tODM0YkJ2MExHSk9LdUtQcStaSXlaRExZYUlI?=
+ =?utf-8?B?TkhSZmlzbGNNTkF3L29zdUhZazRhWnB6VGtGVVdKRXhIMUdha1ZuazJqaGU0?=
+ =?utf-8?B?REwzM3k4aE9NQkx0QmhRM0lKRW9uakNRODdoT3hQNVBqTjZnSWtFSlBTRnRE?=
+ =?utf-8?B?bVJjMDZVbW5WMUxXWVhvK0puODRnT1hFUFNOREs2bS9UVkpjSEhQVmhvTzBM?=
+ =?utf-8?B?VVA3TzVRbTAxOHBsNnRlY0tHNFUyM3BXbGxId3pTRFlsYkRxVGZYZz09?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: b951d0f4-57e9-4635-4b41-08deb65cedb1
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 10:44:21.7856
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 10:45:37.5471
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fsY4ZvgV4Q96J5ORGvRqaRbygxqCPOlcXAavzMzcZ3liWHNltXYJ17uGS9l1id0Xg8qYaw+5tAfWXwyJdTDv3A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P192MB1564
-X-cloud-security-sender: hsimeliere@witekio.com
-X-cloud-security-recipient: openembedded-core@lists.openembedded.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-Mailarchiv: E-Mail archived for: hsimeliere.opensource@witekio.com
-X-cloud-security-Mailarchivtype: outbound
-X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate14-hz12 with 4gL7T42yn9z1spmG
-X-cloud-security-connect: mail-francesouthazon11021100.outbound.protection.outlook.com[40.107.130.100], TLS=1, IP=40.107.130.100
-X-cloud-security-Digest: e4800bc9bdc5ad86f184d1d7539840d6
-X-cloud-security: scantime:2.337
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4joMv8Khk0/WKTT0Qub04V1vJ6jy1K1XIZToDpyKDoBzcKH7MERCdW6BcJQE9olHqkd0oV2e6JLlCFzfoe0OmukhWsFkpYdqV4QOcFHj8v0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB7553
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 10:44:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237443
+ <openembedded-core@lists.openembedded.org>; Wed, 20 May 2026 10:45:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237444
 
-From: "Hugo SIMELIERE (Schneider Electric)" <hsimeliere.opensource@witekio.com>
+Hi Wojciech,
 
-Pick patches from [1] and [2] as mentioned in Debian report in [3].
+On 5/13/26 6:45 AM, Wojciech Dubowik wrote:
+> Some distros like OpenEmbedded are using gnutls library
+> without pkcs11 support and linking of mkeficapsule will fail.
+> It would make maintenance of default configs a hurdle.
+> Add detection of pkcs11 support in gnutls so it's enabled
+> when available and doesn't need to be set explicitly.
+> 
+> Suggested-by: Tom Rini <trini@konsulko.com>
+> Cc: Franz Schnyder <fra.schnyder@gmail.com>
+> Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
+> ---
+> Changes in v4:
+> - abstract pkcs11 init function
+> - removed unreleted cleanup improvements, to be sent in
+>    another patch later
+> Changes in v3:
+> - remove config option for pkcs11 support and add auto
+>     detection in Makefile
+> - reduce amount of ifdefs by abstracting import pkcs11
+>     functions
+> - add missing free and deinit functions
+> Changes in v2:
+> - make use of stderr more consistent
+> - add missing ifndef around pkcs11 deinit functions
+> ---
+>   tools/Makefile       |  5 +++
+>   tools/mkeficapsule.c | 99 ++++++++++++++++++++++++++++++++++----------
+>   2 files changed, 81 insertions(+), 23 deletions(-)
+> 
+> diff --git a/tools/Makefile b/tools/Makefile
+> index 1a5f425ecdaa..e85f5a354b81 100644
+> --- a/tools/Makefile
+> +++ b/tools/Makefile
+> @@ -271,6 +271,11 @@ mkeficapsule-objs := generated/lib/uuid.o \
+>   	$(LIBFDT_OBJS) \
+>   	mkeficapsule.o
+>   hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) += mkeficapsule
+> +GNUTLS_SUPPORTS_P11KIT = $(shell pkg-config --libs gnutls --print-requires-private \
+> +			 2> /dev/null | grep p11-kit-1)
+> +ifeq ($(GNUTLS_SUPPORTS_P11KIT),p11-kit-1)
+> +HOSTCFLAGS_mkeficapsule.o += -DMKEFICAPSULE_PKCS11
+> +endif
+>   
+>   include tools/fwumdata_src/fwumdata.mk
+>   
+> diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
+> index ec640c57e8a5..132bba286e4c 100644
+> --- a/tools/mkeficapsule.c
+> +++ b/tools/mkeficapsule.c
+> @@ -207,6 +207,75 @@ static int write_capsule_file(FILE *f, void *data, size_t size, const char *msg)
+>   	return 0;
+>   }
+>   
+> +#ifdef MKEFICAPSULE_PKCS11
+> +static int pkcs11_init(void)
+> +{
+> +	const char *lib;
+> +	int ret;
+> +
+> +	lib = getenv("PKCS11_MODULE_PATH");
+> +	if (!lib) {
+> +		fprintf(stderr,
 
-[1] https://git.busybox.net/busybox/commit/archival?id=42202bfb1e6ac51fa995beda8be4d7b654aeee2a
-[2] https://git.busybox.net/busybox/commit/archival?id=d368f3f7836d1c2484c8f839316e5c93e76d4409
-[3] https://security-tracker.debian.org/tracker/CVE-2026-29004
+We currently use stdout for this. The change is fine, but in a separate 
+patch please.
 
-Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
-Reviewed-by: Bruno VERNAY <bruno.vernay@se.com>
----
- .../busybox/busybox/CVE-2026-29004-01.patch   | 41 +++++++++++++++++
- .../busybox/busybox/CVE-2026-29004-02.patch   | 46 +++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.36.1.bb   |  2 +
- 3 files changed, 89 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-29004-01.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-29004-02.patch
+> +			"PKCS11_MODULE_PATH not set in the environment\n");
+> +		return -1;
+> +	}
+> +
+> +	gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
+> +	gnutls_global_init();
+> +
+> +	ret = gnutls_pkcs11_add_provider(lib, "trusted");
+> +	if (ret < 0) {
+> +		fprintf(stderr, "Failed to add pkcs11 provider\n");
 
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-29004-01.patch b/meta/recipes-core/busybox/busybox/CVE-2026-29004-01.patch
-new file mode 100644
-index 0000000000..0423a76730
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2026-29004-01.patch
-@@ -0,0 +1,41 @@
-+From e49fb0f6ad0a0f924ec2cfe6838d04c4f1f4c3ba Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Thu, 12 Mar 2026 07:25:38 +0100
-+Subject: [PATCH 1/2] udhcpc6: fix buffer overflow
-+
-+CVE: CVE-2026-29004
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/archival?id=42202bfb1e6ac51fa995beda8be4d7b654aeee2a]
-+
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+(cherry picked from commit 42202bfb1e6ac51fa995beda8be4d7b654aeee2a)
-+Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
-+---
-+ networking/udhcp/d6_dhcpc.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/networking/udhcp/d6_dhcpc.c b/networking/udhcp/d6_dhcpc.c
-+index cdd06188e..62cc0f466 100644
-+--- a/networking/udhcp/d6_dhcpc.c
-++++ b/networking/udhcp/d6_dhcpc.c
-+@@ -351,15 +351,15 @@ static void option_to_env(const uint8_t *option, const uint8_t *option_end)
-+ 			addrs = option[3] >> 4;
-+ 
-+ 			/* Setup environment variable */
-+-			*new_env() = dlist = xmalloc(4 + addrs * 40 - 1);
-++			*new_env() = dlist = xmalloc(4 + addrs * 40 + 1);
-+ 			dlist = stpcpy(dlist, "dns=");
-+ 			option_offset = 0;
-+ 
-+-			while (addrs--) {
-++			while (addrs-- != 0) {
-+ 				sprint_nip6(dlist, option + 4 + option_offset);
-+ 				dlist += 39;
-+ 				option_offset += 16;
-+-				if (addrs)
-++				if (addrs != 0)
-+ 					*dlist++ = ' ';
-+ 			}
-+ 
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-29004-02.patch b/meta/recipes-core/busybox/busybox/CVE-2026-29004-02.patch
-new file mode 100644
-index 0000000000..ac8c031cc6
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2026-29004-02.patch
-@@ -0,0 +1,46 @@
-+From 4d8d5b7c4426e62375235cf4903b6cb53bb193d3 Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Thu, 12 Mar 2026 13:23:48 +0100
-+Subject: [PATCH 2/2] udhcpc6: check the size of D6_OPT_IAPREFIX option
-+
-+function                                             old     new   delta
-+option_to_env                                        694     711     +17
-+
-+CVE: CVE-2026-29004
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/archival?id=d368f3f7836d1c2484c8f839316e5c93e76d4409]
-+
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+(cherry picked from commit d368f3f7836d1c2484c8f839316e5c93e76d4409)
-+Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
-+---
-+ networking/udhcp/d6_dhcpc.c | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/networking/udhcp/d6_dhcpc.c b/networking/udhcp/d6_dhcpc.c
-+index 62cc0f466..64a41c9d8 100644
-+--- a/networking/udhcp/d6_dhcpc.c
-++++ b/networking/udhcp/d6_dhcpc.c
-+@@ -287,8 +287,8 @@ static void option_to_env(const uint8_t *option, const uint8_t *option_end)
-+  * |                        valid-lifetime                         |
-+  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-+  */
-+-			/* Make sure payload contains an address */
-+-			if (option[3] < 24)
-++			/* Make sure payload exists */
-++			if (option[3] < (16 + 4 + 4))
-+ 				break;
-+ 
-+ 			sprint_nip6(ipv6str, option + 4);
-+@@ -332,6 +332,9 @@ static void option_to_env(const uint8_t *option, const uint8_t *option_end)
-+  * |               |
-+  * +-+-+-+-+-+-+-+-+
-+  */
-++			/* Make sure payload exists */
-++			if (option[3] < (4 + 4 + 1 + 16))
-++				break;
-+ 			move_from_unaligned32(v32, option + 4 + 4);
-+ 			v32 = ntohl(v32);
-+ 			*new_env() = xasprintf("ipv6prefix_lease=%u", (unsigned)v32);
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-core/busybox/busybox_1.36.1.bb
-index 228bfdadd3..7929d396c8 100644
---- a/meta/recipes-core/busybox/busybox_1.36.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
-@@ -64,6 +64,8 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2025-60876.patch \
-            file://CVE-2026-26157-CVE-2026-26158-01.patch \
-            file://CVE-2026-26157-CVE-2026-26158-02.patch \
-+           file://CVE-2026-29004-01.patch \
-+           file://CVE-2026-29004-02.patch \
-            "
- SRC_URI:append:libc-musl = " file://musl.cfg "
- # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
--- 
-2.43.0
+Ditto.
 
+> +		return -1;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context *ctx)
+> +{
+> +	gnutls_pkcs11_obj_t *obj_list;
+> +	unsigned int obj_list_size = 0;
+> +	int i, ret;
+> +
+> +	ret = gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
+> +						 ctx->cert_file, 0);
+> +	if (ret < 0 || obj_list_size == 0)
+> +		return ret;
+> +
+> +	ret = gnutls_x509_crt_import_pkcs11(*x509, obj_list[0]);
+> +
+> +	for (i = 0; i < obj_list_size; i++)
+> +                gnutls_pkcs11_obj_deinit(obj_list[i]);
+> +	gnutls_free(obj_list);
+> +
+
+Those three lines are new, please have them in a separate patch.
+
+> +	return ret;
+
+So far, we've ignored the return value of 
+gnutls_x509_crt_import_pkcs11(), so please do the same in this patch. 
+Another patch for checking the return value can make sense (haven't 
+checked).
+
+Looks good to me otherwise, thanks for working on this!
+
+Cheers,
+Quentin
 
