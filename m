@@ -1,161 +1,277 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C26A5CD5BAC
-	for <webhook@archiver.kernel.org>; Thu, 21 May 2026 10:25:28 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33280.1779359123545826789
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2A07CD4F5E
+	for <webhook@archiver.kernel.org>; Thu, 21 May 2026 10:25:38 +0000 (UTC)
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33453.1779359131193570327
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2026 03:25:23 -0700
+ Thu, 21 May 2026 03:25:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ericsson.com header.s=selector1 header.b=N1RmrlBH;
- spf=pass (domain: ericsson.com, ip: 52.101.72.31, mailfrom: daniel.turull@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=B42K9EopwltDLx+O3DjjJ1p1f66TE7FWbHwiCVe/lB/l08j2piZjfiyQREimX8fnNQjRJnIKg+BMqHJpZ4T1tAg34+pPzFLCaNd8YC7esiHwhb9K1jjiMs/yGLXnuxFPPgC1F1g1C1m/6X88dod6T6wSW/2f2nqwVixQ7xnZ7iwFcSh798EGNqr+OIteqFZevZnW1dLTNeJuKGI/xBfgSQzJEMeGRwy39XDVwO/EGHReksadWwQveew8azk64Otio5Iokxg8Nwf6VJJWV2iFeY4dgc+2EskUlEbKPkJYBAl9APAh+58nX6hvQvOFbNdAfpKo2yy68Im7BZIKX8DoXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AXyrx/yVGq3eNNcT9fHV1sxdjcsCiJDf+bJGe6R8WuE=;
- b=Ss32dKMT3LdYvZv1y0ymXwCBCz1kNIjMz56jutBSuJ9h9gBjHPKIqPR3HHamreC8UEwT/Z6uOPjDz06RJnLcK+k7cFT54aVfTroC2Qh+jNvGpfgIyapHc2Xub1LgeBcPu8FgV6BvyQqpdaWb/kit9cNnLDqPIBcVQr+tZ0TorXNYvv/m648sS+Rmn/bMsztNv1nnTtjIz6dE/k3uITWJdUmjvr0GBteKwuytjiiZIjdkXqBtIOUYpSXAmT6J1Te6LSzU3WA2SwAlEwi1niJlEq1jtNImhkmIfbAkEIdA3+4tz0c29LVqlkr68qiLyDtp0029YxK6rbnnk/e641NaRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
- dkim=pass header.d=ericsson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AXyrx/yVGq3eNNcT9fHV1sxdjcsCiJDf+bJGe6R8WuE=;
- b=N1RmrlBH4W1JBzPr3qoxijvB5ql79Tb7BoXsy0fTqZJ9OiltXMYQ4c8fkTnOye1B3idxurX6YqV5HJvXa0ZmyCYDZfo4huyNiX8JLcbV7XepLfFZc91guv/JBUAnPeKtgDA+5ED2EEOjsBeeL6Wuc4LzbrF8sD/SCve2yjX9Z7lAZKhoE25JtZWri8LZyjrHmSs6fZYWJaXWmcnr4qwf2thzTi2P1C9ZTYP52le4Y7iEAZCOrJsEAQ/tFt/DIoQjxomeUzNxRrOi9erWxs8BTARW+8zEKzVeqXjzudYgxE6PRHnlfPy6nTRSn4MUX+dRu9Rmb02j7HHwSkBiF9i6cw==
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
- by AS1PR07MB9648.eurprd07.prod.outlook.com (2603:10a6:20b:471::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Thu, 21 May
- 2026 10:25:18 +0000
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7%7]) with mapi id 15.21.0048.016; Thu, 21 May 2026
- 10:25:18 +0000
-From: Daniel Turull <daniel.turull@ericsson.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "ticotimo@gmail.com"
-	<ticotimo@gmail.com>, Tim Orling <tim.orling@konsulko.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, Ross Burton <ross.burton@arm.com>
-Subject: RE: [PATCH v4] devtool: upgrade: extract changelog between versions
-Thread-Topic: [PATCH v4] devtool: upgrade: extract changelog between versions
-Thread-Index: AQHc5s6W6ed30615g0Sv9IRu2gWVD7YYSI8AgAABdBA=
-Date: Thu, 21 May 2026 10:25:18 +0000
-Message-ID: 
- <PA3PR07MB1072144F3A9A22B216961FBCB8A0E2@PA3PR07MB10721.eurprd07.prod.outlook.com>
-References: <20260518135925.2579226-1-daniel.turull@ericsson.com>
- <CANNYZj_b1FwJ888KMGpMSvBHQTWw6ns_M83Z3hn5WQHbi-_WCQ@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj_b1FwJ888KMGpMSvBHQTWw6ns_M83Z3hn5WQHbi-_WCQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ericsson.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|AS1PR07MB9648:EE_
-x-ms-office365-filtering-correlation-id: 07dcfe17-1be2-4661-7f0c-08deb72341ca
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|376014|366016|22082099003|56012099003|18002099003|3023799007|6133799003|11063799006|4143699003|38070700021;
-x-microsoft-antispam-message-info: 
- 9ZWFOEWuMF3DixBbfKWei8OFIRrofQfbjhQWjtl6mf615OpMOLWqiEcho6gdq4FN5151LIB5ZW7o1avPcdma6eVM6JolxIjTYG906SyEJhxjhReJIW8xrxnXLrFEYd4Xzk/xfVs73w7f1RTcoXv1dL2njLFN7S7eoxZMsJgFNAaPO23zwlHrwq5MrfzOg/Em7pXhcnuvlAQuUhjMb6XKbRnsg/Ix1tQoHUtPsHQUfSoYyo8FBPCIUMdWULBCi/CSdJr3KCYHtkY9Q9FHjaku9dBR5ycOXdRsqkpxORDx/W+FfhHDYxN1mhUHPZlj+BQE7WN3h6F8Mmh99OxOy6PQnO5oGXr5eKSdIAK75Qq/HlBb/+jCRgRADbfRWOI47Y0LTRWtqnY48EBgpww5nwwRgx/cf6TI0lHICYHHEi3GXDtF+pxcc0I5LIO+2f7Nh/Ws8NBGytBrtdubl5dgZ4gto+TS3xTt8PlJF4mEYKL5271Y2XbKUKDm77ENnhGtoFqu02wKzp6QMPHQf2OAFwUMtwbznhE452Gj61fIFO8b4XWKnEDh0eRvCeRIcKklG2//phjIklbRdsdOJVvC5P/gO5xr9khK0zCh6kp7cyd3U21gk9lai8msJ+s+NTeKn0W6bMzw66nkpWAxh7AIk8oZ3QoCWj2U9MhkjVLaAE9WsleKpcX2ggIfOWEodeCy0Ol1BIC8E++hJsfA+ylHtD4qWP2yzgw3SngVZ4xxGBKMxN/fDw1IFkzY6YaF4q/V0x59
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(22082099003)(56012099003)(18002099003)(3023799007)(6133799003)(11063799006)(4143699003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?ekRlMkJaVXdoc2gxRXhSb3RYY1BSa2I4Wm5EZTZXWUN4bFZLRUNyZGVoeVo5?=
- =?utf-8?B?M3dxMURSWDBTZndQMVlZQUR1ZFpkR0ViVWR1SEY4ZjB3aDNGWkkwSk12eWFx?=
- =?utf-8?B?V09GUEhkQ3EzT1ljTTBzRmVuY25iMzg3a1NiQ2tUanhLY3hsTEJaak54djFK?=
- =?utf-8?B?cXFKODErbG8yelJxWEg4NzNuV2ZoUjNHNnQ1UkM5YTg4OVBDTFdkTmd5WStN?=
- =?utf-8?B?UmdJbVo4QmllQm1nZGZMQUhTNHNKUmpYZUVzUHNKL1dRS1MxZXNGMk5JTHBQ?=
- =?utf-8?B?elNnR1pHa1VOM0V2NVlXMGlxSW1kVjliN1FVKzdmdnVmb3VJR2F6K0NCWmdx?=
- =?utf-8?B?U29lMldGQXJvNTEvK0F1dGVCZzB0Q0pxRFV3TmowbmE2OGRRbXdGQitqRWZQ?=
- =?utf-8?B?K2FnZWEvTy9qRmhNa09EaUc4RWVqZStTY21SUGNBWnQwUGhtZmtzQ1FZSXpG?=
- =?utf-8?B?MnRTV2FTb01jcG5KbFZ4VWExOFJjK3hUaWNWZUdmQm02SjdOK1Uzb0ozUDcv?=
- =?utf-8?B?cGtQTWxFc2ZQK3JLdkRSWXM1MTVFQzA3bExvYVdjMWNUcTJSWG9Fb0VXeHc3?=
- =?utf-8?B?bzRMYi9HYlJWRzJLbTM2d3ZsMHdQN3RSZGdrUGtPRHAvUEtXUnRGb0hyKys3?=
- =?utf-8?B?S3BSUWVjeERxbjJ3bzV1cFUzaEJmUjN0UWtncEhlLzk1NFNaU2VBeEhsSFBo?=
- =?utf-8?B?QnczTkNxa081VDlXTDk1R2JTWXJiaExrREVYRUh6UHJCVFJQMXMrZHltMDlu?=
- =?utf-8?B?KzdtS3BZWWtUMGRZNVpyODhzVmxNWm5SVUpLR1JVTDRURWNBTG4xZzZsVFdE?=
- =?utf-8?B?dW5FbHJHUEF6VWFLMWswdEJia2JCNkx6dG95NkQvdFNUWXZ1dkFnNCtkbHlG?=
- =?utf-8?B?aEQxTCtrVlBoWU9HM0FrRExqWlN2OW81QWFjZTEvcUFtNG1lUmJoME9Ga210?=
- =?utf-8?B?OWxtWlQ4WVozb1gwSFFJUFdGci9vOHFWQXVIbnRkRFQwb3hLUGtiV2pjNVFu?=
- =?utf-8?B?amlHRHA0amFVVzZhSzRaakIrRmhiY2laUkRpaHlSRWVCK0JhTzByZ3hxSzIw?=
- =?utf-8?B?M2tYQ2traG5sYjVud09wbVRmQTE0UVlTTENoN1J0Wk9hQWxvL052V21rMEl3?=
- =?utf-8?B?NzNuUzhrR3lmUzVtNG9ac0hrdzZpelppdmpLUkVUeGhoakJmNlJDNzdnOW9j?=
- =?utf-8?B?WEhDNkN6TTk5djVpazNlWm53bGFlUUNWeXBoOXltV25MbVhEeEZFYkZQUmFq?=
- =?utf-8?B?T1p1QS9GMXJ4SmVpSGdRalVjMEV5NXVIQzgrWnRFMXRZdy9iU2lpdjBTTjBU?=
- =?utf-8?B?NHd1UERyZ0x0Y05XQktVY05KZ3NiNjdQdlZJMVJ3S0FJb2kxbUhzcWdLeUZr?=
- =?utf-8?B?N2gzRjF4azdXclB0dlJpdmlQY3BDZHovOWJacE1vTnR6YXA2RWQyQm1HaFdh?=
- =?utf-8?B?b0RYWmNnOTh4dXR3aHlselY0OG9UbGZaRUJCdjFmeE1sRjhWcmdiS0diWC95?=
- =?utf-8?B?TEd0TDNQWU83VWhuTjF1Q2JSK09YV3VXRndJanRlUjlhYkxGMDNqcFNtWXN2?=
- =?utf-8?B?TzU1UmVZbHIyVzRWNTg5NGpOa0RGdjExQlVlQk9BZk5DckVVUVhQcFhTOEFs?=
- =?utf-8?B?M2xDMHgyTlYwVkFFemptK21IQmxUNGNpQXhUd3d3YjlrYkxLamRNRk1LbC9z?=
- =?utf-8?B?VlBxZUppMzhZYkRkVEVGMy9MQ0RQRU53S1kyb1VhcUJiRW9Sb0NPV3VmcmNz?=
- =?utf-8?B?ekVtMCtIZmRhakJ5VTBjZXlzTnFDNlR4ZHZlWHhNVWR1b09BTW0zNGNaQnlH?=
- =?utf-8?B?b1R5YjhFSVovVlYrU0JqbXg1WU1Xa0ZtVVI4d1ZzNkFqZmpuek1GRnJTcmJa?=
- =?utf-8?B?eDJML2c2dDBJUVl5S1NpbTZJSVIvVitxb2xROWJVVVIzUjk5Z1R0M2F3bEd4?=
- =?utf-8?B?MUFCTkdDUUxpbjYvdHppTG9ocEtsN0w2c2lIWXpIdy82aDYwQXJ5Yjl4dlVN?=
- =?utf-8?B?bXlLMzhJU1lpdmJuT3lNWWlvRWNVcThQOTJvc3JaR292MmhlNEVrMjFOaG1H?=
- =?utf-8?B?U1RwaU94SW1JM25wZ3ZyU1I4ZHh5VjFzcVRReExySHRXVVQ4MmRDK1ZZNXdF?=
- =?utf-8?B?YlZ1KzBsY1FmZ1FUeDFKUFBLTlN5c3dVS3BsanR1Q1d3eWxkdkUxd0ZEWUEr?=
- =?utf-8?B?Y2hDZkd3TVRrNWVpa2ZVNXZMZ1lpQ1YrNk9PZWMzeVdZdzAvRWZvWVFTMmIx?=
- =?utf-8?B?bWJ5RDNYT2puWFlRbW4xOVE2dXdvQVJjK0w1Z3pPek5BU09Od2JQOWlEcTFQ?=
- =?utf-8?B?c29TMWRQYW16NXdmc1JwNDlYcjV0ZUNHcTVIYytZWDRGVGY4cTRVQT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=Zuh6xlOi;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=LFfmNenL;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.159, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 340AE7A0089;
+	Thu, 21 May 2026 06:25:30 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Thu, 21 May 2026 06:25:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1779359129; x=1779445529; bh=dwkrA0It7v
+	QEyFkY0bWnCKgCzmSnY26EBCDiLuKzIBE=; b=Zuh6xlOiJ3YCGYIyxtvMy91XLa
+	1BQPnvYtqdIdb3bxz2GIXVa2CCGv8B8VKTc4fPnjMblfFDlwz5JT9baGHY5NQpeL
+	3Gkgjk/c9tBxAGNlqLvCO6VTFcgZbryXMnCiMMGuwKPf1rz1YKcyi025jGV/ZXam
+	Lk/XnqtsHOIBoDgHIwUryLWHDTANSECIhjMg1mCdM6Ho+BcnwC331SNmeOE5Fc5I
+	GPX8EQRD5z+RwcPl7n0uIT05JFLPG6OnlLdiYlAndxIS+Uu9DAXlKZlrQfe22B9Z
+	wxzbbdcYWerrx+Ps1yGkI+6LnbzGWF+ifSocZOjnzFl4RHIhl8XdfnWegFtA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1779359129; x=1779445529; bh=dwkrA0It7vQEyFkY0bWnCKgCzmSnY26EBCD
+	iLuKzIBE=; b=LFfmNenLXN8hFVPrzZkaSvIqRlbDPUBDsnyIrc2fwb43gq6Q8ak
+	bd9G5cSpg5Me7g+rOwTnsp4escqvXxgvWdg2jeo9+jTtIIrbL9SrGDweaYADe8ow
+	WEVImM4o+ucEn8BexXC8JJ3EcuAi+vwFyBb1Pa8RUWYX0N0wW9VpjEXicgKgpjst
+	89IDJ5JE76oSMp6W+uqtVgdTRfoKBguPzNy08U6hmEu2QEiVXgIa8Am8992Lkgh3
+	v3mr76Z6ryRZjWiHOnRe5oz22lDQqqG2wVYkIPuXtPqvb+QIqiR3tGxdVg+qZeSt
+	JsBYXR56uPJTPYiSSaUBLiwhnBkaBoiFUQg==
+X-ME-Sender: <xms:md0OasGAkaOhc5OYwbjLfQVSE3nZhsdPRDbej7TnxEdUFielyqEJBw>
+    <xme:md0OasX4u9EHuvkXTiiS_cBn85fM3lzRh2eP-K8_s7MXfagSj8ZK8xdOZs_aW1W7I
+    7g0MTw0caHDApbWHVd2ITBEZSpAZgctKkxy0Ge3ifgfuI9FdWBKWrs>
+X-ME-Received: <xmr:md0OarL3D8gsxlthPm0eAEKHBdRfq1lO3bb3z58I93KGjo-6-eyvPS1W3lfANFPvXCQ6jTlVvRylOuFmDLF82lLz8xHe3sZhFQic4cIeSLMz>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejvdeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkffuhffvveffjghftggfggesghdtreertderjeenucfhrhhomheprfgruhhluceu
+    rghrkhgvrhcuoehprghulhesphgsrghrkhgvrhdruggvvheqnecuggftrfgrthhtvghrnh
+    epfeffvdefgeevkeduhfetueehhfeikedvieeufeevieffueektdeluddtgfegveehnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhlse
+    hpsggrrhhkvghrrdguvghvpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopegrlhgvgigrnhguvghrrdhsvhgvrhgulhhinhesshhivghmvghnsh
+    drtghomhdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhs
+    rdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhopehmihgthhgrvghlrdhoph
+    guvghnrggtkhgvrhesrhhoohhttghomhhmihhtrdgtohhmpdhrtghpthhtoheprhhitghh
+    rghrugdrphhurhguihgvsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
+X-ME-Proxy: <xmx:md0Oas9wjhTlHmZ0SqpaChTQPjrWjWa4RQBGUR_aehAhxtOT9BEGCg>
+    <xmx:md0OauI3FeiWovuBQMYw18Z1GNHIv3wJaYh35N7jfu7dVW7ZHuVS-g>
+    <xmx:md0OahklLLDirZwn7UOjl70a0rDEFzBWJ_P_ZcEphLR2mu8b9ymbrA>
+    <xmx:md0OaiNVFxVgt9hNvZxehWEWeTFcQ3aVRB_yeCXwj_wz4uOQeGsTNQ>
+    <xmx:md0OaiYP37cDVGnEvaBefknt1ZJLlYqLnHDJES7QbrUcsIyCGrzz_wjX>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 21 May 2026 06:25:28 -0400 (EDT)
+Message-ID: <484fb04a4b512d8456d42720ad89a8bbe8d85b20.camel@pbarker.dev>
+Subject: Re: [PATCH] initramfs-framework: replace eval-based bootparam parser
+From: Paul Barker <paul@pbarker.dev>
+To: "A. Sverdlin" <alexander.sverdlin@siemens.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Michael Opdenacker <michael.opdenacker@rootcommit.com>, Richard Purdie
+	 <richard.purdie@linuxfoundation.org>
+Date: Thu, 21 May 2026 11:25:22 +0100
+In-Reply-To: <20260519090517.1201609-1-alexander.sverdlin@siemens.com>
+References: <20260519090517.1201609-1-alexander.sverdlin@siemens.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-dEezONdQY+F8f5b7T5qq"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07dcfe17-1be2-4661-7f0c-08deb72341ca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2026 10:25:18.8617
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZhJ2zfrMjwEgdvHS0GOkrvLIBKDEHDtMwDhwTytM3TU11Z3yqcxkJlH5mKJGtf68GqWYI4ugOI6pAgExDTHZJxcm5iaPMW6rS2+zVa2mXcY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR07MB9648
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 10:25:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237499
+ <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 10:25:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237500
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQWxleGFuZGVyIEthbmF2
-aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+DQo+IFNlbnQ6IFRodXJzZGF5LCAyMSBNYXkgMjAy
-NiAxMjoxOA0KPiBUbzogRGFuaWVsIFR1cnVsbCA8ZGFuaWVsLnR1cnVsbEBlcmljc3Nvbi5jb20+
-DQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyB0aWNvdGlt
-b0BnbWFpbC5jb207IFRpbQ0KPiBPcmxpbmcgPHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPjsgUmlj
-aGFyZCBQdXJkaWUNCj4gPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+OyBSb3Nz
-IEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NF0g
-ZGV2dG9vbDogdXBncmFkZTogZXh0cmFjdCBjaGFuZ2Vsb2cgYmV0d2VlbiB2ZXJzaW9ucw0KPiAN
-Cj4gT24gTW9uLCAxOCBNYXkgMjAyNiBhdCAxNTo1OSwgPGRhbmllbC50dXJ1bGxAZXJpY3Nzb24u
-Y29tPiB3cm90ZToNCj4gPiBPdXRwdXQgaXMgd3JpdHRlbiB0byB3b3Jrc3BhY2UvY2hhbmdlbG9n
-cy88cG4+LnR4dCBhbmQgY2xlYW5lZCB1cCBvbg0KPiA+IGRldnRvb2wgcmVzZXQuIFRoaXMgYWxs
-b3dzIEFVSCBhbmQgb3RoZXIgdG9vbHMgdG8gcGljayB1cCB0aGUNCj4gPiBjaGFuZ2Vsb2cgd2l0
-aG91dCBpbXBsZW1lbnRpbmcgdGhlaXIgb3duIGV4dHJhY3Rpb24gbG9naWMuDQo+IA0KPiBUaGUg
-cGF0Y2ggcmV2aWV3IHBvaW50ZWQgb3V0IHRoYXQgdGhpcyBoYXMgYmVlbiB0ZXN0ZWQgb24gYSBz
-bWFsbCBoYW5kZnVsIG9mDQo+IHJlY2lwZXMsIGJ1dCBiZWZvcmUgdGhlIGNoYW5nZSBnZXRzIGFj
-Y2VwdGVkLCB3ZSByZWFsbHkgbmVlZCB0byBwZXJmb3JtIGFuDQo+IGluZHVzdHJpYWwtc3RyZW5n
-dGggc2V0IG9mIHVwZ3JhZGVzIHdpdGggaXQsIGUuZy4gYSB0eXBpY2FsIEFVSCBydW4gb24gYWxs
-IG9mIG9lLWNvcmUNCj4gKHBvc3NpYmx5IHJvbGxlZCBiYWNrIGluIHRpbWUgdG8gaW5jbHVkZSBl
-dmVuIG1vcmUgcmVjaXBlcyksIGFuZCB0aGVuIHNoYWtlIG91dCBhbGwNCj4gY29ybmVyIGNhc2Vz
-LCB1bmV4cGVjdGVkIGZhaWxzLCBhbmQgcGF0aG9sb2dpY2FsIGNoYW5nZWxvZ3MuIEkgd2FzIGdv
-aW5nIHRvIG1ha2UNCj4gdGhhdCBydW4sIHRoZW4gSSByZWFsaXplZCB0aGF0IHRoZSBjb21wYW5p
-b24gcGF0Y2ggZm9yIEFVSCBoYXMgbm90IHlldCBiZWVuDQo+IHBvc3RlZC4gQ2FuIHlvdSBtYWtl
-IHRoYXQgcGxlYXNlPw0KPiANCg0KWWVzLCBJIGNhbiBkbyB0aGF0LiBJIHdhcyB3YWl0aW5nIHRv
-IHN1Ym1pdCB0aGUgQVVIIHBhdGNoIGFmdGVyIHRoaXMgYmVlbiBtZXJnZWQsIGJ1dCBJJ2xsIHNl
-bmQgaXQgYW5kIHB1dCBhIG5vdGUgdGhhdCBkZXBlbmRzIG9uIHRoaXMgcGF0Y2ggdG8gZ2V0IGlu
-Lg0KDQpJIHdpbGwgdGFrZSBhIDEgeWVhciBvbGQgb2UtY29yZSBhbmQgcnVuIEFVSCBza2lwcGlu
-ZyBjb21waWxhdGlvbiB0byBiZSBmYXN0ZXIuIEknbGwgcHVzaCB0aGUgY29tbWl0cyBhcyBpcyBp
-bnRvIGEgY29udHJpYiBicmFuY2ggYW5kIGFuYWx5c2UgdGhlbSBmb3IgY29ybmVyIGNhc2VzDQoN
-CkNoZWVycywNCkRhbmllbA0KPiBBbGV4DQo=
+
+--=-dEezONdQY+F8f5b7T5qq
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 2026-05-19 at 11:04 +0200, A. Sverdlin wrote:
+> From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+>=20
+> The bootparam parsing loop uses "eval" to set shell variables from
+> kernel command line parameters.  Since eval interprets its argument as
+> shell code, a crafted boot parameter such as:
+>=20
+>   rootdelay=3D1";command;"
+>=20
+> would be executed as arbitrary shell code during early init.
+
+Hi Alexander,
+
+If you can modify the kernel command line, you can pass options like
+`init=3D/bin/sh` and then execute arbitrary commands anyway.
+
+>=20
+> Replace the eval-based parser with a single sed invocation that
+> tokenizes /proc/cmdline (respecting double-quoted values) and feeds the
+> result to a while-read loop that uses only "export" for variable
+> assignment, which never interprets the value as code.
+>=20
+> The sed script works as follows:
+> - Split the line at unquoted spaces into one token per line.  The regex
+>   treats sequences of non-space/non-quote chars, balanced "..." pairs,
+>   and lone " (for mid-value quotes) as atomic units that are never split.
+> - Strip outer quotes from whole-param-quoted tokens ("param=3Dval").
+> - Strip balanced quotes around parameter values (key=3D"val" -> key=3Dval=
+).
+> - Replace . and - with _ in parameter names (the key part before =3D),
+>   iterating until none remain.
+> - Print each processed token and loop (P/D).
+>=20
+> Additional benefits:
+> - Whitespace inside quoted values is now preserved exactly as specified
+>   (the for-loop word-splitting collapsed multiple spaces)
+> - Reduced from 3+ sed/cut invocations per parameter to a single sed
+>   process for the entire command line
+>=20
+> Co-developed-by: GitHub Copilot (Claude)
+> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> ---
+>  .../initrdscripts/initramfs-framework/init    | 61 ++++++++-----------
+>  1 file changed, 24 insertions(+), 37 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/m=
+eta/recipes-core/initrdscripts/initramfs-framework/init
+> index 67590ad765..97ec62e2da 100755
+> --- a/meta/recipes-core/initrdscripts/initramfs-framework/init
+> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
+> @@ -92,43 +92,30 @@ if [ -d $EFI_DIR ];then
+>  fi
+> =20
+>  # populate bootparam environment
+> -for p in `cat /proc/cmdline`; do
+> -	if [ -n "$quoted" ]; then
+> -		p_rstripped=3D${p%\"}
+> -		value=3D"$value $p_rstripped"
+> -		if [ "$p_rstripped" !=3D "$p" ]; then
+> -			# End of a opt=3D"word1 word2..." parameter=20
+> -			eval "bootparam_${quoted}=3D\"${value}\""
+> -			unset quoted
+> -		fi
+> -		continue
+> -	fi
+> -
+> -	opt=3D`echo $p | cut -d'=3D' -f1`
+> -	opt=3D`echo $opt | sed -e 'y/.-/__/'`
+> -	if [ "`echo $p | cut -d'=3D' -f1`" =3D "$p" ]; then
+> -		# opt parameter
+> -		eval "bootparam_${opt}=3Dtrue"
+> -	else
+> -		value=3D"`echo $p | cut -d'=3D' -f2-`"	# Option value
+> -		value_lstripped=3D${value#\"}
+> -		value_rstripped=3D${value%\"}
+> -
+> -		if [ "$value_lstripped" !=3D "$value" ] && [ "$value_rstripped" !=3D "=
+$value" ]; then
+> -			# opt=3D"value" parameter
+> -			eval "bootparam_${opt}=3D${value_lstripped%\"}"
+> -			continue
+> -		fi
+> -
+> -		if [ "$value_lstripped" !=3D "$value" ]; then
+> -			# Start of a opt=3D"word1 word2..." parameter=20
+> -			quoted=3D${opt}
+> -			value=3D${value_lstripped}
+> -			continue
+> -		fi
+> -		eval "bootparam_${opt}=3D\"${value}\""
+> -	fi
+> -done
+> +while IFS=3D read -r token; do
+> +	case "$token" in
+> +	*=3D*)
+> +		opt=3D"${token%%=3D*}"
+> +		value=3D"${token#*=3D}"
+> +		;;
+> +	*)
+> +		opt=3D"$token"
+> +		value=3D"true"
+> +		;;
+> +	esac
+> +	export "bootparam_${opt}=3D${value}"
+> +done <<EOF
+> +$(sed -E '
+> +s/^(([^ "]*|"[^"]*"|")*) +/\1\
+> +/
+> +s/^"(.*)"$/\1/
+> +s/^([^=3D]*)=3D"(.*)"/\1=3D\2/
+> +:k
+> +s/^([^=3D.-]*)[.-]/\1_/
+> +tk
+> +P
+> +D' /proc/cmdline)
+> +EOF
+
+The main issue here is that this replaces comprehensible code with
+incomprehensible line noise, reducing maintainability. If you want to
+remove eval calls from this script, it needs to be done in a different
+way.
+
+Best regards,
+
+--=20
+Paul Barker
+
+
+--=-dEezONdQY+F8f5b7T5qq
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCag7dkhEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0br2vAQCo6CdgJac7r0kS1n4NmOnyH6IfMG/WMeVZ
+0FsZMmfHFQEApxw5ZK1WYUKAJiyaHeQeuj64kHj84pQdkAVZ/876IAU=
+=o7RD
+-----END PGP SIGNATURE-----
+
+--=-dEezONdQY+F8f5b7T5qq--
 
