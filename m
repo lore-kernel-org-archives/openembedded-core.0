@@ -2,268 +2,390 @@ Return-Path: <tgaige.opensource@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70978CD5BB0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69CE8CD5BB1
 	for <webhook@archiver.kernel.org>; Thu, 21 May 2026 10:10:28 +0000 (UTC)
-Received: from mx-relay08-hz12-if1.hornetsecurity.com (mx-relay08-hz12-if1.hornetsecurity.com [94.100.139.208])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33067.1779358222260076140
+Received: from mx-relay25-hz12-if1.hornetsecurity.com (mx-relay25-hz12-if1.hornetsecurity.com [94.100.139.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33224.1779358219368865094
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2026 03:10:22 -0700
+ Thu, 21 May 2026 03:10:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@witekio.com header.s=selector1 header.b=psxMg6k8;
- spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.139.208, mailfrom: tgaige@witekio.com)
-Received: from mail-francecentralazon11023073.outbound.protection.outlook.com ([40.107.162.73]) by mx-gate08-hz12;
- Thu, 21 May 2026 12:10:20 +0200
+ dkim=pass header.i=@witekio.com header.s=selector1 header.b=FwWpmvAv;
+ spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.139.225, mailfrom: tgaige@witekio.com)
+Received: from mail-francecentralazon11023101.outbound.protection.outlook.com ([40.107.162.101]) by mx-gate25-hz12;
+ Thu, 21 May 2026 12:10:17 +0200
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dsST8zmLH+I2AsorDopmlyBGZR/yVfXKOQVA9U6iaGdZ2e0glGTbNrFUin5RB5CfMTTU0KFR5yCbyqlbcEV74cS7kjSJrxCxA6xsoYMM9l37CfTilEqyB7PSdaytzPapdN6mgNdpXwxhw8LaLvCU5hHepiMBb4gINiDD5vzAdKj+WMpjkcxq5dR0l7Z4ek80r8t2FOXJjbyUrsY7JN9tMt6GStnD5bMfv7EhH9OzSFcW81u4v1td6vH7qOLxNcZPWq9Jb/z15bC5necIu68y4mJQUE5PlD64waHiFKhoBE5BL5wki7gpReoRGKJDF/FJAH0sb8vBtW64yPItCQ+D1w==
+ b=MMOfRq+8Xdy+5G5vp3k6rnDpg6at1fKtloUSNw1H4B02pqIsXNKS05zE3Ru1G5luS8KCeMDw8Ie+vfIuYBbJ6hpGiTx95wf/rY5ewKUziHdMsUn4eyPAuHSXb75WSINev67M1MRx+O4M9VttHk3cjKXBecW3DFhPqWw4Xan+tKknq441wo42haWZWarqXflaz0UnRv7WE3X3HFB4TC5rDXoulpj3ITl6OCisa/fbtG7IWIRmuF3diHxnAZlS+nOB+fEP0Otzm1bzhSD++EFIO1aISQnmMSWzLYnQXcuG0bbdIUgSs1+wmRGfJUli/Y6L5YC9toCiZmVpsGyplCOLUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HK/7tdhmjTP1kmVNMuvUuIBTz+DCp+t6Tl7amrUc1Cg=;
- b=dzkBoM+shtFeVqx0B+72fYvMli7h7klFH4yp9Nt8Qx/F6q4howUxtgCGcTQJzF21PdYOHK8lViBrBrdVcaaqjnVB02bs+19tw55SZccGNfcL83OmQ/JyCcRlw8af/R7sFL4nrCm0oi5TgZ0zXt6LcteOxoR6QBaxaM0ispN05huTYUzMZGNZ/tGxUJfvWg3CX07oreP05djS/hhnud+OvBYRtzkd71LDmSVoXkOm9mEen1RVkZ4fN6GniHrTXTvZWL1Vr2jlA2qa7g0hf2PvBOKbemawdNEhLZeAqrCZBDsh202JTLKm7N1OrkoNzNesTc3tufeF0Fs28mAywNdQ/w==
+ bh=ohH4dVTarYlsOvRFp0xym5uqakNm7Gr2CzGoEXbvTDU=;
+ b=mAsgxnZgxHjGSBdfO0T2Rriu+gR52I9idYsDI2vgWUc42V4zjqjCW+50Qwjow6yVSkehx3T2RTDAPD/7JcmgCsOl4cqjhV/+frYDZD801ic8G/lZJr66yuwsev/mYUBy9am8n4HnZ+Iz6rvwUEVA3Vb8/rnT2Ij5CLiexEgbTLF7NGbUT1wDchlZJ47lr3meKHxQu989Z4/P6M09hLjKD7gz3LP9FXjreYPeU1pkGmJgYvgwcoUdVjMye3AXc/N6NvMP5baihQk2R1VUAZrPY/xcg+//6FK1Bp/KCiVgjdwYoslSvPPVuYVlTFB/o7G1Y64TlFSAiOBi5ZVr3MgpYQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
  dkim=pass header.d=witekio.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HK/7tdhmjTP1kmVNMuvUuIBTz+DCp+t6Tl7amrUc1Cg=;
- b=psxMg6k8CnvrglrwG3aI9/P+1DE2wIJxAjCoW19DMn9EY0KdACfPqI361+wG4/ObqU5RRxObqTNh5JZQ1p3LLvstlRHmj8WMOcpA/SYH+wTVPNlJUtu2CVOmJp+9mo0OV7xm2AzYs42RAqc5x44IffKSVIaA9uMsr0pRzVhwWcAnZyBh0bgpBG8CTQgS1typGgsZMGeYkvdxlfILm3rfpmuoRz06EN3QC7VeucjoM1utPNnj+yNhEAsYMDaqSTTIs/pKFT/sqlwGF4Dz7VEC+WDqsNVFd2YFMnKraDmwamG+jJ4BbiSGSIqsQ2R4Zx8xE/ZhOdeDVTr9WG00iz7OkA==
+ bh=ohH4dVTarYlsOvRFp0xym5uqakNm7Gr2CzGoEXbvTDU=;
+ b=FwWpmvAvBKxH4Kfq94e8HOQTCRJB49pBQ3kE+EzUEBtQZtRKP5UVKxIh64uFYnBarJ4I6Fdhq26QLkxfmLhTSK9772vLM/vKs4ANXtccKG0OjL1iLSjCzeO8vj+nhjj++QhO8sX+F5Ry/yI0bkdWZZPI2qWtrdfYPBrutdc6AehtHRqKpXGBhKUtA9qgn+YvtGg/fOYeZ90Mw5MFbBDT8RU5WFptFh5IOIzCJUPHgo+3IldnjO24m/eYAnitboyF7l8lyNf3E1ON5pk639sKNX9ChqEsbyieBG7FdgeHOLPvxd0t732xJKu4cK6ZiH/UOCXyVWiskVqMwknkENMtQw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=witekio.com;
 Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:3ad::23)
- by AMBP192MB2913.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:6a5::16) with
+ by AS4P192MB1672.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:507::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.16; Thu, 21 May
- 2026 10:10:10 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Thu, 21 May
+ 2026 10:10:03 +0000
 Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
  ([fe80::25ed:86ef:4d24:3d38]) by AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
  ([fe80::25ed:86ef:4d24:3d38%5]) with mapi id 15.21.0025.023; Thu, 21 May 2026
- 10:10:10 +0000
+ 10:10:03 +0000
 From: tgaige.opensource@witekio.com
 To: openembedded-core@lists.openembedded.org
 Cc: hsimeliere.opensource@witekio.com,
 	"Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>,
 	Bruno Vernay <bruno.vernay@se.com>
-Subject: [scarthgap][PATCH 09/14] go: patch CVE-2026-39825
-Date: Thu, 21 May 2026 12:09:42 +0200
-Message-ID: <20260521100949.1299757-9-tgaige.opensource@witekio.com>
+Subject: [scarthgap][PATCH 04/14] go: patch CVE-2026-32289
+Date: Thu, 21 May 2026 12:09:37 +0200
+Message-ID: <20260521100949.1299757-4-tgaige.opensource@witekio.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260521100949.1299757-1-tgaige.opensource@witekio.com>
 References: <20260521100949.1299757-1-tgaige.opensource@witekio.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: ZR0P278CA0104.CHEP278.PROD.OUTLOOK.COM
  (2603:10a6:910:23::19) To AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
  (2603:10a6:20b:3ad::23)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9P192MB1396:EE_|AMBP192MB2913:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9b81923d-f1cb-4127-424a-08deb7212408
+X-MS-TrafficTypeDiagnostic: AM9P192MB1396:EE_|AS4P192MB1672:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9cc27374-4660-4b0b-21d8-08deb721203a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|18002099003|56012099003|22082099003|38350700014|6133799003|3023799007;
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|22082099003|18002099003|56012099003|38350700014|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	U6aPX9w6Y/QKMmYdmEgxDLtgfBTQfC6ngYGfKg3I+n8Jf219m4MM6vZMPNcbvW/AISBp0XxKBzvE1zKNswkIvuxaPC/Di1xb6sTGp8iaVBzaxdvDFbE5V6MVihIBIMiedWdEgCvHpyQW+eG9q1s39qlS0k5jBOORV+PwggrSVVEo1mTNALEZdyT38l9FvxGIevj6fXTZXzWFVVdCFFgtar941CeOcQLIjH8ijDRb3IWPqSm3ShpVIo6kwMqaqIqxFIntH2uaafXtFrYzhStNqDHCyT1dpa43llb9D4/FoGmXOgHuAUYVk0GcWVacXi50Ff1hcAG+39r69n3tMoqX2hrfZVPZuy/D8+BgpCb61Jb5dex3zWup/fTF01C0lZimC+tbThXlkXx+f1V0XFprzvbNaiyhp7wk4IFmua2cn14Wk4rhP2D6nmBjkEKrl18XPKWuGkXp//H+M7ecAbZn6v33HoRid7c8oOpAYMhHXpktqrPsBsfI1FlEFiHSWlA47ERaAuPLQfjCCRPadakOVPSFrxhU6Gmv5bnUVvlpzHV99yB9P9R+gM6DHg+Ac8p/Yl9Q++/xHwUIulgON6KY7A2BCmWKt2cPcEUZtramRaKEzvA+02jXOlgl4EeqiXYlxIy2U6Wyd/Q5MaMbYmWH0XXKOSXvFIgBr5o0JWa1UEfcKEsMLfUsDForn88ZMJFAHnhJH418hx5OwMecRRQIPw==
+	OmKxIx4raUcoP5+rnRFjCn1KFPCnPZNig958MfOD49INwmOLGTc4j1WLFm2s9eqiNu15i1gsH0UJcVAnQYSBkO8om4dPNVzLfJloTTHKUPeSFwikDb1ohfc0wd7haeuyRonHvAY6u6SvjRVvIw8vu69E58wOOqU1L68L86uuxXdarHi7vmbP2VYeewARCTS37sMVlQkTdbUXLs9R5G3XmXgms/+uHQRkRgenEXyKmEANo3GEQsX7WUytExprHPeYQ8QiKaj+iL24bDyE2zMa5NcPb5+eunRZp4r5JYeceMqXtisXf9mDnwEJ9wRb8+ZoBcBgdvo1EESiDdz9xA5c9kbb0k6h55vIJQ8lmGjRVPlNZDdM8uwAfLNnc1mvYEciojPEVYpTKSZoTrCzEwKVK9WAyGanx4tC1Azh6clP6QW5BhWP9/wz/635iKbB1eaVTKRzTmCTM/yNI1GUQLITNTbzIaMNJBMxKGxALx54tog6rBZoIl6jcgPp6QaQarWT7xUZZYHO4Zc9iCwduG8GjqC5PuIOqJoZ30uHMJPtHngv6NiyKe16yHDlZiPd9BSXbkpZNGu0oDlt0Z1apAvY3fQEjoVXn5NFmV4xLKSoyxV1v0kTOUAfOUVj7L6Xp56P0zgkVoqYMQKDkD36OhzIfU4BI5lD6oEMKodLG50VClnVjvm+LliTWdxxOXYwDXQGNFoNySvyXaqrWJucBDwWxw==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P192MB1396.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(18002099003)(56012099003)(22082099003)(38350700014)(6133799003)(3023799007);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P192MB1396.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(22082099003)(18002099003)(56012099003)(38350700014)(6133799003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?CXXb8xZKIfVLJ/Be1wEO4ENtoJrDFg2GIeSen4bwpiGHLLEnoPrMADseAHpO?=
- =?us-ascii?Q?fR1mQotdhjjBb/EGPoXmUodg1IRx5LA8NZj0nbNEEvS32XJY19O3vfuQ4X7+?=
- =?us-ascii?Q?PfLcsnLH6agUZigwBVoTSzbB1kdLdVenrR2PEkM1S367PiVbLUxDCMlbhzae?=
- =?us-ascii?Q?bs1qGIFITZToqtWsvZGZ9TocJ2Z3YNFnMCsbldETeSnw3IvNkpZCLcPs4jpS?=
- =?us-ascii?Q?0PLKaCC4o9q76K1L6wU/ppWygXJt/F/dAiU8n9qXWFjRoNRcp8+csdtEZeDd?=
- =?us-ascii?Q?tGEeRFslBEp00Rc52YV2mycBQ3PK0CLPiWDXbV87+kKg3oSUSQgXXiQW6kwg?=
- =?us-ascii?Q?971FDnXcvCRi3UidiGisjlN9l7X9a2Md1xxIKPYH/X+ZNZDB0oSsyQiNlFdu?=
- =?us-ascii?Q?0Yt/PuMd4DMkAQKuQm5UWKRdvnVXxjI7G0GPLyjMOhRQyqCNB5482/ORAmrm?=
- =?us-ascii?Q?+Hi33HQ/aCYniosof3IZdQyTPH+mB2Sn7L/t/IwQyAZ092Yn6/rmX8HETk/+?=
- =?us-ascii?Q?U7XnEhVk8AR2JAN1yFPqDKKHvcuAgtX8eZPU0L6xF5oLs7mDK42s4HdChJLM?=
- =?us-ascii?Q?3fNy6meJPPBdNOHy1wdrow12+vtGYLXSiGDQGNR+VcCkLLGcdnwjWlZPxUXA?=
- =?us-ascii?Q?bTmB0JYtw5sGmZT0MSRxV5GLoSxuE0xEnYBUqZYT6575n9IlgIGhryLboUqg?=
- =?us-ascii?Q?4vT87dpmbxcPlyh7xMsNjhXpFMCWb65FIdMGnErLdg/vN9cGSr/57zCxfRh1?=
- =?us-ascii?Q?V0R75G502wMQBCapY/ATkbg7amODek6M+q7BSGdNrg7ZrwV62JICdQ+Tikjl?=
- =?us-ascii?Q?jAnb1TYGz0Ry0vupbwbEtn9dFXcdzox9hxz5Ngdu8oWlSzNLCIgc8lOyH71v?=
- =?us-ascii?Q?WttqvP7w2afZyy6qaE1+xawG6aIubFXM9Ah0uix576cpnz+hnD+01JTaNvWn?=
- =?us-ascii?Q?nwEkWeBBW2I0sMdTO+EWXdNbK1w45/4x3fuq1VMqgC1b7/TuaYsCOB1K94UY?=
- =?us-ascii?Q?5RpFwJOYeb/YxoRDOgC57u9XhSXzpEdEOlUE3Jo9KzCbVXHa09JCsytGcSVy?=
- =?us-ascii?Q?x63o8bqVdZ44fTwulMzareW14YnAEoEo4QWUc3NSDjnOcRxiMJHEi8nXg9FR?=
- =?us-ascii?Q?h02zRA3gGrGzTV8/YFWivYuI94dyhGoE9aPidL1X0gdFeSiDgvyXK9irkZS2?=
- =?us-ascii?Q?cubCiyQDOg9KD5VkNbfGLs+14C5AXc2HMeGf6dZSJwbNQtYtMp7kjW0D6Htq?=
- =?us-ascii?Q?Sv7Ycbk9S2tO1ELqy9GAgU/KwKMwUvjB4NO6oTYjlsMxQh2SbKYd01sA+vfe?=
- =?us-ascii?Q?+jfw2kRtVk4nYTE5zbcwXBTRNl2Og0d4Jag0kSQAMOjyJ5pqRQ7Q7EjaBP+Z?=
- =?us-ascii?Q?SNe4YC88AGGyQ8abI1VhT2LCsieJS+hcwmGgVYKAPyWhJnjcrIGwLCBeQgRQ?=
- =?us-ascii?Q?S0+k0sT2tQoLEwiH4YsoVTr8IyrhR55On+PpGs57vf56pZ4pFAlBv72Q3Cf/?=
- =?us-ascii?Q?DXBFeASvSPJNUDpXL/eNvU+BV2qT+rqpdcMFv5wpAAv5yPH8M2XZ3O/3lHuA?=
- =?us-ascii?Q?DlMOrv7x/Ylz5zM4a6/1Q69CYSOkYUEwi5eFBSAj++Kd1xNRA5PG4Avq3K+c?=
- =?us-ascii?Q?NfygJfDbtw3FplyVIH02YlSBu11lpfIx44eHMScmS8s2vyh4gSCPbydJQmiD?=
- =?us-ascii?Q?lUMkzee7zKEypmZT0pxf8RVxKjXyTcSV2uXU/Q6ROE/lOQl4ODWy66OsdHIF?=
- =?us-ascii?Q?BTtJ5QtRoA=3D=3D?=
+	=?utf-8?B?WnBiQ1ViMk5kN0szTGU0RVJTTmlldHlEWWpYUnAwZ2N6bGF4Q25DMWVSdDZ6?=
+ =?utf-8?B?d2cveXBxOFBaTGcvK0VBVlBkbkdnai9tMmVnMkJNQUxYTjdYYkVvNWRhdlU0?=
+ =?utf-8?B?N2k4dGVBaFRtREdTMUpCa2J6SFNrSkJ6c0dsSWV1Q0ZRWEtUTTZzbHFYVERh?=
+ =?utf-8?B?Zm56UHZRdmRjVXh1T3Z2Y1BSN3N6eVMyTHJFZUtJQktYUDRsZjhIcDA0aVlK?=
+ =?utf-8?B?VDI5aVdPOFFrczM5VG5hNjQreThFZzdOUElqSTlZWlhGcmNWM1hEaXIyZUg4?=
+ =?utf-8?B?SUg0dEsyTWl1OHlNL3MzOFZ3S3FheDVHUG9HMzBqSlFmR2czM2xwTHNDQ3FW?=
+ =?utf-8?B?cUYvbDZuS3VVNDBqbDF6cmJDenBGbDFJNVpCR1BQOGZSdWUvYkdlTTdacnNJ?=
+ =?utf-8?B?L3dFMkgvTGVvV00xVmJ3Sm5sckNEYjJyT2FVY2J4ckZValcveTlES0o3TDlM?=
+ =?utf-8?B?NUl6eWFMOW5Dai9uU05GWUdzcTVpa3U3VDE1ejJkeGJJZXJwc0picW9hcjFP?=
+ =?utf-8?B?a2Q0RkYvODlkWUdLK1l4VHk0YzN1T1BGY1cyZno4VlFzZ0Q5QUNoZkN6Tm5n?=
+ =?utf-8?B?WHF5VmNKWnpuOXI4K25USGlpWjZFVHM0OXoyYThqcXczSlFFZHRQYzJqMVNQ?=
+ =?utf-8?B?d1pMRzI5QjN3R1ZPTkYyazdNQzVWQkx3NzRIeXdwNWMzR3FDSVVBQ2hYNDV4?=
+ =?utf-8?B?ZEpINHdmTENuRzVMbDlSWFJuRTdyemk0T1BIYnpwZVlnSXRlaXMrbHR2NW4r?=
+ =?utf-8?B?SGp1TUlGRzJ0a01OQjN0eXdWQm5BczhRbVdYZTdSTHBpVUlhdmtuZTdPMG9N?=
+ =?utf-8?B?bTluNFVqcUxLZzFyTms1QVhCckxVcnNvT2pVUE9sbVR1ZXBqbGZzWHdiMHBz?=
+ =?utf-8?B?ZVF4VTJ6ZjlVSExJL3YzWGhtMmRhaDR6WVBrTUZpU0tLa2tJa3lCNVNqNXMr?=
+ =?utf-8?B?ZDRPMEM0QUx6TkVCVXJiMGlTM25WYUZWTUtYaXRTRGJtcjFoZ0dWeW43RTYx?=
+ =?utf-8?B?NGRRRVVyOWtHaWV1NzNNeTM1SEJkWXJDT1lMS2QyV2laRDZWcWhHcDhzbDJu?=
+ =?utf-8?B?L3hNenFTYVplNEFJUFBDeE0wWUdMQTVPWDM4VTB4M2U0Z0piK2pUclpRNWQ5?=
+ =?utf-8?B?VlMxNHllN3pPYjNuTVZ3MFdpeXUzR1hLeVEwOUFKMFkrWUhKaUw5U1V5akZj?=
+ =?utf-8?B?ZURBRDFHMlIxWEdIMW5UY09KSmtYc0h1endUK3lhbHRlVGNONm4vVVV6d0JO?=
+ =?utf-8?B?em8xd3ppNDlnREtUbVhFQmlSZzFaR2VDNld1RU9BNjZndlhGRW1WSDJBNGFF?=
+ =?utf-8?B?Qmt3WEFKL0l2Q2FERmEwQXNsOTNPRGN6eWFQVDhOWEJ4bTdycS80YmsyRWh5?=
+ =?utf-8?B?d3RRdUVwT05LTUZvUjF1NC9jRUR6aW1GcFcwWC9PZ2t4VnkvQzFpQ2F4VVRq?=
+ =?utf-8?B?aFllaUJ2dkhOMDFCM05ybWlKdm1sRmJjNml3MTA1RTZKVTkxd2J6RWFvR0s3?=
+ =?utf-8?B?OXVJdUVoZmJQa3pmZlRreXpGdklEcDgwYkp2MWdvSFpZQlRJTEthaXBoSUtS?=
+ =?utf-8?B?S2FwTjBlNkptemJPaEpoYkNrRUJGelpqdzVDa3pUTGlvVDU4Q2FJN3loL2wx?=
+ =?utf-8?B?ZHU0ZEtSOGY1MlB1V1lIR2FERDFSbGdYN2NrS0h4YzR1V3dZY2NyUmpQa2Fj?=
+ =?utf-8?B?cWdDeDFteWhOU0RFNDA3QWZOTVZNdVFVaGt0dXhGZU5Eb1B0ZS9EeG1QQW04?=
+ =?utf-8?B?UnF1aStWMyswM2U2cW9GOVFtWmJJYkFOTGlGNXdBWS81YUNxTU85Z0JwdVVO?=
+ =?utf-8?B?RExxejBVbForZnlNNWV2OElGSUsxY2FVS21RYVlyMGozZnFuNGs3dEhUR0NI?=
+ =?utf-8?B?aEM3WmFzSjUyd3RkV2dOdzNSeFY0UFRQSmFpeE4rS2pVckdDVGxvNFEvU3px?=
+ =?utf-8?B?MUlhTHEvZ2trdGR3U1B0em5yQmxmSW8vdmcwTFRJMHZFY1NmUER3b3UyT0Y4?=
+ =?utf-8?B?bXFXTHUreU1Vb3Y3L0x4VTRoZk5JVldoNXd5bFV4TEJld2lFVkl3anhTb2pF?=
+ =?utf-8?B?RU4wUzc5NG1UK3RvSzM3OHdpQUR1OVNvTDFmaE5KV2xIMEpNRWNQV2RxMUJ0?=
+ =?utf-8?B?QlB0UnNxUDRWbTk5RkQzd3BreWFCRlB6Y0cyMXBNQkRwak1FVnNQYlMvaHpX?=
+ =?utf-8?B?T1d2cjVMb29xUk5LV1pVdzFUSWJRTkNWMDFIZUx6b1lLRlY5cUZyOHNpVElh?=
+ =?utf-8?B?Nko1aUFDNm02ZmxSTGg2YW52S2RubEZUMGt5dkhsVSt5QmlhMW9OcC95cW1J?=
+ =?utf-8?B?RTBqZ01aWU85dFFqNjBrbHEwL0lyaE1OSjhtSTFHc0tWUW1kdlZ0UT09?=
 X-Exchange-RoutingPolicyChecked: 
-	RvPsNEW4l9h5YWTYDoX21zQdGjuxkYhC5z0xiFjue3VWs826dn2QzvJaDjD8xmIThseMZE5UVQcTj8BZPzcsXi9Ye+JrvlQzHKkqgP61lAlwDz9h5U893905snmHrcB4+kbnpmeFIQvUvVCN7433Jms2+gJRQWvc8rqI3/RQPJoGwR++XWEM/7LZ7kMjGx0Wzx6AqSRdIiWauVZv/Bb5j14tp2bx9qXReYzt354rQOh7CiIXbwkjhqQBpz0VRLZwC3Q22ge7LXF9MoOqwvrLGVaw1Wkzk8xY+C/XUpxP272/X5ACntAqZhxguozk+dstZNSXuEXmqCu7BVFVSH5woA==
+	QOyWJUyS8jlWZJUg/j6HmQjTZCpNa2e2kLmBboaWb3cUnXwwejqWsVOguw9gAX8ZF+xcXfl2f41sQnwlgHqqcecM27OQgJAxwP1ai8tlied7pJTW4FA6iiUOXsAz6k7kboi4+2i9VsvgmwZvFfQ0FpY1I7gNbIyP4AMZXT4zvI2Os2zNS3MXltHD5aPIlBjz1kia9msltW7MAhaTmT+qObhDR5zTCI7Kx9S0dmZtWny7iMVhDCAXYJ5tjGRMoRXqT3iE9dtxCgulmbIs9SD0H6Xz2va6+diApEoTjWiecjN2teZiw81mFQQhdqGzmh3zuArPrNSWVhDM2bbkSp9iww==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	6K2HLl40xP7ahAjG+cuvmIPbmJBqyAStzpo8MWHJw7SjzPYtXImBtcH7byEV7YgZ5c8MwgPWgWqRwGmmFLC6hrfo9FM8juAScVJeWvCV4Kg+may2Yl3/+/ca4t/mcB4grJ+VCdyrIkqDStvaj3l4cxlKy9digDE6Z+N6QE3xgEcDHmCqukdXdVVfiew7xBk0fyL6tIbHM7bzOn+E5Chv1fbHAoIKsA36lgvIrCavAOvi3eMWAwaCAafz3K60Esajzs5CvivRzZ/IihGSgDhYn0NkGRUP+eSHWy3928wRiYh2pN+zx7kjK8ijasfBI0GsYmmmUDGNCThSuGw332e7hOy6bokw2GQmB+J5L0lMhh+3eOabz9d4+NVPCPlHafgcOCcnTAIyQdp6faVOjmM55MRU09huD8m/Pw6Cy5gYVOERkZ2yLXJnb5XD24DAIKfibUQ4b9nv+ByWk8Sv60tPhzxmxnSbvFpH8ZVoHHB8hFvp22um5l1xJmo/TY1NBSCx2RQ2EQLxtEF6MCaOgJOPvQstJY6YhjVmZSZocBoZZMzZvnipAMZ8Whd+7hT3iuKYW4iZjzjax1taBA9mjnwhg5kJ37uxRw3IhtowPniGs0x9FT4uWHWCqkUeOtPiywaW
+	OJUS/03aU5dI0GmTvmmLvZ9NhntK6IactGKwf6Gc+U1ec9N0ux5IjS9J4sKwLkwAcXuUIl8IaBzvF5+DDQs/5KoyufxPtHnWbTb5YdAfRxswWhMqgk+DoGKZzy80aGetSkLFFi9SlSR7jCVTOCbcRCDezEzE38DSxXYAebOP4W3b/fB08cYlqoyoHsHAsKvU5f/IwjHjgIMkbfdAhh6ThjWSCVnlTyzCA7PBlcNDxPXlWMC1ViGyCjeBlj7mTFaMwo4KKHmOD4e0vdmXguCy+9ZyyJRJXrSQeNSbJOr5QKeZZa/UN9ZKgg05ypD2lZ4vP6cGISnS3rEgW8c44+/gnIt6U8T2dAjOVI16GLqzfDiMOcwQod3c3bcox6LMvkGBt4Q90KIlHkKb7oBbr/Ks39h8iB0iEyVRrC0Zl6RKVfF6zrKWLAWwfIZrlfqv0kRkGFl5k7fDr00cyhbn/6mETcuf2XQJRre7zbmRbqAjTS8ulHdRjT6KObDJPJXzphJlHRhYnN8P1PLOoLVkYUvD1HA4rhk8Hcg4uGiNBlOt2l5PDyy2494rO11eZ0QukS43fuWG+TPIn8Scl+lGjok6YILV6y0vBFuM5IcxGirVcelyAnHxUbYzgSqBMRv3xcvF
 X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b81923d-f1cb-4127-424a-08deb7212408
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9cc27374-4660-4b0b-21d8-08deb721203a
 X-MS-Exchange-CrossTenant-AuthSource: AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 10:10:10.0510
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 10:10:03.7360
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m7iV75bUnRBNZdGZjOzt3K5DJS0L2Itl04zkVNKzeqUdXr1cQg/HjLi0B36AThzT2oqVJ/HS6htj7JxEFzKlQQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBP192MB2913
+X-MS-Exchange-CrossTenant-UserPrincipalName: aefwuiZxlZaU5/aKIFTj+AsqDUkOcO8+sJSA2eGYNL0ypcr0TSHUNOjfQPSw70T4fg3vtM+D5m74v5vgbFh2+A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P192MB1672
 X-cloud-security-sender: tgaige@witekio.com
 X-cloud-security-recipient: openembedded-core@lists.openembedded.org
 X-cloud-security-crypt: load encryption module
 X-cloud-security-Mailarchiv: E-Mail archived for: tgaige.opensource@witekio.com
 X-cloud-security-Mailarchivtype: outbound
 X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate08-hz12 with 4gLkgB5Rx4z4HMcD
-X-cloud-security-connect: mail-francecentralazon11023073.outbound.protection.outlook.com[40.107.162.73], TLS=1, IP=40.107.162.73
-X-cloud-security-Digest: 8993aa7c0b55e104cf54ccaed682c5bd
-X-cloud-security: scantime:1.637
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate25-hz12 with 4gLkg76YrTz1X3m2
+X-cloud-security-connect: mail-francecentralazon11023101.outbound.protection.outlook.com[40.107.162.101], TLS=1, IP=40.107.162.101
+X-cloud-security-Digest: ebe40c5427ea43bc40d99d5f9c615533
+X-cloud-security: scantime:1.555
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 10:10:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237489
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237488
 
 From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
 
 Backport patch from [1]
 
-[1] https://go.dev/cl/770541
+[1] https://go.dev/cl/763762
 
 Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 Reviewed-by: Bruno Vernay <bruno.vernay@se.com>
 ---
  meta/recipes-devtools/go/go-1.22.12.inc       |   1 +
- .../go/go/CVE-2026-39825.patch                | 104 ++++++++++++++++++
- 2 files changed, 105 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39825.patch
+ .../go/go/CVE-2026-32289.patch                | 217 ++++++++++++++++++
+ 2 files changed, 218 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-32289.patch
 
 diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index 002d443059..952c0e4638 100644
+index 99c2945a8c..288cd5c95f 100644
 --- a/meta/recipes-devtools/go/go-1.22.12.inc
 +++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -49,6 +49,7 @@ SRC_URI += "\
-     file://CVE-2026-39817.patch \
-     file://CVE-2026-39819.patch \
-     file://CVE-2026-39820.patch \
-+    file://CVE-2026-39825.patch \
+@@ -44,6 +44,7 @@ SRC_URI += "\
+     file://CVE-2026-27142.patch \
+     file://CVE-2026-32280.patch \
+     file://CVE-2026-32283.patch \
++    file://CVE-2026-32289.patch \
  "
  SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
  
-diff --git a/meta/recipes-devtools/go/go/CVE-2026-39825.patch b/meta/recipes-devtools/go/go/CVE-2026-39825.patch
+diff --git a/meta/recipes-devtools/go/go/CVE-2026-32289.patch b/meta/recipes-devtools/go/go/CVE-2026-32289.patch
 new file mode 100644
-index 0000000000..6082f5fc37
+index 0000000000..28ff0c00e0
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2026-39825.patch
-@@ -0,0 +1,104 @@
-+From 96b1a3f872971fc38d9f2c0ed4a3d1f3ceeb517f Mon Sep 17 00:00:00 2001
-+From: Damien Neil <dneil@google.com>
-+Date: Fri, 24 Apr 2026 14:10:47 -0700
-+Subject: [PATCH] net/http/httputil: reencode queries with many parameters in
-+ proxy
++++ b/meta/recipes-devtools/go/go/CVE-2026-32289.patch
+@@ -0,0 +1,217 @@
++From 5291c6d3e6d0bc0a764a9a6bd6b3de1be64b8264 Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Mon, 23 Mar 2026 13:34:23 -0700
++Subject: [PATCH] html/template: properly track JS template literal brace depth
++ across contexts
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+When ReverseProxy forwards a request containing more than
-+urlmaxqueryparams (GODEBUG) query parameters, reencode the
-+outbound query parameters.
++Properly track JS template literal brace depth across branches/ranges,
++and prevent accidental re-use of escape analysis by including the
++brace depth in the stringification/mangling for contexts.
 +
-+Avoids potential smuggling of query parameters, where the
-+sender sends many query parameters, the user's Rewrite hook
-+fails to observe those parameters due to the limit being
-+exceeded, and the request is forwarded with the full set
-+of parameters.
++Fixes #78331
++Fixes CVE-2026-32289
 +
-+Fixes #78948
-+Fixes CVE-2026-39825
-+
-+Change-Id: I691be7899c4b6208bf61f6b78dacfdf56a6a6964
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/770541
-+Reviewed-by: Nicholas Husin <nsh@golang.org>
++Change-Id: I9f3f47c29e042220b18e4d3299db7a3fae4207fa
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3882
++Reviewed-by: Neal Patel <nealpatel@google.com>
 +Reviewed-by: Nicholas Husin <husin@google.com>
-+Auto-Submit: Damien Neil <dneil@google.com>
-+LUCI-TryBot-Result: golang-scoped@luci-project-accounts.iam.gserviceaccount.com <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/763762
++Reviewed-by: Russ Cox <rsc@golang.org>
++LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
++Auto-Submit: David Chase <drchase@google.com>
++Reviewed-by: Fan Mỹ Tâm Club <letrivien97@gmail.com>
 +
-+CVE: CVE-2026-39825
-+Upstream-Status: Backport [https://github.com/golang/go/commit/6795bb331782b33691f772d30c810b4c3a317aeb]
++CVE: CVE-2026-32289
++Upstream-Status: Backport [https://github.com/golang/go/commit/199c4d1c3c9d509a51f777c81cb17d4b17728097]
 +Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 +---
-+ src/net/http/httputil/reverseproxy.go      | 14 ++++++++++++++
-+ src/net/http/httputil/reverseproxy_test.go |  6 ++++++
-+ src/net/url/url.go                         |  1 +
-+ 3 files changed, 21 insertions(+)
++ src/html/template/context.go     | 14 +++++++++++-
++ src/html/template/escape.go      |  4 ++--
++ src/html/template/escape_test.go | 38 +++++++++++++++++++++-----------
++ 3 files changed, 40 insertions(+), 16 deletions(-)
 +
-+diff --git a/src/net/http/httputil/reverseproxy.go b/src/net/http/httputil/reverseproxy.go
-+index 5c70f0d27b..37b0eab6b0 100644
-+--- a/src/net/http/httputil/reverseproxy.go
-++++ b/src/net/http/httputil/reverseproxy.go
-+@@ -10,6 +10,7 @@ import (
-+ 	"context"
-+ 	"errors"
++diff --git a/src/html/template/context.go b/src/html/template/context.go
++index 8b3af2feab..132ae2d28d 100644
++--- a/src/html/template/context.go
+++++ b/src/html/template/context.go
++@@ -6,6 +6,7 @@ package template
++ 
++ import (
 + 	"fmt"
-++	"internal/godebug"
-+ 	"io"
-+ 	"log"
-+ 	"mime"
-+@@ -797,11 +798,24 @@ func (c switchProtocolCopier) copyToBackend(errc chan<- error) {
-+ 	errc <- err
+++	"slices"
++ 	"text/template/parse"
++ )
++ 
++@@ -37,7 +38,7 @@ func (c context) String() string {
++ 	if c.err != nil {
++ 		err = c.err
++ 	}
++-	return fmt.Sprintf("{%v %v %v %v %v %v %v}", c.state, c.delim, c.urlPart, c.jsCtx, c.attr, c.element, err)
+++	return fmt.Sprintf("{%v %v %v %v %v %v %v %v}", c.state, c.delim, c.urlPart, c.jsCtx, c.jsBraceDepth, c.attr, c.element, err)
 + }
 + 
-++var urlmaxqueryparams = godebug.New("urlmaxqueryparams")
-++
-++// Keep this in sync with net/url.
-++const defaultMaxParams = 10000
-++
-+ func cleanQueryParams(s string) string {
-+ 	reencode := func(s string) string {
-+ 		v, _ := url.ParseQuery(s)
-+ 		return v.Encode()
++ // eq reports whether two contexts are equal.
++@@ -46,6 +47,7 @@ func (c context) eq(d context) bool {
++ 		c.delim == d.delim &&
++ 		c.urlPart == d.urlPart &&
++ 		c.jsCtx == d.jsCtx &&
+++		slices.Equal(c.jsBraceDepth, d.jsBraceDepth) &&
++ 		c.attr == d.attr &&
++ 		c.element == d.element &&
++ 		c.err == d.err
++@@ -68,6 +70,9 @@ func (c context) mangle(templateName string) string {
++ 	if c.jsCtx != jsCtxRegexp {
++ 		s += "_" + c.jsCtx.String()
 + 	}
-++	if urlmaxqueryparams.Value() != "" {
-++		// Always reencode when a non-default urlmaxqueryparams is set.
-++		return reencode(s)
+++	if c.jsBraceDepth != nil {
+++		s += fmt.Sprintf("_jsBraceDepth(%v)", c.jsBraceDepth)
 ++	}
-++	if numParams := strings.Count(s, "&") + 1; numParams > defaultMaxParams {
-++		// Too many query parameters.
-++		return reencode(s)
-++	}
-+ 	for i := 0; i < len(s); {
-+ 		switch s[i] {
-+ 		case ';':
-+diff --git a/src/net/http/httputil/reverseproxy_test.go b/src/net/http/httputil/reverseproxy_test.go
-+index dd3330b615..deb1ab9ce2 100644
-+--- a/src/net/http/httputil/reverseproxy_test.go
-++++ b/src/net/http/httputil/reverseproxy_test.go
-+@@ -1845,6 +1845,12 @@ func testReverseProxyQueryParameterSmuggling(t *testing.T, wantCleanQuery bool,
-+ 	}, {
-+ 		rawQuery:   "a=1&a=%zz&b=3",
-+ 		cleanQuery: "a=1&b=3",
-++	}, {
-++		rawQuery:   "a=%zz",
-++		cleanQuery: "",
-++	}, {
-++		rawQuery:   strings.Repeat("a=1&", 10000) + "a=1",
-++		cleanQuery: "",
-+ 	}} {
-+ 		res, err := frontend.Client().Get(frontend.URL + "?" + test.rawQuery)
-+ 		if err != nil {
-+diff --git a/src/net/url/url.go b/src/net/url/url.go
-+index 5219e3c130..41f3bef1ee 100644
-+--- a/src/net/url/url.go
-++++ b/src/net/url/url.go
-+@@ -961,6 +961,7 @@ func ParseQuery(query string) (Values, error) {
++ 	if c.attr != attrNone {
++ 		s += "_" + c.attr.String()
++ 	}
++@@ -77,6 +82,13 @@ func (c context) mangle(templateName string) string {
++ 	return s
++ }
 + 
-+ var urlmaxqueryparams = godebug.New("urlmaxqueryparams")
+++// clone returns a copy of c with the same field values.
+++func (c context) clone() context {
+++	clone := c
+++	clone.jsBraceDepth = slices.Clone(c.jsBraceDepth)
+++	return clone
+++}
+++
++ // state describes a high-level HTML parser state.
++ //
++ // It bounds the top of the element stack, and by extension the HTML insertion
++diff --git a/src/html/template/escape.go b/src/html/template/escape.go
++index b368cab38c..c031ed27b9 100644
++--- a/src/html/template/escape.go
+++++ b/src/html/template/escape.go
++@@ -522,7 +522,7 @@ func (e *escaper) escapeBranch(c context, n *parse.BranchNode, nodeName string)
++ 	if nodeName == "range" {
++ 		e.rangeContext = &rangeContext{outer: e.rangeContext}
++ 	}
++-	c0 := e.escapeList(c, n.List)
+++	c0 := e.escapeList(c.clone(), n.List)
++ 	if nodeName == "range" {
++ 		if c0.state != stateError {
++ 			c0 = joinRange(c0, e.rangeContext)
++@@ -553,7 +553,7 @@ func (e *escaper) escapeBranch(c context, n *parse.BranchNode, nodeName string)
++ 			return c0
++ 		}
++ 	}
++-	c1 := e.escapeList(c, n.ElseList)
+++	c1 := e.escapeList(c.clone(), n.ElseList)
++ 	return join(c0, c1, n, nodeName)
++ }
 + 
-++// Keep this in sync with net/http/httputil.
-+ const defaultMaxParams = 10000
++diff --git a/src/html/template/escape_test.go b/src/html/template/escape_test.go
++index 1970db1695..435c83378f 100644
++--- a/src/html/template/escape_test.go
+++++ b/src/html/template/escape_test.go
++@@ -1181,6 +1181,18 @@ func TestErrors(t *testing.T) {
++ 			// html is allowed since it is the last command in the pipeline, but urlquery is not.
++ 			`predefined escaper "urlquery" disallowed in template`,
++ 		},
+++		{
+++			"<script>var a = `{{if .X}}`{{end}}",
+++			`{{if}} branches end in different contexts`,
+++		},
+++		{
+++			"<script>var a = `{{if .X}}a{{else}}`{{end}}",
+++			`{{if}} branches end in different contexts`,
+++		},
+++		{
+++			"<script>var a = `{{if .X}}a{{else}}b{{end}}`</script>",
+++			``,
+++		},
++ 	}
++ 	for _, test := range tests {
++ 		buf := new(bytes.Buffer)
++@@ -1752,7 +1764,7 @@ func TestEscapeText(t *testing.T) {
++ 		},
++ 		{
++ 			"<script>var a = `${",
++-			context{state: stateJS, element: elementScript},
+++			context{state: stateJS, element: elementScript, jsBraceDepth: []int{0}},
++ 		},
++ 		{
++ 			"<script>var a = `${}",
++@@ -1760,27 +1772,27 @@ func TestEscapeText(t *testing.T) {
++ 		},
++ 		{
++ 			"<script>var a = `${`",
++-			context{state: stateJSTmplLit, element: elementScript},
+++			context{state: stateJSTmplLit, element: elementScript, jsBraceDepth: []int{0}},
++ 		},
++ 		{
++ 			"<script>var a = `${var a = \"",
++-			context{state: stateJSDqStr, element: elementScript},
+++			context{state: stateJSDqStr, element: elementScript, jsBraceDepth: []int{0}},
++ 		},
++ 		{
++ 			"<script>var a = `${var a = \"`",
++-			context{state: stateJSDqStr, element: elementScript},
+++			context{state: stateJSDqStr, element: elementScript, jsBraceDepth: []int{0}},
++ 		},
++ 		{
++ 			"<script>var a = `${var a = \"}",
++-			context{state: stateJSDqStr, element: elementScript},
+++			context{state: stateJSDqStr, element: elementScript, jsBraceDepth: []int{0}},
++ 		},
++ 		{
++ 			"<script>var a = `${``",
++-			context{state: stateJS, element: elementScript},
+++			context{state: stateJS, element: elementScript, jsBraceDepth: []int{0}},
++ 		},
++ 		{
++ 			"<script>var a = `${`}",
++-			context{state: stateJSTmplLit, element: elementScript},
+++			context{state: stateJSTmplLit, element: elementScript, jsBraceDepth: []int{0}},
++ 		},
++ 		{
++ 			"<script>`${ {} } asd`</script><script>`${ {} }",
++@@ -1788,7 +1800,7 @@ func TestEscapeText(t *testing.T) {
++ 		},
++ 		{
++ 			"<script>var foo = `${ (_ => { return \"x\" })() + \"${",
++-			context{state: stateJSDqStr, element: elementScript},
+++			context{state: stateJSDqStr, element: elementScript, jsBraceDepth: []int{0}},
++ 		},
++ 		{
++ 			"<script>var a = `${ {</script><script>var b = `${ x }",
++@@ -1816,23 +1828,23 @@ func TestEscapeText(t *testing.T) {
++ 		},
++ 		{
++ 			"<script>`${ { `` }",
++-			context{state: stateJS, element: elementScript},
+++			context{state: stateJS, element: elementScript, jsBraceDepth: []int{0}},
++ 		},
++ 		{
++ 			"<script>`${ { }`",
++-			context{state: stateJSTmplLit, element: elementScript},
+++			context{state: stateJSTmplLit, element: elementScript, jsBraceDepth: []int{0}},
++ 		},
++ 		{
++ 			"<script>var foo = `${ foo({ a: { c: `${",
++-			context{state: stateJS, element: elementScript},
+++			context{state: stateJS, element: elementScript, jsBraceDepth: []int{2, 0}},
++ 		},
++ 		{
++ 			"<script>var foo = `${ foo({ a: { c: `${ {{.}} }` }, b: ",
++-			context{state: stateJS, element: elementScript},
+++			context{state: stateJS, element: elementScript, jsBraceDepth: []int{1}},
++ 		},
++ 		{
++ 			"<script>`${ `}",
++-			context{state: stateJSTmplLit, element: elementScript},
+++			context{state: stateJSTmplLit, element: elementScript, jsBraceDepth: []int{0}},
++ 		},
++ 	}
 + 
-+ func urlParamsWithinMax(params int) bool {
 +-- 
 +2.43.0
 +
