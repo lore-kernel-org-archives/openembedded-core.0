@@ -2,51 +2,51 @@ Return-Path: <tgaige.opensource@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AA38CD5BB0
-	for <webhook@archiver.kernel.org>; Thu, 21 May 2026 10:10:18 +0000 (UTC)
-Received: from mx-relay17-hz12-if1.hornetsecurity.com (mx-relay17-hz12-if1.hornetsecurity.com [94.100.139.217])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33064.1779358210543430485
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C101CD4F5E
+	for <webhook@archiver.kernel.org>; Thu, 21 May 2026 10:10:28 +0000 (UTC)
+Received: from mx-relay25-hz12-if1.hornetsecurity.com (mx-relay25-hz12-if1.hornetsecurity.com [94.100.139.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33068.1779358224187956528
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2026 03:10:11 -0700
+ Thu, 21 May 2026 03:10:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@witekio.com header.s=selector1 header.b=Ntz6vNC8;
- spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.139.217, mailfrom: tgaige@witekio.com)
-Received: from mail-francecentralazon11023089.outbound.protection.outlook.com ([40.107.162.89]) by mx-gate17-hz12;
- Thu, 21 May 2026 12:10:07 +0200
+ dkim=pass header.i=@witekio.com header.s=selector1 header.b=IpScfYhZ;
+ spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.139.225, mailfrom: tgaige@witekio.com)
+Received: from mail-francecentralazon11023101.outbound.protection.outlook.com ([40.107.162.101]) by mx-gate25-hz12;
+ Thu, 21 May 2026 12:10:22 +0200
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J5+I5zMZ89xRp9fAVKJNFs9jVjnoteZCc4M3czyXXGJg4XaPJ8faliKEu6F0Tm7HcxGbk/RolZWxbqJ9x5sFv4MsIDyrsvK/Hyn4Le2G7pR8iB4zbjJH+S07LiRibs43gWVqt0G6v93EdTNkEQv23QL/+MxQZvGmw6YXxOOqhwFybMRj497gCSIcBP7aoRE4F9YCvcEaX3zyQUBNuO5uQ2KrAam54b1Yh3D4Hk7Do9oCfggmzWbL7yjPHLqmWBshBHlpZb4g9KED4EjW3Atzsji3ZqzoXboyUoA14JrvW1GIndMnhlaYQ36RCPzwGsLKG0TAbPyBMp/fpJOGQfHTMg==
+ b=U7b7XTys2tAijvBVx3U6U08R/VWWjjH8FNHC8CwWSFG24nBriwNPuK8imC+q1ZZM6YCyGkFQ0KJJ463Wv/cbJE++e0HyKPKuzqrgJ3H0XXzKoH3OCCy5Y4VVg1eyYQLVUoYwGZuE5i1SHZC/GelzQpq/uJoOkNLckBeg3m+V9x0t7E8yF1e6toH7uvqwB8RS0o0r2cZMGFNI6MAib/sqXKbH8fZKqM/+LNV7CRsbDfxcUFTO4a2E+OyQK5+N37Ox3UtXtux+CB5tm8eDCTtJxqBuD4HthMZRvvE0h+As+c0exuWTy+K3JRf0SM7wpupvF4dZZCLlhccCXIE0qfWVJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iGQkIl6cCcWgBWadYGievRBdljIDaE6blYdPfq8s4XE=;
- b=gtLteImT7iq55HqwlhGmm8xPJrAhD0fLXV7LSw2soLNObWi7SgZPqdXBSW8oh70RN+KGTGfREf9mvFnRZJT0uJgWzwv46mLk7yrINd5lqjlW1dt4P8xBi4KePPK36VJ+Ol/mUxuGNzCyJr1QWCDvLutprlf25t6hb5QTvzGfD4mSYbUwLPubbEA/seDVTgY5Dpc5IshGhwrKSOm1GxpuTmrIeVaWhhEKJEPxHjAB8rU2vJe3IQgfev2RH/HXUFTfcybGRJWUp5uvWXF/8W2PtjlWaYr+qWoEcVVAWTHdcOp5MEbuZD4sd9vCy/tcSWoCBxcWJUPzCCMbWT/h3uUF0A==
+ bh=PVPfj7eCuC+/u/zZJ5M9kHOjrCfaXhujF7UZDQa5WxI=;
+ b=ZhjPefKJ3ly63mLzMFTKouKsdxhd2XUeAhtbWb0TzYy6ntFI0zpTyaTK3WAjLEkzc0EaXQ6ZfDNbBCw2uUKGjtEU2pVIPtSnUes6w8EAxM+j14Ax5+/qlupo6RcdNW+u7FiSpd98shT9Kqc8Yg8b3Ptt0B2gCAbwpWq/1Cp7SadxUIHtaBQ/L0aEPsYF3ocPdWdM483DOLc/6qndMVKgScxjVDDnCzDKiTYDhKuVe8gsMnNDPRYtzCwLxphMXRAEH2Pg4pRpji7O+T4Dz3Pd9rp8j64n3rBLhZROJi7IlKHVzRMoA1LFInoYEzv2ingbgI/SgGHhhG++UMUN5rXSzg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
  dkim=pass header.d=witekio.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iGQkIl6cCcWgBWadYGievRBdljIDaE6blYdPfq8s4XE=;
- b=Ntz6vNC8+q5FiaZ9pYUEhRzDCJNFNnCLZaekYsJAbhk/f1MC8aqbY7iKRzVcpP4yRyOhIMjQBDu+qLQeLijLLjhLJUE7LvRZok8WnUDCK2K60RLNbuLfGV/DGaX7IsbdNLRxB42n9ocM2EkNQNMsRwtYCjSMatcQNEGCNvQMWnGr2o81vYpixITcY+NYW+4ZDcBzIh9ib9/nj8yHrZGt8EB6Ke30Ky6DHEaK1VvUtHLh7zWzj4rQZc62vkh+3tMpdI8WAtiXs7rImLBoprTiLOj/JVb43dfoIxjxj47zhifwDQ4DbjDRyI1etj+QOWR4JRiZoqXhY7imDXWnm3/rsQ==
+ bh=PVPfj7eCuC+/u/zZJ5M9kHOjrCfaXhujF7UZDQa5WxI=;
+ b=IpScfYhZJeEcZvb7JUyRRRx6ZLyATmeAOGiyRY1lhBZgblmtOUeFez3onNg5GILOv6bwqRRtO3M0CwhiCJ6MSiy1mTSNYzgpWHlwsQCiJPR9zo2dSkkfciix1lqL9ylB4PrRi2Jl6NUWXBGVSiyQeAyXGkv9J4+DCATl1i6K21kKtx8fOXuUFXRkSW/ylr/lZw4EQkG+Es3VWjtka6Z/eEldOaBqYSk/qiqqxYXInNV7iVDMb2ceG0mitgYTlGkioztj6/8bKEhiGsL0lml2+KxRPQQ+rMaHYWaaPwfPCYzHXChUW/1XR7GDdI4qXaIokPflsybdcjg9G/FV1zpCPw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=witekio.com;
 Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:3ad::23)
- by AMBP192MB2913.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:6a5::16) with
+ by AS4P192MB1672.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:507::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.16; Thu, 21 May
- 2026 10:10:02 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Thu, 21 May
+ 2026 10:10:06 +0000
 Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
  ([fe80::25ed:86ef:4d24:3d38]) by AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
  ([fe80::25ed:86ef:4d24:3d38%5]) with mapi id 15.21.0025.023; Thu, 21 May 2026
- 10:10:02 +0000
+ 10:10:06 +0000
 From: tgaige.opensource@witekio.com
 To: openembedded-core@lists.openembedded.org
 Cc: hsimeliere.opensource@witekio.com,
 	"Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>,
 	Bruno Vernay <bruno.vernay@se.com>
-Subject: [scarthgap][PATCH 03/14] go: patch CVE-2026-32283
-Date: Thu, 21 May 2026 12:09:36 +0200
-Message-ID: <20260521100949.1299757-3-tgaige.opensource@witekio.com>
+Subject: [scarthgap][PATCH 06/14] go: patch CVE-2026-39817
+Date: Thu, 21 May 2026 12:09:39 +0200
+Message-ID: <20260521100949.1299757-6-tgaige.opensource@witekio.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260521100949.1299757-1-tgaige.opensource@witekio.com>
 References: <20260521100949.1299757-1-tgaige.opensource@witekio.com>
@@ -57,286 +57,216 @@ X-ClientProxiedBy: ZR0P278CA0104.CHEP278.PROD.OUTLOOK.COM
  (2603:10a6:20b:3ad::23)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9P192MB1396:EE_|AMBP192MB2913:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc01d67d-b406-41d5-948c-08deb7211f2f
+X-MS-TrafficTypeDiagnostic: AM9P192MB1396:EE_|AS4P192MB1672:EE_
+X-MS-Office365-Filtering-Correlation-Id: 075f6dee-6c21-411f-549b-08deb72121e3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|18002099003|56012099003|22082099003|38350700014|6133799003|3023799007;
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|22082099003|18002099003|56012099003|38350700014|3023799007|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	nXwSN9+2Y93NeM+nPL5liQ7g1GzWFKIpJkr/qO9qxyVdHE3SVmDdRsymFGhujFhZWPdVgokI1jhCLAWSD/4k6qTBaDqLCKz1YFRXawUuUs+X3kCvvO0gLUjVDelrb8AIll9quD3hzQ8cKq4K/2727H+qkD47lVNObKC7JSpV8IbLMyqdw01AfomaTm+8CesZQdGjSqRPPBti5UWVQPyaNP/H6kii0NwoDESVYeCY+AClJ/LwIM1/e8qiS7vm19xGT3+bas6IemYu4Hy3w8iLThrMWWCia/cF/0hvkqVHAV1J898cFSAsuikq4076qLD1GwvE1YjLm357be46oR1Iit4iInpqvaye/mFBgP/T9z2l6rgR0YFc+xcEJ/9wk90mGzjGGbxNog4An9X+RqUV7f52w8INzwRWgvH1k2sAWktvTJTfitjNcpARBooZh7f76FgwpgrQhff1e24aAu0nc+IZ3lFxgee2s071LzLh6wGysTAYvcekhC16dFpdZv+M8lLldf/kB4Rmy1YdH5AOI9uZCrBnbeDJzTthN1NlsktqtVfn/++Ra3Hgct112LJBAqlSFERnmzmIk2RxycRHm9EuHh7fgO0x4b3XBIo3H6BRqJXdI9nolPnb5bRxLD/XjE+dWt4vqdHFG/7OuTYqRypZUtz/eZFewByz3euV1u7GEKIQpZdvYnOHbPsCvTf86gIrBW05H6E1n7tQsph++A==
+	R5NiGmqpyv1GSEavsW745viSg+UW23aGWXECljBFJzgWTYCL0gemhZOv86mR6gHtKZhDOF1TJEkB8Ak74O6CjmA+tck4bbw78QPAyIZULYvfxnNrspJURQlg4oiiHMnXb7wf0mpnWH9+hhoZgHyf4cw/hpEXMVJ+s+gBvJSc1pAvEnZzzJslbhCitHvrdJYbasD4OwbKlbw37H2628opr/m/KIJZF0O3T0U3JXtUXKAsw1Hz6zu6L1JLVc9c7PAwb6ErtkhVLGMx4fvLLJ0MJdXlV/RWZO3GTOl+hDpJJp982ez3kW+M4k+eVTS6HMWHaj3U5QYXhB+XN0aCim65bMUlqtvwxjPi756br3nqqdPrPE2qyywV9HY/2d9uoJ8ZhbP9TL6d91w891GgJ7qF5kqH1uwjT88BU+N/CMciySl+2eGBxpbj3558IokaQxqSUmD6U84f+zAFymB0a1ARe+vRMMR+Ku5Yys+iuWbvAVgyCGxpaSiXg61TMBzdxrPqKzveFCLLBl5vhCWRyQpKpNmKH/LNBqDeu54o+nApbYFwRQAMw/KIQpV4uNasVr0/kv7MlStfO+cShaj0SgIrS6Q6DKModBDqbHMicjfHRhc5qf5ILrvvuB8z65TeO2zGM+zMNVv+4lBMGbAx7j01rUVFulXJne3FDWp2WHFWnrWR9FqdJOjNMgVekRyU7X2GVUDooHkbghNEtENoX8A8Aw==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P192MB1396.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(18002099003)(56012099003)(22082099003)(38350700014)(6133799003)(3023799007);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P192MB1396.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(22082099003)(18002099003)(56012099003)(38350700014)(3023799007)(6133799003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?6pKRJjFxyROyLROlpto4NNPSMq8YzSGU4x6hqmgdrFzXzhKhBkcxC6SuNyAK?=
- =?us-ascii?Q?vzvXG88uW51R5VF4+Yu8D/uSQ2QufWES6spx0yrYskaCDmtGzsYS6VTgAUpK?=
- =?us-ascii?Q?QmlQPQROiqyT4Uq6GFFSeG2Lc8lGgj5+KV7eiEP4wH47lD0eOGZxhbDVBltJ?=
- =?us-ascii?Q?VXn2P8IC8iLPZwKd6bnnhEppFAY7T1zorWdSuGTS9IFPXeXUgkeCFFWuxwKm?=
- =?us-ascii?Q?77omJHjWF4Kuj7V/b3EJqFjAZrniqnVbCgYpv/moQ+Zd1IpfRbcm1cCpzzOg?=
- =?us-ascii?Q?XrOw4kJqnENuKFU2lhl9bX8dSquJdrFPGRj+f62QO3nKSdVc58ThQE8/WlQv?=
- =?us-ascii?Q?zsH9pxLVvoz2TVj1lHwLeNbeCXCQ0/o56moLVhqiyaZqqMFd2NF8XaQcQeUd?=
- =?us-ascii?Q?behD6NuvcEYKVTObF0px4BdaMuSvCQwMh0aU4PwoVN+ls7+/x3hT9JKNI04+?=
- =?us-ascii?Q?J1ycvkP6SVy6cHHGezQhRtfh3jPVK2/nN8NQ8hRQpwI/KZKfCDy7t7ex+B1s?=
- =?us-ascii?Q?iyGuzlggBxuTxp2lrx36m8TvajIFSne2kCeoo3BRFnoG8pCXTmSrHtIVqjGE?=
- =?us-ascii?Q?NcJ4+UhY2yYIFpThoXshAHiM1p4FSZ1NYXK2Om+fsW+YYtQh4FPdvK/eEYBw?=
- =?us-ascii?Q?CGkkjO+bb0ahJ5PeLyXJi0Fr+G7w0ZIKRwgA8xSdq2kTenvGWie4tdMlcevl?=
- =?us-ascii?Q?fKKw7vCkL+73Eep9o3C86x8yKmfpxU1UGELYc5K75KVME+8XqQfgvIMI0xmf?=
- =?us-ascii?Q?WKJeOEZ6UDQxKfC713/3C5IpK4+oLIC63xDJDYPzD0CtX7WE3kZk7GbQ94S2?=
- =?us-ascii?Q?ObOHWHXAgOZ4SWkXycQXJ20n5P+jRZaTSyLWuumHyUpNnFoMEbS2uMTl0htw?=
- =?us-ascii?Q?lKPUf+/XZaXAFG+gmbD2mRAw24wc+FQL4UIFcunpC35Rcl3kOC9/GtMwStRB?=
- =?us-ascii?Q?H8o5xsUKCiGUGlL7NR7UgsZ2MRbT2R9cW4FhvLg8rdej5LMxu4GahYsQQho0?=
- =?us-ascii?Q?W4pLD3ckv1o8HJtkOuUKzx+TnuCIfI2iI/nOTSnTerN+U110R/TmsvN3USHV?=
- =?us-ascii?Q?FmoCvJyYCV00ovrj3KrPj/AxYoE9vh4f2AUwvvTksEedlLVclO0kfMzjm+FW?=
- =?us-ascii?Q?TGNeijAdcZ/lwV19lcOq+9tAPALQPBGoo+3xyFutBkEjmT0YM+RaVYgnn1p4?=
- =?us-ascii?Q?wRe0gVHHCu4v0iw87zCY2+LCqRk2e1WQ9a+xu6ToSDAFPcLPagSKV6CknSww?=
- =?us-ascii?Q?jxTMptuHJKRnTnm9K5IrrQH75AG/XA6ltwofhkDf4WHa2HEanl8lscXA3WOJ?=
- =?us-ascii?Q?vzBTp8dd2R5Yuia4E0j8vYZg1GmSZOeutzUnHvqWtLtViNVG9JZrsxBJIVn+?=
- =?us-ascii?Q?tScgzG7svtpMcMBmwU9x1YMyfRx+8j10qzEnK4IV3ELBwNbQ4lLHwpLtV2wy?=
- =?us-ascii?Q?hMdbURDjpJy8VFphPr89p/Oq8Ugd6tCEdT6XB/ax/tdoRCTVmhnvhX6vgbam?=
- =?us-ascii?Q?+91oK0U0n+oa4a1fNb8i6j/gYLqh7QqcrASostjDGdXX5mTLbgEw1nDGHBQL?=
- =?us-ascii?Q?OVn4X9O70VyiVRA6Tr2D/byaAUhsoBO3B+topJFnyC4fVHvX+K9JVM9JeF2A?=
- =?us-ascii?Q?1A9mJpkTjpInPFOcvZXhELp0WfiZvw5xX5Sl1/7J65alrNOVdnEf1m4sbu6k?=
- =?us-ascii?Q?PEakbJkR3dlE7qCq9hryMBG9R4VpTxEKQa96dKCnpiI5p5ctO/gzHukBpdmH?=
- =?us-ascii?Q?8D+vD0KTeQ=3D=3D?=
+	=?us-ascii?Q?iBMpP2kungl0J6fmu0M38gRgl3Pu+H7pOdxhF4mQmWDc/68LrEpEDrDujCD1?=
+ =?us-ascii?Q?/b6jBX535SQNJx+heLjS6D/InmC2d40eBK56cxPNUYr34gDKPH4cCMmgTLBU?=
+ =?us-ascii?Q?avw+d3pv+QZHqbedCWufuWsDNJZElzP8ZVD2MMEgod8ARAV9nHLEN5SyKR/i?=
+ =?us-ascii?Q?uza29XPIM+ssN8kRb5LOU9vqeSK2DbGlqW2oeG9Ex1z/Zy10DLHycWerQuDM?=
+ =?us-ascii?Q?6S1bEo/6e0G2MmJvjMcROmThIPWADMuy8GXeOMztQ9A0BllWu0w0EJBKYLTO?=
+ =?us-ascii?Q?Bg4u3hcnVAB6afxIKw9cyBSF+xQN9JMquZ2odOUMh7mM1M/T96pULFr7ganz?=
+ =?us-ascii?Q?iJCMFhM3QUTtBhWIZVmxpYLbz/QFma1FJJ7Blm5O9QoFOqYZTPpzgfRC/LqD?=
+ =?us-ascii?Q?dbd1nLAOu8CUdUdhrO5M0kptuutHfyCjmPKlwn1LcbXXsrdWNIRMZWuTQHTn?=
+ =?us-ascii?Q?U/Bi4ESm/aCc91wY48zUM+ZbNlanHgmIOKHa+/OhPDFas9Yioaq42mTAEbBB?=
+ =?us-ascii?Q?xDRtCNOETsJ1zPulDv/LsvvQv4aflNJD6N7Wn8src73UYbpLMIwQjdQa9Jxm?=
+ =?us-ascii?Q?ptwFd+SlpetgmUxZwAhzNbLnvY9HdP4amnnuzlJTOQioQk/J+N6MvscIWEj5?=
+ =?us-ascii?Q?138yHNAxEcJh071jJ2AqpAUKyHlT5McWBNuO5dNx9/dmHVt/+uBNDjLriSOs?=
+ =?us-ascii?Q?5cVOI8KpY3gDr/svKdnFjGIkLoDfl2lRe601DXKq3OFtMqkkEaqDyyBSfmg2?=
+ =?us-ascii?Q?ZM04U5qVNUPv8hLDmaYuh6AANWql9DgMOINsgvT6qk/tVlik2G/nhShYkVFK?=
+ =?us-ascii?Q?slIqcTWRtnIcarBLwCbZp1G6+FjFMIzXo/3tzAzS80tQxxUuOJg+i6ljwVTE?=
+ =?us-ascii?Q?Et/l2LBHXSanHGMBD9QvaNRUo59Hc1yUy1+0zm4JYKwGO2vFEaQQCUOTtr3f?=
+ =?us-ascii?Q?cWlxxuqtKbSgTZ2KTLxxfzfUy9C+vQvTbs/pMv6PmuLklWVsPNUAu9skUY+2?=
+ =?us-ascii?Q?gSP+9ZpJ9z3dd5TpsQ0H8VwZ9stf1lxNqlTeMGUzo+XU7eC0Bp+Hxptuvd4q?=
+ =?us-ascii?Q?JpwIBWBQuw+fzfuserQIiM4kmPCv03rghB2q14usgge2CJSbBLTdhXGMwh0r?=
+ =?us-ascii?Q?grOzlPh2LLm21GKAfTlXghAUnCs6ks247TFAfnlUYTS+zWnfCbYpRfqktrOe?=
+ =?us-ascii?Q?vKZhdK+ZwaGHoryGH/OvDA58g/KfB+MeST1gElGn9myPnU71a+GdtO0WIkq2?=
+ =?us-ascii?Q?CpE8JI1bvEwIx5KjfubH5b8+HpTgV4B7bbDxFGZsxu4QC6dKU5tWaoasj1da?=
+ =?us-ascii?Q?n7WCFy0Ly+jrI60VHl9wwo+oT40KGvf7ZqjnAQc5Ry8zEcs6e/OTKD5B2GXS?=
+ =?us-ascii?Q?0tPdlJ+nHfKuGsXMnHcJxmmYQMWrzwPDBmecxnEwSW7tIsvDBHs4YiANP3eu?=
+ =?us-ascii?Q?GqwlXx2pFngE+f8bCNRWl5DB4mIYo1orM0E8Zve28P35irBQKAbJpEW7ijSc?=
+ =?us-ascii?Q?ObQADSefJiBGw4oGFdP5xe+tqzwTasgTn5OhwGK9iWwkIC3+4D7uxYmswDfD?=
+ =?us-ascii?Q?gEz2wsebYf/k4GvvkbM21HnqvP6FF0u3UkAYGlb9DGtRG0XLURAYt/6hQ9lb?=
+ =?us-ascii?Q?dwEOgholiNNXiFO41zdevh9ZtGyRrmTgQeu0JpYpBfzGrf0kyrblfW7EiQQH?=
+ =?us-ascii?Q?f0PwdBR1rxtkxL0W3+cnJpeLOwCEwu0Rh8jV4kiNznYo/ktNEoCRS/QFjYag?=
+ =?us-ascii?Q?9T04NNVICQ=3D=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	JVlARIlyScdWsLSS5vy3jzyPtqkIwuYKwDiUx2ptoJST2JxkKaNOm/JqEwphwATn4ex9sS1AqTUBD2ni9oz0ASlcCSthBxT7fYNrFOBIFw2hh2ZVccQLJaZmfRVWowBHShAvQD+gTzSlPBnDBv/axfGQdg6BrlfeVJ1Pthez/UaGtNEKKN4KNWvnK7v1Ewog5/1Zl++Jhbc7jbR8urnu5Ds3wizs/DezO6ro2fJzf3KLgTfwzyjJFHYlE6FJNWyrNJE6Pu+paLd8DohWePyb/jC28ri4Di2i/z6MB2RAZ1YRVa2UIc7a4zcDMhqV5PwGCrnATKd99o2f79pWjcHnbg==
+	dv7+HxgySPSFshFXXdR7k35OooSWehS1X0xa0aoUlUQZ0kinCh8c+xBt6U+W2qU69/ztwa5Q2VxZbP/G8xQ9ngq/+HPR9tAYXYWxxI3Znx83RueKDiS7vnSiQ9tQxPmxbV5uCFLj+gOi4/xyGQZwBr9I7C5cKUhJYPx1FRDXu7BsSj74ZjecCtBJLP4AHgus6Q+Dmjp2A7A7miEglg2FHL/v+YPYDaNhi2HQltBaxWoTS8+2WrCP72nGbke/dJzKknlxUX7zUkHBmGEp38wYFGV4bT0/2UZJFXBEw3MHD2fR1/MhP8MP37A9cx5JsdsKADZJnvdK5/Gfx7tj5fw68Q==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	5cLB73LZa49q5g0OApNtDTfYaFkJr7USduzjAM+ZwrtULLuVWGbgXV3MP5xNNAsHpkDpsfDZoYLhy3yGAJ3w3DqyXWfpfEWlD8yrMqDDVFUMU85vQEYV5paVkdu57npOVtFLuXDv3WkycD79M2LoTRTjZN6us/jk5MuoC7YCEERayg25pbUkTPa4+TbtBmw53X2xZSjutaSUTOtRrOz2WthJfHFsb3OfIlAnQEqW3X40EqwKx/+IMG3wk7ol7i+FYzi8u8v1kn+bLXTnvGRtXO/y3aEfimeB6x3qC3HF0FztNmMAoCiCCIAyafCkjvUYEAOFma2vHVj/dAM/ecMbmJlvWHuja6TJTTHjKvyeLFclryrVIcbNJqoBq9ftPixh8GbYoOz03LPF3fzewPxNkDOAI3JyY6YKdd2kFJCizr228a4ZfGEeBxDC9kh7SGVa6KKtviz258OaM7jrYxkP3rgawZb/deVMYbKb3pRaLl0u+fqg6Z3kljFB66XXxhfxqzYtWo2l65d8hPMS9ueWtdFdVWUrsbMTxDTUfPofsM2kxYQfjTeR83sJZI5VWJWopqAFbBSV/mxlXaEM9poRCgq++d4OOwR//SOvUL4mSGx2Duso/DIryf26TUlj0ZeU
+	EP7wH2iPahT2iqpcMgDtOfFbhh3xXtKp3dHYf27+Ex8gIEJFa/tLB/xYpD0HdhMRyUqp3ohvGlvii/9NZgi8/kYt4erHE3pECl1CT5z21nl7FwFzRS7aNonHjJYSjr1BJnRvcyMEZVehwxqfCusJzjbfVPC0U0emhoJatNXa0B2LMSm8ZQxmQBpFsd1MB/i1fS2xx7TTUrUFatkYr+8S74BCRTO4GO/j41kTCOw/W0EPnrPPCPvQDwWkrxewT3pzb2iVoKy0QXwnvFF+9ItjMUARm5WwNuh35Bcl0q5F4npwYyurUww69HR7DZMK1NbdmvLr8+0vC2P3AaG7Cs0YFkol59o/1mz1bNuT5D3lea4vINKQE0G7P6nBFx6TDov06ObW69q9F4F1ClPqyB6k9sRDu8YOKyvU7nNewiAUx9iYoLFWOuBPICg0kWA6mWe0cPlKIs/pwFF8VQUYXU4HhYI0vccMt2NFIkKYzj1artsTukMJSUfgSABct8x155FPaj9B0K2ozsS0Eh06IIDZAG6hmOfPhgr0c+jkHYpPPvZsi5YjNQWlj8RZULnwY2TDwfXB0kU6Um+Ds6+QzSEblcm9leA+PtCn4sskIiKwFD6Rla+HeMwGwym55D/+HYF0
 X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc01d67d-b406-41d5-948c-08deb7211f2f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 075f6dee-6c21-411f-549b-08deb72121e3
 X-MS-Exchange-CrossTenant-AuthSource: AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 10:10:01.9262
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 10:10:06.4431
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NlepKeF20/BdsZs16/y2B+QPTtcgGmzMgXmPWKn8kxDqDJgYiPkSTJ9Qsea0P+atWiAyOUILP6Is6qMcQEELNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBP192MB2913
+X-MS-Exchange-CrossTenant-UserPrincipalName: EYkE6klI6mxVQtVviYbzSPoxzgXhEqF9srZqJm82gPJDiI4jPrF3Tet83c/yJQAuZyg/oRXq8wMyE6fkT+YYUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P192MB1672
 X-cloud-security-sender: tgaige@witekio.com
 X-cloud-security-recipient: openembedded-core@lists.openembedded.org
 X-cloud-security-crypt: load encryption module
 X-cloud-security-Mailarchiv: E-Mail archived for: tgaige.opensource@witekio.com
 X-cloud-security-Mailarchivtype: outbound
 X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate17-hz12 with 4gLkfz3Wp2z1L8XZ
-X-cloud-security-connect: mail-francecentralazon11023089.outbound.protection.outlook.com[40.107.162.89], TLS=1, IP=40.107.162.89
-X-cloud-security-Digest: 61bef733f7fb05576bfce394a72f9c65
-X-cloud-security: scantime:1.447
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate25-hz12 with 4gLkgF4CjLz1X42l
+X-cloud-security-connect: mail-francecentralazon11023101.outbound.protection.outlook.com[40.107.162.101], TLS=1, IP=40.107.162.101
+X-cloud-security-Digest: 01c7caf8122536ca97396a79218291a5
+X-cloud-security: scantime:1.358
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 10:10:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237485
+ <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 10:10:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237490
 
 From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
 
-Backport patch from [1]
+Backport patch from [1] mentionned in [2]
 
-[1] https://go.dev/cl/763767
+[1] https://go.dev/cl/767520
+
+[2] https://security-tracker.debian.org/tracker/CVE-2026-39817
 
 Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 Reviewed-by: Bruno Vernay <bruno.vernay@se.com>
 ---
  meta/recipes-devtools/go/go-1.22.12.inc       |   1 +
- .../go/go/CVE-2026-32283.patch                | 177 ++++++++++++++++++
- 2 files changed, 178 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-32283.patch
+ .../go/go/CVE-2026-39817.patch                | 105 ++++++++++++++++++
+ 2 files changed, 106 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39817.patch
 
 diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index 0d4dff6c21..99c2945a8c 100644
+index 9a7695e754..f06b974e04 100644
 --- a/meta/recipes-devtools/go/go-1.22.12.inc
 +++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -43,6 +43,7 @@ SRC_URI += "\
-     file://CVE-2025-68121_p3.patch \
-     file://CVE-2026-27142.patch \
-     file://CVE-2026-32280.patch \
-+    file://CVE-2026-32283.patch \
+@@ -46,6 +46,7 @@ SRC_URI += "\
+     file://CVE-2026-32283.patch \
+     file://CVE-2026-32289.patch \
+     file://CVE-2026-33811.patch \
++    file://CVE-2026-39817.patch \
  "
  SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
  
-diff --git a/meta/recipes-devtools/go/go/CVE-2026-32283.patch b/meta/recipes-devtools/go/go/CVE-2026-32283.patch
+diff --git a/meta/recipes-devtools/go/go/CVE-2026-39817.patch b/meta/recipes-devtools/go/go/CVE-2026-39817.patch
 new file mode 100644
-index 0000000000..87bcc5816f
+index 0000000000..103fbedb7a
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2026-32283.patch
-@@ -0,0 +1,177 @@
-+From f560f55d3f804dcc3002dfe963b37bfa3a67202c Mon Sep 17 00:00:00 2001
-+From: Roland Shoemaker <bracewell@google.com>
-+Date: Mon, 23 Mar 2026 11:54:41 -0700
-+Subject: [PATCH] crypto/tls: prevent deadlock when client sends multiple key
-+ update messages
++++ b/meta/recipes-devtools/go/go/CVE-2026-39817.patch
+@@ -0,0 +1,105 @@
++From 7d35508ad684c808ec11fb6ef3ab27f9258a9418 Mon Sep 17 00:00:00 2001
++From: Damien Neil <dneil@google.com>
++Date: Wed, 15 Apr 2026 16:27:23 -0400
++Subject: [PATCH] cmd/pack: refuse to extract files with directory components
 +
-+When we made setReadTrafficSecret send an alert when there are pending
-+handshake messages, we introduced a deadlock when the client sends
-+multiple key update messages that request a response, as handleKeyUpdate
-+will lock the mutex, and defer the unlocking until the end of the
-+function, but setReadTrafficSecret called sendAlert in the failure case,
-+which also tries to lock the mutex.
++Do not write to /etc/passwd when running "go tool pack x evil.a"
++on an archive containing a file named /etc/passwd.
 +
-+Add an argument to setReadTrafficSecret which lets the caller indicate
-+if the mutex is already locked, and if so, call sendAlertLocked instead
-+of sendAlert.
++Fixes #78778
 +
-+Thanks to Jakub Ciolek for reporting this issue.
-+
-+Fixes #78334
-+Fixes CVE-2026-32283
-+
-+Change-Id: Id8e56974233c910e0d66ba96eafbd2ea57832610
-+Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3881
-+Reviewed-by: Damien Neil <dneil@google.com>
++Change-Id: I4cf69b81af62321ffbb41ace679672a86a6a6964
++Reviewed-on: https://go-review.googlesource.com/c/go/+/767520
++Reviewed-by: Nicholas Husin <nsh@golang.org>
++LUCI-TryBot-Result: golang-scoped@luci-project-accounts.iam.gserviceaccount.com <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
 +Reviewed-by: Nicholas Husin <husin@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/763767
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+Auto-Submit: David Chase <drchase@google.com>
-+Reviewed-by: Russ Cox <rsc@golang.org>
-+Reviewed-by: Jakub Ciolek <jakub@ciolek.dev>
 +
-+CVE: CVE-2026-32283
-+Upstream-Status: Backport [https://github.com/golang/go/commit/1ea7966042731bae941511fb2b261b9536ad268f]
++CVE: CVE-2026-39817
++Upstream-Status: Backport [https://github.com/golang/go/commit/7409ada33f99c0d74db2b0389c51a15de116e48d]
 +Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 +---
-+ src/crypto/tls/conn.go                   | 10 +++--
-+ src/crypto/tls/handshake_client_tls13.go |  4 +-
-+ src/crypto/tls/handshake_server_tls13.go |  4 +-
-+ src/crypto/tls/handshake_test.go         | 48 ++++++++++++++++++++++++
-+ 4 files changed, 59 insertions(+), 7 deletions(-)
++ src/cmd/pack/pack.go      |  5 +++++
++ src/cmd/pack/pack_test.go | 44 +++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 49 insertions(+)
 +
-+diff --git a/src/crypto/tls/conn.go b/src/crypto/tls/conn.go
-+index 08609ce..770d456 100644
-+--- a/src/crypto/tls/conn.go
-++++ b/src/crypto/tls/conn.go
-+@@ -1345,7 +1345,7 @@ func (c *Conn) handleKeyUpdate(keyUpdate *keyUpdateMsg) error {
++diff --git a/src/cmd/pack/pack.go b/src/cmd/pack/pack.go
++index 412ea36d60..2fe0258f01 100644
++--- a/src/cmd/pack/pack.go
+++++ b/src/cmd/pack/pack.go
++@@ -135,6 +135,11 @@ func openArchive(name string, mode int, files []string) *Archive {
++ 	if err != nil {
++ 		log.Fatal(err)
 + 	}
-+ 
-+ 	newSecret := cipherSuite.nextTrafficSecret(c.in.trafficSecret)
-+-	if err := c.setReadTrafficSecret(cipherSuite, QUICEncryptionLevelInitial, newSecret); err != nil {
-++	if err := c.setReadTrafficSecret(cipherSuite, QUICEncryptionLevelInitial, newSecret, keyUpdate.updateRequested); err != nil {
-+ 		return err
-+ 	}
-+ 
-+@@ -1675,12 +1675,16 @@ func (c *Conn) VerifyHostname(host string) error {
-+ // setReadTrafficSecret sets the read traffic secret for the given encryption level. If
-+ // being called at the same time as setWriteTrafficSecret, the caller must ensure the call
-+ // to setWriteTrafficSecret happens first so any alerts are sent at the write level.
-+-func (c *Conn) setReadTrafficSecret(suite *cipherSuiteTLS13, level QUICEncryptionLevel, secret []byte) error {
-++func (c *Conn) setReadTrafficSecret(suite *cipherSuiteTLS13, level QUICEncryptionLevel, secret []byte, locked bool) error {
-+ 	// Ensure that there are no buffered handshake messages before changing the
-+ 	// read keys, since that can cause messages to be parsed that were encrypted
-+ 	// using old keys which are no longer appropriate.
-+ 	if c.hand.Len() != 0 {
-+-		c.sendAlert(alertUnexpectedMessage)
-++		if locked {
-++			c.sendAlertLocked(alertUnexpectedMessage)
-++		} else {
-++			c.sendAlert(alertUnexpectedMessage)
+++	for _, f := range a.Entries {
+++		if !filepath.IsLocal(f.Name) || filepath.Base(f.Name) != f.Name {
+++			log.Fatalf("%q: invalid name", f.Name)
 ++		}
-+ 		return errors.New("tls: handshake buffer not empty before setting read traffic secret")
-+ 	}
-+ 	c.in.setTrafficSecret(suite, level, secret)
-+diff --git a/src/crypto/tls/handshake_client_tls13.go b/src/crypto/tls/handshake_client_tls13.go
-+index 68ff92b..2d58b21 100644
-+--- a/src/crypto/tls/handshake_client_tls13.go
-++++ b/src/crypto/tls/handshake_client_tls13.go
-+@@ -396,7 +396,7 @@ func (hs *clientHandshakeStateTLS13) establishHandshakeKeys() error {
-+ 	c.setWriteTrafficSecret(hs.suite, QUICEncryptionLevelHandshake, clientSecret)
-+ 	serverSecret := hs.suite.deriveSecret(handshakeSecret,
-+ 		serverHandshakeTrafficLabel, hs.transcript)
-+-	if err := c.setReadTrafficSecret(hs.suite, QUICEncryptionLevelHandshake, serverSecret); err != nil {
-++	if err := c.setReadTrafficSecret(hs.suite, QUICEncryptionLevelHandshake, serverSecret, false); err != nil {
-+ 		return err
-+ 	}
-+ 
-+@@ -607,7 +607,7 @@ func (hs *clientHandshakeStateTLS13) readServerFinished() error {
-+ 		clientApplicationTrafficLabel, hs.transcript)
-+ 	serverSecret := hs.suite.deriveSecret(hs.masterSecret,
-+ 		serverApplicationTrafficLabel, hs.transcript)
-+-	if err := c.setReadTrafficSecret(hs.suite, QUICEncryptionLevelApplication, serverSecret); err != nil {
-++	if err := c.setReadTrafficSecret(hs.suite, QUICEncryptionLevelApplication, serverSecret, false); err != nil {
-+ 		return err
-+ 	}
-+ 
-+diff --git a/src/crypto/tls/handshake_server_tls13.go b/src/crypto/tls/handshake_server_tls13.go
-+index 1ecee3a..f73b536 100644
-+--- a/src/crypto/tls/handshake_server_tls13.go
-++++ b/src/crypto/tls/handshake_server_tls13.go
-+@@ -636,7 +636,7 @@ func (hs *serverHandshakeStateTLS13) sendServerParameters() error {
-+ 	c.setWriteTrafficSecret(hs.suite, QUICEncryptionLevelHandshake, serverSecret)
-+ 	clientSecret := hs.suite.deriveSecret(hs.handshakeSecret,
-+ 		clientHandshakeTrafficLabel, hs.transcript)
-+-	if err := c.setReadTrafficSecret(hs.suite, QUICEncryptionLevelHandshake, clientSecret); err != nil {
-++	if err := c.setReadTrafficSecret(hs.suite, QUICEncryptionLevelHandshake, clientSecret, false); err != nil {
-+ 		return err
-+ 	}
-+ 
-+@@ -1005,7 +1005,7 @@ func (hs *serverHandshakeStateTLS13) readClientFinished() error {
-+ 		return errors.New("tls: invalid client finished hash")
-+ 	}
-+ 
-+-	if err := c.setReadTrafficSecret(hs.suite, QUICEncryptionLevelApplication, hs.trafficSecret); err != nil {
-++	if err := c.setReadTrafficSecret(hs.suite, QUICEncryptionLevelApplication, hs.trafficSecret, false); err != nil {
-+ 		return err
-+ 	}
-+ 
-+diff --git a/src/crypto/tls/handshake_test.go b/src/crypto/tls/handshake_test.go
-+index 4991a0e..a95d751 100644
-+--- a/src/crypto/tls/handshake_test.go
-++++ b/src/crypto/tls/handshake_test.go
-+@@ -673,3 +673,51 @@ func concatHandshakeMessages(msgs ...handshakeMessage) ([]byte, error) {
-+ 	outBuf = append(outBuf, marshalled...)
-+ 	return outBuf, nil
-+ }
-++
-++func TestMultipleKeyUpdate(t *testing.T) {
-++	for _, requestUpdate := range []bool{true, false} {
-++		t.Run(fmt.Sprintf("requestUpdate=%t", requestUpdate), func(t *testing.T) {
-++
-++			c, s := localPipe(t)
-++			cfg := testConfig.Clone()
-++			cfg.MinVersion = VersionTLS13
-++			cfg.MaxVersion = VersionTLS13
-++			client := Client(c, testConfig)
-++			server := Server(s, testConfig)
-++
-++			clientHandshakeDone := make(chan struct{})
-++			go func() {
-++				if err := client.Handshake(); err != nil {
-++				}
-++				close(clientHandshakeDone)
-++				io.Copy(io.Discard, server)
-++			}()
-++
-++			if err := server.Handshake(); err != nil {
-++				t.Fatalf("server handshake failed: %v\n", err)
-++			}
-++			<-clientHandshakeDone
-++
-++			c.SetReadDeadline(time.Now().Add(1 * time.Second))
-++			s.SetReadDeadline(time.Now().Add(1 * time.Second))
-++
-++			kuMsg, err := (&keyUpdateMsg{updateRequested: requestUpdate}).marshal()
-++			if err != nil {
-++				t.Fatalf("failed to marshal key update message: %v", err)
-++			}
-++
-++			client.out.Lock()
-++			if _, err := client.writeRecordLocked(recordTypeHandshake, append(kuMsg, kuMsg...)); err != nil {
-++				t.Fatalf("failed to write key update messages: %v", err)
-++			}
-++			client.out.Unlock()
-++
-++			_, err = io.Copy(io.Discard, client)
-++			if err == nil {
-++				t.Fatal("expected multiple key update messages to cause an error, got nil")
-++			} else if !strings.HasSuffix(err.Error(), "tls: unexpected message") {
-++				t.Fatalf("unexpected error: %v", err)
-++			}
-++		})
 ++	}
++ 	return &Archive{
++ 		a:        a,
++ 		files:    files,
++diff --git a/src/cmd/pack/pack_test.go b/src/cmd/pack/pack_test.go
++index c3a63424dd..c4a8c78cbf 100644
++--- a/src/cmd/pack/pack_test.go
+++++ b/src/cmd/pack/pack_test.go
++@@ -6,6 +6,7 @@ package main
++ 
++ import (
++ 	"bufio"
+++	"bytes"
++ 	"cmd/internal/archive"
++ 	"fmt"
++ 	"internal/testenv"
++@@ -409,6 +410,49 @@ func TestRWithNonexistentFile(t *testing.T) {
++ 	run(packPath(t), "r", "p.a", "p.o") // should succeed
++ }
++ 
+++func TestOutputPathSanitization(t *testing.T) {
+++	dir := t.TempDir()
+++
+++	// Create pack.a containing a file named "longpathname".
+++	// Note that "go tool pack" requires that all files be at least 8 bytes long.
+++	const validPathName = "longpathname"
+++	if err := os.WriteFile(dir+"/"+validPathName, make([]byte, 8), 0o666); err != nil {
+++		t.Fatal(err)
+++	}
+++	doRun(t, dir, packPath(t), "grc", "pack.a", validPathName)
+++
+++	// Create evil.a from pack.a, replacing "longpathname" with "out/pathname".
+++	b, err := os.ReadFile(dir + "/pack.a")
+++	if err != nil {
+++		t.Fatal(err)
+++	}
+++	idx := bytes.Index(b, []byte(validPathName))
+++	if idx < 0 {
+++		t.Fatalf("%v not found in pack.a", validPathName)
+++	}
+++	copy(b[idx:], "out/")
+++	os.WriteFile(dir+"/evil.a", b, 0o666)
+++
+++	// Extract evil.a. It should fail and not extract a file to /out.
+++	os.Mkdir(dir+"/out", 0o777)
+++
+++	cmd := testenv.Command(t, packPath(t), "x", "evil.a")
+++	cmd.Dir = dir
+++	_, err = cmd.CombinedOutput()
+++	if err == nil {
+++		t.Errorf("pack x evil.a: unexpected success")
+++	}
+++
+++	ents, err := os.ReadDir(dir + "/out")
+++	if err != nil {
+++		t.Error(err)
+++	}
+++	for _, e := range ents {
+++		t.Errorf("unexpected file in /out: %q", e.Name())
+++	}
+++
 ++}
+++
++ // doRun runs a program in a directory and returns the output.
++ func doRun(t *testing.T, dir string, args ...string) string {
++ 	cmd := testenv.Command(t, args[0], args[1:]...)
 +-- 
 +2.43.0
 +
