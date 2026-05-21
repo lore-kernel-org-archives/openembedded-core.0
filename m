@@ -2,142 +2,132 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7874CD5BAA
-	for <webhook@archiver.kernel.org>; Thu, 21 May 2026 08:50:13 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32380.1779353410056421645
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E657FCD5BAC
+	for <webhook@archiver.kernel.org>; Thu, 21 May 2026 09:00:23 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32308.1779354018950224353
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2026 01:50:10 -0700
+ Thu, 21 May 2026 02:00:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=R+83ahAy;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43fe62837baso3390607f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 01:50:09 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=dhmmb3gj;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48fe26a177cso43537605e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 02:00:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1779353408; x=1779958208; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
+        d=smile.fr; s=google; t=1779354017; x=1779958817; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UcsUXPP9D+R6fXowxPddR9/IL8mb4i1PMZyJyWCxt04=;
-        b=R+83ahAydHVa2HUF2Os9B75hNpsNFBWA+z1ReNvGRxSivjH+8kld35n+wMRoVTajfy
-         cM4+Bl3o6kU7i9bZRw+poJfvwpxK0h5JPhlq9AUiLHGS6KS7ICVRq8lp7NGl2FMndHFD
-         +M70smL4DNROzliQijSC/XjCCOmN3YKC2uH3Q=
+        bh=zTLu/HoT7PAOpo+iNhdZmTYlsrRYpHDPRstV1qULlNI=;
+        b=dhmmb3gj7Fc92kNNaPUlype+fQNTYP55gW8XIdN1H+1bau++lBbsAbMFhZCjGRfgN5
+         P6QSbhO+VMRN9aw0w6/saWzG3qRXFJv25gx8ReNimNJerziy2JKLkbfU92LkFwuzVbfM
+         cIZVqcbhNH2YdaVQX7Uoh9kaNOKl6dJmZKE3c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779353408; x=1779958208;
-        h=in-reply-to:references:to:from:subject:message-id:date
+        d=1e100.net; s=20251104; t=1779354017; x=1779958817;
+        h=in-reply-to:references:from:subject:to:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=UcsUXPP9D+R6fXowxPddR9/IL8mb4i1PMZyJyWCxt04=;
-        b=tR8BFerWFQGCLHro07Zf/Y8AWGDsd/qi39sGY3dqOmt1Gm8oC83F35A6FdIbeHtmjU
-         BFvz5sK+UIYotnxs/AlP5NMvomH7H1lDacCDh2PwpahqEURwC8gQOseq0J6CkYeAM1Cy
-         nnDYMTec9gqFt8IA7B0OuhU4CQUBDOEb1yp5EHiUgPEB5VB9SvEW978cMxyMIjgWHMcG
-         KVkls5VsWUe2muYmJpciwDTgMrYEEXOq+UDAQs4iVSiqqlmnIsSfFBKCaRStvveuIW5J
-         NHQaV7Qq+JnbAd33uHaXByr7/BLchz+V0VqkV8MO0+KQjzzv+iDW4owRB/vQJr7BBxgM
-         I+YA==
-X-Forwarded-Encrypted: i=1; AFNElJ84NTGyPNtqQvO01BtCWmT5YZI4TIhoKecwbbPUDfvn0GDV17CdTzLJVZfbCUkR5yTjZ2HnM071lPZ2jf7tMajHEw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzCG+TP16FU/nOawaOA4Wp2BlgenrvlAYt0fdKT9nWFvcmRiCpY
-	za6C7eJJBQOJ5cVjDPuEKIjbtcHmwLbQkkophTxXZznuvuowsJo0WhTtPIRdLhkNXSs=
-X-Gm-Gg: Acq92OF284uomMCpaaVzcObg4p6amRtBreEe9y2IZ84wsMk0R6N2oWCxfTQhzL9hGCo
-	XG2EhPb6//T8AT2PW6VxCpWUjeh9WTp39nVk+dMadkeMIOMlJsBkwG634zbQKqaePtNEl+EiH0E
-	Vc03IMaPo5h95Yw71uZE/ticHjR2iuioag/LRQIGROAhx99GwuiR4Sh+dO6WHBpToQwKZW5qAfC
-	i0bWSfLqJzMq4G90JA9cdzlPISweKtMb0BjxbBR8cmtFSK0g7qQRbmiK9Y98ffrgPFi0S1B1QFm
-	wCO1/aagBxP9woKoL9EsFAwG7onqLl2E12w9VTDpKPV72dmRJoJi7d4VsWLjrhq1h1Jtw/v+/3t
-	h7E0cn2Ureh2BHfIz1fkkpmnBvowpHFU654gM75HHt9SB69nkOg2z1tZ4Hjie5LnrCwKPMPNjIi
-	uXdPGGs49pqjwh3LT8smhVIZqVN0WWfrNV9mtjrj0TWsjFyE+dojxgJ6zVvkTD2yFZ7lyJkv4Pm
-	UgpvsvtZGWHawL5hKcf5gWOYg==
-X-Received: by 2002:a05:6000:220d:b0:451:2157:6291 with SMTP id ffacd0b85a97d-45ea413afb3mr2938406f8f.41.1779353408387;
-        Thu, 21 May 2026 01:50:08 -0700 (PDT)
+        bh=zTLu/HoT7PAOpo+iNhdZmTYlsrRYpHDPRstV1qULlNI=;
+        b=BOzJXlBsGDOwaFJu1UdtMIlPZCbE/Kg/I2sskiYB+wCBCUekDzl4DWw4S13+32RWTy
+         hWzPrhKtTcQFtLdYtxxvhFFeAViWbql4avXWQmlRebCN8fxysAM4dvMgYPVjdkALQPak
+         jvCeg2g/h+1p3vb6LwIbyC385P3V21pht40lvq0VuAsPKhVX1MKYZeE6LA1WvIpbyhrm
+         hVCDpZ27y2n29z/HBknJ1Lsi/ViNWlRAp1zbDuSAoOvT5ceh3wQo5aw2Ki6A5kVE6Adx
+         4JMjerkhIhOx8Fxh9tjWh2omMzm4koDPyd/GaY4qM7M4sqOrBPRjyg45W41W53yEAUyr
+         4quQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/vxEBwYXbu5k9DUbygItqexpEbnuEGQgijLva2o9u1Tleqd/SVqoqJc6dkGeAAhVWQL6kCqAgb/X7WsgY+SMmUtw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzfrRvnUsi6Iu03Jn4MT2rLQlvoQKGPlEWQqxvstKvalgEHC/6O
+	tSdRSOw2R8G23n7w86c2lMEMmNbtYnEtyyKTbU9U1nY5rKQMxUXir9zcFUo9CkAb+7zjdwmE+yH
+	/919C
+X-Gm-Gg: Acq92OEN62qMktsFeA3ZtR/VZWTBhLqor9onxog8pgJfTifKx5X4tzXHr9DD5Gtp5Vs
+	PalmUq0HL6AUNxPjePeK1Rihn9oCuldOBe5SIQhNincpz0Yw9VM4ZY01XQsoCZCZIk1oo7Hs+Hd
+	UKBrr4pPnz2Y0IeHgZ7JrFFJYORyheUm+1WVo6Y4rPJ1xJNtOdQvc09aqwFD+cuZbLFApwKbSRn
+	trEYorOGYDqKsSvOHnAHcJjCw8fUE4qcthPC1tV1fR/+RxGhV+I8ANH3hIsN8YiQSeO8I5tbHEg
+	VNVEvC8ybhbODAGdlR+fZzwfS631ISwobpxlu40bjVU+q+GsPN7QD9hM0BNeQimAR6OrQcTsCuQ
+	Yrq9L4I2eOec9qOO8g1hLVlXbge/qpctqasUuQpZ++zdDb3mgjnXLPozwvW+p8re+jP7K4tCUWc
+	9FdpqEanqzNyZt3lXDSHoC21VSz2isHQ7ENK3iX3SITZDbbaVgZmX29iXrRwcVK1D3HX4OUppV8
+	kXA1rc1O330PQ/eR84Jg1ExQQ==
+X-Received: by 2002:a05:600c:c086:b0:48f:dfe3:dae4 with SMTP id 5b1f17b1804b1-4903606b808mr20909905e9.13.1779354016885;
+        Thu, 21 May 2026 02:00:16 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eaa944995sm1089417f8f.34.2026.05.21.01.50.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49033d52c8bsm55422345e9.8.2026.05.21.02.00.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 May 2026 01:50:07 -0700 (PDT)
+        Thu, 21 May 2026 02:00:16 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 21 May 2026 10:50:07 +0200
-Message-Id: <DIO852TLB09U.2JG6JG4L1XMIE@smile.fr>
-Subject: Re: [OE-core] [whinlatter][PATCH] scripts/install-buildtools:
- Update to 5.3.2
+Date: Thu, 21 May 2026 11:00:16 +0200
+Message-Id: <DIO8CUB3VD1U.39NH95XC3C83@smile.fr>
+To: <changqing.li@windriver.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [meta-selftest][PATCH] meta-selftest/files: add
+ postfix/vmail/postgrop to static-passwd/-group
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <aleksandar.nikolic010@gmail.com>,
- <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260314180151.43501-1-aleksandar.nikolic22@pm.me>
- <20260314180151.43501-3-aleksandar.nikolic22@pm.me>
- <DH2RVWI85JHY.9VXXCUXB22I3@smile.fr>
- <2115555.1778649727366269581@lists.openembedded.org>
-In-Reply-To: <2115555.1778649727366269581@lists.openembedded.org>
+References: <20260513072651.2235181-1-changqing.li@windriver.com>
+In-Reply-To: <20260513072651.2235181-1-changqing.li@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 08:50:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237482
+ <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 09:00:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237483
 
-On Wed May 13, 2026 at 7:22 AM CEST, Aleksandar Nikolic via lists.openembed=
-ded.org wrote:
-> On Sat, Mar 14, 2026 at 09:03 PM, Yoann Congal wrote:
+On Wed May 13, 2026 at 9:26 AM CEST, Changqing Li via lists.openembedded.or=
+g wrote:
+> Package postfix-bin create postfix/vmail, and group
+> postfix/vmail/postgrop, add them in static-passwd/-group to fix the
+> failure as below:
+> 2026-05-13 15:16:49,656 - oe-selftest - INFO -       ERROR: Nothing PROVI=
+DES 'postfix'
+> 2026-05-13 15:16:49,656 - oe-selftest - INFO -       postfix was skipped:=
+ Recipe postfix, package postfix-bin: system username "postfix" does not ha=
+ve a static ID defined. Add postfix to one of these files: /build-st/meta-s=
+elftest/files/static-passwd
 >
->>=20
->> On Sat Mar 14, 2026 at 7:01 PM CET, Aleksandar Nikolic via
->> lists.openembedded.org wrote:
->>=20
->>> Update to the 5.3.2 release of the 5.3 series for buildtools
->>>=20
->>> Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic22@pm.me>
->>> ---
->>> scripts/install-buildtools | 4 ++--
->>> 1 file changed, 2 insertions(+), 2 deletions(-)
->>>=20
->>> diff --git a/scripts/install-buildtools b/scripts/install-buildtools
->>> index c3f257ff93..b9c008a2ec 100755
->>> --- a/scripts/install-buildtools
->>> +++ b/scripts/install-buildtools
->>> @@ -57,8 +57,8 @@ logger =3D scriptutils.logger_create(PROGNAME,
->>> stream=3Dsys.stdout)
->>>=20
->>> DEFAULT_INSTALL_DIR =3D
->>> os.path.join(os.path.split(scripts_path)[0],'buildtools')
->>> DEFAULT_BASE_URL =3D ' https://downloads.yoctoproject.org/releases/yoct=
-o'
->>> -DEFAULT_RELEASE =3D 'yocto-5.3.1'
->>> -DEFAULT_INSTALLER_VERSION =3D '5.3.1'
->>> +DEFAULT_RELEASE =3D 'yocto-5.3.2'
->>> +DEFAULT_INSTALLER_VERSION =3D '5.3.2'
->>> DEFAULT_BUILDDATE =3D '202110XX'
->>>=20
->>> # Python version sanity check
->>=20
->> Hello,
->>=20
->> I already sent it: [whinlatter][PATCH] scripts/install-buildtools: Updat=
-e
->> to 5.3.2
->> https://lore.kernel.org/openembedded-core/20260312231730.751467-1-yoann.=
-congal@smile.fr/
->>=20
->> It should be merged soon.
->>=20
->> FYI, I've noted to do this upgrade in the next review cycle after each
->> release. Feel free to remind me if I forget.
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+
+Hello,
+
+Postfix is a meta-openembedded/meta-networking recipe and postfix has
+already a static id defined in
+https://git.openembedded.org/meta-openembedded/tree/meta-networking/files/s=
+tatic-passwd-meta-networking#n4
+
+You may use this file by adding
+  USERADD_GID_TABLES:append =3D ' files/static-group-meta-networking'
+  USERADD_UID_TABLES:append =3D ' files/static-passwd-meta-networking'
+to your configuration
+
+(This is what AB does: https://git.yoctoproject.org/yocto-autobuilder-helpe=
+r/tree/config.json#n396)
+
+>  meta-selftest/files/static-group  | 3 +++
+>  meta-selftest/files/static-passwd | 2 ++
+>  2 files changed, 5 insertions(+)
 >
-> Just to be on the same page, will you do this for all actively maintained=
- branches?
-
-I plan to do it for the maintained stable branches yes (currently scarthgap=
- and
-wrynose). On that note, I just added the 5.0.17 upgrade to my review branch=
-.
-
-Regards,
-
->
-> Cheers,
-> Aleksandar
->>=20
->> Regards,
->> --
->> Yoann Congal
->> Smile ECS
+> diff --git a/meta-selftest/files/static-group b/meta-selftest/files/stati=
+c-group
+> index 6a9ece20a8..914d387ee1 100644
+> --- a/meta-selftest/files/static-group
+> +++ b/meta-selftest/files/static-group
+> @@ -31,4 +31,7 @@ audio:x:532:
+>  empower:x:533:
+>  cmake-example:x:534:
+>  meson-example:x:535:
+> +postfix:x:536:
+> +vmail:x:537:
+> +postgrop:x:538:
+>  nogroup:x:65534:
+> diff --git a/meta-selftest/files/static-passwd b/meta-selftest/files/stat=
+ic-passwd
+> index 98017c8153..3a75aea754 100644
+> --- a/meta-selftest/files/static-passwd
+> +++ b/meta-selftest/files/static-passwd
+> @@ -21,3 +21,5 @@ ptest:x:529:529::/:/bin/nologin
+>  xuser:x:530:530::/:/bin/nologin
+>  cmake-example:x:534:534::/var/lib/cmake-example:/bin/false
+>  meson-example:x:535:535::/var/lib/meson-example:/bin/false
+> +postfix:x:536:536::/:/bin/nologin
+> +vmail:x:537:537::/:/bin/nologin
 
 
 --=20
