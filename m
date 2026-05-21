@@ -2,54 +2,52 @@ Return-Path: <tgaige.opensource@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA44CD4F5E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A7F2CD5BB1
 	for <webhook@archiver.kernel.org>; Thu, 21 May 2026 10:10:18 +0000 (UTC)
-Received: from mx-relay08-hz12-if1.hornetsecurity.com (mx-relay08-hz12-if1.hornetsecurity.com [94.100.139.208])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.33222.1779358216615093967
+Received: from mx-relay25-hz12-if1.hornetsecurity.com (mx-relay25-hz12-if1.hornetsecurity.com [94.100.139.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33219.1779358208328762222
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2026 03:10:17 -0700
+ Thu, 21 May 2026 03:10:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@witekio.com header.s=selector1 header.b=Fup9+gds;
- spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.139.208, mailfrom: tgaige@witekio.com)
-Received: from mail-francecentralazon11023073.outbound.protection.outlook.com ([40.107.162.73]) by mx-gate08-hz12;
- Thu, 21 May 2026 12:10:14 +0200
+ dkim=pass header.i=@witekio.com header.s=selector1 header.b=MhUSy2p5;
+ spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.139.225, mailfrom: tgaige@witekio.com)
+Received: from mail-francecentralazon11023101.outbound.protection.outlook.com ([40.107.162.101]) by mx-gate25-hz12;
+ Thu, 21 May 2026 12:10:05 +0200
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kEzxqmpBeqVtTQXLsEreN/z3YNuREhfFx8/nZJmi+FuIiKQd4xX5/aV27hdPGB3msMu0eNvKsyeh2swqUxMXUzcVPdQ5FLrY8ikuAtdCPjPxYRLzw3ivxkHMJ6jrEn2Rg1Ghr3rVsjOdOyzJdb8O4GTCS9oGDfE2ZAEDbzhtBKnA108AvV/CSVUPD/CjThbJM1bTcA4Kfs6OAUN9Aj4D/5WfkjaCPudmvMBWKlrb+LfGCPOKDmHTTHTUlr9zaVi89ebSLpykOjque78IJtbKABDbc5jFoLJ2Wr6QxUE77p5/PggQ+gIEEOiupehuyOQNv+cge1i9gfRwBv1LZsCsfw==
+ b=DQhriUQyoDnXlCbYb+nj8Qc6s8CZOOWg9sV440GhBdIeVeeIfpSaEUHYDFmuYymdHMLHU8a391h3bx1c+R43KJIUcFBQDn5BJgN/8YUzvGxPIGXzhOMmp89W9rXXBB3HZPWNaUxVEvinn9Hj3OmTr6sgtftkSfTAwlTQvVhjTsJ6ERthQLLa0moKtLNPDyL0goEMEonpDGYJIxqVfyvmmWgcPa225Oxzg6r9L1qyw0rPpxgDmYILPYrwdKb4bkT0NdTfBbhnvX1LKwIh6rwhCa7j7os2JxjAvXvxPeqIfufAV9P4Ld10PeY8Ma8KaTV/rHXuykVmZxAorMLbCAonFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LHQfpXt2r/9BOx05q0Is2BIK7Gf15UOnQwvduk5qv14=;
- b=cMApj5E9WErfMI7gaKu1JRxrMuiFe0LdfzvKdKQZzt5C11fm7Kgp3bIhoitIe9rS8KVYN13BIqjTtRJB2LY0gCA2lSrANJg9WxiL8FLZuQvpUOVSAsxJ67a0Aw9dsr6b1nkoM/cTKjjTaAF0wQmog1Wp6qyfXsGcqEbqOBeRT5xfJzlEFH5jEF6pfIYW67li7LiagqX0uHhc8AygtoEX+NLhlQMcvsTQMYkS8ttjoQ9Gl2j+wb0HQXyFmwCEQnb9ENyv8+18BYwdrXwLm5ZiR5H/URW/a1YIxYund65uDALnC0Bu3HJPR4peYUeHdFquDR4U1EGLAlGZPXjkxxBjTw==
+ bh=nLxnkrFOzLhqj69KXODt+eAoE/DP762sCLgzeeS/IVg=;
+ b=b2LcJTDs2O5ynWEWuV/9JH5pPD71JFxlpJcndbowSXJHbRSZoNR+UwJijwjkH/PSauXWALyGaznnkFFm1KWa3Fy1pbW993doWX6QEQnIOAdnNCrl5JRzmVVeHdKfuHNxh1JU2R8eX6rpztvNrlFaYz5inw+ZW95jGywPIS+bGpHhUVD6aXEEss9jJ1IZ2IuBwnHNiF9VDJ6NPwYIpw/19qrPbarLGn3YJNO7/+69VLrmqNJMpml597BLC3+23gd6VYac158CVgTBFy6YfSeWrrTv1OU5mv9URx94NR+4XZqbyil0u6ruq/ZjUJn1oeZncB3lIShhFYDXwXv6RLjzcg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
  dkim=pass header.d=witekio.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LHQfpXt2r/9BOx05q0Is2BIK7Gf15UOnQwvduk5qv14=;
- b=Fup9+gdsGeSROveIBeahw/PQ2U3BNe1Vn5j8DjggyEqP2szW7q6uklf0Mei/93lMnto5YcltbtGl3b0gWF29XnFj83FxoLzkkSiM9SXdY0pyuHs0xvpDRPaTbBjwOZWAl1hMvFTHae+28SKJV7y5tlwEDSZ2C2jYlcnpxBOVUbCIuCb3QO/bbPvUJVjun/UJMP/k6wm7SCpjGwAD8I2hZOnH/s4w1c8Ju/Q3YTAadt1kN9gxqm/w+jTNtAv4qJzm0U/E6WiODva3kwPz9F9E8Srk8fYRTJ+hFZv7aG3kGsVy1GdclKpGjvAx46YMmZrAK4/oEgLRt3t4lQTuAodnhg==
+ bh=nLxnkrFOzLhqj69KXODt+eAoE/DP762sCLgzeeS/IVg=;
+ b=MhUSy2p5SwQQsTmp8Y79iMNHu+tfwuSupJhB9X3UQ/t/ULxMm+XWRaNbIuuICAM480NKUyqJAEAn8aqvabC13sCRzZJhaf5UJtIZwkXltiQHHRj8sBi0bSRIcBAfrPnZhV5OXfK2jNe3L6CfBWEFG0D1VqLlY35XzjgEmsxR3ZnzBcsPc9iKSwZV3SQW/otU2jgMKJmf8Xs15E/nglu8UplZsoGYCSrf1YrAhwTR1aIPuC+sqN195V27QMkJKFbziK1R1KaD8JPYmH0QWqEqbFNUKSmTCC7g7+rC2NHTpbv/28y5wfIuyrxsc2h72Af7yuPNs2OCWNWl16mgKkjXIA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=witekio.com;
 Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:3ad::23)
- by AMBP192MB2913.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:6a5::16) with
+ by AS4P192MB1672.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:507::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.16; Thu, 21 May
- 2026 10:10:08 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Thu, 21 May
+ 2026 10:09:57 +0000
 Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
  ([fe80::25ed:86ef:4d24:3d38]) by AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
  ([fe80::25ed:86ef:4d24:3d38%5]) with mapi id 15.21.0025.023; Thu, 21 May 2026
- 10:10:08 +0000
+ 10:09:57 +0000
 From: tgaige.opensource@witekio.com
 To: openembedded-core@lists.openembedded.org
 Cc: hsimeliere.opensource@witekio.com,
 	"Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>,
 	Bruno Vernay <bruno.vernay@se.com>
-Subject: [scarthgap][PATCH 08/14] go: patch CVE-2026-39820
-Date: Thu, 21 May 2026 12:09:41 +0200
-Message-ID: <20260521100949.1299757-8-tgaige.opensource@witekio.com>
+Subject: [scarthgap][PATCH 01/14] go: patch CVE-2026-27142
+Date: Thu, 21 May 2026 12:09:34 +0200
+Message-ID: <20260521100949.1299757-1-tgaige.opensource@witekio.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260521100949.1299757-1-tgaige.opensource@witekio.com>
-References: <20260521100949.1299757-1-tgaige.opensource@witekio.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: ZR0P278CA0104.CHEP278.PROD.OUTLOOK.COM
@@ -57,223 +55,495 @@ X-ClientProxiedBy: ZR0P278CA0104.CHEP278.PROD.OUTLOOK.COM
  (2603:10a6:20b:3ad::23)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9P192MB1396:EE_|AMBP192MB2913:EE_
-X-MS-Office365-Filtering-Correlation-Id: e0a57ca7-d0b7-47a3-2a3c-08deb7212351
+X-MS-TrafficTypeDiagnostic: AM9P192MB1396:EE_|AS4P192MB1672:EE_
+X-MS-Office365-Filtering-Correlation-Id: 76a2feac-c12a-49be-afc8-08deb7211c7e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|18002099003|56012099003|22082099003|38350700014|6133799003|3023799007;
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|18002099003|56012099003|38350700014|3023799007|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	Gqg4v7pJmzqS+gm8U0d1cG3xyGyUwBcojwjxz+6j/hP7lXFRCLCW9LjsYSiJXp8en2oOBTBF6yo3QqHeZ9ma5gi5WNL90PfmtjpNmVblUeQfAvdbWCsLiggNuL0qSas+DxG4U74NNPcy55JvJsy6x1aTBuSv4jdrY0Xs0DDx1sTY9/GmqFW/UODQ8jJistIhkR63OG6wIboFPqgxB+n2q8pstqjMEX/3LjmI9MQ8WoJoQd5vXC/m4UxsrDUUAQ3GUJsQUgr4zczjVDwglw62ikGl2iPX0MNUo8GJ5CfUT6x4hzf3GUZDxwHqd3q6fBInQgNq100MTb7UU86oX1RnGPo+ChyGmp8F/96N+dyBotYh8Aoq7Q2J+dH2WYP2xsMDvkEmjZATOKsCJ0fk4IE8feqEfe2irWasbdpiQb2S8m3/smCpc0E6Jft10ppOmMWyU5pOWu1D9Dg0IYZ91sa+u0GBGZ1VftK+bIJRs2dTDU4l3Rr66SxIyF420tBUelx5uX6y93fpjPHOrZlO4muXFeLJtiU4LSkWv//BYP3zbaILdweYs+t2P7uLo/wz2+qPT/e1IHAU32t1x1AfrU+fDbjJRwP7ajSlU7xx9hp21PL4vr9s9CsqfMH7SfHzkMa0kQ6kEy5KX5Xqra9tXGiTMRk4goUnJH3sUEzwH8Pb0dYdBvfBy1xrvVsRj8pyVmJXmYHqU0Nz1JCcygeS9ZBeJQ==
+	VvK89N3eWQNKJNgWdXIQjdNlevNCKzfYoGnpk453er7ZuPnc66oyottyjl8IErBFW4GbNb9FcOgUmS0JjKGyvxbQknSHjFOG5qSQolurrikTtRUr9qYg5xyzU6nZuAOG29Gvh/jpE30NvqT/x0FDP//IAIafUYfUY02KIq10uV6g9ErQTmlHD+UBQIu7mcJi2t4mY7Co7+nRtXND/3XciR2Fgh6WFmqh4IxTjXXLY2ilefxlpHXZfBC0CEGHyHPinK+Nn6eF08upcVpS07Wd1wkGhW+ukbsWmuMBmqD17fhsMAAlvOuIQUZnDZBjLY2HjRVfqyE3ZQLjit/qWg7z6+3LLamywTVKp3oIyHCPEfTTTxtEIpnUPM8SNKKdODU/UuArCoc8iX0VKyYRCwwuvmgt4yE9vD96GfiGDMCwBisurmmtTt6wTTanWMwN1l2pE8sVgKkp7QTharthRGQtayqtYZqwxvfdzhplipPgjvqL5i4LgxcGFQgJcJEa1CRKXyhvdFRS8Y6LewirY6GFxKZmsgOfpYT3z3fVu2KKDv36jhgKC3jOtEPlqlz4i43bCwQafl5OMA8PXFRsG7b0q8ShWJB2FreJqb7H93uvRpTCpbEXSEjtJKbjBdbNl+jit0F98bsyhP1aw2vSmmVdeBD1bZKARCpefhuwQpWuPzJbuKPNwuDou74yVsyhu3o2lH74fWay3olhVeI/0T20xg==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P192MB1396.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(18002099003)(56012099003)(22082099003)(38350700014)(6133799003)(3023799007);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P192MB1396.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(18002099003)(56012099003)(38350700014)(3023799007)(6133799003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?G6/grSvjZ555ZeHXly551aBjev8G1ZbZll3NIrd7dz5vBqG0GfWM2eNvhyWn?=
- =?us-ascii?Q?sj+cqAmp4BZn0SeMzIimrR9CiX+T7saMzj+dCTMVxxk8L6otHGMPu2ZLjIn1?=
- =?us-ascii?Q?ir2Gf/BSgmU5QDRo4IlV8A80Zg2EFkim/VYkm/9QKzs8P+Wrz95Chqarrf4Q?=
- =?us-ascii?Q?809yKBDf9X3Nyu/PLSL+zM/8qL+h87pZ1LT1SYYkcmptRfGceZXQfLQEhfaV?=
- =?us-ascii?Q?S9TSs5d0tlV+9L4/BMqYeyuWDl9LrkRslTfMyf1HIVB9dEDYYKf5dNa9/OM0?=
- =?us-ascii?Q?59gDQeXxNZhA1HHl4k3FBtm1nqBk7ltFK7a8QqcaKJUVa6236w5DLOCUEps8?=
- =?us-ascii?Q?3V8zzrffb0/dGegyc3YQQhy0OzrW7BfA/c+y8uTuN4OOv6iUQUivaDoiC/n7?=
- =?us-ascii?Q?nOjiQAaS6ELnyXt9qhJAN3hA48JZKxGbNWDPu9CbbGyU5JroH2In2vz2J3eF?=
- =?us-ascii?Q?DI+RLcSpD8PwjxCWSK52LZq+aWgZcMxb2HogsQIxMidkpEYmcgyDSbZayVx7?=
- =?us-ascii?Q?VAGz3sdVwjFs9iQMLItLFxdUzAzAVwHcydnp6Sj8AJhXP1n8CvBaSpBb4srd?=
- =?us-ascii?Q?4h/609BAJ0NwTpbAfFqqsZ3s5ENxeeZ94ibR1nbBIzGvzmZYG7rxIvez/kiq?=
- =?us-ascii?Q?b6Cwjqz5xsNDFW86d3JVd6sv5B9Lf8JYcoGGoTreAxPySJTz9vdynU/c5LXz?=
- =?us-ascii?Q?o9/xD6F6d0ek6dlhqb+P3jFL5KYlGkkvreVM/VWloaP7F8ofQP/tqPkhQypu?=
- =?us-ascii?Q?nTA2peHgGBxvtyEdW3f1nQwE4CTIl94mjxh8BV3GZjCv+DZNAYgLp//calj6?=
- =?us-ascii?Q?jH04jcWUfI3HjuA2azz0ftqPXbqRfnsWGougo0HDSROtvlLDYyJQKT3RRmFJ?=
- =?us-ascii?Q?Oi+qIZs9G0p9C2CogCzfxdO61ojE+7SVrQRJ2U5YkjnGLAyMgw/1ZBe0YcQW?=
- =?us-ascii?Q?QM28cwygTGNrLzVTb0iEjXeQvk8cDiMiuJEShQbQiOuBXoZRIs1ZcrTSqdfK?=
- =?us-ascii?Q?utK7GgRlmHvyTh5tLXI4/1iTSmCjq2I3RtZeFJO5p12joR3zE6f0n4e/49BH?=
- =?us-ascii?Q?I0d6C7AcVnvu8KHEqeVRmTqrwwNo0kVD11jRld/Ns+TAqBWdJvMIkmPq5dKm?=
- =?us-ascii?Q?0m9a/8N+/KZeNLnPfTnSGp6pAne21IWtnRmJqryA+gWPpEWjvd/y9BHWsEuY?=
- =?us-ascii?Q?xy88WX8e6LFLw4PIX8lHxWVD1cXp7v1nEMK5jjZxMfBNNGcnFgM5yTSxNLJb?=
- =?us-ascii?Q?Gg6wFtVotoD8y0bGUjusAZCMBzjNq0j6VA72mJjz4huxkMw0OMJqoln+6dOJ?=
- =?us-ascii?Q?qbWL8HzWJYh66zNv3pjkjTEVQSLsK7kcxEF/zBVJpKSS+shoKBB/HqoGlYyk?=
- =?us-ascii?Q?dU95I6GAJcfBCpFS07y+IvOE5KjETBdkY4sNApJwlxngqpXzuby1BfX/0HKz?=
- =?us-ascii?Q?s/g0wVYJc9QoTUTOotagAHBFZ729jHr0Ec1+ppsCt5MvuwgUOyhZTeK4ANH3?=
- =?us-ascii?Q?05j5tc3NT2G/Q51w0yuweyw0y5orpK47nKXoDNMjm5/rQDcdT4OYTeK8ymNO?=
- =?us-ascii?Q?kKLk9LF+NzGJ0LLRQHGZ40AMhn1HMMXwXFCFxjcmCZRbB0X/hIiDhK3RbQg6?=
- =?us-ascii?Q?FjiSgrHQ1M6qpHE44llRiMQYTRTrD2cKN8h256KyStdd4ZEfRC7aMEmR0M9X?=
- =?us-ascii?Q?KqSMTK9u0iQ2EY/UDM+5ZexmFLyL16yHh3XIvA+mtWiwms34+CVTY9jqmwGh?=
- =?us-ascii?Q?XUa7achR5A=3D=3D?=
+	=?us-ascii?Q?OgRXx9g/IG2+EVi2yco1+nmsRv+QFS0kDVZXmyekM1oEMWqm2jZABUxRgPuA?=
+ =?us-ascii?Q?cTREujm1RdER7bmEREzl1N9H7GNuPK7N7B0fI1oPfqB6CuAM4RYL4dbu5A+B?=
+ =?us-ascii?Q?Ct30PKp2AEnzWItiZwxWpe3yRVkqhVmC4q/VJmCYOQHyG/yzDdUiigMmnfWD?=
+ =?us-ascii?Q?cMdETK+Xyx7mEn8SSAAztXEy6sLzUUE7jBqZTa9bKGWT1B2p1Dt80OcHKQF4?=
+ =?us-ascii?Q?N/DMsHEdpPltrvFMlUq7hY8d5Tr0hExz7YLXOHbYj/RqnsQaZmEMX88kW+DR?=
+ =?us-ascii?Q?J2YT8KOYxYoGSh3oTxt7ZQtoL9ypdH2f53q2oJ1puTOyZ12u/W07RnzwPBzi?=
+ =?us-ascii?Q?jDvwI+xxaKVBaq2xB87V4OpFWLQqRXMSTb/AbCXlXdE+64duwl6K/mTimm1m?=
+ =?us-ascii?Q?0sIwhaJmKmzuqE3VXVTnssi4f96HxNI1Vuy7QwJ5vA3VG60NaKmYI3w2QwqU?=
+ =?us-ascii?Q?u3fTUDVHAjxhJcOQHesjwKVkEH8QLVEiktK3yjh1aU+YQlIojOnjcSf8sk3q?=
+ =?us-ascii?Q?2ZVqEzTGb5afn6cdFDDcXJYwgrXztn3uj9B9pkx3s/JwX7+0dcGVPIEkTkyU?=
+ =?us-ascii?Q?NMc3UdJaYD54lkrfPBecIXQzXu43XGhFKEOUnCbXU3FJUBN2emNwmHxCxaap?=
+ =?us-ascii?Q?9jgPr8vuuhDfAs9x8GXeizRlGkoWTmCz7pNLGVZUHeVUlh/1pvIYnZ/wLOc9?=
+ =?us-ascii?Q?/L2WyD1aTgJLytZehvWEs3zyiRILJHcLKTWh5PCTDJucTCKWHB9BGOyyC3yU?=
+ =?us-ascii?Q?HSaVcmvyDcr7Z4KFZMUPtq5P6/MrwsRuRqIEqf1J1o9m/UqVK67OqaL9luaQ?=
+ =?us-ascii?Q?XOe6BBqab/OpMgZ63r75QJMuYHxR24rD8zn4xcrFkTmu7C4Q3tmYB//nBGbU?=
+ =?us-ascii?Q?JHSp7+6PcVpD+TQpm9jnaxE00lqy1P49peWtis2yY4irFOoAGqxeRFugn+iB?=
+ =?us-ascii?Q?9Gz4FFiCDKQBaDpkIkLf3P6i858p78vXxXQTnyyYynwNmuOTQtTF/EkX8O33?=
+ =?us-ascii?Q?dTIqaqMAhZYyQS8oALSyK3ABaA7Iqt0+r6ApIxIMc8zj7y6jKt4LwX6VDy6C?=
+ =?us-ascii?Q?lVnEQ+tqwuBhlGyqbPPtKP3FvT+WBwh/VeAgjbEl7OSAI8t0pT5eaFtpP5Uw?=
+ =?us-ascii?Q?5aeq9ZdEP8yHZ4mfhm94Lb/s1Xsli00JD1UujIvC9OPCVpAeTXWj4AUAlFDb?=
+ =?us-ascii?Q?31RRO/2j8QY0vju3l9gAJmcGCzbgxUBWWy0ExMjzABgP7ESvhmjQ8LoHQ0Xh?=
+ =?us-ascii?Q?aPdp3TGMGL3sEE167lfQJTzpBOi61yB1sFeyz8jmVyWfLiVQOerxu3bRykUP?=
+ =?us-ascii?Q?PNt/+Up7z2olLTmNCpvHdxj9ZUMK68HSDFzK75354q7W6lbOTfV8eqTKfjk7?=
+ =?us-ascii?Q?bxvA2WFIp1bB784G9Po4ixo65Q15oGNs6jWaA+YESzRrgj2bFPcZrJCK9KWj?=
+ =?us-ascii?Q?SI7XgXOz4GYXOBlEmVLs9qhQccTjh371C96uOLni3Qg+nk5gcDJo7PRkt41M?=
+ =?us-ascii?Q?fslrPLGfatas+49Di4FVY/WfwK/j6SVpAyxCOot0gbsZx6THAA+0zuP6Dhw5?=
+ =?us-ascii?Q?2PYKRoFj3szciFKysakIr364SFT+bSzw60/l3CNyzflDP/ofglXKV2dGMEeg?=
+ =?us-ascii?Q?ReXxXBuRUYtAvG453K1Oaw/zds3QhltWw2cOFAJdR4/U0h0kskWpQDuNFdJa?=
+ =?us-ascii?Q?1W1mUyY+hs68nexd72kNQKO9kCn5sR361pbN9+HU5+eYMHlr+aIIJH0dqhd3?=
+ =?us-ascii?Q?ER3fqBgkOg=3D=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	NkcAOgCbLEkfvIuqz5tdFwlUvW2CmnRfiCRIPuJ81h/xzoZMzbI2Kn5O5QJ//6XSwkmLLGDw7MW0pLACeLK4Dm0Senutasc9lIUTG6pQDsnGxH3uxO+A2Y6N7xwokxkIJpy8WEY29UT/qC371/PDRL4iVewJLIFtDAORX1hUQ99H0WUenvrbJWqgJvOpDb/xpIPzEblF1DaVYQqjqYnLLSjwpA+EantUgJ1TIYNd/4zAiPanK0dnZNeLdaK4Wvz00BT2SME9Y1aMpoqHLCS/0Hfn5BRwbvw5F/77ElVDIUQpyrqQAvKoVrgKlnrw92Ksyhomr/z+pUAfBq0eRrKppA==
+	QWa7kL+ABcPueZZhdjqFRorgTdFhJfW2nzYLs5Aj2KTam3kKDXueMTvLKVAvrWLcAq/zbOTOLPi2XYsbqp01K1GM5gODcP/1LYcohzBwWuGKFYQtlDGO1HFUkK+4q843Z8PouldTu2g9dHSqOmQar/+iIc7xGwsHf69WLLS4wYchycDSfIbpqisru3BbmUDFsDIKhm+7HDlk/9TleSQp3w6FAuIBfIHoKA1qJDkm9B30zV7Ymoe1P8DlQqWnV9bzt9YDC4FiRmFL6aOz6adWI02VmHTVWqhGuHqUvrVuxuebE4N48m2Z4Kxdz89j5lmK+/lPJ/5EWZOskZ71JglOFA==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	64l+l6q5/we/zNIX8xouZJF1NaCU6yBl9EtZpzrj77lLX/j9zfMLUp3rQoDSD2dBsUDuFfjoZ7cXTI2Dytk8sucq/Imy08gAN/QzT8Kpsvol9PSZSLQz//PEzQ04y3q3zzPSDsajvqjHygmvdmC/HVWkixvml5p+FaQTMuqPcUHt7+mxa/+0i5Bj5NsMWSvT9aIcJEWuTbaWgt85OjL2rCIIFwhnOwvEuwvuKZ86fjmn6f37cGxhE8s38KIrd81Gn9/S3qrIsGf7IrYeluCOOZlmQ6O/ovmIatnIseQWzNHbMK1Zx4w6YNhqEQ6wzs86wG7SWP6eWPh66JYpPxfZji+sSN46AlIYoBv1To6JIFS4WF9W6HJloMst57RGogCo8KxfuuX8uJSOxagDpQzJRyHoIVvKnCqiinVJ4TYOcXDWlCbYtudskgcPBf4mqVTtQMfm4hVVsjoFD8I3qKfWBB4xYl/Am6D9f5L8p4/wB1+pWlAXMH+uy3imzVJhgiwIHPSMEkbLiHwcFZmQPOD5ri6WJowyXcIko9nDxlz/cQPL9ZBvdBBdapXZhdJu3hH3rk6yLXh1eTqgUujGQZcaPM+sebnOtwS7oZTRkwI1TmxiPSF75S8JBYt87uuD71Xh
+	QQR0UDmOeIs2ByXRYVOriVX4JWk5FRI4btJDptIMbHe8Kq1hFetgYT6v3tsQTQpIVtvEETGnvKzdrCKzrJkkGNW0POWL9uKXuEX3P62WCUJ3kh6ptalQQC35lB1nm+KJZoOFNzem6CbBsKGahGLqMLDLz7/rmRrYgr/AKQ/21/MlR7JswPre1QmLXzdaegAkaNc8wBDQr62jN+OdATbPnO3VGGqibsqa8YQyA2vwEXXM1aJXS5XnH1v+5KiYV8nb/J5TVs6qphvsBZRY5orJsFd7fHhY8GxUb2D7wWQUN8RGDwOODlIQwG72C33dQaWBRFyCxw8qmTYl2go44LB5tbGiteGZuhEFtOJzKYG/a8ROd+3o44vNwrLfqPtEplxQ9GzPLMsC69EDnfkPic+zGRikg3TO9E1R8v7vmrhS3gRIlTDjqFkZnzhycS+kX4hznyMHoZ5ZeLNBqKkKFDVprPT6zns+3r+dOskvmaxw4+RZGX37lXByxQpmnuXBLlyBJFMYisxAw8nAKVL0sji/mdfD6OE9L13OmWAZQQadiSn6R8rr/wVq8WBf0KGugGCd/cQLsspOWrsz5Cwb4DASZvA5FNH4MbsLC2ls8S9FKNrGsg3ZnMdEk2X63D0en2fl
 X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0a57ca7-d0b7-47a3-2a3c-08deb7212351
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76a2feac-c12a-49be-afc8-08deb7211c7e
 X-MS-Exchange-CrossTenant-AuthSource: AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 10:10:08.8377
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 10:09:57.4880
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sW57DHmXAJQR3X7dEyBzDFtGZGWUxubI71ZudQcmgYQF+BfckegzW5i12c7onSnqFaEuRI/X9wdSRtSxTgvaeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBP192MB2913
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6pQuk8uxxRY2Wre7UOUZ54xtIHs1OsWCi760t9vRX6htRAuY6gyo+R7bJ3DzvVI+dfh3KcFkupz8lYUoqfA+qQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P192MB1672
 X-cloud-security-sender: tgaige@witekio.com
 X-cloud-security-recipient: openembedded-core@lists.openembedded.org
 X-cloud-security-crypt: load encryption module
 X-cloud-security-Mailarchiv: E-Mail archived for: tgaige.opensource@witekio.com
 X-cloud-security-Mailarchivtype: outbound
 X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate08-hz12 with 4gLkg55Vpfz4HMKR
-X-cloud-security-connect: mail-francecentralazon11023073.outbound.protection.outlook.com[40.107.162.73], TLS=1, IP=40.107.162.73
-X-cloud-security-Digest: 731a9930aa06e92ea60cb5630f3acf7b
-X-cloud-security: scantime:1.423
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate25-hz12 with 4gLkfw4YTbz1X5Hk
+X-cloud-security-connect: mail-francecentralazon11023101.outbound.protection.outlook.com[40.107.162.101], TLS=1, IP=40.107.162.101
+X-cloud-security-Digest: 17bf5b10dae236555f48ea5c63201cca
+X-cloud-security: scantime:1.967
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 10:10:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237487
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237484
 
 From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
 
-Backport patch from [1] mentionned in [2]
+Backport patch from [1]
 
-[1] https://go.dev/cl/759940
-
-[2] https://security-tracker.debian.org/tracker/CVE-2026-39820
+[1] https://go.dev/cl/752081
 
 Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 Reviewed-by: Bruno Vernay <bruno.vernay@se.com>
 ---
  meta/recipes-devtools/go/go-1.22.12.inc       |   1 +
- .../go/go/CVE-2026-39820.patch                | 112 ++++++++++++++++++
- 2 files changed, 113 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39820.patch
+ .../go/go/CVE-2026-27142.patch                | 386 ++++++++++++++++++
+ 2 files changed, 387 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-27142.patch
 
 diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index dba826011b..002d443059 100644
+index 3fa421e223..8efa82f862 100644
 --- a/meta/recipes-devtools/go/go-1.22.12.inc
 +++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -48,6 +48,7 @@ SRC_URI += "\
-     file://CVE-2026-33811.patch \
-     file://CVE-2026-39817.patch \
-     file://CVE-2026-39819.patch \
-+    file://CVE-2026-39820.patch \
+@@ -41,6 +41,7 @@ SRC_URI += "\
+     file://CVE-2025-68121_p1.patch \
+     file://CVE-2025-68121_p2.patch \
+     file://CVE-2025-68121_p3.patch \
++    file://CVE-2026-27142.patch \
  "
  SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
  
-diff --git a/meta/recipes-devtools/go/go/CVE-2026-39820.patch b/meta/recipes-devtools/go/go/CVE-2026-39820.patch
+diff --git a/meta/recipes-devtools/go/go/CVE-2026-27142.patch b/meta/recipes-devtools/go/go/CVE-2026-27142.patch
 new file mode 100644
-index 0000000000..c5f84282a9
+index 0000000000..e735abaf4b
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2026-39820.patch
-@@ -0,0 +1,112 @@
-+From e459f8fe1061679f866c599210466db386348f08 Mon Sep 17 00:00:00 2001
-+From: mohammadmseet-hue <mohammadmseet@gmail.com>
-+Date: Sat, 4 Apr 2026 05:17:25 +0000
-+Subject: [PATCH] net/mail: fix quadratic complexity in consumeComment
++++ b/meta/recipes-devtools/go/go/CVE-2026-27142.patch
+@@ -0,0 +1,386 @@
++From 1ac19df75e9c25951c04008a52b23a1cd95e81cc Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Fri, 9 Jan 2026 11:12:01 -0800
++Subject: [PATCH] html/template: properly escape URLs in meta content
++ attributes
 +
-+consumeComment builds the comment string by repeated string
-+concatenation inside a loop. Each concatenation copies the
-+entire string built so far, making the function O(n^2) in the
-+depth of nested comments.
++The meta tag can include a content attribute that contains URLs, which
++we currently don't escape if they are inserted via a template action.
++This can plausibly lead to XSS vulnerabilities if untrusted data is
++inserted there, the http-equiv attribute is set to "refresh", and the
++content attribute contains an action like `url={{.}}`.
 +
-+Replace the concatenation with a strings.Builder, which
-+amortizes allocation by doubling its internal buffer. This
-+reduces consumeComment from O(n^2) to O(n).
++Track whether we are inside of a meta element, if we are inside of a
++content attribute, _and_ if the content attribute contains "url=". If
++all of those are true, then we will apply the same URL escaping that we
++use elsewhere.
 +
-+This is the same bug class as the consumeDomainLiteral fix
-+in CVE-2025-61725.
++Also add a new GODEBUG, htmlmetacontenturlescape, to allow disabling this
++escaping for cases where this behavior is considered safe. The behavior
++can be disabled by setting htmlmetacontenturlescape=0.
 +
-+Benchmark results (benchstat, 8 runs):
++Updates #77954
++Fixes #77972
++Fixes CVE-2026-27142
 +
-+  name                        old time/op  new time/op  delta
-+  ConsumeComment/depth10      2.481us      1.838us      -25.92%
-+  ConsumeComment/depth100     86.58us      6.498us      -92.50%
-+  ConsumeComment/depth1000    7.963ms      52.82us      -99.34%
-+  ConsumeComment/depth10000   897.8ms      521.3us      -99.94%
++Change-Id: I9bbca263be9894688e6ef1e9a8f8d2f4304f5873
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3360
++Reviewed-by: Neal Patel <nealpatel@google.com>
++Reviewed-by: Nicholas Husin <husin@google.com>
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3643
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/752081
++Auto-Submit: Gopher Robot <gobot@golang.org>
++Reviewed-by: Cherry Mui <cherryyz@google.com>
++TryBot-Bypass: Gopher Robot <gobot@golang.org>
++Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
 +
-+The quadratic cost becomes visible at depth 100 and dominant
-+by depth 1000. At depth 10000, the fix is roughly 1700x
-+faster.
-+
-+Change-Id: I3c927f02646fcab7bab167cb82fd46d3327d6d34
-+GitHub-Last-Rev: 7742dad716ee371766543f88e82bd163bd9d7ac2
-+GitHub-Pull-Request: golang/go#78393
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/759940
-+Reviewed-by: Sean Liao <sean@liao.dev>
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+Auto-Submit: Sean Liao <sean@liao.dev>
-+Reviewed-by: David Chase <drchase@google.com>
-+Reviewed-by: Junyang Shao <shaojunyang@google.com>
-+
-+CVE: CVE-2026-39820
-+Upstream-Status: Backport [https://github.com/golang/go/commit/0d0799f055dcc9b3b41df74bee3fbe398ae2f0e7]
++CVE: CVE-2026-27142
++Upstream-Status: Backport [https://github.com/golang/go/commit/994692847a2cd3efd319f0cb61a07c0012c8a4ff]
 +Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 +---
-+ src/net/mail/message.go      |  6 +++---
-+ src/net/mail/message_test.go | 19 +++++++++++++++++++
-+ 2 files changed, 22 insertions(+), 3 deletions(-)
++ doc/godebug.md                      |  5 +++
++ src/html/template/attr_string.go    |  5 +--
++ src/html/template/context.go        |  8 +++++
++ src/html/template/element_string.go |  5 +--
++ src/html/template/escape.go         | 14 +++++++++
++ src/html/template/escape_test.go    | 34 +++++++++++++++++++++
++ src/html/template/state_string.go   |  8 +++--
++ src/html/template/transition.go     | 47 +++++++++++++++++++++++++----
++ src/internal/godebugs/table.go      |  1 +
++ src/runtime/metrics/doc.go          |  5 +++
++ 10 files changed, 119 insertions(+), 13 deletions(-)
 +
-+diff --git a/src/net/mail/message.go b/src/net/mail/message.go
-+index fc2a9e46f8..37d7ff5df1 100644
-+--- a/src/net/mail/message.go
-++++ b/src/net/mail/message.go
-+@@ -780,7 +780,7 @@ func (p *addrParser) consumeComment() (string, bool) {
-+ 	// '(' already consumed.
-+ 	depth := 1
++diff --git a/doc/godebug.md b/doc/godebug.md
++index 635597e..07b63cb 100644
++--- a/doc/godebug.md
+++++ b/doc/godebug.md
++@@ -126,6 +126,11 @@ for example,
++ see the [runtime documentation](/pkg/runtime#hdr-Environment_Variables)
++ and the [go command documentation](/cmd/go#hdr-Build_and_test_caching).
 + 
-+-	var comment string
-++	var comment strings.Builder
-+ 	for {
-+ 		if p.empty() || depth == 0 {
-+ 			break
-+@@ -794,12 +794,12 @@ func (p *addrParser) consumeComment() (string, bool) {
-+ 			depth--
-+ 		}
-+ 		if depth > 0 {
-+-			comment += p.s[:1]
-++			comment.WriteByte(p.s[0])
-+ 		}
-+ 		p.s = p.s[1:]
-+ 	}
-+ 
-+-	return comment, depth == 0
-++	return comment.String(), depth == 0
+++Go 1.26.1 added a new `htmlmetacontenturlescape` setting that controls whether
+++html/template will escape URLs in the `url=` portion of the content attribute of
+++HTML meta tags. The default `htmlmetacontentescape=1` will cause URLs to be
+++escaped. Setting `htmlmetacontentescape=0` disables this behavior.
+++
++ Go 1.26 added a new `urlmaxqueryparams` setting that controls the maximum number
++ of query parameters that net/url will accept when parsing a URL-encoded query string.
++ If the number of parameters exceeds the number set in `urlmaxqueryparams`,
++diff --git a/src/html/template/attr_string.go b/src/html/template/attr_string.go
++index 51c3f26..7159fa9 100644
++--- a/src/html/template/attr_string.go
+++++ b/src/html/template/attr_string.go
++@@ -14,11 +14,12 @@ func _() {
++ 	_ = x[attrStyle-3]
++ 	_ = x[attrURL-4]
++ 	_ = x[attrSrcset-5]
+++	_ = x[attrMetaContent-6]
 + }
 + 
-+ func (p *addrParser) decodeRFC2047Word(s string) (word string, isEncoded bool, err error) {
-+diff --git a/src/net/mail/message_test.go b/src/net/mail/message_test.go
-+index 1f2f62afbf..1b165317f9 100644
-+--- a/src/net/mail/message_test.go
-++++ b/src/net/mail/message_test.go
-+@@ -6,6 +6,7 @@ package mail
++-const _attr_name = "attrNoneattrScriptattrScriptTypeattrStyleattrURLattrSrcset"
+++const _attr_name = "attrNoneattrScriptattrScriptTypeattrStyleattrURLattrSrcsetattrMetaContent"
 + 
-+ import (
-+ 	"bytes"
-++	"fmt"
-+ 	"io"
-+ 	"mime"
-+ 	"reflect"
-+@@ -1217,3 +1218,21 @@ func TestEmptyAddress(t *testing.T) {
-+ 		t.Errorf(`ParseAddressList("") = %v, %v, want nil, error`, list, err)
++-var _attr_index = [...]uint8{0, 8, 18, 32, 41, 48, 58}
+++var _attr_index = [...]uint8{0, 8, 18, 32, 41, 48, 58, 73}
++ 
++ func (i attr) String() string {
++ 	if i >= attr(len(_attr_index)-1) {
++diff --git a/src/html/template/context.go b/src/html/template/context.go
++index b78f0f7..8b3af2f 100644
++--- a/src/html/template/context.go
+++++ b/src/html/template/context.go
++@@ -156,6 +156,10 @@ const (
++ 	// stateError is an infectious error state outside any valid
++ 	// HTML/CSS/JS construct.
++ 	stateError
+++	// stateMetaContent occurs inside a HTML meta element content attribute.
+++	stateMetaContent
+++	// stateMetaContentURL occurs inside a "url=" tag in a HTML meta element content attribute.
+++	stateMetaContentURL
++ 	// stateDead marks unreachable code after a {{break}} or {{continue}}.
++ 	stateDead
++ )
++@@ -267,6 +271,8 @@ const (
++ 	elementTextarea
++ 	// elementTitle corresponds to the RCDATA <title> element.
++ 	elementTitle
+++	// elementMeta corresponds to the HTML <meta> element.
+++	elementMeta
++ )
++ 
++ //go:generate stringer -type attr
++@@ -288,4 +294,6 @@ const (
++ 	attrURL
++ 	// attrSrcset corresponds to a srcset attribute.
++ 	attrSrcset
+++	// attrMetaContent corresponds to the content attribute in meta HTML element.
+++	attrMetaContent
++ )
++diff --git a/src/html/template/element_string.go b/src/html/template/element_string.go
++index db28665..bdf9da7 100644
++--- a/src/html/template/element_string.go
+++++ b/src/html/template/element_string.go
++@@ -13,11 +13,12 @@ func _() {
++ 	_ = x[elementStyle-2]
++ 	_ = x[elementTextarea-3]
++ 	_ = x[elementTitle-4]
+++	_ = x[elementMeta-5]
++ }
++ 
++-const _element_name = "elementNoneelementScriptelementStyleelementTextareaelementTitle"
+++const _element_name = "elementNoneelementScriptelementStyleelementTextareaelementTitleelementMeta"
++ 
++-var _element_index = [...]uint8{0, 11, 24, 36, 51, 63}
+++var _element_index = [...]uint8{0, 11, 24, 36, 51, 63, 74}
++ 
++ func (i element) String() string {
++ 	if i >= element(len(_element_index)-1) {
++diff --git a/src/html/template/escape.go b/src/html/template/escape.go
++index 1eace16..b368cab 100644
++--- a/src/html/template/escape.go
+++++ b/src/html/template/escape.go
++@@ -165,6 +165,8 @@ func (e *escaper) escape(c context, n parse.Node) context {
++ 
++ var debugAllowActionJSTmpl = godebug.New("jstmpllitinterp")
++ 
+++var htmlmetacontenturlescape = godebug.New("htmlmetacontenturlescape")
+++
++ // escapeAction escapes an action template node.
++ func (e *escaper) escapeAction(c context, n *parse.ActionNode) context {
++ 	if len(n.Pipe.Decl) != 0 {
++@@ -222,6 +224,18 @@ func (e *escaper) escapeAction(c context, n *parse.ActionNode) context {
++ 		default:
++ 			panic(c.urlPart.String())
++ 		}
+++	case stateMetaContent:
+++		// Handled below in delim check.
+++	case stateMetaContentURL:
+++		if htmlmetacontenturlescape.Value() != "0" {
+++			s = append(s, "_html_template_urlfilter")
+++		} else {
+++			// We don't have a great place to increment this, since it's hard to
+++			// know if we actually escape any urls in _html_template_urlfilter,
+++			// since it has no information about what context it is being
+++			// executed in etc. This is probably the best we can do.
+++			htmlmetacontenturlescape.IncNonDefault()
+++		}
++ 	case stateJS:
++ 		s = append(s, "_html_template_jsvalescaper")
++ 		// A slash after a value starts a div operator.
++diff --git a/src/html/template/escape_test.go b/src/html/template/escape_test.go
++index 497ead8..1970db1 100644
++--- a/src/html/template/escape_test.go
+++++ b/src/html/template/escape_test.go
++@@ -734,6 +734,16 @@ func TestEscape(t *testing.T) {
++ 			"<script>var a = `${ var a = \"{{\"a \\\" d\"}}\" }`</script>",
++ 			"<script>var a = `${ var a = \"a \\u0022 d\" }`</script>",
++ 		},
+++		{
+++			"meta content attribute url",
+++			`<meta http-equiv="refresh" content="asd; url={{"javascript:alert(1)"}}; asd; url={{"vbscript:alert(1)"}}; asd">`,
+++			`<meta http-equiv="refresh" content="asd; url=#ZgotmplZ; asd; url=#ZgotmplZ; asd">`,
+++		},
+++		{
+++			"meta content string",
+++			`<meta http-equiv="refresh" content="{{"asd: 123"}}">`,
+++			`<meta http-equiv="refresh" content="asd: 123">`,
+++		},
++ 	}
++ 
++ 	for _, test := range tests {
++@@ -1016,6 +1026,14 @@ func TestErrors(t *testing.T) {
++ 			"<script>var tmpl = `asd ${return \"{\"}`;</script>",
++ 			``,
++ 		},
+++		{
+++			`{{if eq "" ""}}<meta>{{end}}`,
+++			``,
+++		},
+++		{
+++			`{{if eq "" ""}}<meta content="url={{"asd"}}">{{end}}`,
+++			``,
+++		},
++ 
++ 		// Error cases.
++ 		{
++@@ -2194,3 +2212,19 @@ func TestAliasedParseTreeDoesNotOverescape(t *testing.T) {
++ 		t.Fatalf(`Template "foo" and "bar" rendered %q and %q respectively, expected equal values`, got1, got2)
 + 	}
 + }
 ++
-++func BenchmarkConsumeComment(b *testing.B) {
-++	for _, n := range []int{10, 100, 1000, 10000} {
-++		b.Run(fmt.Sprintf("depth-%d", n), func(b *testing.B) {
-++			// Build a deeply nested comment: (((...a...)))
-++			open := strings.Repeat("(", n)
-++			close := strings.Repeat(")", n)
-++			// consumeComment expects the leading '(' already consumed,
-++			// so we start with one fewer opening paren and the parser
-++			// will handle nesting from there.
-++			input := open[:n-1] + "a" + close
-++			for b.Loop() {
-++				p := addrParser{s: input}
-++				p.consumeComment()
-++			}
-++		})
+++func TestMetaContentEscapeGODEBUG(t *testing.T) {
+++	savedGODEBUG := os.Getenv("GODEBUG")
+++	os.Setenv("GODEBUG", savedGODEBUG+",htmlmetacontenturlescape=0")
+++	defer func() { os.Setenv("GODEBUG", savedGODEBUG) }()
+++
+++	tmpl := Must(New("").Parse(`<meta http-equiv="refresh" content="asd; url={{"javascript:alert(1)"}}; asd; url={{"vbscript:alert(1)"}}; asd">`))
+++	var b strings.Builder
+++	if err := tmpl.Execute(&b, nil); err != nil {
+++		t.Fatalf("unexpected error: %s", err)
+++	}
+++	want := `<meta http-equiv="refresh" content="asd; url=javascript:alert(1); asd; url=vbscript:alert(1); asd">`
+++	if got := b.String(); got != want {
+++		t.Fatalf("got %q, want %q", got, want)
 ++	}
 ++}
++diff --git a/src/html/template/state_string.go b/src/html/template/state_string.go
++index eed1e8b..f5a70b2 100644
++--- a/src/html/template/state_string.go
+++++ b/src/html/template/state_string.go
++@@ -36,12 +36,14 @@ func _() {
++ 	_ = x[stateCSSBlockCmt-25]
++ 	_ = x[stateCSSLineCmt-26]
++ 	_ = x[stateError-27]
++-	_ = x[stateDead-28]
+++	_ = x[stateMetaContent-28]
+++	_ = x[stateMetaContentURL-29]
+++	_ = x[stateDead-30]
++ }
++ 
++-const _state_name = "stateTextstateTagstateAttrNamestateAfterNamestateBeforeValuestateHTMLCmtstateRCDATAstateAttrstateURLstateSrcsetstateJSstateJSDqStrstateJSSqStrstateJSTmplLitstateJSRegexpstateJSBlockCmtstateJSLineCmtstateJSHTMLOpenCmtstateJSHTMLCloseCmtstateCSSstateCSSDqStrstateCSSSqStrstateCSSDqURLstateCSSSqURLstateCSSURLstateCSSBlockCmtstateCSSLineCmtstateErrorstateDead"
+++const _state_name = "stateTextstateTagstateAttrNamestateAfterNamestateBeforeValuestateHTMLCmtstateRCDATAstateAttrstateURLstateSrcsetstateJSstateJSDqStrstateJSSqStrstateJSTmplLitstateJSRegexpstateJSBlockCmtstateJSLineCmtstateJSHTMLOpenCmtstateJSHTMLCloseCmtstateCSSstateCSSDqStrstateCSSSqStrstateCSSDqURLstateCSSSqURLstateCSSURLstateCSSBlockCmtstateCSSLineCmtstateErrorstateMetaContentstateMetaContentURLstateDead"
++ 
++-var _state_index = [...]uint16{0, 9, 17, 30, 44, 60, 72, 83, 92, 100, 111, 118, 130, 142, 156, 169, 184, 198, 216, 235, 243, 256, 269, 282, 295, 306, 322, 337, 347, 356}
+++var _state_index = [...]uint16{0, 9, 17, 30, 44, 60, 72, 83, 92, 100, 111, 118, 130, 142, 156, 169, 184, 198, 216, 235, 243, 256, 269, 282, 295, 306, 322, 337, 347, 363, 382, 391}
++ 
++ func (i state) String() string {
++ 	if i >= state(len(_state_index)-1) {
++diff --git a/src/html/template/transition.go b/src/html/template/transition.go
++index d5a05f6..5aa3c35 100644
++--- a/src/html/template/transition.go
+++++ b/src/html/template/transition.go
++@@ -23,6 +23,8 @@ var transitionFunc = [...]func(context, []byte) (context, int){
++ 	stateRCDATA:         tSpecialTagEnd,
++ 	stateAttr:           tAttr,
++ 	stateURL:            tURL,
+++	stateMetaContent:    tMetaContent,
+++	stateMetaContentURL: tMetaContentURL,
++ 	stateSrcset:         tURL,
++ 	stateJS:             tJS,
++ 	stateJSDqStr:        tJSDelimited,
++@@ -83,6 +85,7 @@ var elementContentType = [...]state{
++ 	elementStyle:    stateCSS,
++ 	elementTextarea: stateRCDATA,
++ 	elementTitle:    stateRCDATA,
+++	elementMeta:     stateText,
++ }
++ 
++ // tTag is the context transition function for the tag state.
++@@ -93,6 +96,11 @@ func tTag(c context, s []byte) (context, int) {
++ 		return c, len(s)
++ 	}
++ 	if s[i] == '>' {
+++		// Treat <meta> specially, because it doesn't have an end tag, and we
+++		// want to transition into the correct state/element for it.
+++		if c.element == elementMeta {
+++			return context{state: stateText, element: elementNone}, i + 1
+++		}
++ 		return context{
++ 			state:   elementContentType[c.element],
++ 			element: c.element,
++@@ -113,6 +121,8 @@ func tTag(c context, s []byte) (context, int) {
++ 	attrName := strings.ToLower(string(s[i:j]))
++ 	if c.element == elementScript && attrName == "type" {
++ 		attr = attrScriptType
+++	} else if c.element == elementMeta && attrName == "content" {
+++		attr = attrMetaContent
++ 	} else {
++ 		switch attrType(attrName) {
++ 		case contentTypeURL:
++@@ -162,12 +172,13 @@ func tAfterName(c context, s []byte) (context, int) {
++ }
++ 
++ var attrStartStates = [...]state{
++-	attrNone:       stateAttr,
++-	attrScript:     stateJS,
++-	attrScriptType: stateAttr,
++-	attrStyle:      stateCSS,
++-	attrURL:        stateURL,
++-	attrSrcset:     stateSrcset,
+++	attrNone:        stateAttr,
+++	attrScript:      stateJS,
+++	attrScriptType:  stateAttr,
+++	attrStyle:       stateCSS,
+++	attrURL:         stateURL,
+++	attrSrcset:      stateSrcset,
+++	attrMetaContent: stateMetaContent,
++ }
++ 
++ // tBeforeValue is the context transition function for stateBeforeValue.
++@@ -203,6 +214,7 @@ var specialTagEndMarkers = [...][]byte{
++ 	elementStyle:    []byte("style"),
++ 	elementTextarea: []byte("textarea"),
++ 	elementTitle:    []byte("title"),
+++	elementMeta:     []byte(""),
++ }
++ 
++ var (
++@@ -612,6 +624,28 @@ func tError(c context, s []byte) (context, int) {
++ 	return c, len(s)
++ }
++ 
+++// tMetaContent is the context transition function for the meta content attribute state.
+++func tMetaContent(c context, s []byte) (context, int) {
+++	for i := 0; i < len(s); i++ {
+++		if i+3 <= len(s)-1 && bytes.Equal(bytes.ToLower(s[i:i+4]), []byte("url=")) {
+++			c.state = stateMetaContentURL
+++			return c, i + 4
+++		}
+++	}
+++	return c, len(s)
+++}
+++
+++// tMetaContentURL is the context transition function for the "url=" part of a meta content attribute state.
+++func tMetaContentURL(c context, s []byte) (context, int) {
+++	for i := 0; i < len(s); i++ {
+++		if s[i] == ';' {
+++			c.state = stateMetaContent
+++			return c, i + 1
+++		}
+++	}
+++	return c, len(s)
+++}
+++
++ // eatAttrName returns the largest j such that s[i:j] is an attribute name.
++ // It returns an error if s[i:] does not look like it begins with an
++ // attribute name, such as encountering a quote mark without a preceding
++@@ -638,6 +672,7 @@ var elementNameMap = map[string]element{
++ 	"style":    elementStyle,
++ 	"textarea": elementTextarea,
++ 	"title":    elementTitle,
+++	"meta":     elementMeta,
++ }
++ 
++ // asciiAlpha reports whether c is an ASCII letter.
++diff --git a/src/internal/godebugs/table.go b/src/internal/godebugs/table.go
++index 7178df6..90311eb 100644
++--- a/src/internal/godebugs/table.go
+++++ b/src/internal/godebugs/table.go
++@@ -31,6 +31,7 @@ var All = []Info{
++ 	{Name: "gocachetest", Package: "cmd/go"},
++ 	{Name: "gocacheverify", Package: "cmd/go"},
++ 	{Name: "gotypesalias", Package: "go/types"},
+++	{Name: "htmlmetacontenturlescape", Package: "html/template"},
++ 	{Name: "http2client", Package: "net/http"},
++ 	{Name: "http2debug", Package: "net/http", Opaque: true},
++ 	{Name: "http2server", Package: "net/http"},
++diff --git a/src/runtime/metrics/doc.go b/src/runtime/metrics/doc.go
++index 335f787..f68e386 100644
++--- a/src/runtime/metrics/doc.go
+++++ b/src/runtime/metrics/doc.go
++@@ -255,6 +255,11 @@ Below is the full list of supported metrics, ordered lexicographically.
++ 		The number of non-default behaviors executed by the go/types
++ 		package due to a non-default GODEBUG=gotypesalias=... setting.
++ 
+++	/godebug/non-default-behavior/htmlmetacontenturlescape:events
+++		The number of non-default behaviors executed by
+++		the html/template package due to a non-default
+++		GODEBUG=htmlmetacontenturlescape=... setting.
+++
++ 	/godebug/non-default-behavior/http2client:events
++ 		The number of non-default behaviors executed by the net/http
++ 		package due to a non-default GODEBUG=http2client=... setting.
 +-- 
 +2.43.0
 +
