@@ -2,32 +2,32 @@ Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E91ECD5BB4
-	for <webhook@archiver.kernel.org>; Thu, 21 May 2026 12:58:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFC6ECD5BB3
+	for <webhook@archiver.kernel.org>; Thu, 21 May 2026 12:58:59 +0000 (UTC)
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.35794.1779368323114933293
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.35643.1779368332091406096
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2026 05:58:43 -0700
+ Thu, 21 May 2026 05:58:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=gblz/55y;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=0hglDken;
  spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 764EC1A365D;
-	Thu, 21 May 2026 12:58:41 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 96B941A3655;
+	Thu, 21 May 2026 12:58:50 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4C6D360495;
-	Thu, 21 May 2026 12:58:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 33E33107E8B86;
-	Thu, 21 May 2026 14:58:40 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6D90560495;
+	Thu, 21 May 2026 12:58:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0FF42107E8B89;
+	Thu, 21 May 2026 14:58:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1779368320; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1779368329; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=pzCpfCoSryro31BaigR4AUbv1wjwJ4RHTzb2iodmqd0=;
-	b=gblz/55yQaKT52A8JbBTHGJYXBEoTXuON9At1DsABooikq9HapD3hLs9YzeEDVsa5fZCNh
-	RDztaFvXViH169GwyDR+59sr71ZGKcn6OfvuztMn+hYrA1RwlgtD7Kp9qa7laBai1GPzUu
-	1XoR4C5RpRu7d8u6ui18qmf2kE06Oz5DospUu5Bvf0N7OIkplZS+lRe4yVLQsf9rhW7xpO
-	l8bVHUEwj946pisnFEXycAvOd4H3vXxIobhUbntwvudyk/jnoutAcZJflJJdHAsTNghhlX
-	wdWokG/dOG1Vt9sMbOvYeWg6QFXaaO8iuVRQdHbK9ZgZkEB+7+9G4xxznfu0VQ==
+	bh=KQWnnlLOq6/rw4oV0kqntqcUteMF4aMWDtYwCG+aXAs=;
+	b=0hglDkenmanY1y2i3p+5nyzwJr+xjnUt9YX1+NWlS9SUD8cJw6tuM+RKA2b30rZDEiZBQ2
+	4sdk2T/3P1RJ+C/lIO/gdXT3JKNx+K3glm3vXSOv/r5QB+noyecuHOqAHqrlmQRqXHoOox
+	mqKULw/eCwrJ+Vlfqaz1k/OefB5+tfogu/a/IbBBH9dCNpQWDJ9lFNM/kvsnIi9nt0GLZ1
+	hO8RJxTSnG68OI8DV6H85Z46qBQalQNv6FeQ1Oab05d/D/ZTy9vy49wkXQQzExi0gaRe4U
+	F+UbtpBLVArm9cd9Ts11i6noX0oawdANGLZMsj9l+MD+HK6rIiWAZ5uHub23CA==
 From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: thomas.petazzoni@bootlin.com,
@@ -36,9 +36,9 @@ Cc: thomas.petazzoni@bootlin.com,
 	paul@pbarker.dev,
 	richard.purdie@linuxfoundation.org,
 	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-Subject: [PATCH v2 1/5] vim: introduce vim-sources.inc file
-Date: Thu, 21 May 2026 14:58:24 +0200
-Message-ID: <20260521125828.718050-2-joaomarcos.costa@bootlin.com>
+Subject: [PATCH v2 4/5] vim.inc: remove xxd from the destination directory
+Date: Thu, 21 May 2026 14:58:27 +0200
+Message-ID: <20260521125828.718050-5-joaomarcos.costa@bootlin.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20260521125828.718050-1-joaomarcos.costa@bootlin.com>
 References: <20260521125828.718050-1-joaomarcos.costa@bootlin.com>
@@ -49,84 +49,47 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 12:58:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237508
+ <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 12:58:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237511
 
-This include file contains source-related settings that should be common
-for any recipes whose sources belong into Vim's source code.
+Since the default target depends on xxd, building vim leads to building x=
+xd
+as well, and this raises (for instance) the error below:
 
-The first example is xxd, which will be introduced in a follow-up commit.
+error: check_data_file_clashes: Package vim wants to install file
+/src/build/tmp/work/qemuriscv64-oe-linux/core-image-minimal/1.0/rootfs/us=
+r/bin/xxd
+But that file is already provided by package vim-xxd
+
+This is not the ideal approach, because we are just removing something
+after it is compiled instead of simply not compiling it in the first plac=
+e.
+
+That being said, merely compiling xxd does not add much (or any?) actual =
+overhead.
 
 Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
 ---
- meta/recipes-support/vim/vim-sources.inc |  9 +++++++++
- meta/recipes-support/vim/vim.inc         | 14 +-------------
- meta/recipes-support/vim/vim_9.2.bb      |  5 +++++
- 3 files changed, 15 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-support/vim/vim-sources.inc
+ meta/recipes-support/vim/vim.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-support/vim/vim-sources.inc b/meta/recipes-supp=
-ort/vim/vim-sources.inc
-new file mode 100644
-index 0000000000..19d3b2d15b
---- /dev/null
-+++ b/meta/recipes-support/vim/vim-sources.inc
-@@ -0,0 +1,9 @@
-+SRC_URI =3D "git://github.com/vim/vim.git;branch=3Dmaster;protocol=3Dhtt=
-ps;tag=3Dv${PV}"
-+
-+PV .=3D ".0340"
-+SRCREV =3D "6addd6c101117706bc9b3609d3a418e26e92618f"
-+
-+# Do not consider .z in x.y.z, as that is updated with every commit
-+UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+\.\d+)\.0"
-+# Ignore that the upstream version .z in x.y.z is always newer
-+UPSTREAM_VERSION_UNKNOWN =3D "1"
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/=
 vim.inc
-index 6e0058b13e..190953b9dd 100644
+index 190953b9dd..b75fcb7696 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -12,19 +12,7 @@ RSUGGESTS:${PN} =3D "diffutils"
- LICENSE =3D "Vim"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd1a651ab770b45d41c0f8cb5a8ca9=
-30e"
-=20
--SRC_URI =3D "git://github.com/vim/vim.git;branch=3Dmaster;protocol=3Dhtt=
-ps;tag=3Dv${PV} \
--           file://disable_acl_header_check.patch \
--           file://0001-src-Makefile-improve-reproducibility.patch \
--           file://no-path-adjust.patch \
--           "
--
--PV .=3D ".0340"
--SRCREV =3D "6addd6c101117706bc9b3609d3a418e26e92618f"
--
--# Do not consider .z in x.y.z, as that is updated with every commit
--UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+\.\d+)\.0"
--# Ignore that the upstream version .z in x.y.z is always newer
--UPSTREAM_VERSION_UNKNOWN =3D "1"
-+require vim-sources.inc
-=20
- VIMDIR =3D "vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('=
-.')[1]}"
-=20
-diff --git a/meta/recipes-support/vim/vim_9.2.bb b/meta/recipes-support/v=
-im/vim_9.2.bb
-index fee9f055e9..59de224aac 100644
---- a/meta/recipes-support/vim/vim_9.2.bb
-+++ b/meta/recipes-support/vim/vim_9.2.bb
-@@ -1,5 +1,10 @@
- require vim.inc
-=20
-+SRC_URI +=3D "file://disable_acl_header_check.patch \
-+    file://0001-src-Makefile-improve-reproducibility.patch \
-+    file://no-path-adjust.patch \
-+"
+@@ -99,6 +99,10 @@ do_install() {
+ 	# delete the block.
+ 	sed -i '/the mouse works just fine/,+4d' ${D}/${datadir}/${BPN}/vimrc
+     fi
 +
- PROVIDES =3D "xxd"
++    # FIXME: ideally, Vim's makefiles should be tweaked to not build xxd=
+,
++    # considering xxd (vim-xxd) has its own recipe now
++    rm ${D}${bindir}/xxd
+ }
 =20
- RDEPENDS:${PN} =3D "ncurses-terminfo-base ${PN}-xxd"
+ PARALLEL_MAKEINST =3D ""
 --=20
 2.43.0
 
