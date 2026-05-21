@@ -2,163 +2,209 @@ Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99F25CD4F3C
-	for <webhook@archiver.kernel.org>; Thu, 21 May 2026 07:56:13 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.14])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31598.1779350172410064533
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B47B8CD5BA4
+	for <webhook@archiver.kernel.org>; Thu, 21 May 2026 08:15:23 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.57])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32035.1779351320598096143
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2026 00:56:12 -0700
+ Thu, 21 May 2026 01:15:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=qFXA2uGK;
- spf=pass (domain: est.tech, ip: 52.101.70.14, mailfrom: pratik.farkase@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=EMQ5tj+O;
+ spf=pass (domain: est.tech, ip: 40.107.159.57, mailfrom: pratik.farkase@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZvOh9+nx5IKv0FLdnqZPdFliC6vzNOBQp/D00eyHM9kEH1M9L4fOvDNvy72FW/rgji8SoTEB5Y2j9USPRmkF0ntGuze+1lThWIknqm32jCcsmHBlOV1Niv1oiGNzyGhz9T1A8jUv4aYJhfudlp+3srkUbl7UnRB0aBHqTRQKHKRFVXjl4z5K89O8aH+VTwhsD1YqO9V6ImN/h//FOBigjaLmhmxMCQG5kaIfavz5hwKsSFWvWidzqA3GDwcG7ZwDoXsk7o7DHRuA8kArT50oBN83ZPSICS4chzO6H7hRpQRVb0a7N7E9tSUPMrP7rf79muCcuZrTQoke5q2qIvvDVw==
+ b=M/ZAYUqUIh3VOEP1imRMp7dLtUSaSx7o0cOCtiwaJ+/wloAM2W58pkhXA5mGSdiGJrDMr1wphQiPO4ILiP5bsYaei/8Y4HSHW8q541h81aCjjuWp8LtQMsE32fa3JyYFZ2Sj5NLCnrVwdQQodt6QD+5luHYHOJc4Aogdnw7EkWI3ul3pRVHifSR1zMLy0qhdZz295ohlASQOv+AMsXXfYVn6BNrPzKv02f36ougPA5RWLxmRYtilVwjTACwxVpSIDJqr21sMyOCrQU+RF9phGt4I4tjUagxV7oyhuMVRtdAfHCn9owZuEOi216cZpsF0p7aoDEJgvcAoPnXHQyxZmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=95GfGVmC0h9BTVM81jTWqsKfwZMdlsVGXoDua5CnfrU=;
- b=COuVuJphIn6CukGSzZZ6ZYpB2qd/Bevu/VJxf1zkxmDxITDnEQ0C1HkSZzk7I6lXAql/oOJ2g2ktDsL7JV/UKyP1nAN1aQLypiPeDU10EUiZSW8suZ0HXhjilKH61JxWjFe/CJDuNUNg1bfHJeEz2wx12YPvbmeMht8YFBNLqbl4rLB1/O+gl/5ZdC0wutABNlsme/FUiNDYDuD/QOV7TZMhBaYOJi2tA/EkQTL0MnziEufVDaNDNci40NHWPRNsX6DcFAXauD9PMzzZ6yC4TybBSdog1zEiJ+aRNAeY++lav9/e6KYI9AGlv5NwgHcIeDf+Z4XCpvkOxeER33jqUQ==
+ bh=vfrfreTRS40q/7Do3dVCB2Af+mrp8min+1vqG2Ezu8w=;
+ b=THNBHPjGv6hmKKyJ7/Edfb2sFHUdJlAUY2qsXT6pHr3FK3DeEkLnCU8TZYit9GUcBFOiD/Vf2SvsOXZJuW5/puBZuN0qH6Xr+4mGhFvr3UoluKQ7MeCTgYIA/oSZpSHlctFHMc0/it8cL8PO8JHIKXfqzarEqzsSrJrid5ooj9UJ/xDB2NWDwQhNK2sO7XUYiho5rsWybB/2PHFGa+7wjRAtxs7R331Xtoi34MP/KVf9aUIhnw2F4kLG4dpQotiMg3Oy1T+CFxyyB61/ugwzxV2yVJt1aLvmURdrawvy5MyoLrta2OflmycR3hZai3VHlpQVpSSl+XYnZAGAzzf0Rg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=95GfGVmC0h9BTVM81jTWqsKfwZMdlsVGXoDua5CnfrU=;
- b=qFXA2uGKA0bZk4RpYYXP8/dqnUoUeFOB02cFVB/V0I/y29NPUlEnemV6W5zqqivGcI5RF4BHmB9shZc+cY4MFa6HIuCl3iGOlJ/NKCRJYccF2mf5vPT5rpYYgpvGi4kOWuPdPnGHxutbEx0c2Dj+n5rfHKBWcOVaGvKR/7i0z7Ihcc1v8+l710f2eaXGmDNWupcXhySiWTZajLGgxlGxGPsEbndz8I4QYxsAg0I6w4iVCNjHGWkmFL+r2bIgbAVly7kcvqv2C1Fdot8GknZimb605MjF3wriX4x6O5xVIY1pmhPD6B+nFlBOInxVY27awUEmqw5bxSSBJYuSpHMmcg==
+ bh=vfrfreTRS40q/7Do3dVCB2Af+mrp8min+1vqG2Ezu8w=;
+ b=EMQ5tj+O7oVGWKa+pqzYGNpKxjedRc57ZPs4idG0mCd2wkt8v7YoALwbu3hn40HEf7gJHbJ+2bWrenhiSXc011V1TOENctFcPbukgRTw+fb2BUZw5JNwiyBenX0STMu/gJO7b7F6BsMjvwkY4UR6LrNuqXGmeALFnF6IjCOKyQp4G9GJTh474SSfDZE7+DqblRAbedSkRuUp2P4yQEk2tgNX8oznkOQU2gwNHMFs1l2JYpkzs4m259oICP2hsA2TTxsZoRrkEBDiWnNtFcwHQ0CMp1xupNnXjD9pIcOsVGXpfWcSuQOZbx1zeg7HpQpWhZ15D0+zg5mi5WKGfuh5nQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by GV1P189MB2289.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:9a::21) with
+ by DU7PPFFB02F9236.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::aef) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Thu, 21 May
- 2026 07:56:06 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.15; Thu, 21 May
+ 2026 08:15:15 +0000
 Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
  ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
  ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0048.013; Thu, 21 May 2026
- 07:56:06 +0000
+ 08:15:15 +0000
 From: Pratik Farkase <pratik.farkase@est.tech>
-To: Ross Burton <Ross.Burton@arm.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "pratik.farkase@ericsson.com"
-	<pratik.farkase@ericsson.com>
-Subject: Re: [OE-core][PATCH v2] libxslt: add ptest support
-Thread-Topic: [OE-core][PATCH v2] libxslt: add ptest support
-Thread-Index: AQHc5sGYvlQXP4INOkinKpr1N0n44bYXFUsAgAEKFi0=
-Date: Thu, 21 May 2026 07:56:06 +0000
-Message-ID: 
- <PA3P189MB32396FBCBAEAB78AA895034EFE0E2@PA3P189MB3239.EURP189.PROD.OUTLOOK.COM>
-References: <20260506092057.27057-1-pratik.farkase@est.tech>
- <20260518122642.31494-1-pratik.farkase@est.tech>
- <36EBF09C-B341-442B-8029-1DB9222B0FE3@arm.com>
-In-Reply-To: <36EBF09C-B341-442B-8029-1DB9222B0FE3@arm.com>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA3P189MB3239:EE_|GV1P189MB2289:EE_
-x-ms-office365-filtering-correlation-id: 4d7cb462-1bbe-4a01-6fce-08deb70e69a4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|376014|1800799024|38070700021|18002099003|22082099003|56012099003|11063799006|4143699003|6133799003;
-x-microsoft-antispam-message-info: 
- N3EETyZpVYlN1WkRbH5FHNYqL1dVPl94jDPmnj7CNaSbRQN5rTHj6XdNCepnUJZwtyJ5hebvUiEisWIUDL8zArkFoZFqFNSEpM7mUcFSSQUbXvnp6d7QwBK1POU1RR3BbZX5P1B5PtJrkAkVu2/UcVUGmF+loS7MqSIFBCIqY7y+U9GOn5dHfiwUutgnshM+CL8caTdPta5twN31ru+Hs0erRnthKo0Msmh1+xyqzJaatKF85Jn+Fl+15vo6gxDGS0nZqISIYzsrcr2DPBV7fWj/q/VPRcAUyEAr1Md5DDR2LtJ12yNOk2b+OW2H0znHvkrb/yAkAMYZQZIY3zED+5AqPG3Lc1uabCEd0+ceq0CZKLgzh/SJK8VtIpcXKurFWJGiuFVQRlfoNnzZfnPIm3mKMsLhNCmV0JetQLGaTlpM1v/ALG8J+HSeoOpFXU0YC1wnAuICX1dudBsq7o8SSuR7Cf5rVYP+4Oy/Ti9bPITFKZ/zyN/dkzR2saYmg9q975vU2jOSLrOw5lr4XCDfV1qByo2TYyd0GAw+w/lkhPPuCqEW6ZtZuL9051MyrHHTeuiI6a6puehHcYh0V1/88dEzqiMhD/1+mC0ve6dIwkCr5ZiGlnLM+1Qd1OlXb8suu8pFhgqBlNPoXBGZJnJ2h4Wip+PMkTrHyx2a8QW8qhKYOITcGerOzEPUKIqLS6Gm1JGla+8Qsy6A3g1gH54U/RnU4dlW74ppgEnVi1JEAj8BSJIucp6e+W6aYWTkjveC
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021)(18002099003)(22082099003)(56012099003)(11063799006)(4143699003)(6133799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?Windows-1252?Q?+PPHgx1renzYbefGOSDCPR2bT/NHT0HLuvEM7quW+cjlgxU19MfkA0ev?=
- =?Windows-1252?Q?al7Gf4HcKWxVJomoXim+HwCCQgDMdjQhmOswElmTa+ypHD/XAI/1pK82?=
- =?Windows-1252?Q?xOG6NvlEhE6eWNzEd1JO3UD1dlT1DM+AeyDLNxzZPOS2+tbvOQD8pUKo?=
- =?Windows-1252?Q?QLCzZAKG+vmKejrjmJvUd47jQLAsNe3fN0kH7SLLMVdmo3FVDFZESs/x?=
- =?Windows-1252?Q?ymiyndtPVY48QHtcMG1/ig9YEjFuvop5npEiWnhYBxhV1exGGETuQGKV?=
- =?Windows-1252?Q?uPpoDSoa8aTwDxDRUtSRpWNnSlrLiirtP0XSTOWHX1Bd0ELy4jdV5kQQ?=
- =?Windows-1252?Q?X7DQ3Gczg0E+KkJLRKJInS9SwH67FtREMAIuwQxrI++N61n1qNBhpGOp?=
- =?Windows-1252?Q?HRkWvJwbKDstRwFUiA3UUbwnRDGT8lk6FeZse5Am7V4NIi70ZNvsQMtT?=
- =?Windows-1252?Q?uwsGTimozZ44a3ztEsjBzo+PNq74S+dTV0SFA2GgtEpeiW2oev78XttI?=
- =?Windows-1252?Q?QsPn9DQTK16FmmOfhB5nTE5uFeSNm3OnX+7YaAQ5KpxpVG0L3TCJBUjV?=
- =?Windows-1252?Q?wkuFskPpKi93p0e6EM8blrAHnQlvSrG3o78lxFoPykWI6i2GcHL/V8HM?=
- =?Windows-1252?Q?lbxfOJTJCM2jHSdVI79CStc+59+K8q9ILo/CUjdEnNaHSTI41mUp28dE?=
- =?Windows-1252?Q?gqBlagmeCqTEiH7eDL3hZPB0y5JGWUA/bb/E/plOiUmqLI1gkKevkLiM?=
- =?Windows-1252?Q?u0weaMPPdX6GDhWaworMHF92X5MxOvUFkb4u4V2QiHeOPvNPdrZ8aG92?=
- =?Windows-1252?Q?7OLW6M/Sjf1E2ia6jxkwzlHN6CexOXhnjkUVs2FEx+FRbRWEPPTr/0sE?=
- =?Windows-1252?Q?S8os8IviffC+QRU5w+HjNrRj58lQ8cVc/yAtW1vXHWkxtWuaQjrlgH8M?=
- =?Windows-1252?Q?oxa9dty1W4DlCO77y8kEla2lclMj9s4uzbXY098FGdVLZ2HvsklLO1h5?=
- =?Windows-1252?Q?f6bnE3OKg+UmQhhxo3yYvnkAtqKU6JcoP5pT4rPBT0M6K4bnkg1RYtOY?=
- =?Windows-1252?Q?QRHIpNzCaSIjvwkLjkvS1dAizQGIj5slnwaXIWRivysh2KBlr1BatcJ5?=
- =?Windows-1252?Q?uQY1cO9qtz0YRA1c10jnkxrWuJT+gcewo0PKp70KQsw6udbbOtD6HHPV?=
- =?Windows-1252?Q?0Xd7SmWa7YPhymVoi1sZXZ77oc41xxkUlx/t65UCqZj4DlQRlQwXrGEZ?=
- =?Windows-1252?Q?zBZmji0dqvZyjy3/a2hZzioGGEtM066ybY/RVWJ+IAnL8eqMdaLC/K52?=
- =?Windows-1252?Q?a9i2xUS/ytdRKXdod7EbDJkqW3NZzbSYilJAsT/be35Q8KLlrvcLZmm5?=
- =?Windows-1252?Q?Jow70PxJSdvS/oFxx/tb8vVFFDxf55mxpFx2UC/6mCLRRzHIZAbYtGiK?=
- =?Windows-1252?Q?BgM8+EUhFTirvgw7XHCwcXhwEUWHqDPxaUu9OlW5pa9sGbUubYZlhPvr?=
- =?Windows-1252?Q?+YNxkc/p2sHsnfTUJJJKNiihc5gElom+ENNdWD4FNrZO6zrpUQCY/uq8?=
- =?Windows-1252?Q?UsZ+SA7oarFcHGa5egtG6efhiSlsDB+YlulwSchqSo/n0rwx1Er+oACC?=
- =?Windows-1252?Q?NReFYN/OJjtU4SS8fsNUKtD8/kt/uZe7xRnp0Im11TucfMBcmvzU0W/x?=
- =?Windows-1252?Q?ieHM8p2o2u2c8OtsjyGdes7XKy/W1AY5yKHDZbd9oXoLx4UvyEotphwN?=
- =?Windows-1252?Q?wD6ZpbY3o6TMiXzwHjxztY7CtJeU/S38AYqpZNRLgxAygmPA4urRjjv3?=
- =?Windows-1252?Q?R4juJe1nU8WP0hDpcqKJzIgu1HvJXbuwM/WArhvj2m5y5ZUfETMkitrQ?=
- =?Windows-1252?Q?MDX9z9ZlXCbECA=3D=3D?=
-Content-Type: text/plain; charset="Windows-1252"
+To: openembedded-core@lists.openembedded.org
+CC: pratik.farkase@ericsson.com,
+	Pratik Farkase <pratik.farkase@est.tech>
+Subject: [OE-core][PATCH v2] libatomic-ops: add ptest support
+Date: Thu, 21 May 2026 10:15:05 +0200
+Message-ID: <20260521081505.10423-1-pratik.farkase@est.tech>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260506080459.21650-1-pratik.farkase@est.tech>
+References: <20260506080459.21650-1-pratik.farkase@est.tech>
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DUZPR01CA0234.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b4::25) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:4d4::5)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|DU7PPFFB02F9236:EE_
+X-MS-Office365-Filtering-Correlation-Id: 25c8f478-036a-44e8-53d2-08deb71116ba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|22082099003|56012099003|18002099003|11063799006|6133799003;
+X-Microsoft-Antispam-Message-Info: 
+	g0iQo8B7VAE8H23vn6K97nNOg2YS0WUZ9sp3s7IROAgrHbqRy0Rcd8Bhmn5A+S/CuZHE4FpzqTySGfHuGLpV+pW1ctBUdTfHIA3oSa0zekIU1/CoNbuOLZfWYgNCe0YP4XFb9NhLF6q+dzXluIX3yUBJUgn1dNlhRkPCnm7xGrbUW/4p9fgbRNj6Ipt03WILX1+H9PqGHlQ6JO53EtPNLjXZOiG9sUO4awlZ5wuLEj52+ShHmjqug5CsTcdSwzf9hTD1EnPhXghWSlH43aW8PUdF9GTmE9GRqnGxp/OTqVefiubCEXvEB1j8M68uYsPtcGAbchxqPw8+pGFFQpiYl+TD0jrFZHuPZTEkuPo3lsU8yihk2tSKiuCdXbX3dMEdzSNbZ7+PqiZPFAh/0qGLjmbK93HuzKYu2PWrGyOrq9relBaJG4FtbvYKZklFbqqGdB7u1txO3vwJM7K61ReA+wbjttsXveto6I3cAj2dCI2kPfkRflkx7QIyfIDuPOBWKoNhf3SAo3SiEZd2XW2F5ZduJEX3z9bEOsEy3MQcesn8+YUVps/lQWt2ZwRqKNyh1sqypvqwrgrIGD2n1fawEcEkisOqZMjXlDWEptwsjzNTZxBQ60/fiEk8rQGWBZ+b0Go6cpDqo+lZ0UGRxysk5XnaGfYOgs4wm6BP0ZY1prF/4r3AUMO6RYTdJcYyBsAt
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(22082099003)(56012099003)(18002099003)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?w4e6AowpDQcT5uRkZmu6upUHNWH+7V1nrqykXpXHC2Orj8QBoL3ppBD3WMgo?=
+ =?us-ascii?Q?Y8si1AwS7Y4pL6NfWXVpzKD95SzXQieKJUIxKZLeHesP7fyEWxrUPrKWxcFC?=
+ =?us-ascii?Q?fJpjmOdD8yNApy5D3w04B9Hxx9oG9uy7J05FT64c9hiUYlpLEkR9wkaopz2g?=
+ =?us-ascii?Q?+ChY1sKtrIc9YhCzELJ90mq6gNmbMzuEg51MJ3c5IBaD8PUR8MG0gFC51iMS?=
+ =?us-ascii?Q?RYELp8sV6KF5mZaWfWViCMwlFP626ggb99y+rzVwxnsf6cn/Ra6v4DffPSEJ?=
+ =?us-ascii?Q?D0mTA8tQHoXHPvj5IBuSL7Ja27B+CvOUELA4oCAaLBOWUHt25kJYGwj59IrL?=
+ =?us-ascii?Q?fwhvHHjoko0JQLWTM1LaxyT+PBLzLNVY9cAXYtCr76dDZPCUf7BW2jzQehFa?=
+ =?us-ascii?Q?rzDxpDBkxztuXL6T84LWXNo9bWwkk/4lR3VhI9BDXPgggVjoaCDCCoXppaHd?=
+ =?us-ascii?Q?BlqVCRQgGy/r6DtI+FdoVQYwSGTE+BjT63yjHm6lUz3Yq9dl6AQtTTiZskfu?=
+ =?us-ascii?Q?0/nvYyPvF5mmEo9GxGqCAoHAQTbEnGEhQVSv9Gm+DJyglM/0dxiTWeX5BSZT?=
+ =?us-ascii?Q?+vsAYtJrUDcPXokIesueFO2w5mMvQkE/JSvq3qndv+q3+b1f6oJtvks86YaN?=
+ =?us-ascii?Q?3ChUA2q/432xsDYd4nSo08DkzjApI3cRTLfemULv7TVBuD04QQF0PtGKqn9F?=
+ =?us-ascii?Q?69khfkqy6+egNeMLqBzhmUaDvRI1wnCRsG6v6OkMmIypOsoU9vA59nY5Bxpz?=
+ =?us-ascii?Q?Udk0S8JAqC89kr60Cu3iewftk10jwwNNhYiXcFtNOCUI9q4b8I0xU3I1RR0W?=
+ =?us-ascii?Q?UnuCHcx2+IJDLpIG/nM073e/ogmkUq91z7zdZI23E6DvGJEDhno6I83zWZ5K?=
+ =?us-ascii?Q?CNl+GCIeaGCR1OfGgORoCbdkz/ob/JnphPXqjkxQBPtfD97t0r31zrCuHNbx?=
+ =?us-ascii?Q?+QNZ/adeq59gml1ui8vHqSoQzFvK59PpBoTfNLXicCX8fMm4aUvaAZhP9hgP?=
+ =?us-ascii?Q?CgK6wfeR+fyzH1/MUPV1/h+w1oWhIc8cW0ONLSj53VrQ9X7Cgiv3C42sQ01E?=
+ =?us-ascii?Q?Bv38AtkSpS9Wap/sApyHuDG7UCelkCSfJkQIsavkW8nZRdReJq55NG26Ep0F?=
+ =?us-ascii?Q?+OEPnPNTey1E6wd4j6exFvR+o9FtNQuNQb18mtJUBpONea+MvqSojUTtlJEG?=
+ =?us-ascii?Q?gk2FbSFDh6jb3UCRBzO7JQ46ofN6ynN4tth7pxIlIE4fpw8mAI4pUhplsnPB?=
+ =?us-ascii?Q?1IFkacr92+cj/vFJwN7LDHe4p4IW2o9VSfIx6cfsDtYxn0S1iigauR9ctst3?=
+ =?us-ascii?Q?RovwOSWJZI2rAPWmWNrDnR02XWI8fDhvaSzPvGAp9i40olzsIg5H9V4k+/nF?=
+ =?us-ascii?Q?Alru1UMmOEhLIWFoUpcbabApSORFgBqK+2afS5QWzaoR8b3GpMbj7AEHqq9J?=
+ =?us-ascii?Q?ZDvM+Ou7Fs0jaaSex10jyjee3hvTc2ylB3ixskMQR9Ccu91wBicY33Rzkdbg?=
+ =?us-ascii?Q?mSmjhtVcsIRbBav+o9BdqLZOMQssNPt2fphGRKbBWwo4FzjKSuqG4BwXHQNk?=
+ =?us-ascii?Q?ynNS0ipQZ2rpP4o2rfgV8xxgWk963t7xshhpbe9VNykNlZNvNtguQ8s9KsdD?=
+ =?us-ascii?Q?wUowCzY6MHnW5MHv7M7IaNxc2115+/zLdjVySaM/G3JNmYs+TGBPWP3heqTa?=
+ =?us-ascii?Q?xIf1rFKzBmhD94e3UIPPtJZvK9j9f6JYE+ETabTZoRW9zVNfCKi2wrRwN76x?=
+ =?us-ascii?Q?ZQtGnUpxrA=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25c8f478-036a-44e8-53d2-08deb71116ba
 X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d7cb462-1bbe-4a01-6fce-08deb70e69a4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2026 07:56:06.2869
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 08:15:15.8013
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZJCoQALa/RIPZQraYdISGafwXsi2z+h5JD9goCwQ6NeDVy79S74hCB+VQruZ84HFFBONYYFA4+Q4l++ud4TFAQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB2289
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8/QpK95sF+ocWKImWTfbQ/dQm1KZoLzh2Dr0r8BATatPKEm6WrqQsTVklfTN7GaDkK97yZwuAM3RZd3NCRtpzA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU7PPFFB02F9236
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 07:56:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237476
+ <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 08:15:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237477
 
-Hi Ross,
+Add ptest support for libatomic-ops, running the upstream test suite
+which validates atomic operations, generalized emulation, pthread-based
+fallbacks, lock-free stack, and memory allocation.
 
-Thanks again for the review and good suggestion. That makes it even more si=
-mpler. What we need here is glibc-gconv-cp1251. I tested this RDEPEND chang=
-e and all 748 tests pass now including bug-146. Also dropped the existence =
-check as you suggested.
+Tested on qemux86-64 with ptest-runner: 5 PASS, 0 FAIL.
 
-v3 is sent separately fixing these.
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+---
+Changes in v2:
+- Use makefile-getvar to get check_PROGRAMS instead of find
 
-Best Regards,
-Pratik
+ .../conf/distro/include/ptest-packagelists.inc |  1 +
+ .../libatomic-ops/libatomic-ops/run-ptest      | 12 ++++++++++++
+ .../libatomic-ops/libatomic-ops_7.10.0.bb      | 18 ++++++++++++++++--
+ 3 files changed, 29 insertions(+), 2 deletions(-)
+ create mode 100755 meta/recipes-support/libatomic-ops/libatomic-ops/run-pt=
+est
 
-________________________________________
-From: Ross Burton <Ross.Burton@arm.com>
-Sent: Wednesday, May 20, 2026 5:57 PM
-To: Pratik Farkase
-Cc: openembedded-core@lists.openembedded.org; pratik.farkase@ericsson.com
-Subject: Re: [OE-core][PATCH v2] libxslt: add ptest support
-
-On 18 May 2026, at 13:26, Pratik Farkase via lists.openembedded.org <pratik=
-.farkase=3Dest.tech@lists.openembedded.org> wrote:
-> +    for d in general REC REC2 documents encoding exslt extensions \
-> +             keys namespaces numbers plugins reports; do
-> +        if [ -d ${S}/tests/$d ]; then
-> +            cp -r ${S}/tests/$d ${D}${PTEST_PATH}/tests/
-> +        fi
-
-Don=92t check for existence here, we want to know if this list changes.
-
-> +    done
-> +
-> +    # Remove encoding test that requires windows-1251 iconv support
-> +    rm -f ${D}${PTEST_PATH}/tests/encoding/bug-146.*
-> +}
-
-I think you can solve this by just rdepending on glibc-charmap-cp1251 (whic=
-h will need to be conditional on glibc).
-
-Ross
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc
+index 50b6a8a41e..5238013c6b 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -30,6 +30,7 @@ PTESTS_FAST =3D "\
+     json-glib \
+     libarchive \
+     libassuan \
++    libatomic-ops \
+     libcheck \
+     libconfig \
+     libconvert-asn1-perl \
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops/run-ptest b/m=
+eta/recipes-support/libatomic-ops/libatomic-ops/run-ptest
+new file mode 100755
+index 0000000000..355908b85d
+--- /dev/null
++++ b/meta/recipes-support/libatomic-ops/libatomic-ops/run-ptest
+@@ -0,0 +1,12 @@
++#!/bin/sh
++
++cd "$(dirname "$0")/tests" || exit 1
++
++for test in $(find . -maxdepth 1 -type f -executable | sort); do
++    testname=3D$(basename "$test")
++    if ./"$test"; then
++        echo "PASS: $testname"
++    else
++        echo "FAIL: $testname"
++    fi
++done
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.10.0.bb b/m=
+eta/recipes-support/libatomic-ops/libatomic-ops_7.10.0.bb
+index c31ccac7b0..82adf417a3 100644
+--- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.10.0.bb
++++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.10.0.bb
+@@ -8,7 +8,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4=
+486a80fdaf4a4263 \
+                     file://LICENSE;md5=3D5700d28353dfa2f191ca9b1bd707865e =
+\
+                     "
+=20
+-SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/libatomic_ops-${PV}.tar.gz=
+"
++SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/libatomic_ops-${PV}.tar.gz=
+ \
++           file://run-ptest \
++           "
+ GITHUB_BASE_URI =3D "https://github.com/bdwgc/libatomic_ops/releases"
+=20
+ SRC_URI[sha256sum] =3D "0db3ebff755db170f65e74a64ec4511812e9ee3185c232eeff=
+eacd274190dfb0"
+@@ -19,6 +21,18 @@ S =3D "${UNPACKDIR}/libatomic_ops-${PV}"
+=20
+ ALLOW_EMPTY:${PN} =3D "1"
+=20
+-inherit autotools pkgconfig github-releases
++inherit autotools pkgconfig github-releases ptest
++
++do_compile_ptest() {
++    oe_runmake -C ${B}/tests check TESTS=3D
++}
++
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/tests
++
++    for t in $(makefile-getvar ${B}/tests/Makefile check_PROGRAMS); do
++        ${B}/libtool --mode=3Dinstall install -m 0755 ${B}/tests/$t ${D}${=
+PTEST_PATH}/tests/
++    done
++}
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.34.1
 
 
