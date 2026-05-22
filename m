@@ -2,101 +2,1371 @@ Return-Path: <bindudaniel1996@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3799BCD5BB3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A1B1CD4F5B
 	for <webhook@archiver.kernel.org>; Fri, 22 May 2026 06:53:23 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11829.1779432800878407868
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11827.1779432796623785910
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2026 23:53:20 -0700
+ Thu, 21 May 2026 23:53:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=lRCjKze8;
- spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: bindudaniel1996@gmail.com)
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c8026aa4d53so5249701a12.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 23:53:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=DDuuao1W;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: bindudaniel1996@gmail.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82f8b60e485so2945339b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2026 23:53:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779432800; x=1780037600; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FLOLJJzYhoU+22NAtYIpdryhk/W+tnqzz3dwxf5bcCQ=;
-        b=lRCjKze84wX58lSYeT8Fu9QLZ2IgCUIKehyZDdiAl8zGSOZvzCkSKfCa9n9VImi9rw
-         P5R2wgDB9RXBZ4cP6jpBz2TPq4vU6/ObsoNd5zsLtDE4IHNImSuPGNnJ+Y5P0/9+ezvX
-         x4Uiu1LjegGKBkVN9rUXWVaS5BZV8StHFIkbapkfqHomyT24wi5ACpM03CVZwtP2z5kS
-         ywzFlRP0AIbWySgnNHIfVxr2aqiaY6AhFWcrSPH7C6VsRZAGfk2bngYVHr1KjbWmOp03
-         9R9GkdyrfwKCCVtYRL6gl3LHwNqFVMBUaVtX6kjmxQqCfcMJ+RRPzH1sr4GhcXdTKyvc
-         qtPQ==
+        d=gmail.com; s=20251104; t=1779432796; x=1780037596; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0jm3RMeEQniTcMJRqzfT4rpbNWnka9zBFPHo6r46t4I=;
+        b=DDuuao1WxYuUyqtt9LORATDCj5w11G5PeDHvoqul9UuJu4t/n6E3xW/WcffSj/paH/
+         Od7ESAMt7oHDDyPjLtI+eOwPOCcA6CkN8jIpI2pyEQvUkijDbL7r4tj3uizhzZCUhVxS
+         eOf1dcU5EpaCsSWhw2BVDWimeGT/Q/E3v9u3KlBWq3mPN5OL6CJzgwS21zOJxEfImR8L
+         RsKLApGLKB5RZ3wF5fhQN9+1NWe5HpykZ8fBhBpRO4KCpxjcNPhSbUdZJZCnMswNQMG1
+         9ZLFxJt7GZTiyo0NAyLLJkXPEz7BTryD/3vxP4lZrtsruKnp/WKD/tHlMVRvrfzYedOK
+         kLMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779432800; x=1780037600;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FLOLJJzYhoU+22NAtYIpdryhk/W+tnqzz3dwxf5bcCQ=;
-        b=hYM3vV9beLRVzPfEyfdjXQUnsDu7esEO9tgqF2NaY85aHQdkycz+Or16NMGL6H70tq
-         xmZfmsDKvbfSxZB79xtbomqLbZuaEim/7Hb+vOYnXlkW23mrCLhDgrdKtRAw2vBRUq8+
-         J5TzFmwFeaoIxUTkW0ePBK7BksiVafSa6n9umnuVzsdPC+J4cZ+3FZjpfTL+hIZQ8Xm5
-         5VnNlyPwALATC+yQdnpbckCrWHYiqUtfp//+4iVn6mhKLnTvZI2grjWoIB2GtwslED0m
-         M+R7R7PaZq4F/BATw1YeRrnIDL379zDXWombGwFsC6ugMHFWY8UjRf50FvQ8X0Y8ycRl
-         0LaQ==
-X-Gm-Message-State: AOJu0YzIjsPKjxg4RfUv52YmLUhvX0VSWRmU4UxeHuvgEDCy3F3NmBgK
-	a7Ef+Whymj+6424DmKyZ4Ihdm0lOrVh7o0YiCAKu5XtkGbZDN4ihiN4qp2JQQA==
-X-Gm-Gg: Acq92OFy5mjF/c8cyyD0KuE3dlSw8hQNZF0SmDhGbtN2giyd6AagQCSZPckXAv+pX90
-	1nrH7Zaqn167LDiwruhdyf/kb/nyaYJi3Z0Wj7u1nDMJknRUmbSKPbDUG8WMeS9MCWA84Z9PeKz
-	QGDuoah8rLATdZPF7ThmcFtMTJ0mQlqY/+Ht9SJm7mWtXpJjHGK6+xZK/MH5upy+E6ql+tVeKZu
-	VTfdQltG061SohcDJj/P5+KuW0Zgp1m9zuAWe1vVON8KBzoMwUrYUfjnB7M4qnhLIq6U/e6QJIB
-	e/CJ28vySIPES8UVljGft7AlTVrrcnHi+LXC9e11PAo6mTfyi9rm0I3g/0b6Zvaf+eQ5a1Tep3h
-	ounrqXy63VEUVZg/XDfEgz6J2h3b/yB6ZzzkebIDcNDRITc8RVNPIO+ZcHZkmpoTi2JlnV5TgU+
-	03ToouuPZE5zJvtgSU0m9lCl6Dz+bEJg==
-X-Received: by 2002:a05:6a20:2584:b0:39c:39d1:dbf4 with SMTP id adf61e73a8af0-3b328fb3ce5mr2478713637.46.1779432800152;
-        Thu, 21 May 2026 23:53:20 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779432796; x=1780037596;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0jm3RMeEQniTcMJRqzfT4rpbNWnka9zBFPHo6r46t4I=;
+        b=BH4b40zjw87PMpYgmZ8GGgSPZtXvL2/J8JdabHoDt1G9CHCRtoI2T18TLZz33ZIvIV
+         32dewU0oE9IT5uSO/RiEj6xeZDq4QItVtaiekIUs9XbluN/DCJ5kBcvB81gNpmn1oVDH
+         7tA6elcymG3hh8Q3KW784dNz1H7gwFDNrY3xNHkIWNVUqK4uyp8MUfcmW13/+GMaNEgL
+         ChyAeTuEHX/QVM+JuOJAhM51psSzUO06aBSXWjsv4d36BKkfQH7mVrfxWlhwSB5U7uAB
+         moPq6vxEWZqyJthwVUS4gyaqPwVK8eWxSL/9o8we+Lc5z7I4WxCc1LIMcRflHiGhnc4i
+         CVow==
+X-Gm-Message-State: AOJu0YwG+v3tiQuP+lvXqyV6TA5wphKg0lnKbGk2+U7L6/bEsK+Nt52U
+	s6dvqTEUqFB/eJn1KnHJO0d2i34mGiA/6R2MeRB3u30kTOjnmwMEhhQ2/1mAtA==
+X-Gm-Gg: Acq92OG9U8jasuh2ffyKmqgkscz2EsySNPuUZWqDniqN2oCvxvy9kquyf222Y/wkF+y
+	PY/r40E07dkF8qLG+fwPBw+la9fbQX+BNOy6YJGH8utKMREmEGL33+lfWwFU0ezkak1ZNRcH3Bs
+	Vvhc7ZvMYTV4mpo7pFpc92vRrNlp/rF6PC2dTi4YIShyaXuMv/vMvkmt6ZkOBhUJQQi/TQEiyrz
+	y6JwiuBjd3WBDfWpDNLLqV051NKSdUeD9k+u0SFPPWAtXOYQJSCamE3kBrRH2LWbd7hBwdCOdU3
+	khgFGVv1ErWQPJqOou6e3HiQDFJGh3/YBHp4zPCpVIUn9FoKz0TB0Hsq5f/CrgQkbHSu3Xf9I+v
+	xt+4z3ledT+ayJtvGKxBM72DrhMGfQJLgjLgrPRMTyhOJeV0Amyevdrc7zG5DEPRUhlvGp93uBG
+	JR3sr4bdFyREiaBgZURCeTj4eyZEFKQoBaLafgN3IK
+X-Received: by 2002:a05:6a00:4299:b0:838:af72:fb37 with SMTP id d2e1a72fcca58-8415f0f02e2mr2444033b3a.7.1779432793338;
+        Thu, 21 May 2026 23:53:13 -0700 (PDT)
 Received: from L-12443L.kpit.com ([106.51.46.145])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164fc6e8esm914957b3a.47.2026.05.21.23.53.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164fc6e8esm914957b3a.47.2026.05.21.23.53.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 23:53:19 -0700 (PDT)
+        Thu, 21 May 2026 23:53:12 -0700 (PDT)
 From: Bhabu Bindu <bindudaniel1996@gmail.com>
 X-Google-Original-From: Bhabu Bindu <bhabu.bindu@kpit.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Bhabu Bindu <bhabu.bindu@kpit.com>,
 	Sana Kazi <Sana.Kazi@bmwtechworks.in>
-Subject: [poky][scarthgap][PATCH 2/2] libarchive: Ignore CVE-2026-5745
-Date: Fri, 22 May 2026 12:20:23 +0530
-Message-Id: <20260522065023.1084981-2-bhabu.bindu@kpit.com>
+Subject: [poky][scarthgap][PATCH 1/2] libarchive: Fix CVE-2026-5121
+Date: Fri, 22 May 2026 12:20:22 +0530
+Message-Id: <20260522065023.1084981-1-bhabu.bindu@kpit.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260522065023.1084981-1-bhabu.bindu@kpit.com>
-References: <20260522065023.1084981-1-bhabu.bindu@kpit.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 May 2026 06:53:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237526
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237525
 
-Ignore CVE-2026-5745 as libarcihive maintainer rejected CVE-2026-5745.
-This is reproducible only with UBSAN, using with
-'-fsanitize=pointer-overflow -fsanitize-trap=pointer-overflow'.
-The root cause remains a UBSAN violation, not a NULL pointer dereference
-
-https://github.com/libarchive/libarchive/issues/2904#issuecomment-4257068822
+Fixes CVE-2026-5121, adds regression test for
+zisofs 32-bit heap overflow
 
 Signed-off-by: Sana Kazi <Sana.Kazi@bmwtechworks.in>
 ---
- meta/recipes-extended/libarchive/libarchive_3.7.9.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../libarchive/libarchive/CVE-2026-5121.patch | 1271 +++++++++++++++++
+ .../libarchive/libarchive_3.7.9.bb            |    1 +
+ 2 files changed, 1272 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2026-5121.patch
 
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2026-5121.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2026-5121.patch
+new file mode 100644
+index 0000000000..0a380e5a62
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-5121.patch
+@@ -0,0 +1,1271 @@
++From a2a73a8f14b3208c7f6acbbc93265254a7c1efd0 Mon Sep 17 00:00:00 2001
++From: elhananhaenel <elhanan.haenel@mail.huji.ac.il>
++Date: Thu, 19 Mar 2026 16:43:29 +0200
++Subject: [PATCH] Add regression test for zisofs 32-bit heap overflow
++
++A crafted ISO with pz_log2_bs=2 and pz_uncompressed_size=0xFFFFFFF9
++causes an integer overflow in the block pointer allocation in
++zisofs_read_data(). On 32-bit, (ceil+1)*4 wraps size_t to 0, malloc(0)
++returns a tiny buffer, and the code writes ~4GB past it.
++
++The pz_log2_bs validation fix prevents this. Add a regression test with
++a crafted 48KB ISO that triggers the overflow on unfixed 32-bit builds.
++---
++ Makefile.am                                   |    2 +
++ .../archive_read_support_format_iso9660.c     |    8 +
++ libarchive/test/CMakeLists.txt                |    1 +
++ .../test_read_format_iso_zisofs_overflow.c    |  104 ++
++ ...est_read_format_iso_zisofs_overflow.iso.uu | 1096 +++++++++++++++++
++ 5 files changed, 1211 insertions(+)
++ create mode 100644 libarchive/test/test_read_format_iso_zisofs_overflow.c
++ create mode 100644 libarchive/test/test_read_format_iso_zisofs_overflow.iso.uu
++
++CVE: CVE-2026-5121
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/a2a73a8f14b3208c7f6acbbc93265254a7c1efd0.patch]
++Signed-off-by: Sana Kazi <Sana.Kazi@bmwtechworks.in>
++Comment: Refreshed hunk from Makefile.am and removed hunk from archive_read_support_format_iso9660.c as it is already present in codebase.
++
++diff --git a/Makefile.am b/Makefile.am
++index 5710243169..e55882af32 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -505,6 +505,7 @@ libarchive_test_SOURCES= \
++ 	libarchive/test/test_read_format_isorr_new_bz2.c \
++ 	libarchive/test/test_read_format_isorr_rr_moved.c \
++ 	libarchive/test/test_read_format_isozisofs_bz2.c \
+++	libarchive/test/test_read_format_iso_zisofs_overflow.c \
++ 	libarchive/test/test_read_format_lha.c \
++ 	libarchive/test/test_read_format_lha_bugfix_0.c \
++ 	libarchive/test/test_read_format_lha_filename.c \
++@@ -861,6 +862,7 @@ libarchive_test_EXTRA_DIST=\
++ 	libarchive/test/test_read_format_iso_rockridge_rr_moved.iso.Z.uu \
++ 	libarchive/test/test_read_format_iso_xorriso.iso.Z.uu \
++ 	libarchive/test/test_read_format_iso_zisofs.iso.Z.uu \
+++	libarchive/test/test_read_format_iso_zisofs_overflow.iso.uu \
++ 	libarchive/test/test_read_format_lha_bugfix_0.lzh.uu \
++ 	libarchive/test/test_read_format_lha_filename_cp932.lzh.uu \
++ 	libarchive/test/test_read_format_lha_filename_utf16.lzh.uu \
++diff --git a/libarchive/test/CMakeLists.txt b/libarchive/test/CMakeLists.txt
++index 4838f336c3..95c1b33f7b 100644
++--- a/libarchive/test/CMakeLists.txt
+++++ b/libarchive/test/CMakeLists.txt
++@@ -151,6 +151,7 @@ IF(ENABLE_TEST)
++     test_read_format_isorr_new_bz2.c
++     test_read_format_isorr_rr_moved.c
++     test_read_format_isozisofs_bz2.c
+++    test_read_format_iso_zisofs_overflow.c
++     test_read_format_lha.c
++     test_read_format_lha_bugfix_0.c
++     test_read_format_lha_filename.c
++diff --git a/libarchive/test/test_read_format_iso_zisofs_overflow.c b/libarchive/test/test_read_format_iso_zisofs_overflow.c
++new file mode 100644
++index 0000000000..bad52b154a
++--- /dev/null
+++++ b/libarchive/test/test_read_format_iso_zisofs_overflow.c
++@@ -0,0 +1,104 @@
+++/*-
+++ * Copyright (c) 2025
+++ * All rights reserved.
+++ *
+++ * Redistribution and use in source and binary forms, with or without
+++ * modification, are permitted provided that the following conditions
+++ * are met:
+++ * 1. Redistributions of source code must retain the above copyright
+++ *    notice, this list of conditions and the following disclaimer.
+++ * 2. Redistributions in binary form must reproduce the above copyright
+++ *    notice, this list of conditions and the following disclaimer in the
+++ *    documentation and/or other materials provided with the distribution.
+++ *
+++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS'' AND ANY EXPRESS OR
+++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+++ * IN NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY DIRECT, INDIRECT,
+++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+++ */
+++#include "test.h"
+++
+++/*
+++ * Verify that a crafted ISO9660 image with an invalid zisofs block-size
+++ * exponent (pz_log2_bs) is handled gracefully.
+++ *
+++ * The ZF extension in the Rock Ridge entry stores pz_log2_bs as a raw
+++ * byte from the image.  The zisofs spec only permits values 15-17.
+++ * Values outside that range can cause:
+++ *   - Undefined behavior via oversized bit shifts (any platform)
+++ *   - Integer overflow in block pointer allocation on 32-bit platforms,
+++ *     leading to a heap buffer overflow write
+++ *
+++ * The test image has pz_log2_bs=2 (out of spec) combined with
+++ * pz_uncompressed_size=0xFFFFFFF9.  On 32-bit, (ceil+1)*4 overflows
+++ * size_t to 0, malloc(0) returns a tiny buffer, and the code attempts
+++ * to write ~4GB into it.  On 64-bit the allocation is huge and safely
+++ * fails.
+++ *
+++ * We verify the fix by checking archive_entry_size() after reading the
+++ * header.  When pz_log2_bs validation rejects the bad value (pz=0),
+++ * the entry keeps its raw on-disk size (small).  Without the fix,
+++ * the reader sets the entry size to pz_uncompressed_size (0xFFFFFFF9).
+++ *
+++ * We intentionally do NOT call archive_read_data() here.  Without the
+++ * fix, the data-read path triggers a heap buffer overflow on 32-bit
+++ * that silently corrupts the process heap, causing later tests to
+++ * crash rather than this one.
+++ */
+++DEFINE_TEST(test_read_format_iso_zisofs_overflow)
+++{
+++	const char reffile[] = "test_read_format_iso_zisofs_overflow.iso";
+++	struct archive *a;
+++	struct archive_entry *ae;
+++	int r = ARCHIVE_OK;
+++	int found_regular_file = 0;
+++
+++	extract_reference_file(reffile);
+++	assert((a = archive_read_new()) != NULL);
+++	assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a));
+++	assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));
+++	assertEqualIntA(a, ARCHIVE_OK,
+++	    archive_read_open_filename(a, reffile, 10240));
+++
+++	while ((r = archive_read_next_header(a, &ae)) == ARCHIVE_OK ||
+++	    r == ARCHIVE_WARN) {
+++		/*
+++		 * With the fix, pz_log2_bs=2 is rejected and pz is set
+++		 * to 0, so the entry keeps its small raw size from the
+++		 * ISO directory record.  Without the fix, zisofs sets
+++		 * the entry size to pz_uncompressed_size (0xFFFFFFF9).
+++		 *
+++		 * We intentionally do NOT call archive_read_data().
+++		 * Without the fix, the data-read path triggers a heap
+++		 * buffer overflow on 32-bit that silently corrupts the
+++		 * process heap, causing later tests to crash rather
+++		 * than this one.
+++		 */
+++		if (archive_entry_filetype(ae) == AE_IFREG) {
+++			la_int64_t sz = archive_entry_size(ae);
+++			failure("entry \"%s\" has size %jd"
+++			    "; expected < 1 MiB"
+++			    " (if size is 4294966265 = 0xFFFFFFF9, the"
+++			    " pz_log2_bs validation is missing)",
+++			    archive_entry_pathname(ae), (intmax_t)sz);
+++			assert(sz < 1024 * 1024);
+++			found_regular_file = 1;
+++		}
+++	}
+++
+++	/* Iteration must have completed normally. */
+++	assertEqualInt(ARCHIVE_EOF, r);
+++
+++	/* The PoC image contains a regular file; if we never saw one,
+++	 * something is wrong with the test image. */
+++	assert(found_regular_file);
+++
+++	assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
+++	assertEqualInt(ARCHIVE_OK, archive_read_free(a));
+++}
++diff --git a/libarchive/test/test_read_format_iso_zisofs_overflow.iso.uu b/libarchive/test/test_read_format_iso_zisofs_overflow.iso.uu
++new file mode 100644
++index 0000000000..5e7dcc3750
++--- /dev/null
+++++ b/libarchive/test/test_read_format_iso_zisofs_overflow.iso.uu
++@@ -0,0 +1,1096 @@
+++begin 664 test_read_format_iso_zisofs_overflow.iso
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M```````````!0T0P,#$!````````````````````````````````````````
+++M````4$]#7U=2251%`````````````````````````````````````````!@`
+++M```````8```````````````````````````````````````````!```!`0``
+++M`0`("``*````````"A(`````````````$@`````B`!,````````3``@`````
+++M"`!Z`1D,`````@```0```0$`````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M``````````````````````````````````````````````$`````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M`````````````````````````````````````````/]#1#`P,0$`````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M`````````````0`3`````0``````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M``````````````````````````````````````````!5`!,````````3``@`
+++M````"`!Z`1D,`````@```0```0$`4U`'`;[O`%!8+`'M00````!![0(`````
+++M```"``````````````````````$````````!(@`3````````$P`(``````@`
+++M>@$9#`````(```$```$!`7T`%````````!00"``````($'H!&0P````````!
+++M```!#D]615)&3$]7+D))3CLQ`%I&$`%P>@0"^?O__P````!.31$!`$]615)&
+++M3$]7+D))3E!8+`&D@0````"!I`$````````!``````````````````````(`
+++M```````"````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M`````````````#?D4Y;)V]8'^?O__P0"``!!0D-$04)#1$%"0T1!0D-$04)#
+++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
+++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
+++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
+++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
+++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
+++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
+++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
+++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
+++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
+++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
+++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
+++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
+++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
+++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
+++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
+++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
+++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
+++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
+++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
+++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
+++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
+++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
+++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
+++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
+++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
+++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
+++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
+++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
+++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
+++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
+++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
+++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
+++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
+++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
+++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
+++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
+++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
+++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
+++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
+++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
+++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
+++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
+++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
+++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
+++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
+++M04)#1```````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++M````````````````````````````````````````````````````````````
+++,````````````````
+++`
+++end
 diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-index 6b31256960..e402a485b3 100644
+index de9682400a..6b31256960 100644
 --- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
 +++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-@@ -80,4 +80,9 @@ ALTERNATIVE:bsdcpio = "cpio"
- ALTERNATIVE_LINK_NAME[cpio] = "${base_bindir}/cpio"
- ALTERNATIVE_TARGET[cpio] = "${bindir}/bsdcpio"
+@@ -47,6 +47,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://CVE-2026-4111-1.patch \
+            file://CVE-2026-4111-2.patch \
+            file://CVE-2026-4426.patch \
++           file://CVE-2026-5121.patch \
+            "
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
  
-+python() {
-+    if not bb.utils.filter('CFLAGS', '-fsanitize=pointer-overflow -fsanitize-trap=pointer-overflow', d):
-+        d.setVarFlag("CVE_STATUS", "CVE-2026-5745", "not-applicable-config: sanitize is disabled")
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
 -- 
 2.34.1
 
