@@ -1,145 +1,128 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <jan.vermaete@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49A53CD4F54
-	for <webhook@archiver.kernel.org>; Sun, 24 May 2026 08:35:19 +0000 (UTC)
-Received: from mailer163.gate185.sl.smtp.com (mailer163.gate185.sl.smtp.com [192.40.185.163])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1403.1779588163945265509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9217CD5BAB
+	for <webhook@archiver.kernel.org>; Sun, 24 May 2026 15:17:29 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9651.1779635843010478858
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 May 2026 19:02:44 -0700
+ Sun, 24 May 2026 08:17:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@centricular.com header.s=201701 header.b=r4/IOwLO;
- dkim=pass header.i=@smtpsendemail.com header.s=smtpcustomer header.b=kibTnYtO;
- spf=pass (domain: centricular.com, ip: 192.40.185.163, mailfrom: tarun@centricular.com)
-X-Report-Abuse: SMTP.com is an email service provider. Our abuse team cares
- about your feedback. Please contact abuse@smtp.com for further investigation.
-Received: from [10.0.16.128] (unknown [10.138.12.203])
-	by mtl-mta02-out1 (Halon) with ESMTP
-	id fb3c5254-eff6-4985-9747-016381520011;
-	Sun, 24 May 2026 02:02:43 +0000 (UTC)
-Received: Received from 10.138.12.155 by Caffeine
- (s0-aws-app2-swarm-manager-3) with SMTP id
- 623912ca-ad75-404d-a41b-dcfc20a7aaa0  for
- openembedded-core@lists.openembedded.org;
-  Sun, 24 May 2026 02:02:31 +0000 (UTC)
-Feedback-ID: 9075006:SMTPCOM
-Received: from hermes.centricular.com (unknown [138.201.245.53])
-	by s0-aws-app2-mta-in-1 (Halon) with ESMTPSA
-	id 623912ca-ad75-404d-a41b-dcfc20a7aaa0;
-	Sun, 24 May 2026 02:02:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 33C209CB0D;
-	Sun, 24 May 2026 04:02:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=centricular.com;
-	s=201701; t=1779588149;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=B+HPjdG4CwnTH+3UeAcJHLnRL88DDzQTlteGNOrXlOU=;
-	b=r4/IOwLO3d0IdYF9OcuvL1fqA7wHCp6bqm+Nd9v4wxYh9EVMp+sZEwhoWvtZ4+2EZ9M+gA
-	GZRUt5vw8wfiJzlT1YHyR3Orp8OFTShwnMk/dFxOcsNwtrLd/yp/Z93jA5C68WqnWgKZW/
-	Bvcb97xkEFkhmAWgj91IsIh6/x+yWIUIh4sIMcWqkDG8CWmlUeL+4cJyTbpnL7V+XYGW/J
-	B2avEqQ7zkzQTacu97UTxNnc/IyoOAJcowm21a22hSLY6DTKJ8pIW8FwtNFp7eOrWBkt1V
-	1pSOid8tFJsChHDPCh+TLZqcitBgRWtGYpaZWdzxOHV9t3dsix8wJLaN5+9sqA==
-Message-ID: <01d286fdf64dedc49f10f7119d42e292adf224ea.camel@centricular.com>
-Subject: Re: [OE-core] [PATCH] gstreamer1.0-plugins-rs: add new package
-From: Taruntej Kanakamalla <tarun@centricular.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: "sebastian@centricular.com" <sebastian@centricular.com>,
- "nirbheek@centricular.com"
-	 <nirbheek@centricular.com>
-Date: Sun, 24 May 2026 07:32:24 +0530
-In-Reply-To: 
- <DB5PR02MB10213BD65229D53D15895FD37EF062@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20260511133450.50595-1-tarun@centricular.com>
-		 <DB5PR02MB10213B7E2D21553836D68AAE2EF392@DB5PR02MB10213.eurprd02.prod.outlook.com>
-	 <9aa88cfb4590219b93894806744c6de5bd5b0481.camel@centricular.com>
-	 <DB5PR02MB10213BD65229D53D15895FD37EF062@DB5PR02MB10213.eurprd02.prod.outlook.com>
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44app2) 
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=HxwBVS4E;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: jan.vermaete@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-44509921fbcso5610044f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 24 May 2026 08:17:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779635841; x=1780240641; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q355hWtMY65zD2OCDTiDmNUMJTlfNKHSEdgS4YDZFe0=;
+        b=HxwBVS4EfDmf6k+C86PyI68zKznMJxzh5b4MU5FxbBW0EJsSa3PpFukiRrPpLY37yz
+         OMN8KnU9kNarcPo4n1udtXunHNlGcEk534rlhKHdWU2j+71hSXjhcKsk2BZLHr7pPzJj
+         OokJf6q/SN6L1JfuTA8FMwzoi5SgCzwlkQbnErZ7VcUxSOfdRr9AFgyOg1I9huxk9kog
+         XFU3RbI1bL7BEgRfvdW7qJSVRl1YFdAk5ost5IlT78Lc5Imq95indkGm2si9DCgC2KJG
+         eI7tGpKWdafsSXgG0od+T76YfmU+JbAMJJByxftA6wgR9CybqxqDbFD4kXyDoEz5BR3G
+         YiYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779635841; x=1780240641;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q355hWtMY65zD2OCDTiDmNUMJTlfNKHSEdgS4YDZFe0=;
+        b=XA1jl1t7fVG0kKmfGvLV5EqXY/4D9RFsVoMMgYBUDr8XdihbPu2y90vXgPPoZK0G4+
+         iik8xZw0/jwJuQGl7o+roQziwXWQ9Ix2ZAD0yy6hyxQj0jYJhwNjKhY+sDOFVxd6Eayx
+         CPyPO1Vbw7hIWWDwXj7xlcAPvg8iRw48GFUTggnjWuLCViGz74Ct2NO4HslWt/xdIEU4
+         DysGoGLQ3ZD8nHTq+Wp1Dn/mBmnjGOP8C7eB9yG8T8RWjEHYiX/Ly0ymFFFhR+2PVRtl
+         114q+9jWdd5sQ/ke8bszXBo/nMJDnV50pgKANGBme9WhTkCqQMeuOXtzkU/tfxz78ZVc
+         548w==
+X-Gm-Message-State: AOJu0Yz+yr6ehf4NH1Xltr6P1WU5Y7lD+ZzBc5e8mF4clftam+lnT1Cu
+	YzKdadJULsIeIu76HVYzAJG3X6huMa3a20tucv8RZLUPm8YMIm+/pPxOxwiIAU6L
+X-Gm-Gg: Acq92OHopu1d47DNOMCatdMim0YhUXiX7cZ/DLHuLIKrmScF729v+6BsP1X+Jqg8M2b
+	VuGjyGzN4Gj7DQw8X7ElxxuvmL2mMNjUeKradJf9UskvPCEsBqD7msl420TBwSbeXO7HmA8OUtS
+	9IcW/BYAuE2UVEXQFxrc/Q64+0eOtU3aoYzBFeJUF0hE2fap/+LvJmHc9bfaKZ+VWW7OKVd9WtJ
+	uirpShO5tDFPuhRMOiSUnYAiU7DeW9BicV7HsyTluIXeICKxccR9iYPhhQmvvk9RZRn8CWbYz5n
+	j8YdGNEFf+IY/uBIjOYCvr/FC0GRfadqb+NV//RNeAaK1c0Y8QFPlnSMDLFYk9zcM1tDucq0ts8
+	xX8KoaL9W0b2Tp/NG/Z4R+ICHCeEd1ZQ5loyS2nRGx+xklA+7nRVoUIFXTxa1Cvcwg+G+hHMO/7
+	RIGmzxOWzKOtr3WAbUhKmoGL7rYJKJzlk1/qpGtN/4JNnaIejgyV/JbdCnNTGYIAxpJk7tmwVUT
+	GdKg5iC870AtNQap6jROyD5oB0IYaWzBLqCXAIDYHuL5Yd0WM31X26MwyrA090FRIyNRHoArA==
+X-Received: by 2002:a05:6000:4b12:b0:43d:7e34:889c with SMTP id ffacd0b85a97d-45eb38b5a04mr18386913f8f.39.1779635841124;
+        Sun, 24 May 2026 08:17:21 -0700 (PDT)
+Received: from localhost.localdomain (2a02-1812-512-2c00-3c7a-8f5d-702a-f50d.ip6.access.telenet.be. [2a02:1812:512:2c00:3c7a:8f5d:702a:f50d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6c9f548sm21722290f8f.2.2026.05.24.08.17.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 May 2026 08:17:20 -0700 (PDT)
+From: Jan Vermaete <jan.vermaete@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jan Vermaete <jan.vermaete@gmail.com>
+Subject: [PATCH] python3-requests: version bump 2.33.1 -> 2.34.2
+Date: Sun, 24 May 2026 17:17:12 +0200
+Message-ID: <20260524151712.11547-1-jan.vermaete@gmail.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
-X-SMTPCOM-Sender-ID: 9075006
-X-SMTPCOM-Tracking-Number: 623912ca-ad75-404d-a41b-dcfc20a7aaa0
-X-SMTPCOM-Message-ID: 1ada8edb-38fe-4229-ac49-3dff55cb36fe
-X-SMTPCOM-Payload: 
- N4u-dSh45KoCBbYQps0PGHrB7Zq2Xvu5urEVTVhr2N-LQLr6edi59qKGlqaPuEhID6jmkTGlKTW8M3vDL3ojYaM1fPkstfh4J0O0sxNJtbIZYbhMSYJeBLA2VA_J4T__fN-BzC83YEn8ezIvKKd1dcBgUi5gPesXPYRtRGU63i2k9j-RgaSJGbyqTxAFGGSxHsegEcSJynKdbR4AeZbetQ==
-List-Unsubscribe: 
- <mailto:abuse@abuse.smtp.com?subject=MailStop&body=1ada8edb-38fe-4229-ac49-3dff55cb36fe_9075006>,
- <https://api.smtp.com/v4/unsubscribe?mid=1ada8edb-38fe-4229-ac49-3dff55cb36fe&sid=9075006>
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=smtpsendemail.com;
- i=@smtpsendemail.com; q=dns/txt; s=smtpcustomer; t=1779588157;
- h=feedback-id : message-id : subject : from : to : cc : date :
- in-reply-to : references : content-type : mime-version :
- list-unsubscribe : list-unsubscribe-post : subject : from : to : cc :
- date; bh=2A7+IExO+pbU3/IJHiVPY0o7+RfRNUsQGmK5pcuMF9M=;
- b=kibTnYtOSXVZmZg1h6pu03ZupcKB6CwqzCpPKG2p5FqDwgE0ZFdGLmM1Vsv6F//VfNS6s
- 5PR74KpH17Kdlu836DFRjHW/KBjGSfhDx7u+gSSz+TgU00/CgKP5SW1SZqYZgFvQD1e8Eka
- VnHkUvyNCll9HLbmr3GVqPlpwb6rVQXIEJPqu/D7W6aMFwmDoZDcXOt0qtdGJKr9eYzbVPI
- HhXOQQECIfiAQwnRVoEuB8MwwXtgwtw4KN7P0JwX6wm8Ly0oAQ5+QyKVs6I2zptb3IF9ZJ5
- 5T0c2raiOGyHf/ohsmgOwzIBqMl1F1pq3nKaZ3M7OdAqmExZCr/VwZ+T0k8Q==
-Content-Type: multipart/alternative; boundary="=-cHGKaArlNU8549Ul6tYC"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 24 May 2026 08:35:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237564
+ <openembedded-core@lists.openembedded.org>; Sun, 24 May 2026 15:17:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237566
 
---=-cHGKaArlNU8549Ul6tYC
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
++ added the DESCRIPTION taken from the README.md
++ sorted the RDEPENDS
++ untabify
 
-Hi Peter,
+Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
+---
+ ...uests_2.33.1.bb => python3-requests_2.34.2.bb} | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/python/{python3-requests_2.33.1.bb => python3-requests_2.34.2.bb} (71%)
 
-On Wed, 2026-05-13 at 07:56 +0000, Peter Kjellerstedt wrote:
-> Are the plugins built as single binaries, or is it one binary containing =
-all plugins?
+diff --git a/meta/recipes-devtools/python/python3-requests_2.33.1.bb b/meta/recipes-devtools/python/python3-requests_2.34.2.bb
+similarity index 71%
+rename from meta/recipes-devtools/python/python3-requests_2.33.1.bb
+rename to meta/recipes-devtools/python/python3-requests_2.34.2.bb
+index e9c6fe4e97..8230e8ce43 100644
+--- a/meta/recipes-devtools/python/python3-requests_2.33.1.bb
++++ b/meta/recipes-devtools/python/python3-requests_2.34.2.bb
+@@ -1,29 +1,30 @@
+ SUMMARY = "Python HTTP for Humans."
++DESCRIPTION = "Requests is a simple, yet elegant, HTTP library."
+ HOMEPAGE = "https://requests.readthedocs.io"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+ 
+ inherit pypi python_setuptools_build_meta
+ 
+-SRC_URI[sha256sum] = "18817f8c57c6263968bc123d237e3b8b08ac046f5456bd1e307ee8f4250d3517"
++SRC_URI[sha256sum] = "f288924cae4e29463698d6d60bc6a4da69c89185ad1e0bcc4104f584e960b9ed"
+ 
+ SRC_URI:append:class-nativesdk = " file://environment.d-python3-requests.sh"
+ 
+ do_install:append:class-nativesdk() {
+-	mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
+-	install -m 644 ${UNPACKDIR}/environment.d-python3-requests.sh ${D}${SDKPATHNATIVE}/environment-setup.d/python3-requests.sh
++        mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
++        install -m 644 ${UNPACKDIR}/environment.d-python3-requests.sh ${D}${SDKPATHNATIVE}/environment-setup.d/python3-requests.sh
+ }
+ 
+-RDEPENDS:${PN} += " \
++RDEPENDS:${PN} += "\
+     python3-certifi \
++    python3-chardet \
++    python3-compression \
+     python3-email \
++    python3-idna \
+     python3-json \
+     python3-netserver \
+     python3-pysocks \
+     python3-urllib3 \
+-    python3-chardet \
+-    python3-idna \
+-    python3-compression \
+ "
+ 
+ FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/python3-requests.sh"
+-- 
+2.47.3
 
-The plugins are built as single binaries.
-
->  If it is separate binaries, then=0D  being able to install plugins indiv=
-idually is very important when you have multiple products being built from =
-the same code base, but with different needs for which plugins they need. F=
-lash size is unfortunately a limited resource, especially with today=E2=80=
-=99s=0D  memory prices. Otherwise we will have to make the recipe machine s=
-pecific, which I=E2=80=99d rather avoid. =20
-
-Agreed. I have made changes in the latest patch (V3) and each plugin is dec=
-lared as a PACKAGE now. So I think these packages can grouped together into=
- multiple PACKAGEGROUPS for different images. Please let me know if I am mi=
-ssing something.
-
-Thanks,
-
-Tarun=0D=20=0D
-
---=-cHGKaArlNU8549Ul6tYC
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<p>Hi Peter,</p>
-<p>On Wed, 2026-05-13 at 07:56 +0000, Peter Kjellerstedt wrote:</p>
-<blockquote type=3D"cite">
-<p>Are the plugins built as single binaries, or is it one binary containing=
- all plugins?</p>
-</blockquote>
-<p>The plugins are built as single binaries.</p>
-<blockquote type=3D"cite">
-<p>If it is separate binaries, then
-being able to install plugins individually is very important when you have =
-multiple products being built from the same code base, but with different n=
-eeds for which plugins they need. Flash size is unfortunately a limited res=
-ource, especially with today=E2=80=99s
-memory prices. Otherwise we will have to make the recipe machine specific, =
-which I=E2=80=99d rather avoid.</p>
-</blockquote>
-<p>Agreed. I have made changes in the latest patch (V3) and each plugin is =
-declared as a PACKAGE now. So I think these packages can grouped together i=
-nto multiple PACKAGEGROUPS for different images. Please let me know if I am=
- missing something.</p>
-<p>Thanks,</p>
-<p>Tarun</p>
-
---=-cHGKaArlNU8549Ul6tYC--
 
