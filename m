@@ -1,1282 +1,760 @@
-Return-Path: <sudumbha@cisco.com>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F783CD5BC0
-	for <webhook@archiver.kernel.org>; Mon, 25 May 2026 07:55:08 +0000 (UTC)
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11394.1779695700709327012
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB4DCD5BC0
+	for <webhook@archiver.kernel.org>; Mon, 25 May 2026 08:02:58 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.26])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11459.1779696177377070278
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 May 2026 00:55:01 -0700
+ Mon, 25 May 2026 01:02:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=W2NYEKIJ;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: sudumbha@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=39535; q=dns/txt;
-  s=iport01; t=1779695700; x=1780905300;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pshVpEL7uBOkBN/upa2se7uy1kOLDnAIfMsY38ZzQao=;
-  b=W2NYEKIJ6lXXRCowTfHd2aekXvkFB1Yth5Rdl+HjNjUslWv+AkBEA1wZ
-   wpYGIzyMLjBSZ3vwctXEGX5mM4FSnFSnSSIa8O89KxItcK4r4k9tsgdGQ
-   4u5le391SjVeoLmtC4mf28ktw1/NxbM1IcXDCwwjk5ErTBHO4vNfCd8mu
-   Nveh813bWojwD9sMam5r41u3p7j2PT6g/P8a2AcWDfmpXY7rJHvJNl4p0
-   SHkNRUSpMDJ+vKilljpqtApBeGUqgPCtvwyEedtJIawQhBgbRA+CqALxJ
-   rxZOfFpSrAuajMkv8WNZYmLnDwxeGl+G8MS3czFVlQsLb/r8S9P4lhtzp
-   w==;
-X-CSE-ConnectionGUID: iTwAgjGXREWj2k3WuQD9qA==
-X-CSE-MsgGUID: KGAUqqv0TX+rXkqsZUypZA==
-X-IPAS-Result: =?us-ascii?q?A0BJAgAA/xNq/5L/Ja1aglmCV3JfQkkDhFSPU4IhkU2MU?=
- =?us-ascii?q?YF/DwEBAQ9EDQQBAYUGjTQCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBA?=
- =?us-ascii?q?QIBBwWBDhOGTw2GWgEgAQgECwEYAVkDAQIDAhIUAi0jIYMCAYJzAgERBrFse?=
- =?us-ascii?q?n8zgQGDKAE/AkNQ2ygBCxQBgQouhT+DGgGFAlsYAYR7JxsbgXKBFAGBO4Itg?=
- =?us-ascii?q?QWBXAMBGIENIT4iD4MEgmkEgiJ6EoFdHniCJYEBYodxSIECHANZLAFVEw0KC?=
- =?us-ascii?q?wcFgWYDNRIqFW4yHYEjPhczWBsHBYFLgQZyaoEEhRkjLwNOgS2BbwMLGA1IE?=
- =?us-ascii?q?Sw3FBsEPQFuB4pOGg+BP2ALBgEBNgYtERMBExYCIEAxMg4JBCYBAwMEBRgRC?=
- =?us-ascii?q?y+SRiYIkjehDgoog3SMH5U6GjOEBIFXizyLaI1rC5h6jgmVMyclAQFOhGiBa?=
- =?us-ascii?q?DyBWXAVgyIJShkPji0LC4F4gWiCVlSBackCJDUCCQMvAQEHAgcOAwuBaJAAg?=
- =?us-ascii?q?X0BAQ?=
-IronPort-Data: A9a23:EmD6raJ74pXKE610FE+RgJQlxSXFcZb7ZxGr2PjKsXjdYENS3zVVn
- WcWDzqFafmCM2Wnftl2atvkoxgF7ZPSy4JgHQMd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnR0
- T/Oi5eHYgH9hmQpajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1vMF4fMo83ytxaPmMU9
- qcnNQkhPwmq0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSBXLAtQIvIROPB4towMDUY358VW62BI
- ZBENHw2MEqojx5nYj/7DLolgeu1g3P/ehVTqUmeouw85G27IAlZjOe0bIKPI4LbLSlTtmW3j
- 1/f5nqhPiFZLuyc0CG3z2O0tMaayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1ffDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9ExpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:YRpy4ai1B31VcxXp+cHL+NVkeXBQXuwji2hC6mlwRA09TyX+rb
- HKoB17726XtN9/Yh8dcLy7VZVoIkmslqKdn7NxAV7KZmCP0wGVxepZgrcKrQeNJ8SHzI5g/J
- YlVbRiA9vtClU/p8P77A6kV+sE+rC8gcSVbSO09QYKcemsAJsQiDtENg==
-X-Talos-CUID: =?us-ascii?q?9a23=3AAvua0WpVLNNPv/kgAlrxrC/mUcEZbVTSzljgGWK?=
- =?us-ascii?q?HCzxqE4KIcHPB4Yoxxg=3D=3D?=
-X-Talos-MUID: 9a23:6MkvhwhFnoR/yzyalUUNjsMpF+hB3r23FhgxodYci8qdLh5NKi+vpWHi
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.24,167,1774310400"; 
-   d="scan'208";a="471402169"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 25 May 2026 07:54:59 +0000
-Received: from sjc-ads-12007.cisco.com (sjc-ads-12007.cisco.com [171.70.97.7])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id E3D0118000497
-	for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2026 07:54:58 +0000 (GMT)
-Received: by sjc-ads-12007.cisco.com (Postfix, from userid 1840713)
-	id 84D67CC1282; Mon, 25 May 2026 00:54:58 -0700 (PDT)
-From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH] nfs-utils: fix CVE-2025-12801
-Date: Mon, 25 May 2026 00:52:34 -0700
-Message-Id: <20260525075233.3501427-1-sudumbha@cisco.com>
-X-Mailer: git-send-email 2.35.6
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector1 header.b=HC/xE8hj;
+ spf=pass (domain: ericsson.com, ip: 52.101.70.26, mailfrom: edaturu@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Sipp617Uc1yEjvCbt67dQkMqjlsYtSHlGrIVIWPguUymv/oawkDb5Sie7kMyVvwsFwdzoTgVgDmRIhZLsrCRnszPYEeAI7f4pIuwgnW+hwYV76YZNuwStrPyCwDsaImvBEMEPKfdSiiwWk37mmS4DH/ys0B88UmTRNsGKpFwYHWnDFQBjcaILrEoD4RmYtxGh5OYwlzKtk2cEpeu+TArYoi/3R5kA4/qjKRIWzOrCByqTxYMHhctB783S9oy+xHdBLvZhjWLsBOzt8KoNfieNFmW9fk5SDd5tnKi1apB4ezGYYLzko64NZ5/80qcrxP5yjvfMWFRMcDR6kReClnJ+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dGOw7MT7U3iGy25oaaCpnlI1qw8N9VmZ/X4skaMoLfw=;
+ b=Q9CuamzmvwIvLmWA/7ZEhbvcfwHyoagzznv6nGJ2BLADQozBI+j4plNOrjNkbPabjlj81m2YSkPBQUEEmIayKRg1iaARY806alBCrhvzNotFaeMBhg4a9QlT+bBpFUTJSv5tng08dGfQI5Yv+bfsjxhnqf1IxEwco9MJbx0Z9M14qoB2oIw0i7bDOjBWgiaUazLqTpsqBq2cFN0r6Tq67L/qJl2Y5tvsCVTcFuJWIrTKyQcml8/0L4h9tGK7JLvG26os7Wlw8j7ih2dWgvWZuioAH6/OVEll2Jki4OuEohHFKs3KvZthrrAogb4e75eAjdayxzrfZY4Faq0UjOw12A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=arm.com smtp.mailfrom=ericsson.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dGOw7MT7U3iGy25oaaCpnlI1qw8N9VmZ/X4skaMoLfw=;
+ b=HC/xE8hjJdSJw48etDgqmYO/J6Bgf9vs+EtbBJlP1mnClrTpLSvaxPl6OA3KecS8SAFGiR9y91MLC4tanCYxLR/tgApqC3L6b3AWOGxaH3oKXh44coSktQ7uveIXI5KGNkLWCOIU+mlTlA0ArPwXSB9uBhlAVmR45gqKvpvONBzvkKefUk8UBCk+76YwZ9pw5shZDHMm6k/ESyIDWgAHRdt+ks26zxNgGXirwbyKb73JJfd6cAY5hLdOjhsHXVoqvO11mYK2kgrtVugvMSmjj1ijRVzvGHEV7KBLRlwbewry/KuWcdu69wiNqKL/7lVM66hkMqKZXOMnChiRjIOePQ==
+Received: from DU2PR04CA0249.eurprd04.prod.outlook.com (2603:10a6:10:28e::14)
+ by PA6PR07MB11555.eurprd07.prod.outlook.com (2603:10a6:102:51c::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.19; Mon, 25 May
+ 2026 08:02:49 +0000
+Received: from DB5PEPF00014B9A.eurprd02.prod.outlook.com
+ (2603:10a6:10:28e:cafe::92) by DU2PR04CA0249.outlook.office365.com
+ (2603:10a6:10:28e::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.48.20 via Frontend Transport; Mon, 25
+ May 2026 08:02:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
+ smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ DB5PEPF00014B9A.mail.protection.outlook.com (10.167.8.167) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.71.7 via Frontend Transport; Mon, 25 May 2026 08:02:49 +0000
+Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.65) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Mon, 25 May 2026 10:02:32 +0200
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 2386C40217AC;
+	Mon, 25 May 2026 10:01:15 +0200 (CEST)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id 0931F7003739; Mon, 25 May 2026 10:01:15 +0200 (CEST)
+From: <daniel.turull@ericsson.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <alex.kanavin@gmail.com>, <ticotimo@gmail.com>, <tim.orling@konsulko.com>,
+	<richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>,
+	<yoann.congal@smile.fr>, Daniel Turull <daniel.turull@ericsson.com>
+Subject: [PATCH v5] devtool: upgrade: extract changelog between versions
+Date: Mon, 25 May 2026 10:01:05 +0200
+Message-ID: <20260525080108.940237-1-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-12007.cisco.com [171.70.97.7];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.97.7, sjc-ads-12007.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B9A:EE_|PA6PR07MB11555:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f57a2bb-8f26-49f5-61c1-08deba3403a9
+X-SMTP-Server: smtp-central.internal.ericsson.com
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700016|5023799004|6133799003|11063799006|3023799007|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	RpLn/3ow0/modN1PZVwZEBcJZefhOGOkBgQVSgvU1LErMy8jJPgENLpNfDuPmlLhfhxyaOGkfd2P56DLZDRdSkn+7BUlRRKZIC09Ov2mGgf8JZLjEH7Iwq7t7bJibk1oEHiY0NBdl+y3Azib8NvOqMsthB0w80/VuDOp64FaAADwnRprszBFe3XSkMiYC4qvv/6RNDPKm4KGCV2Y0ONlcDbTKjxZ7FIlKVJ/6lkzril7e4FQ5isIvXVgZmRdYsiuoxz8ISen4CaHH5/1yNWr0LQLkIFxznQ7tDrJPRinFklKuMLMjVoIx6l99+vacj4MjKw6+hQZztX3gOth/WC6k4w/g3ZXf6Y+2SN+pYbJH5ANIWfO54+Cm6nydfdmjpIXasahLqRwkE3zlUWbA+CogNo9d/cRW3gVLkukpmxFqUhp+2n6MBU6XFKsWFNANH9P2TMBqV1fIQuRkRvU7+hVkGMya2Xc0WMmxw4wxwcRpolLd/e2w2JQ7AFiGALFV+DWbLlivuEIMmR4vkJ321M0F8Y0w0SyVkbDkLL5Fa/ZYaUOB7j9fVRAMYZvwODfPYBTzkNzWC8c645YkSl7gUhSaMiNSUyT6BpIJhW8GIB1yl5vSsDdOAZ0w91ARzl/7X1h6DMw8ArKfPtezK+uuAfaEp5yCUYFNv1NG85Ta0c/5QlxtsMgc0eIy5UsjhZwu3hZZZ+u8BBfST9EVZjbGtvgY6Ef+zlDAViupulot7Gfd+M=
+X-Forefront-Antispam-Report: 
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700016)(5023799004)(6133799003)(11063799006)(3023799007)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	O3XdaIAauPnA6Ow1PE4TZgIFwgllGihuOd0Ss5ZWhH3p4/cZZBdsYks3ti6XI2rPut1REmldIwYo1+nPXzD70ReR4qLVWGlZ5PUDorBTlDZqs6f8vKyzptwpSfSD8I2fKBDx7o62e8MlEim7kkosjXdZDVXrQAAotUWf8Xv19563eCAr5UJuCpAzUepI+io+t20VCRNfMB9vAz87qEGiWT25kvs0c1xxJKRTn/j5xqzGdT+R1JCZ0bqqfn1dELv+Ck1AZpOU1FwsAm63naBaU5ZKqmraiYpOntGixELI5YycX3KgSFHPmUargiUjlLO99YzTAvTz+8Z8eBktq6l9B6QWBNxgTRWPDg9unnRUSEHDlwdNmU/QudvDV4MLs/+rDC8z2yucPrSCPCPwKMfjz/XU/D9/MYpBDiinOUkWgDBMxmjKXIMD2Dity1iuTfiI
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2026 08:02:49.4844
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f57a2bb-8f26-49f5-61c1-08deba3403a9
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B9A.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA6PR07MB11555
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 May 2026 07:55:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237569
+ <openembedded-core@lists.openembedded.org>; Mon, 25 May 2026 08:02:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237570
 
-From: Sudhir Dumbhare <sudumbha@cisco.com>
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-- This patch applies the upstream fix [5] as referenced in [7].
-- To successfully apply the fixed commit, apply the dependent commits [2] to [4]
-  which are included in v2.8.6, as referenced in [7].
-- Additionally, include dependent commit [1] from v2.8.3, as referenced in [8]
-  under the [2.5.4-38.2] description, along with compilation fix commit [6]
-  from v2.7.1
-- Reference:
-  [1] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=cd90f2925790
-  [2] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=7e8b36522f58
-  [3] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=42f01e6a78fe
-  [4] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=51738ae56d92
-  [5] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=f36bd900a899
-  [6] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=a2c95e4f557a
-  [7] https://security-tracker.debian.org/tracker/CVE-2025-12801
-  [8] https://linux.oracle.com/errata/ELSA-2026-3940.html
+Automatically extract changelog information when upgrading a recipe.
+Uses the devtool-base tags created during upgrade to diff known
+changelog files (NEWS, ChangeLog, CHANGES, etc.) between the old and
+new versions. For git-based sources, falls back to git log --oneline
+if no changelog file changed.
 
-Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+Prioritize per-version release notes files containing the new version
+number (e.g. v2.42.1-ReleaseNotes, changelog-9.20.23.rst) over generic
+changelog files. When multiple per-version files match, all are included.
+For standard changelog files, picks the one with the most new content.
+
+Resolve RST .. include:: directives by searching the source tree for
+the included file by basename. Strip RST comment blocks (copyright
+headers) from .rst files.
+
+Collapse runs of multiple blank lines and strip leading/trailing
+whitespace for cleaner output suitable for commit messages.
+
+Output is written to workspace/changelogs/<pn>.txt and cleaned up on
+devtool reset. This allows AUH and other tools to pick up the changelog
+without implementing their own extraction logic.
+
+Add test cases for existing test recipes.
+
+Tested with AUH with changelog support (See yocto-patches)
+
+master 2026-05-22:
+
+commits in https://git.openembedded.org/openembedded-core-contrib/log/?h=3D=
+dturull/devtool-changelog-test-master
+
+TOTAL: attempted=3D130 succeeded=3D94(72.31%) failed=3D36(27.69%)
+
+  - Total recipes attempted: 130
+  - With meaningful changelog: 107 (82%)
+  - Without changelog: 23 (18%)
+  - Commit failures: 0
+  - Empty body patches: 0
+
+  Recipes without changelogs:
+
+  - cargo-c: devtool upgrade failed
+  - debugedit: devtool upgrade failed
+  - diffoscope: only PKG-INFO changed
+  - gcc-source-15.2.0: devtool upgrade failed
+  - gdb, gdb-cross-canadian-x86-64, gdb-cross-x86_64: devtool upgrade faile=
+d
+  - gtk-doc: devtool upgrade failed
+  - linux-firmware: binary blobs, no changelog in tarball
+  - nfs-utils: no changelog file changed
+  - python3-certifi: only CA bundle + PKG-INFO changed
+  - python3-cryptography-vectors, python3-cryptography: devtool upgrade fai=
+led
+  - python3-hypothesis: no changelog in PyPI sdist
+  - python3-maturin: devtool upgrade failed
+  - python3-poetry-core: no changelog in PyPI sdist
+  - python3-pytz: only timezone data changed
+  - python3-trove-classifiers: only classifiers list changed
+  - python3-uv-build: devtool upgrade failed
+  - python3-wcwidth: only unicode tables changed
+  - sqlite3: amalgamation tarball, no changelog
+  - vte: devtool upgrade failed
+  - xwayland: no changelog in tarball
+
+master 2 months old: (2026-03-22)
+ https://git.openembedded.org/openembedded-core-contrib/log/?h=3Ddturull/de=
+vtool-changelog-2_months_old
+
+TOTAL: attempted=3D239 succeeded=3D181(75.73%) failed=3D58(24.27%)
+
+  - Total recipes attempted: 239
+  - With meaningful changelog: 191 (80%)
+  - Without changelog: 48 (20%)
+
+  Recipes without changelogs:
+
+  - acpica: devtool upgrade failed
+  - autoconf: devtool upgrade failed
+  - busybox: devtool upgrade failed
+  - cargo-c: devtool upgrade failed
+  - debugedit: devtool upgrade failed
+  - diffoscope: only PKG-INFO changed
+  - gcc-source-15.2.0: devtool upgrade failed
+  - gdb, gdb-cross-x86_64, gdb-cross-canadian-x86-64: devtool upgrade faile=
+d
+  - go-cross-x86-64-v3: devtool upgrade failed
+  - groff: devtool upgrade failed
+  - gtk-doc: devtool upgrade failed
+  - icu: no changelog files in source
+  - iproute2: no changelog files in source
+  - libcap: no changelog files in source
+  - libdrm: no changelog files in source
+  - libmpc: devtool upgrade failed
+  - libpciaccess: no changelog files in source
+  - librsvg: devtool upgrade failed
+  - linux-firmware: binary blobs, no changelog in tarball
+  - llvm-project-source: devtool upgrade failed
+  - nfs-utils: no changelog file changed
+  - python3-certifi: only CA bundle + PKG-INFO changed
+  - python3-dtschema: no changelog in PyPI sdist
+  - python3-editables: no changelog in PyPI sdist
+  - python3-hypothesis: no changelog in PyPI sdist
+  - python3-jsonpointer: no changelog in PyPI sdist
+  - python3-maturin: devtool upgrade failed
+  - python3-pdm-backend: no changelog in PyPI sdist
+  - python3-poetry-core: no changelog in PyPI sdist
+  - python3-pytz: only timezone data changed
+  - python3-shacl2code: no changelog in PyPI sdist
+  - python3-spdx-python-model: devtool upgrade failed
+  - python3-sphinxcontrib-svg2pdfconverter: no changelog in PyPI sdist
+  - python3-trove-classifiers: only classifiers list changed
+  - python3-uv-build: devtool upgrade failed
+  - python3-wcwidth: only unicode tables changed
+  - python3-xmltodict: no changelog in PyPI sdist
+  - rpm-sequoia: devtool upgrade failed
+  - spirv-llvm-translator: devtool upgrade failed
+  - sqlite3: amalgamation tarball, no changelog
+  - time: devtool upgrade failed
+  - vte: devtool upgrade failed
+  - wayland: devtool upgrade failed
+  - wayland-protocols: no changelog files in source
+  - wireless-regdb: no changelog files in source
+  - xwayland: no changelog in tarball
+
+AI-generated: kiro with claude-opus-4.6 model
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+
 ---
- .../nfs-utils/CVE-2025-12801-build-fix.patch  |  44 ++
- .../CVE-2025-12801-dependent_p1.patch         |  71 +++
- .../CVE-2025-12801-dependent_p2.patch         |  81 +++
- .../CVE-2025-12801-dependent_p3.patch         | 185 +++++++
- .../CVE-2025-12801-dependent_p4.patch         | 468 ++++++++++++++++++
- .../nfs-utils/nfs-utils/CVE-2025-12801.patch  | 254 ++++++++++
- .../nfs-utils/nfs-utils_2.6.4.bb              |   6 +
- 7 files changed, 1109 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-build-fix.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p1.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p2.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p3.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p4.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801.patch
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-build-fix.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-build-fix.patch
+v2:
+- squash v1 patches into one commit and keep commit messages
+- Integrate test cases with exiting devtool selftests
+
+v3:
+- do not silently skip the test if changelog is missing
+
+v4:
+- fix typo from commit message and AI-generated tag
+
+v5:
+- add file where the changelog is comming from
+- expand include directives
+- expand per-version matches
+- prioritize per-version files over generic changelogs
+- collect all per-version files, pick largest generic changelog
+- gate RST comment stripping on .rst extension
+
+AI-generated: kiro with claude-opus-4.6 model
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+---
+ .../python3-guessing-game_git.bb.changelog    |   3 +
+ .../devtool-upgrade-test1_1.5.3.bb.changelog  |  25 +++
+ .../devtool-upgrade-test2_git.bb.changelog    |   3 +
+ .../devtool-upgrade-test3_1.5.3.bb.changelog  |  25 +++
+ .../devtool-upgrade-test4_1.5.3.bb.changelog  |  25 +++
+ .../devtool-upgrade-test5_git.bb.changelog    |   3 +
+ meta/lib/oeqa/selftest/cases/devtool.py       |  27 +++
+ scripts/lib/devtool/standard.py               |   8 +
+ scripts/lib/devtool/upgrade.py                | 160 ++++++++++++++++++
+ 9 files changed, 279 insertions(+)
+ create mode 100644 meta-selftest/recipes-devtools/python/python3-guessing-=
+game_git.bb.changelog
+ create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade-test=
+1_1.5.3.bb.changelog
+ create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade-test=
+2_git.bb.changelog
+ create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade-test=
+3_1.5.3.bb.changelog
+ create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade-test=
+4_1.5.3.bb.changelog
+ create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade-test=
+5_git.bb.changelog
+
+diff --git a/meta-selftest/recipes-devtools/python/python3-guessing-game_gi=
+t.bb.changelog b/meta-selftest/recipes-devtools/python/python3-guessing-gam=
+e_git.bb.changelog
 new file mode 100644
-index 0000000000..d7aaca2242
+index 0000000000..571220b2a4
 --- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-build-fix.patch
-@@ -0,0 +1,44 @@
-+From 30e0f57fff545b0bb3071fa071c7b12c2923bac8 Mon Sep 17 00:00:00 2001
-+From: Steve Dickson <steved@redhat.com>
-+Date: Mon, 22 Jan 2024 13:23:57 -0500
-+Subject: [PATCH] reexport.c: Some Distros need the following include to
-+ avoid the following error
++++ b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.ch=
+angelog
+@@ -0,0 +1,3 @@
++Changelog for python3-guessing-game: 0.1.0 -> 0.2.0
 +
-+reexport.c: In function ‘connect_fsid_service’:
-+reexport.c:41:28: error: implicit declaration of function ‘offsetof’ [-Werror=implicit-function-declaration]
-+   41 |                 addr_len = offsetof(struct sockaddr_un, sun_path) + strlen(addr.sun_path);
-+      |                            ^~~~~~~~
-+reexport.c:19:1: note: ‘offsetof’ is defined in header ‘<stddef.h>’; did you forget to ‘#include <stddef.h>’?
-+   18 | #include "xlog.h"
-+  +++ |+#include <stddef.h>
-+   19 |
-+reexport.c:41:37: error: expected expression before ‘struct’
-+   41 |                 addr_len = offsetof(struct sockaddr_un, sun_path) + strlen(addr.sun_path);
-+      |                                     ^~~~~~
-+cc1: some warnings being treated as errors
-+
-+CVE: CVE-2025-12801
-+Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=a2c95e4f557a71b482bb62bad6d93ddde51e5dc6]
-+
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+(cherry picked from commit a2c95e4f557a71b482bb62bad6d93ddde51e5dc6)
-+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
-+---
-+ support/reexport/reexport.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/support/reexport/reexport.c b/support/reexport/reexport.c
-+index 78516586..16dde0fb 100644
-+--- a/support/reexport/reexport.c
-++++ b/support/reexport/reexport.c
-+@@ -8,6 +8,7 @@
-+ #include <sys/types.h>
-+ #include <sys/vfs.h>
-+ #include <errno.h>
-++#include <stddef.h>
-+ 
-+ #include "nfsd_path.h"
-+ #include "conffile.h"
-+-- 
-+2.44.4
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p1.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p1.patch
++40cf004 Sync with maturin tutorial source
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3=
+.bb.changelog b/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.=
+5.3.bb.changelog
 new file mode 100644
-index 0000000000..223249a9d6
+index 0000000000..a37f796a0d
 --- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p1.patch
-@@ -0,0 +1,71 @@
-+From 647c9cb3ac3cbdf9ffd9e29f7d5dd04da84afdbc Mon Sep 17 00:00:00 2001
-+From: Christopher Bii <christopherbii@hyub.org>
-+Date: Wed, 15 Jan 2025 12:10:48 -0500
-+Subject: [PATCH] NFS export symlink vulnerability fix
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb.cha=
+ngelog
+@@ -0,0 +1,25 @@
++Changelog for devtool-upgrade-test1: 1.5.3 -> 1.6.0
++Source: doc/NEWS
 +
-+Replaced dangerous use of realpath within support/nfs/export.c with
-+nfsd_realpath variant that is executed within the chrooted thread
-+rather than main thread.
++1.6.0 - 15 March 2015
++  - fix lstat64 support when unavailable - separate patches supplied by
++    Ganael Laplanche and Peter Korsgaard
++  - (#1506) new option "-D" / "--delay-start" to only show bar after N
++    seconds (Damon Harper)
++  - new option "--fineta" / "-I" to show ETA as time of day rather than ti=
+me
++    remaining - patch supplied by Erkki Sepp=C3=A4l=C3=A4 (r147)
++  - (#1509) change ETA (--eta / -e) so that days are given if the hours
++    remaining are 24 or more (Jacek Wielemborek)
++  - (#1499) repeat read and write attempts on partial buffer fill/empty to
++    work around post-signal transfer rate drop reported by Ralf Ramsauer
++  - (#1507) do not try to calculate total size in line mode, due to bug
++    reported by Jacek Wielemborek and Michiel Van Herwegen
++  - cleanup: removed defunct RATS comments and unnecessary copyright notic=
+es
++  - clean up displayed lines when using --watchfd PID, when PID exits
++  - output errors on a new line to avoid overwriting transfer bar
 +
-+Implemented nfsd_path.h methods to work securely within chrooted
-+thread using nfsd_run_task() help
-+
-+CVE: CVE-2025-12801
-+Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=cd90f29257904f36509ea5a04a86f42398fbe94a]
-+
-+Backport Changes:
-+- In support/misc/nfsd_path.c file, only nfsd_run_task() and the
-+  struct nfsd_task_t have been included to resolve a compilation
-+  issue. All other non-essential changes were excluded.
-+- The non-required file support/export/cache.c and support/nfs/exports.c
-+  has been excluded.
-+
-+Signed-off-by: Christopher Bii <christopherbii@hyub.org>
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+(cherry picked from commit cd90f29257904f36509ea5a04a86f42398fbe94a)
-+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
-+---
-+ support/include/nfsd_path.h |  1 +
-+ support/misc/nfsd_path.c    | 14 +++++++++++++-
-+ 2 files changed, 14 insertions(+), 1 deletion(-)
-+
-+diff --git a/support/include/nfsd_path.h b/support/include/nfsd_path.h
-+index aa1e1dd0..4f5fc44e 100644
-+--- a/support/include/nfsd_path.h
-++++ b/support/include/nfsd_path.h
-+@@ -8,6 +8,7 @@
-+ 
-+ struct file_handle;
-+ struct statfs;
-++struct nfsd_task_t;
-+ 
-+ void 		nfsd_path_init(void);
-+ 
-+diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
-+index c3dea4f0..fa908f7c 100644
-+--- a/support/misc/nfsd_path.c
-++++ b/support/misc/nfsd_path.c
-+@@ -19,7 +19,19 @@
-+ #include "nfsd_path.h"
-+ #include "workqueue.h"
-+ 
-+-static struct xthread_workqueue *nfsd_wq;
-++static struct xthread_workqueue *nfsd_wq = NULL;
-++
-++struct nfsd_task_t {
-++        int             ret;
-++        void*           data;
-++};
-++/* Function used to offload tasks that must be ran within the correct
-++ * chroot environment.
-++ */
-++static void
-++nfsd_run_task(void (*func)(void*), void* data){
-++        nfsd_wq ? xthread_work_run_sync(nfsd_wq, func, data) : func(data);
-++};
-+ 
-+ static int
-+ nfsd_path_isslash(const char *path)
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p2.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p2.patch
++1.5.7 - 26 August 2014
++  - show KiB instead of incorrect kiB (Debian bug #706175)
++  - (#1284) do not gzip man page, for non-Linux OSes (Bob Friesenhahn)
++  - work around "awk" bug in tests/016-numeric-timer in decimal "," locale=
+s
++  - fix "make rpm" and "make srpm", extend "make release" to sign releases
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.b=
+b.changelog b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.=
+bb.changelog
 new file mode 100644
-index 0000000000..f088eadb4b
+index 0000000000..b7f0019d56
 --- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p2.patch
-@@ -0,0 +1,81 @@
-+From a6ddd0e9594884cf61816478e8c561f1b3aac709 Mon Sep 17 00:00:00 2001
-+From: Trond Myklebust <trond.myklebust@hammerspace.com>
-+Date: Mon, 10 Nov 2025 11:26:03 -0500
-+Subject: [PATCH] mountd: Minor refactor of get_rootfh()
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.chang=
+elog
+@@ -0,0 +1,3 @@
++Changelog for devtool-upgrade-test2: 0.1+git -> 0.1+git
 +
-+Perform the mountpoint checks before checking the user path.
-+
-+CVE: CVE-2025-12801
-+Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=7e8b36522f58657359c6842119fc516c6dd1baa4]
-+
-+Reviewed-by: Jeff Layton <jlayton@kernel.org>
-+Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+(cherry picked from commit 7e8b36522f58657359c6842119fc516c6dd1baa4)
-+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
-+---
-+ utils/mountd/mountd.c | 34 +++++++++++++++++-----------------
-+ 1 file changed, 17 insertions(+), 17 deletions(-)
-+
-+diff --git a/utils/mountd/mountd.c b/utils/mountd/mountd.c
-+index dbd5546d..39afd4aa 100644
-+--- a/utils/mountd/mountd.c
-++++ b/utils/mountd/mountd.c
-+@@ -412,6 +412,23 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
-+ 		*error = MNT3ERR_ACCES;
-+ 		return NULL;
-+ 	}
-++	if (nfsd_path_stat(exp->m_export.e_path, &estb) < 0) {
-++		xlog(L_WARNING, "can't stat export point %s: %s",
-++		     p, strerror(errno));
-++		*error = MNT3ERR_NOENT;
-++		return NULL;
-++	}
-++	if (exp->m_export.e_mountpoint &&
-++		   !check_is_mountpoint(exp->m_export.e_mountpoint[0]?
-++				  exp->m_export.e_mountpoint:
-++				  exp->m_export.e_path,
-++				  nfsd_path_lstat)) {
-++		xlog(L_WARNING, "request to export an unmounted filesystem: %s",
-++		     p);
-++		*error = MNT3ERR_NOENT;
-++		return NULL;
-++	}
-++
-+ 	if (nfsd_path_stat(p, &stb) < 0) {
-+ 		xlog(L_WARNING, "can't stat exported dir %s: %s",
-+ 				p, strerror(errno));
-+@@ -426,12 +443,6 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
-+ 		*error = MNT3ERR_NOTDIR;
-+ 		return NULL;
-+ 	}
-+-	if (nfsd_path_stat(exp->m_export.e_path, &estb) < 0) {
-+-		xlog(L_WARNING, "can't stat export point %s: %s",
-+-		     p, strerror(errno));
-+-		*error = MNT3ERR_NOENT;
-+-		return NULL;
-+-	}
-+ 	if (estb.st_dev != stb.st_dev
-+ 	    && !(exp->m_export.e_flags & NFSEXP_CROSSMOUNT)) {
-+ 		xlog(L_WARNING, "request to export directory %s below nearest filesystem %s",
-+@@ -439,17 +450,6 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
-+ 		*error = MNT3ERR_ACCES;
-+ 		return NULL;
-+ 	}
-+-	if (exp->m_export.e_mountpoint &&
-+-		   !check_is_mountpoint(exp->m_export.e_mountpoint[0]?
-+-				  exp->m_export.e_mountpoint:
-+-				  exp->m_export.e_path,
-+-				  nfsd_path_lstat)) {
-+-		xlog(L_WARNING, "request to export an unmounted filesystem: %s",
-+-		     p);
-+-		*error = MNT3ERR_NOENT;
-+-		return NULL;
-+-	}
-+-
-+ 	/* This will be a static private nfs_export with just one
-+ 	 * address.  We feed it to kernel then extract the filehandle,
-+ 	 */
-+-- 
-+2.44.4
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p3.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p3.patch
++6cc6077 dbus-wait.c: Fix typo
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3=
+.bb.changelog b/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.=
+5.3.bb.changelog
 new file mode 100644
-index 0000000000..59b28b557a
+index 0000000000..aaab809736
 --- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p3.patch
-@@ -0,0 +1,185 @@
-+From 0c2561328ce5e09636663ac2312b5f1f52fc0111 Mon Sep 17 00:00:00 2001
-+From: Trond Myklebust <trond.myklebust@hammerspace.com>
-+Date: Mon, 10 Nov 2025 11:28:39 -0500
-+Subject: [PATCH] mountd: Separate lookup of the exported directory and the
-+ mount path
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb.cha=
+ngelog
+@@ -0,0 +1,25 @@
++Changelog for devtool-upgrade-test3: 1.5.3 -> 1.6.0
++Source: doc/NEWS
 +
-+When the caller asks to mount a path that does not terminate with an
-+exported directory, we want to split up the lookups so that we can
-+look up the exported directory using the mountd privileged credential,
-+and the remaining subdirectory lookups using the RPC caller's
-+credential.
++1.6.0 - 15 March 2015
++  - fix lstat64 support when unavailable - separate patches supplied by
++    Ganael Laplanche and Peter Korsgaard
++  - (#1506) new option "-D" / "--delay-start" to only show bar after N
++    seconds (Damon Harper)
++  - new option "--fineta" / "-I" to show ETA as time of day rather than ti=
+me
++    remaining - patch supplied by Erkki Sepp=C3=A4l=C3=A4 (r147)
++  - (#1509) change ETA (--eta / -e) so that days are given if the hours
++    remaining are 24 or more (Jacek Wielemborek)
++  - (#1499) repeat read and write attempts on partial buffer fill/empty to
++    work around post-signal transfer rate drop reported by Ralf Ramsauer
++  - (#1507) do not try to calculate total size in line mode, due to bug
++    reported by Jacek Wielemborek and Michiel Van Herwegen
++  - cleanup: removed defunct RATS comments and unnecessary copyright notic=
+es
++  - clean up displayed lines when using --watchfd PID, when PID exits
++  - output errors on a new line to avoid overwriting transfer bar
 +
-+CVE: CVE-2025-12801
-+Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=42f01e6a78fed98f12437ac8b28cfb12b6bad056]
-+
-+Backport Changes:
-+- In support/misc/nfsd_path.c, the closing brace of struct
-+  nfsd_read_data was adjusted from line 320 to 282.
-+
-+Reviewed-by: Jeff Layton <jlayton@kernel.org>
-+Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+(cherry picked from commit 42f01e6a78fed98f12437ac8b28cfb12b6bad056)
-+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
-+---
-+ support/include/nfsd_path.h |  1 +
-+ support/misc/nfsd_path.c    | 31 ++++++++++++++++++
-+ utils/mountd/mountd.c       | 63 +++++++++++++++++++++++++++++++------
-+ 3 files changed, 86 insertions(+), 9 deletions(-)
-+
-+diff --git a/support/include/nfsd_path.h b/support/include/nfsd_path.h
-+index 4f5fc44e..be2dc38d 100644
-+--- a/support/include/nfsd_path.h
-++++ b/support/include/nfsd_path.h
-+@@ -18,6 +18,7 @@ char *		nfsd_path_prepend_dir(const char *dir, const char *pathname);
-+ 
-+ int 		nfsd_path_stat(const char *pathname, struct stat *statbuf);
-+ int 		nfsd_path_lstat(const char *pathname, struct stat *statbuf);
-++int		nfsd_openat(int dirfd, const char *path, int flags);
-+ 
-+ int		nfsd_path_statfs(const char *pathname,
-+ 				   struct statfs *statbuf);
-+diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
-+index fa908f7c..1c5aa3f3 100644
-+--- a/support/misc/nfsd_path.c
-++++ b/support/misc/nfsd_path.c
-+@@ -280,6 +280,37 @@ struct nfsd_read_data {
-+ 	int err;
-+ };
-+ 
-++struct nfsd_openat_t {
-++	const char *path;
-++	int dirfd;
-++	int flags;
-++	int res_fd;
-++	int res_error;
-++};
-++
-++static void nfsd_openatfunc(void *data)
-++{
-++	struct nfsd_openat_t *d = data;
-++
-++	d->res_fd = openat(d->dirfd, d->path, d->flags);
-++	if (d->res_fd == -1)
-++		d->res_error = errno;
-++}
-++
-++int nfsd_openat(int dirfd, const char *path, int flags)
-++{
-++	struct nfsd_openat_t open_buf = {
-++		.path = path,
-++		.dirfd = dirfd,
-++		.flags = flags,
-++	};
-++
-++	nfsd_run_task(nfsd_openatfunc, &open_buf);
-++	if (open_buf.res_fd == -1)
-++		errno = open_buf.res_error;
-++	return open_buf.res_fd;
-++}
-++
-+ static void
-+ nfsd_readfunc(void *data)
-+ {
-+diff --git a/utils/mountd/mountd.c b/utils/mountd/mountd.c
-+index 39afd4aa..f43ebef5 100644
-+--- a/utils/mountd/mountd.c
-++++ b/utils/mountd/mountd.c
-+@@ -392,7 +392,10 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
-+ 	struct nfs_fh_len *fh;
-+ 	char		rpath[MAXPATHLEN+1];
-+ 	char		*p = *path;
-++	char		*subpath;
-+ 	char		buf[INET6_ADDRSTRLEN];
-++	size_t		epathlen;
-++	int		dirfd;
-+ 
-+ 	if (*p == '\0')
-+ 		p = "/";
-+@@ -412,12 +415,21 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
-+ 		*error = MNT3ERR_ACCES;
-+ 		return NULL;
-+ 	}
-+-	if (nfsd_path_stat(exp->m_export.e_path, &estb) < 0) {
-+-		xlog(L_WARNING, "can't stat export point %s: %s",
-++
-++	dirfd = nfsd_openat(AT_FDCWD, exp->m_export.e_path, O_PATH);
-++	if (dirfd == -1) {
-++		xlog(L_WARNING, "can't open export point %s: %s",
-+ 		     p, strerror(errno));
-+ 		*error = MNT3ERR_NOENT;
-+ 		return NULL;
-+ 	}
-++	if (fstat(dirfd, &estb) == -1) {
-++		xlog(L_WARNING, "can't stat export point %s: %s",
-++		     p, strerror(errno));
-++		*error = MNT3ERR_ACCES;
-++		close(dirfd);
-++		return NULL;
-++	}
-+ 	if (exp->m_export.e_mountpoint &&
-+ 		   !check_is_mountpoint(exp->m_export.e_mountpoint[0]?
-+ 				  exp->m_export.e_mountpoint:
-+@@ -426,18 +438,51 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
-+ 		xlog(L_WARNING, "request to export an unmounted filesystem: %s",
-+ 		     p);
-+ 		*error = MNT3ERR_NOENT;
-++		close(dirfd);
-+ 		return NULL;
-+ 	}
-+ 
-+-	if (nfsd_path_stat(p, &stb) < 0) {
-+-		xlog(L_WARNING, "can't stat exported dir %s: %s",
-+-				p, strerror(errno));
-+-		if (errno == ENOENT)
-+-			*error = MNT3ERR_NOENT;
-+-		else
-+-			*error = MNT3ERR_ACCES;
-++	epathlen = strlen(exp->m_export.e_path);
-++	if (epathlen > strlen(p)) {
-++		xlog(L_WARNING, "raced with change of exported path: %s", p);
-++		*error = MNT3ERR_NOENT;
-++		close(dirfd);
-+ 		return NULL;
-+ 	}
-++	subpath = &p[epathlen];
-++	while (*subpath == '/')
-++		subpath++;
-++	if (*subpath != '\0') {
-++		int fd;
-++
-++		/* Just perform a lookup of the path */
-++		fd = nfsd_openat(dirfd, subpath, O_PATH);
-++		close(dirfd);
-++		if (fd == -1) {
-++			xlog(L_WARNING, "can't open exported dir %s: %s", p,
-++			     strerror(errno));
-++			if (errno == ENOENT)
-++				*error = MNT3ERR_NOENT;
-++			else
-++				*error = MNT3ERR_ACCES;
-++			return NULL;
-++		}
-++		if (fstat(fd, &stb) == -1) {
-++			xlog(L_WARNING, "can't open exported dir %s: %s", p,
-++			     strerror(errno));
-++			if (errno == ENOENT)
-++				*error = MNT3ERR_NOENT;
-++			else
-++				*error = MNT3ERR_ACCES;
-++			close(fd);
-++			return NULL;
-++		}
-++		close(fd);
-++	} else {
-++		close(dirfd);
-++		stb = estb;
-++	}
-++
-+ 	if (!S_ISDIR(stb.st_mode) && !S_ISREG(stb.st_mode)) {
-+ 		xlog(L_WARNING, "%s is not a directory or regular file", p);
-+ 		*error = MNT3ERR_NOTDIR;
-+-- 
-+2.44.4
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p4.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p4.patch
++1.5.7 - 26 August 2014
++  - show KiB instead of incorrect kiB (Debian bug #706175)
++  - (#1284) do not gzip man page, for non-Linux OSes (Bob Friesenhahn)
++  - work around "awk" bug in tests/016-numeric-timer in decimal "," locale=
+s
++  - fix "make rpm" and "make srpm", extend "make release" to sign releases
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3=
+.bb.changelog b/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.=
+5.3.bb.changelog
 new file mode 100644
-index 0000000000..4ef529e737
+index 0000000000..0ce6547c77
 --- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p4.patch
-@@ -0,0 +1,468 @@
-+From 7eef498b6bd01adc45415b03ddf321c84f82aa45 Mon Sep 17 00:00:00 2001
-+From: Trond Myklebust <trond.myklebust@hammerspace.com>
-+Date: Mon, 10 Nov 2025 12:18:38 -0500
-+Subject: [PATCH] support: Add a mini-library to extract and apply RPC
-+ credentials
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb.cha=
+ngelog
+@@ -0,0 +1,25 @@
++Changelog for devtool-upgrade-test4: 1.5.3 -> 1.6.0
++Source: doc/NEWS
 +
-+Add server functionality to extract the credentials from the client RPC
-+call, and apply them. This is needed in order to perform access checking
-+on the requested path in the mountd daemon.
++1.6.0 - 15 March 2015
++  - fix lstat64 support when unavailable - separate patches supplied by
++    Ganael Laplanche and Peter Korsgaard
++  - (#1506) new option "-D" / "--delay-start" to only show bar after N
++    seconds (Damon Harper)
++  - new option "--fineta" / "-I" to show ETA as time of day rather than ti=
+me
++    remaining - patch supplied by Erkki Sepp=C3=A4l=C3=A4 (r147)
++  - (#1509) change ETA (--eta / -e) so that days are given if the hours
++    remaining are 24 or more (Jacek Wielemborek)
++  - (#1499) repeat read and write attempts on partial buffer fill/empty to
++    work around post-signal transfer rate drop reported by Ralf Ramsauer
++  - (#1507) do not try to calculate total size in line mode, due to bug
++    reported by Jacek Wielemborek and Michiel Van Herwegen
++  - cleanup: removed defunct RATS comments and unnecessary copyright notic=
+es
++  - clean up displayed lines when using --watchfd PID, when PID exits
++  - output errors on a new line to avoid overwriting transfer bar
 +
-+CVE: CVE-2025-12801
-+Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=51738ae56d922d4961e60dad73ad1c2d97d8d99b]
-+
-+Backport Changes:
-+- In support/misc/Makefile.am, the non-essential file.c was omitted
-+  as it does not exist in the current nfs-utils version.
-+
-+Reviewed-by: Jeff Layton <jlayton@kernel.org>
-+Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+(cherry picked from commit 51738ae56d922d4961e60dad73ad1c2d97d8d99b)
-+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
-+---
-+ aclocal/libtirpc.m4         |  11 +++
-+ support/include/Makefile.am |   1 +
-+ support/include/nfs_ucred.h |  44 ++++++++++
-+ support/misc/Makefile.am    |   2 +-
-+ support/misc/ucred.c        | 162 ++++++++++++++++++++++++++++++++++++
-+ support/nfs/Makefile.am     |   2 +-
-+ support/nfs/ucred.c         | 147 ++++++++++++++++++++++++++++++++
-+ 7 files changed, 367 insertions(+), 2 deletions(-)
-+ create mode 100644 support/include/nfs_ucred.h
-+ create mode 100644 support/misc/ucred.c
-+ create mode 100644 support/nfs/ucred.c
-+
-+diff --git a/aclocal/libtirpc.m4 b/aclocal/libtirpc.m4
-+index bddae022..84e18f7e 100644
-+--- a/aclocal/libtirpc.m4
-++++ b/aclocal/libtirpc.m4
-+@@ -26,6 +26,17 @@ AC_DEFUN([AC_LIBTIRPC], [
-+                                     [Define to 1 if your tirpc library provides libtirpc_set_debug])],,
-+                          [${LIBS}])])
-+ 
-++     AS_IF([test -n "${LIBTIRPC}"],
-++           [AC_CHECK_LIB([tirpc], [rpc_gss_getcred],
-++                         [AC_DEFINE([HAVE_TIRPC_GSS_GETCRED], [1],
-++                                    [Define to 1 if your tirpc library provides rpc_gss_getcred])],,
-++                         [${LIBS}])])
-++
-++     AS_IF([test -n "${LIBTIRPC}"],
-++           [AC_CHECK_LIB([tirpc], [authdes_getucred],
-++                         [AC_DEFINE([HAVE_TIRPC_AUTHDES_GETUCRED], [1],
-++                                    [Define to 1 if your tirpc library provides authdes_getucred])],,
-++                         [${LIBS}])])
-+   AC_SUBST([AM_CPPFLAGS])
-+   AC_SUBST(LIBTIRPC)
-+ 
-+diff --git a/support/include/Makefile.am b/support/include/Makefile.am
-+index 1373891a..631a84f8 100644
-+--- a/support/include/Makefile.am
-++++ b/support/include/Makefile.am
-+@@ -10,6 +10,7 @@ noinst_HEADERS = \
-+ 	misc.h \
-+ 	nfs_mntent.h \
-+ 	nfs_paths.h \
-++	nfs_ucred.h \
-+ 	nfsd_path.h \
-+ 	nfslib.h \
-+ 	nfsrpc.h \
-+diff --git a/support/include/nfs_ucred.h b/support/include/nfs_ucred.h
-+new file mode 100644
-+index 00000000..d58b61e4
-+--- /dev/null
-++++ b/support/include/nfs_ucred.h
-+@@ -0,0 +1,44 @@
-++#ifndef _NFS_UCRED_H
-++#define _NFS_UCRED_H
-++
-++#include <sys/types.h>
-++
-++struct nfs_ucred {
-++	uid_t uid;
-++	gid_t gid;
-++	int ngroups;
-++	gid_t *groups;
-++};
-++
-++struct svc_req;
-++struct exportent;
-++
-++int nfs_ucred_get(struct nfs_ucred **credp, struct svc_req *rqst,
-++		  const struct exportent *ep);
-++
-++void nfs_ucred_squash_groups(struct nfs_ucred *cred,
-++			     const struct exportent *ep);
-++int nfs_ucred_reload_groups(struct nfs_ucred *cred, const struct exportent *ep);
-++int nfs_ucred_swap_effective(const struct nfs_ucred *cred,
-++			     struct nfs_ucred **savedp);
-++
-++static inline void nfs_ucred_free(struct nfs_ucred *cred)
-++{
-++	free(cred->groups);
-++	free(cred);
-++}
-++
-++static inline void nfs_ucred_init_groups(struct nfs_ucred *cred, gid_t *groups,
-++					 int ngroups)
-++{
-++	cred->groups = groups;
-++	cred->ngroups = ngroups;
-++}
-++
-++static inline void nfs_ucred_free_groups(struct nfs_ucred *cred)
-++{
-++	free(cred->groups);
-++	nfs_ucred_init_groups(cred, NULL, 0);
-++}
-++
-++#endif /* _NFS_UCRED_H */
-+diff --git a/support/misc/Makefile.am b/support/misc/Makefile.am
-+index 8b0e9db9..ea970064 100644
-+--- a/support/misc/Makefile.am
-++++ b/support/misc/Makefile.am
-+@@ -2,6 +2,6 @@
-+ 
-+ noinst_LIBRARIES = libmisc.a
-+ libmisc_a_SOURCES = tcpwrapper.c from_local.c mountpoint.c misc.c \
-+-		    nfsd_path.c workqueue.c xstat.c
-++		    nfsd_path.c ucred.c workqueue.c xstat.c
-+ 
-+ MAINTAINERCLEANFILES = Makefile.in
-+diff --git a/support/misc/ucred.c b/support/misc/ucred.c
-+new file mode 100644
-+index 00000000..92d97912
-+--- /dev/null
-++++ b/support/misc/ucred.c
-+@@ -0,0 +1,162 @@
-++#ifdef HAVE_CONFIG_H
-++#include <config.h>
-++#endif
-++
-++#include <alloca.h>
-++#include <errno.h>
-++#include <pwd.h>
-++#include <stdlib.h>
-++#include <unistd.h>
-++#include <grp.h>
-++
-++#include "exportfs.h"
-++#include "nfs_ucred.h"
-++
-++#include "xlog.h"
-++
-++void nfs_ucred_squash_groups(struct nfs_ucred *cred, const struct exportent *ep)
-++{
-++	int i;
-++
-++	if (!(ep->e_flags & NFSEXP_ROOTSQUASH))
-++		return;
-++	if (cred->gid == 0)
-++		cred->gid = ep->e_anongid;
-++	for (i = 0; i < cred->ngroups; i++) {
-++		if (cred->groups[i] == 0)
-++			cred->groups[i] = ep->e_anongid;
-++	}
-++}
-++
-++static int nfs_ucred_init_effective(struct nfs_ucred *cred)
-++{
-++	int ngroups = getgroups(0, NULL);
-++
-++	if (ngroups > 0) {
-++		size_t sz = ngroups * sizeof(gid_t);
-++		gid_t *groups = malloc(sz);
-++		if (groups == NULL)
-++			return ENOMEM;
-++		if (getgroups(ngroups, groups) == -1) {
-++			free(groups);
-++			return errno;
-++		}
-++		nfs_ucred_init_groups(cred, groups, ngroups);
-++	} else
-++		nfs_ucred_init_groups(cred, NULL, 0);
-++	cred->uid = geteuid();
-++	cred->gid = getegid();
-++	return 0;
-++}
-++
-++static size_t nfs_ucred_getpw_r_size_max(void)
-++{
-++	long buflen = sysconf(_SC_GETPW_R_SIZE_MAX);
-++
-++	if (buflen == -1)
-++		return 16384;
-++	return buflen;
-++}
-++
-++int nfs_ucred_reload_groups(struct nfs_ucred *cred, const struct exportent *ep)
-++{
-++	struct passwd pwd, *pw;
-++	uid_t uid = cred->uid;
-++	gid_t gid = cred->gid;
-++	size_t buflen;
-++	char *buf;
-++	int ngroups = 0;
-++	int ret;
-++
-++	if (ep->e_flags & (NFSEXP_ALLSQUASH | NFSEXP_ROOTSQUASH) &&
-++	    (int)uid == ep->e_anonuid)
-++		return 0;
-++	buflen = nfs_ucred_getpw_r_size_max();
-++	buf = alloca(buflen);
-++	ret = getpwuid_r(uid, &pwd, buf, buflen, &pw);
-++	if (ret != 0)
-++		return ret;
-++	if (!pw)
-++		return ENOENT;
-++	if (getgrouplist(pw->pw_name, gid, NULL, &ngroups) == -1 &&
-++	    ngroups > 0) {
-++		gid_t *groups = malloc(ngroups * sizeof(groups[0]));
-++		if (groups == NULL)
-++			return ENOMEM;
-++		if (getgrouplist(pw->pw_name, gid, groups, &ngroups) == -1) {
-++			free(groups);
-++			return ENOMEM;
-++		}
-++		free(cred->groups);
-++		nfs_ucred_init_groups(cred, groups, ngroups);
-++		nfs_ucred_squash_groups(cred, ep);
-++	} else
-++		nfs_ucred_free_groups(cred);
-++	return 0;
-++}
-++
-++static int nfs_ucred_set_effective(const struct nfs_ucred *cred,
-++				   const struct nfs_ucred *saved)
-++{
-++	uid_t suid = saved ? saved->uid : geteuid();
-++	gid_t sgid = saved ? saved->gid : getegid();
-++	int ret;
-++
-++	/* Start with a privileged effective user */
-++	if (setresuid(-1, 0, -1) < 0) {
-++		xlog(L_WARNING, "can't change privileged user %u-%u. %s",
-++		     geteuid(), getegid(), strerror(errno));
-++		return errno;
-++	}
-++
-++	if (setgroups(cred->ngroups, cred->groups) == -1) {
-++		xlog(L_WARNING, "can't change groups for user %u-%u. %s",
-++		     geteuid(), getegid(), strerror(errno));
-++		return errno;
-++	}
-++	if (setresgid(-1, cred->gid, sgid) == -1) {
-++		xlog(L_WARNING, "can't change gid for user %u-%u. %s",
-++		     geteuid(), getegid(), strerror(errno));
-++		ret = errno;
-++		goto restore_groups;
-++	}
-++	if (setresuid(-1, cred->uid, suid) == -1) {
-++		xlog(L_WARNING, "can't change uid for user %u-%u. %s",
-++		     geteuid(), getegid(), strerror(errno));
-++		ret = errno;
-++		goto restore_gid;
-++	}
-++	return 0;
-++restore_gid:
-++	if (setresgid(-1, sgid, -1) < 0) {
-++		xlog(L_WARNING, "can't restore privileged user %u-%u. %s",
-++		     geteuid(), getegid(), strerror(errno));
-++	}
-++restore_groups:
-++	if (saved)
-++		setgroups(saved->ngroups, saved->groups);
-++	else
-++		setgroups(0, NULL);
-++	return ret;
-++}
-++
-++int nfs_ucred_swap_effective(const struct nfs_ucred *cred,
-++			     struct nfs_ucred **savedp)
-++{
-++	struct nfs_ucred *saved = malloc(sizeof(*saved));
-++	int ret;
-++
-++	if (saved == NULL)
-++		return ENOMEM;
-++	ret = nfs_ucred_init_effective(saved);
-++	if (ret != 0) {
-++		free(saved);
-++		return ret;
-++	}
-++	ret = nfs_ucred_set_effective(cred, saved);
-++	if (savedp == NULL || ret != 0)
-++		nfs_ucred_free(saved);
-++	else
-++		*savedp = saved;
-++	return ret;
-++}
-+diff --git a/support/nfs/Makefile.am b/support/nfs/Makefile.am
-+index 2e1577cc..f6921265 100644
-+--- a/support/nfs/Makefile.am
-++++ b/support/nfs/Makefile.am
-+@@ -7,7 +7,7 @@ libnfs_la_SOURCES = exports.c rmtab.c xio.c rpcmisc.c rpcdispatch.c \
-+ 		   xcommon.c wildmat.c mydaemon.c \
-+ 		   rpc_socket.c getport.c \
-+ 		   svc_socket.c cacheio.c closeall.c nfs_mntent.c \
-+-		   svc_create.c atomicio.c strlcat.c strlcpy.c
-++		   svc_create.c atomicio.c strlcat.c strlcpy.c ucred.c
-+ libnfs_la_LIBADD = libnfsconf.la
-+ libnfs_la_CPPFLAGS = $(AM_CPPFLAGS) $(CPPFLAGS) -I$(top_srcdir)/support/reexport
-+ 
-+diff --git a/support/nfs/ucred.c b/support/nfs/ucred.c
-+new file mode 100644
-+index 00000000..6ea8efdf
-+--- /dev/null
-++++ b/support/nfs/ucred.c
-+@@ -0,0 +1,147 @@
-++#ifdef HAVE_CONFIG_H
-++#include <config.h>
-++#endif
-++
-++#include <errno.h>
-++#include <stdlib.h>
-++#include <unistd.h>
-++#include <rpc/rpc.h>
-++
-++#include "exportfs.h"
-++#include "nfs_ucred.h"
-++
-++#ifdef HAVE_TIRPC_GSS_GETCRED
-++#include <rpc/rpcsec_gss.h>
-++#endif /* HAVE_TIRPC_GSS_GETCRED */
-++#ifdef HAVE_TIRPC_AUTHDES_GETUCRED
-++#include <rpc/auth_des.h>
-++#endif /* HAVE_TIRPC_AUTHDES_GETUCRED */
-++
-++static int nfs_ucred_copy_cred(struct nfs_ucred *cred, uid_t uid, gid_t gid,
-++			       const gid_t *groups, int ngroups)
-++{
-++	if (ngroups > 0) {
-++		size_t sz = ngroups * sizeof(groups[0]);
-++		cred->groups = malloc(sz);
-++		if (cred->groups == NULL)
-++			return ENOMEM;
-++		cred->ngroups = ngroups;
-++		memcpy(cred->groups, groups, sz);
-++	} else
-++		nfs_ucred_init_groups(cred, NULL, 0);
-++	cred->uid = uid;
-++	cred->gid = gid;
-++	return 0;
-++}
-++
-++static int nfs_ucred_init_cred_squashed(struct nfs_ucred *cred,
-++					const struct exportent *ep)
-++{
-++	cred->uid = ep->e_anonuid;
-++	cred->gid = ep->e_anongid;
-++	nfs_ucred_init_groups(cred, NULL, 0);
-++	return 0;
-++}
-++
-++static int nfs_ucred_init_cred(struct nfs_ucred *cred, uid_t uid, gid_t gid,
-++			       const gid_t *groups, int ngroups,
-++			       const struct exportent *ep)
-++{
-++	if (ep->e_flags & NFSEXP_ALLSQUASH) {
-++		nfs_ucred_init_cred_squashed(cred, ep);
-++	} else if (ep->e_flags & NFSEXP_ROOTSQUASH && uid == 0) {
-++		nfs_ucred_init_cred_squashed(cred, ep);
-++		if (gid != 0)
-++			cred->gid = gid;
-++	} else {
-++		int ret = nfs_ucred_copy_cred(cred, uid, gid, groups, ngroups);
-++		if (ret != 0)
-++			return ret;
-++		nfs_ucred_squash_groups(cred, ep);
-++	}
-++	return 0;
-++}
-++
-++static int nfs_ucred_init_null(struct nfs_ucred *cred,
-++			       const struct exportent *ep)
-++{
-++	return nfs_ucred_init_cred_squashed(cred, ep);
-++}
-++
-++static int nfs_ucred_init_unix(struct nfs_ucred *cred, struct svc_req *rqst,
-++			       const struct exportent *ep)
-++{
-++	struct authunix_parms *aup;
-++
-++	aup = (struct authunix_parms *)rqst->rq_clntcred;
-++	return nfs_ucred_init_cred(cred, aup->aup_uid, aup->aup_gid,
-++				   aup->aup_gids, aup->aup_len, ep);
-++}
-++
-++#ifdef HAVE_TIRPC_GSS_GETCRED
-++static int nfs_ucred_init_gss(struct nfs_ucred *cred, struct svc_req *rqst,
-++			      const struct exportent *ep)
-++{
-++	rpc_gss_ucred_t *gss_ucred = NULL;
-++
-++	if (!rpc_gss_getcred(rqst, NULL, &gss_ucred, NULL) || gss_ucred == NULL)
-++		return EINVAL;
-++	return nfs_ucred_init_cred(cred, gss_ucred->uid, gss_ucred->gid,
-++				   gss_ucred->gidlist, gss_ucred->gidlen, ep);
-++}
-++#endif /* HAVE_TIRPC_GSS_GETCRED */
-++
-++#ifdef HAVE_TIRPC_AUTHDES_GETUCRED
-++int authdes_getucred(struct authdes_cred *adc, uid_t *uid, gid_t *gid,
-++		     int *grouplen, gid_t *groups);
-++
-++static int nfs_ucred_init_des(struct nfs_ucred *cred, struct svc_req *rqst,
-++			      const struct exportent *ep)
-++{
-++	struct authdes_cred *des_cred;
-++	uid_t uid;
-++	gid_t gid;
-++	int grouplen;
-++	gid_t groups[NGROUPS];
-++
-++	des_cred = (struct authdes_cred *)rqst->rq_clntcred;
-++	if (!authdes_getucred(des_cred, &uid, &gid, &grouplen, &groups[0]))
-++		return EINVAL;
-++	return nfs_ucred_init_cred(cred, uid, gid, groups, grouplen, ep);
-++}
-++#endif /* HAVE_TIRPC_AUTHDES_GETUCRED */
-++
-++int nfs_ucred_get(struct nfs_ucred **credp, struct svc_req *rqst,
-++		  const struct exportent *ep)
-++{
-++	struct nfs_ucred *cred = malloc(sizeof(*cred));
-++	int ret;
-++
-++	*credp = NULL;
-++	if (cred == NULL)
-++		return ENOMEM;
-++	switch (rqst->rq_cred.oa_flavor) {
-++	case AUTH_UNIX:
-++		ret = nfs_ucred_init_unix(cred, rqst, ep);
-++		break;
-++#ifdef HAVE_TIRPC_GSS_GETCRED
-++	case RPCSEC_GSS:
-++		ret = nfs_ucred_init_gss(cred, rqst, ep);
-++		break;
-++#endif /* HAVE_TIRPC_GSS_GETCRED */
-++#ifdef HAVE_TIRPC_AUTHDES_GETUCRED
-++	case AUTH_DES:
-++		ret = nfs_ucred_init_des(cred, rqst, ep);
-++		break;
-++#endif /* HAVE_TIRPC_AUTHDES_GETUCRED */
-++	default:
-++		ret = nfs_ucred_init_null(cred, ep);
-++		break;
-++	}
-++	if (ret == 0) {
-++		*credp = cred;
-++		return 0;
-++	}
-++	free(cred);
-++	return ret;
-++}
-+-- 
-+2.44.4
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801.patch
++1.5.7 - 26 August 2014
++  - show KiB instead of incorrect kiB (Debian bug #706175)
++  - (#1284) do not gzip man page, for non-Linux OSes (Bob Friesenhahn)
++  - work around "awk" bug in tests/016-numeric-timer in decimal "," locale=
+s
++  - fix "make rpm" and "make srpm", extend "make release" to sign releases
+diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.b=
+b.changelog b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.=
+bb.changelog
 new file mode 100644
-index 0000000000..3381d6e645
+index 0000000000..7c5ecf3505
 --- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801.patch
-@@ -0,0 +1,254 @@
-+From e22a15eb39c88367c35bfd4e057bccbddc6519d4 Mon Sep 17 00:00:00 2001
-+From: Trond Myklebust <trond.myklebust@hammerspace.com>
-+Date: Thu, 5 Mar 2026 10:41:02 -0500
-+Subject: [PATCH] Fix access checks when mounting subdirectories in NFSv3
++++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.chang=
+elog
+@@ -0,0 +1,3 @@
++Changelog for devtool-upgrade-test5: 0.1+git -> 0.1+git
 +
-+If a NFSv3 client asks to mount a subdirectory of one of the exported
-+directories, then apply the RPC credential together with any root
-+or all squash rules that would apply to the client in question.
++0a60d6a Add dummy commit on tip for testing
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selfte=
+st/cases/devtool.py
+index 5ed69aee1b..5a6f38f8d5 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -1944,6 +1944,22 @@ class DevtoolUpgradeTests(DevtoolBase):
+         except:
+             self.skip("Git user.name and user.email must be set")
+=20
++    def _check_changelog(self, recipe, oldrecipefile):
++        """Compare extracted changelog against reference data."""
++        changelog_ref =3D oldrecipefile + '.changelog'
++        self.assertExists(changelog_ref, 'Changelog reference file must ex=
+ist for %s' % recipe)
++        changelog_file =3D os.path.join(self.workspacedir, 'changelogs', '=
+%s.txt' % recipe)
++        with open(changelog_ref, 'r') as f:
++            expected =3D f.read()
++        if not expected:
++            self.assertNotExists(changelog_file,
++                'Changelog file should not exist when reference is empty')
++        else:
++            self.assertExists(changelog_file, 'Changelog file should exist=
+ after upgrade')
++            with open(changelog_file, 'r') as f:
++                actual =3D f.read()
++            self.assertEqual(expected, actual)
 +
-+CVE: CVE-2025-12801
-+Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=f36bd900a899088ca1925de079bd58d6205a1f3c]
+     def test_devtool_upgrade(self):
+         # Check preconditions
+         self.assertTrue(not os.path.exists(self.workspacedir), 'This test =
+cannot be run with a workspace directory under the build directory')
+@@ -1982,6 +1998,8 @@ class DevtoolUpgradeTests(DevtoolBase):
+         with open(newrecipefile, 'r') as f:
+             newlines =3D f.readlines()
+         self.assertEqual(desiredlines, newlines)
++        # Check changelog
++        self._check_changelog(recipe, oldrecipefile)
+         # Check devtool reset recipe
+         result =3D runCmd('devtool reset %s -n' % recipe)
+         result =3D runCmd('devtool status')
+@@ -2016,11 +2034,14 @@ class DevtoolUpgradeTests(DevtoolBase):
+         with open(newrecipefile, 'r') as f:
+             newlines =3D f.readlines()
+         self.assertEqual(desiredlines, newlines)
++        # Check changelog
++        self._check_changelog(recipe, oldrecipefile)
+         # Check devtool reset recipe
+         result =3D runCmd('devtool reset %s -n' % recipe)
+         result =3D runCmd('devtool status')
+         self.assertNotIn(recipe, result.output)
+         self.assertNotExists(os.path.join(self.workspacedir, 'recipes', re=
+cipe), 'Recipe directory should not exist after resetting')
++        self.assertNotExists(os.path.join(self.workspacedir, 'changelogs',=
+ '%s.txt' % recipe), 'Changelog file should be removed after reset')
+=20
+     def test_devtool_upgrade_git(self):
+         self._test_devtool_upgrade_git_by_recipe('devtool-upgrade-test2', =
+'6cc6077a36fe2648a5f993fe7c16c9632f946517')
+@@ -2051,6 +2072,8 @@ class DevtoolUpgradeTests(DevtoolBase):
+         with open(newrecipefile, 'r') as f:
+             newlines =3D f.readlines()
+         self.assertEqual(desiredlines, newlines)
++        # Check changelog
++        self._check_changelog(recipe, oldrecipefile)
+=20
+     def test_devtool_upgrade_all_checksums(self):
+         # Check preconditions
+@@ -2075,6 +2098,8 @@ class DevtoolUpgradeTests(DevtoolBase):
+         with open(newrecipefile, 'r') as f:
+             newlines =3D f.readlines()
+         self.assertEqual(desiredlines, newlines)
++        # Check changelog
++        self._check_changelog(recipe, oldrecipefile)
+=20
+     def test_devtool_upgrade_recipe_upgrade_extra_tasks(self):
+         # Check preconditions
+@@ -2116,6 +2141,8 @@ class DevtoolUpgradeTests(DevtoolBase):
+         with open(newcratesincfile, 'r') as f:
+             newlines =3D f.readlines()
+         self.assertEqual(desiredlines, newlines)
++        # Check changelog
++        self._check_changelog(recipe, oldrecipefile)
+         # Check devtool reset recipe
+         result =3D runCmd('devtool reset %s -n' % recipe)
+         result =3D runCmd('devtool status')
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard=
+.py
+index 42fb13872d..2a3a62d081 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -2046,6 +2046,14 @@ def _reset(recipes, no_clean, remove_work, config, b=
+asepath, workspace):
+=20
+         clean_preferred_provider(pn, config.workspace_path)
+=20
++        # Clean up changelog if present
++        changelog_file =3D os.path.join(config.workspace_path, 'changelogs=
+', '%s.txt' % pn)
++        if os.path.exists(changelog_file):
++            os.remove(changelog_file)
++            changelog_dir =3D os.path.dirname(changelog_file)
++            if not os.listdir(changelog_dir):
++                os.rmdir(changelog_dir)
 +
-+Reviewed-by: Jeff Layton <jlayton@kernel.org>
-+Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
-+Signed-off-by: Scott Mayhew <smayhew@redhat.com>
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+(cherry picked from commit f36bd900a899088ca1925de079bd58d6205a1f3c)
-+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
-+---
-+ nfs.conf                    |  1 +
-+ support/include/nfsd_path.h |  9 ++++++++-
-+ support/misc/nfsd_path.c    | 32 ++++++++++++++++++++++++++++++--
-+ utils/mountd/mountd.c       | 28 ++++++++++++++++++++++++++--
-+ utils/mountd/mountd.man     | 26 ++++++++++++++++++++++++++
-+ 5 files changed, 91 insertions(+), 5 deletions(-)
+ def reset(args, config, basepath, workspace):
+     """Entry point for the devtool 'reset' subcommand"""
+=20
+diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.p=
+y
+index 8930fde5d6..ba56a34d81 100644
+--- a/scripts/lib/devtool/upgrade.py
++++ b/scripts/lib/devtool/upgrade.py
+@@ -9,6 +9,7 @@
+ import os
+ import sys
+ import re
++import shlex
+ import shutil
+ import tempfile
+ import logging
+@@ -26,6 +27,32 @@ from devtool import exec_build_env_command, setup_tinfoi=
+l, DevtoolError, parse_r
+=20
+ logger =3D logging.getLogger('devtool')
+=20
++# Common changelog filenames found in upstream source trees (matched case-=
+insensitively):
++# changelog - util-linux, coreutils, dbus, acpid, hdparm
++# changelog.md - libslirp, ttyrun, python3-maturin, libjpeg-turbo
++# changelog.rst - python3-pluggy, python3-packaging
++# changes - openssl, python3-babel, icu, tcl
++# changes.md - openssl
++# changes.rst - python3-babel, python3-pathspec
++# changes.txt - python3-lxml, icu
++# news - systemd, glib-2.0, libxml2, dbus
++# news.md - libxml2
++# news.rst - python3-sphinx
++# news.adoc - ccache
++# history.md - python3-requests, python3-hatch-vcs
++# history.rst - python3-idna, python3-docutils
++# releases.md - rust, cargo (includes CVEs)
++# whatsnew.txt - libsdl2
++_CHANGELOG_BASENAMES =3D {
++    'changelog', 'changelog.md', 'changelog.rst', 'changelog.txt',
++    'changes', 'changes.md', 'changes.rst', 'changes.txt',
++    'news', 'news.md', 'news.rst', 'news.adoc',
++    'history', 'history.md', 'history.rst',
++    'releasenotes.md', 'releasenotes.rst',
++    'releases.md',
++    'whatsnew.txt',
++}
 +
-+diff --git a/nfs.conf b/nfs.conf
-+index 323f072b..e08cd9a9 100644
-+--- a/nfs.conf
-++++ b/nfs.conf
-+@@ -45,6 +45,7 @@
-+ # ttl=1800
-+ [mountd]
-+ # debug="all|auth|call|general|parse"
-++# apply-root-cred=n
-+ # manage-gids=n
-+ # descriptors=0
-+ # port=0
-+diff --git a/support/include/nfsd_path.h b/support/include/nfsd_path.h
-+index be2dc38d..834925ec 100644
-+--- a/support/include/nfsd_path.h
-++++ b/support/include/nfsd_path.h
-+@@ -9,6 +9,7 @@
-+ struct file_handle;
-+ struct statfs;
-+ struct nfsd_task_t;
-++struct nfs_ucred;
-+ 
-+ void 		nfsd_path_init(void);
-+ 
-+@@ -18,7 +19,8 @@ char *		nfsd_path_prepend_dir(const char *dir, const char *pathname);
-+ 
-+ int 		nfsd_path_stat(const char *pathname, struct stat *statbuf);
-+ int 		nfsd_path_lstat(const char *pathname, struct stat *statbuf);
-+-int		nfsd_openat(int dirfd, const char *path, int flags);
-++int		nfsd_cred_openat(const struct nfs_ucred *cred, int dirfd,
-++				 const char *path, int flags);
-+ 
-+ int		nfsd_path_statfs(const char *pathname,
-+ 				   struct statfs *statbuf);
-+@@ -31,4 +33,9 @@ ssize_t		nfsd_path_write(int fd, const char *buf, size_t len);
-+ int		nfsd_name_to_handle_at(int fd, const char *path,
-+ 				       struct file_handle *fh,
-+ 				       int *mount_id, int flags);
-++
-++static inline int nfsd_openat(int dirfd, const char *path, int flags)
-++{
-++	return nfsd_cred_openat(NULL, dirfd, path, flags);
-++}
-+ #endif
-+diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
-+index 1c5aa3f3..a2083989 100644
-+--- a/support/misc/nfsd_path.c
-++++ b/support/misc/nfsd_path.c
-+@@ -17,6 +17,7 @@
-+ #include "xstat.h"
-+ #include "nfslib.h"
-+ #include "nfsd_path.h"
-++#include "nfs_ucred.h"
-+ #include "workqueue.h"
-+ 
-+ static struct xthread_workqueue *nfsd_wq = NULL;
-+@@ -281,6 +282,7 @@ struct nfsd_read_data {
-+ };
-+ 
-+ struct nfsd_openat_t {
-++	const struct nfs_ucred *cred;
-+ 	const char *path;
-+ 	int dirfd;
-+ 	int flags;
-+@@ -297,15 +299,41 @@ static void nfsd_openatfunc(void *data)
-+ 		d->res_error = errno;
-+ }
-+ 
-+-int nfsd_openat(int dirfd, const char *path, int flags)
-++static void nfsd_cred_openatfunc(void *data)
-++{
-++	struct nfsd_openat_t *d = data;
-++	struct nfs_ucred *saved = NULL;
-++	int ret;
-++
-++	ret = nfs_ucred_swap_effective(d->cred, &saved);
-++	if (ret != 0) {
-++		d->res_fd = -1;
-++		d->res_error = ret;
-++		return;
-++	}
-++
-++	nfsd_openatfunc(data);
-++
-++	if (saved != NULL) {
-++		nfs_ucred_swap_effective(saved, NULL);
-++		nfs_ucred_free(saved);
-++	}
-++}
-++
-++int nfsd_cred_openat(const struct nfs_ucred *cred, int dirfd, const char *path,
-++		     int flags)
-+ {
-+ 	struct nfsd_openat_t open_buf = {
-++		.cred = cred,
-+ 		.path = path,
-+ 		.dirfd = dirfd,
-+ 		.flags = flags,
-+ 	};
-+ 
-+-	nfsd_run_task(nfsd_openatfunc, &open_buf);
-++	if (cred)
-++		nfsd_run_task(nfsd_cred_openatfunc, &open_buf);
-++	else
-++		nfsd_run_task(nfsd_openatfunc, &open_buf);
-+ 	if (open_buf.res_fd == -1)
-+ 		errno = open_buf.res_error;
-+ 	return open_buf.res_fd;
-+diff --git a/utils/mountd/mountd.c b/utils/mountd/mountd.c
-+index f43ebef5..6e6777cd 100644
-+--- a/utils/mountd/mountd.c
-++++ b/utils/mountd/mountd.c
-+@@ -31,6 +31,7 @@
-+ #include "nfsd_path.h"
-+ #include "nfslib.h"
-+ #include "export.h"
-++#include "nfs_ucred.h"
-+ 
-+ extern void my_svc_run(void);
-+ 
-+@@ -40,6 +41,7 @@ static struct nfs_fh_len *get_rootfh(struct svc_req *, dirpath *, nfs_export **,
-+ 
-+ int reverse_resolve = 0;
-+ int manage_gids;
-++int apply_root_cred;
-+ int use_ipaddr = -1;
-+ 
-+ /* PRC: a high-availability callout program can be specified with -H
-+@@ -74,9 +76,10 @@ static struct option longopts[] =
-+ 	{ "log-auth", 0, 0, 'l'},
-+ 	{ "cache-use-ipaddr", 0, 0, 'i'},
-+ 	{ "ttl", 1, 0, 'T'},
-++	{ "apply-root-cred", 0, 0, 'c' },
-+ 	{ NULL, 0, 0, 0 }
-+ };
-+-static char shortopts[] = "o:nFd:p:P:hH:N:V:vurs:t:gliT:";
-++static char shortopts[] = "o:nFd:p:P:hH:N:V:vurs:t:gliT:c";
-+ 
-+ #define NFSVERSBIT(vers)	(0x1 << (vers - 1))
-+ #define NFSVERSBIT_ALL		(NFSVERSBIT(2) | NFSVERSBIT(3) | NFSVERSBIT(4))
-+@@ -453,11 +456,27 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
-+ 	while (*subpath == '/')
-+ 		subpath++;
-+ 	if (*subpath != '\0') {
-++		struct nfs_ucred *cred = NULL;
-+ 		int fd;
-+ 
-++		/* Load the user cred */
-++		if (!apply_root_cred) {
-++			nfs_ucred_get(&cred, rqstp, &exp->m_export);
-++			if (cred == NULL) {
-++				xlog(L_WARNING, "can't retrieve credential");
-++				*error = MNT3ERR_ACCES;
-++				close(dirfd);
-++				return NULL;
-++			}
-++			if (manage_gids)
-++				nfs_ucred_reload_groups(cred, &exp->m_export);
-++		}
-++
-+ 		/* Just perform a lookup of the path */
-+-		fd = nfsd_openat(dirfd, subpath, O_PATH);
-++		fd = nfsd_cred_openat(cred, dirfd, subpath, O_PATH);
-+ 		close(dirfd);
-++		if (cred)
-++			nfs_ucred_free(cred);
-+ 		if (fd == -1) {
-+ 			xlog(L_WARNING, "can't open exported dir %s: %s", p,
-+ 			     strerror(errno));
-+@@ -681,6 +700,8 @@ read_mountd_conf(char **argv)
-+ 	ttl = conf_get_num("mountd", "ttl", default_ttl);
-+ 	if (ttl > 0)
-+ 		default_ttl = ttl;
-++	apply_root_cred = conf_get_bool("mountd", "apply-root-cred",
-++					apply_root_cred);
-+ }
-+ 
-+ int
-+@@ -794,6 +815,9 @@ main(int argc, char **argv)
-+ 			}
-+ 			default_ttl = ttl;
-+ 			break;
-++		case 'c':
-++			apply_root_cred = 1;
-++			break;
-+ 		case 0:
-+ 			break;
-+ 		case '?':
-+diff --git a/utils/mountd/mountd.man b/utils/mountd/mountd.man
-+index a206a3e2..f4f1fc23 100644
-+--- a/utils/mountd/mountd.man
-++++ b/utils/mountd/mountd.man
-+@@ -242,6 +242,32 @@ can support both NFS version 2 and the newer version 3.
-+ Print the version of
-+ .B rpc.mountd
-+ and exit.
-++.TP
-++.B \-c " or " \-\-apply-root-cred
-++When mountd is asked to allow a NFSv3 mount to a subdirectory of the
-++exported directory, then it will check if the user asking to mount has
-++lookup rights to the directories below that exported directory. When
-++performing the check, mountd will apply any root squash or all squash
-++rules that were specified for that client.
-++
-++Performing lookup checks as the user requires that the mountd daemon
-++be run as root or that it be given CAP_SETUID and CAP_SETGID privileges
-++so that it can change its own effective user and effective group settings.
-++When troubleshooting, please also note that LSM frameworks such as SELinux
-++can sometimes prevent the daemon from changing the effective user/groups
-++despite the capability settings.
-++
-++In earlier versions of mountd, the same checks were performed using the
-++mountd daemon's root privileges, meaning that it could authorise access
-++to directories that are not normally accessible to the user requesting
-++to mount them. This option enables that legacy behaviour.
-++
-++.BR Note:
-++If there is a need to provide access to specific subdirectories that
-++are not normally accessible to a client, it is always possible to add
-++export entries that explicitly grant such access. That ability does
-++not depend on this option being enabled.
-++
-+ .TP
-+ .B \-g " or " \-\-manage-gids
-+ Accept requests from the kernel to map user id numbers into  lists of
-+-- 
-+2.44.4
+ def _run(cmd, cwd=3D''):
+     logger.debug("Running command %s> %s" % (cwd,cmd))
+     return bb.process.run('%s' % cmd, cwd=3Dcwd)
+@@ -529,6 +556,127 @@ def _run_recipe_upgrade_extra_tasks(pn, rd, tinfoil):
+         if not res:
+             raise DevtoolError('Running extra recipe upgrade task %s for %=
+s failed' % (task, pn))
+=20
++def _resolve_rst_includes(content, srctree):
++    """Resolve RST .. include:: directives by reading files from the sourc=
+e tree."""
++    result =3D []
++    for line in content.splitlines(True):
++        m =3D re.match(r'^\.\.\s+include::\s+(.+)$', line)
++        if m:
++            basename =3D os.path.basename(m.group(1).strip())
++            # Search for the file in the source tree
++            for dirpath, _, filenames in os.walk(srctree):
++                if basename in filenames:
++                    fpath =3D os.path.join(dirpath, basename)
++                    try:
++                        with open(fpath, 'r', errors=3D'replace') as f:
++                            result.append(f.read())
++                        break
++                    except OSError:
++                        pass
++            else:
++                result.append(line)
++            continue
++        result.append(line)
++    return ''.join(result)
 +
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
-index 2f2644f9a8..91c74fe5ef 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
-@@ -33,6 +33,12 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://0001-locktest-Makefile.am-Do-not-use-build-flags.patch \
-            file://0001-tools-locktest-Use-intmax_t-to-print-off_t.patch \
-            file://0001-reexport.h-Include-unistd.h-to-compile-with-musl.patch \
-+           file://CVE-2025-12801-dependent_p1.patch \
-+           file://CVE-2025-12801-dependent_p2.patch \
-+           file://CVE-2025-12801-dependent_p3.patch \
-+           file://CVE-2025-12801-dependent_p4.patch \
-+           file://CVE-2025-12801.patch \
-+           file://CVE-2025-12801-build-fix.patch \
-            "
- SRC_URI[sha256sum] = "01b3b0fb9c7d0bbabf5114c736542030748c788ec2fd9734744201e9b0a1119d"
- 
--- 
-2.35.6
++
++def _extract_changelog(srctree, pn, old_ver, new_ver, old_tag, new_tag, wo=
+rkspace_path, is_git_source):
++    """Extract changelog between old and new version using devtool git tag=
+s."""
++    changelog_content =3D None
++    changelog_fname =3D None
++
++    # Try to find a changelog file that changed between versions
++    try:
++        stdout, _ =3D _run('git diff --name-only %s %s' % (old_tag, new_ta=
+g), srctree)
++        changed_files =3D [f.strip() for f in stdout.splitlines() if f.str=
+ip()]
++
++        # First pass: collect per-version release notes that changed
++        # Matches files with a version number whose path suggests release =
+notes
++        # (e.g. Documentation/releases/v2.42-ReleaseNotes, docs/relnotes/2=
+.53.0.adoc)
++        parts =3D []
++        source_files =3D []
++        for fname in changed_files:
++            if not re.search(r'\d+\.\d+', fname):
++                continue
++            if re.search(r'(releas|relnote|change|news|migrat)', fname, re=
+.IGNORECASE):
++                try:
++                    file_content, _ =3D _run('git show %s' % shlex.quote('=
+%s:%s' % (new_tag, fname)), srctree)
++                except bb.process.ExecutionError:
++                    try:
++                        file_content, _ =3D _run('git show %s' % shlex.quo=
+te('%s:%s' % (old_tag, fname)), srctree)
++                    except bb.process.ExecutionError:
++                        continue
++                if file_content.strip():
++                    parts.append(file_content.strip())
++                    source_files.append(fname)
++        if parts:
++            changelog_content =3D '\n\n'.join(parts)
++            changelog_fname =3D ', '.join(source_files)
++
++        # Second pass: pick the largest standard changelog file (NEWS, Cha=
+ngeLog, etc.)
++        if not changelog_content:
++            for fname in changed_files:
++                basename =3D os.path.basename(fname).lower()
++                if basename in _CHANGELOG_BASENAMES:
++                    diff_out, _ =3D _run('git diff %s %s -- %s' % (old_tag=
+, new_tag, shlex.quote(fname)), srctree)
++                    if diff_out.strip():
++                        lines =3D [line[1:] for line in diff_out.splitline=
+s()
++                                 if line.startswith('+') and not line.star=
+tswith('+++')]
++                        if lines:
++                            candidate =3D '\n'.join(lines)
++                            if not changelog_content or len(candidate) > l=
+en(changelog_content):
++                                changelog_content =3D candidate
++                                changelog_fname =3D fname
++    except bb.process.ExecutionError as e:
++        logger.warning('Changelog file extraction failed: %s' % str(e))
++
++    # For git sources, fall back to git log if no changelog file was found
++    if not changelog_content and is_git_source:
++        try:
++            stdout, _ =3D _run('git log --oneline %s..%s' % (old_tag, new_=
+tag), srctree)
++            if stdout.strip():
++                changelog_content =3D stdout.strip()
++        except bb.process.ExecutionError as e:
++            logger.warning('Changelog git log extraction failed: %s' % str=
+(e))
++
++    if not changelog_content:
++        return None
++
++    # Resolve RST .. include:: directives and strip comment blocks.
++    # Only applied to .rst files to avoid mangling plain-text changelogs.
++    if changelog_fname and any(f.endswith('.rst') for f in changelog_fname=
+.split(', ')):
++        changelog_content =3D _resolve_rst_includes(changelog_content, src=
+tree)
++        # Remove RST comments (.. without ::) and their indented continuat=
+ion lines
++        filtered =3D []
++        in_comment =3D False
++        for line in changelog_content.splitlines(True):
++            if line.startswith('..') and '::' not in line:
++                in_comment =3D True
++            elif in_comment and (line.startswith('   ') or line.strip() =
+=3D=3D ''):
++                pass
++            else:
++                in_comment =3D False
++                filtered.append(line)
++        changelog_content =3D ''.join(filtered)
++
++    # Clean up content for readability and commit message use
++    changelog_content =3D re.sub(r'\n{3,}', '\n\n', changelog_content).str=
+ip()
++    if not changelog_content:
++        return None
++
++    changelog_dir =3D os.path.join(workspace_path, 'changelogs')
++    bb.utils.mkdirhier(changelog_dir)
++    changelog_path =3D os.path.join(changelog_dir, '%s.txt' % pn)
++    with open(changelog_path, 'w') as f:
++        f.write('Changelog for %s: %s -> %s\n' % (pn, old_ver, new_ver))
++        if changelog_fname:
++            f.write('Source: %s\n' % changelog_fname)
++        f.write('\n')
++        f.write(changelog_content)
++        f.write('\n')
++
++    return changelog_path
++
+ def upgrade(args, config, basepath, workspace):
+     """Entry point for the devtool 'upgrade' subcommand"""
+=20
+@@ -610,6 +758,18 @@ def upgrade(args, config, basepath, workspace):
+=20
+         logger.info('Upgraded source extracted to %s' % srctree)
+         logger.info('New recipe is %s' % rf)
++
++        # Extract changelog between versions using the tags created by
++        # _extract_new_source(): devtool-base-new for git, devtool-base-<p=
+v> for tarballs
++        is_git =3D old_srcrev is not None
++        newpv =3D args.version or rd.getVar('PV')
++        new_tag =3D 'devtool-base-new' if is_git else 'devtool-base-%s' % =
+newpv
++        changelog_file =3D _extract_changelog(srctree, pn, old_ver, newpv,
++                                            'devtool-base', new_tag,
++                                            config.workspace_path, is_git)
++        if changelog_file:
++            logger.info('Changelog extracted to %s' % changelog_file)
++
+         if license_diff:
+             logger.info('License checksums have been updated in the new re=
+cipe; please refer to it for the difference between the old and the new lic=
+ense texts.')
+         preferred_version =3D rd.getVar('PREFERRED_VERSION_%s' % rd.getVar=
+('PN'))
+--=20
+2.34.1
 
 
