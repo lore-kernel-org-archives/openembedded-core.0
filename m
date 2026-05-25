@@ -1,277 +1,168 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <toertel@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB353CD5BBF
-	for <webhook@archiver.kernel.org>; Mon, 25 May 2026 09:30:43 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.6])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12515.1779701437883293961
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD0EDCD5BB1
+	for <webhook@archiver.kernel.org>; Mon, 25 May 2026 13:43:08 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16046.1779716583411350251
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 May 2026 02:30:38 -0700
+ Mon, 25 May 2026 06:43:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=s1sOVM5J;
- spf=pass (domain: est.tech, ip: 52.101.70.6, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mLtu12+0qJoqCUPBGtgrau/yhW0sYm6DxTaQjKM6I0Q541WtfpEC6ikcykxA/HXCyM34nR//pY73UxyEeHR/iM6ENRdGzOsO44i8TIAWwUhyd4inEnyBWvTEenFxyxSniI0gGld3COxih/E9uNeZ+nlZix0QMOXgcWypyBjr7WZU6+M59TbcR20gAbG3f/RqaCXwR+rozsjtRUwLwOR3RzyBA2ElBxufQztwKXdQG1nrqTxwqE0auqiVRz1PzUYi0got8Uu2ZRbktrpV8c/RmSg7eklWjEmpBI/bNUwTavLoKEVytgxP30YWqPr3R1GaiMKPIKZ+/sU3PM1pop2HPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BN1krRkZh+B3sxzkN43vKZmOma2rXzquWuyU8tHIQ6E=;
- b=eZPduqgbKCBeBJrw5E3lee+uA/bCzeBP2p4x2X0KbCq8FXV1Pn6IA27jUzWQnqUdAGquOobeK76yx6PotOR8Lt3fHEnBcrDJUk8C6eKP2X6yv5S2V3qKJgCsERSIWsAxPEW3sXADFc7SDJD7EG4THNvoamg0I9cs62/ZzrocXTlTRlOUTaY3V2ev8deExLJSY/YJUi7CurOp0d0jjUaWPFpJKL06CO1iquYU/91gGNihASrG3pFyZ/LXcGqpaKK3Q+OS2amam5DaW1DnHTQD8A/jh84cF9DZ17K8kl0dqijMk9U8ED/APpFYCELyh9pVV+IkqgKQ7wNCwHMKustJJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BN1krRkZh+B3sxzkN43vKZmOma2rXzquWuyU8tHIQ6E=;
- b=s1sOVM5JhbdyYT6Cd0Obecu39FdUrmIUVQ5EPg6kAqq0FI0pgLQvABC1rLIF31CeP3iUlnYIeadWVy533qtZrwyRH9KRzCVEFL2zId8qWoMtkyLZw89xErzSsuokcV9eq0FxO/LnBD7JeFBsoKDYvlEzwRKUrNHJ58zrsMWMVZcR3/GRAjWqPULUlSqFItxuYrVulCQXybiX9lBtsHWogFIQ1T/yr2EjtQKwWHid3ZQ3ZmPlcnB5sElsMw9u3U6qLcIoGvCvlvXzVuzhkrfR6Tveo3Dgfxs+WBJHsER0gtQp6H/6+p2G9V7STXT26ZlplJuheyH11gr4YrJHJvY1Bw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by DB8P189MB1077.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:165::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.19; Mon, 25 May
- 2026 09:30:33 +0000
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0048.016; Mon, 25 May 2026
- 09:30:33 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=m+CrcCJz;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: toertel@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-45ebafde87cso1681715f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2026 06:43:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779716582; x=1780321382; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lxQ/j/zd3cY32yanMQKuqK+kEeYXh/aRigD6t12Ugsw=;
+        b=m+CrcCJzsLXPGFY/cnkEFoTtvVHVec7E5MLrpIsa+/RCz97lOIkAQpPHbOV/9AlcSu
+         gWSEYm4ZkiJ4mLmW1j00uiAEv96SLq/u1qvdvOVx3uZgvlNcZHb5FV53nLbQS5o8hRAY
+         zY9SOYHC8Tur5o6PwgbGf9mGfYstp9fDpea7HxuO7SA5gBV7FIev2+uvOAmDn1gNNJ9w
+         /AUT4MYbfCLDlaqb5ufxfMxQwzu8tvk3htQXxjZa8e7YJ7fBpqhxIeatDat6ZuWdHF6b
+         BS27KixoQ2hNJtXYSXit3MZVtOOOGWrQ08PnUsnlBdNk5Vd/lB4olxI8+1qizIMC4HUt
+         D9og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779716582; x=1780321382;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lxQ/j/zd3cY32yanMQKuqK+kEeYXh/aRigD6t12Ugsw=;
+        b=Z/CtEo/4muKO6uufOiul7O+DHbFB5SaeSSWvPfVJWssCaL2J+D3WRwaY88Xpy8DNZO
+         ym1Ia0Ckror4kpDgenV8BDN9Qg6xLVy/7cnIIdU2RIgS9uFMc0PJiPgYpsq95RlnAGHX
+         szVt4HirKTl2gxAsGUt5TZM4HGfpgn9XDCbAOy9/4sJ7RUgTZgOYsXjFUU8H7tF/WZKc
+         pOq7RC3pIcIQtoCqmBSJaebdbpCGYyJqWBkMv7eCivCAGWLZ+DDCtSZ/sWRVMoAfPAeC
+         EZcfseRSJ5EuPFmzg1259dZdX5XRo4klxynYRqA/HTKwJhyc5RXHoeFZJi1w5Plu5EIW
+         3DVQ==
+X-Gm-Message-State: AOJu0Yyyfi7OJM5kArPtgSXKy7A+YyuvybtwVOG2CUBorAg49SPVoT0L
+	O0XGS7JyKXQ8rfzhveKhnD7mQa00MLUlQ+NnT0aHDCf5oxUhXLRoCXLhF9X82A==
+X-Gm-Gg: Acq92OHAmpkLBJvE9lhjPfuQ5I0OsOeRierUu/bdtSDzmgklJxeCPvpRwT2iE1NSRIQ
+	K284dflYhG96ZYJlj7gp2nFOH2EeHowASkskaGsOGM8+fLbxNfrdESM86SzG6irMGtl2aC404p/
+	MQegWnp3M2Of5khniQcexz4PQE1lBGxqN9N4yIaadMN2aEqQFd1Tnl0JczM6uOT4eDozl+PCt4C
+	5rx6vGUTJQjkAdYUIgT4Mz1mOZFkW3hNLrhKvDtMgA4vR8bYGDm/S0i/WqBce2q/239stX9zV3w
+	kmtbpHg64zxQ/nkL1PpLIU6hFLJUJmarx32gAfj7HmdfABNBMnRYELekDv439hfpiP8SSsrFURU
+	TtdSYCWhgmGeF0RoYaK66lLn4grgFt/vEQ+Lj/ShCSvzB7ySSx0iAe1tydrTDKPdhumvz0ymoHh
+	DJIlCbDeS753r8TfJSNv3FCuZYKJNghsg0H9a0R4cXqijiG6GTD0hHdUWgLU318hU6oAl3FT1fy
+	t+JagtWasEKIlCyMGckn1Y=
+X-Received: by 2002:a05:6000:1acd:b0:448:69c0:8da0 with SMTP id ffacd0b85a97d-45eb3692456mr23874432f8f.7.1779716581520;
+        Mon, 25 May 2026 06:43:01 -0700 (PDT)
+Received: from ThinkCentre.fritz.box (p200300cfaf475000947834ddeb1f7561.dip0.t-ipconnect.de. [2003:cf:af47:5000:9478:34dd:eb1f:7561])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6d493dfsm27580069f8f.23.2026.05.25.06.43.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 May 2026 06:43:01 -0700 (PDT)
+From: toertel@gmail.com
 To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v5] libffi: add ptest support
-Date: Mon, 25 May 2026 11:30:29 +0200
-Message-ID: <20260525093029.21456-1-pratik.farkase@est.tech>
+Cc: Yi Zhao <yi.zhao@windriver.com>,
+	f_l_k@t-online.de,
+	Mark Jonas <toertel@gmail.com>
+Subject: [PATCH] libsdl2: Fix compilation error with DirectFB
+Date: Mon, 25 May 2026 15:42:28 +0200
+Message-ID: <20260525134255.99033-1-toertel@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260508102405.16791-1-pratik.farkase@est.tech>
-References: <20260508102405.16791-1-pratik.farkase@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO2P265CA0499.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:13b::6) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4d4::5)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|DB8P189MB1077:EE_
-X-MS-Office365-Filtering-Correlation-Id: 23c4ff91-1e5e-4f88-d947-08deba40453a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|376014|11063799006|6133799003|3023799007|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	d+icIYZzZ9zybqBUKaHLTcv1vxQ14gOBLcV6VBvjFmvWAuIeT8D1RwhU4PC6q0reXerGu6q5rwBDcZYcVjuFytuajncDOgxKmL8jwj9b/ABw4aqQ29LDj11Dp0qMj5ULeeuEBbR/RXJEhKKTwHm9RDyuub3yGqiB5ORMuQ2AYitCui8HxOvjb+sUAv0SqLK3OLQWoA/1qJ3zHvgXAseqTPwrsl29Dwv0BzRAfruZJqFvZl1ksXi1FXFsjHpjE+dXHSl8f0uddDerR0/PVV8khphw8l4OHaug6yDjbM0DHifOrgTLWqb0M1H28TwikIRmmRIxeCJZ8rSrjkMi+x1qplID1yTlXDK7CSV5U3M7wDc1ljzIrhYcz2qo/7FiI4n7Lj66gjcb7m+/WEcbnPA8AmflrQMIPsCca42kZyWTctWqdSfiIZlBN5WWtAbgp9sQ1RPMy6rfjw/vdiBLBxmvd1UFqLtaZX6pS4Z8jiuxXsKKR8JP/K7iCydtNhdyb2jwSm6HyprqFYEwQYfTiXgDvFgpG8CpzuuaXkVc8jrYOADCAB/C6UelAFlo/zvbI2uwkkdHNXZgmaqh8Apqy5EGUeqAHymh9KrQ4XleWDsgrP+H14QBIhQu+sKHyL95ICMHy8Tqh9q76Trf6VtIMoUgQ4N3ZDiwMHdyToCyyun5YBa5e6iXqWZrF5yoq8ipL++d
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(11063799006)(6133799003)(3023799007)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Y4z/ViSqrjpuI0iElpaEWcFsXBzYjPgabgz+CS2mDwC6+dTbFi8Q+ifoNn7W?=
- =?us-ascii?Q?sU7G7brSLTGw8eR8dE4FnOF2FW9kYM4g9nxsZIrmZCRW+oM/+nxFCk5EEmt6?=
- =?us-ascii?Q?pSPlEy3D/LcV3GSFlTElrz8JJL/PFFvpM0JgdlwTx5lcJqrHY5LUTwkUxfIY?=
- =?us-ascii?Q?LeyqoCMY69mYNcuJOyQWohwRxxtyI4HVIrChkHm3ir8zNly0t4tWnjqgWYoi?=
- =?us-ascii?Q?88XzRY3xRVnviQ/RPqGhcJwuxWlNEkoFt/c1U+4PhRlHFLijn1+yFT1CHhTR?=
- =?us-ascii?Q?eRC9H5/4227/MlJ7vRRdbfLI3iW6U3GL2i/9/5kwqB8oyOaGFiVa0D5FnXJ/?=
- =?us-ascii?Q?NkeIqV39C18lC+VtS7YnxBrmE3deO6lPfjHkv6YazFDeD86oTiOk0jIgl5Ui?=
- =?us-ascii?Q?+4WzNxpAiNf4Y5gqxGA5IYU0tkmy04khVYAizuqO1m9DEdQF4QliKf/LOvKK?=
- =?us-ascii?Q?JIdJbZ14IgQkMjR8vMgHwWTgf8GIXGEMWi575/vsM7A89z+mDdAridO+yG2k?=
- =?us-ascii?Q?bo62QYBkIJmpsstfH96oGGlr2NwrP7TaVOfPzvS07VFuPhVnZDziibOMb2MD?=
- =?us-ascii?Q?mn/+t9Bp7udkFSRTInEzZBUgqXNCqCeoGBV3IDDw+3/WhEZfC5KV+m22smQ2?=
- =?us-ascii?Q?3o7lAWJPFOzk8RxZzQ/AFJZzRuKC7LkFTu6Tf55U9XIorwbd4i0oesHDzM8/?=
- =?us-ascii?Q?JaEGs815XATPRzRW5zwopzgM7+vrCJFiUzLAy3ULvitw1Q7chwf13fKZKZfM?=
- =?us-ascii?Q?jFDOJHst91umJsbIoTu+nZWx/eaLwLNvbDF5A4qoocKtFrKX6qkGD3Th+umn?=
- =?us-ascii?Q?CL1hhZeTOK088240549Pew0/7S43jG3367FafiMCxOovrsJFanjGr5rwbSS7?=
- =?us-ascii?Q?fOOFa/U8OzihlPyuloZpBa1ZEOS26rO/7i/3xXSbhGpa50nVDxsxeDFmTgps?=
- =?us-ascii?Q?dH/d76UZlffnCZEU+YVYE++/rUYgFnA1TIBx3hXk7cA2HOcHI7QbCIrV+zyI?=
- =?us-ascii?Q?22fmNEqExyaTONrCojBbSGqSDoa3FiJCXqyMZNp/Ou7UHryl15sEQOR64Ewo?=
- =?us-ascii?Q?W6tdrh5uzOOQFF3u6OTBEAiH6xQ+1t4F9AUKSjK7zqXT+m1kw5X9Wl2LVMzo?=
- =?us-ascii?Q?0z4f5udb7nOJozmd7x8I2JeM9a4A9dOeQvQ00ChG085GmhhE2sZWymrW/oZt?=
- =?us-ascii?Q?k4NltMQpIfcXblvJI7DmRAMvcj+1MlhneLtnVrIOQEHDuVQDNC0dnUBn4Nuq?=
- =?us-ascii?Q?hNLMclJlSq5cPPhYz4qJnwvyNcMP8NyQE32HkZrBg7v8RA0X61d1/BDYVls4?=
- =?us-ascii?Q?MNjQAeM7wHfB87FMIRUwRHDFuJsyeLwAufk9qNF7W/3jUDt+KY84l8GGm3Dx?=
- =?us-ascii?Q?fEAAgYZ91jL7ybEntt3slO/H8bFZhxBhgFF7iG63a8pCfuYpDHPPZdGiJwzC?=
- =?us-ascii?Q?TDB+7cs2nwYuNLjKG0moqngy1tdsITclhvAd+VBWTqQE9ao2k5XkE9hFVkXo?=
- =?us-ascii?Q?QlrHZb/hhUAKHMwT5t1V93Hg/gLAZr0ORPu10rexXuw8V8abozsgW9qn3JAX?=
- =?us-ascii?Q?O9PMqdfqohYk6UhdpTvLmxik2qN53+Mw4VqWRWG+UDnPmRBMUopjg9v4q4J0?=
- =?us-ascii?Q?EvlSgiZnQJj7NALEzDVUyfqXygCPvD5dk1jTECsa+9x52Smhd0wbA2+y/vNq?=
- =?us-ascii?Q?aJDwS2JQrUV3ksbTQRAQp5jzCCInVFUeBdC/+s3Gq80dmp2t0PI7qPETBv2p?=
- =?us-ascii?Q?zuplWhiFgw=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23c4ff91-1e5e-4f88-d947-08deba40453a
-X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2026 09:30:33.6649
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rHivrgq8G6hOTeffJUu7IpG+uFjdJ0fRXml8jifkp0umdDVZr0bSRKORp56DolKY8x/DtE3JccMr8sVHRXP1uw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB1077
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 May 2026 09:30:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237574
+ <openembedded-core@lists.openembedded.org>; Mon, 25 May 2026 13:43:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237575
 
-Add ptest support for libffi using all upstream test suites: bhaible,
-call, closures, complex, go, and threads.
+From: Mark Jonas <toertel@gmail.com>
 
-Tests are cross-compiled at build time in do_compile_ptest and the
-binaries are installed to the ptest directory. No toolchain is needed
-on target.
+Compiling libsdl2 with DirectFB as renderer results in a compilation
+error. Patch libsdl2 so DirectFB_CreateRenderer() uses the current
+SDL_RenderDriver API.
 
-The complex_int test is excluded as it uses non-standard _Complex int
-which is unsupported on some architectures (e.g. riscv64).
-
-Tested on qemux86-64 with ptest-runner: 198 PASS, 0 FAIL (5s).
-
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+Signed-off-by: Mark Jonas <toertel@gmail.com>
 ---
-Changes in v5:
-- Cross-compile tests at build time instead of on target
-- Minimal run-ptest that just executes pre-compiled binaries
-- Moved back to PTESTS_FAST (5s runtime vs 327s previously)
+ ...ix-CreateRenderer-callback-signature.patch | 58 +++++++++++++++++++
+ .../libsdl2/libsdl2_2.32.10.bb                |  5 +-
+ 2 files changed, 62 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-directfb-Fix-CreateRenderer-callback-signature.patch
 
-Changes in v4:
-- Replace packagegroup-core-buildessential with gcc/g++/make to fix
-  multilib symlinks conflict in lib64-core-image-sato-sdk
-- Detect compiler dynamically in run-ptest (works without symlinks)
-- Exclude complex_int test (fails on riscv64)
-
-Changes in v3:
-- Move libffi from PTESTS_FAST to PTESTS_SLOW (349s) runtime
-
-Changes in v2 :
-- Include all upstream test suites instead of only bhaible
-- Install fficonfig.h required by ffitest.h
-- Add support for C++ tests (closures/unwindtest*.cc)
-- Add -lpthread for threads suite
----
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-support/libffi/libffi/run-ptest  | 31 ++++++++++++++
- meta/recipes-support/libffi/libffi_3.5.2.bb   | 42 ++++++++++++++++++-
- 3 files changed, 73 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-support/libffi/libffi/run-ptest
-
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 50b6a8a41e..79b541a199 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -34,6 +34,7 @@ PTESTS_FAST =3D "\
-     libconfig \
-     libconvert-asn1-perl \
-     libexif \
-+    libffi \
-     libgpg-error\
-     libksba \
-     libmd \
-diff --git a/meta/recipes-support/libffi/libffi/run-ptest b/meta/recipes-su=
-pport/libffi/libffi/run-ptest
-new file mode 100755
-index 0000000000..f25366111d
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-directfb-Fix-CreateRenderer-callback-signature.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-directfb-Fix-CreateRenderer-callback-signature.patch
+new file mode 100644
+index 0000000000..232b7e76d9
 --- /dev/null
-+++ b/meta/recipes-support/libffi/libffi/run-ptest
-@@ -0,0 +1,31 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: MIT
++++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-directfb-Fix-CreateRenderer-callback-signature.patch
+@@ -0,0 +1,58 @@
++From 1df9ae4338c43ad9dce4b27a77f807aa8d2b073b Mon Sep 17 00:00:00 2001
++From: Mark Jonas <toertel@gmail.com>
++Date: Sun, 10 May 2026 20:16:17 +0200
++Subject: [PATCH] directfb: Fix CreateRenderer callback signature
 +
-+cd "$(dirname "$0")/tests" || exit 1
++Update DirectFB_CreateRenderer() to use the current SDL_RenderDriver
++API.
 +
-+for t in *; do
-+    [ -x "$t" ] || continue
++Signed-off-by: Mark Jonas <toertel@gmail.com>
 +
-+    suite=3D"${t%%__*}"
-+    name=3D"${t#*__}"
++Upstream-Status: Backport [https://github.com/libsdl-org/SDL/commit/bb65446578187f0dd1460d5ddf02636e8a7a3b8a]
++---
++ src/video/directfb/SDL_DirectFB_render.c | 11 ++++-------
++ 1 file changed, 4 insertions(+), 7 deletions(-)
 +
-+    case "$suite" in
-+        libffi.bhaible)
-+            ./"$t" > "$t.out" 2>&1
-+            if ! LC_ALL=3DC uniq -u < "$t.out" | grep -q .; then
-+                echo "PASS: $suite/$name"
-+            else
-+                echo "FAIL: $suite/$name"
-+                cat "$t.out"
-+            fi
-+            rm -f "$t.out"
-+            ;;
-+        *)
-+            if ./"$t" 2>&1; then
-+                echo "PASS: $suite/$name"
-+            else
-+                echo "FAIL: $suite/$name"
-+            fi
-+            ;;
-+    esac
-+done
-diff --git a/meta/recipes-support/libffi/libffi_3.5.2.bb b/meta/recipes-sup=
-port/libffi/libffi_3.5.2.bb
-index d3aa90d429..987d0f59c9 100644
---- a/meta/recipes-support/libffi/libffi_3.5.2.bb
-+++ b/meta/recipes-support/libffi/libffi_3.5.2.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dce4763670c5b77=
-56000561f9af1ab178"
-=20
- SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
-            file://not-win32.patch \
-+           file://run-ptest \
-            "
- SRC_URI[sha256sum] =3D "f3a3082a23b37c293a4fcd1053147b371f2ff91fa7ea1b2a52=
-e335676bac82dc"
-=20
-@@ -19,7 +20,7 @@ EXTRA_OECONF =3D "--disable-builddir"
- EXTRA_OECONF:class-native +=3D "--with-gcc-arch=3Dgeneric"
- EXTRA_OEMAKE:class-target =3D "LIBTOOLFLAGS=3D'--tag=3DCC'"
-=20
--inherit autotools texinfo multilib_header github-releases
-+inherit autotools texinfo multilib_header github-releases ptest
-=20
- do_install:append() {
- 	oe_multilib_header ffi.h ffitarget.h
-@@ -30,3 +31,42 @@ do_install:append() {
- MIPS_INSTRUCTION_SET =3D "mips"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
++diff --git a/src/video/directfb/SDL_DirectFB_render.c b/src/video/directfb/SDL_DirectFB_render.c
++index 3f353cce9..684f907ea 100644
++--- a/src/video/directfb/SDL_DirectFB_render.c
+++++ b/src/video/directfb/SDL_DirectFB_render.c
++@@ -1130,19 +1130,17 @@ static int DirectFB_RenderWritePixels(SDL_Renderer * renderer, const SDL_Rect *
++ #endif
 +
-+do_compile_ptest() {
-+    mkdir -p ${B}/ptest-bins
-+    cd ${S}/testsuite
 +
-+    for suite in libffi.call libffi.closures libffi.complex libffi.go libf=
-fi.threads; do
-+        [ -d $suite ] || continue
-+        extra=3D""
-+        [ "$suite" =3D "libffi.threads" ] && extra=3D"-lpthread"
++-SDL_Renderer *DirectFB_CreateRenderer(SDL_Window * window, Uint32 flags)
+++static int DirectFB_CreateRenderer(SDL_Renderer *renderer, SDL_Window * window, Uint32 flags)
++ {
++     IDirectFBSurface *winsurf = get_dfb_surface(window);
++     /*SDL_VideoDisplay *display = SDL_GetDisplayForWindow(window);*/
++-    SDL_Renderer *renderer = NULL;
++     DirectFB_RenderData *data = NULL;
++     DFBSurfaceCapabilities scaps;
 +
-+        for src in $suite/*.c $suite/*.cc; do
-+            [ -f "$src" ] || continue
-+            grep -q "dg-do run" "$src" || continue
-+            name=3D$(basename "${src%.*}")
-+            [ "$name" =3D "complex_int" ] && continue
-+            case "$src" in
-+                *.cc) compiler=3D"${CXX}";;
-+                *)    compiler=3D"${CC}";;
-+            esac
-+            $compiler ${CFLAGS} ${LDFLAGS} \
-+                -I${B}/include -I${B} -I${S}/testsuite/libffi.call \
-+                -o ${B}/ptest-bins/${suite}__${name} "$src" \
-+                -L${B}/.libs -lffi $extra 2>/dev/null || true
-+        done
-+    done
++     if (!winsurf) {
++-        return NULL;
+++        return -1;
++     }
 +
-+    for t in test-call test-callback; do
-+        ${CC} ${CFLAGS} ${LDFLAGS} -I${B}/include -I${B} \
-+            -o ${B}/ptest-bins/libffi.bhaible__${t} \
-+            libffi.bhaible/${t}.c -L${B}/.libs -lffi || true
-+    done
-+}
++-    SDL_DFB_ALLOC_CLEAR(renderer, sizeof(*renderer));
++     SDL_DFB_ALLOC_CLEAR(data, sizeof(*data));
 +
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+    for t in ${B}/ptest-bins/*; do
-+        [ -f "$t" ] && install -m 0755 "$t" ${D}${PTEST_PATH}/tests/
-+    done
-+}
---=20
++     renderer->WindowEvent = DirectFB_WindowEvent;
++@@ -1207,12 +1205,11 @@ SDL_Renderer *DirectFB_CreateRenderer(SDL_Window * window, Uint32 flags)
++     }
++ #endif
++
++-    return renderer;
+++    return 0;
++
++   error:
++-    SDL_DFB_FREE(renderer);
++     SDL_DFB_FREE(data);
++-    return NULL;
+++    return -1;
++ }
++
++
++--
++2.43.0
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb
+index 2b583448ef..880bf56167 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.32.10.bb
+@@ -21,7 +21,10 @@ LIC_FILES_CHKSUM:append = " ${@bb.utils.contains('PACKAGECONFIG', 'arm-neon', 'f
+ 
+ PROVIDES = "virtual/libsdl2"
+ 
+-SRC_URI = "https://www.libsdl.org/release/SDL2-${PV}.tar.gz"
++SRC_URI = "\
++    https://www.libsdl.org/release/SDL2-${PV}.tar.gz \
++    file://0001-directfb-Fix-CreateRenderer-callback-signature.patch \
++"
+ 
+ S = "${UNPACKDIR}/SDL2-${PV}"
+ 
+-- 
 2.43.0
 
 
