@@ -2,63 +2,63 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C045CD5BC8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90637CD5BD5
 	for <webhook@archiver.kernel.org>; Tue, 26 May 2026 19:33:39 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4340.1779824009952393997
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4341.1779824011649329328
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2026 12:33:30 -0700
+ Tue, 26 May 2026 12:33:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=UNfnIXkr;
- spf=pass (domain: baylibre.com, ip: 209.85.219.52, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ca12973e15so149180126d6.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 12:33:29 -0700 (PDT)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=iybJfY44;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.45, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-8b3d6b215cfso186559886d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 12:33:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1779824009; x=1780428809; darn=lists.openembedded.org;
+        d=baylibre.com; s=google; t=1779824011; x=1780428811; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0HmS9x5ugKbKASDa7jIXw23cGS5L4PbHdS6hY+8XCe8=;
-        b=UNfnIXkrRqLbQZO9hP8VDrVoVvUB0pseYXIk9Xw+ez0mzsXhfnp9etBv7L9tptM05Y
-         gl5C9/ulMpg3wEf5aLss948z03ps+3BzdxV7nBXc6/Y42YzHOGvGcYjfd0Jx1qjremAi
-         kyidVo/uIDSaT6hdOWH5LaaT61kF0rPPljx3fXClNb6bv2j7aOgRgPK3gvrCEl//dppw
-         +kU/zpe99W/PLq2a7SlZ4DaDEAD227JnYJC3xdt4GBvWh1pnojl9HOkIC5wCR+xTNenE
-         gN+W75Z7O6l7OT+spndDX4Jp5EHt0yyJIaAqMdST3+qUZ23lkXLxyGi5jlUSXmCn7mK7
-         wyDA==
+        bh=Pn1BjXyFVGNnfSHz7r25Zr8s13XXZed/5vWqHlM9M9c=;
+        b=iybJfY44Y34VgBQ3FRFGrRZScw6CBlrWC2rdF+BA8w8XkW2LmItWMYM5zVQ3Iw9bJ0
+         8+IlRZWLloBOa21Zw4iqTUSfcdvqkzBVLIn6sVDKuitYg0GARGlXJ/H5KBFqbRH9Jljs
+         UI2UINkE3naxPdaB06OlTBudBY5wcGDJ3zMxSYTMBFcfXqN1iSw8kP+vZJ79xSxcuscc
+         F7T7JxNDLKRA+kdzNZVFZgP8a1VL8qE0MVTiUoX1pFnOGeTyDOmAqyN083gwF2SCid6j
+         p0L1UPfVLYXGuP49SpB0Fj9vo6c97DBUS3BgdXnwfPxjaw6jpnDoo0fBCHaWXyJ5ft1X
+         TWEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779824009; x=1780428809;
+        d=1e100.net; s=20251104; t=1779824011; x=1780428811;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0HmS9x5ugKbKASDa7jIXw23cGS5L4PbHdS6hY+8XCe8=;
-        b=IFi1I5xvtqmWVfeJKMNa2Teau/Ky0z9XmggefxU5XLaYGHC6cAKBngkeE4wzKQu2Xg
-         KCXaPnQUPkpW63b7J/WMG2kw9YqSJYsqxXUtD2u7HmHE/xZz/HjpBGTMUFzI61ZfMgWZ
-         adO0RxfXYPZwewzwm1SLePbrGUq+Y8pGsYdlRPvQXGQvS/l9Kyl1V7RC+XpZc5aCBQUq
-         Ndl3ZWqG5dBZqAjM+jrC39x2oPOeybZ8uDW+mjjySBkGkM1zFrln4QMI69/T5nrkw3Dt
-         1l72DHCTOGZBXRlCllK44+fgvxnClI9mijWSPuo9XyfHuJN1Z4Uhf9hZVF4ZVgCRCpLp
-         c5Uw==
-X-Gm-Message-State: AOJu0YzW8WhtYQgV1UWUiCCgfgovv/wh8/ECDotPLAJKc4J00o312J7J
-	asz65P85mhGshVIixBtAEbzv4+Qm6pAqHz3bGZN8y2rk5IN0nLGBdVBEINM9sH9zQ5XIMDiT0FS
-	xCvcrq1g=
-X-Gm-Gg: Acq92OH3+RWrISbp57WEl+buN2x8OvVe12S1q4/vM3scyRRCzEEXHxByuSnOEwWXaCm
-	Y9C5Gbxe0KciTYxSzUO32D6pC8vwxJkTE4R4nlq1nOOIrgiiPWgVrTxIaS4qtoHooP7Gj45pVOw
-	Ouv9Jm4u7pTwKI1WYfw6ds6uLCEznpLU36ngKhEcKOup7Jqeg43sxNEL9JTW11q9pSRqHdDdS1J
-	lfkhpOKKQMGgp58CG5+SAMQQ5qrRuFJ4KkYO3dEI2IUiBEkAUAZKsYf2yFWKnzThBYn5LcO7CvK
-	/RQNtP8LhQ2lt3qEsr6hXDUbO0Yl/QmTaSjApoodfKUMocJ427HGMELILqi2PYrx7N032mKFwJH
-	OPRY2DbTXc1joJXlPROU6CZSlBLDjNLn21ISMxXZTo9PVrdOSw4NuKQabe2+5ZEvT2t/ETcDin5
-	FXnTJ4kK47sDkAlZVFWZVw3K2hYA==
-X-Received: by 2002:a05:6214:451d:b0:8cc:3546:2613 with SMTP id 6a1803df08f44-8cc7b69f724mr331460426d6.42.1779824008834;
-        Tue, 26 May 2026 12:33:28 -0700 (PDT)
+        bh=Pn1BjXyFVGNnfSHz7r25Zr8s13XXZed/5vWqHlM9M9c=;
+        b=WQqPMsQYYjie0q7/UkWTfveG8/hvgAtmjGpJEt+MlzEUhrc3sR6/I+IzhtS53fITRw
+         73YgnswVzsht+ruzBSomVOxdZ5OGVHCwPxXpDdtAzcxBvZwRDm9MZexmevrqG7y0T/1S
+         Gno+crwru2sFGncNAPNLUrQi7ByaPPtq1Yj9nyeHdIa8gHkiEk9EBpjK9SLS5fmNNU26
+         9LY/RBz2OalmRs8YqxRNCzuOnNQllbbsa3i3kAPsL2/VTBrmher7wYNma3DoY8/W+kc9
+         twN8g0QQ/XJEwBu0cO5JItKHODkQoL2yInztjmTc5b/ANPF2v8TTq0V3SZJCDK7WROr1
+         htnw==
+X-Gm-Message-State: AOJu0Yx4Er+kaQZob9CF1cJwubENUWgtzhFwf6PreoZgQt9++d3mBB1k
+	/Jznf1AYpef/hfIN/tuCU/tdZHd9KpzHZlSHgq9a5Wq9pN/urcQys5uvanLPNrIPNAsj+ryxhry
+	Vs+7gUg8=
+X-Gm-Gg: Acq92OG8poLpP6xJVZ5+eIJyzIHzSyiNeIZKyb5xzMI1CH4NyP2UNwxaC5Dl0+xcrAN
+	DduNWpxzs3gpD5TgNHlkxMdqWjU1spB8WfWUBSDeWPD+QyWAPvhcdon60YSpisgN8kShWwz6dPD
+	He2aIl+X+4Da06rjKzLwAou6K96wr2WyOYxG+2mom5N/b0D8Aktx57xBDa+OH4Zcc77C/e+jxwF
+	UnmABRwbfoyHNPs5zukPOHKre7l1TkLHv1nS5u79ZI29ekF5BJzPO06mkLDIe46S5YU5Pydst0s
+	Pzo9Ne0AOban4PE0aAW+FLUYaOdSwi3E1hcW1g7dMJ6gseuzr5fs2y+RnODTEwNkKKn7hTNKNrY
+	g8aSmNWjMcobsbe96zphSZP0ezABq34C/6SVe0x7pXf3Y9M5ZerICttYrjcbhaftv4nQ90nvH8S
+	9ZwatsqC+BPTId1lMFieZjOtGGNUejobZ5h9R5
+X-Received: by 2002:a05:622a:480d:b0:516:d66e:7b1f with SMTP id d75a77b69052e-516d66ebfe7mr262354931cf.31.1779824010626;
+        Tue, 26 May 2026 12:33:30 -0700 (PDT)
 Received: from localhost ([2001:1970:3847:e000:537:a9f7:1a84:f246])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cca4705c62sm62121016d6.27.2026.05.26.12.33.26
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cc8131fc67sm152521136d6.45.2026.05.26.12.33.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 12:33:27 -0700 (PDT)
+        Tue, 26 May 2026 12:33:29 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr
-Subject: [OE-core][PATCH 3/6] patchtest: tests: cleanup test suites
-Date: Tue, 26 May 2026 15:33:14 -0400
-Message-ID: <20260526193317.807459-4-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 4/6] patchtest: correctly abort --directory test
+Date: Tue, 26 May 2026 15:33:15 -0400
+Message-ID: <20260526193317.807459-5-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260526193317.807459-1-tgamblin@baylibre.com>
 References: <20260526193317.807459-1-tgamblin@baylibre.com>
@@ -68,254 +68,124 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 19:33:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237621
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237622
 
-Do a sweep of the test suites to remove redundant code, make variable
-names more explicit, and fix some formatting. Some logic (such as the
-bits for checking valid Upstream-Status tags) are also moved directly to
-the relevant functions, instead of being left in the setup stage. This
-should make maintenance easier going forward.
+Currently, patchtest run with --directory responds to a CTRL+C press by
+aborting only the current patch being tested, and moves onto the next.
+Instead, this key press should stop the test entirely. Remove usage of
+the unittest.installHandler() function (which intercepts the signal) and
+handle it ourselves.
+
+Also make sure that the branch is properly reset with git am --abort
+afterwards, and that the return code is properly set in the sigint
+handler function. Finally, update patchtest_parser.py so that the helper
+info reflects this change.
 
 AI-Generated: Uses Claude Code
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/lib/patchtest/tests/base.py              |  4 ---
- meta/lib/patchtest/tests/test_mbox.py         | 10 +++---
- meta/lib/patchtest/tests/test_metadata.py     | 32 ++++++------------
- meta/lib/patchtest/tests/test_patch.py        | 33 ++++++++-----------
- .../lib/patchtest/tests/test_python_pylint.py |  8 ++---
- 5 files changed, 33 insertions(+), 54 deletions(-)
+ meta/lib/patchtest/patchtest_parser.py |  2 +-
+ meta/lib/patchtest/repo.py             |  4 ++++
+ scripts/patchtest                      | 31 +++++++++++++++++++++++---
+ 3 files changed, 33 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/patchtest/tests/base.py b/meta/lib/patchtest/tests/base.py
-index 919ca136bb..8263932dda 100644
---- a/meta/lib/patchtest/tests/base.py
-+++ b/meta/lib/patchtest/tests/base.py
-@@ -22,10 +22,6 @@ info = logger.info
- warn = logger.warn
- error = logger.error
+diff --git a/meta/lib/patchtest/patchtest_parser.py b/meta/lib/patchtest/patchtest_parser.py
+index 2a11cb76c2..69bcb4b8e5 100644
+--- a/meta/lib/patchtest/patchtest_parser.py
++++ b/meta/lib/patchtest/patchtest_parser.py
+@@ -37,7 +37,7 @@ class PatchtestParser(object):
+                             help='The patch to be tested')
  
--Commit = collections.namedtuple(
--    "Commit", ["author", "subject", "commit_message", "shortlog", "payload"]
--)
--
- Commit = collections.namedtuple('Commit', ['author', 'subject', 'commit_message', 'shortlog', 'payload'])
+         target_patch_group.add_argument('--directory', metavar='DIRECTORY', dest='patch_path',
+-                            help='The directory containing patches to be tested')
++                            help='The directory containing patches to be tested. CTRL+C aborts the entire directory test.')
  
- class PatchtestOEError(Exception):
-diff --git a/meta/lib/patchtest/tests/test_mbox.py b/meta/lib/patchtest/tests/test_mbox.py
-index 5cf02af7bd..feb87fa2ae 100644
---- a/meta/lib/patchtest/tests/test_mbox.py
-+++ b/meta/lib/patchtest/tests/test_mbox.py
-@@ -74,11 +74,11 @@ class TestMbox(base.Base):
-             shortlog = re.sub(r'^(\[.*?\])+ ', '', commit.shortlog)
-             if shortlog.startswith('Revert "'):
-                 continue
--            l = len(shortlog)
--            if l > patchtest_patterns.mbox_shortlog_maxlength:
-+            length = len(shortlog)
-+            if length > patchtest_patterns.mbox_shortlog_maxlength:
-                 self.fail(
-                     "Edit shortlog so that it is %d characters or less (currently %d characters)"
--                    % (patchtest_patterns.mbox_shortlog_maxlength, l),
-+                    % (patchtest_patterns.mbox_shortlog_maxlength, length),
-                     commit=commit,
-                 )
+         parser.add_argument('--repodir', metavar='REPO',
+                             default=default_repodir,
+diff --git a/meta/lib/patchtest/repo.py b/meta/lib/patchtest/repo.py
+index 6a7d7d2d3b..b4cf9e8ded 100644
+--- a/meta/lib/patchtest/repo.py
++++ b/meta/lib/patchtest/repo.py
+@@ -85,6 +85,10 @@ class PatchTestRepo(object):
+             self._patchmerged = True
  
-@@ -120,7 +120,7 @@ class TestMbox(base.Base):
-             folders = patch.path.split('/')
-             base_path = folders[0]
-             for project in [self.bitbake, self.doc, self.oe, self.poky]:
--                if base_path in  project.paths:
-+                if base_path in project.paths:
-                     self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists',
-                               data=[('Suggested ML', '%s [%s]' % (project.listemail, project.gitrepo)),
-                                     ('Patch\'s path:', patch.path)])
-@@ -173,7 +173,7 @@ class TestMbox(base.Base):
-         for commit in self.commits:
-             if patchtest_patterns.auh_email in commit.commit_message:
-                 self.fail(
--                    "Invalid author %s. Resend the series with a valid patch author"
-+                    "Commit message contains AUH email address %s. Resend the series with a valid patch author"
-                     % patchtest_patterns.auh_email,
-                     commit=commit,
-                 )
-diff --git a/meta/lib/patchtest/tests/test_metadata.py b/meta/lib/patchtest/tests/test_metadata.py
-index 30da8dbe60..442e80973d 100644
---- a/meta/lib/patchtest/tests/test_metadata.py
-+++ b/meta/lib/patchtest/tests/test_metadata.py
-@@ -8,7 +8,6 @@ import base
- import collections
+     def clean(self):
++        try:
++            self.repo.git.execute(['git', 'am', '--abort'])
++        except git.exc.GitCommandError:
++            pass
+         self.repo.git.execute(['git', 'checkout', self.current_branch if self.current_branch else self.current_commit])
+         self.repo.git.execute(['git', 'branch', '-D', self._workingbranch])
+         self._patchmerged = False
+diff --git a/scripts/patchtest b/scripts/patchtest
+index e8ace03905..435610b54f 100755
+--- a/scripts/patchtest
++++ b/scripts/patchtest
+@@ -12,6 +12,7 @@
+ import json
+ import logging
  import os
- import patchtest_patterns
--import pyparsing
- from patchtest_parser import PatchtestParser
++import signal
+ import subprocess
+ import sys
+ import traceback
+@@ -133,8 +134,6 @@ def _runner(resultklass, prefix=None):
  
- # Data store commonly used to share values between pre and post-merge tests
-@@ -108,39 +107,28 @@ class TestMetadata(base.Metadata):
-                             ],
-                         )
- 
--    def pretest_src_uri_left_files(self):
--        # these tests just make sense on patches that can be merged
--        if not PatchtestParser.repo.canbemerged():
--            self.skip("Patch cannot be merged")
--        if not self.modified:
--            self.skip('No modified recipes, skipping pretest')
+ def run(patch, logfile=None):
+     """ Load, setup and run pre and post-merge tests """
+-    unittest.installHandler()
 -
--        # get the proper metadata values
-+    def _collect_src_uri(self, key_prefix):
-         for pn in self.modified:
--            # we are not interested in images
-             if 'core-image' in pn:
-                 continue
-             rd = self.tinfoil.parse_recipe(pn)
-             PatchTestDataStore[
--                "%s-%s-%s" % (self.shortid(), patchtest_patterns.metadata_src_uri, pn)
-+                "%s-%s-%s" % (key_prefix, patchtest_patterns.metadata_src_uri, pn)
-             ] = rd.getVar(patchtest_patterns.metadata_src_uri)
+     premerge_result = _runner(make_result_class(patch, False, logfile), 'pretest')
+     postmerge_result = _runner(make_result_class(patch, True, logfile), 'test')
  
--    def test_src_uri_left_files(self):
--        # these tests just make sense on patches that can be merged
-+    def pretest_src_uri_left_files(self):
-         if not PatchtestParser.repo.canbemerged():
-             self.skip("Patch cannot be merged")
-         if not self.modified:
-             self.skip('No modified recipes, skipping pretest')
-+        self._collect_src_uri(self.shortid())
+@@ -183,10 +182,26 @@ def main():
+     else:
+         patch_list = [patch_path]
  
--        # get the proper metadata values
--        for pn in self.modified:
--            # we are not interested in images
--            if 'core-image' in pn:
--                continue
--            rd = self.tinfoil.parse_recipe(pn)
--            PatchTestDataStore[
--                "%s-%s-%s" % (self.shortid(), patchtest_patterns.metadata_src_uri, pn)
--            ] = rd.getVar(patchtest_patterns.metadata_src_uri)
-+    def test_src_uri_left_files(self):
-+        if not PatchtestParser.repo.canbemerged():
-+            self.skip("Patch cannot be merged")
-+        if not self.modified:
-+            self.skip('No modified recipes, skipping test')
-+        self._collect_src_uri(self.shortid())
- 
-         for pn in self.modified:
-             pretest_src_uri = PatchTestDataStore[
-diff --git a/meta/lib/patchtest/tests/test_patch.py b/meta/lib/patchtest/tests/test_patch.py
-index 3b33b5a199..9f1d7d2c8f 100644
---- a/meta/lib/patchtest/tests/test_patch.py
-+++ b/meta/lib/patchtest/tests/test_patch.py
-@@ -28,21 +28,16 @@ class TestPatch(base.Base):
-     def setUp(self):
-         if self.unidiff_parse_error:
-             self.skip('Parse error %s' % self.unidiff_parse_error)
--
--        self.valid_status = ", ".join(patchtest_patterns.upstream_status_nonliteral_valid_status)
--        self.standard_format = "Upstream-Status: <Valid status>"
--
--        # we are just interested in series that introduce CVE patches, thus discard other
--        # possibilities: modification to current CVEs, patch directly introduced into the
--        # recipe, upgrades already including the CVE, etc.
--        new_cves = [p for p in self.patchset if p.path.endswith('.patch') and p.is_added_file]
--        if not new_cves:
-+        if not TestPatch.newpatches:
-             self.skip('No new CVE patches introduced')
- 
-     def test_upstream_status_presence_format(self):
-         if not TestPatch.newpatches:
-             self.skip("There are no new software patches, no reason to test Upstream-Status presence/format")
- 
-+        valid_status = ", ".join(patchtest_patterns.upstream_status_nonliteral_valid_status)
-+        standard_format = "Upstream-Status: <Valid status>"
++    interrupted = False
++    previous_sigint = signal.getsignal(signal.SIGINT)
 +
-         for newpatch in TestPatch.newpatches:
-             payload = newpatch.__str__()
-             lines = payload.splitlines()
-@@ -71,16 +66,16 @@ class TestPatch(base.Base):
-                         'Upstream-Status is present only after the patch scissors. '
-                         "It must be placed in the patch header before the scissors line.",
-                         data=[
--                            ("Standard format", self.standard_format),
--                            ("Valid status", self.valid_status),
-+                            ("Standard format", standard_format),
-+                            ("Valid status", valid_status),
-                         ],
-                     )
-                 else:
-                     self.fail(
-                         "Added patch file is missing Upstream-Status: <Valid status> in the commit message",
-                         data=[
--                            ("Standard format", self.standard_format),
--                            ("Valid status", self.valid_status),
-+                            ("Standard format", standard_format),
-+                            ("Valid status", valid_status),
-                         ],
-                     )
++    def _sigint_handler(signum, frame):
++        nonlocal interrupted
++        interrupted = True
++        # Restore previous handler so a second CTRL+C exits immediately
++        signal.signal(signal.SIGINT, previous_sigint)
++        signal.default_int_handler(signum, frame)
++
++    signal.signal(signal.SIGINT, _sigint_handler)
++
+     ret = 0
+     for patch in patch_list:
++        if interrupted:
++            break
++
+         if os.path.getsize(patch) == 0:
+             logger.error('patchtest: patch is empty')
++            signal.signal(signal.SIGINT, previous_sigint)
+             return 1
  
-@@ -97,8 +92,8 @@ class TestPatch(base.Base):
-                         "but was found afterwards.",
-                         data=[
-                             ("Current", line.lstrip("+")),
--                            ("Standard format", self.standard_format),
--                            ("Valid status", self.valid_status),
-+                            ("Standard format", standard_format),
-+                            ("Valid status", valid_status),
-                         ],
-                     )
+         logger.info('Testing patch %s' % patch)
+@@ -197,8 +212,18 @@ def main():
+             with open(log_path, "a") as f:
+                 f.write("Patchtest results for patch '%s':\n\n" % patch)
  
-@@ -142,14 +137,14 @@ class TestPatch(base.Base):
-                             "Upstream-Status is in incorrect format",
-                             data=[
-                                 ("Current", pe.pstr),
--                                ("Standard format", self.standard_format),
--                                ("Valid status", self.valid_status),
-+                                ("Standard format", standard_format),
-+                                ("Valid status", valid_status),
-                             ],
-                         )
+-        ret = run(patch, log_path)
++        try:
++            result = run(patch, log_path)
++            ret = ret or result
++        except KeyboardInterrupt:
++            interrupted = True
++
++        if interrupted:
++            logger.error('\npatchtest: interrupted')
++            signal.signal(signal.SIGINT, previous_sigint)
++            return 1
  
-     def test_signed_off_by_presence(self):
-         if not TestPatch.newpatches:
--            self.skip("There are no new software patches, no reason to test %s presence" % PatchSignedOffBy.mark)
-+            self.skip("There are no new software patches, no reason to test %s presence" % TestPatch.mark)
++    signal.signal(signal.SIGINT, previous_sigint)
+     return ret
  
-         for newpatch in TestPatch.newpatches:
-             payload = newpatch.__str__()
-@@ -162,7 +157,7 @@ class TestPatch(base.Base):
-                 self.fail('A patch file has been added without a Signed-off-by tag: \'%s\'' % os.path.basename(newpatch.path))
- 
-     def test_cve_tag_format(self):
--        for commit in TestPatch.commits:
-+        for commit in self.commits:
-             if patchtest_patterns.cve.search_string(
-                 commit.shortlog
-             ) or patchtest_patterns.cve.search_string(commit.commit_message):
-diff --git a/meta/lib/patchtest/tests/test_python_pylint.py b/meta/lib/patchtest/tests/test_python_pylint.py
-index ec9129bc79..37d1de9436 100644
---- a/meta/lib/patchtest/tests/test_python_pylint.py
-+++ b/meta/lib/patchtest/tests/test_python_pylint.py
-@@ -47,7 +47,7 @@ class PyLint(base.Base):
-         for pythonpatch in self.pythonpatches:
-             # a condition checking whether a file is renamed or not
-             # unidiff doesn't support this yet
--            if pythonpatch.target_file is not pythonpatch.path:
-+            if pythonpatch.target_file != pythonpatch.path:
-                 path = pythonpatch.target_file[2:]
-             else:
-                 path = pythonpatch.path
-@@ -55,9 +55,9 @@ class PyLint(base.Base):
-             reporter = TextReporter(pylint_output)
-             lint.Run([self.pylint_options, pythonpatch.path], reporter=reporter, exit=False)
-             for line in pylint_output.readlines():
--                    if not '*' in line:
--                        if line.strip():
--                            self.pylint_test[line.strip().split(' ',1)[0]] = line.strip().split(' ',1)[1]
-+                if not '*' in line:
-+                    if line.strip():
-+                        self.pylint_test[line.strip().split(' ',1)[0]] = line.strip().split(' ',1)[1]
- 
-         for issue in self.pylint_test:
-              if self.pylint_test[issue] not in self.pylint_pretest.values():
+ if __name__ == '__main__':
 -- 
 2.54.0
 
