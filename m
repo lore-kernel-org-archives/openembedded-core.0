@@ -1,139 +1,159 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1EC5CD5BC8
-	for <webhook@archiver.kernel.org>; Tue, 26 May 2026 12:37:43 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.36005.1779799054743001796
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F9E3CD5BB1
+	for <webhook@archiver.kernel.org>; Tue, 26 May 2026 12:44:44 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.9])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.36132.1779799478707430945
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2026 05:37:34 -0700
+ Tue, 26 May 2026 05:44:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=PcRyK80V;
- spf=pass (domain: mvista.com, ip: 209.85.214.181, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2bea7176c72so40044585ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 05:37:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1779799054; x=1780403854; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4klIPvUehQAE1ODbedASFOeK3J0nfRY/vDTiekYu0Ek=;
-        b=PcRyK80VwFhlWEOuZIfbMO90rk5Mp+r4Y0Ij60harZ+sU2KdBFV2Pq/n39EC7w/ESs
-         z1LI9AytK1O8ThR6goQQq+28XYP4NAIC0+OgFhnxHBF0Cu/E2JcNiZ4Cjs3IA2amJ4Gw
-         PtxETAj1kUkp9AN3/+Eqv4EJcbbFQGsQBZxF4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779799054; x=1780403854;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4klIPvUehQAE1ODbedASFOeK3J0nfRY/vDTiekYu0Ek=;
-        b=qJ6UsxL63ylSN4WrwXjAmU5cPw03Q+eUjR0q+KyGZzb6Dj+418L5XbaAJFnQRnA9IP
-         IuEAA9P/ehgrUvfyo8utv47bWvjEZUJf7QMTj1NPhrr0p2G1QyTsHrTqVNR+ULWqV7KY
-         yWQCcnCLrcV3Iw58wjdrd2qKIaLeiKYJJpXeSpptPwLnl1RkHudFrI9S1ZnGhbU+90BG
-         jID/zYmVa76eUdM5iGLtWrfcTi+AdePQxaCxR7zLNG7Kty8AMQ8gm3PUa13gvcxES5WO
-         Gh139LdIuL2rEFmq0AURUrIqnfXduWLCFJYeL6EAo83jRiPt/bagWnLdmanr+MGOgVS8
-         eh2A==
-X-Gm-Message-State: AOJu0YyZ6k80TYKwtHDi2RaZkfrmeFUr58NoyXF/UlIshOCESO83fM14
-	N2eAxZF10tQrTaUt4NiN33UDcU2yaESBLbkilNM835JvP7QeC5Sm3RAe5XhqwFUa1WdKZU4yufk
-	334ohFBE=
-X-Gm-Gg: Acq92OHq0Wy/M4cLxp9w77uXrgMSO72mCiWEhkh7O6JlfMO6hf1mfEnD7tHqPZlDunT
-	m9A4ZAXUkRM6mMrbfoCcFfE2asPicu+/IPw9kKCuO8xfCephFZ2UIekU3Z7W6pnBNz2+C5JgISo
-	eMN4c0CxRZsbGb3uNCJIJe1HsexxqG1YD35qMLRwoUqxH43Hmvlv97WzaSayxHrQcE8zzLL38fi
-	PoSMNGw9hFzK1nr99d43Aw9AEchOX0cd42lu6zwG1SiXzw3aDJaLKcoIMMQ+R2wTOdwHv3qn7OO
-	uVlbyHR63H7GsYlY8roLNjtHl8ZjhMaUZrVBsmjp+LJAvElNd5xSBBiKitzVwSIw4ankLMIVFd5
-	OQwd0j1VeDPEpMZZx3iA+ahE0WuCsxcnKftlmo5h3rS8q5X0YYzLVion8Zzk+Kyotcmhw9OrbU4
-	QcNfRUqDXwldrl4TehuvOnZe7HfsI=
-X-Received: by 2002:a17:903:3c0c:b0:2bd:612b:912d with SMTP id d9443c01a7336-2beb05e2d23mr195901575ad.14.1779799053908;
-        Tue, 26 May 2026 05:37:33 -0700 (PDT)
-Received: from MVIN00352.. ([2401:4900:1cc5:677b:4cba:fdd7:404f:c80d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb5900b8bsm121262685ad.76.2026.05.26.05.37.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 05:37:33 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][patch] tzdata/tzcode-native: upgrade 2026a -> 2026b
-Date: Tue, 26 May 2026 18:07:19 +0530
-Message-ID: <20260526123719.211417-1-vanusuri@mvista.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=IjxMRsX4;
+ spf=pass (domain: axis.com, ip: 52.101.66.9, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=f3EbFsbe0hX3yz+uaLMeEvDvQzj8JOD7XapACHcSBVnqBwwkVpCcYtW2/9hc0kYIlKT+njShifQvdZhBFR0jHqHmIFynDI0CTmJ4hbpI8Zt9fJQEfLHPjaaw2sBq5PsY8V71yFyvbEC8/qaobDF1fe2BOgza9azFuWAdx/EC74y4Vx4uwzAjnOpxhazwqIXBoG+9d4t/IT24PBUuRHLyiXY+7s3JAGfBXLCwslohHoCmBx5lwa1GfGD3pfG5TI8x2fT4Al3X/ub7cgnr0HAjyKCCsceKVKT5d4F3/yn6nIehdgPJ1hRYSrrIHUit5uN+0DIz8yiSZ78rWI4cuMRo5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jD/fmr2zEf/MdlyP9JmtcgvZEwtteQR4ogkhQ12Jfag=;
+ b=UlDDL8HJgcpegiR6yUmBzJeitFs/dyKF8isy7bskaZTpu30Qs5Hm5L2x0bgq/dOwMF9eWhAhk8e5wKxk+Daz9H4+1NnN/1o7uMmqFmyyflxKdiAkyhLs4w6mvAi7ltGmruwUL64SH+g/aLmiQrLPK+Rb6/x6ApCXVBE844IKfLeXiMrV3lQN/LmI1k+OOiQnoCm3Qj10Wc1jM3TwerpQuayWWV6OAx+UKejLdxUJgZE0E1ECzrJP6e1sx0M1kVksHnIc28R08a2kekoLW/B4ZI0n1SZHllsRIHa9YacLXeDKVROdP9goe9Ih+UVaaMaYsewzBQEA9Cn75Tc3VJhe1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jD/fmr2zEf/MdlyP9JmtcgvZEwtteQR4ogkhQ12Jfag=;
+ b=IjxMRsX43vJsLZIjg7SpH1kkepum7eyh/iF9y0yrYkg+HtPM0+dw1BP5J4zS+46ZXVmTWMamFdndICjatrNuRCSCzWFx0wdU6bVzqdVp1iV98cP2S6v9u1VfynJoJ9jV/j3SuaAy0EFj/FT4omvKCTj0r6SGz+ONvpxGSjS8zqc=
+Received: from DUZPR01CA0134.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bc::9) by AS8PR02MB6630.eurprd02.prod.outlook.com
+ (2603:10a6:20b:238::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.11; Tue, 26 May
+ 2026 12:44:31 +0000
+Received: from DB1PEPF000509FD.eurprd03.prod.outlook.com
+ (2603:10a6:10:4bc:cafe::7f) by DUZPR01CA0134.outlook.office365.com
+ (2603:10a6:10:4bc::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.11 via Frontend Transport; Tue, 26
+ May 2026 12:44:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DB1PEPF000509FD.mail.protection.outlook.com (10.167.242.39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.71.7 via Frontend Transport; Tue, 26 May 2026 12:44:31 +0000
+Received: from se-mail11w.axis.com (10.20.40.11) by se-mail10w.axis.com
+ (10.20.40.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Tue, 26 May
+ 2026 14:44:30 +0200
+Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail11w.axis.com
+ (10.20.40.11) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
+ Transport; Tue, 26 May 2026 14:44:30 +0200
+Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
+	by se-intmail02x.se.axis.com (Postfix) with ESMTP id 9767A855
+	for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 14:44:30 +0200 (CEST)
+Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
+	id 94826122A1F; Tue, 26 May 2026 14:44:30 +0200 (CEST)
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCHv2 4/6] useradd_base.bbclass: Emulate the groupmems command using usermod
+Date: Tue, 26 May 2026 14:44:18 +0200
+Message-ID: <20260526124420.2564500-4-pkj@axis.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260526124420.2564500-1-pkj@axis.com>
+References: <20260526124420.2564500-1-pkj@axis.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509FD:EE_|AS8PR02MB6630:EE_
+X-MS-Office365-Filtering-Correlation-Id: e636c6c3-16e0-4f28-0cd4-08debb24884d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|82310400026|36860700016|18002099003|22082099003|56012099003|11063799006;
+X-Microsoft-Antispam-Message-Info: 
+	8U1zhdz3bRy8xGlxkLy/npSpp9bY8saQPFj+HQ7H3o2f1w9RaGlen0fhMqMsmFXgs4z/1DPszsqtHhru3xALwsK/VBT74jYOm8iuLAGFZ9KhUbBzBEEyWJ6XuAKppqxNU8zEwQ+1zBKixEWVGZeg17v75Nka6E5LFbZctyo8jgp/KG3A6Rqyq1KZTBmnFMvktCubWTw85zeMVDoJlwFco3CTUu/NaeHjQHye8KA99qX/PLyH3tUupqrfyT2B8NykJRTq3w13SXWOerDvfB1Vih7vIV7UOnln06Pyp8E60qp+PoUGMdCTRs+x4eFGbo6OmoQZ0HgJbttQSRRdEHg7sGfYB+pwfjGZGRI0yxZmlp+3+mZpcQ2vpDOYTzwJH7JpD8To6w/1XIpxdNxkbn+S4Msw9SMG8qQZa9LOV+c7QN89zjxicMy1DW5zhde4jc3sUCbHBji4J7l4tjjn+eMuVLNUxPJtqoc9hp0pcKSACR2FKiuVZ3P15wLMADRYTjbFAe8oRSkZESaVhN0WvnZrOYboJOpKkMUlPKHOMjxX+SIrmEdRIhhZxUvQ5aeb/CJIeend6SJEs28JHK2FuiE0HT8LKbW3ZjcjNZcfBms1rHUtl32B2xM+w+cBay+oWI0c4buYf1nBCrtC/YavJ3+E94C/JVZH80O9cJOu9iqmZWD2ClgtaiUZ2tnt7xZCExaDoUd6FJ4TQ2TyVmNGaxgOO9BzsM2YxITq7w83gwYdcMU=
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(36860700016)(18002099003)(22082099003)(56012099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	LCodzIJhcCKTYpDDi2AjC2RoqQzl0gkXYTfzlL9t6ty5ibH+QhO/RNuQIOAHv290CMdk60IaGJOqqGACnFzxJ5zZkpAd1v75C6R7j9iLr+91wkRxcWOys201DSOf6sz/XOztf1LCFaLKc4bBGjNlnNE+K3BHZpZB2epva+ZuD1QiUBRFV1k/4WPqMEN+3JDRah6TvlaPzcIbIxohHS0jY2OyV90Z/HM+zNsTK+OBngDurZxmTZYNn8C/dEJXMioa9P5MWlYYA5027fkPNcpe/Vt8zOUrJodTDyJ4Cex3GdL1w++kxuaat/tSZZLg02Q7uDcd8mpPHHgbLovJ3mJ3cNdXzN4DPBeegqwVrNqXXdDbjcGTKkQFuN/q0MZSvVrSOwvWYeiJuCXF6aVr1KlH1iU3x6sdAJR6Xb8cnh35ZhudFlhm+jSfo1EoxAdqsI9Z
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 12:44:31.2678
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e636c6c3-16e0-4f28-0cd4-08debb24884d
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509FD.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB6630
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 12:37:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237600
+ <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 12:44:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237606
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+The groupmems command does to support the --prefix option, which is
+being used since commit a7b846ba7d6d63a5e59939d75d9c5fe3e4cbb0e9.
+However, the groupmems command can easily be emulated using the usermod
+command.
 
-The 2026b release contains the following changes:
+[YOCTO#16277]
 
-Briefly:
-    British Columbia moved to permanent -07 on 2026-03-09.
-    Some more overflow bugs have been fixed in zic.
-
-Changes to future timestamps
-
-    British Columbia’s 2026-03-08 spring forward was its last
-    foreseeable clock change, as it moved to permanent -07 thereafter.
-    (Thanks to Arthur David Olson.)  Although the change to permanent
-    -07 legally took place on 2026-03-09, temporarily model the change
-    to occur on 2026-11-01 at 02:00 instead.  This works around a
-    limitation in CLDR v48.2 (2026-03-17).  This temporary hack is
-    planned to be removed after CLDR is fixed.
-
-Changes to code
-
-    zic no longer mishandles a last transition to a new time type.
-    zic no longer overflows a buffer when generating a TZ string like
-    "PST-167:59:58PDT-167:59:59,M11.5.6/-167:59:59,M12.5.6/-167:59:59",
-    which can occur with adversarial input.  (Thanks to Naveed Khan.)
-
-    zic no longer generates a longer TZif file than necessary when
-    an earlier time zone abbreviation is a suffix of a later one.
-    As a nice side effect, zic no longer overflows a buffer when given
-    a long series of abbreviations, each a suffix of the next.
-    (Buffer overflow reported by Arthur Chan.)
-
-    zic no longer overflows an int when processing input like ‘Zone
-    Ouch 2147483648:00:00 - LMT’.  The int overflow can lead to buffer
-    overflow in adversarial cases.  (Thanks to Naveed Khan.)
-
-    zic now checks for signals more often.
-
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit dda7d55396e0c5258cba58af7e990ab3813bf108)
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index 71b034d158..a477437066 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
- 
--PV = "2026a"
-+PV = "2026b"
- 
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
-@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
- 
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.sha256sum] = "f80a17a2eddd2b54041f9c98d75b0aa8038b016d7c5de72892a146d9938740e1"
--SRC_URI[tzdata.sha256sum] = "77b541725937bb53bd92bd484c0b43bec8545e2d3431ee01f04ef8f2203ba2b7"
-+SRC_URI[tzcode.sha256sum] = "37e9ed8427f5d3521c22fc58e293cbfb043d70eedf1003870b33f363f61ca344"
-+SRC_URI[tzdata.sha256sum] = "114543d9f19a6bfeb5bca43686aea173d38755a3db1f2eec112647ae92c6f544"
--- 
-2.43.0
+PATCHv2: Fail if --add and/or --group are not specified.
 
+ meta/classes/useradd_base.bbclass | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.=
+bbclass
+index 5e1c699118..5e12880b64 100644
+--- a/meta/classes/useradd_base.bbclass
++++ b/meta/classes/useradd_base.bbclass
+@@ -56,13 +56,20 @@ perform_groupmems () {
+ 	bbnote "${PN}: Performing groupmems with [$opts]"
+ 	local groupname=3D`echo "$opts" | awk '{ for (i =3D 1; i < NF; i++) if ($=
+i =3D=3D "-g" || $i =3D=3D "--group") print $(i+1) }'`
+ 	local username=3D`echo "$opts" | awk '{ for (i =3D 1; i < NF; i++) if ($i=
+ =3D=3D "-a" || $i =3D=3D "--add") print $(i+1) }'`
+-	bbnote "${PN}: Running groupmems command with group $groupname and user $=
+username"
++	local prefix=3D`echo "$opts" | awk '{ for (i =3D 1; i < NF; i++) if ($i =
+=3D=3D "-P" || $i =3D=3D "--prefix") print $(i+1) }'`
++	if test "x$groupname" =3D "x"; then
++		bbfatal "${PN}: groupmems: No user specified using --add."
++
++	elif test "x$username" =3D "x"; then
++		bbfatal "${PN}: groupmems: No group specified using --group."
++	fi
++	bbnote "${PN}: Emulating groupmems command using usermod with group $grou=
+pname and user $username"
+ 	local mem_exists=3D"`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(=
+,[^,]*\)*$" $rootdir/etc/group || true`"
+ 	if test "x$mem_exists" =3D "x"; then
+-		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO groupmems \$opts\" || t=
+rue
++		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO usermod \${prefix:+--pr=
+efix \$prefix} --append --groups \$groupname \$username\" || true
+ 		mem_exists=3D"`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^,]=
+*\)*$" $rootdir/etc/group || true`"
+ 		if test "x$mem_exists" =3D "x"; then
+-			bbfatal "${PN}: groupmems command did not succeed."
++			bbfatal "${PN}: groupmems command (emulated using usermod) did not succ=
+eed."
+ 		fi
+ 	else
+ 		bbnote "${PN}: group $groupname already contains $username, not re-addin=
+g it"
 
