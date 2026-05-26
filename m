@@ -1,130 +1,154 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A47D5CD5BC8
-	for <webhook@archiver.kernel.org>; Tue, 26 May 2026 14:03:58 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.9])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38025.1779804227971927275
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D189DCD5BB1
+	for <webhook@archiver.kernel.org>; Tue, 26 May 2026 14:10:08 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38183.1779804603090151800
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2026 07:03:48 -0700
+ Tue, 26 May 2026 07:10:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=FQP64rR/;
- spf=pass (domain: axis.com, ip: 52.101.66.9, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lGNN5kcwB1bZRBa/TPS/IaR/8Ea/ZwTbW/WFTlL/Ldj+F1RcSTKct+QN6Zc5aWdtHcBvW9IFam5RieJNZ9rdTDcLfkFuOqvvNdotfqq0dFyvICN9J6kzm3+soQNVRRJ8CGHBq1JobLH5vLNk9qze/1+iy2Zuq6RWAmgaWLk6EiId4457yyASdsnrvJql8n0KFLklHzTUAY1NXi/f7HkfnuXtPl1G4asxT+dGwBIHcbUNz8gz4D0dDvTdijaf//3iZ/Xtp+yKYHkGcu+LJnWmupwbqpffM8/r6qL/Vxcd12T88ip/VRlApbdBR3Uduf281WcXKzQ5vmwTw8RRuaYPQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ucjiFwfCFQIHyPWggtPZc5D6KtxaAJ9w2wDOFxd2t5k=;
- b=Anp3HPJXvlj+Qp9Z9NF4waO3DqBYsgh0fN1sbXZXRwh5mXC0UyT+dAy67Ots+HKfLjtXtS63VFrM+9t0waXj1rU2M/UHvDMXk3XgPZuM70kwUL9uJBOLsGWRcYpmxx63ABf9XJux6Ryilq2ycCMWa0SsrG1PKuDTUu4iZeXSErsZmIJQYnrc7KAj3PNF8pECYKN5T49p3XO3Cp4nBamp9Is3f6dRi1WbdDWWNXBx3VBhhEotIIzODT0NUB79XFxylBjrZ6sIBk709mK1+MHJtEj2E3exPkrHHLFs0ITqzbWFqgNvcEnmZlDjuqLZqjxNoHUExLVVMbx5zJt7eJMxhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ucjiFwfCFQIHyPWggtPZc5D6KtxaAJ9w2wDOFxd2t5k=;
- b=FQP64rR/HFkOJ2GFLhX+r1KpTP+kcbjD1skBLSG7cJ4bSym/sKFDD1SiKNVeQRGchn4cQnbxz2w/aDNOfB3Fy0AouInbhW7tCLdzXU8eO16EK+QSFFZn0bZp8rGJVKF1IEYtrpz95ZYWwk3B+vwOOksgSDbkK5chNTmPK0OQYUQ=
-Received: from DB9PR01CA0027.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:1d8::32) by AM7PPFB2C401705.eurprd02.prod.outlook.com
- (2603:10a6:20f:fff1::81c) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.11; Tue, 26 May
- 2026 14:03:40 +0000
-Received: from DB5PEPF00014B9C.eurprd02.prod.outlook.com
- (2603:10a6:10:1d8:cafe::1d) by DB9PR01CA0027.outlook.office365.com
- (2603:10a6:10:1d8::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.11 via Frontend Transport; Tue, 26
- May 2026 14:03:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DB5PEPF00014B9C.mail.protection.outlook.com (10.167.8.170) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.71.7 via Frontend Transport; Tue, 26 May 2026 14:03:40 +0000
-Received: from se-mail10w.axis.com (10.20.40.10) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Tue, 26 May
- 2026 16:03:40 +0200
-Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
- Transport; Tue, 26 May 2026 16:03:40 +0200
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail02x.se.axis.com (Postfix) with ESMTP id 353BD7CF
-	for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 16:03:40 +0200 (CEST)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id 2FE43122A1F; Tue, 26 May 2026 16:03:40 +0200 (CEST)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] staging.bbclass: Correct a typo
-Date: Tue, 26 May 2026 16:03:38 +0200
-Message-ID: <20260526140338.2803319-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IYQG9NF9;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49056b9f04aso40010035e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 07:10:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1779804601; x=1780409401; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k11pP3IY8yZXsiJsTBfh/hYJmxR35uDYApGCgS/nofg=;
+        b=IYQG9NF9CLDTnwbZCdIKDAV/Xi77ICtaLIHrABI0Y+DmGxGlxQWwSHuTEXioxqu5to
+         wWMZuJrP/gmN4+xnzF7vcCMLSGRYNmR4LOtChVGriNC6tSLfdNftfPj5MCyp5O5Iuse1
+         dS6enc20VDggzbR8Uz0Px0D661ezshfvm0whk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779804601; x=1780409401;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k11pP3IY8yZXsiJsTBfh/hYJmxR35uDYApGCgS/nofg=;
+        b=UlCUvyHsxD6leIAfXxq6+XZkJUUuKPHmxqx5U/KXa9oMkRgo5n9ZjXAqIlCkziOpMR
+         nitEKciMw7yAm/4VtN/DxmppmZ2iZa7i4xXLueH/fhYvEpem+r9rGdYg0R+sPxQzmdlp
+         Sc3gr9qmk+Jp7jh2rrB7kowB7/f0cemz3H/HATjiV49s4sGVoQPz0qMob8csKpwbKfWb
+         1pXokVgUJBFyFblMCnYj+Bf85qK7Bqe5pPZxY7MR9dgoAd5cPCXm2Ejx/7M0BVWr9yaG
+         i6D83tKU3g8WbRnZlU8Dn0DRvVhl0BHWb6klH8L6EwkpTPNG4bTkIPmAXzG9hALn/ID4
+         SOoQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9Ip42lTiwnttD3hN+P2ZSN/I32GFDTaDZLWrH8uJyo4GWJ6dwv7YqHFFSJbsy7D41ZOSKKWQAYs9nMHvXkChl6gA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwUt+ijvJ7cmRlu/vSe6x9ZC735zNqKcPrviprIn2ESffyh+jhq
+	5shJAfhrD7YX/NN4qg8w5/n3YfME5MKjaJR0PBRt2m0qUd+lGb9c+x71JtqDoQH83ak=
+X-Gm-Gg: Acq92OHir0KShor5hnPECcfZp5EDShF7CSs88UqDS5Jy1hqxfRCrig5S6HUy599AG3r
+	q1GGm5cF7hiU/qeDcaw1vPDqfWByA0av9LEBcjfwbwT+Pzj9b3DyhDkoYpCyHGg1gCyXN2cFT2j
+	XQaom7TAj1rpfSjIolicSZn/y7iiCEfDV5otPntgGQIVWPmRXMWLZdVFo58uqRd8VX8vvczUCJj
+	rvoKv4ACH63RKGqiO5K1j+6l7r1KMS+8oVETa0I3iDXGPpuQaTfdij1ex9z9T4u3HTmReodP17c
+	+fw2cLCx1KIeP1xvjJvD4uLsv6LaAc94UwOxN6BK2TVOgxmuOTavrmM1eVTUqz/8i2Y9rzEis7Y
+	FoMWqvTmJ+I04QnA0eijzsffIFK0HZVVCEG1KmrjRsreuKefY6Q7RDiduiN9z1bL8cDj+pwve27
+	t1sySzjJfxjYKQd/Xr1p2D57Jm0E50jM+4WwLufXQR+XTHkP2hJootIQwgL8IuXXOUn+eJzXSIF
+	oDAnFEOMZ4q5RYY
+X-Received: by 2002:a05:600c:1553:b0:490:53b0:9e53 with SMTP id 5b1f17b1804b1-49053b0a086mr247862265e9.1.1779804601251;
+        Tue, 26 May 2026 07:10:01 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:2e34:2d9a:782f:4147? ([2001:8b0:aba:5f3c:2e34:2d9a:782f:4147])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490456274ebsm314170685e9.15.2026.05.26.07.09.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 07:09:59 -0700 (PDT)
+Message-ID: <f3d7391676bd2518141fae1822c928d4013d5748.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] image_types_wic: make do_rootfs_wicenv
+ hash-safe
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: paul@pbarker.dev, Sam Kent <sam.john.kent@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 26 May 2026 15:09:59 +0100
+In-Reply-To: <0ad1aa2e945023107fcfa0d5bb1f251394c00a4a.camel@pbarker.dev>
+References: <20260430083905.2967342-1-sam.john.kent@gmail.com>
+	 <0ad1aa2e945023107fcfa0d5bb1f251394c00a4a.camel@pbarker.dev>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB5PEPF00014B9C:EE_|AM7PPFB2C401705:EE_
-X-MS-Office365-Filtering-Correlation-Id: aa343538-95a7-4342-aa84-08debb2f971c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|36860700016|1800799024|82310400026|56012099003|18002099003|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	vOFup8RcpBpVlImEwZGWySjK2zzsqqMx09NcpZPwR0E7xmr/6LqEro3Vlt9Xg70g78H4Rrd/nmmWUO5RSQO9CHYN6rN7SWduyYC6JKuKmFIYiOCMCAiNdOHQZ2z4WYfgF66zVaQry3O1doZ7VvJqlmC3vRs2m8zkb5Fdg0A3uELSigHtLmlpRSMfWDokoNuxvmG8gXL4a16CFjtsfd4p1QMegKpMQUy85ozpBbJT1roNso4LL/lL+K9Q5ZxkAfTqbJkFFLr9vkn7SfeeLv6OYm0895lxXV/Dx6Lt9r/cdTbJuzwkdc2hC4wzj/HUCKu/W9kxgX6AnSpOfXEfBAs+QSXbhSrOJiEoJNFi8+XP4NltpGOwcxKBR60n1lgfVOQ1lzi+uElfSNbHSHOC4Iw4ouM26eZa5mxx6CbH4exCZdWs0JOXP3zhfUo9MSObXNUes4p+ZMKpDVkuwJZ3hh0XnQ/YK1hRNgImkuE+/Gq6tS9dxvyuMww6q0PbELjfHAEcUQ2ebRvWvme8AQW1AI17XrOKz5pbPq894ozHzo5Q5L4UPm2PC1vOzuwy8JPdjgrY1svWWxEOZ8wxWsObPX8mRpK+clA0IGNjKfAqc/zAFAEdn/91y+tGy1RvGO+029OPrDt2IU7SQOOchgSdBHh0pTknm2gLGFeJgvrnEkTc+02sTeNRLINvjoIwbtvdhRswBvoMaq9M8zfS2BT3SFKQSCnPkLbd5Qfh0DNI/cGYszI=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(1800799024)(82310400026)(56012099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	IVWlpNDN1IHF06iFbdFvo/x68jbIJJlq3VOJu5K/Kkx2yswlgv2MzFjQLdfYJV6qSKLw6LOph1MByFHWjiRyM5yHxkwRXWF+GKldZ39GbL9a8fHLBAMc32bGouXnICHd6qqdOScjiNHq9xT5NstEecVIhzrTujbZ8Ya+L5CWUHr/8XKRbx4ogCu7+kewmnWIHd8napve7Zdx/u/jfD9ddO7axWnT9uGq5ntdRkf9UotlXKM3ebHXf5n8biTu8v8IyQ76ndaFuUmSJtlR2406QSYjj36iDpAMZMJu9/WzuXLlrOqewAmiLkhLc7XaSgfqOu7ehZ1dML4i/C0ks2227sQA9MLGm3FnNZB/T0vTPhggcB0DED0CnJZ/12c1hJK7uuWsWNvzmTqHBmsiCg+2zbJV5lGQuOWe1R84uPAU0Edg5iyPiEmZVABL40735HOa
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 14:03:40.5803
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa343538-95a7-4342-aa84-08debb2f971c
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5PEPF00014B9C.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PPFB2C401705
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 14:03:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237611
+ <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 14:10:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237612
 
-This corrects a typo (us -> is) in the description of
-extend_recipe_sysroot().
+On Mon, 2026-05-11 at 11:02 +0100, Paul Barker via lists.openembedded.org w=
+rote:
+> On Thu, 2026-04-30 at 09:39 +0100, Sam Kent wrote:
+> > BBLAYERS and BBPATH contain host-specific paths which contaminate the
+> > hash and result in unnecessary cache misses.
+> >=20
+> > Exclude BBLAYERS and BBPATH from vardeps and instead enumerate the wic
+> > plugin .py files tracking them via file-checksums.
+> >=20
+> > The hash now only changes when a plugin file is actually added, removed=
+,
+> > or modified.
+> >=20
+> > Fixes [YOCTO #15662]
+> >=20
+> > Signed-off-by: Sam Kent <sam.john.kent@gmail.com>
+> > ---
+> > =C2=A0meta/classes-recipe/image_types_wic.bbclass | 21 ++++++++++++++++=
++++++
+> > =C2=A01 file changed, 21 insertions(+)
+> >=20
+> > diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes=
+-recipe/image_types_wic.bbclass
+> > index ea8c1c9..e6f77e9 100644
+> > --- a/meta/classes-recipe/image_types_wic.bbclass
+> > +++ b/meta/classes-recipe/image_types_wic.bbclass
+> > @@ -68,6 +68,22 @@ def wks_checksums(files, search_path):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 ret =3D ret + " " + found + ":True"
+> > =C2=A0=C2=A0=C2=A0=C2=A0 return ret
+> > =C2=A0
+> > +def wic_plugin_checksums(bblayers, bbpath):
+> > +=C2=A0=C2=A0=C2=A0 entries =3D []
+> > +=C2=A0=C2=A0=C2=A0 seen =3D set()
+> > +=C2=A0=C2=A0=C2=A0 paths =3D (bblayers or "").split() + [p for p in (b=
+bpath or "").split(":") if p]
+> > +=C2=A0=C2=A0=C2=A0 for path in paths:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if path in seen:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 con=
+tinue
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 seen.add(path)
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 plugin_dir =3D os.path.join=
+(path, "lib", "wic", "plugins")
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if os.path.isdir(plugin_dir=
+):
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for=
+ root, dirs, files in os.walk(plugin_dir):
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 dirs.sort()
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 for f in sorted(files):
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if f.endswith(".py"):
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 entri=
+es.append(os.path.join(root, f) + ":True")
+> > +=C2=A0=C2=A0=C2=A0 return " ".join(entries)
+>=20
+> Re-implementing the wic plugin search logic here is likely to lead to
+> inconsistencies. For example, wic currently searches for plugins based
+> on BBLAYERS but not BBPATH, and it looks in both scripts/lib/wic/plugins
+> and lib/wic/plugins. Even if we align the two implementations now, it
+> will be very easy for them to drift apart again in the future.
+>=20
+> Could we instead rely on wic to perform the plugin search? There is
+> currently a `wic list source-plugins` command, we could add a `wic list
+> imager-plugins` command or perhaps a `wic list plugins` command to list
+> all plugins. We could then call that here to get the list.
+>=20
+> We should also move this to an event handler so that we don't
+> unnecessarily re-run this search whenever the bitbake data store is
+> updated. See image-postinst-intercepts.bbclass for an example of how to
+> do this.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes-global/staging.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+We need to run this at parse time and since wic is now an external
+tool, calling it in these contexts is effectively not possible...
 
-diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/stag=
-ing.bbclass
-index 1008867a6c..93a7af0005 100644
---- a/meta/classes-global/staging.bbclass
-+++ b/meta/classes-global/staging.bbclass
-@@ -250,7 +250,7 @@ def staging_populate_sysroot_dir(targetsysroot, natives=
-ysroot, native, d):
-=20
- #
- # Manifests here are complicated. The main sysroot area has the unpacked s=
-state
--# which us unrelocated and tracked by the main sstate manifests. Each reci=
-pe
-+# which is unrelocated and tracked by the main sstate manifests. Each reci=
-pe
- # specific sysroot has manifests for each dependency that is installed the=
-re.
- # The task hash is used to tell whether the data needs to be reinstalled. =
-We
- # use a symlink to point to the currently installed hash. There is also a
+Cheers,
+
+Richard
 
