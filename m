@@ -1,118 +1,153 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A978CD5BC8
-	for <webhook@archiver.kernel.org>; Tue, 26 May 2026 10:04:57 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.33711.1779789889588052844
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 776F1CD5BD2
+	for <webhook@archiver.kernel.org>; Tue, 26 May 2026 10:19:07 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32558.1779783143585701053
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2026 03:04:49 -0700
+ Tue, 26 May 2026 01:12:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=U43mm8Nf;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-50e63771eb0so104044641cf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 03:04:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779789888; cv=none;
-        d=google.com; s=arc-20240605;
-        b=e44x5I1IG5BawkPWqx/CClMeA5ZGAXl3NRkarmfwPcrFc7QMdz+dzIN3ErPipMN8qe
-         fj0OCo6+jwq3NfQe0nA49IngqvvoLkBQKMIYwFoIFZ/HpDYCVIg46n/flIVQoQyrtxeY
-         7wCCGufVK2sl26lLtEZf9fqH/xWw5YoBQ2MoaWX6rX+N1py6nCf9u2ouRdqQhlc3yIVe
-         yZjYkkhg895BZAtc/hDfvca0kix3SJ7jyxRD1HLphs1IqkEgRW/pa+B1LXOgt8vuHHld
-         HxNamUqczUvNEFYZeKqmNdMiDVd0JG6qa2IyI2WGOYyok6zg4WKGk535xklgaYuy7FX5
-         Wyqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=BPo6h26TRdKYEejV73OUVD39qASIiM14JIdoZaajsSA=;
-        fh=Yflg8unU9bcBi08/SVEWSmxdemOKe0RSHfZNxaY44fQ=;
-        b=HRxbfVNYftMNtUYg3bIsKCCcHYYqQ/JrJByvL8NgPq5LWnyme3+7kbb8JGMeHXe4q+
-         YAzwt9JZujOfr5MEDVflV0uiYAXuoXW0779b2dIBgrSTrr23ocGwR5Og5sJ4CYMExVD8
-         F//fdIVAF63LC9a2ZZfvVyiscPhWEr9Dv6Fvqg0NtXgsq8SlD6bRTtvMj4f6cFG5wrRe
-         c0f3SbZGXb8LwTXz//jj373o7MMbhy32WbqwB7BshXXfnQGK8pPeYzR7CopqxYvzz8/x
-         M384XSohKo12Ef9hkokfXUYnyLXpIlIC2o20poR3tH/E5u2JzNoLwS/29C3GeULbV1aZ
-         NyUg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Yhu41YPt;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: mehmet.fide@gmail.com)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-393c40246afso115297551fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 01:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779789888; x=1780394688; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BPo6h26TRdKYEejV73OUVD39qASIiM14JIdoZaajsSA=;
-        b=U43mm8Nf3xKdm1ZS52A4stXROQgJv1KjQDdB6xGB+AyNK/RYeD7SxjWXgU/msPtv2+
-         o72ck1Seti2H1hS8KsRpeu0tPefTiBprVuxdQyqsFGSkJkOzD8pIOyd7T04GO5rj6Fbq
-         +bE3svB7rkIOfPKMN2WzcBAbik2fOZrF8JT8+RFKFcM5XiSDHeABR8t5/tpfZAjlVU4n
-         Ra9Z/Cuj7H6fHBpCjFT/A8OZvF0u7XyJYL+pwBync5vBm/2Ra+HWJQyv4ghaSlUPOUgE
-         muO/qX8mFixtVkBW8i/5hP7ZKjHWivQI93bJ5JnYMpfqrru1bUE5TZy4S2XHTfiwl6NN
-         QZSQ==
+        d=gmail.com; s=20251104; t=1779783141; x=1780387941; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FWq7cLOLGFigAXOhf3OsuEXvXehhZpgYszTPZForeIo=;
+        b=Yhu41YPtII/yUFWbXeuDbKHq6N41csWcESeSpc/FihCcvarnOqixftM7s6uRj08dOz
+         AZP2cDGot5Wz7TTBJzmGzGC7rYFzR7w7F71jD0jrBHl/LvNVOFLIY3y7N523WuBIIoqI
+         C/19m0uywtt2GjmGcfx6dkf7j2fWTY+HiKv16Pz6sMgaFybl+cb/FzBg1t59FeIXOfyE
+         snWu9OokefgALhupkKJ74L+D/YPG299q8GJNJaF102cGq4go9VCk0u3DTpG52iqikAhd
+         01wN+OP+Fhz1s5nd3/+pKxjpIF/xNqya+xAkdDy1BDTZj2J6X1+vrgIKd6xDCqh9Fdd0
+         3eJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779789888; x=1780394688;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1779783141; x=1780387941;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BPo6h26TRdKYEejV73OUVD39qASIiM14JIdoZaajsSA=;
-        b=X8mFdhC4ZvzdlEpFj19F0rjARGLtFAWndrNBCvheSH6fqgcR8paAKijOzhSWMuLYHG
-         HDKNwGLsP7bPLv56NUFYyxZAUO+xagtZu1QFmJ+BxOJ1a353Ewu4XiClNBsRs+BvErVn
-         XVoXJfPH3TIzNO1mupIriJzHY3SEWPtTZlLdnhmKhrT2Ruo20u8BD7wsAmXIL8+M5DE+
-         UKQZFMIj4XES/t8z2d27uVSi2QQIzjmlVpL2cFgHvfCWdXvyi6oOeBx0qWM9XII2yqMu
-         3+nABcwdvqlerAgU4sPQnL8Hn++qxJwF0u0P+j4vxmHftuZE3xjcKWYRWO0KAuPna2IL
-         aYpw==
-X-Gm-Message-State: AOJu0Yw9PER6ie1z1MLTbnmhlzYemgfumJvwuvczzmS6Nz8wNSC0lgSS
-	CTSh1e1sFOkgVa0y9nOfwrhDW5wcWtQmlfz0tiCx2Qwm2i5SauwwXC3DLvkRXcrpykrUI/L15eF
-	+b93Sj7ipGr/Hj4sM6mRZfOJquj2kEf4=
-X-Gm-Gg: Acq92OGGCbYVHZgBaacOC3CtzcWzFWQs9mMLoWQeBnhlZqbVCutf4tR0P6gVNB9eVJ/
-	9dLdLWi76znAmClYMjl8sj00/ItcB4Jdjx/P+D5dX2Tf1zBDGbawXaKBYVH21SDySSLltf9wdA6
-	RglvTQXdiU2ufGwc7gv1id8/Iw0amBXMRNKBXSxovVM94pb+xJhJjitAVNHdqFwwz3FcHEpkkqm
-	siOchR9ABDn80hHrDJCX/4aOqiE2uZVNjBS6x2lLyic7S5OIEXOPIuMcMP/Bvejfxd/vN/sLQjd
-	1DO4tg71U2cAz1s5pHGm1R7OXt4056PCCutiTlLUGw==
-X-Received: by 2002:a05:6214:212d:b0:8ca:1dc6:9e23 with SMTP id
- 6a1803df08f44-8cc7b59a3fbmr309695776d6.30.1779789888524; Tue, 26 May 2026
- 03:04:48 -0700 (PDT)
+        bh=FWq7cLOLGFigAXOhf3OsuEXvXehhZpgYszTPZForeIo=;
+        b=rrliVxe7Gu3KL3qYZ7cLeHky/WQ2+gGNrLG1vZH1VoVC9SX60j4BKFHkiFT5m7QnTE
+         dznMC49Md+IFQlKKUOPR4fbzHOHBAoKGFlN2w18ZqWRO1kmZEsPmD6V//OuDwqcMyCyL
+         z00hcfNf6jLfLKPzX+iIE5dybyMCjrN+40CcFyzzXHEqzfqhokgGG3MYC/3ZOQHrYCAo
+         MueK6pButUqGpAPQl1Qe2XTN8T/49bpmt9a5w+TF1O9xdV4WNMU5Vfohpe5CvTMQJec2
+         XnSu/S5g2fwXEymDbK5Tqfy6Gi6X6kHT5zplOGd8C0LPv1Ipm8yAms7I8FGyvfqrf+zd
+         Hn0w==
+X-Gm-Message-State: AOJu0YyLsw7UgkX2h2hmAKVhJXPLz+bxUhXiA39CPdq6RmwGW/BXznVx
+	DSiq30CKyZMKMvCWqYy4aQ5joo/ElgOsCF2JxbGX9L9tW+2yUIoI5Vpt4QriFSaf81o=
+X-Gm-Gg: Acq92OERlmPBu/JxKbH0ZUmMg2yPSpaIbbEQogJENr0/rHm3mUDteQAEKsW6oD8S2cm
+	cruqJSun6Q/35uquEYgfdzsOy518MjI7vZ2jnAQut8L5RsBoYtMdphQ8zAGYO115EpKCbeqG94F
+	GS6eXc8A6UtDYGA9okiC7IcoKN6nBPfO+qYwDw3t7A1TzCbZUf/CSZysO/hiSaFsXwx8UmGVvUh
+	pOhYyEXdOjsIsoRcgNjJnqMeWUc/BXeHyl4/cIRyyC4mewH+0lF1EZmkY1/GGIewk6QhzSVJmk+
+	JiZ2jES+VOnYttcSMb0tvtwxHiDZ9DzKalyhPZArN0wQbVKg1CH5kzAWV9lqMcTKtqxuqUrMWtv
+	DpUXC9TSgNysh5UOui8s4wuz2YrYT+qfgh4I0CjEGxC0Ts/+QHNBUHkqKl+tiQkeHFpy23n9lPG
+	h/TZq9OkfNE/jiV41TCSFXr6QysGR9GA==
+X-Received: by 2002:a05:600c:628f:b0:490:5057:f602 with SMTP id 5b1f17b1804b1-49050580d79mr230470115e9.17.1779782755547;
+        Tue, 26 May 2026 01:05:55 -0700 (PDT)
+Received: from deb05.proceq.com ([213.160.61.66])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4904526ca50sm283974465e9.2.2026.05.26.01.05.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 01:05:54 -0700 (PDT)
+From: Mehmet Fide <mehmet.fide@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ross Burton <ross.burton@arm.com>,
+	Steve Sakoman <steve@sakoman.com>,
+	Peter Marko <peter.marko@siemens.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][PATCH][walnascar] cve-update-nvd2-native: re-introduce CVE_SOCKET_TIMEOUT to bound urlopen()
+Date: Tue, 26 May 2026 10:05:53 +0200
+Message-ID: <20260526080554.674948-1-mehmet.fide@gmail.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-References: <20260525013402.3744277-1-rong.fu.cn@windriver.com>
-In-Reply-To: <20260525013402.3744277-1-rong.fu.cn@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 26 May 2026 12:04:35 +0200
-X-Gm-Features: AVHnY4IpGmE6blqB-Y4pwmR9-xlBs5cYum4oaC30WQAEYCfvee8LPvXHDlEeC18
-Message-ID: <CANNYZj9RnX0Q=eGSH_6SgNPX6pS7PtE9Ri5DwfnMgQMgD7eXJw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] perl: Fix ptest failures
-To: rong.fu.cn@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 10:04:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237594
+ <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 10:19:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237595
 
-On Mon, 25 May 2026 at 03:34, Rong Fu via lists.openembedded.org
-<rong.fu.cn=windriver.com@lists.openembedded.org> wrote:
-> Fix ptest failures:
-> /usr/lib64/perl/ptest/perl_langinfo.h:8:10: fatal error: xconfig.h: No such filey
->     8 | #include "xconfig.h"
->       |          ^~~~~~~~~~~
-> compilation terminated.
->
-> ../../../../reentr.h:124:16: fatal error: crypt.h: No such file or directory
->   124 | #      include <crypt.h>
->       |                ^~~~~~~~~
-> compilation terminated.
+From: Mehmet Fide <mehmet.fide@screeningeagle.com>
 
-Can you please explain how to reproduce and observe the issue? We do
-run perl ptests on the autobuilder and they do not fail like this. Is
-something enabled in your build that standard poky doesn't enable?
+The fetch task calls urllib.request.urlopen() with no timeout argument, so
+when an NVD endpoint accepts the TCP connection but stops sending data,
+the call blocks forever and the existing retry loop driven by
+CVE_DB_UPDATE_ATTEMPTS never gets a chance to run. We observed worker
+processes wedged for over an hour on a single recv() syscall before the
+build was killed manually.
 
+Re-introduce the CVE_SOCKET_TIMEOUT variable (removed in commit
+d6d94eed1e "cve-update-nvd2-native: remove unused variable
+CVE_SOCKET_TIMEOUT" as it was a leftover from the JSON 1.1 feed) and
+plumb it through update_db_file() and nvd_request_next() so it is
+actually honoured by urlopen(). The default of 60 seconds matches the
+prior historical default; users behind slow proxies may raise it.
 
-> --- a/meta/recipes-devtools/perl/perl_5.42.0.bb
-> +++ b/meta/recipes-devtools/perl/perl_5.42.0.bb
-> @@ -104,6 +104,7 @@ do_configure:class-target() {
->      #the others in config.sh).
->
->      sed -i -e "s,${STAGING_LIBDIR},${libdir},g" config.h
-> +    sed -i '/^#define.*USE_CROSS_/d' config.h
+With the timeout in place, a stalled NVD endpoint produces a clean
+exception, the retry loop runs, and after CVE_DB_UPDATE_ATTEMPTS
+failures the task returns False and the build falls back to the
+previously cached database (bb.warn, not a hard error).
 
-This also needs to be explained. Why is this necessary? What does it
-do? Does it affect perl build in general, and how?
+Signed-off-by: Mehmet Fide <mehmet.fide@screeningeagle.com>
+---
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-Alex
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+index 32a14a932b..271679b7bd 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -34,6 +34,12 @@ CVE_DB_INCR_UPDATE_AGE_THRES ?= "10368000"
+ # Number of attempts for each http query to nvd server before giving up
+ CVE_DB_UPDATE_ATTEMPTS ?= "5"
+ 
++# Per-request socket timeout (seconds) for HTTP queries to the NVD server.
++# Without this, urllib uses the global default (None) and a stalled connection
++# can block the do_fetch task indefinitely, preventing the retry loop driven
++# by CVE_DB_UPDATE_ATTEMPTS from ever running.
++CVE_SOCKET_TIMEOUT ?= "60"
++
+ CVE_CHECK_DB_DLDIR_FILE ?= "${DL_DIR}/CVE_CHECK2/${CVE_CHECK_DB_FILENAME}"
+ CVE_CHECK_DB_DLDIR_LOCK ?= "${CVE_CHECK_DB_DLDIR_FILE}.lock"
+ CVE_CHECK_DB_TEMP_FILE ?= "${CVE_CHECK_DB_FILE}.tmp"
+@@ -134,7 +140,7 @@ def cleanup_db_download(db_file, db_tmp_file):
+ def nvd_request_wait(attempt, min_wait):
+     return min ( ( (2 * attempt) + min_wait ) , 30)
+ 
+-def nvd_request_next(url, attempts, api_key, args, min_wait):
++def nvd_request_next(url, attempts, api_key, args, min_wait, timeout):
+     """
+     Request next part of the NVD database
+     NVD API documentation: https://nvd.nist.gov/developers/vulnerabilities
+@@ -153,7 +159,7 @@ def nvd_request_next(url, attempts, api_key, args, min_wait):
+ 
+     for attempt in range(attempts):
+         try:
+-            r = urllib.request.urlopen(request)
++            r = urllib.request.urlopen(request, timeout=timeout)
+ 
+             if (r.headers['content-encoding'] == 'gzip'):
+                 buf = r.read()
+@@ -216,6 +222,7 @@ def update_db_file(db_tmp_file, d, database_time):
+         url = d.getVar("NVDCVE_URL")
+         api_key = d.getVar("NVDCVE_API_KEY") or None
+         attempts = int(d.getVar("CVE_DB_UPDATE_ATTEMPTS"))
++        timeout = int(d.getVar("CVE_SOCKET_TIMEOUT"))
+ 
+         # Recommended by NVD
+         wait_time = 6
+@@ -224,7 +231,7 @@ def update_db_file(db_tmp_file, d, database_time):
+ 
+         while True:
+             req_args['startIndex'] = index
+-            raw_data = nvd_request_next(url, attempts, api_key, req_args, wait_time)
++            raw_data = nvd_request_next(url, attempts, api_key, req_args, wait_time, timeout)
+             if raw_data is None:
+                 # We haven't managed to download data
+                 return False
+-- 
+2.54.0
+
 
