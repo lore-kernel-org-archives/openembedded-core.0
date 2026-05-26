@@ -1,99 +1,139 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E4A0CD5BC8
-	for <webhook@archiver.kernel.org>; Tue, 26 May 2026 12:27:18 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.35843.1779798430253042227
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1EC5CD5BC8
+	for <webhook@archiver.kernel.org>; Tue, 26 May 2026 12:37:43 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.36005.1779799054743001796
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2026 05:27:10 -0700
+ Tue, 26 May 2026 05:37:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Laqsc4DX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49041fb8c23so33123865e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 05:27:10 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=PcRyK80V;
+ spf=pass (domain: mvista.com, ip: 209.85.214.181, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2bea7176c72so40044585ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 05:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1779798429; x=1780403229; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Or/Pz20YAi8GByR815C1M0temL/9RWgLSG7pqytAi40=;
-        b=Laqsc4DXIcxXUvCV0MIiTHxamqWaPA8tklHkq9qqbJNGTSukeXqoBn+KCZQRy6VmQm
-         VqJ7ynWEu+WQ+PH8RnmDJ2N8hlpNWytBvNb6QcMixSx8ZPoKr38LRZCz30balHEoWV2p
-         xue599Xp+eQRAO5Kb1JlrA2S4K8gHpUV+KTZs=
+        d=mvista.com; s=google; t=1779799054; x=1780403854; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4klIPvUehQAE1ODbedASFOeK3J0nfRY/vDTiekYu0Ek=;
+        b=PcRyK80VwFhlWEOuZIfbMO90rk5Mp+r4Y0Ij60harZ+sU2KdBFV2Pq/n39EC7w/ESs
+         z1LI9AytK1O8ThR6goQQq+28XYP4NAIC0+OgFhnxHBF0Cu/E2JcNiZ4Cjs3IA2amJ4Gw
+         PtxETAj1kUkp9AN3/+Eqv4EJcbbFQGsQBZxF4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779798429; x=1780403229;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Or/Pz20YAi8GByR815C1M0temL/9RWgLSG7pqytAi40=;
-        b=euVXJQH3nt+4Ol/H3cd513URlySXYqxds8gWa2hhjD8Kbb/IsT9InKkZBYm3xoEqnF
-         42XyGzNYeY7oRf679Ue3kuDt6UdsPJlDPqgOfNj9RbxnqjtL9vKnOy9bOn4HpVqGJMdn
-         XJpg/Ohm7xKedJleeE4h4FSRGRF5ZvaSndVlGQHiuQQ0CoNzp4SKmHhrFJRy9Wy1sj/h
-         sPubmwU2AG2ETd0dp3KiVb1UXiwDRg3Qvh51ZBJdBJ+ZGsTGBQi9bOxdTiAxsJkYrrW0
-         xsbiIDebfimWRoYqT5DMrzEJOJFAJtpYf/Oyf34S4NiEBVChqiTknQqERhFj/cbL890j
-         WI/A==
-X-Gm-Message-State: AOJu0Yz6kqloUW354c88AzFLo4zXedblTFdorSlGKsY4KL9AJsjPSf1F
-	3wqflxS2kQeA1myDHBwR6df1L/2IvQ/qAp2EJfFJjtPVJWCiBmPrKpFxk3cWAaZo5Glj/QfpeCr
-	GJS9A
-X-Gm-Gg: Acq92OH+5YXm8Cxow1TZPbhOFzKJ6jIhfqnhUScWq4rR59Ll2lRkn0N+VLWkPpopJEZ
-	FTDvgSbjESRyxpsTSzVQe14S+lC2NoL9nlBsT58K5FDVcNGbe8RAw4Hz+xULr8E1xFqSQxa1aGh
-	vK2e+JsVL4YYFjS02x8YjPWET/3masYOqLjGr9ISRBldFyzlAD0bxHBne/47ifZpkAdfT3hZW5a
-	krA2OmjSO8J2lZDe8jCN5RVCpVgaHc/OA68KvV8rVMisOXMhRffgpqm/x/twhr6A8974cXEJTgk
-	cQslZzIIW4RnbSgtlnpOC/RjAfeX9y3OY5tmSG9UhA5LmFLNb9QryHlzPMO3q0jzs1/SBC/eUMj
-	fZH4wXVjEyEeNNNXMfmdGALbf6KLRbeWZNRo2yYVxAvb04zqn+55hciT9DRt4GgujjJvVjP4ANy
-	wqHvdp1Pp1NfcvGFB/OG0IQ1K38IADuLwY4gR0peWv4qZM02WrLtuT
-X-Received: by 2002:a05:600c:45ce:b0:490:5cd8:d20a with SMTP id 5b1f17b1804b1-4905cd8d2b2mr153017605e9.11.1779798428588;
-        Tue, 26 May 2026 05:27:08 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:2e34:2d9a:782f:4147])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4904527526dsm356759945e9.4.2026.05.26.05.27.07
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20251104; t=1779799054; x=1780403854;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4klIPvUehQAE1ODbedASFOeK3J0nfRY/vDTiekYu0Ek=;
+        b=qJ6UsxL63ylSN4WrwXjAmU5cPw03Q+eUjR0q+KyGZzb6Dj+418L5XbaAJFnQRnA9IP
+         IuEAA9P/ehgrUvfyo8utv47bWvjEZUJf7QMTj1NPhrr0p2G1QyTsHrTqVNR+ULWqV7KY
+         yWQCcnCLrcV3Iw58wjdrd2qKIaLeiKYJJpXeSpptPwLnl1RkHudFrI9S1ZnGhbU+90BG
+         jID/zYmVa76eUdM5iGLtWrfcTi+AdePQxaCxR7zLNG7Kty8AMQ8gm3PUa13gvcxES5WO
+         Gh139LdIuL2rEFmq0AURUrIqnfXduWLCFJYeL6EAo83jRiPt/bagWnLdmanr+MGOgVS8
+         eh2A==
+X-Gm-Message-State: AOJu0YyZ6k80TYKwtHDi2RaZkfrmeFUr58NoyXF/UlIshOCESO83fM14
+	N2eAxZF10tQrTaUt4NiN33UDcU2yaESBLbkilNM835JvP7QeC5Sm3RAe5XhqwFUa1WdKZU4yufk
+	334ohFBE=
+X-Gm-Gg: Acq92OHq0Wy/M4cLxp9w77uXrgMSO72mCiWEhkh7O6JlfMO6hf1mfEnD7tHqPZlDunT
+	m9A4ZAXUkRM6mMrbfoCcFfE2asPicu+/IPw9kKCuO8xfCephFZ2UIekU3Z7W6pnBNz2+C5JgISo
+	eMN4c0CxRZsbGb3uNCJIJe1HsexxqG1YD35qMLRwoUqxH43Hmvlv97WzaSayxHrQcE8zzLL38fi
+	PoSMNGw9hFzK1nr99d43Aw9AEchOX0cd42lu6zwG1SiXzw3aDJaLKcoIMMQ+R2wTOdwHv3qn7OO
+	uVlbyHR63H7GsYlY8roLNjtHl8ZjhMaUZrVBsmjp+LJAvElNd5xSBBiKitzVwSIw4ankLMIVFd5
+	OQwd0j1VeDPEpMZZx3iA+ahE0WuCsxcnKftlmo5h3rS8q5X0YYzLVion8Zzk+Kyotcmhw9OrbU4
+	QcNfRUqDXwldrl4TehuvOnZe7HfsI=
+X-Received: by 2002:a17:903:3c0c:b0:2bd:612b:912d with SMTP id d9443c01a7336-2beb05e2d23mr195901575ad.14.1779799053908;
+        Tue, 26 May 2026 05:37:33 -0700 (PDT)
+Received: from MVIN00352.. ([2401:4900:1cc5:677b:4cba:fdd7:404f:c80d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb5900b8bsm121262685ad.76.2026.05.26.05.37.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 05:27:07 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Tue, 26 May 2026 05:37:33 -0700 (PDT)
+From: Vijay Anusuri <vanusuri@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] xwayland: upgrade 24.1.9 -> 24.1.11
-Date: Tue, 26 May 2026 13:27:05 +0100
-Message-ID: <20260526122705.4171028-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260526122705.4171028-1-richard.purdie@linuxfoundation.org>
-References: <20260526122705.4171028-1-richard.purdie@linuxfoundation.org>
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][scarthgap][patch] tzdata/tzcode-native: upgrade 2026a -> 2026b
+Date: Tue, 26 May 2026 18:07:19 +0530
+Message-ID: <20260526123719.211417-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 12:27:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237599
+ <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 12:37:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237600
 
-License-Update: The change was only to add a missing author, licenses
-are unchanged.
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+The 2026b release contains the following changes:
+
+Briefly:
+    British Columbia moved to permanent -07 on 2026-03-09.
+    Some more overflow bugs have been fixed in zic.
+
+Changes to future timestamps
+
+    British Columbia’s 2026-03-08 spring forward was its last
+    foreseeable clock change, as it moved to permanent -07 thereafter.
+    (Thanks to Arthur David Olson.)  Although the change to permanent
+    -07 legally took place on 2026-03-09, temporarily model the change
+    to occur on 2026-11-01 at 02:00 instead.  This works around a
+    limitation in CLDR v48.2 (2026-03-17).  This temporary hack is
+    planned to be removed after CLDR is fixed.
+
+Changes to code
+
+    zic no longer mishandles a last transition to a new time type.
+    zic no longer overflows a buffer when generating a TZ string like
+    "PST-167:59:58PDT-167:59:59,M11.5.6/-167:59:59,M12.5.6/-167:59:59",
+    which can occur with adversarial input.  (Thanks to Naveed Khan.)
+
+    zic no longer generates a longer TZif file than necessary when
+    an earlier time zone abbreviation is a suffix of a later one.
+    As a nice side effect, zic no longer overflows a buffer when given
+    a long series of abbreviations, each a suffix of the next.
+    (Buffer overflow reported by Arthur Chan.)
+
+    zic no longer overflows an int when processing input like ‘Zone
+    Ouch 2147483648:00:00 - LMT’.  The int overflow can lead to buffer
+    overflow in adversarial cases.  (Thanks to Naveed Khan.)
+
+    zic now checks for signals more often.
+
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+(cherry picked from commit dda7d55396e0c5258cba58af7e990ab3813bf108)
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../xwayland/{xwayland_24.1.9.bb => xwayland_24.1.11.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xwayland/{xwayland_24.1.9.bb => xwayland_24.1.11.bb} (93%)
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_24.1.9.bb b/meta/recipes-graphics/xwayland/xwayland_24.1.11.bb
-similarity index 93%
-rename from meta/recipes-graphics/xwayland/xwayland_24.1.9.bb
-rename to meta/recipes-graphics/xwayland/xwayland_24.1.11.bb
-index b12b0d0cc70..477db6f8c43 100644
---- a/meta/recipes-graphics/xwayland/xwayland_24.1.9.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_24.1.11.bb
-@@ -7,10 +7,10 @@ a way to run unported applications in the meantime."
- HOMEPAGE = "https://fedoraproject.org/wiki/Changes/XwaylandStandalone"
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 71b034d158..a477437066 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
- LICENSE = "MIT & Adobe-Display-PostScript & BSD-3-Clause & DEC-3-Clause & HPND & HPND-Netrek & HPND-sell-MIT-disclaimer-xserver & HPND-sell-variant & HPND-UC & ICU & ISC & MIT-open-group & NTP & SGI-B-2.0 & SMLNJ & X11 & X11-no-permit-persons & X11-swapped"
--LIC_FILES_CHKSUM = "file://COPYING;md5=21e33dcccf2d5034f798a8ea62622939"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=f8778cfcd90ece0e4b225f30182227ca"
+-PV = "2026a"
++PV = "2026b"
  
- SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
--SRC_URI[sha256sum] = "f297af27a84508db9b80d1cbbcc69c3801da38eb64c72f3b5b50f582459afdd0"
-+SRC_URI[sha256sum] = "27115a1a8819078409bf6fecfeb7724e8137bd36426de7005a5b3aae0a2138ff"
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
  
- UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
  
+-SRC_URI[tzcode.sha256sum] = "f80a17a2eddd2b54041f9c98d75b0aa8038b016d7c5de72892a146d9938740e1"
+-SRC_URI[tzdata.sha256sum] = "77b541725937bb53bd92bd484c0b43bec8545e2d3431ee01f04ef8f2203ba2b7"
++SRC_URI[tzcode.sha256sum] = "37e9ed8427f5d3521c22fc58e293cbfb043d70eedf1003870b33f363f61ca344"
++SRC_URI[tzdata.sha256sum] = "114543d9f19a6bfeb5bca43686aea173d38755a3db1f2eec112647ae92c6f544"
+-- 
+2.43.0
+
 
