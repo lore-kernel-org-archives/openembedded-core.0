@@ -1,247 +1,100 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 732CCCD5BD1
-	for <webhook@archiver.kernel.org>; Tue, 26 May 2026 19:33:39 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4344.1779824014625463234
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD920CD5BB1
+	for <webhook@archiver.kernel.org>; Tue, 26 May 2026 19:57:19 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3740.1779822227317478582
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2026 12:33:34 -0700
+ Tue, 26 May 2026 12:03:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=kuyv8LBH;
- spf=pass (domain: baylibre.com, ip: 209.85.222.176, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-914cf9248ceso271906885a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 12:33:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=R8cQ5aen;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: leoreis.costa@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8b5232009a6so155588186d6.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 12:03:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1779824014; x=1780428814; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wh5zO5eMw6EF2svQ49U8kHpnlE3VQeKYz8FEUFx2/x4=;
-        b=kuyv8LBHGd2EbukvpBrBPsd6vEwJeQz0a4F+wZUqLwKHfE7Aqjf2Qe3uJ9/fDtP13/
-         vSWTmWgXbcO9YcSAkI5mrAOw7G5psXqZm3OKlkUfdlIA+pSUWIPzGaZ4fh/3E/mhry1n
-         b9Dp9rV0KNtBx9+HkSawTAs2dldwAdB3+XyzWLOwFVdtVfOgqeL1I/m8RHqbh33a9fCS
-         EVMvBMdZlAbZBUxJaaYvdua5QzT0Gp11FNtFyBwRSLGanEW15/fSCS9nnaFAr0Zp0eR1
-         S+QRMBEjdnwD3zVLo9L7lg8X6VcRbR2QrGf6hnJpfn+/eEo732y1umd4ubN0/uYtMy/u
-         J8Dw==
+        d=gmail.com; s=20251104; t=1779822226; x=1780427026; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=frVAXyT1Hdpv2Z4FLJ7Z1cL8FR/h9uxeaVoRely1hcs=;
+        b=R8cQ5aenNpTGW4E1mLHgtzkI/n/hZOAlT2mQcwjYmMwLY+v8RTyEBbPpGQc+KyT4XV
+         7f7683He1mdNUQl/prfSY1aahers1VG9bYedgeJMI/btHFIFNYXSwZHB7SBxjKHtaMwQ
+         xNeH+22OvDUM240wvPQl0ISp+wJ1UimR8NbIMjP8wiJynDndRE8PJb/tawIhzTgBXK++
+         Moq25OAsUS7ifsFshVpAYkOFBhlvRMicvXqgt9qTWcJ7kBo9TUxIZrLQ4TY67w1Jt+gF
+         t4M/KMLTW+6ocaGUNJwivrnrFDR1+oFv05G0aigNO8P7kTL6Wi5vPQojMD1xC46pX0q5
+         e8Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779824014; x=1780428814;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Wh5zO5eMw6EF2svQ49U8kHpnlE3VQeKYz8FEUFx2/x4=;
-        b=EzM8slCEK31+vrkxM1NoOxgcXXasdPd6tGN29gXDBSKgyhh81YaEjnMBzEq2NOG5Lg
-         MgytVgEpCNDcD4lvPAbZwnvtJgG4u2KLeL+gtA0rB1Sz4n7si5b9aZ9FehMq6rc0FzKO
-         ci+8hwHU/gpad8VbuEch2zBVw/gLYKEBGkldb+2Rv3xfDE+tLIN+E8NIYVhHM3RFJCuL
-         luTCnAZt3u65FCmlLtA5evMKgR+RixV6HimjLJz85Md8DOwHMQyWhV/7aLPQs5ZIbn1b
-         TzyvCSYQxrUfEQgSf+JvBIk4BXU7byzjiU4XulmjHh8oJZdAekVzZFP7euiLLlQ3dPxd
-         MTOw==
-X-Gm-Message-State: AOJu0Yzjf95ychHJ6A7lTJQWZDEdC+XvJqZ2fJjQg8cLGJPhinvkox8R
-	SUIAW2dlqEdkPaTBtB3YRmzZiIHY0xALHlmeHDHBO1U5Q9KsbebjqchQ5iqEKE/yJAfvrr0ztDu
-	Kt2J5H3E=
-X-Gm-Gg: Acq92OFMU6wQIDGVl0hGH3MY1vXGCwVghPvN7BQ3ENAgby0NTSNzcxp8cth0GTdJZfg
-	FvyjEhvOiZKoCJdkycF8oMisdP2nft1uuxVDpzP8m/2dEZFAX460A6ozXBIxiekdSaI91bfcJlR
-	vJcNkd8ozXBNV4M3Tk+7Ym/iqsFh2iHsjw+VMb2gSZZ+myl4se2jzjZjx90X91pjDav5HzSPYB4
-	lQmsU19x4j9aMQrDaA/y9RESifdlEnLPlAEER/67MEZclXC5iIA4vlAgZJwIsAZ0XQLtOsNzVTF
-	QTGBitbRQUlifT3zBWsGNWPFrhjB6id6XniUY0bqNuRiBNIUcQh0Ax6XAICrSVPLx+eTc4FdzdS
-	ksDClRlTO69gMVF4+EqqS09Uw0ZOF+smZQcrzajew9drYaGrn0RwGFUP2k7xuXbqwMIkX9ht3fo
-	BvVgstpxD/izZfAPOL1g03i5l6CNWrg8e95nSJE+HfnKUtjOY=
-X-Received: by 2002:a05:620a:2794:b0:90f:fdb3:b752 with SMTP id af79cd13be357-914b4934c7cmr2844477285a.17.1779824013499;
-        Tue, 26 May 2026 12:33:33 -0700 (PDT)
-Received: from localhost ([2001:1970:3847:e000:537:a9f7:1a84:f246])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-914f87d2060sm297631885a.23.2026.05.26.12.33.31
+        d=1e100.net; s=20251104; t=1779822226; x=1780427026;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=frVAXyT1Hdpv2Z4FLJ7Z1cL8FR/h9uxeaVoRely1hcs=;
+        b=HL/TcSBGWCHxLS1lDO0iXRRMy1SaJdeStss0TNdGhCeNWpxkLWJi/ynV0C8NzoCoXB
+         ACiXUn29EzF5zhSyYI7Z/788MgInCEopuDmcePD/Gh5uRf/kET9JBbFkUZw/lco+pGZd
+         ofr8gtXx0wWwkmvhB2DxpeQ3N06QMECSdrL/xfcLJbP3R2fnJqy5mIO+Wv5dv3yeUjrG
+         OMvx0vUj9J9SFav33XbnaAizk/viuluvoasT+KxMgfUeBRkXKB6ViH34hmR+w7qn6UK/
+         OYsmrT6KYhfKU8w+OrTAd8w0uTLpAzNN76ynHAC7rcnswMcobjoj+yHld4G5YhBJrkYb
+         tMMQ==
+X-Gm-Message-State: AOJu0YzNO6dSL/WM/DFk6078ZplAqeNNEc1TvrRENaZIiXZXdRlqDReT
+	t2VaCn+cVzHChadsrUyJOFJK4CExM6JCrEhZtdweb1S0a5KmK8FrRc3LdJB6PZUQPcc=
+X-Gm-Gg: Acq92OHtpfjaxFowdpYc2N6zGY3xWlkh9Meg8oNj3GxdQNdm9uheIfqnQZqSO0PYy4M
+	cXSjnMY+nNhq/CUc63rBNxKF41t1842N67bKC3yNOZF55EsP2QGV9Cqp7ewnlyWOdqg/PuSPoGY
+	0i+zpFfPmU4n/sokcHEQZhG4NWybXzEwf7Q64n+/Bqlt0DBgkeiMEVAFD1gyAVwDIsH2MIHUrTs
+	Hd8dJ2c7iH7E2gqTcocIIFeGaMvx8QYlCXFEgS5xYqqszZ8JAxYKX5TNS6yjAxZObmQUFiirEVQ
+	8kg5MiLMyltFlHEfwkAj6ozeQbXRt4GPaAIF1uWNZyzYeBYdfTSu1ZxIkIfO+E2nq+/2ZaGvUPo
+	ntIS7TK4eyik10kHHejBT+TkVnOeiN+2dr477E+h8VP3NEovSNIlsUJZz1xz8lHvDlrFbmZ5FN3
+	HgmcaFdy2LsebbVwE7wWl5XkaRjqF7nO4hmDj3nWKa5gtqml+XIxn3OJIX+ebfwPfQJ4KCn87a5
+	3a0Nyu9ZQxqQIn524vxj8s3NrxAbQVpzzFvUR79Bhyb3epZwOhiu5rNSpbesw==
+X-Received: by 2002:a05:6122:181b:b0:56b:7023:1393 with SMTP id 71dfb90a1353d-58662da893amr12163886e0c.11.1779821798013;
+        Tue, 26 May 2026 11:56:38 -0700 (PDT)
+Received: from leonardoc-nb (201-68-197-52.dsl.telesp.net.br. [201.68.197.52])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-586f23ee48esm17225359e0c.3.2026.05.26.11.56.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 12:33:31 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
+        Tue, 26 May 2026 11:56:37 -0700 (PDT)
+From: Leonardo Costa <leoreis.costa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: yoann.congal@smile.fr
-Subject: [OE-core][PATCH 5/6] patchtest: tests: base: add helper functions, cleanup
-Date: Tue, 26 May 2026 15:33:16 -0400
-Message-ID: <20260526193317.807459-6-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260526193317.807459-1-tgamblin@baylibre.com>
-References: <20260526193317.807459-1-tgamblin@baylibre.com>
+Cc: leonardo.costa@toradex.com
+Subject: [RFC] Bootloader components missing from image SBOM
+Date: Tue, 26 May 2026 15:56:33 -0300
+Message-ID: <20260526185633.24403-1-leoreis.costa@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 19:33:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237623
+ <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 19:57:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237625
 
-- Encapsulate the package name acquisition logic in _find_pn()
-- Simplify the _getvar() function used across the test suite
-- Drastically shorten the get_metadata_stats() function
-- Reword and clean up some vague comments and typos
+Hello all,
 
-AI-Generated: Uses Claude Code
+We are planning to release SPDX SBOMs along with our images to provide package
+information about the software components that make them up.
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- meta/lib/patchtest/tests/base.py | 112 ++++++++++++-------------------
- 1 file changed, 44 insertions(+), 68 deletions(-)
+As it currently stands today, bootloader components are not included in the 
+final SBOM generated for the image. In particular, for our machines based on
+i.MX SoCs, the imx-boot container, along with boot components (ATF, SECO, SCFW)
+have their SPDX files generated in spdx/, but not included in the image SBOM.
 
-diff --git a/meta/lib/patchtest/tests/base.py b/meta/lib/patchtest/tests/base.py
-index 8263932dda..30c207f016 100644
---- a/meta/lib/patchtest/tests/base.py
-+++ b/meta/lib/patchtest/tests/base.py
-@@ -133,18 +133,17 @@ class Metadata(Base):
-     def setUpClassLocal(cls):
-         cls.tinfoil = cls.setup_tinfoil()
- 
--        # get info about added/modified/remove recipes
-+        # get info about added/modified/removed recipes
-         cls.added, cls.modified, cls.removed = cls.get_metadata_stats(cls.patchset)
- 
-     @classmethod
-     def tearDownClassLocal(cls):
--        cls.tinfoil.shutdown()
-+        if cls.tinfoil:
-+            cls.tinfoil.shutdown()
- 
-     @classmethod
-     def setup_tinfoil(cls, config_only=False):
--        """Initialize tinfoil api from bitbake"""
--
--        # import relevant libraries
-+        """Initialize tinfoil api from bitbake."""
-         try:
-             scripts_path = os.path.join(PatchtestParser.repodir, "scripts", "lib")
-             if scripts_path not in sys.path:
-@@ -156,21 +155,19 @@ class Metadata(Base):
-             raise PatchtestOEError('Could not import tinfoil module')
- 
-         orig_cwd = os.path.abspath(os.curdir)
--
--        # Load tinfoil
-         tinfoil = None
-         try:
-             builddir = os.environ.get('BUILDDIR')
-             if not builddir:
-                 logger.warn('Bitbake environment not loaded?')
--                return tinfoil
-+                return None
-             os.chdir(builddir)
-             tinfoil = bb.tinfoil.Tinfoil()
-             tinfoil.prepare(config_only=config_only)
--        except bb.tinfoil.TinfoilUIException as te:
-+        except bb.tinfoil.TinfoilUIException:
-             if tinfoil:
-                 tinfoil.shutdown()
--            raise PatchtestOEError('Could not prepare properly tinfoil (TinfoilUIException)')
-+            raise PatchtestOEError('Could not properly configure tinfoil (TinfoilUIException)')
-         except Exception as e:
-             if tinfoil:
-                 tinfoil.shutdown()
-@@ -180,69 +177,48 @@ class Metadata(Base):
- 
-         return tinfoil
- 
-+    @staticmethod
-+    def _find_pn(data, path):
-+        """Find the PN from tinfoil recipe cache data for a given file path."""
-+        pn = None
-+        pn_native = None
-+        for _path, _pn in data:
-+            if path in _path:
-+                if 'native' in _pn:
-+                    pn_native = _pn
-+                else:
-+                    pn = _pn
-+                    break
-+        else:
-+            if pn_native:
-+                return pn_native
-+            path_basename = path.split('_')[0]
-+            for _path, _pn in data:
-+                _path_basename = _path.split('_')[0]
-+                if path_basename == _path_basename:
-+                    pn = _pn
-+        return pn
-+
-     @classmethod
--    def get_metadata_stats(cls, patchset):
--        """Get lists of added, modified and removed metadata files"""
-+    def _getvar(cls, path, varname):
-+        """Return a recipe variable value via tinfoil if available."""
-+        if cls.tinfoil:
-+            data = list(cls.tinfoil.cooker.recipecaches[''].pkg_fn.items())
-+            pn = cls._find_pn(data, path)
-+            rd = cls.tinfoil.parse_recipe(pn)
-+            return rd.getVar(varname)
- 
--        def find_pn(data, path):
--            """Find the PN from data"""
--            pn = None
--            pn_native = None
--            for _path, _pn in data:
--                if path in _path:
--                    if 'native' in _pn:
--                        # store the native PN but look for the non-native one first
--                        pn_native = _pn
--                    else:
--                        pn = _pn
--                        break
--            else:
--                # sent the native PN if found previously
--                if pn_native:
--                    return pn_native
--
--                # on renames (usually upgrades), we need to check (FILE) base names
--                # because the unidiff library does not provided the new filename, just the modified one
--                # and tinfoil datastore, once the patch is merged, will contain the new filename
--                path_basename = path.split('_')[0]
--                for _path, _pn in data:
--                    _path_basename = _path.split('_')[0]
--                    if path_basename == _path_basename:
--                        pn = _pn
--            return pn
--
--        if not cls.tinfoil:
--            cls.tinfoil = cls.setup_tinfoil()
--
--        added_paths, modified_paths, removed_paths = [], [], []
-+    @classmethod
-+    def get_metadata_stats(cls, patchset):
-+        """Return lists of absolute paths for added, modified and removed recipe files."""
-         added, modified, removed = [], [], []
--
--        # get metadata filename additions, modification and removals
-         for patch in patchset:
-             if patch.path.endswith('.bb') or patch.path.endswith('.bbappend') or patch.path.endswith('.inc'):
-+                abspath = os.path.join(os.path.abspath(PatchtestParser.repodir), patch.path)
-                 if patch.is_added_file:
--                    added_paths.append(
--                        os.path.join(
--                            os.path.abspath(PatchtestParser.repodir), patch.path
--                        )
--                    )
-+                    added.append(abspath)
-                 elif patch.is_modified_file:
--                    modified_paths.append(
--                        os.path.join(
--                            os.path.abspath(PatchtestParser.repodir), patch.path
--                        )
--                    )
-+                    modified.append(abspath)
-                 elif patch.is_removed_file:
--                    removed_paths.append(
--                        os.path.join(
--                            os.path.abspath(PatchtestParser.repodir), patch.path
--                        )
--                    )
--
--        data = cls.tinfoil.cooker.recipecaches[''].pkg_fn.items()
--
--        added = [find_pn(data,path) for path in added_paths]
--        modified = [find_pn(data,path) for path in modified_paths]
--        removed = [find_pn(data,path) for path in removed_paths]
--
--        return [a for a in added if a], [m for m in modified if m], [r for r in removed if r]
-+                    removed.append(abspath)
-+        return added, modified, removed
--- 
-2.54.0
+If I understand correctly, the SBOM is generated by looking at the packages in
+the rootfs, and recursively adding their SPDX entries along with the ones for
+their dependencies. In our builds, I found that U-Boot does get included in
+the SBOM, but in our particular case this seems to be due to the presence of
+libubootenv in the rootfs, which has the U-Boot recipe in its dependency chain,
+so the inclusion of U-Boot in the SBOM is only a side effect.
 
+I have not seen anyone raise this as an issue, but my intuition is that this 
+information should be included in the SBOM. Despite not making it to the 
+rootfs, these boot components are still part of the image. CVE information
+about them, for example, is relevant to users.
+
+My question is, is there any configuration that should be set to include these
+components? I couldn't find anything about this in the documentation or in the
+code. If there is no configuration regarding this, would a contribution to add
+components such as these be welcome?
+
+Kind regards,
+
+Leonardo
 
