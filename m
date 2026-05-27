@@ -1,276 +1,140 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3096BCD4F54
-	for <webhook@archiver.kernel.org>; Wed, 27 May 2026 09:39:51 +0000 (UTC)
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16677.1779874785718965105
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4A7FCD5BD5
+	for <webhook@archiver.kernel.org>; Wed, 27 May 2026 09:53:54 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16873.1779875634029238606
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2026 02:39:45 -0700
+ Wed, 27 May 2026 02:53:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=p59E3hwA;
- spf=pass (domain: gmail.com, ip: 74.125.82.48, mailfrom: rybczynska@gmail.com)
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1363e78746eso7108070c88.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 02:39:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779874785; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Xa/0SWvy2lUrWo5TNEqPSfjPCHB8OYBgwp5IUZTaFSDBLvvVHtslS7DfPXnfiFFods
-         5MIRfQ9cbTqYumEn+mwUDTpsKSIcURizZZ1c/BqyH/EhCv5vVPb5jEOdd8QbwVub7Yxl
-         OtepugwalT7ZQMuYGY3E99sYULiqE62YdjL3+CUjmi0zQvcSeLixMT/NJQMspapAuO7a
-         UbJNbCDTBpQaS4QWcdDAlm3qBbIovsjS+KlZupqN77RYj/bYrrjcZz/q3hlZNzaYVsqD
-         /bzAJfN1GWcpv1E/zn1M6mrFGB8fmee5IC1eh5TACQ0qkTV3C22tPBkd8z4XN+f2Z1fY
-         EZiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=nSSpQD1AvQIsj2zSfWtr0bQ3uffPuCrPYWNxr9dFksI=;
-        fh=TGF7TVa5Eshw5M6K2XLmjdIMKFhrsPaliuC+tv7wzuY=;
-        b=XMTsOQmQdx8rqhxrC9EDpw0gYMZcPZc3A5ZYn2F8A2RSRFgj8WXmueAfWgXB8yC1a2
-         /m6dKvel2HnAS1LXwXZODR+y4nrNeJsbA0qDHSJESQe8BwSPLEUg8Z8Bm6g8e0QgxvZQ
-         EDBLUyKeG+wKWQox588ijKlxQu/CKy2BGSIrMN6HzxjSsHb/1OzZsSXLUaf5ocRxBCg3
-         ON+SHFy6xwC7wwOMTGA/ZnwiPORDyE8AkBsf2CHLMzpJojNXfA24RFMXdXnpSvl7nIer
-         RsXs3oeF4XrsvwGiuvLfpSgQy2neUyf1qjrAYANPvjg1zmUy4kvZC/0VXyHuWckYINii
-         0LAg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=SAiwHwzz;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=PllU0+Kw;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64R9qxBW195641
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 09:53:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=0RyMnRzpjssW/mFLu9AoWc0e
+	d8vVdjZasZ2aVjxkI64=; b=SAiwHwzz6YZ2bU2IREaRY5prpwiVXVIX1l2P5N/k
+	5YbU+e+seI+g2fJnaiAcOiFuu9priSapSM1ZC59E0UtSVHnWLPTBLnQnDmk89Nna
+	1mS2gbM0J7ick3vOiw8r0kNs+Lb/tsV2T7PbZApj33yHyg3ZUzOsrWNNcXDZMs6x
+	8UPXRvP4IZ+BiRGSRjms+mMN6GSHdgHHjMuTtKau/BvQG+1B5rEGKwY1qtQ37ukg
+	02ALREPVPawFuTTneJ8+la6N1ubxQaeC07gYxC+5uDmhTkHXX+FcUqnRH85R+mF7
+	UZKG2twPBK7/DFMPfwLZkwrL1CrMu7ZinkS6FE70m7GMMg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4edxce8047-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 09:53:53 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50fb3403e99so64056391cf.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 02:53:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779874785; x=1780479585; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nSSpQD1AvQIsj2zSfWtr0bQ3uffPuCrPYWNxr9dFksI=;
-        b=p59E3hwAWuJv4dtnmxDQCevEDNLIdecCWMP8w0XLjNguwmCnr5mvF3DPaNime9Ww9c
-         6BU2IK/P5R1n+oP+9g5zaHY+Dd8LjN1pVkWjbzf/wdyeqKXp68QKsf8hvTAxrGkIz6Pg
-         3JO+pT9935DkgCOl+z+rk7Xdf+mvm+CD+R7ze8h/ll+6ED2vcgL3TcIig+3bPB5A5gCv
-         jf6JgsLQ9suszCgjOZJ6yKTum23/Aup9OgNSxq7uhTareoIU9id0qstsmGGok8a1I1+N
-         8Iy+eNSuihu+brsBo/OeHNJrR/874y4coaRMhvCD6wBbjeCkRZbtGRHoUd45mA6QHTaj
-         hpWQ==
+        d=oss.qualcomm.com; s=google; t=1779875632; x=1780480432; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0RyMnRzpjssW/mFLu9AoWc0ed8vVdjZasZ2aVjxkI64=;
+        b=PllU0+Kwnjx7+OysJxLegQW7MWkVO/TP9YMadKCbacg3XfySAk9REnk9SGexSMcekr
+         7NehaqR9/VGPdS5VQIzqv+FHZathSWaqYeQjED5wjwK7de5aQaR30PQKPnRgy8kX7NuU
+         qCCYgkefAQDPcmuzBHYGdALM52unS6qw60+4CLCQrHvqcBxp2JDIlaGv0sFb3zBXK07v
+         AIR9+UUd1/xiUxkTJjC7pS/dGY6Gwms6e6U9WooFe3Wln3xqKDilyhFeGBtkVj+Z2ORh
+         5ZkbtjqU2JPoRCDrHp/U4NVaVn5XIWaeyet1PBmXGCnBPfuyJqABX6OlTTR7liT7of2U
+         Lhzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779874785; x=1780479585;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nSSpQD1AvQIsj2zSfWtr0bQ3uffPuCrPYWNxr9dFksI=;
-        b=Pt97h3I/3grKw65bs9Q9pdIZpGslDo9WeQo8ncdHdGo5WescbjPZEARqCSh47MJSOd
-         XYJhDUyqOk5kADq6cj16eP8Sk7HChFU7eNUjoPiCJFdx6c6G4hHWjztjjdLrzadGl6qH
-         7bmUF74OS+jt71L+hji5w3q/8wRfdCPAeDRjB8c/a02Qo589Vo7ZRz2macz3dipSdhMc
-         axrQbqqbshJehR1uL4rK7u1NuETJ5SHmYBDqF/HJXb4ENYyz+YyKzdNTvWLiehHX7F1c
-         YvzofPoC9BrIsgjiOW2YPnZ34lUw2CHlYXofLsm9PHnFST9fw/qQXEOCwiiiqh+ZKv8f
-         BeLQ==
-X-Gm-Message-State: AOJu0YwgD5khfRenMAjUt2rEIELsuOiHEIEr2tG9zNuIj5Il/QmkWDbL
-	CHw1pnonJW0AxKXpd+hsvJ7jfDy6b4qlu6D9KRI3dyQ0Vw4uI9iYpAaowtOydSaNUv8W7UTDl1J
-	uKj0HdC49vk2A1rTc/YzM3L/fQFxqDms=
-X-Gm-Gg: Acq92OEiOrGb5nJ0j0GLerzrcPg0+ms0XPJFDRJVuzmItY+xK+B6YoLb4PlWJbK6zUb
-	l1cz3f0LdKQRnUGIyDXR9Ft5MSRbqGZuGHriZfnDxP0cw4essQsXeLju5Yf5tcvKjc6I1uC+HG2
-	TjBQVEScjNHtyNe2wdAI/KzDDfQexV/9zm1CBWHRABV42pU8R76t8Nr0ygqplV7652ylX/pb/tc
-	SHDLYVbVuNWCqtPnktl4O2L+tWHMeLOwe3msJ99DWa1mnAIWmnBiMU6fD9z/LiGSF0uo04GoPbS
-	ipWtDc4OVafj3fhn5XhNI6aWJpImQBAt5JhMSF04
-X-Received: by 2002:a05:7022:6ba4:b0:137:567:14c4 with SMTP id
- a92af1059eb24-137056719d4mr3645515c88.29.1779874784564; Wed, 27 May 2026
- 02:39:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260526094042.54135-1-marta.rybczynska@ygreky.com> <DIT9IRDXGA86.1L3TDJD2YLDWY@bootlin.com>
-In-Reply-To: <DIT9IRDXGA86.1L3TDJD2YLDWY@bootlin.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Wed, 27 May 2026 11:39:32 +0200
-X-Gm-Features: AVHnY4Ko_0c5urRMlqbp8_VRxNRmP-Aum2YfekZk2ijuCp_X8uabwv2TCQtXtlQ
-Message-ID: <CAApg2=TC4fuYR_3iPxTyA4osYq-t1VYannaid=Pa=wj3bTGQdQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/2] uboot-sign: sign SPL FIT configurations
- instead of images
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+        d=1e100.net; s=20251104; t=1779875632; x=1780480432;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0RyMnRzpjssW/mFLu9AoWc0ed8vVdjZasZ2aVjxkI64=;
+        b=Q/qNM0oF2stmYXAQXrCtjoI0rj8g+MMsFpbSTPvfv8plgcT4wLJtq/uON0o0DAU9jp
+         FLzEPW4e32s17ihdmhWjqy9kphjCQdd/MaAw2PMF6GUYV9WHXMQh5qSjrYZMHCBUOako
+         uoFbqyOC6pcNxFYJDbdP12mpmiXRxyqAlFc4HrTGUUDNweYzcPV5tl23OsbaTZV1LZNb
+         FM1CBug+ND0sRyuFS+czv7zBnH4x4/H4sTYQ5593kItj7C1b+4S5UEUN2bGFSpGyAhP1
+         SVpDDVmS25XcrnvIgyVH3Y16bvUb0zZRAGwdqtwTSDhp0ohjj05JNwJBsgrNrs0oZBpz
+         2P8w==
+X-Gm-Message-State: AOJu0YysLBqT8e8N1JrwmJbVj0Yqs6zc7SdvxONkmNIhrtnXtdriPR/w
+	fYw9BL+vICBumNrvC0JIroLmbrSzRtnBbPuvuaelLM4znk6Uc5RNHsi2cIEwNWshQO/GdyCUNBy
+	7B56QfCa1IyBvSTT+OrV1nmBYM743pKNM6Arrb1SiP0AQGQWhrIUxw9EjkNWtHwUMbwfJwzLGn2
+	8FIj0zFdlqSdrjPFFi3A==
+X-Gm-Gg: Acq92OHDQ7pLGAUa0te9q+PQztEp1cFAjxqAgRlP6nohPnsMeLM5rWtKmVdFMDXgYTM
+	yAfqD+az+hhxsIyGzSQWxFEMmusVuOCXD/cWdWyuxw8cJJtrqDNAcR/TVP3ex8AuKrTPOuBdwe/
+	zbWeU++61CRVkb9+hwfoNEgjIXkV/Pa2+1+jpZdtbE+Y4Pk7EjBDg97Ejw99iTH7K7F4onXkQcJ
+	gP2YbInwFxu3pEFpD/7YB6CZ8aLUOGoJa/RsK9ANxu6UDU6rHL0fYRBBlJ281F+I7Ps2fX8DTZA
+	Lc8mueg0nux4WrN5pqxsmSOQvNvxt3mtin9WVvYexG2/TJ/5tIwpVlm76XavHubsOHby3J4Q6qT
+	VQobsxxIiECrgRMV6aZGTcsKOKrSE/JC9aVHVbCtNcw5ZWDn9qlMawfeVSdYF6urYGjcWO3fHXD
+	DZsUVbdAfbGCIAHQ41SMLzsYDhlXhr7udwH4zv+dIwByoduA==
+X-Received: by 2002:a05:622a:134f:b0:50d:6b06:a453 with SMTP id d75a77b69052e-516d445ee68mr306779341cf.18.1779875632664;
+        Wed, 27 May 2026 02:53:52 -0700 (PDT)
+X-Received: by 2002:a05:622a:134f:b0:50d:6b06:a453 with SMTP id d75a77b69052e-516d445ee68mr306779061cf.18.1779875632194;
+        Wed, 27 May 2026 02:53:52 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-395dcc2c6e3sm35932491fa.30.2026.05.27.02.53.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 02:53:51 -0700 (PDT)
+Date: Wed, 27 May 2026 12:53:49 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Wei Zhang <wei.zhang@oss.qualcomm.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000004758580652c96464"
+Subject: Re: [PATCH] wpa_supplicant: Handle invalid op_class 255 in BSS
+ Transition candidates
+Message-ID: <qvdfgutqr7wpdkycvhkvexjl6nbkdaqtyyv5zdkor2ylivvewo@4aoqgsynvgca>
+References: <20260526083048.4122860-1-wei.zhang@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260526083048.4122860-1-wei.zhang@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: uQpJmbmmqflWUyhgPAz2GYg6nYyEgZXx
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI3MDA5NSBTYWx0ZWRfX/CHnbWMpblih
+ ha55yG7syL54BgkL+7vCmrsiGpyhuKOXQY5q4OGNWCydX9d5QIVHq2SeGBAUWoYH3y25FTqLP0N
+ 7ozYhYuRRrpYcLxFWT/L4YatAu7OslCCTf/5jssRN3Bmv9M/JrrybIB2Asq+UxaB/nGwvRawKL8
+ h7+Ve9aZ6GdeBVVr6e5hhmrehE5bKJ56iSFJ6B5A1v+JXMCA2PxFSqPc/vYQuLU/PYas4A//+EG
+ vsjbR6pX6H+h1AzXgKXKI5f2qCSvZgcD49Y73HhTCPvHNATgAi5hqeVPG6ZEcTiSb9WCs3n0Jux
+ NMhgUXbqEAGiUETBwIweWsP73f1WFIuPGSq9XkUdi6pV2BnjFynZWqUsIMbI7iq1OaYMyUnqREX
+ 20Xq2KgzvuwpITua6gdoSBizfyMsIZqql3/7qjHhtw9DtAUX/UoEuIXWYqlrncEKC48uWGWfU9j
+ DNBTTfsDbI/JWPaXkrg==
+X-Proofpoint-GUID: uQpJmbmmqflWUyhgPAz2GYg6nYyEgZXx
+X-Authority-Analysis: v=2.4 cv=SIpykuvH c=1 sm=1 tr=0 ts=6a16bf31 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
+ a=4UIGuFfXKTCrLKAPk8QA:9 a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-05-27_01,2026-05-26_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 priorityscore=1501 clxscore=1011 adultscore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605270095
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 09:39:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237634
+ <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 09:53:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237635
 
---0000000000004758580652c96464
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, May 26, 2026 at 01:30:48AM -0700, Wei Zhang wrote:
+> Some APs provide invalid operating class (e.g. 255) in BSS Transition
+> Management Requests. Fall back to deriving the band from the channel
+> number.
+> 
+> Without this workaround, invalid op_class values may trigger unnecessary
+> full scans and degrade roaming behavior with non-compliant APs.
+> Standard-compliant cases remain unchanged.
+> 
+> Signed-off-by: Wei Zhang <wei.zhang@oss.qualcomm.com>
+> ---
+>  ...r-broken-AP-operating-class-behavior.patch | 39 +++++++++++++++++++
+>  .../wpa-supplicant/wpa-supplicant_2.11.bb     |  1 +
+>  2 files changed, 40 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0005-WNM-Extend-workaround-for-broken-AP-operating-class-behavior.patch
+> 
 
-On Wed, May 27, 2026 at 8:58=E2=80=AFAM Mathieu Dubois-Briand <
-mathieu.dubois-briand@bootlin.com> wrote:
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-> On Tue May 26, 2026 at 11:40 AM CEST, Marta Rybczynska via
-> lists.openembedded.org wrote:
-> > From: Marta Rybczynska <rybczynska@gmail.com>
-> >
-> > The SPL FIT signing path was signing individual images, but not the
-> configuration.
-> >
-> > Introduce signing of configuration with images under a separate option
-> SPL_SIGN_CONF,
-> > enabled by default. It implies changes in the DTB content.
-> >
-> > The old behaviour is possible with SPL_SIGN_INDIVIDUAL, but should be
-> removed in
-> > a subsequent patch.
-> >
-> > Signed-off-by: Marta Rybczynska <rybczynska@gmail.com>
->
-> Hi Marta,
->
-> Thanks for the new version. I believe we still have two selftest
-> failures because of it:
->
-> 2026-05-26 16:34:33,908 - oe-selftest - INFO -
-> fitimage.UBootFitImageTests.test_sign_standalone_uboot_atf_tee_fit_image
-> (subunit.RemotedTestCase)
-> 2026-05-26 16:34:33,909 - oe-selftest - INFO -  ... FAIL
-> ...
-> ERROR: u-boot-1_2026.04-r0 do_uboot_assemble_fitimage: Execution of
-> '/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-2700759/t=
-mp/work/qemuarm-poky-linux-gnueabi/u-boot/2026.04/temp/run.do_uboot_assembl=
-e_fitimage.3572291'
-> failed with exit code 1
-> ...
-> | Signature written to 'u-boot-fitImage', node
-> '/configurations/conf/signature'
-> | Public key written to 'spl/u-boot-spl.dtb', node
-> '/signature/key-spl-oe-selftest'
-> | Signature check bad (error 1)
-> | Verifying Hash Integrity for node 'conf'...
-> sha256,rsa2048:spl-oe-selftest+
-> | sha256,rsa2048:spl-oe-selftest-
-> |  error!
-> | Verification failed for '(null)' hash node in 'conf' config node
-> | Failed to verify required signature 'key-spl-cascaded-oe-selftest'
-> | WARNING: exit code 1 from a shell command.
-> ...
-> 2026-05-26 16:35:33,469 - oe-selftest - INFO -
-> fitimage.UBootFitImageTests.test_sign_standalone_uboot_fit_image
-> (subunit.RemotedTestCase)
-> 2026-05-26 16:35:33,469 - oe-selftest - INFO -  ... FAIL
-> ...
-> ERROR: u-boot-1_2026.04-r0 do_uboot_assemble_fitimage: Execution of
-> '/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-2700759/t=
-mp/work/qemuarm-poky-linux-gnueabi/u-boot/2026.04/temp/run.do_uboot_assembl=
-e_fitimage.3689059'
-> failed with exit code 1
-> ...
-> | Signature written to 'u-boot-fitImage', node
-> '/configurations/conf/signature'
-> | Public key written to 'spl/u-boot-spl.dtb', node
-> '/signature/key-spl-oe-selftest'
-> | Signature check bad (error 1)
-> | Verifying Hash Integrity for node 'conf'...
-> sha256,rsa2048:spl-oe-selftest+
-> | sha256,rsa2048:spl-oe-selftest-
-> |  error!
-> | Verification failed for '(null)' hash node in 'conf' config node
-> | Failed to verify required signature 'key-spl-cascaded-oe-selftest'
-> | WARNING: exit code 1 from a shell command.
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/3999
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3905
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3770
->
-> Can you have a look at the issue?
+The same question. Which branches does it need to be backported to?
 
-
-Looking into it. Those tests work in my setup. To be continued.
-
-Regards,
-Marta
-
---0000000000004758580652c96464
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 27,=
- 2026 at 8:58=E2=80=AFAM Mathieu Dubois-Briand &lt;<a href=3D"mailto:mathie=
-u.dubois-briand@bootlin.com">mathieu.dubois-briand@bootlin.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue May 26=
-, 2026 at 11:40 AM CEST, Marta Rybczynska via <a href=3D"http://lists.opene=
-mbedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a=
-> wrote:<br>
-&gt; From: Marta Rybczynska &lt;<a href=3D"mailto:rybczynska@gmail.com" tar=
-get=3D"_blank">rybczynska@gmail.com</a>&gt;<br>
-&gt;<br>
-&gt; The SPL FIT signing path was signing individual images, but not the co=
-nfiguration.<br>
-&gt;<br>
-&gt; Introduce signing of configuration with images under a separate option=
- SPL_SIGN_CONF,<br>
-&gt; enabled by default. It implies changes in the DTB content.<br>
-&gt;<br>
-&gt; The old behaviour is possible with SPL_SIGN_INDIVIDUAL, but should be =
-removed in<br>
-&gt; a subsequent patch.<br>
-&gt;<br>
-&gt; Signed-off-by: Marta Rybczynska &lt;<a href=3D"mailto:rybczynska@gmail=
-.com" target=3D"_blank">rybczynska@gmail.com</a>&gt;<br>
-<br>
-Hi Marta,<br>
-<br>
-Thanks for the new version. I believe we still have two selftest<br>
-failures because of it:<br>
-<br>
-2026-05-26 16:34:33,908 - oe-selftest - INFO - fitimage.UBootFitImageTests.=
-test_sign_standalone_uboot_atf_tee_fit_image (subunit.RemotedTestCase)<br>
-2026-05-26 16:34:33,909 - oe-selftest - INFO -=C2=A0 ... FAIL<br>
-...<br>
-ERROR: u-boot-1_2026.04-r0 do_uboot_assemble_fitimage: Execution of &#39;/s=
-rv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-2700759/tmp/wo=
-rk/qemuarm-poky-linux-gnueabi/u-boot/2026.04/temp/run.do_uboot_assemble_fit=
-image.3572291&#39; failed with exit code 1<br>
-...<br>
-| Signature written to &#39;u-boot-fitImage&#39;, node &#39;/configurations=
-/conf/signature&#39;<br>
-| Public key written to &#39;spl/u-boot-spl.dtb&#39;, node &#39;/signature/=
-key-spl-oe-selftest&#39;<br>
-| Signature check bad (error 1)<br>
-| Verifying Hash Integrity for node &#39;conf&#39;... sha256,rsa2048:spl-oe=
--selftest+<br>
-| sha256,rsa2048:spl-oe-selftest-<br>
-|=C2=A0 error!<br>
-| Verification failed for &#39;(null)&#39; hash node in &#39;conf&#39; conf=
-ig node<br>
-| Failed to verify required signature &#39;key-spl-cascaded-oe-selftest&#39=
-;<br>
-| WARNING: exit code 1 from a shell command.<br>
-...<br>
-2026-05-26 16:35:33,469 - oe-selftest - INFO - fitimage.UBootFitImageTests.=
-test_sign_standalone_uboot_fit_image (subunit.RemotedTestCase)<br>
-2026-05-26 16:35:33,469 - oe-selftest - INFO -=C2=A0 ... FAIL<br>
-...<br>
-ERROR: u-boot-1_2026.04-r0 do_uboot_assemble_fitimage: Execution of &#39;/s=
-rv/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-2700759/tmp/wo=
-rk/qemuarm-poky-linux-gnueabi/u-boot/2026.04/temp/run.do_uboot_assemble_fit=
-image.3689059&#39; failed with exit code 1<br>
-...<br>
-| Signature written to &#39;u-boot-fitImage&#39;, node &#39;/configurations=
-/conf/signature&#39;<br>
-| Public key written to &#39;spl/u-boot-spl.dtb&#39;, node &#39;/signature/=
-key-spl-oe-selftest&#39;<br>
-| Signature check bad (error 1)<br>
-| Verifying Hash Integrity for node &#39;conf&#39;... sha256,rsa2048:spl-oe=
--selftest+<br>
-| sha256,rsa2048:spl-oe-selftest-<br>
-|=C2=A0 error!<br>
-| Verification failed for &#39;(null)&#39; hash node in &#39;conf&#39; conf=
-ig node<br>
-| Failed to verify required signature &#39;key-spl-cascaded-oe-selftest&#39=
-;<br>
-| WARNING: exit code 1 from a shell command.<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/buil=
-ds/3999" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/23/builds/3999</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/buil=
-ds/3905" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/35/builds/3905</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/buil=
-ds/3770" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/48/builds/3770</a><br>
-<br>
-Can you have a look at the issue?</blockquote><div><br></div><div>Looking i=
-nto it. Those tests work in my setup. To be continued.</div><div><br></div>=
-<div>Regards,</div><div>Marta=C2=A0</div></div></div>
-
---0000000000004758580652c96464--
+-- 
+With best wishes
+Dmitry
 
