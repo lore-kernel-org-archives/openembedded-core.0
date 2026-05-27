@@ -2,55 +2,56 @@ Return-Path: <saisneha196@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60E4DCD5BC9
-	for <webhook@archiver.kernel.org>; Wed, 27 May 2026 11:18:15 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18205.1779880688906941495
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D6ABCD5BD5
+	for <webhook@archiver.kernel.org>; Wed, 27 May 2026 11:18:25 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18209.1779880702985603469
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2026 04:18:08 -0700
+ Wed, 27 May 2026 04:18:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Jg9yWquh;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: saisneha196@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ba3e3c4f87so120412895ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 04:18:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=QTCnxGWJ;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: saisneha196@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-367cbac9c37so6837118a91.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 04:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779880688; x=1780485488; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kkx4Dnjl4/EU+vxu804ez0FRWPrWsar2TRwL/0IZx7c=;
-        b=Jg9yWquhMS3ojSusySMt4T2XL5tybwEhuAmIySZtndwkgUTjJalhiy/SkCHzrzriwv
-         YbsVGfSZIu+oOw0vMiIFt0OeHPpRCh6cMvzP/xw1pea0SvIovBCYx0LRfH/jHSK2tY3J
-         fEgg0vFClcZLtvO7xjQMMfwceK57LyyMonMVjS1v9fBfT3nxI94lIAHFAPULq+5Wzbh5
-         3AgPJJ7vpkEhWwnDXRmQMQVE2bT+Md7AKXW0m+9V40Ac+CJq8CryELditLVnnzvo865/
-         OhJ1B3hYBd0zhmDT+9uzmeOFxDFNw2JRHOZVWV75HQOS34L7Dm2M80j70iu2bjg3V2VW
-         Q9HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779880688; x=1780485488;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779880702; x=1780485502; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Kkx4Dnjl4/EU+vxu804ez0FRWPrWsar2TRwL/0IZx7c=;
-        b=MTFVHuO00c6RePv4HdbmBk93jTvWyNAFg6gC+irqBBZ6s2d7u84GC5bB5SJBiN2ZT1
-         LoPk/+J6RVzO5jgkVqo+7o+77Av824P4yWwJRAPAflTEnytjQ1RNeWY20V/pgKxzUT30
-         EcKwiLB81C68obfKlISkSa5sq03Fw++Rd3MrwcutgEckQO9213vV6m+0ZoEIrU9Dw6oC
-         8LwrrBOORoUc4TwLYe6w3ut1Fpcw/p6PQKFMLseMFBZduQTbCFKvrmK8wvA9XBaTxYOb
-         4JPPGXQ6u2AYhofxIaXBokMuUJlVG/R8FMBp+VGE0fNA7qT0CCcTLTUMFUgENHQaFV6F
-         g+uQ==
-X-Gm-Message-State: AOJu0YxiZn6NsS48xi0AHuRpKfYYGd8yEq+FxohC8SsGPpCtFYPR7VdG
-	KiLxRxDbVcZPhe37fkbVZx2KqBkAVs7firQ7brS9g0XsOtHf2s48kbUIt/wVZZhw
-X-Gm-Gg: Acq92OE8uF8Rc972NAhhcxa/mz1d/l+X/agyxAqcaevCb/q0Lie87CRod8Za57VqV+x
-	OkfR2iyTfOWZ/5j5srUwdKgUTATkl4GwZKRSg+mN8CXTz1b+9uxEMlJ8Tvvhwzz7gaf0vS2GeVx
-	T2eBWvXyaTOIolQXcg64Zbf2R2lvz3VKprGZZAChYOee19f6fDsYQdKuWKs8PDMwjpWnbvMreQQ
-	C72DqyeU1f/i5qTAMtfF3JFzowTZPxWovX9vsXcYKEd7xZb1bTiAZJCBRsI1Cthtxf3oIQpOsTD
-	b16XD/L41uRYspOqHADK3oYm1FsosxKAVBndROUU42oZDQiUThymy+0ShQVV+mXzRkrt2hqBpzo
-	qec3DWgb4R/04R3RiLdms9Fr5zW4Z4MWugwwOgm7iYOrN22DN6cwyv8h/Zp6kiGNnt4VLP3ySLa
-	fTJTUK2Bc4hqvOHVTJ+H4Q2hMKEob2jPZWa8X59sO6new5HrCVwL7u52Pyu4yBYtljrs8=
-X-Received: by 2002:a17:902:cccf:b0:2ba:fed:7891 with SMTP id d9443c01a7336-2beb0626253mr272909945ad.30.1779880688038;
-        Wed, 27 May 2026 04:18:08 -0700 (PDT)
+        bh=+W5wPRFUQKM0fqKiJzjpoitUyxzJryXQI8/GwX5ipbk=;
+        b=QTCnxGWJwtSVqK5RsGJX2ob6s7UxfQCTMCqOHGG1esMdM+kZ4jaJ8KicKMAbUYc9jY
+         0YzvwEKV5HiXPYUFbalMmAYORPnXBHdlrEW1KqN6nhXOPR3VL/qeInO+R84p6Kmje7Cn
+         6/shpsH0LSQeJ5cY6aoVoeY/66k1tDGx8OjRKiQfPcqmcvbAFGyR2/rZcpIHwZlDu/qs
+         ZB4abkeENdlcnu2lEMJ1yic0Hi3tzpGpwCJ9dM+uh2GxVbOOgdbo/2utxxSi38v6eqNH
+         PjV9+ulVQYqFSbB2zShHPwYclqRLEdOz4pKxTxXT2TS4qqBgCQvmnlDCtkM3L5FfhIrO
+         9vkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779880702; x=1780485502;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+W5wPRFUQKM0fqKiJzjpoitUyxzJryXQI8/GwX5ipbk=;
+        b=giPLm1UoH2mlI2y2qfJNRfJ2MvEBu4D31I/iQfXk7mbmGrcSrCrUXSWEZ72TnpLz95
+         gKl+tXY7gLG8E53C+9/0nEA+v5anNFMot5Uhe7ktw1k73A1a2WPdd+5F/VCJkitv8ViB
+         GoB76O8IEg26XgPVQZQstJDpHZIibDCPkYJ3eXG2yFnSk/354fhwH0x5Pg++TQ2vhoq1
+         M5Nat2BpBRUBWh1DYG61W9ZGebcs4VUXweMgmNALmaAS2TPn3ZZrw44+55X4UzBifS8I
+         YZXYFOZUUCk6iOyd8HW3Qe8NYIbM/smG838fmtqnRAYNECoeApuk/N56+S5sWvVGCB/4
+         JkpA==
+X-Gm-Message-State: AOJu0Yxii1y4fc3uMEcy05ND5FeARnMfYyNA0j5Wyq8EyzWY+1w4TwBG
+	d2x1DrLHH+P2hHqEe58/PEMi/8ujCf7qf1Gvqyi0A0xEbvNH0xBUDVVjuF9fw4WB
+X-Gm-Gg: Acq92OFC0NY0xqF/YCoQ1xa9SPKBSH30QP6hNvhgH+RVPPAC5tEdwDLxt0I+Qfj0MP5
+	vI2flsl0zWQ0L2WRjZPVLSy6nHI24M78ak/PTyaxbHJRKsz1MlQzaaS341vb68iywtreZvpmQsh
+	kW6HquNr2cqzktwaQrQYSBuiE210HmUHfxml398/vGYgB5WFeJ3mYcxn7U/xQ5Xusnj/lVTxjvU
+	rRV92aUOmV+aghaDk9LCK5TkJoH2E4NfQzvgn4tPz8sJnOvwqMjX2TMJ/04/kmECCKRalkWLnxM
+	nbBGPY+YbS1+gO+NzXAYuaR4fBz+rZGyq0wbEozxB/mISVkO2V4lOIE5CmNjKaFcx8bickmXnWS
+	bEDfqMEmhpbR3GWTlPnMBCd/9cJf73d/HuiH94bN+0iDYMlOri3S7Q7W7cZgEeLUHpW6KUAW8O3
+	U1XJEH0NG4U0BVT8uXlvaFLCntisF7sSbkFX7FnrBphsLKFUoEzl0sEB7lsuhA3SJI/QA=
+X-Received: by 2002:a17:902:ebc2:b0:2ae:6259:5aff with SMTP id d9443c01a7336-2beb031adfdmr227369115ad.6.1779880702232;
+        Wed, 27 May 2026 04:18:22 -0700 (PDT)
 Received: from BLR1RLPT00004.localdomain ([152.57.21.184])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb56b9fabsm192079475ad.23.2026.05.27.04.18.04
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb56b9fabsm192079475ad.23.2026.05.27.04.18.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 04:18:07 -0700 (PDT)
+        Wed, 27 May 2026 04:18:21 -0700 (PDT)
 From: Sai Sneha <saisneha196@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr,
@@ -58,130 +59,85 @@ Cc: yoann.congal@smile.fr,
 	martin@geanix.com,
 	paul@pbarker.dev,
 	Sai Sneha <saisneha196@gmail.com>
-Subject: [PATCH v4 0/4] Add missing SRCREV check for SCM URIs
-Date: Wed, 27 May 2026 16:47:52 +0530
-Message-Id: <20260527111756.1306022-1-saisneha196@gmail.com>
+Subject: [PATCH v4 4/4] yocto-check-layer.bbclass: enforce missing SRCREV check during layer validation
+Date: Wed, 27 May 2026 16:47:56 +0530
+Message-Id: <20260527111756.1306022-5-saisneha196@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260527111756.1306022-1-saisneha196@gmail.com>
+References: <20260527111756.1306022-1-saisneha196@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 11:18:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237641
+ <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 11:18:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237645
 
-This patch series adds a check for git:// (and other SCM) URIs in
-SRC_URI that are missing a corresponding SRCREV, addressing
-Bugzilla #16051 [1] and referencing Corentin Guillevic's RFC series [2].
+Add check_missing_srcrev() to yocto-check-layer.bbclass to enforce
+the missing-srcrev check as an error during yocto-check-layer runs,
+using the shared oe.qa.check_uri_srcrev() helper.
 
-== Changes since v3 ==
+This ensures layer maintainers submitting layers to the Yocto
+ecosystem must fix all missing SRCREVs before their layer passes
+validation, even if their layer only gets WARN_QA during normal builds.
 
-- Factored common SRCREV checking logic into shared helper
-  oe.qa.check_uri_srcrev() in oe/qa.py (new Patch 1)
-- Eliminates code duplication across base.bbclass, insane.bbclass
-  and yocto-check-layer.bbclass
-- Used for-else pattern, f-strings, simplified name lookup per review
-- Renamed raw to rev for clarity
-- Added docstrings explaining return values
-- Added changelogs to each patch
-- Corrected characterization of Corentin patches 3 and 4
+Note on design: missing-srcrev is not added to CHECKLAYER_REQUIRED_TESTS
+because that would promote it to ERROR_QA for all layers globally during
+normal builds, contradicting the layer-specific enforcement requested in
+Bug 16051 Comment 3. This direct implementation in yocto-check-layer.bbclass
+enforces it strictly during checklayer validation without affecting
+normal builds.
 
-== Note on CHECKLAYER_REQUIRED_TESTS ==
+This satisfies the requirement from Bug 16051 Comment 2:
+'add a QA check outside of checklayer then add it to checklayer'
 
-Paul suggested using CHECKLAYER_REQUIRED_TESTS instead of Patch 4.
-We tested this but found it promotes missing-srcrev to ERROR_QA for
-ALL layers globally during normal builds, because CHECKLAYER_REQUIRED_TESTS
-feeds directly into ERROR_QA. This contradicts Bug 16051 Comment 3
-which requests keeping it as a warning for external layers by default.
-The direct implementation in yocto-check-layer.bbclass enforces it
-strictly only during checklayer validation without affecting normal builds.
+Reported-by: Yoann Congal <yoann.congal@smile.fr>
+Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=16051
+AI-Generated: Developed with assistance from Anthropic Claude
+Signed-off-by: Sai Sneha <saisneha196@gmail.com>
+---
 
-== Note on candidates list order ==
+Changes in v4:
+- Refactored to use shared oe.qa.check_uri_srcrev() helper
+- Eliminates duplicated URI parsing logic
+- Added docstring
 
-Martin suggested reversing the candidates list so plain SRCREV is
-tested first. We kept most-specific-first order because it mirrors
-BitBake internal srcrev_internal_helper() resolution order exactly,
-as confirmed by BitBake own error messages:
-  SRCREV_default:pn-X, SRCREV_default, SRCREV:pn-X, SRCREV
+Changes in v3:
+- Added AI-Generated disclosure and Reported-by tag
 
-== Problem ==
+Changes in v2:
+- Initial public submission
+ meta/classes-global/yocto-check-layer.bbclass | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-A recipe with a git:// URI and no SRCREV causes two problems:
+diff --git a/meta/classes-global/yocto-check-layer.bbclass b/meta/classes-global/yocto-check-layer.bbclass
+index ba93085325..11b7f5d2ee 100644
+--- a/meta/classes-global/yocto-check-layer.bbclass
++++ b/meta/classes-global/yocto-check-layer.bbclass
+@@ -56,7 +56,22 @@ def check_network_flag(d):
+         if network and not is_allowed(bpn, task):
+             bb.error(f"QA Issue: task {task} has network enabled")
+ 
++def check_missing_srcrev(d):
++    """
++    Enforce missing-srcrev check as error during yocto-check-layer runs.
++    Uses the shared oe.qa.check_uri_srcrev() helper.
++    """
++    import oe.qa
++    src_uri = (d.getVar('SRC_URI', False) or '').split()
++    pn = d.getVar('PN')
++    for uri in src_uri:
++        rev = oe.qa.check_uri_srcrev(pn, uri, d)
++        if rev is None:
++            bb.error("QA Issue: %s: SRCREV not set for SCM URI %s [missing-srcrev]" % (pn, uri))
++            d.setVar("QA_ERRORS_FOUND", "True")
++
+ python () {
+     check_insane_skip(d)
+     check_network_flag(d)
++    check_missing_srcrev(d)
+ }
+-- 
+2.34.1
 
-1. Under BB_NO_NETWORK=1, parsing fails with a FetchError that halts
-   parsing of ALL recipes. This breaks CI pipelines that use
-   bitbake --parse-only as a sanity check.
-
-2. Without BB_NO_NETWORK, BitBake silently queries the remote
-   repository on every parse, breaking reproducibility.
-
-== Why the trivial fix does not work ==
-
-The obvious fix of checking SRCREV in insane.bbclass do_recipe_qa
-was attempted by Corentin Guillevic [2] but fails because
-fetcher_hashes_dummyfunc[vardepvalue] expands SRCREV at parse time
-BEFORE QA checks run. Corentin patches 1 and 2 add the QA check,
-while patches 3 and 4 ensure devtool and recipetool only use
-AUTOREV when appropriate.
-
-== This series approach ==
-
-We intercept at the vardepvalue expansion point in base.bbclass
-using a shared helper oe.qa.check_uri_srcrev() that uses
-d.getVar(candidate, False) preventing expansion entirely.
-
-== Design decisions ==
-
-1. Why not use srcrev_internal_helper()
-
-   It expands SRCREV internally, triggering get_autorev() and live
-   network fetches. Our fallback chain mirrors BitBake resolution
-   order exactly without expansion.
-
-2. Why duplicate warnings at parse time AND QA time
-
-   Parse-time catches CI parse-only pipelines. QA-time gives proper
-   layer control. This pattern is established - src-uri-bad does same.
-
-3. Why hardcode git/gitsm/hg/svn schemes
-
-   Known limitation, noted as follow-on improvement.
-
-== Enforcement levels ==
-
-  Normal builds, all layers  ->  WARN_QA
-  oe-core layer              ->  ERROR_QA
-  yocto-check-layer runs     ->  ERROR
-
-== Testing ==
-
-- Recipe with missing SRCREV -> WARNING/ERROR at parse time
-- Recipe with SRCREV = AUTOREV -> silent passthrough
-- Recipe with rev= in URI -> no false positive
-- Recipe with multiple SCM URIs -> all missing SRCREVs reported
-- oe-core recipe -> ERROR instead of WARNING
-- yocto-check-layer on layer with missing SRCREV -> FAIL
-- 952 other recipes parse cleanly -> 0 errors
-
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=16051
-[2] https://lore.kernel.org/openembedded-core/20260304104342.869457-1-corentin.guillevic@smile.fr/
-[3] https://lists.openembedded.org/g/openembedded-devel/topic/115911777
-
-Sai Sneha (4):
-  oe/qa.py: add check_uri_srcrev() helper for SCM URI SRCREV validation
-  base.bbclass: warn when SRCREV is missing for SCM URIs at parse time
-  insane.bbclass: add missing-srcrev QA check for SCM URIs
-  yocto-check-layer.bbclass: enforce missing SRCREV check during layer validation
-
- meta/classes-global/base.bbclass              | 28 ++++++++++
- meta/classes-global/insane.bbclass            | 13 +++++
- meta/classes-global/yocto-check-layer.bbclass | 15 ++++++
- meta/lib/oe/qa.py                             | 30 +++++++++++
- 4 files changed, 86 insertions(+), 2 deletions(-)
-
---
-Note: This patch series was developed with assistance from Anthropic
-Claude (AI). All code has been reviewed, tested, and verified by the
-contributor. The Signed-off-by line represents the contributor own
-certification per the Developer Certificate of Origin.
 
