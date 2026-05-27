@@ -1,189 +1,182 @@
-Return-Path: <Haixiao.Yan.CN@windriver.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C16DBCD5BDE
-	for <webhook@archiver.kernel.org>; Wed, 27 May 2026 01:47:11 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11190.1779846428021407878
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16D8BCD5BDE
+	for <webhook@archiver.kernel.org>; Wed, 27 May 2026 05:57:13 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13884.1779861429208313724
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2026 18:47:09 -0700
+ Tue, 26 May 2026 22:57:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=FU41L8z7;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=96077a4c2c=haixiao.yan.cn@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64R0fkTj2014740
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 01:47:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=gm12q4Y6pt3n+rHkOuTG25Ur+EMFkonBoBNI2lkX9pI=; b=
-	FU41L8z7ZNgmPBkTpfhF5b6RahsDM3+lfgOhpZyOEiBTwT4C857LKGVCOWwGrSIv
-	L37AlCny1XsRxdYD9jmMVHWcUA9oTQqwQKUqKFKAJWKsNblLpS5X8YAgrqLbUqYG
-	O0MPLc7o72cxDQtI/k0sUWBu1epf4JYeNxaR11HHq6OGrXPilGREfMjMUesElUDG
-	S0cSOx2n+x4bGKJnwAvHoYkfJPHGp4zzlHnC3xy/ggxoojcMIK1A+qvSF3VOzvgu
-	wLKldMNML1B/XaxF3vzuPtSqi5LEqlbmc6iw1kVZ3KbYDEQVB3BEGIr3my/MLKFd
-	+mxmvNScdoXp7IbLvoBanQ==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012034.outbound.protection.outlook.com [52.101.53.34])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4eb1f05548-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 27 May 2026 01:47:06 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wKN6M2758APhq28ipVBulqWzSDfdHRWTdJW+vkVhbIWO/L8qza5k2Wovq/gHtS/q2AbQJGSZLuAneVRVmpRaViPqUmbq3aD31Dpk7uzDcZRljD4e/iXl8W9+Q/HJ9123zGuKlun12TXiAb919YEErPNsE/sNUB5OrHfml6aJi7GFHsgg/WGRY7c4snA5Zumuo0xT/cLt0Gn9E1adbSEW3bstPRHH98X3yNfK/K9xbaieby0Ga6yhr8JqV3+kyfANxIaUwzVFDF/SmqXfIcuTBeo/22wybPXPbqoL1yNWR6uGGKuNtZRhbikMzeD8JKi6e8rraYaAOEdBaNWLpPNYhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gm12q4Y6pt3n+rHkOuTG25Ur+EMFkonBoBNI2lkX9pI=;
- b=km5buHUcTd2MVJOO+nM+nDNygC84fWmaMtOqZsH4sgGljsFtw8eFtFY0vdqwuDP7dBMB35Fu/MtbdiDiHuSAlr+OF4dqo6KG9LmnwEpBx9zuF6S+mGfhQt8sC8Y1K3k+T4mFH/LXs0gC/zGEVtL+luEpIwErqYYhWkmw7I5G6oWdThqI/C700ds6PsQ2KVD7kLtJR+v4HWp9DfXaxQWKzCSVBUXRhUulomkoa09fkjy8RJp2rAXadmuaICfyv33Hq6A7eqJ7En+1ikxjApeedbQCoQutO/ocBrDKvGUW7V20NrhG4y/Ab3T71fr+QgqhfvIykWKXPVaDxJd/5s4/iA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from IA1PR11MB8200.namprd11.prod.outlook.com (2603:10b6:208:454::6)
- by SN7PR11MB6704.namprd11.prod.outlook.com (2603:10b6:806:267::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.11; Wed, 27 May
- 2026 01:47:03 +0000
-Received: from IA1PR11MB8200.namprd11.prod.outlook.com
- ([fe80::e0e6:a2f:a53b:4414]) by IA1PR11MB8200.namprd11.prod.outlook.com
- ([fe80::e0e6:a2f:a53b:4414%4]) with mapi id 15.21.0071.010; Wed, 27 May 2026
- 01:47:02 +0000
-Message-ID: <d7f4839d-8294-49ff-aa75-bd20befa020a@windriver.com>
-Date: Wed, 27 May 2026 09:46:56 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2] subversion: fix svn-revision.txt conflict
- when building for qemux86-64
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20260520023754.2076160-1-haixiao.yan.cn@windriver.com>
- <CANNYZj_1Fd1c2FY_34-=Yin+D2HMws=Uc6Ms1BKS4NDXsyZnbQ@mail.gmail.com>
-Content-Language: en-US
-From: Haixiao Yan <haixiao.yan.cn@windriver.com>
-In-Reply-To: <CANNYZj_1Fd1c2FY_34-=Yin+D2HMws=Uc6Ms1BKS4NDXsyZnbQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TPYP295CA0019.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:7d0:a::14) To IA1PR11MB8200.namprd11.prod.outlook.com
- (2603:10b6:208:454::6)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR11MB8200:EE_|SN7PR11MB6704:EE_
-X-MS-Office365-Filtering-Correlation-Id: 591d8895-7f3e-47f1-046b-08debb91d960
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|22082099003|56012099006|18002099003|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	KjEk9lmYUNKCjuyVY9qIeD83m4nLBvIwc3A1N5wA6TAdbdJsE+JKg0qAb8aSHJwJIeolXOyQI38huMij5Iq36sKoAu3lqsiHazt7MP8kFW8HUIXLmCz5mmczlJiN31fI1oZ1d6siUB/L1FhzWVJ9Uz9x0sniBTNK0uvnIk6pLZMp9Qpkgd1ZmxOO7N9Urs6To34IrCra1P+GEcZ0kaPgSQOseMPlTrpU/MOpBc0zw4Vk3sXATUg86Mc2F8tTJVktTv5fsQ/ofowlOKj7GAR/a2EldIGcnicgzOsbVzjVZzY+c7qMyHrCUxPdYAwT79M7wQrJFShH/WyG+0BaJKyFJp4K4RBncSyiCTl/6BI4ZoWL6z+VrZovQDSJIwIXSoxc1Uhnq1ITSOpGhRr9+vwU8PLE+XrucSsNM9vCWqLndgVLiJpJrNiJ1otA8b4YvbMLDGtgBpzmwPllNips6c3siU/5p3mNOQ5WFH8bv0ZBmTZZbJBIrPfECBT1iSsnUfCYrUNxiq/7GdPYCtX6gBA+VaBhDFU3IC7sgodV2tWfC9IO8gzzaj4ANvdmds6ws6GT8tHjT3Okt2/rx/bR18UCITZetObyL+kLE/PxT9w/AKwlC6/UDcnaOrrdBdtloCXHaz3zuLk+LaBFwxccGViCzg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB8200.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(22082099003)(56012099006)(18002099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?cWZ1QWlEa0FmK3pTNmtrVGROd1hsOTVxWmk3OGNYWHVGWWE1ZWxpSWJZRXh5?=
- =?utf-8?B?V2JVRXpuNk1GVS9iWk05Wld3SzRxa2UreGx5U1Q2QllTZGFYakNaemNNR2Ro?=
- =?utf-8?B?dHJxQWVJWE1lUHpORkpLeVY1OEtZZGZUNFNZU3JwVnlWODNwUGIxWXQxYzVn?=
- =?utf-8?B?WWpTdEZ1aElZQUlrQXM2dktwMkllVTMxM2wxZTlqSE41Q3lsOURxU0RoMVda?=
- =?utf-8?B?RkptdnE3dElRSVdNci92aFc5aFJVOHo2cGZqT1dFMjJ6QWxnOXM0aDhTNktz?=
- =?utf-8?B?SmVHMHMvam1IbnRTcHZGOHVnTnFjUWRSOVFZbGFLTVJxbzZ1U1pLRnVGNmdz?=
- =?utf-8?B?bktpUXdCZWdDcjlVOHhETjFoTFZ4SUZvK2wyOEthL1lkYXlKKzR2STZTWWd2?=
- =?utf-8?B?M2l0dzUwYmdQbkUrNHk1dzd2ek8wMGxxaHNpVkVrMGdnVkxTV0RxQ05ZOWRy?=
- =?utf-8?B?bncvRGhyWEwvVUM5bGxwdVdhSXVPVmhxakNxNGtNZkxqN3VTYmhSK2xzeUJM?=
- =?utf-8?B?Q0hVejJFMy9BbVhlUno0R2twZTFCQXVKYzRKQjd4UGxIYllYdDRnZDN3L0lk?=
- =?utf-8?B?YjZzaEQ5OU0vTE05b1ozL0xnTDhkS3hlOU01R2hQYjd1YTdud3JESjZWTUxL?=
- =?utf-8?B?TksyMGRXT1BySE1hSnB0TENaa0FGSS9wNmEyS1hGa1R4b05NcFFZMnZTTzhy?=
- =?utf-8?B?bEVDZEh2Ym4xN1kyZjR2QUMxWExBQjNueWZsWDV3SUhBTXo1Qm9sWndMQ3BW?=
- =?utf-8?B?VmNaUlpVUEllZUtNRmhoL2RxZ2FXczRFZVR5SjFjV1ExTXpzSUNKeHlxMEo5?=
- =?utf-8?B?VXppd1VmcXk2MWRxbEFRY2E1WEtXMlkvODh2cmQ2NFlCWkZSMFRvVkdVVlRQ?=
- =?utf-8?B?VkF2Q0VmaGVZdEZDTjlzVkh0MXdOUWtZK04rSDBlNzVEQVVpNGhtZ2tBV3JM?=
- =?utf-8?B?VjVrckhQU0U3d1d2WUg2bFp5TFZNZ1JLNkpxTmsxSzR1OWF5WXRSODdqRnlL?=
- =?utf-8?B?Ull0eWRKV2Y3WThDK0xpY3l4UkRTZS9jQlZiZVJWUG42SDI3UmIwVitkVUdp?=
- =?utf-8?B?eU5iNXFuTTVScHlKQmlqNkVaTlJEZTlqSnN0UWJzcm5uSnplVUxBaEwvUjhP?=
- =?utf-8?B?cVp1b2xqT0FSYktvR2lTc3k2elFDaW9kVXhaQ3UrdzJFM2pTNUNQUjJFNEZS?=
- =?utf-8?B?Ui82R0gzTTFGQmM4RXgwaWZxTk80R3lkeXgyQXNNMXdnMktxU0lyeXlRU2sw?=
- =?utf-8?B?dU55SGZHK2Nxb3gwUkhEeWlsOEhYYTVQNFlHS1pwNERuWExZNlc0QUpqdVhF?=
- =?utf-8?B?SWFQR0VYQ1ZWVlZTeHlaVVdzbjVDR3p6N2xLRjBkb3JJbThIYWRyMnBiUVdh?=
- =?utf-8?B?Ky9IY2ZIWTIwdFVmUmpQZjliUGUvTUQ5MGtsTldkTk90Vy9FdXpJcllmTHJJ?=
- =?utf-8?B?L2E4OU56Rkt4N1BGKzArRVd4d0ptYzR0OFNsbDJjMmFYcWsrdEhhcVlSckhG?=
- =?utf-8?B?QnBEV0Q4TGxTdU1ValI4b3dYK0FqRWpraW1Lbm1wRDAyaVp2MzZ2ODM5aitS?=
- =?utf-8?B?cGwwM2NkY3ExTEVCMm4zZlYxY09RazI5MlBrQm9DVUVWaUg0SzhsTXVsNEFI?=
- =?utf-8?B?V1BnWFNBL1VJY0hWSXFZeFRQVkNUVTdnMkFyV3VVQjY3MFV6WjI3Z2w0djly?=
- =?utf-8?B?ZmNzVSs0Ri9vYWR1MVJSS0Z5WW1iVFZPc2gyK0J5bDNmWEp5dFZCd1pPTTFK?=
- =?utf-8?B?S1FGaVRBajdwUU9yRGZpRTN3QXZTS1JvUFBSY0ZmN1dpaVpXcHUyczI0dVdz?=
- =?utf-8?B?V2FYWSsrZlhYZlZtaTdXU2RGWWhHd0FFb24xTlhkRkRiL2NLNTNWU0p3L3o4?=
- =?utf-8?B?ZHMxdGw5ZjFhaWZtOGd4dEl1a0x3UDFFaXdFejczYVpnbFNuZVRXVnFGdGky?=
- =?utf-8?B?dkxKdG82S0N6Z3RhQ2Rja1NZb1RWcjRPT2FFeDAvbzRNcHEzOWNSSUhwczNu?=
- =?utf-8?B?MVF1RkFsc1FPVjR6MUVXUWdmRERTZGxqbUtKUGhsRGh3SkFuMEpOdGd4QUQ5?=
- =?utf-8?B?VGd1QnF4azhGZzBZR0VocXN2YUdEaDRHK21SdWVmdWQzc1JtazF0bll5MTZQ?=
- =?utf-8?B?WDFkYzZvYUQ2d3lJc3RGRXBHWnQyWEFKbkp3TkRQT1dybmVwc1ZEckZrcjBl?=
- =?utf-8?B?ZkFRaGpZczhkVnlFK0EzbytZbFJJVHZnWmkrN2I3NzdScGlOLy9KZlQ1Vlcr?=
- =?utf-8?B?OUpLRGlSejRIZzhqaWRYZDBzOFV2TnM2MjM1R2lvdmt5Q25nRDhHMDh0VFFo?=
- =?utf-8?B?bWZsaWxSTGZsWUJvY1ZVTlZ0R21ObUxqRm9FbVpFWkNXR1pvSXc4OUVYRXd1?=
- =?utf-8?Q?eaep8zz1oSUPeT3M=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	Ny4bBL+QB1EnNL0C21VfxCdYuM2kazWEDTym/uhzIdZUAxFQf/3+M3u5WRgbvkM++yg3idrz/w5DVNcPmnbFQmztcwps5yJ0gNT6u5wtSrgukrv5G7NjrTXYAL4nndLQNwxty+htNevYbewU70A9l/E/V2RptNy6ZOp+i0JqsUica4jZLNgI+NERkbTWWmcp+O/Tq8tjDTOmQrj7Cs0VExCttx+xN9kPxuaAxyPviC42M9jZoNA5i8U5/QZEpmo+nsdNhKbiTVrUxdTyEMyllkprkyqGxsP9Jm3x8J2ALtURpTFjjwgTFUUjqIMAXlwOGWpHkyT4f6gYi1FizV8ROQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 591d8895-7f3e-47f1-046b-08debb91d960
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB8200.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 01:47:02.9029
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y6mkVyeFXlMmBmorw+HvR8iszu95wt9wZ7Nsk8f2XZpPUa3pyGH3EqyKEIQiE51qckqOq5N0IQ3V0jIhnaYpczKPq5528S9QLeAWZJQVtdk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6704
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: VBzSU9VJZV5f8iC1oNceCKKJokjSWHx1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI3MDAxNSBTYWx0ZWRfX3WUzrNoLiQmD
- evZEz/v2DAKsaNfET2IuQAauK8UAgTY/3KEfFHiC7w/pUGA8RGFU5DffGOq6x2eGoYYZV5YVDYN
- wrVEq7YKSkd5s6uxWd+Wim34rB1g6nEmx7tf/aFsnzA9YS3wkGkNBe3EDB4LiLrpdeJfbWUSkBb
- CLSi1Yv4GehS7eG6iZ2DhUDsnSBrahInWmGFRJdxBtpZlp/KW53MyzuYfgbluZaWy1TrIsKgUy6
- hIkbLjNy8WUVcekYV/T2nyE38Cr5mRsd4qxEBppD8++N6EQ3mEC09KSztGwGEO7NuTMfUqfYIAp
- pWjWUJ/fdHpY523GAmgyTAPgl63OrtakivSe8GjsY/gEMNYYqmsGT70u8oXfrCNc+rF7SaW+D3m
- zTmO1suMBP8GPsWvoojGuRhKjSZLmLN0LGpuc7/Ys2JN6IXr3/rHspVK4ZzVK9kgQhPvu483wDW
- yCtDKg3sTybYJ/VPyyQ==
-X-Proofpoint-GUID: cEtU09Qlki6EHAPzGCEn3X3FHZ_CkV3o
-X-Authority-Analysis: v=2.4 cv=PZXPQChd c=1 sm=1 tr=0 ts=6a164d1a cx=c_pps
- a=bMPlUhRHxnpMMWJsejB1Eg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22
- a=Vt2AcnKqAAAA:8 a=mV9VRH-2AAAA:8 a=Q4-j1AaZAAAA:8 a=5pJ2UfdMeYCoVF1XeScA:9
- a=QEXdDO2ut3YA:10 a=zgiPjhLxNE0A:10 a=v10HlyRyNeVhbzM4Lqgd:22
- a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-05-26_05,2026-05-26_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 malwarescore=0 phishscore=0 impostorscore=0
- suspectscore=0 spamscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605270015
+ dkim=pass header.i=@smile.fr header.s=google header.b=QpUVRvx3;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-45edc09f51bso138339f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 22:57:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1779861427; x=1780466227; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YPYf6wLquTYdXrnang7mIfbE6Ti4ESwVHsL+UDFwsaE=;
+        b=QpUVRvx3QOe1/gaeJ/yl7cTv3wri9OnnZ+hB5UFfzBSh0cuxmadzO1oQXNAmB+0XR1
+         RuBTl+YDwA7ZkUjOxq2uFC70D1DfDKG02ZiGawNYzQ5qs1eXYYpYDthj55lVNSnIHxMC
+         qwMO+0pjLcQUQWm5TmNb/8lq0Ubi1TMacNdN8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779861427; x=1780466227;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YPYf6wLquTYdXrnang7mIfbE6Ti4ESwVHsL+UDFwsaE=;
+        b=p6M8VuhuwDop2JwH7FZomYAznt6Otj1xpP0FdaqBWBZkrwh06bd3xhodYgpOdo92TH
+         2DT5AxhMC2/scNRXyuX0s0+aDBzHys+1w/YkQ5vNMe9wv6xBA10v3sMNkWJGakNUPfXS
+         FhzMQsSfbVCMNVI3bbcGoGk1VPDKlAfdkY0+uIMFA3+Bl4TAe6mITAaT+oSbWc0zgqJ2
+         RjNubVQVgyHu/Mr13SpMLq/xI5MZtTfGIaJPWjhbFyab949SS+8TFbasgO6nwUn062j5
+         +qJPwcdArAn0+BiLN8mKD/WaKpXRZ/AKPVFzwb/75niahNzSzEdrd86x9GI6mlkXnGut
+         Y8Ng==
+X-Forwarded-Encrypted: i=1; AFNElJ/yOq76HPnycOIqx0iDs1QSJGwdrpbFCNfhZx3r0NtT7TtOKpvvUvggARw9ifjWRX3dzVAIV0cyHVcQ3O7A+vpNkg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwgDqBhfdGD4mq5EANHEwQa+akkrZkEaX75rAqB6fiEPoViNvf9
+	huex20LR0YhUkMst0ChY5RDE9XfIMmxBDoA+8c1oPZ5fs0W9m7Qy+WgpYAkTdu8dhkE=
+X-Gm-Gg: Acq92OEuKnL5tVt5xQfh3Tl+8vzET3krpubgdW31+7hLERxmf48P7v7QzcD8uo71ifA
+	HL0wXfmqdMxi23oe8SMj6OD5Sd7FOp1DSgPl098FY0xnPyl5aqXlodr2D7S4Wss3LvpCAIo5v/o
+	ZfxqT16MRDc+OmrW3mTlIR5ktA9X6d2xg7KiUY4YkkVP2q3q7wZyyUnnc67b5daQUIfQG/ZLlY3
+	n84icwVJICgr5NOeAOcGPQRpy3vqgCotNQ74tAaChb7WvV4eboPYtBQn2G6w0rYu4MDwXROBgQJ
+	VfD22gIkmLXQjCGIT42BqA4cQ6cSB35WCMIF8mQUjxJ/zwyacuwkunA8FtRSqFEogleu3umWxC0
+	TqIJ+lL9RLHaO09THFmOklFt9v56GXTBVC3S/dF9q1PxHIn6WzFasJZcP3m27h6UrHOtB1qoxWX
+	SjjU9Xny2ELc4K8WT7KM7fBsw/ZaJDIEbfCn0DJYZLEV6XSERjVflKfGsMvd8346aZ2snezdc9u
+	YGh1WtX3xt0
+X-Received: by 2002:a05:6000:1ac7:b0:43d:67d1:2022 with SMTP id ffacd0b85a97d-45eb36890ccmr37974964f8f.19.1779861427425;
+        Tue, 26 May 2026 22:57:07 -0700 (PDT)
+Received: from localhost (2a02-8440-2508-6193-ca54-7de6-0c29-9a85.rev.sfr.net. [2a02:8440:2508:6193:ca54:7de6:c29:9a85])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45edb5b2a2asm3710338f8f.28.2026.05.26.22.57.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2026 22:57:06 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 27 May 2026 07:57:06 +0200
+Message-Id: <DIT87V9GV9SJ.2MPLHA1PVBZTY@smile.fr>
+Subject: Re: [OE-core][PATCH][walnascar] cve-update-nvd2-native:
+ re-introduce CVE_SOCKET_TIMEOUT to bound urlopen()
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Ross Burton" <ross.burton@arm.com>, "Steve Sakoman"
+ <steve@sakoman.com>, "Peter Marko" <peter.marko@siemens.com>, "Richard
+ Purdie" <richard.purdie@linuxfoundation.org>
+To: <mehmet.fide@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260526080554.674948-1-mehmet.fide@gmail.com>
+In-Reply-To: <20260526080554.674948-1-mehmet.fide@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 01:47:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237627
+ <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 05:57:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237628
 
-
-On 5/20/26 17:22, Alexander Kanavin wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+On Tue May 26, 2026 at 10:05 AM CEST, Mehmet Fide via lists.openembedded.or=
+g wrote:
+> From: Mehmet Fide <mehmet.fide@screeningeagle.com>
 >
-> On Wed, 20 May 2026 at 04:38, Yan, Haixiao (CN) via
-> lists.openembedded.org
-> <Haixiao.Yan.CN=windriver.com@lists.openembedded.org> wrote:
->> +Upstream-Status: Pending
-> There needs to be an explanation why this is 'pending', or patch needs
-> to be submitted upstream, or an upstream ticket needs to be opened,
-> and the patch marked as Inappropriate [upstream ticket link].
-
-I have raised this issue on the subversion maillist, but there is no 
-response at the moment.
-
-https://www.mail-archive.com/users@subversion.apache.org/msg30267.html
-
-//Haixiao
-
+> The fetch task calls urllib.request.urlopen() with no timeout argument, s=
+o
+> when an NVD endpoint accepts the TCP connection but stops sending data,
+> the call blocks forever and the existing retry loop driven by
+> CVE_DB_UPDATE_ATTEMPTS never gets a chance to run. We observed worker
+> processes wedged for over an hour on a single recv() syscall before the
+> build was killed manually.
 >
-> Alex
+> Re-introduce the CVE_SOCKET_TIMEOUT variable (removed in commit
+> d6d94eed1e "cve-update-nvd2-native: remove unused variable
+> CVE_SOCKET_TIMEOUT" as it was a leftover from the JSON 1.1 feed) and
+> plumb it through update_db_file() and nvd_request_next() so it is
+> actually honoured by urlopen(). The default of 60 seconds matches the
+> prior historical default; users behind slow proxies may raise it.
+>
+> With the timeout in place, a stalled NVD endpoint produces a clean
+> exception, the retry loop runs, and after CVE_DB_UPDATE_ATTEMPTS
+> failures the task returns False and the build falls back to the
+> previously cached database (bb.warn, not a hard error).
+>
+> Signed-off-by: Mehmet Fide <mehmet.fide@screeningeagle.com>
+
+Hello,
+
+Walnascar is EOL so we can't really take this patch, sorry.
+
+That said, given the recent NVD API glitches, it does look desirable on
+the last supported stable using the NVD API: scarthgap. Can you please
+rebase & send your patch there?
+
+Thanks!
+
+> ---
+>  meta/recipes-core/meta/cve-update-nvd2-native.bb | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/reci=
+pes-core/meta/cve-update-nvd2-native.bb
+> index 32a14a932b..271679b7bd 100644
+> --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+> @@ -34,6 +34,12 @@ CVE_DB_INCR_UPDATE_AGE_THRES ?=3D "10368000"
+>  # Number of attempts for each http query to nvd server before giving up
+>  CVE_DB_UPDATE_ATTEMPTS ?=3D "5"
+> =20
+> +# Per-request socket timeout (seconds) for HTTP queries to the NVD serve=
+r.
+> +# Without this, urllib uses the global default (None) and a stalled conn=
+ection
+> +# can block the do_fetch task indefinitely, preventing the retry loop dr=
+iven
+> +# by CVE_DB_UPDATE_ATTEMPTS from ever running.
+> +CVE_SOCKET_TIMEOUT ?=3D "60"
+> +
+>  CVE_CHECK_DB_DLDIR_FILE ?=3D "${DL_DIR}/CVE_CHECK2/${CVE_CHECK_DB_FILENA=
+ME}"
+>  CVE_CHECK_DB_DLDIR_LOCK ?=3D "${CVE_CHECK_DB_DLDIR_FILE}.lock"
+>  CVE_CHECK_DB_TEMP_FILE ?=3D "${CVE_CHECK_DB_FILE}.tmp"
+> @@ -134,7 +140,7 @@ def cleanup_db_download(db_file, db_tmp_file):
+>  def nvd_request_wait(attempt, min_wait):
+>      return min ( ( (2 * attempt) + min_wait ) , 30)
+> =20
+> -def nvd_request_next(url, attempts, api_key, args, min_wait):
+> +def nvd_request_next(url, attempts, api_key, args, min_wait, timeout):
+>      """
+>      Request next part of the NVD database
+>      NVD API documentation: https://nvd.nist.gov/developers/vulnerabiliti=
+es
+> @@ -153,7 +159,7 @@ def nvd_request_next(url, attempts, api_key, args, mi=
+n_wait):
+> =20
+>      for attempt in range(attempts):
+>          try:
+> -            r =3D urllib.request.urlopen(request)
+> +            r =3D urllib.request.urlopen(request, timeout=3Dtimeout)
+> =20
+>              if (r.headers['content-encoding'] =3D=3D 'gzip'):
+>                  buf =3D r.read()
+> @@ -216,6 +222,7 @@ def update_db_file(db_tmp_file, d, database_time):
+>          url =3D d.getVar("NVDCVE_URL")
+>          api_key =3D d.getVar("NVDCVE_API_KEY") or None
+>          attempts =3D int(d.getVar("CVE_DB_UPDATE_ATTEMPTS"))
+> +        timeout =3D int(d.getVar("CVE_SOCKET_TIMEOUT"))
+> =20
+>          # Recommended by NVD
+>          wait_time =3D 6
+> @@ -224,7 +231,7 @@ def update_db_file(db_tmp_file, d, database_time):
+> =20
+>          while True:
+>              req_args['startIndex'] =3D index
+> -            raw_data =3D nvd_request_next(url, attempts, api_key, req_ar=
+gs, wait_time)
+> +            raw_data =3D nvd_request_next(url, attempts, api_key, req_ar=
+gs, wait_time, timeout)
+>              if raw_data is None:
+>                  # We haven't managed to download data
+>                  return False
+
+
+--=20
+Yoann Congal
+Smile ECS
+
 
