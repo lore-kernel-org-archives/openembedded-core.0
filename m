@@ -2,39 +2,39 @@ Return-Path: <Hemanth.KumarMD@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8642FCD6E48
-	for <webhook@archiver.kernel.org>; Wed, 27 May 2026 12:44:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6C4BCD6E46
+	for <webhook@archiver.kernel.org>; Wed, 27 May 2026 12:44:36 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19600.1779885875675472798
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19599.1779885875118648608
  for <openembedded-core@lists.openembedded.org>;
  Wed, 27 May 2026 05:44:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=PNMquVop;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=QDmqmeup;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=96079a5f83=hemanth.kumarmd@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64R8ki4W2757722
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 05:44:35 -0700
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64R8ki4V2757722
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 05:44:34 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=m/AU0VWUtvMgc3rauzOyX/qP24ZAY0diJ5rRJqALl/8=; b=
-	PNMquVop9Zqtd9uUwAaInhS22fqx04r9hOSX/r1Yd8pIbaPpf8WfpZ+hHwn6ZWiP
-	LmRGLf4sj3+L9eYr6NDfjEp6UcyQBwb7/HwuUPs5dnR3b9QiR4siFnBnHKIzBtkZ
-	H3R7Jqjo3jEm7WgDYWrJ99lnDQN3rbfyTbxHsYmZdJvDlCHI4bBoc1oWbpZe/TBV
-	Tm/ZwTPzns9l7cR2bsjMonk9J7qtWej51BtgerTmJVRp4oFx0uX68tRacDYOTO0R
-	0P9TJccb0swEziVP/wqOJNcRxDEI0PNKa9MqKsn/1OZJtcEfWqvviCHeCmIYmmoB
-	ZRdqlOKIfLdCNlcwI6gz2g==
+	PPS06212021; bh=t6Mpt3vslh6nfUBydXrcS4rySYYYBGmN68e5MpWLszI=; b=
+	QDmqmeupujqhwc2N71pPbQz+Y4OlCQKjm017i9R7kbw9+m8Q+gl49hSHEMZdNzlL
+	4aZyxhLloWLnlZfGpmUvhGbTRWOrJQP0gppGnqNH7cOpAd8M3w2gNzorUaC5K/qE
+	MitMFJQaTJYkYIBzrE3luApwPjSeGYC1vsaQjmJbjWxapTvl0s9uL8wXb/NP38S/
+	Vx/hn5aO2GzySHVIeHDo+qQhekZOSUTrxaR2wPcz+rtIhbsbe35kFnRAvQiK66lp
+	i6XAsT4gAswvaIB+NHtmshGCDCUTNPGaeNGGDe2jGTrA59jI2JN4i6cyBaqYsFX6
+	vFxcCyTGfG6LsoGkDlw1ig==
 Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010030.outbound.protection.outlook.com [52.101.193.30])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ebbrenk0q-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ebbrenk0q-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 05:44:35 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 05:44:34 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zVqfTz7ijfyz1AW6GbQ552wCn/7BFBTDKtqy9LngJw+xpp/iPxQynFJJ9dzbmlZHIxHlgZGapVU0MyLbwvlbXFHN5IhOycx42mecTkqPJv9MMMM94+6wdIZZBWOU1EFTNRxe34cgPiCmvyoEVqclm6QUo2kitE22RJELz1G7Vaxas/aJky5QSqS1CNSbutz9B/UH06gbsyBe0qsyfQf+Q06xQgnHxu2PH4fOneIajnVGJp1RN1PKJRi98SaFMPfTj8dVeuYzIqkP3/4nn1Tp0aVCRa4ACi6LX7nUKBFieAYPYJTncpaovaJFnVr5FP2vMlCE1ExalOxGmJR2Wzvung==
+ b=HjvVhF10A6i0HmMHlXUhM2juBtvUEnDEsk8gT2djCMsCtjws1I2WTX0Hyngl+U3d78acO43ubJUMmYItTfbW0FeSK5VLU70I9ys3oVXf431blC7iNmKEpfHd/xNHmE2ZSgbmr/6L7z7WSBfayQ1D9SttCJG8p9gfJXvhsWOU3MiVOF0FkBZX3K/pR2PDQUMp1QUdy2Zicx7vccaFNXMBPrTrqRGmoUYckn82NE0NS3e90wTjqAw9VsTppJOb567QTsZLQfWHMniL132J8CXyZBYRBHkgJBZCuVtj6F0A2wezHWtgAU4hWn2GETCJUS3KxJowlEnnmBJH6RW5JvJBcQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m/AU0VWUtvMgc3rauzOyX/qP24ZAY0diJ5rRJqALl/8=;
- b=jLYOJJtst9/u8IB6XUgJmLRWw/6ZAal8DfEGqkT1XL7LniQXQ82+DmivpRrNi2Zu38RrG7nayNGT7mKS+idwfEJq0t4M/nmUg8BaydvWBvkiGuvcww8XhDA8eVBg/vywSZ4S4+dKDQVlp5wp7Xro8GOzC9AImcJJ+uM2GMgNTXroMRroG9Pt8k/mGKfa9i6PY4THe8p4+ycYLjleqeaUuzuxFooOBPFlYjlMm4oyO+6cnhnrVKcv8oPj3f6ROJ5crFCiMRxxdJQtRqDjaVpdi4R6MDpk7pwoRk+VP7tmv5lBwS3TpYw0A/s1vi77WdoohuB1PzhFmS65RZCLQ2vK8w==
+ bh=t6Mpt3vslh6nfUBydXrcS4rySYYYBGmN68e5MpWLszI=;
+ b=OxUDBi0NjiuqsV5u9UFANoRddA5u34mAltAiSpS/BmWod3rjg2RbDQ/X0KCqC4wq8D3S6qVS3y0bHDrH5lEw/VZ3fmf4ah6SpH0wHf4dAwVO68JinkzpRKP4rLoTZoHHWt+JaTRANZrXoWETRRiS5q5hAccUcyghywLT1GrnqQsceMj4hmyas21zcYGgmJaM1w/KDTvIKOOg1cwc/CO1RPfQzkmatb8ZdJnsZYoQRusEO8hasqv1ofYn/0oHpd/PXu1LjfPZfafzJFwLh92B4HQQRWZtN5zIvSMuH97LHFV+1bYX6g80CmrSeOPYCg/vRrEBAJqvHql+M1g42FVOsA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -50,9 +50,9 @@ Received: from DM6PR11MB4564.namprd11.prod.outlook.com
 From: Hemanth.KumarMD@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Sundeep.Kokkonda@windriver.com, Hemanth.KumarMD@windriver.com
-Subject: [PATCH v4 6/7] glibc: disable automatic libatomic linking
-Date: Wed, 27 May 2026 05:44:13 -0700
-Message-ID: <20260527124414.1728434-7-Hemanth.KumarMD@windriver.com>
+Subject: [PATCH v4 5/7] gcc: i386: fix ICE with -ffloat-store and SSE [PR125308]
+Date: Wed, 27 May 2026 05:44:12 -0700
+Message-ID: <20260527124414.1728434-6-Hemanth.KumarMD@windriver.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260527124414.1728434-1-Hemanth.KumarMD@windriver.com>
 References: <20260527124414.1728434-1-Hemanth.KumarMD@windriver.com>
@@ -64,76 +64,77 @@ X-ClientProxiedBy: SJ0PR13CA0099.namprd13.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|SJ5PPF75B6D7B42:EE_
-X-MS-Office365-Filtering-Correlation-Id: 335f512e-fa21-445f-140f-08debbedb21f
+X-MS-Office365-Filtering-Correlation-Id: 107927ca-4123-45b5-6d76-08debbedb1be
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|52116014|22082099003|18002099003|38350700014|56012099006|11063799006|3023799007;
+	BCL:0;ARA:13230040|366016|376014|1800799024|52116014|22082099003|13003099007|18002099003|38350700014|6133799003|56012099006|11063799006;
 X-Microsoft-Antispam-Message-Info: 
-	dIThwtatjNn0BLraaz6UVni/dM0yn1Rz4iRSjaWuXpPrPBfEzaeDYUNUxtN+IT3Ci8WWDIQ0tkJpb2IXM1GVtebfJL1kLKFrt41fZXCEaIFFEfExxSNQP9xpZu5meoCYzplzEFRH0YvBftAVt120Byjc5yGCghAhNEY6i4nm+Sz586wqQrWg3H15NvZ9AgNTvmi7gGaN2bN4ZkOnLgfN+NfalqIxtOt9++4Iuo9tBsAGIZvbmQU3B66AtzH9fh+1xnzg83HFX8koRZHCXbHsIXSn0CkRVIWuZnF1GiRqjJgYPryCNyOYAi/8HXh6MixLq4FMN6y8uTyXVD9GI4TFxMZy/0J5ZhU2JybrIKYaMgupgHXdpzv6D14toGS2DmQwLDBGB4nC/HSiFEdLqugbPADpzBfwnKfDcTWHNDBUDEcPy1zQKCJGq0DqwkQODSAB8iR5MkPclWYnzNcNK2nG2ZvccczY0VaqKVZVVND2I/fJDP9PsrGEPMK5dEXleoDc+am+Z2shrnONwhbWfa1pmCqovSvLU1WUxagWn97SetkshXOorAkp5TC8bmF0/9BUYBv/5gMie3d+X7kHpNLS9gy5TYbG6HELq68El6MQHoWhEp+/AflnhUuLHKICKQukK0EDsUomeKiVmPExTIfpry7Ay1910SuLatBfNf6zqu2XVkiT6AgPa3Zxr5HJdaNJ9e+KvmHnwYf6g5PKDj5n80X96W9JkukMKnLgL14YZpJjKsohc8dgsijZRoWov7vd
+	wSBahJXlogcqaGPXgaVSRtlj1osQHxYwW4kFIPk/Me7pqVNkL4f6NKCXPPeuED30A++AhZUYAT3y1hOFQCfLUTtDdAVXBgC0V4fI7Do97A2JXwflgwjxLING9qMvnMrwqBIEtdKnFKhfc9rjk+VOvM8t01NhP2Dpaddg8qLsTaVh4oJr717YwjswNPGKoPLTTLVA2N8gG3q5KiQDmRcc3cAQ05Yznnt6JGDxmDbgw0DYQIxWy7Semk+3YRo7tvfttPNy+zJ/5iOk+m6wCCx99XXSNgEV8FzG6Y6EtFIyD91mA8435Jkm3XGHmBqTSwhMronKvBKsa5ZtmyLXnKaywyZMzUZZvQtVyiniajflqJdld1iRvn+hA7AwDr7D0XF+xRNHpXoNnLCRYnAg3fV+nBgAkc/uzZceGqz9tL1+fXGG/6awoRr0wS7Wocv6hTYmMoDKJrbDXK+qunj0pIL1eOFkDpRn5mrGrh2wzAuQedKuTgaoLQtZkMTFMYHiS9xj8PAmvnFk71l6RdS5vu0Y2N0hgQB+oHPOhWt/z8TXQOZEZxArzJJhXI4/9l6g1TAVqOqCQvUxCR4IW2sLoUNQD9TQVOfKA8IWqhghvgeD6y0s4vv2Uypo4x4jg++Sc6buGw9ZhdJakcd7Zt3hRiSV1vRvpqQhKhQzbqy5cG8PlU5UA5blGd3NjN+ZMVGblxNMfgqibOC6kvEna0ozsp5+vQ==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(52116014)(22082099003)(18002099003)(38350700014)(56012099006)(11063799006)(3023799007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(52116014)(22082099003)(13003099007)(18002099003)(38350700014)(6133799003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?hE8bigfBAPZCJ9PuR2ZPOczicPpuzbXcT8IhDBBOBY3v5f1tjeBV7hZXZh6k?=
- =?us-ascii?Q?cPYorWImeEpKquZKFomXCLKcUJmD3T68+zLlxD2rYH45G66LK4tK6KfSZ1bW?=
- =?us-ascii?Q?A/yXoHHUnsEGKRCqCQaEjk0CuPcOnf0j6liTFzlOf3e/dRnriF94WcZkgsVX?=
- =?us-ascii?Q?9VA2WO45bu3yLPwVfFNAPgGsNL/vRLqfXJZaoTPd09fh8Lt/2St1Y/BtI1f7?=
- =?us-ascii?Q?deFqbnKttRe4kcffXcUcra/i+PEYHbK3TPbusRvngsmrx5lO+CHq2uPQmJPy?=
- =?us-ascii?Q?yQOA2psVB6VzvRQ4VRmb5DVIrivPyd9yyR/uYmECv7+OI0q5JaWmuR4dj/Fz?=
- =?us-ascii?Q?A42PeWVYUCOZxMtbiOLIrnCzElQ2MvvGtzSMRRtODq0nRqhSYBt01/UDJGOy?=
- =?us-ascii?Q?N0vpxU5CwlO594YfK528yp++ZCGI8QOwg244v3lOwJUNC2VAFiKunArmIovQ?=
- =?us-ascii?Q?vRrv6c9M1yZrs689mP5/kYF6TIQ9ztdcQFhGpROwEM+H3Dng0X5/4hS98a/7?=
- =?us-ascii?Q?M1fOmbNkp8FpDv96d1e/qDnoz9KigDR1qH53j3U/J2ZtYYU2f8IftGkEG+Fp?=
- =?us-ascii?Q?lT6sYCHS6dctem6jv33yijHOv3ZvM84LPbcVNx51xLcXfTr3DLu9K+XMKxE6?=
- =?us-ascii?Q?2HxIGjglrGYA+Vhn5YIE9dN0lnjwVNyMLdFZVYFzvzlZ3Y2OnXGbByZxROl1?=
- =?us-ascii?Q?bhQAt+qXlFFLa13IfoHWAEgxX7vIG4QlJRpwr2d1BWbwhRLdGUYnqsrUqhEe?=
- =?us-ascii?Q?+piiP7FIDw5hMEs/yQhh1vCc56CuduvVcdhz8ELmAfgOjo6fGhJdCX15cjg9?=
- =?us-ascii?Q?n1T1kUIgow9XSa5sKOM5VgmLCOiHL59Mjh2cZsU1FF8Bvd1EEYM3T4/pknu3?=
- =?us-ascii?Q?W4cjoiuWqgSUJVeFqdDTBXAGdDeFkAxIUohN9eW5i83PdZsOCDL46KeNOHfQ?=
- =?us-ascii?Q?wocjh91FijRtb3atY5w1CxjI7BgeKA/UXUj4TojyZ56GayvG81CIZMQC/Pi/?=
- =?us-ascii?Q?hu9YMR7lMmrTC+M46klu4VxT+Pcz3Ita3RAFSU7YTMfJmRQbO7BT+aXquSfa?=
- =?us-ascii?Q?FI1RblG531g38ZdrcXH/DuEY8cmh9lPzTPmAYEzhadSXgUVzXqKz32x05WBc?=
- =?us-ascii?Q?4fG9iu7/0S0mmWIiaZB3VthfO0cma+DUHKcyFKp2IQpkOwYdSAt6KlHJ2J06?=
- =?us-ascii?Q?AuolgVq4ULg77Iy/LfG/3TL0RJcQfkD1HKpICtQm61OgESD4vS0XSrbjnqHn?=
- =?us-ascii?Q?4ZX+OKbiGFbuzL/cF6Bnq225ie9Ry0O9DTaA5snkTW3vXbQc2LN1mJsqfcRG?=
- =?us-ascii?Q?iyizI2r9lG2fykmA0d8aHqn5IoTW9wST01aziZSnqKH3EL2s52Uxt4H/Jvz6?=
- =?us-ascii?Q?+FVtie8y9+WNgMEx6/gbTLHYbVuBO2u+Fjwrcop+ZVchTqT2v4q1zOy5JTGg?=
- =?us-ascii?Q?FsFpUE/nNK7YdFtFUbJFLqUB+uytMvjRdybNU3F3gnT/i4BQwB/T3Fci3wiy?=
- =?us-ascii?Q?hWUijjBvfymYKhgbr6kBO4qskMGApoxep9QCr7Hq/6/q4XsZYaPMedbTUITe?=
- =?us-ascii?Q?t1FBvlQoi5VJ0HodDtbA6qts5C/cA1gEH+j799ryClnvyh2Zst62xBtZ5VA2?=
- =?us-ascii?Q?4T98/50Janpc1PFBuBo3flmrBtyszNi7Je+CeUU+oHvPYf4719WLRnmrOTgR?=
- =?us-ascii?Q?+zLX8NqboiqCZZ72wCLRpWkjle2gpHcpA90ry6fEQqxjw7IHLJC0CR1gQSrX?=
- =?us-ascii?Q?Lv/fBXjLIOCYH83Xp1wuXrKeB7Fz/PM=3D?=
+	=?us-ascii?Q?W/ZOtaWJ2w6BgjAPypEvVQb8PTu13jXgsg8v534BwILd/0tmi7BirRRSkUP3?=
+ =?us-ascii?Q?3ygcDNLRuBzD6Z3BgEKuZk3PHrOovShdLX68PdJQUEMv5RcT1oP1gyU0NSxF?=
+ =?us-ascii?Q?El/YPX0ZqE+H4XyMJvlNr0tbvYBLFxQ/y96VoAqipoqsuYhz6Fw91RQS0iIS?=
+ =?us-ascii?Q?q7ipvWoLPqO3Tu7rMZSk3uYvk7FaDP55InwcPJhFqKYnmSczv7a9X+NpGef6?=
+ =?us-ascii?Q?VUP6T7sgIqvI9B1Pmvt980+QYX8h4m4FdC9aLEG7NZWndzAt/bg+Q4SAd3RE?=
+ =?us-ascii?Q?iMG225bMPF8ZXDrHNj5dOecGne0Mxlun3J6FCKwbkTFVnqYrH6F7OaKGbxIP?=
+ =?us-ascii?Q?mstDNeeBJyMMKmC6o7Odgo/4/31PVX6yWAt5E+u95Y/bKGmcjHkq4Jdt7QbV?=
+ =?us-ascii?Q?baR6SD0UBSheuHSsOM9fhV6Z2RViW4Z15Wa7i38QjxYcNxwpWPESEqqiW6n/?=
+ =?us-ascii?Q?8uEBiK2NTvA9N9Rbu9ts7PJ+tXY7EFvgCK4jkGgi0w/ylsro0g+BG/iHtl71?=
+ =?us-ascii?Q?SFzSuDam0mGY0Tdt9hPETxvl3rCBJ3B7wcMDpPBSi3QIQjW9oVCuS0i6EjWa?=
+ =?us-ascii?Q?KFHUCiC69JCNbJ749n8ThJVshP/n88wAMQDaOyJvnrjT8B2RtiSor4u57LTF?=
+ =?us-ascii?Q?+nSwo0iqA2vU5BagzOKOZj6PATHYip5YpU36f2cxOa/JQzefQe5ZdEh5wPC/?=
+ =?us-ascii?Q?NwnoGQOXXf286DZOeCEWEJsd06/MFETs2xW0VxvSLfSX0TEdB3yyiUhxSxMR?=
+ =?us-ascii?Q?kAwTMKrNJLfWSz+eM5kYVa+9TsjXkxiMo2PWl2O37Cj9E4T6jZaMe/XXuG38?=
+ =?us-ascii?Q?PdiC5w2nqqYG/QiyTNZUuZh8tBMjNFM/+uhnjyhoJCJPwCNPxtYH2RhGbdvI?=
+ =?us-ascii?Q?JZ9Z8yU39RftJSmfiQ3aqUFfjTiA889V0Cs5pawa5olcMbfZ0XnSFuqWoeij?=
+ =?us-ascii?Q?TgsJh6NOGRBSvkV92MP4qEom3mPDbYXAlRgYaN45gOwyJfK2ooCq++wS7Wi9?=
+ =?us-ascii?Q?yBi8UDd/wiBlkAktTwptjyhx5KD6KxDQ6R9PX1CfTQUD+nE4/q4l1/KBWLtv?=
+ =?us-ascii?Q?rdeiXGli2tbyxCAue1PFnaHpFYV/9WQ8RFGKvMdUP5TThsSRPbRLjS4F8+SF?=
+ =?us-ascii?Q?qNMas1+z/9n+P5iZUHfG2OwGOZfmwB/HXPrh/1ccTF9jfJntZMTnu5oZ028o?=
+ =?us-ascii?Q?+u3XyXjTFH3w1CsZCvAJn5gGNsGB0RMgv8y/yIrH2wET10rN1IXSCr7bbBi9?=
+ =?us-ascii?Q?Or5DhFNRUcrDw6b75TAr7q7NX+mVqlhy3A2gVK4+vfU8SVXlXznEOG9cmPci?=
+ =?us-ascii?Q?49hhmadtIoVlQxM85G/UYJqNGvW+bt0isTbrVYp/W7xaV/eQYjAeil7lUCzi?=
+ =?us-ascii?Q?ivQtZ3ZfzmEanCW69yxqcuvjbDcx1xIpYJz0UBFMF0lbO/minDgHSRxKoSp/?=
+ =?us-ascii?Q?jYKxoHJKaNj0fcQee3j05ExzS110v+Hpr82a6vugqc41i8L708erhzO3Rp8+?=
+ =?us-ascii?Q?dpCq9+4H0g+P5xO2qwedvPlxMo2zH42jVLi4kMVuhNY9mmr38bzxPmKyyq+C?=
+ =?us-ascii?Q?SW+HOUbr5guUYc3MrKOiZVotSLR+vYQz42k1NMpt/B9S+5Fr0Roh3ehbFWeA?=
+ =?us-ascii?Q?nhxTGaFhFkN7TzlQMEAJByu2Hsor8zR6r//1ZaR7r3nuRCcDj81WPuIXG6HN?=
+ =?us-ascii?Q?6Tkd3yUvc+/egFAQJ//pW7/OpnMFxgKSecFpKpXhwJRxYey+kanl5ARYTROd?=
+ =?us-ascii?Q?u+3LhjKn5pv4hqOzAVtKUnd5lQMxDO0=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	jKJgr/+zOHP1VYfp16bj4PwS1bZN+LM+dSaHyCWTP/AyPu9X0WFkDWBggGqzGLG/59v3zUxYF9uGUVqUCHuh9OubZtVGLArCCc6AimhCtG5Ex4Df7F359Ay51+dMc/xVVbCs7xg3MKuxHlMZIozQrdXBiWju8n0mFVw6915NmL2MpgFULgZ+drlCxShnbfrc7D/MUEA3LFqrqt0xK3ahVbOeMwFHP6oS7O33yPwIQqQx2rdNi7vV/PvqYPd7lGY7hKht8YjAF0NMTCaqbcKgMisKedYAvXLqtehLKz4ibOEVqLM3XB1Pz9HYIzfs3Gn2MCMpbm2ahIysWC0zVf/GZw==
+	mQSrEW/jFO9qf35FHYuHtpRoVwRuxK+vPPszO6q4PNGPKCdVSi6HSUHmqyDIzDJ050KSBVw+eetDoG82I/a1HFS2kTDGQHXWUi5LHC0BosEbFb/23nvWCG9GIylKK15ZZa7WxWJYE4q4T2q8xYvZK8Afe+Vq2Rv/TuZwWCfGoPsmulaXZv1oTyevKbJU7J8JE35wgmVQrtZa8iE5vlmR/21+w2BhK70WlpOImSuZI00t6x5JElCvltrrMD/2WhGH7R2mH2q3PSvLg5xG+qS6+/fCPFLdmE7utYz/6ax15DFnQ+gvFAilYrJqAhMrAaXeY21atmUSpKmn6DtPuHaCfw==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 335f512e-fa21-445f-140f-08debbedb21f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 107927ca-4123-45b5-6d76-08debbedb1be
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 12:44:30.4660
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 12:44:29.8583
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i49Zg0oc2ICkEXTAbq3tnNQmNV48z3dZAtHEntAb8SfzeR8cj+R1n3zdbv37jTNCrxLX54ZPZDOlluaPZQ8E8djth+4HFnzOALO5fLJMQ5E=
+X-MS-Exchange-CrossTenant-UserPrincipalName: OOVLlrSyhixNNhsu9jdkkRbl40Qxiy5yVNWG2D/w8KdmGqsS0nsCrBDf3zL9WbzGJMUQphmaD+jO4rMWRxgyL26ha/+t3pkU/4K/NdUFqX8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF75B6D7B42
-X-Proofpoint-GUID: yi8j3E5ICRRxCi-wPNpfKN1302Dwpzgx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI3MDEyNCBTYWx0ZWRfX5MIKuksfjbFz
- RWkIgikOgSGpGU0SgWhEGZyq9AswZnoQTh4x4j0SJve19Z/cuff7GeYVRcO1hEYtRI2gzOszmaD
- XQLlNdrw7uv2VpzhpFbpEYFmuT++8hGQQIwoyz7K+er7BUmHjFT1kfot40RXJWiJNI4OsCx25RN
- 0Lx2rjx4bRBLfHvHF8zRcZJApshH7k99Hg1CCHWiD1OpBEhMzLrriFTzp//2gbwx+PpHzLMrgWU
- jADUKGOguSGgeDHHjIuarVrcMksIYt/v3ovftfGSitoLncTSNrkMnScwSOiYm9gUOz979lurXlT
- PnooQRsLGmoKTN6Fn7R6lZMLvUVFC49QUBKnQYke03EicCE3m3MYs7eimJwD4plPWRUGaWAjcP7
- o5lC2ffEb1oje1igwmwWUxJmVk8hdKw85NL3jJjwr9NSAD/tIOxwUWEaEMc9FcPXMVJzGawXTb9
- dvmKdPsJAdN4mLdrr8A==
-X-Authority-Analysis: v=2.4 cv=IMUyzAvG c=1 sm=1 tr=0 ts=6a16e733 cx=c_pps
+X-Proofpoint-GUID: 7NIWDIm79nVSgalSLvqOkEzNrAmxn7Hg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI3MDEyNCBTYWx0ZWRfX755UcnTlZqSB
+ hPst/fnR2kHnDOc/0ugMAOrI6IGzZO+t7ppRNyVke+3Qtdk7lhz9hGWduB/PocJfr6gwss3RzRS
+ ycoM6xidW+hRoFpYd4kodjzWuggzTBk4ucEfk2PCCFMzAwKaOcG+maokMh0WIA+FW1LaxVlEo+A
+ uHLQyLH4AOSGuo1hx5HTB8qwSxlmN2XF+uzNk1wROBD08pwwJVrZywAzpJJXzX4JAoIwVR305RK
+ 7ecucZ/KW9L2Z9oDv1kxuzHotRApyWvIaRz3O0Ec1dKPzX0S8Dhbv4HOzAwmMwmSDjCF2F+B+Xt
+ 2USdJKpHzrYae77j7UKLXGFjn5iZ7zAfj9MRFYKpVRapdUK/A0eAKaHAsOeed0iWCgD+nKrIEUW
+ HUJc2cxcJvpdqBZjXpE/4S4wa6RJ+hfGUMFixbu2oNhs8nAsI9uGRKQpcINAU1O22ziADdjl9yF
+ k7mpEbS8/iZo8lpGSuw==
+X-Authority-Analysis: v=2.4 cv=IMUyzAvG c=1 sm=1 tr=0 ts=6a16e732 cx=c_pps
  a=VB8Rg5rwfRosJW56o453OA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=NEAV23lmAAAA:8
- a=t7CeM3EgAAAA:8 a=qNKf9nYgbAztHspnWj4A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: yi8j3E5ICRRxCi-wPNpfKN1302Dwpzgx
+ a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=mDV3o1hIAAAA:8
+ a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=CUwP28Ib14oBlIJf2_AA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 7NIWDIm79nVSgalSLvqOkEzNrAmxn7Hg
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-05-27_01,2026-05-26_03,2025-10-01_01
@@ -145,38 +146,129 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 12:44:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237654
+ <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 12:44:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237653
 
 From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 
-GCC 16 introduced -flink-libatomic which automatically injects
--latomic_asneeded into link commands via LINK_LIBATOMIC_SPEC.
-When glibc is built with a GCC 16 cross-compiler, the compiler
-would attempt to link against libatomic which does not exist yet
-at this stage.(libatomic is built later as part of gcc-runtime)
+Backport upstream commit c96589414eeb0e46d9fe9cc1d562e048230b5f67
+to fix an ICE on i386 seen while building piglit with GCC 16.
+The failure happens during the IRA pass in extract_insn() when
+handling UNSPEC_IEEE_MAX patterns generated with -ffloat-store
+and SSE enabled.
 
-Link: https://github.com/gcc-mirror/gcc/commit/e63cf4b130b86dd7dde1bf499d3d40faca10ea2e
+Link: https://gcc.gnu.org/cgit/gcc/commit/?id=c96589414eeb0e46d9fe9cc1d562e048230b5f67
 
 Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 ---
- meta/recipes-core/glibc/glibc.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/gcc/gcc-16.1.inc        |  1 +
+ ...6-fix-ICE-with-ffloat-store-PR125308.patch | 85 +++++++++++++++++++
+ 2 files changed, 86 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc/0026-gcc-i386-fix-ICE-with-ffloat-store-PR125308.patch
 
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index dae087d53f..91fabe14a8 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -46,6 +46,9 @@ EXTRA_OEMAKE += "SHELL=/bin/bash"
- # bash but it can be configured by setting KSHELL Makefile variable
- EXTRA_OEMAKE += "KSHELL=/bin/sh"
+diff --git a/meta/recipes-devtools/gcc/gcc-16.1.inc b/meta/recipes-devtools/gcc/gcc-16.1.inc
+index 3a96228631..4598aff045 100644
+--- a/meta/recipes-devtools/gcc/gcc-16.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-16.1.inc
+@@ -73,6 +73,7 @@ SRC_URI = "${BASEURI} \
+            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch \
+            file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
+            file://0001-mapper-localhost-might-not-be-known.patch \
++           file://0026-gcc-i386-fix-ICE-with-ffloat-store-PR125308.patch \
+ "
  
-+TARGET_CC_ARCH:toolchain-gcc += "-fno-link-libatomic"
-+SDK_CC_ARCH:toolchain-gcc += "-fno-link-libatomic"
+ UNPACKDIR = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/sources"
+diff --git a/meta/recipes-devtools/gcc/gcc/0026-gcc-i386-fix-ICE-with-ffloat-store-PR125308.patch b/meta/recipes-devtools/gcc/gcc/0026-gcc-i386-fix-ICE-with-ffloat-store-PR125308.patch
+new file mode 100644
+index 0000000000..7ef8660ae0
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc/0026-gcc-i386-fix-ICE-with-ffloat-store-PR125308.patch
+@@ -0,0 +1,85 @@
++From c96589414eeb0e46d9fe9cc1d562e048230b5f67 Mon Sep 17 00:00:00 2001
++From: Jakub Jelinek <jakub@redhat.com>
++Date: Fri, 15 May 2026 09:55:40 +0200
++Subject: [PATCH] i386: Fix up *minmax<mode>3_4 [PR125308]
 +
- do_configure:prepend() {
- 	sed -e "s#/bin/bash#/bin/sh#" -i ${S}/elf/ldd.bash.in
- }
++IEEE min/max are not commutative and in the pattern
++(define_insn "ieee_<ieee_maxmin><mode>3<mask_name><round_saeonly_name>"
++  [(set (match_operand:VFH 0 "register_operand" "=x,v")
++        (unspec:VFH
++          [(match_operand:VFH 1 "register_operand" "0,v")
++           (match_operand:VFH 2 "<round_saeonly_nimm_predicate>" "xBm,<round_saeonly_constraint>")]
++          IEEE_MAXMIN))]
++the first operand is a register and only the second one is register/memory.
++Now, the *minmax<mode>3_3 define_insn_and_split does
++   rtx tmp = force_reg (<MODE>mode, operands[3]);
++   rtvec v = gen_rtvec (2, tmp, operands[2]);
++   operands[5] = gen_rtx_UNSPEC (<MODE>mode, v, u);
++where operands[3] is the const0_operand, so operands[2] can there be
++a memory, but in the *minmax<mode>3_4 case
++   rtx tmp = force_reg (<MODE>mode, operands[3]);
++   rtvec v = gen_rtvec (2, operands[2], tmp);
++   operands[5] = gen_rtx_UNSPEC (<MODE>mode, v, u);
++operands[2] goes into the operand which must be a REG, so it
++is incorrect to split it into something that won't work.
++Now, I've tried both disabling the define_insn_and_split and
++the following patch, the former to the latter results in
++        movaps  a, %xmm0
++        pxor    %xmm1, %xmm1
++-       cmpltps %xmm0, %xmm1
++-       andps   %xmm1, %xmm0
+++       maxps   %xmm1, %xmm0
++        movaps  %xmm0, a
++        ret
++on the testcase, so I think it is better to match it and force_reg
++(it is a pre-reload splitter) than change "nonimmediate_operand"
++to "register_operand" because it won't match in that case.
++
++Upstream-Status: Backport [https://gcc.gnu.org/cgit/gcc/commit/?id=c96589414eeb0e46d9fe9cc1d562e048230b5f67]
++2026-05-15  Jakub Jelinek  <jakub@redhat.com>
++
++	PR target/125308
++	* config/i386/sse.md (*minmax<mode>3_4): Force also
++	operands[2] into a REG.
++
++	* gcc.target/i386/pr125308.c: New test.
++---
++ gcc/config/i386/sse.md                   |  2 +-
++ gcc/testsuite/gcc.target/i386/pr125308.c | 12 ++++++++++++
++ 2 files changed, 13 insertions(+), 1 deletion(-)
++ create mode 100644 gcc/testsuite/gcc.target/i386/pr125308.c
++
++diff --git a/gcc/config/i386/sse.md b/gcc/config/i386/sse.md
++index 51d1e9b455a0..de092f4b9ae1 100644
++--- a/gcc/config/i386/sse.md
+++++ b/gcc/config/i386/sse.md
++@@ -3468,7 +3468,7 @@
++      u = UNSPEC_IEEE_MAX;
++ 
++    rtx tmp = force_reg (<MODE>mode, operands[3]);
++-   rtvec v = gen_rtvec (2, operands[2], tmp);
+++   rtvec v = gen_rtvec (2, force_reg (<MODE>mode, operands[2]), tmp);
++    operands[5] = gen_rtx_UNSPEC (<MODE>mode, v, u);
++  })
++ 
++diff --git a/gcc/testsuite/gcc.target/i386/pr125308.c b/gcc/testsuite/gcc.target/i386/pr125308.c
++new file mode 100644
++index 000000000000..0a4dd7c8ea6f
++--- /dev/null
+++++ b/gcc/testsuite/gcc.target/i386/pr125308.c
++@@ -0,0 +1,12 @@
+++/* PR target/125308 */
+++/* { dg-do compile } */
+++/* { dg-options "-msse2 -O2 -ffloat-store" } */
+++
+++float a[4];
+++
+++void
+++foo ()
+++{
+++  for (int i = 0; i < 4; i++)
+++    a[i] = a[i] > 0 ? a[i] : 0;
+++}
++-- 
++2.43.7
++
 -- 
 2.49.0
 
