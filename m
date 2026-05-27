@@ -1,180 +1,204 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4604CD5BD5
-	for <webhook@archiver.kernel.org>; Wed, 27 May 2026 06:00:42 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13803.1779860935778240981
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BBADCD4F54
+	for <webhook@archiver.kernel.org>; Wed, 27 May 2026 06:55:43 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14343.1779864937394183148
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2026 22:48:56 -0700
+ Tue, 26 May 2026 23:55:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Gg7DE/UN;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: adityags2004@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3938cc204a7so81711431fa.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 22:48:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779860934; cv=none;
-        d=google.com; s=arc-20240605;
-        b=EbKS8eP03yneY0jVLk/HHtzZXLWjjex/5Pr99z28txYhbkOsmVOguq0puu7+dD/56Z
-         oowDhCvWSw6nQTZS+xQ+QL+js3/7sx7Z5vLpptybWEQbhBC4LWPPLWTYUireLUnoFT98
-         ZjbMnXyD5krNScYl1Ziv4Xa5XQagZwC+38ygYmGj88ZgN6V/ZsqRqfZUttbmK2AuDrvO
-         kkxHUbaeAln0pDnRtYmbYQgGVX/o4i9Q3zyL/0nQcOu3L9r2/BZGvsJxl/m9G9ucRXFK
-         icD1ow1QYGlYVpirgpDfSj8XFuP87GccXLyzbpCuphOL7f5pFzJxrZudCa4AbRpc2JL4
-         kFiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Y5Nh+aas4H+tVdFpcRY4qWpPqsA5iVZBosvMp7GvgMs=;
-        fh=B6vtDpNTi4XOGWGC9Kq5d9W1AUmYn1kAF47SU3Mvhxo=;
-        b=D+W0jPccMCcVnFJoLQp3rUue6s8u70zLFe/GFTSHUErkQOoB22UXyBQ7wz5xk632R4
-         UV2gvaE13+MV2ejTKFboyNQVZ94LAA7Fphu0t8vIqsw28hDZ2qCNXuMEI5BV4rSpk6gc
-         5jZdmzvrMifDZ3sBq1/w5zHdlP0HdwGCg+ytF39rYNHdrwpB/6zpfLTjTmQt7qdKuy29
-         UFmUNuIsJ0LBGvv7qDrhkOHy8nYtDk/CgAvHTWku9E2d6VnB2dsZ8C9c66rCepNpQxxt
-         hUtGu4WdDMy9ud/7XrGKhmNef4pEItG8lQuUeMVKlgx9BuHoCi7irbn041jFsDPYebJh
-         go1A==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=076sWYqq;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490426d72f7so46421385e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2026 23:55:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779860934; x=1780465734; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y5Nh+aas4H+tVdFpcRY4qWpPqsA5iVZBosvMp7GvgMs=;
-        b=Gg7DE/UN3VnHjWp0oS4bl/xG1c72C2Pr+S0iuN5I460ehV4cgG8epBbCalZNtOUwxb
-         pJm03o2CesHYmaYVROa/EglSC/zg2s9gmcyp+E2NX//r6ggCvLBSVOOSwY5RHmsFItFr
-         vg19Z1GaBOnFJ0+JI5JT291nAu9WgMyFQWyiqnBnewFpfOVOnNVGHeovgNE5lN/jlL/D
-         sV5ydT7UaJVgkZDCklkCtTv6m2I88hp5sJyePjm3nZeg5jKEZTF+Lb9/X7ozOtMnNwjF
-         HQK0hsAlyLCFNqNaeQyZd0e/+u9H5VdOqCYA92YO2aeg+Q137ogLLTxNLVntYPT80S+4
-         +2Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779860934; x=1780465734;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1779864936; x=1780469736; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Y5Nh+aas4H+tVdFpcRY4qWpPqsA5iVZBosvMp7GvgMs=;
-        b=oC3G+aecGoRo4JHmN3r6BnpB6Brzpd7ihAHiVjNkWE0AXHe8QaJnisaLdmeQI9+X4D
-         hiAq6rrQ1dnhfGCL/kU0U08TyoZrJ7iiHpiM5HGLowA0xjz6yiO9K8c9GKkGDqETlfBt
-         QG5343+75qeLCI7mNM08eK4593BpQZ9zzkneGVXOcqxttrjAlKyWvDrL7x9E2r6kA9I0
-         v2SyzVbq5wL3av5ufaL42BfH4VfELjD4P1Sq38Y0oL+uODLmtJIdgkcwKXejDdA0wHQB
-         WMjSvPewjl0uG8j7jgbyNakwpCkxMzq0BGh/Ez4+l3hZ8P9XppKqnlWrwroSCBO/o+u2
-         EHpg==
-X-Gm-Message-State: AOJu0YyDuMkxz7SO5oeZdsIOYP3tvDulEjDGzybg75J0lH5ueuhBFCNP
-	79st2io7sg9fctXVCd7DcCOOjewIE4O2ESG+m+f8nNym9KfZThRNTptT8tI8qD8CSFuvBm7hH2w
-	t67PTL/kllq6fUgSXJh8m/Cuc07uFBEU=
-X-Gm-Gg: Acq92OFWWgehYi8Moj7DhWeC5gOmXUKuhHufZ76k+WB9KC+N4tR88KfmTSJgps99/jD
-	EXbnMND8uRmxsQ/1fnuWGvqKD6i2rMaC1Ul/v/T7YEjKu6uf/8JbAzdyUH8TDmfPOq+HGHEGhrM
-	2BXeLYzZnlCIdNIJZV3K+73uokZYAjAL1fh9ook+dlGjDo8DsrrY38TmguyiDQmtDVbhYOZPDUK
-	Aq7Ysq4Zd8wFPbpaJzzsQRyBsr4fIRYsoPgCZFotIzFHkC2EpmiPtkcKaB7w2hWY6thNGnbkR9b
-	C1ZNlynsjjPZwBz377RYO+sxI8hJJo3D29X2XPXcQ3nX2JxLXDc=
-X-Received: by 2002:a2e:be89:0:b0:38e:d3ec:4f87 with SMTP id
- 38308e7fff4ca-395d8cf8f77mr59472861fa.21.1779860933495; Tue, 26 May 2026
- 22:48:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260526112501.15985-1-adityags2004@gmail.com> <CANNYZj-CRdJjU1z-0m8bqfWtS=X_PVzyg8uKS4mcRXMua+ikVQ@mail.gmail.com>
-In-Reply-To: <CANNYZj-CRdJjU1z-0m8bqfWtS=X_PVzyg8uKS4mcRXMua+ikVQ@mail.gmail.com>
-From: "Aditya G.S" <adityags2004@gmail.com>
-Date: Wed, 27 May 2026 11:18:39 +0530
-X-Gm-Features: AVHnY4IXii9q3U4NAwzyO2VMfDG1l0gbvg30XSMTCaaWqrsHCWypApcLSX9s6mY
-Message-ID: <CAHaUZZAZGRx0H4z5sr8ndJVqjdUk4N9kaSRKp=6-DyX73e0VkQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] randtest: retry on unstable sigma instead of tolerating statistical outliers
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, joaomarcos.costa@bootlin.com, 
-	ross.burton@arm.com, randy.macleod@windriver.com, 
-	richard.purdie@linuxfoundation.org
-Content-Type: multipart/alternative; boundary="000000000000b0d3cc0652c62af0"
+        bh=zb/oI/etwnnpiZSUfFP1OGAG2TcgwTjN0Bso9Ary5BM=;
+        b=076sWYqqEsFuXzSoKHQiyxJFYneW+YgDlo42P5aKF6Ly5K7j+LJ395ptUC+osldlcU
+         4wH+T8lQA6EbFSSuiZKY74lt9u8bumV9/exEwLiOOzPY+RLddd5d1/1BpkaZ33OVnfA0
+         eCYY2BMGhzdBcY9UR4Uh6/V6BFMonUG+EpOE0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779864936; x=1780469736;
+        h=in-reply-to:references:from:subject:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zb/oI/etwnnpiZSUfFP1OGAG2TcgwTjN0Bso9Ary5BM=;
+        b=Qy6dEO+rV4acVS/pTkj37wcoHK4gvvwLBbFuInFUuXqpuBI0oHbI1lO5sLIkdJV0xy
+         XNrzlcHlicUTTIf/tLBrdhbVKYchQeY0+Spvs3lGFNbnl4YRzhPYEziPcRshNjGF6vCX
+         zz05F/X4RKnBN5Z+Jb8pxWVLi/mlZR3vJ1zIbt73F148/Y0TT9U8E28DAgh0MwIZT9Re
+         W6jhe7OhUJJUupn0m3ezH6HmGbhaCtFqV10ondrSLXja1mCfkwV6Mk+KilqAkCzi4wbU
+         1JGVuroBGQF3BYCfNT2yBgQ1/+nJ8rwFuFGnjTebg64ICt5TfCTy6/rPfEFMFlGvD85o
+         FhNw==
+X-Forwarded-Encrypted: i=1; AFNElJ/I5dKlsywgEuGezREtGrs8FXPTPhyuu+V0TqlvEBVhNiLmBfAeh1qC8odGao1EMkvwDv9R6VWpCEZVNMB35+IHEg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyIcc1r+oc84N+eFlQ3shqrVmAaBVJPEkmrf92ZMaOOtd+fkxUc
+	DQU1hPHIz7OETCzONK5Q7yA1VvuJCbzyVXjY3xjQOY3JIgNXCmce/9JVaJiUIH+VItA=
+X-Gm-Gg: Acq92OFWHJ79dJ+j8u7JSc9iH2lKESePs0FqWDT0M4uMs73JSQi2N9kwfQXIiyKP3l9
+	Yxxnoq6CkQwVERFX40r/n7SSI/BjJhoyBk625VthbIcpu9z3gXUNv3zzFIIRA09/8jdyXqopn2c
+	g7lGJVhCbkpeaUpn5+xR3YljNRYCxaZMF+7EdcrrDvAiVelT/M+4qZNLmB1WikzzPc9wwtjXRQ3
+	Q31TvqlUQmnIzePpwShp4oTzfs4cnfqsKyb63r9dIZCb/wWyqySj0qc3Jrr3t1VzZLrRQnj3UsC
+	5XVIQXe3h9eWcDXd3/YvFstJrarT6+P++ikb2STWZogFIFBsbdHX3IzLnpt7hiihlmoyIPnRkfV
+	XgBAZR25lCguKCJwL/BLil71jNIKLJ5j0HbXNOXiQLj3xrtz5ayjye8TIAAnQ+KsqhkX2ZaRp8n
+	1xG+pp0jZkpaI/oQgLnAknB/4f5Z0K9m8UQz6ZgO99xZZroCZK+z35I40jkKC/L1g1h6b0q0CfT
+	D5AAepXgIU=
+X-Received: by 2002:a05:600c:8485:b0:490:5074:651e with SMTP id 5b1f17b1804b1-4905074659bmr275670805e9.25.1779864935608;
+        Tue, 26 May 2026 23:55:35 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490454a0b82sm398410915e9.9.2026.05.26.23.55.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2026 23:55:35 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 27 May 2026 08:55:35 +0200
+Message-Id: <DIT9GN91CQ6G.1Y0O1OUB5MXZU@smile.fr>
+To: <sureshannaiah.mailbox@gmail.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [poky][kirkstone][PATCH v4] systemd: backport patch
+ to fix journal-file issue
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260525192246.2813508-1-sureshannaiah.mailbox@gmail.com>
+In-Reply-To: <20260525192246.2813508-1-sureshannaiah.mailbox@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 06:00:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237629
+ <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 06:55:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237630
 
---000000000000b0d3cc0652c62af0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Alex,
-
-Thanks for your feedback.
-
-Originally, this patch was created on the Yocto side to handle intermittent
-failures in randtest.sh by skipping the test. However, when I submitted it
-via Bugzilla, I was advised to also engage with the gawk upstream
-maintainers since the root cause lies within the gawk test itself.
-
-Based on upstream feedback, instead of masking the issue in Yocto (by
-skipping the test), I reworked the approach and created a patch for gawk's
-randtest.sh to address the underlying problem (unstable sigma leading to
-false failures). The idea is that if this fix is accepted upstream, it
-would resolve the issue globally, including for Yocto, without needing a
-workaround.
-
-Following that, Bugzilla suggested sharing the updated gawk-side solution
-here as well for visibility and review.
-
-If the upstream fix is not accepted or takes time to land, I can provide
-the original Yocto-specific patch (which skips the test) as a fallback
-solution.
-
-Please let me know how you would prefer to proceed.
-
-Thanks,
-Aditya
-
-On Tue, May 26, 2026, 8:49=E2=80=AFPM Alexander Kanavin <alex.kanavin@gmail=
-.com>
+On Mon May 25, 2026 at 9:22 PM CEST, Suresh H A via lists.openembedded.org =
 wrote:
-
-> On Tue, 26 May 2026 at 15:36, Aditya GS via lists.openembedded.org
-> <adityags2004=3Dgmail.com@lists.openembedded.org> wrote:
-> >  test/randtest.sh | 122 +++++++++++++++++++++--------------------------
+> Backport patch to fix systemd journal-file assertion on removed or corrup=
+ted files.
 >
-> This is a patch for gawk source code, and so is not applicable to
-> oe-core. Does it need to be added to gawk recipe?
+> Extracted from systemd MR:
+> https://github.com/systemd/systemd/pull/40378
 >
-> Alex
+> Signed-off-by: Suresh H A <sureshannaiah.mailbox@gmail.com>
+
+Hello,
+
+Kirkstone is EOL so I can't accept this patch, sorry.
+
+You might try to send it to meta-lts-collab[0] but, since this is a
+bugfix and not a security fix, this patch might be out-of-scope.
+
+[0]: https://git.yoctoproject.org/meta-lts-collab/about/?h=3Dkirkstone
+
+Regards,
+
+> ---
+>  ...not-trigger-assertion-on-removed-or-.patch | 67 +++++++++++++++++++
+>  meta/recipes-core/systemd/systemd_250.14.bb   |  1 +
+>  2 files changed, 68 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd/0029-journal-file-d=
+o-not-trigger-assertion-on-removed-or-.patch
 >
+> diff --git a/meta/recipes-core/systemd/systemd/0029-journal-file-do-not-t=
+rigger-assertion-on-removed-or-.patch b/meta/recipes-core/systemd/systemd/0=
+029-journal-file-do-not-trigger-assertion-on-removed-or-.patch
+> new file mode 100644
+> index 0000000000..ade8cc3b62
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/0029-journal-file-do-not-trigger-=
+assertion-on-removed-or-.patch
+> @@ -0,0 +1,67 @@
+> +From e89f166158b72a6ad022c9c795983bfe0a20cc36 Mon Sep 17 00:00:00 2001
+> +From: Suresh H A <sureshannaiah.mailbox@gmail.com>
+> +Date: Mon, 25 May 2026 22:58:17 +0530
+> +Subject: [PATCH] journal-file: do not trigger assertion on removed or
+> + corrupted journal file
+> +
+> +When a journal file is removed or corrupted, then the value `p`, which i=
+s
+> +read from Object.data.entry_offset, may be zero.
+> +
+> +Note, journal_file_move_to_object() checks the passed offset and return
+> +-EBADMSG if it is invalid.
+> +
+> +Fixes the issue reported at
+> +https://github.com/systemd/systemd/pull/40372#issuecomment-3762907261.
+> +
+> +Upstream-Status: Backport
+> +[https://github.com/systemd/systemd/commit/112cbc37906fb97afe0ad04164262=
+cf62d0af5e9]
+> +
+> +Comment: Patch is refreshed as per the codebase of v250
+> +
+> +Signed-off-by: Suresh H A <sureshannaiah.mailbox@gmail.com>
+> +---
+> + src/libsystemd/sd-journal/journal-file.c | 7 +++----
+> + 1 file changed, 3 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/src/libsystemd/sd-journal/journal-file.c b/src/libsystemd/s=
+d-journal/journal-file.c
+> +index bac258ca42..7b6b7eea2e 100644
+> +--- a/src/libsystemd/sd-journal/journal-file.c
+> ++++ b/src/libsystemd/sd-journal/journal-file.c
+> +@@ -2602,7 +2602,9 @@ found:
+> +=20
+> + _pure_ static int test_object_offset(JournalFile *f, uint64_t p, uint64=
+_t needle) {
+> +         assert(f);
+> +-        assert(p > 0);
+> ++
+> ++        if (p <=3D 0)
+> ++                return -EBADMSG;
+> +=20
+> +         if (p =3D=3D needle)
+> +                 return TEST_FOUND;
+> +@@ -2618,7 +2620,6 @@ static int test_object_seqnum(JournalFile *f, uint=
+64_t p, uint64_t needle) {
+> +         int r;
+> +=20
+> +         assert(f);
+> +-        assert(p > 0);
+> +=20
+> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
+> +         if (r < 0)
+> +@@ -2658,7 +2659,6 @@ static int test_object_realtime(JournalFile *f, ui=
+nt64_t p, uint64_t needle) {
+> +         int r;
+> +=20
+> +         assert(f);
+> +-        assert(p > 0);
+> +=20
+> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
+> +         if (r < 0)
+> +@@ -2698,7 +2698,6 @@ static int test_object_monotonic(JournalFile *f, u=
+int64_t p, uint64_t needle) {
+> +         int r;
+> +=20
+> +         assert(f);
+> +-        assert(p > 0);
+> +=20
+> +         r =3D journal_file_move_to_object(f, OBJECT_ENTRY, p, &o);
+> +         if (r < 0)
+> +--=20
+> +2.43.0
+> +
+> diff --git a/meta/recipes-core/systemd/systemd_250.14.bb b/meta/recipes-c=
+ore/systemd/systemd_250.14.bb
+> index 087c0035eb..b85363ad81 100644
+> --- a/meta/recipes-core/systemd/systemd_250.14.bb
+> +++ b/meta/recipes-core/systemd/systemd_250.14.bb
+> @@ -35,6 +35,7 @@ SRC_URI +=3D "file://touchscreen.rules \
+>             file://CVE-2025-4598-0002.patch \
+>             file://CVE-2025-4598-0003.patch \
+>             file://CVE-2025-4598-0004.patch \
+> +           file://0029-journal-file-do-not-trigger-assertion-on-removed-=
+or-.patch \
+>             "
+> =20
+>  # patches needed by musl
 
---000000000000b0d3cc0652c62af0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Hi Alex,<div dir=3D"auto"><br></div><div dir=3D"auto">Tha=
-nks for your feedback.</div><div dir=3D"auto"><br></div><div dir=3D"auto">O=
-riginally, this patch was created on the Yocto side to handle intermittent =
-failures in randtest.sh by skipping the test. However, when I submitted it =
-via Bugzilla, I was advised to also engage with the gawk upstream maintaine=
-rs since the root cause lies within the gawk test itself.</div><div dir=3D"=
-auto"><br></div><div dir=3D"auto">Based on upstream feedback, instead of ma=
-sking the issue in Yocto (by skipping the test), I reworked the approach an=
-d created a patch for gawk&#39;s randtest.sh to address the underlying prob=
-lem (unstable sigma leading to false failures). The idea is that if this fi=
-x is accepted upstream, it would resolve the issue globally, including for =
-Yocto, without needing a workaround.</div><div dir=3D"auto"><br></div><div =
-dir=3D"auto">Following that, Bugzilla suggested sharing the updated gawk-si=
-de solution here as well for visibility and review.</div><div dir=3D"auto">=
-<br></div><div dir=3D"auto">If the upstream fix is not accepted or takes ti=
-me to land, I can provide the original Yocto-specific patch (which skips th=
-e test) as a fallback solution.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Please let me know how you would prefer to proceed.</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Thanks,=C2=A0</div><div dir=3D"auto">=
-Aditya</div></div><br><div class=3D"gmail_quote gmail_quote_container"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Tue, May 26, 2026, 8:49=E2=80=AFPM Ale=
-xander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@g=
-mail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, 26 =
-May 2026 at 15:36, Aditya GS via <a href=3D"http://lists.openembedded.org" =
-rel=3D"noreferrer noreferrer" target=3D"_blank">lists.openembedded.org</a><=
-br>
-&lt;adityags2004=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" targ=
-et=3D"_blank" rel=3D"noreferrer">gmail.com@lists.openembedded.org</a>&gt; w=
-rote:<br>
-&gt;=C2=A0 test/randtest.sh | 122 +++++++++++++++++++++--------------------=
-------<br>
-<br>
-This is a patch for gawk source code, and so is not applicable to<br>
-oe-core. Does it need to be added to gawk recipe?<br>
-<br>
-Alex<br>
-</blockquote></div>
+--=20
+Yoann Congal
+Smile ECS
 
---000000000000b0d3cc0652c62af0--
 
