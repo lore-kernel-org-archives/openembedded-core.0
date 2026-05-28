@@ -2,137 +2,137 @@ Return-Path: <tgaige.opensource@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DED75CD4F54
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 12:01:16 +0000 (UTC)
-Received: from mx-relay21-hz1-if1.hornetsecurity.com (mx-relay21-hz1-if1.hornetsecurity.com [94.100.128.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9195.1779969668769329867
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9259CD4F54
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 12:01:26 +0000 (UTC)
+Received: from mx-relay190-hz1-if1.hornetsecurity.com (mx-relay190-hz1-if1.hornetsecurity.com [94.100.128.200])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9311.1779969682710738347
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2026 05:01:10 -0700
+ Thu, 28 May 2026 05:01:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@witekio.com header.s=selector1 header.b=PrxuFKvP;
- spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.128.31, mailfrom: tgaige@witekio.com)
-ARC-Authentication-Results: i=2; mx-gate21-hz1.hornetsecurity.com 1; spf=pass
- reason=mailfrom (ip=52.101.72.137, headerfrom=witekio.com)
+ dkim=pass header.i=@witekio.com header.s=selector1 header.b=mkCZNGic;
+ spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.128.200, mailfrom: tgaige@witekio.com)
+ARC-Authentication-Results: i=2; mx-gate190-hz1.hornetsecurity.com 1;
+ spf=pass reason=mailfrom (ip=52.101.83.90, headerfrom=witekio.com)
  smtp.mailfrom=witekio.com
- smtp.helo=am0pr02cu008.outbound.protection.outlook.com; dkim=pass
+ smtp.helo=gvxpr05cu001.outbound.protection.outlook.com; dkim=pass
  header.d=witekio.com header.s=selector1 header.a=rsa-sha256; dmarc=pass
  header.from=witekio.com orig.disposition=pass
 ARC-Message-Signature: a=rsa-sha256;
- bh=WPadKQZzF/mT0PFLtgHyGm4I+9/VTthXydrLX6VGVnc=; c=relaxed/relaxed;
+ bh=jAtRnCN2f85Mr2q3NgtHocIX/vjmhgX4oDPsIbnde38=; c=relaxed/relaxed;
  d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=2; s=hse1;
- t=1779969666;
- b=pdBbKlisBWr+tQ43lUXXKil04VU5Ne99wjC+oHeI0cXGYPE0nxgagFdHDkIVHN2rUvAW8vgp
- AUtPKs7v9JAALaCWzIjhE4uiiaPDBDTaLXSLs45bpQiLYK2QQbciMO0VlbfPQBPhB00BvIhL+Ih
- X+sgLJ3jhL/AAVBsnNzTLwhIFgTsz3JQUI1Ao8tg3v5IIiZ2ouZGJl8GyK8NE0Le03tUrEdwBix
- 0TNYdz89QHLO5ra3iAglOP3xizoLYm/6mNqkspWxWVU8T4kl0LcfPbnLohRw0rk2J5kLNH9ql0L
- 5C2WOdRQz7Ns3OdQGRb+MC29xyB8y25wdjwoMjgbN4WJQ==
+ t=1779969680;
+ b=hYRQPqbucnQ0oFHqEyFg+bKRhJqxFIkv8VLRVErpcCEF7FwrDFWQ9RDo0TeXoAeH/s1DCKYp
+ F8nPPQNQWzgZ0dbgEGg5EgRO8fmsT3RuhFzm0O+LUnKwy8+0T6W7H4N90VCXJXg+zpx9JNsEBwR
+ Uwvd4Ft7ciMOEVFS7z1Nl3mIKrty0qUnT8mwEtkv8rBHcc7wpNTzkOYmvhyEuXGsu8+1QL/8n6D
+ ziyWwptRcPNgoxtf4WnRLxcBI+E5VHENwEe11v+4ZfI5W/ovEeeTKL4LkTbp6zqiUKIS7RvqwPy
+ GLgqBZK20vn6GErY8dluz2CLGia1FEhc/U2rD3vYyHGMw==
 ARC-Seal: a=rsa-sha256; cv=pass; d=hornetsecurity.com; i=2; s=hse1;
- t=1779969666;
- b=VYxVOWXLB3k33I7pTfIjcJQ2tqWxwvMGLsDuZL8UmSVW5C/RfzYGcuizxE3d1tN2UZSMjoAh
- gtcyovEjYzeP2uK6W7QtBd2y0GhItikS+etd5obhK2HYlXqW0ahMqYW7n2BmXfdMa03IDApiD3n
- 8DYvjNYNhLD8nfGaurhT+AsvDvhibJpV8bBH7jDgatxDbpe7TlV7bido7qmDjMp0cx9znyMElNS
- IiCZNfchzITZgx2TpKnLrBgeqrR4btaE8JD2mc8xehHjd+kdewyhrLAaw12U/ZC7gwrzLffsW0U
- XXOZBMk3b83g1OeKrUFUjNeXEVxMhbX9ZaSaArqE1buIQ==
-Received: from mail-westeuropeazon11023137.outbound.protection.outlook.com ([52.101.72.137]) by mx-gate21-hz1;
- Thu, 28 May 2026 14:01:06 +0200
+ t=1779969680;
+ b=rTag7LR4AIzn7jzibdJseaaUiijzuZGpMMjtO7BNNa0FN7b8qPzGQKJGoG8cMoXIezHs3/9M
+ PIZLhgWNiPe11s+HYFAZeA2U6dLNpqc3LVdeqzhpiz3QTF7VWgZ4X09fXA6axfKmF+054LyYdau
+ IpehkJNRs3Ohbak/luTrm0Q3D5qlzMNpXYjg+4lvKzVgRZbbgb5mZsiUKGY7WuA85KkFLKIh7Mr
+ mqAtE4VLVzAsg4PYUSjJGwwtt0XPq3cD3o+O7Vl9aIq0tke2tYWXBH+03bQelHLRzHHuA6F4+61
+ vyo11KSh+jPPxAtvr8q6X+Ux5zWBE3ctade7YtJ1yYFuQ==
+Received: from mail-swedencentralazon11023090.outbound.protection.outlook.com ([52.101.83.90]) by mx-gate190-hz1;
+ Thu, 28 May 2026 14:01:20 +0200
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GlHlqElU+U8Pwr2HEbts71zjmug49giw1zPLGBpe7mWaEIm/v9MBtOWHV31poKkY3x/bdZyGs8uSKRuVZj5UnxJBivvvj7bzjOt90qwlUr6We/WmWMZ0DLrj87uaRnnyBDm4kQVWfv5Iwben6NJvdfOUhbMu3bz3p6zyKvxqEr1xvggwCdLWN+scgv2VgppmNkC+hEdObyPLfPyMyr7bpidwanszyb+soqIPmYs2rZkWpnH30zmybFSksSJ8dNWjZncu5/2oivesj9cfvPXFW5hKXbsZD9pjHBT2N1WKN3OpY0r6RGOKxmmUEVwMnNcV1CiWjHsRmKedunPKguwZgw==
+ b=jNxvnMCNJkk01Cpj6Lr7wQV0F3Lh8S6FYnNkuLV24NizD2UzWFJ+sX7r4+fxtqKNCn4IkVcZthg5zowLMlTKxSpntiGNGs/YG66z6xHUWgdvBjL98e4GpOHfxyJqXqaZh/jVaaqHMAY5fmOCNSD75e1jYOerO7Ian8WeBBzNtSDZYAA2OH36GrWfubiZ/rpmvrqOfK1I589J0aauZnutsabIgXQ4h6Gt8ZhH+vohPwkZVpW299X1k0s1Jg0FMh7vkxrsX6r5GogjIymGwfjBeLBrpL/xFZTRhOTtz3RFRCqGsH3YgleUJ2LJqOiTK3n/VoufS/uaABDQcC+yVKA/NA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WPadKQZzF/mT0PFLtgHyGm4I+9/VTthXydrLX6VGVnc=;
- b=dKJWY40ahrWu8wLDJd/+SfhT/0omP7zSFCPa3QRITlHwrY+ITG9rQtWHRwoWf7JlzQ7I+0f6G6wiNImihntqGTatnqoMCcl+gPcpXmOVfU7KE0Y0KiAANfQIBNRy8a6pZ1ybXzTIDDBa492twS2Yp8Tk1qnwoNEbWcoyOhOS+ltd21j4M4C7/K2J3w9SFRpDsAY1BqPK6z8aPH/uS/c8NkkYkRnUvEkLpREI2Fd2iHPHUVxW497mSpnJQRzeQrihoQmeursQtEQ85ArC6r6MDRXE/pO6k+3q9xU5xoQzKHHAokEZLYVOGnHLKTKZMfu5pLbXvTerTATKsvpSLgZlpg==
+ bh=jAtRnCN2f85Mr2q3NgtHocIX/vjmhgX4oDPsIbnde38=;
+ b=JP4IPVPE9sKUTHww3kqztVxxyR0DsHw+fQxO/9vrH58cMhFsPXFlkh4J8QCEZV4l5wm+hk3yw8qYQ0FbYCkuO7Lzwbr3K65HmJtTFlSjnWMhROXZAaqrg3yYgKzHLJO9QbpUBb0FfLg4+H23IIk4eSpSIFAC64LdCu1XQ+W9poUEjlNCGFay1vnxl8a73Qm4NZq7+ilFNDiqqXAFGGXPybtQUaASADMms1rXB8fETowA/7vuvL6VN2NBCHr7COrWlvtbV5RJkoNz969HIK2xUwdQw0mv8d2/NQZaXCH8n1q4Ashm/w5MtrvNwbWW40VY0LYc9UZKorb19bFJ+ZakBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
  dkim=pass header.d=witekio.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WPadKQZzF/mT0PFLtgHyGm4I+9/VTthXydrLX6VGVnc=;
- b=PrxuFKvP+R+81501sTnzucxFOfNJZUbWfxNhPmua0DlYUv1uQXJZaOTBGQkXYcqe+GL2/AhLY4BoGcTJxqK7Cd6JocKiqBt3yqtK9B3aWxmsBMqiI6rlLAfJNl4Fxo36Wi4HjoR9/AfgUzN1BrB8Dr75JmxDH2gzG/8AMFESmrH9DX6ls6JdpcRnWlbEKZD233G9inF++E2QoeNnJeCMuiUnmY+DJGUoD53ul6WPSwamFw1SGSLThW77OsMQtAk9VHDvH+9hq6oquVRQKYgKou5bRyJ9klaAG2sJ5GoWYIRwQalVoCIz+nZ5UT/QjX7DzGFd80Sy9n+h+WizRGM9aw==
+ bh=jAtRnCN2f85Mr2q3NgtHocIX/vjmhgX4oDPsIbnde38=;
+ b=mkCZNGicSqkGLqwzD5IlYXYma8CrvRqPhwWtG5YCy/FdPAaPp5bIG0l3LgI0WyLi0dTBWSYOVUslbnYydUAC81Deo8cd7RWBAQPv971vvysr2vTZrtdtqO7egOLH1hwLv5PSV6jyw61ovpWNtwpIFy6WhX+bcmNM24Zl6D2lH2kSaiiq7CksEmAuy7sGJTptxeTyp+0ZDrSrrADfDAE8GwBkylCR8IDrU+Uh8BzomAV5KR2BDpiQ1CjNfzzIUnbyElgUqZx+Wv1Hi/JMZ2xshkCDg0YdoHocgVTpLRgdenbLCwK9c+YwPHq86SaZqMIvlJe/msDtKLVzlX36I5eEEg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=witekio.com;
 Received: from AS8P192MB1399.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:3c2::17)
  by GVXP192MB1664.EURP192.PROD.OUTLOOK.COM (2603:10a6:150:6e::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Thu, 28 May
- 2026 12:00:54 +0000
+ 2026 12:01:12 +0000
 Received: from AS8P192MB1399.EURP192.PROD.OUTLOOK.COM
  ([fe80::92cb:30a7:4e3e:18fe]) by AS8P192MB1399.EURP192.PROD.OUTLOOK.COM
  ([fe80::92cb:30a7:4e3e:18fe%6]) with mapi id 15.21.0071.011; Thu, 28 May 2026
- 12:00:54 +0000
+ 12:01:11 +0000
 From: tgaige.opensource@witekio.com
 To: openembedded-core@lists.openembedded.org
 Cc: hsimeliere.opensource@witekio.com,
 	"Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
-Subject: [scarthgap][PATCH] perl: patch CVE-2026-8376
-Date: Thu, 28 May 2026 14:00:45 +0200
-Message-ID: <20260528120045.1801198-1-tgaige.opensource@witekio.com>
+Subject: [wrynose][PATCH] perl: patch CVE-2026-8376
+Date: Thu, 28 May 2026 14:01:00 +0200
+Message-ID: <20260528120100.1801387-1-tgaige.opensource@witekio.com>
 X-Mailer: git-send-email 2.43.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: PA7P264CA0085.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:349::11) To AS8P192MB1399.EURP192.PROD.OUTLOOK.COM
+X-ClientProxiedBy: PR3P189CA0010.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:52::15) To AS8P192MB1399.EURP192.PROD.OUTLOOK.COM
  (2603:10a6:20b:3c2::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS8P192MB1399:EE_|GVXP192MB1664:EE_
-X-MS-Office365-Filtering-Correlation-Id: 95684f8f-c54b-42c6-87b8-08debcb0c52b
+X-MS-Office365-Filtering-Correlation-Id: 22f16ec6-dff2-40cd-1df7-08debcb0cf9c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|52116014|366016|376014|1800799024|12006099003|18002099003|38350700014|6133799003|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	69p4U6FblOi9woZ0e26N56knixvTHWmHuBeXY8Ng4aZKJHNpb0TjSdw2HPRKRMKoNwV/vk5jasBt/fhYmMf5ueMrgiAWaQaAAGj1PuIUAe6es4U3col3fuT7MjvJVJa5pHlRRJU6YN4XYEdZBsPYTtpSGigpAmjIc+F1OvPvCrkdUY2gTqCT/3M8yYtIw7ocRwQDxNCZCbXvdOM/c06YrOpgdJLndN6E5IzjRrnth/KMimBycNXo49TxGUaooqS09vWos9sn+dzr9etpB6WWuNp4ZciP8mBVoJf9R0csIOo/s5IZjQk+Zkz7a9vp2GMOvahP1+fTXXAoVO5eVDbR2Va8mEfB0UBnc4yyhZGDezegOz79K9ExZ/WZ45xaMBrjIIICpokaWd7F2fs0ey3OCAZrObQbIarsDlBjzsJFZPC0jFmVYFZPYYjjhGwd1fyVp6xKMaTAP6nD9NuwIz8FmoiALuzBa6IcX/hvRtKzuCXIxJP+U82AyFayOFSsr62WrFTNaqKnFo/VY2nonvcKLnD15+liLjo/7mOgSmUqUCeMrg9uK1A2Mvp7TnvXjgPDcOkHENJd/2zXU67h1Q40aEYQUdcRTRMipEwpncQ36dgAlS5XjWxKcAhKKoyi/xPGRjKluTb0bO8CzdzEE299aKjk7x8nipXMrJrBLPto/LXrLvg95HgI4Su0sdqRTNfsGXYyCtePvV19t3n2x4APKuorA3muphaA/NjVN5tuGFyDSJS3aaX+/jW1wm28Ka1z
+	OlG/LKM8Nu3AnB3svkw2OtZiq0t8tQGPS9aA2V+4WqiDzH0oGzNXTuugkZ2IY31sP0D7SSXcw/ZZSazBhJJ0SCEHAjwwdfzi5kSVokJGMpVWRxDvYSGadF8QhjnCa8UDmFh81YuVw7Pi8djHx/IOsy8WX9/IzVeULhZQsIYMMOJHIZUKYknxxBQUw+7aZwGVSPXAfqkxJOdNpmK9UkJqCCPFNktVotOQgSAag5JZ5/uv2AGctEW7Xe9FG04Om1i+fLPEeBKz/wNIQMXQ8w6ko2Uvt2w2plGzf1DHrFvZXf1SynQeyNHqaVzpWEpRMATFdwlt4hfNkJsyZsjJ5TgcxohWhmZF4TirM0ZcwFON6T+IZJxZHcx+1T8HcEB0zByH+jEREPfwoxdEFoGZJ+9iQBPSnHg+K961BUwIdnVvKFVT7lv1x0+F3CLOWwcvDoS+hJIbC3EVf+HFaIlScF4VBdXj4HxknPSDpDQydiIvsZiJLAZ7P1+whqFbjSNTTiw1CXrwvJdX6uWZNiiD2NdGDVIndXnBj7xpUfL7N2MxLHZ+C0buw9FxzZxje146bxXAtra5HIIfT16UTsxD2OQjSpoeQ8OouePk3UB09I0ZnvPghp9TChrkkvwR5TLB6IzFQWlYkvkpWXqau3PvbzWP1iIy2CF/vLNEkCecu9OVgYZpgIkrlqVci3s8IafLmhAm+hXd9EgTM2Y8AJ9v6e8kk8Xf/fR2U8PhSxS1Pv6NXE0302WnbFsegHrmhcC6HLvC
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P192MB1399.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(376014)(1800799024)(12006099003)(18002099003)(38350700014)(6133799003)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?TLHnopM4j4SBXVrBo01ZsMFwQI3gd3K7yPfGk+qgE8t4Owpz4FE8yHlUWkae?=
- =?us-ascii?Q?tn1aaogqGhygbVJdEgrNwSoo7IkCkCvBqIxZkGjq8+oHPStTEI/XvKcY/XGO?=
- =?us-ascii?Q?HpMCwpf0yyWpb3+akonADgpA3l8Vt1PhHBkHVRVZqHJDAOGRaeIk23QCib7t?=
- =?us-ascii?Q?hfvyYaVv+6Pq5NWrCZlC96xxUYw4d0URT3tE77eugMlHBHtR9syfg5mjyOxV?=
- =?us-ascii?Q?DJNwZgvMuSwqgpU0Hoxy9X4qvprXutimVT7M8RIyIGXydV0/J2H+gxD40i7x?=
- =?us-ascii?Q?HtEj/4daij90xKpIAVIRls7rw06jXMtphk9yAIOvMIef+lPoTdZuO60g2RT/?=
- =?us-ascii?Q?cU80M0U9DpFyM5WsBBgFKUASGxy3mHLu4Sa4jBkQXmd0L1oup0od6IrmKyCP?=
- =?us-ascii?Q?RHjquMve056qN949HucsnfMP13NbH3gPMs77ENtFZy2cvGydIIa5TUIJXhjD?=
- =?us-ascii?Q?rsyOducfN6phuLiNZlD0nE6JBLEsGIuYggfcpJqVYtxcWIYXx7Fxlg7NaWZZ?=
- =?us-ascii?Q?k504YJW+TNVqC1EQ9ua+xBadyvpkl3NDvyEpa1ylT7ihg8/RzyWiOm7/Wvk0?=
- =?us-ascii?Q?b/Tl72v/IZYfPgkA/wXigXbBwP3N7Yyn7P9CZ0ly24qD6Vgz9y4KZr1JCySj?=
- =?us-ascii?Q?F8jTym9l649UuNX8ys281gBvT4gNDAqzlPyxmgSq0GlWeFmI0IH4sm9pVvBI?=
- =?us-ascii?Q?QG0s0NLQ9yUgtM1uKaTDvmqWPf0ngzbt+4ZTLmJhMakADf8BQrjQRJg0gxaa?=
- =?us-ascii?Q?W6O8decaqXjJy5dILEFMoGjnkN4m91u4OUt405OF7iGi08cbqptCyhK4XNTY?=
- =?us-ascii?Q?S8x1j8eKyg29besq6i5G0SGWXAoczz5BxDPAFRBkNrtw/5lr4Id02zCXGGDX?=
- =?us-ascii?Q?ZJK3+Bi+OYKhKPB/rszSJyfcR6kOeVrachhOQDsswXw8tBkxBGW40kOIZ7TH?=
- =?us-ascii?Q?Jyl9eWzzuPMTkFS3Z4BRfjt/GQ5ka0ZlrGMU7DbHvTscGhymLUNzSViLb9QG?=
- =?us-ascii?Q?EX8G4GqaTPDvewSRgIS5Sf1YoBcNw4cJRFhMkSdMwgu0Itgw9zLeZUleS9Xb?=
- =?us-ascii?Q?2lUcMbCi7CE0Te9y5Oxl0WAQbnDEeJznxwWMbw8ZetPoaxLJLhLsI2rKHpkn?=
- =?us-ascii?Q?XfZuRE52Mt8oPmgDtDBkpPlKJYAGgUOkE7nQobeH1e1tr0QXsYIjBpHv4/Ra?=
- =?us-ascii?Q?1JaK1W9LDGTXzZBCEpbleeh9dSECyX05S1URcfMKoWlz9IjA1nlDPlX9lvbs?=
- =?us-ascii?Q?x4MvbGvFILaHHLFcnUGE7SDC3VHLz/7kstXqhL1h6ulKMkkNdevYl0X8fQhL?=
- =?us-ascii?Q?28Gfh+b9kafV/YdrXGEC3ip2cyOhrWm+ZVNy3WZehSY3zSOboYYv8PWTphpg?=
- =?us-ascii?Q?SQOjsUcICDCjykHfudGRpFUHU380DUC8DSIGC6rZaG88rrCMCom+I7XSm47C?=
- =?us-ascii?Q?8O0FtVhd78K9QtBJqZ2PHsGoXMxQdMGxdYj7DMS4/DCP9pEf0secTYw/YLo3?=
- =?us-ascii?Q?qCRXGtFj0wDFNw7LW/aRY2+9hhyfJ6dzX+ojqKIr0bVwL6v5XTqBa17PeQtn?=
- =?us-ascii?Q?qeDwcyg3drpUiLJe3Ud/V2RJWDGE04BrGc9UJ4qbkBHdGP6hJTqNor7rBnRk?=
- =?us-ascii?Q?8KeNntEmqyaxdTIk2sRxiC2upFEBVi7Os2IjMQiBneOeV71k1uYr+79FuGC0?=
- =?us-ascii?Q?YvYZNEKzz5Ys3vXtYgc6S8Bggzq2NVJRZ0+FwfDRVwa45J6Ae3CR2UxG+C7F?=
- =?us-ascii?Q?cuhwkmyvDA=3D=3D?=
+	=?us-ascii?Q?kAey0yUhTBMtpqFeynPrKMybwBAWaaae0Eq9TMcfj8Zo6SkjYluOK0CnoHSw?=
+ =?us-ascii?Q?sllpbzGDJRcyLebNfI+wbAwbKJgUCK3ioQqI/6q30Sa6DmADRHITc4q+R14i?=
+ =?us-ascii?Q?QXWTDK2Fkh9G2i/GCb5lgTXFgnEyRonmjr80wu26L8loAHU1JmbdNo9dekFw?=
+ =?us-ascii?Q?AH3X88b4b2znQxrs6naPynVeFyhlxKJapBhd9bwxQeq8mYG7DJ+VRgMbyiuE?=
+ =?us-ascii?Q?9rF1C1mWBQB06wSAvti61PADb/Gg9Ux/KOjmSxTgIn0UsZngOPirK8+Tt1Qb?=
+ =?us-ascii?Q?ElNLx2iJGnZs43OgxDllT4N+Xs4Ogj5iw0d5ANy1Vn0G/X8wAorfJTlSnzWM?=
+ =?us-ascii?Q?Ng8xJwtK1davfwDuRtfyzc0DwL7EQsqkGauvRhjqF1qP8ydnR13o1CBu5CrB?=
+ =?us-ascii?Q?rpZdefDZxjkyKEZ4x9y5XGD6S9YFMkB/mkynHXNeDtM/E6gEMupR+yRG5KFa?=
+ =?us-ascii?Q?TC5nQKofbDAcdCb5OGtYixZZLAgOWM9Ej4NcKnxTV2+7F4CAatxTTRUgH1Ty?=
+ =?us-ascii?Q?165p23LLntagnri4QkaPxqF++5YrA+0C9lDQUo3cYf6vmKmsNm6mdVu/iLbI?=
+ =?us-ascii?Q?lTXbaFCLMaWJKen0Nq1YpFTjl0hld1F5BIvXZXrsUQr9dzCF0OVym9RIto7V?=
+ =?us-ascii?Q?OzoGUDBr2amE98mBkholiN4gARIk3z5rZ0hAfVlQK3w2zc1WiiFB0n0pVvA2?=
+ =?us-ascii?Q?AW6rEszCSN7Iq1xYrQMqXNLoOMoClT+6m/O5f5Ex4JvgJrsPuiC37xtO1oNx?=
+ =?us-ascii?Q?43zUjdbBgiPrSqlAF0U4zdQ9KT2AwTb+VAtVGGkJYZkkpUGmIu5wT2gyiDRV?=
+ =?us-ascii?Q?h9XnquSO88WJwbvcEM3FNBpWayQRBz+jOrzZIsJ0GA5mQc+i94/xXz7o6/Dh?=
+ =?us-ascii?Q?1RUzsdbgrc1ALG28jfoYraHIJbUjDc5eZNYSM9sC9S9iMyBbE0UwB8OF1ec9?=
+ =?us-ascii?Q?FJHLNrTCjXHKeS/QN9D5xVcGu9PaXHPllQmIhWE0SpmvGwFmrh9ckCFQC2uL?=
+ =?us-ascii?Q?PvnTpzR3E+bl+ooji6+iiRzqqyD9KnteoGQUgPX+T2CU+UkiADDAjHXBG1Ux?=
+ =?us-ascii?Q?UF1f4hMq8VPLgd68oSSlV0IU/0M1yNSEY0lkx+yOA/zxto6LbsSu2mSguda2?=
+ =?us-ascii?Q?YAS9zPtxoamis5qBw9+HM0cTPRT8P9PTwCLyie2ZAaFkiM5Za3+inwvrtr32?=
+ =?us-ascii?Q?IkbGGFq6MaaWbMXSLRggNkfHcBE7iRl7ns8Xc58FngEz3S2TPDLWk8QPrUxI?=
+ =?us-ascii?Q?ELoRaCHcXEunIt6OXTXZwv1OFRXb0nuQS2uJERgiE2XoMgqru9xVSiea0Y+0?=
+ =?us-ascii?Q?gBxV5v8L26NjukMUY63DuDMRwYaaNNBN0tYg4onPj9lkxjErjW82wDEDBofU?=
+ =?us-ascii?Q?mstrhNolQ82Uo5gwNBQ315Dc2jaOzloE8Wi7ZnWxYyLa+2VRKdJoaYgM6M6O?=
+ =?us-ascii?Q?2PlcqsEWnROLO+jhBr+OwjY7zfjs/GBRGnhpQEDyhcXYePrsyebQCumCYIJB?=
+ =?us-ascii?Q?/iD8iamZtl+NMCVGZJF609H/IyzsKvZZy+3l9wn3XsP8iGIwH5buLOKUfRTP?=
+ =?us-ascii?Q?uItZ7zq46P/aeDfcH4oM9cf+5YxdYgYVc9c2Fi968CQxZaIpLnN+BmBi+1yj?=
+ =?us-ascii?Q?cSYUnHkO66UQzOSEWv0X2ldHCVcn3StOCbkBRqUwzeuatsjVbtjOgb+/DJnE?=
+ =?us-ascii?Q?iOZlQcMWkZWifnHnWYDOORMJmEU/SeuEK0CQ4/tHhQxvdl9Ob6gLEWOBpAgg?=
+ =?us-ascii?Q?RZnl4jPXkA=3D=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	OiWShWcA6guY3oo0N/1JU9tSxzstmpuopvnUdWemdUx8LpnZKrHTaA4DaTBj6BpJ5ZpKF67nd795Oh7xU3OSE8oLvBZB3umDlJEiUuEthWDcOUzdDnD+8IIL6NzcI/Uq2+KzhKcywkD/qKvINvQNOp4G1Qexr2Jx5R8u039opfVGdh/8c5oaBX1C7ORRqUfTvvBG+HQSNzRcqiywho21w0sL+UqKZYPAAx2CZ8ZKgHd6bpQJUhbDDM4WzTtkCS0ASAqU4fnYCgHsKEo+vA170Et0S1sE2FPId9SwmFRVx8AJHNPPKogDRxG4fxVr5TLCLznTJIPxlVvFnOtAr4mu/A==
+	MFe05bMdQG2ov46gGDXOqjTBHbO1X9QhBPaAsayzovqolP1hKMXTnt/YH5St5mtFD6NU09fIhpANGn2Aa7ioguVZHozqsmKuYm6cIbW+lISjYdX4l8KZ83eRHifciiHXp0O6TJJOsrZUHaoytLBZAPA0otV9DVEzs6Q/Q8bK2cLyBOIRAbXkoMM1dPjNTRaIEbtwY7Eve2w9R7fhVhweZteFjbTDSW26GBKA3bnJyK86A9DPmlTXLyibh6BsDce0iCK6IzDPzEO70QMc4S0ixjAGGkj3h4D5fbGz5cno8E8XmmfsnCrj6v3QTvIYHuQy7W4BZwjnkF2HxVZXOLDxdA==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	Nzn2PODkNA2S6uXD2upKCPUningPPHJJ2hN8lDwhWLuh9xvaN4z2TvEeNQrhAGurpE+BRO5yUxfsfkuISGfuR8sQwVxa7LsdcPsAxarUGYZntSh5s8M0Q06ypYHiWMxR2fntbJtAIoVi77UdUVd67r/6kG5180mNlNt/MiqgBbppDAqkixwHkt/ghTPS5/hcultWCxxv2tUlxouH0KIhkcGXdfvhbSRjVYiTovue70knFil9pG5eYsFHuLg7N/0dl9NhYj1V2tI1KAWBBfRii+5zzFhMTTbMucfi+UNuIBvWHKa4uj7knwExZEegHYTcneowvtf1dTQ4kBe/YLdzKu9kz+xtd7GWiuVSNmneu5hS2hstg+JGfPU6G8CAIPQ7/dBYJ+3iv68AhrfyZMGk7Dx3Ns8sTp5T5PpJfCeuIqhkEbbVA8l+gtfgbdKWsvwDrgLZNjHzTvWZ4nlsxnBs8Zy0X83RBtogM3HTVjIGXL9LAM9Fz11u4rJZA04mkgBKSkzpiih+Nhw2sWhiSTYbpsjYTqUKKYu+wRQo+R4Mg1qmGNJvj4dj79mX5NzLRAt7POGynMOK10khy6+d5CHVoe4SwK3rxt8QmUZ2mXHmf6MQkFahAZTEUcXjQNKS1fzM
+	PDpfdD55yGoiylz6Lm2TYyZ3EOZPANIzSfV9j3zvqki2oLTCfnr0LXvQsFaqBXYWIUwocbuR9mr5SdcfXQmalxzZoTltnDmdJqJJpaO89MS4OWugN1uDKiA/nRd6xnkPdDyNDfgDR14mqhWYzqN61Ygt64nQuy1iDd239gi55oZoirl67gP9jCM04p0XHhrhUBb+GRONp1hq4e4oy6nS1tSO/PVNOK9qv/QizmKJAVNZWqiKOBr9gV7D4JC4yurGlaiyf8o7QlLfjVSKlW2eKNYu4ai8CIrtgqnDXpEMK1uPNJ0sMp7Shu9LJcOcrw3W3lfCRlfv/A8rfHf8uN0C7OF4XMjyX328FYGyj7JgJj0GgWP2g0RIcD3ZOYmx089/4O87rruZynH5DX+GYNDRHlyWDXHk+OOTG3soa1KWx5gO+yosgjwGX+PV7jkXsnV7phHuCrRk70AEpytTcSgFFliCkRqP/hZbr9nDIlzwXABAmTUFzg+VdS94Kn028DazmL2w8V5ghcRdkUwDh0IYQn++5mNXi+Un0RQoPMhPjXULkqoMo1T1Py22eGxLnlgUUgUeg72zEtEeNJTiJTDpIA+ax8sx5bkPrLqCc9vOYppULeWYc40VnL8U13RQi/8+
 X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95684f8f-c54b-42c6-87b8-08debcb0c52b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22f16ec6-dff2-40cd-1df7-08debcb0cf9c
 X-MS-Exchange-CrossTenant-AuthSource: AS8P192MB1399.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 12:00:54.3970
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 12:01:11.9003
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IaVQWkQZVbvGXffopGCztz59gpwyhaEuZ919IhzjrWVBtjwOCBVgJtFrbTYFUE79VjVr0DTiEOZzW+shHD4BMA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0P4rC9RebBi3zIeZySmMEANcoOrmtpNc+GfwNoGh5LKJmlhifMjPt8A+50zxeN3aEYckulFu9Hu2V3VS22ZH5Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP192MB1664
 X-cloud-security-sender: tgaige@witekio.com
 X-cloud-security-recipient: openembedded-core@lists.openembedded.org
@@ -140,15 +140,15 @@ X-cloud-security-crypt: load encryption module
 X-cloud-security-Mailarchiv: E-Mail archived for: tgaige.opensource@witekio.com
 X-cloud-security-Mailarchivtype: outbound
 X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate21-hz1 with 4gR4nk1KlKz41rR5
-X-cloud-security-connect: mail-westeuropeazon11023137.outbound.protection.outlook.com[52.101.72.137], TLS=1, IP=52.101.72.137
-X-cloud-security-Digest: 8d507f42ed515f408ad2f2702a60b866
-X-cloud-security: scantime:6.340
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate190-hz1 with 4gR4p12vVrz3FCRZ
+X-cloud-security-connect: mail-swedencentralazon11023090.outbound.protection.outlook.com[52.101.83.90], TLS=1, IP=52.101.83.90
+X-cloud-security-Digest: bd8d821d27308274e600333fbd393c3a
+X-cloud-security: scantime:4.509
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 12:01:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237700
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 12:01:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237701
 
 From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
 
@@ -160,18 +160,18 @@ Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 ---
  .../perl/files/CVE-2026-8376-01.patch         | 62 +++++++++++++++++++
  .../perl/files/CVE-2026-8376-02.patch         | 49 +++++++++++++++
- meta/recipes-devtools/perl/perl_5.38.4.bb     |  2 +
+ meta/recipes-devtools/perl/perl_5.42.0.bb     |  2 +
  3 files changed, 113 insertions(+)
  create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
  create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
 
 diff --git a/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch b/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
 new file mode 100644
-index 0000000000..56ab85d2be
+index 0000000000..2b5d27147a
 --- /dev/null
 +++ b/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
 @@ -0,0 +1,62 @@
-+From b0810dddd6b789ead00c346ead873370710f103e Mon Sep 17 00:00:00 2001
++From 6ad242ce86b16b74437e6815d507bc003e77a948 Mon Sep 17 00:00:00 2001
 +From: Tony Cook <tony@develop-help.com>
 +Date: Tue, 12 May 2026 14:47:31 +1000
 +Subject: [PATCH 1/2] perl/perl-security#147: test cases
@@ -235,11 +235,11 @@ index 0000000000..56ab85d2be
 +
 diff --git a/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch b/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
 new file mode 100644
-index 0000000000..08ab11d87b
+index 0000000000..a1fef66119
 --- /dev/null
 +++ b/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
 @@ -0,0 +1,49 @@
-+From 3cc827ca6bdb7b7cfbebe30286db57b7edae0e65 Mon Sep 17 00:00:00 2001
++From 0fc9c70ccc0fea260326e08baa60d92797f8a79b Mon Sep 17 00:00:00 2001
 +From: Tony Cook <tony@develop-help.com>
 +Date: Tue, 12 May 2026 14:51:00 +1000
 +Subject: [PATCH 2/2] perl/perl-security#147: test against the actual character
@@ -256,10 +256,10 @@ index 0000000000..08ab11d87b
 + 2 files changed, 7 insertions(+), 1 deletion(-)
 +
 +diff --git a/regcomp_study.c b/regcomp_study.c
-+index db7ab3a409..9248e1de2b 100644
++index 9106452dd5..05f1b017b1 100644
 +--- a/regcomp_study.c
 ++++ b/regcomp_study.c
-+@@ -2862,6 +2862,13 @@ Perl_study_chunk(pTHX_
++@@ -2770,6 +2770,13 @@ Perl_study_chunk(pTHX_
 +                                                (U8 *) SvEND(data->last_found))
 +                                 - (U8*)s;
 +                         l -= old;
@@ -288,14 +288,14 @@ index 0000000000..08ab11d87b
 +-- 
 +2.43.0
 +
-diff --git a/meta/recipes-devtools/perl/perl_5.38.4.bb b/meta/recipes-devtools/perl/perl_5.38.4.bb
-index e59022e2bd..eb08715444 100644
---- a/meta/recipes-devtools/perl/perl_5.38.4.bb
-+++ b/meta/recipes-devtools/perl/perl_5.38.4.bb
-@@ -18,6 +18,8 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+diff --git a/meta/recipes-devtools/perl/perl_5.42.0.bb b/meta/recipes-devtools/perl/perl_5.42.0.bb
+index cf28067bab..1833b7a352 100644
+--- a/meta/recipes-devtools/perl/perl_5.42.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.42.0.bb
+@@ -16,6 +16,8 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://0002-Constant-Fix-up-shebang.patch \
             file://determinism.patch \
             file://0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-determ.patch \
-            file://0001-Fix-intermittent-failure-of-test-t-op-sigsystem.t.patch \
 +           file://CVE-2026-8376-01.patch \
 +           file://CVE-2026-8376-02.patch \
             "
