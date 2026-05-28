@@ -2,65 +2,62 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89969CD4F54
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 12:23:08 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9574.1779970978869939457
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3837CD4F54
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 13:00:28 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10337.1779973224858102601
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2026 05:22:59 -0700
+ Thu, 28 May 2026 06:00:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VDPsQL1z;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48984d29fe3so133686425e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 05:22:58 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VndLFNGW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4891e86fabeso35623345e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 06:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1779970977; x=1780575777; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1779973223; x=1780578023; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=9OyEiX6thGtShjBZUOIz+ifhxBHuQvtnONLWfOMI7ys=;
-        b=VDPsQL1zRAezFwwi/V60+3GEFgRJUUKgVIb0WBbyrdboffTh8884kzbUhW+ZDK8bkr
-         EvNnTZhldiM8FW6mha3QtR/8vXXabLUX5dF/cv8jnaO2uF8kEhXIsj0+iWsRPCp4fOHP
-         icAvk6WmijNHMAD1IxRXavVo2a4Lkgx8tUZHg=
+        bh=i57BK8xN/PfZ61OA9VDC2o/rVykDQfR3VtxV2Fd9n8c=;
+        b=VndLFNGWvVZZ2loHZGMnoj86zNCq/2FCg0gXb47kx3JJWZd9AsXvL2PQz9BUkgQ/O8
+         IEc+G8KQ1KzE6tjcv9FIlETbbCb+3P+BoE1G3ob9P8umGSpp3uc0fTJksaiyYZ9pijeQ
+         q45keqQiRzP4qc489JU6NAOzJVQzFModhUHh0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779970977; x=1780575777;
+        d=1e100.net; s=20251104; t=1779973223; x=1780578023;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9OyEiX6thGtShjBZUOIz+ifhxBHuQvtnONLWfOMI7ys=;
-        b=qQHMgMTNQK7Ay0+Ct+Uv7QQV6xW99/1yAIAuIJObOmK6/N4ZIwJVbkU4RAym/zqICx
-         +8q3liW3IcWQ65eYyKbpgkqBOP5uKrVqYxFzRpVwSwltFOU1WAJN7uQHqyFDv0f9Tr3l
-         OOakeY8yKzIGLMzJ/Ee3Lyogf6ASfCfmATTjlAkPERXkZFIp3rm1dJ4ec3R8ludvcF19
-         SSBj4MU6dW/FuqBS8envUF0zAcbpk2Usnu6ZrGijBSJ856olOWyiTtFnpWJbt3UMhYsn
-         hUP2+Z0kD3KQ862HI7dXMsQzmJfejJI4ifiSM4qFKAUIiqrJXsVNt6F+xZFrRR5OwMX6
-         ReRg==
-X-Forwarded-Encrypted: i=1; AFNElJ9eADPtRwMu2nRj8XDitJtbgfjlmehhIWzyx1YEbXPDL+ZZploqJdUBm9nxV/pxOC4Ue5lDs7VXxTBlyRrL66doNA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyhkL5vklZ0hVA5hxh7bTlMgF2jU0CiocvvRDw2KbMpg4BvBRxM
-	K3Lg1fl1SSRYwg/DjHYbo4OMORcC+2aMw+yKyXf91xRoC4oMSnt3pV+mEQM6ZHJtxnA=
-X-Gm-Gg: Acq92OHo1pZXvVnVi0CYF0nNr9gHAnBRTcECWFdonBUYJk3MJw7j+lvgSpfT491HDZI
-	rWWSB4wQAug3JM3ivzR24rEnSsAmAcNU5aVxtU4SLtxKgbmv/qLPBSZa6n3NUJS5xgWQe6l2w6r
-	Gk8FecZerNvGPwqwLFc90f42H3ASJDblBTT0iVBfy3EYAcO+RKXq7ytzUNa82CDHTLVDnFZpPgI
-	xLx70WRy7AZ4uMvWIdBPJ2pXjtMbQruGANoDq7NG7LP+Hj3jTP5+Y7hg6x1M0slqjkpWy8Y7Njv
-	MMFKo2Rko/ll0byhidUUKefrGJ/JcXmY1tljMWc3iz74nxVCbxfEkfSgULjHdlvwYfK5BGeQzXC
-	ejjFcKv4xWqcQtAhnRjZjR7x1l/u0b5PusXgFbcPYo7tdWXW0kMNgPzu0Ulk8kSjllDqKyjZ1Mb
-	g8U1XFL0A8//ayQ55tZl/p8t7GvchWSwdOOj4HKkJNK/UpQGqT2+lddb1mg2Z47BslHRYG+L9CC
-	c9qEo01C3R1GUJ0suOamLj5sNwjmfErEtM=
-X-Received: by 2002:a05:600c:4f0f:b0:490:5149:a242 with SMTP id 5b1f17b1804b1-4905149afd4mr441902445e9.5.1779970977159;
-        Thu, 28 May 2026 05:22:57 -0700 (PDT)
+        bh=i57BK8xN/PfZ61OA9VDC2o/rVykDQfR3VtxV2Fd9n8c=;
+        b=CRGoTHtD8GP75ZAMZEbOIx1YzyaOfgZerfzavGFn76+30VG9+dlW5BobY0kBr08vod
+         ScU/Kr7dDKDbLHff+m0Un/AXEUkdWMJTKCBRoT/OTRrVeY2Ni6mPG5s5gKDgzs/BWv2F
+         3sHgNnt5I0KzwdHnggzM8VKqNbtwRosIU80WVaDw/rI5XFuhxYbdbZhYmxUPHnhQAc1D
+         qsmAIwFgdhuqDpUoglZfitbAF0q81Gk90nVfaJDxaTWw+/3IEJmROdf9IXhCL6cjfQ7g
+         ZW3Sm+0MKfyiohwwIypCUpcLstrWF+/BnKgp8fBRfHF5u+Ht9BJzuX5zWMx6qmNCcgR/
+         D5Fg==
+X-Gm-Message-State: AOJu0Yws0B7PjDx36KpYoiS1wRm/e1k9uVAf1kDxu51iGGw5QsWqwwLc
+	a5/mIM1gp/cr4ofd2JWl6RZlXsiYCRTKFJViE5oCSfBhp0t0Js+pZNXPD02gMm6hPuI=
+X-Gm-Gg: Acq92OGod298xa5aH8ty6wSVl5JeqjwPIa4ctvURmRAYB5atvvDUSW6t9ZCuFPlC5Bn
+	WdhnqQOwOENd6FsHrrlE6ecbdKWDdeU9TmcdvBDFQzyjknhvXLKnSuFonueIEQtPKpoOsMxFQrG
+	8ia0IlMxwzBotyZIYL0F5IziXMIZsrYSgrs2zHERCdnLtSr4UQqpJ+z7Os0kuR+6HwE6RyhOeoP
+	83R7m09qiSTZjlArD8E4yt72pRuLKC5+wvj0gaTLJ1CKGlQNGtw6dV0+4l9ZegSEcrb6Ncn7lqL
+	Uw0LeSbYGeKAS6HQNkpeQzbikei+O6ZRlZ0QZDtJAt4vXlToA5FundhxggQ34Go0f8gPJ5rycWi
+	qNF1DOmWyTMXWs9gHtYJWHqSW71CSfeLQlvzJuljI+EAeiEl5KX75KJqgv5OdjXqBTN1Jg+HywR
+	irhHHaQQh2+Xb2WuSkqiwr3adf4sFcc/5R1kwlSD0N4h+wYSt8E/zXl9p1aWYG1LkT/iS2In4vs
+	0kizcgn99j0xxUrWvhrzxF2
+X-Received: by 2002:a05:600c:8b21:b0:490:958f:2a5e with SMTP id 5b1f17b1804b1-490958f2a8fmr19860495e9.13.1779973223092;
+        Thu, 28 May 2026 06:00:23 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:2db8:3c60:1e4f:5bd? ([2001:8b0:aba:5f3c:2db8:3c60:1e4f:5bd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4908b423c29sm29239065e9.0.2026.05.28.05.22.56
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49092a82ea2sm69299135e9.9.2026.05.28.06.00.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 05:22:56 -0700 (PDT)
-Message-ID: <5fb41f04863d45fa6de4c230125ed6eb8c27364a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] sbom-cve-check: Fix empty IMAGE_LINK_NAME
- handling
+        Thu, 28 May 2026 06:00:21 -0700 (PDT)
+Message-ID: <ea78d370348fbc117e23085ae59791fce6c0b404.camel@linuxfoundation.org>
+Subject: Re: [PATCH 0/7] linux-yocto: consolidated pull request
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: niko.mauno@vaisala.com, openembedded-core@lists.openembedded.org
-Cc: ross.burton@arm.com
-Date: Thu, 28 May 2026 13:22:55 +0100
-In-Reply-To: <20260526060000.874022-2-niko.mauno@vaisala.com>
-References: <20260526060000.874022-1-niko.mauno@vaisala.com>
-	 <20260526060000.874022-2-niko.mauno@vaisala.com>
+To: bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 28 May 2026 14:00:19 +0100
+In-Reply-To: <20260528023714.4026613-1-bruce.ashfield@gmail.com>
+References: <20260528023714.4026613-1-bruce.ashfield@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-9 
@@ -68,49 +65,55 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 12:23:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237702
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 13:00:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237703
 
-On Tue, 2026-05-26 at 06:00 +0000, Niko Mauno via lists.openembedded.org wr=
-ote:
-> Avoid following build breakage when IMAGE_LINK_NAME is set as empty
-> string:
->=20
-> =C2=A0 sbom-cve-check: error: [Errno 2] No such file or directory: '/buil=
-d/layers/openembedded-core/build/tmp/deploy/images/qemuarm/.spdx.json'
->=20
-> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-> ---
-> =C2=A0meta/classes-recipe/sbom-cve-check.bbclass | 4 +++-
-> =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes-recipe/sbom-cve-check.bbclass b/meta/classes-re=
-cipe/sbom-cve-check.bbclass
-> index fe145a2212..39719d51dd 100644
-> --- a/meta/classes-recipe/sbom-cve-check.bbclass
-> +++ b/meta/classes-recipe/sbom-cve-check.bbclass
-> @@ -14,9 +14,11 @@ python do_sbom_cve_check() {
-> =C2=A0=C2=A0=C2=A0=C2=A0 """
-> =C2=A0=C2=A0=C2=A0=C2=A0 Task: Run sbom-cve-check analysis on SBOM.
-> =C2=A0=C2=A0=C2=A0=C2=A0 """
-> -=C2=A0=C2=A0=C2=A0 sbom_path =3D d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_L=
-INK_NAME}.spdx.json")
-> =C2=A0=C2=A0=C2=A0=C2=A0 image_name =3D d.getVar("IMAGE_NAME")
-> =C2=A0=C2=A0=C2=A0=C2=A0 link_name =3D d.getVar("IMAGE_LINK_NAME")
-> +=C2=A0=C2=A0=C2=A0 sbom_path =3D d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_L=
-INK_NAME}.spdx.json") \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 if link_name else \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.spdx.json")
-> =C2=A0=C2=A0=C2=A0=C2=A0 run_sbom_cve_check(d, sbom_path, image_name, lin=
-k_name)
-> =C2=A0}
+Hi Bruce,
 
-Whilst that works, is there any reason we shouldn't just always use IMAGE_N=
-AME?
+On Wed, 2026-05-27 at 22:37 -0400, bruce.ashfield@gmail.com wrote:
+> Here's the latest -stable bumps for OEcore and yocto-bsps (again,
+> let me know if the combined pull causes issues).
+>=20
+> I've also moved the dev kernel to v7.1 and fixed lttng-modules
+> along the way. Hopefully a new point release will be available soon
+> and we can quickly drop the backported patches.
+>=20
+> Also note that since ross removed the CVE exclusions .inc file in
+> a patch (which I think is still pending), I haven't updated the
+> exclusions for the kernel in this series.
 
-Conditional code is harder to maintain/test...
+Thanks for these. I put them in for testing and there are two weird failure=
+s:
+
+qemuarm64 musl python3 ptest:
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/109/builds/460
+
+which leads to:
+
+https://valkyrie.yocto.io/pub/non-release/20260528-74/testresults/qemuarm64=
+-musl-ptest/python3.log
+
+test_tracemalloc_track_race (test.test_tracemalloc.TestCAPI.test_tracemallo=
+c_track_race) ... Fatal Python error: Segmentation fault
+
+qemux86-64 musl libc-test ptest failure:
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/444
+
+which failed in functional_ipc_shm
+
+https://valkyrie.yocto.io/pub/non-release/20260528-74/testresults/qemux86-6=
+4-musl-ptest/libc-test.log
+
+FAIL src/functional/ipc_shm.exe [status 1]
+
+--- ptest result ---
+FAIL: functional_ipc_shm
+
+
+I'll rerun the tests, it is possible this is some weird intermittent
+issue, I just can't tell :(
 
 Cheers,
 
