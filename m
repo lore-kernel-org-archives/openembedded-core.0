@@ -1,126 +1,240 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2D9FCD5BD5
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 06:45:40 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5224.1779950735549407072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E677FCD5BD1
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 08:34:21 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.27])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6315.1779957251046058093
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2026 23:45:36 -0700
+ Thu, 28 May 2026 01:34:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KOt5GGWq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-452169ae568so8039894f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 23:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1779950734; x=1780555534; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=EhtR7E4WoP50iEQqbAOd9iwkr4stxnPrSB3w5jo5bc0=;
-        b=KOt5GGWqqmf6zytRvINV9jmPvTeKPqB/TxJZUv8yXwuaaOhfA5qjDhzSt06vZUx/+2
-         /koc5628uNy6WR9nnvjEo95UxXnUMmpXj3rQyPaSxjHs20JzqOYaCsN3vq6VFaqbCGPO
-         OJ77jMh9VZ2rDj3vACIwATE40MevFhdRR6H3M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779950734; x=1780555534;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EhtR7E4WoP50iEQqbAOd9iwkr4stxnPrSB3w5jo5bc0=;
-        b=G92BZVMgOL+iJK0kodhotiYMMx8qzgPI+wPSCAKeWk51745uArpPA81wsShBKTkHVW
-         fEIE/rnJQIKZykmNeI+L/mkAwBPXn2aKKM3/HjQ+9cKJD1ifEhFAxqjOJDtPydA58ote
-         UMLNRPiTa57jdyB7JE+dT1BPdiEYxl7BMd9rCIS08r42DLIkPV4LQYu+uLecf9Eltu7i
-         rvJwFm4NmRfX/Efi71wJooMNTrQUJ9R/hvmmrZCsD8JynPx4Q+95dLcZ9/To6bsB/831
-         p6Dr9Lw8/TkNZkh2ZfBaTJ2TulgnKZSVsQsBK+kl+N/ADY/N65WkHsU9oDvcJ7jvtdNI
-         FGow==
-X-Forwarded-Encrypted: i=1; AFNElJ8gy+B4fPxXHqm8rBXX3yEKrdKmwCnFpGFvvSJ6lZPWcrQRyJvou8bpwaZDNrgzn1RpH5CuMxu57TwlynzrqkVV0g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyxBYrpTvMFqU9RoNrsVk3pzSzG7e8Ll2QwKjG7Efem5d6Cih3N
-	szq2cc0WF53WDt0fQ+UxDn/+Dnab03kvSzJG4JPGDSfSdCm8CGR+HrkOGWD7tTmEOmo=
-X-Gm-Gg: Acq92OFAi2ZNpS6ZsEglKDq2uXBcbcFtCO95TuVqhqt/Zu0aEUdEWDa6SlAv1Qg4tJT
-	NDIz70AxPob4pRQL3roMNP8FRdX+zN7g/KJT6gfaHgIS3jlSbp30gBChfxIP2yV8uXGma1MmX7b
-	62O7nQDDUmGxIdqNFDXRwHfYIJsTncuhWCFUJktV2PvdWFNcrBEiWUN+S9Nt6FwwJSVU3cizKxe
-	YFmkh2IbVop3GZR43eiCDqVFc3yMhJ+qXQ2AmkUQrB6eJH5lYl1xS4HIc4bm61a8+4jxjW/YUwo
-	p9v+cgtuC5cqz5edLyQ5NiZW2+OFSOEIfawt4rOMrrufSaxXVrVJABxBFsNqTOKOuCOb70YDH7W
-	Th8j4++Q/I23TvLQeK9udEbsnSQC9JJshnFFdOlYHKBMWQJc2H4bbcY6qbYI+N3W961Z/EpVRY6
-	iqoe+RMNh8AmT7mhpzzeYK1hROVhR8mIs+CQQcy50b7dyNCI/TqDY551lVrrVDy6k0OIpqhKFgw
-	l0fyMwJiGtkOTJNCFwvMQ==
-X-Received: by 2002:a05:6000:4692:b0:45e:e224:6397 with SMTP id ffacd0b85a97d-45ee224646bmr2139679f8f.2.1779950733652;
-        Wed, 27 May 2026 23:45:33 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:78a4:a234:125:a55? ([2001:8b0:aba:5f3c:78a4:a234:125:a55])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ee5a84e92sm2983639f8f.35.2026.05.27.23.45.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 23:45:32 -0700 (PDT)
-Message-ID: <28eb74335ef9e6539b7f321abb444be4919209a1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v5 6/7] glibc: disable automatic libatomic
- linking
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Hemanth.KumarMD@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-Date: Thu, 28 May 2026 07:45:30 +0100
-In-Reply-To: <20260527133516.2337150-7-Hemanth.KumarMD@windriver.com>
-References: <20260527133516.2337150-1-Hemanth.KumarMD@windriver.com>
-	 <20260527133516.2337150-7-Hemanth.KumarMD@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=IFXctJqY;
+ spf=pass (domain: cherry.de, ip: 52.101.66.27, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bwZUY00wOz6jRwkYeb/gLaFMC7mQKhVAaLHAwPSxmvOx3u8gtFe0i82EON0mCo1wbl0dfFLxVE66Ety0Hh5fj38zt0lsMoEUb5LxGI4Q3N2XQwb9A4umz5ZT3exgNWcVPqnsstK6E50qcX8rlqx3lzrLqUnDTfGG1dzLe5BazaixBRbqh9uOlGIBj63vdYHZUz2grKwqgODY7tFclg25pwndZcZKj9W7+2thQIyL7o6a5gXMFGLJXqSSgBEF4K4TzfgH6JKTfSwnOWJIVGw8V8dhRHpKmPYRmEEiZRsWouq4Z545yGwibpMSmg/EiAVAEeGpWrM9WN8ZKtoGrQ/nuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Mo54ZdI2D65MZW9bRTjkpCmKzvHCEr/Cbocbu1kA8rU=;
+ b=j9M1lC7Hg2tHuV9IhHA0qxM64ZrR1NZrRDEFncIysmlg+nHVt2odXn8rqFjVqLUFzDzvVLVEpa3fub/roquraSOdUkOPmJoFWUQrjEfvSzxuPpTnxJXpe89ZSQ25f8yQm4zC26wkKwSyPY2vg26RC6V3TkMNkKRdF236Uo/Ktnsc/ooFQop5xgFKvqlU+k3FVGpl3UqpLEzkIbzDWF7wU0aDitc7QuaunnoYhG4jDZO1xGOCu9GLGHnSVOlGR+zHcvVYilkoBZCq+B4GWFf5vHDIVlZ0lSColTczwMXnkwjc8qJBWvI+O52l8ebj3Qa+Q05G4gEPr52mIERuN1fCqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Mo54ZdI2D65MZW9bRTjkpCmKzvHCEr/Cbocbu1kA8rU=;
+ b=IFXctJqYrWjWTijzkyz7SCO9rYHisxU5cV4SgtZ/3rgzYL3uidAoniRDZrrxayHNQZsSrF92U5C8b3hxYVY6X1LDDr5KYdAy2F8A6GtizbxjGSkYqSsgM1vx3MiTdAodHuPzMvpheXbVjwQWSz4ksSoebEB2Um7T+8ogauCFwbg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from PA4PR04MB7743.eurprd04.prod.outlook.com (2603:10a6:102:b8::20)
+ by AM0PR04MB12049.eurprd04.prod.outlook.com (2603:10a6:20b:740::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Thu, 28 May
+ 2026 08:34:06 +0000
+Received: from PA4PR04MB7743.eurprd04.prod.outlook.com
+ ([fe80::9a4e:252f:2fd:97b7]) by PA4PR04MB7743.eurprd04.prod.outlook.com
+ ([fe80::9a4e:252f:2fd:97b7%6]) with mapi id 15.21.0071.010; Thu, 28 May 2026
+ 08:34:05 +0000
+Message-ID: <7189291c-4aa6-4ad4-9382-1683f81de534@cherry.de>
+Date: Thu, 28 May 2026 10:34:04 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] tools: mkeficapsule: Rework pkcs11 support
+To: Wojciech Dubowik <Wojciech.Dubowik@mt.com>, u-boot@lists.denx.de
+Cc: Franz Schnyder <fra.schnyder@gmail.com>, trini@konsulko.com,
+ "openembedded-core @ lists . openembedded . org"
+ <openembedded-core@lists.openembedded.org>,
+ Francesco Dolcini <francesco@dolcini.it>, Simon Glass <sjg@chromium.org>,
+ David Lechner <dlechner@baylibre.com>
+References: <20260528080356.399082-1-Wojciech.Dubowik@mt.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20260528080356.399082-1-Wojciech.Dubowik@mt.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI6PEPF00000229.AUTP296.PROD.OUTLOOK.COM
+ (2603:10a6:808:1::8f3) To PA4PR04MB7743.eurprd04.prod.outlook.com
+ (2603:10a6:102:b8::20)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB7743:EE_|AM0PR04MB12049:EE_
+X-MS-Office365-Filtering-Correlation-Id: 904b7d34-8e84-445d-da74-08debc93e0e8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|366016|22082099003|18002099003|11063799006|56012099006|6133799003;
+X-Microsoft-Antispam-Message-Info: 
+	R0Rf7AMk+lkxwFqze4Eg/0QlNPaUrHtjeVJLOisKX2+ftLhkSvn2bsNDoJwEXNKC1uU3UF3CuifPugHsoY5zmRGzntAn9fqaJh7OKS359fMFAFE+IxGLDL0PCKKXCgX76WHNCb0J5FpGna5nza4mkicJ3Migr3hQt+QwUwLCxQ9cmhqOKNI7A6w7UweDutoQsh0AHz5KQDE5ri92qsI3tKXaxtugCd6U6fWOCedFVXa1u2NE6v3/NScfoKwjQ3eyZokqXAMXnjN3a/DGLC8C7gApKvg+CcF/KuvYVDviIO87QZpEobdkQn1CbmF8WUBsIAgzNjvJEPQfE0flVzrXnUrZNyj4dXC7HFV9Dhzr1tfejiKFYai3vTujUO5/jFzAd+KmUGttVnPj9nm3vvjpTFhBujhOsbbkQ7mMsQBN0cpuLq4GNcnN0afXzx7rP7WXOg0q1NxCPW4036Qo5KIh5Dc9rmkqZAEVnIF3mXX7NbHv1he9RmUt3VXV2BcnuZt1iL/dQyDE2fYskbrNoqm5UqRv2Ic659Lk+UDdXwvgsyb7Xykzw+YYhLFj17GqIYS1vSrTdW9iZldcvzLCuUvG1SIvvwMPFv++ATgX5aLDgINz5w3vJdrhnUNgjOIrPtUzG1JlNMT6QxU/nvgDTwoWb7EE98xsj4N2H2/fcZFJnDWfOVpnCG8tWDa5buibSJGQ
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(22082099003)(18002099003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?VkxReFpYQVB6SlZ5TG5OQWd4elZrL1MycVRyc0N1Z2dFbThOME1RdlZmZU00?=
+ =?utf-8?B?U1VTcDZlbjBNY0U2NzdVRmpZL3FZZ2Q3WWU5UDBjT0ZBdXU3d0JVZjVsQjgy?=
+ =?utf-8?B?TktsNzJjR1hrd3IraVYvV0gwdElLRTdMVXVmYnNKSVBiZC9IWDgzSXc4NFkw?=
+ =?utf-8?B?Sm1nZ2RwQisvdkdiVXRJSk5kSXJGdzZpY09WeEdEYWNhbGJZQ3d1M3hyRDFq?=
+ =?utf-8?B?SkQwMms5YVc3elI5QXRkbTdVdy8wVG5mNVhmZDN1ekVnMm40cXN6MnpiZm9E?=
+ =?utf-8?B?V2ZqRzNBcGZyUEEzSjB6Njk1N25maGlSWjQ4YXdITFdRdjlCb0x6M2ZtMlBD?=
+ =?utf-8?B?a0NLakJGcjVISHBJdWduR3pESEZSRGs3VXRjQm5ZUU9RV2JwTHhxRnB4bWVP?=
+ =?utf-8?B?UmlUc0NCbzVweVdGM0tWbnpua2RFa3lGY0liRzNpZDdDQzNHWXl2VXJ4QXhR?=
+ =?utf-8?B?OXR5djRXUHhWRWlBS3NrNnVIazBMelg3NGJDdG04d0txbWFpR3VMajBIU1JY?=
+ =?utf-8?B?ZXNpZXBjVFIzbm9KeEE5WTg3ZDFaMitBSEtmdkZuTDVCRm1vOVBKY2lCNzBU?=
+ =?utf-8?B?d05jTjNCaFAyNnRVaU56Y05oL0pKNFlyQVA4NDlhZWI0ZXlBaENKTjZSNHRV?=
+ =?utf-8?B?YVVzSUZyN1RReWoyL1pLSkZWMXZIRWxQRVhCSndia2hqaVQrK2g0cEUvNGJ0?=
+ =?utf-8?B?VUNPZTkrbjQwcm1SVkhSWTR0azFwMDNRUlhXaHhMbUx4eWZvMWZvdE5PcXdk?=
+ =?utf-8?B?ZGM1QzAvY2pzaGVibG5uakJONzlUTGFHMXFBZVhMMWZUSGhSYzdxMzd2Y245?=
+ =?utf-8?B?MGY1SVJoeUR3em8xSDV4S09LWjk1U3lBb1BaeUFSRzF4V2lGNWt2cnpSajdO?=
+ =?utf-8?B?NndPeU02WG90bXk4VElBZ09BeVdGc1pmVGVhMlVvdi9zR2oyRWQwR2lMOHpP?=
+ =?utf-8?B?eTdQTUo4aEx5aExQcHZ0Q3BIOStqSkhXVEgzUW5iTjR5VHBqdUJIWmkrR2J2?=
+ =?utf-8?B?M3VkcXpFMHhSVUhPZURqOUZmNDRQT1JwS1N5dXdjRXBWWG9ibHZrZlhQdFBB?=
+ =?utf-8?B?OE52dExJNUZsVjRuZE9BSTBEQ1NxbU9Paml6Z1BBTng1bmJQcDdBWFQyeFBs?=
+ =?utf-8?B?c1drMGsrMXdVc2dzd0NuMThlRjZlaHZVYnBqLzhyUWhCcklvdGthbk5qcU93?=
+ =?utf-8?B?SjVUbjMzeXJTOWdnVUM2czNoNjNaaE91T2lVMmErdFFpV3FrVDJxK2YzR0N4?=
+ =?utf-8?B?SUNjeXZmazNJcU1vTkFZcW9NVmVHMFM4Z2ZkT24wdTcxTVd4YlJZcVhwY3Iy?=
+ =?utf-8?B?a1RtSDcwVHNWOXBYaTQveGgvWW5lbGMxU2xNV1dpTnlGdW1aVVZuaFhjNW5v?=
+ =?utf-8?B?bHpDSzduZHhGVWIvb1ZqbWNyZERNVEtPdzVHMFFLTEN6WU9hdjQwWmdCVGJh?=
+ =?utf-8?B?dUhPdEJ4bWd2YkJyeEJQNGJRZXNJRzF6WWpxT082ZWpER0dwcmVKejJIb04x?=
+ =?utf-8?B?d3MrejRGQ2dtbFlhb24yLzM2SzJaZ3Rzc2FwTmxZbmoxYjBNcVV6a2RHZ1ps?=
+ =?utf-8?B?NnBZUzMyL3lLNWZCL0NPOFJTR21LanVNbmdjSTZ1ZHlNZEVWQzFJSGxLUnlj?=
+ =?utf-8?B?NEVqelBlWmsrZkxlcC82Q2JKQk9kMUdlanFXMWI0aWZ1UUtZV0J0VVNjc0Ry?=
+ =?utf-8?B?cEM5MWFtVTJlT1ZoeHY2empxaml6VXBhN0FvVzlSV1YxZHBYVFlGY3dvVHlW?=
+ =?utf-8?B?ZXhZY09aSGdOR2hOSlBjNmoxZ2MvMldFNTJZRThxNmhFdkNza3RLNWlBZUhh?=
+ =?utf-8?B?akhJRTlXV3NjL3ZlQ05DMTdkTGU3Szk0bytKZ2tUQzVWaHZhRHliT2h6SlhP?=
+ =?utf-8?B?M3NrWWhLeE01NjRaVTJ4R242dFlYZnRFbGJMeHFxRVo2d3JzWXAyWkJ5bGYz?=
+ =?utf-8?B?L04wTDNaMDBBZ1lKazBhUGo1aGVrR1RYaDNFMFdLM2tUaXZTcFNMY3lEN0JX?=
+ =?utf-8?B?TlhZQzc3aHVpTlBwNkdTc25ob2FwNzFGL0l3QnNQWXl4bURqbHExU05wbXBR?=
+ =?utf-8?B?QVhyRGdpVnhyWVZPYUswM21nYUhyS3ZkeVdGVWVLUHY1UTZ6TkY0OFN2a0Nk?=
+ =?utf-8?B?TnpvWnN5ZGV0bk9CbG90emU2YVpxZ2tFUHFqTnRhYTlPazVmUGhrc2E2TWlq?=
+ =?utf-8?B?d1JUanNacy9oUW5WYlpEL1hjNlNjNDF5a2FObnJzVE9XV1g1aG5wOHdPY0NF?=
+ =?utf-8?B?bTdWbGhnYjlhUVBIbWwwZmRrcVMrdk9OaVdzS2Rna3RBLzlaVk5zSzJ2K1RM?=
+ =?utf-8?B?M0E1anIyZDVUTnhScnc1VEdSd0l3L2NJcUtSdTZFbThhWkNFdmoxQT09?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 904b7d34-8e84-445d-da74-08debc93e0e8
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7743.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 08:34:05.7747
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: P0a3JQMVte67x4RlQEUibnNU+FLGcC4+dzcfs3LYR5KQmGKTBaq6RJG+6SQuqp25/vv9hoxoXY3TF8/RzYLxQmFDJz6UuEVRB2OzrIuckls=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB12049
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 06:45:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237694
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 08:34:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237695
 
-On Wed, 2026-05-27 at 06:35 -0700, Hemanth Kumar M D via lists.openembedded=
-.org wrote:
-> From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
->=20
-> GCC 16 introduced -flink-libatomic which automatically injects
-> -latomic_asneeded into link commands via LINK_LIBATOMIC_SPEC.
-> When glibc is built with a GCC 16 cross-compiler, the compiler
-> would attempt to link against libatomic which does not exist yet
-> at this stage.(libatomic is built later as part of gcc-runtime)
->=20
-> Link: https://github.com/gcc-mirror/gcc/commit/e63cf4b130b86dd7dde1bf499d=
-3d40faca10ea2e
->=20
-> Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+Hi Wojciech,
+
+On 5/28/26 10:03 AM, Wojciech Dubowik wrote:
+> Some distros like OpenEmbedded are using gnutls library
+> without pkcs11 support and linking of mkeficapsule will fail.
+> It would make maintenance of default configs a hurdle.
+> Add detection of pkcs11 support in gnutls so it's enabled
+> when available and doesn't need to be set explicitly.
+> 
+> Suggested-by: Tom Rini <trini@konsulko.com>
+> Cc: Franz Schnyder <fra.schnyder@gmail.com>
+> Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
 > ---
-> =C2=A0meta/recipes-core/glibc/glibc.inc | 3 +++
-> =C2=A01 file changed, 3 insertions(+)
->=20
-> diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/=
-glibc.inc
-> index dae087d53f..91fabe14a8 100644
-> --- a/meta/recipes-core/glibc/glibc.inc
-> +++ b/meta/recipes-core/glibc/glibc.inc
-> @@ -46,6 +46,9 @@ EXTRA_OEMAKE +=3D "SHELL=3D/bin/bash"
-> =C2=A0# bash but it can be configured by setting KSHELL Makefile variable
-> =C2=A0EXTRA_OEMAKE +=3D "KSHELL=3D/bin/sh"
-> =C2=A0
-> +TARGET_CC_ARCH:toolchain-gcc +=3D "-fno-link-libatomic"
-> +SDK_CC_ARCH:toolchain-gcc +=3D "-fno-link-libatomic"
+> Changes in v5:
+> - removed more unrelated cleanup improvements spotted by
+>    Quentin, to be sent in another patch later
+> Changes in v4:
+> - abstract pkcs11 init function
+> - removed unrelated cleanup improvements, to be sent in
+>    another patch later
+> Changes in v3:
+> - remove config option for pkcs11 support and add auto
+>    detection in Makefile
+> - reduce amount of ifdefs by abstracting import pkcs11
+>    functions
+> - add missing free and deinit functions
+> Changes in v2:
+> - make use of stderr more consistent
+> - add missing ifndef around pkcs11 deinit functions
+> ---
+>   tools/Makefile       |  5 +++
+>   tools/mkeficapsule.c | 95 +++++++++++++++++++++++++++++++++-----------
+>   2 files changed, 77 insertions(+), 23 deletions(-)
+> 
+> diff --git a/tools/Makefile b/tools/Makefile
+> index 1a5f425ecdaa..e85f5a354b81 100644
+> --- a/tools/Makefile
+> +++ b/tools/Makefile
+> @@ -271,6 +271,11 @@ mkeficapsule-objs := generated/lib/uuid.o \
+>   	$(LIBFDT_OBJS) \
+>   	mkeficapsule.o
+>   hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) += mkeficapsule
+> +GNUTLS_SUPPORTS_P11KIT = $(shell pkg-config --libs gnutls --print-requires-private \
+> +			 2> /dev/null | grep p11-kit-1)
+> +ifeq ($(GNUTLS_SUPPORTS_P11KIT),p11-kit-1)
+> +HOSTCFLAGS_mkeficapsule.o += -DMKEFICAPSULE_PKCS11
+> +endif
+>   
+>   include tools/fwumdata_src/fwumdata.mk
+>   
+> diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
+> index ec640c57e8a5..a36332567e0c 100644
+> --- a/tools/mkeficapsule.c
+> +++ b/tools/mkeficapsule.c
+> @@ -207,6 +207,71 @@ static int write_capsule_file(FILE *f, void *data, size_t size, const char *msg)
+>   	return 0;
+>   }
+>   
+> +#ifdef MKEFICAPSULE_PKCS11
+> +static int pkcs11_init(void)
+> +{
+> +	const char *lib;
+> +	int ret;
 > +
-> =C2=A0do_configure:prepend() {
-> =C2=A0	sed -e "s#/bin/bash#/bin/sh#" -i ${S}/elf/ldd.bash.in
-> =C2=A0}
+> +	lib = getenv("PKCS11_MODULE_PATH");
+> +	if (!lib) {
+> +		fprintf(stdout,
+> +			"PKCS11_MODULE_PATH not set in the environment\n");
+> +		return -1;
+> +	}
+> +
+> +	gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
+> +	gnutls_global_init();
+> +
+> +	ret = gnutls_pkcs11_add_provider(lib, "trusted");
+> +	if (ret < 0) {
+> +		fprintf(stdout, "Failed to add pkcs11 provider\n");
+> +		return -1;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context *ctx)
+> +{
+> +	gnutls_pkcs11_obj_t *obj_list;
+> +	unsigned int obj_list_size = 0;
+> +	int ret;
+> +
+> +	ret = gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
+> +						 ctx->cert_file, 0);
+> +	if (ret < 0 || obj_list_size == 0)
+> +		return ret;
+> +
+> +	ret = gnutls_x509_crt_import_pkcs11(*x509, obj_list[0]);
+> +
+> +	return ret;
 
-I think using the override is causing the default flags in TARGET_CC_ARCH t=
-o be lost, resulting in errors like:
+This is still doing something we currently do not do, that is, checking 
+the return code of gnutls_x509_crt_import_pkcs11(). I'm not saying we 
+shouldn't (I haven't checked), but this now does more than just 
+ifdef'ing pkcs11 support.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3912
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/16/builds/3837
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/3790
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/3768
+With that done, feel free to add my
 
-I think it needs to be:
+Acked-by: Quentin Schulz <quentin.schulz@cherry.de>
 
-TARGET_CC_ARCH:append:toolchain-gcc =3D " -fno-link-libatomic"
-SDK_CC_ARCH:append:toolchain-gcc =3D " -fno-link-libatomic"
+on the next version.
 
-I will retest with that.
-
-Cheers,
-
-Richard
+Thanks!
+Quentin
 
