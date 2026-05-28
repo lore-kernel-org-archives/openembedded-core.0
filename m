@@ -1,331 +1,267 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5392CCD6E44
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 14:00:39 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11666.1779976795126402952
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF923CD6E44
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 15:09:09 +0000 (UTC)
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13123.1779980942088542527
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2026 06:59:55 -0700
+ Thu, 28 May 2026 08:09:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=zW0EFQGP;
- spf=pass (domain: est.tech, ip: 52.101.83.47, mailfrom: adarsh.jagadish.kamini@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fw3rrGz7hruZ/Vkec6KSfXaSJULT75IfUOmOsk0jxSlfJDdFDuRVuF9yZMddR0bA3ow0vMMBBeY2cq4Si0yj12lOZMw+g6VA5KA+7R478FpZ6nttKVQiyBHC7D2oFJlGfBddk/fZoPHKDth5UnODe0OBtkWBKDVnEZ69XDwHH8zSdf4T49bS5mw4IrWROXL7p3zzJNg0g0fIqrMzoUFtrVP62OI5js45lYz7q8Q14t2wqwE7qUbBLleRGYSBQiBL2NInL0mLCfnJWqu5LtBGRZjZtNwuq+uKmHOntHAh/WkbyvEYCbK6A9O+iH8GvOy0K6nRR6shcKOqeNo2N21lFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hyJ/a+Q5pXOU3Fh259MoEYyjBZZn3kEbjX+ohL4dxoM=;
- b=F8FLMMqHazv+QcHFwvq0m/Wp2JQniFrhA5TBy/XPGbsH+Wx2S1z5cBtBnBEoM3InYIlHRi2LzF9SEJQUeLKNuXzoL3rVlZt/Zm4qznts4tkGOeSnHmThQfSvzqZt/s5UFt8+ud5bJlqkvA/0cEYoIR0G99624mg6tnfUySkUBanFAEnIkobt+z/CD0fFAl+ofCRzHa3XkMvnQMf5mv8dKiS8rHgDtJVf4rhczr7rtmkKHF16X+r77xYGvfjTFzQJNWce8GTDjJwHJJ5FR4o7nn+CTR6e0fF9L6H25/qKQCa4mTs/fH0cL3j50i95QoZpFNZ2/DWyLIPSc5zHwFNtJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hyJ/a+Q5pXOU3Fh259MoEYyjBZZn3kEbjX+ohL4dxoM=;
- b=zW0EFQGPpRgFCtKHZ2s6eyNZoRqJGHkX0rckLnQxf1MXWOcQGBSMbkqsj3O+Qd7PVfosb/HS2tyEMdQsf0F+p/PUsZOaLpJuG/u7PW4JfVt2uty2I5ogB0tSsE/CMv9uVlj7eAbIYgSYIu0+jr+K3YqOYIvf+KjWJDdFsrlm5euRY2HkEF7d2P9dposXivfVqnJjQNiN9y8nKO3qJq8B1//Xlh2oOj3zI/Q7uI7mlrVul0eW3iS019g/LNqqWBz2QkjXDuZmbdHRC31m/djpUhLJV4XwaLNi6XqaN2JUkfEsrSCkEWBSz3wQbo/yTy5MCEkI+CBiQZM0tl6veE+lxQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
- by AM7P189MB0963.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:175::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.14; Thu, 28 May
- 2026 13:59:51 +0000
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff%6]) with mapi id 15.21.0071.011; Thu, 28 May 2026
- 13:59:51 +0000
-From: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-Subject: [OE-core][master][PATCH] libpcap: fix error message on 32-bit integer overflow
-Date: Thu, 28 May 2026 15:59:44 +0200
-Message-ID: <20260528135948.302986-1-adarsh.jagadish.kamini@est.tech>
-X-Mailer: git-send-email 2.43.0
-X-ClientProxiedBy: LO0P123CA0010.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:354::19) To AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:396::9)
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=r4Le2qij;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=GFa/S0Q7;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.151, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfout.stl.internal (Postfix) with ESMTP id 9C4A41D000D7;
+	Thu, 28 May 2026 11:09:00 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Thu, 28 May 2026 11:09:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1779980940; x=1780067340; bh=wkBF913Cth
+	+uY34gsIzAWZ5eRmigmOEPZ+iulORX0XQ=; b=r4Le2qijlW4lN5HQSJ/mlEqzL+
+	eT1KV5nPyuQqLIgM8tV/bBFtnFlGeN8Uz9dCLOQkA1OkSKSbOYZwslrGP72wZNhf
+	Ky7HxMkK9dq9N+phMQd4t6WrMTifP+YBtDyBk7lf6Qb5KMn1J6VuTf2MKWc43Z9G
+	rcFiMQdcKpv0aVcj/9DjT1sf2vv24fygHx6WzCmyFAID9UgZOiua65OUx9+x6lfg
+	mwYkbcs6KhRFI7Ld0axVwk0N8MgzFWTcC3R4kz0XYxlwiFT68ZUM9h1SVlIwdaPU
+	DgLcXloez8EmQPPHu4Ji7ryqRn6thUaKsR52IRmx4j0OPgZnIuHOVqAm34+g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1779980940; x=1780067340; bh=wkBF913Cth+uY34gsIzAWZ5eRmigmOEPZ+i
+	ulORX0XQ=; b=GFa/S0Q7MmwXDgqhm0oFug9qCng/ANcnvAhkytQ44gT1Bnp9kIg
+	BEFnBBe9LzPZ37mDn3IvEr4A25o2Vs1ae1zLwncPyJkQbnQEHY3nvogtq41imYn9
+	HZpLnDY4c+Cm7oGL06pcuW7ljGm3mSj6NTjvnZmfmO63Y5ul92NJnXOYmyrkvrO2
+	UsBli9naI7spqd9k5Bh5nZGQcwIKkNuHwMCeVgIDrQ/6HUOjEHgyfmi0tkvJICRO
+	n32O3CLv0KZphMh+EBy2JKx66+ysxLE07v2aIOGw7/SRACTZ3lJkvjgKTl/wA9AQ
+	9ftpOw7BMUbokufyzJ0heTcSQWnP5qHhczA==
+X-ME-Sender: <xms:i1oYanP6OE2aSi1V0YmLdDfOah0Ewk7m0vU26DvFQ2LkXsuv6gU51A>
+    <xme:i1oYao3bdslrQ7aaFuS2IaKjZBcX0H2Aroee-ombWLGf7raHEe9N04X1UWLLsqI6q
+    T8x49kf5qqA5cM7YNCg-Bv9-vO3RDmR5DSg7yEroReh80dyqtEizy7y>
+X-ME-Received: <xmr:i1oYaum76t9ruQJOK8VqeImK0uzruiDxo8A9txEiNcZN8_7X6fefsoRxOOeH3qAi2wkzcUYFaFMaR_dwTncK958mJ7sc_tWePw5eIsNNraZODdrbewrvsGYn6prvj5x->
+X-ME-Proxy-Cause: dmFkZTEJNBOSFJNsdMuCIKIe4Q+Rn/1J+jhjsgEQa5Xg1+D7LU7pLilZOmLCXoMVyryEeA
+    wO+5ggmvmX3XYanUIXLlsslVWrmggXaNA2AnA6FIcMW3S2cKw0yhFGakuumw0benQm86Dg
+    lxLzSboJ9YAFXx4DqkhCLRtSMdZNJO7AmNlN/69F3n88VtJfI9+EjHy7pFB2zgW8IXXJ2O
+    JLYeedi9QmJfPiilgEUeaRttxrdiyjCdK5KDW5Qxh8wJa6IoU21c66IY8OW1f+OfLkxjlS
+    ADztgCePsjuIVHQaDu8qYGBptJGO8MUDEFqB0gRSpT4gHu5SiRc0JdU2sw2d6Ea3gX5OlQ
+    OJjO2JDV9VT7YU6OO9YdiQOR9M9qY6wBC2j2EqtWQQsz1T1D28KiPX0P5OP/Kq5iMVy0z6
+    3vpVIDX8GdhFy6GyGiPDTQhD6Aru1nkIRsL1OZF3wNwBFuQ3QgkSOXZp4k2S4S6T2QgFHV
+    mCZ2ZZyCKFJ4oIqgciImOyd5nVqOPxSqOby1Ag+V6g68lhEkrbWacGO2K6kA3TB5fjMZwx
+    SEJ+VBebnK1fIXfRbsFhkwLbd61f5ihsnrUJyxaskjFnHSv9K+9a5Dh/BQs3PGNhT3NEjZ
+    FrP600Grg2d3etZupZNZrmQCT3r9F9PduRYzJQDsA8JFo49tia4cfHwqDrIg
+X-ME-Proxy: <xmx:i1oYanWCMgqILvMY1knpOHmW2gFqv-NqKkc6XPMr9Ja2WiR5i-Pj5Q>
+    <xmx:i1oYastmqKdmAHa7oxoK8evYKDNJ4Gkx1F8xLSAqr4z36QUv0E83Cw>
+    <xmx:i1oYaiaALoAGIATbfQJeR_aFSBewVe3fFw9tFP2lCBEMYBX6CcX86g>
+    <xmx:i1oYajX8L8hh6TOaJZ21N5Mf0bh4JBbmQKkLv8i1wdgcqVpPKIQO8A>
+    <xmx:jFoYaqiAaXr_2pYIqjh1iMFFQFASWUKaVJbrHm_5bwTTXs-RkTbD0Vy4>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 28 May 2026 11:08:56 -0400 (EDT)
+Message-ID: <d1023d5b6fa9f1ba8173d685c633c04a7b1a169e.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH v4 2/4] base.bbclass: warn when SRCREV is
+ missing for SCM URIs at parse time
+From: Paul Barker <paul@pbarker.dev>
+To: saisneha196@gmail.com, openembedded-core@lists.openembedded.org
+Cc: yoann.congal@smile.fr, corentin.guillevic@smile.fr, martin@geanix.com
+Date: Thu, 28 May 2026 16:08:34 +0100
+In-Reply-To: <20260527111756.1306022-3-saisneha196@gmail.com>
+References: <20260527111756.1306022-1-saisneha196@gmail.com>
+	 <20260527111756.1306022-3-saisneha196@gmail.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-ly2jZLJfFUJlEi1bvG1Y"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1672:EE_|AM7P189MB0963:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6917531b-a026-4723-4668-08debcc16323
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|366016|6133799003|11063799006|56012099006|12006099003|18002099003|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	8jOJIEGuspxdTdBs4SkEECnM+UR8mam5P1JPxg26iLHVDVxt96S+anfyOJjy2ooczjbuP7st8WIiLgs5w8Tx1+U6RZgEFr2fykcU7TcmPa5THSo+ubdKpSHX4tiLQAHtxSpp0kbnh9g8dO6J+ZKFw4uDS57olQe6mzbtgic2DJa7lCptKuXM05RH6irxTwUFvtnn9ZxgPQpmzFVnDmiDerJRwLECX8EShO1pB3teKD5v41nauacela2yGzuAWdhHtRi69/RQkR+gt1wlae/2T8C3Jz9R3OEA6exzRpKZF4Otvv3dSzCGkBUZXf7s+Q7ImICrqAiB5IHaQYaGRXKP/TQSgrapkmPEYcRCJF0aiDegdYbcXBChxYwv4qyTa74bDTZFgJdBdI9PsGd+RutjEwNJpp4RvLSxbTtdoqiIwQCsTtH9UJdAAsjM//A1SguEzDi8AdKwWw+Gh60o0H8erQjR8p3fpEso580QGITbKXdK+Qi3mIYW6PmKh545J+2yYg0kvY55OARgUerjgF1WIyU7XDpcTbrgKYTTTFk6ef0xDKs0IkfuGPd22jFnZx5PJJrPDRnwwzQ5zGkYqNZuNHeZqn+En9FL8IPsPrQ2GjR8UjPwTEcqrFg+c7YO2jLxbOTYSYfGNG+18cpbfL+xhQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(6133799003)(11063799006)(56012099006)(12006099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?YNGWncT4Y4jPolsirNTmzZogu2LyqtzUfbX08xFN8Y5qQEMF4WUcHnG61+8y?=
- =?us-ascii?Q?pqdS/BvTI+jc/bLUSkH+OCB6qBD0WtZM5Qy+ytKwMChAC/7xubMfKeCHVvkc?=
- =?us-ascii?Q?+M1/ahwDk6Gmh/gDh+B91Se4Dj18vclJoo5JJz+Y9kWCEwZdLhmTwys2iLv1?=
- =?us-ascii?Q?TWhcHn3ufzHKkyncvlVNsPRm7Ig6H2KExJsEZe9lLskz7gucjfJw2rGDsdIX?=
- =?us-ascii?Q?4ghgXp8djfyM1FfxDvOCxbhY0Af9RzNuc3B/Uqt9pxHlLB5PJLnNaLABKMJH?=
- =?us-ascii?Q?KB9BYg1LuFJQAc+a3v1ylXvexdIdhC93DkecLd8bfRpGBIIFWkbxr5oqeVTf?=
- =?us-ascii?Q?L58FdwpFbapnC0VsZmM5qavxmpmejYB7hEFxMks6FPE2f6AkqjIGXTU9jwvU?=
- =?us-ascii?Q?AWeNAOgaVSh2W0QDlEwpy53OF01jEXOfcQYa788PFuMznupq/H2St5feYnGB?=
- =?us-ascii?Q?6iBDsxVgniesKSapAsLNiepnZKty0aF1TiK5MDc8dWrq3kzSubiqR8Gx4oXT?=
- =?us-ascii?Q?c3H9XPMrO5LIOJclm7828HlfxUsaDmH3g7L5s5J40NMCiyfX2BpDVYG6Uhi3?=
- =?us-ascii?Q?TVfw88mIHeZEn8g2uLLz65TC3VZ9j6q7X3nI4d8FS/IsQod3o2Rik7ZH5jeb?=
- =?us-ascii?Q?UTH0t3TKexNgJg7uSdhHrn282iZZvXU7G1QWkY3vCJxhy5Ex+WCS0jsscX1Y?=
- =?us-ascii?Q?9nLON7Vzk4HDbrxVFv0EoMSK1PJF9YJRz8ZNXpnKuJPemOnOn7e0z+B71LTy?=
- =?us-ascii?Q?uD618bC8EqJgyTlW1sbTShMcGKI0Uql+H8O0IrLkM1TT++wQYzaOzdleHGKX?=
- =?us-ascii?Q?ATu4nPwrA2Dgo0z4RthQ5P9Bq4F4+rZCGB3yEx8y1PWyjGu8QBFDlebgQu3I?=
- =?us-ascii?Q?KqvcGRY7jRV1aEdEPfxjybPNLAa0f8VfSWt6wnj/LE1BF6aoAmVklu/bCHQ6?=
- =?us-ascii?Q?2pU8c8Ganc6FDyWCe++OXCaEGTmnOjMlWB0O8syfp0mFizTkH3CBFNSRsR/x?=
- =?us-ascii?Q?bpTxCvwg1hqRVi5EpF2NFSAVNk7xfslN5KlgP6QtQWLAKv1FwX4pDvw5vX2L?=
- =?us-ascii?Q?8baCoO9kSLdYqSW5/raIrPgVkobZHjD7BqlAXzde4+0oaXAwVqnQ84tnaQ8T?=
- =?us-ascii?Q?iFlhrq9rIr2PI5L8atPPa9QBY/q41Fo16cs3hTtdQXGvMHHrxYgNir2s7LjW?=
- =?us-ascii?Q?a1IB6qkn7662NIEdXgLT2BUJTGTJrnSNUSw5ti3H6idW3njiNUnL3ruJ+lW/?=
- =?us-ascii?Q?9TBqYecWV3Dsd7Se/EEV58b1DATrMGuTVdFja+AQk6lw2nqowBOen2kH/yYq?=
- =?us-ascii?Q?ymscn87oSiwvQMljQNlBeuLk3moKUDtsZE8P0RThl5927GVXoGLR7fwjaiai?=
- =?us-ascii?Q?tTJWhTzVqFPuzj0YWuAb09Msz2QuxyBmeYqj+A9XH0qjafWIN5tL+gt90tk9?=
- =?us-ascii?Q?FDXn3pXZv8d5jLhcP7X8s1C9zCj0EumWjqaX42iuEXP0azbNZTaqmr2Vg/P3?=
- =?us-ascii?Q?je8aAoxPKpiiIc0e7pT32FZa9DjvPM16eIaPUsfCopvSOmrkGky4ZqMGvs6I?=
- =?us-ascii?Q?RrRZcJpOLdKu5JajC0cG0uUs1RKJFF7aPRciA2FT+MFz29fRJQF++FVFeGjH?=
- =?us-ascii?Q?I/rFDgSmH0pY0XwNPm3KI18BzDef2VsHlLam+Zh9tK60FmlyyMgyugatyO7I?=
- =?us-ascii?Q?fmK1taR5oZZsLZfd/92UA8W/xy5Q4ogyiCvL8pIQjVblAkPPMI1tpjNPy95w?=
- =?us-ascii?Q?O5n/xD6DgpOAvteilKReacmEL2yWWIc=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6917531b-a026-4723-4668-08debcc16323
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 13:59:51.2278
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FpkaXvACBo9yE85C3CAtxSkF6BsZktl1yb9cuJwKL/gm8XMd2hdLJ15VfEpK9hmTUhzepEXU+4oXDj1/mbsnd8G3/oawlRhKeCxW09mkEK8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7P189MB0963
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 14:00:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237712
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 15:09:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237713
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
-Upstream fix: https://github.com/the-tcpdump-group/libpcap/commit/0d8bd2f67=
-c16637c4d25d81fb24cdcebc35afce6
+--=-ly2jZLJfFUJlEi1bvG1Y
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
----
- ...ssages-about-32-bit-integer-overflow.patch | 158 ++++++++++++++++++
- .../libpcap/libpcap_1.10.6.bb                 |   4 +-
- 2 files changed, 161 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/0001-Fix-erro=
-r-messages-about-32-bit-integer-overflow.patch
+On Wed, 2026-05-27 at 16:47 +0530, Sai Sneha via lists.openembedded.org
+wrote:
+> A recipe with a git:// (or other SCM) URI in SRC_URI must have a
+> corresponding SRCREV set. Without it, BitBake performs a live query
+> on the remote repository at every parse, breaking reproducibility
+> and causing parse failures under BB_NO_NETWORK=3D1.
+>=20
+> The trivial fix of checking SRCREV in insane.bbclass do_recipe_qa
+> fails because fetcher_hashes_dummyfunc[vardepvalue] expands SRCREV
+> at parse time before QA checks run, causing a FetchError that halts
+> parsing entirely. This was identified in Corentin Guillevic's RFC
+> series and confirmed by Mathieu Dubois-Briand's autobuilder testing.
+>=20
+> The fix intercepts at the vardepvalue expansion point by introducing
+> check_srcrev_set() which uses the shared oe.qa.check_uri_srcrev()
+> helper. The function is called conditionally:
+>=20
+>   fetcher_hashes_dummyfunc[vardepvalue] =3D
+>     "${@bb.fetch.get_hashvalue(d) if check_srcrev_set(d) else ''}"
+>=20
+> Note on design choice: we intentionally use d.getVar(candidate, False)
+> in oe.qa.check_uri_srcrev() rather than srcrev_internal_helper()
+> because the latter expands SRCREV, triggering get_autorev() and live
+> network fetches -- the exact problem this patch fixes.
+>=20
+> Note: parse-time warnings intentionally complement the QA-time warnings
+> added in insane.bbclass. This is necessary because CI pipelines running
+> 'bitbake --parse-only' with BB_NO_NETWORK=3D1 (the original motivation
+> from Ross Burton) would miss the issue entirely if only QA-time
+> warnings existed. This pattern is already established in the codebase
+> (e.g. src-uri-bad fires at both parse and QA time).
+>=20
+> Reported-by: Yoann Congal <yoann.congal@smile.fr>
+> Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16051
+> AI-Generated: Developed with assistance from Anthropic Claude
+> Signed-off-by: Sai Sneha <saisneha196@gmail.com>
+> ---
+>=20
+> Changes in v4:
+> - Refactored to use shared oe.qa.check_uri_srcrev() helper
+> - Eliminates duplicated URI parsing logic
+> - Added docstring explaining True/False return values
+>=20
+> Changes in v3:
+> - Added AI-Generated disclosure and Reported-by tag
+> - Added design decision notes to commit message
+>=20
+> Changes in v2:
+> - Initial public submission
+>  meta/classes-global/base.bbclass | 30 ++++++++++++++++++++++++++++--
+>  1 file changed, 28 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.=
+bbclass
+> index 62f2814bb7..7de896ca7d 100644
+> --- a/meta/classes-global/base.bbclass
+> +++ b/meta/classes-global/base.bbclass
+> @@ -164,14 +164,40 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=3D=
+True):
+> =20
+>      if notfound and fatal:
+>          bb.fatal("The following required tools (as specified by HOSTTOOL=
+S) appear to be unavailable in PATH, please install them in order to procee=
+d:\n  %s" % " ".join(notfound))
+> +   =20
+> +def check_srcrev_set(d):
+> +    """
+> +    Inspect SRC_URI for SCM URIs missing a valid SRCREV.
+> +
+> +    Returns True if all SCM URIs have a valid SRCREV or AUTOREV set,
+> +    allowing get_hashvalue(d) to proceed normally.
+> +
+> +    Returns False if any SCM URI is missing SRCREV, suppressing
+> +    get_hashvalue(d) to prevent a FetchError parse crash.
+> +    """
+> +    import oe.qa
+> +    src_uri =3D (d.getVar('SRC_URI', False) or '').split()
+> +    pn =3D d.getVar('PN')
+> +    for uri in src_uri:
+> +        rev =3D oe.qa.check_uri_srcrev(pn, uri, d)
+> +        if rev is None:
+> +            # SRCREV missing =E2=80=94 warn and suppress hash expansion
+> +            if bb.utils.contains('ERROR_QA', 'missing-srcrev', True, Fal=
+se, d):
+> +                bb.error("%s: SRCREV not set for %s" % (pn, uri))
+> +            elif bb.utils.contains('WARN_QA', 'missing-srcrev', True, Fa=
+lse, d):
+> +                bb.warn("%s: SRCREV not set for %s" % (pn, uri))
+> +            return False
+> +        if rev and '${AUTOREV}' in rev:
+> +            return True
+> +    return True
+> +=20
+> =20
+>  # We can't use vardepvalue against do_fetch directly since that would ov=
+erwrite
+>  # the other task dependencies so we use an indirect function.
+>  python fetcher_hashes_dummyfunc() {
+>      return
+>  }
+> -fetcher_hashes_dummyfunc[vardepvalue] =3D "${@bb.fetch.get_hashvalue(d)}=
+"
+> -
+> +fetcher_hashes_dummyfunc[vardepvalue] =3D "${@bb.fetch.get_hashvalue(d) =
+if check_srcrev_set(d) else ''}"
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-error-messa=
-ges-about-32-bit-integer-overflow.patch b/meta/recipes-connectivity/libpcap=
-/libpcap/0001-Fix-error-messages-about-32-bit-integer-overflow.patch
-new file mode 100644
-index 0000000000..4f2af53762
---- /dev/null
-+++ b/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-error-messages-abo=
-ut-32-bit-integer-overflow.patch
-@@ -0,0 +1,158 @@
-+From 217c3a07c7db694324b5c61eaaa07774735e2d7d Mon Sep 17 00:00:00 2001
-+From: Denis Ovsienko <denis@ovsienko.info>
-+Date: Thu, 9 Oct 2025 20:51:45 +0100
-+Subject: [PATCH] Fix error messages about 32-bit integer overflow.
-+
-+Since commit a5cac25 stoulen() takes a pointer to a string and a
-+length of the string and uses the length to report a problem about the
-+string.  However, by that time it has already modified the length, so
-+the error message does not match the input:
-+
-+$ filtertest RAW '123456789012345'
-+filtertest: number 1234 overflows 32 bits
-+$ filtertest RAW '12345678901234567890'
-+filtertest: number 123456789 overflows 32 bits
-+$ filtertest RAW '123456789012345678901234567890'
-+filtertest: number 1234567890123456789 overflows 32 bits
-+$ filtertest RAW '0123456701234'
-+filtertest: number  overflows 32 bits
-+$ filtertest RAW '0x100000000'
-+filtertest: number  overflows 32 bits
-+
-+Consequently, if more than one number in the filter expression is out of
-+range, it can be not immediately obvious which one it is:
-+
-+$ filtertest RAW '4294967296 !=3D 4294967297'
-+filtertest: number  overflows 32 bits
-+
-+To fix this, in stoulen() keep a copy of the original string length and
-+use it for the error reporting.  Ibid., factor the format string out and
-+show the base in the message.  Simplify the forward declaration.  Add
-+two comments to outline the clash space between certain MAC-48 addresses
-+and certain octal integers.  Document this syntax peculiarity in the man
-+page and add a few basic reject tests.
-+
-+Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/co=
-mmit/0d8bd2f67c16637c4d25d81fb24cdcebc35afce6]
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-+---
-+ pcap-filter.manmisc.in |  9 ++++++++-
-+ scanner.l              | 33 ++++++++++++++++++++++++---------
-+ 2 files changed, 32 insertions(+), 10 deletions(-)
-+
-+diff --git a/pcap-filter.manmisc.in b/pcap-filter.manmisc.in
-+index bfb692ff..929d668d 100644
-+--- a/pcap-filter.manmisc.in
-++++ b/pcap-filter.manmisc.in
-+@@ -18,7 +18,7 @@
-+ .\" WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
-+ .\" MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-+ .\"
-+-.TH PCAP-FILTER @MAN_MISC_INFO@ "13 June 2023"
-++.TH PCAP-FILTER @MAN_MISC_INFO@ "9 October 2025"
-+ .SH NAME
-+ pcap-filter \- packet filter syntax
-+ .br
-+@@ -886,6 +886,13 @@ integer constants (expressed in standard C syntax), t=
-he normal binary operators
-+ a length operator, and special packet data
-+ accessors.  Note that all comparisons are unsigned, so that, for example,
-+ 0x80000000 and 0xffffffff are > 0.
-++.LP
-++Note that 32-bit octal integer constants in the [010000000000 .. 03777777=
-7777]
-++interval, which includes 75% of all 32-bit integers, are interpreted as M=
-AC-48
-++addresses when prepended with a single zero (e.g., 012345670123 means
-++01:23:45:67:01:23).  To disambiguate the expression, prepend such an octa=
-l
-++number with more zeroes (0012345670123) or represent the same value using=
- a
-++decimal (1402433619) or hexadecimal (0x53977053) number.
-+ .IP
-+ The
-+ .B %
-+diff --git a/scanner.l b/scanner.l
-+index 57779497..49aaeab2 100644
-+--- a/scanner.l
-++++ b/scanner.l
-+@@ -48,8 +48,8 @@ typedef enum {
-+ 	STOULEN_ERROR
-+ } stoulen_ret;
-+=20
-+-stoulen_ret stoulen(const char *string, size_t stringlen, bpf_u_int32 *va=
-l,
-+-    compiler_state_t *cstate);
-++stoulen_ret stoulen(const char *, const size_t, bpf_u_int32 *,
-++    compiler_state_t *);
-+ }
-+=20
-+ /*
-+@@ -244,6 +244,12 @@ V6004		::{N}\.{N}\.{N}\.{N}
-+=20
-+ V6		({V680}|{V670}|{V671}|{V672}|{V673}|{V674}|{V675}|{V676}|{V677}|{V660=
-}|{V661}|{V662}|{V663}|{V664}|{V665}|{V666}|{V650}|{V651}|{V652}|{V653}|{V6=
-54}|{V655}|{V640}|{V641}|{V642}|{V643}|{V644}|{V630}|{V631}|{V632}|{V633}|{=
-V620}|{V621}|{V622}|{V610}|{V611}|{V600}|{V6604}|{V6504}|{V6514}|{V6524}|{V=
-6534}|{V6544}|{V6554}|{V6404}|{V6414}|{V6424}|{V6434}|{V6444}|{V6304}|{V631=
-4}|{V6324}|{V6334}|{V6204}|{V6214}|{V6224}|{V6104}|{V6114}|{V6004})
-+=20
-++	/*
-++	 * In the regexp below the "{B2}{3}" form matches all octal numbers in
-++	 * the [010000000000 .. 077777777777] interval that use a single leading
-++	 * zero.  The interval includes both integer values that fit into 32
-++	 * bits and values that don't.
-++	 */
-+ MAC		({B}:{B}:{B}:{B}:{B}:{B}|{B}\-{B}\-{B}\-{B}\-{B}\-{B}|{B}\.{B}\.{B}\=
-.{B}\.{B}\.{B}|{B2}\.{B2}\.{B2}|{B2}{3})
-+=20
-+=20
-+@@ -486,13 +492,16 @@ tcp-cwr			{ yylval->h =3D 0x80; return NUM; }
-+  */
-+ DIAG_ON_FLEX
-+=20
-++#define FORMAT_OVERFLOWS_32_BITS "%s number %.*s overflows 32 bits"
-++
-+ stoulen_ret
-+-stoulen(const char *string, size_t string_len, bpf_u_int32 *val,
-++stoulen(const char *string, const size_t orig_string_len, bpf_u_int32 *va=
-l,
-+     compiler_state_t *cstate)
-+ {
-+ 	bpf_u_int32 n =3D 0;
-+ 	unsigned int digit;
-+ 	const char *s =3D string;
-++	size_t string_len =3D orig_string_len;
-+=20
-+ 	/*
-+ 	 * string is guaranteed either to be a string of decimal digits
-+@@ -538,8 +547,8 @@ stoulen(const char *string, size_t string_len, bpf_u_i=
-nt32 *val,
-+ 					 * in 32 bits.
-+ 					 */
-+ 					bpf_set_error(cstate,
-+-					    "number %.*s overflows 32 bits",
-+-					   (int)string_len, string);
-++					    FORMAT_OVERFLOWS_32_BITS,
-++					    "hexadecimal", (int)orig_string_len, string);
-+ 					return STOULEN_ERROR;
-+ 				}
-+ 				n =3D (n << 4) + digit;
-+@@ -573,10 +582,16 @@ stoulen(const char *string, size_t string_len, bpf_u=
-_int32 *val,
-+ 					 * number, and are about to add
-+ 					 * 3 more; that won't fit in
-+ 					 * 32 bits.
-++					 *
-++					 * This code path depends on using more
-++					 * than one leading zero for all values
-++					 * in the [040000000000 .. 077777777777]
-++					 * interval, otherwise the MAC regexp
-++					 * above consumes the string first.
-+ 					 */
-+ 					bpf_set_error(cstate,
-+-					    "number %.*s overflows 32 bits",
-+-					   (int)string_len, string);
-++					    FORMAT_OVERFLOWS_32_BITS,
-++					    "octal", (int)orig_string_len, string);
-+ 					return STOULEN_ERROR;
-+ 				}
-+ 				n =3D (n << 3) + digit;
-+@@ -609,8 +624,8 @@ stoulen(const char *string, size_t string_len, bpf_u_i=
-nt32 *val,
-+ 				 * number that won't fit in 32 bits.
-+ 				 */
-+ 				bpf_set_error(cstate,
-+-				    "number %.*s overflows 32 bits",
-+-				   (int)string_len, string);
-++				    FORMAT_OVERFLOWS_32_BITS,
-++				    "decimal", (int)orig_string_len, string);
-+ 				return STOULEN_ERROR;
-+ 			}
-+ 			n =3D (n * 10) + digit;
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb b/meta/rec=
-ipes-connectivity/libpcap/libpcap_1.10.6.bb
-index 1b10001035..1c7f40d6fd 100644
---- a/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
-+++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
-@@ -10,7 +10,9 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D5eb289217c160e=
-2920d2e35bddc36453 \
-                     file://pcap.h;beginline=3D1;endline=3D32;md5=3D39af351=
-0e011f34b8872f120b1dc31d2"
- DEPENDS =3D "flex-native bison-native"
-=20
--SRC_URI =3D "https://www.tcpdump.org/release/${BP}.tar.xz"
-+SRC_URI =3D "https://www.tcpdump.org/release/${BP}.tar.xz \
-+	   file://0001-Fix-error-messages-about-32-bit-integer-overflow.patch \
-+          "
- SRC_URI[sha256sum] =3D "ec97d1206bdd19cb6bdd043eaa9f0037aa732262ec68e070fd=
-7c7b5f834d5dfc"
-=20
- inherit autotools binconfig-disabled pkgconfig
+How confident are you that this is a safe change to make?
+
+This is an area where I would not make AI-driven changes myself, as a
+change here could cause quite subtle issues. We may not have sufficient
+test coverage to catch such issues.
+
+Specifically, what happens if a SRC_URI has a 'tag=3D...' property, SRCREV
+is not set, and the tag is changed upstream?
+
+Best regards,
+
 --=20
-2.34.1
+Paul Barker
 
+
+--=-ly2jZLJfFUJlEi1bvG1Y
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCahhachEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bjabAQCGBjlG/BFDtQgb0UbFuW5IgVyRRvS7glYK
+43yCUERDSgEAygaUJ8UyLc8yOCicq7XSU/ub1Xcx9HgNJLaOG3xnBgY=
+=u0GL
+-----END PGP SIGNATURE-----
+
+--=-ly2jZLJfFUJlEi1bvG1Y--
 
