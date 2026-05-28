@@ -1,109 +1,122 @@
-Return-Path: <Jinfeng.Wang.CN@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A021ECD5BC9
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 02:28:24 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2634.1779935296793084884
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 956E9CD5BC9
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 02:37:24 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2751.1779935837327980270
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2026 19:28:17 -0700
+ Wed, 27 May 2026 19:37:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=O+2Z4qhO;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9608e22195=jinfeng.wang.cn@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64S0Z2Dv618674
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 19:28:16 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=htD5gTc5d9UtvZbG9CGK
-	LlfDMd4DT8h7iyI2oDrOjWw=; b=O+2Z4qhOPSO81WMFx/NhLBifIisdRie3rPZM
-	m6cwmqHzS9CjoGXuz6z/A6RH6TipF4dEHuwtkZMPPSkoF/kfI/MEB7TXK5wchgsK
-	e74qHCDWdK4vVGdTks6mlpHBUeUW4DfW+vVXy44xrVIt6U6WWGreAA6hW6nE/0aL
-	VKxbMD7BWvumZy9RGLMxhtSZJ0J8ZQGe3y9347GbrwroDgohs611gc+M0nnyVWfH
-	W4UiMqM6FHEcwnVql3HQVuV0LUuJ69Y1fscoZmRXiDQmK4oseyqXHiteCA0XXTiP
-	lit6PGABRQFQj3i0t1Y6rSdkKwVDhatxO1fv9+v522ESFyO9TA==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ee7x6r8a2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 19:28:16 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 27 May 2026 19:28:16 -0700
-Received: from pek-lpg-core4.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 27 May 2026 19:28:15 -0700
-From: <jinfeng.wang.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] bind: upgrade 9.20.22 -> 9.20.23
-Date: Thu, 28 May 2026 10:28:14 +0800
-Message-ID: <20260528022814.1711843-1-jinfeng.wang.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=iMpgBC2L;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-8b9f2295a9dso134698906d6.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 19:37:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779935836; x=1780540636; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MtINCaSnkm4bJnRRNHYN1kZWGzC4ugcuOaDmisNh9+Y=;
+        b=iMpgBC2LYgg+44DwSuXQ78CL0rMsdYBY2R3qosbNlTEBym2eBmMFeE/1D2sb2GLcQk
+         7tOEYhWVgX6piZqbnW//ypOeVbdN+tX9Cp+fCRuoYvEdEqGVPluK66qBA43kh4YNwogP
+         7VKfst+hhN7kOoxWJf4SgcO2nl6rOlAEnL0eeZWj8+abd0bvxNgv3KgkK22kYf4sLiFt
+         HuAUujZ0atS4a7DcOvC9RuZ/e204HWoSbnVSEtYn6el6ajHPsUXmtckW7V9kW7qLwWvG
+         ivv0dHcpoqSHqJ34CTwFtMxdV6P+syYWnavYvPN56k73CHNxCRHyh1rigzV5oHiRGpDG
+         CiZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779935836; x=1780540636;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MtINCaSnkm4bJnRRNHYN1kZWGzC4ugcuOaDmisNh9+Y=;
+        b=WmSmk1tGR+mrc63xcA0/MuqHoDssrV0ZsOemOkCiK4C9YNMWXf2qccHhCfHQFXtCB+
+         hLjv3qfAVUzBduQ5tNAkUcKkIYM9O1MLQdmBNbxXllpJD2UVKC0IHYqDsx53dP3WWeTa
+         zZ7kAzY4ttl2Dt24J20kjeem7vq9tKKi9kOkyq+6YfbETby0l/Yoinx11t55u/xZXCOz
+         PS/oudd+HdtobAoYYEj3uih9BBUfn1eCrR+jJsCz38gF2Mpz4//lND+CFn7a3OqrA7MW
+         SM9ft9D5oK8TlqSPGAAeFQuPKpsJ3GYrXFHoujWtlrIBZXsM44bNNj3yjNc50j4cYGHe
+         VVbA==
+X-Gm-Message-State: AOJu0Yz7tpHPlZS8mvgbXECDVZY8nQG/TMS95zudcGDX+zB51vH2icc8
+	cg7Hh9/MwzbL7ndyHthc5i5sO2sGohfaMTSzsh57m0BYYO5M28aUB2Uzae1lv+hd
+X-Gm-Gg: Acq92OExfWytksfsQAfVxPNPELa8excx73N7UA6E7h8XVYZD43Z3Y6k/Lvomiu97o/O
+	q0rgq38dmOLtxs95vcVSBgl1PYuburYQHrLT4U0cOcER15ZLFUui7oCUeV7YhAF31leTraISsY5
+	QmMeUZYa37F4JZ98taoXytei7I6Bcay1HPQr8/+LnQD8aQNVm/j+hWzYm5qONPATzddRVzhapSF
+	8Sll3sCv/x29xOo+1vzwBfgOz9MoOabaiJfjpAowqAHC+AohTir1aAr5qw+5qNn7igNfkF0FOQW
+	h/Bc3xOOj5Z9Sxla7q3R4KEw/TRMi0yNjU9NFXEiqB7rU0+oJk5Q3apcSRu3IhGBT4Ks5q1hRGF
+	hoxUzRvW/6wvL4x4Yf1uRE5NKYmtUSnFheijkx+FCpizp9loEqY0fyiPEyrn1q1Y4D+1GTE9B/L
+	4tWOI4R7vd1lzV/D3BE4anRPImFcn4JarWcUqKuCNf2jIa6+z5cowCunxcIrsY6LRXhb7DscKHs
+	jaCllanjahgzFDkcfiBy006jHTtAEpI0VH2WUuaGSnwmzwZEMQpsMWjYyh3x3NIrukkmprP9U7u
+	ofe4jrLPFshoqfnaWp8WvvR/da1y5HkQ52jtZ54w2/fxBSRhb8AkS1E=
+X-Received: by 2002:a0c:f00d:0:b0:8cc:d606:175f with SMTP id 6a1803df08f44-8ccd606208fmr4655756d6.48.1779935836111;
+        Wed, 27 May 2026 19:37:16 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cc80dcec8esm186146436d6.7.2026.05.27.19.37.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 19:37:15 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/7] linux-yocto: consolidated pull request
+Date: Wed, 27 May 2026 22:37:04 -0400
+Message-ID: <20260528023714.4026613-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: IcxdTEmH0w9vXr07wK3lZcPrfBhNqXUY
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI4MDAyMSBTYWx0ZWRfX136sFTCvek4N
- Q5vw3BaYc4Ub/bPddFwf+fTzyXRExCzZPWPuyoNiGyrqwp7/BgnQ/urKpo7J20AQ+bDG34Hpqsj
- 6vRiSwZo4G0gx6stDy+gMuGB67FEbFXArpOIbWLBIF3Dg8N3r5XKiKxNEkDdNjMfbsC3Wz/K14P
- sehbh6GXyGWck98//1zYDwei9PL2kzRczmKKhFmpIRzJJY2WUdIXxDUUtpor8cUo5gICCDzIwrE
- DRwFvS+BWmQIesn3QmVPdBxY9KRqA2EzWqi6KSNVkcc/qEFLStB+LxbV8qsSVNURlDCrholgJN5
- iZtBQ91yIM26uFe8a9PpZrYPtYks81cE5ihgsRbPs+hF/6gGE/kBPnn5+5wVHJ9AO7Hkwr7BzSS
- pS3UwReFpZkf8SqZtz6sWXuC+kI01oksFa1UbTLAowpWgmNSuVZbdsLwU20zxM6/s41LkEl0Scu
- xtsa8t26G+au361sCbQ==
-X-Proofpoint-ORIG-GUID: IcxdTEmH0w9vXr07wK3lZcPrfBhNqXUY
-X-Authority-Analysis: v=2.4 cv=FcEHAp+6 c=1 sm=1 tr=0 ts=6a17a840 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=iKiJcTA2PjBS6x5JeXcw:22 a=UXIAUNObAAAA:8 a=SCo1hh1FAAAA:8 a=t7CeM3EgAAAA:8
- a=QgkDFlgNOwP0r1ppsncA:9 a=a1s67YnXd6TbAZZNj1wK:22 a=nwb-CePKZZm3gL-ai9HY:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-05-27_05,2026-05-26_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
- impostorscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2605280021
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 02:28:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237680
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 02:37:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237681
 
-From: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Solves CVE-2026-3592, CVE-2026-3039, CVE-2026-5950, CVE-2026-5947, CVE-2026-3593, CVE-2026-5946.
+Hi all,
 
-Release notes 9.20.23: [1]
+Here's the latest -stable bumps for OEcore and yocto-bsps (again,
+let me know if the combined pull causes issues).
 
-[1] https://bind9.readthedocs.io/en/stable/changelog.html#bind-9-20-23
+I've also moved the dev kernel to v7.1 and fixed lttng-modules
+along the way. Hopefully a new point release will be available soon
+and we can quickly drop the backported patches.
 
-Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
----
- .../bind/{bind_9.20.22.bb => bind_9.20.23.bb}                   | 2 +-
+Also note that since ross removed the CVE exclusions .inc file in
+a patch (which I think is still pending), I haven't updated the
+exclusions for the kernel in this series.
+
+Bruce
+
+
+openembedded-core (5):
+  linux-yocto/6.18: update to v6.18.32
+  linux-yocto/6.18: qat/intel configuration warning fixes
+  linux-yocto-dev: bump to v7.1
+  lttng-modules: fix build against kernel 7.1+
+  linux-yocto/6.18: update to v6.18.33
+
+meta-yocto (2):
+  yocto-bsps: update to v6.18.31
+  yocto-bsps: update to v6.18.33
+
+ openembedded-core:
+ meta/recipes-kernel/linux/linux-yocto-dev.bb                                                                      |    4 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb                                                                  |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb                                                                |    6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.18.bb                                                                     |   24 +--
+ meta/recipes-kernel/lttng/lttng-modules/0001-fix-ext4-enhance-tracepoints-during-the-folios-writeback-v6.17.patch |   94 +++++++++++
+ meta/recipes-kernel/lttng/lttng-modules/0001-fix-ext4-widen-trace-event-i_ino-fields-to-u64-v7.1.patch            | 1424 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Drop-unnecessary-pointer-indirection-in.patch            |   75 +++++++++
+ meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch           |  103 ++++++++++++
+ meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-vmscan-Convert-pageout-to-take-a-folio-v5.18.patch            |   54 +++++++
+ meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-vmscan-add-cgroup-IDs-to-vmscan-tracepoints-v7.1.patch        |  198 +++++++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-modules/0001-fix-treewide-change-inode-i_ino-from-unsigned-long-to-u64-v7.1.patch |   56 +++++++
+ meta/recipes-kernel/lttng/lttng-modules/0001-fix-vfs-widen-trace-event-i_ino-fields-to-u64-v7.1.patch             |  276 ++++++++++++++++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-modules_2.14.4.bb                                                                 |    8 +
+ 13 files changed, 2308 insertions(+), 20 deletions(-)
+
+ meta-yocto:
+ meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind_9.20.22.bb => bind_9.20.23.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.20.22.bb b/meta/recipes-connectivity/bind/bind_9.20.23.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.20.22.bb
-rename to meta/recipes-connectivity/bind/bind_9.20.23.bb
-index 318412a62c..ebc4422b67 100644
---- a/meta/recipes-connectivity/bind/bind_9.20.22.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.20.23.bb
-@@ -21,7 +21,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
- 		   file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch \
-            "
- 
--SRC_URI[sha256sum] = "cba92ff631b949655f475fe4b54290f6860fd0070d399f2279f6437c0d383ec6"
-+SRC_URI[sha256sum] = "5d4475aed3f9e500ef554b2b14d972bdb83d33de214a9b3be92918ea46908371"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
 -- 
-2.34.1
-
+2.43.0
 
