@@ -2,64 +2,66 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8464BCD4F54
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 22:18:06 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22279.1780006685529832926
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85109CD5BD5
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 22:21:36 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22179.1780006888199193573
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2026 15:18:06 -0700
+ Thu, 28 May 2026 15:21:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M9oceonE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-45eedcdaeaaso652478f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 15:18:05 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X/PjQOxl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-45e9f4a3510so4383572f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 15:21:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1780006684; x=1780611484; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1780006886; x=1780611686; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=bvVYLUZmyZ7UDrGui3P5IvZeoj8m2kVpjmd5swYK2jo=;
-        b=M9oceonEsMyFZdvuTCTldOnyblBUYRkqnv0wEQQHHT33fzO4MFlMwOqv4+o8QIpQXF
-         iqzuiUi10oVJvwuoMXIrvptV7AxrFzLXCgSfkr0lBzvBUYeSKfHGYVTN4prQgfr3Jd5T
-         iGt125bNgWvjy6e82K0T+OiaMJpGj84aeLBoM=
+        bh=l8HDzGpuNPyfc0O0c3YG2ZqCafCrLq4n+qKL+95L4cY=;
+        b=X/PjQOxl4cP/COdG/Ny2rOgKRO4PuwjUsZerBEWNVRtkWWqVUQa7buRHIFxMCVZ41j
+         67fp/naBb6G70RIDXO5ZGupC8kpERAaJ8x/OVnEySR0Gijo+VjRPAzBHybp8b41hYaIg
+         Xx6E0w1xE3ff0ifRZoPLMsG9mqmkPSw2CBqSs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780006684; x=1780611484;
+        d=1e100.net; s=20251104; t=1780006886; x=1780611686;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bvVYLUZmyZ7UDrGui3P5IvZeoj8m2kVpjmd5swYK2jo=;
-        b=hw39TwirAV0dlGxRzKY0H4Vfu+/WfRofe/lafS5ZyVHdLRCji3eOBJa+ABqLq/2vG+
-         83c5fF9prs6lxQgGGlSj6ZjXMg3UNuEUpX6fpa+AxrwPaAwNLV/mOHRcus6WqkP6gx4c
-         nkxgftbaxEHAFoxzVgIMHcYkjqhvRfHONS8zyw7IzmT8R+NY+PlC9lG7fz0I835bZ1R5
-         gD325eCJx3qm+IWvqDWg0SH8G/5UUD5+QcoiVabUYh6euyb75jtUc+si5lsn36d91hkh
-         Z5DBxRjQRSP30xk/shLKz7Np0wIhDAPVrCLAEBtNj3cXi0xcoZjks6We1eIt1nomIlac
-         zHKw==
-X-Forwarded-Encrypted: i=1; AFNElJ+l3RgB16yrsnZYk+OoriLJWPJu0fgff0U1lGE163f0FjQCPbWkvs9Q7KPS/jUGjOKFlwSm/PNuEs3Zp/IWx9G4hQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx/CtgYrfRbD0rHoGT5nbzl90XT3u5SSDls0nHMu2XGmjz6Rbkd
-	8GDzHQ43ToxXURw7QDyR8iiJ2tLzt4VThuYOCc+M24i4euWtTiR4Piz25phLu/plqNo=
-X-Gm-Gg: Acq92OG8vGAHoFHxXE8oCjKpS+FxfUXO6/WLmg/A+0orJC0UPqIMNC+i5fkswTT0otG
-	r4XqKEZk/ihEvK+9hrNS1U+5+zQMaW704Jgq3GCFl/QUXXIDvfaYH4oMnVdAdIZZqJu0sdAVntv
-	HPyqTM3UlmKYuuEslMZ+cRx+2xccQP7sODo/NGtzhhDmi8JMFKdH2N/QBvHv1dzqWeRsDhkTM++
-	ETXByWee6q6UJcaXQTak4WT+e4ZUQ0erfECyA32ZMiMZM2Yj2QTW6pAICGFgHdjn2VkKe1TntHW
-	EIEFwhyT7Zmiy1uAn+R87P0amMuawuYVvs0IMevf/C88Mfh+Qs1ZgSR2dYIyFnEuR5MDHyJop/M
-	rCvL7WIoVPu9D9KGeLaVvr7qs3mBZPLyFupdg8STvunP2DRJkxad2P/MMJVfbYfqUErRNCu2J88
-	EoarkmyH4rU/PVeqkCXm1GmiGsTQwTXbGmKXRSL3c/rXFZDunp1lCrQ5olFW9IZXOMq+8SZp6LJ
-	cJMPb3VkLt33DqxHzHmcqoWAws=
-X-Received: by 2002:a05:6000:1866:b0:45e:eed3:ff2a with SMTP id ffacd0b85a97d-45ef1403becmr371976f8f.15.1780006683690;
-        Thu, 28 May 2026 15:18:03 -0700 (PDT)
+        bh=l8HDzGpuNPyfc0O0c3YG2ZqCafCrLq4n+qKL+95L4cY=;
+        b=okGh9D9ZnoQuNqgCC+copoLLBt8vmDbnjYF8na/m7cTpMXVDTednyTB0rV/42dtNe1
+         tZT1HxqlXFcTCDx70dT0J7C6D8Rz42vuWIZQwPmphrONxn7zR1lzEUKVazD0/E7WL008
+         2Gyz2pGPhucC8sLCcKSGq8wfbKPbFeG43e+j8vdnDp6hDpxFurEHcfLHMlx57b8sn069
+         n4AgrkbVvYBw+2hwq20q1dC7ciVXzw2saDuw2CnAk/Rxn16hD3R8WjEJf8YtmPKfe41y
+         4IWQQRZ8YrkIAkc2Xa5aHy4skSzBF1bg+V1ZfTt6djGwX5BNo3KadBpJMNNXdVpQMcBk
+         QcjQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9EFWR712oBVakeZPpaYuPkvaE/MGwKfKoysiKc5RFwTOXURtbsAc9NQklk2DPs8f+tHTHgrwnu13dk9ykVe8DIbA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyLODZJwvGtpPZbMQvvhEXJ2OHwV4H5A4MGhSpLKOn62tKvI+jl
+	WHA7yNDf3IWaJcROe6IuGDJ6Az0O8yVDBvqCPLBUo5AsYjsMT1GD72ssspXZJc7JZPdxBdTZO/3
+	MfHT4
+X-Gm-Gg: Acq92OFoYbhiUtzmBtql2zpR0nNS04zQKn1wSMBbzy/ipH0+yJXBBldlBzkvCyM8F0M
+	Jd/2YHjcMNnJZytP0RnBkRjFGV4xhc94r5NoDIer9EgFUovJdwHq/1Ojw+yqUfpInfqvhTEPayC
+	v9/ZCnkrT+VxbJQS0x1KvU5nMhDywBZScNaAw+P2JFBF/Ef3cliamJriUR6hLV4tofEwwP37hTh
+	uJnVrS2jzYgxQN2t2u+H5pziODWIXyQZ5N3oBGsIzRbqiW6q+lx6a6AM6Tf0GeY44gC/LI+rb63
+	2VrDOSIM3yXkGePnYw8eJEX2aQ7vhSg+rMEanfjuzsalCkdhkY/+r4sWT+miNdKWIKOuIHvzU7q
+	EyzW+zKIWyCERlBCdsX6vJbEvNhOv6KmOCVnD7H4B636VVxLumrhm/Y5h4wG67u85U2z3vPuPTD
+	mhwSK2WcFs3QojYujq/BjDib0K9P4HZtQg6O637AFutfL3YFNQBvWRFDiNW9elIx788MShFR3sn
+	OYDAnn2V5jfO8jHPwIWuDUDBKs=
+X-Received: by 2002:a05:6000:618:b0:452:273:5cd6 with SMTP id ffacd0b85a97d-45ef13ee98amr385029f8f.1.1780006886473;
+        Thu, 28 May 2026 15:21:26 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:d836:be25:77c4:6416? ([2001:8b0:aba:5f3c:d836:be25:77c4:6416])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45edb5a28casm24003738f8f.23.2026.05.28.15.18.02
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45edb5a2c87sm16408283f8f.17.2026.05.28.15.21.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 15:18:03 -0700 (PDT)
-Message-ID: <b4918234123fc36e2c7947d58a29791268d8ac76.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] packagegroup-core-buildessential: Add
- Rust-in-kernel dependency packages
+        Thu, 28 May 2026 15:21:25 -0700 (PDT)
+Message-ID: <a7955e1e85859bf7c6a4a5f3c7a2f08f97ab5e81.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] populate_sdk_base: Add Rust-in-kernel
+ dependent packages for SDK
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
 Cc: Sundeep.Kokkonda@windriver.com
-Date: Thu, 28 May 2026 23:18:02 +0100
-In-Reply-To: <20260528172211.2652140-1-Harish.Sadineni@windriver.com>
+Date: Thu, 28 May 2026 23:21:25 +0100
+In-Reply-To: <20260528172211.2652140-2-Harish.Sadineni@windriver.com>
 References: <20260528172211.2652140-1-Harish.Sadineni@windriver.com>
+	 <20260528172211.2652140-2-Harish.Sadineni@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-9 
@@ -67,54 +69,67 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 22:18:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237736
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 22:21:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237737
 
 On Thu, 2026-05-28 at 10:22 -0700, Sadineni, Harish via lists.openembedded.=
 org wrote:
 > From: Harish Sadineni <Harish.Sadineni@windriver.com>
 >=20
-> Add Rust-in-kernel depedency packages to the target image when Rust kerne=
-l
-> support is enabled (KERNEL_FEATURES includes 'rust'). These packages are
-> needed for self-hosted development of Rust kernel modules.
+> When KERNEL_FEATURES includes 'rust', add the required host and target
+> packages to the SDK to support Rust kernel module development.
 >=20
-> The following packages are conditionally added when Rust-in-kernel
-> support is enabled:
-> =C2=A0 - bindgen-cli
-> =C2=A0 - libclang
-> =C2=A0 - rust
-> =C2=A0 - rust-src-lib
-> =C2=A0 - rust-tools-rustfmt
+> Host side (TOOLCHAIN_HOST_TASK):
+> =C2=A0 - nativesdk-bindgen-cli
+> =C2=A0 - nativesdk-libclang
+> =C2=A0 - nativesdk-rust-src-lib
+> =C2=A0 - packagegroup-rust-cross-canadian-${MACHINE}
+>=20
+> Target side (TOOLCHAIN_TARGET_TASK):
+> =C2=A0 - kernel-devsrc
 >=20
 > Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 > ---
-> =C2=A0.../packagegroups/packagegroup-core-buildessential.bb=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
-> =C2=A01 file changed, 1 insertion(+)
+> =C2=A0meta/classes-recipe/populate_sdk_base.bbclass | 2 ++
+> =C2=A01 file changed, 2 insertions(+)
 >=20
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-buildessen=
-tial.bb b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.=
-bb
-> index 2cd67ad05f..cdfe07a584 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
-> @@ -27,5 +27,6 @@ RDEPENDS:packagegroup-core-buildessential =3D "\
-> =C2=A0=C2=A0=C2=A0=C2=A0 libstdc++-dev \
-> =C2=A0=C2=A0=C2=A0=C2=A0 libtool \
-> =C2=A0=C2=A0=C2=A0=C2=A0 pkgconfig \
-> +=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('KERNEL_FEATURES', 'rust', 'bind=
-gen-cli libclang rust rust-src-lib rust-tools-rustfmt', '', d)} \
-> =C2=A0=C2=A0=C2=A0=C2=A0 "
+> diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes=
+-recipe/populate_sdk_base.bbclass
+> index b427ff2761..b345a65db7 100644
+> --- a/meta/classes-recipe/populate_sdk_base.bbclass
+> +++ b/meta/classes-recipe/populate_sdk_base.bbclass
+> @@ -74,12 +74,14 @@ TOOLCHAIN_HOST_TASK ?=3D " \
+> =C2=A0=C2=A0=C2=A0=C2=A0 packagegroup-cross-canadian-${MACHINE} \
+> =C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'go'=
+, 'packagegroup-go-cross-canadian-${MACHINE}', '', d)} \
+> =C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'rus=
+t', 'packagegroup-rust-cross-canadian-${MACHINE}', '', d)} \
+> +=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('KERNEL_FEATURES', 'rust', 'nati=
+vesdk-bindgen-cli nativesdk-libclang nativesdk-rust-src-lib packagegroup-ru=
+st-cross-canadian-${MACHINE}', '', d)} \
+> =C2=A0"
 
-I think we should define a new packagegroup-core-buildessetial-rust to
-put these in?
+Similarly to the other patch, I think we need to define these things in
+a packagegroup, then perhaps just include them when SDK_TOOLCHAIN_LANGS
+contains rust?
 
-These aren't really specific to kernel development so KERNEL_FEATURES
-doesn't seem quite the right way to enable this?
 
-Perhaps targets could just pull in packagegroup-core-buildessetial-rust
-when wanted instead?
+> =C2=A0TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?=3D ""
+> =C2=A0TOOLCHAIN_TARGET_TASK ?=3D " \
+> =C2=A0=C2=A0=C2=A0=C2=A0 ${@multilib_pkg_extend(d, 'packagegroup-core-sta=
+ndalone-sdk-target')} \
+> =C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'go'=
+, multilib_pkg_extend(d, 'packagegroup-go-sdk-target'), '', d)} \
+> =C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'rus=
+t', multilib_pkg_extend(d, 'libstd-rs'), '', d)} \
+> +=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('KERNEL_FEATURES', 'rust', 'kern=
+el-devsrc', '', d)} \
+
+This seems a bit odd. Just because you've enabled rust support in the
+kernel, it doesn't mean you want kernel-devsrc in the SDK?
+
+A better way of doing this might be something like "kernel" in
+SDK_TOOLCHAIN_LANGS to trigger kernel-devsrc?
 
 Cheers,
 
