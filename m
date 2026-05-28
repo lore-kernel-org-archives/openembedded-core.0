@@ -2,555 +2,2451 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 989DDCD6E4B
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 02:37:26 +0000 (UTC)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2835.1779935844173725501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4080CD6E44
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 02:37:24 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2754.1779935842031288697
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2026 19:37:24 -0700
+ Wed, 27 May 2026 19:37:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=a+6wFnqy;
- spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5102582e23eso97608311cf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 19:37:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=i9NId2bY;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8b3d6b215cfso206276596d6.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 19:37:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779935843; x=1780540643; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1779935841; x=1780540641; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1sY3ZDJVtC4VBgnHrQiLKrNK19Pb+cLCuAacySCSSXU=;
-        b=a+6wFnqyqdww7eOV2JX307/4hBT6ZQT2vY2u8EFilG1Czl6Wl4Ib0rgmuLvPwFVZDC
-         mcSD0W14KPadefIyO2tO8Kofqj5JcgYYL5m20Rs3gyyZ75nGTYN8MRHONbDm6k9TWsKh
-         aCsI7NkvpHVBuwDE61CfUI7aJ/jMLVSgqbtOS0b45Ug6M/mQZA8rJOLa4ZkxNWcf+ZN0
-         mwTFDiEHaxPD34v4W3yYb6D769ZabkSLdXPIq9l4He4JQPXTRC7D4VaWQ/mIOQcXOFRO
-         AP7/wyv2aR16q6gB+DrRynY1D+VzpdqXc+l4MgdJNVkAJiMQHFHWz1k0wXZqyATjkpG+
-         DvxA==
+        bh=67hYJAmGp9JFN2EtxJoAGqNWi0YgAfNzP2ki/9aGdMs=;
+        b=i9NId2bYMv1bHreIF4XX3pTbKITqyz1eiqyL071Ok9860iErZAaAT6XjvH40/s0lXu
+         9JOtGYWkAA5XDY0kZHZqJq9rM0U4MR4JAM/cnXLtsoHcrgBfNswSW7ivEqTJ/m6luJqa
+         EAFJWiaeOutFtv8Dgj0wjvtmwXArhPxqRt4GBvE9bXnuVcnPt3g40c32Dg+LWhrEbLU9
+         ffSKC5DkDwmtgEpVzC/RXWmecnf32HLgMmjQZqN8Z93k8OiGQcNR5zcBBMu/8VBdT2d3
+         PfKfwoglVwP3oqEFPULWPOwkYvK6eK6/F0atg1uAq06y0bNMhb+YW0e2ldvtwUoBFkP3
+         JxIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779935843; x=1780540643;
+        d=1e100.net; s=20251104; t=1779935841; x=1780540641;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1sY3ZDJVtC4VBgnHrQiLKrNK19Pb+cLCuAacySCSSXU=;
-        b=Si5shyBFveZFDa6Hx4EWJgPMz7SQKzq8NdEEoy8YuepJBtLo09iXXXPUh7kYwGr9W+
-         74zh117GsBaolu7zRPpNC8i/h9nqqEiLv8AiGgVZYiXEgKg4Qw1C+fdaHYRXgTKxGY1s
-         snOazBEzLi5GKvQnV/pfZE7fJngMJFK2iMDHbfL7lNda9E71jkRimmMWNN4TD2NDOewa
-         RgZ1yBrgGbFcD+Ky4I+yEXgeUJVjunFUzGpX/ELVFbJwDHDnm1rNKc79RnhEN4UxBNFo
-         1leeaBsi7a5cu/Fr2KKkmNOPDTS/uqBO1hMsS9XbuckVAiXeBuVcAgjI+1i9Hl3IP7H+
-         5Lfg==
-X-Gm-Message-State: AOJu0Yw+QJOfQB8dVBaGbbxSvcEfPHLJ8PABlf02BuDAbPkKmJv0wp2H
-	dkUxBWHSlFhyvw2h+vhMHViApaPxt/LQ32IsCoVhyaPp1dPrbpkCVgrkcTleNUhy
-X-Gm-Gg: Acq92OEm9dekKHE/WZ38S1qlvAz5kTMlvBeTF+s4jBx//1xyMQfGwdHwxK8IuHKcpcq
-	TJWpxxWC6ujb2g2LtYSiCZJJYYaO/uoXUdZzdt6+VRqRQ/DDLKW6Olk0NeUN3L3bGZ8lBT8YW+5
-	Mp/XjQgvJjHykmWS+GtEJ0A/RwrOc0tbvB29TEOJ4UJEo5BdunWwORoVt/wyn4nB+m7QaGDF8Z+
-	d4mEd0+ucTAnZRkQJLqwuVoUWF2G4RAU9G8OglyxwmVK7B1A7fTQ8BWAtqJLVnfeDopf82SEf9o
-	yVbUhrbZySbHj0ka7xkaX3KvQvuwwSb6jnZnrq2qx02FpE3yL7dOjiNzdyfqZPvDtd7c60n7kPs
-	6HWl9GESnyv6WgHqzBRWnpMcoSZTro3INQbsvRkKBHC+Y3H6SHX+qGaGcJv5D8+qDaSvd8s7eJa
-	AeSMx1ZZgOHhHk0LakaAiLS30yRTMpLpp3HB5oWb6E8hMIu5nhYJkFHTTy4M47U69Nh4ZxO+l/z
-	vnVwShMaxajcZZIN7Vl9XsN/Uir9BPOfThG22IW/ybThmgRfyN6cSgIlN2HHdBfpWBfo2vJBI/F
-	d4VFlqFhIINzUcn6HlyC6IZFVDjZJlK0Ueg8libf75AdkohKyaMFQhY=
-X-Received: by 2002:a05:622a:d01:b0:50f:be4f:465d with SMTP id d75a77b69052e-516d44096aemr272025671cf.46.1779935842924;
-        Wed, 27 May 2026 19:37:22 -0700 (PDT)
+        bh=67hYJAmGp9JFN2EtxJoAGqNWi0YgAfNzP2ki/9aGdMs=;
+        b=P86Uq6WbETRbjNv+La2n0IeGQUU4OWw8dSPmx+ppKl+W7k4iJzfycq9r3HbCPRyAB5
+         smXIOezsJBqyJoQIzcil3SDvQJRGh3q3wkhk/R37QwvKpPAGQS18MDnwBxwqWvWJgITM
+         XhPFiLWcWGC6Tn383yVt77z4Cevxk0DJli7EeKte8z0d7tdnqVcj71j4oRI12U/mRTg+
+         St4XuKDzZyXUBehO1n3C0buuF0AwcWvh9xrOtMGhIKE30uD3cpkbqO/zNlgKb0rRh9i5
+         v9RIVfKeWvozDcPLjhYPyFMRPg/ekdLsbsXhX+yYGs3yUZU7C/ffVZgvj2Ej/oih1lFb
+         j0lg==
+X-Gm-Message-State: AOJu0Yw0jXFYV06TAGsTMmk016bZuym2SoMG6XJEXiP/Uvd2Jc++HHuL
+	lDEVNo5i6+Laj+t7qeSiYWP1hBel4jYzF4gRAimaX049x0yVezWKazt1iHRT7l49
+X-Gm-Gg: Acq92OExm+vcRBjGyjWGIyhRA8uJlgXunXtIJvIkJMXSq5VcGq1i8+mJHzs5Imn4pQM
+	zn6hcJZf5nCw7dJ4rPDVcneANjkMjUmpMSoWXRVR/jbmRwD9/SEZP/Y7BYkYPgkFTpzOzgpOXYE
+	rmkW53y9NKM6GmKEKACK6jidFkgmZ9kPeb09HMVO2/Au5VfqkvEytius+bQkrZ+ORdh+TxYIT6e
+	YZMu2JMyLIcMoY+SjIEFEkMG8zjCUXKYBsuYvfz4SE51G9pLnAlh0w0vtfJ/t5NyFeUdKpzJf1B
+	S9hJ5e8CZnYxkLNYL05ibJVU9mqaagI1/DF/WVe1e+bBXKnfQ3bZvzxv5ZKaGZNV/MRYITw6pG5
+	Lwer+SD3KdtW4FRYFFAee3ZxEStQqV8pxmLS81foqRwNvR5UGvcTptlWxEUA5IxXVd631OWataZ
+	w95RyQKM52GNv+Gucseic85Z7v2TuXJEL+SWvbD1nfUUlS32Qe4J+2crcnSqif3bfFQWal1FTqs
+	Pt1o1EC3lJgMST9RmP50fDlY4WH5y1vOUhQ5rSVTE/X/iGnUAWyOyC80UOFuhgMvYiIOIQspnd0
+	KGpTkDk8puOBRFSYWUu/ae6ZpInmW4s1Q/GazKqP7jIBVL50ESxf6Uk=
+X-Received: by 2002:ad4:5de7:0:b0:89c:e2b4:4ee9 with SMTP id 6a1803df08f44-8cc7b6a7f2emr417628596d6.46.1779935840435;
+        Wed, 27 May 2026 19:37:20 -0700 (PDT)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cc80dcec8esm186146436d6.7.2026.05.27.19.37.21
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cc80dcec8esm186146436d6.7.2026.05.27.19.37.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 19:37:22 -0700 (PDT)
+        Wed, 27 May 2026 19:37:19 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [meta-yocto-bsp][PATCH 06/07] yocto-bsps: update to v6.18.31
-Date: Wed, 27 May 2026 22:37:10 -0400
-Message-ID: <20260528023714.4026613-7-bruce.ashfield@gmail.com>
+Subject: [meta][PATCH 04/07] lttng-modules: fix build against kernel 7.1+
+Date: Wed, 27 May 2026 22:37:08 -0400
+Message-ID: <20260528023714.4026613-5-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260528023714.4026613-1-bruce.ashfield@gmail.com>
 References: <20260528023714.4026613-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 02:37:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237687
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 02:37:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237685
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/6.18 to the latest korg -stable release that comprises
-the following commits:
+When updating linux-yocto-dev to v7.1 lttng-modules failed to build.
 
-    52386a7b1beb Linux 6.18.32
-    271cd5429513 drm/amdgpu/vcn4: Avoid overflow on msg bound check
-    016b64a0313e drm/amdgpu/vcn3: Avoid overflow on msg bound check
-    e9edf9893cf2 vsock/virtio: fix accept queue count leak on transport mismatch
-    52da6a74ca3d vsock/virtio: fix empty payload in tap skb for non-linear buffers
-    a534e1f985b6 vsock/virtio: fix length and offset in tap skb for split packets
-    2602f7bb5818 vsock: fix buffer size clamping order
-    8be786053797 batman-adv: tp_meter: fix tp_num leak on kmalloc failure
-    5e9dfc07d061 tracing/fprobe: Remove fprobe from hash in failure path
-    a2181464a4a7 tracing/fprobe: Unregister fprobe even if memory allocation fails
-    d83e51202fec tracing: fprobe: optimization for entry only case
-    52277410cbed tracing: fprobe: use rhltable for fprobe_ip_table
-    5d12e0ab009a btrfs: fix btrfs_ioctl_space_info() slot_count TOCTOU which can lead to info-leak
-    dfd05a16b5c9 btrfs: fix double free in create_space_info_sub_group() error path
-    a4b5c5d2f8c5 btrfs: remove fs_info argument from btrfs_sysfs_add_space_info_type()
-    d784865ce48f usb: dwc3: Move GUID programming after PHY initialization
-    476ee6389120 usb: dwc3: Add dwc pointer to dwc3_readl/writel
-    e63942da5e96 usb: dwc3: Remove of dep->regs
-    ce9aaa3af445 sched_ext: Read scx_root under scx_cgroup_ops_rwsem in cgroup setters
-    30cf8e05d635 sched/ext: Implement cgroup_set_idle() callback
-    dc34f8d8240f Bluetooth: hci_conn: fix potential UAF in create_big_sync
-    c0a8dca8d556 spi: zynq-qspi: fix controller deregistration
-    ed822a569645 spi: zynq-qspi: Simplify clock handling with devm_clk_get_enabled()
-    33e5ce64b817 spi: tegra114: fix controller deregistration
-    65eafad7a600 spi: tegra20-sflash: fix controller deregistration
-    fafa9a4e831b spi: uniphier: fix controller deregistration
-    b0a97cb0b9ba spi: uniphier: Simplify clock handling with devm_clk_get_enabled()
-    6542e180fa6e pseries/papr-hvpipe: Fix race with interrupt handler
-    09c15bbbed53 papr-hvpipe: convert papr_hvpipe_dev_create_handle() to FD_PREPARE()
-    24d2912962d0 EDAC/versalnet: Fix device name memory leak
-    d281f3ac0d00 block: fix zone write plug removal
-    7105d9f1387d fbcon: Avoid OOB font access if console rotation fails
-    1817dd0c350f fbcon: Rename struct fbcon_ops to struct fbcon_par
-    f0d3bb6f5125 drm/amdgpu: rework how we handle TLB fences
-    13e9ea445191 Revert "drm/amdgpu: don't attach the tlb fence for SI"
-    576b73b24656 drm/amdgpu: Fix validating flush_gpu_tlb_pasid()
-    fd78e63459ab drm/amdgpu: validate the flush_gpu_tlb_pasid()
-    a9591e4083cc mm/damon/core: disallow time-quota setting zero esz
-    377c3d5dc952 usb: typec: tcpm: reset internal port states on soft reset AMS
-    d893804e9e3b mm/damon/reclaim: detect and use fresh enabled and kdamond_pid values
-    4697ed7be9b9 mm/damon/lru_sort: detect and use fresh enabled and kdamond_pid values
-    679e65ae721c mm/damon/core: implement damon_kdamond_pid()
-    20048f0b38cd LoongArch: KVM: Compile switch.S directly into the kernel
-    f49a00180dfc io_uring/zcrx: warn on freelist violations
-    1a516d19100e io_uring/zcrx: use guards for locking
-    0baf4b659cdc batman-adv: bla: put backbone reference on failed claim hash insert
-    b65365d2b1e6 batman-adv: bla: only purge non-released claims
-    00155f336a5e batman-adv: bla: prevent use-after-free when deleting claims
-    09dc0d1a1222 batman-adv: stop caching unowned originator pointers in BAT IV
-    03660dab86f9 batman-adv: stop tp_meter sessions during mesh teardown
-    e1e2194cc725 batman-adv: reject new tp_meter sessions during teardown
-    bf872db54f91 batman-adv: fix integer overflow on buff_pos
-    c9dadb31f360 sctp: revalidate list cursor after sctp_sendmsg_to_asoc() in SCTP_SENDALL
-    cd39452498e2 arm64: dts: ti: k3-am62a7-sk: Fix pin name in comment from M19 to N22
-    3eb7d0e2d4a0 arm64: dts: qcom: lemans: Correct QUP interrupt numbers
-    f8f546883e87 drm/amdgpu/pm: align Hawaii mclk workaround with radeon
-    6fed6e9f1062 drm/amdgpu/pm: add missing revision check for CI
-    0b91ea46bb68 drm/amdgpu/sdma4: replace BUG_ON with WARN_ON in fence emission
-    6fbd52d210c1 drm/amdkfd: Make all TLB-flushes heavy-weight
-    46bc180e6ede drm/panel: boe-tv101wum-nl6: restore MODE_LPM after sending disable cmds
-    73af14be7645 drm/bridge: tda998x: Use __be32 for audio port OF property pointer
-    71614ab2a683 drm/amdgpu/gfx9: drop unnecessary 64-bit fence flag check in KIQ
-    f6dbec5bee72 drm/panel: himax-hx83102: restore MODE_LPM after sending disable cmds
-    ed21d6e4ce03 drm/exynos: remove bridge when component_add fails
-    b17175d0a375 drm/amdgpu: zero-initialize GART table on allocation
-    264ee64cf867 drm/radeon: add missing revision check for CI
-    672464dd5323 drm: Set old handle to NULL before prime swap in change_handle
-    87f9b1528e1f drm/xe/uapi: Reject coh_none PAT index for CPU cached memory in madvise
-    fa449b88706e drm/xe/bo: Fix bo leak on unaligned size validation in xe_bo_init_locked()
-    0afa8b1ef582 drm/xe: Fix dma-buf attachment leak in xe_gem_prime_import()
-    cd38e1503e67 drm/xe/bo: Fix bo leak on GGTT flag validation in xe_bo_init_locked()
-    f9ad21b90162 drm/xe: Fix bo leak in xe_dma_buf_init_obj() on allocation failure
-    2b5ba326f9d0 drm/udl: Increase GET_URB_TIMEOUT
-    db9530a9873a drm/amdkfd: validate SVM ioctl nattr against buffer size
-    a7735b491a2d drm/appletbdrm: Use kvzalloc for big allocations
-    1a17ea9861e8 drm/gem: Fix inconsistent plane dimension calculation in drm_gem_fb_init_with_funcs()
-    158def957199 drm/amd/display: Change dither policy for 10 bpc output back to dithering
-    638e48ee39d0 drm/amdgpu/vcn3: Prevent OOB reads when parsing dec msg
-    63b51e8a9d54 drm/amdgpu/vcn4: Prevent OOB reads when parsing dec msg
-    b3d1a0a45c4a drm/amdgpu/vce: Prevent partial address patches
-    a6d5563ba1f0 drm/amdgpu/vcn4: Prevent OOB reads when parsing IB
-    fec8b11b55e5 drm/amdgpu: Add bounds checking to ib_{get,set}_value
-    44d5a450c04d drm/amdkfd: Add upper bound check for num_of_nodes
-    de137adccf7a drm/amd/pm: fix incorrect FeatureCtrlMask setting on smu v14.0.x
-    f34eda3ff33d drm/amdgpu: gate VM CPU HDP flush on reset lock
-    2795d325bb5c drm/amdgpu: Use SMUIO 15.0.0 offsets for TSC upper and lower count.
-    77d0b5d11387 drm/amdkfd: Clear VRAM on allocation to prevent stale data exposure
-    48fb2213e2c2 drm/i915/psr: Init variable to avoid early exit from et alignment loop
-    132b8d51f0ff drm/msm: always recover the gpu
-    c5b5a0e418b1 drm/imx: parallel-display: Prefer bus format set via legacy "interface-pix-fmt" DT property
-    c57c861956b8 drm/msm/gem: fix error handling in msm_ioctl_gem_info_get_metadata()
-    e9ae6590405d spi: cadence: fix clock imbalance on probe failure
-    6ac380a0071d spi: cadence: fix unclocked access on unbind
-    59701f07b19e spi: cadence: fix controller deregistration
-    6c3e413919a1 spi: mpc52xx: fix use-after-free on unbind
-    28f28a0f4e32 spi: mpc52xx: fix controller deregistration
-    336d9ad7560b spi: mpc52xx: fix use-after-free on registration failure
-    07dc76d31be4 spi: orion: fix clock imbalance on registration failure
-    b809b8d2a114 spi: orion: fix runtime pm leak on unbind
-    ec7a4cff8355 spi: orion: fix controller deregistration
-    5c03d52ee6ce spi: mxic: fix controller deregistration
-    2a2973cb3682 spi: imx: fix runtime pm leak on probe deferral
-    6a405d594207 spi: mpfs: fix controller deregistration
-    b2bdbe293012 spi: img-spfi: fix controller deregistration
-    4b0fe572a8ea spi: slave-mt27xx: fix controller deregistration
-    0df72db5a13c spi: sh-msiof: fix controller deregistration
-    aee76c1dd189 spi: rspi: fix controller deregistration
-    229cc70e4e90 spi: sprd: fix controller deregistration
-    cdbf6baefff0 spi: pic32-sqi: fix controller deregistration
-    82a95eca235b spi: cavium-thunderx: fix controller deregistration
-    e84a84209b3f spi: npcm-pspi: fix controller deregistration
-    ee2100d08094 spi: coldfire-qspi: fix controller deregistration
-    047f939c602c spi: bcmbca-hsspi: fix controller deregistration
-    ca3195c7b883 spi: fsl: fix controller deregistration
-    d78c5ca1563c spi: sh-hspi: fix controller deregistration
-    4422fc2411cb spi: ch341: fix devres lifetime
-    af4f58c18c4c spi: pl022: fix controller deregistration
-    cc8a904cbe6d spi: mtk-nor: fix controller deregistration
-    894d761a3a85 spi: pic32: fix controller deregistration
-    4ed7de898bbb spi: omap2-mcspi: fix controller deregistration
-    09ceedcebc77 spi: fsl-espi: fix controller deregistration
-    b99939bccae9 spi: s3c64xx: fix controller deregistration
-    c74ba7340010 spi: dln2: fix controller deregistration
-    724520793a2e spi: mt65xx: fix controller deregistration
-    cc525debdfc8 spi: mxs: fix controller deregistration
-    22ee38cbf536 media: qcom: camss: Add missing clocks for VFE lite on sa8775p
-    696ac7c49c27 media: iris: Fix dma_free_attrs() size in iris_hfi_queues_init()
-    095c51bc86d3 media: venus: fix QCOM_MDT_LOADER dependency
-    e56a25247860 media: qcom: iris: increase H265D_MAX_SLICE to fix H.265 decoding on SC7280
-    9d6217429cd4 media: qcom: camss: Fix csid IRQ offset for sa8775p
-    8744fd0835dd media: qcom: camss: Fix csid clock configuration for sa8775p
-    dd24998a4a40 media: iris: Fix use-after-free in iris_release_internal_buffers()
-    1920b4602ec9 media: iris: fix QCOM_MDT_LOADER dependency
-    d172bb82f70c media: omap3isp: drop the use count of v4l2 pipeline
-    cedfde9f45b1 media: i2c: ov08d10: fix runtime PM handling in probe
-    d9e678e8c633 media: i2c: ov08d10: fix image vertical start setting
-    ea91dee38b4e media: staging: imx: request mbus_config in csi_start
-    731d7ab8dfa2 media: i2c: imx412: Assert reset GPIO during probe
-    34fe9c3c594e media: dib8000: avoid division by 0 in dib8000_set_dds()
-    def939175ab8 media: pci: zoran: fix potential memory leak in zoran_probe()
-    84d781069294 arm64: dts: broadcom: bcm2712-d-rpi-5-b: update uart10 interrupt
-    65d7b2aecdfe arm64: dts: broadcom: bcm2712-d-rpi-5-b: add fixes for pinctrl/pinctrl_aon
-    5167575b79e2 vsock/virtio: fix MSG_PEEK ignoring skb offset when calculating bytes to copy
-    75c38af4d919 platform/x86: hp-wmi: Ignore backlight and FnLock events
-    45890a035e2b spi: aspeed-smc: fix controller deregistration
-    07938829cc11 spi: amlogic-spisg: fix controller deregistration
-    6047dc542fa4 media: saa7164: add ioremap return checks and cleanups
-    d6f56e66e8f4 spi: at91-usart: fix controller deregistration
-    5d707cf9c138 spi: qup: fix controller deregistration
-    4eccd83f228f spi: meson-spicc: fix controller deregistration
-    6ca3eaa82812 spi: lantiq-ssc: fix controller deregistration
-    184dcecc9521 regulator: bd9571mwv: fix OF node reference imbalance
-    037bcca27835 regulator: s2dos05: fix OF node reference imbalance
-    890a8bcef309 regulator: act8945a: fix OF node reference imbalance
-    41ef27dcaa12 media: i2c: imx283: Fix hang when going from large to small resolution
-    f43e30646fc9 media: intel/ipu6: fix error pointer dereference
-    21fade52ab9f media: videobuf2: Set vma_flags in vb2_dma_sg_mmap
-    dd681c102b4b regulator: rk808: fix OF node reference imbalance
-    e7374c142169 regulator: bq257xx: fix OF node reference imbalance
-    6c5d4c819d92 media: i2c: imx283: Enter full standby when stopping streaming
-    ecd0c501bd63 media: rc: streamzap: Error handling in probe
-    63a960b39de9 media: rc: xbox_remote: heed DMA restrictions
-    a8ada5b76115 regulator: max77650: fix OF node reference imbalance
-    8993d307cf2c spi: st-ssc4: fix controller deregistration
-    2d51cfca8482 regulator: mt6357: fix OF node reference imbalance
-    c7848b67ef10 staging: media: atomisp: Disallow all private IOCTLs
-    af2dc8b8460c arm64: dts: lx2160a-cex7/lx2162a-sr-som: fix usd-cd & gpio pinmux
-    72972aba49df spi: atmel: fix controller deregistration
-    c66a6f226a5f spi: bcm63xx: fix controller deregistration
-    7fbb3b4bef02 drm/gpusvm: Force unmapping on error in drm_gpusvm_get_pages
-    ea28b33e1b15 media: chips-media: wave5: add missing spinlock protection for handle_dynamic_resolution_change()
-    d71fc6874fce media: chips-media: wave5: add missing spinlock protection for send_eos_event()
-    b40ec65e0926 media: chips-media: wave5: fix a potential memory leak in wave5_vdi_init()
-    6261d5fd172b media: dt-bindings: rockchip,vdec: Mark reg-names required for RK35{76,88}
-    361e66fb431d media: dt-bindings: rockchip,vdec: Add alternative reg-names order for RK35{76,88}
-    791598484fd5 media: i2c: ov8856: free control handler on error in ov8856_init_controls()
-    b6e5c80cc2b2 media: renesas: vin: Fix RAW8 (again)
-    bfb2081ba00a media: renesas: vsp1: Fix NULL pointer deref on module unload
-    4d6e8496486d media: nxp: imx8-isi: Reduce minimum queued buffers from 2 to 0
-    0ac9ec121d89 drm/msm/hdmi: Fix wrong CTRL1 register used in writing info frames
-    06d99af8db11 media: uvcvideo: Enable VB2_DMABUF for metadata stream
-    80d8cc29d3b6 HID: pidff: Fix integer overflow in pidff_rescale
-    5c0830323689 HID: appletb-kbd: run inactivity autodim from workqueues
-    59a79938ca55 HID: appletb-kbd: fix UAF in inactivity-timer cleanup path
-    7812694752a5 HID: playstation: Clamp num_touch_reports
-    6c1de6e6aa8c Linux 6.18.31
-    2a93a4fac7b6 ptrace: slightly saner 'get_dumpable()' logic
-    52dc660c85db Linux 6.18.30
-    1aa60fea7f63 ksmbd: validate inherited ACE SID length
-    28f5ed477eef x86/CPU/AMD: Prevent improper isolation of shared resources in Zen2's op cache
-    a0e560d15ff1 rust: pin-init: fix incorrect accessor reference lifetime
-    4af2e62cbcda net: stmmac: Prevent NULL deref when RX memory exhausted
-    9d1774b33e10 net: stmmac: rename STMMAC_GET_ENTRY() -> STMMAC_NEXT_ENTRY()
-    5cffe3c13689 crypto: caam - guard HMAC key hex dumps in hash_digest_key
-    ef63ef44e86c printk: add print_hex_dump_devel()
-    c9ce18e6bb2c erofs: fix unsigned underflow in z_erofs_lz4_handle_overlap()
-    24da4cc6bf27 erofs: tidy up z_erofs_lz4_handle_overlap()
-    d309d3308de6 hfsplus: fix held lock freed on hfsplus_fill_super()
-    a42090445096 hfsplus: fix uninit-value by validating catalog record size
-    23b814ec96a8 firmware: exynos-acpm: Drop fake 'const' on handle pointer
-    bbcef208c5da mm, swap: speed up hibernation allocation and writeout
-    4d7b42941c9b crypto: qat - fix firmware loading failure for GEN6 devices
-    fb6616806f3d crypto: qat - fix indentation of macros in qat_hal.c
-    afece4e3f2cd mmc: core: Optimize time for secure erase/trim for some Kingston eMMCs
-    f597ab044bea mmc: core: Add quirk for incorrect manufacturing date
-    ebad72308271 mmc: core: Adjust MDT beyond 2025
-    b0f4711b426a octeon_ep_vf: add NULL check for napi_build_skb()
-    1869da3efe70 hwmon: (powerz) Avoid cacheline sharing for DMA buffer
-    609936df7ce1 dma-mapping: add __dma_from_device_group_begin()/end()
-    25c2b77bc463 fbdev: defio: Disconnect deferred I/O from the lifetime of struct fb_info
-    1de2db19a602 mm/damon/core: disallow non-power of two min_region_sz on damon_start()
-    d18099f19e53 bpf: Fix use-after-free in arena_vm_close on fork
-    737adda64f51 io_uring/tw: serialize ctx->retry_llist with ->uring_lock
-    2563d7880c4d io_uring/kbuf: support min length left for incremental buffers
-    23900db3787a LoongArch: Use per-root-bridge PCIH flag to skip mem resource fixup
-    aaaf41aee5ac LoongArch: KVM: Use kvm_set_pte() in kvm_flush_pte()
-    3d44ed6dd219 LoongArch: KVM: Move unconditional delay into timer clear scenery
-    b715ceb72ed9 LoongArch: KVM: Fix HW timer interrupt lost when inject interrupt by software
-    1c32824fbdec LoongArch: KVM: Fix "unreliable stack" for kvm_exc_entry
-    e50d8573534f LoongArch: KVM: Cap KVM_CAP_NR_VCPUS by KVM_CAP_MAX_VCPUS
-    9e1aed63a555 LoongArch: Fix potential ADE in loongson_gpu_fixup_dma_hang()
-    7d3c27b54253 KVM: arm64: Fix pin leak and publication ordering in __pkvm_init_vcpu()
-    931c9c777e35 KVM: arm64: Fix FEAT_Debugv8p9 to check DebugVer, not PMUVer
-    7e9f5f62f8d1 KVM: arm64: Fix FEAT_SPE_FnE to use PMSIDR_EL1.FnE, not PMSVer
-    81e7907fe542 KVM: arm64: Fix initialisation order in __pkvm_init_finalise()
-    7b99369b2c7a KVM: arm64: vgic: Fix IIDR revision field extracted from wrong value
-    837db0777792 KVM: arm64: Wake-up from WFI when iqrchip is in userspace
-    8be551f538dc f2fs: fix fsck inconsistency caused by FGGC of node block
-    03806ec9c4cd f2fs: fix inline data not being written to disk in writeback path
-    4bdc05b2032b f2fs: refactor f2fs_move_node_folio function
-    8d269aae6f73 f2fs: fix uninitialized kobject put in f2fs_init_sysfs()
-    b0e4395870eb f2fs: fix node_cnt race between extent node destroy and writeback
-    d438a9fb20d0 f2fs: fix incorrect multidevice info in trace_f2fs_map_blocks()
-    f37012cc7c27 f2fs: fix incorrect file address mapping when inline inode is unwritten
-    bedb710b63ae f2fs: fix fsck inconsistency caused by incorrect nat_entry flag usage
-    63c2d2ad40d1 f2fs: fix fiemap boundary handling when read extent cache is incomplete
-    060029ed542e f2fs: add READ_ONCE() for i_blocks in f2fs_update_inode()
-    464747eae483 mptcp: pm: ADD_ADDR rtx: return early if no retrans
-    107e956ce544 mptcp: pm: ADD_ADDR rtx: resched blocked ADD_ADDR quicker
-    b74ad2019865 mptcp: pm: ADD_ADDR rtx: free sk if last
-    acd3d3562315 mptcp: pm: ADD_ADDR rtx: always decrease sk refcount
-    2ad56e434199 mptcp: pm: ADD_ADDR rtx: fix potential data-race
-    cffc6fc446a2 mptcp: pm: ADD_ADDR rtx: allow ID 0
-    07c2f3c29a8a mptcp: pm: kernel: correctly retransmit ADD_ADDR ID 0
-    6f5ba49da8b1 mptcp: pm: prio: skip closed subflows
-    8a005fe451c7 mptcp: fix scheduling with atomic in timestamp sockopt
-    e6ad28d9d5bf mptcp: fix rx timestamp corruption on fastopen
-    e083d1d8bbec mptcp: sockopt: increase seq in mptcp_setsockopt_all_sf
-    c7362eef3b70 mptcp: sockopt: set timestamp flags on subflow socket, not msk
-    e74f33c8a2c7 mptcp: use MPTCP_RST_EMPTCP for ACK HMAC validation failure
-    fa26c8deed61 mptcp: use MPJoinSynAckHMacFailure for SynAck HMAC failure
-    4f269fc3c73a mptcp: fastclose msk when linger time is 0
-    2146145d6dd6 selftests: mptcp: pm: restrict 'unknown' check to pm_nl_ctl
-    2efd6bd0e9b1 selftests: mptcp: check output: catch cmd errors
-    a8f4a82e5629 sched_ext: idle: Recheck prev_cpu after narrowing allowed mask
-    0c63333ff97b RDMA/vmw_pvrdma: Fix double free on pvrdma_alloc_ucontext() error path
-    006a3a5f7534 RDMA/rxe: Reject unknown opcodes before ICRC processing
-    105bf79a23b8 RDMA/rxe: Reject non-8-byte ATOMIC_WRITE payloads
-    8832626a4834 RDMA/ocrdma: Don't NULL deref uctx on errors in ocrdma_copy_pd_uresp()
-    b087913ae882 RDMA/mlx5: Fix error path fall-through in mlx5_ib_dev_res_srq_init()
-    e01b8c9286c4 RDMA/mlx4: Fix resource leak on error in mlx4_ib_create_srq()
-    1e2a44875b6a RDMA/mlx4: Fix mis-use of RCU in mlx4_srq_event()
-    012796f9541f RDMA/mana: Validate rx_hash_key_len
-    9ef65af26b2a RDMA/mana: Remove user triggerable WARN_ON() in mana_ib_create_qp_rss()
-    bb9cb36eaefa RDMA/mana: Fix mana_destroy_wq_obj() cleanup in mana_ib_create_qp_rss()
-    ab64c63b460b RDMA/mana: Fix error unwind in mana_ib_create_qp_rss()
-    d886bcdcd00d RDMA/ionic: Fix typo in format string
-    61df14f306f1 RDMA/ionic: bound node_desc sysfs read with %.64s
-    44905248dd87 perf/x86/intel: Always reprogram ACR events to prevent stale masks
-    2546fb8c9acc powerpc/xive: fix kmemleak caused by incorrect chip_data lookup
-    4b6886ca8114 power: supply: max17042: avoid overflow when determining health
-    1bf238ead7cc PCI/ASPM: Fix pci_clear_and_set_config_dword() usage
-    24582f5044bf PCI/AER: Stop ruling out unbound devices as error source
-    70a5d28dd273 PCI/AER: Clear only error bits in PCIe Device Status
-    185d51ec3a54 PCI: Update saved_config_space upon resource assignment
-    eafd6f5372d2 mm/damon/sysfs-schemes: protect memcg_path kfree() with damon_sysfs_lock
-    cb825c22c002 mm/damon/stat: detect and use fresh enabled value
-    bb1703949dca KVM: x86: Do IRR scan in __kvm_apic_update_irr even if PIR is empty
-    d6f4e217d663 KVM: x86: check for nEPT/nNPT in slow flush hypercalls
-    c688f3ed73d3 smb: client: validate dacloffset before building DACL pointers
-    be1ef9512a3f smb: client: use kzalloc to zero-initialize security descriptor buffer
-    b8c8a704f0bc smb/client: fix out-of-bounds read in symlink_data()
-    512d33bc8ea4 smb/client: fix out-of-bounds read in smb2_compound_op()
-    45dcc815fc55 scsi: mpt3sas: Limit NVMe request size to 2 MiB
-    cf90a96b7a2d s390/debug: Reject zero-length input before trimming a newline
-    e3eee7ea5ec5 s390/debug: Reject zero-length input in debug_input_flush_fn()
-    bd62c0f61bc7 riscv: kvm: fix vector context allocation leak
-    1912f7879850 RDMA/hns: Fix unlocked call to hns_roce_qp_remove()
-    ac4bf66686bb psp: strip variable-length PSP header in psp_dev_rcv()
-    51a7dd9cbae9 pmdomain: core: Fix detach procedure for virtual devices in genpd
-    3df75fff46b1 openvswitch: vport: fix self-deadlock on release of tunnel ports
-    781f47d64143 nvmet: avoid recursive nvmet-wq flush in nvmet_ctrl_free
-    67e1aaf93b49 nvmet-tcp: fix race between ICReq handling and queue teardown
-    c77c82935c0a nvme-apple: drop invalid put of admin queue reference count
-    913d556e4bd1 md/raid10: fix divide-by-zero in setup_geo() with zero far_copies
-    b7df9fbd4869 libceph: Fix slab-out-of-bounds access in auth message processing
-    7cdf18608302 lib/scatterlist: fix temp buffer in extract_user_to_sg()
-    8fbba6829057 lib/scatterlist: fix length calculations in extract_kvec_to_sg
-    8637dfb4c1d8 lib/crypto: mpi: Fix integer underflow in mpi_read_raw_from_sgl()
-    cbb032fc7432 iommu/arm-smmu-v3: Add a missing dma_wmb() for hitless STE update
-    3ea9ce757bd3 iommu/vt-d: Block PASID attachment to nested domain with dirty tracking
-    0d96652adc8f iommufd: Fix return value of iommufd_fault_fops_write()
-    afbafeddf23d isofs: validate block number from NFS file handle in isofs_export_iget
-    e69da8eeab74 isofs: validate Rock Ridge CE continuation extent against volume size
-    1919acc5876c dm-verity-fec: correctly reject too-small hash devices
-    9a484c8149b2 dm-verity-fec: correctly reject too-small FEC devices
-    52b109f1b875 eventfs: Hold eventfs_mutex and SRCU when remount walks events
-    5af6a879e915 dm: fix a buffer overflow in ioctl processing
-    cb7c6a89e5d8 dm: don't report warning when doing deferred remove
-    85311a585a26 dm-thin: fix metadata refcount underflow
-    fb388eb58c1b btrfs: fix missing last_unlink_trans update when removing a directory
-    9a060970fd7b btrfs: fix double free in create_space_info() error path
-    48102d889090 ASoC: qcom: q6apm: remove child devices when apm is removed
-    7cab9f2ad51c ASoC: qcom: q6apm-lpass-dai: Fix multiple graph opens
-    6d43355a5b9e ASoC: qcom: q6apm-dai: reset queue ptr on trigger stop
-    4e550b59315d ASoC: Intel: bytcr_wm5102: Fix MCLK leak on platform_clock_control error
-    846fcce3a6bb ASoC: fsl_easrc: fix comment typo
-    3a5287c47b13 ASoC: ES8389: convert to devm_clk_get_optional() to get clock
-    65aabf889668 ASoC: amd: yc: Add HP OMEN Gaming Laptop 16-ap0xxx product line in quirk table
-    54a44bbead39 cpuidle: powerpc: avoid double clear when breaking snooze
-    a0780aeea166 clk: microchip: mpfs-ccc: fix out of bounds access during output registration
-    9eccdb76ad5e clk: imx: imx8-acm: fix flags for acm clocks
-    b528c7ffdc3e tracing/probes: Limit size of event probe to 3K
-    d50ef3553acb spi: topcliff-pch: fix use-after-free on unbind
-    b3bdc7a8dd44 spi: topcliff-pch: fix controller deregistration
-    4b16c06da763 thermal/drivers/sprd: Fix raw temperature clamping in sprd_thm_rawdata_to_temp
-    3933dfb360e0 thermal/drivers/sprd: Fix temperature clamping in sprd_thm_temp_to_rawdata
-    eb295d2b6e70 thermal: core: Free thermal zone ID later during removal
-    1873eb81c65d udf: reject descriptors with oversized CRC length
-    b1040af58771 tracefs: Fix default permissions not being applied on initial mount
-    998f43196d73 spi: microchip-core-qspi: control built-in cs manually
-    ec9d0ddbde60 spi: microchip-core-qspi: don't attempt to transmit during emulated read-only dual/quad operations
-    d945d71bbad5 spi: microchip-core-qspi: fix controller deregistration
-    121d1f253aed ice: fix double free in ice_sf_eth_activate() error path
-    c1f261863e65 ibmveth: Disable GSO for packets with small MSS
-    4f82f046f913 hv_sock: Return -EIO for malformed/short packets
-    317e434e26af hv_sock: Report EOF instead of -EIO for FIN
-    d1b9424f7393 hv_sock: fix ARM64 support
-    cb028f72fb3b hv: Select CONFIG_SYSFB only for CONFIG_HYPERV_VMBUS
-    5b958822126d gpio: of: clear OF_POPULATED on hog nodes in remove path
-    bbf63275d4a5 extcon: ptn5150: handle pending IRQ events during system resume
-    196efa8b254b cifs: change_conf needs to be called for session setup
-    064f2e49199c cifs: abort open_cached_dir if we don't request leases
-    281a0014f46f block: only read from sqe on initial invocation of blkdev_uring_cmd()
-    f17d52107532 block: add pgmap check to biovec_phys_mergeable
-    cb27e43c0511 pmdomain: mediatek: fix use-after-free in scpsys_get_bus_protection_legacy()
-    8aacf87718b9 arm64/fpsimd: ptrace: zero target's fpsimd_state, not the tracer's
-    c34c41446acf af_unix: Reject SIOCATMARK on non-stream sockets
-    aa4d6fee0449 hwmon: (corsair-psu) Close HID device on probe errors
-    370d4deba194 clk: rk808: fix OF node reference imbalance
-    13a0f0204d54 hwmon: (ltc2992) Fix u32 overflow in power read path
-    357ef14bfde2 hwmon: (ltc2992) Clamp threshold writes to hardware range
-    22b365ba1af3 x86/efi: Fix graceful fault handling after FPU softirq changes
-    c9b620425fd0 parisc: Fix IRQ leak in LASI driver
-    23ae72e8c2f1 platform/chrome: cros_ec_typec: Init mutex in Thunderbolt registration
-    2b56d7903ab8 net: wwan: t7xx: validate port_count against message length in t7xx_port_enum_msg_handler
-    14ef6fd18db2 net/rds: handle zerocopy send cleanup before the message is queued
-    3d47d62c1348 netpoll: pass buffer size to egress_dev() to avoid MAC truncation
-    1bca036fe360 net: libwx: use request_irq for VF misc interrupt
-    e70cfb40c3a9 ip6_gre: Use cached t->net in ip6erspan_changelink().
-    33c5bb50b9c4 net: libwx: fix VF illegal register access
-    62951b49754a pseries/papr-hvpipe: Fix the usage of copy_to_user()
-    2b1335edaac5 pseries/papr-hvpipe: Fix & simplify error handling in papr_hvpipe_init()
-    0479b6e9f999 pseries/papr-hvpipe: Prevent kernel stack memory leak to userspace
-    0ff2b713f406 sound: ua101: fix division by zero at probe
-    aab56b95bee3 perf/x86/intel: Improve validation and configuration of ACR masks
-    4bf22a0afb27 mptcp: pm: ADD_ADDR rtx: skip inactive subflows
-    fbe0e6197225 net: rtnetlink: zero ifla_vf_broadcast to avoid stack infoleak in rtnl_fill_vfinfo
-    52070a91956f LoongArch: Fix SYM_SIGFUNC_START definition for 32BIT
-    8f75597dfc67 mm/hugetlb_cma: round up per_node before logging it
-    10c252577ccd arm64: signal: Preserve POR_EL0 if poe_context is missing
-    34bdcfb496b2 mtd: spi-nor: debugfs: fix out-of-bounds read in spi_nor_params_show()
-    83b131a214f1 KVM: arm64: Fix kvm_vcpu_initialized() macro parameter
-    7baa02b0ae9d fanotify: fix false positive on permission events
-    d71240d2609b staging: vme_user: fix root device leak on init failure
-    1b66f16a571a spi: s3c64xx: fix NULL-deref on driver unbind
-    4f0dd529990d spi: zynqmp-gqspi: fix controller deregistration
-    93f83b3a50ef spi: sun6i: fix controller deregistration
-    9df7d2530412 spi: ti-qspi: fix controller deregistration
-    9aea3d4f23ca spi: sun4i: fix controller deregistration
-    40db1bd1ffc6 spi: syncuacer: fix controller deregistration
-    ca488ac3b083 rust: allow `clippy::collapsible_if` globally
-    16a7e845c3a0 rust: allow `clippy::collapsible_match` globally
-    4ea3b2e469fc rust: drm: gem: clean up GEM state in init failure case
-    32bd343803d4 Bluetooth: L2CAP: Fix null-ptr-deref in l2cap_sock_get_sndtimeo_cb()
-    1810e42ff671 Bluetooth: L2CAP: Fix null-ptr-deref in l2cap_sock_state_change_cb()
-    741e6024e315 Bluetooth: L2CAP: Fix null-ptr-deref in l2cap_sock_new_connection_cb()
-    77981a507aa0 Bluetooth: hci_event: Fix OOB read and infinite loop in hci_le_create_big_complete_evt
-    624fb79dadc1 Bluetooth: btmtk: validate WMT event SKB length before struct access
-    3485c7236c59 Bluetooth: virtio_bt: validate rx pkt_type header length
-    b40cdd1b1370 Bluetooth: virtio_bt: clamp rx length before skb_put
-    53ad20efd20a LoongArch: KVM: Fix missing EMULATE_FAIL in kvm_emu_mmio_read()
-    05b63fbddfca selinux: prune /sys/fs/selinux/user
-    058a5e705424 selinux: prune /sys/fs/selinux/disable
-    52a5d9608da5 selinux: prune /sys/fs/selinux/checkreqprot
-    e5c12a115ed5 selinux: shrink critical section in sel_write_load()
-    71e68e863a7e selinux: don't reserve xattr slot when we won't fill it
-    d350fef4bc24 selinux: use sk blob accessor in socket permission helpers
-    e3e722ea88e0 selinux: fix avdcache auditing
-    7db99a09b3bc xfrm: ah: account for ESN high bits in async callbacks
-    9d5047782f9b ipv6: xfrm6: release dst on error in xfrm6_rcv_encap()
-    4980162de555 xfrm: defensively unhash xfrm_state lists in __xfrm_state_delete
-    0fe995ac77a8 xfrm: provide message size for XFRM_MSG_MAPPING
-    c73fdf2e911d x86/efi: Restore IRQ state in EFI page fault handler
-    ef49059fce11 powerpc/kdump: fix KASAN sanitization flag for core_$(BITS).o
-    9ef79d48f137 ALSA: seq: Fix UMP group 16 filtering
-    878c19dd4fbe ALSA: core: Serialize deferred fasync state checks
-    d761428f6cc7 ALSA: firewire-tascam: Do not drop unread control events
-    d829caccb426 ALSA: hda/realtek: Fix speaker silence after S3 resume on Xiaomi Mi Laptop Pro 15
-    ac3e9b55b7da ALSA: pcm: oss: Fix data race at accessing runtime.oss.trigger
-    f8ad9ef77156 ALSA: hda: cs35l56: Propagate ASP TX source control errors
-    0c1c186f8f48 usb: typec: tcpm: fix debug accessory mode detection for sink ports
-    2a71e01b2cf9 usb: ulpi: fix memory leak on ulpi_register() error paths
-    6ef872d157f4 USB: serial: option: add Telit Cinterion LE910Cx compositions
-    52a0cf7cde26 USB: omap_udc: DMA: Don't enable burst 4 mode
-    411f2f7274e3 ALSA: usb-audio: Fix UAC3 cluster descriptor size check
-    be09b47ed867 ALSA: usb-audio: Avoid potential endless loop in convert_chmap_v3()
-    00e095dc5787 ALSA: usb-audio: midi2: Restart output URBs on resume
-    762a6ccf391d usb: usblp: fix uninitialized heap leak via LPGETSTATUS ioctl
-    8247f52d8221 usb: usblp: fix heap leak in IEEE 1284 device ID via short response
-    658d2e46c2e9 wifi: brcmfmac: Fix potential use-after-free issue when stopping watchdog task
-    d7029879bafd wifi: b43: enforce bounds check on firmware key index in b43_rx()
-    9e28654f79f4 wifi: mac80211: remove station if connection prep fails
-    e9f1081bc775 wifi: ath5k: do not access array OOB
-    7577a4b8a10f wifi: mac80211: use safe list iteration in radar detect work
-    4f9a4ae8d2c1 wifi: rsi: fix kthread lifetime race between self-exit and external-stop
-    e131562d6f2b wifi: mac80211: drop stray 'static' from fast-RX rx_result
-    9d1bc1558029 wifi: b43legacy: enforce bounds check on firmware key index in RX path
-    6d55948a62ab wifi: mt76: mt7921: fix ROC abort flow interruption in mt7921_roc_work
-    0aa63d33742b wifi: mt76: mt7921: fix a potential clc buffer length underflow
-    6fc7c8b414ce wifi: mt76: mt7925: fix incorrect length field in txpower command
-    5860ab3ddeaa wifi: mt76: mt7925: fix AMPDU state handling in mt7925_tx_check_aggr
-    6f49f94f3b11 exit: prevent preemption of oopsing TASK_DEAD task
-    8d09618840b9 net/sched: sch_red: Replace direct dequeue call with peek and qdisc_dequeue_peeked
-    33fe95663d10 net: stmmac: Disable EEE RX clock stop when VLAN is enabled
-    53e821fd9bae KVM: SVM: check validity of VMCB controls when returning from SMM
-    edd446ee7cd3 net: af_key: zero aligned sockaddr tail in PF_KEY exports
-    9dea2aeabc86 smb: client/smbdirect: fix MR registration for coalesced SG lists
-    ff9e4d5e9bba mptcp: sync the msk->sndbuf at accept() time
-    0d00b9015069 flow_dissector: do not dissect PPPoE PFC frames
-    6200f41d6fcf ceph: fix num_ops off-by-one when crypto allocation fails
-    738ec97b1855 KVM: x86: Fix shadow paging use-after-free due to unexpected GFN
-    ccee9833e33b ksmbd: rewrite stop_sessions() with restartable iteration
-    21a316f27095 spi: rockchip: fix controller deregistration
-    8c4339dbab49 wifi: mt76: mt7925: fix incorrect TLV length in CLC command
-    0f0c0c1397a4 ASoC: SOF: Don't allow pointer operations on unconfigured streams
-    9a2d03d324b2 iommufd: Fix a race with concurrent allocation and unmap
-    2c5b8eeea006 tracepoint: balance regfunc() on func_add() failure in tracepoint_add_func()
-    540fa6a86b91 ACPI: video: force native backlight on HP OMEN 16 (8A44)
-    70446f52251f ACPI: CPPC: Fix related_cpus inconsistency during CPU hotplug
-    42f83350394a ACPI: video: Add backlight=native quirk for Dell OptiPlex 7770 AIO
-    7f0a53c2b94c ACPI: scan: Use acpi_dev_put() in object add error paths
-    da9b065cedfd fbdev: udlfb: add vm_ops to dlfb_ops_mmap to prevent use-after-free
-    bc13fce9eeec ipmi:si: Return state to normal if message allocation fails
-    42432b579a59 ipmi: Check event message buffer response for bad data
-    3d37d2165df9 ipmi: Add limits to event and receive message requests
-    00d91bfdce50 scsi: target: configfs: Bound snprintf() return in tg_pt_gp_members_show()
-    d31a849ff501 Linux 6.18.29
-    3eae0f4f9f72 rxrpc: Also unshare DATA/RESPONSE packets when paged frags are present
+There are fixes pending for that version in the lttng gerrit. Grabbing
+them here gets us a fully building and tested core-image-kernel-dev.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...ts-during-the-folios-writeback-v6.17.patch |   94 ++
+ ...trace-event-i_ino-fields-to-u64-v7.1.patch | 1424 +++++++++++++++++
+ ...p-unnecessary-pointer-indirection-in.patch |   75 +
+ ...ce-trace-noise-in-hrtimer_start-v7.1.patch |  103 ++
+ ...onvert-pageout-to-take-a-folio-v5.18.patch |   54 +
+ ...group-IDs-to-vmscan-tracepoints-v7.1.patch |  198 +++
+ ...i_ino-from-unsigned-long-to-u64-v7.1.patch |   56 +
+ ...trace-event-i_ino-fields-to-u64-v7.1.patch |  276 ++++
+ .../lttng/lttng-modules_2.14.4.bb             |    8 +
+ 9 files changed, 2288 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-ext4-enhance-tracepoints-during-the-folios-writeback-v6.17.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-ext4-widen-trace-event-i_ino-fields-to-u64-v7.1.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Drop-unnecessary-pointer-indirection-in.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-vmscan-Convert-pageout-to-take-a-folio-v5.18.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-vmscan-add-cgroup-IDs-to-vmscan-tracepoints-v7.1.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-treewide-change-inode-i_ino-from-unsigned-long-to-u64-v7.1.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-vfs-widen-trace-event-i_ino-fields-to-u64-v7.1.patch
 
-diff --git a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend
-index 2debe53..c0ca3ae 100644
---- a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend
-+++ b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend
-@@ -8,4 +8,4 @@ KMACHINE:genericx86 ?= "common-pc"
- KMACHINE:genericx86-64 ?= "common-pc-64"
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-ext4-enhance-tracepoints-during-the-folios-writeback-v6.17.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-ext4-enhance-tracepoints-during-the-folios-writeback-v6.17.patch
+new file mode 100644
+index 0000000000..a8403fbb3f
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-ext4-enhance-tracepoints-during-the-folios-writeback-v6.17.patch
+@@ -0,0 +1,94 @@
++From 329ef88b9ae02228387f55a61ca1cef87a5cf3f4 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 25 May 2026 16:22:42 -0400
++Subject: [PATCH 7/8] fix: ext4: enhance tracepoints during the folios
++ writeback (v6.17)
++
++See upstream commits:
++
++  commit 6b132759b0fe78e518abafb62190c294100db6d6
++  Author: Zhang Yi <yi.zhang@huawei.com>
++  Date:   Mon Jul 7 22:08:09 2025 +0800
++
++    ext4: enhance tracepoints during the folios writeback
++
++    After mpage_map_and_submit_extent() supports restarting handle if
++    credits are insufficient during allocating blocks, it is more likely to
++    exit the current mapping iteration and continue to process the current
++    processing partially mapped folio again. The existing tracepoints are
++    not sufficient to track this situation, so enhance the tracepoints to
++    track the writeback position and the return value before and after
++    submitting the folios.
++
++  commit 1bfe6354e0975fe89c3d25e81b6546d205556a4b
++  Author: Zhang Yi <yi.zhang@huawei.com>
++  Date:   Mon Jul 7 22:08:04 2025 +0800
++
++    ext4: process folios writeback in bytes
++
++    Since ext4 supports large folios, processing writebacks in pages is no
++    longer appropriate, it can be modified to process writebacks in bytes.
++
++Upstream-Status: Backport [https://review.lttng.org/c/lttng-modules/+/17907]
++
++Change-Id: I15b849b9ebcf18b75b658b8f76cfa91e205f6cf6
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++---
++ include/instrumentation/events/ext4.h | 34 +++++++++++++++++++++++++++
++ 1 file changed, 34 insertions(+)
++
++diff --git a/include/instrumentation/events/ext4.h b/include/instrumentation/events/ext4.h
++index 75f92b31..fa5de84d 100644
++--- a/include/instrumentation/events/ext4.h
+++++ b/include/instrumentation/events/ext4.h
++@@ -242,6 +242,39 @@ LTTNG_TRACEPOINT_EVENT(ext4_da_writepages,
++ 	)
++ )
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,17,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_da_write_folios_start,
+++	TP_PROTO(struct inode *inode, loff_t start_pos, loff_t next_pos,
+++		 struct writeback_control *wbc),
+++
+++	TP_ARGS(inode, start_pos, next_pos, wbc),
+++
+++	TP_FIELDS(
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ino_t, ino, inode->i_ino)
+++		ctf_integer(loff_t, start_pos, start_pos)
+++		ctf_integer(loff_t, next_pos, next_pos)
+++		ctf_integer(long, nr_to_write, wbc->nr_to_write)
+++		ctf_integer(int, sync_mode, wbc->sync_mode)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_da_write_folios_end,
+++	TP_PROTO(struct inode *inode, loff_t start_pos, loff_t next_pos,
+++		 struct writeback_control *wbc, int ret),
+++
+++	TP_ARGS(inode, start_pos, next_pos, wbc, ret),
+++
+++	TP_FIELDS(
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ino_t, ino, inode->i_ino)
+++		ctf_integer(loff_t, start_pos, start_pos)
+++		ctf_integer(loff_t, next_pos, next_pos)
+++		ctf_integer(long, nr_to_write, wbc->nr_to_write)
+++		ctf_integer(int, ret, ret)
+++	)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT(ext4_da_write_pages,
++ 	TP_PROTO(struct inode *inode, pgoff_t first_page,
++ 		 struct writeback_control *wbc),
++@@ -256,6 +289,7 @@ LTTNG_TRACEPOINT_EVENT(ext4_da_write_pages,
++ 		ctf_integer(int, sync_mode, wbc->sync_mode)
++ 	)
++ )
+++#endif
++ 
++ LTTNG_TRACEPOINT_EVENT(ext4_da_write_pages_extent,
++ 	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map),
++-- 
++2.43.0
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-ext4-widen-trace-event-i_ino-fields-to-u64-v7.1.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-ext4-widen-trace-event-i_ino-fields-to-u64-v7.1.patch
+new file mode 100644
+index 0000000000..5031ac5d42
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-ext4-widen-trace-event-i_ino-fields-to-u64-v7.1.patch
+@@ -0,0 +1,1424 @@
++From e80f709c4665a333da82b27605c26a3afccb299f Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 25 May 2026 16:01:09 -0400
++Subject: [PATCH 8/8] fix: ext4: widen trace event i_ino fields to u64 (v7.1)
++
++See upstream commit:
++
++  commit d352871478616ac63d0edf90e78194ec0a19b988
++  Author: Jeff Layton <jlayton@kernel.org>
++  Date:   Wed Mar 4 10:32:39 2026 -0500
++
++    ext4: widen trace event i_ino fields to u64
++
++    In trace events, change __field(ino_t, ...) to __field(u64, ...)
++    and update TP_printk format strings to %llu/%llx to match the
++    widened field type.
++
++Upstream-Status: Backport [https://review.lttng.org/c/lttng-modules/+/17909]
++
++Change-Id: I5e266aea1a128987061a6074e2cd202b29d2e2f5
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++---
++ include/instrumentation/events/ext4.h | 1123 +++++++++++++++++++++++--
++ 1 file changed, 1048 insertions(+), 75 deletions(-)
++
++diff --git a/include/instrumentation/events/ext4.h b/include/instrumentation/events/ext4.h
++index fa5de84d..43b93cde 100644
++--- a/include/instrumentation/events/ext4.h
+++++ b/include/instrumentation/events/ext4.h
++@@ -26,6 +26,95 @@ struct ext4_extent;
++ #define EXT4_I(inode) (container_of(inode, struct ext4_inode_info, vfs_inode))
++ #define TP_MODE_T	__u16
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_free_inode,
+++	TP_PROTO(struct inode *inode),
+++
+++	TP_ARGS(inode),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(__u64, blocks, inode->i_blocks)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(uid_t, uid, i_uid_read(inode))
+++		ctf_integer(gid_t, gid, i_gid_read(inode))
+++		ctf_integer(TP_MODE_T, mode, inode->i_mode)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_request_inode,
+++	TP_PROTO(struct inode *dir, int mode),
+++
+++	TP_ARGS(dir, mode),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, dir, dir->i_ino)
+++		ctf_integer(dev_t, dev, dir->i_sb->s_dev)
+++		ctf_integer(TP_MODE_T, mode, mode)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_allocate_inode,
+++	TP_PROTO(struct inode *inode, struct inode *dir, int mode),
+++
+++	TP_ARGS(inode, dir, mode),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(u64, dir, dir->i_ino)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(TP_MODE_T, mode, mode)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_evict_inode,
+++	TP_PROTO(struct inode *inode),
+++
+++	TP_ARGS(inode),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, nlink, inode->i_nlink)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_drop_inode,
+++	TP_PROTO(struct inode *inode, int drop),
+++
+++	TP_ARGS(inode, drop),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, drop, drop)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_mark_inode_dirty,
+++	TP_PROTO(struct inode *inode, unsigned long IP),
+++
+++	TP_ARGS(inode, IP),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer_hex(unsigned long, ip, IP)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_begin_ordered_truncate,
+++	TP_PROTO(struct inode *inode, loff_t new_size),
+++
+++	TP_ARGS(inode, new_size),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(loff_t, new_size, new_size)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++	)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT(ext4_free_inode,
++ 	TP_PROTO(struct inode *inode),
++ 
++@@ -113,8 +202,37 @@ LTTNG_TRACEPOINT_EVENT(ext4_begin_ordered_truncate,
++ 		ctf_integer(loff_t, new_size, new_size)
++ 	)
++ )
+++#endif
+++
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT_CLASS(ext4__write_begin,
+++
+++	TP_PROTO(struct inode *inode, loff_t pos, unsigned int len),
+++
+++	TP_ARGS(inode, pos, len),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(loff_t, pos, pos)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(unsigned int, len, len)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__write_begin, ext4_write_begin,
+++
+++	TP_PROTO(struct inode *inode, loff_t pos, unsigned int len),
+++
+++	TP_ARGS(inode, pos, len)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__write_begin, ext4_da_write_begin,
+++
+++	TP_PROTO(struct inode *inode, loff_t pos, unsigned int len),
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,19,0))
+++	TP_ARGS(inode, pos, len)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,19,0))
++ LTTNG_TRACEPOINT_EVENT_CLASS(ext4__write_begin,
++ 
++ 	TP_PROTO(struct inode *inode, loff_t pos, unsigned int len),
++@@ -176,6 +294,22 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__write_begin, ext4_da_write_begin,
++ )
++ #endif /* (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,19,0)) */
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT_CLASS(ext4__write_end,
+++	TP_PROTO(struct inode *inode, loff_t pos, unsigned int len,
+++			unsigned int copied),
+++
+++	TP_ARGS(inode, pos, len, copied),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(loff_t, pos, pos)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(unsigned int, len, len)
+++		ctf_integer(unsigned int, copied, copied)
+++	)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT_CLASS(ext4__write_end,
++ 	TP_PROTO(struct inode *inode, loff_t pos, unsigned int len,
++ 			unsigned int copied),
++@@ -190,6 +324,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(ext4__write_end,
++ 		ctf_integer(unsigned int, copied, copied)
++ 	)
++ )
+++#endif
++ 
++ LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__write_end, ext4_ordered_write_end,
++ 
++@@ -223,7 +358,27 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__write_end, ext4_da_write_end,
++ 	TP_ARGS(inode, pos, len, copied)
++ )
++ 
++-LTTNG_TRACEPOINT_EVENT(ext4_da_writepages,
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_writepages,
+++	TP_PROTO(struct inode *inode, struct writeback_control *wbc),
+++
+++	TP_ARGS(inode, wbc),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(loff_t, range_start, wbc->range_start)
+++		ctf_integer(loff_t, range_end, wbc->range_end)
+++		ctf_integer(long, nr_to_write, wbc->nr_to_write)
+++		ctf_integer(long, pages_skipped, wbc->pages_skipped)
+++		ctf_integer(pgoff_t, writeback_index, inode->i_mapping->writeback_index)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, sync_mode, wbc->sync_mode)
+++		ctf_integer(char, for_kupdate, wbc->for_kupdate)
+++		ctf_integer(char, range_cyclic, wbc->range_cyclic)
+++	)
+++)
+++#else
+++LTTNG_TRACEPOINT_EVENT(ext4_writepages,
++ 	TP_PROTO(struct inode *inode, struct writeback_control *wbc),
++ 
++ 	TP_ARGS(inode, wbc),
++@@ -241,8 +396,41 @@ LTTNG_TRACEPOINT_EVENT(ext4_da_writepages,
++ 		ctf_integer(char, range_cyclic, wbc->range_cyclic)
++ 	)
++ )
+++#endif
+++
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_da_write_folios_start,
+++	TP_PROTO(struct inode *inode, loff_t start_pos, loff_t next_pos,
+++		 struct writeback_control *wbc),
+++
+++	TP_ARGS(inode, start_pos, next_pos, wbc),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(loff_t, start_pos, start_pos)
+++		ctf_integer(loff_t, next_pos, next_pos)
+++		ctf_integer(long, nr_to_write, wbc->nr_to_write)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, sync_mode, wbc->sync_mode)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_da_write_folios_end,
+++	TP_PROTO(struct inode *inode, loff_t start_pos, loff_t next_pos,
+++		 struct writeback_control *wbc, int ret),
+++
+++	TP_ARGS(inode, start_pos, next_pos, wbc, ret),
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,17,0))
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(loff_t, start_pos, start_pos)
+++		ctf_integer(loff_t, next_pos, next_pos)
+++		ctf_integer(long, nr_to_write, wbc->nr_to_write)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, ret, ret)
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,17,0))
++ LTTNG_TRACEPOINT_EVENT(ext4_da_write_folios_start,
++ 	TP_PROTO(struct inode *inode, loff_t start_pos, loff_t next_pos,
++ 		 struct writeback_control *wbc),
++@@ -291,6 +479,38 @@ LTTNG_TRACEPOINT_EVENT(ext4_da_write_pages,
++ )
++ #endif
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_da_write_pages_extent,
+++	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map),
+++
+++	TP_ARGS(inode, map),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(__u64, lblk, map->m_lblk)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(__u32, len, map->m_len)
+++		ctf_integer(__u32, flags, map->m_flags)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_writepages_result,
+++	TP_PROTO(struct inode *inode, struct writeback_control *wbc,
+++			int ret, int pages_written),
+++
+++	TP_ARGS(inode, wbc, ret, pages_written),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(long, pages_skipped, wbc->pages_skipped)
+++		ctf_integer(pgoff_t, writeback_index, inode->i_mapping->writeback_index)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, ret, ret)
+++		ctf_integer(int, pages_written, pages_written)
+++		ctf_integer(int, sync_mode, wbc->sync_mode)
+++	)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT(ext4_da_write_pages_extent,
++ 	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map),
++ 
++@@ -305,7 +525,7 @@ LTTNG_TRACEPOINT_EVENT(ext4_da_write_pages_extent,
++ 	)
++ )
++ 
++-LTTNG_TRACEPOINT_EVENT(ext4_da_writepages_result,
+++LTTNG_TRACEPOINT_EVENT(ext4_writepages_result,
++ 	TP_PROTO(struct inode *inode, struct writeback_control *wbc,
++ 			int ret, int pages_written),
++ 
++@@ -321,8 +541,36 @@ LTTNG_TRACEPOINT_EVENT(ext4_da_writepages_result,
++ 		ctf_integer(int, sync_mode, wbc->sync_mode)
++ 	)
++ )
+++#endif
+++
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT_CLASS(ext4__folio_op,
+++	TP_PROTO(struct inode *inode, struct folio *folio),
+++
+++	TP_ARGS(inode, folio),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(pgoff_t, index, folio->index)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__folio_op, ext4_read_folio,
+++
+++	TP_PROTO(struct inode *inode, struct folio *folio),
+++
+++	TP_ARGS(inode, folio)
+++)
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,5,0))
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__folio_op, ext4_release_folio,
+++
+++	TP_PROTO(struct inode *inode, struct folio *folio),
+++
+++	TP_ARGS(inode, folio)
+++)
+++
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,5,0))
++ LTTNG_TRACEPOINT_EVENT_CLASS(ext4__folio_op,
++ 	TP_PROTO(struct inode *inode, struct folio *folio),
++ 
++@@ -391,6 +639,33 @@ LTTNG_TRACEPOINT_EVENT_CLASS(ext4_invalidate_folio_op,
++ 
++ 	TP_ARGS(folio, offset, length),
++ 
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, folio->mapping->host->i_ino)
+++		ctf_integer(pgoff_t, index, folio->index)
+++		ctf_integer(size_t, offset, offset)
+++		ctf_integer(size_t, length, length)
+++		ctf_integer(dev_t, dev, folio->mapping->host->i_sb->s_dev)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4_invalidate_folio_op, ext4_invalidate_folio,
+++	TP_PROTO(struct folio *folio, size_t offset, size_t length),
+++
+++	TP_ARGS(folio, offset, length)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4_invalidate_folio_op, ext4_journalled_invalidate_folio,
+++	TP_PROTO(struct folio *folio, size_t offset, size_t length),
+++
+++	TP_ARGS(folio, offset, length)
+++)
+++
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0))
+++LTTNG_TRACEPOINT_EVENT_CLASS(ext4_invalidate_folio_op,
+++	TP_PROTO(struct folio *folio, size_t offset, size_t length),
+++
+++	TP_ARGS(folio, offset, length),
+++
++ 	TP_FIELDS(
++ 		ctf_integer(dev_t, dev, folio->mapping->host->i_sb->s_dev)
++ 		ctf_integer(ino_t, ino, folio->mapping->host->i_ino)
++@@ -454,6 +729,7 @@ LTTNG_TRACEPOINT_EVENT(ext4_discard_blocks,
++ 	)
++ )
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
++ LTTNG_TRACEPOINT_EVENT_CLASS(ext4__mb_new_pa,
++ 	TP_PROTO(struct ext4_allocation_context *ac,
++ 		 struct ext4_prealloc_space *pa),
++@@ -461,10 +737,10 @@ LTTNG_TRACEPOINT_EVENT_CLASS(ext4__mb_new_pa,
++ 	TP_ARGS(ac, pa),
++ 
++ 	TP_FIELDS(
++-		ctf_integer(dev_t, dev, ac->ac_sb->s_dev)
++-		ctf_integer(ino_t, ino, ac->ac_inode->i_ino)
+++		ctf_integer(u64, ino, ac->ac_inode->i_ino)
++ 		ctf_integer(__u64, pa_pstart, pa->pa_pstart)
++ 		ctf_integer(__u64, pa_lstart, pa->pa_lstart)
+++		ctf_integer(dev_t, dev, ac->ac_sb->s_dev)
++ 		ctf_integer(__u32, pa_len, pa->pa_len)
++ 	)
++ )
++@@ -493,15 +769,62 @@ LTTNG_TRACEPOINT_EVENT(ext4_mb_release_inode_pa,
++ 	TP_ARGS(pa, block, count),
++ 
++ 	TP_FIELDS(
++-		ctf_integer(dev_t, dev, pa->pa_inode->i_sb->s_dev)
++-		ctf_integer(ino_t, ino, pa->pa_inode->i_ino)
+++		ctf_integer(u64, ino, pa->pa_inode->i_ino)
++ 		ctf_integer(__u64, block, block)
+++		ctf_integer(dev_t, dev, pa->pa_inode->i_sb->s_dev)
++ 		ctf_integer(__u32, count, count)
++ 	)
++ )
+++#else
+++LTTNG_TRACEPOINT_EVENT_CLASS(ext4__mb_new_pa,
+++	TP_PROTO(struct ext4_allocation_context *ac,
+++		 struct ext4_prealloc_space *pa),
+++
+++	TP_ARGS(ac, pa),
+++
+++	TP_FIELDS(
+++		ctf_integer(dev_t, dev, ac->ac_sb->s_dev)
+++		ctf_integer(ino_t, ino, ac->ac_inode->i_ino)
+++		ctf_integer(__u64, pa_pstart, pa->pa_pstart)
+++		ctf_integer(__u64, pa_lstart, pa->pa_lstart)
+++		ctf_integer(__u32, pa_len, pa->pa_len)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__mb_new_pa, ext4_mb_new_inode_pa,
+++
+++	TP_PROTO(struct ext4_allocation_context *ac,
+++		 struct ext4_prealloc_space *pa),
+++
+++	TP_ARGS(ac, pa)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__mb_new_pa, ext4_mb_new_group_pa,
+++
+++	TP_PROTO(struct ext4_allocation_context *ac,
+++		 struct ext4_prealloc_space *pa),
+++
+++	TP_ARGS(ac, pa)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_mb_release_inode_pa,
+++	TP_PROTO(
+++		 struct ext4_prealloc_space *pa,
+++		 unsigned long long block, unsigned int count),
+++
+++	TP_ARGS(pa, block, count),
+++
+++	TP_FIELDS(
+++		ctf_integer(dev_t, dev, pa->pa_inode->i_sb->s_dev)
+++		ctf_integer(ino_t, ino, pa->pa_inode->i_ino)
+++		ctf_integer(__u64, block, block)
+++		ctf_integer(__u32, count, count)
+++	)
+++)
+++#endif
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_mb_release_group_pa,
++ 
++-LTTNG_TRACEPOINT_EVENT(ext4_mb_release_group_pa,
++-
++ 	TP_PROTO(struct super_block *sb, struct ext4_prealloc_space *pa),
++ 
++ 	TP_ARGS(sb, pa),
++@@ -513,7 +836,19 @@ LTTNG_TRACEPOINT_EVENT(ext4_mb_release_group_pa,
++ 	)
++ )
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,8,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_discard_preallocations,
+++	TP_PROTO(struct inode *inode, unsigned int len),
+++
+++	TP_ARGS(inode, len),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(unsigned int, len, len)
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,8,0))
++ LTTNG_TRACEPOINT_EVENT(ext4_discard_preallocations,
++ 	TP_PROTO(struct inode *inode, unsigned int len),
++ 
++@@ -563,6 +898,87 @@ LTTNG_TRACEPOINT_EVENT(ext4_mb_discard_preallocations,
++ 	)
++ )
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_request_blocks,
+++	TP_PROTO(struct ext4_allocation_request *ar),
+++
+++	TP_ARGS(ar),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, ar->inode->i_ino)
+++		ctf_integer(__u64, goal, ar->goal)
+++		ctf_integer(__u64, pleft, ar->pleft)
+++		ctf_integer(__u64, pright, ar->pright)
+++		ctf_integer(dev_t, dev, ar->inode->i_sb->s_dev)
+++		ctf_integer(unsigned int, len, ar->len)
+++		ctf_integer(__u32, logical, ar->logical)
+++		ctf_integer(__u32, lleft, ar->lleft)
+++		ctf_integer(__u32, lright, ar->lright)
+++		ctf_integer(unsigned int, flags, ar->flags)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_allocate_blocks,
+++	TP_PROTO(struct ext4_allocation_request *ar, unsigned long long block),
+++
+++	TP_ARGS(ar, block),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, ar->inode->i_ino)
+++		ctf_integer(__u64, block, block)
+++		ctf_integer(__u64, goal, ar->goal)
+++		ctf_integer(__u64, pleft, ar->pleft)
+++		ctf_integer(__u64, pright, ar->pright)
+++		ctf_integer(dev_t, dev, ar->inode->i_sb->s_dev)
+++		ctf_integer(unsigned int, len, ar->len)
+++		ctf_integer(__u32, logical, ar->logical)
+++		ctf_integer(__u32, lleft, ar->lleft)
+++		ctf_integer(__u32, lright, ar->lright)
+++		ctf_integer(unsigned int, flags, ar->flags)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_free_blocks,
+++	TP_PROTO(struct inode *inode, __u64 block, unsigned long count,
+++		 int flags),
+++
+++	TP_ARGS(inode, block, count, flags),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(__u64, block, block)
+++		ctf_integer(unsigned long, count, count)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, flags, flags)
+++		ctf_integer(TP_MODE_T, mode, inode->i_mode)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_sync_file_enter,
+++	TP_PROTO(struct file *file, int datasync),
+++
+++	TP_ARGS(file, datasync),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, file->f_path.dentry->d_inode->i_ino)
+++		ctf_integer(u64, parent, file->f_path.dentry->d_parent->d_inode->i_ino)
+++		ctf_integer(dev_t, dev, file->f_path.dentry->d_inode->i_sb->s_dev)
+++		ctf_integer(int, datasync, datasync)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_sync_file_exit,
+++	TP_PROTO(struct inode *inode, int ret),
+++
+++	TP_ARGS(inode, ret),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, ret, ret)
+++	)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT(ext4_request_blocks,
++ 	TP_PROTO(struct ext4_allocation_request *ar),
++ 
++@@ -642,6 +1058,7 @@ LTTNG_TRACEPOINT_EVENT(ext4_sync_file_exit,
++ 		ctf_integer(int, ret, ret)
++ 	)
++ )
+++#endif
++ 
++ LTTNG_TRACEPOINT_EVENT(ext4_sync_fs,
++ 	TP_PROTO(struct super_block *sb, int wait),
++@@ -655,7 +1072,19 @@ LTTNG_TRACEPOINT_EVENT(ext4_sync_fs,
++ 	)
++ )
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,13,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_alloc_da_blocks,
+++	TP_PROTO(struct inode *inode),
+++
+++	TP_ARGS(inode),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(unsigned int, data_blocks, EXT4_I(inode)->i_reserved_data_blocks)
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,13,0))
++ LTTNG_TRACEPOINT_EVENT(ext4_alloc_da_blocks,
++ 	TP_PROTO(struct inode *inode),
++ 
++@@ -682,6 +1111,109 @@ LTTNG_TRACEPOINT_EVENT(ext4_alloc_da_blocks,
++ )
++ #endif
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_mballoc_alloc,
+++	TP_PROTO(struct ext4_allocation_context *ac),
+++
+++	TP_ARGS(ac),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, ac->ac_inode->i_ino)
+++		ctf_integer(dev_t, dev, ac->ac_inode->i_sb->s_dev)
+++		ctf_integer(__u32, orig_logical, ac->ac_o_ex.fe_logical)
+++		ctf_integer(int, orig_start, ac->ac_o_ex.fe_start)
+++		ctf_integer(__u32, orig_group, ac->ac_o_ex.fe_group)
+++		ctf_integer(int, orig_len, ac->ac_o_ex.fe_len)
+++		ctf_integer(__u32, goal_logical, ac->ac_g_ex.fe_logical)
+++		ctf_integer(int, goal_start, ac->ac_g_ex.fe_start)
+++		ctf_integer(__u32, goal_group, ac->ac_g_ex.fe_group)
+++		ctf_integer(int, goal_len, ac->ac_g_ex.fe_len)
+++		ctf_integer(__u32, result_logical, ac->ac_f_ex.fe_logical)
+++		ctf_integer(int, result_start, ac->ac_f_ex.fe_start)
+++		ctf_integer(__u32, result_group, ac->ac_f_ex.fe_group)
+++		ctf_integer(int, result_len, ac->ac_f_ex.fe_len)
+++		ctf_integer(__u16, found, ac->ac_found)
+++		ctf_integer(__u16, groups, ac->ac_groups_scanned)
+++		ctf_integer(__u16, buddy, ac->ac_buddy)
+++		ctf_integer(__u16, flags, ac->ac_flags)
+++		ctf_integer(__u16, tail, ac->ac_tail)
+++		ctf_integer(__u8, cr, ac->ac_criteria)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_mballoc_prealloc,
+++	TP_PROTO(struct ext4_allocation_context *ac),
+++
+++	TP_ARGS(ac),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, ac->ac_inode->i_ino)
+++		ctf_integer(dev_t, dev, ac->ac_inode->i_sb->s_dev)
+++		ctf_integer(__u32, orig_logical, ac->ac_o_ex.fe_logical)
+++		ctf_integer(int, orig_start, ac->ac_o_ex.fe_start)
+++		ctf_integer(__u32, orig_group, ac->ac_o_ex.fe_group)
+++		ctf_integer(int, orig_len, ac->ac_o_ex.fe_len)
+++		ctf_integer(__u32, result_logical, ac->ac_b_ex.fe_logical)
+++		ctf_integer(int, result_start, ac->ac_b_ex.fe_start)
+++		ctf_integer(__u32, result_group, ac->ac_b_ex.fe_group)
+++		ctf_integer(int, result_len, ac->ac_b_ex.fe_len)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_CLASS(ext4__mballoc,
+++	TP_PROTO(struct super_block *sb,
+++		 struct inode *inode,
+++		 ext4_group_t group,
+++		 ext4_grpblk_t start,
+++		 ext4_grpblk_t len),
+++
+++	TP_ARGS(sb, inode, group, start, len),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode ? inode->i_ino : 0)
+++		ctf_integer(dev_t, dev, sb->s_dev)
+++		ctf_integer(int, result_start, start)
+++		ctf_integer(__u32, result_group, group)
+++		ctf_integer(int, result_len, len)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__mballoc, ext4_mballoc_discard,
+++
+++	TP_PROTO(struct super_block *sb,
+++		 struct inode *inode,
+++		 ext4_group_t group,
+++		 ext4_grpblk_t start,
+++		 ext4_grpblk_t len),
+++
+++	TP_ARGS(sb, inode, group, start, len)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__mballoc, ext4_mballoc_free,
+++
+++	TP_PROTO(struct super_block *sb,
+++		 struct inode *inode,
+++		 ext4_group_t group,
+++		 ext4_grpblk_t start,
+++		 ext4_grpblk_t len),
+++
+++	TP_ARGS(sb, inode, group, start, len)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_forget,
+++	TP_PROTO(struct inode *inode, int is_metadata, __u64 block),
+++
+++	TP_ARGS(inode, is_metadata, block),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(__u64, block, block)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, is_metadata, is_metadata)
+++		ctf_integer(TP_MODE_T, mode, inode->i_mode)
+++	)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT(ext4_mballoc_alloc,
++ 	TP_PROTO(struct ext4_allocation_context *ac),
++ 
++@@ -783,8 +1315,26 @@ LTTNG_TRACEPOINT_EVENT(ext4_forget,
++ 		ctf_integer(TP_MODE_T, mode, inode->i_mode)
++ 	)
++ )
+++#endif
+++
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_da_update_reserve_space,
+++	TP_PROTO(struct inode *inode, int used_blocks, int quota_claim),
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,13,0))
+++	TP_ARGS(inode, used_blocks, quota_claim),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(__u64, i_blocks, inode->i_blocks)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, used_blocks, used_blocks)
+++		ctf_integer(int, reserved_data_blocks,
+++				EXT4_I(inode)->i_reserved_data_blocks)
+++		ctf_integer(int, quota_claim, quota_claim)
+++		ctf_integer(TP_MODE_T, mode, inode->i_mode)
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,13,0))
++ LTTNG_TRACEPOINT_EVENT(ext4_da_update_reserve_space,
++ 	TP_PROTO(struct inode *inode, int used_blocks, int quota_claim),
++ 
++@@ -824,7 +1374,23 @@ LTTNG_TRACEPOINT_EVENT(ext4_da_update_reserve_space,
++ )
++ #endif
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,11,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_da_reserve_space,
+++	TP_PROTO(struct inode *inode, int nr_resv),
+++
+++	TP_ARGS(inode, nr_resv),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(__u64, i_blocks, inode->i_blocks)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, reserve_blocks, nr_resv)
+++		ctf_integer(int, reserved_data_blocks,
+++				EXT4_I(inode)->i_reserved_data_blocks)
+++		ctf_integer(TP_MODE_T, mode, inode->i_mode)
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,11,0))
++ LTTNG_TRACEPOINT_EVENT(ext4_da_reserve_space,
++ 	TP_PROTO(struct inode *inode, int nr_resv),
++ 
++@@ -874,7 +1440,23 @@ LTTNG_TRACEPOINT_EVENT(ext4_da_reserve_space,
++ )
++ #endif
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,13,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_da_release_space,
+++	TP_PROTO(struct inode *inode, int freed_blocks),
+++
+++	TP_ARGS(inode, freed_blocks),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(__u64, i_blocks, inode->i_blocks)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, freed_blocks, freed_blocks)
+++		ctf_integer(int, reserved_data_blocks,
+++				EXT4_I(inode)->i_reserved_data_blocks)
+++		ctf_integer(TP_MODE_T, mode, inode->i_mode)
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,13,0))
++ LTTNG_TRACEPOINT_EVENT(ext4_da_release_space,
++ 	TP_PROTO(struct inode *inode, int freed_blocks),
++ 
++@@ -910,91 +1492,309 @@ LTTNG_TRACEPOINT_EVENT(ext4_da_release_space,
++ 		ctf_integer(TP_MODE_T, mode, inode->i_mode)
++ 	)
++ )
++-#endif
+++#endif
+++
+++LTTNG_TRACEPOINT_EVENT_CLASS(ext4__bitmap_load,
+++	TP_PROTO(struct super_block *sb, unsigned long group),
+++
+++	TP_ARGS(sb, group),
+++
+++	TP_FIELDS(
+++		ctf_integer(dev_t, dev, sb->s_dev)
+++		ctf_integer(__u32, group, group)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__bitmap_load, ext4_mb_bitmap_load,
+++
+++	TP_PROTO(struct super_block *sb, unsigned long group),
+++
+++	TP_ARGS(sb, group)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__bitmap_load, ext4_mb_buddy_bitmap_load,
+++
+++	TP_PROTO(struct super_block *sb, unsigned long group),
+++
+++	TP_ARGS(sb, group)
+++)
+++
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,9,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_read_block_bitmap_load,
+++	TP_PROTO(struct super_block *sb, unsigned long group, bool prefetch),
+++
+++	TP_ARGS(sb, group, prefetch),
+++
+++	TP_FIELDS(
+++		ctf_integer(dev_t, dev, sb->s_dev)
+++		ctf_integer(__u32, group, group)
+++		ctf_integer(bool, prefetch, prefetch)
+++	)
+++)
+++#else
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__bitmap_load, ext4_read_block_bitmap_load,
+++
+++	TP_PROTO(struct super_block *sb, unsigned long group),
+++
+++	TP_ARGS(sb, group)
+++)
+++#endif
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__bitmap_load, ext4_load_inode_bitmap,
+++
+++	TP_PROTO(struct super_block *sb, unsigned long group),
+++
+++	TP_ARGS(sb, group)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_direct_IO_enter,
+++	TP_PROTO(struct inode *inode, loff_t offset, unsigned long len, int rw),
+++
+++	TP_ARGS(inode, offset, len, rw),
+++
+++	TP_FIELDS(
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ino_t, ino, inode->i_ino)
+++		ctf_integer(loff_t, pos, offset)
+++		ctf_integer(unsigned long, len, len)
+++		ctf_integer(int, rw, rw)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_direct_IO_exit,
+++	TP_PROTO(struct inode *inode, loff_t offset, unsigned long len,
+++		 int rw, int ret),
+++
+++	TP_ARGS(inode, offset, len, rw, ret),
+++
+++	TP_FIELDS(
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ino_t, ino, inode->i_ino)
+++		ctf_integer(loff_t, pos, offset)
+++		ctf_integer(unsigned long, len, len)
+++		ctf_integer(int, rw, rw)
+++		ctf_integer(int, ret, ret)
+++	)
+++)
+++
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_fallocate_exit,
+++	TP_PROTO(struct inode *inode, loff_t offset,
+++		 unsigned int max_blocks, int ret),
+++
+++	TP_ARGS(inode, offset, max_blocks, ret),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(loff_t, pos, offset)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(unsigned int, blocks, max_blocks)
+++		ctf_integer(int, ret, ret)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_CLASS(ext4__fallocate_mode,
+++	TP_PROTO(struct inode *inode, loff_t offset, loff_t len, int mode),
+++
+++	TP_ARGS(inode, offset, len, mode),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(loff_t, pos, offset)
+++		ctf_integer(loff_t, len, len)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, mode, mode)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__fallocate_mode, ext4_fallocate_enter,
+++
+++	TP_PROTO(struct inode *inode, loff_t offset, loff_t len, int mode),
+++
+++	TP_ARGS(inode, offset, len, mode)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__fallocate_mode, ext4_punch_hole,
+++
+++	TP_PROTO(struct inode *inode, loff_t offset, loff_t len, int mode),
+++
+++	TP_ARGS(inode, offset, len, mode)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__fallocate_mode, ext4_zero_range,
+++
+++	TP_PROTO(struct inode *inode, loff_t offset, loff_t len, int mode),
+++
+++	TP_ARGS(inode, offset, len, mode)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_unlink_enter,
+++	TP_PROTO(struct inode *parent, struct dentry *dentry),
+++
+++	TP_ARGS(parent, dentry),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, dentry->d_inode->i_ino)
+++		ctf_integer(u64, parent, parent->i_ino)
+++		ctf_integer(loff_t, size, dentry->d_inode->i_size)
+++		ctf_integer(dev_t, dev, dentry->d_inode->i_sb->s_dev)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_unlink_exit,
+++	TP_PROTO(struct dentry *dentry, int ret),
+++
+++	TP_ARGS(dentry, ret),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, dentry->d_inode->i_ino)
+++		ctf_integer(dev_t, dev, dentry->d_inode->i_sb->s_dev)
+++		ctf_integer(int, ret, ret)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_CLASS(ext4__truncate,
+++	TP_PROTO(struct inode *inode),
+++
+++	TP_ARGS(inode),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(__u64, blocks, inode->i_blocks)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__truncate, ext4_truncate_enter,
+++
+++	TP_PROTO(struct inode *inode),
+++
+++	TP_ARGS(inode)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__truncate, ext4_truncate_exit,
+++
+++	TP_PROTO(struct inode *inode),
+++
+++	TP_ARGS(inode)
+++)
+++
+++/* 'ux' is the uninitialized extent. */
+++LTTNG_TRACEPOINT_EVENT(ext4_ext_convert_to_initialized_enter,
+++	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map,
+++		 struct ext4_extent *ux),
+++
+++	TP_ARGS(inode, map, ux),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(ext4_fsblk_t, u_pblk, ext4_ext_pblock(ux))
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ext4_lblk_t, m_lblk, map->m_lblk)
+++		ctf_integer(unsigned, m_len, map->m_len)
+++		ctf_integer(ext4_lblk_t, u_lblk, le32_to_cpu(ux->ee_block))
+++		ctf_integer(unsigned, u_len, ext4_ext_get_actual_len(ux))
+++	)
+++)
+++
+++/*
+++ * 'ux' is the uninitialized extent.
+++ * 'ix' is the initialized extent to which blocks are transferred.
+++ */
+++LTTNG_TRACEPOINT_EVENT(ext4_ext_convert_to_initialized_fastpath,
+++	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map,
+++		 struct ext4_extent *ux, struct ext4_extent *ix),
+++
+++	TP_ARGS(inode, map, ux, ix),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(ext4_fsblk_t, u_pblk, ext4_ext_pblock(ux))
+++		ctf_integer(ext4_fsblk_t, i_pblk, ext4_ext_pblock(ix))
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ext4_lblk_t, m_lblk, map->m_lblk)
+++		ctf_integer(unsigned, m_len, map->m_len)
+++		ctf_integer(ext4_lblk_t, u_lblk, le32_to_cpu(ux->ee_block))
+++		ctf_integer(unsigned, u_len, ext4_ext_get_actual_len(ux))
+++		ctf_integer(ext4_lblk_t, i_lblk, le32_to_cpu(ix->ee_block))
+++		ctf_integer(unsigned, i_len, ext4_ext_get_actual_len(ix))
+++	)
+++)
++ 
++-LTTNG_TRACEPOINT_EVENT_CLASS(ext4__bitmap_load,
++-	TP_PROTO(struct super_block *sb, unsigned long group),
+++LTTNG_TRACEPOINT_EVENT_CLASS(ext4__map_blocks_enter,
+++	TP_PROTO(struct inode *inode, ext4_lblk_t lblk,
+++		 unsigned int len, unsigned int flags),
++ 
++-	TP_ARGS(sb, group),
+++	TP_ARGS(inode, lblk, len, flags),
++ 
++ 	TP_FIELDS(
++-		ctf_integer(dev_t, dev, sb->s_dev)
++-		ctf_integer(__u32, group, group)
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ext4_lblk_t, lblk, lblk)
+++		ctf_integer(unsigned int, len, len)
+++		ctf_integer(unsigned int, flags, flags)
++ 	)
++ )
++ 
++-LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__bitmap_load, ext4_mb_bitmap_load,
++-
++-	TP_PROTO(struct super_block *sb, unsigned long group),
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__map_blocks_enter, ext4_ext_map_blocks_enter,
+++	TP_PROTO(struct inode *inode, ext4_lblk_t lblk,
+++		 unsigned len, unsigned flags),
++ 
++-	TP_ARGS(sb, group)
+++	TP_ARGS(inode, lblk, len, flags)
++ )
++ 
++-LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__bitmap_load, ext4_mb_buddy_bitmap_load,
++-
++-	TP_PROTO(struct super_block *sb, unsigned long group),
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__map_blocks_enter, ext4_ind_map_blocks_enter,
+++	TP_PROTO(struct inode *inode, ext4_lblk_t lblk,
+++		 unsigned len, unsigned flags),
++ 
++-	TP_ARGS(sb, group)
+++	TP_ARGS(inode, lblk, len, flags)
++ )
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,9,0))
++-LTTNG_TRACEPOINT_EVENT(ext4_read_block_bitmap_load,
++-	TP_PROTO(struct super_block *sb, unsigned long group, bool prefetch),
+++LTTNG_TRACEPOINT_EVENT_CLASS(ext4__map_blocks_exit,
+++	TP_PROTO(struct inode *inode, unsigned flags, struct ext4_map_blocks *map,
+++		 int ret),
++ 
++-	TP_ARGS(sb, group, prefetch),
+++	TP_ARGS(inode, flags, map, ret),
++ 
++ 	TP_FIELDS(
++-		ctf_integer(dev_t, dev, sb->s_dev)
++-		ctf_integer(__u32, group, group)
++-		ctf_integer(bool, prefetch, prefetch)
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(ext4_fsblk_t, pblk, map->m_pblk)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(unsigned int, flags, flags)
+++		ctf_integer(ext4_lblk_t, lblk, map->m_lblk)
+++		ctf_integer(unsigned int, len, map->m_len)
+++		ctf_integer(unsigned int, mflags, map->m_flags)
+++		ctf_integer(int, ret, ret)
++ 	)
++ )
++-#else
++-LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__bitmap_load, ext4_read_block_bitmap_load,
++-
++-	TP_PROTO(struct super_block *sb, unsigned long group),
++-
++-	TP_ARGS(sb, group)
++-)
++-#endif
++-
++-LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__bitmap_load, ext4_load_inode_bitmap,
++ 
++-	TP_PROTO(struct super_block *sb, unsigned long group),
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__map_blocks_exit, ext4_ext_map_blocks_exit,
+++	TP_PROTO(struct inode *inode, unsigned flags,
+++		 struct ext4_map_blocks *map, int ret),
++ 
++-	TP_ARGS(sb, group)
+++	TP_ARGS(inode, flags, map, ret)
++ )
++ 
++-LTTNG_TRACEPOINT_EVENT(ext4_direct_IO_enter,
++-	TP_PROTO(struct inode *inode, loff_t offset, unsigned long len, int rw),
++-
++-	TP_ARGS(inode, offset, len, rw),
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__map_blocks_exit, ext4_ind_map_blocks_exit,
+++	TP_PROTO(struct inode *inode, unsigned flags,
+++		 struct ext4_map_blocks *map, int ret),
++ 
++-	TP_FIELDS(
++-		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
++-		ctf_integer(ino_t, ino, inode->i_ino)
++-		ctf_integer(loff_t, pos, offset)
++-		ctf_integer(unsigned long, len, len)
++-		ctf_integer(int, rw, rw)
++-	)
+++	TP_ARGS(inode, flags, map, ret)
++ )
++ 
++-LTTNG_TRACEPOINT_EVENT(ext4_direct_IO_exit,
++-	TP_PROTO(struct inode *inode, loff_t offset, unsigned long len,
++-		 int rw, int ret),
+++LTTNG_TRACEPOINT_EVENT(ext4_ext_load_extent,
+++	TP_PROTO(struct inode *inode, ext4_lblk_t lblk, ext4_fsblk_t pblk),
++ 
++-	TP_ARGS(inode, offset, len, rw, ret),
+++	TP_ARGS(inode, lblk, pblk),
++ 
++ 	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(ext4_fsblk_t, pblk, pblk)
++ 		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
++-		ctf_integer(ino_t, ino, inode->i_ino)
++-		ctf_integer(loff_t, pos, offset)
++-		ctf_integer(unsigned long, len, len)
++-		ctf_integer(int, rw, rw)
++-		ctf_integer(int, ret, ret)
+++		ctf_integer(ext4_lblk_t, lblk, lblk)
++ 	)
++ )
++-
+++#else
++ LTTNG_TRACEPOINT_EVENT(ext4_fallocate_exit,
++ 	TP_PROTO(struct inode *inode, loff_t offset,
++ 		 unsigned int max_blocks, int ret),
++@@ -1211,8 +2011,20 @@ LTTNG_TRACEPOINT_EVENT(ext4_ext_load_extent,
++ 		ctf_integer(ext4_lblk_t, lblk, lblk)
++ 	)
++ )
+++#endif
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,10,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_load_inode,
+++	TP_PROTO(struct super_block *sb, unsigned long ino),
+++
+++	TP_ARGS(sb, ino),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, ino)
+++		ctf_integer(dev_t, dev, sb->s_dev)
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,10,0))
++ LTTNG_TRACEPOINT_EVENT(ext4_load_inode,
++ 	TP_PROTO(struct super_block *sb, unsigned long ino),
++ 
++@@ -1295,7 +2107,26 @@ LTTNG_TRACEPOINT_EVENT(ext4_journal_start_reserved,
++ )
++ #endif
++ 
++-LTTNG_TRACEPOINT_EVENT(ext4_ext_handle_uninitialized_extents,
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_ext_handle_unwritten_extents,
+++	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map, int flags,
+++		 unsigned int allocated, ext4_fsblk_t newblock),
+++
+++	TP_ARGS(inode, map, flags, allocated, newblock),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(ext4_fsblk_t, pblk, map->m_pblk)
+++		ctf_integer(ext4_fsblk_t, newblk, newblock)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(int, flags, flags)
+++		ctf_integer(ext4_lblk_t, lblk, map->m_lblk)
+++		ctf_integer(unsigned int, len, map->m_len)
+++		ctf_integer(unsigned int, allocated, allocated)
+++	)
+++)
+++#else
+++LTTNG_TRACEPOINT_EVENT(ext4_ext_handle_unwritten_extents,
++ 	TP_PROTO(struct inode *inode, struct ext4_map_blocks *map, int flags,
++ 		 unsigned int allocated, ext4_fsblk_t newblock),
++ 
++@@ -1312,6 +2143,7 @@ LTTNG_TRACEPOINT_EVENT(ext4_ext_handle_uninitialized_extents,
++ 		ctf_integer(ext4_fsblk_t, newblk, newblock)
++ 	)
++ )
+++#endif
++ 
++ LTTNG_TRACEPOINT_EVENT(ext4_get_implied_cluster_alloc_exit,
++ 	TP_PROTO(struct super_block *sb, struct ext4_map_blocks *map, int ret),
++@@ -1386,6 +2218,22 @@ LTTNG_TRACEPOINT_EVENT(ext4_get_reserved_cluster_alloc,
++ 	)
++ )
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_ext_show_extent,
+++	TP_PROTO(struct inode *inode, ext4_lblk_t lblk, ext4_fsblk_t pblk,
+++		 unsigned short len),
+++
+++	TP_ARGS(inode, lblk, pblk, len),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(ext4_fsblk_t, pblk, pblk)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ext4_lblk_t, lblk, lblk)
+++		ctf_integer(unsigned short, len, len)
+++	)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT(ext4_ext_show_extent,
++ 	TP_PROTO(struct inode *inode, ext4_lblk_t lblk, ext4_fsblk_t pblk,
++ 		 unsigned short len),
++@@ -1400,8 +2248,32 @@ LTTNG_TRACEPOINT_EVENT(ext4_ext_show_extent,
++ 		ctf_integer(unsigned short, len, len)
++ 	)
++ )
+++#endif
+++
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_remove_blocks,
+++	TP_PROTO(struct inode *inode, struct ext4_extent *ex,
+++		 ext4_lblk_t from, ext4_fsblk_t to,
+++		 struct partial_cluster *pc),
+++
+++	TP_ARGS(inode, ex, from, to, pc),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(ext4_fsblk_t, ee_pblk, ext4_ext_pblock(ex))
+++		ctf_integer(ext4_fsblk_t, pc_pclu, pc->pclu)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ext4_lblk_t, from, from)
+++		ctf_integer(ext4_lblk_t, to, to)
+++		ctf_integer(ext4_lblk_t, ee_lblk, le32_to_cpu(ex->ee_block))
+++		ctf_integer(unsigned short, ee_len, ext4_ext_get_actual_len(ex))
+++		ctf_integer(ext4_lblk_t, pc_lblk, pc->lblk)
+++		ctf_integer(int, pc_state, pc->state)
+++	)
+++)
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,20,0) || \
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,20,0) || \
++ 	LTTNG_RHEL_KERNEL_RANGE(4,18,0,147,0,0, 4,19,0,0,0,0))
++ 
++ LTTNG_TRACEPOINT_EVENT(ext4_remove_blocks,
++@@ -1448,7 +2320,28 @@ LTTNG_TRACEPOINT_EVENT(ext4_remove_blocks,
++ 
++ #endif
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,20,0) || \
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_ext_rm_leaf,
+++	TP_PROTO(struct inode *inode, ext4_lblk_t start,
+++		 struct ext4_extent *ex,
+++		 struct partial_cluster *pc),
+++
+++	TP_ARGS(inode, start, ex, pc),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(ext4_fsblk_t, ee_pblk, ext4_ext_pblock(ex))
+++		ctf_integer(ext4_fsblk_t, pc_pclu, pc->pclu)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ext4_lblk_t, start, start)
+++		ctf_integer(ext4_lblk_t, ee_lblk, le32_to_cpu(ex->ee_block))
+++		ctf_integer(short, ee_len, ext4_ext_get_actual_len(ex))
+++		ctf_integer(ext4_lblk_t, pc_lblk, pc->lblk)
+++		ctf_integer(int, pc_state, pc->state)
+++	)
+++)
+++
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,20,0) || \
++ 	LTTNG_RHEL_KERNEL_RANGE(4,18,0,147,0,0, 4,19,0,0,0,0))
++ 
++ LTTNG_TRACEPOINT_EVENT(ext4_ext_rm_leaf,
++@@ -1493,6 +2386,34 @@ LTTNG_TRACEPOINT_EVENT(ext4_ext_rm_leaf,
++ 
++ #endif
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_ext_rm_idx,
+++	TP_PROTO(struct inode *inode, ext4_fsblk_t pblk),
+++
+++	TP_ARGS(inode, pblk),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(ext4_fsblk_t, pblk, pblk)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_ext_remove_space,
+++	TP_PROTO(struct inode *inode, ext4_lblk_t start,
+++		 ext4_lblk_t end, int depth),
+++
+++	TP_ARGS(inode, start, end, depth),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ext4_lblk_t, start, start)
+++		ctf_integer(ext4_lblk_t, end, end)
+++		ctf_integer(int, depth, depth)
+++	)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT(ext4_ext_rm_idx,
++ 	TP_PROTO(struct inode *inode, ext4_fsblk_t pblk),
++ 
++@@ -1519,8 +2440,30 @@ LTTNG_TRACEPOINT_EVENT(ext4_ext_remove_space,
++ 		ctf_integer(int, depth, depth)
++ 	)
++ )
+++#endif
+++
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_ext_remove_space_done,
+++	TP_PROTO(struct inode *inode, ext4_lblk_t start, ext4_lblk_t end,
+++		 int depth, struct partial_cluster *pc, __le16 eh_entries),
+++
+++	TP_ARGS(inode, start, end, depth, pc, eh_entries),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(ext4_fsblk_t, pc_pclu, pc->pclu)
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ext4_lblk_t, start, start)
+++		ctf_integer(ext4_lblk_t, end, end)
+++		ctf_integer(int, depth, depth)
+++		ctf_integer(ext4_lblk_t, pc_lblk, pc->lblk)
+++		ctf_integer(int, pc_state, pc->state)
+++		ctf_integer(unsigned short, eh_entries, le16_to_cpu(eh_entries))
+++	)
+++)
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,20,0) || \
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,20,0) || \
++ 	LTTNG_RHEL_KERNEL_RANGE(4,18,0,147,0,0, 4,19,0,0,0,0))
++ 
++ LTTNG_TRACEPOINT_EVENT(ext4_ext_remove_space_done,
++@@ -1563,6 +2506,35 @@ LTTNG_TRACEPOINT_EVENT(ext4_ext_remove_space_done,
++ 
++ #endif
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT_CLASS(ext4__es_extent,
+++	TP_PROTO(struct inode *inode, struct extent_status *es),
+++
+++	TP_ARGS(inode, es),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(u64, seq, EXT4_I(inode)->i_es_seq)
+++		ctf_integer(ext4_fsblk_t, pblk, ext4_es_show_pblock(es))
+++		ctf_integer(dev_t, dev, inode->i_sb->s_dev)
+++		ctf_integer(ext4_lblk_t, lblk, es->es_lblk)
+++		ctf_integer(ext4_lblk_t, len, es->es_len)
+++		ctf_integer(char, status, ext4_es_status(es))
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__es_extent, ext4_es_insert_extent,
+++	TP_PROTO(struct inode *inode, struct extent_status *es),
+++
+++	TP_ARGS(inode, es)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__es_extent, ext4_es_cache_extent,
+++	TP_PROTO(struct inode *inode, struct extent_status *es),
+++
+++	TP_ARGS(inode, es)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT_CLASS(ext4__es_extent,
++ 	TP_PROTO(struct inode *inode, struct extent_status *es),
++ 
++@@ -1589,6 +2561,7 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(ext4__es_extent, ext4_es_cache_extent,
++ 
++ 	TP_ARGS(inode, es)
++ )
+++#endif
++ 
++ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,10,0))
++ LTTNG_TRACEPOINT_EVENT(ext4_fc_replay_scan,
++-- 
++2.43.0
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Drop-unnecessary-pointer-indirection-in.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Drop-unnecessary-pointer-indirection-in.patch
+new file mode 100644
+index 0000000000..8bf20a2047
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Drop-unnecessary-pointer-indirection-in.patch
+@@ -0,0 +1,75 @@
++From a74f94be254e5a9856655c982dbca44b86437897 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 25 May 2026 10:54:27 -0400
++Subject: [PATCH 2/8] fix: hrtimer: Drop unnecessary pointer indirection in
++ hrtimer_expire_entry event (v7.1)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++See upstream commit:
++
++  commit bd803783dfa7ddd5e1d44a6abfeee26fdc3a2db7
++  Author: Thomas Weißschuh (Schneider Electric) <thomas.weissschuh@linutronix.de>
++  Date:   Wed Mar 11 11:15:18 2026 +0100
++
++    hrtimer: Drop unnecessary pointer indirection in hrtimer_expire_entry event
++
++    This pointer indirection is a remnant from when ktime_t was a struct,
++    today it is pointless.
++
++    Drop the pointer indirection.
++
++Upstream-Status: Backport [https://review.lttng.org/c/lttng-modules/+/17888]
++
++Change-Id: I58187dd1396dbdbda4ba0a00aa533deb415605d1
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++---
++ include/instrumentation/events/timer.h | 24 ++++++++++++++++++++++++
++ 1 file changed, 24 insertions(+)
++
++diff --git a/include/instrumentation/events/timer.h b/include/instrumentation/events/timer.h
++index dfc295e0..c4a94605 100644
++--- a/include/instrumentation/events/timer.h
+++++ b/include/instrumentation/events/timer.h
++@@ -299,6 +299,29 @@ LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_start,
++ )
++ #endif
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++/**
+++ * htimmer_expire_entry - called immediately before the hrtimer callback
+++ * @timer:	pointer to struct hrtimer
+++ * @now:	variable which contains current time of the timers base.
+++ *
+++ * Allows to determine the timer latency.
+++ */
+++LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_expire_entry,
+++
+++	timer_hrtimer_expire_entry,
+++
+++	TP_PROTO(struct hrtimer *hrtimer, ktime_t now),
+++
+++	TP_ARGS(hrtimer, now),
+++
+++	TP_FIELDS(
+++		ctf_integer_hex(void *, hrtimer, hrtimer)
+++		ctf_integer(s64, now, lttng_ktime_get_tv64(now))
+++		ctf_integer_hex(void *, function, hrtimer->function)
+++	)
+++)
+++#else
++ /**
++  * htimmer_expire_entry - called immediately before the hrtimer callback
++  * @timer:	pointer to struct hrtimer
++@@ -321,6 +344,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_expire_entry,
++ 		ctf_integer_hex(void *, function, hrtimer->function)
++ 	)
++ )
+++#endif
++ 
++ LTTNG_TRACEPOINT_EVENT_CLASS(timer_hrtimer_class,
++ 
++-- 
++2.43.0
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch
+new file mode 100644
+index 0000000000..de5e08c346
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch
+@@ -0,0 +1,103 @@
++From 531c6e02c5a231f153d12ff628ecb677b7c2f7b9 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 25 May 2026 10:38:18 -0400
++Subject: [PATCH 1/8] fix: hrtimer: Reduce trace noise in hrtimer_start()
++ (v7.1)
++
++See upstream commit:
++
++  commit f2e388a019e4cf83a15883a3d1f1384298e9a6aa
++  Author: Thomas Gleixner <tglx@kernel.org>
++  Date:   Tue Feb 24 17:36:59 2026 +0100
++
++    hrtimer: Reduce trace noise in hrtimer_start()
++
++    hrtimer_start() when invoked with an already armed timer traces like:
++
++     <comm>-..   [032] d.h2. 5.002263: hrtimer_cancel: hrtimer= ....
++     <comm>-..   [032] d.h1. 5.002263: hrtimer_start: hrtimer= ....
++
++    Which is incorrect as the timer doesn't get canceled. Just the expiry time
++    changes. The internal dequeue operation which is required for that is not
++    really interesting for trace analysis. But it makes it tedious to keep real
++    cancellations and the above case apart.
++
++    Remove the cancel tracing in hrtimer_start() and add a 'was_armed'
++    indicator to the hrtimer start tracepoint, which clearly indicates what the
++    state of the hrtimer is when hrtimer_start() is invoked:
++
++    <comm>-..   [032] d.h1. 6.200103: hrtimer_start: hrtimer= .... was_armed=0
++     <comm>-..   [032] d.h1. 6.200558: hrtimer_start: hrtimer= .... was_armed=1
++
++Upstream-Status: Backport [https://review.lttng.org/c/lttng-modules/+/17887]
++
++Change-Id: I37ee0ae0af665a51fd4f92adffb6b1dcb2ecd9d2
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++---
++ include/instrumentation/events/timer.h | 39 ++++++++++++++++++++++++--
++ 1 file changed, 37 insertions(+), 2 deletions(-)
++
++diff --git a/include/instrumentation/events/timer.h b/include/instrumentation/events/timer.h
++index f69e069b..dfc295e0 100644
++--- a/include/instrumentation/events/timer.h
+++++ b/include/instrumentation/events/timer.h
++@@ -220,12 +220,43 @@ LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_init,
++ 	)
++ )
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0) || \
+++	LTTNG_KERNEL_RANGE(7,0,10, 7,1,0) || \
+++	LTTNG_KERNEL_RANGE(6,18,33, 6,19,0) || \
+++	LTTNG_KERNEL_RANGE(6,12,91, 6,13,0) || \
+++	LTTNG_KERNEL_RANGE(6,6,141, 6,7,0))
++ /**
++  * hrtimer_start - called when the hrtimer is started
++- * @timer: pointer to struct hrtimer
+++ * @hrtimer:	pointer to struct hrtimer
+++ * @mode:	the hrtimers mode
+++ * @was_armed:	Was armed when hrtimer_start*() was invoked
++  */
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,16,0) || \
+++LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_start,
+++
+++	timer_hrtimer_start,
+++
+++	TP_PROTO(struct hrtimer *hrtimer, enum hrtimer_mode mode, bool was_armed),
+++
+++	TP_ARGS(hrtimer, mode, was_armed),
+++
+++	TP_FIELDS(
+++		ctf_integer_hex(void *, hrtimer, hrtimer)
+++		ctf_integer_hex(void *, function, hrtimer->function)
+++		ctf_integer(s64, expires,
+++			lttng_ktime_get_tv64(hrtimer_get_expires(hrtimer)))
+++		ctf_integer(s64, softexpires,
+++			lttng_ktime_get_tv64(hrtimer_get_softexpires(hrtimer)))
+++		ctf_enum(hrtimer_mode, unsigned int, mode, mode)
+++		ctf_integer(bool, was_armed, was_armed)
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,16,0) || \
++ 	LTTNG_RT_KERNEL_RANGE(4,14,0,0, 4,15,0,0))
+++/**
+++ * hrtimer_start - called when the hrtimer is started
+++ * @hrtimer:	pointer to struct hrtimer
+++ * @mode:	the hrtimers mode
+++ */
++ LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_start,
++ 
++ 	timer_hrtimer_start,
++@@ -245,6 +276,10 @@ LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_start,
++ 	)
++ )
++ #else
+++/**
+++ * hrtimer_start - called when the hrtimer is started
+++ * @hrtimer: pointer to struct hrtimer
+++ */
++ LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_start,
++ 
++ 	timer_hrtimer_start,
++-- 
++2.43.0
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-vmscan-Convert-pageout-to-take-a-folio-v5.18.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-vmscan-Convert-pageout-to-take-a-folio-v5.18.patch
+new file mode 100644
+index 0000000000..de498fa448
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-vmscan-Convert-pageout-to-take-a-folio-v5.18.patch
+@@ -0,0 +1,54 @@
++From b9d853f90111cf657762c3e23110ab9f7a66e1aa Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 25 May 2026 11:36:32 -0400
++Subject: [PATCH 3/8] fix: mm/vmscan: Convert pageout() to take a folio (v5.18)
++
++See upstream commit:
++
++  commit e0cd5e7ffa549487cf1a85452f371274cbf0a8f1
++  Author: Matthew Wilcox (Oracle) <willy@infradead.org>
++  Date:   Mon Jan 17 23:35:57 2022 -0500
++
++    mm/vmscan: Convert pageout() to take a folio
++
++    We always write out an entire folio at once.  This conversion removes
++    a few calls to compound_head() and gets the NR_VMSCAN_WRITE statistic
++    right when writing out a large folio.
++
++Upstream-Status: Backport [https://review.lttng.org/c/lttng-modules/+/17890]
++
++Change-Id: I43ce035aecbfb3f640d2af32224be71067762711
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++---
++ include/instrumentation/events/mm_vmscan.h | 15 ++++++++++++++-
++ 1 file changed, 14 insertions(+), 1 deletion(-)
++
++diff --git a/include/instrumentation/events/mm_vmscan.h b/include/instrumentation/events/mm_vmscan.h
++index 15d56b38..f33bcbd2 100644
++--- a/include/instrumentation/events/mm_vmscan.h
+++++ b/include/instrumentation/events/mm_vmscan.h
++@@ -510,7 +510,20 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(mm_vmscan_lru_isolate_template, mm_vmscan_memcg_
++ )
++ #endif
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,7,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0))
+++LTTNG_TRACEPOINT_EVENT(mm_vmscan_write_folio,
+++
+++	TP_PROTO(struct folio *folio),
+++
+++	TP_ARGS(folio),
+++
+++	TP_FIELDS(
+++		ctf_integer_hex(unsigned long, pfn, folio_pfn(folio))
+++		ctf_integer(int, reclaim_flags, trace_reclaim_flags(
+++				folio_is_file_lru(folio)))
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,7,0))
++ LTTNG_TRACEPOINT_EVENT(mm_vmscan_writepage,
++ 
++ 	TP_PROTO(struct page *page),
++-- 
++2.43.0
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-vmscan-add-cgroup-IDs-to-vmscan-tracepoints-v7.1.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-vmscan-add-cgroup-IDs-to-vmscan-tracepoints-v7.1.patch
+new file mode 100644
+index 0000000000..c1113468bd
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-vmscan-add-cgroup-IDs-to-vmscan-tracepoints-v7.1.patch
+@@ -0,0 +1,198 @@
++From 0d2ee7c9cb79a880c440153beeacd736d1b61a31 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 25 May 2026 11:30:54 -0400
++Subject: [PATCH 4/8] fix: mm: vmscan: add cgroup IDs to vmscan tracepoints
++ (v7.1)
++
++See upstream commit:
++
++  commit 874a0a566ede40f3d6062cae8fe1022e616edd1a
++  Author: Thomas Ballasi <tballasi@linux.microsoft.com>
++  Date:   Mon Mar 16 09:09:07 2026 -0700
++
++    mm: vmscan: add cgroup IDs to vmscan tracepoints
++
++    Memory reclaim events are currently difficult to attribute to specific
++    cgroups, making debugging memory pressure issues challenging.  This patch
++    adds memory cgroup ID (memcg_id) to key vmscan tracepoints to enable
++    better correlation and analysis.
++
++    For operations not associated with a specific cgroup, the field is
++    defaulted to 0.
++
++Upstream-Status: Backport [https://review.lttng.org/c/lttng-modules/+/17889]
++
++Change-Id: Ib1663810300b08e599f9c144930ae156e1efbaf9
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++---
++ include/instrumentation/events/mm_vmscan.h | 125 ++++++++++++++++++++-
++ 1 file changed, 123 insertions(+), 2 deletions(-)
++
++diff --git a/include/instrumentation/events/mm_vmscan.h b/include/instrumentation/events/mm_vmscan.h
++index f33bcbd2..cce06198 100644
++--- a/include/instrumentation/events/mm_vmscan.h
+++++ b/include/instrumentation/events/mm_vmscan.h
++@@ -121,7 +121,43 @@ LTTNG_TRACEPOINT_EVENT(mm_vmscan_wakeup_kswapd,
++ )
++ #endif
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,2,0) || \
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++
+++LTTNG_TRACEPOINT_EVENT_CLASS(mm_vmscan_direct_reclaim_begin_template,
+++
+++	TP_PROTO(gfp_t gfp_flags, int order, struct mem_cgroup *memcg),
+++
+++	TP_ARGS(gfp_flags, order, memcg),
+++
+++	TP_FIELDS(
+++		ctf_integer(gfp_t, gfp_flags, gfp_flags)
+++		ctf_integer(int, order, order)
+++		ctf_integer(u64, memcg_id, mem_cgroup_id(memcg))
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(mm_vmscan_direct_reclaim_begin_template, mm_vmscan_direct_reclaim_begin,
+++
+++	TP_PROTO(gfp_t gfp_flags, int order, struct mem_cgroup *memcg),
+++
+++	TP_ARGS(gfp_flags, order, memcg)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(mm_vmscan_direct_reclaim_begin_template, mm_vmscan_memcg_reclaim_begin,
+++
+++	TP_PROTO(gfp_t gfp_flags, int order, struct mem_cgroup *memcg),
+++
+++	TP_ARGS(gfp_flags, order, memcg)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(mm_vmscan_direct_reclaim_begin_template, mm_vmscan_memcg_softlimit_reclaim_begin,
+++
+++	TP_PROTO(gfp_t gfp_flags, int order, struct mem_cgroup *memcg),
+++
+++	TP_ARGS(gfp_flags, order, memcg)
+++)
+++
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,2,0) || \
++ 	LTTNG_RHEL_KERNEL_RANGE(4,18,0,305,0,0, 4,19,0,0,0,0))
++ 
++ LTTNG_TRACEPOINT_EVENT_CLASS(mm_vmscan_direct_reclaim_begin_template,
++@@ -232,6 +268,40 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(mm_vmscan_direct_reclaim_begin_template, mm_vmsc
++ 
++ #endif
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT_CLASS(mm_vmscan_direct_reclaim_end_template,
+++
+++	TP_PROTO(unsigned long nr_reclaimed, struct mem_cgroup *memcg),
+++
+++	TP_ARGS(nr_reclaimed, memcg),
+++
+++	TP_FIELDS(
+++		ctf_integer(unsigned long, nr_reclaimed, nr_reclaimed)
+++		ctf_integer(u64, memcg_id, mem_cgroup_id(memcg))
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(mm_vmscan_direct_reclaim_end_template, mm_vmscan_direct_reclaim_end,
+++
+++	TP_PROTO(unsigned long nr_reclaimed, struct mem_cgroup *memcg),
+++
+++	TP_ARGS(nr_reclaimed, memcg)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(mm_vmscan_direct_reclaim_end_template, mm_vmscan_memcg_reclaim_end,
+++
+++	TP_PROTO(unsigned long nr_reclaimed, struct mem_cgroup *memcg),
+++
+++	TP_ARGS(nr_reclaimed, memcg)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(mm_vmscan_direct_reclaim_end_template, mm_vmscan_memcg_softlimit_reclaim_end,
+++
+++	TP_PROTO(unsigned long nr_reclaimed, struct mem_cgroup *memcg),
+++
+++	TP_ARGS(nr_reclaimed, memcg)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT_CLASS(mm_vmscan_direct_reclaim_end_template,
++ 
++ 	TP_PROTO(unsigned long nr_reclaimed),
++@@ -263,8 +333,35 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(mm_vmscan_direct_reclaim_end_template, mm_vmscan
++ 
++ 	TP_ARGS(nr_reclaimed)
++ )
+++#endif
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,16,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT_MAP(mm_shrink_slab_start,
+++
+++	mm_vmscan_shrink_slab_start,
+++
+++	TP_PROTO(struct shrinker *shr, struct shrink_control *sc,
+++		long nr_objects_to_shrink, unsigned long cache_items,
+++		unsigned long long delta, unsigned long total_scan,
+++		int priority, struct mem_cgroup *memcg),
+++
+++	TP_ARGS(shr, sc, nr_objects_to_shrink, cache_items, delta, total_scan,
+++		priority, memcg),
+++
+++	TP_FIELDS(
+++		ctf_integer_hex(struct shrinker *, shr, shr)
+++		ctf_integer_hex(void *, shrink, shr->scan_objects)
+++		ctf_integer(int, nid, sc->nid)
+++		ctf_integer(long, nr_objects_to_shrink, nr_objects_to_shrink)
+++		ctf_integer(gfp_t, gfp_flags, sc->gfp_mask)
+++		ctf_integer(unsigned long, cache_items, cache_items)
+++		ctf_integer(unsigned long long, delta, delta)
+++		ctf_integer(unsigned long, total_scan, total_scan)
+++		ctf_integer(int, priority, priority)
+++		ctf_integer(u64, memcg_id, mem_cgroup_id(memcg))
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,16,0))
++ LTTNG_TRACEPOINT_EVENT_MAP(mm_shrink_slab_start,
++ 
++ 	mm_vmscan_shrink_slab_start,
++@@ -316,6 +413,29 @@ LTTNG_TRACEPOINT_EVENT_MAP(mm_shrink_slab_start,
++ )
++ #endif
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT_MAP(mm_shrink_slab_end,
+++
+++	mm_vmscan_shrink_slab_end,
+++
+++	TP_PROTO(struct shrinker *shr, int nid, int shrinker_retval,
+++		long unused_scan_cnt, long new_scan_cnt, long total_scan, struct mem_cgroup *memcg),
+++
+++	TP_ARGS(shr, nid, shrinker_retval, unused_scan_cnt, new_scan_cnt,
+++		total_scan, memcg),
+++
+++	TP_FIELDS(
+++		ctf_integer_hex(struct shrinker *, shr, shr)
+++		ctf_integer(int, nid, nid)
+++		ctf_integer_hex(void *, shrink, shr->scan_objects)
+++		ctf_integer(long, unused_scan, unused_scan_cnt)
+++		ctf_integer(long, new_scan, new_scan_cnt)
+++		ctf_integer(int, retval, shrinker_retval)
+++		ctf_integer(long, total_scan, total_scan)
+++		ctf_integer(u64, memcg_id, mem_cgroup_id(memcg))
+++	)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT_MAP(mm_shrink_slab_end,
++ 
++ 	mm_vmscan_shrink_slab_end,
++@@ -336,6 +456,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(mm_shrink_slab_end,
++ 		ctf_integer(long, total_scan, total_scan)
++ 	)
++ )
+++#endif
++ 
++ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,7,0) || \
++      LTTNG_RHEL_KERNEL_RANGE(5,14,0,427,16,1, 5,15,0,0,0,0))
++-- 
++2.43.0
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-treewide-change-inode-i_ino-from-unsigned-long-to-u64-v7.1.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-treewide-change-inode-i_ino-from-unsigned-long-to-u64-v7.1.patch
+new file mode 100644
+index 0000000000..c7b4c1a7f1
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-treewide-change-inode-i_ino-from-unsigned-long-to-u64-v7.1.patch
+@@ -0,0 +1,56 @@
++From 0ae8e932cc2c431bafe390a43feb29b0c6a98ab5 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 25 May 2026 14:52:02 -0400
++Subject: [PATCH 6/8] fix: treewide: change inode->i_ino from unsigned long to
++ u64 (v7.1)
++
++See upstream commit:
++
++  commit 0b2600f81cefcdfcda58d50df7be8fd48ada8ce2
++  Author: Jeff Layton <jlayton@kernel.org>
++  Date:   Wed Mar 4 10:32:42 2026 -0500
++
++    treewide: change inode->i_ino from unsigned long to u64
++
++    On 32-bit architectures, unsigned long is only 32 bits wide, which
++    causes 64-bit inode numbers to be silently truncated. Several
++    filesystems (NFS, XFS, BTRFS, etc.) can generate inode numbers that
++    exceed 32 bits, and this truncation can lead to inode number collisions
++    and other subtle bugs on 32-bit systems.
++
++    Change the type of inode->i_ino from unsigned long to u64 to ensure that
++    inode numbers are always represented as 64-bit values regardless of
++    architecture. Update all format specifiers treewide from %lu/%lx to
++    %llu/%llx to match the new type, along with corresponding local variable
++    types.
++
++    This is the bulk treewide conversion. Earlier patches in this series
++    handled trace events separately to allow trace field reordering for
++    better struct packing on 32-bit.
++
++Upstream-Status: Backport [https://review.lttng.org/c/lttng-modules/+/17905]
++
++Change-Id: I027477ced731f74999ae40bc9b66bf9d2f295cbb
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++---
++ src/lttng-uprobes.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/lttng-uprobes.c b/src/lttng-uprobes.c
++index 39c09b8f..84edbd33 100644
++--- a/src/lttng-uprobes.c
+++++ b/src/lttng-uprobes.c
++@@ -256,8 +256,8 @@ int lttng_uprobes_add_callsite(struct lttng_uprobe *uprobe,
++ 		      uprobe_handler->offset, &uprobe_handler->up_consumer);
++ #endif
++ 	if (ret) {
++-		printk(KERN_WARNING "LTTng: Error registering probe on inode %lu "
++-		       "and offset 0x%llx\n", uprobe->inode->i_ino,
+++		printk(KERN_WARNING "LTTng: Error registering probe on inode %llu "
+++		       "and offset 0x%llx\n", (u64) uprobe->inode->i_ino,
++ 		       uprobe_handler->offset);
++ 		ret = -1;
++ 		goto register_error;
++-- 
++2.43.0
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-vfs-widen-trace-event-i_ino-fields-to-u64-v7.1.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-vfs-widen-trace-event-i_ino-fields-to-u64-v7.1.patch
+new file mode 100644
+index 0000000000..c16e6e932e
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-vfs-widen-trace-event-i_ino-fields-to-u64-v7.1.patch
+@@ -0,0 +1,276 @@
++From 95d19f6ff3d0591afce0e5666d3d17b9192789f6 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 25 May 2026 11:37:51 -0400
++Subject: [PATCH 5/8] fix: vfs: widen trace event i_ino fields to u64 (v7.1)
++
++See upstream commit:
++
++  commit 5a3d5928b1a4196affc5f504fdf95f67f169bc57
++  Author: Jeff Layton <jlayton@kernel.org>
++  Date:   Wed Mar 4 10:32:34 2026 -0500
++
++    vfs: widen trace event i_ino fields to u64
++
++    Update VFS-layer trace event definitions to use u64 instead of
++    ino_t/unsigned long for inode number fields. Update TP_printk format
++    strings to use %llu/%llx to match the widened field type. Remove
++    now-unnecessary (unsigned long) casts since __entry->ino is already
++    u64.
++
++Upstream-Status: Backport [https://review.lttng.org/c/lttng-modules/+/17891]
++
++Change-Id: Id48ff7ffe40528f839c84eaa060ab5cd67ea1436
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++---
++ include/instrumentation/events/writeback.h | 179 ++++++++++++++++++++-
++ 1 file changed, 174 insertions(+), 5 deletions(-)
++
++diff --git a/include/instrumentation/events/writeback.h b/include/instrumentation/events/writeback.h
++index f53d9d3c..cbf9a426 100644
++--- a/include/instrumentation/events/writeback.h
+++++ b/include/instrumentation/events/writeback.h
++@@ -35,6 +35,31 @@ static inline const char *lttng_bdi_dev_name(struct backing_dev_info *bdi)
++ 	return dev_name(bdi->dev);
++ }
++ #endif
+++
+++#ifdef CONFIG_CGROUP_WRITEBACK
+++static inline u64 lttng_wb_assign_cgroup(struct bdi_writeback *wb)
+++{
+++	return cgroup_ino(wb->memcg_css->cgroup);
+++}
+++
+++static inline u64 lttng_wbc_assign_cgroup(struct writeback_control *wbc)
+++{
+++	if (wbc->wb)
+++		return lttng_wb_assign_cgroup(wbc->wb);
+++	else
+++		return 1;
+++}
+++#else   /* CONFIG_CGROUP_WRITEBACK */
+++static inline u64 lttng_wb_assign_cgroup(struct bdi_writeback *wb)
+++{
+++	return 1;
+++}
+++
+++static inline u64 lttng_wbc_assign_cgroup(struct writeback_control *wbc)
+++{
+++	return 1;
+++}
+++#endif  /* CONFIG_CGROUP_WRITEBACK */
++ #endif
++ 
++ /*
++@@ -101,7 +126,36 @@ static inline const char *lttng_bdi_dev_name(struct backing_dev_info *bdi)
++ 	)
++ #endif /* #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,9,0)) */
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,16,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT_CLASS(writeback_folio_template,
+++
+++	TP_PROTO(struct folio *folio, struct address_space *mapping),
+++
+++	TP_ARGS(folio, mapping),
+++
+++	TP_FIELDS(
+++		ctf_string(name, lttng_bdi_dev_name(mapping ? inode_to_bdi(mapping->host) : NULL))
+++		ctf_integer(u64, ino, (mapping && mapping->host) ? mapping->host->i_ino : 0)
+++		ctf_integer(pgoff_t, index, folio->index)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(writeback_folio_template, writeback_dirty_folio,
+++
+++	TP_PROTO(struct folio *folio, struct address_space *mapping),
+++
+++	TP_ARGS(folio, mapping)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(writeback_folio_template, folio_wait_writeback,
+++
+++	writeback_folio_wait,
+++
+++	TP_PROTO(struct folio *folio, struct address_space *mapping),
+++
+++	TP_ARGS(folio, mapping)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,16,0))
++ LTTNG_TRACEPOINT_EVENT_CLASS(writeback_folio_template,
++ 
++ 	TP_PROTO(struct folio *folio, struct address_space *mapping),
++@@ -168,7 +222,19 @@ LTTNG_TRACEPOINT_EVENT(writeback_dirty_page,
++ )
++ #endif
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,19,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT_CLASS(writeback_dirty_inode_template,
+++	TP_PROTO(struct inode *inode, int flags),
+++	TP_ARGS(inode, flags),
+++	TP_FIELDS(
+++		/* may be called for files on pseudo FSes w/ unregistered bdi */
+++		ctf_string(name, lttng_bdi_dev_name(inode_to_bdi(inode)))
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(unsigned long, state, inode_state_read_once(inode))
+++		ctf_integer(unsigned long, flags, flags)
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,19,0))
++ LTTNG_TRACEPOINT_EVENT_CLASS(writeback_dirty_inode_template,
++ 	TP_PROTO(struct inode *inode, int flags),
++ 	TP_ARGS(inode, flags),
++@@ -202,6 +268,18 @@ LTTNG_TRACEPOINT_EVENT_WRITEBACK_DIRTY_INODE_TEMPLATE(writeback_dirty_inode_star
++ LTTNG_TRACEPOINT_EVENT_WRITEBACK_DIRTY_INODE_TEMPLATE(writeback_dirty_inode)
++ LTTNG_TRACEPOINT_EVENT_WRITEBACK_DIRTY_INODE_TEMPLATE(writeback_mark_inode_dirty)
++ 
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT_CLASS(writeback_write_inode_template,
+++	TP_PROTO(struct inode *inode, struct writeback_control *wbc),
+++	TP_ARGS(inode, wbc),
+++	TP_FIELDS(
+++		ctf_string(name, lttng_bdi_dev_name(inode_to_bdi(inode)))
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(u64, cgroup_ino, lttng_wbc_assign_cgroup(wbc))
+++		ctf_integer(int, sync_mode, wbc->sync_mode)
+++	)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT_CLASS(writeback_write_inode_template,
++ 	TP_PROTO(struct inode *inode, struct writeback_control *wbc),
++ 	TP_ARGS(inode, wbc),
++@@ -211,6 +289,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(writeback_write_inode_template,
++ 		ctf_integer(int, sync_mode, wbc->sync_mode)
++ 	)
++ )
+++#endif
++ 
++ #define LTTNG_TRACEPOINT_EVENT_WRITEBACK_WRITE_INODE(name) \
++ LTTNG_TRACEPOINT_EVENT_INSTANCE(writeback_write_inode_template, name, \
++@@ -457,7 +536,53 @@ LTTNG_TRACEPOINT_EVENT_MAP(bdi_dirty_ratelimit,
++ 	)
++ )
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,15,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT_MAP(balance_dirty_pages,
+++
+++	writeback_balance_dirty_pages,
+++
+++	TP_PROTO(struct bdi_writeback *wb,
+++		 struct dirty_throttle_control *dtc,
+++		 unsigned long dirty_ratelimit,
+++		 unsigned long task_ratelimit,
+++		 unsigned long dirtied,
+++		 unsigned long period,
+++		 long pause,
+++		 unsigned long start_time),
+++
+++	TP_ARGS(wb, dtc, dirty_ratelimit, task_ratelimit,
+++		dirtied, period, pause, start_time
+++	),
+++
+++	TP_FIELDS(
+++		ctf_string(bdi, lttng_bdi_dev_name(wb->bdi))
+++		ctf_integer(u64, cgroup_ino, lttng_wb_assign_cgroup(wb))
+++		ctf_integer(unsigned long, limit, dtc->limit)
+++		ctf_integer(unsigned long, setpoint,
+++                    (dtc->limit + (dtc->thresh + dtc->bg_thresh)) / 2)
+++		ctf_integer(unsigned long, dirty, dtc->dirty)
+++		ctf_integer(unsigned long, wb_setpoint,
+++                    ((dtc->limit + (dtc->thresh + dtc->bg_thresh)) / 2)
+++                    * (dtc->wb_thresh / (dtc->thresh + 1)))
+++		ctf_integer(unsigned long, wb_dirty, dtc->wb_dirty)
+++		ctf_integer(unsigned long, dirty_ratelimit,
+++			KBps(dirty_ratelimit))
+++		ctf_integer(unsigned long, task_ratelimit,
+++			KBps(task_ratelimit))
+++		ctf_integer(unsigned long, paused,
+++			(jiffies - start_time) * 1000 / HZ)
+++		ctf_integer(long, pause, pause * 1000 / HZ)
+++		ctf_integer(unsigned long, period,
+++			period * 1000 / HZ)
+++		ctf_integer(long, think,
+++			current->dirty_paused_when == 0 ? 0 :
+++				(long)(jiffies - current->dirty_paused_when) * 1000/HZ)
+++		ctf_integer(unsigned int, dirtied, dirtied)
+++		ctf_integer(unsigned int, dirtied_pause,
+++			current->nr_dirtied_pause)
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,15,0))
++ LTTNG_TRACEPOINT_EVENT_MAP(balance_dirty_pages,
++ 
++ 	writeback_balance_dirty_pages,
++@@ -604,7 +729,21 @@ LTTNG_TRACEPOINT_EVENT_MAP(balance_dirty_pages,
++ )
++ #endif /* else (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,14,2)) */
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,19,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT(writeback_sb_inodes_requeue,
+++
+++	TP_PROTO(struct inode *inode),
+++	TP_ARGS(inode),
+++
+++	TP_FIELDS(
+++		ctf_string(name, lttng_bdi_dev_name(inode_to_bdi(inode)))
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(u64, cgroup_ino, lttng_wb_assign_cgroup(inode_to_wb(inode)))
+++		ctf_integer(unsigned long, state, inode_state_read_once(inode))
+++		ctf_integer(unsigned long, dirtied_when, inode->dirtied_when)
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,19,0))
++ LTTNG_TRACEPOINT_EVENT(writeback_sb_inodes_requeue,
++ 
++ 	TP_PROTO(struct inode *inode),
++@@ -658,7 +797,30 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(writeback_congest_waited_template, writeback_wai
++ 	TP_ARGS(usec_timeout, usec_delayed)
++ )
++ 
++-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,19,0))
+++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0))
+++LTTNG_TRACEPOINT_EVENT_CLASS(writeback_single_inode_template,
+++
+++	TP_PROTO(struct inode *inode,
+++		 struct writeback_control *wbc,
+++		 unsigned long nr_to_write
+++	),
+++
+++	TP_ARGS(inode, wbc, nr_to_write),
+++
+++	TP_FIELDS(
+++		ctf_string(name, lttng_bdi_dev_name(inode_to_bdi(inode)))
+++		ctf_integer(u64, ino, inode->i_ino)
+++		ctf_integer(u64, cgroup_ino, lttng_wbc_assign_cgroup(wbc))
+++		ctf_integer(unsigned long, state, inode_state_read_once(inode))
+++		ctf_integer(unsigned long, dirtied_when, inode->dirtied_when)
+++		ctf_integer(unsigned long, writeback_index,
+++			inode->i_mapping->writeback_index)
+++		ctf_integer(unsigned long, wrote,
+++			nr_to_write - wbc->nr_to_write)
+++		ctf_integer(long, nr_to_write, nr_to_write)
+++	)
+++)
+++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,19,0))
++ LTTNG_TRACEPOINT_EVENT_CLASS(writeback_single_inode_template,
++ 
++ 	TP_PROTO(struct inode *inode,
++@@ -704,6 +866,13 @@ LTTNG_TRACEPOINT_EVENT_CLASS(writeback_single_inode_template,
++ )
++ #endif
++ 
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(writeback_single_inode_template, writeback_single_inode_start,
+++	TP_PROTO(struct inode *inode,
+++		 struct writeback_control *wbc,
+++		 unsigned long nr_to_write),
+++	TP_ARGS(inode, wbc, nr_to_write)
+++)
+++
++ LTTNG_TRACEPOINT_EVENT_INSTANCE(writeback_single_inode_template, writeback_single_inode,
++ 	TP_PROTO(struct inode *inode,
++ 		 struct writeback_control *wbc,
++-- 
++2.43.0
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.14.4.bb b/meta/recipes-kernel/lttng/lttng-modules_2.14.4.bb
+index 722b1ac5dd..6e0cc811b4 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.14.4.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.14.4.bb
+@@ -15,6 +15,14 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+ # Use :append here so that the patch is applied also when using devupstream
+ SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
+                    file://0001-fix-adjust-range-in-btrfs-probe-for-v6.18.14.patch \
++                   file://0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch \
++                   file://0001-fix-hrtimer-Drop-unnecessary-pointer-indirection-in.patch \
++                   file://0001-fix-mm-vmscan-Convert-pageout-to-take-a-folio-v5.18.patch \
++                   file://0001-fix-mm-vmscan-add-cgroup-IDs-to-vmscan-tracepoints-v7.1.patch \
++                   file://0001-fix-vfs-widen-trace-event-i_ino-fields-to-u64-v7.1.patch \
++                   file://0001-fix-treewide-change-inode-i_ino-from-unsigned-long-to-u64-v7.1.patch \
++                   file://0001-fix-ext4-enhance-tracepoints-during-the-folios-writeback-v6.17.patch \
++                   file://0001-fix-ext4-widen-trace-event-i_ino-fields-to-u64-v7.1.patch \
+                 "
+ SRC_URI[sha256sum] = "63deefbc15d9ce7c43d858187533367b01dcb6e8469d6b69ccb757d6d3dbb0ad"
  
- KBRANCH:genericarm64 ?= "v6.18/standard/genericarm64"
--SRCREV_machine:genericarm64 ?= "5cd75b0b5da06045acdd0c66e50656ab82cb880f"
-+SRCREV_machine:genericarm64 ?= "3acde948b7470a96df7e730a2119ffaee380d6b1"
 -- 
 2.43.0
 
