@@ -1,150 +1,105 @@
-Return-Path: <niko.mauno@vaisala.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D11ACD4F54
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 16:57:14 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.98])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15764.1779987423098973562
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BFC8CD5BD5
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 17:03:34 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15711.1779987806945528980
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2026 09:57:04 -0700
+ Thu, 28 May 2026 10:03:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=Va1LyuuO;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: vaisala.com, ip: 40.107.130.98, mailfrom: niko.mauno@vaisala.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pfo1NF/yyP5l8+ZT+2m7kOM+N/i0MjHj9ga95uN6f0w7ZkNCN3dM6g/Bs5nclKVNwkVLngpOUTvlx7cIazqxQwwxoZDMbTd9ppssL7MAz/kuUq1753M7vTUWmWDRxaUJx7jeJ3GGDBGJE4JxFNacH7i5IH608kU8lWqF3W8mOKrf0GkOZyG4JDwmwtpk/5Ue1P05hPQxnuFojISKP7AAz401VhveDcgQY5LRDfbOaeDcHHpcuDpKMHdCuvqKv9m8khedx9rL+ROCuwqkEkOIioYyF9eP/a11zyZO/tb3epdYFiorQAsS8+oJ5JPilvsgLe7Sx/8og5gfMC9D3rom5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tFAq/mdEiZIMPd5ANLrSTuFyOItPODUeBnuURLAx+j0=;
- b=i4SVj30D0X1vafmkd95Lha0lymSd0+teSNP0orMKPDFDBid8L/3Pfx+t3MqJXDVpR6Z5sF7kZXCmglqejEsSQxTOO0s/kXYOiHE73SSxo3wZWxubRqGGFQIR9mvsX9l6fBNmaMaArNQi+KHc758pseeOFImil6YEjFccdJzUGTW9mFNxnYB8ldo/ch11Nm5pUiNQxi5DMIb2bOk19IBEAkWRs2gjWaWsNJUgOHvSwGnrH9xd45HuqPtl7T9asPTi5X6PSAjg+6mvLwFshAgssMNwcD7yhG9liTkBdEusSR4oaV5a0BFOyqVjc6N3OKt99lyPIGe64PMW0oIdMjm92g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
- dkim=pass header.d=vaisala.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tFAq/mdEiZIMPd5ANLrSTuFyOItPODUeBnuURLAx+j0=;
- b=Va1LyuuOLRXnpZSefLVmUDT024kc5ffQbWN2dJZFT3hJK/s2CP5djVcZNuRcA9zupqGUv2z7Sf8Zvzs3fOtlmcCAq4gMnSW4SS4HGECAkEMQrfwFonNcJvAGVpXUtGCCP9Eexj1XRGMKBq6bTda3BdD36DTfPfzM9aVCcFhDihvzhYzOLQOj59Z37TnQG/fN2C3i1GKr8fgUOoolie1aUOl5kmocVgatkrCsGCebjzMKcDq2PcsjdBHDi6jjbAwHw98xLK9rCfsfjbSlrf0PlK/APLwMg8MZxlXx9k6S/2nYMbn0vBXXg26pUAWbv84sMX5JvwMakjZTOU4u8oyuDw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vaisala.com;
-Received: from AS8PR06MB7557.eurprd06.prod.outlook.com (2603:10a6:20b:337::17)
- by PA2PR06MB9712.eurprd06.prod.outlook.com (2603:10a6:102:414::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Thu, 28 May
- 2026 16:56:58 +0000
-Received: from AS8PR06MB7557.eurprd06.prod.outlook.com
- ([fe80::44ca:1bbb:6b57:4c16]) by AS8PR06MB7557.eurprd06.prod.outlook.com
- ([fe80::44ca:1bbb:6b57:4c16%4]) with mapi id 15.21.0071.011; Thu, 28 May 2026
- 16:56:58 +0000
-From: niko.mauno@vaisala.com
-To: openembedded-core@lists.openembedded.org
-CC: richard.purdie@linuxfoundation.org,
-	ross.burton@arm.com,
-	Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCH v2 2/2] sbom-cve-check: Fix breakage with empty IMAGE_LINK_NAME
-Date: Thu, 28 May 2026 19:55:57 +0300
-Message-ID: <20260528165557.19677-2-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260528165557.19677-1-niko.mauno@vaisala.com>
-References: <20260528165557.19677-1-niko.mauno@vaisala.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Xcjw4Ous;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4891e86fabeso38874595e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 10:03:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1779987805; x=1780592605; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=gRPuG7qHnaohvffVA0Jze4ImKnsM1vAzp70gKtmoTGU=;
+        b=Xcjw4OuskTUzgmiBbTLuYRN0ooOTQmdszgD2oOiLcTcV7MyEi6hG7coQcNMK/CO/sO
+         hzkfR31W+cKnl8SjWIJmUH0ECsFEoRR+pP1oTby2KMUo3r34vJQYgn8FoxNawrDMlEhS
+         lNvHpl8aS6xMdwKKQw0jN6zt82LGmkwXNVjvw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779987805; x=1780592605;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gRPuG7qHnaohvffVA0Jze4ImKnsM1vAzp70gKtmoTGU=;
+        b=JCYNsdX34GFkO5YSjbVwdVf5K3OmQ7p+HUsHl+uXnm3YbuIMeqQRVd7ngrxNW+Rmmm
+         2x5HnGgayFNNjjNPNUq/nkTg2OXqqEPpFCl+yQJdyRmZ9RlKc6ulu0tYENOH1NDT750p
+         8F6QCKv0FcBpw+QWJY6SGqEjSGlA5WdD/tnyUjD37bIw9mxuyDZqUwANZBxJQt8zSu0N
+         OZQ9RCBHwLEf6ZmrJ5rODHZCdsA8ZEfkqYqZdBsfYq4BtTjM8vJfMxidPOue3MqscY89
+         MKu89ObQMhU0kHkQBrHUnAtAu/UABDjPNm7QDA4s+/iK5ykZtb+f2tub41BmNbUKS73A
+         OPOA==
+X-Gm-Message-State: AOJu0YwK3Gf3f7A+uMHlLOVnvV43wT4Jy19wkprwHhqjQuGDXsaxjGPW
+	9G6lUyFsepuBv2rNLJ1tx/yiGmWo4QvVeNIQYxEwewGzxuMnIImFedpQe8mQi8YRXBI=
+X-Gm-Gg: Acq92OGqngx8kwysggL9wGg+LWGR+93huMbKjMGfv9l+FInuIRhDrfhMhhkRpspHsTT
+	Z/9wPp86DZOyJV7ZBdx/LZhGDMOZ83bQEcSp9UFNSSm69VIESzRylZcSxIqeshfr1C73BKUoyzd
+	LNSQ+HUXxa8amnBn1nEM2gtfp3Fv3ZdWmGV0qf2ygk/zr82q543aahl/paLwBxUouRYfOGdIuez
+	fYPk55gBZw7gSZPI8v5HgwCW7L/grESAqhQloQVq3B7UoBy2xILoS76aEkDQviLBxicLPBi6w7I
+	osObtFSbc00aY2yASaX9iijLp98iS7n0XciFRikmuV2oU3CPcGAjKmmbZqRh/MviY1msOYBrLJL
+	amxnIqLMhgZJnOKrWOCF6rSDcUyHZk1d8z09Y2jj8H/tBfngIo97/9xcdW+hS8BDpY4Fsvc0qI7
+	XzKohXPN8UGoDuBQGBMnySklndwnHWUBF3vM/g6+AM6FeZZ9wevpKl3IRak54LDb9u150J27HcV
+	r5D1icse1V1M+tSXaROay3a
+X-Received: by 2002:a05:600c:4f91:b0:490:6e12:a40f with SMTP id 5b1f17b1804b1-4906e12a673mr230719345e9.12.1779987794319;
+        Thu, 28 May 2026 10:03:14 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:2db8:3c60:1e4f:5bd? ([2001:8b0:aba:5f3c:2db8:3c60:1e4f:5bd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909236ad1fsm55225815e9.5.2026.05.28.10.03.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 10:03:13 -0700 (PDT)
+Message-ID: <f396af25d398685f31b9b55c079aa9fbb757dc1f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] randtest: retry on unstable sigma instead of
+ tolerating statistical outliers
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Aditya G.S" <adityags2004@gmail.com>, Alexander Kanavin
+	 <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, joaomarcos.costa@bootlin.com, 
+	ross.burton@arm.com, randy.macleod@windriver.com
+Date: Thu, 28 May 2026 18:03:12 +0100
+In-Reply-To: <CAHaUZZAG5d3WsGq_u-Kb4HuHc1u8H21gfcmSay4CxR-uxmE4Fg@mail.gmail.com>
+References: <20260526112501.15985-1-adityags2004@gmail.com>
+	 <CANNYZj-CRdJjU1z-0m8bqfWtS=X_PVzyg8uKS4mcRXMua+ikVQ@mail.gmail.com>
+	 <CAHaUZZAZGRx0H4z5sr8ndJVqjdUk4N9kaSRKp=6-DyX73e0VkQ@mail.gmail.com>
+	 <CANNYZj_T4TDeN0LgrxqO4GZvebhhZx9smKrwN+MFG845z5dMUA@mail.gmail.com>
+	 <CAHaUZZCEHB_OVEpJgbE8tfsKyRP0JjOFBgjRyg54tLdFZY6Wtg@mail.gmail.com>
+	 <CANNYZj-BEjNW54zU6tOQ54BmtK8magKQe7oakp=iOggj6BBk-w@mail.gmail.com>
+	 <CAHaUZZBBwdufvhvggvG=xtoHuOFBZx+ExFGC+s_tK3Q51Qdwgw@mail.gmail.com>
+	 <CAHaUZZAG5d3WsGq_u-Kb4HuHc1u8H21gfcmSay4CxR-uxmE4Fg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: GV2PEPF00023948.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:400::345) To AS8PR06MB7557.eurprd06.prod.outlook.com
- (2603:10a6:20b:337::17)
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR06MB7557:EE_|PA2PR06MB9712:EE_
-X-MS-Office365-Filtering-Correlation-Id: 130d5869-f43b-4ff7-47e3-08debcda2180
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014|18002099003|3023799007|22082099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info: 
-	vqC8taook6KF7wWWUAzcCMzVJtOzn0N8UcQVSo7txv+lCWEEImjD1SWcX3dq2Jpf4WansP6yfX++wh5QYZekAoy7ebcfT7lLpe6TOIYQVH8pjM9mJvJgq2PE2AfeoQZExII9kSxVXx9cMrDrdqGkXuW2EnyL/FdLHuUFd3SDhLYZ36Bx7B+nuJ4850nCZ8QBuSti3zTaETVdBpE1pxq8Tmhg+iQkxYbJ23y6Pqs1guuN4YaML0TYVewUZI4AzTP4wGQvYbYz/PVZUMEwTlg7Sx9fjDlacG19exS5pbLVvC27qovCNZRudJNWvDejeyR94lQKsOOUYN/Y7wpB1hkd/pVJw1bufsGoD977OK/xgIeTaNjmmS6HVHZTiVBFGzRcN6OXHMem8eY+Zuz7z/S43lUGw82ubVeZQLauhzoib+ZK1GjbzVZtbcUQZJi8A+Obi4AJ01l5lDTeFQYraVzQRmFi9jdaPuSJX9qoXUMyvFAuiPOqRVBWKgoOYPxfbEeHDG19BeJiSk5LBFkA6clNkCJLATS65ONyQii/ewkeOwCFkQ4zgYgLJUxMmyE+7mfkf+RFBnDWTVwIECEd2wNd4jE9sT5Jp+yPz81jmpqlZmXdA0TjX3L5QUYuJ5q1TrYvkmlFo5x0IGv98Q8Fnza7OX/froOAXUEm8AfkyN+lvrojqkeUP6H36fjfKtxU9yvTrCssEvlTKV4H2INHF28oZHBVgFg7XjhE5wX+y+9WYoa/mTUzhWUH3y+xdSPfuUMN
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR06MB7557.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014)(18002099003)(3023799007)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?LElVhOu3x7RvJO0yCkDBr3fXWN2B+OhNALd609dn+xwCRzCVg31l45e1OSEq?=
- =?us-ascii?Q?y2WB/3ZTCowupacINQBWKS4B4P9IU08w7Ip/ttkKdRoPs08ug6jN26dNdp7q?=
- =?us-ascii?Q?RAPoE+Wc2bhKjfjwVWY0QqmZl2icqNE62iMHWJ6uEVvXxe3ofdzgMvsqUqej?=
- =?us-ascii?Q?KpMZjc/HyF+SZfiRPRK6xVqTMDqJvUzUYqcVQsu7B4Is5ldVnAVp6MseMMDv?=
- =?us-ascii?Q?/Rzu5oIYSndxH1DJaSwPEwQEydsVjmsfAr2zdCwtKkxbCnDS+So/9cusZNmO?=
- =?us-ascii?Q?NDEiX0z2rJp8Sa7CsaeXfhbO+Y4yeqV7enuUPS9fyDuJoz4DmzyA3L7ULyQD?=
- =?us-ascii?Q?Tmh9t5dyetNPrJlnGJ8C9ooj3O7LOWKuvNqxtcyTAtyTsZK9RAwkZrzB4Dya?=
- =?us-ascii?Q?5/jOP5USGy5UEh8cA1j98+TVf1FphoJAXEKi55KiW7ohz+IDHeYmAf/KnkrT?=
- =?us-ascii?Q?FEJNX4u35eCIPqyBApletKM7GyAWHH88dM7WbgtuI2YWUUw7ZPfIRolwDm5i?=
- =?us-ascii?Q?lKmiKjGyBj0GUZQnlq3jJjinf6U0a+jztoFQryH5hH/lBAkpS8LZUjwud6tG?=
- =?us-ascii?Q?fprkGDS2CvpkznCmO9zSbKru6tiSpidzQPNtE/X7KM5WZZkzO1myMuGXJnU4?=
- =?us-ascii?Q?9iX61CqsNp83S1KpIW4jUij8jKb/n7xAZ0pQQ6TXLS18kUg1k5dw9o4vviN9?=
- =?us-ascii?Q?EvPQHTmksHXZFMfWBPsAtDzhH0X9MdRhRZCp/hzBx3Qe4EWBgnIMzgOjl1Jy?=
- =?us-ascii?Q?AqNWm2abbzZkvvLx3wVJuc13XCnydEfqqE0BD5IJKK6ll7S+01axvOPKjp+j?=
- =?us-ascii?Q?axTn1876Z5olqxwUQi7l99trP/j3BBtxmbCxvnaicQzf6L3r9wJFKXvOmfZ2?=
- =?us-ascii?Q?0byeYeo8d/PuOqq1XdcNm6HPOcVqweDuSOzTHX0KPxDh3sPAvpMJxTvRX9dR?=
- =?us-ascii?Q?1VXYwBos51B5s20jH+C8pdslqL9gtUYWN+xl+J/3/yKIaShxpriUZ2hPx8G+?=
- =?us-ascii?Q?ArbhNV40d2QOibGArHYhNhl7JkRhHO0JVcCUvMl1k/Z11tMEq5/NUmjvXkZT?=
- =?us-ascii?Q?cs4blYK4FIzYzsKz79fLbuL53lxmwUfzGKnjIRFjIbnnqKliVld/GIgRoNaa?=
- =?us-ascii?Q?VMPrV9bCoX6hAioUR1J0f4KNz/HKhOoEfld7bQ4QWjTz4cXeqf4hRJAB/C/h?=
- =?us-ascii?Q?FFHPha7cmsqjMJtuQu33hzJuefMcSRxe620CtWCPH++Ajo+NDCiIhFJMHZ7t?=
- =?us-ascii?Q?SL9JeRoS0Cbmjl7ohjHfGccmP5hrHSoJKYCebYh8UUAM5O2KUaxd/+7Itr7N?=
- =?us-ascii?Q?plXVdaOTBe5/34wm6AyP6CLGov5Q4yTUrx7r6UO2XdVjAmTsBTRIU32zH6ph?=
- =?us-ascii?Q?XwmsrTFaF+vub/DxAdeJnW5zL/H2M2YDk+/l3HEnmciDgG2Wr+iL0abtmRNd?=
- =?us-ascii?Q?rN+CDA0irEbiLv51Euqfz9SYpCABAd/iLz6qJv3Yptfvh9wXvw+SLLI1+/VW?=
- =?us-ascii?Q?NIycunE2M3ZT85Kb+v0wCM/DOhO++vbZy3u5SsYYHHqcpxwZc2ND1J55xf8v?=
- =?us-ascii?Q?ITDl3JSNn481rMTuL8RqVORYDNCs8VI0II6r27ccbCG+tHQawLFOmwyUkhxu?=
- =?us-ascii?Q?nXtlBaamW35933cOBtCjJyv9FvZMaU/QNdxOwQA7J4k7buhNgJatwqpNxS3/?=
- =?us-ascii?Q?zEPu5QDDezvJe/sLPlCWjo7768It38oUvNQ6PYHG8Y2CyGyY2rznFu0Ki5fz?=
- =?us-ascii?Q?1gWkmV5bkw=3D=3D?=
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 130d5869-f43b-4ff7-47e3-08debcda2180
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR06MB7557.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 16:56:58.6344
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KE3vsWF7lhGbbJNjVNKrHmuDndNmi/lQ3JmvkeoKBRdpKORHtgP4gi5jxLNraNdint0FI1ZWIX+5kP5ZKqCpew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR06MB9712
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 16:57:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237716
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 17:03:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237717
 
-From: Niko Mauno <niko.mauno@vaisala.com>
+On Thu, 2026-05-28 at 20:43 +0530, Aditya G.S wrote:
+> I wanted to provide an update on this issue.
+>=20
+> The proposed fix has now been accepted upstream by the gawk
+> maintainer.
+>=20
+> The changes to randtest.sh have been reviewed and integrated into the
+> upstream repository, with appropriate updates to the original file
+> and test/ChangeLog.
+>=20
+> Given that the root cause has now been addressed upstream, this issue
+> can be resolved in oe-core by backporting the corresponding upstream
+> fix, rather than relying on a workaround such as skipping the test.
+>=20
+> Please let me know if you would like me to prepare a backport patch
+> for oe-core based on the upstream changes.
 
-Avoid following build breakage:
+Big thanks and kudos for getting it sorted upstream!
 
-  sbom-cve-check: error: [Errno 2] No such file or directory: '/build/layer=
-s/openembedded-core/build/tmp/deploy/images/qemuarm/.spdx.json'
+We would happily take a backport patch.
 
-when IMAGE_LINK_NAME is set as empty string, by changing the reference
-to IMAGE_NAME instead.
+Cheers,
 
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
----
- meta/classes-recipe/sbom-cve-check.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes-recipe/sbom-cve-check.bbclass b/meta/classes-reci=
-pe/sbom-cve-check.bbclass
-index fe145a2212..451595f1d7 100644
---- a/meta/classes-recipe/sbom-cve-check.bbclass
-+++ b/meta/classes-recipe/sbom-cve-check.bbclass
-@@ -14,7 +14,7 @@ python do_sbom_cve_check() {
-     """
-     Task: Run sbom-cve-check analysis on SBOM.
-     """
--    sbom_path =3D d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.spdx.js=
-on")
-+    sbom_path =3D d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.spdx.json")
-     image_name =3D d.getVar("IMAGE_NAME")
-     link_name =3D d.getVar("IMAGE_LINK_NAME")
-     run_sbom_cve_check(d, sbom_path, image_name, link_name)
---=20
-2.47.3
-
+Richard
 
