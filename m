@@ -1,181 +1,261 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <hjadon@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F758CD4F54
-	for <webhook@archiver.kernel.org>; Wed, 27 May 2026 21:37:53 +0000 (UTC)
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24119.1779898288802738363
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 471C7CD5BD0
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 01:12:54 +0000 (UTC)
+Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1695.1779930769443608912
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2026 09:11:29 -0700
+ Wed, 27 May 2026 18:12:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=gZwCpiEr;
- spf=pass (domain: linaro.org, ip: 209.85.218.68, mailfrom: philmd@linaro.org)
-Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-bcda7765d64so2283516466b.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 09:11:28 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=akICfHe9;
+ spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: hjadon@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1779898287; x=1780503087; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QZ9icj8U2oUrhfiyWyMoXmG0eQ1NR4A4IyCicqqTDc0=;
-        b=gZwCpiErnDKh0b7n4KCd0C75uTVc0x/1LyPUfiXaRXKBA2Uf/nETK9VmIlV3MrPV1Q
-         ROH5f0MdqJ0Oz6sSFVpNOPWqtuDB1l9zoxvVTvfso9rIbubLDwJQZUQR1zZjE/CcsyjM
-         T1BvIuIXKOCX4BgwyaF5f+D7AYXYiC1FRuxu/k1gKH31zTr/jl/EqB/TPp7+t6D9halF
-         uuEZEJbebVSWaBrARl7zEQdbjTZgG0ELmL8OVfhByRtWLBy+MXkss2YkGnNixUBbd6Xe
-         4uIUfjkajgKC1xkhdj00U46pK1YhPmPA5VHmouUPRqPEJ09IG10aMafAMtEpUDpTYMUc
-         er6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779898287; x=1780503087;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QZ9icj8U2oUrhfiyWyMoXmG0eQ1NR4A4IyCicqqTDc0=;
-        b=nneLoUVjr6kbA8tyqvzgBA1icp3dUFOZE185pH5ZTxZP3Q/+pUryekP7E0M7p0VtCu
-         161AUvmir7ZgcPftVD2A/IqKLxwtBh5P6FWL18u9wwSz8QbpuguV1VVshjuFqGbHd0FF
-         VHlm4ksP1QPKz8evqsk/apnAy8cKYvS32sFJOr8XGa7baJyzCm2eDWqXqAo01KEkmKjK
-         HO8sTmh9x/tVMUcIb9krt9UvVnj4TUjU+tF9+0P2ROLQLaSDj8Whfh8n48j2spZB2/S/
-         7NIB0ynitG6poVeHI6mhdeCbk+yQ90pVBZHwGJH1GJTbA9IIlLLKzkHFrYLUH2rGD86E
-         2tQg==
-X-Forwarded-Encrypted: i=1; AFNElJ//UPVqnnT/RykVJNsb26XoTROCqSWph3xpZnFglr9ghjdDGgvxnFMhBF+ZS3Tx+qxbmJ2nkN46XpWPEQoR978cbw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy6b6eGig12wx9k20rjpzVSniC+AxK2pRApS14ZEphdGZfUpQL3
-	Onu8GsLDIknYd3WV0+FuPSJ3SG8XPLCvov2wUIUHLojsGRZJefH53ULPdYQBjMd3UMJuYtngHgs
-	DnBdISWJiein7
-X-Gm-Gg: Acq92OHWxlBFeTan3GEizjtZR4Y2BMQCj4tbm80KjNCjyi1UNDdMac7zz+Qsdm6n66p
-	FmORogNlNYqP20HHYxgLu4felE2Jms9tpuUzZEap+0kRLEItXd4LkRO4SKQtf/+5QnWufcwozo7
-	rjZK65FKnphubD6M3MF4obIhjziY0Aiy1xfrwsQqNxQbtcy8HLONNj09fAFANc1/OWkRH8uW6zO
-	yVSTAhqs0XkMIbQgvSvGqo2zzQD7Bu95dLp0bsAODPKlr6dwsrb+C2LbgLfhepSG1Cy32RDCDyx
-	AMRC0e3qUYoLgA8QCxb12bjScCHvvBze+qnnfhpm0YWBTgZ9ouk2h/GhwC5lGVAZwZHqUaDL26V
-	twOP91+WpOjvH/D+0O3Mkcu+oHq7+n3znfPhlEZyfARC67/b8N+JZSid85u82H0PxPIiPsgEeSY
-	738l4C5b08F/mRw9jKE5DUeHR9RU0gxJuZb6Vi3UQxy7NfU97OjvsL5uMgBEwXU0uSr2N6ujbXI
-	9ll
-X-Received: by 2002:a05:600c:c4a4:b0:485:3c2e:60d5 with SMTP id 5b1f17b1804b1-4904225fbdamr355110835e9.2.1779897804193;
-        Wed, 27 May 2026 09:03:24 -0700 (PDT)
-Received: from [192.168.69.207] (88-187-86-199.subs.proxad.net. [88.187.86.199])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490454c5eb0sm434332355e9.2.2026.05.27.09.03.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 May 2026 09:03:22 -0700 (PDT)
-Message-ID: <7d411adb-fee0-4951-8b73-e3a39d269a52@linaro.org>
-Date: Wed, 27 May 2026 18:03:21 +0200
+  d=cisco.com; i=@cisco.com; l=7764; q=dns/txt;
+  s=iport01; t=1779930769; x=1781140369;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qdcL39SGWrFDSWphVnwjAmkEUuOu6qNbncbK0fwa6PI=;
+  b=akICfHe9qqzUQyVjbyjomV0MAb9hDukRwm/J9hqERdpoXlf404JB0dMi
+   Bnqh9OHJtwCV0ff6ODksSmW/hZ9PXpclvbHtoB5V6Z6XBCa1NUx4zOhAy
+   5I2TGfjF9wDjyG9/iontFT10LpGL//aoMnvHx9/4/8fS/PySdQ/sAHqWg
+   vexQowQeYkjGn75GfKIlEheztc8Mgk1Udh+l8zKi2E3NqKAPE7tgCLWjW
+   r33F2JEGo/6jO5ZXNs4tFyCnKhTr9NH+FqQukypiDS64C3Nur58GvCJUz
+   z7NkFi6oAPdk02io0uuCIo4pXLswN3IsKCOV1stC4hNzOh3pMSSfCLILN
+   g==;
+X-CSE-ConnectionGUID: ATH5g7YTTZuT3L4uOHSEMA==
+X-CSE-MsgGUID: G/yhG4cOSISlArG1F0lM1Q==
+X-IPAS-Result: =?us-ascii?q?A0AaAADalRdq/43/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
+ =?us-ascii?q?AcBAQsBghc/cl5DSYxziVieHoEkA1cPAQEBD0QNBAEBhQaNNAImNAkOAQIEA?=
+ =?us-ascii?q?wIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZPDYZaAQIBNQFGLAMBAlojI?=
+ =?us-ascii?q?YMCAYJzAxEGswWCLIEBgmaCF9soAQsUAYE4AYU+iB1bGYNcgR8nGxuBcoR9g?=
+ =?us-ascii?q?QUBgVsCAhiBDYZ9BIIigQyBXYM0igdIgR4DWSwBVRMNCgsHBYFmAzUSKhVuM?=
+ =?us-ascii?q?h2BIz4XgQsbBwWBS3ZyaoEFhRgjJgNOgS2Bf3ADCxgNSBEsNxQbBD5uB4p/G?=
+ =?us-ascii?q?g+BZkwBPRs2AQckIGUTA3AJGCSjMYIhnkqBBoE+CiiDdIwhlToaM4VbpRCZB?=
+ =?us-ascii?q?o4JlWdohGiBaDw5gSBwFTuCZwlKGQ+OOIEfAQKCSYQHgQzFUCcyCzIBAQcCB?=
+ =?us-ascii?q?w4DC4FokAACJgeBTgEB?=
+IronPort-Data: A9a23:SVI5R6tFLw+Dl70mIDZZV6dyLefnVAFfMUV32f8akzHdYApBsoF/q
+ tZmKT+GPqrfM2Xwe49zO9iz80xX7ZDWzNFrHlc6/yA0Ei4agMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZDdJ5xYuajhKs//Z90s11BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw09pXXG4Rx
+ MAkGi0xNTTfmsWW+5+eY7w57igjBJGD0II3oHpsy3TdSP0hW52GG/mM7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwtOYH49tL/Aan3Xcz9RpFWTjaE2+GPUigd21dABNfKJKoLaH5kOwRjwS
+ mTu0CPoAj5GP/uk6AGB22iD38GXmQaiYddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cEnhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Oxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:PpoNH64zRICRes8UCgPXwP7XdLJyesId70hD6qm+c3Nom6uj5q
+ WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBPPZsl7dMhy70PJB3q
+ F9dKU7ItjxAV9myfve2mCDYrIdKB3tytHPuQ8YpE0dKj1XVw==
+X-Talos-CUID: =?us-ascii?q?9a23=3AmBNX32t11CvEtH8uqN7l+Xij6IsMTl2AwyjhH3O?=
+ =?us-ascii?q?KFFoybOGIbn+r1YZNxp8=3D?=
+X-Talos-MUID: 9a23:JnpU3gQ5D+paIBHERXTDwyBiG5tjxJ+PM0Qki7pflZGAEHVJbmI=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.24,172,1774310400"; 
+   d="scan'208";a="486824376"
+Received: from rcdn-l-core-04.cisco.com ([173.37.255.141])
+  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 May 2026 01:12:48 +0000
+Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-04.cisco.com (Postfix) with ESMTPS id 51F2C180005C3;
+	Thu, 28 May 2026 01:12:48 +0000 (GMT)
+Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
+	id E8429CC1288; Wed, 27 May 2026 18:12:47 -0700 (PDT)
+From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: vchavda@cisco.com
+Subject: [OE-core] [scarthgap] [PATCH] go: split CVE-2025-61726 regression fix
+Date: Wed, 27 May 2026 18:12:39 -0700
+Message-Id: <20260528011239.528751-1-hjadon@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH] qemu: upgrade 10.2.0 -> 11.0.0
-To: Quan.Sun@windriver.com, openembedded-core@lists.openembedded.org
-References: <20260526191937.3144814-1-Quan.Sun@windriver.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-In-Reply-To: <20260526191937.3144814-1-Quan.Sun@windriver.com>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-21441.cisco.com [10.128.164.182];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
+X-Outbound-Node: rcdn-l-core-04.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 21:37:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237674
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 01:12:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237675
 
-Hi,
+From: Himanshu Jadon <hjadon@cisco.com>
 
-On 26/5/26 21:19, Quan Sun via lists.openembedded.org wrote:
-> From: Quan Sun <Quan.Sun@windriver.com>
-> 
-> Upgrade QEMU to version 11.0.0.
-> 
-> Main changes:
-> 
-> - Add python3-qemu-qmp recipe (0.0.6) as a separate package. The QMP
->    Python library was removed from the QEMU source tree in 11.0.0 and
->    split into its own upstream project. This is needed by
->    qemu-system-native for testimage integration.
->    Add an entry for this recipe in maintainers.inc.
-> 
-> - QEMU 11.0.0 has officially dropped all support for 32-bit host systems.
->    This includes the ability to build the system emulator (softmmu) on
->    any 32-bit host architecture. Add COMPATIBLE_HOST for class-target and
->    class-nativesdk to restrict builds to 64-bit architectures.
->    Note: QEMU 11.0.0 still supports emulating 32-bit guest architectures
->    (such as qemu-system-i386 or qemu-system-arm) as long as they are
->    running on a 64-bit host.
-> 
-> - qemu-targets.inc: skip linux-user targets when HOST_ARCH is not in the
->    set of architectures supported by QEMU 11.0.0's linux-user mode
->    (64-bit only: aarch64, loongarch64, mips64, ppc64, riscv64, s390x,
->    sparc64, x86_64).
-> 
-> - Add --cpu=${TUNE_ARCH} to EXTRA_OECONF for class-target, and add
->    --cpu=${SDK_ARCH} to nativesdk configure options to fix build
->    failure. QEMU 11's configure script falls back to 'uname -m' (x86_64)
->    when it cannot detect the host CPU.
-> 
-> - Add 0012-meson-fix-close_range-detection-on-older-glibc.patch:
->    the meson has_function('close_range') check succeeds at link time on
->    hosts with kernel >= 5.9 even when glibc < 2.34 does not declare the
->    function, causing implicit declaration errors. Add a prefix include
->    so the check only succeeds when the header declares close_range().
-> 
-> - Add 0013-hw-scsi-vhost-scsi-include-standard-headers-for-vhost-worker-structs.patch:
->    on build hosts with kernel headers < 6.0, vhost-scsi.c fails to
->    compile due to missing struct vhost_vring_worker/vhost_worker_state.
->    Include QEMU's bundled standard-headers before the system header,
->    matching the pattern already used in hw/virtio/vhost-backend.c.
-> 
-> - Drop fix-strerrorname_np.patch (fixed upstream).
->    Drop 0001-linux-user-elfload.c-Correction-to-HWCAP2-accessor.patch
->    (fixed upstream).
->    Drop 0001-accel-tcg-Fix-iotlb_to_section-for-different-Address.patch
->    (fixed upstream).
-> 
-> AI-Generated: kiro-cli
-> 
-> Signed-off-by: Quan Sun <Quan.Sun@windriver.com>
-> ---
->   meta/conf/distro/include/maintainers.inc      |   1 +
->   .../qemu/python3-qemu-qmp_0.0.6.bb            |  28 ++
->   ...native_10.2.0.bb => qemu-native_11.0.0.bb} |   1 -
->   ...10.2.0.bb => qemu-system-native_11.0.0.bb} |   7 +-
->   meta/recipes-devtools/qemu/qemu-targets.inc   |   4 +
->   meta/recipes-devtools/qemu/qemu.inc           |  26 +-
->   ...tlb_to_section-for-different-Address.patch | 274 ------------------
->   ...load.c-Correction-to-HWCAP2-accessor.patch |  42 ---
->   ...n-environment-space-to-boot-loader-q.patch |   8 +-
->   .../0002-apic-fixup-fallthrough-to-PIC.patch  |   6 +-
->   ...mu-Do-not-include-file-if-not-exists.patch |   6 +-
->   ...er-space-mmap-tweaks-to-address-musl.patch |  24 +-
->   .../qemu/0006-qemu-Determinism-fixes.patch    |   4 +-
->   ...d-use-relative-path-to-refer-to-file.patch |   6 +-
->   ...and-MAP_SHARED_VALIDATE-on-needed-li.patch |   2 +-
->   ...gure-lookup-meson-exutable-from-PATH.patch |  10 +-
->   ...and-the-python-venv-aren-t-used-for-.patch |  10 +-
->   ...close_range-detection-on-older-glibc.patch |  36 +++
->   ...ard-headers-for-vhost-worker-structs.patch |  35 +++
->   .../qemu/qemu/fix-strerrorname_np.patch       |  35 ---
->   .../qemu/{qemu_10.2.0.bb => qemu_11.0.0.bb}   |   0
->   21 files changed, 154 insertions(+), 411 deletions(-)
->   create mode 100644 meta/recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb
->   rename meta/recipes-devtools/qemu/{qemu-native_10.2.0.bb => qemu-native_11.0.0.bb} (99%)
->   rename meta/recipes-devtools/qemu/{qemu-system-native_10.2.0.bb => qemu-system-native_11.0.0.bb} (85%)
->   delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-accel-tcg-Fix-iotlb_to_section-for-different-Address.patch
->   delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-elfload.c-Correction-to-HWCAP2-accessor.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/0012-meson-fix-close_range-detection-on-older-glibc.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/0013-hw-scsi-vhost-scsi-include-standard-headers-for-vhost-worker-structs.patch
->   delete mode 100644 meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
->   rename meta/recipes-devtools/qemu/{qemu_10.2.0.bb => qemu_11.0.0.bb} (100%)
+Restore the originally submitted CVE backport and carry the ordering
+correction fix separately for internal/godebugs.All as a separate
+regression patch. This keeps the security backport easier to audit and
+makes the follow-up fix explicit.
 
+The ordering issue was introduced when the existing backport patch was
+modified by commit [1]. The same change also dropped zipinsecurepath
+from the patch hunk context. Restore the original hunk context and keep
+the ordering correction as a separate follow-up patch.
 
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-> index 5f30416a48..f61f43de4b 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -4,6 +4,7 @@ machine's processor through dynamic binary translation and provides a set \
->   of different hardware and device models for the machine, enabling it to run \
->   a variety of guest operating systems"
->   HOMEPAGE = "http://qemu.org"
-> +BUGTRACKER = "https://gitlab.com/qemu-project/qemu/-/issues"
+Keep the regression patch immediately after CVE-2025-61726.patch in
+SRC_URI because it is a direct fixup for that patch in the same file and
+hunk area. This is safe because no later Go patch in the current stack
+modifies src/internal/godebugs/table.go, so placing the fixup here makes
+the dependency explicit without interfering with later validated patches.
 
-Now https://gitlab.com/qemu-project/qemu/-/work_items ;)
-(there is a temporary redirect anyway).
+[1] https://git.openembedded.org/openembedded-core/commit/?id=b670b11ff4845b64f861041681ace9c21db16eed
 
-Patch LGTM otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+---
+ meta/recipes-devtools/go/go-1.22.12.inc       |  1 +
+ .../go/go/CVE-2025-61726-regression.patch     | 49 +++++++++++++++++++
+ .../go/go/CVE-2025-61726.patch                | 21 ++++----
+ 3 files changed, 60 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61726-regression.patch
+
+diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
+index 3fa421e223..c095e54fbb 100644
+--- a/meta/recipes-devtools/go/go-1.22.12.inc
++++ b/meta/recipes-devtools/go/go-1.22.12.inc
+@@ -33,6 +33,7 @@ SRC_URI += "\
+     file://CVE-2025-61729.patch \
+     file://CVE-2025-61730.patch \
+     file://CVE-2025-61726.patch \
++    file://CVE-2025-61726-regression.patch \
+     file://CVE-2025-61728.patch \
+     file://CVE-2025-61731.patch \
+     file://CVE-2025-68119-dependent.patch \
+diff --git a/meta/recipes-devtools/go/go/CVE-2025-61726-regression.patch b/meta/recipes-devtools/go/go/CVE-2025-61726-regression.patch
+new file mode 100644
+index 0000000000..bb2b5ac439
+--- /dev/null
++++ b/meta/recipes-devtools/go/go/CVE-2025-61726-regression.patch
+@@ -0,0 +1,49 @@
++From a92d36cef2c1838e58dd1ec51bd147bd94e916fc Mon Sep 17 00:00:00 2001
++From: Himanshu Jadon <hjadon@cisco.com>
++Date: Thu, 14 May 2026 05:40:12 -0700
++Subject: [PATCH] go: Fix CVE-2025-61726.patch variable ordering
++
++The backported CVE-2025-61726 patch introduced a regression in
++src/internal/godebugs/table.go by adding urlmaxqueryparams out of
++alphabetical order.
++
++From Go's source code[1], the All table from godebugs must be populated
++alphabetically by Name, and Lookup[2] uses binary search to find the
++variable.
++
++The wrong ordering caused Lookup to return nil for urlmaxqueryparams,
++which triggered runtime failures.
++
++Fix this by moving urlmaxqueryparams before x509sha1.
++
++This change was validated with docker-moby (original issue), where a
++container ran successfully and no traces were observed in the logs.
++
++[1] https://github.com/golang/go/blob/master/src/internal/godebugs/table.go#L20
++[2] https://github.com/golang/go/blob/master/src/internal/godebugs/table.go#L100
++
++CVE: CVE-2025-61726
++Upstream-Status: Inappropriate [OE-specific backport ordering fix]
++
++Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
++Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
++---
++ src/internal/godebugs/table.go | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/internal/godebugs/table.go b/src/internal/godebugs/table.go
++index 4ae0430..7178df6 100644
++--- a/src/internal/godebugs/table.go
+++++ b/src/internal/godebugs/table.go
++@@ -51,8 +51,8 @@ var All = []Info{
++ 	{Name: "tlsmaxrsasize", Package: "crypto/tls"},
++ 	{Name: "tlsrsakex", Package: "crypto/tls", Changed: 22, Old: "1"},
++ 	{Name: "tlsunsafeekm", Package: "crypto/tls", Changed: 22, Old: "1"},
++-	{Name: "x509sha1", Package: "crypto/x509"},
++ 	{Name: "urlmaxqueryparams", Package: "net/url", Changed: 24, Old: "0"},
+++	{Name: "x509sha1", Package: "crypto/x509"},
++ 	{Name: "x509usefallbackroots", Package: "crypto/x509"},
++ 	{Name: "x509usepolicies", Package: "crypto/x509"},
++ 	{Name: "zipinsecurepath", Package: "archive/zip"},
++-- 
++2.35.6
+diff --git a/meta/recipes-devtools/go/go/CVE-2025-61726.patch b/meta/recipes-devtools/go/go/CVE-2025-61726.patch
+index bdd10bc933..ab053ff55c 100644
+--- a/meta/recipes-devtools/go/go/CVE-2025-61726.patch
++++ b/meta/recipes-devtools/go/go/CVE-2025-61726.patch
+@@ -1,4 +1,4 @@
+-From bf06767a9ac737387eee77c7eedd67c65e853ac2 Mon Sep 17 00:00:00 2001
++From 85050ca6146f3edb50ded0a352ab9edbd635effc Mon Sep 17 00:00:00 2001
+ From: Damien Neil <dneil@google.com>
+ Date: Mon, 3 Nov 2025 14:28:47 -0800
+ Subject: [PATCH] [release-branch.go1.24] net/url: add urlmaxqueryparams
+@@ -36,7 +36,6 @@ Reviewed-by: Junyang Shao <shaojunyang@google.com>
+ TryBot-Bypass: Michael Pratt <mpratt@google.com>
+ (cherry picked from commit 85c794ddce26a092b0ea68d0fca79028b5069d5a)
+ Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+-Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
+ ---
+  doc/godebug.md                 |  7 +++++
+  src/internal/godebugs/table.go |  1 +
+@@ -46,7 +45,7 @@ Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
+  5 files changed, 85 insertions(+)
+ 
+ diff --git a/doc/godebug.md b/doc/godebug.md
+-index ae4f057..635597e 100644
++index ae4f0576b4..635597ea42 100644
+ --- a/doc/godebug.md
+ +++ b/doc/godebug.md
+ @@ -126,6 +126,13 @@ for example,
+@@ -64,19 +63,19 @@ index ae4f057..635597e 100644
+  to concerns around VCS injection attacks. This behavior can be renabled with the
+  setting `allowmultiplevcs=1`.
+ diff --git a/src/internal/godebugs/table.go b/src/internal/godebugs/table.go
+-index 33dcd81..7178df6 100644
++index 33dcd81fc3..4ae043053c 100644
+ --- a/src/internal/godebugs/table.go
+ +++ b/src/internal/godebugs/table.go
+-@@ -51,6 +51,7 @@ var All = []Info{
+-	{Name: "tlsmaxrsasize", Package: "crypto/tls"},
++@@ -52,6 +52,7 @@ var All = []Info{
+ 	{Name: "tlsrsakex", Package: "crypto/tls", Changed: 22, Old: "1"},
+ 	{Name: "tlsunsafeekm", Package: "crypto/tls", Changed: 22, Old: "1"},
+-+	{Name: "urlmaxqueryparams", Package: "net/url", Changed: 24, Old: "0"},
+ 	{Name: "x509sha1", Package: "crypto/x509"},
+++	{Name: "urlmaxqueryparams", Package: "net/url", Changed: 24, Old: "0"},
+ 	{Name: "x509usefallbackroots", Package: "crypto/x509"},
+ 	{Name: "x509usepolicies", Package: "crypto/x509"},
++	{Name: "zipinsecurepath", Package: "archive/zip"},
+ diff --git a/src/net/url/url.go b/src/net/url/url.go
+-index d2ae032..cdca468 100644
++index d2ae03232f..5219e3c130 100644
+ --- a/src/net/url/url.go
+ +++ b/src/net/url/url.go
+ @@ -13,6 +13,7 @@ package url
+@@ -119,7 +118,7 @@ index d2ae032..cdca468 100644
+ 		var key string
+ 		key, query, _ = strings.Cut(query, "&")
+ diff --git a/src/net/url/url_test.go b/src/net/url/url_test.go
+-index fef236e..b2f8bd9 100644
++index fef236e40a..b2f8bd95fc 100644
+ --- a/src/net/url/url_test.go
+ +++ b/src/net/url/url_test.go
+ @@ -1488,6 +1488,54 @@ func TestParseQuery(t *testing.T) {
+@@ -178,7 +177,7 @@ index fef236e..b2f8bd9 100644
+ 	url *URL
+ 	out string
+ diff --git a/src/runtime/metrics/doc.go b/src/runtime/metrics/doc.go
+-index 517ec0e..88d6d8c 100644
++index 517ec0e0a4..335f7873b3 100644
+ --- a/src/runtime/metrics/doc.go
+ +++ b/src/runtime/metrics/doc.go
+ @@ -328,6 +328,11 @@ Below is the full list of supported metrics, ordered lexicographically.
+@@ -194,4 +193,4 @@ index 517ec0e..88d6d8c 100644
+ 		The number of non-default behaviors executed by the crypto/x509
+ 		package due to a non-default GODEBUG=x509sha1=... setting.
+ --
+-2.34.1
++2.35.6
+-- 
+2.35.6
 
 
