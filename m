@@ -2,232 +2,244 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10F44CD4F54
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 21:18:16 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18013.1779993976017712065
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F196CD5BD5
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 21:18:36 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17850.1779993884068689655
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2026 11:46:16 -0700
+ Thu, 28 May 2026 11:44:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=V4NWp8fY;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: adityags2004@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-38e97e73234so19518001fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 11:46:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779993974; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eofbVBvUmRSki6g/tpwH/4VJ2IPAOAm9dt/9D6Wjs4jRTLR18xxNxdxLuwVOSJYCqQ
-         UEl/Ij1tL1QIJrcNEu0Xr01q2ECTAfpnZgpcBWaWTWog3p5ogB/VKQm5tP1JKRIfWB1t
-         KD4qdwYtcAEvRTQ9p03cB6tEzv9wH/vAZGaiwr+/OxeR3T3SOtYBeQ8KYorAo8eVlBQ2
-         aXNqNPyrpetmnA1dxO11hBDPxdor3nRKrOu1uyrk0d99x/kQV2o5N3SwY4dwGHbt2v4d
-         yGHWsE1+B24vZ2JLdimfQZ4v0JRTnasII0Vf2Sxbbx5MyeXc+BEemuATBMV7VLJsn8zX
-         8TQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=HxHXE4WhAiarh3s1u/bIytF84LBQs6D4WBGvzbyF5NY=;
-        fh=Ug+utZakG8cDypuyc3isAGmUAtkXdDk5XYoisK59YNI=;
-        b=Wp9VZ4f/Indbi4t74gJkZ3s4StDKSJUBL7SGn3A34V592ZpU+zxuvxU59lZ7Z9QM4K
-         wFSYiA8mWUAbAfFfvdXiIujgl0x2ksLmXSezdTOB+pZ2XwkSwbt007yWAXasGY1p4TKk
-         WDH26Yx/aJ/vbAdlCp7wS8hSbIbl0GFZ7gCcoA7YvR25k6BeLIMIb18aK6EMAH6rUDM8
-         JmvfWrfXNqYt0//EZdk0QwvDuYChR0LgGtHjmmrW3XWZckUd1g87/oZlbIvnOegVRQmr
-         0EliZJe4rzUnX1nT3TxYlh4fhXKJg/p6kMiOa8iCA1X3CfXOUbrGOMsrdg3u4nQeMa8O
-         Hs5w==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=kpzTEGr2;
+ spf=pass (domain: gmail.com, ip: 209.85.215.179, mailfrom: adityags2004@gmail.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c8561fcb680so542266a12.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 11:44:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779993974; x=1780598774; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HxHXE4WhAiarh3s1u/bIytF84LBQs6D4WBGvzbyF5NY=;
-        b=V4NWp8fYiFaCI+A6C9qofGLAlgckshjCgMqs+Sa9sNzEblC9KQRhAu5C8VyRZtLlb+
-         M2UfEWOHogItrmZUmGbf7x8KzLkKNQhCV4PxCe126K9gvoJBSHdyiEDwTyALva2cKSCo
-         08oLISMLffVfNyu2MHHULcGy2+bEfZBaoiD+bE0OpULl7qEyOM4IeCyUUqvvA+9aioyI
-         xLV+4L5178pI3aaQ/y3ZoShpQoW+2TqBjkgFz2iPoTq3Q6+2LpjltgnA592eekxYgnBS
-         9iplE+0vV7OsP+auPy7MuoZeDa8uTeSIPvE46F5uV2WqDXbC6X/pByhPlObSLJK+VKyv
-         mI5g==
+        d=gmail.com; s=20251104; t=1779993883; x=1780598683; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RZeorqHyYYNr/Mjy+7AwxsbaSEsCTPiV07Lpa0c3cDk=;
+        b=kpzTEGr2OiG98k8XOX4c8pIBJS+xjuGqkdw5vGi9M9HLuJzAQAaxbjLTzZNZes82Hl
+         FjsjFwBElj4YA5aGlv8QWwzrDjii+ySVtgdh+631taD6PM9plwMZ6kSqUgSUy/gJ32iR
+         TStCKRtwDNbtdsC9Beel7h7ynLr1G1AAq7CgA323gFF/kzMJ1XjpQHg7fwVdhK5sja9y
+         uxEFQXurvHZoDca0Ik1uus9792QzacbCpSODkHqD1VNryVtrYCnwZ2u09EhWQHABwGPg
+         BvoxW/iIA4ItGz3jBlUyroKoA9FgM8P4mbZuU+yMOFafTUmlNSUmzcVTeILg6WkWmc0a
+         0C9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779993974; x=1780598774;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1779993883; x=1780598683;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HxHXE4WhAiarh3s1u/bIytF84LBQs6D4WBGvzbyF5NY=;
-        b=h7BAhcU+FfTLAeJm/HvDPhHN/F5T8+mWO/X0Cn8yeQZCpTp0pbla/WPUTM/wlgLcOL
-         dA4cM0UHU2tF2J/f+Wtx1v46tsTn7z/5Cbg0uhMmRaAfToEXK06HlflCSmrnT1w5Ls0C
-         jgrFTRRnmxBnVnt9H/pkPphZ669iEmSaBdeOxHq2wI4vO2jc5CX5N9V/JyaqdjGqVGcO
-         tyf16pWJqVBxd7tG7vNoQ4gWBmw8WUrNekb6DrBFVTWqsJlSyEYBlBBUb8aMYsHmG1yc
-         U8wPDtE4xRuccgM20Qr5AgUNHd6qrfa9D9UW0xbm5V86KKbkofGWa3pxPw++dD6VFpmr
-         Dtzg==
-X-Gm-Message-State: AOJu0YyfAb9nFLZulRf8OrVgPLQWb85va2VUeJnlN/HhsAH+UIiacZTZ
-	E7F+qur5JVy9WMCpfZfuIEOiqyuF4iV1h2E+LyV14w2DyOXM6BnrTfqmHTu17mXmGDIefEW64nt
-	fTSQ5pYDWyoU1vCIkwfl1WAa0HBsTK2o=
-X-Gm-Gg: Acq92OGa7owGAMo2w1hafVfXas+j0eMGoxKA7JfmDVEwcYW+P4sqKOR/Dn38Z5F9lIp
-	kcjDbAZHlz1Z2wRh8dZ5npnKIX1mv81dAcJoNzEVXzi8PaKSExBNqIGqolk2R6VTBObMOeicUhD
-	0FdkRw8mdpJmtx5bLPRXs7twhsfjxrYIQhl/z3Rzj42TBzE46zdHkdchIzqUNqvrT0TSMj6Sryk
-	dSTCtPUyZ7LdIU7bu7ZFdcO4hAMVF/1Ak4vKq8NQxaICkB5cazKb4WCKzGzp6T088o6XyGa10Yi
-	CnEqo8J1NI/5IoGVL+xP
-X-Received: by 2002:a05:651c:622:b0:38e:a12c:418c with SMTP id
- 38308e7fff4ca-39650842504mr87211fa.11.1779993973954; Thu, 28 May 2026
- 11:46:13 -0700 (PDT)
+        bh=RZeorqHyYYNr/Mjy+7AwxsbaSEsCTPiV07Lpa0c3cDk=;
+        b=kxQmeUteiuOcpg1/PsaEq/lY2geGd4GodniDTJeE/Hj0jBlGxkyAwbfVj79of5DkX7
+         MOvM1Aj/9QWNjq3vCenK52SiRS53qBf91cs6CCp9JkNdAU6vtHLEDwMTjgr0WIqaG7x9
+         iYqUpuAZev9adxYphWhQgyfn1nxXc+B+pWe1OLLxI9qPWQ97c9fHcqh4wa3DVksSoTtB
+         H64L9CEtyQkH0pDqMrUwsqlB84d61Lc70Dg2gyQZtl81d6tbRQkbo2VoIDppT0mDMMfD
+         GtESjJlltykiac3pgTzU7jZ4bsHI5QrkL2olvPpW/JDgJZ1lefM1NXzJjXDDuuqXICMf
+         FKGA==
+X-Gm-Message-State: AOJu0YxqcJbOod5dX5dBrxy16mlMnC8iJ2zRDJ0QyUWC62MATyKSGOR2
+	EmPb6RLzRK88eRjmKBWecJW/n8g/vX5vRE0Tix5xJUHEVm8n+kGaKC9vjgcBtsHt
+X-Gm-Gg: Acq92OF+49vjDb2VA/FgRUJaMy05Pt1GED08Vlc1b1B7Fc2+DdnvQAzruYb6PX5p+s6
+	T4O3XJDsBy5ILYHlL/f6qS7d+qw5MAoqLYoAXn9WexhLgUKQZPRUJ6VKWaL86DCVwBve+JF67ru
+	oNp8zj+4ZjXkWaJPMUk+R3Ixb77/I7CHX2lJFzVM29Aht9if1+hOMCsMMtvzy+q7QQPJ7ujccoF
+	IFX76sZCptmdVJcD0hn5HuPwxG8+IDXauC6oqEQh4xksPwIlAb0zGlf2Zjz4BRjdzqFpONsTogP
+	n+ZQyq4JuFJUTIVxm5YIwxd7e9s6Wt3gd9FL3HdDoJSvmHo3knrE1ycYIv2FKHSVbHB4M6MdW36
+	dlaGe0zV7AmY+fIigQqJi3TNHGs6+pWsMl5bT3xtttpfFBbQID/DDeuTveEc7kQPW1v3WkPbNos
+	Zq+jb9cjJwULFd3XIGdZTf0G55ghvZLgwNuGqfD0apxTu8GX0sW2r93ncO
+X-Received: by 2002:a05:6a21:a343:b0:3a2:dbaa:82ee with SMTP id adf61e73a8af0-3b328caba66mr30845606637.9.1779993883440;
+        Thu, 28 May 2026 11:44:43 -0700 (PDT)
+Received: from BLR1RLPT00005.localdomain ([220.158.157.162])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8573062c4fsm13238a12.22.2026.05.28.11.44.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 11:44:42 -0700 (PDT)
+From: Aditya GS <adityags2004@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org,
+	alex.kanavin@gmail.com,
+	joaomarcos.costa@bootlin.com,
+	ross.burton@arm.com,
+	randy.macleod@windriver.com,
+	Aditya GS <adityags2004@gmail.com>
+Subject: [PATCH] gawk: backport randtest stability fix
+Date: Fri, 29 May 2026 00:14:27 +0530
+Message-Id: <20260528184427.517-1-adityags2004@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20260528174515.1274649-1-adityags2004@gmail.com> <CANNYZj9sQ7vmZorrSvHGjr1iqzNKEdTwvuVSdH6PCuJDssD8Og@mail.gmail.com>
-In-Reply-To: <CANNYZj9sQ7vmZorrSvHGjr1iqzNKEdTwvuVSdH6PCuJDssD8Og@mail.gmail.com>
-From: "Aditya G.S" <adityags2004@gmail.com>
-Date: Fri, 29 May 2026 00:16:01 +0530
-X-Gm-Features: AVHnY4JXn0EvTlFqlsWWTazfunFHbUmo-simbQb-aoPDz1zWMqgbmNC-RLo6I9Q
-Message-ID: <CAHaUZZASS_X-EL6Haxtd8mqDEJy+ZdOUhkYWh2QB8m8RVeg4TA@mail.gmail.com>
-Subject: Re: [PATCH] gawk: backport randtest stability fix
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	richard.purdie@linuxfoundation.org, joaomarcos.costa@bootlin.com, 
-	ross.burton@arm.com, randy.macleod@windriver.com
-Content-Type: multipart/alternative; boundary="000000000000851a9a0652e524c0"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 21:18:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237729
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 21:18:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237730
 
---000000000000851a9a0652e524c0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Backport upstream fix to improve stability of randtest.sh by
+retrying when sigma is too small, avoiding intermittent failures.
 
-Hi Alex,
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=16254
 
-Thanks for the detailed review and suggestions.
+Signed-off-by: Aditya GS <adityags2004@gmail.com>
+---
+ .../gawk/files/randtest-fix.patch             | 138 ++++++++++++++++++
+ meta/recipes-extended/gawk/gawk_5.3.0.bb      |   1 +
+ 2 files changed, 139 insertions(+)
+ create mode 100644 meta/recipes-extended/gawk/files/randtest-fix.patch
 
-I've updated the patch based on your feedback:
+diff --git a/meta/recipes-extended/gawk/files/randtest-fix.patch b/meta/recipes-extended/gawk/files/randtest-fix.patch
+new file mode 100644
+index 0000000000..b909d52263
+--- /dev/null
++++ b/meta/recipes-extended/gawk/files/randtest-fix.patch
+@@ -0,0 +1,138 @@
++From f2250f4bc864913437619af7a9834a1c24915acd Mon Sep 17 00:00:00 2001
++From: "Arnold D. Robbins" <arnold@skeeve.com>
++Date: Thu, 28 May 2026 09:52:41 -0400
++Subject: [PATCH] Improve test/randtest.sh.
++
++Backport upstream fix to improve stability of randtest.sh by retrying
++when sigma is too small, avoiding intermittent failures.
++
++Upstream-Status: Backport [f2250f4bc864913437619af7a9834a1c24915acd]
++
++---
++
++diff --git a/test/randtest.sh b/test/randtest.sh
++index 597376a8..6ae6f830 100755
++--- a/test/randtest.sh
+++++ b/test/randtest.sh
++@@ -45,68 +45,77 @@ $AWK 'BEGIN{
++     nsamples=('$NSAMPLES');
++     max_allowed_sigma=('$MAX_ALLOWED_SIGMA');
++     nruns=('$NRUNS');
++-    for(tau=0;tau<nsamples/2;tau++) corr[tau]=0;
+++    max_retries=5
++ 
++-    for(run=0;run<nruns;run++) {
++-	sum=0;
+++    for (retry=0; retry<max_retries; retry++) {
+++        for(tau=0; tau<nsamples/2; tau++) corr[tau]=0;
++ 
++-	# Fill an array with a sequence of samples that are a
++-	# function of pairs of rand() values.
+++        for(run=0; run<nruns; run++) {
+++            sum=0;
++ 
++-	for(i=0;i<nsamples;i++) {
++-	   samp[i]=((rand()-0.5)*(rand()-0.5))^2;
++-	   sum=sum+samp[i];
++-	   }
+++	    # Fill an array with a sequence of samples that are a
+++	    # function of pairs of rand() values.
++ 
++-	# Subtract off the mean of the sequence:
+++            for(i=0; i<nsamples; i++) {
+++                samp[i]=((rand()-0.5)*(rand()-0.5))^2;
+++	        sum=sum+samp[i];
+++            }
++ 
++-	mean=sum/nsamples;
++-	for(i=0;i<nsamples;i++) samp[i]=samp[i]-mean;
+++	    # Subtract off the mean of the sequence:
++ 
++-	# Calculate an autocorrelation function on the sequence.
++-	# Because the values of rand() should be independent, there
++-	# should be no peaks in the autocorrelation.
+++	    mean=sum/nsamples;
+++	    for(i=0;i<nsamples;i++) samp[i]=samp[i]-mean;
++ 
++-	for(tau=0;tau<nsamples/2;tau++) {
++-	    sum=0;
++-	    for(i=0;i<nsamples/2;i++) sum=sum+samp[i]*samp[i+tau];
++-	    corr[tau]=corr[tau]+sum;
++-	    }
+++	    # Calculate an autocorrelation function on the sequence.
+++	    # Because the values of rand() should be independent, there
+++	    # should be no peaks in the autocorrelation.
++ 
++-	}
++-    # Normalize the autocorrelation to the tau=0 value.
+++            for(tau=0; tau<nsamples/2; tau++) {
+++	        sum=0;
+++	        for(i=0;i<nsamples/2;i++) sum=sum+samp[i]*samp[i+tau];
+++	        corr[tau]=corr[tau]+sum;
+++            }
++ 
++-    max_corr=corr[0];
++-    for(tau=0;tau<nsamples/2;tau++) corr[tau]=corr[tau]/max_corr;
+++        }
+++        # Normalize the autocorrelation to the tau=0 value.
++ 
++-    # OPTIONALLY Print out the autocorrelation values:
+++        max_corr=corr[0];
+++        for(tau=0;tau<nsamples/2;tau++) corr[tau]=corr[tau]/max_corr;
++ 
++-    # for(tau=0;tau<nsamples/2;tau++) print tau, corr[tau] > "pairpower_corr.data";
+++        # OPTIONALLY Print out the autocorrelation values:
++ 
++-    # Calculate the sigma for the non-zero tau values: 
+++        # for(tau=0;tau<nsamples/2;tau++) print tau, corr[tau] > "pairpower_corr.data";
++ 
++-    power_sum=0;
+++        # Calculate the sigma for the non-zero tau values: 
++ 
++-    for(tau=1;tau<nsamples/2;tau++) power_sum=power_sum+(corr[tau])^2;
+++        power_sum=0;
++ 
++-    sigma=sqrt(power_sum/(nsamples/2-1));
+++        for(tau=1;tau<nsamples/2;tau++) power_sum=power_sum+(corr[tau])^2;
++ 
++-    # See if any of the correlations exceed a reasonable number of sigma:
+++        sigma=sqrt(power_sum/(nsamples/2-1));
++ 
++-    passed=1;
++-    for(tau=1;tau<nsamples/2;tau++) {
++-	if ( abs(corr[tau])/sigma > max_allowed_sigma ) {
++-	    print "Tau=", tau ", Autocorr=", corr[tau]/sigma, "sigma";
++-	    passed=0;
++-	    }
+++        if (sigma < 1e-6) {
+++            print "Sigma too small, retrying run", retry
+++            continue
++         }
++-    if(!passed) {
++-	print "Test failed."
++-	exit(1);
+++
+++        # See if any of the correlations exceed a reasonable number of sigma:
+++
+++        for(tau=1;tau<nsamples/2;tau++) {
+++            if (abs(corr[tau])/sigma > max_allowed_sigma) {
+++                print "Tau=", tau ", Autocorr=", corr[tau]/sigma, "sigma";
+++                print "Test failed."
+++                exit 1
+++            }
++         }
++-    else exit (0);
+++
+++        exit 0
++     }
++ 
+++    print "Test failed after retries due to unstable sigma"
+++    exit 1
+++}
+++
++ function abs(abs_input) { return(sqrt(abs_input^2)) ; }
++ '
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-extended/gawk/gawk_5.3.0.bb b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+index ac9d8500d6..a6bf793e65 100644
+--- a/meta/recipes-extended/gawk/gawk_5.3.0.bb
++++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+@@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+            file://0001-m4-readline-add-missing-includes.patch \
+            file://run-ptest \
+            "
++SRC_URI += "file://randtest-fix.patch"
+ 
+ SRC_URI[sha256sum] = "378f8864ec21cfceaa048f7e1869ac9b4597b449087caf1eb55e440d30273336"
+ 
+-- 
+2.34.1
 
-Removed Upstream-Status from commit message and added Bugzilla reference
-
-Updated Upstream-Status in the patch with the upstream commit link
-
-Integrated the patch into the main SRC_URI
-
-The updated patch has now been sent to the mailing list for review.
-
-Please let me know if any further changes are needed.
-
-Thanks,
-Aditya
-
-On Thu, May 28, 2026, 11:55=E2=80=AFPM Alexander Kanavin <alex.kanavin@gmai=
-l.com>
-wrote:
-
-> On Thu, 28 May 2026 at 19:45, Aditya GS <adityags2004@gmail.com> wrote:
-> >
-> > Backport upstream fix to improve stability of randtest.sh by
-> > retrying when sigma is too small, avoiding intermittent failures.
-> >
-> > Upstream-Status: Backport [f2250f4bc864913437619af7a9834a1c24915acd]
->
-> Upstream-Status should only be in the patch file itself, not in the
-> commit message for oe-core.
->
-> Instead, provide a reference to the yocto bugzilla, so that the
-> reviewers know which bug this is fixing. A http link or [YOCTO
-> #nnnnnn] tag.
->
-> > +Upstream-Status: Backport [f2250f4bc864913437619af7a9834a1c24915acd]
->
-> It's better to link to the web interface:
->
-> Upstream-Status: Backport
-> [
-> https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=3Df2250f4bc864=
-913437619af7a9834a1c24915acd
-> ]
->
-> The reason is that sometimes a patch submission is labeled as
-> Backport, but actually isn't (not here, of course). It's best to make
-> that easy to verify, with a link like above.
->
-> > @@ -19,6 +19,7 @@ SRC_URI =3D "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
-> >             file://0001-m4-readline-add-missing-includes.patch \
-> >             file://run-ptest \
-> >             "
-> > +SRC_URI +=3D "file://randtest-fix.patch"
->
-> You can simply change the main SRC_URI assignment and add the patch
-> there, instead of making a new statement with +=3D.
->
-> Other than this, looks good. Thanks for taking time to develop a
-> proper fix, and getting upstream to accept it. It's much better to
-> solve the issue properly, than simply skip the flaky tests.
->
-> Alex
->
-
---000000000000851a9a0652e524c0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Hi Alex,<div dir=3D"auto"><br></div><div dir=3D"auto">Tha=
-nks for the detailed review and suggestions.</div><div dir=3D"auto"><br></d=
-iv><div dir=3D"auto">I&#39;ve updated the patch based on your feedback:</di=
-v><div dir=3D"auto"><br></div><div dir=3D"auto">Removed Upstream-Status fro=
-m commit message and added Bugzilla reference</div><div dir=3D"auto"><br></=
-div><div dir=3D"auto">Updated Upstream-Status in the patch with the upstrea=
-m commit link</div><div dir=3D"auto"><br></div><div dir=3D"auto">Integrated=
- the patch into the main SRC_URI</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">The updated patch has now been sent to the mailing list for revie=
-w.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Please let me know if=
- any further changes are needed.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Thanks,</div><div dir=3D"auto">Aditya=C2=A0</div></div><br><div c=
-lass=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_=
-attr">On Thu, May 28, 2026, 11:55=E2=80=AFPM Alexander Kanavin &lt;<a href=
-=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex">On Thu, 28 May 2026 at 19:45, Aditya =
-GS &lt;<a href=3D"mailto:adityags2004@gmail.com" target=3D"_blank" rel=3D"n=
-oreferrer">adityags2004@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Backport upstream fix to improve stability of randtest.sh by<br>
-&gt; retrying when sigma is too small, avoiding intermittent failures.<br>
-&gt;<br>
-&gt; Upstream-Status: Backport [f2250f4bc864913437619af7a9834a1c24915acd]<b=
-r>
-<br>
-Upstream-Status should only be in the patch file itself, not in the<br>
-commit message for oe-core.<br>
-<br>
-Instead, provide a reference to the yocto bugzilla, so that the<br>
-reviewers know which bug this is fixing. A http link or [YOCTO<br>
-#nnnnnn] tag.<br>
-<br>
-&gt; +Upstream-Status: Backport [f2250f4bc864913437619af7a9834a1c24915acd]<=
-br>
-<br>
-It&#39;s better to link to the web interface:<br>
-<br>
-Upstream-Status: Backport<br>
-[<a href=3D"https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=3Df2=
-250f4bc864913437619af7a9834a1c24915acd" rel=3D"noreferrer noreferrer" targe=
-t=3D"_blank">https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=3Df=
-2250f4bc864913437619af7a9834a1c24915acd</a>]<br>
-<br>
-The reason is that sometimes a patch submission is labeled as<br>
-Backport, but actually isn&#39;t (not here, of course). It&#39;s best to ma=
-ke<br>
-that easy to verify, with a link like above.<br>
-<br>
-&gt; @@ -19,6 +19,7 @@ SRC_URI =3D &quot;${GNU_MIRROR}/gawk/gawk-${PV}.tar.=
-gz \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-m4-readline=
--add-missing-includes.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt; +SRC_URI +=3D &quot;file://randtest-fix.patch&quot;<br>
-<br>
-You can simply change the main SRC_URI assignment and add the patch<br>
-there, instead of making a new statement with +=3D.<br>
-<br>
-Other than this, looks good. Thanks for taking time to develop a<br>
-proper fix, and getting upstream to accept it. It&#39;s much better to<br>
-solve the issue properly, than simply skip the flaky tests.<br>
-<br>
-Alex<br>
-</blockquote></div>
-
---000000000000851a9a0652e524c0--
 
