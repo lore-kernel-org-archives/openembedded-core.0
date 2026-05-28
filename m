@@ -1,240 +1,313 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E677FCD5BD1
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 08:34:21 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.27])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6315.1779957251046058093
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF83CD5BD1
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 08:36:41 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.71])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6121.1779956372504864075
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2026 01:34:12 -0700
+ Thu, 28 May 2026 01:19:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=IFXctJqY;
- spf=pass (domain: cherry.de, ip: 52.101.66.27, mailfrom: quentin.schulz@cherry.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@mt.com header.s=selector2 header.b=p4vMyaJF;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: mt.com, ip: 52.101.83.71, mailfrom: wojciech.dubowik@mt.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bwZUY00wOz6jRwkYeb/gLaFMC7mQKhVAaLHAwPSxmvOx3u8gtFe0i82EON0mCo1wbl0dfFLxVE66Ety0Hh5fj38zt0lsMoEUb5LxGI4Q3N2XQwb9A4umz5ZT3exgNWcVPqnsstK6E50qcX8rlqx3lzrLqUnDTfGG1dzLe5BazaixBRbqh9uOlGIBj63vdYHZUz2grKwqgODY7tFclg25pwndZcZKj9W7+2thQIyL7o6a5gXMFGLJXqSSgBEF4K4TzfgH6JKTfSwnOWJIVGw8V8dhRHpKmPYRmEEiZRsWouq4Z545yGwibpMSmg/EiAVAEeGpWrM9WN8ZKtoGrQ/nuQ==
+ b=kGprM7M0MO28AXnLg+UuVd4sIYN3iuP6Qbd5NAjIfSplh/VcVmvvTVtcNNWeNluxX2lyiW3PYlIpksPcmfryzrtDToxcGUbTU/HzW+aX+j/E4bwelBhzUr6AN5Wd4pRB72tQYvCkVcUBxAahqIO6ZRoqgQiBAPpXXF3px+0BJVHPXrQxZ5omEJ5SE6E3qHTu5SimdgSrfMXyH5e5Q+jIjLq/pucqlShg7hTv0vWoCzKpUv8WHr3+MwSlzCeR4PuopwuKVEwA0eX/xHIqlF38sA48yKk+njLHluZqhSfsyDSa8Djm5Xhoph9HZoRccErECBoVrIC9eXlb1jYv34fgFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mo54ZdI2D65MZW9bRTjkpCmKzvHCEr/Cbocbu1kA8rU=;
- b=j9M1lC7Hg2tHuV9IhHA0qxM64ZrR1NZrRDEFncIysmlg+nHVt2odXn8rqFjVqLUFzDzvVLVEpa3fub/roquraSOdUkOPmJoFWUQrjEfvSzxuPpTnxJXpe89ZSQ25f8yQm4zC26wkKwSyPY2vg26RC6V3TkMNkKRdF236Uo/Ktnsc/ooFQop5xgFKvqlU+k3FVGpl3UqpLEzkIbzDWF7wU0aDitc7QuaunnoYhG4jDZO1xGOCu9GLGHnSVOlGR+zHcvVYilkoBZCq+B4GWFf5vHDIVlZ0lSColTczwMXnkwjc8qJBWvI+O52l8ebj3Qa+Q05G4gEPr52mIERuN1fCqQ==
+ bh=jFvpPbyKVIZVSW6kypbWueSf6k1eHsP3WgiWXEY+Lzc=;
+ b=qQbyC2ZNjT3RzEsE+dh5kdOCwMpWp+qThYLweNzbtoVQ8MB23sKL65i5M8mT2oeVwuzXh//4QFesFOwSItVFrSIRBgl/MvgqAZMySkLd4HqP7wTSGafR53P5tqLDKugL3d4aNLk0+F1FU2AtJEdaz6OiTtR+bFsqm3Ld4xqT7n+nFkJfC1NHbnn+Gyj5/EJ5TKus7hx+yJ8Pp3BOGrB5ArWCtsStqkRCeqHbZsagZzoMOpaBUZM67ise5LeFTH6a8C66rKgWz5P1Vt3ERld6JM0WzLBOuxN8bR63O5rh4FgsVPPf4T8q8kcWzBQcg2Toe2YaXQf1lRkPdCFqZHgFtg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
+ smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
+ header.d=mt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mo54ZdI2D65MZW9bRTjkpCmKzvHCEr/Cbocbu1kA8rU=;
- b=IFXctJqYrWjWTijzkyz7SCO9rYHisxU5cV4SgtZ/3rgzYL3uidAoniRDZrrxayHNQZsSrF92U5C8b3hxYVY6X1LDDr5KYdAy2F8A6GtizbxjGSkYqSsgM1vx3MiTdAodHuPzMvpheXbVjwQWSz4ksSoebEB2Um7T+8ogauCFwbg=
+ bh=jFvpPbyKVIZVSW6kypbWueSf6k1eHsP3WgiWXEY+Lzc=;
+ b=p4vMyaJFBypjDzlZRaITS6g1qGmb80w8Fl7gZSIm8mxFIVwtIIFECdZnbEaJHmUR5YueFbK8LOsAwFaxaDS57K1BWyQmH1fjn6kqfy/368E9FjOe0iGpdv/sbHS9QoUaN5V4v/QSEI8VjTTJPCr5Qa4P/9J57Sv04ZusYhBCG8mnuwBkHJ9YNFxHGkv9ESgVHLCSe1MLJQMCDm38Xog78nZJQan/1U/nUMH4sxsKtqaVi+d4CMmkqDAfECe7xoUCrhdQB02d2wNjxUdF4gGgAn09Jd0CHi8qI8Sx2OD5hvMZxD3wvS4HcS6fXzzYYl/1R/ga9KqvCjy/nGM+0edMzg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from PA4PR04MB7743.eurprd04.prod.outlook.com (2603:10a6:102:b8::20)
- by AM0PR04MB12049.eurprd04.prod.outlook.com (2603:10a6:20b:740::22) with
+ header.d=none;dmarc=none action=none header.from=mt.com;
+Received: from DB9PR03MB7180.eurprd03.prod.outlook.com (2603:10a6:10:22d::13)
+ by AS8PR03MB9842.eurprd03.prod.outlook.com (2603:10a6:20b:619::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Thu, 28 May
- 2026 08:34:06 +0000
-Received: from PA4PR04MB7743.eurprd04.prod.outlook.com
- ([fe80::9a4e:252f:2fd:97b7]) by PA4PR04MB7743.eurprd04.prod.outlook.com
- ([fe80::9a4e:252f:2fd:97b7%6]) with mapi id 15.21.0071.010; Thu, 28 May 2026
- 08:34:05 +0000
-Message-ID: <7189291c-4aa6-4ad4-9382-1683f81de534@cherry.de>
-Date: Thu, 28 May 2026 10:34:04 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] tools: mkeficapsule: Rework pkcs11 support
-To: Wojciech Dubowik <Wojciech.Dubowik@mt.com>, u-boot@lists.denx.de
-Cc: Franz Schnyder <fra.schnyder@gmail.com>, trini@konsulko.com,
- "openembedded-core @ lists . openembedded . org"
- <openembedded-core@lists.openembedded.org>,
- Francesco Dolcini <francesco@dolcini.it>, Simon Glass <sjg@chromium.org>,
- David Lechner <dlechner@baylibre.com>
-References: <20260528080356.399082-1-Wojciech.Dubowik@mt.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20260528080356.399082-1-Wojciech.Dubowik@mt.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI6PEPF00000229.AUTP296.PROD.OUTLOOK.COM
- (2603:10a6:808:1::8f3) To PA4PR04MB7743.eurprd04.prod.outlook.com
- (2603:10a6:102:b8::20)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Thu, 28 May
+ 2026 08:04:00 +0000
+Received: from DB9PR03MB7180.eurprd03.prod.outlook.com
+ ([fe80::6fd2:12a9:4423:8ddc]) by DB9PR03MB7180.eurprd03.prod.outlook.com
+ ([fe80::6fd2:12a9:4423:8ddc%3]) with mapi id 15.21.0071.011; Thu, 28 May 2026
+ 08:04:00 +0000
+From: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
+To: u-boot@lists.denx.de
+CC: Wojciech Dubowik <Wojciech.Dubowik@mt.com>,
+	Franz Schnyder <fra.schnyder@gmail.com>,
+	trini@konsulko.com,
+	"openembedded-core @ lists . openembedded . org" <openembedded-core@lists.openembedded.org>,
+	Francesco Dolcini <francesco@dolcini.it>,
+	Simon Glass <sjg@chromium.org>,
+	Quentin Schulz <quentin.schulz@cherry.de>,
+	David Lechner <dlechner@baylibre.com>
+Subject: [PATCH v5] tools: mkeficapsule: Rework pkcs11 support
+Date: Thu, 28 May 2026 10:03:54 +0200
+Message-ID: <20260528080356.399082-1-Wojciech.Dubowik@mt.com>
+X-Mailer: git-send-email 2.47.3
+X-ClientProxiedBy: ZR0P278CA0131.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:40::10) To DB9PR03MB7180.eurprd03.prod.outlook.com
+ (2603:10a6:10:22d::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7743:EE_|AM0PR04MB12049:EE_
-X-MS-Office365-Filtering-Correlation-Id: 904b7d34-8e84-445d-da74-08debc93e0e8
+X-MS-TrafficTypeDiagnostic: DB9PR03MB7180:EE_|AS8PR03MB9842:EE_
+X-MS-Office365-Filtering-Correlation-Id: b1f1f1d2-8ba7-4372-9c3f-08debc8fac73
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|366016|22082099003|18002099003|11063799006|56012099006|6133799003;
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|19092799006|38350700014|56012099006|6133799003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	R0Rf7AMk+lkxwFqze4Eg/0QlNPaUrHtjeVJLOisKX2+ftLhkSvn2bsNDoJwEXNKC1uU3UF3CuifPugHsoY5zmRGzntAn9fqaJh7OKS359fMFAFE+IxGLDL0PCKKXCgX76WHNCb0J5FpGna5nza4mkicJ3Migr3hQt+QwUwLCxQ9cmhqOKNI7A6w7UweDutoQsh0AHz5KQDE5ri92qsI3tKXaxtugCd6U6fWOCedFVXa1u2NE6v3/NScfoKwjQ3eyZokqXAMXnjN3a/DGLC8C7gApKvg+CcF/KuvYVDviIO87QZpEobdkQn1CbmF8WUBsIAgzNjvJEPQfE0flVzrXnUrZNyj4dXC7HFV9Dhzr1tfejiKFYai3vTujUO5/jFzAd+KmUGttVnPj9nm3vvjpTFhBujhOsbbkQ7mMsQBN0cpuLq4GNcnN0afXzx7rP7WXOg0q1NxCPW4036Qo5KIh5Dc9rmkqZAEVnIF3mXX7NbHv1he9RmUt3VXV2BcnuZt1iL/dQyDE2fYskbrNoqm5UqRv2Ic659Lk+UDdXwvgsyb7Xykzw+YYhLFj17GqIYS1vSrTdW9iZldcvzLCuUvG1SIvvwMPFv++ATgX5aLDgINz5w3vJdrhnUNgjOIrPtUzG1JlNMT6QxU/nvgDTwoWb7EE98xsj4N2H2/fcZFJnDWfOVpnCG8tWDa5buibSJGQ
+	CZiweY1FbFqFU2Mqk7TMV9cUqqaR4mHQYfQC8F79/gnYyBUPohI6PceArqxT0kBG7bSDr2/fdgKzFxhyd7b62vKbukcbwWpitBNC6Gs/TFGEjghxfevdHpDzXRkz6VaU1/0ZHt0DfYC0LRtxLc7AdJas9gIveZP2cW+g2jOC+1qZgFiMYIZARtXkV2o9sUidqFutcc1rWLZGLIS34kBxtjef5PQZVuatDPZ66tCdzTtvlG7Dj0hHWuEdfCTu9YsC9qlELoZLmKHP9T+dKpFU1Bn1kqob1DmizEBDVyPkcZabKolx0p0tBPLk9ZDBAKLc4Fpo5IfefMwIjH0CsqfpRLhte0f//cxpDj5wfPqbFcQs1eXp04+1bm7Pxa0zhg7Ij9ZbndYKxFrPdXxowIzg2J0aB8sWHvWdmImCL86dyngUs1rWqVKpShEoXAtXumr3/3nPMFpDQaNT9nXGfPUHAksd6iIOmdcLkJUmwUY27nOemjiuSByMyeLYJvUwo1EZmcJd5V3vlWPnliMCWatLHSSm645wc81eGQXduocOY/GhgiHbtbQ+7Fys+EwGOosq3O7bnS39QCwRE2+kSxRvcwGOol2w/CCr0tRyJ1PiGMr/7aHLUMO9tT1pCcX8E4M0OiH+7P66RrR5VdJtPB/qEmRpfNzBm4snwy6P7NHgoLF1quSJCcOiYDdECjyM83Fo3FU3KR18kzBocElH8LOKUeWTW5w7vzhlvkv7P2jqKldkW4VFKTEO9iMC4GDcUuwq
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(22082099003)(18002099003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB7180.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(19092799006)(38350700014)(56012099006)(6133799003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?VkxReFpYQVB6SlZ5TG5OQWd4elZrL1MycVRyc0N1Z2dFbThOME1RdlZmZU00?=
- =?utf-8?B?U1VTcDZlbjBNY0U2NzdVRmpZL3FZZ2Q3WWU5UDBjT0ZBdXU3d0JVZjVsQjgy?=
- =?utf-8?B?TktsNzJjR1hrd3IraVYvV0gwdElLRTdMVXVmYnNKSVBiZC9IWDgzSXc4NFkw?=
- =?utf-8?B?Sm1nZ2RwQisvdkdiVXRJSk5kSXJGdzZpY09WeEdEYWNhbGJZQ3d1M3hyRDFq?=
- =?utf-8?B?SkQwMms5YVc3elI5QXRkbTdVdy8wVG5mNVhmZDN1ekVnMm40cXN6MnpiZm9E?=
- =?utf-8?B?V2ZqRzNBcGZyUEEzSjB6Njk1N25maGlSWjQ4YXdITFdRdjlCb0x6M2ZtMlBD?=
- =?utf-8?B?a0NLakJGcjVISHBJdWduR3pESEZSRGs3VXRjQm5ZUU9RV2JwTHhxRnB4bWVP?=
- =?utf-8?B?UmlUc0NCbzVweVdGM0tWbnpua2RFa3lGY0liRzNpZDdDQzNHWXl2VXJ4QXhR?=
- =?utf-8?B?OXR5djRXUHhWRWlBS3NrNnVIazBMelg3NGJDdG04d0txbWFpR3VMajBIU1JY?=
- =?utf-8?B?ZXNpZXBjVFIzbm9KeEE5WTg3ZDFaMitBSEtmdkZuTDVCRm1vOVBKY2lCNzBU?=
- =?utf-8?B?d05jTjNCaFAyNnRVaU56Y05oL0pKNFlyQVA4NDlhZWI0ZXlBaENKTjZSNHRV?=
- =?utf-8?B?YVVzSUZyN1RReWoyL1pLSkZWMXZIRWxQRVhCSndia2hqaVQrK2g0cEUvNGJ0?=
- =?utf-8?B?VUNPZTkrbjQwcm1SVkhSWTR0azFwMDNRUlhXaHhMbUx4eWZvMWZvdE5PcXdk?=
- =?utf-8?B?ZGM1QzAvY2pzaGVibG5uakJONzlUTGFHMXFBZVhMMWZUSGhSYzdxMzd2Y245?=
- =?utf-8?B?MGY1SVJoeUR3em8xSDV4S09LWjk1U3lBb1BaeUFSRzF4V2lGNWt2cnpSajdO?=
- =?utf-8?B?NndPeU02WG90bXk4VElBZ09BeVdGc1pmVGVhMlVvdi9zR2oyRWQwR2lMOHpP?=
- =?utf-8?B?eTdQTUo4aEx5aExQcHZ0Q3BIOStqSkhXVEgzUW5iTjR5VHBqdUJIWmkrR2J2?=
- =?utf-8?B?M3VkcXpFMHhSVUhPZURqOUZmNDRQT1JwS1N5dXdjRXBWWG9ibHZrZlhQdFBB?=
- =?utf-8?B?OE52dExJNUZsVjRuZE9BSTBEQ1NxbU9Paml6Z1BBTng1bmJQcDdBWFQyeFBs?=
- =?utf-8?B?c1drMGsrMXdVc2dzd0NuMThlRjZlaHZVYnBqLzhyUWhCcklvdGthbk5qcU93?=
- =?utf-8?B?SjVUbjMzeXJTOWdnVUM2czNoNjNaaE91T2lVMmErdFFpV3FrVDJxK2YzR0N4?=
- =?utf-8?B?SUNjeXZmazNJcU1vTkFZcW9NVmVHMFM4Z2ZkT24wdTcxTVd4YlJZcVhwY3Iy?=
- =?utf-8?B?a1RtSDcwVHNWOXBYaTQveGgvWW5lbGMxU2xNV1dpTnlGdW1aVVZuaFhjNW5v?=
- =?utf-8?B?bHpDSzduZHhGVWIvb1ZqbWNyZERNVEtPdzVHMFFLTEN6WU9hdjQwWmdCVGJh?=
- =?utf-8?B?dUhPdEJ4bWd2YkJyeEJQNGJRZXNJRzF6WWpxT082ZWpER0dwcmVKejJIb04x?=
- =?utf-8?B?d3MrejRGQ2dtbFlhb24yLzM2SzJaZ3Rzc2FwTmxZbmoxYjBNcVV6a2RHZ1ps?=
- =?utf-8?B?NnBZUzMyL3lLNWZCL0NPOFJTR21LanVNbmdjSTZ1ZHlNZEVWQzFJSGxLUnlj?=
- =?utf-8?B?NEVqelBlWmsrZkxlcC82Q2JKQk9kMUdlanFXMWI0aWZ1UUtZV0J0VVNjc0Ry?=
- =?utf-8?B?cEM5MWFtVTJlT1ZoeHY2empxaml6VXBhN0FvVzlSV1YxZHBYVFlGY3dvVHlW?=
- =?utf-8?B?ZXhZY09aSGdOR2hOSlBjNmoxZ2MvMldFNTJZRThxNmhFdkNza3RLNWlBZUhh?=
- =?utf-8?B?akhJRTlXV3NjL3ZlQ05DMTdkTGU3Szk0bytKZ2tUQzVWaHZhRHliT2h6SlhP?=
- =?utf-8?B?M3NrWWhLeE01NjRaVTJ4R242dFlYZnRFbGJMeHFxRVo2d3JzWXAyWkJ5bGYz?=
- =?utf-8?B?L04wTDNaMDBBZ1lKazBhUGo1aGVrR1RYaDNFMFdLM2tUaXZTcFNMY3lEN0JX?=
- =?utf-8?B?TlhZQzc3aHVpTlBwNkdTc25ob2FwNzFGL0l3QnNQWXl4bURqbHExU05wbXBR?=
- =?utf-8?B?QVhyRGdpVnhyWVZPYUswM21nYUhyS3ZkeVdGVWVLUHY1UTZ6TkY0OFN2a0Nk?=
- =?utf-8?B?TnpvWnN5ZGV0bk9CbG90emU2YVpxZ2tFUHFqTnRhYTlPazVmUGhrc2E2TWlq?=
- =?utf-8?B?d1JUanNacy9oUW5WYlpEL1hjNlNjNDF5a2FObnJzVE9XV1g1aG5wOHdPY0NF?=
- =?utf-8?B?bTdWbGhnYjlhUVBIbWwwZmRrcVMrdk9OaVdzS2Rna3RBLzlaVk5zSzJ2K1RM?=
- =?utf-8?B?M0E1anIyZDVUTnhScnc1VEdSd0l3L2NJcUtSdTZFbThhWkNFdmoxQT09?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 904b7d34-8e84-445d-da74-08debc93e0e8
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7743.eurprd04.prod.outlook.com
+	=?us-ascii?Q?Ed9t3Gh9kW0TK0b3mJKnR9b615vSl6VV4dahm8fztWidIiJdjw0xyzzT1DO1?=
+ =?us-ascii?Q?wXfghA3iuzTWrK8Hcr2iXAq4Y7lK7idu4R2j+mYKds3e1PB5fAzksJwascM3?=
+ =?us-ascii?Q?gasXgO8hm2cR8/Ko2echh19OphtguEvxxC1oc5KUFBxPF7i43SvOFn1n2gn5?=
+ =?us-ascii?Q?DofS3iDCJbr/JPTrtOQmdw7MHOSxp9nF64YCYaw+8F/g3A+FNP9uReXwzsDS?=
+ =?us-ascii?Q?/dEC2avqYdjp48hMthu+RgKsXb2Mnudwxx7iaxyqNwwHWsMfVI7iNfrb+x+w?=
+ =?us-ascii?Q?09DmTm4XKDeJsNEv8uTyN3XdNApDfgMYH8o/LjXpgBBL/gfxnox9U5ekOrCE?=
+ =?us-ascii?Q?u+Ro4ZOggVxwLHW0gKcyQBLj4UzvKoQ04+uwIP7pCB4v+3ziCytMfVC76RqR?=
+ =?us-ascii?Q?oZtaHghEI0v9F8gJyfOnaaC+V0Gr2lImat1oH7t7/+VQShGqCca/gPuB5jye?=
+ =?us-ascii?Q?hV6gf9i21nouHcQOu/1IXFh/n/WJEvzoc3p/Kkg5G/d1dZNFlx6ZVYnwJQXE?=
+ =?us-ascii?Q?BhBxhdMXw6GgWPUxkpSV5LIzL0BcCjE9PLyaHhuZPh3RQwT+s7HyA5aRKXBv?=
+ =?us-ascii?Q?MXgq3XTiWSyyIPsJD1VYKtnB86Psx0PP5+FO8IAfC5koPtKFOXSz3BpIf55G?=
+ =?us-ascii?Q?DCs5tr6rpsK/nlOZXmKs4fJbLi/rm/pWovWU8aNemJMyGzo9ucWAruPWVBYP?=
+ =?us-ascii?Q?5vCZBsblVDask2GKZlIMJ3Y0eKgea7pdZQbZqayIf9NTgFoKuBWpuOPJpy8D?=
+ =?us-ascii?Q?zVppRiWExcScA2tg0/tBcd33czNYV4W4ZEm7bSJwl9sxvEsjVCm6KISadkgC?=
+ =?us-ascii?Q?CX/JEkmOAPzv9xcmsTdix1aUSXTdMX0mwfN1x2ka2sO96NaOVf8i3ITbPgQ4?=
+ =?us-ascii?Q?OwGPL14eOsrddTu/2CBRvx42jgM2Db2qnEySy6Io7SVvFGPhlmnfx2ZzrV75?=
+ =?us-ascii?Q?6jVOyxWAPVdx2tIRbINvGRc8S4y5EL2uqXIVF252SRlC5u1dCVm5SYj1Dkgf?=
+ =?us-ascii?Q?zwe+SWY2p1bJrHcFKiMJhYb+tPy/MXc2Wgf4CnqTGfdhWf4VxeH6lz1hywnW?=
+ =?us-ascii?Q?4w2JSU9NmqhAPvWKntLJjEf//yMPIJlDT/jRwtB0kiDwfVZFIGU/+d/QdE8H?=
+ =?us-ascii?Q?KQvuRkQkwl2xdoYVtqKxhqNLHs1egw31aK7yPqf098TyhjQ9FRM8/soDzTPZ?=
+ =?us-ascii?Q?jI8oVL8ixTVTEmqo1M/1X3J/O5FJqX+X2jSIizGG2NCy0eRjl47eVyU1sUUU?=
+ =?us-ascii?Q?w9WrfgwS44ohAmqanp8HHF2YROnicAQ/OfQQ7JZiJlhjE9BF/fJsbgx+/oDU?=
+ =?us-ascii?Q?PVF0yoW2gw0zXc+2oxVR9CMManHrHVTimfPgTI/AT7YZM/Dh7J1jrzNWEEhj?=
+ =?us-ascii?Q?j66zCDdKVsOH11NSASK4UIoan/L+R5R00CdK28tw0ewn9L9Jq5kSbOn8TIxC?=
+ =?us-ascii?Q?XnJ/T6A7oHzTnxTfvGbSIMFTJ7I+xL68SfbiInyy3NswuRJ16/HmhknL+p/v?=
+ =?us-ascii?Q?GV1s5oDX/cQ1b6+6cb5ZH8lOvrusHNNv/sry6FcKDETA87b4plVFMsEekA4X?=
+ =?us-ascii?Q?ktE89Q8tzHnVb+zTzqxjpdflX2HuyPkaw4WAn8h2SGKPNoo/YYq2b+v3Pq2l?=
+ =?us-ascii?Q?yoNAM8/77s4k76LQ3bT+yA9diYB0RNgicGEKpn/UXXZBZeO79a9m7jNi0m1y?=
+ =?us-ascii?Q?WgBBXMQrE+L7I18WKTGXKROVKJlyDiJzIo9uzCq6dpT3b/5pxwfmWZ5K+twC?=
+ =?us-ascii?Q?/BZ+sB+35g=3D=3D?=
+X-OriginatorOrg: mt.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1f1f1d2-8ba7-4372-9c3f-08debc8fac73
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB7180.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 08:34:05.7747
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 08:03:59.9452
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P0a3JQMVte67x4RlQEUibnNU+FLGcC4+dzcfs3LYR5KQmGKTBaq6RJG+6SQuqp25/vv9hoxoXY3TF8/RzYLxQmFDJz6UuEVRB2OzrIuckls=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB12049
+X-MS-Exchange-CrossTenant-UserPrincipalName: L7Eopz5CheO+a5vITb8C2NB5E/uuo0ZucFRMHxvQnPabduxGRMR8DjHsFvpbh9kWVk43BhjvA6bOo/wAXpyklw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR03MB9842
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 08:34:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237695
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 08:36:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237696
 
-Hi Wojciech,
+Some distros like OpenEmbedded are using gnutls library
+without pkcs11 support and linking of mkeficapsule will fail.
+It would make maintenance of default configs a hurdle.
+Add detection of pkcs11 support in gnutls so it's enabled
+when available and doesn't need to be set explicitly.
 
-On 5/28/26 10:03 AM, Wojciech Dubowik wrote:
-> Some distros like OpenEmbedded are using gnutls library
-> without pkcs11 support and linking of mkeficapsule will fail.
-> It would make maintenance of default configs a hurdle.
-> Add detection of pkcs11 support in gnutls so it's enabled
-> when available and doesn't need to be set explicitly.
-> 
-> Suggested-by: Tom Rini <trini@konsulko.com>
-> Cc: Franz Schnyder <fra.schnyder@gmail.com>
-> Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
-> ---
-> Changes in v5:
-> - removed more unrelated cleanup improvements spotted by
->    Quentin, to be sent in another patch later
-> Changes in v4:
-> - abstract pkcs11 init function
-> - removed unrelated cleanup improvements, to be sent in
->    another patch later
-> Changes in v3:
-> - remove config option for pkcs11 support and add auto
->    detection in Makefile
-> - reduce amount of ifdefs by abstracting import pkcs11
->    functions
-> - add missing free and deinit functions
-> Changes in v2:
-> - make use of stderr more consistent
-> - add missing ifndef around pkcs11 deinit functions
-> ---
->   tools/Makefile       |  5 +++
->   tools/mkeficapsule.c | 95 +++++++++++++++++++++++++++++++++-----------
->   2 files changed, 77 insertions(+), 23 deletions(-)
-> 
-> diff --git a/tools/Makefile b/tools/Makefile
-> index 1a5f425ecdaa..e85f5a354b81 100644
-> --- a/tools/Makefile
-> +++ b/tools/Makefile
-> @@ -271,6 +271,11 @@ mkeficapsule-objs := generated/lib/uuid.o \
->   	$(LIBFDT_OBJS) \
->   	mkeficapsule.o
->   hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) += mkeficapsule
-> +GNUTLS_SUPPORTS_P11KIT = $(shell pkg-config --libs gnutls --print-requires-private \
-> +			 2> /dev/null | grep p11-kit-1)
-> +ifeq ($(GNUTLS_SUPPORTS_P11KIT),p11-kit-1)
-> +HOSTCFLAGS_mkeficapsule.o += -DMKEFICAPSULE_PKCS11
-> +endif
->   
->   include tools/fwumdata_src/fwumdata.mk
->   
-> diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
-> index ec640c57e8a5..a36332567e0c 100644
-> --- a/tools/mkeficapsule.c
-> +++ b/tools/mkeficapsule.c
-> @@ -207,6 +207,71 @@ static int write_capsule_file(FILE *f, void *data, size_t size, const char *msg)
->   	return 0;
->   }
->   
-> +#ifdef MKEFICAPSULE_PKCS11
-> +static int pkcs11_init(void)
-> +{
-> +	const char *lib;
-> +	int ret;
-> +
-> +	lib = getenv("PKCS11_MODULE_PATH");
-> +	if (!lib) {
-> +		fprintf(stdout,
-> +			"PKCS11_MODULE_PATH not set in the environment\n");
-> +		return -1;
-> +	}
-> +
-> +	gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
-> +	gnutls_global_init();
-> +
-> +	ret = gnutls_pkcs11_add_provider(lib, "trusted");
-> +	if (ret < 0) {
-> +		fprintf(stdout, "Failed to add pkcs11 provider\n");
-> +		return -1;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context *ctx)
-> +{
-> +	gnutls_pkcs11_obj_t *obj_list;
-> +	unsigned int obj_list_size = 0;
-> +	int ret;
-> +
-> +	ret = gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
-> +						 ctx->cert_file, 0);
-> +	if (ret < 0 || obj_list_size == 0)
-> +		return ret;
-> +
-> +	ret = gnutls_x509_crt_import_pkcs11(*x509, obj_list[0]);
-> +
-> +	return ret;
+Suggested-by: Tom Rini <trini@konsulko.com>
+Cc: Franz Schnyder <fra.schnyder@gmail.com>
+Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
+---
+Changes in v5:
+- removed more unrelated cleanup improvements spotted by
+  Quentin, to be sent in another patch later
+Changes in v4:
+- abstract pkcs11 init function
+- removed unrelated cleanup improvements, to be sent in
+  another patch later
+Changes in v3:
+- remove config option for pkcs11 support and add auto
+  detection in Makefile
+- reduce amount of ifdefs by abstracting import pkcs11
+  functions
+- add missing free and deinit functions
+Changes in v2:
+- make use of stderr more consistent
+- add missing ifndef around pkcs11 deinit functions
+---
+ tools/Makefile       |  5 +++
+ tools/mkeficapsule.c | 95 +++++++++++++++++++++++++++++++++-----------
+ 2 files changed, 77 insertions(+), 23 deletions(-)
 
-This is still doing something we currently do not do, that is, checking 
-the return code of gnutls_x509_crt_import_pkcs11(). I'm not saying we 
-shouldn't (I haven't checked), but this now does more than just 
-ifdef'ing pkcs11 support.
+diff --git a/tools/Makefile b/tools/Makefile
+index 1a5f425ecdaa..e85f5a354b81 100644
+--- a/tools/Makefile
++++ b/tools/Makefile
+@@ -271,6 +271,11 @@ mkeficapsule-objs :=3D generated/lib/uuid.o \
+ 	$(LIBFDT_OBJS) \
+ 	mkeficapsule.o
+ hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) +=3D mkeficapsule
++GNUTLS_SUPPORTS_P11KIT =3D $(shell pkg-config --libs gnutls --print-requir=
+es-private \
++			 2> /dev/null | grep p11-kit-1)
++ifeq ($(GNUTLS_SUPPORTS_P11KIT),p11-kit-1)
++HOSTCFLAGS_mkeficapsule.o +=3D -DMKEFICAPSULE_PKCS11
++endif
+=20
+ include tools/fwumdata_src/fwumdata.mk
+=20
+diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
+index ec640c57e8a5..a36332567e0c 100644
+--- a/tools/mkeficapsule.c
++++ b/tools/mkeficapsule.c
+@@ -207,6 +207,71 @@ static int write_capsule_file(FILE *f, void *data, siz=
+e_t size, const char *msg)
+ 	return 0;
+ }
+=20
++#ifdef MKEFICAPSULE_PKCS11
++static int pkcs11_init(void)
++{
++	const char *lib;
++	int ret;
++
++	lib =3D getenv("PKCS11_MODULE_PATH");
++	if (!lib) {
++		fprintf(stdout,
++			"PKCS11_MODULE_PATH not set in the environment\n");
++		return -1;
++	}
++
++	gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
++	gnutls_global_init();
++
++	ret =3D gnutls_pkcs11_add_provider(lib, "trusted");
++	if (ret < 0) {
++		fprintf(stdout, "Failed to add pkcs11 provider\n");
++		return -1;
++	}
++
++	return 0;
++}
++
++static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context =
+*ctx)
++{
++	gnutls_pkcs11_obj_t *obj_list;
++	unsigned int obj_list_size =3D 0;
++	int ret;
++
++	ret =3D gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
++						 ctx->cert_file, 0);
++	if (ret < 0 || obj_list_size =3D=3D 0)
++		return ret;
++
++	ret =3D gnutls_x509_crt_import_pkcs11(*x509, obj_list[0]);
++
++	return ret;
++}
++
++static int import_pkcs11_key(gnutls_privkey_t *pkey, struct auth_context *=
+ctx)
++{
++	return gnutls_privkey_import_pkcs11_url(*pkey, ctx->key_file);
++}
++#else
++static int pkcs11_init(void)
++{
++	fprintf(stderr, "Pkcs11 support is disabled\n");
++	return -1;
++}
++
++static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context =
+*ctx)
++{
++	fprintf(stderr, "Pkcs11 support is disabled\n");
++	return -1;
++}
++
++static int import_pkcs11_key(gnutls_privkey_t *pkey, struct auth_context *=
+ctx)
++{
++	fprintf(stderr, "Pkcs11 support is disabled\n");
++	return -1;
++}
++#endif
++
+ /**
+  * create_auth_data - compose authentication data in capsule
+  * @auth_context:	Pointer to authentication context
+@@ -229,9 +294,6 @@ static int create_auth_data(struct auth_context *ctx)
+ 	gnutls_pkcs7_t pkcs7;
+ 	gnutls_datum_t data;
+ 	gnutls_datum_t signature;
+-	gnutls_pkcs11_obj_t *obj_list;
+-	unsigned int obj_list_size =3D 0;
+-	const char *lib;
+ 	int ret;
+ 	bool pkcs11_cert =3D false;
+ 	bool pkcs11_key =3D false;
+@@ -243,19 +305,8 @@ static int create_auth_data(struct auth_context *ctx)
+ 		pkcs11_key =3D true;
+=20
+ 	if (pkcs11_cert || pkcs11_key) {
+-		lib =3D getenv("PKCS11_MODULE_PATH");
+-		if (!lib) {
+-			fprintf(stdout,
+-				"PKCS11_MODULE_PATH not set in the environment\n");
+-			return -1;
+-		}
+-
+-		gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
+-		gnutls_global_init();
+-
+-		ret =3D gnutls_pkcs11_add_provider(lib, "trusted");
++		ret =3D pkcs11_init();
+ 		if (ret < 0) {
+-			fprintf(stdout, "Failed to add pkcs11 provider\n");
+ 			return -1;
+ 		}
+ 	}
+@@ -301,14 +352,12 @@ static int create_auth_data(struct auth_context *ctx)
+=20
+ 	/* load x509 certificate */
+ 	if (pkcs11_cert) {
+-		ret =3D gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
+-							 ctx->cert_file, 0);
+-		if (ret < 0 || obj_list_size =3D=3D 0) {
+-			fprintf(stdout, "Failed to import crt_file URI objects\n");
++		ret =3D  import_pkcs11_crt(&x509, ctx);
++		if (ret < 0) {
++			fprintf(stderr, "error in import_pkcs11_crt(): %s\n",
++				gnutls_strerror(ret));
+ 			return -1;
+ 		}
+-
+-		gnutls_x509_crt_import_pkcs11(x509, obj_list[0]);
+ 	} else {
+ 		ret =3D gnutls_x509_crt_import(x509, &cert, GNUTLS_X509_FMT_PEM);
+ 		if (ret < 0) {
+@@ -320,9 +369,9 @@ static int create_auth_data(struct auth_context *ctx)
+=20
+ 	/* load a private key */
+ 	if (pkcs11_key) {
+-		ret =3D gnutls_privkey_import_pkcs11_url(pkey, ctx->key_file);
++		ret =3D import_pkcs11_key(&pkey, ctx);
+ 		if (ret < 0) {
+-			fprintf(stderr, "error in %d: %s\n", __LINE__,
++			fprintf(stderr,	"error in import_pkcs11_key(): %s\n",
+ 				gnutls_strerror(ret));
+ 			return -1;
+ 		}
+--=20
+2.47.3
 
-With that done, feel free to add my
-
-Acked-by: Quentin Schulz <quentin.schulz@cherry.de>
-
-on the next version.
-
-Thanks!
-Quentin
 
