@@ -1,261 +1,241 @@
-Return-Path: <hjadon@cisco.com>
+Return-Path: <Haixiao.Yan.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 471C7CD5BD0
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 01:12:54 +0000 (UTC)
-Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1695.1779930769443608912
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 509C1CD5BD0
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 01:27:24 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1818.1779931642705657375
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2026 18:12:49 -0700
+ Wed, 27 May 2026 18:27:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=akICfHe9;
- spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: hjadon@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=7764; q=dns/txt;
-  s=iport01; t=1779930769; x=1781140369;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=qdcL39SGWrFDSWphVnwjAmkEUuOu6qNbncbK0fwa6PI=;
-  b=akICfHe9qqzUQyVjbyjomV0MAb9hDukRwm/J9hqERdpoXlf404JB0dMi
-   Bnqh9OHJtwCV0ff6ODksSmW/hZ9PXpclvbHtoB5V6Z6XBCa1NUx4zOhAy
-   5I2TGfjF9wDjyG9/iontFT10LpGL//aoMnvHx9/4/8fS/PySdQ/sAHqWg
-   vexQowQeYkjGn75GfKIlEheztc8Mgk1Udh+l8zKi2E3NqKAPE7tgCLWjW
-   r33F2JEGo/6jO5ZXNs4tFyCnKhTr9NH+FqQukypiDS64C3Nur58GvCJUz
-   z7NkFi6oAPdk02io0uuCIo4pXLswN3IsKCOV1stC4hNzOh3pMSSfCLILN
-   g==;
-X-CSE-ConnectionGUID: ATH5g7YTTZuT3L4uOHSEMA==
-X-CSE-MsgGUID: G/yhG4cOSISlArG1F0lM1Q==
-X-IPAS-Result: =?us-ascii?q?A0AaAADalRdq/43/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
- =?us-ascii?q?AcBAQsBghc/cl5DSYxziVieHoEkA1cPAQEBD0QNBAEBhQaNNAImNAkOAQIEA?=
- =?us-ascii?q?wIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZPDYZaAQIBNQFGLAMBAlojI?=
- =?us-ascii?q?YMCAYJzAxEGswWCLIEBgmaCF9soAQsUAYE4AYU+iB1bGYNcgR8nGxuBcoR9g?=
- =?us-ascii?q?QUBgVsCAhiBDYZ9BIIigQyBXYM0igdIgR4DWSwBVRMNCgsHBYFmAzUSKhVuM?=
- =?us-ascii?q?h2BIz4XgQsbBwWBS3ZyaoEFhRgjJgNOgS2Bf3ADCxgNSBEsNxQbBD5uB4p/G?=
- =?us-ascii?q?g+BZkwBPRs2AQckIGUTA3AJGCSjMYIhnkqBBoE+CiiDdIwhlToaM4VbpRCZB?=
- =?us-ascii?q?o4JlWdohGiBaDw5gSBwFTuCZwlKGQ+OOIEfAQKCSYQHgQzFUCcyCzIBAQcCB?=
- =?us-ascii?q?w4DC4FokAACJgeBTgEB?=
-IronPort-Data: A9a23:SVI5R6tFLw+Dl70mIDZZV6dyLefnVAFfMUV32f8akzHdYApBsoF/q
- tZmKT+GPqrfM2Xwe49zO9iz80xX7ZDWzNFrHlc6/yA0Ei4agMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuFZDdJ5xYuajhKs//Z90s11BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw09pXXG4Rx
- MAkGi0xNTTfmsWW+5+eY7w57igjBJGD0II3oHpsy3TdSP0hW52GG/mM7t5D1zB2jcdLdRrcT
- 5NGMnw0M1KaPkAJYwtOYH49tL/Aan3Xcz9RpFWTjaE2+GPUigd21dABNfKJKoLaH5kOwRjwS
- mTu0CPoAj5GP/uk6AGB22iD38GXmQaiYddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
- mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cEnhKaccts4k9QjlCO
- kK1ou4FzAdH6NW9IU9xPJ/Oxd9uEUD59VM/WBI=
-IronPort-HdrOrdr: A9a23:PpoNH64zRICRes8UCgPXwP7XdLJyesId70hD6qm+c3Nom6uj5q
- WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBPPZsl7dMhy70PJB3q
- F9dKU7ItjxAV9myfve2mCDYrIdKB3tytHPuQ8YpE0dKj1XVw==
-X-Talos-CUID: =?us-ascii?q?9a23=3AmBNX32t11CvEtH8uqN7l+Xij6IsMTl2AwyjhH3O?=
- =?us-ascii?q?KFFoybOGIbn+r1YZNxp8=3D?=
-X-Talos-MUID: 9a23:JnpU3gQ5D+paIBHERXTDwyBiG5tjxJ+PM0Qki7pflZGAEHVJbmI=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.24,172,1774310400"; 
-   d="scan'208";a="486824376"
-Received: from rcdn-l-core-04.cisco.com ([173.37.255.141])
-  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 May 2026 01:12:48 +0000
-Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-04.cisco.com (Postfix) with ESMTPS id 51F2C180005C3;
-	Thu, 28 May 2026 01:12:48 +0000 (GMT)
-Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
-	id E8429CC1288; Wed, 27 May 2026 18:12:47 -0700 (PDT)
-From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=oT2kAxGR;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=96084cca59=haixiao.yan.cn@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64RNu9vA551772
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 18:27:22 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=7YJDlbNelM5CqqrGyGT+
+	OP32PTZu+4zTdsOoIL1sgNM=; b=oT2kAxGRoLvUcH9ISMwV6WkbG5Sdh28NoiQA
+	rhLo0BG443yK7CiTWFEuqpRxH7BTAmGhl+Jw/KwYHP2xmxoMzogdUaqR2Cyf3s8A
+	/pNfY2+EaysVQ+sbuxozA5yOG0pO/kMybPlklH24bRM1zqqX1JDyr3fvncjNtdRW
+	zDc0YIZXdgirmpMxRNct5vbTXw14gSqVyZA2WFYdTJPSQvOq1yq6E9SigJQ10dtC
+	Wt50UrKzMPDnw4DdZmWTvxTtGW6Le4XWi9zs5unlrCf/S082mzvOa3irocRqM+24
+	a6fuY4SMruMCIhPP9FAhVnnLsForPg9NX+ag3k3fUgYK550mVQ==
+Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012003.outbound.protection.outlook.com [40.93.195.3])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ee7x6r6pa-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2026 18:27:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EDVHaBCqR4/92BMRe2pXYlcr2kH86PKBH/yQjSRiw+JAxMquULP4iL2O0zSNOg8p/NvdA1XO/QitWmTNXKjvh33dv+1TuhL3q7gHb5p91fUE8Hty9uzrJB/uqKK+iliJwWZRAHEB1D/xIj1nJrJB2rMA90RRaPmaO3HD+ooVY7Gy033xTGohPzPMTijzKoRjvIxbX1GuCYqRyEmX98hmX6fLUKWnEaEqaQbAEJnRilyzP31PmWBNITUuYa20mN4vSm2AgytYBsAi9EFlzNNOyFpfwIMTKH58YSGOO6I8I0cflGqTpSGz/XndzoS31U69hbOuOTvNs+MCDVD9NRXXcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7YJDlbNelM5CqqrGyGT+OP32PTZu+4zTdsOoIL1sgNM=;
+ b=tVwrQ6F12Va4BS7rXnq9DzVS0TNvGOcBvlFxqCs3Dt0wFwZAwMgKlYcSWFe8KGN5cSHowGErx0gnTsNpSZohWxYDYE5jYTVkm1jmfKx/f79BNbfEaXY3A+aoixpNr3veVagILbt6bcZy8L5X33OLWvLIYpOTbb0/UMtoB+ZSkdKz9ReMlekezZi2Q2bO/QqTRkwbIAbcjbG8VAv1NWmNv7K8ymW3WdRLkwewVrDZQfi/fTDbsh+LmmlLznGpcQRWYqYzGxaC3Gs4v/BcU5s12E/9hC3xKZXIpjCgKG/ypiizMszOkJAwmYqQFi1yRNukdJdoCO5ppRP4w4Je8R5gTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH0PR11MB8189.namprd11.prod.outlook.com (2603:10b6:610:18d::13)
+ by SA1PR11MB8280.namprd11.prod.outlook.com (2603:10b6:806:25d::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Thu, 28 May
+ 2026 01:27:19 +0000
+Received: from CH0PR11MB8189.namprd11.prod.outlook.com
+ ([fe80::7b99:70e4:edb2:30c2]) by CH0PR11MB8189.namprd11.prod.outlook.com
+ ([fe80::7b99:70e4:edb2:30c2%5]) with mapi id 15.21.0071.011; Thu, 28 May 2026
+ 01:27:18 +0000
+From: haixiao.yan.cn@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: vchavda@cisco.com
-Subject: [OE-core] [scarthgap] [PATCH] go: split CVE-2025-61726 regression fix
-Date: Wed, 27 May 2026 18:12:39 -0700
-Message-Id: <20260528011239.528751-1-hjadon@cisco.com>
-X-Mailer: git-send-email 2.35.6
-MIME-Version: 1.0
+Subject: [PATCH v3] subversion: fix svn-revision.txt conflict when building for qemux86-64
+Date: Thu, 28 May 2026 09:27:01 +0800
+Message-ID: <20260528012701.1834030-1-haixiao.yan.cn@windriver.com>
+X-Mailer: git-send-email 2.43.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-21441.cisco.com [10.128.164.182];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
-X-Outbound-Node: rcdn-l-core-04.cisco.com
+Content-Type: text/plain
+X-ClientProxiedBy: SE2P216CA0190.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2c5::15) To CH0PR11MB8189.namprd11.prod.outlook.com
+ (2603:10b6:610:18d::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR11MB8189:EE_|SA1PR11MB8280:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd05ae11-1cb8-4226-deb4-08debc58421c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|18002099003|38350700014|3023799007|56012099006|5023799004|11063799006|6133799003;
+X-Microsoft-Antispam-Message-Info: 
+	DeftLCD/OAU3HBGUmi6KfFmRwOeMQh8ehiE+lSyHetiqzUAsWF48ARZ7RczBVWqdaEAP9hT9yelgXUWHbK2HWL/OFtsBn3ZUVlB/QWJI6FBfpG5z2ffTZQEM8BM4ADstVRCAkLjeaLD2QLP0fxlLqXkWItXVHIC8E/s4+fpKr4xauiZdaVfyJCtnikmYwfwGV7S9LmuwkP0z8QZKPuLa4OfE2xlLRrV0VOnvAQd9ltepFx7Y6suCEUW5q7+UUpdqXj9fJax70ClrJ0s97xjXkizXlCvqXg8YicvYx0ocjltCte2df/0OqL3mb3LayBu5aNTkSv7uMwv5LUjUlIyxuO1jtAoNzO03/r4p5Ghz4tIKHwgqo5/MdlS+3U3o2vOYdX6PUjSDhUthNzw8BNU7zlTdMWQiyx0qWwn7SJ13dRQcfN95xNj4eavNv8abCTaKBrYU1q3h+fHhl76dJDYZFzDwVdHFmK2K1YkksDBLbvOgck3y2jq7VaeP/VEG4tKxN6xPmEHkTdSgdX6R6sECoGnI7I0697XMdZEh+SpiiwcTBUZWj49uS3OJvmCoMaRueN+5hW/wdettYOQMmzRHzhxo1I/91Pzzk5yg2Pi+LjoEbDR/Zi4ORwcf+bZRiKz3aimkLCoTz195EUonO5h70jPEKbKkW8ugxg8LJQRTw/gch4cLH3HxVfDvOHQp1WeZBoBaL9YEGnFdVxID0N4bWQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB8189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(18002099003)(38350700014)(3023799007)(56012099006)(5023799004)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?q5lxfDG6Tu/gx0Ulggh+wzf3D9wFCs4SwDWniLY9Gh/TpiAy7dTYf4mVy3JX?=
+ =?us-ascii?Q?TjJkq65hgvfGjwkR53q7PO1E9XaSnexHbUW6eZCGZvqOzkPVwpEwkL6y5nHO?=
+ =?us-ascii?Q?gSfjCx2S4SFe/ZI2a+2P/IBVfYzBrGTXsR2u1WL/w641tWRtkycPZ0yU1W3f?=
+ =?us-ascii?Q?07Y+1sRp2FJOUOKlz9RdhLHveiNRR9Tnq21riRNSUFlMDt4J3kMugSNga+pK?=
+ =?us-ascii?Q?jEs2C6CQTwce1y97ZYaAMbqskn09h3qRbA6iz8gocxy5mtPUqsG9re2YmKWK?=
+ =?us-ascii?Q?1905Nl4Jh4/QZGGl46NzKIefneFzoRrQtzCioK//zPW2eki5JUYeD7MX8+nV?=
+ =?us-ascii?Q?Mf4aKMQ/JRipknzC99Ko5bJlaXq+s2IwjZxOiR8mC9WZ6reN3HTlUJcNCK+1?=
+ =?us-ascii?Q?7MyPnDoQGWkhKWih5Lbvx3LsZY37A3VanrJx8CXMGjuBdrIIHbHMtlERvMh3?=
+ =?us-ascii?Q?uXxxbF+A5++6Ep3Uq4nIMbMlKaxdEAaWLe4beOEHdJTzMmr9rfU28tF1oRhG?=
+ =?us-ascii?Q?yZWvAFdCONOjyQzg6CEswHUMU/iBBpbMYJMGDrF/FHtzhOB92KQq2H79njl9?=
+ =?us-ascii?Q?MKl6H9h0351kPMnuH/YP/piJcwtnzneOXRTwglwDcpSH2L5loG6foByl/iEH?=
+ =?us-ascii?Q?Pe/+LydCCwxHVsf8MjaurepFhcSRvfTZk8Z00kERb+HNOeQ1fXmFMuHxlaoc?=
+ =?us-ascii?Q?3NFOJcFFPZZbT5+0qN4CmiKhHW5cpMYeSVACQdJIOKVS1QJwv/evPPxOJU5m?=
+ =?us-ascii?Q?Tw6NhC6j31mm+aXXrPg+kq3LfQD/Btm1ufwq7oQMYG7T/HDfva1N9v+5DojO?=
+ =?us-ascii?Q?+8qSFWNKuUyy19SYeUdrciSXALufs57Ox2NPSoo55PhIVWJUEM2CL+oR0HNI?=
+ =?us-ascii?Q?1M/pck0DvzCWJNbjwC2Pg0DJTl6H2W1+N/w6GOpyE2CFSkOg/AAQZpZ2xCKU?=
+ =?us-ascii?Q?wJQ0yNzOGMwgr5t8/9/m/z0VQWSdyqMxhjQPebNT32UqQVkrSvw/io9rW2fP?=
+ =?us-ascii?Q?Kikc/vN8RCqGqmwn/6KWnokJCIAXSFBJCjnFGrxwe/IWvRqTPT4X5vp2X3Td?=
+ =?us-ascii?Q?MINrQ7d1afkwI/nyonB8S0OhmQG2BLAKI0ZCWYfJODqtDr6QlmoBxDi6jk3Y?=
+ =?us-ascii?Q?4mOy+mUhGMEng9IW0H9YBCjbjpMZxYBiwJDphbIKAXAfuRgkxK/RGEfDpoLp?=
+ =?us-ascii?Q?bTw+xJAvJWd4wEuf0M4BPtFd4849rjeKo40t8n/emGkoZWweLFnpCP2HnNvf?=
+ =?us-ascii?Q?JXLvP9o3SAM+oxowFzNN63jGj+jjqeRKkc1aRqUem7H7mJJxjNsNEStKagsy?=
+ =?us-ascii?Q?HdTSP3bMvWDOKB8wWbLE9v5mI5BOwRYdOVxXfN+Jc/89J2jLcHF3x6olj+qI?=
+ =?us-ascii?Q?BmawUUS/34/5FnD4fKV95zXEJaTJCpny3gkOnnG5nKTmA4xD5H2AbXCuiBO2?=
+ =?us-ascii?Q?9+MqWEt76qp4Lg5RJcQuTYVCw3yXaLcwOrQzBTL0pO9cpFqd4+q5rfjzWnpa?=
+ =?us-ascii?Q?ojA7W4SOfmEv9MJ73NOisIdjhscn3g94HwkRqW/puD8JW2cmdQTtvpiFAGmN?=
+ =?us-ascii?Q?kcbgjQGH6U9AbmcYPMXrnbPWhS4zDONyDMmtNYQq6DbYQlWTwVi0n+tF7Nz3?=
+ =?us-ascii?Q?vEifoWB0zVIpmH925dFibzCBVOBiXL+eRUEx5MdMP/u7N34O87A9OiQ4uGv7?=
+ =?us-ascii?Q?EUE2Chni8TIzqV+AE73oZTHXTLi96IUdeNZtvu/PH2WWQTf1IjXZNSIO121d?=
+ =?us-ascii?Q?5xobQqPaVnAVv0HSbfZNInq4bhOJKQU=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	PiuSPVdi0ades9LUksXdZyyamIfB9Oc1IW/MpaypIyjRvjIMV6tAxLwtil2gxMF/yVIlxMFBz/b7DqXrrG5wGI0ObYfft7B7NNNOtOv5hafjHHv50+WuJL4Gb7+YCzNbnAlcFTE+nXKZwgQwkwLlSaSG5mVjgPYEGGr+zGc5HXvyJLNqHM/XWBrH6MytYKCvhBHktvn3CjmMR9yxKkp29zy1BgXKZIWktuGcbzWp3oOjciZK6I7RZAb7000U1KFv3mdPf2E1e/ppxhKJ+FcL0NatP9xDbKp44ie3oE67AJ5IXQxQtForR0s4O3L7U6wLkj15t6aOD8+nG6CpuOS9nw==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd05ae11-1cb8-4226-deb4-08debc58421c
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB8189.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 01:27:18.8091
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2Ia7Htea9Xa5Hx1UyI/wI3+S7GPow8rakUIcI4zQdfGjAmGlh8fqRcO1/X1hy1lp0vxbbOnfo1vK0tTsRqFzvSglFiHn+GaMmBWMIB1Rp9s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8280
+X-Proofpoint-GUID: -CdRKecCohVlB8kN2AfHWO7lPlDwX6vp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI4MDAxMSBTYWx0ZWRfX+z2uHM741lVl
+ BE4QxBFoAIYv2tO/EryEUlaai/CVvK4W1hQpsHiThQdbWi4VXQNg3nXC/30pK1+lk3B228yRJ27
+ N64XIaO3ul9CUisB09jl5YrNzO1eSlq3TDM8tSFfEfym4WLt0fZnyBZv2W11K9xAasaasAZTvfY
+ qX4v0P+Kdxh0z7wQChciZRDklrgWa5fJDg0leqSu3a26iGrDDpgzXLeqNR2sZV33ozrsHwz7UJ7
+ tK+QnsIRSzIhzlCYi1z752SNPsMLX28Rh8SxAICHQZIZin3Wz2VkPQ0PETc4EUvEsPUuumDkyBw
+ QiZngPBlQW9Gy71z6n0QBjPSsl8AFIlQxVFskuvv3LVG8zBmmJ1ycdSGzj94SZNfuGGX1tJjo8+
+ Po/8foVBwGmrOkpEv5bu8S5lvsoIZooFL/Q48f/oyOqbx0U8Mu6HIK6hS6Tcyz7NEfxvmwiVbht
+ PHOdrNforKzWZDK2Bjw==
+X-Proofpoint-ORIG-GUID: -CdRKecCohVlB8kN2AfHWO7lPlDwX6vp
+X-Authority-Analysis: v=2.4 cv=FcEHAp+6 c=1 sm=1 tr=0 ts=6a1799fa cx=c_pps
+ a=4HEXQ/P5pkaUFkQJdDnQHg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=Vt2AcnKqAAAA:8
+ a=mV9VRH-2AAAA:8 a=t7CeM3EgAAAA:8 a=N5C7i6JgP_lGezvsZWMA:9
+ a=v10HlyRyNeVhbzM4Lqgd:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-05-27_05,2026-05-26_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
+ impostorscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2605280011
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 01:12:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237675
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 01:27:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237676
 
-From: Himanshu Jadon <hjadon@cisco.com>
+From: Haixiao Yan <haixiao.yan.cn@windriver.com>
 
-Restore the originally submitted CVE backport and carry the ordering
-correction fix separately for internal/godebugs.All as a separate
-regression patch. This keeps the security backport easier to audit and
-makes the follow-up fix explicit.
+The revision-install target in Makefile.in generates svn-revision.txt
+by first trying to run the cross-compiled svnversion binary on the host.
+When the target architecture is x86-64 (same as the build host), the
+cross-compiled binary can execute on the host. If the host has libapr1
+installed, the 64-bit svnversion succeeds and outputs "Unversioned
+directory", while the 32-bit (lib32) binary lacks the 32-bit libapr1
+and fails, falling back to "unknown". The differing content causes an
+RPM file conflict on /usr/include/subversion-1/svn-revision.txt when
+lib32-subversion-dev and subversion-dev are installed together in
+do_rootfs.
 
-The ordering issue was introduced when the existing backport patch was
-modified by commit [1]. The same change also dropped zipinsecurepath
-from the patch hunk context. Restore the original hunk context and keep
-the ordering correction as a separate follow-up patch.
+This does not affect non-x86-64 targets (e.g. ARM) because the
+cross-compiled binary cannot execute on the x86-64 host, so both
+64-bit and 32-bit builds fall through to the same fallback.
 
-Keep the regression patch immediately after CVE-2025-61726.patch in
-SRC_URI because it is a direct fixup for that patch in the same file and
-hunk area. This is safe because no later Go patch in the current stack
-modifies src/internal/godebugs/table.go, so placing the fixup here makes
-the dependency explicit without interfering with later validated patches.
+Since the source is a release tarball with no SVN metadata, the correct
+value is always "unknown". Fix by patching Makefile.in to skip the
+svnversion invocations entirely.
 
-[1] https://git.openembedded.org/openembedded-core/commit/?id=b670b11ff4845b64f861041681ace9c21db16eed
-
-Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
 ---
- meta/recipes-devtools/go/go-1.22.12.inc       |  1 +
- .../go/go/CVE-2025-61726-regression.patch     | 49 +++++++++++++++++++
- .../go/go/CVE-2025-61726.patch                | 21 ++++----
- 3 files changed, 60 insertions(+), 11 deletions(-)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-61726-regression.patch
+ ...-fix-svn-revision-host-contamination.patch | 44 +++++++++++++++++++
+ .../subversion/subversion_1.14.5.bb           |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/subversion/subversion/0001-fix-svn-revision-host-contamination.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index 3fa421e223..c095e54fbb 100644
---- a/meta/recipes-devtools/go/go-1.22.12.inc
-+++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -33,6 +33,7 @@ SRC_URI += "\
-     file://CVE-2025-61729.patch \
-     file://CVE-2025-61730.patch \
-     file://CVE-2025-61726.patch \
-+    file://CVE-2025-61726-regression.patch \
-     file://CVE-2025-61728.patch \
-     file://CVE-2025-61731.patch \
-     file://CVE-2025-68119-dependent.patch \
-diff --git a/meta/recipes-devtools/go/go/CVE-2025-61726-regression.patch b/meta/recipes-devtools/go/go/CVE-2025-61726-regression.patch
+diff --git a/meta/recipes-devtools/subversion/subversion/0001-fix-svn-revision-host-contamination.patch b/meta/recipes-devtools/subversion/subversion/0001-fix-svn-revision-host-contamination.patch
 new file mode 100644
-index 0000000000..bb2b5ac439
+index 000000000000..9d5959c1276f
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2025-61726-regression.patch
-@@ -0,0 +1,49 @@
-+From a92d36cef2c1838e58dd1ec51bd147bd94e916fc Mon Sep 17 00:00:00 2001
-+From: Himanshu Jadon <hjadon@cisco.com>
-+Date: Thu, 14 May 2026 05:40:12 -0700
-+Subject: [PATCH] go: Fix CVE-2025-61726.patch variable ordering
++++ b/meta/recipes-devtools/subversion/subversion/0001-fix-svn-revision-host-contamination.patch
+@@ -0,0 +1,44 @@
++From 7e9e67b22a711e96739a74a06ef36ce4aa370a18 Mon Sep 17 00:00:00 2001
++From: Haixiao Yan <haixiao.yan.cn@windriver.com>
++Date: Thu, 28 May 2026 09:20:59 +0800
++Subject: [PATCH] build: do not run svnversion during install
 +
-+The backported CVE-2025-61726 patch introduced a regression in
-+src/internal/godebugs/table.go by adding urlmaxqueryparams out of
-+alphabetical order.
++The revision-install target generates svn-revision.txt by first trying
++to run the cross-compiled svnversion binary on the host. When the target
++architecture is x86-64 (same as the build host), the cross-compiled
++binary can execute on the host. If the host has libapr1 installed, the
++64-bit svnversion succeeds and outputs "Unversioned directory", while
++the 32-bit (lib32) binary lacks the 32-bit libapr1 and fails, falling
++back to "unknown". The differing content causes an RPM file conflict
++when lib32-subversion-dev and subversion-dev are installed together.
 +
-+From Go's source code[1], the All table from godebugs must be populated
-+alphabetically by Name, and Lookup[2] uses binary search to find the
-+variable.
++Since the source is a release tarball with no SVN metadata, the correct
++value is always "unknown". Skip the svnversion invocations entirely.
 +
-+The wrong ordering caused Lookup to return nil for urlmaxqueryparams,
-+which triggered runtime failures.
++Upstream-Status: Inappropriate [issue reported at
++https://www.mail-archive.com/users@subversion.apache.org/msg30267.html]
 +
-+Fix this by moving urlmaxqueryparams before x509sha1.
-+
-+This change was validated with docker-moby (original issue), where a
-+container ran successfully and no traces were observed in the logs.
-+
-+[1] https://github.com/golang/go/blob/master/src/internal/godebugs/table.go#L20
-+[2] https://github.com/golang/go/blob/master/src/internal/godebugs/table.go#L100
-+
-+CVE: CVE-2025-61726
-+Upstream-Status: Inappropriate [OE-specific backport ordering fix]
-+
-+Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
-+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
++Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
 +---
-+ src/internal/godebugs/table.go | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ Makefile.in | 5 +----
++ 1 file changed, 1 insertion(+), 4 deletions(-)
 +
-+diff --git a/src/internal/godebugs/table.go b/src/internal/godebugs/table.go
-+index 4ae0430..7178df6 100644
-+--- a/src/internal/godebugs/table.go
-++++ b/src/internal/godebugs/table.go
-+@@ -51,8 +51,8 @@ var All = []Info{
-+ 	{Name: "tlsmaxrsasize", Package: "crypto/tls"},
-+ 	{Name: "tlsrsakex", Package: "crypto/tls", Changed: 22, Old: "1"},
-+ 	{Name: "tlsunsafeekm", Package: "crypto/tls", Changed: 22, Old: "1"},
-+-	{Name: "x509sha1", Package: "crypto/x509"},
-+ 	{Name: "urlmaxqueryparams", Package: "net/url", Changed: 24, Old: "0"},
-++	{Name: "x509sha1", Package: "crypto/x509"},
-+ 	{Name: "x509usefallbackroots", Package: "crypto/x509"},
-+ 	{Name: "x509usepolicies", Package: "crypto/x509"},
-+ 	{Name: "zipinsecurepath", Package: "archive/zip"},
++diff --git a/Makefile.in b/Makefile.in
++index 7f0a37dd9a9b..914c1c37790c 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -499,10 +499,7 @@ local-install: @INSTALL_RULES@
++ revision-install:
++ 	test -d $(DESTDIR)$(includedir)/subversion-1 || \
++ 	  $(MKDIR) $(DESTDIR)$(includedir)/subversion-1
++-	(subversion/svnversion/svnversion $(top_srcdir) 2> /dev/null ||  \
++-	 svnversion $(top_srcdir) 2> /dev/null ||                        \
++-	 echo "unknown";                                                 \
++-	) > $(DESTDIR)$(includedir)/subversion-1/svn-revision.txt
+++	echo "unknown" > $(DESTDIR)$(includedir)/subversion-1/svn-revision.txt
++ 
++ install-static: @INSTALL_STATIC_RULES@
++ 
 +-- 
-+2.35.6
-diff --git a/meta/recipes-devtools/go/go/CVE-2025-61726.patch b/meta/recipes-devtools/go/go/CVE-2025-61726.patch
-index bdd10bc933..ab053ff55c 100644
---- a/meta/recipes-devtools/go/go/CVE-2025-61726.patch
-+++ b/meta/recipes-devtools/go/go/CVE-2025-61726.patch
-@@ -1,4 +1,4 @@
--From bf06767a9ac737387eee77c7eedd67c65e853ac2 Mon Sep 17 00:00:00 2001
-+From 85050ca6146f3edb50ded0a352ab9edbd635effc Mon Sep 17 00:00:00 2001
- From: Damien Neil <dneil@google.com>
- Date: Mon, 3 Nov 2025 14:28:47 -0800
- Subject: [PATCH] [release-branch.go1.24] net/url: add urlmaxqueryparams
-@@ -36,7 +36,6 @@ Reviewed-by: Junyang Shao <shaojunyang@google.com>
- TryBot-Bypass: Michael Pratt <mpratt@google.com>
- (cherry picked from commit 85c794ddce26a092b0ea68d0fca79028b5069d5a)
- Signed-off-by: Deepak Rathore <deeratho@cisco.com>
--Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
- ---
-  doc/godebug.md                 |  7 +++++
-  src/internal/godebugs/table.go |  1 +
-@@ -46,7 +45,7 @@ Signed-off-by: Eduardo Ferreira <eduardo.barbosa@toradex.com>
-  5 files changed, 85 insertions(+)
++2.53.0
++
+diff --git a/meta/recipes-devtools/subversion/subversion_1.14.5.bb b/meta/recipes-devtools/subversion/subversion_1.14.5.bb
+index 13bec4ad5956..05f80b3319aa 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.14.5.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.14.5.bb
+@@ -11,6 +11,7 @@ DEPENDS:append:class-native = " file-replacement-native"
+ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://serfmacro.patch \
+            file://parallel.patch \
++           file://0001-fix-svn-revision-host-contamination.patch \
+            "
  
- diff --git a/doc/godebug.md b/doc/godebug.md
--index ae4f057..635597e 100644
-+index ae4f0576b4..635597ea42 100644
- --- a/doc/godebug.md
- +++ b/doc/godebug.md
- @@ -126,6 +126,13 @@ for example,
-@@ -64,19 +63,19 @@ index ae4f057..635597e 100644
-  to concerns around VCS injection attacks. This behavior can be renabled with the
-  setting `allowmultiplevcs=1`.
- diff --git a/src/internal/godebugs/table.go b/src/internal/godebugs/table.go
--index 33dcd81..7178df6 100644
-+index 33dcd81fc3..4ae043053c 100644
- --- a/src/internal/godebugs/table.go
- +++ b/src/internal/godebugs/table.go
--@@ -51,6 +51,7 @@ var All = []Info{
--	{Name: "tlsmaxrsasize", Package: "crypto/tls"},
-+@@ -52,6 +52,7 @@ var All = []Info{
- 	{Name: "tlsrsakex", Package: "crypto/tls", Changed: 22, Old: "1"},
- 	{Name: "tlsunsafeekm", Package: "crypto/tls", Changed: 22, Old: "1"},
--+	{Name: "urlmaxqueryparams", Package: "net/url", Changed: 24, Old: "0"},
- 	{Name: "x509sha1", Package: "crypto/x509"},
-++	{Name: "urlmaxqueryparams", Package: "net/url", Changed: 24, Old: "0"},
- 	{Name: "x509usefallbackroots", Package: "crypto/x509"},
- 	{Name: "x509usepolicies", Package: "crypto/x509"},
-+	{Name: "zipinsecurepath", Package: "archive/zip"},
- diff --git a/src/net/url/url.go b/src/net/url/url.go
--index d2ae032..cdca468 100644
-+index d2ae03232f..5219e3c130 100644
- --- a/src/net/url/url.go
- +++ b/src/net/url/url.go
- @@ -13,6 +13,7 @@ package url
-@@ -119,7 +118,7 @@ index d2ae032..cdca468 100644
- 		var key string
- 		key, query, _ = strings.Cut(query, "&")
- diff --git a/src/net/url/url_test.go b/src/net/url/url_test.go
--index fef236e..b2f8bd9 100644
-+index fef236e40a..b2f8bd95fc 100644
- --- a/src/net/url/url_test.go
- +++ b/src/net/url/url_test.go
- @@ -1488,6 +1488,54 @@ func TestParseQuery(t *testing.T) {
-@@ -178,7 +177,7 @@ index fef236e..b2f8bd9 100644
- 	url *URL
- 	out string
- diff --git a/src/runtime/metrics/doc.go b/src/runtime/metrics/doc.go
--index 517ec0e..88d6d8c 100644
-+index 517ec0e0a4..335f7873b3 100644
- --- a/src/runtime/metrics/doc.go
- +++ b/src/runtime/metrics/doc.go
- @@ -328,6 +328,11 @@ Below is the full list of supported metrics, ordered lexicographically.
-@@ -194,4 +193,4 @@ index 517ec0e..88d6d8c 100644
- 		The number of non-default behaviors executed by the crypto/x509
- 		package due to a non-default GODEBUG=x509sha1=... setting.
- --
--2.34.1
-+2.35.6
+ SRC_URI[sha256sum] = "e78a29e7766b8b7b354497d08f71a55641abc53675ce1875584781aae35644a1"
 -- 
-2.35.6
+2.43.0
 
 
