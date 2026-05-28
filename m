@@ -2,192 +2,245 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10566CD5BD5
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 21:19:16 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16138.1779988562469930379
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F48ECD4F54
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 21:19:46 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13350.1779981540840641244
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2026 10:16:02 -0700
+ Thu, 28 May 2026 08:19:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=GQKYpqSm;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: adityags2004@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-3938cc204a7so93977211fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 10:16:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779988561; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=JDlDhkHz;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: adityags2004@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bd3d7c29b4dso1870377666b.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 08:19:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779981539; cv=none;
         d=google.com; s=arc-20240605;
-        b=gyyfYOVZ8Q3uWKtJWsjWk+7X1NIpJQnABS6iWrAf8kAXt6yjPjZpx7fFNQ+hiPFtX0
-         sBgwzP8CkvMZQzJtdW81F6yevNi1aVvCC2UVoZYokFIIuZVkrY5BHLBDsy6bztILVOXz
-         9iJwzGRHP8d9zusW+YCpHUQleK4tLOQAX6lTl6IqUalGvPNWWN6pi8o8M0RLZJcsMzXz
-         wiZd1JWA53vqtVuhBsMAwNGxaFwT8jbSfrtOod1r2PIbRXVuXsSYVWs9WNDdCiUy9kV0
-         2DoMzSYCzlFcxZS4WdsAvBsyvrzKGsv4cFlOqTFQS9gpD536VAsFw3zC4IyPfX0CZz84
-         4i6w==
+        b=gh/FXqH9XFA3Tt8XOdCCs7UaDvDyYjv9QZBDjB7tqCwiKrXI3zuXsCioFskuW7JbQz
+         VmINoj/iUYVoYyW/ge66C1/RMVSwupgpzQ9X90KgxWxQBMclVchRUjVASt9svSI3rIHw
+         PxwZKrbL2b30N9PiGAfofRvVnH0Q0g8K6Rc3gtV89vkz+L0R9pLNq2ay8LWTd5gbwq9e
+         tQJOvKVE/hhefbgbl3cb83PzOzmbMGxdHNABV8fzYvctv/GZr7wT+SyP+qhyPY0AH3dt
+         Raatbw93IYQugYMV+Q4GBZYGNlgR9TMa8UfgkvaN6/VLVXu+Prn1zlvJqVpV8B35u2oq
+         rlCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=BgPDxN5qauTB6d7+8qezOULtwJyGPYLxjPabkEfqzlM=;
-        fh=HV0pswH5GB6UcRGvoGB5+EfNlB78N+UPlRP5L/jvmvA=;
-        b=I1a761uvFVcCwatcmlKGzb4lebWnKsudVhn5KYIaEaxCvKxWasaC4YETr/nAyB55VH
-         +46dXnSqPOa26BBtJSWqoHOu3DuCM2W69+NNHEx5fpzNHG0xRBouTsVK/vd4/evaruq1
-         3+5Yf33VPX/1cA9mssE7bQKxpLxCH8gmAV4OGltnIuOgJq3dIVAezyG+52zmgQ0L2Ghy
-         Nw/Ck0SbQ9N2IgElhPoUAjeIY0NFMD8bHoCaF13Sm69rlgzbbvOjv5mpNP6U73qnI3iv
-         I42OC7g1CgxWPZZn9Gb/0YiECuuANzl6Bk0f50+OcKDHeNJGFcFh7uIweQN3MF920yup
-         +UTQ==;
+        bh=c7hJtzB8lpI3TS1U196A0Ui+HIYcJzZxySkVusVGT8M=;
+        fh=B6vtDpNTi4XOGWGC9Kq5d9W1AUmYn1kAF47SU3Mvhxo=;
+        b=EjGJ3t6x1hfsffqrmDVrLmGdWmf9eLymECKY6z3G8jfyw0oHIJ79d3bZrcvx7sXdLH
+         CuS10OIHk62HFtiQ/74H9VJR/fU7N/0Is/+r0fGLDoyzPdjo4unaCCtJkf23uSEsW3/0
+         BD+VONlV6T7BVZssY64TQfneEmMnmENW0cRQ819hElJHSpHK39Cmri7+cJN9yeMaYGoy
+         jAsvLXAZ3VSXm46YI0LHm5AEy1V5IBb+nSIIm6J+1jRLHJor5/tvg0ZIUbGQ3+jQ/qcL
+         mz4AmZPmfupFp0KNnj8XJ2T5jRk0fumluZ2BrPGZkh3oZKQ3q6NRrmt2F3YFQfPepXHn
+         IKSQ==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779988561; x=1780593361; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1779981539; x=1780586339; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BgPDxN5qauTB6d7+8qezOULtwJyGPYLxjPabkEfqzlM=;
-        b=GQKYpqSms+Q63LlMdAzmjyGbAvdPN2g24IfE36X0EboSj5oHZn1un6ah2uoWM6dAUv
-         xmpJGnhXpNqmlvUFr5ZzrbYs6+kSqeVJ916RWQk9190mRGNDS96DXDKyxQ6MTGFK+0Dl
-         gA7hwt6+qfkntZkmlWLV0G3/ZP1t9TdROn/hVrEnSfxAOSi50qNYiM0ZVi/+dEb0YFIs
-         pXo3hqrqasOwU75sOqPG+qHWqJidkT7kjVm9Ez4dbRfVOFtx6u8w4MBCUJBk/EVsOcXj
-         Hz8eqNINWEq7/jF0yQxQDDnkFKXRdLtN/qw1uMHSVwv3OzrMGdE+zfrcQJ8k5KGWc470
-         cpJw==
+        bh=c7hJtzB8lpI3TS1U196A0Ui+HIYcJzZxySkVusVGT8M=;
+        b=JDlDhkHznikEs7K0GFa7h394bfQbBIrq7c/7v66nIxkVZZAaK10XFwMTW0cA7DvKdE
+         g0SGWmksZllJy77Mkq1dBKotcQbzAG8Ti0gmu7bNf6VVwBzX4v+dlF+4wBA8UsRz0MzL
+         m6CkuQEMqGxmfW+up9kgFm7y9tvuvJhDm0V8qFeDWBsaljCYhRomcU47KEcl7dY0e119
+         umu4FP4DQkv/GhvR5FtPWp3SGel+sIhdjQrkqcpDzBXYFXY5XhD/6dc9oPUMWzqEsdea
+         vCxhcrIwExxnHv8Ok4fC4+knmWruY3edPjvLC+Ghg3mKM5q7u3JzCVcQWwS6UTwRxYX+
+         nHZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779988561; x=1780593361;
+        d=1e100.net; s=20251104; t=1779981539; x=1780586339;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BgPDxN5qauTB6d7+8qezOULtwJyGPYLxjPabkEfqzlM=;
-        b=FjR1d3WvkznWDv1t5i76+vsv8i4ARtuI83W3pE18fzcprh7alFfaWmqRW/Xs9Qm8zD
-         PDIMIYinldOyNs186gSg36qq1FtEEMucETckkV6cqFC0Ph5VjSR4IPzjmPqAqYKvP/Iy
-         84pon56JbsZ74ZDTpqt91KnaSFq0KQkVQRgoLuVw7Qi0/a7hE9FGrwVEnxtREboVnAYh
-         qbAHXEDGvRMHkI6my6GhnIZLLw8WxUpaKGaH9PhIola4Sio/lLtDcPJ+9L/cp+XJ3u6y
-         FDt0HJZ9QgPzitStbWPZS09Dxy+umOIu1NkDcngXuC8wt11BAuPLkxpQCdnHtW17TDbC
-         +WHw==
-X-Forwarded-Encrypted: i=1; AFNElJ/WGGxeBd+4urPITJIEb+zNOWoP6NP9i7s/E3SdJr7nKWiuxkDeTH9k29ZCHW5mO1FWIj4YJWWU7h0Xh2xmf4l3mQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxTE97mndiDQtgSAopkKBw2fxUhHtnUjlLfDiCAArWRpP9DDtOe
-	dP6vWNK/O9OVhRJm7P7UwkkN9hxOfVNJRsiEv9lwimFG7T7OSLksJ78uUgv5lSuWQNB8BA7hMbB
-	7nJKwtrD1T0I28fqdDDdZqHOUrbT+m6w=
-X-Gm-Gg: Acq92OEAsO5DrweHG2zZMZ77vAvXZR93G0G5CJUlOm0quJO2Q7Z214otP+fYbftCExG
-	hbKkElB/NqeXMurKsqyWZLUKPZlWXZsK/6xO04Yx2a+TXzWRUuxGO8G9CPUbbPbcAqMhP7vUoxj
-	XYkNVOkRxdHBaftRBV4iG7AtEY+u7PS23XmFeAOjokUg2V7zyEOHFjfkeC/uo1sBIDSAiaDTFir
-	xyxPlKr/m0brvrxb6E8FmN0GeswkOOuXV3U9HaCakLSGSyqKeC4OxCVTdiHPFgC+lZn7/bzX+fl
-	pid4LDPPu51/KuZNnN3x
-X-Received: by 2002:a05:651c:1b97:b0:37f:c5ca:a6d4 with SMTP id
- 38308e7fff4ca-395d8bd88b3mr94058161fa.6.1779988560201; Thu, 28 May 2026
- 10:16:00 -0700 (PDT)
+        bh=c7hJtzB8lpI3TS1U196A0Ui+HIYcJzZxySkVusVGT8M=;
+        b=ZCHhCWowhE04WaO1KNJSb/9Ko0jeNS+BSyaD3I/pztvjyE5TMV/4tlV6UjnjDhlHm1
+         09RiuOtep8UkdnOkgLWgf1j7lSp+sy8kL8rXIr/m/KB3Dat3WeA8hnI6sOE+2DEfQYLG
+         Flb4yyaz0qe6xMCce1JT+TDe4ZyN0SEX0fRSbxZrQPBA1xcFjMJB3kg+LmGyqW53IOzW
+         WP5gbVZmLKKae4nh6ZEgndoP/s0r5SlQGf1eULLTpDz6DfVeKA8NefGQbfERw7g8CYEP
+         NTWtT9Y7UO1viQQ8Zt8JFfasOMLL64eYzwcPX5iMBztk6qezT/e28I3UVnkkO7hhG680
+         D+fw==
+X-Gm-Message-State: AOJu0Yw5vi/K1YB85og5md/2KyakvyVds+ssKFOPZEtQyVba0dOhjPGQ
+	vTwPIqJDojlqmvehYKSLUImoQYgdfkyvQIsD2PAE0lzi1noJ3B5U7kbeEZiKfFVuz7mndAoYcvZ
+	WR1GtU08kcl31LXo2zyu7q71MW1YeiIDG0vtZ
+X-Gm-Gg: Acq92OFoXBzatAcpv1uacz/PzvkFyAvS03vnjMt9WwxUgBVVn2ApWeEszqQwE7dvLQq
+	kca4teGkpWVatwBBbqj5iT8rHR89YgroCyglOi2Ir/X3FouM//dMY/tnQxmU07gpm7NjWFsgjvB
+	Q7KfToGav4qrrqu9Q7Ql5LeTyKOhqVP/AdRyFtvDGzjgDbTS/bX4SBdS9wtlaCa1nFUTXwTSg0v
+	8yuwzNeMMB4rfMwusVt8fGZBYbgxdaNNIYWaKd12tPHhs86JwLoaAQwh6iJN7Zsd/sObXm+XiBg
+	njreqaH+/nRNLKfZlBRFA5RApAdm2jg=
+X-Received: by 2002:a05:651c:551:b0:394:4ec:ccbc with SMTP id
+ 38308e7fff4ca-395d8cc5d5fmr99150821fa.14.1779981212199; Thu, 28 May 2026
+ 08:13:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <20260526112501.15985-1-adityags2004@gmail.com>
  <CANNYZj-CRdJjU1z-0m8bqfWtS=X_PVzyg8uKS4mcRXMua+ikVQ@mail.gmail.com>
  <CAHaUZZAZGRx0H4z5sr8ndJVqjdUk4N9kaSRKp=6-DyX73e0VkQ@mail.gmail.com>
  <CANNYZj_T4TDeN0LgrxqO4GZvebhhZx9smKrwN+MFG845z5dMUA@mail.gmail.com>
  <CAHaUZZCEHB_OVEpJgbE8tfsKyRP0JjOFBgjRyg54tLdFZY6Wtg@mail.gmail.com>
- <CANNYZj-BEjNW54zU6tOQ54BmtK8magKQe7oakp=iOggj6BBk-w@mail.gmail.com>
- <CAHaUZZBBwdufvhvggvG=xtoHuOFBZx+ExFGC+s_tK3Q51Qdwgw@mail.gmail.com>
- <CAHaUZZAG5d3WsGq_u-Kb4HuHc1u8H21gfcmSay4CxR-uxmE4Fg@mail.gmail.com> <f396af25d398685f31b9b55c079aa9fbb757dc1f.camel@linuxfoundation.org>
-In-Reply-To: <f396af25d398685f31b9b55c079aa9fbb757dc1f.camel@linuxfoundation.org>
+ <CANNYZj-BEjNW54zU6tOQ54BmtK8magKQe7oakp=iOggj6BBk-w@mail.gmail.com> <CAHaUZZBBwdufvhvggvG=xtoHuOFBZx+ExFGC+s_tK3Q51Qdwgw@mail.gmail.com>
+In-Reply-To: <CAHaUZZBBwdufvhvggvG=xtoHuOFBZx+ExFGC+s_tK3Q51Qdwgw@mail.gmail.com>
 From: "Aditya G.S" <adityags2004@gmail.com>
-Date: Thu, 28 May 2026 22:45:46 +0530
-X-Gm-Features: AVHnY4JXsdVHoblEFg-eL6s2_twdGh7Mr4aeZTPKzHpoC2s9lfPiYFpn0Xs3heI
-Message-ID: <CAHaUZZBwnoENFCg=kJsmB7t2jU3GciHQixxDy+VXwP02XD0d1Q@mail.gmail.com>
+Date: Thu, 28 May 2026 20:43:19 +0530
+X-Gm-Features: AVHnY4KO3JDUNKDdb9YI44NVefUipVhKHh3gyJhiRIBBSzMSqJXq6vMWkfSWzWU
+Message-ID: <CAHaUZZAG5d3WsGq_u-Kb4HuHc1u8H21gfcmSay4CxR-uxmE4Fg@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] randtest: retry on unstable sigma instead of tolerating statistical outliers
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org, 
-	joaomarcos.costa@bootlin.com, ross.burton@arm.com, 
-	randy.macleod@windriver.com
-Content-Type: multipart/alternative; boundary="000000000000d5cc330652e3e18a"
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, joaomarcos.costa@bootlin.com, 
+	ross.burton@arm.com, randy.macleod@windriver.com, 
+	richard.purdie@linuxfoundation.org
+Content-Type: multipart/alternative; boundary="000000000000dc2de60652e22b91"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 21:19:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237733
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 21:19:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237734
 
---000000000000d5cc330652e3e18a
+--000000000000dc2de60652e22b91
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Alex, Richard,
+Hi Alex,
 
-Thank you for the kind words and support I really appreciate it!
+I wanted to provide an update on this issue.
 
-I'm currently working on preparing the backport patch for oe-core based on
-the upstream changes, and will share it shortly for your review.
+The proposed fix has now been accepted upstream by the gawk maintainer.
 
-Please let me know if there are any specific expectations or guidelines I
-should keep in mind while preparing the patch.
+The changes to randtest.sh have been reviewed and integrated into the
+upstream repository, with appropriate updates to the original file and
+test/ChangeLog.
+
+Given that the root cause has now been addressed upstream, this issue can
+be resolved in oe-core by backporting the corresponding upstream fix,
+rather than relying on a workaround such as skipping the test.
+
+Please let me know if you would like me to prepare a backport patch for
+oe-core based on the upstream changes.
 
 Thanks,
 Aditya
 
-On Thu, May 28, 2026, 10:33=E2=80=AFPM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Thu, May 28, 2026, 11:03=E2=80=AFAM Aditya G.S <adityags2004@gmail.com> =
+wrote:
 
-> On Thu, 2026-05-28 at 20:43 +0530, Aditya G.S wrote:
-> > I wanted to provide an update on this issue.
-> >
-> > The proposed fix has now been accepted upstream by the gawk
-> > maintainer.
-> >
-> > The changes to randtest.sh have been reviewed and integrated into the
-> > upstream repository, with appropriate updates to the original file
-> > and test/ChangeLog.
-> >
-> > Given that the root cause has now been addressed upstream, this issue
-> > can be resolved in oe-core by backporting the corresponding upstream
-> > fix, rather than relying on a workaround such as skipping the test.
-> >
-> > Please let me know if you would like me to prepare a backport patch
-> > for oe-core based on the upstream changes.
+> Hi Alex,
 >
-> Big thanks and kudos for getting it sorted upstream!
+> Thanks for the guidance.
 >
-> We would happily take a backport patch.
+> A few days back I was facing SMTP configuration issues with git
+> send-email, which prevented me from sending patches in the proper format.
+> Because of that, I initially shared the patch manually.
 >
-> Cheers,
+> The SMTP issue is now resolved, and I have since used git send-email for
+> submissions. I also resent the patch to gawk upstream using git send-emai=
+l,
+> addressing the bug-gawk mailing list and CC'ing the maintainers.
 >
-> Richard
+> Please let me know if anything further is needed from my side.
+>
+> Thanks,
+> Aditya
+>
+> On Wed, May 27, 2026, 5:36=E2=80=AFPM Alexander Kanavin <alex.kanavin@gma=
+il.com>
+> wrote:
+>
+>> On Wed, 27 May 2026 at 13:41, Aditya G.S <adityags2004@gmail.com> wrote:
+>> > At this point, I am waiting for his feedback on the proposed fix. Once
+>> I receive a response or the patch is accepted (or revised), I will follo=
+w
+>> up accordingly and share the upstream link when available.
+>> >
+>> > Please let me know if you would prefer that I proceed with a temporary
+>> Yocto-side workaround (such as skipping the test) while the upstream
+>> resolution is pending.
+>>
+>> Thanks for summarizing, but I think there's a standard mailing list
+>> archive, where emails are placed as soon as they're sent:
+>>
+>> https://lists.gnu.org/archive/html/bug-gawk/2026-05/msg00054.html
+>>
+>> I see you're struggling with sending attachments there, I'm not sure
+>> why you can't simply use 'git send-email' to send the patch, as you
+>> just did on this list, but that is typically much preferred. Email
+>> attachments are difficult to review, especially when line by line
+>> comments are needed.
+>>
+>> Otherwise, upstream seems friendly and responsive, so we should
+>> probably wait a bit? Ideally, they'd add the fix to the upstream git
+>> repo, and then it can be backported in oe-core.
+>>
+>> Alex
+>>
 >
 
---000000000000d5cc330652e3e18a
+--000000000000dc2de60652e22b91
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Hi Alex, Richard,<div dir=3D"auto"><br></div><div dir=3D"=
-auto">Thank you for the kind words and support I really appreciate it!</div=
-><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;m currently working on=
- preparing the backport patch for oe-core based on the upstream changes, an=
-d will share it shortly for your review.</div><div dir=3D"auto"><br></div><=
-div dir=3D"auto">Please let me know if there are any specific expectations =
-or guidelines I should keep in mind while preparing the patch.</div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">Thanks,=C2=A0</div><div dir=3D"auto"=
->Aditya</div></div><br><div class=3D"gmail_quote gmail_quote_container"><di=
-v dir=3D"ltr" class=3D"gmail_attr">On Thu, May 28, 2026, 10:33=E2=80=AFPM R=
-ichard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">ric=
-hard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">On Thu, 2026-05-28 at 20:43 +0530, Aditya G.S wrote:<br>
-&gt; I wanted to provide an update on this issue.<br>
-&gt; <br>
-&gt; The proposed fix has now been accepted upstream by the gawk<br>
-&gt; maintainer.<br>
-&gt; <br>
-&gt; The changes to randtest.sh have been reviewed and integrated into the<=
-br>
-&gt; upstream repository, with appropriate updates to the original file<br>
-&gt; and test/ChangeLog.<br>
-&gt; <br>
-&gt; Given that the root cause has now been addressed upstream, this issue<=
-br>
-&gt; can be resolved in oe-core by backporting the corresponding upstream<b=
-r>
-&gt; fix, rather than relying on a workaround such as skipping the test.<br=
+<div dir=3D"auto">Hi Alex,<div dir=3D"auto"><br></div><div dir=3D"auto">I w=
+anted to provide an update on this issue.</div><div dir=3D"auto"><br></div>=
+<div dir=3D"auto">The proposed fix has now been accepted upstream by the ga=
+wk maintainer.</div><div dir=3D"auto"><br></div><div dir=3D"auto">The chang=
+es to randtest.sh have been reviewed and integrated into the upstream repos=
+itory, with appropriate updates to the original file and test/ChangeLog.</d=
+iv><div dir=3D"auto"><br></div><div dir=3D"auto">Given that the root cause =
+has now been addressed upstream, this issue can be resolved in oe-core by b=
+ackporting the corresponding upstream fix, rather than relying on a workaro=
+und such as skipping the test.</div><div dir=3D"auto"><br></div><div dir=3D=
+"auto">Please let me know if you would like me to prepare a backport patch =
+for oe-core based on the upstream changes.</div><div dir=3D"auto"><br></div=
+><div dir=3D"auto">Thanks,=C2=A0</div><div dir=3D"auto">Aditya</div></div><=
+br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, May 28, 2026, 11:03=E2=80=AFAM Aditya G.S &lt;<a hr=
+ef=3D"mailto:adityags2004@gmail.com">adityags2004@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto"><div dir=3D"auto"=
+>Hi Alex,</div><div dir=3D"auto"><br></div>Thanks for the guidance.<div dir=
+=3D"auto"><br></div><div dir=3D"auto">A few days back I was facing SMTP con=
+figuration issues with git send-email, which prevented me from sending patc=
+hes in the proper format. Because of that, I initially shared the patch man=
+ually.</div><div dir=3D"auto"><br></div><div dir=3D"auto">The SMTP issue is=
+ now resolved, and I have since used git send-email for submissions. I also=
+ resent the patch to gawk upstream using git send-email, addressing the bug=
+-gawk mailing list and CC&#39;ing the maintainers.</div><div dir=3D"auto"><=
+br></div><div dir=3D"auto">Please let me know if anything further is needed=
+ from my side.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks,=
+=C2=A0</div><div dir=3D"auto">Aditya=C2=A0</div></div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 27, 2026, 5:36=
+=E2=80=AFPM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com"=
+ target=3D"_blank" rel=3D"noreferrer">alex.kanavin@gmail.com</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex">On Wed, 27 May 2026 at 13:41, Adit=
+ya G.S &lt;<a href=3D"mailto:adityags2004@gmail.com" rel=3D"noreferrer nore=
+ferrer" target=3D"_blank">adityags2004@gmail.com</a>&gt; wrote:<br>
+&gt; At this point, I am waiting for his feedback on the proposed fix. Once=
+ I receive a response or the patch is accepted (or revised), I will follow =
+up accordingly and share the upstream link when available.<br>
+&gt;<br>
+&gt; Please let me know if you would prefer that I proceed with a temporary=
+ Yocto-side workaround (such as skipping the test) while the upstream resol=
+ution is pending.<br>
+<br>
+Thanks for summarizing, but I think there&#39;s a standard mailing list<br>
+archive, where emails are placed as soon as they&#39;re sent:<br>
+<br>
+<a href=3D"https://lists.gnu.org/archive/html/bug-gawk/2026-05/msg00054.htm=
+l" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://lists=
+.gnu.org/archive/html/bug-gawk/2026-05/msg00054.html</a><br>
+<br>
+I see you&#39;re struggling with sending attachments there, I&#39;m not sur=
+e<br>
+why you can&#39;t simply use &#39;git send-email&#39; to send the patch, as=
+ you<br>
+just did on this list, but that is typically much preferred. Email<br>
+attachments are difficult to review, especially when line by line<br>
+comments are needed.<br>
+<br>
+Otherwise, upstream seems friendly and responsive, so we should<br>
+probably wait a bit? Ideally, they&#39;d add the fix to the upstream git<br=
 >
-&gt; <br>
-&gt; Please let me know if you would like me to prepare a backport patch<br=
->
-&gt; for oe-core based on the upstream changes.<br>
+repo, and then it can be backported in oe-core.<br>
 <br>
-Big thanks and kudos for getting it sorted upstream!<br>
-<br>
-We would happily take a backport patch.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
+Alex<br>
+</blockquote></div>
 </blockquote></div>
 
---000000000000d5cc330652e3e18a--
+--000000000000dc2de60652e22b91--
 
