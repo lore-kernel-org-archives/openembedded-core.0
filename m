@@ -1,313 +1,345 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF83CD5BD1
-	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 08:36:41 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.71])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6121.1779956372504864075
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C883ECD6E44
+	for <webhook@archiver.kernel.org>; Thu, 28 May 2026 10:02:44 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7563.1779962560597430760
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2026 01:19:33 -0700
+ Thu, 28 May 2026 03:02:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@mt.com header.s=selector2 header.b=p4vMyaJF;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: mt.com, ip: 52.101.83.71, mailfrom: wojciech.dubowik@mt.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kGprM7M0MO28AXnLg+UuVd4sIYN3iuP6Qbd5NAjIfSplh/VcVmvvTVtcNNWeNluxX2lyiW3PYlIpksPcmfryzrtDToxcGUbTU/HzW+aX+j/E4bwelBhzUr6AN5Wd4pRB72tQYvCkVcUBxAahqIO6ZRoqgQiBAPpXXF3px+0BJVHPXrQxZ5omEJ5SE6E3qHTu5SimdgSrfMXyH5e5Q+jIjLq/pucqlShg7hTv0vWoCzKpUv8WHr3+MwSlzCeR4PuopwuKVEwA0eX/xHIqlF38sA48yKk+njLHluZqhSfsyDSa8Djm5Xhoph9HZoRccErECBoVrIC9eXlb1jYv34fgFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jFvpPbyKVIZVSW6kypbWueSf6k1eHsP3WgiWXEY+Lzc=;
- b=qQbyC2ZNjT3RzEsE+dh5kdOCwMpWp+qThYLweNzbtoVQ8MB23sKL65i5M8mT2oeVwuzXh//4QFesFOwSItVFrSIRBgl/MvgqAZMySkLd4HqP7wTSGafR53P5tqLDKugL3d4aNLk0+F1FU2AtJEdaz6OiTtR+bFsqm3Ld4xqT7n+nFkJfC1NHbnn+Gyj5/EJ5TKus7hx+yJ8Pp3BOGrB5ArWCtsStqkRCeqHbZsagZzoMOpaBUZM67ise5LeFTH6a8C66rKgWz5P1Vt3ERld6JM0WzLBOuxN8bR63O5rh4FgsVPPf4T8q8kcWzBQcg2Toe2YaXQf1lRkPdCFqZHgFtg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
- header.d=mt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jFvpPbyKVIZVSW6kypbWueSf6k1eHsP3WgiWXEY+Lzc=;
- b=p4vMyaJFBypjDzlZRaITS6g1qGmb80w8Fl7gZSIm8mxFIVwtIIFECdZnbEaJHmUR5YueFbK8LOsAwFaxaDS57K1BWyQmH1fjn6kqfy/368E9FjOe0iGpdv/sbHS9QoUaN5V4v/QSEI8VjTTJPCr5Qa4P/9J57Sv04ZusYhBCG8mnuwBkHJ9YNFxHGkv9ESgVHLCSe1MLJQMCDm38Xog78nZJQan/1U/nUMH4sxsKtqaVi+d4CMmkqDAfECe7xoUCrhdQB02d2wNjxUdF4gGgAn09Jd0CHi8qI8Sx2OD5hvMZxD3wvS4HcS6fXzzYYl/1R/ga9KqvCjy/nGM+0edMzg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mt.com;
-Received: from DB9PR03MB7180.eurprd03.prod.outlook.com (2603:10a6:10:22d::13)
- by AS8PR03MB9842.eurprd03.prod.outlook.com (2603:10a6:20b:619::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Thu, 28 May
- 2026 08:04:00 +0000
-Received: from DB9PR03MB7180.eurprd03.prod.outlook.com
- ([fe80::6fd2:12a9:4423:8ddc]) by DB9PR03MB7180.eurprd03.prod.outlook.com
- ([fe80::6fd2:12a9:4423:8ddc%3]) with mapi id 15.21.0071.011; Thu, 28 May 2026
- 08:04:00 +0000
-From: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
-To: u-boot@lists.denx.de
-CC: Wojciech Dubowik <Wojciech.Dubowik@mt.com>,
-	Franz Schnyder <fra.schnyder@gmail.com>,
-	trini@konsulko.com,
-	"openembedded-core @ lists . openembedded . org" <openembedded-core@lists.openembedded.org>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	Simon Glass <sjg@chromium.org>,
-	Quentin Schulz <quentin.schulz@cherry.de>,
-	David Lechner <dlechner@baylibre.com>
-Subject: [PATCH v5] tools: mkeficapsule: Rework pkcs11 support
-Date: Thu, 28 May 2026 10:03:54 +0200
-Message-ID: <20260528080356.399082-1-Wojciech.Dubowik@mt.com>
-X-Mailer: git-send-email 2.47.3
-X-ClientProxiedBy: ZR0P278CA0131.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:40::10) To DB9PR03MB7180.eurprd03.prod.outlook.com
- (2603:10a6:10:22d::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR03MB7180:EE_|AS8PR03MB9842:EE_
-X-MS-Office365-Filtering-Correlation-Id: b1f1f1d2-8ba7-4372-9c3f-08debc8fac73
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|19092799006|38350700014|56012099006|6133799003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	CZiweY1FbFqFU2Mqk7TMV9cUqqaR4mHQYfQC8F79/gnYyBUPohI6PceArqxT0kBG7bSDr2/fdgKzFxhyd7b62vKbukcbwWpitBNC6Gs/TFGEjghxfevdHpDzXRkz6VaU1/0ZHt0DfYC0LRtxLc7AdJas9gIveZP2cW+g2jOC+1qZgFiMYIZARtXkV2o9sUidqFutcc1rWLZGLIS34kBxtjef5PQZVuatDPZ66tCdzTtvlG7Dj0hHWuEdfCTu9YsC9qlELoZLmKHP9T+dKpFU1Bn1kqob1DmizEBDVyPkcZabKolx0p0tBPLk9ZDBAKLc4Fpo5IfefMwIjH0CsqfpRLhte0f//cxpDj5wfPqbFcQs1eXp04+1bm7Pxa0zhg7Ij9ZbndYKxFrPdXxowIzg2J0aB8sWHvWdmImCL86dyngUs1rWqVKpShEoXAtXumr3/3nPMFpDQaNT9nXGfPUHAksd6iIOmdcLkJUmwUY27nOemjiuSByMyeLYJvUwo1EZmcJd5V3vlWPnliMCWatLHSSm645wc81eGQXduocOY/GhgiHbtbQ+7Fys+EwGOosq3O7bnS39QCwRE2+kSxRvcwGOol2w/CCr0tRyJ1PiGMr/7aHLUMO9tT1pCcX8E4M0OiH+7P66RrR5VdJtPB/qEmRpfNzBm4snwy6P7NHgoLF1quSJCcOiYDdECjyM83Fo3FU3KR18kzBocElH8LOKUeWTW5w7vzhlvkv7P2jqKldkW4VFKTEO9iMC4GDcUuwq
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB7180.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(19092799006)(38350700014)(56012099006)(6133799003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Ed9t3Gh9kW0TK0b3mJKnR9b615vSl6VV4dahm8fztWidIiJdjw0xyzzT1DO1?=
- =?us-ascii?Q?wXfghA3iuzTWrK8Hcr2iXAq4Y7lK7idu4R2j+mYKds3e1PB5fAzksJwascM3?=
- =?us-ascii?Q?gasXgO8hm2cR8/Ko2echh19OphtguEvxxC1oc5KUFBxPF7i43SvOFn1n2gn5?=
- =?us-ascii?Q?DofS3iDCJbr/JPTrtOQmdw7MHOSxp9nF64YCYaw+8F/g3A+FNP9uReXwzsDS?=
- =?us-ascii?Q?/dEC2avqYdjp48hMthu+RgKsXb2Mnudwxx7iaxyqNwwHWsMfVI7iNfrb+x+w?=
- =?us-ascii?Q?09DmTm4XKDeJsNEv8uTyN3XdNApDfgMYH8o/LjXpgBBL/gfxnox9U5ekOrCE?=
- =?us-ascii?Q?u+Ro4ZOggVxwLHW0gKcyQBLj4UzvKoQ04+uwIP7pCB4v+3ziCytMfVC76RqR?=
- =?us-ascii?Q?oZtaHghEI0v9F8gJyfOnaaC+V0Gr2lImat1oH7t7/+VQShGqCca/gPuB5jye?=
- =?us-ascii?Q?hV6gf9i21nouHcQOu/1IXFh/n/WJEvzoc3p/Kkg5G/d1dZNFlx6ZVYnwJQXE?=
- =?us-ascii?Q?BhBxhdMXw6GgWPUxkpSV5LIzL0BcCjE9PLyaHhuZPh3RQwT+s7HyA5aRKXBv?=
- =?us-ascii?Q?MXgq3XTiWSyyIPsJD1VYKtnB86Psx0PP5+FO8IAfC5koPtKFOXSz3BpIf55G?=
- =?us-ascii?Q?DCs5tr6rpsK/nlOZXmKs4fJbLi/rm/pWovWU8aNemJMyGzo9ucWAruPWVBYP?=
- =?us-ascii?Q?5vCZBsblVDask2GKZlIMJ3Y0eKgea7pdZQbZqayIf9NTgFoKuBWpuOPJpy8D?=
- =?us-ascii?Q?zVppRiWExcScA2tg0/tBcd33czNYV4W4ZEm7bSJwl9sxvEsjVCm6KISadkgC?=
- =?us-ascii?Q?CX/JEkmOAPzv9xcmsTdix1aUSXTdMX0mwfN1x2ka2sO96NaOVf8i3ITbPgQ4?=
- =?us-ascii?Q?OwGPL14eOsrddTu/2CBRvx42jgM2Db2qnEySy6Io7SVvFGPhlmnfx2ZzrV75?=
- =?us-ascii?Q?6jVOyxWAPVdx2tIRbINvGRc8S4y5EL2uqXIVF252SRlC5u1dCVm5SYj1Dkgf?=
- =?us-ascii?Q?zwe+SWY2p1bJrHcFKiMJhYb+tPy/MXc2Wgf4CnqTGfdhWf4VxeH6lz1hywnW?=
- =?us-ascii?Q?4w2JSU9NmqhAPvWKntLJjEf//yMPIJlDT/jRwtB0kiDwfVZFIGU/+d/QdE8H?=
- =?us-ascii?Q?KQvuRkQkwl2xdoYVtqKxhqNLHs1egw31aK7yPqf098TyhjQ9FRM8/soDzTPZ?=
- =?us-ascii?Q?jI8oVL8ixTVTEmqo1M/1X3J/O5FJqX+X2jSIizGG2NCy0eRjl47eVyU1sUUU?=
- =?us-ascii?Q?w9WrfgwS44ohAmqanp8HHF2YROnicAQ/OfQQ7JZiJlhjE9BF/fJsbgx+/oDU?=
- =?us-ascii?Q?PVF0yoW2gw0zXc+2oxVR9CMManHrHVTimfPgTI/AT7YZM/Dh7J1jrzNWEEhj?=
- =?us-ascii?Q?j66zCDdKVsOH11NSASK4UIoan/L+R5R00CdK28tw0ewn9L9Jq5kSbOn8TIxC?=
- =?us-ascii?Q?XnJ/T6A7oHzTnxTfvGbSIMFTJ7I+xL68SfbiInyy3NswuRJ16/HmhknL+p/v?=
- =?us-ascii?Q?GV1s5oDX/cQ1b6+6cb5ZH8lOvrusHNNv/sry6FcKDETA87b4plVFMsEekA4X?=
- =?us-ascii?Q?ktE89Q8tzHnVb+zTzqxjpdflX2HuyPkaw4WAn8h2SGKPNoo/YYq2b+v3Pq2l?=
- =?us-ascii?Q?yoNAM8/77s4k76LQ3bT+yA9diYB0RNgicGEKpn/UXXZBZeO79a9m7jNi0m1y?=
- =?us-ascii?Q?WgBBXMQrE+L7I18WKTGXKROVKJlyDiJzIo9uzCq6dpT3b/5pxwfmWZ5K+twC?=
- =?us-ascii?Q?/BZ+sB+35g=3D=3D?=
-X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1f1f1d2-8ba7-4372-9c3f-08debc8fac73
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB7180.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 08:03:59.9452
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L7Eopz5CheO+a5vITb8C2NB5E/uuo0ZucFRMHxvQnPabduxGRMR8DjHsFvpbh9kWVk43BhjvA6bOo/wAXpyklw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR03MB9842
+ dkim=pass header.i=@smile.fr header.s=google header.b=OQ2xdifS;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49050bfe053so31838465e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 03:02:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1779962559; x=1780567359; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l7Ia3i0/mtbKO8GylYYjUT/Mk82uILqzGVPnjzrRwi0=;
+        b=OQ2xdifS5no0uWj8QPyNqzMs5c6ZlNm8HPx/h1MB8Fwn22HAEsqgvYLMph+csdmOw4
+         +UIbgaUiuEYd2lcopbfnQjpIFCA6cMjyPSXqFotX5j0QS3YRMKdDI6HCSll0WTHslO36
+         z/UxSudvn9DIrDyg8D8fm9r6yjU1G6/F4GZCk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779962559; x=1780567359;
+        h=in-reply-to:references:from:subject:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l7Ia3i0/mtbKO8GylYYjUT/Mk82uILqzGVPnjzrRwi0=;
+        b=SgUduF7QnXfTsNifnAQ+YqrbXhje4uIWADuWCPTJEpZSs7ZhNxVp4Z8KS/i33g7RG/
+         FcKXk2Xm4Q96L6QYw4dLClY9c8ir8yuu3xfaEn0QKO61XVb6xivA24yRM//a8cYqKyel
+         QHwRQqDYfVqAsMq7IibYPBqRxz/sq2XJbe7ZSDTT276Cjx6U5/PgA+hlc0tX6p3Qq0/D
+         R3GaNWHJrhhVbTDkQz2K4zIk+NDlEa7eoMyNi//tfU22e8xJO8rOGZ/kjjSFWenYDPpB
+         apmmoze6OuyjaKPiLMYaa/kdBqIEfFMmFn+uELjrQgMYjv4yetpQLHWOP3+EZikeIMFS
+         9KVA==
+X-Forwarded-Encrypted: i=1; AFNElJ8zLzUasLjA/usxbV2M/15ADSyWJDgVMALymTWeppAw4XU7wqZu8bYFhGFEhUR9BRUXpS3STj0yfkiYuMfJgfnusQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzcei4O7fKYGGvx6ZPbCji2TsXrBvgKQFdM2EE1Saykg72X6mIV
+	u0zojWmTz/yiYalWTxqr2MfT/NGfhG03SoZLJrom29yqgIwt/K5to7OrW8UKbu0b7FE=
+X-Gm-Gg: Acq92OHKsf250qAhOc/zMLNFwkw2Mo6QQzdWPjuO+L69ZF8Kcd9arr0CDA4tiovVWgd
+	TNryJ/goGwOBJ6KmuKFirIPDvf0k5v1/6hqah33haSN2d9lzcoPX4kX6dR6dkoPBECeWcgF5lcx
+	6Qx8A4T7p56sBv1RJ1I3ukXGF4KqFX/er1MbSfMr11yTGk4D2n+Pwnx/9lEvig/s6gQpcE/D+2a
+	2xp8Qw6kEvfBOKbNFO9aS/Vm4qkxpFgpl9sxZLTeuHTUHzoRR7uFVKMCc7wtaS21OUQ5uJlS1nt
+	FqDBiiRFUdU5qqXBavqbCR92VqMx6aJYc0+x5fMffIRkiP21s+zhT3JA6IqJ4WkoCQwOokAT/Yl
+	ef2QBRC0GD+LD52wCuFTpPWUzEHCVkmqE6Vl+bAsy7x6Z2wUmdNpAt7EbWjmiYbvFH5/Pdu2OyJ
+	G3Xx89AwXey86Q22idxkIV1q1YyjAf9F4bkBNtbcISo8UW+IdoFqjvLWjGV+C0AuqSjLGaIrJm9
+	X2S72f4JiTUHpsXbE4sk4JuvQ==
+X-Received: by 2002:a05:600c:45ce:b0:490:5cd8:d213 with SMTP id 5b1f17b1804b1-4905cd8d33emr288933255e9.15.1779962558674;
+        Thu, 28 May 2026 03:02:38 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45edb5c44e4sm12149961f8f.36.2026.05.28.03.02.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 May 2026 03:02:37 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 28 May 2026 12:02:37 +0200
+Message-Id: <DIU82EFA77NL.1NQR1LA50Q89W@smile.fr>
+To: <Yash.Shinde.oss.dev@gmail.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/7] python3-cryptography{-vectors}: upgrade
+ 46.0.7 -> 48.0.0
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260519172205.274641-1-Yash.Shinde.oss.dev@gmail.com>
+In-Reply-To: <20260519172205.274641-1-Yash.Shinde.oss.dev@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 08:36:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237696
+ <openembedded-core@lists.openembedded.org>; Thu, 28 May 2026 10:02:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237697
 
-Some distros like OpenEmbedded are using gnutls library
-without pkcs11 support and linking of mkeficapsule will fail.
-It would make maintenance of default configs a hurdle.
-Add detection of pkcs11 support in gnutls so it's enabled
-when available and doesn't need to be set explicitly.
+On Tue May 19, 2026 at 7:21 PM CEST, Yash Shinde via lists.openembedded.org=
+ wrote:
+> From: Yash Shinde <Yash.Shinde.oss.dev@gmail.com>
+>
+> https://github.com/pyca/cryptography/blob/main/CHANGELOG.rst#4800---2026-=
+05-04
+> https://github.com/pyca/cryptography/compare/46.0.7...48.0.0
+>
+> Signed-off-by: Yash Shinde <Yash.Shinde.oss.dev@gmail.com>
+> ---
+>  .../python/python3-cryptography-common.inc    |   2 +-
+>  .../python/python3-cryptography-crates.inc    | 108 ++++++++----------
+>  .../python/python3-cryptography-vectors.bb    |   3 +-
+>  .../python/python3-cryptography.bb            |   2 +-
+>  4 files changed, 53 insertions(+), 62 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3-cryptography-common.inc=
+ b/meta/recipes-devtools/python/python3-cryptography-common.inc
+> index 0515cf7705..77d9781688 100644
+> --- a/meta/recipes-devtools/python/python3-cryptography-common.inc
+> +++ b/meta/recipes-devtools/python/python3-cryptography-common.inc
+> @@ -3,4 +3,4 @@
+>  #
+>  # Additionally AUH will detect that they share this .inc file and
+>  # perform a lockstep upgrade for both.
+> -PV =3D "46.0.7"
+> +PV =3D "48.0.0"
+> diff --git a/meta/recipes-devtools/python/python3-cryptography-crates.inc=
+ b/meta/recipes-devtools/python/python3-cryptography-crates.inc
+> index 6e3667eef1..0301b1f49c 100644
+> --- a/meta/recipes-devtools/python/python3-cryptography-crates.inc
+> +++ b/meta/recipes-devtools/python/python3-cryptography-crates.inc
+> @@ -2,77 +2,69 @@
+> =20
+>  # from Cargo.lock
+>  SRC_URI +=3D " \
+> -    crate://crates.io/asn1/0.22.0 \
+> -    crate://crates.io/asn1_derive/0.22.0 \
+> -    crate://crates.io/autocfg/1.5.0 \
+> +    crate://crates.io/asn1/0.24.1 \
+> +    crate://crates.io/asn1_derive/0.24.1 \
+>      crate://crates.io/base64/0.22.1 \
+> -    crate://crates.io/bitflags/2.9.4 \
+> -    crate://crates.io/cc/1.2.37 \
+> -    crate://crates.io/cfg-if/1.0.3 \
+> -    crate://crates.io/find-msvc-tools/0.1.1 \
+> +    crate://crates.io/bitflags/2.11.1 \
+> +    crate://crates.io/cc/1.2.61 \
+> +    crate://crates.io/cfg-if/1.0.4 \
+> +    crate://crates.io/find-msvc-tools/0.1.9 \
+>      crate://crates.io/foreign-types/0.3.2 \
+>      crate://crates.io/foreign-types-shared/0.1.1 \
+>      crate://crates.io/heck/0.5.0 \
+> -    crate://crates.io/indoc/2.0.6 \
+> -    crate://crates.io/itoa/1.0.15 \
+> -    crate://crates.io/libc/0.2.175 \
+> -    crate://crates.io/memoffset/0.9.1 \
+> -    crate://crates.io/once_cell/1.21.3 \
+> -    crate://crates.io/openssl/0.10.74 \
+> +    crate://crates.io/itoa/1.0.18 \
+> +    crate://crates.io/libc/0.2.186 \
+> +    crate://crates.io/once_cell/1.21.4 \
+> +    crate://crates.io/openssl/0.10.79 \
+>      crate://crates.io/openssl-macros/0.1.1 \
+> -    crate://crates.io/openssl-sys/0.9.110 \
+> -    crate://crates.io/pem/3.0.5 \
+> -    crate://crates.io/pkg-config/0.3.32 \
+> -    crate://crates.io/portable-atomic/1.11.1 \
+> -    crate://crates.io/proc-macro2/1.0.101 \
+> -    crate://crates.io/pyo3/0.26.0 \
+> -    crate://crates.io/pyo3-build-config/0.26.0 \
+> -    crate://crates.io/pyo3-ffi/0.26.0 \
+> -    crate://crates.io/pyo3-macros/0.26.0 \
+> -    crate://crates.io/pyo3-macros-backend/0.26.0 \
+> -    crate://crates.io/quote/1.0.40 \
+> -    crate://crates.io/self_cell/1.2.0 \
+> +    crate://crates.io/openssl-sys/0.9.115 \
+> +    crate://crates.io/pem/3.0.6 \
+> +    crate://crates.io/pkg-config/0.3.33 \
+> +    crate://crates.io/portable-atomic/1.13.1 \
+> +    crate://crates.io/proc-macro2/1.0.106 \
+> +    crate://crates.io/pyo3/0.28.3 \
+> +    crate://crates.io/pyo3-build-config/0.28.3 \
+> +    crate://crates.io/pyo3-ffi/0.28.3 \
+> +    crate://crates.io/pyo3-macros/0.28.3 \
+> +    crate://crates.io/pyo3-macros-backend/0.28.3 \
+> +    crate://crates.io/quote/1.0.45 \
+> +    crate://crates.io/self_cell/1.2.2 \
+>      crate://crates.io/shlex/1.3.0 \
+> -    crate://crates.io/syn/2.0.106 \
+> -    crate://crates.io/target-lexicon/0.13.3 \
+> -    crate://crates.io/unicode-ident/1.0.19 \
+> -    crate://crates.io/unindent/0.2.4 \
+> +    crate://crates.io/syn/2.0.117 \
+> +    crate://crates.io/target-lexicon/0.13.5 \
+> +    crate://crates.io/unicode-ident/1.0.24 \
+>      crate://crates.io/vcpkg/0.2.15 \
+>  "
+> =20
+> -SRC_URI[asn1-0.22.0.sha256sum] =3D "df42c2b01c5e1060b8281f67b4e5fb858260=
+694916a667345a7305cd11e5dbfa"
+> -SRC_URI[asn1_derive-0.22.0.sha256sum] =3D "cdccf849b54365e3693e9a90ad36e=
+4482b79937e6373ac8e2cf229c985187b21"
+> -SRC_URI[autocfg-1.5.0.sha256sum] =3D "c08606f8c3cbf4ce6ec8e28fb0014a2c08=
+6708fe954eaa885384a6165172e7e8"
+> +SRC_URI[asn1-0.24.1.sha256sum] =3D "c9795210620c0cb3f9a7ce4f882808c38e1e=
+f7b347c90591dceae0886e031fb1"
+> +SRC_URI[asn1_derive-0.24.1.sha256sum] =3D "909e307f1cc32bb8bccbd98f446e6=
+d1bf03fa30f7b53a4337da7181ad30fa11a"
+>  SRC_URI[base64-0.22.1.sha256sum] =3D "72b3254f16251a8381aa12e40e3c4d2f01=
+99f8c6508fbecb9d91f575e0fbb8c6"
+> -SRC_URI[bitflags-2.9.4.sha256sum] =3D "2261d10cca569e4643e526d8dc2e62e43=
+3cc8aba21ab764233731f8d369bf394"
+> -SRC_URI[cc-1.2.37.sha256sum] =3D "65193589c6404eb80b450d618eaf9a2cafaaaf=
+d57ecce47370519ef674a7bd44"
+> -SRC_URI[cfg-if-1.0.3.sha256sum] =3D "2fd1289c04a9ea8cb22300a459a72a385d7=
+c73d3259e2ed7dcb2af674838cfa9"
+> -SRC_URI[find-msvc-tools-0.1.1.sha256sum] =3D "7fd99930f64d146689264c637b=
+5af2f0233a933bef0d8570e2526bf9e083192d"
+> +SRC_URI[bitflags-2.11.1.sha256sum] =3D "c4512299f36f043ab09a583e57bceb5a=
+5aab7a73db1805848e8fef3c9e8c78b3"
+> +SRC_URI[cc-1.2.61.sha256sum] =3D "d16d90359e986641506914ba71350897565610=
+e87ce0ad9e6f28569db3dd5c6d"
+> +SRC_URI[cfg-if-1.0.4.sha256sum] =3D "9330f8b2ff13f34540b44e946ef35111825=
+727b38d33286ef986142615121801"
+> +SRC_URI[find-msvc-tools-0.1.9.sha256sum] =3D "5baebc0774151f905a1a2cc419=
+89300b1e6fbb29aff0ceffa1064fdd3088d582"
+>  SRC_URI[foreign-types-0.3.2.sha256sum] =3D "f6f339eb8adc052cd2ca78910fda=
+869aefa38d22d5cb648e6485e4d3fc06f3b1"
+>  SRC_URI[foreign-types-shared-0.1.1.sha256sum] =3D "00b0228411908ca8685db=
+a7fc2cdd70ec9990a6e753e89b6ac91a84c40fbaf4b"
+>  SRC_URI[heck-0.5.0.sha256sum] =3D "2304e00983f87ffb38b55b444b5e3b60a884b=
+5d30c0fca7d82fe33449bbe55ea"
+> -SRC_URI[indoc-2.0.6.sha256sum] =3D "f4c7245a08504955605670dbf141fceab975=
+f15ca21570696aebe9d2e71576bd"
+> -SRC_URI[itoa-1.0.15.sha256sum] =3D "4a5f13b858c8d314ee3e8f639011f7ccefe7=
+1f97f96e50151fb991f267928e2c"
+> -SRC_URI[libc-0.2.175.sha256sum] =3D "6a82ae493e598baaea5209805c49bbf2ea7=
+de956d50d7da0da1164f9c6d28543"
+> -SRC_URI[memoffset-0.9.1.sha256sum] =3D "488016bfae457b036d996092f6cb4486=
+77611ce4449e970ceaf42695203f218a"
+> -SRC_URI[once_cell-1.21.3.sha256sum] =3D "42f5e15c9953c5e4ccceeb2e7382a71=
+6482c34515315f7b03532b8b4e8393d2d"
+> -SRC_URI[openssl-0.10.74.sha256sum] =3D "24ad14dd45412269e1a30f52ad8f0664=
+f0f4f4a89ee8fe28c3b3527021ebb654"
+> +SRC_URI[itoa-1.0.18.sha256sum] =3D "8f42a60cbdf9a97f5d2305f08a87dc4e0930=
+8d1276d28c869c684d7777685682"
+> +SRC_URI[libc-0.2.186.sha256sum] =3D "68ab91017fe16c622486840e4c83c9a37af=
+eff978bd239b5293d61ece587de66"
+> +SRC_URI[once_cell-1.21.4.sha256sum] =3D "9f7c3e4beb33f85d45ae3e3a1792185=
+706c8e16d043238c593331cc7cd313b50"
+> +SRC_URI[openssl-0.10.79.sha256sum] =3D "bf0b434746ee2832f4f0baf10137e1ca=
+bb18cbe6912c69e2e33263c45250f542"
+>  SRC_URI[openssl-macros-0.1.1.sha256sum] =3D "a948666b637a0f465e8564c73e8=
+9d4dde00d72d4d473cc972f390fc3dcee7d9c"
+> -SRC_URI[openssl-sys-0.9.110.sha256sum] =3D "0a9f0075ba3c21b09f8e8b202658=
+4b1d18d49388648f2fbbf3c97ea8deced8e2"
+> -SRC_URI[pem-3.0.5.sha256sum] =3D "38af38e8470ac9dee3ce1bae1af9c1671fffc4=
+4ddfd8bd1d0a3445bf349a8ef3"
+> -SRC_URI[pkg-config-0.3.32.sha256sum] =3D "7edddbd0b52d732b21ad9a5fab5c70=
+4c14cd949e5e9a1ec5929a24fded1b904c"
+> -SRC_URI[portable-atomic-1.11.1.sha256sum] =3D "f84267b20a16ea918e43c6a88=
+433c2d54fa145c92a811b5b047ccbe153674483"
+> -SRC_URI[proc-macro2-1.0.101.sha256sum] =3D "89ae43fd86e4158d6db51ad8e2b8=
+0f313af9cc74f5c0e03ccb87de09998732de"
+> -SRC_URI[pyo3-0.26.0.sha256sum] =3D "7ba0117f4212101ee6544044dae45abe1083=
+d30ce7b29c4b5cbdfa2354e07383"
+> -SRC_URI[pyo3-build-config-0.26.0.sha256sum] =3D "4fc6ddaf24947d12a9aa31a=
+c65431fb1b851b8f4365426e182901eabfb87df5f"
+> -SRC_URI[pyo3-ffi-0.26.0.sha256sum] =3D "025474d3928738efb38ac36d4744a74a=
+400c901c7596199e20e45d98eb194105"
+> -SRC_URI[pyo3-macros-0.26.0.sha256sum] =3D "2e64eb489f22fe1c95911b77c44cc=
+41e7c19f3082fc81cce90f657cdc42ffded"
+> -SRC_URI[pyo3-macros-backend-0.26.0.sha256sum] =3D "100246c0ecf400b475341=
+b8455a9213344569af29a3c841d29270e53102e0fcf"
+> -SRC_URI[quote-1.0.40.sha256sum] =3D "1885c039570dc00dcb4ff087a89e185fd56=
+bae234ddc7f056a945bf36467248d"
+> -SRC_URI[self_cell-1.2.0.sha256sum] =3D "0f7d95a54511e0c7be3f51e8867aa8cf=
+35148d7b9445d44de2f943e2b206e749"
+> +SRC_URI[openssl-sys-0.9.115.sha256sum] =3D "158fe5b292746440aa6e7a7e690e=
+55aeb72d41505e2804c23c6973ad0e9c9781"
+> +SRC_URI[pem-3.0.6.sha256sum] =3D "1d30c53c26bc5b31a98cd02d20f25a7c856714=
+6caf63ed593a9d87b2775291be"
+> +SRC_URI[pkg-config-0.3.33.sha256sum] =3D "19f132c84eca552bf34cab8ec81f1c=
+1dcc229b811638f9d283dceabe58c5569e"
+> +SRC_URI[portable-atomic-1.13.1.sha256sum] =3D "c33a9471896f1c69cecef8d20=
+cbe2f7accd12527ce60845ff44c153bb2a21b49"
+> +SRC_URI[proc-macro2-1.0.106.sha256sum] =3D "8fd00f0bb2e90d81d1044c2b3261=
+7f68fcb9fa3bb7640c23e9c748e53fb30934"
+> +SRC_URI[pyo3-0.28.3.sha256sum] =3D "91fd8e38a3b50ed1167fb981cd6fd60147e0=
+91784c427b8f7183a7ee32c31c12"
+> +SRC_URI[pyo3-build-config-0.28.3.sha256sum] =3D "e368e7ddfdeb98c9bca7f83=
+83be1648fd84ab466bf2bc015e94008db6d35611e"
+> +SRC_URI[pyo3-ffi-0.28.3.sha256sum] =3D "7f29e10af80b1f7ccaf7f69eace800a0=
+3ecd13e883acfacc1e5d0988605f651e"
+> +SRC_URI[pyo3-macros-0.28.3.sha256sum] =3D "df6e520eff47c45997d2fc7dd8214=
+b25dd1310918bbb2642156ef66a67f29813"
+> +SRC_URI[pyo3-macros-backend-0.28.3.sha256sum] =3D "c4cdc218d835738f81c23=
+38f822078af45b4afdf8b2e33cbb5916f108b813acb"
+> +SRC_URI[quote-1.0.45.sha256sum] =3D "41f2619966050689382d2b44f664f4bc593=
+e129785a36d6ee376ddf37259b924"
+> +SRC_URI[self_cell-1.2.2.sha256sum] =3D "b12e76d157a900eb52e81bc6e9f30693=
+44290341720e9178cde2407113ac8d89"
+>  SRC_URI[shlex-1.3.0.sha256sum] =3D "0fda2ff0d084019ba4d7c6f371c95d8fd75c=
+e3524c3cb8fb653a3023f6323e64"
+> -SRC_URI[syn-2.0.106.sha256sum] =3D "ede7c438028d4436d71104916910f5bb6119=
+72c5cfd7f89b8300a8186e6fada6"
+> -SRC_URI[target-lexicon-0.13.3.sha256sum] =3D "df7f62577c25e07834649fc3b3=
+9fafdc597c0a3527dc1c60129201ccfcbaa50c"
+> -SRC_URI[unicode-ident-1.0.19.sha256sum] =3D "f63a54548129113891057512948=
+6daeaf8ac54aee4387fe7906919f7830c7d9d"
+> -SRC_URI[unindent-0.2.4.sha256sum] =3D "7264e107f553ccae879d21fbea1d6724a=
+c785e8c3bfc762137959b5802826ef3"
+> +SRC_URI[syn-2.0.117.sha256sum] =3D "e665b8803e7b1d2a727f4023456bbbbe74da=
+67099c585258af0ad9c5013b9b99"
+> +SRC_URI[target-lexicon-0.13.5.sha256sum] =3D "adb6935a6f5c20170eeceb1a38=
+35a49e12e19d792f6dd344ccc76a985ca5a6ca"
+> +SRC_URI[unicode-ident-1.0.24.sha256sum] =3D "e6e4313cd5fcd3dad5cafa17970=
+2e2b244f760991f45397d14d4ebf38247da75"
+>  SRC_URI[vcpkg-0.2.15.sha256sum] =3D "accd4ea62f7bb7a82fe23066fb0957d48ef=
+677f6eeb8215f372f52e48bb32426"
+> diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors.bb=
+ b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+> index 0d2b638527..af17618b28 100644
+> --- a/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+> +++ b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+> @@ -9,8 +9,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D8c3617db4fb6fa=
+e01f1d253ab91511e4 \
+>  # NOTE: Make sure to keep this recipe at the same version as python3-cry=
+ptography
+>  #       Upgrade both recipes at the same time
+>  require python3-cryptography-common.inc
+> -SRC_URI +=3D "file://0001-bump-uv_build-to-0.11.0.patch"
 
-Suggested-by: Tom Rini <trini@konsulko.com>
-Cc: Franz Schnyder <fra.schnyder@gmail.com>
-Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
----
-Changes in v5:
-- removed more unrelated cleanup improvements spotted by
-  Quentin, to be sent in another patch later
-Changes in v4:
-- abstract pkcs11 init function
-- removed unrelated cleanup improvements, to be sent in
-  another patch later
-Changes in v3:
-- remove config option for pkcs11 support and add auto
-  detection in Makefile
-- reduce amount of ifdefs by abstracting import pkcs11
-  functions
-- add missing free and deinit functions
-Changes in v2:
-- make use of stderr more consistent
-- add missing ifndef around pkcs11 deinit functions
----
- tools/Makefile       |  5 +++
- tools/mkeficapsule.c | 95 +++++++++++++++++++++++++++++++++-----------
- 2 files changed, 77 insertions(+), 23 deletions(-)
+Hello,
 
-diff --git a/tools/Makefile b/tools/Makefile
-index 1a5f425ecdaa..e85f5a354b81 100644
---- a/tools/Makefile
-+++ b/tools/Makefile
-@@ -271,6 +271,11 @@ mkeficapsule-objs :=3D generated/lib/uuid.o \
- 	$(LIBFDT_OBJS) \
- 	mkeficapsule.o
- hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) +=3D mkeficapsule
-+GNUTLS_SUPPORTS_P11KIT =3D $(shell pkg-config --libs gnutls --print-requir=
-es-private \
-+			 2> /dev/null | grep p11-kit-1)
-+ifeq ($(GNUTLS_SUPPORTS_P11KIT),p11-kit-1)
-+HOSTCFLAGS_mkeficapsule.o +=3D -DMKEFICAPSULE_PKCS11
-+endif
-=20
- include tools/fwumdata_src/fwumdata.mk
-=20
-diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
-index ec640c57e8a5..a36332567e0c 100644
---- a/tools/mkeficapsule.c
-+++ b/tools/mkeficapsule.c
-@@ -207,6 +207,71 @@ static int write_capsule_file(FILE *f, void *data, siz=
-e_t size, const char *msg)
- 	return 0;
- }
-=20
-+#ifdef MKEFICAPSULE_PKCS11
-+static int pkcs11_init(void)
-+{
-+	const char *lib;
-+	int ret;
-+
-+	lib =3D getenv("PKCS11_MODULE_PATH");
-+	if (!lib) {
-+		fprintf(stdout,
-+			"PKCS11_MODULE_PATH not set in the environment\n");
-+		return -1;
-+	}
-+
-+	gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
-+	gnutls_global_init();
-+
-+	ret =3D gnutls_pkcs11_add_provider(lib, "trusted");
-+	if (ret < 0) {
-+		fprintf(stdout, "Failed to add pkcs11 provider\n");
-+		return -1;
-+	}
-+
-+	return 0;
-+}
-+
-+static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context =
-*ctx)
-+{
-+	gnutls_pkcs11_obj_t *obj_list;
-+	unsigned int obj_list_size =3D 0;
-+	int ret;
-+
-+	ret =3D gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
-+						 ctx->cert_file, 0);
-+	if (ret < 0 || obj_list_size =3D=3D 0)
-+		return ret;
-+
-+	ret =3D gnutls_x509_crt_import_pkcs11(*x509, obj_list[0]);
-+
-+	return ret;
-+}
-+
-+static int import_pkcs11_key(gnutls_privkey_t *pkey, struct auth_context *=
-ctx)
-+{
-+	return gnutls_privkey_import_pkcs11_url(*pkey, ctx->key_file);
-+}
-+#else
-+static int pkcs11_init(void)
-+{
-+	fprintf(stderr, "Pkcs11 support is disabled\n");
-+	return -1;
-+}
-+
-+static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context =
-*ctx)
-+{
-+	fprintf(stderr, "Pkcs11 support is disabled\n");
-+	return -1;
-+}
-+
-+static int import_pkcs11_key(gnutls_privkey_t *pkey, struct auth_context *=
-ctx)
-+{
-+	fprintf(stderr, "Pkcs11 support is disabled\n");
-+	return -1;
-+}
-+#endif
-+
- /**
-  * create_auth_data - compose authentication data in capsule
-  * @auth_context:	Pointer to authentication context
-@@ -229,9 +294,6 @@ static int create_auth_data(struct auth_context *ctx)
- 	gnutls_pkcs7_t pkcs7;
- 	gnutls_datum_t data;
- 	gnutls_datum_t signature;
--	gnutls_pkcs11_obj_t *obj_list;
--	unsigned int obj_list_size =3D 0;
--	const char *lib;
- 	int ret;
- 	bool pkcs11_cert =3D false;
- 	bool pkcs11_key =3D false;
-@@ -243,19 +305,8 @@ static int create_auth_data(struct auth_context *ctx)
- 		pkcs11_key =3D true;
-=20
- 	if (pkcs11_cert || pkcs11_key) {
--		lib =3D getenv("PKCS11_MODULE_PATH");
--		if (!lib) {
--			fprintf(stdout,
--				"PKCS11_MODULE_PATH not set in the environment\n");
--			return -1;
--		}
--
--		gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
--		gnutls_global_init();
--
--		ret =3D gnutls_pkcs11_add_provider(lib, "trusted");
-+		ret =3D pkcs11_init();
- 		if (ret < 0) {
--			fprintf(stdout, "Failed to add pkcs11 provider\n");
- 			return -1;
- 		}
- 	}
-@@ -301,14 +352,12 @@ static int create_auth_data(struct auth_context *ctx)
-=20
- 	/* load x509 certificate */
- 	if (pkcs11_cert) {
--		ret =3D gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
--							 ctx->cert_file, 0);
--		if (ret < 0 || obj_list_size =3D=3D 0) {
--			fprintf(stdout, "Failed to import crt_file URI objects\n");
-+		ret =3D  import_pkcs11_crt(&x509, ctx);
-+		if (ret < 0) {
-+			fprintf(stderr, "error in import_pkcs11_crt(): %s\n",
-+				gnutls_strerror(ret));
- 			return -1;
- 		}
--
--		gnutls_x509_crt_import_pkcs11(x509, obj_list[0]);
- 	} else {
- 		ret =3D gnutls_x509_crt_import(x509, &cert, GNUTLS_X509_FMT_PEM);
- 		if (ret < 0) {
-@@ -320,9 +369,9 @@ static int create_auth_data(struct auth_context *ctx)
-=20
- 	/* load a private key */
- 	if (pkcs11_key) {
--		ret =3D gnutls_privkey_import_pkcs11_url(pkey, ctx->key_file);
-+		ret =3D import_pkcs11_key(&pkey, ctx);
- 		if (ret < 0) {
--			fprintf(stderr, "error in %d: %s\n", __LINE__,
-+			fprintf(stderr,	"error in import_pkcs11_key(): %s\n",
- 				gnutls_strerror(ret));
- 			return -1;
- 		}
+You remove 0001-bump-uv_build-to-0.11.0.patch from SRC_URI but do not
+actually remove the file. Can you send a new version that do both?
+
+Thanks!
+
+> -SRC_URI[sha256sum] =3D "08f3d13846fdd86d4c1138a88c695cee203b3dd3825c784d=
+64a3b06d000cdda1"
+> +SRC_URI[sha256sum] =3D "69836f597ddfbe3920b3c90d1f18e5560973f0791b90e192=
+1ad345e8111ac23e"
+> =20
+>  PYPI_PACKAGE =3D "cryptography_vectors"
+> =20
+> diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/=
+recipes-devtools/python/python3-cryptography.bb
+> index 7cff4ddacf..5e24dbaf5a 100644
+> --- a/meta/recipes-devtools/python/python3-cryptography.bb
+> +++ b/meta/recipes-devtools/python/python3-cryptography.bb
+> @@ -11,7 +11,7 @@ LDSHARED +=3D "-pthread"
+>  # NOTE: Make sure to keep this recipe at the same version as python3-cry=
+ptography-vectors
+>  #       Upgrade both recipes at the same time
+>  require python3-cryptography-common.inc
+> -SRC_URI[sha256sum] =3D "e4cfd68c5f3e0bfdad0d38e023239b96a2fe84146481852d=
+ffbcca442c245aa5"
+> +SRC_URI[sha256sum] =3D "5c3932f4436d1cccb036cb0eaef46e6e2db91035166f1ad6=
+505c3c9d5a635920"
+> =20
+>  SRC_URI +=3D "file://0001-pyproject.toml-remove-benchmark-disable-option=
+.patch \
+>              file://check-memfree.py \
+
+
 --=20
-2.47.3
+Yoann Congal
+Smile ECS
 
 
