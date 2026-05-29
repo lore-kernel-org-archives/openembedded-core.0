@@ -1,841 +1,125 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C428CD6E50
-	for <webhook@archiver.kernel.org>; Fri, 29 May 2026 14:46:59 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11897.1780066017280473601
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31D8CCD6E50
+	for <webhook@archiver.kernel.org>; Fri, 29 May 2026 15:23:30 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12670.1780068202849122059
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 May 2026 07:46:58 -0700
+ Fri, 29 May 2026 08:23:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=JIGBzXpe;
- spf=pass (domain: baylibre.com, ip: 209.85.160.179, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5148cbdea08so115874981cf.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 May 2026 07:46:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=S0zdFINO;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8ccd86df7d4so23659016d6.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 May 2026 08:23:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780068202; cv=none;
+        d=google.com; s=arc-20240605;
+        b=QuP2LlkmSx4Hi0/Qf+9ReQlmaTAmPzwxQ7nrFs+D4S/Sy3oYnO+U/ZZ6rvO0Zihj0F
+         HjG5WWIgP3gj1AlkvSuMggWcfihQyN12MBKeGJk/CZiLUnf0I577DUcKf44D64kc9koX
+         OangoyqWX35p2ytVuWy9WGqlrxOKD56yNEAcWVq3fCVDP+c0QJXWxf30wJqdP39pDsst
+         Tf4v4gWwzQo/0PH5NhZxdzcR1nHQrgOgvZv4uRHokKD4dIAsyVdn1bHGJmS4FcuJC2Tt
+         8oeEUZhKiWRwZ+xTu6xUZRxqkSANesGw1ZRJ+O9zyEJir15xH6GieqQ/Ze66xp6WgMnH
+         H7uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=P4V6tYMiQI2BY+aDlbnHYVyeA1POnwVZ/3UT+mD1s3c=;
+        fh=1fa5HmGIEitzdCrM+iFQoOAJt1ZSUN4QhNbwog+eX0Y=;
+        b=cF3z65tSOo+HjtOxXuRYfM3IPYuMs3jgO1KRGoWNDBtdO7oV07ens81VlY+pXIYlnS
+         IO+HKZkVwyEfPiEZiBoGsInORk4ZX8xeyixOOeb8oIENgzd7RUfvuvv6CeVZ1x/C6ded
+         Ppuoiq1a4a8b8sYpi1F3y/1DfvxHbyopyP6wxZRQZp3AvHwmQ5NYtz1EnEEyI9kCYDxA
+         hlrY9zsFvLUXV6OljQKDd20y3dwdQdCgnOveN6y+lpUa/VqK+VGhmeknrRTxKu08X3eA
+         8HRMVuArmeg603GclHx2fqPlJeCEq26Pw0MRhqPzTvtG+HHf5LLSlwGgloN+8iW1FkEm
+         5G6g==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1780066016; x=1780670816; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RY7yN2os9A9rtpLjBNKbpEA32xYq+QiJY02gIBnlhuo=;
-        b=JIGBzXpeN1Mh6Ggke2hWW/VRgQ87bRReIzN0PrdTM4XDCpe6QoDqWSfVeFqvrzD3At
-         zHYpRmQVRf2d1bFDfEb9PcXrm5nQsxSQQHlmGZVJFILeCK3ySHRBm5EcWPSmTkdAlrGU
-         YbyuPXXrMI/ZylrfUHa1E+iH/F1qQbS1zwb8Bps8PurVvcLGVASLTIG7UYlTTWoC6gG3
-         8XqIqEDBgmuWTLec1gkqafk4Q+Bl+voSiyrHlScr1pBRtCytSsVX0aPhSoXdr5+r/Ex8
-         qHsyqaGlt1idh7vr+53TylQ5LtRQbYdJvKbm89CaPzA2JjJnehciHdh+sCPS7MJokoM8
-         mGaw==
+        d=gmail.com; s=20251104; t=1780068202; x=1780673002; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=P4V6tYMiQI2BY+aDlbnHYVyeA1POnwVZ/3UT+mD1s3c=;
+        b=S0zdFINOwdrfb8ygY2uE3RBLzOV1u4/k0Yh8+dMcng8rPuSTVwZ7kZxV73rz4ZNaCT
+         q0GlGPfMf013tz7KW2mQ6WyawhOgB2qAA7+l5F8/YwHhhUZhonKD7yLuRrYxyWM9Utfw
+         AksJ2U+1SfcKye+NnVYIGZ68fdrqfCqPPZXXg1CQRHbHo7eMKLcN9l1wlNTObcVia/q0
+         uVOKWQIVYC4Qz8idet7Cm9Ke+ekz/ujxsWGMkoMsmf/zBlnBy++oibb1/NQfJiVA+++E
+         zvReu1wj4hFecAjHMw9zZZ/NDA4feXuZPYqgUd5ZA1COiRHjftcPd0utsM2RbEeSYo0F
+         sGSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780066016; x=1780670816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RY7yN2os9A9rtpLjBNKbpEA32xYq+QiJY02gIBnlhuo=;
-        b=N9DjJn9bEFTz6x0NDEB9292YPAk4hsuHM5pfv/poipbY4wKxkae2+S7Oc5q5I3NCb9
-         1hVaulX/3MyTLVNwaTVbl9+qs4TneNXWr7jr6n8LB9iP5y9MhrRSKWmSZ0LkI3/Zn1mk
-         GvfZEtGdL36jooE7FbbORh6TUwYVIB//QwOk1P+ph812XwwsOb/n6z4k27sWn/jrqQUV
-         ivb5EM4tQ5gmXwbZp1YLdYhKepg2NLhEGTu18N22ZW2ZThzcTpS2Oh1HOftdf/X4KOf0
-         OYsyavB9aDZ/rbz/5sajmFp1getRPRxdSoa2NcK7dpZP49dPDrv+ewnzp0YE2lZyDMNi
-         IXlw==
-X-Gm-Message-State: AOJu0Yzo5c6DNENhzXW7OTxcT+GA7hePSlPuW1DwAkfivnluKjY5cwFN
-	0QIBoP8K6pbxyM+bumoIPto+ZCg3tkl4c3FZmjSEt7EPI6WMsJMyLNP3+6k7CRCAbGw7d80cdYe
-	rHmXlPmU=
-X-Gm-Gg: Acq92OH1+mCOOTT93WjZcBhgf/GFfKNYWv74Hb9TOK9WhF/4rKR+MXcnvKnVy6NqY5f
-	tTMKFh2wCn9zsV2PU9y2w3Vc5bVSAdMF9IlfqQHqk0sxpH5TQHkdTw9Tcnt/gYxssxelrQmyEyI
-	cAtjzflOzz78rZ6rxY4SwSkbW/iIBije2C10MoIo7dipzSlnuiuo8qiKO14GNa7eSC7UNh5YDjv
-	MnvUJmc7u5XFgAYJQICH/XjTZqwSSrEPmRmwT7UuDGbTn68JsUhiVJGJuSZG5r36OJ0ITURy8j/
-	hF8KgKXPgrKoF2II2QVHegKEKSZLbDrcgQZ5wJZLCp0QOStsrBJ/gU4C6JQi+foptmnIkhvkk4m
-	rFZRNR+lGYehRdSj/RcMGHvVZU0q4zqtE5t6SCj2qO2W8zBGEQHLUa2xWX6g5dzXGEnL2FlHLgT
-	AOa8sIz48RNsHa9kuEly/2fyhwKHDpaVwAczdC
-X-Received: by 2002:a05:622a:2c4:b0:516:e109:b65e with SMTP id d75a77b69052e-5172dca1624mr41169621cf.27.1780066015604;
-        Fri, 29 May 2026 07:46:55 -0700 (PDT)
-Received: from localhost ([2001:1970:3847:e000:537:a9f7:1a84:f246])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5172eb3619bsm22560901cf.14.2026.05.29.07.46.54
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 07:46:54 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] python3: use SKIPPED_TESTS instead of test skip patches
-Date: Fri, 29 May 2026 10:46:52 -0400
-Message-ID: <20260529144652.3695549-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20251104; t=1780068202; x=1780673002;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P4V6tYMiQI2BY+aDlbnHYVyeA1POnwVZ/3UT+mD1s3c=;
+        b=d3zeQPCXwEjQ+rBh2qSUpxm4iIDX2Ra+8EszNOaW7IbF9J6oHIdn0zO0M8TnCZEIzy
+         mJg43iZQREBI/KxnYVaDO7ojiOMAHL8nNTsUqbwgfr87mzXmreK1a4+ECZCf8TkVBzHU
+         28twh136zKyRAwezI/Ucl64Rj/MFXc41QsvL/MoCb49VqFLyUyQg+hOj89EfrqxjVcx2
+         VypTNmgpzCOivRHl95ZaYoc3d4kRnlyI2zEv2uvqxuRETvAVpNXjSlqSRV78oFyveC92
+         qXPJHBp44PfnOgalZusYZVmvfyHLPLExJXplBfAcHVIgpZWIwmkRHQry7w4iAVcCQimu
+         PZQA==
+X-Forwarded-Encrypted: i=1; AFNElJ8ZYsqMdrSqaJzyFk55zFg4UTF8qzrczVCupTnTwpRY0etVrWsxAtkkL/kBbK4rLrx9ljDIa7LU3WThS99Vpzl2NA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyEWGiYizOPuRTAsG0+4Dbq9Zc7LlWNPTE/E5rv62Ir2bX9GrXX
+	3uSnBUaElhqpuoTX0SqMU+x0Hj+x4IgIbBjgC76VFmLZcsPcKusdHhuvihY/djifJqW5p4OvFII
+	NFXquAleFqsvURzeCNcRryKGtPF8BMIK1JtZR
+X-Gm-Gg: Acq92OFY+fHTsFvppwlTdslnTdvftgOTITXI/GcI438Hi4RedHCYBshQFmvExhezWic
+	8yzz3y75e17ScfACRqZADEOvNIZaVhzDbEU9qRGkIShfcLdB5c2Vtwu7o+DH6TdvvO2e9MfCdHS
+	KROS5FxUlqgutpbFAr7PzRsDRg7r04nYXz5KMbzb7tzR67JAvWnHV9sO8DbXLHBGhLk9yYucVwe
+	JSDAIMfE/s5igMhj0zBJXaiF6U2OAeHJpyNk72TLpBy09lBdLZmpgUUBWanMFJT9sTb6EldiYbU
+	OlxJuBVd7OYr32ulWQhEfo0LFBzzbxSHaKdgNHDV8Q8KCKFnkg7R
+X-Received: by 2002:a05:6214:411:b0:8ca:2410:4b05 with SMTP id
+ 6a1803df08f44-8ccefdf79d7mr1669546d6.40.1780068201635; Fri, 29 May 2026
+ 08:23:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260528202639.4097815-1-Quan.Sun@windriver.com>
+ <DIV636CRY5LQ.2KV03HIYY2WKI@bootlin.com> <be287797-1941-4afa-8aef-b015ca194476@windriver.com>
+In-Reply-To: <be287797-1941-4afa-8aef-b015ca194476@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 29 May 2026 17:23:09 +0200
+X-Gm-Features: AVHnY4LI71hfnWeXTZtM6kmXMMlyytiGfOLddKC5IN5w0JG_O_REu743MAQG6Xw
+Message-ID: <CANNYZj8gMc8PdWMse=g1J7goZC5Ga=nwN5hA+uX02-G+LNHEwQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] qemu: upgrade 10.2.0 -> 11.0.0
+To: Quan.Sun@windriver.com
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 May 2026 14:46:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237760
+ <openembedded-core@lists.openembedded.org>; Fri, 29 May 2026 15:23:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237761
 
-Drop all 13 patches carried for skipping various known ptest failures
-and replace them with usage of the SKIPPED_TESTS variable, which we have
-started doing in recent commits (e.g. 40b0815dc9). Most but not all of
-the test skips are due to load variability, distinguish between them by
-using multiple SKIPPED_TESTS:append blocks with comments taken from the
-patch files indicating their purpose. This adds 62 lines to the Python 3
-recipe, but it also means that we no longer have to maintain the patch
-files across version upgrades, where they often break due to changes in
-the test modules upstream.
+On Fri, 29 May 2026 at 16:45, Quan Sun via lists.openembedded.org
+<Quan.Sun=windriver.com@lists.openembedded.org> wrote:
+> > glx: failed to create dri3 screen
+> > failed to load driver: vgem
+> >
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3924
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3786
+> >
+> > Can you have a look at the issue?
+> It seems this issue is not caused by the qemu upgrade. I also asked an
+> AI agent to carefully examine the build/test logs, and the following is
+> what it says:
 
-Results look the same as those from my last upgrade run:
+Unfortunately AI has produced a total hallucination in its analysis,
+because it looks only at the build log given to it, not at the actual
+change that is being tested (e.g. it wouldn't see in that log that
+there is a qemu update, and it wouldn't go and analyse the qemu own
+changelog and commit history, and it wouldn't run the same test
+against qemu 10.x to narrow it down and so on).
 
-|== Tests result: SUCCESS ==
-|
-|28 tests skipped:
-|    test.test_asyncio.test_windows_events
-|    test.test_asyncio.test_windows_utils test.test_gdb.test_backtrace
-|    test.test_gdb.test_cfunction test.test_gdb.test_cfunction_full
-|    test.test_gdb.test_misc test.test_gdb.test_pretty_print
-|    test_android test_apple test_asdl_parser test_clinic test_devpoll
-|    test_free_threading test_generated_cases test_idle test_kqueue
-|    test_launcher test_msvcrt test_startfile test_tcl test_tkinter
-|    test_ttk test_ttk_textonly test_turtle test_winapi
-|    test_winconsoleio test_winreg test_wmi
-|
-|9 tests skipped (resource denied):
-|    test_curses test_peg_generator test_smtpnet test_socketserver
-|    test_urllib2net test_urllibnet test_winsound test_xpickle
-|    test_zipfile64
-|
-|455 tests OK.
-|
-|Total duration: 3 min 9 sec
-|Total tests: run=47,012 (filtered) skipped=2,336
-|Total test files: run=483/492 (filtered) skipped=28 resource_denied=9
-|Result: SUCCESS
-|DURATION: 190
-|END: /usr/lib/python3/ptest
-|2026-05-29T02:22
-|STOP: ptest-runner
-|TOTAL: 1 FAIL: 0
+I went and tried this test with qemu 10.x on the same host, and it
+passes just fine:
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- ...sts-due-to-load-variability-on-YP-AB.patch | 79 -----------------
- ...kip-flaky-test_default_timeout-tests.patch | 49 -----------
- ..._fileno-test-due-to-load-variability.patch | 29 -------
- ...ctive_children-skip-problematic-test.patch | 34 --------
- ...1-test_cmd-skip-bang-completion-test.patch | 31 -------
- ...pes.test_find-skip-without-tools-sdk.patch | 33 --------
- ...-test_deadlock-skip-problematic-test.patch | 27 ------
- ..._active_thread-skip-problematic-test.patch | 30 -------
- ...-test_unix_console.test_cursor_back_.patch | 46 ----------
- ...t_readline-skip-limited-history-test.patch | 46 ----------
- ...-test_shutdown-skip-problematic-test.patch | 43 ----------
- ...orlines-skip-due-to-load-variability.patch | 29 -------
- ...kip-test_sysconfig.test_sysconfigdat.patch | 32 -------
- .../recipes-devtools/python/python3_3.14.5.bb | 84 +++++++++++++++----
- 14 files changed, 70 insertions(+), 522 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-Skip-flaky-test_default_timeout-tests.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-test_cmd-skip-bang-completion-test.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-test_only_active_thread-skip-problematic-test.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-test_pyrepl-skip-test_unix_console.test_cursor_back_.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-test_sysconfig-skip-test_sysconfig.test_sysconfigdat.patch
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3928
 
-diff --git a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch b/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-deleted file mode 100644
-index a236268efb..0000000000
---- a/meta/recipes-devtools/python/python3/0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch
-+++ /dev/null
-@@ -1,79 +0,0 @@
--From aa32aef19d3a54a25dc16b3b77e29e902ee8abd7 Mon Sep 17 00:00:00 2001
--From: Yi Fan Yu <yifan.yu@windriver.com>
--Date: Thu, 1 Apr 2021 13:08:37 -0700
--Subject: [PATCH] Skip failing tests due to load variability on YP AB
--
--Skip these tests until AB-INT is solved.
--
--[YOCTO #14296]
--
--Upstream-Status: Inappropriate [OE-Specific]
--
--Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
--
--Skip two additional tests due to suspected load variability failures.
--
--[YOCTO #15131]
--[YOCTO #15177]
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
--
--Refresh to apply on top of Python 3.14.0.
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- Lib/test/_test_multiprocessing.py | 3 +++
-- Lib/test/test_time.py             | 2 ++
-- 2 files changed, 5 insertions(+)
--
--diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.py
--index 9a72362c022..008e6a505a5 100644
----- a/Lib/test/_test_multiprocessing.py
--+++ b/Lib/test/_test_multiprocessing.py
--@@ -774,6 +774,7 @@ class _TestProcess(BaseTestCase):
--         close_queue(q)
-- 
--     @support.requires_resource('walltime')
--+    @unittest.skip('timing related test, dependent on load')
--     def test_many_processes(self):
--         if self.TYPE == 'threads':
--             self.skipTest('test not appropriate for {}'.format(self.TYPE))
--@@ -2398,6 +2399,7 @@ class _TestBarrier(BaseTestCase):
--         except threading.BrokenBarrierError:
--             results.append(True)
-- 
--+    @unittest.skip('timing related test, dependent on load')
--     def test_timeout(self):
--         """
--         Test wait(timeout)
--@@ -5550,6 +5552,7 @@ class TestWait(unittest.TestCase):
--         time.sleep(period)
-- 
--     @support.requires_resource('walltime')
--+    @unittest.skip('timing related test, dependent on load')
--     def test_wait_integer(self):
--         from multiprocessing.connection import wait
-- 
--diff --git a/Lib/test/test_time.py b/Lib/test/test_time.py
--index 5312faa5077..36873d9a400 100644
----- a/Lib/test/test_time.py
--+++ b/Lib/test/test_time.py
--@@ -548,6 +548,7 @@ class TimeTestCase(unittest.TestCase):
--     def test_perf_counter(self):
--         time.perf_counter()
-- 
--+    @unittest.skip('timing related test, dependent on load')
--     @unittest.skipIf(
--         support.is_wasi, "process_time not available on WASI"
--     )
--@@ -567,6 +568,7 @@ class TimeTestCase(unittest.TestCase):
--         self.assertTrue(info.monotonic)
--         self.assertFalse(info.adjustable)
-- 
--+    @unittest.skip('timing related test, dependent on load')
--     def test_thread_time(self):
--         if not hasattr(time, 'thread_time'):
--             if sys.platform.startswith(('linux', 'android', 'win')):
---- 
--2.52.0
--
-diff --git a/meta/recipes-devtools/python/python3/0001-Skip-flaky-test_default_timeout-tests.patch b/meta/recipes-devtools/python/python3/0001-Skip-flaky-test_default_timeout-tests.patch
-deleted file mode 100644
-index d41037f9ea..0000000000
---- a/meta/recipes-devtools/python/python3/0001-Skip-flaky-test_default_timeout-tests.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From baf2dda48e51fcb17a716e52cc5c4e162a6bb7d3 Mon Sep 17 00:00:00 2001
--From: Antonin Godard <antonin.godard@bootlin.com>
--Date: Mon, 19 Jan 2026 11:38:36 +0100
--Subject: [PATCH] Skip flaky test_default_timeout tests
--
--We have been observing issues with this test on the Autobuilder:
--https://bugzilla.yoctoproject.org/show_bug.cgi?id=15885
--
--The logs on the ticket above do not allow us to know which of the two
--"test_default_timeout" tests is failing, so disable both with
--self.skipTest().
--
--Excerpt from `ptest-runner python3`:
--
--  test_default_timeout (test.test_multiprocessing_fork.test_manager.WithManagerTestBarrier.test_default_timeout)
--  SKIP: Test the barrier's default timeout 'skip flaky timeout test'
--
--Upstream-Status: Inappropriate [OE specific, but might be related to https://github.com/python/cpython/issues/129266#issuecomment-2613058866]
--
--Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
-----
-- Lib/test/_test_multiprocessing.py | 1 +
-- Lib/test/lock_tests.py            | 1 +
-- 2 files changed, 2 insertions(+)
--
--diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.py
--index e8064e7..9ab1f9e 100644
----- a/Lib/test/_test_multiprocessing.py
--+++ b/Lib/test/_test_multiprocessing.py
--@@ -2424,6 +2424,7 @@ class _TestBarrier(BaseTestCase):
--         """
--         Test the barrier's default timeout
--         """
--+        self.skipTest('skip flaky timeout test')
--         barrier = self.Barrier(self.N, timeout=0.5)
--         results = self.DummyList()
--         self.run_threads(self._test_default_timeout_f, (barrier, results))
--diff --git a/Lib/test/lock_tests.py b/Lib/test/lock_tests.py
--index 8c8f890..43e9b90 100644
----- a/Lib/test/lock_tests.py
--+++ b/Lib/test/lock_tests.py
--@@ -1215,6 +1215,7 @@ class BarrierTests(BaseTestCase):
--         """
--         Test the barrier's default timeout
--         """
--+        self.skipTest('skip flaky timeout test')
--         timeout = 0.100
--         barrier = self.barriertype(2, timeout=timeout)
--         def f():
-diff --git a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-deleted file mode 100644
-index b186bdcb88..0000000000
---- a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From c5bdd39f8ebc4e6c58a47d7e424eac028eddb4ff Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Fri, 15 Sep 2023 08:48:33 -0400
--Subject: [PATCH] skip no_stdout_fileno test due to load variability
--
--Skip test_input_no_stdout_fileno so that it doesn't fail on systems
--under heavy load.
--
--Upstream-Status: Inappropriate [OE-Specific]
--
--[YOCTO #15210]
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- Lib/test/test_builtin.py | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/Lib/test/test_builtin.py b/Lib/test/test_builtin.py
--index c5394de..ed17fb6 100644
----- a/Lib/test/test_builtin.py
--+++ b/Lib/test/test_builtin.py
--@@ -2738,6 +2738,7 @@ class PtyTests(unittest.TestCase):
--                          "byte 0xe9 in position 4: ordinal not in "
--                          "range(128)")
-- 
--+    @unittest.skip("Test may fail under heavy load")
--     def test_input_no_stdout_fileno(self):
--         # Issue #24402: If stdin is the original terminal but stdout.fileno()
--         # fails, do not use the original stdout file descriptor
-diff --git a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-deleted file mode 100644
-index d7202aa575..0000000000
---- a/meta/recipes-devtools/python/python3/0001-test_active_children-skip-problematic-test.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 9c9aac87f48eaece5b99ea347b639c21eea84e6d Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Thu, 13 Jun 2024 10:54:31 -0400
--Subject: [PATCH] test_active_children: skip problematic test
--
--This test is failing in some tests on the Autobuilder. Since it's of a
--similar nature to other failing/hanging tests, disable it for now.
--
--Upstream-Status: Inappropriate [OE-Specific]
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
--
--Refresh to apply on top of Python 3.14.0.
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- Lib/test/_test_multiprocessing.py | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/Lib/test/_test_multiprocessing.py b/Lib/test/_test_multiprocessing.py
--index 008e6a505a5..746de8945f0 100644
----- a/Lib/test/_test_multiprocessing.py
--+++ b/Lib/test/_test_multiprocessing.py
--@@ -667,6 +667,7 @@ class _TestProcess(BaseTestCase):
--         self.assertIsInstance(cpus, int)
--         self.assertGreaterEqual(cpus, 1)
-- 
--+    @unittest.skip("skipping problematic test")
--     def test_active_children(self):
--         self.assertEqual(type(self.active_children()), list)
-- 
---- 
--2.51.0
--
-diff --git a/meta/recipes-devtools/python/python3/0001-test_cmd-skip-bang-completion-test.patch b/meta/recipes-devtools/python/python3/0001-test_cmd-skip-bang-completion-test.patch
-deleted file mode 100644
-index f1ba044cc3..0000000000
---- a/meta/recipes-devtools/python/python3/0001-test_cmd-skip-bang-completion-test.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 614e3aefec85b51a611f85a55b6760f12e29b953 Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Mon, 27 Oct 2025 09:52:46 -0400
--Subject: [PATCH] test_cmd: skip bang completion test
--
--We compile Python3 with editline support by default, which has tab completion
--but not bang completion. If building with readline,
--test_bang_completion_without_do_shell() passes. Skip the test because of this.
--
--Upstream-Status: Inappropriate [embedded-specific]
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- Lib/test/test_cmd.py | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/Lib/test/test_cmd.py b/Lib/test/test_cmd.py
--index dbfec42fc21..c33dab8d10d 100644
----- a/Lib/test/test_cmd.py
--+++ b/Lib/test/test_cmd.py
--@@ -295,6 +295,7 @@ class CmdTestReadline(unittest.TestCase):
--         self.assertIn(b'ab_completion_test', output)
--         self.assertIn(b'tab completion success', output)
-- 
--+    @unittest.skip('no bang completion without readline')
--     def test_bang_completion_without_do_shell(self):
--         script = textwrap.dedent("""
--             import cmd
---- 
--2.51.0
--
-diff --git a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-deleted file mode 100644
-index cdcd9302d6..0000000000
---- a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 0e9d0c58e77ef540d9601ce84a1aa79d9ce6ee9b Mon Sep 17 00:00:00 2001
--From: Tim Orling <timothy.t.orling@intel.com>
--Date: Fri, 18 Jun 2021 11:56:50 -0700
--Subject: [PATCH] test_ctypes.test_find: skip without tools-sdk
--
--These tests need full packagegroup-core-buildessential, the
--easiest way to dynamically check for that is looking for
--'tools-sdk' in IMAGE_FEATURES.
--
--Upstream-Status: Inappropriate [oe-specific]
--
--Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
-----
-- Lib/test/test_ctypes/test_find.py | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/Lib/test/test_ctypes/test_find.py b/Lib/test/test_ctypes/test_find.py
--index 85b2861..b033203 100644
----- a/Lib/test/test_ctypes/test_find.py
--+++ b/Lib/test/test_ctypes/test_find.py
--@@ -117,10 +117,12 @@ class FindLibraryLinux(unittest.TestCase):
--                 # LD_LIBRARY_PATH)
--                 self.assertEqual(find_library(libname), 'lib%s.so' % libname)
-- 
--+    @unittest.skip("Needs IMAGE_FEATURE += \"tools-sdk\"")
--     def test_find_library_with_gcc(self):
--         with unittest.mock.patch("ctypes.util._findSoname_ldconfig", lambda *args: None):
--             self.assertNotEqual(find_library('c'), None)
-- 
--+    @unittest.skip("Needs IMAGE_FEATURE += \"tools-sdk\"")
--     def test_find_library_with_ld(self):
--         with unittest.mock.patch("ctypes.util._findSoname_ldconfig", lambda *args: None), \
--              unittest.mock.patch("ctypes.util._findLib_gcc", lambda *args: None):
-diff --git a/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch
-deleted file mode 100644
-index 3336e2913a..0000000000
---- a/meta/recipes-devtools/python/python3/0001-test_deadlock-skip-problematic-test.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From 5a44f74549b32395109342e9299510c32db71068 Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Wed, 12 Jun 2024 10:29:03 -0400
--Subject: [PATCH] test_deadlock: skip problematic test
--
--This test hangs frequently when run on the Autobuilder. Disable it in
--testing until the cause can be determined.
--
--Upstream-Status: Inappropriate [OE-Specific]
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- Lib/test/test_concurrent_futures/test_deadlock.py | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/Lib/test/test_concurrent_futures/test_deadlock.py b/Lib/test/test_concurrent_futures/test_deadlock.py
--index 3c30c45..008d6c0 100644
----- a/Lib/test/test_concurrent_futures/test_deadlock.py
--+++ b/Lib/test/test_concurrent_futures/test_deadlock.py
--@@ -90,6 +90,7 @@ class ErrorAtUnpickle(object):
--         return _raise_error_ignore_stderr, (UnpicklingError, )
-- 
-- 
--+@unittest.skip("skipping problematic test")
-- class ExecutorDeadlockTest:
--     TIMEOUT = support.LONG_TIMEOUT
-- 
-diff --git a/meta/recipes-devtools/python/python3/0001-test_only_active_thread-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_only_active_thread-skip-problematic-test.patch
-deleted file mode 100644
-index bc436e077a..0000000000
---- a/meta/recipes-devtools/python/python3/0001-test_only_active_thread-skip-problematic-test.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 0524821f8fcbdea2fbd90f199e7fb4950f50530f Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Tue, 3 Mar 2026 09:27:10 -0500
--Subject: [PATCH] test_only_active_thread: skip problematic test
--
--This test hangs frequently when run on the Autobuilder. Disable it in
--testing for now.
--
--Upstream-Status: Inappropriate [OE-Specific]
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- Lib/test/test_external_inspection.py | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/Lib/test/test_external_inspection.py b/Lib/test/test_external_inspection.py
--index a709b837161..7a87092c10e 100644
----- a/Lib/test/test_external_inspection.py
--+++ b/Lib/test/test_external_inspection.py
--@@ -1154,6 +1154,7 @@ class TestGetStackTrace(unittest.TestCase):
--             ],
--         )
-- 
--+    @unittest.skip("skipping problematic test")
--     @skip_if_not_supported
--     @unittest.skipIf(
--         sys.platform == "linux" and not PROCESS_VM_READV_SUPPORTED,
---- 
--2.53.0
--
-diff --git a/meta/recipes-devtools/python/python3/0001-test_pyrepl-skip-test_unix_console.test_cursor_back_.patch b/meta/recipes-devtools/python/python3/0001-test_pyrepl-skip-test_unix_console.test_cursor_back_.patch
-deleted file mode 100644
-index 97f7871266..0000000000
---- a/meta/recipes-devtools/python/python3/0001-test_pyrepl-skip-test_unix_console.test_cursor_back_.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From 66a806ea05ecaf483753de3719041944daae42b0 Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Mon, 27 Oct 2025 13:21:14 -0400
--Subject: [PATCH] test_pyrepl: skip test_unix_console.test_cursor_back_write
--
--This test was not run prior to 3.14 due to Python not having access to
--the curses resource. In 3.14, PyREPL's dependency on curses has been
--removed, instead relying on the terminfo module. This results in a
--terminal capability list that does not include ICH1, resulting in an
--"optimization" occurring from PyREPL's side that causes
--test_cursor_back_write() to fail. Specifically, the test tests the
--following writes in sequence:
--
--1. b"1"
--2. TERM_CAPABILITIES["cub"] + b":1"
--3. ANY, b"2"
--
--The first two writes are read correctly, but the result for the third
--write is seeing the equivalent of:
--
--ANY, b"21"
--
--Skip this test.
--
--Upstream-Status: Inappropriate [embedded-specific]
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- Lib/test/test_pyrepl/test_unix_console.py | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/Lib/test/test_pyrepl/test_unix_console.py b/Lib/test/test_pyrepl/test_unix_console.py
--index 3b0d2637dab..5a3c8952f61 100644
----- a/Lib/test/test_pyrepl/test_unix_console.py
--+++ b/Lib/test/test_pyrepl/test_unix_console.py
--@@ -186,6 +186,7 @@ class TestConsole(TestCase):
--         _os_write.assert_any_call(ANY, TERM_CAPABILITIES["cud"] + b":1")
--         con.restore()
-- 
--+    @unittest.skip('no ich1 support in vt102 terminfo')
--     def test_cursor_back_write(self, _os_write):
--         events = itertools.chain(
--             code_to_events("1"),
---- 
--2.51.0
--
-diff --git a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch b/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-deleted file mode 100644
-index c59c6672e0..0000000000
---- a/meta/recipes-devtools/python/python3/0001-test_readline-skip-limited-history-test.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From 1a0a145261ba4f97aaff3c0c656ac2e0ad9695a8 Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Tue, 13 Aug 2024 11:07:05 -0400
--Subject: [PATCH] test_readline: skip limited history test
--
--This test was added recently and is failing on the ptest image when
--using the default PACKAGECONFIG settings (i.e. with editline instead of
--readline).. Disable it until the proper fix is determined.
--
--A bug has been opened upstream: https://github.com/python/cpython/issues/123018
--
--Upstream-Status: Inappropriate [OE-specific]
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- Lib/test/test_readline.py | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/Lib/test/test_readline.py b/Lib/test/test_readline.py
--index 537a9fb..ddf0323 100644
----- a/Lib/test/test_readline.py
--+++ b/Lib/test/test_readline.py
--@@ -74,6 +74,7 @@ class TestHistoryManipulation (unittest.TestCase):
-- 
--     @unittest.skipUnless(hasattr(readline, "append_history_file"),
--                          "append_history not available")
--+    @unittest.skip("Skipping problematic test")
--     def test_write_read_append(self):
--         hfile = tempfile.NamedTemporaryFile(delete=False)
--         hfile.close()
--@@ -145,6 +146,7 @@ class TestHistoryManipulation (unittest.TestCase):
--         self.assertEqual(readline.get_history_item(1), "entrée 1")
--         self.assertEqual(readline.get_history_item(2), "entrée 22")
-- 
--+    @unittest.skip("Skipping problematic test")
--     def test_write_read_limited_history(self):
--         previous_length = readline.get_history_length()
--         self.addCleanup(readline.set_history_length, previous_length)
--@@ -393,6 +395,7 @@ readline.write_history_file(history_file)
--         self.assertIn(b"done", output)
-- 
-- 
--+    @unittest.skip("Skipping problematic test")
--     def test_write_read_limited_history(self):
--         previous_length = readline.get_history_length()
--         self.addCleanup(readline.set_history_length, previous_length)
-diff --git a/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch b/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
-deleted file mode 100644
-index 4e284de613..0000000000
---- a/meta/recipes-devtools/python/python3/0001-test_shutdown-skip-problematic-test.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From b678363156b5d40e09c1d138840180e3ddc7d20b Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Wed, 8 May 2024 11:58:09 -0400
--Subject: [PATCH] test_shutdown: skip problematic test
--
--This test hangs frequently when run on the Autobuilder. Disable it in
--testing until the cause can be determined.
--
--Upstream-Status: Inappropriate [OE-Specific]
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- Lib/test/test_concurrent_futures/test_shutdown.py | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/Lib/test/test_concurrent_futures/test_shutdown.py b/Lib/test/test_concurrent_futures/test_shutdown.py
--index 7a4065a..6b878a4 100644
----- a/Lib/test/test_concurrent_futures/test_shutdown.py
--+++ b/Lib/test/test_concurrent_futures/test_shutdown.py
--@@ -20,6 +20,7 @@ def sleep_and_print(t, msg):
--     sys.stdout.flush()
-- 
-- 
--+@unittest.skip("skipping problematic test")
-- class ExecutorShutdownTest:
--     def test_run_after_shutdown(self):
--         self.executor.shutdown()
--@@ -156,6 +157,7 @@ class ExecutorShutdownTest:
--             signal.signal(signal.SIGALRM, old_handler)
-- 
-- 
--+@unittest.skip("skipping problematic test")
-- class ThreadPoolShutdownTest(ThreadPoolMixin, ExecutorShutdownTest, BaseTestCase):
--     def test_threads_terminate(self):
--         def acquire_lock(lock):
--@@ -252,6 +254,7 @@ class ThreadPoolShutdownTest(ThreadPoolMixin, ExecutorShutdownTest, BaseTestCase
--         self.assertIn(out.strip(), [b"apple", b""])
-- 
-- 
--+@unittest.skip("skipping problematic test")
-- class ProcessPoolShutdownTest(ExecutorShutdownTest):
--     def test_processes_terminate(self):
--         def acquire_lock(lock):
-diff --git a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-deleted file mode 100644
-index b452c6556f..0000000000
---- a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 9f252a691cd335341938489da32d6e2d4620d8ca Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Fri, 6 Oct 2023 10:59:44 -0400
--Subject: [PATCH] test_storlines: skip due to load variability
--
--This is yet another test that intermittently fails on the Yocto AB when
--a worker is under heavy load, so skip it during testing.
--
--Upstream-Status: Inappropriate [OE-Specific]
--
--[YOCTO #14933]
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- Lib/test/test_ftplib.py | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/Lib/test/test_ftplib.py b/Lib/test/test_ftplib.py
--index bed0e6d..36602be 100644
----- a/Lib/test/test_ftplib.py
--+++ b/Lib/test/test_ftplib.py
--@@ -630,6 +630,7 @@ class TestFTPClass(TestCase):
--             self.client.storbinary('stor', f, rest=r)
--             self.assertEqual(self.server.handler_instance.rest, str(r))
-- 
--+    @unittest.skip('timing related test, dependent on load')
--     def test_storlines(self):
--         data = RETR_DATA.replace('\r\n', '\n').encode(self.client.encoding)
--         f = io.BytesIO(data)
-diff --git a/meta/recipes-devtools/python/python3/0001-test_sysconfig-skip-test_sysconfig.test_sysconfigdat.patch b/meta/recipes-devtools/python/python3/0001-test_sysconfig-skip-test_sysconfig.test_sysconfigdat.patch
-deleted file mode 100644
-index 6dfba59a44..0000000000
---- a/meta/recipes-devtools/python/python3/0001-test_sysconfig-skip-test_sysconfig.test_sysconfigdat.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From ac5635821ed9bead45a5bcddc3828e50647fbe77 Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Mon, 27 Oct 2025 14:24:24 -0400
--Subject: [PATCH] test_sysconfig: skip test_sysconfig.test_sysconfigdata_json
--
--This test seems new as of 3.14.0 and fails due to various path and flag
--differences in variables like CFLAGS. Since the test already has the
--precedent of a skip put in place for Android builds due to prefix
--changes, skip it for our situation too.
--
--Upstream-Status: Inappropriate [embedded-specific]
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- Lib/test/test_sysconfig.py | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/Lib/test/test_sysconfig.py b/Lib/test/test_sysconfig.py
--index 09eff11179e..14fcdedccba 100644
----- a/Lib/test/test_sysconfig.py
--+++ b/Lib/test/test_sysconfig.py
--@@ -689,6 +689,7 @@ class TestSysConfig(unittest.TestCase, VirtualEnvironmentMixin):
--         self.assertNotEqual(data['prefix'], data['base_prefix'])
--         self.assertNotEqual(data['exec_prefix'], data['base_exec_prefix'])
-- 
--+    @unittest.skip('OE adds/modifies various flags and paths/prefixes')
--     @unittest.skipIf(os.name != 'posix', '_sysconfig-vars JSON file is only available on POSIX')
--     @unittest.skipIf(is_wasi, "_sysconfig-vars JSON file currently isn't available on WASI")
--     @unittest.skipIf(is_android or is_apple_mobile, 'Android and iOS change the prefix')
---- 
--2.51.0
--
-diff --git a/meta/recipes-devtools/python/python3_3.14.5.bb b/meta/recipes-devtools/python/python3_3.14.5.bb
-index 9e6738997d..2f821b130f 100644
---- a/meta/recipes-devtools/python/python3_3.14.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.5.bb
-@@ -15,25 +15,12 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://reformat_sysconfig.py \
-            file://0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch \
-            file://0001-test_locale.py-correct-the-test-output-format.patch \
--           file://0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch \
--           file://0001-test_ctypes.test_find-skip-without-tools-sdk.patch \
-            file://makerace.patch \
-            file://0001-sysconfig.py-use-platlibdir-also-for-purelib.patch \
-            file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch \
-            file://valid-dists.patch \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-            file://0001-Update-test_sysconfig-for-posix_user-purelib.patch \
--           file://0001-skip-no_stdout_fileno-test-due-to-load-variability.patch \
--           file://0001-test_storlines-skip-due-to-load-variability.patch \
--           file://0001-test_shutdown-skip-problematic-test.patch \
--           file://0001-test_deadlock-skip-problematic-test.patch \
--           file://0001-test_active_children-skip-problematic-test.patch \
--           file://0001-test_readline-skip-limited-history-test.patch \
--           file://0001-test_cmd-skip-bang-completion-test.patch \
--           file://0001-test_pyrepl-skip-test_unix_console.test_cursor_back_.patch \
--           file://0001-test_sysconfig-skip-test_sysconfig.test_sysconfigdat.patch \
--           file://0001-Skip-flaky-test_default_timeout-tests.patch \
--           file://0001-test_only_active_thread-skip-problematic-test.patch \
-            file://0001-prefer-valid-entrypoints.patch \
-            file://0001-Fix-ThreadingMock-call-count-race-condition.patch \
-            "
-@@ -252,7 +239,76 @@ do_install:append:class-nativesdk () {
-     create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
- }
- 
--SKIPPED_TESTS = "--ignore test.test_os.test_os.TimerfdTests.test_timerfd_TFD_TIMER_ABSTIME"
-+# Tests failing due to load variability. Bugs were opened at
-+# https://bugzilla.yoctoproject.org/ to track some of these:
-+# 14296 (test_many_processes, test_process_time, test_thread_time, test_wait_integer)
-+# 14933 (test_storlines)
-+# 15120 (test_input_no_stdout_fileno)
-+# 15131 (*TestBarrier.test_timeout)
-+# 15177 (test_thread_time)
-+# 15743 (test.test_os.test_os.TimerfdTests.test_timerfd_TFD_TIMER_ABSTIME)
-+# 15885 (test_default_timeout)
-+SKIPPED_TESTS = " \
-+    --ignore *TestBarrier.test_timeout \
-+    --ignore ExecutorDeadlockTest \
-+    --ignore ExecutorShutdownTest \
-+    --ignore ProcessPoolShutdownTest \
-+    --ignore ThreadPoolShutdownTest \
-+    --ignore test.test_os.test_os.TimerfdTests.test_timerfd_TFD_TIMER_ABSTIME \
-+    --ignore test_active_children \
-+    --ignore test_default_timeout \
-+    --ignore test_input_no_stdout_fileno \
-+    --ignore test_many_processes \
-+    --ignore test_only_active_thread \
-+    --ignore test_process_time \
-+    --ignore test_storlines \
-+    --ignore test_thread_time \
-+    --ignore test_wait_integer \
-+    --ignore test_write_read_append \
-+"
-+
-+# We build Python3 with editline support by default, which has tab completion
-+# but not bang completion. test_bang_completion_without_do_shell() passes if
-+# building with readline, but we don't want to change the default, so skip the
-+# test.
-+SKIPPED_TESTS:append = " \
-+    --ignore test_bang_completion_without_do_shell \
-+"
-+
-+# Also fails with editline instead of readline. See:
-+# https://github.com/python/cpython/issues/123018
-+SKIPPED_TESTS:append = " \
-+    --ignore test_write_read_limited_history \
-+"
-+
-+# In 3.14+ PyREPL's uses terminfo instead of curses. ICH1, is not in the
-+# resulting terminal capabilities, in an "optimization" occurring from PyREPL's
-+# side that causes test_cursor_back_write() to fail. Specifically, the test
-+# tests the following writes in sequence:
-+#
-+# 1. b"1"
-+# 2. TERM_CAPABILITIES["cub"] + b":1"
-+# 3. ANY, b"2"
-+#
-+# The first two writes are read correctly, but the result for the third
-+# write is seeing the equivalent of:
-+#
-+# ANY, b"21"
-+SKIPPED_TESTS:append = " \
-+    --ignore test_cursor_back_write \
-+"
-+
-+# Needs IMAGE_FEATURE += \"tools-sdk\"
-+SKIPPED_TESTS:append = " \
-+    --ignore test_find_library_with_gcc \
-+    --ignore test_find_library_with_ld \
-+"
-+
-+# Fails due to differences in CFLAGS as as modified during build
-+SKIPPED_TESTS:append = " \
-+    --ignore test_sysconfigdata_json \
-+"
-+
- SKIPPED_TESTS:append:class-target:libc-musl = " \
-     -x test__locale \
-     -x test_c_locale_coercion \
--- 
-2.54.0
+Then I cherry picked the qemu 11.x patch, and the test then fails:
 
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3930
+
+It's still possible something is misconfigured on the host (it runs
+tiger vnc standalone server to allow X clients such as qemu to render
+into it), but the issue is clearly triggered by the version upgrade.
+
+Alex
 
