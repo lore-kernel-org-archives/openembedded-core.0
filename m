@@ -1,183 +1,230 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Quan.Sun@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52BFBCD4F54
-	for <webhook@archiver.kernel.org>; Fri, 29 May 2026 15:49:20 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13602.1780069753441133617
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EBB4CD4F54
+	for <webhook@archiver.kernel.org>; Fri, 29 May 2026 15:52:50 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13785.1780069968385000598
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 May 2026 08:49:13 -0700
+ Fri, 29 May 2026 08:52:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XKBBOoyE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-45ee5cdbd28so1269323f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 May 2026 08:49:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1780069752; x=1780674552; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4fd6ZrznGomp47mZx0VIvx2IXQ0zvSf3wSFKBGhfeb4=;
-        b=XKBBOoyETFQ9SjCJOqo2XXhXWRiYjIkD0nGA3iJcA3mJeqn0kVFOl8BmKBVVCy8GtI
-         3HCcIJjBVQHamh2xeCmfYG5Sn56zwDGMlF05MaPamSQfFZTj1ujt2/WdOKn2yQvxqF4Z
-         pPxH3sNcc1uu/eBfhMgCtx19CfuPFmCxxTDT8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780069752; x=1780674552;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4fd6ZrznGomp47mZx0VIvx2IXQ0zvSf3wSFKBGhfeb4=;
-        b=en0ah4aGfqIr4qEEMH5XNIlsQSWgZZyim4H4WjUC0tIeRLKIe0HEX3+M7YMBYKAz4S
-         3su8kkyrFcdSVd/fk1CVPX74Cxi8SeumO39jk46E76GMUkvbj9ECVEE0FHZZgiueWNWU
-         vA6pxBpRlfbBPKZRUmbJb6diLnTtdudKMnKBqx+TnQEAlRCYNVHWp2y369Lw9T0iVyjY
-         s05BUgbAS1xzQUtEs2/D0tJktW5JDZF0KvMOzVU3NXssmdLQeiB3U3Lit81j5HbVKjtQ
-         lfdWYXF+tnOflJMx2X+gDuKo8qf6Jhh68J+XtyMRbR3wz2Bo/YzR6OlYrCIHectnUC5v
-         yFuw==
-X-Forwarded-Encrypted: i=1; AFNElJ/rBnzVO2zDcnGcJZ7rxujGC3M5cgMh6g0NslEzqOL0zOmYFSs4OvdslOGQSdj5jcVaNIiFcsZh9R3Gcn3agB1vIQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwoEQ8PcSxneXKp4lCeyxpX5GjsgST0Ltczbwie82JZAfK3VBAK
-	DIRWpm18J/YxoW36Mj0+/yp8eK1o2UQVA9MTjdNNS7hNuvL+twDb8hZFEDUpXtAFx/4=
-X-Gm-Gg: Acq92OHDTaS1TDKPUEl4aJ5ASju23gIwXyizQCJy6eyZs/8SPWROvWCpFMdu+eoleL5
-	P23zRf7RzmasqtecLakgjuDgIxtRsfSSoLiL/YyomFvFn4vPhDSIyo4LFLwb5b6MvTvTjiZzmoj
-	O8fTBlI1gNfi2MGcGC8KHCVEDJYfIphf8DK05WYkJbRZhB0gQDAG9xvHtotUR0f0xqrYAh06/n+
-	dGn+MPCkkxZnBGCcclJb/0EvO8N9eN9qketD9+t7g/3Ngi24ALrHEMQecVy+Mmv6zPxVr2xAogt
-	CpwHQLBq0uD3HMKvJpasBWWdaRbRnmaeO0D1eCUzgqRaP9FxNXg04FOhmSqP2KAYA9w3CDV33RL
-	QSCBauMw2DX4I5m7L62ybJH9Y4ar/PxBbhLTNaQsmw/GjM+aHw6AXByI3OVj1R5jz7gcZ2y7+LA
-	z0/7x6ASnQrJ1TOuX8DGZA00MMng11HZtzdbe7KuQyEmARpszLe0JPmbL1lHGgiCOwHQ5u0LZw6
-	uPmSR9uByG2XmOxiGtSCZGWPJc=
-X-Received: by 2002:a05:6000:1a8c:b0:45e:b9b4:c68d with SMTP id ffacd0b85a97d-45ef132dba5mr6272141f8f.4.1780069751772;
-        Fri, 29 May 2026 08:49:11 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:45d6:ddb4:ed0f:e5c2? ([2001:8b0:aba:5f3c:45d6:ddb4:ed0f:e5c2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef354c682sm4077007f8f.23.2026.05.29.08.49.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 08:49:11 -0700 (PDT)
-Message-ID: <7da33301e8a0bae93a33695b4fd41f67a08e1b9f.camel@linuxfoundation.org>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=acn+j7XI;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0609d6bc0d=quan.sun@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64TDjq4t258966
+	for <openembedded-core@lists.openembedded.org>; Fri, 29 May 2026 08:52:47 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=PeHSeAmLNgf1UMn6Nv2SiN0Gy8ZVyfyro18kKOc/Lhk=; b=
+	acn+j7XIRFJDKWDaU1YEhxJjLGZQqKkMamapVeysp/Q2oMMBtvK5Ie/aGtUekcwD
+	ZVpPcoIRQXsXfx8PfPU3LAybiNZehOkRPmjzsNgVJ9uGcNgvJhJg/oXDYwfy1igl
+	Cwhcb3LmIp0pAPipLTF4xHeLI9qvjg9UoYFO6YSzF5rvy4HEKPuLY4aapgzaEby1
+	oP0f9khpGKofkxLgBPgGxlVgOh/2gOnqzSO0ViVE3zu51Xks0GbLZdpWGGKLIvAE
+	K5OJJYGAgiVVs/hf3/YjtOT/g0HUJDtN4GGWCpEy49ujXTNklQbvISXhEscfDRdz
+	BbPW31nthnwrAEjVWuoK+g==
+Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011059.outbound.protection.outlook.com [52.101.62.59])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ee7x6jq2c-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 29 May 2026 08:52:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=coZxOnK+wtiRGJh0dGulx9zgDC84XFbJ1KFlLH8pUJaAMahQgzJviHbFQiUJBDL8MUAYm/Y1uSdj5KAhSUu9HPUL6AONfH190QAn+jdspBcH0CaWtQxuw4Ss7cMjf+AlbiqZvdAMaERMivs+XtG6e0SGPnCGP4GTzHZDgzEu2UnFJRalaicqgClB1d5ypuFydUQalPClwigqSlBrhEXurqAD+d5uZ+n3ctyQwF24J6OQsMGoU2vi4mSCuSqR7H4mesEKLoClh+ZqKqX0cFE2lLMC3dqA7nsv8TpMxKl7N9ImGucvEWTbpQpwuCBa6ZN1mDtsWRHzGH4wdcbKPJ6vaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PeHSeAmLNgf1UMn6Nv2SiN0Gy8ZVyfyro18kKOc/Lhk=;
+ b=sig9Masp4qWN1FkaubQtcZSh6XvHJFb0sbengF+RvF8bPzk5h9PcUUvrqAzuZgp8kQHkJnuiqTFkEPbuNj4tY+0RTvyOs0L2co7j9BDQcFLWZmCXGPZL1h0v3WRqnE616oa0JZ4AhnlEDJPejSn0nZgRHWCX3I9lqpxp+qMKqebdCz8P7LfJVmHpmhQ7tUOtoltn8cx/CTAwKr6uiCSDxw0jiU8CXtmLNfjR8Ur2ZkIh4jXUQ+FJja6R2Nw0hWl9kYxmfbwNBvbTXFaoivfnLBrC+GV3cjO6R98/GDPfutSRT+w+3Lf75e61+qr+DrmtVlPjEdzTMNV04nAbUVcCaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from IA0PR11MB7283.namprd11.prod.outlook.com (2603:10b6:208:439::10)
+ by PH8PR11MB9806.namprd11.prod.outlook.com (2603:10b6:510:3c2::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Fri, 29 May
+ 2026 15:52:45 +0000
+Received: from IA0PR11MB7283.namprd11.prod.outlook.com
+ ([fe80::6e41:656f:120e:8e8]) by IA0PR11MB7283.namprd11.prod.outlook.com
+ ([fe80::6e41:656f:120e:8e8%3]) with mapi id 15.21.0071.014; Fri, 29 May 2026
+ 15:52:44 +0000
+Message-ID: <71990304-87b3-4b91-9d58-dfd0b756a0ca@windriver.com>
+Date: Fri, 29 May 2026 11:52:42 -0400
+User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core][PATCH] qemu: upgrade 10.2.0 -> 11.0.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alex.kanavin@gmail.com, Quan.Sun@windriver.com
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 29 May 2026 16:49:10 +0100
-In-Reply-To: <CANNYZj8gMc8PdWMse=g1J7goZC5Ga=nwN5hA+uX02-G+LNHEwQ@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+        openembedded-core@lists.openembedded.org
 References: <20260528202639.4097815-1-Quan.Sun@windriver.com>
-	 <DIV636CRY5LQ.2KV03HIYY2WKI@bootlin.com>
-	 <be287797-1941-4afa-8aef-b015ca194476@windriver.com>
-	 <CANNYZj8gMc8PdWMse=g1J7goZC5Ga=nwN5hA+uX02-G+LNHEwQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ <DIV636CRY5LQ.2KV03HIYY2WKI@bootlin.com>
+ <be287797-1941-4afa-8aef-b015ca194476@windriver.com>
+ <CANNYZj8gMc8PdWMse=g1J7goZC5Ga=nwN5hA+uX02-G+LNHEwQ@mail.gmail.com>
+Content-Language: en-US
+From: Quan Sun <Quan.Sun@windriver.com>
+In-Reply-To: <CANNYZj8gMc8PdWMse=g1J7goZC5Ga=nwN5hA+uX02-G+LNHEwQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: YQBPR0101CA0230.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:66::34) To IA0PR11MB7283.namprd11.prod.outlook.com
+ (2603:10b6:208:439::10)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR11MB7283:EE_|PH8PR11MB9806:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee60f4f5-b57c-4dbb-1a74-08debd9a52a8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|366016|1800799024|22082099003|18002099003|6133799003|56012099006|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info: 
+	bNTGVA2Ih+y2gLSdpmYabNnfBvksQP1Uw20hSyi8WAYAClkJpFgWyScNOnXLTcwaBwaojEyrEP3JHQHA9uW/9V4g/yRkWnHErgkUn8A9RXYB2A5wR+KlvlLLWNYLA/cKXz+oMcEaNTWg+tqDO+RrOzNRhfLaI309ghqmr8D556q1iJa4j39eFOSXIbz5rkBQf7B0asRd5AMMq3TaUhz5eZ8IM/WwbXop+PQG0/hBr2F4HzCghZ4AB7R2hm0PtJzhiS2ZaS/ZaJtQxNenj+QNwIPjW44nxvNfeUs75cxpiSU7UjhZ+QjnNt2/kNBmVsz7CLWl25Q/qABAm/FpJWHNTSs9Nz5ZSk6GgFKB0sNFOEEmg3Y6xHqYQvLfcFCTxsFdS40XnRXuDatI1q0pi7UCtQ4fVkj8dMMbGHxfswpRcKqBXtF/LvZsoi6DRL3h2xN4VfnUucAW9vt6+disZLVWF/Lrhw6lbvEBLIj62GJY18DNMIdpObcd+7knH3rtFHAurUsSrsArZ1s7AqZVsGSmsdtPgFkIMUYNHpSC67PyQZbYIzg02yOFMAjXSnpbwLor8+Mf+dM4NogFz1JeXr+2V78YtL8EV85E5Ebo8lyZRR5yDq0cewoOSsYCXzY+nBJZGUiyxoEEg+WQXhWSKrNNzQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(22082099003)(18002099003)(6133799003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?WExOL3p5SkxEczNsV1FOaGxBMWNEZDNyUDNXcVBSdFVycE01eEp4Q0dUdkZM?=
+ =?utf-8?B?Q1hpbHhzM0IvU3dBZndvNXMxeGZQZERHOUxON0tEOUQ4V2hPODc3QzZrYnVj?=
+ =?utf-8?B?QXVuU1dXeHh1TGpLS2w4c3E4ek43bVV1N3FnZGZnRTRVdFU3eWhCV2YwR3pr?=
+ =?utf-8?B?NTd5UFpYWWh6a1gvYTVQSlp3UmNKVWs3NG1oeEIwQXFBQWU5SmFwMTk3ekRU?=
+ =?utf-8?B?K2tiVjZoUTM0ZkM0WmdiT1BqZXAvVzRIZk8rbm5Pc0xEQklOcjJFZVExTWcr?=
+ =?utf-8?B?THNHTTdUOTdYWStpZFhLNVJJUGJHeVFTdVc5VDdSTUNNWk1EYVY4WGE4L2hB?=
+ =?utf-8?B?NHVTV3NPZ2JIdjhPcFIwTEZEbDdpM3VCU3lyOGl3enhoOXhLbXlZbGNHV29S?=
+ =?utf-8?B?Y1NCQ1htaXMzcnBmOTlheGlibDF5UWJQRUJHMGRuWGFJUWlxcVM4amo2MVFw?=
+ =?utf-8?B?MlpVM2h1VU9TRElDa1c2SDloUjdxUWhmVGJYaVhVbHBEbVJZckZSOFc3RmJR?=
+ =?utf-8?B?NSt3YmZQYnh6VWZWK3NWRXB5ZDhBZk1YeDJYbGVVTGUyUFFZbXdLQ3pXb2dN?=
+ =?utf-8?B?YU4yNXZsSDFTcjVoUG9pL3NSdFM4QStIaGp2bUJQMVJEZmJObjIwU2Y5NDZu?=
+ =?utf-8?B?azdnbkZLR0hOOHlndm1LbmhzeTQ3b2Z5TnhTNjYxd0RtVFA0MUtjdTdNTFFu?=
+ =?utf-8?B?S29JeHhiUkFwaEF6dCtEcnRvVWtuSDNiZXI5Y1UzRk9KeEp1R3dYcDJUaGUy?=
+ =?utf-8?B?MUVBbU9RV3pLcW4rVENRR3BVWXFBTUFHWW1kREFPdEdJb3YxNXdxYXpPRi8y?=
+ =?utf-8?B?YXFFVnQxMjhIMm1KVkdJcERWU3M1SXE5d3J3K0x5MUo1OGRvR1Q3cmlUVzNv?=
+ =?utf-8?B?QTFEb0pzTUtDRU1nc3hqVG1Hb0lWUTd2SGZTUDRZNlZyNFBTSGZHSndkS0Nk?=
+ =?utf-8?B?Y2U5bVhTMHJteEFzbXNhYmpkSkk3NzN5YTk4cXZhMHFEVlF3U3lYeHNHSFdD?=
+ =?utf-8?B?SGRHNGkyNnlCRjBTMmgwYmpGTkgwQmYwc1IzRE84SGcvOWlrY0lVOTlzUTFT?=
+ =?utf-8?B?N1dybmYzVUhrYmdlcjJzQk5PWDhDVVZ0Y0tiZzBNYlpRZE5JSU4vb0VxaHlx?=
+ =?utf-8?B?YWV5cElKRkdKeE4rcTQvWWR2TndpM2xJZjRWVlN1V2xIK1RwVVI2bjM0Z2Fu?=
+ =?utf-8?B?YUJjb2poTHFwK3lzMUZ0WDJtbjBUelppNlI2MWlQdk96V0V1dzY1VHV5MXNX?=
+ =?utf-8?B?cTQ5VnkweTRyNC9lR0Z6RE1aVnhkVGdkbE15cEx0TGs0RkRMNjFoMDNHTytm?=
+ =?utf-8?B?MTgvUWlnVENuQ0diWnZtN1c3NVpmUEZyZFhzVnVKcytSYkdMVm8zSkJablRh?=
+ =?utf-8?B?ZDdkZDlJMHhqYllKV1RIVVplOUFML3lHWDlkVWNVU3NhRm9zaDE4NHN2WEl1?=
+ =?utf-8?B?NkhyYzNDRXAwRS9kM0x1b2R5QnNuTXJGM3dDMnVCZjZvYTQ0dlI3WmNnWHZW?=
+ =?utf-8?B?WkhJaGNEbkFZQi9oMUZKNHdzRy9oQjRRNTJNT1BzZmMyV085T1lKMFcyQzJp?=
+ =?utf-8?B?em5TeTdQSElnVEUwd3g1NkN0cDMyUWtVOEd0a0ZyV1ExY2xqM2lYU0xSRUhQ?=
+ =?utf-8?B?cmJWRmFDNkt3Mlg3dVJRTEh2MUc0V3lKNGYzTlVlaW9FYTNPcWFZVTQ0NUlp?=
+ =?utf-8?B?SUxiQnljZGhUa0EreGY0TE5qODZ2d3JwSHNFUzJ2MDYxOXF5SHFRRkdDdjdz?=
+ =?utf-8?B?V1BreG10YkFxVW1IamFLaGNaaGljRk1lZUxyc0VrMnlGUGF1WVlrUjIvbWpy?=
+ =?utf-8?B?c2kzSFE5cTVuMEUvTGQ2YnJJdGJjOTJhMitBWkI2Qks5Y0lGT1lnaEhrdWFY?=
+ =?utf-8?B?L1ZudU9SSWFYY1hrWkVuQkhrbmlzMGlDQjI3SXRwVVpBVVh4TWh0QWpFUXNV?=
+ =?utf-8?B?dWlrSE4zQzdWQW85dGVrakpmcDUwc3IraUV3blNDbzU1UjdEdWZRbHlxbXZy?=
+ =?utf-8?B?NjczUnRTVE1ZeUVyMU9WUFlseFU5SjZOQmp6UnB3L05FRUxlOFVQZHk2OVUw?=
+ =?utf-8?B?Q2xvVWo0QkpaUnIwQ1lVVnI2aTVsczhkWC9YRkk4Z1pCS3BlcktIWU5Vc0FR?=
+ =?utf-8?B?amd3QXE1YUFyU3NxR1hPR1VzQVBtbVdhNHovckl0ak84MTBvenpwaW03SDM5?=
+ =?utf-8?B?N2t4UDhRY3gzN0ZMS1JYaEVoTGxaaFZLamtNUlFLb1IyWGVodjlGS2FXR3ps?=
+ =?utf-8?B?ejI4OThQdEs2Y25nVWhORUQ3QU9wdGsrZ2lYMnlpVXBrZHRSQkpZV2hFV3ht?=
+ =?utf-8?B?Q1FPM3QxaXEzekM1Zkd1UDBnRWFoVzJwYmZSWkZzQUJTK1JFNXZ2QT09?=
+X-Exchange-RoutingPolicyChecked: 
+	PY1bUk8ooQ9b+LoR+mWwRdTSLT0D9GJon1kkeGPxy8T8WOkSq6h4R/wF4jmEOMVIgYYEhL+s0QwUjLYUW4nhe3G/vZ27FsTxHpRXY/VOu6RDCfzGFjeSr17YKBzvGkhZ+qHxL8p/UxRXDvXuB18B6yfJWrZk3I2PAdYDQT/6MIdb9o58tTzHVpoRB02KzGwWmiZ1uvcEYg/Ba2bfvTpNCyfFXsw0wwmkA/P8M7QRqWNuOkXIsqCMXkpLYopl8LBaWtm67Ki1STHeW9UGXC+UVq7VmHD3JGpTBu+LMjy1Ou0+2PBnBpPIOY6hOuaxOhCuJeTh3NoYfWc7VKvYr1UY+w==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee60f4f5-b57c-4dbb-1a74-08debd9a52a8
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7283.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2026 15:52:44.4726
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: R5XjYFveiz0YNLKNwyK63YAeJK7Ncii42xtVX5+RcFdyhX0FzHesMYLhz2fqwxwsgLnchM/9LxRSPTBmL49uvw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB9806
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: zaJiFQ__tFo1gVkRYy6hjQIoZycnrsuF
+X-Proofpoint-ORIG-GUID: 7C716mStl5_L9_7wUDBAxMhayhFCYnfP
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI5MDE1OCBTYWx0ZWRfX8F8gSBE2bD/6
+ AEtIgtITY+wKzv0oT9jxRl7nlv7/QLPSS/h+8vslV5elyrEM89ztQfwgw7RmDH08pmUkjTI4gL7
+ gI7tueqsCjQ6WugWuk+hS7I9ohJH7erKTdk8lclIjvam4LAJHvxQ2pklbrLB5W6DoiqMh/jWw+M
+ 9xwXcy9lqEM87ec4qFCa5yzkNaieeHSzYiPNz41D2ieYUgV+Zzr+47nRG2fXMiNfUc7epFKw2Xk
+ pOBtqxyka0w/UXhW+gp1q8ybxqAuAvvHKPujYHfIoEIWu1yd9kPzWiQUpFNpZQzzwU6VJZfrFsL
+ 0qUbCr6tlz2s82iyzh+NKxz/rGdTawKNtf44CGxiR7zf+nCYqC1/y70mI5NMNuOhRDOT1Laqp7E
+ uSfJhymlstxxJqWiftssrybRdWOO5boDK1jto/3iRXwQG8k39z0j8aquaRPGt/bxaSbq7wt0g8V
+ ncu/on7CbToD/6qPQpQ==
+X-Authority-Analysis: v=2.4 cv=bY1bluPB c=1 sm=1 tr=0 ts=6a19b64f cx=c_pps
+ a=huIvVN+S9WGU6koxVvae6w==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22
+ a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8 a=xGupElFT-oDDhlqmsoIA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-05-29_04,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 adultscore=0 spamscore=0 impostorscore=0
+ malwarescore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2605290158
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 64TDjq4t258966
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 May 2026 15:49:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237762
+ <openembedded-core@lists.openembedded.org>; Fri, 29 May 2026 15:52:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237763
 
-On Fri, 2026-05-29 at 17:23 +0200, Alexander Kanavin via
-lists.openembedded.org wrote:
+
+On 5/29/26 11:23 AM, Alexander Kanavin wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>
 > On Fri, 29 May 2026 at 16:45, Quan Sun via lists.openembedded.org
 > <Quan.Sun=3Dwindriver.com@lists.openembedded.org> wrote:
-> > > glx: failed to create dri3 screen
-> > > failed to load driver: vgem
-> > >=20
-> > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/39=
+>>> glx: failed to create dri3 screen
+>>> failed to load driver: vgem
+>>>
+>>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/39=
 24
-> > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/37=
+>>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/37=
 86
-> > >=20
-> > > Can you have a look at the issue?
-> > It seems this issue is not caused by the qemu upgrade. I also asked
-> > an
-> > AI agent to carefully examine the build/test logs, and the
-> > following is
-> > what it says:
->=20
+>>>
+>>> Can you have a look at the issue?
+>> It seems this issue is not caused by the qemu upgrade. I also asked an
+>> AI agent to carefully examine the build/test logs, and the following i=
+s
+>> what it says:
 > Unfortunately AI has produced a total hallucination in its analysis,
 > because it looks only at the build log given to it, not at the actual
 > change that is being tested (e.g. it wouldn't see in that log that
 > there is a qemu update, and it wouldn't go and analyse the qemu own
 > changelog and commit history, and it wouldn't run the same test
 > against qemu 10.x to narrow it down and so on).
->=20
+>
 > I went and tried this test with qemu 10.x on the same host, and it
 > passes just fine:
->=20
+>
 > https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3928
->=20
+>
 > Then I cherry picked the qemu 11.x patch, and the test then fails:
->=20
+>
 > https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3930
->=20
+>
 > It's still possible something is misconfigured on the host (it runs
 > tiger vnc standalone server to allow X clients such as qemu to render
 > into it), but the issue is clearly triggered by the version upgrade.
+>
+> Alex
 
+Hi Alex,
 
-I should add, I looked into a couple of the failures on the autobuilder
-and it appeared qemu is segfaulting after the upgrade. I'm fairly sure
-that is related to the upgrade as it doesn't do it before.
+I looked at your test logs and not sure if you performed the test by=20
+really using the qemu 11.0.0. (Note the QEMU binary used in the test was=20
+built from sstate cache (1851 of
+1852 tasks were cached =E2=80=94
+Sstate summary: Wanted 187 Local 187 ... 100% match, 100% complete),=20
+meaning it may have used
+whatever QEMU version is already in master's sstate, not a freshly-built=20
+QEMU 11.0 ?)
 
-Stack trace of thread 2714954:
-                                                      #0  0x00007fec6367b4f=
-4 __pthread_mutex_lock@GLIBC_2.2.5 (libc.so.6 + 0x924f4)
-                                                      #1  0x00007fec603c0f4=
-0 wl_proxy_create_wrapper (libwayland-client.so.0 + 0x8f40)
-                                                      #2  0x00007fec60182bc=
-0 n/a (libEGL.so.1 + 0x2bbc0)
-                                                      #3  0x00007fec6017a4e=
-0 n/a (libEGL.so.1 + 0x234e0)
-                                                      #4  0x00007fec6016aa9=
-c eglInitialize (libEGL.so.1 + 0x13a9c)
-                                                      #5  0x00007fec64a89a8=
-c n/a (libSDL2-2.0.so.0 + 0xbaa8c)
-                                                      #6  0x00007fec64a9822=
-6 n/a (libSDL2-2.0.so.0 + 0xc9226)
-                                                      #7  0x00007fec64a9ab1=
-9 n/a (libSDL2-2.0.so.0 + 0xcbb19)
-                                                      #8  0x0000558d31710aa=
-4 n/a (qemu-system-x86_64 + 0x6acaa4)
-                                                      #9  0x0000558d3171224=
-e n/a (qemu-system-x86_64 + 0x6ae24e)
-                                                      #10 0x0000558d3171073=
-2 n/a (qemu-system-x86_64 + 0x6ac732)
-                                                      #11 0x0000558d3164b55=
-4 n/a (qemu-system-x86_64 + 0x5e7554)
-                                                      #12 0x0000558d313a8e5=
-9 n/a (qemu-system-x86_64 + 0x344e59)
-                                                      #13 0x00007fec6360efa=
-b __libc_start_call_main (libc.so.6 + 0x25fab)
-                                                      #14 0x00007fec6360f0c=
-b __libc_start_main@@GLIBC_2.34 (libc.so.6 + 0x260cb)
-                                                      #15 0x0000558d313aa01=
-5 n/a (qemu-system-x86_64 + 0x346015)
+Regardless of the AI agent, but the earlier test really failed on the=20
+worker ubuntu2510-vk-1 because that host lacks GPU/DRI3 drivers. Have=20
+you performed your test on this=C2=A0worker ubuntu2510-vk-1 ?
 
+Thanks,
 
-                                                      Stack trace of thread=
- 2714967:
-                                                      #0  0x00007fec6368010=
-2 __syscall_cancel_arch (libc.so.6 + 0x97102)
-                                                      #1  0x00007fec63674fb=
-8 __internal_syscall_cancel (libc.so.6 + 0x8bfb8)
-                                                      #2  0x00007fec6367529=
-c __futex_abstimed_wait_common (libc.so.6 + 0x8c29c)
-                                                      #3  0x00007fec636779a=
-8 pthread_cond_wait@@GLIBC_2.3.2 (libc.so.6 + 0x8e9a8)
-                                                      #4  0x00007fec41996ff=
-9 n/a (libgallium-26.0.6.so + 0x596ff9)
-                                                      #5  0x00007fec41c64ee=
-3 n/a (libgallium-26.0.6.so + 0x864ee3)
-                                                      #6  0x00007fec41996f3=
-7 n/a (libgallium-26.0.6.so + 0x596f37)
-                                                      #7  0x00007fec6367832=
-c start_thread (libc.so.6 + 0x8f32c)
-                                                      #8  0x00007fec636f3b2=
-c __clone3 (libc.so.6 + 0x10ab2c)
+Quan
 
-[and more but probably not so interesting]
-
-so it is failing in eglInitialize().
-
-Cheers,
-
-Richard
 
