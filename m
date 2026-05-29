@@ -1,317 +1,100 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F29FCD6E4A
-	for <webhook@archiver.kernel.org>; Fri, 29 May 2026 12:02:06 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.58])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7857.1780052748537396559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52818CD4F54
+	for <webhook@archiver.kernel.org>; Fri, 29 May 2026 12:42:26 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9350.1780058542569390252
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 May 2026 04:05:49 -0700
+ Fri, 29 May 2026 05:42:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@mt.com header.s=selector2 header.b=Jty2dEEc;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: mt.com, ip: 40.107.130.58, mailfrom: wojciech.dubowik@mt.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oapbk2UKbjTzCORMiVRDpPmw08f3CxcWcnepq6mShYTtX/57+4LdWmu0X6CK4QzgIvjRX+gxM7h0Pd5JhhskHuR96PU59TGa/Og/nnsAOAB4eBlaylJ/eMOdtDvAX31/Xk3hjMtPJgfhXoBpQvMbCUE7gM97g1BoVp1BlVeVon6F1meNyUROtwFzX+OGKtzFs2NIDYNRZgNjlhaEgvqkkP2FmMzIYQON5reIB8uGcZBvc5Sga+kyOLc6xEF1Jsieyp0OZlqz7A4qc6laRCPaepZZtcp9U0a2PzJ3qZz5SPEJMZJ2T8sft+5yODJ6R6QCUh2rkt35NNRhQUUG8D14ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WbQHaJM+EJApczPty9Ie141cxU06/f6EkfiLktEWXyQ=;
- b=Xi0wMPZWsr70bJy08bWNoYhJqpacLc3yDOAWVXHOeT475uMpYzaRtwWBm3Y7KwUtNOl+DukyGb/LsAYaEsZz3UYT4CHJHdTmxj9wHQsJJFtIzlttSCGclL2dI1yl/RJJHTzNq1HZpu5754tb6VffVUoRFTMGFH55hzL9seG7KhWQ/5vD95p3Hf64jesV1MxHrSIugCZBxpLFAi1ycCPPD1wYoxufLRp7kMl8/W3TVkvUvo7r8/2WtXTGQxOjdnkAsMjETQWunjNjrXjJoPHiCjAgtuArxwWFR5PhRQZgAdXzuJ47qPyQL6TOFIIvqxrVSlHh5anLQ8HQ6eGINk+Dfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
- header.d=mt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WbQHaJM+EJApczPty9Ie141cxU06/f6EkfiLktEWXyQ=;
- b=Jty2dEEcihdHBn0u3DAeHrEDXQeFwvH0xK0YnvUxkplOOu11cI+sdLRE+n91OkrobwJJjasw4IuTjVk921SY2C7Xdi38UVCVppnrE587sb2TCArKhQfyq2aDD9i4mfOLA2rqGCVnN2wbqwXCtd2TFoT6oYXD1mago1AmEwqR9TpN4EHQnamrx49/Uhi8rGrUxD16CwAzcoJeBNHRVywKqYtx6kBCe1diMGogcDowRwhfZeUs/6FR4TYt6zT57+4NC9acl67WXvaOpiC3yUuC/xNbNyQbtaHlpCL3zxKNR+pw7uBAARcUIRKQUGnljm+Lg/Deew71RkQVd6dH4SComQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mt.com;
-Received: from DB9PR03MB7180.eurprd03.prod.outlook.com (2603:10a6:10:22d::13)
- by GV2PR03MB11375.eurprd03.prod.outlook.com (2603:10a6:150:352::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Fri, 29 May
- 2026 11:05:40 +0000
-Received: from DB9PR03MB7180.eurprd03.prod.outlook.com
- ([fe80::6fd2:12a9:4423:8ddc]) by DB9PR03MB7180.eurprd03.prod.outlook.com
- ([fe80::6fd2:12a9:4423:8ddc%3]) with mapi id 15.21.0071.014; Fri, 29 May 2026
- 11:05:40 +0000
-From: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
-To: u-boot@lists.denx.de
-CC: Wojciech Dubowik <Wojciech.Dubowik@mt.com>,
-	Franz Schnyder <fra.schnyder@gmail.com>,
-	trini@konsulko.com,
-	"openembedded-core @ lists . openembedded . org" <openembedded-core@lists.openembedded.org>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	Simon Glass <sjg@chromium.org>,
-	Quentin Schulz <quentin.schulz@cherry.de>,
-	David Lechner <dlechner@baylibre.com>
-Subject: [PATCH v6] tools: mkeficapsule: Rework pkcs11 support
-Date: Fri, 29 May 2026 13:05:24 +0200
-Message-ID: <20260529110525.22822-1-Wojciech.Dubowik@mt.com>
-X-Mailer: git-send-email 2.47.3
-X-ClientProxiedBy: ZR2P278CA0086.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:65::16) To DB9PR03MB7180.eurprd03.prod.outlook.com
- (2603:10a6:10:22d::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR03MB7180:EE_|GV2PR03MB11375:EE_
-X-MS-Office365-Filtering-Correlation-Id: a947de58-ff3d-4a81-7371-08debd723854
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|19092799006|1800799024|52116014|376014|18002099003|38350700014|6133799003|56012099006;
-X-Microsoft-Antispam-Message-Info: 
-	n8/QQttQwZjYHzUqVp0SQzFoWI/zM8KXi5GK3xk248YyWS56n+GvqtVH+3uvR2w/E5fzjkrZ7y+ENg9QCMlMA3R7Enp69sEk0cvnn+BNyV4J4Wr6O51GZ2VDBPTew95JAucPJ6RpY34o0mrh+zoKTs+nHSAhW+n+YylFI3O1gXruRzWVY8N+739xQWinq6AwIWMSZPc31QLubHOvx5XW77TTNw4H6YsBmcTFIWFg9YaKnpQ7dpT64JvKzOiXR5XSDak/k8et9pbJzQtC7Rgd7MqxI4m/wZyvSyvgyudJc2TuPwUtvTWdoON+NspqYfVXge28yl6J211H8CO+G5lJcg3EaRBY4ZfR0RbozvaQnNlGei/YtU2R3k5fX7OkbvnwYcB9KUNWepshqkvi10cHu7g3NtgrRo/LdX2fSczO3Tz6/pOLMmCUUz3Gv2SUKFjIHyU7tekk4d0Cp0x/v2yfzPAv6oJ98OgU/rZXR0MFrGd/RVetTvibDXHA9rVMvI6iFmMDHrYu7CXfEdeRJuUpART5Tksf6Eqei8OeZmBJRDPt4SV0XpqCQ6wzDskBPgbBF8Oi+sDSc8rxS8873Zt9eRUzr8n8ZkjcIO33xnGXwvcuVSuVNNXr4+FL113RWw472IM7w9DelrN5mVAmCyqLiFCHV0Y8uh60fYOAL+ih7jbmtxX/YXw7M0W0bp3cJEwr8LUhplPEyv322wYuPhayFMV0ki4dVDm4HNLNLFosKSdj7dlt7bC45vg7/Cr/VcxL
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB7180.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(1800799024)(52116014)(376014)(18002099003)(38350700014)(6133799003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?uze5e+tKXd+UUwzwY6zU8NkkNMgz7dFGpk9flyMe+ENDbdWrF1RCI0e+dVdk?=
- =?us-ascii?Q?VPluNBWBYuxgq9YdQv4V7SPJp4gduOOwDj5o4rAbZQ9lviUv1UL8pypwnwlX?=
- =?us-ascii?Q?tapVDw8hRimrnQm0p967mIg8MlULmP+0ynLOFEFvrdZkLn+U8Z05fo6EHiEB?=
- =?us-ascii?Q?o6dvlvNvjceJMi3TIlLZwsfKAk4nZ75BbewJIMw3+FVsMpNhXefw67OXQHXY?=
- =?us-ascii?Q?l0dJR7DoODL+Wgc4mbOm0D+XcegXdgKACbHxkPGNlJTbSakvUqJRqUi5lQ/Q?=
- =?us-ascii?Q?D3cvj8pfuTM3w9LoDSRz23kFwRcUjDi3a0FlENXBH64BqJoMUF9LciZwusai?=
- =?us-ascii?Q?OeyErYsFQxCqwYLTJdbfkB9vSNukewEVN1V1VXUMwSzENdKEknow+8O8ANfO?=
- =?us-ascii?Q?W8jr5bSsD799lRi/DzeRCC7eisRqblx2rC4vz7KbAOUZbDyOd5sPsfIADxh7?=
- =?us-ascii?Q?LTdvNEOWlS4ZdXCTXNitBKTAJ1Hl+xtjnRYit9Zpq4k4DWfUOerbg8PLiynR?=
- =?us-ascii?Q?puci5NP2EkDJvhqmWwCVs6/xhNKHKVO8aydvCO4MIAhn0p2GjbaJHBQfHdc2?=
- =?us-ascii?Q?F74KB1PasABVB+AfPVP8Lm8H8E1UEPT0CBUWmUp3zMEhaSRpDmBn8vyCZeEQ?=
- =?us-ascii?Q?Sq2QPW4NNkeMUpyjKlAo1mPosMnfZDYdmhwBcTkeqh8sRrBTWh5+4oYcoGe8?=
- =?us-ascii?Q?T5A1ASoB1RyHEZshmedfpD5rI4T8le6z6FfTYb/MSVPE77rtSaFdSScqdWUl?=
- =?us-ascii?Q?dby+HNdU07R727B6veoGOtQDLU6ylsbb6XouhGYNt0PYqNyayfvFxjQjBPRy?=
- =?us-ascii?Q?GOYXi7OXw5rit31o2eHPVwrtyO72PBhUwgrSn5VeMrEPzTl4GNtHlv8JkZ4b?=
- =?us-ascii?Q?f8oIUGhxaRHmEVaTAA/pxTeuj2TVNzUDeGrWnE7mgaZZIlBBRfFdX6WK6U1A?=
- =?us-ascii?Q?EKn//AwCdnhFIJ9tbpMLacc4rhH3DwseCe/85MotYvJaTXR6Yifp5qrEX3UE?=
- =?us-ascii?Q?gNcACjWidIzuEJdpuAGuMfbAPpU0vMLjMZiQVXTzo4i0ofuS/zCaeNJOvb4p?=
- =?us-ascii?Q?olzzK/XFOzIekZej0OHedjcPgCLKS80W9TcyoBbkpDz+OlB5JPnxuNnzaldK?=
- =?us-ascii?Q?SSwzGEP4r41455P5Pax25W8Ud8h1mf2+4e1quXiG4LcDlz40y0o49HLvbldT?=
- =?us-ascii?Q?A64bMSrtd0f3UCvJH6O+iusLxmHaE9Ftjn/8Z9e0wjypC8KR3Of5wqzSiOUX?=
- =?us-ascii?Q?kf1oiC5hBQhIHEjI0Em/1HcJ3gJHKsDy6JxxFVbLhNkWkDKB6+XSgCHuFEh7?=
- =?us-ascii?Q?acPQgHaD4RBnAOzY4GY5UUWF9jwS/NBS0yRd2vy4J5D074Ea31wgYjo1gOUz?=
- =?us-ascii?Q?RSvJg/3jpGl/XiyUfAvxNqcw8s8LFdBcr6lxwwGBl0X9Vz+7eMCnygOGA6/9?=
- =?us-ascii?Q?/HjbQqzp+82m+uUCw941nA6RuOvJp8jAUZA2r7pgR3lvUYqdOmSUMywAa8dc?=
- =?us-ascii?Q?cL8JsQ7a51fH58cGljTw3gYRO95r42aO4KJ4jOCHUfJu1B6JsdNmPBtSnccp?=
- =?us-ascii?Q?WOkLlbFeA2kibzz8kkzycs+KztuMh5rlG8w0+3psKsmhnXEblcDCUnYHWBzH?=
- =?us-ascii?Q?zQn7d4GfBEG6RHXDoiTS/+6r1cIxMsnn+Jjh0142WMLQ2TPADRygwq40RGlI?=
- =?us-ascii?Q?Dkn4QptvJkwLMV7WKKtjKX5v7LlV4PYvq3porQbbyJWGP+623D0DfVUNGmZQ?=
- =?us-ascii?Q?BL5KPzilMQ=3D=3D?=
-X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a947de58-ff3d-4a81-7371-08debd723854
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB7180.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2026 11:05:40.3951
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dwrEWJxDJr5JgRzoDpoAUhtaraknPDnK7I6IlyLoFWl2DHCEJ/GJirLhYx4Rjz2P76CTkiZJfcEVz6Ulm4/UDA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR03MB11375
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=0jbKh3Vc;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id E759BC6245A;
+	Fri, 29 May 2026 12:42:20 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 430E8601FA;
+	Fri, 29 May 2026 12:42:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A9ED510888CBE;
+	Fri, 29 May 2026 14:42:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1780058539; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=y2G+3dag7fmZJPSYuPsbxmNbkyTmxkK3mqxLkumKpTQ=;
+	b=0jbKh3VcPad5BMxijkEvlSaCTc5XYVHmjd7uwqcDxS6Umnu4YoCPLv06+yQqpdzK3JBmZm
+	Z9W6hauuIoxi5iEZzdoNX0yMqwG2/E5X70kUsCkWH+L/Hz9z0PplRT0H9GtlVHFX4KtGTl
+	98C7jNae4cnU8EBAKQzpSi+GagXA+tutpZ9uBOULfQG9GKLoiXDaBSw0IgjnVaQkrgWDsI
+	3W50UP5MV07LRYrT63JF9wCdVJLuWwb/q24ci2e68ssgATKf2drzEflpxgja+FFOsRr6pq
+	6ExYbPSN3U67Ml6vZOFIkAbU0ReaLqREaYNl/Mk3rRtLQceitircSWskWTceEA==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 29 May 2026 14:42:16 +0200
+Message-Id: <DIV636CRY5LQ.2KV03HIYY2WKI@bootlin.com>
+Subject: Re: [OE-core][PATCH] qemu: upgrade 10.2.0 -> 11.0.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <Quan.Sun@windriver.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260528202639.4097815-1-Quan.Sun@windriver.com>
+In-Reply-To: <20260528202639.4097815-1-Quan.Sun@windriver.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 May 2026 12:02:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237750
+ <openembedded-core@lists.openembedded.org>; Fri, 29 May 2026 12:42:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237751
 
-Some distros like OpenEmbedded are using gnutls library
-without pkcs11 support and linking of mkeficapsule will fail.
-It would make maintenance of default configs a hurdle.
-Add detection of pkcs11 support in gnutls so it's enabled
-when available and doesn't need to be set explicitly.
+On Thu May 28, 2026 at 10:26 PM CEST, Quan Sun via lists.openembedded.org w=
+rote:
+> From: Quan Sun <Quan.Sun@windriver.com>
+>
+> Upgrade QEMU to version 11.0.0.
+>
 
-Acked-by: Quentin Schulz <quentin.schulz@cherry.de>
-Suggested-by: Tom Rini <trini@konsulko.com>
-Cc: Franz Schnyder <fra.schnyder@gmail.com>
-Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
----
-Changes in v6:
-- removed return code check from gnutls_x509_crt_import_pkcs11
-  sugessted by Quentin, to be sent in separate patch later
-Changes in v5:
-- removed more unrelated cleanup improvements spotted by
-  Quentin, to be sent in another patch later
-Changes in v4:
-- abstract pkcs11 init function
-- removed unrelated cleanup improvements, to be sent in
-  another patch later
-Changes in v3:
-- remove config option for pkcs11 support and add auto
-  detection in Makefile
-- reduce amount of ifdefs by abstracting import pkcs11
-  functions
-- add missing free and deinit functions
-Changes in v2:
-- make use of stderr more consistent
-- add missing ifndef around pkcs11 deinit functions
----
- tools/Makefile       |  5 +++
- tools/mkeficapsule.c | 95 +++++++++++++++++++++++++++++++++-----------
- 2 files changed, 77 insertions(+), 23 deletions(-)
+Hi,
 
-diff --git a/tools/Makefile b/tools/Makefile
-index 1a5f425ecdaa..e85f5a354b81 100644
---- a/tools/Makefile
-+++ b/tools/Makefile
-@@ -271,6 +271,11 @@ mkeficapsule-objs :=3D generated/lib/uuid.o \
- 	$(LIBFDT_OBJS) \
- 	mkeficapsule.o
- hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) +=3D mkeficapsule
-+GNUTLS_SUPPORTS_P11KIT =3D $(shell pkg-config --libs gnutls --print-requir=
-es-private \
-+			 2> /dev/null | grep p11-kit-1)
-+ifeq ($(GNUTLS_SUPPORTS_P11KIT),p11-kit-1)
-+HOSTCFLAGS_mkeficapsule.o +=3D -DMKEFICAPSULE_PKCS11
-+endif
-=20
- include tools/fwumdata_src/fwumdata.mk
-=20
-diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
-index ec640c57e8a5..576903753660 100644
---- a/tools/mkeficapsule.c
-+++ b/tools/mkeficapsule.c
-@@ -207,6 +207,71 @@ static int write_capsule_file(FILE *f, void *data, siz=
-e_t size, const char *msg)
- 	return 0;
- }
-=20
-+#ifdef MKEFICAPSULE_PKCS11
-+static int pkcs11_init(void)
-+{
-+	const char *lib;
-+	int ret;
-+
-+	lib =3D getenv("PKCS11_MODULE_PATH");
-+	if (!lib) {
-+		fprintf(stdout,
-+			"PKCS11_MODULE_PATH not set in the environment\n");
-+		return -1;
-+	}
-+
-+	gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
-+	gnutls_global_init();
-+
-+	ret =3D gnutls_pkcs11_add_provider(lib, "trusted");
-+	if (ret < 0) {
-+		fprintf(stdout, "Failed to add pkcs11 provider\n");
-+		return -1;
-+	}
-+
-+	return 0;
-+}
-+
-+static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context =
-*ctx)
-+{
-+	gnutls_pkcs11_obj_t *obj_list;
-+	unsigned int obj_list_size =3D 0;
-+	int ret;
-+
-+	ret =3D gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
-+						 ctx->cert_file, 0);
-+	if (ret < 0 || obj_list_size =3D=3D 0)
-+		return ret;
-+
-+	gnutls_x509_crt_import_pkcs11(*x509, obj_list[0]);
-+
-+	return 0;
-+}
-+
-+static int import_pkcs11_key(gnutls_privkey_t *pkey, struct auth_context *=
-ctx)
-+{
-+	return gnutls_privkey_import_pkcs11_url(*pkey, ctx->key_file);
-+}
-+#else
-+static int pkcs11_init(void)
-+{
-+	fprintf(stderr, "Pkcs11 support is disabled\n");
-+	return -1;
-+}
-+
-+static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context =
-*ctx)
-+{
-+	fprintf(stderr, "Pkcs11 support is disabled\n");
-+	return -1;
-+}
-+
-+static int import_pkcs11_key(gnutls_privkey_t *pkey, struct auth_context *=
-ctx)
-+{
-+	fprintf(stderr, "Pkcs11 support is disabled\n");
-+	return -1;
-+}
-+#endif
-+
- /**
-  * create_auth_data - compose authentication data in capsule
-  * @auth_context:	Pointer to authentication context
-@@ -229,9 +294,6 @@ static int create_auth_data(struct auth_context *ctx)
- 	gnutls_pkcs7_t pkcs7;
- 	gnutls_datum_t data;
- 	gnutls_datum_t signature;
--	gnutls_pkcs11_obj_t *obj_list;
--	unsigned int obj_list_size =3D 0;
--	const char *lib;
- 	int ret;
- 	bool pkcs11_cert =3D false;
- 	bool pkcs11_key =3D false;
-@@ -243,19 +305,8 @@ static int create_auth_data(struct auth_context *ctx)
- 		pkcs11_key =3D true;
-=20
- 	if (pkcs11_cert || pkcs11_key) {
--		lib =3D getenv("PKCS11_MODULE_PATH");
--		if (!lib) {
--			fprintf(stdout,
--				"PKCS11_MODULE_PATH not set in the environment\n");
--			return -1;
--		}
--
--		gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
--		gnutls_global_init();
--
--		ret =3D gnutls_pkcs11_add_provider(lib, "trusted");
-+		ret =3D pkcs11_init();
- 		if (ret < 0) {
--			fprintf(stdout, "Failed to add pkcs11 provider\n");
- 			return -1;
- 		}
- 	}
-@@ -301,14 +352,12 @@ static int create_auth_data(struct auth_context *ctx)
-=20
- 	/* load x509 certificate */
- 	if (pkcs11_cert) {
--		ret =3D gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
--							 ctx->cert_file, 0);
--		if (ret < 0 || obj_list_size =3D=3D 0) {
--			fprintf(stdout, "Failed to import crt_file URI objects\n");
-+		ret =3D  import_pkcs11_crt(&x509, ctx);
-+		if (ret < 0) {
-+			fprintf(stderr, "error in import_pkcs11_crt(): %s\n",
-+				gnutls_strerror(ret));
- 			return -1;
- 		}
--
--		gnutls_x509_crt_import_pkcs11(x509, obj_list[0]);
- 	} else {
- 		ret =3D gnutls_x509_crt_import(x509, &cert, GNUTLS_X509_FMT_PEM);
- 		if (ret < 0) {
-@@ -320,9 +369,9 @@ static int create_auth_data(struct auth_context *ctx)
-=20
- 	/* load a private key */
- 	if (pkcs11_key) {
--		ret =3D gnutls_privkey_import_pkcs11_url(pkey, ctx->key_file);
-+		ret =3D import_pkcs11_key(&pkey, ctx);
- 		if (ret < 0) {
--			fprintf(stderr, "error in %d: %s\n", __LINE__,
-+			fprintf(stderr,	"error in import_pkcs11_key(): %s\n",
- 				gnutls_strerror(ret));
- 			return -1;
- 		}
+Thanks for the new version.
+
+It looks like we are almost there, I now have just one selftest failing:
+2026-05-29 08:23:23,583 - oe-selftest - INFO - runtime_test.TestImage.test_=
+testimage_virgl_gtk_sdl (subunit.RemotedTestCase)
+2026-05-29 08:23:23,584 - oe-selftest - INFO -  ... FAIL
+...
+runqemu - ERROR - Failed to run qemu: qemu-system-x86_64: -qmp unix:./.i1y4=
+asol,server,wait: info: QEMU waiting for connection on: disconnected:unix:.=
+/.i1y4asol,server=3Don
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID[=
+eax=3D07h,ecx=3D00h].EBX.hle [bit 4]
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID[=
+eax=3D07h,ecx=3D00h].EBX.rtm [bit 11]
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID[=
+eax=3D07h,ecx=3D00h].EBX.hle [bit 4]
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID[=
+eax=3D07h,ecx=3D00h].EBX.rtm [bit 11]
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID[=
+eax=3D07h,ecx=3D00h].EBX.hle [bit 4]
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID[=
+eax=3D07h,ecx=3D00h].EBX.rtm [bit 11]
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID[=
+eax=3D07h,ecx=3D00h].EBX.hle [bit 4]
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID[=
+eax=3D07h,ecx=3D00h].EBX.rtm [bit 11]
+glx: failed to create dri3 screen
+failed to load driver: vgem
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3924
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3786
+
+Can you have a look at the issue?
+
+Thanks,
+Mathieu
+
 --=20
-2.47.3
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
