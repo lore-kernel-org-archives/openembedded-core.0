@@ -2,126 +2,110 @@ Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8F6CCD6E4C
-	for <webhook@archiver.kernel.org>; Sun, 31 May 2026 00:18:14 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16955.1780186691604336107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC58CD4F54
+	for <webhook@archiver.kernel.org>; Sun, 31 May 2026 00:18:24 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16961.1780186704505724918
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 May 2026 17:18:11 -0700
+ Sat, 30 May 2026 17:18:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=tOZqwOSd;
- spf=pass (domain: konsulko.com, ip: 209.85.215.174, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c85a2ca7bf7so46544a12.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 30 May 2026 17:18:11 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=hrUtQ6Cn;
+ spf=pass (domain: konsulko.com, ip: 209.85.214.173, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2c0c3184c71so1442305ad.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 30 May 2026 17:18:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1780186691; x=1780791491; darn=lists.openembedded.org;
+        d=konsulko.com; s=google; t=1780186704; x=1780791504; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hOF24l9W4EgNoQEBqbIR6XfH6V66X19WhkWqHlqsEyU=;
-        b=tOZqwOSdiDWsxuMe0mIHgNC/TYTh5dqTwR9ih9gX9sV1Z6ICnOPx64zcLKVs1BsrpP
-         58QBsk94DzABpvuWy1nEk/2kjSpgsE12MPWUm9CgSaUQl2ZBzQR9edkO0XYDuLx2LwGh
-         2S6kD69DAxc1ZXjrR/QR7kfVmesuzhrRign/M=
+        bh=DUTtKGAxSERrOJoy1mRRMlDHa9Akkb7zvAhwg9NejA4=;
+        b=hrUtQ6Cn6NHhg3uhtSaTreQ/xgT7V/o16ABWJrWrGkKeVCrg91C1omU5z7J48Vwxap
+         gYXgus8T0JvBjphO/yI10+nlhnrZx0NxP4A5TQ4XWa96EC3W9ooO4dAYRwEiNAXYnyyC
+         9XU9cWzOO32og/2WvO/WXAp50u7TIMkVn+GMg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780186691; x=1780791491;
+        d=1e100.net; s=20251104; t=1780186704; x=1780791504;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hOF24l9W4EgNoQEBqbIR6XfH6V66X19WhkWqHlqsEyU=;
-        b=eCLO5PyjrlaEDtyUkLuEmbJnbYXT5TNP19ND5kD/mSZqCG0Q6Trj/VbePIbx3CyIml
-         PcD5c+9VuVuk8XhjtZaf0hSWiQgNTk+/ECfNDdnSWm/1mZDWzahgU+x2dfyUx9lgcokw
-         vYLWU395nEM/WBvd4EWHcZSo9+gf3XJ8rWfpb9ub5/5Nsg/8YA3crR72/0buJCSyzgaR
-         4V8lExpF/N67c+90lgJhYQp7p8zczHk9p0N8O2PokqggEygGX9ikG7mkhVd1h8CZ8Gco
-         alx37t1ipHFSCaladuw4BDTvrxeBM5yK2iQU3r1JokQGC94TPvc+65bgU/nd+5eqtREH
-         Oh2g==
-X-Gm-Message-State: AOJu0Ywv0hJFGHrVK9/mIeSIsKEl/nHfCLIRA8ZtV9tNr+0HbyhoHc81
-	03R3Awx5cRXeUZt+BNKn00MI3LenSppVp5CMJbPYPZu3V66bF3xbWKgilG1dwBxonuGwxJfKQ8q
-	2vn+S
-X-Gm-Gg: Acq92OH5Oh25hhpf9xRkLfY50Y3NJ0RdVwCiJrBpl2HwnKhjvkH2yhqFSt/PKHc2emf
-	5yS/dXRL+z4LPZMpVsGNg7OVeJam6oE/ZWO0hYzhH1lElVskltTmFetX75dwDKmMeR4oGpC5NVc
-	v9eWjO4JHiR0QDbjWQYYsl2Kt+YMU+Tx5WLT2LcYbtuh16DBmldW7zqGM7OzhJtrk1Vy4D1sRhP
-	fa8dcUT6UXpJxgkLmMnpp+hH/+NaErktKbDooJ4sGzgIZpFiaEUtwO5uKnj4x8O2i+FznwlpN7s
-	sDr1zxlBmdfsIyoyN+hDEpodWY17/bNtLnolv6IoG/XzY/ot7krKYVS4xmWgnTYHfdvJOyhPTX/
-	i/DqcF7ElH/YyUC5dMXQHni73g8y9a5IvaZiXFcaNW3QK5PnBfI/W8ks8fN0KFFRN5m2VMLBQi4
-	yECCyLPQA1OffQhiy8+qvPzaZNjrjnQ2DqXpnOJlc6yPWRwPCeX2XVHZXxmWJUg/edupZMxfJzP
-	A==
-X-Received: by 2002:a05:6a00:3ccf:b0:841:4961:8d35 with SMTP id d2e1a72fcca58-8422520762emr5131977b3a.0.1780186690871;
-        Sat, 30 May 2026 17:18:10 -0700 (PDT)
+        bh=DUTtKGAxSERrOJoy1mRRMlDHa9Akkb7zvAhwg9NejA4=;
+        b=MQDRccstLyd5kO3RI3IhAxG7QTt1yZpy0i4MMzp351fCZ13Enxz/qbXzZCRBqpnSnD
+         a6hABqWbqpuTNNpYIFTMGrzwuj7UsnPfgQPu2WIS6RkyYKD4Xv3as9kDBhDlatIj2xK4
+         WLtbp1u0D/272l8BVUGE6ngw9gVjtqDVdj58CFbo5ZnvLNXoCbJ+fuytVMxC/CPjS4HZ
+         ef/HKLnZGfwdLU7X+GQys4h6NpgbgboJI9ffh26wzJspSIsU2CoFonB5gOKklYINIO4G
+         2TPTWnGZAwSwulJnULIvrlI7gG7rTzTNT7j535lOv+n7zJC+C5ItoO25p/Yuv5vnwzYw
+         XjYg==
+X-Gm-Message-State: AOJu0YwdF/UigZ7cRbCR1CRWbwkEjZuGZBs3JpITwf5DntZEX+ucgWg8
+	C7ViRypNo2nsWK9wqAEbbXWtlyY6f2e6czv37JOO0XhgJLhuVY5aImZOEzNgvQWMqmQr9JdQQY7
+	8zLoH
+X-Gm-Gg: Acq92OFzG35Q6+E9t229IKKlereJKOuuG7wunaDupbbCXXvsaTK2HNpPQUo/J/mZiVt
+	zFXw5BB9QUdjgCtMvlhaOWkDVcHd+FXEGaglFgrALYn0DfvfSQB8cW54clUo5IMhV2uX8Z0b8aH
+	bK6xiUmp8S++Li0HuVm4SmVM0OsLcr4RPkcoMmtCkmpymZXQZ2/mwDwrWjmNYw+ZJqdasgz3G6n
+	tKQ9MJIxTn7zIdkrrh8NUavE8yLN9ft3YXsNeQMMwunONhzojmtAF965+IyZd5VP49j1i4l+3k8
+	x6W6gj9nDySqEEuYZPFDYa3GoNWWBnz6tRD7D/e4QY8CZ72JoTXOETC4IZh6CrSk1j7vx+3YoZd
+	tMHr8Ms+TlYBKFU4HEiA2+X1gs1DTe8DcC5XBt/AlWYT7V95gNrtU14sJqRDtdNcxDkiTn+xjg7
+	KXnVAJBSGiUOGY+CHWvIHsXT2Et9ILayzQz9jyLsfMaeCBxUgwbKLgZVgFIVHsdmyd3x7BWf4bw
+	g==
+X-Received: by 2002:a17:903:b84:b0:2bd:d4dc:a4f9 with SMTP id d9443c01a7336-2bf368287c9mr57659875ad.26.1780186703969;
+        Sat, 30 May 2026 17:18:23 -0700 (PDT)
 Received: from localhost (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84214cc0d1csm6270562b3a.42.2026.05.30.17.18.09
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf23c31862sm74930035ad.70.2026.05.30.17.18.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 May 2026 17:18:10 -0700 (PDT)
+        Sat, 30 May 2026 17:18:23 -0700 (PDT)
 From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 3/9] python3-packaging: upgrade 26.0 -> 26.2
-Date: Sat, 30 May 2026 17:17:50 -0700
-Message-ID: <20260531001756.1582306-3-tim.orling@konsulko.com>
+Subject: [PATCH 9/9] python3-zipp: upgrade 3.23.1 -> 4.1.0
+Date: Sat, 30 May 2026 17:17:56 -0700
+Message-ID: <20260531001756.1582306-9-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260531001756.1582306-1-tim.orling@konsulko.com>
 References: <20260531001756.1582306-1-tim.orling@konsulko.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 31 May 2026 00:18:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237782
+ <openembedded-core@lists.openembedded.org>; Sun, 31 May 2026 00:18:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237788
 
 From: Tim Orling <tim.orling@konsulko.com>
 
-26.2 - 2026-04-24
-Fixes:
-* Fix incorrect sysconfig var name for pyemscripten in (PR #1160)
-* Make Version, Specifier, SpecifierSet, Tag, Marker, and Requirement
-  pickle-safe and backward-compatible with pickles created in 25.0-26.1
-  (including references to the removed packaging._structures module)
-  (PR #1163, PR #1168, PR #1170, PR #1171)
-* Re-export ExceptionGroup in metatadata for now in (PR #1164)
+v4.1.0 [1]
+Features:
+* Path.iterdir now raises NotADirectoryError (formerly ValueError) when
+  call on something that's not a directory. (#154)
 
-26.1 - 2026-04-14
-Fixes:
-* Fix > comparison for versions with dev+local segments in (PR #1097)
-* Fix incorrect self-comparison for InfinityType and NegativeInfinityType
-  in (PR #1093)
-* Canonicalize when deduplicating specifiers in SpecifierSet in
-  (PR #1109)
-* Fix charset error message formatting in (PR #1121)
-* Handle the key parameter in SpecifierSet.filter when specifiers are
-  empty and prerelease is False in (PR #1096)
-* Standardize inner components of repr output in (PR #1090)
-* Specifier’s === uses original string, not normalized, when available
-  in (PR #1124)
-* Propagate int-max-str-digits ValueError in (PR #1155)
+v4.0.0 [2]
+Deprecations and Removals:
+* Drop workaround for stacklevel bug on older PyPy releases. (#149)
 
-For additional changes, see [1].
-For full comparison, see [2].
+For a full comparison of changes, see [3].
 
-[1] https://packaging.pypa.io/en/stable/changelog.html
-[2] https://github.com/pypa/packaging/compare/26.0...26.2
+[1] https://github.com/jaraco/zipp/blob/v4.1.0/NEWS.rst#v410
+[2] https://github.com/jaraco/zipp/blob/v4.1.0/NEWS.rst#v400
+[3] https://github.com/jaraco/zipp/compare/v3.23.1...v4.1.0
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- .../{python3-packaging_26.0.bb => python3-packaging_26.2.bb}    | 2 +-
+ .../python/{python3-zipp_3.23.1.bb => python3-zipp_4.1.0.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-packaging_26.0.bb => python3-packaging_26.2.bb} (94%)
+ rename meta/recipes-devtools/python/{python3-zipp_3.23.1.bb => python3-zipp_4.1.0.bb} (83%)
 
-diff --git a/meta/recipes-devtools/python/python3-packaging_26.0.bb b/meta/recipes-devtools/python/python3-packaging_26.2.bb
-similarity index 94%
-rename from meta/recipes-devtools/python/python3-packaging_26.0.bb
-rename to meta/recipes-devtools/python/python3-packaging_26.2.bb
-index ff45cb5133..1e4c0a6bd3 100644
---- a/meta/recipes-devtools/python/python3-packaging_26.0.bb
-+++ b/meta/recipes-devtools/python/python3-packaging_26.2.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/packaging"
- LICENSE = "Apache-2.0 | BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=faadaedca9251a90b205c9167578ce91"
+diff --git a/meta/recipes-devtools/python/python3-zipp_3.23.1.bb b/meta/recipes-devtools/python/python3-zipp_4.1.0.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-zipp_3.23.1.bb
+rename to meta/recipes-devtools/python/python3-zipp_4.1.0.bb
+index 45b83bf347..ca3f1250c3 100644
+--- a/meta/recipes-devtools/python/python3-zipp_3.23.1.bb
++++ b/meta/recipes-devtools/python/python3-zipp_4.1.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/jaraco/zipp"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2e21c3f75eb8d9427c8a611a8e83e9d6"
  
--SRC_URI[sha256sum] = "00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4"
-+SRC_URI[sha256sum] = "ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075aadb987c2fb221661"
+-SRC_URI[sha256sum] = "32120e378d32cd9714ad503c1d024619063ec28aad2248dc6672ad13edfa5110"
++SRC_URI[sha256sum] = "4cb57381f544315db7688e976e922a2b18cdb513d21cc194eb42232ba2a3e602"
  
- SRC_URI += "file://run-ptest.in"
+ DEPENDS += "python3-setuptools-scm-native python3-coherent-licensed-native"
  
 -- 
 2.43.0
