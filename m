@@ -1,92 +1,110 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67E7ECD6E55
-	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 19:15:53 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7371.1780341349490342295
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07282CD5BD1
+	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 19:28:33 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7652.1780342107250646784
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2026 12:15:49 -0700
+ Mon, 01 Jun 2026 12:28:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VJOT74+O;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=28vxsM0p;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019e849d1901-175f5499-fc6b-460a-b77a-8c9ec89ead92-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1780341348; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=yugiOLPX4idc09mhrFJ8Z6eFFLBpadnj70tPNzMONGw=;
-	b=VJOT74+OtiwscZp9Xgh6VPzQOV5X30TlcjwJ507qkL3pzAmz/I4VYkLAETHuv5SZ
-	+g87EmpIrYpnDT5k53yYjUDXya3jpFXkLj1IFNKqntqaZnaGUGGIlO+5v6KBd7RRkKY
-	nzMb5ZrSAt74o5Xw+ujTvl9q47cJgb9DGoZJyO+U=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780341348;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=yugiOLPX4idc09mhrFJ8Z6eFFLBpadnj70tPNzMONGw=;
-	b=28vxsM0puKmAY6869I0hJ+nyVKHLr79a2czFDwH9B3QiV5kSfvw/BRvx3zOq5EeG
-	jFRvasFdjP6ZOxC4zG0pXxsagHjnbiwrwLqPwVayMpr6Z0RfnAXO2AC/fEbvdOeks9F
-	mMrQZcBCgaAAYP9MuV17NkhFp02gfdDM8mEfQYSk=
-From: patchtest@automation.yoctoproject.org
-To: tim.orling@konsulko.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] curl: upgrade 8.19.0 -> 8.20.0
-In-Reply-To: <20260601185900.294639-2-tim.orling@konsulko.com>
-References: <20260601185900.294639-2-tim.orling@konsulko.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019e849d1901-175f5499-fc6b-460a-b77a-8c9ec89ead92-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Jun 2026 19:15:48 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.01-54.240.27.193
+ dkim=pass header.i=@konsulko.com header.s=google header.b=AJDz6lc4;
+ spf=pass (domain: konsulko.com, ip: 209.85.216.45, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-36d630c0e35so2100742a91.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 12:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1780342107; x=1780946907; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OQVVobIczFSuYk64TGJ5zRBjrK3InyPgj5L5fkvFdH4=;
+        b=AJDz6lc4m4+vVOoIMrMqAYeZLxVxBTalzz6a8FW1Le27roNm1XoDIDAHRL//y/5VDy
+         4CGxyC2hQ8KZeB2Z22Jw4OLRS6kZOqtMrLC2xtBIlAzudhnBnb6XFKLl1Dcs3uNuqJUB
+         ZD3Chq+1Zd5GjXz2OPz2kiCZHIi9FT7AHylNk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780342107; x=1780946907;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OQVVobIczFSuYk64TGJ5zRBjrK3InyPgj5L5fkvFdH4=;
+        b=meM+Xu8Z7fQLxYqjlii4AXyaZwXaV3oTP/G8rt7ApyV/F8/k9i46msEH9FT+TzYt1m
+         xzq/12C5WmIaS9OKWUSXBpwb8CmnM5MRluDnq8RmpnNooX0oSIA420Vd7Av/xbHB6SjF
+         mKZ/IDVnKP4EuywRtmbH+MCm/pwp3nhT2lAoxIc7pYL0ZGvL3cROj6myz4kitg3xa2hc
+         l+SVByIisdNdg2BRlpgSukvg1JYBKFLs8k1jLeOcBhJXXMx4zLxuodAQk+8J/4GCYV84
+         zAxbOJTygQED4oU2yTvoDIaLXo1r2ooexj55mXGIr++U3GBt5Pm+eyhBiCKRn3hkaCpo
+         60Dw==
+X-Gm-Message-State: AOJu0YwPUuYEZY4tob8G7JPfpO13gSvuTYdCXUdNENgYGesZtWzzNlN2
+	o8V0/XTUqfym4NB+39xEDaW1HIU3Rrhx/b0tsLmIgWBSBdVjKCjlbTHt5dNgcQbtiLwAkWu6iEi
+	xB5A/
+X-Gm-Gg: Acq92OFDm+9AZPqb1yYnNsqCe6MUKdELGIVDsiVINoDfzu8Io4UGkyEr4Zde40G6eLW
+	Gq96DIjonrhUi7589fLuH9nZ3kegcUj3BY8kh7NjqDDk+kQoOP4boiTr5QYBvFImS2VMMYJkqnZ
+	pDcoSsG01YdXbtOvef96EZKQkfwSU5ue4JnGHRgIU+6WdqYBlweUPLMAzGu80ibZwz5iRqX63ve
+	z3ETGgDftfz7SKJOE86UeO5EYy+NP0d0aXfz1I/kcPhm9Yi0zkQ96zxKhoPp8zMdB1W3jIFjNzD
+	co62L2b/iQAilJwfMFDYWgjMDa6TLYBec1H/nLBHk5fJqaGiDMlrpyE1wCz1+AbrrtEJEx/Jr6T
+	XHnAhjfZ6miPJM4eymNYaEpvpN701P2Yw0n/7FESc38Fl0WO+/mcMJJtjhFvJeqdOr+I7omSVb5
+	+NZ052f2WrjazkUvWLacC6aBjo0vrp1YETn/vLtfy1QJ1eEQIX944wf97gTSCp15r8IRvZn/9AL
+	g==
+X-Received: by 2002:a17:90b:5184:b0:36b:8824:d7cc with SMTP id 98e67ed59e1d1-36c501efef2mr11123520a91.20.1780342106516;
+        Mon, 01 Jun 2026 12:28:26 -0700 (PDT)
+Received: from localhost (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85772b9591sm10601188a12.22.2026.06.01.12.28.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2026 12:28:26 -0700 (PDT)
+From: tim.orling@konsulko.com
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] vim: upgrade 9.2.0340 -> 9.2.0569
+Date: Mon,  1 Jun 2026 12:27:43 -0700
+Message-ID: <20260601192742.333006-2-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 19:15:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237986
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 19:28:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237987
 
---NextPart
-Content-Type: text/plain
+From: Tim Orling <tim.orling@konsulko.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+9.2.0501 enables GTK4 as an option
 
+CVE: CVE-2026-41411
+CVE: CVE-2026-42307
+CVE: CVE-2026-44656
+CVE: CVE-2026-45130
+CVE: CVE-2026-46483
+
+For full comparison of changes, see [1].
+
+[1] https://github.com/vim/vim/compare/v9.2.0340...v9.2.0569
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v2-curl-upgrade-8.19.0---8.20.0.patch
+Tested on qemux86-64 with core-image-full-cmdline:
+CORE_IMAGE_EXTRA_INSTALL:pn-core-image-full-cmdline = " vim"
+and also
+CORE_IMAGE_EXTRA_INSTALL:pn-core-image-full-cmdline = " vim-tiny"
 
-FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 6e0058b13e..b00b2602ed 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -18,8 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
+            file://no-path-adjust.patch \
+            "
+ 
+-PV .= ".0340"
+-SRCREV = "6addd6c101117706bc9b3609d3a418e26e92618f"
++PV .= ".0569"
++SRCREV = "54ffef7eb83f2592833f422b89bf5f30de6b4bb0"
+ 
+ # Do not consider .z in x.y.z, as that is updated with every commit
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+-- 
+2.43.0
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
