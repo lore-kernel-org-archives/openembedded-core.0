@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8FFFCD8C93
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2267CD8C96
 	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 15:35:45 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1571.1780328137954552047
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1551.1780328127355628892
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jun 2026 08:35:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Liu1DKBe;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=WI+iIPnr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019e83d398cc-26f2a2d2-c3fe-48cc-97a2-05534ee1b34c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZLgmzjyq;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=AO8NqgZy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019e83d39721-cf91ea1b-425c-42ca-ac9f-c6f4e0355ac9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1780328143;
+	t=1780328142;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=N1CE2HyMdaQ+qr9FepvGw/iLptN3ShRkQ+Ze3JnZHyc=;
-	b=Liu1DKBecXA9uCxgj11T+dy/g9DKL1mUDV1CcSiFdkS8EtTe7mmzlVTopAvTb8Al
-	e/IUcckK/9H+0lV/C1vPzY6N/arvHUxVtMN8joEgaNM+pjPnPDPUhVaJQB1dEjlSf2C
-	xVinX0wkfdgj4HwAq4c3FmMuJuqorL14rKks+CO4=
+	bh=9NU3dmU5UrfDCr/YtiUhNk+haItlqSMxRm5V+RcLgKg=;
+	b=ZLgmzjyqLqtsV4bIp9h7lINerE/znR+oS0AKG93yxI5/qTiJ+Fb+hBmbT4gtKs/C
+	RN+n8z3aiDWV7ijJGGD+eDBIiwNi8bx0laZil91h2DsrJn/TOoNbkkH9BGd1O1YgFOx
+	Uzirea9s6+ezOjU1jheF8gHljPAmfjiBk9oUGtPk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328143;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328142;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=N1CE2HyMdaQ+qr9FepvGw/iLptN3ShRkQ+Ze3JnZHyc=;
-	b=WI+iIPnrHkH5vusXBT2HxYotyKhQFctPzvyRGrSMwG1m3LMDtjAsBWjfxAmbFFzE
-	g6pdtNK50dAJ60r7NNFvMkpKcdDwYGhzp91g92h8g5HlNfYvK1YaVt4cgvtFJ8S2Mdd
-	xwVJJ3pPgYqrfur3wiNF1zYnlTZZ45n/OXt9aQfM=
-Content-Type: multipart/mixed; boundary="===============0475902895516406234=="
+	bh=9NU3dmU5UrfDCr/YtiUhNk+haItlqSMxRm5V+RcLgKg=;
+	b=AO8NqgZyXi5IQaPJMZ2ofVj3nw1dCHjEk+YlJ2Cqvfs4nm/pcpGgWp9eGILrhvhj
+	81plPu7EVxYeZctH3BidkGxCNFP24ZTIXNanOlPiY3ivbxW5vOsNuGFpDe05wUQMYkj
+	qmQHhmMMl2Ejg8W2JPm6EjAYGtt39Q1GXjg7BfLM=
+Content-Type: multipart/mixed; boundary="===============6923552714674445069=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Marta Rybczynska <marta.rybczynska@ygreky.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-uritools: upgrading to 6.1.2 FAILED
-Message-ID: <0101019e83d398cc-26f2a2d2-c3fe-48cc-97a2-05534ee1b34c-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Jun 2026 15:35:43 +0000
+Subject: [AUH] python3-trove-classifiers: upgrading to 2026.5.22.10 SUCCEEDED
+Message-ID: <0101019e83d39721-cf91ea1b-425c-42ca-ac9f-c6f4e0355ac9-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jun 2026 15:35:42 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.01-54.240.27.191
+X-SES-Outgoing: 2026.06.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 15:35:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237896
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237894
 
---===============0475902895516406234==
+--===============6923552714674445069==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-uritools* to *6.1.2* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *python3-trove-classifiers* to *2026.5.22.10* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-uritools-upgrade-6.1.0-6.1.2.patch
+    - apply the patch: git am 0001-python3-trove-classifiers-upgrade-2026.4.28.13-2026..patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,212 +72,113 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From dd526ea16168fb0d2f019037ba730ba8d7e4fe9b Mon Sep 17 00:00:00 2001
+From 242010b5b33496fc5e968cae65f7a6397693d84d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jun 2026 09:36:44 +0000
-Subject: [PATCH] python3-uritools: upgrade 6.1.0 -> 6.1.2
+Date: Mon, 1 Jun 2026 09:34:17 +0000
+Subject: [PATCH] python3-trove-classifiers: upgrade 2026.4.28.13 ->
+ 2026.5.22.10
 
 ---
- ...ols_6.1.0.bb => python3-uritools_6.1.2.bb} | 25 +++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-uritools_6.1.0.bb => python3-uritools_6.1.2.bb} (20%)
+ ...026.4.28.13.bb => python3-trove-classifiers_2026.5.22.10.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-trove-classifiers_2026.4.28.13.bb => python3-trove-classifiers_2026.5.22.10.bb} (81%)
 
-diff --git a/meta/recipes-devtools/python/python3-uritools_6.1.0.bb b/meta/recipes-devtools/python/python3-uritools_6.1.2.bb
-similarity index 20%
-rename from meta/recipes-devtools/python/python3-uritools_6.1.0.bb
-rename to meta/recipes-devtools/python/python3-uritools_6.1.2.bb
-index eeeca59e21..41f2f58437 100644
---- a/meta/recipes-devtools/python/python3-uritools_6.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-uritools_6.1.2.bb
-@@ -1,10 +1,31 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE
-+# +++ LICENSE
-+# @@ -1,6 +1,6 @@
-+#  The MIT License (MIT)
-+#  
-+# -Copyright (c) 2014-2025 Thomas Kemmer
-+# +Copyright (c) 2014-2026 Thomas Kemmer
-+#  
-+#  Permission is hereby granted, free of charge, to any person obtaining a copy of
-+#  this software and associated documentation files (the "Software"), to deal in
-+# 
-+#
-+
- SUMMARY = "URI parsing, classification and composition"
- HOMEPAGE = "https://github.com/tkem/uritools/"
+diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2026.4.28.13.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2026.5.22.10.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-trove-classifiers_2026.4.28.13.bb
+rename to meta/recipes-devtools/python/python3-trove-classifiers_2026.5.22.10.bb
+index 1ed81eccff..f4f1315ffa 100644
+--- a/meta/recipes-devtools/python/python3-trove-classifiers_2026.4.28.13.bb
++++ b/meta/recipes-devtools/python/python3-trove-classifiers_2026.5.22.10.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/trove-classifiers"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
  
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=e21bbe53b2730bfe1911cf381b81821e"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=079933dfba36eb60b5e3512ca0ab61ae"
+-SRC_URI[sha256sum] = "c85bb8a53c3de7330d1699b844ed9fb809a602a09ac15dc79ad6d1a509be0676"
++SRC_URI[sha256sum] = "5477e9974e91904fb2cfa4a7581ab6e2f30c2c38d847fd00ed866080748101d5"
  
--SRC_URI[sha256sum] = "be97e452528e7a42ef0a4df68364ddd77833e982c5bac5cdcfee15c81f65e96b"
-+SRC_URI[sha256sum] = "fa60028843a8be651699a1ee2b399066eeaef349224b32a177efa4aeba463f00"
- 
- inherit pypi python_setuptools_build_meta ptest-python-pytest
+ PYPI_PACKAGE = "trove_classifiers"
  
 -- 
 2.47.1
 
 
---===============0475902895516406234==
+--===============6923552714674445069==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers: FILELIST: directory renamed /usr/lib/python3.14/site-packages/trove_classifiers-2026.4.28.13.dist-info/licenses -> /usr/lib/python3.14/site-packages/trove_classifiers-2026.5.22.10.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/trove_classifiers-2026.4.28.13.dist-info -> /usr/lib/python3.14/site-packages/trove_classifiers-2026.5.22.10.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-trove-classifiers (sysroot):
+  /usr/lib/python3.14/site-packages/trove_classifiers-2026.4.28.13.dist-info moved to /usr/lib/python3.14/site-packages/trove_classifiers-2026.5.22.10.dist-info
+Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
+  /usr/lib/python3.14/site-packages/trove_classifiers-2026.4.28.13.dist-info moved to /usr/lib/python3.14/site-packages/trove_classifiers-2026.5.22.10.dist-info
+
+--===============6923552714674445069==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-uritools-upgrade-6.1.0-6.1.2.patch"
+ filename="0001-python3-trove-classifiers-upgrade-2026.4.28.13-2026..patch"
 
-RnJvbSBkZDUyNmVhMTYxNjhmYjBkMmYwMTkwMzdiYTczMGJhOGQ3ZTRmZTliIE1vbiBTZXAgMTcg
+RnJvbSAyNDIwMTBiNWIzMzQ5NmZjNWU5NjhjYWU2NWY3YTYzOTc2OTNkODRkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAwOTozNjo0NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtdXJpdG9vbHM6IHVwZ3JhZGUgNi4xLjAgLT4gNi4xLjIKCi0tLQogLi4ub2xzXzYuMS4w
-LmJiID0+IHB5dGhvbjMtdXJpdG9vbHNfNi4xLjIuYmJ9IHwgMjUgKysrKysrKysrKysrKysrKyst
-LQogMSBmaWxlIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy11cml0b29sc182LjEuMC5i
-YiA9PiBweXRob24zLXVyaXRvb2xzXzYuMS4yLmJifSAoMjAlKQoKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cml0b29sc182LjEuMC5iYiBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cml0b29sc182LjEuMi5iYgpzaW1pbGFy
-aXR5IGluZGV4IDIwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtdXJpdG9vbHNfNi4xLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy11cml0b29sc182LjEuMi5iYgppbmRleCBlZWVjYTU5ZTIxLi40MWYyZjU4
-NDM3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJp
-dG9vbHNfNi4xLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXVyaXRvb2xzXzYuMS4yLmJiCkBAIC0xLDEwICsxLDMxIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJ
-TEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScu
-CisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0
-aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBp
-ZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNz
-YWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRh
-dGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAt
-LS0gTElDRU5TRQorIyArKysgTElDRU5TRQorIyBAQCAtMSw2ICsxLDYgQEAKKyMgIFRoZSBNSVQg
-TGljZW5zZSAoTUlUKQorIyAgCisjIC1Db3B5cmlnaHQgKGMpIDIwMTQtMjAyNSBUaG9tYXMgS2Vt
-bWVyCisjICtDb3B5cmlnaHQgKGMpIDIwMTQtMjAyNiBUaG9tYXMgS2VtbWVyCisjICAKKyMgIFBl
-cm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29u
-IG9idGFpbmluZyBhIGNvcHkgb2YKKyMgIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9j
-dW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLCB0byBkZWFsIGluCisjIAorIworCiBT
-VU1NQVJZID0gIlVSSSBwYXJzaW5nLCBjbGFzc2lmaWNhdGlvbiBhbmQgY29tcG9zaXRpb24iCiBI
-T01FUEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20vdGtlbS91cml0b29scy8iCiAKIExJQ0VOU0Ug
-PSAiTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9ZTIxYmJlNTNi
-MjczMGJmZTE5MTFjZjM4MWI4MTgyMWUiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNF
-TlNFO21kNT0wNzk5MzNkZmJhMzZlYjYwYjVlMzUxMmNhMGFiNjFhZSIKIAotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gImJlOTdlNDUyNTI4ZTdhNDJlZjBhNGRmNjgzNjRkZGQ3NzgzM2U5ODJjNWJhYzVj
-ZGNmZWUxNWM4MWY2NWU5NmIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZmE2MDAyODg0M2E4YmU2
-NTE2OTlhMWVlMmIzOTkwNjZlZWFlZjM0OTIyNGIzMmExNzdlZmE0YWViYTQ2M2YwMCIKIAogaW5o
-ZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEgcHRlc3QtcHl0aG9uLXB5dGVz
-dAogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAwOTozNDoxNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtdHJvdmUtY2xhc3NpZmllcnM6IHVwZ3JhZGUgMjAyNi40LjI4LjEzIC0+CiAyMDI2LjUu
+MjIuMTAKCi0tLQogLi4uMDI2LjQuMjguMTMuYmIgPT4gcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVy
+c18yMDI2LjUuMjIuMTAuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
+LCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0
+aG9uMy10cm92ZS1jbGFzc2lmaWVyc18yMDI2LjQuMjguMTMuYmIgPT4gcHl0aG9uMy10cm92ZS1j
+bGFzc2lmaWVyc18yMDI2LjUuMjIuMTAuYmJ9ICg4MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzXzIwMjYuNC4yOC4x
+My5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lm
+aWVyc18yMDI2LjUuMjIuMTAuYmIKc2ltaWxhcml0eSBpbmRleCA4MSUKcmVuYW1lIGZyb20gbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzXzIwMjYu
+NC4yOC4xMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXRyb3ZlLWNsYXNzaWZpZXJzXzIwMjYuNS4yMi4xMC5iYgppbmRleCAxZWQ4MWVjY2ZmLi5mNGYx
+MzE1ZmZhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+dHJvdmUtY2xhc3NpZmllcnNfMjAyNi40LjI4LjEzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVyc18yMDI2LjUuMjIuMTAuYmIKQEAg
+LTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9weXBhL3Ryb3ZlLWNs
+YXNzaWZpZXJzIgogTElDRU5TRSA9ICJBcGFjaGUtMi4wIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vTElDRU5TRTttZDU9ODZkM2YzYTk1YzMyNGM5NDc5YmQ4OTg2OTY4ZjQzMjciCiAKLVNS
+Q19VUklbc2hhMjU2c3VtXSA9ICJjODViYjhhNTNjM2RlNzMzMGQxNjk5Yjg0NGVkOWZiODA5YTYw
+MmEwOWFjMTVkYzc5YWQ2ZDFhNTA5YmUwNjc2IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjU0Nzdl
+OTk3NGU5MTkwNGZiMmNmYTRhNzU4MWFiNmUyZjMwYzJjMzhkODQ3ZmQwMGVkODY2MDgwNzQ4MTAx
+ZDUiCiAKIFBZUElfUEFDS0FHRSA9ICJ0cm92ZV9jbGFzc2lmaWVycyIKIAotLSAKMi40Ny4xCgo=
 
---===============0475902895516406234==
+--===============6923552714674445069==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 950 .bb files complete (0 cached, 950 parsed). 1975 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/python3-trove-classifiers: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2026.4.28.13.tar.gz;downloadfilename=trove_classifiers-2026.4.28.13.tar.gz" to "https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2026.5.22.10.tar.gz;downloadfilename=trove_classifiers-2026.5.22.10.tar.gz"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers: PKGV changed from 2026.4.28.13 [default] to 2026.5.22.10 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers: PV changed from "2026.4.28.13" to "2026.5.22.10"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PKGV changed from 2026.4.28.13 [default] to 2026.5.22.10 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PV changed from "2026.4.28.13" to "2026.5.22.10"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PKGV changed from 2026.4.28.13 [default] to 2026.5.22.10 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PV changed from "2026.4.28.13" to "2026.5.22.10"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PKGV changed from 2026.4.28.13 [default] to 2026.5.22.10 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PV changed from "2026.4.28.13" to "2026.5.22.10"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PKGV changed from 2026.4.28.13 [default] to 2026.5.22.10 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PV changed from "2026.4.28.13" to "2026.5.22.10"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PKGV changed from 2026.4.28.13 [default] to 2026.5.22.10 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PV changed from "2026.4.28.13" to "2026.5.22.10"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PKGV changed from 2026.4.28.13 [default] to 2026.5.22.10 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PV changed from "2026.4.28.13" to "2026.5.22.10"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PKGV changed from 2026.4.28.13 [default] to 2026.5.22.10 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PV changed from "2026.4.28.13" to "2026.5.22.10"
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGSIZE changed from 113532 to 113876 (+0%)
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers: FILELIST: directory renamed /usr/lib/python3.14/site-packages/trove_classifiers-2026.4.28.13.dist-info/licenses -> /usr/lib/python3.14/site-packages/trove_classifiers-2026.5.22.10.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/trove_classifiers-2026.4.28.13.dist-info -> /usr/lib/python3.14/site-packages/trove_classifiers-2026.5.22.10.dist-info
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGV changed from 2026.4.28.13 [default] to 2026.5.22.10 [default]
+packages/x86-64-v3-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PV changed from "2026.4.28.13" to "2026.5.22.10"
+Changes to packages/x86-64-v3-poky-linux/python3-trove-classifiers (sysroot):
+  /usr/lib/python3.14/site-packages/trove_classifiers-2026.4.28.13.dist-info moved to /usr/lib/python3.14/site-packages/trove_classifiers-2026.5.22.10.dist-info
+Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
+  /usr/lib/python3.14/site-packages/trove_classifiers-2026.4.28.13.dist-info moved to /usr/lib/python3.14/site-packages/trove_classifiers-2026.5.22.10.dist-info
 
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-b0f0f57f8ea261ee10223c88f174a7b22cae8fee"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:b0f0f57f8ea261ee10223c88f174a7b22cae8fee"
-meta-yocto-bsp       
-meta-poky            = "master:d13ca2a2e0f478046d920b8fc7dd3098952b5ad8"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 150 Local 136 Mirrors 0 Missed 14 Current 691 (90% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1402 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_recipe_qa)
-NOTE: Running task 2043 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_create_recipe_spdx)
-NOTE: recipe python3-uritools-6.1.2-r0: task do_recipe_qa: Started
-NOTE: recipe python3-uritools-6.1.2-r0: task do_create_recipe_spdx: Started
-NOTE: recipe python3-uritools-6.1.2-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2083 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_fetch)
-NOTE: recipe python3-uritools-6.1.2-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe python3-uritools-6.1.2-r0: task do_fetch: Started
-NOTE: recipe python3-uritools-6.1.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2084 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_unpack)
-NOTE: Running task 2085 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-uritools-6.1.2-r0: task do_unpack: Started
-NOTE: recipe python3-uritools-6.1.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-uritools-6.1.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2086 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_patch)
-NOTE: recipe python3-uritools-6.1.2-r0: task do_patch: Started
-NOTE: recipe python3-uritools-6.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-uritools-6.1.2-r0: task do_patch: Succeeded
-NOTE: Running task 2087 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2088 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_populate_lic)
-NOTE: recipe python3-uritools-6.1.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-uritools-6.1.2-r0: task do_populate_lic: Started
-NOTE: recipe python3-uritools-6.1.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2089 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_configure)
-NOTE: recipe python3-uritools-6.1.2-r0: task do_configure: Started
-NOTE: recipe python3-uritools-6.1.2-r0: task do_configure: Succeeded
-NOTE: Running task 2090 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_configure_ptest_base)
-NOTE: recipe python3-uritools-6.1.2-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-uritools-6.1.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-uritools-6.1.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2091 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_compile)
-NOTE: recipe python3-uritools-6.1.2-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| * Getting build dependencies for wheel...
-| running egg_info
-| writing src/uritools.egg-info/PKG-INFO
-| writing dependency_links to src/uritools.egg-info/dependency_links.txt
-| writing top-level names to src/uritools.egg-info/top_level.txt
-| reading manifest file 'src/uritools.egg-info/SOURCES.txt'
-| reading manifest template 'MANIFEST.in'
-| no previously-included directories found matching '.github'
-| warning: no previously-included files found matching '.gitignore'
-| warning: no previously-included files found matching '.readthedocs.yaml'
-| adding license file 'LICENSE'
-| writing manifest file 'src/uritools.egg-info/SOURCES.txt'
-| 
-| ERROR Missing dependencies:
-| 	setuptools-scm>=8.2
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-uritools/6.1.2/temp/run.do_compile.2280520:151 exit 1 from 'pyproject-build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-uritools/6.1.2/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-uritools/6.1.2/sources/uritools-6.1.2'
-| WARNING: Backtrace (BB generated script):
-| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-uritools/6.1.2/temp/run.do_compile.2280520, line 151
-| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-uritools/6.1.2/temp/run.do_compile.2280520, line 146
-| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-uritools/6.1.2/temp/run.do_compile.2280520, line 163
-NOTE: recipe python3-uritools-6.1.2-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 2091 tasks of which 2080 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260601093629.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260601093629.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-uritools/6.1.2/temp/log.do_compile.2280520
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: python3-uritools-6.1.2-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-uritools/6.1.2/temp/run.do_compile.2280520' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-uritools/6.1.2/temp/log.do_compile.2280520
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-uritools_6.1.2.bb:do_compile) failed with exit code '1'
-
---===============0475902895516406234==--
+--===============6923552714674445069==--
 
