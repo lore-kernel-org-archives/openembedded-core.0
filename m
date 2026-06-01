@@ -1,131 +1,143 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1CEACD6E55
-	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 14:07:10 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.29689.1780322829235473484
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14EA0CD5BD1
+	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 14:29:31 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30363.1780324166362114279
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2026 07:07:09 -0700
+ Mon, 01 Jun 2026 07:29:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=tgBbYY+2;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8DA2E19F6
-	for <openembedded-core@lists.openembedded.org>; Mon,  1 Jun 2026 07:07:03 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 14B743F632
-	for <openembedded-core@lists.openembedded.org>; Mon,  1 Jun 2026 07:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780322828; bh=I/wCaZX5q36JG/OLmBZjs2ruBXBFjcoSpPUi5XPo2Hg=;
-	h=From:To:Subject:Date:From;
-	b=tgBbYY+2gz9/2jE9HStXrNXZ9uEne1oIO9qLioW4bysx8TxDZMRsWE7N7tQ9OdthR
-	 Sg0A84xg6RnmqPs+tfo94Tsf+EFtGcPVx0pK5Mt3SKdrdAbc7CWkNQe4cEOs/cnZSz
-	 8U99Iw/QTtex5GtWMMG2EDiFTFtOpC3SN4Rnn4Go=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] curl: fix mbedtls detection
-Date: Mon,  1 Jun 2026 15:07:04 +0100
-Message-ID: <20260601140704.1194736-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
+	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 651ETMbL1767734;
+	Mon, 1 Jun 2026 09:29:23 -0500
+Received: from [192.168.2.62] ([192.168.2.62])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 651ETLAU027152;
+	Mon, 1 Jun 2026 09:29:21 -0500
+Message-ID: <a883fdca-5c9f-4dcb-bd08-8944d653c197@kernel.crashing.org>
+Date: Mon, 1 Jun 2026 09:29:21 -0500
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] qemuboot.bbclass: regenerate .qemuboot.conf
+ after do_image
+Content-Language: en-US
+To: sivakumar.bs@gmail.com,
+        Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+References: <20260601112329.142238-1-sivakumar.bs@gmail.com>
+ <d8fc1abd30e80b4d689270bbb21538f6c299e4f7.camel@linuxfoundation.org>
+ <CACFV95+ADrPV=0_YKXJYhKQ0AmSDbwVBfeLcZeVR-Gietx0bQA@mail.gmail.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+In-Reply-To: <CACFV95+ADrPV=0_YKXJYhKQ0AmSDbwVBfeLcZeVR-Gietx0bQA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 651ETMbL1767734
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 14:07:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237835
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 14:29:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237836
 
-The mbedtls detection logic in curl is broken and resulted in build
-paths leaking into curl-config and libcurl.pc.  Backport a patch to fix
-the detection by looking for a symbol that wasn't removed in mbedtls 3.0
-five years ago, and remove the explicit sysroot reference as it is no
-longer needed.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-support/curl/curl/mbedtls.patch | 41 ++++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb     |  3 +-
- 2 files changed, 43 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/curl/curl/mbedtls.patch
 
-diff --git a/meta/recipes-support/curl/curl/mbedtls.patch b/meta/recipes-=
-support/curl/curl/mbedtls.patch
-new file mode 100644
-index 0000000000..f2f2c457aa
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/mbedtls.patch
-@@ -0,0 +1,41 @@
-+From 50b1408f97d9e8fc585c5351cbf86bf60a30eb59 Mon Sep 17 00:00:00 2001
-+From: Viktor Szakats <commit@vsz.me>
-+Date: Sat, 23 May 2026 01:05:10 +0200
-+Subject: [PATCH] autotools: mbedtls detection fixes
-+
-+- fix symbol used for first-round detection.
-+- skip detecting mbedtls on custom path if custom path was not supplied.
-+
-+Reported-by: Ross Burton
-+Fixes #21727
-+
-+Closes #21729
-+
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/50b1408f9=
-7d9e8fc585c5351cbf86bf60a30eb59]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ m4/curl-mbedtls.m4 | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/m4/curl-mbedtls.m4 b/m4/curl-mbedtls.m4
-+index 7c5bccd22983..6887302592d6 100644
-+--- a/m4/curl-mbedtls.m4
-++++ b/m4/curl-mbedtls.m4
-+@@ -42,7 +42,7 @@ if test "x$OPT_MBEDTLS" !=3D "xno"; then
-+     if test -z "$OPT_MBEDTLS"; then
-+       dnl check for lib first without setting any new path
-+=20
-+-      AC_CHECK_LIB(mbedtls, mbedtls_havege_init,
-++      AC_CHECK_LIB(mbedtls, mbedtls_ssl_init,
-+       dnl libmbedtls found, set the variable
-+       [
-+         AC_DEFINE(USE_MBEDTLS, 1, [if mbedTLS is enabled])
-+@@ -58,7 +58,7 @@ if test "x$OPT_MBEDTLS" !=3D "xno"; then
-+     addcflags=3D""
-+     mbedtlslib=3D""
-+=20
-+-    if test "$USE_MBEDTLS" !=3D "yes"; then
-++    if test "$USE_MBEDTLS" !=3D "yes" && test -n "$OPT_MBEDTLS"; then
-+       dnl add the path and test again
-+       addld=3D-L$OPT_MBEDTLS/lib$libsuff
-+       addcflags=3D-I$OPT_MBEDTLS/include
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-supp=
-ort/curl/curl_8.19.0.bb
-index b9251336b8..4287b7b7da 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -14,6 +14,7 @@ SRC_URI =3D " \
-     file://run-ptest \
-     file://disable-tests \
-     file://no-test-timeout.patch \
-+    file://mbedtls.patch \
- "
-=20
- SRC_URI:append:class-nativesdk =3D " \
-@@ -56,7 +57,7 @@ PACKAGECONFIG[ldaps] =3D "--enable-ldaps,--disable-ldap=
-s,openldap"
- PACKAGECONFIG[libgsasl] =3D "--with-libgsasl,--without-libgsasl,libgsasl=
-"
- PACKAGECONFIG[libidn] =3D "--with-libidn2,--without-libidn2,libidn2"
- PACKAGECONFIG[libssh2] =3D "--with-libssh2,--without-libssh2,libssh2"
--PACKAGECONFIG[mbedtls] =3D "--with-mbedtls=3D${STAGING_DIR_TARGET},--wit=
-hout-mbedtls,mbedtls"
-+PACKAGECONFIG[mbedtls] =3D "--with-mbedtls,--without-mbedtls,mbedtls"
- PACKAGECONFIG[mqtt] =3D "--enable-mqtt,--disable-mqtt,"
- PACKAGECONFIG[negotiate-auth] =3D "--enable-negotiate-auth,--disable-neg=
-otiate-auth"
- PACKAGECONFIG[nghttp2] =3D "--with-nghttp2,--without-nghttp2,nghttp2"
---=20
-2.43.0
+On 6/1/26 8:57 AM, Siva Balasubramanian via lists.openembedded.org wrote:
+> Thank you for the review.
+>=20
+> You are right, the fix needs proper [depends] declarations rather than
+> just reordering. I will look at what the conf file actually references
+> and add the appropriate task dependencies so do_write_qemuboot_conf is
+> correctly invalidated whenever those artifacts change.
+>=20
+> Will send a v2 shortly.
 
+Just adding a dependency on virtual/kernel or linux-yocto or... it's righ=
+t=20
+either.  We have firmware and baremetal components that use QEMU that we =
+depend=20
+on as well.
+
+So this dependency mechanism is needed, but it's not as simple as just ha=
+rd=20
+coding Linux.
+
+--Mark
+
+> On Mon, Jun 1, 2026 at 6:28=E2=80=AFPM Richard Purdie=20
+> <richard.purdie@linuxfoundation.org <mailto:richard.purdie@linuxfoundat=
+ion.org>>=20
+> wrote:
+>=20
+>     On Mon, 2026-06-01 at 16:53 +0530, Siva Balasubramanian via
+>     lists.openembedded.org <http://lists.openembedded.org> wrote:
+>      > do_write_qemuboot_conf was chained after do_rootfs, so it only r=
+an
+>      > when the rootfs was rebuilt. If only the kernel was rebuilt (or =
+any
+>      > change that regenerates the image without invalidating the rootf=
+s
+>      > sstate), the .qemuboot.conf was left stale while new image artif=
+acts
+>      > were deployed with a new timestamp suffix. This caused runqemu t=
+o
+>      > reference mismatched or missing artifacts.
+>      >
+>      > Move the task to run after do_image instead, so the conf file is
+>      > always consistent with whatever was last deployed.
+>      >
+>      > Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14520
+>     <https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14520>
+>      > Signed-off-by: Siva Balasubramanian <sivakumar.bs@gmail.com
+>     <mailto:sivakumar.bs@gmail.com>>
+>      > ---
+>      > =C2=A0meta/classes-recipe/qemuboot.bbclass | 2 +-
+>      > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>      >
+>      > diff --git a/meta/classes-recipe/qemuboot.bbclass
+>     b/meta/classes-recipe/qemuboot.bbclass
+>      > index 56106b1958..47ce16935f 100644
+>      > --- a/meta/classes-recipe/qemuboot.bbclass
+>      > +++ b/meta/classes-recipe/qemuboot.bbclass
+>      > @@ -127,7 +127,7 @@ QB_DRIVE_TYPE ?=3D "/dev/sd"
+>      > =C2=A0inherit image-artifact-names
+>      >
+>      > =C2=A0# Create qemuboot.conf
+>      > -addtask do_write_qemuboot_conf after do_rootfs before do_image
+>      > +addtask do_write_qemuboot_conf after do_image before do_build
+>      >
+>      > =C2=A0def qemuboot_vars(d):
+>      > =C2=A0=C2=A0=C2=A0=C2=A0 build_vars =3D ['MACHINE', 'TUNE_ARCH',=
+ 'DEPLOY_DIR_IMAGE',
+>=20
+>     Shouldn't we be fixing the task's dependencies so that it runs at t=
+he
+>     right time anything it references changes?
+>=20
+>     I'm not really seeing how this will improve things if to use your
+>     example, the kernel is rebuilt since you haven't added a dependency=
+ on
+>     that...
+>=20
+>     Cheers,
+>=20
+>     Richard
+>=20
+>=20
+>=20
+> --=20
+>=20
+> Sivakumar B
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#237834): https://lists.openembedded.org/g/openembed=
+ded-core/message/237834
+> Mute This Topic: https://lists.openembedded.org/mt/119588648/3616948
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+mark.hatle@kernel.crashing.org]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
