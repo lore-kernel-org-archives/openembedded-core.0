@@ -1,192 +1,92 @@
-Return-Path: <tim.orling@konsulko.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4A03CD5BD1
-	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 19:00:32 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6978.1780340427595197931
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67E7ECD6E55
+	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 19:15:53 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7371.1780341349490342295
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2026 12:00:27 -0700
+ Mon, 01 Jun 2026 12:15:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=WMsYZQ1S;
- spf=pass (domain: konsulko.com, ip: 209.85.216.53, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-36d98b68d68so1113734a91.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 12:00:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1780340427; x=1780945227; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ep2aAcibO7YWJGPAe2M8drvFk3A8AUiz4KKjlPTi2UA=;
-        b=WMsYZQ1SFV/r6OtTk27wAnATSYPuCOHPmcOCTZsVUcIUUXgaaLoSRf3v0orrxBXQ9S
-         4Mrm7kxnV+LgqsfFqyXFq3cj+456qQ+IHgmhc0SyvFzgEgwsHP5Nzm566NS4oixRKFAN
-         0zxYHI+IWyytODQKNuXiguaUFX7idKWc08kHI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780340427; x=1780945227;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ep2aAcibO7YWJGPAe2M8drvFk3A8AUiz4KKjlPTi2UA=;
-        b=NurrcI9bc+LnnFXk23hrrBaFQ4ocfr7ffOm3HMxZSZ2KNyG64nPqMNVSPh3/LbRmZL
-         Tx6vj8wuPvrUI7Sk71aHfMoIF+62wEbJCITOgfubwWkBteQPH7AXtWgtsPKllrkr231y
-         n6XoCPh+sUQjJO9IJQyxl6eJwSFlLwFOnYp4d0f7qRfXk6v0Lv648/D97ZUEjMCC70dc
-         WJ62TTNF8dxdGOYtaX7g73xSRsm4jO+OVynnIBo90z8rz4X0MsjjLBGCja4XVSoo31QD
-         cY6cezy/33wCPVOOmAz4h8DNDFo/m2GJtjfjXBvX0V4zZSmNJc3qTo8q8E8Zv/xSA871
-         lyvA==
-X-Gm-Message-State: AOJu0YzAjofBpxLFkoUE2LgMhMBl8uqVoWDaKIIITqNn42aPcc8LQZD0
-	fFmZpAlXhM8WgDH/EE/TE0ZMwm2C+hRjeEO+zW8Y6KAruQQUdHYa5g77NzlOK0nkxFtcJPwmoBq
-	r5s9R
-X-Gm-Gg: Acq92OE/ZyN/A4KZfynH1tgwL0T5wNRB8N9PWz0VCCdEt6ojzBq2HOX5TVTL4XqC5NF
-	9oaiSEaV/cdgtfuvojGr4moQ7zkTZjkSuCcS+zmIlSWL/PyxPEcT/gJPKzCPYVLh3bc/66JeI2J
-	eYnSDH5YpAqm2b+zOr+kAmQqlBdekskSPHzTM7PQq9EvGrtJNYXQjaO4/Ln7yS57qoezdNs56T8
-	q0x9+q6gRIR7bh9qNRZUZhOk/cFGK9Oyi70tRWtSCuKJUEXQgVhj8unLN5NlyX0n8+UiDtqpZAs
-	OwG/xYZbmhUE1lxNWPUxz6sSRwtSk/wIM19vcxSWqLDa1B9Wsf1ULAv8j/+b4jN6aSe/CiR2IZ8
-	rNE0MvuEK2Hj2eRVZevOixplF7NWi5veU2j46ZY0GvOcmCfW+WuHAqK6vjXiNsI0JvE5u7kVwSV
-	90KIAUAPQkIDRtNKCVS3513q013GdvLSszjdMoueCdisRT+R3IUUnb0eNzR+kX6hMO2pJU5aov9
-	w==
-X-Received: by 2002:a05:6a20:da11:b0:3a3:add5:7bf7 with SMTP id adf61e73a8af0-3b428069746mr14162967637.23.1780340426306;
-        Mon, 01 Jun 2026 12:00:26 -0700 (PDT)
-Received: from localhost (c-98-232-159-17.hsd1.or.comcast.net. [98.232.159.17])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8423f419128sm6688401b3a.21.2026.06.01.12.00.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 12:00:25 -0700 (PDT)
-From: tim.orling@konsulko.com
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH v2] curl: upgrade 8.19.0 -> 8.20.0
-Date: Mon,  1 Jun 2026 11:59:00 -0700
-Message-ID: <20260601185900.294639-2-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260531213732.3220315-2-tim.orling@konsulko.com>
-References: <20260531213732.3220315-2-tim.orling@konsulko.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VJOT74+O;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=28vxsM0p;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019e849d1901-175f5499-fc6b-460a-b77a-8c9ec89ead92-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1780341348; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=yugiOLPX4idc09mhrFJ8Z6eFFLBpadnj70tPNzMONGw=;
+	b=VJOT74+OtiwscZp9Xgh6VPzQOV5X30TlcjwJ507qkL3pzAmz/I4VYkLAETHuv5SZ
+	+g87EmpIrYpnDT5k53yYjUDXya3jpFXkLj1IFNKqntqaZnaGUGGIlO+5v6KBd7RRkKY
+	nzMb5ZrSAt74o5Xw+ujTvl9q47cJgb9DGoZJyO+U=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780341348;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=yugiOLPX4idc09mhrFJ8Z6eFFLBpadnj70tPNzMONGw=;
+	b=28vxsM0puKmAY6869I0hJ+nyVKHLr79a2czFDwH9B3QiV5kSfvw/BRvx3zOq5EeG
+	jFRvasFdjP6ZOxC4zG0pXxsagHjnbiwrwLqPwVayMpr6Z0RfnAXO2AC/fEbvdOeks9F
+	mMrQZcBCgaAAYP9MuV17NkhFp02gfdDM8mEfQYSk=
+From: patchtest@automation.yoctoproject.org
+To: tim.orling@konsulko.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2] curl: upgrade 8.19.0 -> 8.20.0
+In-Reply-To: <20260601185900.294639-2-tim.orling@konsulko.com>
+References: <20260601185900.294639-2-tim.orling@konsulko.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019e849d1901-175f5499-fc6b-460a-b77a-8c9ec89ead92-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jun 2026 19:15:48 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.06.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 19:00:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237985
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 19:15:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237986
 
-From: Tim Orling <tim.orling@konsulko.com>
+--NextPart
+Content-Type: text/plain
 
-* Backport patch to avoid 100% CPU load:
-  https://github.com/curl/curl/commit/2a2104f3cff44bb28bb570a093be52bbeeed8f23
-* Remove PACKAGECONFIG[rtmpdump]:
-  ceae02db04 rtmp: drop support
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-CVE: CVE-2026-4873
-CVE: CVE-2026-5545
-CVE: CVE-2026-5773
-CVE: CVE-2026-6253
-CVE: CVE-2026-6276
-CVE: CVE-2026-6429
-CVE: CVE-2026-7009
-CVE: CVE-2026-7168
-
-For changelog, see [1].
-For full comparison of changes, see [2].
-
-[1] https://curl.se/ch/8.20.0.html
-[2] https://github.com/curl/curl/compare/curl-8_19_0...curl-8_20_0
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
-Changes in v2:
-Backport patch suggested by Ross Burton in patch review meeting
+Testing patch /home/patchtest/share/mboxes/v2-curl-upgrade-8.19.0---8.20.0.patch
 
-ptests still pass on qemux86-64 core-image-ptest-curl:
-TESTDONE: 1897 tests were considered during 42 seconds.
-TESTDONE: 928 tests out of 928 reported OK: 100%
-DURATION: 43
-END: /usr/lib/curl/ptest
-2026-06-01T18:55
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
+FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
 
- .../0001-event-fix-wakeup-consumption.patch   | 39 +++++++++++++++++++
- .../curl/{curl_8.19.0.bb => curl_8.20.0.bb}   |  4 +-
- 2 files changed, 41 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/curl/curl/0001-event-fix-wakeup-consumption.patch
- rename meta/recipes-support/curl/{curl_8.19.0.bb => curl_8.20.0.bb} (97%)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-diff --git a/meta/recipes-support/curl/curl/0001-event-fix-wakeup-consumption.patch b/meta/recipes-support/curl/curl/0001-event-fix-wakeup-consumption.patch
-new file mode 100644
-index 0000000000..7f22e19c05
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/0001-event-fix-wakeup-consumption.patch
-@@ -0,0 +1,39 @@
-+From 590e31dff8aa4c5ff8be761128e38ac751aed875 Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Mon, 11 May 2026 14:56:04 +0200
-+Subject: [PATCH] event: fix wakeup consumption
-+
-+The events on a multi wakeup socketpair were only consumed via
-+curl_multi_poll()/curl_multi_wait() but not in event based processing on
-+a curl_multi_socket() call. That led to busy loops as reported in
-+
-+Fixes #21547
-+Reported-by: Earnestly on github
-+Closes #21549
-+
-+Upstream-Status: Backport ["2a2104f event: fix wakeup consumption"]
-+Suggested-by: Ross Burton <ross.burton@arm.com>
-+Signed-off-by: Tim Orling <tim.orling@konsulk.com>
-+---
-+ lib/multi.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/lib/multi.c b/lib/multi.c
-+index 7520253d70..a0012d8faf 100644
-+--- a/lib/multi.c
-++++ b/lib/multi.c
-+@@ -2479,6 +2479,11 @@ static CURLMcode multi_runsingle(struct Curl_multi *multi,
-+   Curl_uint32_bset_remove(&multi->dirty, data->mid);
-+ 
-+   if(data == multi->admin) {
-++#ifdef ENABLE_WAKEUP
-++    /* Consume any pending wakeup signals before processing.
-++     * This is necessary for event based processing. See #21547 */
-++    (void)Curl_wakeup_consume(multi->wakeup_pair, TRUE);
-++#endif
-+ #ifdef USE_RESOLV_THREADED
-+     Curl_async_thrdd_multi_process(multi);
-+ #endif
-+-- 
-+2.47.3
-+
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.20.0.bb
-similarity index 97%
-rename from meta/recipes-support/curl/curl_8.19.0.bb
-rename to meta/recipes-support/curl/curl_8.20.0.bb
-index b9251336b8..0408657f40 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.20.0.bb
-@@ -14,13 +14,14 @@ SRC_URI = " \
-     file://run-ptest \
-     file://disable-tests \
-     file://no-test-timeout.patch \
-+    file://0001-event-fix-wakeup-consumption.patch \
- "
- 
- SRC_URI:append:class-nativesdk = " \
-     file://environment.d-curl.sh \
- "
- 
--SRC_URI[sha256sum] = "4eb41489790d19e190d7ac7e18e82857cdd68af8f4e66b292ced562d333f11df"
-+SRC_URI[sha256sum] = "63fe2dc148ba0ceae89922ef838f7e5c946272c2e78b7c59fab4b79d3ce2b896"
- 
- # Curl has used many names over the years...
- CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
-@@ -63,7 +64,6 @@ PACKAGECONFIG[nghttp2] = "--with-nghttp2,--without-nghttp2,nghttp2"
- PACKAGECONFIG[openssl] = "--with-openssl,--without-openssl,openssl"
- PACKAGECONFIG[pop3] = "--enable-pop3,--disable-pop3,"
- PACKAGECONFIG[proxy] = "--enable-proxy,--disable-proxy,"
--PACKAGECONFIG[rtmpdump] = "--with-librtmp,--without-librtmp,rtmpdump"
- PACKAGECONFIG[rtsp] = "--enable-rtsp,--disable-rtsp,"
- PACKAGECONFIG[schannel] = "--with-schannel,--without-schannel,"
- PACKAGECONFIG[smb] = "--enable-smb,--disable-smb,"
--- 
-2.43.0
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
 
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
