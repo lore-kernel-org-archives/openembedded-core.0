@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C853ACD8C92
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56AD8CD8C8D
 	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 15:35:45 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1569.1780328137833093025
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1580.1780328143724228234
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jun 2026 08:35:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RtU6LymX;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=b8zxqYTc;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019e83d39876-acde18cd-7461-4fd0-ab47-0c6b4eb6282f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=qLoblrcg;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DBNlqYy1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019e83d398d7-638d251c-c31f-4e01-87e8-03d58232423f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1780328143;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=jsOxp4LdTf6G8l7W6OP5iO1Fs0v7gDLV7ZkDPh3hu34=;
-	b=RtU6LymXUAeyejOzuthh8TUtlIeMkoGBLoOADu1MhseE9siMkdywYSxsfKrqvgKu
-	yWa+YdBNnTpceQ4icg/D9buEvn+1q5/Ff1Bt6ErTkNW25ZTMKFgXX200YVHxSI/mPXe
-	iC7s0haXatWQgED8Lam5SRNgGXWO2dlVgEaY8DJA=
+	bh=dc8tLQqUxVSqGNVzfiTlhFGGgxcTxNWBTCMqRQ7WoLg=;
+	b=qLoblrcgwnXIUNaLSMJ4/LmFIMU1eQ9hGInRmEgk0JynZ9+eX0CFQx+X5WXI1sid
+	49v2tLlbwAKBI613Oo7D30QXUrONhXSFG0+kSXXxnF0tR3ED5vcjHrOwKy7CyWZd8Vh
+	RkGk+MMbqxLNExqULXgTc4EeKmaYx7RS+nsxLHKo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328143;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=jsOxp4LdTf6G8l7W6OP5iO1Fs0v7gDLV7ZkDPh3hu34=;
-	b=b8zxqYTcou3d+/usAKhBWpGaeiQdtqKj2EUnppkZ89BWdBCg02PxbzJ99xUUOcCN
-	Z4Ar03J2MrvV1UIVHfNgway1JdM7VDoH8fGZ7Ysh3+E0j9RTM4goYiANaC1jQU2mAVX
-	oDpSlGMZdzQLz/fCf+NBAIfd4DSjVqABYZOE0b4k=
-Content-Type: multipart/mixed; boundary="===============5519155240178641650=="
+	bh=dc8tLQqUxVSqGNVzfiTlhFGGgxcTxNWBTCMqRQ7WoLg=;
+	b=DBNlqYy1NbWalQYX3LRJxJd4PCZfQ1jXyRkjcjK8FPkPTFngy7+aIiljx9pbrV7w
+	3ozve+iixEquf623+4QWcPQzhnnQMQIAk8vvtc/zgWHrtQxlbgxFoLdSlETFro7dDjA
+	jb/tHTJrRbjmj1tNB6sxZQjToAUEK0iQHgE4ygr8=
+Content-Type: multipart/mixed; boundary="===============6982867523228964340=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] repo: upgrading to 2.64 SUCCEEDED
-Message-ID: <0101019e83d39876-acde18cd-7461-4fd0-ab47-0c6b4eb6282f-000000@us-west-2.amazonses.com>
+To: Tim Orling <tim.orling@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-zipp: upgrading to 4.1.0 SUCCEEDED
+Message-ID: <0101019e83d398d7-638d251c-c31f-4e01-87e8-03d58232423f-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jun 2026 15:35:43 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.01-54.240.27.191
+X-SES-Outgoing: 2026.06.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 15:35:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237895
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237899
 
---===============5519155240178641650==
+--===============6982867523228964340==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *repo* to *2.64* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-zipp* to *4.1.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-repo-upgrade-2.63-2.64.patch
+    - apply the patch: git am 0001-python3-zipp-upgrade-3.23.1-4.1.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,87 +72,126 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5fc107bcdf59df4af954437e43e519a36a0cd43c Mon Sep 17 00:00:00 2001
+From e969ddb8610d6401666949c3a43a380bda519aea Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jun 2026 09:52:00 +0000
-Subject: [PATCH] repo: upgrade 2.63 -> 2.64
+Date: Mon, 1 Jun 2026 09:48:48 +0000
+Subject: [PATCH] python3-zipp: upgrade 3.23.1 -> 4.1.0
 
 ---
- meta/recipes-devtools/repo/{repo_2.63.bb => repo_2.64.bb} | 2 +-
+ .../python/{python3-zipp_3.23.1.bb => python3-zipp_4.1.0.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/repo/{repo_2.63.bb => repo_2.64.bb} (94%)
+ rename meta/recipes-devtools/python/{python3-zipp_3.23.1.bb => python3-zipp_4.1.0.bb} (83%)
 
-diff --git a/meta/recipes-devtools/repo/repo_2.63.bb b/meta/recipes-devtools/repo/repo_2.64.bb
-similarity index 94%
-rename from meta/recipes-devtools/repo/repo_2.63.bb
-rename to meta/recipes-devtools/repo/repo_2.64.bb
-index c3cb5a88a9..8cbf223571 100644
---- a/meta/recipes-devtools/repo/repo_2.63.bb
-+++ b/meta/recipes-devtools/repo/repo_2.64.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta/recipes-devtools/python/python3-zipp_3.23.1.bb b/meta/recipes-devtools/python/python3-zipp_4.1.0.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-zipp_3.23.1.bb
+rename to meta/recipes-devtools/python/python3-zipp_4.1.0.bb
+index 45b83bf347..ca3f1250c3 100644
+--- a/meta/recipes-devtools/python/python3-zipp_3.23.1.bb
++++ b/meta/recipes-devtools/python/python3-zipp_4.1.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/jaraco/zipp"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2e21c3f75eb8d9427c8a611a8e83e9d6"
  
- SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v${PV} \
-            "
--SRCREV = "baa281d99e59dbf1447524e6fd95b384cadbc06e"
-+SRCREV = "2d54384a5e59fddd0626ec091cc0ad11511d834e"
+-SRC_URI[sha256sum] = "32120e378d32cd9714ad503c1d024619063ec28aad2248dc6672ad13edfa5110"
++SRC_URI[sha256sum] = "4cb57381f544315db7688e976e922a2b18cdb513d21cc194eb42232ba2a3e602"
  
- MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
+ DEPENDS += "python3-setuptools-scm-native python3-coherent-licensed-native"
  
 -- 
 2.47.1
 
 
---===============5519155240178641650==
-Content-Type: application/octet-stream
+--===============6982867523228964340==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-repo-upgrade-2.63-2.64.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-RnJvbSA1ZmMxMDdiY2RmNTlkZjRhZjk1NDQzN2U0M2U1MTlhMzZhMGNkNDNjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAwOTo1MjowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJl
-cG86IHVwZ3JhZGUgMi42MyAtPiAyLjY0CgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBv
-L3tyZXBvXzIuNjMuYmIgPT4gcmVwb18yLjY0LmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAx
-IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9yZXBvL3tyZXBvXzIuNjMuYmIgPT4gcmVwb18yLjY0LmJifSAoOTQlKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi42My5iYiBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9yZXBvL3JlcG9fMi42NC5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNjMuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi42NC5iYgppbmRleCBjM2NiNWE4OGE5Li44Y2Jm
-MjIzNTcxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNjMu
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjY0LmJiCkBAIC0xMSw3
-ICsxMSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2
-Mzg3ZjE0NjU1ZmM4NTRkZGMzYzZiZDU3IgogCiBTUkNfVVJJID0gImdpdDovL2dlcnJpdC5nb29n
-bGVzb3VyY2UuY29tL2dpdC1yZXBvLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbjt0YWc9
-diR7UFZ9IFwKICAgICAgICAgICAgIgotU1JDUkVWID0gImJhYTI4MWQ5OWU1OWRiZjE0NDc1MjRl
-NmZkOTViMzg0Y2FkYmMwNmUiCitTUkNSRVYgPSAiMmQ1NDM4NGE1ZTU5ZmRkZDA2MjZlYzA5MWNj
-MGFkMTE1MTFkODM0ZSIKIAogTUlSUk9SUyArPSAiZ2l0Oi8vZ2Vycml0Lmdvb2dsZXNvdXJjZS5j
-b20vZ2l0LXJlcG8uZ2l0IGdpdDovL2dpdGh1Yi5jb20vR2Vycml0Q29kZVJldmlldy9naXQtcmVw
-by5naXQiCiAKLS0gCjIuNDcuMQoK
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp: FILELIST: directory renamed /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info -> /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-zipp (sysroot):
+  /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info was added
+  /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info/licenses was removed
+  /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info/WHEEL was removed
 
---===============5519155240178641650==
+--===============6982867523228964340==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/repo: PV changed from "2.63" to "2.64"
-packages/x86-64-v3-poky-linux/repo: PKGV changed from 2.63 [default] to 2.64 [default]
-packages/x86-64-v3-poky-linux/repo: SRC_URI changed from "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v2.63" to "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v2.64"
-packages/x86-64-v3-poky-linux/repo/repo-dbg: PV changed from "2.63" to "2.64"
-packages/x86-64-v3-poky-linux/repo/repo-dbg: PKGV changed from 2.63 [default] to 2.64 [default]
-packages/x86-64-v3-poky-linux/repo/repo-dev: PV changed from "2.63" to "2.64"
-packages/x86-64-v3-poky-linux/repo/repo-dev: PKGV changed from 2.63 [default] to 2.64 [default]
-packages/x86-64-v3-poky-linux/repo/repo-doc: PV changed from "2.63" to "2.64"
-packages/x86-64-v3-poky-linux/repo/repo-doc: PKGV changed from 2.63 [default] to 2.64 [default]
-packages/x86-64-v3-poky-linux/repo/repo-locale: PV changed from "2.63" to "2.64"
-packages/x86-64-v3-poky-linux/repo/repo-locale: PKGV changed from 2.63 [default] to 2.64 [default]
-packages/x86-64-v3-poky-linux/repo/repo-src: PV changed from "2.63" to "2.64"
-packages/x86-64-v3-poky-linux/repo/repo-src: PKGV changed from 2.63 [default] to 2.64 [default]
-packages/x86-64-v3-poky-linux/repo/repo-staticdev: PV changed from "2.63" to "2.64"
-packages/x86-64-v3-poky-linux/repo/repo-staticdev: PKGV changed from 2.63 [default] to 2.64 [default]
-packages/x86-64-v3-poky-linux/repo/repo: PV changed from "2.63" to "2.64"
-packages/x86-64-v3-poky-linux/repo/repo: PKGV changed from 2.63 [default] to 2.64 [default]
+packages/x86-64-v3-poky-linux/python3-zipp: SRC_URI changed from "https://files.pythonhosted.org/packages/source/z/zipp/zipp-3.23.1.tar.gz;downloadfilename=zipp-3.23.1.tar.gz" to "https://files.pythonhosted.org/packages/source/z/zipp/zipp-4.1.0.tar.gz;downloadfilename=zipp-4.1.0.tar.gz"
+packages/x86-64-v3-poky-linux/python3-zipp: PV changed from "3.23.1" to "4.1.0"
+packages/x86-64-v3-poky-linux/python3-zipp: PKGV changed from 3.23.1 [default] to 4.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp-dbg: PV changed from "3.23.1" to "4.1.0"
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp-dbg: PKGV changed from 3.23.1 [default] to 4.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp-dev: PV changed from "3.23.1" to "4.1.0"
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp-dev: PKGV changed from 3.23.1 [default] to 4.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp-doc: PV changed from "3.23.1" to "4.1.0"
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp-doc: PKGV changed from 3.23.1 [default] to 4.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp-locale: PV changed from "3.23.1" to "4.1.0"
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp-locale: PKGV changed from 3.23.1 [default] to 4.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp-src: PV changed from "3.23.1" to "4.1.0"
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp-src: PKGV changed from 3.23.1 [default] to 4.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp-staticdev: PV changed from "3.23.1" to "4.1.0"
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp-staticdev: PKGV changed from 3.23.1 [default] to 4.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp: FILELIST: directory renamed /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info -> /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp: PV changed from "3.23.1" to "4.1.0"
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp: PKGSIZE changed from 54221 to 53725 (-1%)
+packages/x86-64-v3-poky-linux/python3-zipp/python3-zipp: PKGV changed from 3.23.1 [default] to 4.1.0 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-zipp (sysroot):
+  /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info was added
+  /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info/licenses/LICENSE was added
+  /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/zipp-4.1.0.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info was removed
+  /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info/licenses was removed
+  /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info/licenses/LICENSE was removed
+  /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.14/site-packages/zipp-3.23.1.dist-info/WHEEL was removed
 
---===============5519155240178641650==--
+--===============6982867523228964340==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-zipp-upgrade-3.23.1-4.1.0.patch"
+
+RnJvbSBlOTY5ZGRiODYxMGQ2NDAxNjY2OTQ5YzNhNDNhMzgwYmRhNTE5YWVhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAwOTo0ODo0OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtemlwcDogdXBncmFkZSAzLjIzLjEgLT4gNC4xLjAKCi0tLQogLi4uL3B5dGhvbi97cHl0
+aG9uMy16aXBwXzMuMjMuMS5iYiA9PiBweXRob24zLXppcHBfNC4xLjAuYmJ9ICAgIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy16aXBwXzMuMjMuMS5iYiA9PiBweXRo
+b24zLXppcHBfNC4xLjAuYmJ9ICg4MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4yMy4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXppcHBfNC4xLjAuYmIKc2ltaWxhcml0eSBpbmRleCA4MyUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4yMy4xLmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF80LjEu
+MC5iYgppbmRleCA0NWI4M2JmMzQ3Li5jYTNmMTI1MGMzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjIzLjEuYmIKKysrIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfNC4xLjAuYmIKQEAgLTMsNyArMyw3IEBA
+IEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9qYXJhY28vemlwcCIKIExJQ0VOU0UgPSAi
+TUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MmUyMWMzZjc1ZWI4
+ZDk0MjdjOGE2MTFhOGU4M2U5ZDYiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIzMjEyMGUzNzhk
+MzJjZDk3MTRhZDUwM2MxZDAyNDYxOTA2M2VjMjhhYWQyMjQ4ZGM2NjcyYWQxM2VkZmE1MTEwIgor
+U1JDX1VSSVtzaGEyNTZzdW1dID0gIjRjYjU3MzgxZjU0NDMxNWRiNzY4OGU5NzZlOTIyYTJiMThj
+ZGI1MTNkMjFjYzE5NGViNDIyMzJiYTJhM2U2MDIiCiAKIERFUEVORFMgKz0gInB5dGhvbjMtc2V0
+dXB0b29scy1zY20tbmF0aXZlIHB5dGhvbjMtY29oZXJlbnQtbGljZW5zZWQtbmF0aXZlIgogCi0t
+IAoyLjQ3LjEKCg==
+
+--===============6982867523228964340==--
 
