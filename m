@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74F02CD6E70
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FF46CD6E55
 	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 15:35:40 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1567.1780328135766696445
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1569.1780328135766942518
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jun 2026 08:35:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Hzdfg4sb;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ogKXDUi8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019e83d379d7-49905f89-f311-4d14-b359-1729fcc81103-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dvbatM6x;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=C6VqkxrZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019e83d37a2b-e0453b0d-0fd7-455d-9ccf-f1c4053af07d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1780328135;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=diGkm2pAvVG0iKO83gmtGtr3r3GN4o589hOYnZA7wMc=;
-	b=Hzdfg4sb4jp6zRAG5OrStm0bWoaST9Wi3Ko4GT+jG6NGYXmVyzgw/TN9BpLTkuGY
-	PZrPqVfr3fvzEmx7z2wJTZYUDzmC/Qa2HZL3/lKR4yImcWt3OuT8aQyr4xvuZoZT0vW
-	m1Nm/GWKb3LdfNf09czV6ZZ1Wy/yQ+FRi7I4b2qo=
+	bh=TvqdarmdgATIIplMtkECCUVowExObTVUGzzHC2uan4w=;
+	b=dvbatM6x4/xYSdt5Nt3QJmaBm/8sTitu+F3C7nsNDY2qbNEcknaereD5bql7ECc5
+	/dCEx9/3HIxTWZk4Mj8vVg5u+UbhM3iDJS+/RuhG6l9vDOuc1Oq3tTe+Ss7kHLjVwtv
+	cHCVD/TtGlSkMs/2sdzfb9Ts0bQQA5l/YTz5facY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328135;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=diGkm2pAvVG0iKO83gmtGtr3r3GN4o589hOYnZA7wMc=;
-	b=ogKXDUi8/kS7Z9SpQAXuyA7n0G7dTiZVN/VEppFbXw3BACTlF2lRbW22/VFcbF48
-	sF5WqlgP+QLN9C/BQgqrnIdxjDYkLSSf1b5Ax26ChTgZnAR+FrElOrerPGPu31oe4JY
-	uPA7t+HDVO3QU/7WhaWpxbZF+HEYMW4s0oq840yE=
-Content-Type: multipart/mixed; boundary="===============3550797140631893621=="
+	bh=TvqdarmdgATIIplMtkECCUVowExObTVUGzzHC2uan4w=;
+	b=C6VqkxrZlA+SzECZia018npW7fnDkESqCbgKePfMPV7o6ygMfkoI6Eygh1+X/VbW
+	OjG9+q1Py6/S8nFEFa8dxj3nm5Ixa55q/58w03h2gMK8g09NF25IjZ4vbtfQSB1c5cn
+	2GA4oBAqgt/L6tlGoEj5Vvoxlbft1X864AZtZzG4=
+Content-Type: multipart/mixed; boundary="===============6971519709117748347=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnu-config: upgrading to
- 428664896cf9e92d264976a960c76660938dffce FAILED
-Message-ID: <0101019e83d379d7-49905f89-f311-4d14-b359-1729fcc81103-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] elfutils: upgrading to 0.195 FAILED
+Message-ID: <0101019e83d37a2b-e0453b0d-0fd7-455d-9ccf-f1c4053af07d-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jun 2026 15:35:35 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.01-54.240.27.29
+X-SES-Outgoing: 2026.06.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 15:35:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237871
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237872
 
---===============3550797140631893621==
+--===============6971519709117748347==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,16 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gnu-config* to *428664896cf9e92d264976a960c76660938dffce* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *elfutils* to *0.195* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade gnu-config -S 428664896cf9e92d264976a960c76660938dffce
+Running 'devtool upgrade' for recipe elfutils failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 950 .bb files complete (0 cached, 950 parsed). 1975 targets, 40 skipped, 0 masked, 0 errors.
+Loaded 1975 entries from dependency cache.
 Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
@@ -73,31 +70,72 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-4dcc682c2cce2d6658daac9144b3f63e21d77711"
+DISTRO_VERSION       = "6.0.99+snapshot-574899c18d003fc8706f4eec66b8230feaf6c550"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:4dcc682c2cce2d6658daac9144b3f63e21d77711"
+meta                 = "tmp-auh-upgrades:574899c18d003fc8706f4eec66b8230feaf6c550"
 meta-yocto-bsp       
 meta-poky            = "master:d13ca2a2e0f478046d920b8fc7dd3098952b5ad8"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 17 Local 9 Mirrors 0 Missed 8 Current 12 (52% match, 72% complete)
-Removing 6 stale sstate objects for arch x86_64...done.
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 73 tasks of which 42 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260601075418.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260601075418.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1976 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-574899c18d003fc8706f4eec66b8230feaf6c550"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:574899c18d003fc8706f4eec66b8230feaf6c550"
+meta-yocto-bsp       
+meta-poky            = "master:d13ca2a2e0f478046d920b8fc7dd3098952b5ad8"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  45% |################                    | ETA:  0:00:00
+Adding changed files:  90% |################################    | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
-ERROR: Bitbake Fetcher Error: FetchError('Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gnu-config/20250709+git/devtooltmp-5e8s4rut/workdir/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gnu-config/20250709+git/devtooltmp-5e8s4rut/workdir/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gnu-config/20250709+git/devtooltmp-5e8s4rut/workdir/recipe-
- sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gnu-config/20250709+git/devtooltmp-5e8s4rut/workdir/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gnu-config/20250709+git/devtooltmp-5e8s4rut/workdir/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gnu-config/20250709+git/devtooltmp-5e8s4rut/workdir/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; git -c gc.autoDetach=false -c core.pager=cat -c safe.bareRepository=all -c clone.defaultRemoteName=origin remote set-url origin https://git.savannah.gnu.org/git/config.git failed with exit code 128, output:\nshell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\nfatal: Unable to read current working di
- rectory: No such file or directory\n', None)
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gnu-config/20250709+git/devtooltmp-5e8s4rut/temp/log.do_unpack.197581
-ERROR: Extracting source for gnu-config failed
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Extracting upgraded version source...
+INFO: Fetching https://sourceware.org/elfutils/ftp/0.195/elfutils-0.195.tar.bz2...
+INFO: Rebasing devtool onto feed68fc2747484c6630c80ee6f0cacb9a00e795
+WARNING: Command 'git rebase feed68fc2747484c6630c80ee6f0cacb9a00e795' failed:
+Auto-merging config/eu.am
+CONFLICT (content): Merge conflict in config/eu.am
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-libc-musl onto feed68fc2747484c6630c80ee6f0cacb9a00e795
+WARNING: Command 'git rebase feed68fc2747484c6630c80ee6f0cacb9a00e795' failed:
+Auto-merging config/eu.am
+CONFLICT (content): Merge conflict in config/eu.am
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/elfutils
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/elfutils/elfutils_0.195.bb
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -105,5 +143,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3550797140631893621==--
+--===============6971519709117748347==--
 
