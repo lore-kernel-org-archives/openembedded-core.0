@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB47CD8CAC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D11BCD8CAA
 	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 15:35:49 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1565.1780328135276847590
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1559.1780328132630584587
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jun 2026 08:35:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=jTrOL5xD;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Jqw87TZv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019e83d3a252-1bc21773-3f4a-423e-a229-7390ec23075d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VytV7QWo;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=tgdZ3JqN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019e83d3a52f-ea58303b-d3dc-4e86-8841-cc65fc3353ae-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1780328146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=8SsL1Ylik/gE0fIld+v/hqmCXUoDt/QOK94vA4hIZx0=;
-	b=jTrOL5xDyFBvxbCyeVBgkB/fVvd3iFne/VhcZw+DYZWhL5tFkyzudwALh83qYAwq
-	P4uh3ECixxAMct98KsRKSt79PCGL0QQ60yk4OSAaWwPuuX7qEbqGXwB+c4VEKaORVdR
-	bHCjFT8fLru4SdHSQbaBs/7rUAPJBGUz2Ln3zamg=
+	bh=NzjnToDXHKMg6uplvtHlVJZGV1grQKNh3mdsRthis6Y=;
+	b=VytV7QWoH9gF1F17UeiamcMKbla3FCj1GQK/g6OD6Lx/ft9vkLQAWFFqiPnl588i
+	kZmZrFEXM7lKo/wewMsWolRnRUFtWCqy1T0csWU6HwfMfCrdYoIz28WC4yEZYtDnb7q
+	hJsQiK0ZWa5EE1ZCSIwsDCG7lIRuBsfY/ZgD31FI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328146;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=8SsL1Ylik/gE0fIld+v/hqmCXUoDt/QOK94vA4hIZx0=;
-	b=Jqw87TZvOnedlvtUmC/XoSEUzjhtNr1XX0+ciZ2RLi7j5Ik22UtbihboCLae7Dxa
-	oz5DNphYg7+QL8DJL6wP8ti77tFNSzegpll39DFHXsfPOy4Wf/qfxVCQAcjqpNN9HNt
-	nDDkdAwy4aCNo7+Ch9VUm7g8sf1l58Kufn19Q204=
-Content-Type: multipart/mixed; boundary="===============4515851547647291599=="
+	bh=NzjnToDXHKMg6uplvtHlVJZGV1grQKNh3mdsRthis6Y=;
+	b=tgdZ3JqNS9N4z6EykfbvcRLdnVe9IZl3bKB8XI7MrAaSYkhY/kToX3+QNkzp3A8l
+	rY34OuHPmJG2wr829pHF8dAvAMGls9n9n/DOOfPiSNVT85C/oLw6vqkN2CGPW+TkRy0
+	+D77x/6Cr3HrYNxmxEw8ENqZGG12QJB84DhXQ1NY=
+Content-Type: multipart/mixed; boundary="===============6320158210426865525=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] tcl8: upgrading to 8.6.18 SUCCEEDED
-Message-ID: <0101019e83d3a252-1bc21773-3f4a-423e-a229-7390ec23075d-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Jun 2026 15:35:45 +0000
+Subject: [AUH] ghostscript: upgrading to 10.07.1 SUCCEEDED
+Message-ID: <0101019e83d3a52f-ea58303b-d3dc-4e86-8841-cc65fc3353ae-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jun 2026 15:35:46 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.01-54.240.27.192
+X-SES-Outgoing: 2026.06.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 15:35:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237905
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237908
 
---===============4515851547647291599==
+--===============6320158210426865525==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *tcl8* to *8.6.18* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *ghostscript* to *10.07.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-tcl8-upgrade-8.6.17-8.6.18.patch
+    - apply the patch: git am 0001-ghostscript-upgrade-10.07.0-10.07.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,375 +72,318 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 84e2af6a993a5947cd99a9a132e07818c880f411 Mon Sep 17 00:00:00 2001
+From 4a96a771810537599e7f752d0384cbdebf9b703d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jun 2026 10:17:53 +0000
-Subject: [PATCH] tcl8: upgrade 8.6.17 -> 8.6.18
+Date: Mon, 1 Jun 2026 10:36:38 +0000
+Subject: [PATCH] ghostscript: upgrade 10.07.0 -> 10.07.1
 
 ---
- ...neric-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch | 4 ++--
- meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch    | 6 +++---
- .../tcltk8/tcl8/fix_non_native_build_issue.patch            | 4 ++--
- meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch      | 6 +++---
- .../tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch     | 4 ++--
- .../tcltk8/{tcl8_8.6.17.bb => tcl8_8.6.18.bb}               | 2 +-
- 6 files changed, 13 insertions(+), 13 deletions(-)
- rename meta/recipes-devtools/tcltk8/{tcl8_8.6.17.bb => tcl8_8.6.18.bb} (97%)
+ ...ace-static-const-double-with-macros-.patch |  4 +--
+ .../avoid-host-contamination.patch            |  4 +--
+ .../ghostscript-9.16-Werror-return-type.patch |  2 +-
+ .../ghostscript/ghostscript/out-of-tree.patch | 30 ++++++++-----------
+ ...ript_10.07.0.bb => ghostscript_10.07.1.bb} |  2 +-
+ 5 files changed, 19 insertions(+), 23 deletions(-)
+ rename meta/recipes-extended/ghostscript/{ghostscript_10.07.0.bb => ghostscript_10.07.1.bb} (97%)
 
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch b/meta/recipes-devtools/tcltk8/tcl8/0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch
-index 6ba7ff4340..58235698b1 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/0001-psi-ztype.c-replace-static-const-double-with-macros-.patch b/meta/recipes-extended/ghostscript/ghostscript/0001-psi-ztype.c-replace-static-const-double-with-macros-.patch
+index 6f310abf2e..36372389b7 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript/0001-psi-ztype.c-replace-static-const-double-with-macros-.patch
++++ b/meta/recipes-extended/ghostscript/ghostscript/0001-psi-ztype.c-replace-static-const-double-with-macros-.patch
 @@ -1,4 +1,4 @@
--From 7d404d1827ffb69a2aa7b60c10b435c6f47f7bfb Mon Sep 17 00:00:00 2001
-+From 779d933232468f62f01f49f387122187cd13aa5c Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Fri, 18 Aug 2023 12:25:11 +0200
- Subject: [PATCH] generic/tcl.h: use Tcl_WideInt for seconds in Tcl_Time
-@@ -19,7 +19,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-From 0298799777bd179c455e5ce8d6008b2d84732967 Mon Sep 17 00:00:00 2001
++From c2f9ccfe12c6c7b29a41baab63670e0cad770bf5 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <khem.raj@oss.qualcomm.com>
+ Date: Tue, 7 Apr 2026 22:40:26 -0700
+ Subject: [PATCH] psi/ztype.c: replace static const double with macros for
+@@ -28,6 +28,6 @@ index a01d83f..d454778 100644
+ +
+ +#define min_int_real ((double)(ALT_MIN_INT) - 1.0)
+ +#define max_int_real ((double)(ALT_MAX_INT) + 1.0)
+-
++ 
+  #define REAL_CAN_BE_INT(v)\
+    ((v) > min_int_real && (v) < max_int_real)
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/avoid-host-contamination.patch b/meta/recipes-extended/ghostscript/ghostscript/avoid-host-contamination.patch
+index d191231c7b..5c78eab9c2 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript/avoid-host-contamination.patch
++++ b/meta/recipes-extended/ghostscript/ghostscript/avoid-host-contamination.patch
+@@ -1,4 +1,4 @@
+-From 85905ce3b1bc63f0be9eda9888e40d8e7a803d21 Mon Sep 17 00:00:00 2001
++From 6ead8ba80a4d0b65e427a2ba227d3c98923bd5d2 Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Thu, 29 Mar 2018 16:02:05 +0800
+ Subject: [PATCH] avoid host contamination
+@@ -15,7 +15,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/generic/tcl.h b/generic/tcl.h
--index d8fd70a..ffff4b1 100644
-+index 83f07e6..16e99f8 100644
- --- a/generic/tcl.h
- +++ b/generic/tcl.h
- @@ -1425,7 +1425,7 @@ typedef enum {
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch b/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
-index ad91b9ffb3..e560658d63 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
+ diff --git a/devices/devs.mak b/devices/devs.mak
+-index a5dbc7a..27b55f2 100644
++index 1e44e8d..f4d95da 100644
+ --- a/devices/devs.mak
+ +++ b/devices/devs.mak
+ @@ -403,7 +403,7 @@ $(DEVOBJ)gdevxalt.$(OBJ) : $(DEVSRC)gdevxalt.c $(GDEVX) $(math__h) $(memory__h)\
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.16-Werror-return-type.patch b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.16-Werror-return-type.patch
+index 0598c3dcd2..6883b475cc 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.16-Werror-return-type.patch
++++ b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.16-Werror-return-type.patch
 @@ -1,4 +1,4 @@
--From bfca2e4ae32ab546f796d9c7ff7cbf542d5b2bfe Mon Sep 17 00:00:00 2001
-+From f01032229938b0e842d72433ecf3b1beab8f78f9 Mon Sep 17 00:00:00 2001
- From: Mingli Yu <mingli.yu@windriver.com>
- Date: Tue, 22 Nov 2022 18:48:27 +0800
- Subject: [PATCH] tcl: update the header location
-@@ -26,7 +26,7 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-  3 files changed, 4 insertions(+), 4 deletions(-)
+-From c23b787f9a38be2cdc57133915c402b69acedd1a Mon Sep 17 00:00:00 2001
++From 8e9e75e92e3a78aba5dae2eff288be37d544ce88 Mon Sep 17 00:00:00 2001
+ From: Robert Yang <liezhi.yang@windriver.com>
+ Date: Mon, 4 May 2015 22:31:48 -0700
+ Subject: [PATCH] base/gendev.c: fix for -Werror=return-type
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/out-of-tree.patch b/meta/recipes-extended/ghostscript/ghostscript/out-of-tree.patch
+index 202c9d6c7c..b20eb30df7 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript/out-of-tree.patch
++++ b/meta/recipes-extended/ghostscript/ghostscript/out-of-tree.patch
+@@ -1,14 +1,21 @@
+-Fix the build to do out-of-tree properly.
++From bf1baaa9499a01cd99076d183eaa741ea8a9ed92 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Thu, 2 Apr 2026 14:41:42 +0100
++Subject: [PATCH] Fix the build to do out-of-tree properly.
  
- diff --git a/unix/Makefile.in b/unix/Makefile.in
--index 45e7b76..5a46e6a 100644
-+index 54bb664..98d6192 100644
- --- a/unix/Makefile.in
- +++ b/unix/Makefile.in
- @@ -57,7 +57,7 @@ SCRIPT_INSTALL_DIR	= $(INSTALL_ROOT)$(TCL_LIBRARY)
-@@ -39,7 +39,7 @@ index 45e7b76..5a46e6a 100644
-  # Path to the private tcl header dir:
-  PRIVATE_INCLUDE_DIR	= @PRIVATE_INCLUDE_DIR@
- diff --git a/unix/configure.in b/unix/configure.in
--index 50b3e03..8a33d0c 100644
-+index 00f16ae..640060b 100644
- --- a/unix/configure.in
- +++ b/unix/configure.in
- @@ -775,7 +775,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch b/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
-index 07a1f4d040..eb6ebd0c6d 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
-@@ -1,4 +1,4 @@
--From ad7847a15163f12c24d8ecb50dffa289876dc830 Mon Sep 17 00:00:00 2001
-+From 17a0c5006fa4738abf585b1320a6b0ce391539b2 Mon Sep 17 00:00:00 2001
- From: Nitin A Kamble <nitin.a.kamble@intel.com>
- Date: Fri, 13 Aug 2010 12:24:00 -0700
- Subject: [PATCH] tcl: fix a build issue
-@@ -10,7 +10,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 10 insertions(+), 10 deletions(-)
+ The patches are in progress but are being submitted upstream.
  
- diff --git a/unix/Makefile.in b/unix/Makefile.in
--index ab2e7b5..45e7b76 100644
-+index 3d52fe7..54bb664 100644
- --- a/unix/Makefile.in
- +++ b/unix/Makefile.in
- @@ -723,7 +723,7 @@ tcltest-real:
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch b/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
-index 0f8bd062ac..ede3d0369c 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
-@@ -1,4 +1,4 @@
--From 2af07e2d0f0cb9f42ff982ce257e2067dcf1ec77 Mon Sep 17 00:00:00 2001
-+From a81025ec26de9ca4220f57c8aacad458962518d2 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <rpurdie@linux.intel.com>
- Date: Wed, 9 Dec 2009 23:59:44 +0000
- Subject: [PATCH] tcl: Add tcltk from OE.dev but with legacy staging function
-@@ -11,7 +11,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  2 files changed, 7 insertions(+), 1 deletion(-)
+ Upstream-Status: Submitted [https://bugs.ghostscript.com/show_bug.cgi?id=709289]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ configure.ac | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
  
- diff --git a/unix/Makefile.in b/unix/Makefile.in
--index 3efdfec..ab2e7b5 100644
-+index 23f86c8..3d52fe7 100644
- --- a/unix/Makefile.in
- +++ b/unix/Makefile.in
- @@ -812,7 +812,10 @@ install-binaries: binaries
-@@ -27,7 +27,7 @@ index 3efdfec..ab2e7b5 100644
-  	@$(INSTALL_PROGRAM) ${TCL_EXE} "$(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
-  	@echo "Installing tclConfig.sh to $(CONFIG_INSTALL_DIR)/"
- diff --git a/unix/tcl.m4 b/unix/tcl.m4
--index 7f5464e..cd8d929 100644
-+index cd89170..122aff0 100644
- --- a/unix/tcl.m4
- +++ b/unix/tcl.m4
- @@ -1378,6 +1378,9 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch b/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
-index 12e1937aa1..47d9252a53 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
-@@ -1,4 +1,4 @@
--From 0b479a0dc845f9926cb40c13d86e55391a89fe98 Mon Sep 17 00:00:00 2001
-+From 51f57753b98cfadad66312161d14790285c25aef Mon Sep 17 00:00:00 2001
- From: "Song.Li" <Song.Li@windriver.com>
- Date: Wed, 1 Aug 2012 19:05:51 +0800
- Subject: [PATCH] tcl:install tcl to lib64 instead of lib on 64bit target
-@@ -17,7 +17,7 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/unix/configure.in b/unix/configure.in
--index ed07ca5..50b3e03 100644
-+index 4078970..00f16ae 100644
- --- a/unix/configure.in
- +++ b/unix/configure.in
- @@ -774,7 +774,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
-diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
+-diff -rU3 a/configure.ac b/configure.ac
+---- a/configure.ac	2025-09-09 10:36:39.000000000 +0100
+-+++ b/configure.ac	2026-03-31 15:35:08.988262612 +0100
+-@@ -400,7 +400,7 @@
++diff --git a/configure.ac b/configure.ac
++index b2b3678..dd00e86 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -400,7 +400,7 @@ if test x"$with_arch_h" = x""; then
+            *)
+              ARCH_CONF_HEADER=
+              if test x"$host" != x"$build"; then
+@@ -17,18 +24,7 @@ diff -rU3 a/configure.ac b/configure.ac
+              else
+                ARCH_CONF_HEADER=
+              fi
+-@@ -869,8 +869,8 @@
+- AC_SUBST(RECURSIVE_MUTEXATTR)
+- 
+- dnl Tesseract/Leptonica detection
+--TESSERACTDIR=tesseract
+--LEPTONICADIR=leptonica
+-+TESSERACTDIR=$srcdir/tesseract
+-+LEPTONICADIR=$srcdir/leptonica
+- OCR_VERSION=0
+- OCR_SHARED=0
+- LEPTONICAINCLUDE=
+-@@ -886,7 +886,7 @@
++@@ -889,7 +889,7 @@ AC_ARG_WITH([tesseract], AS_HELP_STRING([--without-tesseract],
+  
+  if test x$with_tesseract != xno; then
+    AC_MSG_CHECKING([for local Tesseract library source])
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.07.0.bb b/meta/recipes-extended/ghostscript/ghostscript_10.07.1.bb
 similarity index 97%
-rename from meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-rename to meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
-index 1b08fda5fa..545c1cdc60 100644
---- a/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-+++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
-@@ -24,7 +24,7 @@ SRC_URI = "${BASE_SRC_URI} \
-            file://run-ptest \
-            file://0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch \
+rename from meta/recipes-extended/ghostscript/ghostscript_10.07.0.bb
+rename to meta/recipes-extended/ghostscript/ghostscript_10.07.1.bb
+index 1b6cb4aaae..3254872036 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_10.07.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_10.07.1.bb
+@@ -28,7 +28,7 @@ SRC_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/downlo
+            file://0001-psi-ztype.c-replace-static-const-double-with-macros-.patch \
             "
--SRC_URI[sha256sum] = "a1d8cbe44b38beaa29fc2130c4e7b79b8bf02e2bcc028ffefd7a25a2122202a0"
-+SRC_URI[sha256sum] = "1880b6337de72431174511419550bb4cf1327b7c8200a5466d1c4eb3ecac5132"
  
- SRC_URI:class-native = "${BASE_SRC_URI}"
+-SRC_URI[sha256sum] = "ed6ea62022e3f4d5a6569b6efc9361b63a6d118bfcad8f0beb897c37885b5cad"
++SRC_URI[sha256sum] = "2fc74362f9be6fae1b0a65d38fdcfd4f0b518cc3b07c5581fb661eb4d2e15251"
  
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[gtk] = "--enable-gtk,--disable-gtk,gtk+3"
 -- 
 2.47.1
 
 
---===============4515851547647291599==
+--===============6320158210426865525==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/x86-64-v3-poky-linux/tcl8 (sysroot):
-  /usr/lib/tcl8/8.4/platform moved to /usr/lib/tcl8/8.6/platform
-  /usr/lib/tcl8/8.4/platform/shell-1.1.4.tm moved to /usr/lib/tcl8/8.6/platform/shell-1.1.4.tm
-  /usr/include/tcl8.6.17 moved to /usr/include/tcl8.6.18
-  /usr/lib/tcl8/8.5/tcltest-2.5.10.tm moved to /usr/lib/tcl8/8.5/tcltest-2.5.11.tm
-  /usr/lib/tcl8/8.6/http-2.9.8.tm moved to /usr/lib/tcl8/8.6/http-2.9.9.tm
-  /usr/lib/tcl8/8.6/platform-1.1.0.tm was added
-  /usr/lib/tcl8/8.4 was removed
-  /usr/lib/tcl8/8.4/platform-1.0.19.tm was removed
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: FILELIST: directory renamed /usr/include/tcl8.6.17/generic -> /usr/include/tcl8.6.18/generic, directory renamed /usr/include/tcl8.6.17/unix -> /usr/include/tcl8.6.18/unix, directory renamed /usr/include/tcl8.6.17/compat -> /usr/include/tcl8.6.18/compat
-packages/x86-64-v3-poky-linux/tcl8/tcl8: FILELIST: directory renamed /usr/lib/tcl8/8.4/platform -> /usr/lib/tcl8/8.6/platform, removed "/usr/bin/tclsh8.6.17 /usr/lib/tcl8/8.5/tcltest-2.5.10.tm /usr/lib/tcl8/8.4/platform-1.0.19.tm /usr/lib/tcl8/8.6/http-2.9.8.tm", added "/usr/lib/tcl8/8.6/http-2.9.9.tm /usr/lib/tcl8/8.5/tcltest-2.5.11.tm /usr/bin/tclsh8.6.18 /usr/lib/tcl8/8.6/platform-1.1.0.tm"
-Changes to packages/x86_64-linux/tcl8-native (sysroot):
-  /usr/bin/tclsh8 changed symlink target from ./tclsh8.6.17 to ./tclsh8.6.18
-  /usr/lib/tcl8/8.4/platform moved to /usr/lib/tcl8/8.6/platform
-  /usr/lib/tcl8/8.4/platform/shell-1.1.4.tm moved to /usr/lib/tcl8/8.6/platform/shell-1.1.4.tm
-  /usr/bin/tclsh8.6.17 moved to /usr/bin/tclsh8.6.18
-  /usr/include/tcl8.6.17 moved to /usr/include/tcl8.6.18
-  /usr/lib/tcl8/8.5/tcltest-2.5.10.tm moved to /usr/lib/tcl8/8.5/tcltest-2.5.11.tm
-  /usr/lib/tcl8/8.6/http-2.9.8.tm moved to /usr/lib/tcl8/8.6/http-2.9.9.tm
-  /usr/lib/tcl8/8.6/platform-1.1.0.tm was added
-  /usr/lib/tcl8/8.4 was removed
-  /usr/lib/tcl8/8.4/platform-1.0.19.tm was removed
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-doc: FILELIST: directory renamed /usr/share/doc/ghostscript/10.07.0 -> /usr/share/doc/ghostscript/10.07.1
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript: FILELIST: directory renamed /usr/share/ghostscript/10.07.0/Resource/CIDFSubst -> /usr/share/ghostscript/10.07.1/Resource/CIDFSubst, directory renamed /usr/share/ghostscript/10.07.0/Resource/Decoding -> /usr/share/ghostscript/10.07.1/Resource/Decoding, directory renamed /usr/share/ghostscript/10.07.0/Resource/CMap -> /usr/share/ghostscript/10.07.1/Resource/CMap, directory renamed /usr/share/ghostscript/10.07.0/Resource/Init -> /usr/share/ghostscript/10.07.1/Resource/Init, directory renamed /usr/share/ghostscript/10.07.0/Resource/CIDFont -> /usr/share/ghostscript/10.07.1/Resource/CIDFont, directory renamed /usr/share/ghostscript/10.07.0/Resource/IdiomSet -> /usr/share/ghostscript/10.07.1/Resource/IdiomSet, directory renamed /usr/share/ghostscript/10.07.0/Resource/SubstCID -> /usr/share/ghostscript/10.07.1/Resource/SubstCID, directory renamed /usr/share/ghostscript/10.07.0/lib -> /usr/share/ghostscript/10.07.1/lib, directory renamed
+  /usr/share/ghostscript/10.07.0/Resource/Encoding -> /usr/share/ghostscript/10.07.1/Resource/Encoding, directory renamed /usr/share/ghostscript/10.07.0/Resource/ColorSpace -> /usr/share/ghostscript/10.07.1/Resource/ColorSpace, directory renamed /usr/share/ghostscript/10.07.0/iccprofiles -> /usr/share/ghostscript/10.07.1/iccprofiles, directory renamed /usr/share/ghostscript/10.07.0/Resource/Font -> /usr/share/ghostscript/10.07.1/Resource/Font
+Changes to packages/x86-64-v3-poky-linux/ghostscript (sysroot):
+  /usr/share/ghostscript/10.07.0 moved to /usr/share/ghostscript/10.07.1
 
---===============4515851547647291599==
+--===============6320158210426865525==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-tcl8-upgrade-8.6.17-8.6.18.patch"
+ filename="0001-ghostscript-upgrade-10.07.0-10.07.1.patch"
 
-RnJvbSA4NGUyYWY2YTk5M2E1OTQ3Y2Q5OWE5YTEzMmUwNzgxOGM4ODBmNDExIE1vbiBTZXAgMTcg
+RnJvbSA0YTk2YTc3MTgxMDUzNzU5OWU3Zjc1MmQwMzg0Y2JkZWJmOWI3MDNkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAxMDoxNzo1MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHRj
-bDg6IHVwZ3JhZGUgOC42LjE3IC0+IDguNi4xOAoKLS0tCiAuLi5uZXJpYy10Y2wuaC11c2UtVGNs
-X1dpZGVJbnQtZm9yLXNlY29uZHMtaW4tVGNsX1RpbS5wYXRjaCB8IDQgKystLQogbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2FsdGVyLWluY2x1ZGVkaXIucGF0Y2ggICAgfCA2ICsr
-Ky0tLQogLi4uL3RjbHRrOC90Y2w4L2ZpeF9ub25fbmF0aXZlX2J1aWxkX2lzc3VlLnBhdGNoICAg
-ICAgICAgICAgfCA0ICsrLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC90Y2wt
-YWRkLXNvbmFtZS5wYXRjaCAgICAgIHwgNiArKystLS0KIC4uLi90Y2x0azgvdGNsOC90Y2wtcmVt
-b3ZlLWhhcmRjb2RlZC1pbnN0YWxsLXBhdGgucGF0Y2ggICAgIHwgNCArKy0tCiAuLi4vdGNsdGs4
-L3t0Y2w4XzguNi4xNy5iYiA9PiB0Y2w4XzguNi4xOC5iYn0gICAgICAgICAgICAgICB8IDIgKy0K
-IDYgZmlsZXMgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwgMTMgZGVsZXRpb25zKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC97dGNsOF84LjYuMTcuYmIgPT4gdGNsOF84
-LjYuMTguYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRr
-OC90Y2w4LzAwMDEtZ2VuZXJpYy10Y2wuaC11c2UtVGNsX1dpZGVJbnQtZm9yLXNlY29uZHMtaW4t
-VGNsX1RpbS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC8wMDAxLWdl
-bmVyaWMtdGNsLmgtdXNlLVRjbF9XaWRlSW50LWZvci1zZWNvbmRzLWluLVRjbF9UaW0ucGF0Y2gK
-aW5kZXggNmJhN2ZmNDM0MC4uNTgyMzU2OThiMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3RjbHRrOC90Y2w4LzAwMDEtZ2VuZXJpYy10Y2wuaC11c2UtVGNsX1dpZGVJbnQtZm9y
-LXNlY29uZHMtaW4tVGNsX1RpbS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNs
-dGs4L3RjbDgvMDAwMS1nZW5lcmljLXRjbC5oLXVzZS1UY2xfV2lkZUludC1mb3Itc2Vjb25kcy1p
-bi1UY2xfVGltLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3ZDQwNGQxODI3ZmZiNjlhMmFh
-N2I2MGMxMGI0MzVjNmY0N2Y3YmZiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA3Nzlk
-OTMzMjMyNDY4ZjYyZjAxZjQ5ZjM4NzEyMjE4N2NkMTNhYTVjIE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERhdGU6
-IEZyaSwgMTggQXVnIDIwMjMgMTI6MjU6MTEgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gZ2VuZXJp
-Yy90Y2wuaDogdXNlIFRjbF9XaWRlSW50IGZvciBzZWNvbmRzIGluIFRjbF9UaW1lCkBAIC0xOSw3
-ICsxOSw3IEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9u
-aXguZGU+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAK
-IGRpZmYgLS1naXQgYS9nZW5lcmljL3RjbC5oIGIvZ2VuZXJpYy90Y2wuaAotaW5kZXggZDhmZDcw
-YS4uZmZmZjRiMSAxMDA2NDQKK2luZGV4IDgzZjA3ZTYuLjE2ZTk5ZjggMTAwNjQ0CiAtLS0gYS9n
-ZW5lcmljL3RjbC5oCiArKysgYi9nZW5lcmljL3RjbC5oCiBAQCAtMTQyNSw3ICsxNDI1LDcgQEAg
-dHlwZWRlZiBlbnVtIHsKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgv
-dGNsOC9hbHRlci1pbmNsdWRlZGlyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRr
-OC90Y2w4L2FsdGVyLWluY2x1ZGVkaXIucGF0Y2gKaW5kZXggYWQ5MWI5ZmZiMy4uZTU2MDY1OGQ2
-MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2FsdGVyLWlu
-Y2x1ZGVkaXIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2Fs
-dGVyLWluY2x1ZGVkaXIucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGJmY2EyZTRhZTMyYWI1
-NDZmNzk2ZDljN2ZmN2NiZjU0MmQ1YjJiZmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IGYwMTAzMjIyOTkzOGIwZTg0MmQ3MjQzM2VjZjNiMWJlYWI4Zjc4ZjkgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBNaW5nbGkgWXUgPG1pbmdsaS55dUB3aW5kcml2ZXIuY29tPgogRGF0
-ZTogVHVlLCAyMiBOb3YgMjAyMiAxODo0ODoyNyArMDgwMAogU3ViamVjdDogW1BBVENIXSB0Y2w6
-IHVwZGF0ZSB0aGUgaGVhZGVyIGxvY2F0aW9uCkBAIC0yNiw3ICsyNiw3IEBAIFNpZ25lZC1vZmYt
-Ynk6IE1pbmdsaSBZdSA8bWluZ2xpLnl1QHdpbmRyaXZlci5jb20+CiAgMyBmaWxlcyBjaGFuZ2Vk
-LCA0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS91bml4L01h
-a2VmaWxlLmluIGIvdW5peC9NYWtlZmlsZS5pbgotaW5kZXggNDVlN2I3Ni4uNWE0NmU2YSAxMDA2
-NDQKK2luZGV4IDU0YmI2NjQuLjk4ZDYxOTIgMTAwNjQ0CiAtLS0gYS91bml4L01ha2VmaWxlLmlu
-CiArKysgYi91bml4L01ha2VmaWxlLmluCiBAQCAtNTcsNyArNTcsNyBAQCBTQ1JJUFRfSU5TVEFM
-TF9ESVIJPSAkKElOU1RBTExfUk9PVCkkKFRDTF9MSUJSQVJZKQpAQCAtMzksNyArMzksNyBAQCBp
-bmRleCA0NWU3Yjc2Li41YTQ2ZTZhIDEwMDY0NAogICMgUGF0aCB0byB0aGUgcHJpdmF0ZSB0Y2wg
-aGVhZGVyIGRpcjoKICBQUklWQVRFX0lOQ0xVREVfRElSCT0gQFBSSVZBVEVfSU5DTFVERV9ESVJA
-CiBkaWZmIC0tZ2l0IGEvdW5peC9jb25maWd1cmUuaW4gYi91bml4L2NvbmZpZ3VyZS5pbgotaW5k
-ZXggNTBiM2UwMy4uOGEzM2QwYyAxMDA2NDQKK2luZGV4IDAwZjE2YWUuLjY0MDA2MGIgMTAwNjQ0
-CiAtLS0gYS91bml4L2NvbmZpZ3VyZS5pbgogKysrIGIvdW5peC9jb25maWd1cmUuaW4KIEBAIC03
-NzUsNyArNzc1LDcgQEAgZXZhbCAiVENMX0xJQl9GSUxFPWxpYnRjbCR7TElCX1NVRkZJWH0iCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvZml4X25vbl9uYXRp
-dmVfYnVpbGRfaXNzdWUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgv
-Zml4X25vbl9uYXRpdmVfYnVpbGRfaXNzdWUucGF0Y2gKaW5kZXggMDdhMWY0ZDA0MC4uZWI2ZWJk
-MGM2ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2ZpeF9u
-b25fbmF0aXZlX2J1aWxkX2lzc3VlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy90
-Y2x0azgvdGNsOC9maXhfbm9uX25hdGl2ZV9idWlsZF9pc3N1ZS5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gYWQ3ODQ3YTE1MTYzZjEyYzI0ZDhlY2I1MGRmZmEyODk4NzZkYzgzMCBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMTdhMGM1MDA2ZmE0NzM4YWJmNTg1YjEzMjBhNmIwY2Uz
-OTE1MzliMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IE5pdGluIEEgS2FtYmxlIDxu
-aXRpbi5hLmthbWJsZUBpbnRlbC5jb20+CiBEYXRlOiBGcmksIDEzIEF1ZyAyMDEwIDEyOjI0OjAw
-IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRjbDogZml4IGEgYnVpbGQgaXNzdWUKQEAgLTEwLDcg
-KzEwLDcgQEAgU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25p
-eC5kZT4KICAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0p
-CiAKIGRpZmYgLS1naXQgYS91bml4L01ha2VmaWxlLmluIGIvdW5peC9NYWtlZmlsZS5pbgotaW5k
-ZXggYWIyZTdiNS4uNDVlN2I3NiAxMDA2NDQKK2luZGV4IDNkNTJmZTcuLjU0YmI2NjQgMTAwNjQ0
-CiAtLS0gYS91bml4L01ha2VmaWxlLmluCiArKysgYi91bml4L01ha2VmaWxlLmluCiBAQCAtNzIz
-LDcgKzcyMyw3IEBAIHRjbHRlc3QtcmVhbDoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy90Y2x0azgvdGNsOC90Y2wtYWRkLXNvbmFtZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy90Y2x0azgvdGNsOC90Y2wtYWRkLXNvbmFtZS5wYXRjaAppbmRleCAwZjhiZDA2MmFjLi5l
-ZGUzZDAzNjljIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgv
-dGNsLWFkZC1zb25hbWUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90
-Y2w4L3RjbC1hZGQtc29uYW1lLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAyYWYwN2UyZDBm
-MGNiOWY0MmZmOTgyY2UyNTdlMjA2N2RjZjFlYzc3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
-RnJvbSBhODEwMjVlYzI2ZGU5Y2E0MjIwZjU3YzhhYWNhZDQ1ODk2MjUxOGQyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQogRnJvbTogUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAbGludXguaW50ZWwu
-Y29tPgogRGF0ZTogV2VkLCA5IERlYyAyMDA5IDIzOjU5OjQ0ICswMDAwCiBTdWJqZWN0OiBbUEFU
-Q0hdIHRjbDogQWRkIHRjbHRrIGZyb20gT0UuZGV2IGJ1dCB3aXRoIGxlZ2FjeSBzdGFnaW5nIGZ1
-bmN0aW9uCkBAIC0xMSw3ICsxMSw3IEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmlu
-IDxhbGV4QGxpbnV0cm9uaXguZGU+CiAgMiBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyks
-IDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL3VuaXgvTWFrZWZpbGUuaW4gYi91bml4L01h
-a2VmaWxlLmluCi1pbmRleCAzZWZkZmVjLi5hYjJlN2I1IDEwMDY0NAoraW5kZXggMjNmODZjOC4u
-M2Q1MmZlNyAxMDA2NDQKIC0tLSBhL3VuaXgvTWFrZWZpbGUuaW4KICsrKyBiL3VuaXgvTWFrZWZp
-bGUuaW4KIEBAIC04MTIsNyArODEyLDEwIEBAIGluc3RhbGwtYmluYXJpZXM6IGJpbmFyaWVzCkBA
-IC0yNyw3ICsyNyw3IEBAIGluZGV4IDNlZmRmZWMuLmFiMmU3YjUgMTAwNjQ0CiAgCUAkKElOU1RB
-TExfUFJPR1JBTSkgJHtUQ0xfRVhFfSAiJChCSU5fSU5TVEFMTF9ESVIpL3RjbHNoJChWRVJTSU9O
-KSR7RVhFX1NVRkZJWH0iCiAgCUBlY2hvICJJbnN0YWxsaW5nIHRjbENvbmZpZy5zaCB0byAkKENP
-TkZJR19JTlNUQUxMX0RJUikvIgogZGlmZiAtLWdpdCBhL3VuaXgvdGNsLm00IGIvdW5peC90Y2wu
-bTQKLWluZGV4IDdmNTQ2NGUuLmNkOGQ5MjkgMTAwNjQ0CitpbmRleCBjZDg5MTcwLi4xMjJhZmYw
-IDEwMDY0NAogLS0tIGEvdW5peC90Y2wubTQKICsrKyBiL3VuaXgvdGNsLm00CiBAQCAtMTM3OCw2
-ICsxMzc4LDkgQEAgQUNfREVGVU4oW1NDX0NPTkZJR19DRkxBR1NdLCBbCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvdGNsLXJlbW92ZS1oYXJkY29kZWQtaW5z
-dGFsbC1wYXRoLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L3RjbC1y
-ZW1vdmUtaGFyZGNvZGVkLWluc3RhbGwtcGF0aC5wYXRjaAppbmRleCAxMmUxOTM3YWExLi40N2Q5
-MjUyYTUzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvdGNs
-LXJlbW92ZS1oYXJkY29kZWQtaW5zdGFsbC1wYXRoLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy90Y2x0azgvdGNsOC90Y2wtcmVtb3ZlLWhhcmRjb2RlZC1pbnN0YWxsLXBhdGgucGF0
-Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDBiNDc5YTBkYzg0NWY5OTI2Y2I0MGMxM2Q4NmU1NTM5
-MWE4OWZlOTggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDUxZjU3NzUzYjk4Y2ZhZGFk
-NjYzMTIxNjFkMTQ3OTAyODVjMjVhZWYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiAi
-U29uZy5MaSIgPFNvbmcuTGlAd2luZHJpdmVyLmNvbT4KIERhdGU6IFdlZCwgMSBBdWcgMjAxMiAx
-OTowNTo1MSArMDgwMAogU3ViamVjdDogW1BBVENIXSB0Y2w6aW5zdGFsbCB0Y2wgdG8gbGliNjQg
-aW5zdGVhZCBvZiBsaWIgb24gNjRiaXQgdGFyZ2V0CkBAIC0xNyw3ICsxNyw3IEBAIFNpZ25lZC1v
-ZmYtYnk6IFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL3VuaXgvY29uZmln
-dXJlLmluIGIvdW5peC9jb25maWd1cmUuaW4KLWluZGV4IGVkMDdjYTUuLjUwYjNlMDMgMTAwNjQ0
-CitpbmRleCA0MDc4OTcwLi4wMGYxNmFlIDEwMDY0NAogLS0tIGEvdW5peC9jb25maWd1cmUuaW4K
-ICsrKyBiL3VuaXgvY29uZmlndXJlLmluCiBAQCAtNzc0LDcgKzc3NCw3IEBAIGV2YWwgIlRDTF9M
-SUJfRklMRT1saWJ0Y2wke0xJQl9TVUZGSVh9IgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3RjbHRrOC90Y2w4XzguNi4xNy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0
-azgvdGNsOF84LjYuMTguYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4XzguNi4xNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4XzguNi4xOC5iYgppbmRleCAxYjA4ZmRhNWZhLi41NDVj
-MWNkYzYwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDhfOC42
-LjE3LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOF84LjYuMTguYmIK
-QEAgLTI0LDcgKzI0LDcgQEAgU1JDX1VSSSA9ICIke0JBU0VfU1JDX1VSSX0gXAogICAgICAgICAg
-ICBmaWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtZ2VuZXJpYy10Y2wu
-aC11c2UtVGNsX1dpZGVJbnQtZm9yLXNlY29uZHMtaW4tVGNsX1RpbS5wYXRjaCBcCiAgICAgICAg
-ICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJhMWQ4Y2JlNDRiMzhiZWFhMjlmYzIxMzBjNGU3
-Yjc5YjhiZjAyZTJiY2MwMjhmZmVmZDdhMjVhMjEyMjIwMmEwIgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gIjE4ODBiNjMzN2RlNzI0MzExNzQ1MTE0MTk1NTBiYjRjZjEzMjdiN2M4MjAwYTU0NjZkMWM0
-ZWIzZWNhYzUxMzIiCiAKIFNSQ19VUkk6Y2xhc3MtbmF0aXZlID0gIiR7QkFTRV9TUkNfVVJJfSIK
-IAotLSAKMi40Ny4xCgo=
+CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAxMDozNjozOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdo
+b3N0c2NyaXB0OiB1cGdyYWRlIDEwLjA3LjAgLT4gMTAuMDcuMQoKLS0tCiAuLi5hY2Utc3RhdGlj
+LWNvbnN0LWRvdWJsZS13aXRoLW1hY3Jvcy0ucGF0Y2ggfCAgNCArLS0KIC4uLi9hdm9pZC1ob3N0
+LWNvbnRhbWluYXRpb24ucGF0Y2ggICAgICAgICAgICB8ICA0ICstLQogLi4uL2dob3N0c2NyaXB0
+LTkuMTYtV2Vycm9yLXJldHVybi10eXBlLnBhdGNoIHwgIDIgKy0KIC4uLi9naG9zdHNjcmlwdC9n
+aG9zdHNjcmlwdC9vdXQtb2YtdHJlZS5wYXRjaCB8IDMwICsrKysrKysrLS0tLS0tLS0tLS0KIC4u
+LnJpcHRfMTAuMDcuMC5iYiA9PiBnaG9zdHNjcmlwdF8xMC4wNy4xLmJifSB8ICAyICstCiA1IGZp
+bGVzIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDIzIGRlbGV0aW9ucygtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1leHRlbmRlZC9naG9zdHNjcmlwdC97Z2hvc3RzY3JpcHRfMTAuMDcuMC5iYiA9
+PiBnaG9zdHNjcmlwdF8xMC4wNy4xLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1leHRlbmRlZC9naG9zdHNjcmlwdC9naG9zdHNjcmlwdC8wMDAxLXBzaS16dHlwZS5jLXJlcGxh
+Y2Utc3RhdGljLWNvbnN0LWRvdWJsZS13aXRoLW1hY3Jvcy0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+ZXh0ZW5kZWQvZ2hvc3RzY3JpcHQvZ2hvc3RzY3JpcHQvMDAwMS1wc2ktenR5cGUuYy1yZXBsYWNl
+LXN0YXRpYy1jb25zdC1kb3VibGUtd2l0aC1tYWNyb3MtLnBhdGNoCmluZGV4IDZmMzEwYWJmMmUu
+LjM2MzcyMzg5YjcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9naG9zdHNjcmlw
+dC9naG9zdHNjcmlwdC8wMDAxLXBzaS16dHlwZS5jLXJlcGxhY2Utc3RhdGljLWNvbnN0LWRvdWJs
+ZS13aXRoLW1hY3Jvcy0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dob3N0c2Ny
+aXB0L2dob3N0c2NyaXB0LzAwMDEtcHNpLXp0eXBlLmMtcmVwbGFjZS1zdGF0aWMtY29uc3QtZG91
+YmxlLXdpdGgtbWFjcm9zLS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDI5ODc5OTc3N2Jk
+MTc5YzQ1NWU1Y2U4ZDYwMDhiMmQ4NDczMjk2NyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
+b20gYzJmOWNjZmUxMmM2YzdiMjlhNDFiYWFiNjM2NzBlMGNhZDc3MGJmNSBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxraGVtLnJhakBvc3MucXVhbGNvbW0uY29tPgog
+RGF0ZTogVHVlLCA3IEFwciAyMDI2IDIyOjQwOjI2IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIHBz
+aS96dHlwZS5jOiByZXBsYWNlIHN0YXRpYyBjb25zdCBkb3VibGUgd2l0aCBtYWNyb3MgZm9yCkBA
+IC0yOCw2ICsyOCw2IEBAIGluZGV4IGEwMWQ4M2YuLmQ0NTQ3NzggMTAwNjQ0CiArCiArI2RlZmlu
+ZSBtaW5faW50X3JlYWwgKChkb3VibGUpKEFMVF9NSU5fSU5UKSAtIDEuMCkKICsjZGVmaW5lIG1h
+eF9pbnRfcmVhbCAoKGRvdWJsZSkoQUxUX01BWF9JTlQpICsgMS4wKQotCisgCiAgI2RlZmluZSBS
+RUFMX0NBTl9CRV9JTlQodilcCiAgICAoKHYpID4gbWluX2ludF9yZWFsICYmICh2KSA8IG1heF9p
+bnRfcmVhbCkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9naG9zdHNjcmlwdC9n
+aG9zdHNjcmlwdC9hdm9pZC1ob3N0LWNvbnRhbWluYXRpb24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+ZXh0ZW5kZWQvZ2hvc3RzY3JpcHQvZ2hvc3RzY3JpcHQvYXZvaWQtaG9zdC1jb250YW1pbmF0aW9u
+LnBhdGNoCmluZGV4IGQxOTEyMzFjN2IuLjVjNzhlYWI5YzIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1leHRlbmRlZC9naG9zdHNjcmlwdC9naG9zdHNjcmlwdC9hdm9pZC1ob3N0LWNvbnRhbWlu
+YXRpb24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dob3N0c2NyaXB0L2dob3N0
+c2NyaXB0L2F2b2lkLWhvc3QtY29udGFtaW5hdGlvbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
+b20gODU5MDVjZTNiMWJjNjNmMGJlOWVkYTk4ODhlNDBkOGU3YTgwM2QyMSBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKK0Zyb20gNmVhZDhiYTgwYTRkMGI2NWU0MjdhMmJhMjI3ZDNjOTg5MjNiZDVk
+MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5k
+cml2ZXIuY29tPgogRGF0ZTogVGh1LCAyOSBNYXIgMjAxOCAxNjowMjowNSArMDgwMAogU3ViamVj
+dDogW1BBVENIXSBhdm9pZCBob3N0IGNvbnRhbWluYXRpb24KQEAgLTE1LDcgKzE1LDcgQEAgU2ln
+bmVkLW9mZi1ieTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEv
+ZGV2aWNlcy9kZXZzLm1hayBiL2RldmljZXMvZGV2cy5tYWsKLWluZGV4IGE1ZGJjN2EuLjI3YjU1
+ZjIgMTAwNjQ0CitpbmRleCAxZTQ0ZThkLi5mNGQ5NWRhIDEwMDY0NAogLS0tIGEvZGV2aWNlcy9k
+ZXZzLm1hawogKysrIGIvZGV2aWNlcy9kZXZzLm1hawogQEAgLTQwMyw3ICs0MDMsNyBAQCAkKERF
+Vk9CSilnZGV2eGFsdC4kKE9CSikgOiAkKERFVlNSQylnZGV2eGFsdC5jICQoR0RFVlgpICQobWF0
+aF9faCkgJChtZW1vcnlfX2gpXApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2do
+b3N0c2NyaXB0L2dob3N0c2NyaXB0L2dob3N0c2NyaXB0LTkuMTYtV2Vycm9yLXJldHVybi10eXBl
+LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dob3N0c2NyaXB0L2dob3N0c2NyaXB0L2do
+b3N0c2NyaXB0LTkuMTYtV2Vycm9yLXJldHVybi10eXBlLnBhdGNoCmluZGV4IDA1OThjM2RjZDIu
+LjY4ODNiNDc1Y2MgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9naG9zdHNjcmlw
+dC9naG9zdHNjcmlwdC9naG9zdHNjcmlwdC05LjE2LVdlcnJvci1yZXR1cm4tdHlwZS5wYXRjaAor
+KysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2hvc3RzY3JpcHQvZ2hvc3RzY3JpcHQvZ2hvc3Rz
+Y3JpcHQtOS4xNi1XZXJyb3ItcmV0dXJuLXR5cGUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9t
+IGMyM2I3ODdmOWEzOGJlMmNkYzU3MTMzOTE1YzQwMmI2OWFjZWRkMWEgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCitGcm9tIDhlOWU3NWU5MmUzYTc4YWJhNWRhZTJlZmYyODhiZTM3ZDU0NGNlODgg
+TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdA
+d2luZHJpdmVyLmNvbT4KIERhdGU6IE1vbiwgNCBNYXkgMjAxNSAyMjozMTo0OCAtMDcwMAogU3Vi
+amVjdDogW1BBVENIXSBiYXNlL2dlbmRldi5jOiBmaXggZm9yIC1XZXJyb3I9cmV0dXJuLXR5cGUK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9naG9zdHNjcmlwdC9naG9zdHNjcmlw
+dC9vdXQtb2YtdHJlZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9naG9zdHNjcmlwdC9n
+aG9zdHNjcmlwdC9vdXQtb2YtdHJlZS5wYXRjaAppbmRleCAyMDJjOWQ2YzdjLi5iMjBlYjMwZGY3
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2hvc3RzY3JpcHQvZ2hvc3RzY3Jp
+cHQvb3V0LW9mLXRyZWUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dob3N0c2Ny
+aXB0L2dob3N0c2NyaXB0L291dC1vZi10cmVlLnBhdGNoCkBAIC0xLDE0ICsxLDIxIEBACi1GaXgg
+dGhlIGJ1aWxkIHRvIGRvIG91dC1vZi10cmVlIHByb3Blcmx5LgorRnJvbSBiZjFiYWFhOTQ5OWEw
+MWNkOTkwNzZkMTgzZWFhNzQxZWE4YTllZDkyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
+bTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CitEYXRlOiBUaHUsIDIgQXByIDIw
+MjYgMTQ6NDE6NDIgKzAxMDAKK1N1YmplY3Q6IFtQQVRDSF0gRml4IHRoZSBidWlsZCB0byBkbyBv
+dXQtb2YtdHJlZSBwcm9wZXJseS4KIAogVGhlIHBhdGNoZXMgYXJlIGluIHByb2dyZXNzIGJ1dCBh
+cmUgYmVpbmcgc3VibWl0dGVkIHVwc3RyZWFtLgogCiBVcHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRl
+ZCBbaHR0cHM6Ly9idWdzLmdob3N0c2NyaXB0LmNvbS9zaG93X2J1Zy5jZ2k/aWQ9NzA5Mjg5XQog
+U2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CistLS0KKyBj
+b25maWd1cmUuYWMgfCA0ICsrLS0KKyAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAy
+IGRlbGV0aW9ucygtKQogCi1kaWZmIC1yVTMgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMK
+LS0tLSBhL2NvbmZpZ3VyZS5hYwkyMDI1LTA5LTA5IDEwOjM2OjM5LjAwMDAwMDAwMCArMDEwMAot
+KysrIGIvY29uZmlndXJlLmFjCTIwMjYtMDMtMzEgMTU6MzU6MDguOTg4MjYyNjEyICswMTAwCi1A
+QCAtNDAwLDcgKzQwMCw3IEBACitkaWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJl
+LmFjCitpbmRleCBiMmIzNjc4Li5kZDAwZTg2IDEwMDY0NAorLS0tIGEvY29uZmlndXJlLmFjCisr
+KysgYi9jb25maWd1cmUuYWMKK0BAIC00MDAsNyArNDAwLDcgQEAgaWYgdGVzdCB4IiR3aXRoX2Fy
+Y2hfaCIgPSB4IiI7IHRoZW4KICAgICAgICAgICAgKikKICAgICAgICAgICAgICBBUkNIX0NPTkZf
+SEVBREVSPQogICAgICAgICAgICAgIGlmIHRlc3QgeCIkaG9zdCIgIT0geCIkYnVpbGQiOyB0aGVu
+CkBAIC0xNywxOCArMjQsNyBAQCBkaWZmIC1yVTMgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUu
+YWMKICAgICAgICAgICAgICBlbHNlCiAgICAgICAgICAgICAgICBBUkNIX0NPTkZfSEVBREVSPQog
+ICAgICAgICAgICAgIGZpCi1AQCAtODY5LDggKzg2OSw4IEBACi0gQUNfU1VCU1QoUkVDVVJTSVZF
+X01VVEVYQVRUUikKLSAKLSBkbmwgVGVzc2VyYWN0L0xlcHRvbmljYSBkZXRlY3Rpb24KLS1URVNT
+RVJBQ1RESVI9dGVzc2VyYWN0Ci0tTEVQVE9OSUNBRElSPWxlcHRvbmljYQotK1RFU1NFUkFDVERJ
+Uj0kc3JjZGlyL3Rlc3NlcmFjdAotK0xFUFRPTklDQURJUj0kc3JjZGlyL2xlcHRvbmljYQotIE9D
+Ul9WRVJTSU9OPTAKLSBPQ1JfU0hBUkVEPTAKLSBMRVBUT05JQ0FJTkNMVURFPQotQEAgLTg4Niw3
+ICs4ODYsNyBAQAorQEAgLTg4OSw3ICs4ODksNyBAQCBBQ19BUkdfV0lUSChbdGVzc2VyYWN0XSwg
+QVNfSEVMUF9TVFJJTkcoWy0td2l0aG91dC10ZXNzZXJhY3RdLAogIAogIGlmIHRlc3QgeCR3aXRo
+X3Rlc3NlcmFjdCAhPSB4bm87IHRoZW4KICAgIEFDX01TR19DSEVDS0lORyhbZm9yIGxvY2FsIFRl
+c3NlcmFjdCBsaWJyYXJ5IHNvdXJjZV0pCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvZ2hvc3RzY3JpcHQvZ2hvc3RzY3JpcHRfMTAuMDcuMC5iYiBiL21ldGEvcmVjaXBlcy1leHRl
+bmRlZC9naG9zdHNjcmlwdC9naG9zdHNjcmlwdF8xMC4wNy4xLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9naG9zdHNjcmlwdC9naG9zdHNj
+cmlwdF8xMC4wNy4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2hvc3RzY3Jp
+cHQvZ2hvc3RzY3JpcHRfMTAuMDcuMS5iYgppbmRleCAxYjZjYjRhYWFlLi4zMjU0ODcyMDM2IDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2hvc3RzY3JpcHQvZ2hvc3RzY3JpcHRf
+MTAuMDcuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2hvc3RzY3JpcHQvZ2hvc3Rz
+Y3JpcHRfMTAuMDcuMS5iYgpAQCAtMjgsNyArMjgsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vZ2l0
+aHViLmNvbS9BcnRpZmV4U29mdHdhcmUvZ2hvc3RwZGwtZG93bmxvYWRzL3JlbGVhc2VzL2Rvd25s
+bwogICAgICAgICAgICBmaWxlOi8vMDAwMS1wc2ktenR5cGUuYy1yZXBsYWNlLXN0YXRpYy1jb25z
+dC1kb3VibGUtd2l0aC1tYWNyb3MtLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3No
+YTI1NnN1bV0gPSAiZWQ2ZWE2MjAyMmUzZjRkNWE2NTY5YjZlZmM5MzYxYjYzYTZkMTE4YmZjYWQ4
+ZjBiZWI4OTdjMzc4ODViNWNhZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIyZmM3NDM2MmY5YmU2
+ZmFlMWIwYTY1ZDM4ZmRjZmQ0ZjBiNTE4Y2MzYjA3YzU1ODFmYjY2MWViNGQyZTE1MjUxIgogCiBQ
+QUNLQUdFQ09ORklHID8/PSAiIgogUEFDS0FHRUNPTkZJR1tndGtdID0gIi0tZW5hYmxlLWd0aywt
+LWRpc2FibGUtZ3RrLGd0ayszIgotLSAKMi40Ny4xCgo=
 
---===============4515851547647291599==
+--===============6320158210426865525==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/tcl8: SRC_URI changed from "https://downloads.sourceforge.net/tcl/tcl-core8.6.17-src.tar.gz file://tcl-add-soname.patch file://fix_non_native_build_issue.patch file://tcl-remove-hardcoded-install-path.patch file://alter-includedir.patch file://run-ptest file://0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch" to "https://downloads.sourceforge.net/tcl/tcl-core8.6.18-src.tar.gz file://tcl-add-soname.patch file://fix_non_native_build_issue.patch file://tcl-remove-hardcoded-install-path.patch file://alter-includedir.patch file://run-ptest file://0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch"
-packages/x86-64-v3-poky-linux/tcl8: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-Changes to packages/x86-64-v3-poky-linux/tcl8 (sysroot):
-  /usr/lib/tcl8/8.4/platform moved to /usr/lib/tcl8/8.6/platform
-  /usr/lib/tcl8/8.4/platform/shell-1.1.4.tm moved to /usr/lib/tcl8/8.6/platform/shell-1.1.4.tm
-  /usr/include/tcl8.6.17 moved to /usr/include/tcl8.6.18
-  /usr/lib/tcl8/8.5/tcltest-2.5.10.tm moved to /usr/lib/tcl8/8.5/tcltest-2.5.11.tm
-  /usr/lib/tcl8/8.6/http-2.9.8.tm moved to /usr/lib/tcl8/8.6/http-2.9.9.tm
-  /usr/lib/tcl8/8.6/platform-1.1.0.tm was added
-  /usr/lib/tcl8/8.4 was removed
-  /usr/lib/tcl8/8.4/platform-1.0.19.tm was removed
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dbg: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dbg: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dbg: PKGSIZE changed from 8522120 to 8523808 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: FILELIST: directory renamed /usr/include/tcl8.6.17/compat -> /usr/include/tcl8.6.18/compat, directory renamed /usr/include/tcl8.6.17/unix -> /usr/include/tcl8.6.18/unix, directory renamed /usr/include/tcl8.6.17/generic -> /usr/include/tcl8.6.18/generic
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: PKGSIZE changed from 1456892 to 1456818 (-0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-doc: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-doc: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-doc: PKGSIZE changed from 3176831 to 3179431 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-lib: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-lib: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-locale: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-locale: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-ptest: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-ptest: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-ptest: PKGSIZE changed from 6751648 to 6754626 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-src: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-src: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-src: FILELIST: directory renamed /usr/src/debug/tcl8/8.6.17/libtommath -> /usr/src/debug/tcl8/8.6.18/libtommath, directory renamed /usr/src/debug/tcl8/8.6.17/compat -> /usr/src/debug/tcl8/8.6.18/compat, directory renamed /usr/src/debug/tcl8/8.6.17/unix -> /usr/src/debug/tcl8/8.6.18/unix, directory renamed /usr/src/debug/tcl8/8.6.17/generic -> /usr/src/debug/tcl8/8.6.18/generic
-packages/x86-64-v3-poky-linux/tcl8/tcl8-src: PKGSIZE changed from 7653678 to 7661399 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-staticdev: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-staticdev: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8: FILES: removed "/usr/lib/tcl8.6.17", added "/usr/lib/tcl8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8: FILELIST: directory renamed /usr/lib/tcl8/8.4/platform -> /usr/lib/tcl8/8.6/platform, removed "/usr/bin/tclsh8.6.17 /usr/lib/tcl8/8.4/platform-1.0.19.tm /usr/lib/tcl8/8.6/http-2.9.8.tm /usr/lib/tcl8/8.5/tcltest-2.5.10.tm", added "/usr/bin/tclsh8.6.18 /usr/lib/tcl8/8.6/platform-1.1.0.tm /usr/lib/tcl8/8.5/tcltest-2.5.11.tm /usr/lib/tcl8/8.6/http-2.9.9.tm"
-packages/x86-64-v3-poky-linux/tcl8/tcl8: PKGSIZE changed from 3396959 to 3393567 (-0%)
-Changes to packages/x86_64-linux/tcl8-native (sysroot):
-  /usr/bin/tclsh8 changed symlink target from ./tclsh8.6.17 to ./tclsh8.6.18
-  /usr/lib/tcl8/8.4/platform moved to /usr/lib/tcl8/8.6/platform
-  /usr/lib/tcl8/8.4/platform/shell-1.1.4.tm moved to /usr/lib/tcl8/8.6/platform/shell-1.1.4.tm
-  /usr/bin/tclsh8.6.17 moved to /usr/bin/tclsh8.6.18
-  /usr/include/tcl8.6.17 moved to /usr/include/tcl8.6.18
-  /usr/lib/tcl8/8.5/tcltest-2.5.10.tm moved to /usr/lib/tcl8/8.5/tcltest-2.5.11.tm
-  /usr/lib/tcl8/8.6/http-2.9.8.tm moved to /usr/lib/tcl8/8.6/http-2.9.9.tm
-  /usr/lib/tcl8/8.6/platform-1.1.0.tm was added
-  /usr/lib/tcl8/8.4 was removed
-  /usr/lib/tcl8/8.4/platform-1.0.19.tm was removed
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-dbg: PKGV changed from 10.07.0 [default] to 10.07.1 [default]
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-dbg: PKGSIZE changed from 214034912 to 209308144 (-2%)
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-dbg: PV changed from "10.07.0" to "10.07.1"
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-dev: PKGV changed from 10.07.0 [default] to 10.07.1 [default]
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-dev: PV changed from "10.07.0" to "10.07.1"
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-doc: PKGV changed from 10.07.0 [default] to 10.07.1 [default]
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-doc: FILELIST: directory renamed /usr/share/doc/ghostscript/10.07.0 -> /usr/share/doc/ghostscript/10.07.1
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-doc: PKGSIZE changed from 11329961 to 11329224 (-0%)
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-doc: PV changed from "10.07.0" to "10.07.1"
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-locale: PKGV changed from 10.07.0 [default] to 10.07.1 [default]
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-locale: PV changed from "10.07.0" to "10.07.1"
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-src: PKGV changed from 10.07.0 [default] to 10.07.1 [default]
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-src: FILELIST: directory renamed /usr/src/debug/ghostscript/10.07.0/psi -> /usr/src/debug/ghostscript/10.07.1/psi, directory renamed /usr/src/debug/ghostscript/10.07.0/tesseract/src/classify -> /usr/src/debug/ghostscript/10.07.1/tesseract/src/classify, directory renamed /usr/src/debug/ghostscript/10.07.0/tesseract/src/ccstruct -> /usr/src/debug/ghostscript/10.07.1/tesseract/src/ccstruct, directory renamed /usr/src/debug/ghostscript/10.07.0/tesseract/src/dict -> /usr/src/debug/ghostscript/10.07.1/tesseract/src/dict, directory renamed /usr/src/debug/ghostscript/10.07.0/contrib/opvp -> /usr/src/debug/ghostscript/10.07.1/contrib/opvp, directory renamed /usr/src/debug/ghostscript/10.07.0/tesseract/src/arch -> /usr/src/debug/ghostscript/10.07.1/tesseract/src/arch, directory renamed /usr/src/debug/ghostscript/10.07.0/tesseract/src/lstm -> /usr/src/debug/ghostscript/10.07.1/tesseract/src/lstm, directory renamed /usr/src/debug/ghostscript/
+ 10.07.0/openjpeg/src/lib/openjp2 -> /usr/src/debug/ghostscript/10.07.1/openjpeg/src/lib/openjp2, directory renamed /usr/src/debug/ghostscript/10.07.0/tesseract/src/api -> /usr/src/debug/ghostscript/10.07.1/tesseract/src/api, directory renamed /usr/src/debug/ghostscript/10.07.0/obj -> /usr/src/debug/ghostscript/10.07.1/soobj, directory renamed /usr/src/debug/ghostscript/10.07.0/pdf -> /usr/src/debug/ghostscript/10.07.1/pdf, directory renamed /usr/src/debug/ghostscript/10.07.0/soobj -> /usr/src/debug/ghostscript/10.07.1/obj, directory renamed /usr/src/debug/ghostscript/10.07.0/jbig2dec -> /usr/src/debug/ghostscript/10.07.1/jbig2dec, directory renamed /usr/src/debug/ghostscript/10.07.0/tesseract/src/ccmain -> /usr/src/debug/ghostscript/10.07.1/tesseract/src/ccmain, directory renamed /usr/src/debug/ghostscript/10.07.0/lcms2mt/src -> /usr/src/debug/ghostscript/10.07.1/lcms2mt/src, directory renamed /usr/src/debug/ghostscript/10.07.0/urf -> /usr/src/debug/ghostscript/10.07.1/urf, director
+ y renamed /usr/src/debug/ghostscript/10.07.0/zlib -> /usr/src/debug/ghostscript/10.07.1/zlib, directory renamed /usr/src/debug/ghostscript/10.07.0/brotli/c/include/brotli -> /usr/src/debug/ghostscript/10.07.1/brotli/c/include/brotli, directory renamed /usr/src/debug/ghostscript/10.07.0/contrib/eplaser -> /usr/src/debug/ghostscript/10.07.1/contrib/eplaser, directory renamed /usr/src/debug/ghostscript/10.07.0/contrib/pcl3/src -> /usr/src/debug/ghostscript/10.07.1/contrib/pcl3/src, directory renamed /usr/src/debug/ghostscript/10.07.0/contrib/japanese -> /usr/src/debug/ghostscript/10.07.1/contrib/japanese, directory renamed /usr/src/debug/ghostscript/10.07.0/contrib/lips4 -> /usr/src/debug/ghostscript/10.07.1/contrib/lips4, directory renamed /usr/src/debug/ghostscript/10.07.0/devices/rinkj -> /usr/src/debug/ghostscript/10.07.1/devices/rinkj, directory renamed /usr/src/debug/ghostscript/10.07.0/tesseract/include/tesseract -> /usr/src/debug/ghostscript/10.07.1/tesseract/include/tesseract,
+  directory renamed /usr/src/debug/ghostscript/10.07.0/cups -> /usr/src/debug/ghostscript/10.07.1/cups, directory renamed /usr/src/debug/ghostscript/10.07.0/tesseract/src/textord -> /usr/src/debug/ghostscript/10.07.1/tesseract/src/textord, directory renamed /usr/src/debug/ghostscript/10.07.0/lcms2mt/include -> /usr/src/debug/ghostscript/10.07.1/lcms2mt/include, directory renamed /usr/src/debug/ghostscript/10.07.0/base -> /usr/src/debug/ghostscript/10.07.1/base, directory renamed /usr/src/debug/ghostscript/10.07.0/tesseract/src/ccutil -> /usr/src/debug/ghostscript/10.07.1/tesseract/src/ccutil, directory renamed /usr/src/debug/ghostscript/10.07.0/tesseract/src/viewer -> /usr/src/debug/ghostscript/10.07.1/tesseract/src/viewer, directory renamed /usr/src/debug/ghostscript/10.07.0/contrib -> /usr/src/debug/ghostscript/10.07.1/contrib, directory renamed /usr/src/debug/ghostscript/10.07.0/devices -> /usr/src/debug/ghostscript/10.07.1/devices, directory renamed /usr/src/debug/ghostscript/10.
+ 07.0/devices/vector -> /usr/src/debug/ghostscript/10.07.1/devices/vector, directory renamed /usr/src/debug/ghostscript/10.07.0/leptonica/src -> /usr/src/debug/ghostscript/10.07.1/leptonica/src, directory renamed /usr/src/debug/ghostscript/10.07.0/tesseract/src/wordrec -> /usr/src/debug/ghostscript/10.07.1/tesseract/src/wordrec, directory renamed /usr/src/debug/ghostscript/10.07.0/contrib/pcl3/eprn -> /usr/src/debug/ghostscript/10.07.1/contrib/pcl3/eprn, directory renamed /usr/src/debug/ghostscript/10.07.0/ijs -> /usr/src/debug/ghostscript/10.07.1/ijs, removed "/usr/src/debug/ghostscript/10.07.0/brotli/c/enc/compound_dictionary.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/compound_dictionary.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/backward_references_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/cluster_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/dec/bit_reader.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/command.h /usr/src/debug/ghostscript/10.07.0/
+ brotli/c/dec/bit_reader.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/command.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/entropy_encode.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/histogram_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/entropy_encode.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/literal_cost.h /usr/src/debug/ghostscript/10.07.0/brotli/c/common/dictionary.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/block_encoder_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/common/dictionary.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/literal_cost.c /usr/src/debug/ghostscript/10.07.0/brotli/c/dec/huffman.h /usr/src/debug/ghostscript/10.07.0/brotli/c/dec/huffman.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/hash_longest_match_quickly_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/static_dict.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/static_dict.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/hash_longest_match_inc.h /us
+ r/src/debug/ghostscript/10.07.0/brotli/c/enc/metablock_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/utf8_util.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/hash_longest_match64_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/utf8_util.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/write_bits.h /usr/src/debug/ghostscript/10.07.0/brotli/c/dec/prefix.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/prefix.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/histogram.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/histogram.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/compress_fragment.c /usr/src/debug/ghostscript/10.07.0/brotli/c/common/context.h /usr/src/debug/ghostscript/10.07.0/brotli/c/common/constants.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/compress_fragment.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/find_match_length.h /usr/src/debug/ghostscript/10.07.0/brotli/c/common/context.c /usr/src/debug/ghostscript/10.07.0/brotli/c/common/consta
+ nts.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/static_dict_lut.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/dictionary_hash.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/dictionary_hash.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/block_splitter_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/hash_rolling_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/backward_references.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/cluster.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/backward_references.h /usr/src/debug/ghostscript/10.07.0/brotli/c/common/shared_dictionary_internal.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/cluster.c /usr/src/debug/ghostscript/10.07.0/brotli/c/dec/state.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/compress_fragment_two_pass.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/state.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/compress_fragment_two_pass.h /usr/src/debug/ghostscript/10.07.0/brotli/c/dec/state.c
+  /usr/src/debug/ghostscript/10.07.0/brotli/c/common/transform.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/hash_forgetful_chain_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/encode.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/bit_cost_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/common/transform.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/metablock.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/block_splitter.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/block_splitter.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/metablock.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/brotli_bit_stream.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/brotli_bit_stream.c /usr/src/debug/ghostscript/10.07.0/brotli/c/dec/decode.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/hash_to_binary_tree_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/params.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/entropy_encode_static.h /usr/src/debug/ghostscript/10
+ .07.0/brotli/c/enc/encoder_dict.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/bit_cost.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/encoder_dict.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/quality.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/hash_composite_inc.h /usr/src/debug/ghostscript/10.07.0/brotli/c/common/shared_dictionary.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/hash.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/memory.h /usr/src/debug/ghostscript/10.07.0/brotli/c/common/platform.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/ringbuffer.h /usr/src/debug/ghostscript/10.07.0/brotli/c/common/platform.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/fast_log.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/backward_references_hq.c /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/backward_references_hq.h /usr/src/debug/ghostscript/10.07.0/brotli/c/enc/fast_log.c", added "/usr/src/debug/ghostscript/10.07.1/brotli/c/enc/block_splitter_inc.h /usr
+ /src/debug/ghostscript/10.07.1/brotli/c/common/dictionary_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/hash_longest_match_simd_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/dec/static_init.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/hash_rolling_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/backward_references.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/cluster.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/backward_references.h /usr/src/debug/ghostscript/10.07.1/brotli/c/common/shared_dictionary_internal.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/cluster.c /usr/src/debug/ghostscript/10.07.1/brotli/c/dec/state.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/compress_fragment_two_pass.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/state.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/compress_fragment_two_pass.h /usr/src/debug/ghostscript/10.07.1/brotli/c/dec/state.c /usr/src/debug/ghostscript/10.07.1/brotli/c/common/transform.h /usr/
+ src/debug/ghostscript/10.07.1/brotli/c/enc/encode.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/hash_forgetful_chain_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/bit_cost_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/common/transform.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/metablock.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/block_splitter.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/block_splitter.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/metablock.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/brotli_bit_stream.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/brotli_bit_stream.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/static_dict_lut_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/dec/decode.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/hash_to_binary_tree_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/params.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/entropy_encode_static.h /usr/src/debug/ghostscript/1
+ 0.07.1/brotli/c/enc/encoder_dict.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/bit_cost.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/encoder_dict.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/quality.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/bit_cost.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/hash_composite_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/common/shared_dictionary.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/hash.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/memory.h /usr/src/debug/ghostscript/10.07.1/brotli/c/common/platform.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/ringbuffer.h /usr/src/debug/ghostscript/10.07.1/brotli/c/common/platform.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/fast_log.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/backward_references_hq.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/hash_longest_match64_simd_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/backward_references_hq.h /
+ usr/src/debug/ghostscript/10.07.1/brotli/c/enc/fast_log.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/compound_dictionary.h /usr/src/debug/ghostscript/10.07.1/brotli/c/dec/prefix_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/compound_dictionary.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/backward_references_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/cluster_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/dec/bit_reader.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/command.h /usr/src/debug/ghostscript/10.07.1/brotli/c/dec/bit_reader.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/command.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/entropy_encode.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/histogram_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/entropy_encode.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/literal_cost.h /usr/src/debug/ghostscript/10.07.1/brotli/c/common/dictionary.c /usr/src/debug/ghostscript/10.07.1/brotli/c
+ /enc/block_encoder_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/common/dictionary.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/literal_cost.c /usr/src/debug/ghostscript/10.07.1/brotli/c/dec/huffman.h /usr/src/debug/ghostscript/10.07.1/brotli/c/dec/huffman.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/dictionary_hash_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/hash_longest_match_quickly_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/static_dict.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/static_dict.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/hash_longest_match_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/metablock_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/utf8_util.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/hash_longest_match64_inc.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/utf8_util.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/write_bits.h /usr/src/debug/ghostscript/10.07.1/brotli/c/dec/prefix.h /usr
+ /src/debug/ghostscript/10.07.1/brotli/c/enc/prefix.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/histogram.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/histogram.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/matching_tag_mask.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/compress_fragment.c /usr/src/debug/ghostscript/10.07.1/brotli/c/common/context.h /usr/src/debug/ghostscript/10.07.1/brotli/c/common/constants.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/compress_fragment.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/find_match_length.h /usr/src/debug/ghostscript/10.07.1/brotli/c/common/context.c /usr/src/debug/ghostscript/10.07.1/brotli/c/common/constants.c /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/hash_base.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/static_dict_lut.h /usr/src/debug/ghostscript/10.07.1/brotli/c/dec/static_init.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/static_init.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/dictio
+ nary_hash.h /usr/src/debug/ghostscript/10.07.1/brotli/c/enc/static_init.c"
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-src: PKGSIZE changed from 95068617 to 95143166 (+0%)
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-src: PV changed from "10.07.0" to "10.07.1"
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-staticdev: PKGV changed from 10.07.0 [default] to 10.07.1 [default]
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript-staticdev: PV changed from "10.07.0" to "10.07.1"
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript: PKGV changed from 10.07.0 [default] to 10.07.1 [default]
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript: FILELIST: directory renamed /usr/share/ghostscript/10.07.0/Resource/Decoding -> /usr/share/ghostscript/10.07.1/Resource/Decoding, directory renamed /usr/share/ghostscript/10.07.0/Resource/Init -> /usr/share/ghostscript/10.07.1/Resource/Init, directory renamed /usr/share/ghostscript/10.07.0/iccprofiles -> /usr/share/ghostscript/10.07.1/iccprofiles, directory renamed /usr/share/ghostscript/10.07.0/Resource/Encoding -> /usr/share/ghostscript/10.07.1/Resource/Encoding, directory renamed /usr/share/ghostscript/10.07.0/Resource/SubstCID -> /usr/share/ghostscript/10.07.1/Resource/SubstCID, directory renamed /usr/share/ghostscript/10.07.0/Resource/CMap -> /usr/share/ghostscript/10.07.1/Resource/CMap, directory renamed /usr/share/ghostscript/10.07.0/Resource/CIDFont -> /usr/share/ghostscript/10.07.1/Resource/CIDFont, directory renamed /usr/share/ghostscript/10.07.0/Resource/ColorSpace -> /usr/share/ghostscript/10.07.1/Resource/ColorSpace,
+  directory renamed /usr/share/ghostscript/10.07.0/Resource/Font -> /usr/share/ghostscript/10.07.1/Resource/Font, directory renamed /usr/share/ghostscript/10.07.0/lib -> /usr/share/ghostscript/10.07.1/lib, directory renamed /usr/share/ghostscript/10.07.0/Resource/CIDFSubst -> /usr/share/ghostscript/10.07.1/Resource/CIDFSubst, directory renamed /usr/share/ghostscript/10.07.0/Resource/IdiomSet -> /usr/share/ghostscript/10.07.1/Resource/IdiomSet
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript: PKGSIZE changed from 95602911 to 95682102 (+0%)
+packages/x86-64-v3-poky-linux/ghostscript/ghostscript: PV changed from "10.07.0" to "10.07.1"
+packages/x86-64-v3-poky-linux/ghostscript: PKGV changed from 10.07.0 [default] to 10.07.1 [default]
+packages/x86-64-v3-poky-linux/ghostscript: SRC_URI changed from "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10070/ghostscript-10.07.0.tar.gz file://ghostscript-9.16-Werror-return-type.patch file://avoid-host-contamination.patch file://out-of-tree.patch file://0001-psi-ztype.c-replace-static-const-double-with-macros-.patch" to "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10071/ghostscript-10.07.1.tar.gz file://ghostscript-9.16-Werror-return-type.patch file://avoid-host-contamination.patch file://out-of-tree.patch file://0001-psi-ztype.c-replace-static-const-double-with-macros-.patch"
+packages/x86-64-v3-poky-linux/ghostscript: PV changed from "10.07.0" to "10.07.1"
+Changes to packages/x86-64-v3-poky-linux/ghostscript (sysroot):
+  /usr/share/ghostscript/10.07.0 moved to /usr/share/ghostscript/10.07.1
 
---===============4515851547647291599==--
+--===============6320158210426865525==--
 
