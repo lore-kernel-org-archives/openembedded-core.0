@@ -2,161 +2,248 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50267CD5BD1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57FEECD6E5E
 	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 06:34:30 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22462.1780295415124080663
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22454.1780295370041410716
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2026 23:30:15 -0700
+ Sun, 31 May 2026 23:29:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=gRcrsA0W;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: adityags2004@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4600ddc4017so745952f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2026 23:30:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780295413; cv=none;
-        d=google.com; s=arc-20240605;
-        b=by/G6C2J/K0/eM5Q7Plp6XK/PSn+ClyfERE1ysgHI7HU6mcFsvv9jfTvGs/AYNp2qF
-         IJADQrSez+Fb2gO6vJtSnVKZNjgByCQqDYOFS2L/oJqQqfXS+vwPnN9TpDFYWYaHOQj5
-         pK0IW64/CNPmsg1YOGctDxh/8ARvFd3ZkPq2M1HitSCBVmFPjDngyVgyNed51pxW51ex
-         uy1SUW0WLkLMgiFKRdwLX4N8n8MitqwIFGPQnQSWAmFMeQbAKylq6RPAN4yZhMvii3zf
-         wZJrXptKDzvjC8ni5YMS9O08T+MW9aeB2k4MxDCI7n9v0s1e/G8LjY+Yjun1nHafpmvQ
-         uMqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9Eq0cCQeNO6TBjpuJyT/qoa4w1oJDMQrBqZgWqpq/sk=;
-        fh=TXJJXGu0ozQXjS5/rbMdEtZMi+1mVIAALl6TjbOMeqg=;
-        b=bNoefedsAE6FcE4AharUsgHDsRn25pH+QFzUTNjxxP1BTy4wMI3uIa3UeoP78rovPf
-         ryLvqT0LAaJuBlB08xASKXAu7DrSjTfoxgJbLqsWnSXYjHjefq2untgBBbbjYLjKGchH
-         JW5wnpNwWWYoUAeRm5PSqhnP7xf+Y+8BpiPSR9dGv9zmwwxKlA3T8KT/icHS2AM4OsdR
-         rwR3pN6B67Axi0RNKObOGE9MLYVjp4Zv1gU8Nzu/o29iQrTRRaAh3YoCT77MNiBdOvD9
-         72ljX3RpAbtBbLsqNjEWPk3wvRLcUXgCQcBAV69cwvA9Gh5azDnwFRkjmb2Y9JG+9OrI
-         TIfg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=tMfAleDJ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: adityags2004@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-91550c6ea8eso164935285a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2026 23:29:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780295413; x=1780900213; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Eq0cCQeNO6TBjpuJyT/qoa4w1oJDMQrBqZgWqpq/sk=;
-        b=gRcrsA0W0idoVaP36OR9Y7yhtnsJUMip8eRLQr6o7gx2f08BmSy2muBmODW6kG6YWS
-         vMbv4f+0o59BEs3GWonCzHficCuFeTzNXQHolfUmKDRHw29ikaHMnP2OaXX+Lg2CCMC/
-         aQZsbgqq0/FIEUqZt6qTL2MyiPmRu8fH5JR+qHZ+SEmXg4qCFkXgjNUwMh3R3auPoxxj
-         YtK5RVvQvAgpnMQB4RZM7U6lXlQUKIC9vqJp63HM2weq2ehSPIl4xExLbDiIwgp4AHgO
-         wYGs7n7nqnVqlvFixLOFwRAVPCSk0UU18+9/B/5vfKmgAK3V2LAiZQvdu/RzsDyUxxyx
-         NtHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780295413; x=1780900213;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780295369; x=1780900169; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9Eq0cCQeNO6TBjpuJyT/qoa4w1oJDMQrBqZgWqpq/sk=;
-        b=Kii5h+S3j4QxCrCYFWyAraTa78CR/pG0WdBFB1FWG+rzXLCNSl0AO7iVUD2omO0w+s
-         2wckTxFAcBVpJbKu0iOXAzRY1ovzdy03+SjnKFzJpKIiuRgwmUJD3Pk9nQf3atEqUcx1
-         deKRMfdCHNf5UJhwoTw3EhxylQ0B7En2sgMdZhwx4QCnLBkF0cV4Ce72JqAq7xYHnCEL
-         aNxlEpav8+Yh47mJmE8NzxfnLzNwA13O+eDvVSkvKxiK2AahJT1HdE9Rg/KcLdz2ONSq
-         1B6/0kMpmT0R50/o/oH9baOqYry9as7dYdxVDT+CQOZPvyq6VDVjA2p7X6Nn2bKXV2lv
-         p3qg==
-X-Forwarded-Encrypted: i=1; AFNElJ/jmLuyWxLY8+7xHsC0CYXfuf5zQtwKNHBW8RHLh2mV81s3dRslxWDRlRBSF7ZtkxKAcIML50C08VbNfZAIocYxOw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz6VXzAlzr11pOuO8Of61qmElhPhQv1vLn8g4ZL42ulCrDrjxyJ
-	3kjrGmVWakV0MOBP3ESP7agMQ5XIlvNJjZ6Qadbm56xU28U8G+MsS/4z5g7Xb6WR4k52vnqkIO9
-	q2pe/0i6fBVaMQu+T527cG1FgPPTsPK8kQQ==
-X-Gm-Gg: Acq92OG9/sCUQn0S7UjETu0aSzcZHY1CS0SVTMoh+P/0XQgx9tIzJJCFNHwuCg3Y5T1
-	AiJYBNlXzki4Hddu08TyeJZcDOpY7psbRFxSNXG4vA4rIwnJCmTGPjd8ubv5/cb8yIyLKYaU61u
-	by807eXi7JW1Ye2c30zw5QbwiUypMqgUA70xbIk81AKsvXQ6Md/Mw8sWB8rUGyWMKbnu7lnkYuT
-	xG1/UzyZmFgRCTdQThWZHA2T3Se4sa1JFzNCpatFLV28urNbIOxNnxupWKVAK3QcIG3v+XFa5bG
-	raImqSiiqMWna7FYRFzi5HLFMHQnJPu7bA4HO0eFZvru3+d/5gU=
-X-Received: by 2002:a05:651c:4388:20b0:393:4e44:63ba with SMTP id
- 38308e7fff4ca-39664f82aabmr18688121fa.29.1780295061524; Sun, 31 May 2026
- 23:24:21 -0700 (PDT)
+        bh=aCrx1dIJczPVSSzXBYjbyrFH9dAHQJts4mOC0KGKAO4=;
+        b=tMfAleDJDxogojIjdP+YjAAtIwjOO7pUZqEuriouYPEdvIsWCtuZ6UWfQZBxcmUkCM
+         SqXMA4wKRN2CG/gtqJ82R5DhsREbv222LtXGnscwKlw4vi/lO7ESg8rjmtCcPltasd/F
+         hP9+TXJJOmrNOwKGOKYsj+UZ8cODkzyGm0VMsKKUOc8vZHCI5EKo9dkw+xUK6zNEfKsZ
+         lDeNU4gld71/pgS/rs+Q06bsEQeoFcg2BFZEw6h7MRr9PZ17jCNkIMmI4RKVkGbNmpj9
+         WxXZj92CNDX1zbeDQXMg1aIDX9418zppU2LR25nf6q3QdlJEmSZ1nysFsQBUM5sALPsz
+         MnAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780295369; x=1780900169;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=aCrx1dIJczPVSSzXBYjbyrFH9dAHQJts4mOC0KGKAO4=;
+        b=rOiAupk6MrbkKqfHxEtCO0ZEep9rQjelimajBcp0mfBYUBNJMgk61nln2/ke2q2z25
+         VV5nYTpCmIMunnM1nreWb56alrn4VpBtS2Kp5ixgRT2Hwxq+0mCTdIG+iyS6+H7LoEV/
+         fp3PXezpULF+TZi3ndM8BEhs1+SgGDB/UK3Tf9yXvf5FGSQ619QwlelMLRoS6J7a6R29
+         pwOl/9wBaVwdL95WximRnUnl3bPP4HuOO77Wf4cBqRqIQSw5UI2EH5qmKXjhCYHjhOcp
+         CfbMby1wqIgyNxfLCG9ko8Xt7h0vmIOu/UrJgV1Yh4gvp3GUy5uIWer4W005ABzYl7wk
+         mALw==
+X-Gm-Message-State: AOJu0YyLaCcRBwx27/Te5vx/HwGqy87bynq6VO6r2oBMetsC2Xb0U9Lf
+	i+yFJUfyKuIxpJmd1EcxL1NtRZOLIvqdD9+xkxh3wpOGkae/Jmc4+XHoPBmLsg==
+X-Gm-Gg: Acq92OGt7C15gwOs6mbfJuAwcJWHAyROltr3LyPBU/8nlpgtXih3KT+a1rf+n2bfW4Y
+	Jr+o99ktoGsROAagypFIBneevW2vknx3QrrdSg/KtFPz4erAQphMyEBGWdq7ZjaFlzVE9c5fnbU
+	T1SwD+lW45th4bWs8B+He4NZ6kuMcdZ7jGb5yB7sv2AFSCVnModJMnGF27DV9uNArBOY2PhjzDq
+	dFrxz/MT791c+QwEBiepWw0qeffI1DMsHTYG7078GiOwNykpsefy1Kr4lpZ2BJjUGgZmGrsG8yB
+	R6nRQvzSADOb6/t8PjihRFysIvnn3s1KJxOraYMQH+EwGdfB3uJRlBue257a7BJA7VWnsq9CJnX
+	ngalgSeTpSNq6HvEQee4LgMnBL4Qa4VYzGHtmg1UUh1Kz/M/8jd4tESmKYALU7KYw6Kbn2oQWpK
+	3FlIziXSGYWd4XHwlJtezeJzRhOoDJ4x6lYLYX2J2ZO+1r5tjekJgViVajww==
+X-Received: by 2002:a05:6a20:cf85:b0:3a2:bd1d:d686 with SMTP id adf61e73a8af0-3b428069790mr10345908637.26.1780295037858;
+        Sun, 31 May 2026 23:23:57 -0700 (PDT)
+Received: from BLR1RLPT00005.localdomain ([157.50.205.77])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85771a9299sm8795894a12.7.2026.05.31.23.23.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 31 May 2026 23:23:57 -0700 (PDT)
+From: Aditya GS <adityags2004@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org,
+	alex.kanavin@gmail.com,
+	joaomarcos.costa@bootlin.com,
+	ross.burton@arm.com,
+	randy.macleod@windriver.com,
+	Aditya GS <adityags2004@gmail.com>
+Subject: [PATCH] gawk: backport randtest stability fix
+Date: Mon,  1 Jun 2026 11:53:11 +0530
+Message-Id: <20260601062311.638-2-adityags2004@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260601062311.638-1-adityags2004@gmail.com>
+References: <20260601062311.638-1-adityags2004@gmail.com>
 MIME-Version: 1.0
-References: <20260528184427.517-1-adityags2004@gmail.com> <0101019e707f4f5a-9a72d5d4-6549-4b7a-bfd8-88596d80a968-000000@us-west-2.amazonses.com>
- <CANNYZj9hMofg4Z1z9=kZotBXy3f4nZ_qZ-Ov7O3OYeDpCSdymQ@mail.gmail.com>
-In-Reply-To: <CANNYZj9hMofg4Z1z9=kZotBXy3f4nZ_qZ-Ov7O3OYeDpCSdymQ@mail.gmail.com>
-From: "Aditya G.S" <adityags2004@gmail.com>
-Date: Mon, 1 Jun 2026 11:54:08 +0530
-X-Gm-Features: AVHnY4LGZZap_pypyEXKRHa8Qst7UNYRx71gvwOnGE6l3vJ_P_Mzx51RBqNmTNQ
-Message-ID: <CAHaUZZAtmR+yn7rt9QUXsowNWudj2KwiGo482Auh2qbaVCWdaw@mail.gmail.com>
-Subject: Re: [OE-core] Patchtest results for [PATCH] gawk: backport randtest stability fix
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: patchtest@automation.yoctoproject.org, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000bcd2d506532b3ecd"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 06:34:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237811
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237810
 
---000000000000bcd2d506532b3ecd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Backport upstream fix to improve stability of randtest.sh by
+retrying when sigma is too small, avoiding intermittent failures.
 
-Hi Alex,
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=16254
 
-Thanks for the feedback and suggestions.
+Signed-off-by: Aditya GS <adityags2004@gmail.com>
+---
+ .../gawk/files/randtest-fix.patch             | 139 ++++++++++++++++++
+ meta/recipes-extended/gawk/gawk_5.3.0.bb      |   1 +
+ 2 files changed, 140 insertions(+)
+ create mode 100644 meta/recipes-extended/gawk/files/randtest-fix.patch
 
-I've now addressed the patchtest issue by adding the missing Signed-off-by
-to the backported patch file, and updated the patch accordingly.
+diff --git a/meta/recipes-extended/gawk/files/randtest-fix.patch b/meta/recipes-extended/gawk/files/randtest-fix.patch
+new file mode 100644
+index 0000000000..0b813e667e
+--- /dev/null
++++ b/meta/recipes-extended/gawk/files/randtest-fix.patch
+@@ -0,0 +1,139 @@
++From f2250f4bc864913437619af7a9834a1c24915acd Mon Sep 17 00:00:00 2001
++From: "Arnold D. Robbins" <arnold@skeeve.com>
++Date: Thu, 28 May 2026 09:52:41 -0400
++Subject: [PATCH] Improve test/randtest.sh.
++
++Backport upstream fix to improve stability of randtest.sh by retrying
++when sigma is too small, avoiding intermittent failures.
++
++Upstream-Status: Backport
++[https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=f2250f4bc864913437619af7a983
++
++---
++
++diff --git a/test/randtest.sh b/test/randtest.sh
++index 597376a8..6ae6f830 100755
++--- a/test/randtest.sh
+++++ b/test/randtest.sh
++@@ -45,68 +45,77 @@ $AWK 'BEGIN{
++     nsamples=('$NSAMPLES');
++     max_allowed_sigma=('$MAX_ALLOWED_SIGMA');
++     nruns=('$NRUNS');
++-    for(tau=0;tau<nsamples/2;tau++) corr[tau]=0;
+++    max_retries=5
++ 
++-    for(run=0;run<nruns;run++) {
++-	sum=0;
+++    for (retry=0; retry<max_retries; retry++) {
+++        for(tau=0; tau<nsamples/2; tau++) corr[tau]=0;
++ 
++-	# Fill an array with a sequence of samples that are a
++-	# function of pairs of rand() values.
+++        for(run=0; run<nruns; run++) {
+++            sum=0;
++ 
++-	for(i=0;i<nsamples;i++) {
++-	   samp[i]=((rand()-0.5)*(rand()-0.5))^2;
++-	   sum=sum+samp[i];
++-	   }
+++	    # Fill an array with a sequence of samples that are a
+++	    # function of pairs of rand() values.
++ 
++-	# Subtract off the mean of the sequence:
+++            for(i=0; i<nsamples; i++) {
+++                samp[i]=((rand()-0.5)*(rand()-0.5))^2;
+++	        sum=sum+samp[i];
+++            }
++ 
++-	mean=sum/nsamples;
++-	for(i=0;i<nsamples;i++) samp[i]=samp[i]-mean;
+++	    # Subtract off the mean of the sequence:
++ 
++-	# Calculate an autocorrelation function on the sequence.
++-	# Because the values of rand() should be independent, there
++-	# should be no peaks in the autocorrelation.
+++	    mean=sum/nsamples;
+++	    for(i=0;i<nsamples;i++) samp[i]=samp[i]-mean;
++ 
++-	for(tau=0;tau<nsamples/2;tau++) {
++-	    sum=0;
++-	    for(i=0;i<nsamples/2;i++) sum=sum+samp[i]*samp[i+tau];
++-	    corr[tau]=corr[tau]+sum;
++-	    }
+++	    # Calculate an autocorrelation function on the sequence.
+++	    # Because the values of rand() should be independent, there
+++	    # should be no peaks in the autocorrelation.
++ 
++-	}
++-    # Normalize the autocorrelation to the tau=0 value.
+++            for(tau=0; tau<nsamples/2; tau++) {
+++	        sum=0;
+++	        for(i=0;i<nsamples/2;i++) sum=sum+samp[i]*samp[i+tau];
+++	        corr[tau]=corr[tau]+sum;
+++            }
++ 
++-    max_corr=corr[0];
++-    for(tau=0;tau<nsamples/2;tau++) corr[tau]=corr[tau]/max_corr;
+++        }
+++        # Normalize the autocorrelation to the tau=0 value.
++ 
++-    # OPTIONALLY Print out the autocorrelation values:
+++        max_corr=corr[0];
+++        for(tau=0;tau<nsamples/2;tau++) corr[tau]=corr[tau]/max_corr;
++ 
++-    # for(tau=0;tau<nsamples/2;tau++) print tau, corr[tau] > "pairpower_corr.data";
+++        # OPTIONALLY Print out the autocorrelation values:
++ 
++-    # Calculate the sigma for the non-zero tau values: 
+++        # for(tau=0;tau<nsamples/2;tau++) print tau, corr[tau] > "pairpower_corr.data";
++ 
++-    power_sum=0;
+++        # Calculate the sigma for the non-zero tau values: 
++ 
++-    for(tau=1;tau<nsamples/2;tau++) power_sum=power_sum+(corr[tau])^2;
+++        power_sum=0;
++ 
++-    sigma=sqrt(power_sum/(nsamples/2-1));
+++        for(tau=1;tau<nsamples/2;tau++) power_sum=power_sum+(corr[tau])^2;
++ 
++-    # See if any of the correlations exceed a reasonable number of sigma:
+++        sigma=sqrt(power_sum/(nsamples/2-1));
++ 
++-    passed=1;
++-    for(tau=1;tau<nsamples/2;tau++) {
++-	if ( abs(corr[tau])/sigma > max_allowed_sigma ) {
++-	    print "Tau=", tau ", Autocorr=", corr[tau]/sigma, "sigma";
++-	    passed=0;
++-	    }
+++        if (sigma < 1e-6) {
+++            print "Sigma too small, retrying run", retry
+++            continue
++         }
++-    if(!passed) {
++-	print "Test failed."
++-	exit(1);
+++
+++        # See if any of the correlations exceed a reasonable number of sigma:
+++
+++        for(tau=1;tau<nsamples/2;tau++) {
+++            if (abs(corr[tau])/sigma > max_allowed_sigma) {
+++                print "Tau=", tau ", Autocorr=", corr[tau]/sigma, "sigma";
+++                print "Test failed."
+++                exit 1
+++            }
++         }
++-    else exit (0);
+++
+++        exit 0
++     }
++ 
+++    print "Test failed after retries due to unstable sigma"
+++    exit 1
+++}
+++
++ function abs(abs_input) { return(sqrt(abs_input^2)) ; }
++ '
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-extended/gawk/gawk_5.3.0.bb b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+index ac9d8500d6..06184a4b48 100644
+--- a/meta/recipes-extended/gawk/gawk_5.3.0.bb
++++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+@@ -18,6 +18,7 @@ PACKAGECONFIG[mpfr] = "--with-mpfr,--without-mpfr, mpfr"
+ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+            file://0001-m4-readline-add-missing-includes.patch \
+            file://run-ptest \
++	   file://randtest-fix.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "378f8864ec21cfceaa048f7e1869ac9b4597b449087caf1eb55e440d30273336"
+-- 
+2.34.1
 
-Resending as v3.
-
-Thanks,
-Aditya
-
-On Fri, May 29, 2026, 1:38=E2=80=AFPM Alexander Kanavin <alex.kanavin@gmail=
-.com>
-wrote:
-
-> On Thu, 28 May 2026 at 23:30, Patchtest via lists.openembedded.org
-> <patchtest=3Dautomation.yoctoproject.org@lists.openembedded.org> wrote:
-> > FAIL: test Signed-off-by presence: A patch file has been added without =
-a
-> Signed-off-by tag: 'randtest-fix.patch'
-> (test_patch.TestPatch.test_signed_off_by_presence)
->
-> Right, this needs to be addressed too. Now you can use a -vN when
-> re-sending :)
->
-> Added Signed-off-by must always contain your identity, and not anyone els=
-e.
->
-> Alex
->
-
---000000000000bcd2d506532b3ecd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Hi Alex,<div dir=3D"auto"><br></div><div dir=3D"auto">Tha=
-nks for the feedback and suggestions.</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">I&#39;ve now addressed the patchtest issue by adding the miss=
-ing Signed-off-by to the backported patch file, and updated the patch accor=
-dingly.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Resending as v3.=
-</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks,</div><div dir=
-=3D"auto">Aditya</div></div><br><div class=3D"gmail_quote gmail_quote_conta=
-iner"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 29, 2026, 1:38=E2=
-=80=AFPM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">al=
-ex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->On Thu, 28 May 2026 at 23:30, Patchtest via <a href=3D"http://lists.openem=
-bedded.org" rel=3D"noreferrer noreferrer" target=3D"_blank">lists.openembed=
-ded.org</a><br>
-&lt;patchtest=3D<a href=3D"mailto:automation.yoctoproject.org@lists.openemb=
-edded.org" target=3D"_blank" rel=3D"noreferrer">automation.yoctoproject.org=
-@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; FAIL: test Signed-off-by presence: A patch file has been added without=
- a Signed-off-by tag: &#39;randtest-fix.patch&#39; (test_patch.TestPatch.te=
-st_signed_off_by_presence)<br>
-<br>
-Right, this needs to be addressed too. Now you can use a -vN when re-sendin=
-g :)<br>
-<br>
-Added Signed-off-by must always contain your identity, and not anyone else.=
-<br>
-<br>
-Alex<br>
-</blockquote></div>
-
---000000000000bcd2d506532b3ecd--
 
