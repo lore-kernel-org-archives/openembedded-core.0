@@ -2,391 +2,180 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1CE1CD8C84
-	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 15:35:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78722CD8C8A
+	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 15:35:44 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1557.1780328132457840933
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1551.1780328129264517875
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2026 08:35:34 -0700
+ Mon, 01 Jun 2026 08:35:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VMfZ2Yg6;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KhXxjZJS;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019e83d376b0-9e691d09-52b2-479a-a3b8-1bd1abee4d7a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=mWa8x/PM;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=XXJjUTgu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019e83d36036-888d5b43-4013-4c49-93ba-9d9742efc8c4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1780328134;
+	t=1780328128;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=74DPZvZfo/oBkLkLuX6e7N+YK6MbaADC9P2DON3vnaI=;
-	b=VMfZ2Yg6dEsMZtVZEw3jvAlIwhLN+pX8QTU7ndxQgXKFmRhlqNC4OR38sdrrcjE7
-	gCK5Lhy9cHcdTSRcXnA5lxdDsDsjzumgncT5mpoS8WzMJPIto3iBK2iIVfkKkwdECv9
-	60b8s9rHWQSaPXMKocs8R3oxmOKPCIjQU8uTiLP4=
+	bh=cbSPtOofMwRJEAEbj3umQ8JYzQgCSH0CncltGea5E4I=;
+	b=mWa8x/PMOhKhXzpsshrZoRQHx6mJQrbExFwJDQUX71sy7qze6QquHvX7p/P5kY0U
+	VsyV9YIDI/hJYbu/V+f3OhyqAJsiHgtKojxYviUq8/PDJukoxSwtDZBc4s0VoLAe3ZN
+	ZySWctLjou5gr5j6QOvHK4E3N1Gxdt/o2jPG97xU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328134;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328128;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=74DPZvZfo/oBkLkLuX6e7N+YK6MbaADC9P2DON3vnaI=;
-	b=KhXxjZJSMDbeRQuO7cL+RwqS4Zz3V3WpDqKyo4kBRjPomeKWBaUkpIZJ3CGLEMeU
-	fI5hsw3Ibl+D6IfO7Amwp+D4UlUtHyvXj79q1GDnaHjMp6UV4dXyN2eCFWhwmbCSlcH
-	xxi7ubgEt5VcXFA/bv6J2cmtpUSEyLyeF9SjwwYc=
-Content-Type: multipart/mixed; boundary="===============5489243608763794601=="
+	bh=cbSPtOofMwRJEAEbj3umQ8JYzQgCSH0CncltGea5E4I=;
+	b=XXJjUTguUz3Ji9joEiGVYjrxVlUNZLRbz48A8YzhjzTHGr5Ln5e5QgI4fNUyhV0h
+	T5vI1j5PBE2McYjUKRqD+xWONpD7OoDxz6ox3uYs6mWOJH+NyKmWFu3i8ZGO8HCD8Ry
+	bnerIz5zmmjt8GxoYq7QVgn4eMpXHRmfv5Ag0vPo=
+Content-Type: multipart/mixed; boundary="===============2942708719490653228=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] kbd: upgrading to 2.10.0 SUCCEEDED
-Message-ID: <0101019e83d376b0-9e691d09-52b2-479a-a3b8-1bd1abee4d7a-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Jun 2026 15:35:34 +0000
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] qemu-native,qemu,qemu-system-native: upgrading to
+ 11.0.1,11.0.1,11.0.1 FAILED
+Message-ID: <0101019e83d36036-888d5b43-4013-4c49-93ba-9d9742efc8c4-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jun 2026 15:35:28 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.06.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 15:35:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237863
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 15:35:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237845
 
---===============5489243608763794601==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICprYmQqIHRvICoyLjEwLjAqIGhhcyBTdWNjZWVkZWQuCgpOZXh0IHN0ZXBzOgogICAgLSBh
-cHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLWtiZC11cGdyYWRlLTIuOS4wLTIuMTAuMC5wYXRj
-aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
-emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
-dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
-c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
-LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
-YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
-dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
-VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
-IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
-ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
-IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
-bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
-ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
-bSAzZGNkMmU0ZTQ4YmQzMWFlMTQzZWNjMDlmYzQxOGM2M2Q1NDAzNWQ2IE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
-dGU6IE1vbiwgMSBKdW4gMjAyNiAwNzozNDoyMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGtiZDog
-dXBncmFkZSAyLjkuMCAtPiAyLjEwLjAKCi0tLQogLi4ubHktbmVjZXNzYXJ5LW1ldGFkYXRhLWR1
-cmluZy1pbnN0YWxsLnBhdGNoIHwgNTQgLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi54LXByb2JsZW0t
-d2l0aC11bmRlY2xhcmVkLXN5bV9nem9wZW4ucGF0Y2ggfCA1NyAtLS0tLS0tLS0tLS0tLS0tLS0t
-CiAuLi4va2JkL3trYmRfMi45LjAuYmIgPT4ga2JkXzIuMTAuMC5iYn0gICAgICAgfCAgNyArLS0K
-IDMgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxMTYgZGVsZXRpb25zKC0pCiBkZWxl
-dGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZC8wMDAxLVByZXNlcnZlLW9u
-bHktbmVjZXNzYXJ5LW1ldGFkYXRhLWR1cmluZy1pbnN0YWxsLnBhdGNoCiBkZWxldGUgbW9kZSAx
-MDA2NDQgbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZC8wMDAxLWxpYmtiZGZpbGUtRml4LXByb2Js
-ZW0td2l0aC11bmRlY2xhcmVkLXN5bV9nem9wZW4ucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
-Y29yZS9rYmQve2tiZF8yLjkuMC5iYiA9PiBrYmRfMi4xMC4wLmJifSAoODclKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmQvMDAwMS1QcmVzZXJ2ZS1vbmx5LW5lY2Vzc2Fy
-eS1tZXRhZGF0YS1kdXJpbmctaW5zdGFsbC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2tiZC9r
-YmQvMDAwMS1QcmVzZXJ2ZS1vbmx5LW5lY2Vzc2FyeS1tZXRhZGF0YS1kdXJpbmctaW5zdGFsbC5w
-YXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggODcyNzUwNDBjMS4uMDAwMDAwMDAw
-MAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9rYmQva2JkLzAwMDEtUHJlc2VydmUtb25seS1uZWNl
-c3NhcnktbWV0YWRhdGEtZHVyaW5nLWluc3RhbGwucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw1
-NCArMCwwIEBACi1Gcm9tIGQ5ZDFjMjI1OTJiNmNlMjFiZjQ1NWEyMmJjYTkwMDBiZjliM2ZlNjEg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBBbGV4ZXkgR2xhZGtvdiA8bGVnaW9uQGtl
-cm5lbC5vcmc+Ci1EYXRlOiBXZWQsIDEwIFNlcCAyMDI1IDEwOjQ1OjI1ICswMjAwCi1TdWJqZWN0
-OiBbUEFUQ0hdIFByZXNlcnZlIG9ubHkgbmVjZXNzYXJ5IG1ldGFkYXRhIGR1cmluZyBpbnN0YWxs
-Ci0KLSJjcCAtYSIgdHJpZXMgdG8gcHJlc2VydmUgYWxsIGF0dHJpYnV0ZXMgaWYgcG9zc2libGUu
-IFRoaXMgaW1wbGllcwotcHJlc2VydmluZyBtb2RlLCBhbnkgQUNMLCB4YXR0ciBwZXJtaXNzaW9u
-cywgYW5kIHNlY3VyaXR5IGNvbnRleHQuCi0KLUluIHNvbWUgY2FzZXMgKHN1Y2ggYXMgZmFrZXJv
-b3QpLCBpdCBpcyBub3QgcG9zc2libGUgdG8gcHJlc2VydmUgdGhhdAotYWxsIGF0dHJpYnV0ZXMg
-YXJlIHByZXNlcnZlZC4KLQotICBjcDogZmFpbGVkIHRvIHByZXNlcnZlIG93bmVyc2hpcCBmb3Ig
-L3RtcC8ucGtnbWsvcGtnL3Vzci9zaGFyZS9rYmQva2V5bWFwcy9pMzg2L3F3ZXJ0ei9zci1sYXRp
-bi5tYXAuZ3o6IE9wZXJhdGlvbiBub3Qgc3VwcG9ydGVkCi0KLVRvIGF2b2lkIHRoaXMsIHdlIHdp
-bGwgcmVxdWlyZSB0aGF0IG9ubHkgdGhlIG5lY2Vzc2FyeSBhdHRyaWJ1dGVzIGJlCi1wcmVzZXJ2
-ZWQuIEl0IGlzIGltcG9ydGFudCBmb3IgdXMgdG8gcHJlc2VydmUgdGhlIHNpbWxpbmtzLgotCi1T
-aWduZWQtb2ZmLWJ5OiBBbGV4ZXkgR2xhZGtvdiA8bGVnaW9uQGtlcm5lbC5vcmc+Ci1VcHN0cmVh
-bS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGh1Yi5jb20vbGVnaW9udXMva2JkL2NvbW1p
-dC9kYjgyZWI2Zjg2ZTZjMGI4YWM0MjYwZTg4Yjg4ZDY2ZTFjZDdjMDc3XQotU2lnbmVkLW9mZi1i
-eTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KLS0tLQotIGRhdGEvTWFr
-ZWZpbGUuYW0gfCAxMCArKysrKy0tLS0tCi0gMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygr
-KSwgNSBkZWxldGlvbnMoLSkKLQotZGlmZiAtLWdpdCBhL2RhdGEvTWFrZWZpbGUuYW0gYi9kYXRh
-L01ha2VmaWxlLmFtCi1pbmRleCBhNzMwMDYyLi40ZDJhZTNkIDEwMDY0NAotLS0tIGEvZGF0YS9N
-YWtlZmlsZS5hbQotKysrIGIvZGF0YS9NYWtlZmlsZS5hbQotQEAgLTQ0LDIxICs0NCwyMSBAQCBl
-bmRpZgotIAotIGluc3RhbGwtY29uc29sZWZvbnRzOiAkKFNSQ19GT05URElSKSAkKFNSQ19QQVJU
-SUFMRElSKQotIAlta2RpciAtcCAtbSA3NTUgLS0gJChERVNURElSKSQoZGF0YWRpcikvJChGT05U
-RElSKQotLQljcCAtYSAtLSAkKFNSQ19GT05URElSKS8qICQoREVTVERJUikkKGRhdGFkaXIpLyQo
-Rk9OVERJUikvCi0rCWNwIC1kUFIgLS0gJChTUkNfRk9OVERJUikvKiAkKERFU1RESVIpJChkYXRh
-ZGlyKS8kKEZPTlRESVIpLwotIAlta2RpciAtcCAtbSA3NTUgLS0gJChERVNURElSKSQoZGF0YWRp
-cikvJChGT05URElSKS8kKFBBUlRJQUxESVIpCi0tCWNwIC1hIC0tICQoU1JDX1BBUlRJQUxESVIp
-LyogJChERVNURElSKSQoZGF0YWRpcikvJChGT05URElSKS8kKFBBUlRJQUxESVIpLwotKwljcCAt
-ZFBSIC0tICQoU1JDX1BBUlRJQUxESVIpLyogJChERVNURElSKSQoZGF0YWRpcikvJChGT05URElS
-KS8kKFBBUlRJQUxESVIpLwotIAotIGluc3RhbGwtY29uc29sZXRyYW5zOgotIAlta2RpciAtcCAt
-bSA3NTUgLS0gJChERVNURElSKSQoZGF0YWRpcikvJChUUkFOU0RJUikKLS0JY3AgLWEgLS0gJChz
-cmNkaXIpLyQoVFJBTlNESVIpLyogJChERVNURElSKSQoZGF0YWRpcikvJChUUkFOU0RJUikvCi0r
-CWNwIC1kUFIgLS0gJChzcmNkaXIpLyQoVFJBTlNESVIpLyogJChERVNURElSKSQoZGF0YWRpcikv
-JChUUkFOU0RJUikvCi0gCi0gaW5zdGFsbC11bmltYXBzOgotIAlta2RpciAtcCAtbSA3NTUgLS0g
-JChERVNURElSKSQoZGF0YWRpcikvJChVTklNQVBESVIpCi0tCWNwIC1hIC0tICQoc3JjZGlyKS8k
-KFVOSU1BUERJUikvKiAkKERFU1RESVIpJChkYXRhZGlyKS8kKFVOSU1BUERJUikvCi0rCWNwIC1k
-UFIgLS0gJChzcmNkaXIpLyQoVU5JTUFQRElSKS8qICQoREVTVERJUikkKGRhdGFkaXIpLyQoVU5J
-TUFQRElSKS8KLSAKLSBpbnN0YWxsLWtleW1hcHM6ICQoU1JDX0tFWU1BUERJUikKLSAJbWtkaXIg
-LXAgLW0gNzU1IC0tICQoREVTVERJUikkKGRhdGFkaXIpLyQoS0VZTUFQRElSKQotLQljcCAtYXIg
-LS0gJChTUkNfS0VZTUFQRElSKS8qICQoREVTVERJUikkKGRhdGFkaXIpLyQoS0VZTUFQRElSKS8K
-LSsJY3AgLWRQUiAtLSAkKFNSQ19LRVlNQVBESVIpLyogJChERVNURElSKSQoZGF0YWRpcikvJChL
-RVlNQVBESVIpLwotIAljZCAiJChERVNURElSKSQoZGF0YWRpcikvJChLRVlNQVBESVIpIjsgXAot
-IAkgIGZvciBmIGluICQoSUdOT1JFX0tFWU1BUFMpOyBkbyAhIHRlc3QgLWUgIiQkZiIgfHwgcm0g
-LWYgLS0gIiQkZiI7IGRvbmUKLSAJcm0gLWYgJChERVNURElSKSQoZGF0YWRpcikvJChLRVlNQVBE
-SVIpL3BwYwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZC8wMDAxLWxpYmti
-ZGZpbGUtRml4LXByb2JsZW0td2l0aC11bmRlY2xhcmVkLXN5bV9nem9wZW4ucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtY29yZS9rYmQva2JkLzAwMDEtbGlia2JkZmlsZS1GaXgtcHJvYmxlbS13aXRoLXVu
-ZGVjbGFyZWQtc3ltX2d6b3Blbi5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXgg
-ODRkMjczYzE5YS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9rYmQva2JkLzAw
-MDEtbGlia2JkZmlsZS1GaXgtcHJvYmxlbS13aXRoLXVuZGVjbGFyZWQtc3ltX2d6b3Blbi5wYXRj
-aAorKysgL2Rldi9udWxsCkBAIC0xLDU3ICswLDAgQEAKLUZyb20gMmY5YTRlNTZjMmVmMjQ1ZmJl
-ODQwNjc3YWFkOWQ1OTMyZTE3ZjUwZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEFs
-ZXhleSBHbGFka292IDxsZWdpb25Aa2VybmVsLm9yZz4KLURhdGU6IE1vbiwgOCBEZWMgMjAyNSAx
-MToyODoyNCArMDEwMAotU3ViamVjdDogW1BBVENIXSBsaWJrYmRmaWxlOiBGaXggcHJvYmxlbSB3
-aXRoIHVuZGVjbGFyZWQgc3ltX2d6b3BlbgotTUlNRS1WZXJzaW9uOiAxLjAKLUNvbnRlbnQtVHlw
-ZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOAotQ29udGVudC1UcmFuc2Zlci1FbmNvZGluZzog
-OGJpdAotCi1BIGNvbXBpbGUgZXJyb3Igb2NjdXJzIG9uIGNlcnRhaW4gc3lzdGVtczoKLQota2Jk
-ZmlsZS16bGliLmM6IEluIGZ1bmN0aW9uICdkbG9wZW5fbm90ZSc6Ci1lbGYtbm90ZS5oOjI3OjMw
-OiBlcnJvcjogJ3N5bV9nem9wZW4nIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0
-aW9uKTsgZGlkIHlvdSBtZWFuICdzeW1fZ3pvcGVuNjQnPwotICAgMjcgfCAjZGVmaW5lIERMU1lN
-X0FSRyhzeW1ib2xfXykgJnN5bV8jI3N5bWJvbF9fLCBTVFJJTkdJRlkoc3ltYm9sX18pLAotCi1r
-YmRmaWxlLXpsaWIuYzogSW4gZnVuY3Rpb24gJ2tiZGZpbGVfZGVjb21wcmVzc29yX3psaWInOiBr
-YmRmaWxlLXpsaWIuYzo2MToxNTogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0
-aW9uICdzeW1fZ3pvcGVuJzsgZGlkIHlvdSBtZWFuICdzeW1fZ3pvcGVuNjQnPwotIFstV2ltcGxp
-Y2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQotICAgNjEgfCAgICAgICAgIGd6ZiA9IHN5bV9nem9w
-ZW4oZmlsZS0+cGF0aG5hbWUsICJyYiIpOwotCi1UaGUgcHJvYmxlbSBhcmlzZXMgYmVjYXVzZSBp
-ZiAtRF9GSUxFX09GRlNFVF9CSVRTPTY0IGlzIHNwZWNpZmllZCwgd2hpY2gKLWluIHpsaWIgdWx0
-aW1hdGVseSBtYWtlcyBnem9wZW4gYSBtYWNybyB0aGF0IGV4cGFuZHMgdG8gZ3pvcGVuNjQuCi1E
-RUNMQVJFX1NZTShnem9wZW4pIGZyb20gZWxmLW5vdGUuaCB0aGVuIGV4cGFuZHMgZ3pvcGVuIHRv
-IGd6b3BlbjY0LAotcmVzdWx0aW5nIGluIHN5bV9nem9wZW42NCBkZWNsYXJlZC4gVGhhdCdzIHdo
-eSBubyBzeW1fZ3pvcGVuIGV4aXN0cy4KLQotTGluazogaHR0cHM6Ly9naXRodWIuY29tL2xlZ2lv
-bnVzL2tiZC9wdWxsLzE1MAotU3VnZ2VzdGVkLWJ5OiBKYW4gxIxlcm3DoWsgPHNhaXJvbkBzYWly
-b24uY3o+Ci1TaWduZWQtb2ZmLWJ5OiBCZXJuZCBLdWhscyA8YmVybmRAa3VobHMubmV0PgotU2ln
-bmVkLW9mZi1ieTogQWxleGV5IEdsYWRrb3YgPGxlZ2lvbkBrZXJuZWwub3JnPgotCi1VcHN0cmVh
-bS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGh1Yi5jb20vbGVnaW9udXMva2JkL2NvbW1p
-dC8yZjlhNGU1NmMyZWYyNDVmYmU4NDA2NzdhYWQ5ZDU5MzJlMTdmNTBkXQotU2lnbmVkLW9mZi1i
-eTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgotLS0tCi0gc3JjL2xpYmti
-ZGZpbGUvZWxmLW5vdGUuaCB8IDUgKy0tLS0KLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
-KyksIDQgZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1naXQgYS9zcmMvbGlia2JkZmlsZS9lbGYtbm90
-ZS5oIGIvc3JjL2xpYmtiZGZpbGUvZWxmLW5vdGUuaAotaW5kZXggYTBmZDllMi4uZDNiOGQ1YyAx
-MDA2NDQKLS0tLSBhL3NyYy9saWJrYmRmaWxlL2VsZi1ub3RlLmgKLSsrKyBiL3NyYy9saWJrYmRm
-aWxlL2VsZi1ub3RlLmgKLUBAIC0yNiwxNCArMjYsMTEgQEAgaW50IGRsc3ltX21hbnkodm9pZCAq
-KmRscCwgY29uc3QgY2hhciAqZmlsZW5hbWUsIC4uLik7Ci0gICovCi0gI2RlZmluZSBETFNZTV9B
-Ukcoc3ltYm9sX18pICZzeW1fIyNzeW1ib2xfXywgU1RSSU5HSUZZKHN5bWJvbF9fKSwKLSAKLS0v
-KiBGb3Igc3ltYm9scyBiZWluZyBkeW5hbWljYWxseSBsb2FkZWQgKi8KLS0jZGVmaW5lIERFQ0xB
-UkVfRExTWU0oc3ltYm9sKSBzdGF0aWMgdHlwZW9mKHN5bWJvbCkgKnN5bV8jI3N5bWJvbAotLQot
-IC8qCi0gICogSGVscGVyIGRlZmluZXMsIHRvIGJlIGRvbmUgbG9jYWxseSBiZWZvcmUgaW5jbHVk
-aW5nIHRoaXMgaGVhZGVyIHRvIHN3aXRjaCBiZXR3ZWVuCi0gICogaW1wbGVtZW50YXRpb25zCi0g
-ICovCi0tI2RlZmluZSBERUNMQVJFX1NZTShzeW1fXykgREVDTEFSRV9ETFNZTShzeW1fXyk7Ci0r
-I2RlZmluZSBERUNMQVJFX1NZTShzeW1fXykgc3RhdGljIHR5cGVvZihzeW1fXykgKnN5bV8jI3N5
-bV9fOwotIAotIC8qCi0gICogT3JpZ2luYWxseSBmcm9tIHN5c3RlbWQgY29kZWJhc2UuCi0tLSAK
-LTIuNDkuMAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9rYmQva2JkXzIuOS4wLmJi
-IGIvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8yLjEwLjAuYmIKc2ltaWxhcml0eSBpbmRleCA4
-NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8yLjkuMC5iYgpyZW5hbWUg
-dG8gbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8yLjEwLjAuYmIKaW5kZXggNzliMDExZTUyOS4u
-NWE4NzdiOWMwNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8yLjkuMC5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9rYmQva2JkXzIuMTAuMC5iYgpAQCAtMjMsMTIgKzIz
-LDkgQEAgUlJFUExBQ0VTOiR7UE59ID0gImNvbnNvbGUtdG9vbHMiCiBSUFJPVklERVM6JHtQTn0g
-PSAiY29uc29sZS10b29scyIKIFJDT05GTElDVFM6JHtQTn0gPSAiY29uc29sZS10b29scyIKIAot
-U1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9L2xpbnV4L3V0aWxzLyR7QlBOfS8ke0JQfS50
-YXIueHogXAotICAgICAgICAgICBmaWxlOi8vMDAwMS1QcmVzZXJ2ZS1vbmx5LW5lY2Vzc2FyeS1t
-ZXRhZGF0YS1kdXJpbmctaW5zdGFsbC5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAxLWxp
-YmtiZGZpbGUtRml4LXByb2JsZW0td2l0aC11bmRlY2xhcmVkLXN5bV9nem9wZW4ucGF0Y2ggXAot
-ICAgICAgICAgICAiCitTUkNfVVJJID0gIiR7S0VSTkVMT1JHX01JUlJPUn0vbGludXgvdXRpbHMv
-JHtCUE59LyR7QlB9LnRhci54eiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImZiMzE5N2YxN2E5
-OWViNDRkMjJhM2ExYTcxZjc1NWY5NjIyZGQ5NjNlNjZhY2ZkZWExYTQ1MTIwOTUxYjAyZWQiCitT
-UkNfVVJJW3NoYTI1NnN1bV0gPSAiNmU1Y2E0ZjhkNzZlZTllM2E4ZGI3MDBiNjY3ZjEzZTEyYWFj
-OTkzMzgyOGE2NGUxYWFhZDkzZDI2YmU5YjQ3OSIKIAogIyAnZ3ppcCAtbicgaXMgc2V0IGR1ZSB0
-byBodHRwczovL2dpdGh1Yi5jb20vbGVnaW9udXMva2JkL2lzc3Vlcy8xMjQKIEVYVFJBX09FQ09O
-RiA9ICItLWRpc2FibGUtdGVzdHMgLS1lbmFibGUtY29tcHJlc3M9J2d6aXAgLW4nIgotLSAKMi40
-Ny4xCgo=
-
---===============5489243608763794601==
+--===============2942708719490653228==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/kbd/kbd-keymaps: FILELIST: added "/usr/share/keymaps/i386/qwerty/mac-no.map.gz"
-Changes to packages/x86-64-v3-poky-linux/kbd (sysroot):
-  /usr/share/keymaps/i386/qwerty/mac-no.map.gz was added
+Hello,
 
---===============5489243608763794601==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-kbd-upgrade-2.9.0-2.10.0.patch"
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *qemu-native,qemu,qemu-system-native* to *11.0.1,11.0.1,11.0.1* has Failed (devtool error).
 
-RnJvbSAzZGNkMmU0ZTQ4YmQzMWFlMTQzZWNjMDlmYzQxOGM2M2Q1NDAzNWQ2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAwNzozNDoyMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGti
-ZDogdXBncmFkZSAyLjkuMCAtPiAyLjEwLjAKCi0tLQogLi4ubHktbmVjZXNzYXJ5LW1ldGFkYXRh
-LWR1cmluZy1pbnN0YWxsLnBhdGNoIHwgNTQgLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi54LXByb2Js
-ZW0td2l0aC11bmRlY2xhcmVkLXN5bV9nem9wZW4ucGF0Y2ggfCA1NyAtLS0tLS0tLS0tLS0tLS0t
-LS0tCiAuLi4va2JkL3trYmRfMi45LjAuYmIgPT4ga2JkXzIuMTAuMC5iYn0gICAgICAgfCAgNyAr
-LS0KIDMgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxMTYgZGVsZXRpb25zKC0pCiBk
-ZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZC8wMDAxLVByZXNlcnZl
-LW9ubHktbmVjZXNzYXJ5LW1ldGFkYXRhLWR1cmluZy1pbnN0YWxsLnBhdGNoCiBkZWxldGUgbW9k
-ZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZC8wMDAxLWxpYmtiZGZpbGUtRml4LXBy
-b2JsZW0td2l0aC11bmRlY2xhcmVkLXN5bV9nem9wZW4ucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtY29yZS9rYmQve2tiZF8yLjkuMC5iYiA9PiBrYmRfMi4xMC4wLmJifSAoODclKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmQvMDAwMS1QcmVzZXJ2ZS1vbmx5LW5lY2Vz
-c2FyeS1tZXRhZGF0YS1kdXJpbmctaW5zdGFsbC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2ti
-ZC9rYmQvMDAwMS1QcmVzZXJ2ZS1vbmx5LW5lY2Vzc2FyeS1tZXRhZGF0YS1kdXJpbmctaW5zdGFs
-bC5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggODcyNzUwNDBjMS4uMDAwMDAw
-MDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9rYmQva2JkLzAwMDEtUHJlc2VydmUtb25seS1u
-ZWNlc3NhcnktbWV0YWRhdGEtZHVyaW5nLWluc3RhbGwucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAt
-MSw1NCArMCwwIEBACi1Gcm9tIGQ5ZDFjMjI1OTJiNmNlMjFiZjQ1NWEyMmJjYTkwMDBiZjliM2Zl
-NjEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBBbGV4ZXkgR2xhZGtvdiA8bGVnaW9u
-QGtlcm5lbC5vcmc+Ci1EYXRlOiBXZWQsIDEwIFNlcCAyMDI1IDEwOjQ1OjI1ICswMjAwCi1TdWJq
-ZWN0OiBbUEFUQ0hdIFByZXNlcnZlIG9ubHkgbmVjZXNzYXJ5IG1ldGFkYXRhIGR1cmluZyBpbnN0
-YWxsCi0KLSJjcCAtYSIgdHJpZXMgdG8gcHJlc2VydmUgYWxsIGF0dHJpYnV0ZXMgaWYgcG9zc2li
-bGUuIFRoaXMgaW1wbGllcwotcHJlc2VydmluZyBtb2RlLCBhbnkgQUNMLCB4YXR0ciBwZXJtaXNz
-aW9ucywgYW5kIHNlY3VyaXR5IGNvbnRleHQuCi0KLUluIHNvbWUgY2FzZXMgKHN1Y2ggYXMgZmFr
-ZXJvb3QpLCBpdCBpcyBub3QgcG9zc2libGUgdG8gcHJlc2VydmUgdGhhdAotYWxsIGF0dHJpYnV0
-ZXMgYXJlIHByZXNlcnZlZC4KLQotICBjcDogZmFpbGVkIHRvIHByZXNlcnZlIG93bmVyc2hpcCBm
-b3IgL3RtcC8ucGtnbWsvcGtnL3Vzci9zaGFyZS9rYmQva2V5bWFwcy9pMzg2L3F3ZXJ0ei9zci1s
-YXRpbi5tYXAuZ3o6IE9wZXJhdGlvbiBub3Qgc3VwcG9ydGVkCi0KLVRvIGF2b2lkIHRoaXMsIHdl
-IHdpbGwgcmVxdWlyZSB0aGF0IG9ubHkgdGhlIG5lY2Vzc2FyeSBhdHRyaWJ1dGVzIGJlCi1wcmVz
-ZXJ2ZWQuIEl0IGlzIGltcG9ydGFudCBmb3IgdXMgdG8gcHJlc2VydmUgdGhlIHNpbWxpbmtzLgot
-Ci1TaWduZWQtb2ZmLWJ5OiBBbGV4ZXkgR2xhZGtvdiA8bGVnaW9uQGtlcm5lbC5vcmc+Ci1VcHN0
-cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGh1Yi5jb20vbGVnaW9udXMva2JkL2Nv
-bW1pdC9kYjgyZWI2Zjg2ZTZjMGI4YWM0MjYwZTg4Yjg4ZDY2ZTFjZDdjMDc3XQotU2lnbmVkLW9m
-Zi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KLS0tLQotIGRhdGEv
-TWFrZWZpbGUuYW0gfCAxMCArKysrKy0tLS0tCi0gMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9u
-cygrKSwgNSBkZWxldGlvbnMoLSkKLQotZGlmZiAtLWdpdCBhL2RhdGEvTWFrZWZpbGUuYW0gYi9k
-YXRhL01ha2VmaWxlLmFtCi1pbmRleCBhNzMwMDYyLi40ZDJhZTNkIDEwMDY0NAotLS0tIGEvZGF0
-YS9NYWtlZmlsZS5hbQotKysrIGIvZGF0YS9NYWtlZmlsZS5hbQotQEAgLTQ0LDIxICs0NCwyMSBA
-QCBlbmRpZgotIAotIGluc3RhbGwtY29uc29sZWZvbnRzOiAkKFNSQ19GT05URElSKSAkKFNSQ19Q
-QVJUSUFMRElSKQotIAlta2RpciAtcCAtbSA3NTUgLS0gJChERVNURElSKSQoZGF0YWRpcikvJChG
-T05URElSKQotLQljcCAtYSAtLSAkKFNSQ19GT05URElSKS8qICQoREVTVERJUikkKGRhdGFkaXIp
-LyQoRk9OVERJUikvCi0rCWNwIC1kUFIgLS0gJChTUkNfRk9OVERJUikvKiAkKERFU1RESVIpJChk
-YXRhZGlyKS8kKEZPTlRESVIpLwotIAlta2RpciAtcCAtbSA3NTUgLS0gJChERVNURElSKSQoZGF0
-YWRpcikvJChGT05URElSKS8kKFBBUlRJQUxESVIpCi0tCWNwIC1hIC0tICQoU1JDX1BBUlRJQUxE
-SVIpLyogJChERVNURElSKSQoZGF0YWRpcikvJChGT05URElSKS8kKFBBUlRJQUxESVIpLwotKwlj
-cCAtZFBSIC0tICQoU1JDX1BBUlRJQUxESVIpLyogJChERVNURElSKSQoZGF0YWRpcikvJChGT05U
-RElSKS8kKFBBUlRJQUxESVIpLwotIAotIGluc3RhbGwtY29uc29sZXRyYW5zOgotIAlta2RpciAt
-cCAtbSA3NTUgLS0gJChERVNURElSKSQoZGF0YWRpcikvJChUUkFOU0RJUikKLS0JY3AgLWEgLS0g
-JChzcmNkaXIpLyQoVFJBTlNESVIpLyogJChERVNURElSKSQoZGF0YWRpcikvJChUUkFOU0RJUikv
-Ci0rCWNwIC1kUFIgLS0gJChzcmNkaXIpLyQoVFJBTlNESVIpLyogJChERVNURElSKSQoZGF0YWRp
-cikvJChUUkFOU0RJUikvCi0gCi0gaW5zdGFsbC11bmltYXBzOgotIAlta2RpciAtcCAtbSA3NTUg
-LS0gJChERVNURElSKSQoZGF0YWRpcikvJChVTklNQVBESVIpCi0tCWNwIC1hIC0tICQoc3JjZGly
-KS8kKFVOSU1BUERJUikvKiAkKERFU1RESVIpJChkYXRhZGlyKS8kKFVOSU1BUERJUikvCi0rCWNw
-IC1kUFIgLS0gJChzcmNkaXIpLyQoVU5JTUFQRElSKS8qICQoREVTVERJUikkKGRhdGFkaXIpLyQo
-VU5JTUFQRElSKS8KLSAKLSBpbnN0YWxsLWtleW1hcHM6ICQoU1JDX0tFWU1BUERJUikKLSAJbWtk
-aXIgLXAgLW0gNzU1IC0tICQoREVTVERJUikkKGRhdGFkaXIpLyQoS0VZTUFQRElSKQotLQljcCAt
-YXIgLS0gJChTUkNfS0VZTUFQRElSKS8qICQoREVTVERJUikkKGRhdGFkaXIpLyQoS0VZTUFQRElS
-KS8KLSsJY3AgLWRQUiAtLSAkKFNSQ19LRVlNQVBESVIpLyogJChERVNURElSKSQoZGF0YWRpcikv
-JChLRVlNQVBESVIpLwotIAljZCAiJChERVNURElSKSQoZGF0YWRpcikvJChLRVlNQVBESVIpIjsg
-XAotIAkgIGZvciBmIGluICQoSUdOT1JFX0tFWU1BUFMpOyBkbyAhIHRlc3QgLWUgIiQkZiIgfHwg
-cm0gLWYgLS0gIiQkZiI7IGRvbmUKLSAJcm0gLWYgJChERVNURElSKSQoZGF0YWRpcikvJChLRVlN
-QVBESVIpL3BwYwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZC8wMDAxLWxp
-YmtiZGZpbGUtRml4LXByb2JsZW0td2l0aC11bmRlY2xhcmVkLXN5bV9nem9wZW4ucGF0Y2ggYi9t
-ZXRhL3JlY2lwZXMtY29yZS9rYmQva2JkLzAwMDEtbGlia2JkZmlsZS1GaXgtcHJvYmxlbS13aXRo
-LXVuZGVjbGFyZWQtc3ltX2d6b3Blbi5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5k
-ZXggODRkMjczYzE5YS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9rYmQva2Jk
-LzAwMDEtbGlia2JkZmlsZS1GaXgtcHJvYmxlbS13aXRoLXVuZGVjbGFyZWQtc3ltX2d6b3Blbi5w
-YXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDU3ICswLDAgQEAKLUZyb20gMmY5YTRlNTZjMmVmMjQ1
-ZmJlODQwNjc3YWFkOWQ1OTMyZTE3ZjUwZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206
-IEFsZXhleSBHbGFka292IDxsZWdpb25Aa2VybmVsLm9yZz4KLURhdGU6IE1vbiwgOCBEZWMgMjAy
-NSAxMToyODoyNCArMDEwMAotU3ViamVjdDogW1BBVENIXSBsaWJrYmRmaWxlOiBGaXggcHJvYmxl
-bSB3aXRoIHVuZGVjbGFyZWQgc3ltX2d6b3BlbgotTUlNRS1WZXJzaW9uOiAxLjAKLUNvbnRlbnQt
-VHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOAotQ29udGVudC1UcmFuc2Zlci1FbmNvZGlu
-ZzogOGJpdAotCi1BIGNvbXBpbGUgZXJyb3Igb2NjdXJzIG9uIGNlcnRhaW4gc3lzdGVtczoKLQot
-a2JkZmlsZS16bGliLmM6IEluIGZ1bmN0aW9uICdkbG9wZW5fbm90ZSc6Ci1lbGYtbm90ZS5oOjI3
-OjMwOiBlcnJvcjogJ3N5bV9nem9wZW4nIHVuZGVjbGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1
-bmN0aW9uKTsgZGlkIHlvdSBtZWFuICdzeW1fZ3pvcGVuNjQnPwotICAgMjcgfCAjZGVmaW5lIERM
-U1lNX0FSRyhzeW1ib2xfXykgJnN5bV8jI3N5bWJvbF9fLCBTVFJJTkdJRlkoc3ltYm9sX18pLAot
-Ci1rYmRmaWxlLXpsaWIuYzogSW4gZnVuY3Rpb24gJ2tiZGZpbGVfZGVjb21wcmVzc29yX3psaWIn
-OiBrYmRmaWxlLXpsaWIuYzo2MToxNTogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1
-bmN0aW9uICdzeW1fZ3pvcGVuJzsgZGlkIHlvdSBtZWFuICdzeW1fZ3pvcGVuNjQnPwotIFstV2lt
-cGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQotICAgNjEgfCAgICAgICAgIGd6ZiA9IHN5bV9n
-em9wZW4oZmlsZS0+cGF0aG5hbWUsICJyYiIpOwotCi1UaGUgcHJvYmxlbSBhcmlzZXMgYmVjYXVz
-ZSBpZiAtRF9GSUxFX09GRlNFVF9CSVRTPTY0IGlzIHNwZWNpZmllZCwgd2hpY2gKLWluIHpsaWIg
-dWx0aW1hdGVseSBtYWtlcyBnem9wZW4gYSBtYWNybyB0aGF0IGV4cGFuZHMgdG8gZ3pvcGVuNjQu
-Ci1ERUNMQVJFX1NZTShnem9wZW4pIGZyb20gZWxmLW5vdGUuaCB0aGVuIGV4cGFuZHMgZ3pvcGVu
-IHRvIGd6b3BlbjY0LAotcmVzdWx0aW5nIGluIHN5bV9nem9wZW42NCBkZWNsYXJlZC4gVGhhdCdz
-IHdoeSBubyBzeW1fZ3pvcGVuIGV4aXN0cy4KLQotTGluazogaHR0cHM6Ly9naXRodWIuY29tL2xl
-Z2lvbnVzL2tiZC9wdWxsLzE1MAotU3VnZ2VzdGVkLWJ5OiBKYW4gxIxlcm3DoWsgPHNhaXJvbkBz
-YWlyb24uY3o+Ci1TaWduZWQtb2ZmLWJ5OiBCZXJuZCBLdWhscyA8YmVybmRAa3VobHMubmV0Pgot
-U2lnbmVkLW9mZi1ieTogQWxleGV5IEdsYWRrb3YgPGxlZ2lvbkBrZXJuZWwub3JnPgotCi1VcHN0
-cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGh1Yi5jb20vbGVnaW9udXMva2JkL2Nv
-bW1pdC8yZjlhNGU1NmMyZWYyNDVmYmU4NDA2NzdhYWQ5ZDU5MzJlMTdmNTBkXQotU2lnbmVkLW9m
-Zi1ieTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgotLS0tCi0gc3JjL2xp
-YmtiZGZpbGUvZWxmLW5vdGUuaCB8IDUgKy0tLS0KLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDQgZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1naXQgYS9zcmMvbGlia2JkZmlsZS9lbGYt
-bm90ZS5oIGIvc3JjL2xpYmtiZGZpbGUvZWxmLW5vdGUuaAotaW5kZXggYTBmZDllMi4uZDNiOGQ1
-YyAxMDA2NDQKLS0tLSBhL3NyYy9saWJrYmRmaWxlL2VsZi1ub3RlLmgKLSsrKyBiL3NyYy9saWJr
-YmRmaWxlL2VsZi1ub3RlLmgKLUBAIC0yNiwxNCArMjYsMTEgQEAgaW50IGRsc3ltX21hbnkodm9p
-ZCAqKmRscCwgY29uc3QgY2hhciAqZmlsZW5hbWUsIC4uLik7Ci0gICovCi0gI2RlZmluZSBETFNZ
-TV9BUkcoc3ltYm9sX18pICZzeW1fIyNzeW1ib2xfXywgU1RSSU5HSUZZKHN5bWJvbF9fKSwKLSAK
-LS0vKiBGb3Igc3ltYm9scyBiZWluZyBkeW5hbWljYWxseSBsb2FkZWQgKi8KLS0jZGVmaW5lIERF
-Q0xBUkVfRExTWU0oc3ltYm9sKSBzdGF0aWMgdHlwZW9mKHN5bWJvbCkgKnN5bV8jI3N5bWJvbAot
-LQotIC8qCi0gICogSGVscGVyIGRlZmluZXMsIHRvIGJlIGRvbmUgbG9jYWxseSBiZWZvcmUgaW5j
-bHVkaW5nIHRoaXMgaGVhZGVyIHRvIHN3aXRjaCBiZXR3ZWVuCi0gICogaW1wbGVtZW50YXRpb25z
-Ci0gICovCi0tI2RlZmluZSBERUNMQVJFX1NZTShzeW1fXykgREVDTEFSRV9ETFNZTShzeW1fXyk7
-Ci0rI2RlZmluZSBERUNMQVJFX1NZTShzeW1fXykgc3RhdGljIHR5cGVvZihzeW1fXykgKnN5bV8j
-I3N5bV9fOwotIAotIC8qCi0gICogT3JpZ2luYWxseSBmcm9tIHN5c3RlbWQgY29kZWJhc2UuCi0t
-LSAKLTIuNDkuMAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9rYmQva2JkXzIuOS4w
-LmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8yLjEwLjAuYmIKc2ltaWxhcml0eSBpbmRl
-eCA4NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8yLjkuMC5iYgpyZW5h
-bWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8yLjEwLjAuYmIKaW5kZXggNzliMDExZTUy
-OS4uNWE4NzdiOWMwNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8yLjku
-MC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9rYmQva2JkXzIuMTAuMC5iYgpAQCAtMjMsMTIg
-KzIzLDkgQEAgUlJFUExBQ0VTOiR7UE59ID0gImNvbnNvbGUtdG9vbHMiCiBSUFJPVklERVM6JHtQ
-Tn0gPSAiY29uc29sZS10b29scyIKIFJDT05GTElDVFM6JHtQTn0gPSAiY29uc29sZS10b29scyIK
-IAotU1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9L2xpbnV4L3V0aWxzLyR7QlBOfS8ke0JQ
-fS50YXIueHogXAotICAgICAgICAgICBmaWxlOi8vMDAwMS1QcmVzZXJ2ZS1vbmx5LW5lY2Vzc2Fy
-eS1tZXRhZGF0YS1kdXJpbmctaW5zdGFsbC5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAx
-LWxpYmtiZGZpbGUtRml4LXByb2JsZW0td2l0aC11bmRlY2xhcmVkLXN5bV9nem9wZW4ucGF0Y2gg
-XAotICAgICAgICAgICAiCitTUkNfVVJJID0gIiR7S0VSTkVMT1JHX01JUlJPUn0vbGludXgvdXRp
-bHMvJHtCUE59LyR7QlB9LnRhci54eiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImZiMzE5N2Yx
-N2E5OWViNDRkMjJhM2ExYTcxZjc1NWY5NjIyZGQ5NjNlNjZhY2ZkZWExYTQ1MTIwOTUxYjAyZWQi
-CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNmU1Y2E0ZjhkNzZlZTllM2E4ZGI3MDBiNjY3ZjEzZTEy
-YWFjOTkzMzgyOGE2NGUxYWFhZDkzZDI2YmU5YjQ3OSIKIAogIyAnZ3ppcCAtbicgaXMgc2V0IGR1
-ZSB0byBodHRwczovL2dpdGh1Yi5jb20vbGVnaW9udXMva2JkL2lzc3Vlcy8xMjQKIEVYVFJBX09F
-Q09ORiA9ICItLWRpc2FibGUtdGVzdHMgLS1lbmFibGUtY29tcHJlc3M9J2d6aXAgLW4nIgotLSAK
-Mi40Ny4xCgo=
+Detailed error information:
 
---===============5489243608763794601==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Running 'devtool upgrade' for recipe qemu-native failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1977 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
 
-packages/x86-64-v3-poky-linux/kbd/kbd-consolefonts: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd/kbd-consolefonts: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-packages/x86-64-v3-poky-linux/kbd/kbd-consoletrans: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd/kbd-consoletrans: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-packages/x86-64-v3-poky-linux/kbd/kbd-dbg: PKGSIZE changed from 1641488 to 1673280 (+2%)
-packages/x86-64-v3-poky-linux/kbd/kbd-dbg: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd/kbd-dbg: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-packages/x86-64-v3-poky-linux/kbd/kbd-dev: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd/kbd-dev: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-packages/x86-64-v3-poky-linux/kbd/kbd-doc: PKGSIZE changed from 72261 to 72666 (+1%)
-packages/x86-64-v3-poky-linux/kbd/kbd-doc: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd/kbd-doc: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-packages/x86-64-v3-poky-linux/kbd/kbd-keymaps-pine: PKGSIZE changed from 1987 to 1997 (+1%)
-packages/x86-64-v3-poky-linux/kbd/kbd-keymaps-pine: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd/kbd-keymaps-pine: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-packages/x86-64-v3-poky-linux/kbd/kbd-keymaps: FILELIST: added "/usr/share/keymaps/i386/qwerty/mac-no.map.gz"
-packages/x86-64-v3-poky-linux/kbd/kbd-keymaps: PKGSIZE changed from 574008 to 576550 (+0%)
-packages/x86-64-v3-poky-linux/kbd/kbd-keymaps: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd/kbd-keymaps: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-packages/x86-64-v3-poky-linux/kbd/kbd-locale: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd/kbd-locale: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-packages/x86-64-v3-poky-linux/kbd/kbd-src: FILELIST: directory renamed /usr/src/debug/kbd/2.9.0/src/include/kbd/keymap -> /usr/src/debug/kbd/2.10.0/src/include/kbd/keymap, directory renamed /usr/src/debug/kbd/2.9.0/src/include/kbd -> /usr/src/debug/kbd/2.10.0/src/include/kbd, directory renamed /usr/src/debug/kbd/2.9.0/src/libkfont -> /usr/src/debug/kbd/2.10.0/src/libkfont, directory renamed /usr/src/debug/kbd/2.9.0/src/libkbdfile -> /usr/src/debug/kbd/2.10.0/src/libkbdfile, directory renamed /usr/src/debug/kbd/2.9.0/src/libkeymap -> /usr/src/debug/kbd/2.10.0/src/libkeymap, directory renamed /usr/src/debug/kbd/2.9.0/src -> /usr/src/debug/kbd/2.10.0/src, directory renamed /usr/src/debug/kbd/2.9.0/src/vlock -> /usr/src/debug/kbd/2.10.0/src/vlock, directory renamed /usr/src/debug/kbd/2.9.0/src/libcommon -> /usr/src/debug/kbd/2.10.0/src/libcommon
-packages/x86-64-v3-poky-linux/kbd/kbd-src: PKGSIZE changed from 595950 to 608229 (+2%)
-packages/x86-64-v3-poky-linux/kbd/kbd-src: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd/kbd-src: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-packages/x86-64-v3-poky-linux/kbd/kbd-staticdev: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd/kbd-staticdev: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-packages/x86-64-v3-poky-linux/kbd/kbd-unimaps: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd/kbd-unimaps: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-packages/x86-64-v3-poky-linux/kbd/kbd: PKGSIZE changed from 908368 to 924752 (+2%)
-packages/x86-64-v3-poky-linux/kbd/kbd: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd/kbd: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-packages/x86-64-v3-poky-linux/kbd: SRC_URI changed from "https://cdn.kernel.org/pub/linux/utils/kbd/kbd-2.9.0.tar.xz file://0001-Preserve-only-necessary-metadata-during-install.patch file://0001-libkbdfile-Fix-problem-with-undeclared-sym_gzopen.patch" to "https://cdn.kernel.org/pub/linux/utils/kbd/kbd-2.10.0.tar.xz"
-packages/x86-64-v3-poky-linux/kbd: PV changed from "2.9.0" to "2.10.0"
-packages/x86-64-v3-poky-linux/kbd: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
-Changes to packages/x86-64-v3-poky-linux/kbd (sysroot):
-  /usr/share/keymaps/i386/qwerty/mac-no.map.gz was added
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-275f971b8bccfa4b242d4fa4bf5c219cb1e5ab11"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:275f971b8bccfa4b242d4fa4bf5c219cb1e5ab11"
+meta-yocto-bsp       
+meta-poky            = "master:d13ca2a2e0f478046d920b8fc7dd3098952b5ad8"
+workspace            = "<unknown>:<unknown>"
 
---===============5489243608763794601==--
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 9 Local 9 Mirrors 0 Missed 0 Current 18 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1976 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-275f971b8bccfa4b242d4fa4bf5c219cb1e5ab11"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:275f971b8bccfa4b242d4fa4bf5c219cb1e5ab11"
+meta-yocto-bsp       
+meta-poky            = "master:d13ca2a2e0f478046d920b8fc7dd3098952b5ad8"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   2% |                                    | ETA:  0:00:11
+Adding changed files:   4% |#                                   | ETA:  0:00:08
+Adding changed files:   7% |##                                  | ETA:  0:00:07
+Adding changed files:   9% |###                                 | ETA:  0:00:06
+Adding changed files:  12% |####                                | ETA:  0:00:06
+Adding changed files:  14% |#####                               | ETA:  0:00:05
+Adding changed files:  16% |######                              | ETA:  0:00:05
+Adding changed files:  19% |######                              | ETA:  0:00:05
+Adding changed files:  21% |#######                             | ETA:  0:00:04
+Adding changed files:  24% |########                            | ETA:  0:00:04
+Adding changed files:  26% |#########                           | ETA:  0:00:04
+Adding changed files:  29% |##########                          | ETA:  0:00:04
+Adding changed files:  31% |###########                         | ETA:  0:00:04
+Adding changed files:  33% |############                        | ETA:  0:00:03
+Adding changed files:  36% |#############                       | ETA:  0:00:03
+Adding changed files:  38% |#############                       | ETA:  0:00:03
+Adding changed files:  41% |##############                      | ETA:  0:00:03
+Adding changed files:  43% |###############                     | ETA:  0:00:03
+Adding changed files:  45% |################                    | ETA:  0:00:03
+Adding changed files:  48% |#################                   | ETA:  0:00:03
+Adding changed files:  50% |##################                  | ETA:  0:00:02
+Adding changed files:  53% |###################                 | ETA:  0:00:02
+Adding changed files:  55% |####################                | ETA:  0:00:02
+Adding changed files:  58% |####################                | ETA:  0:00:02
+Adding changed files:  60% |#####################               | ETA:  0:00:02
+Adding changed files:  62% |######################              | ETA:  0:00:02
+Adding changed files:  65% |#######################             | ETA:  0:00:01
+Adding changed files:  67% |########################            | ETA:  0:00:01
+Adding changed files:  70% |#########################           | ETA:  0:00:01
+Adding changed files:  72% |##########################          | ETA:  0:00:01
+Adding changed files:  74% |##########################          | ETA:  0:00:01
+Adding changed files:  77% |###########################         | ETA:  0:00:01
+Adding changed files:  79% |############################        | ETA:  0:00:01
+Adding changed files:  82% |#############################       | ETA:  0:00:01
+Adding changed files:  84% |##############################      | ETA:  0:00:00
+Adding changed files:  87% |###############################     | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files:  91% |#################################   | ETA:  0:00:00
+Adding changed files:  94% |#################################   | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:06
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://download.qemu.org/qemu-11.0.1.tar.xz...
+INFO: Rebasing devtool onto 1f32bfeb1804420888ae2882267b13c1f6e513ff
+WARNING: Command 'git rebase 1f32bfeb1804420888ae2882267b13c1f6e513ff' failed:
+Auto-merging target/riscv/kvm/kvm-cpu.c
+CONFLICT (content): Merge conflict in target/riscv/kvm/kvm-cpu.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/qemu-native
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/qemu-native/qemu-native_11.0.1.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============2942708719490653228==--
 
