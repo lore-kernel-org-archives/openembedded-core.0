@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54344CD6E57
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7F7CCD6E6A
 	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 15:35:39 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1553.1780328129208539660
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1566.1780328135645243064
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jun 2026 08:35:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WFO2cLK3;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ihOKUTPb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019e83d38473-2c67a7e1-eb18-4cef-bcc1-4e2a3c07749b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Fz1fQUdX;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=OUgdXeKz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019e83d3836a-1edc03fa-ed71-4276-a051-3726a39678d4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1780328138;
+	t=1780328137;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=QN9lHW4TR/KFR7KImauJPyVr8U/1rKdn0LRH7ysys+c=;
-	b=WFO2cLK3ha9P+bxMX0WeCXWDwFiIMX/PvPX15ddj4JZkOn9NQcuSzEYqfs0vulbO
-	9+ivY7cYS04EUFLIsdvbWFTSvyZpNyj78iQgKjBa49qNCaR0ZU4Xn+4fA3kphaSSNbB
-	vy4j3YenkpmmdDFayiNjmrJvlHz9R0+6/ul9P4QI=
+	bh=jbTx+22ZXhCqURRvvd84AdBeY95qHkRSPGvmaWHPtV0=;
+	b=Fz1fQUdXZxLJJ8mUyKdiaTGns0UobO+hPe/pqXEtLozJaTPzRIZy/qEGVkPqXoeQ
+	ercox9QiAj0z+1O3PnoCmcv0auSm5FpwR41QJMYMgrhUc4tf0vSu0B2ONSjq4Z3Mi1V
+	73Bi4iTL+RDdteGIb85YWHAg/AsCO/WeeVnBlDP0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328138;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328137;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=QN9lHW4TR/KFR7KImauJPyVr8U/1rKdn0LRH7ysys+c=;
-	b=ihOKUTPb0RDMegjX/HJr6meCVxpo126vV4a5nR+f4GaVtqb0TNXaj/5HxJ01n2Xe
-	RwIhGpu1opjL7T2cNAc1Gw3b++OOkzt/6X+Iwd9W+BThiWx7CXtlWE8+tSXuK8jXy9x
-	d3PpOH7n4h5pOWsySQWjZtzTZNVQ4ShpTomRhWIo=
-Content-Type: multipart/mixed; boundary="===============8277798383739567246=="
+	bh=jbTx+22ZXhCqURRvvd84AdBeY95qHkRSPGvmaWHPtV0=;
+	b=OUgdXeKzU7vWpo0CdQnPBWgAwZ3UBkm9RIseLapRdJlNkIV+G7ClQJNWW+iOt6FC
+	MmP2wXuEgG4FMzEK3Y5t3K6Vxg0aKicoVQPjuVJt9WBNuVoXPIPOsJ2upIiFtzR9THt
+	BRaKbZtSFauewV4ScpRklAsHNWWbyykE7Ymp8+Ng=
+Content-Type: multipart/mixed; boundary="===============4956378942407095668=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.155.1 SUCCEEDED
-Message-ID: <0101019e83d38473-2c67a7e1-eb18-4cef-bcc1-4e2a3c07749b-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-hatchling: upgrading to 1.30.0 SUCCEEDED
+Message-ID: <0101019e83d3836a-1edc03fa-ed71-4276-a051-3726a39678d4-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jun 2026 15:35:37 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.01-54.240.27.45
+X-SES-Outgoing: 2026.06.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 15:35:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237881
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237877
 
---===============8277798383739567246==
+--===============4956378942407095668==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.155.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-hatchling* to *1.30.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.152.4-6.155.1.patch
+    - apply the patch: git am 0001-python3-hatchling-upgrade-1.29.0-1.30.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,109 +72,107 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 203d8df30166447007b6f47576051b45f7fe7add Mon Sep 17 00:00:00 2001
+From a5f95def139083537fc47a146cda971b3c5fae40 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jun 2026 08:30:12 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.152.4 -> 6.155.1
+Date: Mon, 1 Jun 2026 08:27:08 +0000
+Subject: [PATCH] python3-hatchling: upgrade 1.29.0 -> 1.30.0
 
 ---
- ...hon3-hypothesis_6.152.4.bb => python3-hypothesis_6.155.1.bb} | 2 +-
+ ...{python3-hatchling_1.29.0.bb => python3-hatchling_1.30.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.152.4.bb => python3-hypothesis_6.155.1.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-hatchling_1.29.0.bb => python3-hatchling_1.30.0.bb} (82%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.152.4.bb b/meta/recipes-devtools/python/python3-hypothesis_6.155.1.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.152.4.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.155.1.bb
-index f08e0bad79..2728e6ba7c 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.152.4.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.155.1.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-devtools/python/python3-hatchling_1.29.0.bb b/meta/recipes-devtools/python/python3-hatchling_1.30.0.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-hatchling_1.29.0.bb
+rename to meta/recipes-devtools/python/python3-hatchling_1.30.0.bb
+index 080a954f7f..e6490c0fde 100644
+--- a/meta/recipes-devtools/python/python3-hatchling_1.29.0.bb
++++ b/meta/recipes-devtools/python/python3-hatchling_1.30.0.bb
+@@ -7,6 +7,6 @@ inherit pypi python_hatchling
  
--SRC_URI[sha256sum] = "31c8f9ce619716f543e2710b489b1633c833586641d9e6c94cee03f109a5afc4"
-+SRC_URI[sha256sum] = "07c102031612b98d7c1be15ca3608c43e1234d9d07e3a190a53fa01536700196"
+ DEPENDS += "python3-pluggy-native python3-pathspec-native python3-packaging-native python3-editables-native python3-trove-classifiers-native"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+-SRC_URI[sha256sum] = "793c31816d952cee405b83488ce001c719f325d9cda69f1fc4cd750527640ea6"
++SRC_URI[sha256sum] = "0a3573460dfdef605f061e000e94e910c64c5230093c391bf4c7f5cdcad0d519"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.47.1
 
 
---===============8277798383739567246==
+--===============4956378942407095668==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.152.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.155.1.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.152.4.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.155.1.dist-info, added "/usr/lib/python3.14/site-packages/hypothesis/internal/statistics.py /usr/lib/python3.14/site-packages/hypothesis/internal/__pycache__/statistics.cpython-314.pyc"
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.14/site-packages/hypothesis-6.152.4.dist-info moved to /usr/lib/python3.14/site-packages/hypothesis-6.155.1.dist-info
-  /usr/lib/python3.14/site-packages/hypothesis/internal/__pycache__/statistics.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/hypothesis/internal/statistics.py was added
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hatchling-1.29.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/hatchling-1.30.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/hatchling-1.29.0.dist-info -> /usr/lib/python3.14/site-packages/hatchling-1.30.0.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-hatchling (sysroot):
+  /usr/lib/python3.14/site-packages/hatchling-1.29.0.dist-info moved to /usr/lib/python3.14/site-packages/hatchling-1.30.0.dist-info
+Changes to packages/x86_64-linux/python3-hatchling-native (sysroot):
+  /usr/lib/python3.14/site-packages/hatchling-1.29.0.dist-info moved to /usr/lib/python3.14/site-packages/hatchling-1.30.0.dist-info
 
---===============8277798383739567246==
+--===============4956378942407095668==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.152.4-6.155.1.patch"
+ filename="0001-python3-hatchling-upgrade-1.29.0-1.30.0.patch"
 
-RnJvbSAyMDNkOGRmMzAxNjY0NDcwMDdiNmY0NzU3NjA1MWI0NWY3ZmU3YWRkIE1vbiBTZXAgMTcg
+RnJvbSBhNWY5NWRlZjEzOTA4MzUzN2ZjNDdhMTQ2Y2RhOTcxYjNjNWZhZTQwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAwODozMDoxMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtaHlwb3RoZXNpczogdXBncmFkZSA2LjE1Mi40IC0+IDYuMTU1LjEKCi0tLQogLi4uaG9u
-My1oeXBvdGhlc2lzXzYuMTUyLjQuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTU1LjEuYmJ9
-IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1oeXBvdGhlc2lzXzYu
-MTUyLjQuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTU1LjEuYmJ9ICg5MSUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4x
-NTIuNC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lz
-XzYuMTU1LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNTIuNC5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNTUuMS5i
-YgppbmRleCBmMDhlMGJhZDc5Li4yNzI4ZTZiYTdjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE1Mi40LmJiCisrKyBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTU1LjEuYmIKQEAg
-LTEzLDcgKzEzLDcgQEAgU1JDX1VSSSArPSAiIFwKICAgICBmaWxlOi8vdGVzdF9ybGUucHkgXAog
-ICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjMxYzhmOWNlNjE5NzE2ZjU0M2UyNzEwYjQ4
-OWIxNjMzYzgzMzU4NjY0MWQ5ZTZjOTRjZWUwM2YxMDlhNWFmYzQiCitTUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiMDdjMTAyMDMxNjEyYjk4ZDdjMWJlMTVjYTM2MDhjNDNlMTIzNGQ5ZDA3ZTNhMTkwYTUz
-ZmEwMTUzNjcwMDE5NiIKIAogUkRFUEVORFM6JHtQTn0gKz0gIiBcCiAgICAgcHl0aG9uMy1hdHRy
-cyBcCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAwODoyNzowOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtaGF0Y2hsaW5nOiB1cGdyYWRlIDEuMjkuMCAtPiAxLjMwLjAKCi0tLQogLi4ue3B5dGhv
+bjMtaGF0Y2hsaW5nXzEuMjkuMC5iYiA9PiBweXRob24zLWhhdGNobGluZ18xLjMwLjAuYmJ9IHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1oYXRjaGxpbmdfMS4yOS4w
+LmJiID0+IHB5dGhvbjMtaGF0Y2hsaW5nXzEuMzAuMC5iYn0gKDgyJSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2hsaW5nXzEuMjkuMC5iYiBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oYXRjaGxpbmdfMS4zMC4wLmJi
+CnNpbWlsYXJpdHkgaW5kZXggODIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1oYXRjaGxpbmdfMS4yOS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2hsaW5nXzEuMzAuMC5iYgppbmRleCAwODBhOTU0
+ZjdmLi5lNjQ5MGMwZmRlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtaGF0Y2hsaW5nXzEuMjkuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtaGF0Y2hsaW5nXzEuMzAuMC5iYgpAQCAtNyw2ICs3LDYgQEAgaW5oZXJp
+dCBweXBpIHB5dGhvbl9oYXRjaGxpbmcKIAogREVQRU5EUyArPSAicHl0aG9uMy1wbHVnZ3ktbmF0
+aXZlIHB5dGhvbjMtcGF0aHNwZWMtbmF0aXZlIHB5dGhvbjMtcGFja2FnaW5nLW5hdGl2ZSBweXRo
+b24zLWVkaXRhYmxlcy1uYXRpdmUgcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVycy1uYXRpdmUiCiAK
+LVNSQ19VUklbc2hhMjU2c3VtXSA9ICI3OTNjMzE4MTZkOTUyY2VlNDA1YjgzNDg4Y2UwMDFjNzE5
+ZjMyNWQ5Y2RhNjlmMWZjNGNkNzUwNTI3NjQwZWE2IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjBh
+MzU3MzQ2MGRmZGVmNjA1ZjA2MWUwMDBlOTRlOTEwYzY0YzUyMzAwOTNjMzkxYmY0YzdmNWNkY2Fk
+MGQ1MTkiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKLS0gCjIuNDcuMQoK
 
---===============8277798383739567246==
+--===============4956378942407095668==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.152.4.tar.gz;downloadfilename=hypothesis-6.152.4.tar.gz file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.155.1.tar.gz;downloadfilename=hypothesis-6.155.1.tar.gz file://test_binary_search.py file://test_rle.py"
-packages/x86-64-v3-poky-linux/python3-hypothesis: PV changed from "6.152.4" to "6.155.1"
-packages/x86-64-v3-poky-linux/python3-hypothesis: PKGV changed from 6.152.4 [default] to 6.155.1 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.152.4" to "6.155.1"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.152.4 [default] to 6.155.1 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.152.4" to "6.155.1"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.152.4 [default] to 6.155.1 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.152.4" to "6.155.1"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.152.4 [default] to 6.155.1 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.152.4" to "6.155.1"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.152.4 [default] to 6.155.1 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.152.4" to "6.155.1"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.152.4 [default] to 6.155.1 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.152.4" to "6.155.1"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.152.4 [default] to 6.155.1 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.152.4" to "6.155.1"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.152.4 [default] to 6.155.1 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.152.4" to "6.155.1"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.152.4 [default] to 6.155.1 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.152.4.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.155.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.152.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.155.1.dist-info/licenses, added "/usr/lib/python3.14/site-packages/hypothesis/internal/__pycache__/statistics.cpython-314.pyc /usr/lib/python3.14/site-packages/hypothesis/internal/statistics.py"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 3855563 to 3942436 (+2%)
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.14/site-packages/hypothesis-6.152.4.dist-info moved to /usr/lib/python3.14/site-packages/hypothesis-6.155.1.dist-info
-  /usr/lib/python3.14/site-packages/hypothesis/internal/__pycache__/statistics.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/hypothesis/internal/statistics.py was added
+packages/x86-64-v3-poky-linux/python3-hatchling: PV changed from "1.29.0" to "1.30.0"
+packages/x86-64-v3-poky-linux/python3-hatchling: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.29.0.tar.gz;downloadfilename=hatchling-1.29.0.tar.gz" to "https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.30.0.tar.gz;downloadfilename=hatchling-1.30.0.tar.gz"
+packages/x86-64-v3-poky-linux/python3-hatchling: PKGV changed from 1.29.0 [default] to 1.30.0 [default]
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling-dbg: PV changed from "1.29.0" to "1.30.0"
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling-dbg: PKGV changed from 1.29.0 [default] to 1.30.0 [default]
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling-dev: PV changed from "1.29.0" to "1.30.0"
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling-dev: PKGV changed from 1.29.0 [default] to 1.30.0 [default]
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling-doc: PV changed from "1.29.0" to "1.30.0"
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling-doc: PKGV changed from 1.29.0 [default] to 1.30.0 [default]
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling-locale: PV changed from "1.29.0" to "1.30.0"
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling-locale: PKGV changed from 1.29.0 [default] to 1.30.0 [default]
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling-src: PV changed from "1.29.0" to "1.30.0"
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling-src: PKGV changed from 1.29.0 [default] to 1.30.0 [default]
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling-staticdev: PV changed from "1.29.0" to "1.30.0"
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling-staticdev: PKGV changed from 1.29.0 [default] to 1.30.0 [default]
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling: PKGSIZE changed from 691490 to 712959 (+3%)
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling: PV changed from "1.29.0" to "1.30.0"
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hatchling-1.29.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/hatchling-1.30.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/hatchling-1.29.0.dist-info -> /usr/lib/python3.14/site-packages/hatchling-1.30.0.dist-info
+packages/x86-64-v3-poky-linux/python3-hatchling/python3-hatchling: PKGV changed from 1.29.0 [default] to 1.30.0 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-hatchling (sysroot):
+  /usr/lib/python3.14/site-packages/hatchling-1.29.0.dist-info moved to /usr/lib/python3.14/site-packages/hatchling-1.30.0.dist-info
+Changes to packages/x86_64-linux/python3-hatchling-native (sysroot):
+  /usr/lib/python3.14/site-packages/hatchling-1.29.0.dist-info moved to /usr/lib/python3.14/site-packages/hatchling-1.30.0.dist-info
 
---===============8277798383739567246==--
+--===============4956378942407095668==--
 
