@@ -2,220 +2,403 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23F4ECD6E7D
-	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 15:35:43 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1558.1780328132758483389
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFB2BCD6E79
+	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 15:35:42 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1561.1780328133183049099
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2026 08:35:32 -0700
+ Mon, 01 Jun 2026 08:35:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TJlulLrs;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=YvhH/7sz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019e83d36e0e-a3b20430-685c-4ae3-8a06-8bee9c4d8b13-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=YZdUhlb9;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gGzhLG0M;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019e83d36e2e-3142151b-edcd-4dae-adea-20c49d4b8e47-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1780328132;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2cmhW3R/ctSOQLMOT2VJljQEnsPgtjvNagweoNCFs88=;
-	b=TJlulLrsY512B+BYFPCAbYpahFmNrJFrnTS80WYxHJO4kKqmMW2K4rWH20wPjLmM
-	L6vCnUjAfKS+/2xL6oIBabFrcG+FPNDFQKy/PN9jXHcfVxfMAZkJfeBGeILMtgiX64e
-	jEGtB4EbykUYcrLgEtm/Cu4N2W/bYnq6J4FA5/zQ=
+	bh=ANOhG1pUZ4MzMLrCt1VRptnnCQ26zChlt0NHYruE+5Y=;
+	b=YZdUhlb9yeUSZhoz4WylOTnoO7YW2fSrXbtUYglXsUwhj1Br5ASRepBkyrXyv6dz
+	ua0xoSpRSG8cUsYpw/busQNNQVsniQA1zoSWZ63jl9Zc1B1VPNvg/ZBYTf96BCug34b
+	3PtoyE8EIQET0iJSrY7WxEcZ5QYQDQGm4p1XFe70=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328132;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2cmhW3R/ctSOQLMOT2VJljQEnsPgtjvNagweoNCFs88=;
-	b=YvhH/7szyu0MSiHoCfpgA6Yu2BfErdWGzjrs27V+1fIqn6tg2Ko5FNgPy0O7ejEF
-	12X06qrmOhaqf5S/h1dpwzj8SE5C8munoY7N73HzP0Z5WKD3Aakg7ejG9MNh1yasmAC
-	cFzp55TWafd3V5N27rzw+/+akhXzUIojFyNiqMrQ=
-Content-Type: multipart/mixed; boundary="===============3802905429683203058=="
+	bh=ANOhG1pUZ4MzMLrCt1VRptnnCQ26zChlt0NHYruE+5Y=;
+	b=gGzhLG0MDqxL8d0y6eMsnuqf0WozIVv2z/MQeaLXjXS9EQ+usgqmHQUrYS9q4+HY
+	bKZvGIqdfot3deJcwgBHkTiKg8TmfpQ/kgZ/vjWhlGua8Hbuzci0lhppDWxXJlH4kw7
+	90XPdmburv5mm6MiXqSfnhi5RlpZ3yXIqKYraffQ=
+Content-Type: multipart/mixed; boundary="===============3448918250481153525=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] neard: upgrading to 0.20 FAILED
-Message-ID: <0101019e83d36e0e-a3b20430-685c-4ae3-8a06-8bee9c4d8b13-000000@us-west-2.amazonses.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] ppp: upgrading to 2.5.3 FAILED
+Message-ID: <0101019e83d36e2e-3142151b-edcd-4dae-adea-20c49d4b8e47-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jun 2026 15:35:32 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.01-54.240.27.30
+X-SES-Outgoing: 2026.06.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 15:35:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237858
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 15:35:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237859
 
---===============3802905429683203058==
-Content-Type: text/plain; charset="us-ascii"
+--===============3448918250481153525==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICpwcHAqIHRvICoyLjUuMyogaGFzIEZhaWxlZChkb19jb21waWxlKS4KCkRldGFpbGVkIGVy
+cm9yIGluZm9ybWF0aW9uOgoKZG9fY29tcGlsZSBmYWlsZWQKCgoKTmV4dCBzdGVwczoKICAgIC0g
+YXBwbHkgdGhlIHBhdGNoOiBnaXQgYW0gMDAwMS1wcHAtdXBncmFkZS0yLjUuMi0yLjUuMy5wYXRj
+aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
+emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
+dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
+c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
+LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
+YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
+dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
+VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
+IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
+ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
+IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
+bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
+ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
+bSA3OTlmMjdmZGU4MjJmYzRmMzQwNDI0MjhmNmJlYjQwYzBmYzM3YzY0IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
+dGU6IE1vbiwgMSBKdW4gMjAyNiAwNzoyMzoxOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBwcDog
+dXBncmFkZSAyLjUuMiAtPiAyLjUuMwoKLS0tCiAuLi4uaC1yZW1vdmUtZXJyb25lb3VzLWdlbmVy
+YXRlZC1oZWFkZXIucGF0Y2ggfCA5OCAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi5kLXNlc3Npb24t
+Rml4ZWQtYnVpbGRpbmctd2l0aC1HQ0MtMTUucGF0Y2ggfCAzMyAtLS0tLS0tCiAuLi5wZHVtcC1G
+aXhlZC1idWlsZGluZy13aXRoLUdDQy0xNS01NDgucGF0Y2ggfCA3NSAtLS0tLS0tLS0tLS0tLQog
+Li4uL3BwcC97cHBwXzIuNS4yLmJiID0+IHBwcF8yLjUuMy5iYn0gICAgICAgIHwgIDUgKy0KIDQg
+ZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIxMCBkZWxldGlvbnMoLSkKIGRlbGV0ZSBt
+b2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3BwcC9wcHAvMDAwMS1wcHBkLXBw
+cGRjb25mLmgtcmVtb3ZlLWVycm9uZW91cy1nZW5lcmF0ZWQtaGVhZGVyLnBhdGNoCiBkZWxldGUg
+bW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwLzAwMDEtcHBwZC1z
+ZXNzaW9uLUZpeGVkLWJ1aWxkaW5nLXdpdGgtR0NDLTE1LnBhdGNoCiBkZWxldGUgbW9kZSAxMDA2
+NDQgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwLzAwMDEtcHBwZHVtcC1GaXhlZC1i
+dWlsZGluZy13aXRoLUdDQy0xNS01NDgucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVj
+dGl2aXR5L3BwcC97cHBwXzIuNS4yLmJiID0+IHBwcF8yLjUuMy5iYn0gKDkyJSkKCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3BwcC9wcHAvMDAwMS1wcHBkLXBwcGRjb25m
+LmgtcmVtb3ZlLWVycm9uZW91cy1nZW5lcmF0ZWQtaGVhZGVyLnBhdGNoIGIvbWV0YS9yZWNpcGVz
+LWNvbm5lY3Rpdml0eS9wcHAvcHBwLzAwMDEtcHBwZC1wcHBkY29uZi5oLXJlbW92ZS1lcnJvbmVv
+dXMtZ2VuZXJhdGVkLWhlYWRlci5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXgg
+YTAwNzA2YzE4NC4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3Bw
+cC9wcHAvMDAwMS1wcHBkLXBwcGRjb25mLmgtcmVtb3ZlLWVycm9uZW91cy1nZW5lcmF0ZWQtaGVh
+ZGVyLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsOTggKzAsMCBAQAotRnJvbSBhNmViNjUxNjJk
+YjViY2M1ZWMyNmNmZjczNjE4ODVjMGE0NGNiYmZhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQot
+RnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KLURhdGU6IE1vbiwg
+MTcgTWFyIDIwMjUgMTE6MTI6MDcgKzAxMDAKLVN1YmplY3Q6IFtQQVRDSF0gcHBwZC9wcHBkY29u
+Zi5oOiByZW1vdmUgZXJyb25lb3VzIGdlbmVyYXRlZCBoZWFkZXIKLQotVXBzdHJlYW0tU3RhdHVz
+OiBJbmFwcHJvcHJpYXRlIFt0YXJiYWxsIGdlbmVyYXRpb24gaXNzdWUgdHJhY2tlZCBhdCBodHRw
+czovL2dpdGh1Yi5jb20vcHBwLXByb2plY3QvcHBwL2lzc3Vlcy81NDFdCi1TaWduZWQtb2ZmLWJ5
+OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgotLS0tCi0gcHBwZC9wcHBk
+Y29uZi5oIHwgODAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLQotIDEgZmlsZSBjaGFuZ2VkLCA4MCBkZWxldGlvbnMoLSkKLSBkZWxldGUgbW9kZSAxMDA2
+NDQgcHBwZC9wcHBkY29uZi5oCi0KLWRpZmYgLS1naXQgYS9wcHBkL3BwcGRjb25mLmggYi9wcHBk
+L3BwcGRjb25mLmgKLWRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAotaW5kZXggNTFhOGYwMi4uMDAw
+MDAwMAotLS0tIGEvcHBwZC9wcHBkY29uZi5oCi0rKysgL2Rldi9udWxsCi1AQCAtMSw4MCArMCww
+IEBACi0tLyogcHBwZC9wcHBkY29uZi5oLiAgR2VuZXJhdGVkIGZyb20gcHBwZGNvbmYuaC5pbiBi
+eSBjb25maWd1cmUuICAqLwotLS8qIAotLSAqIENvcHlyaWdodCAoYykgMjAyMiBFaXZpbmQgTsOm
+c3MuIEFsbCByaWdodHMgcmVzZXJ2ZWQuCi0tICoKLS0gKiBSZWRpc3RyaWJ1dGlvbiBhbmQgdXNl
+IGluIHNvdXJjZSBhbmQgYmluYXJ5IGZvcm1zLCB3aXRoIG9yIHdpdGhvdXQKLS0gKiBtb2RpZmlj
+YXRpb24sIGFyZSBwZXJtaXR0ZWQgcHJvdmlkZWQgdGhhdCB0aGUgZm9sbG93aW5nIGNvbmRpdGlv
+bnMKLS0gKiBhcmUgbWV0OgotLSAqCi0tICogMS4gUmVkaXN0cmlidXRpb25zIG9mIHNvdXJjZSBj
+b2RlIG11c3QgcmV0YWluIHRoZSBhYm92ZSBjb3B5cmlnaHQKLS0gKiAgICBub3RpY2UsIHRoaXMg
+bGlzdCBvZiBjb25kaXRpb25zIGFuZCB0aGUgZm9sbG93aW5nIGRpc2NsYWltZXIuCi0tICoKLS0g
+KiAyLiBSZWRpc3RyaWJ1dGlvbnMgaW4gYmluYXJ5IGZvcm0gbXVzdCByZXByb2R1Y2UgdGhlIGFi
+b3ZlIGNvcHlyaWdodAotLSAqICAgIG5vdGljZSwgdGhpcyBsaXN0IG9mIGNvbmRpdGlvbnMgYW5k
+IHRoZSBmb2xsb3dpbmcgZGlzY2xhaW1lciBpbgotLSAqICAgIHRoZSBkb2N1bWVudGF0aW9uIGFu
+ZC9vciBvdGhlciBtYXRlcmlhbHMgcHJvdmlkZWQgd2l0aCB0aGUKLS0gKiAgICBkaXN0cmlidXRp
+b24uCi0tICoKLS0gKiAzLiBUaGUgbmFtZShzKSBvZiB0aGUgYXV0aG9ycyBvZiB0aGlzIHNvZnR3
+YXJlIG11c3Qgbm90IGJlIHVzZWQgdG8KLS0gKiAgICBlbmRvcnNlIG9yIHByb21vdGUgcHJvZHVj
+dHMgZGVyaXZlZCBmcm9tIHRoaXMgc29mdHdhcmUgd2l0aG91dAotLSAqICAgIHByaW9yIHdyaXR0
+ZW4gcGVybWlzc2lvbi4KLS0gKgotLSAqIFRIRSBBVVRIT1JTIE9GIFRISVMgU09GVFdBUkUgRElT
+Q0xBSU0gQUxMIFdBUlJBTlRJRVMgV0lUSCBSRUdBUkQgVE8KLS0gKiBUSElTIFNPRlRXQVJFLCBJ
+TkNMVURJTkcgQUxMIElNUExJRUQgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFkKLS0gKiBB
+TkQgRklUTkVTUywgSU4gTk8gRVZFTlQgU0hBTEwgVEhFIEFVVEhPUlMgQkUgTElBQkxFIEZPUiBB
+TlkKLS0gKiBTUEVDSUFMLCBJTkRJUkVDVCBPUiBDT05TRVFVRU5USUFMIERBTUFHRVMgT1IgQU5Z
+IERBTUFHRVMKLS0gKiBXSEFUU09FVkVSIFJFU1VMVElORyBGUk9NIExPU1MgT0YgVVNFLCBEQVRB
+IE9SIFBST0ZJVFMsIFdIRVRIRVIgSU4KLS0gKiBBTiBBQ1RJT04gT0YgQ09OVFJBQ1QsIE5FR0xJ
+R0VOQ0UgT1IgT1RIRVIgVE9SVElPVVMgQUNUSU9OLCBBUklTSU5HCi0tICogT1VUIE9GIE9SIElO
+IENPTk5FQ1RJT04gV0lUSCBUSEUgVVNFIE9SIFBFUkZPUk1BTkNFIE9GIFRISVMgU09GVFdBUkUu
+Ci0tICovCi0tCi0tLyoKLS0gKiBUaGlzIGZpbGUgaXMgZ2VuZXJhdGVkIGJ5IGNvbmZpZ3VyZSBh
+bmQgc2V0cyB0aGUgZmVhdHVyZXMgZW5hYmxlZAotLSAqICAgaW4gcHBwZCB3aGVuIGNvbmZpZ3Vy
+ZWQuCi0tICovCi0tCi0tI2lmbmRlZiBQUFBfUFBQRENPTkZfSAotLSNkZWZpbmUgUFBQX1BQUERD
+T05GX0gKLS0KLS0vKiBIYXZlIE1pY3Jvc29mdCBDSEFQIHN1cHBvcnQgKi8KLS0jZGVmaW5lIFBQ
+UF9XSVRIX0NIQVBNUyAxCi0tCi0tLyogSGF2ZSBNaWNyb3NvZnQgTEFOIE1hbmFnZXIgc3VwcG9y
+dCAqLwotLS8qICN1bmRlZiBQUFBfV0lUSF9NU0xBTk1BTiAqLwotLQotLS8qIEhhdmUgTWljcm9z
+b2Z0IE1QUEUgc3VwcG9ydCAqLwotLSNkZWZpbmUgUFBQX1dJVEhfTVBQRSAxCi0tCi0tLyogSGF2
+ZSBtdWx0aWxpbmsgc3VwcG9ydCAqLwotLSNkZWZpbmUgUFBQX1dJVEhfTVVMVElMSU5LIDEKLS0K
+LS0vKiBIYXZlIHBhY2tldCBhY3Rpdml0eSBmaWx0ZXIgc3VwcG9ydCAqLwotLSNkZWZpbmUgUFBQ
+X1dJVEhfRklMVEVSIDEKLS0KLS0vKiBIYXZlIHN1cHBvcnQgZm9yIGxvYWRhYmxlIHBsdWdpbnMg
+Ki8KLS0jZGVmaW5lIFBQUF9XSVRIX1BMVUdJTlMgMQotLQotLS8qIEhhdmUgQ2FsbGJhY2sgUHJv
+dG9jb2wgc3VwcG9ydCAqLwotLS8qICN1bmRlZiBQUFBfV0lUSF9DQkNQICovCi0tCi0tLyogSW5j
+bHVkZSBUREIgc3VwcG9ydCAqLwotLSNkZWZpbmUgUFBQX1dJVEhfVERCIDEKLS0KLS0vKiBIYXZl
+IElQdjYgQ29udHJvbCBQcm90b2NvbCAqLwotLSNkZWZpbmUgUFBQX1dJVEhfSVBWNkNQIDEKLS0K
+LS0vKiBTdXBwb3J0IGZvciBQbHVnZ2FibGUgQXV0aGVudGljYXRpb24gTW9kdWxlcyAqLwotLS8q
+ICN1bmRlZiBQUFBfV0lUSF9QQU0gKi8KLS0KLS0vKiBIYXZlIEVBUC1TUlAgYXV0aGVudGljYXRp
+b24gc3VwcG9ydCAqLwotLS8qICN1bmRlZiBQUFBfV0lUSF9TUlAgKi8KLS0KLS0vKiBIYXZlIEVB
+UC1UTFMgYXV0aGVudGljYXRpb24gc3VwcG9ydCAqLwotLSNkZWZpbmUgUFBQX1dJVEhfRUFQVExT
+IDEKLS0KLS0vKiBIYXZlIFBFQVAgYXV0aGVudGljYXRpb24gc3VwcG9ydCAqLwotLSNkZWZpbmUg
+UFBQX1dJVEhfUEVBUCAxCi0tCi0tLyogVGhlIHBwcGQgdmVyc2lvbiAqLwotLSNkZWZpbmUgUFBQ
+RF9WRVJTSU9OICIyLjUuMiIKLS0KLS0jZW5kaWYKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvcHBwL3BwcC8wMDAxLXBwcGQtc2Vzc2lvbi1GaXhlZC1idWlsZGluZy13aXRo
+LUdDQy0xNS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvcHBwL3BwcC8wMDAxLXBw
+cGQtc2Vzc2lvbi1GaXhlZC1idWlsZGluZy13aXRoLUdDQy0xNS5wYXRjaApkZWxldGVkIGZpbGUg
+bW9kZSAxMDA2NDQKaW5kZXggZDk1YzcyZTk2Yi4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L3BwcC9wcHAvMDAwMS1wcHBkLXNlc3Npb24tRml4ZWQtYnVpbGRpbmct
+d2l0aC1HQ0MtMTUucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwzMyArMCwwIEBACi1Gcm9tIDVl
+ZGNiMDFmMWQ4ZDUyMWM4MTlkNDVkZjFmMWJiODc2OTcyNTIxMzAgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCi1Gcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotRGF0ZTogTW9uLCAx
+NyBNYXIgMjAyNSAxNDozODoyNiAtMDcwMAotU3ViamVjdDogW1BBVENIXSBwcHBkL3Nlc3Npb246
+IEZpeGVkIGJ1aWxkaW5nIHdpdGggR0NDIDE1Ci0KLUZpeGVkIGJ1aWxkaW5nIHdpdGggR0NDIDE1
+IHdoaWNoIGRlZmF1bHRzIHRvIEMyMwotYW5kIGZpbmQgY29uZmxpY3RpbmcgZGVjbHJhdGlvbiBv
+ZiBnZXRzcG5hbSgpIGhlcmUKLXdpdGggdGhlIG9uZSBwcm92aWRlZCBieSBzaGFkb3cuaCAoZXh0
+ZXJuIHN0cnVjdCBzcHdkICpnZXRzcG5hbSAoY29uc3QgY2hhciAqX19uYW1lKTspCi0KLUZpeGVz
+Ci0uLi8uLi9wcHAtMi41LjIvcHBwZC9zZXNzaW9uLmM6IEluIGZ1bmN0aW9uICdzZXNzaW9uX3N0
+YXJ0JzoKLS4uLy4uL3BwcC0yLjUuMi9wcHBkL3Nlc3Npb24uYzoxODU6MTg6IGVycm9yOiBjb25m
+bGljdGluZyB0eXBlcyBmb3IgJ2dldHNwbmFtJzsgaGF2ZSAnc3RydWN0IHNwd2QgKih2b2lkKScK
+LSAgMTg1IHwgICAgIHN0cnVjdCBzcHdkICpnZXRzcG5hbSgpOwotICAgICAgfCAgICAgICAgICAg
+ICAgICAgIF5+fn5+fn5+Ci0KLVVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dp
+dGh1Yi5jb20vcHBwLXByb2plY3QvcHBwL3B1bGwvNTUzXQotU2lnbmVkLW9mZi1ieTogS2hlbSBS
+YWogPHJhai5raGVtQGdtYWlsLmNvbT4KLS0tLQotIHBwcGQvc2Vzc2lvbi5jIHwgMSAtCi0gMSBm
+aWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKLQotZGlmZiAtLWdpdCBhL3BwcGQvc2Vzc2lvbi5j
+IGIvcHBwZC9zZXNzaW9uLmMKLWluZGV4IGYwOGQ4ZTEuLjljYzc1MzggMTAwNjQ0Ci0tLS0gYS9w
+cHBkL3Nlc3Npb24uYwotKysrIGIvcHBwZC9zZXNzaW9uLmMKLUBAIC0xODIsNyArMTgyLDYgQEAg
+c2Vzc2lvbl9zdGFydChjb25zdCBpbnQgZmxhZ3MsIGNvbnN0IGNoYXIgKnVzZXIsIGNvbnN0IGNo
+YXIgKnBhc3N3ZCwgY29uc3QgY2hhcgotICAgICBjaGFyICpjYnVmOwotICNpZmRlZiBIQVZFX1NI
+QURPV19ICi0gICAgIHN0cnVjdCBzcHdkICpzcHdkOwotLSAgICBzdHJ1Y3Qgc3B3ZCAqZ2V0c3Bu
+YW0oKTsKLSAgICAgbG9uZyBub3cgPSAwOwotICNlbmRpZiAvKiAjaWZkZWYgSEFWRV9TSEFET1df
+SCAqLwotICNlbmRpZiAvKiAjaWZkZWYgUFBQX1dJVEhfUEFNICovCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L3BwcC9wcHAvMDAwMS1wcHBkdW1wLUZpeGVkLWJ1aWxkaW5n
+LXdpdGgtR0NDLTE1LTU0OC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvcHBwL3Bw
+cC8wMDAxLXBwcGR1bXAtRml4ZWQtYnVpbGRpbmctd2l0aC1HQ0MtMTUtNTQ4LnBhdGNoCmRlbGV0
+ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAyYTNiM2NjODRhLi4wMDAwMDAwMDAwCi0tLSBhL21l
+dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvcHBwL3BwcC8wMDAxLXBwcGR1bXAtRml4ZWQtYnVpbGRp
+bmctd2l0aC1HQ0MtMTUtNTQ4LnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsNzUgKzAsMCBAQAot
+RnJvbSA0NGE3NjZhM2QwODZmMTBjYjU4NGEwYzQyM2U1YmVkNmFmMmUzNjE1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQotRnJvbTogPT9VVEYtOD9xP0phcm9zbGF2PTIwPUM1PUEwa2FydmFkYT89
+IDxqc2thcnZhZEByZWRoYXQuY29tPgotRGF0ZTogVGh1LCAyNyBGZWIgMjAyNSAyMzowMDoxNiAr
+MDEwMAotU3ViamVjdDogW1BBVENIXSBwcHBkdW1wOiBGaXhlZCBidWlsZGluZyB3aXRoIEdDQyAx
+NSAoIzU0OCkKLU1JTUUtVmVyc2lvbjogMS4wCi1Db250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNo
+YXJzZXQ9VVRGLTgKLUNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhiaXQKLQotR0NDIDE1IGRl
+ZmF1bHRzIHRvIEMyMyB3aGljaCBkb2VzIG5vdCBhbGxvdyBLJlIgZGVjbGFyYXRpb25zLgotCi1D
+cmVkaXQgWWFha292IFNlbGtvd2l0eiBpbjoKLWh0dHBzOi8vc3JjLmZlZG9yYXByb2plY3Qub3Jn
+L3JwbXMvcHBwL3B1bGwtcmVxdWVzdC8xMgotCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFto
+dHRwczovL2dpdGh1Yi5jb20vcHBwLXByb2plY3QvcHBwL3B1bGwvNTQ4XQotCi1TaWduZWQtb2Zm
+LWJ5OiBKYXJvc2xhdiDFoGthcnZhZGEgPGpza2FydmFkQHJlZGhhdC5jb20+Ci1TaWduZWQtb2Zm
+LWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotLS0tCi0gcHBwZHVtcC9wcHBkdW1w
+LmMgfCAyMCArKysrKysrLS0tLS0tLS0tLS0tLQotIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlv
+bnMoKyksIDEzIGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvcHBwZHVtcC9wcHBkdW1wLmMg
+Yi9wcHBkdW1wL3BwcGR1bXAuYwotaW5kZXggYzI0MjA4YS4uMTUzNDAzNiAxMDA2NDQKLS0tLSBh
+L3BwcGR1bXAvcHBwZHVtcC5jCi0rKysgYi9wcHBkdW1wL3BwcGR1bXAuYwotQEAgLTQyLDE0ICs0
+MiwxMiBAQCBpbnQgdG90X3NlbnQsIHRvdF9yY3ZkOwotIGV4dGVybiBpbnQgb3B0aW5kOwotIGV4
+dGVybiBjaGFyICpvcHRhcmc7Ci0gCi0tdm9pZCBkdW1wbG9nKCk7Ci0tdm9pZCBkdW1wcHBwKCk7
+Ci0tdm9pZCBzaG93X3RpbWUoKTsKLSt2b2lkIGR1bXBsb2coRklMRSAqKTsKLSt2b2lkIGR1bXBw
+cHAoRklMRSAqKTsKLSt2b2lkIHNob3dfdGltZShGSUxFICosIGludCk7Ci0gCi0gaW50Ci0tbWFp
+bihhYywgYXYpCi0tICAgIGludCBhYzsKLS0gICAgY2hhciAqKmF2OwotK21haW4oaW50IGFjLCBj
+aGFyICoqYXYpCi0gewotICAgICBpbnQgaTsKLSAgICAgY2hhciAqcDsKLUBAIC05Nyw4ICs5NSw3
+IEBAIG1haW4oYWMsIGF2KQotIH0KLSAKLSB2b2lkCi0tZHVtcGxvZyhmKQotLSAgICBGSUxFICpm
+OwotK2R1bXBsb2coRklMRSAqZikKLSB7Ci0gICAgIGludCBjLCBuLCBrLCBjb2w7Ci0gICAgIGlu
+dCBuYiwgYzI7Ci1AQCAtMjQxLDggKzIzOCw3IEBAIHN0cnVjdCBwa3QgewotIHVuc2lnbmVkIGNo
+YXIgZGJ1Zls4MTkyXTsKLSAKLSB2b2lkCi0tZHVtcHBwcChmKQotLSAgICBGSUxFICpmOwotK2R1
+bXBwcHAoRklMRSAqZikKLSB7Ci0gICAgIGludCBjLCBuLCBrOwotICAgICBpbnQgbmIsIG5sLCBk
+biwgcHJvdG8sIHJ2OwotQEAgLTM3NSw5ICszNzEsNyBAQCBkdW1wcHBwKGYpCi0gfQotIAotIHZv
+aWQKLS1zaG93X3RpbWUoZiwgYykKLS0gICAgRklMRSAqZjsKLS0gICAgaW50IGM7Ci0rc2hvd190
+aW1lKEZJTEUgKmYsIGludCBjKQotIHsKLSAgICAgdGltZV90IHQ7Ci0gICAgIGludCBuOwpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwXzIuNS4yLmJiIGIvbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwXzIuNS4zLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvcHBwL3BwcF8yLjUuMi5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwXzIuNS4zLmJiCmlu
+ZGV4IDYwNzY3OGRiOGIuLjAwMTM2OThhMTggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25u
+ZWN0aXZpdHkvcHBwL3BwcF8yLjUuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
+L3BwcC9wcHBfMi41LjMuYmIKQEAgLTIzLDEyICsyMyw5IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9k
+b3dubG9hZC5zYW1iYS5vcmcvcHViLyR7QlBOfS8ke0JQfS50YXIuZ3ogXAogICAgICAgICAgICBm
+aWxlOi8vcHBwX29uX2Jvb3QgXAogICAgICAgICAgICBmaWxlOi8vcHJvdmlkZXIgXAogICAgICAg
+ICAgICBmaWxlOi8vcHBwQC5zZXJ2aWNlIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtcHBwZHVt
+cC1GaXhlZC1idWlsZGluZy13aXRoLUdDQy0xNS01NDgucGF0Y2ggXAotICAgICAgICAgICBmaWxl
+Oi8vMDAwMS1wcHBkLXBwcGRjb25mLmgtcmVtb3ZlLWVycm9uZW91cy1nZW5lcmF0ZWQtaGVhZGVy
+LnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtcHBwZC1zZXNzaW9uLUZpeGVkLWJ1aWxk
+aW5nLXdpdGgtR0NDLTE1LnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiNDdkYTM1OGRlNTRhMTBjYjEwYmY2ZmYyY2Y5YjFjMDNjMGQzNTU1NTE4ZjYxODJlOGY3
+MDFiOGU1NTczM2NiMiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJkZGRhMjhkZWM4YWNhOTlhNDAz
+YWI2MDcwZDk0ZmZkMmIxN2Q2M2U5YTRjNTUwOTE1OGU5OWUxNDhmNTcyZDRmIgogCiBpbmhlcml0
+IGF1dG90b29scyBwa2djb25maWcgc3lzdGVtZAogCi0tIAoyLjQ3LjEKCg==
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *neard* to *0.20* has Failed(do_compile).
+--===============3448918250481153525==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-ppp-upgrade-2.5.2-2.5.3.patch"
 
-Detailed error information:
+RnJvbSA3OTlmMjdmZGU4MjJmYzRmMzQwNDI0MjhmNmJlYjQwYzBmYzM3YzY0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAwNzoyMzoxOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBw
+cDogdXBncmFkZSAyLjUuMiAtPiAyLjUuMwoKLS0tCiAuLi4uaC1yZW1vdmUtZXJyb25lb3VzLWdl
+bmVyYXRlZC1oZWFkZXIucGF0Y2ggfCA5OCAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi5kLXNlc3Np
+b24tRml4ZWQtYnVpbGRpbmctd2l0aC1HQ0MtMTUucGF0Y2ggfCAzMyAtLS0tLS0tCiAuLi5wZHVt
+cC1GaXhlZC1idWlsZGluZy13aXRoLUdDQy0xNS01NDgucGF0Y2ggfCA3NSAtLS0tLS0tLS0tLS0t
+LQogLi4uL3BwcC97cHBwXzIuNS4yLmJiID0+IHBwcF8yLjUuMy5iYn0gICAgICAgIHwgIDUgKy0K
+IDQgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIxMCBkZWxldGlvbnMoLSkKIGRlbGV0
+ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3BwcC9wcHAvMDAwMS1wcHBk
+LXBwcGRjb25mLmgtcmVtb3ZlLWVycm9uZW91cy1nZW5lcmF0ZWQtaGVhZGVyLnBhdGNoCiBkZWxl
+dGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwLzAwMDEtcHBw
+ZC1zZXNzaW9uLUZpeGVkLWJ1aWxkaW5nLXdpdGgtR0NDLTE1LnBhdGNoCiBkZWxldGUgbW9kZSAx
+MDA2NDQgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwLzAwMDEtcHBwZHVtcC1GaXhl
+ZC1idWlsZGluZy13aXRoLUdDQy0xNS01NDgucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29u
+bmVjdGl2aXR5L3BwcC97cHBwXzIuNS4yLmJiID0+IHBwcF8yLjUuMy5iYn0gKDkyJSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3BwcC9wcHAvMDAwMS1wcHBkLXBwcGRj
+b25mLmgtcmVtb3ZlLWVycm9uZW91cy1nZW5lcmF0ZWQtaGVhZGVyLnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwLzAwMDEtcHBwZC1wcHBkY29uZi5oLXJlbW92ZS1lcnJv
+bmVvdXMtZ2VuZXJhdGVkLWhlYWRlci5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5k
+ZXggYTAwNzA2YzE4NC4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
+L3BwcC9wcHAvMDAwMS1wcHBkLXBwcGRjb25mLmgtcmVtb3ZlLWVycm9uZW91cy1nZW5lcmF0ZWQt
+aGVhZGVyLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsOTggKzAsMCBAQAotRnJvbSBhNmViNjUx
+NjJkYjViY2M1ZWMyNmNmZjczNjE4ODVjMGE0NGNiYmZhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQotRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KLURhdGU6IE1v
+biwgMTcgTWFyIDIwMjUgMTE6MTI6MDcgKzAxMDAKLVN1YmplY3Q6IFtQQVRDSF0gcHBwZC9wcHBk
+Y29uZi5oOiByZW1vdmUgZXJyb25lb3VzIGdlbmVyYXRlZCBoZWFkZXIKLQotVXBzdHJlYW0tU3Rh
+dHVzOiBJbmFwcHJvcHJpYXRlIFt0YXJiYWxsIGdlbmVyYXRpb24gaXNzdWUgdHJhY2tlZCBhdCBo
+dHRwczovL2dpdGh1Yi5jb20vcHBwLXByb2plY3QvcHBwL2lzc3Vlcy81NDFdCi1TaWduZWQtb2Zm
+LWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgotLS0tCi0gcHBwZC9w
+cHBkY29uZi5oIHwgODAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLQotIDEgZmlsZSBjaGFuZ2VkLCA4MCBkZWxldGlvbnMoLSkKLSBkZWxldGUgbW9kZSAx
+MDA2NDQgcHBwZC9wcHBkY29uZi5oCi0KLWRpZmYgLS1naXQgYS9wcHBkL3BwcGRjb25mLmggYi9w
+cHBkL3BwcGRjb25mLmgKLWRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAotaW5kZXggNTFhOGYwMi4u
+MDAwMDAwMAotLS0tIGEvcHBwZC9wcHBkY29uZi5oCi0rKysgL2Rldi9udWxsCi1AQCAtMSw4MCAr
+MCwwIEBACi0tLyogcHBwZC9wcHBkY29uZi5oLiAgR2VuZXJhdGVkIGZyb20gcHBwZGNvbmYuaC5p
+biBieSBjb25maWd1cmUuICAqLwotLS8qIAotLSAqIENvcHlyaWdodCAoYykgMjAyMiBFaXZpbmQg
+TsOmc3MuIEFsbCByaWdodHMgcmVzZXJ2ZWQuCi0tICoKLS0gKiBSZWRpc3RyaWJ1dGlvbiBhbmQg
+dXNlIGluIHNvdXJjZSBhbmQgYmluYXJ5IGZvcm1zLCB3aXRoIG9yIHdpdGhvdXQKLS0gKiBtb2Rp
+ZmljYXRpb24sIGFyZSBwZXJtaXR0ZWQgcHJvdmlkZWQgdGhhdCB0aGUgZm9sbG93aW5nIGNvbmRp
+dGlvbnMKLS0gKiBhcmUgbWV0OgotLSAqCi0tICogMS4gUmVkaXN0cmlidXRpb25zIG9mIHNvdXJj
+ZSBjb2RlIG11c3QgcmV0YWluIHRoZSBhYm92ZSBjb3B5cmlnaHQKLS0gKiAgICBub3RpY2UsIHRo
+aXMgbGlzdCBvZiBjb25kaXRpb25zIGFuZCB0aGUgZm9sbG93aW5nIGRpc2NsYWltZXIuCi0tICoK
+LS0gKiAyLiBSZWRpc3RyaWJ1dGlvbnMgaW4gYmluYXJ5IGZvcm0gbXVzdCByZXByb2R1Y2UgdGhl
+IGFib3ZlIGNvcHlyaWdodAotLSAqICAgIG5vdGljZSwgdGhpcyBsaXN0IG9mIGNvbmRpdGlvbnMg
+YW5kIHRoZSBmb2xsb3dpbmcgZGlzY2xhaW1lciBpbgotLSAqICAgIHRoZSBkb2N1bWVudGF0aW9u
+IGFuZC9vciBvdGhlciBtYXRlcmlhbHMgcHJvdmlkZWQgd2l0aCB0aGUKLS0gKiAgICBkaXN0cmli
+dXRpb24uCi0tICoKLS0gKiAzLiBUaGUgbmFtZShzKSBvZiB0aGUgYXV0aG9ycyBvZiB0aGlzIHNv
+ZnR3YXJlIG11c3Qgbm90IGJlIHVzZWQgdG8KLS0gKiAgICBlbmRvcnNlIG9yIHByb21vdGUgcHJv
+ZHVjdHMgZGVyaXZlZCBmcm9tIHRoaXMgc29mdHdhcmUgd2l0aG91dAotLSAqICAgIHByaW9yIHdy
+aXR0ZW4gcGVybWlzc2lvbi4KLS0gKgotLSAqIFRIRSBBVVRIT1JTIE9GIFRISVMgU09GVFdBUkUg
+RElTQ0xBSU0gQUxMIFdBUlJBTlRJRVMgV0lUSCBSRUdBUkQgVE8KLS0gKiBUSElTIFNPRlRXQVJF
+LCBJTkNMVURJTkcgQUxMIElNUExJRUQgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFkKLS0g
+KiBBTkQgRklUTkVTUywgSU4gTk8gRVZFTlQgU0hBTEwgVEhFIEFVVEhPUlMgQkUgTElBQkxFIEZP
+UiBBTlkKLS0gKiBTUEVDSUFMLCBJTkRJUkVDVCBPUiBDT05TRVFVRU5USUFMIERBTUFHRVMgT1Ig
+QU5ZIERBTUFHRVMKLS0gKiBXSEFUU09FVkVSIFJFU1VMVElORyBGUk9NIExPU1MgT0YgVVNFLCBE
+QVRBIE9SIFBST0ZJVFMsIFdIRVRIRVIgSU4KLS0gKiBBTiBBQ1RJT04gT0YgQ09OVFJBQ1QsIE5F
+R0xJR0VOQ0UgT1IgT1RIRVIgVE9SVElPVVMgQUNUSU9OLCBBUklTSU5HCi0tICogT1VUIE9GIE9S
+IElOIENPTk5FQ1RJT04gV0lUSCBUSEUgVVNFIE9SIFBFUkZPUk1BTkNFIE9GIFRISVMgU09GVFdB
+UkUuCi0tICovCi0tCi0tLyoKLS0gKiBUaGlzIGZpbGUgaXMgZ2VuZXJhdGVkIGJ5IGNvbmZpZ3Vy
+ZSBhbmQgc2V0cyB0aGUgZmVhdHVyZXMgZW5hYmxlZAotLSAqICAgaW4gcHBwZCB3aGVuIGNvbmZp
+Z3VyZWQuCi0tICovCi0tCi0tI2lmbmRlZiBQUFBfUFBQRENPTkZfSAotLSNkZWZpbmUgUFBQX1BQ
+UERDT05GX0gKLS0KLS0vKiBIYXZlIE1pY3Jvc29mdCBDSEFQIHN1cHBvcnQgKi8KLS0jZGVmaW5l
+IFBQUF9XSVRIX0NIQVBNUyAxCi0tCi0tLyogSGF2ZSBNaWNyb3NvZnQgTEFOIE1hbmFnZXIgc3Vw
+cG9ydCAqLwotLS8qICN1bmRlZiBQUFBfV0lUSF9NU0xBTk1BTiAqLwotLQotLS8qIEhhdmUgTWlj
+cm9zb2Z0IE1QUEUgc3VwcG9ydCAqLwotLSNkZWZpbmUgUFBQX1dJVEhfTVBQRSAxCi0tCi0tLyog
+SGF2ZSBtdWx0aWxpbmsgc3VwcG9ydCAqLwotLSNkZWZpbmUgUFBQX1dJVEhfTVVMVElMSU5LIDEK
+LS0KLS0vKiBIYXZlIHBhY2tldCBhY3Rpdml0eSBmaWx0ZXIgc3VwcG9ydCAqLwotLSNkZWZpbmUg
+UFBQX1dJVEhfRklMVEVSIDEKLS0KLS0vKiBIYXZlIHN1cHBvcnQgZm9yIGxvYWRhYmxlIHBsdWdp
+bnMgKi8KLS0jZGVmaW5lIFBQUF9XSVRIX1BMVUdJTlMgMQotLQotLS8qIEhhdmUgQ2FsbGJhY2sg
+UHJvdG9jb2wgc3VwcG9ydCAqLwotLS8qICN1bmRlZiBQUFBfV0lUSF9DQkNQICovCi0tCi0tLyog
+SW5jbHVkZSBUREIgc3VwcG9ydCAqLwotLSNkZWZpbmUgUFBQX1dJVEhfVERCIDEKLS0KLS0vKiBI
+YXZlIElQdjYgQ29udHJvbCBQcm90b2NvbCAqLwotLSNkZWZpbmUgUFBQX1dJVEhfSVBWNkNQIDEK
+LS0KLS0vKiBTdXBwb3J0IGZvciBQbHVnZ2FibGUgQXV0aGVudGljYXRpb24gTW9kdWxlcyAqLwot
+LS8qICN1bmRlZiBQUFBfV0lUSF9QQU0gKi8KLS0KLS0vKiBIYXZlIEVBUC1TUlAgYXV0aGVudGlj
+YXRpb24gc3VwcG9ydCAqLwotLS8qICN1bmRlZiBQUFBfV0lUSF9TUlAgKi8KLS0KLS0vKiBIYXZl
+IEVBUC1UTFMgYXV0aGVudGljYXRpb24gc3VwcG9ydCAqLwotLSNkZWZpbmUgUFBQX1dJVEhfRUFQ
+VExTIDEKLS0KLS0vKiBIYXZlIFBFQVAgYXV0aGVudGljYXRpb24gc3VwcG9ydCAqLwotLSNkZWZp
+bmUgUFBQX1dJVEhfUEVBUCAxCi0tCi0tLyogVGhlIHBwcGQgdmVyc2lvbiAqLwotLSNkZWZpbmUg
+UFBQRF9WRVJTSU9OICIyLjUuMiIKLS0KLS0jZW5kaWYKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvcHBwL3BwcC8wMDAxLXBwcGQtc2Vzc2lvbi1GaXhlZC1idWlsZGluZy13
+aXRoLUdDQy0xNS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvcHBwL3BwcC8wMDAx
+LXBwcGQtc2Vzc2lvbi1GaXhlZC1idWlsZGluZy13aXRoLUdDQy0xNS5wYXRjaApkZWxldGVkIGZp
+bGUgbW9kZSAxMDA2NDQKaW5kZXggZDk1YzcyZTk2Yi4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtY29ubmVjdGl2aXR5L3BwcC9wcHAvMDAwMS1wcHBkLXNlc3Npb24tRml4ZWQtYnVpbGRp
+bmctd2l0aC1HQ0MtMTUucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwzMyArMCwwIEBACi1Gcm9t
+IDVlZGNiMDFmMWQ4ZDUyMWM4MTlkNDVkZjFmMWJiODc2OTcyNTIxMzAgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCi1Gcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotRGF0ZTogTW9u
+LCAxNyBNYXIgMjAyNSAxNDozODoyNiAtMDcwMAotU3ViamVjdDogW1BBVENIXSBwcHBkL3Nlc3Np
+b246IEZpeGVkIGJ1aWxkaW5nIHdpdGggR0NDIDE1Ci0KLUZpeGVkIGJ1aWxkaW5nIHdpdGggR0ND
+IDE1IHdoaWNoIGRlZmF1bHRzIHRvIEMyMwotYW5kIGZpbmQgY29uZmxpY3RpbmcgZGVjbHJhdGlv
+biBvZiBnZXRzcG5hbSgpIGhlcmUKLXdpdGggdGhlIG9uZSBwcm92aWRlZCBieSBzaGFkb3cuaCAo
+ZXh0ZXJuIHN0cnVjdCBzcHdkICpnZXRzcG5hbSAoY29uc3QgY2hhciAqX19uYW1lKTspCi0KLUZp
+eGVzCi0uLi8uLi9wcHAtMi41LjIvcHBwZC9zZXNzaW9uLmM6IEluIGZ1bmN0aW9uICdzZXNzaW9u
+X3N0YXJ0JzoKLS4uLy4uL3BwcC0yLjUuMi9wcHBkL3Nlc3Npb24uYzoxODU6MTg6IGVycm9yOiBj
+b25mbGljdGluZyB0eXBlcyBmb3IgJ2dldHNwbmFtJzsgaGF2ZSAnc3RydWN0IHNwd2QgKih2b2lk
+KScKLSAgMTg1IHwgICAgIHN0cnVjdCBzcHdkICpnZXRzcG5hbSgpOwotICAgICAgfCAgICAgICAg
+ICAgICAgICAgIF5+fn5+fn5+Ci0KLVVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczov
+L2dpdGh1Yi5jb20vcHBwLXByb2plY3QvcHBwL3B1bGwvNTUzXQotU2lnbmVkLW9mZi1ieTogS2hl
+bSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KLS0tLQotIHBwcGQvc2Vzc2lvbi5jIHwgMSAtCi0g
+MSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKLQotZGlmZiAtLWdpdCBhL3BwcGQvc2Vzc2lv
+bi5jIGIvcHBwZC9zZXNzaW9uLmMKLWluZGV4IGYwOGQ4ZTEuLjljYzc1MzggMTAwNjQ0Ci0tLS0g
+YS9wcHBkL3Nlc3Npb24uYwotKysrIGIvcHBwZC9zZXNzaW9uLmMKLUBAIC0xODIsNyArMTgyLDYg
+QEAgc2Vzc2lvbl9zdGFydChjb25zdCBpbnQgZmxhZ3MsIGNvbnN0IGNoYXIgKnVzZXIsIGNvbnN0
+IGNoYXIgKnBhc3N3ZCwgY29uc3QgY2hhcgotICAgICBjaGFyICpjYnVmOwotICNpZmRlZiBIQVZF
+X1NIQURPV19ICi0gICAgIHN0cnVjdCBzcHdkICpzcHdkOwotLSAgICBzdHJ1Y3Qgc3B3ZCAqZ2V0
+c3BuYW0oKTsKLSAgICAgbG9uZyBub3cgPSAwOwotICNlbmRpZiAvKiAjaWZkZWYgSEFWRV9TSEFE
+T1dfSCAqLwotICNlbmRpZiAvKiAjaWZkZWYgUFBQX1dJVEhfUEFNICovCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3BwcC9wcHAvMDAwMS1wcHBkdW1wLUZpeGVkLWJ1aWxk
+aW5nLXdpdGgtR0NDLTE1LTU0OC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvcHBw
+L3BwcC8wMDAxLXBwcGR1bXAtRml4ZWQtYnVpbGRpbmctd2l0aC1HQ0MtMTUtNTQ4LnBhdGNoCmRl
+bGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAyYTNiM2NjODRhLi4wMDAwMDAwMDAwCi0tLSBh
+L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvcHBwL3BwcC8wMDAxLXBwcGR1bXAtRml4ZWQtYnVp
+bGRpbmctd2l0aC1HQ0MtMTUtNTQ4LnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsNzUgKzAsMCBA
+QAotRnJvbSA0NGE3NjZhM2QwODZmMTBjYjU4NGEwYzQyM2U1YmVkNmFmMmUzNjE1IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQotRnJvbTogPT9VVEYtOD9xP0phcm9zbGF2PTIwPUM1PUEwa2FydmFk
+YT89IDxqc2thcnZhZEByZWRoYXQuY29tPgotRGF0ZTogVGh1LCAyNyBGZWIgMjAyNSAyMzowMDox
+NiArMDEwMAotU3ViamVjdDogW1BBVENIXSBwcHBkdW1wOiBGaXhlZCBidWlsZGluZyB3aXRoIEdD
+QyAxNSAoIzU0OCkKLU1JTUUtVmVyc2lvbjogMS4wCi1Db250ZW50LVR5cGU6IHRleHQvcGxhaW47
+IGNoYXJzZXQ9VVRGLTgKLUNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhiaXQKLQotR0NDIDE1
+IGRlZmF1bHRzIHRvIEMyMyB3aGljaCBkb2VzIG5vdCBhbGxvdyBLJlIgZGVjbGFyYXRpb25zLgot
+Ci1DcmVkaXQgWWFha292IFNlbGtvd2l0eiBpbjoKLWh0dHBzOi8vc3JjLmZlZG9yYXByb2plY3Qu
+b3JnL3JwbXMvcHBwL3B1bGwtcmVxdWVzdC8xMgotCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0
+IFtodHRwczovL2dpdGh1Yi5jb20vcHBwLXByb2plY3QvcHBwL3B1bGwvNTQ4XQotCi1TaWduZWQt
+b2ZmLWJ5OiBKYXJvc2xhdiDFoGthcnZhZGEgPGpza2FydmFkQHJlZGhhdC5jb20+Ci1TaWduZWQt
+b2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotLS0tCi0gcHBwZHVtcC9wcHBk
+dW1wLmMgfCAyMCArKysrKysrLS0tLS0tLS0tLS0tLQotIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2Vy
+dGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvcHBwZHVtcC9wcHBkdW1w
+LmMgYi9wcHBkdW1wL3BwcGR1bXAuYwotaW5kZXggYzI0MjA4YS4uMTUzNDAzNiAxMDA2NDQKLS0t
+LSBhL3BwcGR1bXAvcHBwZHVtcC5jCi0rKysgYi9wcHBkdW1wL3BwcGR1bXAuYwotQEAgLTQyLDE0
+ICs0MiwxMiBAQCBpbnQgdG90X3NlbnQsIHRvdF9yY3ZkOwotIGV4dGVybiBpbnQgb3B0aW5kOwot
+IGV4dGVybiBjaGFyICpvcHRhcmc7Ci0gCi0tdm9pZCBkdW1wbG9nKCk7Ci0tdm9pZCBkdW1wcHBw
+KCk7Ci0tdm9pZCBzaG93X3RpbWUoKTsKLSt2b2lkIGR1bXBsb2coRklMRSAqKTsKLSt2b2lkIGR1
+bXBwcHAoRklMRSAqKTsKLSt2b2lkIHNob3dfdGltZShGSUxFICosIGludCk7Ci0gCi0gaW50Ci0t
+bWFpbihhYywgYXYpCi0tICAgIGludCBhYzsKLS0gICAgY2hhciAqKmF2OwotK21haW4oaW50IGFj
+LCBjaGFyICoqYXYpCi0gewotICAgICBpbnQgaTsKLSAgICAgY2hhciAqcDsKLUBAIC05Nyw4ICs5
+NSw3IEBAIG1haW4oYWMsIGF2KQotIH0KLSAKLSB2b2lkCi0tZHVtcGxvZyhmKQotLSAgICBGSUxF
+ICpmOwotK2R1bXBsb2coRklMRSAqZikKLSB7Ci0gICAgIGludCBjLCBuLCBrLCBjb2w7Ci0gICAg
+IGludCBuYiwgYzI7Ci1AQCAtMjQxLDggKzIzOCw3IEBAIHN0cnVjdCBwa3QgewotIHVuc2lnbmVk
+IGNoYXIgZGJ1Zls4MTkyXTsKLSAKLSB2b2lkCi0tZHVtcHBwcChmKQotLSAgICBGSUxFICpmOwot
+K2R1bXBwcHAoRklMRSAqZikKLSB7Ci0gICAgIGludCBjLCBuLCBrOwotICAgICBpbnQgbmIsIG5s
+LCBkbiwgcHJvdG8sIHJ2OwotQEAgLTM3NSw5ICszNzEsNyBAQCBkdW1wcHBwKGYpCi0gfQotIAot
+IHZvaWQKLS1zaG93X3RpbWUoZiwgYykKLS0gICAgRklMRSAqZjsKLS0gICAgaW50IGM7Ci0rc2hv
+d190aW1lKEZJTEUgKmYsIGludCBjKQotIHsKLSAgICAgdGltZV90IHQ7Ci0gICAgIGludCBuOwpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwXzIuNS4yLmJiIGIv
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwXzIuNS4zLmJiCnNpbWlsYXJpdHkgaW5k
+ZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvcHBwL3BwcF8yLjUu
+Mi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwXzIuNS4zLmJi
+CmluZGV4IDYwNzY3OGRiOGIuLjAwMTM2OThhMTggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvcHBwL3BwcF8yLjUuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
+aXR5L3BwcC9wcHBfMi41LjMuYmIKQEAgLTIzLDEyICsyMyw5IEBAIFNSQ19VUkkgPSAiaHR0cHM6
+Ly9kb3dubG9hZC5zYW1iYS5vcmcvcHViLyR7QlBOfS8ke0JQfS50YXIuZ3ogXAogICAgICAgICAg
+ICBmaWxlOi8vcHBwX29uX2Jvb3QgXAogICAgICAgICAgICBmaWxlOi8vcHJvdmlkZXIgXAogICAg
+ICAgICAgICBmaWxlOi8vcHBwQC5zZXJ2aWNlIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtcHBw
+ZHVtcC1GaXhlZC1idWlsZGluZy13aXRoLUdDQy0xNS01NDgucGF0Y2ggXAotICAgICAgICAgICBm
+aWxlOi8vMDAwMS1wcHBkLXBwcGRjb25mLmgtcmVtb3ZlLWVycm9uZW91cy1nZW5lcmF0ZWQtaGVh
+ZGVyLnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtcHBwZC1zZXNzaW9uLUZpeGVkLWJ1
+aWxkaW5nLXdpdGgtR0NDLTE1LnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1
+NnN1bV0gPSAiNDdkYTM1OGRlNTRhMTBjYjEwYmY2ZmYyY2Y5YjFjMDNjMGQzNTU1NTE4ZjYxODJl
+OGY3MDFiOGU1NTczM2NiMiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJkZGRhMjhkZWM4YWNhOTlh
+NDAzYWI2MDcwZDk0ZmZkMmIxN2Q2M2U5YTRjNTUwOTE1OGU5OWUxNDhmNTcyZDRmIgogCiBpbmhl
+cml0IGF1dG90b29scyBwa2djb25maWcgc3lzdGVtZAogCi0tIAoyLjQ3LjEKCg==
 
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-neard-upgrade-0.19-0.20.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 89975aff97961ea10ae8de78336e32f3977aaf03 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jun 2026 07:18:45 +0000
-Subject: [PATCH] neard: upgrade 0.19 -> 0.20
-
----
- ...Add-header-dependency-to-nciattach.o.patch |  9 ++----
- .../Makefile.am-do-not-ship-version.h.patch   |  9 ++----
- .../Makefile.am-fix-parallel-issue.patch      | 30 -------------------
- .../neard/{neard_0.19.bb => neard_0.20.bb}    |  5 ++--
- 4 files changed, 8 insertions(+), 45 deletions(-)
- delete mode 100644 meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
- rename meta/recipes-connectivity/neard/{neard_0.19.bb => neard_0.20.bb} (93%)
-
-diff --git a/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch b/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
-index d8e8a5e5da..7e1dfdd9a4 100644
---- a/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
-+++ b/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
-@@ -1,4 +1,4 @@
--From affaa2021a54c30353e4e1fee09c13a4de2196be Mon Sep 17 00:00:00 2001
-+From 798404a6c52d73c90ea57ccc3303337087e87951 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Fri, 17 Mar 2017 14:24:29 +0200
- Subject: [PATCH] Add header dependency to nciattach.o
-@@ -19,10 +19,10 @@ Upstream-Status: Submitted [mailinglist]
-  1 file changed, 1 insertion(+)
- 
- diff --git a/Makefile.am b/Makefile.am
--index fa552ee..acef6ba 100644
-+index d865e84..1c81d58 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -253,6 +253,7 @@ se/builtin.h: src/genbuiltin $(builtin_se_sources)
-+@@ -258,6 +258,7 @@ se/builtin.h: src/genbuiltin $(builtin_se_sources)
-  
-  $(src_neard_OBJECTS) \
-  $(tools_nfctool_nfctool_OBJECTS) \
-@@ -30,6 +30,3 @@ index fa552ee..acef6ba 100644
-  $(plugin_objects) \
-  $(se_seeld_OBJECTS) \
-  $(unit_test_ndef_parse_OBJECTS) \
---- 
--2.11.0
--
-diff --git a/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch b/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
-index 16875e0543..b71627e4dc 100644
---- a/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
-+++ b/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
-@@ -1,4 +1,4 @@
--From bfd32d68cfc9f1e31dab88e07446d1c02bc80b5e Mon Sep 17 00:00:00 2001
-+From 1779fc780eab1812a2c7960a3c07a0571fd3aed5 Mon Sep 17 00:00:00 2001
- From: Robert Yang <liezhi.yang@windriver.com>
- Date: Thu, 12 Feb 2015 00:39:29 -0800
- Subject: [PATCH] Makefile.am: do not ship version.h
-@@ -10,11 +10,11 @@ Upstream-Status: Pending
- 
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- ---
-- Makefile.am |    4 ++--
-+ Makefile.am | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/Makefile.am b/Makefile.am
--index 3334790..69cd58f 100644
-+index 592fb7c..d865e84 100644
- --- a/Makefile.am
- +++ b/Makefile.am
- @@ -10,11 +10,11 @@ pkginclude_HEADERS = include/types.h include/log.h include/plugin.h \
-@@ -31,6 +31,3 @@ index 3334790..69cd58f 100644
-  			$(noinst_HEADERS), include/near/$(notdir $(file)))
-  
-  gdbus_sources = gdbus/gdbus.h gdbus/mainloop.c gdbus/watch.c \
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch b/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
-deleted file mode 100644
-index aeb33a5bdc..0000000000
---- a/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 43acc56d5506c7e318f717fb3634bc16e3438913 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Thu, 15 Jan 2015 18:12:07 -0800
--Subject: [PATCH] Makefile.am: fix parallel issue
--
--There might be no src dir if src/builtin.h runs earlier, create it to
--fix the race issue:
--
--src/genbuiltin nfctype1 nfctype2 nfctype3 nfctype4 p2p > src/builtin.h
--/bin/sh: src/builtin.h: No such file or directory
--
--Upstream-Status: Backport [d39f8c0eee659743b4425d395c2f7ab1949e9c71]
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- Makefile.am |    1 +
-- 1 file changed, 1 insertion(+)
--
--Index: neard-0.16/Makefile.am
--===================================================================
----- neard-0.16.orig/Makefile.am
--+++ neard-0.16/Makefile.am
--@@ -244,6 +244,7 @@ SED_PROCESS = $(AM_V_GEN)$(MKDIR_P) $(di
-- src/plugin.$(OBJEXT): src/builtin.h
-- 
-- src/builtin.h: src/genbuiltin $(builtin_sources)
--+	$(AM_V_at)$(MKDIR_P) src
-- 	$(AM_V_GEN)$(srcdir)/src/genbuiltin $(builtin_modules) > $@
-- 
-- se/plugin.$(OBJEXT): se/builtin.h
-diff --git a/meta/recipes-connectivity/neard/neard_0.19.bb b/meta/recipes-connectivity/neard/neard_0.20.bb
-similarity index 93%
-rename from meta/recipes-connectivity/neard/neard_0.19.bb
-rename to meta/recipes-connectivity/neard/neard_0.20.bb
-index c1149e7631..a583da827f 100644
---- a/meta/recipes-connectivity/neard/neard_0.19.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.20.bb
-@@ -10,12 +10,11 @@ DEPENDS = "dbus glib-2.0 libnl autoconf-archive-native"
- 
- SRC_URI = "git://github.com/linux-nfc/neard;protocol=https;branch=master \
-            file://neard.in \
--           file://Makefile.am-fix-parallel-issue.patch \
-            file://Makefile.am-do-not-ship-version.h.patch \
-            file://0001-Add-header-dependency-to-nciattach.o.patch \
--          "
-+           "
- 
--SRCREV = "a1dc8a75cba999728e154a0f811ab9dd50c809f7"
-+SRCREV = "7118668bc92fe15a8ff5e4067abd5e1622524f03"
- 
- inherit autotools pkgconfig systemd update-rc.d
- 
--- 
-2.47.1
-
-
---===============3802905429683203058==
+--===============3448918250481153525==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -238,185 +421,76 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-fa0dab9beec3d23c693835b8a5b34ff30fd6abb2"
+DISTRO_VERSION       = "6.0.99+snapshot-3033a6fbb0c6de39d4c13e1490d9c2322a4e649a"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:fa0dab9beec3d23c693835b8a5b34ff30fd6abb2"
+meta                 = "tmp-auh-upgrades:3033a6fbb0c6de39d4c13e1490d9c2322a4e649a"
 meta-yocto-bsp       
 meta-poky            = "master:d13ca2a2e0f478046d920b8fc7dd3098952b5ad8"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 290 Local 277 Mirrors 0 Missed 13 Current 703 (95% match, 98% complete)
+Sstate summary: Wanted 252 Local 238 Mirrors 0 Missed 14 Current 654 (94% match, 98% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 912 of 993 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 964 of 993 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_recipe_qa_setscene)
-NOTE: recipe wpa-supplicant-2.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe neard-0.20-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe neard-0.20-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe wpa-supplicant-2.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 968 of 993 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libnl/libnl_3.12.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 969 of 993 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_create_spdx_setscene)
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe dbus-1.16.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 971 of 993 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libnl/libnl_3.12.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe dbus-1.16.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 979 of 993 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.16.2.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe dbus-1.16.2-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: Running task 2052 of 2378 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_fetch)
-NOTE: recipe libnl-1_3.12.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe dbus-1.16.2-r0: task do_create_recipe_spdx_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: recipe neard-0.20-r0: task do_fetch: Started
-NOTE: Running task 2341 of 2378 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_create_recipe_spdx)
-NOTE: recipe neard-0.20-r0: task do_create_recipe_spdx: Started
-NOTE: recipe neard-0.20-r0: task do_fetch: Succeeded
-NOTE: Running task 2361 of 2378 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_unpack)
-NOTE: Running task 2362 of 2378 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_prepare_recipe_sysroot)
-NOTE: recipe neard-0.20-r0: task do_unpack: Started
-NOTE: recipe neard-0.20-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe neard-0.20-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe neard-0.20-r0: task do_unpack: Succeeded
-NOTE: Running task 2363 of 2378 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_patch)
-NOTE: recipe neard-0.20-r0: task do_patch: Started
-NOTE: recipe neard-0.20-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe neard-0.20-r0: task do_patch: Succeeded
-NOTE: Running task 2364 of 2378 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2365 of 2378 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_populate_lic)
-NOTE: recipe neard-0.20-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe neard-0.20-r0: task do_populate_lic: Started
-NOTE: recipe neard-0.20-r0: task do_populate_lic: Succeeded
-NOTE: recipe neard-0.20-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_populate_lic unihash changed to 87ef655b9a11ac009f3ace839c086d3984b1b3510ea7f401a17d8f9823a4265c
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_deploy_source_date_epoch unihash changed to 7782d7f416f40304c7cd4d2394a0ddd45260ac1ee9ce677b141fc8e7c034d020
-NOTE: Setscene tasks completed
-NOTE: Running task 2366 of 2378 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_configure)
-NOTE: recipe neard-0.20-r0: task do_configure: Started
-NOTE: recipe neard-0.20-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 2366 tasks of which 2358 didn't need to be rerun and 1 failed.
+NOTE: Running task 1997 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_recipe_qa)
+NOTE: Running task 2133 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_create_recipe_spdx)
+NOTE: recipe ppp-2.5.3-r0: task do_recipe_qa: Started
+NOTE: recipe ppp-2.5.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe ppp-2.5.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2140 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_fetch)
+NOTE: recipe ppp-2.5.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe ppp-2.5.3-r0: task do_fetch: Started
+NOTE: recipe ppp-2.5.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2141 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_unpack)
+NOTE: Running task 2142 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe ppp-2.5.3-r0: task do_unpack: Started
+NOTE: recipe ppp-2.5.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe ppp-2.5.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2143 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_patch)
+NOTE: recipe ppp-2.5.3-r0: task do_patch: Started
+NOTE: recipe ppp-2.5.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe ppp-2.5.3-r0: task do_patch: Succeeded
+NOTE: Running task 2144 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2145 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_populate_lic)
+NOTE: recipe ppp-2.5.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe ppp-2.5.3-r0: task do_populate_lic: Started
+NOTE: recipe ppp-2.5.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe ppp-2.5.3-r0: task do_populate_lic: Succeeded
+NOTE: Running task 2146 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_configure)
+NOTE: recipe ppp-2.5.3-r0: task do_configure: Started
+NOTE: recipe ppp-2.5.3-r0: task do_configure: Succeeded
+NOTE: Running task 2147 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_compile)
+NOTE: recipe ppp-2.5.3-r0: task do_compile: Started
+NOTE: recipe ppp-2.5.3-r0: task do_compile: Succeeded
+NOTE: Running task 2148 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_install)
+NOTE: recipe ppp-2.5.3-r0: task do_install: Started
+NOTE: recipe ppp-2.5.3-r0: task do_install: Succeeded
+NOTE: Running task 2149 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_package)
+NOTE: Running task 2150 of 2158 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_populate_sysroot)
+NOTE: recipe ppp-2.5.3-r0: task do_package: Started
+NOTE: recipe ppp-2.5.3-r0: task do_populate_sysroot: Started
+NOTE: recipe ppp-2.5.3-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe ppp-2.5.3-r0: task do_package: Failed
+NOTE: Tasks Summary: Attempted 2150 tasks of which 2137 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260601071822.txt
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260601072248.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260601071822.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260601072248.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/neard/0.20/temp/log.do_configure.4177080
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_package
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/ppp/2.5.3/temp/log.do_package.13643
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: neard-0.20-r0 do_configure: QA Issue: neard: configure was passed unrecognised options: --with-systemduserunitdir [unknown-configure-option]
-ERROR: neard-0.20-r0 do_configure: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/neard/0.20/temp/log.do_configure.4177080
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/neard/neard_0.20.bb:do_configure) failed with exit code '1'
+ERROR: ppp-2.5.3-r0 do_package: QA Issue: ppp: Files/directories were installed but not shipped in any package:
+  /usr/lib/pppd/2.5.3/dhcpv6relay.so
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+ppp: 1 installed and not shipped files. [installed-vs-shipped]
+ERROR: ppp-2.5.3-r0 do_package: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/ppp/2.5.3/temp/log.do_package.13643
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/ppp/ppp_2.5.3.bb:do_package) failed with exit code '1'
 
---===============3802905429683203058==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-neard-upgrade-0.19-0.20.patch"
-
-RnJvbSA4OTk3NWFmZjk3OTYxZWExMGFlOGRlNzgzMzZlMzJmMzk3N2FhZjAzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAwNzoxODo0NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5l
-YXJkOiB1cGdyYWRlIDAuMTkgLT4gMC4yMAoKLS0tCiAuLi5BZGQtaGVhZGVyLWRlcGVuZGVuY3kt
-dG8tbmNpYXR0YWNoLm8ucGF0Y2ggfCAgOSArKy0tLS0KIC4uLi9NYWtlZmlsZS5hbS1kby1ub3Qt
-c2hpcC12ZXJzaW9uLmgucGF0Y2ggICB8ICA5ICsrLS0tLQogLi4uL01ha2VmaWxlLmFtLWZpeC1w
-YXJhbGxlbC1pc3N1ZS5wYXRjaCAgICAgIHwgMzAgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4uL25l
-YXJkL3tuZWFyZF8wLjE5LmJiID0+IG5lYXJkXzAuMjAuYmJ9ICAgIHwgIDUgKystLQogNCBmaWxl
-cyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDQ1IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
-MTAwNjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmQvTWFrZWZpbGUuYW0t
-Zml4LXBhcmFsbGVsLWlzc3VlLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
-eS9uZWFyZC97bmVhcmRfMC4xOS5iYiA9PiBuZWFyZF8wLjIwLmJifSAoOTMlKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmQvMDAwMS1BZGQtaGVhZGVy
-LWRlcGVuZGVuY3ktdG8tbmNpYXR0YWNoLm8ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
-aXR5L25lYXJkL25lYXJkLzAwMDEtQWRkLWhlYWRlci1kZXBlbmRlbmN5LXRvLW5jaWF0dGFjaC5v
-LnBhdGNoCmluZGV4IGQ4ZThhNWU1ZGEuLjdlMWRmZGQ5YTQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmQvMDAwMS1BZGQtaGVhZGVyLWRlcGVuZGVuY3kt
-dG8tbmNpYXR0YWNoLm8ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZWFy
-ZC9uZWFyZC8wMDAxLUFkZC1oZWFkZXItZGVwZW5kZW5jeS10by1uY2lhdHRhY2guby5wYXRjaApA
-QCAtMSw0ICsxLDQgQEAKLUZyb20gYWZmYWEyMDIxYTU0YzMwMzUzZTRlMWZlZTA5YzEzYTRkZTIx
-OTZiZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNzk4NDA0YTZjNTJkNzNjOTBlYTU3
-Y2NjMzMwMzMzNzA4N2U4Nzk1MSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEp1c3Np
-IEt1a2tvbmVuIDxqdXNzaS5rdWtrb25lbkBpbnRlbC5jb20+CiBEYXRlOiBGcmksIDE3IE1hciAy
-MDE3IDE0OjI0OjI5ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIEFkZCBoZWFkZXIgZGVwZW5kZW5j
-eSB0byBuY2lhdHRhY2gubwpAQCAtMTksMTAgKzE5LDEwIEBAIFVwc3RyZWFtLVN0YXR1czogU3Vi
-bWl0dGVkIFttYWlsaW5nbGlzdF0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKIAog
-ZGlmZiAtLWdpdCBhL01ha2VmaWxlLmFtIGIvTWFrZWZpbGUuYW0KLWluZGV4IGZhNTUyZWUuLmFj
-ZWY2YmEgMTAwNjQ0CitpbmRleCBkODY1ZTg0Li4xYzgxZDU4IDEwMDY0NAogLS0tIGEvTWFrZWZp
-bGUuYW0KICsrKyBiL01ha2VmaWxlLmFtCi1AQCAtMjUzLDYgKzI1Myw3IEBAIHNlL2J1aWx0aW4u
-aDogc3JjL2dlbmJ1aWx0aW4gJChidWlsdGluX3NlX3NvdXJjZXMpCitAQCAtMjU4LDYgKzI1OCw3
-IEBAIHNlL2J1aWx0aW4uaDogc3JjL2dlbmJ1aWx0aW4gJChidWlsdGluX3NlX3NvdXJjZXMpCiAg
-CiAgJChzcmNfbmVhcmRfT0JKRUNUUykgXAogICQodG9vbHNfbmZjdG9vbF9uZmN0b29sX09CSkVD
-VFMpIFwKQEAgLTMwLDYgKzMwLDMgQEAgaW5kZXggZmE1NTJlZS4uYWNlZjZiYSAxMDA2NDQKICAk
-KHBsdWdpbl9vYmplY3RzKSBcCiAgJChzZV9zZWVsZF9PQkpFQ1RTKSBcCiAgJCh1bml0X3Rlc3Rf
-bmRlZl9wYXJzZV9PQkpFQ1RTKSBcCi0tLSAKLTIuMTEuMAotCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L25lYXJkL25lYXJkL01ha2VmaWxlLmFtLWRvLW5vdC1zaGlwLXZl
-cnNpb24uaC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmQvTWFr
-ZWZpbGUuYW0tZG8tbm90LXNoaXAtdmVyc2lvbi5oLnBhdGNoCmluZGV4IDE2ODc1ZTA1NDMuLmI3
-MTYyN2U0ZGMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVh
-cmQvTWFrZWZpbGUuYW0tZG8tbm90LXNoaXAtdmVyc2lvbi5oLnBhdGNoCisrKyBiL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmQvTWFrZWZpbGUuYW0tZG8tbm90LXNoaXAtdmVy
-c2lvbi5oLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiZmQzMmQ2OGNmYzlmMWUzMWRhYjg4
-ZTA3NDQ2ZDFjMDJiYzgwYjVlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAxNzc5ZmM3
-ODBlYWIxODEyYTJjNzk2MGEzYzA3YTA1NzFmZDNhZWQ1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiBEYXRlOiBU
-aHUsIDEyIEZlYiAyMDE1IDAwOjM5OjI5IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIE1ha2VmaWxl
-LmFtOiBkbyBub3Qgc2hpcCB2ZXJzaW9uLmgKQEAgLTEwLDExICsxMCwxMSBAQCBVcHN0cmVhbS1T
-dGF0dXM6IFBlbmRpbmcKIAogU2lnbmVkLW9mZi1ieTogUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5n
-QHdpbmRyaXZlci5jb20+CiAtLS0KLSBNYWtlZmlsZS5hbSB8ICAgIDQgKystLQorIE1ha2VmaWxl
-LmFtIHwgNCArKy0tCiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
-bnMoLSkKIAogZGlmZiAtLWdpdCBhL01ha2VmaWxlLmFtIGIvTWFrZWZpbGUuYW0KLWluZGV4IDMz
-MzQ3OTAuLjY5Y2Q1OGYgMTAwNjQ0CitpbmRleCA1OTJmYjdjLi5kODY1ZTg0IDEwMDY0NAogLS0t
-IGEvTWFrZWZpbGUuYW0KICsrKyBiL01ha2VmaWxlLmFtCiBAQCAtMTAsMTEgKzEwLDExIEBAIHBr
-Z2luY2x1ZGVfSEVBREVSUyA9IGluY2x1ZGUvdHlwZXMuaCBpbmNsdWRlL2xvZy5oIGluY2x1ZGUv
-cGx1Z2luLmggXApAQCAtMzEsNiArMzEsMyBAQCBpbmRleCAzMzM0NzkwLi42OWNkNThmIDEwMDY0
-NAogIAkJCSQobm9pbnN0X0hFQURFUlMpLCBpbmNsdWRlL25lYXIvJChub3RkaXIgJChmaWxlKSkp
-CiAgCiAgZ2RidXNfc291cmNlcyA9IGdkYnVzL2dkYnVzLmggZ2RidXMvbWFpbmxvb3AuYyBnZGJ1
-cy93YXRjaC5jIFwKLS0tIAotMS43LjkuNQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29u
-bmVjdGl2aXR5L25lYXJkL25lYXJkL01ha2VmaWxlLmFtLWZpeC1wYXJhbGxlbC1pc3N1ZS5wYXRj
-aCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmQvTWFrZWZpbGUuYW0tZml4
-LXBhcmFsbGVsLWlzc3VlLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBhZWIz
-M2E1YmRjLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQv
-bmVhcmQvTWFrZWZpbGUuYW0tZml4LXBhcmFsbGVsLWlzc3VlLnBhdGNoCisrKyAvZGV2L251bGwK
-QEAgLTEsMzAgKzAsMCBAQAotRnJvbSA0M2FjYzU2ZDU1MDZjN2UzMThmNzE3ZmIzNjM0YmMxNmUz
-NDM4OTEzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogUm9iZXJ0IFlhbmcgPGxpZXpo
-aS55YW5nQHdpbmRyaXZlci5jb20+Ci1EYXRlOiBUaHUsIDE1IEphbiAyMDE1IDE4OjEyOjA3IC0w
-ODAwCi1TdWJqZWN0OiBbUEFUQ0hdIE1ha2VmaWxlLmFtOiBmaXggcGFyYWxsZWwgaXNzdWUKLQot
-VGhlcmUgbWlnaHQgYmUgbm8gc3JjIGRpciBpZiBzcmMvYnVpbHRpbi5oIHJ1bnMgZWFybGllciwg
-Y3JlYXRlIGl0IHRvCi1maXggdGhlIHJhY2UgaXNzdWU6Ci0KLXNyYy9nZW5idWlsdGluIG5mY3R5
-cGUxIG5mY3R5cGUyIG5mY3R5cGUzIG5mY3R5cGU0IHAycCA+IHNyYy9idWlsdGluLmgKLS9iaW4v
-c2g6IHNyYy9idWlsdGluLmg6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkKLQotVXBzdHJlYW0t
-U3RhdHVzOiBCYWNrcG9ydCBbZDM5ZjhjMGVlZTY1OTc0M2I0NDI1ZDM5NWMyZjdhYjE5NDllOWM3
-MV0KLQotU2lnbmVkLW9mZi1ieTogUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5j
-b20+Ci0tLS0KLSBNYWtlZmlsZS5hbSB8ICAgIDEgKwotIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKQotCi1JbmRleDogbmVhcmQtMC4xNi9NYWtlZmlsZS5hbQotPT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0t
-IG5lYXJkLTAuMTYub3JpZy9NYWtlZmlsZS5hbQotKysrIG5lYXJkLTAuMTYvTWFrZWZpbGUuYW0K
-LUBAIC0yNDQsNiArMjQ0LDcgQEAgU0VEX1BST0NFU1MgPSAkKEFNX1ZfR0VOKSQoTUtESVJfUCkg
-JChkaQotIHNyYy9wbHVnaW4uJChPQkpFWFQpOiBzcmMvYnVpbHRpbi5oCi0gCi0gc3JjL2J1aWx0
-aW4uaDogc3JjL2dlbmJ1aWx0aW4gJChidWlsdGluX3NvdXJjZXMpCi0rCSQoQU1fVl9hdCkkKE1L
-RElSX1ApIHNyYwotIAkkKEFNX1ZfR0VOKSQoc3JjZGlyKS9zcmMvZ2VuYnVpbHRpbiAkKGJ1aWx0
-aW5fbW9kdWxlcykgPiAkQAotIAotIHNlL3BsdWdpbi4kKE9CSkVYVCk6IHNlL2J1aWx0aW4uaApk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZWFyZC9uZWFyZF8wLjE5LmJi
-IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZWFyZC9uZWFyZF8wLjIwLmJiCnNpbWlsYXJp
-dHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQv
-bmVhcmRfMC4xOS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9uZWFyZC9u
-ZWFyZF8wLjIwLmJiCmluZGV4IGMxMTQ5ZTc2MzEuLmE1ODNkYTgyN2YgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbmVhcmQvbmVhcmRfMC4xOS5iYgorKysgYi9tZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L25lYXJkL25lYXJkXzAuMjAuYmIKQEAgLTEwLDEyICsxMCwxMSBA
-QCBERVBFTkRTID0gImRidXMgZ2xpYi0yLjAgbGlibmwgYXV0b2NvbmYtYXJjaGl2ZS1uYXRpdmUi
-CiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9saW51eC1uZmMvbmVhcmQ7cHJvdG9jb2w9
-aHR0cHM7YnJhbmNoPW1hc3RlciBcCiAgICAgICAgICAgIGZpbGU6Ly9uZWFyZC5pbiBcCi0gICAg
-ICAgICAgIGZpbGU6Ly9NYWtlZmlsZS5hbS1maXgtcGFyYWxsZWwtaXNzdWUucGF0Y2ggXAogICAg
-ICAgICAgICBmaWxlOi8vTWFrZWZpbGUuYW0tZG8tbm90LXNoaXAtdmVyc2lvbi5oLnBhdGNoIFwK
-ICAgICAgICAgICAgZmlsZTovLzAwMDEtQWRkLWhlYWRlci1kZXBlbmRlbmN5LXRvLW5jaWF0dGFj
-aC5vLnBhdGNoIFwKLSAgICAgICAgICAiCisgICAgICAgICAgICIKIAotU1JDUkVWID0gImExZGM4
-YTc1Y2JhOTk5NzI4ZTE1NGEwZjgxMWFiOWRkNTBjODA5ZjciCitTUkNSRVYgPSAiNzExODY2OGJj
-OTJmZTE1YThmZjVlNDA2N2FiZDVlMTYyMjUyNGYwMyIKIAogaW5oZXJpdCBhdXRvdG9vbHMgcGtn
-Y29uZmlnIHN5c3RlbWQgdXBkYXRlLXJjLmQKIAotLSAKMi40Ny4xCgo=
-
---===============3802905429683203058==--
+--===============3448918250481153525==--
 
