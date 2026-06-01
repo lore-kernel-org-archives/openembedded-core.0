@@ -1,156 +1,92 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C951CD5BD1
-	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 06:38:00 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22482.1780295874266688075
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88332CD6E4C
+	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 06:46:00 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22571.1780296355811101051
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2026 23:37:54 -0700
+ Sun, 31 May 2026 23:45:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BwAxLrRY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-46013161068so128606f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2026 23:37:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1780295872; x=1780900672; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Sq9+frqRndjdS1i6wU9CxcsAUb3bD0i3o7SY9rAMebU=;
-        b=BwAxLrRY4F29RYLkZTvrFyPwMCxzhG0kKMqiQWFQS1tXrZaqWITd0d0RaSCgmN4LPb
-         MkHyoMATjW1qR7vCMKnaO8uUOqWj/XO/1G2lycXX51iq9aVDrZ1ydzuIRC1giiYBHk8X
-         WaIhsOm6LTg3miWyK8bRI9pLDxDbz/MQqi8Gk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780295872; x=1780900672;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sq9+frqRndjdS1i6wU9CxcsAUb3bD0i3o7SY9rAMebU=;
-        b=QNjUFXGM8zeR5lN/BoBzo2iOe5lnl/GTChuhGH9MtzMT+DKi053LRNpdMxtebtN2WQ
-         b/bX3J57H1SC1zGReD1hLmqfYFVvaem3y6lKoqiJjOqed+wWePoNOl2rwidoNFy9PCDB
-         is/6wz4T4RWhExQgnWXwfRbdVZgXZhLhwtYb6TzX6fVN93WQVFaDwg13V8i+aRN1IF2R
-         Mk2sYqBvHGk28LWxZlA7xFXGE3U16j2CYXR2hTa1kRAYg7sVMdkYqNOPJ01yOI59/5In
-         x2ApU04B0XBYL+WYkZ7auvoPxY2wB0xiaX4dJzyqNRymBpvcLOQFR2lqM8ko3YvmjHoF
-         qsBg==
-X-Forwarded-Encrypted: i=1; AFNElJ+bTPSH4itwj48LXHoLu6GXskk1L1z5PzljKujL5Nd7K6WiHp+6yyiksJ8cBYVK1/LpDPLxXnUcRnp85t9sWiWyfA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzX/F6qxoy5oMuxXbwCn4qvSY6HeChRNbPym7OFhkOY2AqKqEVe
-	+gTCvKxsYYKFPFU534qsHM/5sK+lvt6jM7sM8S7WRDryH6kWP7VfHkN6cRdaDtbmYlI=
-X-Gm-Gg: Acq92OGp2h25H1tzo0Xgiaket2vIDR6r6E+VRKQ+kOv0TwlnM1yPfa1K1VNFAKZ1cw1
-	fNgEPSQRNYUTMI4OMXloRvA2cj6lj4s+H/lgTaFcYS6Em7awM5pdp2bezJg/9KQnXikheup+NLl
-	d0anmb948uqCexKu7Y/0L7Ly+84bufezzeJpETyjOPrq7rhImDAbSKhO50qfyAm/+hcEv+z6bPp
-	a+A5I41Y0yxMMZ5DiL+4k5PdcHQJLPT2q+usyhr8T0c4SHy7RIXTCs74gk4o4W1esY5W6ZEM5ut
-	PA5SY6l3HA1kVoL2qOj3oNBTtEVLZsUY5ffFT1ClPLefS9Jgo9MlANcq0p8jwL2nTzgpMo/Oinh
-	soK8NLSA5A9rumF94bx5pizc8dsNQSC5WSa4EAaEnA8o6FNnABqBdAW/EVpxMYh35NqtwK6Peal
-	ayvcsdkTrgFlVpXoBUUDST4w5967s1ZeHil05i+v8nf57oQ61+XkzizPfOJ4UeOeah8tEK8Yi0v
-	PInkkS9sBaYZxkwa4Bf6nT+
-X-Received: by 2002:a05:6000:41f9:b0:460:ff2:63e5 with SMTP id ffacd0b85a97d-4600ff2650emr6648304f8f.18.1780295872458;
-        Sun, 31 May 2026 23:37:52 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:91e5:137:d314:95b7? ([2001:8b0:aba:5f3c:91e5:137:d314:95b7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef3587072sm23766460f8f.34.2026.05.31.23.37.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 23:37:51 -0700 (PDT)
-Message-ID: <b756a9add53cba2b685aa30d803526e1d002d8c2.camel@linuxfoundation.org>
-Subject: Re: [PATCH] [PATCH v3] gawk: backport randtest stability fix
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Aditya GS <adityags2004@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com, joaomarcos.costa@bootlin.com,
- ross.burton@arm.com, 	randy.macleod@windriver.com
-Date: Mon, 01 Jun 2026 07:37:50 +0100
-In-Reply-To: <20260601062311.638-1-adityags2004@gmail.com>
-References: <20260601062311.638-1-adityags2004@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
-MIME-Version: 1.0
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rvYkBEuL;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=YaSdC7Cq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019e81ee8c59-a5258436-819a-452a-873d-d34182585aed-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1780296355; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=566cTS/xHzlTOe+ff8JEEbc1NRX68rzn7Y6iXJCSbqM=;
+	b=rvYkBEuLfkkCI8eOJT9/DSp6IdU42uqs7eu3Eof0fXtu2rw2cXxJkcdFQRbtc5h8
+	MQxt1pLbxbBa0tfPqyEMSnb+8EfZns20Eq9XbDQV9f3JuwCdVnGs4SNp4c5V7U/9WBc
+	+5n78YQKCOrbz/2RgTIjw8k2G5OekJ6avk6ACupU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780296355;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=566cTS/xHzlTOe+ff8JEEbc1NRX68rzn7Y6iXJCSbqM=;
+	b=YaSdC7Cq8wQ0b5jTqsIcpQrgw8kR954g0DfmD3RVozWBTFprHcGkATf9hdbvpTjp
+	zw4oM8L/AwFSSIu08RLD1VWnzxOvjwy8xnYsn3lB/jQlf4cCLId8vBKfCD+OzrzlBmw
+	XQq/tStar20MjuEDZYL+Xwpq4ec77X2q6Mk7Wy/4=
+From: patchtest@automation.yoctoproject.org
+To: Aditya GS <adityags2004@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] gawk: backport randtest stability fix
+In-Reply-To: <20260601062311.638-2-adityags2004@gmail.com>
+References: <20260601062311.638-2-adityags2004@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019e81ee8c59-a5258436-819a-452a-873d-d34182585aed-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jun 2026 06:45:54 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.06.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 06:38:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237812
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 06:46:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237813
 
-Hi,
+--NextPart
+Content-Type: text/plain
 
-Thanks for the patch. I have a few pieces of feedback, just to help
-streamline the patch merging process.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Firstly, I think this might be against scarthgap as it has 5.3.0?
-master/wrynose have 5.4.0. It isn't against master, you need to say
-which branch it is against in the shortlog/subject, e.g. [scarthgap].
-We do also have a backport policy which means this needs to be applied
-in master first, then backported to the LTS releases after that.
+---
+Testing patch /home/patchtest/share/mboxes/gawk-backport-randtest-stability-fix.patch
 
-On Mon, 2026-06-01 at 11:53 +0530, Aditya GS wrote:
-> Backport upstream fix to improve stability of randtest.sh by
-> retrying when sigma is too small, avoiding intermittent failures.
->=20
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16254
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'randtest-fix.patch' (test_patch.TestPatch.test_signed_off_by_presence)
 
-The convention for this is:
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-[YOCTO #16254]
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
 
->=20
-> Signed-off-by: Aditya GS <adityags2004@gmail.com>
-> ---
-> =C2=A0.../gawk/files/randtest-fix.patch=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 139 ++++++++++++++++++
-> =C2=A0meta/recipes-extended/gawk/gawk_5.3.0.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 1 +
-> =C2=A02 files changed, 140 insertions(+)
-> =C2=A0create mode 100644 meta/recipes-extended/gawk/files/randtest-fix.pa=
-tch
->=20
-> diff --git a/meta/recipes-extended/gawk/files/randtest-fix.patch b/meta/r=
-ecipes-extended/gawk/files/randtest-fix.patch
-> new file mode 100644
-> index 0000000000..0b813e667e
-> --- /dev/null
-> +++ b/meta/recipes-extended/gawk/files/randtest-fix.patch
-> @@ -0,0 +1,139 @@
-> +From f2250f4bc864913437619af7a9834a1c24915acd Mon Sep 17 00:00:00 2001
-> +From: "Arnold D. Robbins" <arnold@skeeve.com>
-> +Date: Thu, 28 May 2026 09:52:41 -0400
-> +Subject: [PATCH] Improve test/randtest.sh.
-> +
-> +Backport upstream fix to improve stability of randtest.sh by retrying
-> +when sigma is too small, avoiding intermittent failures.
-> +
-> +Upstream-Status: Backport
-> +[https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=3Df2250f4bc8=
-64913437619af7a983
+---
 
-Missing closing brace and ideally shouldn't be line wrapped.
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
-> + function abs(abs_input) { return(sqrt(abs_input^2)) ; }
-> + '
-> +=20
-> +--=20
-> +2.34.1
-> +
-> diff --git a/meta/recipes-extended/gawk/gawk_5.3.0.bb b/meta/recipes-exte=
-nded/gawk/gawk_5.3.0.bb
-> index ac9d8500d6..06184a4b48 100644
-> --- a/meta/recipes-extended/gawk/gawk_5.3.0.bb
-> +++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb
-> @@ -18,6 +18,7 @@ PACKAGECONFIG[mpfr] =3D "--with-mpfr,--without-mpfr, mp=
-fr"
-> =C2=A0SRC_URI =3D "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
-/0001-m4-readline-add-missing-includes.patch=C2=A0\
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
-/run-ptest=C2=A0\
-> +	=C2=A0=C2=A0 file://randtest-fix.patch=C2=A0\
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
+--NextPart
 
-Whitespace mismatch.
 
-Could you send a tweaked version against master please? I would like to
-remove one of the intermittent ptest failures!
-
-Thanks,
-
-Richard
+--NextPart--
 
