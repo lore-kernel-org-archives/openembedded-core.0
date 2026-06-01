@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE641CD6E65
-	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 15:35:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FD2CCD8C97
+	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 15:35:46 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1580.1780328143724228234
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1574.1780328141804944797
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2026 08:35:44 -0700
+ Mon, 01 Jun 2026 08:35:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=oA8UTfFr;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DqM0fqIq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019e83d39db4-750261e6-8e1a-4319-b4c5-cc06da38bc82-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TdTL0iMd;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=df3srq6N;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019e83d39108-5fbe8cb9-1ec2-4e45-8f3e-ecd62915531c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1780328144;
+	t=1780328141;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Fkh66vNqJubsRSNgOAqum2LZo73eHT9/x2e50qwIATc=;
-	b=oA8UTfFrFWRSRKWMVqg1se8WI/F73pbOU7uinhrYNvBCA5iuCy1wh6WhXqyXl0Id
-	Jm57zUjswQoD2I/vp8i49J4ICl7Q3f8sEZx7ChDAOTsmQlG3uwbACE6jqkiHgh23rLw
-	HnwI3GSZ9DIbMPL+MDB1YpeNNtR4lkCg5Ea3T8Wk=
+	bh=nsh1a1cx40TlHUG5aTsM58r09n+ofos8xRkFcQU4+8c=;
+	b=TdTL0iMdZ2k+3ogtMqkXiVK3SizY2NPdP16IUXd+CIb88U8HWrmtcPJnyUqqLaHw
+	pGke2EwOBEg//UDtT3GFIHk/oQyC0GqAnWBoexBaem6S4joXfpjFv5pWjGboKOndFPf
+	ePEykb/fmxRg+MqOSfRMaP3xyQn8sBUuK1DFIOHI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328144;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328141;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Fkh66vNqJubsRSNgOAqum2LZo73eHT9/x2e50qwIATc=;
-	b=DqM0fqIqN7B/fBluRsB8sQ4aEXLU2V2BhzvlvAWNFjfDu+XlFmBEMayHsh6fuRWp
-	s1+PSPNklmunfsGiL/gEI8L3krF8JQU5Fl8APibdhYN50o/b9AFIghKcm4YZFVkdwsZ
-	YIrb0SDPMWadZ6Mni5NO+wYwUTSkj7qOK4hyobjo=
-Content-Type: multipart/mixed; boundary="===============7641072120056719464=="
+	bh=nsh1a1cx40TlHUG5aTsM58r09n+ofos8xRkFcQU4+8c=;
+	b=df3srq6NLfqbBI2CI/ySEc7H6oAAkJJRvY/6DrHQlc/SeTEl7rMaSoE5V5iN2LXF
+	ZI6A2PGHkPqIrmnPpKFb2MsuSCicxSG3M3VuJXIpJzCfeQlmV/+jI0RxS2vv1VLIqTy
+	YOH3H7GrKnbkVRYjHRwIayG9ohZ+YNpNWua0e66A=
+Content-Type: multipart/mixed; boundary="===============5939325736562312303=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ruby: upgrading to 4.0.5 SUCCEEDED
-Message-ID: <0101019e83d39db4-750261e6-8e1a-4319-b4c5-cc06da38bc82-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Jun 2026 15:35:44 +0000
+Subject: [AUH] python3-pytz: upgrading to 2026.2 SUCCEEDED
+Message-ID: <0101019e83d39108-5fbe8cb9-1ec2-4e45-8f3e-ecd62915531c-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jun 2026 15:35:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.06.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 15:35:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237903
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 15:35:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237893
 
---===============7641072120056719464==
+--===============5939325736562312303==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ruby* to *4.0.5* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-pytz* to *2026.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ruby-upgrade-4.0.3-4.0.5.patch
+    - apply the patch: git am 0001-python3-pytz-upgrade-2026.1-2026.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,489 +72,675 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4e2f9aebdd019d2184f8688a358e06a00ba19d1e Mon Sep 17 00:00:00 2001
+From ad5046e30a923a4c551ce0e8e492b216c45e4d65 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jun 2026 10:05:24 +0000
-Subject: [PATCH] ruby: upgrade 4.0.3 -> 4.0.5
+Date: Mon, 1 Jun 2026 09:22:46 +0000
+Subject: [PATCH] python3-pytz: upgrade 2026.1 -> 2026.2
 
 ---
- ...-Don-t-save-the-original-name-and-timestamp.patch |  2 +-
- ...xtmk-fix-cross-compilation-of-external-gems.patch |  2 +-
- ...p.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch |  2 +-
- .../0002-Obey-LDFLAGS-for-the-link-of-libruby.patch  |  2 +-
- .../0003-rdoc-build-reproducible-documentation.patch | 12 ++++++------
- ...rb-sort-list-of-object-files-in-generated-M.patch |  2 +-
- ...mspec-reproducible-change-fixing-784225-too.patch |  6 +++---
- .../ruby/ruby/0006-Make-gemspecs-reproducible.patch  | 10 +++++-----
- ...ip-test_rm_r_no_permissions-test-under-root.patch |  2 +-
- .../ruby/{ruby_4.0.3.bb => ruby_4.0.5.bb}            |  2 +-
- 10 files changed, 21 insertions(+), 21 deletions(-)
- rename meta/recipes-devtools/ruby/{ruby_4.0.3.bb => ruby_4.0.5.bb} (98%)
+ .../python/{python3-pytz_2026.1.bb => python3-pytz_2026.2.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pytz_2026.1.bb => python3-pytz_2026.2.bb} (87%)
 
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-Don-t-save-the-original-name-and-timestamp.patch b/meta/recipes-devtools/ruby/ruby/0001-Don-t-save-the-original-name-and-timestamp.patch
-index 2c48ca184d..0edb93a899 100644
---- a/meta/recipes-devtools/ruby/ruby/0001-Don-t-save-the-original-name-and-timestamp.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0001-Don-t-save-the-original-name-and-timestamp.patch
-@@ -1,4 +1,4 @@
--From 73edbaf1a89e05e92f91ed97348a65c4ce740cea Mon Sep 17 00:00:00 2001
-+From 15be6d9985b1452c7f64c117d1ca52c2323eca92 Mon Sep 17 00:00:00 2001
- From: Changqing Li <changqing.li@windriver.com>
- Date: Fri, 27 Feb 2026 16:59:24 +0800
- Subject: [PATCH] Don't save the original name and timestamp
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch b/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch
-index 3bf80b1613..444d819f62 100644
---- a/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch
-@@ -1,4 +1,4 @@
--From f2ea81d4707614309cda02be59dd6ccbde9b2441 Mon Sep 17 00:00:00 2001
-+From 5f3e6fd3aeb39bda6819f2b0c7e0b7a8d6002614 Mon Sep 17 00:00:00 2001
- From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@jci.com>
- Date: Mon, 30 Sep 2019 16:57:01 +0100
- Subject: [PATCH] extmk: fix cross-compilation of external gems
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch b/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
-index 32d55cde9f..5ee02d5a39 100644
---- a/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
-@@ -1,4 +1,4 @@
--From 875543f1bc5da190543e2696a47cfaaf939e1549 Mon Sep 17 00:00:00 2001
-+From adfedd938ac076c0ac0adbc25988ffc11a488479 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Tue, 25 Jan 2022 20:29:14 -0800
- Subject: [PATCH] vm_dump.c: Define REG_S1 and REG_S2 for musl/riscv
-diff --git a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-index 11aec87934..aed6a6bb37 100644
---- a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-@@ -1,4 +1,4 @@
--From c460fce052e04a8126f5e0554f68359ef986c5f8 Mon Sep 17 00:00:00 2001
-+From e38ed3d9761696684c6a985400212c87c8479a77 Mon Sep 17 00:00:00 2001
- From: Christopher Larson <chris_larson@mentor.com>
- Date: Thu, 5 May 2016 10:59:07 -0700
- Subject: [PATCH] Obey LDFLAGS for the link of libruby
-diff --git a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-index 863960839d..db5aa1154c 100644
---- a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-@@ -1,4 +1,4 @@
--From 3a335538594d0eb3da6155a64b473a46fd06ce76 Mon Sep 17 00:00:00 2001
-+From 5525d69162451be10d867e1c1f5eed6347e91c8d Mon Sep 17 00:00:00 2001
- From: Christian Hofstaedtler <zeha@debian.org>
- Date: Tue, 10 Oct 2017 15:04:34 -0300
- Subject: [PATCH] rdoc: build reproducible documentation
-@@ -13,13 +13,13 @@ Signed-off-by: Christian Hofstaedtler <zeha@debian.org>
- rebase to version 4.0.1
- Signed-off-by: Changqing Li <changqing.li@windriver.com>
- ---
-- .bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb | 4 ++--
-+ .bundle/gems/rdoc-7.0.4/lib/rdoc/generator/json_index.rb | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-devtools/python/python3-pytz_2026.1.bb b/meta/recipes-devtools/python/python3-pytz_2026.2.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-pytz_2026.1.bb
+rename to meta/recipes-devtools/python/python3-pytz_2026.2.bb
+index 0c9e1e7a4c..1365897d85 100644
+--- a/meta/recipes-devtools/python/python3-pytz_2026.1.bb
++++ b/meta/recipes-devtools/python/python3-pytz_2026.2.bb
+@@ -7,7 +7,7 @@ inherit pypi setuptools3 ptest-python-pytest
  
--diff --git a/.bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb b/.bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb
--index 065caa4..cfa1f33 100644
----- a/.bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb
--+++ b/.bundle/gems/rdoc-7.0.3/lib/rdoc/generator/json_index.rb
-+diff --git a/.bundle/gems/rdoc-7.0.4/lib/rdoc/generator/json_index.rb b/.bundle/gems/rdoc-7.0.4/lib/rdoc/generator/json_index.rb
-+index c61391d..9115dbd 100644
-+--- a/.bundle/gems/rdoc-7.0.4/lib/rdoc/generator/json_index.rb
-++++ b/.bundle/gems/rdoc-7.0.4/lib/rdoc/generator/json_index.rb
- @@ -176,7 +176,7 @@ class RDoc::Generator::JsonIndex
-      debug_msg "Writing gzipped search index to %s" % outfile
-  
-diff --git a/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-index 2c1f857d75..01c9cb5792 100644
---- a/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-@@ -1,4 +1,4 @@
--From e94b898d11e3bd5c412aa3b772040870cddf36c7 Mon Sep 17 00:00:00 2001
-+From 1215d5dd805f77736670ee8d315af420f0a09ac8 Mon Sep 17 00:00:00 2001
- From: Reiner Herrmann <reiner@reiner-h.de>
- Date: Tue, 10 Oct 2017 15:06:13 -0300
- Subject: [PATCH] lib/mkmf.rb: sort list of object files in generated Makefile
-diff --git a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-index 746d102292..91dd79817b 100644
---- a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-@@ -1,4 +1,4 @@
--From f21e09b9c8f5975887cd85e3ec4dcf9838f62575 Mon Sep 17 00:00:00 2001
-+From 1bad7890e9f6f104c1980b4321660a76c22e14de Mon Sep 17 00:00:00 2001
- From: Lucas Kanashiro <kanashiro@debian.org>
- Date: Fri, 1 Nov 2019 15:25:17 -0300
- Subject: [PATCH] Make gemspecs reproducible
-@@ -12,10 +12,10 @@ Upstream-Status: Backport [debian]
-  1 file changed, 3 insertions(+), 1 deletion(-)
+ PTEST_PYTEST_DIR = "pytz/tests"
  
- diff --git a/lib/rubygems/specification.rb b/lib/rubygems/specification.rb
--index 503f0a4..5d33b09 100644
-+index 2db9352..925b7a0 100644
- --- a/lib/rubygems/specification.rb
- +++ b/lib/rubygems/specification.rb
--@@ -1705,7 +1705,9 @@ class Gem::Specification < Gem::BasicSpecification
-+@@ -1714,7 +1714,9 @@ class Gem::Specification < Gem::BasicSpecification
-                  raise(Gem::InvalidSpecificationException,
-                        "invalid date format in specification: #{date.inspect}")
-                end
-diff --git a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-index cdfa2144d7..a331ee96b2 100644
---- a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-@@ -1,4 +1,4 @@
--From 2a18efc076a20bc270215a802d72618ad0605f91 Mon Sep 17 00:00:00 2001
-+From e81cd7e15a6ea5fdb2fb8817fab8228ba76c7175 Mon Sep 17 00:00:00 2001
- From: Lucas Kanashiro <kanashiro@debian.org>
- Date: Fri, 1 Nov 2019 15:25:17 -0300
- Subject: [PATCH] Make gemspecs reproducible
-@@ -13,7 +13,7 @@ Signed-off-by: Changqing Li <changqing.li@windriver.com>
- ---
-  .bundle/gems/bigdecimal-4.0.1/bigdecimal.gemspec | 1 +
-  .bundle/gems/fiddle-1.1.8/fiddle.gemspec         | 1 +
-- .bundle/gems/rdoc-7.0.3/rdoc.gemspec             | 1 +
-+ .bundle/gems/rdoc-7.0.4/rdoc.gemspec             | 1 +
-  ext/io/console/io-console.gemspec                | 1 +
-  lib/ipaddr.gemspec                               | 1 +
-  5 files changed, 5 insertions(+)
-@@ -42,10 +42,10 @@ index 0092f52..f77c224 100644
-    spec.authors       = ["Aaron Patterson", "SHIBATA Hiroshi"]
-    spec.email         = ["aaron@tenderlovemaking.com", "hsbt@ruby-lang.org"]
-  
--diff --git a/.bundle/gems/rdoc-7.0.3/rdoc.gemspec b/.bundle/gems/rdoc-7.0.3/rdoc.gemspec
-+diff --git a/.bundle/gems/rdoc-7.0.4/rdoc.gemspec b/.bundle/gems/rdoc-7.0.4/rdoc.gemspec
- index ada9341..5871ec2 100644
----- a/.bundle/gems/rdoc-7.0.3/rdoc.gemspec
--+++ b/.bundle/gems/rdoc-7.0.3/rdoc.gemspec
-+--- a/.bundle/gems/rdoc-7.0.4/rdoc.gemspec
-++++ b/.bundle/gems/rdoc-7.0.4/rdoc.gemspec
- @@ -7,6 +7,7 @@ end
-  
-  Gem::Specification.new do |s|
-diff --git a/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch b/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
-index 93b7406858..15ba8ab20c 100644
---- a/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
-@@ -1,4 +1,4 @@
--From 4a48511f45606eff4e03f004fb6aea6f8ccd1eaf Mon Sep 17 00:00:00 2001
-+From 47af3cc4cb312d0c61d3f9a467e40789c387026b Mon Sep 17 00:00:00 2001
- From: Jiaying Song <jiaying.song.cn@windriver.com>
- Date: Mon, 7 Jul 2025 15:05:57 +0800
- Subject: [PATCH] Skip test_rm_r_no_permissions test under root
-diff --git a/meta/recipes-devtools/ruby/ruby_4.0.3.bb b/meta/recipes-devtools/ruby/ruby_4.0.5.bb
-similarity index 98%
-rename from meta/recipes-devtools/ruby/ruby_4.0.3.bb
-rename to meta/recipes-devtools/ruby/ruby_4.0.5.bb
-index 56f167379c..a0981bf622 100644
---- a/meta/recipes-devtools/ruby/ruby_4.0.3.bb
-+++ b/meta/recipes-devtools/ruby/ruby_4.0.5.bb
-@@ -48,7 +48,7 @@ do_configure:prepend() {
+-SRC_URI[sha256sum] = "10413c35476919b4c07bda6b9810c6e24d914378c430070bdb1869e18a37eee5"
++SRC_URI[sha256sum] = "0e60b47b29f21574376f218fe21abc009894a2321ea16c6754f3cad6eb7cdd6a"
  
- DEPENDS:append:libc-musl = " libucontext"
- 
--SRC_URI[sha256sum] = "77964acc370d5c8375b9502e5ba6c13c03ef91ab9eb9f521c84fb42b9c9a6b0f"
-+SRC_URI[sha256sum] = "7d6149079a63f8ae1d326c9fa65c6019ba2dc3155eae7b39159817911c88958e"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ RDEPENDS:${PN}:class-target += "\
+     python3-datetime \
 -- 
 2.47.1
 
 
---===============7641072120056719464==
+--===============5939325736562312303==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/markup -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/markup, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/aliki/css -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/aliki/css, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/code_object -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/code_object, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/i18n -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/i18n, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/parser -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/parser, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/man -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/man, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/pot -> /usr/lib/ruby/gems/4
- .0.0/gems/rdoc-7.0.4/lib/rdoc/generator/pot, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/stats -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/stats, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/rd -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/rd, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/ri -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/ri, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/json_index/js -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/json_index/js, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/markdown -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/markdown, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/aliki -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/aliki, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib
- /rdoc/generator/template/darkfish/css -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/darkfish/css, directory renamed /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6/exe -> /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.10/exe, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/darkfish/images -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/darkfish/images, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/exe -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/exe, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/darkfish/js -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/darkfish/js, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/darkfish -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/
- rdoc/generator/template/darkfish, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/darkfish/fonts -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/darkfish/fonts, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/aliki/js -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/aliki/js, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/code_object/context -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/code_object/context, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3 -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4, removed "/usr/lib/ruby/gems/4.0.0/specifications/rdoc-7.0.3.gemspec /usr/li
- b/ruby/gems/4.0.0/cache/rdoc-7.0.3.gem /usr/lib/libruby.so.4.0.3 /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.6.gemspec", added "/usr/lib/ruby/gems/4.0.0/specifications/rdoc-7.0.4.gemspec /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.10.gemspec /usr/lib/libruby.so.4.0.5 /usr/lib/ruby/gems/4.0.0/cache/rdoc-7.0.4.gem /usr/lib/ruby/4.0.0/bundler/templates/newgem/github/workflows/build-gems.yml.tt /usr/lib/ruby/4.0.0/bundler/templates/newgem/ext/newgem/build.rs.tt"
-Changes to packages/x86-64-v3-poky-linux/ruby (sysroot):
-  /usr/lib/libruby.so.4.0 changed symlink target from libruby.so.4.0.3 to libruby.so.4.0.5
-  /usr/lib/libruby.so changed symlink target from libruby.so.4.0.3 to libruby.so.4.0.5
-  /usr/lib/libruby.so.4.0.3 moved to /usr/lib/libruby.so.4.0.5
-  /usr/lib/ruby/gems/4.0.0/cache/rdoc-7.0.3.gem moved to /usr/lib/ruby/gems/4.0.0/cache/rdoc-7.0.4.gem
-  /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3 moved to /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4
-  /usr/lib/ruby/gems/4.0.0/specifications/rdoc-7.0.3.gemspec moved to /usr/lib/ruby/gems/4.0.0/specifications/rdoc-7.0.4.gemspec
-  /usr/lib/ruby/4.0.0/bundler/templates/newgem/ext/newgem/build.rs.tt was added
-  /usr/lib/ruby/4.0.0/bundler/templates/newgem/github/workflows/build-gems.yml.tt was added
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.10 was added
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.10/exe was added
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.10/exe/bundle was added
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.10/exe/bundler was added
-  /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.10.gemspec was added
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6 was removed
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6/exe was removed
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6/exe/bundle was removed
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6/exe/bundler was removed
-  /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.6.gemspec was removed
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pytz-2026.1.dist-info -> /usr/lib/python3.14/site-packages/pytz-2026.2.dist-info, directory renamed /usr/lib/python3.14/site-packages/pytz-2026.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/pytz-2026.2.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-pytz (sysroot):
+  /usr/lib/python3.14/site-packages/pytz-2026.1.dist-info moved to /usr/lib/python3.14/site-packages/pytz-2026.2.dist-info
 
---===============7641072120056719464==
+--===============5939325736562312303==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 950 .bb files complete (0 cached, 950 parsed). 1975 targets, 62 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-musleabi"
+MACHINE              = "qemuarm"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-3dbec20ed178db086debcdd83e3ba1818fadc7df"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+meta                 = "tmp-auh-upgrades:3dbec20ed178db086debcdd83e3ba1818fadc7df"
+meta-yocto-bsp       
+meta-poky            = "master:d13ca2a2e0f478046d920b8fc7dd3098952b5ad8"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 515 Local 501 Mirrors 0 Missed 14 Current 322 (97% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 333 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 342 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_package_qa_setscene)
+NOTE: Running setscene task 345 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.3.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 347 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 348 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 349 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 351 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.5.bb:do_package_qa_setscene)
+NOTE: Running setscene task 356 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.3.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 367 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 377 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_package_qa_setscene)
+NOTE: Running setscene task 384 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.3.bb:do_package_qa_setscene)
+NOTE: Running setscene task 385 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.3.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 387 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.5.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 388 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 394 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.5.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 395 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.5.bb:do_package_write_rpm_setscene)
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_qa_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-pytest-9.0.3-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_qa_setscene: Started
+NOTE: recipe python3-pytest-9.0.3-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-pytest-9.0.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-pytest-9.0.3-r0: task do_package_qa_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-pytest-9.0.3-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-3.14.5-r0: task do_package_qa_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 396 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_package_write_deb_setscene)
+NOTE: recipe python3-3.14.5-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe python3-3.14.5-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-3.14.5-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_qa_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 404 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_package_write_deb_setscene)
+NOTE: recipe python3-pytest-9.0.3-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 406 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_package_write_ipk_setscene)
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe python3-pytest-9.0.3-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: Running setscene task 411 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 444 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-pytest-9.0.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe python3-pytest-9.0.3-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe python3-pytest-9.0.3-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 446 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.3.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.14.5-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 447 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 448 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 449 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 451 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 454 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygments_2.20.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 455 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-colorama_0.4.6.bb:do_packagedata_setscene)
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_populate_lic_setscene: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-pytest-9.0.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-iniconfig-2.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-packaging-26.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pluggy-1.6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-colorama-0.4.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pygments-2.20.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 463 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 464 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_packagedata_setscene)
+NOTE: recipe python3-pytz-2026.2-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe python3-3.14.5-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe python3-3.14.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 465 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.14.5-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe python3-pytest-9.0.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.14.5-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 468 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.0.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 469 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils_2.46.bb:do_packagedata_setscene)
+NOTE: Running setscene task 470 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 471 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 472 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 473 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 474 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/sed/sed_4.10.bb:do_packagedata_setscene)
+NOTE: recipe python3-iniconfig-2.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 475 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc_16.1.bb:do_packagedata_setscene)
+NOTE: recipe python3-pluggy-1.6.0-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/python3-packaging/26.0/temp/log.do_packagedata_setscene.2218863
+NOTE: Running setscene task 476 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
+NOTE: recipe python3-pygments-2.20.0-r0: task do_packagedata_setscene: Succeeded
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe python3-colorama-0.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 477 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.0.bb:do_package_setscene)
+NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.14.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-pytz-2026.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pytest-9.0.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe binutils-2.46-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pytest-9.0.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 481 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.5.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 504 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 507 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.19.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 513 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 523 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 526 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 529 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe binutils-2.46-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 541 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.194.bb:do_packagedata_setscene)
+NOTE: recipe gcc-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 547 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.4.1.bb:do_packagedata_setscene)
+NOTE: recipe ptest-runner-2.5.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.19.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 831 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_fetch)
+NOTE: recipe sed-4.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe coreutils-9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.14.5-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libmpc-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe elfutils-0.194-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 560 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-pytz-2026.2-r0: task do_fetch: Started
+NOTE: Running setscene task 562 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pytz-2026.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-3.14.5-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 583 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_recipe_spdx_setscene)
+NOTE: Running task 1099 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_unpack)
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libmpc-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 587 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe elfutils-0.194-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 591 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 592 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
+NOTE: Running setscene task 594 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 596 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 597 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
+NOTE: Running setscene task 598 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 601 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.18.bb:do_packagedata_setscene)
+NOTE: recipe python3-pytz-2026.2-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running task 1111 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe shadow-4.19.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_unpack: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running task 1117 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_patch)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libmicrohttpd-1.0.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 615 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe libarchive-3.8.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: Running task 1118 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 1119 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-packaging-26.0-r0: task do_package_setscene: Started
+NOTE: recipe mpfr-4.2.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pytz-2026.2-r0: task do_patch: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libmicrohttpd-1.0.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 626 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/file/file_5.47.bb:do_packagedata_setscene)
+NOTE: Running setscene task 631 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/gnutls_3.8.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 633 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgcrypt/libgcrypt_1.12.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 634 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.19.0.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe json-c-0.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libarchive-3.8.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 648 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
+NOTE: recipe python3-pytz-2026.2-r0: task do_patch: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1253 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_check_backend)
+NOTE: recipe file-5.47-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnutls-3.8.13-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1294 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_create_recipe_spdx)
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: recipe curl-8.19.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1305 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_check_backend: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_check_backend: Succeeded
+NOTE: recipe file-5.47-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: Running setscene task 663 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/lzip/lzlib_1.16.bb:do_packagedata_setscene)
+NOTE: recipe python3-pytz-2026.2-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libgcrypt-1.12.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 667 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.60.bb:do_packagedata_setscene)
+NOTE: Running setscene task 668 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap/libcap_2.78.bb:do_packagedata_setscene)
+NOTE: recipe curl-8.19.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: Running task 1326 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe python3-packaging-26.0-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 675 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 677 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 678 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.0.bb:do_recipe_qa_setscene)
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 683 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: recipe lzlib-1.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-2.78-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnutls-3.8.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgpg-error-1.60-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 687 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gnutls/libtasn1_4.21.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 690 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_3.10.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 692 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libseccomp/libseccomp_2.6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 693 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: recipe python3-packaging-26.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe lzlib-1.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.14.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.14.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-2.78-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: recipe nettle-3.10.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 699 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_packagedata_setscene)
+NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1347 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe python3-pytz-2026.2-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe python3-packaging-26.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgpg-error-1.60-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe libtasn1-4.21.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libseccomp-2.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe nettle-3.10.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 714 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: Running task 1378 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 723 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.4.2.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.14.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 726 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 727 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 728 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 729 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 730 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 731 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 732 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 733 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 734 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 735 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
+NOTE: Running setscene task 736 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.14.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 738 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 739 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libunistring-1.4.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.53.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.8.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.5.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunistring-1.4.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 740 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
+NOTE: recipe sqlite3-3_3.53.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 741 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 742 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 743 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 745 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe expat-2.8.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 747 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 749 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 750 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 751 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libedit-20251016-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 752 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe xz-5.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 762 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_packagedata_setscene)
+NOTE: recipe openssl-3.5.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 764 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 766 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb:do_recipe_qa_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 772 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.3.bb:do_recipe_qa_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.53.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.5.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.8.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1394 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.14.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xz-5.8.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 777 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-3.14.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.53.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 779 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 781 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.53.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 783 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_recipe_qa_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libedit-20251016-3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 786 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 787 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_recipe_qa_setscene)
+NOTE: recipe expat-2.8.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 789 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.1.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 791 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb:do_recipe_qa_setscene)
+NOTE: recipe xz-5.8.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 794 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 798 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_recipe_qa_setscene)
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssl-3.5.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 799 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 801 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_3.5.6.bb:do_recipe_qa_setscene)
+NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.53.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe expat-2.8.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.53.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.8.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.5.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-libuuid-2.41.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.5.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 803 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 804 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 806 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 808 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 810 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 811 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 813 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 815 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 816 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
+NOTE: Running setscene task 817 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 818 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 819 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcc-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 824 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 825 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 826 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 830 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 833 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 835 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 837 of 837 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1786 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2048 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.0.bb:do_packagedata)
+NOTE: recipe python3-pytz-2026.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: recipe python3-packaging-26.0-r0: task do_packagedata: Started
+NOTE: Running task 2072 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe python3-packaging-26.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pytz-2026.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: Running task 2077 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_configure)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 27a1287f03f8699e6a83b8e7203f6b85f617ccd1b7f11fa183cd486905f39fba
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash d1bc71e08a2ad3cf31bf28c330ff4ece0383d4e03e520cc9badc827ec9f62ee9 to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': '188a42ac1e2724aa71fa621a35585285fd8aa5c4efa90f4b927a960b56b17a66', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': 'd1bc71e08a2ad3cf31bf28c330ff4ece0383d4e03e520cc9badc827ec9f62ee9'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed 188a42ac1e2724aa71fa621a35585285fd8aa5c4efa90f4b927a960b56b17a66 -> d1bc71e08a2ad3cf31bf28c330ff4ece0383d4e03e520cc9badc827ec9f62ee9 as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: recipe python3-pytz-2026.2-r0: task do_configure: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_configure: Succeeded
+NOTE: Running task 2090 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_configure_ptest_base)
+NOTE: recipe python3-pytz-2026.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2091 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_compile)
+NOTE: recipe python3-pytz-2026.2-r0: task do_compile: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_compile: Succeeded
+NOTE: Running task 2092 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_compile_ptest_base)
+NOTE: recipe python3-pytz-2026.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2093 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_install)
+NOTE: recipe python3-pytz-2026.2-r0: task do_install: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_install: Succeeded
+NOTE: Running task 2094 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_install_ptest_base)
+NOTE: recipe python3-pytz-2026.2-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2095 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_package)
+NOTE: Running task 2096 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_populate_sysroot)
+NOTE: recipe python3-pytz-2026.2-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_package: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pytz-2026.2-r0: task do_package: Succeeded
+NOTE: Running task 2097 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_packagedata)
+NOTE: recipe python3-pytz-2026.2-r0: task do_packagedata: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_packagedata unihash changed to 56e7af4e2b2112ae0b20fbdec40eeb863e7392dc263407ec98eb3f669148ccb1
+NOTE: Setscene tasks completed
+NOTE: Running task 2098 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_create_spdx)
+NOTE: Running task 2099 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_package_write_ipk)
+NOTE: Running task 2100 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_package_write_deb)
+NOTE: Running task 2101 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_package_write_rpm)
+NOTE: Running task 2102 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_package_qa)
+NOTE: recipe python3-pytz-2026.2-r0: task do_create_spdx: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_package_write_ipk: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_package_write_deb: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_package_qa: Started
+NOTE: recipe python3-pytz-2026.2-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2103 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_create_package_spdx)
+NOTE: recipe python3-pytz-2026.2-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe python3-pytz-2026.2-r0: task do_create_package_spdx: Started
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_package_write_ipk unihash changed to ca770569ee57c8822ca6ef7d93152a65c4b4cbc202d3ccbf919c164802eeee36
+NOTE: recipe python3-pytz-2026.2-r0: task do_package_qa: Succeeded
+NOTE: recipe python3-pytz-2026.2-r0: task do_package_write_deb: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_package_qa unihash changed to 4501997d216c19ae82edaaf338f2b3333a291af3ac1bbac01f12747c4a3166b2
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_package_write_deb unihash changed to b511f7437c37f0b01c1da8d129119f514bc92e284790c458a9b1a981cad57b17
+NOTE: recipe python3-pytz-2026.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_package_write_rpm unihash changed to 4b827aa315de17e5f0ca8ccad9e220bab4e89604d49380d663ac025ca2dc3d22
+NOTE: recipe python3-pytz-2026.2-r0: task do_create_package_spdx: Succeeded
+NOTE: Running noexec task 2104 of 2104 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytz_2026.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 2104 tasks of which 2072 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: python3-packaging-26.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-packaging-src went backwards which would break package feeds (from 0:26.2-r0 to 0:26.0-r0) [version-going-backwards]
+ERROR: python3-packaging-26.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-packaging-dbg went backwards which would break package feeds (from 0:26.2-r0 to 0:26.0-r0) [version-going-backwards]
+ERROR: python3-packaging-26.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-packaging-ptest went backwards which would break package feeds (from 0:26.2-r0 to 0:26.0-r0) [version-going-backwards]
+ERROR: python3-packaging-26.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-packaging-staticdev went backwards which would break package feeds (from 0:26.2-r0 to 0:26.0-r0) [version-going-backwards]
+ERROR: python3-packaging-26.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-packaging-dev went backwards which would break package feeds (from 0:26.2-r0 to 0:26.0-r0) [version-going-backwards]
+ERROR: python3-packaging-26.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-packaging-doc went backwards which would break package feeds (from 0:26.2-r0 to 0:26.0-r0) [version-going-backwards]
+ERROR: python3-packaging-26.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-packaging-locale went backwards which would break package feeds (from 0:26.2-r0 to 0:26.0-r0) [version-going-backwards]
+ERROR: python3-packaging-26.0-r0 do_packagedata_setscene: QA Issue: Package version for package python3-packaging went backwards which would break package feeds (from 0:26.2-r0 to 0:26.0-r0) [version-going-backwards]
+ERROR: python3-packaging-26.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============5939325736562312303==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pytz-upgrade-2026.1-2026.2.patch"
+
+RnJvbSBhZDUwNDZlMzBhOTIzYTRjNTUxY2UwZThlNDkyYjIxNmM0NWU0ZDY1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAwOToyMjo0NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHl0ejogdXBncmFkZSAyMDI2LjEgLT4gMjAyNi4yCgotLS0KIC4uLi9weXRob24ve3B5
+dGhvbjMtcHl0el8yMDI2LjEuYmIgPT4gcHl0aG9uMy1weXR6XzIwMjYuMi5iYn0gICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHl0el8yMDI2LjEuYmIgPT4gcHl0
+aG9uMy1weXR6XzIwMjYuMi5iYn0gKDg3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0el8yMDI2LjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtcHl0el8yMDI2LjIuYmIKc2ltaWxhcml0eSBpbmRleCA4NyUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dHpfMjAyNi4x
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0el8y
+MDI2LjIuYmIKaW5kZXggMGM5ZTFlN2E0Yy4uMTM2NTg5N2Q4NSAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dHpfMjAyNi4xLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXR6XzIwMjYuMi5iYgpAQCAtNyw3ICs3
+LDcgQEAgaW5oZXJpdCBweXBpIHNldHVwdG9vbHMzIHB0ZXN0LXB5dGhvbi1weXRlc3QKIAogUFRF
+U1RfUFlURVNUX0RJUiA9ICJweXR6L3Rlc3RzIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTA0
+MTNjMzU0NzY5MTliNGMwN2JkYTZiOTgxMGM2ZTI0ZDkxNDM3OGM0MzAwNzBiZGIxODY5ZTE4YTM3
+ZWVlNSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIwZTYwYjQ3YjI5ZjIxNTc0Mzc2ZjIxOGZlMjFh
+YmMwMDk4OTRhMjMyMWVhMTZjNjc1NGYzY2FkNmViN2NkZDZhIgogCiBSREVQRU5EUzoke1BOfTpj
+bGFzcy10YXJnZXQgKz0gIlwKICAgICBweXRob24zLWRhdGV0aW1lIFwKLS0gCjIuNDcuMQoK
+
+--===============5939325736562312303==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/ruby: SRC_URI changed from "http://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.3.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch file://0006-Make-gemspecs-reproducible.patch file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch file://0007-Skip-test_rm_r_no_permissions-test-under-root.patch file://0001-Don-t-save-the-original-name-and-timestamp.patch" to "http://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.5.tar.gz file://0001-extmk-fix-cross-compilation-of-external-gems.patch file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch file://run-ptest file://0003-rdoc-build-reproducible-documentation.patch file://0004-lib-mkmf.rb-sort-list-of-object-files-in-genera
- ted-M.patch file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch file://0006-Make-gemspecs-reproducible.patch file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch file://0007-Skip-test_rm_r_no_permissions-test-under-root.patch file://0001-Don-t-save-the-original-name-and-timestamp.patch"
-packages/x86-64-v3-poky-linux/ruby: PKGV changed from 4.0.3 [default] to 4.0.5 [default]
-packages/x86-64-v3-poky-linux/ruby: PV changed from "4.0.3" to "4.0.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-dbg: FILELIST: removed "/usr/lib/.debug/libruby.so.4.0.3", added "/usr/lib/.debug/libruby.so.4.0.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-dbg: PKGV changed from 4.0.3 [default] to 4.0.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-dbg: PKGSIZE changed from 18123184 to 18129304 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby-dbg: PV changed from "4.0.3" to "4.0.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-dev: PKGV changed from 4.0.3 [default] to 4.0.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-dev: PV changed from "4.0.3" to "4.0.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-doc: PKGV changed from 4.0.3 [default] to 4.0.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-doc: PV changed from "4.0.3" to "4.0.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-locale: PKGV changed from 4.0.3 [default] to 4.0.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-locale: PV changed from "4.0.3" to "4.0.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: PKGV changed from 4.0.3 [default] to 4.0.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: PKGSIZE changed from 10252720 to 10267138 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby-ptest: PV changed from "4.0.3" to "4.0.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-rdoc: PKGV changed from 4.0.3 [default] to 4.0.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-rdoc: PV changed from "4.0.3" to "4.0.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-ri-docs: PKGV changed from 4.0.3 [default] to 4.0.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-ri-docs: PV changed from "4.0.3" to "4.0.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-src: FILELIST: directory renamed /usr/src/debug/ruby/4.0.3/include/ruby/internal/core -> /usr/src/debug/ruby/4.0.5/include/ruby/internal/core, directory renamed /usr/src/debug/ruby/4.0.3/ext/rbconfig/sizeof -> /usr/src/debug/ruby/4.0.5/ext/rbconfig/sizeof, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/syslog-0.3.0/ext/syslog -> /usr/src/debug/ruby/4.0.5/.bundle/gems/syslog-0.3.0/ext/syslog, directory renamed /usr/src/debug/ruby/4.0.3/include/ruby/internal/encoding -> /usr/src/debug/ruby/4.0.5/include/ruby/internal/encoding, directory renamed /usr/src/debug/ruby/4.0.3/include/ruby/io -> /usr/src/debug/ruby/4.0.5/include/ruby/io, directory renamed /usr/src/debug/ruby/4.0.3/ext/fcntl -> /usr/src/debug/ruby/4.0.5/ext/fcntl, directory renamed /usr/src/debug/ruby/4.0.3/gc -> /usr/src/debug/ruby/4.0.5/gc, directory renamed /usr/src/debug/ruby/4.0.3/tool/ruby_vm/views -> /usr/src/debug/ruby/4.0.5/tool/ruby_vm/views, directory renamed /usr/sr
- c/debug/ruby/4.0.3/ext/continuation -> /usr/src/debug/ruby/4.0.5/ext/continuation, directory renamed /usr/src/debug/ruby/4.0.3/prism/templates/src -> /usr/src/debug/ruby/4.0.5/prism/templates/src, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/nkf-0.2.0/ext/nkf/nkf-utf8 -> /usr/src/debug/ruby/4.0.5/.bundle/gems/nkf-0.2.0/ext/nkf/nkf-utf8, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/rbs-3.10.0/ext/rbs_extension -> /usr/src/debug/ruby/4.0.5/.bundle/gems/rbs-3.10.0/ext/rbs_extension, directory renamed /usr/src/debug/ruby/4.0.3/ccan/list -> /usr/src/debug/ruby/4.0.5/ccan/list, directory renamed /usr/src/debug/ruby/4.0.3/include/ruby/internal/arithmetic -> /usr/src/debug/ruby/4.0.5/include/ruby/internal/arithmetic, directory renamed /usr/src/debug/ruby/4.0.3/prism/templates/ext/prism -> /usr/src/debug/ruby/4.0.5/prism/templates/ext/prism, directory renamed /usr/src/debug/ruby/4.0.3/ext/io/console -> /usr/src/debug/ruby/4.0.5/ext/io/console, directory renamed /usr/s
- rc/debug/ruby/4.0.3/defs -> /usr/src/debug/ruby/4.0.5/defs, directory renamed /usr/src/debug/ruby/4.0.3/ext/io/wait -> /usr/src/debug/ruby/4.0.5/ext/io/wait, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/racc-1.8.1/ext/racc/cparse -> /usr/src/debug/ruby/4.0.5/.bundle/gems/racc-1.8.1/ext/racc/cparse, directory renamed /usr/src/debug/ruby/4.0.3/ext/stringio -> /usr/src/debug/ruby/4.0.5/ext/stringio, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/rbs-3.10.0/src -> /usr/src/debug/ruby/4.0.5/.bundle/gems/rbs-3.10.0/src, directory renamed /usr/src/debug/ruby/4.0.3/ext/monitor -> /usr/src/debug/ruby/4.0.5/ext/monitor, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/rbs-3.10.0/include/rbs/util -> /usr/src/debug/ruby/4.0.5/.bundle/gems/rbs-3.10.0/include/rbs/util, directory renamed /usr/src/debug/ruby/4.0.3/ext/psych -> /usr/src/debug/ruby/4.0.5/ext/psych, directory renamed /usr/src/debug/ruby/4.0.3/enc/trans -> /usr/src/debug/ruby/4.0.5/enc/trans, directory ren
- amed /usr/src/debug/ruby/4.0.3/ext -> /usr/src/debug/ruby/4.0.5/ext, directory renamed /usr/src/debug/ruby/4.0.3/ext/erb/escape -> /usr/src/debug/ruby/4.0.5/ext/erb/escape, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/debug-1.11.1/ext/debug -> /usr/src/debug/ruby/4.0.5/.bundle/gems/debug-1.11.1/ext/debug, directory renamed /usr/src/debug/ruby/4.0.3/ext/io/nonblock -> /usr/src/debug/ruby/4.0.5/ext/io/nonblock, directory renamed /usr/src/debug/ruby/4.0.3/ext/coverage -> /usr/src/debug/ruby/4.0.5/ext/coverage, directory renamed /usr/src/debug/ruby/4.0.3/coroutine/amd64 -> /usr/src/debug/ruby/4.0.5/coroutine/amd64, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/rbs-3.10.0/include/rbs -> /usr/src/debug/ruby/4.0.5/.bundle/gems/rbs-3.10.0/include/rbs, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/rbs-3.10.0/src/util -> /usr/src/debug/ruby/4.0.5/.bundle/gems/rbs-3.10.0/src/util, directory renamed /usr/src/debug/ruby/4.0.3/ext/socket -> /usr/src/debug/ruby/4.
- 0.5/ext/socket, directory renamed /usr/src/debug/ruby/4.0.3/include/ruby/internal -> /usr/src/debug/ruby/4.0.5/include/ruby/internal, directory renamed /usr/src/debug/ruby/4.0.3/include/ruby/internal/intern/select -> /usr/src/debug/ruby/4.0.5/include/ruby/internal/intern/select, directory renamed /usr/src/debug/ruby/4.0.3/ext/etc -> /usr/src/debug/ruby/4.0.5/ext/etc, directory renamed /usr/src/debug/ruby/4.0.3/ext/digest -> /usr/src/debug/ruby/4.0.5/ext/digest, directory renamed /usr/src/debug/ruby/4.0.3/ext/objspace -> /usr/src/debug/ruby/4.0.5/ext/objspace, directory renamed /usr/src/debug/ruby/4.0.3/include/ruby -> /usr/src/debug/ruby/4.0.5/include/ruby, directory renamed /usr/src/debug/ruby/4.0.3/missing -> /usr/src/debug/ruby/4.0.5/missing, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/fiddle-1.1.8/ext/fiddle -> /usr/src/debug/ruby/4.0.5/.bundle/gems/fiddle-1.1.8/ext/fiddle, directory renamed /usr/src/debug/ruby/4.0.3/ext/digest/sha1 -> /usr/src/debug/ruby/4.0.5/ext/
- digest/sha1, directory renamed /usr/src/debug/ruby/4.0.3/ext/digest/sha2 -> /usr/src/debug/ruby/4.0.5/ext/digest/sha2, directory renamed /usr/src/debug/ruby/4.0.3/include/ruby/internal/intern -> /usr/src/debug/ruby/4.0.5/include/ruby/internal/intern, directory renamed /usr/src/debug/ruby/4.0.3/prism/util -> /usr/src/debug/ruby/4.0.5/prism/util, directory renamed /usr/src/debug/ruby/4.0.3/ext/pty -> /usr/src/debug/ruby/4.0.5/ext/pty, directory renamed /usr/src/debug/ruby/4.0.3/prism -> /usr/src/debug/ruby/4.0.5/prism, directory renamed /usr/src/debug/ruby/4.0.3/enc/unicode/17.0.0 -> /usr/src/debug/ruby/4.0.5/enc/unicode/17.0.0, directory renamed /usr/src/debug/ruby/4.0.3/enc/jis -> /usr/src/debug/ruby/4.0.5/enc/jis, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/bigdecimal-4.0.1/ext/bigdecimal -> /usr/src/debug/ruby/4.0.5/.bundle/gems/bigdecimal-4.0.1/ext/bigdecimal, directory renamed /usr/src/debug/ruby/4.0.3 -> /usr/src/debug/ruby/4.0.5, directory renamed /usr/src/debug/r
- uby/4.0.3/ext/digest/bubblebabble -> /usr/src/debug/ruby/4.0.5/ext/digest/bubblebabble, directory renamed /usr/src/debug/ruby/4.0.3/ext/json/simd -> /usr/src/debug/ruby/4.0.5/ext/json/simd, directory renamed /usr/src/debug/ruby/4.0.3/ext/cgi/escape -> /usr/src/debug/ruby/4.0.5/ext/cgi/escape, directory renamed /usr/src/debug/ruby/4.0.3/ext/json/generator -> /usr/src/debug/ruby/4.0.5/ext/json/generator, directory renamed /usr/src/debug/ruby/4.0.3/ext/strscan -> /usr/src/debug/ruby/4.0.5/ext/strscan, directory renamed /usr/src/debug/ruby/4.0.3/ext/zlib -> /usr/src/debug/ruby/4.0.5/ext/zlib, directory renamed /usr/src/debug/ruby/4.0.3/ext/json/fbuffer -> /usr/src/debug/ruby/4.0.5/ext/json/fbuffer, directory renamed /usr/src/debug/ruby/4.0.3/ext/json/parser -> /usr/src/debug/ruby/4.0.5/ext/json/parser, directory renamed /usr/src/debug/ruby/4.0.3/ext/json/vendor -> /usr/src/debug/ruby/4.0.5/ext/json/vendor, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/bigdecimal-4.0.1/ext/big
- decimal/missing -> /usr/src/debug/ruby/4.0.5/.bundle/gems/bigdecimal-4.0.1/ext/bigdecimal/missing, directory renamed /usr/src/debug/ruby/4.0.3/include/ruby/fiber -> /usr/src/debug/ruby/4.0.5/include/ruby/fiber, directory renamed /usr/src/debug/ruby/4.0.3/.bundle/gems/nkf-0.2.0/ext/nkf -> /usr/src/debug/ruby/4.0.5/.bundle/gems/nkf-0.2.0/ext/nkf, directory renamed /usr/src/debug/ruby/4.0.3/ext/ripper -> /usr/src/debug/ruby/4.0.5/ext/ripper, directory renamed /usr/src/debug/ruby/4.0.3/gc/default -> /usr/src/debug/ruby/4.0.5/gc/default, directory renamed /usr/src/debug/ruby/4.0.3/internal -> /usr/src/debug/ruby/4.0.5/internal, directory renamed /usr/src/debug/ruby/4.0.3/ext/openssl -> /usr/src/debug/ruby/4.0.5/ext/openssl, directory renamed /usr/src/debug/ruby/4.0.3/ext/date -> /usr/src/debug/ruby/4.0.5/ext/date, directory renamed /usr/src/debug/ruby/4.0.3/ext/digest/md5 -> /usr/src/debug/ruby/4.0.5/ext/digest/md5, directory renamed /usr/src/debug/ruby/4.0.3/enc -> /usr/src/debug/ruby/4
- .0.5/enc, directory renamed /usr/src/debug/ruby/4.0.3/ext/digest/rmd160 -> /usr/src/debug/ruby/4.0.5/ext/digest/rmd160
-packages/x86-64-v3-poky-linux/ruby/ruby-src: PKGV changed from 4.0.3 [default] to 4.0.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-src: PKGSIZE changed from 40710188 to 40714378 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby-src: PV changed from "4.0.3" to "4.0.5"
-packages/x86-64-v3-poky-linux/ruby/ruby-staticdev: PKGV changed from 4.0.3 [default] to 4.0.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby-staticdev: PV changed from "4.0.3" to "4.0.5"
-packages/x86-64-v3-poky-linux/ruby/ruby: FILELIST: directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/darkfish/images -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/darkfish/images, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/code_object/context -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/code_object/context, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/pot -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/pot, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/darkfish/css -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/darkfish/css, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/darkfish -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/darkfish, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/t
- emplate/aliki -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/aliki, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/parser -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/parser, directory renamed /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6/exe -> /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.10/exe, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/exe -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/exe, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/code_object -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/code_object, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/darkfish/js -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/darkfish/js, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rd
- oc/i18n -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/i18n, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/aliki/css -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/aliki/css, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3 -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/markdown -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/markdown, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/aliki/js -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/aliki/js, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/ri -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/ri, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/rd -> /usr
- /lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/rd, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/stats -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/stats, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/man -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/man, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/json_index/js -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/json_index/js, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/generator/template/darkfish/fonts -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/generator/template/darkfish/fonts, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib, directory renamed /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3/lib/rdoc/markup -> /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4/lib/rdoc/markup, removed "/usr/lib/libruby.so.4.0.3 /usr/lib/ruby/gems/4.0.0/cache/rdoc-7.0.
- 3.gem /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.6.gemspec /usr/lib/ruby/gems/4.0.0/specifications/rdoc-7.0.3.gemspec", added "/usr/lib/ruby/4.0.0/bundler/templates/newgem/github/workflows/build-gems.yml.tt /usr/lib/ruby/4.0.0/bundler/templates/newgem/ext/newgem/build.rs.tt /usr/lib/ruby/gems/4.0.0/cache/rdoc-7.0.4.gem /usr/lib/ruby/gems/4.0.0/specifications/rdoc-7.0.4.gemspec /usr/lib/libruby.so.4.0.5 /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.10.gemspec"
-packages/x86-64-v3-poky-linux/ruby/ruby: PKGV changed from 4.0.3 [default] to 4.0.5 [default]
-packages/x86-64-v3-poky-linux/ruby/ruby: PKGSIZE changed from 35598552 to 35616581 (+0%)
-packages/x86-64-v3-poky-linux/ruby/ruby: PV changed from "4.0.3" to "4.0.5"
-Changes to packages/x86-64-v3-poky-linux/ruby (sysroot):
-  /usr/lib/libruby.so.4.0 changed symlink target from libruby.so.4.0.3 to libruby.so.4.0.5
-  /usr/lib/libruby.so changed symlink target from libruby.so.4.0.3 to libruby.so.4.0.5
-  /usr/lib/libruby.so.4.0.3 moved to /usr/lib/libruby.so.4.0.5
-  /usr/lib/ruby/gems/4.0.0/cache/rdoc-7.0.3.gem moved to /usr/lib/ruby/gems/4.0.0/cache/rdoc-7.0.4.gem
-  /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.3 moved to /usr/lib/ruby/gems/4.0.0/gems/rdoc-7.0.4
-  /usr/lib/ruby/gems/4.0.0/specifications/rdoc-7.0.3.gemspec moved to /usr/lib/ruby/gems/4.0.0/specifications/rdoc-7.0.4.gemspec
-  /usr/lib/ruby/4.0.0/bundler/templates/newgem/ext/newgem/build.rs.tt was added
-  /usr/lib/ruby/4.0.0/bundler/templates/newgem/github/workflows/build-gems.yml.tt was added
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.10 was added
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.10/exe was added
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.10/exe/bundle was added
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.10/exe/bundler was added
-  /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.10.gemspec was added
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6 was removed
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6/exe was removed
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6/exe/bundle was removed
-  /usr/lib/ruby/gems/4.0.0/gems/bundler-4.0.6/exe/bundler was removed
-  /usr/lib/ruby/gems/4.0.0/specifications/default/bundler-4.0.6.gemspec was removed
+packages/x86-64-v3-poky-linux/python3-pytz: PKGV changed from 2026.1 [default] to 2026.2 [default]
+packages/x86-64-v3-poky-linux/python3-pytz: PV changed from "2026.1" to "2026.2"
+packages/x86-64-v3-poky-linux/python3-pytz: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pytz/pytz-2026.1.tar.gz;downloadfilename=pytz-2026.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pytz/pytz-2026.2.tar.gz;downloadfilename=pytz-2026.2.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-dbg: PV changed from "2026.1" to "2026.2"
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-dbg: PKGV changed from 2026.1 [default] to 2026.2 [default]
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-dev: PV changed from "2026.1" to "2026.2"
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-dev: PKGV changed from 2026.1 [default] to 2026.2 [default]
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-doc: PV changed from "2026.1" to "2026.2"
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-doc: PKGV changed from 2026.1 [default] to 2026.2 [default]
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-locale: PV changed from "2026.1" to "2026.2"
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-locale: PKGV changed from 2026.1 [default] to 2026.2 [default]
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-ptest: PKGSIZE changed from 59388 to 59390 (+0%)
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-ptest: PV changed from "2026.1" to "2026.2"
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-ptest: PKGV changed from 2026.1 [default] to 2026.2 [default]
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-src: PV changed from "2026.1" to "2026.2"
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-src: PKGV changed from 2026.1 [default] to 2026.2 [default]
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-staticdev: PV changed from "2026.1" to "2026.2"
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz-staticdev: PKGV changed from 2026.1 [default] to 2026.2 [default]
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pytz-2026.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/pytz-2026.2.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pytz-2026.1.dist-info -> /usr/lib/python3.14/site-packages/pytz-2026.2.dist-info
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz: PKGSIZE changed from 1047705 to 1047946 (+0%)
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz: PV changed from "2026.1" to "2026.2"
+packages/x86-64-v3-poky-linux/python3-pytz/python3-pytz: PKGV changed from 2026.1 [default] to 2026.2 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-pytz (sysroot):
+  /usr/lib/python3.14/site-packages/pytz-2026.1.dist-info moved to /usr/lib/python3.14/site-packages/pytz-2026.2.dist-info
 
---===============7641072120056719464==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-ruby-upgrade-4.0.3-4.0.5.patch"
-
-RnJvbSA0ZTJmOWFlYmRkMDE5ZDIxODRmODY4OGEzNThlMDZhMDBiYTE5ZDFlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAxMDowNToyNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJ1
-Ynk6IHVwZ3JhZGUgNC4wLjMgLT4gNC4wLjUKCi0tLQogLi4uLURvbi10LXNhdmUtdGhlLW9yaWdp
-bmFsLW5hbWUtYW5kLXRpbWVzdGFtcC5wYXRjaCB8ICAyICstCiAuLi54dG1rLWZpeC1jcm9zcy1j
-b21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoIHwgIDIgKy0KIC4uLnAuYy1EZWZpbmUt
-UkVHX1MxLWFuZC1SRUdfUzItZm9yLW11c2wtcmlzY3YucGF0Y2ggfCAgMiArLQogLi4uLzAwMDIt
-T2JleS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNoICB8ICAyICstCiAuLi4v
-MDAwMy1yZG9jLWJ1aWxkLXJlcHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNoIHwgMTIgKysr
-KysrLS0tLS0tCiAuLi5yYi1zb3J0LWxpc3Qtb2Ytb2JqZWN0LWZpbGVzLWluLWdlbmVyYXRlZC1N
-LnBhdGNoIHwgIDIgKy0KIC4uLm1zcGVjLXJlcHJvZHVjaWJsZS1jaGFuZ2UtZml4aW5nLTc4NDIy
-NS10b28ucGF0Y2ggfCAgNiArKystLS0KIC4uLi9ydWJ5L3J1YnkvMDAwNi1NYWtlLWdlbXNwZWNz
-LXJlcHJvZHVjaWJsZS5wYXRjaCAgfCAxMCArKysrKy0tLS0tCiAuLi5pcC10ZXN0X3JtX3Jfbm9f
-cGVybWlzc2lvbnMtdGVzdC11bmRlci1yb290LnBhdGNoIHwgIDIgKy0KIC4uLi9ydWJ5L3tydWJ5
-XzQuMC4zLmJiID0+IHJ1YnlfNC4wLjUuYmJ9ICAgICAgICAgICAgfCAgMiArLQogMTAgZmlsZXMg
-Y2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwgMjEgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1Ynkve3J1YnlfNC4wLjMuYmIgPT4gcnVieV80LjAuNS5iYn0gKDk4
-JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtRG9u
-LXQtc2F2ZS10aGUtb3JpZ2luYWwtbmFtZS1hbmQtdGltZXN0YW1wLnBhdGNoIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAxLURvbi10LXNhdmUtdGhlLW9yaWdpbmFsLW5hbWUt
-YW5kLXRpbWVzdGFtcC5wYXRjaAppbmRleCAyYzQ4Y2ExODRkLi4wZWRiOTNhODk5IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtRG9uLXQtc2F2ZS10aGUt
-b3JpZ2luYWwtbmFtZS1hbmQtdGltZXN0YW1wLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9ydWJ5L3J1YnkvMDAwMS1Eb24tdC1zYXZlLXRoZS1vcmlnaW5hbC1uYW1lLWFuZC10aW1l
-c3RhbXAucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDczZWRiYWYxYTg5ZTA1ZTkyZjkxZWQ5
-NzM0OGE2NWM0Y2U3NDBjZWEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDE1YmU2ZDk5
-ODViMTQ1MmM3ZjY0YzExN2QxY2E1MmMyMzIzZWNhOTIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBDaGFuZ3FpbmcgTGkgPGNoYW5ncWluZy5saUB3aW5kcml2ZXIuY29tPgogRGF0ZTog
-RnJpLCAyNyBGZWIgMjAyNiAxNjo1OToyNCArMDgwMAogU3ViamVjdDogW1BBVENIXSBEb24ndCBz
-YXZlIHRoZSBvcmlnaW5hbCBuYW1lIGFuZCB0aW1lc3RhbXAKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24t
-b2YtZXh0ZXJuYWwtZ2Vtcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1Ynkv
-MDAwMS1leHRtay1maXgtY3Jvc3MtY29tcGlsYXRpb24tb2YtZXh0ZXJuYWwtZ2Vtcy5wYXRjaApp
-bmRleCAzYmY4MGIxNjEzLi40NDRkODE5ZjYyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcnVieS9ydWJ5LzAwMDEtZXh0bWstZml4LWNyb3NzLWNvbXBpbGF0aW9uLW9mLWV4dGVy
-bmFsLWdlbXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAx
-LWV4dG1rLWZpeC1jcm9zcy1jb21waWxhdGlvbi1vZi1leHRlcm5hbC1nZW1zLnBhdGNoCkBAIC0x
-LDQgKzEsNCBAQAotRnJvbSBmMmVhODFkNDcwNzYxNDMwOWNkYTAyYmU1OWRkNmNjYmRlOWIyNDQx
-IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA1ZjNlNmZkM2FlYjM5YmRhNjgxOWYyYjBj
-N2UwYjdhOGQ2MDAyNjE0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogPT9VVEYtOD9x
-P0FuZHI9QzM9QTk9MjBEcmFzemlrPz0gPGFuZHJlLmRyYXN6aWtAamNpLmNvbT4KIERhdGU6IE1v
-biwgMzAgU2VwIDIwMTkgMTY6NTc6MDEgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gZXh0bWs6IGZp
-eCBjcm9zcy1jb21waWxhdGlvbiBvZiBleHRlcm5hbCBnZW1zCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDEtdm1fZHVtcC5jLURlZmluZS1SRUdfUzEtYW5k
-LVJFR19TMi1mb3ItbXVzbC1yaXNjdi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1tdXNsLXJp
-c2N2LnBhdGNoCmluZGV4IDMyZDU1Y2RlOWYuLjVlZTAyZDVhMzkgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1h
-bmQtUkVHX1MyLWZvci1tdXNsLXJpc2N2LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3J1YnkvMDAwMS12bV9kdW1wLmMtRGVmaW5lLVJFR19TMS1hbmQtUkVHX1MyLWZvci1t
-dXNsLXJpc2N2LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA4NzU1NDNmMWJjNWRhMTkwNTQz
-ZTI2OTZhNDdjZmFhZjkzOWUxNTQ5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhZGZl
-ZGQ5MzhhYzA3NmMwYWMwYWRiYzI1OTg4ZmZjMTFhNDg4NDc5IE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFR1ZSwgMjUg
-SmFuIDIwMjIgMjA6Mjk6MTQgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gdm1fZHVtcC5jOiBEZWZp
-bmUgUkVHX1MxIGFuZCBSRUdfUzIgZm9yIG11c2wvcmlzY3YKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5rLW9m
-LWxpYnJ1YnkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDItT2Jl
-eS1MREZMQUdTLWZvci10aGUtbGluay1vZi1saWJydWJ5LnBhdGNoCmluZGV4IDExYWVjODc5MzQu
-LmFlZDZhNmJiMzcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1Ynkv
-MDAwMi1PYmV5LUxERkxBR1MtZm9yLXRoZS1saW5rLW9mLWxpYnJ1YnkucGF0Y2gKKysrIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDAyLU9iZXktTERGTEFHUy1mb3ItdGhlLWxp
-bmstb2YtbGlicnVieS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYzQ2MGZjZTA1MmUwNGE4
-MTI2ZjVlMDU1NGY2ODM1OWVmOTg2YzVmOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20g
-ZTM4ZWQzZDk3NjE2OTY2ODRjNmE5ODU0MDAyMTJjODdjODQ3OWE3NyBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKIEZyb206IENocmlzdG9waGVyIExhcnNvbiA8Y2hyaXNfbGFyc29uQG1lbnRvci5j
-b20+CiBEYXRlOiBUaHUsIDUgTWF5IDIwMTYgMTA6NTk6MDcgLTA3MDAKIFN1YmplY3Q6IFtQQVRD
-SF0gT2JleSBMREZMQUdTIGZvciB0aGUgbGluayBvZiBsaWJydWJ5CmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDMtcmRvYy1idWlsZC1yZXByb2R1Y2libGUt
-ZG9jdW1lbnRhdGlvbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAw
-My1yZG9jLWJ1aWxkLXJlcHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNoCmluZGV4IDg2Mzk2
-MDgzOWQuLmRiNWFhMTE1NGMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5
-L3J1YnkvMDAwMy1yZG9jLWJ1aWxkLXJlcHJvZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNoCisr
-KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwMy1yZG9jLWJ1aWxkLXJlcHJv
-ZHVjaWJsZS1kb2N1bWVudGF0aW9uLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAzYTMzNTUz
-ODU5NGQwZWIzZGE2MTU1YTY0YjQ3M2E0NmZkMDZjZTc2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbSA1NTI1ZDY5MTYyNDUxYmUxMGQ4NjdlMWMxZjVlZWQ2MzQ3ZTkxYzhkIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQ2hyaXN0aWFuIEhvZnN0YWVkdGxlciA8emVoYUBkZWJp
-YW4ub3JnPgogRGF0ZTogVHVlLCAxMCBPY3QgMjAxNyAxNTowNDozNCAtMDMwMAogU3ViamVjdDog
-W1BBVENIXSByZG9jOiBidWlsZCByZXByb2R1Y2libGUgZG9jdW1lbnRhdGlvbgpAQCAtMTMsMTMg
-KzEzLDEzIEBAIFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBIb2ZzdGFlZHRsZXIgPHplaGFAZGVi
-aWFuLm9yZz4KIHJlYmFzZSB0byB2ZXJzaW9uIDQuMC4xCiBTaWduZWQtb2ZmLWJ5OiBDaGFuZ3Fp
-bmcgTGkgPGNoYW5ncWluZy5saUB3aW5kcml2ZXIuY29tPgogLS0tCi0gLmJ1bmRsZS9nZW1zL3Jk
-b2MtNy4wLjMvbGliL3Jkb2MvZ2VuZXJhdG9yL2pzb25faW5kZXgucmIgfCA0ICsrLS0KKyAuYnVu
-ZGxlL2dlbXMvcmRvYy03LjAuNC9saWIvcmRvYy9nZW5lcmF0b3IvanNvbl9pbmRleC5yYiB8IDQg
-KystLQogIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAK
-LWRpZmYgLS1naXQgYS8uYnVuZGxlL2dlbXMvcmRvYy03LjAuMy9saWIvcmRvYy9nZW5lcmF0b3Iv
-anNvbl9pbmRleC5yYiBiLy5idW5kbGUvZ2Vtcy9yZG9jLTcuMC4zL2xpYi9yZG9jL2dlbmVyYXRv
-ci9qc29uX2luZGV4LnJiCi1pbmRleCAwNjVjYWE0Li5jZmExZjMzIDEwMDY0NAotLS0tIGEvLmJ1
-bmRsZS9nZW1zL3Jkb2MtNy4wLjMvbGliL3Jkb2MvZ2VuZXJhdG9yL2pzb25faW5kZXgucmIKLSsr
-KyBiLy5idW5kbGUvZ2Vtcy9yZG9jLTcuMC4zL2xpYi9yZG9jL2dlbmVyYXRvci9qc29uX2luZGV4
-LnJiCitkaWZmIC0tZ2l0IGEvLmJ1bmRsZS9nZW1zL3Jkb2MtNy4wLjQvbGliL3Jkb2MvZ2VuZXJh
-dG9yL2pzb25faW5kZXgucmIgYi8uYnVuZGxlL2dlbXMvcmRvYy03LjAuNC9saWIvcmRvYy9nZW5l
-cmF0b3IvanNvbl9pbmRleC5yYgoraW5kZXggYzYxMzkxZC4uOTExNWRiZCAxMDA2NDQKKy0tLSBh
-Ly5idW5kbGUvZ2Vtcy9yZG9jLTcuMC40L2xpYi9yZG9jL2dlbmVyYXRvci9qc29uX2luZGV4LnJi
-CisrKysgYi8uYnVuZGxlL2dlbXMvcmRvYy03LjAuNC9saWIvcmRvYy9nZW5lcmF0b3IvanNvbl9p
-bmRleC5yYgogQEAgLTE3Niw3ICsxNzYsNyBAQCBjbGFzcyBSRG9jOjpHZW5lcmF0b3I6Okpzb25J
-bmRleAogICAgICBkZWJ1Z19tc2cgIldyaXRpbmcgZ3ppcHBlZCBzZWFyY2ggaW5kZXggdG8gJXMi
-ICUgb3V0ZmlsZQogIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVi
-eS8wMDA0LWxpYi1ta21mLnJiLXNvcnQtbGlzdC1vZi1vYmplY3QtZmlsZXMtaW4tZ2VuZXJhdGVk
-LU0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDQtbGliLW1rbWYu
-cmItc29ydC1saXN0LW9mLW9iamVjdC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5wYXRjaAppbmRleCAy
-YzFmODU3ZDc1Li4wMWM5Y2I1NzkyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cnVieS9ydWJ5LzAwMDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1maWxlcy1pbi1n
-ZW5lcmF0ZWQtTS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAw
-MDQtbGliLW1rbWYucmItc29ydC1saXN0LW9mLW9iamVjdC1maWxlcy1pbi1nZW5lcmF0ZWQtTS5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZTk0Yjg5OGQxMWUzYmQ1YzQxMmFhM2I3NzIwNDA4
-NzBjZGRmMzZjNyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMTIxNWQ1ZGQ4MDVmNzc3
-MzY2NzBlZThkMzE1YWY0MjBmMGEwOWFjOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IFJlaW5lciBIZXJybWFubiA8cmVpbmVyQHJlaW5lci1oLmRlPgogRGF0ZTogVHVlLCAxMCBPY3Qg
-MjAxNyAxNTowNjoxMyAtMDMwMAogU3ViamVjdDogW1BBVENIXSBsaWIvbWttZi5yYjogc29ydCBs
-aXN0IG9mIG9iamVjdCBmaWxlcyBpbiBnZW5lcmF0ZWQgTWFrZWZpbGUKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9kdWNp
-YmxlLWNoYW5nZS1maXhpbmctNzg0MjI1LXRvby5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3J1YnkvMDAwNS1NYXJrLUdlbXNwZWMtcmVwcm9kdWNpYmxlLWNoYW5nZS1maXhpbmct
-Nzg0MjI1LXRvby5wYXRjaAppbmRleCA3NDZkMTAyMjkyLi45MWRkNzk4MTdiIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDUtTWFyay1HZW1zcGVjLXJlcHJv
-ZHVjaWJsZS1jaGFuZ2UtZml4aW5nLTc4NDIyNS10b28ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3J1YnkvcnVieS8wMDA1LU1hcmstR2Vtc3BlYy1yZXByb2R1Y2libGUtY2hhbmdl
-LWZpeGluZy03ODQyMjUtdG9vLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmMjFlMDliOWM4
-ZjU5NzU4ODdjZDg1ZTNlYzRkY2Y5ODM4ZjYyNTc1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
-RnJvbSAxYmFkNzg5MGU5ZjZmMTA0YzE5ODBiNDMyMTY2MGE3NmMyMmUxNGRlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQogRnJvbTogTHVjYXMgS2FuYXNoaXJvIDxrYW5hc2hpcm9AZGViaWFuLm9y
-Zz4KIERhdGU6IEZyaSwgMSBOb3YgMjAxOSAxNToyNToxNyAtMDMwMAogU3ViamVjdDogW1BBVENI
-XSBNYWtlIGdlbXNwZWNzIHJlcHJvZHVjaWJsZQpAQCAtMTIsMTAgKzEyLDEwIEBAIFVwc3RyZWFt
-LVN0YXR1czogQmFja3BvcnQgW2RlYmlhbl0KICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25z
-KCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9saWIvcnVieWdlbXMvc3BlY2lmaWNh
-dGlvbi5yYiBiL2xpYi9ydWJ5Z2Vtcy9zcGVjaWZpY2F0aW9uLnJiCi1pbmRleCA1MDNmMGE0Li41
-ZDMzYjA5IDEwMDY0NAoraW5kZXggMmRiOTM1Mi4uOTI1YjdhMCAxMDA2NDQKIC0tLSBhL2xpYi9y
-dWJ5Z2Vtcy9zcGVjaWZpY2F0aW9uLnJiCiArKysgYi9saWIvcnVieWdlbXMvc3BlY2lmaWNhdGlv
-bi5yYgotQEAgLTE3MDUsNyArMTcwNSw5IEBAIGNsYXNzIEdlbTo6U3BlY2lmaWNhdGlvbiA8IEdl
-bTo6QmFzaWNTcGVjaWZpY2F0aW9uCitAQCAtMTcxNCw3ICsxNzE0LDkgQEAgY2xhc3MgR2VtOjpT
-cGVjaWZpY2F0aW9uIDwgR2VtOjpCYXNpY1NwZWNpZmljYXRpb24KICAgICAgICAgICAgICAgICAg
-cmFpc2UoR2VtOjpJbnZhbGlkU3BlY2lmaWNhdGlvbkV4Y2VwdGlvbiwKICAgICAgICAgICAgICAg
-ICAgICAgICAgImludmFsaWQgZGF0ZSBmb3JtYXQgaW4gc3BlY2lmaWNhdGlvbjogI3tkYXRlLmlu
-c3BlY3R9IikKICAgICAgICAgICAgICAgIGVuZApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9kdWNpYmxlLnBhdGNoIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieS8wMDA2LU1ha2UtZ2Vtc3BlY3MtcmVwcm9k
-dWNpYmxlLnBhdGNoCmluZGV4IGNkZmEyMTQ0ZDcuLmEzMzFlZTk2YjIgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnkvMDAwNi1NYWtlLWdlbXNwZWNzLXJlcHJvZHVj
-aWJsZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDYtTWFr
-ZS1nZW1zcGVjcy1yZXByb2R1Y2libGUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDJhMThl
-ZmMwNzZhMjBiYzI3MDIxNWE4MDJkNzI2MThhZDA2MDVmOTEgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCitGcm9tIGU4MWNkN2UxNWE2ZWE1ZmRiMmZiODgxN2ZhYjgyMjhiYTc2YzcxNzUgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBMdWNhcyBLYW5hc2hpcm8gPGthbmFzaGlyb0BkZWJp
-YW4ub3JnPgogRGF0ZTogRnJpLCAxIE5vdiAyMDE5IDE1OjI1OjE3IC0wMzAwCiBTdWJqZWN0OiBb
-UEFUQ0hdIE1ha2UgZ2Vtc3BlY3MgcmVwcm9kdWNpYmxlCkBAIC0xMyw3ICsxMyw3IEBAIFNpZ25l
-ZC1vZmYtYnk6IENoYW5ncWluZyBMaSA8Y2hhbmdxaW5nLmxpQHdpbmRyaXZlci5jb20+CiAtLS0K
-ICAuYnVuZGxlL2dlbXMvYmlnZGVjaW1hbC00LjAuMS9iaWdkZWNpbWFsLmdlbXNwZWMgfCAxICsK
-ICAuYnVuZGxlL2dlbXMvZmlkZGxlLTEuMS44L2ZpZGRsZS5nZW1zcGVjICAgICAgICAgfCAxICsK
-LSAuYnVuZGxlL2dlbXMvcmRvYy03LjAuMy9yZG9jLmdlbXNwZWMgICAgICAgICAgICAgfCAxICsK
-KyAuYnVuZGxlL2dlbXMvcmRvYy03LjAuNC9yZG9jLmdlbXNwZWMgICAgICAgICAgICAgfCAxICsK
-ICBleHQvaW8vY29uc29sZS9pby1jb25zb2xlLmdlbXNwZWMgICAgICAgICAgICAgICAgfCAxICsK
-ICBsaWIvaXBhZGRyLmdlbXNwZWMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAxICsK
-ICA1IGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQpAQCAtNDIsMTAgKzQyLDEwIEBAIGlu
-ZGV4IDAwOTJmNTIuLmY3N2MyMjQgMTAwNjQ0CiAgICBzcGVjLmF1dGhvcnMgICAgICAgPSBbIkFh
-cm9uIFBhdHRlcnNvbiIsICJTSElCQVRBIEhpcm9zaGkiXQogICAgc3BlYy5lbWFpbCAgICAgICAg
-ID0gWyJhYXJvbkB0ZW5kZXJsb3ZlbWFraW5nLmNvbSIsICJoc2J0QHJ1YnktbGFuZy5vcmciXQog
-IAotZGlmZiAtLWdpdCBhLy5idW5kbGUvZ2Vtcy9yZG9jLTcuMC4zL3Jkb2MuZ2Vtc3BlYyBiLy5i
-dW5kbGUvZ2Vtcy9yZG9jLTcuMC4zL3Jkb2MuZ2Vtc3BlYworZGlmZiAtLWdpdCBhLy5idW5kbGUv
-Z2Vtcy9yZG9jLTcuMC40L3Jkb2MuZ2Vtc3BlYyBiLy5idW5kbGUvZ2Vtcy9yZG9jLTcuMC40L3Jk
-b2MuZ2Vtc3BlYwogaW5kZXggYWRhOTM0MS4uNTg3MWVjMiAxMDA2NDQKLS0tLSBhLy5idW5kbGUv
-Z2Vtcy9yZG9jLTcuMC4zL3Jkb2MuZ2Vtc3BlYwotKysrIGIvLmJ1bmRsZS9nZW1zL3Jkb2MtNy4w
-LjMvcmRvYy5nZW1zcGVjCistLS0gYS8uYnVuZGxlL2dlbXMvcmRvYy03LjAuNC9yZG9jLmdlbXNw
-ZWMKKysrKyBiLy5idW5kbGUvZ2Vtcy9yZG9jLTcuMC40L3Jkb2MuZ2Vtc3BlYwogQEAgLTcsNiAr
-Nyw3IEBAIGVuZAogIAogIEdlbTo6U3BlY2lmaWNhdGlvbi5uZXcgZG8gfHN8CmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDctU2tpcC10ZXN0X3JtX3Jfbm9f
-cGVybWlzc2lvbnMtdGVzdC11bmRlci1yb290LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3J1YnkvcnVieS8wMDA3LVNraXAtdGVzdF9ybV9yX25vX3Blcm1pc3Npb25zLXRlc3QtdW5kZXIt
-cm9vdC5wYXRjaAppbmRleCA5M2I3NDA2ODU4Li4xNWJhOGFiMjBjIDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5LzAwMDctU2tpcC10ZXN0X3JtX3Jfbm9fcGVybWlz
-c2lvbnMtdGVzdC11bmRlci1yb290LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-dWJ5L3J1YnkvMDAwNy1Ta2lwLXRlc3Rfcm1fcl9ub19wZXJtaXNzaW9ucy10ZXN0LXVuZGVyLXJv
-b3QucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDRhNDg1MTFmNDU2MDZlZmY0ZTAzZjAwNGZi
-NmFlYTZmOGNjZDFlYWYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDQ3YWYzY2M0Y2Iz
-MTJkMGM2MWQzZjlhNDY3ZTQwNzg5YzM4NzAyNmIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
-cm9tOiBKaWF5aW5nIFNvbmcgPGppYXlpbmcuc29uZy5jbkB3aW5kcml2ZXIuY29tPgogRGF0ZTog
-TW9uLCA3IEp1bCAyMDI1IDE1OjA1OjU3ICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIFNraXAgdGVz
-dF9ybV9yX25vX3Blcm1pc3Npb25zIHRlc3QgdW5kZXIgcm9vdApkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV80LjAuMy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ydWJ5L3J1YnlfNC4wLjUuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcnVieV80LjAuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3J1YnkvcnVieV80LjAuNS5iYgppbmRleCA1NmYxNjczNzljLi5hMDk4MWJm
-NjIyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9ydWJ5XzQuMC4zLmJi
-CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3J1YnlfNC4wLjUuYmIKQEAgLTQ4LDcg
-KzQ4LDcgQEAgZG9fY29uZmlndXJlOnByZXBlbmQoKSB7CiAKIERFUEVORFM6YXBwZW5kOmxpYmMt
-bXVzbCA9ICIgbGlidWNvbnRleHQiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI3Nzk2NGFjYzM3
-MGQ1YzgzNzViOTUwMmU1YmE2YzEzYzAzZWY5MWFiOWViOWY1MjFjODRmYjQyYjljOWE2YjBmIgor
-U1JDX1VSSVtzaGEyNTZzdW1dID0gIjdkNjE0OTA3OWE2M2Y4YWUxZDMyNmM5ZmE2NWM2MDE5YmEy
-ZGMzMTU1ZWFlN2IzOTE1OTgxNzkxMWM4ODk1OGUiCiAKIFBBQ0tBR0VDT05GSUcgPz89ICIiCiBQ
-QUNLQUdFQ09ORklHICs9ICIke0BiYi51dGlscy5maWx0ZXIoJ0RJU1RST19GRUFUVVJFUycsICdp
-cHY2JywgZCl9IgotLSAKMi40Ny4xCgo=
-
---===============7641072120056719464==--
+--===============5939325736562312303==--
 
