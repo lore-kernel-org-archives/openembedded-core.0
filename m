@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95010CD8C81
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52AB6CD6E7E
 	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 15:35:43 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1556.1780328132416134511
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1559.1780328132630584587
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jun 2026 08:35:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=AyeYJbyn;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=2jV+qdCW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019e83d36b94-7cf9c2ad-0be0-4c85-a285-0ee5345908d4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=EuUyDtVy;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nQRMgo5L;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019e83d36d24-e25d1ce3-a6a1-416b-9a98-10217fa89031-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1780328131;
+	t=1780328132;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=9VPIgifn/B3HsAUssuSDDiXtTm0eL/M8HowIiTcDQmw=;
-	b=AyeYJbynzOQGFkhdecFKWf2mjzCg5180lu1VU+yyduZjDxO8fGRKdKaqLLPKKLPj
-	pX3VeM5PdG0+tvGxjmq4Kpy6hYLv01P/juiZ/p7ObE48BUUdNyKwvKegAd6n0SlGeCH
-	9aq+ku6NFGOJI3OYE4hdTjwebCwCzfj60uHa58bc=
+	bh=ZIJ0TQbklvsttX8SPfdFRT87ipocc/jLM9eG8Cs5nx0=;
+	b=EuUyDtVyletBU1Nq+xFwwpt6/dVff9AT4bDIFGmzXVr+KW2JU/662W3COOQtV8LN
+	4Dc15min5n5hzb+b/OIwoWaZ7DdWooSz1M20PmS1qH5DJY507DW/NAS8ztlfbmvgoOr
+	Qum2zZiKaQVNVnTzH9hbnjlmBcvVbcoeX8c2lIDU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328131;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780328132;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=9VPIgifn/B3HsAUssuSDDiXtTm0eL/M8HowIiTcDQmw=;
-	b=2jV+qdCW0r5r3+xROQg49l4IQKRnYzidjaH8w+U30SVSLHtALzlzt+E2shHTOiXV
-	XSi8XHf1iAtPmX1E+Q9upRm0By1DgtuX1FslgA3rALKcRECdUmB/iYukAz8NkKuJsOZ
-	itmEV9ni5JkV9vOB/gexC5UPUQi2dSRBiXD82qHY=
-Content-Type: multipart/mixed; boundary="===============4743421664252383555=="
+	bh=ZIJ0TQbklvsttX8SPfdFRT87ipocc/jLM9eG8Cs5nx0=;
+	b=nQRMgo5LdUQgxUsXSQENWIMU+zaBcmSr/Eo4qJ9zIFGfJWpoECvn5Tk5O6QRcFna
+	u+6LnM8neQbU1TI+Y1tFoXajKZ1WkBvJ1Ul6fmJfz/SU/hN4XELuFsWTvZrRK19tH17
+	LgtFbsyScRs+uP6XT3civ7GTyCzjt88Fw1wxUHTQ=
+Content-Type: multipart/mixed; boundary="===============4924607238271929370=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] libxi: upgrading to 1.8.3 SUCCEEDED
-Message-ID: <0101019e83d36b94-7cf9c2ad-0be0-4c85-a285-0ee5345908d4-000000@us-west-2.amazonses.com>
+To: Victor Kamensky <victor.kamensky7@gmail.com>, 
+	Victor Kamensky <victor.kamensky7@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] systemtap,systemtap-native: upgrading to 5.5,5.5 FAILED
+Message-ID: <0101019e83d36d24-e25d1ce3-a6a1-416b-9a98-10217fa89031-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jun 2026 15:35:31 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.01-54.240.27.29
+X-SES-Outgoing: 2026.06.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 15:35:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237853
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237856
 
---===============4743421664252383555==
+--===============4924607238271929370==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,109 +52,99 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libxi* to *1.8.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *systemtap,systemtap-native* to *5.5,5.5* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-libxi-upgrade-1.8.2-1.8.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade systemtap-native -V 5.5 -S 90b164cf106ef16f873ab58c8c6f653718bb6e17
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1975 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (950 cached, 1 parsed). 1977 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-9c2d4eb57341fb18cb05c2e849483e262a0e3c59"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:9c2d4eb57341fb18cb05c2e849483e262a0e3c59"
+meta-yocto-bsp       
+meta-poky            = "master:d13ca2a2e0f478046d920b8fc7dd3098952b5ad8"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+done.
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto 90b164cf106ef16f873ab58c8c6f653718bb6e17
+ERROR: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 93, in include_single_file
+    bb.parse.handle(fn, data, True)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 119, in handle
+    return h['handle'](fn, data, include, baseconfig)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 146, in handle
+    abs_fn = resolve_file(fn, d)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 139, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found in %s" % (fn, bbpath))
+FileNotFoundError: [Errno 2] file systemtap_5.5.bb not found in /srv/pokybuild/yocto-worker/auh/build/build/workspace:/srv/pokybuild/yocto-worker/auh/build/layers/meta-yocto/meta-poky:/srv/pokybuild/yocto-worker/auh/build/build:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta:/srv/pokybuild/yocto-worker/auh/build/layers/meta-yocto/meta-yocto-bsp
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/command.py", line 91, in runCommand
+    result = command_method(self, commandline)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/command.py", line 596, in parseRecipeFile
+    envdata = command.cooker.databuilder.parseRecipe(virtualfn, appendfiles, layername)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 561, in parseRecipe
+    datastores = self.parseRecipeVariants(virtualfn, appends, virtonly=True, layername=layername)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 535, in parseRecipeVariants
+    return self._parse_recipe(bb_data, bbfile, appends, mc, layername)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 523, in _parse_recipe
+    return bb.parse.handle(bbfile, bb_data)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 119, in handle
+    return h['handle'](fn, data, include, baseconfig)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 156, in handle
+    statements.eval(d)
+    ~~~~~~~~~~~~~~~^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/ast.py", line 20, in eval
+    statement.eval(data)
+    ~~~~~~~~~~~~~~^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/ast.py", line 42, in eval
+    bb.parse.ConfHandler.include(self.filename, s, self.lineno, data, "include required")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 70, in include
+    include_single_file(parentfn, fn, lineno, data, error_out)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 97, in include_single_file
+    raise ParseError("Could not %s file %s" % (error_out, fn), parentfn, lineno)
+bb.parse.ParseError: ParseError at /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/systemtap-native/systemtap-native_5.5.bb:1: Could not include required file systemtap_5.5.bb
+
+ERROR: Parsing of upgraded recipe failed
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 0d1c4c841feb9f33a26e533cc6f424e833ae5d52 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jun 2026 06:46:37 +0000
-Subject: [PATCH] libxi: upgrade 1.8.2 -> 1.8.3
-
----
- .../xorg-lib/{libxi_1.8.2.bb => libxi_1.8.3.bb}                 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxi_1.8.2.bb => libxi_1.8.3.bb} (88%)
-
-diff --git a/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb b/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb
-similarity index 88%
-rename from meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb
-rename to meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb
-index 2a86f5fcf0..d7e778610e 100644
---- a/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb
-@@ -18,6 +18,6 @@ PE = "1"
- XORG_PN = "libXi"
- XORG_EXT = "tar.xz"
- 
--SRC_URI[sha256sum] = "d0e0555e53d6e2114eabfa44226ba162d2708501a25e18d99cfb35c094c6c104"
-+SRC_URI[sha256sum] = "7ad60056f01af4f786cfe93b3a7707447711626fc8da2637bec71a90409babe5"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.47.1
-
-
---===============4743421664252383555==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/libxi: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXi-1.8.2.tar.xz" to "https://www.x.org/releases//individual/lib/libXi-1.8.3.tar.xz"
-packages/x86-64-v3-poky-linux/libxi: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libxi: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libxi/libxi-dbg: PKGSIZE changed from 1525232 to 1526048 (+0%)
-packages/x86-64-v3-poky-linux/libxi/libxi-dbg: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libxi/libxi-dbg: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libxi/libxi-dev: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libxi/libxi-dev: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libxi/libxi-doc: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libxi/libxi-doc: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libxi/libxi-locale: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libxi/libxi-locale: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libxi/libxi-src: PKGSIZE changed from 383175 to 383772 (+0%)
-packages/x86-64-v3-poky-linux/libxi/libxi-src: FILELIST: directory renamed /usr/src/debug/libxi/1.8.2/src -> /usr/src/debug/libxi/1.8.3/src, directory renamed /usr/src/debug/libxi/1.8.2/include/X11/extensions -> /usr/src/debug/libxi/1.8.3/include/X11/extensions
-packages/x86-64-v3-poky-linux/libxi/libxi-src: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libxi/libxi-src: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libxi/libxi-staticdev: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libxi/libxi-staticdev: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libxi/libxi: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libxi/libxi: PV changed from "1.8.2" to "1.8.3"
-
---===============4743421664252383555==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libxi-upgrade-1.8.2-1.8.3.patch"
-
-RnJvbSAwZDFjNGM4NDFmZWI5ZjMzYTI2ZTUzM2NjNmY0MjRlODMzYWU1ZDUyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKdW4gMjAyNiAwNjo0NjozNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnhpOiB1cGdyYWRlIDEuOC4yIC0+IDEuOC4zCgotLS0KIC4uLi94b3JnLWxpYi97bGlieGlfMS44
-LjIuYmIgPT4gbGlieGlfMS44LjMuYmJ9ICAgICAgICAgICAgICAgICB8IDIgKy0KIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBl
-cy1ncmFwaGljcy94b3JnLWxpYi97bGlieGlfMS44LjIuYmIgPT4gbGlieGlfMS44LjMuYmJ9ICg4
-OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhpXzEu
-OC4yLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhpXzEuOC4zLmJiCnNp
-bWlsYXJpdHkgaW5kZXggODglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
-LWxpYi9saWJ4aV8xLjguMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
-bGliL2xpYnhpXzEuOC4zLmJiCmluZGV4IDJhODZmNWZjZjAuLmQ3ZTc3ODYxMGUgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4aV8xLjguMi5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGlfMS44LjMuYmIKQEAgLTE4LDYgKzE4
-LDYgQEAgUEUgPSAiMSIKIFhPUkdfUE4gPSAibGliWGkiCiBYT1JHX0VYVCA9ICJ0YXIueHoiCiAK
-LVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkMGUwNTU1ZTUzZDZlMjExNGVhYmZhNDQyMjZiYTE2MmQy
-NzA4NTAxYTI1ZTE4ZDk5Y2ZiMzVjMDk0YzZjMTA0IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjdh
-ZDYwMDU2ZjAxYWY0Zjc4NmNmZTkzYjNhNzcwNzQ0NzcxMTYyNmZjOGRhMjYzN2JlYzcxYTkwNDA5
-YmFiZTUiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKLS0gCjIuNDcuMQoK
-
---===============4743421664252383555==--
+--===============4924607238271929370==--
 
