@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88332CD6E4C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86DDACD5BD1
 	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 06:46:00 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22571.1780296355811101051
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22663.1780296356620230731
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2026 23:45:55 -0700
+ Sun, 31 May 2026 23:45:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rvYkBEuL;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=YaSdC7Cq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019e81ee8c59-a5258436-819a-452a-873d-d34182585aed-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Jrsc721z;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=POTdkEOA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019e81ee8f8c-65d73fff-a65b-4fec-b15f-70590f733fc3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1780296355; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=566cTS/xHzlTOe+ff8JEEbc1NRX68rzn7Y6iXJCSbqM=;
-	b=rvYkBEuLfkkCI8eOJT9/DSp6IdU42uqs7eu3Eof0fXtu2rw2cXxJkcdFQRbtc5h8
-	MQxt1pLbxbBa0tfPqyEMSnb+8EfZns20Eq9XbDQV9f3JuwCdVnGs4SNp4c5V7U/9WBc
-	+5n78YQKCOrbz/2RgTIjw8k2G5OekJ6avk6ACupU=
+	bh=ed/IaRI10a7UYUJCqSGhm4AZwejFlDd3OlZBIfXgO+w=;
+	b=Jrsc721zZV9EF0XGYIIXfG+fnJhs8hBb6u+8QzsmJudZU98C0ba+dVms3dE2ssp5
+	wBnn6x4F7Ei05R8mWtM68geRU4sIsoWi1+kdcpmsIFj8yLBeKvu13wASKyJ/7da158Q
+	YLjZdc0QTjoXQi98EWlCRlWrYjmN7cZQ1h8ngdy0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1780296355;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=566cTS/xHzlTOe+ff8JEEbc1NRX68rzn7Y6iXJCSbqM=;
-	b=YaSdC7Cq8wQ0b5jTqsIcpQrgw8kR954g0DfmD3RVozWBTFprHcGkATf9hdbvpTjp
-	zw4oM8L/AwFSSIu08RLD1VWnzxOvjwy8xnYsn3lB/jQlf4cCLId8vBKfCD+OzrzlBmw
-	XQq/tStar20MjuEDZYL+Xwpq4ec77X2q6Mk7Wy/4=
+	bh=ed/IaRI10a7UYUJCqSGhm4AZwejFlDd3OlZBIfXgO+w=;
+	b=POTdkEOAlbjvPbqPSoGq3qpmrpRAUFk09kyoezDUv6tJwD5ufLw8sDbDsSVZ2ktB
+	Fnw4RUyoX72VVw2rQslfyYcU9tD6Gjk3BzVfKi4xlBwnl7rArLt1zpLTx40CJmoDe0Q
+	QcAOZQPqspSGrKAWRRrzqeRQMqZBoRyMt7SP00wI=
 From: patchtest@automation.yoctoproject.org
 To: Aditya GS <adityags2004@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] gawk: backport randtest stability fix
-In-Reply-To: <20260601062311.638-2-adityags2004@gmail.com>
-References: <20260601062311.638-2-adityags2004@gmail.com>
+Subject: Patchtest results for [PATCH] [PATCH v3] gawk: backport randtest stability fix
+In-Reply-To: <20260601062311.638-1-adityags2004@gmail.com>
+References: <20260601062311.638-1-adityags2004@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019e81ee8c59-a5258436-819a-452a-873d-d34182585aed-000000@us-west-2.amazonses.com>
-Date: Mon, 1 Jun 2026 06:45:54 +0000
+Message-ID: <0101019e81ee8f8c-65d73fff-a65b-4fec-b15f-70590f733fc3-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jun 2026 06:45:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.01-54.240.27.45
+X-SES-Outgoing: 2026.06.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 06:46:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237813
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237814
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/gawk-backport-randtest-stability-fix.patch
+Testing patch /home/patchtest/share/mboxes/v3-gawk-backport-randtest-stability-fix.patch
 
 FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'randtest-fix.patch' (test_patch.TestPatch.test_signed_off_by_presence)
 
