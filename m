@@ -2,48 +2,48 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07D6DCD6E5E
-	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 07:55:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC35CD5BD1
+	for <webhook@archiver.kernel.org>; Mon,  1 Jun 2026 07:55:51 +0000 (UTC)
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22995.1780298540876624034
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23081.1780298540876369011
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jun 2026 00:22:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=lkoZjqEr;
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=a2+mDogh;
  spf=pass (domain: kernel.org, ip: 172.105.4.254, mailfrom: devnull+rouven.czerwinski.linaro.org@kernel.org)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 33E9B6014C;
+	by tor.source.kernel.org (Postfix) with ESMTP id 2449260098;
 	Mon,  1 Jun 2026 07:13:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DADDDC2BCF6;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CD44CC2BCB8;
 	Mon,  1 Jun 2026 07:13:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1780297983;
-	bh=ebrCT+P7JhGXzhdmoyO9bhymclOf7Pe1Bi0oOpbW4ek=;
+	bh=RWkWDhJfF0Gvs0KKKtHRkLtensCBsWCYzfGoC5uH3Hw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=lkoZjqErgee+wKHEjyW03AOUiKKadzIWnU8yGx2mj4sjYEdQgr6qgDZTdB8CK4xX/
-	 YxrLHCY0uE+pvjzQlhDk+jV0nAhq75Hra6rQ/RRD2gr7CJQJKlWXE1JL86sV6/Aozr
-	 E8ePgZvXaD1Qwb6tZqWnnwhl0zvy6E2vaYtoSMl7TpYn+Ih4L5+bH5Wb4ZY5xtfp7H
-	 OpfY0C7BeTww2MdQERTznZqFEOILX+j180Cn/Z5bopIOzD0SuJiwqdx+8w0vQJ8/xN
-	 nItWAjKaC46/u68w4KHv3YrhMt+GwesHDJyrb8n/K6LK9ofPQCn1Z0a9DuaFBgOZvt
-	 8ECnZ2dUM36dw==
+	b=a2+mDoghaRcNAUQxsEJhE94goKPRExiF76nnqtyg2wM7/DIbeF2FnFMxDdxt3g41P
+	 G1+ub4a1MS/6NFTfAheolrzSSrxNbp4WJjbKAgZRYQevT3uvHiriQ1b+Ns1cn3H+3R
+	 6NJ6yGPM+Wh/azGp0bC09IPVGhN841cSezmh1I1Rne58GTOIe3BRSBzfj7KvPSP++I
+	 zIiA6uVvv4Cu/NK5M21tlAoyGhptOiZhRBnmvZ97zl2w3AHBUBDxAaw2wEPB7d5llx
+	 IgCOSMK8JbroxPruieZ7l/Sh8W6JApEsLdJ9civgOAbOIHcmSrxcprsTDieA7BgPWK
+	 vDj2qLw5db7TA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D502CCD6E5E;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8EA7CD6E60;
 	Mon,  1 Jun 2026 07:13:03 +0000 (UTC)
 From: Rouven Czerwinski via B4 Relay <devnull+rouven.czerwinski.linaro.org@kernel.org>
-Date: Mon, 01 Jun 2026 09:13:05 +0200
-Subject: [PATCH 4/6] package_manager: remove [True, False] list eval
+Date: Mon, 01 Jun 2026 09:13:04 +0200
+Subject: [PATCH 3/6] package_manager: sdk: remove sdk_host_sysroot
 MIME-Version: 1.0
-Message-Id: <20260601-topic-packagemanager-cleanup-v1-4-926e4d5b724d@linaro.org>
+Message-Id: <20260601-topic-packagemanager-cleanup-v1-3-926e4d5b724d@linaro.org>
 References: <20260601-topic-packagemanager-cleanup-v1-0-926e4d5b724d@linaro.org>
 In-Reply-To: <20260601-topic-packagemanager-cleanup-v1-0-926e4d5b724d@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Rouven Czerwinski <rouven.czerwinski@linaro.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780297982; l=3544;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780297982; l=3969;
  i=rouven.czerwinski@linaro.org; s=20260126; h=from:subject:message-id;
- bh=EWUMxfp5xIJ+TSxGcoFdO33TOCfs6Lu7ITMhUnFxKqw=;
- b=QUe2V7gCu/RfQpPv1I6Pkf4mAHIDO3eu6Z5hcCzBKIPxIGxgpirkCuZWerkWb8H49p+y2uDQy
- QcM/asyjYTXB0mBTxB5fSmmdY0upMg+uh+7b1AJ8nZoO/4fSVN4+GPV
+ bh=QPDqigLoaS0SJH47aUvZjYlcPwkzr9v6RDgBPRMTUoo=;
+ b=C9Ppwg5koe1ON2fk8hRRpEk5yfhyRyUFKArKvVDSz5uXi7v5Itjtpo96+W6uqpcbbTVcTv7dj
+ Lifyjg34pCmC52v98A//Ezm4L139/6UH1YaBEsOHi2ve+gb0Zj7+FRS
 X-Developer-Key: i=rouven.czerwinski@linaro.org; a=ed25519;
  pk=/5pmUK/XIAIIo8JA0axgfy1k8NRhRTQkxVwZYa1ga7U=
 X-Endpoint-Received: by B4 Relay for rouven.czerwinski@linaro.org/20260126
@@ -55,84 +55,93 @@ Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 07:55:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237821
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 07:55:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/237822
 
 From: Rouven Czerwinski <rouven.czerwinski@linaro.org>
 
-Remove a [True, False] list evaluation that itself relied on evaluating
-a boolean condition. Instead pass the boolean condition directly.
-
-The previous version works because int(True)=1 and int(False)=0.
-So:
- => pkg_type = Manifest.PKG_TYPE_ATTEMPT_ONLY
- => [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY]
- => [False, True][True]
- => [False, True][1]
- => True
+The instance variable sdk_host_sysroot was always set to sdk_output,
+remove it and use sdk_output in its place.
 
 No functional changes.
 
 Signed-off-by: Rouven Czerwinski <rouven.czerwinski@linaro.org>
 ---
- meta/lib/oe/package_manager/deb/rootfs.py | 2 +-
- meta/lib/oe/package_manager/deb/sdk.py    | 2 +-
- meta/lib/oe/package_manager/ipk/rootfs.py | 2 +-
- meta/lib/oe/package_manager/ipk/sdk.py    | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ meta/lib/oe/package_manager/deb/sdk.py | 2 +-
+ meta/lib/oe/package_manager/ipk/sdk.py | 4 ++--
+ meta/lib/oe/package_manager/rpm/sdk.py | 2 +-
+ meta/lib/oe/sdk.py                     | 3 +--
+ 4 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager/deb/rootfs.py b/meta/lib/oe/package_manager/deb/rootfs.py
-index 21d6cc5e5d..d2b077cc37 100644
---- a/meta/lib/oe/package_manager/deb/rootfs.py
-+++ b/meta/lib/oe/package_manager/deb/rootfs.py
-@@ -165,7 +165,7 @@ class PkgRootfs(DpkgOpkgRootfs):
-         for pkg_type in Manifest.INSTALL_ORDER:
-             if pkg_type in pkgs_to_install:
-                 self.pm.install(pkgs_to_install[pkg_type],
--                                [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
-+                                pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY)
-                 self.pm.fix_broken_dependencies()
- 
-         if self.progress_reporter:
 diff --git a/meta/lib/oe/package_manager/deb/sdk.py b/meta/lib/oe/package_manager/deb/sdk.py
-index 690b10d2ba..519b5c9f90 100644
+index 1169744674..690b10d2ba 100644
 --- a/meta/lib/oe/package_manager/deb/sdk.py
 +++ b/meta/lib/oe/package_manager/deb/sdk.py
-@@ -57,7 +57,7 @@ class PkgSdk(Sdk):
-         for pkg_type in Manifest.INSTALL_ORDER:
-             if pkg_type in pkgs_to_install:
-                 pm.install(pkgs_to_install[pkg_type],
--                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
-+                           pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY)
+@@ -35,7 +35,7 @@ class PkgSdk(Sdk):
+                                 self.target_conf_dir,
+                                 deb_repo_workdir=deb_repo_workdir)
  
-     def _populate(self):
-         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_PRE_TARGET_COMMAND"))
-diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/package_manager/ipk/rootfs.py
-index bc822bac87..a760000d3f 100644
---- a/meta/lib/oe/package_manager/ipk/rootfs.py
-+++ b/meta/lib/oe/package_manager/ipk/rootfs.py
-@@ -307,7 +307,7 @@ class PkgRootfs(DpkgOpkgRootfs):
-                     self._multilib_test_install(pkgs_to_install[pkg_type])
- 
-                 self.pm.install(pkgs_to_install[pkg_type],
--                                [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
-+                                pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY)
- 
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
+-        self.host_pm = DpkgPM(d, self.sdk_host_sysroot,
++        self.host_pm = DpkgPM(d, self.sdk_output,
+                               self.d.getVar("SDK_PACKAGE_ARCHS"),
+                               self.d.getVar("DEB_SDK_ARCH"),
+                               self.host_conf_dir,
 diff --git a/meta/lib/oe/package_manager/ipk/sdk.py b/meta/lib/oe/package_manager/ipk/sdk.py
-index 8dc01661ef..e75e9bd991 100644
+index c39a32fa24..8dc01661ef 100644
 --- a/meta/lib/oe/package_manager/ipk/sdk.py
 +++ b/meta/lib/oe/package_manager/ipk/sdk.py
-@@ -53,7 +53,7 @@ class PkgSdk(Sdk):
-         for pkg_type in Manifest.INSTALL_ORDER:
-             if pkg_type in pkgs_to_install:
-                 pm.install(pkgs_to_install[pkg_type],
--                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
-+                           pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY)
+@@ -38,7 +38,7 @@ class PkgSdk(Sdk):
+                                 self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS"),
+                                 ipk_repo_workdir=ipk_repo_workdir)
  
-     def _populate(self):
-         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_PRE_TARGET_COMMAND"))
+-        self.host_pm = OpkgPM(d, self.sdk_host_sysroot, self.host_conf,
++        self.host_pm = OpkgPM(d, self.sdk_output, self.host_conf,
+                               self.d.getVar("SDK_PACKAGE_ARCHS"),
+                                 ipk_repo_workdir=ipk_repo_workdir)
+ 
+@@ -91,7 +91,7 @@ class PkgSdk(Sdk):
+             self.host_pm.remove_lists()
+ 
+         target_sysconfdir = os.path.join(self.sdk_target_sysroot, self.sysconfdir)
+-        host_sysconfdir = os.path.join(self.sdk_host_sysroot, self.sysconfdir)
++        host_sysconfdir = os.path.join(self.sdk_output, self.sysconfdir)
+ 
+         self.mkdirhier(target_sysconfdir)
+         shutil.copy(self.target_conf, target_sysconfdir)
+diff --git a/meta/lib/oe/package_manager/rpm/sdk.py b/meta/lib/oe/package_manager/rpm/sdk.py
+index ea79fe050b..7f586955fc 100644
+--- a/meta/lib/oe/package_manager/rpm/sdk.py
++++ b/meta/lib/oe/package_manager/rpm/sdk.py
+@@ -32,7 +32,7 @@ class PkgSdk(Sdk):
+                                )
+ 
+         self.host_pm = RpmPM(d,
+-                             self.sdk_host_sysroot,
++                             self.sdk_output,
+                              self.d.getVar('SDK_VENDOR'),
+                              'host',
+                              "SDK_PACKAGE_ARCHS",
+diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+index c2c5431c0d..ff535b5489 100644
+--- a/meta/lib/oe/sdk.py
++++ b/meta/lib/oe/sdk.py
+@@ -20,7 +20,6 @@ class Sdk(object, metaclass=ABCMeta):
+         self.sysconfdir = self.d.getVar('sysconfdir').strip('/')
+ 
+         self.sdk_target_sysroot = os.path.join(self.sdk_output, self.target_path)
+-        self.sdk_host_sysroot = self.sdk_output
+ 
+         if manifest_dir is None:
+             self.manifest_dir = self.d.getVar("SDK_DIR")
+@@ -97,7 +96,7 @@ class Sdk(object, metaclass=ABCMeta):
+                            lang for lang in linguas.split()])
+             # Generate a locale archive of them
+             target_arch = self.d.getVar('SDK_ARCH')
+-            rootfs = oe.path.join(self.sdk_host_sysroot, self.sdk_native_path)
++            rootfs = oe.path.join(self.sdk_output, self.sdk_native_path)
+             localedir = oe.path.join(rootfs, self.d.getVar("libdir_nativesdk"), "locale")
+             generate_locale_archive(self.d, rootfs, target_arch, localedir)
+             # And now delete the binary locales
 
 -- 
 2.52.0
