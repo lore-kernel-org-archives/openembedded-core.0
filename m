@@ -2,116 +2,138 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16620CD6E60
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15229CD6E5D
 	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 19:13:21 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2985.1780427599054267313
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3040.1780427599838045014
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 12:13:19 -0700
+ Tue, 02 Jun 2026 12:13:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=bQdVL7qt;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45ee6d32402so3150442f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 12:13:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Dofvht8G;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490b4a8e28bso3748065e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 12:13:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780427597; x=1781032397; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Gje6ycEW99hpIB5epELPRIsuKMKMvlkQ21jjpLntF4=;
-        b=bQdVL7qtYiyrJTkogKIls9v99FuSf57ZTkmKWxALNbeeOTAvMSks9ncTYh1BweohWK
-         27H7b14t7pZha8cFBrZ+RT93O2UA/D3ADCknQtgJWyiVfYPOeJneXbJqFetdEdtJ1MsD
-         3UYCfla/WSbtAap4pVviztOGXsY1O40OT+FZCl/I8ejpZMBBX3qIaHv8+R/k3fMGcj6Z
-         a5yo06HfzpP7r9vgpoby82PJmkXbgmX2VVJMftGjz8b2ktKEyfWlSuFZQTGXWjkZeo54
-         6huzey4b02vEyG8HCpWLC7hPgN6LiTfF1rPTBDZ8mSbHH4/Kzy51k3mIDzX6Qy1gOWL2
-         ULJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780427597; x=1781032397;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780427598; x=1781032398; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6Gje6ycEW99hpIB5epELPRIsuKMKMvlkQ21jjpLntF4=;
-        b=n9LDwDnkU5qCanJHyuXpBtf6hJ8a6S6f1VznOje3r5A7sQ3yvT5GFJDAuop/8VTeP4
-         f6MD42ceOCXj2GpOVOkMXq7M+CKKggqH+H2jOdu3PqfxACk27MfnwJUZ3RaoyugqQqXZ
-         f9UKoah5E8ml3y7+ExbR1FcO0QtGXn4WR2UapRkC9yziYYz6XRs9lQe895g2i7ZTqvEM
-         r3eWymm018Z5eB0RiC56cBkC46It3oMRdCyvdA7vSKpUgbxQa/AQ/3Rc241P65ounUrM
-         6EPJcmd3p9qsJb5x6h4h6ZiN6yKH9SMads60kvHDAnrg81iNRFg7z2WiIiDTOTSCpxI0
-         4LOw==
-X-Gm-Message-State: AOJu0YzOeOjw0ne2a3F1wekU29XdQpZdFD5abhU4HXtfgmFKzpHNCtW6
-	b/74sYibDEzo6PMraFgq1vtizZN/MpOyhVjsrJomTMehevfO/FyizSzv0tb3NA==
-X-Gm-Gg: Acq92OEz0fGqdSpkyB9bUWsGChggGjj+2BvfEuOFT4NEVSB3NX1mBCajdHgktjxrk8X
-	/qq9ErCiGx+cQD3+vIvjsribYUQ+5Ba8HilU9Q8biEzjBrs++PUIAdvtnE8Wp3gGl3TLAHj7Jlf
-	GhP3X4gvG78cJoJ7oySop3noL7PVGS5pZDT9SPnT3DZ4HdnWC0Rm4x3MmzaFscf3Ub4XaCkHeEm
-	C7Vut+qOmimmi38GFyVGq5+mZpHkr+2myIERU3KaURtLW4hKj+uNj6LYKnm7O6tDnkE/SMUN/oA
-	RNzE1NJvHxkg4TdNQAtu7C/F6TNoo5mIVzhcqxpGFfXdGFmuqmGn2aibKTtycxLmTNcdeA7JIfE
-	QYOzjgyP/hYT1hRvEooDOeU2xArXE83SyzGIs2qZq1GJaHD7hM54f88zGvJa/oPXj1ji7mhFUJN
-	Q92O03e6N6Wt1pS5hoe0AesSlBqRi4knY6EMb0+FTIK922gX42ZhCss3S6Pr/AX8VVA9RRDQ==
-X-Received: by 2002:a5d:54d2:0:b0:45e:ed7e:f8f8 with SMTP id ffacd0b85a97d-4601f4d815fmr807868f8f.8.1780427597213;
-        Tue, 02 Jun 2026 12:13:17 -0700 (PDT)
+        bh=1zk07+QTQ3IRkfUHEWA+YRTjnn6AOLfAOtY9dVtE7U4=;
+        b=Dofvht8GkJVISMUEQ2j/FKgiThKa5dI94sl10bNd7czfgSXAi5jNTAWKWRF29VWqtt
+         LgBCBsFYopX0FcSTHtqvM0lX0HGZq+4jQROq85R0YdMCENYQHHyj8FFW5X5UJnApTL40
+         9IVKc7O/14RP7T112vqpM55KreIC8uHlCwQIruFUnlrnPTLj8kE18DAM2KkUzYIvLgcF
+         k17CpQQr6Q5qjSN8ySWWBwLGZSWAsMkgwFu+8Kc40f9I8AUI85BvM4Agkn+c5+deVmyk
+         mGbMdaWYthp0fh1/hX0WdYrNURV2VZY3TJpaI5TWtcjl2LFJdQu93nk16sfi4l8d86L+
+         JMjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780427598; x=1781032398;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1zk07+QTQ3IRkfUHEWA+YRTjnn6AOLfAOtY9dVtE7U4=;
+        b=XU8cB784sTd/P6oZiQ7e43dbpyNIjXRz8P46zc0/RNdzHEdzg6hdkflujyqZxYlpPi
+         p2BRR0njxtr7WOcvDjr8o1bKHKpeMjyizhTRg9Gr2EptmoMshyHsUiBdjaDPBvtLy9wg
+         GFr8uehldaHfFAq/hImXGvljnFtNGw4R2WYvGvyc8i69apnsK1ZHsXcTghI983xtGIXB
+         7ag8MzmL1/oVdJRBvHcy2IUohu1WY01BlC3BM/OKFjpDZlFz4ZkjwYvCoz1Jf0XXH2pr
+         dtlgxUNtypdbPMMQjO7q5tjvYte6SJ7HnR3xfwu9n5WxBp/1e/wXz8qt3dgSudFPS1fX
+         2nVw==
+X-Gm-Message-State: AOJu0YyInHhNaCnv4ilY27otCUBhsv+BQRMKZq6PShbZwXn92wkeSvMY
+	Ut1SPaRn79y5VoG+N2EXKtnTj0HWe+ndg6fOL57zRfRaHZGZPiWKEfDdBpMlDw==
+X-Gm-Gg: Acq92OFncn/ae5FuLeNEPlxuP3WjxWKzvO63EbCjTV0gTL7DAfn/Icw7JaqZwkeIFx5
+	AsBo6XZwitppv/YxuK2zaAA60LkyW/wrl7Y03QJRpfv4zc9HDfY3SPCbJzhIoCDCXgDi6d/7iB+
+	gOeHoHBIPEgR9SoxYMhuemKXxiZiLWGzYDPM0bOwDdw2VR+bPt8mrRRBZg/70v7KW7HwmzMdZV5
+	JblWJw6kDPzgMDMZMjTdWyugtUn5Go5clZWsq/ikp3RKqnYy+ufVjmH0PK9jMBTTnhdntDaspmB
+	LDfnVe6U01sKaojn2D2toEyjytOsAQIg7Dd7sfvCg/Sjg4jW1ZdLntttowvbvVsxtt8aJCGdZgb
+	NAu3v7jD1H/eORg2aJxDAoEJFoOUI3yFkxOs0XfvbKoZoiTSV/A0qszGfCgCPINM2pEbm1Ockhr
+	AXOBw10g8JkSGRBLmDjU8G18uaszDQmyI8cNPiWU0ZW+K5+nK4OIWImm/PyV442U12iAIgrg==
+X-Received: by 2002:a05:600c:8b38:b0:48f:d5b8:5b07 with SMTP id 5b1f17b1804b1-490b5e51b8amr2908685e9.20.1780427598127;
+        Tue, 02 Jun 2026 12:13:18 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f35133csm1282853f8f.25.2026.06.02.12.13.16
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f35133csm1282853f8f.25.2026.06.02.12.13.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 12:13:16 -0700 (PDT)
+        Tue, 02 Jun 2026 12:13:17 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/2] qemu: disable SDL UI frontend
-Date: Tue,  2 Jun 2026 21:13:11 +0200
-Message-ID: <20260602191312.3257535-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/2] selftes: test_testimage_virgl_gtk_sdl: run only if gtk or sdl are enabled in base config
+Date: Tue,  2 Jun 2026 21:13:12 +0200
+Message-ID: <20260602191312.3257535-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260602191312.3257535-1-alex.kanavin@gmail.com>
+References: <20260602191312.3257535-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 19:13:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238068
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238069
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-For rationale please see
-https://lists.openembedded.org/g/openembedded-architecture/message/2374
+The test was forcibly enabling both gtk and sdl in qemu and then running the test.
 
-SDL-based UI is of limited use in typical scenarios, and can be
-replaced by qemu's own vnc server.
+This changes the logic to skip the test if neither is enabled,
+and run gtk and/or sdl tests only if either is already enabled
+in the base config that was in place before running the selftest.
+
+Together with disabling sdl support in qemu by default this effectively
+skips the test on the yocto autobuilder, resolving the selftest
+failures seen with qemu 11.0.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb | 2 +-
- meta/recipes-devtools/qemu/qemu_11.0.0.bb               | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 32 +++++++++++---------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb b/meta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb
-index 7947499c5f..258945c512 100644
---- a/meta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb
-@@ -9,7 +9,7 @@ DEPENDS += "glib-2.0-native zlib-native pixman-native qemu-native python3-qemu-q
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index a3c3126036..d332dac707 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -249,25 +249,29 @@ TEST_RUNQEMUPARAMS += " slirp"
+         qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
+         qemu_distrofeatures = get_bb_var('DISTRO_FEATURES', 'qemu-system-native')
+         features = 'IMAGE_CLASSES += "testimage"\n'
+-        if 'gtk+' not in qemu_packageconfig:
+-            features += 'PACKAGECONFIG:append:pn-qemu-system-native = " gtk+"\n'
+-        if 'sdl' not in qemu_packageconfig:
+-            features += 'PACKAGECONFIG:append:pn-qemu-system-native = " sdl"\n'
++
++        if 'gtk+' not in qemu_packageconfig and 'sdl' not in qemu_packageconfig:
++            self.skipTest("Neither gtk+ nor sdl enabled in qemu-system-native; the test requires at least one")
++
+         if 'opengl' not in qemu_distrofeatures:
+             features += 'DISTRO_FEATURES:append = " opengl"\n'
+         features += 'TEST_SUITES = "ping ssh virgl"\n'
+         features += 'IMAGE_FEATURES:append = " ssh-server-dropbear"\n'
+         features += 'IMAGE_INSTALL:append = " kmscube"\n'
+-        features_gtk = features + 'TEST_RUNQEMUPARAMS += " gtk gl"\n'
+-        self.write_config(features_gtk)
+-        with mock.patch.dict(os.environ, {"DISPLAY": display}):
+-            bitbake('core-image-minimal')
+-            bitbake('-c testimage core-image-minimal')
+-        features_sdl = features + 'TEST_RUNQEMUPARAMS += " sdl gl"\n'
+-        self.write_config(features_sdl)
+-        with mock.patch.dict(os.environ, {"DISPLAY": display}):
+-            bitbake('core-image-minimal')
+-            bitbake('-c testimage core-image-minimal')
++
++        if 'gtk+' in qemu_packageconfig:
++            features_gtk = features + 'TEST_RUNQEMUPARAMS += " gtk gl"\n'
++            self.write_config(features_gtk)
++            with mock.patch.dict(os.environ, {"DISPLAY": display}):
++                bitbake('core-image-minimal')
++                bitbake('-c testimage core-image-minimal')
++
++        if 'sdl' in qemu_packageconfig:
++            features_sdl = features + 'TEST_RUNQEMUPARAMS += " sdl gl"\n'
++            self.write_config(features_sdl)
++            with mock.patch.dict(os.environ, {"DISPLAY": display}):
++                bitbake('core-image-minimal')
++                bitbake('-c testimage core-image-minimal')
  
- EXTRA_OECONF:append = " --target-list=${@get_qemu_system_target_list(d)}"
- 
--PACKAGECONFIG ??= "fdt alsa kvm pie slirp png pixman sdl \
-+PACKAGECONFIG ??= "fdt alsa kvm pie slirp png pixman \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
- "
- 
-diff --git a/meta/recipes-devtools/qemu/qemu_11.0.0.bb b/meta/recipes-devtools/qemu/qemu_11.0.0.bb
-index 5d544d8d13..cb3ce6a85c 100644
---- a/meta/recipes-devtools/qemu/qemu_11.0.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_11.0.0.bb
-@@ -16,12 +16,12 @@ EXTRA_OECONF:append:class-target:mipsarcho32 = "${@bb.utils.contains('BBEXTENDCU
- EXTRA_OECONF:append:class-nativesdk = " --target-list=${@get_qemu_target_list(d)}"
- 
- PACKAGECONFIG ??= " \
--    fdt sdl kvm pie slirp \
-+    fdt kvm pie slirp \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa pulseaudio xen', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'seccomp', d)} \
- "
--PACKAGECONFIG:class-nativesdk ??= "fdt sdl kvm pie slirp \
-+PACKAGECONFIG:class-nativesdk ??= "fdt kvm pie slirp \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
- "
- # ppc32 hosts are no longer supported in qemu
+     @skipIfNotMachine("qemux86-64", "test needs qemux86-64")
+     def test_testimage_virgl_headless(self):
 -- 
 2.47.3
 
