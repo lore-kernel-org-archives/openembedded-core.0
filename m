@@ -1,180 +1,115 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <hjadon@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D797CD6E4A
-	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 12:58:17 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.24534.1780405086978793212
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 577B4CD6E57
+	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 13:30:17 +0000 (UTC)
+Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25291.1780407013525810136
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 05:58:08 -0700
+ Tue, 02 Jun 2026 06:30:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=KnNcaljO;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490ae94a89eso14845055e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 05:58:06 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=RYIOaIha;
+ spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: hjadon@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1780405085; x=1781009885; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bfwInhi6049n01jYTodP1OGCrHCgyRzavCzuEzNHJE8=;
-        b=KnNcaljORr6+jpyzblxCEHvE3GWPc+BUJoF1SVhCgyoWwQ8jDC+qe2H2ZPadvY8gK/
-         nP7CL3LS5zxbmS9OSIvEggl1s0sYX6hkabityIWdU0T9VEJUSNSpDbLzZouwhLb9oEPa
-         H1fwc5ltnGq3yiBs5vdfAU4TDbThqUrcOHx48=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780405085; x=1781009885;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bfwInhi6049n01jYTodP1OGCrHCgyRzavCzuEzNHJE8=;
-        b=FzJQkzeoHfXX6O2djfSHkDBniQ+Zo1DxfeooMTlsPIhEGLQbr15GVsXqD3I9JykTT0
-         qzrk+E81GkC1mJEgftR3YC/VO/xyp3QqzGlkgeb9A0PbL209DBjgfQfGhup3OvLmUYSF
-         GgY2HxlwSWDGmR5tBsNBZh2k54OshUfBt6JEAsK5Pbis1zi/7hFydFlJP4ie9j6Kp9uO
-         XAf9CSAKkjjZMij1v4t5KXCTEaKEGJl/owYYXxZ7fg9e+y1Y4Qpfbrz8lhxNtFhMwD4C
-         wCMMNY/WB6f7wrndoOvuOV7v8BXhhPeiyTwGZbUqdNI4gwH1S3ic/dQ2LFifYeBTrjRh
-         Bomg==
-X-Forwarded-Encrypted: i=1; AFNElJ9EqU3ez5TB9YBzKxz8Scsq8US+mMNTeG86+CHaF3gqCIL+J+XjhZAcvErhQlsYVwb7Q40S56EEUcjgIpRRKWlA3Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzRRrYnXOf526IwjKTygeRoiNNnpZLxhDNMUSKvNBSiq+Ju0wxN
-	rHYPmAFxcBf9eC19kKXYvlAmjtqLPV6TwKCghjdiATfQJAvvIsUTzKXTKcuiwhllJEM=
-X-Gm-Gg: Acq92OEbiigTLAZTPNsUNRKcwkC8zSf5TjV5hqutnyfUWwf8FMQZWiZNIi9aEgMFtKI
-	N44vRiT12aXJ5rgKCg2oHwvpPFKjrCvfsC7s9exG387Gwy7O1jpyMFdT/o9e3DQIsH2DyPGV6Qe
-	YpUo4VOgr4R2DyftrEdECNn3lwfO6y6GnG0UNb/rdxShrGQVzDvWOc51cWrJWtKWQGxYs05Vx1m
-	CQ3HkK07hbAsuL3fl9fKQEonWt0+CWIfnhhiicPTRvgrZxy5MeLlo1CyK92Yqv5+NHSF2P0x5Kv
-	nMyCWm9hcaqRe3YJzHLrG0RfInZnwZZlK2VAOeBYXEBYtQlqIgkYvYAYw9+/PPDSmVvlOgFo71l
-	g5GieKgYky1FD9ECcPjQIatjcEaV4PD2JdejSPBSJVC3Y3SNa/ukSkeAC86ptEk2czvsF5tbqR5
-	ZZ2i0jY21Xi9omVyRB5iZX1RM76MnAYUD2mx+wqXRTan3McVaGdfhmsQQ64lRYr8CYi7jZ18Vak
-	s00LzIJZRWCipLbkkizow==
-X-Received: by 2002:a05:600c:3587:b0:48a:75b9:b0bc with SMTP id 5b1f17b1804b1-490a2941425mr298049115e9.29.1780405085220;
-        Tue, 02 Jun 2026 05:58:05 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e26050sm57149215e9.9.2026.06.02.05.58.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jun 2026 05:58:04 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 02 Jun 2026 14:58:04 +0200
-Message-Id: <DIYKXGF7JHKH.33C4968AVKRK3@smile.fr>
-Subject: Re: [OE-core][scarthgap][patch 1/5] xserver-xorg: Fix
- CVE-2026-33999
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260512085923.820545-1-vanusuri@mvista.com>
-In-Reply-To: <20260512085923.820545-1-vanusuri@mvista.com>
+  d=cisco.com; i=@cisco.com; l=1032; q=dns/txt;
+  s=iport01; t=1780407013; x=1781616613;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tkMgGQdsP7YwT68atY+Xy7sR11kizT+LwV6CavbNank=;
+  b=RYIOaIhaCGvmbJb+5/1WU7Rcq5VXABEUzGQVDEBw318iuUK6/O9kONlY
+   Edi0TLIRKPQrRv4mu1yDzEQqPvw/66Eij3lbUKJI2YtdY/PoE3V08vCdK
+   5HARXwLhAGoknQBVa9521Go1izch021VZ3+JwZAh4eOwhF9eWiqG7Mq1R
+   CkzS4ouMSJBZiBJZmmVp8w0LmKaznMaejuBwxygDyqIDHXH2tsL/SP+o+
+   S8S99YOEyNii2YDN/ltGLEQaZQ/Cx7xg5rZzmo8QfHyM3jV7q4ojlSbga
+   kICCqA4se8GFVzftzFD5MLhv4r4jOOleiJlZUvQwvZC7VYwHrZXpxr5E/
+   A==;
+X-CSE-ConnectionGUID: XTfQbwbASJKd2iInA5gutg==
+X-CSE-MsgGUID: OQcxVQHlTey0TG/PSDgzfw==
+X-IPAS-Result: =?us-ascii?q?A0D2AgD72R5q/5H/Ja1RCYJZgldyXkNJk1oBoQ6Bfg8BA?=
+ =?us-ascii?q?QEPMSAEAQGFBo00AiY2Bw4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
+ =?us-ascii?q?Q4ThlyGXTYBGAEtMFxEgwIBgnMDswaCLIEBgygBgVTbKAELFAGBOIU/iB2Fb?=
+ =?us-ascii?q?ycbG4FyhH2EF3mFdwSCIoEMkAFIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BI?=
+ =?us-ascii?q?z4XgQsbBwWBSoFVaoEEhRUjHwM5gReBf4EraWkQAwsYDUgRLDcUGwQ+bgeLb?=
+ =?us-ascii?q?hcPgUJzAYENgmmjRIIhoQ4KKIN0jCGVOhozqmsumFikWIRogW4BNYFZcBWDI?=
+ =?us-ascii?q?glKGQ/bZicyAjsCBwIHDgMLk2UBAQ?=
+IronPort-Data: A9a23:q1gqlq6RR/L/yvxwIyTAzgxRtG/GchMFZxGqfqrLsTDasY5as4F+v
+ jEWDWuCOPmKMTbxc9wkad+ypkpV7ZfWndBhHgtvpSo3Zn8b8sCt6fZ1gavT04J+CuWZESqLO
+ u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
+ 5Wo/6UzBHf/g2QqajxMsfrawP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
+ +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
+ jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eDbEWw+xoC0h11
+ 98UcjEsaDneiP+qz+fuIgVsrpxLwMjDJogTvDRkiDreF/tjGcCFSKTR7tge1zA17ixMNa+BP
+ IxCNnw1MUmGOkESUrsUIMpWcOOAhnv2fzpegFmUvqEwpWPUyWSd1ZCxb4aJKoTQHpw9ckCwg
+ VvN71rAIhUmOc3H9RXCykmAif3BgnauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBVi4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rGnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:EJ6bGKCitJjElvLlHema55DYdb4zR+YMi2TDGXofdfUzSL38qy
+ nAppUmPHPP5Qr5O0tQ++xoWpPhfZq0z/cciuMs1NyZMjUO1lHFEGgb1/qA/xTQXwvj6+Vaya
+ BsN4J6CNH2EBxGqPyS2njdLz7lq+P3lpxBQozlvhBQcT0=
+X-Talos-CUID: 9a23:4sSaZWG4kqJr+FSdqmJXyEAtEN8vW0b/73uKIm6+IDtmVaGaHAo=
+X-Talos-MUID: =?us-ascii?q?9a23=3A/OKRQg2ksKweWNpQKpsGwhDzWTUjxJ2lGH40sZE?=
+ =?us-ascii?q?6ttjcCQM3Awyxgya5Xdpy?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.24,183,1774310400"; 
+   d="scan'208";a="474480231"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 02 Jun 2026 13:30:12 +0000
+Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 9525E180001DB;
+	Tue,  2 Jun 2026 13:30:12 +0000 (GMT)
+Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
+	id 37484CC1611; Tue,  2 Jun 2026 06:30:12 -0700 (PDT)
+From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: vchavda@cisco.com
+Subject: [OE-core] [scarthgap] [PATCH] apr: Add CVE_PRODUCT to support product name
+Date: Tue,  2 Jun 2026 06:29:29 -0700
+Message-ID: <20260602132957.3507537-1-hjadon@cisco.com>
+X-Mailer: git-send-email 2.44.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-21441.cisco.com [10.128.164.182];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 12:58:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238046
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 13:30:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238047
 
-On Tue May 12, 2026 at 10:59 AM CEST, Vijay Anusuri via lists.openembedded.=
-org wrote:
-> Pick patch according to [1]
->
-> [1] https://lists.x.org/archives/xorg-announce/2026-April/003677.html
-> [2] https://security-tracker.debian.org/tracker/CVE-2026-33999
->
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+From: Himanshu Jadon <hjadon@cisco.com>
 
-As far as I can tell, this whole series should also be applied to
-wrynose and master. Can you send this to theses branches and ping back
-here?
+apr is tracked in NVD under apache:portable_runtime rather than the
+recipe name apr. Set CVE_PRODUCT accordingly so cve-check uses the
+correct NVD product identity for APR.
 
-Thanks!
+No additional alias was found to be necessary for this recipe.
 
-> ---
->  .../xserver-xorg/CVE-2026-33999.patch         | 49 +++++++++++++++++++
->  .../xorg-xserver/xserver-xorg_21.1.18.bb      |  1 +
->  2 files changed, 50 insertions(+)
->  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2=
-026-33999.patch
->
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-339=
-99.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-33999.p=
-atch
-> new file mode 100644
-> index 0000000000..cd3bf47397
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-33999.patc=
-h
-> @@ -0,0 +1,49 @@
-> +From b024ae1749ee58c6fbf863b9a1f5dc440fee2e1b Mon Sep 17 00:00:00 2001
-> +From: Peter Harris <pharris2@rocketsoftware.com>
-> +Date: Thu, 15 Jan 2026 15:54:09 -0500
-> +Subject: [PATCH] xkb: fix buffer re-use in _XkbSetCompatMap
-> +
-> +If the "compat" buffer has previously been truncated, there will be
-> +unused space in the buffer. The code uses this space, but does not
-> +update the number of valid entries in the buffer.
-> +
-> +In the best case, this leads to the new compat entries being ignored. In=
- the
-> +worst case, if there are any "skipped" compat entries, the number of
-> +valid entries will be corrupted, potentially leading to a buffer read
-> +overrun when processing a future request.
-> +
-> +Set the number of used "compat" entries when re-using previously
-> +allocated space in the buffer.
-> +
-> +CVE-2026-33999, ZDI-CAN-28593
-> +
-> +This vulnerability was discovered by:
-> +Jan-Niklas Sohn working with TrendAI Zero Day Initiative
-> +
-> +Signed-off-by: Peter Harris <pharris2@rocketsoftware.com>
-> +Acked-by: Olivier Fourdan <ofourdan@redhat.com>
-> +Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2=
-176>
-> +
-> +Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-=
-/commit/b024ae1749ee58c6fbf863b9a1f5dc440fee2e1b]
-> +CVE: CVE-2026-33999
-> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> +---
-> + xkb/xkb.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/xkb/xkb.c b/xkb/xkb.c
-> +index 137d70d..2b9004a 100644
-> +--- a/xkb/xkb.c
-> ++++ b/xkb/xkb.c
-> +@@ -3004,7 +3004,7 @@ _XkbSetCompatMap(ClientPtr client, DeviceIntPtr de=
-v,
-> +                 return BadAlloc;
-> +             }
-> +         }
-> +-        else if (req->truncateSI) {
-> ++        else if (req->truncateSI || req->firstSI + req->nSI > compat->n=
-um_si) {
-> +             compat->num_si =3D req->firstSI + req->nSI;
-> +         }
-> +         sym =3D &compat->sym_interpret[req->firstSI];
-> +--=20
-> +2.43.0
-> +
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb b=
-/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-> index 7f6197a0b4..ef7f5c5bdb 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
-> @@ -5,6 +5,7 @@ SRC_URI +=3D "file://0001-xf86pciBus.c-use-Intel-ddx-only=
--for-pre-gen4-hardwar.pat
->              file://0002-xkb-Make-the-RT_XKBCLIENT-resource-private.patch=
- \
->              file://0003-xkb-Free-the-XKB-resource-when-freeing-XkbIntere=
-st.patch \
->              file://0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch \
-> +            file://CVE-2026-33999.patch \
->              "
->  SRC_URI[sha256sum] =3D "c878d1930d87725d4a5bf498c24f4be8130d5b2646a9fd0f=
-2994deff90116352"
-> =20
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+(cherry picked from commit bc3803e12d4938e2de514c39bd5d0f011f883ace)
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+---
+ meta/recipes-support/apr/apr_1.7.5.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/recipes-support/apr/apr_1.7.5.bb b/meta/recipes-support/apr/apr_1.7.5.bb
+index 78796476e2..7a3445aa20 100644
+--- a/meta/recipes-support/apr/apr_1.7.5.bb
++++ b/meta/recipes-support/apr/apr_1.7.5.bb
+@@ -136,3 +136,6 @@ do_install_ptest() {
+ }
+ 
+ export CONFIG_SHELL="/bin/bash"
++
++# Add CVE_PRODUCT to match the NVD CPE product name
++CVE_PRODUCT = "apache:portable_runtime"
+-- 
+2.44.1
 
 
