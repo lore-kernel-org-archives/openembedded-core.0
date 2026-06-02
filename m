@@ -1,197 +1,104 @@
-Return-Path: <nikhilar2410@gmail.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6365DCD6E4A
-	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 12:02:16 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23361.1780401726631704251
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F40CD6E64
+	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 12:06:46 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23441.1780401425257051726
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 05:02:06 -0700
+ Tue, 02 Jun 2026 04:57:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=OqsNl8ws;
- spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: nikhilar2410@gmail.com)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c8584e80bd3so1269019a12.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 05:02:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=ayZDFENT;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: frederikbraendstrup@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-befd83e0521so77108266b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 04:57:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780401726; x=1781006526; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1PYJrwf2wjynM/yxJOMjiUyFp1zFTGPaXrwHMvNfy2A=;
-        b=OqsNl8wsacW6lnM/NFiX7Esgny1I1zI/D4JW6pi1wKv8BWZez2vM8AFMpgpVuxqHga
-         u33VzI/zxCjRTK3MM+Eqggj0RXCTsZLIKdPurxnieYZ+kG9w0y2PdyG6s5CDGXlUjDt5
-         MN2rbbVZ/75Ws6kWa/0VOo7QCKjvu7NyM2gJGfXfJT4dFhyCIqRDtcH3jbeih4hV07nL
-         JTAAkODHGsfCgCwFU1+6QnNz4U03jVQYg3lNIKeyUoIclOG/69AelN9K0hQ2yJoC3mVV
-         VzIwn0c36Cv853vB360qZBWQxRI19g3PlYtKg3IRy2ZtR8r+ETbiMOdVyGL8ocQpn+RT
-         vImA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780401726; x=1781006526;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780401424; x=1781006224; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1PYJrwf2wjynM/yxJOMjiUyFp1zFTGPaXrwHMvNfy2A=;
-        b=Zx/6e/srSf2yjC8Qa96556fUnrohdDt4NhOWw0lBIm0IXc51K55UU3Aj8Gbh6MsRfE
-         RtmQMg4HQtx8+vMHmnFOwMm/O7enLuzwcFk8tPUOgZ3Mdbgo2A/O2D/+kr14C1p/EUcO
-         kwc4cIMu3SbVuv9OeVoqw9X9/IT768YssCRVTWqp5K/l2VayvgpQ8SHK7fK0fD+jNSs9
-         ULmHTmGk0yYDl0Xs2CdEwYSu5DLYU5v63fWL+bnTGbhslg1ObAKNaYVsXqVs0ZKLj+Zz
-         NmK18jO3b5ZVLXZkhqFjm3Uk9o0WqbH1ImoNK8s1VeCqS3Qeg4cmdV6jbSnn1/4HnvG/
-         cSHA==
-X-Gm-Message-State: AOJu0Yw7Ux5aIiP2G2GbK/tqT4TWEbUM7zZhWLXsq2kCWNBcGeXUanV5
-	HQO7txjnvKaEW3Ogah17vSRVXFOziaP/mEAqByXMbvo6pgGbEEa6cYc=
-X-Gm-Gg: Acq92OGo8wRJuGiurW7GTna19YD1BzgHz21VnJZ7O9k42j+JrdvFUmkN3BJ2MhnR385
-	DvB+qRO+1UnxUjYvdfDCcC6HXSRhmfwiZGGb1d5uV7vf6jyzW0bv6Aw/bwHPXvU1QK8BIF4NYrA
-	lPrHxqCDB6VYOtyXVj2O5KkY+9dvc2EyEIo9hgm2cAWnKKrlZ1ny3Imi9g23iB4F6jSmSbuVZj8
-	hMokBQiI4pc02zxpJJZvDspSO24/DWF/vtw0AJgqbFQmNBi8A61CjJDQBAz6cYi1gBAqrYX9eP2
-	bzV0PGlA/xEgpFbE+4jtr6DvY3MW9CSa9CMGncSbyWreByx5Mue8O60iEWBxtI/jkZCDZ5yjWA7
-	SkytXIQQdzHHc5m9smi3Xz2Va1bnRZ7u4UucCLy1SNTAFA8M4p4iXSzwlBBmybWp2TWsDEe06U1
-	OQ9lZ2HQ+iQOqfyhDVjin2UVrzy7uBc9frxpBt98eh60lrcgM=
-X-Received: by 2002:a05:6a20:7d86:b0:39b:ae5c:164d with SMTP id adf61e73a8af0-3b427fdcccbmr16775883637.4.1780401725789;
-        Tue, 02 Jun 2026 05:02:05 -0700 (PDT)
-Received: from BLR1LPT000710.. ([2409:40f2:2011:7b5a:eebd:710:ba44:1784])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85771d367esm12370986a12.11.2026.06.02.05.02.03
+        bh=yD5ff+/nldDPoGZws4bgUcri8eL4KD+Ciziznq46Qhg=;
+        b=ayZDFENTyZ4nuPO+QIg4XbIctI22uIWZX44OlQgsy4ZFazcR3Red9HgwNEFBIUS6uO
+         z1p1XBvXslL+bAu3/JsAOVPca9XHrriJMBthbk2PpAbFYReYpAOADgd2X/4qN6M1iAE0
+         TXVO4DKAWtzhUQPXX5SqlpjMAtoDob+utbG9YPvplyb1r3821HBGkDe9nMAkFBLOVlCP
+         EjTlMLwigEfYfxdY8ambm8MkKGbK5mpN6I6XFAzp1qeUfMloTS5JD3RVTKaCNs2PgVIt
+         1BoLOYdpUeM4jfV49MxtSUXGcZ7AIKOELuvAZ6BFkrnUMcamxLuzvXS9UIXtETWkUrR1
+         gd/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780401424; x=1781006224;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yD5ff+/nldDPoGZws4bgUcri8eL4KD+Ciziznq46Qhg=;
+        b=fxJSORiNwKIMEgtZgnZQinKZmdBSNpaVT5hqWpRxU2WfZLY6lj93SFjugetWSjuqbM
+         1aYK2Xz+MhiyLnO5F3jqRzLGWsXedu2U4dKnz0Hb6Vp5HJywK1vJ/gWDDrYuzFWFx0G8
+         2d6NWsJQyA9TpNWJdPiZhmvZRGKY5A9vGzYuB1kT4yrmexL515ueuufZYrOWYliD6aXM
+         +RzDOTbFyr6d6BrDOrgP1co7K03eY/n2gwh8PzHIWt3CRH/YjINR/GpFNG4F6VSvmWUt
+         k2cc7IykbryUkMSFfDBHfJff1W0Hfx+Twa/rChhwtKIOeHr5wS+7ipyMELAaBrfk8q/l
+         i1IA==
+X-Gm-Message-State: AOJu0Yx38o/uA5RK/G/t/5o0pe1OKupz2hH+DN6NCQe+2yhwGlZJ6UTS
+	PBXpqzfMJrckU0rpESL2a3QA54y4yw3x7a+nR9QSfuAdHLgqWx9QL+MTwGMvDKBJ
+X-Gm-Gg: Acq92OEeTyCTHEQHAD8cPT/sZYy4dPoRVXvZ8rCdhRsXcmkwO6bnwt7anQwvD0ZY4pz
+	Br28BLqptP5Wk2Cnc12tw2IvTDJxOiki+4K6FajCyPCqy9K0Y9FaysOcl0UKKlhX1nnzFmDR4hQ
+	L+l61GNYtQuwKuVNukudGSd5r0NEo0RHQAqPIcAmXAi0XW+hbFpQoi0fUGyLINkQTI7Ld7BtJIK
+	LLjVtSNQ3xFfSwJm1alDlMlzjpMBkzmj+F5k1x6/6FeH1PCpn58kMDQWAgVDS7jg6sYvf7OOuTo
+	nUjC8/C4eaSA4ChB8F0IkkWlfhoaKOlLLLHToF1Co9xH7jb7e4IZVfMjQRQm+o5Ewjto0EnEifT
+	QkWleorMSXPvvAEplV8cwqFsLYJe9T+oesPnwjzOXdRoR6JKHEV7MCD28MxAH3fQW1ymOZyQBjc
+	Jh4M/m58I3lRAXiyvCQqH99by11WYxjhecQ7ZTa8mMGmZUxHzK0YahskE8aQ==
+X-Received: by 2002:a17:907:c1b:b0:beb:f357:7755 with SMTP id a640c23a62f3a-beefaee7734mr212742266b.12.1780401423462;
+        Tue, 02 Jun 2026 04:57:03 -0700 (PDT)
+Received: from ws.taila4487.ts.net ([80.166.137.147])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68ceb7a7c70sm3320813a12.7.2026.06.02.04.57.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 05:02:05 -0700 (PDT)
-From: Nikhil R <nikhilar2410@gmail.com>
+        Tue, 02 Jun 2026 04:57:03 -0700 (PDT)
+From: =?UTF-8?B?RnJlZGVyaWsgQnLDpm5kc3RydXA=?= <frederikbraendstrup@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Nikhil R <nikhilar2410@gmail.com>
-Subject: [OE-core][master][PATCH v2] rsync: add ptest support
-Date: Tue,  2 Jun 2026 12:01:35 +0000
-Message-ID: <20260602120135.4181978-1-nikhilar2410@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Frede Hoey Braendstrup <frederikbraendstrup@gmail.com>
+Subject: [PATCH 2/3] python3-py-utlx: add recipe
+Date: Tue,  2 Jun 2026 13:56:31 +0200
+Message-ID: <20260602115632.3105218-2-frederikbraendstrup@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260602115632.3105218-1-frederikbraendstrup@gmail.com>
+References: <20260602115632.3105218-1-frederikbraendstrup@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 12:02:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238037
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 12:06:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238039
 
-Package the upstream rsync testsuite and helper binaries
-into rsync-ptest package and add a run-ptest wrapper for
-executing the tests.
-
-backup.test is skipped due to intermittent failures
-observed on qemux86-64.
-The issue has been reported upstream:
-
-https://github.com/RsyncProject/rsync/issues/941
-
-Tested on qemux86-64 using ptest-runner with all
-executed tests passing.
-
-Signed-off-by: Nikhil R <nikhilar2410@gmail.com>
+Signed-off-by: Frede Hoey Braendstrup <frederikbraendstrup@gmail.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-devtools/rsync/files/run-ptest   | 17 +++++++
- meta/recipes-devtools/rsync/rsync_3.4.2.bb    | 46 ++++++++++++++++++-
- 3 files changed, 63 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/rsync/files/run-ptest
+ .../python3-py-utlx/python3-py-utlx_2.4.0.bb    | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 meta-python/recipes-devtools/python3-py-utlx/python3-py-utlx_2.4.0.bb
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 50b6a8a41e..40af77a697 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -95,6 +95,7 @@ PTESTS_FAST = "\
-     qemu \
-     quilt \
-     rpm-sequoia \
-+    rsync \
-     sed \
-     slang \
-     utfcpp \
-diff --git a/meta/recipes-devtools/rsync/files/run-ptest b/meta/recipes-devtools/rsync/files/run-ptest
+diff --git a/meta-python/recipes-devtools/python3-py-utlx/python3-py-utlx_2.4.0.bb b/meta-python/recipes-devtools/python3-py-utlx/python3-py-utlx_2.4.0.bb
 new file mode 100644
-index 0000000000..762efd23a3
+index 0000000000..55be32ba45
 --- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/run-ptest
++++ b/meta-python/recipes-devtools/python3-py-utlx/python3-py-utlx_2.4.0.bb
 @@ -0,0 +1,17 @@
-+#!/bin/sh
++SUMMARY = "Python utility library (utlx)"
++HOMEPAGE = "https://pypi.org/project/py-utlx/"
++LICENSE = "Zlib"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=5ec25ca3fcbff4a4c70d5244a47d2906"
 +
-+cd $(dirname $0)
++PYPI_PACKAGE = "py_utlx"
 +
-+# backup.test intermittently fails on qemux86-64
-+# (observed ~5 failures in 20 runs).
-+# Upstream: https://github.com/RsyncProject/rsync/issues/941
-+TESTS=$(cd testsuite && \
-+    ls *.test | \
-+    sed 's/\.test$//' | \
-+    grep -v '^backup$')
++SRC_URI[sha256sum] = "66b49b28113b11ae9e9710ea6dabeb9a0a18a5411be6896d1cbbc9f39845c15c"
 +
-+python3 runtests.py \
-+    --rsync-bin=/usr/bin/rsync \
-+    --tooldir=$(pwd) \
-+    --srcdir=$(pwd) \
-+    $TESTS
-diff --git a/meta/recipes-devtools/rsync/rsync_3.4.2.bb b/meta/recipes-devtools/rsync/rsync_3.4.2.bb
-index 5fe1bc2c2b..29f89284fb 100644
---- a/meta/recipes-devtools/rsync/rsync_3.4.2.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.4.2.bb
-@@ -15,12 +15,18 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://makefile-no-rebuild.patch \
-            file://determism.patch \
-            file://0001-Add-missing-prototypes-to-function-declarations.patch \
-+           file://run-ptest \
-            "
- SRC_URI[sha256sum] = "ff10aa2c151cd4b2dbbe6135126dbc854046113d2dfb49572a348233267eb315"
- 
-+RDEPENDS:${PN}-ptest += "\
-+    python3-core \
-+    python3-asyncio \
-+    bash \
++inherit pypi python_setuptools_build_meta
++
++RDEPENDS:${PN} += " \
++    python3-chardet \
++    python3-pkg-about \
 +"
- # Out-of-tree builds don't install the documentation currently
- # https://github.com/RsyncProject/rsync/issues/846
--inherit autotools-brokensep
-+inherit autotools-brokensep ptest
- 
- PACKAGECONFIG ??= "acl attr \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
-@@ -62,6 +68,44 @@ do_install:append() {
- 	install -m 0644 ${UNPACKDIR}/rsyncd.conf ${D}${sysconfdir}
- }
- 
-+# Avoid "make check" since it executes the testsuite during the build.
-+# Only build the helper binaries required by the ptest package.
-+do_compile_ptest() {
-+    oe_runmake \
-+        tls \
-+        getgroups \
-+        getfsdev \
-+        testrun \
-+        trimslash \
-+        t_unsafe \
-+        wildtest \
-+        simdtest
-+}
 +
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}
-+    install -d ${D}${PTEST_PATH}/support
-+    cp -r ${S}/support/* ${D}${PTEST_PATH}/support/
-+
-+    # Several upstream tests access files directly from ${srcdir}
-+    # (e.g. fuzzy.test, itemize.test, mkpath.test and wildmatch.test).
-+    install -m 0644 ${S}/configure.ac ${D}${PTEST_PATH}/
-+    install -m 0644 ${S}/rsync.c ${D}${PTEST_PATH}/
-+    install -m 0644 ${S}/rsync.h ${D}${PTEST_PATH}/
-+    install -m 0644 ${S}/wildtest.txt ${D}${PTEST_PATH}/
-+
-+    install -m 0755 ${S}/runtests.py ${D}${PTEST_PATH}/
-+    install -m 0644 ${B}/config.h ${D}${PTEST_PATH}/
-+    install -m 0644 ${S}/config.sub ${D}${PTEST_PATH}/
-+
-+    cp -r ${S}/testsuite ${D}${PTEST_PATH}/
-+
-+    for p in tls getgroups getfsdev testrun trimslash t_unsafe wildtest simdtest; do
-+        install -m 0755 ${B}/$p ${D}${PTEST_PATH}/
-+    done
-+
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
- 
- CVE_STATUS[CVE-2024-12084] = "fixed-version: fixed since v3.4.0"
++BBCLASSEXTEND = "native nativesdk"
 -- 
-2.43.0
+2.54.0
 
 
