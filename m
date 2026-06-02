@@ -1,181 +1,109 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <sudumbha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1AA6CD6E4A
-	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 09:47:43 +0000 (UTC)
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21248.1780393653921567669
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08869CD6E4A
+	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 10:29:46 +0000 (UTC)
+Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21828.1780396183244722724
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 02:47:34 -0700
+ Tue, 02 Jun 2026 03:29:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=R5gFZ+Er;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=Kl8Pk7es;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.157, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 055291400190;
-	Tue,  2 Jun 2026 05:47:33 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Tue, 02 Jun 2026 05:47:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1780393653; x=1780480053; bh=OdMv5TZWA6
-	Q7zmykNTv1AjVRFlCHMlyUIB+353bWB8Q=; b=R5gFZ+ErTD//mutHHnkVVSKLIE
-	KTTHw+TxRpvHVMLS1l7RVa6nI+xpRu7mZ3AAg4KBpH/F46OzrXjTRalDTszi0CId
-	v15v5urjvvl6JsYsEMTQrXqxcbvVD6QBnYCuURC2UaFolQRoQh/8mRPNmWZz+ftP
-	+8Dr3ri8m0f2+BJLZ7WF5IPBcjXtR5yJ22vuFSX+rYYN0DTKbWC+NFI53/g/aPDc
-	rMhw3F70xvPqGKkVJHe0Eb4tkSMfiWXpCsv8rlEnUOi9ag5JWYhKGkj//Rhlub7Q
-	iMVsLs5kHrdhMV9pMJTe6AaiJpm2fgegpIhCdm2GKhjEkX0hSMofVkJSe3+g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1780393653; x=1780480053; bh=OdMv5TZWA6Q7zmykNTv1AjVRFlCHMlyUIB+
-	353bWB8Q=; b=Kl8Pk7esNEf4znXqlqw8rt2ftexf3UHdaIOgVuYqleywJ4RxJx2
-	TNEnl39yazbFup67TOwEik3CqjE1HltSW+5YQ9DTYFlaZ0UkBlY/8JfS8FHeZ8+y
-	VffO5+nPGs9BJou1xVt78uBy0boG/9DYOYhdwLEvHfJxIDbrO4ECoBvye6tK1nIm
-	Y8M8Try/LgYRNb4LsVnr84Z/d6Ciw4QpTQldgrxj6Rv9YmI+71DRu3DUlv5aTZ0t
-	g3z1hJRDNljP6+gTT++ZleeUheuxVWpSRyjAukJaWfT47+lY40R/iqlteg+5cHoP
-	vvv/OPQ19WBrBOiRw3beDvPX/+vr0xiKOOw==
-X-ME-Sender: <xms:tKYeanZM-5AnBdKepVPBAUhHEuR-L1Ol0IYaM9-7PtXBgaGTFQYX5A>
-    <xme:tKYeasYxDStvHcXeaOGZmvgA7bAB037ReSSe2Z05b5QYXjr2OoV5ptz7g7L09Z1tc
-    M5TpfAhInWGjuUVUuIwIZWsHha6_WLvX55ze_9hlKfPX-RvI_cEex3C>
-X-ME-Received: <xmr:tKYeankLJ_rwCP8uLZDFG6jB1Eht9_jYjH6cdrp56oaeVLMrTOkjWNu8Qsq5lt3EJohe_ZhPjyOxPeDR8X8VEbQworKZVcVhEWWMWlDlMbwe5JEp6aipAlo3ZFV212Gl>
-X-ME-Proxy-Cause: dmFkZTFOQn1FwdeCLB5V0wRef100Rq3z56KWBHtfOalC2ILnlcGvmoMIltELOy/Ffpd6JP
-    Lvd0o3sbEc2NaAQ7F3wNgIazJ1W21TF3698JnWpz3t8zvpFNgqwm13A72Fas5aafOnJPHu
-    J9wZwkDxwKAu8RSlE7Ka6ghxQGwumch54JHkdCTtRc9re6+Fwmhiqe1psnaTgK+1LOgRFv
-    6Ndsf6IFLXWB6QdgDsHyMaIg/PJJZtw1OJR4O9LLlMv0W5fDmcQgZ17FasUj2bc24FRg5c
-    0yup8FlLK9tdGkZf9sQvLVVy2z2OwcqhM8+iXK/yEH6LCd2+dXCKfNRtq/2dIVdiivwMKh
-    H9M5gB0wlwQXRlflMVvJX6QGuBR3lXbUFF5G3BAwM/J6+fNXEfCSajWeEGR06IkDrojfe5
-    fV3LTQcQNLPvV6+VqU6HneGZeI7c02T+JhgVmq4dSpo1kTN3QEdUkySmAcOYjday24SpUa
-    ez8pg5vYfx1p8AAkHTkpbh7CQmLtTzRMx9dl6TEYDkqF/t18x9AKdrwlwFVDAD2S+N2C9K
-    9/v8BVRUECg3frTtnCX4xaBTO9ad37ozUEnCTaA2va5BP1D+Q5BOIwcM47Er1ltoMdMXQ/
-    bMXjDuLaGsNmnsv12WOrsLr5GPes/4CbfjbNFJN550F89+NZgbNx3/3P5Xpw
-X-ME-Proxy: <xmx:tKYeaozhVEDw4sgFZ5tHns0Rk3fBYzjNVG0XICjr2fCYZ-rkT4H8Fw>
-    <xmx:tKYealNOnuXEOqNNa4cxomr_zpo3knaotVRLlKkIX_ueUAs6z_Ofcg>
-    <xmx:tKYeasTW4crn0oG5gwfBtz0vREBvriuhzmuv2AdgKtv86APziWFKsA>
-    <xmx:tKYeajY8YRnx2gxukxAJ2RIQ5P8OmhBA6UUpt37pes4t7x_Hy8MPgA>
-    <xmx:taYeaqpciHR4qo_AJwiwzY32F7COnLbIDnKgcmE14_l8P9-SKkJVlEKg>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Jun 2026 05:47:32 -0400 (EDT)
-Message-ID: <6ceb62e54b682d5245b840f464b234e255178ccd.camel@pbarker.dev>
-Subject: Re: [OE-core][PATCH 0/8] Licensing fixes
-From: Paul Barker <paul@pbarker.dev>
-To: JPEWhacker@gmail.com, openembedded-core@lists.openembedded.org
-Date: Tue, 02 Jun 2026 10:47:29 +0100
-In-Reply-To: <20260601181251.123019-1-JPEWhacker@gmail.com>
-References: <20260601181251.123019-1-JPEWhacker@gmail.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
- DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
- NrVM0IVDkwKTbL2Nu1P+xns4MIpF9Kj4XN5celYJ9vEJ2n0Bo0nO5T5vg46dihIaDl+24iNIHSsHq
- YyEdMBfY8kY2RulpaAyFOuaaHdIeDkejVvO5xLSiYLjB5qrRhgH134lJXsuLOsFQ64ybGECuOasnb
- auevsPBAaroQW0pqVb9FneGrWHxMCLlQHJRqQJRdVa6bsUdp6NWra8/0msPawSrFwGQdfJBTA3aXJ
- C2CG1JxEgj6QQjEQA49DSjgzdhInbiIK8Vbp/zedM4aVue7qJnwPMTFQM9lYx63b7wLN4Tu8B9YZ0
- UFdSwMCJuqmYGsYRUYdwM3ArjS0VO6WpU+HBKvzLK5GQfUTSM8KaZ5eA2Uo2ain8SSZb+WptUYKpx
- F9jbtCPbjpZKzGuX4iHFl9eT75TM9iXJNGAjB5xigkADLwVfPoJ5E53S+KdNVuOWHugyLMPNAQHOw
- pw5Rey+0zxyzPd4wphutc93UIU5g/029ngAc7DuKCq12jl7fhkjqFlFtYPIc1k7nd+RSezmH/qRes
- bMErHSX1MBSZQARAQABtB5QYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj6JAlcEEwEIAEECGw
- EFCwkIBwIGFQoJCAsCBBYCAwECHgECF4ACGQEWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAgU
- JCxiQFgAKCRB0l1yBt+ZrrLhdD/sH+qTaxCDUg47eW329yJWCDZmO+iuYzNSyHMs1x0DHKNIQQ8zN
- pA2S/de4jElQuPHjw/IS8B3VmM62Wuq5vHuxNlFv9IMwrwqi6zhCDui8+nCN/AQGGXousJI/SeZjm
- Y5gS9cqh4vNY+huqEEfdTFXIfTBRkmnvYozSO2uDB3EMuiWgBlw2uLrtmkvPLn/m/GvEouLNox6wv
- tcJcIbL59a0+3jv/m7pnWoZXOkWmKQnfFWikqjuKCISNU0gzBSL4UOj8gtQ2z+vu7ffi29b6SV5IL
- m1yzdbkigEn4HL44lz3N+oHZ3wWsRqqeyGSX5fCfx3tGWg6scZQrpsjT5yq+LiffiXVNpjeJ9KzQw
- 0cbAZ/9uhk1sWBroP+/gMhsWjlbFYXVlRvkNKGPI22eZtOEz4jF6OrOONyOoY3i26niJUyIgdBpca
- H0hKUSVQ8VnG7qVTNrQk9BbeoSszqRwViN7lfyVtK9b1TCFuGewOETGn0TPvSzruYCtD3CLm7mjuX
- AMBpIGoRUiCFVmF1hlOgqDyH4F6zRTHhKLpfmNzfQcg+Uo147Q2IHpoh0mJsL4FEZEI8hFyecX1Pq
- 7HqnvxGD2OhCof1Z6LDxptX0wbgocnYFNxN5S1owcXZUQOFnzYLlLugrcEjlGCm4Gn7k4SiFERSBj
- UFsQgIhw/7lVVn4o4rQjUGF1bCBCYXJrZXIgPHBhdWxAcGF1bGJhcmtlci5tZS51az6JAlQEEwEIA
- D4CGwEFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQSYsqrBAKw/grtdVGd0l1yBt+ZrrAUCaWoNAw
- UJCxiQFgAKCRB0l1yBt+ZrrHy+EADNMt+ewz8H7BUKpEMMhpaA1VxyXO5IqlKXS0gElMgHYXl7L7C
- 0/qLfRH96vwVD33zM+f0Vl9aWWkom/k8s42tLyPvX7D5zTrj3r5muJ+d9dXWGwBFXxXlE9YjSP26K
- bYfRusmRHbbEPlLPSnrr9KYS2FGVD6ViRNhhVguflgPv2i18+fNBE3YyByfNCiQgO/SgaSdh172Ql
- tuYE1Chk6FD45tCUv3dI9lO2PlVwrciiVYvIv/jiTDEwZOISOClTE/Ha18pxDJfLhS8QQnLWuBNX6
- HUkLi78fVmVYbcWIkTuSHjfNoGTMaFijMg9Wl6poFrY++Pl0S40681zEIrwZhW5pKoqXoaElt29Yf
- OwVo6BIsSOLEqKiWsdP7PJTaJYU1ovnshBcOmuXMgc13AjQ4AhEGqI1TaEJ/E1jEDDyTQFeWgrfew
- YaWdqpgiDmRMTj/tIGVj9iy7qZQICUUtlfm0QK6w6M7qq0GdO2o+S3uVF6y2AxQo8l9LSHiW9O35I
- juR37zeqv72puYyOteVYJsJaw999HUmhXc/X/J9FQFw8twxPKDLLu+w8MqDo9bhllzR93Zy/OShuG
- yGybcX3DKO2R+AQ90tXLbxKmHLtrnG/zyDPhLv/LGD480v5hEoT+IS0u9wPD2vP5q36a5DtzqXA/7
- t9PCamLoCvZLleg7GY7QbUGF1bCBCYXJrZXIgPHBhdWxAcGJya3IudWs+iQJeBDABCgBIFiEEmLKq
- wQCsP4K7XVRndJdcgbfma6wFAmlqDRwqHSBwYnJrci51ayBkb21haW4gd2lsbCBiZSBhbGxvd2VkI
- HRvIGxhcHNlAAoJEHSXXIG35muspk0P/1G08N6zGSdw2p8+8f/1HhaYEb9KdQHT1JmQfZUrIHIpD2
- ELNb91Z6Pz197d/igGpox1dzYOwE0WolWo44ZHX2yw+p9V+HJAUKRe0SPc1iNLkTzaAZ7oYJ1DnFh
- aaqZi4VtKKabKeorJjcDvl2apMwT0agRuDklU97n++ZUuXIEo1Z9uRqEvXz0iTSY7wPxwfoVOQsgf
- dN1cBLd9OpoOtJRdDJzQUYqjNoQi+5M6KRfBxPLZkmYb4uCGlp1H4AV50eC61j84LBg1ItvU2u+Fx
- X2JB7lHTswubprD2ZsSwp1VziU6pUj3vtslMWKpBGslpLtnaO561dihGyElayMd4VFg7VR/TsglJv
- A10EDs2DMhoYPfRQWvwlr5+jPP6s9H8KSTCGFvQt438rP/gk0lcEZUJK0iE2/yq5gQfaCNI5FLN7C
- q8LVr00oS4doXfmFFxMq6z1rs5SXZorWssjG7v5DILnPxLqYloQK/ebM5Ixbzm0Lq/8vWL7sw7yOH
- JVYCHCApGzKNii6rYyHdi0K8UwvpD++GCWLyvbgP/H3l5FqL63gAN0Rw1CO5r22+SmG7aOmekJH3N
- ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-+1R1rBC+vJNAcd3sQ3dD"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=cRo5bI7V;
+ spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: sudumbha@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=983; q=dns/txt;
+  s=iport01; t=1780396183; x=1781605783;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=eNNQ52WZ8dwR8cZ/zKE8nSmtk7sg+yK+Y5f70CCn9T0=;
+  b=cRo5bI7Vo0+L26d/gAlZ1cnPYCG+E4m5ttBPhKLIbjFKcX3DspuVQIhj
+   aX996STlqrLNSyenChRiCUm+bMtpBA0eE6cC6lnqmd9JE16ic65+k85zv
+   VbSi1j/Wrrm+sfeQQJOdntSQGg0yZrIBcpzli1k6hpW+vlt1fYwSHsOTo
+   uoS/P0U0keaVV7xGrKNS48wLKyahOlGu3FsUOM/rtaQ6/GREhL2yD9qUt
+   OpB85SgDmLXUCaPX+DkbfxMVX7RqHHtsbYYUFnOEk9pXvQH8I71/bM7gb
+   Lp4JMZ1uirDEt5kqC3UwZpyxQfiZXOk0XvKv4tmGJulmLauMma8kFrxhH
+   w==;
+X-CSE-ConnectionGUID: aVc0IT8jTCexvAZaN6Aqng==
+X-CSE-MsgGUID: YN4Cy+4pTmKl1SLf02jOww==
+X-IPAS-Result: =?us-ascii?q?A0BAAgDXrx5q/5L/Ja1aHgEBCxIMggULgldyX0JJA5Qno?=
+ =?us-ascii?q?D+Bfg8BAQEPPRQEAQGSOgImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBA?=
+ =?us-ascii?q?gEHBYEOE4ZPDYcTAXZcHQEmgwIBgnMCARGyW4IsgQGDaAJDUNsoAQUGFAGBO?=
+ =?us-ascii?q?IU/iB1zAYR7JxsbgXKEfYEFgVwBgi6FdwSCIoEMhyqIV0iBHgNZLAFVEw0KC?=
+ =?us-ascii?q?wcFgWYDNRIqFW4yHYEjPheBCxsHBYFKgVVqgQSFFSMfAzmBF4F/gStpaRADC?=
+ =?us-ascii?q?xgNSBEsNxQbBD5uB4tuFw+CNVY4LCCCDKV2oQ4KKIN0jCGVOhozqmsLmHuOC?=
+ =?us-ascii?q?ZZPhGiBaDyBRwsHcBWDIlMZD444hWqDFMRMJDUOLwEBBwIHDgMLgWiRfQEB?=
+IronPort-Data: A9a23:h5a2F6pRlZ5Aa2dpD78cS/z8q2heBmJJZBIvgKrLsJaIsI4StFCzt
+ garIBnXb6qKajPzKd8kaYngoBgPv8fWmNJgHlFtrShmQixE+OPIVI+TRqvS04x+DSFioGZPt
+ Zh2hgzodZhsJpPkjk7zdOCn9j8kif3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYgPNNwJcaDpOtfrd8Ek35ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
+ 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0u9JCjlvy
+ awaFBsAfg6qteuQnpuiTOY506zPLOGzVG8ekmtrwTecCbMtRorOBv2bo9RZxzw3wMtJGJ4yZ
+ eJANmEpN0uGOUASfA5LVvrSn8/w7pX7WyZFpE+Qr6o+y2PS1wd2lrPqNbI5f/TWFZ0Nwh3B/
+ D2uE2LRMzdGH83clSK591Go39Trk3uhWqUNC+jtnhJtqBjJroAJMzURTVa9rPyzh0KyVt4aI
+ EsO9wIqrLMu7wqsVtT7UhiyrXKIsxJaXMBfe9DW8ymXwabSpgLcDW8eQ3sZOZottdQ9Qnoh0
+ Vrhc87VOAGDeYa9ERq1nop4ZxvrUcTJBQfuvRM5cDY=
+IronPort-HdrOrdr: A9a23:rqp9r61zguE8mDgI7wfEYAqjBIIkLtp133Aq2lEZdPUzSL37qy
+ nAppomPHPP5Qr5O0tQ+uxoRpPgfZq0z/cciuMs1NyZMzUO1lHFEGgb1+vf6gylPTHi/ehA0q
+ olWa1/BNrsSWVet6/BkWyF+xJK+qjhzEhu7t2uq0tQcQ==
+X-Talos-CUID: 9a23:R61KLmMIafaqye5DURdsrG8oSsIZWXDN0l7iKmnmIH9vR+jA
+X-Talos-MUID: 9a23:JP4N8gXkGj51LxLq/A7K2Bpzd5tw36GNDBk2tZte4cujKjMlbg==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.24,183,1774310400"; 
+   d="scan'208";a="480043127"
+Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
+  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 02 Jun 2026 10:29:42 +0000
+Received: from sjc-ads-12007.cisco.com (sjc-ads-12007.cisco.com [171.70.97.7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 4DA8818000203
+	for <openembedded-core@lists.openembedded.org>; Tue,  2 Jun 2026 10:29:42 +0000 (GMT)
+Received: by sjc-ads-12007.cisco.com (Postfix, from userid 1840713)
+	id E9FDCCB6A93; Tue,  2 Jun 2026 03:29:41 -0700 (PDT)
+From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap][PATCH] go: set status for CVE-2026-39836
+Date: Tue,  2 Jun 2026 03:26:17 -0700
+Message-Id: <20260602102616.180676-1-sudumbha@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-12007.cisco.com [171.70.97.7];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.70.97.7, sjc-ads-12007.cisco.com
+X-Outbound-Node: rcdn-l-core-09.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 09:47:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238027
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 10:29:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238028
 
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 
---=-+1R1rBC+vJNAcd3sQ3dD
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This issue affects Windows only. The net.Dial and net.LookupPort
+functions can panic when given input containing a NUL byte.
 
-On Mon, 2026-06-01 at 12:11 -0600, Joshua Watt via
-lists.openembedded.org wrote:
-> Cleans up the licenses on several recipes to use a known SPDX license
-> identifier if one exists
->=20
-> Joshua Watt (8):
->   mobile-broadband-provider-info: Fix license to be CC-PDDC
->   gettext-minimal-native: Use SPDX License Identifier
->   glib-2.0: Change from Public Domain to Gnome GCR Documentation License
->   python3-pyelftools: Update license to Unlicense
->   ttf-bitstream-vera: Use SPDX license identifier
->   sqlite3: Use SPDX identifier
->   pixman: Change PD license to HPND-sell-variant
->   util-macros: Remove redundant MIT license
->=20
->  .../mobile-broadband-provider-info_20251101.bb                  | 2 +-
->  meta/recipes-core/gettext/gettext-minimal-native_1.0.bb         | 2 +-
->  meta/recipes-core/glib-2.0/glib.inc                             | 2 +-
->  meta/recipes-devtools/python/python3-pyelftools_0.32.bb         | 2 +-
->  meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb      | 2 +-
->  meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb                 | 2 +-
->  meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb           | 2 +-
->  meta/recipes-support/sqlite/sqlite3_3.53.0.bb                   | 2 +-
->  8 files changed, 8 insertions(+), 8 deletions(-)
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-39836
+https://security-tracker.debian.org/tracker/CVE-2026-39836
 
-Hi Joshua,
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+---
+ meta/recipes-devtools/go/go-1.22.12.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-I've reviewed all of these patches, looked at the relevant licenses and
-SPDX license pages. All of the changes look correct to me.
+diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
+index 3fa421e223..b6bd4cc280 100644
+--- a/meta/recipes-devtools/go/go-1.22.12.inc
++++ b/meta/recipes-devtools/go/go-1.22.12.inc
+@@ -45,3 +45,4 @@ SRC_URI += "\
+ SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
+ 
+ CVE_STATUS[CVE-2025-0913] = "not-applicable-platform: Issue only applies on Windows"
++CVE_STATUS[CVE-2026-39836] = "not-applicable-platform: Issue only applies on Windows"
+-- 
+2.35.6
 
-Reviewed-by: Paul Barker <paul@pbarker.dev>
-
-Best regards,
-
---=20
-Paul Barker
-
-
---=-+1R1rBC+vJNAcd3sQ3dD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCah6msREccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0btqdAP9q5+TITrO3WqBcc5FPHVetjUFZUuktA4SA
-11MwNR+EWwEAwkhJiBOk6lWjUyEDneK84fz6OydYsjldusKiH5KY0QM=
-=cLgB
------END PGP SIGNATURE-----
-
---=-+1R1rBC+vJNAcd3sQ3dD--
 
