@@ -2,118 +2,117 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74BA3CD5BD1
-	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 17:43:30 +0000 (UTC)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.918.1780422204587543838
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16620CD6E60
+	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 19:13:21 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2985.1780427599054267313
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 10:43:24 -0700
+ Tue, 02 Jun 2026 12:13:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=AAiEIwLB;
- spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5174a1da4b2so25585331cf.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 10:43:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780422203; cv=none;
-        d=google.com; s=arc-20240605;
-        b=caJclRYXBytV+T2n2G4Q6aAce2R9RgIRxzexbAbKniSVIyB9q+2e85eplscZ9ez1GJ
-         qYxst13m6+wfvUhWM0yATGs0S+Qz2CmFI3laG56PIED7Kmb8cVE86UcCjqgGqrh7UUXl
-         h48koaLNG3MO+lVc0YKSpBZkyTLQabD1XLKzp+qszVdewRQJu/8bstWNN6KXwwDnYzjD
-         y+Xw5mXVwLH6vapCq7SOAcO+qQ0t8OvkKBfg7yWe5tAyMVdAajEJo+evZH/6BLFck9FV
-         ibKoPzDl8ivCQ5srH4i6HFa6w0FkAtvAWNmj/pOUr1SfC0Fw1TQ9Vf04HalE5Jx4wPib
-         9F4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FSuYz8Pt7JRvAD5USALnQuYcdzvG8YdgFdQKnwL/nNA=;
-        fh=2s71mZ+XjRJoxmsBAMb1m+mNM7leI0OiWG2rMuJ4tcE=;
-        b=MDt5KYVC+LqUHI335EAZbGwMN4xtg/fJBZl/4LK0MUXX3tT7ld8opQokNBjiRNQFTY
-         V3YcYWWrqzNM8pBrwCmIfMK+Ag9gIKIB6JNe2BG65KNIR+4muj9yjm+UrUrMpBb25e8S
-         YTeI/A0abPcXN5/+qWFSpgp2ZV/AMotwVAlXdEjhKKrOcb64n74LVjaNPZyC92yk35qY
-         fqLCbSDfswAVKoj6K/lkiR9teUKrziKfw6UPGf73F4Y6KfLtf0hDM9Qti9VvBsqyHPdU
-         2+Cs0K3wzq1+4GOPxfUp3LnNJGYrw4RXK3Y9lZJAFAQ/sNZDj08R9xiiI1vCTeu28yER
-         xZUg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=bQdVL7qt;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45ee6d32402so3150442f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 12:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780422203; x=1781027003; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FSuYz8Pt7JRvAD5USALnQuYcdzvG8YdgFdQKnwL/nNA=;
-        b=AAiEIwLBTG3LhLdWBQNHlWdeZLWW1cAPwEMaB8B9j+4EFGGUNtOxBtvGUYbeC5k8lU
-         TG9P56YMl7K1ncvPEHBP0PoTeUG8w5S8PCvDM0VawhS6YeJyTkl5GVVAsfKbTkKbh6NK
-         fj78mQoNulsfyIDsgduoEQIGzdITW6IEuRJoNHyggKNtbUzoIKPBfmYmrhzbuqhfoe3m
-         qxzkhGN1xlzZ9oWHnzutYwtWiYV6O3v0d4cqogIZq3t92QWIv6NbSo8xkUZziwNkAnAt
-         8F/5l/vellK5JsQKwCUjK2Gua3ZtTnG6F7dguw7tolrHe1AEqG3BtVkba4UKTVebUAf1
-         yjuA==
+        d=gmail.com; s=20251104; t=1780427597; x=1781032397; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6Gje6ycEW99hpIB5epELPRIsuKMKMvlkQ21jjpLntF4=;
+        b=bQdVL7qtYiyrJTkogKIls9v99FuSf57ZTkmKWxALNbeeOTAvMSks9ncTYh1BweohWK
+         27H7b14t7pZha8cFBrZ+RT93O2UA/D3ADCknQtgJWyiVfYPOeJneXbJqFetdEdtJ1MsD
+         3UYCfla/WSbtAap4pVviztOGXsY1O40OT+FZCl/I8ejpZMBBX3qIaHv8+R/k3fMGcj6Z
+         a5yo06HfzpP7r9vgpoby82PJmkXbgmX2VVJMftGjz8b2ktKEyfWlSuFZQTGXWjkZeo54
+         6huzey4b02vEyG8HCpWLC7hPgN6LiTfF1rPTBDZ8mSbHH4/Kzy51k3mIDzX6Qy1gOWL2
+         ULJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780422203; x=1781027003;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FSuYz8Pt7JRvAD5USALnQuYcdzvG8YdgFdQKnwL/nNA=;
-        b=boj6JLV4IrcIPxQy+c5DHlF+Sf6iGEJK511ikSJo48o+WVXhwdAP1yhshDhNrp5UU2
-         qISDp0bBVeZqA2UZoFbNmbpQDbZ0PPkpi+KdupJqZta7Z/6OQCno6oqKhf1fjEE6g4cK
-         XvNdF0LrSm1DV4WejYN3Vdzqg5wADAGmm2qchlbyf+ne04Up8DGjtJ4cBLQu34mUjC93
-         tjfADjjG7lFl5OC7BM6simlVz4gYMjCUcGD+1lmb+D0/mnuCRHzIWeOg9mqxEqk72/BM
-         7nqr/nHoYC73YcMK1bsB5koQvlr0wRu5Lvo1KCTYS8JmQWAqz8HtPnQIw8IavXM55ukt
-         V6mA==
-X-Forwarded-Encrypted: i=1; AFNElJ/rzUPAV50n+9dX++pJ0Hkn75N152jo3GHkpwkK5lB8lKh2BZwHiaX2QKMvCbgo62SmmpgFvQI7rJSf9l7aJfuCcw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yykro8l/7vybGiao4N/IRzEtJx3U1KiJP4xDPKBM0M5Z8YkGhkx
-	ys5hk9InE6KrI4sAXLJxsyDN1ZTyHznm3L5raU1ViocANC8QNGfwBBzKKLfHqxOVNrrq4bEiwE4
-	6FKWGdLCBujMJfEzElQJYdEfnefMkYlA=
-X-Gm-Gg: Acq92OFXz/JRvmAuV7Fm/vRh+8UU29ItreVDgHU9q9oDF0SlzwqSx4Rbg6UzwTvW00T
-	tUi1q6SIb4hgHYphN7RyFubgog4cNLQ44LzefHqyIxou3GofyJefx0f1xMJ11r4JhZg5nvO7BE7
-	+c/QmYwgCDOxeDlGDYpdlPT/B0WNwKDKI0qouEiK72PPe6kJCEJCCuQ4OfG4RMt7s08nVFE9hRQ
-	1IAaapEW4MjArOJwg47xOvUdPuMNSSMrRcWtqAq03E7QoiEP/Myotr2hingr06la4gOo0mhXs7h
-	02doVMHYXWVM87yHpgz8V+T5yrRVrCVHqFvkuVi/6krQhszyOgkU
-X-Received: by 2002:a05:622a:205:b0:50e:60a0:acb4 with SMTP id
- d75a77b69052e-51778738b44mr143551cf.44.1780422203590; Tue, 02 Jun 2026
- 10:43:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260514133748.219486-1-ross.burton@arm.com> <CAMKF1soV8G-LLutq=9Ba-pkz=XyEJ=5812eQnaYOP834pvBNDg@mail.gmail.com>
- <8FD4DA19-AA50-430F-9B77-0B79D6E70F26@arm.com>
-In-Reply-To: <8FD4DA19-AA50-430F-9B77-0B79D6E70F26@arm.com>
+        d=1e100.net; s=20251104; t=1780427597; x=1781032397;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6Gje6ycEW99hpIB5epELPRIsuKMKMvlkQ21jjpLntF4=;
+        b=n9LDwDnkU5qCanJHyuXpBtf6hJ8a6S6f1VznOje3r5A7sQ3yvT5GFJDAuop/8VTeP4
+         f6MD42ceOCXj2GpOVOkMXq7M+CKKggqH+H2jOdu3PqfxACk27MfnwJUZ3RaoyugqQqXZ
+         f9UKoah5E8ml3y7+ExbR1FcO0QtGXn4WR2UapRkC9yziYYz6XRs9lQe895g2i7ZTqvEM
+         r3eWymm018Z5eB0RiC56cBkC46It3oMRdCyvdA7vSKpUgbxQa/AQ/3Rc241P65ounUrM
+         6EPJcmd3p9qsJb5x6h4h6ZiN6yKH9SMads60kvHDAnrg81iNRFg7z2WiIiDTOTSCpxI0
+         4LOw==
+X-Gm-Message-State: AOJu0YzOeOjw0ne2a3F1wekU29XdQpZdFD5abhU4HXtfgmFKzpHNCtW6
+	b/74sYibDEzo6PMraFgq1vtizZN/MpOyhVjsrJomTMehevfO/FyizSzv0tb3NA==
+X-Gm-Gg: Acq92OEz0fGqdSpkyB9bUWsGChggGjj+2BvfEuOFT4NEVSB3NX1mBCajdHgktjxrk8X
+	/qq9ErCiGx+cQD3+vIvjsribYUQ+5Ba8HilU9Q8biEzjBrs++PUIAdvtnE8Wp3gGl3TLAHj7Jlf
+	GhP3X4gvG78cJoJ7oySop3noL7PVGS5pZDT9SPnT3DZ4HdnWC0Rm4x3MmzaFscf3Ub4XaCkHeEm
+	C7Vut+qOmimmi38GFyVGq5+mZpHkr+2myIERU3KaURtLW4hKj+uNj6LYKnm7O6tDnkE/SMUN/oA
+	RNzE1NJvHxkg4TdNQAtu7C/F6TNoo5mIVzhcqxpGFfXdGFmuqmGn2aibKTtycxLmTNcdeA7JIfE
+	QYOzjgyP/hYT1hRvEooDOeU2xArXE83SyzGIs2qZq1GJaHD7hM54f88zGvJa/oPXj1ji7mhFUJN
+	Q92O03e6N6Wt1pS5hoe0AesSlBqRi4knY6EMb0+FTIK922gX42ZhCss3S6Pr/AX8VVA9RRDQ==
+X-Received: by 2002:a5d:54d2:0:b0:45e:ed7e:f8f8 with SMTP id ffacd0b85a97d-4601f4d815fmr807868f8f.8.1780427597213;
+        Tue, 02 Jun 2026 12:13:17 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f35133csm1282853f8f.25.2026.06.02.12.13.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jun 2026 12:13:16 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 2 Jun 2026 19:43:11 +0200
-X-Gm-Features: AVHnY4IgneIxYJBIJHef-n1gRz2G41f_qUObGaNAfpydjfS5NJm-UiWpGTtkcOM
-Message-ID: <CANNYZj_2Ky4KYra153oe85KSArHOe5Uawi4aK=SZe+-c5zvuaA@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH] avahi: upgrade 0.8 -> 0.9-rc4
-To: ross.burton@arm.com
-Cc: Khem Raj <raj.khem@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 1/2] qemu: disable SDL UI frontend
+Date: Tue,  2 Jun 2026 21:13:11 +0200
+Message-ID: <20260602191312.3257535-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 17:43:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238067
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 19:13:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238068
 
-On Thu, 14 May 2026 at 18:33, Ross Burton via lists.openembedded.org
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
-> > How confident are we with the release happening on time before we relea=
-se in next 5 months time
->
-> There=E2=80=99s a lot of distros leaning on this to happen but indeed it=
-=E2=80=99s a long time coming=E2=80=A6
+From: Alexander Kanavin <alex@linutronix.de>
 
-*rant*
+For rationale please see
+https://lists.openembedded.org/g/openembedded-architecture/message/2374
 
-I wish upstream developers, and I don't just mean avahi, would
-remember that 'rc' stands for 'release candidate'. And 'release
-candidate' means a candidate for release, a source snapshot that is
-deemed ready, and becomes the actual release, unless any embarrassing
-last minute issues are reported in a limited timeframe (e.g. days).
+SDL-based UI is of limited use in typical scenarios, and can be
+replaced by qemu's own vnc server.
 
-What is avahi's track record with those 'rc' tags?
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb | 2 +-
+ meta/recipes-devtools/qemu/qemu_11.0.0.bb               | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-https://github.com/avahi/avahi/tags
+diff --git a/meta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb b/meta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb
+index 7947499c5f..258945c512 100644
+--- a/meta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb
++++ b/meta/recipes-devtools/qemu/qemu-system-native_11.0.0.bb
+@@ -9,7 +9,7 @@ DEPENDS += "glib-2.0-native zlib-native pixman-native qemu-native python3-qemu-q
+ 
+ EXTRA_OECONF:append = " --target-list=${@get_qemu_system_target_list(d)}"
+ 
+-PACKAGECONFIG ??= "fdt alsa kvm pie slirp png pixman sdl \
++PACKAGECONFIG ??= "fdt alsa kvm pie slirp png pixman \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
+ "
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu_11.0.0.bb b/meta/recipes-devtools/qemu/qemu_11.0.0.bb
+index 5d544d8d13..cb3ce6a85c 100644
+--- a/meta/recipes-devtools/qemu/qemu_11.0.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_11.0.0.bb
+@@ -16,12 +16,12 @@ EXTRA_OECONF:append:class-target:mipsarcho32 = "${@bb.utils.contains('BBEXTENDCU
+ EXTRA_OECONF:append:class-nativesdk = " --target-list=${@get_qemu_target_list(d)}"
+ 
+ PACKAGECONFIG ??= " \
+-    fdt sdl kvm pie slirp \
++    fdt kvm pie slirp \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa pulseaudio xen', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'seccomp', d)} \
+ "
+-PACKAGECONFIG:class-nativesdk ??= "fdt sdl kvm pie slirp \
++PACKAGECONFIG:class-nativesdk ??= "fdt kvm pie slirp \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
+ "
+ # ppc32 hosts are no longer supported in qemu
+-- 
+2.47.3
 
-*end rant*
-
-That said, we probably should just take it, as long as PV of the
-actual 0.9 would sort higher than this rc.
-
-Alex
 
