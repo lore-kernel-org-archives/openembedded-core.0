@@ -2,78 +2,76 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80350CD6E4A
-	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 12:16:56 +0000 (UTC)
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23860.1780402610267360687
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A053FCD6E4A
+	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 12:23:16 +0000 (UTC)
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23992.1780402995126206280
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 05:16:50 -0700
+ Tue, 02 Jun 2026 05:23:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=VPEFU/gv;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=XlRmVKy7;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.154, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 450071400286;
-	Tue,  2 Jun 2026 08:16:49 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Tue, 02 Jun 2026 08:16:49 -0400
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=0hWOOAUW;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=BxIve8GV;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.145, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id 44766EC06C9;
+	Tue,  2 Jun 2026 08:23:14 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Tue, 02 Jun 2026 08:23:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1780402609; x=1780489009; bh=iQvWas4nlV
-	CKN43KSS/lDU/jGtcBKzlRlHHKIa/sdo8=; b=VPEFU/gv0hHj+dBXz49oGGOhb3
-	iX8WtqAaT5DcJxrzpeRaIlQKSXGdSxpFkzZOtBDWrY3AB35ZfyvUzoFbps89ExKo
-	6un9hgCpsPVnji6UfK8pUFBzZ3bCQcizjwyD/+SvWD7zTBnnTs+15uRZurtyjxNC
-	FIiAmrFjQuE92RCCAU1t3v0PZpMGwhw6dCBHacuaYcJ5g8c0c1EBiSAu3Y1zT/fh
-	0ZDdEY4uRUVPwqoldsHaBq+IKMC9njNXkW+/WjcR0O2i7xIur2LL79h9nIABEbau
-	KKMB8hQypgRzWGsAnqc0z7E5/6yienoJC2SKGxDN9vzHrCLC00Ntqz1oeRYw==
+	:subject:to:to; s=fm2; t=1780402994; x=1780489394; bh=EYr4AS2CPK
+	m7Oj7REK5v+hC/WAPf6wib8OUYGiKGDec=; b=0hWOOAUWbz0Ihjm0xPJW83TrVe
+	hxVWv0tOVc4PGe3JI8aS50RONJH3ykKARWryRNjf4kWZZqV5+0YCqqTAJDq2VQ7y
+	tqeBn3RzxHqV5NFXQTQFFCr7nlrJNKBkTqiKvIXF2USqHkLZZTwinJdclSU0sZSe
+	z5QrVU92I8HLzInUDfFk28xKDg3XKpAXIqQLzyfUleEqNTWV3ZaeSfQVbwueY2rQ
+	fbxz6QKduGJ9hGFD2QH4Yx+TUfqb9OIV9xKz/XgxyYq2jiglesxMLDZZPyhjL2SC
+	JG0oa3MeoFie56vtRYFUsXPgsdTosydYmHkaMZhK2NatgF3q9olbddt7u9qw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1780402609; x=1780489009; bh=iQvWas4nlVCKN43KSS/lDU/jGtcBKzlRlHH
-	KIa/sdo8=; b=XlRmVKy708QgFwozbZpOFSFEzOs3g06/4q7Iu0Ujsm086VJ5lY/
-	66LmDeH+T4lsgZoy30ATJAHOyVw9cioLSacHE+2LT5SZ5+q40s3PYnHHla6TM+wX
-	SIr6Hr3kiZbD0YTdjQCAnaj19i5MAkHXCsGOZG59SFmVmHmGKj081oukPgfPEeDU
-	7/FTDsiRQzplau4d/H/tz595bpom69nE+/v8iKdToAovLOe/VpfRnKW8NOUZ9LTS
-	hnRkgTmo/6F0i4AdJVj/qHL55ApLvz0wHud4CyLy9+BiMzUXlJKEzzN2WZ0FPWaE
-	hid/V7YtriOZkF8cONwkjWj4HugPIFHsYEQ==
-X-ME-Sender: <xms:sMkeaoIcSVp9t7vYBzU7D0TpbvR7mROQOfdrI3mOK6K9fM-xn6Uf9Q>
-    <xme:sMkear0wBxy6rBWiIC2jQxhvj4UtT-ajk7pra-NTt9n4qd7feT-ZMHkb9EwJPIJjO
-    ZnAV0YKQMN_1my6gC4-EnFZudIuFja7XWrqeSUfUxBXL1_JRH5iRrU>
-X-ME-Received: <xmr:sMkeaijp2IFJOyHs95QBJLY-PBDFedz4OhNvWHi2qxp74bsvNcODk4Qz9suR2dXPixEtbiVIRmY4Bs9XCLDXuUuOEsJkX1MC2E65zXLf0vFAAOtXvwGeNLg7q5JX5jIy>
-X-ME-Proxy-Cause: dmFkZTFBk2FtSMohHJZGTvlAAFvC6E5r5EoQPt+QAXHKu2tk3AdrVCRNEcDpKx5ZxdU5P1
-    WFFWtslpDfe0aFEb0t5ZiVLXX9wW12umCSUWkmf9iMaGX9/DmOkdccX1A0swkPe+siVzrr
-    YZf1/D1rO7tlwNSFc71zGdlJ9F6m3OF2/Ei8xK4DerH19THwEh8BHGLnmDx/VEo/WK4AFY
-    qaCbTS63HBHLQ20mB1zxe6Dd7/XPPp2i3RnuZxJjEPWcZYrf/OmwOoNC5H9IUkTjGOdhSF
-    KSaCNOJcivOmpS2zq5BuSPy3JQuyv3+teBtEMEXor9GG+1FjGerG2K6fjDQxE+6Tw3riNU
-    fPocWJC38PuUMFXW8PCmtC2erPrviZ11Jm/djl7r/irzJZDyEEVN9pyAvkLsVJK3EXZBKY
-    wale8u5wg8+vu5notox5JRbHGvNZ9is7bUOk9yC9HVmhZuU7NIJDagE8iEpy9p9FRttaLG
-    UpsYiUXEDAyy+Qhayn58Skuepc1sRRpv2iacy3NGkKMD/Wc8PfJqiNId3oSAqlnQx3hOOd
-    a5LFLvcFN92XwJd0lW5TIgchOuu2vinVDDJb3U0PfVkyfqEiXVJgizBHdELj9cnMSF3dus
-    zzxZDMFIO1qY9Gf4TFnGAUVEAGG0Rov3+dt2SRiYSjwuYMWRsHXCaJFXgRug
-X-ME-Proxy: <xmx:sMkeasWloq8LM73llDoZKNZ89PsHo-_Fj_GEAe3WX1YMez8c5glOsw>
-    <xmx:sMkeahViQfe7m0bFquTAPBxWtC997-zE9ttkRPNkLvgP732LsvveXg>
-    <xmx:sMkeasi_gTXp7iokgGcqjJKYMSPU92RLzm-vnversNPdacw5kl54Fw>
-    <xmx:sMkeasbO9KRG9yiGfk9m16SSMc-fyrS0tzLndZn592sRUShN-7eouw>
-    <xmx:sckeaiZ68ZZa1tKO7TafT_53UFkJaAc-RWXCo1WXLy1Aqi6fzI7ZdN6K>
+	1780402994; x=1780489394; bh=EYr4AS2CPKm7Oj7REK5v+hC/WAPf6wib8OU
+	YGiKGDec=; b=BxIve8GVrUb+QbYsmEs9d8dflXNU/1+TQXFVtGnbsPy2aOxpxJp
+	7MdUWJJ6ibC6Q6rEx91dg6sM/n2NJMWAgAv1TXc0YX35juCkwv8S6Gl2FbTmR4wl
+	evcT4PLUut5aVmA73pB4E+fUkxXW3mbGf/60YH2npr6ZQVqmfjPrN46Eq/0eYGxq
+	9ZWr99Ec5D1r0J453dTuy0OzP7OGXoOUFLmoLsd04bsGwECcJAWd/bqM9GYWTlv6
+	pke4g1Kpk/5GY/yYyXdHwaUTQ5VTutSTCaDRGEBoJdtIKPkYfdpLylHRev65DD05
+	tXMUD8ZImqbXvahL8jYmD5a56e3yzrExUHQ==
+X-ME-Sender: <xms:Msseala4wjPtyUpYDpKa58t5ye52tI6RAF0SktY0WLKbDNiduhoKrg>
+    <xme:MsseagECP3ZwdFpOw3YyHB2dnTrSdz8bNxcPGUNVxdcwomq7shdMNAYqIKpFD9PWk
+    RcSF-vbvHWtrDDw7K1hHW1a3sZIe8Z7ShyeZFVz8efMEXMAQrgSstU>
+X-ME-Received: <xmr:MsseahwbUPRhzqFxEbON_8w793c_ak5qKAIq3Pplx72KY7IW3-NX4mpvpmfNq4O84t8NNDe8sJ55DXO1Bt74tMRKKbbJDn7lsY1of53vCQZFUvY6jUMpEXq2Jy_xeBgF>
+X-ME-Proxy-Cause: dmFkZTGHbXVdfZYdZQpQuRHe+v+rC8CjmP9ngD2mUuI6mVZlSmeuStMjR8h9Sd5scUQDbS
+    SfPfkHX2/dr4ZSzNC8IFfvUO7DM2jnKDh4uAur271xCH3kRwme6ki/yegXBjmPhLPGZkaT
+    4/DT6mweQn1AvRRRKREzVJS6Z4HkLQzdXg1H6XvWmUsa3w/P4IMeSwDygUM/63Bn9PooGL
+    kPERV84WM21H29fbmCXpJUfxAQRhAt4DTg6ulNeJG0uBldGDy+8vXsFyscAML+sTMCxJqu
+    moCcOFSAtjmje+L6SazD3FgyCnkcgskNkuAnjUS1fbfgJ0ubOufkBfHn/BvykcJs1ziCR9
+    FWfFrN9JD34xZr0fG2BY1F3glYCdJqgJf9hfF6pY9s/yg+Efc8MVoNCe5+enrlE7BvuL+K
+    WIx+cSQw0z2p0Zx1SpmIHlvwYt3s1OC57jcrXs6EW8omu/d9PBzKNHHbPHEtFQd7ludyWc
+    NSOyU4xWDQFVXjxZqsV4mHaPXyTXFQ+5pidlTSXpGCf6WzWQstoOoLca0JQCrhEQUhAn/T
+    3kkrt2lVqiduuOqm7FqZ0a9Z5AOiNPqgrgsr7j2me4YqFpo3I08bc9QSJU2S3S7v4lmEk5
+    VcVIh+eq0GYpgsOq4db2GKSY8XZIydqTwMu1sXDtytNWmaDWnLw3+UW6kc3g
+X-ME-Proxy: <xmx:MsseaqkiNCiieCss64_lU8VVabXU88htcTiaC7tCv2T_Hb34AebtJQ>
+    <xmx:MsseailnmN0iNk7EajSMbGsyadbQD-unkBS9j6kUpHtSlb1vwsOgvA>
+    <xmx:Msseakzhjn340vxsVNjoFo2kzPyrtwYfS0IFsoN77pkXsgrPhUc0Zw>
+    <xmx:MsseavqrWHyPWdPVWhC_vv3YAf7jf0tyjxkz34MVJX-ct_IatRBWCg>
+    <xmx:MsseajoBNxQ07oWeZGolnsvyfhmZYAAcCOIgVLzF9Y2B7LctDeKuYbhx>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Jun 2026 08:16:47 -0400 (EDT)
-Message-ID: <2706d4a0dcf7b8607f562bc72c52be0d9233881b.camel@pbarker.dev>
+ 2 Jun 2026 08:23:13 -0400 (EDT)
+Message-ID: <071bb7871e571b6d4f4f78fe883b1c2a8109913b.camel@pbarker.dev>
 Subject: Re: [OE-core] [PATCH v5 1/4] oe/qa.py: add check_uri_srcrev()
  helper for SCM URI SRCREV validation
 From: Paul Barker <paul@pbarker.dev>
-To: yoann.congal@smile.fr, Sai Sneha <saisneha196@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: corentin.guillevic@smile.fr, martin@geanix.com, 
+To: saisneha196@gmail.com, openembedded-core@lists.openembedded.org
+Cc: yoann.congal@smile.fr, corentin.guillevic@smile.fr, martin@geanix.com, 
 	mathieu.dubois-briand@bootlin.com
-Date: Tue, 02 Jun 2026 13:16:44 +0100
-In-Reply-To: <DIYF1E7O5JV0.8F9SHGFX5ZHY@smile.fr>
+Date: Tue, 02 Jun 2026 13:23:10 +0100
+In-Reply-To: <20260602062940.3107241-2-saisneha196@gmail.com>
 References: <20260602062940.3107241-1-saisneha196@gmail.com>
 	 <20260602062940.3107241-2-saisneha196@gmail.com>
-	 <DIYF1E7O5JV0.8F9SHGFX5ZHY@smile.fr>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -119,60 +117,135 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-CnR4E0uV1AMUY+AHuMKA"
+	protocol="application/pgp-signature"; boundary="=-L97JEI2ykMVb9fxWEY1S"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 12:16:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238044
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 12:23:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238045
 
 
---=-CnR4E0uV1AMUY+AHuMKA
+--=-L97JEI2ykMVb9fxWEY1S
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2026-06-02 at 10:21 +0200, Yoann Congal via
-lists.openembedded.org wrote:
-> Hello,
+On Tue, 2026-06-02 at 11:59 +0530, Sai Sneha via lists.openembedded.org
+wrote:
+> Add a shared helper function check_uri_srcrev() that checks whether
+> a single SCM URI has a valid SRCREV set in the datastore.
 >=20
-> On Tue Jun 2, 2026 at 8:29 AM CEST, Sai Sneha wrote:
-> > Add a shared helper function check_uri_srcrev() that checks whether
-> > a single SCM URI has a valid SRCREV set in the datastore.
-> >=20
-> > The function uses unexpanded getVar() calls (False flag) to safely
-> > inspect SRCREV without triggering AUTOREV expansion or live network
-> > fetches. It mirrors BitBake's internal SRCREV resolution fallback
-> > chain exactly:
-> >   SRCREV_<name>:pn-<recipe>, SRCREV_<name>, SRCREV:pn-<recipe>, SRCREV
-> That sounds wrong. Bitbake uses the *expanded* value:
-> lib/bb/fetch2/__init__.py:
-> 1256         srcrev =3D d.getVar(a)
+> The function uses unexpanded getVar() calls (False flag) to safely
+> inspect SRCREV without triggering AUTOREV expansion or live network
+> fetches. It mirrors BitBake's internal SRCREV resolution fallback
+> chain exactly:
+>   SRCREV_<name>:pn-<recipe>, SRCREV_<name>, SRCREV:pn-<recipe>, SRCREV
 >=20
-> It needs the expansion to handle every possible overrides (for example,
-> MACHINE or DISTRO, but those are not the only one)
+> Returns:
+>   - The revision string if a valid SRCREV is found
+>   - '' for non-SCM URIs or URIs with inline rev=3D or tag=3D parameter (s=
+kip)
+>   - None if SRCREV is missing or INVALID
+>=20
+> This shared helper is used by base.bbclass, insane.bbclass and
+> yocto-check-layer.bbclass to avoid duplicating the same logic.
+>=20
+> Reported-by: Yoann Congal <yoann.congal@smile.fr>
+> Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16051
+> AI-Generated: Developed with assistance from Anthropic Claude
+> Signed-off-by: Sai Sneha <saisneha196@gmail.com>
+> ---
+>=20
+> Changes in v5:
+> - Add tag=3D to skip condition alongside rev=3D to fix selftest breakage
+>   (test_git_unpack_nonetwork) reported by Mathieu Dubois-Briand
+> - Update docstring to mention tag=3D parameter
+>=20
+> Changes in v4:
+> - New patch: factored common SRCREV checking logic into shared helper
+> - Eliminates code duplication across base.bbclass, insane.bbclass
+>   and yocto-check-layer.bbclass
+> - Uses for-else pattern, f-strings, simplified name lookup
+> - Adds docstring explaining return values
+>=20
+> Changes in v3:
+> - Added AI-Generated disclosure and Reported-by tag
+>=20
+> Changes in v2:
+> - Initial public submission
+>  meta/lib/oe/qa.py | 30 ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+>=20
+> diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+> index cd36cb5070..0987aaf2c4 100644
+> --- a/meta/lib/oe/qa.py
+> +++ b/meta/lib/oe/qa.py
+> @@ -240,6 +240,36 @@ def check_upstream_status(fullpath):
+>              else:
+>                  return "Missing Upstream-Status in patch\n%s\nPlease add=
+ according to %s ." % (fullpath, guidelines)
+> =20
+> +def check_uri_srcrev(pn, uri, d):
+> +    """
+> +    Check that a single SCM URI has a valid SRCREV set.
+> +
+> +    Returns the resolved revision string if valid (including '${AUTOREV}=
+').
+> +    Returns '' for non-SCM URIs or URIs with inline rev=3D parameter (sk=
+ip).
+> +    Returns None if SRCREV is missing or INVALID.
+> +    """
+> +    import bb.fetch2
+> +    try:
+> +        (scheme, _, _, _, _, params) =3D bb.fetch2.decodeurl(uri)
+> +    except Exception:
+> +        return ''
+> +    if scheme not in ('git', 'gitsm', 'hg', 'svn'):
+> +        return ''
 
-I don't think we should be handling overrides here at all, that's the
-job of the bitbake parser.
+Each fetcher class has a supports_srcrev() method we can call instead of
+trying to hard-code a list here.
 
-Best regards,
+> +    if params.get('rev', '') or params.get('tag', ''):
+> +        return ''
+> +    name =3D params.get('name', 'default')
+> +    candidates =3D [
+> +        f'SRCREV_{name}:pn-{pn}',
+> +        f'SRCREV_{name}',
+> +        f'SRCREV:pn-{pn}',
+> +        'SRCREV',
+> +    ]
+> +    for candidate in candidates:
+> +        rev =3D d.getVar(candidate, False)
+> +        if rev and rev !=3D 'INVALID':
+> +            return rev
+> +    return None
+
+If there is no 'name' param, this code will look for SRCREV_default
+before SRCREV, which is not correct. Off the top of my head, I think
+this should be looking at `SRCREV_${name}` if name is set, else
+`SRCREV`. You should check how the existing fetcher code determines the
+SRCREV value to use.
+
+Please also drop overrides handling as I mentioned in the other email I
+just sent.
 
 --=20
 Paul Barker
 
 
---=-CnR4E0uV1AMUY+AHuMKA
+--=-L97JEI2ykMVb9fxWEY1S
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCah7JrBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bgeJAQD5DHsrZqBJAsfPaR9PpWg3jG5WEuiwp4Dm
-X0YMQRMvrwEAqZ3fxP/3WkfW7RPngZxspNBKyAkuCBBLx86/rXQ9gQ8=
-=mitV
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCah7LLhEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bprgAPoDjzL/bHUtNevbbrFMWrD98BWdWt1M6cNi
+zT+8Cc6D6AEAvfUWjihPiweDuPzWq5lX24cVDVf1xRZpDBFvRM1hUQE=
+=xGoA
 -----END PGP SIGNATURE-----
 
---=-CnR4E0uV1AMUY+AHuMKA--
+--=-L97JEI2ykMVb9fxWEY1S--
 
