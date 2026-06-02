@@ -1,782 +1,488 @@
-Return-Path: <zhengrq.fnst@fujitsu.com>
+Return-Path: <peng.zhang1.cn@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 022C1CD6E4A
-	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 07:02:19 +0000 (UTC)
-Received: from TYVP286CU001.outbound.protection.outlook.com (TYVP286CU001.outbound.protection.outlook.com [52.101.125.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19362.1780383730214200741
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9AE2CD6E57
+	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 07:04:08 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19210.1780383840125712849
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 00:02:10 -0700
+ Tue, 02 Jun 2026 00:04:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=OubraVft;
- spf=pass (domain: fujitsu.com, ip: 52.101.125.29, mailfrom: zhengrq.fnst@fujitsu.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=pwAd+bXn;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=061343ab17=peng.zhang1.cn@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6524Af5k851747
+	for <openembedded-core@lists.openembedded.org>; Tue, 2 Jun 2026 00:03:59 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=hbR+j+jPlA+fJh3oC6T2
+	psQ9UWDLdgIDD/hznGTSRJw=; b=pwAd+bXnvMZpsy01wabjYyxdRKc7XLMldizc
+	tWQA7BNRlVrwIEMHnO9eghMrxmVFJf9O/30S/41SF9fkeL8cFeOrHrhtbMJyBmIk
+	XDiKTRJ7gOVSW4dKSl6wbnOQnAKMkC0PSqxceVYuu7ex+Kp0GXHYvImzijChYRtr
+	YVdvxnn51t6qiKohzjXOr+UKL53JQgNBbImC5hznxmBY3GdCC/h748U1D+IlVOCj
+	gh0QlfMpJAnaL2glE5LQ07fHpZbAfnjv0BTK6XHyVPQMMk6HAVTJC+jiupx8FHec
+	zSi6zxEDFnpbFffcUf7UKxWeV6KKIHuZBYqCFTjK5Q3XkRMzBw==
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012071.outbound.protection.outlook.com [40.107.200.71])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4efydebv8t-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 00:03:59 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ck6TouhhU/adhXD5blYU4JsryHKe+Wll85ftaPQSPeJZKqiF0JZxn0cqfE9WdgDrUxguXgkdbEMdoH5eXqr1q8BmY6NxLRSDfBNYOeDGgAQiWpFFz3C4ZY19grbafWTgnsu4b+gOSThp+1PeQnLXsh0kfdNkWbZX/B1sIBooQ3RlRb351cqpCQacpT/Dmx4zdNudpUWjZSJZ6U8LpGj15BhRFFnPwX7YVXsISD/mFyOGK9/b4PXNYJSki4SwMfqQiJug2LkM3h9gbVTkT1+AVO6oJFjMwm7JH1m4kvVCysgYI6hp+eGMWpIetg79INVCYYPLKxQsmQRgLNGsTaJKXA==
+ b=IkAwUz4a75s2nWnqNYHFBjBh+/6sZa/Oe3Xk1tW8SWX0i3RweyRH6o9ILxTXzwWUG21ymxKWq/tbIijaFMnkYxzzCQIl2lDhRBknIKLKaeLdBeWF2rwFyqxFOLbcfytkgtmsJ5Pf72uh9prtkXabDcN5P5EkMpVfFjrVG4SZryx4JqvIFsweUuTk3v0aAZZzGx+lzfwi+LB6mjKrwht5ENfV+srfd/Ho83wlHmPfSp0yXkxrGzi04AZILnRt7ozfrrJ7HdeQrJbr5Tbjj0GkFf9Zap9Yzv3E5SuZkzM9yylXE0S1W8bZf8X0KVUirLUZUlrpGFgaUh4GEnuQpbmF5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oLgXFXlWUhcssfFtdhwO4oyN5Ih2BHlKuE1cZUOf78M=;
- b=i3rCWNi67ZDgb9cijisXAc7W9bFnxjEo5FaY3prryy1bc1015xNwwl2heoreRGzvujYX/IaMB2pq/ZdrZw5CVDzKjPmUunpfwEaxKzxXhbkpZnR2W6uN2us810vj11xvN4utiNaj9a4Tbrk5temVc6xEzLeo6pKfcZ9I+DKRuapYUU/7DH1uBFTyZNPOJ8DiS1thchyNR+BPhb7yH9F741q2SzEZStVM0yE2kaY1z/9XtHa6z84M5yYykLEn2XXeqS7bDPjwS4IUHgMkGgmMRzAcAltUYALMsIw251G1YdlJrCb1YYJpi3BHQEq/T1IErZCGwACvRVq1qjnuRz0KGA==
+ bh=hbR+j+jPlA+fJh3oC6T2psQ9UWDLdgIDD/hznGTSRJw=;
+ b=cuKOl194lYpGiRAKwlWFNlCT2FLxV9zSye8KNl9yDiy+8U0PQ6I3xhu9LNY7Gno54ke3gH14MxUHOHYJIv3OnL4ZT+xrlmxQt2tYuQ4BU9XEJCBmNOGItMNuTcnJiRrGhG0MUimmYHe/ZDChmPvL6xBN+sxeFF8jwbVW8qWH4EL2OrI7tt1xE6deeBCRaqQiGqpr6wubfWeg/Q1pO6+57MGbps62rjcWTLJi76Q0roVdg6GekmCWsmBcLNsXlwUAWO69FH+b6DQEj0Tr12J6K7dRyD82B71eEqSIdJVd1nhFJaIbxs6Tw76QSb4O4AaeY6cj2F2Uswasv5oJt3j3Mg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oLgXFXlWUhcssfFtdhwO4oyN5Ih2BHlKuE1cZUOf78M=;
- b=OubraVft5XPuGIvQSpUuZRUCL9yqIKfazQPa7osOzDavLFW2J2gA+COs0crk/LUKU0VBmawmCuMFDKJgTzic46YNMhWQ7wVLnVJmzlVKEkY4D4lbSdnF7VOU67YghNPI0itVmoxu9Uci9LYlqL6+Dv2ohBCt2AsMGjZR82wnAryGiyaoEVIqZjRnkhs/nCzGydnPoyub8t45k75TjZiaFSAK+1SYq8Hz12rA5pEPpVfLyBRU93yReXF1Qj+WVaNElubFoWt9E/bcwrAp635gQsD1SBudNgG7Ag4787NumODcMPq3MvVt6KcmFgfmmsOjYQn0m1WdrHHQgzkCGulYkQ==
-Received: from OSZPR01MB7868.jpnprd01.prod.outlook.com (2603:1096:604:1b8::10)
- by OSCPR01MB12833.jpnprd01.prod.outlook.com (2603:1096:604:339::6) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from LV8PR11MB8680.namprd11.prod.outlook.com (2603:10b6:408:208::10)
+ by SJ0PR11MB4846.namprd11.prod.outlook.com (2603:10b6:a03:2d8::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Tue, 2 Jun 2026
- 07:02:05 +0000
-Received: from OSZPR01MB7868.jpnprd01.prod.outlook.com
- ([fe80::faa3:6cc4:2c96:cedc]) by OSZPR01MB7868.jpnprd01.prod.outlook.com
- ([fe80::faa3:6cc4:2c96:cedc%3]) with mapi id 15.21.0071.015; Tue, 2 Jun 2026
- 07:02:05 +0000
-From: "Ruoqin Zheng (Fujitsu)" <zhengrq.fnst@fujitsu.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH] vim-tiny: bugfix lack of defaults.vim
-Thread-Topic: [OE-core][PATCH] vim-tiny: bugfix lack of defaults.vim
-Thread-Index: AQHc8SKl2Ow8VA90V0GJMC5GDqATwbYo8yY5gAGHZM6AAFPB/oAAAiSi
-Date: Tue, 2 Jun 2026 07:02:05 +0000
-Message-ID: 
- <OSZPR01MB786878B9AD82C7976F6C55278B122@OSZPR01MB7868.jpnprd01.prod.outlook.com>
-References: <20260528020658.789-1-zhengrq.fnst@fujitsu.com>
- <2c47dc98209c6874d1e2c9726a5d24881b059d6e.camel@linuxfoundation.org>
- <18B4D2C3BE17A296.111707@lists.openembedded.org>
- <OSZPR01MB7868A7D33A0E67FBB3E1043B8B122@OSZPR01MB7868.jpnprd01.prod.outlook.com>
- <18B52F9167DFD20C.197704@lists.openembedded.org>
-In-Reply-To: <18B52F9167DFD20C.197704@lists.openembedded.org>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=True;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2026-06-02T07:02:04.571Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=1;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OSZPR01MB7868:EE_|OSCPR01MB12833:EE_
-x-ms-office365-filtering-correlation-id: 621f2c67-24d0-4d48-8d69-08dec074dae5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|366016|376014|1580799027|38070700021|8096899003|13003099007|18002099003|22082099003|4143699003|56012099006|11063799006|5023799004|6133799003;
-x-microsoft-antispam-message-info: 
- 53qT3a28K0vRl7yiJvFeBawamIVv+jWfGC2qrvr7KQPy9KB3DliTNeMP80hhymJXCWtzplhfybb/plEKj5xtHSvGpAMZdJIzcW13cRdgp0Wwrex9EDjX3zSeqPwcx+HtZJSR2nNmH7pr/iEvETKkiqPSPyhGz5UCCXnAFed6FdbxEA6y2GNStWnMSt/YYTGO7zKvVEUDefR1jlTH183C9LkCs77RcgipGqWnKcRNgyayOHJQXUI3IiDDqKvHP+nG7r+8CwwuTslYejhS1XnRr3/6vBZosE3oNoNyuCe5in6usGAtJbqnL8Uz0ufzxzCy1+WTUbUo3XZT4JjZuEvfi+5uxzQjTT7VHzsuq8mS1V8bb8yeLYOEfHAcC8sC0HgfhQPOzHp/v/IZo21Mj7P6OZMOuLlOFVcTDyKKSl5qicE2zmoB7GeEmRM+mVF4szrI+7v4qXnFFfDaNbq0t/aNfzzXvfEgsGqY3zuRST2x0O5ws8aAo9/QP8zOTC0YNnQM/D6JspG36naQgUH15mckGRVbhUh746LBe8huQioM545CBx5L4r5S1KP9K5ayPtNzJZGs15VVJiq4q/YrDRiFVkWJGsOfLKXS8DVcVEqR9gR0aJUzrby8nIZeX/Zy+YY/lJ+T+MdJ01Kyj+t5nirqlrfvLAntBnr+v52UMiRqn1xpjZ+s4gHKB7SY6Ll2t+VSeVFKb1BxEQcCotiWqoRKqI0URoBRGXI550lc6Rgp5u0=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSZPR01MB7868.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(1580799027)(38070700021)(8096899003)(13003099007)(18002099003)(22082099003)(4143699003)(56012099006)(11063799006)(5023799004)(6133799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?gb2312?B?UWN1Qmd0NXdxK2lVZ3lnRjlxWklBcnhCcWRHSmpIUGRINzMzSEVGcEVhak5F?=
- =?gb2312?B?WjZyMDVqM0dlbm4vQnBES0VDYzlNcVlyVk5PNUtkVUFSSzRhYm03Z2piN2hr?=
- =?gb2312?B?YTVwSXhmV1AyYVJoYVR2Tm9TZjdmZmEwNXRFOHJ3bmZOUHBpb0dZWVowd3pk?=
- =?gb2312?B?SVBlcEtDOGFSeTZOcFhDRjl0V1VIaW4rb0trbkxuTkZjNll1YlAwemNJcm8w?=
- =?gb2312?B?VW1oaHdoRnVmUFRuK2pRVVdaSksrT1o4dFcxTnM4OU4vM2NkOHVzSG9uQjlT?=
- =?gb2312?B?L1VlZnNHcTR6bVYrNXVFdUdqYThIVktuNm9XRzRMWW1HaExXd2xhcUVNZWFE?=
- =?gb2312?B?QndvaHc1Ni9NZEtVdHNiNjJiTTJ4aXpsNWczOVZ2VElZa1V0Q0tBcnk3MS9u?=
- =?gb2312?B?V3dPeVg1aThKQUVHRTQ4cTFTczRTeWNrNUludy9NclMvMWxhT0wyVE9sMFZi?=
- =?gb2312?B?amZIY2JXZXlBUnJXRDkxS2FKK05DUElYK0h4SW5aR0JpOGtla2ZkMDNXdDJr?=
- =?gb2312?B?Y3VzYlJIdEZ1RnJBUVFjVGVVNTBlVzZHUnJhRFk0U0FvaURwVkhRb3B3QjNo?=
- =?gb2312?B?NzBROGVHTkxVWlM4ZS8vcWhCM3BaQi9LVEtjK21TUVRlT2VxRlRmaDdGdUpt?=
- =?gb2312?B?RzZaWnRoL0N0YkdVOEpjRjJTd3BBbE1LT0FDejFOTU5xOGZBRHhjTjRDN3RO?=
- =?gb2312?B?NVh2WmNhTGNWTTh5RElVQ29XU0tnSjZwU1k0YXNOZVBYWTM2cE9Sckx5QmZZ?=
- =?gb2312?B?K3dBbVM0VDlkcGVpWTErbHkvZGsrK3ZYQ2tiUDM2b1BwNFdqZzJMd3JVbE81?=
- =?gb2312?B?NW5uS2JuUGpqa0xOWTdwdlBxSTBxT1RyU0d4a0lwS1ZzWWVoZ0xuaGpIZHp6?=
- =?gb2312?B?c216NDUzWnNiYXpkR1lmZ3BXRW5UZWNkNEx3V3hMZ3RqV3l0VzJiY1lwNVFl?=
- =?gb2312?B?UzEzWGNkSGtSUVdKSmhXdHFlN09qOFFDNloraG43YzgzOWk5T2trdW1DbVM2?=
- =?gb2312?B?eG5vVGZOVWEwbVZNVzJoVnN6MjJVeHN6RDBtYmpYTTBvTjBDdGVtQlROUTR6?=
- =?gb2312?B?SHZ5TUtCVllHV1A2V0ZtRjRGai91QXZZYWJDSkIrUjJoOFFnTFhnWCtHSVAw?=
- =?gb2312?B?b0ZPZ1gvVHNHazhxUzlQZnR1M1hvZXRES2ZrT1hmbC9obXhTQ3lTZytWcDhF?=
- =?gb2312?B?em01RkwreUg3YWgwZ1RsNmJHTGROVGhtRFp4NWdmUytJZ2p6QVIrdU9nVXA4?=
- =?gb2312?B?T29sMVhidnF2MU5mejBBUW9zS1YzdE5WYjNCQjlFR3pSYTNWMTdDWkJUcnc5?=
- =?gb2312?B?eWNpOGtscTMwWEJMTHdybURTWG5DM0treFhWaytXVWRNZVUrcEsrS3RLMzVQ?=
- =?gb2312?B?NXJYZkgxYlpuL0dUQTNzMUxDOEVwTnJMQm1HT0YxSHBiZUpFMzAySnlkRnZz?=
- =?gb2312?B?TEZBVzRhVTl1dzVlVTRzb2lnUnRyWEdMcEEzQWlWd3JLN3VxbVprNkJYalUw?=
- =?gb2312?B?QjAybTRVbnN5YWhwbmYzQmVBV3gybmtWWnV5VEgwVXdTQmo2TW9ROXhzcWdO?=
- =?gb2312?B?aFpKejEvKzJuVlR2VXBzMS9nWUVxczRHNHRyaDc5dThXZDdlU3dyeWk5OFdn?=
- =?gb2312?B?YnNSNkthdE13SXR3WEhnbXZZRDdYZFZMaGtFZnNYdlR0ZlFTb3pmYjhUTWJ4?=
- =?gb2312?B?TEw0SDJJQ3RGV1E3TVU0eG55NXBRVWFqUExPVEk5ZkQ3bThJTGVzOUhhMXJj?=
- =?gb2312?B?bEhPUmpCb0F4Mkc0bVduV2xBNjMwUTZkdm16TXBVaHNhalJwY1c2WDFFTXRL?=
- =?gb2312?B?M25FWWlmTGlselYwT3V2UDVOT2lXc3NwZDVPMFNwR05NZkdBWHBHZjhlc2ZQ?=
- =?gb2312?B?WnhWSG0wVU9LZVMrbStndWlIUEhDTjlvcSs1aFY2VUQvd1Jhc1JQd0hsaVJy?=
- =?gb2312?B?OXFhWnowYldjcEptWjFkR0pHUDFPNWxVcCtCbXI3S05iWFNQSGJmV0kycmVw?=
- =?gb2312?B?QVRKdGJ5Zk9UMUlhcW5XUk8zWDN6a3JaanpzZzc0M3NUeHJYU0V3dFVIbHIv?=
- =?gb2312?B?YW1SQjJZSEIvTlZzUjFlNmFZekwwMDhXRDhDcU40S3NWNzlWT2I0OHREMzc0?=
- =?gb2312?B?TkFlcHhBRjQ1OWRJY0JRWEVMMlVEa2lpc2lZd05TaHFUVXhpQXY1bGF4RWln?=
- =?gb2312?B?TTB3YTJqZU85a2x1RlR1d0NyYUU1WnQwUnZhelUvYmNQdHdpUEo1Q3IxWmY2?=
- =?gb2312?B?NHNuZnlmRWRLdjNrejlCbXBjTGtZdHNZN1o1czBMMGsyMmw3cjdUUTB6SVJS?=
- =?gb2312?B?YXQ3SC9RZ2ZJYkc2VFgvbDRRU0RDVUh3OXkvbVNTTlRDdFJRYzQ1QT09?=
-Content-Type: multipart/alternative;
-	boundary="_000_OSZPR01MB786878B9AD82C7976F6C55278B122OSZPR01MB7868jpnp_"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.17; Tue, 2 Jun 2026
+ 07:03:57 +0000
+Received: from LV8PR11MB8680.namprd11.prod.outlook.com
+ ([fe80::9d0b:997d:b1ef:d000]) by LV8PR11MB8680.namprd11.prod.outlook.com
+ ([fe80::9d0b:997d:b1ef:d000%5]) with mapi id 15.21.0071.015; Tue, 2 Jun 2026
+ 07:03:57 +0000
+From: peng.zhang1.cn@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][master][wrynose][PATCH] ppp: upgrade 2.5.2 -> 2.5.3
+Date: Tue,  2 Jun 2026 15:03:43 +0800
+Message-ID: <20260602070344.1163210-1-peng.zhang1.cn@windriver.com>
+X-Mailer: git-send-email 2.50.0
+Content-Type: text/plain; charset=UTF-8
+X-ClientProxiedBy: TPYP295CA0018.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:7d0:a::19) To LV8PR11MB8680.namprd11.prod.outlook.com
+ (2603:10b6:408:208::10)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR11MB8680:EE_|SJ0PR11MB4846:EE_
+X-MS-Office365-Filtering-Correlation-Id: 15ee7da8-fbeb-4af7-605d-08dec0751d5b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|12006099003|25016099003|29003799003|6133799003|18002099003|11063799006|56012099006|3023799007|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	uEmyLKgqtybbLAJm+cjaWJd4VBmbZR5SOPMbHcfJekMdkbx82rv9iD93Ug0LsaaP/MzU1C1VpMY1y20enDzTaET9gfBWoiVRvU9l5vNfCttfcj4oLN9V3HXtV61k5kRlsPUIAtjTM3IB1KDZEmNC+h0k63sX/xNziH5xCwpLrI6tGQxRn7Hod/75vDI+J4/jxFpmM8xb9sDf+/KdhJFw8m2YghL5mCsATSDMgqYY/bGu8FV5bdLKxP1zQG0svHibc1r5OAcZBFeTiY1I+ZlyJeYL7PQBkzpJNTG4n0KXleORVbMHj6BkzQ7JylT/zYgxlIuo2w1T9CGhZ3k4lvMuOoQk/lIg1pPj6IH0GBM9yRrwmnl0N4/nTxeSnNSOrKJdr+Jw3P0kxs96KPTI9M84DawdmOqIv/NHSLofjFXazyFFAWH4F3zPt7J3O3wVP/3YdpSMoCirUjHJeDHH+xZ+B+xb05hW3hRjJvbGu/s97guWmPorM8/pXLyjNGyC8Ve9lQixkvBBPxTug3VE2etTX9ewoiuC68ZKIgmbLDzBjrgmpc7taqbvUpWllXyv0AnBMNdIvnc9rooITHb+vLQbORExXk5wzSDwPRxq/2iRQ1Uaj24V2FiTQL4bj+mHatbPIuZURtwcXqzM+2Pd+pO1IyAznOI6U0Q+toDK3mcxlvIiP23WmD4jm09RCpG+wJJSGFoswTO0ZeNjw4ODzhg/3A==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR11MB8680.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(12006099003)(25016099003)(29003799003)(6133799003)(18002099003)(11063799006)(56012099006)(3023799007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?UnFmUmZ1eS9LZDliVExHS0dkbjBzRnVJZDNqcEZGYzRjZVY0TENLT29CQ1h4?=
+ =?utf-8?B?RVdsWlQ1NzRIOUYxNjBrZjFZOGF0dzlrM290eC9mM0pMRmo2aDNiYWdWNWNv?=
+ =?utf-8?B?MlBOa3Ird0xRRkJZUzFadlJhcmlab2JqM2JkdUtqTXRpTEpMUmlaelBOeGVX?=
+ =?utf-8?B?K3d3bDZiR254ME9xd2hieE5vNWN4cEpEMlR0dWhoUDlLQXJrMnlhalh0TTZr?=
+ =?utf-8?B?SmdING9Nc0lkK3p4ZlFBVWFCa2p6WitTd1NJZFVsUEg3MXA5c09aZDFtbmp3?=
+ =?utf-8?B?UVVaK1ZPNFMwWjdXYTcyVEk1K1BNcFl3SldRTW9Lb1ZkbWkrbGJ2eU1yWEhO?=
+ =?utf-8?B?WnpST1A1TzgrbDJaQlJqZVVtbkxKL0oraERHQXhIVllGVlB3bHA4S09tdjU0?=
+ =?utf-8?B?aitQeGJUaWtBNUFkWm1ta2JWeUlIVmxpS1pRbGVWd0Q5Z3FUNzdUb0FqRFhh?=
+ =?utf-8?B?ZDdLdk03T01oa1dib3lUTnJ3N2Q4Vy93MjJ3enVrc2tvM1ZENGlkVTNESHBk?=
+ =?utf-8?B?QmhOUXdaRjUybkNFMkN2eTNKbGFjT2hrWUtaQTg5T3k1eTRuR1M0QzdDRWZi?=
+ =?utf-8?B?eVB1OEF5MG5vcklhQWZvTTVCa3Zxc0hYYWZMTERqMGpzSWVyNTE4Rm5pemVk?=
+ =?utf-8?B?YXdDeHBMV09XTFF5ejBjblF5NDh4SUpYNEdrYXZSRVZQNHFEQndlVnlzaTFy?=
+ =?utf-8?B?TmhGd1Vac0JpdmVvQjZNZEYwQlNQTXlmQmpKKzV5ejMvK1Z2dzY1bksreUpG?=
+ =?utf-8?B?eStEVmYwbGp1UmUwSkpHOE9jWUxoblRjclF2S21FWDVQY0Z5bm9qRTRiSENG?=
+ =?utf-8?B?NWc2NGJxYUQxeVhFWUd0aXV0cklzRFArU09jZmFYOEM4MU9KejNXRDBWZXR5?=
+ =?utf-8?B?WFlRekswK2J1U0pYT0tnbWNGbXVRbkVpUVdGVk5yQVduYlR2L2w3MUdQd2Qv?=
+ =?utf-8?B?RWM5RytiSFFFNGFtaTVVVERTalNHOGZDazlmUnlDVEQzTXExdWJRdE00dVk4?=
+ =?utf-8?B?anF6cnMwWElHWlZaQkJyM0VERHRaaW1OTFhYNWYrMUJYT1Q1TkxjaXcxdGNR?=
+ =?utf-8?B?UjA3UVBtNDkxTU9mWTNGb1JmUlA2eW40Y01rQVlTTEtuall4dVlZczFYZEhX?=
+ =?utf-8?B?SFdxTzh2dVh0dzFFRkEyUno2S09vcXpPNnlzNmpHMmdlbVBsZ3NwSUpVaHlX?=
+ =?utf-8?B?T3dSYmc0ZmJKM0pCeG5Qby9qbTllRE50dDBYMUNFNVFjVm5haVVWcytUY2o3?=
+ =?utf-8?B?aUVNMnJrYU9iaGdyN3J2THljVitZczVTUzZMNE84OWJHenB6TXJ2aEhRNVM5?=
+ =?utf-8?B?WjBLOXY0S1dzTFdWOU9xaXI1bDM0TE02WGF5OXd6dHBhaG5wVXNGZWpHSlh6?=
+ =?utf-8?B?aUNwVlRaY3FOQUVpY085am5vaXJuZnd0Q0Q1SngrdUtGTmxCdUZjZjRtRENo?=
+ =?utf-8?B?NHlDRG5UTnhNQnNMODdSUTdMVUI1S1JjbHc1YnIrTVVDNFVyNVFTVVFlbjFl?=
+ =?utf-8?B?WkRCenB0WTBhdGl5SGNUaGhrUW51L0VFY0pOQWsyUnNYeGNKdEo2bjk3VkNu?=
+ =?utf-8?B?YTl2SmMyWkc5TVVDNGtHYnBaWGRoS21PeHhqejYxRitkeXh3RnhvamdlVjZa?=
+ =?utf-8?B?cGs5ODkzRGZ5OWEzZ0RUbVp3MjJEWlFFOXdsMnhwaHJpMGhJNGxBSk1JbHpR?=
+ =?utf-8?B?c2VYNUQ1NmlBRlRzdHZlSng0ZDE0d1U5OTJPc0VQdWJrZ3l1WlQ5OStGWk51?=
+ =?utf-8?B?RjliNFFiVWxvdFZoVTJYY0xqazhzbjdUVEJhT21KcUI3b1hoRGVtL253aUh4?=
+ =?utf-8?B?djB6N29ZNjZPVHN2dmtjYUhCZktzc2xuQytVSTczc3hCdXhYamhrVU43Vm9y?=
+ =?utf-8?B?NnRUUDdqZktrMjdmZS95MlFrU2prMC9pZ0ZaTjA3K1ArTEhPTzB3cG9tVjN2?=
+ =?utf-8?B?N0ZYeEwzbEVTYTl0YU5IWC9qRStkck9DRDluUUlVVjlxdUJ1QXhza1FaYlIw?=
+ =?utf-8?B?T3lkYVZvOG5oUEQyOWRFdEJVaVpCM3Q5YUVLZllEdVYrRzg2Q0ozTGhoazRF?=
+ =?utf-8?B?dXMyU3M5OHkvU0ZCalIrTWdJV0wyN1B5OXUybGFJV1dHVEJ2YW9kaVNScFZI?=
+ =?utf-8?B?SkpQemRGdGllMHpUWWNoN080MkwxM3JJUnA0MmF1QTRSVjlyUjJkMVM4eHBa?=
+ =?utf-8?B?WVlNKzMza1JNdFFEOGlUanFCcWo1Nis0Nk1teUpsMlpxZHpjRUNySEdjcDh0?=
+ =?utf-8?B?TGh4S3prTHhqR0UyMmVtTFJoNEpIdlIwWTNRc2dMSG5qcDU3QUVTanZGUnZQ?=
+ =?utf-8?B?eklzbjA3QXlROW9hMjRERmd2eXRjWEUxWkdRd0lFMk9WSHgxWjlSM0swdG5P?=
+ =?utf-8?Q?0TPdNU/K3SddxSRk=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	BfZlkhGtFbc/3sCRNBV1uI2M//A8S5rIpeeYKVqCBMHIj12pPyspQU/uad+BspvsNQP7hG2cEoD3OneUhCtkFh1f74SgKMKGG4NEKLicMK8mE7J7PGWDvUnhpPmvjz7o5oxk1CgvbNye36mXEVx0uHyM4x9FA9YBhdywKuip8HJw1VaVnlTqIvNR8IaoatkYfYkDSssy1vr20TUJpnsqhtBgLc+fy9R7ER6mfedgh3Efbd8bM1Z7N97SUyVm9o9O5qIUz9EhGpF4QHfY/M45Qm0KpCURH4OULStRLrT7SXOw8kQIvfO3nWReppblvit3CdH8mYt5RgX1CcslJBGwLQ==
-X-OriginatorOrg: fujitsu.com
+	rd5riSI35ZYYfFV5uMyMCkEiAGDK7jd+iGQC/Jqpbg2c4LvPvJgILRs/SgInrvwq6L66XBJzypT6QURcf13yFGbEaEGX0uNNmFgHpVnU7vxVPGPxC4J0QFY5twup9viRCCEFXGlyD0w1+/OD9aiOeVo82PJFKonb0x5bpLURbVHb9UH9VxL8DWkvQAVYR08J/rFCWjktiRRYfRQy90n3TEX9aOdlkefXoeyuYAW7K6AahZ3idtKJJp8a5nRuxBVdTl5ozUsXD7KEQlYXNBYNarqSMxJ7kzYn0LepU7BnICv96ejOTY/IJgUNOymVN2xW158UsbxWVuWNqup8XZC5qA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15ee7da8-fbeb-4af7-605d-08dec0751d5b
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR11MB8680.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSZPR01MB7868.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 621f2c67-24d0-4d48-8d69-08dec074dae5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2026 07:02:05.3204
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2026 07:03:57.1274
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tkUncUE32putjE6XUfuO8H+d5yRSdrptdGTN1YdwWqyenN0p7f4U/6nP07PD/MJdYh4tr7BSNDY7DvlaUtn34ljNT1HP7ur3VMQBUqm7+30=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB12833
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GmcHsUePGRFCh213GeDHTd42i/K3CO7Fcc0uzWhATRj1CPEIeXCnYXA18CeFNE/oLI/55uqHbbWrqtUCnNZH64csuASPfQk+JQu3oAJpRhY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4846
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAyMDA2MiBTYWx0ZWRfX+JQRaHw3273M
+ ovBGyB3TewMgn4pGXeTd6BEPm1/skrBcPQBiw+TSwOjZloUx5acRIVwwtg2tD3GvuPvL7C8TfAQ
+ NKVX0fLAPSgouY+QMXTIWvyBe22UinFLrRHNlcgPRy/Ummvhx1rnnDKENwme+S5QVaJ47UNgxzN
+ KqzfdKQXEQ3bJKZ/mu4kEHuSPhWjs+T93OZLUwDoIRVAjbO5GCFEyrGs1rFJa/B1V6xysgaz47B
+ u+Phl4FxHO3XlC4uwtmI1+OxkAVbksPFQINW/FqIiOV/NjGKChtjm3Ij5wzVeHzXvyYKN0tinHY
+ 24nGhPCCVlbAMB0FFJjinSY1xtNdKC9FMD/i5nwDoUAWGrZsgWBg+iwNKoLMMoVy2+38W2a1tRQ
+ lcAvZ7gfxluJxZrDZI4npupTrfu2erX+P7rKqgxuqrUPcmgVBqwzZJI6PEWPakBBCiVrNvsEqx6
+ lakBGmpKqgF53+vecbw==
+X-Proofpoint-GUID: uGJvBCIACP029XiJCgfRSUu7b15IS0SO
+X-Authority-Analysis: v=2.4 cv=Iq0utr/g c=1 sm=1 tr=0 ts=6a1e805f cx=c_pps
+ a=il/B+BFNnLmOqkoxAJ/ciQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
+ a=MufGLDliAAAA:20 a=NEAV23lmAAAA:8 a=vTr9H3xdAAAA:8 a=hGzw-44bAAAA:8
+ a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=20KFwNOVAAAA:8 a=1Snxrl4dP2cwfw3ak-cA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=HvKuF1_PTVFglORKqfwH:22
+ a=FdTzh2GWekK77mhwV6Dw:22 a=bA3UWDv6hWIuX7UZL3qL:22
+X-Proofpoint-ORIG-GUID: uGJvBCIACP029XiJCgfRSUu7b15IS0SO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-01_07,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 adultscore=0 priorityscore=1501 clxscore=1011
+ malwarescore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606020062
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 6524Af5k851747
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 07:02:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238009
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 07:04:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238010
 
---_000_OSZPR01MB786878B9AD82C7976F6C55278B122OSZPR01MB7868jpnp_
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+From: Zhang Peng <peng.zhang1.cn@windriver.com>
 
-SGkgUmljaGFyZA0KDQpJbiB0aGlzIG1haWwsIEkgd291bGQgbGlrZSB0byBzdW1tYXJpemUgdGhl
-IHNvbHV0aW9ucyBvZiBVYnVudHUgYW5kIEZlZG9yYSBmb3IgdGhpcyBpc3N1ZS4NCg0KRmVkb3Jh
-IDogUHV0IGRlZmF1bHRzLnZpbSBmaWxlIGluIFJEZXBlbmRzIHZpbS1kYXRhLg0KaHR0cHM6Ly9z
-cmMuZmVkb3JhcHJvamVjdC5vcmcvZm9yay92b25kcnVjaC9ycG1zL3ZpbS9ibG9iL2Y0MC9mL3Zp
-bS5zcGVjDQoNClVidW50dTogTWFrZSBhIHBhdGNoIHRvIHNraXAgInNvdXJjZV9kZWZhdWx0cyIg
-ZXJyb3IuDQpodHRwczovL2FyY2hpdmUudWJ1bnR1LmNvbS91YnVudHUvcG9vbC9tYWluL3Yvdmlt
-L3ZpbV84LjIuMzk5NS0xdWJ1bnR1Mi4zMC5kZWJpYW4udGFyLnh6DQpQYXRjaCBmaWxlOiBwYXRj
-aGVzL2RlYmlhbi9TdXBwb3J0LXNvdXJjaW5nLWEtdmltcmMudGlueS13aGVuLVZpbS1pcy1pbnZv
-a2VkLWFzLXZpLnBhdGNoDQpNb2RpZnkgZmlsZTogdmltLTguMi4zOTk1L3NyYy9tYWluLmMNCg0K
-VGhlICAicGFybXAtPnZpX21vZGUiIGlzIFRSVUUsIHNvIHRoZSAiZW1zZyhlX2ZhaWxlZF90b19z
-b3VyY2VfZGVmYXVsdHMpOyIgd2lsbCBiZSBza2lwcGVkLg0KDQozMTk3ICNpZmRlZiBVU1JfRVhS
-Q19GSUxFMg0KMzE5OCAgICAgICAgICAgICAgICAgJiYgZG9fc291cmNlKChjaGFyX3UgKilVU1Jf
-RVhSQ19GSUxFMiwgRkFMU0UsDQozMTk5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBET1NPX05PTkUsIE5VTEwpID09IEZBSUwNCjMyMDAgI2Vu
-ZGlmDQozMjAxICNpZiBkZWZpbmVkKFNZU19USU5ZUkNfRklMRSkgJiYgZGVmaW5lZChUSU5ZX1ZJ
-TVJDKQ0KMzIwMiAgICAgICAgICAgICAgICAgJiYgIXBhcm1wLT52aV9tb2RlDQozMjAzICNlbmRp
-Zg0KMzIwNCAgICAgICAgICAgICAgICAgJiYgIWhhc19kYXNoX2NfYXJnKQ0KMzIwNSAgICAgICAg
-ICAgICB7DQozMjA2ICAgICAgICAgICAgICAgICAvLyBXaGVuIG5vIC52aW1yYyBmaWxlIHdhcyBm
-b3VuZDogc291cmNlIGRlZmF1bHRzLnZpbS4NCjMyMDcgICAgICAgICAgICAgICAgIGlmIChkb19z
-b3VyY2UoKGNoYXJfdSAqKVZJTV9ERUZBVUxUU19GSUxFLCBGQUxTRSwgRE9TT19OT05FLA0KMzIw
-OCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIE5VTEwpID09IEZBSUwpDQozMjA5ICAgICAgICAgICAgICAgICAgICAgZW1zZyhl
-X2ZhaWxlZF90b19zb3VyY2VfZGVmYXVsdHMpOw0KMzIxMCAgICAgICAgICAgICB9DQozMjExICAg
-ICAgICAgfQ0KDQoNCkkgdGhpbmsgdGhlIEZlZG9yYSdzIHNvbHV0aW9uIHNsaWdodGx5IHNpbXBs
-ZXIgYW5kIGVhc2llciB0byBtYWludGFpbiwgd2hpbGUgVWJ1bnR1J3Mgc29sdXRpb24gbWF5IHJl
-cXVpcmUgZnVydGhlciBtYWludGFpbmluZyBmb3IgdGhpcyBzcGVjaWFsIHBhdGNoLg0KDQpXaGF0
-IGRvIHlvdSB0aGluayBhYm91dCBpdD8NCg0KWmhlbmcNCg0KX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18NCkZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IG9uIGJlaGFsZiBv
-ZiB6aGVuZ3J1b3FpbiB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8emhlbmdycS5mbnN0PWZ1
-aml0c3UuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTZW50OiBUdWVzZGF5LCBKdW5lIDIs
-IDIwMjYgMTQ6MjUNClRvOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3Vu
-ZGF0aW9uLm9yZz47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09F
-LWNvcmVdW1BBVENIXSB2aW0tdGlueTogYnVnZml4IGxhY2sgb2YgZGVmYXVsdHMudmltDQoNCkhp
-IFJpY2hhcmQNCiAgIEkgYWxzbyByZWZlciB0aGUgc29sdXRpb24gb2YgZmVkb3JhDQogIGh0dHBz
-Oi8vc3JjLmZlZG9yYXByb2plY3Qub3JnL2Zvcmsvdm9uZHJ1Y2gvcnBtcy92aW0vYmxvYi9mNDAv
-Zi92aW0uc3BlYw0KDQogIDEuDQpWaW0tbWluaW1hbCh2aW0tdGlueSkgZGVwZW5kcyBvbiB2aW0t
-ZGF0YS4NCg0KDQogICAgICAgIDIudmltLWRhdGEgcHJvdmlkZXMgZGVmYXVsdHMudmltIGZpbGUN
-Cg0KWmhlbmcNCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCkZyb206IFpoZW5n
-LCBSdW9xaW4v1qMgyPTH1SA8emhlbmdycS5mbnN0QGZ1aml0c3UuY29tPg0KU2VudDogVHVlc2Rh
-eSwgSnVuZSAyLCAyMDI2IDk6NTQNClRvOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVA
-bGludXhmb3VuZGF0aW9uLm9yZz47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0
-OiBSZTogW09FLWNvcmVdW1BBVENIXSB2aW0tdGlueTogYnVnZml4IGxhY2sgb2YgZGVmYXVsdHMu
-dmltDQoNCkhpIFJpY2hhcmQNCiAgIEkgYWxzbyByZWZlciB0aGUgc29sdXRpb24gb2YgdWJ1bnR1
-DQoNCiAgMS4gSW4gdWJ1bnR1LCB2aW0udGlueSBkZXBlbmRzIG9uIHZpbS1jb21tb24NCmh0dHBz
-Oi8vcGFja2FnZXMudWJ1bnR1LmNvbS9lbi9ub2JsZS92aW0tdGlueQ0KDQoyLiBJbiB2aW0tY29t
-bW9uLCBpdCBpbmNsdWRlcyB2aW1yYyBuZWVkZWQgYnkgdmltLnRpbnkuDQpodHRwczovL3BhY2th
-Z2VzLnVidW50dS5jb20vZW4vbm9ibGUvYWxsL3ZpbS1jb21tb24vZmlsZWxpc3QNCg0KIDMuIERp
-c2N1c3Npb24gYWJvdXQgdGhpcyBpc3N1ZSBvZiB1YnVudHUNCiAgIGh0dHBzOi8vbGlzdHMuc25h
-cGNyYWZ0LmlvL2FyY2hpdmVzL2ZvdW5kYXRpb25zLWJ1Z3MvMjAyMi1BcHJpbC80NzI4MzAuaHRt
-bA0KDQogU28gSSB0aGluayBhZGQgdmltLWNvbW1vbiBhcyBSREVQRU5EUyBvZiAgdmltLnRpbnkg
-aXMgYWxzbyBhIHJlYXNvbmFibGUgc29sdXRpb24uDQoNClpoZW5nDQoNCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fDQpGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBvbiBi
-ZWhhbGYgb2YgemhlbmdydW9xaW4gdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPHpoZW5ncnEu
-Zm5zdD1mdWppdHN1LmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU2VudDogTW9uZGF5LCBK
-dW5lIDEsIDIwMjYgMTA6MDQNClRvOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGlu
-dXhmb3VuZGF0aW9uLm9yZz47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBS
-ZTogW09FLWNvcmVdW1BBVENIXSB2aW0tdGlueTogYnVnZml4IGxhY2sgb2YgZGVmYXVsdHMudmlt
-DQoNCkhpIFJpY2hhcmQNCg0KICAgVG8gZml4IHRoaXMgaXNzdWUsIEkgYWxzbyBoYXZlIGFub3Ro
-ZXIgbWV0aG9kLiBUbyB0b3VjaCBlbXB0eSAudmltcmMgdG8gYXZvaWQgIkZhaWxlZCB0byBzb3Vy
-Y2UgZGVmYXVsdHMudmltIiBlcnJvcg0KDQogICBBbmQgdGhlIHBhdGNoIHdpbGwgbGlrZSB0aGlz
-DQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdmltL3ZpbS10aW55XzkuMi5iYiBi
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L3ZpbS92aW0tdGlueV85LjIuYmINCmluZGV4IGU0YzI2ZDIz
-ZjYuLjMzY2M0ODEyNzEgMTAwNjQ0DQotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vdmlt
-LXRpbnlfOS4yLmJiDQorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vdmltLXRpbnlfOS4y
-LmJiDQpAQCAtNiw2ICs2LDE1IEBAIFBBQ0tBR0VDT05GSUcgKz0gInRpbnkiDQoNCiBkb19pbnN0
-YWxsKCkgew0KICAgICBpbnN0YWxsIC1EIC1tIDA3NTUgJHtTfS9zcmMvdmltICR7RH0vJHtiaW5k
-aXJ9L3ZpbS50aW55DQorDQorICAgICMgQWRkICIudmltcmMiIGZpbGUgdG8gYXZvaWQgIkZhaWxl
-ZCB0byBzb3VyY2UgZGVmYXVsdHMudmltIiBlcnJvcg0KKyAgICAjIEZvciByb290IHVzZXINCisg
-ICAgdG91Y2ggJHtEfS9yb290Ly52aW1yYw0KKw0KKyAgICAjIEZvciBub24tcm9vdCB1c2VyDQor
-ICAgIGluc3RhbGwgLWQgJHtEfS9ldGMvc2tlbA0KKyAgICB0b3VjaCAke0R9L2V0Yy9za2VsLy52
-aW1yYw0KKw0KIH0NCg0KSXMgdGhpcyBtZXRob2QgT0s/DQoNClpoZW5nDQoNCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJk
-aWVAbGludXhmb3VuZGF0aW9uLm9yZz4NClNlbnQ6IE1vbmRheSwgSnVuZSAxLCAyMDI2IDE6MjYN
-ClRvOiBaaGVuZywgUnVvcWluL9ajIMj0x9UgPHpoZW5ncnEuZm5zdEBmdWppdHN1LmNvbT47IG9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3Jl
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdW1BBVENIXSB2
-aW0tdGlueTogYnVnZml4IGxhY2sgb2YgZGVmYXVsdHMudmltDQoNCk9uIFRodSwgMjAyNi0wNS0y
-OCBhdCAxMDowNiArMDgwMCwgemhlbmdydW9xaW4gdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcg
-d3JvdGU6DQo+IFdoZW4gdmltLXRpbnkgd2FzIHVzZWQgaW4gaW1hZ2UsIGl0IGxhY2tzIGRlZmF1
-bHRzLnZpbSBmaWxlIHdoaWNoIHdpbGwgY2F1c2UgZm9sbG93aW5nIGVycm9yDQo+IHJvb3RAcWVt
-dXg4Ni02NDp+IyB2aQ0KPiBFMTE4NzogRmFpbGVkIHRvIHNvdXJjZSBkZWZhdWx0cy52aW0NCj4g
-UHJlc3MgRU5URVIgb3IgdHlwZSBjb21tYW5kIHRvIGNvbnRpbnVlDQo+DQo+IFNvIGFkZCB2aW0t
-Y29tbW9uIGFzIFJERVBFTkRTIHRvIHByb3ZpZGUgZGVmYXVsdHMudmltIGZpbGUgdG8gZml4IHRo
-aXMgaXNzdWUuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3FpbiA8emhlbmdycS5mbnN0
-QGZ1aml0c3UuY29tPg0KPiAtLS0NCj4gIG1ldGEvcmVjaXBlcy1zdXBwb3J0L3ZpbS92aW0tdGlu
-eV85LjIuYmIgfCAyICsrDQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspDQo+DQo+
-IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vdmltLXRpbnlfOS4yLmJiIGIv
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvdmltL3ZpbS10aW55XzkuMi5iYg0KPiBpbmRleCBlNGMyNmQy
-M2Y2Li5iNmRkZGVkMzgxIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0v
-dmltLXRpbnlfOS4yLmJiDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3ZpbS92aW0tdGlu
-eV85LjIuYmINCj4gQEAgLTgsNSArOCw3IEBAIGRvX2luc3RhbGwoKSB7DQo+ICAgICAgaW5zdGFs
-bCAtRCAtbSAwNzU1ICR7U30vc3JjL3ZpbSAke0R9LyR7YmluZGlyfS92aW0udGlueQ0KPiAgfQ0K
-Pg0KPiArUkRFUEVORFM6JHtQTn0gKz0gInZpbS1jb21tb24iDQo+ICsNCj4gIEFMVEVSTkFUSVZF
-X1BSSU9SSVRZID0gIjkwIg0KPiAgQUxURVJOQVRJVkVfVEFSR0VUID0gIiR7YmluZGlyfS92aW0u
-dGlueSINCg0KRG9lc24ndCBhZGRpbmcgZGVwZW5kZW5jaWVzIGxpa2UgdGhpcyBkZWZlYXQgdGhl
-IHBvaW50IG9mIHZpbS10aW55IGluIHRoZSBmaXJzdCBwbGFjZT8NCg0KQ2FuIHdlIGNvbmZpZ3Vy
-ZSB0aGF0IG91dCBpbnN0ZWFkPw0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg==
+ChangeLog:
+https://github.com/ppp-project/ppp/releases/tag/v2.5.3
 
---_000_OSZPR01MB786878B9AD82C7976F6C55278B122OSZPR01MB7868jpnp_
-Content-Type: text/html; charset="gb2312"
-Content-Transfer-Encoding: quoted-printable
+Drop backported patches:
+- 0001-pppd-pppdconf.h-remove-erroneous-generated-header.patch
+- 0001-pppdump-Fixed-building-with-GCC-15-548.patch
+- 0001-pppd-session-Fixed-building-with-GCC-15.patch
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Hi Richard</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-In this mail, I would like to summarize the solutions of Ubuntu and Fedora =
-for this issue.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;">
-<span style=3D"color: rgb(0, 0, 0);"><b>Fedora </b>: Put </span><span style=
-=3D"color: black;">defaults.vim file in RDepends vim-data.</span></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<a href=3D"https://src.fedoraproject.org/fork/vondruch/rpms/vim/blob/f40/f/=
-vim.spec" id=3D"OWAd0a474bb-28a2-6c4e-cf3d-6accd53178bb" class=3D"OWAAutoLi=
-nk" data-auth=3D"NotApplicable">https://src.fedoraproject.org/fork/vondruch=
-/rpms/vim/blob/f40/f/vim.spec</a></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<b>Ubuntu</b>: Make a patch to skip &quot;source_defaults&quot; error.</div=
->
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<a href=3D"https://archive.ubuntu.com/ubuntu/pool/main/v/vim/vim_8.2.3995-1=
-ubuntu2.30.debian.tar.xz">https://archive.ubuntu.com/ubuntu/pool/main/v/vim=
-/vim_8.2.3995-1ubuntu2.30.debian.tar.xz</a></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Patch file: patches/debian/Support-sourcing-a-vimrc.tiny-when-Vim-is-invoke=
-d-as-vi.patch</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Modify file: vim-8.2.3995/src/main.c</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;">
-<span style=3D"color: rgb(0, 0, 0);">The&nbsp; &quot;</span><span style=3D"=
-color: rgb(200, 38, 19);">parmp-&gt;vi_mode</span><span style=3D"color: rgb=
-(0, 0, 0);">&quot; is TRUE, so the &quot;emsg(e_failed_to_source_defaults);=
-&quot; will be skipped.</span></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-3197 #ifdef USR_EXRC_FILE2</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-3198 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;&amp; do_=
-source((char_u *)USR_EXRC_FILE2, FALSE,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-3199 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;DOSO_NONE, NULL) =3D=3D F=
-AIL</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-3200 #endif</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(200, 38, 19);">
-3201 #if defined(SYS_TINYRC_FILE) &amp;&amp; defined(TINY_VIMRC)</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(200, 38, 19);">
-3202 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;&amp; !pa=
-rmp-&gt;vi_mode</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(200, 38, 19);">
-3203 #endif</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-3204 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;&amp; !ha=
-s_dash_c_arg)</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-3205 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-3206 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // When no .vi=
-mrc file was found: source defaults.vim.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-3207 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (do_source(=
-(char_u *)VIM_DEFAULTS_FILE, FALSE, DOSO_NONE,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-3208 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp;NULL) =3D=3D FAIL)</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-3209 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
-emsg(e_failed_to_source_defaults);</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-3210 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-3211 &nbsp; &nbsp; &nbsp; &nbsp; }</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-I think the Fedora's solution&nbsp;slightly simpler and easier to maintain,=
- while Ubuntu's solution may require further maintaining for this special p=
-atch.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-What do you think about it?</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Zheng</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<hr style=3D"display: inline-block; width: 98%;">
-<div id=3D"divRplyFwdMsg">
-<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
-11pt; color: rgb(0, 0, 0);">
-<b>From:</b>&nbsp;openembedded-core@lists.openembedded.org &lt;openembedded=
--core@lists.openembedded.org&gt; on behalf of zhengruoqin via lists.openemb=
-edded.org &lt;zhengrq.fnst=3Dfujitsu.com@lists.openembedded.org&gt;<br>
-<b>Sent:</b>&nbsp;Tuesday, June 2, 2026 14:25<br>
-<b>To:</b>&nbsp;Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;; =
-openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.openem=
-bedded.org&gt;<br>
-<b>Subject:</b>&nbsp;Re: [OE-core][PATCH] vim-tiny: bugfix lack of defaults=
-.vim</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-Hi Richard<br>
-&nbsp; &nbsp;I also refer the solution of fedora</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-&nbsp; <a href=3D"https://src.fedoraproject.org/fork/vondruch/rpms/vim/blob=
-/f40/f/vim.spec" id=3D"OWAacc74b3c-d06f-5fe0-9e85-7a3877d6a421" class=3D"OW=
-AAutoLink" data-auth=3D"NotApplicable">
-https://src.fedoraproject.org/fork/vondruch/rpms/vim/blob/f40/f/vim.spec</a=
-></div>
-<ol start=3D"1" data-editing-info=3D"{&quot;applyListStyleFromLevel&quot;:f=
-alse,&quot;orderedStyleType&quot;:1}" style=3D"direction: ltr; margin-top: =
-0px; margin-bottom: 0px; list-style-type: decimal;">
-<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
-alibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); margin=
--top: 0px; margin-bottom: 0px;">
-<div role=3D"presentation" style=3D"direction: ltr;">Vim-minimal(vim-tiny) =
-<span style=3D"color: black;">
-depends on vim-data.</span></div>
-<div role=3D"presentation" style=3D"direction: ltr; color: black;"><br>
-</div>
-</li></ol>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: bla=
-ck;">
-&nbsp; &nbsp; &nbsp; &nbsp; 2.vim-data&nbsp;provides defaults.vim file</div=
->
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: bla=
-ck;">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-Zheng</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<br>
-</div>
-<hr style=3D"direction: ltr; display: inline-block; width: 98%;">
-<div id=3D"x_divRplyFwdMsg">
-<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
-11pt; color: rgb(0, 0, 0);">
-<b>From:</b>&nbsp;Zheng, Ruoqin/=D6=A3 =C8=F4=C7=D5 &lt;zhengrq.fnst@fujits=
-u.com&gt;<br>
-<b>Sent:</b>&nbsp;Tuesday, June 2, 2026 9:54<br>
-<b>To:</b>&nbsp;Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;; =
-openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.openem=
-bedded.org&gt;<br>
-<b>Subject:</b>&nbsp;Re: [OE-core][PATCH] vim-tiny: bugfix lack of defaults=
-.vim</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; color: rgb(0, 0, 0);">
-<span style=3D"font-size: 12pt; background-color: rgb(255, 255, 255);">Hi <=
-/span><span style=3D"font-size: 11pt; background-color: rgb(255, 255, 255);=
-">Richard</span></div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-&nbsp; &nbsp;I also refer the solution of ubuntu&nbsp;</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-&nbsp; 1. In ubuntu,&nbsp;vim.tiny depends on vim-common</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<a href=3D"https://packages.ubuntu.com/en/noble/vim-tiny" id=3D"OWA9f37f898=
--da2a-9121-8c8f-3456cd0c22dc" class=3D"x_OWAAutoLink" data-auth=3D"NotAppli=
-cable">https://packages.ubuntu.com/en/noble/vim-tiny</a></div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-2. In vim-common, it includes vimrc needed by vim.tiny.</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<a href=3D"https://packages.ubuntu.com/en/noble/all/vim-common/filelist" id=
-=3D"OWA4e7877ac-b824-0ef6-dfe4-c44f21800b25" class=3D"x_OWAAutoLink" data-a=
-uth=3D"NotApplicable">https://packages.ubuntu.com/en/noble/all/vim-common/f=
-ilelist</a></div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-&nbsp;3. Discussion about this issue of ubuntu</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-&nbsp; &nbsp;<a href=3D"https://lists.snapcraft.io/archives/foundations-bug=
-s/2022-April/472830.html" id=3D"OWA7e2d441e-8bd2-1fd3-bb7a-e7b8fd343498" cl=
-ass=3D"x_x_OWAAutoLink" data-auth=3D"NotApplicable">https://lists.snapcraft=
-.io/archives/foundations-bugs/2022-April/472830.html</a></div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-&nbsp;So I think add vim-common as RDEPENDS of &nbsp;vim.tiny is also a rea=
-sonable solution.</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: bla=
-ck;">
-Zheng</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<br>
-</div>
-<hr style=3D"direction: ltr; display: inline-block; width: 98%;">
-<div id=3D"x_x_divRplyFwdMsg">
-<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
-11pt; color: rgb(0, 0, 0);">
-<b>From:</b>&nbsp;openembedded-core@lists.openembedded.org &lt;openembedded=
--core@lists.openembedded.org&gt; on behalf of zhengruoqin via lists.openemb=
-edded.org &lt;zhengrq.fnst=3Dfujitsu.com@lists.openembedded.org&gt;<br>
-<b>Sent:</b>&nbsp;Monday, June 1, 2026 10:04<br>
-<b>To:</b>&nbsp;Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;; =
-openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.openem=
-bedded.org&gt;<br>
-<b>Subject:</b>&nbsp;Re: [OE-core][PATCH] vim-tiny: bugfix lack of defaults=
-.vim</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; color: rgb(0, 0, 0);">
-<span style=3D"font-size: 12pt;">Hi </span><span style=3D"font-size: 11pt;"=
->Richard</span></div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-&nbsp; &nbsp;To fix this issue, I also have another method. To touch empty =
-.vimrc to avoid &quot;Failed to source defaults.vim&quot; error</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-&nbsp; &nbsp;And the patch will like this&nbsp;</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-diff --git a/meta/recipes-support/vim/vim-tiny_9.2.bb b/meta/recipes-suppor=
-t/vim/vim-tiny_9.2.bb</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-index e4c26d23f6..33cc481271 100644</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
---- a/meta/recipes-support/vim/vim-tiny_9.2.bb</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-+++ b/meta/recipes-support/vim/vim-tiny_9.2.bb</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-@@ -6,6 +6,15 @@ PACKAGECONFIG +=3D &quot;tiny&quot;</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-&nbsp;do_install() {</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-&nbsp; &nbsp; &nbsp;install -D -m 0755 ${S}/src/vim ${D}/${bindir}/vim.tiny=
-</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-+</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-+ &nbsp; &nbsp;# Add &quot;.vimrc&quot; file to avoid &quot;Failed to sourc=
-e defaults.vim&quot; error</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-+ &nbsp; &nbsp;# For root user</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-+ &nbsp; &nbsp;touch ${D}/root/.vimrc</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-+</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-+&nbsp;&nbsp; &nbsp;# For non-root user</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-+ &nbsp; &nbsp;install -d ${D}/etc/skel</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-+ &nbsp;&nbsp;&nbsp;touch ${D}/etc/skel/.vimrc</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-+</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-&nbsp;}</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-Is this method OK?</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; margin-left: 0px; font-family: Aptos, Aptos_E=
-mbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Zheng</div>
-<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
-EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
-e: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<hr style=3D"direction: ltr; display: inline-block; width: 98%;">
-<div id=3D"x_x_x_divRplyFwdMsg">
-<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
-11pt; color: rgb(0, 0, 0);">
-<b>From:</b>&nbsp;Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;=
-<br>
-<b>Sent:</b>&nbsp;Monday, June 1, 2026 1:26<br>
-<b>To:</b>&nbsp;Zheng, Ruoqin/=D6=A3 =C8=F4=C7=D5 &lt;zhengrq.fnst@fujitsu.=
-com&gt;; openembedded-core@lists.openembedded.org &lt;openembedded-core@lis=
-ts.openembedded.org&gt;<br>
-<b>Subject:</b>&nbsp;Re: [OE-core][PATCH] vim-tiny: bugfix lack of defaults=
-.vim</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
-</div>
-<div style=3D"direction: ltr; font-size: 11pt;">On Thu, 2026-05-28 at 10:06=
- +0800, zhengruoqin via lists.openembedded.org wrote:<br>
-&gt; When vim-tiny was used in image, it lacks defaults.vim file which will=
- cause following error<br>
-&gt; root@qemux86-64:~# vi<br>
-&gt; E1187: Failed to source defaults.vim<br>
-&gt; Press ENTER or type command to continue<br>
-&gt;<br>
-&gt; So add vim-common as RDEPENDS to provide defaults.vim file to fix this=
- issue.<br>
-&gt;<br>
-&gt; Signed-off-by: Zheng Ruoqin &lt;zhengrq.fnst@fujitsu.com&gt;<br>
-&gt; ---<br>
-&gt; &nbsp;meta/recipes-support/vim/vim-tiny_9.2.bb | 2 ++<br>
-&gt; &nbsp;1 file changed, 2 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-support/vim/vim-tiny_9.2.bb b/meta/recipes-s=
-upport/vim/vim-tiny_9.2.bb<br>
-&gt; index e4c26d23f6..b6ddded381 100644<br>
-&gt; --- a/meta/recipes-support/vim/vim-tiny_9.2.bb<br>
-&gt; +++ b/meta/recipes-support/vim/vim-tiny_9.2.bb<br>
-&gt; @@ -8,5 +8,7 @@ do_install() {<br>
-&gt; &nbsp;&nbsp;&nbsp;&nbsp; install -D -m 0755 ${S}/src/vim ${D}/${bindir=
-}/vim.tiny<br>
-&gt; &nbsp;}<br>
-&gt; &nbsp;<br>
-&gt; +RDEPENDS:${PN} +=3D &quot;vim-common&quot;<br>
-&gt; +<br>
-&gt; &nbsp;ALTERNATIVE_PRIORITY =3D &quot;90&quot;<br>
-&gt; &nbsp;ALTERNATIVE_TARGET =3D &quot;${bindir}/vim.tiny&quot;<br>
-<br>
-Doesn't adding dependencies like this defeat the point of vim-tiny in the f=
-irst place?<br>
-<br>
-Can we configure that out instead?<br>
-<br>
-Cheers,<br>
-<br>
-Richard</div>
-</body>
-</html>
+Add ppp-dhcpv6relay package for newly added dhcpv6relay plugin.
 
---_000_OSZPR01MB786878B9AD82C7976F6C55278B122OSZPR01MB7868jpnp_--
+Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
+---
+ ....h-remove-erroneous-generated-header.patch | 98 -------------------
+ ...d-session-Fixed-building-with-GCC-15.patch | 33 -------
+ ...pdump-Fixed-building-with-GCC-15-548.patch | 75 --------------
+ .../ppp/{ppp_2.5.2.bb =3D> ppp_2.5.3.bb}        |  9 +-
+ 4 files changed, 4 insertions(+), 211 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppd-pppdconf.=
+h-remove-erroneous-generated-header.patch
+ delete mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppd-session-F=
+ixed-building-with-GCC-15.patch
+ delete mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-=
+building-with-GCC-15-548.patch
+ rename meta/recipes-connectivity/ppp/{ppp_2.5.2.bb =3D> ppp_2.5.3.bb} (9=
+1%)
+
+diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppd-pppdconf.h-remov=
+e-erroneous-generated-header.patch b/meta/recipes-connectivity/ppp/ppp/00=
+01-pppd-pppdconf.h-remove-erroneous-generated-header.patch
+deleted file mode 100644
+index a00706c184..0000000000
+--- a/meta/recipes-connectivity/ppp/ppp/0001-pppd-pppdconf.h-remove-erron=
+eous-generated-header.patch
++++ /dev/null
+@@ -1,98 +0,0 @@
+-From a6eb65162db5bcc5ec26cff7361885c0a44cbbfa Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Mon, 17 Mar 2025 11:12:07 +0100
+-Subject: [PATCH] pppd/pppdconf.h: remove erroneous generated header
+-
+-Upstream-Status: Inappropriate [tarball generation issue tracked at http=
+s://github.com/ppp-project/ppp/issues/541]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- pppd/pppdconf.h | 80 -------------------------------------------------
+- 1 file changed, 80 deletions(-)
+- delete mode 100644 pppd/pppdconf.h
+-
+-diff --git a/pppd/pppdconf.h b/pppd/pppdconf.h
+-deleted file mode 100644
+-index 51a8f02..0000000
+---- a/pppd/pppdconf.h
+-+++ /dev/null
+-@@ -1,80 +0,0 @@
+--/* pppd/pppdconf.h.  Generated from pppdconf.h.in by configure.  */
+--/*=20
+-- * Copyright (c) 2022 Eivind N=C3=A6ss. All rights reserved.
+-- *
+-- * Redistribution and use in source and binary forms, with or without
+-- * modification, are permitted provided that the following conditions
+-- * are met:
+-- *
+-- * 1. Redistributions of source code must retain the above copyright
+-- *    notice, this list of conditions and the following disclaimer.
+-- *
+-- * 2. Redistributions in binary form must reproduce the above copyright
+-- *    notice, this list of conditions and the following disclaimer in
+-- *    the documentation and/or other materials provided with the
+-- *    distribution.
+-- *
+-- * 3. The name(s) of the authors of this software must not be used to
+-- *    endorse or promote products derived from this software without
+-- *    prior written permission.
+-- *
+-- * THE AUTHORS OF THIS SOFTWARE DISCLAIM ALL WARRANTIES WITH REGARD TO
+-- * THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+-- * AND FITNESS, IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY
+-- * SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+-- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN
+-- * AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
+-- * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+-- */
+--
+--/*
+-- * This file is generated by configure and sets the features enabled
+-- *   in pppd when configured.
+-- */
+--
+--#ifndef PPP_PPPDCONF_H
+--#define PPP_PPPDCONF_H
+--
+--/* Have Microsoft CHAP support */
+--#define PPP_WITH_CHAPMS 1
+--
+--/* Have Microsoft LAN Manager support */
+--/* #undef PPP_WITH_MSLANMAN */
+--
+--/* Have Microsoft MPPE support */
+--#define PPP_WITH_MPPE 1
+--
+--/* Have multilink support */
+--#define PPP_WITH_MULTILINK 1
+--
+--/* Have packet activity filter support */
+--#define PPP_WITH_FILTER 1
+--
+--/* Have support for loadable plugins */
+--#define PPP_WITH_PLUGINS 1
+--
+--/* Have Callback Protocol support */
+--/* #undef PPP_WITH_CBCP */
+--
+--/* Include TDB support */
+--#define PPP_WITH_TDB 1
+--
+--/* Have IPv6 Control Protocol */
+--#define PPP_WITH_IPV6CP 1
+--
+--/* Support for Pluggable Authentication Modules */
+--/* #undef PPP_WITH_PAM */
+--
+--/* Have EAP-SRP authentication support */
+--/* #undef PPP_WITH_SRP */
+--
+--/* Have EAP-TLS authentication support */
+--#define PPP_WITH_EAPTLS 1
+--
+--/* Have PEAP authentication support */
+--#define PPP_WITH_PEAP 1
+--
+--/* The pppd version */
+--#define PPPD_VERSION "2.5.2"
+--
+--#endif
+diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppd-session-Fixed-bu=
+ilding-with-GCC-15.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppd-se=
+ssion-Fixed-building-with-GCC-15.patch
+deleted file mode 100644
+index d95c72e96b..0000000000
+--- a/meta/recipes-connectivity/ppp/ppp/0001-pppd-session-Fixed-building-=
+with-GCC-15.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 5edcb01f1d8d521c819d45df1f1bb87697252130 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Mon, 17 Mar 2025 14:38:26 -0700
+-Subject: [PATCH] pppd/session: Fixed building with GCC 15
+-
+-Fixed building with GCC 15 which defaults to C23
+-and find conflicting declration of getspnam() here
+-with the one provided by shadow.h (extern struct spwd *getspnam (const c=
+har *__name);)
+-
+-Fixes
+-../../ppp-2.5.2/pppd/session.c: In function 'session_start':
+-../../ppp-2.5.2/pppd/session.c:185:18: error: conflicting types for 'get=
+spnam'; have 'struct spwd *(void)'
+-  185 |     struct spwd *getspnam();
+-      |                  ^~~~~~~~
+-
+-Upstream-Status: Submitted [https://github.com/ppp-project/ppp/pull/553]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- pppd/session.c | 1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/pppd/session.c b/pppd/session.c
+-index f08d8e1..9cc7538 100644
+---- a/pppd/session.c
+-+++ b/pppd/session.c
+-@@ -182,7 +182,6 @@ session_start(const int flags, const char *user, con=
+st char *passwd, const char
+-     char *cbuf;
+- #ifdef HAVE_SHADOW_H
+-     struct spwd *spwd;
+--    struct spwd *getspnam();
+-     long now =3D 0;
+- #endif /* #ifdef HAVE_SHADOW_H */
+- #endif /* #ifdef PPP_WITH_PAM */
+diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-buildin=
+g-with-GCC-15-548.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppdump-=
+Fixed-building-with-GCC-15-548.patch
+deleted file mode 100644
+index 2a3b3cc84a..0000000000
+--- a/meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-building-with-=
+GCC-15-548.patch
++++ /dev/null
+@@ -1,75 +0,0 @@
+-From 44a766a3d086f10cb584a0c423e5bed6af2e3615 Mon Sep 17 00:00:00 2001
+-From: =3D?UTF-8?q?Jaroslav=3D20=3DC5=3DA0karvada?=3D <jskarvad@redhat.co=
+m>
+-Date: Thu, 27 Feb 2025 23:00:16 +0100
+-Subject: [PATCH] pppdump: Fixed building with GCC 15 (#548)
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=3DUTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-GCC 15 defaults to C23 which does not allow K&R declarations.
+-
+-Credit Yaakov Selkowitz in:
+-https://src.fedoraproject.org/rpms/ppp/pull-request/12
+-
+-Upstream-Status: Backport [https://github.com/ppp-project/ppp/pull/548]
+-
+-Signed-off-by: Jaroslav =C5=A0karvada <jskarvad@redhat.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- pppdump/pppdump.c | 20 +++++++-------------
+- 1 file changed, 7 insertions(+), 13 deletions(-)
+-
+-diff --git a/pppdump/pppdump.c b/pppdump/pppdump.c
+-index c24208a..1534036 100644
+---- a/pppdump/pppdump.c
+-+++ b/pppdump/pppdump.c
+-@@ -42,14 +42,12 @@ int tot_sent, tot_rcvd;
+- extern int optind;
+- extern char *optarg;
+-=20
+--void dumplog();
+--void dumpppp();
+--void show_time();
+-+void dumplog(FILE *);
+-+void dumpppp(FILE *);
+-+void show_time(FILE *, int);
+-=20
+- int
+--main(ac, av)
+--    int ac;
+--    char **av;
+-+main(int ac, char **av)
+- {
+-     int i;
+-     char *p;
+-@@ -97,8 +95,7 @@ main(ac, av)
+- }
+-=20
+- void
+--dumplog(f)
+--    FILE *f;
+-+dumplog(FILE *f)
+- {
+-     int c, n, k, col;
+-     int nb, c2;
+-@@ -241,8 +238,7 @@ struct pkt {
+- unsigned char dbuf[8192];
+-=20
+- void
+--dumpppp(f)
+--    FILE *f;
+-+dumpppp(FILE *f)
+- {
+-     int c, n, k;
+-     int nb, nl, dn, proto, rv;
+-@@ -375,9 +371,7 @@ dumpppp(f)
+- }
+-=20
+- void
+--show_time(f, c)
+--    FILE *f;
+--    int c;
+-+show_time(FILE *f, int c)
+- {
+-     time_t t;
+-     int n;
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb b/meta/recipes-co=
+nnectivity/ppp/ppp_2.5.3.bb
+similarity index 91%
+rename from meta/recipes-connectivity/ppp/ppp_2.5.2.bb
+rename to meta/recipes-connectivity/ppp/ppp_2.5.3.bb
+index 607678db8b..435559a815 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.5.3.bb
+@@ -23,12 +23,9 @@ SRC_URI =3D "https://download.samba.org/pub/${BPN}/${B=
+P}.tar.gz \
+            file://ppp_on_boot \
+            file://provider \
+            file://ppp@.service \
+-           file://0001-pppdump-Fixed-building-with-GCC-15-548.patch \
+-           file://0001-pppd-pppdconf.h-remove-erroneous-generated-header=
+.patch \
+-           file://0001-pppd-session-Fixed-building-with-GCC-15.patch \
+            "
+=20
+-SRC_URI[sha256sum] =3D "47da358de54a10cb10bf6ff2cf9b1c03c0d3555518f6182e=
+8f701b8e55733cb2"
++SRC_URI[sha256sum] =3D "ddda28dec8aca99a403ab6070d94ffd2b17d63e9a4c55091=
+58e99e148f572d4f"
+=20
+ inherit autotools pkgconfig systemd
+=20
+@@ -60,7 +57,7 @@ do_install:append () {
+ }
+=20
+ CONFFILES:${PN} =3D "${sysconfdir}/ppp/pap-secrets ${sysconfdir}/ppp/cha=
+p-secrets ${sysconfdir}/ppp/options"
+-PACKAGES =3D+ "${PN}-oa ${PN}-oe ${PN}-radius ${PN}-winbind ${PN}-mincon=
+n ${PN}-password ${PN}-l2tp ${PN}-tools"
++PACKAGES =3D+ "${PN}-oa ${PN}-oe ${PN}-radius ${PN}-winbind ${PN}-mincon=
+n ${PN}-password ${PN}-l2tp ${PN}-tools ${PN}-dhcpv6relay"
+ FILES:${PN}        =3D "${sysconfdir} ${bindir} ${sbindir}/chat ${sbindi=
+r}/pppd ${systemd_system_unitdir}/ppp@.service"
+ FILES:${PN}-oa       =3D "${libdir}/pppd/${PV}/pppoatm.so"
+ FILES:${PN}-oe       =3D "${sbindir}/pppoe-discovery ${libdir}/pppd/${PV=
+}/*pppoe.so"
+@@ -70,6 +67,7 @@ FILES:${PN}-minconn  =3D "${libdir}/pppd/${PV}/minconn.=
+so"
+ FILES:${PN}-password =3D "${libdir}/pppd/${PV}/pass*.so"
+ FILES:${PN}-l2tp     =3D "${libdir}/pppd/${PV}/*l2tp.so"
+ FILES:${PN}-tools    =3D "${sbindir}/pppstats ${sbindir}/pppdump"
++FILES:${PN}-dhcpv6relay =3D "${libdir}/pppd/${PV}/dhcpv6relay.so"
+ SUMMARY:${PN}-oa       =3D "Plugin for PPP for PPP-over-ATM support"
+ SUMMARY:${PN}-oe       =3D "Plugin for PPP for PPP-over-Ethernet support=
+"
+ SUMMARY:${PN}-radius   =3D "Plugin for PPP for RADIUS support"
+@@ -78,4 +76,5 @@ SUMMARY:${PN}-minconn  =3D "Plugin for PPP to set a del=
+ay before the idle timeout
+ SUMMARY:${PN}-password =3D "Plugin for PPP to get passwords via a pipe"
+ SUMMARY:${PN}-l2tp     =3D "Plugin for PPP for l2tp support"
+ SUMMARY:${PN}-tools    =3D "Additional tools for the PPP package"
++SUMMARY:${PN}-dhcpv6relay =3D "Plugin for PPP for DHCPv6 relay agent sup=
+port"
+=20
+--=20
+2.50.0
+
 
