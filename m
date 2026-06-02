@@ -1,520 +1,782 @@
-Return-Path: <saisneha196@gmail.com>
+Return-Path: <zhengrq.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBB88CD6E57
-	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 06:57:48 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19053.1780383462790457016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 022C1CD6E4A
+	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 07:02:19 +0000 (UTC)
+Received: from TYVP286CU001.outbound.protection.outlook.com (TYVP286CU001.outbound.protection.outlook.com [52.101.125.29])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19362.1780383730214200741
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2026 23:57:43 -0700
+ Tue, 02 Jun 2026 00:02:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=cv+aFTcN;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: saisneha196@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-68ae265815aso8513283a12.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2026 23:57:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780383461; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YOYOKUQf4azNgFIV1iplcdLD3l5zQNBu7wb39uy/hV6sKRxn80uh49nfbHIK4b3U8Y
-         JhGzuqdojnTvlRmEUg98gytPx4YM2dszWI2P1imnvNL+dwLc1ttbU30muu48xstwj+3/
-         CsxPnm5Tm8BHPf1i6XlKt4e6wdpxZkUrK+TDSI0wi5kf0wmb3Gw3mE+ks9F1a28Apfa/
-         ofi6M/9zxhSZE4ZHu0CcNrbY3NmL80mF7S3HFMrS7VwGJKHnkWMiDd+pSXi7q9NVBP9o
-         Uj1RY+Fx8JVBoK3nDnl9qL6qci7ZFIKmLQNd6jaGzETrQNBBAcPNNTBSv4AX7ZIUJOR4
-         RfIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=L18LSzl4KSFTAuYPyg9XoFMt8GAcLkazaj6K89aVTW4=;
-        fh=6xGPmAnN1hhcKnxbEIJO+Z/zx/VUorFs3705yHFJ6pE=;
-        b=adlewAPZCp3Rqcv/DxkmP8YXdM5wLIgF9r3zUbOXgwSrG52nNVlFkpFyo6vs4b6DAL
-         SvGMz80FXaIbTke9pnGKc1v4ORQx1ZNnDewtYkTuJsVN+nRXR8tZtB8KQPy9noMeN0AY
-         fjhAmQYrDF56QHOFG3+h1HdfFI/WGWXXRzEQlLyJfSONWjMA9KoaBnRJCiSE8fykkWZq
-         jIQRv68i2YsmxiLBcg84P2wGFqY5PLreMQy/LsrUsKGWgYLXhO9py1tKfsXDeXgaJ4UV
-         KMoD2AL6mQP7Wi3yewud/M2khfPkie8Hw7NIQa+8rak2ZNr9ID2ALy/MiYZFq2xT8g7S
-         L0PQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780383461; x=1780988261; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=L18LSzl4KSFTAuYPyg9XoFMt8GAcLkazaj6K89aVTW4=;
-        b=cv+aFTcNYhzana2O9DfOMGKExuioPghrYihHhHdOghetIueCB75aARTPAZoOpD/GoX
-         1U2IyT1zxefjYO98MkR5nH0DHIefjadqgXF0x8ndCevz/g4Qo6TgbkP+PC1TyBCgmzBr
-         6V2OCy8Sufi6QNQXgrUtWdrAYL1HJKeweyF4Tg9vz/Y0O8z11MLmAbPxVlCr1sDaZd5/
-         0gtdsY8SlXnbotG1rKn4/d7XYpqxtyIeJfMCP/acD5+9KcfpKwfiIgV8JqLgykSEkyh4
-         owhAJupdMSQ2QyaEpG5FI1MmVIXYnCwyA09GaI+GczHmfRF3b46vkBbpCybya3mU5aLw
-         8a3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780383461; x=1780988261;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L18LSzl4KSFTAuYPyg9XoFMt8GAcLkazaj6K89aVTW4=;
-        b=HvZSKm0E63aI+oIvjjRijRqV7/xpCYRwBTXbA140ZCATBwAQe/dbz1+w1CRTDLf/IW
-         qbzSgwRk+65cmnCu7RXJBRO67SXGgvKRWAJvU254yPZXTwTkg3K7rvLimgONUyYLzhuh
-         Y2VLQlKmhcoM7hbsJG6qn5WkNPpD/GsRJW1LA0qjIaS4pUpa/6w5Yyd9bwLVJwCUvW/v
-         NFZ2zadmf7sChqDJ/BU0Yu4OD4VwLiLe4YZK2cRIHn1Lk9iN+bItgUgG6+zsBO1PSAVU
-         5GapUn8pa2cVCsFetHfZnSQR9h+SUbrnvu0nuW6blDwCmG6FDG5/AXzg0oSUOej0o8JX
-         NvzQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+TstuWkII4TrjOXd05J3KhocDJvz9jUTS4JG3SIQX7FVHTQwjYFltV6tsiDMdzYmMqrxP7L8V/350o0yuKhRSVBg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxDdziHN8mL5lWbbu3DE1r+G8aNV9YF6H9yTrYxC9h9ZnacLrgg
-	vg6WziijqOJUv08OkwHonmgsPreQL4DqQoFG02OhikZj+TZxn3+cAi59eGIfYaBj3K6qRmT7vxv
-	6KsNbE5OXRbg1+CSSZ/ezpRLv/kUxp3og0A==
-X-Gm-Gg: Acq92OFwwyeGrgM4vNOj1yoh4zAG+dKOp18g6cdE5F7Jv5M0inOehNfAc1OWHV9Qyrt
-	sODfvzISTquZ46npX9EXOIlhdMJh2nrdDX2UsoZkjZtjA2KEPpxR2iJj/wQZ1MpcDyjoNGCpBqW
-	bmLQ1QeJmEe2X1CIFzwiipCPTGvuy9DJe3MtyO5mG+YISqQ7SIqHpHpFNlfzf+VxP/wxIBmIFca
-	/5k9srmQFT2atshx6sCemeHtxsL9wDQwOkvA/+FzEvGyaSeo8gCPEqB7hAyvFN3sbrJQZdPmMLn
-	qYAbWtSEXHUxlxuOwpM2k3rPChTMiqyHWTE5uNR9xoSbQVb8qg==
-X-Received: by 2002:a17:907:75da:b0:bec:b177:c346 with SMTP id
- a640c23a62f3a-becb177c87amr347529066b.3.1780383460632; Mon, 01 Jun 2026
- 23:57:40 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=OubraVft;
+ spf=pass (domain: fujitsu.com, ip: 52.101.125.29, mailfrom: zhengrq.fnst@fujitsu.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ck6TouhhU/adhXD5blYU4JsryHKe+Wll85ftaPQSPeJZKqiF0JZxn0cqfE9WdgDrUxguXgkdbEMdoH5eXqr1q8BmY6NxLRSDfBNYOeDGgAQiWpFFz3C4ZY19grbafWTgnsu4b+gOSThp+1PeQnLXsh0kfdNkWbZX/B1sIBooQ3RlRb351cqpCQacpT/Dmx4zdNudpUWjZSJZ6U8LpGj15BhRFFnPwX7YVXsISD/mFyOGK9/b4PXNYJSki4SwMfqQiJug2LkM3h9gbVTkT1+AVO6oJFjMwm7JH1m4kvVCysgYI6hp+eGMWpIetg79INVCYYPLKxQsmQRgLNGsTaJKXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oLgXFXlWUhcssfFtdhwO4oyN5Ih2BHlKuE1cZUOf78M=;
+ b=i3rCWNi67ZDgb9cijisXAc7W9bFnxjEo5FaY3prryy1bc1015xNwwl2heoreRGzvujYX/IaMB2pq/ZdrZw5CVDzKjPmUunpfwEaxKzxXhbkpZnR2W6uN2us810vj11xvN4utiNaj9a4Tbrk5temVc6xEzLeo6pKfcZ9I+DKRuapYUU/7DH1uBFTyZNPOJ8DiS1thchyNR+BPhb7yH9F741q2SzEZStVM0yE2kaY1z/9XtHa6z84M5yYykLEn2XXeqS7bDPjwS4IUHgMkGgmMRzAcAltUYALMsIw251G1YdlJrCb1YYJpi3BHQEq/T1IErZCGwACvRVq1qjnuRz0KGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oLgXFXlWUhcssfFtdhwO4oyN5Ih2BHlKuE1cZUOf78M=;
+ b=OubraVft5XPuGIvQSpUuZRUCL9yqIKfazQPa7osOzDavLFW2J2gA+COs0crk/LUKU0VBmawmCuMFDKJgTzic46YNMhWQ7wVLnVJmzlVKEkY4D4lbSdnF7VOU67YghNPI0itVmoxu9Uci9LYlqL6+Dv2ohBCt2AsMGjZR82wnAryGiyaoEVIqZjRnkhs/nCzGydnPoyub8t45k75TjZiaFSAK+1SYq8Hz12rA5pEPpVfLyBRU93yReXF1Qj+WVaNElubFoWt9E/bcwrAp635gQsD1SBudNgG7Ag4787NumODcMPq3MvVt6KcmFgfmmsOjYQn0m1WdrHHQgzkCGulYkQ==
+Received: from OSZPR01MB7868.jpnprd01.prod.outlook.com (2603:1096:604:1b8::10)
+ by OSCPR01MB12833.jpnprd01.prod.outlook.com (2603:1096:604:339::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Tue, 2 Jun 2026
+ 07:02:05 +0000
+Received: from OSZPR01MB7868.jpnprd01.prod.outlook.com
+ ([fe80::faa3:6cc4:2c96:cedc]) by OSZPR01MB7868.jpnprd01.prod.outlook.com
+ ([fe80::faa3:6cc4:2c96:cedc%3]) with mapi id 15.21.0071.015; Tue, 2 Jun 2026
+ 07:02:05 +0000
+From: "Ruoqin Zheng (Fujitsu)" <zhengrq.fnst@fujitsu.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH] vim-tiny: bugfix lack of defaults.vim
+Thread-Topic: [OE-core][PATCH] vim-tiny: bugfix lack of defaults.vim
+Thread-Index: AQHc8SKl2Ow8VA90V0GJMC5GDqATwbYo8yY5gAGHZM6AAFPB/oAAAiSi
+Date: Tue, 2 Jun 2026 07:02:05 +0000
+Message-ID: 
+ <OSZPR01MB786878B9AD82C7976F6C55278B122@OSZPR01MB7868.jpnprd01.prod.outlook.com>
+References: <20260528020658.789-1-zhengrq.fnst@fujitsu.com>
+ <2c47dc98209c6874d1e2c9726a5d24881b059d6e.camel@linuxfoundation.org>
+ <18B4D2C3BE17A296.111707@lists.openembedded.org>
+ <OSZPR01MB7868A7D33A0E67FBB3E1043B8B122@OSZPR01MB7868.jpnprd01.prod.outlook.com>
+ <18B52F9167DFD20C.197704@lists.openembedded.org>
+In-Reply-To: <18B52F9167DFD20C.197704@lists.openembedded.org>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=True;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2026-06-02T07:02:04.571Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=1;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OSZPR01MB7868:EE_|OSCPR01MB12833:EE_
+x-ms-office365-filtering-correlation-id: 621f2c67-24d0-4d48-8d69-08dec074dae5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|1580799027|38070700021|8096899003|13003099007|18002099003|22082099003|4143699003|56012099006|11063799006|5023799004|6133799003;
+x-microsoft-antispam-message-info: 
+ 53qT3a28K0vRl7yiJvFeBawamIVv+jWfGC2qrvr7KQPy9KB3DliTNeMP80hhymJXCWtzplhfybb/plEKj5xtHSvGpAMZdJIzcW13cRdgp0Wwrex9EDjX3zSeqPwcx+HtZJSR2nNmH7pr/iEvETKkiqPSPyhGz5UCCXnAFed6FdbxEA6y2GNStWnMSt/YYTGO7zKvVEUDefR1jlTH183C9LkCs77RcgipGqWnKcRNgyayOHJQXUI3IiDDqKvHP+nG7r+8CwwuTslYejhS1XnRr3/6vBZosE3oNoNyuCe5in6usGAtJbqnL8Uz0ufzxzCy1+WTUbUo3XZT4JjZuEvfi+5uxzQjTT7VHzsuq8mS1V8bb8yeLYOEfHAcC8sC0HgfhQPOzHp/v/IZo21Mj7P6OZMOuLlOFVcTDyKKSl5qicE2zmoB7GeEmRM+mVF4szrI+7v4qXnFFfDaNbq0t/aNfzzXvfEgsGqY3zuRST2x0O5ws8aAo9/QP8zOTC0YNnQM/D6JspG36naQgUH15mckGRVbhUh746LBe8huQioM545CBx5L4r5S1KP9K5ayPtNzJZGs15VVJiq4q/YrDRiFVkWJGsOfLKXS8DVcVEqR9gR0aJUzrby8nIZeX/Zy+YY/lJ+T+MdJ01Kyj+t5nirqlrfvLAntBnr+v52UMiRqn1xpjZ+s4gHKB7SY6Ll2t+VSeVFKb1BxEQcCotiWqoRKqI0URoBRGXI550lc6Rgp5u0=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSZPR01MB7868.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(1580799027)(38070700021)(8096899003)(13003099007)(18002099003)(22082099003)(4143699003)(56012099006)(11063799006)(5023799004)(6133799003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?gb2312?B?UWN1Qmd0NXdxK2lVZ3lnRjlxWklBcnhCcWRHSmpIUGRINzMzSEVGcEVhak5F?=
+ =?gb2312?B?WjZyMDVqM0dlbm4vQnBES0VDYzlNcVlyVk5PNUtkVUFSSzRhYm03Z2piN2hr?=
+ =?gb2312?B?YTVwSXhmV1AyYVJoYVR2Tm9TZjdmZmEwNXRFOHJ3bmZOUHBpb0dZWVowd3pk?=
+ =?gb2312?B?SVBlcEtDOGFSeTZOcFhDRjl0V1VIaW4rb0trbkxuTkZjNll1YlAwemNJcm8w?=
+ =?gb2312?B?VW1oaHdoRnVmUFRuK2pRVVdaSksrT1o4dFcxTnM4OU4vM2NkOHVzSG9uQjlT?=
+ =?gb2312?B?L1VlZnNHcTR6bVYrNXVFdUdqYThIVktuNm9XRzRMWW1HaExXd2xhcUVNZWFE?=
+ =?gb2312?B?QndvaHc1Ni9NZEtVdHNiNjJiTTJ4aXpsNWczOVZ2VElZa1V0Q0tBcnk3MS9u?=
+ =?gb2312?B?V3dPeVg1aThKQUVHRTQ4cTFTczRTeWNrNUludy9NclMvMWxhT0wyVE9sMFZi?=
+ =?gb2312?B?amZIY2JXZXlBUnJXRDkxS2FKK05DUElYK0h4SW5aR0JpOGtla2ZkMDNXdDJr?=
+ =?gb2312?B?Y3VzYlJIdEZ1RnJBUVFjVGVVNTBlVzZHUnJhRFk0U0FvaURwVkhRb3B3QjNo?=
+ =?gb2312?B?NzBROGVHTkxVWlM4ZS8vcWhCM3BaQi9LVEtjK21TUVRlT2VxRlRmaDdGdUpt?=
+ =?gb2312?B?RzZaWnRoL0N0YkdVOEpjRjJTd3BBbE1LT0FDejFOTU5xOGZBRHhjTjRDN3RO?=
+ =?gb2312?B?NVh2WmNhTGNWTTh5RElVQ29XU0tnSjZwU1k0YXNOZVBYWTM2cE9Sckx5QmZZ?=
+ =?gb2312?B?K3dBbVM0VDlkcGVpWTErbHkvZGsrK3ZYQ2tiUDM2b1BwNFdqZzJMd3JVbE81?=
+ =?gb2312?B?NW5uS2JuUGpqa0xOWTdwdlBxSTBxT1RyU0d4a0lwS1ZzWWVoZ0xuaGpIZHp6?=
+ =?gb2312?B?c216NDUzWnNiYXpkR1lmZ3BXRW5UZWNkNEx3V3hMZ3RqV3l0VzJiY1lwNVFl?=
+ =?gb2312?B?UzEzWGNkSGtSUVdKSmhXdHFlN09qOFFDNloraG43YzgzOWk5T2trdW1DbVM2?=
+ =?gb2312?B?eG5vVGZOVWEwbVZNVzJoVnN6MjJVeHN6RDBtYmpYTTBvTjBDdGVtQlROUTR6?=
+ =?gb2312?B?SHZ5TUtCVllHV1A2V0ZtRjRGai91QXZZYWJDSkIrUjJoOFFnTFhnWCtHSVAw?=
+ =?gb2312?B?b0ZPZ1gvVHNHazhxUzlQZnR1M1hvZXRES2ZrT1hmbC9obXhTQ3lTZytWcDhF?=
+ =?gb2312?B?em01RkwreUg3YWgwZ1RsNmJHTGROVGhtRFp4NWdmUytJZ2p6QVIrdU9nVXA4?=
+ =?gb2312?B?T29sMVhidnF2MU5mejBBUW9zS1YzdE5WYjNCQjlFR3pSYTNWMTdDWkJUcnc5?=
+ =?gb2312?B?eWNpOGtscTMwWEJMTHdybURTWG5DM0treFhWaytXVWRNZVUrcEsrS3RLMzVQ?=
+ =?gb2312?B?NXJYZkgxYlpuL0dUQTNzMUxDOEVwTnJMQm1HT0YxSHBiZUpFMzAySnlkRnZz?=
+ =?gb2312?B?TEZBVzRhVTl1dzVlVTRzb2lnUnRyWEdMcEEzQWlWd3JLN3VxbVprNkJYalUw?=
+ =?gb2312?B?QjAybTRVbnN5YWhwbmYzQmVBV3gybmtWWnV5VEgwVXdTQmo2TW9ROXhzcWdO?=
+ =?gb2312?B?aFpKejEvKzJuVlR2VXBzMS9nWUVxczRHNHRyaDc5dThXZDdlU3dyeWk5OFdn?=
+ =?gb2312?B?YnNSNkthdE13SXR3WEhnbXZZRDdYZFZMaGtFZnNYdlR0ZlFTb3pmYjhUTWJ4?=
+ =?gb2312?B?TEw0SDJJQ3RGV1E3TVU0eG55NXBRVWFqUExPVEk5ZkQ3bThJTGVzOUhhMXJj?=
+ =?gb2312?B?bEhPUmpCb0F4Mkc0bVduV2xBNjMwUTZkdm16TXBVaHNhalJwY1c2WDFFTXRL?=
+ =?gb2312?B?M25FWWlmTGlselYwT3V2UDVOT2lXc3NwZDVPMFNwR05NZkdBWHBHZjhlc2ZQ?=
+ =?gb2312?B?WnhWSG0wVU9LZVMrbStndWlIUEhDTjlvcSs1aFY2VUQvd1Jhc1JQd0hsaVJy?=
+ =?gb2312?B?OXFhWnowYldjcEptWjFkR0pHUDFPNWxVcCtCbXI3S05iWFNQSGJmV0kycmVw?=
+ =?gb2312?B?QVRKdGJ5Zk9UMUlhcW5XUk8zWDN6a3JaanpzZzc0M3NUeHJYU0V3dFVIbHIv?=
+ =?gb2312?B?YW1SQjJZSEIvTlZzUjFlNmFZekwwMDhXRDhDcU40S3NWNzlWT2I0OHREMzc0?=
+ =?gb2312?B?TkFlcHhBRjQ1OWRJY0JRWEVMMlVEa2lpc2lZd05TaHFUVXhpQXY1bGF4RWln?=
+ =?gb2312?B?TTB3YTJqZU85a2x1RlR1d0NyYUU1WnQwUnZhelUvYmNQdHdpUEo1Q3IxWmY2?=
+ =?gb2312?B?NHNuZnlmRWRLdjNrejlCbXBjTGtZdHNZN1o1czBMMGsyMmw3cjdUUTB6SVJS?=
+ =?gb2312?B?YXQ3SC9RZ2ZJYkc2VFgvbDRRU0RDVUh3OXkvbVNTTlRDdFJRYzQ1QT09?=
+Content-Type: multipart/alternative;
+	boundary="_000_OSZPR01MB786878B9AD82C7976F6C55278B122OSZPR01MB7868jpnp_"
 MIME-Version: 1.0
-References: <20260527111756.1306022-1-saisneha196@gmail.com>
- <20260527111756.1306022-3-saisneha196@gmail.com> <d1023d5b6fa9f1ba8173d685c633c04a7b1a169e.camel@pbarker.dev>
- <18B5305B60AFB2AF.3644386@lists.openembedded.org>
-In-Reply-To: <18B5305B60AFB2AF.3644386@lists.openembedded.org>
-From: Sai Sneha <saisneha196@gmail.com>
-Date: Tue, 2 Jun 2026 12:27:26 +0530
-X-Gm-Features: AVHnY4J8G9R07MrRzBJU7Z2pWXHA6HwWQeQhECgwN3M1n8GAQNhkpuI4tjTpHts
-Message-ID: <CANcU11djwrDy-6gD=XZNoLLpnvcDwwqN8D6gyX_zecCUJH6qaQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4 2/4] base.bbclass: warn when SRCREV is
- missing for SCM URIs at parse time
-To: saisneha196@gmail.com
-Cc: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org, 
-	yoann.congal@smile.fr, corentin.guillevic@smile.fr, martin@geanix.com
-Content-Type: multipart/alternative; boundary="000000000000bc2b0006533fd382"
+X-Exchange-RoutingPolicyChecked: 
+	BfZlkhGtFbc/3sCRNBV1uI2M//A8S5rIpeeYKVqCBMHIj12pPyspQU/uad+BspvsNQP7hG2cEoD3OneUhCtkFh1f74SgKMKGG4NEKLicMK8mE7J7PGWDvUnhpPmvjz7o5oxk1CgvbNye36mXEVx0uHyM4x9FA9YBhdywKuip8HJw1VaVnlTqIvNR8IaoatkYfYkDSssy1vr20TUJpnsqhtBgLc+fy9R7ER6mfedgh3Efbd8bM1Z7N97SUyVm9o9O5qIUz9EhGpF4QHfY/M45Qm0KpCURH4OULStRLrT7SXOw8kQIvfO3nWReppblvit3CdH8mYt5RgX1CcslJBGwLQ==
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSZPR01MB7868.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 621f2c67-24d0-4d48-8d69-08dec074dae5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2026 07:02:05.3204
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tkUncUE32putjE6XUfuO8H+d5yRSdrptdGTN1YdwWqyenN0p7f4U/6nP07PD/MJdYh4tr7BSNDY7DvlaUtn34ljNT1HP7ur3VMQBUqm7+30=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB12833
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 06:57:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238008
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 07:02:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238009
 
---000000000000bc2b0006533fd382
-Content-Type: text/plain; charset="UTF-8"
+--_000_OSZPR01MB786878B9AD82C7976F6C55278B122OSZPR01MB7868jpnp_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
+
+SGkgUmljaGFyZA0KDQpJbiB0aGlzIG1haWwsIEkgd291bGQgbGlrZSB0byBzdW1tYXJpemUgdGhl
+IHNvbHV0aW9ucyBvZiBVYnVudHUgYW5kIEZlZG9yYSBmb3IgdGhpcyBpc3N1ZS4NCg0KRmVkb3Jh
+IDogUHV0IGRlZmF1bHRzLnZpbSBmaWxlIGluIFJEZXBlbmRzIHZpbS1kYXRhLg0KaHR0cHM6Ly9z
+cmMuZmVkb3JhcHJvamVjdC5vcmcvZm9yay92b25kcnVjaC9ycG1zL3ZpbS9ibG9iL2Y0MC9mL3Zp
+bS5zcGVjDQoNClVidW50dTogTWFrZSBhIHBhdGNoIHRvIHNraXAgInNvdXJjZV9kZWZhdWx0cyIg
+ZXJyb3IuDQpodHRwczovL2FyY2hpdmUudWJ1bnR1LmNvbS91YnVudHUvcG9vbC9tYWluL3Yvdmlt
+L3ZpbV84LjIuMzk5NS0xdWJ1bnR1Mi4zMC5kZWJpYW4udGFyLnh6DQpQYXRjaCBmaWxlOiBwYXRj
+aGVzL2RlYmlhbi9TdXBwb3J0LXNvdXJjaW5nLWEtdmltcmMudGlueS13aGVuLVZpbS1pcy1pbnZv
+a2VkLWFzLXZpLnBhdGNoDQpNb2RpZnkgZmlsZTogdmltLTguMi4zOTk1L3NyYy9tYWluLmMNCg0K
+VGhlICAicGFybXAtPnZpX21vZGUiIGlzIFRSVUUsIHNvIHRoZSAiZW1zZyhlX2ZhaWxlZF90b19z
+b3VyY2VfZGVmYXVsdHMpOyIgd2lsbCBiZSBza2lwcGVkLg0KDQozMTk3ICNpZmRlZiBVU1JfRVhS
+Q19GSUxFMg0KMzE5OCAgICAgICAgICAgICAgICAgJiYgZG9fc291cmNlKChjaGFyX3UgKilVU1Jf
+RVhSQ19GSUxFMiwgRkFMU0UsDQozMTk5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBET1NPX05PTkUsIE5VTEwpID09IEZBSUwNCjMyMDAgI2Vu
+ZGlmDQozMjAxICNpZiBkZWZpbmVkKFNZU19USU5ZUkNfRklMRSkgJiYgZGVmaW5lZChUSU5ZX1ZJ
+TVJDKQ0KMzIwMiAgICAgICAgICAgICAgICAgJiYgIXBhcm1wLT52aV9tb2RlDQozMjAzICNlbmRp
+Zg0KMzIwNCAgICAgICAgICAgICAgICAgJiYgIWhhc19kYXNoX2NfYXJnKQ0KMzIwNSAgICAgICAg
+ICAgICB7DQozMjA2ICAgICAgICAgICAgICAgICAvLyBXaGVuIG5vIC52aW1yYyBmaWxlIHdhcyBm
+b3VuZDogc291cmNlIGRlZmF1bHRzLnZpbS4NCjMyMDcgICAgICAgICAgICAgICAgIGlmIChkb19z
+b3VyY2UoKGNoYXJfdSAqKVZJTV9ERUZBVUxUU19GSUxFLCBGQUxTRSwgRE9TT19OT05FLA0KMzIw
+OCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIE5VTEwpID09IEZBSUwpDQozMjA5ICAgICAgICAgICAgICAgICAgICAgZW1zZyhl
+X2ZhaWxlZF90b19zb3VyY2VfZGVmYXVsdHMpOw0KMzIxMCAgICAgICAgICAgICB9DQozMjExICAg
+ICAgICAgfQ0KDQoNCkkgdGhpbmsgdGhlIEZlZG9yYSdzIHNvbHV0aW9uIHNsaWdodGx5IHNpbXBs
+ZXIgYW5kIGVhc2llciB0byBtYWludGFpbiwgd2hpbGUgVWJ1bnR1J3Mgc29sdXRpb24gbWF5IHJl
+cXVpcmUgZnVydGhlciBtYWludGFpbmluZyBmb3IgdGhpcyBzcGVjaWFsIHBhdGNoLg0KDQpXaGF0
+IGRvIHlvdSB0aGluayBhYm91dCBpdD8NCg0KWmhlbmcNCg0KX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18NCkZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IG9uIGJlaGFsZiBv
+ZiB6aGVuZ3J1b3FpbiB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8emhlbmdycS5mbnN0PWZ1
+aml0c3UuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTZW50OiBUdWVzZGF5LCBKdW5lIDIs
+IDIwMjYgMTQ6MjUNClRvOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3Vu
+ZGF0aW9uLm9yZz47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9w
+ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09F
+LWNvcmVdW1BBVENIXSB2aW0tdGlueTogYnVnZml4IGxhY2sgb2YgZGVmYXVsdHMudmltDQoNCkhp
+IFJpY2hhcmQNCiAgIEkgYWxzbyByZWZlciB0aGUgc29sdXRpb24gb2YgZmVkb3JhDQogIGh0dHBz
+Oi8vc3JjLmZlZG9yYXByb2plY3Qub3JnL2Zvcmsvdm9uZHJ1Y2gvcnBtcy92aW0vYmxvYi9mNDAv
+Zi92aW0uc3BlYw0KDQogIDEuDQpWaW0tbWluaW1hbCh2aW0tdGlueSkgZGVwZW5kcyBvbiB2aW0t
+ZGF0YS4NCg0KDQogICAgICAgIDIudmltLWRhdGEgcHJvdmlkZXMgZGVmYXVsdHMudmltIGZpbGUN
+Cg0KWmhlbmcNCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCkZyb206IFpoZW5n
+LCBSdW9xaW4v1qMgyPTH1SA8emhlbmdycS5mbnN0QGZ1aml0c3UuY29tPg0KU2VudDogVHVlc2Rh
+eSwgSnVuZSAyLCAyMDI2IDk6NTQNClRvOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVA
+bGludXhmb3VuZGF0aW9uLm9yZz47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0
+OiBSZTogW09FLWNvcmVdW1BBVENIXSB2aW0tdGlueTogYnVnZml4IGxhY2sgb2YgZGVmYXVsdHMu
+dmltDQoNCkhpIFJpY2hhcmQNCiAgIEkgYWxzbyByZWZlciB0aGUgc29sdXRpb24gb2YgdWJ1bnR1
+DQoNCiAgMS4gSW4gdWJ1bnR1LCB2aW0udGlueSBkZXBlbmRzIG9uIHZpbS1jb21tb24NCmh0dHBz
+Oi8vcGFja2FnZXMudWJ1bnR1LmNvbS9lbi9ub2JsZS92aW0tdGlueQ0KDQoyLiBJbiB2aW0tY29t
+bW9uLCBpdCBpbmNsdWRlcyB2aW1yYyBuZWVkZWQgYnkgdmltLnRpbnkuDQpodHRwczovL3BhY2th
+Z2VzLnVidW50dS5jb20vZW4vbm9ibGUvYWxsL3ZpbS1jb21tb24vZmlsZWxpc3QNCg0KIDMuIERp
+c2N1c3Npb24gYWJvdXQgdGhpcyBpc3N1ZSBvZiB1YnVudHUNCiAgIGh0dHBzOi8vbGlzdHMuc25h
+cGNyYWZ0LmlvL2FyY2hpdmVzL2ZvdW5kYXRpb25zLWJ1Z3MvMjAyMi1BcHJpbC80NzI4MzAuaHRt
+bA0KDQogU28gSSB0aGluayBhZGQgdmltLWNvbW1vbiBhcyBSREVQRU5EUyBvZiAgdmltLnRpbnkg
+aXMgYWxzbyBhIHJlYXNvbmFibGUgc29sdXRpb24uDQoNClpoZW5nDQoNCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fDQpGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBvbiBi
+ZWhhbGYgb2YgemhlbmdydW9xaW4gdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPHpoZW5ncnEu
+Zm5zdD1mdWppdHN1LmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU2VudDogTW9uZGF5LCBK
+dW5lIDEsIDIwMjYgMTA6MDQNClRvOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGlu
+dXhmb3VuZGF0aW9uLm9yZz47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBS
+ZTogW09FLWNvcmVdW1BBVENIXSB2aW0tdGlueTogYnVnZml4IGxhY2sgb2YgZGVmYXVsdHMudmlt
+DQoNCkhpIFJpY2hhcmQNCg0KICAgVG8gZml4IHRoaXMgaXNzdWUsIEkgYWxzbyBoYXZlIGFub3Ro
+ZXIgbWV0aG9kLiBUbyB0b3VjaCBlbXB0eSAudmltcmMgdG8gYXZvaWQgIkZhaWxlZCB0byBzb3Vy
+Y2UgZGVmYXVsdHMudmltIiBlcnJvcg0KDQogICBBbmQgdGhlIHBhdGNoIHdpbGwgbGlrZSB0aGlz
+DQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdmltL3ZpbS10aW55XzkuMi5iYiBi
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L3ZpbS92aW0tdGlueV85LjIuYmINCmluZGV4IGU0YzI2ZDIz
+ZjYuLjMzY2M0ODEyNzEgMTAwNjQ0DQotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vdmlt
+LXRpbnlfOS4yLmJiDQorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vdmltLXRpbnlfOS4y
+LmJiDQpAQCAtNiw2ICs2LDE1IEBAIFBBQ0tBR0VDT05GSUcgKz0gInRpbnkiDQoNCiBkb19pbnN0
+YWxsKCkgew0KICAgICBpbnN0YWxsIC1EIC1tIDA3NTUgJHtTfS9zcmMvdmltICR7RH0vJHtiaW5k
+aXJ9L3ZpbS50aW55DQorDQorICAgICMgQWRkICIudmltcmMiIGZpbGUgdG8gYXZvaWQgIkZhaWxl
+ZCB0byBzb3VyY2UgZGVmYXVsdHMudmltIiBlcnJvcg0KKyAgICAjIEZvciByb290IHVzZXINCisg
+ICAgdG91Y2ggJHtEfS9yb290Ly52aW1yYw0KKw0KKyAgICAjIEZvciBub24tcm9vdCB1c2VyDQor
+ICAgIGluc3RhbGwgLWQgJHtEfS9ldGMvc2tlbA0KKyAgICB0b3VjaCAke0R9L2V0Yy9za2VsLy52
+aW1yYw0KKw0KIH0NCg0KSXMgdGhpcyBtZXRob2QgT0s/DQoNClpoZW5nDQoNCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJk
+aWVAbGludXhmb3VuZGF0aW9uLm9yZz4NClNlbnQ6IE1vbmRheSwgSnVuZSAxLCAyMDI2IDE6MjYN
+ClRvOiBaaGVuZywgUnVvcWluL9ajIMj0x9UgPHpoZW5ncnEuZm5zdEBmdWppdHN1LmNvbT47IG9w
+ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdW1BBVENIXSB2
+aW0tdGlueTogYnVnZml4IGxhY2sgb2YgZGVmYXVsdHMudmltDQoNCk9uIFRodSwgMjAyNi0wNS0y
+OCBhdCAxMDowNiArMDgwMCwgemhlbmdydW9xaW4gdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcg
+d3JvdGU6DQo+IFdoZW4gdmltLXRpbnkgd2FzIHVzZWQgaW4gaW1hZ2UsIGl0IGxhY2tzIGRlZmF1
+bHRzLnZpbSBmaWxlIHdoaWNoIHdpbGwgY2F1c2UgZm9sbG93aW5nIGVycm9yDQo+IHJvb3RAcWVt
+dXg4Ni02NDp+IyB2aQ0KPiBFMTE4NzogRmFpbGVkIHRvIHNvdXJjZSBkZWZhdWx0cy52aW0NCj4g
+UHJlc3MgRU5URVIgb3IgdHlwZSBjb21tYW5kIHRvIGNvbnRpbnVlDQo+DQo+IFNvIGFkZCB2aW0t
+Y29tbW9uIGFzIFJERVBFTkRTIHRvIHByb3ZpZGUgZGVmYXVsdHMudmltIGZpbGUgdG8gZml4IHRo
+aXMgaXNzdWUuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3FpbiA8emhlbmdycS5mbnN0
+QGZ1aml0c3UuY29tPg0KPiAtLS0NCj4gIG1ldGEvcmVjaXBlcy1zdXBwb3J0L3ZpbS92aW0tdGlu
+eV85LjIuYmIgfCAyICsrDQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspDQo+DQo+
+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vdmltLXRpbnlfOS4yLmJiIGIv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvdmltL3ZpbS10aW55XzkuMi5iYg0KPiBpbmRleCBlNGMyNmQy
+M2Y2Li5iNmRkZGVkMzgxIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0v
+dmltLXRpbnlfOS4yLmJiDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3ZpbS92aW0tdGlu
+eV85LjIuYmINCj4gQEAgLTgsNSArOCw3IEBAIGRvX2luc3RhbGwoKSB7DQo+ICAgICAgaW5zdGFs
+bCAtRCAtbSAwNzU1ICR7U30vc3JjL3ZpbSAke0R9LyR7YmluZGlyfS92aW0udGlueQ0KPiAgfQ0K
+Pg0KPiArUkRFUEVORFM6JHtQTn0gKz0gInZpbS1jb21tb24iDQo+ICsNCj4gIEFMVEVSTkFUSVZF
+X1BSSU9SSVRZID0gIjkwIg0KPiAgQUxURVJOQVRJVkVfVEFSR0VUID0gIiR7YmluZGlyfS92aW0u
+dGlueSINCg0KRG9lc24ndCBhZGRpbmcgZGVwZW5kZW5jaWVzIGxpa2UgdGhpcyBkZWZlYXQgdGhl
+IHBvaW50IG9mIHZpbS10aW55IGluIHRoZSBmaXJzdCBwbGFjZT8NCg0KQ2FuIHdlIGNvbmZpZ3Vy
+ZSB0aGF0IG91dCBpbnN0ZWFkPw0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg==
+
+--_000_OSZPR01MB786878B9AD82C7976F6C55278B122OSZPR01MB7868jpnp_
+Content-Type: text/html; charset="gb2312"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
-
-One more thing I wanted to address, your concern about AI-driven  changes
-in this sensitive area.
-
-I understand the concern and I think it is valid. The tag=3D bug that
-was caught validates your point, AI-assisted code can miss edge
-cases. That is precisely why I disclosed the AI involvement honestly,
-and why your review was valuable in catching it.
-
-To be clear about my role: I used Claude as a development aid, not
-as a replacement for my own judgment. Every design decision, test,
-and fix was made by me personally. I reproduced the selftest failure
-locally, identified the root cause, and applied the correct fix.
-
-I have now run the full bbtests.BitbakeTests suite (32/33 passing).
-If there are specific additional scenarios you would like me to verify, I
-am happy to do so.
-
-Best regards,
-Sai Sneha
-
-On Tue, 2 Jun 2026 at 12:09=E2=80=AFPM, Sai Sneha via lists.openembedded.or=
-g
-<saisneha196=3Dgmail.com@lists.openembedded.org> wrote:
-
-> Hi Paul,
->
-> You were right to raise the tag=3D concern =E2=80=94 it turned out to be =
-exactly the
-> cause of the selftest failure reported by Mathieu. Recipes using tag=3D i=
-n
-> SRC_URI intentionally leave SRCREV empty, and my check was incorrectly
-> treating this as missing.
->
-> The fix adds tag=3D to the list of URI parameters that bypass the SRCREV
-> check, alongside the existing rev=3D handling:
->
-> if params.get('rev', '') or params.get('tag', ''):
-> return ''
->
-> I have verified the fix by running the full bbtests.BitbakeTests selftest
-> suite =E2=80=94 32/33 passed. The one failure (test_image_manifest) requi=
-res
-> building a full image and fails due to network constraints in my
-> environment, unrelated to this patch.
->
-> I have sent v5 with this fix.
->
-> Best regards,
-> Sai Sneha
-> On Thu, 28 May 2026 at 8:39=E2=80=AFPM, Paul Barker <paul@pbarker.dev> wr=
-ote:
->
->> On Wed, 2026-05-27 at 16:47 +0530, Sai Sneha via lists.openembedded.org
->> wrote:
->> > A recipe with a git:// (or other SCM) URI in SRC_URI must have a
->> > corresponding SRCREV set. Without it, BitBake performs a live query
->> > on the remote repository at every parse, breaking reproducibility
->> > and causing parse failures under BB_NO_NETWORK=3D1.
->> >
->> > The trivial fix of checking SRCREV in insane.bbclass do_recipe_qa
->> > fails because fetcher_hashes_dummyfunc[vardepvalue] expands SRCREV
->> > at parse time before QA checks run, causing a FetchError that halts
->> > parsing entirely. This was identified in Corentin Guillevic's RFC
->> > series and confirmed by Mathieu Dubois-Briand's autobuilder testing.
->> >
->> > The fix intercepts at the vardepvalue expansion point by introducing
->> > check_srcrev_set() which uses the shared oe.qa.check_uri_srcrev()
->> > helper. The function is called conditionally:
->> >
->> >   fetcher_hashes_dummyfunc[vardepvalue] =3D
->> >     "${@bb.fetch.get_hashvalue(d) if check_srcrev_set(d) else ''}"
->> >
->> > Note on design choice: we intentionally use d.getVar(candidate, False)
->> > in oe.qa.check_uri_srcrev() rather than srcrev_internal_helper()
->> > because the latter expands SRCREV, triggering get_autorev() and live
->> > network fetches -- the exact problem this patch fixes.
->> >
->> > Note: parse-time warnings intentionally complement the QA-time warning=
-s
->> > added in insane.bbclass. This is necessary because CI pipelines runnin=
-g
->> > 'bitbake --parse-only' with BB_NO_NETWORK=3D1 (the original motivation
->> > from Ross Burton) would miss the issue entirely if only QA-time
->> > warnings existed. This pattern is already established in the codebase
->> > (e.g. src-uri-bad fires at both parse and QA time).
->> >
->> > Reported-by: Yoann Congal <yoann.congal@smile.fr>
->> > Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16051
->> > AI-Generated: Developed with assistance from Anthropic Claude
->> > Signed-off-by: Sai Sneha <saisneha196@gmail.com>
->> > ---
->> >
->> > Changes in v4:
->> > - Refactored to use shared oe.qa.check_uri_srcrev() helper
->> > - Eliminates duplicated URI parsing logic
->> > - Added docstring explaining True/False return values
->> >
->> > Changes in v3:
->> > - Added AI-Generated disclosure and Reported-by tag
->> > - Added design decision notes to commit message
->> >
->> > Changes in v2:
->> > - Initial public submission
->> >  meta/classes-global/base.bbclass | 30 ++++++++++++++++++++++++++++--
->> >  1 file changed, 28 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/meta/classes-global/base.bbclass
->> b/meta/classes-global/base.bbclass
->> > index 62f2814bb7..7de896ca7d 100644
->> > --- a/meta/classes-global/base.bbclass
->> > +++ b/meta/classes-global/base.bbclass
->> > @@ -164,14 +164,40 @@ def setup_hosttools_dir(dest, toolsvar, d,
->> fatal=3DTrue):
->> >
->> >      if notfound and fatal:
->> >          bb.fatal("The following required tools (as specified by
->> HOSTTOOLS) appear to be unavailable in PATH, please install them in orde=
-r
->> to proceed:\n  %s" % " ".join(notfound))
->> > +
->> > +def check_srcrev_set(d):
->> > +    """
->> > +    Inspect SRC_URI for SCM URIs missing a valid SRCREV.
->> > +
->> > +    Returns True if all SCM URIs have a valid SRCREV or AUTOREV set,
->> > +    allowing get_hashvalue(d) to proceed normally.
->> > +
->> > +    Returns False if any SCM URI is missing SRCREV, suppressing
->> > +    get_hashvalue(d) to prevent a FetchError parse crash.
->> > +    """
->> > +    import oe.qa
->> > +    src_uri =3D (d.getVar('SRC_URI', False) or '').split()
->> > +    pn =3D d.getVar('PN')
->> > +    for uri in src_uri:
->> > +        rev =3D oe.qa.check_uri_srcrev(pn, uri, d)
->> > +        if rev is None:
->> > +            # SRCREV missing =E2=80=94 warn and suppress hash expansi=
-on
->> > +            if bb.utils.contains('ERROR_QA', 'missing-srcrev', True,
->> False, d):
->> > +                bb.error("%s: SRCREV not set for %s" % (pn, uri))
->> > +            elif bb.utils.contains('WARN_QA', 'missing-srcrev', True,
->> False, d):
->> > +                bb.warn("%s: SRCREV not set for %s" % (pn, uri))
->> > +            return False
->> > +        if rev and '${AUTOREV}' in rev:
->> > +            return True
->> > +    return True
->> > +
->> >
->> >  # We can't use vardepvalue against do_fetch directly since that would
->> overwrite
->> >  # the other task dependencies so we use an indirect function.
->> >  python fetcher_hashes_dummyfunc() {
->> >      return
->> >  }
->> > -fetcher_hashes_dummyfunc[vardepvalue] =3D "${@bb.fetch.get_hashvalue(=
-d)}"
->> > -
->> > +fetcher_hashes_dummyfunc[vardepvalue] =3D "${@bb.fetch.get_hashvalue(=
-d)
->> if check_srcrev_set(d) else ''}"
->>
->> How confident are you that this is a safe change to make?
->>
->> This is an area where I would not make AI-driven changes myself, as a
->> change here could cause quite subtle issues. We may not have sufficient
->> test coverage to catch such issues.
->>
->> Specifically, what happens if a SRC_URI has a 'tag=3D...' property, SRCR=
-EV
->> is not set, and the tag is changed upstream?
->>
->> Best regards,
->>
->> --
->> Paul Barker
->>
->>
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#238005):
-> https://lists.openembedded.org/g/openembedded-core/message/238005
-> Mute This Topic: https://lists.openembedded.org/mt/119510786/10302268
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> saisneha196@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000bc2b0006533fd382
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div></div><div style=3D"font-size:inherit" dir=3D"auto">Hi Paul,<br style=
-=3D"font-size:inherit"><br style=3D"font-size:inherit">One more thing I wan=
-ted to address, your concern about AI-driven =C2=A0changes in this sensitiv=
-e area.<br style=3D"font-size:inherit"><br style=3D"font-size:inherit">I un=
-derstand the concern and I think it is valid. The tag=3D bug that <br style=
-=3D"font-size:inherit">was caught validates your point,=C2=A0<span style=3D=
-"font-size:inherit">AI-assisted code can miss edge=C2=A0</span></div><div s=
-tyle=3D"font-size:inherit" dir=3D"auto">cases. That is precisely why I disc=
-losed the AI involvement honestly, <br style=3D"font-size:inherit">and why =
-your review was valuable in catching it.<br style=3D"font-size:inherit"><br=
- style=3D"font-size:inherit">To be clear about my role: I used Claude as a =
-development aid, not <br style=3D"font-size:inherit">as a replacement for m=
-y own judgment. Every design decision, test, <br style=3D"font-size:inherit=
-">and fix was made by me personally. I reproduced the selftest failure <br =
-style=3D"font-size:inherit">locally, identified the root cause, and applied=
- the correct fix.<br style=3D"font-size:inherit"><br style=3D"font-size:inh=
-erit">I have now run the full bbtests.BitbakeTests suite (32/33 passing). <=
-br style=3D"font-size:inherit">If there are specific additional scenarios y=
-ou would like me to verify, I am happy to do so.<br style=3D"font-size:inhe=
-rit"><br style=3D"font-size:inherit">Best regards,<br style=3D"font-size:in=
-herit">Sai Sneha</div><div style=3D"font-size:inherit" dir=3D"auto"><br></d=
-iv><div style=3D"font-size:inherit" dir=3D"auto">On Tue, 2 Jun 2026 at 12:0=
-9=E2=80=AFPM, Sai Sneha via <a href=3D"http://lists.openembedded.org">lists=
-.openembedded.org</a> &lt;saisneha196=3D<a href=3D"mailto:gmail.com@lists.o=
-penembedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:</div><div>=
-<div class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex"><div></div><div style=3D"font-size:inherit" dir=3D"=
-auto">Hi Paul,<br style=3D"font-size:inherit"><br style=3D"font-size:inheri=
-t">You were right to raise the tag=3D concern =E2=80=94 it turned out to be=
- exactly=C2=A0the cause of the selftest failure reported by Mathieu. Recipe=
-s using=C2=A0tag=3D in SRC_URI intentionally leave SRCREV empty, and my che=
-ck was incorrectly treating this as missing.<br style=3D"font-size:inherit"=
-><br style=3D"font-size:inherit">The fix adds tag=3D to the list of URI par=
-ameters that bypass the SRCREV<br style=3D"font-size:inherit">check, alongs=
-ide the existing rev=3D handling:<br style=3D"font-size:inherit"><br style=
-=3D"font-size:inherit">  if params.get(&#39;rev&#39;, &#39;&#39;) or params=
-.get(&#39;tag&#39;, &#39;&#39;):<br style=3D"font-size:inherit">      retur=
-n &#39;&#39;<br style=3D"font-size:inherit"><br style=3D"font-size:inherit"=
->I have verified the fix by running the full bbtests.BitbakeTests=C2=A0self=
-test suite =E2=80=94 32/33 passed. The one failure (test_image_manifest)=C2=
-=A0requires building a full image and fails due to network constraints in m=
-y environment, unrelated to this patch.<br style=3D"font-size:inherit"><br =
-style=3D"font-size:inherit">I have sent v5 with this fix.<br style=3D"font-=
-size:inherit"><br style=3D"font-size:inherit">Best regards,<br style=3D"fon=
-t-size:inherit">Sai Sneha<br style=3D"font-size:inherit"></div><div><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 28 May 20=
-26 at 8:39=E2=80=AFPM, Paul Barker &lt;<a href=3D"mailto:paul@pbarker.dev" =
-target=3D"_blank">paul@pbarker.dev</a>&gt; wrote:<br></div></div></div><div=
-><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">On Wed, 2026-05-27 at 16:47 +0530, Sai Sneha via <a href=3D"http://lists=
-.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.=
-org</a><br>
-wrote:<br>
-&gt; A recipe with a git:// (or other SCM) URI in SRC_URI must have a<br>
-&gt; corresponding SRCREV set. Without it, BitBake performs a live query<br=
->
-&gt; on the remote repository at every parse, breaking reproducibility<br>
-&gt; and causing parse failures under BB_NO_NETWORK=3D1.<br>
-&gt; <br>
-&gt; The trivial fix of checking SRCREV in insane.bbclass do_recipe_qa<br>
-&gt; fails because fetcher_hashes_dummyfunc[vardepvalue] expands SRCREV<br>
-&gt; at parse time before QA checks run, causing a FetchError that halts<br=
->
-&gt; parsing entirely. This was identified in Corentin Guillevic&#39;s RFC<=
-br>
-&gt; series and confirmed by Mathieu Dubois-Briand&#39;s autobuilder testin=
-g.<br>
-&gt; <br>
-&gt; The fix intercepts at the vardepvalue expansion point by introducing<b=
-r>
-&gt; check_srcrev_set() which uses the shared oe.qa.check_uri_srcrev()<br>
-&gt; helper. The function is called conditionally:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0fetcher_hashes_dummyfunc[vardepvalue] =3D<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&quot;${@bb.fetch.get_hashvalue(d) if check_srcrev_=
-set(d) else &#39;&#39;}&quot;<br>
-&gt; <br>
-&gt; Note on design choice: we intentionally use d.getVar(candidate, False)=
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Hi Richard</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
 <br>
-&gt; in oe.qa.check_uri_srcrev() rather than srcrev_internal_helper()<br>
-&gt; because the latter expands SRCREV, triggering get_autorev() and live<b=
-r>
-&gt; network fetches -- the exact problem this patch fixes.<br>
-&gt; <br>
-&gt; Note: parse-time warnings intentionally complement the QA-time warning=
-s<br>
-&gt; added in insane.bbclass. This is necessary because CI pipelines runnin=
-g<br>
-&gt; &#39;bitbake --parse-only&#39; with BB_NO_NETWORK=3D1 (the original mo=
-tivation<br>
-&gt; from Ross Burton) would miss the issue entirely if only QA-time<br>
-&gt; warnings existed. This pattern is already established in the codebase<=
-br>
-&gt; (e.g. src-uri-bad fires at both parse and QA time).<br>
-&gt; <br>
-&gt; Reported-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr"=
- target=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
-&gt; Fixes: <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D=
-16051" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.o=
-rg/show_bug.cgi?id=3D16051</a><br>
-&gt; AI-Generated: Developed with assistance from Anthropic Claude<br>
-&gt; Signed-off-by: Sai Sneha &lt;<a href=3D"mailto:saisneha196@gmail.com" =
-target=3D"_blank">saisneha196@gmail.com</a>&gt;<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+In this mail, I would like to summarize the solutions of Ubuntu and Fedora =
+for this issue.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;">
+<span style=3D"color: rgb(0, 0, 0);"><b>Fedora </b>: Put </span><span style=
+=3D"color: black;">defaults.vim file in RDepends vim-data.</span></div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<a href=3D"https://src.fedoraproject.org/fork/vondruch/rpms/vim/blob/f40/f/=
+vim.spec" id=3D"OWAd0a474bb-28a2-6c4e-cf3d-6accd53178bb" class=3D"OWAAutoLi=
+nk" data-auth=3D"NotApplicable">https://src.fedoraproject.org/fork/vondruch=
+/rpms/vim/blob/f40/f/vim.spec</a></div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<b>Ubuntu</b>: Make a patch to skip &quot;source_defaults&quot; error.</div=
+>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<a href=3D"https://archive.ubuntu.com/ubuntu/pool/main/v/vim/vim_8.2.3995-1=
+ubuntu2.30.debian.tar.xz">https://archive.ubuntu.com/ubuntu/pool/main/v/vim=
+/vim_8.2.3995-1ubuntu2.30.debian.tar.xz</a></div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Patch file: patches/debian/Support-sourcing-a-vimrc.tiny-when-Vim-is-invoke=
+d-as-vi.patch</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Modify file: vim-8.2.3995/src/main.c</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;">
+<span style=3D"color: rgb(0, 0, 0);">The&nbsp; &quot;</span><span style=3D"=
+color: rgb(200, 38, 19);">parmp-&gt;vi_mode</span><span style=3D"color: rgb=
+(0, 0, 0);">&quot; is TRUE, so the &quot;emsg(e_failed_to_source_defaults);=
+&quot; will be skipped.</span></div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+3197 #ifdef USR_EXRC_FILE2</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+3198 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;&amp; do_=
+source((char_u *)USR_EXRC_FILE2, FALSE,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+3199 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;DOSO_NONE, NULL) =3D=3D F=
+AIL</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+3200 #endif</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(200, 38, 19);">
+3201 #if defined(SYS_TINYRC_FILE) &amp;&amp; defined(TINY_VIMRC)</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(200, 38, 19);">
+3202 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;&amp; !pa=
+rmp-&gt;vi_mode</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(200, 38, 19);">
+3203 #endif</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+3204 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;&amp; !ha=
+s_dash_c_arg)</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+3205 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+3206 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // When no .vi=
+mrc file was found: source defaults.vim.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+3207 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (do_source(=
+(char_u *)VIM_DEFAULTS_FILE, FALSE, DOSO_NONE,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+3208 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp;NULL) =3D=3D FAIL)</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+3209 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+emsg(e_failed_to_source_defaults);</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+3210 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+3211 &nbsp; &nbsp; &nbsp; &nbsp; }</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+I think the Fedora's solution&nbsp;slightly simpler and easier to maintain,=
+ while Ubuntu's solution may require further maintaining for this special p=
+atch.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+What do you think about it?</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Zheng</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<hr style=3D"display: inline-block; width: 98%;">
+<div id=3D"divRplyFwdMsg">
+<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
+11pt; color: rgb(0, 0, 0);">
+<b>From:</b>&nbsp;openembedded-core@lists.openembedded.org &lt;openembedded=
+-core@lists.openembedded.org&gt; on behalf of zhengruoqin via lists.openemb=
+edded.org &lt;zhengrq.fnst=3Dfujitsu.com@lists.openembedded.org&gt;<br>
+<b>Sent:</b>&nbsp;Tuesday, June 2, 2026 14:25<br>
+<b>To:</b>&nbsp;Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;; =
+openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.openem=
+bedded.org&gt;<br>
+<b>Subject:</b>&nbsp;Re: [OE-core][PATCH] vim-tiny: bugfix lack of defaults=
+.vim</div>
+<div style=3D"direction: ltr;">&nbsp;</div>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+Hi Richard<br>
+&nbsp; &nbsp;I also refer the solution of fedora</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+&nbsp; <a href=3D"https://src.fedoraproject.org/fork/vondruch/rpms/vim/blob=
+/f40/f/vim.spec" id=3D"OWAacc74b3c-d06f-5fe0-9e85-7a3877d6a421" class=3D"OW=
+AAutoLink" data-auth=3D"NotApplicable">
+https://src.fedoraproject.org/fork/vondruch/rpms/vim/blob/f40/f/vim.spec</a=
+></div>
+<ol start=3D"1" data-editing-info=3D"{&quot;applyListStyleFromLevel&quot;:f=
+alse,&quot;orderedStyleType&quot;:1}" style=3D"direction: ltr; margin-top: =
+0px; margin-bottom: 0px; list-style-type: decimal;">
+<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
+alibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); margin=
+-top: 0px; margin-bottom: 0px;">
+<div role=3D"presentation" style=3D"direction: ltr;">Vim-minimal(vim-tiny) =
+<span style=3D"color: black;">
+depends on vim-data.</span></div>
+<div role=3D"presentation" style=3D"direction: ltr; color: black;"><br>
+</div>
+</li></ol>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: bla=
+ck;">
+&nbsp; &nbsp; &nbsp; &nbsp; 2.vim-data&nbsp;provides defaults.vim file</div=
+>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: bla=
+ck;">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+Zheng</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+<br>
+</div>
+<hr style=3D"direction: ltr; display: inline-block; width: 98%;">
+<div id=3D"x_divRplyFwdMsg">
+<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
+11pt; color: rgb(0, 0, 0);">
+<b>From:</b>&nbsp;Zheng, Ruoqin/=D6=A3 =C8=F4=C7=D5 &lt;zhengrq.fnst@fujits=
+u.com&gt;<br>
+<b>Sent:</b>&nbsp;Tuesday, June 2, 2026 9:54<br>
+<b>To:</b>&nbsp;Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;; =
+openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.openem=
+bedded.org&gt;<br>
+<b>Subject:</b>&nbsp;Re: [OE-core][PATCH] vim-tiny: bugfix lack of defaults=
+.vim</div>
+<div style=3D"direction: ltr;">&nbsp;</div>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; color: rgb(0, 0, 0);">
+<span style=3D"font-size: 12pt; background-color: rgb(255, 255, 255);">Hi <=
+/span><span style=3D"font-size: 11pt; background-color: rgb(255, 255, 255);=
+">Richard</span></div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+&nbsp; &nbsp;I also refer the solution of ubuntu&nbsp;</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+&nbsp; 1. In ubuntu,&nbsp;vim.tiny depends on vim-common</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+<a href=3D"https://packages.ubuntu.com/en/noble/vim-tiny" id=3D"OWA9f37f898=
+-da2a-9121-8c8f-3456cd0c22dc" class=3D"x_OWAAutoLink" data-auth=3D"NotAppli=
+cable">https://packages.ubuntu.com/en/noble/vim-tiny</a></div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+2. In vim-common, it includes vimrc needed by vim.tiny.</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+<a href=3D"https://packages.ubuntu.com/en/noble/all/vim-common/filelist" id=
+=3D"OWA4e7877ac-b824-0ef6-dfe4-c44f21800b25" class=3D"x_OWAAutoLink" data-a=
+uth=3D"NotApplicable">https://packages.ubuntu.com/en/noble/all/vim-common/f=
+ilelist</a></div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+&nbsp;3. Discussion about this issue of ubuntu</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+&nbsp; &nbsp;<a href=3D"https://lists.snapcraft.io/archives/foundations-bug=
+s/2022-April/472830.html" id=3D"OWA7e2d441e-8bd2-1fd3-bb7a-e7b8fd343498" cl=
+ass=3D"x_x_OWAAutoLink" data-auth=3D"NotApplicable">https://lists.snapcraft=
+.io/archives/foundations-bugs/2022-April/472830.html</a></div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+&nbsp;So I think add vim-common as RDEPENDS of &nbsp;vim.tiny is also a rea=
+sonable solution.</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: bla=
+ck;">
+Zheng</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+<br>
+</div>
+<hr style=3D"direction: ltr; display: inline-block; width: 98%;">
+<div id=3D"x_x_divRplyFwdMsg">
+<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
+11pt; color: rgb(0, 0, 0);">
+<b>From:</b>&nbsp;openembedded-core@lists.openembedded.org &lt;openembedded=
+-core@lists.openembedded.org&gt; on behalf of zhengruoqin via lists.openemb=
+edded.org &lt;zhengrq.fnst=3Dfujitsu.com@lists.openembedded.org&gt;<br>
+<b>Sent:</b>&nbsp;Monday, June 1, 2026 10:04<br>
+<b>To:</b>&nbsp;Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;; =
+openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.openem=
+bedded.org&gt;<br>
+<b>Subject:</b>&nbsp;Re: [OE-core][PATCH] vim-tiny: bugfix lack of defaults=
+.vim</div>
+<div style=3D"direction: ltr;">&nbsp;</div>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; color: rgb(0, 0, 0);">
+<span style=3D"font-size: 12pt;">Hi </span><span style=3D"font-size: 11pt;"=
+>Richard</span></div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+&nbsp; &nbsp;To fix this issue, I also have another method. To touch empty =
+.vimrc to avoid &quot;Failed to source defaults.vim&quot; error</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
+_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
+(0, 0, 0);">
+&nbsp; &nbsp;And the patch will like this&nbsp;</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
+diff --git a/meta/recipes-support/vim/vim-tiny_9.2.bb b/meta/recipes-suppor=
+t/vim/vim-tiny_9.2.bb</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
+index e4c26d23f6..33cc481271 100644</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
+--- a/meta/recipes-support/vim/vim-tiny_9.2.bb</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
++++ b/meta/recipes-support/vim/vim-tiny_9.2.bb</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
+@@ -6,6 +6,15 @@ PACKAGECONFIG +=3D &quot;tiny&quot;</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
+&nbsp;do_install() {</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
+&nbsp; &nbsp; &nbsp;install -D -m 0755 ${S}/src/vim ${D}/${bindir}/vim.tiny=
+</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
++</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
++ &nbsp; &nbsp;# Add &quot;.vimrc&quot; file to avoid &quot;Failed to sourc=
+e defaults.vim&quot; error</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
++ &nbsp; &nbsp;# For root user</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
++ &nbsp; &nbsp;touch ${D}/root/.vimrc</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
++</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
++&nbsp;&nbsp; &nbsp;# For non-root user</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
++ &nbsp; &nbsp;install -d ${D}/etc/skel</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
++ &nbsp;&nbsp;&nbsp;touch ${D}/etc/skel/.vimrc</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
++</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
+&nbsp;}</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
+Is this method OK?</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"direction: ltr; margin-left: 0px; font-family: Aptos, Aptos_E=
+mbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Zheng</div>
+<div style=3D"direction: ltr; margin-left: 40px; font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<hr style=3D"direction: ltr; display: inline-block; width: 98%;">
+<div id=3D"x_x_x_divRplyFwdMsg">
+<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
+11pt; color: rgb(0, 0, 0);">
+<b>From:</b>&nbsp;Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;=
+<br>
+<b>Sent:</b>&nbsp;Monday, June 1, 2026 1:26<br>
+<b>To:</b>&nbsp;Zheng, Ruoqin/=D6=A3 =C8=F4=C7=D5 &lt;zhengrq.fnst@fujitsu.=
+com&gt;; openembedded-core@lists.openembedded.org &lt;openembedded-core@lis=
+ts.openembedded.org&gt;<br>
+<b>Subject:</b>&nbsp;Re: [OE-core][PATCH] vim-tiny: bugfix lack of defaults=
+.vim</div>
+<div style=3D"direction: ltr;">&nbsp;</div>
+</div>
+<div style=3D"direction: ltr; font-size: 11pt;">On Thu, 2026-05-28 at 10:06=
+ +0800, zhengruoqin via lists.openembedded.org wrote:<br>
+&gt; When vim-tiny was used in image, it lacks defaults.vim file which will=
+ cause following error<br>
+&gt; root@qemux86-64:~# vi<br>
+&gt; E1187: Failed to source defaults.vim<br>
+&gt; Press ENTER or type command to continue<br>
+&gt;<br>
+&gt; So add vim-common as RDEPENDS to provide defaults.vim file to fix this=
+ issue.<br>
+&gt;<br>
+&gt; Signed-off-by: Zheng Ruoqin &lt;zhengrq.fnst@fujitsu.com&gt;<br>
 &gt; ---<br>
-&gt; <br>
-&gt; Changes in v4:<br>
-&gt; - Refactored to use shared oe.qa.check_uri_srcrev() helper<br>
-&gt; - Eliminates duplicated URI parsing logic<br>
-&gt; - Added docstring explaining True/False return values<br>
-&gt; <br>
-&gt; Changes in v3:<br>
-&gt; - Added AI-Generated disclosure and Reported-by tag<br>
-&gt; - Added design decision notes to commit message<br>
-&gt; <br>
-&gt; Changes in v2:<br>
-&gt; - Initial public submission<br>
-&gt;=C2=A0 meta/classes-global/base.bbclass | 30 ++++++++++++++++++++++++++=
-++--<br>
-&gt;=C2=A0 1 file changed, 28 insertions(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/ba=
-se.bbclass<br>
-&gt; index 62f2814bb7..7de896ca7d 100644<br>
-&gt; --- a/meta/classes-global/base.bbclass<br>
-&gt; +++ b/meta/classes-global/base.bbclass<br>
-&gt; @@ -164,14 +164,40 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=
-=3DTrue):<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if notfound and fatal:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;The following require=
-d tools (as specified by HOSTTOOLS) appear to be unavailable in PATH, pleas=
-e install them in order to proceed:\n=C2=A0 %s&quot; % &quot; &quot;.join(n=
-otfound))<br>
-&gt; +=C2=A0 =C2=A0 <br>
-&gt; +def check_srcrev_set(d):<br>
-&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt; +=C2=A0 =C2=A0 Inspect SRC_URI for SCM URIs missing a valid SRCREV.<br=
->
+&gt; &nbsp;meta/recipes-support/vim/vim-tiny_9.2.bb | 2 ++<br>
+&gt; &nbsp;1 file changed, 2 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-support/vim/vim-tiny_9.2.bb b/meta/recipes-s=
+upport/vim/vim-tiny_9.2.bb<br>
+&gt; index e4c26d23f6..b6ddded381 100644<br>
+&gt; --- a/meta/recipes-support/vim/vim-tiny_9.2.bb<br>
+&gt; +++ b/meta/recipes-support/vim/vim-tiny_9.2.bb<br>
+&gt; @@ -8,5 +8,7 @@ do_install() {<br>
+&gt; &nbsp;&nbsp;&nbsp;&nbsp; install -D -m 0755 ${S}/src/vim ${D}/${bindir=
+}/vim.tiny<br>
+&gt; &nbsp;}<br>
+&gt; &nbsp;<br>
+&gt; +RDEPENDS:${PN} +=3D &quot;vim-common&quot;<br>
 &gt; +<br>
-&gt; +=C2=A0 =C2=A0 Returns True if all SCM URIs have a valid SRCREV or AUT=
-OREV set,<br>
-&gt; +=C2=A0 =C2=A0 allowing get_hashvalue(d) to proceed normally.<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 Returns False if any SCM URI is missing SRCREV, suppres=
-sing<br>
-&gt; +=C2=A0 =C2=A0 get_hashvalue(d) to prevent a FetchError parse crash.<b=
-r>
-&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt; +=C2=A0 =C2=A0 import <a href=3D"http://oe.qa" rel=3D"noreferrer" targ=
-et=3D"_blank">oe.qa</a><br>
-&gt; +=C2=A0 =C2=A0 src_uri =3D (d.getVar(&#39;SRC_URI&#39;, False) or &#39=
-;&#39;).split()<br>
-&gt; +=C2=A0 =C2=A0 pn =3D d.getVar(&#39;PN&#39;)<br>
-&gt; +=C2=A0 =C2=A0 for uri in src_uri:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 rev =3D oe.qa.check_uri_srcrev(pn, uri, d=
-)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if rev is None:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # SRCREV missing =E2=80=94 =
-warn and suppress hash expansion<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if bb.utils.contains(&#39;E=
-RROR_QA&#39;, &#39;missing-srcrev&#39;, True, False, d):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error(&quo=
-t;%s: SRCREV not set for %s&quot; % (pn, uri))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif bb.utils.contains(&#39=
-;WARN_QA&#39;, &#39;missing-srcrev&#39;, True, False, d):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot=
-;%s: SRCREV not set for %s&quot; % (pn, uri))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return False<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if rev and &#39;${AUTOREV}&#39; in rev:<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return True<br>
-&gt; +=C2=A0 =C2=A0 return True<br>
-&gt; + <br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 # We can&#39;t use vardepvalue against do_fetch directly since t=
-hat would overwrite<br>
-&gt;=C2=A0 # the other task dependencies so we use an indirect function.<br=
->
-&gt;=C2=A0 python fetcher_hashes_dummyfunc() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 return<br>
-&gt;=C2=A0 }<br>
-&gt; -fetcher_hashes_dummyfunc[vardepvalue] =3D &quot;${@bb.fetch.get_hashv=
-alue(d)}&quot;<br>
-&gt; -<br>
-&gt; +fetcher_hashes_dummyfunc[vardepvalue] =3D &quot;${@bb.fetch.get_hashv=
-alue(d) if check_srcrev_set(d) else &#39;&#39;}&quot;<br>
+&gt; &nbsp;ALTERNATIVE_PRIORITY =3D &quot;90&quot;<br>
+&gt; &nbsp;ALTERNATIVE_TARGET =3D &quot;${bindir}/vim.tiny&quot;<br>
 <br>
-How confident are you that this is a safe change to make?<br>
+Doesn't adding dependencies like this defeat the point of vim-tiny in the f=
+irst place?<br>
 <br>
-This is an area where I would not make AI-driven changes myself, as a<br>
-change here could cause quite subtle issues. We may not have sufficient<br>
-test coverage to catch such issues.<br>
+Can we configure that out instead?<br>
 <br>
-Specifically, what happens if a SRC_URI has a &#39;tag=3D...&#39; property,=
- SRCREV<br>
-is not set, and the tag is changed upstream?<br>
+Cheers,<br>
 <br>
-Best regards,<br>
-<br>
--- <br>
-Paul Barker<br>
-<br>
-</blockquote></div></div><div><div class=3D"gmail_quote"></div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#238005): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/238005" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/238005</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119510786/103=
-02268" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-mt/119510786/10302268</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:saisneha196@gmail.com" tar=
-get=3D"_blank">saisneha196@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+Richard</div>
+</body>
+</html>
 
---000000000000bc2b0006533fd382--
+--_000_OSZPR01MB786878B9AD82C7976F6C55278B122OSZPR01MB7868jpnp_--
 
