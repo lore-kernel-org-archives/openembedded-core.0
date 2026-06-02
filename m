@@ -1,104 +1,83 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77212CD6E60
-	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 16:06:46 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1974.1780416405764518737
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D23ACD6E60
+	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 16:24:07 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2390.1780417438510534926
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 09:06:46 -0700
+ Tue, 02 Jun 2026 09:23:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=GnxCRaX0;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 17F9B3597
-	for <openembedded-core@lists.openembedded.org>; Tue,  2 Jun 2026 09:06:40 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8F6A73F632
-	for <openembedded-core@lists.openembedded.org>; Tue,  2 Jun 2026 09:06:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780416405; bh=yuZAxE6rPvhykqrLFcMOnq0j52vbw2cA7kgKjA2n5E0=;
-	h=From:To:Subject:Date:From;
-	b=GnxCRaX0pfkGm6myWHCPLQfsm9p/OxolYFzup3imZLHEv+OjnUUHaxG70Isesonh8
-	 9S4p0K/Vrk+EP+WbQf1g4Da6wbKEeIgVhLR2/Pntf0bOw+LqHrikUisoYCQC4oYrVZ
-	 5dSiDNDMekXM+6cmk9U7+HzGRrgUfYVBvZl7mDDA=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3: use += instead of :append in SKIPPED_TESTS
-Date: Tue,  2 Jun 2026 17:06:40 +0100
-Message-ID: <20260602160640.3198315-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=QNooonAr;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 899B21A37BD
+	for <openembedded-core@lists.openembedded.org>; Tue,  2 Jun 2026 16:23:56 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 50EB4603BC;
+	Tue,  2 Jun 2026 16:23:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 972CE10888CB8;
+	Tue,  2 Jun 2026 18:23:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1780417435; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=SZkH1Ze1DYl8HZLQlNZuvShOzh+LfxsjZ3ddWk9Zl80=;
+	b=QNooonArF0hqLFAAYIHU2DTRorRte64Gi8COAOHVxKA4pvkSGCDZAjrC1SDuPB8nL90ecn
+	PhtplVsXEy3zaGuMyndWp/8kOsVyJBtMDAsEhgHzC6+bx52mvZXB9rrfTU/qPzjSrG54zQ
+	EnJ374qmjN1oaZEk9TbhoP3HZuRG8OAYzW04zE1URD9ZRARXMOVldaZ+7mxPZ0Y8nIf0vn
+	vXSc1h0VHXu7IDgGJQXXVT4gakGuh0dNFxkVhuCeCgQk9x0qlelqpvINb37qv4o0adHwyk
+	k/9q0YBYCOw43+bu0q4o30XN/m4RQUatcQjtiqMglO1KqXI4VMRgIp4g29IpPw==
+Message-ID: <f3dfa28b-0fd1-4035-911d-7266064613a2@bootlin.com>
+Date: Tue, 2 Jun 2026 18:23:53 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] u-boot-tools: include dtc yaml patch
+To: frederikbraendstrup@gmail.com, openembedded-core@lists.openembedded.org
+References: <20260602085022.3925257-1-frederikbraendstrup@gmail.com>
+Content-Language: en-US, fr
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <20260602085022.3925257-1-frederikbraendstrup@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 16:06:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238063
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 16:24:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238064
 
-+=3D is less computationally intensive than :append so use it unless the
-semantics of :append are needed.
+Hello, Frederik
 
-Also remove the class-target override, this is not required as ptests
-are only used in target builds.
+On 6/2/26 10:50, Frederik Br=C3=A6ndstrup via lists.openembedded.org wrot=
+e:
+> This patch was recently added to u-boot itself, but u-boot-tools also
+> need this to avoid the need for libyaml which was dropped
+>=20
+> Signed-off-by: Frede Hoey Braendstrup <frederikbraendstrup@gmail.com>
+> ---
+>   meta/recipes-bsp/u-boot/u-boot-tools_2026.04.bb | 2 ++
+>   1 file changed, 2 insertions(+)
+>=20
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2026.04.bb b/meta/rec=
+ipes-bsp/u-boot/u-boot-tools_2026.04.bb
+> index 7eaf721ca8..6c3ef7efd1 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-tools_2026.04.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot-tools_2026.04.bb
+> @@ -1,2 +1,4 @@
+>   require u-boot-common.inc
+>   require u-boot-tools.inc
+> +
+> +SRC_URI +=3D "file://0001-scripts-dtc-drop-yaml-in-DT-validation.patch=
+"
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-devtools/python/python3_3.14.5.bb | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+This change was already merged in master branch. Please see:
+e10fa40acd41e4622e74b154b38a4aeb2182fe6e: u-boot: move DT validation=20
+yaml removal patch to SRC_URI.
 
-diff --git a/meta/recipes-devtools/python/python3_3.14.5.bb b/meta/recipe=
-s-devtools/python/python3_3.14.5.bb
-index 2f821b130f..501de75fb1 100644
---- a/meta/recipes-devtools/python/python3_3.14.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.5.bb
-@@ -271,13 +271,13 @@ SKIPPED_TESTS =3D " \
- # but not bang completion. test_bang_completion_without_do_shell() passe=
-s if
- # building with readline, but we don't want to change the default, so sk=
-ip the
- # test.
--SKIPPED_TESTS:append =3D " \
-+SKIPPED_TESTS +=3D " \
-     --ignore test_bang_completion_without_do_shell \
- "
-=20
- # Also fails with editline instead of readline. See:
- # https://github.com/python/cpython/issues/123018
--SKIPPED_TESTS:append =3D " \
-+SKIPPED_TESTS +=3D " \
-     --ignore test_write_read_limited_history \
- "
-=20
-@@ -294,22 +294,22 @@ SKIPPED_TESTS:append =3D " \
- # write is seeing the equivalent of:
- #
- # ANY, b"21"
--SKIPPED_TESTS:append =3D " \
-+SKIPPED_TESTS +=3D " \
-     --ignore test_cursor_back_write \
- "
-=20
- # Needs IMAGE_FEATURE +=3D \"tools-sdk\"
--SKIPPED_TESTS:append =3D " \
-+SKIPPED_TESTS +=3D " \
-     --ignore test_find_library_with_gcc \
-     --ignore test_find_library_with_ld \
- "
-=20
- # Fails due to differences in CFLAGS as as modified during build
--SKIPPED_TESTS:append =3D " \
-+SKIPPED_TESTS +=3D " \
-     --ignore test_sysconfigdata_json \
- "
-=20
--SKIPPED_TESTS:append:class-target:libc-musl =3D " \
-+SKIPPED_TESTS:append:libc-musl =3D " \
-     -x test__locale \
-     -x test_c_locale_coercion \
-     -x test_locale \
+
 --=20
-2.43.0
-
+Best regards,
+Jo=C3=A3o Marcos Costa
 
