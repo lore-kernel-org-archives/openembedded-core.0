@@ -2,76 +2,74 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59724CD6E4A
-	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 13:36:27 +0000 (UTC)
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25589.1780407383750816021
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BFC8CD6E57
+	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 13:52:27 +0000 (UTC)
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.26030.1780408342900425455
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 06:36:24 -0700
+ Tue, 02 Jun 2026 06:52:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=hUtv+Bpt;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=RibE+Oj0;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.154, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id CC3691400188;
-	Tue,  2 Jun 2026 09:36:22 -0400 (EDT)
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=b6yh3zH5;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=Avohr5nu;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.159, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id DF6181400169;
+	Tue,  2 Jun 2026 09:52:21 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Tue, 02 Jun 2026 09:36:22 -0400
+  by phl-compute-01.internal (MEProxy); Tue, 02 Jun 2026 09:52:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1780407382; x=1780493782; bh=9G5rXpslVK
-	CX6rwYp/wj9z6Uwx+IExQDZqGn+NmUhCo=; b=hUtv+Bpta+kpenX+xqznWNRH+V
-	ncS3rMwfZQvPp/ZjAv/B6xzhe8y+B669ChQPdgIOjOVhadJFevVy3QACQu1OaoqD
-	VT+ruRJOG2W0amnJ143V5cJMIs44yqaCXuNXgKGsAWPJ0uWzMWDwssXCChqpUnJW
-	aDX1sAtUqbRZ3KItTLdBWmNaLvuvrA7BAV6Y+WVPXRqLKKerQIicDe68GDfO4fNB
-	3fpNVc1IK7acrX/Zbh+pzYTUvPSESWInwZaazI69f6L9zd5dv77AF3Cdmqr+OUfg
-	thF9/oe1BV5yZAqfsjHMhm09z8tCSbAmQu/GJcgC+/zsSWnyf7UL2O0vRVDQ==
+	:subject:to:to; s=fm2; t=1780408341; x=1780494741; bh=3GFymUavmb
+	7g1KZywhkobyxEuGAxWwpV/UUhrQZh/KM=; b=b6yh3zH53rkSykhUkAyXsQwbcI
+	0/Ypn0dopcQz6zBOA4OoauNtlHNw71Qssy56+fP5HiEhSMV4UfiX7dhJze+LlsMR
+	QN4foBK1P9zqkgNA7j+smKnNJIayfU3jqvkmjIcujYhVJZN9CRfcmZih0hFGcTTe
+	G+ifDPSA5ju+53c3ODQmosAa6ZMpqc6mxJNc1nC5J3V6t/jOTm5eLhNOV1NIS1yR
+	z8B/uxAvgQ6F8IChPaIQeRT+JI3TMUeqDtb/7xPREycy9MNwo1WnDZbLP/VFjCav
+	6xW0caKj5fI4BjdD8nGMo9xmxHe8sEop35jBIjAyUXYU7sBv5vLDKeqGbjIg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1780407382; x=1780493782; bh=9G5rXpslVKCX6rwYp/wj9z6Uwx+IExQDZqG
-	n+NmUhCo=; b=RibE+Oj0+mfh5mZn40gDBLKbc5CycBjnbTmk63MaxPggv0GF5G3
-	MkOcgJhhvhC/d3p0utfvAFFaMpElIGLCCvlgQMrqzlkB7MXOSM2oRwlZuTMwTcUI
-	ave1VSd2OJrOBZiyBFXTFYFkalb5nnib3o5qiUdxnLin5mfr5V9pnxBNqPP6k83v
-	avWX0s1eKaDXq1URRrCFgW8KtreIAEOLKLHg61dtfNdj6w6DE7FyGR/Map9xSw6j
-	oYKW1QPECrThZrzEaF2ZxrloAT/o6FxbjmRyxrCjbEnVL6PZrmw8avUbi0yZxtTF
-	WvDgg7UnNvppRWZdNUIJW15haoy4LUP25dw==
-X-ME-Sender: <xms:VtweaiUl88srMT3a6xz2y0ncGo4ygBMzhO8YhCex7dYlPyp6C38mmA>
-    <xme:VtweaiRQc5VjSRM3USv9gQCJXJKW5FixDW70fAKwycQOI6uRB2eIn_CDKXMI8PldB
-    2exEF1IcgmKEGhpBKJ8gVI2sgarss6iDjMBoMCzM2bgQQ9x-BzY59E>
-X-ME-Received: <xmr:VtweagPSDJ7pWwVlxM73Jr_kMIEnCHSZllzmm_bmWlYNxXT9XV80lLUp5P93xpkOxdz3ce4yVO-C5knpJLaT3zVU31YyuNhv3h27EYdS_3zom9BtknKe4R4WFhbJXYAT>
-X-ME-Proxy-Cause: dmFkZTESfFpjpTUCpbnXNccX1bVrvGXKfiN5TPDaYclfoIly931EWqTQnY6kTmTmL0J7T9
-    XGxtwh9nrIjW9eHzClON5Y9F7KwOMn/6pSejB+zPQPs6jCKwJuMmjxq0ioQpcyKMBNxaxv
-    WzSwrwrIhnUH+8qaQU0qcfbhpVohuVz+k25xKR4DajnoAKCrsTaZLNRzFszRLw2xHaF+BY
-    U3X3ZlADv2uEMx1bE6yni6vitICVPk6xGR4T8084gz2o6tJEa6JwINzvyEawGOf0eJBPFZ
-    JChb1mPz4yK89rNoOBKIz/2tKrhutDrtXw9S+Z3TQXaIXRXsJFmbPcTl1dgnBoKK/hnwLc
-    ZraF7WFPnf1hXc4D2MX1IxAINognfwPU77zjUNa6wdinIHuqAZDEMOEY7/cRgrCQ1sVpEj
-    JmdUy31uUqN+18wlcs0tB7NvJFFlZKvvLBK6fkJjRlKOh8l8LUMTfi/7Xd/VpApx4KgwuU
-    Fa4Pwe6ubzcMYhCUmd8wwGg8o9YbREzovBKzh10ftyGL2ntUinczLtr3j2CmVOBK0Z6WOr
-    hZjqAqDMhXnFsdlm5JO4vvcvW50bQrnEnSggnOZaDjsOEJkmGw17n5IvSV5YYizEUCExDF
-    u6qf3kcM/M3on10z6C3/uewX9/P9GQjutfMuqgD+KbAfKeZVtOEZH0IhRbxA
-X-ME-Proxy: <xmx:VtweagSN1ei63MCyagk6oJ1B1O1Sj1FAUoeyMFckkVFZZpnpjS6oCw>
-    <xmx:VtweauhxxN2Eu5jGdNMwCb2b0oRINziYyTnPjCZ3FVsUDCkFvmcmYg>
-    <xmx:Vtweap8OC6zworq_CmAQGgjpyIjNDMPcOkmhqWGwXf6HlpGso0eYTg>
-    <xmx:VtwealGKdJreqkkdwgGUWZ5adWbuDZcSA4G_mKZ93kBcKK9PkEbN6A>
-    <xmx:VtweankFBfLNO7DVTE-UG_fuEQaP6-AoEFRSVYMJ9-sOqqpGYZ5RT0iO>
+	1780408341; x=1780494741; bh=3GFymUavmb7g1KZywhkobyxEuGAxWwpV/UU
+	hrQZh/KM=; b=Avohr5nuJqSu3paiRCZKplz8eEz6HnCzyprP3u/oM/94DrMJWvl
+	6rHC0K2xuiWA1/l8JR9dOLc76XImyPREHZ8XuizEkGM911zP9NvcDlhKbi6AAdGn
+	Viy1rDrrRn1FemCJ8o2vHxh2sE4bPRHjNnGAWEknHBWX0tpi40pDnkvemzAPEXe7
+	7BL/FrdKMMiqut8b2b2diXNLlJqo/HN0oiCXlrnQQBDkh8IgUsyoXGor1QKQ7dwM
+	iEGIfmPgxT9bjOQpbjayujaRqQw1eNiuLB4ehmdplfXceuGR175ycCLnlN/AcP5t
+	4LznU0Ophnb9JmDUG0LHHkb6l4eM6yvrOBQ==
+X-ME-Sender: <xms:FeAeavje6ShIKu8_4JPY6-clR4_LdPhR3WFC7lNtyrMuQ4pm7c8Xyg>
+    <xme:FeAeavsA-B1qn9rAP_UgvVmUR0gT3NeQE04SSyjFIcOMg3YrCu9-X9hiIlsebVbHN
+    CQAQreLz5Xkicyz2Ev7yRf9GZ3FZuHot_sdmzMd1fJ2ITny2aCJprE>
+X-ME-Received: <xmr:FeAeao5HoW1BtVrcrg4BSuNRZbovNEYzgQM19e7NvTRAforE8m_WIg0Gags22DDrk_REbV4MP6lx1IH3alPEJUIQZzz_gBOIpwS0iT5ThnUSW33v4txUxi8r8_6_NhTm>
+X-ME-Proxy-Cause: dmFkZTGfA6EuxFmZ297MEHNf5712DRn8POjAKThIJD0MxSv/bHflo1bVXnP7hB7Isj7Khw
+    3azhOgRuL8xBnok7T6PTK3zfbH5Y0HPQiiAzPU5kRDY6Fnyxy9hgXPfBF/jwkNVA+0NFFz
+    LX50lOXrk3SnwL2ZqWdMnV7pG7pERS5xQrwgP9S2Zgi6NDuOKH8+2XX3rE36kp5PI3jrz+
+    Q2RdH/2gGLSHzuiuWvqzQJIWD5uaLGzV5UfRkmqpPWjFcgnvdj5oh7VbHTvSfCbxOAjXw6
+    0kfOjhFiGxboEPdDOIAaPwBWsdGZIFzW83WTokNE53rxSgf1lRMhidbgWe1o0ojcVh6URi
+    vhonLELQ+Slcfx3MMtAIr0b4vLH+WDCP+wcMamucxxueJUPw2mWlwMcUpC2EtfyBVe55lZ
+    eryzmHQt3PfrVAY7tR/bLQi4snZNOBqFw83xR/0CJy1p9+B80izw6CxizrKHTGvsXHrxWA
+    dS+l+bULVrmzAA7JZ3IU/ZiIwr7LDK+pUn2Kqy6ihLddnKRUtoR63ELG7pFcfvHbzg65rw
+    jhbZFkNR6oBrmc0MwE15yZD/jOannGEZK6oudea3tyYhzzo8QyajpwtpJc0MVa2OrFczYR
+    SKdfwbytAi4b2oaLjcyd0gjNOB6HqUmVKLZnPYztlU/9b8y3JEx2JIVMcp8g
+X-ME-Proxy: <xmx:FeAeajN7ypKjqKvUfvebilx7LBP_dwnR1hXBXfuB1P8_0gqL5un-7A>
+    <xmx:FeAeausVYJ6kTpGECXcdwca_-jkMHIpgaTJSIZRBdNPbv_LRorHj_Q>
+    <xmx:FeAeauaVblBLfPUMIYggjLOGIKhHywI6D_oIh4AdusN84drhIzlBGg>
+    <xmx:FeAeaozt0kuI5yWpP1ARQePiF6vUl7xqJJvt0wUJHyF5YTenFDxxIg>
+    <xmx:FeAeavxcrrJa0Uv2hmVzdzFgvRx9jdWBnqMkD62mK97JhoE3-lzLThJP>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Jun 2026 09:36:21 -0400 (EDT)
-Message-ID: <277aaeed91654c4a615f840f6fc4c7fd23d902d3.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v5 2/4] base.bbclass: warn when SRCREV is
- missing for SCM URIs at parse time
+ 2 Jun 2026 09:52:20 -0400 (EDT)
+Message-ID: <f63c189408309e78860c691aa366835790b42730.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH v5 0/4] Add missing SRCREV check for SCM URIs
 From: Paul Barker <paul@pbarker.dev>
 To: saisneha196@gmail.com, openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr, corentin.guillevic@smile.fr, martin@geanix.com, 
 	mathieu.dubois-briand@bootlin.com
-Date: Tue, 02 Jun 2026 14:36:17 +0100
-In-Reply-To: <20260602062940.3107241-3-saisneha196@gmail.com>
+Date: Tue, 02 Jun 2026 14:52:17 +0100
+In-Reply-To: <20260602062940.3107241-1-saisneha196@gmail.com>
 References: <20260602062940.3107241-1-saisneha196@gmail.com>
-	 <20260602062940.3107241-3-saisneha196@gmail.com>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -117,145 +115,165 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-qiBFoi+eSzdW/kxO6PQn"
+	protocol="application/pgp-signature"; boundary="=-EGglWny6iYunk2UUEH0P"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 13:36:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238049
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 13:52:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238050
 
 
---=-qiBFoi+eSzdW/kxO6PQn
+--=-EGglWny6iYunk2UUEH0P
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Tue, 2026-06-02 at 11:59 +0530, Sai Sneha via lists.openembedded.org
 wrote:
-> A recipe with a git:// (or other SCM) URI in SRC_URI must have a
-> corresponding SRCREV set. Without it, BitBake performs a live query
-> on the remote repository at every parse, breaking reproducibility
-> and causing parse failures under BB_NO_NETWORK=3D1.
+> This patch series adds a check for git:// (and other SCM) URIs in
+> SRC_URI that are missing a corresponding SRCREV, addressing
+> Bugzilla #16051 [1] and referencing Corentin Guillevic's RFC series [2].
 >=20
-> The trivial fix of checking SRCREV in insane.bbclass do_recipe_qa
-> fails because fetcher_hashes_dummyfunc[vardepvalue] expands SRCREV
-> at parse time before QA checks run, causing a FetchError that halts
-> parsing entirely. This was identified in Corentin Guillevic's RFC
-> series and confirmed by Mathieu Dubois-Briand's autobuilder testing.
+> =3D=3D Changes since v4 =3D=3D
 >=20
-> The fix intercepts at the vardepvalue expansion point by introducing
-> check_srcrev_set() which uses the shared oe.qa.check_uri_srcrev()
-> helper. The function is called conditionally:
->=20
->   fetcher_hashes_dummyfunc[vardepvalue] =3D
->     "${@bb.fetch.get_hashvalue(d) if check_srcrev_set(d) else ''}"
->=20
-> Note on design choice: we intentionally use d.getVar(candidate, False)
-> in oe.qa.check_uri_srcrev() rather than srcrev_internal_helper()
-> because the latter expands SRCREV, triggering get_autorev() and live
-> network fetches -- the exact problem this patch fixes.
->=20
-> Note: parse-time warnings intentionally complement the QA-time warnings
-> added in insane.bbclass. This is necessary because CI pipelines running
-> 'bitbake --parse-only' with BB_NO_NETWORK=3D1 (the original motivation
-> from Ross Burton) would miss the issue entirely if only QA-time
-> warnings existed. This pattern is already established in the codebase
-> (e.g. src-uri-bad fires at both parse and QA time).
->=20
-> Reported-by: Yoann Congal <yoann.congal@smile.fr>
-> Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16051
-> AI-Generated: Developed with assistance from Anthropic Claude
-> Signed-off-by: Sai Sneha <saisneha196@gmail.com>
-> ---
->=20
-> Changes in v5:
-> - No changes to this patch
->=20
-> Changes in v4:
-> - Refactored to use shared oe.qa.check_uri_srcrev() helper
-> - Eliminates duplicated URI parsing logic
-> - Added docstring explaining True/False return values
->=20
-> Changes in v3:
-> - Added AI-Generated disclosure and Reported-by tag
->=20
-> Changes in v2:
-> - Initial public submission
->  meta/classes-global/base.bbclass | 30 ++++++++++++++++++++++++++++--
->  1 file changed, 28 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.=
-bbclass
-> index 62f2814bb7..7de896ca7d 100644
-> --- a/meta/classes-global/base.bbclass
-> +++ b/meta/classes-global/base.bbclass
-> @@ -164,14 +164,40 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=3D=
-True):
-> =20
->      if notfound and fatal:
->          bb.fatal("The following required tools (as specified by HOSTTOOL=
-S) appear to be unavailable in PATH, please install them in order to procee=
-d:\n  %s" % " ".join(notfound))
-> +   =20
-> +def check_srcrev_set(d):
-> +    """
-> +    Inspect SRC_URI for SCM URIs missing a valid SRCREV.
-> +
-> +    Returns True if all SCM URIs have a valid SRCREV or AUTOREV set,
-> +    allowing get_hashvalue(d) to proceed normally.
-> +
-> +    Returns False if any SCM URI is missing SRCREV, suppressing
-> +    get_hashvalue(d) to prevent a FetchError parse crash.
-> +    """
-> +    import oe.qa
-> +    src_uri =3D (d.getVar('SRC_URI', False) or '').split()
-> +    pn =3D d.getVar('PN')
-> +    for uri in src_uri:
-> +        rev =3D oe.qa.check_uri_srcrev(pn, uri, d)
-> +        if rev is None:
-> +            # SRCREV missing =E2=80=94 warn and suppress hash expansion
-> +            if bb.utils.contains('ERROR_QA', 'missing-srcrev', True, Fal=
-se, d):
-> +                bb.error("%s: SRCREV not set for %s" % (pn, uri))
-> +            elif bb.utils.contains('WARN_QA', 'missing-srcrev', True, Fa=
-lse, d):
-> +                bb.warn("%s: SRCREV not set for %s" % (pn, uri))
-> +            return False
-> +        if rev and '${AUTOREV}' in rev:
-> +            return True
-> +    return True
-> +=20
-> =20
->  # We can't use vardepvalue against do_fetch directly since that would ov=
-erwrite
->  # the other task dependencies so we use an indirect function.
->  python fetcher_hashes_dummyfunc() {
->      return
->  }
-> -fetcher_hashes_dummyfunc[vardepvalue] =3D "${@bb.fetch.get_hashvalue(d)}=
-"
-> -
-> +fetcher_hashes_dummyfunc[vardepvalue] =3D "${@bb.fetch.get_hashvalue(d) =
-if check_srcrev_set(d) else ''}"
+> - Add tag=3D to skip condition in oe.qa.check_uri_srcrev() alongside
+>   the existing rev=3D handling. This fixes a selftest breakage
+>   (test_git_unpack_nonetwork) reported by Mathieu Dubois-Briand where
+>   recipes using tag=3D in SRC_URI intentionally leave SRCREV empty.
 
-I think the overall approach here is wrong. This code attempts to mask
-the error that would occur if network access is unavailable but the
-SRCREV cannot be resolved without network access. However, it fails to
-do this properly - what about SRCREV set to a tag instead of a commit
-hash? In that case check_uri_srcrev() would return a non-empty string,
-check_srcrev_set() would return True and we would still end up looking
-up the tag in the remote git repository during parsing.
+We cannot just skip when we see a tag=3D... parameters. The tag would
+still need to be looked up in the remote repository at parse time.
 
-For the cases where one SRC_URI entry specifies a branch or tag,
-and has no SRCREV set, all SRCREV hashes are removed from the vardeps of
-the do_fetch function. This means that the fetcher will no longer be
-re-ran when the branches or tags are changed upstream. That is breakage
-of expected fetcher behaviour.
+> - Update docstring to mention tag=3D parameter
+> - Verified by running full bbtests.BitbakeTests selftest suite:
+>   32/33 passed, 1 failure (test_image_manifest) is unrelated as it
+>   requires building a full image and fails due to network constraints
+>=20
+> =3D=3D Note on CHECKLAYER_REQUIRED_TESTS =3D=3D
+>=20
+> Paul suggested using CHECKLAYER_REQUIRED_TESTS instead of Patch 4.
+> We tested this but found it promotes missing-srcrev to ERROR_QA for
+> ALL layers globally during normal builds, because CHECKLAYER_REQUIRED_TES=
+TS
+> feeds directly into ERROR_QA. This contradicts Bug 16051 Comment 3
+> which requests keeping it as a warning for external layers by default.
+> The direct implementation in yocto-check-layer.bbclass enforces it
+> strictly only during checklayer validation without affecting normal build=
+s.
 
-I recommend discussing the issues further on the bug tracker or mailing
-list, making sure you have a full understanding of the behaviour and the
-necessary change. Then come back to the implementation.
+The correct way to handle this is via a discussion instead of just
+re-prompting an LLM. The comments in bugzilla are not requirements, and
+some human discussion is probably needed to arrive at a resolution.
+
+>=20
+> =3D=3D Note on candidates list order =3D=3D
+>=20
+> Martin suggested reversing the candidates list so plain SRCREV is
+> tested first. We kept most-specific-first order because it mirrors
+> BitBake internal srcrev_internal_helper() resolution order exactly,
+> as confirmed by BitBake own error messages:
+>   SRCREV_default:pn-X, SRCREV_default, SRCREV:pn-X, SRCREV
+>=20
+> =3D=3D Problem =3D=3D
+>=20
+> A recipe with a git:// URI and no SRCREV causes two problems:
+>=20
+> 1. Under BB_NO_NETWORK=3D1, parsing fails with a FetchError that halts
+>    parsing of ALL recipes. This breaks CI pipelines that use
+>    bitbake --parse-only as a sanity check.
+>=20
+> 2. Without BB_NO_NETWORK, BitBake silently queries the remote
+>    repository on every parse, breaking reproducibility.
+
+These issues also occur when SRCREV is set to a branch or tag instead of
+an explicit commit hash.
+
+>=20
+> =3D=3D Why the trivial fix does not work =3D=3D
+>=20
+> The obvious fix of checking SRCREV in insane.bbclass do_recipe_qa
+> was attempted by Corentin Guillevic [2] but fails because
+> fetcher_hashes_dummyfunc[vardepvalue] expands SRCREV at parse time
+> BEFORE QA checks run. Corentin patches 1 and 2 add the QA check,
+> while patches 3 and 4 ensure devtool and recipetool only use
+> AUTOREV when appropriate.
+>=20
+> =3D=3D This series approach =3D=3D
+>=20
+> We intercept at the vardepvalue expansion point in base.bbclass
+> using a shared helper oe.qa.check_uri_srcrev() that uses
+> d.getVar(candidate, False) preventing expansion entirely.
+
+I recommend being highly skeptical of AI generating code which modifies
+fairly low-level things like vardeps or vardepvalue flags. They are
+powerful, but should not be the first thing you reach for when trying to
+solve a problem unless you understand fully what they are doing.
+
+>=20
+> =3D=3D Design decisions =3D=3D
+>=20
+> 1. Why not use srcrev_internal_helper()
+>=20
+>    It expands SRCREV internally, triggering get_autorev() and live
+>    network fetches. Our fallback chain mirrors BitBake resolution
+>    order exactly without expansion.
+>=20
+> 2. Why duplicate warnings at parse time AND QA time
+>=20
+>    Parse-time catches CI parse-only pipelines. QA-time gives proper
+>    layer control. This pattern is established - src-uri-bad does same.
+
+Where is this pattern established? src-uri-bad is just handled as a
+regular QA check in do_recipe_qa().
+
+>=20
+> 3. Why hardcode git/gitsm/hg/svn schemes
+>=20
+>    Known limitation, noted as follow-on improvement.
+
+"Known limitation" is not an answer to the question "Why?".
+
+>=20
+> =3D=3D Enforcement levels =3D=3D
+>=20
+>   Normal builds, all layers  ->  WARN_QA
+>   oe-core layer              ->  ERROR_QA
+>   yocto-check-layer runs     ->  ERROR
+>=20
+> =3D=3D Testing =3D=3D
+>=20
+> - Recipe with missing SRCREV -> WARNING/ERROR at parse time
+> - Recipe with SRCREV =3D AUTOREV -> silent passthrough
+> - Recipe with rev=3D in URI -> no false positive
+> - Recipe with multiple SCM URIs -> all missing SRCREVs reported
+> - oe-core recipe -> ERROR instead of WARNING
+> - yocto-check-layer on layer with missing SRCREV -> FAIL
+> - 952 other recipes parse cleanly -> 0 errors
+>=20
+> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16051
+> [2] https://lore.kernel.org/openembedded-core/20260304104342.869457-1-cor=
+entin.guillevic@smile.fr/
+> [3] https://lists.openembedded.org/g/openembedded-devel/topic/115911777
+>=20
+> Sai Sneha (4):
+>   oe/qa.py: add check_uri_srcrev() helper for SCM URI SRCREV validation
+>   base.bbclass: warn when SRCREV is missing for SCM URIs at parse time
+>   insane.bbclass: add missing-srcrev QA check for SCM URIs
+>   yocto-check-layer.bbclass: enforce missing SRCREV check during layer va=
+lidation
+>=20
+>  meta/classes-global/base.bbclass              | 28 ++++++++++
+>  meta/classes-global/insane.bbclass            | 13 +++++
+>  meta/classes-global/yocto-check-layer.bbclass | 15 ++++++
+>  meta/lib/oe/qa.py                             | 30 +++++++++++
+>  4 files changed, 86 insertions(+), 2 deletions(-)
+>=20
+> --
+> Note: This patch series was developed with assistance from Anthropic
+> Claude (AI). All code has been reviewed, tested, and verified by the
+> contributor. The Signed-off-by line represents the contributor own
+> certification per the Developer Certificate of Origin.
 
 Best regards,
 
@@ -263,17 +281,17 @@ Best regards,
 Paul Barker
 
 
---=-qiBFoi+eSzdW/kxO6PQn
+--=-EGglWny6iYunk2UUEH0P
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCah7cUREccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bu9HAQCzfLIUspxuBu7C68DGWH+3IE8R1B5Yz7kY
-gBb+by7eUAEA3b4io/KAjk0TCJ8jcll3MujS2/8at57XpjTQ9z+PeAI=
-=f7vW
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCah7gEREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0brIkAQCZqRXUQfvExph9h00EGn0mSroxi3PsOpTs
+fhqBlK8zHwD9GebZX0z0Yz5qhBnutA/+qHfXMgZ2K5loRe/YntSJ/gc=
+=Xf/F
 -----END PGP SIGNATURE-----
 
---=-qiBFoi+eSzdW/kxO6PQn--
+--=-EGglWny6iYunk2UUEH0P--
 
