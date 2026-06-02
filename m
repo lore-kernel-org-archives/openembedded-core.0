@@ -1,443 +1,143 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <peter.tatrai.ext@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21915C5DF71
-	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 07:27:59 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19684.1780385276416802766
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F7CBCD6E4A
+	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 07:42:09 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.67])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19569.1780386122327846576
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 00:27:56 -0700
+ Tue, 02 Jun 2026 00:42:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=EyEoAqzb;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-8ccea53f35cso44221676d6.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 00:27:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780385275; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gUfgIODViF9pPqsKcPgYkt2WPnedjU/HSKJ6T9jtYM0Sa7WIkvYr2FfDtRNt/MkO1r
-         p/+V79Ou5FuM9lShb1SWbXO0Wxwwk4EWSo88NBotMjJ0yH8myybE6HS4VBAvSQb341UW
-         QH4/v7rAyTYDsrno1n5p7pstmrQ5Y2xAqqFL59f3L4VWuAXPSM52IUAKeQvfihF2RFsf
-         KDitC2vFang0F18R9D9t3xNEcap4Ed59JhAIK/nRYWW6zb2+QL/CJNqQ361AB4F4tDTV
-         kiqEgpSsgmBcgcyPSk6IfOH076kvgDyiArhpx+24py6mQmigMRkreHGlutuB3lnwVCno
-         S6bA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4o538eEWVx9uqN4eSce9JvCvomtWWmrmDR9IBf++imQ=;
-        fh=2KdgNeShX8mlIRBceZnpKx/WJtBSyUpuvyi/3B5KD+s=;
-        b=UR4PsgdIrelCa78YH6xi8QjUuA2CkHgkWKdwlV9jClo3ftyaLK7svM+o8t6q0nfdZN
-         n2tP89+wVH4hI/PBImqH6ScZCxg/MyTv6DeWV6V0y9bCMDqpygWYfRKXtTWIcQQRjXld
-         nG6yaXo4RHKqjzIXYqJvgxxWa0DDXbgpNWnssY/ngplxomv/6ihYBvspRGOTl2cNz2If
-         Vd1xu45kQzR1mydel5NhZZ2cM+kcjxnbZ2kbO6ZZVvlW2EOl6WbpdPpuerh5VtZKxyju
-         S4VKJ6HaOfmC1N37wgcP+p7K6jZH1wt3ipyhk0JcP+S8yrQ/xDpB+qO1ZQiHjJ5GHYEJ
-         nDDg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780385275; x=1780990075; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4o538eEWVx9uqN4eSce9JvCvomtWWmrmDR9IBf++imQ=;
-        b=EyEoAqzbo0zP8MMuHygSPKrJFKPgvFCCL5ev6izlagMx5YrikbzXPOdgjWyPANXpO+
-         tzi3hb4QKWbBc2BrH1fSb4ofxrnqhFtwvW/4aB4eFvf0vdWk/0shxE30zT6qbudIcdaf
-         Y8TzfdzEPu5XHdNnWBuochDgMm60gQoe0CGJnZgliggeh00WrnPcz6MrD2ux+nJyjiWa
-         lkb0e0iFy0sTTnE2XHmmoR+7rXPqBRmohTSwCSr1LWGR9GYYa+VHXBCMEku8bHpG8g4p
-         m8ppkKNNQNTvyS4h470G2eO4p1IJz4E1m/C+tdC4CVe9NITfUOomiOtTqyWseZsfPDHT
-         plTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780385275; x=1780990075;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4o538eEWVx9uqN4eSce9JvCvomtWWmrmDR9IBf++imQ=;
-        b=RwlzFdHisLN+hErabB3XbtRXtpb1QX4Z4zMUJX/TTPmJu74D4sf9c2O2LtCg+oyjQI
-         1OpvSqtSxyo4fJk15KkjhI9H9BJlUwHaEI5ME21lRu37baNVsZ3J5mSg8tKGBL1CC+OF
-         eU8peJ4b01rmEXcjUzDnmZl8nuNeydXfqktU0E0Nu0OtYxFLGp41CodiYgXwg/wS+XQy
-         awuoob7V7TqM5FurnNJsB7QBbXSMSJuu2jZ+4ASq6HLuozcxULIEjvE33Mflw//YsFu3
-         BX7t5IBv+//4aGexKlTgHEMu/NIor13/WfLYiXoIl9VC7nDBoq8C0wYWYhmSqlO+wnhJ
-         cPMA==
-X-Gm-Message-State: AOJu0YxCZMV5VCCk2TN3n4jnLmYJENM2inhLTLjBY5nh5AzNtivLhQrE
-	0PRXNmMz8NddbFHo2WwbSyoo3yzdfXSY5VDwmSFCLjHEWHg076yGwHzY4SOQEM3wJvhvghhaRCe
-	KD4Q6cGyiYf80Pz4vYazsGiF6jaOFRrDszg==
-X-Gm-Gg: Acq92OGwqjoHpQiC7LrjVqot/Dh2GHJscpGDzvtIgzNF+qDhRfU6WDY0SRQZyvuz7QM
-	1TxtmMK0wDwi1naS3X99h2SgiYsSU4tfDN4CGqfiUNbxjUN97f2A/74ZBI6BYvv1S/vrKTbu6ut
-	Lapm4cjUq+N5ZBhhgNe+Oqo7muiJQYrCwWK5xGOLTI5prbNTa0CHuYgATScQFYsFR8KLiCH6ZXI
-	38sk7aYVVVc2DyAHTw106upcAhtwwNPfKiV94UkkFP85Bc6yO08OOJjhsUr1PpI9e6/l9qIfxBI
-	BLdO9tJR5GK3H4JYoC0DweYI6heeWO4BpO6rLUG2u8s6yaXT5JFd
-X-Received: by 2002:a0c:e008:0:b0:8cc:f30b:642c with SMTP id
- 6a1803df08f44-8ccf30b6501mr198282986d6.43.1780385275244; Tue, 02 Jun 2026
- 00:27:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260602070344.1163210-1-peng.zhang1.cn@windriver.com>
-In-Reply-To: <20260602070344.1163210-1-peng.zhang1.cn@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 2 Jun 2026 09:27:43 +0200
-X-Gm-Features: AVHnY4LsZ-kscIlTxYN8PIF3mw9H21Pi8LedvsVe9WX31WybEr-dbvpdJ4wsdhg
-Message-ID: <CANNYZj_y3KBe3Qgp3cu-VzxrFn61rkNwWuLcPtjp+UWV62QoFg@mail.gmail.com>
-Subject: Re: [OE-core][master][wrynose][PATCH] ppp: upgrade 2.5.2 -> 2.5.3
-To: peng.zhang1.cn@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Chen Qi <Qi.Chen@windriver.com>, 
-	Daniel Turull <daniel.turull@ericsson.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=rO0+7Y5p;
+ spf=pass (domain: siemens.com, ip: 40.107.159.67, mailfrom: peter.tatrai.ext@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Vg1KlhHduDXtejTEhvlHcFceAxpM7VcyqZBd/fgPjoSICVIq5oQlyb+LN1BFHPKHYqiMb0TnV7BqkU/kHTlBuxkbn8g2PoGlu+k7FZa8lJPJ6Bu/WpqTodQCUNDeYYSmGo4RaDGqRRJhYDz5edz8fqg0venNnuoGE1jblpSIIoL43cXb2rkt3AZGEjcthPd5twagjQyLUTPRHP/9YBeey1wJD7ZVShFGywUAxQiexpvcBEtusN915zQ4FH0tfkKK2n89G/rEQf8uSP/Z7gVIdWYWG8pAAQksOXkMCLUqq605CKLoxOdWyZzk1BJKRD45eEiIiIcHvIsqpmk9eQxmNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eutJRvO0xa25kyUY/sXu3W6hW367HC5UFZ5bJypgGB8=;
+ b=umzgFudMW0Ony1t0Jep5htnUASF9U2qIyvUpX+ANcC1Xpl+UtzOrvBi+LBP2gwwzt9xLFvWB7Q37RYnbSe1maEDvUTbCDPWI55nMQgKQvLBGJPgKRB7XikB3LWxI+qHf/Yf4HTAhJBxahn6zqY5P+UopgBF5xgw8gWJ9FI/K5Xa0XIFcEOCrX8yZuh3+RGYzBTQ+Y/S0sTYeLxcaBDQFM1tuKnudq4vY1NEbi1qNSWQHn9fv1TAbobAqExiG7BKH08ypm5AQDT6+NBNoE1qKWaTU+j+Nk9mXkdAvAdCnfIdClY/Ggv/483H3+Qd2z1hcFYuJOkEIsKON2iyOO4mkaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eutJRvO0xa25kyUY/sXu3W6hW367HC5UFZ5bJypgGB8=;
+ b=rO0+7Y5pBBtK1U14GMReD0XfZm59faVMWf7ZBjwD+ReYR/xNI2q1B/h0EV+7E/XZhJz49Y2Ttr44fXzUYcwxmXZhpGBZuGhApoWPMJqAVLkcrvD9TTVA4MBsVazQ3FtYztLmzaq6CKmy+yyvtLd5nAMHrOJcWQ8H00Fq/qRvpyLzIqUDnhTkuJb8trZDKGkngBNMFlbMu5+am/qWvQ1R4Pbc0TK1RRnPZd/3Y2yOPIJkMvm6dtvErZWN6kNt8An4t4iF5iP5KsdLTK5ChoNY93gd7QujOY5l9KhxSOBuufIe4G6yt39tKIZRgzVRlSBAYfat+PPbjqMhB6JIkgLKzA==
+Received: from AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:605::21)
+ by AS1PR10MB5337.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4af::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Tue, 2 Jun 2026
+ 07:41:57 +0000
+Received: from AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::9f70:952:2a71:7f3f]) by AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::9f70:952:2a71:7f3f%6]) with mapi id 15.21.0092.006; Tue, 2 Jun 2026
+ 07:41:57 +0000
+From: "Tatrai, Peter" <peter.tatrai.ext@siemens.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [PATCH v2] time64: enable 64-bit time/file-offset flags for
+ 32-bit nativesdk
+Thread-Topic: [PATCH v2] time64: enable 64-bit time/file-offset flags for
+ 32-bit nativesdk
+Thread-Index: AQHc8mNKK6c6eTekeE+gxY/V71YTYA==
+Date: Tue, 2 Jun 2026 07:41:57 +0000
+Message-ID: 
+ <AS2PR10MB7347107401203B3EC64BFA50DB122@AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM>
+References: 
+ <9ac6783613c77c303633416679e5cfb1d5f77808.camel@linuxfoundation.org>
+ <20260529170117.2241639-1-peter.tatrai.ext@siemens.com>
+ <CANNYZj8USQFXd+T0F718vuGcN_4j0kOg9NRAVNk-FbXe=HV67A@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj8USQFXd+T0F718vuGcN_4j0kOg9NRAVNk-FbXe=HV67A@mail.gmail.com>
+Accept-Language: en-US, sk-SK
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=15c8394e-dde8-4fa9-b62d-6c593e76cc6d;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-06-02T07:33:19Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS2PR10MB7347:EE_|AS1PR10MB5337:EE_
+x-ms-office365-filtering-correlation-id: 1505611e-0d7b-44ba-bff9-08dec07a6c94
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|55112099003|38070700021|18002099003|22082099003|56012099006|4143699003|11063799006;
+x-microsoft-antispam-message-info: 
+ TgGNvC3UG7XJ8Ie+Z9yszp/iBx/kWm4x1NYtsmJDbDmd2dPbCOtV46C1Ftm/4P85EQdwLbE4EsHvUK87aeEvGNuWaThNKbODgAcX/5CuDacxRTjB7jszInDguGXr5BxzI8JAdzxtGwZ+eLfGvlr4ghc5YjLtWsN9w15rXmjSWaGsqlQxgS5o7uaP1fsLn5+qwJ3VWH8xqkpvKs8n8dt7tDLwfw/7WlsGxceGr1FcCnqCA6k32GciSc5GGGEVr7GRTbfZt9Hn0t0pnkjUzb7x1zNz4l8azVgFgny5T18vvpfkME5irS5rQeUk18VGzEaaWZjigkEmNS4y0fCkgsM3v1zrHjGtnlz852PiKA+sxH7qRZ5EdcIecHccYriOiv2YDQqN1TUvPsbEkIEULeDDW5zYTsQwVYy8HABbuN22+SwEmB7I4z2RtF+EBdOEvDmrcmQeY5jMovCX2FDia6R+nKkXVK+Fb0jqKsuW+hEw4zb3SPuISLJNkboTuIk34h+ErdXI/COfYHBDYrYpejc3hXeZnsauXAv4jC8LAeqPordZmx1gmrI2e7lRF2Y+lCEPsXFtiAtJZBB3slwtr2bN6JI9ohMGhYui2HNCIP3tfxwiXmGMYz2Dd17Erug9PbPRMZL6YcPqaoiLsqzcHf7pPjQPi2envlEah9E2XcLKcVQ50Gk/BEQ9g2PdOtVhx/gxPMj1GY3+T0NrjyJJqnIzudfBVI3kNfTu4FepwI2zkJRU42AZ4ZvgRECgB/TVineg
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(55112099003)(38070700021)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?7hv5ZE8fDbnD1VRXMwKjVyZ7fMxUjcWZv8inFZN5T0tAzNFscwaJDV1YHFBF?=
+ =?us-ascii?Q?OoSfYR/4rYAMJbobFZQbuKSj9O9yv2jfvYllXijF4BBS3kD7K0ptJd5KkMbU?=
+ =?us-ascii?Q?xtR63sNvAQwMxvFIR4j8bjYi+lVyaO5TRCX+tiv87mHzaLLEuwWl9vN1TvZm?=
+ =?us-ascii?Q?2FvfHijPoCbQsCU7gOqb49FWrf2Jq0S259uvDg1qFfzfR/NLvuwsRWawt+b9?=
+ =?us-ascii?Q?KcLKCIw8+fBNAjjLkjTg5F2JefaYzwwWXO99mNvB65V8dsyV9rpF572uzBIc?=
+ =?us-ascii?Q?AQ6fgwjMfQJUXVMfW5qvqyPcDBL/QIlp6MdvLIgIxAn6bOgXdM4PBqHP3f+v?=
+ =?us-ascii?Q?Aqy4vEkQoZ1orCQIahyJjzC8HL09T/llil3GkO3cL/0hkhcpeYXiIUgrx1Yi?=
+ =?us-ascii?Q?pwqLWuwWR1bG6HxiJLRkBUrPzUOVrtdSPidk9u3OtQIjlNoZnWkhwjN5JfdZ?=
+ =?us-ascii?Q?Wl9rSNSwpVpeOm3LlsZThGKq2Xhl4RVou/rmlqn2znd6vzJZAm1yk31P55Tm?=
+ =?us-ascii?Q?rNgy7eOyFri58/PKbEKbJ72YipnCYKMYiE64CAZakqMA+i1wanAsBppFU4om?=
+ =?us-ascii?Q?RL3Q5HQBGQySIRc/M8pHE4sSjlS68qjU7isXyKVPAls+6gi4jeCagEaR6L99?=
+ =?us-ascii?Q?7dVUW+bkpHbZR9nuCdPoDTshjBlyt5sWlhkbDmNK3uS93MZbVz4gPTS2Ch5o?=
+ =?us-ascii?Q?PfO/XhVVAty3D7hI3W7MQGepybxkz6QnwFwzN6931n70RFKuN6+Oz5QETWgd?=
+ =?us-ascii?Q?8ZA38dE6mObd7t1Fq3QXTAoswCDSsMmsUE/rz9WUlspNIIsxXPMXtbAGCCmW?=
+ =?us-ascii?Q?3oXln/npOr1k91oOoEwXQ1TpSBmbZeYWJKYqv2daRv5BZEZaSgh1Qhndn9HO?=
+ =?us-ascii?Q?kGgcaZWjNQqE21EYJHQzX7xoUzGz54UJ6J1tWg7IShjGvq12nZF4sECBJelD?=
+ =?us-ascii?Q?Lz5Suo2ziLvUyWwv9APcZ5HN9p+G5n0ie0AWUzQ91CvZiA4nB/C3eQcGnUdT?=
+ =?us-ascii?Q?9FRWhI7Igi0G91rtU+OwUe7ciYqqUr++edTEl3sasfYnpVSPnuPxA25t3T+g?=
+ =?us-ascii?Q?dLNhtFoaCWIhfDiHf0KYlC+qX0NNKFTceJCl4yIFU06u/JdFY8APOyS9VYMN?=
+ =?us-ascii?Q?i0UXHFtB4wC8Ugta90IImWlu8PVRBjod5W30sHjVxxRtqmeLfUBTyZVRLFD7?=
+ =?us-ascii?Q?LJcmWEwN9hl+3fjGd5eFTHrwBLehE+noLCaFgK9XHTKKAsN/aSFCpaKqZeCs?=
+ =?us-ascii?Q?OymG3+26/gM0vTEqf9eXM0VU94FZUO7YYmBSaoC9IBsV45FTpXs/3IKNHDOS?=
+ =?us-ascii?Q?CDB8ISavcIQqI2U2SiOvQj0VeCn/VX1lf1F4dWNUzKqFwLQICw3O39Brk2x/?=
+ =?us-ascii?Q?vqd7hNV/Ow+d/5baufDfb9GMSqZenVc5CAEgv/kWCz+cA2Dta6DMjQ3/wpMb?=
+ =?us-ascii?Q?mhF04m8AFWxdFeUleskU2zW19yL/TpXsfYVXAOvDW+43FETCJwQkvgCgi+40?=
+ =?us-ascii?Q?kVZxUp1BkCMxEl4ryOXVesVp1fjdFFXAGMUTbqgAyo7WpwA6qQUUuGsQK0bL?=
+ =?us-ascii?Q?4gSghip7+0PnnAn+guEqwFZZITIo88blZpbUiC8R6eGjrosySWIS3lwwv7av?=
+ =?us-ascii?Q?F010EG7BOuuPWo9P/nFRy6EqqaK/WFTI4HPcOZtdi1rf1h7sUWBCBplzXSNK?=
+ =?us-ascii?Q?baRNteJybQ0SaKWNm0T8AyqVBPLI3u/qxXSyBvYzr1hWMWVOic7hA1yjBBww?=
+ =?us-ascii?Q?lyn8yQKwpw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1505611e-0d7b-44ba-bff9-08dec07a6c94
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2026 07:41:57.2966
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lp+2IAOm23Kp3pbnOkdsBNA1q5Dk316S23/Vxnwc7WYXaP7d+SyCLk9M4uMVq6VOrnhZ/Fi2qHWyAxoUcgXE743PnJ8OiA5IAboRiArlKpc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR10MB5337
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 07:27:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238011
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 07:42:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238012
 
-This has new features, it has been developed on master branch
-upstream, and so isn't eligible for wrynose backport.
 
-Chen, Daniel: this is why point releases can't be automatically
-considered 'bugfix only'. Plenty of projects where that isn't the
-case.
+> -----Original Message-----
+> From: Alexander Kanavin <alex.kanavin@gmail.com>
+>
+> So the question: how and why are you using such SDKs? Would you be very u=
+pset if
+> Yocto no longer tests them?
 
-Alex
+We don't have a real product requirement for 32-bit SDK hosts on our side. =
+We are only carrying this fix because our Yocto CI pipeline currently runs =
+the same SDK tests and fails without it, so in practice we are just followi=
+ng and mirroring your test coverage.
 
-On Tue, 2 Jun 2026 at 09:04, Zhang, Peng (Paul) (CN) via
-lists.openembedded.org
-<peng.zhang1.cn=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Zhang Peng <peng.zhang1.cn@windriver.com>
->
-> ChangeLog:
-> https://github.com/ppp-project/ppp/releases/tag/v2.5.3
->
-> Drop backported patches:
-> - 0001-pppd-pppdconf.h-remove-erroneous-generated-header.patch
-> - 0001-pppdump-Fixed-building-with-GCC-15-548.patch
-> - 0001-pppd-session-Fixed-building-with-GCC-15.patch
->
-> Add ppp-dhcpv6relay package for newly added dhcpv6relay plugin.
->
-> Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
-> ---
->  ....h-remove-erroneous-generated-header.patch | 98 -------------------
->  ...d-session-Fixed-building-with-GCC-15.patch | 33 -------
->  ...pdump-Fixed-building-with-GCC-15-548.patch | 75 --------------
->  .../ppp/{ppp_2.5.2.bb =3D> ppp_2.5.3.bb}        |  9 +-
->  4 files changed, 4 insertions(+), 211 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppd-pppdconf.=
-h-remove-erroneous-generated-header.patch
->  delete mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppd-session-F=
-ixed-building-with-GCC-15.patch
->  delete mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-=
-building-with-GCC-15-548.patch
->  rename meta/recipes-connectivity/ppp/{ppp_2.5.2.bb =3D> ppp_2.5.3.bb} (9=
-1%)
->
-> diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppd-pppdconf.h-remov=
-e-erroneous-generated-header.patch b/meta/recipes-connectivity/ppp/ppp/0001=
--pppd-pppdconf.h-remove-erroneous-generated-header.patch
-> deleted file mode 100644
-> index a00706c184..0000000000
-> --- a/meta/recipes-connectivity/ppp/ppp/0001-pppd-pppdconf.h-remove-erron=
-eous-generated-header.patch
-> +++ /dev/null
-> @@ -1,98 +0,0 @@
-> -From a6eb65162db5bcc5ec26cff7361885c0a44cbbfa Mon Sep 17 00:00:00 2001
-> -From: Alexander Kanavin <alex@linutronix.de>
-> -Date: Mon, 17 Mar 2025 11:12:07 +0100
-> -Subject: [PATCH] pppd/pppdconf.h: remove erroneous generated header
-> -
-> -Upstream-Status: Inappropriate [tarball generation issue tracked at http=
-s://github.com/ppp-project/ppp/issues/541]
-> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ----
-> - pppd/pppdconf.h | 80 -------------------------------------------------
-> - 1 file changed, 80 deletions(-)
-> - delete mode 100644 pppd/pppdconf.h
-> -
-> -diff --git a/pppd/pppdconf.h b/pppd/pppdconf.h
-> -deleted file mode 100644
-> -index 51a8f02..0000000
-> ---- a/pppd/pppdconf.h
-> -+++ /dev/null
-> -@@ -1,80 +0,0 @@
-> --/* pppd/pppdconf.h.  Generated from pppdconf.h.in by configure.  */
-> --/*
-> -- * Copyright (c) 2022 Eivind N=C3=A6ss. All rights reserved.
-> -- *
-> -- * Redistribution and use in source and binary forms, with or without
-> -- * modification, are permitted provided that the following conditions
-> -- * are met:
-> -- *
-> -- * 1. Redistributions of source code must retain the above copyright
-> -- *    notice, this list of conditions and the following disclaimer.
-> -- *
-> -- * 2. Redistributions in binary form must reproduce the above copyright
-> -- *    notice, this list of conditions and the following disclaimer in
-> -- *    the documentation and/or other materials provided with the
-> -- *    distribution.
-> -- *
-> -- * 3. The name(s) of the authors of this software must not be used to
-> -- *    endorse or promote products derived from this software without
-> -- *    prior written permission.
-> -- *
-> -- * THE AUTHORS OF THIS SOFTWARE DISCLAIM ALL WARRANTIES WITH REGARD TO
-> -- * THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-> -- * AND FITNESS, IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY
-> -- * SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-> -- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN
-> -- * AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
-> -- * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE=
-.
-> -- */
-> --
-> --/*
-> -- * This file is generated by configure and sets the features enabled
-> -- *   in pppd when configured.
-> -- */
-> --
-> --#ifndef PPP_PPPDCONF_H
-> --#define PPP_PPPDCONF_H
-> --
-> --/* Have Microsoft CHAP support */
-> --#define PPP_WITH_CHAPMS 1
-> --
-> --/* Have Microsoft LAN Manager support */
-> --/* #undef PPP_WITH_MSLANMAN */
-> --
-> --/* Have Microsoft MPPE support */
-> --#define PPP_WITH_MPPE 1
-> --
-> --/* Have multilink support */
-> --#define PPP_WITH_MULTILINK 1
-> --
-> --/* Have packet activity filter support */
-> --#define PPP_WITH_FILTER 1
-> --
-> --/* Have support for loadable plugins */
-> --#define PPP_WITH_PLUGINS 1
-> --
-> --/* Have Callback Protocol support */
-> --/* #undef PPP_WITH_CBCP */
-> --
-> --/* Include TDB support */
-> --#define PPP_WITH_TDB 1
-> --
-> --/* Have IPv6 Control Protocol */
-> --#define PPP_WITH_IPV6CP 1
-> --
-> --/* Support for Pluggable Authentication Modules */
-> --/* #undef PPP_WITH_PAM */
-> --
-> --/* Have EAP-SRP authentication support */
-> --/* #undef PPP_WITH_SRP */
-> --
-> --/* Have EAP-TLS authentication support */
-> --#define PPP_WITH_EAPTLS 1
-> --
-> --/* Have PEAP authentication support */
-> --#define PPP_WITH_PEAP 1
-> --
-> --/* The pppd version */
-> --#define PPPD_VERSION "2.5.2"
-> --
-> --#endif
-> diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppd-session-Fixed-bu=
-ilding-with-GCC-15.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppd-sess=
-ion-Fixed-building-with-GCC-15.patch
-> deleted file mode 100644
-> index d95c72e96b..0000000000
-> --- a/meta/recipes-connectivity/ppp/ppp/0001-pppd-session-Fixed-building-=
-with-GCC-15.patch
-> +++ /dev/null
-> @@ -1,33 +0,0 @@
-> -From 5edcb01f1d8d521c819d45df1f1bb87697252130 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Mon, 17 Mar 2025 14:38:26 -0700
-> -Subject: [PATCH] pppd/session: Fixed building with GCC 15
-> -
-> -Fixed building with GCC 15 which defaults to C23
-> -and find conflicting declration of getspnam() here
-> -with the one provided by shadow.h (extern struct spwd *getspnam (const c=
-har *__name);)
-> -
-> -Fixes
-> -../../ppp-2.5.2/pppd/session.c: In function 'session_start':
-> -../../ppp-2.5.2/pppd/session.c:185:18: error: conflicting types for 'get=
-spnam'; have 'struct spwd *(void)'
-> -  185 |     struct spwd *getspnam();
-> -      |                  ^~~~~~~~
-> -
-> -Upstream-Status: Submitted [https://github.com/ppp-project/ppp/pull/553]
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - pppd/session.c | 1 -
-> - 1 file changed, 1 deletion(-)
-> -
-> -diff --git a/pppd/session.c b/pppd/session.c
-> -index f08d8e1..9cc7538 100644
-> ---- a/pppd/session.c
-> -+++ b/pppd/session.c
-> -@@ -182,7 +182,6 @@ session_start(const int flags, const char *user, con=
-st char *passwd, const char
-> -     char *cbuf;
-> - #ifdef HAVE_SHADOW_H
-> -     struct spwd *spwd;
-> --    struct spwd *getspnam();
-> -     long now =3D 0;
-> - #endif /* #ifdef HAVE_SHADOW_H */
-> - #endif /* #ifdef PPP_WITH_PAM */
-> diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-buildin=
-g-with-GCC-15-548.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fi=
-xed-building-with-GCC-15-548.patch
-> deleted file mode 100644
-> index 2a3b3cc84a..0000000000
-> --- a/meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-building-with-=
-GCC-15-548.patch
-> +++ /dev/null
-> @@ -1,75 +0,0 @@
-> -From 44a766a3d086f10cb584a0c423e5bed6af2e3615 Mon Sep 17 00:00:00 2001
-> -From: =3D?UTF-8?q?Jaroslav=3D20=3DC5=3DA0karvada?=3D <jskarvad@redhat.co=
-m>
-> -Date: Thu, 27 Feb 2025 23:00:16 +0100
-> -Subject: [PATCH] pppdump: Fixed building with GCC 15 (#548)
-> -MIME-Version: 1.0
-> -Content-Type: text/plain; charset=3DUTF-8
-> -Content-Transfer-Encoding: 8bit
-> -
-> -GCC 15 defaults to C23 which does not allow K&R declarations.
-> -
-> -Credit Yaakov Selkowitz in:
-> -https://src.fedoraproject.org/rpms/ppp/pull-request/12
-> -
-> -Upstream-Status: Backport [https://github.com/ppp-project/ppp/pull/548]
-> -
-> -Signed-off-by: Jaroslav =C5=A0karvada <jskarvad@redhat.com>
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - pppdump/pppdump.c | 20 +++++++-------------
-> - 1 file changed, 7 insertions(+), 13 deletions(-)
-> -
-> -diff --git a/pppdump/pppdump.c b/pppdump/pppdump.c
-> -index c24208a..1534036 100644
-> ---- a/pppdump/pppdump.c
-> -+++ b/pppdump/pppdump.c
-> -@@ -42,14 +42,12 @@ int tot_sent, tot_rcvd;
-> - extern int optind;
-> - extern char *optarg;
-> -
-> --void dumplog();
-> --void dumpppp();
-> --void show_time();
-> -+void dumplog(FILE *);
-> -+void dumpppp(FILE *);
-> -+void show_time(FILE *, int);
-> -
-> - int
-> --main(ac, av)
-> --    int ac;
-> --    char **av;
-> -+main(int ac, char **av)
-> - {
-> -     int i;
-> -     char *p;
-> -@@ -97,8 +95,7 @@ main(ac, av)
-> - }
-> -
-> - void
-> --dumplog(f)
-> --    FILE *f;
-> -+dumplog(FILE *f)
-> - {
-> -     int c, n, k, col;
-> -     int nb, c2;
-> -@@ -241,8 +238,7 @@ struct pkt {
-> - unsigned char dbuf[8192];
-> -
-> - void
-> --dumpppp(f)
-> --    FILE *f;
-> -+dumpppp(FILE *f)
-> - {
-> -     int c, n, k;
-> -     int nb, nl, dn, proto, rv;
-> -@@ -375,9 +371,7 @@ dumpppp(f)
-> - }
-> -
-> - void
-> --show_time(f, c)
-> --    FILE *f;
-> --    int c;
-> -+show_time(FILE *f, int c)
-> - {
-> -     time_t t;
-> -     int n;
-> diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb b/meta/recipes-co=
-nnectivity/ppp/ppp_2.5.3.bb
-> similarity index 91%
-> rename from meta/recipes-connectivity/ppp/ppp_2.5.2.bb
-> rename to meta/recipes-connectivity/ppp/ppp_2.5.3.bb
-> index 607678db8b..435559a815 100644
-> --- a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
-> +++ b/meta/recipes-connectivity/ppp/ppp_2.5.3.bb
-> @@ -23,12 +23,9 @@ SRC_URI =3D "https://download.samba.org/pub/${BPN}/${B=
-P}.tar.gz \
->             file://ppp_on_boot \
->             file://provider \
->             file://ppp@.service \
-> -           file://0001-pppdump-Fixed-building-with-GCC-15-548.patch \
-> -           file://0001-pppd-pppdconf.h-remove-erroneous-generated-header=
-.patch \
-> -           file://0001-pppd-session-Fixed-building-with-GCC-15.patch \
->             "
->
-> -SRC_URI[sha256sum] =3D "47da358de54a10cb10bf6ff2cf9b1c03c0d3555518f6182e=
-8f701b8e55733cb2"
-> +SRC_URI[sha256sum] =3D "ddda28dec8aca99a403ab6070d94ffd2b17d63e9a4c55091=
-58e99e148f572d4f"
->
->  inherit autotools pkgconfig systemd
->
-> @@ -60,7 +57,7 @@ do_install:append () {
->  }
->
->  CONFFILES:${PN} =3D "${sysconfdir}/ppp/pap-secrets ${sysconfdir}/ppp/cha=
-p-secrets ${sysconfdir}/ppp/options"
-> -PACKAGES =3D+ "${PN}-oa ${PN}-oe ${PN}-radius ${PN}-winbind ${PN}-mincon=
-n ${PN}-password ${PN}-l2tp ${PN}-tools"
-> +PACKAGES =3D+ "${PN}-oa ${PN}-oe ${PN}-radius ${PN}-winbind ${PN}-mincon=
-n ${PN}-password ${PN}-l2tp ${PN}-tools ${PN}-dhcpv6relay"
->  FILES:${PN}        =3D "${sysconfdir} ${bindir} ${sbindir}/chat ${sbindi=
-r}/pppd ${systemd_system_unitdir}/ppp@.service"
->  FILES:${PN}-oa       =3D "${libdir}/pppd/${PV}/pppoatm.so"
->  FILES:${PN}-oe       =3D "${sbindir}/pppoe-discovery ${libdir}/pppd/${PV=
-}/*pppoe.so"
-> @@ -70,6 +67,7 @@ FILES:${PN}-minconn  =3D "${libdir}/pppd/${PV}/minconn.=
-so"
->  FILES:${PN}-password =3D "${libdir}/pppd/${PV}/pass*.so"
->  FILES:${PN}-l2tp     =3D "${libdir}/pppd/${PV}/*l2tp.so"
->  FILES:${PN}-tools    =3D "${sbindir}/pppstats ${sbindir}/pppdump"
-> +FILES:${PN}-dhcpv6relay =3D "${libdir}/pppd/${PV}/dhcpv6relay.so"
->  SUMMARY:${PN}-oa       =3D "Plugin for PPP for PPP-over-ATM support"
->  SUMMARY:${PN}-oe       =3D "Plugin for PPP for PPP-over-Ethernet support=
-"
->  SUMMARY:${PN}-radius   =3D "Plugin for PPP for RADIUS support"
-> @@ -78,4 +76,5 @@ SUMMARY:${PN}-minconn  =3D "Plugin for PPP to set a del=
-ay before the idle timeout
->  SUMMARY:${PN}-password =3D "Plugin for PPP to get passwords via a pipe"
->  SUMMARY:${PN}-l2tp     =3D "Plugin for PPP for l2tp support"
->  SUMMARY:${PN}-tools    =3D "Additional tools for the PPP package"
-> +SUMMARY:${PN}-dhcpv6relay =3D "Plugin for PPP for DHCPv6 relay agent sup=
-port"
->
-> --
-> 2.50.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#238010): https://lists.openembedded.org/g/openembedde=
-d-core/message/238010
-> Mute This Topic: https://lists.openembedded.org/mt/119607595/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Peter.
 
