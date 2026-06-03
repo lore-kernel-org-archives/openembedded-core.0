@@ -1,181 +1,580 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <saisneha196@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C40ACD6E4A
-	for <webhook@archiver.kernel.org>; Wed,  3 Jun 2026 06:11:59 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13671.1780466775405156242
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AE6DCD6E4A
+	for <webhook@archiver.kernel.org>; Wed,  3 Jun 2026 06:17:59 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14014.1780467474045529751
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 23:06:15 -0700
+ Tue, 02 Jun 2026 23:17:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=ep04fo1A;
- dkim=fail reason="dkim: body hash did not verify" header.i=@oss.qualcomm.com header.s=google header.b=cR3UsZ47;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: wei.zhang@oss.qualcomm.com)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 652KWhQg3803520
-	for <openembedded-core@lists.openembedded.org>; Wed, 3 Jun 2026 04:29:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	m4ybWa0jMvpPQIP32w04H3mVDBfQx3WOIWjCn1Zg+8w=; b=ep04fo1ADFSwF63K
-	m+tD1DGMwcrHoRpPB5KV+LFvbQlL+D9QdUGqveYp42QerzfdjhvBlbly9NPVHFU2
-	2CF3yC+kxRpAkjLtH5t5xivAY18ATmVL2Bb1mIx0x2E3ykZ3flQw6fdRebW/RzEG
-	V41nHgPG3fCZuDJqsGUIp9pQ0F9ZIJRfoz1nmRfdvwgPwHZ+lj1SrrOMaEDJ9ey0
-	foemhyeRp/U38/uIDU1hmfD3ZCAdjyzjoeLowoye7OY2iE2wJMtb+zGUMZFY4dD1
-	OmHdL/xckWznhKjcew8c0SlsvXOIGG/Ww2KZrAoeW6m/PJjpLAzsPSut39Epjdq4
-	mX2LQg==
-Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ej6a9hka4-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 04:29:13 +0000 (GMT)
-Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-137f2083280so805551c88.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 21:29:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=M7KYtEnI;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: saisneha196@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-68cc6c7df99so5836536a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 23:17:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780467472; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WIa7H/aevLVk8FZkA7UJkG4KGu7XrLDFTqjSCJHuzNMOj/SF0ytaAjHm45gDwGG0o2
+         caPhuaHly1XWA2hdTUO/TF+zks3jIdkdj50y2M7EBBFb7YMTbGNVJfC+UMmThFi0fqi8
+         4Cf7eRKvY6baQjEpRZN8yWmoa9naMPkyr1Zno/sCIJjZoaCNHi+KtM4kQ/B6MdCTkVUL
+         4jNI6nJtu+1ymOHJB75X7gkhVaELEeENDyYi8y2emtL2H+oeVmwRWuLM+asgvUoKpqXH
+         bfy7PQIaAwIBpJ001LtHKaqdoGb4LTeQDD9jTUqccicviCPk5flLgmXN510PR3F+Glkd
+         QRxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=o2po/xiWAOxjyD/s5TGaUasYpnjzBmSs6hq0PvMMk6g=;
+        fh=VRwT57IF5xI0wFDxRjTAjHBfwByJLy3WBt21rLmZTjw=;
+        b=Qx0bZo1jRNXpsMx+jdEldJzG7YWEhKpkcrDLyXQrkBhSdgC+TmkZX2reC3cckEjsQi
+         /ingDxDlzkDKlKOdLVAoUFkpQw/36pL+XSAiSv4kMao58UJbxrRTxaxYrThdeOr4YN61
+         fNTjF7oEZ/rMp1tdVZGulpNwvWutJo+UCRGUHYpUukPhh0yzLqf5IIze8W4QNqmdygr+
+         JLiNFhIX4YDbeo/qftbfHEbLPexVmD4dxkM/MN+xvpkQhfStlLav2Ejo2XImQ3AHUAYn
+         8Yc2UIzzIJnn/9QNfqj4VMIkjCTgQkepY8adHse4v9lV/aFEcbg7SQ2DmUayHFcLMIlH
+         G84g==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780460953; x=1781065753; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=m4ybWa0jMvpPQIP32w04H3mVDBfQx3WOIWjCn1Zg+8w=;
-        b=cR3UsZ47y5GVHxIi3A6tz/LlnZzCtOjWiUyNXvkAGXg/ddsEHwWQLYP4P2Cok1uhuz
-         TFoY5g3kS5O2mCM6Ht3JBEjcT29+eO4a4oniGseiB9R8DdrqHE9Bv7zK5Ft+KTFhLQoI
-         d/VeWRhD5vb5fBCG7Vs+IXShuG2APjJndAh4Y4pU9H3ZXjtT4OyNkA9GZLCbxJRrbI/d
-         l2vsmNGL+ILIqMcG6/wGPDiGCVQbNLFbtTGNIUoTNywtNP+K1yELPkXEsPMdIfpAii3A
-         ieC4ZIMQMQmZGIYFSPTTtmI8KTGrOPJBxCuHVZtH4u3VLU7L/csEO/bK2LqOPg9NCn+I
-         tcdw==
+        d=gmail.com; s=20251104; t=1780467472; x=1781072272; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=o2po/xiWAOxjyD/s5TGaUasYpnjzBmSs6hq0PvMMk6g=;
+        b=M7KYtEnI/7xjQGZyAj9huQsZ8mr4ZdvMyoSOjT0Z9eR4dX7ncGh3IqoLH6D/yKss55
+         MwpikZzqsDTHzuDfcbV/gnDmlfit2NGwwiftbR03l821O+1PSc3dRJwFc3J3zMdOUBzk
+         OBDt0FLuo32je+Xdqg/wiLgz7vbCUTNO/ARy3lv+zEfonhr6ZFdORv16LtR1DkhmI15t
+         1ErLAZOZHaxUGJ0dhh6GvQTv2nZGp1gsbBsSm/dH2XQicTpLSPfG8MXWg8KzyHRf92Zg
+         gNlG/7WNNgID94DvUgHuHyexErjMBqUhyCEFUySBfaVKD7pqQJsSBhBjcoiJkTVQwqWd
+         LEZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780460953; x=1781065753;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=m4ybWa0jMvpPQIP32w04H3mVDBfQx3WOIWjCn1Zg+8w=;
-        b=QAxoZSpr9SXvvSsx5gTr5lzND2YQb2ZY0vJrCSOCJjEzjqemia5h6hWEzRZT9w4yC9
-         NBL80UtHI6Eo0xM+K/JR6yFcurA5w+u/Xv6MSwTnMejT/j0q3fIHOXUOJ2oR0FH8SrIY
-         1X3wsAPoWjKtV3Ds8YwBhsP95+qmamT4P8E09aGoV6CFhh6HYs2EvTXD1nO1Wgcd2QXK
-         cJLc3hn35QFsIYRh49/0LHKHwHUFeGsSZtQ4qGNjErJxj/cReEbHSbQ0b1Ms60A9CdGI
-         h9n9hwSc2/EgY/VCRp9nJ3Asmp/omHEB8xs+ggIUW+ke4X4PVecJPbAPh1QZqQ3qUPLM
-         CBYw==
-X-Gm-Message-State: AOJu0YywkkXZhvLOD+/j08kfsJni+Znw/eGej3a34jnrv1hIP/RlTUtZ
-	Oxv3vZyZ5MMkofGAwaVCSXraNkHiiHpddKLR4F26tSa+K9PyJUUO1wV3+hk9ZDkeQw89BtlKGGt
-	y2Ub/fQ2zWa3TtttSLzO6dJt0iRsAnTDudwqTtkCL0X4WNEYNdMTAwt0yDiqoKPdbEqMd7cXTBY
-	8M4TlQc28=
-X-Gm-Gg: Acq92OGVnu+ziSsqXMMtuLw4JW3dFhMzhOE13/VCvLjFhRRndA0501kPbmWTLMSRb71
-	poKzDLKJORVzIAhgTt/DKZ3cte27IWmVVs2X13exbfOXitGcZhDli7dwgJNVkjll56JnPkqv7NA
-	WfR6Hk/FpU1N28vvP0Qqj+e6/jyp386uchwSQqmZeZPNyQw2EvLo4PDkUDEsEQa58N+Y68MTZrw
-	YhHKGSWTxAesBCcA5uvAns638W2HC4SuooGpOM50PPgW6vuQExIXRrxjrJRaEMXMSk+WjO7dmau
-	vDIod4rJsGZI/1tp5IgxSopE3hzta5T5biQ4VyPDgFn5MnXnOwXGjfWmKUSmcgQyoBhIuTKbZcZ
-	suN2L3tcp94zIozvOrNp2Yfq+uQg8xpr4mqMNPIjts9lvbzB7uelHyXyXGx79L3aJPFrsljK0ia
-	+gNTNAI2fHiS8=
-X-Received: by 2002:a05:7022:eaca:b0:12d:de3e:cbfc with SMTP id a92af1059eb24-137f6bd71edmr686508c88.35.1780460953142;
-        Tue, 02 Jun 2026 21:29:13 -0700 (PDT)
-X-Received: by 2002:a05:7022:eaca:b0:12d:de3e:cbfc with SMTP id a92af1059eb24-137f6bd71edmr686492c88.35.1780460952567;
-        Tue, 02 Jun 2026 21:29:12 -0700 (PDT)
-Received: from [10.110.100.237] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137f554f732sm1114229c88.12.2026.06.02.21.29.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jun 2026 21:29:11 -0700 (PDT)
-Message-ID: <5f067594-0a77-4bb5-b44a-62c8b1c8bb76@oss.qualcomm.com>
-Date: Wed, 3 Jun 2026 12:29:07 +0800
+        d=1e100.net; s=20251104; t=1780467472; x=1781072272;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o2po/xiWAOxjyD/s5TGaUasYpnjzBmSs6hq0PvMMk6g=;
+        b=leDz09vE+KdNGkcemDyjkc5RMK8YNbKwzn4Kg8YFBz1bImJ6yLIano/Bp9DzrE4FOl
+         9Edbp8dp7SA4a17kw604aiEuEkIFiy3zRL7n9UzaC+hVxyPRmjcKuNfgWRa+GcAL3J2O
+         FiV3u5x5iaeHl6hdP42pX7cZDjkSs1qm2ozr/dl+MDF4VBkhnmQyZfPepm12IIcu5Mmq
+         0nZ8841KRfmvug7bsHT5r5cy+5SOYK/18DutRm6/fP5jK2UFtOkAxEhOzsQ8HT57icyt
+         TZQi7rGOlVYe4Dkx6dQsQJ5GtE1HqsLo0JxyeVhUI2ObpH+Kk6snCMIa72U59Wu3M17W
+         02rA==
+X-Forwarded-Encrypted: i=1; AFNElJ/UpgonWFdmfgyrjeCqSgj8/Y5xH4XvFHbXYDrF+Dol7EkyI+g0x4xmwuVCE43tk8wj494P3crEDvve7wESZycmkA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzDKcpqvcXiO935xPVW6JFFFsMyvgIVKFp8FcK6msSfJYI5ZEAh
+	JHNHDsKg4jjllOUhJpYMsPJTzuS0c7jP5Yv6ZBjEtLBC2EEKTiacBJ31bE2zoayhpIpRUzyj1Qt
+	kUwVjQvXIEzuILszYLzT7krgVjlwbDD4=
+X-Gm-Gg: Acq92OFiSxxxR8GDyW4OgtsdGFp6PYMaSKBrlPzRU9VALFDNIJfkL7SyFamaAYTBku8
+	qLFYLeSY3BYj7izat++dT4nOX5KeSuQdtETFSSCWXIL5nV+eeDVR0UlQZUoWwbAJS464UTz/BMp
+	n/hnQtHSoTevEypG989BcGI8GZtWolAaQ3M19wBro4/Nge3V543QDy3SAFcQhDTVgltigyF5mIE
+	MzUDXQQw7vjrujiEunYP9YClI1ygKUmVbHvodGstcjbNBjSJ5vZniEVeJVtz7eQYxuYdnX5i7uu
+	SguFo+Qi+LXPMt1jJldlgbkGXbqKzTepjjl9z7aWE3kKAnwk6AA=
+X-Received: by 2002:a05:6402:5285:b0:68b:767b:40dc with SMTP id
+ 4fb4d7f45d1cf-68e710eb7b0mr814088a12.14.1780467471903; Tue, 02 Jun 2026
+ 23:17:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] wpa_supplicant: Handle invalid op_class 255 in BSS Transition candidates
-From: "Wei Zhang (Stone)" <wei.zhang@oss.qualcomm.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-        dmitry.baryshkov@oss.qualcomm.com
-Cc: openembedded-core@lists.openembedded.org, jouni.malinen@oss.qualcomm.com,
-        Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>,
-        hangtian.zhu@oss.qualcomm.com
-References: <20260526083048.4122860-1-wei.zhang@oss.qualcomm.com>
- <qvdfgutqr7wpdkycvhkvexjl6nbkdaqtyyv5zdkor2ylivvewo@4aoqgsynvgca>
- <CANNYZj8Q7kD4Q1PGvfOzC8LzVDDDuaSHnTXMWep_quZpOqeoEw@mail.gmail.com>
- <75b044b4-eb36-4aef-9630-f5ad09712950@oss.qualcomm.com>
-In-Reply-To: <75b044b4-eb36-4aef-9630-f5ad09712950@oss.qualcomm.com>
-X-Proofpoint-GUID: W0_mnKy3uckiiNOVg0AP6D6I80wK2cyy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAzMDAzOSBTYWx0ZWRfX90MBIYNzncxF
- Z/jk04LLXCdMdFo63yC8NbiEsDrYR4x3k32HtliWZHO7h/sBNdVvBr4+VRTCk74x+QpRgi44dmq
- 0DiScVcYaP3Lv8lUjU6Nivr9gC2HAqr68UqlsOB3ORdsBXU2HGdzOQoNnIf/maMYRzJ5+vFXDkN
- 4g7AL9ImAqcA4Tkw2xBkNQn5tmo6tZZQCj8DZZr4K/H6KcxiMK3xE8TAThENxuYJMcmMQjT7ecQ
- kjCKds7UnA3i6y+XZg7MYWEwkDMuNYaHhg4SNZo4PUVSOsbOoAep3X1Sjo9RhcozQYNqExIbB3i
- TLmsu69KhILBhUL/3eqN880VRKahqPuvTB+Ui4r69sknneR+rtbtThxfY5O51RoaDKp93TSDPoY
- 6UoOgw5EHS+N9hrJmyMuIEBND/hIvLYgcJ8IVpeD8WoH5RG7k2KvFn3iYwRsTXucwiow4hHZgiN
- LmSfp86UPO2Drvp4dVQ==
-X-Authority-Analysis: v=2.4 cv=I/9Vgtgg c=1 sm=1 tr=0 ts=6a1fad99 cx=c_pps
- a=kVLUcbK0zfr7ocalXnG1qA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8 a=LkTzLyQabQiJZSZuuFQA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=vr4QvYf-bLy2KjpDp97w:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-ORIG-GUID: W0_mnKy3uckiiNOVg0AP6D6I80wK2cyy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-03_02,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 impostorscore=0 adultscore=0 suspectscore=0
- malwarescore=0 lowpriorityscore=0 phishscore=0 priorityscore=1501 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606030039
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 652KWhQg3803520
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+References: <20260527111756.1306022-1-saisneha196@gmail.com>
+ <20260527111756.1306022-3-saisneha196@gmail.com> <d1023d5b6fa9f1ba8173d685c633c04a7b1a169e.camel@pbarker.dev>
+ <CANcU11d7bw=-B88ngyuHaYTKPTYdEcHJ06kA-WTz1NtMc0ae+w@mail.gmail.com> <DB5PR02MB102132A5B94B4279D5091DE4EEF122@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB102132A5B94B4279D5091DE4EEF122@DB5PR02MB10213.eurprd02.prod.outlook.com>
+From: Sai Sneha <saisneha196@gmail.com>
+Date: Wed, 3 Jun 2026 11:47:40 +0530
+X-Gm-Features: AVHnY4LNUGCqohlVm3cJbCmkafpxoy_ig5OTPrNq2IMw6fcgA3z6Y0PxHmhRp8I
+Message-ID: <CANcU11forz3NRGOThY26LLU44bHSb-_k6Zns3unqJwUvvQYBLQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v4 2/4] base.bbclass: warn when SRCREV is
+ missing for SCM URIs at parse time
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Paul Barker <paul@pbarker.dev>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"yoann.congal@smile.fr" <yoann.congal@smile.fr>, 
+	"corentin.guillevic@smile.fr" <corentin.guillevic@smile.fr>, "martin@geanix.com" <martin@geanix.com>
+Content-Type: multipart/alternative; boundary="0000000000003271bb0653536330"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 06:11:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238081
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 06:17:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238082
 
-Hi Alex,
+--0000000000003271bb0653536330
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I followed up with Jouni on the hostap/wpa_supplicant release plan.
+Hi all,
 
-He confirmed that there is no clear timeline for a formal release. His=20
-recommendation is not to
-depend on upstream releases, but instead to pull a =E2=80=9Csnapshot of t=
-he day=E2=80=9D=20
-from the hostap.git main
-branch when an update is needed.
+Thank you for the thorough review. I clearly need to step back and
+rethink the approach before sending more patches. I will continue
+the discussion on the bug tracker.
 
-Given this upstream guidance, would OE-Core be open to consuming the=20
-required post-2.11 fixes
-through such a hostap.git snapshot-based update, rather than waiting for=20
-a new formal release?
+Best regards,
+Sai Sneha
 
-Thanks,
-Wei
 
-On 5/27/2026 7:02 PM, Wei Zhang (Stone) wrote:
+On Wed, 3 Jun 2026 at 1:20=E2=80=AFAM, Peter Kjellerstedt <
+peter.kjellerstedt@axis.com> wrote:
+
+> I was under the impression that a tag=3D in the SRC_URI is there to
+> complement the SRCREV, not replace it. I.e., SRCREV should always exist,
+> and if a tag=3D also exists then it is verified that it matches the SRCRE=
+V.
 >
-> On 5/27/2026 6:18 PM, Alexander Kanavin wrote:
->> On Wed, 27 May 2026 at 11:53, Dmitry Baryshkov via
->> lists.openembedded.org
->> <dmitry.baryshkov=3Doss.qualcomm.com@lists.openembedded.org> wrote:
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>>
->>> The same question. Which branches does it need to be backported to?
->> Wait. This ever-increasing mass of backports coming from Qualcomm=20
->> isn't great.
->>
->> You need to engage with wpa-supplicant upstream (which also works for
->> Qualcomm), and try to convince them to make a new release (and make
->> releases more frequently). This was previously requested, but wasn't
->> acknowledged or acted on, so I have to press you again to do it. You
->> are in the same company, so it's not difficult.
->>
->> Alex
-> Thanks for the feedback.
 >
-> I agree that improving the upstream release cadence would help reduce=20
-> these backports.
 >
-> CC=E2=80=99ing Jouni here to get guidance on the release plan.
+> //Peter
 >
-> Jouni, could you please advise:
-> - whether a new release is planned soon, and
-> - how fixes like this should be handled before an official release ?
 >
-> From our side, we can also help coordinate or prepare any updates if=20
-> needed.
 >
-> Thanks,
-> Wei Zhang
+> *From:* openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> *On Behalf Of *Sai Sneha via
+> lists.openembedded.org
+> *Sent:* den 2 juni 2026 08:39
+> *To:* Paul Barker <paul@pbarker.dev>
+> *Cc:* openembedded-core@lists.openembedded.org; yoann.congal@smile.fr;
+> corentin.guillevic@smile.fr; martin@geanix.com
+> *Subject:* Re: [OE-core] [PATCH v4 2/4] base.bbclass: warn when SRCREV is
+> missing for SCM URIs at parse time
+>
+>
+>
+> Hi Paul,
+>
+> You were right to raise the tag=3D concern =E2=80=94 it turned out to be =
+exactly the
+> cause of the selftest failure reported by Mathieu. Recipes using tag=3D i=
+n
+> SRC_URI intentionally leave SRCREV empty, and my check was incorrectly
+> treating this as missing.
+>
+> The fix adds tag=3D to the list of URI parameters that bypass the SRCREV
+> check, alongside the existing rev=3D handling:
+>
+> if params.get('rev', '') or params.get('tag', ''):
+> return ''
+>
+> I have verified the fix by running the full bbtests.BitbakeTests selftest
+> suite =E2=80=94 32/33 passed. The one failure (test_image_manifest) requi=
+res
+> building a full image and fails due to network constraints in my
+> environment, unrelated to this patch.
+>
+> I have sent v5 with this fix.
+>
+> Best regards,
+> Sai Sneha
+>
+> On Thu, 28 May 2026 at 8:39=E2=80=AFPM, Paul Barker <paul@pbarker.dev> wr=
+ote:
+>
+> On Wed, 2026-05-27 at 16:47 +0530, Sai Sneha via lists.openembedded.org
+> wrote:
+> > A recipe with a git:// (or other SCM) URI in SRC_URI must have a
+> > corresponding SRCREV set. Without it, BitBake performs a live query
+> > on the remote repository at every parse, breaking reproducibility
+> > and causing parse failures under BB_NO_NETWORK=3D1.
+> >
+> > The trivial fix of checking SRCREV in insane.bbclass do_recipe_qa
+> > fails because fetcher_hashes_dummyfunc[vardepvalue] expands SRCREV
+> > at parse time before QA checks run, causing a FetchError that halts
+> > parsing entirely. This was identified in Corentin Guillevic's RFC
+> > series and confirmed by Mathieu Dubois-Briand's autobuilder testing.
+> >
+> > The fix intercepts at the vardepvalue expansion point by introducing
+> > check_srcrev_set() which uses the shared oe.qa.check_uri_srcrev()
+> > helper. The function is called conditionally:
+> >
+> >   fetcher_hashes_dummyfunc[vardepvalue] =3D
+> >     "${@bb.fetch.get_hashvalue(d) if check_srcrev_set(d) else ''}"
+> >
+> > Note on design choice: we intentionally use d.getVar(candidate, False)
+> > in oe.qa.check_uri_srcrev() rather than srcrev_internal_helper()
+> > because the latter expands SRCREV, triggering get_autorev() and live
+> > network fetches -- the exact problem this patch fixes.
+> >
+> > Note: parse-time warnings intentionally complement the QA-time warnings
+> > added in insane.bbclass. This is necessary because CI pipelines running
+> > 'bitbake --parse-only' with BB_NO_NETWORK=3D1 (the original motivation
+> > from Ross Burton) would miss the issue entirely if only QA-time
+> > warnings existed. This pattern is already established in the codebase
+> > (e.g. src-uri-bad fires at both parse and QA time).
+> >
+> > Reported-by: Yoann Congal <yoann.congal@smile.fr>
+> > Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16051
+> > AI-Generated: Developed with assistance from Anthropic Claude
+> > Signed-off-by: Sai Sneha <saisneha196@gmail.com>
+> > ---
+> >
+> > Changes in v4:
+> > - Refactored to use shared oe.qa.check_uri_srcrev() helper
+> > - Eliminates duplicated URI parsing logic
+> > - Added docstring explaining True/False return values
+> >
+> > Changes in v3:
+> > - Added AI-Generated disclosure and Reported-by tag
+> > - Added design decision notes to commit message
+> >
+> > Changes in v2:
+> > - Initial public submission
+> >  meta/classes-global/base.bbclass | 30 ++++++++++++++++++++++++++++--
+> >  1 file changed, 28 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/classes-global/base.bbclass
+> b/meta/classes-global/base.bbclass
+> > index 62f2814bb7..7de896ca7d 100644
+> > --- a/meta/classes-global/base.bbclass
+> > +++ b/meta/classes-global/base.bbclass
+> > @@ -164,14 +164,40 @@ def setup_hosttools_dir(dest, toolsvar, d,
+> fatal=3DTrue):
+> >
+> >      if notfound and fatal:
+> >          bb.fatal("The following required tools (as specified by
+> HOSTTOOLS) appear to be unavailable in PATH, please install them in order
+> to proceed:\n  %s" % " ".join(notfound))
+> > +
+> > +def check_srcrev_set(d):
+> > +    """
+> > +    Inspect SRC_URI for SCM URIs missing a valid SRCREV.
+> > +
+> > +    Returns True if all SCM URIs have a valid SRCREV or AUTOREV set,
+> > +    allowing get_hashvalue(d) to proceed normally.
+> > +
+> > +    Returns False if any SCM URI is missing SRCREV, suppressing
+> > +    get_hashvalue(d) to prevent a FetchError parse crash.
+> > +    """
+> > +    import oe.qa
+> > +    src_uri =3D (d.getVar('SRC_URI', False) or '').split()
+> > +    pn =3D d.getVar('PN')
+> > +    for uri in src_uri:
+> > +        rev =3D oe.qa.check_uri_srcrev(pn, uri, d)
+> > +        if rev is None:
+> > +            # SRCREV missing =E2=80=94 warn and suppress hash expansio=
+n
+> > +            if bb.utils.contains('ERROR_QA', 'missing-srcrev', True,
+> False, d):
+> > +                bb.error("%s: SRCREV not set for %s" % (pn, uri))
+> > +            elif bb.utils.contains('WARN_QA', 'missing-srcrev', True,
+> False, d):
+> > +                bb.warn("%s: SRCREV not set for %s" % (pn, uri))
+> > +            return False
+> > +        if rev and '${AUTOREV}' in rev:
+> > +            return True
+> > +    return True
+> > +
+> >
+> >  # We can't use vardepvalue against do_fetch directly since that would
+> overwrite
+> >  # the other task dependencies so we use an indirect function.
+> >  python fetcher_hashes_dummyfunc() {
+> >      return
+> >  }
+> > -fetcher_hashes_dummyfunc[vardepvalue] =3D "${@bb.fetch.get_hashvalue(d=
+)}"
+> > -
+> > +fetcher_hashes_dummyfunc[vardepvalue] =3D "${@bb.fetch.get_hashvalue(d=
+)
+> if check_srcrev_set(d) else ''}"
+>
+> How confident are you that this is a safe change to make?
+>
+> This is an area where I would not make AI-driven changes myself, as a
+> change here could cause quite subtle issues. We may not have sufficient
+> test coverage to catch such issues.
+>
+> Specifically, what happens if a SRC_URI has a 'tag=3D...' property, SRCRE=
+V
+> is not set, and the tag is changed upstream?
+>
+> Best regards,
+>
+> --
+> Paul Barker
+>
+>
+
+--0000000000003271bb0653536330
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><div style=3D"font-size:inherit">Hi all,<br style=3D"font-size:inherit=
+"><br style=3D"font-size:inherit">Thank you for the thorough review. I clea=
+rly need to step back and <br style=3D"font-size:inherit">rethink the appro=
+ach before sending more patches. I will continue <br style=3D"font-size:inh=
+erit">the discussion on the bug tracker.<br style=3D"font-size:inherit"><br=
+ style=3D"font-size:inherit">Best regards,<br style=3D"font-size:inherit">S=
+ai Sneha<br style=3D"font-size:inherit"></div><br></div><div><br><div class=
+=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Wed, 3 Jun 2026 at 1:20=E2=80=AFAM, Peter Kjellerstedt &lt;<a href=3D"=
+mailto:peter.kjellerstedt@axis.com">peter.kjellerstedt@axis.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+
+
+
+
+
+<div lang=3D"SV" link=3D"blue" vlink=3D"purple" style=3D"overflow-wrap: bre=
+ak-word;">
+<div class=3D"m_7808700450652846793WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11pt;font-fa=
+mily:Calibri,sans-serif;color:rgb(148,54,52)">I was under the impression th=
+at a tag=3D in the SRC_URI is there to complement the SRCREV, not replace i=
+t. I.e., SRCREV
+ should always exist, and if a tag=3D also exists then it is verified that =
+it matches the SRCREV.</span></p></div></div><div lang=3D"SV" link=3D"blue"=
+ vlink=3D"purple" style=3D"overflow-wrap: break-word;"><div class=3D"m_7808=
+700450652846793WordSection1"><p class=3D"MsoNormal"><span lang=3D"EN-US" st=
+yle=3D"font-size:11pt;font-family:Calibri,sans-serif;color:rgb(148,54,52)">=
+<u style=3D"font-family:Calibri,sans-serif"></u><u style=3D"font-family:Cal=
+ibri,sans-serif"></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11pt;font-fa=
+mily:Calibri,sans-serif;color:rgb(148,54,52)"><u style=3D"font-family:Calib=
+ri,sans-serif"></u>=C2=A0<u style=3D"font-family:Calibri,sans-serif"></u></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11pt;font-fa=
+mily:Calibri,sans-serif;color:rgb(148,54,52)">//Peter<u style=3D"font-famil=
+y:Calibri,sans-serif"></u><u style=3D"font-family:Calibri,sans-serif"></u><=
+/span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11pt;font-fa=
+mily:Calibri,sans-serif;color:rgb(148,54,52)"><u style=3D"font-family:Calib=
+ri,sans-serif"></u>=C2=A0<u style=3D"font-family:Calibri,sans-serif"></u></=
+span></p>
+<div style=3D"border-width:medium medium medium 1.5pt;border-style:none non=
+e none solid;padding:0cm 0cm 0cm 4pt;border-color:currentcolor currentcolor=
+ currentcolor blue">
+<div>
+<div style=3D"border-width:1pt medium medium;border-style:solid none none;p=
+adding:3pt 0cm 0cm;border-color:rgb(225,225,225) currentcolor currentcolor"=
+>
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US" style=3D"font-size:11pt;font=
+-family:Calibri,sans-serif">From:</span></b><span lang=3D"EN-US" style=3D"f=
+ont-size:11pt;font-family:Calibri,sans-serif"> <a href=3D"mailto:openembedd=
+ed-core@lists.openembedded.org" target=3D"_blank" style=3D"font-family:Cali=
+bri,sans-serif">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D=
+"mailto:openembedded-core@lists.openembedded.org" target=3D"_blank" style=
+=3D"font-family:Calibri,sans-serif">openembedded-core@lists.openembedded.or=
+g</a>&gt;
+<b style=3D"font-family:Calibri,sans-serif">On Behalf Of </b>Sai Sneha via =
+<a href=3D"http://lists.openembedded.org" target=3D"_blank" style=3D"font-f=
+amily:Calibri,sans-serif">lists.openembedded.org</a><br>
+<b style=3D"font-family:Calibri,sans-serif">Sent:</b> den 2 juni 2026 08:39=
+<br>
+<b style=3D"font-family:Calibri,sans-serif">To:</b> Paul Barker &lt;<a href=
+=3D"mailto:paul@pbarker.dev" target=3D"_blank" style=3D"font-family:Calibri=
+,sans-serif">paul@pbarker.dev</a>&gt;<br>
+<b style=3D"font-family:Calibri,sans-serif">Cc:</b> <a href=3D"mailto:opene=
+mbedded-core@lists.openembedded.org" target=3D"_blank" style=3D"font-family=
+:Calibri,sans-serif">openembedded-core@lists.openembedded.org</a>; <a href=
+=3D"mailto:yoann.congal@smile.fr" target=3D"_blank" style=3D"font-family:Ca=
+libri,sans-serif">yoann.congal@smile.fr</a>; <a href=3D"mailto:corentin.gui=
+llevic@smile.fr" target=3D"_blank" style=3D"font-family:Calibri,sans-serif"=
+>corentin.guillevic@smile.fr</a>; <a href=3D"mailto:martin@geanix.com" targ=
+et=3D"_blank" style=3D"font-family:Calibri,sans-serif">martin@geanix.com</a=
+><br>
+<b style=3D"font-family:Calibri,sans-serif">Subject:</b> Re: [OE-core] [PAT=
+CH v4 2/4] base.bbclass: warn when SRCREV is missing for SCM URIs at parse =
+time<u style=3D"font-family:Calibri,sans-serif"></u><u style=3D"font-family=
+:Calibri,sans-serif"></u></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<p class=3D"MsoNormal">Hi Paul,<br>
+<br>
+You were right to raise the tag=3D concern =E2=80=94 it turned out to be ex=
+actly=C2=A0the cause of the selftest failure reported by Mathieu. Recipes u=
+sing=C2=A0tag=3D in SRC_URI intentionally leave SRCREV empty, and my check =
+was incorrectly treating this as missing.<br>
+<br>
+The fix adds tag=3D to the list of URI parameters that bypass the SRCREV<br=
+>
+check, alongside the existing rev=3D handling:<br>
+<br>
+if params.get(&#39;rev&#39;, &#39;&#39;) or params.get(&#39;tag&#39;, &#39;=
+&#39;):<br>
+return &#39;&#39;<br>
+<br>
+I have verified the fix by running the full bbtests.BitbakeTests=C2=A0selft=
+est suite =E2=80=94 32/33 passed. The one failure (test_image_manifest)=C2=
+=A0requires building a full image and fails due to network constraints in m=
+y environment, unrelated to this patch.<br>
+<br>
+I have sent v5 with this fix.<br>
+<br>
+Best regards,<br>
+Sai Sneha<u></u><u></u></p>
+</div>
+<div>
+<div>
+<div>
+<p class=3D"MsoNormal">On Thu, 28 May 2026 at 8:39<span style=3D"font-famil=
+y:Arial,sans-serif">=E2=80=AF</span>PM, Paul Barker &lt;<a href=3D"mailto:p=
+aul@pbarker.dev" target=3D"_blank">paul@pbarker.dev</a>&gt; wrote:<u></u><u=
+></u></p>
+</div>
+<blockquote style=3D"border-width:medium medium medium 1pt;border-style:non=
+e none none solid;padding:0cm 0cm 0cm 6pt;margin-left:4.8pt;margin-right:0c=
+m;border-color:currentcolor currentcolor currentcolor rgb(204,204,204)">
+<p class=3D"MsoNormal" style=3D"margin-bottom:12pt">On Wed, 2026-05-27 at 1=
+6:47 +0530, Sai Sneha via
+<a href=3D"http://lists.openembedded.org" target=3D"_blank">lists.openembed=
+ded.org</a><br>
+wrote:<br>
+&gt; A recipe with a git:// (or other SCM) URI in SRC_URI must have a<br>
+&gt; corresponding SRCREV set. Without it, BitBake performs a live query<br=
+>
+&gt; on the remote repository at every parse, breaking reproducibility<br>
+&gt; and causing parse failures under BB_NO_NETWORK=3D1.<br>
+&gt; <br>
+&gt; The trivial fix of checking SRCREV in insane.bbclass do_recipe_qa<br>
+&gt; fails because fetcher_hashes_dummyfunc[vardepvalue] expands SRCREV<br>
+&gt; at parse time before QA checks run, causing a FetchError that halts<br=
+>
+&gt; parsing entirely. This was identified in Corentin Guillevic&#39;s RFC<=
+br>
+&gt; series and confirmed by Mathieu Dubois-Briand&#39;s autobuilder testin=
+g.<br>
+&gt; <br>
+&gt; The fix intercepts at the vardepvalue expansion point by introducing<b=
+r>
+&gt; check_srcrev_set() which uses the shared oe.qa.check_uri_srcrev()<br>
+&gt; helper. The function is called conditionally:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0fetcher_hashes_dummyfunc[vardepvalue] =3D<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&quot;<a href=3D"mailto:$%7b@bb.fetch.get_hashvalue=
+(d)%20if%20check_srcrev_set(d)%20else%20&#39;&#39;%7d" target=3D"_blank">${=
+@bb.fetch.get_hashvalue(d) if check_srcrev_set(d) else &#39;&#39;}</a>&quot=
+;<br>
+&gt; <br>
+&gt; Note on design choice: we intentionally use d.getVar(candidate, False)=
+<br>
+&gt; in oe.qa.check_uri_srcrev() rather than srcrev_internal_helper()<br>
+&gt; because the latter expands SRCREV, triggering get_autorev() and live<b=
+r>
+&gt; network fetches -- the exact problem this patch fixes.<br>
+&gt; <br>
+&gt; Note: parse-time warnings intentionally complement the QA-time warning=
+s<br>
+&gt; added in insane.bbclass. This is necessary because CI pipelines runnin=
+g<br>
+&gt; &#39;bitbake --parse-only&#39; with BB_NO_NETWORK=3D1 (the original mo=
+tivation<br>
+&gt; from Ross Burton) would miss the issue entirely if only QA-time<br>
+&gt; warnings existed. This pattern is already established in the codebase<=
+br>
+&gt; (e.g. src-uri-bad fires at both parse and QA time).<br>
+&gt; <br>
+&gt; Reported-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr"=
+ target=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
+&gt; Fixes: <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D=
+16051" target=3D"_blank">
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16051</a><br>
+&gt; AI-Generated: Developed with assistance from Anthropic Claude<br>
+&gt; Signed-off-by: Sai Sneha &lt;<a href=3D"mailto:saisneha196@gmail.com" =
+target=3D"_blank">saisneha196@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; <br>
+&gt; Changes in v4:<br>
+&gt; - Refactored to use shared oe.qa.check_uri_srcrev() helper<br>
+&gt; - Eliminates duplicated URI parsing logic<br>
+&gt; - Added docstring explaining True/False return values<br>
+&gt; <br>
+&gt; Changes in v3:<br>
+&gt; - Added AI-Generated disclosure and Reported-by tag<br>
+&gt; - Added design decision notes to commit message<br>
+&gt; <br>
+&gt; Changes in v2:<br>
+&gt; - Initial public submission<br>
+&gt;=C2=A0 meta/classes-global/base.bbclass | 30 ++++++++++++++++++++++++++=
+++--<br>
+&gt;=C2=A0 1 file changed, 28 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/ba=
+se.bbclass<br>
+&gt; index 62f2814bb7..7de896ca7d 100644<br>
+&gt; --- a/meta/classes-global/base.bbclass<br>
+&gt; +++ b/meta/classes-global/base.bbclass<br>
+&gt; @@ -164,14 +164,40 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=
+=3DTrue):<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if notfound and fatal:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;The following require=
+d tools (as specified by HOSTTOOLS) appear to be unavailable in PATH, pleas=
+e install them in order to proceed:\n=C2=A0 %s&quot; % &quot; &quot;.join(n=
+otfound))<br>
+&gt; +=C2=A0 =C2=A0 <br>
+&gt; +def check_srcrev_set(d):<br>
+&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; +=C2=A0 =C2=A0 Inspect SRC_URI for SCM URIs missing a valid SRCREV.<br=
+>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 Returns True if all SCM URIs have a valid SRCREV or AUT=
+OREV set,<br>
+&gt; +=C2=A0 =C2=A0 allowing get_hashvalue(d) to proceed normally.<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 Returns False if any SCM URI is missing SRCREV, suppres=
+sing<br>
+&gt; +=C2=A0 =C2=A0 get_hashvalue(d) to prevent a FetchError parse crash.<b=
+r>
+&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; +=C2=A0 =C2=A0 import <a href=3D"http://oe.qa" target=3D"_blank">oe.qa=
+</a><br>
+&gt; +=C2=A0 =C2=A0 src_uri =3D (d.getVar(&#39;SRC_URI&#39;, False) or &#39=
+;&#39;).split()<br>
+&gt; +=C2=A0 =C2=A0 pn =3D d.getVar(&#39;PN&#39;)<br>
+&gt; +=C2=A0 =C2=A0 for uri in src_uri:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 rev =3D oe.qa.check_uri_srcrev(pn, uri, d=
+)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if rev is None:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # SRCREV missing =E2=80=94 =
+warn and suppress hash expansion<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if bb.utils.contains(&#39;E=
+RROR_QA&#39;, &#39;missing-srcrev&#39;, True, False, d):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error(&quo=
+t;%s: SRCREV not set for %s&quot; % (pn, uri))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif bb.utils.contains(&#39=
+;WARN_QA&#39;, &#39;missing-srcrev&#39;, True, False, d):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot=
+;%s: SRCREV not set for %s&quot; % (pn, uri))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return False<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if rev and &#39;${AUTOREV}&#39; in rev:<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return True<br>
+&gt; +=C2=A0 =C2=A0 return True<br>
+&gt; + <br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 # We can&#39;t use vardepvalue against do_fetch directly since t=
+hat would overwrite<br>
+&gt;=C2=A0 # the other task dependencies so we use an indirect function.<br=
+>
+&gt;=C2=A0 python fetcher_hashes_dummyfunc() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return<br>
+&gt;=C2=A0 }<br>
+&gt; -fetcher_hashes_dummyfunc[vardepvalue] =3D &quot;<a href=3D"mailto:$%7=
+b@bb.fetch.get_hashvalue(d)%7d" target=3D"_blank">${@bb.fetch.get_hashvalue=
+(d)}</a>&quot;<br>
+&gt; -<br>
+&gt; +fetcher_hashes_dummyfunc[vardepvalue] =3D &quot;<a href=3D"mailto:$%7=
+b@bb.fetch.get_hashvalue(d)%20if%20check_srcrev_set(d)%20else%20&#39;&#39;%=
+7d" target=3D"_blank">${@bb.fetch.get_hashvalue(d) if check_srcrev_set(d) e=
+lse &#39;&#39;}</a>&quot;<br>
+<br>
+How confident are you that this is a safe change to make?<br>
+<br>
+This is an area where I would not make AI-driven changes myself, as a<br>
+change here could cause quite subtle issues. We may not have sufficient<br>
+test coverage to catch such issues.<br>
+<br>
+Specifically, what happens if a SRC_URI has a &#39;tag=3D...&#39; property,=
+ SRCREV<br>
+is not set, and the tag is changed upstream?<br>
+<br>
+Best regards,<br>
+<br>
+-- <br>
+Paul Barker<u></u><u></u></p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</blockquote></div></div>
+
+--0000000000003271bb0653536330--
 
