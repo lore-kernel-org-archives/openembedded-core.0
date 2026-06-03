@@ -1,172 +1,172 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58108CD6E57
-	for <webhook@archiver.kernel.org>; Tue,  2 Jun 2026 22:55:32 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8036.1780440922070094124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91216CD6E5D
+	for <webhook@archiver.kernel.org>; Wed,  3 Jun 2026 03:09:06 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12170.1780456141696870900
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 15:55:22 -0700
+ Tue, 02 Jun 2026 20:09:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eroxCHlz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4908b92904fso67119525e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 15:55:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1780440920; x=1781045720; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bh2IEltrc/bthTdCgQoHnVH5puBTLTTHBbRSq1jyAQ8=;
-        b=eroxCHlzUdBXZ3FuHoJVGoCgInAntBNZsfeXsk1gxfdGqYTag/VDQnRoNzr0PLukkq
-         rwnB2HK014185ONvLBMHaLaksLJdk6ggxxYvNbjzA96F62BV8q168PPDgrk490kamFRR
-         4lXrWgBh+K+uK4YEpy7O+JkFJKANWlqLaw7dk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780440920; x=1781045720;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bh2IEltrc/bthTdCgQoHnVH5puBTLTTHBbRSq1jyAQ8=;
-        b=FaoLcscUiKEsdIZW0k83GYSGuKX6DCCMbwd3iOTE0AUSmYOcj21uKiC91kTQulS3gF
-         cmrCNZywWMQbyR7Y7pJkBLWNynr0VOLv7NSMmgDuYZAv5HwVItHdHdU/n6j3qUT2qv25
-         KAZ+rJKbxMGjNi4ujSEevnG6HO/U2rOTZKFI5OXe+VwueKV/4jP7erSmuNGF0GkdaveI
-         NKUHSpSymXlqC3/GO4FfnXFWEr9aTT//b750ayMV8e1zLh1xbUZsGCg4pv7FqKwbfTWf
-         xoZgWxszhxCAeHAbbW49mJuSNk+z4NDaVACac6vbl5znVP37oswyywq2zI+68nrd2e8s
-         bgVQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9nq8SmwtuVcqKPs5j6dlxfiPiKtU0zm0G+CCm4z6oDbnHVoBnV9tH2iuSTBC0LSnfSoio4TA9lYDZgkHiriNX9Og==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz9khmT8xvLmJy7SCNBU7mwRASlgjbssMeaHufzuwEkNcXsu4VB
-	nfzqDVLYiC9VLOUapuhpEv4yI3boaH5C4rX0Om4ux+iMSxYpVTtA7a87YC1GE4UhuQU=
-X-Gm-Gg: Acq92OEYM0g5dF7ElvcVDPpiqnOdCh1Z8otmcqHkFNjLY3xh7GEOhnP1ukeQnU4wB6p
-	Q2JS5G2UgHzV9zA3v18cFuV+NRYYbJUW+92CyJw6cAqk4qpWlIqKv3Q3pQh8yS0IPGvrF5BUAKV
-	Cic5K68GWnTyTD1dfwAOX+Nm+Q2bjhRk8viU0IO0u9OodNfWx7QqISvsVzPO5nwk89TYgB7NWB9
-	Uj4bQPYa55zcJXrPzI8+n2CGlVgmGmbS5MwizWYnDnZO0qx/jhkQ91bP/C4fQ4TgIhMhePPzRf7
-	Zt0JH9OXmX9QvPm4XuvDxDXjecElTzaluq0R9UkXE+jZOuRQtgPic2calgCRUnCIoRm6lqrLucC
-	cZgFrW/Vo7F1ZbMdeHYLrCccMqX1U8fLrr2oDte6dBG+w1PdzZiZkGr5BOXaU9Mx6ow5E/lpGWp
-	QauIQb4zu98RjUofRw4yRH66biyY4pU/VXTZ0uM0KSs90JQInhDGLIaZX6pfPfpIMn3YsSIeLBy
-	Y+D6ThMMiAJfWY0Q9/azmnIQoU=
-X-Received: by 2002:a05:600c:4748:b0:490:6e11:c303 with SMTP id 5b1f17b1804b1-490b5ed6ad0mr12195985e9.13.1780440920362;
-        Tue, 02 Jun 2026 15:55:20 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:6526:f98e:192f:9cd4? ([2001:8b0:aba:5f3c:6526:f98e:192f:9cd4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b613f167sm3562095e9.22.2026.06.02.15.55.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 15:55:19 -0700 (PDT)
-Message-ID: <6c4c263e51757e48d86880a74b2fa568d59e7639.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v5 0/4] Add missing SRCREV check for SCM URIs
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: saisneha196@gmail.com, openembedded-core@lists.openembedded.org
-Cc: yoann.congal@smile.fr, corentin.guillevic@smile.fr, martin@geanix.com, 
-	paul@pbarker.dev, mathieu.dubois-briand@bootlin.com
-Date: Tue, 02 Jun 2026 23:55:18 +0100
-In-Reply-To: <20260602062940.3107241-1-saisneha196@gmail.com>
-References: <20260602062940.3107241-1-saisneha196@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=UpyjQS8O;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0614d64c3e=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6532042W3174440
+	for <openembedded-core@lists.openembedded.org>; Wed, 3 Jun 2026 03:09:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=4D0zUuCH1V+UP4/7Z1rs
+	0htz2SN8ov8A9A1JFj3nIUM=; b=UpyjQS8OtIrW5S0DxyfUg4wPv6RE90urEbQI
+	TZhPs7bi1e7k02/JMC4X8hi4yyYIvM2MWzAQ97Gd6m6+23LydDG/AMRGrJTawFIQ
+	em2m0VGRy0vw35LR1zUpZUJzjP9UjJUOgyGBKtKLwb3cK/BUF6jlZcui/3cZUY6C
+	gR5CnjPRIbvT9km3Fhd0aDjYqfoaFmoYrbYWKt2el4h8NXRy3Ix/BRvuBzfb9J0n
+	tLKBZhoVluLsIj6AGJQEFH0K1G2sRitMQezKnIVAJr6b90rYZT+4GPm9Au+uWMAg
+	0BKjEfHokMTixHhkp4q7JaBEY0eTorX26FvRLV5YFe/by+73KQ==
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013070.outbound.protection.outlook.com [40.93.201.70])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4efn4063r9-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 03:09:00 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Udqjf2W/uAb28OLb3eHiOV7YChnt6ygvTIkiEOQMOmm0l840Rn4Gcfdc021iGFW/cVccydE8HIYnc/9pChzpXKaRHZPqfDX3ZKd43UdPplun8CUNxo1Xt9aikG0wHV/xs8scGiVs9tY07ukpT7M2M6JYvJtW7oledWuLXvQxVp/H8nhD5EPIXd2MAddVgBvHSBmQNMWICH1Idf7bi+s5hTM4CxPo0cyyhR0p8TrrDkTlmRiB3quvj7Wv5U0xs/SaTULzN5PceWEIPsIbAMVIHCSyDz2A0cpyrRAQZmaPS70Ak5tf4KYzzOghZRwFiDgQRPKYY5GNfMPgxfgGqS/q8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4D0zUuCH1V+UP4/7Z1rs0htz2SN8ov8A9A1JFj3nIUM=;
+ b=GjodGku2+B63B/h5yCdJ5wJ0u4fOEDzGF9u8JHDQ5irZDe6r1F/VlHliwjzN1+WnAUo6yUvSK7+GFGUoow9cXr6PepW/Rfw6un9uzmfh5twWP4VC9yXPuV9651d4iUB3AIWsVX3W3bFYwMifbs5WF4wsEB9uOYpXPhdP8IbHazfd7kDySL9J2oOUxVhZw8qI04XqeaEG1cD8k1ve+8paWQ1xIZ19VnBWWdI7O22S47PZm54cM+zb/o5rYJqQmOuiGUuoGsL6+pwEfvwQmZ5zYTqmQVgx4VJytlcY8YBmuqDooDoQS0jyJXQu/7h1Fjea+zovMdyFVpA15QMP6UzMEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
+ by LV3PR11MB8602.namprd11.prod.outlook.com (2603:10b6:408:1b3::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
+ 03:08:57 +0000
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::531e:6ef5:812b:48f6]) by DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::531e:6ef5:812b:48f6%4]) with mapi id 15.21.0092.006; Wed, 3 Jun 2026
+ 03:08:57 +0000
+From: Changqing Li <changqing.li@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] libxi: upgrade 1.8.2 -> 1.8.3
+Date: Wed,  3 Jun 2026 11:08:39 +0800
+Message-Id: <20260603030839.3700805-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0022.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:192::14) To DS0PR11MB7312.namprd11.prod.outlook.com
+ (2603:10b6:8:11f::18)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|LV3PR11MB8602:EE_
+X-MS-Office365-Filtering-Correlation-Id: 96827b03-0f32-4ff7-7a4f-08dec11d7385
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|18002099003|38350700014|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info: 
+	TWc+is1k+75nrGBzLMKDcTe7WXq/NJNTdVq9b8/O0DG1bmyLGFfI1rU+fwXSx0m86X0Q/okXUZJXrC3bAffxwH/fmwDDVOe3i7M9kgYcPdDePvsBQCR/a3eUNU8iVK+yBJ6nnLhGK2qFsaSV3syfb6B57e3OAXomZJt5OBwxACxU2qWi7kd9BQpW+/sVEr00MjLAAXd7PpusodxT4rJd/PKvpxD91TBq7K9cmWAFjrKNZYCLH7kpZI25ny1J5boAjATfIM3/eGC25hJNSHAkSj+2mp6VU3BRPjKx+lIatlH2sHcaV2eRpHOVicm+A1+u+mf5vKI3Plxm27+zEQbyJoo9t3va9n3mOSzef1RZdWfHsQWY9S5Sv2W0Qknd7o/T2iEFpotXtuktBJMS+ev89+0+O2cv+oV4dHo7SexL6MPG6cJE8Km65ss9VRMq3S1FCjE2Xn6UcjUV/ZMiQZvu+aPrwdX1wvPlnXx7nesjBJtY7vA2xLd5XePJ0sgsx+83jIfZ8d4MicmtEtNDb5grk75jEyfBI99ijV2ZliAXNCkXTqcIdtZ/c82j/Cza+EtkYIPogGUNAcs1+D+qNe0fEXcUEXUCpBnsIg/H+/dALpFpdbSGzBrf8oVpeKySmDuZ3ESnKkyojWD5Kv87A2PTo62cdHVFHuDVWLR8g4euEDgC7OKFXwKhA/G8VEK68kZjSYMcz3t1QAoRjjbGQnPRdEPKpS+BYNLbufssA4UZyGE0R/Js6pfpuOAWV1sFu6Vh
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(18002099003)(38350700014)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?5cb0iVuBU3sNvKFnL9MwAA+8e063fYdJAlDbe/yNZHKeeb71e2POdt/xjEcd?=
+ =?us-ascii?Q?WswFWLihUeEfhgYAGH01uNWxNQ/OIugksI1LmYopk/OjZ5nImfOD+HhdidMN?=
+ =?us-ascii?Q?+lJm8YU42pvVehOHmmCpP9/hVZP1R1qCNHoV0o3u/7s4lj0396ZrvPkLTAyt?=
+ =?us-ascii?Q?i1+nzE7EZce7Clqjx1mVjuj0gEa5Rw0u5PiiaGCbIGCr7O0UYgM7NafJrDPx?=
+ =?us-ascii?Q?mb/DFE0VGSEg1mhA4JBTRtG5JhAo6stz9DvT+s6oQHsHYLiymguXoiz0vTzR?=
+ =?us-ascii?Q?2u5wfntNMYiYO6aHYz1sNghFuvcht1hPgssyP5eEjqsnHzTHDOinINrc+Ozh?=
+ =?us-ascii?Q?cr8Hoy1jSlPNNy+1ttk8Ipvd85HzXr300MRVrF3eT+pnNdYFvuatVTLzut1u?=
+ =?us-ascii?Q?vpqQXYLLSzs7HI0Xs0S6cUmHcgh7IbHmePBvb104iV4Kl3QQ9Xx46LvUl0Eo?=
+ =?us-ascii?Q?uzjSp3/E57ATqj4Uec/OKqC+NAHx3V4VAsz4y6TXeFh3f8ShKY9iwMuW3LY7?=
+ =?us-ascii?Q?ekSFNh3tVnh81wrMn5FO0goXmpiskOzi9kYXwszF813bEsLwcAKhk5zsb8AT?=
+ =?us-ascii?Q?EKR3kVVUoQwiyadOLoFcTNe2ExuXwpFv7Rq2U3NkEOxua31e5+oUO6AVLRnw?=
+ =?us-ascii?Q?wQC0mLUmN2cHXNGQJaSnpicbmFi5Q/ttlnZL2naSK2AtdXNbMGyQ82DThCqM?=
+ =?us-ascii?Q?vLwr+pPQdUzxNNHE5KB9968PNcwor3RYlcZ1hCWTw7ozUSjW+X9O6VoAE6qy?=
+ =?us-ascii?Q?x6I+XocbrgNFwsWSK9J4eyXq37HLMBxrK3MRaIbbwZmVvAIp+BOMyW8xpJx3?=
+ =?us-ascii?Q?uXZas/hBZAgLfIRElslB840bUzwMwFyjTqP3PArfupwwxo2q3k1T9lmIAYd4?=
+ =?us-ascii?Q?0feEKjChwy6cGiAjiiCyjCtjEAgQipmhGuIqJL2Y49UPw7kWpYYJOmuC36hT?=
+ =?us-ascii?Q?hwGtP2YpLEbGDqWoXGCYu7/0tguLMmobc8PD7NAacNEjAGYJpdp/0dAEsmhH?=
+ =?us-ascii?Q?Q1oja3uKwRWkiymEi0HeMEXv7UeLti3CC8wHpSoImCKp0zd0kisawKp2p0oU?=
+ =?us-ascii?Q?hsYbS/omFWz3E/4iJHX0B1asgsECwUBZ3xFAs2NmUsgJ97fMjzQAMZr1yQzE?=
+ =?us-ascii?Q?IbEbEottWPQc5YIo0zFWXCC++G9ZfuJvV/p1evev2N4SK/XCO2ByaKduDeT/?=
+ =?us-ascii?Q?fEmK36PZw/FRKTdgf+LKdX4HyFTdaO3eFA6loJKae7Dufp+CFW6miU9HVTr+?=
+ =?us-ascii?Q?vczAhK2nJQOvjg2YeR3jT/3618Kh7OPMMWuGlAZljpxE7IINRJFJPHhk7gT1?=
+ =?us-ascii?Q?H/zZQd04hFHy1iKSGutmrPoZBy+R34agb5rp/Q2z0JN5ktlBRnAo51/bmmPq?=
+ =?us-ascii?Q?OXenV0KVqpGYZTRqTUvBBIzUhAispyLOCsMC8wmLv04qkcVhw/1Grvk9bLg6?=
+ =?us-ascii?Q?tfkuZkhAwLKR8Q4rBUKcX5R8IA4jALTlLCSbx8aNaf4SPBXYFmoinP1wbCI1?=
+ =?us-ascii?Q?uFu40gPTEarbxXPIL05wmS4w8TUMlIDwLB1sHIivlWJCuznO7/7qI+lbWuhW?=
+ =?us-ascii?Q?96H7dXvTXgj82DfEqMY83xjUKtSEDoXNM90KEudb1ARNxt+N8xmj6XzZiLb6?=
+ =?us-ascii?Q?emMkWMhbb8qOSGVAMiemjeB90dUOxGI7OS70AUDLm8L93+httgeyaormprLx?=
+ =?us-ascii?Q?HfOcF6NE3jAYcHZRmbnkZ5BOfkEC/m4j3VJY8ipf9r774NNx0qbq6FCQ6msV?=
+ =?us-ascii?Q?/XZkGj6hHEGTWdfXNEksRyOIfWXLgd8=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	buboH+L3p6x+pXxl28pqqrHNb8RHSDgSnTbhuz/QN+YykKKJyINZdVvnfYHBUiuTzMuogftpL+1ZW74AwTE9T4uZoGhUA9uX4SV0zA47vnCkN+mOmABlMk5t/cgZSZBW3ErrDFq0SRSsm4yMFTVInDZdzCQ+tGYxz2FupwDH0YbA0CWVJD+rT9C2xjGbDqucrHYoG4L2FST9ATirQ6HWZzsxBU38mahuTks1uEebA8u+gdxnvEf+Br4ipHMr613LeK0Du75xwyqSmEjzLsyrWAPyOUCQS7Ty3QwRCcyRlosvcVxMwIc0sKuq0pQ+ciMr1wqHqK2eifKbKOv4SbHmeA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96827b03-0f32-4ff7-7a4f-08dec11d7385
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 03:08:57.3217
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XlSTs6aAk6BBgwQHouTj3A7v+nYW+lhzzBEA+XT3dH00zPNWGH787umyRW3mLf+TRyVFzvY2MRNH0S1zp0KlIjJXyC0p7qPTvBWLZLbTKb0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8602
+X-Proofpoint-ORIG-GUID: JuusLSWpLrWKqaRRZ_aHvDAPDSdK8MVk
+X-Proofpoint-GUID: JuusLSWpLrWKqaRRZ_aHvDAPDSdK8MVk
+X-Authority-Analysis: v=2.4 cv=GI441ONK c=1 sm=1 tr=0 ts=6a1f9acc cx=c_pps
+ a=IOfmNx34m1n4z7i1CuCPOA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8
+ a=qfmRXU2aEKk_7j70DG4A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAzMDAyNiBTYWx0ZWRfXw5mu+fB18f0P
+ SK4MD5dxXFtqSQpF9ratrRAB/THb7pQUuFkAhNfwB+4oRQxWXY+NqVG26K0JckTWCw2/b1PIrYv
+ UVSQZM68dco0ghzg8pi73vQvGLnj1J3bK6liBKbDY5Z1vaJLt387dJz0pYhZ2KBswYktBRGiIlz
+ /QN3xWRT8uGGUz5QEhVRp/8ub3Bja4di0ZJ15gOkZE8aa7r0e6qc4ymvNM4Eyi6CGuFzJnpKZLJ
+ mH75sdSilOcBHotkf9qrwFkr6N09Mx+9JUWRi3ZhAmeO4wIuni8UVgQCO0nMm2pEblX6cP7JCK+
+ w9YokIu6XmkXncuHg3B9XzVzx+bWIxi2pQG9+AgeEpbPQ9W31XfFNiAItx4FHFQtqqQbY1RhtOE
+ oEzfiDxbJ+hAfyrqLnr8hkZynQ2uy1120xaRaDtkx23zaRqQJPF4EC7dnLorlhpTd6jQi76OsBo
+ STsnL85NGjnkS/AJKyA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-03_01,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 phishscore=0 spamscore=0 bulkscore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
+ definitions=main-2606030026
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2026 22:55:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238074
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 03:09:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238075
 
-On Tue, 2026-06-02 at 11:59 +0530, Sai Sneha via lists.openembedded.org wro=
-te:
-> This patch series adds a check for git:// (and other SCM) URIs in
-> SRC_URI that are missing a corresponding SRCREV, addressing
-> Bugzilla #16051 [1] and referencing Corentin Guillevic's RFC series [2].
->=20
-> =3D=3D Changes since v4 =3D=3D
->=20
-> - Add tag=3D to skip condition in oe.qa.check_uri_srcrev() alongside
-> =C2=A0 the existing rev=3D handling. This fixes a selftest breakage
-> =C2=A0 (test_git_unpack_nonetwork) reported by Mathieu Dubois-Briand wher=
-e
-> =C2=A0 recipes using tag=3D in SRC_URI intentionally leave SRCREV empty.
-> - Update docstring to mention tag=3D parameter
-> - Verified by running full bbtests.BitbakeTests selftest suite:
-> =C2=A0 32/33 passed, 1 failure (test_image_manifest) is unrelated as it
-> =C2=A0 requires building a full image and fails due to network constraint=
-s
->=20
-> =3D=3D Note on CHECKLAYER_REQUIRED_TESTS =3D=3D
->=20
-> Paul suggested using CHECKLAYER_REQUIRED_TESTS instead of Patch 4.
-> We tested this but found it promotes missing-srcrev to ERROR_QA for
-> ALL layers globally during normal builds, because CHECKLAYER_REQUIRED_TES=
-TS
-> feeds directly into ERROR_QA. This contradicts Bug 16051 Comment 3
-> which requests keeping it as a warning for external layers by default.
-> The direct implementation in yocto-check-layer.bbclass enforces it
-> strictly only during checklayer validation without affecting normal build=
-s.
->=20
-> =3D=3D Note on candidates list order =3D=3D
->=20
-> Martin suggested reversing the candidates list so plain SRCREV is
-> tested first. We kept most-specific-first order because it mirrors
-> BitBake internal srcrev_internal_helper() resolution order exactly,
-> as confirmed by BitBake own error messages:
-> =C2=A0 SRCREV_default:pn-X, SRCREV_default, SRCREV:pn-X, SRCREV
->=20
-> =3D=3D Problem =3D=3D
->=20
-> A recipe with a git:// URI and no SRCREV causes two problems:
->=20
-> 1. Under BB_NO_NETWORK=3D1, parsing fails with a FetchError that halts
-> =C2=A0=C2=A0 parsing of ALL recipes. This breaks CI pipelines that use
-> =C2=A0=C2=A0 bitbake --parse-only as a sanity check.
->=20
-> 2. Without BB_NO_NETWORK, BitBake silently queries the remote
-> =C2=A0=C2=A0 repository on every parse, breaking reproducibility.
->=20
-> =3D=3D Why the trivial fix does not work =3D=3D
->=20
-> The obvious fix of checking SRCREV in insane.bbclass do_recipe_qa
-> was attempted by Corentin Guillevic [2] but fails because
-> fetcher_hashes_dummyfunc[vardepvalue] expands SRCREV at parse time
-> BEFORE QA checks run. Corentin patches 1 and 2 add the QA check,
-> while patches 3 and 4 ensure devtool and recipetool only use
-> AUTOREV when appropriate.
->=20
-> =3D=3D This series approach =3D=3D
->=20
-> We intercept at the vardepvalue expansion point in base.bbclass
-> using a shared helper oe.qa.check_uri_srcrev() that uses
-> d.getVar(candidate, False) preventing expansion entirely.
->=20
-> =3D=3D Design decisions =3D=3D
->=20
-> 1. Why not use srcrev_internal_helper()
->=20
-> =C2=A0=C2=A0 It expands SRCREV internally, triggering get_autorev() and l=
-ive
-> =C2=A0=C2=A0 network fetches. Our fallback chain mirrors BitBake resoluti=
-on
-> =C2=A0=C2=A0 order exactly without expansion.
->=20
-> 2. Why duplicate warnings at parse time AND QA time
->=20
-> =C2=A0=C2=A0 Parse-time catches CI parse-only pipelines. QA-time gives pr=
-oper
-> =C2=A0=C2=A0 layer control. This pattern is established - src-uri-bad doe=
-s same.
->=20
-> 3. Why hardcode git/gitsm/hg/svn schemes
->=20
-> =C2=A0=C2=A0 Known limitation, noted as follow-on improvement.
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../xorg-lib/{libxi_1.8.2.bb => libxi_1.8.3.bb}                 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.8.2.bb => libxi_1.8.3.bb} (88%)
 
-Why don't we do something in the bitbake fetchers which would check if
-they would need a srcrev lookup and fail if that were the case?
+diff --git a/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb b/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb
+rename to meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb
+index 2a86f5fcf0..d7e778610e 100644
+--- a/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxi_1.8.3.bb
+@@ -18,6 +18,6 @@ PE = "1"
+ XORG_PN = "libXi"
+ XORG_EXT = "tar.xz"
+ 
+-SRC_URI[sha256sum] = "d0e0555e53d6e2114eabfa44226ba162d2708501a25e18d99cfb35c094c6c104"
++SRC_URI[sha256sum] = "7ad60056f01af4f786cfe93b3a7707447711626fc8da2637bec71a90409babe5"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.34.1
 
-We could set something with a layer override which would then trigger
-any recipe in core to fail to parse if they weren't set
-deterministically.
-
-Looking at the patches, I'm worried we're duplicating fetcher logic in
-OE-Core and we definitely don't want to be doing that!
-
-Cheers,
-
-Richard
 
