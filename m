@@ -1,114 +1,156 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66A19CD6E55
-	for <webhook@archiver.kernel.org>; Wed,  3 Jun 2026 16:22:31 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24101.1780503745987511470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81062CD6E57
+	for <webhook@archiver.kernel.org>; Wed,  3 Jun 2026 16:58:11 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24893.1780505887699916820
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2026 09:22:26 -0700
+ Wed, 03 Jun 2026 09:58:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Nw7k7Z9f;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490afc47455so14877375e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 09:22:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Ey51G1Ex;
+ spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-7e2cb01a974so50537597b3.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 09:58:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780505887; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Ytd2vBxoDUaZobBO53LfQNklYM1oIia6MhvP//dabUgNfAVF17BYXnfLH9mOB8Po4G
+         mp4DCsL7WVYoFlEEgh3TXURidZz3gZ6Qp4gRdTLEiTQq9G3+9Zhw7AwcrtJxIrCxZTDt
+         vynbHnAC+SLj+JrBRMnntUXADk7N/DlDMhsGqYIOlcEly4/yLzmmFMW8gX6rGz/txCZu
+         MtKNNmW3OtfLHL8Hejj08XA1AZ8Pqor0K44v4L9B9GY0MsCQ7ht3ALubWQYtmlhbt9dQ
+         NO7s3Iwqi7s5oz0q/1UhLt3tBXYYVoNEa3vMiIVQCL0rfnslqr0SOXzFi0ZXAkQZ19LB
+         ClUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=urOy6NGMiuX5T5pVZ/l4pE4hxsFLlwp+GK5AH6jzTGw=;
+        fh=duSlNiYj1xbt5fK3fQ6n7ehKB+4QGs/+/58L6286Te8=;
+        b=BbqvWOQdYLPyhObbwXKq0gi4V5Ae1ivH5UacGcVzNSpZ0VPXLgGpuheUOHaeNqlQvG
+         Q3JAKC0j+j0rtKgcbyHTfdVfNo8BXhUQ0kFuusPwBcAEH2ruavtJqmdoIGmBTAMdncbh
+         zcN6LG9DHPDPZeqrFESrlzK3ePgh9GTSXzpcl0KMUR89pjI817HIGLWNMTUXBQhu/1ny
+         S3Ytz68cUrEXKyuogiV4zqoqwfaMJPzvpmUSlg4ahREESYys5gfymOwsxMEARtq3RBXk
+         L/cNSPYfzzROW3tBsOhrBXCuLBiLGIreaKr5GJJdTE4BN2cdCFeULvUItOOSJx1HwtSn
+         2ZUQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1780503744; x=1781108544; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780505887; x=1781110687; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MGzxCRn3/uKGGyJX0TcKgBebWsvBtbwcdVskHS7XPA8=;
-        b=Nw7k7Z9fbWLIi6+6oAfWeI6BOAo9TNCvz01pUuwnvMi5r/XvpUPd2Z/NlBFgVxDcTt
-         5hSkPUSqa+F10NFf3LK75jcYyHU7t5TME4OyKUeBgrIOcey9Vhz95MewFxWbcRDwwN+x
-         Us4Jd+8tH5VR0lz4ULA01Dn//xAuLJGS7eV0E=
+        bh=urOy6NGMiuX5T5pVZ/l4pE4hxsFLlwp+GK5AH6jzTGw=;
+        b=Ey51G1ExSkrDCDZ652nSh/1RGRp/0YkK8L5efxTL4VL6830y/TP14KaUKx1sA9QeCI
+         SAzRmeOoOhSd8zE5hM/qhJOC3NoSqIMVKoZLY2SqLSz3VKr6G5T5nf8wzcQbgAoZlg9L
+         nOtwLUyWenv0fgoht/94/AvcvkGqp56chmJT4DdGFAHp+8v9WK8494FoR8K5zvMhb0fa
+         kQAHIOX9Vu253q9fsGj2frETMt3CQktaTtMYlrHuiVUWzx6Ks2IQJN7dZ0RJRS1CK5KY
+         E6Phr+mJgvibgf0Z1bImaNrqcCOuWrLXnDxkS4bOo7ibhTjIozdhptoLj37u1r/Ax/fQ
+         dXRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780503744; x=1781108544;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MGzxCRn3/uKGGyJX0TcKgBebWsvBtbwcdVskHS7XPA8=;
-        b=XZppP1BeOLLhpWv1bNb84BP4D+zOYwkt7+VAQKUQtuNUQlmVn0moGzF3gMlyWUzC6y
-         zVTDkZ9YTfxGWnVoyAgyEmeJq5xmGC8Y4k2Xdwl/P9mqq3xFMqUcOZld/D8Gwx/fv9gf
-         KTSXTIpSjxTwk6tP+D6P/QnFAJ84AvPlOVTm5+sx9kCrZq120EaPYkJ4unKC/6dquJKZ
-         LCbJWCtigwyqRVmPtuJkHLBzeCZbldXdca+hxTbulAsX9bmSjDxS7LofbOBfSaqpixv8
-         4m+1Rmz71a4edcAE7nZPB8RchKwpEvtAFq8cxibIUrONRMXApBMonvt4wcPsoSgIcuV1
-         /DaQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8BV6jcxof5EK65UWVGNTwhg7Bor4TJze7xwS9jZ5re1GuFgWCYAR0d3AMUx/X7srHtonTZ0PY3WHz93Tv/hU+yNA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxjhkwEcldIlkJoluDSvAnFpcTcPK2RXjiNg0ZM3PLgLCcc+KlM
-	ZkVpcwTz+jRCB4Ijej5H4m0erSmQmulr2vxsem4fqiHs3qugzcqInPSF6LNGn8px8tU=
-X-Gm-Gg: Acq92OEPg70LaY8j3hJCFCVp/lJ2RbT08/NfpskDZEF9TUqtAeK3tqLMS5zcF+zz4jR
-	lUxb77xKcSorFGhC2dcXV5/pWi3heUWhzWUUzxX4JWtJclXP6749QBzf0zU8xAusYfUpyEsTwod
-	gY8e1pXd7f/VgqAsWl4ClcSeuF8n5F0y2Qe+jIpeykzDR9j92E1CaF5gl5BmSyfMhYr0EbAXMey
-	3yDf1gscihF84sGLSrKq3NXpStx+Vn06b9LLx1Uu/rZ4dFj5ADcLdei+RBcEUgPmgqx3Ll0IYaR
-	Y/6wx+RnlGHY0nrZL8x0jC8YWGi00B2UIjYfCXOxVywJJfFHRHZfLnHDvDu8F3O1XwYrABqXH4w
-	k7hbZFRHDPtX4oYTCtH8LTWTjGkXHd16URIX/oNgOfONgjG/BMhrVsZ79dQgpxzk4uR56qlkGhB
-	ycVG7bVMW0/TR8AEuvcxa3GCyqX6ilEKPxywOT4M0YazaFMiG1exq2kXOYqSQirBIHGcIhdNIOQ
-	ChlSGkBm6+IG8KZ/Chx+VOe
-X-Received: by 2002:a05:600c:5288:b0:490:5191:6e26 with SMTP id 5b1f17b1804b1-490b5ecbd41mr68143425e9.18.1780503744275;
-        Wed, 03 Jun 2026 09:22:24 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:202c:df88:9261:8b8? ([2001:8b0:aba:5f3c:202c:df88:9261:8b8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc391aaasm4556635e9.1.2026.06.03.09.22.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 09:22:23 -0700 (PDT)
-Message-ID: <60c5fe270fc9834e2472b01cd80362cd9b0f5189.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] kernel-fit-image: skip sstate creation for
- deploy
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: tafil@tafhub.de, openembedded-core@lists.openembedded.org
-Date: Wed, 03 Jun 2026 17:22:22 +0100
-In-Reply-To: <20260603152328.48500-1-tafil@tafhub.de>
-References: <20260603152328.48500-1-tafil@tafhub.de>
+        d=1e100.net; s=20251104; t=1780505887; x=1781110687;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=urOy6NGMiuX5T5pVZ/l4pE4hxsFLlwp+GK5AH6jzTGw=;
+        b=S8Ovzv4k6okF1TRyN5DYl8xG9biIl/eX5JONpKbH735PiZe9LtDlKBJoEMkUB9ZT1L
+         XdvQa6RmGvGpQaTFVK5Q3DSXP8c0N4qctMG052iYE21SRhVo1yHtID6PqhCYYd1TvORz
+         gN0yoJk6DQqc7Xs0YvUwvbQuNTgOu5/a3+WkyJNrFcimTY58qTpRroztjaaL8U7Jnhf/
+         HyMIbHPCljqfHVx+e0LdBEHLCNVoWwRirXviolBV3LNhElabN+qmsAw5j61RNWZWYsBn
+         r5A7XldCANXVP0kOFEWsRe83rHHupHHLRcuqNU8eqDvfIuNDJl1bJCJtXrCB9UxsYer0
+         9YAg==
+X-Gm-Message-State: AOJu0YxrsrUkaKhmLkYSEYrjTbCod7P2CiTL9aXf669jK8goBYxIvnHO
+	zMVPoRcjOOhcWf2oSUIe7gflzXgmqIjCACRKd6gyqF8DkMU51K4xfK/dMquY+qYrfnIlLfmZodq
+	VTfCtuUeWFK0sFXSOmeaiRIC0iXFbrHc=
+X-Gm-Gg: Acq92OE/eU3hLsmic1iw+HQzaOsupXOHkWeGHpFjP2DWUrtNH/xHzATlLKUDFP0dSwG
+	yaV3vOUCzMbwhsHsTvL72lVP25flZ+KRCrAD6X/v9BYUY01nwMeNvGU7xlpdSwh7i/Yr15bDsex
+	lHYxmBqidON12bCEewoi589UANtk9iAQQ9/Zn+yc7ugHXK0cQBBLIppSmmJocEL9co9zERY9254
+	JYC/U6RxHTYHRXFHNA/y2xKAmoRHz7pixmEb0qh1WX1793ZZf/NPNah3g2JOat658n70aZyG5rP
+	y+yagNKasidrlHF5b9feqAEg0SAF7Uoo
+X-Received: by 2002:a05:690c:e364:b0:7d0:4824:6413 with SMTP id
+ 00721157ae682-7ea4af1f59fmr40751697b3.39.1780505886862; Wed, 03 Jun 2026
+ 09:58:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260526185633.24403-1-leoreis.costa@gmail.com> <20260603165336.2775725-1-leoreis.costa@gmail.com>
+In-Reply-To: <20260603165336.2775725-1-leoreis.costa@gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Wed, 3 Jun 2026 10:57:56 -0600
+X-Gm-Features: AVHnY4ISAEphqOOkstcLfwd1ttBwRbF00e00vGGfhog0irLcnTxCk981buAQOBM
+Message-ID: <CAJdd5GZcYxoathBzbnDTF+ffWdmbyvR3RcwPsrW7K=V2Cu63VA@mail.gmail.com>
+Subject: Re: [RFC] Bootloader components missing from image SBOM
+To: Leonardo Costa <leoreis.costa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, leonardo.costa@toradex.com, 
+	benjamin.robin@bootlin.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 16:22:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238102
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 16:58:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238103
 
-On Wed, 2026-06-03 at 17:23 +0200, Tafil Avdyli via lists.openembedded.org =
-wrote:
-> When building completely from sstate (e.g. in pipeline), the
-> linux-yocto-fitimage recipe deploys from sstate even if the
-> INITRAMFS_IMAGE requires a rebuild.
->=20
-> Using dm-verity or verity image classes, the initramfs image must be
-> rebuilt after the rootfs. However, linux-yocto-fitimage:do_build was
-> skipped and went straight for do_deploy from sstate and deployed a
-> fitImage with an outdated initramfs with old roothash data while the
-> image and INITRAMFS_IMAGE were being built.
->=20
-> Skipping the do_deploy task in a sstate only build, successfully
-> triggers linux-yocto-fitimage:do_build after
-> INITRAMFS_IMAGE:do_image_complete.
-> This also follows fitimage.bbclass[1] from meta-oe.
->=20
-> [1]: https://git.openembedded.org/meta-openembedded/tree/meta-oe/classes/=
-fitimage.bbclass?h=3Dwrynose#n522
->=20
-> Signed-off-by: Tafil Avdyli <tafil@tafhub.de>
-> ---
-> =C2=A0meta/classes-recipe/kernel-fit-image.bbclass | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-=
-recipe/kernel-fit-image.bbclass
-> index ae8f3c6688..03272bab51 100644
-> --- a/meta/classes-recipe/kernel-fit-image.bbclass
-> +++ b/meta/classes-recipe/kernel-fit-image.bbclass
-> @@ -241,3 +241,4 @@ do_deploy() {
-> =C2=A0=C2=A0=C2=A0=C2=A0 fi
-> =C2=A0}
-> =C2=A0addtask deploy after do_compile before do_build
-> +SSTATE_SKIP_CREATION:task-deploy =3D "1"
+On Wed, Jun 3, 2026 at 10:53=E2=80=AFAM Leonardo Costa <leoreis.costa@gmail=
+.com> wrote:
+>
+> > We are planning to release SPDX SBOMs along with our images to provide =
+package
+> > information about the software components that make them up.
+> >
+> > As it currently stands today, bootloader components are not included in=
+ the
+> > final SBOM generated for the image. In particular, for our machines bas=
+ed on
+> > i.MX SoCs, the imx-boot container, along with boot components (ATF, SEC=
+O, SCFW)
+> > have their SPDX files generated in spdx/, but not included in the image=
+ SBOM.
+> >
+> > If I understand correctly, the SBOM is generated by looking at the pack=
+ages in
+> > the rootfs, and recursively adding their SPDX entries along with the on=
+es for
+> > their dependencies. In our builds, I found that U-Boot does get include=
+d in
+> > the SBOM, but in our particular case this seems to be due to the presen=
+ce of
+> > libubootenv in the rootfs, which has the U-Boot recipe in its dependenc=
+y chain,
+> > so the inclusion of U-Boot in the SBOM is only a side effect.
+> >
+> > I have not seen anyone raise this as an issue, but my intuition is that=
+ this
+> > information should be included in the SBOM. Despite not making it to th=
+e
+> > rootfs, these boot components are still part of the image. CVE informat=
+ion
+> > about them, for example, is relevant to users.
+> >
+> > My question is, is there any configuration that should be set to includ=
+e these
+> > components? I couldn't find anything about this in the documentation or=
+ in the
+> > code. If there is no configuration regarding this, would a contribution=
+ to add
+> > components such as these be welcome?
+>
+> Following up on this, I just wanted to know if this behavior is intended =
+to
+> stay as it currently is or if it's worth working on a patch to add compon=
+ents
+> beyond the ones that are in the final rootfs.
 
-This is a workaround, it sounds like there is a missing dependency
-somewhere to trigger the build needed?
+It is a known limitation that things that are not in the root
+filesystem image are not included in the SBoM. The biggest problem is
+that it is quite tricky to figure out how to correctly indicate that a
+given non-image task is building an "aggregate" of some other things
+and thus needs to produce an aggregated SBoM, along with the
+dificultlies of plumbing in SBoM generation to arbitrary tasks. Image
+tasks are much simpler to solve because they are well formed in how
+they operate.
 
-Cheers,
+If you have suggestions for how to deal with this, I would welcome them.
 
-Richard
+>
+> Kind regards,
+>
+> Leonardo
 
