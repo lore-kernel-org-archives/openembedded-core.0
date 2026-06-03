@@ -1,111 +1,114 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <sudumbha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 553E8CD6E55
-	for <webhook@archiver.kernel.org>; Wed,  3 Jun 2026 06:01:29 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13599.1780466482680828600
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6494DCD6E4A
+	for <webhook@archiver.kernel.org>; Wed,  3 Jun 2026 06:10:19 +0000 (UTC)
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13702.1780467011291157705
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2026 23:01:24 -0700
+ Tue, 02 Jun 2026 23:10:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=uB4XS76H;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id DA25FC62212;
-	Wed,  3 Jun 2026 06:01:22 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 25C3D60735;
-	Wed,  3 Jun 2026 06:01:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D000710888CC6;
-	Wed,  3 Jun 2026 08:01:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1780466479; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Bi0cOVXJm23U0e+osZVowFhWi03WENAUm9ts49k2IxU=;
-	b=uB4XS76HLm/Qa54EoeAoq2j9wo/NzoO8h7bzJy/GhKDikjZj2CfjeAwVYDfi2oJONpwrCR
-	7bRF9ZM/y3CXUEpsKo3x0q31q/UOmxKeKWeYndJU6UUsOLnRld30ZkU2Ojh2QPQ2gvnfL3
-	o8101uobCmeP52VIiKHn0uQ5fx/nvYygyGDhBvW9rRkVy12kxHHP2mHP0zVrrY/SCP6/XU
-	oBsXAAXdp5W4f0Fqr7FgAFNPRhzQ+chWw9u1XYTG2iwINTgfAPye3G1Cl2wZ0p0xnZuZuU
-	Y/ElKPHVhr0GYWzHpGCljk6CAVA6vqJ2wDuUwBGkDqV1BD6a4hGiwBQzAIt/qw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 03 Jun 2026 08:01:17 +0200
-Message-Id: <DIZ6OW2BYEZG.DR60WS2Q3D56@bootlin.com>
-To: <nikhilar2410@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][master][PATCH v2] rsync: add ptest support
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260602120135.4181978-1-nikhilar2410@gmail.com>
-In-Reply-To: <20260602120135.4181978-1-nikhilar2410@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=ly5iWUL2;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: sudumbha@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=1134; q=dns/txt;
+  s=iport01; t=1780467011; x=1781676611;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Z44K5YEDYhGsTRQSraHWflSx8h3l7NSLPbnESDaT+fA=;
+  b=ly5iWUL2GGSf1GVCDDfbcCy2FoVUS0wIVQAFr8YMsqfI6ZuSX1S4CFH3
+   xl9J97B6E4rFBG2t7bClfcufp+olaRh664iei1iVkY4cGFVxKouvfEFHQ
+   oNGBa8m6IDD21aj2lhmzs4y9ExP1xMutB/EdFtqRDnStsfQCukdDbangS
+   VoXMlhx9QfNvJ/PigpOQcgCp8fuXi+Za/r9AMlNgpyL+Afp/pPIfvdCVf
+   8O0sIclHFR6qDok5r0J+CKVlz2JGsDc/SokIpQEIKJT27dCmfFYU5Plm1
+   tlh6svBO+cQKmG+116f7OT+HO8V4dFNhl1K9LopKfBj6qhdvbCZL2S7Yl
+   g==;
+X-CSE-ConnectionGUID: 2X7nhdoXThSfiNXqyR35PQ==
+X-CSE-MsgGUID: FR4tHNBaQXWXSSWGdQaTmA==
+X-IPAS-Result: =?us-ascii?q?A0BAAgB3xB9q/5D/Ja1aHgEBCxIMggULgldyX0JJA5Qno?=
+ =?us-ascii?q?D+Bfg8BAQEPPRQEAQGSOgImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBA?=
+ =?us-ascii?q?gEHBYEOE4ZPDYcTARgBXVwdASaDAgGCcwIBEbE1giyBAYMoAT8CQ1DbKAELF?=
+ =?us-ascii?q?AGBOIU/iB1zAYR7JxsbgXKEfYEFgVwBgi6FdwSCInoSgXuFL4h7SIEeA1ksA?=
+ =?us-ascii?q?VUTDQoLBwWBZgM1EioVbjIdgSM+F4ELGwcFgUqBVWqBBIUVIx8DOYEXgX+BK?=
+ =?us-ascii?q?2lpFT4DCxgNSBEsNxQbBD5uB4wOFw+CNlY4LCCCDKV2oQ4KKIN0jCGVOhozq?=
+ =?us-ascii?q?msLmHuOCZZPhGiBaDyBRwsHcBWDIglKGQ+OOIVqgxTDdyQ1AgwvAQEHAgcOA?=
+ =?us-ascii?q?wuBaJF9AQE?=
+IronPort-Data: A9a23:KLslf6+RLl7SiNAQNWmQDrUD0X+TJUtcMsCJ2f8bNWPcYEJGY0x3n
+ zAdCmjXb63bNmT0e9l+O9iy8B8EvJ/cn9U3SARprnxEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4muyyHjEAX9gWAsbDpOs/jrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2lsDdIe+upwMV1Oz
+ vIZDgAUfyrY2tqPlefTpulE3qzPLeHxN48Z/3UlxjbDALN+HtbIQr7B4plT2zJYasJmRKmFI
+ ZFGL2AyMVKZP0En1lQ/UPrSmM+zm3XidjdYoXqepLE85C7YywkZPL3FbIqFIYfQGJUJ9qqej
+ kz8o3jZJDsTDeyg+QG+zV2gv+bzmAquDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
+ 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4CeY27kSJj6HT+QvcXjdCRT9aY9tgv8gzLdA36
+ mK0cxrSLWQHmNWopbi1rN94cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:4CkjPq4VSQ3dEPrYwwPXwPjXdLJyesId70hD6qkXc202TiX2ra
+ 6TdZgguCMc6wxhO03I5+rgBEDoexq1nvRICOIqUotKMjOLhILRFuFfxLqn5SH8ECvj8eMY/6
+ Jhf69iTODUNzFB/KPHCM3SKadG/DFBm5rY4dvj8w==
+X-Talos-CUID: 9a23:nLqdmG/97OU0/umcDdCVvxQkRcYlfnrt8HfrLU6eOX94cubIcWbFrQ==
+X-Talos-MUID: =?us-ascii?q?9a23=3AxtDHgw+U2VkUT8NNztVwwHmQf+lSv7iOLmoEqKU?=
+ =?us-ascii?q?5i/K/CgN8Aj6hiR3iFw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.24,184,1774310400"; 
+   d="scan'208";a="488332584"
+Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 03 Jun 2026 06:10:10 +0000
+Received: from sjc-ads-12007.cisco.com (sjc-ads-12007.cisco.com [171.70.97.7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id 3C6BC1800020F
+	for <openembedded-core@lists.openembedded.org>; Wed,  3 Jun 2026 06:10:10 +0000 (GMT)
+Received: by sjc-ads-12007.cisco.com (Postfix, from userid 1840713)
+	id D5F71CB6A93; Tue,  2 Jun 2026 23:10:09 -0700 (PDT)
+From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap][PATCH] go-binary-native: set status for CVE-2026-39836
+Date: Tue,  2 Jun 2026 23:09:39 -0700
+Message-Id: <20260603060938.1434845-1-sudumbha@cisco.com>
+X-Mailer: git-send-email 2.35.6
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-12007.cisco.com [171.70.97.7];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.70.97.7, sjc-ads-12007.cisco.com
+X-Outbound-Node: rcdn-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 06:01:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238079
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 06:10:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238080
 
-On Tue Jun 2, 2026 at 2:01 PM CEST, nikhil via lists.openembedded.org wrote=
-:
-> Package the upstream rsync testsuite and helper binaries
-> into rsync-ptest package and add a run-ptest wrapper for
-> executing the tests.
->
-> backup.test is skipped due to intermittent failures
-> observed on qemux86-64.
-> The issue has been reported upstream:
->
-> https://github.com/RsyncProject/rsync/issues/941
->
-> Tested on qemux86-64 using ptest-runner with all
-> executed tests passing.
->
-> Signed-off-by: Nikhil R <nikhilar2410@gmail.com>
-> ---
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 
-Hi Nikhil,
+This issue affects Windows only. The net.Dial and net.LookupPort
+functions can panic when given input containing a NUL byte.
 
-Thanks for the new version.
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-39836
+https://security-tracker.debian.org/tracker/CVE-2026-39836
 
-It looks like some tests are failing now:
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+---
+ meta/recipes-devtools/go/go-binary-native_1.22.12.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-AssertionError:
-Failed ptests:
-{'rsync': 'START: ptest-runner\n'
-          '2026-06-02T19:14\n'
-          '=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D\n'
-          'runtests.py running in /usr/lib/rsync/ptest\n'
-          '    rsync_bin=3D/usr/bin/rsync\n'
-          '    srcdir=3D/usr/lib/rsync/ptest\n'
-          '    TLS_ARGS=3D-l -L\n'
-          '    testuser=3Droot\n'
-          '    os=3DLinux qemuarm64 6.18.33-yocto-standard #1 SMP PREEMPT W=
-ed '
-          'May 27 22:05:49 UTC 2026 aarch64 GNU/Linux\n'
-	  ...
-          'cd+++++++++ ./\n'
-          'cd+++++++++ A weird)name/\n'
-          '>f+++++++++ A weird)name/file\n'
-          'tls: stat ./A\\: No such file or directory\n'
-          '----- 00-hello log ends\n'
-          'FAIL    00-hello\n'
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/3737
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/3756
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/109/builds/487
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/471
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.12.bb b/meta/recipes-devtools/go/go-binary-native_1.22.12.bb
+index 7688a090f4..dd84021cc9 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.22.12.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.22.12.bb
+@@ -19,6 +19,7 @@ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+ CVE_PRODUCT = "golang:go"
+ CVE_STATUS[CVE-2024-3566] = "not-applicable-platform: Issue only applies on Windows"
+ CVE_STATUS[CVE-2025-0913] = "not-applicable-platform: Issue only applies on Windows"
++CVE_STATUS[CVE-2026-39836] = "not-applicable-platform: Issue only applies on Windows"
+ 
+ S = "${WORKDIR}/go"
+ 
+-- 
+2.35.6
 
 
