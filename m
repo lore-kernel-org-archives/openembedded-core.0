@@ -1,142 +1,353 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <sivakumar.bs@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C91ACD6E55
-	for <webhook@archiver.kernel.org>; Wed,  3 Jun 2026 13:04:49 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.61])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17082.1780483900257235269
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECBDDCD6E57
+	for <webhook@archiver.kernel.org>; Wed,  3 Jun 2026 13:49:59 +0000 (UTC)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20765.1780494590963683225
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2026 03:51:40 -0700
+ Wed, 03 Jun 2026 06:49:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=sKREX5aF;
- spf=pass (domain: est.tech, ip: 52.101.70.61, mailfrom: adarsh.jagadish.kamini@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZN6cba03XYwcZZBqCgjl22HMIlFtmh3xcUdU2DZOuzALTmGQD6AWe3Awx/K8H4LGxu3RTWmH5F74eem/cFIjUOr81r7sHIEbV4XcEmI+FRJT/S0JuymnyhYvYIO8vFdR/JIag3ktFkecuurxPtkhCYY9dGiLbziwCSglnTUz7AjIdoVRH6J0fkpLFYgxfqeX33LAUqtIBg0SQKjRh3qccFhTEGC33D+TFyEhjRFRFnXoo+N12AdC9fu0MtDdpIi2qSE1+ThBA9ptqGs6h11z18hXV/uPYI7zsnj0Vyyl1lC3noILfuk2l20YH6I1c8/IAo2/hAUMViA6VBkhaPiNMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y5mBsGYabKPb7l0r9G/6pUKOGy4ujkukR31M6r1UXoo=;
- b=hoBWr4dXJr3a/5sYFRu5VZtJLa4vu6ZpUHTYE6zxy1N5aVNeftxz59FyvOuLRjzKhEFxYTxfoStBJzp6+hovZdgJraeX5c6sL9JYGwYMEbRMvOt8LWzMXWW3idKdIF0hXx5Zx7s04KVjjJJRywnIpUK/jJmGWAI0BQBdjWo+3mP6BeO1ZJP0RAAvqGySF87uG7ujmJMO6GoiKhriobs9LvyzVJkoAwf1xRfYE+6MPZoWUx+Tp80oZURExGaay2uwOwwLWZQeZKF4OZ9eyQuc+f6e8ELgFhgbG7twdG38WXDQYVuaukkTyHhj0kiqr8enjEdgAPXvV75gdA5OkGNfLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y5mBsGYabKPb7l0r9G/6pUKOGy4ujkukR31M6r1UXoo=;
- b=sKREX5aF1GA8a0v632sAEl7HRbSIU+XkFfK5ijYbGwKZ61065h+duERtm9hvjBhgtQjVhANCl/dwF85hvsVog4J6SX8dKheuhxWaEZsqa7pMO4LXJN6jeX5FAmZjYKLrwggs6+rmgZPcKEVwL4Hds6MwLUBK+v6C3x/P7Cll+UiKUMc1he5gOtptrjvgeUBTMH/7t6pOBZBmeIwbeKoovgXjCNZWKOLqn43Fu/U8lXWx7QY5UfmxXSza6t1h/yBt+clfE3NDpo/8StO42GxZDUYmSfzu7REENvbzY4bnTKF4MshHAaBaZhvQ6gMSrD8VmmhDRoTRZU5dilKhuLWnuQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
- by DB8P189MB0839.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:148::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
- 10:51:36 +0000
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff%6]) with mapi id 15.21.0071.015; Wed, 3 Jun 2026
- 10:51:36 +0000
-From: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-Subject: [OE-core][wrynose][PATCH] python3: CVE-2026-3087 not applicable
-Date: Wed,  3 Jun 2026 12:51:29 +0200
-Message-ID: <20260603105132.872256-1-adarsh.jagadish.kamini@est.tech>
-X-Mailer: git-send-email 2.43.0
-X-ClientProxiedBy: LO4P265CA0247.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:350::6) To AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:396::9)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=LoqKen3U;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: sivakumar.bs@gmail.com)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-51758478240so16749511cf.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 06:49:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780494590; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RgsYOxXvWeF4cY9rYXIhJVqJItXYoOvSi3HeVaPi2Gg19EGlLMohPYJiNKdTgaS4hl
+         UqXfoyvAOnMockwgHFewMyBRhZSqjB6+h9N0pWA2XAkf6lXhnYSUK9Jd2mY7Ug90Zgfu
+         fCtqW0jMNm5W2lJyu/adTYeOfB5yIURwFReh9lJDJ1aNXrqL/Mc642A7s8RdUG0BNf2L
+         RCb+0r6m0poXu8KXM9UThNRa5KcB0cYiZSwpJu0bI/UdjQ8J5RMqcFBqehCAWh9Mt+JZ
+         FGLxk5GOlrXPj150Y3WojQ37dItwVJmOlddW4RG06mDS8+r+AzMTcMw6W98MD7Pr4TmR
+         dCcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=zWDTtoiOZ/bNUIlaqgNfrRdkn4umXihKCdd0UQ7RF3o=;
+        fh=TGF7TVa5Eshw5M6K2XLmjdIMKFhrsPaliuC+tv7wzuY=;
+        b=iRjklNgmcZU55qGowO0kbImRL0RItDVknycfgZEhHp+GTcs2kdKeewgfwfvJMggjbm
+         72MgoekLdiRKWYGFMTmhI8M8lGN6a0tJRLsyRKCjrCZ97MpIeghtnx+eDyoZ3bvzWXQd
+         ReXdqikPoAeKIlbl0s+rfCjdAG9CGQNUOrRLuvL11KZL3LwwpdAy61CpHZ3d7Pw6F+M5
+         UzBHiELwBTygktPQAKGGXIedxvFKZVizNPdwuMviX5ZB2FOgFx5/t3DHLc/o/tIHFwJz
+         BGOSSov/KHtdpCbMsa5GrL3LM1uZFNvIhVwtRVhVYY139NMtgN3LqEkhdahSmWrRuRqP
+         MkzQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780494590; x=1781099390; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zWDTtoiOZ/bNUIlaqgNfrRdkn4umXihKCdd0UQ7RF3o=;
+        b=LoqKen3UBWquzPQWL6n8sYpF3+EqlMXEVWNt+ScCFDCIICeD38bi8TcBD9kNAUEDjS
+         rB3c7VznCh1OFdFdkKwXicZN8gmwNXMHrCxYmfW/cYloHT9GJvwTViySWbH+vwrAOTD3
+         50s5Ei3vLo09OeA8yLPd2AOZeRs787qzNDlfYIBmOxBvln5tC6NLo5r6jcq5ffHMLS4L
+         Njt5CkIvaYZaABXJX82d4s8VSnXPR9j5IuegeqUgQCYxMa2wb3Ahq+wyNWVlWECIvDhE
+         TzU/nzyfAzI4oR2A5V1PyGG71zcc4WOr8nBHi0pBMVRwIK0+EwBAqmP8Z2hwVAYxboBM
+         rA7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780494590; x=1781099390;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zWDTtoiOZ/bNUIlaqgNfrRdkn4umXihKCdd0UQ7RF3o=;
+        b=DCWW9HMVavzkWmOjvut7bblO+fcjlKuQOpy/FEa3oZX3u2Vs1JoELSLjU57ZtCXiCu
+         iykH0kyC1lFskCfNCDEdDHeLScH9Ruip7kQC0dKmnWwMgscN91zYni75vwyCDwiJ6Y2t
+         +z1EXVnWZLpIO59axOswdK1EbREGwbFxlmo0qBMbV/P0Udn1RX4vR4SiGNRp387K1Qdp
+         70QNGO8dnGDn3GVLtTcuxDS+2DUZ5kDKVY8pSyrEGchkYnmfRrlH0ePtZNLEExoxhk+3
+         L1Qz3ic4okvV2BSwoXavBRsdUJ58D3OyKTez7fH9B7AOUP1JNU5LqCH1R0ZW1VYs5beM
+         lRSg==
+X-Gm-Message-State: AOJu0YzuYVgkrmPMtdc+xaVpWnSwl3InKQe4D+7qRQn4VpgmtvuF+WGp
+	qwlzHbTUACLNRB1SV9lgGVQKvZZ9OF3DB2qyQfdHgtgENQXPp4oM9NJnflyCpkv/Rsb1GRSoK1h
+	wJIx5kadyhAHFuZaYWwrNVP81C0ro7g0VecM402o=
+X-Gm-Gg: Acq92OHBggzMQTqLM/aXCKF2QqDBlhdLuvda16afhVfxtjASAHCmlrjn+JlJw06gbzX
+	mUso9JwjHD8ybfZFUDvFTqIqvpAwo+81TiLbp1pToVvrtDXxqEseB4BASGC1ubjCsaqyfcFJvwL
+	BoDFQMDMC1nHM9rvbZqCBNFEWkKxJH87iu8G6TXS3cv2vL6pZsTSuHVBpVj95kPWZKrteCsdsbX
+	Ugf6WtBrIPwd9BIvYBBOpn7c795BOHef5RuoNvXpiCLnvqZjafmP3abSqV4EEP+9bYDy45vgY9k
+	o+3GwK0EXndiio/JFIKNYThIxw4DkuEWWgFdalG82ZPoyi6EjBscZHeWWo24f9AA69qSB59H0PX
+	GAaCcMVH+kVFxz6J5
+X-Received: by 2002:a05:622a:1b8f:b0:517:675f:3ee8 with SMTP id
+ d75a77b69052e-51778579d07mr56111621cf.12.1780494589748; Wed, 03 Jun 2026
+ 06:49:49 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1672:EE_|DB8P189MB0839:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5712439a-303e-44d6-744b-08dec15e1525
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|366016|6133799003|56012099006|11063799006|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	x6OvTdxGcLxMAXgRjWGeoA+Po3T158620AdmhAWI+PrmKu3gJacpDkuqjur2hisMmce53JCDyiCwjxy/DksgDt7f/zsW3zmFt/P7ifEZhbO/ner20T7xCl8Nqv+iGyjI2WiRN4KtsxuspFNwlEFv6TXphTB89XKjLZu/siEBPR1tc0IdBAAdLbTR+3AeI5+zJm/e8UjsmD4hYXrVkHPJCigrY8iKxBIKpbo/OuQFyWSxjuqdUmlgH1hHUbDI8klODJtLc/U8VidWRVhCk7CEnkwcQyLvbg0kCLKmr+pTgobdW9M6J7k/dyMBuBLmTtNkk1wCyyVmPu7vti5+zEEwhltASsBCgVOWgtC8PclkcLtUVuKdwkwEyplQQsfuq3H0EjiKkhMq+nejfN8AR69dRDwd9JTKNbfiIsPG14ZRQEYOmGddX2odV0mdD2XSDAcLsSO4ka5bfnS2Mgat+uRx2JHVzhnYmJNF5uDkqTdEYlmuAq48yljiyZR6Fk91oNR6yW4qSEfZzCaCqFpNcphH8s+2vYZcdQbtKsqPBmxc5tIVxx5Cq37kbdgxp2trr9DrX4UjFAw7Hx0Cr9Twnqv+Sqz39PBtGfiQok5reyRCu3jqQ/qzb7v6Zj+lXxYF+qjkxgxb5AVZoaHu6/TGANP0FVhQ+sJ6E9aIYBTQfgq3yWel6aZmZ0OIX8RX0+1DQdmJQ6wDQJyUNNyOf5EccRtFmQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(6133799003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?WfGSpPI7lHszcSxpW5cAtdr6xdSIYlD32xlp3UbmYV2pEkIadhwdqs1JQ3FT?=
- =?us-ascii?Q?Me8k1O+8Thzxu/+VnGHUXoypZd30Sf8T9S70IyZ4K1LVGeLMZZFPq2s/yKHV?=
- =?us-ascii?Q?X6tZRqzSd9Mu5fSz6meyu+9d5oUjHGCUXwq4V1giRoxoNdNA8v6TKABNzzYb?=
- =?us-ascii?Q?6yyDPdlJ/RYGqH+i5vw6VDWYqkvJlgbJ+1gx+WtVkIWWg13pjhXF3C/q755c?=
- =?us-ascii?Q?EA844cbMBqPIvuifVKfVTUcAMwAarlDSWtdVzsHk9mIAJH5NFGKf96fiXQMV?=
- =?us-ascii?Q?dEYxgrVNz/yEI9ai4Cy+f7O+FNT9Iza8MS892nuqqXL5fQcA5lfD2DhNWVGn?=
- =?us-ascii?Q?fX3hVMNjIPT24Y0S2ziGkRo3fy8crgaVv6/OGeRGenz+VrV6u411NwXu3COx?=
- =?us-ascii?Q?Xt+7ZhMGYT5AWCwDJ9ZFjHRcbY2gX3OzVGkXZeLRDPai3AXmgahQ6rpRX1HK?=
- =?us-ascii?Q?/0KmHeCqZIs7aPROf2RlybpKYD1JMfP7W3PQEU7VFAvAAAihpw73onBp7uck?=
- =?us-ascii?Q?ccKAuAs/gXMKM8ChZKHWPk0gf6+cBFbeYyudPSplTVjGkZnQIbzWfSL+JCCA?=
- =?us-ascii?Q?AqTZhSqsoWFv1HWy0X6BH90x7E7paRwZdrQrcdILgoIcCWwWsLViNb+bLYs9?=
- =?us-ascii?Q?XKeblwuknvzzIWV/ZVV8lEhWMWf2GvtK3KBkPJceQ4AOLaem1gxxQngu7eYK?=
- =?us-ascii?Q?zI0XkCHWGe8CKFaV7eJPGESIBwiAaTTWwzh3Sm66OHtOeYGpd7Od20hTNJlm?=
- =?us-ascii?Q?btsI1Ym8rIRPF+sl4FVoMet10sH+C0uCBnNHawav9XpObK/f3AO/Hhw2iUF1?=
- =?us-ascii?Q?AGoKujl3/WU5K/P7tfMP92Ry6HQuc0VnSzOolSicKd/cZ+gKXPHT93c86Fk8?=
- =?us-ascii?Q?WeUec+8pis44I9o6fDmluOWetufz+t7UEaFLFSxnMdRtBRt6T7HI6rrUYd8h?=
- =?us-ascii?Q?urW/86eAGTU2Lfx2Zvz8rsYKgO/tDqcl2/OzEnprkRCsgCl5KOJH90lg2cze?=
- =?us-ascii?Q?vAiJa6nbY4su1s3BiPaqizjxVXLOhpeiggONkWOmpxAcnRk8bfeISGgIA8zt?=
- =?us-ascii?Q?oGBwlydBQ3l9mcWQPQDYAPilNt+WPqnkjhOIm366tRi4GcpdulohSU2owVC2?=
- =?us-ascii?Q?HPmpijw+oZECVoVGVDQ2zVjtnx9HsZcm9Uzso6oD1WKb0SQvWbXoj+XPtqVE?=
- =?us-ascii?Q?BgzfqsAYf7RPUUqQEakpIDGOL5/MSDf9owvNYmwqvZ7YTT0AtmHAywHge81B?=
- =?us-ascii?Q?z398ZAZLPk9eaPFoZ67GHpag6r2Ehc8Cf9C5hPkwUj86+F6trrvuIiDU+vfR?=
- =?us-ascii?Q?LGURoIYX6DntefdpTcSy8Ni0XMto6x28ILH5MPXjSeZGUFzssacKGCZCpdiR?=
- =?us-ascii?Q?Cjoq8LCUh3Tibth/3AkCNSuwNw3vFXog8lQ1yX5R/5KIdB1U7eEWtbtcqhvS?=
- =?us-ascii?Q?EU8i4yPneFb2H7vOhvgYdVCbKRh4MHh6ZFDi1H8vw07y/m+MZPhIeZGgJhUi?=
- =?us-ascii?Q?FIt02lkXQBdWQuyUiE5fPgh1yFvgv5BeJBh3AMV8YYiUiVckc2PqCDaMQbB5?=
- =?us-ascii?Q?a3WbtcpaGhQ8kWUjSCn+RM2A8LeEhuR8RwLqkYwrftqQtwgDww1YbRd67zsf?=
- =?us-ascii?Q?0/e3sn2X4fRaASCssqpuv9Uy2NM9tbAVaT/wWwm9eb6dD09gTbn7t2NsiQgZ?=
- =?us-ascii?Q?8BE4R0i01HdRr91z5Dkeu9m49QXO0IFnPJqhhJ0axL22ZM74eA4pBUngnrxy?=
- =?us-ascii?Q?E4uOee65deCC0L7Nuz5p7klOswMSMfg=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5712439a-303e-44d6-744b-08dec15e1525
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 10:51:36.0152
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: avfg0FlvN8IlKrZJoQ78dIB0BDiVjxjS/esMVMOFuoZYaAs1mb8pyoWxj9YEyUbIwZGCmfgNBA0QUKUHWBo7XldnJPP9A2t9hCsbjiigWYs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB0839
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+References: <20260602114204.1646653-1-sivakumar.bs@gmail.com> <DIZF18MG982K.1Y7D5ETMYWTR6@bootlin.com>
+In-Reply-To: <DIZF18MG982K.1Y7D5ETMYWTR6@bootlin.com>
+From: Siva Kumar Balasubramanian <sivakumar.bs@gmail.com>
+Date: Wed, 3 Jun 2026 19:19:21 +0530
+X-Gm-Features: AVHnY4JRYsoGqj6df6krRTZe2S337MA8bprEON0a1dWwvK3VIYEa073E9BUf3Jk
+Message-ID: <CACFV95JePfPmV7VnR8-bpJpSFLrgU8Bmtq7mdWpDYnP2LTJboQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] qemuboot.bbclass: add missing task
+ dependency on kernel deploy
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000008be87b065359b3e2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 13:04:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238097
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 13:49:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238098
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+--0000000000008be87b065359b3e2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-CVE link: https://nvd.nist.gov/vuln/detail/CVE-2026-3087
+Hi Mathieu,
 
-The CVE is only applicable to Windows OS
+I will look into this and get back to you.
 
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
----
- meta/recipes-devtools/python/python3_3.14.4.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks,
+Siva
 
-diff --git a/meta/recipes-devtools/python/python3_3.14.4.bb b/meta/recipes-=
-devtools/python/python3_3.14.4.bb
-index 71f590f630..84cd770f3b 100644
---- a/meta/recipes-devtools/python/python3_3.14.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.4.bb
-@@ -48,6 +48,8 @@ UPSTREAM_CHECK_REGEX =3D "[Pp]ython-(?P<pver>\d+(\.\d+)+)=
-.tar"
-=20
- CVE_PRODUCT =3D "python:python python_software_foundation:python cpython"
-=20
-+CVE_STATUS[CVE-2026-3087] =3D "not-applicable-platform: Issue only applies=
- on Windows"
-+
- PYTHON_MAJMIN =3D "3.14"
-=20
- S =3D "${UNPACKDIR}/Python-${PV}"
+On Wed, Jun 3, 2026 at 6:03=E2=80=AFPM Mathieu Dubois-Briand <
+mathieu.dubois-briand@bootlin.com> wrote:
+
+> On Tue Jun 2, 2026 at 1:42 PM CEST, Siva Balasubramanian via
+> lists.openembedded.org wrote:
+> > do_write_qemuboot_conf had no dependency on the kernel deploy task,
+> > so if the kernel was rebuilt without invalidating the rootfs sstate,
+> > the task was skipped and .qemuboot.conf was left stale while new
+> > image artifacts were deployed with a new timestamp suffix.
+> >
+> > Add do_write_qemuboot_conf[depends] on KERNEL_DEPLOY_DEPEND using a
+> > Python expression to guard against the empty case, since baremetal
+> > images (which inherit qemuboot via baremetal-image.bbclass) do not
+> > set KERNEL_DEPLOY_DEPEND.
+> >
+> > KERNEL_DEPLOY_DEPEND is defined with ?=3D in image.bbclass and is
+> > already used by do_build[depends] for the same reason.
+> >
+> > Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14520
+> > Signed-off-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
+> > ---
+>
+> Hi Siva,
+>
+> Thanks for the new version.
+>
+> It looks like we still have a failing selftest:
+>
+> 2026-06-02 20:22:55,502 - oe-selftest - INFO -
+> fitimage.KernelFitImageRecipeTests.test_fit_image_sign_initramfs_bundle
+> (subunit.RemotedTestCase)
+> 2026-06-02 20:22:55,503 - oe-selftest - INFO -  ... FAIL
+> ...
+> Initialising tasks...ERROR: 4014 unbuildable tasks were found.
+> These are usually caused by circular dependencies and any circular
+> dependency chains found will be printed below. Increase the debug level t=
+o
+> see a list of unbuildable tasks.
+>
+> Identifying dependency loops (this may take a short while)...
+>
+> ERROR:
+> Dependency loop #1 found:
+>   Task
+> /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openembedded=
+-core/meta/recipes-core/images/core-image-minimal-initramfs.bb:do_image
+> (dependent Tasks ['core-image-minimal-initramfs.bb:do_flush_pseudodb',
+> 'core-image-minimal-initramfs.bb:do_image_qa',
+> 'core-image-minimal-initramfs.bb:do_write_qemuboot_conf',
+> 'core-image-minimal-initramfs.bb:do_rootfs',
+> 'core-image-minimal-initramfs.bb:do_create_rootfs_spdx'])
+>   Task
+> /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openembedded=
+-core/meta/recipes-core/images/core-image-minimal-initramfs.bb:do_image_cpi=
+o
+> (dependent Tasks ['cpio_2.15.bb:do_populate_sysroot',
+> 'core-image-minimal-initramfs.bb:do_image'])
+>   Task
+> /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openembedded=
+-core/meta/recipes-core/images/core-image-minimal-initramfs.bb:do_image_com=
+plete
+> (dependent Tasks ['u-boot_2026.04.bb:do_populate_sysroot',
+> 'core-image-minimal-initramfs.bb:do_image_cpio',
+> 'qemu-helper-native_1.0.bb:do_addto_recipe_sysroot',
+> 'core-image-minimal-initramfs.bb:do_image', 'qemu-helper-native_1.0.bb:do=
+_populate_sysroot',
+> 'qemu-native_10.2.0.bb:do_populate_sysroot', 'qemu-system-native_10.2.0.b=
+b
+> :do_populate_sysroot'])
+>   Task
+> /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openembedded=
+-core/meta/recipes-kernel/linux/linux-yocto_6.18.bb:do_bundle_initramfs
+> (dependent Tasks ['linux-yocto_6.18.bb:do_install',
+> 'core-image-minimal-initramfs.bb:do_image_complete'])
+>   Task
+> /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openembedded=
+-core/meta/recipes-kernel/linux/linux-yocto_6.18.bb:do_transform_bundled_in=
+itramfs
+> (dependent Tasks ['linux-yocto_6.18.bb:do_bundle_initramfs'])
+>   Task
+> /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openembedded=
+-core/meta/recipes-kernel/linux/linux-yocto_6.18.bb:do_deploy
+> (dependent Tasks ['pigz_2.8.bb:do_populate_sysroot', 'linux-yocto_6.18.bb=
+:do_bundle_initramfs',
+> 'linux-yocto_6.18.bb:do_transform_bundled_initramfs',
+> 'linux-yocto_6.18.bb:do_install', 'depmodwrapper-cross_1.0.bb:do_populate=
+_sysroot',
+> 'linux-yocto_6.18.bb:do_packagedata', 'linux-yocto_6.18.bb:
+> do_populate_sysroot'])
+>   Task
+> /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openembedded=
+-core/meta/recipes-core/images/core-image-minimal-initramfs.bb:do_write_qem=
+uboot_conf
+> (dependent Tasks ['core-image-minimal-initramfs.bb:do_rootfs',
+> 'linux-yocto_6.18.bb:do_deploy'])
+> ...
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/4039
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/3951
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3809
+>
+> Can you have a look at the issue?
+> The configuration used to reproduce can be found in the "OE Selftest:
+> Add layers" and "OE Selftest: Write config" steps.
+>
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
+
 --=20
-2.34.1
 
+Sivakumar B
+
+--0000000000008be87b065359b3e2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:arial,he=
+lvetica,sans-serif">Hi Mathieu,</div><div class=3D"gmail_default" style=3D"=
+font-family:arial,helvetica,sans-serif"><br></div><div class=3D"gmail_defau=
+lt" style=3D"font-family:arial,helvetica,sans-serif">I will look into this=
+=C2=A0and get back to you.</div><div class=3D"gmail_default" style=3D"font-=
+family:arial,helvetica,sans-serif"><br></div><div class=3D"gmail_default" s=
+tyle=3D"font-family:arial,helvetica,sans-serif">Thanks,</div><div class=3D"=
+gmail_default" style=3D"font-family:arial,helvetica,sans-serif">Siva</div><=
+/div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, Jun 3, 2026 at 6:03=E2=80=AFPM Mathieu Dubois-=
+Briand &lt;<a href=3D"mailto:mathieu.dubois-briand@bootlin.com">mathieu.dub=
+ois-briand@bootlin.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">On Tue Jun 2, 2026 at 1:42 PM CEST, Siva Balasubraman=
+ian via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=
+=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt; do_write_qemuboot_conf had no dependency on the kernel deploy task,<br=
+>
+&gt; so if the kernel was rebuilt without invalidating the rootfs sstate,<b=
+r>
+&gt; the task was skipped and .qemuboot.conf was left stale while new<br>
+&gt; image artifacts were deployed with a new timestamp suffix.<br>
+&gt;<br>
+&gt; Add do_write_qemuboot_conf[depends] on KERNEL_DEPLOY_DEPEND using a<br=
+>
+&gt; Python expression to guard against the empty case, since baremetal<br>
+&gt; images (which inherit qemuboot via baremetal-image.bbclass) do not<br>
+&gt; set KERNEL_DEPLOY_DEPEND.<br>
+&gt;<br>
+&gt; KERNEL_DEPLOY_DEPEND is defined with ?=3D in image.bbclass and is<br>
+&gt; already used by do_build[depends] for the same reason.<br>
+&gt;<br>
+&gt; Fixes: <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D=
+14520" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.o=
+rg/show_bug.cgi?id=3D14520</a><br>
+&gt; Signed-off-by: Siva Balasubramanian &lt;<a href=3D"mailto:sivakumar.bs=
+@gmail.com" target=3D"_blank">sivakumar.bs@gmail.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+Hi Siva,<br>
+<br>
+Thanks for the new version.<br>
+<br>
+It looks like we still have a failing selftest:<br>
+<br>
+2026-06-02 20:22:55,502 - oe-selftest - INFO - fitimage.KernelFitImageRecip=
+eTests.test_fit_image_sign_initramfs_bundle (subunit.RemotedTestCase)<br>
+2026-06-02 20:22:55,503 - oe-selftest - INFO -=C2=A0 ... FAIL<br>
+...<br>
+Initialising tasks...ERROR: 4014 unbuildable tasks were found.<br>
+These are usually caused by circular dependencies and any circular dependen=
+cy chains found will be printed below. Increase the debug level to see a li=
+st of unbuildable tasks.<br>
+<br>
+Identifying dependency loops (this may take a short while)...<br>
+<br>
+ERROR:<br>
+Dependency loop #1 found:<br>
+=C2=A0 Task /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/op=
+enembedded-core/meta/recipes-core/images/core-image-minimal-initramfs.bb:do=
+_image (dependent Tasks [&#39;core-image-minimal-initramfs.bb:do_flush_pseu=
+dodb&#39;, &#39;core-image-minimal-initramfs.bb:do_image_qa&#39;, &#39;core=
+-image-minimal-initramfs.bb:do_write_qemuboot_conf&#39;, &#39;core-image-mi=
+nimal-initramfs.bb:do_rootfs&#39;, &#39;core-image-minimal-initramfs.bb:do_=
+create_rootfs_spdx&#39;])<br>
+=C2=A0 Task /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/op=
+enembedded-core/meta/recipes-core/images/core-image-minimal-initramfs.bb:do=
+_image_cpio (dependent Tasks [&#39;cpio_2.15.bb:do_populate_sysroot&#39;, &=
+#39;core-image-minimal-initramfs.bb:do_image&#39;])<br>
+=C2=A0 Task /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/op=
+enembedded-core/meta/recipes-core/images/core-image-minimal-initramfs.bb:do=
+_image_complete (dependent Tasks [&#39;u-boot_2026.04.bb:do_populate_sysroo=
+t&#39;, &#39;core-image-minimal-initramfs.bb:do_image_cpio&#39;, &#39;qemu-=
+helper-native_1.0.bb:do_addto_recipe_sysroot&#39;, &#39;core-image-minimal-=
+initramfs.bb:do_image&#39;, &#39;qemu-helper-native_1.0.bb:do_populate_sysr=
+oot&#39;, &#39;qemu-native_10.2.0.bb:do_populate_sysroot&#39;, &#39;<a href=
+=3D"http://qemu-system-native_10.2.0.bb" target=3D"_blank">qemu-system-nati=
+ve_10.2.0.bb</a>:do_populate_sysroot&#39;])<br>
+=C2=A0 Task /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/op=
+enembedded-core/meta/recipes-kernel/linux/linux-yocto_6.18.bb:do_bundle_ini=
+tramfs (dependent Tasks [&#39;linux-yocto_6.18.bb:do_install&#39;, &#39;cor=
+e-image-minimal-initramfs.bb:do_image_complete&#39;])<br>
+=C2=A0 Task /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/op=
+enembedded-core/meta/recipes-kernel/linux/linux-yocto_6.18.bb:do_transform_=
+bundled_initramfs (dependent Tasks [&#39;linux-yocto_6.18.bb:do_bundle_init=
+ramfs&#39;])<br>
+=C2=A0 Task /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/op=
+enembedded-core/meta/recipes-kernel/linux/linux-yocto_6.18.bb:do_deploy (de=
+pendent Tasks [&#39;pigz_2.8.bb:do_populate_sysroot&#39;, &#39;linux-yocto_=
+6.18.bb:do_bundle_initramfs&#39;, &#39;linux-yocto_6.18.bb:do_transform_bun=
+dled_initramfs&#39;, &#39;linux-yocto_6.18.bb:do_install&#39;, &#39;depmodw=
+rapper-cross_1.0.bb:do_populate_sysroot&#39;, &#39;linux-yocto_6.18.bb:do_p=
+ackagedata&#39;, &#39;linux-yocto_6.18.bb:do_populate_sysroot&#39;])<br>
+=C2=A0 Task /srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/op=
+enembedded-core/meta/recipes-core/images/core-image-minimal-initramfs.bb:do=
+_write_qemuboot_conf (dependent Tasks [&#39;core-image-minimal-initramfs.bb=
+:do_rootfs&#39;, &#39;linux-yocto_6.18.bb:do_deploy&#39;])<br>
+...<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/buil=
+ds/4039" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/23/builds/4039</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/buil=
+ds/3951" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/35/builds/3951</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/buil=
+ds/3809" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/48/builds/3809</a><br>
+<br>
+Can you have a look at the issue?<br>
+The configuration used to reproduce can be found in the &quot;OE Selftest:<=
+br>
+Add layers&quot; and &quot;OE Selftest: Write config&quot; steps.<br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><br></div>Sivakumar B=
+<span></span><span></span></div></div></div></div>
+
+--0000000000008be87b065359b3e2--
 
