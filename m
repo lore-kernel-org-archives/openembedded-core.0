@@ -1,156 +1,193 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81062CD6E57
-	for <webhook@archiver.kernel.org>; Wed,  3 Jun 2026 16:58:11 +0000 (UTC)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24893.1780505887699916820
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AC4CCD6E55
+	for <webhook@archiver.kernel.org>; Wed,  3 Jun 2026 17:01:41 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24763.1780505514570645091
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2026 09:58:07 -0700
+ Wed, 03 Jun 2026 09:51:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Ey51G1Ex;
- spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-7e2cb01a974so50537597b3.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 09:58:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780505887; cv=none;
+ dkim=pass header.i=@chromium.org header.s=google header.b=Rrm7UwKS;
+ spf=pass (domain: chromium.org, ip: 209.85.218.45, mailfrom: sjg@chromium.org)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-bec43ee8ff0so152315866b.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 09:51:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780505513; cv=none;
         d=google.com; s=arc-20240605;
-        b=Ytd2vBxoDUaZobBO53LfQNklYM1oIia6MhvP//dabUgNfAVF17BYXnfLH9mOB8Po4G
-         mp4DCsL7WVYoFlEEgh3TXURidZz3gZ6Qp4gRdTLEiTQq9G3+9Zhw7AwcrtJxIrCxZTDt
-         vynbHnAC+SLj+JrBRMnntUXADk7N/DlDMhsGqYIOlcEly4/yLzmmFMW8gX6rGz/txCZu
-         MtKNNmW3OtfLHL8Hejj08XA1AZ8Pqor0K44v4L9B9GY0MsCQ7ht3ALubWQYtmlhbt9dQ
-         NO7s3Iwqi7s5oz0q/1UhLt3tBXYYVoNEa3vMiIVQCL0rfnslqr0SOXzFi0ZXAkQZ19LB
-         ClUg==
+        b=aVm9Ie0ida+aIE9GHd9la7qChiDbjg68PypeAnUlsBzGquRrCF1d2wdXloJbQi5ve3
+         FSxg+HIzcRrvRxTPwSFM8CMfPlgF2qfGwrKONWGGD2zVFUI4M22xXPz/OasOKSlH/klb
+         imsE0NaLHG5R2JXQE5cfdqgYZCFAu1LLoz9ABy1TrOg595pxjoAzhKnuUNZiwrz1NUQ0
+         jH132h+TxHMPuNf40AgtgnATt5BblawGQyakG+40MtQIPhvVXDcMtA2obVybKDNiOOZO
+         m8BaQSSZRN9sEGX7xo3ewPZ/z+TkxO7OWbPFrSv8I4LMuAOozoNG4RJAzw3Klcoh3GlY
+         rPLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=urOy6NGMiuX5T5pVZ/l4pE4hxsFLlwp+GK5AH6jzTGw=;
-        fh=duSlNiYj1xbt5fK3fQ6n7ehKB+4QGs/+/58L6286Te8=;
-        b=BbqvWOQdYLPyhObbwXKq0gi4V5Ae1ivH5UacGcVzNSpZ0VPXLgGpuheUOHaeNqlQvG
-         Q3JAKC0j+j0rtKgcbyHTfdVfNo8BXhUQ0kFuusPwBcAEH2ruavtJqmdoIGmBTAMdncbh
-         zcN6LG9DHPDPZeqrFESrlzK3ePgh9GTSXzpcl0KMUR89pjI817HIGLWNMTUXBQhu/1ny
-         S3Ytz68cUrEXKyuogiV4zqoqwfaMJPzvpmUSlg4ahREESYys5gfymOwsxMEARtq3RBXk
-         L/cNSPYfzzROW3tBsOhrBXCuLBiLGIreaKr5GJJdTE4BN2cdCFeULvUItOOSJx1HwtSn
-         2ZUQ==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=DUlmzIN/0RPQ+249f2ZZ84EK2MT5Ti3W8RmNCR6zK9U=;
+        fh=4g32b9bV3OXCssbsd5Z4ayDUxBFK595DFV6wgBPdieE=;
+        b=gKSdGNbgjKu1WFW5bzlwIWz+ucNnrWEbI/+M2Rj8oJvI8rXBwL/9W8LwiQ9CK7QmoA
+         KBuL3DSqHpR6GjyWghFyor7jwwQn9xoCOI0AOUTWU+g07ZoGw80lUS1/3E6NHx7ZOf2b
+         yazbF/PFcNm6G7WOGiifzyP1EXJSzUPE8FTD15imoR/f24sT8pIrgq4dQPd9ZTRfMKci
+         fyh3fYMyYjAwoWtIVyWGVBpL/23nvp0PGBfzjmft0WDs5JkTssp4/NVUmwP69CdUhcf2
+         HWhNg0fTDGo7NWHjObda1MkrLEUE2iGYuYubGaO1R5DyVVVVcwPcvcyDKfSeOYM04eNP
+         qqKQ==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780505887; x=1781110687; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=urOy6NGMiuX5T5pVZ/l4pE4hxsFLlwp+GK5AH6jzTGw=;
-        b=Ey51G1ExSkrDCDZ652nSh/1RGRp/0YkK8L5efxTL4VL6830y/TP14KaUKx1sA9QeCI
-         SAzRmeOoOhSd8zE5hM/qhJOC3NoSqIMVKoZLY2SqLSz3VKr6G5T5nf8wzcQbgAoZlg9L
-         nOtwLUyWenv0fgoht/94/AvcvkGqp56chmJT4DdGFAHp+8v9WK8494FoR8K5zvMhb0fa
-         kQAHIOX9Vu253q9fsGj2frETMt3CQktaTtMYlrHuiVUWzx6Ks2IQJN7dZ0RJRS1CK5KY
-         E6Phr+mJgvibgf0Z1bImaNrqcCOuWrLXnDxkS4bOo7ibhTjIozdhptoLj37u1r/Ax/fQ
-         dXRQ==
+        d=chromium.org; s=google; t=1780505513; x=1781110313; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DUlmzIN/0RPQ+249f2ZZ84EK2MT5Ti3W8RmNCR6zK9U=;
+        b=Rrm7UwKSyW50WEvMMZH8A2945YPhQ198W8A1/lQ2ppj0GXN4zGQtK6SM9e+sMqNicB
+         jLjenxW1ng/l8dZXqPW3Swfhmc3VkKi+Bym6AEF7iPDSsRjX7qtXitK5nuiaNb7RKvc5
+         YsS4QX+Qf+gOETfrMoHLtcakMgmftQ8nERd50=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780505887; x=1781110687;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=urOy6NGMiuX5T5pVZ/l4pE4hxsFLlwp+GK5AH6jzTGw=;
-        b=S8Ovzv4k6okF1TRyN5DYl8xG9biIl/eX5JONpKbH735PiZe9LtDlKBJoEMkUB9ZT1L
-         XdvQa6RmGvGpQaTFVK5Q3DSXP8c0N4qctMG052iYE21SRhVo1yHtID6PqhCYYd1TvORz
-         gN0yoJk6DQqc7Xs0YvUwvbQuNTgOu5/a3+WkyJNrFcimTY58qTpRroztjaaL8U7Jnhf/
-         HyMIbHPCljqfHVx+e0LdBEHLCNVoWwRirXviolBV3LNhElabN+qmsAw5j61RNWZWYsBn
-         r5A7XldCANXVP0kOFEWsRe83rHHupHHLRcuqNU8eqDvfIuNDJl1bJCJtXrCB9UxsYer0
-         9YAg==
-X-Gm-Message-State: AOJu0YxrsrUkaKhmLkYSEYrjTbCod7P2CiTL9aXf669jK8goBYxIvnHO
-	zMVPoRcjOOhcWf2oSUIe7gflzXgmqIjCACRKd6gyqF8DkMU51K4xfK/dMquY+qYrfnIlLfmZodq
-	VTfCtuUeWFK0sFXSOmeaiRIC0iXFbrHc=
-X-Gm-Gg: Acq92OE/eU3hLsmic1iw+HQzaOsupXOHkWeGHpFjP2DWUrtNH/xHzATlLKUDFP0dSwG
-	yaV3vOUCzMbwhsHsTvL72lVP25flZ+KRCrAD6X/v9BYUY01nwMeNvGU7xlpdSwh7i/Yr15bDsex
-	lHYxmBqidON12bCEewoi589UANtk9iAQQ9/Zn+yc7ugHXK0cQBBLIppSmmJocEL9co9zERY9254
-	JYC/U6RxHTYHRXFHNA/y2xKAmoRHz7pixmEb0qh1WX1793ZZf/NPNah3g2JOat658n70aZyG5rP
-	y+yagNKasidrlHF5b9feqAEg0SAF7Uoo
-X-Received: by 2002:a05:690c:e364:b0:7d0:4824:6413 with SMTP id
- 00721157ae682-7ea4af1f59fmr40751697b3.39.1780505886862; Wed, 03 Jun 2026
- 09:58:06 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780505513; x=1781110313;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DUlmzIN/0RPQ+249f2ZZ84EK2MT5Ti3W8RmNCR6zK9U=;
+        b=Ywu7J4IORLR6JHGD+QcIl+hfhSiyvyT6+wvU7CbaN095tRs+nTg/nGfEmrZTRqWHAN
+         cuNKWKro1YmU1Nu6nQNZZ2yoAnfz+KOOxE26mbQ4cF5jAWZzWI9czEBpRcE2t/ej8/kX
+         jPG9vlDIBdxAzG0Y3kAq7PArm/JoPNgmt2Mw1nhkPZX9rOn5jrRdElPXu/eRz42rniM5
+         mxMT2Dh5HFvDHnRW2fqwBAgS5+buNlK9gyzqF7N8RevcbHX3NDLs5A5/7JKIJTqNNzfS
+         CV9j73nkiD+Dz12Qq1spxjWZuNIF7fYgrOogNWoDHiUDBwQQRDoaRHlR0VlGxgNoGa0d
+         Ty+Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+6c4naAnfWqUxe7a9yzHnfY1xFC62Wexat/j91rGQHEbiT24MGIHqkwbS/Vi9chzaCgSarroyT6UaEKtUT9Vpi8w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywy4/5K4aoqu6nCo6EBYW2F6Hmo3lGDhtZsDjQ9WMvU2J8zL9rw
+	tO+1iundVZdB7GMWBrQGMPMDsmiDKKZNZQ3LeRuyhVMz5BFGJliqTqcoi4SVLXv8eFkgt/gLEB4
+	lmW5W828zpc53HxVFURkMVlWbo/FIG4yNTWas+WpHrrk3oObtwlWn8g==
+X-Gm-Gg: Acq92OFbFE1gvqQwAhIRPY41xUxkpNf09MOoHbFsqog4NXArJd5EkGfx4MDMA/rJvzH
+	QDRmhrrpXMiIxVq55azx7/KuKQbTPChOZr4KcWLiSOU+fqd7qD55xrTUu+CvuF/9QohYp5z8zDb
+	hz7sAJA2EyKStxKkwxiJUoI2j1m2WjoateQ1+onFnlY/ZWq3BZpRvPbBIBB3ZHlzQP2ZkEfKNTI
+	L2fa8kVGhVE02SNP95+cTwFlTlfM7eh69ovVVoIT9c+kQwg4Hixb6vTbp7m4yMqQiWremqhNpQd
+	6lL9uLGS1QKNqhQo
+X-Received: by 2002:a17:907:6d11:b0:beb:2980:e2d2 with SMTP id
+ a640c23a62f3a-bf1d1c83194mr15779166b.8.1780505026677; Wed, 03 Jun 2026
+ 09:43:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260526185633.24403-1-leoreis.costa@gmail.com> <20260603165336.2775725-1-leoreis.costa@gmail.com>
-In-Reply-To: <20260603165336.2775725-1-leoreis.costa@gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Wed, 3 Jun 2026 10:57:56 -0600
-X-Gm-Features: AVHnY4ISAEphqOOkstcLfwd1ttBwRbF00e00vGGfhog0irLcnTxCk981buAQOBM
-Message-ID: <CAJdd5GZcYxoathBzbnDTF+ffWdmbyvR3RcwPsrW7K=V2Cu63VA@mail.gmail.com>
-Subject: Re: [RFC] Bootloader components missing from image SBOM
-To: Leonardo Costa <leoreis.costa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, leonardo.costa@toradex.com, 
-	benjamin.robin@bootlin.com
+References: <20260528080356.399082-1-Wojciech.Dubowik@mt.com>
+In-Reply-To: <20260528080356.399082-1-Wojciech.Dubowik@mt.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Wed, 3 Jun 2026 10:43:34 -0600
+X-Gm-Features: AVHnY4LEQqHrCfrkAR4qrUE3iuTMiG7crq-6jGiVCZGYhGs9A6gobyy10Txe_OY
+Message-ID: <CAFLszThvtrgFCdvOa1-QYYcrefW=vt95jwMfr+QQykE8E1hg-g@mail.gmail.com>
+Subject: Re: [PATCH v5] tools: mkeficapsule: Rework pkcs11 support
+To: Wojciech.Dubowik@mt.com
+Cc: u-boot@lists.denx.de, Franz Schnyder <fra.schnyder@gmail.com>, trini@konsulko.com, 
+	"openembedded-core @ lists . openembedded . org" <openembedded-core@lists.openembedded.org>, 
+	Francesco Dolcini <francesco@dolcini.it>, Simon Glass <sjg@chromium.org>, 
+	Quentin Schulz <quentin.schulz@cherry.de>, David Lechner <dlechner@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 16:58:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238103
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2026 17:01:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238104
 
-On Wed, Jun 3, 2026 at 10:53=E2=80=AFAM Leonardo Costa <leoreis.costa@gmail=
-.com> wrote:
->
-> > We are planning to release SPDX SBOMs along with our images to provide =
-package
-> > information about the software components that make them up.
-> >
-> > As it currently stands today, bootloader components are not included in=
- the
-> > final SBOM generated for the image. In particular, for our machines bas=
-ed on
-> > i.MX SoCs, the imx-boot container, along with boot components (ATF, SEC=
-O, SCFW)
-> > have their SPDX files generated in spdx/, but not included in the image=
- SBOM.
-> >
-> > If I understand correctly, the SBOM is generated by looking at the pack=
-ages in
-> > the rootfs, and recursively adding their SPDX entries along with the on=
-es for
-> > their dependencies. In our builds, I found that U-Boot does get include=
-d in
-> > the SBOM, but in our particular case this seems to be due to the presen=
-ce of
-> > libubootenv in the rootfs, which has the U-Boot recipe in its dependenc=
-y chain,
-> > so the inclusion of U-Boot in the SBOM is only a side effect.
-> >
-> > I have not seen anyone raise this as an issue, but my intuition is that=
- this
-> > information should be included in the SBOM. Despite not making it to th=
-e
-> > rootfs, these boot components are still part of the image. CVE informat=
-ion
-> > about them, for example, is relevant to users.
-> >
-> > My question is, is there any configuration that should be set to includ=
-e these
-> > components? I couldn't find anything about this in the documentation or=
- in the
-> > code. If there is no configuration regarding this, would a contribution=
- to add
-> > components such as these be welcome?
->
-> Following up on this, I just wanted to know if this behavior is intended =
-to
-> stay as it currently is or if it's worth working on a patch to add compon=
-ents
-> beyond the ones that are in the final rootfs.
+Hi Wojciech,
 
-It is a known limitation that things that are not in the root
-filesystem image are not included in the SBoM. The biggest problem is
-that it is quite tricky to figure out how to correctly indicate that a
-given non-image task is building an "aggregate" of some other things
-and thus needs to produce an aggregated SBoM, along with the
-dificultlies of plumbing in SBoM generation to arbitrary tasks. Image
-tasks are much simpler to solve because they are well formed in how
-they operate.
-
-If you have suggestions for how to deal with this, I would welcome them.
-
+On 2026-05-28T08:03:54, Wojciech Dubowik <Wojciech.Dubowik@mt.com> wrote:
+> tools: mkeficapsule: Rework pkcs11 support
 >
-> Kind regards,
+> Some distros like OpenEmbedded are using gnutls library
+> without pkcs11 support and linking of mkeficapsule will fail.
+> It would make maintenance of default configs a hurdle.
+> Add detection of pkcs11 support in gnutls so it's enabled
+> when available and doesn't need to be set explicitly.
 >
-> Leonardo
+> Suggested-by: Tom Rini <trini@konsulko.com>
+> Cc: Franz Schnyder <fra.schnyder@gmail.com>
+> Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
+> Acked-by: Quentin Schulz <quentin.schulz@cherry.de>
+>
+> tools/Makefile       |  5 +++
+>  tools/mkeficapsule.c | 95 +++++++++++++++++++++++++++++++++++++++-------------
+>  2 files changed, 77 insertions(+), 23 deletions(-)
+
+> diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
+> @@ -207,6 +207,71 @@ static int write_capsule_file(FILE *f, void *data, size_t size, const char *msg)
+> +static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context *ctx)
+> +{
+> +     gnutls_pkcs11_obj_t *obj_list;
+> +     unsigned int obj_list_size = 0;
+> +     int ret;
+> +
+> +     ret = gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
+> +                                              ctx->cert_file, 0);
+> +     if (ret < 0 || obj_list_size == 0)
+> +             return ret;
+
+!obj_list_size
+
+Behaviour change: when obj_list_size == 0 but ret >= 0, the caller's
+'if (ret < 0)' check passes and execution continues with an empty
+obj_list. Please return -1 explicitly in that case.
+
+> +static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context *ctx)
+> +{
+
+...
+> +     ret = gnutls_x509_crt_import_pkcs11(*x509, obj_list[0]);
+...
+> +static int import_pkcs11_key(gnutls_privkey_t *pkey, struct auth_context *ctx)
+> +{
+> +     return gnutls_privkey_import_pkcs11_url(*pkey, ctx->key_file);
+> +}
+
+gnutls_x509_crt_t and gnutls_privkey_t are already pointer typedefs
+and neither function reassigns the handle, so the extra indirection
+buys nothing. Please pass the handles by value and drop the '&' at the
+call sites.
+
+> +#else
+> +static int pkcs11_init(void)
+> +{
+> +     fprintf(stderr, "Pkcs11 support is disabled\n");
+> +     return -1;
+> +}
+> +
+> +static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context *ctx)
+> +{
+> +     fprintf(stderr, "Pkcs11 support is disabled\n");
+> +     return -1;
+> +}
+> +
+> +static int import_pkcs11_key(gnutls_privkey_t *pkey, struct auth_context *ctx)
+> +{
+> +     fprintf(stderr, "Pkcs11 support is disabled\n");
+> +     return -1;
+> +}
+> +#endif
+
+"PKCS#11 support..."
+
+import_pkcs11_crt() and import_pkcs11_key() are only reached after
+pkcs11_init() has already failed with the same message, so these two
+stubs look like dead code.
+
+> @@ -243,19 +305,8 @@ static int create_auth_data(struct auth_context *ctx)
+>       if (pkcs11_cert || pkcs11_key) {
+> -             lib = getenv('PKCS11_MODULE_PATH');
+...
+> +             ret = pkcs11_init();
+>               if (ret < 0) {
+> -                     fprintf(stdout, "Failed to add pkcs11 provider\n");
+>                       return -1;
+>               }
+>       }
+
+Single-statement block, drop the braces. Or fold to 'if (pkcs11_init()
+< 0) return -1;' since ret is not used afterwards.
+
+> @@ -301,14 +352,12 @@ static int create_auth_data(struct auth_context *ctx)
+>       /* load x509 certificate */
+>       if (pkcs11_cert) {
+> +             ret =  import_pkcs11_crt(&x509, ctx);
+
+Double space after '='.
+
+Regards,
+Simon
 
