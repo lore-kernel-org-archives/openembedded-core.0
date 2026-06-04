@@ -1,277 +1,344 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <amaury.couderc@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED368CD6E4A
-	for <webhook@archiver.kernel.org>; Thu,  4 Jun 2026 12:04:12 +0000 (UTC)
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9810.1780574646424419042
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E61E7CD6E4A
+	for <webhook@archiver.kernel.org>; Thu,  4 Jun 2026 13:27:33 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.5])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11541.1780579651117650262
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2026 05:04:06 -0700
+ Thu, 04 Jun 2026 06:27:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=BXDnQJBd;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=akvUXGVb;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.145, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id E3DF51D00185;
-	Thu,  4 Jun 2026 08:04:04 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Thu, 04 Jun 2026 08:04:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1780574644; x=1780661044; bh=1J36jzMF/e
-	Z0hEn3q5/6OCknqIXqirby1jAZP0uliH8=; b=BXDnQJBdqKF3Esz0YNvGvntN/9
-	h4PeS0Jb3bVQeceel04NKYOu0tx58LSCbmAlwPMjSXaQ7dp3HZpZ8ehkZzJXoZDh
-	7lOgaMJrmQkdUhkm+OQg2fuw+R3rvhRQvDMGiwqCUsi99KUM45tL6Bvmclcxdij0
-	KLeeqUCXo2eoVhT7VeDYvtYss4nqq9IAP6mWbQpbnr2Og1pmOXwVfcyfnIu72AmJ
-	GdxVkFzYSETq2zbj2v0fJ4Go760Aw0OJXYOGqSZkKbM+yEhAIKKgtv5MazMZZV+r
-	tkdyp9aP4MYHbrYiEA5UBt2QywosOnkK4GOmKCx25pxfoVHvlnldBSfloI5A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1780574644; x=1780661044; bh=1J36jzMF/eZ0hEn3q5/6OCknqIXqirby1jA
-	ZP0uliH8=; b=akvUXGVbllJRvJ0W1nGRBclQNln7zZ3FVz1WubGbQMTD4eRh2Mv
-	pW9CHP2ebJez71oHfw24B/1HlkIFKK9SKQLZkgfPPNY46kNRvAs/fy12k1b1hSXh
-	IM6tXUxRIsv7OAIbnusSA6fcYDyJ/VUG7SgEjrZfRYJ+upPvcQ+bU8A29wM/ULPh
-	zWKqXlfT4OX+krCPuFecMf6ovDtB3rS4uX+tlI23mtqACNiMFWiXasFpIbJW2db2
-	VGjfY/4KyL69j/eY7K4Q3t4+35exnq+1wsM0U64SvL2Jc9Y51gQuRlZ5PVZndY5r
-	SjEGnDTc1QS5nLrTLWjNpqJTS17yoa/Ud6Q==
-X-ME-Sender: <xms:tGkhasvI9YWvzFKrA3jLhTGJjxTiKOX0R3QK7o9EFAp9QBJ822PKvw>
-    <xme:tGkhagehX2Sj0Mk-OuhBkg5Q_-5l_K-Ybhn2U08uvwKSy8jjItdnU6lwbCOK8c1bW
-    5XDYF4I_ZwG9RIw2B8MMhxI_abwGJIIWzIrgU6uyPJ0IUmJa509LCg>
-X-ME-Received: <xmr:tGkhasznwZmt9gQaeE26zI8kgKDo3luVVluxA6FxFzgxfihWcZrj6TAZ4uEK1EAi_Zaw6uL_B2HEjXWZcFN4RN5Aa5tRF8L0gYfkMbELmV-eFXdYNFi5SJbJ4aVDwyVG>
-X-ME-Proxy-Cause: dmFkZTEFZ0hoCY+ccOjKN+x6REImvRZyEUL/OY2y6QDTwHJo3DSXe+KQ3qNEXNVRFTNcEl
-    /SQmxht+Ccpb7d8wm+J9mW3H2j4qSvdCDmzduH80Xjkcf9V0KMLAopVCyKBP5nG5WORC2U
-    +08r7dN7kGDqBIicSryfIxh66itJmdQn+9ZEDxf6eoSCpJRjrP849WYvGBl2tnM00fBMV6
-    5HmRFvj2Q9L0sXRYTDpSiOTlr3Dray61t2H7/M3bD+sYwUszmkwNH0eQsdqbQfPbXDhkJU
-    VhTgQPQt8XV1+a/FDfCRM9c2zJ1lJTE2JQCH0vEqIQEBkwXKHfp6Q1qzcPWIjVamWBlzNa
-    EiGVfKnrzkecgWyolk82vYp4J8HgCienFb3SGtO2fEjjcrDy61p5ixHWERnuVLIfZO/HVM
-    MZRufAb4X8bXZNxbykelRYBnZAX77Tyov70sgak4FlqCOb0cy1o2iX3R0WgPR8rU2OAUbR
-    h9UrLaLcSvsmznQ39drp6mvNlP4Mxl6Dybz6A71BSfMdD0QZ+vatZC+0Ytk+FDsgUn6Kff
-    Q0XqizeDB4tGyWuqz94w76055BylJqJmbq1XZpQUTvmdxnzwRZ488OmcW1N6EvE5ayGnfM
-    WLuNEkeSq7vk+v+32xXRHVt6AbmcEe+QB/MJijoHWoVktppDYBcoljY9TsMg
-X-ME-Proxy: <xmx:tGkhauEHAR9ZlaEOuC5zxY3DiEmA-hu2FNrUA9LGjNTWLBBKlycvww>
-    <xmx:tGkhaoy2MS9tr84ZOFCKG99_Y-M9JcF3YgVjgI6smis1kCfVAFHdwQ>
-    <xmx:tGkhanvP0sGUOUgK5WtbKF7SPS-St-MW1jITFTYhaT5TgM-Q8h60cA>
-    <xmx:tGkhat3seWTBCA3bMYL-RIBkDogt3OMulLaR9OOt2p9cPuf6mrLyqQ>
-    <xmx:tGkhaidVizfc6atFUbYLPaJRh8daOMS57gHZ2AFlHlSeZzMY8xPHodOb>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 4 Jun 2026 08:04:03 -0400 (EDT)
-Message-ID: <f19df634ee723f14bff147ddc011bf9a91fc5c1f.camel@pbarker.dev>
-Subject: Re: [PATCH v5 3/3] oeqa/selftest: add oe-selftest for kernel module
- pre-filter
-From: Paul Barker <paul@pbarker.dev>
-To: Sam Kent <sam.john.kent@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: mathieu.dubois-briand@bootlin.com, richard.purdie@linuxfoundation.org
-Date: Thu, 04 Jun 2026 13:04:00 +0100
-In-Reply-To: <20260505182844.1136632-3-sam.john.kent@gmail.com>
-References: <20260505170521.1129945-1-sam.john.kent@gmail.com>
-	 <20260505182844.1136632-1-sam.john.kent@gmail.com>
-	 <20260505182844.1136632-3-sam.john.kent@gmail.com>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-C/XOmZM9la3lFNjjhz77"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=E69xNBVI;
+ spf=pass (domain: est.tech, ip: 40.107.159.5, mailfrom: amaury.couderc@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y2qbv6bOztosExjD4hiw/oMxBx072lluRE7zi/zDiLb3JBsYHyk8KnzprhnWrgEcXcP4c5zTzXvD2KtBziVRgYV5tE4DGXaaxlS7bCyJicZAAGPutfL+EmZfXb7T/cn1vkrzw++UgsNNObHXN6AO/O5UHhFF1c0/Yp3hUUb3VyAgzpRdQejB/Y9ZCrWyij6gtCrEwWuydOXoNBrn/+Dgw5tRoH4fg316YvWEl5XaQSJpdK5ciV3DsDyLBz4P2MFVcRuUS4BRkq0+9rsNmiBEPU17u59SemiqSvlWqu3pTiRymRefdFr7pd5xNnBv79Zvudtkns4sH1lmtRw0cOtWzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V+imKBxN74X2ugQoUWxfmLLEyJoPhvt988DYzXpcE2g=;
+ b=uC+6L0uanY6mnOAGE/5QyIMwz5+W1lhenijt+BMV0ePlNiY1q9sN8IyezfzSBeyCVIbk3Wd1CwEnrzH0JXqrFXH3sm0+aQF/OHGA/6vC279hwVq2BNo7xr9h/XVSPPW650YmHfUpN6CyYc+1qFqg31PKXuCHjmHYWLlwT03HFqzHcPi3w+ANPydxlF2F41Egem5erI497eE2ngdUe2NdRlBNt/RkmCWvDwwz9AzM4t0NBhyIQ8IJroSrdEsiMSHZ4ZZzOHVVa+PSkDHk2EFz0PpKDhSgiZXU6qUCg0nUxqwb3MRRKr9ky/Tm0zQIPp45Yu1lvlWM9RDFMn7VwLtvKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V+imKBxN74X2ugQoUWxfmLLEyJoPhvt988DYzXpcE2g=;
+ b=E69xNBVIzh5zYM0EnWNAEmbQX/Rk8vcAc8nbqx/qVRPRSBLp0axEKSCOFKTQX+DS06R0pa39+XhEPwEnzBG8sybd3ezoi7MzBFQi36lKFJDmpx0iYf9LIecRqgbUWsBppDvpPjhP5NTRiDGgxena+GtsA/MXaKmt1wyFBQt+FFfSgWBLj+BzF5AdxCGn3E5q1jcjmWo97IWxRTq0IYnDsRNfm+LvydtX7JWKsaBVtiegXclRd7Akf7YRYBDWtW6lE/zHcWriVxayShs2c8SnClivW/PIZ/bE5Rj+8sNFCL+jnYdBvzT0JeeURghIvsQKCatKlnGI5sBMaPZG4EbQ0g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6ad::11)
+ by PAWP189MB2830.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:46b::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Thu, 4 Jun 2026
+ 13:27:25 +0000
+Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ ([fe80::1afd:f059:542:3d95]) by AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ ([fe80::1afd:f059:542:3d95%4]) with mapi id 15.21.0092.006; Thu, 4 Jun 2026
+ 13:27:25 +0000
+From: amaury.couderc@est.tech
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][OE-core][scarthgap] python3: fix CVE-2026-7210
+Date: Thu,  4 Jun 2026 15:27:00 +0200
+Message-ID: <20260604132715.50730-1-amaury.couderc@est.tech>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DU6P191CA0006.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:540::8) To AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6ad::11)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMBP189MB3196:EE_|PAWP189MB2830:EE_
+X-MS-Office365-Filtering-Correlation-Id: 56e4ffcb-c876-4673-60f3-08dec23d0461
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|10070799003|1800799024|366016|13003099007|29003799003|25016099003|6133799003|18002099003|56012099006|11063799006|12006099003;
+X-Microsoft-Antispam-Message-Info: 
+	ebU6tK9Sx3QsbAbRPfA4B64Uwo4JFhqHjZJWSYw8iaMuUW3AkL05MJzzP4Y18vEoZejOZ60y+uhf1lK4rbK8zCYxJT26IJPCvmH4NH3ThRaV6CaSRaEPl3EYjpYXL2s0fKBxenXFafqEja8G6qy+hF4zBcrNE+oTdHTa6INTdoxguTMNlTswxFwRnAkpU7wYif5Ye78py8Uji6Utc/fcg4+76PRJctqUC+w+Z+6HSmM/0GxEM0zf2YeSK2JtQ7Ok9KONhNYNIsWueGUfk5eCM8COxB2DZCezUOiftIFD9MHNnWvdvfb1vZIYyd64D7CCMA9/F/FMTVS8GWu0rfE6I6TXoybVM7ZmW11NhQCj1I8lhj6SLIPmyp3B2QfrxtIpUd4HqPCBzAnvhlt6HhWR9Ckmy18+T1iVSXOlqk56IdN5YEX/NbBA6/pFxkwnSMrnbDEQ6YZlMXuyp74tOyI+M/7Aw428iecBjrs1agbCPe+KC6MDwBL6KSIOgHlFQjn0ylmjtnBw/kirVpkXU5NgaH03Zt0BxEVN2QVl327zhP1euDmY00pQpanUXqHBC7ipUM1zZuZBQSsCvJBsNX9SKM9eu5H0tJrZL6f9ozjbPgAYJExNn6/tX9bE+G+BxBYDLK0jovBbzFpJY1T+oFfY4WPa74s1OL6beiikANCg1zFOYQZ2vmThkVxXY/nUD1nujPk46cxgItvacxz3lf+W6g==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AMBP189MB3196.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(1800799024)(366016)(13003099007)(29003799003)(25016099003)(6133799003)(18002099003)(56012099006)(11063799006)(12006099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?JBak1jwLDhrpOe9bq26OJtM83x57lyC2gpC/5slaJHw+K0B6DSKBAW9vrIRB?=
+ =?us-ascii?Q?LQ9CzvHaY0xD0nUMMHlIFX79W6ACdr5x//idkr3mpLChSoAJx5UmUNdxevpf?=
+ =?us-ascii?Q?NJ/Mr+FYTanM9jat/OJz8ocqcEhBjG/5QDk1n6btNaBUGjlTBZ9VlwGhZTFR?=
+ =?us-ascii?Q?9JHzHfBABeMZ/uvj2KNLB4n++U4WMQvu8bZZ0KBZNSmCCMxS/q/+O2xywB7t?=
+ =?us-ascii?Q?KYQA5eWvfs/K0X3ySPbQIojraYqRBJXe4kkZaIcuh5j32ZEwkWD9Hw70Ed9q?=
+ =?us-ascii?Q?FKakWMfV77AS/znWBUwXrp/ZaceC436A+MK1REZWoBzvtK1f5VWqvmrfUUNw?=
+ =?us-ascii?Q?3B7jrlD/QMQ9smTOp5XPIp57fEuTM6mG+TxudJc1x7w+e6jJFJfpuv06m8Zt?=
+ =?us-ascii?Q?GTDidobpto1fX+YMzWex4Ax5ADkbcdlLFyMu+VtI93iDbYcrdW0edmyGmwJk?=
+ =?us-ascii?Q?FM1k4qU+SOjIVJjp4mYQvJ4l+yPPtSvUufNBEVzFxY/4ZkDyNQa09xzrw5gU?=
+ =?us-ascii?Q?fFcSyt+joPqSCsmbxxc34mB8RjeGsSaqHwA20aJ55jJ8sShIL8T6UT2tOoZj?=
+ =?us-ascii?Q?xJ2VclAP3BjWWZsmKNO3snRhFQfGq21tZeovWf77xw7TncZ31qLJiKdjaHy2?=
+ =?us-ascii?Q?D8PwdD98EQ56o95IqoNmOM4BduE1IZQKRfY8VbiTfuRg30D0Kbdsm+WQU3sw?=
+ =?us-ascii?Q?Yfr1epIJzJp1HXqP66UAwkkqRdFWqlKJ5YtqljvfBf7qVAl1eAGjJsjGYUPq?=
+ =?us-ascii?Q?tvxy2XDHsFbesKWIgBwgxw65Yrbo6+MHeNjLhKFg7YWzc8ZhRtrSdu0rZrk+?=
+ =?us-ascii?Q?+j5x04QUcJ3TNsO7uYG0sWM0mwiVXUxvzKYiRhheN09/8K/ieXovBqsWJjeV?=
+ =?us-ascii?Q?W3x6k1bB3MHbcHctVNewUAHAAarQFcm2wTwaivo9cVW5LzjSVF3cM2gK1GS/?=
+ =?us-ascii?Q?Bk5qas74iU8a1nmQQyUM4x60Sch5jQakt7QYEuHinPmwLw0wZ/aX9yF5WToS?=
+ =?us-ascii?Q?l0vVDSJceIoXB2p8kSBWkPaT4d4lm7lvWviPCDXtydjnDvn5R/w7gqaDuC9h?=
+ =?us-ascii?Q?xK2uNQNFAMaq2EUNBvyT1ckpwNheZGXyZuF6cGRCLW5Jh3AqjmnbJeICnfAT?=
+ =?us-ascii?Q?4BTx/xd7SOjxUkdSWgWw9Ac9f4TS/4rZXcQ27OyDFtxvKvNiBARhKq/yBGPl?=
+ =?us-ascii?Q?oxCs46WU4sbdAm6zFITqThG9YweMi0eeHWFj9rn9PoxZJ52cIWvptwX9YCjW?=
+ =?us-ascii?Q?ibzqAsuAD6tztpir/ZURMfNy/EGzlxnVsmtYZYulpvFKX6T93DcfqLPKR4rF?=
+ =?us-ascii?Q?S8h4JHlmZNLeUe4B/IsF/ifS7L4mL97eW1FewzZXPvsMtlD6PEDvZIQnx4el?=
+ =?us-ascii?Q?Jd2NiMbzwQ+/M+rFFH6ZdwEH4XMZ1w4YFXBtdnjPaa6BMPS/HWKfJ79BQBCR?=
+ =?us-ascii?Q?eHeuJjOHIkhEXsQh/oxuYQykaCx2Qzz/8rj7SEjH2GK5om+TjBiHJwbGpPTw?=
+ =?us-ascii?Q?HjaC+3fZm43NVGaWurltDUN/ibdvLJDZTdW22+3iyUKufi2HskTIYPO8QI9d?=
+ =?us-ascii?Q?f0qiAghIbUQkiWqKRoeF+0sRJhLqE7DUK72mZ3at/mbbpNWrga1jPpVNJVK4?=
+ =?us-ascii?Q?7bd7G5fg7HL2FZLRx+frZwlgIljZ2ZyRYK1827YemgNnBw83sC36a0tESn5B?=
+ =?us-ascii?Q?2TPds+cb5cCRhVQkMus5DXAyO1TcQUfCWY2hJ8pZDhYRcqNTA8qgqs1r+f5J?=
+ =?us-ascii?Q?iiDSzG37NklMs8mFatL9ERFyuCT3wUBr7KuOc39DgpQSQiYNiKMsxDZ4YDTb?=
+X-MS-Exchange-AntiSpam-MessageData-1: e45Om7SO2MTyAUBG/ryIkidnFm3V5DSzJhE=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56e4ffcb-c876-4673-60f3-08dec23d0461
+X-MS-Exchange-CrossTenant-AuthSource: AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2026 13:27:25.6141
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: f21SpcVUNiUp5Tw9IkfUQLsdIlQz35ClxOJkWadxBo3ych6L6YD6eF8/8hsigYtMf6ldwGM8AA7G5B62Y8guWQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWP189MB2830
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 12:04:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238130
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 13:27:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238131
 
+From: Amaury Couderc <amaury.couderc@est.tech>
 
---=-C/XOmZM9la3lFNjjhz77
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Backport patch to fix CVE-2026-7210.
+  https://nvd.nist.gov/vuln/detail/CVE-2026-7210
 
-On Tue, 2026-05-05 at 19:28 +0100, Sam Kent wrote:
-> Add selftest-ko-filter recipe and a PackageTests.test_kmodule_prefilter
-> oe-selftest that builds it to verify process_split_and_strip_files()
-> handles .ko.xz/.ko.gz alongside a real .ko without corrupting them.
-> Regression test for YOCTO #2348.
->=20
-> AI-Generated: Uses Claude Sonnet 4.6
->=20
-> Signed-off-by: Sam Kent <sam.john.kent@gmail.com>
-> ---
->  .../selftest-ko-filter/files/module.c         |  3 ++
->  .../selftest-ko-filter/selftest-ko-filter.bb  | 29 +++++++++++++++++++
->  meta/lib/oeqa/selftest/cases/package.py       | 22 ++++++++++++++
->  3 files changed, 54 insertions(+)
->  create mode 100644 meta-selftest/recipes-test/selftest-ko-filter/files/m=
-odule.c
->  create mode 100644 meta-selftest/recipes-test/selftest-ko-filter/selftes=
-t-ko-filter.bb
->=20
-> diff --git a/meta-selftest/recipes-test/selftest-ko-filter/files/module.c=
- b/meta-selftest/recipes-test/selftest-ko-filter/files/module.c
-> new file mode 100644
-> index 0000000..f6d50ba
-> --- /dev/null
-> +++ b/meta-selftest/recipes-test/selftest-ko-filter/files/module.c
-> @@ -0,0 +1,3 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/* Minimal relocatable object used as a .ko stand-in for pre-filter test=
-ing. */
-> +int selftest_ko_filter_marker =3D 42;
-> diff --git a/meta-selftest/recipes-test/selftest-ko-filter/selftest-ko-fi=
-lter.bb b/meta-selftest/recipes-test/selftest-ko-filter/selftest-ko-filter.=
-bb
-> new file mode 100644
-> index 0000000..1b8cc73
-> --- /dev/null
-> +++ b/meta-selftest/recipes-test/selftest-ko-filter/selftest-ko-filter.bb
-> @@ -0,0 +1,29 @@
-> +#
-> +# Copyright OpenEmbedded Contributors
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +SUMMARY =3D "Test fixture for the kernel-module file pre-filter in packa=
-ge.py"
-> +LICENSE =3D "MIT"
-> +LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade698e=
-0bcf8506ecda2f7b4f302"
-> +
-> +SRC_URI =3D "file://module.c"
-> +S =3D "${UNPACKDIR}"
-> +
-> +MODDIR =3D "${libdir}/selftest-ko-filter"
-> +
-> +do_compile () {
-> +    ${CC} ${CFLAGS} -c module.c -o module.ko
-> +}
-> +
-> +do_install () {
-> +    install -d ${D}${MODDIR}
-> +    install -m 0644 module.ko ${D}${MODDIR}/
-> +
-> +    # Fake compressed modules =E2=80=94 the pre-filter must not pass the=
-se to strip.
-> +    # Use octal escapes: dash (the OE recipe shell) does not support \xH=
-H in printf.
-> +    printf '\375\067\172\130\132\000' > ${D}${MODDIR}/module.ko.xz
-> +    printf '\037\213'                 > ${D}${MODDIR}/module.ko.gz
+Upstream fixes:
+  https://github.com/python/cpython/pull/149023/commits/03794ce9a58b1f33751=
+c88d7d876dfbf27645c56
+  https://github.com/python/cpython/pull/149023/commits/ccb8d2f7df9534e49a4=
+3554193d7f5f4d993189c
 
-Hi Sam,
+Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
+---
+ .../python/python3/CVE-2026-7210-1.patch      | 88 +++++++++++++++++++
+ .../python/python3/CVE-2026-7210-2.patch      | 74 ++++++++++++++++
+ .../python/python3_3.12.13.bb                 |  2 +
+ 3 files changed, 164 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-7210-1.pa=
+tch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-7210-2.pa=
+tch
 
-Why are you writing bytes via printf here instead of using gzip and xz
-to compess module.ko? You don't necessarily need to change this, but
-please explain it in the commit message or comment.
-
-> +}
-> +
-> +FILES:${PN} =3D "${MODDIR}/*"
-> diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/self=
-test/cases/package.py
-> index 38ed717..d33424b 100644
-> --- a/meta/lib/oeqa/selftest/cases/package.py
-> +++ b/meta/lib/oeqa/selftest/cases/package.py
-> @@ -185,6 +185,28 @@ class PackageTests(OESelftestTestCase):
->                  if not gdbtest(qemu, binary):
->                      self.fail('GDB %s failed' % binary)
-> =20
-> +    def test_kmodule_prefilter(self):
-> +        # Regression test for YOCTO #2348: process_split_and_strip_files=
-() must
-> +        # use f.endswith(".ko") so that compressed modules (.ko.xz, .ko.=
-gz) are
-> +        # not fed to is_elf() / strip.
-> +        bitbake("selftest-ko-filter -c package")
-> +
-> +        pkgdest =3D get_bb_var('PKGDEST', 'selftest-ko-filter')
-> +        libdir  =3D get_bb_var('libdir',  'selftest-ko-filter')
-> +        moddir  =3D pkgdest + "/selftest-ko-filter" + libdir + "/selftes=
-t-ko-filter"
-> +
-> +        self.assertTrue(os.path.exists(moddir + "/module.ko"),
-> +                        "module.ko missing from PKGDEST")
-> +
-> +        for fname, magic in [("module.ko.xz", b"\xfd\x37\x7a\x58\x5a\x00=
-"),
-> +                             ("module.ko.gz", b"\x1f\x8b")]:
-
-I find it very confusing that we have octal escapes in do_install() and
-hex escapes here. If we have to use octal escapes due to dash
-limitations, let's also use octal escapes here.
-
-> +            path =3D moddir + "/" + fname
-> +            self.assertTrue(os.path.exists(path),
-> +                            "%s missing from PKGDEST" % fname)
-> +            with open(path, "rb") as f:
-> +                self.assertEqual(f.read(len(magic)), magic,
-> +                                 "%s header corrupted in PKGDEST" % fnam=
-e)
-> +
->      def test_preserve_ownership(self):
->          features =3D 'IMAGE_INSTALL:append =3D " selftest-chown"\n'
->          self.write_config(features)
-
-Best regards,
-
+diff --git a/meta/recipes-devtools/python/python3/CVE-2026-7210-1.patch b/m=
+eta/recipes-devtools/python/python3/CVE-2026-7210-1.patch
+new file mode 100644
+index 0000000000..23d412cc38
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2026-7210-1.patch
+@@ -0,0 +1,88 @@
++From 03794ce9a58b1f33751c88d7d876dfbf27645c56 Mon Sep 17 00:00:00 2001
++From: Stan Ulbrych <stan@python.org>
++Date: Sun, 26 Apr 2026 19:31:25 +0100
++Subject: [PATCH] Use `XML_SetHashSalt16Bytes` from libExpat when possible
++
++CVE: CVE-2026-7210
++Upstream-Status: Backport [https://github.com/python/cpython/pull/149023/c=
+ommits/03794ce9a58b1f33751c88d7d876dfbf27645c56]
++
++Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
++---
++ Include/pyexpat.h                                     |  3 +++
++ .../2026-04-26-19-30-45.gh-issue-149018.a9SqWb.rst   |  3 +++
++ Modules/_elementtree.c                                |  8 ++++++--
++ Modules/pyexpat.c                                     | 11 ++++++++++-
++ 4 files changed, 22 insertions(+), 3 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2026-04-26-19-30-45.gh-issue=
+-149018.a9SqWb.rst
++
++diff --git a/Include/pyexpat.h b/Include/pyexpat.h
++index f523f8bb273983a..a676e16a7a457ea 100644
++--- a/Include/pyexpat.h
+++++ b/Include/pyexpat.h
++@@ -57,6 +57,9 @@ struct PyExpat_CAPI
++         XML_Parser parser, unsigned long long activationThresholdBytes);
++     XML_Bool (*SetAllocTrackerMaximumAmplification)(
++         XML_Parser parser, float maxAmplificationFactor);
+++    /* might be NULL for expat < 2.8.0 */
+++    XML_Bool (*SetHashSalt16Bytes)(
+++        XML_Parser parser, const uint8_t entropy[16]);
++     /* always add new stuff to the end! */
++ };
++=20
++diff --git a/Misc/NEWS.d/next/Security/2026-04-26-19-30-45.gh-issue-149018=
+.a9SqWb.rst b/Misc/NEWS.d/next/Security/2026-04-26-19-30-45.gh-issue-149018=
+.a9SqWb.rst
++new file mode 100644
++index 000000000000000..d1b5b368684e6a5
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2026-04-26-19-30-45.gh-issue-149018.a9SqWb=
+.rst
++@@ -0,0 +1,3 @@
+++Improved protection against XML hash-flooding attacks in
+++:mod:`xml.parsers.expat` and :mod:`xml.etree.ElementTree` when Python is
+++compiled with libExpat 2.8.0 or later.
++diff --git a/Modules/_elementtree.c b/Modules/_elementtree.c
++index cbd1e026df27227..b2d4b982602c583 100644
++--- a/Modules/_elementtree.c
+++++ b/Modules/_elementtree.c
++@@ -3657,8 +3657,12 @@ _elementtree_XMLParser___init___impl(XMLParserObjec=
+t *self, PyObject *target,
++         PyErr_NoMemory();
++         return -1;
++     }
++-    /* expat < 2.1.0 has no XML_SetHashSalt() */
++-    if (EXPAT(st, SetHashSalt) !=3D NULL) {
+++    // Prefer 16-byte entropy, only expat >=3D 2.8.0. See gh-149018
+++    if (EXPAT(st, SetHashSalt16Bytes) !=3D NULL) {
+++        EXPAT(st, SetHashSalt16Bytes)(self->parser,
+++                                      (const uint8_t *)_Py_HashSecret.uc)=
+;
+++    }
+++    else if (EXPAT(st, SetHashSalt) !=3D NULL) {
++         EXPAT(st, SetHashSalt)(self->parser,
++                            (unsigned long)_Py_HashSecret.expat.hashsalt);
++     }
++diff --git a/Modules/pyexpat.c b/Modules/pyexpat.c
++index 0f0afe17513ef1c..1df433e64bc096f 100644
++--- a/Modules/pyexpat.c
+++++ b/Modules/pyexpat.c
++@@ -1388,7 +1388,11 @@ newxmlparseobject(pyexpat_state *state, const char =
+*encoding,
++         Py_DECREF(self);
++         return NULL;
++     }
++-#if XML_COMBINED_VERSION >=3D 20100
+++#if XML_COMBINED_VERSION >=3D 20800
+++    /* This feature was added upstream in libexpat 2.8.0. */
+++    XML_SetHashSalt16Bytes(self->itself,
+++                           (const uint8_t *)_Py_HashSecret.uc);
+++#elif XML_COMBINED_VERSION >=3D 20100
++     /* This feature was added upstream in libexpat 2.1.0. */
++     XML_SetHashSalt(self->itself,
++                     (unsigned long)_Py_HashSecret.expat.hashsalt);
++@@ -2257,6 +2261,11 @@ pyexpat_exec(PyObject *mod)
++ #else
++     capi->SetHashSalt =3D NULL;
++ #endif
+++#if XML_COMBINED_VERSION >=3D 20800
+++    capi->SetHashSalt16Bytes =3D XML_SetHashSalt16Bytes;
+++#else
+++    capi->SetHashSalt16Bytes =3D NULL;
+++#endif
++ #if XML_COMBINED_VERSION >=3D 20600
++     capi->SetReparseDeferralEnabled =3D XML_SetReparseDeferralEnabled;
++ #else
+diff --git a/meta/recipes-devtools/python/python3/CVE-2026-7210-2.patch b/m=
+eta/recipes-devtools/python/python3/CVE-2026-7210-2.patch
+new file mode 100644
+index 0000000000..a0c365cc82
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2026-7210-2.patch
+@@ -0,0 +1,74 @@
++From ccb8d2f7df9534e49a43554193d7f5f4d993189c Mon Sep 17 00:00:00 2001
++From: Stan Ulbrych <stan@python.org>
++Date: Sun, 26 Apr 2026 19:42:01 +0100
++Subject: [PATCH] Add `_Py_HashSecret_t.expat.hashsalt16` instead
++
++CVE: CVE-2026-7210
++Upstream-Status: Backport [https://github.com/python/cpython/pull/149023/c=
+ommits/ccb8d2f7df9534e49a43554193d7f5f4d993189c]
++
++Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
++---
++ Include/pyhash.h       | 8 +++++---
++ Modules/_elementtree.c | 2 +-
++ Modules/pyexpat.c      | 3 +--
++ 3 files changed, 7 insertions(+), 6 deletions(-)
++
++diff --git a/Include/pyhash.h b/Include/pyhash.h
++index 84cb72fa6fd1b26..3056dc44cc0f1b1 100644
++--- a/Include/pyhash.h
+++++ b/Include/pyhash.h
++@@ -39,14 +39,14 @@
++  *   pppppppp ssssssss ........  fnv -- two Py_hash_t
++  *   k0k0k0k0 k1k1k1k1 ........  siphash -- two uint64_t
++  *   ........ ........ ssssssss  djbx33a -- 16 bytes padding + one Py_has=
+h_t
++- *   ........ ........ eeeeeeee  pyexpat XML hash salt
+++ *   eeeeeeee eeeeeeee eeeeeeee  pyexpat XML hash salt
++  *
++  * memory layout on 32 bit systems
++  *   cccccccc cccccccc cccccccc  uc
++  *   ppppssss ........ ........  fnv -- two Py_hash_t
++  *   k0k0k0k0 k1k1k1k1 ........  siphash -- two uint64_t (*)
++  *   ........ ........ ssss....  djbx33a -- 16 bytes padding + one Py_has=
+h_t
++- *   ........ ........ eeee....  pyexpat XML hash salt
+++ *   eeeeeeee eeeeeeee eeee....  pyexpat XML hash salt
++  *
++  * (*) The siphash member may not be available on 32 bit platforms withou=
+t
++  *     an unsigned int64 data type.
++@@ -71,7 +71,9 @@ typedef union {
++         Py_hash_t suffix;
++     } djbx33a;
++     struct {
++-        unsigned char padding[16];
+++        /* 16 bytes for XML_SetHashSalt16Bytes */
+++        uint8_t hashsalt16[16];
+++        /* 4/8 bytes for legacy XML_SetHashSalt */
++         Py_hash_t hashsalt;
++     } expat;
++ } _Py_HashSecret_t;
++diff --git a/Modules/_elementtree.c b/Modules/_elementtree.c
++index b2d4b982602c583..9e794be5c109ba5 100644
++--- a/Modules/_elementtree.c
+++++ b/Modules/_elementtree.c
++@@ -3660,7 +3660,7 @@ _elementtree_XMLParser___init___impl(XMLParserObject=
+ *self, PyObject *target,
++     // Prefer 16-byte entropy, only expat >=3D 2.8.0. See gh-149018
++     if (EXPAT(st, SetHashSalt16Bytes) !=3D NULL) {
++         EXPAT(st, SetHashSalt16Bytes)(self->parser,
++-                                      (const uint8_t *)_Py_HashSecret.uc)=
+;
+++                                      _Py_HashSecret.expat.hashsalt16);
++     }
++     else if (EXPAT(st, SetHashSalt) !=3D NULL) {
++         EXPAT(st, SetHashSalt)(self->parser,
++diff --git a/Modules/pyexpat.c b/Modules/pyexpat.c
++index 1df433e64bc096f..78efbef679024f3 100644
++--- a/Modules/pyexpat.c
+++++ b/Modules/pyexpat.c
++@@ -1390,8 +1390,7 @@ newxmlparseobject(pyexpat_state *state, const char *=
+encoding,
++     }
++ #if XML_COMBINED_VERSION >=3D 20800
++     /* This feature was added upstream in libexpat 2.8.0. */
++-    XML_SetHashSalt16Bytes(self->itself,
++-                           (const uint8_t *)_Py_HashSecret.uc);
+++    XML_SetHashSalt16Bytes(self->itself, _Py_HashSecret.expat.hashsalt16)=
+;
++ #elif XML_COMBINED_VERSION >=3D 20100
++     /* This feature was added upstream in libexpat 2.1.0. */
++     XML_SetHashSalt(self->itself,
+diff --git a/meta/recipes-devtools/python/python3_3.12.13.bb b/meta/recipes=
+-devtools/python/python3_3.12.13.bb
+index 5fa25235fe..236bffc360 100644
+--- a/meta/recipes-devtools/python/python3_3.12.13.bb
++++ b/meta/recipes-devtools/python/python3_3.12.13.bb
+@@ -34,6 +34,8 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pytho=
+n-${PV}.tar.xz \
+ 	   file://0001-test_deadlock-skip-problematic-test.patch \
+ 	   file://0001-test_active_children-skip-problematic-test.patch \
+            file://0001-test_readline-skip-limited-history-test.patch \
++           file://CVE-2026-7210-1.patch \
++           file://CVE-2026-7210-2.patch \
+            "
+=20
+ SRC_URI:append:class-native =3D " \
 --=20
-Paul Barker
+2.34.1
 
-
---=-C/XOmZM9la3lFNjjhz77
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCaiFpsBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bo97AQCIIIhJ/XOT/WVcACBJYYWbpuAwqlo5lXT6
-qXPtXDDdZwD+KddLabhBgen/oumsWsF7to/Q1ZEY46EgBbaEvoNJuAY=
-=CD1O
------END PGP SIGNATURE-----
-
---=-C/XOmZM9la3lFNjjhz77--
 
