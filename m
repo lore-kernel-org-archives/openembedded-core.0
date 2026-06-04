@@ -1,113 +1,143 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FC25CD6E4A
-	for <webhook@archiver.kernel.org>; Thu,  4 Jun 2026 05:19:05 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3275.1780542181006823315
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED32CD6E68
+	for <webhook@archiver.kernel.org>; Thu,  4 Jun 2026 07:29:06 +0000 (UTC)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5982.1780558144256841683
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2026 20:03:01 -0700
+ Thu, 04 Jun 2026 00:29:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=FTaUmfAM;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=06156ed005=haiqing.bai@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6541mxp11455237
-	for <openembedded-core@lists.openembedded.org>; Thu, 4 Jun 2026 03:01:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=+4vTgq+vDUvb/Jf4Y6+Z
-	abVqpWBhSVjFp7O168LkoE8=; b=FTaUmfAMtBHvDhvj8Pvcc6Le6gCf7m/8j0ul
-	OEtTl/ABmgSlljqwTJJhoMxbK3J+akaZWNSft+Bxm+pV/59u7ylRPzp08zSQ9l7j
-	5vxzl89/uCG0fluj6L3sCYOkUUluApCGpPgr5B2r2VErzAVyOyK1u5yGf3oNhMvC
-	vB8siV20Q4Ndn6Zh9/jJx5VmfYkAkfZtZnzff7JTmuzWdR68S5MIAmiXTUPQ5wEv
-	EcD94mmG0IV+txyuEK2tkvDH62wt1nXIGCQyMmIC5lgxkNCA5f6KrdkSsak5TBXS
-	CKErwEItj4lDBEZz3tHWxFIB/k/SB/Ie3B4KIRmHUOetvN0+oA==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4efn40809f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 03:01:33 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 3 Jun 2026 20:01:32 -0700
-Received: from ala-lpd-susbld.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 3 Jun 2026 20:01:32 -0700
-From: <haiqing.bai@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <haiqing.bai@windriver.com>
-Subject: [OE-core][PATCH] xev: upgrade 1.2.6 -> 1.2.7
-Date: Thu, 4 Jun 2026 03:01:32 +0000
-Message-ID: <20260604030132.1891613-1-haiqing.bai@windriver.com>
-X-Mailer: git-send-email 2.53.0
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=GI7wz89M;
+ spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5176b9c476aso3757081cf.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 00:29:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780558143; cv=none;
+        d=google.com; s=arc-20240605;
+        b=O2FnVjBThUqkJHF1L8LvuvyhW7dCsg7Ryj9UxajOH1htO5JM9Oqmh40DmbRUQfuynd
+         FtSd9+68EhKYMW+nRQjZf1By5clcKpe0zh0uJJYmibuQP4pFJRU7FZ3Swp32QEG/Vxd7
+         Vf0sGsySt2fcJ+VYYzqj3M3jEX1QgerNVCdDClRMoHz4uhv/3rbqK0XgRpP9xphE7VY+
+         tyL661KM+VP+rEbwxtDQywglB+uRU8WIUdDrly6sSnTiuZShd5yJd6yyN+8PkNMAKzqq
+         RBvPsuH5TJWsWVGbjsPffN9DIoQ07OMiKvGO6gX6DCal1FBqxGP/Jydu1Vg9vpXAbiZi
+         mHrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=EX0QHK9+BObLffz09vQCQQALklCzPN4mQsV4Rhz51B0=;
+        fh=7Tdpp1GonPoRsRdfb7A5+EER5kPiaIbCVeaF/5Yk+uM=;
+        b=IOT/PYw82FybeQDei9vQbUVtwwVVSVRbzOBJeCLua35thJ2spyBMj2CCOipMsY8fj/
+         yEn/mzCUoucYjiJQTd7x+t4+utbKHYE5ClCAEX8dI3KA024pgEpGVxbRv3VVYcWg/Uqj
+         8x5IfjeCzy8TYFQj5LSmagOsk66utVEqGKQmQoHhLmUK0rEZj//ZF2og3KI0PXJ2xwnq
+         Jdl5cNwOEpKq/hqHbpPJePbfc5RUEoNMU0zEOzqGvmNZZ6JeQ9WD/g0cVue/giP63p3j
+         sLxi308oDxXKvvRfH/3C9w0M+5AjtjnXKF360kDn/V9UTeKT8XLcWUk+OLBDR66rgz+9
+         DVuQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780558143; x=1781162943; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EX0QHK9+BObLffz09vQCQQALklCzPN4mQsV4Rhz51B0=;
+        b=GI7wz89MlG1/P8TujZIAKoe0b3V2vnnyJiVF3sOAil0oPzmkMD5McZ4EJQCQfXB9df
+         A+ZQ1hM2/s01VX9Ozm7eGQj4QJRTN5HDWCzbeRsMFb1K11YsS0jFG/lsG0GAG+WHp0lq
+         fW7hQ9EJUetuyDCYeSbB3y3+EkM3Y8zjtA1OYyZahwKlTsjEN0nfe9Zj5HwwHF70BXr9
+         uyhxj/+daSkBiKyoGJZvrkVns/euwE9Hn4uIQLFjEmgd0/D+RvlWQE0RRBKxeYDh1Vcs
+         /nmz7S7qiKPVlG8sbpACGipUa3+Fyayogy1o+ZBAkj6JG492X/SxZ/BpD5QLsIRypitp
+         jKYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780558143; x=1781162943;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EX0QHK9+BObLffz09vQCQQALklCzPN4mQsV4Rhz51B0=;
+        b=YLUK5ZOJ/Aty/bX0kL+tna6PHVe5JNrEchVDf/5b7TFq+GRGF+3XYLDMBtDmnJOL6M
+         MFr2sqR6HSWrkjKLC7Ts6odd0hScwEBwAg+7EMMFGir1eyI6ryJp7V4ojT/SJUrTqRTa
+         0VJaFAPkmvzBa3/fN89hAGMUPasRKxUZ7VeWERwsROHtJ2onxgPYd9mGwTziE3G9VSR4
+         jxEe+LcDsgUBWPnshunQTsIWLomhJH9VOF19k+V3oaPO0uX2I6Cmp8tguzsPOcXEBIuX
+         eB57MMQ3kAPMu0rbtErZy0MOVwVBGRUoxAO9v2Mat9ivHuPo4xcubp02b8dsm6GTfk5E
+         BIjQ==
+X-Gm-Message-State: AOJu0YxPhAqK4cNUWmQjDXySiy5u+mhR0dWFB1D5xxEBc3gbhPihEpvV
+	ZSagKkLfpRYmCB4ANtA2JdkDX3W1+CzOu0XjbMDWSGWi6srzVxEgvNSbPF1JYuxwi25bTxgEHzZ
+	mlhKG021DvjHV99cbc1sTQbKtGHSk5ks=
+X-Gm-Gg: Acq92OHN4BSx0WE0wD/cioUDj3Fly2skeT+RgeXq7Uhdgl2u/hNZ5cmDgCfo5uTtJsI
+	L+pfUI4gR/gkQ+LFgQmIdZnezWaR+84pGIIC203KR8hV3K+ZAx9P/wGA3cnthBps+ApMtF1Wzlb
+	BskUevNNE5w2oDNquGhk8jbUEfbKqluxQSFQ1vSllldwj7XhSSlpoTYaeB0X58I1RpZirLPjxFA
+	NFpPEXsha3jLjhGbYePXH3Og6Yk3k0L4YMzImo51XM0c3/1FLgSal6IJ7dJRFD4q8nEC0qLmesO
+	I+T98r8QAP0z5bW1rMQa1zOmZP4xcWsO0Ma+rFmeDk2yHPCBy4eNgd11t8ayLbo=
+X-Received: by 2002:ac8:5d07:0:b0:517:773d:15cb with SMTP id
+ d75a77b69052e-517786191a9mr106091341cf.13.1780558143069; Thu, 04 Jun 2026
+ 00:29:03 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: yMGSo_8HafkxPVanIKm9h49MBDis7HW8
-X-Proofpoint-GUID: yMGSo_8HafkxPVanIKm9h49MBDis7HW8
-X-Authority-Analysis: v=2.4 cv=GI441ONK c=1 sm=1 tr=0 ts=6a20ea8d cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8 a=g7aOlr6Ix1Mc2x5jNCAA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA0MDAyNyBTYWx0ZWRfX/y/BRVWRTE+0
- EV5WeAGevnHRI9G9ZvJ7buMJ1wUlq+mqtx8o6DP+7NSPusXJCiE/jyyIZftc62Dz3HzZ6wN/ots
- Fmxxc5pX/7I0hjFxiF8QmlrEGBGNybTxyiz6UDG6vr/u4Vvl4c9LzJ2QNojqEsJmTfCJfUJt3w4
- c9OhBLo682FczRh+X4qewlDba77rwpu8VkNksqG1ej2KoQ4+wvIMt1Lh3Lqr9pnQENMdGI3ZcQk
- rN724/MfSc/0SFm6uiIB2AnHmvQ6s3cxKGoA3eCeD3ePnJxyeAwG3qD2CA8m/my93mPco8wM5Z5
- SVsyRMxT7Sk9AdeYUPpy804a8ajOxqtDeyN8wZK6mP8lNqgep0LcxVa+wETsVrGFT6KZrggsSaz
- Rlial45XZqlUXsyoMEFJZ3JbLflcgGLtrjjvy5yR1b02Yru3GyI4R+81hfAQT16eoI6EAUgCjm+
- F30rDeqolEEX9XQXnwA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-04_01,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0 phishscore=0 spamscore=0 bulkscore=0
- adultscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
- definitions=main-2606040027
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20260604050245.2932931-1-bin.cao.cn@windriver.com>
+In-Reply-To: <20260604050245.2932931-1-bin.cao.cn@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 4 Jun 2026 09:28:52 +0200
+X-Gm-Features: AVHnY4IdlNJa8ULa_nV5bQGGMfnBg0g--1q4HCvFojE97T6XYlkuIA50XHTPeH8
+Message-ID: <CANNYZj-Jou5mg=-57omtthGH1s3Jq3ezz0KGA2NtCJVeh6tyiA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3: sanitize userbase in _sysconfig_vars
+ JSON to avoid host path leak
+To: bin.cao.cn@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 05:19:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238116
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 07:29:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238117
 
-From: Haiqing Bai <haiqing.bai@windriver.com>
+I wonder if there should be a qa test for what gets installed that
+checks such $HOME leakage. It breaks reproducibility, for example, but
+Yocto AB builds everything under one user, and so won't catch it.
 
-ChangeLog:
-  fd3a07b9:meson: Add option to build with meson
-  79f0cc47:gitlab CI: drop the ci-fairy check-mr job
-  61c956d8:Clear -Wunused-parameter warnings
-  0513c8e4:Add missing indentation to second line of CreateNotify output
-  5d90d0e9:randr: Protect against XErrors getting output info
-  e2c157e7:man page: fix warnings from `mandoc -T lint`
-  eae9d09e:Improve man page formatting
-  8b9e87a3:Accept --help & --version as aliases to -help & -version
-  c69f783f:Add -help option
+Alex
 
-Signed-off-by: Haiqing Bai <haiqing.bai@windriver.com>
----
- meta/recipes-graphics/xorg-app/{xev_1.2.6.bb => xev_1.2.7.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-app/{xev_1.2.6.bb => xev_1.2.7.bb} (84%)
-
-diff --git a/meta/recipes-graphics/xorg-app/xev_1.2.6.bb b/meta/recipes-graphics/xorg-app/xev_1.2.7.bb
-similarity index 84%
-rename from meta/recipes-graphics/xorg-app/xev_1.2.6.bb
-rename to meta/recipes-graphics/xorg-app/xev_1.2.7.bb
-index 182aeff1b7..6e866b8f8c 100644
---- a/meta/recipes-graphics/xorg-app/xev_1.2.6.bb
-+++ b/meta/recipes-graphics/xorg-app/xev_1.2.7.bb
-@@ -12,6 +12,6 @@ PE = "1"
- 
- DEPENDS += "libxrandr xorgproto"
- 
--SRC_URI[sha256sum] = "61e1c5e008ac9973aca7cdddf36e9df7410e77083b030eb04f4dc737c51807d7"
-+SRC_URI[sha256sum] = "95167895924de58e34b1013b2b0c8476e90d0888c6c39e7ae9bc35e3a19dba04"
- 
- SRC_URI_EXT = "xz"
--- 
-2.53.0
-
+On Thu, 4 Jun 2026 at 07:02, Bin Cao via lists.openembedded.org
+<bin.cao.cn=windriver.com@lists.openembedded.org> wrote:
+>
+> The _sysconfig_vars__linux_x86_64-linux-gnu.json file contains a
+> "userbase" field that is populated from the build host user's $HOME
+> at build time. This leaks the build host user's home directory path
+> into the target rootfs.
+>
+> The existing py_package_preprocess() cleanup for this JSON file only
+> strips known OE build path prefixes (STAGING_DIR_TARGET, RECIPE_SYSROOT,
+> etc.), but the userbase value comes from the build user's $HOME
+> environment variable which doesn't match any of those patterns.
+>
+> Set userbase to an empty string in the packaged JSON. This is safe
+> because at runtime, sysconfig.get_config_vars() always recomputes
+> userbase by calling _getuserbase(), which resolves the actual target
+> user's ~/.local path dynamically. The static value in the JSON is
+> never used for runtime path resolution.
+>
+> Signed-off-by: Bin Cao <bin.cao.cn@windriver.com>
+> ---
+>  meta/recipes-devtools/python/python3_3.14.5.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-devtools/python/python3_3.14.5.bb b/meta/recipes-devtools/python/python3_3.14.5.bb
+> index 2f821b130f..cc18e13747 100644
+> --- a/meta/recipes-devtools/python/python3_3.14.5.bb
+> +++ b/meta/recipes-devtools/python/python3_3.14.5.bb
+> @@ -390,6 +390,7 @@ py_package_preprocess () {
+>                  -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
+>                  -e 's:${RECIPE_SYSROOT}::g' \
+>                  -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
+> +                -e 's|"userbase": ".*"|"userbase": ""|g' \
+>                 ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfig_vars*.json
+>  }
+>
+> --
+> 2.43.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#238114): https://lists.openembedded.org/g/openembedded-core/message/238114
+> Mute This Topic: https://lists.openembedded.org/mt/119641392/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
