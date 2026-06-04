@@ -2,343 +2,328 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C979FCD6E6E
-	for <webhook@archiver.kernel.org>; Thu,  4 Jun 2026 20:01:17 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4253.1780603275927936657
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AEA8CD6E75
+	for <webhook@archiver.kernel.org>; Thu,  4 Jun 2026 20:10:11 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.52.1780603809048628592
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2026 13:01:16 -0700
+ Thu, 04 Jun 2026 13:10:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=u647qi6y;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45ef56d9b67so904711f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 13:01:15 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=sz66vn7/;
+ spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-45f3cf907ceso559922f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 13:10:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1780603274; x=1781208074; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
+        d=smile.fr; s=google; t=1780603807; x=1781208607; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+xNERY4m2OwL3hlSj2IjXK81HbrfRYqjM3qCa9wy/EM=;
-        b=u647qi6yBgLUBQ2/JYhnXhQKD27LiWOhKOoKaYHQhCSpZlOjjrk6m/2kL9dP01dtc+
-         S7129z8DVqzGPbTXFR40YDViGTDQZqEUVI9+yEO8/XxdIJArAEKVxPuDQsLEwgTn8rkD
-         5MVrBbJnfiYDD1ovlF2H315Pj7ChagdFRV/l0=
+        bh=LYGF1mkrHA7SZOHnRq6o+0jdnGlO1IsuCI3UOtk2ly0=;
+        b=sz66vn7/TchhhHMSJK5Aayk90Zfj83b4HHCzNXhP9pBXPmOMkO6p4M9vLv52IZJd4Y
+         +QGyAiiEEknIq0c+J/2USZyAflKwwzi2kq3ixERilbbxIptjwSRTDxVSmn2F5HTTnNNs
+         aDqpLiobsK4o2q/VFiUFBcxd7ROLG3jTCnW0U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780603274; x=1781208074;
-        h=in-reply-to:references:to:from:subject:message-id:date
+        d=1e100.net; s=20251104; t=1780603807; x=1781208607;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+xNERY4m2OwL3hlSj2IjXK81HbrfRYqjM3qCa9wy/EM=;
-        b=XijHQl7vNLRMZthwyXnn0HfOY2gplTeEeXW8uBDoiWQWCuupvKdtfHtvCoR13VQRAS
-         sJBva/Il4bUIAixT64V9iGgUrKEKstvxIzpdNeT+XKOxOaf3izwqyNrZ2sntFOhT7bbm
-         p63k4a9+D2ld3kMijX3Lml9qbAfeK2s7MKTKWclEkG6MLBJCdZpGaiAOcTxp6GM5Gq5E
-         jO4a6R+r+H0ZWoniqQ4kJUJ9q9H7y3QfkETEj+PDPtqQlvbb1hp/+PpSVIyA0osS300V
-         YDLQqQFYjRRaZ51gSJHua29f2sDGgMx5/o3R/Nlx+WnzK8LQFG/mYN288P10U4MTaCzy
-         ZZYQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/m911q8ooUZMp8fkJfeCmyyIZpzBDEpiJaAsNAT+3yugsMgKSWKHjmC2q81vCW4xcV9m5m218+nGpyNKT+zOXDwA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw1hO5AaETGHpiNQyVFh3J3IuIt7UByy4W0fEofVSakPZ+Nu2bI
-	gwbV6/t5CSL0f3346kNYTNLZZRuURFPmle0dTpxQFq/sltyXuQHkMYG9eGyc8YRoqUY=
-X-Gm-Gg: Acq92OFbIPoyM2caTucs0NezeB1yFCWdqirjT8edDbgbHf4ltcGwFMtcE6IomYHL98s
-	iqCdJcycWu/JuUMz8wKoI0RRbRMKK6Sn/1R0rrKGJCkzyWVHibV+MpSuURuqnoXxo9oU7PFEp4K
-	Ip2TsaR8EsSYtoM44zD8Ai7N57LBLaC2D/h6fWe1jZaY+H1dUIfwWBn4duF0op/TKWuo85UwZ8F
-	5rwLD4H+yiBzyhNjijWU1OBbNGUWU3E//atbONppUeI4o1AvZABsGNJrzHBGzwCh30aBTVsy+5c
-	LaSLgtJyRcXivxZktPK/IU1C2P1h7bzqz4xXL1rKeBgMJxOLkjJERD24LDwHgFR8q0iN46U/0FU
-	C1nH0uUxtlCtyshq5XBuEVvwlqkCOfjKa53ylugYmyC4sGB3Fy2TtK2bry4wiqu9gDbFrPNGI66
-	B11NQhzMklvjNbj6drtrJGktDUZwC7tz9T2XJGnkJ2D/c2265DDqUlnzz+vcO1JGQnEH1t9Ilv3
-	MzkN6fowe4TdH3iqRD4VwLSu6A=
-X-Received: by 2002:a05:600c:4e13:b0:490:bd1d:4732 with SMTP id 5b1f17b1804b1-490c25eea3bmr1025525e9.23.1780603273938;
-        Thu, 04 Jun 2026 13:01:13 -0700 (PDT)
+        bh=LYGF1mkrHA7SZOHnRq6o+0jdnGlO1IsuCI3UOtk2ly0=;
+        b=ZqBDL6zn40qIg+uPcUCx92FHCMyzrGMKgMZPLd20m4cSK/WD91VC/VNRjXZ1WnWcH6
+         gu6arhRa8W6krygppKn4JG4Z/VpjJ/Opv/YveuWuwGd5JqDBJNXV8SbvtjSha9xU/+0q
+         wLQBfx9SF5J7noYa/GkyaqBQW70Fy9M3X+4I4UILMAVkA0CsYMZFUFxYc8IjKrW0yhPG
+         ypPYEQcQPOe8UruvNZYS1urTdygtYWU7uTHsGgJVJEyKLExLaMvs7/QZPvVyYf2+yBWR
+         eEbCbZnVKlS27swDAbae7wIjJqot/G8Op/Ooks2IRwHd+ckAqn9QxajT3WeTdcq/JTG7
+         N7Mw==
+X-Forwarded-Encrypted: i=1; AFNElJ9QS2dm3JtIlOuISbBwxS5Gv19JW1JKCt6Htm0tTkAGmaDAXD9OJRq3mxt8qgvSWZyARsEnIKDnBDKX+wJOrFSFug==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywm4WZx8Ssa85mv2Jw/QCwkVWyyoKQ+TVaz2CZS1imGDRr3B+WO
+	un/vIJmkdOYFVKgS2PuR6AGXs4p1kn6Vd2ik5QT9cQyC+VoDy67tnOdFqfRW7P0vC0w=
+X-Gm-Gg: Acq92OHD6UGloociL0ooOWnC1b/jwCrV1x9oHb5/D7g1RcAD6n32GbITg0+75EviM95
+	2rrjrOnRXPs0oGMNpTMad4riNzS5N2LZa5BG2+d6gEtmMXf7hC5m8CAYl0gggjuo7jYVlk9VIIW
+	oVCKy9SvImhSRl6j5lSLNrf45gU4f3JY7wvmMqmSb0vSicasv3Q/k2KyB62AEpNBvsjTARos2Uw
+	Yxop8yvoaWNsE7VYJJ5Ne/+zd3uFMPj1U7GLWn3qSJg8BOijjuh3WsPvMH5xNgojhdPfji2/9iL
+	Nq2zDm2W+ZORE5VQAf5PGHuFKHXHljT/Wk1JXekx8U2rnXkgP9JLNLGgakUB0L9l5OsBkBS7LkT
+	IMZKyZtB3dsYBE035ieGKBTHD8GmC7/hozq7PdSbg1o0bS124xaU4vioBhIreT6Ptk46HfRT59g
+	E7Rf+CV0uHOv6e9f3O9/WodyBrUESpiytr81qKmHvpL/5q1pqmq9xZxwNcovf3h2wtzyVXDcTOk
+	GNegwtiQkMxfODGnR5wGzgQYTs=
+X-Received: by 2002:a05:600c:c16f:b0:490:b8e6:be40 with SMTP id 5b1f17b1804b1-490c25fc0d5mr1204085e9.21.1780603807264;
+        Thu, 04 Jun 2026 13:10:07 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00ae426e28cd306e8e.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:ae42:6e28:cd30:6e8e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2f5612sm18187335f8f.15.2026.06.04.13.01.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490c1574dc4sm14535555e9.0.2026.06.04.13.10.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 13:01:13 -0700 (PDT)
+        Thu, 04 Jun 2026 13:10:06 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 04 Jun 2026 22:01:12 +0200
-Message-Id: <DJ0J6IRYX2R7.23ZTL1KQ7NTHV@smile.fr>
-Subject: Re: [OE-core] [wrynose][PATCH v3] gnutls: upgrade 3.8.12 -> 3.8.13
+Date: Thu, 04 Jun 2026 22:10:06 +0200
+Message-Id: <DJ0JDC0E8QIM.2PLQBKV0K6TIN@smile.fr>
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <Haixiao.Yan.CN@windriver.com>,
+Cc: "Bruno VERNAY" <bruno.vernay@se.com>
+To: "Yoann Congal" <yoann.congal@smile.fr>,
+ <hsimeliere.opensource@witekio.com>,
  <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][scarthgap][PATCH 1/7] gnutls: Fix CVE-2026-33846
 X-Mailer: aerc 0.20.0
-References: <20260603074613.2846839-1-haixiao.yan.cn@windriver.com>
-In-Reply-To: <20260603074613.2846839-1-haixiao.yan.cn@windriver.com>
+References: <20260520081403.3052797-1-hsimeliere.opensource@witekio.com>
+ <DJ0529SO7U38.2KY8QAKJ8TRSU@smile.fr>
+In-Reply-To: <DJ0529SO7U38.2KY8QAKJ8TRSU@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 20:01:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238135
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 20:10:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238136
 
-On Wed Jun 3, 2026 at 9:46 AM CEST, Haixiao (CN) via lists.openembedded.org=
- Yan wrote:
-> From: Peter Marko <peter.marko@siemens.com>
+On Thu Jun 4, 2026 at 10:57 AM CEST, Yoann Congal wrote:
+> On Wed May 20, 2026 at 10:13 AM CEST, Hugo Simeliere via lists.openembedd=
+ed.org wrote:
+>> From: "Hugo SIMELIERE (Schneider Electric)" <hsimeliere.opensource@witek=
+io.com>
+>>
+>> Pick patch from [1] as mentioned in Debian report in [2].
+>> Pick pre-patch [3] to minimize conflicts.
+>>
+>> [1] https://gitlab.com/gnutls/gnutls/-/commit/65ab33fa54e34fba69d793735b=
+7df3d383d1ff78
+
+Hello (again),
+
+This patch is in the 3.8.13 tag but not in the 3.8.12 tag used on
+wrynose. There was a 3.8.13 wrynose upgrade sent but I can't accept it.
+So, this patch (as well as at least 2/7, I have not checked the others) mus=
+t
+be sent to wrynose before I can accept them on scarthgap. Can you do
+that and ping back here when it's done?
+
+Thanks!
+
+>> [2] https://security-tracker.debian.org/tracker/CVE-2026-33846
+>> [3] https://gitlab.com/gnutls/gnutls/-/commit/9deffca528c23bbb218f5ec3bd=
+4bb1bf4cbd1fc0
+>>
+>> Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensourc=
+e@witekio.com>
+>> Reviewed-by: Bruno VERNAY <bruno.vernay@se.com>
+>> ---
+>>  .../gnutls/gnutls/CVE-2026-33846-pre.patch    | 97 +++++++++++++++++++
+>>  .../gnutls/gnutls/CVE-2026-33846.patch        | 67 +++++++++++++
+>>  meta/recipes-support/gnutls/gnutls_3.8.4.bb   |  2 +
+>>  3 files changed, 166 insertions(+)
+>>  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-33846-pr=
+e.patch
+>>  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-33846.pa=
+tch
+>>
+>> diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-33846-pre.patch=
+ b/meta/recipes-support/gnutls/gnutls/CVE-2026-33846-pre.patch
+>> new file mode 100644
+>> index 0000000000..71266cb338
+>> --- /dev/null
+>> +++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-33846-pre.patch
+>> @@ -0,0 +1,97 @@
+>> +From e51ef765b942968949e29797a73727c371397eea Mon Sep 17 00:00:00 2001
+>> +From: Alexander Sosedkin <asosedkin@redhat.com>
+>> +Date: Fri, 17 Apr 2026 17:49:31 +0200
+>> +Subject: [PATCH 1/2] buffers: shorten merge_handshake_packet using recv=
+_buf
 >
-> Release notes: [1]
+> As far as I can tell this patch is only cosmetic and I'd rather not
+> merge it unless you have a compeling reason.
 >
-> Rebase patches and drop patch included in this release.
-> Add patches to fix linking with musl libc.
-> Increase memory needed to successfully run test key-openssl.
-> Drop code for previous release tarball problem.
+> To apply CVE-2026-33846.patch, it looks like you will need to change it
+> to use "session->internals.handshake_recv_buffer" instead of "recv_buf".
 >
-> [1] https://github.com/gnutls/gnutls/blob/3.8.13/NEWS
+> Regards,
 >
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (master rev: 1193b0778a0f81bd75f7ec6f8f44fa44cf4b8f5e)
-> Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.com>
-
-Hello,
-
-Sorry but the changelog you linked lists new features and evolution not
-limited to bugfixes:
-> ** libgnutls: Allow fetching object type metadata for PKCS#11 keys
->    A new library function, gnutls_pkcs11_obj_get_pk_algorithm,
->    has been added to check the public key algorithms of PKCS#11 key objec=
-ts.
->    Object types other than CKO_PRIVATE_KEY are currently not supported.
->    Contributed by Ghadi Elie Rahme (!2074).
->=20
-> ** API and ABI modifications:
-> gnutls_hpke_kem_t: New enum
-> gnutls_hpke_kdf_t: New enum
-> gnutls_hpke_aead_t: New enum
-> gnutls_hpke_mode_t: New enum
-> gnutls_hpke_role_t: New enum
-> gnutls_hpke_context_st: New context structure
-> gnutls_hpke_init: New function
-> gnutls_hpke_deinit: New function
-> gnutls_hpke_encap: New function
-> gnutls_hpke_seal: New function
-> gnutls_hpke_decap: New function
-> gnutls_hpke_open: New function
-> gnutls_hpke_derive_keypair: New function
-> gnutls_hpke_export: New function
-> gnutls_pkcs11_obj_get_pk_algorithm: New function
-
-Thus, this upgrade is not acceptable on the stable branch, sorry.
-
-Regards,
-
-> ---
->  meta/recipes-core/images/core-image-ptest.bb  |  1 +
->  ...ts-mini-dtls-framents-link-to-gnulib.patch | 25 +++++++++++
->  ...ust-list-fault-fix-issues-in-linking.patch | 31 ++++++++++++++
->  .../gnutls/gnutls/Add-ptest-support.patch     |  4 +-
->  meta/recipes-support/gnutls/gnutls/c99.patch  | 41 -------------------
->  .../{gnutls_3.8.12.bb =3D> gnutls_3.8.13.bb}    |  9 ++--
->  6 files changed, 62 insertions(+), 49 deletions(-)
->  create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-mini-dt=
-ls-framents-link-to-gnulib.patch
->  create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-=
-trust-list-fault-fix-issues-in-linking.patch
->  delete mode 100644 meta/recipes-support/gnutls/gnutls/c99.patch
->  rename meta/recipes-support/gnutls/{gnutls_3.8.12.bb =3D> gnutls_3.8.13.=
-bb} (93%)
->
-> diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-=
-core/images/core-image-ptest.bb
-> index c08561296fe4..008b5770a898 100644
-> --- a/meta/recipes-core/images/core-image-ptest.bb
-> +++ b/meta/recipes-core/images/core-image-ptest.bb
-> @@ -39,6 +39,7 @@ QB_MEM:virtclass-mcextend-python3 =3D "-m 2048"
->  QB_MEM:virtclass-mcextend-python3-cryptography =3D "-m 5100"
->  QB_MEM:virtclass-mcextend-python3-numpy =3D "-m 4096"
->  QB_MEM:virtclass-mcextend-tcl =3D "-m 5100"
-> +QB_MEM:virtclass-mcextend-gnutls =3D "-m 1536"
-> =20
->  TEST_SUITES =3D "ping ssh parselogs ptest"
-> =20
-> diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-fram=
-ents-link-to-gnulib.patch b/meta/recipes-support/gnutls/gnutls/0001-tests-m=
-ini-dtls-framents-link-to-gnulib.patch
-> new file mode 100644
-> index 000000000000..7f999c4b22ec
-> --- /dev/null
-> +++ b/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-li=
-nk-to-gnulib.patch
-> @@ -0,0 +1,25 @@
-> +From 68b2fb63c8df61d1480121a859f8c955f4910c01 Mon Sep 17 00:00:00 2001
-> +From: Alexander Sosedkin <asosedkin@redhat.com>
-> +Date: Thu, 30 Apr 2026 13:08:01 +0200
-> +Subject: [PATCH] tests/mini-dtls-framents: link to gnulib
-> +
-> +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-> +
-> +Upstream-Status: Backport [https://github.com/gnutls/gnutls/commit/68b2f=
-b63c8df61d1480121a859f8c955f4910c01]
-> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> +---
-> + tests/Makefile.am | 1 +
-> + 1 file changed, 1 insertion(+)
-> +
-> +diff --git a/tests/Makefile.am b/tests/Makefile.am
-> +index f8797964d..1b27df751 100644
-> +--- a/tests/Makefile.am
-> ++++ b/tests/Makefile.am
-> +@@ -524,6 +524,7 @@ pathbuf_CPPFLAGS =3D $(AM_CPPFLAGS) \
-> + mini_dtls_fragments_CPPFLAGS =3D $(AM_CPPFLAGS) \
-> + 	-I$(top_srcdir)/gl	\
-> + 	-I$(top_builddir)/gl
-> ++mini_dtls_fragments_LDADD =3D $(LDADD) ../gl/libgnu.la
-> +=20
-> + if ENABLE_PKCS11
-> + if !WINDOWS
-> diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-l=
-ist-fault-fix-issues-in-linking.patch b/meta/recipes-support/gnutls/gnutls/=
-0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch
-> new file mode 100644
-> index 000000000000..b15a05d5b634
-> --- /dev/null
-> +++ b/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fau=
-lt-fix-issues-in-linking.patch
-> @@ -0,0 +1,31 @@
-> +From 9c573a2a0e7473ab79c43a6d3ecb0ab68ce896dc Mon Sep 17 00:00:00 2001
-> +From: Daiki Ueno <ueno@gnu.org>
-> +Date: Thu, 7 May 2026 09:42:09 +0900
-> +Subject: [PATCH] tests/pkcs11/trust-list-fault: fix issues in linking
-> +
-> +This fixes the use of automake variables and also adds the linked mock
-> +library in .gitignore.
-> +
-> +Signed-off-by: Daiki Ueno <ueno@gnu.org>
-> +
-> +Upstream-Status: Backport [https://github.com/gnutls/gnutls/commit/9c573=
-a2a0e7473ab79c43a6d3ecb0ab68ce896dc]
-> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> +---
-> + tests/Makefile.am | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/tests/Makefile.am b/tests/Makefile.am
-> +index 1b27df751..f6a60a32b 100644
-> +--- a/tests/Makefile.am
-> ++++ b/tests/Makefile.am
-> +@@ -540,8 +540,8 @@ pkcs11_os_locking_ok_DEPENDENCIES =3D libpkcs11mock4=
-.la libutils.la
-> + pkcs11_os_locking_ok_LDADD =3D $(LDADD) $(LIBDL)
-> + pkcs11_long_label_DEPENDENCIES =3D libpkcs11mock4.la libutils.la
-> + pkcs11_long_label_LDADD =3D $(LDADD) $(LIBDL)
-> +-pkcs11_trust_fault_DEPENDENCIES =3D libpkcs11mock5.la libutils.la
-> +-pkcs11_trust_fault_LDADD =3D $(LDADD) $(LIBDL)
-> ++pkcs11_trust_list_fault_DEPENDENCIES =3D libpkcs11mock5.la libutils.la
-> ++pkcs11_trust_list_fault_LDADD =3D $(LDADD) $(LIBDL)
-> + endif
-> + endif
-> +=20
-> diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch b=
-/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-> index 398c0464e0f3..8c867a5a4008 100644
-> --- a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-> +++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-> @@ -29,7 +29,7 @@ diff --git a/configure.ac b/configure.ac
->  index 1744813..efb9e34 100644
->  --- a/configure.ac
->  +++ b/configure.ac
-> -@@ -1448,6 +1448,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-> +@@ -1413,6 +1413,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
->  =20
->   AM_CONDITIONAL(NEEDS_LIBRT, test "$gnutls_needs_librt" =3D "yes")
->  =20
-> @@ -42,7 +42,7 @@ diff --git a/tests/Makefile.am b/tests/Makefile.am
->  index 189d068..8430b05 100644
->  --- a/tests/Makefile.am
->  +++ b/tests/Makefile.am
-> -@@ -721,6 +721,12 @@ SH_LOG_COMPILER =3D $(SHELL)
-> +@@ -745,6 +745,12 @@ SH_LOG_COMPILER =3D $(SHELL)
->   AM_VALGRINDFLAGS =3D --suppressions=3D$(srcdir)/suppressions.valgrind
->   LOG_COMPILER =3D $(LOG_VALGRIND)
->  =20
-> diff --git a/meta/recipes-support/gnutls/gnutls/c99.patch b/meta/recipes-=
-support/gnutls/gnutls/c99.patch
-> deleted file mode 100644
-> index 3f41241deba0..000000000000
-> --- a/meta/recipes-support/gnutls/gnutls/c99.patch
-> +++ /dev/null
-> @@ -1,41 +0,0 @@
-> -From 203d8f2187bb7f483290e0f8b7b48b152b1d027f Mon Sep 17 00:00:00 2001
-> -From: Ross Burton <ross.burton@arm.com>
-> -Date: Thu, 5 Mar 2026 11:33:57 +0000
-> -Subject: [PATCH] configure: make the C99 detection more resiliant
-> -
-> -autoconf 2.73 will default to C23 by default, which means that the >C99
-> -detection logic in configure.ac will fail because it only handles c11
-> -and c99.
-> -
-> -Instead of adding c23 to the list and then breaking again in the future,
-> -flip the logic around (as suggested by Zack Weinberg) and check
-> -explicitly for just c89.
-> -
-> -Closes #1806.
-> -
-> -Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/merge_requ=
-ests/2081]
-> -Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ----
-> - configure.ac | 6 +++---
-> - 1 file changed, 3 insertions(+), 3 deletions(-)
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index 740fb6339..c708d8f5e 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -54,9 +54,9 @@ AC_USE_SYSTEM_EXTENSIONS
-> - # Require C99 support
-> - #
-> - AS_CASE([$ac_prog_cc_stdc],
-> --  [c11 | c99], [AC_DEFINE([C99_MACROS], 1, [C99 macros are supported])]=
-,
-> --  [AC_MSG_WARN([[Compiler does not support C99. It may not be able to c=
-ompile the project.]])]
-> --)
-> -+  [c89],
-> -+  [AC_MSG_WARN([[Compiler does not support C99. It may not be able to c=
-ompile the project.]])],
-> -+  [AC_DEFINE([C99_MACROS], 1, [C99 macros are supported])])
-> -=20
-> - AM_CONDITIONAL(CROSS_COMPILING, test "$cross_compiling" =3D yes)
-> -=20
-> ---=20
-> -2.43.0
-> -
-> diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-=
-support/gnutls/gnutls_3.8.13.bb
-> similarity index 93%
-> rename from meta/recipes-support/gnutls/gnutls_3.8.12.bb
-> rename to meta/recipes-support/gnutls/gnutls_3.8.13.bb
-> index 721842801229..78b88005305a 100644
-> --- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-> +++ b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
-> @@ -23,10 +23,11 @@ SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/=
-v${SHRT_VER}/gnutls-${PV}.tar
->             file://0001-Creating-.hmac-file-should-be-excuted-in-target-e=
-nvi.patch \
->             file://run-ptest \
->             file://Add-ptest-support.patch \
-> -           file://c99.patch \
-> +           file://0001-tests-pkcs11-trust-list-fault-fix-issues-in-linki=
-ng.patch \
-> +           file://0001-tests-mini-dtls-framents-link-to-gnulib.patch \
->             "
-> =20
-> -SRC_URI[sha256sum] =3D "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2=
-bf470bea012b8e51"
-> +SRC_URI[sha256sum] =3D "ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e60=
-4e99a8b16ca9c97e"
-> =20
->  inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
-> =20
-> @@ -63,10 +64,6 @@ do_configure:prepend() {
->  	for dir in . lib; do
->  		rm -f ${dir}/aclocal.m4 ${dir}/m4/libtool.m4 ${dir}/m4/lt*.m4
->  	done
-> -
-> -	# remove on next upgrade when release tarball gets fixed
-> -	# https://gitlab.com/gnutls/gnutls/-/issues/1797
-> -	cp -p ${S}/doc/stamp_enums ${S}/doc/stamp_error_codes
->  }
-> =20
->  do_compile_ptest() {
+>> +
+>> +I had vague concerns about thread-safety of this,
+>> +but then this pattern already exists within the file.
+>> +
+>> +CVE: CVE-2026-33846
+>> +Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/9d=
+effca528c23bbb218f5ec3bd4bb1bf4cbd1fc0]
+>> +
+>> +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
+>> +(cherry picked from commit 9deffca528c23bbb218f5ec3bd4bb1bf4cbd1fc0)
+>> +Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensour=
+ce@witekio.com>
+>> +---
+>> + lib/buffers.c | 52 +++++++++++++++++----------------------------------
+>> + 1 file changed, 17 insertions(+), 35 deletions(-)
+>> +
+>> +diff --git a/lib/buffers.c b/lib/buffers.c
+>> +index 672380b05..d54c77022 100644
+>> +--- a/lib/buffers.c
+>> ++++ b/lib/buffers.c
+>> +@@ -967,9 +967,11 @@ static int merge_handshake_packet(gnutls_session_t=
+ session,
+>> + 	int exists =3D 0, i, pos =3D 0;
+>> + 	int ret;
+>> +=20
+>> ++	handshake_buffer_st *recv_buf =3D
+>> ++		session->internals.handshake_recv_buffer;
+>> ++
+>> + 	for (i =3D 0; i < session->internals.handshake_recv_buffer_size; i++)=
+ {
+>> +-		if (session->internals.handshake_recv_buffer[i].htype =3D=3D
+>> +-		    hsk->htype) {
+>> ++		if (recv_buf[i].htype =3D=3D hsk->htype) {
+>> + 			exists =3D 1;
+>> + 			pos =3D i;
+>> + 			break;
+>> +@@ -1005,44 +1007,24 @@ static int merge_handshake_packet(gnutls_sessio=
+n_t session,
+>> + 		_gnutls_write_uint24(0, &hsk->header[6]);
+>> + 		_gnutls_write_uint24(hsk->length, &hsk->header[9]);
+>> +=20
+>> +-		_gnutls_handshake_buffer_move(
+>> +-			&session->internals.handshake_recv_buffer[pos], hsk);
+>> ++		_gnutls_handshake_buffer_move(&recv_buf[pos], hsk);
+>> +=20
+>> + 	} else {
+>> +-		if (hsk->start_offset <
+>> +-			    session->internals.handshake_recv_buffer[pos]
+>> +-				    .start_offset &&
+>> +-		    hsk->end_offset + 1 >=3D
+>> +-			    session->internals.handshake_recv_buffer[pos]
+>> +-				    .start_offset) {
+>> +-			memcpy(&session->internals.handshake_recv_buffer[pos]
+>> +-					.data.data[hsk->start_offset],
+>> ++		if (hsk->start_offset < recv_buf[pos].start_offset &&
+>> ++		    hsk->end_offset + 1 >=3D recv_buf[pos].start_offset) {
+>> ++			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
+>> + 			       hsk->data.data, hsk->data.length);
+>> +-			session->internals.handshake_recv_buffer[pos]
+>> +-				.start_offset =3D hsk->start_offset;
+>> +-			session->internals.handshake_recv_buffer[pos]
+>> +-				.end_offset =3D MIN(
+>> +-				hsk->end_offset,
+>> +-				session->internals.handshake_recv_buffer[pos]
+>> +-					.end_offset);
+>> +-		} else if (hsk->end_offset >
+>> +-				   session->internals.handshake_recv_buffer[pos]
+>> +-					   .end_offset &&
+>> +-			   hsk->start_offset <=3D
+>> +-				   session->internals.handshake_recv_buffer[pos]
+>> +-						   .end_offset +
+>> +-					   1) {
+>> +-			memcpy(&session->internals.handshake_recv_buffer[pos]
+>> +-					.data.data[hsk->start_offset],
+>> ++			recv_buf[pos].start_offset =3D hsk->start_offset;
+>> ++			recv_buf[pos].end_offset =3D
+>> ++				MIN(hsk->end_offset, recv_buf[pos].end_offset);
+>> ++		} else if (hsk->end_offset > recv_buf[pos].end_offset &&
+>> ++			   hsk->start_offset <=3D recv_buf[pos].end_offset + 1) {
+>> ++			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
+>> + 			       hsk->data.data, hsk->data.length);
+>> +=20
+>> +-			session->internals.handshake_recv_buffer[pos]
+>> +-				.end_offset =3D hsk->end_offset;
+>> +-			session->internals.handshake_recv_buffer[pos]
+>> +-				.start_offset =3D MIN(
+>> +-				hsk->start_offset,
+>> +-				session->internals.handshake_recv_buffer[pos]
+>> +-					.start_offset);
+>> ++			recv_buf[pos].end_offset =3D hsk->end_offset;
+>> ++			recv_buf[pos].start_offset =3D MIN(
+>> ++				hsk->start_offset, recv_buf[pos].start_offset);
+>> + 		}
+>> + 		_gnutls_handshake_buffer_clear(hsk);
+>> + 	}
+>> +--=20
+>> +2.43.0
+>> +
+>> diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch b/m=
+eta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch
+>> new file mode 100644
+>> index 0000000000..e7d5cc6c2b
+>> --- /dev/null
+>> +++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch
+>> @@ -0,0 +1,67 @@
+>> +From 68e0c900c1111206fa4a135cdb43827f3b908284 Mon Sep 17 00:00:00 2001
+>> +From: Alexander Sosedkin <asosedkin@redhat.com>
+>> +Date: Fri, 17 Apr 2026 18:21:36 +0200
+>> +Subject: [PATCH 2/2] buffers: add more checks to DTLS reassembly
+>> +
+>> +Previously, gnutls didn't check that DTLS fragments claimed
+>> +a consistent message_length value.
+>> +Additionally, a crucial array size check was missing,
+>> +enabling an attacker to cause a heap overwrite.
+>> +The updated version rejects fragments with mismatching length
+>> +and adds a missing boundary check.
+>> +
+>> +Reported-by: Haruto Kimura (Stella)
+>> +Reported-by: Oscar Reparaz
+>> +Reported-by: Zou Dikai
+>> +Fixes: #1816
+>> +Fixes: #1838
+>> +Fixes: #1839
+>> +Fixes: CVE-2026-33846
+>> +Fixes: GNUTLS-SA-2026-04-29-1
+>> +CVSS: 7.4 High CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H
+>> +CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+>> +
+>> +CVE: CVE-2026-33846
+>> +Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/65=
+ab33fa54e34fba69d793735b7df3d383d1ff78]
+>> +
+>> +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
+>> +(cherry picked from commit 65ab33fa54e34fba69d793735b7df3d383d1ff78)
+>> +Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensour=
+ce@witekio.com>
+>> +---
+>> + lib/buffers.c | 20 ++++++++++++++++++++
+>> + 1 file changed, 20 insertions(+)
+>> +
+>> +diff --git a/lib/buffers.c b/lib/buffers.c
+>> +index d54c77022..5d4d16276 100644
+>> +--- a/lib/buffers.c
+>> ++++ b/lib/buffers.c
+>> +@@ -1010,6 +1010,26 @@ static int merge_handshake_packet(gnutls_session=
+_t session,
+>> + 		_gnutls_handshake_buffer_move(&recv_buf[pos], hsk);
+>> +=20
+>> + 	} else {
+>> ++		if (hsk->length !=3D recv_buf[pos].length) {
+>> ++			/* inconsistent across fragments */
+>> ++			_gnutls_handshake_buffer_clear(hsk);
+>> ++			return gnutls_assert_val(
+>> ++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
+>> ++		}
+>> ++		/* start_offset + data.length <=3D hsk->length <=3D max_length */
+>> ++		if (hsk->length < hsk->start_offset + hsk->data.length) {
+>> ++			/* impossible claims, overflow requested */
+>> ++			_gnutls_handshake_buffer_clear(hsk);
+>> ++			return gnutls_assert_val(
+>> ++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
+>> ++		}
+>> ++		if (hsk->length > recv_buf[pos].data.max_length) {
+>> ++			/* we don't have this much allocated, overflow guard */
+>> ++			_gnutls_handshake_buffer_clear(hsk);
+>> ++			return gnutls_assert_val(
+>> ++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
+>> ++		}
+>> ++
+>> + 		if (hsk->start_offset < recv_buf[pos].start_offset &&
+>> + 		    hsk->end_offset + 1 >=3D recv_buf[pos].start_offset) {
+>> + 			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
+>> +--=20
+>> +2.43.0
+>> +
+>> diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-=
+support/gnutls/gnutls_3.8.4.bb
+>> index ccb6a2b4b2..e40a654a8e 100644
+>> --- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
+>> +++ b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
+>> @@ -43,6 +43,8 @@ SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v=
+${SHRT_VER}/gnutls-${PV}.tar
+>>             file://CVE-2025-14831-7.patch \
+>>             file://CVE-2025-14831-8.patch \
+>>             file://CVE-2025-14831-9.patch \
+>> +           file://CVE-2026-33846-pre.patch \
+>> +           file://CVE-2026-33846.patch \
+>>             "
+>> =20
+>>  SRC_URI[sha256sum] =3D "2bea4e154794f3f00180fa2a5c51fe8b005ac7a31cd58bd=
+44cdfa7f36ebc3a9b"
 
 
 --=20
