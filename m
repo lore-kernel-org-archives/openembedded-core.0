@@ -1,168 +1,277 @@
-Return-Path: <zhengrq.fnst@fujitsu.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6B0ACD6E74
-	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 10:07:57 +0000 (UTC)
-Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5171.1780654068050765061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D10EACD6E7C
+	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 10:19:07 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5132.1780654742882322839
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2026 03:07:48 -0700
+ Fri, 05 Jun 2026 03:19:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=AOTHTbLk;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: zhengrq.fnst@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1780654069; x=1812190069;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=k9lfcsQJhnbruLYxP4y9VEcFh411ASuqJAXyP3vZP1k=;
-  b=AOTHTbLk3q7AXeNUXjHORT1pasYRo0KVsSza2mvHdwmPz2pTVOQTo4YK
-   ARpMaQsbGzEKKZMUKu3LzITMHqvT6cF3jQro/IMUgPGHWlkQZelnGdOuk
-   IySMpKf8AQjkbDYdROi5od0h6dik79+SxkDWfXy9tm0kbE18XaIfE74Vp
-   gwl671ZUWd1eMPdtMYA3412kh8tKVzckeasWKztdLnIJP81/VmYFeykqJ
-   QaTTE9YQUpfdaCBObon9i7fDkC6LUIrWE5yHYJxhfagnh4KEss1zgt5hC
-   k9qy2IT+J5/aL++6oWM0tpoD78Yw2qsU0YUAx7uJF2qI6BfrdaPb63IXR
-   A==;
-X-CSE-ConnectionGUID: hr+WEu0MTaanC7u7E/m87g==
-X-CSE-MsgGUID: kF7Sifn3T6yAT7w6a0KJ7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="243096957"
-X-IronPort-AV: E=Sophos;i="6.24,188,1774278000"; 
-   d="scan'208";a="243096957"
-Received: from gmgwuk01.global.fujitsu.com ([172.187.114.235])
-  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 19:07:47 +0900
-Received: from az2uksmgm2.o.css.fujitsu.com (unknown [10.151.22.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by gmgwuk01.global.fujitsu.com (Postfix) with ESMTPS id 64C99C00404
-	for <openembedded-core@lists.openembedded.org>; Fri,  5 Jun 2026 10:07:46 +0000 (UTC)
-Received: from az2nlsmom4.fujitsu.com (unknown [10.150.26.201])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2uksmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id 1909418591EC
-	for <openembedded-core@lists.openembedded.org>; Fri,  5 Jun 2026 10:07:46 +0000 (UTC)
-Received: from G08FNSTD190101.g08.fujitsu.local (unknown [10.167.135.148])
-	by az2nlsmom4.fujitsu.com (Postfix) with ESMTP id 58C922000A84
-	for <openembedded-core@lists.openembedded.org>; Fri,  5 Jun 2026 10:07:44 +0000 (UTC)
-From: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH v2] vim-tiny: bugfix lack of defaults.vim
-Date: Fri,  5 Jun 2026 18:07:35 +0800
-Message-ID: <20260605100736.13413-1-zhengrq.fnst@fujitsu.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=btlvlyr/;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8ce9df31840so12090396d6.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 03:19:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780654742; cv=none;
+        d=google.com; s=arc-20240605;
+        b=b7Jbjp2RMiZ2dp8RqDkoeCwSMy42gKNfrJeHZ0UwY0ZXq7biVSpNb5OJKB6ReF/7pL
+         pUB8wLRhaXEwMc1sDbcal+Qp0HYAIB3W25VjtXBCoEeT2CqnHGd9KrEF3PKyXvLb3Is7
+         tHzf8GbmHea5W5BdOwyeEeMv5dOxKYQvIkm2/R5oEKCH+9/s6NA8Vi/3kNibzwBGD+kG
+         556sAk4oq1LcJsWuKZmZF7/N8iO9+VNJHb95MfxIba9q/4qNB8WJyueKzyLE/ASAimNG
+         QtOZ30MZ4w5ij6MU33EiXAavMqtQn53N94OpVx3nq1Nr3rduqdoiwymuI6a8v5B9CtcY
+         XBEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=CuBUgLy+NQmdo6J0duA9FRIW1Js1nWocpH5DHQVLVbY=;
+        fh=mknMAB465/bsbMm77BFD2bx8Fk8ciagIJ0ZJVcHYAd4=;
+        b=QwpO+CXrJEZni9CoU/I3J3QEqEXifHgTJ77OLKpXt0wuywhqmBXug8C5pyOKIwt/7Y
+         PX99Gl/JWhnXz9MBSqKb/W/M648sD4SJYHJnfAIchQt0SlgSzoZ3ruedGASU43J3Pk+7
+         r6gehOKC5Mm3DM8J0wV/0n4NCfw5dM4oMUtQYRo1Qk2+XB5JbsVuheqELe5LRGCwDh64
+         +RfUHcwx2uTMiKkZLV2o6Pi3hXa+tT39ukIFg+gdp/CTXgdpnbmaeyhWes7ohzHJmi4N
+         kqCSPdqyCITKsZWpFb2XrsYNXGffVYfmZ/m7hWMs25nznIKAXVSBgCz3iq/YCK2XmoXa
+         FMhA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780654742; x=1781259542; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CuBUgLy+NQmdo6J0duA9FRIW1Js1nWocpH5DHQVLVbY=;
+        b=btlvlyr/YQLC6bWfyATChaXEWbuh4UKv7v3qR+uffuRqKSA1NACVCNfliaj7pDiMmb
+         obA85IWI3LvQUzCIYomnsDDeITRd91WYfpy/1YiW/Wb+SvJbHMFiuag3R7mfm4/9j2pJ
+         wvYf2GkiUt57mw5eyBUjw9MDVIOCwFuALvxHqrqfm88pPOJx9Z5WhZkWIvM5GYiyUkmS
+         N5GpDDKuztmjWozcidKy0vkRAhKyBor+TwlzU6LFQItOh7X3KUjGczCRiNu9RywXajbZ
+         x8N6jhM9m3VKjkNGhxLhhGQBKpHYGOXnvfJp8p1AFlQI0qAf5huiFjtfGMX5YXA4BXhu
+         mhqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780654742; x=1781259542;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CuBUgLy+NQmdo6J0duA9FRIW1Js1nWocpH5DHQVLVbY=;
+        b=aTfxBWt3Hnk1rU1nNCrB7/nnVWC6yUvRnnfbxNSd+SCRmfGMQFYNVJdxqiRJRHaQ/o
+         klE9BA4HsdXEzyJIfWqmQRX9g1Xv4rldyahxYi/bP2OWqXMCyxbIsQsIJh2LHAB9MGHp
+         RK4RQwdAkMi6qtVNnF2mlQYDl+WgpfW48NH+hDYNZJz4JNdH6Zu9g+bKtf+JnkEgKMPk
+         RnJR5MgE39Skw1NIZk0xz+HGFwa/JybEgzTb0p+1pjr96qUZR2ddy/up7KQh3OwPJoD4
+         pjIIV4GrbU0B85qPPFOu1NDRpiU2Q5qfhi/6V5SMKHI2sRYLGsC8Tdran7uO+CBxRZaR
+         8ttA==
+X-Gm-Message-State: AOJu0Yz3508A98N3/XUQfvtMTdBv+fofDvw1pJt0JyY1CGRAbHfK6FWj
+	iM4x/IzqmSxtpUX00ES7GNUY+w5iJEqePRTrxK9Lk/NYCSKb4euqQoosWhfnVWzCoIIfIvtfKxC
+	0xRbgYpvm8WZ86XaGeadfnIjtNDwCkLs=
+X-Gm-Gg: Acq92OFWcTVF91G4SfaEOXAdA9qBpasxqdLuxiLDRObeM5SSkHNl3+kQ6ue4qg3o+Pk
+	e9vKt3XEGTJJbPBTZH1mITukwumVd5eRG0Hsf26w036abPMIlZr48exU6f3eNcUMby2QULQkwAu
+	ASvYM6wZ6asMI/Vj8VqSmWkQjkauSuTz3/jkXI+7UsbN4v9hnZwqNuMeLmN6e6iRvCpV/JKr7sl
+	D1iPopxszW29R6vqka8C74Nwbnri17Q1X0MDNWW6cflGtevriApDbeyY5zJXVGAblYcCp/iVN0J
+	5JT2NdFD9CafP3gQytNsEfzWRSI025qW/xwv2y/fkPlLD/kWsaOU
+X-Received: by 2002:a0c:efc4:0:b0:8ce:9ebe:1dd2 with SMTP id
+ 6a1803df08f44-8cee611fb89mr36578366d6.29.1780654741764; Fri, 05 Jun 2026
+ 03:19:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260605081737.1568-1-adityags2004@gmail.com>
+In-Reply-To: <20260605081737.1568-1-adityags2004@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 5 Jun 2026 12:18:48 +0200
+X-Gm-Features: AVVi8CeMbNjwCcbZ-mahSzPuFBDuVyYL7SiuSnCi78iri2GpzbaFQkRqCdxA8yw
+Message-ID: <CANNYZj9thZKkUceNJpbbaMyCHzjy=HdJYjjtCcCkzy=UToOfxw@mail.gmail.com>
+Subject: Re: [PATCH] gawk: improve randtest stability
+To: Aditya GS <adityags2004@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org, joaomarcos.costa@bootlin.com, 
+	ross.burton@arm.com, randy.macleod@windriver.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 10:07:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238158
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 10:19:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238159
 
-When vim-tiny was used in image, it lacks defaults.vim file which will cause following error
-root@qemux86-64:~# vi
-E1187: Failed to source defaults.vim
-Press ENTER or type command to continue
+Hello Aditya,
 
-So add a new patch to fix this issue.
+an earlier version of the patch was already fixed up and merged; the
+patch review participants decided that it's better to fix the
+frustrating CI failures quicker than do more review-fix-resend cycles:
+https://git.openembedded.org/openembedded-core/commit/?id=ccabae3036a713cac8b08731b765ff1dc3ed93eb
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
----
- ...e_defaults-when-Vim-is-invoked-as-vi.patch | 61 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  3 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/0001-skip-source_defaults-when-Vim-is-invoked-as-vi.patch
+I'd suggest you rebase the latest commit on top of current oe-core
+master with 'git rebase', and send any remaining differences (e.g. the
+missing signed-off-by) as a separate patch (remember to also edit the
+commit message so it matches the patch content).
 
-diff --git a/meta/recipes-support/vim/files/0001-skip-source_defaults-when-Vim-is-invoked-as-vi.patch b/meta/recipes-support/vim/files/0001-skip-source_defaults-when-Vim-is-invoked-as-vi.patch
-new file mode 100644
-index 0000000000..7e7bfe0a6d
---- /dev/null
-+++ b/meta/recipes-support/vim/files/0001-skip-source_defaults-when-Vim-is-invoked-as-vi.patch
-@@ -0,0 +1,61 @@
-+From 7dad45f751d4adbee480005a5546b32a97fdbfb2 Mon Sep 17 00:00:00 2001
-+From: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
-+Date: Fri, 5 Jun 2026 09:34:18 +0000
-+Subject:[PATCH] Skip sourcing defaults.vim when Vim is invoked as
-+ vi
-+
-+This is used only in the vim-tiny package to skip "source_defaults" error
-+ E1187: Failed to source defaults.vim
-+Press ENTER or type command to continue
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
-+---
-+ src/main.c    | 7 +++++++
-+ src/structs.h | 4 ++++
-+ 2 files changed, 11 insertions(+)
-+
-+diff --git a/src/main.c b/src/main.c
-+index d4019ff51e..685fae2a02 100644
-+--- a/src/main.c
-++++ b/src/main.c
-+@@ -2059,6 +2059,10 @@ parse_command_name(mparm_T *parmp)
-+     }
-+     else if (STRNICMP(initstr, "vim", 3) == 0)
-+ 	initstr += 3;
-++#ifdef TINY_VIMRC
-++    else if (STRNICMP(initstr, "vi", 2) == 0)
-++       parmp->vi_mode = TRUE;
-++#endif
-+ 
-+     // Catch "[r][g]vimdiff" and "[r][g]viewdiff".
-+     if (STRICMP(initstr, "diff") == 0)
-+@@ -3426,6 +3430,9 @@ source_startup_scripts(mparm_T *parmp)
-+ # ifdef USR_EXRC_FILE2
-+ 		&& do_source((char_u *)USR_EXRC_FILE2, FALSE,
-+ 						       DOSO_NONE, NULL) == FAIL
-++#endif
-++#if defined(TINY_VIMRC)
-++                && !parmp->vi_mode
-+ # endif
-+ 		&& !has_dash_c_arg)
-+ 	    {
-+diff --git a/src/structs.h b/src/structs.h
-+index 955b9f1001..09a0f7f7a8 100644
-+--- a/src/structs.h
-++++ b/src/structs.h
-+@@ -4874,6 +4874,10 @@ typedef struct
-+ #ifdef FEAT_DIFF
-+     int		diff_mode;		// start with 'diff' set
-+ #endif
-++#ifdef TINY_VIMRC
-++    int         vi_mode;                /* started as "vi" */
-++#endif
-++
-+ } mparm_T;
-+ 
-+ /*
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index b00b2602ed..1af8a1d6a1 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://disable_acl_header_check.patch \
-            file://0001-src-Makefile-improve-reproducibility.patch \
-            file://no-path-adjust.patch \
-+           ${@bb.utils.contains('PACKAGECONFIG', 'tiny', 'file://0001-skip-source_defaults-when-Vim-is-invoked-as-vi.patch', '', d)} \
-            "
- 
- PV .= ".0569"
-@@ -32,6 +33,8 @@ inherit autotools-brokensep update-alternatives mime-xdg pkgconfig
- 
- CLEANBROKEN = "1"
- 
-+CFLAGS:append = " ${@bb.utils.contains('PACKAGECONFIG', 'tiny', '-DTINY_VIMRC', '', d)}"
-+
- # vim configure.in contains functions which got 'dropped' by autotools.bbclass
- do_configure () {
-     cd src
--- 
-2.43.0
+Alex
 
+On Fri, 5 Jun 2026 at 10:18, Aditya GS <adityags2004@gmail.com> wrote:
+>
+> Backport upstream fix to improve stability of randtest.sh by
+> retrying when sigma is too small, avoiding intermittent failures.
+>
+> [YOCTO #16254]
+>
+> Signed-off-by: Aditya GS <adityags2004@gmail.com>
+> ---
+>  .../gawk/files/randtest-fix.patch             | 138 ++++++++++++++++++
+>  meta/recipes-extended/gawk/gawk_5.4.0.bb      |   1 +
+>  2 files changed, 139 insertions(+)
+>  create mode 100644 meta/recipes-extended/gawk/files/randtest-fix.patch
+>
+> diff --git a/meta/recipes-extended/gawk/files/randtest-fix.patch b/meta/recipes-extended/gawk/files/randtest-fix.patch
+> new file mode 100644
+> index 0000000000..0aafa0f282
+> --- /dev/null
+> +++ b/meta/recipes-extended/gawk/files/randtest-fix.patch
+> @@ -0,0 +1,138 @@
+> +From f2250f4bc864913437619af7a9834a1c24915acd Mon Sep 17 00:00:00 2001
+> +From: "Arnold D. Robbins" <arnold@skeeve.com>
+> +Date: Thu, 28 May 2026 09:52:41 -0400
+> +Subject: Improve test/randtest.sh.
+> +
+> +Upstream-Status: Backport
+> +https://cgit.git.savannah.gnu.org/cgit/gawk.git/commit/?id=f2250f4bc864913437619af7a9834a1c24915acd
+> +
+> +Signed-off-by: Aditya GS <adityags2004@gmail.com>
+> +
+> +---
+> +
+> +diff --git a/test/randtest.sh b/test/randtest.sh
+> +index 597376a8..6ae6f830 100755
+> +--- a/test/randtest.sh
+> ++++ b/test/randtest.sh
+> +@@ -45,68 +45,77 @@ $AWK 'BEGIN{
+> +     nsamples=('$NSAMPLES');
+> +     max_allowed_sigma=('$MAX_ALLOWED_SIGMA');
+> +     nruns=('$NRUNS');
+> +-    for(tau=0;tau<nsamples/2;tau++) corr[tau]=0;
+> ++    max_retries=5
+> +
+> +-    for(run=0;run<nruns;run++) {
+> +-      sum=0;
+> ++    for (retry=0; retry<max_retries; retry++) {
+> ++        for(tau=0; tau<nsamples/2; tau++) corr[tau]=0;
+> +
+> +-      # Fill an array with a sequence of samples that are a
+> +-      # function of pairs of rand() values.
+> ++        for(run=0; run<nruns; run++) {
+> ++            sum=0;
+> +
+> +-      for(i=0;i<nsamples;i++) {
+> +-         samp[i]=((rand()-0.5)*(rand()-0.5))^2;
+> +-         sum=sum+samp[i];
+> +-         }
+> ++          # Fill an array with a sequence of samples that are a
+> ++          # function of pairs of rand() values.
+> +
+> +-      # Subtract off the mean of the sequence:
+> ++            for(i=0; i<nsamples; i++) {
+> ++                samp[i]=((rand()-0.5)*(rand()-0.5))^2;
+> ++              sum=sum+samp[i];
+> ++            }
+> +
+> +-      mean=sum/nsamples;
+> +-      for(i=0;i<nsamples;i++) samp[i]=samp[i]-mean;
+> ++          # Subtract off the mean of the sequence:
+> +
+> +-      # Calculate an autocorrelation function on the sequence.
+> +-      # Because the values of rand() should be independent, there
+> +-      # should be no peaks in the autocorrelation.
+> ++          mean=sum/nsamples;
+> ++          for(i=0;i<nsamples;i++) samp[i]=samp[i]-mean;
+> +
+> +-      for(tau=0;tau<nsamples/2;tau++) {
+> +-          sum=0;
+> +-          for(i=0;i<nsamples/2;i++) sum=sum+samp[i]*samp[i+tau];
+> +-          corr[tau]=corr[tau]+sum;
+> +-          }
+> ++          # Calculate an autocorrelation function on the sequence.
+> ++          # Because the values of rand() should be independent, there
+> ++          # should be no peaks in the autocorrelation.
+> +
+> +-      }
+> +-    # Normalize the autocorrelation to the tau=0 value.
+> ++            for(tau=0; tau<nsamples/2; tau++) {
+> ++              sum=0;
+> ++              for(i=0;i<nsamples/2;i++) sum=sum+samp[i]*samp[i+tau];
+> ++              corr[tau]=corr[tau]+sum;
+> ++            }
+> +
+> +-    max_corr=corr[0];
+> +-    for(tau=0;tau<nsamples/2;tau++) corr[tau]=corr[tau]/max_corr;
+> ++        }
+> ++        # Normalize the autocorrelation to the tau=0 value.
+> +
+> +-    # OPTIONALLY Print out the autocorrelation values:
+> ++        max_corr=corr[0];
+> ++        for(tau=0;tau<nsamples/2;tau++) corr[tau]=corr[tau]/max_corr;
+> +
+> +-    # for(tau=0;tau<nsamples/2;tau++) print tau, corr[tau] > "pairpower_corr.data";
+> ++        # OPTIONALLY Print out the autocorrelation values:
+> +
+> +-    # Calculate the sigma for the non-zero tau values:
+> ++        # for(tau=0;tau<nsamples/2;tau++) print tau, corr[tau] > "pairpower_corr.data";
+> +
+> +-    power_sum=0;
+> ++        # Calculate the sigma for the non-zero tau values:
+> +
+> +-    for(tau=1;tau<nsamples/2;tau++) power_sum=power_sum+(corr[tau])^2;
+> ++        power_sum=0;
+> +
+> +-    sigma=sqrt(power_sum/(nsamples/2-1));
+> ++        for(tau=1;tau<nsamples/2;tau++) power_sum=power_sum+(corr[tau])^2;
+> +
+> +-    # See if any of the correlations exceed a reasonable number of sigma:
+> ++        sigma=sqrt(power_sum/(nsamples/2-1));
+> +
+> +-    passed=1;
+> +-    for(tau=1;tau<nsamples/2;tau++) {
+> +-      if ( abs(corr[tau])/sigma > max_allowed_sigma ) {
+> +-          print "Tau=", tau ", Autocorr=", corr[tau]/sigma, "sigma";
+> +-          passed=0;
+> +-          }
+> ++        if (sigma < 1e-6) {
+> ++            print "Sigma too small, retrying run", retry
+> ++            continue
+> +         }
+> +-    if(!passed) {
+> +-      print "Test failed."
+> +-      exit(1);
+> ++
+> ++        # See if any of the correlations exceed a reasonable number of sigma:
+> ++
+> ++        for(tau=1;tau<nsamples/2;tau++) {
+> ++            if (abs(corr[tau])/sigma > max_allowed_sigma) {
+> ++                print "Tau=", tau ", Autocorr=", corr[tau]/sigma, "sigma";
+> ++                print "Test failed."
+> ++                exit 1
+> ++            }
+> +         }
+> +-    else exit (0);
+> ++
+> ++        exit 0
+> +     }
+> +
+> ++    print "Test failed after retries due to unstable sigma"
+> ++    exit 1
+> ++}
+> ++
+> + function abs(abs_input) { return(sqrt(abs_input^2)) ; }
+> + '
+> +
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-extended/gawk/gawk_5.4.0.bb b/meta/recipes-extended/gawk/gawk_5.4.0.bb
+> index d7211f28f3..71e7ddb31f 100644
+> --- a/meta/recipes-extended/gawk/gawk_5.4.0.bb
+> +++ b/meta/recipes-extended/gawk/gawk_5.4.0.bb
+> @@ -28,6 +28,7 @@ PACKAGECONFIG[pma-if-64bit] = "--enable-pma,--disable-pma, "
+>  SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.xz \
+>             file://run-ptest \
+>             file://0001-configure.ac-re-enable-disabled-printf-features.patch \
+> +          file://randtest-fix.patch \
+>             "
+>
+>  SRC_URI[sha256sum] = "3dd430f0cd3b4428c6c3f6afc021b9cd3c1f8c93f7a688dc268ca428a90b4ac1"
+> --
+> 2.34.1
+>
 
