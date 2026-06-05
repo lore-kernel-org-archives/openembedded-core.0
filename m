@@ -2,51 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C08E5CD8C95
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B6C3CD8C93
 	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 22:34:26 +0000 (UTC)
 Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6138.1780698864150073563
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6275.1780698865453226901
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2026 15:34:24 -0700
+ Fri, 05 Jun 2026 15:34:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=oi4OIvTk;
+ dkim=pass header.i=@smile.fr header.s=google header.b=sK84iewo;
  spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-45fd464d51fso1378706f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 15:34:23 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-46019b190b6so1799729f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 15:34:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1780698862; x=1781303662; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1780698864; x=1781303664; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8XUav2G762Z+sFuoS7GNyo2+T0H4U2IiIes5mb9rwlY=;
-        b=oi4OIvTkwt3PiYolN9LJrPIPo45qTJco0tkXEDvYi/gnNeRtNf3aclKUULYfz6Njno
-         1A4SKilv99UFF3bHxRYLeGyhu+oQsJkez9vGP9K0ZHUdJjohsr447GkSnlVtADbU9Sx9
-         T45OkLUYo/o84d3LNbg27FbIOg7dqY9PPGcwU=
+        bh=C0vwozuwuhb1uDc7JL6rQIb9wjaxVfxZpbKvHgjG0js=;
+        b=sK84iewor5CBo1/TTQnljaEgen+qwjuQ52LIBTHG/liKecd9PrAExuR/mlvLnlMuJn
+         BzVbBhWdf2tbFVn/7zwmznVALcwZIHulfCnm3okfOsyXmKNM4+2i1aqMA6VWKGG2+/cf
+         8oTHnjFnHX7uew8x0BBPsEbeWnWBLyJdoCBRg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780698862; x=1781303662;
+        d=1e100.net; s=20251104; t=1780698864; x=1781303664;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=8XUav2G762Z+sFuoS7GNyo2+T0H4U2IiIes5mb9rwlY=;
-        b=bsaqeFMtQNHgc1ifkmg2HSZuwzuA810ZHeKX+bwGoxM5I1aLO9rgHA334t2mp3k8J6
-         gnN5nG5AWRnPa/4TZ2evJz/vVq+ZVxypPxH1R1kcNeAZpcAxdeN/mVI56j5nWaghAksw
-         W2OpD5iBGq4lEOPpeV/iCNTZi6sdS0J2TOh47ALPHic5fdrjRosanh6HxPnLnrTApwxP
-         No03ruOoy0S54nsFVR6Yprf8nraUP/Jaa1vMNooFaCYx9WemECQvHBKDZubnGjHijneW
-         rdr/VMD1J7vDl+/p1wXjmiguplB4TzAeTXnjqqCHEH2f/OP3LO1JWed5WfKiFduZbzcf
-         e1jg==
-X-Gm-Message-State: AOJu0YysiyI/jZGoxkResAwtxuenYdlS6iTBNO7TvVaRyE2vuhFw/Ov4
-	mqlJHGCS6/tfHkUE0yR5XLSyknkIRxaNv8koQ9qs1QD6wMReihGJIHE9LipXrz+xWUmD/l1oADy
-	APENz
-X-Gm-Gg: Acq92OHnIOU+N87rg1aI+EqkZKLNdo2AjuT4aBPLEbhrn2VB+DyXcC6PMh9EiIQVA1C
-	EDuN6Xx1CoBcl/bvRPjuc/tZvuktK61tQCYhhQMI8+zxkW1a5JBzH7xQ3mSUauX1gmsJUf7aE4Q
-	nVcLtCsHwSouT6OmQJNXnKZMXSSi8cPTgw4kSyTfPQisX1yuwHh7zUxn3JzBoH7CAzBbNP3BuWc
-	DBq/RvCtVHyPwHnrHFTV9rK8Kqbgos+B1LNy3FvVOhIaQnGYs8L1rItbpZcAWHEGs9hV3MdT+r9
-	Nmq4wfO8ZRTVNhkyVvC12i+ygfENjRCvybdyA4XXRwsKBx1qiHpScHyJs+Cc/BfOhT6k/Afm8Q7
-	hwMusxhHvV9natnaMEsqkNZRAuL1pbbXN5rpaoMtPWg2B1M93RbzPiHU8ICyReqR8sPhzff2cFV
-	+8ZiHRLx2ucRSSz47sshFaCfFvPFrtz1/TI3A1UPOp71YYFmMmIiC+ADWExC91E1JxE5kKHBeHe
-	XT4B6qAt5djvMxTcc435Nh6xFi8kgsiLB61DXI=
-X-Received: by 2002:adf:e011:0:10b0:43c:ef4f:79e4 with SMTP id ffacd0b85a97d-4603063a15cmr6732092f8f.37.1780698862558;
-        Fri, 05 Jun 2026 15:34:22 -0700 (PDT)
+        bh=C0vwozuwuhb1uDc7JL6rQIb9wjaxVfxZpbKvHgjG0js=;
+        b=i2rF7boRFjqXkEVsuxR5ZkoGlFMNL5vJn9efJbGYab5kuJdh4352fC9xH13kFlOnRc
+         uP1VwLJDrsVy3VojFNqt6xdxJfR9ogtAnsvMIyQWS2dnMkQOhxGU9AfRCLGGI/fCHN4H
+         4Hd7TA7L6XkO6c+TxLNxAbcmEZ6T3CQGtVtVR87Wp6GdRG64s4+z3zSA/giWLLn4O+lb
+         MKjWJiK2+513sd0uaMGIPQvwdfZVch0LKJU6tdyC+3tXxJlfYSjXr7LlXKjh0135jHbu
+         Wmqqx5TAHYNMZouMs5mHhd00POIfy8W89vYogsp63kY4kFIzJb3Mh4PobLVtlcHcj+O/
+         bmXA==
+X-Gm-Message-State: AOJu0YzMSPZ7yZpDpMe0BWXZKl5K0U4ajW1pzZhuLNgljdqbZG99bREW
+	z44uTxTDIwIrI2GZcfQft1BGliQ4b9Ka5Q2KtuqU1I3bPynRPcPhajvL/fiVECbUpNK5gj++o+Q
+	JtAn2
+X-Gm-Gg: Acq92OEzwQkayMa2ULz8MRxI/g9cdljKEyFn3iDw5WGYAOVjtY5CInqGR5qepy2jQfe
+	TxZ1QQnhxZQmHR3ekgONK0A09q2fladzau8BOA1X8Hs/pV9IyfKh/h1t1LGpqKHnJS9QkcuxjkU
+	myLl7vD8IRS919QYMZYn0aI1QE5Ov08hThDhYBYJiSMukaTV2/FMxYfSdxSB0FjcYm/E1vpqMLv
+	HruLt2KwjVFyuwgf68nbomCTPEPbs2U8NRMD0+Kdyq4Ze+I+RF3gIC0WcSosN7NDRDpOZ2MSRdZ
+	8AoeP9T9llOM6kfQHX1L8vUN9eh6iGUUHUNUFiIrlExD/KYASphIhKQsjUf8t2k6QgvR1r3NgMY
+	GKaKljOqObKLjyoJFTPFPSQM8PmQwkQOMd/vnDZ2MIYTd4t/QzoatV51K+mxSHZxENL8CeDVS+l
+	LT+VSueO+wNhRjbCLJtRq3btT/WvQ2fGL9ZdO5FZezQ4rEXnb1D3oeqk81uWBr8i5uMpLkRz0d0
+	mhVLtikg2YLW+FsBPCzqREvEKm12VdDeEB2P3g=
+X-Received: by 2002:adf:f90f:0:b0:45e:f867:39bd with SMTP id ffacd0b85a97d-4603063d402mr7134822f8f.36.1780698863841;
+        Fri, 05 Jun 2026 15:34:23 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00b3e1ccc1be2b2798.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:b3e1:ccc1:be2b:2798])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2e4b18sm22132409f8f.10.2026.06.05.15.34.22
         for <openembedded-core@lists.openembedded.org>
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00b3e1ccc1be2b2798.ipv6.abo.wan
         Fri, 05 Jun 2026 15:34:22 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/25] scripts/install-buildtools: Update to 5.0.18
-Date: Sat,  6 Jun 2026 00:34:02 +0200
-Message-ID: <7b2955ae65d4060aaa8f3eda9f3583750606a646.1780698373.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 18/25] classes/base: prefer gnu-prefixed HOSTTOOLS
+Date: Sat,  6 Jun 2026 00:34:03 +0200
+Message-ID: <b797cc729f6e6951baa988e1c04bac9fb8183a1c.1780698373.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1780698373.git.yoann.congal@smile.fr>
 References: <cover.1780698373.git.yoann.congal@smile.fr>
@@ -66,30 +66,50 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 22:34:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238204
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238205
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Ross Burton <ross.burton@arm.com>
 
-Update to the 5.0.18 release of the 5.0 series for buildtools
+Ubuntu 25.10 has changed the default coreutils implementation from GNU
+coreutils to uutils/coreutils. Unfortunately this causes build problems:
 
+  couldn't allocate absolute path for 'null'.
+  tail: cannot open 'standard input' for reading: No such file or directory
+  install: failed to chown '...': Invalid argument (os error 22)
+
+Clear build failures happen in 'install' and 'tail', but there may be
+further breakage.
+
+Luckily, Ubuntu also installs GNU coreutils with a binary prefix of
+'gnu', so whilst these issues are root-caused and fixed in either pseudo
+or uutils we can prefer the gnu-prefixed binaries where they are present.
+
+[ YOCTO #16028 ]
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 16f2684ebeffa72b5d90525cf9102751b68c298e)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- scripts/install-buildtools | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes-global/base.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index c874494f4ab..24cb3099453 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
- 
- DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
- DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
--DEFAULT_RELEASE = 'yocto-5.0.15'
--DEFAULT_INSTALLER_VERSION = '5.0.15'
-+DEFAULT_RELEASE = 'yocto-5.0.18'
-+DEFAULT_INSTALLER_VERSION = '5.0.18'
- DEFAULT_BUILDDATE = '202110XX'
- 
- # Python version sanity check
+diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
+index ecf0fd711f7..edf2149e6f1 100644
+--- a/meta/classes-global/base.bbclass
++++ b/meta/classes-global/base.bbclass
+@@ -111,7 +111,11 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
+             # clean up dead symlink
+             if os.path.islink(desttool):
+                 os.unlink(desttool)
+-            srctool = bb.utils.which(path, tool, executable=True)
++
++            # Prefer gnu-prefixed binaries, if available
++            srctool = (bb.utils.which(path, "gnu" + tool, executable=True) or
++                       bb.utils.which(path, tool, executable=True))
++
+             # gcc/g++ may link to ccache on some hosts, e.g.,
+             # /usr/local/bin/ccache/gcc -> /usr/bin/ccache, then which(gcc)
+             # would return /usr/local/bin/ccache/gcc, but what we need is
 
