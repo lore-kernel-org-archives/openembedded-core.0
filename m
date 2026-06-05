@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF481CD6E7E
-	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 22:34:23 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6135.1780698862640048632
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F961CD8C87
+	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 22:34:25 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6274.1780698860931741064
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2026 15:34:22 -0700
+ Fri, 05 Jun 2026 15:34:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=JB2BZjXp;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490b64c8311so27499115e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 15:34:22 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=neLx2WXu;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490af320e2aso27619395e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 15:34:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1780698861; x=1781303661; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1780698859; x=1781303659; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1wkHdl9mvQRedNcraJeZixJKRViEfhwUojeNCz1SS1c=;
-        b=JB2BZjXpLzRN9E/kXEhilnFDQRuTzMHAyF6d3YS+CvThU4cvcZ1wbW4Tr0EH/Dawmx
-         xK6rqgSru8YsLBuO9g0A8KKGBNSfpfrVPa+4hc9wR/Txs77hK6I+XU/rLraE1xNJUOuM
-         RY1L0KWFOHfyCYgwGM5pBFfuYv4ImW8ZroFjE=
+        bh=DgUDffPDovmzrLg4j5BfQ5VdkeluuQ4qlhllb3K93OU=;
+        b=neLx2WXuWigmaejM8mZlC/J1gFp3CuSkFU8oWCn4nU9fd5kKl/dn4611sykC/d4SL/
+         yINFeZ6dFgjdxd+R3D9hjXkt+FeJJQWOe2l/OAJOJFwnYBzdTqfTNpgTTzX6rwpQfEAw
+         LHKn7UF2OMPNhzZ+2U7BwuhZm7I2pF2p3grmQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780698861; x=1781303661;
+        d=1e100.net; s=20251104; t=1780698859; x=1781303659;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=1wkHdl9mvQRedNcraJeZixJKRViEfhwUojeNCz1SS1c=;
-        b=SMbu8kfhQCsVX7CY0Zi+E+AKDi3PsZPz7GbJaGZEAVewYktmjkV0dvHElJIjlsAdXs
-         eQ8Q5f+jmsAPdfT0OtBJ6QkIzO3KnvrC9zsokhHC0pO+XmwdtDKpYyLZRYc1Ue9T1S0R
-         Ry2pv2akoz99zyUmJJN7hvoSXLfR7l13hWiplLLPv5f1nJrYgD7WENu9tx3uxf6nBVO4
-         L2xLsQjSV8O4o2XIeVg8dXUkTRsPXz7JCgfPhxnlBl3vEQXvzK6wFlXVuv4nKVrTqOeT
-         yYXMG9roH2+4F27Ml2H4w0njUpg5PspnLhCJRwDXUSZDAFT1xTXXlpaAsUw8JeCRZfEX
-         x+lg==
-X-Gm-Message-State: AOJu0YwQRi7uMHkBPIrX9IYkiWvOhmB1DdrrSt+9nXrakb+wxb0YgMN0
-	Rbi4IhXQYoJL4x4TaSvubYmejiRScCzyPW+fVny3R8zMdopg/j9tq2iMIUBBNH0AXU6WNROjN56
-	a0T/d
-X-Gm-Gg: Acq92OGvGvdwu/Qx8IbzhhrCVGWxVljsDs8Tes139MKrelS6h7C5jJMXpDi17mYyIxJ
-	HT93hCgpF6rNJT5+NOGeSL9bAdePTxNpMlOMTqgoFQypMbmSLMMZ1rJ5ZemFo2mZOfp+SUoAYdF
-	YBmCSC9nwp/8HIDsZ0ucPD1tp0XxPF2PaovTj/cCGc+yF391UposLPKHeSgwtWSLwFaR7JyEGJY
-	Mtb0m4Tmml1lqLAlvWB3j23dwERdjSg6Opt6Us35B3CLSilUMI2ID2ETC3Ngce7xiNtQMhAptLU
-	HU25Fjm9NZpfEqVknluiPz1ZPwxOoJZqSyr1yeI301HsAPHHSriXX1O7mvLeldtxC9e8/FNxKPQ
-	RCubYdx9BJi/vFgZR9EGx5YzkLxOFKtFMzpmcS3lWCpY0Blyzlh5seklq28AhtCDu+mFxNMXpKO
-	IpE8VPqM8hMFFEwbDffXEu+I1+hCKI4ULUT5r1pfMA/ed24SL7I65pAO7sLxfTAi9m7t0bF9Iuk
-	m0Ykqp9XP83EuIejYc1u2OvXJrr2iOjXTnGmSA=
-X-Received: by 2002:a05:600c:4fce:b0:490:5cd8:d21c with SMTP id 5b1f17b1804b1-490c25b3556mr100448795e9.14.1780698860956;
-        Fri, 05 Jun 2026 15:34:20 -0700 (PDT)
+        bh=DgUDffPDovmzrLg4j5BfQ5VdkeluuQ4qlhllb3K93OU=;
+        b=POjVel1JgYy1QnLuS1aepbYL008wiVrik1oRv/3+4eDZKML9u64MIXQMwPUJ9T4j3/
+         87NlmIVTMWG5n99IMeG2XS/IQc11Xw77R8tCp0lW3LwgBv3+mIDq6njVRjAXShWWv5+Y
+         gnsvFTl8lUBvsXrDLG7g0SNM112MmxJTU7VEaZx8zmmRFJNvdd/kEQ5fIg8eON2aCjiF
+         U/lPMRn1rFEo2diP24peRl8DDw2V3FUzYiXmvcJEdBHONlep3s74iRYsFQ79XAMLOGrT
+         SG5IPa2oKsVIUmWqFvOXX5Oyp0c0/LD9yeCzmJ/a6BL8MsATlUrUir5Mr48VIvj4qJLN
+         mAbw==
+X-Gm-Message-State: AOJu0YzrVhSqXjasUUG05m46gGzetgMlYL9P114eFqqFqufyjCn2Q/x9
+	OFVDwprhIL9DqIyyPnwo9yz6+9t8jD/Dme0VaZ3q9QF+CvEfNy8qDyN2m3XqFHu5/ZPepTxZEji
+	ctNgY
+X-Gm-Gg: Acq92OHv+Pd35Dvmdb/lw01OlsQZBn1tBJyImOWDubaf2sAfJh36OSJ41djyg+BGrg3
+	/bQ6Q0919gDaC8QfYgFg82jkkXsXk4iLCveG7iEH5lUGZU2VAvrYMMfUMbhFv4+T/EW5sdQdjd0
+	3ldSf8ppxCA2cfJzDxMHrM4kJelvHLoKuqyjRHmJoN1h7dwBZbBGEu5ShSWvpGUX+HpA4qdltF7
+	uIuaSO2K4nzcKXXkuOTeZwKIDW4nUWPWItHY3aNzC+B2bX5/D69LuSVgyEjOTd2csKqso6yFIwk
+	VAups+jYlJEvJ8gv/62KWWEXlYc0HKlMkUoGz5wDtMB1vyWi43WX/5Lu5ggQ+DAesBAVR1KAiPn
+	YVJBxQh4a1qeAwvGJpBOGn0WjTnfnj/ctZoku8OBvtK/GWTwl1y7ItZOZnUM1AlGRgBCx4fUr9E
+	1boYwo+/oiakagZLM1mOWlw1viY+gypdmwQQ6gv1vcXOUxAaPIIwTDhHGE9Dd4/H1UZ8mFZ/GPZ
+	NRm96h+SOBtdsEcFxgve/klNmq1nLxBvSBcyPM=
+X-Received: by 2002:a05:600c:3515:b0:490:b409:94f4 with SMTP id 5b1f17b1804b1-490c2602a24mr94020495e9.28.1780698859285;
+        Fri, 05 Jun 2026 15:34:19 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00b3e1ccc1be2b2798.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:b3e1:ccc1:be2b:2798])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2e4b18sm22132409f8f.10.2026.06.05.15.34.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2e4b18sm22132409f8f.10.2026.06.05.15.34.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 15:34:20 -0700 (PDT)
+        Fri, 05 Jun 2026 15:34:18 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 14/25] openssh: patch CVE-2026-35387
-Date: Sat,  6 Jun 2026 00:33:59 +0200
-Message-ID: <c8fb33de27b9e2be5aeaa4178ddc7b6e724f45ee.1780698373.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 11/25] perl: link to the system zlib instead of a vendored copy
+Date: Sat,  6 Jun 2026 00:33:56 +0200
+Message-ID: <6e83e5520f415fc6ca9029a8aaa0af31cd832a90.1780698373.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1780698373.git.yoann.congal@smile.fr>
 References: <cover.1780698373.git.yoann.congal@smile.fr>
@@ -65,250 +65,41 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 22:34:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238201
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 22:34:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238198
 
-From: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
+From: Ross Burton <ross.burton@arm.com>
 
-Backport patch from [1] matching CVE description in [2] and change described
-in release note [3].
+The perl module Compress-Raw-Zlib defaults to using a vendored copy of
+the zlib sources which has a number of CVEs.  A newer version of perl
+updates this to zlib 1.3.2 to resolve them, but we should be linking to
+our zlib recipe instead of the vendored code.
 
-[1] https://github.com/openssh/openssh-portable/commit/fd1c7e131f331942d20f42f31e79912d570081fa
+This mitigates CVE-2026-4176 so mark it as not appropriate.
 
-[2] https://security-tracker.debian.org/tracker/CVE-2026-35387
-
-[3] https://www.openssh.org/releasenotes.html#10.3p1
-
-Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
-Reviewed-by: Bruno Vernay <bruno.vernay@se.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit bf515229043685d4f00c965eb3e0236c37b6b403)
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../openssh/openssh/CVE-2026-35387.patch      | 205 ++++++++++++++++++
- .../openssh/openssh_9.6p1.bb                  |   1 +
- 2 files changed, 206 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-35387.patch
+ meta/recipes-devtools/perl/perl_5.38.4.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-35387.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-35387.patch
-new file mode 100644
-index 00000000000..c4806bd9935
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-35387.patch
-@@ -0,0 +1,205 @@
-+From faaf123656513f16994853379c388ad8cc850f8c Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Thu, 2 Apr 2026 07:48:13 +0000
-+Subject: [PATCH] upstream: correctly match ECDSA signature algorithms against
-+
-+algorithm allowlists: HostKeyAlgorithms, PubkeyAcceptedAlgorithms and
-+HostbasedAcceptedAlgorithms.
-+
-+Previously, if any ECDSA type (say "ecdsa-sha2-nistp521") was
-+present in one of these lists, then all ECDSA algorithms would
-+be permitted.
-+
-+Reported by Christos Papakonstantinou of Cantina and Spearbit.
-+
-+OpenBSD-Commit-ID: c790e2687c35989ae34a00e709be935c55b16a86
-+
-+CVE: CVE-2026-35387
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/fd1c7e131f331942d20f42f31e79912d570081fa]
-+Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
-+---
-+ auth2-hostbased.c  |  9 +++++----
-+ auth2-pubkey.c     |  9 +++++----
-+ auth2-pubkeyfile.c | 26 +++++++++++++++-----------
-+ sshconnect2.c      | 28 ++++++++++++++++++----------
-+ 4 files changed, 43 insertions(+), 29 deletions(-)
-+
-+diff --git a/auth2-hostbased.c b/auth2-hostbased.c
-+index 06bb464ff..02eeed3f0 100644
-+--- a/auth2-hostbased.c
-++++ b/auth2-hostbased.c
-+@@ -1,4 +1,4 @@
-+-/* $OpenBSD: auth2-hostbased.c,v 1.52 2023/03/05 05:34:09 dtucker Exp $ */
-++/* $OpenBSD: auth2-hostbased.c,v 1.57 2026/04/02 07:48:13 djm Exp $ */
-+ /*
-+  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
-+  *
-+@@ -95,9 +95,10 @@ userauth_hostbased(struct ssh *ssh, const char *method)
-+ 		error_f("cannot decode key: %s", pkalg);
-+ 		goto done;
-+ 	}
-+-	if (key->type != pktype) {
-+-		error_f("type mismatch for decoded key "
-+-		    "(received %d, expected %d)", key->type, pktype);
-++	if (key->type != pktype || (sshkey_type_plain(pktype) == KEY_ECDSA &&
-++	    sshkey_ecdsa_nid_from_name(pkalg) != key->ecdsa_nid)) {
-++		error_f("key type mismatch for decoded key "
-++		    "(received %s, expected %s)", sshkey_ssh_name(key), pkalg);
-+ 		goto done;
-+ 	}
-+ 	if (match_pattern_list(pkalg, options.hostbased_accepted_algos, 0) != 1) {
-+diff --git a/auth2-pubkey.c b/auth2-pubkey.c
-+index 3f49e1df3..1e07ff74e 100644
-+--- a/auth2-pubkey.c
-++++ b/auth2-pubkey.c
-+@@ -1,4 +1,4 @@
-+-/* $OpenBSD: auth2-pubkey.c,v 1.119 2023/07/27 22:25:17 djm Exp $ */
-++/* $OpenBSD: auth2-pubkey.c,v 1.126 2026/04/02 07:48:13 djm Exp $ */
-+ /*
-+  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
-+  * Copyright (c) 2010 Damien Miller.  All rights reserved.
-+@@ -148,9 +148,10 @@ userauth_pubkey(struct ssh *ssh, const char *method)
-+ 		error_f("cannot decode key: %s", pkalg);
-+ 		goto done;
-+ 	}
-+-	if (key->type != pktype) {
-+-		error_f("type mismatch for decoded key "
-+-		    "(received %d, expected %d)", key->type, pktype);
-++	if (key->type != pktype || (sshkey_type_plain(pktype) == KEY_ECDSA &&
-++	    sshkey_ecdsa_nid_from_name(pkalg) != key->ecdsa_nid)) {
-++		error_f("key type mismatch for decoded key "
-++		    "(received %s, expected %s)", sshkey_ssh_name(key), pkalg);
-+ 		goto done;
-+ 	}
-+ 	if (auth2_key_already_used(authctxt, key)) {
-+diff --git a/auth2-pubkeyfile.c b/auth2-pubkeyfile.c
-+index 31e7481fb..869c8e055 100644
-+--- a/auth2-pubkeyfile.c
-++++ b/auth2-pubkeyfile.c
-+@@ -1,4 +1,4 @@
-+-/* $OpenBSD: auth2-pubkeyfile.c,v 1.4 2023/03/05 05:34:09 dtucker Exp $ */
-++/* $OpenBSD: auth2-pubkeyfile.c,v 1.8 2026/04/02 07:48:13 djm Exp $ */
-+ /*
-+  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
-+  * Copyright (c) 2010 Damien Miller.  All rights reserved.
-+@@ -50,6 +50,7 @@
-+ #include "authfile.h"
-+ #include "match.h"
-+ #include "ssherr.h"
-++#include "xmalloc.h"
-+ 
-+ int
-+ auth_authorise_keyopts(struct passwd *pw, struct sshauthopt *opts,
-+@@ -146,20 +147,23 @@ auth_authorise_keyopts(struct passwd *pw, struct sshauthopt *opts,
-+ static int
-+ match_principals_option(const char *principal_list, struct sshkey_cert *cert)
-+ {
-+-	char *result;
-++	char *list, *olist, *entry;
-+ 	u_int i;
-+ 
-+-	/* XXX percent_expand() sequences for authorized_principals? */
-+-
-+-	for (i = 0; i < cert->nprincipals; i++) {
-+-		if ((result = match_list(cert->principals[i],
-+-		    principal_list, NULL)) != NULL) {
-+-			debug3("matched principal from key options \"%.100s\"",
-+-			    result);
-+-			free(result);
-+-			return 1;
-++	olist = list = xstrdup(principal_list);
-++	for (;;) {
-++		if ((entry = strsep(&list, ",")) == NULL || *entry == '\0')
-++			break;
-++		for (i = 0; i < cert->nprincipals; i++) {
-++			if (strcmp(entry, cert->principals[i]) == 0) {
-++				debug3("matched principal from key i"
-++				    "options \"%.100s\"", entry);
-++				free(olist);
-++				return 1;
-++			}
-+ 		}
-+ 	}
-++	free(olist);
-+ 	return 0;
-+ }
-+ 
-+diff --git a/sshconnect2.c b/sshconnect2.c
-+index a5f92f04c..a296c9b8c 100644
-+--- a/sshconnect2.c
-++++ b/sshconnect2.c
-+@@ -1,4 +1,4 @@
-+-/* $OpenBSD: sshconnect2.c,v 1.371 2023/12/18 14:45:49 djm Exp $ */
-++/* $OpenBSD: sshconnect2.c,v 1.385 2026/04/02 07:48:13 djm Exp $ */
-+ /*
-+  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
-+  * Copyright (c) 2008 Damien Miller.  All rights reserved.
-+@@ -91,6 +91,7 @@ extern Options options;
-+ static char *xxx_host;
-+ static struct sockaddr *xxx_hostaddr;
-+ static const struct ssh_conn_info *xxx_conn_info;
-++static int key_type_allowed(struct sshkey *, const char *);
-+ 
-+ static int
-+ verify_host_key_callback(struct sshkey *hostkey, struct ssh *ssh)
-+@@ -100,6 +101,10 @@ verify_host_key_callback(struct sshkey *hostkey, struct ssh *ssh)
-+ 	if ((r = sshkey_check_rsa_length(hostkey,
-+ 	    options.required_rsa_size)) != 0)
-+ 		fatal_r(r, "Bad server host key");
-++	if (!key_type_allowed(hostkey, options.hostkeyalgorithms)) {
-++		fatal("Server host key %s not in HostKeyAlgorithms",
-++		    sshkey_ssh_name(hostkey));
-++	}
-+ 	if (verify_host_key(xxx_host, xxx_hostaddr, hostkey,
-+ 	    xxx_conn_info) != 0)
-+ 		fatal("Host key verification failed.");
-+@@ -1608,34 +1613,37 @@ load_identity_file(Identity *id)
-+ }
-+ 
-+ static int
-+-key_type_allowed_by_config(struct sshkey *key)
-++key_type_allowed(struct sshkey *key, const char *allowlist)
-+ {
-+-	if (match_pattern_list(sshkey_ssh_name(key),
-+-	    options.pubkey_accepted_algos, 0) == 1)
-++	if (match_pattern_list(sshkey_ssh_name(key), allowlist, 0) == 1)
-+ 		return 1;
-+ 
-+ 	/* RSA keys/certs might be allowed by alternate signature types */
-+ 	switch (key->type) {
-+ 	case KEY_RSA:
-+-		if (match_pattern_list("rsa-sha2-512",
-+-		    options.pubkey_accepted_algos, 0) == 1)
-++		if (match_pattern_list("rsa-sha2-512", allowlist, 0) == 1)
-+ 			return 1;
-+-		if (match_pattern_list("rsa-sha2-256",
-+-		    options.pubkey_accepted_algos, 0) == 1)
-++		if (match_pattern_list("rsa-sha2-256", allowlist, 0) == 1)
-+ 			return 1;
-+ 		break;
-+ 	case KEY_RSA_CERT:
-+ 		if (match_pattern_list("rsa-sha2-512-cert-v01@openssh.com",
-+-		    options.pubkey_accepted_algos, 0) == 1)
-++		    allowlist, 0) == 1)
-+ 			return 1;
-+ 		if (match_pattern_list("rsa-sha2-256-cert-v01@openssh.com",
-+-		    options.pubkey_accepted_algos, 0) == 1)
-++		    allowlist, 0) == 1)
-+ 			return 1;
-+ 		break;
-+ 	}
-+ 	return 0;
-+ }
-+ 
-++static int
-++key_type_allowed_by_config(struct sshkey *key)
-++{
-++	return key_type_allowed(key, options.pubkey_accepted_algos);
-++}
-++
-+ /* obtain a list of keys from the agent */
-+ static int
-+ get_agent_identities(struct ssh *ssh, int *agent_fdp,
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-index 3a9010a7a4d..9267bbd2c94 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-@@ -35,6 +35,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://CVE-2025-61985.patch \
-            file://CVE-2025-61984.patch \
-            file://CVE-2026-35385.patch \
-+           file://CVE-2026-35387.patch \
-            "
- SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
+diff --git a/meta/recipes-devtools/perl/perl_5.38.4.bb b/meta/recipes-devtools/perl/perl_5.38.4.bb
+index e59022e2bdf..5ab49ed3d77 100644
+--- a/meta/recipes-devtools/perl/perl_5.38.4.bb
++++ b/meta/recipes-devtools/perl/perl_5.38.4.bb
+@@ -49,6 +49,11 @@ export ENC2XS_NO_COMMENTS = "1"
  
+ CFLAGS += "-D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+ 
++# Link Compress-Raw-Zlib to the system zlib instead of a vendored copy
++EXTRA_OEMAKE += "BUILD_ZLIB=False ZLIB_INCLUDE=${STAGING_INCDIR} ZLIB_LIB=${STAGING_LIBDIR}"
++
++CVE_STATUS[CVE-2026-4176] = "not-applicable-config: we do not use the vendorered zlib"
++
+ do_configure:prepend() {
+     rm -rf ${B}
+     cp -rfp ${S} ${B}
 
