@@ -2,40 +2,40 @@ Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 975CBCD6E7B
-	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 17:56:08 +0000 (UTC)
-Received: from BYAPR05CU005.outbound.protection.outlook.com (BYAPR05CU005.outbound.protection.outlook.com [52.101.85.14])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1047.1780682166993301120
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F4F5CD6E7B
+	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 17:57:38 +0000 (UTC)
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (SN4PR2101CU001.outbound.protection.outlook.com [40.93.195.32])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1078.1780682253444519216
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2026 10:56:07 -0700
+ Fri, 05 Jun 2026 10:57:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=pYkZEncN;
- spf=pass (domain: ti.com, ip: 52.101.85.14, mailfrom: rs@ti.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=selector1 header.b=gsuCKQwW;
+ spf=pass (domain: ti.com, ip: 40.93.195.32, mailfrom: rs@ti.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BCGgMlikOmFtw4LD808Tzy0OR8FTkirMXgl9uNCaB1BIFHVgcHPNBb3ZvsooQy7TBtuXkxZZE9a2MY9Jmm2TuUfczu7TFX4oIXaipkk9O9ktE58pPPF0zmGz2TpYCdDOA/Dq7TWO7plUIl7eGKt6TttOq8XBUDGHKAhzsHd/JenjRxWTV+FSTmQgR7o3pnic5ecLV8uhNsjRkv5aYV23yb2NHTIj1BQlXmSOruDyf9fOE1ViBaY9MAlegLsUUu7WDAiz4ee4LqYgJgQyQeizx/1xt81vbdvNiW/jdeRdgXO7T5qPO7EE78oYOoHpCXmieXlFjLLeRGPqPzVR1aV/wA==
+ b=L3uTcLtZr8IO1aE+feQ+aVG3FzG2qr9Ht0njMqvtLQapYY6/0oTuWtdKGTJjUuAkhQuO5auvyZHsd0fcxsPGpljyFHNUx8S161yYtNjnGCYgrHIzXmTSMcn49db4pcFbpeiAKfCb34EuyeUX3a5xIp2uTxBEFULiuo+JO4CyvbkXwN2Vceeg61AGpNvTb2s4ckzyr9xAUkMdID4Zy5WtJwBfS8qpUeL6VbVIXjUFyT5RQZyFV/ldHbmXfR3xSU4Mb0rIwcUX+J94IG6mfa5SNeCmFhFBnqWS7MAUcMKv4Nj2IjpBSfxN6Ju4PISl6ImSX2YTbk0YoRnVCF2v4Leczg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CxDSwT8sGxsa9Ra+bbfSnESjUI7BcGhSmFaD7Svw4k0=;
- b=cDvJjH0CLBoAPyY0A72XV+Ygb5OhjLfkc9faPnQ0Md5jipbWr9l7Uhq1IYKUVD1MLHNN3e/9ogNeAfoDI/20MmioGb7VOsFo0EKzDT7vPo99M1OA+teK0n0Sng8U8Z8yOS9AP40bP0x3+g0DH+8k0okpgsXhvBtPBU7ZPwPZtkiZ5YMNX+XgwUJis0F9FJWQyiAdIabPET9Ju6YQ6Jduo3N4oCkk5RGaYtccRjWT7XVWGfK8MN9vbFiOV0zMHFfGoU/cWGKuxG0lSyq4wnPZsbXAi4kvmdAyyfsiiKyJJC29TO7qQuSI5jNT16nCbsrFMLU6EtCaPXoV8OcqtxLR3w==
+ bh=RuIwNfFcUolGCid/gCKzBGzIBQr6XCinopCCeNn93vk=;
+ b=s7I1TWMbUE4nJJzPJP91foToLdQkQgLu+XyuiPT7IbnvK8TahvuNUJFZwESwQBsDbSSjUR4UQh1PoJ9Bfpz7hdvkMAFYab5G7jTuduBQkFGCFZKw8Cs+xS0l2liJBRB7ShnF9bhMvQW2NmXzKw3jovTNJ8NMYcKda24iYp+TQtUY7uXt8iIdN5AO5QSGQ8zuJmpoWXCd9EYw+cqUKf+WFq3q2A74FIK8Y8Py3eYlIt5akR+E8wnu88C+XRDarSxwnzxWdzG7XKZ+i5AnaySot7B9AmBCXr1ieCCq7PbsPeyRFYsS9PEKxyDNs3gRJPWtOVMT+KBPeDx1yKKfEJG5lg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  198.47.23.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CxDSwT8sGxsa9Ra+bbfSnESjUI7BcGhSmFaD7Svw4k0=;
- b=pYkZEncNhHEQ140BI4Ha+5h+UOBVpq8FnftkbdY4/7tf2JVwwaBcuD2GA3OnsUH/hzZK/whHB70BOXlV2WkTNC3dkABVqqyC2sJDvhmV/YgRtPmRpgo3EgxcuvAbn0Iv8zwQGxYVBa2Fr7v8Cm23IRMjfSS0nXfk/uvSckn8gJg=
-Received: from SJ0PR13CA0066.namprd13.prod.outlook.com (2603:10b6:a03:2c4::11)
- by CH3PR10MB7780.namprd10.prod.outlook.com (2603:10b6:610:1b1::22) with
+ bh=RuIwNfFcUolGCid/gCKzBGzIBQr6XCinopCCeNn93vk=;
+ b=gsuCKQwWOI0CuXbtc4VvC3t9t5mxMEjuz7ZXWUg5798qWKS2QJu6kA/dYbnCd1VJVH8eJm6p/eaqeevFUXD/C5nXsG4xmM21Pd3YCk8KMlCi8JMrK4X3mdfewnw4k99BTbgcSuxB7yjLW3oJm1T5+lgnBPj7F4Bwz5kr0Ll84l0=
+Received: from SJ0PR03CA0298.namprd03.prod.outlook.com (2603:10b6:a03:39e::33)
+ by MN2PR10MB4366.namprd10.prod.outlook.com (2603:10b6:208:1dd::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.8; Fri, 5 Jun 2026
- 17:56:03 +0000
-Received: from SJ5PEPF000001EF.namprd05.prod.outlook.com
- (2603:10b6:a03:2c4:cafe::c2) by SJ0PR13CA0066.outlook.office365.com
- (2603:10b6:a03:2c4::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.10 via Frontend Transport; Fri, 5
- Jun 2026 17:56:03 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.11; Fri, 5 Jun 2026
+ 17:57:30 +0000
+Received: from SJ5PEPF000001E9.namprd05.prod.outlook.com
+ (2603:10b6:a03:39e:cafe::98) by SJ0PR03CA0298.outlook.office365.com
+ (2603:10b6:a03:39e::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.8 via Frontend Transport; Fri, 5
+ Jun 2026 17:57:30 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
@@ -43,33 +43,33 @@ Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
  198.47.23.195 as permitted sender) receiver=protection.outlook.com;
  client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
 Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- SJ5PEPF000001EF.mail.protection.outlook.com (10.167.242.203) with Microsoft
+ SJ5PEPF000001E9.mail.protection.outlook.com (10.167.242.197) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.92.5 via Frontend Transport; Fri, 5 Jun 2026 17:56:02 +0000
-Received: from DLEE215.ent.ti.com (157.170.170.118) by lewvzet201.ext.ti.com
+ 15.21.92.5 via Frontend Transport; Fri, 5 Jun 2026 17:57:29 +0000
+Received: from DLEE214.ent.ti.com (157.170.170.117) by lewvzet201.ext.ti.com
  (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Fri, 5 Jun
- 2026 12:56:02 -0500
-Received: from DLEE212.ent.ti.com (157.170.170.114) by DLEE215.ent.ti.com
- (157.170.170.118) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 12:57:29 -0500
+Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE214.ent.ti.com
+ (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Fri, 5 Jun
- 2026 12:56:02 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE212.ent.ti.com
- (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 12:57:28 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE208.ent.ti.com
+ (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
- Transport; Fri, 5 Jun 2026 12:56:02 -0500
+ Transport; Fri, 5 Jun 2026 12:57:28 -0500
 Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.39])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 655Hu2Wh1856899;
-	Fri, 5 Jun 2026 12:56:02 -0500
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 655HvSe72402673;
+	Fri, 5 Jun 2026 12:57:28 -0500
 From: <rs@ti.com>
 To: <raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>,
 	<mathieu.dubois-briand@bootlin.com>, <alex@linutronix.de>,
 	<otavio@ossystems.com.br>, <kexin.hao@windriver.com>
 CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
 	<openembedded-core@lists.openembedded.org>
-Subject: [oe-core][RFCv2] xuser-account: convert to standard-user-account
-Date: Fri, 5 Jun 2026 12:55:52 -0500
-Message-ID: <20260605175552.1531866-1-rs@ti.com>
+Subject: [oe-core][RFCv3] xuser-account: convert to standard-user-account
+Date: Fri, 5 Jun 2026 12:56:35 -0500
+Message-ID: <20260605175634.1532123-2-rs@ti.com>
 X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -77,35 +77,35 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001EF:EE_|CH3PR10MB7780:EE_
-X-MS-Office365-Filtering-Correlation-Id: 199628b1-474a-42a4-468a-08dec32bb57c
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001E9:EE_|MN2PR10MB4366:EE_
+X-MS-Office365-Filtering-Correlation-Id: 98ae9883-55dc-41b1-1049-08dec32be965
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700016|20052099010|6133799003|3023799007|18002099003|56012099006;
+	BCL:0;ARA:13230040|82310400026|36860700016|1800799024|376014|20052099010|3023799007|6133799003|18002099003|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	slZ048FVY4JuWS8REovC7yj4rrxWDABupl9HrG2zc6Ok+wZmwTT97pKUoRyL2nHpjfQyvbqa22ONYLOIvrJS68iGZqYvgXAWRsiC0mn27XK5N6Lck5oiuHH9C9184OvTYA6/HpYmp2TAaEqe5ZeR3x0GjMFkNyZl7vZksFZr6ue0Jcp5d5veV4IuDphGRnsltz/614H7x2A2mt1etMilxUZB8QqvA0nfdkphD9qNooTD56ceM89K/H2b37oh3A4vr3tz0r0qBemHrJigkIRMOkYGGBUyJTK25j0iHWl5s+dAiCNgb08aZVdrzj+jdaVftdDdPVKBmY/zTBTtKhWDdcZv6eDaAldfqmDOmrxIxKp6voPFkQfHl2VUEUJxj1heovpg53g8c1HZ2lSdV6pN6B6KVlJCn2nryMmnsJG198uIA8Tfrpc2vTMX2pjbdIXBhkpPFr5xCDvE78XCRse7b018JTlvdXxch+1+rWXxxVF4H1qp88QERkFHeYNKpquKjYw8fEp2vogwNB6Zzj6SACuJ9EHVKcxc5+DrMb/IujGD3pYmJsw4oRclh8ZA3rsiuq8498PfXtfVyvh/Z3WXr/pooM7V1lbTxiO82c11t/xnS1mJqldhyWYmr+XQzUCAnNIdOlh1VGpO+gXbB6Aho+Rnrs9xqt62bpxWNwvTmlWkKuYBt21k7gAAM3Zm9bWg
+	/GT7FQVD4F6N87XHgvQ/PZxYUWy++Gv4IJ9tZz4zyGjmCVQl0DB8jJ5GYXCBqBS+/l5qDZILJkpVFZlAYpxTEZwxipaHhCpYx6i+8YVLwKSZuh7giE2P2I9b+TlOolADuG4GgvSc5D1Un05IFRuvq5/fGrkgFPCmeTI+peuSQqgGzdYXny3w/XV5pGPtmacB5zEtWOZy9Y+gLe6NRAiSAtFsnb5GTOpRKslWFn8CNKBHT7//7JoCSd0+gXOffD4zJ34cBKaeA2jmAX4qVbjqthzzMKLSfB5fAqV0xm0t71FYr7IkIFKJzStAXWVAc8+mUsYIk8UQMW0x62KV+ko7bPHsKNyj4lh/aFlYU0fdzoaVTDzLik3o/BrnXCL2NEBZ/eWbSHl/H3GTtjeB+qRg7QDZCka4PxMCo42r7seHysYx/g4yZmRQsY6KU6gIy+EVoaw1RVgx1Apwwlo/s83EP7hoBai7uu9q6DL7ml3q9dqyYBqH0b0oeEPZgXxQovxMf/Xw4niKwxGb2MBDRErbImLFMpaEJBbeAJcD4aJRDYUe4HehDfmiwgUemSdePBlILE7JZfabcy8T57Ai7FtPdrD91rJvLcYGhIW8zYd6QVZlLE4NIoLyVlu4euXFSvs471vIwJNfyOf0wFVvlOfDG26r9Zg9olNPckFTCSHJYdUGVz4yTk9Kg4kScLYhBdLU
 X-Forefront-Antispam-Report: 
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700016)(20052099010)(6133799003)(3023799007)(18002099003)(56012099006);DIR:OUT;SFP:1101;
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(1800799024)(376014)(20052099010)(3023799007)(6133799003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	29W+5vr6N60327iWUyU0hYzzlL1m4xXRnpORhPl2X6sCwPrqfYuIcPWYrnEMmvETZFtQnX2HbM7U0A8M93a6T2IgL2jWwX8Z1OdYOLeDKU8FNxlcnkUUTz6eiO3kFrU1jqidE94O6r6dAyINMRX0HWFS8M/rgWNrFnKY+T9/L4FQy2UUsuyaCCmTzRSuweISHqnk2odhPmNtcBr+0VBI47TyYzViWEtVZGCI7vXXXdFDnZfaKw6Ln0rHZvUYqroGGdJpJmFow6a56pXTI6QLEuvWcNd6d+mnZilrGPBZKz0ufjQ7k8ytwx8h1kDNyjEIupHQa9l6LPKkTBSzUXIK9NhWZn40aCalTQtRuYl7iXIwt2XCesrbgJegMhPFM2ERW4Z8Pzn2wkNGNrQsw4GFDEERllfL6F1lqu/9Dm+U4jJEo/jqI9j3iLVNhgIHpF/9
+	fwCo8N9pQXyoAg13OYu7Jtsye3EQtaKKPr0mQ15KqLx67LnrWLe0DPWERTZF8UpePa41EzIxlQl1S5ZF0eOPZtC9tLHHYO+Gp7Yg2K/nrtFIvkgcyTiy95A4aAb9MFnMB9wRoUh/YUWSnJRZ8lSfPzbOlQkrWB6q3GBKbX/MIQ8DivmqCRUz9DNtXJxxv0Ruf1NLZ35QUl4Hg1xu8Y3H1VYcuBYo89jQs5i5ZE0Ws1C8RX7w+srmkjh+jEP2vVOARz9wxYusjw56jkbVtBZ+UZWbmpbpM4D9VaJvrp3mN0hwgwrtRr7lYMyJsgQgdFAlVq1nxTrnKiSiH1H4MkaGGdJG9eTuHkQZ6hjSAJ7bJjlLMp1erSG/P8CvWBabE5O/WX03vtRjOAdur6DvAnl5XQ6sokP4hYSg8hbWgVICcC5OrLQvsn01apTqtnQ7n+ZN
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 17:56:02.8310
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 17:57:29.8568
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 199628b1-474a-42a4-468a-08dec32bb57c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98ae9883-55dc-41b1-1049-08dec32be965
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	SJ5PEPF000001EF.namprd05.prod.outlook.com
+	SJ5PEPF000001E9.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7780
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4366
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 17:56:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238180
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 17:57:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238181
 
 From: Randolph Sapp <rs@ti.com>
 
@@ -126,19 +126,22 @@ https://lists.openembedded.org/g/openembedded-core/message/230665
 
 Signed-off-by: Randolph Sapp <rs@ti.com>
 ---
+
+Sorry about the previous version. Had an unstaged change that was related.
+
  meta-selftest/files/static-group              |  3 +-
  meta-selftest/files/static-passwd             |  3 +-
- meta/classes-recipe/standard-user.bbclass     | 26 ++++++++++++
- .../distro/include/default-distrovars.inc     | 12 ++++++
+ meta/classes-recipe/standard-user.bbclass     | 26 +++++++++++
+ .../distro/include/default-distrovars.inc     | 12 +++++
  meta/conf/distro/include/maintainers.inc      |  2 +-
  meta/conf/documentation.conf                  |  4 ++
- meta/recipes-graphics/wayland/weston-init.bb  | 12 +++---
+ meta/recipes-graphics/wayland/weston-init.bb  | 12 ++---
  .../x11-common/xserver-nodm-init_3.0.bb       |  8 ++--
  .../{system-xuser.conf =3D> system-user.conf}   |  2 +-
- .../standard-user-account_0.1.bb              | 42 +++++++++++++++++++
- .../user-creation/xuser-account_0.1.bb        | 30 -------------
+ .../standard-user-account_0.1.bb              | 46 +++++++++++++++++++
+ .../user-creation/xuser-account_0.1.bb        | 30 ------------
  scripts/sstate-sysroot-cruft.sh               |  6 +--
- 12 files changed, 101 insertions(+), 49 deletions(-)
+ 12 files changed, 105 insertions(+), 49 deletions(-)
  create mode 100644 meta/classes-recipe/standard-user.bbclass
  rename meta/recipes-support/user-creation/files/{system-xuser.conf =3D> sy=
 stem-user.conf} (90%)
@@ -429,10 +432,10 @@ index d42e3d1f50..7e94a1c938 100644
 diff --git a/meta/recipes-support/user-creation/standard-user-account_0.1.b=
 b b/meta/recipes-support/user-creation/standard-user-account_0.1.bb
 new file mode 100644
-index 0000000000..7aa42e0338
+index 0000000000..558f1c70da
 --- /dev/null
 +++ b/meta/recipes-support/user-creation/standard-user-account_0.1.bb
-@@ -0,0 +1,42 @@
+@@ -0,0 +1,46 @@
 +SUMMARY =3D "Creates a standard user account"
 +LICENSE =3D "MIT"
 +LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb7=
@@ -441,6 +444,8 @@ index 0000000000..7aa42e0338
 +SRC_URI =3D "file://system-user.conf"
 +
 +inherit allarch useradd
++
++S =3D "${UNPACKDIR}"
 +
 +do_configure[noexec] =3D "1"
 +do_compile[noexec] =3D "1"
@@ -472,8 +477,8 @@ roups} {user}")
 +}
 +
 +# default case, and a requirement to satisfy the parser check
-+USERADD_PARAM:${PN} =3D "${COMMON_ARGS} ${STANDARD_USER_NAME}"
 +USERADD_PACKAGES =3D "${PN}"
++USERADD_PARAM:${PN} =3D "${COMMON_ARGS} ${STANDARD_USER_NAME}"
 +
 +do_install () {
 +	install -D -m 0644 ${UNPACKDIR}/system-user.conf ${D}${datadir}/dbus-1/sy=
@@ -481,6 +486,8 @@ stem.d/system-user.conf
 +	sed -i -e 's|@STANDARD_USER_NAME@|${STANDARD_USER_NAME}|g' ${D}${datadir}=
 /dbus-1/system.d/system-user.conf
 +}
++
++FILES:${PN} =3D "${datadir}/dbus-1/system.d/system-user.conf"
 diff --git a/meta/recipes-support/user-creation/xuser-account_0.1.bb b/meta=
 /recipes-support/user-creation/xuser-account_0.1.bb
 deleted file mode 100644
