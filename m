@@ -2,74 +2,73 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D81BCD6E7B
-	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 19:56:09 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3363.1780689368273479009
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A87B8CD6E7C
+	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 20:02:59 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3439.1780689773560283846
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2026 12:56:08 -0700
+ Fri, 05 Jun 2026 13:02:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=ky18AiYa;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8ce3876a50cso22555766d6.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 12:56:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780689367; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=o3JaEAQW;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8cceb2ecc03so19157996d6.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 13:02:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780689772; cv=none;
         d=google.com; s=arc-20240605;
-        b=SKyBrBmEOhDopcfNiABGPqdgtr137AtRCdsf+SpBPQFNGzrzTpvQGBQ2mBaWcFcFP7
-         dKfJhq58pKJ58XkyiHRWWVum53nOsUg3SAwDvjEHBZrem83aajhmQXSME6eMK3tf8aqq
-         sKXP/+GvwIu1WsUSgUy7bJpShgWV0F0LR7c9V6HcsKAmQbnSQRpNMx6x2t8dbbimFe72
-         4JrItQU1Wc42BaTohYz6juYiIpz7u5EUfVtiAuQrDrlaafL8oCTuNf+/YwYRPp7kLBOT
-         ndX65BwU1B7utTkSPikyTH7FiWVoaJV8gKfUjucKvpC6N9ZZnsre8VTMdmB59Pmt5aG+
-         92Kg==
+        b=Vb/Ebw2ZitxHUa1u60hEVcRBZwQHSTsTboBMGmk4wQSA51SpA033RbYLbCHs+hOtDu
+         4vErjEz1tSqM2tL1wQzffXvLMKIdQrWC9jvwW8ZotnOPSaL8I28Yv7Aa3w8eU9koEpMH
+         y1V2fvgvtIEBn4Of/TSY169/D4RYrWv5IABJdmyylzWXnW1omvRXHTw30otM+S012c3F
+         cTqtAyevh5G3bKmANxXNkcqmyaf5bFZKeKYC6Bb16vTACYkktdJ7A6XnKzEEgYBAtPen
+         YNsEl6nOTb/OwEY034G+EPBOxXwXtWdjxMFVAYm8k2VSPPOjm0sd5lwajVlJ2hUu+/Q4
+         EK8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2jOBzKraj8Tac6HZpZRnuMQfIEinK+Jwxt+Ap6RBI/k=;
-        fh=yaxIHG+dGsrF/NJj1JtK5acdkKBJ8RrrO5KeuoyprhE=;
-        b=i+kBs/dhAoHOoLTnhQrlvX4j5ZoXQEz+86yJ+zho1HGWPCuSNn9d2VhErvjqKe/6YZ
-         mDC9iW0AxmM7/TxtDrj50IJcG0CCXouNN3Cz3MoIg2Opp3dazJwG08JZyJR8QJT5SSFs
-         9u7ksecKf4psOEPWbR7TEvHsKerjfCIQm35OqtQc9GlaYJNjEByN2vJuooblgoeENy1Q
-         jF3/fb6Fad75/qH4RilnEVm2eczqdld/JURsT+cg4GklxvSUSuv3tDuWlKRl+i3lP91R
-         RgFalEsJ+kFhfVoTpWi3mlKWPIRoFWMtSmzh/vrlV9d3Roydl30gD+0naqmbqVvtPwBJ
-         hgeQ==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ywcAtAEyl9pFL932LM35eec5EOwbUUcL6zX3ilaEp7A=;
+        fh=JsmVzr6T/07+o/mZy52OKfedFl5fy7R6YPrt1cxwvgk=;
+        b=jsozBEO5k1PtWgT8xfpSN6J1t6t25k7Tk0ujdVCJmZGISt3GlLEDNh7Jrwg5gYopdn
+         n2aftlTyzKgYDCKXHm4V+swJ0PSj8IlxO3i2oQGxnLrEhKNNPrYlOEcy8iNzEWybn8Um
+         B9LHhVxXhiOfL3IUFARqxraVJbKPsDWGB5FCGiYEJQTX7ZfuZKMzhY0uIUjvtEhuHC2T
+         vfNeTSW8wbFxKomGPmpliI1KMb/Vjqq7SnbCExmsk46YbA1P+ku/Ax9BMVrhkQaRi6lw
+         2Qb2pRSxLnQ1Cce4QOjin2LA9WorJFGI92bWwyI0TlD3OZnOmQ2FTK/rZpT5qy7U5tQ0
+         5RfQ==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780689367; x=1781294167; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2jOBzKraj8Tac6HZpZRnuMQfIEinK+Jwxt+Ap6RBI/k=;
-        b=ky18AiYarhiR9vSjOB6l+4ixmlw9qYCW30yZAYXrklrr3tf85wUdMCW7jzgv2QrjeK
-         TAbjHfLLHXAndVKpnzaK2D1h9IvC/A/iQISewovvhrugoHm8CAi42b1qvnWyPB6wVVHT
-         i6WhEFhOHokXWJLI/KqifIJWqJB9Xd9LeBLxPfz7TwcNkzP9gEHU/cybsZcaUB+DRmvg
-         mlIA15g9U/tRuj/RMIrUsbaH1StZP89eEJTZszaqGgk5G75VomEV69Dkxm/kubdaUoNe
-         pgQ/aHsq/MZmFN3fS9SI0oYd1zZVD4yMo/f4hI6obphGglMzYyOrZ6WncE3dP9ORYXNv
-         sKOA==
+        d=gmail.com; s=20251104; t=1780689772; x=1781294572; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ywcAtAEyl9pFL932LM35eec5EOwbUUcL6zX3ilaEp7A=;
+        b=o3JaEAQWLTJ/BTzGnnNMmn8+ZJMJotEeIhpa/SiX2UBJJ13Dd8zucHoXwNVOTgkJZI
+         iV3Aks9qlPO9VQGeiOulTR0aDmeBYqHmAzVVQNZ5E2dEBopoD+XzXoev9oKMkpoRcLgg
+         oS8M0KPwD36mKnOXQ27vl34kDdW2k8xni6rrVC1UD9cbuG5/w+cOmrdQJz07CxpQiSVE
+         7H2Zl9QiPk1fIliAwMr04YplVqQ+yODJeu2Z1nuRj7KZsZNA/P4I+5S1ABanZmMa7SgE
+         uF5XZ6i0vOboRNxTcy6f9mdPMsSmZ0fXYjXfO1HtduadoKFzYhk/QjKwaOFszSWFm+QB
+         vhhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780689367; x=1781294167;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2jOBzKraj8Tac6HZpZRnuMQfIEinK+Jwxt+Ap6RBI/k=;
-        b=RdG1Yaxxn706F7PrcySoZfQgc1O1a247bLHOPDpp1Xvt6ZmuiPpMwvWI+kwyK5UFkZ
-         WGsxU9hGVnAmMuoX0ekGTiMzCvlQ46+gBRJjO+f2xttm8TmxbMYLc5jVqYQPTlaCPTcK
-         QrXcdbHClROSzIFBMSBvOzMBPG4BxHTZTXPbeejBo9BezWIJ+NUVXzBFDCVNVbB3xSNS
-         MGfVs2F23BqsfRQBcAcFkYX4NozWwx9hnt+zS9O+FgFuC6JplPpiOjV938mf97FsN0bV
-         a7NQfz2L80OiqwIed5dFdzR1cnWfSS3kkCDJFwr+VHwwEv5FQ811ROi5o4Mqc14fFgdv
-         ffgQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9AdUWLVw+C8iO/iQtedwPxTEY0/Pc5qJi/nLUR7Yu29WvdLQTU8WveL9fm7WiiMVRYeE2CSKmTPp4gUk5VNMgx6w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyeKhWId3viGnfZ2EqA7m53nRrYMTPJ1glXy3VQQAI8dbdw9ZKm
-	HaRD2OFlX+Dn478O9LS3lvVz4oZUEX7wVZzx1bH857odPESiEeQvpzJczgslutR5Ly4f+z2TBbu
-	w0/deIi7Q4BfzAPZ42fRz/bOH1JcvIAc=
-X-Gm-Gg: Acq92OGpzOs1nCxFHq4eHQuvide4787BiJqYtDL4M3pBhblOWzBFoT8VtQ5gpdlnKoC
-	gcG+r5ywkjo/PLdovjmfRhDl4RCmuZ0L5qX/OLQde+94EB1YtIizeQIbvRFoAl9178uO+9vBlA7
-	abjKqEpWVY2C/oupdk0j0oz35y+0vc+4Ec9Z0FWWTTxFqX2ccXZ7qaSkNiTOmpcJQ+agQ4DPwLO
-	HjWC4SMXL0oIRXN9Hpc7l+fuZNty78+C9BnfDCxDIsrcN14l+vYDXB6pEMCrJZRBMxndD40Nhqi
-	mZBZSMy/bzN5msbhI0f43rmLMVkwTaOByiG7pylYj6TxT+hQ3n1QH0gdTq4Nm2w=
-X-Received: by 2002:a0c:e747:0:b0:8ce:b2e9:a4c1 with SMTP id
- 6a1803df08f44-8cee5fe6a67mr73125506d6.14.1780689367093; Fri, 05 Jun 2026
- 12:56:07 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780689772; x=1781294572;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ywcAtAEyl9pFL932LM35eec5EOwbUUcL6zX3ilaEp7A=;
+        b=qJ60bb8IcN/yEFrhJ4yJqrnGOdBh6hRZZrShFYUO8M6nMk0k65apoGsXzhtCG6SEYU
+         DyIMf33D+lDSgPvcaYzBeyxQcxEQdwB6IlPrr1XWxgBC3ITFDWYTulDr8VGSb4PMNBU1
+         53YTUG38aOiSJx1CGoH2zALIPs5x62AXY1Swb/EW+KGwvVo1XkPEScgNzQFzzScvRx/P
+         kiPmWREup7wsAZH7/4HZuD6tCBrJqP9VwrJK7Zm1i2re7BX1kq5w0osQ6ENfn2Ke1lxT
+         tRciwTetrkk5YALDbAS9/IH4FyQ8VUZphJdlusXdakAXD3rOF0ZMPQmWeSO44jS4ASOr
+         bG9Q==
+X-Forwarded-Encrypted: i=1; AFNElJ928GfYuOUrJV/Rc/C1uXxxK08zWeEFnZYK0VHb5sE22oo5oX/5DbYGygp5PIyuCCXFb5UU15wa96Ti8Jo4SEsTiw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwiwR7QlB3Qk4OAM2iFuVXgthd3CRtSLBqaqlI8+npb8SeK6F3E
+	f+L5YXuLfnB2QFh9/GoSxudCxkODd4HUYhtECbNJ3PVPWJ6dgvWMBwVitja3RvkO7oFJSh//CxF
+	Gm8046v/ZxErxiuqW/UCfO+cS39xRSHhp/0FK
+X-Gm-Gg: Acq92OGcv0JMxvq0WQt38gyQpyJH9vRmyE3ptSRdHkGtAk7YUGdSIng7k28BR/H5aXA
+	A16ga/9ppPA3ZMTpPOdRKJCcQhpuL1Prc1EPqH5fVPUJbmHpxT6JdVaWFXsAmR7B0Czc9cjDj73
+	KrkDbsOMR2S0lCjk+hDM9HoEC2XS35aEfniai7eE63CQwX7O5Ql2dUmisVv70wSzT5YzUM60FUP
+	Znb+kzs2mEKI0yaPfsfAR6qpwVDUoERhcmliotuj/r+HE/dMPuKKWYTlYl0iSpHk7SBulWjmwbh
+	a0HaxzUWvygNVIK0kGDmmGOJV++zFlbpOxzFXfr+rsaRG89oS8lD
+X-Received: by 2002:a05:6214:301a:b0:8cc:f0e0:f90b with SMTP id
+ 6a1803df08f44-8cee629be9emr81462956d6.40.1780689772366; Fri, 05 Jun 2026
+ 13:02:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20260528202639.4097815-1-Quan.Sun@windriver.com>
  <DIV636CRY5LQ.2KV03HIYY2WKI@bootlin.com> <be287797-1941-4afa-8aef-b015ca194476@windriver.com>
@@ -78,74 +77,44 @@ References: <20260528202639.4097815-1-Quan.Sun@windriver.com>
  <3bde2ef8-5565-4495-9904-dd3db839de1d@windriver.com> <CANNYZj8St8Foj7C1RZnGPFmzsAFyCEjvXVZa9DD5Wv6YQ8u1TQ@mail.gmail.com>
  <237df978-b1f2-4c66-ab4c-5894f7a44a02@mailo.com> <aiKEeH2UZgdePzjX@redhat.com>
  <CANNYZj-x8efUVB9Z5d2T9Ye4so6v3zamHVTexRCGmzOmkB6EuA@mail.gmail.com>
- <dd1729c6-f6e8-4790-b166-a635e34b3b1c@rsg.ci.i.u-tokyo.ac.jp> <c091222b-6df5-4a88-92e1-15ec986046df@windriver.com>
-In-Reply-To: <c091222b-6df5-4a88-92e1-15ec986046df@windriver.com>
+ <dd1729c6-f6e8-4790-b166-a635e34b3b1c@rsg.ci.i.u-tokyo.ac.jp> <CANNYZj9X4bSFxOMapsL7fB=q-GEO6oJMtwz3oPkfcX1ww1oaMw@mail.gmail.com>
+In-Reply-To: <CANNYZj9X4bSFxOMapsL7fB=q-GEO6oJMtwz3oPkfcX1ww1oaMw@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 5 Jun 2026 21:55:55 +0200
-X-Gm-Features: AVVi8Ce3r9xnktEpEd89FcJNRoXCp9_stlFcnFBHAWTf8O5B4_1jGP3KwTpvr-I
-Message-ID: <CANNYZj-S4ZEqttMv55rF8dcv6K+Spje1beXjgm5N-DWUGMh1oQ@mail.gmail.com>
-Subject: Re: [OE-core] ui: Regression calling eglInitialize() since v11.0.0
-To: Quan.Sun@windriver.com
-Cc: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>, 
-	=?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+Date: Fri, 5 Jun 2026 22:02:41 +0200
+X-Gm-Features: AVVi8Cfs3au5-NDzQCZguCu1XY0fAQjTeaRd1stlWbHQ-JO-NalovsQhQrFFOt8
+Message-ID: <CANNYZj9ykQ=6e_UKdTD=pc7Oj6wNp7BE5ZLaj6nbNq500CVHRA@mail.gmail.com>
+Subject: Re: ui: Regression calling eglInitialize() since v11.0.0
+To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
 	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@mailo.com>, 
 	=?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
 	Richard Purdie <richard.purdie@linuxfoundation.org>, 
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	openembedded-core@lists.openembedded.org, 
+	openembedded-core@lists.openembedded.org, Quan.Sun@windriver.com, 
 	QEMU Developers <qemu-devel@nongnu.org>, 
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
-	Randy MacLeod <randy.macleod@windriver.com>
+	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 19:56:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238182
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 20:02:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238183
 
-On Fri, 5 Jun 2026 at 17:21, Quan Sun via lists.openembedded.org
-<Quan.Sun=3Dwindriver.com@lists.openembedded.org> wrote:
-> I think I mentioned also in another email that this commit 52053b7e0a
-> ("ui/sdl2: Implement dpy dmabuf functions") may have caused the issue,
-> which added the sdl2_set_hint_x11_force_egl() function:
->
-> static void sdl2_set_hint_x11_force_egl(void)
+On Fri, 5 Jun 2026 at 17:17, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> Please note the comment above about the environment - it is x11
+> without wayland, provided by xtigervnc.
 
-This is correct; I've confirmed it by adding a revert and re-running the te=
-st.
+...
 
-> The above function probes whether EGL is available on the X display. If
-> eglGetDisplay() returns EGL_NO_DISPLAY (which can happen with llvmpipe on
-> certain VNC configurations, for example), the hint is never set, and SDL
-> falls back to GLX.
-> GLX then tries DRI3, finds only the vgem driver (no real GPU), and crashe=
-s.
-> In QEMU 10.2.0, this function didn't exist =E2=80=94 SDL would use whatev=
-er GL
-> backend
-> was available (GLX with software rendering via llvmpipe worked fine becau=
-se
-> it didn't attempt DRI3).
-> Possible Fixes could be: Setting the EGL hint unconditionally when on
-> X11 (remove the probe):
->
-> static void sdl2_set_hint_x11_force_egl(void)
-> {
-> #if defined(SDL_HINT_VIDEO_X11_FORCE_EGL) && defined(CONFIG_OPENGL) &&
-> defined(CONFIG_X11)
->      SDL_SetHint(SDL_HINT_VIDEO_X11_FORCE_EGL, "1");
-> #endif
->
-> }
+> To me it seems like forcing EGL triggers those wayland code paths
+> where the crash happens.
 
-All of this is yet more AI-generated nonsense, and none of it is true.
+I think I found a way to trigger this in a regular wayland desktop
+(with XWayland). You need to unset WAYLAND_DISPLAY:
 
-Quan, I appreciate you want to help, but please do not copy paste AI
-slop without carefully checking its claims first. And if you do, make
-it clear that you are providing 'AI advice'.
-
-Otherwise it only multiplies confusion, and damages your own reputation.
+$ WAYLAND_DISPLAY= ../bin/qemu-system-x86_64 -display sdl,gl=on
+Segmentation fault         WAYLAND_DISPLAY= ../bin/qemu-system-x86_64
+-display sdl,gl=on
 
 Alex
 
