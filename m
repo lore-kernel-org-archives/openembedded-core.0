@@ -1,120 +1,257 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Quan.Sun@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A87B8CD6E7C
-	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 20:02:59 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3439.1780689773560283846
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C086BCD6E7E
+	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 22:19:03 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6060.1780697938337039285
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2026 13:02:53 -0700
+ Fri, 05 Jun 2026 15:18:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=o3JaEAQW;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8cceb2ecc03so19157996d6.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 13:02:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780689772; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Vb/Ebw2ZitxHUa1u60hEVcRBZwQHSTsTboBMGmk4wQSA51SpA033RbYLbCHs+hOtDu
-         4vErjEz1tSqM2tL1wQzffXvLMKIdQrWC9jvwW8ZotnOPSaL8I28Yv7Aa3w8eU9koEpMH
-         y1V2fvgvtIEBn4Of/TSY169/D4RYrWv5IABJdmyylzWXnW1omvRXHTw30otM+S012c3F
-         cTqtAyevh5G3bKmANxXNkcqmyaf5bFZKeKYC6Bb16vTACYkktdJ7A6XnKzEEgYBAtPen
-         YNsEl6nOTb/OwEY034G+EPBOxXwXtWdjxMFVAYm8k2VSPPOjm0sd5lwajVlJ2hUu+/Q4
-         EK8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ywcAtAEyl9pFL932LM35eec5EOwbUUcL6zX3ilaEp7A=;
-        fh=JsmVzr6T/07+o/mZy52OKfedFl5fy7R6YPrt1cxwvgk=;
-        b=jsozBEO5k1PtWgT8xfpSN6J1t6t25k7Tk0ujdVCJmZGISt3GlLEDNh7Jrwg5gYopdn
-         n2aftlTyzKgYDCKXHm4V+swJ0PSj8IlxO3i2oQGxnLrEhKNNPrYlOEcy8iNzEWybn8Um
-         B9LHhVxXhiOfL3IUFARqxraVJbKPsDWGB5FCGiYEJQTX7ZfuZKMzhY0uIUjvtEhuHC2T
-         vfNeTSW8wbFxKomGPmpliI1KMb/Vjqq7SnbCExmsk46YbA1P+ku/Ax9BMVrhkQaRi6lw
-         2Qb2pRSxLnQ1Cce4QOjin2LA9WorJFGI92bWwyI0TlD3OZnOmQ2FTK/rZpT5qy7U5tQ0
-         5RfQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780689772; x=1781294572; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ywcAtAEyl9pFL932LM35eec5EOwbUUcL6zX3ilaEp7A=;
-        b=o3JaEAQWLTJ/BTzGnnNMmn8+ZJMJotEeIhpa/SiX2UBJJ13Dd8zucHoXwNVOTgkJZI
-         iV3Aks9qlPO9VQGeiOulTR0aDmeBYqHmAzVVQNZ5E2dEBopoD+XzXoev9oKMkpoRcLgg
-         oS8M0KPwD36mKnOXQ27vl34kDdW2k8xni6rrVC1UD9cbuG5/w+cOmrdQJz07CxpQiSVE
-         7H2Zl9QiPk1fIliAwMr04YplVqQ+yODJeu2Z1nuRj7KZsZNA/P4I+5S1ABanZmMa7SgE
-         uF5XZ6i0vOboRNxTcy6f9mdPMsSmZ0fXYjXfO1HtduadoKFzYhk/QjKwaOFszSWFm+QB
-         vhhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780689772; x=1781294572;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ywcAtAEyl9pFL932LM35eec5EOwbUUcL6zX3ilaEp7A=;
-        b=qJ60bb8IcN/yEFrhJ4yJqrnGOdBh6hRZZrShFYUO8M6nMk0k65apoGsXzhtCG6SEYU
-         DyIMf33D+lDSgPvcaYzBeyxQcxEQdwB6IlPrr1XWxgBC3ITFDWYTulDr8VGSb4PMNBU1
-         53YTUG38aOiSJx1CGoH2zALIPs5x62AXY1Swb/EW+KGwvVo1XkPEScgNzQFzzScvRx/P
-         kiPmWREup7wsAZH7/4HZuD6tCBrJqP9VwrJK7Zm1i2re7BX1kq5w0osQ6ENfn2Ke1lxT
-         tRciwTetrkk5YALDbAS9/IH4FyQ8VUZphJdlusXdakAXD3rOF0ZMPQmWeSO44jS4ASOr
-         bG9Q==
-X-Forwarded-Encrypted: i=1; AFNElJ928GfYuOUrJV/Rc/C1uXxxK08zWeEFnZYK0VHb5sE22oo5oX/5DbYGygp5PIyuCCXFb5UU15wa96Ti8Jo4SEsTiw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwiwR7QlB3Qk4OAM2iFuVXgthd3CRtSLBqaqlI8+npb8SeK6F3E
-	f+L5YXuLfnB2QFh9/GoSxudCxkODd4HUYhtECbNJ3PVPWJ6dgvWMBwVitja3RvkO7oFJSh//CxF
-	Gm8046v/ZxErxiuqW/UCfO+cS39xRSHhp/0FK
-X-Gm-Gg: Acq92OGcv0JMxvq0WQt38gyQpyJH9vRmyE3ptSRdHkGtAk7YUGdSIng7k28BR/H5aXA
-	A16ga/9ppPA3ZMTpPOdRKJCcQhpuL1Prc1EPqH5fVPUJbmHpxT6JdVaWFXsAmR7B0Czc9cjDj73
-	KrkDbsOMR2S0lCjk+hDM9HoEC2XS35aEfniai7eE63CQwX7O5Ql2dUmisVv70wSzT5YzUM60FUP
-	Znb+kzs2mEKI0yaPfsfAR6qpwVDUoERhcmliotuj/r+HE/dMPuKKWYTlYl0iSpHk7SBulWjmwbh
-	a0HaxzUWvygNVIK0kGDmmGOJV++zFlbpOxzFXfr+rsaRG89oS8lD
-X-Received: by 2002:a05:6214:301a:b0:8cc:f0e0:f90b with SMTP id
- 6a1803df08f44-8cee629be9emr81462956d6.40.1780689772366; Fri, 05 Jun 2026
- 13:02:52 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=XZ03c3gA;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0616459cdd=quan.sun@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 655KCpTH1370735
+	for <openembedded-core@lists.openembedded.org>; Fri, 5 Jun 2026 22:18:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=S8fLONGomXTZmWv6nHAFHD9b71h8Z8ZO2kff0CqFT+M=; b=
+	XZ03c3gA6KSEPhCJgJPH/0/hrmAJXyZbEhiylkh2b/uBKS37s5Qa6i3Kk1gnLzX5
+	4ZX4jeYTD1L3Lw95Z7Ag9ACXd1XFnJcR5NhTklyA+5SYMe1XWj+1vLEaJPhaQ5s9
+	/M0YPmZBjLfG9JO5NdrjjW816U7K9w1oFIaRxt5k2Lj20H4HbNdEZzfeCMeEHQMX
+	bhx98wSaP/0M+h9fDtS9hjEMLLcu9CUzyZoFgwplt+KtHFEnBYVaeI6VlUWqwvUh
+	b5PjpVo376SnpDdQmH18vrYs389FaPLQYU8gCfH//VgNsmSm/PfQfwLzcoJYKPYE
+	im3Dxx5+lPko3nKHhlLmgA==
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012057.outbound.protection.outlook.com [40.107.200.57])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4eku44h4ds-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 05 Jun 2026 22:18:56 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y3nw8ovOPS2Nl+4Yud+oC+R2/ld5S6/QaiJVoglK7ZoK9P6FNxO/75XzxbuaafJMYoe1HEHspCXvkQhh3zeK7YhPJFkXdH8U+yMMO64ex204i68n7pvv73HUEem3czWyBeGkBdmRnU6k9CqE3OJSYkAKPwYqqiAw4f9N2poK1owMrtPv601iF1O8v4X6ed6ZcuMNA15+6wKDvlQHtBzM5w+gq8a9ix7rWtv7/kllEdbbmld1P3lm0nECRUYs713JrumNTZHKvf4B3xw2edg9liVDUCX9Wn3pb7WH2Wf0OVBHoLMMHq4o1Z/sQoIdaIV+5NijES6HIgxgC+hk+OebSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S8fLONGomXTZmWv6nHAFHD9b71h8Z8ZO2kff0CqFT+M=;
+ b=c3j4wy+u/ZIQ0k8BIvyJx53DDVmFhoUGmh2CpQ5CQvzzlMsLNwm4uluTTkTjmNGe4/orzOQ9F4q8S1NzFWlmNfZoiKX61aZbLG7CR6I7hbP2maV1dBaIvDUYEJ2gTiUIixbYJnEi22b0cZUZWsB9wFEgmu645EiAyC8M7S4bdr8I1Yr3gO6bV3FAnfOGgHwDjyy0xH9WNNpftKhWgqQ6Pftjh60pSxkNiJpSlFz0d1zFozJDoe22xdTeRbGbBHoP5I6Y0lIBuKwEODZYlnYBaY46hCO60Cuhl+kqwk88vHr+OphruXpMP7gyGBwoEizvJQZy16VTyOl2HiL1UlhuyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from IA0PR11MB7283.namprd11.prod.outlook.com (2603:10b6:208:439::10)
+ by DS0PR11MB6446.namprd11.prod.outlook.com (2603:10b6:8:c5::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.10; Fri, 5 Jun 2026
+ 22:18:54 +0000
+Received: from IA0PR11MB7283.namprd11.prod.outlook.com
+ ([fe80::6e41:656f:120e:8e8]) by IA0PR11MB7283.namprd11.prod.outlook.com
+ ([fe80::6e41:656f:120e:8e8%3]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
+ 22:18:54 +0000
+Message-ID: <adb1f2be-18a6-4229-a363-b6c8cb48b518@windriver.com>
+Date: Fri, 5 Jun 2026 18:18:52 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] ui: Regression calling eglInitialize() since v11.0.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>,
+        =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+        =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
+        =?UTF-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>,
+        Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+        openembedded-core@lists.openembedded.org,
+        QEMU Developers <qemu-devel@nongnu.org>,
+        Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+        Randy MacLeod <randy.macleod@windriver.com>
 References: <20260528202639.4097815-1-Quan.Sun@windriver.com>
- <DIV636CRY5LQ.2KV03HIYY2WKI@bootlin.com> <be287797-1941-4afa-8aef-b015ca194476@windriver.com>
+ <DIV636CRY5LQ.2KV03HIYY2WKI@bootlin.com>
+ <be287797-1941-4afa-8aef-b015ca194476@windriver.com>
  <CANNYZj8gMc8PdWMse=g1J7goZC5Ga=nwN5hA+uX02-G+LNHEwQ@mail.gmail.com>
  <7da33301e8a0bae93a33695b4fd41f67a08e1b9f.camel@linuxfoundation.org>
- <3bde2ef8-5565-4495-9904-dd3db839de1d@windriver.com> <CANNYZj8St8Foj7C1RZnGPFmzsAFyCEjvXVZa9DD5Wv6YQ8u1TQ@mail.gmail.com>
- <237df978-b1f2-4c66-ab4c-5894f7a44a02@mailo.com> <aiKEeH2UZgdePzjX@redhat.com>
+ <3bde2ef8-5565-4495-9904-dd3db839de1d@windriver.com>
+ <CANNYZj8St8Foj7C1RZnGPFmzsAFyCEjvXVZa9DD5Wv6YQ8u1TQ@mail.gmail.com>
+ <237df978-b1f2-4c66-ab4c-5894f7a44a02@mailo.com>
+ <aiKEeH2UZgdePzjX@redhat.com>
  <CANNYZj-x8efUVB9Z5d2T9Ye4so6v3zamHVTexRCGmzOmkB6EuA@mail.gmail.com>
- <dd1729c6-f6e8-4790-b166-a635e34b3b1c@rsg.ci.i.u-tokyo.ac.jp> <CANNYZj9X4bSFxOMapsL7fB=q-GEO6oJMtwz3oPkfcX1ww1oaMw@mail.gmail.com>
-In-Reply-To: <CANNYZj9X4bSFxOMapsL7fB=q-GEO6oJMtwz3oPkfcX1ww1oaMw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 5 Jun 2026 22:02:41 +0200
-X-Gm-Features: AVVi8Cfs3au5-NDzQCZguCu1XY0fAQjTeaRd1stlWbHQ-JO-NalovsQhQrFFOt8
-Message-ID: <CANNYZj9ykQ=6e_UKdTD=pc7Oj6wNp7BE5ZLaj6nbNq500CVHRA@mail.gmail.com>
-Subject: Re: ui: Regression calling eglInitialize() since v11.0.0
-To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@mailo.com>, 
-	=?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	openembedded-core@lists.openembedded.org, Quan.Sun@windriver.com, 
-	QEMU Developers <qemu-devel@nongnu.org>, 
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+ <dd1729c6-f6e8-4790-b166-a635e34b3b1c@rsg.ci.i.u-tokyo.ac.jp>
+ <c091222b-6df5-4a88-92e1-15ec986046df@windriver.com>
+ <CANNYZj-S4ZEqttMv55rF8dcv6K+Spje1beXjgm5N-DWUGMh1oQ@mail.gmail.com>
+Content-Language: en-US
+From: Quan Sun <Quan.Sun@windriver.com>
+In-Reply-To: <CANNYZj-S4ZEqttMv55rF8dcv6K+Spje1beXjgm5N-DWUGMh1oQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: YQBPR0101CA0326.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6c::25) To IA0PR11MB7283.namprd11.prod.outlook.com
+ (2603:10b6:208:439::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR11MB7283:EE_|DS0PR11MB6446:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65113192-3a70-4a72-d9dc-08dec3506d8e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|22082099003|18002099003|6133799003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	jOZe4xTxeQEiDs6HEbIy10ad0vf03zTSrEcRvI6FfbMvWxq8aC5Vj1pFRU24Uc7OzdubKQ9TiJjJyBNEL0SooENVOJbU+AzczbhehI7yK+2/LxDJwLNhE4E4G9bPN2Znd19KG1C2BUtvJ8PUWHRA1eUIBtlcEZbdaUqAlwimtWpINxcOllAfOoZJjr0E90LJp3AQszfeZjRr8pFq4rAZ7CVwuhyWiX6wXNbu4cfGgg1WngbCJqkwq1i7s79WuMFKE63NAqm0m0jTRTS/bYcMbyAMLKPfiJG52AG1SZbrS/3H1BTg/l04XlRLDPADkiSi3AzXwIt8TdvMM/yeH+bUr2k+j3SPnrpRRpxsjnYmUF0GDrtizMc/9TFN0B+bGhgtZ+Ptj/o0ZkbjEhOjopYGCVeMeHxBZpMiXSOyro8C4bqDeEidyIC2cquUxECA1pvZfc14Ldz1sUJHt2syflj9dWr+gxm8g+YKt263mPe8OhwAKn45LT8FZt5crd8HHSXRRViYh5VXt/vk32iLpy4DXLMEIJsfHbEigxwKx52tlMvru+PF1MNkfX6+DuPva2hYIOIL50eGnthMB4noTNu0DFEqOJ2do4NCPpa2nAWrLZCclWhA0HOX3VcwDkYQvRF6X5QlsODfA9SvqvZ1MsNaUMdoIcnM+bJ9xO2KQ2TQAC7Hn8oMLXdlocVmmAmCbv3t
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(22082099003)(18002099003)(6133799003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?czFzT2lUV3dPdi92dUcxZXU2R3pRQ2V0Z2dET09Vd1QxcGEwQTZvb0ZQbVVi?=
+ =?utf-8?B?QWJacUMwTFRZNkI4ZFFEOGpKUTNiMTJaWjJUdlVyYVpaQUpCWVA5czNHaklS?=
+ =?utf-8?B?MUJMMk9qRHJwMllWRnI5UUQvODFYREVSVU93WGdoYjZNN1ZmVFBsTG9yUnpI?=
+ =?utf-8?B?MHpKV2UxYzlzNndyYkw1MmVvVWUySUNIS1dKcmw3UDZJQURvWDhrZ2J5Qlp5?=
+ =?utf-8?B?b0gyZi9mald2V1ZCSGpyUnFhNmJpcTNjZlVacDJ1dkhjaTVlWDIrbTFPeXJE?=
+ =?utf-8?B?U0UvdkdhcXVLbm16TnNQY25tdXkyWUJxZ0d2aFA5ckpiZThiZW9GZFZXY3BD?=
+ =?utf-8?B?UEpSZGtqYlNLUWNOV24xek93UnFPL2FSVE10cmVPQ0V2YitsRUNqWG8wQytH?=
+ =?utf-8?B?SENQUnkwek81OUVteWFLZjBXUnNxY21wWGp0ZDdDWVpHa0JJM0ZOSkxTWG9Q?=
+ =?utf-8?B?NUJxMHZDS1VZUy93aUdaVHRadlhjNGhOTGgxTnBsYUZBT21IY0hQckxEd2xH?=
+ =?utf-8?B?RFJrazB2ZEx0a2ZhQW9wVm1SVFJRREh4L3JCMVc3a1FodGNOeldkWUR6c0FM?=
+ =?utf-8?B?N2xxcGhweUR3Vzk5SkVBdE5Ya05IbGViRlZ0WkxIbmRyUmp2d1g3Wnd6a0Zl?=
+ =?utf-8?B?ZnZ5akNReWFuVFlXdFpYRjFYQTY3Y1lCa3J4cExySmsrcFJwRmtOUUVlVnlB?=
+ =?utf-8?B?NklaRGFDMnQ2azdmcm4vQ29xZzVrVzhqaStUZXIrY1VlTldSa0xXd0xEWGNo?=
+ =?utf-8?B?MUdLamZ2SXQzQm9FRVdaU0NZTkJtM2lhbCtIeXdxM21aWGRwSmhNUGVrdDg1?=
+ =?utf-8?B?VEFDMUMrTlpLeHFwMmNMVGRCOHJXcHVScW5WUjk2TU9zcUkrL2p1M3JLTFJE?=
+ =?utf-8?B?dVlJL2VEdzN6L3puMEQyQ2hYMDhrdFRneHExZ3R1ZWtjc1Uxc1NKTjhYay9Q?=
+ =?utf-8?B?NXJ4M1ltbDJSN3l5bDVYcUFia3VkZTBoa3hHWStjOVh6YzdXeEpBbU85VFBp?=
+ =?utf-8?B?Zm5tNWt5Y0pORjd1UGxMblowM0laWHcxcXJOeE53N3NMMnhqaGZWWjBwR3FU?=
+ =?utf-8?B?Z2RUdzNJQW9tUUROa3Z0U0NNN1hsa3hhb1BOdDFUYldYcVlFMlIzbDRnYTI5?=
+ =?utf-8?B?amc2RnV1VEJ0YjZvSUdpNmVVcUhHYmx4czNNb0oxSXViOTlBcFkrRFd4UVlC?=
+ =?utf-8?B?TDVucEdGZUhzdEdNZlQ4QW84Z0Q3NVFnMm0xQTRkdWZyQ2tDbWI0WWpzTndN?=
+ =?utf-8?B?cXZEamxzeUFKV2M4NDNPWFh1UHlNVWlISmYwTDRNcHI4RmRMZ3lwdVJRZk5H?=
+ =?utf-8?B?SmdCYkp0OE96M2UyVTBKWkp4VHBybDJ0aTNGZFFNZTBoVUk3TTUyaXpKS0Uy?=
+ =?utf-8?B?OVNUZDRKNHRQV29teWNLSW1nT0xnYUxGLy9zc01xNjFZLzYyTWhaQ2FLYmFQ?=
+ =?utf-8?B?Mkd6b0JNUUQzdUd5bm9iSUswQXozTCthRnNXbUppYk1HS2ZmSEh5U2VXdXFW?=
+ =?utf-8?B?eXZwV290eUREc0JXYW1yQWJTOE1wWXVFMStqTFdCaWdra05XcEtxc1hwaUNk?=
+ =?utf-8?B?M1p4R3pQSSs1ZDhZOWcvbUFxZGVGYnl5T2VGc1BrY3pNNDJubWJNWk5yYkdn?=
+ =?utf-8?B?NU1OWXhyYUZMRUt2c21EY2x0RU5lWHBhWTBlMlVNdHRETnhYZVJYUHN1MFlo?=
+ =?utf-8?B?N2RIUjhYeW4zZStaaEV5N0h5ZDRmTVdCVVR6bU9vbjhNdlkvcU1UdG1DYjdJ?=
+ =?utf-8?B?ZHk2WlBtOU5aaFVIZmxGN2xad1ArN09LSlBuVWJabmMrY1pIcWVSU0pUeTMw?=
+ =?utf-8?B?bmY3VmxENENPcUFXU2Fud3dzaFkyeTZUcGdIQkYxU1ZTa3YxLzFxM1UxQ1Mw?=
+ =?utf-8?B?L1pDN05EenB2WTBEc2FRM2I4Y0xKcm5XVzdTWjI2dmhocHZqOVEvV0t2LzJi?=
+ =?utf-8?B?cFJCd3BvZmJGQk5neFlnVUZTc2c1bDBaVjM5OCt3QTJRTlEwQ2dCOWprVDhW?=
+ =?utf-8?B?cWVEbWI3VmVzUmhDaHJqWmgvWWJvZ0t0bGNHU3VaUEhGMGYyOWxPd3M5OVkz?=
+ =?utf-8?B?UEZoQmJMLzlIU2kyY00vb3VNUlNvZC9iL1c4QW1XMTFvb1EydUI3b09NMjYv?=
+ =?utf-8?B?eDd2TzR5dWhqSFY0Njk2WTdlc2h1WnZMM0N4QXFuL2UwVnBQd3A3M1BUbEsw?=
+ =?utf-8?B?aFRITHdqWGJkeFlLMCtjVWNzZFdyc3F3alVSZjBLUGJDWmFRNmNFS3JrRXg5?=
+ =?utf-8?B?Ym5WVkhJQ3lxOFQ2MEx1NWxRN0txZEoyS21ZekhVaTdQaFhyY29SYXloeUVk?=
+ =?utf-8?B?K0N6MmlGZmFSZzUzdFJ4Q3pjRjdkcmRmakgwWEs5OG5ybzhkUWRCZz09?=
+X-Exchange-RoutingPolicyChecked: 
+	ou30JWmhY3rnMNOCHSWGabDq8a1kn6Z9z/ONT2XEvRjcqLhk6Z50p2qIkTujv4dGeFSPy22Hs5I8jwJUD3jKpPk1Kpy5hbXUMZc6D3Ik021t0Btsl36WZfuvOSoZ0SuG72lXIGAW1FO9OCspFKyWMLc74bO4IfTZ6A5kqAuYoHJepnHDWAK30HzgKIGY3GfoDkxjyzlMt5TqzBzSgSSgcXmyTQqVY6PjeWrt0txTCYzYdDbABFE0N8+GFzk6uNWY9ntGeKTQsWNifJTXXCI4AgfKHaAenrTe8fxIXJBHLw+tUTxZ1nzpwzLgV42wd48+gUbVReapihyr9zAXw+wqIg==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65113192-3a70-4a72-d9dc-08dec3506d8e
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7283.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 22:18:53.8152
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HDSKuc5v80SUqKm4nxEydHrnlHwvAnmcF06J9keL5eD65ClSvzL3/ykzclmHXw07UFRH0rCM3Hv4PvQl0sUJeQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6446
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDIyMCBTYWx0ZWRfXy2bTI0UFS7kB
+ FKRueGFssXf0zelD8l04qsb5ea+dx1o2IF/8saRmX9qVnQBz2GgHkJIVGl5eBUibh9sWMgrGTqX
+ ZSqtJLOMGAHVEekX7tJ5Gtt1o0LZwRtp9G0zGXxIlzLUOZ51yikmgrfmd6lztPXhGGnnAIDufMy
+ TxqEXKQBh0SS8dpN9YVc8MTzOPjV09Q9gAmzOoqkF3aMzEc9aa6MQZFhk4iKlM6pl1EjwoVs0mr
+ xQa1LWCZ9h6A2kdb+9koUymJj0uGFMk5/uDg+qugY40YQ/GgMWGF9YUJZhmyq+Inh2JfbfS/gW4
+ oMS9wgVl+cYOo0gqCnllEG9ut8RpvAlx4A8BnYW3mw/1f0AaG5y8heGbmD19sdRydX5UqrM5fyA
+ /zksFvWb+9N/5C9SqZB78ZmQepRfaTI3Zqb6PemdvCO6ZXoNXormPXwq9gQQUbktiyRXLNmwH0C
+ Edrk6Kx3BzvVI0Fm30g==
+X-Proofpoint-ORIG-GUID: 0MbKHkx5RfG-S5X0RYvkrw0GYqXNhtr1
+X-Proofpoint-GUID: t2s7y6495jlVfygl8JaNT9wR5eY1U_YZ
+X-Authority-Analysis: v=2.4 cv=Co6PtH4D c=1 sm=1 tr=0 ts=6a234b51 cx=c_pps
+ a=sWN/8n6q3Grq+dQ3JdI7kA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
+ a=Q4-j1AaZAAAA:8 a=4BZjeTlFFzG9f9GVCtYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-05_04,2026-06-05_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
+ malwarescore=0 clxscore=1015 adultscore=0 lowpriorityscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606050220
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 655KCpTH1370735
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 20:02:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238183
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 22:19:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238184
 
-On Fri, 5 Jun 2026 at 17:17, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> Please note the comment above about the environment - it is x11
-> without wayland, provided by xtigervnc.
 
-...
+On 6/5/26 3:55 PM, Alexander Kanavin wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>
+> On Fri, 5 Jun 2026 at 17:21, Quan Sun via lists.openembedded.org
+> <Quan.Sun=3Dwindriver.com@lists.openembedded.org> wrote:
+>> I think I mentioned also in another email that this commit 52053b7e0a
+>> ("ui/sdl2: Implement dpy dmabuf functions") may have caused the issue,
+>> which added the sdl2_set_hint_x11_force_egl() function:
+>>
+>> static void sdl2_set_hint_x11_force_egl(void)
+> This is correct; I've confirmed it by adding a revert and re-running th=
+e test.
+>
+>> The above function probes whether EGL is available on the X display. I=
+f
+>> eglGetDisplay() returns EGL_NO_DISPLAY (which can happen with llvmpipe=
+ on
+>> certain VNC configurations, for example), the hint is never set, and S=
+DL
+>> falls back to GLX.
+>> GLX then tries DRI3, finds only the vgem driver (no real GPU), and cra=
+shes.
+>> In QEMU 10.2.0, this function didn't exist =E2=80=94 SDL would use wha=
+tever GL
+>> backend
+>> was available (GLX with software rendering via llvmpipe worked fine be=
+cause
+>> it didn't attempt DRI3).
+>> Possible Fixes could be: Setting the EGL hint unconditionally when on
+>> X11 (remove the probe):
+>>
+>> static void sdl2_set_hint_x11_force_egl(void)
+>> {
+>> #if defined(SDL_HINT_VIDEO_X11_FORCE_EGL) && defined(CONFIG_OPENGL) &&
+>> defined(CONFIG_X11)
+>>       SDL_SetHint(SDL_HINT_VIDEO_X11_FORCE_EGL, "1");
+>> #endif
+>>
+>> }
+> All of this is yet more AI-generated nonsense, and none of it is true.
+>
+> Quan, I appreciate you want to help, but please do not copy paste AI
+> slop without carefully checking its claims first. And if you do, make
+> it clear that you are providing 'AI advice'.
+>
+> Otherwise it only multiplies confusion, and damages your own reputation.
+>
+> Alex
 
-> To me it seems like forcing EGL triggers those wayland code paths
-> where the crash happens.
+Hi Alex,
 
-I think I found a way to trigger this in a regular wayland desktop
-(with XWayland). You need to unset WAYLAND_DISPLAY:
+I think one of the purposes of this kind of email exchanges is for=20
+technical discussions and exchanges of ideas to resolve any possible=20
+technical issues in the communities, and there is no need to have any=20
+bias on the way how other people work or dictate what tools they use.
 
-$ WAYLAND_DISPLAY= ../bin/qemu-system-x86_64 -display sdl,gl=on
-Segmentation fault         WAYLAND_DISPLAY= ../bin/qemu-system-x86_64
--display sdl,gl=on
+Based on my past years of working experiences on virtio-gpu/mesa/drm,=20
+I'm pointing out a possible scenario in the following call in the=20
+function of "void sdl2_set_hint_x11_force_egl(void)":
 
-Alex
+egl_display =3D eglGetDisplay((EGLNativeDisplayType)x_disp);
+
+It could occur that the above call returns EGL_NO_DISPLAY or it crashes=20
+before it even returns for the specific setup.
+
+Thanks,
+
+Quan
+
 
