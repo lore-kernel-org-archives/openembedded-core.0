@@ -1,116 +1,117 @@
-Return-Path: <wei.deng@oss.qualcomm.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4AD6CD6E75
-	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 03:00:58 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.328.1780628448797538044
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DF54CD6E5D
+	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 05:42:19 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.147.1780627810130036010
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2026 20:00:49 -0700
+ Thu, 04 Jun 2026 19:50:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=VsUwfjaG;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=kHDoOBP6;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: wei.deng@oss.qualcomm.com)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65518XjH1958779
-	for <openembedded-core@lists.openembedded.org>; Fri, 5 Jun 2026 03:00:47 GMT
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=PDvPqNM4;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=Sg3KeC4G;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: wei.deng@oss.qualcomm.com)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 654HOZCe944401
+	for <openembedded-core@lists.openembedded.org>; Fri, 5 Jun 2026 02:43:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:message-id:mime-version
 	:subject:to; s=qcppdkim1; bh=BCt1Br881T2uXMcKXY9PnmpumyJW7TOgRh2
-	iyBHVdFo=; b=VsUwfjaGhJzTXTHXinmZukH82/RLT+5+vqNgWdE+QyYzr2oKrAk
-	XXth68i8pZcjaKRJdnyTh+8cCNLGtx1G6r23KYAv9HXxIDR+SKoMNA1yqhuWxpqs
-	Gen3qpLHAGr03quT2oX85HtSLxETPGrZXTh00Fh1qEaN+SlProI2bmpV1kHVgYgw
-	gi8CjrV4VTfatNefXAKjRs8z9IJNHhez5uPuRGRqkwrTN2B9wTNIgAdCaEL4PWJX
-	8R04sPSQXg5Ri1zz1ZCszCsxIYJY6sGdPEVgcmgeLHQh5AFB5arutLu8OQXD+8Vn
-	/tmKCKNlUbUhDGE68qKpG79YiKqQdpqk/pQ==
-Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ekckptjba-1
+	iyBHVdFo=; b=PDvPqNM4nX2rfliLHvDG6iaq/WggKC3lonVs/xw7eCpWx1xvZZu
+	VTfaCXFUUG+WHcR3VR8Tlzv0Dr2nEHa7Nvw/BYGhDBlxlAS6o5RZRO5fTcIbKXE/
+	rkV5aOgQdE1BaYXJ55L4/bf9czH05x7e6AWaTPgbT3hLj1l3T/4ncPmvL9QbDu/t
+	uBDH3/mXJPI7sCBZJipuBZZKnldfUFs9znIEsOfkYXAx0r3w+fCeOK92EF4y5aD1
+	W1sM0AZYsKyf3vay5SUMU9e3jf12L8ELUtJKyh2aTSznPRUlky9O/9/EY7W6sP2A
+	pZRbbBOtE80JrwQyMtuIH97hzP80qH2bROQ==
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ek8d53sc3-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 03:00:47 +0000 (GMT)
-Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-1370bd383f2so108119c88.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 20:00:47 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 02:43:15 +0000 (GMT)
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-304da0e350fso86149eec.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 19:43:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780628446; x=1781233246; darn=lists.openembedded.org;
+        d=oss.qualcomm.com; s=google; t=1780627395; x=1781232195; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=BCt1Br881T2uXMcKXY9PnmpumyJW7TOgRh2iyBHVdFo=;
-        b=kHDoOBP6syd/wv1A6iuiQszpxZuVor+dVhtqP0OZacY6+pTce2tRbtcVBud7djEs6d
-         HBdHmul3SQkTlTzk4W9QLi2OX0A30CaiPm5xHIE6jh0P7YHZ3BJkQGCyBc7FxrQp6TyW
-         2xTc84pzYb9KC5O/GL/aTDpalJhjRFWllgmISfbLV/eNisK19Elh9vHqoSR1URwJn6j5
-         SyBUgoOcBF8lQISY/dqo7WDHbyaWuAXVaVNDVk7lwqk8CZ866NK5cSad/LmAocxqjm5T
-         ZuWJnyFfkziP/8G1FsIFJKOoazf2QTAJZGU8F14ACO2t5d45kZudbcxDmS5CveOFo8jp
-         hP2A==
+        b=Sg3KeC4GZsuFNSFji5FcZVKvIE9pY/7fYhCtjYez5wvlczp2ecpHpUPO/UGmLXjusv
+         oRTELx5pBCOIjVVvOhTPEuWcP3VdycVlEdHnMPgic/KY36/I1Cm2Q0cpNiLtwMeIaSrg
+         YjL/E4pWN3IL6aCI5fzSQTc7UN+5byGfSkqUsEAx5obFKXO8zVxaTMqphNDxyS5oBfPE
+         kDgnRwuhlByd9Ae7gAhcUZ8XVZM18PSrLaKXho5jxe6quQ1CF+jXi6QDoInGTQi0BPlW
+         olpekdCNC+l9OT8r9gx8XHpca75fxgUbRY8Mz0Ac2Nr54+e3t87Qd2ukZ7SjEgTQH8CI
+         xIBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780628446; x=1781233246;
+        d=1e100.net; s=20251104; t=1780627395; x=1781232195;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=BCt1Br881T2uXMcKXY9PnmpumyJW7TOgRh2iyBHVdFo=;
-        b=qg/i4qbRMQwJdofUPFVZgK1Fi5PNXIRACnmNUGVk870HjxGx98R71eCX3FD9XG2/Fh
-         uaGpB+WNq9qLnv5mFEhQBXv9pM955CO0pbPMYYt0hJKKV5QYwE71tErJ0yG0vmA/LqvT
-         t22EAq+kYtP/KSivU64ROSeQxGYhT0ZGFWeEU1e8tfidDubX6NOoZNO0RrFJkQuUy8jB
-         F8ER8ntOw4jQ/0a6JMDE/q1BBT9EQNMbIzO2W4KqCE7TTPnypE4OGoLOk5qJUdtPx6IM
-         /+oR5m/CaTYzPsuPHdS6DvKmhHgp/ibhN2fcqQvkGaAS0YTuksFpwBZ52zK7FvgUtOi7
-         vSfw==
-X-Gm-Message-State: AOJu0YwZPLA3pj8jozQr8Avc+g5+DDIkhBaYZG5mKWBJDVdKzOozm1of
-	BY7k5rwI6sSj+fOPUt025ahU4AKR+BZpyTPwVeQHiD8n4K8Cg8IfVy6x1/0G/BFmdqIyIBIpl21
-	UBqXhv1jPUb8hoMrdkR81sa2lMk5OCeeU+8CkQpMctxtj3yrliTiVrViDwjE1swt6Nnm70FeAgw
-	RKEbED4/11YvV6eMffaA==
-X-Gm-Gg: Acq92OHSxj27IdI+ti+5yc3cU+RxC3HM8BvQs9QmPRfj7TRpWytohYR58ULk4vM2lzT
-	UdoGJGo5Gx/b7A/qPBssmZLgqxrdwg2hwaP7kvsqPUgon9f/sC8P0qN2udF4sIAtkXp02/UEnBK
-	SJVnJaoDzPWoxTEAIxCuXQyYP2W/Ici+Ep2TCGK2vTSn9itX67FY+KUYtAK/G9tJc+CHLOOepuc
-	I0Fi5j26NeowfB5EMwx3pDEbGtqwgkPi3X0xaTIYSeXQES4Nc1f7LIMtCWSnugaGgcDL0mp0APP
-	ghollP/u6L8YXRUiFPZPJ/wnHdx7DShsQHswo6Z4oaIwjsiE42ukPZRUb3RX/vKvMPX0BwGTmPI
-	KhG9Z0B52k87ztYmYycr5CqtebeS27gL6keUvGW+d/d/6j1uPB8sGzcUJUfF+/FzVrlMFuw/SrF
-	d0CZPdsgg=
-X-Received: by 2002:a05:7301:169a:b0:2ff:b29b:87b with SMTP id 5a478bee46e88-3077b5fe235mr352068eec.5.1780628446245;
-        Thu, 04 Jun 2026 20:00:46 -0700 (PDT)
-X-Received: by 2002:a05:7301:169a:b0:2ff:b29b:87b with SMTP id 5a478bee46e88-3077b5fe235mr352047eec.5.1780628445561;
-        Thu, 04 Jun 2026 20:00:45 -0700 (PDT)
+        b=KZuuOmdqKl+BG7Vh0das3u0gAECA6NVKOjfm7FOUDu5RDReHkMhpNu2ouiKPW67JZj
+         +rww7J0hOehYGMGle7O9NVbjXfl/S0jTftDEUBGuF1M7wyBXpCnhaLCNNruM/U3ETiOn
+         kUK89pFTJKaggDGeAiou93GtNwBN4yCOgkdndbHjb3YFDLBnENNzSW1HGbRyy4mExh5d
+         5P6QfYaExZr7ugDh3zPGfOFFu3IQKv5Bw0mMmrvKJPqDGqVC/cDKsxK/or/JyBDgpBAv
+         G9f/CM0s9tVt+XGSUY792UG2cclqNfhc9kXPIR6bt2oZj722RqZ8x56DMRBMV8CFoxBk
+         CF3w==
+X-Gm-Message-State: AOJu0YxwAUN7gBIHseQR6MRd/K6f/wOx8DAYw+IflsywSebCXD+gnDPd
+	lJ+WE0pRunu8Q0Kj21d1R8caqr6niGEsLVe3fX/EKm90ry+zDQeQwquCNJttryzI1uO5TM2GTkd
+	DMNr8XOSJox9mPD2c6aT1wxtCSeI0UTt/cdVt4YTrGYR4QMIJRV25/zqTzhnYTn/WTkW8CUAdVM
+	sw68VnMg/ZsqAfFxCkDA==
+X-Gm-Gg: Acq92OGqVfc0wVfxFr/Rj25BmII51LjhZoN4QiAuFlw6tVA7+4TZVnw1TzHZHISxJeW
+	Yc888a4gj1MCZPhnvBlTzI+afXixaQjwFXNwBK1SXdoDocXfNdis9zrkrapqDa4n8v+FrYGJ9l5
+	ogum9kzk0GBZ2YpFarpeZRdbgCszSr8ChyU1mqhS+sCJSloVD77fK3bAvi1pH5MMuygfJl4BaZv
+	IEXYIsqv2T91EPPjkK7wU853rhOhlGgDH40ItYe+fXcuFjFyC29LLGWeh6oEq4sMxLfHu3wtPhP
+	CxPpL0j2s0UdTb4NnxYT7HQ3gY7s9w/Zz66wnCHOf44VsSqTvK2PkipuV3Xh3wN4i/jKFOc+jo3
+	oc18OpHYYeWKgC2IbHTjmrI56Y59lzpFHtiqQVyWbvDLcqknGl/o/VpYDL6CXphRWEl/+AwCj1C
+	y8jADTBPM=
+X-Received: by 2002:a05:7022:45a6:b0:130:a479:79a8 with SMTP id a92af1059eb24-138066c64e9mr290428c88.2.1780627394457;
+        Thu, 04 Jun 2026 19:43:14 -0700 (PDT)
+X-Received: by 2002:a05:7022:45a6:b0:130:a479:79a8 with SMTP id a92af1059eb24-138066c64e9mr290414c88.2.1780627393772;
+        Thu, 04 Jun 2026 19:43:13 -0700 (PDT)
 Received: from hu-weiden-sha.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074dea8e76sm6343643eec.18.2026.06.04.20.00.43
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137f716017esm7201681c88.15.2026.06.04.19.43.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 20:00:45 -0700 (PDT)
+        Thu, 04 Jun 2026 19:43:13 -0700 (PDT)
 From: Wei Deng <wei.deng@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: cheng.jiang@oss.qualcomm.com, quic_chezhou@quicinc.com,
         shuai.zhang@oss.qualcomm.com, mengshi.wu@oss.qualcomm.com,
         jinwang.li@oss.qualcomm.com, xiuzhuo.shang@oss.qualcomm.com
 Subject: [PATCH] bluez5: set L2CAP IMTU for OBEX profile listeners
-Date: Fri,  5 Jun 2026 08:30:41 +0530
-Message-Id: <20260605030041.232943-1-wei.deng@oss.qualcomm.com>
+Date: Fri,  5 Jun 2026 08:13:08 +0530
+Message-Id: <20260605024308.222721-1-wei.deng@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: D0S9ZMPTR-IpH3yUS_iZZhFJ1YvLf7oL
-X-Proofpoint-ORIG-GUID: D0S9ZMPTR-IpH3yUS_iZZhFJ1YvLf7oL
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDAyNiBTYWx0ZWRfXwtsyi+MatGBm
- ExuI8f6Z5ni/VdUO6tXWIwiFBiGyfY/VyqcQ2cSXo/M+3XtIbFJXdBnwvXWOngvZntRMkXarTC8
- JKddhUNB4YhhzAwd8SDGJ93jS5dUyCjtP/0rCpRO7WAGeTIrRcIFHyGRCxnb3RvY453Ta0Q1/Qu
- KPKfeNiUiBo09BZJMyH5axTjyjaIETHVmHKfXsgLvieG0T8K9ppAlubiGF2+LsgGwTGto0BWGbe
- XxMCFuSulPcxQA70Edj7PwqUaK+KUBXzmUsjAqEGTB530q+pxy14LjX5SQeOpD6dY8F8P20cm3n
- DkaCS+d94l7EM8Ffkad6OORbj7GudgpEVw5mXY4cJpJnVVECODf9UHOo2SmR8J9GaRdYk8g3BUL
- QYMEwpKyZJy3huzoAjHMoGq94uWYKMoscKzEwd9bHonACeB4hg37gIeEsybLbMczbL691iuPkQe
- J7TSVJmADuILb05QO/w==
-X-Authority-Analysis: v=2.4 cv=H9jrBeYi c=1 sm=1 tr=0 ts=6a223bdf cx=c_pps
- a=kVLUcbK0zfr7ocalXnG1qA==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+X-Proofpoint-ORIG-GUID: 1PS7JR0prgstcxfuJo7fAEum8Fkh75hG
+X-Authority-Analysis: v=2.4 cv=IZG3n2qa c=1 sm=1 tr=0 ts=6a2237c3 cx=c_pps
+ a=Uww141gWH0fZj/3QKPojxA==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
  a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=NEAV23lmAAAA:8
- a=EUspDBNiAAAA:8 a=dOK3wYaXzV_A1W3SHmkA:9 a=vr4QvYf-bLy2KjpDp97w:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=NEAV23lmAAAA:8
+ a=EUspDBNiAAAA:8 a=dOK3wYaXzV_A1W3SHmkA:9 a=PxkB5W3o20Ba91AHUih5:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDAyNCBTYWx0ZWRfX3+UA68HO2NhC
+ V8S3tjPKOV5bWFz8ZTXpqTUHiP+mDyBfzXCnx2HGAB0i5yq9MaLAH0VX5O2FSNsT79gtkhrLvrE
+ 9zFkPmZFHsVo3yI3F6l8eoJpsx5YrB/GJosA4BKmC+ra5QPMg8Vv1nd701HPLIj063LQkm/7FQ5
+ hbDfQTOBBkBTqd6pu+fIpJ/zWzX0UOcxvUCce4N6HX8mBZsaQpWCSh3YqfGRZdkISI+rqGJRBX5
+ 3oAO8YDUz+tSXo30SCMD9QqYY4JjzcS4vDFqCc0bvlgz3AHVDqEDLJrJWAQAtCdV8/wyblDAwhI
+ EWKIcwI2yknC68LR+oQ3ErkupXaoS0b1NAHMJXdFupTIBT7ShmHh1LAC7m/w7HIBo+1WpQ25CWP
+ UzljWzvIw48TKHyjnk6S0twsHAi02WDQaJmNcV9HSXiKd7qwRTrT3XOPsJLfGmi/q1Be94qdR6W
+ z+r2lJnZ/ncimQr/F7Q==
+X-Proofpoint-GUID: 1PS7JR0prgstcxfuJo7fAEum8Fkh75hG
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-04_07,2026-05-28_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 adultscore=0 phishscore=0 bulkscore=0
- lowpriorityscore=0 spamscore=0 clxscore=1015 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606050026
+ clxscore=1011 spamscore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 malwarescore=0 phishscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
+ definitions=main-2606050024
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 03:00:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238137
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 05:42:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238138
 
 Backport upstream fix that adds an imtu field to default_settings for
 OBEX profiles (OPP, FTP, PBAP, MAS, MNS) and applies it to the L2CAP
