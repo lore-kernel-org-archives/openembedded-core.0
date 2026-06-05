@@ -2,122 +2,109 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6D02CD8C8A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC41DCD8C8B
 	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 22:34:25 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6271.1780698859340924576
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6129.1780698858725687011
  for <openembedded-core@lists.openembedded.org>;
  Fri, 05 Jun 2026 15:34:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=qpVA+ntU;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490a76757e5so16059825e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 15:34:19 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=TYRLyneu;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-45f3cf907ceso1119646f8f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 15:34:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1780698858; x=1781303658; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1780698857; x=1781303657; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2ooRbKafcxzqlxsY+jhqg4Ulxsi3BhhTNMuP+9StfRo=;
-        b=qpVA+ntUGveKztlLf1pOqxInY/Ss0x9B4K0aLNlrrO+DYMhOlIq7vp/5Cn5RGgeETV
-         0hRqe1E/8A+LDpdP2qYrpSeKPz+tfZyxoFo8TrY0PIeB/H3rPudN0v8XqKGbOLjYJGd9
-         R/E9xGMbsK/O0y4V13OivwTEnvR+QEOnAS0wg=
+        bh=qn5pM0pvCd+jTHAsFALwTqtFiTQj65/tBKpG0bHFZUE=;
+        b=TYRLyneuM02uChJqkNgzCERHwZWbxFgVaJQbVVOyfrFfkzh5s6Pd8fzpsR4PNXZgW9
+         Vm6KxSxzo1t6RX9eexjkDAMsmU6DHZGI5z5lJefoS+5L5L9m5XdZKQqyRF4aVfyTkBQC
+         Z4gyxCcLXujz9K3glxheOc8OXxbSjsCkV9VyQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780698858; x=1781303658;
+        d=1e100.net; s=20251104; t=1780698857; x=1781303657;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=2ooRbKafcxzqlxsY+jhqg4Ulxsi3BhhTNMuP+9StfRo=;
-        b=joUmAjLfM+cwmqzA1lvVtSUvzjtPaj2teWzt32m8X3GHtRJVmJz1OBSlhhaWY91ejH
-         wNXi8WZX5Nwz9xgYTmTs78Qyw2kdFGwKZTi11IcEERO0ShrLgg5ZZSRDn6KOTFwBEhv4
-         upHbxoZMTCxYVd3EU22ZSp3WUSwHnRIqq5q4iRbllTCUN12/nzVmh5/GZbxwC7foCACQ
-         ZxQRfB6K9idYTdeQr3XkuwfwPlQljYhkpnipiUzACMhhrQD0V2GV4Z8Sww9oPS23YcZ1
-         193UAPxvoOFiUnBodUSJ8gZvFOi+NaVfh72T0n2Db0ClsoX1o8IfKUBGRgCN9SxAST7A
-         2MaQ==
-X-Gm-Message-State: AOJu0YyjKdbYX8SPCIaEHLcEyBP8FNlYNxIHpE1SBK0F6S8dMIpVQC+/
-	IOMl5Or/cGu6xHN/EVL3xohh32certY1tHSFTa6KdKCUB7YDZC3lvf5Gy7ocKXhxTTULrIqawhx
-	blzEi
-X-Gm-Gg: Acq92OHcXTBcnskE22byxXwVyxqupnnYM1uNT8SouB0baxh5G4JNN7q0+HcxnImnz1S
-	C1l+30UM+Yka1U4kdeckp5l5Mawt9oNm1piR47C+o+piGK3PW/VaoQyf/EXQ6RC1McmZ0W6cd7S
-	AXZamL5bVs8Btc6ta+PrWSb6yxvuGF7G5nz40hz2xFMm/mRMq4ZZ9iuUMS1FROXrFSZKk1B3v9Q
-	K+3VbPXw7e6cSOIUoo2EdqRoXDLmt27uKu0s4ws8IzvHW1XxwtcT2b4KhqV1+xITR8m2BxAnQ+Z
-	R4r/x5h7BJixNTpOsdNpJsL/qQCwA4+WF/ZmoAFu/23nEwf97ShTiFbc/y7s0tKaVeqdorCc14N
-	UdR/HsXiNxYUdbUrxCZTE/oKlLlEus3T2WLjwGbWtXKcKJzVWVF6i5WFqKcVfz1IvUohaYwsQj9
-	w7XNcvqXYNH75UvfgrYArXwxtLD6wDwwjSmVLCmkAZJTqYrBrChGN5mWL1RCTlt4nulExFkYaT/
-	Wwa/2TBd/NmY8YXc9TbFxNT+8yFEfEq/TjuHW0=
-X-Received: by 2002:a05:600c:4fc6:b0:490:51e9:deba with SMTP id 5b1f17b1804b1-490c2615a5cmr90028815e9.27.1780698857722;
+        bh=qn5pM0pvCd+jTHAsFALwTqtFiTQj65/tBKpG0bHFZUE=;
+        b=E5OlulxdFSY58BHWhqK1BnM+GjpLjKHOrGrfsoF5Mz3RcuaIipCMab6D0orQTSf6Ee
+         qtwUgCNOgHiuCeD0VbtDmsdZPRstdqRVkrpOyiFHFw3ruCuZ8Odnklgi9oW9QR90zb4I
+         nySSpfhoieoAlAlf9iul7zoWAOYtEgIp9DSWVkk3jna62hbVBcvMMtDUY0+jEzO533ei
+         4abutpqKtrm3tb6ZjXlPz5eVoC3s0/PsNhX91pCxgDVpsPkCud7zHCCitetRoHopvhRe
+         8ha2XzWXo7Rtsj8J4cPVeJXphqe7umSxeW+JIfGAYMyimzK7ACNkjmMFSolysgBRMdiv
+         vjpA==
+X-Gm-Message-State: AOJu0Yx4FYhIUIApYT/PfPkeqTbIjnsteIgtAh1UmUOQLcCNIuKwa1iE
+	tFPHPPBhpFqR4/+omVJHWXqeEycnlLFqR/myDJYT6laEr+4sis+v1Ai/a/B+nHSVB0T1ULmt3qY
+	Zh43m
+X-Gm-Gg: Acq92OG+p//BLIgPRQ35vK41nxWeg0I7zhmDZ9b9hxJ3Cnb7DBEivR7hHoM8lEOA1G4
+	glkJznbAkweWxwbsqkVJbVpoAodI3VHcL8gGrZmj7ytnwzoghp1GekNxvM53gykF3Owe6NwGQhY
+	RqsqjYg9EyONKdoczVUMQifegMxT7tIAIB53ls4I2Q+a1VxEyladmPDYDvXBqWyJxeyXrP0OTCz
+	PTfi+50ycA/2ewfeaFyHx+I3elTBNtlzDmr2W8qjhbYnEXpSE7+EH8FaDEF/ZndInA+VaHLqjZm
+	YRHPRjWRT5QoETZL+fP00GE8PVyuHoUM6Miou3S/1XtRyxIUsSS6fCwCK8lQpxV3hl33VDAorgw
+	oXpW8QgPE+oEIfL+QcGIJYhoqkcEt6vl520sH+glXvMXk6J/8dTWIE4nqGdq88UWiTCnH7l7F1L
+	3hjWQSEbMTumb4w6e1vyXhlsypxAd7DJSOLDnSnqxvzjnzKIU5AvMH6xwMoW8dLS5jz6ik6F6cN
+	xse2hfIBSOy9DuojGVuZ0ezQ8iSWgsvhUWxWWc=
+X-Received: by 2002:a5d:4688:0:b0:45e:da9b:97d6 with SMTP id ffacd0b85a97d-4603061e47amr6814852f8f.27.1780698857044;
         Fri, 05 Jun 2026 15:34:17 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00b3e1ccc1be2b2798.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:b3e1:ccc1:be2b:2798])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2e4b18sm22132409f8f.10.2026.06.05.15.34.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2e4b18sm22132409f8f.10.2026.06.05.15.34.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 15:34:17 -0700 (PDT)
+        Fri, 05 Jun 2026 15:34:16 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 08/25] lz4: Remove a reference to the rejected CVE-2025-62813
-Date: Sat,  6 Jun 2026 00:33:53 +0200
-Message-ID: <99706716626324605c049a9130f705f2090a9f91.1780698373.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 07/25] oeqa: runtime: go: Increase test_go_compile/test_go_module timeout
+Date: Sat,  6 Jun 2026 00:33:52 +0200
+Message-ID: <c8a94dfc3a21403e8202a4adddbae9f3bd4a4549.1780698373.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1780698373.git.yoann.congal@smile.fr>
 References: <cover.1780698373.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 22:34:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238195
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238194
 
-From: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 
-The CVE-2025-62813 is rejected so do not reference it anymore.
-So keep the patch but without referencing the CVE identifier.
+These tests tend do take a bit of time, and this is probably why they
+have been seen failing a few times in the past months. Rising the
+timeout from 5 to 10 minutes appears to help.
 
-The CVE database indicates the following reason:
-  This candidate was withdrawn by its CNA. Further investigation
-  showed that it was not a security issue.
+Fixes [YOCTO #15999]
 
-Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9c840a69b62a5fdffb3679a44d68dd5630b2916c)
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+(From OE-Core rev: 998ebfc77db4c8d7567d82560595e0994a310ae0)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../{CVE-2025-62813.patch => fix-null-error-handling.patch}   | 1 -
- meta/recipes-support/lz4/lz4_1.9.4.bb                         | 4 ++--
- 2 files changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-support/lz4/files/{CVE-2025-62813.patch => fix-null-error-handling.patch} (99%)
+ meta/lib/oeqa/runtime/cases/go.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/lz4/files/CVE-2025-62813.patch b/meta/recipes-support/lz4/files/fix-null-error-handling.patch
-similarity index 99%
-rename from meta/recipes-support/lz4/files/CVE-2025-62813.patch
-rename to meta/recipes-support/lz4/files/fix-null-error-handling.patch
-index bbd0f74541a..14019360343 100644
---- a/meta/recipes-support/lz4/files/CVE-2025-62813.patch
-+++ b/meta/recipes-support/lz4/files/fix-null-error-handling.patch
-@@ -8,7 +8,6 @@ Content-Type: text/plain; charset=UTF-8
- Content-Transfer-Encoding: 8bit
+diff --git a/meta/lib/oeqa/runtime/cases/go.py b/meta/lib/oeqa/runtime/cases/go.py
+index d4b69438a56..0c9c4ff4cd3 100644
+--- a/meta/lib/oeqa/runtime/cases/go.py
++++ b/meta/lib/oeqa/runtime/cases/go.py
+@@ -35,7 +35,7 @@ class GoCompileTest(OERuntimeTestCase):
+             self.skipTest('go command not found, output: %s' % output)
  
- Upstream-Status: Backport [Upstream commit https://github.com/lz4/lz4/commit/f64efec011c058bd70348576438abac222fe6c82]
--CVE: CVE-2025-62813
+         # Compile the simple Go program
+-        status, output = self.target.run('go build -o /tmp/test /tmp/test.go')
++        status, output = self.target.run('go build -o /tmp/test /tmp/test.go', 600)
+         msg = 'go compile failed, output: %s' % output
+         self.assertEqual(status, 0, msg=msg)
  
- Signed-off-by: David Nyström <david.nystrom@est.tech>
- ---
-diff --git a/meta/recipes-support/lz4/lz4_1.9.4.bb b/meta/recipes-support/lz4/lz4_1.9.4.bb
-index 8c96f9bab42..a8ce3cec090 100644
---- a/meta/recipes-support/lz4/lz4_1.9.4.bb
-+++ b/meta/recipes-support/lz4/lz4_1.9.4.bb
-@@ -14,8 +14,8 @@ SRCREV = "5ff839680134437dbf4678f3d0c7b371d84f4964"
+@@ -65,7 +65,7 @@ class GoCompileTest(OERuntimeTestCase):
+         self.assertEqual(status, 0, msg=msg)
  
- SRC_URI = "git://github.com/lz4/lz4.git;branch=release;protocol=https \
-            file://run-ptest \
--           file://CVE-2025-62813.patch \
--           "
-+           file://fix-null-error-handling.patch \
-+"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+         # Build the module
+-        status, output = self.target.run('cd /tmp/hello-go && go build -o hello main.go')
++        status, output = self.target.run('cd /tmp/hello-go && go build -o hello main.go', 600)
+         msg = 'go build failed, output: %s' % output
+         self.assertEqual(status, 0, msg=msg)
  
- S = "${WORKDIR}/git"
 
