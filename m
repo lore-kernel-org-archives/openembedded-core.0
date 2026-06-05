@@ -1,333 +1,268 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <wei.deng@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AEA8CD6E75
-	for <webhook@archiver.kernel.org>; Thu,  4 Jun 2026 20:10:11 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.52.1780603809048628592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4AD6CD6E75
+	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 03:00:58 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.328.1780628448797538044
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2026 13:10:09 -0700
+ Thu, 04 Jun 2026 20:00:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=sz66vn7/;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-45f3cf907ceso559922f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 13:10:08 -0700 (PDT)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=VsUwfjaG;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=kHDoOBP6;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: wei.deng@oss.qualcomm.com)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65518XjH1958779
+	for <openembedded-core@lists.openembedded.org>; Fri, 5 Jun 2026 03:00:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=BCt1Br881T2uXMcKXY9PnmpumyJW7TOgRh2
+	iyBHVdFo=; b=VsUwfjaGhJzTXTHXinmZukH82/RLT+5+vqNgWdE+QyYzr2oKrAk
+	XXth68i8pZcjaKRJdnyTh+8cCNLGtx1G6r23KYAv9HXxIDR+SKoMNA1yqhuWxpqs
+	Gen3qpLHAGr03quT2oX85HtSLxETPGrZXTh00Fh1qEaN+SlProI2bmpV1kHVgYgw
+	gi8CjrV4VTfatNefXAKjRs8z9IJNHhez5uPuRGRqkwrTN2B9wTNIgAdCaEL4PWJX
+	8R04sPSQXg5Ri1zz1ZCszCsxIYJY6sGdPEVgcmgeLHQh5AFB5arutLu8OQXD+8Vn
+	/tmKCKNlUbUhDGE68qKpG79YiKqQdpqk/pQ==
+Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ekckptjba-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 03:00:47 +0000 (GMT)
+Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-1370bd383f2so108119c88.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 20:00:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1780603807; x=1781208607; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:cc:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LYGF1mkrHA7SZOHnRq6o+0jdnGlO1IsuCI3UOtk2ly0=;
-        b=sz66vn7/TchhhHMSJK5Aayk90Zfj83b4HHCzNXhP9pBXPmOMkO6p4M9vLv52IZJd4Y
-         +QGyAiiEEknIq0c+J/2USZyAflKwwzi2kq3ixERilbbxIptjwSRTDxVSmn2F5HTTnNNs
-         aDqpLiobsK4o2q/VFiUFBcxd7ROLG3jTCnW0U=
+        d=oss.qualcomm.com; s=google; t=1780628446; x=1781233246; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BCt1Br881T2uXMcKXY9PnmpumyJW7TOgRh2iyBHVdFo=;
+        b=kHDoOBP6syd/wv1A6iuiQszpxZuVor+dVhtqP0OZacY6+pTce2tRbtcVBud7djEs6d
+         HBdHmul3SQkTlTzk4W9QLi2OX0A30CaiPm5xHIE6jh0P7YHZ3BJkQGCyBc7FxrQp6TyW
+         2xTc84pzYb9KC5O/GL/aTDpalJhjRFWllgmISfbLV/eNisK19Elh9vHqoSR1URwJn6j5
+         SyBUgoOcBF8lQISY/dqo7WDHbyaWuAXVaVNDVk7lwqk8CZ866NK5cSad/LmAocxqjm5T
+         ZuWJnyFfkziP/8G1FsIFJKOoazf2QTAJZGU8F14ACO2t5d45kZudbcxDmS5CveOFo8jp
+         hP2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780603807; x=1781208607;
-        h=in-reply-to:references:subject:to:cc:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LYGF1mkrHA7SZOHnRq6o+0jdnGlO1IsuCI3UOtk2ly0=;
-        b=ZqBDL6zn40qIg+uPcUCx92FHCMyzrGMKgMZPLd20m4cSK/WD91VC/VNRjXZ1WnWcH6
-         gu6arhRa8W6krygppKn4JG4Z/VpjJ/Opv/YveuWuwGd5JqDBJNXV8SbvtjSha9xU/+0q
-         wLQBfx9SF5J7noYa/GkyaqBQW70Fy9M3X+4I4UILMAVkA0CsYMZFUFxYc8IjKrW0yhPG
-         ypPYEQcQPOe8UruvNZYS1urTdygtYWU7uTHsGgJVJEyKLExLaMvs7/QZPvVyYf2+yBWR
-         eEbCbZnVKlS27swDAbae7wIjJqot/G8Op/Ooks2IRwHd+ckAqn9QxajT3WeTdcq/JTG7
-         N7Mw==
-X-Forwarded-Encrypted: i=1; AFNElJ9QS2dm3JtIlOuISbBwxS5Gv19JW1JKCt6Htm0tTkAGmaDAXD9OJRq3mxt8qgvSWZyARsEnIKDnBDKX+wJOrFSFug==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Ywm4WZx8Ssa85mv2Jw/QCwkVWyyoKQ+TVaz2CZS1imGDRr3B+WO
-	un/vIJmkdOYFVKgS2PuR6AGXs4p1kn6Vd2ik5QT9cQyC+VoDy67tnOdFqfRW7P0vC0w=
-X-Gm-Gg: Acq92OHD6UGloociL0ooOWnC1b/jwCrV1x9oHb5/D7g1RcAD6n32GbITg0+75EviM95
-	2rrjrOnRXPs0oGMNpTMad4riNzS5N2LZa5BG2+d6gEtmMXf7hC5m8CAYl0gggjuo7jYVlk9VIIW
-	oVCKy9SvImhSRl6j5lSLNrf45gU4f3JY7wvmMqmSb0vSicasv3Q/k2KyB62AEpNBvsjTARos2Uw
-	Yxop8yvoaWNsE7VYJJ5Ne/+zd3uFMPj1U7GLWn3qSJg8BOijjuh3WsPvMH5xNgojhdPfji2/9iL
-	Nq2zDm2W+ZORE5VQAf5PGHuFKHXHljT/Wk1JXekx8U2rnXkgP9JLNLGgakUB0L9l5OsBkBS7LkT
-	IMZKyZtB3dsYBE035ieGKBTHD8GmC7/hozq7PdSbg1o0bS124xaU4vioBhIreT6Ptk46HfRT59g
-	E7Rf+CV0uHOv6e9f3O9/WodyBrUESpiytr81qKmHvpL/5q1pqmq9xZxwNcovf3h2wtzyVXDcTOk
-	GNegwtiQkMxfODGnR5wGzgQYTs=
-X-Received: by 2002:a05:600c:c16f:b0:490:b8e6:be40 with SMTP id 5b1f17b1804b1-490c25fc0d5mr1204085e9.21.1780603807264;
-        Thu, 04 Jun 2026 13:10:07 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00ae426e28cd306e8e.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:ae42:6e28:cd30:6e8e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490c1574dc4sm14535555e9.0.2026.06.04.13.10.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 13:10:06 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 04 Jun 2026 22:10:06 +0200
-Message-Id: <DJ0JDC0E8QIM.2PLQBKV0K6TIN@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Bruno VERNAY" <bruno.vernay@se.com>
-To: "Yoann Congal" <yoann.congal@smile.fr>,
- <hsimeliere.opensource@witekio.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap][PATCH 1/7] gnutls: Fix CVE-2026-33846
-X-Mailer: aerc 0.20.0
-References: <20260520081403.3052797-1-hsimeliere.opensource@witekio.com>
- <DJ0529SO7U38.2KY8QAKJ8TRSU@smile.fr>
-In-Reply-To: <DJ0529SO7U38.2KY8QAKJ8TRSU@smile.fr>
+        d=1e100.net; s=20251104; t=1780628446; x=1781233246;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BCt1Br881T2uXMcKXY9PnmpumyJW7TOgRh2iyBHVdFo=;
+        b=qg/i4qbRMQwJdofUPFVZgK1Fi5PNXIRACnmNUGVk870HjxGx98R71eCX3FD9XG2/Fh
+         uaGpB+WNq9qLnv5mFEhQBXv9pM955CO0pbPMYYt0hJKKV5QYwE71tErJ0yG0vmA/LqvT
+         t22EAq+kYtP/KSivU64ROSeQxGYhT0ZGFWeEU1e8tfidDubX6NOoZNO0RrFJkQuUy8jB
+         F8ER8ntOw4jQ/0a6JMDE/q1BBT9EQNMbIzO2W4KqCE7TTPnypE4OGoLOk5qJUdtPx6IM
+         /+oR5m/CaTYzPsuPHdS6DvKmhHgp/ibhN2fcqQvkGaAS0YTuksFpwBZ52zK7FvgUtOi7
+         vSfw==
+X-Gm-Message-State: AOJu0YwZPLA3pj8jozQr8Avc+g5+DDIkhBaYZG5mKWBJDVdKzOozm1of
+	BY7k5rwI6sSj+fOPUt025ahU4AKR+BZpyTPwVeQHiD8n4K8Cg8IfVy6x1/0G/BFmdqIyIBIpl21
+	UBqXhv1jPUb8hoMrdkR81sa2lMk5OCeeU+8CkQpMctxtj3yrliTiVrViDwjE1swt6Nnm70FeAgw
+	RKEbED4/11YvV6eMffaA==
+X-Gm-Gg: Acq92OHSxj27IdI+ti+5yc3cU+RxC3HM8BvQs9QmPRfj7TRpWytohYR58ULk4vM2lzT
+	UdoGJGo5Gx/b7A/qPBssmZLgqxrdwg2hwaP7kvsqPUgon9f/sC8P0qN2udF4sIAtkXp02/UEnBK
+	SJVnJaoDzPWoxTEAIxCuXQyYP2W/Ici+Ep2TCGK2vTSn9itX67FY+KUYtAK/G9tJc+CHLOOepuc
+	I0Fi5j26NeowfB5EMwx3pDEbGtqwgkPi3X0xaTIYSeXQES4Nc1f7LIMtCWSnugaGgcDL0mp0APP
+	ghollP/u6L8YXRUiFPZPJ/wnHdx7DShsQHswo6Z4oaIwjsiE42ukPZRUb3RX/vKvMPX0BwGTmPI
+	KhG9Z0B52k87ztYmYycr5CqtebeS27gL6keUvGW+d/d/6j1uPB8sGzcUJUfF+/FzVrlMFuw/SrF
+	d0CZPdsgg=
+X-Received: by 2002:a05:7301:169a:b0:2ff:b29b:87b with SMTP id 5a478bee46e88-3077b5fe235mr352068eec.5.1780628446245;
+        Thu, 04 Jun 2026 20:00:46 -0700 (PDT)
+X-Received: by 2002:a05:7301:169a:b0:2ff:b29b:87b with SMTP id 5a478bee46e88-3077b5fe235mr352047eec.5.1780628445561;
+        Thu, 04 Jun 2026 20:00:45 -0700 (PDT)
+Received: from hu-weiden-sha.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074dea8e76sm6343643eec.18.2026.06.04.20.00.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 20:00:45 -0700 (PDT)
+From: Wei Deng <wei.deng@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: cheng.jiang@oss.qualcomm.com, quic_chezhou@quicinc.com,
+        shuai.zhang@oss.qualcomm.com, mengshi.wu@oss.qualcomm.com,
+        jinwang.li@oss.qualcomm.com, xiuzhuo.shang@oss.qualcomm.com
+Subject: [PATCH] bluez5: set L2CAP IMTU for OBEX profile listeners
+Date: Fri,  5 Jun 2026 08:30:41 +0530
+Message-Id: <20260605030041.232943-1-wei.deng@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: D0S9ZMPTR-IpH3yUS_iZZhFJ1YvLf7oL
+X-Proofpoint-ORIG-GUID: D0S9ZMPTR-IpH3yUS_iZZhFJ1YvLf7oL
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDAyNiBTYWx0ZWRfXwtsyi+MatGBm
+ ExuI8f6Z5ni/VdUO6tXWIwiFBiGyfY/VyqcQ2cSXo/M+3XtIbFJXdBnwvXWOngvZntRMkXarTC8
+ JKddhUNB4YhhzAwd8SDGJ93jS5dUyCjtP/0rCpRO7WAGeTIrRcIFHyGRCxnb3RvY453Ta0Q1/Qu
+ KPKfeNiUiBo09BZJMyH5axTjyjaIETHVmHKfXsgLvieG0T8K9ppAlubiGF2+LsgGwTGto0BWGbe
+ XxMCFuSulPcxQA70Edj7PwqUaK+KUBXzmUsjAqEGTB530q+pxy14LjX5SQeOpD6dY8F8P20cm3n
+ DkaCS+d94l7EM8Ffkad6OORbj7GudgpEVw5mXY4cJpJnVVECODf9UHOo2SmR8J9GaRdYk8g3BUL
+ QYMEwpKyZJy3huzoAjHMoGq94uWYKMoscKzEwd9bHonACeB4hg37gIeEsybLbMczbL691iuPkQe
+ J7TSVJmADuILb05QO/w==
+X-Authority-Analysis: v=2.4 cv=H9jrBeYi c=1 sm=1 tr=0 ts=6a223bdf cx=c_pps
+ a=kVLUcbK0zfr7ocalXnG1qA==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=NEAV23lmAAAA:8
+ a=EUspDBNiAAAA:8 a=dOK3wYaXzV_A1W3SHmkA:9 a=vr4QvYf-bLy2KjpDp97w:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-04_07,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 adultscore=0 phishscore=0 bulkscore=0
+ lowpriorityscore=0 spamscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606050026
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2026 20:10:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238136
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 03:00:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238137
 
-On Thu Jun 4, 2026 at 10:57 AM CEST, Yoann Congal wrote:
-> On Wed May 20, 2026 at 10:13 AM CEST, Hugo Simeliere via lists.openembedd=
-ed.org wrote:
->> From: "Hugo SIMELIERE (Schneider Electric)" <hsimeliere.opensource@witek=
-io.com>
->>
->> Pick patch from [1] as mentioned in Debian report in [2].
->> Pick pre-patch [3] to minimize conflicts.
->>
->> [1] https://gitlab.com/gnutls/gnutls/-/commit/65ab33fa54e34fba69d793735b=
-7df3d383d1ff78
+Backport upstream fix that adds an imtu field to default_settings for
+OBEX profiles (OPP, FTP, PBAP, MAS, MNS) and applies it to the L2CAP
+listening socket via bt_io_set(). Without this, the listening socket
+advertises the L2CAP minimum of 672 bytes in L2CAP_CONFIGURATION_RSP,
+limiting the peer's outgoing PDU size and degrading Rx throughput.
 
-Hello (again),
+Upstream-Status: Backport [bluez/bluez@646014a]
+Signed-off-by: Wei Deng <wei.deng@oss.qualcomm.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+ ...2CAP-IMTU-for-OBEX-profile-listeners.patch | 118 ++++++++++++++++++
+ 2 files changed, 119 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
 
-This patch is in the 3.8.13 tag but not in the 3.8.12 tag used on
-wrynose. There was a 3.8.13 wrynose upgrade sent but I can't accept it.
-So, this patch (as well as at least 2/7, I have not checked the others) mus=
-t
-be sent to wrynose before I can accept them on scarthgap. Can you do
-that and ping back here when it's done?
-
-Thanks!
-
->> [2] https://security-tracker.debian.org/tracker/CVE-2026-33846
->> [3] https://gitlab.com/gnutls/gnutls/-/commit/9deffca528c23bbb218f5ec3bd=
-4bb1bf4cbd1fc0
->>
->> Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensourc=
-e@witekio.com>
->> Reviewed-by: Bruno VERNAY <bruno.vernay@se.com>
->> ---
->>  .../gnutls/gnutls/CVE-2026-33846-pre.patch    | 97 +++++++++++++++++++
->>  .../gnutls/gnutls/CVE-2026-33846.patch        | 67 +++++++++++++
->>  meta/recipes-support/gnutls/gnutls_3.8.4.bb   |  2 +
->>  3 files changed, 166 insertions(+)
->>  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-33846-pr=
-e.patch
->>  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-33846.pa=
-tch
->>
->> diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-33846-pre.patch=
- b/meta/recipes-support/gnutls/gnutls/CVE-2026-33846-pre.patch
->> new file mode 100644
->> index 0000000000..71266cb338
->> --- /dev/null
->> +++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-33846-pre.patch
->> @@ -0,0 +1,97 @@
->> +From e51ef765b942968949e29797a73727c371397eea Mon Sep 17 00:00:00 2001
->> +From: Alexander Sosedkin <asosedkin@redhat.com>
->> +Date: Fri, 17 Apr 2026 17:49:31 +0200
->> +Subject: [PATCH 1/2] buffers: shorten merge_handshake_packet using recv=
-_buf
->
-> As far as I can tell this patch is only cosmetic and I'd rather not
-> merge it unless you have a compeling reason.
->
-> To apply CVE-2026-33846.patch, it looks like you will need to change it
-> to use "session->internals.handshake_recv_buffer" instead of "recv_buf".
->
-> Regards,
->
->> +
->> +I had vague concerns about thread-safety of this,
->> +but then this pattern already exists within the file.
->> +
->> +CVE: CVE-2026-33846
->> +Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/9d=
-effca528c23bbb218f5ec3bd4bb1bf4cbd1fc0]
->> +
->> +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
->> +(cherry picked from commit 9deffca528c23bbb218f5ec3bd4bb1bf4cbd1fc0)
->> +Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensour=
-ce@witekio.com>
->> +---
->> + lib/buffers.c | 52 +++++++++++++++++----------------------------------
->> + 1 file changed, 17 insertions(+), 35 deletions(-)
->> +
->> +diff --git a/lib/buffers.c b/lib/buffers.c
->> +index 672380b05..d54c77022 100644
->> +--- a/lib/buffers.c
->> ++++ b/lib/buffers.c
->> +@@ -967,9 +967,11 @@ static int merge_handshake_packet(gnutls_session_t=
- session,
->> + 	int exists =3D 0, i, pos =3D 0;
->> + 	int ret;
->> +=20
->> ++	handshake_buffer_st *recv_buf =3D
->> ++		session->internals.handshake_recv_buffer;
->> ++
->> + 	for (i =3D 0; i < session->internals.handshake_recv_buffer_size; i++)=
- {
->> +-		if (session->internals.handshake_recv_buffer[i].htype =3D=3D
->> +-		    hsk->htype) {
->> ++		if (recv_buf[i].htype =3D=3D hsk->htype) {
->> + 			exists =3D 1;
->> + 			pos =3D i;
->> + 			break;
->> +@@ -1005,44 +1007,24 @@ static int merge_handshake_packet(gnutls_sessio=
-n_t session,
->> + 		_gnutls_write_uint24(0, &hsk->header[6]);
->> + 		_gnutls_write_uint24(hsk->length, &hsk->header[9]);
->> +=20
->> +-		_gnutls_handshake_buffer_move(
->> +-			&session->internals.handshake_recv_buffer[pos], hsk);
->> ++		_gnutls_handshake_buffer_move(&recv_buf[pos], hsk);
->> +=20
->> + 	} else {
->> +-		if (hsk->start_offset <
->> +-			    session->internals.handshake_recv_buffer[pos]
->> +-				    .start_offset &&
->> +-		    hsk->end_offset + 1 >=3D
->> +-			    session->internals.handshake_recv_buffer[pos]
->> +-				    .start_offset) {
->> +-			memcpy(&session->internals.handshake_recv_buffer[pos]
->> +-					.data.data[hsk->start_offset],
->> ++		if (hsk->start_offset < recv_buf[pos].start_offset &&
->> ++		    hsk->end_offset + 1 >=3D recv_buf[pos].start_offset) {
->> ++			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
->> + 			       hsk->data.data, hsk->data.length);
->> +-			session->internals.handshake_recv_buffer[pos]
->> +-				.start_offset =3D hsk->start_offset;
->> +-			session->internals.handshake_recv_buffer[pos]
->> +-				.end_offset =3D MIN(
->> +-				hsk->end_offset,
->> +-				session->internals.handshake_recv_buffer[pos]
->> +-					.end_offset);
->> +-		} else if (hsk->end_offset >
->> +-				   session->internals.handshake_recv_buffer[pos]
->> +-					   .end_offset &&
->> +-			   hsk->start_offset <=3D
->> +-				   session->internals.handshake_recv_buffer[pos]
->> +-						   .end_offset +
->> +-					   1) {
->> +-			memcpy(&session->internals.handshake_recv_buffer[pos]
->> +-					.data.data[hsk->start_offset],
->> ++			recv_buf[pos].start_offset =3D hsk->start_offset;
->> ++			recv_buf[pos].end_offset =3D
->> ++				MIN(hsk->end_offset, recv_buf[pos].end_offset);
->> ++		} else if (hsk->end_offset > recv_buf[pos].end_offset &&
->> ++			   hsk->start_offset <=3D recv_buf[pos].end_offset + 1) {
->> ++			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
->> + 			       hsk->data.data, hsk->data.length);
->> +=20
->> +-			session->internals.handshake_recv_buffer[pos]
->> +-				.end_offset =3D hsk->end_offset;
->> +-			session->internals.handshake_recv_buffer[pos]
->> +-				.start_offset =3D MIN(
->> +-				hsk->start_offset,
->> +-				session->internals.handshake_recv_buffer[pos]
->> +-					.start_offset);
->> ++			recv_buf[pos].end_offset =3D hsk->end_offset;
->> ++			recv_buf[pos].start_offset =3D MIN(
->> ++				hsk->start_offset, recv_buf[pos].start_offset);
->> + 		}
->> + 		_gnutls_handshake_buffer_clear(hsk);
->> + 	}
->> +--=20
->> +2.43.0
->> +
->> diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch b/m=
-eta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch
->> new file mode 100644
->> index 0000000000..e7d5cc6c2b
->> --- /dev/null
->> +++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch
->> @@ -0,0 +1,67 @@
->> +From 68e0c900c1111206fa4a135cdb43827f3b908284 Mon Sep 17 00:00:00 2001
->> +From: Alexander Sosedkin <asosedkin@redhat.com>
->> +Date: Fri, 17 Apr 2026 18:21:36 +0200
->> +Subject: [PATCH 2/2] buffers: add more checks to DTLS reassembly
->> +
->> +Previously, gnutls didn't check that DTLS fragments claimed
->> +a consistent message_length value.
->> +Additionally, a crucial array size check was missing,
->> +enabling an attacker to cause a heap overwrite.
->> +The updated version rejects fragments with mismatching length
->> +and adds a missing boundary check.
->> +
->> +Reported-by: Haruto Kimura (Stella)
->> +Reported-by: Oscar Reparaz
->> +Reported-by: Zou Dikai
->> +Fixes: #1816
->> +Fixes: #1838
->> +Fixes: #1839
->> +Fixes: CVE-2026-33846
->> +Fixes: GNUTLS-SA-2026-04-29-1
->> +CVSS: 7.4 High CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H
->> +CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
->> +
->> +CVE: CVE-2026-33846
->> +Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/65=
-ab33fa54e34fba69d793735b7df3d383d1ff78]
->> +
->> +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
->> +(cherry picked from commit 65ab33fa54e34fba69d793735b7df3d383d1ff78)
->> +Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensour=
-ce@witekio.com>
->> +---
->> + lib/buffers.c | 20 ++++++++++++++++++++
->> + 1 file changed, 20 insertions(+)
->> +
->> +diff --git a/lib/buffers.c b/lib/buffers.c
->> +index d54c77022..5d4d16276 100644
->> +--- a/lib/buffers.c
->> ++++ b/lib/buffers.c
->> +@@ -1010,6 +1010,26 @@ static int merge_handshake_packet(gnutls_session=
-_t session,
->> + 		_gnutls_handshake_buffer_move(&recv_buf[pos], hsk);
->> +=20
->> + 	} else {
->> ++		if (hsk->length !=3D recv_buf[pos].length) {
->> ++			/* inconsistent across fragments */
->> ++			_gnutls_handshake_buffer_clear(hsk);
->> ++			return gnutls_assert_val(
->> ++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
->> ++		}
->> ++		/* start_offset + data.length <=3D hsk->length <=3D max_length */
->> ++		if (hsk->length < hsk->start_offset + hsk->data.length) {
->> ++			/* impossible claims, overflow requested */
->> ++			_gnutls_handshake_buffer_clear(hsk);
->> ++			return gnutls_assert_val(
->> ++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
->> ++		}
->> ++		if (hsk->length > recv_buf[pos].data.max_length) {
->> ++			/* we don't have this much allocated, overflow guard */
->> ++			_gnutls_handshake_buffer_clear(hsk);
->> ++			return gnutls_assert_val(
->> ++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
->> ++		}
->> ++
->> + 		if (hsk->start_offset < recv_buf[pos].start_offset &&
->> + 		    hsk->end_offset + 1 >=3D recv_buf[pos].start_offset) {
->> + 			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
->> +--=20
->> +2.43.0
->> +
->> diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-=
-support/gnutls/gnutls_3.8.4.bb
->> index ccb6a2b4b2..e40a654a8e 100644
->> --- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
->> +++ b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
->> @@ -43,6 +43,8 @@ SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v=
-${SHRT_VER}/gnutls-${PV}.tar
->>             file://CVE-2025-14831-7.patch \
->>             file://CVE-2025-14831-8.patch \
->>             file://CVE-2025-14831-9.patch \
->> +           file://CVE-2026-33846-pre.patch \
->> +           file://CVE-2026-33846.patch \
->>             "
->> =20
->>  SRC_URI[sha256sum] =3D "2bea4e154794f3f00180fa2a5c51fe8b005ac7a31cd58bd=
-44cdfa7f36ebc3a9b"
-
-
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index e827d0a6d7..71bceddb21 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -72,6 +72,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-tools-Work-around-broken-stdin-handling-in-home-made.patch \
+            file://0001-gatt-client-Fix-use-after-free-caused-by-reentrant-c.patch \
+            file://0001-transport-Fix-set-volume-failure-with-invalid-device.patch \
++           file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
+            "
+ S = "${UNPACKDIR}/bluez-${PV}"
+ 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
+new file mode 100644
+index 0000000000..332b11464e
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
+@@ -0,0 +1,118 @@
++From 646014a6a246fe99df27da12d2de7bcd2e04d0df Mon Sep 17 00:00:00 2001
++From: Wei Deng <wei.deng@oss.qualcomm.com>
++Date: Thu, 4 Jun 2026 15:00:24 +0530
++Subject: [PATCH] profile: Set L2CAP IMTU for OBEX profile listeners
++
++The default_settings entries for OBEX profiles (OPP, FTP, PBAP, MAS,
++MNS) have no imtu field, so ext_start_servers() creates the L2CAP
++listening socket without an explicit IMTU. This causes the socket to
++advertise the L2CAP minimum of 672 bytes in L2CAP_CONFIGURATION_RSP,
++limiting the peer's outgoing PDU size and degrading Rx throughput.
++
++Add an imtu field to default_settings and set it to 32767 for all
++OBEX profiles that use L2CAP. Copy the value in ext_set_defaults()
++and apply it to the listening socket via bt_io_set() after
++bt_io_listen() succeeds.
++
++Signed-off-by: Wei Deng <wei.deng@oss.qualcomm.com>
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/646014a6a246fe99df27da12d2de7bcd2e04d0df]
++---
++ src/profile.c | 19 +++++++++++++++++--
++ 1 file changed, 17 insertions(+), 2 deletions(-)
++
++diff --git a/src/profile.c b/src/profile.c
++index dfc5f7161..65df0f7a0 100644
++--- a/src/profile.c
+++++ b/src/profile.c
++@@ -55,6 +55,8 @@
++ #define MAS_DEFAULT_CHANNEL	16
++ #define MNS_DEFAULT_CHANNEL	17
++ 
+++#define BT_RX_MTU		32767
+++
++ #define BTD_PROFILE_PSM_AUTO	-1
++ #define BTD_PROFILE_CHAN_AUTO	-1
++ 
++@@ -678,6 +680,7 @@ struct ext_profile {
++ 
++ 	uint16_t version;
++ 	uint16_t features;
+++	uint16_t imtu;
++ 
++ 	GSList *records;
++ 	GSList *servers;
++@@ -1423,6 +1426,9 @@ static uint32_t ext_start_servers(struct ext_profile *ext,
++ 			if (psm == 0)
++ 				bt_io_get(io, NULL, BT_IO_OPT_PSM, &psm,
++ 							BT_IO_OPT_INVALID);
+++			if (ext->imtu)
+++				bt_io_set(io, NULL, BT_IO_OPT_IMTU, ext->imtu,
+++							BT_IO_OPT_INVALID);
++ 			l2cap->io = io;
++ 			l2cap->proto = BTPROTO_L2CAP;
++ 			l2cap->psm = psm;
++@@ -2075,6 +2081,7 @@ static struct default_settings {
++ 					struct ext_io *rfcomm);
++ 	uint16_t	version;
++ 	uint16_t	features;
+++	uint16_t	imtu;
++ } defaults[] = {
++ 	{
++ 		.uuid		= SPP_UUID,
++@@ -2142,6 +2149,7 @@ static struct default_settings {
++ 		.authorize	= false,
++ 		.get_record	= get_opp_record,
++ 		.version	= 0x0102,
+++		.imtu		= BT_RX_MTU,
++ 	}, {
++ 		.uuid		= OBEX_FTP_UUID,
++ 		.name		= "File Transfer",
++@@ -2151,6 +2159,7 @@ static struct default_settings {
++ 		.authorize	= true,
++ 		.get_record	= get_ftp_record,
++ 		.version	= 0x0103,
+++		.imtu		= BT_RX_MTU,
++ 	}, {
++ 		.uuid		= OBEX_SYNC_UUID,
++ 		.name		= "Synchronization",
++@@ -2167,6 +2176,7 @@ static struct default_settings {
++ 		.authorize	= true,
++ 		.get_record	= get_pse_record,
++ 		.version	= 0x0101,
+++		.imtu		= BT_RX_MTU,
++ 	}, {
++ 		.uuid		= OBEX_PCE_UUID,
++ 		.name		= "Phone Book Access Client",
++@@ -2182,7 +2192,8 @@ static struct default_settings {
++ 		.mode		= BT_IO_MODE_ERTM,
++ 		.authorize	= true,
++ 		.get_record	= get_mas_record,
++-		.version	= 0x0100
+++		.version	= 0x0100,
+++		.imtu		= BT_RX_MTU,
++ 	}, {
++ 		.uuid		= OBEX_MNS_UUID,
++ 		.name		= "Message Notification",
++@@ -2191,7 +2202,8 @@ static struct default_settings {
++ 		.mode		= BT_IO_MODE_ERTM,
++ 		.authorize	= true,
++ 		.get_record	= get_mns_record,
++-		.version	= 0x0104
+++		.version	= 0x0104,
+++		.imtu		= BT_RX_MTU,
++ 	},
++ };
++ 
++@@ -2249,6 +2261,9 @@ static void ext_set_defaults(struct ext_profile *ext)
++ 		if (settings->features)
++ 			ext->features = settings->features;
++ 
+++		if (settings->imtu)
+++			ext->imtu = settings->imtu;
+++
++ 		if (settings->name)
++ 			ext->name = g_strdup(settings->name);
++ 	}
++-- 
++2.34.1
++
+-- 
+2.34.1
 
 
