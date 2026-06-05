@@ -2,195 +2,463 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7038ACD8C88
-	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 22:34:25 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6272.1780698860396246477
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9F20CD8C86
+	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 22:34:24 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6132.1780698861573220706
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2026 15:34:20 -0700
+ Fri, 05 Jun 2026 15:34:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3IC4BYUB;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490af320e2aso27619365e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 15:34:20 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=fdWhLD40;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45ef5146b56so2245790f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 15:34:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1780698859; x=1781303659; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1780698860; x=1781303660; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JsVM+GRR4zqA0MzNZFGLZJN5mpft0FN+JPRFIYOJMiQ=;
-        b=3IC4BYUBnpixlrI5Pr24rNRSrxHjT4FcSAediIvCM52vKtgpaXxk05ujDlwOT1v4lc
-         HCXa8CM3P/bQJTLwi7C4XP+mD/29OsonGJFOPyWzEG09SoUDKO7igrSspwqBJDCW2C47
-         BRxVAgyRHRlF+RrbHtnwuCbfOvgR7vLEI/gqk=
+        bh=uNlwVcnnXqPCxnrl4lx5X3qfw6/hMg/y7cny0y9R9GA=;
+        b=fdWhLD40/iW60a239jv7JWWWsMetzPJKjFkzR2HSBb5hYxwUp7PxdG36eInGP1GajH
+         +HO1X/KiQc/Q0cXAPgcy+bEfNuGLaDBfq94o3UqW6ckqKmN4azWvUwaExCtY2QATRm0H
+         /cI1J5GHZX9O697ZEoChm2/YZ1d2MJf6V2chE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780698859; x=1781303659;
+        d=1e100.net; s=20251104; t=1780698860; x=1781303660;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=JsVM+GRR4zqA0MzNZFGLZJN5mpft0FN+JPRFIYOJMiQ=;
-        b=qBDgEUMxesvtOczGZ4usSkAh615MkJwBdGx0KKbsHVQs9MvmnJBmwGnT9iuR5kU3m8
-         HuMYiQE5OIwBdFbrBI9fRLGnM+OhDiPOXDx0pmYQWt895IIc3gOJI+cwfsIkYY3xZT6i
-         kDhUWkhcefXdg2s3QgZjEBlGwSSWtYnvUY2z1Onoz80Rj091wQcYFdP5W5ITwFdxYS84
-         N450CMzVsgTs5HgbcE2usr0EAZccaCYw2RrMsa8EgKfT6EIgtrNMPQ50BLcuNQdJn3xd
-         K548/IowYJ/q29pXi4RE3Zgttb2dpR9b5c14IesxSYUADEhd0hM40BlrOmHLj/3vJsHD
-         p1Mw==
-X-Gm-Message-State: AOJu0YywtSjbhS+yUPJblAHP57OYOuECIe1W44DbahxLyvG2KrbjbOUK
-	EQL9btpdT9IP6RtOOVGvEsjh9xLwIPlW5Sj6ZqDlnFHJHa19/KOijYc5QpwT8sZl40kMWmamlaq
-	L9+OK
-X-Gm-Gg: Acq92OHLds9wN1/xIcY4YjH8wJQVULCt5LfUHS+GfnwVH2pbuOgAf8cQbYt0k91+kl7
-	5+dfRemCymJjRaMslw5T0txS2VQh53qp4WGNu+cHyNK/fieurkZrgsB2K/TXJDaTY0j8KFJ0t6K
-	XNSOa42WDlQXD2cdVWGdAEGA0vM3Omc1Wnmdf+m9epRehGzWb6m1Jr0ZvChgoKcRE/Rg43H+OXN
-	ZkOolXzQycOBB7DdWoYsEj3HI9zVjO+gT17BVM1SighM7WwtqBNqlHijxJ5uv0qjO9IdFg7qjxG
-	VcF03NopBMQH0wyIG8V2Sbq1Sal2J7WMkoHmBGtYRxO9L/4QpaV52ijOb7FlSIwoozFLCcGQAfk
-	kZKytehe/TTzc9JtNes3YZC1htjOsMa9MNYnoIPYEymTuzLORTNUH9BwpKb1Y26MXc2vZlv56fT
-	RVo0GZbEny2oiPWyC1pCLG7l1CBG3cTN2wEzjGHRBtQojay5nr9kFMxbaP9zOhD8eXlT5TMnPMJ
-	BIBH/KHZwiX0To2aoNGStPqnkEkgQq3OBERu2A=
-X-Received: by 2002:a05:600c:3e0a:b0:490:b724:dbe3 with SMTP id 5b1f17b1804b1-490c25a07c4mr89260935e9.8.1780698858737;
-        Fri, 05 Jun 2026 15:34:18 -0700 (PDT)
+        bh=uNlwVcnnXqPCxnrl4lx5X3qfw6/hMg/y7cny0y9R9GA=;
+        b=LhRMoSfNZJjnEF4L0KGlFSIN79WxRu3hVZKh06GKjds9CKAwPFwvyBFqrhu6FKF2xf
+         +OTHRc69DRAurWaOBL6m/1sMOROGIMmfKrXhgB5ZxAEOdVSYbR8SZIWIwk/7l0Uhk6H9
+         hVnnrMoogAWHavZEDXKvZJfzZh/vC6ypEt7Ygyt2Csfz7LFdtxZYfegO7Rc4l306Czms
+         /vz0MqSz9ZVnkFc7fXCt45zOl/cWdX40PuTLLBbrxRZMeOwdeVOzxVm3u71OsVkpUNJM
+         hLiuXO8iJpLoJBCZvGvwahnfcgXi5LfY4lR6+V24TX6AaXz/Z1TWlPSqyBMCaLoqCwXh
+         fssA==
+X-Gm-Message-State: AOJu0YwZR/i/BjOpB50Zg3qFzfHcUJE0abRLydggyWQXfdpgK4i2Iybe
+	yPdopmIvHDNaerUnENkv7Nc83xx5bm7CLdcMJFM1kiJHOaineCwRyHs8S5kTclj/6JllSXEWiEn
+	nYVSi
+X-Gm-Gg: Acq92OEJDTUWoOpPvyWe1qOw/7a/HtldJjA5m/ZHpk7aMdocy0Falk31KC636eTo8It
+	xVJ8xp05+8DSArdfH46v7XUyZdLFTwum6DtveG1Mwm7VEVVbIGU8w2XXxp7FHtUSxfbDfJNAZE8
+	Y++G+Frhmq6IzBUKwDD+QfHtUGRn+SiSgGlASrgBL1Cffxh6u9kTiSDvBjK1p6vy+3sNp/WKLkg
+	tEsyEfnQ3FblI11AltM6PmOB5Q5AyqpYHzOYzl0XC9yhEWJz8I2dwlj1WKDmyPM0YLXIxA3WW68
+	QweZcZeXKjY/7LjJm5QyP4ti7EhFFzldTeU9sPt3FtH49dNG9F2nlDN/A2KXpMZBM/TycduU9Ji
+	PXjFL1ruLBhTn4dypT9AuSuW9VvjX5rljLF3wu7L3IvD+HXYDGxMha+725O7BBTSArDt8RK9ZNn
+	3KQto06Gl0Kyrw/SwNFjnWtI2DcC69TWy45CuWq5ZCX+X6KhBW5JTu2FrLjgY/F9JrxnSpGaIKM
+	tq8XLSuQOGfIeEBX0h1s1wmrwlghXym/49RSxM=
+X-Received: by 2002:a5d:5d83:0:b0:460:2d57:6923 with SMTP id ffacd0b85a97d-46032da2329mr6976645f8f.10.1780698859812;
+        Fri, 05 Jun 2026 15:34:19 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00b3e1ccc1be2b2798.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:b3e1:ccc1:be2b:2798])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2e4b18sm22132409f8f.10.2026.06.05.15.34.18
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2e4b18sm22132409f8f.10.2026.06.05.15.34.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 15:34:18 -0700 (PDT)
+        Fri, 05 Jun 2026 15:34:19 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/25] libexif: fix for CVE-2026-40385, CVE-2026-40386
-Date: Sat,  6 Jun 2026 00:33:55 +0200
-Message-ID: <9175f776404a1f4536e0320495c446e80a281172.1780698373.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 12/25] gnupg: upgrade 2.4.8 -> 2.4.9
+Date: Sat,  6 Jun 2026 00:33:57 +0200
+Message-ID: <5eb2cd21ac86805f5f90ea149da7de6e41342299.1780698373.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1780698373.git.yoann.congal@smile.fr>
 References: <cover.1780698373.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 22:34:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238197
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 22:34:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238199
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Guðni Már Gilbert <gudni.m.g@gmail.com>
 
-Pick patch from [1] & [2] also mentioned at Debian report in [3] & [4]
+Drop one patch since change is included in the release.
 
-[1] https://github.com/libexif/libexif/commit/93003b93e50b3d259bd2227d8775b73a53c35d58
-[2] https://github.com/libexif/libexif/commit/dc6eac6e9655d14d0779d99e82d0f5f442d2f34b
-[3] https://nvd.nist.gov/vuln/detail/CVE-2026-40385
-[4] https://nvd.nist.gov/vuln/detail/CVE-2026-40386
+Upgrade was performed using devtool
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Full changelog:
+https://github.com/gpg/gnupg/compare/gnupg-2.4.8...gnupg-2.4.9
+
+Noteworthy changes in version 2.4.9 (2025-12-30)
+------------------------------------------------
+  * gpg: Fix possible memory corruption in the armor parser.  [T7906]
+  * gpg: Avoid potential downgrade to SHA1 in 3rd party key
+    signatures.  [rGddb012be7f]
+  * gpg: Error out on unverified output for non-detached signatures.
+    [rG9d302f978b]
+  * gpg: Do not allow compressed key packets on import.  [T7014]
+  * scd: Fix a harmless read buffer over-read in a function used by
+    PKCS#15 cards.  [T7662]
+  * dirmngr: Do not require a keyserver for "gpg --fetch-key".
+    [T7693]
+  * agent: Fix ssh-agent's request_identities for skipped Brainpool
+    keys.  [rG6bf5696c85]
+
+  Release-info: https://dev.gnupg.org/T8001
+
+Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libexif/libexif/CVE-2026-40385.patch      | 35 ++++++++++++++
- .../libexif/libexif/CVE-2026-40386.patch      | 46 +++++++++++++++++++
- .../recipes-support/libexif/libexif_0.6.24.bb |  2 +
- 3 files changed, 83 insertions(+)
- create mode 100644 meta/recipes-support/libexif/libexif/CVE-2026-40385.patch
- create mode 100644 meta/recipes-support/libexif/libexif/CVE-2026-40386.patch
+ ...erride-init-is-not-needed-with-gcc-9.patch |   7 +-
+ ...-a-custom-value-for-the-location-of-.patch |   5 +-
+ ...use-pkgconfig-instead-of-npth-config.patch |   3 +-
+ ...h-fix-find-version-for-beta-checking.patch |   3 +-
+ .../gnupg/gnupg/CVE-2025-68973.patch          | 108 ------------------
+ .../gnupg/gnupg/CVE-2026-24882-0001.patch     |   7 +-
+ .../gnupg/gnupg/CVE-2026-24882-0002.patch     |   7 +-
+ .../gnupg/gnupg/relocate.patch                |  19 ++-
+ .../gnupg/{gnupg_2.4.8.bb => gnupg_2.4.9.bb}  |   3 +-
+ 9 files changed, 20 insertions(+), 142 deletions(-)
+ delete mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
+ rename meta/recipes-support/gnupg/{gnupg_2.4.8.bb => gnupg_2.4.9.bb} (96%)
 
-diff --git a/meta/recipes-support/libexif/libexif/CVE-2026-40385.patch b/meta/recipes-support/libexif/libexif/CVE-2026-40385.patch
-new file mode 100644
-index 00000000000..75f7fea6e4f
---- /dev/null
-+++ b/meta/recipes-support/libexif/libexif/CVE-2026-40385.patch
-@@ -0,0 +1,35 @@
-+From 93003b93e50b3d259bd2227d8775b73a53c35d58 Mon Sep 17 00:00:00 2001
-+From: Marcus Meissner <meissner@suse.de>
-+Date: Fri, 3 Apr 2026 11:18:47 +0200
-+Subject: [PATCH] Avoid overflow on 32bit system when reading Nikon MakerNotes
-+
-+The addition o2 = datao + exif_get_long(buf + o2, n->order)
-+could have overflowed on systems with 32bit unsigned int size_t.
-+
-+This could have caused out of bound reads of data, leading to
-+misparsing of exif / crashes.
-+
-+Reported-By: Kerwin <kerwinxia66001@gmail.com>
-+
-+CVE: CVE-2026-40385
-+Upstream-Status: Backport from [https://github.com/libexif/libexif/commit/93003b93e50b3d259bd2227d8775b73a53c35d58]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ libexif/olympus/exif-mnote-data-olympus.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/libexif/olympus/exif-mnote-data-olympus.c b/libexif/olympus/exif-mnote-data-olympus.c
-+index 3dbe1d3..a5ed7ad 100644
-+--- a/libexif/olympus/exif-mnote-data-olympus.c
-++++ b/libexif/olympus/exif-mnote-data-olympus.c
-+@@ -382,6 +382,7 @@ exif_mnote_data_olympus_load (ExifMnoteData *en,
-+ 		o2 += 2;
-+ 
-+ 		/* Go to where the number of entries is. */
-++		if (CHECKOVERFLOW(o2,buf_size,exif_get_long (buf + o2, n->order))) return;
-+ 		o2 = datao + exif_get_long (buf + o2, n->order);
-+ 		break;
-+ 
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-support/libexif/libexif/CVE-2026-40386.patch b/meta/recipes-support/libexif/libexif/CVE-2026-40386.patch
-new file mode 100644
-index 00000000000..3792aa02a6e
---- /dev/null
-+++ b/meta/recipes-support/libexif/libexif/CVE-2026-40386.patch
-@@ -0,0 +1,46 @@
-+From dc6eac6e9655d14d0779d99e82d0f5f442d2f34b Mon Sep 17 00:00:00 2001
-+From: Marcus Meissner <meissner@suse.de>
-+Date: Thu, 2 Apr 2026 13:26:31 +0200
-+Subject: [PATCH] fixed 2 unsigned integer underflows
-+
-+this could cause crashes or data leaks.
-+
-+Reported-by: Kerwin <kerwinxia66001@gmail.com>
-+
-+CVE: CVE-2026-40386
-+Upstream-Status: Backport from [https://github.com/libexif/libexif/commit/dc6eac6e9655d14d0779d99e82d0f5f442d2f34b]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ libexif/fuji/exif-mnote-data-fuji.c       | 2 +-
-+ libexif/olympus/exif-mnote-data-olympus.c | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/libexif/fuji/exif-mnote-data-fuji.c b/libexif/fuji/exif-mnote-data-fuji.c
-+index e3af4e1..3f295d3 100644
-+--- a/libexif/fuji/exif-mnote-data-fuji.c
-++++ b/libexif/fuji/exif-mnote-data-fuji.c
-+@@ -68,7 +68,7 @@ exif_mnote_data_fuji_get_value (ExifMnoteData *d, unsigned int i, char *val, uns
-+ 	ExifMnoteDataFuji *n = (ExifMnoteDataFuji *) d;
-+ 
-+ 	if (!d || !val) return NULL;
-+-	if (i > n->count -1) return NULL;
-++	if (i >= n->count) return NULL;
-+ /*
-+ 	exif_log (d->log, EXIF_LOG_CODE_DEBUG, "ExifMnoteDataFuji",
-+ 		  "Querying value for tag '%s'...",
-+diff --git a/libexif/olympus/exif-mnote-data-olympus.c b/libexif/olympus/exif-mnote-data-olympus.c
-+index a5ed7ad..bdeb5a9 100644
-+--- a/libexif/olympus/exif-mnote-data-olympus.c
-++++ b/libexif/olympus/exif-mnote-data-olympus.c
-+@@ -76,7 +76,7 @@ exif_mnote_data_olympus_get_value (ExifMnoteData *d, unsigned int i, char *val,
-+ 	ExifMnoteDataOlympus *n = (ExifMnoteDataOlympus *) d;
-+ 
-+ 	if (!d || !val) return NULL;
-+-	if (i > n->count -1) return NULL;
-++	if (i >= n->count) return NULL;
-+ /*
-+ 	exif_log (d->log, EXIF_LOG_CODE_DEBUG, "ExifMnoteDataOlympus",
-+ 		  "Querying value for tag '%s'...",
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-support/libexif/libexif_0.6.24.bb b/meta/recipes-support/libexif/libexif_0.6.24.bb
-index b3ee15a37f9..8418b72c522 100644
---- a/meta/recipes-support/libexif/libexif_0.6.24.bb
-+++ b/meta/recipes-support/libexif/libexif_0.6.24.bb
-@@ -11,6 +11,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/libexif-${PV}.tar.bz2 \
-            file://0001-Add-serial-tests-config-needed-by-ptest.patch \
-            file://run-ptest \
-            file://CVE-2026-32775.patch \
-+           file://CVE-2026-40385.patch \
-+           file://CVE-2026-40386.patch \
-            "
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
+index 83195b5bd4d..f4c6f1452ae 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
+@@ -1,4 +1,4 @@
+-From e3adc816d2d56dd929016073937ba24e01e03cb8 Mon Sep 17 00:00:00 2001
++From 0d5c3389fae260c7eac3f37c1b62f16f6d149613 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 20 Dec 2018 17:37:48 -0800
+ Subject: [PATCH] Woverride-init is not needed with gcc 9
+@@ -17,7 +17,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- SRC_URI[sha256sum] = "d47564c433b733d83b6704c70477e0a4067811d184ec565258ac563d8223f6ae"
+ diff --git a/dirmngr/dns.h b/dirmngr/dns.h
+-index 024d6dcc8..c6e141e16 100644
++index 1f647e1..334acb6 100644
+ --- a/dirmngr/dns.h
+ +++ b/dirmngr/dns.h
+ @@ -139,7 +139,7 @@ DNS_PUBLIC int *dns_debug_p(void);
+@@ -29,6 +29,3 @@ index 024d6dcc8..c6e141e16 100644
+  #define DNS_PRAGMA_PUSH _Pragma("GCC diagnostic push")
+  #define DNS_PRAGMA_QUIET _Pragma("GCC diagnostic ignored \"-Woverride-init\"")
+  #define DNS_PRAGMA_POP _Pragma("GCC diagnostic pop")
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+index f957f6b55ec..3873af5ec5b 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+@@ -1,4 +1,4 @@
+-From 6b581c43bd01f815db78a410fd3814fc5994171e Mon Sep 17 00:00:00 2001
++From 9ca764edb7673e7e607f6bd57655a60e769781de Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 22 Jan 2018 18:00:21 +0200
+ Subject: [PATCH] configure.ac: use a custom value for the location of
+@@ -8,13 +8,12 @@ This should avoid clashes with the host gpg-agent observed on autobuilders.
+ 
+ Upstream-Status: Inappropriate [oe-core specific, and only for -native]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+ ---
+  configure.ac | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 26d7f7b..e953c2e 100644
++index 94bc805..503979e 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -1921,7 +1921,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
+diff --git a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
+index 0e58fd4c4db..4d705ed37d1 100644
+--- a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
++++ b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
+@@ -1,4 +1,4 @@
+-From d9048788d906774b1475c3bb1b17e22455c2add4 Mon Sep 17 00:00:00 2001
++From 6899557f13de1cb1c4e32a3fae5a4832e85b8499 Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Wed, 16 Aug 2017 11:16:30 +0800
+ Subject: [PATCH] use pkgconfig instead of npth config
+@@ -9,7 +9,6 @@ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ 
+ Rebase to 2.1.23
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-
+ ---
+  m4/npth.m4 | 53 ++++++++---------------------------------------------
+  1 file changed, 8 insertions(+), 45 deletions(-)
+diff --git a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
+index d664c36a1bc..e29ffcfa59d 100644
+--- a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
++++ b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
+@@ -1,4 +1,4 @@
+-From 6a7f9b71d936847dcaeeac7d1b69d8299be4dd85 Mon Sep 17 00:00:00 2001
++From 85fa969022df651e78346b38718515a4b32d8187 Mon Sep 17 00:00:00 2001
+ From: Wenzong Fan <wenzong.fan@windriver.com>
+ Date: Wed, 16 Aug 2017 11:23:22 +0800
+ Subject: [PATCH] autogen.sh: fix find-version for beta checking
+@@ -13,7 +13,6 @@ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+ 
+ Rebase to 2.1.23
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-
+ ---
+  autogen.sh | 1 -
+  1 file changed, 1 deletion(-)
+diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch b/meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
+deleted file mode 100644
+index 4eaf7cdb386..00000000000
+--- a/meta/recipes-support/gnupg/gnupg/CVE-2025-68973.patch
++++ /dev/null
+@@ -1,108 +0,0 @@
+-From 4ecc5122f20e10c17172ed72f4fa46c784b5fb48 Mon Sep 17 00:00:00 2001
+-From: Werner Koch <wk@gnupg.org>
+-Date: Thu, 23 Oct 2025 11:36:04 +0200
+-Subject: [PATCH] gpg: Fix possible memory corruption in the armor parser.
+-
+-* g10/armor.c (armor_filter): Fix faulty double increment.
+-
+-* common/iobuf.c (underflow_target): Assert that the filter
+-implementations behave well.
+---
+-
+-This fixes a bug in a code path which can only be reached with special
+-crafted input data and would then error out at an upper layer due to
+-corrupt input (every second byte in the buffer is unitialized
+-garbage).  No fuzzing has yet hit this case and we don't have a test
+-case for this code path.  However memory corruption can never be
+-tolerated as it always has the protential for remode code execution.
+-
+-Reported-by: 8b79fe4dd0581c1cd000e1fbecba9f39e16a396a
+-Fixes-commit: c27c7416d5148865a513e007fb6f0a34993a6073
+-which fixed
+-Fixes-commit: 7d0efec7cf5ae110c99511abc32587ff0c45b14f
+-Backported-from-master: 115d138ba599328005c5321c0ef9f00355838ca9
+-
+-The bug was introduced on 1999-01-07 by me:
+-* armor.c: Rewrote large parts.
+-which I fixed on 1999-03-02 but missed to fix the other case:
+-* armor.c (armor_filter): Fixed armor bypassing.
+-
+-Below is base64+gzipped test data which can be used with valgrind to
+-show access to uninitalized memory in write(2) in the unpatched code.
+-
+---8<---------------cut here---------------start------------->8---
+-H4sICIDd+WgCA3h4AO3QMQ6CQBCG0djOKbY3G05gscYFSRAJt/AExp6Di0cQG0ze
+-a//MV0zOq3Pt+jFN3ZTKfLvP9ZLafqifJUe8juOjeZbVtSkbRPmRgICAgICAgICA
+-gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
+-gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
+-gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
+-gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
+-gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
+-gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA
+-gICAgICAgICAgICAgICAgICAgICAgICAgMCXF6dYDgAAAAAAAAAAAAAAAAAAAAAA
+-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC7E14AAAAA
+-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwZ94aieId3+8EAA==
+---8<---------------cut here---------------end--------------->8---
+-
+-CVE: CVE-2025-68973
+-Upstream-Status: Backport [https://github.com/gpg/gnupg/commit/4ecc5122f20e10c17172ed72f4fa46c784b5fb48]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- common/iobuf.c | 8 +++++++-
+- g10/armor.c    | 4 ++--
+- 2 files changed, 9 insertions(+), 3 deletions(-)
+-
+-diff --git a/common/iobuf.c b/common/iobuf.c
+-index 748e6935d..2497713c1 100644
+---- a/common/iobuf.c
+-+++ b/common/iobuf.c
+-@@ -2043,6 +2043,8 @@ underflow_target (iobuf_t a, int clear_pending_eof, size_t target)
+- 	rc = 0;
+-       else
+-       {
+-+        size_t tmplen;
+-+
+- 	/* If no buffered data and drain buffer has been setup, and drain
+- 	 * buffer is largish, read data directly to drain buffer. */
+- 	if (a->d.len == 0
+-@@ -2055,8 +2057,10 @@ underflow_target (iobuf_t a, int clear_pending_eof, size_t target)
+- 	      log_debug ("iobuf-%d.%d: underflow: A->FILTER (%lu bytes, to external drain)\n",
+- 			 a->no, a->subno, (ulong)len);
+- 
+--	    rc = a->filter (a->filter_ov, IOBUFCTRL_UNDERFLOW, a->chain,
+-+            tmplen = len;  /* Used to check for bugs in the filter.  */
+-+            rc = a->filter (a->filter_ov, IOBUFCTRL_UNDERFLOW, a->chain,
+- 			    a->e_d.buf, &len);
+-+            log_assert (len <= tmplen);
+- 	    a->e_d.used = len;
+- 	    len = 0;
+- 	  }
+-@@ -2066,8 +2070,10 @@ underflow_target (iobuf_t a, int clear_pending_eof, size_t target)
+- 	      log_debug ("iobuf-%d.%d: underflow: A->FILTER (%lu bytes)\n",
+- 			 a->no, a->subno, (ulong)len);
+- 
+-+            tmplen = len;  /* Used to check for bugs in the filter.  */
+- 	    rc = a->filter (a->filter_ov, IOBUFCTRL_UNDERFLOW, a->chain,
+- 			    &a->d.buf[a->d.len], &len);
+-+            log_assert (len <= tmplen);
+- 	  }
+-       }
+-       a->d.len += len;
+-diff --git a/g10/armor.c b/g10/armor.c
+-index 81af15339..f8cfa86db 100644
+---- a/g10/armor.c
+-+++ b/g10/armor.c
+-@@ -1302,8 +1302,8 @@ armor_filter( void *opaque, int control,
+- 	n = 0;
+- 	if( afx->buffer_len ) {
+-             /* Copy the data from AFX->BUFFER to BUF.  */
+--	    for(; n < size && afx->buffer_pos < afx->buffer_len; n++ )
+--		buf[n++] = afx->buffer[afx->buffer_pos++];
+-+            for(; n < size && afx->buffer_pos < afx->buffer_len;)
+-+                buf[n++] = afx->buffer[afx->buffer_pos++];
+- 	    if( afx->buffer_pos >= afx->buffer_len )
+- 		afx->buffer_len = 0;
+- 	}
+diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0001.patch b/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0001.patch
+index 6e6d44c3729..d0bb89222f8 100644
+--- a/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0001.patch
++++ b/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0001.patch
+@@ -1,7 +1,7 @@
+-From d07e2f19134129d59014fe181642cd122dc2e29f Mon Sep 17 00:00:00 2001
++From 4e70ef4af04b48b1b91c3b6862978106b8dfdf01 Mon Sep 17 00:00:00 2001
+ From: Werner Koch <wk@gnupg.org>
+ Date: Mon, 26 Jan 2026 11:13:44 +0100
+-Subject: [PATCH 1/2] tpm: Fix possible buffer overflow in PKDECRYPT
++Subject: [PATCH] tpm: Fix possible buffer overflow in PKDECRYPT
+ 
+ * tpm2d/tpm2.c (tpm2_ecc_decrypt): Bail out on too long CIPHERTEXT.
+ (tpm2_rsa_decrypt): Ditto.
+@@ -65,6 +65,3 @@ index 3e908dd..cd0347c 100644
+    inScheme.scheme = TPM_ALG_RSAES;
+    /*
+     * apparent gcrypt error: occasionally rsa ciphertext will
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0002.patch b/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0002.patch
+index 2e872ea491f..15abe64b859 100644
+--- a/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0002.patch
++++ b/meta/recipes-support/gnupg/gnupg/CVE-2026-24882-0002.patch
+@@ -1,7 +1,7 @@
+-From e8eaa9bf018d3276d613f371207c91c1ffa3e16c Mon Sep 17 00:00:00 2001
++From ae9db1f2e5745bf34fea5ad0e8ed9adbd2165c2a Mon Sep 17 00:00:00 2001
+ From: NIIBE Yutaka <gniibe@fsij.org>
+ Date: Thu, 12 Feb 2026 11:51:17 +0900
+-Subject: [PATCH 2/2] agent: Fix the regression in pkdecrypt with TPM RSA.
++Subject: [PATCH] agent: Fix the regression in pkdecrypt with TPM RSA.
+ 
+ * agent/divert-tpm2.c (divert_tpm2_pkdecrypt): Care about additional
+ 0x00.
+@@ -42,6 +42,3 @@ index 2496d09..5b5bd14 100644
+      }
+    else if (smatch (&s, n, "ecdh"))
+      {
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
+index ea0252026aa..0501d182a5f 100644
+--- a/meta/recipes-support/gnupg/gnupg/relocate.patch
++++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
+@@ -1,4 +1,4 @@
+-From c50d0a95fcf8f96c272fadd4ba85f3eeac39fcaf Mon Sep 17 00:00:00 2001
++From 922a17cd375a72c59ce09a77923bb47df69e4c08 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 19 Sep 2018 14:44:40 +0100
+ Subject: [PATCH] Allow the environment to override where gnupg looks for its
+@@ -8,16 +8,15 @@ Upstream-Status: Inappropriate [OE-specific]
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ 
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-
+ ---
+  common/homedir.c | 14 +++++++-------
+  1 file changed, 7 insertions(+), 7 deletions(-)
+ 
+ diff --git a/common/homedir.c b/common/homedir.c
+-index 6f99f3e..f22aa9e 100644
++index 9fcb90b..fe91dcb 100644
+ --- a/common/homedir.c
+ +++ b/common/homedir.c
+-@@ -1284,7 +1284,7 @@ gnupg_socketdir (void)
++@@ -1294,7 +1294,7 @@ gnupg_socketdir (void)
+    if (!name)
+      {
+        unsigned int dummy;
+@@ -26,7 +25,7 @@ index 6f99f3e..f22aa9e 100644
+        gpgrt_annotate_leaked_object (name);
+      }
+  
+-@@ -1316,7 +1316,7 @@ gnupg_sysconfdir (void)
++@@ -1326,7 +1326,7 @@ gnupg_sysconfdir (void)
+    if (dir)
+      return dir;
+    else
+@@ -35,7 +34,7 @@ index 6f99f3e..f22aa9e 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1352,7 +1352,7 @@ gnupg_bindir (void)
++@@ -1362,7 +1362,7 @@ gnupg_bindir (void)
+        return name;
+      }
+    else
+@@ -44,7 +43,7 @@ index 6f99f3e..f22aa9e 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1379,7 +1379,7 @@ gnupg_libexecdir (void)
++@@ -1389,7 +1389,7 @@ gnupg_libexecdir (void)
+        return name;
+      }
+    else
+@@ -53,7 +52,7 @@ index 6f99f3e..f22aa9e 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1409,7 +1409,7 @@ gnupg_libdir (void)
++@@ -1419,7 +1419,7 @@ gnupg_libdir (void)
+        return name;
+      }
+    else
+@@ -62,7 +61,7 @@ index 6f99f3e..f22aa9e 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1440,7 +1440,7 @@ gnupg_datadir (void)
++@@ -1450,7 +1450,7 @@ gnupg_datadir (void)
+        return name;
+      }
+    else
+@@ -71,7 +70,7 @@ index 6f99f3e..f22aa9e 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1472,7 +1472,7 @@ gnupg_localedir (void)
++@@ -1482,7 +1482,7 @@ gnupg_localedir (void)
+        return name;
+      }
+    else
+diff --git a/meta/recipes-support/gnupg/gnupg_2.4.8.bb b/meta/recipes-support/gnupg/gnupg_2.4.9.bb
+similarity index 96%
+rename from meta/recipes-support/gnupg/gnupg_2.4.8.bb
+rename to meta/recipes-support/gnupg/gnupg_2.4.9.bb
+index 6a865ed57d9..c85de6047fe 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.4.8.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.4.9.bb
+@@ -18,7 +18,6 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0002-use-pkgconfig-instead-of-npth-config.patch \
+            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
+            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
+-           file://CVE-2025-68973.patch \
+            file://CVE-2026-24882-0001.patch \
+            file://CVE-2026-24882-0002.patch \
+            "
+@@ -26,7 +25,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
+                                 file://relocate.patch"
+ SRC_URI:append:class-nativesdk = " file://relocate.patch"
+ 
+-SRC_URI[sha256sum] = "b58c80d79b04d3243ff49c1c3fc6b5f83138eb3784689563bcdd060595318616"
++SRC_URI[sha256sum] = "dd17ab2e9a04fd79d39d853f599cbc852062ddb9ab52a4ddeb4176fd8b302964"
+ 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 
