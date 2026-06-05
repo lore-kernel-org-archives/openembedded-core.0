@@ -2,111 +2,66 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62D2DCD6E7C
-	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 15:15:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A9CDCD6E7C
+	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 15:15:27 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10565.1780672516301345316
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10368.1780672518828932852
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2026 08:15:16 -0700
+ Fri, 05 Jun 2026 08:15:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=aZaJLHa5;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=mHc5jUVk;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E7D8432F4
-	for <openembedded-core@lists.openembedded.org>; Fri,  5 Jun 2026 08:15:10 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65A6C3500
+	for <openembedded-core@lists.openembedded.org>; Fri,  5 Jun 2026 08:15:13 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 624243F86F
-	for <openembedded-core@lists.openembedded.org>; Fri,  5 Jun 2026 08:15:15 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CA86E3F86F
+	for <openembedded-core@lists.openembedded.org>; Fri,  5 Jun 2026 08:15:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780672515; bh=rjtTSGJeooyEdFi5PkoF+rN2aJ251uf9f7hv8VOE9wc=;
-	h=From:To:Subject:Date:From;
-	b=aZaJLHa5JGhvSZuYEipn8kynjBDTNCPEUSQ5AY6jFMlPlafjpKUhSBbVRvurfeC0A
-	 /sb5ARgtXeHBhmLERE2JXhimWP7vRFxUMBfBGlM7v1xqHODb3L5MbwVrHFfRyRXzN8
-	 Nke1YNHCoPcsHyemB4MAuREo9RNmqEP9WI0Dzr4A=
+	t=1780672518; bh=Ou4CI9TI9GXESrij/6RP/W8gxrM9D2kCk4OL+Vo+/y0=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=mHc5jUVk6fNmA7RGRVXb0Py+GemcXzzwYvg9KdAopYvho1bOb9+APlKQitYQAX2HS
+	 T+VpjkuxnO9WU5KpXqswaRuLT6mSPTVdV+eyFW+W8HMuNkRU7AVX+40FE39RXu/zxV
+	 vob4iU3ruVAVUGdYB0+/AS4BrFKpPGE+GQo8m4Mw=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/4] libedit: upgrade 20251016 -> 20260512
-Date: Fri,  5 Jun 2026 16:15:08 +0100
-Message-ID: <20260605151511.3522627-1-ross.burton@arm.com>
+Subject: [PATCH 4/4] python3: reference upstream ticket in a test skip
+Date: Fri,  5 Jun 2026 16:15:11 +0100
+Message-ID: <20260605151511.3522627-4-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260605151511.3522627-1-ross.burton@arm.com>
+References: <20260605151511.3522627-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 15:15:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238173
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 15:15:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238176
 
-Drop the __STDC_ISO_10646__ patch as this is no longer needed: the build
-would #error out if it wasn't defined.
+I've filed a ticket upstream for the libedit-related test failure in
+test_bang_completion_without_do_shell(), add a reference to the comment.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../libedit/libedit/stdc-predef.patch         | 26 -------------------
- ...0251016-3.1.bb =3D> libedit_20260512-3.1.bb} |  6 ++---
- 2 files changed, 2 insertions(+), 30 deletions(-)
- delete mode 100644 meta/recipes-devtools/libedit/libedit/stdc-predef.pat=
-ch
- rename meta/recipes-devtools/libedit/{libedit_20251016-3.1.bb =3D> libed=
-it_20260512-3.1.bb} (72%)
+ meta/recipes-devtools/python/python3_3.14.5.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/libedit/libedit/stdc-predef.patch b/me=
-ta/recipes-devtools/libedit/libedit/stdc-predef.patch
-deleted file mode 100644
-index 0ce6d127a94..00000000000
---- a/meta/recipes-devtools/libedit/libedit/stdc-predef.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From 32918b3a91d9fe4719bba78a44ec3262a2994e68 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 31 Jul 2019 10:48:19 -0700
--Subject: [PATCH] libedit: Move from meta-oe
--
--__STDC_ISO_10646__ is defined in stdc-predef.h
--therefore include it to see if its there on a platform
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/chartype.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/chartype.h b/src/chartype.h
--index bcdb293..92327d3 100644
----- a/src/chartype.h
--+++ b/src/chartype.h
--@@ -29,6 +29,7 @@
-- #ifndef _h_chartype_f
-- #define _h_chartype_f
--=20
--+#include <stdc-predef.h>
-- /* Ideally we should also test the value of the define to see if it
--  * supports non-BMP code points without requiring UTF-16, but nothing
--  * seems to actually advertise this properly, despite Unicode 3.1 havin=
-g
-diff --git a/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb b/meta=
-/recipes-devtools/libedit/libedit_20260512-3.1.bb
-similarity index 72%
-rename from meta/recipes-devtools/libedit/libedit_20251016-3.1.bb
-rename to meta/recipes-devtools/libedit/libedit_20260512-3.1.bb
-index 2ea75bba878..897bfbd6f62 100644
---- a/meta/recipes-devtools/libedit/libedit_20251016-3.1.bb
-+++ b/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb
-@@ -10,10 +10,8 @@ DEPENDS =3D "ncurses"
-=20
- inherit autotools
-=20
--SRC_URI =3D "http://www.thrysoee.dk/editline/${BP}.tar.gz \
--           file://stdc-predef.patch \
--          "
--SRC_URI[sha256sum] =3D "21362b00653bbfc1c71f71a7578da66b5b5203559d43134d=
-2dd7719e313ce041"
-+SRC_URI =3D "http://www.thrysoee.dk/editline/${BP}.tar.gz"
-+SRC_URI[sha256sum] =3D "432d5e7ea8b0116dd39f2eca7bc11d0eed77faa6b77ea526=
-ace89907c23ea4a0"
-=20
- # configure hardcodes /usr/bin search path bypassing HOSTTOOLS
- CACHED_CONFIGUREVARS +=3D "ac_cv_path_NROFF=3D/bin/false"
+diff --git a/meta/recipes-devtools/python/python3_3.14.5.bb b/meta/recipe=
+s-devtools/python/python3_3.14.5.bb
+index 6e237fb0308..f837505f7ab 100644
+--- a/meta/recipes-devtools/python/python3_3.14.5.bb
++++ b/meta/recipes-devtools/python/python3_3.14.5.bb
+@@ -271,6 +271,7 @@ SKIPPED_TESTS =3D " \
+ # but not bang completion. test_bang_completion_without_do_shell() passe=
+s if
+ # building with readline, but we don't want to change the default, so sk=
+ip the
+ # test.
++# https://github.com/python/cpython/issues/150922
+ SKIPPED_TESTS +=3D " \
+     --ignore test_bang_completion_without_do_shell \
+ "
 --=20
 2.43.0
 
