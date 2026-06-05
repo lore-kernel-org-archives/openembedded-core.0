@@ -1,164 +1,66 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F619CD6E5D
-	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 11:36:48 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6343.1780659404152070923
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AD05CD6E79
+	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 12:05:08 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6548.1780661096949827364
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2026 04:36:44 -0700
+ Fri, 05 Jun 2026 05:04:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LrRlVRjp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490be03d47bso14873015e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 04:36:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1780659402; x=1781264202; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LaXnvZMT4rWnkqS0pfC6kR8jqdycM+0G3PIoNbqjLrg=;
-        b=LrRlVRjph2RD6Ux9SROprNybWP0RbBGfwhe6d1L/LSHibSwJ7eZj6eeSXCnL0Yo7xJ
-         APef2NrH835edfJdvAzzXPqKPYpN4l84NmoTeWaC+uwFXS5ynsdMPE6vhkyBhuE3dV9K
-         WGQDlkuLcz5nB6hm5WPnHdO4s5xhBRBDkmqz0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780659402; x=1781264202;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LaXnvZMT4rWnkqS0pfC6kR8jqdycM+0G3PIoNbqjLrg=;
-        b=Dd4qDe0t+lTf7ksxhRG5rOuZVz5LG2eOPSnUkOTGUsLKspFam2/LrCrho1bvus37rn
-         HGYah/B+lsC9CmzXRB1hrP3jTrY99p3gSFho4EQDY5pD2OEYfY80VIwzU0RTtJRj6D9L
-         ox7+fcn06dnuMO9oiB2LgnGQMaWZE8prYajCiFVtgKZzSrT5/zuzDLzJ5euTVT3rn4uP
-         zp7lML9eQDZprZKM7IncWBRHATtJDYh1/0FI+4QZhSpciSSCkG1zmGET3dNbV8dJKIlr
-         5EH5eHOP5NxdR3OYJtiDS0SbX3Wc92emQfu3+p3ibKhTa8giP9rHG4tuKPNsZaDej/4u
-         gIwg==
-X-Gm-Message-State: AOJu0Yz4sHWJEVqWTDkfPS2Y4mbEz8K5Uv8aM7svVKAFt2ukOJP2457p
-	LwxNXg/qKe/mC6TWNokCqAYcBjX0c8Yt7AmO3uVrLc4dlywaE00jeXF1fyO7xwn/Yp9yvmF+PCs
-	1lt2w
-X-Gm-Gg: Acq92OEg3MaENM6+Ua5jlmkq6+GR3cbyuGSzOIA5zlTx8jJ7xY5ycEyq6+My5HVVf9s
-	ztN71S2RmAoGIUSvpYEIvR1RU1q16GL3C3IidXRQOoKzISFWfzUG0IASLId6fqrzBLwyti5g0Eh
-	HwTlJkWQRwVcjlS+EhkPpcgZ9B5nMMuFiFY/bGxTStoR/4O1U4PR4MazBpBBQvzMrZ/T5UgSrRm
-	iYWhFbnCnkEqVDM49wa3W2xXJwV3DAXF01zI++689NwYyvK7Tx6ZXCOb9ZGe8ZLXuUhvPZBW+E5
-	LzXTLicoGy+KpZn6BCFCBEl9gf4XO9Pbdcgo7pRVQxfS18+fLs602VZPmkpnGdEkm7wAUVZ8lfT
-	Kty4V9iHHB8QtKaDH2Io+vILyJMje5IzAYt/P30qTTZsiUfZeP5ne7IBXh+7CklsCD+LmZfiv0n
-	IEj80glI2r58028lz7dIE26rK7vl/8qSO9aBHEhluDE2npt6N5zDp3NHRPsnXSMvc=
-X-Received: by 2002:a05:600c:81c9:b0:490:bd66:db49 with SMTP id 5b1f17b1804b1-490c25a1e20mr42096275e9.12.1780659402489;
-        Fri, 05 Jun 2026 04:36:42 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:176b:6db2:d527:85f4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3d66c8sm139448205e9.10.2026.06.05.04.36.41
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 04:36:41 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=K5QokJ4a;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2026060512045318e653bbdb0002079c-8330t0@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026060512045318e653bbdb0002079c
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 05 Jun 2026 14:04:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=DJSZIVYSsu8G4R0roJCF06Ky42jf1Usf6/Dv+yqgo+w=;
+ b=K5QokJ4aT7qW0p5105HScrtwGGtpVWlXrn3/d/9ag1QUrv1L8rDe4xZNR2tJczeHCYI8Ny
+ 1I0Y4IwzVw+N3UAA31D/J0aYQLZXaePCSlbr2msQ8cI0bvhLL5LaEZLYKlO75slnpc800Spg
+ 8kPx+gwU8QWB0KYp5mM/YjfTGojM5TLHTQvDTzxFKllRC0B17/YHr8U7RjH5xQyizqjiqIhS
+ Z7vhR3Zjg2x3u14mhg1ysEsEXZBUmC/RhVehJPAP/Kq/scsufKhiUdO5rFxX2YAy7ARpuWJd
+ x7a0SY20ZVxsDWPprkgLqPZTO/OWcrUHObivcZZXU9taLopRSASloorg==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] base: Allow zstd and xz decompression from the host tools
-Date: Fri,  5 Jun 2026 12:36:41 +0100
-Message-ID: <20260605113641.3595753-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] vex: remove obsolete semicolon
+Date: Fri,  5 Jun 2026 14:04:34 +0200
+Message-ID: <20260605120434.130208-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 11:36:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238163
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 12:05:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238164
 
-We have xz and zstd in HOSTTOOLS but not ASSUME_PROVIDED. In most cases where
-we have a dependency on xz-native or zstd-native, we need to compress files
-or we need the libraries those recipes provide. In some cases we just need
-decompression though.
+From: Peter Marko <peter.marko@siemens.com>
 
-Compression output is version dependent so we need those dependencies. Libraries
-need headers so those are needed too. THe main place we could benefit are the
-unpack dependencies from base.bbclass.
+Usage of semicolon as separator in ROOTFS/IMAGE_*COMMAND was deprecated
+long time ago.
+Remove it.
 
-Therefore add "XXX-decompress" PROVIDES to those recipes, then change the
-dependency in base.bbclass to indicate decompression only. We can then
-ASSUME_PROVIDED the decompression side of things to optimise builds whilst
-still keeping the other dependencies functional.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/classes-global/base.bbclass         | 8 ++++----
- meta/conf/bitbake.conf                   | 2 ++
- meta/recipes-extended/xz/xz_5.8.3.bb     | 2 ++
- meta/recipes-extended/zstd/zstd_1.5.7.bb | 2 ++
- 4 files changed, 10 insertions(+), 4 deletions(-)
+ meta/classes/vex.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
-index d462593c4e0..4684dbd60c8 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -663,7 +663,7 @@ python () {
+diff --git a/meta/classes/vex.bbclass b/meta/classes/vex.bbclass
+index c57b8209c2..4c36cab581 100644
+--- a/meta/classes/vex.bbclass
++++ b/meta/classes/vex.bbclass
+@@ -211,7 +211,7 @@ python vex_write_rootfs_manifest () {
+     bb.plain("Image VEX JSON report stored in: %s" % manifest_name)
+ }
  
-         # *.zst should DEPEND on zstd-native for unpacking
-         elif path.endswith('.zst'):
--            d.appendVarFlag('do_unpack', 'depends', ' zstd-native:do_populate_sysroot')
-+            d.appendVarFlag('do_unpack', 'depends', ' zstd-decompress-native:do_populate_sysroot')
+-ROOTFS_POSTPROCESS_COMMAND:prepend = "vex_write_rootfs_manifest; "
++ROOTFS_POSTPROCESS_COMMAND:prepend = "vex_write_rootfs_manifest "
+ do_rootfs[recrdeptask] += "do_generate_vex "
+ do_populate_sdk[recrdeptask] += "do_generate_vex "
  
-         # *.lz should DEPEND on lzip-native for unpacking
-         elif path.endswith('.lz'):
-@@ -671,7 +671,7 @@ python () {
- 
-         # *.xz should DEPEND on xz-native for unpacking
-         elif path.endswith('.xz') or path.endswith('.txz'):
--            d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_populate_sysroot')
-+            d.appendVarFlag('do_unpack', 'depends', ' xz-decompress-native:do_populate_sysroot')
- 
-         # .zip should DEPEND on unzip-native for unpacking
-         elif path.endswith('.zip') or path.endswith('.jar'):
-@@ -679,11 +679,11 @@ python () {
- 
-         # Some rpm files may be compressed internally using xz (for example, rpms from Fedora)
-         elif path.endswith('.rpm'):
--            d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_populate_sysroot')
-+            d.appendVarFlag('do_unpack', 'depends', ' xz-decompress-native:do_populate_sysroot')
- 
-         # *.deb should DEPEND on xz-native for unpacking
-         elif path.endswith('.deb'):
--            d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_populate_sysroot')
-+            d.appendVarFlag('do_unpack', 'depends', ' xz-decompress-native:do_populate_sysroot')
- 
-         # *.7z should DEPEND on 7zip-native for unpacking
-         elif path.endswith('.7z'):
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 4eb235da60a..27d747536e4 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -234,6 +234,8 @@ ASSUME_PROVIDED = "\
-     virtual/libiconv-native \
-     virtual/libintl-native \
-     wget-native \
-+    xz-decompress-native \
-+    zstd-decompress-native \
-     "
- # gzip-native should be listed above?
- 
-diff --git a/meta/recipes-extended/xz/xz_5.8.3.bb b/meta/recipes-extended/xz/xz_5.8.3.bb
-index 74efe561c6b..0c0886fa7aa 100644
---- a/meta/recipes-extended/xz/xz_5.8.3.bb
-+++ b/meta/recipes-extended/xz/xz_5.8.3.bb
-@@ -3,6 +3,8 @@ HOMEPAGE = "https://tukaani.org/xz/"
- DESCRIPTION = "XZ Utils is free general-purpose data compression software with a high compression ratio. XZ Utils were written for POSIX-like systems, but also work on some not-so-POSIX systems. XZ Utils are the successor to LZMA Utils."
- SECTION = "base"
- 
-+PROVIDES += "xz-decompress"
-+
- # The source includes bits of 0BSD, GPL-2.0, GPL-3.0, LGPL-2.1-or-later, but the
- # only file which is GPL-3.0 is an m4 macro which isn't shipped in any of our
- # packages, and the LGPL bits are under lib/, which appears to be used for
-diff --git a/meta/recipes-extended/zstd/zstd_1.5.7.bb b/meta/recipes-extended/zstd/zstd_1.5.7.bb
-index 66e326f386e..8d147dbeed9 100644
---- a/meta/recipes-extended/zstd/zstd_1.5.7.bb
-+++ b/meta/recipes-extended/zstd/zstd_1.5.7.bb
-@@ -5,6 +5,8 @@ It's backed by a very fast entropy stage, provided by Huff0 and FSE library."
- HOMEPAGE = "http://www.zstd.net/"
- SECTION = "console/utils"
- 
-+PROVIDES += "zstd-decompress"
-+
- LICENSE = "BSD-3-Clause | GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=0822a32f7acdbe013606746641746ee8 \
-                     file://COPYING;md5=39bba7d2cf0ba1036f2a6e2be52fe3f0 \
 
