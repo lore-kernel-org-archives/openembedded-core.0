@@ -1,88 +1,144 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C455CD6E7E
-	for <webhook@archiver.kernel.org>; Fri,  5 Jun 2026 22:59:57 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6471.1780700391936888578
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A41B2CD8C85
+	for <webhook@archiver.kernel.org>; Sat,  6 Jun 2026 10:49:05 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13844.1780742936065345484
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2026 15:59:52 -0700
+ Sat, 06 Jun 2026 03:48:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Avr6xquP;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490b64c8311so27626035e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 15:59:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Oz/0IW7g;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490c1915793so13805575e9.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 06 Jun 2026 03:48:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1780700390; x=1781305190; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JqHkD/DL6LWgzw4AyJO+He6TWa492EWVQ9hdJTc2Sbg=;
-        b=Avr6xquPkG//4erHB48IkJc+f0b5lUyHeMxLni0b09v7r+wk7AoF1l5FdD3TsWycbA
-         OWCrVHCa4xRYkbbwDuSEHxD3xJN4WO+NgEBo7d4+ANM7UoU0cvdUlEFDJCz4EwSyfhuJ
-         s5BMt18r3g9YyHFbd7FwGrLz1vzZvfbLac+/k=
+        d=gmail.com; s=20251104; t=1780742934; x=1781347734; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7Dii2RJP3GgaU3w1HYAQfA7e/RFdm0iW7bjJCIYACv0=;
+        b=Oz/0IW7gGMOsBXnTAF4y8pggdCearE0AdxKgCU4PHi1B14yS8+DK+ImTwfjND3cfgf
+         Oyr4ktQ4U7F+7enYkEY+SivXf5flVJHMigvoofA36NL1AByPDpZOmruWcBe3C32QiaZ4
+         w/FjeKgR0YeoTGQylyRDww2s4WfafzP6dkDHFFdcGPZi4Gwre56slDj6dRSeg9yukDPo
+         JkIY1BuasZVgszWeiIH/7ZMRyB+9TOCpQZLYA2BP0xqmPUfk7ONHu9sczXjX1vF7RgyC
+         CfODoHKMLfmO99Y3TUAYT/PvEfsR4Ezna5pndeOyxTOqjeXZY54SYYQt3TO4BXjTDxHq
+         3Uug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780700390; x=1781305190;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JqHkD/DL6LWgzw4AyJO+He6TWa492EWVQ9hdJTc2Sbg=;
-        b=YaSr/OLf7OuMSB7PKgmOrAT+DaPsbIcz0byqwAAufhyw7Ru5nfc5UohhYiBoyyjomz
-         OMT22yekS2y8+iNtfTmL67UvhiuzalCmGK9hO07/aAsDrypW24W+dMS6fyNRrtk7WXuD
-         ciWEXhh/m7MAz4OLP1JpBzAT+TdItnhYLlcscvBYwr9u+LXVJVZdBIKbgYlmsdSy9t0Z
-         BsRGc7xSFplI8ifel8m5qcrBITEaNTL1uANCUqXAaHEaf2RtmnrJSAeFH5gKqpdRljro
-         TN+2k4ueaE93yjF+gVPs+O17gDXXZdv+VaruFMXdXnJwJzKVSozkS/p98Q+IxhoLI0tj
-         K0jw==
-X-Gm-Message-State: AOJu0YzcuDoZuvffkYucDlfkv9fai5l23hNYNytr36IRbRb1Yf8Skor1
-	jN9xmX42IxEMQ7nvAUZTXCS6sizYhDUVT+IXXyddethyHDXTk8wVkDybRcmVE1xjhRnTCIbm3Na
-	jNVlt
-X-Gm-Gg: Acq92OHTDWFTozipcLZ1KedCRQm0njlpuK0xJJpImC/wsLXzu0uQXuLX498Ch5aw3Ox
-	yxQa068eXJS/Xfzov6eLdiI9YpidTqQNG2wRUL6mH1YijkC48RJBqk4Su+O4T9EqC67GqDnkGV7
-	1Zqrm7uu0JckQazzg/jp8x48bBkFpZCsfety+f3ul8y/4dEuzJHzWtM6PlOwgJTqEHAqtbL/D8T
-	7lSex3Qoe/kBxZ9l0q3plkMKWAGuQG3PrAmn5WucXrwLfFYPHPgOW8OkKszUEaXGvlRCSUDIIyv
-	X+AkR5hg4dJEAdPOLqYFUcFUkqxmDkL/XwRX77XoScNcUZ9HShE+yplzMhzuwWfVYhPr9tewt8q
-	CfxNTO0R2xYF3Zjl180IxdBBg3EnxPDIxnGG5dN0+LchYvxOfLT2pY/xCNJrradUvz+SgBkQY1R
-	HyiCvFc7xQE+/WJjfkw5l3CVwR64K5Qn/e/8ApAsUXVNTVQXNh+0ie/vIVOxteCDg=
-X-Received: by 2002:a05:600c:458a:b0:48f:e518:d110 with SMTP id 5b1f17b1804b1-490c2614beemr82939705e9.32.1780700389914;
-        Fri, 05 Jun 2026 15:59:49 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1012:8ac6:f163:489d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490c2d5d2b4sm73280725e9.2.2026.06.05.15.59.48
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20251104; t=1780742934; x=1781347734;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Dii2RJP3GgaU3w1HYAQfA7e/RFdm0iW7bjJCIYACv0=;
+        b=sjWUKBBlgAx4K0ZXy1AvaOKf1AN1ptgjngedofwd0Ae+GxiWXQTJJwRZ0up7UtEteP
+         +TJZyF727EtiJOQS6FoRcNvRKUAZEWd/PMxvOEKlrDlzUP4rgJu+apmpWZ00fBG7hIJ9
+         JOVCw9JWfpg/pZUv/0cM+Y/oZKWQNvLdISDLrKbNG+irAXZZ6lMdOlHJ95NEPau14fXb
+         w6ePrJlNdFTd4Z0U2iBS+2PyhRDU0x/D881a3RLZhuhT3hgPydAy4lvhIyBhZ/6BUSXv
+         s4KbMQH/Rp9tLBobwF490DWbOzFI11MYfYgQJUUZwabmdh40S/4fr1eJjcpggYYh/yxr
+         A6Eg==
+X-Forwarded-Encrypted: i=1; AFNElJ+937OexDHBtFjHEN+3JUNCoG3zNEH5X/xUzzp9GUcO/VPsxoU6j4+9K4EDZBbmg3PIy+ty+4FBuEO+Yq0OUT0Mpg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx9ytzyN7jUUYsMVNLlO/lCJW9DseYCpqWfblLEsxu2INKNzeDp
+	XI8mkXRYMr32KHbN9jEHoROUq/nuyIDuJzXcEWVFKCxoJkIC9rRFeWpU
+X-Gm-Gg: Acq92OGbelm+UVJEpZgHUYZ9X3G5SboBfA8KfVHTvo8qWswi0VDXIa79uO30DeQdZ2a
+	QSNHoA6nyS5UWcAGUHAEOdVzyKk0eQjqKIed9oGVRsylY07uUscokp+4mBIHgdyDT9RramLeg5V
+	bIrAK97kF8s+3u+1vtDNoeTLJoq+QQv3h11HnEPGVFcXH2w3rTMMkOxcQ1wfXAUP1idbgiKQgho
+	nvgUKLosu09zVhhhtmXry3JVBjrfkRNxoqJD89hCSv+QxwKQai5FGYQUJKAjIDzTb3OhN6x20ME
+	MQZVQ0zMBzKnnxuEfEQZ8rgA8sdkN9y/Z1xDBLxjSMZvGty9Jh2+pXKTKEHTX+dsZqBRKY57HA6
+	+WjmQKo0CySEHxMiM0kfw+zdM1/5A6S5VTea1U2zkMndJ3wZmHMhizwNdmY5GzgOqCotpcofeMr
+	jCgYZ1PKdZDyD1pd11Tp5WjRwOUyfjQULxYKRviEUGKw+loLq333OKxWjHwKt773PI0RumXBBT2
+	w2x/XfnPVph52pxkkBXtQ==
+X-Received: by 2002:a05:600c:530d:b0:490:b92f:ef5b with SMTP id 5b1f17b1804b1-490c25d4cfcmr136117025e9.13.1780742934022;
+        Sat, 06 Jun 2026 03:48:54 -0700 (PDT)
+Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3fd663sm253509485e9.10.2026.06.06.03.48.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 15:59:49 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gettext: Add missing xz-native DEPENDS for reproducibility
-Date: Fri,  5 Jun 2026 23:59:48 +0100
-Message-ID: <20260605225948.74743-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
+        Sat, 06 Jun 2026 03:48:53 -0700 (PDT)
+Message-ID: <e6d0ebd23b8c1db1ab5d382ed8bd6f768584f0f9.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel-fit-image: skip sstate creation for
+ deploy
+From: adrian.freihofer@gmail.com
+To: tafil@tafhub.de, openembedded-core@lists.openembedded.org
+Date: Sat, 06 Jun 2026 12:48:52 +0200
+In-Reply-To: <60c5fe270fc9834e2472b01cd80362cd9b0f5189.camel@linuxfoundation.org>
+References: <20260603152328.48500-1-tafil@tafhub.de>
+	 <60c5fe270fc9834e2472b01cd80362cd9b0f5189.camel@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2026 22:59:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238214
+ <openembedded-core@lists.openembedded.org>; Sat, 06 Jun 2026 10:49:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238215
 
-gettext target packages contain .xz archives and we need to use
-xz-native to generate these in a reproducible way.
+On Wed, 2026-06-03 at 17:22 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> On Wed, 2026-06-03 at 17:23 +0200, Tafil Avdyli via
+> lists.openembedded.org wrote:
+> > When building completely from sstate (e.g. in pipeline), the
+> > linux-yocto-fitimage recipe deploys from sstate even if the
+> > INITRAMFS_IMAGE requires a rebuild.
+> >=20
+> > Using dm-verity or verity image classes, the initramfs image must
+> > be
+> > rebuilt after the rootfs. However, linux-yocto-fitimage:do_build
+> > was
+> > skipped and went straight for do_deploy from sstate and deployed a
+> > fitImage with an outdated initramfs with old roothash data while
+> > the
+> > image and INITRAMFS_IMAGE were being built.
+> >=20
+> > Skipping the do_deploy task in a sstate only build, successfully
+> > triggers linux-yocto-fitimage:do_build after
+> > INITRAMFS_IMAGE:do_image_complete.
+> > This also follows fitimage.bbclass[1] from meta-oe.
+> >=20
+> > [1]:
+> > https://git.openembedded.org/meta-openembedded/tree/meta-oe/classes/fit=
+image.bbclass?h=3Dwrynose#n522
+> >=20
+> > Signed-off-by: Tafil Avdyli <tafil@tafhub.de>
+> > ---
+> > =C2=A0meta/classes-recipe/kernel-fit-image.bbclass | 1 +
+> > =C2=A01 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/meta/classes-recipe/kernel-fit-image.bbclass
+> > b/meta/classes-recipe/kernel-fit-image.bbclass
+> > index ae8f3c6688..03272bab51 100644
+> > --- a/meta/classes-recipe/kernel-fit-image.bbclass
+> > +++ b/meta/classes-recipe/kernel-fit-image.bbclass
+> > @@ -241,3 +241,4 @@ do_deploy() {
+> > =C2=A0=C2=A0=C2=A0=C2=A0 fi
+> > =C2=A0}
+> > =C2=A0addtask deploy after do_compile before do_build
+> > +SSTATE_SKIP_CREATION:task-deploy =3D "1"
+>=20
+> This is a workaround, it sounds like there is a missing dependency
+> somewhere to trigger the build needed?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/gettext/gettext_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I agree with Richard, this is not the right fix. What are you exactly
+doing and what are you then going to change before calling bitbake
+again?
 
-diff --git a/meta/recipes-core/gettext/gettext_1.0.bb b/meta/recipes-core/gettext/gettext_1.0.bb
-index e20ad8807de..08b4819f275 100644
---- a/meta/recipes-core/gettext/gettext_1.0.bb
-+++ b/meta/recipes-core/gettext/gettext_1.0.bb
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM:append = " ${@bb.utils.contains('PACKAGECONFIG', 'libxml', '',
- # without glib in PACKAGECONFIG vendor copy of the lib will be used
- LIC_FILES_CHKSUM:append = " ${@bb.utils.contains('PACKAGECONFIG', 'glib', '', 'file://libtextstyle/lib/glib/ghash.c;md5=e3159f5ac38dfe77af5cc0ee104dab2d;beginline=10;endline=27', d)}"
- 
--DEPENDS = "gettext-native virtual/libiconv"
-+DEPENDS = "gettext-native virtual/libiconv xz-native"
- DEPENDS:class-native = "gettext-minimal-native"
- PROVIDES = "virtual/libintl virtual/gettext"
- PROVIDES:class-native = "virtual/gettext-native"
+Regards,
+Adrian
+
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#238102):
+> https://lists.openembedded.org/g/openembedded-core/message/238102
+> Mute This Topic: https://lists.openembedded.org/mt/119630574/4454582
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
+> adrian.freihofer@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 
