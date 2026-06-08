@@ -1,170 +1,238 @@
-Return-Path: <zuzana.valekova-spitalova@siemens.com>
+Return-Path: <mengshi.wu@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0356CD8C8C
-	for <webhook@archiver.kernel.org>; Sun,  7 Jun 2026 17:40:28 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.36])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.37555.1780854020233681709
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE6FDCD8C9D
+	for <webhook@archiver.kernel.org>; Mon,  8 Jun 2026 05:56:24 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.47560.1780898175186863733
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Jun 2026 10:40:20 -0700
+ Sun, 07 Jun 2026 22:56:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@siemens.com header.s=selector2 header.b=VypbcLzq;
- spf=pass (domain: siemens.com, ip: 40.107.162.36, mailfrom: zuzana.valekova-spitalova@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Gu9LvAP+3st5MdL+oZeUUXonuIzHdDswlmPTcyORv4SkbKlDkwJ0Vjky1Edu2mttosSoG9+s5qMk/MK0hSPO7VjaX1W2azuKQLEodjyszyaynncGOQujvU/RI4xaPy+USC/cmN0hdtlW1YLtiuS2UQHswZVzNeKZk86AdPVyy9dcsGONS9CeiKKR2xxGnlkzmePexY3ZAu1K3qaVeMM1TIMUVKzmQUlgzKUf/TkFGQAWzp9Uodsq2NjiOPGL7a/bK8XVZfEhl/SfWMbRZHYyKhPrgW49cPn9bwMfT5MeKmlfSH4rwseUHI8F+xaJcNbCyY++1AzsmxXqQP4gTuIZUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0MqWWATWNtph/foL5JKm/tL2X5oLBXIvamgI5GZ0wgs=;
- b=OKDZ/mF/6aztAvmq4fKn6N4WXWk6mmPzHKVLz4x3TqQjJfZwZ+RXRFyLSP9Hec/9okHbZ6vnqiOGJHzyLqJ6TbKE24HQ1IWOL+PKSJWcLegkVnVT1hrJvcqPXsZCl8RZp5oS5GoI7W2q8g9fSIw/LqGgZq3nlCreR09Zml5NDJWdygxtUP4CPh9uI0IPnFLgNtMq479cu1OsezhdQAkhxGPUw0mJyynAdUnha+WGLvgGr1Nwfq6bm4cYYunC14ZwsXQCKV86doU9Vkpj3pvyVPB2q2LWKebj3JPiPFkkm3M+bjER14CMBMcKPU7E3631aNzNJ3VP8bqCYhGQDCfeQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0MqWWATWNtph/foL5JKm/tL2X5oLBXIvamgI5GZ0wgs=;
- b=VypbcLzq16uHvKeJmsEPlCOgZ8TlwEAedZKslZeP3ZTX6IcQznTQGDZc5vIGSzaY8J5ona485acadPWCye5BK5yIA8V+IiVPCgFIlPYsfIs9YY5JBzAu0HimRg6Dtvs/EELuBMEn24aJ2zTPu2Ej9GVHsZvvP4fymvgsSTF9uaRd8aiOFtrsZ+opv3yH5O1h4eqhb1CWQBepe2HnisX2SydMKai07d3RyOrmVef2HyfZKqXQnYEqm9+W2jlVoW7WxVIZtuJBB6NAbUgdvz1wiob5X5ljSQ3rHJhRzcGbagGXKZbThFKwWCS6hdFhSzJ/UuaM+Q7EuCLxUfyhtHFCFQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-Received: from PAXPR10MB4701.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:150::22)
- by DU0PR10MB5725.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:310::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.12; Sun, 7 Jun 2026
- 17:40:16 +0000
-Received: from PAXPR10MB4701.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e3e5:29f6:b55:b0b]) by PAXPR10MB4701.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e3e5:29f6:b55:b0b%3]) with mapi id 15.21.0092.011; Sun, 7 Jun 2026
- 17:40:15 +0000
-From: Zuzana Valekova Spitalova <zuzana.valekova-spitalova@siemens.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=L66XKO7B;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: mengshiw@qualcomm.com)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6580F1091470709
+	for <openembedded-core@lists.openembedded.org>; Mon, 8 Jun 2026 05:56:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=hq4rs8Z7PQV2TySRs2J1Yn
+	TTLFYRWaZpDGaKMukkRyM=; b=L66XKO7B48paiKatYMuldU/ImAcaxXqWK38/9y
+	LzSwyyXF59/7ytSUV30e4y1j12aouplfl2LilsxYKFluCQGdR9Tj6Vzv1HnY02hu
+	Yx+0Ff0ZozUle/4kDyxpJtyJuFYAIlnORodd4Kl3YEEez06Pdw9tBdoubbUUNgX5
+	r+xxGOBiAVPWBD+1S2RnaCihx4kFXA+Dwa4BRlo3RgTfpZM22fUu4PI81pQGF1aq
+	T3VscMjX0qCnU+KZLocAsNEM/XSoWZ6U12yl1QHPhfWiYooFj6m57mykEdmrjHNb
+	whF8q44NAcdEIrsv8Ghy/Cr62Vu5WA/zCaiGQR1eyYIIIMWQ==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4emcqgwv5g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 05:56:14 +0000 (GMT)
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 6585uBD3000398;
+	Mon, 8 Jun 2026 05:56:11 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 4emcmj30hv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 05:56:11 +0000 (GMT)
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 6585uBWv000389
+	for <openembedded-core@lists.openembedded.org>; Mon, 8 Jun 2026 05:56:11 GMT
+Received: from bt-iot-sh03-lnx.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 6585uBau032725
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Jun 2026 05:56:11 +0000 (GMT)
+Received: by bt-iot-sh03-lnx.qualcomm.com (Postfix, from userid 4766378)
+	id 62C9A434D2; Mon,  8 Jun 2026 13:56:10 +0800 (CST)
+From: Mengshi Wu <mengshi.wu@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-CC: adrian.freihofer@siemens.com,
-	Zuzana Valekova Spitalova <zuzana.valekova-spitalova@siemens.com>
-Subject: [PATCH][oe][meta] runqemu: introduce unique instance ID
-Date: Sun,  7 Jun 2026 19:40:13 +0200
-Message-ID: <20260607174013.36552-1-zuzana.valekova-spitalova@siemens.com>
+Cc: shuai.zhang@oss.qualcomm.com, cheng.jiang@oss.qualcomm.com,
+        chezhou@qti.qualcomm.com, wei.deng@oss.qualcomm.com,
+        yiboz@qti.qualcomm.com, jinwang.li@oss.qualcomm.com,
+        Mengshi Wu <mengshi.wu@oss.qualcomm.com>
+Subject: [PATCH] bluez5: fix gatt cache sync issue
+Date: Mon,  8 Jun 2026 13:56:06 +0800
+Message-ID: <20260608055607.1069933-1-mengshi.wu@oss.qualcomm.com>
 X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: VI1P189CA0014.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:802:2a::27) To PAXPR10MB4701.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:150::22)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR10MB4701:EE_|DU0PR10MB5725:EE_
-X-MS-Office365-Filtering-Correlation-Id: beed4837-a4e4-42f5-7d80-08dec4bbd59f
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|18002099003|55112099003|6133799003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	W7HbDlHWBKHJn71Fo9PLp+ft6Qc9CgaQ3mBPRgp5bHdQX5OaqqhXXSsEiMtCCLrHemloF0ktNNObnHDZ4pT0+w1n0euPLzjrEfvGwBCqKXnzyrOeeK6a1L87G2gqegUrbhAutP1vk+K580+e8Ud9KrEPgc4IVOhi7Az88TOf56789gqbLIfpDsESGxtHBb2biCJKipkqAzETyXtM2EYbFq22VgYa/jxxlxPiASUV9pw9k0BrC8M794XkJ3UXSVDd1zF4V1E7THyaCTF4FwMFDJgJDwGQSPm8p1EU7jGiOIef5+ROzsj3OlH/eUMrDkZa9EdFk2+JIc9yG/N+K2PkZUWpQzNMJ2V7GyMQLqO4iWdCspBSPtY3V6QtVZJY5yQiaWxll+O/nozYlwNtP1Qp9ZUKLjYD3IRSPTtUof82hB8QfQKX0LpS+K5Thw2E5RcI4FlsFzoiPr2Mbrq7gEINUQJEV7r6osDujpB5LF2vNwonKPPUwqq2iiqlgNVykZ8eRT+I5cllRt4fS9X1VGjaRN3b03sfpCh6ZBZOIO+olBL6S6Ua2ajiST0EZ3VHC6ov1DH8mrqJKfBr6e/dSJEl4hk83XVHvdaBXS7Nfp6Tig5PsMVsesN7QRY5025hhKRKmqrDh59hoF8sTYoGzWzM9iE5c3EU+QuKZhrM1foKw6a02p2N/wZgMRJjCqZrSCb8
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR10MB4701.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(18002099003)(55112099003)(6133799003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?vXn+S+qT0KlNOlpPJF4Wh+9n5AbbxVKKd3ISz5+5jqXr3c58mWRgSpVML/fS?=
- =?us-ascii?Q?l9Y4ZijpiukaHynvAVTjWha9qtTxCEuJBjrKBkWklD601DSmiRksOhr9jtrK?=
- =?us-ascii?Q?QPo5nSp91naYfD4peZ1C9CIijhOJjLiHF7UNpfFnwEl74JgktRo8GlK6USRZ?=
- =?us-ascii?Q?eYGa5CUUkUYRLmKbDEIbxqDLnqbMzYQYE82e1bm7Qn92ebduKHSJeVFJmBQl?=
- =?us-ascii?Q?PBD2vmLJ5apnV26N2MV34UEw4GEWUZ/Tp1mf/zWCxfzDsp1Pj6vAmdOZRfNq?=
- =?us-ascii?Q?LPOK47ej2D3qjdCHibJyuy5ipdwYSerPrMaJk5I65h5D1i0Nac5rXynT7x5o?=
- =?us-ascii?Q?TDD9uL8cth3nGMIUunr+8V1/hDlYi8QiXyfiFahQhanp4neN5kxG6QUFS7ws?=
- =?us-ascii?Q?bDGKz04QM/oGCGF56rcNAwA/CjV9VGnkmSEk0nnDltCxPkenalxt4C/bE0Kk?=
- =?us-ascii?Q?2+Tau4bHBUA8IjU0v5eZiq6CTkslwfpDbPPvDHmVqnL6Of1ez1XXlKSYyJ1s?=
- =?us-ascii?Q?hq5t8LMBvDbySEhePqp2ILdeBhYwXGUZdtwBz53y8+Sc4NCtSm7r5aIobnfi?=
- =?us-ascii?Q?FtyqamT+aIDzMy9ZYDghcl7Fv//gTvGuutPPcO9ijDUHge3M3RG+sK7Deq46?=
- =?us-ascii?Q?1a40AgtpscqvzTnaCExmYOhsQ14fH4Qwcs48C5OY0AdTyUAFAVN/q/kf8jDZ?=
- =?us-ascii?Q?V+xbJUgNQu5IA9e3HfhmtcctHdPgh8XcsXtDG4iqkoq2G26lfztXmztjoZ3U?=
- =?us-ascii?Q?Og31tKh7M5EhFyIimBGEGRDyfvqSyGjJothhzpaYA6u4eoqXuaym6N1XN5v+?=
- =?us-ascii?Q?vsvDEEXprhPTArMZg0+xeuA83N7W7GPjySXlrs+FHIe5BWsP+29Ehibpn7X4?=
- =?us-ascii?Q?pw4djxpSfUKmrrMdnYCEIedlnQjCB8sObOc3wO+4RI1l7iQNFMhkqfL3wiU/?=
- =?us-ascii?Q?tq/v9bu7SG60vkcf1lD6k43Z2Y0BFIwkQlEAG425o7nrWhdtV3ueFZmbJU7l?=
- =?us-ascii?Q?Mn/MKu/XfuVvK5BRAV9mDYdZc3MjfQyhxDnLdmhatcZbCTvxmAbAhNOALQ3Q?=
- =?us-ascii?Q?Wuo38R4Fm/QuYBrf2b3hgJ3FCl2A6kjgOr9PshaoP5kqKbCiLMHjg1I49liI?=
- =?us-ascii?Q?Son6Xun2bSm92+UD+IQ7NNuRz3O3k1e8DWOEBeSXp4aKdnRl0r04fUTGDpAT?=
- =?us-ascii?Q?zXBAMs9KziKbTeCzl9wRIdWi0bPXKvSxENA6cW1zLw0luwiwMUJt9wfTSeHs?=
- =?us-ascii?Q?c+BZYSGV/rgSGwfJS/1XJ+DTnSZF6AYakiTdMUa703DBTuOrxf+YdciqUAgV?=
- =?us-ascii?Q?4UGnu5yilh8lNgH9hbs3C3cON4ZbhPjFsBn3whG3mk0I10HEyUEutnlQT18H?=
- =?us-ascii?Q?KfNTX+uW0ijj+MMorhpdhgZckbje25mAxYDzl9t5Te2qXqCNiU9WJuSqPKBk?=
- =?us-ascii?Q?r9E+WWUUPULbKA1T1wQ1PHHwm1G32LtbmrA7dnSp1f3FmXOlCC/uzDub8COL?=
- =?us-ascii?Q?Kd9ktvRAV41FswyL+e+PB12PZ1kpc7+ieshAmHzo3lth3O+Mk1IhVqJU9EwZ?=
- =?us-ascii?Q?nGiyASCVqe8a5QJ5RuXj9fk74gPMPXjFn2TVCFoZ4GJ83oyJn/69ooZ614dP?=
- =?us-ascii?Q?m/bq/603HmwitMwq1PUz+ygNMXv20aC6ZP8BbeAal3kI8jrlc4/zrC+SxD4y?=
- =?us-ascii?Q?Otujw3OjWPoEzeyBvKLOEycL3wswK2Kzp4ZLHf90kQyBBtJusr8/WoiCTNrA?=
- =?us-ascii?Q?nsi3aEMGsCky5+mzJp3t3USE5VXuD1pksxW1XSnAVDthNoHb/GGq?=
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: beed4837-a4e4-42f5-7d80-08dec4bbd59f
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR10MB4701.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2026 17:40:15.5962
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cTcWMOiQnvRJqxlNpElodyfgtO70H7ckj8rfSHIto+TkKcRmKsDj1/3PPTuAvr4Wd7nWVnT6AUTOfyqCSWQ3xPnnkU56ezbKlaJTXOK5+c+x4yJEVPCad0E/NG09btwv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5725
+Content-Type: text/plain; charset=UTF-8
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Authority-Analysis: v=2.4 cv=dJGWXuZb c=1 sm=1 tr=0 ts=6a26597e cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=NEAV23lmAAAA:8
+ a=EUspDBNiAAAA:8 a=k5HSx0GOXTMWBjfvI6MA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: dvcVgnBL9gh37TjKgW40CdQxvSrrOCng
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA4MDA1MSBTYWx0ZWRfX4A/nEzCvI1CN
+ PMZvWc1DnPJ1/zSCh61TlwYv7E+oYjv8UnmGOu6pb8j83p5f1vDX6fV1+xPZuMPbrhEeJI1WE8B
+ 5/nl4Ij6ERhIGivmlYtK0ibm9NZSYTymLvX0ytDfJQ532bsA/5lllpTa+VtF/mrfbvB6shKFYH7
+ b5+EG3mcZh5CFN3iw1R8LDDLGPRAP+p3LndlY9W73AuEEsiBSlqMbCqwWqHd/Sub1zJil0uBzp0
+ V9H1iYF6QEgtcvtU3aj3Axeu68fzqkQ2N55y5ldoobmVSfa++dd45njqATEsW3usNRw5GSOVssl
+ oBNaBWTNqIcquBP+KlBkm6/1pTiRCjd2E2tyTqFF7WANApvLSyy6Vd0gaA4OzNrhCRSJaBnxz3X
+ D0AanV3RHoKLABKH1fC10ZtPd35dBies/QARlyi+BP3MluqvnXFiZvf1fGuiZKRwySWxEM4HTB/
+ bmJQ32mtMwGrHPzMMXw==
+X-Proofpoint-ORIG-GUID: dvcVgnBL9gh37TjKgW40CdQxvSrrOCng
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-08_01,2026-06-05_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 adultscore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 suspectscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606080051
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 6580F1091470709
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 07 Jun 2026 17:40:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238224
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 05:56:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238225
 
-In some cases like running multiple QEMUs, would be nice to have an option
-to distinguish between them. For this reason I introduce an unique instance
-ID based on time. Later in cmd, the '@INSTANCE_ID@' could be used for QEMU
-identification.
+There is a timing issue to update DB Hash value.
 
-Signed-off-by: Zuzana Valekova Spitalova <zuzana.valekova-spitalova@siemens=
-.com>
+The gatt_client_service_changed() callback in src/device.c
+is called from service_changed_complete() in gatt-client.c,
+which is invoked after db_hash_read_cb() has already updated
+the hash. Adding store_gatt_db(device) here guarantees the
+db is persisted with the correct, up-to-date hash for both
+the addition and removal cases.
+
+Upstream-Status: Backport [bluez/bluez@0fd01e9]
+Signed-off-by: Mengshi Wu <mengshi.wu@oss.qualcomm.com>
 ---
- scripts/runqemu | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+ ...x-stored-gatt-cache-DB-Hash-value-no.patch | 84 +++++++++++++++++++
+ 2 files changed, 85 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-src-devi=
+ce-Fix-stored-gatt-cache-DB-Hash-value-no.patch
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 2c126e7f54..2de69dcd7c 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -227,6 +227,7 @@ class BaseConfig(object):
-         self.qmp =3D None
-         self.guest_agent =3D False
-         self.guest_agent_sockpath =3D '/tmp/qga.sock'
-+        self.instance_id =3D None
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-c=
+onnectivity/bluez5/bluez5.inc
+index e827d0a..5c55afc 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -72,6 +72,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/bluetooth/bluez-=
+${PV}.tar.xz \
+            file://0001-tools-Work-around-broken-stdin-handling-in-home-m=
+ade.patch \
+            file://0001-gatt-client-Fix-use-after-free-caused-by-reentran=
+t-c.patch \
+            file://0001-transport-Fix-set-volume-failure-with-invalid-dev=
+ice.patch \
++           file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no=
+.patch    \
+            "
+ S =3D "${UNPACKDIR}/bluez-${PV}"
 =20
-     def acquire_taplock(self, error=3DTrue):
-         logger.debug("Acquiring lockfile %s..." % self.taplock)
-@@ -1111,8 +1112,11 @@ to your build configuration.
-         self.nfs_running =3D True
-=20
-     def setup_cmd(self):
-+        self.instance_id =3D str(int(time.time()))
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-src-device-Fix-=
+stored-gatt-cache-DB-Hash-value-no.patch b/meta/recipes-connectivity/blue=
+z5/bluez5/0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch
+new file mode 100644
+index 0000000..69323bd
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-src-device-Fix-stored-=
+gatt-cache-DB-Hash-value-no.patch
+@@ -0,0 +1,84 @@
++From 9ec8cad56e47c0555a056e928e6568d543b3ae0c Mon Sep 17 00:00:00 2001
++From: Mengshi Wu <mengshi.wu@oss.qualcomm.com>
++Date: Wed, 1 Apr 2026 19:30:04 +0800
++Subject: [PATCH v1] src/device: Fix stored gatt cache DB Hash value not =
+update
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
 +
-         cmd =3D self.get('QB_SETUP_CMD')
-         if cmd !=3D '':
-+            cmd =3D cmd.replace('@INSTANCE_ID@', self.instance_id)
-             logger.info('Running setup command %s' % str(cmd))
-             if subprocess.call(cmd, shell=3DTrue) !=3D 0:
-                 raise RunQemuError('Failed to run %s' % str(cmd))
-@@ -1623,6 +1627,8 @@ to your build configuration.
-         if self.bios:
-             self.qemu_opt +=3D " -bios %s" % self.bios
-=20
-+        self.qemu_opt =3D self.qemu_opt.replace("@INSTANCE_ID@", self.inst=
-ance_id)
++There is an asymmetry in behavior: when services are added during
++the same connection (via Service Changed indication), the persistent
++storage (disk) is not updated with the new DB hash, but when services
++are removed, it is updated.
 +
-         cmd =3D "%s %s" % (self.qemu_opt, kernel_opts)
-         cmds =3D shlex.split(cmd)
-         logger.info('Running %s\n' % cmd)
-@@ -1647,6 +1653,7 @@ to your build configuration.
-     def cleanup_cmd(self):
-         cmd =3D self.get('QB_CLEANUP_CMD')
-         if cmd !=3D '':
-+            cmd =3D cmd.replace('@INSTANCE_ID@', self.instance_id)
-             logger.info('Running cleanup command %s' % str(cmd))
-             if subprocess.call(cmd, shell=3DTrue) !=3D 0:
-                 raise RunQemuError('Failed to run %s' % str(cmd))
++During the same connection, We check DB hash value stored at
++/var/lib/bluetooth/<adaptor addr>/cache/<remote addr>.
++When established connection, the stored DB Hash value is A.Then we
++add new services, the stored DB Hash value is still A which should
++change to B. However, if we remove the existing services, the stored
++DB Hash value changed to C.
++
++When performing addition, it goes like this:
++
++discover_primary_cb()
++  =E2=94=94=E2=94=80> gatt_db_insert_service()      =E2=86=90 NEW servic=
+e inserted into db
++        =E2=94=94=E2=94=80> gatt_service_added()    =E2=86=90 callback f=
+ires immediately
++              =E2=94=94=E2=94=80> store_gatt_db()   =E2=86=90 SAVED TO D=
+ISK (hash still OLD)
++  ...
++  =E2=94=94=E2=94=80> discovery_op_complete(success=3Dtrue)
++        =E2=94=94=E2=94=80> read_db_hash(op)             =E2=86=90 sends=
+ ATT Read By Type
++              =E2=94=94=E2=94=80> [ATT response arrives]
++                    =E2=94=94=E2=94=80> db_hash_read_cb()
++                          =E2=94=9C=E2=94=80> gatt_db_attribute_write(op=
+->hash, ...)
++                          =E2=94=82     =E2=94=94=E2=94=80> hash UPDATED=
+ IN MEMORY
++                          =E2=94=94=E2=94=80> discovery_op_complete(true=
+, 0)
++                                =E2=94=9C=E2=94=80> [no services to remo=
+ve, no
++                                =E2=94=82    store_gatt_db called]
++                                =E2=94=94=E2=94=80> service_changed_comp=
+lete()
++
++Whereas removal perform like this:
++discovery_op_complete(success=3Dtrue)  [1st call]
++  =E2=94=94=E2=94=80> read_db_hash(op)
++      =E2=94=94=E2=94=80> op->hash is NULL =E2=86=92 sends ATT request =E2=
+=86=92 early return
++...
++[ATT response arrives]
++db_hash_read_cb()
++  =E2=94=94=E2=94=80> gatt_db_attribute_write(op->hash, ) =E2=86=90 hash=
+ UPDATED IN MEMORY
++  =E2=94=94=E2=94=80> discovery_op_complete(true, 0)          [2nd call]
++      =E2=94=94=E2=94=80> read_db_hash(op)  =E2=86=92 op->hash already s=
+et =E2=86=92 returns false
++      =E2=94=94=E2=94=80> gatt_db_remove_service()
++          =E2=94=94=E2=94=80> gatt_service_removed()
++              =E2=94=94=E2=94=80> store_gatt_db() =E2=86=90 SAVED TO DIS=
+K (hash is NEW)
++
++There is a timing issue to update DB Hash value.
++
++The gatt_client_service_changed() callback in src/device.c is called
++from service_changed_complete() in gatt-client.c, which is invoked
++after db_hash_read_cb() has already updated the hash. Adding
++store_gatt_db(device) here guarantees the db is persisted with the
++correct, up-to-date hash for both the addition and removal cases.
++
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/0fd01e9=
+8cf94616a5c1c39749314cdd4a1654687]
++Signed-off-by: Mengshi Wu <mengshi.wu@oss.qualcomm.com>
++---
++ src/device.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/src/device.c b/src/device.c
++index 3ea683667..cfbde307b 100644
++--- a/src/device.c
+++++ b/src/device.c
++@@ -6267,7 +6267,11 @@ static void gatt_client_service_changed(uint16_t =
+start_handle,
++ 							uint16_t end_handle,
++ 							void *user_data)
++ {
+++	struct btd_device *device =3D user_data;
+++
++ 	DBG("start 0x%04x, end: 0x%04x", start_handle, end_handle);
+++
+++	store_gatt_db(device);
++ }
++
++ static void gatt_debug(const char *str, void *user_data)
++--
++2.34.1
 --=20
 2.43.0
 
