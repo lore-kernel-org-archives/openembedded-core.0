@@ -1,240 +1,257 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <jeremy.rosen@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DD41CD8C92
-	for <webhook@archiver.kernel.org>; Mon,  8 Jun 2026 13:44:59 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.70])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.54978.1780926298288427168
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE76CD8C92
+	for <webhook@archiver.kernel.org>; Mon,  8 Jun 2026 13:46:49 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.55050.1780926400716571164
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jun 2026 06:44:59 -0700
+ Mon, 08 Jun 2026 06:46:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=Ur1uKIsE;
- spf=pass (domain: cherry.de, ip: 52.101.83.70, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hRByepHjXhBRsNl+rKB4yXug40O6rOrc1xKRHiG2XBw6quKbvIUE0tSPz1Ikd+NTWoLwDypxrob0UsOZv0gTjfaAmsCTfrmxygfas5hqBe4fuySGlSQFEphZNPjfsV/NWG76mP5w3fUAWybYMNTxMhwKMxNYyTItcBKKWikhaJogRrIeBaBuF8qb3hNOKMj00/+ThjIMTCOAfNwFr53vPBoHIr8ogF9y5eyltMgw31bHUwobSL7v+QwZ8oL1A43LxowtvQytZ5+t3MU4mFyxJ0JNjGH5f49Ekbt42OWfADIzWshh6/ZRPaEgM1D6Uifcss8DFMBEG8LngXb4nQwhKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KaN/Pj2D0Dhf+Hd1ZLPLPjoq2h8DRkSd8FUrTsznpWg=;
- b=eAbpcivUkxBgAGw0x9bLd+jSLIfAlnlZIRE3CeXClEeXTtgoCOcQlqm1WVjSmOYHAFS4XNH/rJ5NZhpNdOjPkSl9BPtnCukfFecwBNhwIuOPLxzX64tqKXsi9JSSdoQ4D06KVXFL9Y95P6iA+6LBO5yCg5bpTL2tyYQTyzgLP4LPshxjyvjI8Pladm13GXXtr4yD6QLmJEaHkmh+oxrbea9SszYg+x86pgGMz7kIHjuxnPC7sNzzLsPoEWHBO0Q8xw5xnZ5uMbbKjIAeqf/29pkHHUKOjDv7ZG03qvrRSgN4la6TIp9QvFbcryC/JOd8slzP+UGv59n8NGc6V6ni0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KaN/Pj2D0Dhf+Hd1ZLPLPjoq2h8DRkSd8FUrTsznpWg=;
- b=Ur1uKIsEf6JK+OmVLQr8DGL0EWGJ8OLCzZESE+2RqFfTWJJmABu5Q8vokLNCMmDFP3+CfCbYethndfMtUZU11DPV+JFzHZ2k1hF1DtUUCwB0gSkbg9FTCXVsemcbO+LMmDBUDTAfZHcYrjOdUmShJlK+S4Jyh+vpfdqmyfBrOmk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from PA4PR04MB7743.eurprd04.prod.outlook.com (2603:10a6:102:b8::20)
- by DU2PR04MB8550.eurprd04.prod.outlook.com (2603:10a6:10:2d5::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Mon, 8 Jun 2026
- 13:44:53 +0000
-Received: from PA4PR04MB7743.eurprd04.prod.outlook.com
- ([fe80::9a4e:252f:2fd:97b7]) by PA4PR04MB7743.eurprd04.prod.outlook.com
- ([fe80::9a4e:252f:2fd:97b7%6]) with mapi id 15.21.0071.010; Mon, 8 Jun 2026
- 13:44:53 +0000
-Message-ID: <64f789e2-3f7b-4466-8067-2f4f29828596@cherry.de>
-Date: Mon, 8 Jun 2026 15:44:52 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] tools: mkeficapsule: Rework pkcs11 support
-To: Wojciech Dubowik <Wojciech.Dubowik@mt.com>, u-boot@lists.denx.de
-Cc: Franz Schnyder <fra.schnyder@gmail.com>, trini@konsulko.com,
- "openembedded-core @ lists . openembedded . org"
- <openembedded-core@lists.openembedded.org>,
- Francesco Dolcini <francesco@dolcini.it>, Simon Glass <sjg@chromium.org>,
- David Lechner <dlechner@baylibre.com>
-References: <20260529110525.22822-1-Wojciech.Dubowik@mt.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20260529110525.22822-1-Wojciech.Dubowik@mt.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR04CA0043.eurprd04.prod.outlook.com
- (2603:10a6:802:2::14) To PA4PR04MB7743.eurprd04.prod.outlook.com
- (2603:10a6:102:b8::20)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB7743:EE_|DU2PR04MB8550:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3269a5f9-9b17-45a8-d1cb-08dec5641e81
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|376014|56012099006|11063799006|6133799003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	VTgPPkeRWkKozyGVvLTWY5YiNhTU12hoCPTVv1+SHoC7awoFyxH4jrUsGx63moUqWYhptHeop1anBBFwB6XIhoTWn0wy2CaK4NCTaxVqgndM/SQaCYfg7TtghAsnI+koy6y2REGdzKwYxO/NM+3zeI6scvt57+eTXK640TRNTdwxmFayodyfXd/rpmh0c/MG3W0/nRrE9r2GnEQ0vT/J1vH7VPr0vlMMIO/g9+uUZuKSCUpfemuPXv4EFtpp3IzwKz4lVGZF38R9EyYgvOK75k66J+fpiWh/zjXnsT9JIQaR5I9Fk7Jxr6HfZNy0Qty+MAjGQHgm63mszgzyjX7l4PkN+yDqvwfZSP3bhbyEgL7lZFS89ybkxTZCoFaw3hKCYtFeflmK21BFJAP+IN1mnPpgGJ7zfK4PyABNAwtrnwxYpPOPXpZn4MtiC/Gh2EPRj7SSRccVB4sQSOM5RuVrLVaLf5e6lwX2WGYBxIBBar8RCNkqB/O8U3gp7YZ3Vqc9tpl4Z2K2vBeZuMIfo8JTzTFugVl4V07W2nIwUw6pax/iOEGYt/5mMwPjYAy7Nvm3TOlZWmAxWc8ei1mq+VTB4l83wuwR/Puxj9wi8YhaTeLEGd4ip1uq52Iko4GtuqZPUzIFBgY1eT9skWy0gXu9LgC7yr54X91jFhnRyqbx1IHsgLyIlr6MQ373JKf1ASHH
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB7743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(56012099006)(11063799006)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?NVRubk9ra0JxWDcxUWIrbkhPbVhrZVVGbDRVWlF1OWVVRGtPSEtXV1pNeFpB?=
- =?utf-8?B?cnJ4em93ZWF5UTNQeGpnVUtiU3dWUXZ3UHN1ZDdPQU9VK1FmbGlFV05MY3Fh?=
- =?utf-8?B?L002TGExL2RFUEFTMk8wamloQi9lSDRkNXJ4Yk40akJUR2V3dm00enRSdEZp?=
- =?utf-8?B?MnBFMU1lNm80VGNsMmxQT3NxUzdmVkVOQkFzOUl5VEtzdmtTR0dPajl6V3ds?=
- =?utf-8?B?OEJkMnR5ZUJRQ21JZWlhanpCRCtNemdTQXRnL2tqck5rRklWMFhIeEp6S0RF?=
- =?utf-8?B?aDk2QWtVRk1DdnUza2tveG83VVllNEVtU2JYM2xrTUtuazFBNTczRmZHUStG?=
- =?utf-8?B?eWFxbVNoR1YrZ3dzNUtoNk9IeGkwUEJFcFBIT3JxRm11QUduMmt0NFcwNU9I?=
- =?utf-8?B?aVcyTzNWT3RGaU5wKzFmT2RNTW9vWWd1UC8wQ1Z5bnp2eE9pTVRsb1BBUXJz?=
- =?utf-8?B?OGpvOWh2NUdZS1JaOERjcHUvTlhWb2wrNk1TU2I4N2hQMG82UkxrSmhnQVJI?=
- =?utf-8?B?Rk1KWWZ4UmhnK2ZQSEp5RkpyODIraGZVQmRqN2prUk9qbEo2aHBnSzNXR1Q3?=
- =?utf-8?B?UlI0QklZNnFWdWw3Z0ZLVEFiT1YwWTdRUUdaeHI1NlNwdHRHWlRUZUZ1NWVK?=
- =?utf-8?B?VFN0QWZYUzhnRFZILzQ4WHkvb0QwNzVxQ0Q5MmZtcUJmZnQvbWl3N1p2aWwy?=
- =?utf-8?B?VUZOVE80SWg3bVI1cjNDWm1aVC9KeEZoUlM2cHJ5Y3E4TkNkaTc1akJDVW5B?=
- =?utf-8?B?YncvK3hvcE14T2NzcGdSbEtkRXFiUkgzd3BiREU4MWhGek5FSE5YOGcyelVT?=
- =?utf-8?B?WFNQbnhNUTBXTENSdEx0aW5jcHJoV3g2YzFKQXRhLzlzQ0U2MmRrRWZwRzRH?=
- =?utf-8?B?MTU1aGhRdmZGMzNBaU5kZUpGMEk2MStRQ3IwWFJ5eG1FSzJOVTBnK3V3ZjlE?=
- =?utf-8?B?d01kUUdTTnNwQWtkRStUNEF0K3l0MndrMzQzZTBmd282akNOMy9WMWRvL2tL?=
- =?utf-8?B?UXpQSFVjclFibEUzNmZnRkJuRktvU25qSnhTYWhHam5HNDhnbjV2UC80ZHdt?=
- =?utf-8?B?dWRYZDI4Yk9VUm4xSm5lRzhBeGNZQWdFNXNFZmkzQXIwMXVwdy9uOTFRUDRE?=
- =?utf-8?B?TzJjOU9rNm41MXhHTWVTVjdibDR4YitzWnlHcE9oNitTVzBFM2xVMXdaWEFr?=
- =?utf-8?B?NUVLSzEzSHJCKzBJUGVVSzVwbE00Tkhta1Radm14Y2N1dHJMOHk5UFBoeGVt?=
- =?utf-8?B?Zlo0K1IxTkRIVDB3ZExYQjRZZW0vTFVRMVp4ZWZEdk1xMEZTWnhxVnZFNHhN?=
- =?utf-8?B?dGtqM2l4aHdjOXArZzhyWS9LenBSdDhtUVJVRVhwTFlFTmxIQTV2dzNCWlFG?=
- =?utf-8?B?M1dSQmF1bU5oNUxzZmVWOGxMVUF3ZVNzeFJpWnBGbEJ5ZVA5eGh2YTIwTFgy?=
- =?utf-8?B?UHBSQUFmU3BUNHRmZVVGODhYRVlSMUFVd2pBMEhpWVlNQnVSM3NoN3J2cE92?=
- =?utf-8?B?S2VjeTM4VTQxMXJxTGNvUmpQNVJEVjl1VEp5T0J6c2hyMldUSjVpTHRXckUx?=
- =?utf-8?B?SGlIZ2VkOHIvVkdSS3RzSEdDVWpEL0VWWFNmM1pJZ3A4ekRRRVJidVJ2NHJu?=
- =?utf-8?B?SzZlQm1DSFQyVmhvbUxhUHduQkY0bE04R0Z0RWVsK2NMU2xwVVVmZzI4V29s?=
- =?utf-8?B?MHp2TEFoa0tDdHNFNW0raVEvRTA5NFFPMHA5Z1kvRkc5WUp6OEpDZWZ4K01h?=
- =?utf-8?B?L0s5SlJKL2Vzd0hXUEtpMmNhM0s4R2pIU1U5ejFKa083RFMvQTRhcVI2U2Z1?=
- =?utf-8?B?M0dkcjNQUkJpcUNkWlByZlJMWjErOVhWMVhiZHhiUjJEOVc0Wk5rV1I4Yzk5?=
- =?utf-8?B?YWVPaTJUSGppdHRCT01yYlFnUHFCVEttL0l2eGdVZWtlOHJYU1M1bWJRcGVl?=
- =?utf-8?B?SU9Eb3B6SlQzNG9NWWJJQWoreEZISlRZTnVPUW1TZGExbU9iWEN5c3BLMm1n?=
- =?utf-8?B?VW5tbktTcjg1cFRyZElEYUZHMCtxM05xd1hXU3JVcVFabmQ4cmR1QjExbnJU?=
- =?utf-8?B?M2VqK0NDSUtHZlJkVGNHTkNXTkhCZmMvc1JDamMzNkFLRFFFUlZXOFNZZnoy?=
- =?utf-8?B?ek1yMEhxbzhwYVY4L24weG81cC9RMkZEa3FBTVR5RWJpdzA4c000anhhRC90?=
- =?utf-8?B?R1hVN2ZmUGcyUnV2aDFsTzJFamRvSVk3RFc3dlNROGYvajJra0MvcDV0aWdo?=
- =?utf-8?B?R3JzVWxtbVFZN3l2dDRZZURPRVNKcU1hRk1PUGxLNFk4dmlPS1BVVXk5bm84?=
- =?utf-8?B?NDZ2R3A4YkZLV0VOdS9XeWVQeEFHd1Z4Y0RiUDdLMFkwTDRKbGI1Zz09?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3269a5f9-9b17-45a8-d1cb-08dec5641e81
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7743.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2026 13:44:53.4521
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PQ10arD9BdsVuNJlYE1fDTQAk1QxZZGPc9rSkfpi+xmWTDb4EKyYRQ/G1WBmsjGCHlUlBkw5DSbBgPQ4vXmWV0F5EtYde0PGN44l4uVe3mM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8550
+ dkim=pass header.i=@smile.fr header.s=google header.b=dSkAtD8k;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: jeremy.rosen@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-460166910e6so2201278f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 06:46:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1780926399; x=1781531199; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OL14eWjbHl59DRqZLbjOjoapMWcmrLy2rgoEhMe8r3U=;
+        b=dSkAtD8kK7o+Uc/oGxEYjubguQC1QgzLP2/FnRt/WisHo1ILkdV78As31j0I2LDQGS
+         hBmTnhMO0iSmS6jOdGCtUfO3MdZASmJo5bdHvCHRIdSlzme5ksM0InxCKBt1nG53vQ+t
+         J53DcZEtEVKD7c4w0ISUxIWzOJkaMX/RVNcng=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780926399; x=1781531199;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OL14eWjbHl59DRqZLbjOjoapMWcmrLy2rgoEhMe8r3U=;
+        b=mV32YiLvn4UJRIethUsoeuOZkmk0yz4JG6ev253W39DUjxkuyVgVLMgOqGAY9rybpe
+         IfeBkce8C1otM3/oX8O3m2iOHwnejPr6xnkzGKk55p+alED6tA8A3XwnQq0+cxh3nrs1
+         zW+o2URKbub+4q6Gfrhko7SOtnf26SirViVNPUMQf2DvOOJHuTrGIC6F4MOIi/q9hCQA
+         1iV2peOi/2oHPParf4vWHBh1ewYunWv54fEyO/DiZy1ZfAvQt6qVhlzp68jTL+iTWbmn
+         6QHf7Eup0bOkS290eOwuZmPscrEwCTyAAsbwtdjyBV2jJ5UOOzwrZ2RHCINys+TzGETk
+         OV2w==
+X-Forwarded-Encrypted: i=1; AFNElJ96rzQK7jK7X0W8iDa3BLcS9EIr98wk+G9R5hl6lOWLkKL0ngih3v+5k/SfdOpMPDKBbqPdSIMfC+Wbx/QUpnC+IQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx/0j4iQwyNG7W16FCXYIT/Oa8di+SnfYSBnQy096HMbWa7rZ4o
+	eO/Q5KiBn9og/ITyVKAWzt4VXwIcDOSbiTPdP+agqtAINfsMqKbMVSTX7dINWYy1sQ==
+X-Gm-Gg: Acq92OHdusBKM30Mwi5IlQq/y5g8WccGYPJIOpo8EPfHktPB1ru8XGpZHz6qTJ9Eh7y
+	mX+7XGt50kOA1hSxez0wKSRqCjewRPXEN+FeiJXUBB+WPQiCenyX46omtfAnlWrjRWYHZvO2DEI
+	DyAbZjWeIemFWVHn6JMzJftRlKBMrAKPnfPnnw5IkUeU5BX8NEirseAV0OF5gnfiJJBT5ZPApNu
+	RDvQWDJiwAdxWSxnncYUkPdyLP6kP+wn3g7cBLTPNiLy6Jb0WERmo0SDA4x+UrgE6TxCbAiq0hC
+	XS4MBCBkI8X7gJHNdLR5p19SCrzTOSZc9zrABsJzDXvw6tTGiKmiIoYKucdFkyqzMpPs+QfCCpP
+	57WyfBFH0l2dmRC/j6yLVAtEXNfdCRrInj3T8xE3IXqbdcEUn8bo6iBzUT2OOAP5cvXlSNW8K3s
+	MNL+qxFuf8xghRIV3+7KZljalWiDkU+A1D/8JafrFN2h4=
+X-Received: by 2002:a05:6000:18a5:b0:460:1967:abed with SMTP id ffacd0b85a97d-4603063c55dmr23643817f8f.39.1780926398981;
+        Mon, 08 Jun 2026 06:46:38 -0700 (PDT)
+Received: from localhost ([2001:861:560f:240:8dd0:2c2:7492:641b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f3529e0sm54520923f8f.28.2026.06.08.06.46.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jun 2026 06:46:38 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 08 Jun 2026 15:46:38 +0200
+Message-Id: <DJ3PPWNF0RPG.1GCYMK7HLSU0D@smile.fr>
+Cc: <hsimeliere.opensource@witekio.com>
+Subject: Re: [OE-core] [wrynose][PATCH] perl: patch CVE-2026-8376
+From: =?utf-8?q?J=C3=A9r=C3=A9my_Rosen?= <jeremy.rosen@smile.fr>
+To: <tgaige.opensource@witekio.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0
+References: <20260528120100.1801387-1-tgaige.opensource@witekio.com>
+In-Reply-To: <20260528120100.1801387-1-tgaige.opensource@witekio.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 13:44:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238240
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 13:46:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238241
 
-Hi Wojciech,
+Hello Theo
 
-On 5/29/26 1:05 PM, Wojciech Dubowik wrote:
-> Some distros like OpenEmbedded are using gnutls library
-> without pkcs11 support and linking of mkeficapsule will fail.
-> It would make maintenance of default configs a hurdle.
-> Add detection of pkcs11 support in gnutls so it's enabled
-> when available and doesn't need to be set explicitly.
-> 
-> Acked-by: Quentin Schulz <quentin.schulz@cherry.de>
-> Suggested-by: Tom Rini <trini@konsulko.com>
-> Cc: Franz Schnyder <fra.schnyder@gmail.com>
-> Signed-off-by: Wojciech Dubowik <Wojciech.Dubowik@mt.com>
+from what I see, this CVE also affects master (same version of Perl as
+in wrynose)
+
+I couldn't find a similar patch for master. Please submit one before we
+can backport on stable branches
+
+Regards
+J=C3=A9r=C3=A9my
+
+On Thu May 28, 2026 at 2:01 PM CEST, Theo Gaige via lists.openembedded.org =
+wrote:
+> From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
+>
+> Backport patches from [1]
+>
+> [1] https://github.com/Perl/perl5/pull/24433
+>
+> Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio=
+.com>
 > ---
-> Changes in v6:
-> - removed return code check from gnutls_x509_crt_import_pkcs11
->    sugessted by Quentin, to be sent in separate patch later
-> Changes in v5:
-> - removed more unrelated cleanup improvements spotted by
->    Quentin, to be sent in another patch later
-> Changes in v4:
-> - abstract pkcs11 init function
-> - removed unrelated cleanup improvements, to be sent in
->    another patch later
-> Changes in v3:
-> - remove config option for pkcs11 support and add auto
->    detection in Makefile
-> - reduce amount of ifdefs by abstracting import pkcs11
->    functions
-> - add missing free and deinit functions
-> Changes in v2:
-> - make use of stderr more consistent
-> - add missing ifndef around pkcs11 deinit functions
-> ---
->   tools/Makefile       |  5 +++
->   tools/mkeficapsule.c | 95 +++++++++++++++++++++++++++++++++-----------
->   2 files changed, 77 insertions(+), 23 deletions(-)
-> 
-> diff --git a/tools/Makefile b/tools/Makefile
-> index 1a5f425ecdaa..e85f5a354b81 100644
-> --- a/tools/Makefile
-> +++ b/tools/Makefile
-> @@ -271,6 +271,11 @@ mkeficapsule-objs := generated/lib/uuid.o \
->   	$(LIBFDT_OBJS) \
->   	mkeficapsule.o
->   hostprogs-always-$(CONFIG_TOOLS_MKEFICAPSULE) += mkeficapsule
-> +GNUTLS_SUPPORTS_P11KIT = $(shell pkg-config --libs gnutls --print-requires-private \
-> +			 2> /dev/null | grep p11-kit-1)
-> +ifeq ($(GNUTLS_SUPPORTS_P11KIT),p11-kit-1)
-> +HOSTCFLAGS_mkeficapsule.o += -DMKEFICAPSULE_PKCS11
-> +endif
->   
->   include tools/fwumdata_src/fwumdata.mk
->   
-> diff --git a/tools/mkeficapsule.c b/tools/mkeficapsule.c
-> index ec640c57e8a5..576903753660 100644
-> --- a/tools/mkeficapsule.c
-> +++ b/tools/mkeficapsule.c
-> @@ -207,6 +207,71 @@ static int write_capsule_file(FILE *f, void *data, size_t size, const char *msg)
->   	return 0;
->   }
->   
-> +#ifdef MKEFICAPSULE_PKCS11
-> +static int pkcs11_init(void)
-> +{
-> +	const char *lib;
-> +	int ret;
+>  .../perl/files/CVE-2026-8376-01.patch         | 62 +++++++++++++++++++
+>  .../perl/files/CVE-2026-8376-02.patch         | 49 +++++++++++++++
+>  meta/recipes-devtools/perl/perl_5.42.0.bb     |  2 +
+>  3 files changed, 113 insertions(+)
+>  create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-01.pat=
+ch
+>  create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-02.pat=
+ch
+>
+> diff --git a/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch b/me=
+ta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
+> new file mode 100644
+> index 0000000000..2b5d27147a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
+> @@ -0,0 +1,62 @@
+> +From 6ad242ce86b16b74437e6815d507bc003e77a948 Mon Sep 17 00:00:00 2001
+> +From: Tony Cook <tony@develop-help.com>
+> +Date: Tue, 12 May 2026 14:47:31 +1000
+> +Subject: [PATCH 1/2] perl/perl-security#147: test cases
 > +
-> +	lib = getenv("PKCS11_MODULE_PATH");
-> +	if (!lib) {
-> +		fprintf(stdout,
-> +			"PKCS11_MODULE_PATH not set in the environment\n");
-> +		return -1;
-> +	}
+> +The suggested case from the ticket and an alternative.
 > +
-> +	gnutls_pkcs11_init(GNUTLS_PKCS11_FLAG_MANUAL, NULL);
-> +	gnutls_global_init();
+> +(cherry picked from commit e842efdafe7c51a687a4907e4887988fe6a025ef)
 > +
-> +	ret = gnutls_pkcs11_add_provider(lib, "trusted");
-> +	if (ret < 0) {
-> +		fprintf(stdout, "Failed to add pkcs11 provider\n");
-> +		return -1;
-> +	}
+> +CVE: CVE-2026-8376
+> +Upstream-Status: Backport [https://github.com/Perl/perl5/commit/e842efda=
+fe7c51a687a4907e4887988fe6a025ef]
+> +Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witeki=
+o.com>
+> +---
+> + t/re/pat_psycho.t | 18 ++++++++++++++++--
+> + 1 file changed, 16 insertions(+), 2 deletions(-)
 > +
-> +	return 0;
-> +}
+> +diff --git a/t/re/pat_psycho.t b/t/re/pat_psycho.t
+> +index 336039521d..73a7992372 100644
+> +--- a/t/re/pat_psycho.t
+> ++++ b/t/re/pat_psycho.t
+> +@@ -10,7 +10,7 @@
+> + use strict;
+> + use warnings;
+> + use 5.010;
+> +-
+> ++use Config;
+> +=20
+> + sub run_tests;
+> +=20
+> +@@ -31,7 +31,7 @@ BEGIN {
+> +=20
+> + skip_all('$PERL_SKIP_PSYCHO_TEST set') if $ENV{PERL_SKIP_PSYCHO_TEST};
+> +=20
+> +-plan tests =3D> 15;  # Update this when adding/deleting tests.
+> ++plan tests =3D> 17;  # Update this when adding/deleting tests.
+> +=20
+> + run_tests() unless caller;
+> +=20
+> +@@ -211,6 +211,20 @@ EOF
+> +=20
+> +=20
+> +     }
+> ++
+> ++  SKIP:
+> ++    { # sec #147
+> ++        $Config{ptrsize} =3D=3D 4
+> ++          or skip "these only fail on x32 and use too much memory on x6=
+4", 2;
+> ++        local $::TODO =3D "This crashes";
+> ++        # original case
+> ++        fresh_perl_like('/\x{10000}{1073741824}/',
+> ++                        qr/Regexp out of space/, {}, "ssize_t overflow"=
+);
+> ++
+> ++        # synthesized but similar case
+> ++        fresh_perl_like('/(?:\x{10001}\x{10000}){536870912}/',
+> ++                        qr/Regexp out of space/, {}, "ssize_t overflow =
+again");
+> ++    }
+> + } # End of sub run_tests
+> +=20
+> + 1;
+> +--=20
+> +2.43.0
 > +
-> +static int import_pkcs11_crt(gnutls_x509_crt_t *x509, struct auth_context *ctx)
-> +{
-> +	gnutls_pkcs11_obj_t *obj_list;
-> +	unsigned int obj_list_size = 0;
-> +	int ret;
+> diff --git a/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch b/me=
+ta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
+> new file mode 100644
+> index 0000000000..a1fef66119
+> --- /dev/null
+> +++ b/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
+> @@ -0,0 +1,49 @@
+> +From 0fc9c70ccc0fea260326e08baa60d92797f8a79b Mon Sep 17 00:00:00 2001
+> +From: Tony Cook <tony@develop-help.com>
+> +Date: Tue, 12 May 2026 14:51:00 +1000
+> +Subject: [PATCH 2/2] perl/perl-security#147: test against the actual cha=
+racter
+> + lengths
 > +
-> +	ret = gnutls_pkcs11_obj_list_import_url4(&obj_list, &obj_list_size,
-> +						 ctx->cert_file, 0);
-> +	if (ret < 0 || obj_list_size == 0)
-> +		return ret;
+> +(cherry picked from commit 5e7f119eb2bb1181be908701f22bf7068e722f1c)
 > +
+> +CVE: CVE-2026-8376
+> +Upstream-Status: Backport [https://github.com/Perl/perl5/commit/5e7f119e=
+b2bb1181be908701f22bf7068e722f1c]
+> +Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witeki=
+o.com>
+> +---
+> + regcomp_study.c   | 7 +++++++
+> + t/re/pat_psycho.t | 1 -
+> + 2 files changed, 7 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/regcomp_study.c b/regcomp_study.c
+> +index 9106452dd5..05f1b017b1 100644
+> +--- a/regcomp_study.c
+> ++++ b/regcomp_study.c
+> +@@ -2770,6 +2770,13 @@ Perl_study_chunk(pTHX_
+> +                                                (U8 *) SvEND(data->last_=
+found))
+> +                                 - (U8*)s;
+> +                         l -=3D old;
+> ++
+> ++                        if (l > 0 &&
+> ++                            (mincount >=3D SSize_t_MAX / (SSize_t)l
+> ++                             || old > SSize_t_MAX - mincount * (SSize_t=
+)l)) {
+> ++                            FAIL("Regexp out of space");
+> ++                        }
+> ++
+> +                         /* Get the added string: */
+> +                         last_str =3D newSVpvn_utf8(s  + old, l, UTF);
+> +                         last_chrs =3D UTF ? utf8_length((U8*)(s + old),
+> +diff --git a/t/re/pat_psycho.t b/t/re/pat_psycho.t
+> +index 73a7992372..9fd764fd5e 100644
+> +--- a/t/re/pat_psycho.t
+> ++++ b/t/re/pat_psycho.t
+> +@@ -216,7 +216,6 @@ EOF
+> +     { # sec #147
+> +         $Config{ptrsize} =3D=3D 4
+> +           or skip "these only fail on x32 and use too much memory on x6=
+4", 2;
+> +-        local $::TODO =3D "This crashes";
+> +         # original case
+> +         fresh_perl_like('/\x{10000}{1073741824}/',
+> +                         qr/Regexp out of space/, {}, "ssize_t overflow"=
+);
+> +--=20
+> +2.43.0
+> +
+> diff --git a/meta/recipes-devtools/perl/perl_5.42.0.bb b/meta/recipes-dev=
+tools/perl/perl_5.42.0.bb
+> index cf28067bab..1833b7a352 100644
+> --- a/meta/recipes-devtools/perl/perl_5.42.0.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.42.0.bb
+> @@ -16,6 +16,8 @@ SRC_URI =3D "https://www.cpan.org/src/5.0/perl-${PV}.ta=
+r.gz;name=3Dperl \
+>             file://0002-Constant-Fix-up-shebang.patch \
+>             file://determinism.patch \
+>             file://0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-det=
+erm.patch \
+> +           file://CVE-2026-8376-01.patch \
+> +           file://CVE-2026-8376-02.patch \
+>             "
+>  SRC_URI:append:class-native =3D " \
+>             file://perl-configpm-switch.patch \
 
-As noted by Simon on v5 (after the v6 was posted, so you did *not* 
-ignore review), this should return -1 to conserve the same behavior as 
-before this commit.
-
-Indeed, if gnutls_pkcs11_obj_list_import_url4 returns anything but 0 and 
-obj_list_size=0, then this function will return ret, which can be 0, or 
-anything > 0, which isn't what we currently do.
-
-Can you send a v7 with this fixed please?
-
-Cheers,
-Quentin
 
