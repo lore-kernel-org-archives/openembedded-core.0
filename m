@@ -1,168 +1,291 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <jeremy.rosen@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA5B7CD8C9D
-	for <webhook@archiver.kernel.org>; Mon,  8 Jun 2026 14:39:10 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.21])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.56174.1780929545849264324
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5007CD8C9D
+	for <webhook@archiver.kernel.org>; Mon,  8 Jun 2026 14:44:40 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.56282.1780929873989560488
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jun 2026 07:39:06 -0700
+ Mon, 08 Jun 2026 07:44:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=D/E74VMY;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=D/E74VMY;
- spf=pass (domain: arm.com, ip: 52.101.83.21, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=xELLNbVZTV4D1iyB7r3p01s1/Sgmm1OTgUhbykgVRa80BZmG5jRPLRW4TFvfsKKMGObjyoQyrJIStDdSH2kCk+L6UfHfCSFxiBruFS0WUEmRUZq6osW9eOVAb+NxVh4RgPJgw6xMi7qh9LJWJj2gq9rzeFVjakpdcjxOQZ87XbDfpDgGibhDd4QKLxwV8TOTbKcU6nTv/F/RdmVvHtwxFYLYuhZl8OlF8LuAunXypx5peukuuRhhIxPyt892kx3Fi4bfh9xatvqEmmYO7jyRwUEyV+U1EgPTcNboLvJ6MmTuwKYgdf4kVlNpPVJDQpIh7IWuzRHZtK1LuqJYHYLtLg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u9yyOCV2Uvl8/FoM7GLUVTmFVjT6WBLSuRZW0Ex7J0w=;
- b=jLdw+FdTvg641mI/ffDjBpC2x11iA1ze0xxqy2UoVqC9RYNj07rlsHOeoM1BsAJF5LpVqjms07O2TLVhHiRT1ggSfhKxt3hPvkobV+nJEyRt7UXu4JrvSSikPyMUSA6fK4sdlft80BmKOTMfejn70I2NAQpbhyc8Jg42kli3TB4XuffJP0VNqxP4GUWo+VwhwzORYTsWomdDAU86+PpSM3y/9gI7h0mHRCpo+CgFBhwW2rzVMlkK7yZ6Bb8Jp2C44S/B/ggg+8vLOBELzD3T4EqQBMNjALH9jmlc+TFqJu2tzgJcyR3pcVZMduEYM180AIq8zgDcCDD/lZs0tUcDxQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=est.tech smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u9yyOCV2Uvl8/FoM7GLUVTmFVjT6WBLSuRZW0Ex7J0w=;
- b=D/E74VMY63yAE/Av74aA53mlfj5A+eRANCcGTJ97XrzD3A1XT2AYn79BntRots5xloWZyfLjH2AYIm+cs5FRJa8mVV3DdYr23ZAfEgM6eDbs+jYCrQ7/3iGbe4cJFZtC0/MhHnC05cv0/+gxgJC9IT0GP53O+qBGQ2hFmWonoKc=
-Received: from AM8P251CA0027.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:21b::32)
- by DB9PR08MB7747.eurprd08.prod.outlook.com (2603:10a6:10:396::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.12; Mon, 8 Jun 2026
- 14:38:56 +0000
-Received: from AMS1EPF00000047.eurprd04.prod.outlook.com
- (2603:10a6:20b:21b:cafe::47) by AM8P251CA0027.outlook.office365.com
- (2603:10a6:20b:21b::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.13 via Frontend Transport; Mon, 8
- Jun 2026 14:38:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS1EPF00000047.mail.protection.outlook.com (10.167.16.135) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.7
- via Frontend Transport; Mon, 8 Jun 2026 14:38:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XIF0MpN6xJWj/u0ox9bDurhZygaXtlfmiGOnFHsEAPTIsvqH9nhRgDbEXjwHw/cJpZOJZVkILN3DSnNBCV678oRjr4sSPxqo9SDZmPcr49bPJRtT9gc/hmglN/vnXSy/39H20jNxPXb7lx4pM6gocLX0HpY+/0CzbTGYq3KbLa5xcvfyXxgG1wzNcYeJ7kGnZ7zkD/Nv8lbtOSe3Y4/2mqWMjsAxTBJ0hEbnhNUli3k6XhJVTDeHJjiGxWn17D/THlq6tv4G/fkPBEm0MxlOOTjJ2NJl3MJBG8jGqirhT9SYd9f4QvPneKkM89357WEOkKrTBtJmjqfuJhxGmpeb9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u9yyOCV2Uvl8/FoM7GLUVTmFVjT6WBLSuRZW0Ex7J0w=;
- b=r1rgd237bF89iRQtOpSZaAKTsaL0SqKDxYytXrMxyCyQXrc7S6hWjlJZ28ezkk5a9LBB9ZZQcvUDAybYk6YTwY1V/90wXHg+esh9nHaCyX1HWpzOt3K8qvL7ifoI3g82rfPaGzyh4B5wE7DA3F1oYe0nh9KUl95Oc7lA5TBbsCuahyblGZ2SiqDj/env1dpJCaT5aXS70qTmalIdveVAsgxxV41va+kIsFSmu3FtVaSpdFAWVcEBXyqb0PBXzg3qoVZrt9cK+sIaiXd0U8djkUbn8ILyMNCUKCbhj8t2i7MzJiZriC46gGyGogm1I/7qGtZMdfOrQvfF8SokxA8yTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u9yyOCV2Uvl8/FoM7GLUVTmFVjT6WBLSuRZW0Ex7J0w=;
- b=D/E74VMY63yAE/Av74aA53mlfj5A+eRANCcGTJ97XrzD3A1XT2AYn79BntRots5xloWZyfLjH2AYIm+cs5FRJa8mVV3DdYr23ZAfEgM6eDbs+jYCrQ7/3iGbe4cJFZtC0/MhHnC05cv0/+gxgJC9IT0GP53O+qBGQ2hFmWonoKc=
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
- by DB9PR08MB7533.eurprd08.prod.outlook.com (2603:10a6:10:301::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.12; Mon, 8 Jun 2026
- 14:37:54 +0000
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.21.0092.011; Mon, 8 Jun 2026
- 14:37:53 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "pratik.farkase@est.tech" <pratik.farkase@est.tech>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "pratik.farkase@ericsson.com"
-	<pratik.farkase@ericsson.com>
-Subject: Re: [OE-core][PATCH v2] gmp: add ptest support
-Thread-Topic: [OE-core][PATCH v2] gmp: add ptest support
-Thread-Index: AQHc3YlogFw4niosp0q5xfDIaEqHJLY07aeA
-Date: Mon, 8 Jun 2026 14:37:53 +0000
-Message-ID: <7043DC83-A483-47FE-B755-18747604E425@arm.com>
-References: <20260506074618.15882-1-pratik.farkase@est.tech>
- <20260506185128.10489-1-pratik.farkase@est.tech>
-In-Reply-To: <20260506185128.10489-1-pratik.farkase@est.tech>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3826.700.81.1.8)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	AM9PR08MB6258:EE_|DB9PR08MB7533:EE_|AMS1EPF00000047:EE_|DB9PR08MB7747:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba1b70d2-f8d7-4bc8-42d9-08dec56bab90
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|1800799024|366016|376014|22082099003|18002099003|38070700021|4143699003|5023799004|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info-Original: 
- Lq1pfThjMOPq3c7v5jrOG1J9unP3qr3Wlz1XqSb7TZCBGSxQ7KWrP5ir0BfuoLV0qtl/zGPLunOLAWaLGrHRKdIOooom2/BWAkYxHveX+1btOhDzKm1dcArdxRUk/EYD1gLFdqZxKE05xLELSBKyapAwlekG1m05j3mHYx9PGt/GkcVHiDeGn7RAcJb21YjzW2TTWckCmwdC6dqWW7Irr7SYgnoNkPIBSU9gCs3TVDIFPcBEEKtzoiUD/M/jHLDH6lFxpAu9mguMiXwcppOF0DuUSZAnLnP6ZN+jsf8LW0FM7EdxelU5CTqNSG7pcP2BbWpaToyuy9FJ/N7mQzvNrLKFornvfe+P5pluzNcxnP2XaWJ4JnM521XtDH6zsAh5WfJ6FfJLp7rye/j0ghRXdMmKk6JIcPUvQ+0jjhvpEYObWQDZDdLz9Bs45yM/k7lhFXM/rLPfAeq7QQQnc8YFJifgjwPRdYttrwKg13yJE4oW/S5aLHSlep1Up9S/LQDA3J1W4QV6CrlwEJj9bYGbKNpwGnsWsbBqhMEfLZH5i96bdMrjXBrvTN27pHjtcwsGtZR3WSwuYu1Q/enzAH8yAj6WrzRIifSQMgzilLaDsHuUI9KmEpYHo36MT4iVLDQvLTzqiBH5DvIR1luUeYCFQdmjdRxx9Q8FR7XTIe1u4410X5HWkijhJKZFx2y8GB3jas42wKJ2KFDrpnTv165+Ibys6HkSOF2w7tlHdrxcThPDLrEJ2b3Tqa+HHn0Bkxlj
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(22082099003)(18002099003)(38070700021)(4143699003)(5023799004)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <37A23EE73CB14144AF06C4AADB77976B@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
- rK3I0vLSJECLqWC2WTtfA2u7m1WN9pPdQ/6VL9JjXkFANcZQznHqvDy6eU+3yEapn7NshbsqzdtybvKdW6QnYTAUhrqBv49qPFwNQJO0acl2Xeu14KFEqvFf4gp6Q+mG0e+nmrpF2DYq45a69S/2UgoKBqgP/Tss8EZJ1ZK55cEc/RnTwZp6fWBYDzYGHFHBgpv0RizwlKtDq2x293CXPDr4yqs665a3tw8lTKa82vMz90CFlLcAAhmKlWYGaj9QsgN452lc2XxsSBl+wD7AgFx4qUd7QoE7ZLCZRj2dEyvBOtjqxNofat2PjriduAvhCsGgyW+FN6z3vMKsWfstOg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7533
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS1EPF00000047.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	b993e150-c41d-43a4-71a0-08dec56b8656
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|14060799003|35042699022|36860700016|376014|82310400026|18002099003|22082099003|11063799006|5023799004|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info: 
-	Njuf7DTmE9rYxeLJz/Zu6CuG9WfXgo6/jkAyh1NheeAJlFa4BFHAOpoK52/v83LGSJ4HjZR803tk66tplxL0wwahY6jq3o/HMcH+FvslDZW2TfKmCtWrI0Q1qHYECd9/RY+KgyX+NIk1egiGVsSeOJf0Igcs1i6nEt5UQYRxKGl8yg/yhuzE7z8muFhredARYP8LE1fGp6G0XyvGIns6rOK8ed9ofoI6Af92WVU+05PJ4yRVJJpgx1qKa3p06lVijKqdSRlUztU8UzNAlWMxbsUqtM9lKEPCoNw8SWXerOBPOD6grf5BSt6UWRM3VHt7jMeTGxG1JWqMAbUBVr+SUIa09ofUpEARS+DOyymvYumCn6mY7171JYaMuD9b6Lh1f2erIZu1Bq7RgD2C0tCB/KEBsBoRFXKByDfXA7DCsH4Hf3LOz1LMcZI7xAN2/K9BZjWllWLL9jUSEumCNbPDvMKqyi0+dHtMlO0V/4Hrdb7QRBglyv9YVdR09/RM6r7RtWz3N6amrgMajgbeSa0lqbed4ZDWRT5A9KHynt0ZZAK0bZWwJ/JQ8l0YzO8E935Fio0H3yzARccwMd1Z0JKYYToCiIz7K2Np3fL5MlmX8jR1w2rvA5fTdwMgUTnyw4J4/YAanhmbZdHitLATfC3FkE07I7dCLLnhSsIF+wdQ+yyMLHB5VsHqDucMlQRYFSEVAaU7hrsT3xpYyOjMNSFuQEBAgYHexmI0Gwi23nhCz/A=
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(14060799003)(35042699022)(36860700016)(376014)(82310400026)(18002099003)(22082099003)(11063799006)(5023799004)(4143699003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	LqI6Ctk5qhHjK4EgL09KgHrdVgV7/MyWPJg+LNlv7TTI95Rh+sYftOA4SkyKU7Mwvq8c/qgMhnOHmrw+/sR1LuiTZwwWKz9AYji9BOqJvnbHX2qYily3sSFiHT+bbOgM+oYuXKXpVBAD53DSdJ3zdzyxATkKofFgzx2wMMuPFv1wBxJbKsaVnLtwRE8O9Vz1OeSU3/epX69byY69HCwqW9lSDxggZQ0QHbnA8TNDFRALh6UXKukbJM8xJxSsuG/Ulwlm4uObf+qXyxbdE32uUp8cjzSw0F0iemwMWG2kQdrea/nhLw2yQGtUirbHMByfO/DBFz9Ej7psYSRLtqDCl/oo5zzVxjdSBENVN9yG+ghPwqTY2fNXMg1pUVtoMIodwq+8JYLJ3vPYFdllqx9mqe60OKdPv0dl+SPRNzkhfO1VyKicsOZvvmOENM9prXtn
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2026 14:38:56.2778
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba1b70d2-f8d7-4bc8-42d9-08dec56bab90
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS1EPF00000047.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7747
+ dkim=pass header.i=@smile.fr header.s=google header.b=HRRtHAjP;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: jeremy.rosen@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490cf3000f0so14095955e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 07:44:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1780929872; x=1781534672; darn=lists.openembedded.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IYC/QoerkCXoCwd1pmMngDyF8HEs8+DeAy/uw1ET+t8=;
+        b=HRRtHAjPpqYZ1861CbOvmhe5Cs3ObpBsQaVZy25zRoSantOtWvOeqNe+7VUwpdLSOc
+         v6Reqjo7G3um/nrgpyVKuk7F3qmCMd+ALj2xnMFQC3sxywsg6sIXbx7QIu7gVSknCx0/
+         UAqkltW4suKGIkt524dT+E5ohJblpfZaM6mBE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780929872; x=1781534672;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IYC/QoerkCXoCwd1pmMngDyF8HEs8+DeAy/uw1ET+t8=;
+        b=HHqUqFAOdTHhRWwLijsochD0X6xkir2JbaXV+G2fSH/7DHVmJZINkbO8vjGOGR7Ttn
+         R5bwTS+wfh2DvpTNh/6GY70Fjl7eGDsBDKwJM9qKs7MnCabQhsNnjkjx1rQJjZzcJljp
+         E5z87LVKUOJu87zdh4ZYVsMkjc4gprtmrSF+69Zi8zve5TZbkLElm9BQrGyvYdixC8in
+         EBYlRAEejHn+EY2J1ONuIU2PIrmfGMEl0b96hM1FeNHCRM7Icj2I3usCLOttDfIr1dg2
+         Pqr3aYBQBtDZ1DSmIp7O3x1TydulHCqh/uqXvAiZ5lwzoh3x3qTqeiZaAd4+cJzh+dXV
+         bwoQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+doClNJOIBxa6BXNfrVGlLiviGgv8pIXYLnIeQh1tLSDq8CYBlmZJ+JrfszwT2bZ6+AQaO6ECuxY5WXzYfW3HSuw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx9a5MkrmIUWp4tr/PiflOr5wZ2CZ20h0fX8IAcP8zcsucWPxyh
+	Ziye1ADLzSlKVnbnK00z9vT8jM1TEvI3gLBP8wBqkPIZWnAbk7EgBS8aBKVRpWsPNQ==
+X-Gm-Gg: Acq92OFxRUKDPk5pqCwFbDjOSyKToD3WWvaJjtMevpOZfztAFW55oUk3ZPaepMlt0CQ
+	SmbQ63T07eB1MtxgNZ5Iv/CP40vbDCKWE1eW4UKcRAjlve3W3y4TrzdSdXv3STX4oOZ9FImTy8l
+	uZX9hRb5yyhPE4PxN56DE0/POdzqL8nqq4Anxz5SPqFiwha7XbnwlN4lQ53LYZpl6SzqdtybJIf
+	Xb+E8z9zSBq2bg/jD0/zxzFonIESeNH4L3GIlHtz4OpkApbPS1rZK4Rpn17K0EocH5049I0ylgR
+	HO/SqlJnmYyD6UT+3GTEO4CjqtWkHBIdA6uK6BOhZAX8lEeAto0GsOl+mCbKGgiUJJvEOxSRn9X
+	cJqxPrvBCbim3nwxGGgiZpql8+CGrZyw3lXkVwie4kaMj+CqnyUKdWd2q2IkaPLQyB/lIE1rw+z
+	jykNAgtT+RdlNonoBBUqyYmGsNvz5tlmIhUAiKR3g0rf0=
+X-Received: by 2002:a05:600c:310e:b0:490:b58b:a8cb with SMTP id 5b1f17b1804b1-490c263a615mr258031575e9.26.1780929872220;
+        Mon, 08 Jun 2026 07:44:32 -0700 (PDT)
+Received: from localhost ([2001:861:560f:240:8dd0:2c2:7492:641b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490be1f69bcsm435079175e9.8.2026.06.08.07.44.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jun 2026 07:44:31 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 08 Jun 2026 16:44:31 +0200
+Message-Id: <DJ3QY884Q2R3.3DTBWW97HDVD8@smile.fr>
+Subject: Re: [OE-core] [scarthgap] [PATCH] libcap: Fix CVE-2026-4878
+From: "Jeremy Rosen" <jeremy.rosen@smile.fr>
+To: <adongare@cisco.com>, <openembedded-core@lists.openembedded.org>
+Cc: <xe-linux-external@cisco.com>, <to@cisco.com>
+X-Mailer: aerc 0.21.0
+References: <20260601134257.47867-1-adongare@cisco.com>
+In-Reply-To: <20260601134257.47867-1-adongare@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 14:39:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238247
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 14:44:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238248
 
-T24gNiBNYXkgMjAyNiwgYXQgMTk6NTEsIFByYXRpayBGYXJrYXNlIHZpYSBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnIDxwcmF0aWsuZmFya2FzZT1lc3QudGVjaEBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-PiB3cm90ZToNCj4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ21wL2dtcC9ydW4tcHRlc3QN
-Cj4gQEAgLTAsMCArMSwxOSBAQA0KPiArIyEvYmluL3NoDQo+ICsNCj4gK2NkICIkKGRpcm5hbWUg
-IiQwIikvdGVzdHMiIHx8IGV4aXQgMQ0KDQpPdmVybHkgZGVmZW5zaXZlLCBqdXN0IGZhaWwNCg0K
-PiArZm9yIGQgaW4gLiBtcHogbXBuIG1wZiBtcHEgcmFuZCBtaXNjIGN4eDsgZG8NCj4gKyAgICBb
-IC1kICIkZCIgXSB8fCBjb250aW51ZQ0KPiArICAgIGZvciB0ZXN0IGluICQoZmluZCAiJGQiIC1t
-YXhkZXB0aCAxIC10eXBlIGYgLWV4ZWN1dGFibGUgfCBzb3J0KTsgZG8NCj4gKyAgICAgICAgdGVz
-dG5hbWU9JChlY2hvICIkdGVzdCIgfCBzZWQgJ3N8XlwuL3x8JykNCj4gKyAgICAgICAgLi8iJHRl
-c3QiDQoNCllvdSBjb3VsZCBqdXN0IGRvIGEgZmluZCBvZiB0ZXN0cyBhbmQgbGV0IGl0IHJlY3Vy
-c2UgaW5zdGVhZCBvZiBoYXZpbmcgdG8ga25vdyAoYW5kIGtlZXAgaW4gc3luYykgdGhlIGxpc3Qg
-b2YgZGlyZWN0b3JpZXM/DQoNCmllIGluc3RlYWQgb2YgaXRlcmF0aW5nIHRoZSBkaXJlY3Rvcmll
-cyBhbmQgdGhlbiB0aGUgZmlsZXMsIGp1c3QgZG8gImZvciB0ZXN0IGluICQoZmluZCAuIC10eXBl
-IGYgLWV4ZWN1dGFibGV8c29ydCkg4oCm4oCdIGluc2lkZSB0ZXN0cy8NCg0KPiArZG9faW5zdGFs
-bF9wdGVzdCgpIHsNCj4gKyAgICBpbnN0YWxsIC1kICR7RH0ke1BURVNUX1BBVEh9L3Rlc3RzDQo+
-ICsNCj4gKyAgICBmb3IgZCBpbiAuIG1weiBtcG4gbXBmIG1wcSByYW5kIG1pc2MgY3h4OyBkbw0K
-PiArICAgICAgICBpbnN0YWxsIC1kICR7RH0ke1BURVNUX1BBVEh9L3Rlc3RzLyRkDQo+ICsgICAg
-ICAgIGZpbmQgJHtCfS90ZXN0cy8kZCAtbWF4ZGVwdGggMSAtdHlwZSBmIC1leGVjdXRhYmxlIFwN
-Cj4gKyAgICAgICAgICAgICEgLW5hbWUgIioubGEiIHwgd2hpbGUgcmVhZCAtciB0OyBkbw0KDQpD
-b3VsZCB0aGlzIGp1c3QgYmUgYSBtYWtlZmlsZS1nZXR2YXIgdG8gZ2V0IHRoZSBjaGVja19QUk9H
-UkFNUyB2YWx1ZT8NCg0KUm9zcw==
+Hello Anil
+
+from what I can tell, this CVE was fixed in master but not in wrynose
+please submit a patch for wrynose then ping this thread so we can apply
+to scarthgap
+
+
+thanks a lot
+Jeremy
+
+
+On Mon Jun 1, 2026 at 3:42 PM CEST, Anil Dongare -X (adongare - E INFOCHIPS=
+ PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+> From: Anil Dongare <adongare@cisco.com>
+>
+> Pick the upstream patch [1] as mentioned in [2].
+>
+> [1] https://git.kernel.org/pub/scm/libs/libcap/libcap.git/patch/?id=3D286=
+ace1259992bd0c5d9016715833f2e148ac596
+> [2] https://security-tracker.debian.org/tracker/CVE-2026-4878
+>
+> Signed-off-by: Anil Dongare <adongare@cisco.com>
+> ---
+>  .../libcap/files/CVE-2026-4878.patch          | 162 ++++++++++++++++++
+>  meta/recipes-support/libcap/libcap_2.69.bb    |   1 +
+>  2 files changed, 163 insertions(+)
+>  create mode 100644 meta/recipes-support/libcap/files/CVE-2026-4878.patch
+>
+> diff --git a/meta/recipes-support/libcap/files/CVE-2026-4878.patch b/meta=
+/recipes-support/libcap/files/CVE-2026-4878.patch
+> new file mode 100644
+> index 0000000000..827e41b8a0
+> --- /dev/null
+> +++ b/meta/recipes-support/libcap/files/CVE-2026-4878.patch
+> @@ -0,0 +1,162 @@
+> +From 286ace1259992bd0c5d9016715833f2e148ac596 Mon Sep 17 00:00:00 2001
+> +From: "Andrew G. Morgan" <morgan@kernel.org>
+> +Date: Thu, 12 Mar 2026 07:38:05 -0700
+> +Subject: [PATCH] Address a potential TOCTOU race condition in cap_set_fi=
+le().
+> +
+> +This issue was researched and reported by Ali Raza (@locus-x64). It
+> +has been assigned CVE-2026-4878.
+> +
+> +The finding is that while cap_set_file() checks if a file is a regular
+> +file before applying or removing a capability attribute, a small
+> +window existed after that check when the filepath could be overwritten
+> +either with new content or a symlink to some other file. To do this
+> +would imply that the caller of cap_set_file() was directing it to a
+> +directory over which a local attacker has write access, and performed
+> +the operation frequently enough that an attacker had a non-negligible
+> +chance of exploiting the race condition. The code now locks onto the
+> +intended file, eliminating the race condition.
+> +
+> +CVE: CVE-2026-4878
+> +Upstream-Status: Backport [https://git.kernel.org/pub/scm/libs/libcap/li=
+bcap.git/commit/?id=3D286ace1259992bd0c5d9016715833f2e148ac596]
+> +
+> +Signed-off-by: Andrew G. Morgan <morgan@kernel.org>
+> +(cherry picked from commit 286ace1259992bd0c5d9016715833f2e148ac596)
+> +Signed-off-by: Anil Dongare <adongare@cisco.com>
+> +---
+> + libcap/cap_file.c  | 69 +++++++++++++++++++++++++++++++++++++++-------
+> + progs/quicktest.sh | 14 +++++++++-
+> + 2 files changed, 72 insertions(+), 11 deletions(-)
+> +
+> +diff --git a/libcap/cap_file.c b/libcap/cap_file.c
+> +index 0bc07f7..f02bf9f 100644
+> +--- a/libcap/cap_file.c
+> ++++ b/libcap/cap_file.c
+> +@@ -8,8 +8,13 @@
+> + #define _DEFAULT_SOURCE
+> + #endif
+> +=20
+> ++#ifndef _GNU_SOURCE
+> ++#define _GNU_SOURCE
+> ++#endif
+> ++
+> + #include <sys/types.h>
+> + #include <byteswap.h>
+> ++#include <fcntl.h>
+> + #include <sys/stat.h>
+> + #include <unistd.h>
+> +=20
+> +@@ -322,26 +327,70 @@ int cap_set_file(const char *filename, cap_t cap_d=
+)
+> +     struct vfs_ns_cap_data rawvfscap;
+> +     int sizeofcaps;
+> +     struct stat buf;
+> ++    char fdpath[64];
+> ++    int fd, ret;
+> ++
+> ++    _cap_debug("setting filename capabilities");
+> ++    fd =3D open(filename, O_RDONLY|O_NOFOLLOW);
+> ++    if (fd >=3D 0) {
+> ++	ret =3D cap_set_fd(fd, cap_d);
+> ++	close(fd);
+> ++	return ret;
+> ++    }
+> +=20
+> +-    if (lstat(filename, &buf) !=3D 0) {
+> +-	_cap_debug("unable to stat file [%s]", filename);
+> ++    /*
+> ++     * Attempting to set a file capability on a file the process can't
+> ++     * read the content of. This is considered a non-standard use case
+> ++     * and the following (slower) code is complicated because it is
+> ++     * trying to avoid a TOCTOU race condition.
+> ++     */
+> ++
+> ++    fd =3D open(filename, O_PATH|O_NOFOLLOW);
+> ++    if (fd < 0) {
+> ++	_cap_debug("cannot find file at path [%s]", filename);
+> ++	return -1;
+> ++    }
+> ++    if (fstat(fd, &buf) !=3D 0) {
+> ++	_cap_debug("unable to stat file [%s] descriptor %d",
+> ++		   filename, fd);
+> ++	close(fd);
+> + 	return -1;
+> +     }
+> +     if (S_ISLNK(buf.st_mode) || !S_ISREG(buf.st_mode)) {
+> +-	_cap_debug("file [%s] is not a regular file", filename);
+> ++	_cap_debug("file [%s] descriptor %d for non-regular file",
+> ++		   filename, fd);
+> ++	close(fd);
+> + 	errno =3D EINVAL;
+> + 	return -1;
+> +     }
+> +=20
+> +-    if (cap_d =3D=3D NULL) {
+> +-	_cap_debug("removing filename capabilities");
+> +-	return removexattr(filename, XATTR_NAME_CAPS);
+> ++    /*
+> ++     * While the fd remains open, this named file is locked to the
+> ++     * origin regular file. The size of the fdpath variable is
+> ++     * sufficient to support a 160+ bit number.
+> ++     */
+> ++    if (snprintf(fdpath, sizeof(fdpath), "/proc/self/fd/%d", fd)
+> ++	>=3D sizeof(fdpath)) {
+> ++	_cap_debug("file descriptor too large %d", fd);
+> ++	errno =3D EINVAL;
+> ++	ret =3D -1;
+> ++
+> ++    } else if (cap_d =3D=3D NULL) {
+> ++	_cap_debug("dropping file caps on [%s] via [%s]",
+> ++		   filename, fdpath);
+> ++	ret =3D removexattr(fdpath, XATTR_NAME_CAPS);
+> ++
+> +     } else if (_fcaps_save(&rawvfscap, cap_d, &sizeofcaps) !=3D 0) {
+> +-	return -1;
+> +-    }
+> ++	_cap_debug("problem converting cap_d to vfscap format");
+> ++	ret =3D -1;
+> +=20
+> +-    _cap_debug("setting filename capabilities");
+> +-    return setxattr(filename, XATTR_NAME_CAPS, &rawvfscap, sizeofcaps, =
+0);
+> ++    } else {
+> ++	_cap_debug("setting filename capabilities");
+> ++	ret =3D setxattr(fdpath, XATTR_NAME_CAPS, &rawvfscap,
+> ++		       sizeofcaps, 0);
+> ++    }
+> ++    close(fd);
+> ++    return ret;
+> + }
+> +=20
+> + /*
+> +diff --git a/progs/quicktest.sh b/progs/quicktest.sh
+> +index e6c48e6..5dc72f9 100755
+> +--- a/progs/quicktest.sh
+> ++++ b/progs/quicktest.sh
+> +@@ -148,7 +148,19 @@ pass_capsh --caps=3D"cap_setpcap=3Dp" --inh=3Dcap_c=
+hown --current
+> + pass_capsh --strict --caps=3D"cap_chown=3Dp" --inh=3Dcap_chown --curren=
+t
+> +=20
+> + # change the way the capability is obtained (make it inheritable)
+> ++chmod 0000 ./privileged
+> + ./setcap cap_setuid,cap_setgid=3Dei ./privileged
+> ++if [ $? -ne 0 ]; then
+> ++    echo "FAILED to set file capability"
+> ++    exit 1
+> ++fi
+> ++chmod 0755 ./privileged
+> ++ln -s privileged unprivileged
+> ++./setcap -r ./unprivileged
+> ++if [ $? -eq 0 ]; then
+> ++    echo "FAILED by removing a capability from a symlinked file"
+> ++    exit 1
+> ++fi
+> +=20
+> + # Note, the bounding set (edited with --drop) only limits p
+> + # capabilities, not i's.
+> +@@ -246,7 +258,7 @@ EOF
+> +     pass_capsh --iab=3D'!%cap_chown,^cap_setpcap,cap_setuid'
+> +     fail_capsh --mode=3DPURE1E --iab=3D'!%cap_chown,^cap_setuid'
+> + fi
+> +-/bin/rm -f ./privileged
+> ++/bin/rm -f ./privileged ./unprivileged
+> +=20
+> + echo "testing namespaced file caps"
+> +=20
+> +--=20
+> diff --git a/meta/recipes-support/libcap/libcap_2.69.bb b/meta/recipes-su=
+pport/libcap/libcap_2.69.bb
+> index 03975b44a0..43185f027e 100644
+> --- a/meta/recipes-support/libcap/libcap_2.69.bb
+> +++ b/meta/recipes-support/libcap/libcap_2.69.bb
+> @@ -16,6 +16,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/libs/security/li=
+nux-privs/${BPN}2/${BPN}-${
+>             file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-=
+use.patch \
+>             file://0002-tests-do-not-run-target-executables.patch \
+>             file://CVE-2025-1390.patch \
+> +           file://CVE-2026-4878.patch \
+>             "
+>  SRC_URI:append:class-nativesdk =3D " \
+>             file://0001-nativesdk-libcap-Raise-the-size-of-arrays-contain=
+ing.patch \
+
 
