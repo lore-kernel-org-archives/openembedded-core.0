@@ -1,113 +1,160 @@
-Return-Path: <Jinfeng.Wang.CN@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8958CD8C8E
-	for <webhook@archiver.kernel.org>; Mon,  8 Jun 2026 06:06:34 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.47781.1780898790884987885
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE0DECD8C9D
+	for <webhook@archiver.kernel.org>; Mon,  8 Jun 2026 06:09:44 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.47692.1780898980498874485
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Jun 2026 23:06:32 -0700
+ Sun, 07 Jun 2026 23:09:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=tKs1v3La;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=06198d7edd=jinfeng.wang.cn@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6585WxTE3726690
-	for <openembedded-core@lists.openembedded.org>; Mon, 8 Jun 2026 06:06:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=/kgLvsvDcJ/fdXUdvcwW
-	PfimtW4+SQeMyz3kuuzlg5A=; b=tKs1v3LafSax2obHoXEQ+GU60Qph2jU3FtdB
-	nkpva/1qHnH7tsFMrJ/G04Cl4RovGz5kwXo8rc74K0lj9GuvIwL6jB6pbKp+nrjU
-	hWlgfwo48sK5QPoADNA/mxu7zBUT/wnCajuH8Gf8jYA+ICuUa3rvGtrY6GxHncGi
-	8f+T7SE5NflHhQoClcxnUk+qsxIl7bVVhxG8q6LphBH5hp+XXR8Z14al1ij7aYZt
-	Qg1E3iabivKOSPW4pt4kGeQ8B0ItGTWbVdAyMBbdOnxSNBfx2Ac8tHGpVApSxUyz
-	5iuXY1fRhZFR2TKgO5s5hzGJVns92cJHAq3zWdfdEOPoCuOPOQ==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4em8rxjb00-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 06:06:29 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Sun, 7 Jun 2026 23:06:28 -0700
-Received: from pek-lpg-core4.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Sun, 7 Jun 2026 23:06:28 -0700
-From: <jinfeng.wang.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [wrynose][PATCH] bind: upgrade 9.20.22 -> 9.20.23
-Date: Mon, 8 Jun 2026 14:06:27 +0800
-Message-ID: <20260608060627.2721080-1-jinfeng.wang.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=fyRSoLwl;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8ce9ddeddefso43965806d6.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 07 Jun 2026 23:09:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780898979; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iStQYsJ+67TButxwk633/TC/wL8HEwussTYXq6WaG5ip3zIUlD6NveIlnQ1vaj+9Rz
+         mK5jpNY0md3nAxvNQTB2Bm4j6veL8z/90hb2R8omrXxgypYUKZ4rM9ZnsBa9AGg8ksZN
+         0g5iKpjeIXsPpNcUazVUNhDKFqXYjAjASnLsl0n+fwutIg/iyxZhqJSnuZd69TKVvn5d
+         Q8kAd0SndK0Koh/P4zdSNotXS5+X05xyCYR2UeRdSJaXhK9JTLAR/atWoysXBgxqBW4x
+         /PZchYDNyHq0Mc2EKUF3tHZgbHDskHZyIuG6AiDYafdaaqYSOO6JyZ/SirCdyvQZUSb9
+         8Qfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=dKmjV4RXhAj1C9554Xms3x34m129S9NEiOcxTQmrDMw=;
+        fh=V50Vyt6CBESWmKHtWGu/NpIzDjH77vJdZNmD4cPuvhc=;
+        b=YPRubnXjNQWug7CaUnssSJcy2AKuI/aCCJizaf3eOrSXUcbtc2K+MVnLY3O1iRKwrG
+         AL8VvR17DghvLZYxAfNEXqCXCXG5RW85GUoXPXHBe2C3kPaT+aDVTdaefn1hnRxTdjBO
+         GqcU0ALkYBpRZl76MG2HqtZ1yt/Ivc4wXLe7qMD0JScXDGjK1qaaM5sYlpu6z3RrIFLw
+         yaYpdQt6BFjwotHtkVA6RDx1dUJb61ayUimkJmUeleTl9Ov8l/Zd4QGq8kUMRB4DGIL+
+         9ITkY8WTEh9mZuVrIdHESF0od6RWjqVjOKqET0TWHjmldak4lmpH5lT+rKkrOHuRNuVi
+         FAiQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780898979; x=1781503779; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dKmjV4RXhAj1C9554Xms3x34m129S9NEiOcxTQmrDMw=;
+        b=fyRSoLwlIxui+BZ7ste9QcPcDEGJmmdFE4W7WBjiX63tQuNyhwenjN8x2Oo/rsT68F
+         yUTn/BzXow4D1k19t/GSyffwSpBip937u/mfksVKcvAdc2tmdZtwAoiiMxvz1Mr9JZNC
+         f9rtrxLJ2Q4C4IQOq9hyircNJXoFH8jbP9pTBmjKnjmVi0fxi+Cxs6B/n4wNj79NoTEU
+         EqkwbD1OxUYBYGfnwsO4HMwwbBfAOahi3+bM6D+u/X4nBkuoBNNGQDKWx82y+I7b5R97
+         oL3OyyQqZBLkfXmndLPxV4nI9h7uRCACYpebrwilyMS5W/m2BwoUM0J086xIour8v/Da
+         kVXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780898979; x=1781503779;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dKmjV4RXhAj1C9554Xms3x34m129S9NEiOcxTQmrDMw=;
+        b=rogPMReDhR6ohYRmrkGtlzngGG+ILYtVlaOffBkQEYFd4BFYL1+Bq4vNpoNx6V3tq+
+         CMUVu76vG/sWA3F4lrQhYJoq/a9qEihBlZ/GE7D+2DNiV9rlGl/RJlEkJny7JaULa/gf
+         eLNIpnBJtRYsybM0zD7LRSCXUie4qAFWK4BG7Z24zHz18LgIWuzFfxteNS9lQ8TdeCxs
+         PTKpN9uYKnUMKib1TxEBcz2NSmRaVP+TydD2AjphbGVTwWeGq0WER4gYVxfr1d+wbrE8
+         oJ0kgihf71nolls1D9RYaimMCnqZawrqX0L92BHyG4sNPTLSuTUUBEvhK9c/+RW0dVsJ
+         Mo0A==
+X-Gm-Message-State: AOJu0YyTWYRNbGdEyip9NTH2GEjFjJq3XlP8gyLZQy+32dfH8G6GRyFS
+	RSFs2phHzUE31bmZ5/mx2a0wCieKpzfAPdIKVbxtp5OQNxnWgQwGK3DxL0RZA8ziduuIQ8kI7Dq
+	fnt/c7ixugKWKwNMMjUQsPMsGx+MwGtc=
+X-Gm-Gg: Acq92OHcbr1nQ6Xl2tm/d7umGBg28Dvb35PPHzaflJ35abK6Mf/gaQ1nj4y9QRxobpn
+	r+Jq9ZBGoJgJ2sKGaVLvAvBDp46bgfkBLFRHNS0SNFqqqFB6vUXaj9j6qQTWE5XZpPkVZCXunYH
+	mDTKeb56IVsSfbSIUE+RzWKV6Ta5uFUv5/V8hCn6HSXVl+Bd7Y0N+f328+yDvzDGYSjeqB/4Pf7
+	OQIbarbdWQMNvATgAWBOZxaPDRWczzODd/E+wS0GowAmq2AVFJI2K8iWx1sbRQoMA1jy7791+WW
+	F3q9OUTg7GTnTM8ZsLcg
+X-Received: by 2002:a05:6214:570e:b0:8cc:ccb:48d9 with SMTP id
+ 6a1803df08f44-8cee63b0a85mr241570346d6.38.1780898979376; Sun, 07 Jun 2026
+ 23:09:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: uReiScTOGgLAJ9ZGyU0eC09QI4ePfLnN
-X-Authority-Analysis: v=2.4 cv=FP8rAeos c=1 sm=1 tr=0 ts=6a265be5 cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=klDOsUkWDRETUCZYPvoE:22 a=UXIAUNObAAAA:8 a=SCo1hh1FAAAA:8 a=t7CeM3EgAAAA:8
- a=P-IC7800AAAA:8 a=QgkDFlgNOwP0r1ppsncA:9 a=a1s67YnXd6TbAZZNj1wK:22
- a=nwb-CePKZZm3gL-ai9HY:22 a=FdTzh2GWekK77mhwV6Dw:22 a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-GUID: uReiScTOGgLAJ9ZGyU0eC09QI4ePfLnN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA4MDA1MyBTYWx0ZWRfX2nV2KYu6sUsh
- CGEPNiCA0VqdhUnd5NpAvk+vQZP8185ZAb2rhhdxH1+xGGVZbrZWrWuyPXZR5Z8cqwGY+MklXBv
- ntiuzcK4SIoqKHJ91btxEbIgVYQIJ9GFqpN3dmuL9aStWZfPAjrNgdKpu5uF5sn54nUN3D/skAq
- HulRvPY7gVrv8ClysqzQTGplma/fsjamHManYw9lwUs5Cs+0KjBZN+li5hVKx5MxFXjtWxZq+MT
- Vi59FTHDWemvbmVFov1zwFAXVwh/TJMj+q6ZCn0tXwAcmImYHGfQJWhLuhKXTUhxb835yr4XEec
- CgljMoa89WEp6ipmOTkL9JopR2mu8Txf49xZtsogdu4hkn4mcncs+EVGOCiktVIqkaf92I17UZO
- qLVGU8hRyyXTzgHFHXDpGziAbQxCfiWzg/uW1fcnrvW79xWa62ClZSZ/+ZNI1xZjYrAGT7vQifE
- sfED4u6deKH1wqRO1Ww==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-08_01,2026-06-05_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 suspectscore=0 adultscore=0 bulkscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 clxscore=1015
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
- definitions=main-2606080053
+References: <20260607174013.36552-1-zuzana.valekova-spitalova@siemens.com>
+In-Reply-To: <20260607174013.36552-1-zuzana.valekova-spitalova@siemens.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 8 Jun 2026 08:09:33 +0200
+X-Gm-Features: AVVi8CcZNN9MqqqbS8T4rQ3KOOEmY5DKUNBC7843XS9i8r8f7b2V_c2UEV1RRBE
+Message-ID: <CANNYZj90A7ovz4jE+aXdixNikJ==SFnFz01rjVFsua+q7-kydA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH][oe][meta] runqemu: introduce unique instance ID
+To: zuzana.valekova-spitalova@siemens.com
+Cc: openembedded-core@lists.openembedded.org, adrian.freihofer@siemens.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 06:06:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238226
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 06:09:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238227
 
-From: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+Can you please provide an example of how this is used, and what
+benefit it brings? "Would be nice" is a bit too vague as a
+justification.
 
-Solves CVE-2026-3592, CVE-2026-3039, CVE-2026-5950, CVE-2026-5947, CVE-2026-3593, CVE-2026-5946.
+Alex
 
-Release notes 9.20.23: [1]
-
-[1] https://bind9.readthedocs.io/en/stable/changelog.html#bind-9-20-23
-
-Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(master rev: ef00c353d3c77fcfd70300fa25ed86555d011b34)
-Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
----
- .../bind/{bind_9.20.22.bb => bind_9.20.23.bb}                   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind_9.20.22.bb => bind_9.20.23.bb} (97%)
-
-diff --git a/meta/recipes-connectivity/bind/bind_9.20.22.bb b/meta/recipes-connectivity/bind/bind_9.20.23.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.20.22.bb
-rename to meta/recipes-connectivity/bind/bind_9.20.23.bb
-index 318412a62c..ebc4422b67 100644
---- a/meta/recipes-connectivity/bind/bind_9.20.22.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.20.23.bb
-@@ -21,7 +21,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
- 		   file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch \
-            "
- 
--SRC_URI[sha256sum] = "cba92ff631b949655f475fe4b54290f6860fd0070d399f2279f6437c0d383ec6"
-+SRC_URI[sha256sum] = "5d4475aed3f9e500ef554b2b14d972bdb83d33de214a9b3be92918ea46908371"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
--- 
-2.34.1
-
+On Sun, 7 Jun 2026 at 19:40, Zuzana via lists.openembedded.org
+<zuzana.valekova-spitalova=siemens.com@lists.openembedded.org> wrote:
+>
+> In some cases like running multiple QEMUs, would be nice to have an option
+> to distinguish between them. For this reason I introduce an unique instance
+> ID based on time. Later in cmd, the '@INSTANCE_ID@' could be used for QEMU
+> identification.
+>
+> Signed-off-by: Zuzana Valekova Spitalova <zuzana.valekova-spitalova@siemens.com>
+> ---
+>  scripts/runqemu | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index 2c126e7f54..2de69dcd7c 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -227,6 +227,7 @@ class BaseConfig(object):
+>          self.qmp = None
+>          self.guest_agent = False
+>          self.guest_agent_sockpath = '/tmp/qga.sock'
+> +        self.instance_id = None
+>
+>      def acquire_taplock(self, error=True):
+>          logger.debug("Acquiring lockfile %s..." % self.taplock)
+> @@ -1111,8 +1112,11 @@ to your build configuration.
+>          self.nfs_running = True
+>
+>      def setup_cmd(self):
+> +        self.instance_id = str(int(time.time()))
+> +
+>          cmd = self.get('QB_SETUP_CMD')
+>          if cmd != '':
+> +            cmd = cmd.replace('@INSTANCE_ID@', self.instance_id)
+>              logger.info('Running setup command %s' % str(cmd))
+>              if subprocess.call(cmd, shell=True) != 0:
+>                  raise RunQemuError('Failed to run %s' % str(cmd))
+> @@ -1623,6 +1627,8 @@ to your build configuration.
+>          if self.bios:
+>              self.qemu_opt += " -bios %s" % self.bios
+>
+> +        self.qemu_opt = self.qemu_opt.replace("@INSTANCE_ID@", self.instance_id)
+> +
+>          cmd = "%s %s" % (self.qemu_opt, kernel_opts)
+>          cmds = shlex.split(cmd)
+>          logger.info('Running %s\n' % cmd)
+> @@ -1647,6 +1653,7 @@ to your build configuration.
+>      def cleanup_cmd(self):
+>          cmd = self.get('QB_CLEANUP_CMD')
+>          if cmd != '':
+> +            cmd = cmd.replace('@INSTANCE_ID@', self.instance_id)
+>              logger.info('Running cleanup command %s' % str(cmd))
+>              if subprocess.call(cmd, shell=True) != 0:
+>                  raise RunQemuError('Failed to run %s' % str(cmd))
+> --
+> 2.43.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#238224): https://lists.openembedded.org/g/openembedded-core/message/238224
+> Mute This Topic: https://lists.openembedded.org/mt/119693437/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
