@@ -1,236 +1,355 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <tdarote@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2BFACD8C9D
-	for <webhook@archiver.kernel.org>; Mon,  8 Jun 2026 12:36:56 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.22])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.53264.1780921510401770141
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3623FCD8C9F
+	for <webhook@archiver.kernel.org>; Mon,  8 Jun 2026 13:00:17 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.53874.1780923611325210206
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jun 2026 05:25:11 -0700
+ Mon, 08 Jun 2026 06:00:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=J0I23G7S;
- spf=pass (domain: est.tech, ip: 40.107.159.22, mailfrom: adarsh.jagadish.kamini@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r2FfGXEojJJ4lLbYO6xxtKNxZZARWgKUd7cZVThM7zdFo+qdXo+gKphiustMjhspR/AnKCtQgnI/82s51eG94P9/YQLn/edY1wyervo6t6cf3qaE1k7DuIHL0LYFtGnU8KLn3FtfkDkMnUNaZfRhO1GlU3kZl3qOOgYTudNCO0GQ6kY3pO56LXfWyeQvtN4FYsd3rgYbruCizD1y44BnUr3EhvqOG5kiQhmStIGhjX9svzoVV5NfRYASwL+ILr4r05TWetoE2dH4Orv6ftSBMSz2WzZ+3eUE6Ul50eqwQZRc8WoqLHNrWCBiTMvlx16GCIzr3XA++Mn0FL7D6s5OAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TZ/8x/Xs6m+/sjlYQCHYg5kRpVXcVgKNi7tR7xhyYIg=;
- b=JpUd5cuEjpTwNG45xwPmKiufCwJgYNAdSV/d09hjjI/dfwJGzGya+klMTLOWeFUBSLpbLAdR65cYX7x0V4sId/AlunxQvNDvE9XBznUBkjBAqqxx1jRQAAO1xNbKteEO5NsQ/c/WE9OX0qXiTSDddNo9bCqxT99QrpDXGzScO6Hcti29qnhpwQ3fFWlqDGXsky8jjikYfjQEO39ATQtEN89Nfto0q9uYXAS4iFhQMCkqFjYBjsKLAglsHB2+XFl67m3fAiuP//qwHnnHwhtEijwgep/8GHgNgN1Kr9BPBCR2ExhthAGCj3wLhsT1WKlQykLNcTqqA87nyosE1e4WRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TZ/8x/Xs6m+/sjlYQCHYg5kRpVXcVgKNi7tR7xhyYIg=;
- b=J0I23G7Sb8uMgZ92FKU264vNnPx3JItbMWH2WLCxy8jvKMtEE6xkvIqUbGHeNRK1K548+l8ADWGyZV063j0HcA4e7aiMbAdaBWulSQJz/a0gCfbTuMqSTax/gH/IBXHp3N5cw0tIki1sAhRPDKApBh2IK2bPl73hVvOUkdFQtWw47gkbf57OclhTWpITnbNyzW23DGymgPezGbe0I+iTZvz9uzJSid5NgUvFTdAjNJugJGZF/uWO/2dKE9+QfQnHCAd6F3JC9cSHA+X4BEYTgM6eRVr91xXHfoHaJ9mNNB/lx5iSGLeA9NO2I+6Wc6mu4dIgHz5ZJR30iKUuAck1Rg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
- by PAVP189MB2620.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:2fd::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.12; Mon, 8 Jun 2026
- 12:25:05 +0000
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff%6]) with mapi id 15.21.0092.011; Mon, 8 Jun 2026
- 12:25:05 +0000
-From: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=pJKNWb04;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: tdarote@qualcomm.com)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 658B9bEK3038298
+	for <openembedded-core@lists.openembedded.org>; Mon, 8 Jun 2026 13:00:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=dlMgWiJZmrdq8WFbNJ95UwmijpEJNlE07uS
+	HbI/iQc0=; b=pJKNWb04QuAQpeNm3kZsb6b0lLNLPQYvwOyAXehYyAlT9MOpwHf
+	vQGowDeo4/JdGwXOmxPEtMZ3nNnS/3fo9TNwX9m6XcfAVDP1TR/vlW1UNXAUY31d
+	nlFlKmm5r8CYa350mgraDk5havFGpe5b86HcvIPyk1m/MVh5FFdFhT9T0GcdCVL6
+	5Pps4/XW49FzDgEsIxtjhAWQ1s6JXyV0exeqm5cEDJqnMGvUmWs78kutn//qWwHx
+	3uYgLw1pA2prI1TYVTqsDq1yX8UB3fKj5s7VKZdQ2Q+T8x1zBRQLaDVh+0w516cw
+	gnLqegFuHek2NqhBObZ/a+ApiltevxIEgFA==
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4envaj8gr4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 13:00:10 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 658D06s7026050;
+	Mon, 8 Jun 2026 13:00:06 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4emcmj8hhy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 13:00:06 +0000 (GMT)
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 658D06Mk026044
+	for <openembedded-core@lists.openembedded.org>; Mon, 8 Jun 2026 13:00:06 GMT
+Received: from hyd-lnxbld389.qualcomm.com (hyd-lnxbld389.qualcomm.com [10.142.195.70])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 658D06V6026042
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Jun 2026 13:00:06 +0000 (GMT)
+Received: by hyd-lnxbld389.qualcomm.com (Postfix, from userid 4146169)
+	id 7640E225F2; Mon,  8 Jun 2026 18:30:05 +0530 (IST)
+From: Tushar Darote <tdarote@qti.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-CC: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-Subject: [OE-core][scarthgap][PATCH] libsolv: fix CVE-2026-9150
-Date: Mon,  8 Jun 2026 14:24:58 +0200
-Message-ID: <20260608122501.1210542-1-adarsh.jagadish.kamini@est.tech>
-X-Mailer: git-send-email 2.43.0
-X-ClientProxiedBy: DU6P191CA0055.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:10:53e::26) To AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:396::9)
+Cc: Tushar Darote <tdarote@qti.qualcomm.com>
+Subject: [PATCH] gstreamer1.0-plugins-bad: handle padded buffers in wl_shm buffer creation
+Date: Mon,  8 Jun 2026 18:29:56 +0530
+Message-Id: <20260608125956.3297942-1-tdarote@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1672:EE_|PAVP189MB2620:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb0d4164-1aa2-4736-2064-08dec558f89d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|376014|11063799006|3023799007|56012099006|6133799003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	GOVp17GqKqyT/3L3kg+CK5tN/KnaIqZyYtWXMPZgTnjOi8OVIRa+R0QXXjUzxd1q7R9ndnryxBLu9gb2vr67o6b4//7Y0Kd82wjNx7n3vUpLArzQ39WJ6kk3UKomp11qaTWkOHN7979OowJIHswJZQV802ECfdLSRdDh765yhpveyRZVejNExN/scfsQKZi3XD3RH9nSutWBLPLGvwXdizXSVzuU7zP5KMUUTk/qy0zeEwDwRbKNBighk/h1n0aVE8gsqaxIGODTYSBmjvcANSNONU3tcu5n318c5cu/kmCh6L1T4SUIsVwoMnast2fEKK4fsVtm0LRkoQOFHkB4ZMmp97oRHyjFJgc+J/UGRfIdK9jfUPBv0u+/c5wOBwQ34aU2qc4J4Pmcv0yS3NC5aF64lOtZ06N9zOYdkuMe+NrBDvupkb7PCmlZfuoVOwiQwU7yYnBYBUB+LSh6FAL7ZjP6w/gpwQiYpbRr6mlalrBE4iSY6DlNh7S2DTWhUP5vdOeHHLwaaFERPzbRsHSiwsvlwHPnOLc1ekGYgzqimgGytWxlx3GqkXYQNEaMPVPMJRZKCb839/ZuRB9mFhHqPbJ1pDEwbvjwC5HR4QUWQKZyjxBLUBUDViMs4Wyyd/mE1FZMwen0iipP8tSRjuIiuRnf9vGf2LpQwdlPhqWg5Z23kL08hYsmu+/JjqGdZkxCcnrIjRjoL5YbWKYE3JFQ9A==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(11063799006)(3023799007)(56012099006)(6133799003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?VLuD+DQh22/mi+uk9dnAp0FkwGcJprXipCat8io3QUicjs60JhhRHYjIrmLh?=
- =?us-ascii?Q?CtvOkUckhDxZeABm87m5In3njTeGTrIvccj++bUbg2x3EdZCivf3cbZmLpt/?=
- =?us-ascii?Q?7VsEiU2zACp9nKOSDIj7BZNrjSi1leiT0aFT0YoTodqqBeRigB7aVNGJvnjj?=
- =?us-ascii?Q?cIluKCJrjFca3fRa5+7bN1Ua/NtAFz0hhLLxguaT66bp/OWcqrW+sMvSMWIN?=
- =?us-ascii?Q?h+WaNBq8GwS1lomyrh8XbcwJhZ/ju0vfW+jv8d2gCyPQUBM0tq8WL/i3pJmy?=
- =?us-ascii?Q?WXMiDKULWIwM8acLeZ0YFnUkSHGZCRwRAXL8IjkYoRujgW3bU29z1ISStNPP?=
- =?us-ascii?Q?zouogobnrtw+2Y7UY5BycOjbSY2KkhrA8Qgu/VwTF8WrnWuCAp4f7JgsaS28?=
- =?us-ascii?Q?qKtfOqg7ib2iBv3bNLyURwvFBvU5iBUET2nKzM/KLFVgj7DGUE0UHdB2KPzJ?=
- =?us-ascii?Q?eKuRtET3ddGk2+UUS/+CEZY7KvpbUFUieNWPrUptk6ZKt8MPSVOPZglYtHqA?=
- =?us-ascii?Q?WEsrmj2gW4zbcTkHXlHhi5f0Wvjz97flGyl9Vl+eaTQFKxwhv8nLzo1Oow/h?=
- =?us-ascii?Q?+7hLWBxGNjn32OcliidCAjImVmlcyiNlDpUqVHZ5l34J2Ubh0VlkeY85JDf3?=
- =?us-ascii?Q?PVjjEjS6EJMK+FHfG+i5YqAiGnfyQHL0jGrdWUkSzu6hnX9095ILnIDQjrqB?=
- =?us-ascii?Q?ahbjob2WCcfRTBHDvvh1zIqEWfSzJvt/bpYxxjbRWvY2SOeCp7L0H4nH9l2L?=
- =?us-ascii?Q?5GfKSwb6gR1hCdnC1Tk5wgtNADktE9BgKyldMjR6otxskcg98EpdvrajWUtm?=
- =?us-ascii?Q?qv6Wq+tESglb4pEK2C65J29xdlP6N9QbiJLfWd0oAiY8OS1unwKCLVRmM/yJ?=
- =?us-ascii?Q?c+RqKwuJLQERQAqgjJD9iuBdrUFtTcZA8kKx8yadiWCJd5coLueo19Jhz80e?=
- =?us-ascii?Q?Hy1djsGeIBbL6CLsYbL3L4RRJ6vmOTqtmaKNudY6pmaK45m9pWTcTgoh854m?=
- =?us-ascii?Q?tpw2rGJ0WE+rtbjspJ9HM68e03SrbFTFdQslE/vBnN/Mj9BNJVdpYQu088ox?=
- =?us-ascii?Q?WwEMXg5iQu8J1dwbfMQ4t33bsi+k1ttz+2hRXIFEfni2cHdRH+Yw+M7ZCduj?=
- =?us-ascii?Q?GrfmrLzV5Oz+qrf6Ph9w7sUV9Nz7CFZxw4czh9SpvnYgPT6lS6Um39KhjveV?=
- =?us-ascii?Q?zrJJGR5OkX7wk02AiJwSH7UDugS1yi57yoqJSbE/GYBJSVz2KZRHeZ8Q4a7e?=
- =?us-ascii?Q?nazk8sfkYW+FyHSTkiLdazKYuXSH+kpid5/l/UG+LHnqMrgd0xBCCCwEKu+n?=
- =?us-ascii?Q?MxCacFikefd6SqweGfKNjJT5ju+WoltKdCjVyTvkDlODZ/uSBYCF7pAEkC37?=
- =?us-ascii?Q?O0ivd6n86TzgyuTkTglr/5aE2gHkI4mOCa1LK1fI/M1trWJS3yYSFXaIJ7me?=
- =?us-ascii?Q?fX2wHnWJ1C6GayCYqqyHzp3auKDd7N8K1qh3CA52qy6benly/JlN6O1UABgI?=
- =?us-ascii?Q?rVR/qotaOOmQKh3VP+zs31iLE4U/dJL57HAIUkbzah2LyxdYi84265GNKVbf?=
- =?us-ascii?Q?mdCyCoDDSku97ExRJgctz3VLwJ717AKOiIPQkaQ4rTJDBRE3WJjAndXLL/dS?=
- =?us-ascii?Q?ZQj2LhCxmewJb5VHz7b2cNRxSc/WVrf99WfQ22ZWxqU8dWe+1hyZlWVN4XMs?=
- =?us-ascii?Q?LL2tHvyv8dOfW6O8pwDaI08H5Bl31aYqM7pNw3+chreOYnVCbyQW6AJtLmrQ?=
- =?us-ascii?Q?xb5XCHerTTNQECCVW5Cq2ITwd8b5v5s=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb0d4164-1aa2-4736-2064-08dec558f89d
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2026 12:25:05.3114
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /od5pXnpewTbkgVwuPz3e5hMBeS++X/h7uzMOn2ho8aenWfD5YlUYtGdHSAz8BLLTLI6wfMNj4L1WOzo57AZP1RlxMyJtEsdueOnr2OBsNA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVP189MB2620
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-GUID: avx3h7PmnTz5AI7tYMQuWakrRYpsgUKY
+X-Authority-Analysis: v=2.4 cv=eo3vCIpX c=1 sm=1 tr=0 ts=6a26bcda cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8
+ a=Uc49ZF9OE0rpvxTMQ1MA:9 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-ORIG-GUID: avx3h7PmnTz5AI7tYMQuWakrRYpsgUKY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA4MDEyMyBTYWx0ZWRfX/u3ho0JxLfYj
+ XaW7kb46/aW2ntMRth0J+dH2IrHGaFRX8xs/BUQyhoArET1VvcqP3aDDLGfNbmEfVs8zAf6Vvbd
+ +hHIwBgQonta1FqbuQ3kaPBqUowNLzIkzsAtoqRpK7iTs48b4ZbbiB/tydt/DXys6gVma7ggM4N
+ lW7A4NdQh22ITQKb9IKYDddlTXAZ5qfYDAuoybKYRDX0BgR5YWQANNO3VMkQh5UX6ZUfMzOcxtj
+ BfExyNMyM2SK3vYGZ2lx1AcYuGtjuGoQdoUucrpJ2zMEQVvEVeB+wrXFl7t7Elj9+xqo2LeVqht
+ 6Tpr9Zrvg9E95SUm8ustgkgDB0GyS++YQRczifPm2SDn/jcrKJfvsRta6cW0K8ucXk4UywF+SVd
+ M4PxQq5JX+cd6eDkGHRXP1sL8E2G6vmDJedalCDKt3F9IGDYwVS+QZghk7HLiwJ15TYjqlJPuU7
+ hot6unU6b7qpuDAGfPg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-08_03,2026-06-05_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 phishscore=0 clxscore=1015 bulkscore=0
+ malwarescore=0 adultscore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606080123
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 12:36:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238232
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 13:00:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238233
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Use GstBuffer metadata when constructing wl_shm buffers so stride and size reflect the actual buffer layout.
+This fixes incorrect rendering with DMA-backed buffers that include padding or custom strides.
 
-Backport patch to fix CVE-2026-9150.
-https://nvd.nist.gov/vuln/detail/CVE-2026-9150
-
-Upstream fix:
-  https://github.com/openSUSE/libsolv/pull/616
-
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Signed-off-by: Tushar Darote <tdarote@qti.qualcomm.com>
 ---
- .../libsolv/libsolv/CVE-2026-9150.patch       | 68 +++++++++++++++++++
- .../libsolv/libsolv_0.7.28.bb                 |  1 +
- 2 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-extended/libsolv/libsolv/CVE-2026-9150.pat=
-ch
+ ...added-buffers-in-wl_shm-buffer-creat.patch | 238 ++++++++++++++++++
+ .../gstreamer1.0-plugins-bad_1.28.2.bb        |   1 +
+ 2 files changed, 239 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
 
-diff --git a/meta/recipes-extended/libsolv/libsolv/CVE-2026-9150.patch b/me=
-ta/recipes-extended/libsolv/libsolv/CVE-2026-9150.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
 new file mode 100644
-index 0000000000..4903edb599
+index 0000000000..2bb00e2b1d
 --- /dev/null
-+++ b/meta/recipes-extended/libsolv/libsolv/CVE-2026-9150.patch
-@@ -0,0 +1,68 @@
-+From bea261fd0924ecd5c7e5579f460133ec023c6def Mon Sep 17 00:00:00 2001
-+From: =3D?UTF-8?q?Petr=3D20P=3DC3=3DADsa=3DC5=3D99?=3D <ppisar@redhat.com>
-+Date: Wed, 22 Apr 2026 09:18:29 +0200
-+Subject: [PATCH] Fix a buffer overflow when copying SHA-384/512 checksum f=
-rom
-+ a Debian repository
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
+@@ -0,0 +1,238 @@
++From 2af4bc8562f970207e3b1f6fc0b377ecf116a69c Mon Sep 17 00:00:00 2001
++From: Tushar Darote <tdarote@qti.qualcomm.com>
++Date: Mon, 8 Jun 2026 18:05:51 +0530
++Subject: [PATCH] wayland: handle padded buffers in wl_shm buffer creation
 +
-+When parsing Debian repository, control2solvable() copies a package
-+checksum string from the repository into a stack-allocated "char
-+checksum[32 * 2 + 1]" array.
++Use GstBuffer metadata when constructing wl_shm buffers so stride and
++size reflect the actual buffer layout. This fixes incorrect rendering
++with DMA-backed buffers that include padding or custom strides.
 +
-+If the repository defined a SHA384 or SHA512 tag, a buffer overflow
-+occured (as can be seen when compiling libsolv with CFLAGS=3D'-O0 -g
-+-fsanitize=3Daddress') because those tag values are longer:
++gst_wl_shm_memory_construct_wl_buffer() now takes a GstBuffer instead of
++a GstMemory. It derives the video layout from the buffer's GstVideoMeta
++when present (width, height, stride and offset), falling back to the
++caps-derived GstVideoInfo otherwise, and computes the real memory
++footprint (plane_offset + stride * height) rather than the unpadded
++GstVideoInfo size. The single-memory and fd-memory checks that used to
++live in the callers are now performed inside the function.
 +
-+    $ cat /tmp/Packages
-+    Package: p
-+    Version: 1
-+    Architecture: all
-+    SHA512: 00000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000
++All callers in gstwlwindow, waylandsink and gtkwaylandsink are updated
++accordingly.
 +
-+    $ /tmp/b/tools/deb2solv -r /tmp/Packages
-+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+    =3D=3D3695=3D=3DERROR: AddressSanitizer: stack-buffer-overflow on addr=
-ess 0x7b685ecf0071 at pc 0x7f6861683722 b
-+    p 0x7fff37e3e7a0 sp 0x7fff37e3df60
-+    WRITE of size 129 at 0x7b685ecf0071 thread T0
-+        #0 0x7f6861683721 in strcpy.part.0 (/lib64/libasan.so.8+0x83721) (=
-BuildId: 80bfc4ae44fdec6ef5fecfb01e2b57d28660991c)
-+        #1 0x7f6861d7f34d in control2solvable /home/test/libsolv/ext/repo_=
-deb.c:491
-+        #2 0x7f6861d804ea in repo_add_debpackages /home/test/libsolv/ext/r=
-epo_deb.c:622
-+        #3 0x000000400fd5 in main /home/test/libsolv/tools/deb2solv.c:134
-+        #4 0x7f686123c680 in __libc_start_call_main (/lib64/libc.so.6+0x36=
-80) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
-+        #5 0x7f686123c797 in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so=
-.6+0x3797) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
-+        #6 0x000000400694 in _start (/tmp/b/tools/deb2solv+0x400694) (Buil=
-dId: a3350337819a51edd0c75293970d3458b5033bc9)
++Upstream-Status: Backport [adapted from https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/11370 due to API differences]
 +
-+    Address 0x7b685ecf0071 is located in stack of thread T0 at offset 113 =
-in frame
-+        #0 0x7f6861d7de2a in control2solvable /home/test/libsolv/ext/repo_=
-deb.c:365
-+
-+      This frame has 1 object(s):
-+        [48, 113) 'checksum' (line 371) <=3D=3D Memory access at offset 11=
-3 overflows this variable
-+
-+This patch fixes it by enlarging the buffer to accomodate the longest
-+supported digest string.
-+
-+This flaw was introduced with c8164bfecf2ba8bcf4c24329534d3104f19da73c
-+commit ("[ABI BREAKAGE] add support for SHA224/384/512").
-+
-+Reported by Aisle Research.
-+
-+CVE: CVE-2026-9150
-+Upstream-Status: Backport [https://github.com/openSUSE/libsolv/commit/c5b5=
-db52aebde00bdeacecf4d0569c217ab3187d]
-+
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
++Signed-off-by: Tushar Darote <tdarote@qti.qualcomm.com>
 +---
-+ ext/repo_deb.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ ext/gtk/gstgtkwaylandsink.c              | 11 ++---
++ ext/wayland/gstwaylandsink.c             | 11 ++---
++ gst-libs/gst/wayland/gstwlshmallocator.c | 59 ++++++++++++++++++------
++ gst-libs/gst/wayland/gstwlshmallocator.h |  2 +-
++ gst-libs/gst/wayland/gstwlwindow.c       |  4 +-
++ 5 files changed, 52 insertions(+), 35 deletions(-)
 +
-+diff --git a/ext/repo_deb.c b/ext/repo_deb.c
-+index d400f959..25eaf8cb 100644
-+--- a/ext/repo_deb.c
-++++ b/ext/repo_deb.c
-+@@ -368,7 +368,7 @@ control2solvable(Solvable *s, Repodata *data, char *co=
-ntrol)
-+   char *p, *q, *end, *tag;
-+   int x, l;
-+   int havesource =3D 0;
-+-  char checksum[32 * 2 + 1];
-++  char checksum[64 * 2 + 1];
-+   Id checksumtype =3D 0;
-+   Id newtype;
-+=20
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.28.bb b/meta/recipes=
--extended/libsolv/libsolv_0.7.28.bb
-index 201059323a..63534dce26 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
-@@ -10,6 +10,7 @@ DEPENDS =3D "expat zlib zstd"
-=20
- SRC_URI =3D "git://github.com/openSUSE/libsolv.git;branch=3Dmaster;protoco=
-l=3Dhttps \
-            file://0001-utils-Conside-musl-when-wrapping-qsort_r.patch \
-+           file://CVE-2026-9150.patch \
- "
-=20
- SRCREV =3D "c8dbb3a77c86600ce09d4f80a504cf4e78a3c359"
---=20
++diff --git a/ext/gtk/gstgtkwaylandsink.c b/ext/gtk/gstgtkwaylandsink.c
++index 0660b30..81bcd7f 100644
++--- a/ext/gtk/gstgtkwaylandsink.c
+++++ b/ext/gtk/gstgtkwaylandsink.c
++@@ -1179,7 +1179,6 @@ gst_gtk_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
++       gst_gtk_wayland_sink_get_instance_private (self);
++   GstBuffer *to_render;
++   GstWlBuffer *wlbuffer;
++-  GstMemory *mem;
++   struct wl_buffer *wbuf = NULL;
++ 
++   GstFlowReturn ret = GST_FLOW_OK;
++@@ -1240,8 +1239,6 @@ gst_gtk_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
++   }
++ 
++   /* update video info from video meta */
++-  mem = gst_buffer_peek_memory (buffer, 0);
++-
++   GST_LOG_OBJECT (self,
++       "buffer %" GST_PTR_FORMAT " does not have a wl_buffer from our "
++       "display, creating it", buffer);
++@@ -1301,9 +1298,8 @@ gst_gtk_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
++ handle_shm:
++   if (!wbuf && gst_wl_display_check_format_for_shm (priv->display,
++           &priv->render_info)) {
++-    if (gst_buffer_n_memory (buffer) == 1 && gst_is_fd_memory (mem))
++-      wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, priv->display,
++-          &priv->render_info);
+++    wbuf = gst_wl_shm_memory_construct_wl_buffer (buffer, priv->display,
+++        &priv->render_info);
++ 
++     /* If nothing worked, copy into our internal pool */
++     if (!wbuf) {
++@@ -1328,8 +1324,7 @@ handle_shm:
++ 
++       /* attach a wl_buffer if there isn't one yet */
++       if (G_UNLIKELY (!wlbuffer)) {
++-        mem = gst_buffer_peek_memory (to_render, 0);
++-        wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, priv->display,
+++        wbuf = gst_wl_shm_memory_construct_wl_buffer (to_render, priv->display,
++             &priv->render_info);
++ 
++         if (G_UNLIKELY (!wbuf))
++diff --git a/ext/wayland/gstwaylandsink.c b/ext/wayland/gstwaylandsink.c
++index 443db24..60aa11d 100644
++--- a/ext/wayland/gstwaylandsink.c
+++++ b/ext/wayland/gstwaylandsink.c
++@@ -1011,7 +1011,6 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
++   GstWaylandSink *self = GST_WAYLAND_SINK (vsink);
++   GstBuffer *to_render;
++   GstWlBuffer *wlbuffer;
++-  GstMemory *mem;
++   struct wl_buffer *wbuf = NULL;
++ 
++   GstFlowReturn ret = GST_FLOW_OK;
++@@ -1086,8 +1085,6 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
++   }
++ 
++   /* update video info from video meta */
++-  mem = gst_buffer_peek_memory (buffer, 0);
++-
++   GST_LOG_OBJECT (self,
++       "buffer %" GST_PTR_FORMAT " does not have a wl_buffer from our "
++       "display, creating it", buffer);
++@@ -1147,9 +1144,8 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
++ handle_shm:
++   if (!wbuf && gst_wl_display_check_format_for_shm (self->display,
++           &self->render_info)) {
++-    if (gst_buffer_n_memory (buffer) == 1 && gst_is_fd_memory (mem))
++-      wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, self->display,
++-          &self->video_info);
+++    wbuf = gst_wl_shm_memory_construct_wl_buffer (buffer, self->display,
+++        &self->video_info);
++ 
++     /* If nothing worked, copy into our internal pool */
++     if (!wbuf) {
++@@ -1173,8 +1169,7 @@ handle_shm:
++ 
++       /* attach a wl_buffer if there isn't one yet */
++       if (G_UNLIKELY (!wlbuffer)) {
++-        mem = gst_buffer_peek_memory (to_render, 0);
++-        wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, self->display,
+++        wbuf = gst_wl_shm_memory_construct_wl_buffer (to_render, self->display,
++             &self->video_info);
++ 
++         if (G_UNLIKELY (!wbuf))
++diff --git a/gst-libs/gst/wayland/gstwlshmallocator.c b/gst-libs/gst/wayland/gstwlshmallocator.c
++index 671f2b7..11fb22c 100644
++--- a/gst-libs/gst/wayland/gstwlshmallocator.c
+++++ b/gst-libs/gst/wayland/gstwlshmallocator.c
++@@ -76,32 +76,60 @@ gst_wl_shm_validate_video_info (const GstVideoInfo * vinfo)
++ }
++ 
++ struct wl_buffer *
++-gst_wl_shm_memory_construct_wl_buffer (GstMemory * mem, GstWlDisplay * display,
++-    const GstVideoInfo * info)
+++gst_wl_shm_memory_construct_wl_buffer (GstBuffer * buf,
+++    GstWlDisplay * display, const GstVideoInfo * info)
++ {
+++  GstMemory *mem;
+++  GstVideoMeta *vmeta;
+++  GstVideoInfo vinfo;
++   gint width, height, stride;
++-  gsize offset, size, memsize, maxsize;
+++  gsize plane_offset = 0;
+++  gsize mem_offset = 0;
+++  gsize size, memsize, maxsize;
++   enum wl_shm_format format;
++   struct wl_shm_pool *wl_pool;
++   struct wl_buffer *wbuffer;
++ 
++-  if (!gst_wl_shm_validate_video_info (info)) {
+++  /* Ensure the buffer has exactly one memory block */
+++  if (gst_buffer_n_memory (buf) != 1)
+++    return NULL;
+++
+++  /* Retrieve the memory and ensure it is FD backed */
+++  mem = gst_buffer_peek_memory (buf, 0);
+++  if (!gst_is_fd_memory (mem))
+++    return NULL;
+++
+++  /* Start from caps-derived video info */
+++  vinfo = *info;
+++
+++  /* Override layout using GstVideoMeta if present */
+++  vmeta = gst_buffer_get_video_meta (buf);
+++  if (vmeta) {
+++    vinfo.width = vmeta->width;
+++    vinfo.height = vmeta->height;
+++    vinfo.stride[0] = vmeta->stride[0];
+++    vinfo.offset[0] = vmeta->offset[0];
+++  }
+++
+++  /* Validate the final video layout */
+++  if (!gst_wl_shm_validate_video_info (&vinfo)) {
++     GST_DEBUG_OBJECT (display, "Unsupported strides and offsets.");
++     return NULL;
++   }
++ 
++-  width = GST_VIDEO_INFO_WIDTH (info);
++-  height = GST_VIDEO_INFO_HEIGHT (info);
++-  stride = GST_VIDEO_INFO_PLANE_STRIDE (info, 0);
++-  size = GST_VIDEO_INFO_SIZE (info);
++-  format = gst_video_format_to_wl_shm_format (GST_VIDEO_INFO_FORMAT (info));
+++  width = GST_VIDEO_INFO_WIDTH (&vinfo);
+++  height = GST_VIDEO_INFO_HEIGHT (&vinfo);
+++  stride = GST_VIDEO_INFO_PLANE_STRIDE (&vinfo, 0);
+++  plane_offset = GST_VIDEO_INFO_PLANE_OFFSET (&vinfo, 0);
+++
+++  /* wl_shm requires the actual memory footprint of the buffer */
+++  size = plane_offset + (stride * height);
+++  format = gst_video_format_to_wl_shm_format (GST_VIDEO_INFO_FORMAT (&vinfo));
++ 
++-  memsize = gst_memory_get_sizes (mem, &offset, &maxsize);
++-  offset += GST_VIDEO_INFO_PLANE_OFFSET (info, 0);
+++  memsize = gst_memory_get_sizes (mem, &mem_offset, &maxsize);
++ 
++-  g_return_val_if_fail (gst_is_fd_memory (mem), NULL);
++   g_return_val_if_fail (size <= memsize, NULL);
++-  g_return_val_if_fail (gst_wl_display_check_format_for_shm (display, info),
+++  g_return_val_if_fail (gst_wl_display_check_format_for_shm (display, &vinfo),
++       NULL);
++ 
++   GST_DEBUG_OBJECT (display, "Creating wl_buffer from SHM of size %"
++@@ -110,8 +138,9 @@ gst_wl_shm_memory_construct_wl_buffer (GstMemory * mem, GstWlDisplay * display,
++ 
++   wl_pool = wl_shm_create_pool (gst_wl_display_get_shm (display),
++       gst_fd_memory_get_fd (mem), memsize);
++-  wbuffer = wl_shm_pool_create_buffer (wl_pool, offset, width, height, stride,
++-      format);
+++  wbuffer =
+++      wl_shm_pool_create_buffer (wl_pool, mem_offset + plane_offset, width,
+++      height, stride, format);
++   wl_shm_pool_destroy (wl_pool);
++ 
++   return wbuffer;
++diff --git a/gst-libs/gst/wayland/gstwlshmallocator.h b/gst-libs/gst/wayland/gstwlshmallocator.h
++index 4309bd7..38f3ba5 100644
++--- a/gst-libs/gst/wayland/gstwlshmallocator.h
+++++ b/gst-libs/gst/wayland/gstwlshmallocator.h
++@@ -33,7 +33,7 @@ GST_WL_API
++ void gst_wl_shm_init_once (void);
++ 
++ GST_WL_API
++-struct wl_buffer * gst_wl_shm_memory_construct_wl_buffer (GstMemory * mem,
+++struct wl_buffer * gst_wl_shm_memory_construct_wl_buffer (GstBuffer * buf,
++     GstWlDisplay * display, const GstVideoInfo * info);
++ 
++ G_END_DECLS
++diff --git a/gst-libs/gst/wayland/gstwlwindow.c b/gst-libs/gst/wayland/gstwlwindow.c
++index 3c5c3cc..cd9c964 100644
++--- a/gst-libs/gst/wayland/gstwlwindow.c
+++++ b/gst-libs/gst/wayland/gstwlwindow.c
++@@ -985,9 +985,7 @@ gst_wl_window_update_borders (GstWlWindow * self)
++     buf = gst_buffer_new_allocate (alloc, info.size, NULL);
++     gst_buffer_memset (buf, 0, 0, info.size);
++ 
++-    wlbuf =
++-        gst_wl_shm_memory_construct_wl_buffer (gst_buffer_peek_memory (buf, 0),
++-        priv->display, &info);
+++    wlbuf = gst_wl_shm_memory_construct_wl_buffer (buf, priv->display, &info);
++ 
++     g_object_unref (alloc);
++   }
++-- 
++2.34.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
+index d5ca397129..337b9f5d77 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
+@@ -9,6 +9,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch \
+            file://0002-avoid-including-sys-poll.h-directly.patch \
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
++           file://0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch \
+            "
+ SRC_URI[sha256sum] = "6467e3964828f4d7d08bfe1fbb4d76287a1c8fa76674e59e101a149c020fefd7"
+ 
+-- 
 2.34.1
 
 
