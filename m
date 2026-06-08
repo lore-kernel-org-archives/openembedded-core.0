@@ -1,355 +1,424 @@
-Return-Path: <tdarote@qti.qualcomm.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3623FCD8C9F
-	for <webhook@archiver.kernel.org>; Mon,  8 Jun 2026 13:00:17 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.53874.1780923611325210206
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46893CD8C92
+	for <webhook@archiver.kernel.org>; Mon,  8 Jun 2026 13:13:57 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.54232.1780924432823297650
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jun 2026 06:00:11 -0700
+ Mon, 08 Jun 2026 06:13:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=pJKNWb04;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: tdarote@qualcomm.com)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 658B9bEK3038298
-	for <openembedded-core@lists.openembedded.org>; Mon, 8 Jun 2026 13:00:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=dlMgWiJZmrdq8WFbNJ95UwmijpEJNlE07uS
-	HbI/iQc0=; b=pJKNWb04QuAQpeNm3kZsb6b0lLNLPQYvwOyAXehYyAlT9MOpwHf
-	vQGowDeo4/JdGwXOmxPEtMZ3nNnS/3fo9TNwX9m6XcfAVDP1TR/vlW1UNXAUY31d
-	nlFlKmm5r8CYa350mgraDk5havFGpe5b86HcvIPyk1m/MVh5FFdFhT9T0GcdCVL6
-	5Pps4/XW49FzDgEsIxtjhAWQ1s6JXyV0exeqm5cEDJqnMGvUmWs78kutn//qWwHx
-	3uYgLw1pA2prI1TYVTqsDq1yX8UB3fKj5s7VKZdQ2Q+T8x1zBRQLaDVh+0w516cw
-	gnLqegFuHek2NqhBObZ/a+ApiltevxIEgFA==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4envaj8gr4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 13:00:10 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 658D06s7026050;
-	Mon, 8 Jun 2026 13:00:06 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4emcmj8hhy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 13:00:06 +0000 (GMT)
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 658D06Mk026044
-	for <openembedded-core@lists.openembedded.org>; Mon, 8 Jun 2026 13:00:06 GMT
-Received: from hyd-lnxbld389.qualcomm.com (hyd-lnxbld389.qualcomm.com [10.142.195.70])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 658D06V6026042
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 Jun 2026 13:00:06 +0000 (GMT)
-Received: by hyd-lnxbld389.qualcomm.com (Postfix, from userid 4146169)
-	id 7640E225F2; Mon,  8 Jun 2026 18:30:05 +0530 (IST)
-From: Tushar Darote <tdarote@qti.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tushar Darote <tdarote@qti.qualcomm.com>
-Subject: [PATCH] gstreamer1.0-plugins-bad: handle padded buffers in wl_shm buffer creation
-Date: Mon,  8 Jun 2026 18:29:56 +0530
-Message-Id: <20260608125956.3297942-1-tdarote@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-GUID: avx3h7PmnTz5AI7tYMQuWakrRYpsgUKY
-X-Authority-Analysis: v=2.4 cv=eo3vCIpX c=1 sm=1 tr=0 ts=6a26bcda cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=YMgV9FUhrdKAYTUUvYB2:22 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8
- a=Uc49ZF9OE0rpvxTMQ1MA:9 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-ORIG-GUID: avx3h7PmnTz5AI7tYMQuWakrRYpsgUKY
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA4MDEyMyBTYWx0ZWRfX/u3ho0JxLfYj
- XaW7kb46/aW2ntMRth0J+dH2IrHGaFRX8xs/BUQyhoArET1VvcqP3aDDLGfNbmEfVs8zAf6Vvbd
- +hHIwBgQonta1FqbuQ3kaPBqUowNLzIkzsAtoqRpK7iTs48b4ZbbiB/tydt/DXys6gVma7ggM4N
- lW7A4NdQh22ITQKb9IKYDddlTXAZ5qfYDAuoybKYRDX0BgR5YWQANNO3VMkQh5UX6ZUfMzOcxtj
- BfExyNMyM2SK3vYGZ2lx1AcYuGtjuGoQdoUucrpJ2zMEQVvEVeB+wrXFl7t7Elj9+xqo2LeVqht
- 6Tpr9Zrvg9E95SUm8ustgkgDB0GyS++YQRczifPm2SDn/jcrKJfvsRta6cW0K8ucXk4UywF+SVd
- M4PxQq5JX+cd6eDkGHRXP1sL8E2G6vmDJedalCDKt3F9IGDYwVS+QZghk7HLiwJ15TYjqlJPuU7
- hot6unU6b7qpuDAGfPg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-08_03,2026-06-05_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 phishscore=0 clxscore=1015 bulkscore=0
- malwarescore=0 adultscore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606080123
+ dkim=pass header.i=@smile.fr header.s=google header.b=SrSjUcOl;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso49019995e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 06:13:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1780924431; x=1781529231; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JNaRGwkgLNXCdgv4CxXkClQjutwR0KvFkQfyj1KvvoA=;
+        b=SrSjUcOlUapcfEpKpwsGnOxtNv7WCvn9ePJlfCpcIIfEJVJZnHTgiJbodTaDEHhi8x
+         pmkUgNCHhI2x1B4sLMSSnU22ruTfcONjA6AxRPDYgJieAp4BiqCCBcJthfHnOrEssTIQ
+         NjCT04ozace3eT6+o+BsCf6NrQLziTsAz87Qs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780924431; x=1781529231;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JNaRGwkgLNXCdgv4CxXkClQjutwR0KvFkQfyj1KvvoA=;
+        b=Ku5orARKqTm8Wz9RL8NuOWJy7KavlIxmP0eQnKrUhKMtF/iXJsYoMAC404/KNBjsML
+         nsfNvqKCs/IBWwapRkt9LGsCw6rNi5nD++dkzwlGi9C1iSdc7IlxjLTh18v2rj0McsN+
+         AutzMzxNS5L7C2ieH8TMetoQl0rOPfHIjbZXBspHKgs7H1Qd/tF8+QfW9Q2CAojjBZ0W
+         hcPISnImhrUa7UAqBtvGgfQd4oqg/r5cYUZ+DQNJQ9TLHd7VKRnYb1smRs9SZXHaACYA
+         EU3vrMNGz8za5y89SKIlK2hGajMi1g6d9HB9de/9lEexkxLXyl309huu1M/NrnNgYfyP
+         w/cQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+ucDKmCuMnMpvfOZyg6dPlFeF9cTazMZIJctiyG2Hs9bt0kJyRTvYrB7nuBMua1Lev30GY3C6DawAQOQKaJ8aTgQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywgq4tvmMUCRQZpS075+z6DmM/Z5gOt/Xsrq1AudNTiKmMZ0e0s
+	GmuaGhI8L6jaUWpPnYIR5fQHgTkT7GcjNpV18RIWUwrQZ2XJT7fxrPleyXZVQq0vHUE=
+X-Gm-Gg: Acq92OGemvsTD1wy1vSLE9H57BXOrThQJCenBO7CUYnauVyg4j3FiqGysHk2yxow7ms
+	Gwfc5j0Uh93hr97UZzHKsx7uPZUK0ZenFIuIboxInPEbes9vKs0vvPY2bhagHQp75yFM77CnOLm
+	wTlYjdbcorPMfy3A5yaU38g6J8r3iMUgG27PYZtknHc+uKjhbEDY8mV9PKtLVptkHrkBaWupB0l
+	kKSXdBFJaNcG8ksO0TjE7hMez3tvdXtTlvewi6MKl/+IwJOmQnD41rGAg1NQTbH2kmXcT4lT8jI
+	FLC7zyQBIYof2kHyt3hG9r2kseAzpZCTpssWCO3eUqjwrjrPyjudq9q088IQFZZFZwNm/K2l8YH
+	/tQJkWljmt3LjTljs4us2yg26HbJrJHn7pIoRoY+hlngpvTMu0CeSFj+ZApqSa3A6bHhvyAOO/s
+	6xguO6yFOB6A+FpWObT9076A6TmBHP3FwtqiwGCYT055BkZjrgkf0xWOOoveG7rxn4j9EWaetJ2
+	yxka/N1JfLOKBrxpa5OTw==
+X-Received: by 2002:a05:600c:314b:b0:490:548e:b854 with SMTP id 5b1f17b1804b1-490c25f5e25mr250685775e9.26.1780924430841;
+        Mon, 08 Jun 2026 06:13:50 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490c2d30eeasm254025845e9.1.2026.06.08.06.13.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jun 2026 06:13:50 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 08 Jun 2026 15:13:49 +0200
+Message-Id: <DJ3P0S49KBSY.KUJ05BQXTDHF@smile.fr>
+Subject: Re: [OE-core][master][wrynose][PATCH] ppp: upgrade 2.5.2 -> 2.5.3
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <peng.zhang1.cn@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260602070344.1163210-1-peng.zhang1.cn@windriver.com>
+In-Reply-To: <20260602070344.1163210-1-peng.zhang1.cn@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 13:00:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238233
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2026 13:13:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238234
 
-Use GstBuffer metadata when constructing wl_shm buffers so stride and size reflect the actual buffer layout.
-This fixes incorrect rendering with DMA-backed buffers that include padding or custom strides.
+On Tue Jun 2, 2026 at 9:03 AM CEST, Peng (Paul) (CN) via lists.openembedded=
+.org Zhang wrote:
+> From: Zhang Peng <peng.zhang1.cn@windriver.com>
+>
+> ChangeLog:
+> https://github.com/ppp-project/ppp/releases/tag/v2.5.3
+>
+> Drop backported patches:
+> - 0001-pppd-pppdconf.h-remove-erroneous-generated-header.patch
+> - 0001-pppdump-Fixed-building-with-GCC-15-548.patch
+> - 0001-pppd-session-Fixed-building-with-GCC-15.patch
+>
+> Add ppp-dhcpv6relay package for newly added dhcpv6relay plugin.
+>
+> Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
+> ---
 
-Signed-off-by: Tushar Darote <tdarote@qti.qualcomm.com>
----
- ...added-buffers-in-wl_shm-buffer-creat.patch | 238 ++++++++++++++++++
- .../gstreamer1.0-plugins-bad_1.28.2.bb        |   1 +
- 2 files changed, 239 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
+Hello,
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
-new file mode 100644
-index 0000000000..2bb00e2b1d
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
-@@ -0,0 +1,238 @@
-+From 2af4bc8562f970207e3b1f6fc0b377ecf116a69c Mon Sep 17 00:00:00 2001
-+From: Tushar Darote <tdarote@qti.qualcomm.com>
-+Date: Mon, 8 Jun 2026 18:05:51 +0530
-+Subject: [PATCH] wayland: handle padded buffers in wl_shm buffer creation
-+
-+Use GstBuffer metadata when constructing wl_shm buffers so stride and
-+size reflect the actual buffer layout. This fixes incorrect rendering
-+with DMA-backed buffers that include padding or custom strides.
-+
-+gst_wl_shm_memory_construct_wl_buffer() now takes a GstBuffer instead of
-+a GstMemory. It derives the video layout from the buffer's GstVideoMeta
-+when present (width, height, stride and offset), falling back to the
-+caps-derived GstVideoInfo otherwise, and computes the real memory
-+footprint (plane_offset + stride * height) rather than the unpadded
-+GstVideoInfo size. The single-memory and fd-memory checks that used to
-+live in the callers are now performed inside the function.
-+
-+All callers in gstwlwindow, waylandsink and gtkwaylandsink are updated
-+accordingly.
-+
-+Upstream-Status: Backport [adapted from https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/11370 due to API differences]
-+
-+Signed-off-by: Tushar Darote <tdarote@qti.qualcomm.com>
-+---
-+ ext/gtk/gstgtkwaylandsink.c              | 11 ++---
-+ ext/wayland/gstwaylandsink.c             | 11 ++---
-+ gst-libs/gst/wayland/gstwlshmallocator.c | 59 ++++++++++++++++++------
-+ gst-libs/gst/wayland/gstwlshmallocator.h |  2 +-
-+ gst-libs/gst/wayland/gstwlwindow.c       |  4 +-
-+ 5 files changed, 52 insertions(+), 35 deletions(-)
-+
-+diff --git a/ext/gtk/gstgtkwaylandsink.c b/ext/gtk/gstgtkwaylandsink.c
-+index 0660b30..81bcd7f 100644
-+--- a/ext/gtk/gstgtkwaylandsink.c
-++++ b/ext/gtk/gstgtkwaylandsink.c
-+@@ -1179,7 +1179,6 @@ gst_gtk_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
-+       gst_gtk_wayland_sink_get_instance_private (self);
-+   GstBuffer *to_render;
-+   GstWlBuffer *wlbuffer;
-+-  GstMemory *mem;
-+   struct wl_buffer *wbuf = NULL;
-+ 
-+   GstFlowReturn ret = GST_FLOW_OK;
-+@@ -1240,8 +1239,6 @@ gst_gtk_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
-+   }
-+ 
-+   /* update video info from video meta */
-+-  mem = gst_buffer_peek_memory (buffer, 0);
-+-
-+   GST_LOG_OBJECT (self,
-+       "buffer %" GST_PTR_FORMAT " does not have a wl_buffer from our "
-+       "display, creating it", buffer);
-+@@ -1301,9 +1298,8 @@ gst_gtk_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
-+ handle_shm:
-+   if (!wbuf && gst_wl_display_check_format_for_shm (priv->display,
-+           &priv->render_info)) {
-+-    if (gst_buffer_n_memory (buffer) == 1 && gst_is_fd_memory (mem))
-+-      wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, priv->display,
-+-          &priv->render_info);
-++    wbuf = gst_wl_shm_memory_construct_wl_buffer (buffer, priv->display,
-++        &priv->render_info);
-+ 
-+     /* If nothing worked, copy into our internal pool */
-+     if (!wbuf) {
-+@@ -1328,8 +1324,7 @@ handle_shm:
-+ 
-+       /* attach a wl_buffer if there isn't one yet */
-+       if (G_UNLIKELY (!wlbuffer)) {
-+-        mem = gst_buffer_peek_memory (to_render, 0);
-+-        wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, priv->display,
-++        wbuf = gst_wl_shm_memory_construct_wl_buffer (to_render, priv->display,
-+             &priv->render_info);
-+ 
-+         if (G_UNLIKELY (!wbuf))
-+diff --git a/ext/wayland/gstwaylandsink.c b/ext/wayland/gstwaylandsink.c
-+index 443db24..60aa11d 100644
-+--- a/ext/wayland/gstwaylandsink.c
-++++ b/ext/wayland/gstwaylandsink.c
-+@@ -1011,7 +1011,6 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
-+   GstWaylandSink *self = GST_WAYLAND_SINK (vsink);
-+   GstBuffer *to_render;
-+   GstWlBuffer *wlbuffer;
-+-  GstMemory *mem;
-+   struct wl_buffer *wbuf = NULL;
-+ 
-+   GstFlowReturn ret = GST_FLOW_OK;
-+@@ -1086,8 +1085,6 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
-+   }
-+ 
-+   /* update video info from video meta */
-+-  mem = gst_buffer_peek_memory (buffer, 0);
-+-
-+   GST_LOG_OBJECT (self,
-+       "buffer %" GST_PTR_FORMAT " does not have a wl_buffer from our "
-+       "display, creating it", buffer);
-+@@ -1147,9 +1144,8 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
-+ handle_shm:
-+   if (!wbuf && gst_wl_display_check_format_for_shm (self->display,
-+           &self->render_info)) {
-+-    if (gst_buffer_n_memory (buffer) == 1 && gst_is_fd_memory (mem))
-+-      wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, self->display,
-+-          &self->video_info);
-++    wbuf = gst_wl_shm_memory_construct_wl_buffer (buffer, self->display,
-++        &self->video_info);
-+ 
-+     /* If nothing worked, copy into our internal pool */
-+     if (!wbuf) {
-+@@ -1173,8 +1169,7 @@ handle_shm:
-+ 
-+       /* attach a wl_buffer if there isn't one yet */
-+       if (G_UNLIKELY (!wlbuffer)) {
-+-        mem = gst_buffer_peek_memory (to_render, 0);
-+-        wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, self->display,
-++        wbuf = gst_wl_shm_memory_construct_wl_buffer (to_render, self->display,
-+             &self->video_info);
-+ 
-+         if (G_UNLIKELY (!wbuf))
-+diff --git a/gst-libs/gst/wayland/gstwlshmallocator.c b/gst-libs/gst/wayland/gstwlshmallocator.c
-+index 671f2b7..11fb22c 100644
-+--- a/gst-libs/gst/wayland/gstwlshmallocator.c
-++++ b/gst-libs/gst/wayland/gstwlshmallocator.c
-+@@ -76,32 +76,60 @@ gst_wl_shm_validate_video_info (const GstVideoInfo * vinfo)
-+ }
-+ 
-+ struct wl_buffer *
-+-gst_wl_shm_memory_construct_wl_buffer (GstMemory * mem, GstWlDisplay * display,
-+-    const GstVideoInfo * info)
-++gst_wl_shm_memory_construct_wl_buffer (GstBuffer * buf,
-++    GstWlDisplay * display, const GstVideoInfo * info)
-+ {
-++  GstMemory *mem;
-++  GstVideoMeta *vmeta;
-++  GstVideoInfo vinfo;
-+   gint width, height, stride;
-+-  gsize offset, size, memsize, maxsize;
-++  gsize plane_offset = 0;
-++  gsize mem_offset = 0;
-++  gsize size, memsize, maxsize;
-+   enum wl_shm_format format;
-+   struct wl_shm_pool *wl_pool;
-+   struct wl_buffer *wbuffer;
-+ 
-+-  if (!gst_wl_shm_validate_video_info (info)) {
-++  /* Ensure the buffer has exactly one memory block */
-++  if (gst_buffer_n_memory (buf) != 1)
-++    return NULL;
-++
-++  /* Retrieve the memory and ensure it is FD backed */
-++  mem = gst_buffer_peek_memory (buf, 0);
-++  if (!gst_is_fd_memory (mem))
-++    return NULL;
-++
-++  /* Start from caps-derived video info */
-++  vinfo = *info;
-++
-++  /* Override layout using GstVideoMeta if present */
-++  vmeta = gst_buffer_get_video_meta (buf);
-++  if (vmeta) {
-++    vinfo.width = vmeta->width;
-++    vinfo.height = vmeta->height;
-++    vinfo.stride[0] = vmeta->stride[0];
-++    vinfo.offset[0] = vmeta->offset[0];
-++  }
-++
-++  /* Validate the final video layout */
-++  if (!gst_wl_shm_validate_video_info (&vinfo)) {
-+     GST_DEBUG_OBJECT (display, "Unsupported strides and offsets.");
-+     return NULL;
-+   }
-+ 
-+-  width = GST_VIDEO_INFO_WIDTH (info);
-+-  height = GST_VIDEO_INFO_HEIGHT (info);
-+-  stride = GST_VIDEO_INFO_PLANE_STRIDE (info, 0);
-+-  size = GST_VIDEO_INFO_SIZE (info);
-+-  format = gst_video_format_to_wl_shm_format (GST_VIDEO_INFO_FORMAT (info));
-++  width = GST_VIDEO_INFO_WIDTH (&vinfo);
-++  height = GST_VIDEO_INFO_HEIGHT (&vinfo);
-++  stride = GST_VIDEO_INFO_PLANE_STRIDE (&vinfo, 0);
-++  plane_offset = GST_VIDEO_INFO_PLANE_OFFSET (&vinfo, 0);
-++
-++  /* wl_shm requires the actual memory footprint of the buffer */
-++  size = plane_offset + (stride * height);
-++  format = gst_video_format_to_wl_shm_format (GST_VIDEO_INFO_FORMAT (&vinfo));
-+ 
-+-  memsize = gst_memory_get_sizes (mem, &offset, &maxsize);
-+-  offset += GST_VIDEO_INFO_PLANE_OFFSET (info, 0);
-++  memsize = gst_memory_get_sizes (mem, &mem_offset, &maxsize);
-+ 
-+-  g_return_val_if_fail (gst_is_fd_memory (mem), NULL);
-+   g_return_val_if_fail (size <= memsize, NULL);
-+-  g_return_val_if_fail (gst_wl_display_check_format_for_shm (display, info),
-++  g_return_val_if_fail (gst_wl_display_check_format_for_shm (display, &vinfo),
-+       NULL);
-+ 
-+   GST_DEBUG_OBJECT (display, "Creating wl_buffer from SHM of size %"
-+@@ -110,8 +138,9 @@ gst_wl_shm_memory_construct_wl_buffer (GstMemory * mem, GstWlDisplay * display,
-+ 
-+   wl_pool = wl_shm_create_pool (gst_wl_display_get_shm (display),
-+       gst_fd_memory_get_fd (mem), memsize);
-+-  wbuffer = wl_shm_pool_create_buffer (wl_pool, offset, width, height, stride,
-+-      format);
-++  wbuffer =
-++      wl_shm_pool_create_buffer (wl_pool, mem_offset + plane_offset, width,
-++      height, stride, format);
-+   wl_shm_pool_destroy (wl_pool);
-+ 
-+   return wbuffer;
-+diff --git a/gst-libs/gst/wayland/gstwlshmallocator.h b/gst-libs/gst/wayland/gstwlshmallocator.h
-+index 4309bd7..38f3ba5 100644
-+--- a/gst-libs/gst/wayland/gstwlshmallocator.h
-++++ b/gst-libs/gst/wayland/gstwlshmallocator.h
-+@@ -33,7 +33,7 @@ GST_WL_API
-+ void gst_wl_shm_init_once (void);
-+ 
-+ GST_WL_API
-+-struct wl_buffer * gst_wl_shm_memory_construct_wl_buffer (GstMemory * mem,
-++struct wl_buffer * gst_wl_shm_memory_construct_wl_buffer (GstBuffer * buf,
-+     GstWlDisplay * display, const GstVideoInfo * info);
-+ 
-+ G_END_DECLS
-+diff --git a/gst-libs/gst/wayland/gstwlwindow.c b/gst-libs/gst/wayland/gstwlwindow.c
-+index 3c5c3cc..cd9c964 100644
-+--- a/gst-libs/gst/wayland/gstwlwindow.c
-++++ b/gst-libs/gst/wayland/gstwlwindow.c
-+@@ -985,9 +985,7 @@ gst_wl_window_update_borders (GstWlWindow * self)
-+     buf = gst_buffer_new_allocate (alloc, info.size, NULL);
-+     gst_buffer_memset (buf, 0, 0, info.size);
-+ 
-+-    wlbuf =
-+-        gst_wl_shm_memory_construct_wl_buffer (gst_buffer_peek_memory (buf, 0),
-+-        priv->display, &info);
-++    wlbuf = gst_wl_shm_memory_construct_wl_buffer (buf, priv->display, &info);
-+ 
-+     g_object_unref (alloc);
-+   }
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
-index d5ca397129..337b9f5d77 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
-@@ -9,6 +9,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch \
-            file://0002-avoid-including-sys-poll.h-directly.patch \
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-+           file://0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch \
-            "
- SRC_URI[sha256sum] = "6467e3964828f4d7d08bfe1fbb4d76287a1c8fa76674e59e101a149c020fefd7"
- 
--- 
-2.34.1
+This upgrade has some major change:
+> Default route handling has changed; pppd no longer checks for an
+> existing default route before adding its default route. The defaultroute
+> and defaultroute6 options are now privileged, and if used, the default
+> route will always be added. The metric of the default route can be
+> controlled with new defaultroute-metric and defaultroute6-metric
+> options, which are privileged. The replacedefaultroute and
+> noreplacedefaultroute options are no longer functional, and just cause
+> an error message to be printed.
+
+And, thus, is not acceptable on a stable branch.
+See: https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Stable/LTS_P=
+atch_Acceptance_Policies
+
+Regards,
+
+>  ....h-remove-erroneous-generated-header.patch | 98 -------------------
+>  ...d-session-Fixed-building-with-GCC-15.patch | 33 -------
+>  ...pdump-Fixed-building-with-GCC-15-548.patch | 75 --------------
+>  .../ppp/{ppp_2.5.2.bb =3D> ppp_2.5.3.bb}        |  9 +-
+>  4 files changed, 4 insertions(+), 211 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppd-pppdconf.=
+h-remove-erroneous-generated-header.patch
+>  delete mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppd-session-F=
+ixed-building-with-GCC-15.patch
+>  delete mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-=
+building-with-GCC-15-548.patch
+>  rename meta/recipes-connectivity/ppp/{ppp_2.5.2.bb =3D> ppp_2.5.3.bb} (9=
+1%)
+>
+> diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppd-pppdconf.h-remov=
+e-erroneous-generated-header.patch b/meta/recipes-connectivity/ppp/ppp/0001=
+-pppd-pppdconf.h-remove-erroneous-generated-header.patch
+> deleted file mode 100644
+> index a00706c184..0000000000
+> --- a/meta/recipes-connectivity/ppp/ppp/0001-pppd-pppdconf.h-remove-erron=
+eous-generated-header.patch
+> +++ /dev/null
+> @@ -1,98 +0,0 @@
+> -From a6eb65162db5bcc5ec26cff7361885c0a44cbbfa Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex@linutronix.de>
+> -Date: Mon, 17 Mar 2025 11:12:07 +0100
+> -Subject: [PATCH] pppd/pppdconf.h: remove erroneous generated header
+> -
+> -Upstream-Status: Inappropriate [tarball generation issue tracked at http=
+s://github.com/ppp-project/ppp/issues/541]
+> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ----
+> - pppd/pppdconf.h | 80 -------------------------------------------------
+> - 1 file changed, 80 deletions(-)
+> - delete mode 100644 pppd/pppdconf.h
+> -
+> -diff --git a/pppd/pppdconf.h b/pppd/pppdconf.h
+> -deleted file mode 100644
+> -index 51a8f02..0000000
+> ---- a/pppd/pppdconf.h
+> -+++ /dev/null
+> -@@ -1,80 +0,0 @@
+> --/* pppd/pppdconf.h.  Generated from pppdconf.h.in by configure.  */
+> --/*=20
+> -- * Copyright (c) 2022 Eivind N=C3=A6ss. All rights reserved.
+> -- *
+> -- * Redistribution and use in source and binary forms, with or without
+> -- * modification, are permitted provided that the following conditions
+> -- * are met:
+> -- *
+> -- * 1. Redistributions of source code must retain the above copyright
+> -- *    notice, this list of conditions and the following disclaimer.
+> -- *
+> -- * 2. Redistributions in binary form must reproduce the above copyright
+> -- *    notice, this list of conditions and the following disclaimer in
+> -- *    the documentation and/or other materials provided with the
+> -- *    distribution.
+> -- *
+> -- * 3. The name(s) of the authors of this software must not be used to
+> -- *    endorse or promote products derived from this software without
+> -- *    prior written permission.
+> -- *
+> -- * THE AUTHORS OF THIS SOFTWARE DISCLAIM ALL WARRANTIES WITH REGARD TO
+> -- * THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+> -- * AND FITNESS, IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY
+> -- * SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+> -- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN
+> -- * AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
+> -- * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE=
+.
+> -- */
+> --
+> --/*
+> -- * This file is generated by configure and sets the features enabled
+> -- *   in pppd when configured.
+> -- */
+> --
+> --#ifndef PPP_PPPDCONF_H
+> --#define PPP_PPPDCONF_H
+> --
+> --/* Have Microsoft CHAP support */
+> --#define PPP_WITH_CHAPMS 1
+> --
+> --/* Have Microsoft LAN Manager support */
+> --/* #undef PPP_WITH_MSLANMAN */
+> --
+> --/* Have Microsoft MPPE support */
+> --#define PPP_WITH_MPPE 1
+> --
+> --/* Have multilink support */
+> --#define PPP_WITH_MULTILINK 1
+> --
+> --/* Have packet activity filter support */
+> --#define PPP_WITH_FILTER 1
+> --
+> --/* Have support for loadable plugins */
+> --#define PPP_WITH_PLUGINS 1
+> --
+> --/* Have Callback Protocol support */
+> --/* #undef PPP_WITH_CBCP */
+> --
+> --/* Include TDB support */
+> --#define PPP_WITH_TDB 1
+> --
+> --/* Have IPv6 Control Protocol */
+> --#define PPP_WITH_IPV6CP 1
+> --
+> --/* Support for Pluggable Authentication Modules */
+> --/* #undef PPP_WITH_PAM */
+> --
+> --/* Have EAP-SRP authentication support */
+> --/* #undef PPP_WITH_SRP */
+> --
+> --/* Have EAP-TLS authentication support */
+> --#define PPP_WITH_EAPTLS 1
+> --
+> --/* Have PEAP authentication support */
+> --#define PPP_WITH_PEAP 1
+> --
+> --/* The pppd version */
+> --#define PPPD_VERSION "2.5.2"
+> --
+> --#endif
+> diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppd-session-Fixed-bu=
+ilding-with-GCC-15.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppd-sess=
+ion-Fixed-building-with-GCC-15.patch
+> deleted file mode 100644
+> index d95c72e96b..0000000000
+> --- a/meta/recipes-connectivity/ppp/ppp/0001-pppd-session-Fixed-building-=
+with-GCC-15.patch
+> +++ /dev/null
+> @@ -1,33 +0,0 @@
+> -From 5edcb01f1d8d521c819d45df1f1bb87697252130 Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Mon, 17 Mar 2025 14:38:26 -0700
+> -Subject: [PATCH] pppd/session: Fixed building with GCC 15
+> -
+> -Fixed building with GCC 15 which defaults to C23
+> -and find conflicting declration of getspnam() here
+> -with the one provided by shadow.h (extern struct spwd *getspnam (const c=
+har *__name);)
+> -
+> -Fixes
+> -../../ppp-2.5.2/pppd/session.c: In function 'session_start':
+> -../../ppp-2.5.2/pppd/session.c:185:18: error: conflicting types for 'get=
+spnam'; have 'struct spwd *(void)'
+> -  185 |     struct spwd *getspnam();
+> -      |                  ^~~~~~~~
+> -
+> -Upstream-Status: Submitted [https://github.com/ppp-project/ppp/pull/553]
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - pppd/session.c | 1 -
+> - 1 file changed, 1 deletion(-)
+> -
+> -diff --git a/pppd/session.c b/pppd/session.c
+> -index f08d8e1..9cc7538 100644
+> ---- a/pppd/session.c
+> -+++ b/pppd/session.c
+> -@@ -182,7 +182,6 @@ session_start(const int flags, const char *user, con=
+st char *passwd, const char
+> -     char *cbuf;
+> - #ifdef HAVE_SHADOW_H
+> -     struct spwd *spwd;
+> --    struct spwd *getspnam();
+> -     long now =3D 0;
+> - #endif /* #ifdef HAVE_SHADOW_H */
+> - #endif /* #ifdef PPP_WITH_PAM */
+> diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-buildin=
+g-with-GCC-15-548.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fi=
+xed-building-with-GCC-15-548.patch
+> deleted file mode 100644
+> index 2a3b3cc84a..0000000000
+> --- a/meta/recipes-connectivity/ppp/ppp/0001-pppdump-Fixed-building-with-=
+GCC-15-548.patch
+> +++ /dev/null
+> @@ -1,75 +0,0 @@
+> -From 44a766a3d086f10cb584a0c423e5bed6af2e3615 Mon Sep 17 00:00:00 2001
+> -From: =3D?UTF-8?q?Jaroslav=3D20=3DC5=3DA0karvada?=3D <jskarvad@redhat.co=
+m>
+> -Date: Thu, 27 Feb 2025 23:00:16 +0100
+> -Subject: [PATCH] pppdump: Fixed building with GCC 15 (#548)
+> -MIME-Version: 1.0
+> -Content-Type: text/plain; charset=3DUTF-8
+> -Content-Transfer-Encoding: 8bit
+> -
+> -GCC 15 defaults to C23 which does not allow K&R declarations.
+> -
+> -Credit Yaakov Selkowitz in:
+> -https://src.fedoraproject.org/rpms/ppp/pull-request/12
+> -
+> -Upstream-Status: Backport [https://github.com/ppp-project/ppp/pull/548]
+> -
+> -Signed-off-by: Jaroslav =C5=A0karvada <jskarvad@redhat.com>
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - pppdump/pppdump.c | 20 +++++++-------------
+> - 1 file changed, 7 insertions(+), 13 deletions(-)
+> -
+> -diff --git a/pppdump/pppdump.c b/pppdump/pppdump.c
+> -index c24208a..1534036 100644
+> ---- a/pppdump/pppdump.c
+> -+++ b/pppdump/pppdump.c
+> -@@ -42,14 +42,12 @@ int tot_sent, tot_rcvd;
+> - extern int optind;
+> - extern char *optarg;
+> -=20
+> --void dumplog();
+> --void dumpppp();
+> --void show_time();
+> -+void dumplog(FILE *);
+> -+void dumpppp(FILE *);
+> -+void show_time(FILE *, int);
+> -=20
+> - int
+> --main(ac, av)
+> --    int ac;
+> --    char **av;
+> -+main(int ac, char **av)
+> - {
+> -     int i;
+> -     char *p;
+> -@@ -97,8 +95,7 @@ main(ac, av)
+> - }
+> -=20
+> - void
+> --dumplog(f)
+> --    FILE *f;
+> -+dumplog(FILE *f)
+> - {
+> -     int c, n, k, col;
+> -     int nb, c2;
+> -@@ -241,8 +238,7 @@ struct pkt {
+> - unsigned char dbuf[8192];
+> -=20
+> - void
+> --dumpppp(f)
+> --    FILE *f;
+> -+dumpppp(FILE *f)
+> - {
+> -     int c, n, k;
+> -     int nb, nl, dn, proto, rv;
+> -@@ -375,9 +371,7 @@ dumpppp(f)
+> - }
+> -=20
+> - void
+> --show_time(f, c)
+> --    FILE *f;
+> --    int c;
+> -+show_time(FILE *f, int c)
+> - {
+> -     time_t t;
+> -     int n;
+> diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb b/meta/recipes-co=
+nnectivity/ppp/ppp_2.5.3.bb
+> similarity index 91%
+> rename from meta/recipes-connectivity/ppp/ppp_2.5.2.bb
+> rename to meta/recipes-connectivity/ppp/ppp_2.5.3.bb
+> index 607678db8b..435559a815 100644
+> --- a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
+> +++ b/meta/recipes-connectivity/ppp/ppp_2.5.3.bb
+> @@ -23,12 +23,9 @@ SRC_URI =3D "https://download.samba.org/pub/${BPN}/${B=
+P}.tar.gz \
+>             file://ppp_on_boot \
+>             file://provider \
+>             file://ppp@.service \
+> -           file://0001-pppdump-Fixed-building-with-GCC-15-548.patch \
+> -           file://0001-pppd-pppdconf.h-remove-erroneous-generated-header=
+.patch \
+> -           file://0001-pppd-session-Fixed-building-with-GCC-15.patch \
+>             "
+> =20
+> -SRC_URI[sha256sum] =3D "47da358de54a10cb10bf6ff2cf9b1c03c0d3555518f6182e=
+8f701b8e55733cb2"
+> +SRC_URI[sha256sum] =3D "ddda28dec8aca99a403ab6070d94ffd2b17d63e9a4c55091=
+58e99e148f572d4f"
+> =20
+>  inherit autotools pkgconfig systemd
+> =20
+> @@ -60,7 +57,7 @@ do_install:append () {
+>  }
+> =20
+>  CONFFILES:${PN} =3D "${sysconfdir}/ppp/pap-secrets ${sysconfdir}/ppp/cha=
+p-secrets ${sysconfdir}/ppp/options"
+> -PACKAGES =3D+ "${PN}-oa ${PN}-oe ${PN}-radius ${PN}-winbind ${PN}-mincon=
+n ${PN}-password ${PN}-l2tp ${PN}-tools"
+> +PACKAGES =3D+ "${PN}-oa ${PN}-oe ${PN}-radius ${PN}-winbind ${PN}-mincon=
+n ${PN}-password ${PN}-l2tp ${PN}-tools ${PN}-dhcpv6relay"
+>  FILES:${PN}        =3D "${sysconfdir} ${bindir} ${sbindir}/chat ${sbindi=
+r}/pppd ${systemd_system_unitdir}/ppp@.service"
+>  FILES:${PN}-oa       =3D "${libdir}/pppd/${PV}/pppoatm.so"
+>  FILES:${PN}-oe       =3D "${sbindir}/pppoe-discovery ${libdir}/pppd/${PV=
+}/*pppoe.so"
+> @@ -70,6 +67,7 @@ FILES:${PN}-minconn  =3D "${libdir}/pppd/${PV}/minconn.=
+so"
+>  FILES:${PN}-password =3D "${libdir}/pppd/${PV}/pass*.so"
+>  FILES:${PN}-l2tp     =3D "${libdir}/pppd/${PV}/*l2tp.so"
+>  FILES:${PN}-tools    =3D "${sbindir}/pppstats ${sbindir}/pppdump"
+> +FILES:${PN}-dhcpv6relay =3D "${libdir}/pppd/${PV}/dhcpv6relay.so"
+>  SUMMARY:${PN}-oa       =3D "Plugin for PPP for PPP-over-ATM support"
+>  SUMMARY:${PN}-oe       =3D "Plugin for PPP for PPP-over-Ethernet support=
+"
+>  SUMMARY:${PN}-radius   =3D "Plugin for PPP for RADIUS support"
+> @@ -78,4 +76,5 @@ SUMMARY:${PN}-minconn  =3D "Plugin for PPP to set a del=
+ay before the idle timeout
+>  SUMMARY:${PN}-password =3D "Plugin for PPP to get passwords via a pipe"
+>  SUMMARY:${PN}-l2tp     =3D "Plugin for PPP for l2tp support"
+>  SUMMARY:${PN}-tools    =3D "Additional tools for the PPP package"
+> +SUMMARY:${PN}-dhcpv6relay =3D "Plugin for PPP for DHCPv6 relay agent sup=
+port"
+> =20
+
+
+--=20
+Yoann Congal
+Smile ECS
 
 
