@@ -1,268 +1,199 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <jeremy.rosen@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7C0CD8CA4
-	for <webhook@archiver.kernel.org>; Tue,  9 Jun 2026 14:37:48 +0000 (UTC)
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.81189.1781015865890493232
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51167CD8CB9
+	for <webhook@archiver.kernel.org>; Tue,  9 Jun 2026 15:31:08 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.82816.1781019059644975987
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2026 07:37:46 -0700
+ Tue, 09 Jun 2026 08:31:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=dGqFJ6Jh;
- spf=pass (domain: gmail.com, ip: 74.125.224.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-6611669cd16so3156724d50.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 07:37:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781015865; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FzVtr7S5uSOJHYxf++SXJCnX1ephtuRCPeGYuOracD/29CTrDvZOsz/13pjcZ10NKD
-         l2qfIJCrGAAsMtA62o7iW+WzMyypLbfNM5YkMw4XP8aCmBQw5IzVzI4V3ipU5jOAMYoL
-         Iu/fP5SzX6/zyhOObXFbr5aXHKT9C4KEQypb99Fq4vD8kmI0hd5aIvERMeBqDlwNuICH
-         anq98dvb7fsLFZigag8Jou+lWLCm5AdgIJWyaf0QYk5dL85xPvsZ7ACIUNsfz+juIH+1
-         HH6/DsvvlfzFrBQkCmtLSGraAnvdQZEUj7Dpt8D4jMafamix8DtFpjiAev7XjIvlrHTu
-         /j8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=V/WNEk7SwQB0XTdTdxRDF7YUMMHWlXFnSTaC+tfX5nU=;
-        fh=cbgl5IOPsNxVRhYTH4PVIGJOnA+jpdWoNWXXxuAa4Z0=;
-        b=LIXfdDlpvOmZ2sTysjwNHR0/smkZz+U6Kq0uQz8p+xNeVD3uEkhuaqJSaki+qWBuIU
-         QXMH3DyClHzxHRfJtLmpAmf1Rq4ySwJKdVjZMmt7Y3yNqujNca3VudTfPxjL+iAjwswd
-         XSytkY+CXDVyGYi+TDK5xl5jZoNnS9RtZYKEbWIciQxdFRoCkuQOnN/eAOtn7+i4eQEo
-         apskffC8AP0WXlV173h/GGPmXpe269fL0WI+K37gI4v2PLEFOhuVxyEQ/ceqBUSOwEOx
-         ZA5GwL/JBGXX0zc6Lr3fku4d2aHaLQiDTLmZumfNAyXlikCCQ/UtE/wJqMljM8Cab4+y
-         029g==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=njb2Z+QS;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: jeremy.rosen@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490ac357c55so62125995e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 08:30:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781015865; x=1781620665; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=V/WNEk7SwQB0XTdTdxRDF7YUMMHWlXFnSTaC+tfX5nU=;
-        b=dGqFJ6Jhsr6hXbeEIO39VDw536EwE3uQZk3PFDMv8xCNiweG6kOB2h4QLpzjjIsz0o
-         iz9bAXRPoubAp+l4lJWcgNXXRVv0x9CchUey5VoTEw70LnxpWJhUCFEr/N9FaFcEE7HQ
-         lyfXWY2Uph/Ci0Uz8DK9UnntNftu3LsuBB2eVNQzq+fzS0PPnIaTySMkuubG2vnO+jkn
-         sm0ohkwX9p/AkFU2/0XzgVSlurlrRQTxKNz0Rcw2ls11H7CDzcU0LT3bC1J4xDNqFx4P
-         1FpCscvmg4a29xKL08+B/n2xOZs8yFZHdIl1I4OD6/nOpI73rn0QnbV3Oe6ugiG4HtfD
-         d/kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781015865; x=1781620665;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1781019058; x=1781623858; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V/WNEk7SwQB0XTdTdxRDF7YUMMHWlXFnSTaC+tfX5nU=;
-        b=SUY8ypRsKwywOOXSeynPWsgUJ9u4tp4TQ7rMRPEDCUhwgWoDoU8Q8MDi2WNezCYJUb
-         hqjHkp+ixCh8n4da3YHkCwE331uE1IcckA5eHy1zXQzpeNko8T/cZ2bmNQQMEhvZvIp5
-         6F8Z3KKnBtrK1NFDV38dyQbALgNd+1f/+HdvaL6F7FsDDnIwgc/al3t3mAleARtkB+Bg
-         z49hhGwCFYgw5LvP4q3Z1sE05IIusb9Ox+obUk+u9DDKwSMC9QLAzKhExIYSDfJ/EFbT
-         TZyd78fIsXqsOHDmOor4259DN4XhV02bZR6nUqN4oPAFx6L2yMSfLCiWVAjY8HO37AVa
-         8BPw==
-X-Gm-Message-State: AOJu0Yz32mQuBlBboQvk6rO66TtT3mKgOL5bZYirzB+0c2Z8NthiDjS8
-	xFe+14ZDh0paUNoSZGwT9fus4K37FwG6R12wQBGeQ4AVxKvob0GdPoLhug9HS1rBF16L4ACsbkT
-	PHawx0SjnPSYnO/H9lgBxil8m9nct/nk=
-X-Gm-Gg: Acq92OEpxazh9QUwHyHpSw6RJ296ttvhAHk2CpMXJfEmZ6if6C9RZ9gjfim5YEkCcGM
-	6TwHluaaPXRexkvsnV1qD54qCTtH/pDcH9En3ETxPh3/3mytAfx3PSRvVsS2qhBdK4JmiN+BFy1
-	yCHJcVoAVXwiJ6QD8idUtsOCODK0CsiryygYmjTrYol2UZBKZiDFP5V4nRsKsJOfk4MTKUgCtWm
-	pIObWMCh1oVfnsUEB1BH43+njzkzvLJnH8kN1BPJtuuarmHvQeQOHDWFlfBcZz5Z5l+OsB/PUDj
-	KoOcHmc4MmslrwwmCS0mCZDHuTy7GHJaKCT1ztHAbNAudKlychWY/IeRd2QMxjnIrH0sSqod9J2
-	20Zf8j/+KCXIrXKMOU4r9lDbIXzfS8WzYqv5D65kwS/93+nzllg8S0TmBx8GJbmqLmgDiDJz8mN
-	Z8rV6Vf2epZZxGZ+6e
-X-Received: by 2002:a05:690e:b86:b0:661:878d:a772 with SMTP id
- 956f58d0204a3-661878dab1emr1145718d50.27.1781015864595; Tue, 09 Jun 2026
- 07:37:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260609074603.1429006-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20260609074603.1429006-1-richard.purdie@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 9 Jun 2026 07:37:17 -0700
-X-Gm-Features: AVVi8CfO-W5wPYUxtaR01uJUA_5VaFD3mO7UCVlmxQUhJa1Rg7uli9v_ALjyUuA
-Message-ID: <CAMKF1spxdrjhNCR8MP83GyO4t5TAUcfAKdpDbBBteibFTd3RzA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] oe/utils: Drop all_distro_features
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f2dadb0653d311b7"
+        bh=P64mRRn3vXUn6IacuqUmQi7AQdjfl6hVqGmnVj2jkxc=;
+        b=njb2Z+QSPqtRnFwHjI9hH4nkCQ4BCR9EFPJQRC4ITrpqA2Tkv5z72lOilc+XMcGK9U
+         oCqNU1THbrerXCNh2DDN7VD6RgK0VQ8/MET0TYKttFOjvfkD4Jlh/7s/n6WTXQBNWiG4
+         WWrt1UStD/oJP1kWECYkpsmIH+SEdd+KLwRqc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781019058; x=1781623858;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P64mRRn3vXUn6IacuqUmQi7AQdjfl6hVqGmnVj2jkxc=;
+        b=D+aak9i097+sfv7wG3LvYB5um1+wFGsuEcB6DB7H71ILB1gqckdlxsBflJWvEKn74v
+         CyfgqQrv0cyCqeXBMoa8TtSeKuSKjzigpkEcdSm3gHuVrrsTPvnkF4+t5OctkrYd7YCi
+         2/sElD9QEIhUibzZDyIDUzy3HvERSV62Uzz5WTC1LonWtyTH6I5H8QGLkN/T2AX/HblN
+         2sBJVmIX4wBdXquRxtmH28eHNeNJCXib0z1Y7M9qthRX8vQehUqslnWklqAhSMdnvSgU
+         r8ugRVnwqpz5LS+j7MhNhWzt2qiEr6S6QfTSH7/GokPnPXNH6Oj8iY/rH2pnj6JUPORb
+         Pb4Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+adblL/T9dLQGWHNL3VzuBrDw1hKVg21e3DzJJ1JJ9u22BT5hAEjwGsKTZ7BEX5YS0w/5srQXNmN4BibvxqDmX4w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx/OYyraYEitbKEeUeFRvkPbaa78Ew60aSIbDfYLJ+JqEs/jyJL
+	KSBVuNnqDcqBDjH38Mb5ycnKldtesmRJnuCw5ICE1XP9iTmK/P50+FTYAXCEGTKapw==
+X-Gm-Gg: Acq92OH2AgsrsEI/9aBbEb00U7oziCRMKy63OYZAttOVRVQH//RkQM9Ga5I0tP9FfEv
+	1Co5F0B43Z9P4GTAcTW/jJw/o9FhU3/mO/wu3ypGvSWL+1PSL/pUAQTHCiFzoQmjTrUiZG6HvYJ
+	w/Dsi4Fy169DJDOg3USWUl9e5T54bEwkbor+pMKhToa0G/EP3ftsafOzQYzZ4LFuw6rwOPUIs59
+	Be6ZER1zvMZVLCGXQcORbgA1Ld05mfm+c9J1Dka1s9Lq9HLLq7WRT0hwapFGAzbkoYRWz80TX19
+	tttYDfQEiEfzPn8RlZdzAdDwVjYo5cApJCy30/Z45IE1oidIvIHmb3bIdl5DkMB0ICdI7tVn9gj
+	sHjg+Q4LwHB6iq66+SZwWVsqaKR9OtM1xpUWewimFqCsp4vs7rJKqLxpl2WlKFlUsuGk5F4s1FV
+	LlhnU3ofZ1FtjjJ+RGbguRAkLB43V1C+wB4JS84dYxxU+h7IsY9/X4zYm5IEC+2tS0vUtw9vmdy
+	Bd9Ie8M5gZi8Ok+A8ht
+X-Received: by 2002:a05:600c:5020:b0:48f:e230:d5ab with SMTP id 5b1f17b1804b1-490c260f495mr346300095e9.31.1781019057952;
+        Tue, 09 Jun 2026 08:30:57 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f345209sm66298811f8f.17.2026.06.09.08.30.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Jun 2026 08:30:57 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 09 Jun 2026 17:30:57 +0200
+Message-Id: <DJ4MKBK72LA7.1ZVS07CUD82E@smile.fr>
+To: <hsimeliere.opensource@witekio.com>,
+ <openembedded-core@lists.openembedded.org>
+Cc: "Bruno VERNAY" <bruno.vernay@se.com>
+Subject: Re: [OE-core][scarthgap][PATCH 2/2] util-linux: Fix CVE-2026-3184
+From: "Jeremy Rosen" <jeremy.rosen@smile.fr>
+X-Mailer: aerc 0.21.0
+References: <20260520105959.3115597-1-hsimeliere.opensource@witekio.com>
+ <20260520105959.3115597-2-hsimeliere.opensource@witekio.com>
+In-Reply-To: <20260520105959.3115597-2-hsimeliere.opensource@witekio.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 14:37:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238299
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 15:31:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238300
 
---000000000000f2dadb0653d311b7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello Hugo
 
-there is one recipe atleast in meta-networking which is using it
+This patch seems to also be needed in master and wrynose, but I could
+not find a submission for these branches
 
-https://git.openembedded.org/meta-openembedded/tree/meta-networking/recipes=
--devtools/python/python3-scapy_2.6.1.bb#n45
+please submit for those two and then ping this mail so we can continue
 
-On Tue, Jun 9, 2026 at 12:46=E2=80=AFAM Richard Purdie via lists.openembedd=
-ed.org
-<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+(note that the other patch in the serie is applied correctly, so I will
+continue to review it independentlya)
 
-> It is just as easy to use bb.utils.contains("DISTRO_FEATURES", "x y", ...=
-)
-> and this function is just a wrapper. It isn't used anywhere in core.
+Regards
+Jeremy Rosen
+
+On Wed May 20, 2026 at 12:59 PM CEST, Hugo Simeliere via lists.openembedded=
+.org wrote:
+> From: "Hugo SIMELIERE (Schneider Electric)" <hsimeliere.opensource@witeki=
+o.com>
 >
-> The contains function is better optimised in bitbake too.
+> Pick patch from [1] as mentioned in Debian report in [2].
 >
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> [1] https://github.com/util-linux/util-linux/commit/8b29aeb081e297e48c4c1=
+ac53d88ae07e1331984
+> [2] https://security-tracker.debian.org/tracker/CVE-2026-3184
+>
+> Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource=
+@witekio.com>
+> Reviewed-by: Bruno VERNAY <bruno.vernay@se.com>
 > ---
->  meta/lib/oe/utils.py | 20 --------------------
->  1 file changed, 20 deletions(-)
+>  meta/recipes-core/util-linux/util-linux.inc   |  1 +
+>  .../util-linux/util-linux/CVE-2026-3184.patch | 63 +++++++++++++++++++
+>  2 files changed, 64 insertions(+)
+>  create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-3184=
+.patch
 >
-> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-> index 120b6443935..4e09a8b927f 100644
-> --- a/meta/lib/oe/utils.py
-> +++ b/meta/lib/oe/utils.py
-> @@ -170,26 +170,6 @@ def set_class_filter(var, features_var, filter_var,
-> d):
->              bb.warn("Unexpanded variable %s in %s is not recommended" %
-> (issue, var))
->      d.setVar(var, '${@oe.utils.class_filter_features("' + defaults + '",
-> "' + features_var + '", "' + filter_var + '", d)}')
->
-> -def all_distro_features(d, features, truevalue=3D"1", falsevalue=3D""):
-> -    """
-> -    Returns truevalue if *all* given features are set in DISTRO_FEATURES=
-,
-> -    else falsevalue. The features can be given as single string or
-> anything
-> -    that can be turned into a set.
-> -
-> -    This is a shorter, more flexible version of
-> -    bb.utils.contains("DISTRO_FEATURES", features, truevalue, falsevalue=
-,
-> d).
-> -
-> -    Without explicit true/false values it can be used directly where
-> -    Python expects a boolean:
-> -       if oe.utils.all_distro_features(d, "foo bar"):
-> -           bb.fatal("foo and bar are mutually exclusive DISTRO_FEATURES"=
-)
-> -
-> -    With just a truevalue, it can be used to include files that are mean=
-t
-> to be
-> -    used only when requested via DISTRO_FEATURES:
-> -       require ${@ oe.utils.all_distro_features(d, "foo bar",
-> "foo-and-bar.inc")
-> -    """
-> -    return bb.utils.contains("DISTRO_FEATURES", features, truevalue,
-> falsevalue, d)
-> -
->  def any_distro_features(d, features, truevalue=3D"1", falsevalue=3D""):
->      """
->      Returns truevalue if at least *one* of the given features is set in
-> DISTRO_FEATURES,
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#238271):
-> https://lists.openembedded.org/g/openembedded-core/message/238271
-> Mute This Topic: https://lists.openembedded.org/mt/119719566/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
+ore/util-linux/util-linux.inc
+> index 8380419634..961a7318aa 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -47,6 +47,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-linux=
+/v${MAJOR_VERSION}/util-lin
+>             file://CVE-2025-14104-01.patch \
+>             file://CVE-2025-14104-02.patch \
+>             file://CVE-2026-27456.patch \
+> +           file://CVE-2026-3184.patch \
+>             "
+> =20
+>  SRC_URI[sha256sum] =3D "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b9681=
+0bd572e167dfed0f"
+> diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-3184.patch =
+b/meta/recipes-core/util-linux/util-linux/CVE-2026-3184.patch
+> new file mode 100644
+> index 0000000000..933adb3250
+> --- /dev/null
+> +++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-3184.patch
+> @@ -0,0 +1,63 @@
+> +From bbd20203765f3d705d45b2f51201041ed94fc3a3 Mon Sep 17 00:00:00 2001
+> +From: Karel Zak <kzak@redhat.com>
+> +Date: Thu, 19 Feb 2026 12:20:28 +0100
+> +Subject: [PATCH] login: use original FQDN for PAM_RHOST
+> +
+> +When login -h <remotehost> is invoked, init_remote_info() strips the
+> +local domain suffix from the hostname (FQDN to short name) before
+> +storing it in cxt->hostname. This truncated value is then used for
+> +PAM_RHOST, which can bypass pam_access host deny rules that match on
+> +the FQDN.
+> +
+> +Preserve the original -h hostname in a new cmd_hostname field and use
+> +it for PAM_RHOST, while keeping the truncated hostname for utmp/wtmp
+> +and logging unchanged.
+> +
+> +Note, the real-world impact is low -- login -h is only used by legacy
+> +telnet/rlogin daemons, and exploitation requires FQDN-specific
+> +pam_access rules on a system still using these obsolete services.
+> +
+> +CVE: CVE-2026-3184
+> +Upstream-Status: Backport [https://github.com/util-linux/util-linux/comm=
+it/8b29aeb081e297e48c4c1ac53d88ae07e1331984]
+> +
+> +Reported-by: Asim Viladi Oglu Manizada <manizada@pm.me>
+> +Signed-off-by: Karel Zak <kzak@redhat.com>
+> +(cherry picked from commit 8b29aeb081e297e48c4c1ac53d88ae07e1331984)
+> +Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensourc=
+e@witekio.com>
+> +---
+> + login-utils/login.c | 5 ++++-
+> + 1 file changed, 4 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/login-utils/login.c b/login-utils/login.c
+> +index 1812b9017..211968f30 100644
+> +--- a/login-utils/login.c
+> ++++ b/login-utils/login.c
+> +@@ -127,6 +127,7 @@ struct login_context {
+> + 	char		*thishost;		/* this machine */
+> + 	char		*thisdomain;		/* this machine's domain */
+> + 	char		*hostname;		/* remote machine */
+> ++	char		*cmd_hostname;		/* remote machine as specified on command line *=
+/
+> + 	char		hostaddress[16];	/* remote address */
+> +=20
+> + 	pid_t		pid;
+> +@@ -894,7 +895,7 @@ static pam_handle_t *init_loginpam(struct login_cont=
+ext *cxt)
+> +=20
+> + 	/* hostname & tty are either set to NULL or their correct values,
+> + 	 * depending on how much we know. */
+> +-	rc =3D pam_set_item(pamh, PAM_RHOST, cxt->hostname);
+> ++	rc =3D pam_set_item(pamh, PAM_RHOST, cxt->cmd_hostname);
+> + 	if (is_pam_failure(rc))
+> + 		loginpam_err(pamh, rc);
+> +=20
+> +@@ -1231,6 +1232,8 @@ static void init_remote_info(struct login_context =
+*cxt, char *remotehost)
+> +=20
+> + 	get_thishost(cxt, &domain);
+> +=20
+> ++	cxt->cmd_hostname =3D xstrdup(remotehost);
+> ++
+> + 	if (domain && (p =3D strchr(remotehost, '.')) &&
+> + 	    strcasecmp(p + 1, domain) =3D=3D 0)
+> + 		*p =3D '\0';
+> +--=20
+> +2.43.0
+> +
 
---000000000000f2dadb0653d311b7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">there is one recipe atleast in meta-networking which is us=
-ing it<div><br></div><div><a href=3D"https://git.openembedded.org/meta-open=
-embedded/tree/meta-networking/recipes-devtools/python/python3-scapy_2.6.1.b=
-b#n45">https://git.openembedded.org/meta-openembedded/tree/meta-networking/=
-recipes-devtools/python/python3-scapy_2.6.1.bb#n45</a></div></div><br><div =
-class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, Jun 9, 2026 at 12:46=E2=80=AFAM Richard Purdie via <a href=
-=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;richard.p=
-urdie=3D<a href=3D"mailto:linuxfoundation.org@lists.openembedded.org">linux=
-foundation.org@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">It is just as easy to use bb.utils.con=
-tains(&quot;DISTRO_FEATURES&quot;, &quot;x y&quot;, ...)<br>
-and this function is just a wrapper. It isn&#39;t used anywhere in core.<br=
->
-<br>
-The contains function is better optimised in bitbake too.<br>
-<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
-r>
----<br>
-=C2=A0meta/lib/oe/utils.py | 20 --------------------<br>
-=C2=A01 file changed, 20 deletions(-)<br>
-<br>
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py<br>
-index 120b6443935..4e09a8b927f 100644<br>
---- a/meta/lib/oe/utils.py<br>
-+++ b/meta/lib/oe/utils.py<br>
-@@ -170,26 +170,6 @@ def set_class_filter(var, features_var, filter_var, d)=
-:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.warn(&quot;Unexpanded va=
-riable %s in %s is not recommended&quot; % (issue, var))<br>
-=C2=A0 =C2=A0 =C2=A0d.setVar(var, &#39;${@oe.utils.class_filter_features(&q=
-uot;&#39; + defaults + &#39;&quot;, &quot;&#39; + features_var + &#39;&quot=
-;, &quot;&#39; + filter_var + &#39;&quot;, d)}&#39;)<br>
-<br>
--def all_distro_features(d, features, truevalue=3D&quot;1&quot;, falsevalue=
-=3D&quot;&quot;):<br>
--=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 Returns truevalue if *all* given features are set in DISTRO_=
-FEATURES,<br>
--=C2=A0 =C2=A0 else falsevalue. The features can be given as single string =
-or anything<br>
--=C2=A0 =C2=A0 that can be turned into a set.<br>
--<br>
--=C2=A0 =C2=A0 This is a shorter, more flexible version of<br>
--=C2=A0 =C2=A0 bb.utils.contains(&quot;DISTRO_FEATURES&quot;, features, tru=
-evalue, falsevalue, d).<br>
--<br>
--=C2=A0 =C2=A0 Without explicit true/false values it can be used directly w=
-here<br>
--=C2=A0 =C2=A0 Python expects a boolean:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0if oe.utils.all_distro_features(d, &quot;foo ba=
-r&quot;):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.fatal(&quot;foo and bar are mu=
-tually exclusive DISTRO_FEATURES&quot;)<br>
--<br>
--=C2=A0 =C2=A0 With just a truevalue, it can be used to include files that =
-are meant to be<br>
--=C2=A0 =C2=A0 used only when requested via DISTRO_FEATURES:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0require ${@ oe.utils.all_distro_features(d, &qu=
-ot;foo bar&quot;, &quot;foo-and-bar.inc&quot;)<br>
--=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 return bb.utils.contains(&quot;DISTRO_FEATURES&quot;, featur=
-es, truevalue, falsevalue, d)<br>
--<br>
-=C2=A0def any_distro_features(d, features, truevalue=3D&quot;1&quot;, false=
-value=3D&quot;&quot;):<br>
-=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Returns truevalue if at least *one* of the given featur=
-es is set in DISTRO_FEATURES,<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#238271): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/238271" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/238271</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119719566/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/119719566/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000f2dadb0653d311b7--
 
