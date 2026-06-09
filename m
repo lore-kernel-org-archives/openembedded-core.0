@@ -1,308 +1,636 @@
-Return-Path: <tgaige.opensource@witekio.com>
+Return-Path: <saisneha196@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 113CBCD8CA4
-	for <webhook@archiver.kernel.org>; Tue,  9 Jun 2026 09:05:05 +0000 (UTC)
-Received: from relay-p04-hz12.hornetsecurity.com (relay-p04-hz12.hornetsecurity.com [94.100.139.204])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.75126.1780995894172137899
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F5B1CD8CA4
+	for <webhook@archiver.kernel.org>; Tue,  9 Jun 2026 09:19:28 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.75267.1780996766198047642
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2026 02:04:55 -0700
+ Tue, 09 Jun 2026 02:19:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@witekio.com header.s=selector1 header.b=oFZa1LQl;
- spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.139.204, mailfrom: tgaige@witekio.com)
-ARC-Authentication-Results: i=2; mx-gate18-hz12.hornetsecurity.com 1;
- spf=pass reason=mailfrom (ip=52.101.83.116, headerfrom=witekio.com)
- smtp.mailfrom=witekio.com
- smtp.helo=gvxpr05cu001.outbound.protection.outlook.com; dkim=pass
- header.d=witekio.com header.s=selector1 header.a=rsa-sha256; dmarc=pass
- header.from=witekio.com orig.disposition=pass
-ARC-Message-Signature: a=rsa-sha256;
- bh=vZq4CKhhnqIwPz/Kuh+qH9g91OBdCn5u6pAL4gWIKqs=; c=relaxed/relaxed;
- d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=2; s=hse1;
- t=1780995890;
- b=S+lsPvaWsV+dyz2chVqm/Gus9K9f03x1lFa0lAvXQrvf+ii1WTj12JwNSG57DpE802mH+beu
- O1Kts7CKyInfanH24ZF+Z8WAaEVd1KyZRj92wUiFGfgiCuBXR1V+fNZaLlS0KtQKi/Fni0D/J7f
- 7ASH0M/hyTBLeTudITP18ufT3qOGYbDIwZR/VN4woTW87ry+pWTy8hqdrNxwLZsyV7Wiku2FbBo
- xccVEKORYwGaRBQPbvadaDwtAPnJ6W8PCX09TvNngWV8Gp5U3MwpW6tR1wrQpKmIQqeF5Ttk4uD
- FF2P+DVIyTuBRJCgwTvtSM3m2isv0YlHoCnO2z21YAZgQ==
-ARC-Seal: a=rsa-sha256; cv=pass; d=hornetsecurity.com; i=2; s=hse1;
- t=1780995890;
- b=s1cvNQDZ3J6OWpnCOb58asBtiw8Cai/e6hQk5FpUEhedmEcIRJnFzzxZeNbHpmIYd2mi6iZL
- QKbBGCrcgp+j7hJ8qHLdigMtY7u+bP1Grc2KMbt5DuiK1j2jtIEK7gVcOAwtCKKZD/b9pIpRpcv
- 4PnRw/f1HZvmrWdyqO07YxPaVBdlflYa6ahAf+2tXX9v1RGiyGnBjCtzzp4u0JDEwZV6OL2vknO
- HOqZnminZryQk/9BqwxW5GixqH2MXmU8LtsewhzD8MVmfih8kDrmXGV5cQZP031o2GGAl5Xa8dA
- kLOTDFSBZ5G9N2y6JHtrcymaL4vts/goQ7ognCP+DR8xQ==
-Received: from mail-swedencentralazon11023116.outbound.protection.outlook.com ([52.101.83.116]) by mx-gate18-hz12;
- Tue, 09 Jun 2026 11:04:50 +0200
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tYBV1eVlqC/Kn84rg5JaDHygmY+BfraEaM13MJJGelSr1bUgXjGrQlAVGIyTrdrRGjR4r3eR3onP/BI0kLEJIeuCjkZNp9y2sPMvSWk2RR4I2oMn0H7wAQwQCnIV3451jucz/YXncxtgYNkwmrCyOu8iaVk1AfJ4Eg5DeQfQXNERTkxildw0vDYYukNzpPGdEwo39pgm+FnAd4pfIlmgpPnaGhYG3uYp2I5YoA6kPxoy0fVdc+TeVPwN4GuoUsvhWzvwDK2W0OUmovROIPNZM/hDWUeq/glIEFHBr0L99Qem5NE+xov9O//v+FWJ//Kv8UtFEZI4mN/siU+4foYEYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vZq4CKhhnqIwPz/Kuh+qH9g91OBdCn5u6pAL4gWIKqs=;
- b=K0dyrjDcQ5qB46UTdbyRBz90H6uPf+dhoftMNI9pOxa9dCsyBePhbgVKCCN/AECU/O9OJQ+B2hsee/auUCLMWpamSyn/78PPYspyTbo7REgaIKSPxwzjwGT0WhSgRX472iRmIu2UEaRpYZthSKTmF/z1r9zmAbk7pxvjZgCpO5tod7ZX3VdMMsMGOCw9fQI7qVvoSjvbYxDD1Uu6lNAk9FSgk1ee+4l1fUSLsxk3/dgs9uTBGyNqW7gt17l8r7fO3qc70OT0PyRxMUTrGYKw0cTQepTwVC3R/gTcjgYJ+HNbAHfqQ/g6mrgZIv+1Br42pE3qg8A9V4kZ7phOfnb3fA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
- dkim=pass header.d=witekio.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vZq4CKhhnqIwPz/Kuh+qH9g91OBdCn5u6pAL4gWIKqs=;
- b=oFZa1LQlIHrDzBiZchcG3A5UQE3P4rYqY1C1JYFphu01ltVcJ5CZ7UDYtklcr1ZwN4GlbcXyPh6HH9rpj+2jVRqull+oA7AJBsb/sEx7+Ul9yTbF1k2GwOA5YQ7As7beg9B7AI4oaV3g2Jf1nLFtb3hQ+jod8pS8JYN7LBdVwZbUNBFVo/lcuIDLO9puzwgJeMCuGlmbfIuEtchPN1bYembSarJLdFg6FO9Qp8qNqwDvVQ8SDWZW4TtNG9eJm2XQkIMIvgK+YFPvhz4cJuAeQ8jxlJTBW+kmCWBVF9kJuHyvt7L0QQ5K0GrpyDpsDE4p2hkBS55mQEWb62hd/OfZeQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=witekio.com;
-Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:3ad::23)
- by PA1P192MB3140.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:506::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.12; Tue, 9 Jun 2026
- 09:04:34 +0000
-Received: from AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
- ([fe80::25ed:86ef:4d24:3d38]) by AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
- ([fe80::25ed:86ef:4d24:3d38%5]) with mapi id 15.21.0092.011; Tue, 9 Jun 2026
- 09:04:34 +0000
-From: tgaige.opensource@witekio.com
-To: openembedded-core@lists.openembedded.org
-Cc: hsimeliere.opensource@witekio.com,
-	jeremy.rosen@smile.fr,
-	"Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
-Subject: [PATCH] perl: patch CVE-2026-8376
-Date: Tue,  9 Jun 2026 11:04:25 +0200
-Message-ID: <20260609090425.620975-1-tgaige.opensource@witekio.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MI2PEPF00000B8B.ITAP293.PROD.OUTLOOK.COM
- (2603:10a6:298:1::416) To AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:3ad::23)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=djvmOhII;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: saisneha196@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-68cec9f4c6cso7370633a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 02:19:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780996764; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UBrDCa9MQcG1QXzqu9ib3kO0VH1XQOhvUiybWOUyI3sM2XtbDDeUxP0VM2Z0spRq0I
+         53JlQHOF+32vd6pnsatZ5gkRKEKKrYaB62hGHn8NYpLYcJido+3MGj8StevrsLJc4m09
+         r9vnmoYehAgRSC2jj85BO1OGGyXHuF24gomRi9Uv6rU83wkwGjXN4Ghx5PVKVyLRO6MJ
+         rNSqCpMD8bngGcOT6mkCtasyDKYS799VFy259PHl1zyknDAblH9FusvxzcxqNcg98asW
+         drqmuICkxaLW4ajESMBF836TUNkneKM+L/Tlz1xgwxzuKZg0gindAqp6v90YTa1HreIo
+         TYcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=R5L0nFN1UJLiHTJAXhLHVBaq2jXb+2dhJwlJgqTO16A=;
+        fh=vxhglLuRWm2zhhoz7YijsUOM8tq6Sfx2u0dCLV0GIdM=;
+        b=NXNyCfY4cujwc+RrKi4C9Y/zfRZiCTJmfqUc47kRXiOo6a08Q/5fHnta7EkWkKyec3
+         JNqmITeW+W9bbdZJgqmNcapaUV18Bcoynnszf3Y8AneyxqtyHCpPBRxdeA/l6+xc3UQf
+         SF3XoSRQnwLVQk2Qi1WVgVFlnMMDSeVyeth/mm1Dg55AwqXrBDfRKO9KBsdiDP9gJ3CA
+         dmUnvHpW5zZ+qeMhmF6TV2Y2jUEtXLyDl5opKLBtXmmLvAlmSUDO28P8VVMX5h/KgBxO
+         o+ehJdWaEKrexB298G4XacqA1EaFD3mQF6emhGsxGYd3UmmNByARi6cWMvtGV+PXxPY0
+         PO3Q==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780996764; x=1781601564; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=R5L0nFN1UJLiHTJAXhLHVBaq2jXb+2dhJwlJgqTO16A=;
+        b=djvmOhIICW+C491s1eEyVrWpOgoImchY9ypYm3dcjVbXIUFbC90aHNAM1X9EK7fQ5l
+         vVkoDBBGWZYjl9JMiGd0GjYir91d2SyaecZHVygalqFksYvXreg6RicCQxT1xS3FdPO7
+         DB7lQEAvpG1EhOygVYx+ciLpcec+ZnkoPwhPbv+J79PGOU2HcO1x2gA4HrwdrDF3Ngb/
+         h7qGmpVjI7LAzbJ6S35ah1RYmRa8O6CdG1dt9bS5sLvsaGoiUWiwcK275LEFAF/j24xF
+         YLl51zlJD/OqajU/WsJBUHkDb/COnkUk8o82bYcsrn9Ura01codFrPFCsN7DKvgRn8Dw
+         ah9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780996764; x=1781601564;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R5L0nFN1UJLiHTJAXhLHVBaq2jXb+2dhJwlJgqTO16A=;
+        b=PDkYNlTvh4m1dP5uIdTCh0i7md3J5vaaKTNDpJLYheRZpTfbKWpFhSx9JcWnrvwNDX
+         ipztixxwh7OkQEPul2qKhGKHrk9/3jrcHKxyajH9mFMdOIys23Xubw7usVoAu9Cn4E4b
+         mOuvvfs7vSdom5PBGSMBsQ2gKMJB2e5bZ2t+uW35b5XgyJjmrCiN8PnznBTRH62+wwxC
+         RpT2hFJrYZYc4i+CCcwf0OdFlNFkrrBb9VNACYyXw+W6NCMPG3mSvWf6Uxx0KSlgzgQQ
+         dM+Y7sCJExPNELcEBvg5p5Ho8itlUiaZa98SKi5/0djr/tzxMFqcklvurwhYNIAmNSMm
+         R9hw==
+X-Forwarded-Encrypted: i=1; AFNElJ/rNKMphipbLTsuXlSTbnwZsPjKNYn/0uwuZi7Clzsc0bJLwWGAzXKpOgpwc9s+Uj4fn8maCmdvVA1RzsJgUv2HMQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx5L5sQK5ZAOk1hyYoBGHLFYje9h/+itOw2CpDTV5q7fZ89Xgka
+	GewhcivJmbiolG70/292qQarTXUPc1VlchXZXRZIopF9cC00VqkkluJ32P5y9qis667+dl8aQ7E
+	aOOv8F0BDzy0mH4zC6pM68RodTJOlGa4=
+X-Gm-Gg: Acq92OFUaYhcHdyM1v45taEtUB6APHowdKesgIPXUR8V/VO18+cZfCOmiAOxGvCYjil
+	pUNy4zOl714E1wwpqv/gNSCGdk8+toC6tf2X1ZZD/Kp+uOOOKenwkGIZP5weZdIba+CvRHne/4t
+	pC2TkM9Y9wqde+nykrqbhy0Yf4GK6Jo8yfjkNGgVdfLsLQFV57TMPgFhLycj3cfse35VEU4KVN9
+	ieRaADkls9wvYEgvvsyffYQDlusOUu7ZS7apJJneMEkP0JAS3u6L1Q4tT71zWG1G8EurKmGQLn9
+	RIHALDUA5UlK8pNWPIfiTQEQFqTav7HZXMGWZCvO8PwclcHgxg==
+X-Received: by 2002:a17:907:6d0d:b0:be1:d908:ce23 with SMTP id
+ a640c23a62f3a-bf372541e6emr1002144966b.21.1780996763789; Tue, 09 Jun 2026
+ 02:19:23 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9P192MB1396:EE_|PA1P192MB3140:EE_
-X-MS-Office365-Filtering-Correlation-Id: dacec4e5-313e-4aba-57a6-08dec6062018
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|6133799003|12006099003|18002099003|38350700014|56012099006;
-X-Microsoft-Antispam-Message-Info: 
-	srMANS2mH7qQ095Q1QrzLuJ9bKoys2pix1iBbp1b8vTNMBzaeXsCzvrgrp4TwdsrUREoU55kG2aU+iT13/EVjql8Ly1aR33f2OWD+SXBliD+Mr9Z58lrWUher7qDVou7wAPKsbMRwpFYpCD3UxDV4mR14yIyNqVkeKuKHQH5MMHEhO42bHQV1XQ3PBXRvcWqQqyMkCXVvBJS8BBpim2E0LS7j90IbA0qlry6mHudBJBm/AL+QHqD7PLVLikxqCfRhOSx0hzSeCmzJyUes7Et9ORmMVQfT5jPcNPPN4Grt4hUuwG4w0meDAvuvhYWvtKQINVzM6MhZATjPgmHaQ6VNDxbjBZt8JIpsjIBJpYBcGCPPhZqnUdtS0eP7+Ib1xxnbKCh8ZaNHC71E8392HpHSiuVGkfODizwrLwWdQQH0KT+L11VIjEAnlTm/0q3cbpiz3H4SJrqIrO/BwicHk69ItdrLpJXWXJvJXY3uJ0cIEvY503TNWnP5cce7SkY1EjN183ZUX6bwh2HekP6FHYIyHkkynVwcehF0YZNQ9igocse85QKtXyFVbmFxJi9A25Gp0aGU2z9KOFvgVFlkx1nEu39fpUY2awSxEHG0lQZ3AVVR4d2PtEet1aNxd7Yd7onDtF2kjk+OOI8RglCGKuFXlKllHLrVgHlUhyq2abGaQfNXRIOB02hu+pwobx4Rtz2tx1m0XoXuH1eVma5iuvGMA7xwMZZVWWutGH/y/mnpmng5RfGb/yVI2zWT9Q+rviA
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P192MB1396.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(6133799003)(12006099003)(18002099003)(38350700014)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?vDAiw9XQGfAqvEIT3Z57cnu1GzMVSOQD+2vAY+nfxRyNJHpCYCo0xUPy+erA?=
- =?us-ascii?Q?o0uxu6ESkjjdHNNscWhKHOF9651lTNDDdvUuGZqLb065Xu9Z/OJYY5iSf8wD?=
- =?us-ascii?Q?vgylCvq9CN9vfmGR8tvqCcCWxT4qoQ/l1T7Vw+ddbAxHVHAbyyN/YIvLibcP?=
- =?us-ascii?Q?xsY6Ygit8C0dAZx9LDnEZ2Cm4JNpexqQm9Mu5COY6lM0ElUHGufZJMsig21t?=
- =?us-ascii?Q?b2lQ7R2AX75i6SZBZ5aQhO2djK1Tjwe0rdRN4ZJVd54nHUJa4CxbmKkg17Nu?=
- =?us-ascii?Q?w+hoVa1DuhI+gRjzOGzhrDSebxWBgp9fEflRcOv+iR17AYbzZlJCg66fPbFD?=
- =?us-ascii?Q?5e9THwV/O5FmmRJxTuKHhLsVgC4w29kZ24Bk+/nDNialogF9/q3aPd722xAg?=
- =?us-ascii?Q?nHwvfUeqUgYF6zmEBMYq+EXGe+hdL1iqkAtRhM5sl3KslOuKEcxglYDxDmAt?=
- =?us-ascii?Q?nUiVLrKriUjwT6n40LY5yKWoctdyKYXw6aVtTwq/XEe3dtsm1PGEcE9smABO?=
- =?us-ascii?Q?hVPq63wi9BNtQcyYyqwPMxcJgwnRZg0cMZ5tSbMZh6lVxrXIJwraHRmCjJ4V?=
- =?us-ascii?Q?EA3nGojM1ZKR27eWcb+A9ZqL61pymm19A5CgtQdartDjz1hA1v6S8pCSzuUZ?=
- =?us-ascii?Q?okNz05SrBy6L/hW0eVR3iKgtAk1A2n/L6gWMoNsD5GUtjBHICVCW0ZEFwvwc?=
- =?us-ascii?Q?MNDMATCK2Ejl/OWxsgKoERw+qDsx9ENrNWPm4q1COaOlrUujYOsEL0+M0pPp?=
- =?us-ascii?Q?DTMTfaUHJmer9XIAAkBkF5RpmJLLl0yLTIFo/xyqsHqjD/nSWCAMVY0uXfYP?=
- =?us-ascii?Q?lPxaYK9OzeIB98SfFJ4tAT+/4wuroLO/rDb0k3CUWHMSd5X9epFfzLMjYs+a?=
- =?us-ascii?Q?+O/i3kN8mwg6dBMs60eWBqXXCSq2jkYj1t3+KrSh35j1rIZgxial3vYxUSfp?=
- =?us-ascii?Q?6Tg7c2ODdJrWjmybEgXDCOi+BURmqlizB0sdREem/OohvLmk4QCUbsXEe7bp?=
- =?us-ascii?Q?EzXhwmXsqzsBa8JBEktHZ31AmRE6ESdlWmd876cBr0AJkQQa2Txs1ivU4wIr?=
- =?us-ascii?Q?2LuRuRowIp2owye2Gh1IRGLcqrhTg5zNrZ1/kM0VK5UaNPHkBVY9R3PWVTJe?=
- =?us-ascii?Q?xHZNa6j7fwYXuX6AdsihXwA9V3LKt1iZtWTzX4T8ENQqBqQy3d0HB84QYvWF?=
- =?us-ascii?Q?VIMo6xqQOvcglabTzr4c3kf25/QMjOTYAXnOCHAufEbg8derqx17LkAlpIqt?=
- =?us-ascii?Q?1nnsU88m4uE6lgVZPw8l15Hgp7GeYqcjDJnSF5Z6gyQsA9vQC33gEmQQUfrM?=
- =?us-ascii?Q?IBNSgjf6nbTqKRJWNVVioFLYD8RKORiOIJM3SrXM/HFTfKkmrMWI6rlFfcQL?=
- =?us-ascii?Q?aKZvlAwbw4ru296iih2rwz+cxJpDDaL/5DiNXAMtQwv2jZ9p+6tmYgJw/sgj?=
- =?us-ascii?Q?IMUfm4Va5EUqHWJ/QaaRFXOgMG1mv3P0VLNiZFpvosDOdBXhg0Uo1DOHL1It?=
- =?us-ascii?Q?x9oLAyyNz+weN0UVfUcv5HLHkrOSr44ClPk65619sObDTTtfLYxjgbWqp26H?=
- =?us-ascii?Q?XFib4/OBWGCXbh8BMpbtUCLMn/yLEkA/GF2PXjrTxOWRMpTUCVjjNY03zzMp?=
- =?us-ascii?Q?2prATyUig3kA+LIboxD4Pj/bArvptZoohsUUssoJkf/FfRY8OvwJzGSLeDcl?=
- =?us-ascii?Q?o1L3wEDdG+P0NPD6BnllXrGkooOlP9e0JP3KZscg1YAZKVlyrXMzfqEeug3J?=
- =?us-ascii?Q?zsLOFDnSkw=3D=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	pH54y2Aqw22ewoLwqOWUyeyMXI8GjEadEGRfResZk2Ml20+MqC2hbmh0IJQ8sXHkoPqHkQFAPRJsIPNaVLtN2FcDhgZv9ZQ6MhlMvDEf3bHDl0sevKcaY3fo+IajIbdd8/xtQ+J6Ta46ila7u5YMu2clZFsgwIxGXbqLerLiBr/JwJRA/1d0reQg0eH7lQpotVs0DMvVymuw7dbSlsPVk8H+yHq6qqLmk5cig7qzf9sAN1cVDzAROcyd+oa5h1Vcbd/55367yMJOliiD5SBFTPNilPCTXa/sTWc+kxqtjWdvMDpW8SOWs8ml4XvnBB6APEFyB52wMzqCpQ0x18IsFg==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	iwjb95/wBh7130VnO9NyFh7P+6ERXwjoyotczivOBWku4kt/sEo3elbgL2RUwLDuWOcHJFGNAJpU9bqGH9/EpDh2i5hOg/Brx4voclaZxlaB77AOnFRniGJBoK2keC+NVVnShCHv/xBUAl5rGG+8+0SlUH+h8tkfnTi7lq/SztWxlKgA7WFCjUs5J9r4JGhLJnbGLQ0d8xNVvMWSxyVIi/1HuSemf1Ah6XqzJV3FpNwmlpulC3paxCdGWStM3c5ooCwE3KZUVF27j0DxSz2hLfYM+9ohtfSJLrDCjyx/f8Nsd7fK8tNeXA56iSzyQY/MVYOba3S+0kWcIzWD2l/z8p/Q/tWz/v5uuWewx73VekWpjgECzSBIw19km+ElT4sVRWG8R2XLOT+io1pRnwCHzj4XIhjMY5ZMIqQvfVDKf3MdAxx/QIbXQWvyeJERnQpL0EcTYyHrzV1TsEjF1c6KxqkUTQbADexbW9lbrR9Rujshc9ifiPeDTW05rBdWAClGrdWLsGkx1mwDUIxBvo+QlMxjn0GZxAymUIccv1SNnKNx3ePOrzngz2JmtTONLJ1FdOazEFeGz85RwvIrGs/pSYccU+/RrxiCztZT34Ruvc7B69br+nAlrvewDA3p5Vwo
-X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dacec4e5-313e-4aba-57a6-08dec6062018
-X-MS-Exchange-CrossTenant-AuthSource: AM9P192MB1396.EURP192.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 09:04:34.5977
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yMzcOWPDAxVcyY0av1HVY47B+ve72kEbELKV3r7/VGAdoWzOivNwHrhSvr/n0ng/cIqkrh2EhwPGKlxcSebk/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1P192MB3140
-X-cloud-security-sender: tgaige@witekio.com
-X-cloud-security-recipient: openembedded-core@lists.openembedded.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-Mailarchiv: E-Mail archived for: tgaige.opensource@witekio.com
-X-cloud-security-Mailarchivtype: outbound
-X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate18-hz12 with 4gZNJj26YNz2fWLC
-X-cloud-security-connect: mail-swedencentralazon11023116.outbound.protection.outlook.com[52.101.83.116], TLS=1, IP=52.101.83.116
-X-cloud-security-Digest: f696bfea829b7180a6ee50050e47cf91
-X-cloud-security: scantime:3.659
+References: <20260602062940.3107241-1-saisneha196@gmail.com>
+ <20260602062940.3107241-4-saisneha196@gmail.com> <DIYF5VYJ6KMJ.3EBC3FMJXOLPL@smile.fr>
+ <18B61AC5A22983D6.29982@lists.openembedded.org>
+In-Reply-To: <18B61AC5A22983D6.29982@lists.openembedded.org>
+From: Sai Sneha <saisneha196@gmail.com>
+Date: Tue, 9 Jun 2026 14:49:12 +0530
+X-Gm-Features: AVVi8CekETsHjLkA891BGzdLvugx2ABmJN8Ey6EfSuS034wBHNxzJD_OfDCpCmw
+Message-ID: <CANcU11dYfjDYfDq152H-Yanv3gJ__b=dUewq+sKL=hHKrisQvw@mail.gmail.com>
+Subject: Re: [OE-core] insane.bbclass: add missing-srcrev QA check for SCM URIs
+To: saisneha196@gmail.com
+Cc: Yoann Congal <yoann.congal@smile.fr>, openembedded-core@lists.openembedded.org, 
+	corentin.guillevic@smile.fr, martin@geanix.com, paul@pbarker.dev, 
+	mathieu.dubois-briand@bootlin.com
+Content-Type: multipart/alternative; boundary="00000000000073abe20653ce9f92"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 09:05:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238280
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 09:19:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238282
 
-From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
+--00000000000073abe20653ce9f92
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Backport patches from [1]
+Hi all,
 
-[1] https://github.com/Perl/perl5/pull/24433
+Following up on the suggestions to fix this in the BitBake
+fetchers using supports_srcrev(), I have tried implementing that
+approach locally. Here is what I did and how it works.
 
-Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
----
- .../perl/files/CVE-2026-8376-01.patch         | 62 +++++++++++++++++++
- .../perl/files/CVE-2026-8376-02.patch         | 49 +++++++++++++++
- meta/recipes-devtools/perl/perl_5.42.0.bb     |  2 +
- 3 files changed, 113 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
+The fix has two parts:
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch b/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
-new file mode 100644
-index 0000000000..af94eec29c
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
-@@ -0,0 +1,62 @@
-+From fd23f4370d24d00352d1cc09b16687f16da6ae5b Mon Sep 17 00:00:00 2001
-+From: Tony Cook <tony@develop-help.com>
-+Date: Tue, 12 May 2026 14:47:31 +1000
-+Subject: [PATCH 1/2] perl/perl-security#147: test cases
-+
-+The suggested case from the ticket and an alternative.
-+
-+(cherry picked from commit e842efdafe7c51a687a4907e4887988fe6a025ef)
-+
-+CVE: CVE-2026-8376
-+Upstream-Status: Backport [https://github.com/Perl/perl5/commit/e842efdafe7c51a687a4907e4887988fe6a025ef]
-+Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
-+---
-+ t/re/pat_psycho.t | 18 ++++++++++++++++--
-+ 1 file changed, 16 insertions(+), 2 deletions(-)
-+
-+diff --git a/t/re/pat_psycho.t b/t/re/pat_psycho.t
-+index 336039521d..73a7992372 100644
-+--- a/t/re/pat_psycho.t
-++++ b/t/re/pat_psycho.t
-+@@ -10,7 +10,7 @@
-+ use strict;
-+ use warnings;
-+ use 5.010;
-+-
-++use Config;
-+ 
-+ sub run_tests;
-+ 
-+@@ -31,7 +31,7 @@ BEGIN {
-+ 
-+ skip_all('$PERL_SKIP_PSYCHO_TEST set') if $ENV{PERL_SKIP_PSYCHO_TEST};
-+ 
-+-plan tests => 15;  # Update this when adding/deleting tests.
-++plan tests => 17;  # Update this when adding/deleting tests.
-+ 
-+ run_tests() unless caller;
-+ 
-+@@ -211,6 +211,20 @@ EOF
-+ 
-+ 
-+     }
-++
-++  SKIP:
-++    { # sec #147
-++        $Config{ptrsize} == 4
-++          or skip "these only fail on x32 and use too much memory on x64", 2;
-++        local $::TODO = "This crashes";
-++        # original case
-++        fresh_perl_like('/\x{10000}{1073741824}/',
-++                        qr/Regexp out of space/, {}, "ssize_t overflow");
-++
-++        # synthesized but similar case
-++        fresh_perl_like('/(?:\x{10001}\x{10000}){536870912}/',
-++                        qr/Regexp out of space/, {}, "ssize_t overflow again");
-++    }
-+ } # End of sub run_tests
-+ 
-+ 1;
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch b/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
-new file mode 100644
-index 0000000000..39b3d510fe
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
-@@ -0,0 +1,49 @@
-+From 49c18d4c91d5b49e0a7cbb8277f3149198004c36 Mon Sep 17 00:00:00 2001
-+From: Tony Cook <tony@develop-help.com>
-+Date: Tue, 12 May 2026 14:51:00 +1000
-+Subject: [PATCH 2/2] perl/perl-security#147: test against the actual character
-+ lengths
-+
-+(cherry picked from commit 5e7f119eb2bb1181be908701f22bf7068e722f1c)
-+
-+CVE: CVE-2026-8376
-+Upstream-Status: Backport [https://github.com/Perl/perl5/commit/5e7f119eb2bb1181be908701f22bf7068e722f1c]
-+Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
-+---
-+ regcomp_study.c   | 7 +++++++
-+ t/re/pat_psycho.t | 1 -
-+ 2 files changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/regcomp_study.c b/regcomp_study.c
-+index 9106452dd5..05f1b017b1 100644
-+--- a/regcomp_study.c
-++++ b/regcomp_study.c
-+@@ -2770,6 +2770,13 @@ Perl_study_chunk(pTHX_
-+                                                (U8 *) SvEND(data->last_found))
-+                                 - (U8*)s;
-+                         l -= old;
-++
-++                        if (l > 0 &&
-++                            (mincount >= SSize_t_MAX / (SSize_t)l
-++                             || old > SSize_t_MAX - mincount * (SSize_t)l)) {
-++                            FAIL("Regexp out of space");
-++                        }
-++
-+                         /* Get the added string: */
-+                         last_str = newSVpvn_utf8(s  + old, l, UTF);
-+                         last_chrs = UTF ? utf8_length((U8*)(s + old),
-+diff --git a/t/re/pat_psycho.t b/t/re/pat_psycho.t
-+index 73a7992372..9fd764fd5e 100644
-+--- a/t/re/pat_psycho.t
-++++ b/t/re/pat_psycho.t
-+@@ -216,7 +216,6 @@ EOF
-+     { # sec #147
-+         $Config{ptrsize} == 4
-+           or skip "these only fail on x32 and use too much memory on x64", 2;
-+-        local $::TODO = "This crashes";
-+         # original case
-+         fresh_perl_like('/\x{10000}{1073741824}/',
-+                         qr/Regexp out of space/, {}, "ssize_t overflow");
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/perl/perl_5.42.0.bb b/meta/recipes-devtools/perl/perl_5.42.0.bb
-index cf28067bab..1833b7a352 100644
---- a/meta/recipes-devtools/perl/perl_5.42.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.42.0.bb
-@@ -16,6 +16,8 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://0002-Constant-Fix-up-shebang.patch \
-            file://determinism.patch \
-            file://0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-determ.patch \
-+           file://CVE-2026-8376-01.patch \
-+           file://CVE-2026-8376-02.patch \
-            "
- SRC_URI:append:class-native = " \
-            file://perl-configpm-switch.patch \
--- 
-2.43.0
+Part 1 =E2=80=94 BitBake fix (prevent parse crash):
+The crash happens in setup_revisions() when srcrev_internal_helper()
+raises a FetchError for missing SRCREV. This propagates up through
+expandWithRefs() as an ExpansionError which halts parsing for all
+recipes. The fix catches FetchError in setup_revisions() and sets
+a missing_srcrev flag on the FetchData object:
 
+def setup_revisions(self, d):
+try:
+self.revision =3D srcrev_internal_helper(self, d, self.name)
+except FetchError:
+self.revision =3D None
+self.missing_srcrev =3D True
+
+git.py and hg.py also needed a guard to prevent calling
+latest_revision() when missing_srcrev is set, since that would
+trigger a live network fetch under BB_NO_NETWORK=3D1.
+
+Part 2 =E2=80=94 OE-core QA check (insane.bbclass):
+A simple test_missing_srcrev() in do_recipe_qa uses supports_srcrev()
+to identify which URIs need checking:
+
+def test_missing_srcrev(pn, d):
+import bb.fetch2
+try:
+fetcher =3D bb.fetch2.Fetch(
+(d.getVar('SRC_URI') or '').split(), d)
+for url in fetcher.ud:
+ud =3D fetcher.ud[url]
+if ud.method.supports_srcrev() and \
+getattr(ud, 'missing_srcrev', False):
+oe.qa.handle_error("missing-srcrev",
+"%s: SRCREV not set for SCM URI %s" % (pn, url), d)
+except bb.fetch2.FetchError:
+pass
+
+Test results:
+
+$ bitbake -p 2>&1 | grep -E "(WARNING|ERROR|SRCREV)"
+WARNING: You are running bitbake under WSLv2...
+Summary: There was 1 WARNING message.
+(no parse crash, all recipes parse cleanly)
+
+$ bitbake -c recipe_qa -f test-fetcher 2>&1 | grep -E
+"(WARNING|ERROR|missing-srcrev)"
+WARNING: test-fetcher-1.0-r0 do_recipe_qa: QA Issue: test-fetcher:
+SRCREV not set for SCM URI git://github.com/example/project.git
+[missing-srcrev]
+
+$ bitbake -c recipe_qa test-srcrev 2>&1 | grep -E
+"(WARNING|ERROR|missing-srcrev)"
+ERROR: test-srcrev-1.0-r0 do_recipe_qa: QA Issue: test-srcrev:
+SRCREV not set for SCM URI git://github.com/example/project.git
+[missing-srcrev]
+
+Selftest results:
+test_git_unpack_nonetwork PASSED
+test_git_unpack_nonetwork_fail PASSED
+test_git_patchtool PASSED
+test_git_patchtool2 PASSED
+test_just_parse PASSED
+test_warnings_errors PASSED
+test_invalid_recipe_src_uri PASSED
+
+Changes are minimal:
+BitBake: 3 files, 8 insertions, 3 deletions
+OE-core: 1 file, 16 insertions, 1 deletion
+
+Does this approach align with what was suggested? I am happy to
+refine it further based on the feedback.
+
+Best regards,
+Sai Sneha
+
+
+On Fri, 5 Jun 2026 at 11:45=E2=80=AFAM, Sai Sneha via lists.openembedded.or=
+g
+<saisneha196=3Dgmail.com@lists.openembedded.org> wrote:
+
+> Hi all,
+>
+> After reading through all the mailing list feedback carefully and
+> spending time studying the bitbake fetcher code, I think I now have
+> a better picture of what went wrong with my approach. I wanted
+> to summarize my understanding before attempting v6.
+>
+> The core problem with v5:
+>
+> The bigger issue is that intercepting at the vardepvalue level in
+> base.bbclass was the wrong approach entirely. when I suppress the
+> hash computation for recipes with missing SRCREV I am also
+> accidentally breaking something important bitbake uses that hash
+> to know when to re-run do_fetch. So if a branch or tag changes
+> upstream do_fetch would silently not re-run which is worse than
+> the original problem.
+>
+> Other issues I missed:
+>
+> - Using d.getVar(candidate, False) misses MACHINE/DISTRO overrides.
+> Paul is right that override resolution is the bitbake parser's job,
+> not something OE-core should be reimplementing.
+>
+> - Hardcoding git/gitsm/hg/svn was fragile. bitbake already has
+> supports_srcrev() on each fetcher class for exactly this purpose.
+>
+> - The parse-time warning was wrong. src-uri-bad is purely a QA-time
+> check I should not have added parse-time warnings.
+>
+> - The problem is broader than just missing SRCREV as a SRCREV set to
+> a branch or tag name instead of a commit hash causes the same
+> reproducibility issues.
+>
+> - The tag=3D skip was wrong since the selftest recipe should use
+> INSANE_SKIP instead of skipping tag=3D globally.
+>
+> - The CHECKLAYER_REQUIRED_TESTS decision needs proper discussion
+> not a unilateral call in the cover letter.
+>
+> Where I think the fix should go:
+>
+> Richard suggested fixing this in the bitbake fetchers themselves
+> using supports_srcrev(). I am not sure if that means changes to the
+> BitBake repository itself, or just using supports_srcrev() within
+> OE-core. Could someone clarify the right direction?
+>
+> My current thinking for OE-core is a simple QA check in
+> insane.bbclass using oe.qa.handle_error() with supports_srcrev()
+> to identify which URIs need checking, along with fixing the
+> gitunpackoffline selftest with INSANE_SKIP. But I want to make sure
+> this aligns with what the maintainers have in mind before writing
+> more code.
+>
+> Thanks again for the thorough review it was genuinely helpful.
+>
+> Sai Sneha
+>
+>
+> On Tue, 2 Jun 2026 at 1:56=E2=80=AFPM, Yoann Congal <yoann.congal@smile.f=
+r> wrote:
+>
+>> On Tue Jun 2, 2026 at 8:29 AM CEST, Sai Sneha wrote:
+>> > Add a proper QA check test_missing_srcrev() in do_recipe_qa that
+>> > fires at build time via oe.qa.handle_error(), using the shared
+>> > oe.qa.check_uri_srcrev() helper to avoid code duplication.
+>> >
+>> > Severity is controlled per layer:
+>> > - WARN_QA:append =3D " missing-srcrev" for all layers (warning by defa=
+ult)
+>> > - ERROR_QA:append:layer-core =3D " missing-srcrev" for oe-core (strict=
+)
+>> >
+>> > This follows the same pattern as missing-metadata and missing-maintain=
+er
+>> > which are warnings globally but errors for oe-core.
+>> >
+>> > Note on CHECKLAYER_REQUIRED_TESTS: missing-srcrev is intentionally
+>> > not added to CHECKLAYER_REQUIRED_TESTS because that would promote it
+>> > to ERROR_QA for all layers globally during normal builds, contradictin=
+g
+>> > the layer-specific enforcement requested in Bug 16051 Comment 3.
+>> > Instead, yocto-check-layer.bbclass enforces it directly during
+>> > checklayer validation runs.
+>>
+>> Neither CHECKLAYER_REQUIRED_TESTS nor yocto-check-layer does not appear
+>> in this patch. Maybe move this note to the next patch?
+>>
+>> >
+>> > Reported-by: Yoann Congal <yoann.congal@smile.fr>
+>> > Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16051
+>> > AI-Generated: Developed with assistance from Anthropic Claude
+>> > Signed-off-by: Sai Sneha <saisneha196@gmail.com>
+>> > ---
+>> >
+>> > Changes in v5:
+>> > - No changes to this patch
+>> >
+>> > Changes in v4:
+>> > - Refactored to use shared oe.qa.check_uri_srcrev() helper
+>> > - Eliminates duplicated URI parsing logic
+>> > - Added note explaining why CHECKLAYER_REQUIRED_TESTS is not used
+>> >
+>> > Changes in v3:
+>> > - Added AI-Generated disclosure and Reported-by tag
+>> >
+>> > Changes in v2:
+>> > - Initial public submission
+>> >  meta/classes-global/insane.bbclass | 13 +++++++++++++
+>> >  1 file changed, 13 insertions(+)
+>> >
+>> > diff --git a/meta/classes-global/insane.bbclass
+>> b/meta/classes-global/insane.bbclass
+>> > index 04700be71c..1fe426646d 100644
+>> > --- a/meta/classes-global/insane.bbclass
+>> > +++ b/meta/classes-global/insane.bbclass
+>> > @@ -49,6 +49,9 @@ ERROR_QA ?=3D "\
+>> >  ERROR_QA:append =3D " ${@bb.utils.filter('DISTRO_FEATURES', 'usrmerge=
+',
+>> d)}"
+>> >  WARN_QA:append:layer-core =3D " missing-metadata missing-maintainer"
+>> >
+>> > +WARN_QA:append =3D " missing-srcrev"
+>> > +ERROR_QA:append:layer-core =3D " missing-srcrev"
+>> > +
+>> >  FAKEROOT_QA =3D "host-user-contaminated"
+>> >  FAKEROOT_QA[doc] =3D "QA tests which need to run under fakeroot. If a=
+ny \
+>> >  enabled tests are listed here, the do_package_qa task will run under
+>> fakeroot."
+>> > @@ -1455,6 +1458,15 @@ python do_qa_unpack() {
+>> >  python do_recipe_qa() {
+>> >      import re
+>> >
+>> > +    def test_missing_srcrev(pn, d):
+>> > +        import oe.qa
+>> > +        src_uri =3D (d.getVar('SRC_URI', False) or '').split()
+>> > +        for uri in src_uri:
+>> > +            rev =3D oe.qa.check_uri_srcrev(pn, uri, d)
+>> > +            if rev is None:
+>> > +                oe.qa.handle_error("missing-srcrev",
+>> > +                    "%s: SRCREV not set for SCM URI %s" % (pn, uri), =
+d)
+>> > +
+>> >      def test_naming(pn, d):
+>> >          if pn.endswith("-native") and not
+>> bb.data.inherits_class("native", d):
+>> >              oe.qa.handle_error("recipe-naming", "Recipe %s appears
+>> native but is not, should inherit native" % pn, d)
+>> > @@ -1497,6 +1509,7 @@ python do_recipe_qa() {
+>> >
+>> >      pn =3D d.getVar('PN')
+>> >      test_naming(pn, d)
+>> > +    test_missing_srcrev(pn, d)
+>> >      test_missing_metadata(pn, d)
+>> >      test_missing_maintainer(pn, d)
+>> >      test_srcuri(pn, d)
+>>
+>>
+>> --
+>> Yoann Congal
+>> Smile ECS
+>>
+>>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#238140):
+> https://lists.openembedded.org/g/openembedded-core/message/238140
+> Mute This Topic: https://lists.openembedded.org/mt/119607376/10302268
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> saisneha196@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--00000000000073abe20653ce9f92
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><div style=3D"font-size:inherit" dir=3D"auto">Hi all,<br style=3D"font=
+-size:inherit"><br style=3D"font-size:inherit">Following up on the=C2=A0sug=
+gestions to fix this in the BitBake <br style=3D"font-size:inherit">fetcher=
+s using supports_srcrev(), I have tried implementing that <br style=3D"font=
+-size:inherit">approach locally. Here is what I did and how it works.<br st=
+yle=3D"font-size:inherit"><br style=3D"font-size:inherit">The fix has two p=
+arts:<br style=3D"font-size:inherit"><br style=3D"font-size:inherit">Part 1=
+ =E2=80=94 BitBake fix (prevent parse crash):<br style=3D"font-size:inherit=
+">The crash happens in setup_revisions() when srcrev_internal_helper() <br =
+style=3D"font-size:inherit">raises a FetchError for missing SRCREV. This pr=
+opagates up through <br style=3D"font-size:inherit">expandWithRefs() as an =
+ExpansionError which halts parsing for all <br style=3D"font-size:inherit">=
+recipes. The fix catches FetchError in setup_revisions() and sets <br style=
+=3D"font-size:inherit">a missing_srcrev flag on the FetchData object:<br st=
+yle=3D"font-size:inherit"><br style=3D"font-size:inherit">  def setup_revis=
+ions(self, d):<br style=3D"font-size:inherit">      try:<br style=3D"font-s=
+ize:inherit">          self.revision =3D srcrev_internal_helper(self, d, <a=
+ href=3D"http://self.name">self.name</a>)<br style=3D"font-size:inherit">  =
+    except FetchError:<br style=3D"font-size:inherit">          self.revisi=
+on =3D None<br style=3D"font-size:inherit">          self.missing_srcrev =
+=3D True<br style=3D"font-size:inherit"><br style=3D"font-size:inherit">git=
+.py and hg.py also needed a guard to prevent calling <br style=3D"font-size=
+:inherit">latest_revision() when missing_srcrev is set, since that would <b=
+r style=3D"font-size:inherit">trigger a live network fetch under BB_NO_NETW=
+ORK=3D1.<br style=3D"font-size:inherit"><br style=3D"font-size:inherit">Par=
+t 2 =E2=80=94 OE-core QA check (insane.bbclass):<br style=3D"font-size:inhe=
+rit">A simple test_missing_srcrev() in do_recipe_qa uses supports_srcrev() =
+<br style=3D"font-size:inherit">to identify which URIs need checking:<br st=
+yle=3D"font-size:inherit"><br style=3D"font-size:inherit">  def test_missin=
+g_srcrev(pn, d):<br style=3D"font-size:inherit">      import bb.fetch2<br s=
+tyle=3D"font-size:inherit">      try:<br style=3D"font-size:inherit">      =
+    fetcher =3D bb.fetch2.Fetch(<br style=3D"font-size:inherit">           =
+   (d.getVar(&#39;SRC_URI&#39;) or &#39;&#39;).split(), d)<br style=3D"font=
+-size:inherit">          for url in fetcher.ud:<br style=3D"font-size:inher=
+it">              ud =3D fetcher.ud[url]<br style=3D"font-size:inherit">   =
+           if ud.method.supports_srcrev() and \<br style=3D"font-size:inher=
+it">                 getattr(ud, &#39;missing_srcrev&#39;, False):<br style=
+=3D"font-size:inherit">                  oe.qa.handle_error(&quot;missing-s=
+rcrev&quot;,<br style=3D"font-size:inherit">                      &quot;%s:=
+ SRCREV not set for SCM URI %s&quot; % (pn, url), d)<br style=3D"font-size:=
+inherit">      except bb.fetch2.FetchError:<br style=3D"font-size:inherit">=
+          pass<br style=3D"font-size:inherit"><br style=3D"font-size:inheri=
+t">Test results:<br style=3D"font-size:inherit"><br style=3D"font-size:inhe=
+rit">  $ bitbake -p 2&gt;&amp;1 | grep -E &quot;(WARNING|ERROR|SRCREV)&quot=
+;<br style=3D"font-size:inherit">  WARNING: You are running bitbake under W=
+SLv2...<br style=3D"font-size:inherit">  Summary: There was 1 WARNING messa=
+ge.<br style=3D"font-size:inherit">  (no parse crash, all recipes parse cle=
+anly)<br style=3D"font-size:inherit"><br style=3D"font-size:inherit">  $ bi=
+tbake -c recipe_qa -f test-fetcher 2&gt;&amp;1 | grep -E &quot;(WARNING|ERR=
+OR|missing-srcrev)&quot;<br style=3D"font-size:inherit">  WARNING: test-fet=
+cher-1.0-r0 do_recipe_qa: QA Issue: test-fetcher: <br style=3D"font-size:in=
+herit">  SRCREV not set for SCM URI git://<a href=3D"http://github.com/exam=
+ple/project.git">github.com/example/project.git</a> [missing-srcrev]<br sty=
+le=3D"font-size:inherit"><br style=3D"font-size:inherit">  $ bitbake -c rec=
+ipe_qa test-srcrev 2&gt;&amp;1 | grep -E &quot;(WARNING|ERROR|missing-srcre=
+v)&quot;<br style=3D"font-size:inherit">  ERROR: test-srcrev-1.0-r0 do_reci=
+pe_qa: QA Issue: test-srcrev: <br style=3D"font-size:inherit">  SRCREV not =
+set for SCM URI git://<a href=3D"http://github.com/example/project.git">git=
+hub.com/example/project.git</a> [missing-srcrev]<br style=3D"font-size:inhe=
+rit"><br style=3D"font-size:inherit">Selftest results:<br style=3D"font-siz=
+e:inherit">  test_git_unpack_nonetwork      PASSED<br style=3D"font-size:in=
+herit">  test_git_unpack_nonetwork_fail PASSED<br style=3D"font-size:inheri=
+t">  test_git_patchtool             PASSED<br style=3D"font-size:inherit"> =
+ test_git_patchtool2            PASSED<br style=3D"font-size:inherit">  tes=
+t_just_parse                PASSED<br style=3D"font-size:inherit">  test_wa=
+rnings_errors           PASSED<br style=3D"font-size:inherit">  test_invali=
+d_recipe_src_uri    PASSED<br style=3D"font-size:inherit"><br style=3D"font=
+-size:inherit">Changes are minimal:<br style=3D"font-size:inherit">  BitBak=
+e:  3 files, 8 insertions, 3 deletions<br style=3D"font-size:inherit">  OE-=
+core:  1 file,  16 insertions, 1 deletion<br style=3D"font-size:inherit"><b=
+r style=3D"font-size:inherit">Does this approach align with what was sugges=
+ted? I am happy to <br style=3D"font-size:inherit">refine it further based =
+on the feedback.<br style=3D"font-size:inherit"><br style=3D"font-size:inhe=
+rit">Best regards,<br style=3D"font-size:inherit">Sai Sneha<br style=3D"fon=
+t-size:inherit"></div><br></div><div><br><div class=3D"gmail_quote gmail_qu=
+ote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 5 Jun 2026 at =
+11:45=E2=80=AFAM, Sai Sneha via <a href=3D"http://lists.openembedded.org">l=
+ists.openembedded.org</a> &lt;saisneha196=3D<a href=3D"mailto:gmail.com@lis=
+ts.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex"><div><div style=3D"fon=
+t-size:inherit" dir=3D"auto">Hi all,<br style=3D"font-size:inherit"><br sty=
+le=3D"font-size:inherit">After reading through all the mailing list feedbac=
+k carefully and <br style=3D"font-size:inherit">spending time studying the =
+bitbake fetcher code, I think I now have <br style=3D"font-size:inherit">a =
+better picture of what went wrong with my approach. I wanted <br style=3D"f=
+ont-size:inherit">to summarize my understanding before attempting v6.<br st=
+yle=3D"font-size:inherit"><br style=3D"font-size:inherit">The core problem =
+with v5:<br style=3D"font-size:inherit"><br style=3D"font-size:inherit">The=
+ bigger issue is that intercepting at the vardepvalue level in <br style=3D=
+"font-size:inherit">base.bbclass was the wrong approach entirely. when I su=
+ppress the <br style=3D"font-size:inherit">hash computation for recipes wit=
+h missing SRCREV I am also <br style=3D"font-size:inherit">accidentally bre=
+aking something important bitbake uses that hash <br style=3D"font-size:inh=
+erit">to know when to re-run do_fetch. So if a branch or tag changes <br st=
+yle=3D"font-size:inherit">upstream do_fetch would silently not re-run which=
+ is worse than <br style=3D"font-size:inherit">the original problem.<br sty=
+le=3D"font-size:inherit"><br style=3D"font-size:inherit">Other issues I mis=
+sed:<br style=3D"font-size:inherit"><br style=3D"font-size:inherit">- Using=
+ d.getVar(candidate, False) misses MACHINE/DISTRO overrides. <br style=3D"f=
+ont-size:inherit">  Paul is right that override resolution is the bitbake p=
+arser&#39;s job, <br style=3D"font-size:inherit">  not something OE-core sh=
+ould be reimplementing.<br style=3D"font-size:inherit"><br style=3D"font-si=
+ze:inherit">- Hardcoding git/gitsm/hg/svn was fragile. bitbake already has =
+<br style=3D"font-size:inherit">  supports_srcrev() on each fetcher class f=
+or exactly this purpose.<br style=3D"font-size:inherit"><br style=3D"font-s=
+ize:inherit">- The parse-time warning was wrong. src-uri-bad is purely a QA=
+-time <br style=3D"font-size:inherit">  check I should not have added parse=
+-time warnings.<br style=3D"font-size:inherit"><br style=3D"font-size:inher=
+it">- The problem is broader than just missing SRCREV as a SRCREV set to <b=
+r style=3D"font-size:inherit">  a branch or tag name instead of a commit ha=
+sh causes the same <br style=3D"font-size:inherit">  reproducibility issues=
+.<br style=3D"font-size:inherit"><br style=3D"font-size:inherit">- The tag=
+=3D skip was wrong since the selftest recipe should use <br style=3D"font-s=
+ize:inherit">  INSANE_SKIP instead of skipping tag=3D globally.<br style=3D=
+"font-size:inherit"><br style=3D"font-size:inherit">- The CHECKLAYER_REQUIR=
+ED_TESTS decision needs proper discussion <br style=3D"font-size:inherit"> =
+ not a unilateral call in the cover letter.<br style=3D"font-size:inherit">=
+<br style=3D"font-size:inherit">Where I think the fix should go:<br style=
+=3D"font-size:inherit"><br style=3D"font-size:inherit">Richard suggested fi=
+xing this in the bitbake fetchers themselves <br style=3D"font-size:inherit=
+">using supports_srcrev(). I am not sure if that means changes to the <br s=
+tyle=3D"font-size:inherit">BitBake repository itself, or just using support=
+s_srcrev() within <br style=3D"font-size:inherit">OE-core. Could someone cl=
+arify the right direction?<br style=3D"font-size:inherit"><br style=3D"font=
+-size:inherit">My current thinking for OE-core is a simple QA check in <br =
+style=3D"font-size:inherit">insane.bbclass using oe.qa.handle_error() with =
+supports_srcrev() <br style=3D"font-size:inherit">to identify which URIs ne=
+ed checking, along with fixing the <br style=3D"font-size:inherit">gitunpac=
+koffline selftest with INSANE_SKIP. But I want to make sure <br style=3D"fo=
+nt-size:inherit">this aligns with what the maintainers have in mind before =
+writing <br style=3D"font-size:inherit">more code.<br style=3D"font-size:in=
+herit"><br style=3D"font-size:inherit">Thanks again for the thorough review=
+ it was genuinely helpful.<br style=3D"font-size:inherit"><br style=3D"font=
+-size:inherit">Sai Sneha</div><br></div><div><br><div class=3D"gmail_quote"=
+></div></div><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
+l_attr">On Tue, 2 Jun 2026 at 1:56=E2=80=AFPM, Yoann Congal &lt;<a href=3D"=
+mailto:yoann.congal@smile.fr" target=3D"_blank">yoann.congal@smile.fr</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue=
+ Jun 2, 2026 at 8:29 AM CEST, Sai Sneha wrote:<br>
+&gt; Add a proper QA check test_missing_srcrev() in do_recipe_qa that<br>
+&gt; fires at build time via oe.qa.handle_error(), using the shared<br>
+&gt; oe.qa.check_uri_srcrev() helper to avoid code duplication.<br>
+&gt;<br>
+&gt; Severity is controlled per layer:<br>
+&gt; - WARN_QA:append =3D &quot; missing-srcrev&quot; for all layers (warni=
+ng by default)<br>
+&gt; - ERROR_QA:append:layer-core =3D &quot; missing-srcrev&quot; for oe-co=
+re (strict)<br>
+&gt;<br>
+&gt; This follows the same pattern as missing-metadata and missing-maintain=
+er<br>
+&gt; which are warnings globally but errors for oe-core.<br>
+&gt;<br>
+&gt; Note on CHECKLAYER_REQUIRED_TESTS: missing-srcrev is intentionally<br>
+&gt; not added to CHECKLAYER_REQUIRED_TESTS because that would promote it<b=
+r>
+&gt; to ERROR_QA for all layers globally during normal builds, contradictin=
+g<br>
+&gt; the layer-specific enforcement requested in Bug 16051 Comment 3.<br>
+&gt; Instead, yocto-check-layer.bbclass enforces it directly during<br>
+&gt; checklayer validation runs.<br>
+<br>
+Neither CHECKLAYER_REQUIRED_TESTS nor yocto-check-layer does not appear<br>
+in this patch. Maybe move this note to the next patch?<br>
+<br>
+&gt;<br>
+&gt; Reported-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr"=
+ target=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
+&gt; Fixes: <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D=
+16051" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.o=
+rg/show_bug.cgi?id=3D16051</a><br>
+&gt; AI-Generated: Developed with assistance from Anthropic Claude<br>
+&gt; Signed-off-by: Sai Sneha &lt;<a href=3D"mailto:saisneha196@gmail.com" =
+target=3D"_blank">saisneha196@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;<br>
+&gt; Changes in v5:<br>
+&gt; - No changes to this patch<br>
+&gt;<br>
+&gt; Changes in v4:<br>
+&gt; - Refactored to use shared oe.qa.check_uri_srcrev() helper<br>
+&gt; - Eliminates duplicated URI parsing logic<br>
+&gt; - Added note explaining why CHECKLAYER_REQUIRED_TESTS is not used<br>
+&gt;<br>
+&gt; Changes in v3:<br>
+&gt; - Added AI-Generated disclosure and Reported-by tag<br>
+&gt;<br>
+&gt; Changes in v2:<br>
+&gt; - Initial public submission<br>
+&gt;=C2=A0 meta/classes-global/insane.bbclass | 13 +++++++++++++<br>
+&gt;=C2=A0 1 file changed, 13 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/=
+insane.bbclass<br>
+&gt; index 04700be71c..1fe426646d 100644<br>
+&gt; --- a/meta/classes-global/insane.bbclass<br>
+&gt; +++ b/meta/classes-global/insane.bbclass<br>
+&gt; @@ -49,6 +49,9 @@ ERROR_QA ?=3D &quot;\<br>
+&gt;=C2=A0 ERROR_QA:append =3D &quot; ${@bb.utils.filter(&#39;DISTRO_FEATUR=
+ES&#39;, &#39;usrmerge&#39;, d)}&quot;<br>
+&gt;=C2=A0 WARN_QA:append:layer-core =3D &quot; missing-metadata missing-ma=
+intainer&quot;<br>
+&gt;=C2=A0 <br>
+&gt; +WARN_QA:append =3D &quot; missing-srcrev&quot;<br>
+&gt; +ERROR_QA:append:layer-core =3D &quot; missing-srcrev&quot;<br>
+&gt; +<br>
+&gt;=C2=A0 FAKEROOT_QA =3D &quot;host-user-contaminated&quot;<br>
+&gt;=C2=A0 FAKEROOT_QA[doc] =3D &quot;QA tests which need to run under fake=
+root. If any \<br>
+&gt;=C2=A0 enabled tests are listed here, the do_package_qa task will run u=
+nder fakeroot.&quot;<br>
+&gt; @@ -1455,6 +1458,15 @@ python do_qa_unpack() {<br>
+&gt;=C2=A0 python do_recipe_qa() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 import re<br>
+&gt;=C2=A0 <br>
+&gt; +=C2=A0 =C2=A0 def test_missing_srcrev(pn, d):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 import <a href=3D"http://oe.qa" rel=3D"no=
+referrer" target=3D"_blank">oe.qa</a><br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 src_uri =3D (d.getVar(&#39;SRC_URI&#39;, =
+False) or &#39;&#39;).split()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for uri in src_uri:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rev =3D oe.qa.check_uri_src=
+rev(pn, uri, d)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if rev is None:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.qa.handle_=
+error(&quot;missing-srcrev&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ &quot;%s: SRCREV not set for SCM URI %s&quot; % (pn, uri), d)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def test_naming(pn, d):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if pn.endswith(&quot;-native&quot;) =
+and not bb.data.inherits_class(&quot;native&quot;, d):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe.qa.handle_error(&qu=
+ot;recipe-naming&quot;, &quot;Recipe %s appears native but is not, should i=
+nherit native&quot; % pn, d)<br>
+&gt; @@ -1497,6 +1509,7 @@ python do_recipe_qa() {<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 pn =3D d.getVar(&#39;PN&#39;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 test_naming(pn, d)<br>
+&gt; +=C2=A0 =C2=A0 test_missing_srcrev(pn, d)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 test_missing_metadata(pn, d)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 test_missing_maintainer(pn, d)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 test_srcuri(pn, d)<br>
+<br>
+<br>
+-- <br>
+Yoann Congal<br>
+Smile ECS<br>
+<br>
+</blockquote></div></div><div><div class=3D"gmail_quote"></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#238140): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/238140" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/238140</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119607376/103=
+02268" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+mt/119607376/10302268</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:saisneha196@gmail.com" tar=
+get=3D"_blank">saisneha196@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--00000000000073abe20653ce9f92--
 
