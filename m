@@ -1,164 +1,112 @@
-Return-Path: <jeremy.rosen@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E8ECD8C85
-	for <webhook@archiver.kernel.org>; Tue,  9 Jun 2026 07:45:12 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.74329.1780991111537171026
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4E8BCD8CAD
+	for <webhook@archiver.kernel.org>; Tue,  9 Jun 2026 07:46:12 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.74149.1780991168803510648
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2026 00:45:11 -0700
+ Tue, 09 Jun 2026 00:46:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=EP27Eldv;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: jeremy.rosen@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490cdae130cso11918955e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 00:45:11 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ue61NKoa;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490b211ee6aso40229385e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 00:46:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1780991110; x=1781595910; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vbjVcd1hlj7iuvTKLvlfCxT6U1zozGy6ykPPYXb+MF8=;
-        b=EP27EldvMGtKaDMCU35x3s831sLHep+yut3q0rJ14D5OUgKgRS5d0vxaaEAqsQfQGX
-         k6FglaEZp2ypA4DlyCBxGO+jBAkD2tWLhXMzJyAE9+MeND77ZOAYKQRql8KezxM72wDS
-         c4fuVNXF3V8CLAYMAyI70TXiaH2IivvulBNyI=
+        d=linuxfoundation.org; s=google; t=1780991167; x=1781595967; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4WtnMWqI7A8rmCaEY1QDyhF2uqmh3fgf8znIn7mQhhE=;
+        b=Ue61NKoaq6D6MWu1asSxzd+bTZHybdFa/Ly0PTXLfd5Sc0E2hpNtvaGj6JC4uxL+fI
+         Qy9eqteV7T9CKFvFISJh2ghNLyhq76kVlM4EDLuvJ3OxU3bie1Gp3Cw5DnSMAWkUnAXz
+         xLPtn0Il9ceVv6+eU/3z+pA3MPz+T+iyJH44o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780991110; x=1781595910;
-        h=in-reply-to:references:subject:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vbjVcd1hlj7iuvTKLvlfCxT6U1zozGy6ykPPYXb+MF8=;
-        b=OrqQ7adUWd76qKBMtwtiBsgON51gJy3Bx51Am6gKTGxYUDH9snLbgDXc3oMeEEWy37
-         nm0thJ6GahmYnj9wkQsglkNSJM1Iz0OBBjXWMQls6bh/5+eSYvQO/1XG9h+V0EfcrpM4
-         8CvOUaE9JFZQaYwO9kz2/4MdxlX1pRpG+F+TEYSMklMktFlyOM+DSqXqGrXFl1i3vqwX
-         NvKsm6kDCUDFf0nzp90XWAncc+jFEPtREm4aYL97OJcZ2+srkmHOWB0OUG7OF8OwdFPC
-         eDdrdxfOvWPl30yUryDlb/8rgWCAbfkxuAiVexLC+hEF4cOEmSefmMYP8vGHtYnhpcHs
-         09pA==
-X-Forwarded-Encrypted: i=1; AFNElJ9dvj27qKaEASU85Yll1EEkcVOG6MjZEDE8IIfy0+9HIU7hZmqV98of1Wta0w02IB/5Z6yN1Fy9t5liP5RKkWke7w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzSksHGOeL175nv59ogYdPu6BujJOkUTPm/S1qnY4zp8Ik5A0P3
-	wz9R7AST1NTdTUNpoHRnO98Wd0n3mXmZBzoPSJDklxrXdLhHBJV/NLi4SzB9vfvmjg==
-X-Gm-Gg: Acq92OE3WV9AUZBYBx6inoBO8+invJkn+rscIRfaZUnG0NOx99vG2fA+FRX/CXDS7Rt
-	hAju5d+iJU+T2EC/Ds9U1zvgXcwlSr+pQ28BaBtkFu4T50CTjJQMBtFHMfzhhJ/ubfadM/nbTq7
-	RzrNxYGTl9e4i2BtK4uJJIA0DXAq9wXSU98OctdDvNhLS/W3FDh+Yj7+nrhuXwFy+WKYYRdKZut
-	oASJaWB4MHaXIk31RgoPjbdLqhZZ0CBFucoXJQIL6TB8tWhnnGvXw+DMjYeVXO3TVZHpnjKUdSK
-	RNKD0YgsZ3LDVjeOxp4Sz7mCD0t5ASYbNI81To1LiPdYyVpvwM0rJnWLPlV5+BNRsyRUsbW5CL1
-	PyV1jmVMCtL1s2LzDH6aWkmGxqUXo+rC6hFk5AgRWGIXfONfwMGXEaOSaRE5V/3ePmtZeJSiK5V
-	RicwV5eQalrWS8mzbP2wcencssJmNbniEK2rD4cLqoTMLY+2ZCHe1Kd1+DOXcn//OmnWIaRoLfJ
-	zM964/qkF1QAfKRbjgrKZ8/rGrwiL8=
-X-Received: by 2002:a05:600c:354a:b0:490:ba0a:1178 with SMTP id 5b1f17b1804b1-490c2616e16mr308372415e9.28.1780991109885;
-        Tue, 09 Jun 2026 00:45:09 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3d663csm509423385e9.11.2026.06.09.00.45.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jun 2026 00:45:09 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 09 Jun 2026 09:45:08 +0200
-Message-Id: <DJ4CNOCK804H.O6IBAE2MU9MH@smile.fr>
-From: "Jeremy Rosen" <jeremy.rosen@smile.fr>
-To: <prabhudasuvatala@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2] [scarthgap] conf/machine: fix typos in ARM
- and x86 README files
-X-Mailer: aerc 0.21.0
-References: <20260601001057.18589-1-prabhudasuvatala@gmail.com>
-In-Reply-To: <20260601001057.18589-1-prabhudasuvatala@gmail.com>
+        d=1e100.net; s=20251104; t=1780991167; x=1781595967;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4WtnMWqI7A8rmCaEY1QDyhF2uqmh3fgf8znIn7mQhhE=;
+        b=SQZMC0Nn+VZp4aCrszOJKsspa4bxm1+nq4X3QySq9nqghLeQzmGbQxJmbpa3yt1TUA
+         mRb3b5EQO3f2W04LL17O4xGhJaJR2k32bglHSesZm+SOdUlHQNFvZPN4Gy1g4Ntdn2Wm
+         t9nBHbnKXiYM2MrZZ8VnmkLG5e6QqwcVZxIqRnhiq03mLTsT55+wLhw6KwlCD33BECDE
+         ZNh0BzLmtls4mK9m6/7gaFVaqRV+rcc78Ya5j6yRHJXIY+MV2LD76V0JK1st6/C7l/HP
+         n9lu8AeWUJXV9N8ffg1BUDaiL7zX4/Z/p+QaOpWNdrHc4ST8HfWAFkIPufSiyy0kRZLM
+         /apQ==
+X-Gm-Message-State: AOJu0YwYKltMsE9TLYMMhjYyXgc01+oRnGv+Ie2AanZ+8JDAY+ER0IGr
+	dIdBDjVEw0hdq2qiprsWJA9/HT2AewF1VkO2B/zvAXELuAp3LrKESyRtXU16oVGjmrla5uzsQsi
+	Y+N9r
+X-Gm-Gg: Acq92OHda3kfjnwwlmXamJ57l+id7jqxGQ/4YeWh2R4DwxO0S2kdcGXN4rMi3yhRUZf
+	UNVqY9akMLx+qOOIjy84oFvYpGd5zj7d7msXuCPW8gp8MiE+/q2F5dmvMUjuBCm31fzAPzKk0uJ
+	QmZghpDVTMWPJsOvI0MPKmwdlV6QuXo7Wlwtfn7WBtYefAem/dwgkEfMLl5Jvko3VvQ8V5Z5xU7
+	w/hrnHxQLx1umfqWSNwHz/bYbOfQkRanrf4qTgw3gvhys3o2KkAV4nzpTwkTY/mjBTyKxvIHaB6
+	3EnvldyrFwqjVJeXwam3tCkQyGM7V3gbBCOwXihoivcSyA/TPf/MBPrD4kPfR8nP9tIOmNCxvfg
+	8V3WYe2ueykMdDU7qKwvUqh/Y3oGZIeEzBG66oA73TwizdAizWFF1pzv/a749kZ0o6c1hfyIRvY
+	3dv6u6zHP+HrilC6Pys9uZnZIaq2XNA/kSMrJIXPXWE2xbGgJxz/AQhYMTy+yHzfI=
+X-Received: by 2002:a05:600c:358b:b0:490:b591:b5a1 with SMTP id 5b1f17b1804b1-490c25da474mr335413165e9.32.1780991167239;
+        Tue, 09 Jun 2026 00:46:07 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1942:aa0f:4850:4ec1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490c2cbb4cbsm254006975e9.0.2026.06.09.00.46.05
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2026 00:46:06 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] oe/utils: Drop any_distro_features
+Date: Tue,  9 Jun 2026 08:46:03 +0100
+Message-ID: <20260609074603.1429006-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260609074603.1429006-1-richard.purdie@linuxfoundation.org>
+References: <20260609074603.1429006-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 07:45:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238270
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 07:46:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238272
 
-Hello Prabhudasu
+It is just as easy to use bb.utils.contains_any("DISTRO_FEATURES", "x y", ...)
+and this function is just a wrapper. It isn't used anywhere in core.
 
-I could not find an equivalent patch for wrynose (though I did find one
-for master)
-Please submit to wrynose and ping this mail once this is done
+The contains_any function is better optimised in bitbake too.
 
-thx a lot
-J=C3=A9r=C3=A9my
-On Mon Jun 1, 2026 at 2:10 AM CEST, Prabhudasu Vatala via lists.openembedde=
-d.org wrote:
-> Correct spelling errors in the machine include README documentation
-> for both ARM and x86 architectures to improve clarity.
->
-> ARM changes:
-> - Fix TUNE_PKGACH -> TUNE_PKGARCH.
-> - Fix "definiton" -> "definition".
-> - Fix "Curently" -> "Currently".
-> - Fix "specificed" -> "specified".
->
-> x86 changes:
-> - Fix "define" -> "defined".
-> - Fix "to to" duplication.
->
-> Signed-off-by: Prabhudasu Vatala <prabhudasuvatala@gmail.com>
-> ---
->  meta/conf/machine/include/arm/README | 6 +++---
->  meta/conf/machine/include/x86/README | 4 ++--
->  2 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/conf/machine/include/arm/README b/meta/conf/machine/inc=
-lude/arm/README
-> index c5637798e6..bccbb1bdee 100644
-> --- a/meta/conf/machine/include/arm/README
-> +++ b/meta/conf/machine/include/arm/README
-> @@ -10,7 +10,7 @@ of the existence of the "bigendian" feature in a given =
-tune.
-> =20
->  A small set of ARM specific variables have been defined to allow=20
->  TUNE_PKGARCH to be automatically defined.  Optimized tunings must NOT=20
-> -change the definiton of TUNE_PKGARCH.  TUNE_PKGACH:tune-<tune> will be=
-=20
-> +change the definition of TUNE_PKGARCH.  TUNE_PKGARCH:tune-<tune> will be=
-=20
->  ignored.  The format of the package arch is enforced by the TUNE_PKGARCH
->  default.  The format must be of the form:
->  <armversion>[t][e][hf][b][-vfp][-neon]
-> @@ -22,14 +22,14 @@ ARMPKGARCH - This is the core package arch component =
-specified by each
->  tuning.  This is the primary identifier of a tuning.  Usual values are:
->  arm, armv4, armv5, armv6, armv7a, etc.
-> =20
-> -ARMPKGSFX_THUMB - This is the thumb specific suffix.  Curently it is=20
-> +ARMPKGSFX_THUMB - This is the thumb specific suffix.  Currently it is=20
->  defined in feature-arm-thumb.inc.
-> =20
->  ARMPKGSFX_DSP - This is the DSP specific suffix.  Currently this is set=
-=20
->  to 'e' when on armv5 and the dsp feature is enabled.
-> =20
->  ARMPKGSFX_EABI - This is the eabi specific suffix.  There are currently=
-=20
-> -two defined ABIs specificed, standard EABI and Hard Float (VFP) EABI. =
-=20
-> +two defined ABIs specified, standard EABI and Hard Float (VFP) EABI. =20
->  When the callconvention-hard is enabled, "hf" is specified, otherwise it=
-=20
->  is blank.
-> =20
-> diff --git a/meta/conf/machine/include/x86/README b/meta/conf/machine/inc=
-lude/x86/README
-> index 05aee533a7..f0a1882d81 100644
-> --- a/meta/conf/machine/include/x86/README
-> +++ b/meta/conf/machine/include/x86/README
-> @@ -4,7 +4,7 @@
->  Most of the items for the X86 architectures are defined in the single
->  arch-x86 file.
-> =20
-> -Three ABIs are define, m32, mx32 and m64.
-> +Three ABIs are defined, m32, mx32 and m64.
-> =20
->  The following is the list of X86 specific variables:
-> =20
-> @@ -17,7 +17,7 @@ The TUNE_PKGARCH is defined as follows:
->  TUNE_PKGARCH =3D ${TUNE_PKGARCH:tune-${DEFAULTTUNE}}
-> =20
->  The package architecture for 32-bit targets is historical and generally
-> -set to to match the core compatible processor type, i.e. i386.
-> +set to match the core compatible processor type, i.e. i386.
-> =20
->  For 64-bit architectures, the architecture is expected to end in '_64'.
-> =20
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oe/utils.py | 21 ---------------------
+ 1 file changed, 21 deletions(-)
 
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 4e09a8b927f..18c48a145f0 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -170,27 +170,6 @@ def set_class_filter(var, features_var, filter_var, d):
+             bb.warn("Unexpanded variable %s in %s is not recommended" % (issue, var))
+     d.setVar(var, '${@oe.utils.class_filter_features("' + defaults + '", "' + features_var + '", "' + filter_var + '", d)}')
+ 
+-def any_distro_features(d, features, truevalue="1", falsevalue=""):
+-    """
+-    Returns truevalue if at least *one* of the given features is set in DISTRO_FEATURES,
+-    else falsevalue. The features can be given as single string or anything
+-    that can be turned into a set.
+-
+-    This is a shorter, more flexible version of
+-    bb.utils.contains_any("DISTRO_FEATURES", features, truevalue, falsevalue, d).
+-
+-    Without explicit true/false values it can be used directly where
+-    Python expects a boolean:
+-       if not oe.utils.any_distro_features(d, "foo bar"):
+-           bb.fatal("foo, bar or both must be set in DISTRO_FEATURES")
+-
+-    With just a truevalue, it can be used to include files that are meant to be
+-    used only when requested via DISTRO_FEATURES:
+-       require ${@ oe.utils.any_distro_features(d, "foo bar", "foo-or-bar.inc")
+-
+-    """
+-    return bb.utils.contains_any("DISTRO_FEATURES", features, truevalue, falsevalue, d)
+-
+ def parallel_make_value(pm):
+     """
+     Return the integer value for the number of parallel threads to use when
 
