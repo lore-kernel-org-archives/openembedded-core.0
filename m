@@ -1,113 +1,164 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jeremy.rosen@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9A41CD8C85
-	for <webhook@archiver.kernel.org>; Tue,  9 Jun 2026 07:42:02 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.74099.1780990912250429302
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E8ECD8C85
+	for <webhook@archiver.kernel.org>; Tue,  9 Jun 2026 07:45:12 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.74329.1780991111537171026
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2026 00:41:52 -0700
+ Tue, 09 Jun 2026 00:45:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=STWvn1Ep;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-68c3421b009so8839543a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 00:41:52 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=EP27Eldv;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: jeremy.rosen@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490cdae130cso11918955e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 00:45:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1780990910; x=1781595710; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1780991110; x=1781595910; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yosreQYl44xp7sn1VxwbvK62N2hENE00AfaPPJ2eJnI=;
-        b=STWvn1EpYwc/H4794H7tp4xr5PQVgDTRt5c8pp2oMOfc461B9LDHEBXzprzmrBtw/i
-         CzQ5E6VLForQHnBdSiSK9lgC8fzuADiOp4lZ5U3GdjlhXroQv/CBRVOPH6TFa7dRjqIL
-         OGPoPGbcEcp2FYAjmm1jpkIO1Gfxoic6NK1Vw=
+        bh=vbjVcd1hlj7iuvTKLvlfCxT6U1zozGy6ykPPYXb+MF8=;
+        b=EP27EldvMGtKaDMCU35x3s831sLHep+yut3q0rJ14D5OUgKgRS5d0vxaaEAqsQfQGX
+         k6FglaEZp2ypA4DlyCBxGO+jBAkD2tWLhXMzJyAE9+MeND77ZOAYKQRql8KezxM72wDS
+         c4fuVNXF3V8CLAYMAyI70TXiaH2IivvulBNyI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780990910; x=1781595710;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yosreQYl44xp7sn1VxwbvK62N2hENE00AfaPPJ2eJnI=;
-        b=VMueVfS+ZKxHVFbohaiw/W9oWfauPEs6aE5zgHtMtFEvmGJpiYe44rtW0ONjbaIi+Z
-         bFYLBc+2g8mC0UCRJUPuqofIfq5rfobwIyGegXyncgUsq+G0tltDWWwa+NLfTMwGQxO2
-         yu2DbQH61SRk/sho1RC6lP+Y1C/EwuHiQqu39QosZZSFmxhv0auvsaYc51BMe+pcVfYi
-         xpFf8a+U+bj2beD6QQ8rIe+lNId3BKsynDuKORS/Lu+Chc1qNq604Rf7EGS+1qN+wJuz
-         fQoL2PfrvT3o4LknzEexXEsACGqEPmRD0J7o+TgzXngMyFwDmOQi2Ttq6T8BJMm/hM6M
-         JZmA==
-X-Forwarded-Encrypted: i=1; AFNElJ/HEdIP4F52lXrfNqnXaBpnke+qdxnOF7TsyFb9FqxjqH+OuvoKUlJjXbl14ZYjIlx4Y1H+yU/BXJXiT3SkbCceOQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzxPg9I0ngXfvIT4dyNgRsAVhG6ukAXs4WCjAxyBiQJ/+i710ml
-	OtwtQXuoOqgXXGnv9a7st7m6x58fdegt+pF5a0yHZYSWNyBOP6NIPlNjOkKOihnscT8=
-X-Gm-Gg: Acq92OEBjEAt/VqMiQUJYLjcCV/55CSSYAVUUCN5apdB0an88M+QEEoqIK8djLrU64+
-	lgGfU4DydieYG4rprSHpXs12nFKhfPV5+C6XAtQfmDmfrO0VBsbJq7aEYMlMH/Vc02nIdz/KZgx
-	qdhjqzxc/4u+lcrm2cgNi+V3lIpkiT8U04bJeEnnEqCCXfDwkfmiS7beLHwea4zdipJMb56M4GM
-	18tky0HEpIq89P7eIoYRqQYNwpGOAAmBgNX1brnV7WXrLMJ0Zo1pI98+LLGYKvUJSQ++eNTpRbd
-	ed5Xj9xJcCEEyk5Mv/x0faRhKx6jpOTVpTRHhKv41196hRoQXx/J3RL3LUtXbLtj6ufRhDhLXyr
-	UbsXXS6ubbIMMBs5mgCFsEKZwKwpbkKYVBP8hVzxVRqwziouOegnx9Daz2D4mQz/hrSB9dk2eMe
-	zycjfMQNeGBTbw0GTmRtBnw1e1uCILHoO30DCO6qt/KD3iYU2y4HYUtDcudeyUWjg7P5Ff31SyH
-	1INWITrFNHcaB5xoz24IYjvDz3t/ErOoONWIg==
-X-Received: by 2002:a17:907:1def:b0:bda:dd7:2e42 with SMTP id a640c23a62f3a-bf3a900fad9mr617078566b.19.1780990910416;
-        Tue, 09 Jun 2026 00:41:50 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1942:aa0f:4850:4ec1? ([2001:8b0:aba:5f3c:1942:aa0f:4850:4ec1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf055307ce3sm978330666b.43.2026.06.09.00.41.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 00:41:49 -0700 (PDT)
-Message-ID: <da28e9e53e21ce0d9dee82a049fb0b6d55907bfb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] rpcbind: Modify socket file only, if systemd
- is used
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: joerg.sommer@navimatix.de, openembedded-core@lists.openembedded.org, 
-	AHoemig@datus.com
-Date: Tue, 09 Jun 2026 08:41:48 +0100
-In-Reply-To: <921b2852784f105d6ca5c8a754f87a68f2ecb4f3.1780937668.git.joerg.sommer@navimatix.de>
-References: 
-	<921b2852784f105d6ca5c8a754f87a68f2ecb4f3.1780937668.git.joerg.sommer@navimatix.de>
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20251104; t=1780991110; x=1781595910;
+        h=in-reply-to:references:subject:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vbjVcd1hlj7iuvTKLvlfCxT6U1zozGy6ykPPYXb+MF8=;
+        b=OrqQ7adUWd76qKBMtwtiBsgON51gJy3Bx51Am6gKTGxYUDH9snLbgDXc3oMeEEWy37
+         nm0thJ6GahmYnj9wkQsglkNSJM1Iz0OBBjXWMQls6bh/5+eSYvQO/1XG9h+V0EfcrpM4
+         8CvOUaE9JFZQaYwO9kz2/4MdxlX1pRpG+F+TEYSMklMktFlyOM+DSqXqGrXFl1i3vqwX
+         NvKsm6kDCUDFf0nzp90XWAncc+jFEPtREm4aYL97OJcZ2+srkmHOWB0OUG7OF8OwdFPC
+         eDdrdxfOvWPl30yUryDlb/8rgWCAbfkxuAiVexLC+hEF4cOEmSefmMYP8vGHtYnhpcHs
+         09pA==
+X-Forwarded-Encrypted: i=1; AFNElJ9dvj27qKaEASU85Yll1EEkcVOG6MjZEDE8IIfy0+9HIU7hZmqV98of1Wta0w02IB/5Z6yN1Fy9t5liP5RKkWke7w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzSksHGOeL175nv59ogYdPu6BujJOkUTPm/S1qnY4zp8Ik5A0P3
+	wz9R7AST1NTdTUNpoHRnO98Wd0n3mXmZBzoPSJDklxrXdLhHBJV/NLi4SzB9vfvmjg==
+X-Gm-Gg: Acq92OE3WV9AUZBYBx6inoBO8+invJkn+rscIRfaZUnG0NOx99vG2fA+FRX/CXDS7Rt
+	hAju5d+iJU+T2EC/Ds9U1zvgXcwlSr+pQ28BaBtkFu4T50CTjJQMBtFHMfzhhJ/ubfadM/nbTq7
+	RzrNxYGTl9e4i2BtK4uJJIA0DXAq9wXSU98OctdDvNhLS/W3FDh+Yj7+nrhuXwFy+WKYYRdKZut
+	oASJaWB4MHaXIk31RgoPjbdLqhZZ0CBFucoXJQIL6TB8tWhnnGvXw+DMjYeVXO3TVZHpnjKUdSK
+	RNKD0YgsZ3LDVjeOxp4Sz7mCD0t5ASYbNI81To1LiPdYyVpvwM0rJnWLPlV5+BNRsyRUsbW5CL1
+	PyV1jmVMCtL1s2LzDH6aWkmGxqUXo+rC6hFk5AgRWGIXfONfwMGXEaOSaRE5V/3ePmtZeJSiK5V
+	RicwV5eQalrWS8mzbP2wcencssJmNbniEK2rD4cLqoTMLY+2ZCHe1Kd1+DOXcn//OmnWIaRoLfJ
+	zM964/qkF1QAfKRbjgrKZ8/rGrwiL8=
+X-Received: by 2002:a05:600c:354a:b0:490:ba0a:1178 with SMTP id 5b1f17b1804b1-490c2616e16mr308372415e9.28.1780991109885;
+        Tue, 09 Jun 2026 00:45:09 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3d663csm509423385e9.11.2026.06.09.00.45.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Jun 2026 00:45:09 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 09 Jun 2026 09:45:08 +0200
+Message-Id: <DJ4CNOCK804H.O6IBAE2MU9MH@smile.fr>
+From: "Jeremy Rosen" <jeremy.rosen@smile.fr>
+To: <prabhudasuvatala@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v2] [scarthgap] conf/machine: fix typos in ARM
+ and x86 README files
+X-Mailer: aerc 0.21.0
+References: <20260601001057.18589-1-prabhudasuvatala@gmail.com>
+In-Reply-To: <20260601001057.18589-1-prabhudasuvatala@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 07:42:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238269
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 07:45:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238270
 
-On Mon, 2026-06-08 at 18:54 +0200, J=C3=B6rg Sommer via lists.openembedded.=
-org wrote:
-> From: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
->=20
-> Fixes: bee29dc822c611 ("rpcbind: Remove IPv6 listener, if ipv6 not in DIS=
-TRO_FEATURES")
-> Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
+Hello Prabhudasu
+
+I could not find an equivalent patch for wrynose (though I did find one
+for master)
+Please submit to wrynose and ping this mail once this is done
+
+thx a lot
+J=C3=A9r=C3=A9my
+On Mon Jun 1, 2026 at 2:10 AM CEST, Prabhudasu Vatala via lists.openembedde=
+d.org wrote:
+> Correct spelling errors in the machine include README documentation
+> for both ARM and x86 architectures to improve clarity.
+>
+> ARM changes:
+> - Fix TUNE_PKGACH -> TUNE_PKGARCH.
+> - Fix "definiton" -> "definition".
+> - Fix "Curently" -> "Currently".
+> - Fix "specificed" -> "specified".
+>
+> x86 changes:
+> - Fix "define" -> "defined".
+> - Fix "to to" duplication.
+>
+> Signed-off-by: Prabhudasu Vatala <prabhudasuvatala@gmail.com>
 > ---
-> =C2=A0meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb | 3 ++-
-> =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb b/meta/recipe=
-s-extended/rpcbind/rpcbind_1.2.8.bb
-> index bd8ba1e88a..6604774c1f 100644
-> --- a/meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb
-> +++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb
-> @@ -55,7 +55,8 @@ do_install:append () {
-> =C2=A0	install -d ${D}${systemd_system_unitdir}/rpcbind.service.d
-> =C2=A0	install -m 0644 ${UNPACKDIR}/rpcbind.systemd ${D}${systemd_system_=
-unitdir}/rpcbind.service.d/rpcbind.conf
-> =C2=A0
-> -	if ! ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'true', 'false', d=
-)}
-> +	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', =
-d)} \
-> +		&& ! ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'true', 'false', =
-d)}
-> =C2=A0	then
-> =C2=A0		sed -i '/^Listen.*=3D\[.*\]/s/^/# /' ${D}${systemd_system_unitdir=
-}/*.socket
-> =C2=A0	fi
+>  meta/conf/machine/include/arm/README | 6 +++---
+>  meta/conf/machine/include/x86/README | 4 ++--
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/conf/machine/include/arm/README b/meta/conf/machine/inc=
+lude/arm/README
+> index c5637798e6..bccbb1bdee 100644
+> --- a/meta/conf/machine/include/arm/README
+> +++ b/meta/conf/machine/include/arm/README
+> @@ -10,7 +10,7 @@ of the existence of the "bigendian" feature in a given =
+tune.
+> =20
+>  A small set of ARM specific variables have been defined to allow=20
+>  TUNE_PKGARCH to be automatically defined.  Optimized tunings must NOT=20
+> -change the definiton of TUNE_PKGARCH.  TUNE_PKGACH:tune-<tune> will be=
+=20
+> +change the definition of TUNE_PKGARCH.  TUNE_PKGARCH:tune-<tune> will be=
+=20
+>  ignored.  The format of the package arch is enforced by the TUNE_PKGARCH
+>  default.  The format must be of the form:
+>  <armversion>[t][e][hf][b][-vfp][-neon]
+> @@ -22,14 +22,14 @@ ARMPKGARCH - This is the core package arch component =
+specified by each
+>  tuning.  This is the primary identifier of a tuning.  Usual values are:
+>  arm, armv4, armv5, armv6, armv7a, etc.
+> =20
+> -ARMPKGSFX_THUMB - This is the thumb specific suffix.  Curently it is=20
+> +ARMPKGSFX_THUMB - This is the thumb specific suffix.  Currently it is=20
+>  defined in feature-arm-thumb.inc.
+> =20
+>  ARMPKGSFX_DSP - This is the DSP specific suffix.  Currently this is set=
+=20
+>  to 'e' when on armv5 and the dsp feature is enabled.
+> =20
+>  ARMPKGSFX_EABI - This is the eabi specific suffix.  There are currently=
+=20
+> -two defined ABIs specificed, standard EABI and Hard Float (VFP) EABI. =
+=20
+> +two defined ABIs specified, standard EABI and Hard Float (VFP) EABI. =20
+>  When the callconvention-hard is enabled, "hf" is specified, otherwise it=
+=20
+>  is blank.
+> =20
+> diff --git a/meta/conf/machine/include/x86/README b/meta/conf/machine/inc=
+lude/x86/README
+> index 05aee533a7..f0a1882d81 100644
+> --- a/meta/conf/machine/include/x86/README
+> +++ b/meta/conf/machine/include/x86/README
+> @@ -4,7 +4,7 @@
+>  Most of the items for the X86 architectures are defined in the single
+>  arch-x86 file.
+> =20
+> -Three ABIs are define, m32, mx32 and m64.
+> +Three ABIs are defined, m32, mx32 and m64.
+> =20
+>  The following is the list of X86 specific variables:
+> =20
+> @@ -17,7 +17,7 @@ The TUNE_PKGARCH is defined as follows:
+>  TUNE_PKGARCH =3D ${TUNE_PKGARCH:tune-${DEFAULTTUNE}}
+> =20
+>  The package architecture for 32-bit targets is historical and generally
+> -set to to match the core compatible processor type, i.e. i386.
+> +set to match the core compatible processor type, i.e. i386.
+> =20
+>  For 64-bit architectures, the architecture is expected to end in '_64'.
+> =20
 
-That can be simplified to:
-
-bb.utils.contains('DISTRO_FEATURES', 'systemd ipv6', 'true', 'false', d)
-
-Cheers,
-
-Richard
 
