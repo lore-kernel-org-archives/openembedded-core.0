@@ -1,456 +1,285 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07E5FCD8CBF
-	for <webhook@archiver.kernel.org>; Tue,  9 Jun 2026 08:24:33 +0000 (UTC)
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.74511.1780993464469140698
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68357CD8CAC
+	for <webhook@archiver.kernel.org>; Tue,  9 Jun 2026 08:40:43 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.136])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.74665.1780994436346176641
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2026 01:24:25 -0700
+ Tue, 09 Jun 2026 01:40:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=kNthMOKn;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=U9XGX63x;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.149, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 89416EC021F;
-	Tue,  9 Jun 2026 04:24:23 -0400 (EDT)
-Received: from phl-imap-10 ([10.202.2.85])
-  by phl-compute-11.internal (MEProxy); Tue, 09 Jun 2026 04:24:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm2;
-	 t=1780993463; x=1781079863; bh=vVnXq+NnJ3dzyqTiI00TIbueeCMGIckb
-	y+q9yP2M1KE=; b=kNthMOKnvDHH/sycU3RfbOIR2qNYTu4eGAIkKXThn77OU/NR
-	66+U0kroaivPfCrEyXBSRqA3z67uV7Xj7QjSO+xeviV8GVSaiJjMu+UNuHRABlwm
-	88bNRu8ixRj92Ddb60XAvoVAKS6kMgMh4dGovc4bTKFTnfG5Vp7w3WE8wLtCvhg/
-	fakOdNUXOJey9+dq5jAy87Rwt+I6y2DtoRJlB4tsgTrEp6CEug4N+SCKMcFFfZ38
-	Echyu2URsu6pHqyDpjlkRTFwkXwXVP9B8ZwOnJg9cbOwX2unxbL1nglHx4yspQiM
-	x0MERRUGvSQzyFboOCJ5E9Nd9xmx7/PED67pPg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1780993463; x=
-	1781079863; bh=vVnXq+NnJ3dzyqTiI00TIbueeCMGIckby+q9yP2M1KE=; b=U
-	9XGX63xcLmObjRIhh/WyDuQTz7kBZI7GfW9JTFQS7yOKAyXZBz+fcLM/s6zM5DrK
-	sOL485Cfp9jzt/zNGbzz7PJOP1AVCp44bm+hD02fDZtQL3HuokLDVwOqYYHTqXFn
-	fRPpAatmt8mCGZV+oJtbYisJZ75XyxBI26IG3Pk0Tl0q39OUpJ7Wu0nbIDiQsrdQ
-	uzt3ui0kX4AehPrkHpEyMXGbPw6bUpKQYApOeeyKD1mtXRHjFD05go1hhC3hTuhS
-	hKVi22J1XR3x/aSmWDBdK4+UO0aYZQEeu1nxtU4Sn2O50Q8BZy5U7D8Gw4QCWgQ+
-	KtR1lXr4NlmojRs9m7DpQ==
-X-ME-Sender: <xms:ts0nasz4hOLnqIahCGb80Ac9qsr8KHys5QoUe2bXLviaL98SqtGTCg>
-    <xme:ts0narEKxAnCu77AlRzzddvP1iy50CIpWVvfNDmm1GeFn218oahTa0D-zbljNDVJ6
-    _CIcCk100rTLkPZBjGs1XYvUwTinT4lpMfsDSppBkfc_1tKWe0hPm4>
-X-ME-Proxy-Cause: dmFkZTFyCEoCD/JtS20/gXSGF078E/aYSSBEXwI0iYcDc3m+7wHcjy6V1LWju6kYp3RJus
-    Q8yG1IQLmV+Jy//JxhvloMM7Pg//w9Wj+kt8V0oh6pAYryDajkEaQqV7wWcGmv+yNALaPc
-    TMVLYzQ8HCx9QyzBvdGMq3ahTwnbQ+KYWemslxTqTI5g7SYMCrqs3mESNpccoGEytT1cFG
-    3bT+5eY7tYUD/9XWm59mVt0tgps7mLnl3Qn0o70mbOcdqd2pLcSdtate3Nk55R/+aA+AqT
-    O9Iac6TJb2cVE8EAcBzs1eiXExHFSzAlDVev5WS18IyLir5ID4GZQkWiM0xHnWhcexK9pZ
-    fsYihJiIuQ6AFuR5WRttRhO4eFI0J330ypL84JDZkiuvu9EQhKWtC9JLlD7DYkjEUox8B+
-    cokaDXxYJvmHPrK6ToCvfdX6dEU/jt4lZUBXkpsFCdd+zkDFWF9Fqr+jMS2m7HOr8AENvz
-    fie1W8QMFraJOMTA8KeVVIvTurh+ypUjwf08/JSFAJT4OUB6HV6xzQ8RiWtfKJvhjhGnC9
-    hEPjbjeTgOmy1or+CwdXDy7TIvSkYvzm9HjNH1RcvJYsjTdiNeOKpqFx4BVawY00Zk2fFn
-    kFaMJKyp7xZZtb4xnHtuGRF86XVS2DemKss+pGqsMVaxt5dEyNqWWKT9Cfug
-X-ME-Proxy: <xmx:ts0namdpldS1xfceY7n-XBKRdhxRQlrSOnWlCOYHEdUmAwitgEZI4g>
-    <xmx:ts0nanFRcViTILawvEci-un_7lxiol0feBkQFOHUWmcSU59H2UGGDA>
-    <xmx:ts0nav3FqSzp19fksmxTAKGC7c8dAcboPWyFi75_2BbLd8p6eLYXGA>
-    <xmx:ts0navnEB_1xLXEvF2-5S7bjm8k4R1UnF2rgjATxlRIXX4c0t5H5rg>
-    <xmx:t80nagr4lvPOGnE-q1W5-PBjKjLoa8eUSqWN63eYMuQxghwVn3QM8nfg>
-Feedback-ID: i51494658:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id CC9E8216008B; Tue,  9 Jun 2026 04:24:22 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+ dkim=pass header.i=@navimatix.de header.s=selector1 header.b=Xu5gMokU;
+ spf=pass (domain: navimatix.de, ip: 40.107.162.136, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FxsPYKZh/b+3zMUvjvCSlxRdIs166rUSiCg9SaxvAevJtapT/1xQAZ2W50t7DicI7kmOiUbbcoXQObp0EzcBKGfwINHoj3K8GP5Hfrb6W7GqVbgCefzXKxcVjml3y8dMSvw3SAV2LLu5KGq9aoxZBDO/tEJ0wSuhQ2JSsoeApfeL2ic3P+yrJT6TrKHINCZyfUDoTWugMOXT4pHStSrkzf76QDPhR2Q6WSna2dkvhcEfdgU0LGT1npEXNManO6FRY4bI59TkksulBR11HtBxKST59yD6B2OgVE6Eb8jQUqesEfuFZ/GKg3eXsj3hLquy6BlJt7ZILrGtmWrfHpG/mA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ppPN9KBe/NA5ClPzXWnB/oCF+TobKsZBaXvyLMi3pdI=;
+ b=QtXMjfji3xOxkuXCgjiFTuTfgy1WFB+nJcRfDPNE8mfrRtY7j+jfKfTr9/Xw5M2hFhs9xJ7N8Eycu+k0Jvi/6PLSMHdpA/5ymBBvPPrvZhHbrDLOJoK1gVxz+6hbES27HAB2EBbL3N9gRe9HoQ9Tef6txAiGl3QlpeV/cuWROzWPwE7xioHYDFrJ9L6uSaQn3c0QEBUhyKbjFpMCP44q2Mwg1yoY7ve65O2i5GADeLIcJBJDGdD9tF8lbYQqsnZ0cYu/5PkFqjhqdfLyb7Xh1y0N6gcoiEV/qi3dB49QsBluLToa40V6eG8b2M9DV73Aj+fvLQ+pQJwdnwPl9KSwrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ppPN9KBe/NA5ClPzXWnB/oCF+TobKsZBaXvyLMi3pdI=;
+ b=Xu5gMokUumrcKnqn2Xd4bX2EuNdsMI2h4DXQPA49CnEDxXoJObXgXLNbjEHr0Czd5cChjlfJjXPhQjIOlSqYfLE2+f/CP/49oiNFxLQJHzG0UkSLePvno71UZKCCw33XdaODe9X2JbDxyDnM2USiulcwtVLZG0F+OuiTcyByiK4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8) by AMBPR01MB12859.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:722::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Tue, 9 Jun 2026
+ 08:40:33 +0000
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ ([fe80::d5c3:2dea:3d98:25fd]) by
+ GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
+ with mapi id 15.21.0092.011; Tue, 9 Jun 2026 08:40:32 +0000
+Date: Tue, 9 Jun 2026 10:40:29 +0200
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, AHoemig@datus.com
+Subject: Re: [OE-core] [PATCH] rpcbind: Modify socket file only, if systemd
+ is used
+Message-ID: <aifPPlfnz4e3I50C@navimatix.de>
+References: <921b2852784f105d6ca5c8a754f87a68f2ecb4f3.1780937668.git.joerg.sommer@navimatix.de>
+ <da28e9e53e21ce0d9dee82a049fb0b6d55907bfb.camel@linuxfoundation.org>
+Content-Type: multipart/signed; micalg=sha256;
+	protocol="application/pkcs7-signature"; boundary="wwkr47bzzhpgt7j6"
+Content-Disposition: inline
+In-Reply-To: <da28e9e53e21ce0d9dee82a049fb0b6d55907bfb.camel@linuxfoundation.org>
+X-ClientProxiedBy: BE1P281CA0480.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:7e::7) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8)
 MIME-Version: 1.0
-X-ThreadId: AkUlva6Rr9Q-
-Date: Tue, 09 Jun 2026 09:24:02 +0100
-From: "Paul Barker" <paul@pbarker.dev>
-To: yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org,
- yocto-status@lists.yoctoproject.org
-Message-Id: <3269d2c2-0864-4f97-b03a-b4f7cfc3554b@app.fastmail.com>
-Subject: Yocto Project Status 9 June 2026 (WW24)
-Content-Type: multipart/alternative;
- boundary=dde6d65ce87284a7cb60b6fc4da95f14c7d8af83
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|AMBPR01MB12859:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8f792c05-f0dc-4846-31d1-08dec602c43b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|376014|4143699003|18002099003|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	zhTX/xdY9ldczvaadjZncUNR/kvxOb8hpNvVzRl2MXZfRAFJJ1/n4BMVEyG2HyQ5OlL0MXLXvA60nPU1yVLOfzJ3JgCq9bnc4Ozd1+LDKcBJE60zc9pRwezfzO4ohB5qlLCZbs0k4QqUMLIckLkkPZ0DJJkjcFVRTW8XbCfejlhtl+29ZoRIKXEL2QVPlLUghcw0qW4ziV7fCL7oVoKjmw5JXBzJmSvzOO9tWjiq8rigoBjHqZ26mOgxF0aVnNkK0eOWa9hSyZg2ej/WrTO5xDCuT2D/uFd9zxoJCgmkWQ5r0vOQ+omS8hiRM2B/2pctpjFVjhg0eYNiinjHQdLllm1pi502PtqSpGc1Kz4D1tt+sE9q93U2QXSsUD9QpoP/uxLpibK2KrpQvNMb3vEnN2ZvSrWXLoYjKgJ89vVPtFGCZW7jgMORQiLWd75CfXwazagPfAb7V6qUCTA9v/phHlOLcK3fwdQbjQ4K76bicwF34i3WPPzrGdpxEYZBqk48/t57p5q2F1FT6HttzWzVAXD6ug08N6xjkuB9zop69nYW7I7hvBdqfUwpqD8+tA9vWbM2QIzcyuU8R+/nGak/LZ3DiVDqVTbTLYQrmHDXADAnpuSF1ky6j+fzsAt5JYVcnCzze97V2mLwVqYaXkyNJw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(4143699003)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?iso-8859-1?Q?aWZgREqjazjLQSErrRy8XeBWwvwIDq/C9xPEwCk0kok2/kT/szAcZLAmtn?=
+ =?iso-8859-1?Q?ROzT0chzvwCFCutw2ddhGn1EwL/jo84T8UVCjqj9ydgvox1uYLaAmt2NSf?=
+ =?iso-8859-1?Q?fN+fhZ9O2SEA6+BgqvQK1fq0mbMHDzSjfS8xFnVGMSJyB+F4IVef3U/AtZ?=
+ =?iso-8859-1?Q?PUY9A9nIeGYHDxfdUJnfbpbcPvBPylBOTqP/OfQjoL57Ho1xfmntgzhhoi?=
+ =?iso-8859-1?Q?FW4REz9MZrRx2H5B+UTaVI5olCgkW5weau21isVxHxpBKamY+cAUT8Rh4I?=
+ =?iso-8859-1?Q?EbPaVlz1A+ZzYKz2Sd/z0suoAi+DoQi8Nrr4Tg/DnJB0irJxEQwXLRn48d?=
+ =?iso-8859-1?Q?sqli6K64juKD1+CAYYG11mUT9NrNKGal5DEkXrmYsC2Y6V+8te07/uSJTz?=
+ =?iso-8859-1?Q?FXXNdWrPmr1L6CRLJuaYc5Yp7rY6WTbuy6re/AoKAJI+uvf0GYB+6NJZrD?=
+ =?iso-8859-1?Q?0oitaXF6c+ekE4Kqzce80D8KaRSnz4HnhkZ3kuCbDx/2OPrDf2njAaaHhM?=
+ =?iso-8859-1?Q?EKeAEHzuZkwPP1ngls+phZzHQEKSR6yegppBK8HsXOFso6dN9McIPj7sK7?=
+ =?iso-8859-1?Q?ZGouXliwGbGVlQMDl4/vr3wHzVaX+LoOxyCyFy/KQZlcjmTKY+9GuYdlAD?=
+ =?iso-8859-1?Q?gzfAMJbW7WasMFKT6+olMwu2Q1NJq+98X+4Au/HttxYDnWwK30c9Tx2D1/?=
+ =?iso-8859-1?Q?63Mi3meZ9AJpZQ/gD288uf7ABR2MVOf3t3WXEo/7UzCZIFHgwqi4WgzWU4?=
+ =?iso-8859-1?Q?trH2XfhVCAkx4gjJgeFzmRkVR9YoOhSpY3h4hl3jHRA8OsW7qC8iU72zqi?=
+ =?iso-8859-1?Q?DtpORvWB7Cjg7BMaBeQrDPvQb0O8Bm4r98vwlBqFV2XAfjv/M7BhvmOtWC?=
+ =?iso-8859-1?Q?2bjAcaAwoQdLDoI05tDrPBR8uZ3hmmteh2AIYZlFACbQO/cvEwWzJ9XVeK?=
+ =?iso-8859-1?Q?7pozbMvAPpYb3kojUSmFlg+NyhsezdU5SeHnf8flL404Lw+y0A0M2eUbkS?=
+ =?iso-8859-1?Q?2IKZjzhrwPt7OIvGMliMF5Ip1MzoAvS2yk5mBugk+WeAc0JdfrRa38CpUS?=
+ =?iso-8859-1?Q?2etluS2A76yTVx6bH34t+grIfvs0yMqImWE6oBzvWlw6WrYh894ig0kU5a?=
+ =?iso-8859-1?Q?8SNPcmiLrWIJHTB3idPQFkB/ba7OdxT6LiLtXqRp+b3WepyXpeldZltHFb?=
+ =?iso-8859-1?Q?QiA75sL3p5PGLe7Hw3KJqCXCp70jSW4FTzS6PHQkfUjTke50od9v8lD1x2?=
+ =?iso-8859-1?Q?K9odsGakes1M8jBS8EX9XyEqABviDUYyY7VtvQswfx7qg4T9SdfDvNvYkA?=
+ =?iso-8859-1?Q?M0+eKrJdsGxf7S/ibbD6nzZ2ImtKAyAF2lCGlZBl2OkJJdo6xYj0GHGxiz?=
+ =?iso-8859-1?Q?myjL9QLA23D8la+NjWlK9h4f2Vffpbxw/pqPgbQKWwteiIjolJVHfbINkJ?=
+ =?iso-8859-1?Q?2LlqHosB4Zdakqg++54xkumoitXOn0o1a/bFMpY7bbgvLm0ALMhrHrTUFU?=
+ =?iso-8859-1?Q?OlXDx3jqPLB0o4kXQxpXdq4PsuF/GwtY3+DT5y8WEJcsxreVQhEwbkyaJc?=
+ =?iso-8859-1?Q?+7VzPgeWVKU4/I6fIkOH6FACakrmp+wAT8Vjw0xaIyWjlZkngaaOmvC4Ui?=
+ =?iso-8859-1?Q?2vESYWM8dR5C2tsC2G6h9CfsSrA0qZY/F5+hLU++7pgD8yyPCSL8mOyQv6?=
+ =?iso-8859-1?Q?2q+3xOKPXUJynF8v1XJFQcnEeP+7a/btlDgAvw+sURLmQ6/zVQMAab73Z+?=
+ =?iso-8859-1?Q?bS0cDuOc7JSOPyw+xgYi8XNM4CjWHBi8vFuf89ZfBhAOVmeh+O0yvyYneH?=
+ =?iso-8859-1?Q?lbu+1FbzadKdGS/O4zSNOCFBB8LdGMg=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f792c05-f0dc-4846-31d1-08dec602c43b
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 08:40:32.1036
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wUMDJuUd7vdu/CLRUazTVDAmZsEp85PYHvheFGeoTACx1VI4QBrQ41ryZtMhxgri5jbCqYWtQZV7PwdVGJZp8GdurugOxK40ztUTN0FGdeg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR01MB12859
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 08:24:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238274
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 08:40:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238275
 
---dde6d65ce87284a7cb60b6fc4da95f14c7d8af83
-Content-Type: text/plain; charset=utf-8
+--wwkr47bzzhpgt7j6
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [OE-core] [PATCH] rpcbind: Modify socket file only, if systemd
+ is used
+MIME-Version: 1.0
 
-Current Dev Position: YP 6.1 M1
-Next Deadline: YP 6.1 M1: w/c 2026-06-08
+Richard Purdie schrieb am Di 09. Jun, 08:41 (+0100):
+> On Mon, 2026-06-08 at 18:54 +0200, J=F6rg Sommer via lists.openembedded.o=
+rg wrote:
+> > From: J=F6rg Sommer <joerg.sommer@navimatix.de>
+> >=20
+> > Fixes: bee29dc822c611 ("rpcbind: Remove IPv6 listener, if ipv6 not in D=
+ISTRO_FEATURES")
+> > Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
+> > ---
+> > =A0meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb | 3 ++-
+> > =A01 file changed, 2 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb b/meta/reci=
+pes-extended/rpcbind/rpcbind_1.2.8.bb
+> > index bd8ba1e88a..6604774c1f 100644
+> > --- a/meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb
+> > +++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb
+> > @@ -55,7 +55,8 @@ do_install:append () {
+> > =A0	install -d ${D}${systemd_system_unitdir}/rpcbind.service.d
+> > =A0	install -m 0644 ${UNPACKDIR}/rpcbind.systemd ${D}${systemd_system_u=
+nitdir}/rpcbind.service.d/rpcbind.conf
+> > =A0
+> > -	if ! ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'true', 'false',=
+ d)}
+> > +	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false'=
+, d)} \
+> > +		&& ! ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'true', 'false'=
+, d)}
+> > =A0	then
+> > =A0		sed -i '/^Listen.*=3D\[.*\]/s/^/# /' ${D}${systemd_system_unitdir}=
+/*.socket
+> > =A0	fi
+>=20
+> That can be simplified to:
+>=20
+> bb.utils.contains('DISTRO_FEATURES', 'systemd ipv6', 'true', 'false', d)
 
-Next Team Meetings:
- =E2=80=A2 Bug Triage meeting - Thursday 11th June 7:30am PDT (_https://=
-zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09_)
- =E2=80=A2 Weekly Project Engineering Sync  - Tuesday 9th June. 8am PDT =
-(_https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09__)_=
- <https://zoom.us/j/990892712>
- =E2=80=A2 Yocto Project Patch Review - Thursday 11th June 10am GMT and =
-Monday 15th June 9am PDT (_https://zoom.us/j/97762397148?pwd=3D1xk0iC9hp=
-9SjEonaTaONwTb6iWry4Eb.1_)
+Actually, it is 'systemd ! ipv6'. I do not think this syntax is supported.
 
-Project data dashboard: _https://dashboard.yoctoproject.org/_=20
+This pattern with true/false is used pretty often:
 
-Key Status/Updates:
- =E2=80=A2 YP 5.0.18 has been released
- =E2=80=A2 YP 6.0.1 is in QA.
- =E2=80=A2 YP 6.1 M1 is due to build this week
- =E2=80=A2 We=E2=80=99re working through the backlog of patches, the ban=
-dwidth for changes needing in depth review/feedback continues to be a ch=
-allenge.
- =E2=80=A2 Patches to remove shell=3DTrue subprocess usage have merged i=
-n bitbake but OE-Core still needs significant work, help would be welcom=
-e with this.
- =E2=80=A2 We have merged support for `devtool upgrade --stable` and the=
- upstream-stable-release-point bbclass. We hope to use this to track ups=
-tream projects with known good stable release series, but we need input =
-and discussion on what the criteria should be. Please participate in the=
- discussion on the OE-Architecture list: _https://lists.openembedded.org=
-/g/openembedded-architecture/topic/119437109_
- =E2=80=A2 We have changed the xz and zstd decompression dependencies to=
- make the build slightly more efficient and use the host tools for decom=
-pression
- =E2=80=A2 Intermittent build failures continue to be problematic and un=
-changed from last week:
-   =E2=80=A2 several qemu =E2=80=98hang=E2=80=99 type issues
-   =E2=80=A2 sometimes yocto-check-layer is showing checksum mismatch is=
-sues
-   =E2=80=A2 siggen reset issues (=E2=80=9CResourceWarning: unclosed tra=
-nsport=E2=80=9D)
-   =E2=80=A2 groff build race issues
-   =E2=80=A2 intermittent ptest failures in many recipes
- =E2=80=A2 We would like to know what people are planning to work on for=
- Yocto Project 6.1 and beyond. We have a roadmap document in Google Docs=
-: _https://docs.google.com/document/d/12xgAzSjDj5zVlo4eQIbiv1s3QMjtBTCvB=
-FY3_T7OPto_
+% for i in oe-core meta-openembedded; git -C $i grep "'true', 'false'" |wc =
+-l
+83
+131
 
-Want to contribute? We would appreciate help with the following areas:
- =E2=80=A2 We have several open issues for pseudo and limited maintainer=
- time to work on them. Help from someone familiar with systems programmi=
-ng in C would be greatly appreciated. _https://bugzilla.yoctoproject.org=
-/buglist.cgi?list_id=3D661406&priority=3DHigh&priority=3DMedium%2B&produ=
-ct=3DPseudo&query_format=3Dadvanced&resolution=3D---_
- =E2=80=A2 There are a large number of intermittent failures on our auto=
-builder, any help with investigating, reproducing or solving these issue=
-s would be welcome! _https://valkyrie.yocto.io/pub/non-release/abint/_
- =E2=80=A2 Many recipes in openembedded-core would benefit from a new re=
-cipe maintainer. Please look at _https://git.openembedded.org/openembedd=
-ed-core/tree/meta/conf/distro/include/maintainers.inc_ and see if you ca=
-n adopt any of the unassigned recipes.
- =E2=80=A2 For more ways to contribute, see _https://docs.google.com/doc=
-ument/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?usp=3Dsharing_
+Is it worth to create a helper? Something like contains_tf?
 
-New to the project?
- =E2=80=A2 We have a list of issues we think are good places to start co=
-ntributing: _https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3D=
-NEWCOMER_
 
-Tracking Metrics:
- =E2=80=A2 WDD 2655 (last week 2630) (_https://wiki.yoctoproject.org/cha=
-rts/combo.html_)
- =E2=80=A2 OE-Core/Poky Patch Metrics
-   =E2=80=A2 Total patches found: 1056 (last week 1087)
-   =E2=80=A2 Patches in the Pending State: 147 (14%) [last week 147 (14%=
-)]
-   =E2=80=A2 _https://valkyrie.yocto.io/pub/non-release/patchmetrics/_
+Have a nice day, J=F6rg
 
-Upcoming development releases:
- =E2=80=A2 6.1 M1:=20
-   =E2=80=A2 Build Date: w/c 2026-06-08
-   =E2=80=A2 Release Date: w/c 2026-06-22
- =E2=80=A2 6.1 M2:
-   =E2=80=A2 Build Date: w/c 2026-07-20
-   =E2=80=A2 Release Date: w/c 2026-08-03
- =E2=80=A2 6.1 M3:
-   =E2=80=A2 Build Date: w/c 2026-08-31
-   =E2=80=A2 Release Date: w/c 2026-09-14
- =E2=80=A2 6.1.0:
-   =E2=80=A2 Build Date (M4): w/c 2026-10-12
-   =E2=80=A2 Release Date: w/c 2026-11-02
+--=20
+Navimatix GmbH           T: 03641 - 327 99 0
+Tatzendpromenade 2       F: 03641 - 526 306
+07745 Jena               www.navimatix.de
 
-Upcoming dot releases:
- =E2=80=A2 YP 6.0.1 is in QA.
- =E2=80=A2 YP 6.0.2
-   =E2=80=A2 Build Date w/c 2026-06-23
-   =E2=80=A2 Release Date w/c 2026-07-06
- =E2=80=A2 YP 5.0.19
-   =E2=80=A2 Build Date w/c 2026-06-30
-   =E2=80=A2 Release Date w/c 2026-07-13
- =E2=80=A2 For future release dates, see _https://wiki.yoctoproject.org/=
-wiki/Release_calendar_
+Gesch=E4ftsf=FChrer: Steffen Sp=E4the, Jan Rommeley
+Registergericht: Amtsgericht Jena, HRB 501480
 
-The Yocto Project=E2=80=99s technical governance is through its Technica=
-l Steering Committee, more information is available at:
-_https://wiki.yoctoproject.org/wiki/TSC_
+--wwkr47bzzhpgt7j6
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-The Status reports are now stored on the wiki at: _https://wiki.yoctopro=
-ject.org/wiki/Weekly_Status_
+MIIThAYJKoZIhvcNAQcCoIITdTCCE3ECAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0B
+BwGgghDNMIIFgTCCBGmgAwIBAgIQOXJEOvkit1HX02wQ3TE1lTANBgkqhkiG9w0BAQwFADB7
+MQswCQYDVQQGEwJHQjEbMBkGA1UECAwSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHDAdT
+YWxmb3JkMRowGAYDVQQKDBFDb21vZG8gQ0EgTGltaXRlZDEhMB8GA1UEAwwYQUFBIENlcnRp
+ZmljYXRlIFNlcnZpY2VzMB4XDTE5MDMxMjAwMDAwMFoXDTI4MTIzMTIzNTk1OVowgYgxCzAJ
+BgNVBAYTAlVTMRMwEQYDVQQIEwpOZXcgSmVyc2V5MRQwEgYDVQQHEwtKZXJzZXkgQ2l0eTEe
+MBwGA1UEChMVVGhlIFVTRVJUUlVTVCBOZXR3b3JrMS4wLAYDVQQDEyVVU0VSVHJ1c3QgUlNB
+IENlcnRpZmljYXRpb24gQXV0aG9yaXR5MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKC
+AgEAgBJlFzYOw9sIs9CsVw127c0n00ytUINh4qogTQktZAnczomfzD2p7PbPwdzx07HWezco
+EStH2jnGvDoZtF+mvX2do2NCtnbyqTsrkfjib9DsFiCQCT7i6HTJGLSR1GJk23+jBvGIGGqQ
+Ijy8/hPwhxR79uQfjtTkUcYRZ0YIUcuGFFQ/vDP+fmyc/xadGL1RjjWmp2bIcmfbIWax1Jt4
+A8BQOujM8Ny8nkz+rwWWNR9XWrf/zvk9tyy29lTdyOcSOk2uTIq3XJq0tyA9yn8iNK5+O2hm
+AUTnAU5GU5szYPeUvlM3kHND8zLDU+/bqv50TmnHa4xgk97Exwzf4TKuzJM7UXiVZ4vuPVb+
+DNBpDxsP8yUmazNt925H+nND5X4OpWaxKXwyhGNVicQNwZNUMBkTrNN9N6frXTpsNVzbQdcS
+2qlJC9/YgIoJk2KOtWbPJYjNhLixP6Q5D9kCnusSTJV882sFqV4Wg8y4Z+LoE53MW4LTTLPt
+W//e5XOsIzstAL81VXQJSdhJWBp/kjbmUZIO8yZ9HE0XvMnsQybQv0FfQKlERPSZ51eHnlAf
+V1SoPv10Yy+xUGUJ5lhCLkMaTLTwJUdZ+gQek9QmRkpQgbLevni3/GcV4clXhB4PY9bpYrrW
+X1Uu6lzGKAgEJTm4Diup8kyXHAc/DVL17e8vgg8CAwEAAaOB8jCB7zAfBgNVHSMEGDAWgBSg
+EQojPpbxB+zirynvgqV/0DCktDAdBgNVHQ4EFgQUU3m/WqorSs9UgOHYm8Cd8rIDZsswDgYD
+VR0PAQH/BAQDAgGGMA8GA1UdEwEB/wQFMAMBAf8wEQYDVR0gBAowCDAGBgRVHSAAMEMGA1Ud
+HwQ8MDowOKA2oDSGMmh0dHA6Ly9jcmwuY29tb2RvY2EuY29tL0FBQUNlcnRpZmljYXRlU2Vy
+dmljZXMuY3JsMDQGCCsGAQUFBwEBBCgwJjAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuY29t
+b2RvY2EuY29tMA0GCSqGSIb3DQEBDAUAA4IBAQAYh1HcdCE9nIrgJ7cz0C7M7PDmy14R3iJv
+m3WOnnL+5Nb+qh+cli3vA0p+rvSNb3I8QzvAP+u431yqqcau8vzY7qN7Q/aGNnwU4M309z/+
+3ri0ivCRlv79Q2R+/czSAaF9ffgZGclCKxO/WIu6pKJmBHaIkU4MiRTOok3JMrO66BQavHHx
+W/BBC5gACiIDEOUMsfnNkjcZ7Tvx5Dq2+UUTJnWvu6rvP3t3O9LEApE9GQDTF1w52z97GA1F
+zZOFli9d31kWTz9RvdVFGD/tSo7oBmF0Ixa1DVBzJ0RHfxBdiSprhTEUxOipakyAvGp4z7h/
+jnZymQyd/teRCBaho1+VMIIGEDCCA/igAwIBAgIQTZQsENQ74JQJxYEtOisGTzANBgkqhkiG
+9w0BAQwFADCBiDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCk5ldyBKZXJzZXkxFDASBgNVBAcT
+C0plcnNleSBDaXR5MR4wHAYDVQQKExVUaGUgVVNFUlRSVVNUIE5ldHdvcmsxLjAsBgNVBAMT
+JVVTRVJUcnVzdCBSU0EgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkwHhcNMTgxMTAyMDAwMDAw
+WhcNMzAxMjMxMjM1OTU5WjCBljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFu
+Y2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4w
+PAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBF
+bWFpbCBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMo87ZQKQf/e+Ua56NY7
+5tqSvysQTqoavIK9viYcKSoq0s2cUIE/bZQu85eoZ9X140qOTKl1HyLTJbazGl6nBEibivHb
+SuejQkq6uIgymiqvTcTlxZql19szfBxxo0Nm9l79L9S+TZNTEDygNfcXlkHKRhBhVFHdJDfq
+B6Mfi/Wlda43zYgo92yZOpCWjj2mz4tudN55/yE1+XvFnz5xsOFbme/SoY9WAa39uJORHtbC
+0x7C7aYivToxuIkEQXaumf05Vcf4RgHs+Yd+mwSTManRy6XcCFJE6k/LHt3ndD3sA3If/JBz
+6OX2ZebtQdHnKav7Azf+bAhudg7PkFOTuRMCAwEAAaOCAWQwggFgMB8GA1UdIwQYMBaAFFN5
+v1qqK0rPVIDh2JvAnfKyA2bLMB0GA1UdDgQWBBQJwPL8C9qU21/+K9+omULPyeCtADAOBgNV
+HQ8BAf8EBAMCAYYwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHSUEFjAUBggrBgEFBQcDAgYI
+KwYBBQUHAwQwEQYDVR0gBAowCDAGBgRVHSAAMFAGA1UdHwRJMEcwRaBDoEGGP2h0dHA6Ly9j
+cmwudXNlcnRydXN0LmNvbS9VU0VSVHJ1c3RSU0FDZXJ0aWZpY2F0aW9uQXV0aG9yaXR5LmNy
+bDB2BggrBgEFBQcBAQRqMGgwPwYIKwYBBQUHMAKGM2h0dHA6Ly9jcnQudXNlcnRydXN0LmNv
+bS9VU0VSVHJ1c3RSU0FBZGRUcnVzdENBLmNydDAlBggrBgEFBQcwAYYZaHR0cDovL29jc3Au
+dXNlcnRydXN0LmNvbTANBgkqhkiG9w0BAQwFAAOCAgEAQUR1AKs5whX13o6VbTJxaIwA3RfX
+ehwQOJDI47G9FzGR87bjgrShfsbMIYdhqpFuSUKzPM1ZVPgNlT+9istp5UQNRsJiD4KLu+E2
+f102qxxvM3TEoGg65FWM89YN5yFTvSB5PelcLGnCLwRfCX6iLPvGlh9j30lKzcT+mLO1NLGW
+MeK1w+vnKhav2VuQVHwpTf64ZNnXUF8p+5JJpGtkUG/XfdJ5jR3YCq8H0OPZkNoVkDQ5CSSF
+8Co2AOlVEf32VBXglIrHQ3v9AAS0yPo4Xl1FdXqGFe5TcDQSqXh3TbjugGnG+d9yZX3lB8bw
+c/Tn2FlIl7tPbDAL4jNdUNA7jGee+tAnTtlZ6bFz+CsWmCIb6j6lDFqkXVsp+3KyLTZGXq6F
+2nnBtN4t5jO3ZIj2gpIKHAYNBAWLG2Q2fG7Bt2tPC8BLC9WIM90gbMhAmtMGquITn/2fORds
+NmaV3z/sPKuIn8DvdEhmWVfh0fyYeqxGlTw0RfwhBlakdYYrkDmdWC+XszE19GUi8K8plBNK
+cIvyg2omAdebrMIHiAHAOiczxX/aS5ABRVrNUDcjfvp4hYbDOO6qHcfzy/uY0fO5ssebmHQR
+EJJA3PpSgdVnLernF6pthJrGkNDPeUI05svqw1o5A2HcNzLOpklhNwZ+4uWYLcAi14ACHuVv
+JsmzNicwggUwMIIEGKADAgECAhEA/OH3TxzsxiYnBai43hD2fjANBgkqhkiG9w0BAQsFADCB
+ljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMH
+U2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJT
+QSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQTAeFw0yNDA2MDQw
+MDAwMDBaFw0yNjA3MDMyMzU5NTlaMCoxKDAmBgkqhkiG9w0BCQEWGWpvZXJnLnNvbW1lckBu
+YXZpbWF0aXguZGUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDNxFyhl/UuZdUp
+uQiuqZBMSU/pN5SMIj4lkvTlrtp2jl4Q77wbv4vXdXIFWqKd3qtut55G0ptK4nXs1ARrh3AH
+QAYwB0vW+PHVNPLs9yombnTeMgnEv/RQDFkH+DxoKdY5+DRUmcVO/tYl6ExMEBj6oh6b/63w
+hIkC61WRETH3FpRCRbyNBD73OWt0KzxoKzW9xmdqfhNtylLcIFMzuv9C1WAqJ3mLbFHYaW4N
+EMMckPZJWWYzvA2nwCCryerE3J9z4ZbSK0OK6DDRN9gW/H7+/4pHSIhdooGfQEdgLj+Z4ZPh
+vLMF5DncBD8k5DOK8mlDxCKp4GsrLLuBfLQdxilvAgMBAAGjggHiMIIB3jAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQU3lTOaS6cJRsIzzEjdtC4j6GPtWIw
+DgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsG
+AQUFBwMCMFAGA1UdIARJMEcwOgYMKwYBBAGyMQECAQoBMCowKAYIKwYBBQUHAgEWHGh0dHBz
+Oi8vc2VjdGlnby5jb20vU01JTUVDUFMwCQYHZ4EMAQUBAjBaBgNVHR8EUzBRME+gTaBLhklo
+dHRwOi8vY3JsLnNlY3RpZ28uY29tL1NlY3RpZ29SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFu
+ZFNlY3VyZUVtYWlsQ0EuY3JsMIGKBggrBgEFBQcBAQR+MHwwVQYIKwYBBQUHMAKGSWh0dHA6
+Ly9jcnQuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2Vj
+dXJlRW1haWxDQS5jcnQwIwYIKwYBBQUHMAGGF2h0dHA6Ly9vY3NwLnNlY3RpZ28uY29tMCQG
+A1UdEQQdMBuBGWpvZXJnLnNvbW1lckBuYXZpbWF0aXguZGUwDQYJKoZIhvcNAQELBQADggEB
+AANadCCx1OE0/PYv8CMHn1qrbn3u9yIQuut1yAVv1daof2ULxyGOm/M+XnSW1h+xcUukaNTB
+qwJx6KTauuWjVL1LRXz9+sNvQfS1KdJF9yfgcCTiIMNjfKap+t/dD275tpVeLbRSWyJaQRhb
+GVjarr8yry1mnaaiJqv1TERaHqjDNpEwU/Ex8XetmkdJK01qCP+ZOEHwRr/pEB/oEKYB08+P
+CfWWWT0YVlwW3FdYpMi70zyynhyE0ZkxBuwh20CulXlafk9nzu1ly9HDU2MG6fnKLirJLOj1
++9s6RvytgsBtk1dB4lJEMe32RnTa4ABWg2VpdqmG7wjr2BlUCzLzuxUxggJ7MIICdwIBATCB
+rDCBljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UE
+BxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdv
+IFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAPzh908c
+7MYmJwWouN4Q9n4wDQYJYIZIAWUDBAIBBQCggaAwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEH
+ATAcBgkqhkiG9w0BCQUxDxcNMjYwNjA5MDg0MDI4WjAvBgkqhkiG9w0BCQQxIgQg4487+7kv
+5Ak3Pok+l8Kht9qldNUVyxrOpJrHwI+2g7EwNQYJKoZIhvcNAQkPMSgwJjALBglghkgBZQME
+ASowCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMA0GCSqGSIb3DQEBAQUABIIBALzHWm5iHvGf
+a0eWJz0/Gft2J3de5C71LOJ+Db3VN3nBIvI6YyTL3gs0CBHADENB/Or7cEip2Bbqjq7oTDMS
+1d2Jg5K0bdKY2kQsclSeCYm/nuIuxpB56Bdvpl+/VJ8tV0IrOG3VO34vLvoZokkGE4QVW+8R
+seuOZd3qld3eoQ5HN3cE5zt9HsOX0q7qhR8UzdPjiPFqcc7j3I1myoeGWg20asPi2GpkDqe5
+MrAv3GgaJBMgQK61h+4IEf+iEUJjNr/H0WIF6XRMNHpjp9V6qtzvsLy1S86rQigovBMRt4kz
+im59XU/XOPF3uldTYDljXSa8jGB93xDi0JeD3AD8X6w=
 
-[If anyone has suggestions for other information you=E2=80=99d like to s=
-ee on this weekly status update, let us know!]
---dde6d65ce87284a7cb60b6fc4da95f14c7d8af83
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html><html><head><title></title></head><body><div><span class=3D=
-"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D=
-"background-color:transparent;"></span>Current Dev Position: YP 6.1 M1</=
-span></div><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><spa=
-n class=3D"highlight" style=3D"background-color:transparent;"></span>Nex=
-t Deadline: YP 6.1 M1: w/c 2026-06-08</span></div><div><br></div><div><s=
-pan class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlig=
-ht" style=3D"background-color:transparent;"></span>Next Team Meetings:</=
-span></div><ul><li><div><span class=3D"color" style=3D"color:rgb(0, 0, 0=
-);"><span class=3D"highlight" style=3D"background-color:transparent;"></=
-span>Bug Triage meeting - Thursday 11th June 7:30am PDT (</span><a href=3D=
-"https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09"><sp=
-an class=3D"color" style=3D"color:rgb(17, 85, 204);"><span class=3D"high=
-light" style=3D"background-color:transparent;"></span><u>https://zoom.us=
-/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09</u></span></a><span =
-class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" =
-style=3D"background-color:transparent;"></span>)</span></div></li><li><d=
-iv><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"hi=
-ghlight" style=3D"background-color:transparent;"></span>Weekly Project E=
-ngineering Sync&nbsp; - Tuesday 9th June. 8am PDT (</span><a href=3D"htt=
-ps://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09"><span c=
-lass=3D"color" style=3D"color:rgb(17, 85, 204);"><span class=3D"highligh=
-t" style=3D"background-color:transparent;"></span><u>https://zoom.us/j/9=
-90892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</u></span></a><a href=3D=
-"https://zoom.us/j/990892712"><span class=3D"color" style=3D"color:rgb(1=
-7, 85, 204);"><span class=3D"highlight" style=3D"background-color:transp=
-arent;"></span><u>)</u></span></a></div></li><li><div><span class=3D"col=
-or" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"bac=
-kground-color:transparent;"></span>Yocto Project Patch Review - Thursday=
- 11th June 10am GMT and Monday 15th June 9am PDT (</span><a href=3D"http=
-s://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1"><span=
- class=3D"color" style=3D"color:rgb(17, 85, 204);"><span class=3D"highli=
-ght" style=3D"background-color:transparent;"></span><u>https://zoom.us/j=
-/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1</u></span></a><span=
- class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight"=
- style=3D"background-color:transparent;"></span>)</span></div></li></ul>=
-<div><br></div><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);">=
-<span class=3D"highlight" style=3D"background-color:transparent;"></span=
->Project data dashboard: </span><a href=3D"https://dashboard.yoctoprojec=
-t.org/"><span class=3D"color" style=3D"color:rgb(17, 85, 204);"><span cl=
-ass=3D"highlight" style=3D"background-color:transparent;"></span><u>http=
-s://dashboard.yoctoproject.org/</u></span></a><span class=3D"color" styl=
-e=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"background-=
-color:transparent;"></span>&nbsp;</span></div><div><br></div><div><span =
-class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" =
-style=3D"background-color:transparent;"></span>Key Status/Updates:</span=
-></div><ul><li><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);">=
-<span class=3D"highlight" style=3D"background-color:transparent;"></span=
->YP 5.0.18 has been released</span></div></li><li><div><span class=3D"co=
-lor" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"ba=
-ckground-color:transparent;"></span>YP 6.0.1 is in QA.</span></div></li>=
-<li><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=
-=3D"highlight" style=3D"background-color:transparent;"></span>YP 6.1 M1 =
-is due to build this week</span></div></li><li><div><span class=3D"color=
-" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"backg=
-round-color:transparent;"></span>We=E2=80=99re working through the backl=
-og of patches, the bandwidth for changes needing in depth review/feedbac=
-k continues to be a challenge.</span></div></li><li><div><span class=3D"=
-color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"=
-background-color:transparent;"></span>Patches to remove shell=3DTrue sub=
-process usage have merged in bitbake but OE-Core still needs significant=
- work, help would be welcome with this.</span></div></li><li><div><span =
-class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" =
-style=3D"background-color:transparent;"></span>We have merged support fo=
-r `devtool upgrade --stable` and the upstream-stable-release-point bbcla=
-ss. We hope to use this to track upstream projects with known good stabl=
-e release series, but we need input and discussion on what the criteria =
-should be. Please participate in the discussion on the OE-Architecture l=
-ist: </span><a href=3D"https://lists.openembedded.org/g/openembedded-arc=
-hitecture/topic/119437109"><span class=3D"color" style=3D"color:rgb(17, =
-85, 204);"><span class=3D"highlight" style=3D"background-color:transpare=
-nt;"></span><u>https://lists.openembedded.org/g/openembedded-architectur=
-e/topic/119437109</u></span></a></div></li><li><div><span class=3D"color=
-" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"backg=
-round-color:transparent;"></span>We have changed the xz and zstd decompr=
-ession dependencies to make the build slightly more efficient and use th=
-e host tools for decompression</span></div></li><li><div><span class=3D"=
-color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"=
-background-color:transparent;"></span>Intermittent build failures contin=
-ue to be problematic and unchanged from last week:</span></div></li><ul>=
-<li><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=
-=3D"highlight" style=3D"background-color:transparent;"></span>several qe=
-mu =E2=80=98hang=E2=80=99 type issues</span></div></li><li><div><span cl=
-ass=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" st=
-yle=3D"background-color:transparent;"></span>sometimes yocto-check-layer=
- is showing checksum mismatch issues</span></div></li><li><div><span cla=
-ss=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" sty=
-le=3D"background-color:transparent;"></span>siggen reset issues (=E2=80=9C=
-ResourceWarning: unclosed transport=E2=80=9D)</span></div></li><li><div>=
-<span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highl=
-ight" style=3D"background-color:transparent;"></span>groff build race is=
-sues</span></div></li><li><div><span class=3D"color" style=3D"color:rgb(=
-0, 0, 0);"><span class=3D"highlight" style=3D"background-color:transpare=
-nt;"></span>intermittent ptest failures in many recipes</span></div></li=
-></ul><li><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span=
- class=3D"highlight" style=3D"background-color:transparent;"></span>We w=
-ould like to know what people are planning to work on for Yocto Project =
-6.1 and beyond. We have a roadmap document in Google Docs: </span><a hre=
-f=3D"https://docs.google.com/document/d/12xgAzSjDj5zVlo4eQIbiv1s3QMjtBTC=
-vBFY3_T7OPto"><span class=3D"color" style=3D"color:rgb(17, 85, 204);"><s=
-pan class=3D"highlight" style=3D"background-color:transparent;"></span><=
-u>https://docs.google.com/document/d/12xgAzSjDj5zVlo4eQIbiv1s3QMjtBTCvBF=
-Y3_T7OPto</u></span></a></div></li></ul><div><br></div><div><span class=3D=
-"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D=
-"background-color:transparent;"></span>Want to contribute? We would appr=
-eciate help with the following areas:</span></div><ul><li><div><span cla=
-ss=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" sty=
-le=3D"background-color:transparent;"></span>We have several open issues =
-for pseudo and limited maintainer time to work on them. Help from someon=
-e familiar with systems programming in C would be greatly appreciated. <=
-/span><a href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D=
-661406&amp;priority=3DHigh&amp;priority=3DMedium%2B&amp;product=3DPseudo=
-&amp;query_format=3Dadvanced&amp;resolution=3D---"><span class=3D"color"=
- style=3D"color:rgb(17, 85, 204);"><span class=3D"highlight" style=3D"ba=
-ckground-color:transparent;"></span><u>https://bugzilla.yoctoproject.org=
-/buglist.cgi?list_id=3D661406&amp;priority=3DHigh&amp;priority=3DMedium%=
-2B&amp;product=3DPseudo&amp;query_format=3Dadvanced&amp;resolution=3D---=
-</u></span></a></div></li><li><div><span class=3D"color" style=3D"color:=
-rgb(0, 0, 0);"><span class=3D"highlight" style=3D"background-color:trans=
-parent;"></span>There are a large number of intermittent failures on our=
- autobuilder, any help with investigating, reproducing or solving these =
-issues would be welcome! </span><a href=3D"https://valkyrie.yocto.io/pub=
-/non-release/abint/"><span class=3D"color" style=3D"color:rgb(17, 85, 20=
-4);"><span class=3D"highlight" style=3D"background-color:transparent;"><=
-/span><u>https://valkyrie.yocto.io/pub/non-release/abint/</u></span></a>=
-</div></li><li><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);">=
-<span class=3D"highlight" style=3D"background-color:transparent;"></span=
->Many recipes in openembedded-core would benefit from a new recipe maint=
-ainer. Please look at </span><a href=3D"https://git.openembedded.org/ope=
-nembedded-core/tree/meta/conf/distro/include/maintainers.inc"><span clas=
-s=3D"color" style=3D"color:rgb(17, 85, 204);"><span class=3D"highlight" =
-style=3D"background-color:transparent;"></span><u>https://git.openembedd=
-ed.org/openembedded-core/tree/meta/conf/distro/include/maintainers.inc</=
-u></span></a><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span c=
-lass=3D"highlight" style=3D"background-color:transparent;"></span> and s=
-ee if you can adopt any of the unassigned recipes.</span></div></li><li>=
-<div><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"=
-highlight" style=3D"background-color:transparent;"></span>For more ways =
-to contribute, see </span><a href=3D"https://docs.google.com/document/d/=
-18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?usp=3Dsharing"><span c=
-lass=3D"color" style=3D"color:rgb(17, 85, 204);"><span class=3D"highligh=
-t" style=3D"background-color:transparent;"></span><u>https://docs.google=
-.com/document/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?usp=3D=
-sharing</u></span></a></div></li></ul><div><br></div><div><span class=3D=
-"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D=
-"background-color:transparent;"></span>New to the project?</span></div><=
-ul><li><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span cl=
-ass=3D"highlight" style=3D"background-color:transparent;"></span>We have=
- a list of issues we think are good places to start contributing: </span=
-><a href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3D=
-NEWCOMER"><span class=3D"color" style=3D"color:rgb(17, 85, 204);"><span =
-class=3D"highlight" style=3D"background-color:transparent;"></span><u>ht=
-tps://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DNEWCOMER</u></=
-span></a></div></li></ul><div><br></div><div><span class=3D"color" style=
-=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"background-c=
-olor:transparent;"></span>Tracking Metrics:</span></div><ul><li><div><sp=
-an class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highligh=
-t" style=3D"background-color:transparent;"></span>WDD 2655 (last week 26=
-30) </span><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span cla=
-ss=3D"highlight" style=3D"background-color:transparent;"></span>(</span>=
-<a href=3D"https://wiki.yoctoproject.org/charts/combo.html"><span class=3D=
-"color" style=3D"color:rgb(17, 85, 204);"><span class=3D"highlight" styl=
-e=3D"background-color:transparent;"></span><u>https://wiki.yoctoproject.=
-org/charts/combo.html</u></span></a><span class=3D"color" style=3D"color=
-:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"background-color:tran=
-sparent;"></span>)</span></div></li><li><div><span class=3D"color" style=
-=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"background-c=
-olor:transparent;"></span>OE-Core/Poky Patch Metrics</span></div></li><u=
-l><li><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span cla=
-ss=3D"highlight" style=3D"background-color:transparent;"></span>Total pa=
-tches found: 1056 (last week 1087)</span></div></li><li><div><span class=
-=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=
-=3D"background-color:transparent;"></span>Patches in the Pending State: =
-147 (14%) [last week 147 (14%)]</span></div></li><li><div><a href=3D"htt=
-ps://valkyrie.yocto.io/pub/non-release/patchmetrics/"><span class=3D"col=
-or" style=3D"color:rgb(17, 85, 204);"><span class=3D"highlight" style=3D=
-"background-color:transparent;"></span><u>https://valkyrie.yocto.io/pub/=
-non-release/patchmetrics/</u></span></a></div></li></ul></ul><div><br></=
-div><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=
-=3D"highlight" style=3D"background-color:transparent;"></span>Upcoming d=
-evelopment releases:</span></div><ul><li><div><span class=3D"color" styl=
-e=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"background-=
-color:transparent;"></span>6.1 M1:&nbsp;</span></div></li><ul><li><div><=
-span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highli=
-ght" style=3D"background-color:transparent;"></span>Build Date: w/c 2026=
--06-08</span></div></li><li><div><span class=3D"color" style=3D"color:rg=
-b(0, 0, 0);"><span class=3D"highlight" style=3D"background-color:transpa=
-rent;"></span>Release Date: w/c 2026-06-22</span></div></li></ul><li><di=
-v><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"hig=
-hlight" style=3D"background-color:transparent;"></span>6.1 M2:</span></d=
-iv></li><ul><li><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);"=
-><span class=3D"highlight" style=3D"background-color:transparent;"></spa=
-n>Build Date: w/c 2026-07-20</span></div></li><li><div><span class=3D"co=
-lor" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"ba=
-ckground-color:transparent;"></span>Release Date: w/c 2026-08-03</span><=
-/div></li></ul><li><div><span class=3D"color" style=3D"color:rgb(0, 0, 0=
-);"><span class=3D"highlight" style=3D"background-color:transparent;"></=
-span>6.1 M3:</span></div></li><ul><li><div><span class=3D"color" style=3D=
-"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"background-colo=
-r:transparent;"></span>Build Date: w/c 2026-08-31</span></div></li><li><=
-div><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"h=
-ighlight" style=3D"background-color:transparent;"></span>Release Date: w=
-/c 2026-09-14</span></div></li></ul><li><div><span class=3D"color" style=
-=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"background-c=
-olor:transparent;"></span>6.1.0:</span></div></li><ul><li><div><span cla=
-ss=3D"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" sty=
-le=3D"background-color:transparent;"></span>Build Date (M4): w/c 2026-10=
--12</span></div></li><li><div><span class=3D"color" style=3D"color:rgb(0=
-, 0, 0);"><span class=3D"highlight" style=3D"background-color:transparen=
-t;"></span>Release Date: w/c 2026-11-02</span></div></li></ul></ul><div>=
-<br></div><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span=
- class=3D"highlight" style=3D"background-color:transparent;"></span>Upco=
-ming dot releases:</span></div><ul><li><div><span class=3D"color" style=3D=
-"color:rgb(34, 34, 34);"><span class=3D"highlight" style=3D"background-c=
-olor:rgb(255, 255, 255);"></span>YP 6.0.1 is in QA.</span></div></li><li=
-><div><span class=3D"color" style=3D"color:rgb(34, 34, 34);"><span class=
-=3D"highlight" style=3D"background-color:rgb(255, 255, 255);"></span>YP =
-6.0.2</span></div></li><ul><li><div><span class=3D"color" style=3D"color=
-:rgb(34, 34, 34);"><span class=3D"highlight" style=3D"background-color:r=
-gb(255, 255, 255);"></span>Build Date w/c 2026-06-23</span></div></li><l=
-i><div><span class=3D"color" style=3D"color:rgb(34, 34, 34);"><span clas=
-s=3D"highlight" style=3D"background-color:rgb(255, 255, 255);"></span>Re=
-lease Date w/c 2026-07-06</span></div></li></ul><li><div><span class=3D"=
-color" style=3D"color:rgb(34, 34, 34);"><span class=3D"highlight" style=3D=
-"background-color:rgb(255, 255, 255);"></span>YP 5.0.19</span></div></li=
-><ul><li><div><span class=3D"color" style=3D"color:rgb(34, 34, 34);"><sp=
-an class=3D"highlight" style=3D"background-color:rgb(255, 255, 255);"></=
-span>Build Date w/c 2026-06-30</span></div></li><li><div><span class=3D"=
-color" style=3D"color:rgb(34, 34, 34);"><span class=3D"highlight" style=3D=
-"background-color:rgb(255, 255, 255);"></span>Release Date w/c 2026-07-1=
-3</span></div></li></ul><li><div><span class=3D"color" style=3D"color:rg=
-b(0, 0, 0);"><span class=3D"highlight" style=3D"background-color:transpa=
-rent;"></span>For future release dates, see </span><a href=3D"https://wi=
-ki.yoctoproject.org/wiki/Release_calendar"><span class=3D"color" style=3D=
-"color:rgb(17, 85, 204);"><span class=3D"highlight" style=3D"background-=
-color:transparent;"></span><u>https://wiki.yoctoproject.org/wiki/Release=
-_calendar</u></span></a></div></li></ul><div><br></div><div><span class=3D=
-"color" style=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D=
-"background-color:transparent;"></span>The Yocto Project=E2=80=99s techn=
-ical governance is through its Technical Steering Committee, more inform=
-ation is available at:</span></div><div><a href=3D"https://wiki.yoctopro=
-ject.org/wiki/TSC"><span class=3D"color" style=3D"color:rgb(17, 85, 204)=
-;"><span class=3D"highlight" style=3D"background-color:transparent;"></s=
-pan><u>https://wiki.yoctoproject.org/wiki/TSC</u></span></a></div><div><=
-br></div><div><span class=3D"color" style=3D"color:rgb(0, 0, 0);"><span =
-class=3D"highlight" style=3D"background-color:transparent;"></span>The S=
-tatus reports are now stored on the wiki at: </span><a href=3D"https://w=
-iki.yoctoproject.org/wiki/Weekly_Status"><span class=3D"color" style=3D"=
-color:rgb(17, 85, 204);"><span class=3D"highlight" style=3D"background-c=
-olor:transparent;"></span><u>https://wiki.yoctoproject.org/wiki/Weekly_S=
-tatus</u></span></a></div><div><br></div><div><span class=3D"color" styl=
-e=3D"color:rgb(0, 0, 0);"><span class=3D"highlight" style=3D"background-=
-color:transparent;"></span>[If anyone has suggestions for other informat=
-ion you=E2=80=99d like to see on this weekly status update, let us know!=
-]</span></div></body></html>
---dde6d65ce87284a7cb60b6fc4da95f14c7d8af83--
+--wwkr47bzzhpgt7j6--
 
