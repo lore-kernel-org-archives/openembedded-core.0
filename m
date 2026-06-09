@@ -1,117 +1,97 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43813CD8CAD
-	for <webhook@archiver.kernel.org>; Tue,  9 Jun 2026 22:06:43 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7407.1781042799957303616
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E881CD8CAD
+	for <webhook@archiver.kernel.org>; Tue,  9 Jun 2026 22:23:39 +0000 (UTC)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7671.1781043817149766057
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2026 15:06:40 -0700
+ Tue, 09 Jun 2026 15:23:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MvFWKVPI;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso50443015e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 15:06:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=SrZiXICa;
+ spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-43bfe209e45so3853911fac.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 15:23:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1781042798; x=1781647598; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nwTyEagLno/Uxo+drymjzPuvXxQ0AaT0tYoTgpA81yo=;
-        b=MvFWKVPIGIRYUfcvFDbmKP9HCqRSofEc3N2MXpnPfbezhcTq6497yXdUN55e3X3pt6
-         ySX7jT7/d5s1jOHu94ggUuMxmfXIe4/afIiAMUk4bvfGtOXi/sIl7U4og8ch9DeS2V7J
-         bicz+pXVE4bEsouB7maBpp0BlSGxNImJoziaE=
+        d=gmail.com; s=20251104; t=1781043816; x=1781648616; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fv5OKQop7Wo7gff8+1BGhZIiH0L4lHFQ+T/i52i5NQw=;
+        b=SrZiXICaIIuqdTG25Sg7g5kuomZvloF6PZma7oWAWlzLOyuB5gvBcTGIacxC2m0+xV
+         bIhMr7fl0yPa8Zs0ROsreCNKNA5auiSECSR8MeEo4RNiOI8mEVEM4u5MPa4z8BuYgVwV
+         XY9dg8+SpCOpBoJGb6VMPLYvcsGngQjPzOod/QqphSL/50olxjPp8whkCq33zMAmm7cc
+         gPxgMc22P75DNvBZFxxu00QGYThLvALDH5Plm8ibmcSod64PFmrAUP6QWzu1+Z4oPCly
+         79wpt4xtv+UivsgfzMqGo0YRKOlvElrtHqaLbk1R3+v3oXvjONHBFlq/Dyo+TN+d+CXz
+         6N7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781042798; x=1781647598;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nwTyEagLno/Uxo+drymjzPuvXxQ0AaT0tYoTgpA81yo=;
-        b=VlAVZfh5HdfbcR/54eAukd+v6dl9MDVzjgOOZi8l22+Rvok9YD7Bljku0CevwbJ3WC
-         nrl6iYY2IihsBux4DBRnUWQg4x9WZp1F9Bbv8vwsht01t+VxXgC730BdFeyoJ/WuQg9Q
-         WK/+fB3pHiiXr6vtj6z0FTJ6wNiZ+gt/rvq4kE0G1PGoM6qbpqbiWaQcsORo3lYeA/7X
-         UT01goGJ1z2Wu1EYoG4XnXP+vtub3oMyczhJaB/4T2JT2+OFcH/VcXYgKzUl3qyaH6hw
-         TgWq8Q3cGbALKv32a7hxB0atuBrZjbpIeyrmhk63DcG6TdyjjSbqjtlIvJITO92zrRVR
-         nrYQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/ut5FtSBbFGMnxnZC730yIEvmVN4nE+B3XawtWntHo46MYZuRIzkO0fFOVFMkHO172RVJmTadU53b8ppNIKTeQSQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw7sWC+y1fm9RvDkLwiaIMCAbVsxQ731tyGakzjstXNjwrd/B3x
-	Q6d/F9bn0GeIrxSWaMYPBVkm+F3TQ5AGS2Ioeqw0PYppWUjZc3CRNqgfdgoNQdMfDL0=
-X-Gm-Gg: Acq92OGM4gonb0RiqxOoJMPCxYbunuB/agjWlKLPixX17/0JDNUamfWw/Ac6+8ZRZoo
-	dZPQ+vjv87MJJRisRo77WFIUZWhaZX6wLDPwqwT5ZbDZWRwdIb7/lFvbq0KM63AwCHoPPt6TOVf
-	e4dNoJHdHHnHoaB7s1aoMSZfkJQ+lkPScO/+KOBO/I90zJybmNQ4vKIi3zhDaoRziIyUEcSDhnE
-	sj2tkw77sI0qXj3pdfuweqe9FsPXFqQDOUQCOBf9hl8YcbdLAcQ8MnjG4C6Ll1FQV7Xn4jhWLVn
-	tQDx4/gjiJ1M3iKVvRtgAezmgOvgBpqEkgtBd68QUWIjSJN2tGrhl+V/eWAX9YfX9UMX3gW5Ts5
-	Bd9twpaRYF6jDqWt2zm4q29jxr6ytlahy54/FfpMeW1CMm8K9UovmAJEjS4XC265jyfOQ+C1V7O
-	R/TjgjjnoQf4b4pgrIemzaoWk07BI2gkbM3ttmYzKMh2AJi6ad+bRNPCprqRgvZilzR/0VLNrC6
-	Uxmaf1FsfNNd9zNIhPQap7mnkU=
-X-Received: by 2002:a05:600c:4691:b0:490:b8c0:d471 with SMTP id 5b1f17b1804b1-490d722a310mr57609185e9.23.1781042798315;
-        Tue, 09 Jun 2026 15:06:38 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:af64:92fa:d514:2768? ([2001:8b0:aba:5f3c:af64:92fa:d514:2768])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3cbfe4sm525224975e9.7.2026.06.09.15.06.37
+        d=1e100.net; s=20251104; t=1781043816; x=1781648616;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Fv5OKQop7Wo7gff8+1BGhZIiH0L4lHFQ+T/i52i5NQw=;
+        b=UZMfJNV2lcr0S7YMmMgKmeaIH1chlEGF59zBxewJ5cQ4xzr5WNb5PmGgu3SKrZWFDw
+         774UtAmWV3y0gnDNbpOgE6j1lCAS+s3+DCnky+5+XOzsbP/SHYsssDvCqjxb/Dn9yFDc
+         RCpMBFLhYIYpUiqWWDiM/PkXoZcBXDfJ0aQaPRvx4zW/KDnwuN8pL9o0HfbvI3Gt57/+
+         aQkhJQ1FsKNixdOEL9hiK2eouUyZXVIVTt7WDNyeGHsRglAZAYXD94TuAYMl78+BvkN3
+         7nApyD9Il1gd2yk7MM4Am/RtVXvTpyWMEO6ADn3uPVj8EJ58CjxNy1kEF1A+SDqIfNcN
+         nmXg==
+X-Gm-Message-State: AOJu0YwNc5dZf83M46ZG6I+axIBFmdEItvg0z4NiP9glC2PVwqBNcH9d
+	FR0X7XQbP5dlte7MNG8K/zPZtOUY5m8DlXtvVOaJINDw9ytPpKEn3/LnJgYwKA==
+X-Gm-Gg: Acq92OGesDlr5tK6UnPgSdJYVgCWLKQ0Jble7S9efu4w7wmp0vrDb2tkF226zMyrEEo
+	yyqt/tlSAOJ+eKb+boq7OXtIdp0B/dCqCEy3wH7D8Oz0LJsaSeD1+I+zroA42ybSZZ9XeOfQ9bN
+	1mZCvsW89YwTb6ZNj7P6zUIEoemaZaUAX7UR2FMdU5NMS0QN0uemoM6PfIF4AgJM+I+5XIeJ3zY
+	mwI2OOs0qnusHnXNouniC5DfLOp0gi3QoKI/v2+10fwrBhi3+xKlSkRv7fEmBm6Ep8cdnbgAiI3
+	vEOaEr4TcAwpyUusVqtfIA6mlJhBOHBCkDc/68sVjcwABSuOGMoiTF4ZlaAM8zUDVD1vXPmEM+P
+	dvrKBy9bf1cVk/JL4bvOuBj6s4ARyXFtWIAnQPoRP/qGnWEcXTnlmVuPOhF1ACRJdDIW5ff8i1i
+	aqovhIzg6zWHwnV8ViRh26EAKBXf+9Gg==
+X-Received: by 2002:a05:6870:390a:b0:43d:2f82:beaf with SMTP id 586e51a60fabf-4413da90f3dmr12227441fac.13.1781043816286;
+        Tue, 09 Jun 2026 15:23:36 -0700 (PDT)
+Received: from localhost.localdomain ([2601:283:4b02:22d0::ce1])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-440d7d4f449sm19122610fac.8.2026.06.09.15.23.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 15:06:37 -0700 (PDT)
-Message-ID: <2e0c4d0cfdb5137593f33a3cd5eca006e13ed796.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC PATCH] create-spdx-image-3.0: create image sbom
- recursively
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: peter.marko@siemens.com, openembedded-core@lists.openembedded.org
-Cc: jpewhacker@gmail.com
-Date: Tue, 09 Jun 2026 23:06:37 +0100
-In-Reply-To: <20260609114814.197318-1-peter.marko@siemens.com>
-References: <20260609114814.197318-1-peter.marko@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Tue, 09 Jun 2026 15:23:35 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 1/5] classes/baremetal-image: Remove "do_" prefix from image manifest
+Date: Tue,  9 Jun 2026 16:15:52 -0600
+Message-ID: <20260609222331.1293007-2-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260609222331.1293007-1-JPEWhacker@gmail.com>
+References: <20260609222331.1293007-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 22:06:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238302
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 22:23:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238304
 
-On Tue, 2026-06-09 at 13:48 +0200, Peter Marko via lists.openembedded.org w=
-rote:
-> From: Peter Marko <peter.marko@siemens.com>
->=20
-> Including image in another image is being done by depending on
-> do_image_complete. This however does not include SPDX SBOM.
-> We should not need second bitbake execution to create it.
->=20
-> Recursively add do_create_image_sbom_spdx to do_build to resolve it.
->=20
-> Use-case are e.g. fitimage or multiconfig containers.
->=20
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
-> =C2=A0meta/classes-recipe/create-spdx-image-3.0.bbclass | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass b/meta/cla=
-sses-recipe/create-spdx-image-3.0.bbclass
-> index 15a91e90e2..4d6a6424fe 100644
-> --- a/meta/classes-recipe/create-spdx-image-3.0.bbclass
-> +++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
-> @@ -78,6 +78,7 @@ do_create_image_sbom_spdx[stamp-extra-info] =3D "${MACH=
-INE_ARCH}"
-> =C2=A0do_create_image_sbom_spdx[cleandirs] =3D "${SPDXIMAGEDEPLOYDIR}"
-> =C2=A0do_create_image_sbom_spdx[recrdeptask] +=3D "do_create_recipe_spdx =
-do_create_spdx do_create_package_spdx"
-> =C2=A0do_create_image_sbom_spdx[file-checksums] +=3D "${SPDX3_DEP_FILES}"
-> +do_build[recrdeptask] +=3D "do_create_image_sbom_spdx"
-> =C2=A0
-> =C2=A0python do_create_image_sbom_spdx_setscene() {
-> =C2=A0=C2=A0=C2=A0=C2=A0 sstate_setscene(d)
+Removes the "do_" prefix from the image manifest to match the naming
+convention of image.bbclass
 
-recrdeptask is a really large hammer to apply and putting that on
-do_build will trigger all kinds of things which wouldn't otherwise
-trigger. I think the dependency needs to be much more focused than
-that...
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes-recipe/baremetal-image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-(the dependencies it adds and the complexity of the task graph will
-increase parse time as well as triggering executions we don't need)
+diff --git a/meta/classes-recipe/baremetal-image.bbclass b/meta/classes-recipe/baremetal-image.bbclass
+index 4afc171314..7a6e71853b 100644
+--- a/meta/classes-recipe/baremetal-image.bbclass
++++ b/meta/classes-recipe/baremetal-image.bbclass
+@@ -45,7 +45,7 @@ python do_image_complete(){
+     import json
+ 
+     data = {
+-        "taskname": "do_image",
++        "taskname": "image",
+         "imagetype": "baremetal-image",
+         "images": []
+     }
+-- 
+2.54.0
 
-Cheers,
-
-Richard
 
