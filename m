@@ -2,232 +2,262 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2854DCD98D0
-	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 22:55:20 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.33476.1781132119349364999
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9802CD98CF
+	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 22:55:19 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33475.1781132117958182744
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2026 15:55:19 -0700
+ Wed, 10 Jun 2026 15:55:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=XEwKL3EG;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45ef4223be7so4048756f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 15:55:19 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=1nHFdi32;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490b64c8311so80564855e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 15:55:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781132118; x=1781736918; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1781132116; x=1781736916; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OZt/U68JikNjdlbA5Y3vOxsKAe7eErk2YRLBwQUtmJI=;
-        b=XEwKL3EGTuSgInzCW3Xluyt6sH6UcOyagPnc46PS0Hz3Aso06KcblQIY2kMhrqNsLE
-         NvZ0Oz3LzdmYNbD99rAjKMOUHkCMoXgckdqZtElxIXtzK5TzjUNHcQzt2sZRv91LDUff
-         lImdy19h1ynnbQnOcyBLmTtuujVCRy5Q7pcB8=
+        bh=UAUXLjNrY67hCRbCkeh+YWOYWi7O75eECnKHHzVHSw8=;
+        b=1nHFdi32jxyxRfqkVtbESfaGIeiTdBBFDU8AIoOZfg6dg/ngYU5PYrygpHBNldiCzM
+         4ZnUH0uKA02eWkFHBh7JTePI9g2Gj9/qSFs9FBLHGjyTST7BLKANqHaW0b9FTlVCkFBc
+         KCMezpVLKqgQQ6/oDjijUD/QRltaT7L8nSoR4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781132118; x=1781736918;
+        d=1e100.net; s=20251104; t=1781132116; x=1781736916;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=OZt/U68JikNjdlbA5Y3vOxsKAe7eErk2YRLBwQUtmJI=;
-        b=ou2z24/PNlMFyAcYA3sQ0EK8jlThiav1o0MbTjxmIgcqfVqOyddfcN1Fm7ITbuJQC2
-         XfqEiLWNXMoQuE+KLvnHAB+E9CMipQz9dJ/NXu8FkKXCA2RIDSKP9qjwzsRIDHUbIU1f
-         CwogOkHvMm+PR5EAQqzVJuucYBaJa9ojZKIltjgDVHOiwdMJgjQBCGiniUJNxqkp/tR3
-         X47y7fIvMd+MD0RquI9NlpOVf343jXpBGz1JhWNU8UW1H0R5ekM5x7fU6RU/GwlTxqAL
-         HVdxF/PQOGZ1lE1QOUcxVwfNo6ZQEF9SW2QJS1lcX38OponkxVPDDL7asOGhWZOYfNyK
-         avzg==
-X-Gm-Message-State: AOJu0YzHiObqSdoY9uteSawSwEmjXLtyCvWleBGNhYJ2ZwxmevI31hti
-	9m+rBHjqPgIqOFdGU8XuNHl/Y54LyxspgGfd+wZMYaGbmC1cEfZMNBh7AcMf+q5Xaf3KrczO+pZ
-	dKfbg
-X-Gm-Gg: Acq92OE/u931YEq1kwADz8UvStaLOGPMBWJ2KqJ0UMh/tvoFky6iOtgM5rRA0EdiMvF
-	adqP8EGrZgUJtARmK2IvZV1mwlzqVYXwmvXc+oiS+PcaUevx+i7H2aJs8ge1VDWsKHkxoYl0yct
-	5RJljzNMi5UU/1YrPPOuSCehP9F7ICnX+XsFKB4DJm4Xy6u4+Lg7ijF0DbDLkCzRXzYBi8tredY
-	mYR39NhB2wMZhufUPG+QIYYanC4rOB9oIWQQv6dA83MUyCcR2kH52lzTgzHrXKW6Ehl+bsQmmVC
-	lJAad+ebImH1idJCLU5U8FV1oZAaASHQSs7aWpExJbG5xBLj6eluR0VksUAzRcv/slh++HYGahz
-	cqR1Atg+SZ/01iHq7opo+YXlXG9vNrDoI3V2KjbDD1HEPW+ZQVZ33i1/jtUd5DQ+eW0xKxGnn0X
-	ifvTN1SM8fiEFHfSTt4yJ8ONf7aEgM7+f60fHNpHnwoK6URV2QB0th63gv0KH6n46CptGgrc1eG
-	TLLCkWguBh+n0tMrGB5+lHK3KoHqn2pFbPZYu4=
-X-Received: by 2002:adf:e008:0:10b0:460:e00:121d with SMTP id ffacd0b85a97d-4606758b140mr173243f8f.14.1781132117629;
-        Wed, 10 Jun 2026 15:55:17 -0700 (PDT)
+        bh=UAUXLjNrY67hCRbCkeh+YWOYWi7O75eECnKHHzVHSw8=;
+        b=KZ0USy1q9R/10mRkDaGE+IvdSd6oku4Q2lGADIKMuUxRjDGVAqQuUdX5xjyf266M6s
+         TyfFflu4329JyrwUJYqKJUFv6N2HWl1ERSwvuU5GxvlJbTyYeUyoo/QiWO8jAZTekQ6/
+         VOteUHliCEsCwPALDjUoiecyUwsEMavrKEfVd3SNQjOOrZI9gr/tUkDOxRLLIn+C+naA
+         6l0c9Bh1B89in8LYn+n36x2jmF047Xtzka8ZcT2tTlTiGIOHvwKsk3RQPUDtH8MD1Kdf
+         TDiO+Ua9z+8M0JGQiM1ZDWBtJZjE1qFGqwvRMkne9eGQiFNGePu32kqM46lqrYbHLMmY
+         2M0Q==
+X-Gm-Message-State: AOJu0YzXGH7PBZN6OPYbtHbiEprJXm7ha53mLNipX5hjZyLwgwFIiCYG
+	cTtcLtvDKX0XZzWLsb/eFyRF5ljL/O6TGYSF9xzeVFu+66ZgxZCJYyOOxmv8p40naVz4q0rL7X5
+	QlZ+q
+X-Gm-Gg: Acq92OFzbnrKuDrNpfI3erKoTSeYAcNomSne4dke1RzgZ1CjofGwFDTPApKrWfCuPIe
+	AlWk63eW9WsHm2bbFlZ018aF4vQHX70yrx2qTQHhqoxPEA0H7pu83Fo8ao/JdHwvuvMe3znqSzl
+	sV1XR31F8Coutftb7DVJ3g+tMAqLPWPooke3eBKbOLoZSIjBbYsCxXjhhIqOi2Z8/cjvzPP2EDG
+	WlqXsYpzqKoVobyqR1Jy7W3JOZFFbDaIni8hcaMT62J1xmJm8rgz4fj0OL097LjR5boN3j78sbi
+	wrbsEKKvD2KXXwFOVBss3N2zUPnkkN3oF1RcKn7u8E42CMGMVJQ/1hc4vkRjpX4XnDM7oajcnxZ
+	8xEdMyKf9kq+km12kImv2aKiEPSQie3khbe6l3swGlSSAs4SdRnkQvGiBOGyP5PtR0MCDnN2x1t
+	0lJSOGjqBCMhtmix69wa7ewQyGtd/Ag02FOuasXPaz76J0vnlGJxMSui+pEULjOUICoFHvM5zBQ
+	cbiz7l28cYBrFVcqLCt0PuLwDM3kaMEt9TgNNM=
+X-Received: by 2002:a05:600c:83c3:b0:490:b355:9c70 with SMTP id 5b1f17b1804b1-490c25a5970mr456676775e9.11.1781132116310;
+        Wed, 10 Jun 2026 15:55:16 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00bb749f54eeb85d7b.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:bb74:9f54:eeb8:5d7b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f344148sm71599304f8f.19.2026.06.10.15.55.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f344148sm71599304f8f.19.2026.06.10.15.55.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 15:55:17 -0700 (PDT)
+        Wed, 10 Jun 2026 15:55:15 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 04/21] cups: fix CVE-2026-34978
-Date: Thu, 11 Jun 2026 00:54:55 +0200
-Message-ID: <c63b4233d7c62146c6ca0f2dde60fb67048cb48a.1781132051.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 01/21] libpcap: fix error message on 32-bit integer overflow
+Date: Thu, 11 Jun 2026 00:54:52 +0200
+Message-ID: <727903962601708b2f5a2f18a57017627e83fd46.1781132051.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1781132051.git.yoann.congal@smile.fr>
 References: <cover.1781132051.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 22:55:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238400
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 22:55:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238397
 
-From: Abhishek Bachiphale <Abhishek.Bachiphale@windriver.com>
+From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
-In CUPS versions 2.4.16 and prior, the RSS notifier allows
-path traversal in notify-recipient-uri (e.g., rss:///../job.cache),
-letting a remote IPP client write RSS XML bytes outside
-CacheDir/rss. Because CacheDir is group-writable by default,
-the notifier (running as lp) can overwrite root-managed state
-files via temp-file + rename(), leading to job cache corruption
-and loss of queued jobs after restart.
+Upstream fix: https://github.com/the-tcpdump-group/libpcap/commit/0d8bd2f67c16637c4d25d81fb24cdcebc35afce6
 
-Apply upstream fix to prevent path traversal in RSS notifier.
-
-Reference:
-[ https://nvd.nist.gov/vuln/detail/CVE-2026-34978 ]
-
-Signed-off-by: Abhishek Bachiphale <Abhishek.Bachiphale@windriver.com>
+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+(cherry picked from commit e5a1ba482ffcccd04fc3efc7a3ab2bc8a4155f15)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-extended/cups/cups.inc           |   1 +
- .../cups/cups/CVE-2026-34978.patch            | 120 ++++++++++++++++++
- 2 files changed, 121 insertions(+)
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-34978.patch
+ ...ssages-about-32-bit-integer-overflow.patch | 158 ++++++++++++++++++
+ .../libpcap/libpcap_1.10.6.bb                 |   4 +-
+ 2 files changed, 161 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/0001-Fix-error-messages-about-32-bit-integer-overflow.patch
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 2724ce72fba..e739cfa5797 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -15,6 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
-            file://0004-cups-fix-multilib-install-file-conflicts.patch \
-            file://volatiles.99_cups \
-            file://cups-volatiles.conf \
-+           file://CVE-2026-34978.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2026-34978.patch b/meta/recipes-extended/cups/cups/CVE-2026-34978.patch
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-error-messages-about-32-bit-integer-overflow.patch b/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-error-messages-about-32-bit-integer-overflow.patch
 new file mode 100644
-index 00000000000..043cab86eab
+index 00000000000..4f2af537626
 --- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2026-34978.patch
-@@ -0,0 +1,120 @@
-+From 730347c5bbd5e1271149c6739aa858c0c83a7568 Mon Sep 17 00:00:00 2001
-+From: Michael R Sweet <msweet@msweet.org>
-+Date: Tue, 31 Mar 2026 14:18:26 -0400
-+Subject: [PATCH] Fix RSS notifier.
++++ b/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-error-messages-about-32-bit-integer-overflow.patch
+@@ -0,0 +1,158 @@
++From 217c3a07c7db694324b5c61eaaa07774735e2d7d Mon Sep 17 00:00:00 2001
++From: Denis Ovsienko <denis@ovsienko.info>
++Date: Thu, 9 Oct 2025 20:51:45 +0100
++Subject: [PATCH] Fix error messages about 32-bit integer overflow.
 +
-+OpenPrinting CUPS is an open source printing system for Linux and other
-+Unix-like operating systems. In versions 2.4.16 and prior, the RSS
-+notifier allows .. path traversal in notify-recipient-uri (e.g.,
-+rss:///../job.cache), letting a remote IPP client write RSS XML bytes
-+outside CacheDir/rss (anywhere that is lp-writable). In particular,
-+because CacheDir is group-writable by default (typically root:lp and
-+mode 0770), the notifier (running as lp) can replace root-managed state
-+files via temp-file + rename(). This PoC clobbers CacheDir/job.cache
-+with RSS XML, and after restarting cupsd the scheduler fails to parse
-+the job cache and previously queued jobs disappear.
++Since commit a5cac25 stoulen() takes a pointer to a string and a
++length of the string and uses the length to report a problem about the
++string.  However, by that time it has already modified the length, so
++the error message does not match the input:
 +
-+CVE: CVE-2026-34978
++$ filtertest RAW '123456789012345'
++filtertest: number 1234 overflows 32 bits
++$ filtertest RAW '12345678901234567890'
++filtertest: number 123456789 overflows 32 bits
++$ filtertest RAW '123456789012345678901234567890'
++filtertest: number 1234567890123456789 overflows 32 bits
++$ filtertest RAW '0123456701234'
++filtertest: number  overflows 32 bits
++$ filtertest RAW '0x100000000'
++filtertest: number  overflows 32 bits
 +
-+Upstream-Status: Backport [ https://github.com/OpenPrinting/cups/commit/730347c5bbd5e1271149c6739aa858c0c83a7568 ]
++Consequently, if more than one number in the filter expression is out of
++range, it can be not immediately obvious which one it is:
 +
-+Signed-off-by: Abhishek Bachiphale <Abhishek.Bachiphale@windriver.com>
++$ filtertest RAW '4294967296 != 4294967297'
++filtertest: number  overflows 32 bits
 +
++To fix this, in stoulen() keep a copy of the original string length and
++use it for the error reporting.  Ibid., factor the format string out and
++show the base in the message.  Simplify the forward declaration.  Add
++two comments to outline the clash space between certain MAC-48 addresses
++and certain octal integers.  Document this syntax peculiarity in the man
++page and add a few basic reject tests.
++
++Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/0d8bd2f67c16637c4d25d81fb24cdcebc35afce6]
++Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 +---
-+ notifier/rss.c  | 20 ++++++++++++++------
-+ scheduler/ipp.c | 14 +++++++++++++-
-+ 3 files changed, 29 insertions(+), 7 deletions(-)
++ pcap-filter.manmisc.in |  9 ++++++++-
++ scanner.l              | 33 ++++++++++++++++++++++++---------
++ 2 files changed, 32 insertions(+), 10 deletions(-)
 +
-+diff --git a/notifier/rss.c b/notifier/rss.c
-+index f17e1494c6..250ad877e7 100644
-+--- a/notifier/rss.c
-++++ b/notifier/rss.c
-+@@ -1,11 +1,12 @@
++diff --git a/pcap-filter.manmisc.in b/pcap-filter.manmisc.in
++index bfb692ff..929d668d 100644
++--- a/pcap-filter.manmisc.in
+++++ b/pcap-filter.manmisc.in
++@@ -18,7 +18,7 @@
++ .\" WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
++ .\" MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
++ .\"
++-.TH PCAP-FILTER @MAN_MISC_INFO@ "13 June 2023"
+++.TH PCAP-FILTER @MAN_MISC_INFO@ "9 October 2025"
++ .SH NAME
++ pcap-filter \- packet filter syntax
++ .br
++@@ -886,6 +886,13 @@ integer constants (expressed in standard C syntax), the normal binary operators
++ a length operator, and special packet data
++ accessors.  Note that all comparisons are unsigned, so that, for example,
++ 0x80000000 and 0xffffffff are > 0.
+++.LP
+++Note that 32-bit octal integer constants in the [010000000000 .. 037777777777]
+++interval, which includes 75% of all 32-bit integers, are interpreted as MAC-48
+++addresses when prepended with a single zero (e.g., 012345670123 means
+++01:23:45:67:01:23).  To disambiguate the expression, prepend such an octal
+++number with more zeroes (0012345670123) or represent the same value using a
+++decimal (1402433619) or hexadecimal (0x53977053) number.
++ .IP
++ The
++ .B %
++diff --git a/scanner.l b/scanner.l
++index 57779497..49aaeab2 100644
++--- a/scanner.l
+++++ b/scanner.l
++@@ -48,8 +48,8 @@ typedef enum {
++ 	STOULEN_ERROR
++ } stoulen_ret;
++ 
++-stoulen_ret stoulen(const char *string, size_t stringlen, bpf_u_int32 *val,
++-    compiler_state_t *cstate);
+++stoulen_ret stoulen(const char *, const size_t, bpf_u_int32 *,
+++    compiler_state_t *);
++ }
++ 
 + /*
-+  * RSS notifier for CUPS.
-+  *
-+- * Copyright © 2020-2024 by OpenPrinting.
-+- * Copyright 2007-2015 by Apple Inc.
-+- * Copyright 2007 by Easy Software Products.
-++ * Copyright © 2020-2026 by OpenPrinting.
-++ * Copyright © 2007-2015 by Apple Inc.
-++ * Copyright © 2007 by Easy Software Products.
-+  *
-+- * Licensed under Apache License v2.0.  See the file "LICENSE" for more information.
-++ * Licensed under Apache License v2.0.  See the file "LICENSE" for more
-++ * information.
++@@ -244,6 +244,12 @@ V6004		::{N}\.{N}\.{N}\.{N}
++ 
++ V6		({V680}|{V670}|{V671}|{V672}|{V673}|{V674}|{V675}|{V676}|{V677}|{V660}|{V661}|{V662}|{V663}|{V664}|{V665}|{V666}|{V650}|{V651}|{V652}|{V653}|{V654}|{V655}|{V640}|{V641}|{V642}|{V643}|{V644}|{V630}|{V631}|{V632}|{V633}|{V620}|{V621}|{V622}|{V610}|{V611}|{V600}|{V6604}|{V6504}|{V6514}|{V6524}|{V6534}|{V6544}|{V6554}|{V6404}|{V6414}|{V6424}|{V6434}|{V6444}|{V6304}|{V6314}|{V6324}|{V6334}|{V6204}|{V6214}|{V6224}|{V6104}|{V6114}|{V6004})
++ 
+++	/*
+++	 * In the regexp below the "{B2}{3}" form matches all octal numbers in
+++	 * the [010000000000 .. 077777777777] interval that use a single leading
+++	 * zero.  The interval includes both integer values that fit into 32
+++	 * bits and values that don't.
+++	 */
++ MAC		({B}:{B}:{B}:{B}:{B}:{B}|{B}\-{B}\-{B}\-{B}\-{B}\-{B}|{B}\.{B}\.{B}\.{B}\.{B}\.{B}|{B2}\.{B2}\.{B2}|{B2}{3})
++ 
++ 
++@@ -486,13 +492,16 @@ tcp-cwr			{ yylval->h = 0x80; return NUM; }
 +  */
++ DIAG_ON_FLEX
 + 
-+ /*
-+@@ -80,6 +81,7 @@ main(int  argc,				/* I - Number of command-line arguments */
-+   http_status_t	status;			/* HTTP GET/PUT status code */
-+   char		filename[1024],		/* Local filename */
-+ 		newname[1024];		/* filename.N */
-++  struct stat	fileinfo;		/* Local file information */
-+   cups_lang_t	*language;		/* Language information */
-+   ipp_attribute_t *printer_up_time,	/* Timestamp on event */
-+ 		*notify_sequence_number,/* Sequence number */
-+@@ -111,9 +113,9 @@ main(int  argc,				/* I - Number of command-line arguments */
-+ 
-+   if (httpSeparateURI(HTTP_URI_CODING_ALL, argv[1], scheme, sizeof(scheme),
-+                       username, sizeof(username), host, sizeof(host), &port,
-+-		      resource, sizeof(resource)) < HTTP_URI_OK)
-++		      resource, sizeof(resource)) < HTTP_URI_OK || strstr(resource, "../") != NULL)
-+   {
-+-    fprintf(stderr, "ERROR: Bad RSS URI \"%s\"!\n", argv[1]);
-++    fprintf(stderr, "ERROR: Bad RSS URI \"%s\".\n", argv[1]);
-+     return (1);
-+   }
-+ 
-+@@ -209,6 +211,12 @@ main(int  argc,				/* I - Number of command-line arguments */
-+     snprintf(filename, sizeof(filename), "%s/rss%s", cachedir, resource);
-+     snprintf(newname, sizeof(newname), "%s.N", filename);
-+ 
-++    if (!lstat(filename, &fileinfo) && !S_ISREG(fileinfo.st_mode))
-++    {
-++      fprintf(stderr, "ERROR: Local RSS path \"%s\" is not a file.\n", filename);
-++      return (1);
-++    }
+++#define FORMAT_OVERFLOWS_32_BITS "%s number %.*s overflows 32 bits"
 ++
-+     httpAssembleURIf(HTTP_URI_CODING_ALL, baseurl, sizeof(baseurl), "http",
-+                      NULL, server_name, atoi(server_port), "/rss%s", resource);
-+   }
-+diff --git a/scheduler/ipp.c b/scheduler/ipp.c
-+index 174871741b..cb228b87c8 100644
-+--- a/scheduler/ipp.c
-++++ b/scheduler/ipp.c
-+@@ -1,7 +1,7 @@
-+ /*
-+  * IPP routines for the CUPS scheduler.
-+  *
-+- * Copyright © 2020-2025 by OpenPrinting
-++ * Copyright © 2020-2026 by OpenPrinting
-+  * Copyright © 2007-2021 by Apple Inc.
-+  * Copyright © 1997-2007 by Easy Software Products, all rights reserved.
-+  *
-+@@ -1997,6 +1997,12 @@ add_job_subscriptions(
-+ 	                "notify-status-code", IPP_ATTRIBUTES);
-+ 	  return;
-+ 	}
-++	else if (!strcmp(scheme, "rss") && strstr(resource, "../") != NULL)
-++	{
-++          send_ipp_status(con, IPP_STATUS_ERROR_NOT_POSSIBLE, _("Bad notify-recipient-uri URI \"%s\"."), recipient);
-++	  ippAddInteger(con->response, IPP_TAG_SUBSCRIPTION, IPP_TAG_ENUM, "notify-status-code", IPP_STATUS_ERROR_ATTRIBUTES_OR_VALUES);
-++	  return;
-++	}
-+       }
-+       else if (!strcmp(attr->name, "notify-pull-method") &&
-+                attr->value_tag == IPP_TAG_KEYWORD)
-+@@ -6067,6 +6073,12 @@ create_subscriptions(
-+ 	                "notify-status-code", IPP_ATTRIBUTES);
-+ 	  return;
-+ 	}
-++	else if (!strcmp(scheme, "rss") && strstr(resource, "../") != NULL)
-++	{
-++	  send_ipp_status(con, IPP_STATUS_ERROR_NOT_POSSIBLE, _("Bad notify-recipient-uri URI \"%s\"."), recipient);
-++	  ippAddInteger(con->response, IPP_TAG_SUBSCRIPTION, IPP_TAG_ENUM, "notify-status-code", IPP_STATUS_ERROR_ATTRIBUTES_OR_VALUES);
-++	  return;
-++	}
-+       }
-+       else if (!strcmp(attr->name, "notify-pull-method") &&
-+                attr->value_tag == IPP_TAG_KEYWORD)
++ stoulen_ret
++-stoulen(const char *string, size_t string_len, bpf_u_int32 *val,
+++stoulen(const char *string, const size_t orig_string_len, bpf_u_int32 *val,
++     compiler_state_t *cstate)
++ {
++ 	bpf_u_int32 n = 0;
++ 	unsigned int digit;
++ 	const char *s = string;
+++	size_t string_len = orig_string_len;
++ 
++ 	/*
++ 	 * string is guaranteed either to be a string of decimal digits
++@@ -538,8 +547,8 @@ stoulen(const char *string, size_t string_len, bpf_u_int32 *val,
++ 					 * in 32 bits.
++ 					 */
++ 					bpf_set_error(cstate,
++-					    "number %.*s overflows 32 bits",
++-					   (int)string_len, string);
+++					    FORMAT_OVERFLOWS_32_BITS,
+++					    "hexadecimal", (int)orig_string_len, string);
++ 					return STOULEN_ERROR;
++ 				}
++ 				n = (n << 4) + digit;
++@@ -573,10 +582,16 @@ stoulen(const char *string, size_t string_len, bpf_u_int32 *val,
++ 					 * number, and are about to add
++ 					 * 3 more; that won't fit in
++ 					 * 32 bits.
+++					 *
+++					 * This code path depends on using more
+++					 * than one leading zero for all values
+++					 * in the [040000000000 .. 077777777777]
+++					 * interval, otherwise the MAC regexp
+++					 * above consumes the string first.
++ 					 */
++ 					bpf_set_error(cstate,
++-					    "number %.*s overflows 32 bits",
++-					   (int)string_len, string);
+++					    FORMAT_OVERFLOWS_32_BITS,
+++					    "octal", (int)orig_string_len, string);
++ 					return STOULEN_ERROR;
++ 				}
++ 				n = (n << 3) + digit;
++@@ -609,8 +624,8 @@ stoulen(const char *string, size_t string_len, bpf_u_int32 *val,
++ 				 * number that won't fit in 32 bits.
++ 				 */
++ 				bpf_set_error(cstate,
++-				    "number %.*s overflows 32 bits",
++-				   (int)string_len, string);
+++				    FORMAT_OVERFLOWS_32_BITS,
+++				    "decimal", (int)orig_string_len, string);
++ 				return STOULEN_ERROR;
++ 			}
++ 			n = (n * 10) + digit;
++-- 
++2.34.1
++
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb b/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
+index 9b259396f06..d381a4eb2fe 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
+@@ -10,7 +10,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5eb289217c160e2920d2e35bddc36453 \
+                     file://pcap.h;beginline=1;endline=32;md5=39af3510e011f34b8872f120b1dc31d2"
+ DEPENDS = "flex-native bison-native"
+ 
+-SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.xz"
++SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.xz \
++	   file://0001-Fix-error-messages-about-32-bit-integer-overflow.patch \
++          "
+ SRC_URI[sha256sum] = "ec97d1206bdd19cb6bdd043eaa9f0037aa732262ec68e070fd7c7b5f834d5dfc"
+ 
+ inherit autotools binconfig-disabled pkgconfig
 
