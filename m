@@ -1,139 +1,145 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF6ECD98C5
-	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 21:42:08 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.31957.1781127727011321167
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87F3ACD98C5
+	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 21:59:48 +0000 (UTC)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32334.1781128779895088634
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2026 14:42:07 -0700
+ Wed, 10 Jun 2026 14:59:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fmzBbinq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490ac357c55so76565245e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 14:42:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Ft+beZhf;
+ spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-7ddd3d67084so79183717b3.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 14:59:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781128779; cv=none;
+        d=google.com; s=arc-20240605;
+        b=QYT9ULC5g4SDe5FvPTjIByUY96TTBrRw/icvGG2b+ThMFp3UwayQHjO8S7lZKUyW38
+         SzJgIdMzU3UhfpZkwwz1xyUV//6dEqiixEYCwPksq3cd6RoEvQ3GyQJ85Caa5GWA5RUD
+         OL0iyME+UY0wNG/+iEocV15W3z4MFAkbeijBIvSp0qwKkecgDXvPox6zO0tKTmnqCAXV
+         W0f0SDH8pBGHGTVQhO0IgS3+qS/fvJpT1pFIhwme0wko97hqqwRy813CMBJnkog3to3y
+         gbATp1PV+dqXk+3iPzkpEnujwxf8+5WPF/NZMCX8kszqUGfuqx8MhsY+fdCem5ULFYXi
+         lFPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UcppaFk3eXW/aNI9zW5Tu2Z8rgB9ZRCQwCTYNTV6lWk=;
+        fh=/J2/p8Vb9D4Kd8UzXOu+r8FySvVNJtK7kCaQlnvOHnU=;
+        b=UwSeFbpVvhTXMB18Z9L4SuXQrFNO9Wv4c0UIisFM1jLp7wXaVlmDqeqeIgVqma4EI9
+         RGUd5im/SlxwYvLSs5mCl4vmM9n0VMSOvjsHWef2AVLT6F5zroxKtxTxl4M5AG8qfmpO
+         y+92cT67GosOssGcEN02bFVwxJr/KFz8zk0TdfJe8Dj36snw91IwNnwYDJ4J7w/y/xBo
+         7Tx2eHA9RAVDVSNVb/6RmDLM5PgHGx3pM8keFEP8Jw49598rhtZhrMxRpUTeXM/ZvlpU
+         HPa/Kyj+fdlKU4L2+yguet+Qqgk4gfQHcmNr4tOIqJjTYTOboTA50bYfsrRoAHrkWSyO
+         WREQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1781127725; x=1781732525; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9dqsCVimaXamzApRPVnrL3bJ8ZWyF66voGZU/mda2oY=;
-        b=fmzBbinqIgkLiJnYF7Z3L4j7D93ppDiAJmdmIuZ9NmOKkWxZjkUFJXSP1rS7b3jFoU
-         WHRODAC+DWcKs4eum4kvkXZVvnKBkI3kIQpg8i4aqbM0NelYVgD2VDOASCViV4M5dHCK
-         R9tFmekSXwtIulCXpeDgGI6c3gFX9MQVp42Hk=
+        d=gmail.com; s=20251104; t=1781128779; x=1781733579; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UcppaFk3eXW/aNI9zW5Tu2Z8rgB9ZRCQwCTYNTV6lWk=;
+        b=Ft+beZhflTTCvKYEs8O+lFapMkksrdw+30pOHmcu5tE9F5jWTUQbTO6zD0Oytzd1O4
+         DVz+GnbLz4cjxM31HP9F0f53AzZqf+yEpxagfGs0lyjwbzZIPhwX5sAqiFrMNRz6kbR6
+         K1Hs6pfSGdqPvRMvKHzZ4xldc32bF8mpwTq805rq5Tb8XGl6XZtxGhc3i0OqxeiAq6rZ
+         6wT+fL5QIDWizD5lpjrVM16FkMdZ7JiEYktW97Ejh5dQRLTN7YKXGxYfN6Q0Kq42rKGo
+         7U9KMn361L2GzdOALVypip9d3Ge8pJ7p0x9mbnhAEHHJuF8Js1DTnWc9hxlpJFLPfmSu
+         n14A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781127725; x=1781732525;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9dqsCVimaXamzApRPVnrL3bJ8ZWyF66voGZU/mda2oY=;
-        b=ly+yAqOAWkIZOmPQvEH44OBEwGtJ0DzN8WwoxWerPTFaUXYC18f3Is+nZ0P2M+UM+M
-         tiFJREcdHDnkzabLbBu3JxfCX6pr9LFPgp7vAkylTzCsT3xPUw5TYPdmbFq0G2SzkLWJ
-         ARSw+SlAbHGXyX6Mxh9W2VIt+Ac+i3kbGdMox7I7wuZkfAQM6HXuODSGLErwAxXKkA4d
-         AMWW6S8JfeM3Qvn34Y4Rzx997tkdqkv+qFX/7oXfhws6gwmqo1qYC12c6aOOlzwpkO2t
-         emBy4BwEJlp2CwlT/ZoaFYWLXGyPqXFpm8Y8pcdJeFHxy4uinamSVB7wZ8AuO49zfovx
-         +1fw==
-X-Forwarded-Encrypted: i=1; AFNElJ99vOZ1XZsGbqzXUWKScW53EOKcMwvDOU19gO5urbaj2aeTTV2ORDq1yg9+FFRBPVQvWX5un7RCY6sW3HUzEwuoew==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxce3Ig1IEJ9oLtv+GbGojHEn7l1OzBzRtMN/cUBEJtIIhCY5n7
-	c3G9WjaGGX2gXDgUC6UNZdwwCGbhIXliCkSx7LZ4Ev6R85Od3V788Uz3BJOqzhLgie6P5PQNjrH
-	v0EQM
-X-Gm-Gg: Acq92OFk8DU2uhx2ivPsfa2XXkj4tZLPOlcMXycrhOvTVuff+c+61asvKCdcrPIXncE
-	T+Hs19A4GKNu+vcyqSkAvOgZ3DfQ4onchI3JOY0lwiJdnqaj/fGIa3z77D1fLZMPx8NZg2MkdYs
-	hYclU9pOy1RGombeOTy+tkUn+aSUsB1nYROPpfupqv3GLfgy0jMy+xw8fvtTbP8fklkMQiW3a08
-	0V1M9Kx2KQqZ5nqB9cWGczDer3tbEG57+TACm5DTbGhyaR51RyU9BG9Jr38Fjks6fzxCepvaX5c
-	QvHUi/gyoGIKnOxALGV8etNao6UlpdOW6NIqao9gBLc0lcxrsNUzPNz17V0bxXlUk4OEw1tEYMs
-	J3HxJJZq2rW+D6txfdxwOhC3EwGN9CLJN1B5ZcXcAUPny5+BhpE/8j9CVpaY8/7BYdkGHDWix4S
-	HYkuw67h5aZqX1WtOQQaHmL0xIo/5kR+N6ZbjI84uI6jXZkW1xkeeuXKNOj5LAsA3okKG4IhR4s
-	y7qSgoMCEsquNP2qG+3FW8P
-X-Received: by 2002:a05:600c:83c3:b0:490:b355:9c70 with SMTP id 5b1f17b1804b1-490c25a5970mr454509005e9.11.1781127725414;
-        Wed, 10 Jun 2026 14:42:05 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e996:5a7:2609:813f? ([2001:8b0:aba:5f3c:e996:5a7:2609:813f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f35133csm72203861f8f.25.2026.06.10.14.42.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 14:42:04 -0700 (PDT)
-Message-ID: <342ed2eed3ffa5038d6b57a3daafcdf9c2066190.camel@linuxfoundation.org>
-Subject: Re: [PATCH v2] llvm/mesa/rust: simplify llvm-config handling
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Deepesh.Varatharajan@windriver.com, 
-	openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, Randy.Macleod@windriver.com
-Date: Wed, 10 Jun 2026 22:42:04 +0100
-In-Reply-To: <20260610112611.649074-1-Deepesh.Varatharajan@windriver.com>
-References: <20260610112611.649074-1-Deepesh.Varatharajan@windriver.com>
+        d=1e100.net; s=20251104; t=1781128779; x=1781733579;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=UcppaFk3eXW/aNI9zW5Tu2Z8rgB9ZRCQwCTYNTV6lWk=;
+        b=K2fRGxJJH0lsm0yCQA8CYeRLtCGAOtZebeoXLxdHhiPcsuQi0UZgPCvesMInFo/9Zt
+         fpnrEW6lZN09V8pNr0f8ezvdiDkdi5QDrHaFA+PjJ8FCiWVJSXddVBujuXAKFOAc90bz
+         6kHM1sfTJE+5l1ZEG3f82Sv5/CmHT47xHcTj/dCe2pyer0z8TdE1o2XMFjN+LSlrFeyV
+         Cum+I5bUeyrm4HuHkZuC46BgNhZ8eBSLlGx4KrelNPF4IItZhEEqomjuwtLT6uP0oUDW
+         rLHHcp31X1mbNqUR6O+g8200o5vTYgvMe3vxizsopSeA2omBOjLgHszOKd3wja/usbxD
+         Ul0w==
+X-Forwarded-Encrypted: i=1; AFNElJ8mt3Yn/590tYIFQRJW/CIMjDvz5irzUc/C0/o6yUUekmd7E7hoBISp2sHlJoLx7PZVMspj76Y/+20REujz6NZYmA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz0Zm9ZJAQe/HCciN4c6ZJHWyhn5nGtqm5lQNFTEQrjTdaNl2Y6
+	7GcwKLNqdOPv7fHcf9HhB+/LoXoIwH9M/kyS+20WQvcHNOAQflzB6b5vvitO1KHWUpEot6wQKd1
+	9n4et1aHnKXrQvIAHt7wIv7fNbYptkoA=
+X-Gm-Gg: Acq92OEf47gcIHJe3yJhiZgpyhZRrygP6jqvEPq+8OxtlOdWpgZH2qzrnIOTvXYF2Ft
+	OgwDsaqvBuUpta4l2HikC7f48J0Zq3q2zW0ll9RtPIVyqBM/uXmwY7qJ0vUWqzNPFATLLmxsEmk
+	ttjq+I/vqu18zoM+QLHui0tWrDCvoMHkyWoGnZ8/BWTuElRc1/ByI+ZUJDbC78CKtPZsZN9ZAdO
+	fIfUw7eWHqMBTvl66XbCm1IeOoZFMdvbb8mx+KycITjRXiE39+JdvsnlvCGlNgP/RxW7Hc/4JjU
+	GO162ICxsSwYdIzpDy7JqQnP5A/Qm/e93A7RqTAENw==
+X-Received: by 2002:a05:690c:6e02:b0:7e4:bc8:7ad6 with SMTP id
+ 00721157ae682-7f65795eb28mr1230277b3.30.1781128779033; Wed, 10 Jun 2026
+ 14:59:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260610141128.6606-1-leoreis.costa@gmail.com> <20260610142658.10318-1-leoreis.costa@gmail.com>
+In-Reply-To: <20260610142658.10318-1-leoreis.costa@gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Wed, 10 Jun 2026 15:59:26 -0600
+X-Gm-Features: AVVi8Cd-upQ5bQmSVaxono6ZLnWUAqYo0niK8IFUAOmUsyEG0RHbYmolVYiIOrE
+Message-ID: <CAJdd5GZK9YB2CQssL0XZfApZFKtqd7vj5hDx8QgdOELWPBXGKw@mail.gmail.com>
+Subject: Re: [PATCH] [OE-core] [RFC] spdx: Add ability to change the deploy
+ SBoM name
+To: Leonardo Costa <leoreis.costa@gmail.com>
+Cc: leonardo.costa@toradex.com, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 21:42:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238394
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 21:59:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238395
 
-On Wed, 2026-06-10 at 04:26 -0700, Deepesh.Varatharajan@windriver.com wrote=
-:
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
->=20
-> Replace PATH-based llvm-config discovery with explicit sysroot-native
-> resolution and simplify the target llvm-config wrapper to act as a pure
-> pass-through while preserving Yocto alternate path handling.
->=20
-> The previous implementation relied on:
->=20
-> * `which -a llvm-config | sed -n 2p`
-> =C2=A0=C2=A0 which is unreliable in cross-build environments because it o=
-nly
-> =C2=A0=C2=A0 searches executables present in $PATH. Native sysroot tools
-> =C2=A0=C2=A0 (e.g. recipe-sysroot-native llvm-config) are not guaranteed =
-to be
-> =C2=A0=C2=A0 exposed via PATH, so they may not be discovered at all.
->=20
-> * `echo $base_libdir | sed -n '/lib64/p'`
-> =C2=A0=C2=A0 which depends on a BitBake variable that may be empty or uns=
-et
-> =C2=A0=C2=A0 in certain build contexts, leading to incorrect libdir selec=
-tion.
->=20
-> Update the wrapper to:
->=20
-> * Use an @LLVM_CONFIG_PATH@ placeholder that is replaced during the
-> =C2=A0 build with the appropriate native llvm-config path.
-> * Detect libdir using filesystem inspection rather than variable
-> =C2=A0 parsing.
-> * Preserve `YOCTO_ALTERNATE_EXE_PATH` and
-> =C2=A0 `YOCTO_ALTERNATE_LIBDIR` handling.
-> * Delegate all arguments directly to the native llvm-config.
->=20
-> Update rust and mesa recipes to replace the placeholder with the native
-> llvm-config path during target and nativesdk builds.
->=20
-> Also remove the native llvm-config copy logic and lib/lib64 symlink
-> workarounds, relying instead on explicit native tool resolution.
->=20
-> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+On Wed, Jun 10, 2026 at 8:27=E2=80=AFAM Leonardo Costa <leoreis.costa@gmail=
+.com> wrote:
+>
+> From: Leonardo Costa <leonardo.costa@toradex.com>
+>
+> Allow "deploy" tasks that have set SPDX_DEPLOY_TASKS to choose a custom
+> name for their deploy SBoM.
+
+LGTM. I will pull this onto my local branch since it depends on my
+changes; would you be OK if I squashed it into my change that adds the
+task, or would you prefer it be a separate commit?
+
+>
+> Signed-off-by: Leonardo Costa <leonardo.costa@toradex.com>
 > ---
-> =C2=A0...unwind.pc.in-and-llvm-config-scripts.patch | 52 +++-------------=
----
-> =C2=A0meta/recipes-devtools/rust/rust_1.96.0.bb=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 51 +++++-------------
-> =C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 16 ++++++
-> =C2=A03 files changed, 38 insertions(+), 81 deletions(-)
-
-Thanks, this looks better in testing but we did see:
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/3864
-
-which mentions:
-
-"/srv/pokybuild/yocto-worker/qemuarm-tc/build/build-st-3903846/tmp/work/cor=
-texa15t2hf-neon-poky-linux-gnueabi/rust/1.96.0/recipe-sysroot/usr/bin/cross=
-scripts/llvm-config: line 15: exec: @LLVM_CONFIG_PATH@: not found"
-
-The rest of the build is ongoing.
-
-Cheers,
-
-Richard
+>  meta/classes/create-spdx-3.0.bbclass | 4 ++++
+>  meta/lib/oe/spdx30_tasks.py          | 2 +-
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-s=
+pdx-3.0.bbclass
+> index f915f5cfd5..1444816530 100644
+> --- a/meta/classes/create-spdx-3.0.bbclass
+> +++ b/meta/classes/create-spdx-3.0.bbclass
+> @@ -178,6 +178,10 @@ SPDX_DEPLOY_TASKS[doc] =3D "A space separated list o=
+f sstate tasks that produce \
+>      'after do_create_spdx'.\
+>      "
+>
+> +SPDX_DEPLOY_SBOM_NAME ?=3D "${PN}-deploy-sbom"
+> +SPDX_DEPLOY_SBOM_NAME[doc] =3D "The name of the output deploy SBoM when =
+using \
+> +    create_deploy_sbom"
+> +
+>  SPDX_DEPLOY_ARTIFACTS =3D "AUTO"
+>  SPDX_DEPLOY_ARITFACTS[doc] =3D "A space separated list of deployed artif=
+acts, \
+>      relative to SPDX_DEPLOY_ARTIFACTS_DIR that should be included in the=
+ SBoM. \
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index b69f79eae9..d56cbe543e 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -1885,7 +1885,7 @@ def create_deploy_spdx(d, spdxdeploydir, artifactsd=
+ir, artifacts):
+>
+>  def create_deploy_sbom(d, deploydir, deploy_tasks):
+>      pn =3D d.getVar("PN")
+> -    sbom_name =3D f"{pn}-deploy-sbom"
+> +    sbom_name =3D d.getVar("SPDX_DEPLOY_SBOM_NAME")
+>
+>      objsets =3D []
+>      for t in deploy_tasks:
 
