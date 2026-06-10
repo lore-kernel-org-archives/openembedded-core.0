@@ -1,87 +1,115 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 752FECD8CB2
-	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 14:29:29 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21830.1781101765944471835
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C13ACD8CB9
+	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 14:59:09 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21656.1781101678181439562
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2026 07:29:26 -0700
+ Wed, 10 Jun 2026 07:27:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Sfj+iNT+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-bebc80100efso738247166b.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 07:29:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=UMAl/CO1;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: leoreis.costa@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c858cc9870aso3404146a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 07:27:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1781101764; x=1781706564; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=O6f8r5B7eE5VGzTUeO/nPjaKO1ZGU8Sr3Fy0WeuQLzc=;
-        b=Sfj+iNT+LVmYer91TxTXuIeGzecEwBK21UVztJbwg2OVEFM8gTMDmyUfY34wxASIuS
-         EXAgGz2dwsmiiVEuKMKxWB5VFulX/IBZbmgnjnhxgfZIouGWn1gMGBqNkQNVZDmu/CUM
-         iz3qJL0ESgVC32CHvQ1MLBwtAL4yVS0zxIl9M=
+        d=gmail.com; s=20251104; t=1781101677; x=1781706477; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oQxGJCGi6dgKHmRgXI8hTSoZ23B4b1kfLjL2aAcmZAU=;
+        b=UMAl/CO1+M0m1bHumB4RdNDZfyNjKUH8swnHYsiPiBJtpE0s9/iiIuOJ/bG/6snzXZ
+         IB0sHlkJU/+pfTqXMnvkOHFr6HvmrKz9n/Re70ZQi5PolD5kJBPMUncw8a4lhHspxR31
+         yXsR/LLxVcDsBlRbXRv8wMx0uaCSqJTXLjDKChNkMAneynaeJ6mg+kZdS/3PVGJtSPA/
+         LDEz2CGRW6bWrup+Pzs3BPLq+sokLHgYc2VC8Jd3ndiIcAOBnmH33fm1JXHvH/AAIa94
+         TvRXyaZllxXS1irq0JQuehPClqwG5JOeFxVgdiwYoODSJw9Wb8IO64OaJuJ6U2h4kH9n
+         QIyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781101764; x=1781706564;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O6f8r5B7eE5VGzTUeO/nPjaKO1ZGU8Sr3Fy0WeuQLzc=;
-        b=aNYy4I55h8cI4aSehT40f2mrGfA4rfCz9Sc/yPJow3Sxmj3BfGriKceBLapb4tlSn4
-         yyH+FEQHF1Ll5uVgU7Nsqo9CIui5X28B+IBxKGWy1oTyZ7ziRdIg8R92vCd9TlT5Jh0A
-         m5r/a+pcGXcTuew6fBWthTJErAyY87Mc+RzVlhdDiCqPq3BT7tgkHmNLekmOHlzXM7+y
-         ugS4Zg9S4pBsMsBssJga2a0nQtMDEbt/MWsTZyz/VRHblTxrBT+RDvuHIxzKdSY2Ohyr
-         a7yUdsnookbnRoWGB7UJpYjP8amZl3nleAtGjaFdv2pdMfFbvJp+8Z4zg7h6eR0b+nM2
-         34Zg==
-X-Forwarded-Encrypted: i=1; AFNElJ98KvdvNSIi6q2c8vWdFJokhkEDf6Uf9otBPmyrHAc0+wGPKDBxVJ4F3fnR7ZghNFLjplQa3mCXAhhXioAO+0eotg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwY8V8kYxcH2/I6oZfSbQvltl4e9At5f9qxfC2GJYMAKdPPocVy
-	VwLT9KQFNLXGRGi6k/rLRjuaOS6LeHQs+SgDTWdM57IAcht/KFbxmEAF4FZCJ0K9In4=
-X-Gm-Gg: Acq92OFowjVf+H709uWWTbAYawXKopnMDSTWRI+pltQM3DPVDLQn6WpbUbS/rrWR1j8
-	Z1KfLbPvdQVq8UV+gixNMv9SBn4wqPpmuhvG3sODG9Q7Qb4IQoMIbHd2yJp/XR2lz8tRZgjbei7
-	osxHvovmXAgiPjT29NU+393lFYXtb5EBU9+yYxovQTlE24qads0+WDnmmEnNA+CBCL8UUJwnpuS
-	zA9u1XAjKMDtklhs+/8cNGm4hq3HP0oaJ7yw7piEP7r9oTVsanUZNk37S0VprlgQuYKD6wLnZnl
-	CmvLoQRHPMnCkkR2GUWKgG9Ykz9xIi4mozOIIjChfbgkdOSeEJbwZJSwwVvXZEwUepYvQ24wu1U
-	SA2GvMzaDd4oIHmfAubcxf2fcEc/hRzgGpQsHgLPyi/GNkqyYmxYsE05CSCyWSajybwJX50UTr5
-	VL9xsQ4Cr9YUOgeh3rnw3pjSWXk2ZUw/MW7uza9lpY1NpYWwMC5J/TgeDq+nvaNSNEzQj0uX5L1
-	UUPTuhXoJN6M+C6yQyXRlHE
-X-Received: by 2002:a17:907:9405:b0:bee:4c9f:187d with SMTP id a640c23a62f3a-bf372d29ad2mr1198890966b.39.1781101764303;
-        Wed, 10 Jun 2026 07:29:24 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e996:5a7:2609:813f? ([2001:8b0:aba:5f3c:e996:5a7:2609:813f])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf054e0280asm1198441466b.33.2026.06.10.07.29.23
+        d=1e100.net; s=20251104; t=1781101677; x=1781706477;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oQxGJCGi6dgKHmRgXI8hTSoZ23B4b1kfLjL2aAcmZAU=;
+        b=b9TcJb4n0SMY//gXLiTarcDwGo1oMz7NJvBrzjzH0I+jGcHObb0y0BtwBEidyURiGr
+         r9q3HYoxC6/KQmdJjnbgY/EsTeLsroOtCs9H4b79xifZdmBDa+a2S/E0opeNOzIthSFZ
+         zqpdD4LdFyiDM+g6jNmEL9coynW1P4Sk8P+1hDyFK1dD5JuJinz/E87rbTpDR1tAAFmH
+         TZtqLUjVTHoS/GWssvoR1vyN3lBmwjVKbvSTtNEUUsO3D1AavWGApysiFHEsg64vTF0z
+         04WuKJU+dd3VB7mgzpjNaUtEgD5+RIAyy0cMJFm7VLn3/y2TmOM0ZMZRAnP1PzQfhCti
+         l4MQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8QixGYqFCr5ELKficyUqNY2bZWlh7Ko90Ql1i1jWJrdVHk+nw1mlCEjG2ICYAFbloC9j5ODNdraT7m7WusNBnbjg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YySaJtO24IcnMqIQJhNZV+5FSYE+Y5cVRUmXJQ3+mhAdWNb8srg
+	UcQtZL3UXy76z3AAM1FAh/he6jmkSRVzykgtLfPy4plyigFNECitnlRN
+X-Gm-Gg: Acq92OHPWSAlM3Nn4D+acZ2aWvohfzQW0V0QpBnOrqsTDKsOV9l56cgSscha6HLl18x
+	mRizt0RiAhQUHcjRzH4VQtnWiSCjKcKidZfTKsutr4FL/Ra7hrbt12hO2S+VzVVL0a7p3gsqmBs
+	ELQZsHjcjnoo+AvSP2AUcou3spQmiD6btaPnL3FH9qxfN2nXaTcJDl3m2ZysDsuh7i5g+wlDrLK
+	nTr9seX5G/WR/NVdF31fkp670vx5YRufehJUFCvaTdwhuYZhykO1qCZbZ0hc3HY5xhKRmpwdngD
+	/qKMes6+uvAzNabzONXJo20khfgw4CtfiRRZHNQpyECF6IcOQH6UxLIlVUZz+G+Tqjps0nR/xA7
+	+Yz+qKnZnlgbcy/5+lSat2DJO1XAD/g5AxnvToJnKRp5WUMPH1sL9ydbJrDwCyNwAPD9yveNSeE
+	J/lSM9L5vr2D+B3J5DdE3YlTPkMQVtzayiJsmlJ9YPGveO8xlt2co8oNIUE46wLIaVnTETwEB4h
+	RGwxENDwKBPkBRgs1nG4yHRQKkoXb/97CPnKaid
+X-Received: by 2002:a17:90b:2f0d:b0:368:3830:a8bd with SMTP id 98e67ed59e1d1-37131041514mr19588950a91.7.1781101677280;
+        Wed, 10 Jun 2026 07:27:57 -0700 (PDT)
+Received: from leonardoc-nb ([67.159.246.222])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f6bf82fecsm23224274a91.3.2026.06.10.07.27.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 07:29:23 -0700 (PDT)
-Message-ID: <870e79aa60c3bb8f5872189afc89e74f6e8c283b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/1] npm: Convert to list-based commands for
- NpmEnvironment.run()
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: eric.meyers15310@gmail.com, openembedded-core@lists.openembedded.org
-Cc: Eric Meyers <eric.meyers@arthrex.com>
-Date: Wed, 10 Jun 2026 15:29:22 +0100
-In-Reply-To: <20260610133444.29699-1-eric.meyers@arthrex.com>
-References: <20260610133444.29699-1-eric.meyers@arthrex.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Wed, 10 Jun 2026 07:27:56 -0700 (PDT)
+From: Leonardo Costa <leoreis.costa@gmail.com>
+To: jpewhacker@gmail.com
+Cc: leonardo.costa@toradex.com,
+	leoreis.costa@gmail.com,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH] [OE-core] [RFC] spdx: Add ability to change the deploy SBoM name
+Date: Wed, 10 Jun 2026 11:26:53 -0300
+Message-ID: <20260610142658.10318-1-leoreis.costa@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260610141128.6606-1-leoreis.costa@gmail.com>
+References: <20260610141128.6606-1-leoreis.costa@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 14:29:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238366
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 14:59:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238367
 
-On Wed, 2026-06-10 at 08:34 -0500, Eric Meyers via lists.openembedded.org w=
-rote:
-> This only affects those who have bypassed npm being disabled in
-> bitbake (post commit 355cd226)
+From: Leonardo Costa <leonardo.costa@toradex.com>
 
-I am curious if you plan to help fix/maintain the npm fetcher?
+Allow "deploy" tasks that have set SPDX_DEPLOY_TASKS to choose a custom
+name for their deploy SBoM.
 
-If nobody actually steps up and fixes it, I will remove it. I'm getting
-a bit tired of maintaining things I have no interest in with no help
-from the people who actually use it.
+Signed-off-by: Leonardo Costa <leonardo.costa@toradex.com>
+---
+ meta/classes/create-spdx-3.0.bbclass | 4 ++++
+ meta/lib/oe/spdx30_tasks.py          | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
+index f915f5cfd5..1444816530 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -178,6 +178,10 @@ SPDX_DEPLOY_TASKS[doc] = "A space separated list of sstate tasks that produce \
+     'after do_create_spdx'.\
+     "
+ 
++SPDX_DEPLOY_SBOM_NAME ?= "${PN}-deploy-sbom"
++SPDX_DEPLOY_SBOM_NAME[doc] = "The name of the output deploy SBoM when using \
++    create_deploy_sbom"
++
+ SPDX_DEPLOY_ARTIFACTS = "AUTO"
+ SPDX_DEPLOY_ARITFACTS[doc] = "A space separated list of deployed artifacts, \
+     relative to SPDX_DEPLOY_ARTIFACTS_DIR that should be included in the SBoM. \
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index b69f79eae9..d56cbe543e 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -1885,7 +1885,7 @@ def create_deploy_spdx(d, spdxdeploydir, artifactsdir, artifacts):
+ 
+ def create_deploy_sbom(d, deploydir, deploy_tasks):
+     pn = d.getVar("PN")
+-    sbom_name = f"{pn}-deploy-sbom"
++    sbom_name = d.getVar("SPDX_DEPLOY_SBOM_NAME")
+ 
+     objsets = []
+     for t in deploy_tasks:
 
