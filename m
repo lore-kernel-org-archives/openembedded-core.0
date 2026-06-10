@@ -2,80 +2,79 @@ Return-Path: <asparmar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8282CD98CC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDF32CD98C7
 	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 10:06:43 +0000 (UTC)
-Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16977.1781085994835865472
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16739.1781085994313417864
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2026 03:06:37 -0700
+ Wed, 10 Jun 2026 03:06:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=XDRLr4+W;
- spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: asparmar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=bpv5gBRT;
+ spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=65021; q=dns/txt;
-  s=iport01; t=1781085997; x=1782295597;
+  d=cisco.com; i=@cisco.com; l=91921; q=dns/txt;
+  s=iport01; t=1781085994; x=1782295594;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=h2f5vXXVwOYSxH0EuHiFdrtxcEq7T0fK2XvgJTOIDGQ=;
-  b=XDRLr4+W3Axa9m/2MInCpuAO5z7JBsI6qpUub1aJDN0CXCy+PgJmyIpB
-   L2XWLfEy69FOzP5ctXPnX1AR2bdcoftr15h1ElZeMEgN0lNSJQAeGm/cK
-   mXlhZG3ICovreSycgJy2/M12XToRVOelxSm6sGvg3mE9IbvA2v7/k+r7n
-   N5QPXL4eNM9YFVN+lDXRurLA1ReBjzDm1XxrAZdvnbmq0k390pb0MN+4H
-   Enn2dUCWxoz3G5ztEJjMvDxwaBlsfP1H/xrmpt5qOSyo9mgyS17rBcYIE
-   dlnCA9+txzft/95LrlxCBa/J1M4U/LgkRlR5fDogenpi3g4cIhMXpJAlk
-   w==;
-X-CSE-ConnectionGUID: WFmq1OVKTqWTp6bksUGUbw==
-X-CSE-MsgGUID: PiCpMIwbSwy3xLB18qSw/Q==
-X-IPAS-Result: =?us-ascii?q?A0ADAABpNilq/5T/Ja1aGgEBAQEBAQEBAQEDAQEBARIBA?=
- =?us-ascii?q?QEBAgIBAQEBgXwFAQEBAQsBghc/dF9CSYxziVgDgROCCo4tjFEUgWcDDwEBA?=
- =?us-ascii?q?Q9EDQQBAYUGAo06AiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
- =?us-ascii?q?Q4Thk8NhloBAgEDGgEMCwEYAS0QHAIBAQIvJAcjCBAJgipYAYJzAgERslZDg?=
- =?us-ascii?q?XkzgQGDCR8BMQUJAgJAAVDbKwELFAEFgTMBgjaDCIgeWxgBhHwnGxuBcoEVg?=
- =?us-ascii?q?TuBN3aBBX5eBYEgBCGGXQSCIoEMgV0egkAngX2KEEiBHgNZLAFVEw0KCwcFg?=
- =?us-ascii?q?WYDNRIqFW4yHYEjPheBDBsHBYFKgTdogQKFECMfAzmBFYF6gShnaRUwNWwDC?=
- =?us-ascii?q?xgNSBEsNxQbBD5uB4w6Fw+BRQEvPAcBJgoMHAEHEwcTAQoREBQDCSY9FwY3B?=
- =?us-ascii?q?w0BFwECLAEKDQYYD5JjBwEBAQeQFoIhgTWfWgoog3SMIZU6GjOEBIFXkj+SU?=
- =?us-ascii?q?ZkHglmLMZVfCBgBGDeEaIFoPEaBE3AVO4JnCUoZD44qAwsLgVk3gVCCVoI9L?=
- =?us-ascii?q?iNswgAkNQIBAQcyAQEHAgcOAwuBaJAAAiYHgU4BAQ?=
-IronPort-Data: A9a23:xf4RjK1UPswoVHzI9vbD5YJwkn2cJEfYwER7XKvMYLTBsI5bpzxWz
- 2oZWW6EM6zcMWegfNonYI2x/EgC6sTXzYI1Gwpu3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- bsen+WFYAX7g2AtajpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGM28zJNQ/xMVLGF5y7
- aISKyswQS2JmLfjqF67YrEEasULNsLnOsYb/3pn1zycVK9gSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUiQC/FMEg9/5JYWlfywj2P6eidwo1OOrq1x6G/WpOB0+OS8aYWNKoXRHK25mG6gp
- 0ne2kXmCCoFJYeP7RDcomuXmaj2yHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl/AQGMFVTVGLtchsafaWAAX6
- 7NApPuxbRQHjVFfYSj1Gmu8xd9qBRUoEA==
-IronPort-HdrOrdr: A9a23:4YzhkKz1qgTslYqUJd6cKrPw9L1zdoMgy1knxilNoNJuHfBw8P
- re+8jzuiWUtN98YhwdcJW7Scu9qBDnhPpICPcqXYtKNTOO0ADDEGgh1/qG/9SKIUPDH4BmuZ
- uIWpIObuEYdWIK7vrS0U2fD8sqxsWB/eSDgOfTyGoocCRRApsQljuQzm2gYzZLrM4sP+tAKK
- ah
-X-Talos-CUID: 9a23:yHo/6GM/R3LX3e5DZwdi7RczJOMZa0Lh1CnaIFSFJltjV+jA
-X-Talos-MUID: =?us-ascii?q?9a23=3AZrAGTQ6vGgNx9KS+bLdr1pw7xoxQ4o+2LWESm64?=
- =?us-ascii?q?ZqpKUEQYpay6mk3OOF9o=3D?=
+  bh=T8+P/YG/tOjs8/qKfDHBHVp9p08kyXRO/UXaLFTw+zs=;
+  b=bpv5gBRTPOEOQSY9gWzAWLsI/9sL1rU2nKNiIK+oR+KHc6A2J4WzQs/E
+   bd9X3MH1AXdhEHrpJiUnc3zdAtbiXKOBT0/bleMPrFqgRLODyZjlK27fI
+   xxroAuwhb2PG/dzbys6z1C7NcqW7KuTjWNJersyz0zeSoz0ZUgdhWl40I
+   IpN1/SjHSoanAstFoQA3C9u3WyloSC5AGi65VOhWvTFllUvi5MQwXvm/4
+   cwgzsRPn6XmbNCd31+VdvkF/bOqDdnM3/kw7hi67MPv0l4xrq5pAn8t8G
+   RgCMvqGwcenJZelsDvDr7pFszxVej1koEJgcMHIj4HHBt7W7tQai10Er8
+   A==;
+X-CSE-ConnectionGUID: mJxt2aT6Tj+0mDCTKGVt/A==
+X-CSE-MsgGUID: KoPIF/ZKSSOgOOQEOUKokA==
+X-IPAS-Result: =?us-ascii?q?A0AHAAAeNilq/4r/Ja1aGgEBAQEBAQEBAQEDAQEBARIBA?=
+ =?us-ascii?q?QEBAgIBAQEBgX4DAQEBAQsBglZ0X0JJlksDgROQN4xRFIFqDwEBAQ9EDQQBA?=
+ =?us-ascii?q?YUGAo06AiY2Bw4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFgQ4Thk8Nh?=
+ =?us-ascii?q?loBAgEDGgEMCwEYARsSEBwDAQIvKyMIEAmDAgGCcwIBEbMGgXkzgQGCZkIBM?=
+ =?us-ascii?q?QUJAgJAAVDbKwELFAEFgTMBhT6IHlsYAUSCBYIzJxsbgXKBFYE7gTd2gQWBX?=
+ =?us-ascii?q?AEBAgGBIAoLEIZdBIINFYEMgV0eUoFOICeMDUiBHgNZLAFVEw0KCwcFgWYDN?=
+ =?us-ascii?q?RIqFW4yHYEjPheBDBsHBYFKgTdogQKFECMfAzmBFYF6gShnaRUwNWwDCxgNS?=
+ =?us-ascii?q?BEsNxQbBD5uB4w6Fw+BPAkBawcBDR8EDCQaEwEKBgsOAhQDPyUIAhMBAQYlB?=
+ =?us-ascii?q?x0DEQgEKQEKERgCDwOSQx0HAQEBBwyQCoIhgTWJPpRegT4KKIN0jCGVOhozh?=
+ =?us-ascii?q?ASBV5I/klGZB44KlWcZGDeEaIFvATSBWXAVO4JnCUoZD44qAwsLg2BWg3pDU?=
+ =?us-ascii?q?WyDO75FJDUCCTIBAQcCBw4DC4FohGGLIAEmB4FOAQE?=
+IronPort-Data: A9a23:w0O+Waz2fwImHxoRO496t+dmxyrEfRIJ4+MujC+fZmUNrF6WrkUDn
+ 2JMXWHXP/yOMDD1c9Byb47g9k1Uu5fUn9FhQVNlpFhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4+aT/H3Ygf/hWYqazpMsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJEQULZFC89opPWMNr
+ fk0AwwuQS6fwMvjldpXSsE07igiBNPgMIVavjRryivUSK5/B5vCWK7No9Rf2V/chOgXQq2YP
+ JVfM2cyKk2bM3WjOX9PYH46tO6znnDldjRCgFmUvqEwpWPUyWSd1ZCxYYCIK4TQFZg9ckCwh
+ WX+3kq+MDIhD/uQ7h2831WRpejMtHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBXy4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:5iPu+6m8b1aklIiOMaTBxcqQWZbpDfL03DAbv31ZSRFFG/FwWf
+ rAoB19726StN9/YhAdcLy7VZVoBEmsl6KdgrNhWYtKIjOHhILAFugLhuHfKn/bakjDH4Vmu5
+ uIHZITNDTYNykdsS+D2njaL/8QhP+a7auvmeDSi11pTQ1sduVcyj0RMHfjLqWzLzM2fqbQ0/
+ Gnl7J6mwY=
+X-Talos-CUID: 9a23:P1JOA2BO/UNvI2/6EyxF5FJOE/x7Tn+elHL8CHObJlh1D5TAHA==
+X-Talos-MUID: 9a23:7yhSxQtwyJ1yLKeB/s2npzZaFekv0YeVM2cCtrI/lu65FitzEmLI
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.24,197,1774310400"; 
-   d="scan'208";a="491708131"
-Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 10 Jun 2026 10:06:35 +0000
+   d="scan'208";a="492590285"
+Received: from rcdn-l-core-01.cisco.com ([173.37.255.138])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 10 Jun 2026 10:06:31 +0000
 Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 989DA18000257;
-	Wed, 10 Jun 2026 10:06:35 +0000 (GMT)
+	by rcdn-l-core-01.cisco.com (Postfix) with ESMTPS id 74A73180001C5;
+	Wed, 10 Jun 2026 10:06:31 +0000 (GMT)
 Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
-	id 45D98CC1611; Wed, 10 Jun 2026 03:06:35 -0700 (PDT)
+	id 212FCCC1611; Wed, 10 Jun 2026 03:06:31 -0700 (PDT)
 From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com, to@cisco.com,
 	Ashishkumar Parmar <asparmar@cisco.com>
-Subject: [OE-core] [scarthgap] [PATCH 5/5] bind: Fix CVE-2026-5946
-Date: Wed, 10 Jun 2026 03:04:04 -0700
-Message-Id: <20260610100404.2993940-5-asparmar@cisco.com>
+Subject: [OE-core] [scarthgap] [PATCH 3/5] bind: Fix CVE-2026-3592
+Date: Wed, 10 Jun 2026 03:04:02 -0700
+Message-Id: <20260610100404.2993940-3-asparmar@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260610100404.2993940-1-asparmar@cisco.com>
 References: <20260610100404.2993940-1-asparmar@cisco.com>
@@ -84,1075 +83,2322 @@ Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
-X-Outbound-Node: rcdn-l-core-11.cisco.com
+X-Outbound-Node: rcdn-l-core-01.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 10:06:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238346
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238344
 
 From: Ashishkumar Parmar <asparmar@cisco.com>
 
-Pick the upstream 9.18 backport [1] for CVE-2026-5946. The public ISC
+Pick the upstream 9.18 backport [1] for CVE-2026-3592. The public ISC
 advisory [2] describes the vulnerability and identifies the fixed BIND
 release.
 
-The upstream fix is split across prerequisite ownership/update helpers,
-non-IN class handling changes, and system-test coverage. Apply the
-dependent patches first because later patches use MOVE_OWNERSHIP() and
-the updated DNS UPDATE ownership flow:
+The upstream fix is split across resolver limits, glue deduplication,
+and system-test coverage. Apply the implementation patches before the
+tests so the test changes exercise the same behavior as the upstream
+fix set:
 
-- CVE-2026-5946-dependent_p1.patch [3] adds the MOVE_OWNERSHIP() helper
-  used by the following update-path prerequisite.
-- CVE-2026-5946-dependent_p2.patch [4] fixes DNS UPDATE SSU table
-  ownership handling and depends on MOVE_OWNERSHIP().
-- CVE-2026-5946_p1.patch [5] disables recursion for non-IN classes.
-- CVE-2026-5946_p2.patch [6] disables UPDATE and NOTIFY for non-IN
-  classes.
-- CVE-2026-5946_p3.patch [7] validates DNS message CLASS early in
-  request processing.
-- CVE-2026-5946_p4.patch [8] rejects meta-classes in UPDATE and NOTIFY
-  messages.
-- CVE-2026-5946_p5.patch [9] skips deny-answer-address handling for
-  non-IN addresses.
-- CVE-2026-5946_p6.patch [10] tests CHAOS view recursion behavior.
-- CVE-2026-5946_p7.patch [11] tests UPDATE behavior in CHAOS and other
-  non-IN classes.
-- CVE-2026-5946_p8.patch [12] tests server behavior for different UPDATE
-  requests.
-- CVE-2026-5946_p9.patch [13] makes the RD flag optional in
-  isctest.query() for the test coverage above.
+- CVE-2026-3592_p1.patch [3] limits the number of addresses returned
+  per ADB find.
+- CVE-2026-3592_p2.patch [4] removes duplicate addresses from the
+  resolver SLIST.
+- CVE-2026-3592_p3.patch [5] adds the self-pointed glue deduplication
+  system test.
+- CVE-2026-3592_p4.patch [6] syncs asyncserver.py from the development
+  branch, with downstream backport adjustments for the 9.18.44 test
+  tree.
+- CVE-2026-3592_p5.patch [7] adds the SRTT-based server selection
+  system test.
+- CVE-2026-3592_p6.patch [8] fixes the resend_loop system test after
+  the preceding test-support changes.
 
 Keep the patches split to preserve the upstream commit structure and to
 make the SRC_URI ordering explicit.
 
-[1] https://gitlab.com/isc-projects/bind9/-/commit/7ce6ce37b1b04af0953ed2d3211587465085600e
-[2] https://kb.isc.org/docs/cve-2026-5946
-[3] https://gitlab.com/isc-projects/bind9/-/commit/8a0a0b01ff00d51509cf7e9ee8ca7bd076ba7b28
-[4] https://gitlab.com/isc-projects/bind9/-/commit/f6fdc77c4699db4e54165e1759e7bf3d639b30cb
-[5] https://gitlab.com/isc-projects/bind9/-/commit/401a6374b026afb76a7b22acc4a1402d21a7e77b
-[6] https://gitlab.com/isc-projects/bind9/-/commit/04092ed136c8a6db2b1059dcd32693d57a7bdc24
-[7] https://gitlab.com/isc-projects/bind9/-/commit/b247dbb3506ef628a683d184fbc6a99fad45ed94
-[8] https://gitlab.com/isc-projects/bind9/-/commit/185c10981b941bfa5b753b3624b6e11ccca8737f
-[9] https://gitlab.com/isc-projects/bind9/-/commit/772d1d5f905c819d7155e76a08c33218bfcc973e
-[10] https://gitlab.com/isc-projects/bind9/-/commit/ba6b159d880e803decb85fdc88280b23d6f3a652
-[11] https://gitlab.com/isc-projects/bind9/-/commit/e5b3149b70ed24f7590b6bc08aad4492a00c2022
-[12] https://gitlab.com/isc-projects/bind9/-/commit/7e3d49815c3b8243b009c29955cef018fe87b7f0
-[13] https://gitlab.com/isc-projects/bind9/-/commit/d79f2d3f35887ea4525e283d389d9078fa1ef439
+[1] https://gitlab.com/isc-projects/bind9/-/commit/5abfbc2663023e0c6f2a08ee6a7986f2a404f2f6
+[2] https://kb.isc.org/docs/cve-2026-3592
+[3] https://gitlab.com/isc-projects/bind9/-/commit/695362e3438c832ed0e39e144a77f233113d3431
+[4] https://gitlab.com/isc-projects/bind9/-/commit/e25eaf9e6e09bbdd826252226144570222d542d8
+[5] https://gitlab.com/isc-projects/bind9/-/commit/d2a67ba22246029192d8072d31b97e3bfd235f64
+[6] https://gitlab.com/isc-projects/bind9/-/commit/b0e8966647e744482edc06e48bc9ff5079a1c541
+[7] https://gitlab.com/isc-projects/bind9/-/commit/d5cd9b71ebadf7c0c76f09c5bbb65b6a7b944d0d
+[8] https://gitlab.com/isc-projects/bind9/-/commit/cb13dcabdb64bdb5f8f7ed33980aaf470a90e877
 
 Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 ---
- .../bind/CVE-2026-5946-dependent_p1.patch     |  39 ++
- .../bind/CVE-2026-5946-dependent_p2.patch     |  78 ++++
- .../bind/bind/CVE-2026-5946_p1.patch          | 216 +++++++++++
- .../bind/bind/CVE-2026-5946_p2.patch          | 244 +++++++++++++
- .../bind/bind/CVE-2026-5946_p3.patch          | 169 +++++++++
- .../bind/bind/CVE-2026-5946_p4.patch          |  56 +++
- .../bind/bind/CVE-2026-5946_p5.patch          |  40 +++
- .../bind/bind/CVE-2026-5946_p6.patch          | 336 ++++++++++++++++++
- .../bind/bind/CVE-2026-5946_p7.patch          | 153 ++++++++
- .../bind/bind/CVE-2026-5946_p8.patch          | 225 ++++++++++++
- .../bind/bind/CVE-2026-5946_p9.patch          |  44 +++
- .../recipes-connectivity/bind/bind_9.18.44.bb |  11 +
- 12 files changed, 1611 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5946-dependent_p1.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5946-dependent_p2.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5946_p1.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5946_p2.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5946_p3.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5946_p4.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5946_p5.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5946_p6.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5946_p7.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5946_p8.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5946_p9.patch
+ .../bind/bind/CVE-2026-3592_p1.patch          | 115 +++
+ .../bind/bind/CVE-2026-3592_p2.patch          | 334 +++++++
+ .../bind/bind/CVE-2026-3592_p3.patch          | 629 +++++++++++++
+ .../bind/bind/CVE-2026-3592_p4.patch          | 891 ++++++++++++++++++
+ .../bind/bind/CVE-2026-3592_p5.patch          | 554 +++++++++++
+ .../bind/bind/CVE-2026-3592_p6.patch          |  41 +
+ .../recipes-connectivity/bind/bind_9.18.44.bb |   6 +
+ 7 files changed, 2570 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-3592_p1.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-3592_p2.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-3592_p3.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-3592_p4.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-3592_p5.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-3592_p6.patch
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5946-dependent_p1.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5946-dependent_p1.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p1.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p1.patch
 new file mode 100644
-index 0000000000..68ad96da85
+index 0000000000..3955165a5f
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5946-dependent_p1.patch
-@@ -0,0 +1,39 @@
-+From 8a0a0b01ff00d51509cf7e9ee8ca7bd076ba7b28 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Ond=C5=99ej=20Sur=C3=BD?= <ondrej@isc.org>
-+Date: Fri, 20 Mar 2026 02:15:17 +0100
-+Subject: [PATCH] Add MOVE_OWNERSHIP() macro for transferring pointer ownership
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p1.patch
+@@ -0,0 +1,115 @@
++From 2910d537ac86aa033023678c70ded227ebda1af3 Mon Sep 17 00:00:00 2001
++From: Colin Vidal <colin@isc.org>
++Date: Thu, 5 Feb 2026 09:46:01 +0100
++Subject: [PATCH] Limit the number of addresses returned per ADB find
 +
-+A helper macro that returns the current value of a pointer and sets
-+it to NULL in one expression, useful for transferring ownership in
-+designated initializers.
++Add a hard limit on the number of addresses that ADB returns from a
++single NS lookup (dns_adbfind_t).  This mitigates a flood attack
++where an attacker controls a zone with many addresses for a
++nameserver, each returning an invalid response.  The global
++max-query count (default 50) also limits this, but significant harm
++can be done before that limit is reached.
 +
-+CVE: CVE-2026-5946
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/8a0a0b01ff00d51509cf7e9ee8ca7bd076ba7b28]
++The default limit is now 6 (v4 and/or v6) addresses for an ADB find (so,
++ADB looking up for A/AAAA addresses of a name server name). It can be
++overridden for testing via 'named -T adbaddrslimit=N'.
 +
-+(cherry picked from commit 8a0a0b01ff00d51509cf7e9ee8ca7bd076ba7b28)
++CVE: CVE-2026-3592
++Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/695362e3438c832ed0e39e144a77f233113d3431]
++
++(cherry picked from commit 3ec37fc69356ee682bee7f67940613ac31d93d7b)
++(cherry picked from commit 695362e3438c832ed0e39e144a77f233113d3431)
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ lib/isc/include/isc/util.h | 7 +++++++
-+ 1 file changed, 7 insertions(+)
++ bin/named/main.c |  9 +++++++++
++ lib/dns/adb.c    | 26 ++++++++++++++++++++++++++
++ 2 files changed, 35 insertions(+)
 +
-+diff --git a/lib/isc/include/isc/util.h b/lib/isc/include/isc/util.h
-+index 2d507c3f7e..222dac56bc 100644
-+--- a/lib/isc/include/isc/util.h
-++++ b/lib/isc/include/isc/util.h
-+@@ -47,6 +47,13 @@
-+  *** General Macros.
-+  ***/
++diff --git a/bin/named/main.c b/bin/named/main.c
++index df47e8d667..ddd43c9b2c 100644
++--- a/bin/named/main.c
+++++ b/bin/named/main.c
++@@ -114,6 +114,8 @@ extern unsigned int dns_zone_mkey_hour;
++ extern unsigned int dns_zone_mkey_day;
++ extern unsigned int dns_zone_mkey_month;
 + 
-++#define MOVE_OWNERSHIP(source)                             \
-++	({                                                 \
-++		__typeof__(source) __ownership = (source); \
-++		(source) = NULL;                           \
-++		__ownership;                               \
-++	})
+++extern size_t dns_adb_addrslimit;
 ++
-+ /*%
-+  * Use this to hide unused function arguments.
-+  * \code
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5946-dependent_p2.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5946-dependent_p2.patch
-new file mode 100644
-index 0000000000..d7b5e167d7
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5946-dependent_p2.patch
-@@ -0,0 +1,78 @@
-+From f6fdc77c4699db4e54165e1759e7bf3d639b30cb Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Ond=C5=99ej=20Sur=C3=BD?= <ondrej@sury.org>
-+Date: Wed, 18 Mar 2026 03:55:51 +0100
-+Subject: [PATCH] Fix TOCTOU race in DNS UPDATE SSU table handling
-+
-+Pass the SSU table through the update event struct from
-+send_update() to update_action() instead of reading it from the
-+zone twice.  If rndc reconfig changed the zone's update policy
-+between the two reads (e.g., from allow-update to update-policy),
-+send_update() would skip the maxbytype allocation but
-+update_action() would see a non-NULL ssutable, triggering
-+INSIST(ssutable == NULL || maxbytype != NULL) and crashing named.
-+
-+The ssutable reference is now taken once in send_update() and
-+transferred to update_action() via the event struct, ensuring
-+both functions see the same value.
-+
-+CVE: CVE-2026-5946
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/f6fdc77c4699db4e54165e1759e7bf3d639b30cb]
-+
-+(cherry picked from commit c172416559e62a31de27061648db7ffe3b1b7f63)
-+(cherry picked from commit f6fdc77c4699db4e54165e1759e7bf3d639b30cb)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ lib/ns/update.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/lib/ns/update.c b/lib/ns/update.c
-+index c3e4eb115d..c02535130f 100644
-+--- a/lib/ns/update.c
-++++ b/lib/ns/update.c
-+@@ -203,6 +203,7 @@ struct update_event {
-+ 	dns_zone_t *zone;
-+ 	isc_result_t result;
-+ 	dns_message_t *answer;
-++	dns_ssutable_t *ssutable;
-+ 	unsigned int *maxbytype;
-+ 	size_t maxbytypelen;
-+ };
-+@@ -1850,9 +1851,9 @@ send_update_event(ns_client_t *client, dns_zone_t *zone) {
-+ 		sizeof(*event));
-+ 	event->zone = zone;
-+ 	event->result = ISC_R_SUCCESS;
-+-	event->maxbytype = maxbytype;
-++	event->ssutable = MOVE_OWNERSHIP(ssutable);
-++	event->maxbytype = MOVE_OWNERSHIP(maxbytype);
-+ 	event->maxbytypelen = maxbytypelen;
-+-	maxbytype = NULL;
++ static bool want_stats = false;
++ static char program_name[NAME_MAX] = "named";
++ static char absolute_conffile[PATH_MAX];
++@@ -805,6 +807,13 @@ parse_T_opt(char *option) {
++ 		transferstuck = true;
++ 	} else if (!strncmp(option, "tat=", 4)) {
++ 		named_g_tat_interval = atoi(option + 4);
+++	} else if (!strncmp(option, "adbaddrslimit=", 14)) {
+++		size_t adb_addrslimit = atoi(option + 14);
+++		if (adb_addrslimit < 1) {
+++			named_main_earlyfatal("adbaddrslimit must be at "
+++					      "least 1");
+++		}
+++		dns_adb_addrslimit = adb_addrslimit;
++ 	} else {
++ 		fprintf(stderr, "unknown -T flag '%s'\n", option);
++ 	}
++diff --git a/lib/dns/adb.c b/lib/dns/adb.c
++index 6ff9069a47..31b489e04a 100644
++--- a/lib/dns/adb.c
+++++ b/lib/dns/adb.c
++@@ -86,6 +86,15 @@
 + 
-+ 	INSIST(client->nupdates == 0);
-+ 	client->nupdates++;
-+@@ -2840,6 +2841,7 @@ update_action(isc_task_t *task, isc_event_t *event) {
-+ 	update_event_t *uev = (update_event_t *)event;
-+ 	dns_zone_t *zone = uev->zone;
-+ 	ns_client_t *client = (ns_client_t *)event->ev_arg;
-++	dns_ssutable_t *ssutable = uev->ssutable;
-+ 	unsigned int *maxbytype = uev->maxbytype;
-+ 	size_t update = 0, maxbytypelen = uev->maxbytypelen;
-+ 	isc_result_t result;
-+@@ -2854,7 +2856,6 @@ update_action(isc_task_t *task, isc_event_t *event) {
-+ 	dns_message_t *request = client->message;
-+ 	dns_rdataclass_t zoneclass;
-+ 	dns_name_t *zonename = NULL;
-+-	dns_ssutable_t *ssutable = NULL;
-+ 	dns_fixedname_t tmpnamefixed;
-+ 	dns_name_t *tmpname = NULL;
-+ 	dns_zoneopt_t options;
-+@@ -2874,7 +2875,6 @@ update_action(isc_task_t *task, isc_event_t *event) {
-+ 	CHECK(dns_zone_getdb(zone, &db));
-+ 	zonename = dns_db_origin(db);
-+ 	zoneclass = dns_db_class(db);
-+-	dns_zone_getssutable(zone, &ssutable);
-+ 	options = dns_zone_getoptions(zone);
++ #define DNS_ADB_MINADBSIZE (1024U * 1024U) /*%< 1 Megabyte */
 + 
-+ 	/*
+++/*
+++ * Default and override for the per-find address limit, the sum of the number of
+++ * A and AAAA RR from an ADB NS name resolution.  When non-zero, this value is
+++ * used instead of the default.  Can be set via 'named -T adbaddrslimit=N' for
+++ * testing.
+++ */
+++#define DEFAULT_ADDRSLIMIT 6
+++size_t dns_adb_addrslimit = 0;
+++
++ typedef ISC_LIST(dns_adbname_t) dns_adbnamelist_t;
++ typedef struct dns_adbnamehook dns_adbnamehook_t;
++ typedef ISC_LIST(dns_adbnamehook_t) dns_adbnamehooklist_t;
++@@ -2200,6 +2209,9 @@ copy_namehook_lists(dns_adb_t *adb, dns_adbfind_t *find,
++ 	dns_adbaddrinfo_t *addrinfo;
++ 	dns_adbentry_t *entry;
++ 	int bucket;
+++	size_t count = 0;
+++	size_t limit = dns_adb_addrslimit != 0 ? dns_adb_addrslimit
+++					       : DEFAULT_ADDRSLIMIT;
++ 
++ 	bucket = DNS_ADB_INVALIDBUCKET;
++ 
++@@ -2232,6 +2244,13 @@ copy_namehook_lists(dns_adb_t *adb, dns_adbfind_t *find,
++ 			inc_entry_refcnt(adb, entry, false);
++ 			ISC_LIST_APPEND(find->list, addrinfo, publink);
++ 			addrinfo = NULL;
+++
+++			if (++count >= limit) {
+++				DP(ISC_LOG_DEBUG(3), "skipping addresses");
+++				UNLOCK(&adb->entrylocks[bucket]);
+++				return;
+++			}
+++
++ 		nextv4:
++ 			UNLOCK(&adb->entrylocks[bucket]);
++ 			bucket = DNS_ADB_INVALIDBUCKET;
++@@ -2267,6 +2286,13 @@ copy_namehook_lists(dns_adb_t *adb, dns_adbfind_t *find,
++ 			inc_entry_refcnt(adb, entry, false);
++ 			ISC_LIST_APPEND(find->list, addrinfo, publink);
++ 			addrinfo = NULL;
+++
+++			if (++count >= limit) {
+++				DP(ISC_LOG_DEBUG(3), "skipping addresses");
+++				UNLOCK(&adb->entrylocks[bucket]);
+++				return;
+++			}
+++
++ 		nextv6:
++ 			UNLOCK(&adb->entrylocks[bucket]);
++ 			bucket = DNS_ADB_INVALIDBUCKET;
 +-- 
 +2.35.6
 +
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p1.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p1.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p2.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p2.patch
 new file mode 100644
-index 0000000000..0238e2df8e
+index 0000000000..024158b13c
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p1.patch
-@@ -0,0 +1,216 @@
-+From e1a09175d8bb35900dfb8b356717b53ef0cc2cf9 Mon Sep 17 00:00:00 2001
-+From: Evan Hunt <each@isc.org>
-+Date: Tue, 3 Mar 2026 14:00:38 -0800
-+Subject: [PATCH] Disable recursion for non-IN classes
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p2.patch
+@@ -0,0 +1,334 @@
++From d77197dd24af873e64a5511800a3ca5aa262eed6 Mon Sep 17 00:00:00 2001
++From: Colin Vidal <colin@isc.org>
++Date: Wed, 4 Feb 2026 10:18:42 +0100
++Subject: [PATCH] Remove duplicate addresses from the resolver SLIST
 +
-+Force recursion off, and set allow-recursion/allow-recursion-on ACLs
-+to none, for views with a class other than IN. Log a configuration
-+warning if recursion is explicitly enabled for a non-IN view.
++The SLIST (essentially `fctx->finds`, forwarders and dual-stack
++alternatives aside) can have duplicate server addresses when multiple
++in-domain nameservers share the same IP addresses:
 +
-+This addresses YWH-PGM40640-74 and YWH-PGM40640-75 by preventing any
-+attempt at recursive processing in a class-CHAOS view, ensuring that
-+server addresses used for recursive queries and received in recursive
-+responses are of the expected format.
++  sub.example.          NS      ns1.sub.example.
++  sub.example.          NS      ns2.sub.example.
++  ns1.sub.example.      A       1.2.3.4
++  ns1.sub.example.      A       5.6.7.8
++  ns2.sub.example.      A       1.2.3.4
++  ns2.sub.example.      A       5.6.7.8
 +
-+Fixes: isc-projects/bind9#5780
-+Fixes: isc-projects/bind9#5781
++If both 1.2.3.4 and 5.6.7.8 fail to return a valid answer, the resolver
++would query each address twice.
 +
-+CVE: CVE-2026-5946
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/401a6374b026afb76a7b22acc4a1402d21a7e77b]
++The problem is fixed by replacing the two-phase server selection (sort
++each find list by SRTT, sort finds by head SRTT) with a single linear
++scan in nextaddress() that finds the lowest-SRTT unmarked, non-duplicate
++address across all find lists.
 +
-+Backport Changes:
-+- Adjusted the system-test path from allow_query to allow-query
-+  to match the BIND 9.18.44 source tree layout.
++The old approach had a correctness bug: after sorting, the resolver
++picked the next address from the "current" find list rather than
++globally.  For example, with find lists [1, 15, 26] and [3, 4, 5], the
++second pick would be SRTT 15 instead of the correct SRTT 3.
 +
-+(cherry picked from commit 7becff1a14684a68208c92b3b0315c045c05ad75)
-+(cherry picked from commit 401a6374b026afb76a7b22acc4a1402d21a7e77b)
++The new approach is both simpler and correct: each call to nextaddress()
++walks all addresses, skips marked and duplicate entries, and returns the
++one with the lowest SRTT.  While this walk is repeated for each server
++attempt, it operates on a small bounded list and is negligible compared
++to the network I/O of querying the server.
++
++CVE: CVE-2026-3592
++Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/e25eaf9e6e09bbdd826252226144570222d542d8]
++
++(cherry picked from commit b1c5856a3764b4025e93f8baf06c45c8fa029752)
++(cherry picked from commit e25eaf9e6e09bbdd826252226144570222d542d8)
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ bin/named/server.c                    | 41 ++++++++-------------------
-+ bin/tests/system/allow-query/tests.sh |  2 +-
-+ bin/tests/system/checkconf/tests.sh   |  1 +
-+ bin/tests/system/resolver/tests.sh    |  8 ++++--
-+ lib/bind9/check.c                     | 22 ++++++++++++--
-+ 5 files changed, 38 insertions(+), 36 deletions(-)
++ lib/dns/resolver.c | 226 +++++++++++++++++++--------------------------
++ 1 file changed, 93 insertions(+), 133 deletions(-)
 +
-+diff --git a/bin/named/server.c b/bin/named/server.c
-+index 125bfa8f94..7aa0f8b140 100644
-+--- a/bin/named/server.c
-++++ b/bin/named/server.c
-+@@ -4515,6 +4515,7 @@ configure_view(dns_view_t *view, dns_viewlist_t *viewlist, cfg_obj_t *config,
-+ 	obj = NULL;
-+ 	result = named_config_get(maps, "max-cache-size", &obj);
-+ 	INSIST(result == ISC_R_SUCCESS);
-++
++diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
++index cc40f862d1..c1584c3399 100644
++--- a/lib/dns/resolver.c
+++++ b/lib/dns/resolver.c
++@@ -369,7 +369,16 @@ struct fetchctx {
++ 	dns_message_t *qmessage;
++ 	ISC_LIST(resquery_t) queries;
++ 	dns_adbfindlist_t finds;
++-	dns_adbfind_t *find;
+++	/*
+++	 * This is a state to keep track of the latest upstream server which is
+++	 * being queried. See `nextaddress()`.
+++	 *
+++	 * `addrinfo` is basically a copy of `foundaddrinfo` but came from the
+++	 * response of the query, so fields like the SRTT/timing might have been
+++	 * altered. So it might be possible (?) to wrap those two in an union
+++	 * for clarity (and memory saving).
+++	 */
+++	dns_adbaddrinfo_t *foundaddrinfo;
 + 	/*
-+ 	 * If "-T maxcachesize=..." is in effect, it overrides any other
-+ 	 * "max-cache-size" setting found in configuration, either implicit or
-+@@ -5224,34 +5225,15 @@ configure_view(dns_view_t *view, dns_viewlist_t *viewlist, cfg_obj_t *config,
++ 	 * altfinds are names and/or addresses of dual stack servers that
++ 	 * should be used when iterative resolution to a server is not
++@@ -1534,7 +1543,7 @@ fctx_cleanup(fetchctx_t *fctx) {
++ 		dns_adb_destroyfind(&find);
++ 		fctx_unref(fctx);
 + 	}
++-	fctx->find = NULL;
+++	fctx->foundaddrinfo = NULL;
 + 
-+ 	/*
-+-	 * We have default hints for class IN if we need them.
-++	 * We have default root hints for class IN if we need them.
-++	 * Each view gets its own rootdb so a priming response only
-++	 * writes into that view's copy.  Other classes don't support
-++	 * recursion and don't need hints.
-+ 	 */
-+ 	if (view->rdclass == dns_rdataclass_in && view->hints == NULL) {
-+ 		dns_view_sethints(view, named_g_server->in_roothints);
-+ 	}
++ 	for (find = ISC_LIST_HEAD(fctx->altfinds); find != NULL;
++ 	     find = next_find)
++@@ -3355,91 +3364,10 @@ add_bad(fetchctx_t *fctx, dns_message_t *rmessage, dns_adbaddrinfo_t *addrinfo,
++ }
 + 
-+-	/*
-+-	 * If we still have no hints, this is a non-IN view with no
-+-	 * "hints zone" configured.  Issue a warning, except if this
-+-	 * is a root server.  Root servers never need to consult
-+-	 * their hints, so it's no point requiring users to configure
-+-	 * them.
-+-	 */
-+-	if (view->hints == NULL) {
-+-		dns_zone_t *rootzone = NULL;
-+-		(void)dns_view_findzone(view, dns_rootname, &rootzone);
-+-		if (rootzone != NULL) {
-+-			dns_zone_detach(&rootzone);
-+-			need_hints = false;
++ /*
++- * Sort addrinfo list by RTT.
++- */
++-static void
++-sort_adbfind(dns_adbfind_t *find, unsigned int bias) {
++-	dns_adbaddrinfo_t *best, *curr;
++-	dns_adbaddrinfolist_t sorted;
++-	unsigned int best_srtt, curr_srtt;
++-
++-	/* Lame N^2 bubble sort. */
++-	ISC_LIST_INIT(sorted);
++-	while (!ISC_LIST_EMPTY(find->list)) {
++-		best = ISC_LIST_HEAD(find->list);
++-		best_srtt = best->srtt;
++-		if (isc_sockaddr_pf(&best->sockaddr) != AF_INET6) {
++-			best_srtt += bias;
 +-		}
-+-		if (need_hints) {
-+-			isc_log_write(named_g_lctx, NAMED_LOGCATEGORY_GENERAL,
-+-				      NAMED_LOGMODULE_SERVER, ISC_LOG_WARNING,
-+-				      "no root hints for view '%s'",
-+-				      view->name);
++-		curr = ISC_LIST_NEXT(best, publink);
++-		while (curr != NULL) {
++-			curr_srtt = curr->srtt;
++-			if (isc_sockaddr_pf(&curr->sockaddr) != AF_INET6) {
++-				curr_srtt += bias;
++-			}
++-			if (curr_srtt < best_srtt) {
++-				best = curr;
++-				best_srtt = curr_srtt;
++-			}
++-			curr = ISC_LIST_NEXT(curr, publink);
++-		}
++-		ISC_LIST_UNLINK(find->list, best, publink);
++-		ISC_LIST_APPEND(sorted, best, publink);
++-	}
++-	find->list = sorted;
++-}
++-
++-/*
++- * Sort a list of finds by server RTT.
++- */
++-static void
++-sort_finds(dns_adbfindlist_t *findlist, unsigned int bias) {
++-	dns_adbfind_t *best, *curr;
++-	dns_adbfindlist_t sorted;
++-	dns_adbaddrinfo_t *addrinfo, *bestaddrinfo;
++-	unsigned int best_srtt, curr_srtt;
++-
++-	/* Sort each find's addrinfo list by SRTT. */
++-	for (curr = ISC_LIST_HEAD(*findlist); curr != NULL;
++-	     curr = ISC_LIST_NEXT(curr, publink))
++-	{
++-		sort_adbfind(curr, bias);
++-	}
++-
++-	/* Lame N^2 bubble sort. */
++-	ISC_LIST_INIT(sorted);
++-	while (!ISC_LIST_EMPTY(*findlist)) {
++-		best = ISC_LIST_HEAD(*findlist);
++-		bestaddrinfo = ISC_LIST_HEAD(best->list);
++-		INSIST(bestaddrinfo != NULL);
++-		best_srtt = bestaddrinfo->srtt;
++-		if (isc_sockaddr_pf(&bestaddrinfo->sockaddr) != AF_INET6) {
++-			best_srtt += bias;
++-		}
++-		curr = ISC_LIST_NEXT(best, publink);
++-		while (curr != NULL) {
++-			addrinfo = ISC_LIST_HEAD(curr->list);
++-			INSIST(addrinfo != NULL);
++-			curr_srtt = addrinfo->srtt;
++-			if (isc_sockaddr_pf(&addrinfo->sockaddr) != AF_INET6) {
++-				curr_srtt += bias;
++-			}
++-			if (curr_srtt < best_srtt) {
++-				best = curr;
++-				best_srtt = curr_srtt;
++-			}
++-			curr = ISC_LIST_NEXT(curr, publink);
++-		}
++-		ISC_LIST_UNLINK(*findlist, best, publink);
++-		ISC_LIST_APPEND(sorted, best, publink);
++-	}
++-	*findlist = sorted;
++-}
++-
++-/*
++- * Return true iff the ADB find has a pending fetch for 'type'.  This is
++- * used to find out whether we're in a loop, where a fetch is waiting for a
++- * find which is waiting for that same fetch.
+++ * Return true iff the ADB find has an already pending fetch for 'type'.  This
+++ * is used to find out whether we're in a loop, where a fetch is waiting for a
+++ * find which is waiting for that same fetch. So if the current find actually
+++ * started the fetch, we know it can't be a loop, so we returns false.
++  *
++  * Note: This could be done with either an equivalence check (e.g.,
++  * query_pending == DNS_ADBFIND_INET) or with a bit check, as below.  If
++@@ -3546,6 +3474,7 @@ findname(fetchctx_t *fctx, const dns_name_t *name, in_port_t port,
++ 				}
++ 			}
++ 		}
+++
++ 		if ((flags & FCTX_ADDRINFO_DUALSTACK) != 0) {
++ 			ISC_LIST_APPEND(fctx->altfinds, find, publink);
++ 		} else {
++@@ -3961,8 +3890,6 @@ out:
++ 		 * We've found some addresses.  We might still be
++ 		 * looking for more addresses.
++ 		 */
++-		sort_finds(&fctx->finds, res->view->v6bias);
++-		sort_finds(&fctx->altfinds, 0);
++ 		result = ISC_R_SUCCESS;
++ 	}
++ 
++@@ -4037,6 +3964,80 @@ possibly_mark(fetchctx_t *fctx, dns_adbaddrinfo_t *addr) {
++ 	}
++ }
++ 
+++static dns_adbaddrinfo_t *
+++nextaddress(fetchctx_t *fctx) {
+++	dns_adbaddrinfo_t *prevai = fctx->foundaddrinfo, *lowestsrttai = NULL;
+++	unsigned int v6bias = fctx->res->view->v6bias, lowestsrtt = 0;
+++
+++	/*
+++	 * Let's walk through the list of dns_adbaddrinfo_t to find the best
+++	 * next server address to query. This is linear on the number of
+++	 * dns_adbaddrinfo_t which are grouped in find list (for each ADB find).
+++	 */
+++	for (dns_adbfind_t *find = ISC_LIST_HEAD(fctx->finds); find != NULL;
+++	     find = ISC_LIST_NEXT(find, publink))
+++	{
+++		for (dns_adbaddrinfo_t *ai = ISC_LIST_HEAD(find->list);
+++		     ai != NULL; ai = ISC_LIST_NEXT(ai, publink))
+++		{
+++			/*
+++			 * This address has been marked already, skip it.
+++			 */
+++			if (!UNMARKED(ai)) {
+++				continue;
+++			}
+++
+++			/*
+++			 * This address is the same as the previously used
+++			 * address, it's a duplicate, mark it and skip it!
+++			 */
+++			if (prevai != NULL) {
+++				if (prevai->entry == ai->entry) {
+++					ai->flags |= FCTX_ADDRINFO_MARK;
+++					continue;
+++				}
+++			}
+++
+++			/*
+++			 * Mark and skip this address if incompatible (i.e. IPv6
+++			 * address on a v4 only server, or for ACL reason, etc.)
+++			 */
+++			possibly_mark(fctx, ai);
+++			if (!UNMARKED(ai)) {
+++				continue;
+++			}
+++
+++			/*
+++			 * This address hasn't been tried yet and is a
+++			 * good candidate. Let's keep track of it if it
+++			 * has the lowest SRTT so far (or if there is no
+++			 * address with lowest SRTT found yet).
+++			 */
+++			unsigned int aisrtt = ai->srtt;
+++
+++			if (isc_sockaddr_pf(&ai->sockaddr) != AF_INET6) {
+++				aisrtt += v6bias;
+++			}
+++
+++			if (lowestsrttai == NULL || aisrtt < lowestsrtt) {
+++				lowestsrttai = ai;
+++				lowestsrtt = aisrtt;
+++				continue;
+++			}
+++		}
+++	}
+++
+++	/*
+++	 * This is the next address to query. If this is NULL, we're done.
+++	 */
+++	if (lowestsrttai != NULL) {
+++		lowestsrttai->flags |= FCTX_ADDRINFO_MARK;
+++	}
+++	fctx->foundaddrinfo = lowestsrttai;
+++
+++	return lowestsrttai;
+++}
+++
++ static dns_adbaddrinfo_t *
++ fctx_nextaddress(fetchctx_t *fctx) {
++ 	dns_adbfind_t *find, *start;
++@@ -4059,7 +4060,6 @@ fctx_nextaddress(fetchctx_t *fctx) {
++ 		possibly_mark(fctx, addrinfo);
++ 		if (UNMARKED(addrinfo)) {
++ 			addrinfo->flags |= FCTX_ADDRINFO_MARK;
++-			fctx->find = NULL;
++ 			fctx->forwarding = true;
++ 
++ 			/*
++@@ -4080,49 +4080,9 @@ fctx_nextaddress(fetchctx_t *fctx) {
++ 	fctx->forwarding = false;
++ 	FCTX_ATTR_SET(fctx, FCTX_ATTR_TRIEDFIND);
++ 
++-	find = fctx->find;
++-	if (find == NULL) {
++-		find = ISC_LIST_HEAD(fctx->finds);
++-	} else {
++-		find = ISC_LIST_NEXT(find, publink);
++-		if (find == NULL) {
++-			find = ISC_LIST_HEAD(fctx->finds);
 +-		}
 +-	}
 +-
++-	/*
++-	 * Find the first unmarked addrinfo.
++-	 */
++-	addrinfo = NULL;
++-	if (find != NULL) {
++-		start = find;
++-		do {
++-			for (addrinfo = ISC_LIST_HEAD(find->list);
++-			     addrinfo != NULL;
++-			     addrinfo = ISC_LIST_NEXT(addrinfo, publink))
++-			{
++-				if (!UNMARKED(addrinfo)) {
++-					continue;
++-				}
++-				possibly_mark(fctx, addrinfo);
++-				if (UNMARKED(addrinfo)) {
++-					addrinfo->flags |= FCTX_ADDRINFO_MARK;
++-					break;
++-				}
++-			}
++-			if (addrinfo != NULL) {
++-				break;
++-			}
++-			find = ISC_LIST_NEXT(find, publink);
++-			if (find == NULL) {
++-				find = ISC_LIST_HEAD(fctx->finds);
++-			}
++-		} while (find != start);
++-	}
++-
++-	fctx->find = find;
++-	if (addrinfo != NULL) {
++-		return addrinfo;
+++	faddrinfo = nextaddress(fctx);
+++	if (faddrinfo != NULL) {
+++		return faddrinfo;
++ 	}
++ 
 + 	/*
-+ 	 * Configure the view's transports (DoT/DoH)
-+ 	 */
-+@@ -5379,7 +5361,8 @@ configure_view(dns_view_t *view, dns_viewlist_t *viewlist, cfg_obj_t *config,
-+ 	obj = NULL;
-+ 	result = named_config_get(maps, "recursion", &obj);
-+ 	INSIST(result == ISC_R_SUCCESS);
-+-	view->recursion = cfg_obj_asboolean(obj);
-++	view->recursion = (view->rdclass == dns_rdataclass_in &&
-++			   cfg_obj_asboolean(obj));
-+ 
-+ 	obj = NULL;
-+ 	result = named_config_get(maps, "qname-minimization", &obj);
-+@@ -5479,14 +5462,14 @@ configure_view(dns_view_t *view, dns_viewlist_t *viewlist, cfg_obj_t *config,
-+ 	CHECK(configure_view_acl(vconfig, config, NULL, "allow-query-cache-on",
-+ 				 NULL, actx, named_g_mctx, &view->cacheonacl));
-+ 
-+-	if (strcmp(view->name, "_bind") != 0 &&
-+-	    view->rdclass != dns_rdataclass_chaos)
-+-	{
-+-		/* named.conf only */
-++	if (view->rdclass != dns_rdataclass_in) {
-++		view->recursion = false;
-++		dns_acl_none(named_g_mctx, &view->recursionacl);
-++		dns_acl_none(named_g_mctx, &view->recursiononacl);
-++	} else {
-+ 		CHECK(configure_view_acl(vconfig, config, NULL,
-+ 					 "allow-recursion", NULL, actx,
-+ 					 named_g_mctx, &view->recursionacl));
-+-		/* named.conf only */
-+ 		CHECK(configure_view_acl(vconfig, config, NULL,
-+ 					 "allow-recursion-on", NULL, actx,
-+ 					 named_g_mctx, &view->recursiononacl));
-+diff --git a/bin/tests/system/allow-query/tests.sh b/bin/tests/system/allow-query/tests.sh
-+index e59a1abe6b..46d2a78077 100644
-+--- a/bin/tests/system/allow-query/tests.sh
-++++ b/bin/tests/system/allow-query/tests.sh
-+@@ -703,7 +703,7 @@ $DIG -p ${PORT} @10.53.1.2 d.normal.example a >dig.out.ns3.4.$n || ret=1
-+ grep 'recursion requested but not available' dig.out.ns3.4.$n >/dev/null || ret=1
-+ grep 'status: REFUSED' dig.out.ns3.4.$n >/dev/null || ret=1
-+ grep 'EDE: 18 (Prohibited)' dig.out.ns3.4.$n >/dev/null || ret=1
-+-nextpart ns3/named.run | grep 'allow-recursion-on did not match' >/dev/null || ret=1
-++nextpart ns3/named.run | grep 'allow-query-cache-on did not match' >/dev/null || ret=1
-+ if [ $ret != 0 ]; then echo_i "failed"; fi
-+ status=$((status + ret))
-+ 
-+diff --git a/bin/tests/system/checkconf/tests.sh b/bin/tests/system/checkconf/tests.sh
-+index 3bb772e4d5..5da8a20ee1 100644
-+--- a/bin/tests/system/checkconf/tests.sh
-++++ b/bin/tests/system/checkconf/tests.sh
-+@@ -543,6 +543,7 @@ $CHECKCONF -l good.conf \
-+   | grep -v "is not implemented" \
-+   | grep -v "is not recommended" \
-+   | grep -v "no longer exists" \
-++  | grep -v "recursion will be disabled" \
-+   | grep -v "is obsolete" >checkconf.out$n || ret=1
-+ diff good.zonelist checkconf.out$n >diff.out$n || ret=1
-+ if [ $ret -ne 0 ]; then
-+diff --git a/bin/tests/system/resolver/tests.sh b/bin/tests/system/resolver/tests.sh
-+index 2864aae950..db5a18680d 100755
-+--- a/bin/tests/system/resolver/tests.sh
-++++ b/bin/tests/system/resolver/tests.sh
-+@@ -979,10 +979,12 @@ if [ $ret != 0 ]; then echo_i "failed"; fi
-+ status=$((status + ret))
-+ 
-+ n=$((n + 1))
-+-echo_i "checking NXDOMAIN is returned when querying non existing domain in CH class ($n)"
-++echo_i "checking REFUSED is returned when querying non existing domain in CH class ($n)"
-+ ret=0
-+-dig_with_opts @10.53.0.1 id.hostname txt ch >dig.ns1.out.${n} || ret=1
-+-grep "status: NXDOMAIN" dig.ns1.out.${n} >/dev/null || ret=1
-++dig_with_opts @10.53.0.1 hostname.chaostest txt ch >dig.ns1.out.1.${n} || ret=1
-++grep "status: NOERROR" dig.ns1.out.1.${n} >/dev/null || ret=1
-++dig_with_opts @10.53.0.1 id.hostname txt ch >dig.ns1.out.2.${n} || ret=1
-++grep "status: REFUSED" dig.ns1.out.2.${n} >/dev/null || ret=1
-+ if [ $ret != 0 ]; then echo_i "failed"; fi
-+ status=$((status + ret))
-+ 
-+diff --git a/lib/bind9/check.c b/lib/bind9/check.c
-+index cefc3eb3ac..13f3212d08 100644
-+--- a/lib/bind9/check.c
-++++ b/lib/bind9/check.c
-+@@ -2789,13 +2789,17 @@ check_mirror_zone_notify(const cfg_obj_t *zoptions, const char *znamestr,
-+  */
-+ static bool
-+ check_recursion(const cfg_obj_t *config, const cfg_obj_t *voptions,
-+-		const cfg_obj_t *goptions, isc_log_t *logctx,
-+-		cfg_aclconfctx_t *actx, isc_mem_t *mctx) {
-++		dns_rdataclass_t vclass, const cfg_obj_t *goptions,
-++		isc_log_t *logctx, cfg_aclconfctx_t *actx, isc_mem_t *mctx) {
-+ 	dns_acl_t *acl = NULL;
-+ 	const cfg_obj_t *obj;
-+ 	isc_result_t result;
-+ 	bool retval = true;
-+ 
-++	if (vclass != dns_rdataclass_in) {
-++		return false;
-++	}
-++
-+ 	/*
-+ 	 * Check the "recursion" option first.
-+ 	 */
-+@@ -3380,7 +3384,8 @@ check_zoneconf(const cfg_obj_t *zconfig, const cfg_obj_t *voptions,
-+ 	 * contradicts the purpose of the former.
-+ 	 */
-+ 	if (ztype == CFG_ZONE_MIRROR &&
-+-	    !check_recursion(config, voptions, goptions, logctx, actx, mctx))
-++	    !check_recursion(config, voptions, zclass, goptions, logctx, actx,
-++			     mctx))
-+ 	{
-+ 		cfg_obj_log(zoptions, logctx, ISC_LOG_ERROR,
-+ 			    "zone '%s': mirror zones cannot be used if "
-+@@ -5215,6 +5220,17 @@ check_viewconf(const cfg_obj_t *config, const cfg_obj_t *voptions,
-+ 
-+ 	cfg_aclconfctx_create(mctx, &actx);
-+ 
-++	if (vclass != dns_rdataclass_in) {
-++		if (check_recursion(config, voptions, dns_rdataclass_in,
-++				    options, logctx, actx, mctx))
-++		{
-++			cfg_obj_log(opts, logctx, ISC_LOG_WARNING,
-++				    "recursion will be disabled for "
-++				    "non-IN view '%s'",
-++				    viewname);
-++		}
-++	}
-++
-+ 	if (voptions != NULL) {
-+ 		(void)cfg_map_get(voptions, "zone", &zones);
-+ 	} else {
 +-- 
 +2.35.6
 +
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p2.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p2.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p3.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p3.patch
 new file mode 100644
-index 0000000000..4ed15d72f1
+index 0000000000..a14d0243a8
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p2.patch
-@@ -0,0 +1,244 @@
-+From 04092ed136c8a6db2b1059dcd32693d57a7bdc24 Mon Sep 17 00:00:00 2001
-+From: Evan Hunt <each@isc.org>
-+Date: Wed, 4 Mar 2026 13:24:52 -0800
-+Subject: [PATCH] Disable UPDATE and NOTIFY for non-IN classes
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p3.patch
+@@ -0,0 +1,629 @@
++From 1d837ed1dfb8a25cb12cf18a3ce998745adcfbd9 Mon Sep 17 00:00:00 2001
++From: Colin Vidal <colin@isc.org>
++Date: Thu, 5 Feb 2026 11:20:11 +0100
++Subject: [PATCH] Add system test for self-pointed glue deduplication
 +
-+Return NOTIMP for UPDATE and NOTIFY requests received for views with a
-+class other than IN.  Only QUERY is now supported for non-IN views such
-+as CHAOS.
++Test the resolver's behavior with self-pointed glue where each NS
++has the same set of addresses.  Verify that addresses are
++deduplicated and each unique IP is only queried once.
 +
-+When running dns dns_rdata_tostruct() with types that are only defined
-+for class IN, ensure that the class is correct before proceeding.
++Also test the ADB address limit knob (-T adbaddrslimit=).
 +
-+Add an assertion that any zone being updated is of class IN. (Note
-+that previously, a DLZ zone could have its class value set incorrectly
-+to NONE; this has been fixed.)
++CVE: CVE-2026-3592
++Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/d2a67ba22246029192d8072d31b97e3bfd235f64]
 +
-+This addresses YWH-PGM40640-70 and YWH-PGM40640-73 (as well as any
-+similar problems that might have occurred in the future) by minimizing
-+the code paths that can be reached by rdata classes other than IN, so it
-+is safe for the implementation to assume that rdatatypes that are only
-+defined for class IN, such as SVCB or WKS, have been parsed and
-+validated, and not accepted as unknown/opaque data.
-+
-+Fixes: isc-projects/bind9#5777
-+Fixes: isc-projects/bind9#5779
-+
-+CVE: CVE-2026-5946
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/04092ed136c8a6db2b1059dcd32693d57a7bdc24]
-+
-+(cherry picked from commit a6d8e330ed6cf0021bff3f00aa1dc7a296f5aec0)
-+(cherry picked from commit 04092ed136c8a6db2b1059dcd32693d57a7bdc24)
++(cherry picked from commit c21fc6cb95d77312d6fb891f17ce9df41a25af6d)
++(cherry picked from commit d2a67ba22246029192d8072d31b97e3bfd235f64)
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ bin/named/server.c |  2 ++
-+ lib/dns/adb.c      |  2 +-
-+ lib/ns/client.c    |  8 ++++++++
-+ lib/ns/update.c    | 41 ++++++++++++++++++++++-------------------
-+ 4 files changed, 33 insertions(+), 20 deletions(-)
++ .../system/selfpointedglue/ns1/named.conf.j2  |  28 ++++
++ bin/tests/system/selfpointedglue/ns1/root.db  |  24 +++
++ .../system/selfpointedglue/ns2/named.conf.j2  |  28 ++++
++ bin/tests/system/selfpointedglue/ns2/tld.db   |  27 +++
++ .../system/selfpointedglue/ns3/example.tld.db | 155 ++++++++++++++++++
++ .../selfpointedglue/ns3/example2.tld.db       |  33 ++++
++ .../system/selfpointedglue/ns3/named.conf.j2  |  44 +++++
++ .../system/selfpointedglue/ns4/named.args.j2  |   3 +
++ .../system/selfpointedglue/ns4/named.conf.j2  |  59 +++++++
++ .../system/selfpointedglue/ns4/root.hint      |  14 ++
++ bin/tests/system/selfpointedglue/prereq.sh    |  20 +++
++ .../selfpointedglue/tests_selfpointedglue.py  |  75 +++++++++
++ 12 files changed, 510 insertions(+)
++ create mode 100644 bin/tests/system/selfpointedglue/ns1/named.conf.j2
++ create mode 100644 bin/tests/system/selfpointedglue/ns1/root.db
++ create mode 100644 bin/tests/system/selfpointedglue/ns2/named.conf.j2
++ create mode 100644 bin/tests/system/selfpointedglue/ns2/tld.db
++ create mode 100644 bin/tests/system/selfpointedglue/ns3/example.tld.db
++ create mode 100644 bin/tests/system/selfpointedglue/ns3/example2.tld.db
++ create mode 100644 bin/tests/system/selfpointedglue/ns3/named.conf.j2
++ create mode 100644 bin/tests/system/selfpointedglue/ns4/named.args.j2
++ create mode 100644 bin/tests/system/selfpointedglue/ns4/named.conf.j2
++ create mode 100644 bin/tests/system/selfpointedglue/ns4/root.hint
++ create mode 100644 bin/tests/system/selfpointedglue/prereq.sh
++ create mode 100644 bin/tests/system/selfpointedglue/tests_selfpointedglue.py
 +
-+diff --git a/bin/named/server.c b/bin/named/server.c
-+index 307f10cee3..43c4023fb7 100644
-+--- a/bin/named/server.c
-++++ b/bin/named/server.c
-+@@ -1987,10 +1987,12 @@ dlzconfigure_callback(dns_view_t *view, dns_dlzdb_t *dlzdb, dns_zone_t *zone) {
-+ 	dns_rdataclass_t zclass = view->rdclass;
-+ 	isc_result_t result;
-+ 
-++	dns_zone_setclass(zone, zclass);
-+ 	result = dns_zonemgr_managezone(named_g_server->zonemgr, zone);
-+ 	if (result != ISC_R_SUCCESS) {
-+ 		return result;
-+ 	}
++diff --git a/bin/tests/system/selfpointedglue/ns1/named.conf.j2 b/bin/tests/system/selfpointedglue/ns1/named.conf.j2
++new file mode 100644
++index 0000000000..fd83fc3c19
++--- /dev/null
+++++ b/bin/tests/system/selfpointedglue/ns1/named.conf.j2
++@@ -0,0 +1,28 @@
+++/*
+++ * Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++ *
+++ * SPDX-License-Identifier: MPL-2.0
+++ *
+++ * This Source Code Form is subject to the terms of the Mozilla Public
+++ * License, v. 2.0.  If a copy of the MPL was not distributed with this
+++ * file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++ *
+++ * See the COPYRIGHT file distributed with this work for additional
+++ * information regarding copyright ownership.
+++ */
 ++
-+ 	dns_zone_setstats(zone, named_g_server->zonestats);
-+ 
-+ 	return named_zone_configure_writeable_dlz(dlzdb, zone, zclass, origin);
-+diff --git a/lib/dns/adb.c b/lib/dns/adb.c
-+index 87fc357cd8..21ae217a38 100644
-+--- a/lib/dns/adb.c
-++++ b/lib/dns/adb.c
-+@@ -949,7 +949,7 @@ import_rdataset(dns_adbname_t *adbname, dns_rdataset_t *rdataset,
-+ 	INSIST(DNS_ADB_VALID(adb));
-+ 
-+ 	rdtype = rdataset->type;
-+-	INSIST((rdtype == dns_rdatatype_a) || (rdtype == dns_rdatatype_aaaa));
-++	REQUIRE(rdtype == dns_rdatatype_a || rdtype == dns_rdatatype_aaaa);
-+ 
-+ 	addr_bucket = DNS_ADB_INVALIDBUCKET;
-+ 	new_addresses_added = false;
-+diff --git a/lib/ns/client.c b/lib/ns/client.c
-+index 97e99019a4..4c538f5f9f 100644
-+--- a/lib/ns/client.c
-++++ b/lib/ns/client.c
-+@@ -2337,6 +2337,10 @@ ns__client_request(isc_nmhandle_t *handle, isc_result_t eresult,
-+ 		break;
-+ 	case dns_opcode_update:
-+ 		CTRACE("update");
-++		if (client->view->rdclass != dns_rdataclass_in) {
-++			ns_client_error(client, DNS_R_NOTIMP);
-++			break;
-++		}
-+ #ifdef HAVE_DNSTAP
-+ 		dns_dt_send(client->view, DNS_DTTYPE_UQ, &client->peeraddr,
-+ 			    &client->destsockaddr, TCP_CLIENT(client), NULL,
-+@@ -2347,6 +2351,10 @@ ns__client_request(isc_nmhandle_t *handle, isc_result_t eresult,
-+ 		break;
-+ 	case dns_opcode_notify:
-+ 		CTRACE("notify");
-++		if (client->view->rdclass != dns_rdataclass_in) {
-++			ns_client_error(client, DNS_R_NOTIMP);
-++			break;
-++		}
-+ 		ns_client_settimeout(client, 60);
-+ 		ns_notify_start(client, handle);
-+ 		break;
-+diff --git a/lib/ns/update.c b/lib/ns/update.c
-+index 415836fd13..d002019fdf 100644
-+--- a/lib/ns/update.c
-++++ b/lib/ns/update.c
-+@@ -999,7 +999,9 @@ ssu_checkrr(void *data, rr_t *rr) {
-+ 		RUNTIME_CHECK(result == ISC_R_SUCCESS);
-+ 		target = &ptr.ptr;
-+ 	}
-+-	if (rr->rdata.type == dns_rdatatype_srv) {
-++	if (rr->rdata.rdclass == dns_rdataclass_in &&
-++	    rr->rdata.type == dns_rdatatype_srv)
-++	{
-+ 		result = dns_rdata_tostruct(&rr->rdata, &srv, NULL);
-+ 		RUNTIME_CHECK(result == ISC_R_SUCCESS);
-+ 		target = &srv.target;
-+@@ -1354,7 +1356,10 @@ replaces_p(dns_rdata_t *update_rr, dns_rdata_t *db_rr) {
-+ 			return true;
-+ 		}
-+ 	}
-+-	if (db_rr->type == dns_rdatatype_wks) {
+++options {
+++	query-source address 10.53.0.1;
+++	notify-source 10.53.0.1;
+++	transfer-source 10.53.0.1;
+++	port @PORT@;
+++	pid-file "named.pid";
+++	listen-on { 10.53.0.1; };
+++	recursion no;
+++	dnssec-validation no;
+++};
 ++
-++	if (db_rr->rdclass == dns_rdataclass_in &&
-++	    db_rr->type == dns_rdatatype_wks)
-++	{
-+ 		/*
-+ 		 * Compare the address and protocol fields only.  These
-+ 		 * form the first five bytes of the RR data.  Do a
-+@@ -1497,8 +1502,7 @@ cleanup:
-+  * 'rdata', and 'ttl', respectively.
-+  */
-+ static void
-+-get_current_rr(dns_message_t *msg, dns_section_t section,
-+-	       dns_rdataclass_t zoneclass, dns_name_t **name,
-++get_current_rr(dns_message_t *msg, dns_section_t section, dns_name_t **name,
-+ 	       dns_rdata_t *rdata, dns_rdatatype_t *covers, dns_ttl_t *ttl,
-+ 	       dns_rdataclass_t *update_class) {
-+ 	dns_rdataset_t *rdataset;
-+@@ -1514,7 +1518,7 @@ get_current_rr(dns_message_t *msg, dns_section_t section,
-+ 	dns_rdataset_current(rdataset, rdata);
-+ 	INSIST(dns_rdataset_next(rdataset) == ISC_R_NOMORE);
-+ 	*update_class = rdata->rdclass;
-+-	rdata->rdclass = zoneclass;
-++	rdata->rdclass = dns_rdataclass_in;
-+ }
-+ 
-+ /*%
-+@@ -1616,7 +1620,6 @@ send_update_event(ns_client_t *client, dns_zone_t *zone) {
-+ 	dns_message_t *request = client->message;
-+ 	isc_mem_t *mctx = client->manager->mctx;
-+ 	dns_aclenv_t *env = client->manager->aclenv;
-+-	dns_rdataclass_t zoneclass;
-+ 	dns_rdatatype_t covers;
-+ 	dns_name_t *zonename = NULL;
-+ 	unsigned int *maxbytype = NULL;
-+@@ -1626,10 +1629,12 @@ send_update_event(ns_client_t *client, dns_zone_t *zone) {
-+ 
-+ 	CHECK(dns_zone_getdb(zone, &db));
-+ 	zonename = dns_db_origin(db);
-+-	zoneclass = dns_db_class(db);
-+ 	dns_zone_getssutable(zone, &ssutable);
-+ 	dns_db_currentversion(db, &ver);
-+ 
-++	/* Updates are only supported for class IN. */
-++	INSIST(dns_zone_getclass(zone) == dns_rdataclass_in);
+++zone "." {
+++	type primary;
+++	file "root.db";
+++};
++diff --git a/bin/tests/system/selfpointedglue/ns1/root.db b/bin/tests/system/selfpointedglue/ns1/root.db
++new file mode 100644
++index 0000000000..bfbf049b80
++--- /dev/null
+++++ b/bin/tests/system/selfpointedglue/ns1/root.db
++@@ -0,0 +1,24 @@
+++; Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++;
+++; SPDX-License-Identifier: MPL-2.0
+++;
+++; This Source Code Form is subject to the terms of the Mozilla Public
+++; License, v. 2.0.  If a copy of the MPL was not distributed with this
+++; file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++;
+++; See the COPYRIGHT file distributed with this work for additional
+++; information regarding copyright ownership.
 ++
-+ 	/*
-+ 	 * Update message processing can leak record existence information
-+ 	 * so check that we are allowed to query this zone.  Additionally,
-+@@ -1680,13 +1685,13 @@ send_update_event(ns_client_t *client, dns_zone_t *zone) {
-+ 
-+ 		INSIST(ssutable == NULL || update < maxbytypelen);
-+ 
-+-		get_current_rr(request, DNS_SECTION_UPDATE, zoneclass, &name,
-+-			       &rdata, &covers, &ttl, &update_class);
-++		get_current_rr(request, DNS_SECTION_UPDATE, &name, &rdata,
-++			       &covers, &ttl, &update_class);
-+ 
-+ 		if (!dns_name_issubdomain(name, zonename)) {
-+ 			FAILC(DNS_R_NOTZONE, "update RR is outside zone");
-+ 		}
-+-		if (update_class == zoneclass) {
-++		if (update_class == dns_rdataclass_in) {
-+ 			/*
-+ 			 * Check for meta-RRs.  The RFC2136 pseudocode says
-+ 			 * check for ANY|AXFR|MAILA|MAILB, but the text adds
-+@@ -1776,7 +1781,6 @@ send_update_event(ns_client_t *client, dns_zone_t *zone) {
-+ 			}
-+ 
-+ 			if (update_class == dns_rdataclass_any &&
-+-			    zoneclass == dns_rdataclass_in &&
-+ 			    (rdata.type == dns_rdatatype_ptr ||
-+ 			     rdata.type == dns_rdatatype_srv))
-+ 			{
-+@@ -2860,7 +2864,6 @@ update_action(isc_task_t *task, isc_event_t *event) {
-+ 	isc_mem_t *mctx = client->mctx;
-+ 	dns_rdatatype_t covers;
-+ 	dns_message_t *request = client->message;
-+-	dns_rdataclass_t zoneclass;
-+ 	dns_name_t *zonename = NULL;
-+ 	dns_fixedname_t tmpnamefixed;
-+ 	dns_name_t *tmpname = NULL;
-+@@ -2880,9 +2883,9 @@ update_action(isc_task_t *task, isc_event_t *event) {
-+ 
-+ 	CHECK(dns_zone_getdb(zone, &db));
-+ 	zonename = dns_db_origin(db);
-+-	zoneclass = dns_db_class(db);
-+ 	options = dns_zone_getoptions(zone);
-+ 
-++	INSIST(dns_zone_getclass(zone) == dns_rdataclass_in);
-+ 	/*
-+ 	 * Get old and new versions now that queryacl has been checked.
-+ 	 */
-+@@ -2903,8 +2906,8 @@ update_action(isc_task_t *task, isc_event_t *event) {
-+ 		dns_rdataclass_t update_class;
-+ 		bool flag;
-+ 
-+-		get_current_rr(request, DNS_SECTION_PREREQUISITE, zoneclass,
-+-			       &name, &rdata, &covers, &ttl, &update_class);
-++		get_current_rr(request, DNS_SECTION_PREREQUISITE, &name, &rdata,
-++			       &covers, &ttl, &update_class);
-+ 
-+ 		if (ttl != 0) {
-+ 			PREREQFAILC(DNS_R_FORMERR,
-+@@ -2967,7 +2970,7 @@ update_action(isc_task_t *task, isc_event_t *event) {
-+ 						"prerequisite not satisfied");
-+ 				}
-+ 			}
-+-		} else if (update_class == zoneclass) {
-++		} else if (update_class == dns_rdataclass_in) {
-+ 			/* "temp<rr.name, rr.type> += rr;" */
-+ 			result = temp_append(&temp, name, &rdata);
-+ 			if (result != ISC_R_SUCCESS) {
-+@@ -3029,10 +3032,10 @@ update_action(isc_task_t *task, isc_event_t *event) {
-+ 
-+ 		INSIST(ssutable == NULL || update < maxbytypelen);
-+ 
-+-		get_current_rr(request, DNS_SECTION_UPDATE, zoneclass, &name,
-+-			       &rdata, &covers, &ttl, &update_class);
-++		get_current_rr(request, DNS_SECTION_UPDATE, &name, &rdata,
-++			       &covers, &ttl, &update_class);
-+ 
-+-		if (update_class == zoneclass) {
-++		if (update_class == dns_rdataclass_in) {
-+ 			/*
-+ 			 * RFC1123 doesn't allow MF and MD in master files.
-+ 			 */
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p3.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p3.patch
-new file mode 100644
-index 0000000000..9e102015c3
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p3.patch
-@@ -0,0 +1,169 @@
-+From 5c6833d72e2720701e687fd6364ffdc6640e8329 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Ond=C5=99ej=20Sur=C3=BD?= <ondrej@isc.org>
-+Date: Wed, 4 Mar 2026 10:46:58 +0100
-+Subject: [PATCH] Validate DNS message CLASS early in request processing
-+
-+Reject requests with unsupported or misused CLASS values before
-+further processing.  Only IN, CH, HS, RESERVED0 (for DNS Cookies),
-+ANY (for TKEY negotiation), and NONE (for DNS UPDATE) are accepted;
-+all other classes return NOTIMP.  Misuse of NONE or ANY outside
-+their allowed contexts returns FORMERR.
-+
-+This adds further protection against bugs of the same general class
-+as YWH-PGM40640-70 and YWH-PGM40640-73.
-+
-+CVE: CVE-2026-5946
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/b247dbb3506ef628a683d184fbc6a99fad45ed94]
-+
-+(cherry picked from commit 0a687451505037e9f9a850c9cb113aed4995b03f)
-+(cherry picked from commit b247dbb3506ef628a683d184fbc6a99fad45ed94)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ bin/tests/system/unknown/tests.sh | 17 +++++++----
-+ lib/ns/client.c                   | 51 ++++++++++++++++++++++++++-----
-+ 2 files changed, 55 insertions(+), 13 deletions(-)
-+
-+diff --git a/bin/tests/system/unknown/tests.sh b/bin/tests/system/unknown/tests.sh
-+index eb61f21f28..cbc2943f17 100644
-+--- a/bin/tests/system/unknown/tests.sh
-++++ b/bin/tests/system/unknown/tests.sh
-+@@ -25,6 +25,11 @@ dig_cmd() {
-+   "$DIG" $DIGOPTS "$@" | grep -v '^;'
-+ }
-+ 
-++dig_full() {
-++  # shellcheck disable=SC2086
-++  "$DIG" $DIGOPTS "$@"
+++$TTL 300
+++. 			IN SOA	owner.root-servers.nil. a.root.servers.nil. (
+++				2010   	; serial
+++				600         	; refresh
+++				600         	; retry
+++				1200    	; expire
+++				600       	; minimum
+++				)
+++.			NS	a.root-servers.nil.
+++a.root-servers.nil.	A	10.53.0.1
+++
+++tld.	 		NS	ns.tld.
+++ns.tld. 		A 	10.53.0.2
++diff --git a/bin/tests/system/selfpointedglue/ns2/named.conf.j2 b/bin/tests/system/selfpointedglue/ns2/named.conf.j2
++new file mode 100644
++index 0000000000..2993832da2
++--- /dev/null
+++++ b/bin/tests/system/selfpointedglue/ns2/named.conf.j2
++@@ -0,0 +1,28 @@
+++/*
+++ * Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++ *
+++ * SPDX-License-Identifier: MPL-2.0
+++ *
+++ * This Source Code Form is subject to the terms of the Mozilla Public
+++ * License, v. 2.0.  If a copy of the MPL was not distributed with this
+++ * file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++ *
+++ * See the COPYRIGHT file distributed with this work for additional
+++ * information regarding copyright ownership.
+++ */
+++
+++options {
+++	query-source address 10.53.0.2;
+++	notify-source 10.53.0.2;
+++	transfer-source 10.53.0.2;
+++	port @PORT@;
+++	pid-file "named.pid";
+++	listen-on { 10.53.0.2; };
+++	recursion no;
+++	dnssec-validation no;
+++};
+++
+++zone "tld." {
+++	type primary;
+++	file "tld.db";
+++};
++diff --git a/bin/tests/system/selfpointedglue/ns2/tld.db b/bin/tests/system/selfpointedglue/ns2/tld.db
++new file mode 100644
++index 0000000000..5935fd841c
++--- /dev/null
+++++ b/bin/tests/system/selfpointedglue/ns2/tld.db
++@@ -0,0 +1,27 @@
+++; Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++;
+++; SPDX-License-Identifier: MPL-2.0
+++;
+++; This Source Code Form is subject to the terms of the Mozilla Public
+++; License, v. 2.0.  If a copy of the MPL was not distributed with this
+++; file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++;
+++; See the COPYRIGHT file distributed with this work for additional
+++; information regarding copyright ownership.
+++
+++$TTL 300
+++tld. 			IN SOA	owner.tld. ns.tld. (
+++				2010   	; serial
+++				600         	; refresh
+++				600         	; retry
+++				1200    	; expire
+++				600       	; minimum
+++				)
+++tld.			NS	ns.tld.
+++ns.tld. 		A 	10.53.0.2
+++
+++example.tld.		NS	ns.example.tld.
+++ns.example.tld.		A	10.53.0.3
+++
+++example2.tld.		NS	ns.example2.tld.
+++ns.example2.tld.	A	10.53.0.3
++diff --git a/bin/tests/system/selfpointedglue/ns3/example.tld.db b/bin/tests/system/selfpointedglue/ns3/example.tld.db
++new file mode 100644
++index 0000000000..83ea4d37ec
++--- /dev/null
+++++ b/bin/tests/system/selfpointedglue/ns3/example.tld.db
++@@ -0,0 +1,155 @@
+++; Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++;
+++; SPDX-License-Identifier: MPL-2.0
+++;
+++; This Source Code Form is subject to the terms of the Mozilla Public
+++; License, v. 2.0.  If a copy of the MPL was not distributed with this
+++; file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++;
+++; See the COPYRIGHT file distributed with this work for additional
+++; information regarding copyright ownership.
+++
+++$TTL 300
+++example.tld.		IN SOA	owner.dnshoster.tld. ns.dnshoster.tld. (
+++				2010   	; serial
+++				600         	; refresh
+++				600         	; retry
+++				1200    	; expire
+++				600       	; minimum
+++				)
+++
+++example.tld.			NS	ns.example.tld.
+++ns.example.tld.			A	10.53.0.3
+++
+++sub.example.tld.		NS 	ns01.sub.example.tld.
+++sub.example.tld.		NS 	ns02.sub.example.tld.
+++sub.example.tld.		NS 	ns03.sub.example.tld.
+++sub.example.tld.		NS 	ns04.sub.example.tld.
+++sub.example.tld.		NS 	ns05.sub.example.tld.
+++sub.example.tld.		NS 	ns06.sub.example.tld.
+++sub.example.tld.		NS 	ns07.sub.example.tld.
+++sub.example.tld.		NS 	ns08.sub.example.tld.
+++sub.example.tld.		NS 	ns09.sub.example.tld.
+++sub.example.tld.		NS 	ns10.sub.example.tld.
+++
+++ns01.sub.example.tld.		A	10.53.0.5
+++ns01.sub.example.tld.		A	10.53.0.6
+++ns01.sub.example.tld.		A	10.53.0.7
+++ns01.sub.example.tld.		A	10.53.0.8
+++ns01.sub.example.tld.		A	10.53.0.9
+++ns01.sub.example.tld.		A	10.53.0.10
+++ns01.sub.example.tld.		A	10.53.1.1
+++ns01.sub.example.tld.		A	10.53.1.2
+++ns01.sub.example.tld.		A	10.53.2.1
+++ns01.sub.example.tld.		A	10.53.0.3
+++; Those RR (same below) pointing to 127.0.0.1  won't ever be used as they
+++; exceeded the ADB limit.
+++ns01.sub.example.tld.		A	127.0.0.1
+++
+++ns02.sub.example.tld.		A	10.53.0.5
+++ns02.sub.example.tld.		A	10.53.0.6
+++ns02.sub.example.tld.		A	10.53.0.7
+++ns02.sub.example.tld.		A	10.53.0.8
+++ns02.sub.example.tld.		A	10.53.0.9
+++ns02.sub.example.tld.		A	10.53.0.10
+++ns02.sub.example.tld.		A	10.53.1.1
+++ns02.sub.example.tld.		A	10.53.1.2
+++ns02.sub.example.tld.		A	10.53.2.1
+++ns02.sub.example.tld.		A	10.53.0.3
+++ns02.sub.example.tld.		A	127.0.0.1
+++
+++ns03.sub.example.tld.		A	10.53.0.5
+++ns03.sub.example.tld.		A	10.53.0.6
+++ns03.sub.example.tld.		A	10.53.0.7
+++ns03.sub.example.tld.		A	10.53.0.8
+++ns03.sub.example.tld.		A	10.53.0.9
+++ns03.sub.example.tld.		A	10.53.0.10
+++ns03.sub.example.tld.		A	10.53.1.1
+++ns03.sub.example.tld.		A	10.53.1.2
+++ns03.sub.example.tld.		A	10.53.2.1
+++ns03.sub.example.tld.		A	10.53.0.3
+++ns03.sub.example.tld.		A	127.0.0.1
+++
+++ns04.sub.example.tld.		A	10.53.0.5
+++ns04.sub.example.tld.		A	10.53.0.6
+++ns04.sub.example.tld.		A	10.53.0.7
+++ns04.sub.example.tld.		A	10.53.0.8
+++ns04.sub.example.tld.		A	10.53.0.9
+++ns04.sub.example.tld.		A	10.53.0.10
+++ns04.sub.example.tld.		A	10.53.1.1
+++ns04.sub.example.tld.		A	10.53.1.2
+++ns04.sub.example.tld.		A	10.53.2.1
+++ns04.sub.example.tld.		A	10.53.0.3
+++ns04.sub.example.tld.		A	127.0.0.1
+++
+++ns05.sub.example.tld.		A	10.53.0.5
+++ns05.sub.example.tld.		A	10.53.0.6
+++ns05.sub.example.tld.		A	10.53.0.7
+++ns05.sub.example.tld.		A	10.53.0.8
+++ns05.sub.example.tld.		A	10.53.0.9
+++ns05.sub.example.tld.		A	10.53.0.10
+++ns05.sub.example.tld.		A	10.53.1.1
+++ns05.sub.example.tld.		A	10.53.1.2
+++ns05.sub.example.tld.		A	10.53.2.1
+++ns05.sub.example.tld.		A	10.53.0.3
+++ns05.sub.example.tld.		A	127.0.0.1
+++
+++ns06.sub.example.tld.		A	10.53.0.5
+++ns06.sub.example.tld.		A	10.53.0.6
+++ns06.sub.example.tld.		A	10.53.0.7
+++ns06.sub.example.tld.		A	10.53.0.8
+++ns06.sub.example.tld.		A	10.53.0.9
+++ns06.sub.example.tld.		A	10.53.0.10
+++ns06.sub.example.tld.		A	10.53.1.1
+++ns06.sub.example.tld.		A	10.53.1.2
+++ns06.sub.example.tld.		A	10.53.2.1
+++ns06.sub.example.tld.		A	10.53.0.3
+++ns06.sub.example.tld.		A	127.0.0.1
+++
+++ns07.sub.example.tld.		A	10.53.0.5
+++ns07.sub.example.tld.		A	10.53.0.6
+++ns07.sub.example.tld.		A	10.53.0.7
+++ns07.sub.example.tld.		A	10.53.0.8
+++ns07.sub.example.tld.		A	10.53.0.9
+++ns07.sub.example.tld.		A	10.53.0.10
+++ns07.sub.example.tld.		A	10.53.1.1
+++ns07.sub.example.tld.		A	10.53.1.2
+++ns07.sub.example.tld.		A	10.53.2.1
+++ns07.sub.example.tld.		A	10.53.0.3
+++ns07.sub.example.tld.		A	127.0.0.1
+++
+++ns08.sub.example.tld.		A	10.53.0.5
+++ns08.sub.example.tld.		A	10.53.0.6
+++ns08.sub.example.tld.		A	10.53.0.7
+++ns08.sub.example.tld.		A	10.53.0.8
+++ns08.sub.example.tld.		A	10.53.0.9
+++ns08.sub.example.tld.		A	10.53.0.10
+++ns08.sub.example.tld.		A	10.53.1.1
+++ns08.sub.example.tld.		A	10.53.1.2
+++ns08.sub.example.tld.		A	10.53.2.1
+++ns08.sub.example.tld.		A	10.53.0.3
+++ns08.sub.example.tld.		A	127.0.0.1
+++
+++ns09.sub.example.tld.		A	10.53.0.5
+++ns09.sub.example.tld.		A	10.53.0.6
+++ns09.sub.example.tld.		A	10.53.0.7
+++ns09.sub.example.tld.		A	10.53.0.8
+++ns09.sub.example.tld.		A	10.53.0.9
+++ns09.sub.example.tld.		A	10.53.0.10
+++ns09.sub.example.tld.		A	10.53.1.1
+++ns09.sub.example.tld.		A	10.53.1.2
+++ns09.sub.example.tld.		A	10.53.2.1
+++ns09.sub.example.tld.		A	10.53.0.3
+++ns09.sub.example.tld.		A	127.0.0.1
+++
+++ns10.sub.example.tld.		A	10.53.0.5
+++ns10.sub.example.tld.		A	10.53.0.6
+++ns10.sub.example.tld.		A	10.53.0.7
+++ns10.sub.example.tld.		A	10.53.0.8
+++ns10.sub.example.tld.		A	10.53.0.9
+++ns10.sub.example.tld.		A	10.53.0.10
+++ns10.sub.example.tld.		A	10.53.1.1
+++ns10.sub.example.tld.		A	10.53.1.2
+++ns10.sub.example.tld.		A	10.53.2.1
+++ns10.sub.example.tld.		A	10.53.0.3
+++ns10.sub.example.tld.		A	127.0.0.1
++diff --git a/bin/tests/system/selfpointedglue/ns3/example2.tld.db b/bin/tests/system/selfpointedglue/ns3/example2.tld.db
++new file mode 100644
++index 0000000000..bcab6e38c1
++--- /dev/null
+++++ b/bin/tests/system/selfpointedglue/ns3/example2.tld.db
++@@ -0,0 +1,33 @@
+++; Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++;
+++; SPDX-License-Identifier: MPL-2.0
+++;
+++; This Source Code Form is subject to the terms of the Mozilla Public
+++; License, v. 2.0.  If a copy of the MPL was not distributed with this
+++; file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++;
+++; See the COPYRIGHT file distributed with this work for additional
+++; information regarding copyright ownership.
+++
+++$TTL 300
+++example2.tld.		IN SOA	owner.dnshoster.tld. ns.dnshoster.tld. (
+++				2010   	; serial
+++				600         	; refresh
+++				600         	; retry
+++				1200    	; expire
+++				600       	; minimum
+++				)
+++
+++example2.tld.			NS	ns.example2.tld.
+++ns.example2.tld.		A	10.53.0.3
+++
+++sub.example2.tld.		NS 	ns01.sub.example2.tld.
+++sub.example2.tld.		NS 	ns02.sub.example2.tld.
+++sub.example2.tld.		NS 	ns03.sub.example2.tld.
+++
+++ns01.sub.example2.tld.		A	10.53.1.1
+++ns01.sub.example2.tld.		A	10.53.0.5
+++ns02.sub.example2.tld.		A	10.53.1.2
+++ns02.sub.example2.tld.		A	10.53.0.6
+++ns03.sub.example2.tld.		A	10.53.2.1
+++ns03.sub.example2.tld.		A	10.53.0.7
++diff --git a/bin/tests/system/selfpointedglue/ns3/named.conf.j2 b/bin/tests/system/selfpointedglue/ns3/named.conf.j2
++new file mode 100644
++index 0000000000..b5c8bfcf33
++--- /dev/null
+++++ b/bin/tests/system/selfpointedglue/ns3/named.conf.j2
++@@ -0,0 +1,44 @@
+++/*
+++ * Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++ *
+++ * SPDX-License-Identifier: MPL-2.0
+++ *
+++ * This Source Code Form is subject to the terms of the Mozilla Public
+++ * License, v. 2.0.  If a copy of the MPL was not distributed with this
+++ * file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++ *
+++ * See the COPYRIGHT file distributed with this work for additional
+++ * information regarding copyright ownership.
+++ */
+++
+++options {
+++	query-source address 10.53.0.3;
+++	notify-source 10.53.0.3;
+++	transfer-source 10.53.0.3;
+++	port @PORT@;
+++	pid-file "named.pid";
+++	listen-on {
+++		10.53.0.3;
+++		10.53.0.5;
+++		10.53.0.6;
+++		10.53.0.7;
+++		10.53.0.8;
+++		10.53.0.9;
+++		10.53.0.10;
+++		10.53.1.1;
+++		10.53.1.2;
+++		10.53.2.1;
+++	};
+++	recursion no;
+++	dnssec-validation no;
+++};
+++
+++zone "example.tld." {
+++	type primary;
+++	file "example.tld.db";
+++};
+++
+++zone "example2.tld." {
+++	type primary;
+++	file "example2.tld.db";
+++};
++diff --git a/bin/tests/system/selfpointedglue/ns4/named.args.j2 b/bin/tests/system/selfpointedglue/ns4/named.args.j2
++new file mode 100644
++index 0000000000..071508fd70
++--- /dev/null
+++++ b/bin/tests/system/selfpointedglue/ns4/named.args.j2
++@@ -0,0 +1,3 @@
+++{% set adblimit = adblimit | default("") %}
+++
+++-D selfpointedglue-ns4 -m record -c named.conf -d 99 -g -T maxcachesize=2097152 -4 @adblimit@
++diff --git a/bin/tests/system/selfpointedglue/ns4/named.conf.j2 b/bin/tests/system/selfpointedglue/ns4/named.conf.j2
++new file mode 100644
++index 0000000000..09fbdd4e70
++--- /dev/null
+++++ b/bin/tests/system/selfpointedglue/ns4/named.conf.j2
++@@ -0,0 +1,59 @@
+++/*
+++ * Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++ *
+++ * SPDX-License-Identifier: MPL-2.0
+++ *
+++ * This Source Code Form is subject to the terms of the Mozilla Public
+++ * License, v. 2.0.  If a copy of the MPL was not distributed with this
+++ * file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++ *
+++ * See the COPYRIGHT file distributed with this work for additional
+++ * information regarding copyright ownership.
+++ */
+++{% set maxdelegationservers = maxdelegationservers | default(None) %}
+++
+++options {
+++	query-source address 10.53.0.4;
+++	notify-source 10.53.0.4;
+++	transfer-source 10.53.0.4;
+++	port @PORT@;
+++	pid-file "named.pid";
+++	listen-on { 10.53.0.4; };
+++	recursion yes;
+++	dnssec-validation no;
+++	dnstap { resolver query; };
+++	dnstap-output file "dnstap.out";
+++	{% if maxdelegationservers %}
+++        @maxdelegationservers@
+++	{% endif %}
+++};
+++
+++/*
+++ * Forcing TCP ensures that ADDITIONAL won't be truncated (responses won't have
+++ * the TC flag, hence the resolver won't retry using TCP by itself, see
+++ * https://datatracker.ietf.org/doc/html/rfc2181#section-9)
+++ */
+++server 10.53.0.3 { tcp-only true; };
+++server 10.53.0.5 { tcp-only true; };
+++server 10.53.0.6 { tcp-only true; };
+++server 10.53.0.7 { tcp-only true; };
+++server 10.53.0.8 { tcp-only true; };
+++server 10.53.0.9 { tcp-only true; };
+++server 10.53.0.10 { tcp-only true; };
+++server 10.53.1.1 { tcp-only true; };
+++server 10.53.1.2 { tcp-only true; };
+++server 10.53.2.1 { tcp-only true; };
+++
+++zone "." {
+++	type hint;
+++	file "root.hint";
+++};
+++
+++key rndc_key {
+++	secret "1234abcd8765";
+++	algorithm @DEFAULT_HMAC@;
+++};
+++
+++controls {
+++	inet 10.53.0.4 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
+++};
++diff --git a/bin/tests/system/selfpointedglue/ns4/root.hint b/bin/tests/system/selfpointedglue/ns4/root.hint
++new file mode 100644
++index 0000000000..d7d0e1faba
++--- /dev/null
+++++ b/bin/tests/system/selfpointedglue/ns4/root.hint
++@@ -0,0 +1,14 @@
+++; Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++;
+++; SPDX-License-Identifier: MPL-2.0
+++;
+++; This Source Code Form is subject to the terms of the Mozilla Public
+++; License, v. 2.0.  If a copy of the MPL was not distributed with this
+++; file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++;
+++; See the COPYRIGHT file distributed with this work for additional
+++; information regarding copyright ownership.
+++
+++$TTL 999999
+++.			 IN NS		a.root-servers.nil.
+++a.root-servers.nil.	 IN A		10.53.0.1
++diff --git a/bin/tests/system/selfpointedglue/prereq.sh b/bin/tests/system/selfpointedglue/prereq.sh
++new file mode 100644
++index 0000000000..747f448982
++--- /dev/null
+++++ b/bin/tests/system/selfpointedglue/prereq.sh
++@@ -0,0 +1,20 @@
+++#!/bin/sh
+++
+++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++#
+++# SPDX-License-Identifier: MPL-2.0
+++#
+++# This Source Code Form is subject to the terms of the Mozilla Public
+++# License, v. 2.0.  If a copy of the MPL was not distributed with this
+++# file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++#
+++# See the COPYRIGHT file distributed with this work for additional
+++# information regarding copyright ownership.
+++
+++. ../conf.sh
+++
+++$FEATURETEST --enable-dnstap || {
+++  echo_i "This test requires dnstap support." >&2
+++  exit 255
 ++}
+++exit 0
++diff --git a/bin/tests/system/selfpointedglue/tests_selfpointedglue.py b/bin/tests/system/selfpointedglue/tests_selfpointedglue.py
++new file mode 100644
++index 0000000000..03a71cf545
++--- /dev/null
+++++ b/bin/tests/system/selfpointedglue/tests_selfpointedglue.py
++@@ -0,0 +1,75 @@
+++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++#
+++# SPDX-License-Identifier: MPL-2.0
+++#
+++# This Source Code Form is subject to the terms of the Mozilla Public
+++# License, v. 2.0.  If a copy of the MPL was not distributed with this
+++# file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++#
+++# See the COPYRIGHT file distributed with this work for additional
+++# information regarding copyright ownership.
 ++
-+ n=$((n + 1))
-+ echo_i "querying for various representations of an IN A record ($n)"
-+ for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
-+@@ -81,8 +86,8 @@ n=$((n + 1))
-+ echo_i "querying for various representations of a CLASS10 TYPE1 record ($n)"
-+ for i in 1 2; do
-+   ret=0
-+-  dig_cmd +short @10.53.0.1 a$i.example a class10 >dig.out.$i.test$n
-+-  echo '\# 4 0A000001' | diff - dig.out.$i.test$n || ret=1
-++  dig_full @10.53.0.1 a$i.example a class10 >dig.out.$i.test$n
-++  grep -q "NOTIMP" dig.out.$i.test$n || ret=1
-+   if [ $ret != 0 ]; then
-+     echo_i "#$i failed"
-+   fi
-+@@ -93,8 +98,8 @@ n=$((n + 1))
-+ echo_i "querying for various representations of a CLASS10 TXT record ($n)"
-+ for i in 1 2 3 4; do
-+   ret=0
-+-  dig_cmd +short @10.53.0.1 txt$i.example txt class10 >dig.out.$i.test$n
-+-  echo '"hello"' | diff - dig.out.$i.test$n || ret=1
-++  dig_full @10.53.0.1 txt$i.example txt class10 >dig.out.$i.test$n
-++  grep -q "NOTIMP" dig.out.$i.test$n || ret=1
-+   if [ $ret != 0 ]; then
-+     echo_i "#$i failed"
-+   fi
-+@@ -105,8 +110,8 @@ n=$((n + 1))
-+ echo_i "querying for various representations of a CLASS10 TYPE123 record ($n)"
-+ for i in 1 2; do
-+   ret=0
-+-  dig_cmd +short @10.53.0.1 unk$i.example type123 class10 >dig.out.$i.test$n
-+-  echo '\# 1 00' | diff - dig.out.$i.test$n || ret=1
-++  dig_full @10.53.0.1 unk$i.example type123 class10 >dig.out.$i.test$n
-++  grep -q "NOTIMP" dig.out.$i.test$n || ret=1
-+   if [ $ret != 0 ]; then
-+     echo_i "#$i failed"
-+   fi
-+diff --git a/lib/ns/client.c b/lib/ns/client.c
-+index 4c538f5f9f..8680cd6c47 100644
-+--- a/lib/ns/client.c
-++++ b/lib/ns/client.c
-+@@ -44,6 +44,7 @@
-+ #include <dns/dispatch.h>
-+ #include <dns/dnstap.h>
-+ #include <dns/edns.h>
-++#include <dns/enumclass.h>
-+ #include <dns/events.h>
-+ #include <dns/message.h>
-+ #include <dns/peer.h>
-+@@ -2083,7 +2084,9 @@ ns__client_request(isc_nmhandle_t *handle, isc_result_t eresult,
-+ 		}
-+ 	}
-+ 
-+-	if (client->message->rdclass == 0) {
-++	char classbuf[DNS_RDATACLASS_FORMATSIZE];
-++	switch (client->message->rdclass) {
-++	case dns_rdataclass_reserved0:
-+ 		if ((client->attributes & NS_CLIENTATTR_WANTCOOKIE) != 0 &&
-+ 		    client->message->opcode == dns_opcode_query &&
-+ 		    client->message->counts[DNS_SECTION_QUESTION] == 0U)
-+@@ -2102,12 +2105,46 @@ ns__client_request(isc_nmhandle_t *handle, isc_result_t eresult,
-+ 			return;
-+ 		}
-+ 
-++		ns_client_dumpmessage(client,
-++				      "message class could not be determined");
-++		ns_client_error(client, notimp ? DNS_R_NOTIMP : DNS_R_FORMERR);
-++		return;
-++	case dns_rdataclass_in:
-++		break;
-++	case dns_rdataclass_chaos:
-++		break;
-++	case dns_rdataclass_hs:
-++		break;
-++	case dns_rdataclass_none:
-++		if (client->message->opcode != dns_opcode_update) {
-++			ns_client_dumpmessage(client,
-++					      "message class NONE can be only "
-++					      "used in DNS updates");
-++			ns_client_error(client, DNS_R_FORMERR);
-++			return;
-++		}
-++		break;
-++	case dns_rdataclass_any:
-++		/*
-++		 * Required for TKEY negotiation.
-++		 */
-++		if (client->message->tkey == 0) {
-++			ns_client_dumpmessage(client,
-++					      "message class ANY can be only "
-++					      "used for TKEY negotiation");
-++			ns_client_error(client, DNS_R_FORMERR);
-++			return;
-++		}
-++		break;
-++	default:
-++		dns_rdataclass_format(client->message->rdclass, classbuf,
-++				      sizeof(classbuf));
-++		ns_client_dumpmessage(client, NULL);
-+ 		ns_client_log(client, NS_LOGCATEGORY_CLIENT,
-+ 			      NS_LOGMODULE_CLIENT, ISC_LOG_DEBUG(1),
-+-			      "message class could not be determined");
-+-		ns_client_dumpmessage(client, "message class could not be "
-+-					      "determined");
-+-		ns_client_error(client, notimp ? DNS_R_NOTIMP : DNS_R_FORMERR);
-++			      "invalid message class: %s", classbuf);
+++import os
 ++
-++		ns_client_error(client, DNS_R_NOTIMP);
-+ 		return;
-+ 	}
-+ 
-+@@ -2140,7 +2177,7 @@ ns__client_request(isc_nmhandle_t *handle, isc_result_t eresult,
-+ 		ns_client_log(client, NS_LOGCATEGORY_CLIENT,
-+ 			      NS_LOGMODULE_CLIENT, ISC_LOG_DEBUG(1),
-+ 			      "no matching view in class '%s'", classname);
-+-		ns_client_dumpmessage(client, "no matching view in class");
-++		ns_client_dumpmessage(client, NULL);
-+ 		ns_client_extendederror(client, DNS_EDE_PROHIBITED, NULL);
-+ 		ns_client_error(client, notimp ? DNS_R_NOTIMP : DNS_R_REFUSED);
-+ 		return;
-+@@ -2781,7 +2818,7 @@ ns_client_dumpmessage(ns_client_t *client, const char *reason) {
-+ 	int len = 1024;
-+ 	isc_result_t result;
-+ 
-+-	if (!isc_log_wouldlog(ns_lctx, ISC_LOG_DEBUG(1))) {
-++	if (!isc_log_wouldlog(ns_lctx, ISC_LOG_DEBUG(1)) || reason == NULL) {
-+ 		return;
-+ 	}
-+ 
+++import isctest
+++
+++
+++def line_to_ips_and_queries(line):
+++    # dnstap-read output line example
+++    # 05-Feb-2026 11:00:57.853 RQ 10.53.0.4:38507 -> 10.53.0.3:22047 TCP 56b sub.example.tld/IN/NS
+++    _, _, _, _, _, dst, _, _, query = line.split(" ", 9)
+++    ip, _ = dst.split(":", 1)
+++    return (ip, query)
+++
+++
+++def extract_dnstap(ns, nsid, expectedlen):
+++    ns.rndc("dnstap -roll 1")
+++    path = os.path.join(nsid, "dnstap.out.0")
+++    dnstapread = isctest.run.cmd(
+++        [os.getenv("DNSTAPREAD"), path],
+++    )
+++
+++    lines = dnstapread.out.splitlines()
+++    assert expectedlen == len(lines)
+++    return list(map(line_to_ips_and_queries, lines))
+++
+++
+++# Because DNSTAP doesn't have ordering guarantee, the order doesn't matter here.
+++def expect_ip_and_query(expected_ips_and_queries, ips_and_queries):
+++    found_count = 0
+++    for expected_ip, expected_query in expected_ips_and_queries:
+++        found = False
+++        for ip, query in ips_and_queries:
+++            if ip == expected_ip and query == expected_query:
+++                found = True
+++                found_count += 1
+++                break
+++        assert found
+++    assert found_count == len(expected_ips_and_queries)
+++
+++
+++def test_selfpointedglue(ns4):
+++    msg = isctest.query.create("a.sub.example.tld.", "A")
+++    res = isctest.query.tcp(msg, ns4.ip)
+++    isctest.check.servfail(res)
+++
+++    ips_and_queries = extract_dnstap(ns4, "ns4", 10)
+++
+++    # Thanks to the de-duplication, only the first 6 NS IPs are
+++    # queried (once sub.example.tld. NS is found) instead of 60
+++    # (60 per NS, with 10 NS).
+++    expect_ip_and_query(
+++        [
+++            ("10.53.0.1", "./IN/NS"),
+++            ("10.53.0.1", "tld/IN/NS"),
+++            ("10.53.0.2", "example.tld/IN/NS"),
+++            ("10.53.0.3", "sub.example.tld/IN/NS"),
+++            ("10.53.0.3", "a.sub.example.tld/IN/A"),
+++            ("10.53.0.5", "a.sub.example.tld/IN/A"),
+++            ("10.53.0.6", "a.sub.example.tld/IN/A"),
+++            ("10.53.0.7", "a.sub.example.tld/IN/A"),
+++            ("10.53.0.8", "a.sub.example.tld/IN/A"),
+++            ("10.53.0.9", "a.sub.example.tld/IN/A"),
+++        ],
+++        ips_and_queries,
+++    )
 +-- 
 +2.35.6
 +
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p4.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p4.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p4.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p4.patch
 new file mode 100644
-index 0000000000..c552168f81
+index 0000000000..e399ff86fc
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p4.patch
-@@ -0,0 +1,56 @@
-+From d34a7e777747cfe1a3f9a133b031577921653dbf Mon Sep 17 00:00:00 2001
-+From: Mark Andrews <marka@isc.org>
-+Date: Wed, 4 Mar 2026 10:00:56 +1100
-+Subject: [PATCH] Reject meta-classes in UPDATE and NOTIFY messages
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p4.patch
+@@ -0,0 +1,891 @@
++From 46fe5e321b6e4bf8a27df2f7659e6e4f233c94d9 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Micha=C5=82=20K=C4=99pie=C5=84?= <michal@isc.org>
++Date: Fri, 17 Apr 2026 17:57:05 +0200
++Subject: [PATCH] Sync asyncserver.py with the development branch
 +
-+NOTIFY and UPDATE messages must specify a data class in the
-+QUESTION/ZONE section.  NONE and ANY are meta-classes and not
-+appropriate here.  Return FORMERR if either is used.
++Import bin/tests/system/isctest/asyncserver.py as present in commit
++ced002c4ab7b920c9528d315a611a477cb4a9409 on the "main" branch.  This
++enables using newer asyncserver.py infrastructure code in system tests
++that need to be backported to maintenance branches.
 +
-+Rejecting messages with a query class of NONE addresses YWH-PGM40640-72,
-+YWH-PGM40640-82, and YWH-PGM40640-83.  Rejecting messages with a query
-+class of ANY addresses YWH-PGM40640-87, YWH-PGM40640-88, and
-+YWH-PGM40640-117.
-+
-+Fixes: isc-projects/bind9#5778
-+Fixes: isc-projects/bind9#5782
-+Fixes: isc-projects/bind9#5783
-+Fixes: isc-projects/bind9#5797
-+Fixes: isc-projects/bind9#5798
-+Fixes: isc-projects/bind9#5853
-+
-+CVE: CVE-2026-5946
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/185c10981b941bfa5b753b3624b6e11ccca8737f]
-+
-+(cherry picked from commit c66a1b1e1bfd6c79d7b9bc8d4a59e69f4faa1563)
-+(cherry picked from commit 185c10981b941bfa5b753b3624b6e11ccca8737f)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ lib/dns/message.c | 11 +++++++++++
-+ 1 file changed, 11 insertions(+)
-+
-+diff --git a/lib/dns/message.c b/lib/dns/message.c
-+index 541a854db0..38f5640500 100644
-+--- a/lib/dns/message.c
-++++ b/lib/dns/message.c
-+@@ -1080,6 +1080,17 @@ getquestions(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
-+ 		rdtype = isc_buffer_getuint16(source);
-+ 		rdclass = isc_buffer_getuint16(source);
-+ 
-++		/*
-++		 * Notify and update messages need to specify the data class.
-++		 */
-++		if ((msg->opcode == dns_opcode_update ||
-++		     msg->opcode == dns_opcode_notify) &&
-++		    (rdclass == dns_rdataclass_none ||
-++		     rdclass == dns_rdataclass_any))
-++		{
-++			DO_ERROR(DNS_R_FORMERR);
-++		}
-++
-+ 		/*
-+ 		 * If this class is different than the one we already read,
-+ 		 * this is an error.
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p5.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p5.patch
-new file mode 100644
-index 0000000000..59bd66d345
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p5.patch
-@@ -0,0 +1,40 @@
-+From 544f128439772cd710e541df1e1081c308642533 Mon Sep 17 00:00:00 2001
-+From: Evan Hunt <each@isc.org>
-+Date: Tue, 17 Mar 2026 13:24:43 -0700
-+Subject: [PATCH] Skip "deny-answer-address" for non-IN addresses
-+
-+Ensure that we don't attempt an ACL match for answer addresses
-+when handling a class-CHAOS zone. This is an additional line of
-+defense for YWH-PGM40640-74.
-+
-+CVE: CVE-2026-5946
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/772d1d5f905c819d7155e76a08c33218bfcc973e]
-+
-+(cherry picked from commit e62673c765b52307c800e86f0185fe52b573c145)
-+(cherry picked from commit 772d1d5f905c819d7155e76a08c33218bfcc973e)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ lib/dns/resolver.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
-+index c1584c3399..7788171bf2 100644
-+--- a/lib/dns/resolver.c
-++++ b/lib/dns/resolver.c
-+@@ -7333,6 +7333,13 @@ is_answeraddress_allowed(dns_view_t *view, dns_name_t *name,
-+ 		}
-+ 	}
-+ 
-++	/*
-++	 * deny-answer-address doesn't apply to non-IN classes.
-++	 */
-++	if (rdataset->rdclass != dns_rdataclass_in) {
-++		return true;
-++	}
-++
-+ 	/*
-+ 	 * Otherwise, search the filter list for a match for each
-+ 	 * address record.  If a match is found, the address should be
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p6.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p6.patch
-new file mode 100644
-index 0000000000..66d8dbd268
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p6.patch
-@@ -0,0 +1,336 @@
-+From 760a2e15e3f022a4dcdf9f8f2da3163c2480713f Mon Sep 17 00:00:00 2001
-+From: Evan Hunt <each@isc.org>
-+Date: Tue, 17 Mar 2026 13:45:11 -0700
-+Subject: [PATCH] Test CHAOS view recursion behavior
-+
-+Check that recursive and forward queries to views of type CHAOS
-+are REFUSED, but that authoritative queries are answered correctly.
-+
-+CVE: CVE-2026-5946
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/ba6b159d880e803decb85fdc88280b23d6f3a652]
++CVE: CVE-2026-3592
++Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/b0e8966647e744482edc06e48bc9ff5079a1c541]
 +
 +Backport Changes:
-+- Adjusted the added isctest.check.formerr helper to match the
-+  BIND 9.18.44 check.py dns_rcode import style.
++- Regenerated against the BIND 9.18.44 system-test helper
++  context, which already carries dnspython compatibility code not
++  present in the upstream patch base.
 +
-+(cherry picked from commit f33927cd3dd1195f3e70f5798ff7c384f265867e)
-+(cherry picked from commit ba6b159d880e803decb85fdc88280b23d6f3a652)
++(cherry picked from commit b0e8966647e744482edc06e48bc9ff5079a1c541)
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ bin/tests/system/checkconf/tests.sh           | 11 ++++
-+ .../checkconf/warn-chaos-recursion.conf       | 12 +++++
-+ bin/tests/system/class/ns1/chaos.db.in        |  4 ++
-+ bin/tests/system/class/ns1/named.conf.j2      | 31 +++++++++++
-+ bin/tests/system/class/ns2/example.db.in      |  6 +++
-+ bin/tests/system/class/ns2/localhost.db.in    |  6 +++
-+ bin/tests/system/class/ns2/named.conf.j2      | 42 +++++++++++++++
-+ bin/tests/system/class/ns3/named.conf.j2      | 28 ++++++++++
-+ bin/tests/system/class/setup.sh               | 19 +++++++
-+ bin/tests/system/class/tests_class_chaos.py   | 54 +++++++++++++++++++
-+ bin/tests/system/isctest/check.py             |  4 ++
-+ 11 files changed, 217 insertions(+)
-+ create mode 100644 bin/tests/system/checkconf/warn-chaos-recursion.conf
-+ create mode 100644 bin/tests/system/class/ns1/chaos.db.in
-+ create mode 100644 bin/tests/system/class/ns1/named.conf.j2
-+ create mode 100644 bin/tests/system/class/ns2/example.db.in
-+ create mode 100644 bin/tests/system/class/ns2/localhost.db.in
-+ create mode 100644 bin/tests/system/class/ns2/named.conf.j2
-+ create mode 100644 bin/tests/system/class/ns3/named.conf.j2
-+ create mode 100644 bin/tests/system/class/setup.sh
-+ create mode 100644 bin/tests/system/class/tests_class_chaos.py
++ bin/tests/system/isctest/asyncserver.py | 477 ++++++++++++++++++------
++ 1 file changed, 370 insertions(+), 107 deletions(-)
 +
-+diff --git a/bin/tests/system/checkconf/tests.sh b/bin/tests/system/checkconf/tests.sh
-+index 5da8a20ee1..f29949535a 100644
-+--- a/bin/tests/system/checkconf/tests.sh
-++++ b/bin/tests/system/checkconf/tests.sh
-+@@ -820,5 +820,16 @@ if [ $ret != 0 ]; then
-+ fi
-+ status=$((status + ret))
++diff --git a/bin/tests/system/isctest/asyncserver.py b/bin/tests/system/isctest/asyncserver.py
++index d2b22d7c12..e560ad10c0 100644
++--- a/bin/tests/system/isctest/asyncserver.py
+++++ b/bin/tests/system/isctest/asyncserver.py
++@@ -11,20 +11,9 @@ See the COPYRIGHT file distributed with this work for additional
++ information regarding copyright ownership.
++ """
 + 
-++n=$((n + 1))
-++echo_i "check 'recursion yes;' is warned and disabled in a non-IN view ($n)"
-++ret=0
-++$CHECKCONF warn-chaos-recursion.conf >checkconf.out$n 2>&1 || ret=1
-++grep -F "recursion will be disabled" checkconf.out$n >/dev/null || ret=1
-++if [ $ret != 0 ]; then
-++  echo_i "failed"
-++  ret=1
-++fi
-++status=$((status + ret))
+++from collections.abc import AsyncGenerator, Callable, Coroutine, Sequence
++ from dataclasses import dataclass, field
++-from typing import (
++-    Any,
++-    AsyncGenerator,
++-    Callable,
++-    Coroutine,
++-    Dict,
++-    List,
++-    Optional,
++-    Set,
++-    Tuple,
++-    Union,
++-    cast,
++-)
+++from typing import Any, cast
++ 
++ import abc
++ import asyncio
++@@ -52,12 +41,11 @@ import dns.rdataset
++ import dns.rdatatype
++ import dns.rrset
++ import dns.tsig
++-import dns.version
++ import dns.zone
++ 
++ 
++ _UdpHandler = Callable[
++-    [bytes, Tuple[str, int], asyncio.DatagramTransport], Coroutine[Any, Any, None]
+++    [bytes, tuple[str, int], asyncio.DatagramTransport], Coroutine[Any, Any, None]
++ ]
++ 
++ 
++@@ -75,7 +63,7 @@ class _AsyncUdpHandler(asyncio.DatagramProtocol):
++         self,
++         handler: _UdpHandler,
++     ) -> None:
++-        self._transport: Optional[asyncio.DatagramTransport] = None
+++        self._transport: asyncio.DatagramTransport | None = None
++         self._handler: _UdpHandler = handler
++ 
++     def connection_made(self, transport: asyncio.BaseTransport) -> None:
++@@ -84,7 +72,7 @@ class _AsyncUdpHandler(asyncio.DatagramProtocol):
++         """
++         self._transport = cast(asyncio.DatagramTransport, transport)
++ 
++-    def datagram_received(self, data: bytes, addr: Tuple[str, int]) -> None:
+++    def datagram_received(self, data: bytes, addr: tuple[str, int]) -> None:
++         """
++         Called by asyncio when a datagram is received.
++         """
++@@ -109,9 +97,9 @@ class AsyncServer:
++ 
++     def __init__(
++         self,
++-        udp_handler: Optional[_UdpHandler],
++-        tcp_handler: Optional[_TcpHandler],
++-        pidfile: Optional[str] = None,
+++        udp_handler: _UdpHandler | None,
+++        tcp_handler: _TcpHandler | None,
+++        pidfile: str | None = None,
++     ) -> None:
++         self._abort_if_on_dnspython_version_less_than_2_0_0()
++         logging.basicConfig(
++@@ -134,12 +122,12 @@ class AsyncServer:
++         logging.info("Setting up IPv4 listener at %s:%d", ipv4_address, port)
++         logging.info("Setting up IPv6 listener at [%s]:%d", ipv6_address, port)
++ 
++-        self._ip_addresses: Tuple[str, str] = (ipv4_address, ipv6_address)
+++        self._ip_addresses: tuple[str, str] = (ipv4_address, ipv6_address)
++         self._port: int = port
++-        self._udp_handler: Optional[_UdpHandler] = udp_handler
++-        self._tcp_handler: Optional[_TcpHandler] = tcp_handler
++-        self._pidfile: Optional[str] = pidfile
++-        self._work_done: Optional[asyncio.Future] = None
+++        self._udp_handler: _UdpHandler | None = udp_handler
+++        self._tcp_handler: _TcpHandler | None = tcp_handler
+++        self._pidfile: str | None = pidfile
+++        self._work_done: asyncio.Future | None = None
++ 
++     @classmethod
++     def _abort_if_on_dnspython_version_less_than_2_0_0(cls) -> None:
++@@ -195,7 +183,7 @@ class AsyncServer:
++         loop.set_exception_handler(self._handle_exception)
++ 
++     def _handle_exception(
++-        self, _: asyncio.AbstractEventLoop, context: Dict[str, Any]
+++        self, _: asyncio.AbstractEventLoop, context: dict[str, Any]
++     ) -> None:
++         assert self._work_done
++         exception = context.get("exception", RuntimeError(context["message"]))
++@@ -275,17 +263,16 @@ class QueryContext:
++ 
++     query: dns.message.Message
++     response: dns.message.Message
+++    socket: Peer
++     peer: Peer
++     protocol: DnsProtocol
++-    zone: Optional[dns.zone.Zone] = field(default=None, init=False)
++-    soa: Optional[dns.rrset.RRset] = field(default=None, init=False)
++-    node: Optional[dns.node.Node] = field(default=None, init=False)
++-    answer: Optional[dns.rdataset.Rdataset] = field(default=None, init=False)
++-    alias: Optional[dns.name.Name] = field(default=None, init=False)
++-    _initialized_response: Optional[dns.message.Message] = field(
++-        default=None, init=False
++-    )
++-    _initialized_response_with_zone_data: Optional[dns.message.Message] = field(
+++    zone: dns.zone.Zone | None = field(default=None, init=False)
+++    soa: dns.rrset.RRset | None = field(default=None, init=False)
+++    node: dns.node.Node | None = field(default=None, init=False)
+++    answer: dns.rdataset.Rdataset | None = field(default=None, init=False)
+++    alias: dns.name.Name | None = field(default=None, init=False)
+++    _initialized_response: dns.message.Message | None = field(default=None, init=False)
+++    _initialized_response_with_zone_data: dns.message.Message | None = field(
++         default=None, init=False
++     )
++ 
++@@ -330,7 +317,7 @@ class ResponseAction(abc.ABC):
++     """
++ 
++     @abc.abstractmethod
++-    async def perform(self) -> Optional[Union[dns.message.Message, bytes]]:
+++    async def perform(self) -> dns.message.Message | bytes | None:
++         """
++         This method is expected to carry out arbitrary actions (e.g. wait for a
++         specific amount of time, modify the answer, etc.) and then return the
++@@ -353,14 +340,30 @@ class DnsResponseSend(ResponseAction):
++     """
++ 
++     response: dns.message.Message
++-    authoritative: Optional[bool] = None
+++    authoritative: bool | None = None
++     delay: float = 0.0
+++    acknowledge_hand_rolled_response: bool = False
++ 
++-    async def perform(self) -> Optional[Union[dns.message.Message, bytes]]:
+++    async def perform(self) -> dns.message.Message | bytes | None:
++         """
++         Yield a potentially delayed response that is a dns.message.Message.
++         """
++         assert isinstance(self.response, dns.message.Message)
+++        if not (
+++            _is_asyncserver_response(self.response)
+++            or self.acknowledge_hand_rolled_response
+++        ):
+++            error = "The response you are trying to send was not created using "
+++            error += "AsyncDnsServer's response preparation methods. "
+++            error += "This will break features such as automatic AA flag "
+++            error += "and RCODE handling. If you need a fresh copy of a "
+++            error += "response, use `QueryContext.prepare_new_response` "
+++            error += "instead of `dns.message.make_response`. "
+++            error += "To acknowledge this and proceed anyway, set "
+++            error += "`acknowledge_hand_rolled_response=True` in "
+++            error += "DnsResponseSend's constructor."
+++            raise RuntimeError(error)
 ++
-+ echo_i "exit status: $status"
-+ [ $status -eq 0 ] || exit 1
-+diff --git a/bin/tests/system/checkconf/warn-chaos-recursion.conf b/bin/tests/system/checkconf/warn-chaos-recursion.conf
-+new file mode 100644
-+index 0000000000..01965102a4
-+--- /dev/null
-++++ b/bin/tests/system/checkconf/warn-chaos-recursion.conf
-+@@ -0,0 +1,12 @@
-++options {
-++	directory ".";
-++};
++         if self.authoritative is not None:
++             if self.authoritative:
++                 self.response.flags |= dns.flags.AA
++@@ -387,7 +390,7 @@ class BytesResponseSend(ResponseAction):
++     response: bytes
++     delay: float = 0.0
++ 
++-    async def perform(self) -> Optional[Union[dns.message.Message, bytes]]:
+++    async def perform(self) -> dns.message.Message | bytes | None:
++         """
++         Yield a potentially delayed response that is a sequence of bytes.
++         """
++@@ -404,7 +407,7 @@ class ResponseDrop(ResponseAction):
++     Action which does nothing - as if a packet was dropped.
++     """
++ 
++-    async def perform(self) -> Optional[Union[dns.message.Message, bytes]]:
+++    async def perform(self) -> dns.message.Message | bytes | None:
++         return None
++ 
++ 
++@@ -413,17 +416,16 @@ class _ConnectionTeardownRequested(Exception):
++ 
++ 
++ @dataclass
++-class ResponseDropAndCloseConnection(ResponseAction):
+++class CloseConnection(ResponseAction):
++     """
++-    Action which makes the server close the connection after the DNS query is
++-    received by the server (TCP only).
+++    Action which makes the server close the connection (TCP only).
++ 
++     The connection may be closed with a delay if requested.
++     """
++ 
++     delay: float = 0.0
++ 
++-    async def perform(self) -> Optional[Union[dns.message.Message, bytes]]:
+++    async def perform(self) -> dns.message.Message | bytes | None:
++         if self.delay > 0:
++             logging.info("Waiting %.1fs before closing TCP connection", self.delay)
++             await asyncio.sleep(self.delay)
++@@ -505,7 +507,7 @@ class IgnoreAllConnections(ConnectionHandler):
++     client socket, effectively ignoring all incoming connections.
++     """
++ 
++-    _connections: Set[asyncio.StreamWriter] = field(default_factory=set)
+++    _connections: set[asyncio.StreamWriter] = field(default_factory=set)
++ 
++     async def handle(
++         self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter, peer: Peer
++@@ -539,8 +541,8 @@ class ConnectionReset(ConnectionHandler):
++     make the server send an RST segment; this happens when the server closes a
++     client's socket while there is still unread data in that socket's buffer.
++     If closing the connection _after_ the query is read by the server is enough
++-    for a given use case, the ResponseDropAndCloseConnection response handler
++-    should be used instead.
+++    for a given use case, the CloseConnection response handler should be used
+++    instead.
++     """
++ 
++     delay: float = 0.0
++@@ -616,14 +618,14 @@ class QnameHandler(ResponseHandler):
++ 
++     @property
++     @abc.abstractmethod
++-    def qnames(self) -> List[str]:
+++    def qnames(self) -> list[str]:
++         """
++         A list of QNAMEs handled by this class.
++         """
++         raise NotImplementedError
++ 
++     def __init__(self) -> None:
++-        self._qnames: List[dns.name.Name] = [dns.name.from_text(d) for d in self.qnames]
+++        self._qnames: list[dns.name.Name] = [dns.name.from_text(d) for d in self.qnames]
++ 
++     def __str__(self) -> str:
++         return f"{self.__class__.__name__}(QNAMEs: {', '.join(self.qnames)})"
++@@ -636,6 +638,105 @@ class QnameHandler(ResponseHandler):
++         return qctx.qname in self._qnames
++ 
++ 
+++class QnameQtypeHandler(QnameHandler):
+++    """
+++    Handle queries for which both of the following conditions are true:
 ++
-++view chaos ch {
-++        match-clients { any; };
-++        recursion yes;
-++        zone "." {
-++                type hint;
-++                file "chaos.hints";
-++        };
-++};
-+diff --git a/bin/tests/system/class/ns1/chaos.db.in b/bin/tests/system/class/ns1/chaos.db.in
-+new file mode 100644
-+index 0000000000..43ca58ffa8
-+--- /dev/null
-++++ b/bin/tests/system/class/ns1/chaos.db.in
-+@@ -0,0 +1,4 @@
-++.                  CH NS ns.root.
-++ns.root.           CH A ns.root. 1
-++ns.root.           CH AAAA \# 1 00
+++    - the query's QNAME is present in `self.qnames`,
+++    - the query's QTYPE is present in `self.qtypes`.
+++    """
 ++
-+diff --git a/bin/tests/system/class/ns1/named.conf.j2 b/bin/tests/system/class/ns1/named.conf.j2
+++    @property
+++    @abc.abstractmethod
+++    def qtypes(self) -> list[dns.rdatatype.RdataType]:
+++        """
+++        A list of QTYPEs handled by this class.
+++        """
+++        raise NotImplementedError
+++
+++    def __init__(self) -> None:
+++        super().__init__()
+++        self._qtypes: list[dns.rdatatype.RdataType] = self.qtypes
+++
+++    def __str__(self) -> str:
+++        return f"{self.__class__.__name__}(QNAMEs: {', '.join(self.qnames)}; QTYPEs: {', '.join(map(str, self.qtypes))})"
+++
+++    def match(self, qctx: QueryContext) -> bool:
+++        """
+++        Handle queries whose QNAME and QTYPE match any of the QNAMEs and
+++        QTYPEs handled by this class.
+++        """
+++        return qctx.qtype in self._qtypes and super().match(qctx)
+++
+++
+++class StaticResponseHandler(ResponseHandler):
+++    """
+++    Base class used for deriving custom static response handlers.
+++
+++    The derived class can specify the RRsets to be included in the answer,
+++    authority, and additional sections of the response, whether to set the AA
+++    bit in the response, and a delay before sending the response.
+++
+++    The default implementation of `get_responses()` uses these properties to
+++    prepare and yield a single response.
+++    """
+++
+++    @property
+++    def rcode(self) -> dns.rcode.Rcode | None:
+++        """
+++        Optional RCODE to be set in the response.
+++        """
+++        return None
+++
+++    @property
+++    def answer(self) -> Sequence[dns.rrset.RRset]:
+++        """
+++        RRsets to be included in the answer section of the response.
+++        """
+++        return []
+++
+++    @property
+++    def authority(self) -> Sequence[dns.rrset.RRset]:
+++        """
+++        RRsets to be included in the authority section of the response.
+++        """
+++        return []
+++
+++    @property
+++    def additional(self) -> Sequence[dns.rrset.RRset]:
+++        """
+++        RRsets to be included in the additional section of the response.
+++        """
+++        return []
+++
+++    @property
+++    def authoritative(self) -> bool | None:
+++        """
+++        Whether to set the AA bit in the response.
+++        """
+++        return None
+++
+++    @property
+++    def delay(self) -> float:
+++        """
+++        Delay before sending the response.
+++        """
+++        return 0.0
+++
+++    async def get_responses(
+++        self, qctx: QueryContext
+++    ) -> AsyncGenerator[DnsResponseSend, None]:
+++        qctx.prepare_new_response(with_zone_data=False)
+++        qctx.response.answer.extend(self.answer)
+++        qctx.response.authority.extend(self.authority)
+++        qctx.response.additional.extend(self.additional)
+++        if self.rcode is not None:
+++            qctx.response.set_rcode(self.rcode)
+++        yield DnsResponseSend(
+++            qctx.response, authoritative=self.authoritative, delay=self.delay
+++        )
+++
+++
++ class DomainHandler(ResponseHandler):
++     """
++     Base class used for deriving custom domain handlers.
++@@ -643,20 +744,28 @@ class DomainHandler(ResponseHandler):
++     The derived class must specify a list of `domains` that it wants to handle.
++     Queries for any of these domains (and their subdomains) will then be passed
++     to the `get_response()` method in the derived class.
+++
+++    The most specific matching domain is stored in the `matched_domain` attribute.
++     """
++ 
++     @property
++     @abc.abstractmethod
++-    def domains(self) -> List[str]:
+++    def domains(self) -> list[str]:
++         """
++         A list of domain names handled by this class.
++         """
++         raise NotImplementedError
++ 
++     def __init__(self) -> None:
++-        self._domains: List[dns.name.Name] = [
++-            dns.name.from_text(d) for d in self.domains
++-        ]
+++        self._domains: list[dns.name.Name] = sorted(
+++            [dns.name.from_text(d) for d in self.domains], reverse=True
+++        )
+++        self._matched_domain: dns.name.Name | None = None
+++
+++    @property
+++    def matched_domain(self) -> dns.name.Name:
+++        assert self._matched_domain is not None
+++        return self._matched_domain
++ 
++     def __str__(self) -> str:
++         return f"{self.__class__.__name__}(domains: {', '.join(self.domains)})"
++@@ -666,20 +775,124 @@ class DomainHandler(ResponseHandler):
++         Handle queries whose QNAME matches any of the domains handled by this
++         class.
++         """
+++        self._matched_domain = None
++         for domain in self._domains:
++             if qctx.qname.is_subdomain(domain):
+++                self._matched_domain = domain
++                 return True
++         return False
++ 
++ 
+++class ForwarderHandler(ResponseHandler):
+++    """
+++    A handler forwarding all received queries to another DNS server with an
+++    optional delay and then relaying the responses back to the original client.
+++
+++    Queries are currently always forwarded via UDP.
+++    """
+++
+++    @property
+++    @abc.abstractmethod
+++    def target(self) -> str:
+++        """
+++        The address of the DNS server to forward queries to.
+++        """
+++        raise NotImplementedError
+++
+++    @property
+++    def port(self) -> int:
+++        """
+++        The port of the DNS server to forward queries to.
+++
+++        The default value of 0 causes the same port as the one used by this
+++        server for listening to be used.
+++        """
+++        return 0
+++
+++    @property
+++    def delay(self) -> float:
+++        """
+++        The number of seconds to wait before forwarding each query.
+++        """
+++        return 0.0
+++
+++    def __str__(self) -> str:
+++        return f"{self.__class__.__name__}(target: {self.target}:{self.port})"
+++
+++    class ForwarderProtocol(asyncio.DatagramProtocol):
+++        def __init__(self, query: bytes, response: asyncio.Future) -> None:
+++            self._query = query
+++            self._response = response
+++
+++        def connection_made(self, transport: asyncio.BaseTransport) -> None:
+++            logging.debug("[OUT] %s", self._query.hex())
+++            cast(asyncio.DatagramTransport, transport).sendto(self._query)
+++
+++        def datagram_received(self, data: bytes, _: tuple[str, int]) -> None:
+++            logging.debug("[IN] %s", data.hex())
+++            self._response.set_result(data)
+++
+++    async def get_responses(
+++        self, qctx: QueryContext
+++    ) -> AsyncGenerator[ResponseAction, None]:
+++        loop = asyncio.get_running_loop()
+++        response = loop.create_future()
+++        forwarding_target = f"{self.target}:{self.port or qctx.socket.port}"
+++
+++        if self.delay > 0:
+++            logging.info(
+++                "Waiting %.1fs before forwarding %s query from %s to %s over UDP",
+++                self.delay,
+++                qctx.protocol.name,
+++                qctx.peer,
+++                forwarding_target,
+++            )
+++            await asyncio.sleep(self.delay)
+++
+++        logging.info(
+++            "Forwarding %s query from %s to %s over UDP",
+++            qctx.protocol.name,
+++            qctx.peer,
+++            forwarding_target,
+++        )
+++
+++        transport, _ = await loop.create_datagram_endpoint(
+++            lambda: self.ForwarderProtocol(qctx.query.to_wire(), response),
+++            local_addr=(qctx.socket.host, 0),
+++            remote_addr=(self.target, self.port or qctx.socket.port),
+++        )
+++
+++        try:
+++            await response
+++        finally:
+++            transport.close()
+++
+++        logging.info(
+++            "Relaying UDP response from %s to %s over %s",
+++            forwarding_target,
+++            qctx.peer,
+++            qctx.protocol.name,
+++        )
+++
+++        try:
+++            message = _DnsMessageWithTsigDisabled.from_wire(response.result())
+++            yield DnsResponseSend(message, acknowledge_hand_rolled_response=True)
+++        except dns.exception.DNSException:
+++            logging.warning(
+++                "Failed to parse response from %s as a DNS message, relaying it as raw bytes",
+++                forwarding_target,
+++            )
+++            yield BytesResponseSend(response.result())
+++
+++
++ @dataclass
++ class _ZoneTreeNode:
++     """
++     A node representing a zone with one origin.
++     """
++ 
++-    zone: Optional[dns.zone.Zone]
++-    children: List["_ZoneTreeNode"] = field(default_factory=list)
+++    zone: dns.zone.Zone | None
+++    children: list["_ZoneTreeNode"] = field(default_factory=list)
++ 
++ 
++ class _ZoneTree:
++@@ -729,7 +942,7 @@ class _ZoneTree:
++             node_from.children.remove(child)
++             node_to.children.append(child)
++ 
++-    def find_best_zone(self, name: dns.name.Name) -> Optional[dns.zone.Zone]:
+++    def find_best_zone(self, name: dns.name.Name) -> dns.zone.Zone | None:
++         """
++         Return the closest matching zone (if any) for the domain name.
++         """
++@@ -747,7 +960,7 @@ class _DnsMessageWithTsigDisabled(dns.message.Message):
++     """
++ 
++     class _DisableTsigHandling(contextlib.ContextDecorator):
++-        def __init__(self, message: Optional[dns.message.Message] = None) -> None:
+++        def __init__(self, message: dns.message.Message | None = None) -> None:
++             self.original_tsig_sign = dns.tsig.sign
++             self.original_tsig_validate = dns.tsig.validate
++             if message:
++@@ -759,7 +972,7 @@ class _DnsMessageWithTsigDisabled(dns.message.Message):
++             from failing on messages initialized with `dns.message.from_wire(keyring=False)`.
++             """
++ 
++-            def sign(*_: Any, **__: Any) -> Tuple[dns.rdata.Rdata, None]:
+++            def sign(*_: Any, **__: Any) -> tuple[dns.rdata.Rdata, None]:
++                 assert self.tsig
++                 return self.tsig[0], None
++ 
++@@ -802,6 +1015,19 @@ class _NoKeyringType:
++     pass
++ 
++ 
+++_ASYNCSERVER_RESPONSE_MARKER = "__is_asyncserver_response__"
+++
+++
+++def _make_asyncserver_response(query: dns.message.Message) -> dns.message.Message:
+++    response = dns.message.make_response(query)
+++    setattr(response, _ASYNCSERVER_RESPONSE_MARKER, True)
+++    return response
+++
+++
+++def _is_asyncserver_response(message: dns.message.Message) -> bool:
+++    return getattr(message, _ASYNCSERVER_RESPONSE_MARKER, False)
+++
+++
++ class AsyncDnsServer(AsyncServer):
++     """
++     DNS server which responds to queries based on zone data and/or custom
++@@ -822,17 +1048,17 @@ class AsyncDnsServer(AsyncServer):
++         self,
++         /,
++         default_rcode: dns.rcode.Rcode = dns.rcode.REFUSED,
++-        default_aa: bool = True,
++-        keyring: Union[
++-            Dict[dns.name.Name, dns.tsig.Key], None, _NoKeyringType
++-        ] = _NoKeyringType(),
+++        default_aa: bool = False,
+++        keyring: (
+++            dict[dns.name.Name, dns.tsig.Key] | None | _NoKeyringType
+++        ) = _NoKeyringType(),
++         acknowledge_manual_dname_handling: bool = False,
++     ) -> None:
++         super().__init__(self._handle_udp, self._handle_tcp, "ans.pid")
++ 
++         self._zone_tree: _ZoneTree = _ZoneTree()
++-        self._connection_handler: Optional[ConnectionHandler] = None
++-        self._response_handlers: List[ResponseHandler] = []
+++        self._connection_handler: ConnectionHandler | None = None
+++        self._response_handlers: list[ResponseHandler] = []
++         self._default_rcode = default_rcode
++         self._default_aa = default_aa
++         self._keyring = keyring
++@@ -859,10 +1085,18 @@ class AsyncDnsServer(AsyncServer):
++         else:
++             self._response_handlers.append(handler)
++ 
++-    def install_response_handlers(self, handlers: List[ResponseHandler]) -> None:
+++    def install_response_handlers(self, *handlers: ResponseHandler) -> None:
++         for handler in handlers:
++             self.install_response_handler(handler)
++ 
+++    def replace_response_handlers(self, *new_handlers: ResponseHandler) -> None:
+++        """
+++        Uninstall all currently installed handlers and install the provided ones.
+++        """
+++        logging.info("Uninstalling response handlers: %s", str(self._response_handlers))
+++        self._response_handlers.clear()
+++        self.install_response_handlers(*new_handlers)
+++
++     def uninstall_response_handler(self, handler: ResponseHandler) -> None:
++         """
++         Remove the specified handler from the list of response handlers.
++@@ -933,11 +1167,13 @@ class AsyncDnsServer(AsyncServer):
++                     raise ValueError(error)
++ 
++     async def _handle_udp(
++-        self, wire: bytes, addr: Tuple[str, int], transport: asyncio.DatagramTransport
+++        self, wire: bytes, addr: tuple[str, int], transport: asyncio.DatagramTransport
++     ) -> None:
++         logging.debug("Received UDP message: %s", wire.hex())
+++        socket_info = transport.get_extra_info("sockname")
+++        socket = Peer(socket_info[0], socket_info[1])
++         peer = Peer(addr[0], addr[1])
++-        responses = self._handle_query(wire, peer, DnsProtocol.UDP)
+++        responses = self._handle_query(wire, socket, peer, DnsProtocol.UDP)
++         async for response in responses:
++             logging.debug("Sending UDP message: %s", response.hex())
++             transport.sendto(response, addr)
++@@ -974,7 +1210,7 @@ class AsyncDnsServer(AsyncServer):
++ 
++     async def _read_tcp_query(
++         self, reader: asyncio.StreamReader, peer: Peer
++-    ) -> Optional[bytes]:
+++    ) -> bytes | None:
++         wire_length = await self._read_tcp_query_wire_length(reader, peer)
++         if not wire_length:
++             return None
++@@ -983,7 +1219,7 @@ class AsyncDnsServer(AsyncServer):
++ 
++     async def _read_tcp_query_wire_length(
++         self, reader: asyncio.StreamReader, peer: Peer
++-    ) -> Optional[int]:
+++    ) -> int | None:
++         logging.debug("Receiving TCP message length from %s...", peer)
++ 
++         wire_length_bytes = await self._read_tcp_octets(reader, peer, 2)
++@@ -996,7 +1232,7 @@ class AsyncDnsServer(AsyncServer):
++ 
++     async def _read_tcp_query_wire(
++         self, reader: asyncio.StreamReader, peer: Peer, wire_length: int
++-    ) -> Optional[bytes]:
+++    ) -> bytes | None:
++         logging.debug("Receiving TCP message (%d octets) from %s...", wire_length, peer)
++ 
++         wire = await self._read_tcp_octets(reader, peer, wire_length)
++@@ -1009,7 +1245,7 @@ class AsyncDnsServer(AsyncServer):
++ 
++     async def _read_tcp_octets(
++         self, reader: asyncio.StreamReader, peer: Peer, expected: int
++-    ) -> Optional[bytes]:
+++    ) -> bytes | None:
++         buffer = b""
++ 
++         while len(buffer) < expected:
++@@ -1034,39 +1270,39 @@ class AsyncDnsServer(AsyncServer):
++     async def _send_tcp_response(
++         self, writer: asyncio.StreamWriter, peer: Peer, wire: bytes
++     ) -> None:
++-        responses = self._handle_query(wire, peer, DnsProtocol.TCP)
+++        socket_info = writer.get_extra_info("sockname")
+++        socket = Peer(socket_info[0], socket_info[1])
+++        responses = self._handle_query(wire, socket, peer, DnsProtocol.TCP)
++         async for response in responses:
++             logging.debug("Sending TCP response: %s", response.hex())
++             writer.write(response)
++             await writer.drain()
++ 
++-    def _log_query(self, qctx: QueryContext, peer: Peer, protocol: DnsProtocol) -> None:
+++    def _log_query(self, qctx: QueryContext) -> None:
++         logging.info(
++-            "Received %s/%s/%s (ID=%d) query from %s (%s)",
+++            "Received %s/%s/%s (ID=%d) query from %s on %s (%s)",
++             qctx.qname.to_text(omit_final_dot=True),
++             dns.rdataclass.to_text(qctx.qclass),
++             dns.rdatatype.to_text(qctx.qtype),
++             qctx.query.id,
++-            peer,
++-            protocol.name,
+++            qctx.peer,
+++            qctx.socket,
+++            qctx.protocol.name,
++         )
++         logging.debug(
++             "\n".join([f"[IN] {l}" for l in [""] + str(qctx.query).splitlines()])
++         )
++ 
++     def _log_response(
++-        self,
++-        qctx: QueryContext,
++-        response: Optional[Union[dns.message.Message, bytes]],
++-        peer: Peer,
++-        protocol: DnsProtocol,
+++        self, qctx: QueryContext, response: dns.message.Message | bytes | None
++     ) -> None:
++         if not response:
++             logging.info(
++-                "Not sending a response to query (ID=%d) from %s (%s)",
+++                "Not sending a response to query (ID=%d) from %s on %s (%s)",
++                 qctx.query.id,
++-                peer,
++-                protocol.name,
+++                qctx.peer,
+++                qctx.socket,
+++                qctx.protocol.name,
++             )
++             return
++ 
++@@ -1081,7 +1317,7 @@ class AsyncDnsServer(AsyncServer):
++                 qtype = "-"
++ 
++             logging.info(
++-                "Sending %s/%s/%s (ID=%d) response (%d/%d/%d/%d) to a query (ID=%d) from %s (%s)",
+++                "Sending %s/%s/%s (ID=%d) response (%d/%d/%d/%d) to a query (ID=%d) from %s on %s (%s)",
++                 qname,
++                 qclass,
++                 qtype,
++@@ -1091,8 +1327,9 @@ class AsyncDnsServer(AsyncServer):
++                 len(response.authority),
++                 len(response.additional),
++                 qctx.query.id,
++-                peer,
++-                protocol.name,
+++                qctx.peer,
+++                qctx.socket,
+++                qctx.protocol.name,
++             )
++             logging.debug(
++                 "\n".join([f"[OUT] {l}" for l in [""] + str(response).splitlines()])
++@@ -1100,16 +1337,17 @@ class AsyncDnsServer(AsyncServer):
++             return
++ 
++         logging.info(
++-            "Sending response (%d bytes) to a query (ID=%d) from %s (%s)",
+++            "Sending response (%d bytes) to a query (ID=%d) from %s on %s (%s)",
++             len(response),
++             qctx.query.id,
++-            peer,
++-            protocol.name,
+++            qctx.peer,
+++            qctx.socket,
+++            qctx.protocol.name,
++         )
++         logging.debug("[OUT] %s", response.hex())
++ 
++     async def _handle_query(
++-        self, wire: bytes, peer: Peer, protocol: DnsProtocol
+++        self, wire: bytes, socket: Peer, peer: Peer, protocol: DnsProtocol
++     ) -> AsyncGenerator[bytes, None]:
++         """
++         Yield wire data to send as a response over the established transport.
++@@ -1119,12 +1357,12 @@ class AsyncDnsServer(AsyncServer):
++         except dns.exception.DNSException as exc:
++             logging.error("Invalid query from %s (%s): %s", peer, wire.hex(), exc)
++             return
++-        response_stub = dns.message.make_response(query)
++-        qctx = QueryContext(query, response_stub, peer, protocol)
++-        self._log_query(qctx, peer, protocol)
+++        response_stub = _make_asyncserver_response(query)
+++        qctx = QueryContext(query, response_stub, socket, peer, protocol)
+++        self._log_query(qctx)
++         responses = self._prepare_responses(qctx)
++         async for response in responses:
++-            self._log_response(qctx, response, peer, protocol)
+++            self._log_response(qctx, response)
++             if response:
++                 if isinstance(response, dns.message.Message):
++                     response = response.to_wire(max_size=65535)
++@@ -1156,7 +1394,7 @@ class AsyncDnsServer(AsyncServer):
++ 
++     async def _prepare_responses(
++         self, qctx: QueryContext
++-    ) -> AsyncGenerator[Optional[Union[dns.message.Message, bytes]], None]:
+++    ) -> AsyncGenerator[dns.message.Message | bytes | None, None]:
++         """
++         Yield response(s) either from response handlers or zone data.
++         """
++@@ -1349,10 +1587,10 @@ class ControllableAsyncDnsServer(AsyncDnsServer):
++         return dns.name.from_text(self._CONTROL_DOMAIN)
++ 
++     @functools.cached_property
++-    def _commands(self) -> Dict[dns.name.Name, "ControlCommand"]:
+++    def _commands(self) -> dict[dns.name.Name, "ControlCommand"]:
++         return {}
++ 
++-    def install_control_commands(self, commands: List["ControlCommand"]) -> None:
+++    def install_control_commands(self, *commands: "ControlCommand") -> None:
++         for command in commands:
++             self.install_control_command(command)
++ 
++@@ -1370,7 +1608,7 @@ class ControllableAsyncDnsServer(AsyncDnsServer):
++ 
++     async def _prepare_responses(
++         self, qctx: QueryContext
++-    ) -> AsyncGenerator[Optional[Union[dns.message.Message, bytes]], None]:
+++    ) -> AsyncGenerator[dns.message.Message | bytes | None, None]:
++         """
++         Detect and handle control queries, falling back to normal processing
++         for non-control queries.
++@@ -1383,9 +1621,7 @@ class ControllableAsyncDnsServer(AsyncDnsServer):
++         async for response in super()._prepare_responses(qctx):
++             yield response
++ 
++-    def _handle_control_command(
++-        self, qctx: QueryContext
++-    ) -> Optional[dns.message.Message]:
+++    def _handle_control_command(self, qctx: QueryContext) -> dns.message.Message | None:
++         """
++         Detect and handle control queries.
++ 
++@@ -1460,8 +1696,8 @@ class ControlCommand(abc.ABC):
++ 
++     @abc.abstractmethod
++     def handle(
++-        self, args: List[str], server: ControllableAsyncDnsServer, qctx: QueryContext
++-    ) -> Optional[str]:
+++        self, args: list[str], server: ControllableAsyncDnsServer, qctx: QueryContext
+++    ) -> str | None:
++         """
++         This method is expected to carry out arbitrary actions in response to a
++         control query.  Note that it is invoked synchronously (it is not a
++@@ -1499,11 +1735,11 @@ class ToggleResponsesCommand(ControlCommand):
++     control_subdomain = "send-responses"
++ 
++     def __init__(self) -> None:
++-        self._current_handler: Optional[IgnoreAllQueries] = None
+++        self._current_handler: IgnoreAllQueries | None = None
++ 
++     def handle(
++-        self, args: List[str], server: ControllableAsyncDnsServer, qctx: QueryContext
++-    ) -> Optional[str]:
+++        self, args: list[str], server: ControllableAsyncDnsServer, qctx: QueryContext
+++    ) -> str | None:
++         if len(args) != 1:
++             logging.error("Invalid %s query %s", self, qctx.qname)
++             qctx.response.set_rcode(dns.rcode.SERVFAIL)
++@@ -1528,3 +1764,30 @@ class ToggleResponsesCommand(ControlCommand):
++         logging.error("Unrecognized response sending mode '%s'", mode)
++         qctx.response.set_rcode(dns.rcode.SERVFAIL)
++         return f"unrecognized response sending mode '{mode}'"
+++
+++
+++class SwitchControlCommand(ControlCommand):
+++    """
+++    Switch the server's response handlers based on the control query.
+++
+++    A sequence of response handlers is associated with each key.  When a
+++    control query is received, the server's response handlers are replaced
+++    with the sequence associated with the key extracted from the control
+++    query.
+++    """
+++
+++    control_subdomain = "switch"
+++
+++    def __init__(self, handler_mapping: dict[str, Sequence[ResponseHandler]]):
+++        self._handler_mapping = handler_mapping
+++
+++    def handle(
+++        self, args: list[str], server: ControllableAsyncDnsServer, qctx: QueryContext
+++    ) -> str | None:
+++        if len(args) != 1 or args[0] not in self._handler_mapping:
+++            logging.error("Invalid %s query %s", self, qctx.qname)
+++            qctx.response.set_rcode(dns.rcode.SERVFAIL)
+++            return f"invalid query; exactly one of {list(self._handler_mapping.keys())} is expected in QNAME"
+++
+++        server.replace_response_handlers(*self._handler_mapping[args[0]])
+++        return f"switched to handler set '{args[0]}'"
++-- 
++2.35.6
++
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p5.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p5.patch
+new file mode 100644
+index 0000000000..bfb870851a
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p5.patch
+@@ -0,0 +1,554 @@
++From 1e0b72f5cee9fce3c4beb782fd5e4a17efa84223 Mon Sep 17 00:00:00 2001
++From: Colin Vidal <colin@isc.org>
++Date: Wed, 4 Mar 2026 18:25:32 +0100
++Subject: [PATCH] Add SRTT-based server selection system test
++
++Verify that the resolver selects authoritative servers in increasing
++SRTT order.  Four servers are configured with increasing response
++delays.  100 queries are sent, expecting most to go to the fastest
++server (ns2).  Then ns2 stops responding, another 100 queries are
++sent and should go to ns3 (the next fastest), and so on through
++ns4 and ns5.  Each query uses a unique name to avoid cache hits.
++
++CVE: CVE-2026-3592
++Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/d5cd9b71ebadf7c0c76f09c5bbb65b6a7b944d0d]
++
++(cherry picked from commit a8d11e14f5b4e4d53219ba751d1b741162b0b84b)
++(cherry picked from commit d5cd9b71ebadf7c0c76f09c5bbb65b6a7b944d0d)
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++---
++ bin/tests/system/srtt/README            | 18 ++++++
++ bin/tests/system/srtt/ans2/ans.py       | 36 +++++++++++
++ bin/tests/system/srtt/ans3/ans.py       | 36 +++++++++++
++ bin/tests/system/srtt/ans4/ans.py       | 36 +++++++++++
++ bin/tests/system/srtt/ans5/ans.py       | 36 +++++++++++
++ bin/tests/system/srtt/ns1/named.conf.j2 | 29 +++++++++
++ bin/tests/system/srtt/ns1/root.db       | 36 +++++++++++
++ bin/tests/system/srtt/ns6/named.args    |  1 +
++ bin/tests/system/srtt/ns6/named.conf.j2 | 41 ++++++++++++
++ bin/tests/system/srtt/prereq.sh         | 20 ++++++
++ bin/tests/system/srtt/srtt_ans.py       | 59 +++++++++++++++++
++ bin/tests/system/srtt/tests_srtt.py     | 86 +++++++++++++++++++++++++
++ 12 files changed, 434 insertions(+)
++ create mode 100644 bin/tests/system/srtt/README
++ create mode 100644 bin/tests/system/srtt/ans2/ans.py
++ create mode 100644 bin/tests/system/srtt/ans3/ans.py
++ create mode 100644 bin/tests/system/srtt/ans4/ans.py
++ create mode 100644 bin/tests/system/srtt/ans5/ans.py
++ create mode 100644 bin/tests/system/srtt/ns1/named.conf.j2
++ create mode 100644 bin/tests/system/srtt/ns1/root.db
++ create mode 100644 bin/tests/system/srtt/ns6/named.args
++ create mode 100644 bin/tests/system/srtt/ns6/named.conf.j2
++ create mode 100644 bin/tests/system/srtt/prereq.sh
++ create mode 100644 bin/tests/system/srtt/srtt_ans.py
++ create mode 100644 bin/tests/system/srtt/tests_srtt.py
++
++diff --git a/bin/tests/system/srtt/README b/bin/tests/system/srtt/README
 +new file mode 100644
-+index 0000000000..76f85fc6c9
++index 0000000000..c86a697931
 +--- /dev/null
-++++ b/bin/tests/system/class/ns1/named.conf.j2
-+@@ -0,0 +1,31 @@
+++++ b/bin/tests/system/srtt/README
++@@ -0,0 +1,18 @@
+++Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++
+++SPDX-License-Identifier: MPL-2.0
+++
+++This Source Code Form is subject to the terms of the Mozilla Public
+++License, v. 2.0.  If a copy of the MPL was not distributed with this
+++file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++
+++See the COPYRIGHT file distributed with this work for additional
+++information regarding copyright ownership.
+++
+++ns1 is root
+++
+++ans{2-5} simulates four NS servers making authority on the same domain
+++`example.`. ans2 is the quickest to answer, followed by ans3, then ans4, with
+++ans5 being the slowest.
+++
+++ns6 is a resolver
++diff --git a/bin/tests/system/srtt/ans2/ans.py b/bin/tests/system/srtt/ans2/ans.py
++new file mode 100644
++index 0000000000..f7c6f8e71b
++--- /dev/null
+++++ b/bin/tests/system/srtt/ans2/ans.py
++@@ -0,0 +1,36 @@
+++"""
+++Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++
+++SPDX-License-Identifier: MPL-2.0
+++
+++This Source Code Form is subject to the terms of the Mozilla Public
+++License, v. 2.0.  If a copy of the MPL was not distributed with this
+++file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++
+++See the COPYRIGHT file distributed with this work for additional
+++information regarding copyright ownership.
+++"""
+++
+++import dns.rcode
+++
+++from isctest.asyncserver import AsyncDnsServer, IgnoreAllQueries
+++
+++from srtt_ans import DelayedQnameRangeHandler
+++
+++
+++class Foo1ToFoo99Handler(DelayedQnameRangeHandler):
+++    max_qname = 99
+++    delay = 0.0
+++
+++
+++def main() -> None:
+++    server = AsyncDnsServer(default_aa=True, default_rcode=dns.rcode.NOERROR)
+++    server.install_response_handlers(
+++        Foo1ToFoo99Handler(),
+++        IgnoreAllQueries(),
+++    )
+++    server.run()
+++
+++
+++if __name__ == "__main__":
+++    main()
++diff --git a/bin/tests/system/srtt/ans3/ans.py b/bin/tests/system/srtt/ans3/ans.py
++new file mode 100644
++index 0000000000..5f61e19cd5
++--- /dev/null
+++++ b/bin/tests/system/srtt/ans3/ans.py
++@@ -0,0 +1,36 @@
+++"""
+++Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++
+++SPDX-License-Identifier: MPL-2.0
+++
+++This Source Code Form is subject to the terms of the Mozilla Public
+++License, v. 2.0.  If a copy of the MPL was not distributed with this
+++file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++
+++See the COPYRIGHT file distributed with this work for additional
+++information regarding copyright ownership.
+++"""
+++
+++import dns.rcode
+++
+++from isctest.asyncserver import AsyncDnsServer, IgnoreAllQueries
+++
+++from srtt_ans import DelayedQnameRangeHandler
+++
+++
+++class Foo1ToFoo199Handler(DelayedQnameRangeHandler):
+++    max_qname = 199
+++    delay = 0.03
+++
+++
+++def main() -> None:
+++    server = AsyncDnsServer(default_aa=True, default_rcode=dns.rcode.NOERROR)
+++    server.install_response_handlers(
+++        Foo1ToFoo199Handler(),
+++        IgnoreAllQueries(),
+++    )
+++    server.run()
+++
+++
+++if __name__ == "__main__":
+++    main()
++diff --git a/bin/tests/system/srtt/ans4/ans.py b/bin/tests/system/srtt/ans4/ans.py
++new file mode 100644
++index 0000000000..2e12b0ba7d
++--- /dev/null
+++++ b/bin/tests/system/srtt/ans4/ans.py
++@@ -0,0 +1,36 @@
+++"""
+++Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++
+++SPDX-License-Identifier: MPL-2.0
+++
+++This Source Code Form is subject to the terms of the Mozilla Public
+++License, v. 2.0.  If a copy of the MPL was not distributed with this
+++file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++
+++See the COPYRIGHT file distributed with this work for additional
+++information regarding copyright ownership.
+++"""
+++
+++import dns.rcode
+++
+++from isctest.asyncserver import AsyncDnsServer, IgnoreAllQueries
+++
+++from srtt_ans import DelayedQnameRangeHandler
+++
+++
+++class Foo1ToFoo299Handler(DelayedQnameRangeHandler):
+++    max_qname = 299
+++    delay = 0.08
+++
+++
+++def main() -> None:
+++    server = AsyncDnsServer(default_aa=True, default_rcode=dns.rcode.NOERROR)
+++    server.install_response_handlers(
+++        Foo1ToFoo299Handler(),
+++        IgnoreAllQueries(),
+++    )
+++    server.run()
+++
+++
+++if __name__ == "__main__":
+++    main()
++diff --git a/bin/tests/system/srtt/ans5/ans.py b/bin/tests/system/srtt/ans5/ans.py
++new file mode 100644
++index 0000000000..b40306908c
++--- /dev/null
+++++ b/bin/tests/system/srtt/ans5/ans.py
++@@ -0,0 +1,36 @@
+++"""
+++Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++
+++SPDX-License-Identifier: MPL-2.0
+++
+++This Source Code Form is subject to the terms of the Mozilla Public
+++License, v. 2.0.  If a copy of the MPL was not distributed with this
+++file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++
+++See the COPYRIGHT file distributed with this work for additional
+++information regarding copyright ownership.
+++"""
+++
+++import dns.rcode
+++
+++from isctest.asyncserver import AsyncDnsServer, IgnoreAllQueries
+++
+++from srtt_ans import DelayedQnameRangeHandler
+++
+++
+++class Foo1ToFoo399Handler(DelayedQnameRangeHandler):
+++    max_qname = 399
+++    delay = 0.15
+++
+++
+++def main() -> None:
+++    server = AsyncDnsServer(default_aa=True, default_rcode=dns.rcode.NOERROR)
+++    server.install_response_handlers(
+++        Foo1ToFoo399Handler(),
+++        IgnoreAllQueries(),
+++    )
+++    server.run()
+++
+++
+++if __name__ == "__main__":
+++    main()
++diff --git a/bin/tests/system/srtt/ns1/named.conf.j2 b/bin/tests/system/srtt/ns1/named.conf.j2
++new file mode 100644
++index 0000000000..eb079c95ab
++--- /dev/null
+++++ b/bin/tests/system/srtt/ns1/named.conf.j2
++@@ -0,0 +1,29 @@
+++/*
+++ * Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++ *
+++ * SPDX-License-Identifier: MPL-2.0
+++ *
+++ * This Source Code Form is subject to the terms of the Mozilla Public
+++ * License, v. 2.0.  If a copy of the MPL was not distributed with this
+++ * file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++ *
+++ * See the COPYRIGHT file distributed with this work for additional
+++ * information regarding copyright ownership.
+++ */
+++
 ++options {
 ++	query-source address 10.53.0.1;
 ++	notify-source 10.53.0.1;
@@ -1161,142 +2407,117 @@ index 0000000000..66d8dbd268
 ++	pid-file "named.pid";
 ++	listen-on { 10.53.0.1; };
 ++	listen-on-v6 { none; };
+++	recursion no;
+++	notify yes;
 ++};
 ++
-++key rndc_key {
-++	secret "1234abcd8765";
-++	algorithm @DEFAULT_HMAC@;
+++zone "." {
+++	type primary;
+++	file "root.db";
 ++};
-++
-++controls {
-++	inet 10.53.0.1 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
-++};
-++
-++view chaos ch {
-++	match-clients { any; };
-++	recursion yes;
-++	zone "." {
-++		type hint;
-++		file "chaos.db";
-++	};
-++	zone "version.bind" {
-++		type primary;
-++		database "_builtin version";
-++	};
-++};
-+diff --git a/bin/tests/system/class/ns2/example.db.in b/bin/tests/system/class/ns2/example.db.in
++diff --git a/bin/tests/system/srtt/ns1/root.db b/bin/tests/system/srtt/ns1/root.db
 +new file mode 100644
-+index 0000000000..a658ddbd89
++index 0000000000..29ecd1d89d
 +--- /dev/null
-++++ b/bin/tests/system/class/ns2/example.db.in
-+@@ -0,0 +1,6 @@
+++++ b/bin/tests/system/srtt/ns1/root.db
++@@ -0,0 +1,36 @@
+++; Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++;
+++; SPDX-License-Identifier: MPL-2.0
+++;
+++; This Source Code Form is subject to the terms of the Mozilla Public
+++; License, v. 2.0.  If a copy of the MPL was not distributed with this
+++; file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++;
+++; See the COPYRIGHT file distributed with this work for additional
+++; information regarding copyright ownership.
+++
 ++$TTL 300
-++@ CH SOA ns.example. hostmaster.example. 1 3600 1200 604800 300
-++@ CH NS ns.example.
-++ns CH TXT "ns"
-++a CH A target.example. 1
-++target CH TXT "target"
-+diff --git a/bin/tests/system/class/ns2/localhost.db.in b/bin/tests/system/class/ns2/localhost.db.in
+++. 			IN SOA	owner.root-servers.nil. a.root-servers.nil. (
+++				2000042100   	; serial
+++				600         	; refresh
+++				600         	; retry
+++				1200    	; expire
+++				600       	; minimum
+++				)
+++.			NS	a.root-servers.nil.
+++a.root-servers.nil.	A	10.53.0.1
+++
+++; The idea is that the resolver would do 2 ADB lookups, so there would be 2
+++; find list, both with 2 IPs in it. ns1 (which is actually ans2 and ans5) would
+++; have both the slowest and fastest addresses. ns2 (which is actually ans3 and
+++; ans4) would have two addresses in the middle.
+++
+++example.		NS	ns1.example.
+++example.		NS	ns1.example.
+++example.		NS	ns2.example.
+++example.		NS	ns2.example.
+++
+++ns1.example.		A	10.53.0.2 ; delay is 0
+++ns1.example.		A	10.53.0.5 ; delay is 0.15
+++ns2.example.		A	10.53.0.4 ; delay is 0.08
+++ns2.example.		A	10.53.0.3 ; delay is 0.03
++diff --git a/bin/tests/system/srtt/ns6/named.args b/bin/tests/system/srtt/ns6/named.args
 +new file mode 100644
-+index 0000000000..baa5f74862
++index 0000000000..b5de5874ec
 +--- /dev/null
-++++ b/bin/tests/system/class/ns2/localhost.db.in
-+@@ -0,0 +1,6 @@
-++$ORIGIN 1.0.0.127.in-addr.arpa.
-++$TTL 300
-++@ IN SOA ns hostmaster 1 3600 900 604800 300
-++@ IN NS ns
-++ns IN A 127.0.0.1
-++@ IN KX 10 target.example.
-+diff --git a/bin/tests/system/class/ns2/named.conf.j2 b/bin/tests/system/class/ns2/named.conf.j2
+++++ b/bin/tests/system/srtt/ns6/named.args
++@@ -0,0 +1 @@
+++-D srtt-ns6 -m record -c named.conf -d 99 -g -T maxcachesize=2097152 -4
++diff --git a/bin/tests/system/srtt/ns6/named.conf.j2 b/bin/tests/system/srtt/ns6/named.conf.j2
 +new file mode 100644
-+index 0000000000..5618c15216
++index 0000000000..1d27505a8e
 +--- /dev/null
-++++ b/bin/tests/system/class/ns2/named.conf.j2
-+@@ -0,0 +1,42 @@
+++++ b/bin/tests/system/srtt/ns6/named.conf.j2
++@@ -0,0 +1,41 @@
+++/*
+++ * Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++ *
+++ * SPDX-License-Identifier: MPL-2.0
+++ *
+++ * This Source Code Form is subject to the terms of the Mozilla Public
+++ * License, v. 2.0.  If a copy of the MPL was not distributed with this
+++ * file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++ *
+++ * See the COPYRIGHT file distributed with this work for additional
+++ * information regarding copyright ownership.
+++ */
+++
+++
 ++options {
-++	directory ".";
-++	query-source address 10.53.0.2;
-++	notify-source 10.53.0.2;
-++	transfer-source 10.53.0.2;
+++	query-source address 10.53.0.6;
+++	notify-source 10.53.0.6;
+++	transfer-source 10.53.0.6;
 ++	port @PORT@;
 ++	pid-file "named.pid";
-++	listen-on { 10.53.0.2; };
+++	listen-on { 10.53.0.6; };
 ++	listen-on-v6 { none; };
-++};
-++
-++key rndc_key {
-++	secret "1234abcd8765";
-++	algorithm @DEFAULT_HMAC@;
-++};
-++
-++controls {
-++	inet 10.53.0.2 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
-++};
-++
-++view default {
-++	match-clients { any; };
-++	recursion no;
-++        dnssec-validation no;
-++	zone "1.0.0.127.in-addr.arpa." {
-++		type primary;
-++		file "localhost.db";
-++		update-policy {
-++			grant * tcp-self . ANY;
-++		};
-++	};
-++};
-++
-++view chaos ch {
-++	match-clients { any; };
-++	recursion no;
-++	zone example {
-++		type primary;
-++		file "example.db";
-++		allow-update { any; };
-++	};
-++};
-+diff --git a/bin/tests/system/class/ns3/named.conf.j2 b/bin/tests/system/class/ns3/named.conf.j2
-+new file mode 100644
-+index 0000000000..3016333aad
-+--- /dev/null
-++++ b/bin/tests/system/class/ns3/named.conf.j2
-+@@ -0,0 +1,28 @@
-++options {
-++	directory ".";
-++	query-source address 10.53.0.3;
-++	notify-source 10.53.0.3;
-++	transfer-source 10.53.0.3;
-++	port @PORT@;
-++	pid-file "named.pid";
-++	listen-on { 10.53.0.3; };
-++	listen-on-v6 { none; };
-++};
-++
-++key rndc_key {
-++	secret "1234abcd8765";
-++	algorithm @DEFAULT_HMAC@;
-++};
-++
-++controls {
-++	inet 10.53.0.3 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
-++};
-++
-++view chaos ch {
-++	match-clients { any; };
 ++	recursion yes;
-++        dnssec-validation no;
-++        forward only;
-++        forwarders port @PORT@ { 10.53.0.2; };
-++        deny-answer-addresses { 0.0.0.0/0; ::/0; };
+++	dnssec-validation no;
+++	dnstap { resolver query; };
+++	dnstap-output file "dnstap.out";
 ++};
-+diff --git a/bin/tests/system/class/setup.sh b/bin/tests/system/class/setup.sh
+++
+++key rndc_key {
+++	secret "1234abcd8765";
+++	algorithm @DEFAULT_HMAC@;
+++};
+++
+++controls {
+++	inet 10.53.0.6 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
+++};
+++
+++zone "." {
+++	type hint;
+++	file "../../_common/root.hint";
+++};
++diff --git a/bin/tests/system/srtt/prereq.sh b/bin/tests/system/srtt/prereq.sh
 +new file mode 100644
-+index 0000000000..c70a2f8290
++index 0000000000..747f448982
 +--- /dev/null
-++++ b/bin/tests/system/class/setup.sh
-+@@ -0,0 +1,19 @@
-++#!/bin/sh -e
+++++ b/bin/tests/system/srtt/prereq.sh
++@@ -0,0 +1,20 @@
+++#!/bin/sh
 ++
 ++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
 ++#
@@ -1309,18 +2530,84 @@ index 0000000000..66d8dbd268
 ++# See the COPYRIGHT file distributed with this work for additional
 ++# information regarding copyright ownership.
 ++
-++# shellcheck source=conf.sh
 ++. ../conf.sh
 ++
-++cp ns1/chaos.db.in ns1/chaos.db
-++cp ns2/example.db.in ns2/example.db
-++cp ns2/localhost.db.in ns2/localhost.db
-+diff --git a/bin/tests/system/class/tests_class_chaos.py b/bin/tests/system/class/tests_class_chaos.py
+++$FEATURETEST --enable-dnstap || {
+++  echo_i "This test requires dnstap support." >&2
+++  exit 255
+++}
+++exit 0
++diff --git a/bin/tests/system/srtt/srtt_ans.py b/bin/tests/system/srtt/srtt_ans.py
 +new file mode 100644
-+index 0000000000..5b4fef9ae4
++index 0000000000..9387486993
 +--- /dev/null
-++++ b/bin/tests/system/class/tests_class_chaos.py
-+@@ -0,0 +1,54 @@
+++++ b/bin/tests/system/srtt/srtt_ans.py
++@@ -0,0 +1,59 @@
+++"""
+++Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++
+++SPDX-License-Identifier: MPL-2.0
+++
+++This Source Code Form is subject to the terms of the Mozilla Public
+++License, v. 2.0.  If a copy of the MPL was not distributed with this
+++file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++
+++See the COPYRIGHT file distributed with this work for additional
+++information regarding copyright ownership.
+++"""
+++
+++from collections.abc import AsyncGenerator
+++
+++import abc
+++
+++import dns.rdataclass
+++import dns.rdatatype
+++import dns.rrset
+++
+++from isctest.asyncserver import DnsResponseSend, QnameQtypeHandler, QueryContext
+++
+++
+++class DelayedQnameRangeHandler(QnameQtypeHandler):
+++    """
+++    Respond to queries for QNAMEs "foo1.example." through "foo<N>.example."
+++    with QTYPE=A, where <N> must be defined by the subclass.  Every response is
+++    delayed by a fixed amount of time, which must also be defined (in seconds)
+++    by the subclass.
+++    """
+++
+++    @property
+++    def qnames(self) -> list[str]:
+++        return [f"foo{x}.example." for x in range(1, self.max_qname + 1)]
+++
+++    qtypes = [dns.rdatatype.A]
+++
+++    @property
+++    @abc.abstractmethod
+++    def max_qname(self) -> int:
+++        raise NotImplementedError
+++
+++    @property
+++    @abc.abstractmethod
+++    def delay(self) -> float:
+++        raise NotImplementedError
+++
+++    def __str__(self) -> str:
+++        return f"{self.__class__.__name__}(foo[1-{self.max_qname}].example/A)"
+++
+++    async def get_responses(
+++        self, qctx: QueryContext
+++    ) -> AsyncGenerator[DnsResponseSend, None]:
+++        a_rrset = dns.rrset.from_text(
+++            qctx.qname, 300, dns.rdataclass.IN, dns.rdatatype.A, "10.53.9.9"
+++        )
+++        qctx.response.answer.append(a_rrset)
+++        yield DnsResponseSend(qctx.response, delay=self.delay)
++diff --git a/bin/tests/system/srtt/tests_srtt.py b/bin/tests/system/srtt/tests_srtt.py
++new file mode 100644
++index 0000000000..55611922a7
++--- /dev/null
+++++ b/bin/tests/system/srtt/tests_srtt.py
++@@ -0,0 +1,86 @@
 ++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
 ++#
 ++# SPDX-License-Identifier: MPL-2.0
@@ -1332,526 +2619,145 @@ index 0000000000..66d8dbd268
 ++# See the COPYRIGHT file distributed with this work for additional
 ++# information regarding copyright ownership.
 ++
-++
-++import dns.opcode
-++import pytest
+++import os
 ++
 ++import isctest
 ++
-++pytestmark = pytest.mark.extra_artifacts(
-++    [
-++        "*/*.db",
-++    ]
-++)
+++
+++def line_to_dst_ips(line):
+++    # dnstap-read output line example
+++    # 05-Feb-2026 11:00:57.853 RQ 10.53.0.6:38507 -> 10.53.0.3:22047 TCP 56b fooXXX.example./IN/NS
+++    _, _, _, _, _, dst, _, _, _ = line.split(" ", 9)
+++    ip, _ = dst.split(":", 1)
+++    return ip
 ++
 ++
-++def test_chaos_recursion():
-++    msg = isctest.query.create("foo.example.", "TXT", qclass="CH")
-++    res = isctest.query.udp(msg, "10.53.0.1")
-++    isctest.check.refused(res)
-++
-++
-++def test_chaos_auth():
-++    msg = isctest.query.create("a.example.", "A", qclass="CH")
-++    res = isctest.query.udp(msg, "10.53.0.2")
-++    isctest.check.noerror(res)
-++
-++
-++def test_chaos_forward():
-++    msg = isctest.query.create("a.example.", "A", qclass="CH")
-++    res = isctest.query.udp(msg, "10.53.0.3")
-++    isctest.check.refused(res)
-++
-++
-++def test_chaos_notify():
-++    msg = isctest.query.create("example.", "SOA", qclass="CH", rd=False, dnssec=False)
-++    msg.set_opcode(dns.opcode.NOTIFY)
-++    msg.flags = dns.opcode.to_flags(dns.opcode.NOTIFY)
-++    res = isctest.query.udp(msg, "10.53.0.2")
-++    isctest.check.notimp(res)
-++
-++
-++def test_query_class_none():
-++    msg = isctest.query.create("example.", "A", qclass="NONE")
-++    res = isctest.query.udp(msg, "10.53.0.2")
-++    isctest.check.formerr(res)
-+diff --git a/bin/tests/system/isctest/check.py b/bin/tests/system/isctest/check.py
-+index e7187b8853..597f3aaa7f 100644
-+--- a/bin/tests/system/isctest/check.py
-++++ b/bin/tests/system/isctest/check.py
-+@@ -42,6 +42,10 @@ def servfail(message: dns.message.Message) -> None:
-+     rcode(message, dns_rcode.SERVFAIL)
-+ 
-+ 
-++def formerr(message: dns.message.Message) -> None:
-++    rcode(message, dns.rcode.FORMERR)
-++
-++
-+ def adflag(message: dns.message.Message) -> None:
-+     assert (message.flags & dns.flags.AD) != 0, str(message)
-+ 
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p7.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p7.patch
-new file mode 100644
-index 0000000000..8e8ae87b58
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p7.patch
-@@ -0,0 +1,153 @@
-+From b33de089c7955453f07345ada5386e289c6cc74c Mon Sep 17 00:00:00 2001
-+From: Evan Hunt <each@isc.org>
-+Date: Tue, 17 Mar 2026 13:45:11 -0700
-+Subject: [PATCH] Test UPDATE behavior in CHAOS and other non-IN classes
-+
-+Send various UPDATE requests that are known to have caused
-+crashes previously with deliberately misconfigured non-IN
-+zones; confirm that UPDATE is not processed.
-+
-+CVE: CVE-2026-5946
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/e5b3149b70ed24f7590b6bc08aad4492a00c2022]
-+
-+(cherry picked from commit e2f7ba2a4b6e7e5dba2fb1a2c9b2f0323e9a88be)
-+(cherry picked from commit e5b3149b70ed24f7590b6bc08aad4492a00c2022)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ bin/named/server.c                           |  1 -
-+ bin/tests/system/class/ns2/localhost.db.in   |  5 +
-+ bin/tests/system/class/tests_class_update.py | 96 ++++++++++++++++++++
-+ 3 files changed, 101 insertions(+), 1 deletion(-)
-+ create mode 100644 bin/tests/system/class/tests_class_update.py
-+
-+diff --git a/bin/named/server.c b/bin/named/server.c
-+index 59e2aa3313..577efbb299 100644
-+--- a/bin/named/server.c
-++++ b/bin/named/server.c
-+@@ -5465,7 +5465,6 @@ configure_view(dns_view_t *view, dns_viewlist_t *viewlist, cfg_obj_t *config,
-+ 				 NULL, actx, named_g_mctx, &view->cacheonacl));
-+ 
-+ 	if (view->rdclass != dns_rdataclass_in) {
-+-		view->recursion = false;
-+ 		dns_acl_none(named_g_mctx, &view->recursionacl);
-+ 		dns_acl_none(named_g_mctx, &view->recursiononacl);
-+ 	} else {
-+diff --git a/bin/tests/system/class/ns2/localhost.db.in b/bin/tests/system/class/ns2/localhost.db.in
-+index baa5f74862..a50e5167a9 100644
-+--- a/bin/tests/system/class/ns2/localhost.db.in
-++++ b/bin/tests/system/class/ns2/localhost.db.in
-+@@ -3,4 +3,9 @@ $TTL 300
-+ @ IN SOA ns hostmaster 1 3600 900 604800 300
-+ @ IN NS ns
-+ ns IN A 127.0.0.1
-++
-+ @ IN KX 10 target.example.
-++@ IN PX 10 map822.example. mapx400.example.
-++@ IN NSAP 0x47000580ffff0000000001e133ffffff00016200
-++@ IN NSAP-PTR target.example.
-++@ in EID \# 01 aa
-+diff --git a/bin/tests/system/class/tests_class_update.py b/bin/tests/system/class/tests_class_update.py
-+new file mode 100644
-+index 0000000000..e53bbc77ea
-+--- /dev/null
-++++ b/bin/tests/system/class/tests_class_update.py
-+@@ -0,0 +1,96 @@
-++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++#
-++# SPDX-License-Identifier: MPL-2.0
-++#
-++# This Source Code Form is subject to the terms of the Mozilla Public
-++# License, v. 2.0.  If a copy of the MPL was not distributed with this
-++# file, you can obtain one at https://mozilla.org/MPL/2.0/.
-++#
-++# See the COPYRIGHT file distributed with this work for additional
-++# information regarding copyright ownership.
-++
-++import socket
-++import struct
-++
-++from dns import rdataclass, rdatatype, update
-++
-++import pytest
-++
-++import isctest
-++
-++pytestmark = pytest.mark.extra_artifacts(
-++    [
-++        "*/*.db",
-++    ]
-++)
-++
-++
-++def encode_name(name: str) -> bytes:
-++    out = b""
-++    for label in name.rstrip(".").split("."):
-++        out += bytes([len(label)]) + label.encode("ascii")
-++    return out + b"\x00"
-++
-++
-++@pytest.mark.parametrize(
-++    "rdtype,rdclass,ttl,rdata",
-++    [
-++        (rdatatype.SRV, rdataclass.NONE, 0, b"\x00"),
-++        (rdatatype.KX, rdataclass.NONE, 0, b""),
-++        (rdatatype.PX, rdataclass.NONE, 0, b""),
-++        (rdatatype.NSAP, rdataclass.NONE, 0, b""),
-++        (rdatatype.NSAP_PTR, rdataclass.NONE, 0, b""),
-++        (31, rdataclass.NONE, 0, b""),  # dnspython doesn't define type EID
-++    ],
-++)
-++def test_class_invalid(rdtype, rdclass, ttl, rdata, named_port):
-++    # these update messages are badly formatted, so we construct
-++    # them manually instead of using dnspython.
-++
-++    # opcode=UPDATE, 1 RRset in ZONE, 1 RRset in UPDATE
-++    header = struct.pack("!HHHHHH", 0, 0x2800, 1, 0, 1, 0)
-++
-++    # ZONE section: QNAME=<zone>, QTYPE=SOA, QCLASS=ANY
-++    zone_q = encode_name("1.0.0.127.in-addr.arpa") + struct.pack("!HH", 6, 255)
-++
-++    # UPDATE section RR:
-++    update_rr = (
-++        encode_name("1.0.0.127.in-addr.arpa")
-++        + struct.pack("!HHIH", rdtype, rdclass, ttl, len(rdata))
-++        + rdata
+++def extract_dnstap(ns, nsid):
+++    ns.rndc("dnstap -roll 1")
+++    path = os.path.join(nsid, "dnstap.out.0")
+++    dnstapread = isctest.run.cmd(
+++        [os.getenv("DNSTAPREAD"), path],
 ++    )
 ++
-++    m = header + zone_q + update_rr
-++    packet = struct.pack("!H", len(m)) + m
-++
-++    with socket.create_connection(
-++        ("10.53.0.2", named_port), source_address=("127.0.0.1", 0), timeout=2.0
-++    ) as s:
-++        s.sendall(packet)
-++        try:
-++            rwire = s.recv(4096)
-++            res = dns.message.from_wire(rwire)
-++            isctest.check.formerr(res)
-++        except Exception:  # pylint: disable=broad-except
-++            pass
-++
-++    # check the server is answering
-++    msg = isctest.query.create("1.0.0.127.in-addr.arpa", "SRV")
-++    res = isctest.query.udp(msg, "10.53.0.2")
-++    isctest.check.noerror(res)
-++    isctest.check.rr_count_eq(res.answer, 0)
+++    lines = dnstapread.out.splitlines()
+++    return map(line_to_dst_ips, lines)
 ++
 ++
-++@pytest.mark.parametrize(
-++    "rdtype,rdata",
-++    [
-++        (rdatatype.SVCB, "\\# 02 0000"),
-++        (rdatatype.WKS, "\\# 02 4142"),
-++        (rdatatype.WKS, "\\# 02 4344"),
-++    ],
-++)
-++def test_class_chaosupdate(rdtype, rdata):
-++    up = update.UpdateMessage("example.", rdclass=rdataclass.CHAOS)
-++    up.add("foo.example.", 300, rdtype, rdata)
-++    res = isctest.query.tcp(up, "10.53.0.2")
-++    isctest.check.notimp(res)
+++def assert_used_auth(ns, nsid, authip):
+++    ips = extract_dnstap(ns, nsid)
+++    queries = 0
+++    matches = 0
+++    for ip in ips:
+++        queries += 1
+++        if ip == authip:
+++            matches += 1
+++    assert matches > 85
+++    assert queries <= 115
+++
+++
+++def test_srtt(ns6):
+++    for i in range(1, 100):
+++        msg = isctest.query.create(f"foo{i}.example.", "A")
+++        res = isctest.query.udp(msg, ns6.ip)
+++        isctest.check.noerror(res)
+++        assert len(res.answer[0]) == 1
+++        res.answer[0].ttl = 300
+++        assert str(res.answer[0]) == f"foo{i}.example. 300 IN A 10.53.9.9"
+++
+++    assert_used_auth(ns6, "ns6", "10.53.0.2")
+++
+++    for i in range(100, 200):
+++        msg = isctest.query.create(f"foo{i}.example.", "A")
+++        res = isctest.query.udp(msg, ns6.ip)
+++        isctest.check.noerror(res)
+++        assert len(res.answer[0]) == 1
+++        res.answer[0].ttl = 300
+++        assert str(res.answer[0]) == f"foo{i}.example. 300 IN A 10.53.9.9"
+++
+++    assert_used_auth(ns6, "ns6", "10.53.0.3")
+++
+++    for i in range(200, 300):
+++        msg = isctest.query.create(f"foo{i}.example.", "A")
+++        res = isctest.query.udp(msg, ns6.ip)
+++        isctest.check.noerror(res)
+++        assert len(res.answer[0]) == 1
+++        res.answer[0].ttl = 300
+++        assert str(res.answer[0]) == f"foo{i}.example. 300 IN A 10.53.9.9"
+++
+++    assert_used_auth(ns6, "ns6", "10.53.0.4")
+++
+++    for i in range(300, 400):
+++        msg = isctest.query.create(f"foo{i}.example.", "A")
+++        res = isctest.query.udp(msg, ns6.ip)
+++        isctest.check.noerror(res)
+++        assert len(res.answer[0]) == 1
+++        res.answer[0].ttl = 300
+++        assert str(res.answer[0]) == f"foo{i}.example. 300 IN A 10.53.9.9"
+++    assert_used_auth(ns6, "ns6", "10.53.0.5")
 +-- 
 +2.35.6
 +
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p8.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p8.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p6.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p6.patch
 new file mode 100644
-index 0000000000..216d115f80
+index 0000000000..449e1a1eee
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p8.patch
-@@ -0,0 +1,225 @@
-+From 992e238e6ed8e4a43948d8a103a219d2512b31f4 Mon Sep 17 00:00:00 2001
-+From: Evan Hunt <each@isc.org>
-+Date: Mon, 9 Mar 2026 15:50:04 +1100
-+Subject: [PATCH] Test server behavior when sending various UPDATE requests
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-3592_p6.patch
+@@ -0,0 +1,41 @@
++From 4edafe63a0dfa9142e88ba66b429c35ee286d4dd Mon Sep 17 00:00:00 2001
++From: Colin Vidal <colin@isc.org>
++Date: Thu, 30 Apr 2026 19:02:47 +0100
++Subject: [PATCH] Fix `resend_loop` system test
 +
-+Send update messages for zones with CLASS0, ANY and NONE.  The class
-+ANY UPDATE also attempts to delete a KX record in an existing IN
-+class zone to trigger a REQUIRE.
++Commit `c78016ff91ed33221831b4723108d69639430913` backported asyncserver
++features to 9.18 branches, but the `resend_loop` test was still using
++the previous API to install handlers (passing a list of handlers rather
++than a varags). This is now fixed.
 +
-+Test that the server is still running.
++CVE: CVE-2026-3592
++Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/cb13dcabdb64bdb5f8f7ed33980aaf470a90e877]
 +
-+CVE: CVE-2026-5946
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/7e3d49815c3b8243b009c29955cef018fe87b7f0]
-+
-+(cherry picked from commit 1fa1e84d286d5a6d9d3b72ed1c2c29142f40c81d)
-+(cherry picked from commit 7e3d49815c3b8243b009c29955cef018fe87b7f0)
++(cherry picked from commit cb13dcabdb64bdb5f8f7ed33980aaf470a90e877)
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ bin/tests/system/class/tests_class_update.py | 45 +++++++++++++++++++-
-+ bin/tests/system/nsupdate/setup.sh           |  1 +
-+ bin/tests/system/nsupdate/tests.sh           | 20 +++------
-+ bin/tests/system/packet.pl                   | 25 +++++++++--
-+ 4 files changed, 71 insertions(+), 20 deletions(-)
++ bin/tests/system/resend_loop/ans3/ans.py | 8 +++-----
++ 1 file changed, 3 insertions(+), 5 deletions(-)
 +
-+diff --git a/bin/tests/system/class/tests_class_update.py b/bin/tests/system/class/tests_class_update.py
-+index e53bbc77ea..30e3ba6d2a 100644
-+--- a/bin/tests/system/class/tests_class_update.py
-++++ b/bin/tests/system/class/tests_class_update.py
-+@@ -12,7 +12,7 @@
-+ import socket
-+ import struct
-+ 
-+-from dns import rdataclass, rdatatype, update
-++from dns import message, rdataclass, rdatatype, update
-+ 
-+ import pytest
-+ 
-+@@ -35,6 +35,7 @@ def encode_name(name: str) -> bytes:
-+ @pytest.mark.parametrize(
-+     "rdtype,rdclass,ttl,rdata",
-+     [
-++        (rdatatype.SRV, rdataclass.NONE, 0, b"\x00\x00\x00\x00\x00\x00\x01"),
-+         (rdatatype.SRV, rdataclass.NONE, 0, b"\x00"),
-+         (rdatatype.KX, rdataclass.NONE, 0, b""),
-+         (rdatatype.PX, rdataclass.NONE, 0, b""),
-+@@ -69,7 +70,7 @@ def test_class_invalid(rdtype, rdclass, ttl, rdata, named_port):
-+         s.sendall(packet)
-+         try:
-+             rwire = s.recv(4096)
-+-            res = dns.message.from_wire(rwire)
-++            res = message.from_wire(rwire)
-+             isctest.check.formerr(res)
-+         except Exception:  # pylint: disable=broad-except
-+             pass
-+@@ -94,3 +95,43 @@ def test_class_chaosupdate(rdtype, rdata):
-+     up.add("foo.example.", 300, rdtype, rdata)
-+     res = isctest.query.tcp(up, "10.53.0.2")
-+     isctest.check.notimp(res)
-++
-++
-++def test_class_undefined(ns2):
-++    up = update.UpdateMessage(".", rdclass=257)
-++    up.present(".", 0)
-++    up.answer[0].rdclass = rdataclass.NONE
-++    with ns2.watch_log_from_here() as watcher:
-++        res = isctest.query.tcp(up, "10.53.0.2")
-++        isctest.check.notimp(res)
-++        watcher.wait_for_line("invalid message class: CLASS257")
-++
-++
-++def test_class_zero(ns2):
-++    up = update.UpdateMessage(".", rdclass=0)
-++    up.present(".", 0)
-++    up.answer[0].rdclass = rdataclass.NONE
-++    with ns2.watch_log_from_here() as watcher:
-++        res = isctest.query.tcp(up, "10.53.0.2")
-++        isctest.check.formerr(res)
-++        watcher.wait_for_line("message class could not be determined")
-++
-++
-++def test_class_any(ns2):
-++    up = update.UpdateMessage(".", rdclass=rdataclass.ANY)
-++    up.present(".", 0)
-++    up.answer[0].rdclass = rdataclass.NONE
-++    with ns2.watch_log_from_here() as watcher:
-++        res = isctest.query.tcp(up, "10.53.0.2")
-++        isctest.check.formerr(res)
-++        watcher.wait_for_line("message parsing failed: FORMERR")
-++
-++
-++def test_class_none(ns2):
-++    up = update.UpdateMessage(".", rdclass=rdataclass.NONE)
-++    up.present(".", 0)
-++    up.answer[0].rdclass = rdataclass.NONE
-++    with ns2.watch_log_from_here() as watcher:
-++        res = isctest.query.tcp(up, "10.53.0.2")
-++        isctest.check.formerr(res)
-++        watcher.wait_for_line("message parsing failed: FORMERR")
-+diff --git a/bin/tests/system/nsupdate/setup.sh b/bin/tests/system/nsupdate/setup.sh
-+index 4ee045facc..4402329e3b 100644
-+--- a/bin/tests/system/nsupdate/setup.sh
-++++ b/bin/tests/system/nsupdate/setup.sh
-+@@ -61,6 +61,7 @@ update.nil              IN SOA  ns1.example.nil. hostmaster.example.nil. (
-+                                 3600       ; minimum (1 hour)
-+                                 )
-+ update.nil.             NS      ns1.update.nil.
-++update.nil.             KX      0 .
-+ ns1.update.nil.         A       10.53.0.2
-+ ns2.update.nil.		AAAA	::1
-+ EOF
-+diff --git a/bin/tests/system/nsupdate/tests.sh b/bin/tests/system/nsupdate/tests.sh
-+index be0df8aaad..521ba46eff 100755
-+--- a/bin/tests/system/nsupdate/tests.sh
-++++ b/bin/tests/system/nsupdate/tests.sh
-+@@ -340,8 +340,10 @@ grep "status: NOERROR" dig.out.ns1.$n >/dev/null || ret=1
-+ n=$((n + 1))
-+ ret=0
-+ echo_i "check that TYPE=0 update is handled ($n)"
-++nextpart ns1/named.run >/dev/null
-+ echo "a0e4280000010000000100000000060001c00c000000fe000000000000" \
-+-  | $PERL ../packet.pl -a 10.53.0.1 -p ${PORT} -t tcp >/dev/null || ret=1
-++  | $PERL ../packet.pl -a 10.53.0.1 -p ${PORT} -t tcp -b >/dev/null || ret=1
-++wait_for_log 2 "message parsing failed: FORMERR" ns1/named.run || ret=1
-+ $DIG $DIGOPTS +tcp version.bind txt ch @10.53.0.1 >dig.out.ns1.$n || ret=1
-+ grep "status: NOERROR" dig.out.ns1.$n >/dev/null || ret=1
-+ [ $ret = 0 ] || {
-+@@ -352,20 +354,10 @@ grep "status: NOERROR" dig.out.ns1.$n >/dev/null || ret=1
-+ n=$((n + 1))
-+ ret=0
-+ echo_i "check that TYPE=0 additional data is handled ($n)"
-++nextpart ns1/named.run >/dev/null
-+ echo "a0e4280000010000000000010000060001c00c000000fe000000000000" \
-+-  | $PERL ../packet.pl -a 10.53.0.1 -p ${PORT} -t tcp >/dev/null || ret=1
-+-$DIG $DIGOPTS +tcp version.bind txt ch @10.53.0.1 >dig.out.ns1.$n || ret=1
-+-grep "status: NOERROR" dig.out.ns1.$n >/dev/null || ret=1
-+-[ $ret = 0 ] || {
-+-  echo_i "failed"
-+-  status=1
-+-}
-+-
-+-n=$((n + 1))
-+-ret=0
-+-echo_i "check that update to undefined class is handled ($n)"
-+-echo "a0e4280000010001000000000000060101c00c000000fe000000000000" \
-+-  | $PERL ../packet.pl -a 10.53.0.1 -p ${PORT} -t tcp >/dev/null || ret=1
-++  | $PERL ../packet.pl -a 10.53.0.1 -p ${PORT} -t tcp -b >/dev/null || ret=1
-++wait_for_log 2 "message parsing failed: FORMERR" ns1/named.run || ret=1
-+ $DIG $DIGOPTS +tcp version.bind txt ch @10.53.0.1 >dig.out.ns1.$n || ret=1
-+ grep "status: NOERROR" dig.out.ns1.$n >/dev/null || ret=1
-+ [ $ret = 0 ] || {
-+diff --git a/bin/tests/system/packet.pl b/bin/tests/system/packet.pl
-+index 900a0c071e..afb9f4784d 100644
-+--- a/bin/tests/system/packet.pl
-++++ b/bin/tests/system/packet.pl
-+@@ -40,6 +40,7 @@
-+ # -p <port>:     specify port
-+ # -t <protocol>: specify UDP or TCP
-+ # -r <num>:      send packet <num> times
-++# -b:		 blocking io
-+ # -d:            dump response packets
-+ #
-+ # If not specified, address defaults to 127.0.0.1, port to 53, protocol
-+@@ -51,6 +52,8 @@ use strict;
-+ use Getopt::Std;
-+ use IO::File;
-+ use IO::Socket;
-++use Net::DNS;
-++use Net::DNS::Packet;
-+ 
-+ sub usage {
-+     print ("Usage: packet.pl [-a address] [-d] [-p port] [-t (tcp|udp)] [-r <repeats>] [file]\n");
-+@@ -61,8 +64,6 @@ my $sock;
-+ my $proto;
-+ 
-+ sub dumppacket {
-+-    use Net::DNS;
-+-    use Net::DNS::Packet;
-+ 
-+     my $rin;
-+     my $rout;
-+@@ -96,7 +97,7 @@ sub dumppacket {
-+ }
-+ 
-+ my %options={};
-+-getopts("a:dp:t:r:", \%options);
-++getopts("a:bdp:t:r:", \%options);
-+ 
-+ my $addr = "127.0.0.1";
-+ $addr = $options{a} if defined $options{a};
-+@@ -111,6 +112,8 @@ usage if ($proto !~ /^(udp|tcp)$/);
-+ my $repeats = 1;
-+ $repeats = $options{r} if defined $options{r};
-+ 
-++my $blocking = defined $options{b} ? 1 : 0;
-++
-+ my $file = "STDIN";
-+ if (@ARGV >= 1) {
-+     my $filename = shift @ARGV;
-+@@ -132,8 +135,22 @@ my $len = length $data;
-+ my $output = unpack("H*", $data);
-+ print ("sending $repeats time(s): $output\n");
-+ 
-++
-++if (defined $options{d}) {
-++    my $request;
-++    if ($Net::DNS::VERSION > 0.68) {
-++        $request = new Net::DNS::Packet(\$data, 0);
-++        $@ and die $@;
-++    } else {
-++        my $err;
-++        ($request, $err) = new Net::DNS::Packet(\$data, 0);
-++        $err and die $err;
-++    }
-++    $request->print;
-++}
-++
-+ $sock = IO::Socket::INET->new(PeerAddr => $addr, PeerPort => $port,
-+-				 Blocking => 0,
-++				 Blocking => $blocking,
-+ 				 Proto => $proto,) or die "$!";
-+ 
-+ STDOUT->autoflush(1);
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p9.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p9.patch
-new file mode 100644
-index 0000000000..c15ee394f3
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5946_p9.patch
-@@ -0,0 +1,44 @@
-+From 42b3fcf5285b29f2b885eec67a10cd3de6f11805 Mon Sep 17 00:00:00 2001
-+From: Evan Hunt <each@isc.org>
-+Date: Mon, 23 Feb 2026 16:27:52 -0800
-+Subject: [PATCH] Make the RD flag optional in isctest.query()
-+
-+Add an 'rd' parameter (default True) to isctest.query.create() so
-+that non-recursive queries can be sent with rd=False.
-+
-+CVE: CVE-2026-5946
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/d79f2d3f35887ea4525e283d389d9078fa1ef439]
-+
-+(cherry picked from commit 12e511310024aac38ce223ee47b5108f06caf8f9)
-+(cherry picked from commit d79f2d3f35887ea4525e283d389d9078fa1ef439)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ bin/tests/system/isctest/query.py | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/bin/tests/system/isctest/query.py b/bin/tests/system/isctest/query.py
-+index b11b165f85..861a002220 100644
-+--- a/bin/tests/system/isctest/query.py
-++++ b/bin/tests/system/isctest/query.py
-+@@ -81,6 +81,7 @@ def create(
-+     qtype,
-+     qclass=dns.rdataclass.IN,
-+     dnssec: bool = True,
-++    rd: bool = True,
-+     cd: bool = False,
-+     ad: bool = True,
-+ ) -> dns.message.Message:
-+@@ -88,7 +89,9 @@ def create(
-+     msg = dns.message.make_query(
-+         qname, qtype, qclass, use_edns=True, want_dnssec=dnssec
++diff --git a/bin/tests/system/resend_loop/ans3/ans.py b/bin/tests/system/resend_loop/ans3/ans.py
++index 90a3f2f9cc..217bae0301 100644
++--- a/bin/tests/system/resend_loop/ans3/ans.py
+++++ b/bin/tests/system/resend_loop/ans3/ans.py
++@@ -111,11 +111,9 @@ class NoErrorHandler(ResponseHandler):
++ def resend_server() -> AsyncDnsServer:
++     server = AsyncDnsServer(default_aa=True, default_rcode=dns.rcode.NOERROR)
++     server.install_response_handlers(
++-        [
++-            PrimeHandler(),
++-            CookieHandler(),
++-            NoErrorHandler(),
++-        ]
+++        PrimeHandler(),
+++        CookieHandler(),
+++        NoErrorHandler(),
 +     )
-+-    msg.flags = dns.flags.RD
-++    msg.flags = 0
-++    if rd:
-++        msg.flags = dns.flags.RD
-+     if ad:
-+         msg.flags |= dns.flags.AD
-+     if cd:
++     return server
++ 
 +-- 
 +2.35.6
 +
 diff --git a/meta/recipes-connectivity/bind/bind_9.18.44.bb b/meta/recipes-connectivity/bind/bind_9.18.44.bb
-index 7b5baf5338..42651fca4e 100644
+index d55e0e0c4d..dd8923f185 100644
 --- a/meta/recipes-connectivity/bind/bind_9.18.44.bb
 +++ b/meta/recipes-connectivity/bind/bind_9.18.44.bb
-@@ -32,6 +32,17 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://CVE-2026-3592_p4.patch \
-            file://CVE-2026-3592_p5.patch \
-            file://CVE-2026-3592_p6.patch \
-+           file://CVE-2026-5946-dependent_p1.patch \
-+           file://CVE-2026-5946-dependent_p2.patch \
-+           file://CVE-2026-5946_p1.patch \
-+           file://CVE-2026-5946_p2.patch \
-+           file://CVE-2026-5946_p3.patch \
-+           file://CVE-2026-5946_p4.patch \
-+           file://CVE-2026-5946_p5.patch \
-+           file://CVE-2026-5946_p6.patch \
-+           file://CVE-2026-5946_p7.patch \
-+           file://CVE-2026-5946_p8.patch \
-+           file://CVE-2026-5946_p9.patch \
+@@ -26,6 +26,12 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://CVE-2026-5950_p1.patch \
+            file://CVE-2026-5950_p2.patch \
+            file://CVE-2026-5950_p3.patch \
++           file://CVE-2026-3592_p1.patch \
++           file://CVE-2026-3592_p2.patch \
++           file://CVE-2026-3592_p3.patch \
++           file://CVE-2026-3592_p4.patch \
++           file://CVE-2026-3592_p5.patch \
++           file://CVE-2026-3592_p6.patch \
             "
  
  SRC_URI[sha256sum] = "81f5035a25c576af1a93f0061cf70bde6d00a0c7bd1274abf73f5b5389a6f82d"
