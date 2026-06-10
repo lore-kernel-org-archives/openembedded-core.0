@@ -2,56 +2,56 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C579CD98CD
-	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 09:49:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E49CCD98CD
+	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 09:50:02 +0000 (UTC)
 Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.16344.1781084985432073872
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2026 02:49:51 -0700
+ Wed, 10 Jun 2026 02:49:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=CiFLP5NC;
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=jOpVO3CF;
  spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1781084992; x=1812620992;
+  t=1781084995; x=1812620995;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=urhbTIAQVhwCQqVvaDaHb+ou0iQ3AtwfXmfwUkDejFg=;
-  b=CiFLP5NCUrFj4TK6F21gHmKNZjAQh9zW/nMbM78UsLrO93+ARwFLejtN
-   LNG+xYk+o4Y84tgnK84N1TMteMjvU9+jmj6CSavHp06edbz5IC7it0WU3
-   Xu9aoioz7ctaTFbHVJ5DtDJYqryFd8C+kcgtIJyZz9ciE5Rm3TJcV1eiJ
-   srAwMPmp4y0ALVBqO8QHqRXo11QlQFrq9UQj4i3CcfeDUP9vKlGqLGNJ+
-   CmAkgJRC+PrYXiVM95MwL9KIy98/kF/oGb1sydRVqq7Mk4M2q3acX6zlB
-   YxOpOLlqGP45MTV12AOYkt3CuBC1H/JXSjDQfB9IN8pqCM6p/oxhhMiYQ
+  bh=rqvkVezxRpzIbvyeR0Qf5fejzQl6OnWhrZhsJTx5UsE=;
+  b=jOpVO3CFYMPSFxLbSwcOnqBdqhc44QorWebb5Ksu3c7p38qouLdekcF3
+   2A9WEye1XX5DF4zH+jySEFS4rOc4VK/rTe2vs6VdWO4RvUfBJnJuix01B
+   +caay9CGbJ9qLw1mFoSRPjcrtpZXeJn8FQ0w7S0HP+sOu+MES/pvZA23b
+   sVKtxz7S9mrHyQb2GR2tXW/FgagEHmzHiPNk3a3ycqR5T+ReiImR8AN3x
+   W1L14bDE3pySrDN3EYNC+exVPYRjyKP2tSb7mNMf3w2DEqgtdD++Zt0Bx
+   DdEwDutd01J8sDaDqxxxI3H2GTZU/p1PNFL+wD+nCwhP7ZpAN2BXjLT0R
    w==;
-X-CSE-ConnectionGUID: L+Q0tDKxQE21pOb1iH4++w==
-X-CSE-MsgGUID: XQ66veC+Q/ule4yfi+Iedw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="243598904"
+X-CSE-ConnectionGUID: Dvb3JQ/pR+u+LUjsSQDAzw==
+X-CSE-MsgGUID: GyOkAgWkSL2njS2AsW5IKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="243598908"
 X-IronPort-AV: E=Sophos;i="6.24,197,1774278000"; 
-   d="scan'208";a="243598904"
+   d="scan'208";a="243598908"
 Received: from gmgwnl01.global.fujitsu.com ([52.143.17.124])
-  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 18:49:51 +0900
-Received: from az2nlsmgm2.o.css.fujitsu.com (unknown [10.150.26.202])
+  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 18:49:54 +0900
+Received: from az2nlsmgm4.fujitsu.com (unknown [10.150.26.204])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by gmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id 98ADB1000149
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 09:49:50 +0000 (UTC)
+	by gmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id C3C011C00092
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 09:49:53 +0000 (UTC)
 Received: from az2uksmom2.o.css.fujitsu.com (unknown [10.151.22.203])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by az2nlsmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id 493171C17445
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 09:49:50 +0000 (UTC)
+	by az2nlsmgm4.fujitsu.com (Postfix) with ESMTPS id 7B4C5101B16B
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 09:49:53 +0000 (UTC)
 Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.167.135.104])
-	by az2uksmom2.o.css.fujitsu.com (Postfix) with ESMTP id 57CD31400270;
-	Wed, 10 Jun 2026 09:49:48 +0000 (UTC)
+	by az2uksmom2.o.css.fujitsu.com (Postfix) with ESMTP id 8DEE81400277;
+	Wed, 10 Jun 2026 09:49:51 +0000 (UTC)
 From: Wang Mingyu < wangmy@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 05/16] dos2unix: upgrade 7.5.5 -> 7.5.6
-Date: Wed, 10 Jun 2026 17:49:20 +0800
-Message-ID: <20260610094932.2264-5-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 07/16] fastfloat: upgrade 8.2.5 -> 8.2.8
+Date: Wed, 10 Jun 2026 17:49:22 +0800
+Message-ID: <20260610094932.2264-7-wangmy@fujitsu.com>
 X-Mailer: git-send-email 2.49.0.windows.1
 In-Reply-To: <20260610094932.2264-1-wangmy@fujitsu.com>
 References: <20260610094932.2264-1-wangmy@fujitsu.com>
@@ -60,49 +60,40 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 09:49:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238330
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 09:50:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238332
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-============
- * New homepage https://waterlander.net/dos2unix/
- * Updated translations of the manual.
+===========
+- Unroll the integer-part digit scan (straight-line for the common 1-5 digit case)
+- Add a 4-digit SWAR follow-up to loop_parse_if_eight_digits (clang)
+- Parallelize the exhaustive float32 sweeps across hardware threads (~75-88x)
+- Fix spelling
+- Fix compile error in clang<10: fails on pragma -Wc++20-extensions
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../dos2unix/{dos2unix_7.5.5.bb => dos2unix_7.5.6.bb}       | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/dos2unix/{dos2unix_7.5.5.bb => dos2unix_7.5.6.bb} (88%)
+ .../fastfloat/{fastfloat_8.2.5.bb => fastfloat_8.2.8.bb}        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/fastfloat/{fastfloat_8.2.5.bb => fastfloat_8.2.8.bb} (90%)
 
-diff --git a/meta/recipes-support/dos2unix/dos2unix_7.5.5.bb b/meta/recipes-support/dos2unix/dos2unix_7.5.6.bb
-similarity index 88%
-rename from meta/recipes-support/dos2unix/dos2unix_7.5.5.bb
-rename to meta/recipes-support/dos2unix/dos2unix_7.5.6.bb
-index aa078ed200..8ef1d427e3 100644
---- a/meta/recipes-support/dos2unix/dos2unix_7.5.5.bb
-+++ b/meta/recipes-support/dos2unix/dos2unix_7.5.6.bb
-@@ -2,16 +2,16 @@ SUMMARY = "Convert text file line endings between CRLF and LF"
- DESCRIPTION = "The Dos2unix package includes utilities dos2unix and \
- unix2dos to convert plain text files in DOS or Mac format to Unix \
- format and vice versa."
--HOMEPAGE = "http://waterlan.home.xs4all.nl/dos2unix.html"
-+HOMEPAGE = "https://waterlander.net/dos2unix/"
- SECTION = "support"
+diff --git a/meta/recipes-devtools/fastfloat/fastfloat_8.2.5.bb b/meta/recipes-devtools/fastfloat/fastfloat_8.2.8.bb
+similarity index 90%
+rename from meta/recipes-devtools/fastfloat/fastfloat_8.2.5.bb
+rename to meta/recipes-devtools/fastfloat/fastfloat_8.2.8.bb
+index cbd7151f85..761bab84d7 100644
+--- a/meta/recipes-devtools/fastfloat/fastfloat_8.2.5.bb
++++ b/meta/recipes-devtools/fastfloat/fastfloat_8.2.8.bb
+@@ -9,6 +9,6 @@ LIC_FILES_CHKSUM = " \
  
- LICENSE = "BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://COPYING.txt;md5=af1174fd3d1a254eec3a4a1d1da170a9"
+ SRC_URI = "git://github.com/fastfloat/fast_float.git;protocol=https;branch=main;tag=v${PV}"
  
--SRC_URI = "git://git.code.sf.net/p/dos2unix/dos2unix;branch=master;protocol=https"
-+SRC_URI = "git://git.code.sf.net/p/dos2unix/dos2unix;branch=master;protocol=https;tag=${BPN}-${PV}"
- UPSTREAM_CHECK_GITTAGREGEX = "dos2unix-(?P<pver>(\d+(\.\d+)+))"
+-SRCREV = "05087a303dad9c98768b33c829d398223a649bc6"
++SRCREV = "e8ec8e8f34bd6142efdbf4c714734dcff51ea9ac"
  
--SRCREV = "54524999eece4e9ad0dab580c79b02855fc85028"
-+SRCREV = "9c2ea173af3bc49324f8288d81c5a2bbfc0884d0"
- 
- S = "${UNPACKDIR}/${BP}/dos2unix"
- 
+ inherit cmake
 -- 
 2.43.0
 
