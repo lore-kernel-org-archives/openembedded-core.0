@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C4BCD98D2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C654CD98CC
 	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 22:55:30 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33658.1781132129090412307
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33650.1781132122556898808
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2026 15:55:29 -0700
+ Wed, 10 Jun 2026 15:55:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=PqamUEVf;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490cf3000f0so46909905e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 15:55:28 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=tXCkEekx;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-45eecb8bf67so5522830f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 15:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781132127; x=1781736927; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1781132121; x=1781736921; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2AX+GEd0JNzd1tTXI1BCJ2CV+gkQVZ8wX8hSHSBdqHA=;
-        b=PqamUEVfG38cdqYUOI/ttjY1VFcB1RI8A2YA3byq8RxRW2Dg2pW0q9qLVcZSXArHj6
-         Fghm+KwSBa2JLYw+BL59KAU6aHeQUI+SGCRNDunypRicIy2F5Jh+0ayB4Ct8R07Y0vMC
-         8gXxa7BNagq0ofP0pTcISrV1OmwS1eZUw2MRo=
+        bh=biOOKaSpP1axSAEHd4Rouxb3Y67H0yYor+yDdR1BZcM=;
+        b=tXCkEekxTQP9yYMOi41HqPotwFZK4OsghlcJojKRukOmtlTqoQ6LM3BKTErrLiFMz/
+         Q5jYqslnS9oZSw2Pzq61bClTB9lDi+E7HyoHjdYNHyUc20bzOXxCHWgtfvmxMYgBwhRX
+         MkGKKjrq9X4BGk7m+BM4f6vW8VXwCyHbK/+Yw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781132127; x=1781736927;
+        d=1e100.net; s=20251104; t=1781132121; x=1781736921;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=2AX+GEd0JNzd1tTXI1BCJ2CV+gkQVZ8wX8hSHSBdqHA=;
-        b=i1f4x2dQrCjnYqB9YO4W2vwtsWPhfVbex0ibJQHfjFIfDqtVQ1/p3IJYKplIfDQs1R
-         h4TE7gJBBHWD5GS6XgZP5BycaCJEqX4q0YtFFcaxJ3mBsaQEP0OvNr4Y827he9uXCZax
-         G81kX6bxK+ZiZXjWNFcdaB/ttOJJLbJhCX+Co/n4WlIlGerCNLWOkDJneWIDmWwS92pr
-         KrTIRluGyYuuOTJLre2C+cI54aRCEigs6LGHTVrcf/qUm0PzTr+AONYIEJC3Gv+Kvlks
-         RwCdFMP2jdz5tlvxKBrfof1/HuqSl60Xu53XBLd66A0DurOzxcP8th905G4pw5sx1wmp
-         xcZQ==
-X-Gm-Message-State: AOJu0YyIvu92kIvorxzUCRCJTs1Rbu5PNIWy7YguLMCofTN2i6rGYCYx
-	Hr6C61dHmS9x91AAjAEQj4k0BZWfkyR2sqqWhVbgWCTNL83ioLmQAwxxzJFKw7LrKHJbN9IBJFL
-	obxm/
-X-Gm-Gg: Acq92OFYfbiiMgft/ZJbb2gilAAPBRteprFeWefPBXo0jYhcc4ljJyTEsS+cUbTCIAx
-	4vRFN3nUj/XtP/izP0KbQFn0Wz2wydicoobG7MAFZ32QGAdbep5C2b3LhSJe4LCms7kEhhYbOcO
-	idfDTcfCb2UPyftKL7FgQv5Bg02l7/TRYQvLgBLCwUv2YyV3B05trVj3JSkdpp5Eul6wwFIdkdI
-	SVAlnd3jyrfu1D9BlQdqj18CbGi1qLFTe8vVW0nqhyy41mD4XrkmJFoA/K3sToY+2GVapGlg5Ja
-	QFw7ARrge+ybH+IfVVe7fZ3HEuycV5on4tgJHyu+L0kiMNaE/ObzoWMqUm+05mmpLs3PjtN+vcJ
-	RvLdVYA6mkG4PSScfr4t0UZpZGBkaTG2ao0kHi9U4KtNPOdpxOrsku4nYCUoKIKMu9nXXCJNAFn
-	pMNTDs6axsb35lkpCIHgLiVjAWpXVlTQ1uT/tDfVq0hrlsUyfspgwOr1YEs9sM0dbxDKrPWduTu
-	LRUnCChF7vanQTGfvQc2tBpiPUb3GWbp719JHc=
-X-Received: by 2002:a05:600c:46c3:b0:490:625e:bb68 with SMTP id 5b1f17b1804b1-490e2d1c0a8mr10407985e9.3.1781132127517;
-        Wed, 10 Jun 2026 15:55:27 -0700 (PDT)
+        bh=biOOKaSpP1axSAEHd4Rouxb3Y67H0yYor+yDdR1BZcM=;
+        b=flz+JXVRjj3sviDTg4UwHOoTX7ecUlMWxIxC5HC1tv/QE5beh3a0ycDZhNANfILugC
+         HzXIREzKz/3PNgHvWmfuugFvUJydIAHhJglgv0XWBB8Dhco51IF3dU1clIpajNhbC6P7
+         Cdv3qugSz3IY7Sh7pmHY4AHLH9SbpzVkNki8/PBsShWh4mbDMJ0hgELvi7lSUEob9Zjq
+         cDddLZN23bje8AcOfjjyqTFnlbC0bjtexeZQ4m5MM88eQnf7wRxJKCKSLxG5SxO71p9S
+         jMThalb3Z55fTTDZImw3QENjiNXNaAwgOUoUoGXwetuK29hZheakK/BWngPr149NDqXi
+         yqzw==
+X-Gm-Message-State: AOJu0YyW7hjpdXQah4P9AIxfQmHl5hSyoSagNVLXel/IsL9QeAIngEIS
+	lXSidnAk7gHLth9yo3TaQPWwhzaXSsZ2zRKGctGrA1NGceYoErWmQ7BSHNM9z8x6hZg1MVUQ6pb
+	QqQAX
+X-Gm-Gg: Acq92OGB2+WgBJj68Z3tNMPF1Ep8sVKR2WFvWH6NEnnqgFnItSxsHLnhZJ5UzdWS1OJ
+	luI2P2a8d9mP46p6dA2eJu+0RLJD50z0q5RebNoPHsx1PjS7yVxi9D9VKJMxdw5aTs+PMf8P2Tr
+	0xWLp4HjTK6UzeRRolkSO2gb2+S0FhMSbTrMjnQZDpNQyCIdfFZY52Hld2zB/2BlaHf9b9a32ql
+	l1ZxB3MxuOraYC5EqQILFi12oR4ABTav5Fzbxlbye4m/1vgdpxtzEP7tDCNnCeNbUEvFr+XQOOP
+	1WRDYDGpFVB4uHG9mhuYbpTR9w7mtabaHW0KKHorCacTkJ3glBWbqNZ0bbrxHdYCPJ+qjPRpCNZ
+	MlI06mtvB02budWUDnZIJbHkry0J3gVXP+9WyKGI9lfCj7TOovolR4R1VMT6W5vCkJ3XDeDQ5Zy
+	3Ko3plT1SsJ4O2Lzn7GxYDCvtqx5aopYaxK4aqUTUknVd9s04XC8rFwJvolaRnyE2HeWZznib5w
+	Bl5gvoq9W37DHFnZ4ILv4VhOfC/hwwWvHo9wxQ=
+X-Received: by 2002:a05:6000:2409:b0:460:18cc:dcfe with SMTP id ffacd0b85a97d-460677dadfdmr252486f8f.34.1781132120979;
+        Wed, 10 Jun 2026 15:55:20 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00bb749f54eeb85d7b.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:bb74:9f54:eeb8:5d7b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f344148sm71599304f8f.19.2026.06.10.15.55.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f344148sm71599304f8f.19.2026.06.10.15.55.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 15:55:27 -0700 (PDT)
+        Wed, 10 Jun 2026 15:55:20 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 20/21] python3: sanitize userbase in _sysconfig_vars JSON to avoid host path leak
-Date: Thu, 11 Jun 2026 00:55:11 +0200
-Message-ID: <5cebc2470a9a9a3bba570b7ad63e9af7c7624534.1781132051.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 09/21] cups: fix CVE-2026-39316
+Date: Thu, 11 Jun 2026 00:55:00 +0200
+Message-ID: <edbd628efd14cbc829d3176e908f1bb97f213e81.1781132051.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1781132051.git.yoann.congal@smile.fr>
 References: <cover.1781132051.git.yoann.congal@smile.fr>
@@ -66,46 +66,92 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 22:55:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238416
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238405
 
-From: Bin Cao <bin.cao.cn@windriver.com>
+From: Abhishek Bachiphale <Abhishek.Bachiphale@windriver.com>
 
-The _sysconfig_vars__linux_x86_64-linux-gnu.json file contains a
-"userbase" field that is populated from the build host user's $HOME
-at build time. This leaks the build host user's home directory path
-into the target rootfs.
+In CUPS versions 2.4.16 and prior, a use-after-free
+vulnerability exists in the scheduler when temporary
+printers are automatically deleted. The function
+cupsdDeleteTemporaryPrinters() in scheduler/printers.c
+calls cupsdDeletePrinter() without first expiring
+subscriptions that reference the printer, leaving
+cupsd_subscription_t.dest as a dangling pointer to freed
+heap memory. The dangling pointer is subsequently
+dereferenced at multiple code sites, causing a crash
+(denial of service) of the cupsd daemon. With heap
+grooming, this issue can be leveraged for code execution.
 
-The existing py_package_preprocess() cleanup for this JSON file only
-strips known OE build path prefixes (STAGING_DIR_TARGET, RECIPE_SYSROOT,
-etc.), but the userbase value comes from the build user's $HOME
-environment variable which doesn't match any of those patterns.
+Apply upstream fix to expire subscriptions before
+deleting printers, preventing dangling pointers and
+use-after-free conditions.
 
-Set userbase to an empty string in the packaged JSON. This is safe
-because at runtime, sysconfig.get_config_vars() always recomputes
-userbase by calling _getuserbase(), which resolves the actual target
-user's ~/.local path dynamically. The static value in the JSON is
-never used for runtime path resolution.
-
-(From OE-Core rev: beb245ef60c63359cd4f5e285d2f31c5c572b51e)
-
-Signed-off-by: Bin Cao <bin.cao.cn@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Abhishek Bachiphale <Abhishek.Bachiphale@windriver.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/python/python3_3.14.5.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-extended/cups/cups.inc           |  1 +
+ .../cups/cups/CVE-2026-39316.patch            | 42 +++++++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-39316.patch
 
-diff --git a/meta/recipes-devtools/python/python3_3.14.5.bb b/meta/recipes-devtools/python/python3_3.14.5.bb
-index 501de75fb18..919cfde9aec 100644
---- a/meta/recipes-devtools/python/python3_3.14.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.5.bb
-@@ -390,6 +390,7 @@ py_package_preprocess () {
-                 -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
-                 -e 's:${RECIPE_SYSROOT}::g' \
-                 -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
-+                -e 's|"userbase": ".*"|"userbase": ""|g' \
- 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfig_vars*.json
- }
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index a12965bb6e5..194b9c2638f 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -20,6 +20,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
+            file://CVE-2026-34980.patch \
+            file://CVE-2026-34990.patch \
+            file://CVE-2026-39314.patch \
++           file://CVE-2026-39316.patch \
+            "
  
+ GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
+diff --git a/meta/recipes-extended/cups/cups/CVE-2026-39316.patch b/meta/recipes-extended/cups/cups/CVE-2026-39316.patch
+new file mode 100644
+index 00000000000..c8d7e10ac2e
+--- /dev/null
++++ b/meta/recipes-extended/cups/cups/CVE-2026-39316.patch
+@@ -0,0 +1,42 @@
++From 0142eeb58e0d718b7d2e1f0d5dd214bd2192cc7f Mon Sep 17 00:00:00 2001
++From: Michael R Sweet <msweet@msweet.org>
++Date: Sun, 5 Apr 2026 11:33:23 -0400
++Subject: [PATCH] Expire per-printer subscriptions before deleting.
++
++OpenPrinting CUPS is an open source printing system for Linux and other
++Unix-like operating systems. In versions 2.4.16 and prior, a
++use-after-free vulnerability exists in the CUPS scheduler (cupsd) when
++temporary printers are automatically deleted.
++cupsdDeleteTemporaryPrinters() in scheduler/printers.c calls
++cupsdDeletePrinter() without first expiring subscriptions that reference
++the printer, leaving cupsd_subscription_t.dest as a dangling pointer to
++freed heap memory. The dangling pointer is subsequently dereferenced at
++multiple code sites, causing a crash (denial of service) of the cupsd
++daemon. With heap grooming, this can be leveraged for code execution.
++
++CVE: CVE-2026-39316
++
++Upstream-Status: Backport [ https://github.com/OpenPrinting/cups/commit/0142eeb58e0d718b7d2e1f0d5dd214bd2192cc7f ]
++
++Signed-off-by: Abhishek Bachiphale <Abhishek.Bachiphale@windriver.com>
++---
++ scheduler/printers.c | 6 ++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/scheduler/printers.c b/scheduler/printers.c
++index 4aba6241c..50778b89a 100644
++--- a/scheduler/printers.c
+++++ b/scheduler/printers.c
++@@ -644,6 +644,12 @@ cupsdDeletePrinter(
++                      update ? "Job stopped due to printer being deleted." :
++ 		              "Job stopped.");
++ 
+++ /*
+++  * Expire subscriptions on the printer...
+++  */
+++
+++  cupsdExpireSubscriptions(p, /*job*/NULL);
+++
++  /*
++   * Remove the printer from the list...
++   */
 
