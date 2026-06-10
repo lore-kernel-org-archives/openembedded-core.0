@@ -2,479 +2,173 @@ Return-Path: <asparmar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E2BDCD8CB9
-	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 10:05:23 +0000 (UTC)
-Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16953.1781085912997206227
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95774CD98CC
+	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 10:05:24 +0000 (UTC)
+Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16957.1781085920217419919
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2026 03:05:13 -0700
+ Wed, 10 Jun 2026 03:05:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=F0voxoXa;
- spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: asparmar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=G2ZVJYkq;
+ spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=28364; q=dns/txt;
-  s=iport01; t=1781085913; x=1782295513;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=TIkBuauXpQhWsnFetwPdLD0KGq1imntQzXt/JxC9zqk=;
-  b=F0voxoXac02nL01kZGieuPc3RgKHEof2RT4CU0jniUFhIChLsh+nIYlT
-   kU1g+0HOFW6HMUFspa6stQ3/bjvDOeEBPDBazhxuenv/shmZnei1CPRtq
-   Dy2ep8BJEYlrJYxTqhjyzcewEAwXqKkRChcTpYEj0m1qOATcwNnOhfo0S
-   rW9ViZxXg9A82ubp8HuZIXA88+1vW2gH4sAmG3rTeFQlY7xoEka3YhSl/
-   vCRAfRd7v3uVStXYLBZIWcvHD3WQZmOEry9XFHrYtnT04pLAxLmoTcSIb
-   gd4+9ERziBBbbZ1OXYews5UFNal+dw5uHws3x5d69Tg7ElgmIdmUEbN8C
-   w==;
-X-CSE-ConnectionGUID: +MxE1uUhQp2E0pPfkqXUEw==
-X-CSE-MsgGUID: ZnFC3VsiSeSpE+bKPVXNVA==
-X-IPAS-Result: =?us-ascii?q?A0BIAgDwNSlq/5T/Ja1aglmCGD90X0JJlkuBFpA3jFEUg?=
- =?us-ascii?q?WoPAQEBD0QNBAEBhQYCjToCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBA?=
- =?us-ascii?q?QIBBwWBDhOGFQgyDYZaAQIBHQ0LARgBLSwDAQJaIxgJgipYAYJzAgERswaBe?=
- =?us-ascii?q?TOBAYMoATEFCQICQAFQ2ysBCxQBBYEzhT+IHlsYAYR8JxsbgXKBFYE7gTd2g?=
- =?us-ascii?q?QWBXAWBIAoLhm0EgiKBDIFdHlJcgRKMNEiBHgNZLAFVEw0KCwcFgWYDNRIqF?=
- =?us-ascii?q?W4yHYEjPheBDBsHBYFKgTdogQKFECMfAzmBFYF6gShnaRUwNWwDCxgNSBEsN?=
- =?us-ascii?q?xQbBD5uB4w6Fw+BRQE9IwsHASwEMBMQCgEKIQQQAwljAhVSARYBIyEIAQ0IE?=
- =?us-ascii?q?ZJGHRGQFoIhgTWfWgoog3SMIZU6GjOEBJQWklGZB44KlWcLXYRogWg8gVlwF?=
- =?us-ascii?q?YMiCUoZD4M3inUBCwuDYIUTwz0kNQIJMgEBBwIHDgMLgWiQAQEmB4FOAQE?=
-IronPort-Data: A9a23:Q2V/9aA6jE7ktBVW/3jiw5YqxClBgxIJ4kV8jS/XYbTApD8k1TQCy
- TQaXzqDOfeLMGbyKYx1O4uypE9TuJCGm4RqOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jX2thh
- fuo+5eBYAH8g2YtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEgNB+IRgrAI0h4rxaWXl2+
- /8BGA0gcUXW7w626OrTpuhEnM8vKozveYgYoHwllGifBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
- pdfMGY/BPjDS0Un1lM/AYkmlf2tj2PXeDxDo1XTrq0yi4TW5FAgiuSzYIaEJLRmQ+1nmGiz/
- Vzd/l/0OQk3d9a88QS11EyF07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/ONpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOT9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:nVgjZqhnpxl0XR2LzTjGXoKxeXBQXvYji2hC6mlwRA09TyVXra
- +TdZMgpHrJYVkqOU3I9ersBEDiewK/yXcK2+ks1N6ZNWGM0ldAR7sN0WKN+VHd8gTFh4pgPN
- 9bAstDIey1K0RmhsDn5wT9OdMhzN6btJ2Mv47lvhBQpcUAUdAY0++/YTzrdHFLeA==
-X-Talos-CUID: =?us-ascii?q?9a23=3Au93fQWgSRiaKNwUE0JC7SP8ncjJuMVjN4S7NHk+?=
- =?us-ascii?q?BETxEEKWtR1yJyJ5JjJ87?=
-X-Talos-MUID: 9a23:ARwwawS/k+4zsiWDRXTegh9Jb/lz4p+jM1gg0p8lg/e0ExJZbmI=
+  d=cisco.com; i=@cisco.com; l=17223; q=dns/txt;
+  s=iport01; t=1781085920; x=1782295520;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=n/xQgYYKOAL2eKw0OGmM60vKjcIJ60oW38Xsl6u8gTA=;
+  b=G2ZVJYkq3LXoKAQNrlVqnmOjifChSBB0Nmf9o2lfK8AX7fCk/2HSVJcR
+   aozqq0QGWAgzLZPpi4005teuJTT1p35x+y536tZN55ZSk7/dr1l7tjXKl
+   yeDVBwkqOCr+cqfY5NWz+Byxgi5lQcFYADnto35gK3hkLmdgijBCqrORF
+   /nk6Q0MyH5eXOgVxH3wpiL4PST973NN0TOrBf89VW/5MNtDhfIG/CrsQC
+   E8YySUxEf1Q2Sh9j0CaRxnYZvN3+gpo6gdSDfnQY/WFMWHKwFZZXMVOc8
+   f8KfTXBY/RcDafqh/9ZnZrgKbKSXrt4DhdbRRR+0ewjrPkdkq1qFqzHM7
+   g==;
+X-CSE-ConnectionGUID: Z7E2/IQMS6y4Wyx5HEFr6w==
+X-CSE-MsgGUID: JxGlmxBMTfizrZ8XNiYgMA==
+X-IPAS-Result: =?us-ascii?q?A0BIAgBwNSlq/43/Ja1aHgEBCxIMggULgld0X0JJlksDk?=
+ =?us-ascii?q?UqMURSBag8BAQEPRA0EAQGFBgKNOgImNAkOAQIEAwIDAQEBAQEBAQEBAQELA?=
+ =?us-ascii?q?QEFAQEBAgEHBYEOE4ZPDYZaAQIBAycLARgBLRAcAwECLysjCBAJgwIBgnMCA?=
+ =?us-ascii?q?RGzAIF5M4EBgygBMQUJAgJAAVDbKwELFAEFgTOFP4geWxgBhHwnGxuBcoEVg?=
+ =?us-ascii?q?2iBBYFcBYEgCgsLBYZdBIIigQyBXR6CQIw0SIEeA1ksAVUTDQoLBwWBZgM1E?=
+ =?us-ascii?q?ioVbjIdgSM+F4EMGwcFgUqBN2iBAoUQIx8DOYEVgXqBKGdpFTA1bAMLGA1IE?=
+ =?us-ascii?q?Sw3FBsEPm4HjDoXD4FFAWsHATAwIA0BCiEUbxdvKUWSYwcKkBaCIYE1n1oKK?=
+ =?us-ascii?q?IN0jCGVOhozhASmZ5kHglmLMZVnC12EaIFoPIFZcBWDIglKGQ+OLQsLg2CEU?=
+ =?us-ascii?q?ENRwmckNQIJMgEBBwIHDgMLgWiQAQEmB4FOAQE?=
+IronPort-Data: A9a23:RZ2yJKm1cHEwqQBU+2LQy17o5gzQJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xIZDWyDPfaJa2ahf98kPN/j9EgA7ZXSmtNhHgVlqiw9EltH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZG31GONgWYubDpKsvrb8XuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05Fb9H17wwIFhrz
+ qIJdA8cfk2jqsysnq3uH4GAhux7RCXqFJkUtnclyXTSCuwrBMifBa7L/tRfmjw3g6iiH96HO
+ JFfMmUpNkmdJUQTYz/7C7pm9AusrnDkazRCrVuPjaE2+GPUigd21dABNfKJKofVGpgLzxfwS
+ mTu3XTWBhQKHvmjxzuX6ED8tsnOrCzecddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cEnhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Oxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:428y26HXenGzqCmMpLqEMMeALOsnbusQ8zAXPo5KJiC9Ffbo8P
+ xG88576faZslsssTQb6LK90cq7MBfhHOBOgbX5VI3KNGKNhILrFvAG0WKI+VPd8kPFmtK1/J
+ 0QFZSWcOeAbmRSvILd/BSyFcomzZ2s9aClgvqb8lJWJDsaEp2JK2xCe32m+oocfng/OaYE
+X-Talos-CUID: 9a23:hTNPTG+5/GYTae+cjVSVv3xLN5piU0T49ynBf3CpGTtJZZOPF0DFrQ==
+X-Talos-MUID: 9a23:gbZnqQrNZWlgYvc+UucezxNyG8Nt846LNE4Mg4806/miNB1/Hh7I2Q==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.24,197,1774310400"; 
-   d="scan'208";a="492468496"
-Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 10 Jun 2026 10:05:11 +0000
+   d="scan'208";a="483775699"
+Received: from rcdn-l-core-04.cisco.com ([173.37.255.141])
+  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 10 Jun 2026 10:05:19 +0000
 Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 62E0E18000257;
-	Wed, 10 Jun 2026 10:05:11 +0000 (GMT)
+	by rcdn-l-core-04.cisco.com (Postfix) with ESMTPS id EA92E18000180;
+	Wed, 10 Jun 2026 10:05:18 +0000 (GMT)
 Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
-	id 09F46CC1611; Wed, 10 Jun 2026 03:05:11 -0700 (PDT)
+	id 97F6CCC1611; Wed, 10 Jun 2026 03:05:18 -0700 (PDT)
 From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com, to@cisco.com,
 	Ashishkumar Parmar <asparmar@cisco.com>
-Subject: [OE-core] [scarthgap] [PATCH 1/5] bind: Fix CVE-2026-1519
-Date: Wed, 10 Jun 2026 03:04:00 -0700
-Message-Id: <20260610100404.2993940-1-asparmar@cisco.com>
+Subject: [OE-core] [scarthgap] [PATCH 2/5] bind: Fix CVE-2026-5950
+Date: Wed, 10 Jun 2026 03:04:01 -0700
+Message-Id: <20260610100404.2993940-2-asparmar@cisco.com>
 X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260610100404.2993940-1-asparmar@cisco.com>
+References: <20260610100404.2993940-1-asparmar@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
-X-Outbound-Node: rcdn-l-core-11.cisco.com
+X-Outbound-Node: rcdn-l-core-04.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 10:05:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238342
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 10:05:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238343
 
 From: Ashishkumar Parmar <asparmar@cisco.com>
 
-Pick the upstream 9.18 backport [1] for CVE-2026-1519. The public ISC
+Pick the upstream 9.18 backport [1] for CVE-2026-5950. The public ISC
 advisory [2] describes the vulnerability and identifies the fixed BIND
 release.
 
-The upstream fix is split across the reproducer and validation commits.
-Also include one prerequisite NSEC3 bounds-check commit that is required
-before the validation changes can be applied cleanly and validated
-safely on the downstream 9.18.44 source:
+The upstream fix is split across a reproducer, a counter refactor, and
+the functional resend-loop fix. Apply them in the same order so the
+final fix lands on top of the counter handling it depends on:
 
-- CVE-2026-1519_p1.patch [3] adds the upstream system-test reproducer
-  for excessive NSEC3 iterations at delegation.
-- CVE-2026-1519-dependent.patch [4] adds the prerequisite NSEC3
-  next_length bounds check in isdelegation(). This patch is not part of
-  the CVE merge commit, but it touches the same NSEC3 delegation path
-  and must be applied before the functional validation changes.
-- CVE-2026-1519_p2.patch [5] adds the iteration-limit handling in
-  isdelegation().
-- CVE-2026-1519_p3.patch [6] avoids re-validating already trusted
-  rdatasets.
-- CVE-2026-1519_p4.patch [7] checks RRset trust in
-  validate_neg_rrset().
+- CVE-2026-5950_p1.patch [3] adds the BADCOOKIE resend-loop system-test
+  reproducer.
+- CVE-2026-5950_p2.patch [4] refactors query-counter increment handling
+  so resend paths can update counters consistently.
+- CVE-2026-5950_p3.patch [5] updates rctx_resend() to increment query
+  counters, preventing the unbounded resend loop from bypassing the
+  quota accounting.
 
 Keep the patches split to preserve the upstream commit structure and to
 make the SRC_URI ordering explicit.
 
-[1] https://gitlab.com/isc-projects/bind9/-/commit/5ef459eeaa92222ad28d2186f5eae9a586dece70
-[2] https://kb.isc.org/docs/cve-2026-1519
-[3] https://gitlab.com/isc-projects/bind9/-/commit/2c82f99a3c95f356861d5977f12ef9bbe2063cb6
-[4] https://gitlab.com/isc-projects/bind9/-/commit/368c75a9f567f8b36cf24fefe45023e0a050e47b
-[5] https://gitlab.com/isc-projects/bind9/-/commit/85c21feff9acb0982fe60f2c88201bf55533bd0e
-[6] https://gitlab.com/isc-projects/bind9/-/commit/8890a91c1c16129333139b9d8a4381e0f741f0d6
-[7] https://gitlab.com/isc-projects/bind9/-/commit/85fcd704e2f7cc2a25d2195bc4bb28398c889ed3
+[1] https://gitlab.com/isc-projects/bind9/-/commit/43d173797e3c781c7e38d879c3c765f01cc09c59
+[2] https://kb.isc.org/docs/cve-2026-5950
+[3] https://gitlab.com/isc-projects/bind9/-/commit/8344a38d6bc72d3872b552b4cae0e0d8be4c3d4a
+[4] https://gitlab.com/isc-projects/bind9/-/commit/9ebfca2af824a60ea072292ffb1ab01ff87c7fa7
+[5] https://gitlab.com/isc-projects/bind9/-/commit/d3ba533080e31de98986f3beff70d7c330ba9f89
 
 Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 ---
- .../bind/bind/CVE-2026-1519-dependent.patch   |  50 +++
- .../bind/bind/CVE-2026-1519_p1.patch          | 341 ++++++++++++++++++
- .../bind/bind/CVE-2026-1519_p2.patch          | 176 +++++++++
- .../bind/bind/CVE-2026-1519_p3.patch          |  52 +++
- .../bind/bind/CVE-2026-1519_p4.patch          |  59 +++
- .../recipes-connectivity/bind/bind_9.18.44.bb |   5 +
- 6 files changed, 683 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-1519-dependent.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-1519_p1.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-1519_p2.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-1519_p3.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-1519_p4.patch
+ .../bind/bind/CVE-2026-5950_p1.patch          | 245 ++++++++++++++++++
+ .../bind/bind/CVE-2026-5950_p2.patch          | 100 +++++++
+ .../bind/bind/CVE-2026-5950_p3.patch          |  67 +++++
+ .../recipes-connectivity/bind/bind_9.18.44.bb |   3 +
+ 4 files changed, 415 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5950_p1.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5950_p2.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-5950_p3.patch
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-1519-dependent.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-1519-dependent.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5950_p1.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5950_p1.patch
 new file mode 100644
-index 0000000000..eff7a06d82
+index 0000000000..3b603e41fd
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-1519-dependent.patch
-@@ -0,0 +1,50 @@
-+From af8929ebe72ca8564882632e59999795c781ebd4 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Ond=C5=99ej=20Sur=C3=BD?= <ondrej@isc.org>
-+Date: Sat, 14 Feb 2026 14:43:41 +0100
-+Subject: [PATCH] Invalid NSEC3 can cause OOB read of the isdelegation() stack
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5950_p1.patch
+@@ -0,0 +1,245 @@
++From 59bf865e9691f3a047e24bda071498a48e2a5220 Mon Sep 17 00:00:00 2001
++From: Matthijs Mekking <matthijs@isc.org>
++Date: Thu, 9 Apr 2026 11:32:07 +0200
++Subject: [PATCH] Add reproducer for BADCOOKIE resend loop
 +
-+When .next_length is longer than NSEC3_MAX_HASH_LENGTH, it causes a
-+harmless out-of-bound read of the isdelegation() stack. This patch
-+fixes the issue by skipping NSEC3 records with an oversized hash length
-+during validation.
++Run malicious server: resend_loop/ans3/ans.py
 +
-+CVE: CVE-2026-1519
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/368c75a9f567f8b36cf24fefe45023e0a050e47b]
++Start BIND: ns4
 +
-+(cherry picked from commit 67b4fb56e40bf856e1fccd41e752d5f486b5b569)
-+(cherry picked from commit 368c75a9f567f8b36cf24fefe45023e0a050e47b)
++Send single query to test.example
++
++The resolver will repeatedly resend queries until the fetch timeout
++expires, resulting in resulting in thousands of qrysent while the quota
++counter remains 0.
++
++CVE: CVE-2026-5950
++Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/8344a38d6bc72d3872b552b4cae0e0d8be4c3d4a]
++
++(cherry picked from commit 7eeb463bc58cbd71419aaf189d7829f2dfd8d055)
++(cherry picked from commit 8344a38d6bc72d3872b552b4cae0e0d8be4c3d4a)
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ lib/dns/rdata/generic/nsec3_50.c | 1 +
-+ lib/dns/validator.c              | 3 +++
-+ 2 files changed, 4 insertions(+)
++ bin/tests/system/resend_loop/ans3/ans.py      | 128 ++++++++++++++++++
++ .../system/resend_loop/ns4/named.conf.j2      |  16 +++
++ bin/tests/system/resend_loop/ns4/root.hint    |  14 ++
++ .../system/resend_loop/tests_resend_loop.py   |  28 ++++
++ 4 files changed, 186 insertions(+)
++ create mode 100644 bin/tests/system/resend_loop/ans3/ans.py
++ create mode 100644 bin/tests/system/resend_loop/ns4/named.conf.j2
++ create mode 100644 bin/tests/system/resend_loop/ns4/root.hint
++ create mode 100644 bin/tests/system/resend_loop/tests_resend_loop.py
 +
-+diff --git a/lib/dns/rdata/generic/nsec3_50.c b/lib/dns/rdata/generic/nsec3_50.c
-+index f45fe4dc33..e04587bd1b 100644
-+--- a/lib/dns/rdata/generic/nsec3_50.c
-++++ b/lib/dns/rdata/generic/nsec3_50.c
-+@@ -324,6 +324,7 @@ tostruct_nsec3(ARGS_TOSTRUCT) {
-+ 	}
-+ 
-+ 	nsec3->mctx = mctx;
-++
-+ 	return ISC_R_SUCCESS;
-+ 
-+ cleanup:
-+diff --git a/lib/dns/validator.c b/lib/dns/validator.c
-+index 809b7be911..9ec13581ab 100644
-+--- a/lib/dns/validator.c
-++++ b/lib/dns/validator.c
-+@@ -339,6 +339,9 @@ trynsec3:
-+ 			if (nsec3.hash != 1) {
-+ 				continue;
-+ 			}
-++			if (nsec3.next_length > NSEC3_MAX_HASH_LENGTH) {
-++				continue;
-++			}
-+ 			length = isc_iterated_hash(
-+ 				hash, nsec3.hash, nsec3.iterations, nsec3.salt,
-+ 				nsec3.salt_length, name->ndata, name->length);
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-1519_p1.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-1519_p1.patch
-new file mode 100644
-index 0000000000..f78af9da11
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-1519_p1.patch
-@@ -0,0 +1,341 @@
-+From 81f8acc4bdf84eec6f53a65709b61ad3d963b4f7 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Nicki=20K=C5=99=C3=AD=C5=BEek?= <nicki@isc.org>
-+Date: Tue, 3 Feb 2026 18:25:04 +0100
-+Subject: [PATCH] Reproducer for CVE-2026-1519
-+
-+When a validating resolver processes a delegation from a DNSSEC-signed
-+zone which uses too many NSEC3 iterations, it should cease the attempt
-+to validate due to an NSEC3 iteration limit being exceeded and fall back
-+to insecure.
-+
-+CVE: CVE-2026-1519
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/2c82f99a3c95f356861d5977f12ef9bbe2063cb6]
-+
-+(cherry picked from commit 9bc14a89f1313aa38330e84674ac3b7691db3383)
-+(cherry picked from commit 2c82f99a3c95f356861d5977f12ef9bbe2063cb6)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ .../system/nsec3-delegation/ns1/named.conf.j2 | 35 +++++++++++
-+ bin/tests/system/nsec3-delegation/ns1/root.db | 25 ++++++++
-+ .../ns2/iter-too-many.db.j2.manual            | 31 ++++++++++
-+ .../system/nsec3-delegation/ns2/named.conf.j2 | 40 ++++++++++++
-+ .../nsec3-delegation/ns2/sub.iter-too-many.db | 24 ++++++++
-+ .../system/nsec3-delegation/ns3/named.conf.j2 | 37 +++++++++++
-+ .../nsec3-delegation/ns3/trusted.conf.j2      |  1 +
-+ .../tests_excessive_nsec3_iterations.py       | 61 +++++++++++++++++++
-+ 8 files changed, 254 insertions(+)
-+ create mode 100644 bin/tests/system/nsec3-delegation/ns1/named.conf.j2
-+ create mode 100644 bin/tests/system/nsec3-delegation/ns1/root.db
-+ create mode 100644 bin/tests/system/nsec3-delegation/ns2/iter-too-many.db.j2.manual
-+ create mode 100644 bin/tests/system/nsec3-delegation/ns2/named.conf.j2
-+ create mode 100644 bin/tests/system/nsec3-delegation/ns2/sub.iter-too-many.db
-+ create mode 100644 bin/tests/system/nsec3-delegation/ns3/named.conf.j2
-+ create mode 120000 bin/tests/system/nsec3-delegation/ns3/trusted.conf.j2
-+ create mode 100644 bin/tests/system/nsec3-delegation/tests_excessive_nsec3_iterations.py
-+
-+diff --git a/bin/tests/system/nsec3-delegation/ns1/named.conf.j2 b/bin/tests/system/nsec3-delegation/ns1/named.conf.j2
++diff --git a/bin/tests/system/resend_loop/ans3/ans.py b/bin/tests/system/resend_loop/ans3/ans.py
 +new file mode 100644
-+index 0000000000..65016d1c67
++index 0000000000..90a3f2f9cc
 +--- /dev/null
-++++ b/bin/tests/system/nsec3-delegation/ns1/named.conf.j2
-+@@ -0,0 +1,35 @@
-++/*
-++ * Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++ *
-++ * SPDX-License-Identifier: MPL-2.0
-++ *
-++ * This Source Code Form is subject to the terms of the Mozilla Public
-++ * License, v. 2.0.  If a copy of the MPL was not distributed with this
-++ * file, you can obtain one at https://mozilla.org/MPL/2.0/.
-++ *
-++ * See the COPYRIGHT file distributed with this work for additional
-++ * information regarding copyright ownership.
-++ */
-++
-++options {
-++	query-source address 10.53.0.1;
-++	notify-source 10.53.0.1;
-++	transfer-source 10.53.0.1;
-++	port @PORT@;
-++	pid-file "named.pid";
-++	listen-on { 10.53.0.1; };
-++	listen-on-v6 { none; };
-++	recursion no;
-++	dnssec-validation no;
-++};
-++
-++controls {
-++	inet 10.53.0.1 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
-++};
-++
-++include "../../_common/rndc.key";
-++
-++zone "." {
-++	type primary;
-++	file "root.db";
-++};
-+diff --git a/bin/tests/system/nsec3-delegation/ns1/root.db b/bin/tests/system/nsec3-delegation/ns1/root.db
-+new file mode 100644
-+index 0000000000..c3f80d0d4b
-+--- /dev/null
-++++ b/bin/tests/system/nsec3-delegation/ns1/root.db
-+@@ -0,0 +1,25 @@
-++; Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++;
-++; SPDX-License-Identifier: MPL-2.0
-++;
-++; This Source Code Form is subject to the terms of the Mozilla Public
-++; License, v. 2.0.  If a copy of the MPL was not distributed with this
-++; file, you can obtain one at https://mozilla.org/MPL/2.0/.
-++;
-++; See the COPYRIGHT file distributed with this work for additional
-++; information regarding copyright ownership.
-++
-++$TTL 300
-++.			IN SOA	. . (
-++				2025063000	; serial
-++				600		; refresh
-++				600		; retry
-++				1200		; expire
-++				600		; minimum
-++				)
-++.			NS	a.root-servers.nil.
-++
-++a.root-servers.nil	A	10.53.0.1
-++
-++iter-too-many.		NS	ns2.iter-too-many.
-++ns2.iter-too-many.	A	10.53.0.2
-+diff --git a/bin/tests/system/nsec3-delegation/ns2/iter-too-many.db.j2.manual b/bin/tests/system/nsec3-delegation/ns2/iter-too-many.db.j2.manual
-+new file mode 100644
-+index 0000000000..fa5023d21b
-+--- /dev/null
-++++ b/bin/tests/system/nsec3-delegation/ns2/iter-too-many.db.j2.manual
-+@@ -0,0 +1,31 @@
-++; Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++;
-++; SPDX-License-Identifier: MPL-2.0
-++;
-++; This Source Code Form is subject to the terms of the Mozilla Public
-++; License, v. 2.0.  If a copy of the MPL was not distributed with this
-++; file, you can obtain one at https://mozilla.org/MPL/2.0/.
-++;
-++; See the COPYRIGHT file distributed with this work for additional
-++; information regarding copyright ownership.
-++
-++{% raw %}
-++$TTL 300
-++@			IN SOA	ns2.iter-too-many. hostmaster.iter-too-many. (
-++				2026020300	; serial
-++				20		; refresh (20 seconds)
-++				20		; retry (20 seconds)
-++				1814400		; expire (3 weeks)
-++				3600		; minimum (1 hour)
-++)
-++
-++@	IN	NS	ns2.iter-too-many.
-++ns2	IN	A	10.53.0.2
-++
-++sub	IN	NS	ns2.sub.iter-too-many.
-++ns2.sub	IN	A	10.53.0.2
-++{% endraw %}
-++
-++{% for dnskey in dnskeys %}
-++@dnskey@
-++{% endfor %}
-+diff --git a/bin/tests/system/nsec3-delegation/ns2/named.conf.j2 b/bin/tests/system/nsec3-delegation/ns2/named.conf.j2
-+new file mode 100644
-+index 0000000000..2f4823574f
-+--- /dev/null
-++++ b/bin/tests/system/nsec3-delegation/ns2/named.conf.j2
-+@@ -0,0 +1,40 @@
-++/*
-++ * Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++ *
-++ * SPDX-License-Identifier: MPL-2.0
-++ *
-++ * This Source Code Form is subject to the terms of the Mozilla Public
-++ * License, v. 2.0.  If a copy of the MPL was not distributed with this
-++ * file, you can obtain one at https://mozilla.org/MPL/2.0/.
-++ *
-++ * See the COPYRIGHT file distributed with this work for additional
-++ * information regarding copyright ownership.
-++ */
-++
-++options {
-++	query-source address 10.53.0.2;
-++	notify-source 10.53.0.2;
-++	transfer-source 10.53.0.2;
-++	port @PORT@;
-++	pid-file "named.pid";
-++	listen-on { 10.53.0.2; };
-++	listen-on-v6 { none; };
-++	recursion no;
-++	dnssec-validation no;
-++};
-++
-++controls {
-++	inet 10.53.0.2 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
-++};
-++
-++include "../../_common/rndc.key";
-++
-++zone "iter-too-many" {
-++	type primary;
-++	file "iter-too-many.signed.db";
-++};
-++
-++zone "sub.iter-too-many" {
-++	type primary;
-++	file "sub.iter-too-many.db";
-++};
-+diff --git a/bin/tests/system/nsec3-delegation/ns2/sub.iter-too-many.db b/bin/tests/system/nsec3-delegation/ns2/sub.iter-too-many.db
-+new file mode 100644
-+index 0000000000..09b2bb6fb3
-+--- /dev/null
-++++ b/bin/tests/system/nsec3-delegation/ns2/sub.iter-too-many.db
-+@@ -0,0 +1,24 @@
-++; Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++;
-++; SPDX-License-Identifier: MPL-2.0
-++;
-++; This Source Code Form is subject to the terms of the Mozilla Public
-++; License, v. 2.0.  If a copy of the MPL was not distributed with this
-++; file, you can obtain one at https://mozilla.org/MPL/2.0/.
-++;
-++; See the COPYRIGHT file distributed with this work for additional
-++; information regarding copyright ownership.
-++
-++$TTL 300
-++@			IN SOA	ns2.sub.iter-too-many. hostmaster.sub.iter-too-many. (
-++				2026020300	; serial
-++				20		; refresh (20 seconds)
-++				20		; retry (20 seconds)
-++				1814400		; expire (3 weeks)
-++				3600		; minimum (1 hour)
-++)
-++
-++@	IN	NS	ns2.sub.iter-too-many.
-++ns2	IN	A	10.53.0.2
-++
-++example	IN	A	127.0.0.1
-+diff --git a/bin/tests/system/nsec3-delegation/ns3/named.conf.j2 b/bin/tests/system/nsec3-delegation/ns3/named.conf.j2
-+new file mode 100644
-+index 0000000000..e36b88c53e
-+--- /dev/null
-++++ b/bin/tests/system/nsec3-delegation/ns3/named.conf.j2
-+@@ -0,0 +1,37 @@
-++/*
-++ * Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++ *
-++ * SPDX-License-Identifier: MPL-2.0
-++ *
-++ * This Source Code Form is subject to the terms of the Mozilla Public
-++ * License, v. 2.0.  If a copy of the MPL was not distributed with this
-++ * file, you can obtain one at https://mozilla.org/MPL/2.0/.
-++ *
-++ * See the COPYRIGHT file distributed with this work for additional
-++ * information regarding copyright ownership.
-++ */
-++
-++options {
-++	query-source address 10.53.0.3;
-++	notify-source 10.53.0.3;
-++	transfer-source 10.53.0.3;
-++	port @PORT@;
-++	pid-file "named.pid";
-++	listen-on { 10.53.0.3; };
-++	listen-on-v6 { none; };
-++	recursion yes;
-++	dnssec-validation yes;
-++};
-++
-++controls {
-++	inet 10.53.0.3 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
-++};
-++
-++include "../../_common/rndc.key";
-++
-++zone "." {
-++	type hint;
-++	file "../../_common/root.hint";
-++};
-++
-++include "trusted.conf";
-+diff --git a/bin/tests/system/nsec3-delegation/ns3/trusted.conf.j2 b/bin/tests/system/nsec3-delegation/ns3/trusted.conf.j2
-+new file mode 120000
-+index 0000000000..cb0be77b22
-+--- /dev/null
-++++ b/bin/tests/system/nsec3-delegation/ns3/trusted.conf.j2
-+@@ -0,0 +1 @@
-++../../_common/trusted.conf.j2
-+\ No newline at end of file
-+diff --git a/bin/tests/system/nsec3-delegation/tests_excessive_nsec3_iterations.py b/bin/tests/system/nsec3-delegation/tests_excessive_nsec3_iterations.py
-+new file mode 100644
-+index 0000000000..f85384bb1e
-+--- /dev/null
-++++ b/bin/tests/system/nsec3-delegation/tests_excessive_nsec3_iterations.py
-+@@ -0,0 +1,61 @@
+++++ b/bin/tests/system/resend_loop/ans3/ans.py
++@@ -0,0 +1,128 @@
 ++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
 ++#
 ++# SPDX-License-Identifier: MPL-2.0
@@ -486,377 +180,392 @@ index 0000000000..f78af9da11
 ++# See the COPYRIGHT file distributed with this work for additional
 ++# information regarding copyright ownership.
 ++
-++from isctest.run import EnvCmd
+++from collections.abc import AsyncGenerator
+++
+++import dns.edns
+++import dns.name
+++import dns.rcode
+++import dns.rdatatype
+++import dns.rrset
+++
+++from isctest.asyncserver import (
+++    AsyncDnsServer,
+++    DnsResponseSend,
+++    QueryContext,
+++    ResponseHandler,
+++)
+++
+++
+++def _get_cookie(qctx: QueryContext):
+++    for o in qctx.query.options:
+++        if o.otype == dns.edns.OptionType.COOKIE:
+++            cookie = o
+++            try:
+++                if len(cookie.server) == 0:
+++                    cookie.server = b"\x11\x22\x33\x44\x55\x66\x77\x88"
+++            except AttributeError:  # dnspython<2.7.0 compat
+++                if len(o.data) == 8:
+++                    cookie.data *= 2
+++
+++            return cookie
+++
+++    return None
+++
+++
+++class PrimeHandler(ResponseHandler):
+++    """
+++    Specifically handle priming query for "." NS (type 2)
+++    """
+++
+++    def match(self, qctx: QueryContext) -> bool:
+++        return len(qctx.qname.labels) == 0 and qctx.qtype == dns.rdatatype.NS
+++
+++    async def get_responses(
+++        self, qctx: QueryContext
+++    ) -> AsyncGenerator[DnsResponseSend, None]:
+++
+++        ns_rrset = dns.rrset.from_text(
+++            ".", dns.rdatatype.NS, qctx.qclass, "a.root-servers.nil."
+++        )
+++        a_rrset = dns.rrset.from_text(
+++            "a.root-servers.nil.", dns.rdatatype.A, qctx.qclass, "10.53.0.3"
+++        )
+++
+++        response = qctx.prepare_new_response(with_zone_data=False)
+++        response.set_rcode(dns.rcode.NOERROR)
+++        response.answer.append(ns_rrset)
+++        response.additional.append(a_rrset)
+++
+++        yield DnsResponseSend(response, authoritative=True)
+++
+++
+++class CookieHandler(ResponseHandler):
+++    def match(self, qctx: QueryContext) -> bool:
+++        example = dns.name.from_text("example")
+++        return qctx.qname.is_subdomain(example)
+++
+++    async def get_responses(
+++        self, qctx: QueryContext
+++    ) -> AsyncGenerator[DnsResponseSend, None]:
+++
+++        qctx.prepare_new_response()
+++
+++        # Check for client cookie
+++        cookie = _get_cookie(qctx)
+++
+++        # If missing cookie entirely, just return SERVFAIL
+++        if cookie is None:
+++            qctx.response.set_rcode(dns.rcode.SERVFAIL)
+++            yield DnsResponseSend(qctx.response, authoritative=True)
+++
+++        # If there is a client cookie, mock BADCOOKIE to trigger
+++        # the resend loop logic.
+++        qctx.response.use_edns(options=[cookie])
+++        qctx.response.set_rcode(dns.rcode.BADCOOKIE)
+++        yield DnsResponseSend(qctx.response, authoritative=True)
+++
+++
+++class NoErrorHandler(ResponseHandler):
+++    """
+++    If the query is NOT a subdomain of example, respond with standard NOERROR empty answer
+++    """
+++
+++    async def get_responses(
+++        self, qctx: QueryContext
+++    ) -> AsyncGenerator[DnsResponseSend, None]:
+++
+++        qctx.prepare_new_response()
+++        qctx.response.set_rcode(dns.rcode.NOERROR)
+++        yield DnsResponseSend(qctx.response, authoritative=True)
+++
+++
+++def resend_server() -> AsyncDnsServer:
+++    server = AsyncDnsServer(default_aa=True, default_rcode=dns.rcode.NOERROR)
+++    server.install_response_handlers(
+++        [
+++            PrimeHandler(),
+++            CookieHandler(),
+++            NoErrorHandler(),
+++        ]
+++    )
+++    return server
+++
+++
+++def main() -> None:
+++    resend_server().run()
+++
+++
+++if __name__ == "__main__":
+++    main()
++diff --git a/bin/tests/system/resend_loop/ns4/named.conf.j2 b/bin/tests/system/resend_loop/ns4/named.conf.j2
++new file mode 100644
++index 0000000000..360bc12e17
++--- /dev/null
+++++ b/bin/tests/system/resend_loop/ns4/named.conf.j2
++@@ -0,0 +1,16 @@
+++options {
+++	query-source address 10.53.0.4;
+++	notify-source 10.53.0.4;
+++	transfer-source 10.53.0.4;
+++	port @PORT@;
+++	pid-file "named.pid";
+++	listen-on { 10.53.0.4; };
+++	listen-on-v6 { none; };
+++	recursion yes;
+++	dnssec-validation no;
+++};
+++
+++zone "." IN {
+++	type hint;
+++	file "root.hint";
+++};
++diff --git a/bin/tests/system/resend_loop/ns4/root.hint b/bin/tests/system/resend_loop/ns4/root.hint
++new file mode 100644
++index 0000000000..3889a8b353
++--- /dev/null
+++++ b/bin/tests/system/resend_loop/ns4/root.hint
++@@ -0,0 +1,14 @@
+++; Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++;
+++; SPDX-License-Identifier: MPL-2.0
+++;
+++; This Source Code Form is subject to the terms of the Mozilla Public
+++; License, v. 2.0.  If a copy of the MPL was not distributed with this
+++; file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++;
+++; See the COPYRIGHT file distributed with this work for additional
+++; information regarding copyright ownership.
+++
+++$TTL 999999
+++.			 IN NS	a.root-servers.nil.
+++a.root-servers.nil.	 IN A	10.53.0.3
++diff --git a/bin/tests/system/resend_loop/tests_resend_loop.py b/bin/tests/system/resend_loop/tests_resend_loop.py
++new file mode 100644
++index 0000000000..f7ed4d3da6
++--- /dev/null
+++++ b/bin/tests/system/resend_loop/tests_resend_loop.py
++@@ -0,0 +1,28 @@
+++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++#
+++# SPDX-License-Identifier: MPL-2.0
+++#
+++# This Source Code Form is subject to the terms of the Mozilla Public
+++# License, v. 2.0.  If a copy of the MPL was not distributed with this
+++# file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++#
+++# See the COPYRIGHT file distributed with this work for additional
+++# information regarding copyright ownership.
+++
+++import dns.message
 ++
 ++import isctest
 ++
 ++
-++def bootstrap():
-++    templates = isctest.template.TemplateEngine(".")
-++    keygen = EnvCmd("KEYGEN", "-a ECDSA256")
-++    signer = EnvCmd("SIGNER")
+++def test_resend_loop_badcookie(ns4):
+++    expected_log = "exceeded max queries resolving 'test.example/A'"
 ++
-++    isctest.log.info("setup iter-too-many.")
-++    zonename = "iter-too-many."
-++    ksk_name = keygen(f"-f KSK {zonename}", cwd="ns2").out.strip()
-++    zsk_name = keygen(f"{zonename}", cwd="ns2").out.strip()
-++    ksk = isctest.kasp.Key(ksk_name, keydir="ns2")
-++    zsk = isctest.kasp.Key(zsk_name, keydir="ns2")
-++    dnskeys = [ksk.dnskey, zsk.dnskey]
+++    msg = dns.message.make_query("test.example", "A")
+++    with ns4.watch_log_from_here() as watcher:
+++        res = isctest.query.udp(msg, ns4.ip)
+++        watcher.wait_for_line(expected_log)
 ++
-++    tdata = {
-++        "dnskeys": dnskeys,
-++    }
-++    templates.render(f"ns2/{zonename}db", tdata, template=f"ns2/{zonename}db.j2.manual")
-++    signer(
-++        f"-P -o {zonename} -f {zonename}signed.db -3 A1B2C3D4 -H too-many -H 151 -S {zonename}db",
-++        cwd="ns2",
-++    )
+++    isctest.check.servfail(res)
 ++
-++    return {
-++        "trust_anchors": [
-++            ksk.into_ta("static-key"),
-++        ],
-++    }
-++
-++
-++def test_excessive_nsec3_iterations_delegation(ns3):
-++    # reproducer for CVE-2026-1519 [GL#5708]
-++    zone = "example.sub.iter-too-many"
-++    msg = isctest.query.create(zone, "A")
-++    res = isctest.query.tcp(msg, ns3.ip)
-++
-++    # an insecure response is expected regardless of the NSEC3 iteration limit,
-++    # because the sub.iter-too-many. zone is unsigned. the real difference is
-++    # in the CPU usage required for generating such response, but that can't be
-++    # easily and reliably tested in an automated fashion
-++    isctest.check.noerror(res)
-++
-++    with ns3.watch_log_from_start() as watcher:
-++        watcher.wait_for_line(
-++            f"validating {zone}/A: validator_callback_ds: too many iterations"
-++        )
+++    prohibited_log = "query failed (timed out) for test.example/IN/A"
+++    assert prohibited_log not in ns4.log
 +-- 
 +2.35.6
 +
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-1519_p2.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-1519_p2.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5950_p2.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5950_p2.patch
 new file mode 100644
-index 0000000000..ee033b4b91
+index 0000000000..3921c363f6
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-1519_p2.patch
-@@ -0,0 +1,176 @@
-+From e77c45ddae1ca87058244978868b6489610ca136 Mon Sep 17 00:00:00 2001
-+From: Matthijs Mekking <matthijs@isc.org>
-+Date: Tue, 3 Mar 2026 10:40:36 +0100
-+Subject: [PATCH] Check iterations in isdelegation()
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5950_p2.patch
+@@ -0,0 +1,100 @@
++From f090a1d0cf3599380c750557caff25e0379fb4d6 Mon Sep 17 00:00:00 2001
++From: Colin Vidal <colin@isc.org>
++Date: Tue, 7 Apr 2026 22:18:10 +0200
++Subject: [PATCH] Refactor incrementing query counters
 +
-+When looking up an NSEC3 as part of an insecurity proof, check the
-+number of iterations. If this is too high, treat the answer as insecure
-+by marking the answer with trust level "answer", indicating that they
-+did not validate, but could be cached as insecure.
++Move the logic incrementing the query counter and the global query
++counter into a dedicated helper function.
 +
-+CVE: CVE-2026-1519
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/85c21feff9acb0982fe60f2c88201bf55533bd0e]
++CVE: CVE-2026-5950
++Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/9ebfca2af824a60ea072292ffb1ab01ff87c7fa7]
 +
-+(cherry picked from commit 988040a5e02f86f4a8cdb0704e8d501f9082a89c)
-+(cherry picked from commit 85c21feff9acb0982fe60f2c88201bf55533bd0e)
++(cherry picked from commit 05d6da2de54c093689e675e81ae898ee41220666)
++(cherry picked from commit 9ebfca2af824a60ea072292ffb1ab01ff87c7fa7)
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ lib/dns/validator.c | 64 +++++++++++++++++++++++++++++++++------------
-+ 1 file changed, 48 insertions(+), 16 deletions(-)
++ lib/dns/resolver.c | 59 ++++++++++++++++++++++++++++------------------
++ 1 file changed, 36 insertions(+), 23 deletions(-)
 +
-+diff --git a/lib/dns/validator.c b/lib/dns/validator.c
-+index 9ec13581ab..179b6590b5 100644
-+--- a/lib/dns/validator.c
-++++ b/lib/dns/validator.c
-+@@ -256,12 +256,25 @@ exit_check(dns_validator_t *val) {
++diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
++index 1bacec6470..079aa79ea0 100644
++--- a/lib/dns/resolver.c
+++++ b/lib/dns/resolver.c
++@@ -4203,6 +4203,39 @@ fctx_nextaddress(fetchctx_t *fctx) {
++ 	return addrinfo;
 + }
 + 
-+ /*%
-+- * Look in the NSEC record returned from a DS query to see if there is
-+- * a NS RRset at this name.  If it is found we are at a delegation point.
-++ * The isdelegation() function is called as part of seeking the DS record.
-++ * Look in the NSEC or NSEC3 record returned from a DS query to see if the
-++ * record has the NS bitmap set. If so, we are at a delegation point.
-++ *
-++ * If the response contains NSEC3 records with too high iterations, we cannot
-++ * (or rather we are not going to) validate the insecurity proof. Instead we
-++ * are going to treat the message as insecure and just assume the DS was at
-++ * the delegation.
-++ *
-++ * Returns:
-++ *\li	#ISC_R_SUCCESS	the NS bitmap was set in the NSEC or NSEC3 record, or
-++ *			the NSEC3 covers the name (in case of opt-out), or
-++ *			we cannot validate the insecurity proof and are going
-++ *			to treat the message as isnecure.
-++ *\li	#ISC_R_NOTFOUND the NS bitmap was not set,
-+  */
-+-static bool
-+-isdelegation(dns_name_t *name, dns_rdataset_t *rdataset,
-+-	     isc_result_t dbresult) {
 ++static isc_result_t
-++isdelegation(dns_validator_t *val, dns_name_t *name, dns_rdataset_t *rdataset,
-++	     isc_result_t dbresult, const char *caller) {
-+ 	dns_fixedname_t fixed;
-+ 	dns_label_t hashlabel;
-+ 	dns_name_t nsec3name;
-+@@ -289,7 +302,7 @@ isdelegation(dns_name_t *name, dns_rdataset_t *rdataset,
-+ 			goto trynsec3;
-+ 		}
-+ 		if (result != ISC_R_SUCCESS) {
-+-			return false;
-++			return ISC_R_NOTFOUND;
-+ 		}
-+ 	}
-+ 
-+@@ -303,7 +316,7 @@ isdelegation(dns_name_t *name, dns_rdataset_t *rdataset,
-+ 		dns_rdata_reset(&rdata);
-+ 	}
-+ 	dns_rdataset_disassociate(&set);
-+-	return found;
-++	return found ? ISC_R_SUCCESS : ISC_R_NOTFOUND;
-+ 
-+ trynsec3:
-+ 	/*
-+@@ -342,6 +355,18 @@ trynsec3:
-+ 			if (nsec3.next_length > NSEC3_MAX_HASH_LENGTH) {
-+ 				continue;
-+ 			}
-++			/*
-++			 * If there are too many iterations assume bad things
-++			 * are happening and bail out early. Treat as if the
-++			 * DS was at the delegation.
-++			 */
-++			if (nsec3.iterations > DNS_NSEC3_MAXITERATIONS) {
-++				validator_log(val, ISC_LOG_DEBUG(3),
-++					      "%s: too many iterations",
-++					      caller);
-++				dns_rdataset_disassociate(&set);
-++				return ISC_R_SUCCESS;
-++			}
-+ 			length = isc_iterated_hash(
-+ 				hash, nsec3.hash, nsec3.iterations, nsec3.salt,
-+ 				nsec3.salt_length, name->ndata, name->length);
-+@@ -353,7 +378,7 @@ trynsec3:
-+ 				found = dns_nsec3_typepresent(&rdata,
-+ 							      dns_rdatatype_ns);
-+ 				dns_rdataset_disassociate(&set);
-+-				return found;
-++				return found ? ISC_R_SUCCESS : ISC_R_NOTFOUND;
-+ 			}
-+ 			if ((nsec3.flags & DNS_NSEC3FLAG_OPTOUT) == 0) {
-+ 				continue;
-+@@ -369,12 +394,12 @@ trynsec3:
-+ 			      memcmp(hash, nsec3.next, length) < 0)))
-+ 			{
-+ 				dns_rdataset_disassociate(&set);
-+-				return true;
-++				return ISC_R_SUCCESS;
-+ 			}
-+ 		}
-+ 		dns_rdataset_disassociate(&set);
-+ 	}
-+-	return found;
-++	return found ? ISC_R_SUCCESS : ISC_R_NOTFOUND;
-+ }
-+ 
-+ /*%
-+@@ -590,8 +615,9 @@ fetch_callback_ds(isc_task_t *task, isc_event_t *event) {
-+ 		} else if (eresult == DNS_R_SERVFAIL) {
-+ 			goto unexpected;
-+ 		} else if (eresult != DNS_R_CNAME &&
-+-			   isdelegation(devent->foundname, &val->frdataset,
-+-					eresult))
-++			   isdelegation(val, devent->foundname, &val->frdataset,
-++					eresult,
-++					"fetch_callback_ds") == ISC_R_SUCCESS)
-+ 		{
-+ 			/*
-+ 			 * Failed to find a DS while trying to prove
-+@@ -755,10 +781,13 @@ validator_callback_ds(isc_task_t *task, isc_event_t *event) {
-+ 			      dns_trust_totext(val->frdataset.trust));
-+ 		have_dsset = (val->frdataset.type == dns_rdatatype_ds);
-+ 		name = dns_fixedname_name(&val->fname);
+++incr_query_counters(fetchctx_t *fctx) {
+++	isc_result_t result;
 ++
-+ 		if ((val->attributes & VALATTR_INSECURITY) != 0 &&
-+ 		    val->frdataset.covers == dns_rdatatype_ds &&
-+ 		    NEGATIVE(&val->frdataset) &&
-+-		    isdelegation(name, &val->frdataset, DNS_R_NCACHENXRRSET))
-++		    isdelegation(val, name, &val->frdataset,
-++				 DNS_R_NCACHENXRRSET,
-++				 "validator_callback_ds") == ISC_R_SUCCESS)
-+ 		{
-+ 			result = markanswer(val, "validator_callback_ds",
-+ 					    "no DS and this is a delegation");
-+@@ -2590,7 +2619,8 @@ validate_nx(dns_validator_t *val, bool resume) {
-+ 			result = findnsec3proofs(val);
-+ 			if (result == DNS_R_NSEC3ITERRANGE) {
-+ 				validator_log(val, ISC_LOG_DEBUG(3),
-+-					      "too many iterations");
-++					      "%s: too many iterations",
-++					      __func__);
-+ 				markanswer(val, "validate_nx (3)", NULL);
-+ 				return ISC_R_SUCCESS;
-+ 			}
-+@@ -2626,7 +2656,7 @@ validate_nx(dns_validator_t *val, bool resume) {
-+ 		result = findnsec3proofs(val);
-+ 		if (result == DNS_R_NSEC3ITERRANGE) {
-+ 			validator_log(val, ISC_LOG_DEBUG(3),
-+-				      "too many iterations");
-++				      "%s: too many iterations", __func__);
-+ 			markanswer(val, "validate_nx (4)", NULL);
-+ 			return ISC_R_SUCCESS;
-+ 		}
-+@@ -2833,7 +2863,9 @@ seek_ds(dns_validator_t *val, isc_result_t *resp) {
-+ 			return ISC_R_COMPLETE;
-+ 		}
-+ 
-+-		if (isdelegation(tname, &val->frdataset, result)) {
-++		result = isdelegation(val, tname, &val->frdataset, result,
-++				      "seek_ds");
-++		if (result == ISC_R_SUCCESS) {
-+ 			*resp = markanswer(val, "seek_ds (3)",
-+ 					   "this is a delegation");
-+ 			return ISC_R_COMPLETE;
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-1519_p3.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-1519_p3.patch
-new file mode 100644
-index 0000000000..0473f40752
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-1519_p3.patch
-@@ -0,0 +1,52 @@
-+From 87c7c1aa7c648f15d57810afb198db709aa08ad3 Mon Sep 17 00:00:00 2001
-+From: Matthijs Mekking <matthijs@isc.org>
-+Date: Tue, 3 Mar 2026 11:17:25 +0100
-+Subject: [PATCH] Don't verify already trusted rdatasets
-+
-+If we already marked an rdataset as secure (or it has even stronger
-+trust), there is no need to cryptographically verify it again.
-+
-+CVE: CVE-2026-1519
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/8890a91c1c16129333139b9d8a4381e0f741f0d6]
-+
-+(cherry picked from commit 0ec08c212022d08c9717f2bc6bd3e8ebd6f034ce)
-+(cherry picked from commit 8890a91c1c16129333139b9d8a4381e0f741f0d6)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ lib/dns/include/dns/types.h | 1 +
-+ lib/dns/validator.c         | 7 +++++++
-+ 2 files changed, 8 insertions(+)
-+
-+diff --git a/lib/dns/include/dns/types.h b/lib/dns/include/dns/types.h
-+index 8ddcbeb4e2..bd9623058a 100644
-+--- a/lib/dns/include/dns/types.h
-++++ b/lib/dns/include/dns/types.h
-+@@ -352,6 +352,7 @@ enum {
-+ 	((x) == dns_trust_additional || (x) == dns_trust_pending_additional)
-+ #define DNS_TRUST_GLUE(x)   ((x) == dns_trust_glue)
-+ #define DNS_TRUST_ANSWER(x) ((x) == dns_trust_answer)
-++#define DNS_TRUST_SECURE(x) ((x) >= dns_trust_secure)
-+ 
-+ /*%
-+  * Name checking severities.
-+diff --git a/lib/dns/validator.c b/lib/dns/validator.c
-+index 179b6590b5..47efd3940f 100644
-+--- a/lib/dns/validator.c
-++++ b/lib/dns/validator.c
-+@@ -1523,6 +1523,13 @@ verify(dns_validator_t *val, dst_key_t *key, dns_rdata_t *rdata,
-+ 	bool ignore = false;
-+ 	dns_name_t *wild;
-+ 
-++	if (DNS_TRUST_SECURE(val->event->rdataset->trust)) {
-++		/*
-++		 * This RRset was already verified before.
-++		 */
-++		return ISC_R_SUCCESS;
+++	result = isc_counter_increment(fctx->qc);
+++#if WANT_QUERYTRACE
+++	FCTXTRACE5("query", "max-recursion-queries, querycount=",
+++		   isc_counter_used(fctx->qc));
+++#endif
+++	if (result != ISC_R_SUCCESS) {
+++		isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
+++			      DNS_LOGMODULE_RESOLVER, ISC_LOG_DEBUG(3),
+++			      "exceeded max queries resolving '%s' "
+++			      "(max-recursion-queries, querycount=%u)",
+++			      fctx->info, isc_counter_used(fctx->qc));
+++	} else if (fctx->gqc != NULL) {
+++		result = isc_counter_increment(fctx->gqc);
+++#if WANT_QUERYTRACE
+++		FCTXTRACE5("query", "max-query-count, querycount=",
+++			   isc_counter_used(fctx->gqc));
+++#endif
+++		if (result != ISC_R_SUCCESS) {
+++			isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
+++				      DNS_LOGMODULE_RESOLVER, ISC_LOG_DEBUG(3),
+++				      "exceeded global max queries resolving "
+++				      "'%s' (max-query-count, querycount=%u)",
+++				      fctx->info, isc_counter_used(fctx->gqc));
+++		}
 ++	}
 ++
-+ 	val->attributes |= VALATTR_TRIEDVERIFY;
-+ 	wild = dns_fixedname_initname(&fixed);
-+ again:
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-1519_p4.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-1519_p4.patch
-new file mode 100644
-index 0000000000..fd5d1afcd7
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-1519_p4.patch
-@@ -0,0 +1,59 @@
-+From 52b1997275768884d46c648b40f2ea625c386d17 Mon Sep 17 00:00:00 2001
-+From: Matthijs Mekking <matthijs@isc.org>
-+Date: Tue, 3 Mar 2026 11:43:23 +0100
-+Subject: [PATCH] Check RRset trust in validate_neg_rrset()
-+
-+In many places we only create a validator if the RRset has too low
-+trust (the RRset is pending validation, or could not be validated
-+before). This check was missing prior to validating negative response
-+data.
-+
-+CVE: CVE-2026-1519
-+Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/85fcd704e2f7cc2a25d2195bc4bb28398c889ed3]
-+
-+(cherry picked from commit 6ca67f65cd685cf8699540a852c1e3775bd48d64)
-+(cherry picked from commit 85fcd704e2f7cc2a25d2195bc4bb28398c889ed3)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ lib/dns/validator.c | 17 +++++++++++++----
-+ 1 file changed, 13 insertions(+), 4 deletions(-)
-+
-+diff --git a/lib/dns/validator.c b/lib/dns/validator.c
-+index 47efd3940f..7db102062b 100644
-+--- a/lib/dns/validator.c
-++++ b/lib/dns/validator.c
-+@@ -2463,6 +2463,17 @@ validate_neg_rrset(dns_validator_t *val, dns_name_t *name,
-+ 		}
+++	return result;
+++}
+++
++ static void
++ fctx_try(fetchctx_t *fctx, bool retrying, bool badcache) {
++ 	isc_result_t result;
++@@ -4357,31 +4390,11 @@ fctx_try(fetchctx_t *fctx, bool retrying, bool badcache) {
++ 		return;
 + 	}
 + 
-++	if (rdataset->type != dns_rdatatype_nsec &&
-++	    DNS_TRUST_SECURE(rdataset->trust))
-++	{
-++		/*
-++		 * The negative response data is already verified.
-++		 * We skip NSEC records, because they require special
-++		 * processing in validator_callback_nsec().
-++		 */
-++		return DNS_R_CONTINUE;
-++	}
-++
-+ 	val->currentset = rdataset;
-+ 	result = create_validator(val, name, rdataset->type, rdataset,
-+ 				  sigrdataset, validator_callback_nsec,
-+@@ -2573,11 +2584,9 @@ validate_ncache(dns_validator_t *val, bool resume) {
-+ 		}
-+ 
-+ 		result = validate_neg_rrset(val, name, rdataset, sigrdataset);
-+-		if (result == DNS_R_CONTINUE) {
-+-			continue;
-++		if (result != DNS_R_CONTINUE) {
-++			return result;
-+ 		}
++-	result = isc_counter_increment(fctx->qc);
++-	if (result != ISC_R_SUCCESS) {
++-		isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
++-			      DNS_LOGMODULE_RESOLVER, ISC_LOG_DEBUG(3),
++-			      "exceeded max queries resolving '%s' "
++-			      "(max-recursion-queries, querycount=%u)",
++-			      fctx->info, isc_counter_used(fctx->qc));
++-		fctx_done_detach(&fctx, DNS_R_SERVFAIL);
++-		return;
++-	}
 +-
-+-		return result;
++-	if (fctx->gqc != NULL) {
++-		result = isc_counter_increment(fctx->gqc);
++-		if (result != ISC_R_SUCCESS) {
++-			isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
++-				      DNS_LOGMODULE_RESOLVER, ISC_LOG_DEBUG(3),
++-				      "exceeded global max queries resolving "
++-				      "'%s' (max-query-count, querycount=%u)",
++-				      fctx->info, isc_counter_used(fctx->gqc));
++-			fctx_done_detach(&fctx, DNS_R_SERVFAIL);
++-			return;
++-		}
++-	}
+++	CHECK(incr_query_counters(fctx));
++ 
++ 	result = fctx_query(fctx, addrinfo, fctx->options);
+++
+++cleanup:
++ 	if (result != ISC_R_SUCCESS) {
++ 		fctx_done_detach(&fctx, result);
++ 	} else if (retrying) {
++-- 
++2.35.6
++
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-5950_p3.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-5950_p3.patch
+new file mode 100644
+index 0000000000..9163c956ea
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-5950_p3.patch
+@@ -0,0 +1,67 @@
++From 3346293873d9ae59b5e57abc41142485f8dcdc9a Mon Sep 17 00:00:00 2001
++From: Colin Vidal <colin@isc.org>
++Date: Tue, 7 Apr 2026 22:18:58 +0200
++Subject: [PATCH] rctx_resend() increment query counters
++
++Calls to `rctx_resend()` are done internally within the resolver, in
++flow which are not supposed to happens more than once. For instance,
++if some query fails, and a specific flag "F" wasn't set, then set the
++flag and try again. This wouldn't occur more than once because if the
++query fails the next attempt, the flag "F" would be set already, so the
++resolver would move to the next server (or give up).
++
++However, a subtle bug missing checking a flag, for instance, could lead
++to an unbounded loop re-trying to query the same server. This is now
++impossible as `rctx_resend()` also increment the query counters (so if
++such case occurs, it would stop once the maximum limit is reached).
++
++The dns_resstatscounter_retry are also only incremented if the
++`fctx_query()` succeeds, similar to as is done in `fctx_try()`.
++
++CVE: CVE-2026-5950
++Upstream-Status: Backport [https://gitlab.com/isc-projects/bind9/-/commit/d3ba533080e31de98986f3beff70d7c330ba9f89]
++
++(cherry picked from commit f3e74304889a2e8b69c8e88fc9a383589decda32)
++(cherry picked from commit d3ba533080e31de98986f3beff70d7c330ba9f89)
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++---
++ lib/dns/resolver.c | 15 +++++++++++----
++ 1 file changed, 11 insertions(+), 4 deletions(-)
++
++diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
++index 079aa79ea0..cc40f862d1 100644
++--- a/lib/dns/resolver.c
+++++ b/lib/dns/resolver.c
++@@ -10089,9 +10089,9 @@ rctx_nextserver(respctx_t *rctx, dns_message_t *message,
++  * rctx_resend():
++  *
++  * Resend the query, probably with the options changed. Calls
++- * fctx_query(), passing rctx->retryopts (which is based on
++- * query->options, but may have been updated since the last time
++- * fctx_query() was called).
+++ * fctx_query(), unless query counter limits are hit, passing
+++ * rctx->retryopts (which is based on query->options, but may have
+++ * been updated since the last time fctx_query() was called).
++  */
++ static void
++ rctx_resend(respctx_t *rctx, dns_adbaddrinfo_t *addrinfo) {
++@@ -10099,8 +10099,15 @@ rctx_resend(respctx_t *rctx, dns_adbaddrinfo_t *addrinfo) {
++ 	isc_result_t result;
++ 
++ 	FCTXTRACE("resend");
++-	inc_stats(fctx->res, dns_resstatscounter_retry);
+++
+++	CHECK(incr_query_counters(fctx));
+++
++ 	result = fctx_query(fctx, addrinfo, rctx->retryopts);
+++	if (result == ISC_R_SUCCESS) {
+++		inc_stats(fctx->res, dns_resstatscounter_retry);
+++	}
+++
+++cleanup:
++ 	if (result != ISC_R_SUCCESS) {
++ 		fctx_done_detach(&rctx->fctx, result);
 + 	}
-+ 	if (result == ISC_R_NOMORE) {
-+ 		result = ISC_R_SUCCESS;
 +-- 
 +2.35.6
 +
 diff --git a/meta/recipes-connectivity/bind/bind_9.18.44.bb b/meta/recipes-connectivity/bind/bind_9.18.44.bb
-index d424edcb4e..9c8b73dccc 100644
+index 9c8b73dccc..d55e0e0c4d 100644
 --- a/meta/recipes-connectivity/bind/bind_9.18.44.bb
 +++ b/meta/recipes-connectivity/bind/bind_9.18.44.bb
-@@ -18,6 +18,11 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
-            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-+           file://CVE-2026-1519_p1.patch \
-+           file://CVE-2026-1519-dependent.patch \
-+           file://CVE-2026-1519_p2.patch \
-+           file://CVE-2026-1519_p3.patch \
-+           file://CVE-2026-1519_p4.patch \
+@@ -23,6 +23,9 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://CVE-2026-1519_p2.patch \
+            file://CVE-2026-1519_p3.patch \
+            file://CVE-2026-1519_p4.patch \
++           file://CVE-2026-5950_p1.patch \
++           file://CVE-2026-5950_p2.patch \
++           file://CVE-2026-5950_p3.patch \
             "
  
  SRC_URI[sha256sum] = "81f5035a25c576af1a93f0061cf70bde6d00a0c7bd1274abf73f5b5389a6f82d"
