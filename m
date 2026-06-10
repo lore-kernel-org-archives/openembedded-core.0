@@ -1,157 +1,120 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC7E8CD8CB9
-	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 06:22:25 +0000 (UTC)
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14118.1781072541451297581
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E76A7CD8CB2
+	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 06:34:15 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14213.1781073240568227504
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2026 23:22:21 -0700
+ Tue, 09 Jun 2026 23:34:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=fyBDlsk7;
- spf=pass (domain: mvista.com, ip: 74.125.82.171, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-3042a388168so3321466eec.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 23:22:21 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dlICBGVX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so56203405e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 23:34:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1781072541; x=1781677341; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=345zqEcewvSIBvffzwunRam3noMsgafcC4LoWvbK2vw=;
-        b=fyBDlsk7PzR8hnk3NgZWyxR/4OveowuMK+17Ymdxum1jFM4vCPM9QOVa8pETfYoebF
-         3DLiHHR3jscFjlJl2Kzh3XCGXgWyUp/G2qNCT4BBZzY9Kd2HbFBLnDH7NpOdSXcHi6MG
-         gMTwV9nmrNtJexXxVA3FhQc0DNGklKOiS/A1s=
+        d=linuxfoundation.org; s=google; t=1781073239; x=1781678039; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cTru2hiHF98I9da8FIAkWPJft0u0zJ3hi8URG0U2P7E=;
+        b=dlICBGVXoSH85/L/Qb4f8ON1LudnbDT+1gJh+2vPIVrVGORFNKdi8FZ355FBmAaWa1
+         NjSeAK1yFxS6Pj5CezGAI56jH8zOdheiFuS8lxacDXY4h4hVqrcJGx4qPnT1tuRUCDQs
+         +5DbbxipI3eAp+LayrcfDfj0RkpOIPLA+DIC8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781072541; x=1781677341;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=345zqEcewvSIBvffzwunRam3noMsgafcC4LoWvbK2vw=;
-        b=tWWv/OwfZ8EJqw/U2snmq4WaJ6l82iwYNQjciJG8icQ773NB4spPocINhhWQXfKjm8
-         HAnUu4dzMV0bnp2gYitmjhIEI+oI7pF9TJ9nLdzFQGa5BQ4Bh4GeexgkahqkAHI9ixhm
-         9IdGcYNkLzyRz2ZngFvgP19H24ucb2FNmWSsJ4r8W5AG3XQZ7pReNg3/U18gj2tR4SZH
-         mZETAPYmgzYL1CIL39KfypA7nv4yuFomN1O3F9VXELnIzuK0HRh9ktOkxF7M09S2qiZT
-         +bdePC/bBQs8gDPF+zH3c56EX/Bw7DfafieKg0YPyDmHW2UHgwJ+X6kLQBYbxYZueXVB
-         oBqQ==
-X-Gm-Message-State: AOJu0Yxh7qhvf3yIM1eaHyM+AothBa0g4jkrSCBCIlBnQAJFe6/EyopE
-	6sJPydC8ZHmeQMDP8WD2o9ZFfJNOG1HdftB2c8iH9IItQP2SRewbeEHu4SQQMhiTp/8Yv48q90s
-	FBTaUXrw=
-X-Gm-Gg: Acq92OFgg1ZDTjmjIV2HzJhNB/H0fY//Q7jMM566wWqpsJSD61IbCjsULr/sAztMG2i
-	5wLOx8X5wfRTZzuumzXAlvLIDZyGdyoP7IYDI6khbjnBQposmQ8jlwvJ2OUmtxCwhmrOR6XmBAp
-	j6lQBbaZw4YjlUMyfujZIUKpdJ0A80Sy4k6Hw7N3RbfantcI95ge517I+p8L27C0Z1PG1M3a2f9
-	5xmJEaxO7nt2lDJtWkHeeXV/J8R5nMhlltQZls7t6/HsTCHBmccMUArDlTSDhe1zYL/X3diuMxM
-	SV5T0nbZpuB3o+/wggIIJNlklQPsnLBx+VoMhSqgBuYzMp5dcWNXBQvGeyF5WNEQ3cnfqf5f8Ww
-	vTRtR4FVqJmrUr9vNQYNYxfXREC+YdDTMwc0VVU0m8C1vRvT0XbH4PvDvks+UyjhLpDSZAyNRaI
-	1dwNoQnk/xcuxfhfWfpEMYRBLZipa1eG/C1XykOBXUCD4cOas=
-X-Received: by 2002:a05:7300:a887:b0:304:ddc3:2c35 with SMTP id 5a478bee46e88-3077ffb4d52mr11501126eec.10.1781072540639;
-        Tue, 09 Jun 2026 23:22:20 -0700 (PDT)
-Received: from MVIN00013.mvista.com ([150.129.170.186])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074dcad34esm35663577eec.11.2026.06.09.23.22.18
+        d=1e100.net; s=20251104; t=1781073239; x=1781678039;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cTru2hiHF98I9da8FIAkWPJft0u0zJ3hi8URG0U2P7E=;
+        b=G+zur7OdYAoDHr36OwE4EUSb0TKLVuLUEGQU5ApJUI8mYQ3Zc1vnFWRUIVMRbRENuA
+         rwA5JJaSVIQNmKsoC8B1b79KYukFIEIlnow7YJ11y9L+Eoqj4T24UUqXtg1/1G29Gt4Z
+         5pSbb24Hd59dOBrsmSfhYaJEITAQwNqZnz2uq2m15dNKpU2nQU2gMEsjRjUgRM7TsUt+
+         UMWe0Gzy9s0tOuXjSmGjIZjcVEPutfWy+rqnbuPQnC8hmSnrI955VYWn73sl1JqWQEZS
+         CL3av1gikjwcZ8voiOMKE8TJ3pwc8dyfP7EpmLzcaGE0F/xhyg4znRC1qGn3jY2IDtFl
+         JxqA==
+X-Forwarded-Encrypted: i=1; AFNElJ9WfCvXLTjeJmRK+NEnKUmfGVwnjhcwwa42/F7Iasb/TUaiFr1j6Pi7ZwrQuL2YXg03zxORl9bf5t1pq+4nZa71qA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy4hYCJclM9yo/+bog3NPPl/kGRrj0Sc9EpzELeOdFuisqTpSQ0
+	lQtyHAeRECPYn1MzICvK+OZMF1BN9GEvNNSw5rz9jTVQvQCJ4b6FHFmKnBZBCrkqZvg=
+X-Gm-Gg: Acq92OGtWGMzJGWqW7g8YHAOdc22VqZ4HNgIfcVPmFoJLybX81I9Iv11Bo6N9xueUSb
+	Vb3mW63jVAkCfDpjsPdiupWvle/TJJs2wXSaMuNIkIaD9lqwzcdo0e4RHrRR2QKv6feEdDTVby3
+	OQPpdJK8B8SNoHY4dq9E9T1DQBwyincL3wbGAFF6eLLf1+NW0xyPjoc6jn+9tcFPSfiLYQl37o5
+	uyykmRVmGRNM0KGQsE9c2a4YKMMxZqBg2nskYPL8v2ZFXvsicph/PfnvRv3Fe/OkvuaR9xBz+iS
+	2Xss0QvdNh7bGL0BdG51eCmuutTGqfVwVnL0FCNaT7RjcS7VXJU98IKCzl0cZc45cdjCInDB8pW
+	8/jdNyCPm/O7F5odQEZ5E+wDwXgrV/eXcOSWb55Y0DQzLLBtJjaOeq5L4FoZf493pqYWZgesc9j
+	4HE7O8ymTtcLjPW4tLHVlaSpBQE9LFr/IQZo6QtH1m8dk8nXaCFr/ehvhE4rnASMWDxv9/TacsI
+	qE2lObfjRsckjRBQEPNn/YD
+X-Received: by 2002:a05:600c:4509:b0:490:c28c:e077 with SMTP id 5b1f17b1804b1-490c2d33c0fmr280019695e9.17.1781073238931;
+        Tue, 09 Jun 2026 23:33:58 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e996:5a7:2609:813f? ([2001:8b0:aba:5f3c:e996:5a7:2609:813f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490dcaa924bsm63918785e9.1.2026.06.09.23.33.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 23:22:20 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] libsoup: fix for CVE-2025-11021
-Date: Wed, 10 Jun 2026 11:52:02 +0530
-Message-ID: <20260610062202.104499-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+        Tue, 09 Jun 2026 23:33:58 -0700 (PDT)
+Message-ID: <954159bfc9f674bde4da8e0133143589e4945e65.camel@linuxfoundation.org>
+Subject: Re: [OE-core] insane.bbclass: add missing-srcrev QA check for SCM
+ URIs
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Sai Sneha <saisneha196@gmail.com>
+Cc: Yoann Congal <yoann.congal@smile.fr>, 
+	openembedded-core@lists.openembedded.org, corentin.guillevic@smile.fr, 
+	martin@geanix.com, paul@pbarker.dev, mathieu.dubois-briand@bootlin.com
+Date: Wed, 10 Jun 2026 07:33:57 +0100
+In-Reply-To: <CANcU11dmkfUA7E8=Qm8O1J8VZLHEv=FW3Gjm2bVpHqvsi7AvUg@mail.gmail.com>
+References: <20260602062940.3107241-1-saisneha196@gmail.com>
+	 <20260602062940.3107241-4-saisneha196@gmail.com>
+	 <DIYF5VYJ6KMJ.3EBC3FMJXOLPL@smile.fr>
+	 <18B61AC5A22983D6.29982@lists.openembedded.org>
+	 <CANcU11dYfjDYfDq152H-Yanv3gJ__b=dUewq+sKL=hHKrisQvw@mail.gmail.com>
+	 <80ef3660a609e1f080a6ec80872674cbcadb87c0.camel@linuxfoundation.org>
+	 <CANcU11fqh7bRUo=h9C3woRYnpmwnbUjBkGwpbhs1QV4rhnm4Cw@mail.gmail.com>
+	 <a5e0dca3e1eba8b86203fa63ba0c6bc7ce228a21.camel@linuxfoundation.org>
+	 <CANcU11cf4sH1racrRawKMQ8+622W_1qT33ou=Z06YG=38FJJcA@mail.gmail.com>
+	 <ad7d4fdddcf28b3e7daba91cb0e7d100e9bb5f4b.camel@linuxfoundation.org>
+	 <18B7A1AFC3F003C5.267903@lists.openembedded.org>
+	 <CANcU11dmkfUA7E8=Qm8O1J8VZLHEv=FW3Gjm2bVpHqvsi7AvUg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 06:22:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238316
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 06:34:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238317
 
-Pick patch from [1] also mentioned at Debian report in [2]
+On Wed, 2026-06-10 at 11:47 +0530, Sai Sneha wrote:
+>=20
+> I tested BB_NO_NETWORK:layer-core =3D "1" and found that it does=20
+> not prevent the parse crash for the case where SRCREV is=20
+> completely missing.
+>=20
+> The crash happens in srcrev_internal_helper() which raises=20
+> FetchError before any network access is attempted =E2=80=94 so=20
+> BB_NO_NETWORK never gets checked. The BB_NO_NETWORK flag would=20
+> only help for the case where SRCREV is set to a floating=20
+> branch/tag and latest_revision() is called, since _lsremote()=20
+> calls check_network_access() there.
 
-[1] https://gitlab.gnome.org/GNOME/libsoup/-/commit/9e1a427d2f047439d0320defe1593e6352595788
-[2] https://security-tracker.debian.org/tracker/CVE-2025-11021
+FetchError isn't a crash, the code is finding there is a problem and
+raising an exception. The exception should say what the issue is.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../libsoup-3.4.4/CVE-2025-11021.patch        | 57 +++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-11021.patch
+Doesn't that mean that case is already covered and we don't need to do
+anything further?
 
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-11021.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-11021.patch
-new file mode 100644
-index 0000000000..9bba0929b7
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2025-11021.patch
-@@ -0,0 +1,57 @@
-+From 9e1a427d2f047439d0320defe1593e6352595788 Mon Sep 17 00:00:00 2001
-+From: Alynx Zhou <alynx.zhou@gmail.com>
-+Date: Sat, 11 Oct 2025 15:52:47 +0800
-+Subject: [PATCH] cookies: Avoid expires attribute if date is invalid
-+
-+According to CVE-2025-11021, we may get invalid on processing date
-+string with timezone offset, this commit will ignore it.
-+
-+Closes #459
-+
-+CVE: CVE-2025-11021
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/9e1a427d2f047439d0320defe1593e6352595788]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ libsoup/cookies/soup-cookie.c | 9 +++++----
-+ libsoup/soup-date-utils.c     | 3 +++
-+ 2 files changed, 8 insertions(+), 4 deletions(-)
-+
-+diff --git a/libsoup/cookies/soup-cookie.c b/libsoup/cookies/soup-cookie.c
-+index 7c41b1d..5af154d 100644
-+--- a/libsoup/cookies/soup-cookie.c
-++++ b/libsoup/cookies/soup-cookie.c
-+@@ -726,12 +726,13 @@ serialize_cookie (SoupCookie *cookie, GString *header, gboolean set_cookie)
-+ 
-+ 	if (cookie->expires) {
-+ 		char *timestamp;
-+-
-+-		g_string_append (header, "; expires=");
-+ 		timestamp = soup_date_time_to_string (cookie->expires,
-+ 						      SOUP_DATE_COOKIE);
-+-		g_string_append (header, timestamp);
-+-		g_free (timestamp);
-++                if (timestamp) {
-++                        g_string_append (header, "; expires=");
-++                        g_string_append (header, timestamp);
-++                        g_free (timestamp);
-++                }
-+ 	}
-+ 	if (cookie->path) {
-+ 		g_string_append (header, "; path=");
-+diff --git a/libsoup/soup-date-utils.c b/libsoup/soup-date-utils.c
-+index 34ca995..ae5504d 100644
-+--- a/libsoup/soup-date-utils.c
-++++ b/libsoup/soup-date-utils.c
-+@@ -95,6 +95,9 @@ soup_date_time_to_string (GDateTime      *date,
-+                 char *date_format;
-+                 char *formatted_date;
-+ 
-++                if (!utcdate)
-++                        return NULL;
-++
-+                 // We insert days/months ourselves to avoid locale specific formatting
-+                 if (format == SOUP_DATE_HTTP) {
-+ 			/* "Sun, 06 Nov 1994 08:49:37 GMT" */
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index fc4a286dcf..8fe3775e1e 100644
---- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -51,6 +51,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-32049-2.patch \
-            file://CVE-2025-32049-3.patch \
-            file://CVE-2025-32049-4.patch \
-+           file://CVE-2025-11021.patch \
- "
- SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
- 
--- 
-2.50.1
+> So it seems like two separate fixes are needed:
+>=20
+> 1. For missing SRCREV =E2=80=94 something needs to prevent the parse=20
+> =C2=A0=C2=A0=C2=A0crash in srcrev_internal_helper(). Would it be appropri=
+ate=20
+> =C2=A0=C2=A0=C2=A0to check BB_NO_NETWORK in srcrev_internal_helper() itse=
+lf=20
+> =C2=A0=C2=A0=C2=A0before raising FetchError?
 
+I don't understand why we need to trap this, then handle it again
+later?
+
+Cheers,
+
+Richard
 
