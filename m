@@ -2,77 +2,63 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E76A7CD8CB2
-	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 06:34:15 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14213.1781073240568227504
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93820CD8CB9
+	for <webhook@archiver.kernel.org>; Wed, 10 Jun 2026 07:47:06 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15107.1781077619410281391
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2026 23:34:01 -0700
+ Wed, 10 Jun 2026 00:46:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dlICBGVX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so56203405e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2026 23:34:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VWpIusa/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45ef82204c6so3499821f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 00:46:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1781073239; x=1781678039; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1781077618; x=1781682418; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=cTru2hiHF98I9da8FIAkWPJft0u0zJ3hi8URG0U2P7E=;
-        b=dlICBGVXoSH85/L/Qb4f8ON1LudnbDT+1gJh+2vPIVrVGORFNKdi8FZ355FBmAaWa1
-         NjSeAK1yFxS6Pj5CezGAI56jH8zOdheiFuS8lxacDXY4h4hVqrcJGx4qPnT1tuRUCDQs
-         +5DbbxipI3eAp+LayrcfDfj0RkpOIPLA+DIC8=
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mebp3AGHCmm7ejeH04izFwi/eRXiQRRXIr3iUMYySJ8=;
+        b=VWpIusa/IFZbWnI3zOL1j7S26R+uUD8uchME0xNFji0PuETW6xiFEM7FpMgT9LwT0L
+         0cnFh4ecokMRhJMpqMyziZJ6p431J38M9f3r6IWlmhS1BBNPiWb4pe4J17u1kH/j25GP
+         GskLrVnFvwvhiat0S0FPxlNYpp1Zv6PmdS0s8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781073239; x=1781678039;
+        d=1e100.net; s=20251104; t=1781077618; x=1781682418;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cTru2hiHF98I9da8FIAkWPJft0u0zJ3hi8URG0U2P7E=;
-        b=G+zur7OdYAoDHr36OwE4EUSb0TKLVuLUEGQU5ApJUI8mYQ3Zc1vnFWRUIVMRbRENuA
-         rwA5JJaSVIQNmKsoC8B1b79KYukFIEIlnow7YJ11y9L+Eoqj4T24UUqXtg1/1G29Gt4Z
-         5pSbb24Hd59dOBrsmSfhYaJEITAQwNqZnz2uq2m15dNKpU2nQU2gMEsjRjUgRM7TsUt+
-         UMWe0Gzy9s0tOuXjSmGjIZjcVEPutfWy+rqnbuPQnC8hmSnrI955VYWn73sl1JqWQEZS
-         CL3av1gikjwcZ8voiOMKE8TJ3pwc8dyfP7EpmLzcaGE0F/xhyg4znRC1qGn3jY2IDtFl
-         JxqA==
-X-Forwarded-Encrypted: i=1; AFNElJ9WfCvXLTjeJmRK+NEnKUmfGVwnjhcwwa42/F7Iasb/TUaiFr1j6Pi7ZwrQuL2YXg03zxORl9bf5t1pq+4nZa71qA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy4hYCJclM9yo/+bog3NPPl/kGRrj0Sc9EpzELeOdFuisqTpSQ0
-	lQtyHAeRECPYn1MzICvK+OZMF1BN9GEvNNSw5rz9jTVQvQCJ4b6FHFmKnBZBCrkqZvg=
-X-Gm-Gg: Acq92OGtWGMzJGWqW7g8YHAOdc22VqZ4HNgIfcVPmFoJLybX81I9Iv11Bo6N9xueUSb
-	Vb3mW63jVAkCfDpjsPdiupWvle/TJJs2wXSaMuNIkIaD9lqwzcdo0e4RHrRR2QKv6feEdDTVby3
-	OQPpdJK8B8SNoHY4dq9E9T1DQBwyincL3wbGAFF6eLLf1+NW0xyPjoc6jn+9tcFPSfiLYQl37o5
-	uyykmRVmGRNM0KGQsE9c2a4YKMMxZqBg2nskYPL8v2ZFXvsicph/PfnvRv3Fe/OkvuaR9xBz+iS
-	2Xss0QvdNh7bGL0BdG51eCmuutTGqfVwVnL0FCNaT7RjcS7VXJU98IKCzl0cZc45cdjCInDB8pW
-	8/jdNyCPm/O7F5odQEZ5E+wDwXgrV/eXcOSWb55Y0DQzLLBtJjaOeq5L4FoZf493pqYWZgesc9j
-	4HE7O8ymTtcLjPW4tLHVlaSpBQE9LFr/IQZo6QtH1m8dk8nXaCFr/ehvhE4rnASMWDxv9/TacsI
-	qE2lObfjRsckjRBQEPNn/YD
-X-Received: by 2002:a05:600c:4509:b0:490:c28c:e077 with SMTP id 5b1f17b1804b1-490c2d33c0fmr280019695e9.17.1781073238931;
-        Tue, 09 Jun 2026 23:33:58 -0700 (PDT)
+        bh=mebp3AGHCmm7ejeH04izFwi/eRXiQRRXIr3iUMYySJ8=;
+        b=mAiYJr4aZvUAVrtW4RtQqzHszkBM41C0oANFR6BUJBrgjDMEltIE7AvhbPgzjazw0U
+         fZvl3zsEu8qa41a0gQvfuEaalE+b09V2p6y5rFcUENaro6rhsxW5AJ7aaKwVL0z85q1A
+         IrU/43jrsatvHtjS90JQcT9JlHdmGnsDxHQA+8YT1sOEBZXeunHi0dH2/OP7wPV6BbnW
+         OZPC4/oM3CFuRByWQLDK76qHn4nAN3SHS8BzkA3411dFaxrzlxULf1a5cylbrCAsPxM1
+         4R4EpdmSNjea3KfsD4JJTx+RzC8uB1M/IsK7zhRtWkEwIMiIDqfAf+Y7hnFvfA7mFow2
+         CRhQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+vw/jNN+bVz68FzUqiwBgS9/oAAT8p1MGdW6EpOlfNXISHT+9dVnez5SWG1AvKZZNyI/vtPWAutDKN9bYo/fG0aw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx55X7MivxRzeMaTGav+zhAOklcQDwIDHtYeQqkcUr0TCdpMcqk
+	q9TTWn9ZAIOrW/tUGEfFKskBDR2I+QijM0TNQdov6cDEF2FC92KfLT03ffkmROfgOh0=
+X-Gm-Gg: Acq92OEEEdo1ag3/pQWHyPKdIWk6f9VGiR4lCUzf0Iqnif+1CyrwHgnWaUENG5gEokg
+	xrBc06oMmZMXMCXq58z8ZW6fymc+0yW/pr4hWyWSYV1tQkItvhitF6n8gFzLPYz5sZsIor0Kcto
+	GwomeosA92AohN4F1KWJBO7JDke5PrzKcb1sP546/KCPPya7pUO6DdmMZPfV01bPI3JsvIxHcEy
+	5uO8rgpeIxPdxdRfdwia+UvK7Ca8pzdEUzpb4nsgnBhLDMff5ogxBRwfE8fmlJ7Y6itvbyhvqOG
+	dkWF4TqhA9K+RWAzGC4iQ3XfHhmfQgBNv7yXmK74LU5AcFdT97k/xAv92nU3sSr4Dn+29yznPRv
+	e8V0zad/gBsG1pJlgJLob2XNLIo2oMPDa9Ui6+Mg5d37EAWP84ehTt/xcP/dzTO6nSc/ljGcuHR
+	C1K6wR+Amh/F+tkDPZuzmmgRym9jXsqf+x4PVtVnl00IrcLUeAcXCSli/5Lg0fepgz7x+rRsO2/
+	Wg3TAOutV0UpF02LUHNb1NA
+X-Received: by 2002:a05:6000:54f:b0:45e:8547:f21e with SMTP id ffacd0b85a97d-4603063c06amr30086548f8f.36.1781077617637;
+        Wed, 10 Jun 2026 00:46:57 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:e996:5a7:2609:813f? ([2001:8b0:aba:5f3c:e996:5a7:2609:813f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490dcaa924bsm63918785e9.1.2026.06.09.23.33.58
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f351d69sm123868593f8f.29.2026.06.10.00.46.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 23:33:58 -0700 (PDT)
-Message-ID: <954159bfc9f674bde4da8e0133143589e4945e65.camel@linuxfoundation.org>
-Subject: Re: [OE-core] insane.bbclass: add missing-srcrev QA check for SCM
- URIs
+        Wed, 10 Jun 2026 00:46:56 -0700 (PDT)
+Message-ID: <3d17864514e57fcf5a5009219b87bfb830157e92.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH 4/5] Add SPDX deploy tasks
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Sai Sneha <saisneha196@gmail.com>
-Cc: Yoann Congal <yoann.congal@smile.fr>, 
-	openembedded-core@lists.openembedded.org, corentin.guillevic@smile.fr, 
-	martin@geanix.com, paul@pbarker.dev, mathieu.dubois-briand@bootlin.com
-Date: Wed, 10 Jun 2026 07:33:57 +0100
-In-Reply-To: <CANcU11dmkfUA7E8=Qm8O1J8VZLHEv=FW3Gjm2bVpHqvsi7AvUg@mail.gmail.com>
-References: <20260602062940.3107241-1-saisneha196@gmail.com>
-	 <20260602062940.3107241-4-saisneha196@gmail.com>
-	 <DIYF5VYJ6KMJ.3EBC3FMJXOLPL@smile.fr>
-	 <18B61AC5A22983D6.29982@lists.openembedded.org>
-	 <CANcU11dYfjDYfDq152H-Yanv3gJ__b=dUewq+sKL=hHKrisQvw@mail.gmail.com>
-	 <80ef3660a609e1f080a6ec80872674cbcadb87c0.camel@linuxfoundation.org>
-	 <CANcU11fqh7bRUo=h9C3woRYnpmwnbUjBkGwpbhs1QV4rhnm4Cw@mail.gmail.com>
-	 <a5e0dca3e1eba8b86203fa63ba0c6bc7ce228a21.camel@linuxfoundation.org>
-	 <CANcU11cf4sH1racrRawKMQ8+622W_1qT33ou=Z06YG=38FJJcA@mail.gmail.com>
-	 <ad7d4fdddcf28b3e7daba91cb0e7d100e9bb5f4b.camel@linuxfoundation.org>
-	 <18B7A1AFC3F003C5.267903@lists.openembedded.org>
-	 <CANcU11dmkfUA7E8=Qm8O1J8VZLHEv=FW3Gjm2bVpHqvsi7AvUg@mail.gmail.com>
+To: JPEWhacker@gmail.com, openembedded-core@lists.openembedded.org
+Date: Wed, 10 Jun 2026 08:46:56 +0100
+In-Reply-To: <20260609222331.1293007-5-JPEWhacker@gmail.com>
+References: <20260609222331.1293007-1-JPEWhacker@gmail.com>
+	 <20260609222331.1293007-5-JPEWhacker@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-9 
@@ -80,39 +66,67 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 06:34:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238317
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 07:47:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238318
 
-On Wed, 2026-06-10 at 11:47 +0530, Sai Sneha wrote:
+On Tue, 2026-06-09 at 16:15 -0600, Joshua Watt via lists.openembedded.org w=
+rote:
+> Adds SPDX deploy tasks to many recipes to record their output when
+> consumed in an SBoM
 >=20
-> I tested BB_NO_NETWORK:layer-core =3D "1" and found that it does=20
-> not prevent the parse crash for the case where SRCREV is=20
-> completely missing.
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+> =C2=A0meta/classes-recipe/barebox.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 ++-
+> =C2=A0meta/classes-recipe/devicetree.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 ++-
+> =C2=A0meta/classes-recipe/kernel-fit-image.bbclass=C2=A0=C2=A0=C2=A0 | 3 =
+++-
+> =C2=A0meta/classes-recipe/kernel.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 ++-
+> =C2=A0meta/recipes-bsp/grub/grub-efi_2.14.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 ++-
+> =C2=A0meta/recipes-bsp/opensbi/opensbi_1.8.1.bb=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 3 ++-
+> =C2=A0meta/recipes-bsp/u-boot/u-boot.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 ++-
+> =C2=A0meta/recipes-core/systemd/systemd-boot_259.5.bb | 4 ++--
+> =C2=A08 files changed, 16 insertions(+), 9 deletions(-)
 >=20
-> The crash happens in srcrev_internal_helper() which raises=20
-> FetchError before any network access is attempted =E2=80=94 so=20
-> BB_NO_NETWORK never gets checked. The BB_NO_NETWORK flag would=20
-> only help for the case where SRCREV is set to a floating=20
-> branch/tag and latest_revision() is called, since _lsremote()=20
-> calls check_network_access() there.
+> diff --git a/meta/classes-recipe/barebox.bbclass b/meta/classes-recipe/ba=
+rebox.bbclass
+> index 73615999aa..0be611cf65 100644
+> --- a/meta/classes-recipe/barebox.bbclass
+> +++ b/meta/classes-recipe/barebox.bbclass
+> @@ -157,6 +157,7 @@ barebox_do_deploy () {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 done
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
+> =C2=A0}
+> -addtask deploy after do_compile
+> +addtask deploy after do_compile do_create_spdx
+> +SPDX_DEPLOY_TASKS +=3D "do_deploy"
+> =C2=A0
+> =C2=A0EXPORT_FUNCTIONS do_configure do_compile do_install do_deploy
+> diff --git a/meta/classes-recipe/devicetree.bbclass b/meta/classes-recipe=
+/devicetree.bbclass
+> index ce9d008aac..a313507251 100644
+> --- a/meta/classes-recipe/devicetree.bbclass
+> +++ b/meta/classes-recipe/devicetree.bbclass
+> @@ -163,7 +163,8 @@ devicetree_do_deploy() {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 install -Dm 0644 "${B}/$=
+dtb_file" "${DEPLOYDIR}/devicetree/$dtb_file"
+> =C2=A0=C2=A0=C2=A0=C2=A0 done
+> =C2=A0}
+> -addtask deploy before do_build after do_install
+> +addtask deploy before do_build after do_install do_create_spdx
+> +SPDX_DEPLOY_TASKS +=3D "do_deploy"
+> =C2=A0
+> =C2=A0EXPORT_FUNCTIONS do_compile do_install do_deploy
+> =C2=A0
 
-FetchError isn't a crash, the code is finding there is a problem and
-raising an exception. The exception should say what the issue is.
-
-Doesn't that mean that case is already covered and we don't need to do
-anything further?
-
-> So it seems like two separate fixes are needed:
->=20
-> 1. For missing SRCREV =E2=80=94 something needs to prevent the parse=20
-> =C2=A0=C2=A0=C2=A0crash in srcrev_internal_helper(). Would it be appropri=
-ate=20
-> =C2=A0=C2=A0=C2=A0to check BB_NO_NETWORK in srcrev_internal_helper() itse=
-lf=20
-> =C2=A0=C2=A0=C2=A0before raising FetchError?
-
-I don't understand why we need to trap this, then handle it again
-later?
+Adding this "after do_create_spdx" makes spdx mandatory and impossible
+to disable which I'm not sure is what you intended?
 
 Cheers,
 
