@@ -2,168 +2,175 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8546CD98C7
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:03:26 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.39])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.45967.1781185856035078584
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB948CD98CE
+	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:05:16 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40965.1781167643167095565
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 06:50:56 -0700
+ Thu, 11 Jun 2026 01:47:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=ImjN2LDE;
- spf=pass (domain: est.tech, ip: 52.101.84.39, mailfrom: adarsh.jagadish.kamini@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d9V3LQnP/DkhMiCVYybCbPDJBuykMwin+7FC/npMwMAe1+1B6U6oxpcPB0QxD/CZYLr26h9xOEf/ZoFACmoSCFOzWWM1YzHSHNVui4trXBAUJEfxSi5c4gO8ZODBq4fqm/sZlOU/4R1FjiDeMLc8DN73h00c//GOO4Ao7R2QsUxrddS4/Di83/P5WwQZTso4ziooab7pfmf7zqbqQc5+0BmKVINr7tPYs0kLCyIPEfALYhFQtIkUFtnR7Gk+JCd4AX00QLMy0E/V6rVnJzA9luR7KKo/mX1x8FxQeXBWwsNEPVuX2sknR1v+iSZWy9DNKp/8fTTWp2pQ/4UgtCT4Kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FwHKVW5TFgPjtmglGiDCyJYN2Y4GzTAz1uCw/pUkB7E=;
- b=ceP1Yas7WuLMzahfHhIz/j6YbuzG2dJ1lT+EwK54Q36gcWwppXYseMIxojOvywVIVeA62QTjhi42YnrqztbU9uvl5n/Uooo/xfL/aH185Y8XNgEBa3iFpJeAL8o+TiGyjyJ+mFvqhW624s0anNlsYJ9RoeKfMS20aZLLUuivwdYumbKAPsGdM+oclteMN8mZYhhI3xEX3GpsMVD0BaZoKBRv69Vm1TGG1HmKcWk+kbFiidxx8CtHAHcWyFMaaucaKRoGLEHZhtKFaEnncSa6S5Pdj7r1UyJf4llTd5BLw7E/H4ITyrC3W4xXhKlTIvWvxO7q0SV5Rj1OO1gt2Eou0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FwHKVW5TFgPjtmglGiDCyJYN2Y4GzTAz1uCw/pUkB7E=;
- b=ImjN2LDEeHEnzXI2H25hkPGm6cmWBha1h95Lfu3kRhOGJxaVXEnkrsvOH3FbvM0KxKvUtyl3BnZ7HnpB+d2ZUnTELFTLLrY4L6suaAAgPf2o1j6ONfrJErBPpridXJz2oAzyJNcVajXPELvRgzAmWFsDVC2abcrVRo+/kGIfKCG3c+YOSfNZZXo9l/RTJ8ZCMl1N8zB5bkHMCn9DOTXFuM5wXtlUKT1mBo4sZrrgt5hTqqz18PKhs3fEpY3EvUR8/9YYpNdgNjVmL+Jju2FDV6xU0qWe+IpNBRjqWpn45JXRn0tHGPFtO5MgocnbbsJRlnuNlWLAe38fMUIQztckbg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
- by GV4P189MB3726.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:2b6::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.18; Thu, 11 Jun
- 2026 13:50:51 +0000
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff%6]) with mapi id 15.21.0092.011; Thu, 11 Jun 2026
- 13:50:51 +0000
-From: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Ue253IVN;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=f5iRrs9s;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: hangtian.zhu@oss.qualcomm.com)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65B5GGof3863242
+	for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 08:17:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=OwXT7T+mFhRaFVPJj37ZU8azSBMfqpfJlUq
+	GxsJLXos=; b=Ue253IVNgQ9Zth8q67KpVNVzlArSqsIh/gNBgaarBR+U0Zeolt8
+	hDlgtZFPCpfaqWbq6NFobITnUq/FsATK+ELMrtKgmqmXGPwth0uBCZ76ab9iBiR/
+	mKV6bNXMtRprKlx5EyNZGgHyykrcxUdC8IKTyQCT6b7icwpvXMt+DG8hBKZy3rte
+	EtJZqfR1Cr65aR6h7RA6l+CZBOHgVN3ihYOU9vwdNa7Atn9CW9YUgxVcOVdJrXv8
+	YeoEUNMsKF76WRn3VnQQ6BKcpRB+3j4LG0070TcQRyNu9zzR8aM5LWhKhqQBvOcR
+	mG7xxG2zR+ndno/kJVzKB/N3+PNdFW8YOYA==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eqe6sjfah-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 08:17:39 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3772b6b31b4so570887a91.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 01:17:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1781165858; x=1781770658; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OwXT7T+mFhRaFVPJj37ZU8azSBMfqpfJlUqGxsJLXos=;
+        b=f5iRrs9sbbc9CXRI2LarcY4LwCeZMaEKfvm3uRBB0H7GMSSzkIl2PePrWR2DhqLkGc
+         BiA6q5tqEoJaFe53hPRnP/WqkhYuo+8cKL826MBBTk++LL5kYVKt5zki21FIH8M/0o0b
+         GEmb/p1L9RdiwaBayKEtfYBHh9Rh8JrcIMlByrUNRt4F26w9bacoOa+Bhi4t3eUyXr8/
+         zFJ10cM5iHAdXtJjZAOxTegnUOA/Ws2UQxUfucynZfych20etaagnaSDgOtczb+3evqw
+         siH6OJx5RPk1EwQ4MllwKivvpt3Bh/yKxKFdzz2vDnVhq1/jumkghEwZi+beppS8OQVD
+         5zKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781165858; x=1781770658;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OwXT7T+mFhRaFVPJj37ZU8azSBMfqpfJlUqGxsJLXos=;
+        b=anCp7u1aO3jEMPYh2wLS6xq73PLiWKNfpnEJ+kNrAmCc7tzFtMwB0gAjGVqi1esHkI
+         +pmmFCtruM1oFSKe6ablN3JAIeE+ah3B7SnQhy0kWojD3q/FTpjtosni04Pn3ej12/TE
+         ScD54TbFAjFTIat9ri51FwoyPxKY+vifCgErXBVKdtXGaghaJCVEiXUcWSTAbrNkCdRM
+         w5sCiY2Im4DJatSjQf9b0Ln8Nredur4dcg6Zb9u/MpD+OXKIye1iDGpEQ1El/KM/J0FX
+         o/C4N7/nqYU9J9SvysoHm9YpNUbJDY1Cf0FZx264LYONFUi3J0N1EgusZCEwYyMMowuQ
+         Nviw==
+X-Gm-Message-State: AOJu0Yw53vJ5ZexH0JJ4TiIQ5Cet5SJKSJxrH2prFXIjEv04tPMQ7yjP
+	OYgort0ct+2+IiE4FWSuvuV/nnR3q21yH88JcsrjS1yFGf8SqYyLgTzY+dfVkfyxSehuwllOIi5
+	gX08CGzeztUnPg+fs1vd3/RvFkGLYoTqmKFtaJ2fIWPC6pxS46VAUh1X+ksRo6G+ofBITpqJzl4
+	QLvAPbAdDlDpzOi3LGvw==
+X-Gm-Gg: Acq92OHtRwcYl3RuTaKagDvfaxbCwfFACPiJbKmmu4MnmLc12/kNFXYcx2E/qEUHYXV
+	Fdn5Su3uHAlgypEz+WOBu67QRkCnAV/G2w6Fg+Y0Ao76yM1KuAJxND4jQ0oTOTo8++cG0NM8uDv
+	SYVjAp+k6YqpNh+qULgh9a34QowRGj/HZ5NF1QEFQ+Od/y3/uGKDI/jbmDCkYdIBTs7McC/qc9O
+	8IVyE1MkQty6fiboq0OZkOOWkg/vIeQ2L/qqzDrXESIhdSPfLr3ggoMARiErSnHmQDx11oqZirB
+	AUWN50f8Cn+C/HZFADFQ50KorH0m+kk7LGQ39m0QkNxVHbSjNliEM3kB+5tCR/1kkSVNjn+d+3U
+	8IuVqbQaxqQIu6pnZaiSE2tX16dpKV7U8LBPEzv25TTMy8XaqStmQ2GR7VxNVYeGCH0m8ZPBwZi
+	l8cO1IXXY3frrsPGZfZv2l
+X-Received: by 2002:a17:90b:2751:b0:36d:b680:3029 with SMTP id 98e67ed59e1d1-3779beb2b6cmr2065067a91.1.1781165858055;
+        Thu, 11 Jun 2026 01:17:38 -0700 (PDT)
+X-Received: by 2002:a17:90b:2751:b0:36d:b680:3029 with SMTP id 98e67ed59e1d1-3779beb2b6cmr2065024a91.1.1781165857506;
+        Thu, 11 Jun 2026 01:17:37 -0700 (PDT)
+Received: from hangtian-z2-2004.ap.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-377a9194afesm1140088a91.2.2026.06.11.01.17.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 01:17:37 -0700 (PDT)
+From: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-CC: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-Subject: [OE-core][scarthgap][PATCH v2] openssh: fix CVE-2026-35386
-Date: Thu, 11 Jun 2026 15:50:38 +0200
-Message-ID: <20260611135043.1463501-1-adarsh.jagadish.kamini@est.tech>
-X-Mailer: git-send-email 2.43.0
-X-ClientProxiedBy: DU2PR04CA0032.eurprd04.prod.outlook.com
- (2603:10a6:10:234::7) To AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:396::9)
+Cc: miaoqing.pan@oss.qualcomm.com, gaole.zhang@oss.qualcomm.com,
+        ndechesn@quicinc.com, jouni.malinen@oss.qualcomm.com
+Subject: [PATCH] wpa-supplicant: add PACKAGECONFIG controls for suiteb, wnm, and mbo
+Date: Thu, 11 Jun 2026 16:17:33 +0800
+Message-Id: <20260611081733.875753-1-hangtian.zhu@oss.qualcomm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1672:EE_|GV4P189MB3726:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3fb01290-7fff-4554-e4a9-08dec7c07311
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|12006099003|18002099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	NlP1v4G0CJAljQtwJkwqv90wK4zBNYdZmTuaGfpNA91H36Vhxz0C1at8n4rGjjoUjAfkAwyt5atXqHw7XTn1/r/ohcNyv5hEU3lsUD1avalQEU3hpJiTLIPUkNwCz1Js3SWnT1G3fpJD9YJZZWCTsDQFIgme/rghcxqV0Y+3z0hdyMVPrjOm2fNtgIh4cyLDS6dkPAZ+rNPglE3hak1u1pVCTetdazsCvPrtkvWF3wCQakoBicfcquP1N+8cpg5KrjBhs658wp35+SThi8Eu98jAsXR8bZnpcMrKBScNg6fs6s2MOuvUUN7oHCV1BfqEhwDYOPAOHdQdnZZxC1ZXviIbsO0eB7I2E93gyf9LD3WBV2P1aES9j74qN/fvCFXDzRLhU8DKM56SHhsuEKvmpicZd6XI7CcEtibpY1BWKApWao5vwLOJQl4RNFgZSkLr1yrqPP8KtrdsP3+qKi1WsmbpP9hTQmsgN5qPjoJS07qRZWDMZKJyN+IqqripYq+zMeFu1LmkZZpRPqzNmRMi2nMz6Ok2QkYLFeXNEHw/Fq5lxop6xiVtTaP9LZdGFfi68AMPTzhbq4rjQ2vobYj/1AEQ9PTqq/dLIQa49qSRw9SokTJjS0S9Nr4VMWvMERdQeW4AxVGoc5PeDa7Uyn1/amIYlQ/VIeDvb0ojDlfUZ3XxOicsNgpvVB63pKRhR8yET5GDOwkQYJJPb9wAPgJShQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(12006099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?cKBN3flEQIAE9NABQvNL5KWoq84KXrurb42RsG/cA3hnivLN8ycLxMBO/p8D?=
- =?us-ascii?Q?rCWQQHFh9UWRM9CUxb661NzMQXELTAqm8Rh9YNE/Uszlx7LTmmlQW4rzre4j?=
- =?us-ascii?Q?CLR+ClyotcqFlnQ3Wa6eF1YXD0M630LwU/Vm6YrWHe5eXl8UvMtmi+MYW6Gx?=
- =?us-ascii?Q?l8yV2JzbsoGJ+ShyfWOg6vFDHxnmrSEJtxdC+olILsEQEHsnAzloowkhG7OX?=
- =?us-ascii?Q?80aoU1jgSZ5N5+hyyp9KHi1B+b9oMCoEoXvfYroFlcPUyameZnrRXTnUsZy1?=
- =?us-ascii?Q?aKSUP3NyA2XnOvfbUVWW/i4PLEHqGJkjhsFrLoNRUtWQ4J+yx7mTf/m8NjiB?=
- =?us-ascii?Q?7g2izJX9VceL92xcJpVMaLMCjaZRRVGA1DU/Lya3sxKfCAY1Ux98rOIyLblb?=
- =?us-ascii?Q?2Yv2ESQbsKObjdYk7+O86wziTQExU1Z1vbgcmUXJsLdV3LyPr6ID+aSpu0CT?=
- =?us-ascii?Q?rWJ530Hn6k/r/H4B6WKKoAgKB5qK5DNVfO4X5kMzoL4bsI0RrN43XkGlbwTh?=
- =?us-ascii?Q?KDNsgfUzLj33+l+FVtRlUwDeIVqYNB59MoyDcnlPrbAcMIeabzvVqTaRzS+/?=
- =?us-ascii?Q?LBnJlAuF+8WtsU0/rk14ivSMou6KV8Hpmt7DZAER31HTy4IaP8J0ARN5XhBO?=
- =?us-ascii?Q?uSzMSfUzzykQXoRPol3NSAuAggbaKep7OIyXjNI0SC6F4DFw0cAXhqZ4Ue6k?=
- =?us-ascii?Q?koZHjVW83FOsI6wQfheA7IZowvLUY6PvpMCbLN2cd5cmeUUhFKbzNiX36QlP?=
- =?us-ascii?Q?kh49CmvNB7OGxrqOsrHeX/Cxs6pUL6bEjO8lrw29O4xD8Gvc/QnAt9Aj1dNu?=
- =?us-ascii?Q?8cXbWY9NGKzCPtsPakfmLFr8WTMKuvzjgg9nmKk1p5iy8y1Sm/a9RAWwkdOp?=
- =?us-ascii?Q?b8wMuTEekpbg31j55hjNtnGn38KRkGmk4w8x2Y3h/mhusXzH077m0f3BYOT+?=
- =?us-ascii?Q?CkWjJ6eV3blR+oBJT/YMnqKPwQM8lItFCn7JbajpRGURzK5AXNpz2qUM1JVN?=
- =?us-ascii?Q?gSULnsh0TJfWahmDLyt4U3pSy0ZofiBuMIsbH4wJyQCgKR297pOGNGnFA+WK?=
- =?us-ascii?Q?TYBXAuzi8lJcocvCjwLuJJ1vHL1+tTahGCUsWd3lQs39M0bKUJkxML6VEjbd?=
- =?us-ascii?Q?2GiUHxfKTyZhJlyl7aRRlOkfICt5c/Jrk7QC1JsGCVikIGOR7QdD90j3429R?=
- =?us-ascii?Q?z3qBvcD2bXjQo/ftujuMur21Ms7mKFXIIpmtscYlBVyxU0Q33bTtA94bGEjN?=
- =?us-ascii?Q?2iHXkgai3UrhO0/EyL18wuc/UyXoY5aMDlNEh3IIwnOf+4H+UhyBz6DHh0np?=
- =?us-ascii?Q?yy05XI4fGz8uxJVAfJqcG971rqdVqUkaE3RXCRxPZq2EfVeqE788/TX+zW51?=
- =?us-ascii?Q?IOUJFnNCQC9vsBfVpbWmBOOkdDVLTbwgND6hIZcU0spLyhBovU+5cjPIB+cI?=
- =?us-ascii?Q?jXn1EPAExdi66vL5fwD9Trqsmf+nkaL+7IfA1y+uwifqcR1NghCMWwa4VkWa?=
- =?us-ascii?Q?09RGuuL8UccxJx7VjU3hC6U+Nhap1k3kBQ9KhcPQfqxvcvN04V623EHWTark?=
- =?us-ascii?Q?82T1HT1Y6PgTj9h/VDhHDcw7P3hnXMVQYM3KbqodIuR4dkl8YNTMUnXg/rRy?=
- =?us-ascii?Q?d6Cc3zJJtvMztehEAnxIqP+FW6iXuQHe2H5AD4gsM2Qmf5M9TIKbYlN92y/P?=
- =?us-ascii?Q?5bvYacVfV2pkAk027PfHeCGFvAxbXqB14UM/64N/eusyZ849xIq8s3okS36p?=
- =?us-ascii?Q?oQPkFga7GGuW6Tq5tljjJjRoASU52NE=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3fb01290-7fff-4554-e4a9-08dec7c07311
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 13:50:51.2350
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pIE7zq6SJBCoC6+17Ny5qISpsh4N4eJ+jiy0yLgbnzq1VeN0LKL/Q2ME9hGEoPFYqwaeZnUPZT0wnsBjln/Er2hBJzNQUnN5z+vgfOYALpI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4P189MB3726
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: TiAw8wV-MNX8r7gt05eKvRxJBjbPId2s
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjExMDA4MCBTYWx0ZWRfX8SmcJpIZM1M7
+ KNPvoD7BrHJc3gH1KCGmtcOOPZD/uWKfkdiV3Y4PKRMBXb+cjA9kQB80QGjlR+Ucoev3+dXFEt7
+ vRCUKfoPegib6xPeZJ7wxEXjFT0HUUk=
+X-Proofpoint-ORIG-GUID: TiAw8wV-MNX8r7gt05eKvRxJBjbPId2s
+X-Authority-Analysis: v=2.4 cv=Kux9H2WN c=1 sm=1 tr=0 ts=6a2a6f23 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8
+ a=S9PWtUsRgIVsDFoORi8A:9 a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjExMDA4MCBTYWx0ZWRfXwxhEKPyofzEh
+ ZPLOXAUcQ0NPQClriU8v0h0swIOy0E32rCAqoKTdbJLv4t7nyBdfWU+kYwMIEVXw/OWpFx5MDgg
+ Z+Ct/R9pSXRXL8qaNYmQEjc2eUyRMrmB8PsBR4hY9YnkiZEBq3ttZwLAE3MgupPyBU/fyw/bRAm
+ Lq1q6PDlArEqI7oIhYWwIF2cFyiDk0El6ArH5tlmHjILX8N2ywluz4mxD8aMO1QJRLAbLXyHETB
+ +cQjjFBzwvzk8KQaqCOwVnKiAgW82XImqT0FU11Iff/0ZbCwiZOwtNWHCXSlmCpfadqGItlhdz1
+ R6SohYXFNbw5ERm6sAW5BphO1P/vO3qWzGYmPD3EZLI0vXr5AHgsHqRPKGcF9gQlB05iSm4sL+E
+ j30xCAUQ4SbyBUDt9a1HCAyXxRyKoe8FaMRE1t5Znz/d1Jpnd4m+BgAcoA/qWeg0EdTpxTKVrFj
+ bjdNSfvagPdKQb15gOg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-11_01,2026-06-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0 phishscore=0 spamscore=0 bulkscore=0
+ clxscore=1011 suspectscore=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606040000
+ definitions=main-2606110080
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:03:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238446
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:05:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238447
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Add optional PACKAGECONFIG entries for suiteb, wnm, and mbo and map
+these to the corresponding upstream build flags:
 
-CVE-2026-35386 is already fixed by the existing CVE-2025-61984 backport.
+- suiteb: enable CONFIG_SUITEB and CONFIG_SUITEB192 for
+  WPA-EAP-SUITE-B/WPA-EAP-SUITE-B-192 enterprise modes
+- wnm: enable CONFIG_WNM for IEEE 802.11v Wireless Network Management
+- mbo: enable CONFIG_MBO for Multi Band Operation extensions used with
+  BSS Transition Management
 
-Rename CVE-2025-61984.patch to CVE-2025-61984_CVE-2026-35386.patch and
-add the second CVE tag to document that one patch covers both CVEs.
+Upstream hostap configuration keeps these as optional capabilities.
+Exposing them as PACKAGECONFIG options lets distros opt in for
+enterprise and roaming use cases without changing the default oe-core
+feature set.
 
-https://nvd.nist.gov/vuln/detail/CVE-2026-35386
-
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Signed-off-by: Hangtian Zhu <hangtian.zhu@oss.qualcomm.com>
 ---
- ...CVE-2025-61984.patch =3D> CVE-2025-61984_CVE-2026-35386.patch} | 2 +-
- meta/recipes-connectivity/openssh/openssh_9.6p1.bb              | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/openssh/openssh/{CVE-2025-61984.patch =3D=
-> CVE-2025-61984_CVE-2026-35386.patch} (99%)
+ .../wpa-supplicant/wpa-supplicant_2.11.bb        | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch=
- b/meta/recipes-connectivity/openssh/openssh/CVE-2025-61984_CVE-2026-35386.=
-patch
-similarity index 99%
-rename from meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch
-rename to meta/recipes-connectivity/openssh/openssh/CVE-2025-61984_CVE-2026=
--35386.patch
-index f705410b24..7fcb02d613 100644
---- a/meta/recipes-connectivity/openssh/openssh/CVE-2025-61984.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2025-61984_CVE-2026-353=
-86.patch
-@@ -32,7 +32,7 @@ Slightly modified since variable expansion of user names =
-was
- first released in 10.0, commit bd30cf784d6e8"
-=20
- Upstream-Status: Backport [Upstream commit https://github.com/openssh/open=
-ssh-portable/commit/35d5917652106aede47621bb3f64044604164043]
--CVE: CVE-2025-61984
-+CVE: CVE-2025-61984 CVE-2026-35386
- Signed-off-by: David Nystr=C3=B6m <david.nystrom@est.tech>
- ---
-  ssh.c | 26 +++++++++++++++++++++++---
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/reci=
-pes-connectivity/openssh/openssh_9.6p1.bb
-index a1b5d4a553..ea158b56b4 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-@@ -33,7 +33,7 @@ SRC_URI =3D "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/p=
-ortable/openssh-${PV}.tar
-            file://CVE-2025-26465.patch \
-            file://CVE-2025-32728.patch \
-            file://CVE-2025-61985.patch \
--           file://CVE-2025-61984.patch \
-+           file://CVE-2025-61984_CVE-2026-35386.patch \
-            file://CVE-2026-35385.patch \
-            file://CVE-2026-35387.patch \
-            file://CVE-2026-35388.patch \
---=20
-2.34.1
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+index 558065f03a..adb8467786 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.11.bb
+@@ -32,6 +32,9 @@ inherit pkgconfig systemd
+ PACKAGECONFIG ?= "openssl"
+ PACKAGECONFIG[gnutls] = ",,gnutls libgcrypt"
+ PACKAGECONFIG[openssl] = ",,openssl"
++PACKAGECONFIG[suiteb] = ",,"
++PACKAGECONFIG[wnm] = ",,"
++PACKAGECONFIG[mbo] = ",,"
+ 
+ CVE_PRODUCT = "wpa_supplicant"
+ 
+@@ -53,6 +56,19 @@ do_configure () {
+ 		    -e 's/\(^CONFIG_OWE=\)/#\1/' wpa_supplicant/.config
+ 	fi
+ 
++	if ${@ bb.utils.contains('PACKAGECONFIG', 'suiteb', 'true', 'false', d) }; then
++		echo 'CONFIG_SUITEB=y' >>wpa_supplicant/.config
++		echo 'CONFIG_SUITEB192=y' >>wpa_supplicant/.config
++	fi
++
++	if ${@ bb.utils.contains('PACKAGECONFIG', 'wnm', 'true', 'false', d) }; then
++		echo 'CONFIG_WNM=y' >>wpa_supplicant/.config
++	fi
++
++	if ${@ bb.utils.contains('PACKAGECONFIG', 'mbo', 'true', 'false', d) }; then
++		echo 'CONFIG_MBO=y' >>wpa_supplicant/.config
++	fi
++
+ 	# For rebuild
+ 	rm -f wpa_supplicant/*.d wpa_supplicant/dbus/*.d
+ }
+
+base-commit: b5c24e1491dcb9ab0f782df6be6582fbd2151724
+-- 
+2.25.1
 
 
