@@ -2,48 +2,51 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA4BCD98F9
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:31:51 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50418.1781195502152309190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F859CD98FA
+	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:31:52 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.50410.1781195498830752471
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 09:31:42 -0700
+ Thu, 11 Jun 2026 09:31:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RORYU6U9;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ZXa/i4ez;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019eb7866de4-dba690f0-b75f-4a91-8b26-ced7c3b41903-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BHuuP6ae;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gUYcIOsA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019eb7866263-a2ad1270-4701-4ac6-9f5f-e2aad5cfa4b2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781195501;
+	t=1781195498;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=4F7Qs1y+jjxhIyYPJmGIVP1yQoQjCZWPhBIW36+AhSo=;
-	b=RORYU6U9Vlntd3NSyJClRyXf7zOkBWB1Vz0qbsdY2spnoX7j+/rhGJeq125LdcFs
-	2/OeTJ42SaNPbvLaSbQZ1dWjSbiOMsGZ2FAr1SfjWXJOBNcd7sHf4faWeIliuoGgax9
-	0oGzrmA0h6zOrEXtnLIZ4te20YMlY0wOfnYTwt+w=
+	bh=VdLTbCxfc71ZrS614uWrJKr7CjCKmiOdc1x9MewNBTY=;
+	b=BHuuP6aey9cV/raONo5MtTgYMLqNFKPT5eRu9oM1Dm/iITew4c+OUa/M4g3Btvgz
+	o5QWXSqZbXChVymJcFlSeNwAtY2dPZ9gI80xEPY0D2N3xLhV8itp7KQCiXTHvIKZiku
+	/b0/741Y2QQ7IM/7M8OYjd7mmIUg78STvyQ2pcs8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195501;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195498;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=4F7Qs1y+jjxhIyYPJmGIVP1yQoQjCZWPhBIW36+AhSo=;
-	b=ZXa/i4ezWQKyQnJV+b50ztCqETO6FpN/TdT/rI/Ow3+OJFOr2BVQaNM2h7uapDgB
-	5/a8dBJGqh73rggIwY3vXy9I04zHl0oT/39cQ16x4EqbTg7VZ2d3lkUPXBRrbAfBa0W
-	LgHKfBoW1jMDNLNdT+osKm9zl9f8Btz+FqunZIyg=
-Content-Type: multipart/mixed; boundary="===============2057786058468273546=="
+	bh=VdLTbCxfc71ZrS614uWrJKr7CjCKmiOdc1x9MewNBTY=;
+	b=gUYcIOsAoktuSadGL/IlRbTV7VbnZwUYfl3bG9Gkvu5xei384cqVDknGtk6OehWa
+	KsqxkRHZ53tm6xWX8siFk1OaBIx62PStVQ+XJKKgGNJ3KZjgx4yCATqX/8n5E95cz8y
+	j9VO7q8pPXQGcpdHDuYvq3ob21NXzZbrFVBRaIro=
+Content-Type: multipart/mixed; boundary="===============0285345544948650381=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] debugedit: upgrading to 5.3 FAILED
-Message-ID: <0101019eb7866de4-dba690f0-b75f-4a91-8b26-ced7c3b41903-000000@us-west-2.amazonses.com>
-Date: Thu, 11 Jun 2026 16:31:41 +0000
+Subject: [AUH] lttng-tools,lttng-modules,lttng-ust: upgrading to
+ 2.15.1,2.15.1,2.15.1 FAILED
+Message-ID: <0101019eb7866263-a2ad1270-4701-4ac6-9f5f-e2aad5cfa4b2-000000@us-west-2.amazonses.com>
+Date: Thu, 11 Jun 2026 16:31:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.11-54.240.27.45
+X-SES-Outgoing: 2026.06.11-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:31:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238481
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:31:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238464
 
---===============2057786058468273546==
+--===============0285345544948650381==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,14 +54,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *debugedit* to *5.3* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *lttng-tools,lttng-modules,lttng-ust* to *2.15.1,2.15.1,2.15.1* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe debugedit failed.
+The following devtool command failed:  upgrade lttng-tools -V 2.15.1
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1980 entries from dependency cache.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1980 targets, 40 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -69,9 +74,9 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-9544b33457a28084b0d5a5cf9ed4ff290c620c1e"
+DISTRO_VERSION       = "6.0.99+snapshot-97ff9c42ed8c561ea08a3bd87c8612f251f56432"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:9544b33457a28084b0d5a5cf9ed4ff290c620c1e"
+meta                 = "tmp-auh-upgrades:97ff9c42ed8c561ea08a3bd87c8612f251f56432"
 meta-yocto-bsp       
 meta-poky            = "master:59c41245ad231f5320defcb275477e3d25a2203e"
 workspace            = "<unknown>:<unknown>"
@@ -97,9 +102,9 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-9544b33457a28084b0d5a5cf9ed4ff290c620c1e"
+DISTRO_VERSION       = "6.0.99+snapshot-97ff9c42ed8c561ea08a3bd87c8612f251f56432"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:9544b33457a28084b0d5a5cf9ed4ff290c620c1e"
+meta                 = "tmp-auh-upgrades:97ff9c42ed8c561ea08a3bd87c8612f251f56432"
 meta-yocto-bsp       
 meta-poky            = "master:59c41245ad231f5320defcb275477e3d25a2203e"
 workspace            = "<unknown>:<unknown>"
@@ -113,18 +118,27 @@ NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  10% |###                                 | ETA:  0:00:00
+Adding changed files:  21% |#######                             | ETA:  0:00:00
+Adding changed files:  32% |###########                         | ETA:  0:00:00
+Adding changed files:  43% |###############                     | ETA:  0:00:00
+Adding changed files:  53% |###################                 | ETA:  0:00:00
+Adding changed files:  64% |#######################             | ETA:  0:00:00
+Adding changed files:  75% |###########################         | ETA:  0:00:00
+Adding changed files:  86% |###############################     | ETA:  0:00:00
+Adding changed files:  97% |##################################  | ETA:  0:00:00
 Adding changed files: 100% |####################################| Time: 0:00:00
+
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://sourceware.org/ftp/debugedit/5.3/debugedit-5.3.tar.xz...
-INFO: Rebasing devtool onto 444fa75c086562ab66856103983a7a56e0040572
-WARNING: Command 'git rebase 444fa75c086562ab66856103983a7a56e0040572' failed:
-Auto-merging Makefile.am
-CONFLICT (content): Merge conflict in Makefile.am
+INFO: Fetching https://lttng.org/files/lttng-tools/lttng-tools-2.15.1.tar.bz2...
+INFO: Rebasing devtool onto c10ee5ee0de8f96347eacff2456e290dc45c4e67
+WARNING: Command 'git rebase c10ee5ee0de8f96347eacff2456e290dc45c4e67' failed:
+CONFLICT (modify/delete): tests/utils/testapp/userspace-probe-elf-binary/Makefile.am deleted in HEAD and modified in d4d7ee3 (tests: do not strip a helper library).  Version d4d7ee3 (tests: do not strip a helper library) of tests/utils/testapp/userspace-probe-elf-binary/Makefile.am left in tree.
 
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/debugedit
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/debugedit/debugedit_5.3.bb
+ERROR: Execution of 'git checkout devtool' failed with exit code 1:
+error: you need to resolve your current index first
+tests/utils/testapp/userspace-probe-elf-binary/Makefile.am: needs merge
 
 
 
@@ -133,5 +147,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2057786058468273546==--
+--===============0285345544948650381==--
 
