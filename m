@@ -1,142 +1,129 @@
-Return-Path: <Shilong.Jiao@eng.windriver.com>
+Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D52CD98C6
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 06:50:49 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.39809.1781160645262217380
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ACD8CD8CB9
+	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 07:25:19 +0000 (UTC)
+Received: from esa5.hc324-48.eu.iphmx.com (esa5.hc324-48.eu.iphmx.com [207.54.71.60])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40170.1781162697245945947
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2026 23:50:45 -0700
+ Thu, 11 Jun 2026 00:24:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=DCnApsTu;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0622bf43b4=shilong.jiao@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65B54Ujh3157295
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 23:50:44 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=SBdxoebjrTrAQ0aJJExs
-	3h5HXIDjjXUrKBwDBLPg/mc=; b=DCnApsTu8syaveR9HF048M7u57pSNPVfe1UW
-	v13j+wBI/Ea4MwnbnH7b0vn1UE+pp0lWFGjRIaRViwirYw6vngnLd4R6ieO9mNEE
-	oMaRwu4gcLMqlEv3eRrQxwnScVXpTF7TCW2pxLN3C9PpD7o1fK9cKGDXZnF0+Vdz
-	kB6m+rxh5syvLjSdKnq5R58WBX40umNXt/GzREiGIjPTmalyxwjmHI9zuKoEiTuL
-	DU6kM52AR10j6cMR6gtfKWXJAdE9VbB8usyQkcQR/cIcJy/dw4iIakT3+MvNEYE1
-	CKe+HisVi774YrB8dGzBpDB4VB74AU0jYGEfYvUNU/x+Wvrelw==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4eqe7agm18-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2026 23:50:44 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 10 Jun 2026 23:50:44 -0700
-Received: from pek-lpgtest26.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 10 Jun 2026 23:50:43 -0700
-From: <Shilong.Jiao@windriver.com>
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=Ho1l89PU;
+ spf=permerror, err=parse error for token &{10 18 256wvd6dc.spf.checkpoint-spf.com}: parse error for token &{10 18 %{ir}.256wvd6dc.spf.checkpoint-spf.com}: invalid domain name (domain: bmw.de, ip: 207.54.71.60, mailfrom: prvs=6153e13a0=moritz.haase@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1781162697; x=1812698697;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7QO41BCrC8+L9Kqf3IEyfDTKRvdle588JQoDEzZayas=;
+  b=Ho1l89PUCVYsNjS5G7XX8L8+hiYVIE19vYiKqEch0jnuriS3WdLZnDeq
+   mj4yl5JMx+bFGSOHhdCIQIw+3Npuml70hlmy9O4bk9XonePTVjTldtSWw
+   nFsHGHIwb7p0YmxfYgC5TqDeYTi1mMcqNe4vNMw8mej/pqsZdR6q2l1Yj
+   I=;
+X-CSE-ConnectionGUID: VVZyw6xzRWaDBjqJmWXfQg==
+X-CSE-MsgGUID: H3tr/Is6RMqyeXufQl26zw==
+Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
+ esa5.hc324-48.eu.iphmx.com with ESMTP/TLS; 11 Jun 2026 09:24:54 +0200
+Received: from unknown (HELO esabb4.muc) ([10.31.187.135]) by esagw1.muc with
+ ESMTP/TLS; 11 Jun 2026 09:24:54 +0200
+Received: from smucmp17a.bmwgroup.net (HELO smucmp17a.europe.bmw.corp)
+ ([10.30.13.151]) by esabb4.muc with ESMTP/TLS; 11 Jun 2026 09:24:54 +0200
+Received: from smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) by
+ smucmp17a.europe.bmw.corp (2a03:1e80:a15:58f::1:3a) with Microsoft SMTP
+ Server (version=TLS; Thu, 11 Jun 2026 09:24:54 +0200
+Received: from q1054628.de-cci.bmwgroup.net (10.30.85.214) by
+ smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) with Microsoft SMTP
+ Server (version=TLS; Thu, 11 Jun 2026 09:24:54 +0200
+X-CSE-ConnectionGUID: oGGtrymqRkmf26RaGpf0LQ==
+X-CSE-MsgGUID: 1zmu5hmLSuKvQgqTK+bZ3w==
+X-CSE-ConnectionGUID: S6WabTO7S1SFj4tFKWaXPw==
+X-CSE-MsgGUID: z//jg+xyTFq9552TDSKDAA==
+From: Moritz Haase <Moritz.Haase@bmw.de>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH v2] python3-six: fix test_lazy failure in ptest
-Date: Thu, 11 Jun 2026 14:50:42 +0800
-Message-ID: <20260611065042.2223999-1-Shilong.Jiao@windriver.com>
-X-Mailer: git-send-email 2.34.1
+CC: Moritz Haase <Moritz.Haase@bmw.de>
+Subject: [PATCH] createrepo-c: upgrade 1.2.3 -> 1.2.4
+Date: Thu, 11 Jun 2026 09:24:33 +0200
+Message-ID: <20260611072433.1888259-1-Moritz.Haase@bmw.de>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: KgBmW6Q65QLpx7v1X-KapR1-P5f_8Zl4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjExMDA2NSBTYWx0ZWRfX30Q/AhERE7dM
- Im/12/ul12yKizX4gCvlPSk6DugVZpShI53xxOCccR8ON3pHikSFCc/vZeFiAQ53SbNUoRtgX4w
- b6rRDOyPeCe7mc6hgencr3JBXGt91SPHHiIk5lIH3i+g5OZd1y+/2u2Ui5nL5W/xLB6Hhh0QJa5
- vBTize4oswAiuWunZwgQDWTxkKBvwX7gWex6fEAx+QC37/DphaqUFfXeYG0QOyaFv3JsEFd4eNo
- otW86GLqh2drpZ1Dfx9L5dmATuHb+qnTSZOIEDE2FP4CiJeEHiRQpM2pr1bvH2tncAGdg34y2wn
- BBCLfmSzocpxKZcce/nuNEWspxdvg6XytHHDhVSEH+EG4iVOfIe6WVMHdvHFKmCw6SmMOUPd4er
- ug/IDeSWy9pVBE+7GPyWHsWznkdNpsyqJrR6GBVF8dH2JYXwxwAlGuDS/HlNzN0EnSapm9pMvRB
- 7Rl38jgoJacfCE5di8w==
-X-Proofpoint-GUID: KgBmW6Q65QLpx7v1X-KapR1-P5f_8Zl4
-X-Authority-Analysis: v=2.4 cv=P+cKQCAu c=1 sm=1 tr=0 ts=6a2a5ac4 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8 a=U9mKMZQizFDwuit0HYQA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjExMDA2NSBTYWx0ZWRfX2JW4sNp706yc
- FbGfqUTtvIvqRV096s7E6E3D+k7IlYgCLW+GuRDcqpK9zFplqc9cxgb6bXARjeVMhbWenuBW+wR
- Tivlk2NrHbvLn55lWwTnv1EIC3NGrpB7jlobrvi81cId2miYlukP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-11_01,2026-06-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
- malwarescore=0 spamscore=0 suspectscore=0 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606040000 definitions=main-2606110065
+X-ClientProxiedBy: smucmp18b.europe.bmw.corp (2a03:1e80:a15:58f::1:51) To
+ smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 06:50:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238425
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 07:25:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238426
 
-From: Shilong Jiao <Shilong.Jiao@windriver.com>
+Full list of changes in this release is available at [0].
 
-The test_lazy function requires html.parser to not be in sys.modules,
-but if test_move_items runs first (which happens in pytest's execution
-order), it imports the module causing test_lazy to fail.
+[0]: https://github.com/rpm-software-management/createrepo_c/releases/tag/1.2.4
 
-Add fix-test-lazy-order.patch to clean up module state before testing
-to avoid test order dependency.
-
-Signed-off-by: Shilong Jiao <Shilong.Jiao@windriver.com>
+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
 ---
- .../python3-six/fix-test-lazy-order.patch     | 23 +++++++++++++++++++
- .../python/python3-six_1.17.0.bb              |  5 +++-
- 2 files changed, 27 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-six/fix-test-lazy-order.patch
+ ...PYTHON_INSTALL_DIR-by-running-python.patch | 22 ++++++++++---------
+ ...erepo-c_1.2.3.bb => createrepo-c_1.2.4.bb} |  2 +-
+ 2 files changed, 13 insertions(+), 11 deletions(-)
+ rename meta/recipes-devtools/createrepo-c/{createrepo-c_1.2.3.bb => createrepo-c_1.2.4.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-six/fix-test-lazy-order.patch b/meta/recipes-devtools/python/python3-six/fix-test-lazy-order.patch
-new file mode 100644
-index 0000000000..9c22872e1f
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-six/fix-test-lazy-order.patch
-@@ -0,0 +1,23 @@
-+Ensure test_lazy runs with clean module state
-+
-+The test_lazy function requires html.parser to not be in sys.modules,
-+but if test_move_items runs first, it imports the module causing 
-+test_lazy to fail. Clean up the module state before testing.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Shilong Jiao <Shilong.Jiao@windriver.com>
-+
-+--- a/test_six.py
-++++ b/test_six.py
-+@@ -89,6 +89,9 @@ def test_maxsize():
-+ 
-+ def test_lazy():
-+     if six.PY3:
-+         html_name = "html.parser"
-+     else:
-+         html_name = "HTMLParser"
-++    # Ensure clean state for lazy import test
-++    sys.modules.pop(html_name, None)
-++    six._MovedItems.__dict__.pop("html_parser", None)
-+     assert html_name not in sys.modules
-+     mod = six.moves.html_parser
-diff --git a/meta/recipes-devtools/python/python3-six_1.17.0.bb b/meta/recipes-devtools/python/python3-six_1.17.0.bb
-index 213b3dc593..2a12831bea 100644
---- a/meta/recipes-devtools/python/python3-six_1.17.0.bb
-+++ b/meta/recipes-devtools/python/python3-six_1.17.0.bb
-@@ -3,7 +3,10 @@ require python-six.inc
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+index ca3f0782a8a80a3769c878a88c2fc8269cb2c56b..e2f90644c277174adb88a07e4640801eb31943e7 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+@@ -1,25 +1,27 @@
+-From 20aec3f83a7ab6ebb89f40ee8c5df1af65eba32b Mon Sep 17 00:00:00 2001
++From 71df5a5471081cf2338f9f046cdc51d064534297 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:31:02 +0200
+ Subject: [PATCH] Do not set PYTHON_INSTALL_DIR by running python
  
- SRC_URI[sha256sum] = "ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"
+ Upstream-Status: Inappropriate [oe-core specific]
++
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
++Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
+ ---
+  src/python/CMakeLists.txt | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRC_URI += "file://run-ptest"
-+SRC_URI += " \
-+    file://run-ptest \
-+    file://fix-test-lazy-order.patch \
-+"
+ diff --git a/src/python/CMakeLists.txt b/src/python/CMakeLists.txt
+-index a31b14d..01fd8ca 100644
++index 05ac89f9f491f93367283974ea38b5e314f0c5b6..44e38b386abc1c8eb135721d89509c649fdc6297 100644
+ --- a/src/python/CMakeLists.txt
+ +++ b/src/python/CMakeLists.txt
+-@@ -14,7 +14,7 @@ if (NOT SKBUILD)
+-     FIND_PACKAGE(PythonLibs 3 REQUIRED)
+- endif (NOT SKBUILD)
+- 
+--EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from sysconfig import get_path; stdout.write(get_path('platlib'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+-+#EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from sysconfig import get_path; stdout.write(get_path('platlib'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+- INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PATH})
++@@ -48,7 +48,7 @@ IF (SKBUILD)
++     find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
++     Python_add_library(_createrepo_c MODULE WITH_SOABI ${createrepo_cmodule_SRCS})
++ ELSE ()
++-    EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from sysconfig import get_path; stdout.write(get_path('platlib'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+++    #EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from sysconfig import get_path; stdout.write(get_path('platlib'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
++     INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PATH})
++     MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
+  
+- MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.3.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.4.bb
+similarity index 96%
+rename from meta/recipes-devtools/createrepo-c/createrepo-c_1.2.3.bb
+rename to meta/recipes-devtools/createrepo-c/createrepo-c_1.2.4.bb
+index a5c1a9dd440d5f8a7b85a6456f8ed88e427b89af..f6da852f0dc4e969899228a2746830f8d4b6909b 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.3.bb
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.4.bb
+@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c;branch=master;p
+            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+            "
  
- RDEPENDS:${PN}-ptest += " \
-     bash \
--- 
-2.34.1
-
+-SRCREV = "5ecca5e6c85cca1399378af5756344eb1c7448a1"
++SRCREV = "47ab8a418fb3abd58ef3760a7eace1481610c659"
+ 
+ DEPENDS = "expat curl glib-2.0 libxml2 openssl bzip2 zlib file sqlite3 xz rpm"
+ DEPENDS:append:class-native = " file-replacement-native"
 
