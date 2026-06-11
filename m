@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D1D2CDE017
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:32:11 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.50613.1781195504555509130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0382CDE012
+	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:32:10 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.50434.1781195519072822403
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 09:31:57 -0700
+ Thu, 11 Jun 2026 09:31:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DiMpJcPT;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=qW4v2mVS;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019eb786ac85-f12d1c0d-ebd0-461a-a92e-a151bcdbe8b2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Gk7dDxxt;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=kA+cBImr;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019eb786b259-6c1dbaa0-0a0d-4c42-bac5-4949055a955c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781195517;
+	t=1781195518;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=N+eE9igv7LXmvS837OuhRLQUScW2p6DdcGcq77BDtyk=;
-	b=DiMpJcPTrD4p+pJmjGX8lY5kzmWCnYvpNhtNQYodDiwDszh+aewM/5e8kZim6b8r
-	1g6hUsFzMY+Xqkty13QPKV4fIyIAZLPUaEanVaVIo74G3j0GYl5adTm9cbjgdlLhHFI
-	HYv1ZBH0stCdgpsCVB+sY7Cg+RvH2v1lm7MHoH7Y=
+	bh=J8ICOA7JpYlZbCSbRJ3oQxZfuGTiqK8w67ted6KAdts=;
+	b=Gk7dDxxtlBGfA+JsK/T7JRuJ27fn2Rb5sb28Ea3DI+tgSxew/MIb+miJVrLoXPgB
+	EZzC83TLSnpU4SSZL0t3z2w3CDkiitNNFy8XWoqzoU4xFRhvgqOpCngbdQwB0IuXYdW
+	hrtpsY04We/8q5grfiOnj6lb0i5urYcoxvneb3ng=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195517;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195518;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=N+eE9igv7LXmvS837OuhRLQUScW2p6DdcGcq77BDtyk=;
-	b=qW4v2mVSJ7pC5V4izYRwJDLLAxa8HptOjlJcpasTQgEAzyGFqVlBXwlTuwQROgqG
-	dFUHlr6E23zZ+BBiLRRY0DjFMykTLkNeIdtjbTxtsYkZkYewqfIEWI78PpkF+hoZADM
-	alkCFPo99496M+gfvyL4J90KGg2oLzNBAV7JDm7s=
-Content-Type: multipart/mixed; boundary="===============4503327502050489956=="
+	bh=J8ICOA7JpYlZbCSbRJ3oQxZfuGTiqK8w67ted6KAdts=;
+	b=kA+cBImrQR6BJWlhssedhRJeuh0k3GzTcHuc8xmcpHFip+fmniXHJIhFhZLBDKWt
+	OFLgxwH6ntMibMLK/DGZERnUykQSSuCDFP2jzDNcMTDSYq+skaZewzLkl4fz/+l9oGz
+	Z5UbhEAs2II6rdGHeGLqsoyI03Wcpad3kc83zX1M=
+Content-Type: multipart/mixed; boundary="===============1565139565347963897=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-samples: upgrading to
- ab1e93d4a5dadf4c804fb6abbbe0b27dfa912b5a SUCCEEDED
-Message-ID: <0101019eb786ac85-f12d1c0d-ebd0-461a-a92e-a151bcdbe8b2-000000@us-west-2.amazonses.com>
-Date: Thu, 11 Jun 2026 16:31:57 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] vulkan-volk: upgrading to 1.4.350.0 SUCCEEDED
+Message-ID: <0101019eb786b259-6c1dbaa0-0a0d-4c42-bac5-4949055a955c-000000@us-west-2.amazonses.com>
+Date: Thu, 11 Jun 2026 16:31:58 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.11-54.240.27.23
+X-SES-Outgoing: 2026.06.11-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:32:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238542
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:32:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238547
 
---===============4503327502050489956==
+--===============1565139565347963897==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *vulkan-samples* to *ab1e93d4a5dadf4c804fb6abbbe0b27dfa912b5a* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *vulkan-volk* to *1.4.350.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vulkan-samples-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-vulkan-volk-upgrade-1.4.341.0-1.4.350.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,58 +72,95 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 047305d5538effec36dad14d81650bd5c27d9c01 Mon Sep 17 00:00:00 2001
+From d8b52d88123b395f03a04781314535c25d6e8f3c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 11 Jun 2026 12:48:55 +0000
-Subject: [PATCH] vulkan-samples: upgrade to latest revision
+Date: Thu, 11 Jun 2026 13:09:18 +0000
+Subject: [PATCH] vulkan-volk: upgrade 1.4.341.0 -> 1.4.350.0
 
 ---
- meta/recipes-graphics/vulkan/vulkan-samples_git.bb | 2 +-
+ .../{vulkan-volk_1.4.341.0.bb => vulkan-volk_1.4.350.0.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/vulkan/{vulkan-volk_1.4.341.0.bb => vulkan-volk_1.4.350.0.bb} (95%)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index dd7b151aa5..c7e09b4b7d 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -9,7 +9,7 @@ SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protoc
-            "
+diff --git a/meta/recipes-graphics/vulkan/vulkan-volk_1.4.341.0.bb b/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/vulkan/vulkan-volk_1.4.341.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb
+index 144e44969a..4541b71a98 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-volk_1.4.341.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb
+@@ -10,7 +10,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=cfcbdd69e15396e371f639c69acf40bf"
  
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "f9b160340bf3066313825c119710c9f51e75edd8"
-+SRCREV = "ab1e93d4a5dadf4c804fb6abbbe0b27dfa912b5a"
+ SRC_URI = "git://github.com/zeux/volk.git;branch=master;protocol=https;tag=vulkan-sdk-${PV}"
+-SRCREV = "d979819fd03de3a7606d6e23d6ff4968942599da"
++SRCREV = "3ca312a4f38baa63d8006b6905abbeeb89c8087d"
  
- UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
+ REQUIRED_DISTRO_FEATURES = "vulkan"
  
 -- 
 2.47.1
 
 
---===============4503327502050489956==
+--===============1565139565347963897==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/vulkan-volk: SRC_URI changed from "git://github.com/zeux/volk.git;branch=master;protocol=https;tag=vulkan-sdk-1.4.341.0" to "git://github.com/zeux/volk.git;branch=master;protocol=https;tag=vulkan-sdk-1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-volk: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-volk: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-dbg: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-dbg: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-dev: PKGSIZE changed from 508417 to 540197 (+6%)
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-dev: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-dev: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-doc: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-doc: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-locale: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-locale: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-src: PKGSIZE changed from 500304 to 532084 (+6%)
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-src: FILELIST: directory renamed /usr/src/debug/vulkan-volk/1.4.341.0 -> /usr/src/debug/vulkan-volk/1.4.350.0
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-src: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-src: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-staticdev: PKGSIZE changed from 799428 to 800236 (+0%)
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-staticdev: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk-staticdev: PV changed from "1.4.341.0" to "1.4.350.0"
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk: PKGV changed from 1.4.341.0 [default] to 1.4.350.0 [default]
+packages/x86-64-v3-poky-linux/vulkan-volk/vulkan-volk: PV changed from "1.4.341.0" to "1.4.350.0"
+
+--===============1565139565347963897==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-vulkan-samples-upgrade-to-latest-revision.patch"
+ filename="0001-vulkan-volk-upgrade-1.4.341.0-1.4.350.0.patch"
 
-RnJvbSAwNDczMDVkNTUzOGVmZmVjMzZkYWQxNGQ4MTY1MGJkNWMyN2Q5YzAxIE1vbiBTZXAgMTcg
+RnJvbSBkOGI1MmQ4ODEyM2IzOTVmMDNhMDQ3ODEzMTQ1MzVjMjVkNmU4ZjNjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMTI6NDg6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
-dWxrYW4tc2FtcGxlczogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tc2FtcGxlc19naXQuYmIgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1zYW1wbGVzX2dpdC5iYiBiL21ldGEvcmVj
-aXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLXNhbXBsZXNfZ2l0LmJiCmluZGV4IGRkN2IxNTFh
-YTUuLmM3ZTA5YjRiN2QgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4v
-dnVsa2FuLXNhbXBsZXNfZ2l0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4v
-dnVsa2FuLXNhbXBsZXNfZ2l0LmJiCkBAIC05LDcgKzksNyBAQCBTUkNfVVJJID0gImdpdHNtOi8v
-Z2l0aHViLmNvbS9LaHJvbm9zR3JvdXAvVnVsa2FuLVNhbXBsZXMuZ2l0O2JyYW5jaD1tYWluO3By
-b3RvYwogICAgICAgICAgICAiCiAKIFVQU1RSRUFNX0NIRUNLX0NPTU1JVFMgPSAiMSIKLVNSQ1JF
-ViA9ICJmOWIxNjAzNDBiZjMwNjYzMTM4MjVjMTE5NzEwYzlmNTFlNzVlZGQ4IgorU1JDUkVWID0g
-ImFiMWU5M2Q0YTVkYWRmNGM4MDRmYjZhYmJiZTBiMjdkZmE5MTJiNWEiCiAKIFVQU1RSRUFNX0NI
-RUNLX0dJVFRBR1JFR0VYID0gIlRoZXNlIGFyZSBub3QgdGhlIHJlbGVhc2VzIHlvdSdyZSBsb29r
-aW5nIGZvciIKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMTM6MDk6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4tdm9sazogdXBncmFkZSAxLjQuMzQxLjAgLT4gMS40LjM1MC4wCgotLS0KIC4uLi97dnVs
+a2FuLXZvbGtfMS40LjM0MS4wLmJiID0+IHZ1bGthbi12b2xrXzEuNC4zNTAuMC5iYn0gICAgICB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi12b2xrXzEuNC4zNDEuMC5i
+YiA9PiB2dWxrYW4tdm9sa18xLjQuMzUwLjAuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tdm9sa18xLjQuMzQxLjAuYmIgYi9tZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi12b2xrXzEuNC4zNTAuMC5iYgpzaW1pbGFyaXR5
+IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGth
+bi12b2xrXzEuNC4zNDEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGth
+bi92dWxrYW4tdm9sa18xLjQuMzUwLjAuYmIKaW5kZXggMTQ0ZTQ0OTY5YS4uNDU0MWI3MWE5OCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tdm9sa18xLjQu
+MzQxLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tdm9sa18x
+LjQuMzUwLjAuYmIKQEAgLTEwLDcgKzEwLDcgQEAgTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNf
+Q0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLm1kO21kNT1jZmNiZGQ2OWUxNTM5NmUzNzFmNjM5YzY5
+YWNmNDBiZiIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL3pldXgvdm9say5naXQ7YnJh
+bmNoPW1hc3Rlcjtwcm90b2NvbD1odHRwczt0YWc9dnVsa2FuLXNkay0ke1BWfSIKLVNSQ1JFViA9
+ICJkOTc5ODE5ZmQwM2RlM2E3NjA2ZDZlMjNkNmZmNDk2ODk0MjU5OWRhIgorU1JDUkVWID0gIjNj
+YTMxMmE0ZjM4YmFhNjNkODAwNmI2OTA1YWJiZWViODljODA4N2QiCiAKIFJFUVVJUkVEX0RJU1RS
+T19GRUFUVVJFUyA9ICJ2dWxrYW4iCiAKLS0gCjIuNDcuMQoK
 
---===============4503327502050489956==
+--===============1565139565347963897==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -135,10 +171,199 @@ Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 951 .bb files complete (0 cached, 951 parsed). 1980 targets, 62 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'vulkan-samples'
-vulkan-samples was skipped: incompatible with host arm-poky-linux-musleabi (not in COMPATIBLE_HOST)
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-musleabi"
+MACHINE              = "qemuarm"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-1059d95d88d299b69678e2f09147630db4b263ba"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+meta                 = "tmp-auh-upgrades:1059d95d88d299b69678e2f09147630db4b263ba"
+meta-yocto-bsp       
+meta-poky            = "master:59c41245ad231f5320defcb275477e3d25a2203e"
+workspace            = "<unknown>:<unknown>"
 
---===============4503327502050489956==--
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 132 Local 122 Mirrors 0 Missed 10 Current 250 (92% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 303 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 320 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 322 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_populate_lic_setscene: Started
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 323 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 324 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 325 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 326 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 327 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 871 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_fetch)
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 329 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 330 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_recipe_spdx_setscene)
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/vulkan-headers/1.4.341.0/temp/log.do_packagedata_setscene.2145157
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 331 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb:do_package_setscene)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_fetch: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 336 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_fetch: Succeeded
+NOTE: Running task 872 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_unpack)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_unpack: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running task 883 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_create_recipe_spdx)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_package_setscene: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_unpack: Succeeded
+NOTE: Running task 884 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_patch)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_patch: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_patch: Succeeded
+NOTE: Running task 886 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_generate_toolchain_file)
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 345 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 346 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 347 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 349 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 350 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 352 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 354 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 356 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 357 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 358 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 359 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 360 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 366 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 368 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 369 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 370 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 375 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 377 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 380 of 382 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1006 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.341.0.bb:do_packagedata)
+NOTE: Running task 1010 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_packagedata: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1013 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_configure)
+NOTE: recipe vulkan-headers-1.4.341.0-r0: task do_packagedata: Succeeded
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_configure: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_configure: Succeeded
+NOTE: Running task 1015 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_compile)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_compile: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_compile: Succeeded
+NOTE: Running task 1016 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_install)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_install: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_install: Succeeded
+NOTE: Running task 1017 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_package)
+NOTE: Running task 1018 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_populate_sysroot)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_populate_sysroot: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_package: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_package: Succeeded
+NOTE: Running task 1019 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_packagedata)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_packagedata: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_packagedata unihash changed to cd5a53fdf7f6c424b4eab3a5fdddde2c7e5403991b632816de8ee39a6ac384b3
+NOTE: Setscene tasks completed
+NOTE: Running task 1020 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_create_spdx)
+NOTE: Running task 1021 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_package_write_ipk)
+NOTE: Running task 1022 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_package_write_deb)
+NOTE: Running task 1023 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_package_write_rpm)
+NOTE: Running task 1024 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_package_qa)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_create_spdx: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_package_write_ipk: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_package_write_deb: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_package_write_rpm: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_package_qa: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1025 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_create_package_spdx)
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_create_package_spdx: Started
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_package_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_package_qa unihash changed to 76a7cf9b6345be1ee997d9bdbed5c5c8c2d8bd7e926e73552cabda624535af83
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_package_write_deb: Succeeded
+NOTE: recipe vulkan-volk-1.4.350.0-r0: task do_create_package_spdx: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_package_write_deb unihash changed to c5bd9d5c576ca46af2856c95ae12dab6572a220c5a9d2b3ced3a5ee75d108691
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_package_write_rpm unihash changed to a4246131852931cf9bfed64fb178a7072b3aaee7b49188d3903533d411ae3c49
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_package_write_ipk unihash changed to 66784d7d2e2df05a738a372e123ebe2263548d75221ced4dbe656314ec0e0d72
+NOTE: Running noexec task 1026 of 1026 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-volk_1.4.350.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1026 tasks of which 1006 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: vulkan-headers-1.4.341.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-src went backwards which would break package feeds (from 0:1.4.350.0-r0 to 0:1.4.341.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.4.341.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dbg went backwards which would break package feeds (from 0:1.4.350.0-r0 to 0:1.4.341.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.4.341.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-staticdev went backwards which would break package feeds (from 0:1.4.350.0-r0 to 0:1.4.341.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.4.341.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dev went backwards which would break package feeds (from 0:1.4.350.0-r0 to 0:1.4.341.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.4.341.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-doc went backwards which would break package feeds (from 0:1.4.350.0-r0 to 0:1.4.341.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.4.341.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-locale went backwards which would break package feeds (from 0:1.4.350.0-r0 to 0:1.4.341.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.4.341.0-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers went backwards which would break package feeds (from 0:1.4.350.0-r0 to 0:1.4.341.0-r0) [version-going-backwards]
+ERROR: vulkan-headers-1.4.341.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============1565139565347963897==--
 
