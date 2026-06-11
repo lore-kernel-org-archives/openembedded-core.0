@@ -1,129 +1,120 @@
-Return-Path: <Moritz.Haase@bmw.de>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ACD8CD8CB9
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 07:25:19 +0000 (UTC)
-Received: from esa5.hc324-48.eu.iphmx.com (esa5.hc324-48.eu.iphmx.com [207.54.71.60])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.40170.1781162697245945947
- for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 00:24:57 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEABFCD98C7
+	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 08:22:39 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40721.1781166152321066104
+ for <Openembedded-core@lists.openembedded.org>;
+ Thu, 11 Jun 2026 01:22:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=Ho1l89PU;
- spf=permerror, err=parse error for token &{10 18 256wvd6dc.spf.checkpoint-spf.com}: parse error for token &{10 18 %{ir}.256wvd6dc.spf.checkpoint-spf.com}: invalid domain name (domain: bmw.de, ip: 207.54.71.60, mailfrom: prvs=6153e13a0=moritz.haase@bmw.de)
+ dkim=pass header.i=@smile.fr header.s=google header.b=WfNCDLHh;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490aaeabdb4so50556335e9.1
+        for <Openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 01:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1781162697; x=1812698697;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7QO41BCrC8+L9Kqf3IEyfDTKRvdle588JQoDEzZayas=;
-  b=Ho1l89PUCVYsNjS5G7XX8L8+hiYVIE19vYiKqEch0jnuriS3WdLZnDeq
-   mj4yl5JMx+bFGSOHhdCIQIw+3Npuml70hlmy9O4bk9XonePTVjTldtSWw
-   nFsHGHIwb7p0YmxfYgC5TqDeYTi1mMcqNe4vNMw8mej/pqsZdR6q2l1Yj
-   I=;
-X-CSE-ConnectionGUID: VVZyw6xzRWaDBjqJmWXfQg==
-X-CSE-MsgGUID: H3tr/Is6RMqyeXufQl26zw==
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
- esa5.hc324-48.eu.iphmx.com with ESMTP/TLS; 11 Jun 2026 09:24:54 +0200
-Received: from unknown (HELO esabb4.muc) ([10.31.187.135]) by esagw1.muc with
- ESMTP/TLS; 11 Jun 2026 09:24:54 +0200
-Received: from smucmp17a.bmwgroup.net (HELO smucmp17a.europe.bmw.corp)
- ([10.30.13.151]) by esabb4.muc with ESMTP/TLS; 11 Jun 2026 09:24:54 +0200
-Received: from smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) by
- smucmp17a.europe.bmw.corp (2a03:1e80:a15:58f::1:3a) with Microsoft SMTP
- Server (version=TLS; Thu, 11 Jun 2026 09:24:54 +0200
-Received: from q1054628.de-cci.bmwgroup.net (10.30.85.214) by
- smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) with Microsoft SMTP
- Server (version=TLS; Thu, 11 Jun 2026 09:24:54 +0200
-X-CSE-ConnectionGUID: oGGtrymqRkmf26RaGpf0LQ==
-X-CSE-MsgGUID: 1zmu5hmLSuKvQgqTK+bZ3w==
-X-CSE-ConnectionGUID: S6WabTO7S1SFj4tFKWaXPw==
-X-CSE-MsgGUID: z//jg+xyTFq9552TDSKDAA==
-From: Moritz Haase <Moritz.Haase@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Moritz Haase <Moritz.Haase@bmw.de>
-Subject: [PATCH] createrepo-c: upgrade 1.2.3 -> 1.2.4
-Date: Thu, 11 Jun 2026 09:24:33 +0200
-Message-ID: <20260611072433.1888259-1-Moritz.Haase@bmw.de>
-X-Mailer: git-send-email 2.54.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: smucmp18b.europe.bmw.corp (2a03:1e80:a15:58f::1:51) To
- smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44)
+        d=smile.fr; s=google; t=1781166151; x=1781770951; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BxcKcEeyCswtEbeS1RNg7Ee7tgvGGV80Tn+oJ5AxUcI=;
+        b=WfNCDLHhrVgDC8GqoFKBAq0wwdXOhmMjYUgy/TXLeYuZIdvzvTwGsJzCZdVMjJTx5X
+         Z8d66R+3ZW89yBjlrz1tKOQD/CDgaGyG5ba8d1A2U+ZPSOz/wvhbz94nodO11lMTxUi7
+         /2ZGG+PIU80Ee90RjrRHFXm7agHXvEoZ4UUM4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781166151; x=1781770951;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BxcKcEeyCswtEbeS1RNg7Ee7tgvGGV80Tn+oJ5AxUcI=;
+        b=Gur09q8JNYvJT/cQHRWHHKPN2bdb7TBJY3egt77UwKLoutOkqDacx1eG9iZEvIogm7
+         Nls6dDwFAJs7/8qIf5F4zP7Nly4DsRBJnuJhm0ZZlTaRneLw197omAFXIqgcPl3DccG+
+         zc6fJzNjtSl2O2vGJvCRWsB90a5dtfJbGJVlZeFu/FZ+OfMvXuQWc6bUz3uKzsawRPP5
+         gaqrp8zgfV7J7ak8GYa+ZPAmGkJhS3oTTdf2Oj7C2m7xv3tcCiyXNVe7mTvgQNc6QnPu
+         YLEJ4Tn3c1b2sNPntRd95W5HKIDwcuovIGw6Q0KMpA4HrQsf+YdvjELgInM7sm+f6iN7
+         qajA==
+X-Forwarded-Encrypted: i=1; AFNElJ/KLADHRsMrEIjKVS3wE1sl06BqyX1GosspMSrs2NAOAW64eKT6qvn7gCZTSN+AUUIjzsSvPvsQHP0zutQ2ZMT2sg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxatIJcLgrOlNRDWOAREkSCJSGO42fAHrbKDCCUiJtaMduPlPxP
+	/Q5A95jDMA0E84ABMhm6rcM67tfMjPILOxzsCaIfAvA5Wf1qJwyLukP5bLsvT/keejk=
+X-Gm-Gg: Acq92OGQBf0+gkzDhIOoVBBRuRtT27CH317QD60OjhoUgyy6ybrRiQRwIXQCdwvxZq/
+	H3VwwzJrn7zIhi78CGYHtRNSrrzpXakwTo0glIJOrUUnUcXlzbUJJ+q4vygeqGfrRk6TIqjN8CW
+	QQXtj9VEHqWKtdlzqBUKkYz/RGehXG2/Aha4DjKg5PfLj6Hx9J0pFUf+/EDkVgD6Et6PctAr9L4
+	5DP35NxIu2u1sWenmWd0iy1g9vh4i1MdR0q/JGLEAdxsJ/mEP+bnlnUfw4DvNldJ+CLkR+6Gw+B
+	jPOCgFs2CXsOlC2Nvmg0LGOaH/csL/pK4/QSWylyw45VWXvVGFi71b7Ze7N782+8m1vljvVqp7e
+	iTHm1LlVKOv0wxVyJU9QKjw6oKdGE7t7aHOT0MYaLh39DkVWyQH6Njo6XMrTtyh7pAOPGDBNm8U
+	xwOkF2l5havYyqv+s6iDh4xty8OX2zvS6RnlJgZF1W31tDA1C5zOWp5xI3W7iF5n9nXnS9i//gs
+	G4kLMKdQKkI+CE+d22y+Uw/0vY=
+X-Received: by 2002:a05:600c:3656:b0:490:bd1d:4732 with SMTP id 5b1f17b1804b1-490e5639467mr15299235e9.23.1781166150647;
+        Thu, 11 Jun 2026 01:22:30 -0700 (PDT)
+Received: from localhost (2a01cb001331aa0084744357c26c6744.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:8474:4357:c26c:6744])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490e532c778sm30585065e9.14.2026.06.11.01.22.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jun 2026 01:22:30 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 11 Jun 2026 10:22:29 +0200
+Message-Id: <DJ62PCZH9RWW.2CWRCZW35I546@smile.fr>
+Subject: Re: [OE-core] [wrynose] overlayfs.bbclass: upperdir ownership
+ change in wrynose
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <andreas.muetzel@emlix.com>, <Openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <14026682.uLZWGnKmhe@mobilepool081.emlix.com>
+In-Reply-To: <14026682.uLZWGnKmhe@mobilepool081.emlix.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 07:25:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238426
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 08:22:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238427
 
-Full list of changes in this release is available at [0].
+On Thu Jun 11, 2026 at 8:12 AM CEST, Andreas M=C3=BCtzel via lists.openembe=
+dded.org wrote:
+> Hi all,
+>
+> we observed a change in the behaviour of overlayfs.bbclass when porting a=
+ BSP=20
+> from scarthgap to wrynose:
+>
+> This class used to create a helper unit that created the upperdir if it d=
+id=20
+> not exist by calling the script found in meta/files/overlayfs-create-dirs=
+.sh.=20
+> Additionally, the script changed the owner of the upperdir to match the o=
+ne of=20
+> the lowerdir.
+>
+> This helper unit and script been removed in oe-core with commit=20
+> 623c20ff1e989730138c3fbe6e8247eaada20707 because systemd now automaticall=
+y=20
+> creates the upperdir if it does not exist. But systemd does not adapt the=
+=20
+> ownership; instead, it gets created as owned by the default user and grou=
+p=20
+> (root:root).
+>
+> I could not find any reference to this change in the migration notes - is=
+ this=20
+> an intentional change or have we discovered a regression?
 
-[0]: https://github.com/rpm-software-management/createrepo_c/releases/tag/1.2.4
+Hello,
 
-Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
----
- ...PYTHON_INSTALL_DIR-by-running-python.patch | 22 ++++++++++---------
- ...erepo-c_1.2.3.bb => createrepo-c_1.2.4.bb} |  2 +-
- 2 files changed, 13 insertions(+), 11 deletions(-)
- rename meta/recipes-devtools/createrepo-c/{createrepo-c_1.2.3.bb => createrepo-c_1.2.4.bb} (96%)
+Indeed, it looks like a regression to me. Would you be willing to handle
+it?
 
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-index ca3f0782a8a80a3769c878a88c2fc8269cb2c56b..e2f90644c277174adb88a07e4640801eb31943e7 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-@@ -1,25 +1,27 @@
--From 20aec3f83a7ab6ebb89f40ee8c5df1af65eba32b Mon Sep 17 00:00:00 2001
-+From 71df5a5471081cf2338f9f046cdc51d064534297 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:31:02 +0200
- Subject: [PATCH] Do not set PYTHON_INSTALL_DIR by running python
- 
- Upstream-Status: Inappropriate [oe-core specific]
-+
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
- ---
-  src/python/CMakeLists.txt | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/src/python/CMakeLists.txt b/src/python/CMakeLists.txt
--index a31b14d..01fd8ca 100644
-+index 05ac89f9f491f93367283974ea38b5e314f0c5b6..44e38b386abc1c8eb135721d89509c649fdc6297 100644
- --- a/src/python/CMakeLists.txt
- +++ b/src/python/CMakeLists.txt
--@@ -14,7 +14,7 @@ if (NOT SKBUILD)
--     FIND_PACKAGE(PythonLibs 3 REQUIRED)
-- endif (NOT SKBUILD)
-- 
---EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from sysconfig import get_path; stdout.write(get_path('platlib'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
--+#EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from sysconfig import get_path; stdout.write(get_path('platlib'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-- INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PATH})
-+@@ -48,7 +48,7 @@ IF (SKBUILD)
-+     find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
-+     Python_add_library(_createrepo_c MODULE WITH_SOABI ${createrepo_cmodule_SRCS})
-+ ELSE ()
-+-    EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from sysconfig import get_path; stdout.write(get_path('platlib'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-++    #EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from sysconfig import get_path; stdout.write(get_path('platlib'))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-+     INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PATH})
-+     MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
-  
-- MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.3.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.4.bb
-similarity index 96%
-rename from meta/recipes-devtools/createrepo-c/createrepo-c_1.2.3.bb
-rename to meta/recipes-devtools/createrepo-c/createrepo-c_1.2.4.bb
-index a5c1a9dd440d5f8a7b85a6456f8ed88e427b89af..f6da852f0dc4e969899228a2746830f8d4b6909b 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.3.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.4.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c;branch=master;p
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            "
- 
--SRCREV = "5ecca5e6c85cca1399378af5756344eb1c7448a1"
-+SRCREV = "47ab8a418fb3abd58ef3760a7eace1481610c659"
- 
- DEPENDS = "expat curl glib-2.0 libxml2 openssl bzip2 zlib file sqlite3 xz rpm"
- DEPENDS:append:class-native = " file-replacement-native"
+If it is easily fixable, send a patch or, if not, open a bug on
+https://bugzilla.yoctoproject.org/ with, ideally, a reproducer.
+
+Thanks!
+
+>
+> Best regards,
+> Andreas
+
+
+--=20
+Yoann Congal
+Smile ECS
+
 
