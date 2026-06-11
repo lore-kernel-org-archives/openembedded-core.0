@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 076CECD98E5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3817FCD98E8
 	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:31:50 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.50611.1781195502460528921
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.50610.1781195501901811018
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 09:31:44 -0700
+ Thu, 11 Jun 2026 09:31:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MxsGxd88;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rve8Xo+P;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019eb786794c-31fec0a6-70fd-4613-ba9a-ee530ac0c48d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=nl/fjv3z;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=cACI7LNY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019eb7866e7c-822dabdc-cf1b-4d05-980b-8b76068b0fff-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781195504;
+	t=1781195501;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Z4US9AcQZV/8K53r7yHopU5VYhcyxKYnv1ncbJCQ9QQ=;
-	b=MxsGxd887VeKUuZieG4HC4YEGsvMbhcd/c6Jfgn9Xu8dBSJ7eD0FTEvOmyFuIPX/
-	/xqC/jEj2Oq5zAWxNPicKggum4qzCm1+ZpZEDEVr/5pijNWFbs4BbmCuq0ax4REQDuB
-	LeHvV4F6u+NwV4/VBxZ5YzPgUQFTONYynyyNeOqY=
+	bh=amOJSJMR+swLA5sy/3juGOSkIFc3egMcm/GCzVZcxlE=;
+	b=nl/fjv3zn+OWtaNFJNcpEgpVmsgihisM38XPY6om5S84jarGjbfVZs2nE0Sh2Bc6
+	h5T6hxox871rT9d+6XPwhjBnFMyF4/oDfJ5PDOibSX3ji016yHu0vVw/Ox4mk8246bI
+	hif3V9xIEoZka/icE5YyVAZ5KyH+ggDnEV8Mvakg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195504;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195501;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Z4US9AcQZV/8K53r7yHopU5VYhcyxKYnv1ncbJCQ9QQ=;
-	b=rve8Xo+PXS+j8or0Fo/H+gB+fzsSGEN4tERCrr0bS5I/N2UY349zTCYsa5q+Zz+z
-	RwCxOcbDk419SvnIcvnuBnPuhstKf6hXjDpmcDQQBb4cqtGD0iuaWBFfdNBXTrRhAWH
-	fjvmb+dUvm4HjWrPwtlxiMK0PInhdY1C/brWu2ks=
-Content-Type: multipart/mixed; boundary="===============3208331868718404437=="
+	bh=amOJSJMR+swLA5sy/3juGOSkIFc3egMcm/GCzVZcxlE=;
+	b=cACI7LNYNYaHeX0Gd4dDm+sXcHQZ6y1e62s+dRkoZqEmTSmLNdeyeNkLrHdrezCE
+	osDi8NlTGMYfhYle7hgCzuxn4izTy4MJIvaxVsJsCZ/JPOghsTWPltk6hIKfnyYATbm
+	xexqQiGJ2Q8ij2YFlZqC9Cey7D2uEVJwLjDGvC0s=
+Content-Type: multipart/mixed; boundary="===============7023570351853775589=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-dtc: upgrading to 1.8.1 FAILED
-Message-ID: <0101019eb786794c-31fec0a6-70fd-4613-ba9a-ee530ac0c48d-000000@us-west-2.amazonses.com>
-Date: Thu, 11 Jun 2026 16:31:43 +0000
+Subject: [AUH] btrfs-tools: upgrading to 7.0 SUCCEEDED
+Message-ID: <0101019eb7866e7c-822dabdc-cf1b-4d05-980b-8b76068b0fff-000000@us-west-2.amazonses.com>
+Date: Thu, 11 Jun 2026 16:31:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.11-54.240.27.193
+X-SES-Outgoing: 2026.06.11-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:31:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238487
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238479
 
---===============3208331868718404437==
+--===============7023570351853775589==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-dtc* to *1.8.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *btrfs-tools* to *7.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-dtc-upgrade-1.7.2-1.8.1.patch
+    - apply the patch: git am 0001-btrfs-tools-upgrade-6.19.1-7.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,164 +72,174 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a5ca0d3d6d0c7990025f0a37a3bcdd4e210b7400 Mon Sep 17 00:00:00 2001
+From 8fc2f955e8e583ff362a56a96f35d3681e2d4bb2 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 11 Jun 2026 09:26:42 +0000
-Subject: [PATCH] python3-dtc: upgrade 1.7.2 -> 1.8.1
+Date: Thu, 11 Jun 2026 08:40:20 +0000
+Subject: [PATCH] btrfs-tools: upgrade 6.19.1 -> 7.0
 
 ---
- .../python/{python3-dtc_1.7.2.bb => python3-dtc_1.8.1.bb}       | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-dtc_1.7.2.bb => python3-dtc_1.8.1.bb} (93%)
+ ...d-a-possibility-to-specify-where-python-modules-ar.patch | 6 +++---
+ .../{btrfs-tools_6.19.1.bb => btrfs-tools_7.0.bb}           | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.19.1.bb => btrfs-tools_7.0.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python3-dtc_1.7.2.bb b/meta/recipes-devtools/python/python3-dtc_1.8.1.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-dtc_1.7.2.bb
-rename to meta/recipes-devtools/python/python3-dtc_1.8.1.bb
-index 9525c340cd..d1e44b163c 100644
---- a/meta/recipes-devtools/python/python3-dtc_1.7.2.bb
-+++ b/meta/recipes-devtools/python/python3-dtc_1.8.1.bb
-@@ -13,7 +13,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+index 7272c27c6c..7009420580 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+@@ -1,4 +1,4 @@
+-From 7edcee57078769b7752275e0e5f35aefbfefc9eb Mon Sep 17 00:00:00 2001
++From eb0c6812c602fe809cd4879ec0cce7d2c6d4eded Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 23 May 2018 21:20:35 +0300
+ Subject: [PATCH] Add a possibility to specify where python modules are
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- LIC_FILES_CHKSUM = "file://pylibfdt/libfdt.i;beginline=1;endline=6;md5=afda088c974174a29108c8d80b5dce90"
+ diff --git a/Makefile b/Makefile
+-index 96c11830..3f2585cb 100644
++index 4f471ff4..2bcfbf63 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -997,7 +997,7 @@ endif
++@@ -995,7 +995,7 @@ endif
+  ifeq ($(PYTHON_BINDINGS),1)
+  install_python: libbtrfsutil_python
+  	$(Q)cd libbtrfsutil/python; \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.19.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.19.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb
+index dee1270fa0..72b5575703 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.19.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.0.bb
+@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v${PV} \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "fa79dbea32d39ac0ae41a88a079013c7ad2a8a58"
++SRCREV = "9c5987432906daebde23f9703c0f6f90c35fa9da"
  
--SRCREV = "2d10aa2afe35527728db30b35ec491ecb6959e5c"
-+SRCREV = "8f48565e5cfedc74d3f7512f1e0188e9d85dc1de"
- 
- PYPA_WHEEL = "${S}/dist/libfdt-1.6.2*.whl"
- 
+ PACKAGECONFIG ??= " \
+     programs \
 -- 
 2.47.1
 
 
---===============3208331868718404437==
+--===============7023570351853775589==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 6.19.1 [default] to 7.0 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "6.19.1" to "7.0"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 27790624 to 27852248 (+0%)
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 6.19.1 [default] to 7.0 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "6.19.1" to "7.0"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dev: PKGSIZE changed from 166890 to 166884 (-0%)
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 6.19.1 [default] to 7.0 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "6.19.1" to "7.0"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 6.19.1 [default] to 7.0 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "6.19.1" to "7.0"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 6.19.1 [default] to 7.0 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-src: FILELIST: directory renamed /usr/src/debug/btrfs-tools/6.19.1/common -> /usr/src/debug/btrfs-tools/7.0/common, directory renamed /usr/src/debug/btrfs-tools/6.19.1/convert -> /usr/src/debug/btrfs-tools/7.0/convert, directory renamed /usr/src/debug/btrfs-tools/6.19.1/kernel-lib -> /usr/src/debug/btrfs-tools/7.0/kernel-lib, directory renamed /usr/src/debug/btrfs-tools/6.19.1/libbtrfsutil -> /usr/src/debug/btrfs-tools/7.0/libbtrfsutil, directory renamed /usr/src/debug/btrfs-tools/6.19.1/check -> /usr/src/debug/btrfs-tools/7.0/check, directory renamed /usr/src/debug/btrfs-tools/6.19.1 -> /usr/src/debug/btrfs-tools/7.0, directory renamed /usr/src/debug/btrfs-tools/6.19.1/libbtrfs -> /usr/src/debug/btrfs-tools/7.0/libbtrfs, directory renamed /usr/src/debug/btrfs-tools/6.19.1/include -> /usr/src/debug/btrfs-tools/7.0/include, directory renamed /usr/src/debug/btrfs-tools/6.19.1/kernel-shared/uapi -> /usr/src/debug/btrfs-tools/7.0/kern
+ el-shared/uapi, directory renamed /usr/src/debug/btrfs-tools/6.19.1/mkfs -> /usr/src/debug/btrfs-tools/7.0/mkfs, directory renamed /usr/src/debug/btrfs-tools/6.19.1/image -> /usr/src/debug/btrfs-tools/7.0/image, directory renamed /usr/src/debug/btrfs-tools/6.19.1/kernel-shared -> /usr/src/debug/btrfs-tools/7.0/kernel-shared, directory renamed /usr/src/debug/btrfs-tools/6.19.1/crypto -> /usr/src/debug/btrfs-tools/7.0/crypto, directory renamed /usr/src/debug/btrfs-tools/6.19.1/cmds -> /usr/src/debug/btrfs-tools/7.0/cmds, removed "/usr/src/debug/btrfs-tools/6.19.1/tune/quota.c /usr/src/debug/btrfs-tools/6.19.1/tune/main.c /usr/src/debug/btrfs-tools/6.19.1/tune/change-uuid.c /usr/src/debug/btrfs-tools/6.19.1/tune/convert-bgt.c /usr/src/debug/btrfs-tools/6.19.1/tune/change-metadata-uuid.c /usr/src/debug/btrfs-tools/6.19.1/tune/tune.h /usr/src/debug/btrfs-tools/6.19.1/tune/seeding.c /usr/src/debug/btrfs-tools/6.19.1/tune/change-csum.c", added "/usr/src/debug/btrfs-tools/7.0/tune/change-me
+ tadata-uuid.c /usr/src/debug/btrfs-tools/7.0/tune/quota.c /usr/src/debug/btrfs-tools/7.0/tune/seeding.c /usr/src/debug/btrfs-tools/7.0/tune/convert-bgt.c /usr/src/debug/btrfs-tools/7.0/tune/tune.h /usr/src/debug/btrfs-tools/7.0/tune/convert-remap-tree.c /usr/src/debug/btrfs-tools/7.0/tune/change-csum.c /usr/src/debug/btrfs-tools/7.0/tune/change-uuid.c /usr/src/debug/btrfs-tools/7.0/tune/main.c"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "6.19.1" to "7.0"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 4317762 to 4327127 (+0%)
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 6.19.1 [default] to 7.0 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "6.19.1" to "7.0"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 6.19.1 [default] to 7.0 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/btrfsutil-6.19.1-py3.14.egg-info -> /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: PV changed from "6.19.1" to "7.0"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 6078699 to 6107368 (+0%)
+packages/x86-64-v3-poky-linux/btrfs-tools: PKGV changed from 6.19.1 [default] to 7.0 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools: SRC_URI changed from "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v6.19.1 file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch" to "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v7.0 file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch"
+packages/x86-64-v3-poky-linux/btrfs-tools: PV changed from "6.19.1" to "7.0"
+Changes to packages/x86-64-v3-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info was added
+  /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info/dependency_links.txt was added
+  /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info/PKG-INFO was added
+  /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info/SOURCES.txt was added
+  /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/btrfsutil-6.19.1-py3.14.egg-info was removed
+  /usr/lib/python3.14/site-packages/btrfsutil-6.19.1-py3.14.egg-info/dependency_links.txt was removed
+  /usr/lib/python3.14/site-packages/btrfsutil-6.19.1-py3.14.egg-info/PKG-INFO was removed
+  /usr/lib/python3.14/site-packages/btrfsutil-6.19.1-py3.14.egg-info/SOURCES.txt was removed
+  /usr/lib/python3.14/site-packages/btrfsutil-6.19.1-py3.14.egg-info/top_level.txt was removed
+
+--===============7023570351853775589==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/btrfsutil-6.19.1-py3.14.egg-info -> /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info
+Changes to packages/x86-64-v3-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info was added
+  /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info/dependency_links.txt was added
+  /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info/PKG-INFO was added
+  /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info/SOURCES.txt was added
+  /usr/lib/python3.14/site-packages/btrfsutil-7.0-py3.14.egg-info/top_level.txt was added
+  /usr/lib/python3.14/site-packages/btrfsutil-6.19.1-py3.14.egg-info was removed
+  /usr/lib/python3.14/site-packages/btrfsutil-6.19.1-py3.14.egg-info/dependency_links.txt was removed
+  /usr/lib/python3.14/site-packages/btrfsutil-6.19.1-py3.14.egg-info/PKG-INFO was removed
+  /usr/lib/python3.14/site-packages/btrfsutil-6.19.1-py3.14.egg-info/SOURCES.txt was removed
+  /usr/lib/python3.14/site-packages/btrfsutil-6.19.1-py3.14.egg-info/top_level.txt was removed
+
+--===============7023570351853775589==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-dtc-upgrade-1.7.2-1.8.1.patch"
+ filename="0001-btrfs-tools-upgrade-6.19.1-7.0.patch"
 
-RnJvbSBhNWNhMGQzZDZkMGM3OTkwMDI1ZjBhMzdhM2JjZGQ0ZTIxMGI3NDAwIE1vbiBTZXAgMTcg
+RnJvbSA4ZmMyZjk1NWU4ZTU4M2ZmMzYyYTU2YTk2ZjM1ZDM2ODFlMmQ0YmIyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMDk6MjY6NDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWR0YzogdXBncmFkZSAxLjcuMiAtPiAxLjguMQoKLS0tCiAuLi4vcHl0aG9uL3tweXRo
-b24zLWR0Y18xLjcuMi5iYiA9PiBweXRob24zLWR0Y18xLjguMS5iYn0gICAgICAgfCAyICstCiAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWR0Y18xLjcuMi5iYiA9PiBweXRob24z
-LWR0Y18xLjguMS5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtZHRjXzEuNy4yLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWR0Y18xLjguMS5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZHRjXzEuNy4yLmJiCnJlbmFtZSB0
-byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZHRjXzEuOC4xLmJiCmluZGV4
-IDk1MjVjMzQwY2QuLmQxZTQ0YjE2M2MgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1kdGNfMS43LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLWR0Y18xLjguMS5iYgpAQCAtMTMsNyArMTMsNyBAQCBVUFNUUkVBTV9D
-SEVDS19HSVRUQUdSRUdFWCA9ICJ2KD9QPHB2ZXI+XGQrKFwuXGQrKSspIgogCiBMSUNfRklMRVNf
-Q0hLU1VNID0gImZpbGU6Ly9weWxpYmZkdC9saWJmZHQuaTtiZWdpbmxpbmU9MTtlbmRsaW5lPTY7
-bWQ1PWFmZGEwODhjOTc0MTc0YTI5MTA4YzhkODBiNWRjZTkwIgogCi1TUkNSRVYgPSAiMmQxMGFh
-MmFmZTM1NTI3NzI4ZGIzMGIzNWVjNDkxZWNiNjk1OWU1YyIKK1NSQ1JFViA9ICI4ZjQ4NTY1ZTVj
-ZmVkYzc0ZDNmNzUxMmYxZTAxODhlOWQ4NWRjMWRlIgogCiBQWVBBX1dIRUVMID0gIiR7U30vZGlz
-dC9saWJmZHQtMS42LjIqLndobCIKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMDg6NDA6MjAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+dHJmcy10b29sczogdXBncmFkZSA2LjE5LjEgLT4gNy4wCgotLS0KIC4uLmQtYS1wb3NzaWJpbGl0
+eS10by1zcGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoIHwgNiArKystLS0KIC4u
+Li97YnRyZnMtdG9vbHNfNi4xOS4xLmJiID0+IGJ0cmZzLXRvb2xzXzcuMC5iYn0gICAgICAgICAg
+IHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0p
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL3tidHJmcy10b29sc182
+LjE5LjEuYmIgPT4gYnRyZnMtdG9vbHNfNy4wLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3Np
+YmlsaXR5LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2ggYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1wb3NzaWJp
+bGl0eS10by1zcGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoCmluZGV4IDcyNzJj
+MjdjNmMuLjcwMDk0MjA1ODAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJm
+cy10b29scy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNwZWNpZnktd2hl
+cmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0
+cmZzLXRvb2xzL2J0cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9zc2liaWxpdHktdG8tc3BlY2lmeS13
+aGVyZS1weXRob24tbW9kdWxlcy1hci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gN2VkY2Vl
+NTcwNzg3NjliNzc1MjI3NWUwZTVmMzVhZWZiZmVmYzllYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gZWIwYzY4MTJjNjAyZmU4MDljZDQ4NzllYzBjY2U3ZDJjNmQ0ZWRlZCBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5A
+Z21haWwuY29tPgogRGF0ZTogV2VkLCAyMyBNYXkgMjAxOCAyMToyMDozNSArMDMwMAogU3ViamVj
+dDogW1BBVENIXSBBZGQgYSBwb3NzaWJpbGl0eSB0byBzcGVjaWZ5IHdoZXJlIHB5dGhvbiBtb2R1
+bGVzIGFyZQpAQCAtMTEsMTAgKzExLDEwIEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5h
+dmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
+bigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvTWFrZWZpbGUgYi9NYWtlZmlsZQot
+aW5kZXggOTZjMTE4MzAuLjNmMjU4NWNiIDEwMDY0NAoraW5kZXggNGY0NzFmZjQuLjJiY2ZiZjYz
+IDEwMDY0NAogLS0tIGEvTWFrZWZpbGUKICsrKyBiL01ha2VmaWxlCi1AQCAtOTk3LDcgKzk5Nyw3
+IEBAIGVuZGlmCitAQCAtOTk1LDcgKzk5NSw3IEBAIGVuZGlmCiAgaWZlcSAoJChQWVRIT05fQklO
+RElOR1MpLDEpCiAgaW5zdGFsbF9weXRob246IGxpYmJ0cmZzdXRpbF9weXRob24KICAJJChRKWNk
+IGxpYmJ0cmZzdXRpbC9weXRob247IFwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9idHJmcy10b29scy9idHJmcy10b29sc182LjE5LjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNy4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc182
+LjE5LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJm
+cy10b29sc183LjAuYmIKaW5kZXggZGVlMTI3MGZhMC4uNzJiNTU3NTcwMyAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuMTkuMS5iYgor
+KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNy4wLmJi
+CkBAIC0xOCw3ICsxOCw3IEBAIERFUEVORFMgPSAidXRpbC1saW51eCB6bGliIgogU1JDX1VSSSA9
+ICJnaXQ6Ly9naXRodWIuY29tL2tkYXZlL2J0cmZzLXByb2dzLmdpdDticmFuY2g9bWFzdGVyO3By
+b3RvY29sPWh0dHBzO3RhZz12JHtQVn0gXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1BZGQtYS1w
+b3NzaWJpbGl0eS10by1zcGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoIFwKICAg
+ICAgICAgICAgIgotU1JDUkVWID0gImZhNzlkYmVhMzJkMzlhYzBhZTQxYTg4YTA3OTAxM2M3YWQy
+YThhNTgiCitTUkNSRVYgPSAiOWM1OTg3NDMyOTA2ZGFlYmRlMjNmOTcwM2MwZjZmOTBjMzVmYTlk
+YSIKIAogUEFDS0FHRUNPTkZJRyA/Pz0gIiBcCiAgICAgcHJvZ3JhbXMgXAotLSAKMi40Ny4xCgo=
 
---===============3208331868718404437==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1980 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-1728bebc222eab38a64a24798df5f60ba7f793f0"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:1728bebc222eab38a64a24798df5f60ba7f793f0"
-meta-yocto-bsp       
-meta-poky            = "master:59c41245ad231f5320defcb275477e3d25a2203e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 248 Local 237 Mirrors 0 Missed 11 Current 518 (95% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 641 of 766 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 683 of 766 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 759 of 766 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-dtc-1.8.1-r0: task do_populate_lic_setscene: Started
-NOTE: recipe python3-dtc-1.8.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libyaml-0.2.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-dtc-1.8.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-dtc-1.8.1-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 760 of 766 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libyaml-0.2.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 762 of 766 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe python3-dtc-1.8.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libyaml-0.2.5-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-dtc-1.8.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1900 of 1942 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_fetch)
-NOTE: recipe libyaml-0.2.5-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1923 of 1942 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_create_recipe_spdx)
-NOTE: recipe python3-dtc-1.8.1-r0: task do_fetch: Started
-NOTE: recipe python3-dtc-1.8.1-r0: task do_create_recipe_spdx: Started
-NOTE: recipe python3-dtc-1.8.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1924 of 1942 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_unpack)
-NOTE: Running task 1925 of 1942 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-dtc-1.8.1-r0: task do_unpack: Started
-NOTE: recipe python3-dtc-1.8.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-dtc-1.8.1-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe python3-dtc-1.8.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-dtc-1.8.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1926 of 1942 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_patch)
-NOTE: recipe python3-dtc-1.8.1-r0: task do_patch: Started
-NOTE: recipe python3-dtc-1.8.1-r0: task do_patch: Succeeded
-NOTE: Running task 1928 of 1942 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_check_backend)
-NOTE: recipe python3-dtc-1.8.1-r0: task do_check_backend: Started
-WARNING: python3-dtc-1.8.1-r0 do_check_backend: QA Issue: inherits setuptools3 but has pyproject.toml with mesonpy, use the correct class [pep517-backend]
-NOTE: recipe python3-dtc-1.8.1-r0: task do_check_backend: Succeeded
-NOTE: Running task 1930 of 1942 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_configure)
-NOTE: recipe python3-dtc-1.8.1-r0: task do_configure: Started
-NOTE: recipe python3-dtc-1.8.1-r0: task do_configure: Succeeded
-NOTE: Running task 1931 of 1942 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_compile)
-NOTE: recipe python3-dtc-1.8.1-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| nativepython3: can't open file '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-dtc/1.8.1/sources/python3-dtc-1.8.1/setup.py': [Errno 2] No such file or directory
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-dtc/1.8.1/temp/run.do_compile.657595:170 exit 2 from 'nativepython3 setup.py --verbose build -j 16 bdist_wheel --dist-dir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-dtc/1.8.1/dist'
-| WARNING: Backtrace (BB generated script):
-| 	#1: setuptools3_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-dtc/1.8.1/temp/run.do_compile.657595, line 170
-| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-dtc/1.8.1/temp/run.do_compile.657595, line 152
-| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-dtc/1.8.1/temp/run.do_compile.657595, line 177
-NOTE: recipe python3-dtc-1.8.1-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1931 tasks of which 1923 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260611092627.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260611092627.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-dtc/1.8.1/temp/log.do_compile.657595
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: python3-dtc-1.8.1-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-dtc/1.8.1/temp/run.do_compile.657595' failed with exit code 2
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-dtc/1.8.1/temp/log.do_compile.657595
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-dtc_1.8.1.bb:do_compile) failed with exit code '1'
-
---===============3208331868718404437==--
+--===============7023570351853775589==--
 
