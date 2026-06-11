@@ -1,105 +1,112 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2A7ACD98CE
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 14:45:10 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.47255.1781189101208826711
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C009FCD98CE
+	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 15:56:06 +0000 (UTC)
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.49276.1781193360228093622
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 07:45:01 -0700
+ Thu, 11 Jun 2026 08:56:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=SM3eyZLl;
- spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ce0f17a69cso58863536d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 07:45:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781189100; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fZPv1yghit/g29txA0nUeeQP7rOfBBczcQPfh7bJeXvTqplYCkOouM+UNSeAG61fsd
-         ptmg4QieDpB1ezlMggxMUDmbgYFev4j0gRcOax2WLhyES5pbS2Vjqw2wPDN5PriH5J6k
-         GeKP1NUyUf9KU37ENVFNyF4sNYOdXubaSkpgjXp12CGEoZkEnifhGwL1ri96jmo8fdLA
-         d2sSJiBD8YNdQHZWPtt6rNn28cbliageaE9pdTGj34sgEIZYB5WrwWviI4GzO1y0bZWm
-         uOc1il5uxR3YlHCiBfTPq0YWlGYJDv8ejVNQFuDb9N3izogC/ZEaDGLn2kfD51ugIRg7
-         93ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vaFnOHMrhfpbN5F7uWMNmfp/QzRhcwZoalWl4szkMx8=;
-        fh=Fhcx26/dNcqHy79HMIkM3DOxUORS9NBgNX0vd+b/7UA=;
-        b=FAr7u4j/J0TbRVIVsLEJ+RN6JQIWf19/kRZTr7IGDM7wNOdCN/kddOVOPL3J5tCm5w
-         G9qV+Cohs61KoCQsTcrgOId3ukhWpQmbSMDNHlzzicJcg66KTVyMq/veg7uN5/6MvB4x
-         OfCSIi4g5PPKB+swzPX3hT+TYGcHOG3U9Vzpx7q4LI4Vhv8sGeREolghV6TRBUBazidy
-         6sP3VvNwlOHwKi0GgW15uzvFoECUkQV8xejbAcReA+jNAAT+x+jvXieyZzT/WguxBJ49
-         jCoCA/3SnWg05g8YZdtLmsH8mYq6U3z4bJekW3QoMUDOVhPTHNKAzc1e0Nlq1eUs3PWq
-         EBUQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=abjBd2m6;
+ spf=pass (domain: gmail.com, ip: 209.85.167.172, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-4859b1fc7a8so62068b6e.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 08:56:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781189100; x=1781793900; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vaFnOHMrhfpbN5F7uWMNmfp/QzRhcwZoalWl4szkMx8=;
-        b=SM3eyZLl1tD3+YpLQFjNNOFPQjhPhrGAEfgi5a4NU1OO/RAUfZ0Gch2Q6yRWzsMf8m
-         JNySqEeQv2cQ4TxPMRBPKI2zhnriDXmXTCk4JXvT25Zbi048P4CeFyKTuCE4K3s1/1YA
-         lk49YzdNg10ytkvszyogc4J6c0FoqBzcJFddjKXb5JwilFEl+vMWo9ZpleuQxwoalaz4
-         K2fYaTIv84s56hDKUsc59XMvuvy96h1IhlT/N6MFGnhsNmUBUBQgdpt7kcUbJClZ9uXn
-         QfmBxRzCd+AMOgjzmQcz07FO2/UN5W3ooiuvvKv129gDDNgdvuxC78Eqbc9aHy6Xqqjb
-         OFTw==
+        d=gmail.com; s=20251104; t=1781193359; x=1781798159; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/uhqF1LxrLpUXqg620+4RlUm60eiz/PgFr4U26Lc5Mo=;
+        b=abjBd2m6sC/yTPjScfBqy9mEDjDeWkT0Z5+GQmDcbHCugDkvoqKUMrKpL4daZo0vWX
+         6R1cA8xUdL+9grlB8IjO3u2Q6Q7O4DFLk/JHi2hNbtYgr2gI63yCzMnyOSR1IU7+z+uN
+         ntnsBxF2SxF6KbiEnYM/vTEE7md9+djB5v5fMlHnqMKfqKAmaNF26cHIhBioFjt6SUxf
+         VdcxybOwW6//a2n6BsewFu31PC01q4EKwEHO2AUm8yr7PWVF63HNKNABS/Br5yMkIBn9
+         HV6akMeTQ9pUhLuJrgzZTtUAmN2XyhsgzHbX2qVZ3Pp9+lm90IhoPhPVfbAochshPHC7
+         KOiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781189100; x=1781793900;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1781193359; x=1781798159;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vaFnOHMrhfpbN5F7uWMNmfp/QzRhcwZoalWl4szkMx8=;
-        b=Ev5YV1P3urykRLCbh/AvbqUsFau9HiSu9JCOlQsB42meKVog9jr2iqUkxjODv5f7Tz
-         wc10JIBAA6Ao05/HN7rAGEUEs2tkLVtdvbZcageZatxiBcaWvGSMAAQN1lqzgRK8vU09
-         ul5KuK46vTwxiaVDHLasV1vf6dGJsls5wQ65fOPlExG22FgBT+lyMTV8BSQZCzqRtMWf
-         VdH12Z78gzfxXyxKl1AgWkV2DdapFIebmiKneNy7WODwqkhGDP0U4vprB7Ts6NI9wykb
-         bL8cWj3+nN8bX+JV02+COFe1DG2LbeQDwpz5ZYLl9MBxkSKKAz3p6K+Xs3xL22RNBDHd
-         ZWVg==
-X-Forwarded-Encrypted: i=1; AFNElJ9hzCBiNjh8fLz5ModtlXTCARQyHGHrgpbBMPfSLeYZ8+yh8oIAzg0/jlQCnWt5ijBEn41TthHlmY826FA1FmDd3w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyLL5MTpMjGsSr7v4MC55c7x/ZFzVwzNI/+ToNfZnZTB/IIX7iq
-	VjcXKoFBDnt2CY6BMkoSZnVJbJ4GoYmqOnz7cXPuc6KD/oiSZQuj/Zz4s2XbkFIV18W+hqD8FYP
-	pcfGoCKj94QSVp1ZDGAOVLPPAm30MfTo=
-X-Gm-Gg: Acq92OGGKk4deXLE7DX0V4Rcto/rRTT/oB90Yy0qCxT6+frz4OEKHg1uKTq6s07MI7H
-	lk4BaBCgEAWpo5aUVdrKcbqgOqcfr4dvvezWvhtWM+nrMgIUHG7YdiChue+kn3iko2Iz//VDkVl
-	Mwx7ItaMzAIdn0fKzvQ70HfK1U/hfaz6y3YVEYlIvD9FopMyN9RAhM4gO0BuwB2/SryuWve0DLz
-	UotgU151HqPOOlwZO+WuoBwfxtydFSVMnRdet5nHPzYjIajYwnmHMfmrBnCPxdYZJgkbHJbeyyi
-	ZqfbO5zToWuzjC5tas5A7dZHu5SnB8dAEa0X4ZFs5KeAbR3MT6SFW1t+IM2TaA==
-X-Received: by 2002:a05:6214:f24:b0:8ce:d302:f069 with SMTP id
- 6a1803df08f44-8d1d7a78ad9mr48807876d6.3.1781189099996; Thu, 11 Jun 2026
- 07:44:59 -0700 (PDT)
+        bh=/uhqF1LxrLpUXqg620+4RlUm60eiz/PgFr4U26Lc5Mo=;
+        b=mLse8YW6dCKLE64Ph60G7GPpA4c+Ah25+crrag48J+qbvegtNL5qw1xECxpL5wn9Qo
+         ybREaha3MQPFaABrIwIWIQctac8rCc/afmrhxRLFdGH5JjVSdI2x7M49vAiIpEFEPTv1
+         EFQvN3eqTU41/TUKU2jDSu1L3o4UgF8t5xwTqo86r21dSieyz72VtjOvKrI4APn7lGgj
+         /PaxAgSE27SYv2c+Aph+O3o4x1nSPMBJ4pCwMYf93M+/+ieBWPOpTVNKWbiAUvVW4GXu
+         NGRnqhexBvDThMEvuk9Su7jRxvlJzPdL2IEftNJDEVS1J+va/2EjicwuE1ZyMD1uwvZy
+         gwKA==
+X-Gm-Message-State: AOJu0YxXJcvQytiUY95fw7iMwKunnCdEJWlAn8XJnCA6dwAJA7I3XnZB
+	cdIdU60wFR7icE/XQdrfTq/TaAg5qHV7+B3X3VKnQ6l9TiUAiIghh8qVfbxkhQ==
+X-Gm-Gg: Acq92OGYY9CUxGbrk2fcnY4qBuWSq8n6X90ppLmLj/5lDGo3RrEPNoGjtUZB0iX6rkx
+	RMdhMF3P1O+amGGV65JC8LItnjtLbfcC/FCEXyVrod/powwWzYXiUgce15HB4kqwhVCPX+7zE8/
+	E1O8YJ5+/DhmvO6dvTDk7j6DdUTn5tKtxmqo/otCLwS4wflXudQQfgz0ZA7fgGavWR0pB5+IFgm
+	YosyQJuHd/JkPhcMeKXp4/XQzhwvABWSGAAN98aMjlYNMYZLfT/dVunlN/NGDfoI0yew0aS69dp
+	lGpNe1xw7PE0P0K0pqhNE1nEMPygOd8BsBz7jXZ+IBJIlkrWKc4w7f4tQExawtYYa5FaiYSIj7C
+	0WSDQeZBsms8N+c2795fgpfLHomiNJygR8IsEnPPAlIVbJNcXEm/hSxl2jpTLdJDqI/AVFjYnum
+	IsePEnbNRlL6MtxtrnrXUPbRV6IbYmk3M=
+X-Received: by 2002:a05:6808:6554:10b0:486:84be:660d with SMTP id 5614622812f47-48719eeafc3mr1631666b6e.1.1781193359298;
+        Thu, 11 Jun 2026 08:55:59 -0700 (PDT)
+Received: from localhost.localdomain ([2601:283:4b02:22d0::f0c3])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4424466fe65sm1288548fac.6.2026.06.11.08.55.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 08:55:58 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] ffmpeg, x264: Add comment about circular dependency
+Date: Thu, 11 Jun 2026 09:55:55 -0600
+Message-ID: <20260611155555.3477911-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-References: <20260611-sdl-v1-1-93d4a51684bb@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <20260611-sdl-v1-1-93d4a51684bb@rsg.ci.i.u-tokyo.ac.jp>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 11 Jun 2026 16:44:48 +0200
-X-Gm-Features: AVVi8CcWa2YkSwfnUuxblsN3mVrm8ciRI9QycibNWau89urBanhBUimj_n9I5Hc
-Message-ID: <CANNYZj_tg=DTXW3mdUGyifCDpeLAE5YWHLCNuuwQV_Y4fUsTpQ@mail.gmail.com>
-Subject: Re: [PATCH] ui/sdl2: Explicitly specify EGL platform
-To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Cc: qemu-devel@nongnu.org, =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
-	=?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@mailo.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	openembedded-core@lists.openembedded.org, Quan.Sun@windriver.com, 
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 14:45:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238444
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 15:56:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238445
 
-On Thu, 11 Jun 2026 at 13:58, Akihiko Odaki
-<odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
-> Resolving the issue described in the GitLab work item also requires:
-> https://github.com/libsdl-org/SDL/pull/15806
+There is a circular dependency on x264 and ffmpeg that can be triggered
+if both enable the PACKAGECONFIG for the other. We don't have a way to
+solve this yet, but add a comment to indicate that this is the case so
+that users are not surprised when it occurs.
 
-Thanks! The pull request is only towards SDL2. I believe SDL3 (via
-sdl2 compat layer) isn't affected (it sets the platform correctly in
-my testing). Is that right?
+[YOCTO #16312]
 
-Alex
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/recipes-multimedia/ffmpeg/ffmpeg_8.1.1.bb | 2 ++
+ meta/recipes-multimedia/x264/x264_git.bb       | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.1.1.bb
+index bfa35882ea..0aa8c6e8e1 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.1.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.1.1.bb
+@@ -76,6 +76,8 @@ PACKAGECONFIG[v4l2] = "--enable-libv4l2,--disable-libv4l2,v4l-utils"
+ PACKAGECONFIG[vaapi] = "--enable-vaapi,--disable-vaapi,libva"
+ PACKAGECONFIG[vdpau] = "--enable-vdpau,--disable-vdpau,libvdpau"
+ PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
++# Note: There is a circular dependency between ffmpeg and x264 that can be
++# triggered if both have PACKAGECONFIG enabled that depends on the other
+ PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
+ PACKAGECONFIG[x265] = "--enable-libx265,--disable-libx265,x265"
+ PACKAGECONFIG[xcb] = "--enable-libxcb,--disable-libxcb,libxcb"
+diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
+index b3d1cfd695..f0278cae64 100644
+--- a/meta/recipes-multimedia/x264/x264_git.bb
++++ b/meta/recipes-multimedia/x264/x264_git.bb
+@@ -29,6 +29,8 @@ PACKAGECONFIG ?= " \
+     ffmpeg \
+     ${@bb.utils.filter("DISTRO_FEATURES", "opencl", d)} \
+ "
++# Note: There is a circular dependency between ffmpeg and x264 that can be
++# triggered if both have PACKAGECONFIG enabled that depends on the other
+ PACKAGECONFIG[ffmpeg] = "--enable-lavf --enable-swscale,--disable-lavf --disable-swscale,ffmpeg"
+ PACKAGECONFIG[opencl] = "--enable-opencl,--disable-opencl,"
+ 
+-- 
+2.54.0
+
 
