@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 581D5CDB464
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77293CDB469
 	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:31:54 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50430.1781195511166733339
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.50618.1781195511185228388
  for <openembedded-core@lists.openembedded.org>;
  Thu, 11 Jun 2026 09:31:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=o6JdC35s;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=SgL5FXNB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019eb78692de-fced2a4a-7d9f-4a85-be36-949e6947eb68-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=P0X+5On0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=cWKG1aNP;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019eb78691bb-0ffea503-17ec-43c8-b79c-9f23b9bf96f3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1781195510;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FuWuT1/a3mubLt8od0d5lIO9lEm1muXCBgwqNzB1O0c=;
-	b=o6JdC35svZqgRn/pWVMaf+gBz0B0dkD9Hy0PtCw3mpyCUW81pO93aJhzw2QqzSh1
-	EHchlyU9hAUKkHkCvq1+ee7LV6YTzZafSS8GjjG8h1u4FD6cDF3vnhO2Bw+Va2XqtUP
-	fBt+N3PWYkxRD6IxhgfmWYKK6UlPgaVGKlerlLRo=
+	bh=uDgNvIOjnFfsMdzYKzZfCD1uq0EvCdlD9Svpp7gmEFk=;
+	b=P0X+5On0D/JkohKCVWluw0iFAQ1e1OMg+wmNAvNvnRWP3kBnayzY1To48rqK0UBl
+	lyP6dmxHF2imuxOR60TuewKvQuPIf0a+LsSNXo+U8vfdNMw78i4gbaeEiospQD0NgPf
+	oB61GYTPDOtlDEUxkBceHQKtNFn+DdckOSIyvZ+M=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195510;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FuWuT1/a3mubLt8od0d5lIO9lEm1muXCBgwqNzB1O0c=;
-	b=SgL5FXNBx+THMqX0uL9aPgiLP+wo3irssEkXiNuSvOnH5X2tNqArI5HKKjnA1r9R
-	m5Et5dzUHqoKdnSL/n9P0/k8WiGTbiTY8Xo1qD5m3/mBzwcx1zwkHztuk8VXucOw8AF
-	t7OzVUVFpL9FPtZLoE8xniiF/m89KzdGupUOagtQ=
-Content-Type: multipart/mixed; boundary="===============6781037669314750546=="
+	bh=uDgNvIOjnFfsMdzYKzZfCD1uq0EvCdlD9Svpp7gmEFk=;
+	b=cWKG1aNPNw4x+st8PEJrtFH1qPw73czQsURb6L75eLZ6pq0Ow1F220gv+r+BPOE4
+	985HfSkruDmGhpKp4LjiEF0n+kmC2CGHheC5YFW/T10ZEQL4yOrlX2iFEDFdDiH63KP
+	iO41fCtKtBiYjgFmXyBLkUt2zRsJkrInZpr2sPAA=
+Content-Type: multipart/mixed; boundary="===============1007242777060539629=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] tcl8: upgrading to 8.6.18 SUCCEEDED
-Message-ID: <0101019eb78692de-fced2a4a-7d9f-4a85-be36-949e6947eb68-000000@us-west-2.amazonses.com>
+Subject: [AUH] rsync: upgrading to 3.4.4 SUCCEEDED
+Message-ID: <0101019eb78691bb-0ffea503-17ec-43c8-b79c-9f23b9bf96f3-000000@us-west-2.amazonses.com>
 Date: Thu, 11 Jun 2026 16:31:50 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.11-54.240.27.191
+X-SES-Outgoing: 2026.06.11-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:31:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238512
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238513
 
---===============6781037669314750546==
+--===============1007242777060539629==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *tcl8* to *8.6.18* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *rsync* to *3.4.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-tcl8-upgrade-8.6.17-8.6.18.patch
+    - apply the patch: git am 0001-rsync-upgrade-3.4.2-3.4.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,375 +72,240 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5c7598d87058a0310e9fdef52bc385aa4b40b660 Mon Sep 17 00:00:00 2001
+From c958ec18facf154d2ff458c60f26b7a0918e81c1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 11 Jun 2026 11:02:11 +0000
-Subject: [PATCH] tcl8: upgrade 8.6.17 -> 8.6.18
+Date: Thu, 11 Jun 2026 10:40:57 +0000
+Subject: [PATCH] rsync: upgrade 3.4.2 -> 3.4.4
 
 ---
- ...neric-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch | 4 ++--
- meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch    | 6 +++---
- .../tcltk8/tcl8/fix_non_native_build_issue.patch            | 4 ++--
- meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch      | 6 +++---
- .../tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch     | 4 ++--
- .../tcltk8/{tcl8_8.6.17.bb => tcl8_8.6.18.bb}               | 2 +-
- 6 files changed, 13 insertions(+), 13 deletions(-)
- rename meta/recipes-devtools/tcltk8/{tcl8_8.6.17.bb => tcl8_8.6.18.bb} (97%)
+ ...-Add-missing-prototypes-to-function-declarations.patch | 8 ++++----
+ meta/recipes-devtools/rsync/files/determism.patch         | 4 ++--
+ .../rsync/files/makefile-no-rebuild.patch                 | 6 +++---
+ .../rsync/{rsync_3.4.2.bb => rsync_3.4.4.bb}              | 2 +-
+ 4 files changed, 10 insertions(+), 10 deletions(-)
+ rename meta/recipes-devtools/rsync/{rsync_3.4.2.bb => rsync_3.4.4.bb} (97%)
 
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch b/meta/recipes-devtools/tcltk8/tcl8/0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch
-index 6ba7ff4340..9cc29f773a 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch
+diff --git a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
+index e6d3578e85..ede0238b2e 100644
+--- a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
++++ b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
 @@ -1,4 +1,4 @@
--From 7d404d1827ffb69a2aa7b60c10b435c6f47f7bfb Mon Sep 17 00:00:00 2001
-+From 9f78045af22aa2217d7ec0233348983751223c89 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Fri, 18 Aug 2023 12:25:11 +0200
- Subject: [PATCH] generic/tcl.h: use Tcl_WideInt for seconds in Tcl_Time
-@@ -19,7 +19,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/generic/tcl.h b/generic/tcl.h
--index d8fd70a..ffff4b1 100644
-+index 83f07e6..16e99f8 100644
- --- a/generic/tcl.h
- +++ b/generic/tcl.h
- @@ -1425,7 +1425,7 @@ typedef enum {
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch b/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
-index ad91b9ffb3..c346a21a19 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/alter-includedir.patch
+-From 46cbe5b70b5cbf981cf693137ac081cacbbb2e2a Mon Sep 17 00:00:00 2001
++From c05cc113f925bda645c8e51b83e9dc30b0543bad Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 29 Aug 2022 19:53:28 -0700
+ Subject: [PATCH] Add missing prototypes to function declarations
+@@ -50,7 +50,7 @@ index 24de64f..a787488 100644
+  	if (partial_string_buf) {
+  		if (partial_string_len)
+ diff --git a/log.c b/log.c
+-index e4ba1cc..8482b71 100644
++index b948f16..afca81d 100644
+ --- a/log.c
+ +++ b/log.c
+ @@ -131,7 +131,7 @@ static void logit(int priority, const char *buf)
+@@ -63,11 +63,11 @@ index e4ba1cc..8482b71 100644
+  	int options = LOG_PID;
+  
+ diff --git a/main.c b/main.c
+-index ccad28a..bbb09ba 100644
++index 229a889..aa158ad 100644
+ --- a/main.c
+ +++ b/main.c
+ @@ -246,7 +246,7 @@ void read_del_stats(int f)
+- 	stats.deleted_files += stats.deleted_specials = read_varint(f);
++ 	stats.deleted_files += stats.deleted_specials = read_varint_bounded(f, 0, MAX_WIRE_DEL_STAT, "deleted_specials");
+  }
+  
+ -static void become_copy_as_user()
+diff --git a/meta/recipes-devtools/rsync/files/determism.patch b/meta/recipes-devtools/rsync/files/determism.patch
+index fd96b873c8..a8fee5ba0a 100644
+--- a/meta/recipes-devtools/rsync/files/determism.patch
++++ b/meta/recipes-devtools/rsync/files/determism.patch
 @@ -1,4 +1,4 @@
--From bfca2e4ae32ab546f796d9c7ff7cbf542d5b2bfe Mon Sep 17 00:00:00 2001
-+From 0f47a7716dfd5166d44efee2ed1f4788914f0881 Mon Sep 17 00:00:00 2001
- From: Mingli Yu <mingli.yu@windriver.com>
- Date: Tue, 22 Nov 2022 18:48:27 +0800
- Subject: [PATCH] tcl: update the header location
-@@ -26,7 +26,7 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-  3 files changed, 4 insertions(+), 4 deletions(-)
+-From b810d78a9327b5b313ebc0aa1a0b155de7c10afd Mon Sep 17 00:00:00 2001
++From 32852028e95cdf78d09f1bd867f3b46b4728f9e3 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Sun, 21 Feb 2021 09:45:48 +0000
+ Subject: [PATCH] rsync: Fix a file sorting determinism issue
+@@ -25,7 +25,7 @@ https://github.com/WayneD/rsync/commit/d3085f7add38a5cf833a0b31cb0637ff46c80f8d
+  1 file changed, 5 insertions(+)
  
- diff --git a/unix/Makefile.in b/unix/Makefile.in
--index 45e7b76..5a46e6a 100644
-+index 54bb664..98d6192 100644
- --- a/unix/Makefile.in
- +++ b/unix/Makefile.in
- @@ -57,7 +57,7 @@ SCRIPT_INSTALL_DIR	= $(INSTALL_ROOT)$(TCL_LIBRARY)
-@@ -39,7 +39,7 @@ index 45e7b76..5a46e6a 100644
-  # Path to the private tcl header dir:
-  PRIVATE_INCLUDE_DIR	= @PRIVATE_INCLUDE_DIR@
- diff --git a/unix/configure.in b/unix/configure.in
--index 50b3e03..8a33d0c 100644
-+index 00f16ae..640060b 100644
- --- a/unix/configure.in
- +++ b/unix/configure.in
- @@ -775,7 +775,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch b/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
-index 07a1f4d040..33f6e1fd33 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/fix_non_native_build_issue.patch
+ diff --git a/Makefile.in b/Makefile.in
+-index 80e9d72..a7d313c 100644
++index 0ba2d5c..b9c5438 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+ @@ -27,6 +27,11 @@ MKDIR_P=@MKDIR_P@
+diff --git a/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch b/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
+index fb195b1e68..914b50a7b7 100644
+--- a/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
++++ b/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
 @@ -1,4 +1,4 @@
--From ad7847a15163f12c24d8ecb50dffa289876dc830 Mon Sep 17 00:00:00 2001
-+From 18ed2dc77a50f68f56a9e353c072faf4fff0b303 Mon Sep 17 00:00:00 2001
- From: Nitin A Kamble <nitin.a.kamble@intel.com>
- Date: Fri, 13 Aug 2010 12:24:00 -0700
- Subject: [PATCH] tcl: fix a build issue
-@@ -10,7 +10,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 10 insertions(+), 10 deletions(-)
+-From 0608f5ebb26e2e474867bec6c3d67dfd0a7663f0 Mon Sep 17 00:00:00 2001
++From 50ef5ccd9149cee27bae29e767ff1c2e76bdc879 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 12 Apr 2016 15:51:54 +0100
+ Subject: [PATCH] rsync: remove upstream's rebuild logic
+@@ -13,10 +13,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  1 file changed, 54 deletions(-)
  
- diff --git a/unix/Makefile.in b/unix/Makefile.in
--index ab2e7b5..45e7b76 100644
-+index 3d52fe7..54bb664 100644
- --- a/unix/Makefile.in
- +++ b/unix/Makefile.in
- @@ -723,7 +723,7 @@ tcltest-real:
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch b/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
-index 0f8bd062ac..9420d20d8d 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/tcl-add-soname.patch
-@@ -1,4 +1,4 @@
--From 2af07e2d0f0cb9f42ff982ce257e2067dcf1ec77 Mon Sep 17 00:00:00 2001
-+From 94ef831d7052c819dddab92f22f1fc8319dd27bf Mon Sep 17 00:00:00 2001
- From: Richard Purdie <rpurdie@linux.intel.com>
- Date: Wed, 9 Dec 2009 23:59:44 +0000
- Subject: [PATCH] tcl: Add tcltk from OE.dev but with legacy staging function
-@@ -11,7 +11,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  2 files changed, 7 insertions(+), 1 deletion(-)
- 
- diff --git a/unix/Makefile.in b/unix/Makefile.in
--index 3efdfec..ab2e7b5 100644
-+index 23f86c8..3d52fe7 100644
- --- a/unix/Makefile.in
- +++ b/unix/Makefile.in
- @@ -812,7 +812,10 @@ install-binaries: binaries
-@@ -27,7 +27,7 @@ index 3efdfec..ab2e7b5 100644
-  	@$(INSTALL_PROGRAM) ${TCL_EXE} "$(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
-  	@echo "Installing tclConfig.sh to $(CONFIG_INSTALL_DIR)/"
- diff --git a/unix/tcl.m4 b/unix/tcl.m4
--index 7f5464e..cd8d929 100644
-+index cd89170..122aff0 100644
- --- a/unix/tcl.m4
- +++ b/unix/tcl.m4
- @@ -1378,6 +1378,9 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch b/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
-index 12e1937aa1..d8f4286409 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
-+++ b/meta/recipes-devtools/tcltk8/tcl8/tcl-remove-hardcoded-install-path.patch
-@@ -1,4 +1,4 @@
--From 0b479a0dc845f9926cb40c13d86e55391a89fe98 Mon Sep 17 00:00:00 2001
-+From 36331191e3443603277b3c2abbfa4c1bdf0fdb82 Mon Sep 17 00:00:00 2001
- From: "Song.Li" <Song.Li@windriver.com>
- Date: Wed, 1 Aug 2012 19:05:51 +0800
- Subject: [PATCH] tcl:install tcl to lib64 instead of lib on 64bit target
-@@ -17,7 +17,7 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/unix/configure.in b/unix/configure.in
--index ed07ca5..50b3e03 100644
-+index 4078970..00f16ae 100644
- --- a/unix/configure.in
- +++ b/unix/configure.in
- @@ -774,7 +774,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
-diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
+ diff --git a/Makefile.in b/Makefile.in
+-index c2fe775..80e9d72 100644
++index 79060b3..0ba2d5c 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -185,60 +185,6 @@ conf: configure.sh config.h.in
++@@ -200,60 +200,6 @@ conf: configure.sh config.h.in
+  .PHONY: gen
+  gen: conf proto.h man git-version.h
+  
+diff --git a/meta/recipes-devtools/rsync/rsync_3.4.2.bb b/meta/recipes-devtools/rsync/rsync_3.4.4.bb
 similarity index 97%
-rename from meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-rename to meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
-index 1b08fda5fa..545c1cdc60 100644
---- a/meta/recipes-devtools/tcltk8/tcl8_8.6.17.bb
-+++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
-@@ -24,7 +24,7 @@ SRC_URI = "${BASE_SRC_URI} \
-            file://run-ptest \
-            file://0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch \
+rename from meta/recipes-devtools/rsync/rsync_3.4.2.bb
+rename to meta/recipes-devtools/rsync/rsync_3.4.4.bb
+index 5fe1bc2c2b..fa9a61778f 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.4.2.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.4.4.bb
+@@ -16,7 +16,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://determism.patch \
+            file://0001-Add-missing-prototypes-to-function-declarations.patch \
             "
--SRC_URI[sha256sum] = "a1d8cbe44b38beaa29fc2130c4e7b79b8bf02e2bcc028ffefd7a25a2122202a0"
-+SRC_URI[sha256sum] = "1880b6337de72431174511419550bb4cf1327b7c8200a5466d1c4eb3ecac5132"
+-SRC_URI[sha256sum] = "ff10aa2c151cd4b2dbbe6135126dbc854046113d2dfb49572a348233267eb315"
++SRC_URI[sha256sum] = "bd88cf82fa653da32314fb229136407c5c90f80d1758d8f4b091767877d8fa96"
  
- SRC_URI:class-native = "${BASE_SRC_URI}"
- 
+ # Out-of-tree builds don't install the documentation currently
+ # https://github.com/RsyncProject/rsync/issues/846
 -- 
 2.47.1
 
 
---===============6781037669314750546==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-tcl8-upgrade-8.6.17-8.6.18.patch"
-
-RnJvbSA1Yzc1OThkODcwNThhMDMxMGU5ZmRlZjUyYmMzODVhYTRiNDBiNjYwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMTE6MDI6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
-Y2w4OiB1cGdyYWRlIDguNi4xNyAtPiA4LjYuMTgKCi0tLQogLi4ubmVyaWMtdGNsLmgtdXNlLVRj
-bF9XaWRlSW50LWZvci1zZWNvbmRzLWluLVRjbF9UaW0ucGF0Y2ggfCA0ICsrLS0KIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC9hbHRlci1pbmNsdWRlZGlyLnBhdGNoICAgIHwgNiAr
-KystLS0KIC4uLi90Y2x0azgvdGNsOC9maXhfbm9uX25hdGl2ZV9idWlsZF9pc3N1ZS5wYXRjaCAg
-ICAgICAgICAgIHwgNCArKy0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvdGNs
-LWFkZC1zb25hbWUucGF0Y2ggICAgICB8IDYgKysrLS0tCiAuLi4vdGNsdGs4L3RjbDgvdGNsLXJl
-bW92ZS1oYXJkY29kZWQtaW5zdGFsbC1wYXRoLnBhdGNoICAgICB8IDQgKystLQogLi4uL3RjbHRr
-OC97dGNsOF84LjYuMTcuYmIgPT4gdGNsOF84LjYuMTguYmJ9ICAgICAgICAgICAgICAgfCAyICst
-CiA2IGZpbGVzIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgve3RjbDhfOC42LjE3LmJiID0+IHRjbDhf
-OC42LjE4LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0
-azgvdGNsOC8wMDAxLWdlbmVyaWMtdGNsLmgtdXNlLVRjbF9XaWRlSW50LWZvci1zZWNvbmRzLWlu
-LVRjbF9UaW0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDgvMDAwMS1n
-ZW5lcmljLXRjbC5oLXVzZS1UY2xfV2lkZUludC1mb3Itc2Vjb25kcy1pbi1UY2xfVGltLnBhdGNo
-CmluZGV4IDZiYTdmZjQzNDAuLjljYzI5Zjc3M2EgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy90Y2x0azgvdGNsOC8wMDAxLWdlbmVyaWMtdGNsLmgtdXNlLVRjbF9XaWRlSW50LWZv
-ci1zZWNvbmRzLWluLVRjbF9UaW0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3Rj
-bHRrOC90Y2w4LzAwMDEtZ2VuZXJpYy10Y2wuaC11c2UtVGNsX1dpZGVJbnQtZm9yLXNlY29uZHMt
-aW4tVGNsX1RpbS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gN2Q0MDRkMTgyN2ZmYjY5YTJh
-YTdiNjBjMTBiNDM1YzZmNDdmN2JmYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gOWY3
-ODA0NWFmMjJhYTIyMTdkN2VjMDIzMzM0ODk4Mzc1MTIyM2M4OSBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+CiBEYXRl
-OiBGcmksIDE4IEF1ZyAyMDIzIDEyOjI1OjExICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGdlbmVy
-aWMvdGNsLmg6IHVzZSBUY2xfV2lkZUludCBmb3Igc2Vjb25kcyBpbiBUY2xfVGltZQpAQCAtMTks
-NyArMTksNyBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJv
-bml4LmRlPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-CiBkaWZmIC0tZ2l0IGEvZ2VuZXJpYy90Y2wuaCBiL2dlbmVyaWMvdGNsLmgKLWluZGV4IGQ4ZmQ3
-MGEuLmZmZmY0YjEgMTAwNjQ0CitpbmRleCA4M2YwN2U2Li4xNmU5OWY4IDEwMDY0NAogLS0tIGEv
-Z2VuZXJpYy90Y2wuaAogKysrIGIvZ2VuZXJpYy90Y2wuaAogQEAgLTE0MjUsNyArMTQyNSw3IEBA
-IHR5cGVkZWYgZW51bSB7CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4
-L3RjbDgvYWx0ZXItaW5jbHVkZWRpci5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0
-azgvdGNsOC9hbHRlci1pbmNsdWRlZGlyLnBhdGNoCmluZGV4IGFkOTFiOWZmYjMuLmMzNDZhMjFh
-MTkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC9hbHRlci1p
-bmNsdWRlZGlyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC9h
-bHRlci1pbmNsdWRlZGlyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiZmNhMmU0YWUzMmFi
-NTQ2Zjc5NmQ5YzdmZjdjYmY1NDJkNWIyYmZlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSAwZjQ3YTc3MTZkZmQ1MTY2ZDQ0ZWZlZTJlZDFmNDc4ODkxNGYwODgxIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogTWluZ2xpIFl1IDxtaW5nbGkueXVAd2luZHJpdmVyLmNvbT4KIERh
-dGU6IFR1ZSwgMjIgTm92IDIwMjIgMTg6NDg6MjcgKzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gdGNs
-OiB1cGRhdGUgdGhlIGhlYWRlciBsb2NhdGlvbgpAQCAtMjYsNyArMjYsNyBAQCBTaWduZWQtb2Zm
-LWJ5OiBNaW5nbGkgWXUgPG1pbmdsaS55dUB3aW5kcml2ZXIuY29tPgogIDMgZmlsZXMgY2hhbmdl
-ZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvdW5peC9N
-YWtlZmlsZS5pbiBiL3VuaXgvTWFrZWZpbGUuaW4KLWluZGV4IDQ1ZTdiNzYuLjVhNDZlNmEgMTAw
-NjQ0CitpbmRleCA1NGJiNjY0Li45OGQ2MTkyIDEwMDY0NAogLS0tIGEvdW5peC9NYWtlZmlsZS5p
-bgogKysrIGIvdW5peC9NYWtlZmlsZS5pbgogQEAgLTU3LDcgKzU3LDcgQEAgU0NSSVBUX0lOU1RB
-TExfRElSCT0gJChJTlNUQUxMX1JPT1QpJChUQ0xfTElCUkFSWSkKQEAgLTM5LDcgKzM5LDcgQEAg
-aW5kZXggNDVlN2I3Ni4uNWE0NmU2YSAxMDA2NDQKICAjIFBhdGggdG8gdGhlIHByaXZhdGUgdGNs
-IGhlYWRlciBkaXI6CiAgUFJJVkFURV9JTkNMVURFX0RJUgk9IEBQUklWQVRFX0lOQ0xVREVfRElS
-QAogZGlmZiAtLWdpdCBhL3VuaXgvY29uZmlndXJlLmluIGIvdW5peC9jb25maWd1cmUuaW4KLWlu
-ZGV4IDUwYjNlMDMuLjhhMzNkMGMgMTAwNjQ0CitpbmRleCAwMGYxNmFlLi42NDAwNjBiIDEwMDY0
-NAogLS0tIGEvdW5peC9jb25maWd1cmUuaW4KICsrKyBiL3VuaXgvY29uZmlndXJlLmluCiBAQCAt
-Nzc1LDcgKzc3NSw3IEBAIGV2YWwgIlRDTF9MSUJfRklMRT1saWJ0Y2wke0xJQl9TVUZGSVh9Igpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L2ZpeF9ub25fbmF0
-aXZlX2J1aWxkX2lzc3VlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4
-L2ZpeF9ub25fbmF0aXZlX2J1aWxkX2lzc3VlLnBhdGNoCmluZGV4IDA3YTFmNGQwNDAuLjMzZjZl
-MWZkMzMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC9maXhf
-bm9uX25hdGl2ZV9idWlsZF9pc3N1ZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-dGNsdGs4L3RjbDgvZml4X25vbl9uYXRpdmVfYnVpbGRfaXNzdWUucGF0Y2gKQEAgLTEsNCArMSw0
-IEBACi1Gcm9tIGFkNzg0N2ExNTE2M2YxMmMyNGQ4ZWNiNTBkZmZhMjg5ODc2ZGM4MzAgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDE4ZWQyZGM3N2E1MGY2OGY1NmE5ZTM1M2MwNzJmYWY0
-ZmZmMGIzMDMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBOaXRpbiBBIEthbWJsZSA8
-bml0aW4uYS5rYW1ibGVAaW50ZWwuY29tPgogRGF0ZTogRnJpLCAxMyBBdWcgMjAxMCAxMjoyNDow
-MCAtMDcwMAogU3ViamVjdDogW1BBVENIXSB0Y2w6IGZpeCBhIGJ1aWxkIGlzc3VlCkBAIC0xMCw3
-ICsxMCw3IEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9u
-aXguZGU+CiAgMSBmaWxlIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygt
-KQogCiBkaWZmIC0tZ2l0IGEvdW5peC9NYWtlZmlsZS5pbiBiL3VuaXgvTWFrZWZpbGUuaW4KLWlu
-ZGV4IGFiMmU3YjUuLjQ1ZTdiNzYgMTAwNjQ0CitpbmRleCAzZDUyZmU3Li41NGJiNjY0IDEwMDY0
-NAogLS0tIGEvdW5peC9NYWtlZmlsZS5pbgogKysrIGIvdW5peC9NYWtlZmlsZS5pbgogQEAgLTcy
-Myw3ICs3MjMsNyBAQCB0Y2x0ZXN0LXJlYWw6CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvdGNsdGs4L3RjbDgvdGNsLWFkZC1zb25hbWUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvdGNsdGs4L3RjbDgvdGNsLWFkZC1zb25hbWUucGF0Y2gKaW5kZXggMGY4YmQwNjJhYy4u
-OTQyMGQyMGQ4ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4
-L3RjbC1hZGQtc29uYW1lLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgv
-dGNsOC90Y2wtYWRkLXNvbmFtZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMmFmMDdlMmQw
-ZjBjYjlmNDJmZjk4MmNlMjU3ZTIwNjdkY2YxZWM3NyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gOTRlZjgzMWQ3MDUyYzgxOWRkZGFiOTJmMjJmMWZjODMxOWRkMjdiZiBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206IFJpY2hhcmQgUHVyZGllIDxycHVyZGllQGxpbnV4LmludGVs
-LmNvbT4KIERhdGU6IFdlZCwgOSBEZWMgMjAwOSAyMzo1OTo0NCArMDAwMAogU3ViamVjdDogW1BB
-VENIXSB0Y2w6IEFkZCB0Y2x0ayBmcm9tIE9FLmRldiBidXQgd2l0aCBsZWdhY3kgc3RhZ2luZyBm
-dW5jdGlvbgpAQCAtMTEsNyArMTEsNyBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZp
-biA8YWxleEBsaW51dHJvbml4LmRlPgogIDIgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCsp
-LCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS91bml4L01ha2VmaWxlLmluIGIvdW5peC9N
-YWtlZmlsZS5pbgotaW5kZXggM2VmZGZlYy4uYWIyZTdiNSAxMDA2NDQKK2luZGV4IDIzZjg2Yzgu
-LjNkNTJmZTcgMTAwNjQ0CiAtLS0gYS91bml4L01ha2VmaWxlLmluCiArKysgYi91bml4L01ha2Vm
-aWxlLmluCiBAQCAtODEyLDcgKzgxMiwxMCBAQCBpbnN0YWxsLWJpbmFyaWVzOiBiaW5hcmllcwpA
-QCAtMjcsNyArMjcsNyBAQCBpbmRleCAzZWZkZmVjLi5hYjJlN2I1IDEwMDY0NAogIAlAJChJTlNU
-QUxMX1BST0dSQU0pICR7VENMX0VYRX0gIiQoQklOX0lOU1RBTExfRElSKS90Y2xzaCQoVkVSU0lP
-Tikke0VYRV9TVUZGSVh9IgogIAlAZWNobyAiSW5zdGFsbGluZyB0Y2xDb25maWcuc2ggdG8gJChD
-T05GSUdfSU5TVEFMTF9ESVIpLyIKIGRpZmYgLS1naXQgYS91bml4L3RjbC5tNCBiL3VuaXgvdGNs
-Lm00Ci1pbmRleCA3ZjU0NjRlLi5jZDhkOTI5IDEwMDY0NAoraW5kZXggY2Q4OTE3MC4uMTIyYWZm
-MCAxMDA2NDQKIC0tLSBhL3VuaXgvdGNsLm00CiArKysgYi91bml4L3RjbC5tNAogQEAgLTEzNzgs
-NiArMTM3OCw5IEBAIEFDX0RFRlVOKFtTQ19DT05GSUdfQ0ZMQUdTXSwgWwpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L3RjbC1yZW1vdmUtaGFyZGNvZGVkLWlu
-c3RhbGwtcGF0aC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOC90Y2wt
-cmVtb3ZlLWhhcmRjb2RlZC1pbnN0YWxsLXBhdGgucGF0Y2gKaW5kZXggMTJlMTkzN2FhMS4uZDhm
-NDI4NjQwOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4L3Rj
-bC1yZW1vdmUtaGFyZGNvZGVkLWluc3RhbGwtcGF0aC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvdGNsdGs4L3RjbDgvdGNsLXJlbW92ZS1oYXJkY29kZWQtaW5zdGFsbC1wYXRoLnBh
-dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwYjQ3OWEwZGM4NDVmOTkyNmNiNDBjMTNkODZlNTUz
-OTFhODlmZTk4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzNjMzMTE5MWUzNDQzNjAz
-Mjc3YjNjMmFiYmZhNGMxYmRmMGZkYjgyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
-IlNvbmcuTGkiIDxTb25nLkxpQHdpbmRyaXZlci5jb20+CiBEYXRlOiBXZWQsIDEgQXVnIDIwMTIg
-MTk6MDU6NTEgKzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gdGNsOmluc3RhbGwgdGNsIHRvIGxpYjY0
-IGluc3RlYWQgb2YgbGliIG9uIDY0Yml0IHRhcmdldApAQCAtMTcsNyArMTcsNyBAQCBTaWduZWQt
-b2ZmLWJ5OiBZaSBaaGFvIDx5aS56aGFvQHdpbmRyaXZlci5jb20+CiAgMSBmaWxlIGNoYW5nZWQs
-IDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS91bml4L2NvbmZp
-Z3VyZS5pbiBiL3VuaXgvY29uZmlndXJlLmluCi1pbmRleCBlZDA3Y2E1Li41MGIzZTAzIDEwMDY0
-NAoraW5kZXggNDA3ODk3MC4uMDBmMTZhZSAxMDA2NDQKIC0tLSBhL3VuaXgvY29uZmlndXJlLmlu
-CiArKysgYi91bml4L2NvbmZpZ3VyZS5pbgogQEAgLTc3NCw3ICs3NzQsNyBAQCBldmFsICJUQ0xf
-TElCX0ZJTEU9bGlidGNsJHtMSUJfU1VGRklYfSIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy90Y2x0azgvdGNsOF84LjYuMTcuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNs
-dGs4L3RjbDhfOC42LjE4LmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOF84LjYuMTcuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy90Y2x0azgvdGNsOF84LjYuMTguYmIKaW5kZXggMWIwOGZkYTVmYS4uNTQ1
-YzFjZGM2MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjbHRrOC90Y2w4Xzgu
-Ni4xNy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNsdGs4L3RjbDhfOC42LjE4LmJi
-CkBAIC0yNCw3ICsyNCw3IEBAIFNSQ19VUkkgPSAiJHtCQVNFX1NSQ19VUkl9IFwKICAgICAgICAg
-ICAgZmlsZTovL3J1bi1wdGVzdCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWdlbmVyaWMtdGNs
-LmgtdXNlLVRjbF9XaWRlSW50LWZvci1zZWNvbmRzLWluLVRjbF9UaW0ucGF0Y2ggXAogICAgICAg
-ICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTFkOGNiZTQ0YjM4YmVhYTI5ZmMyMTMwYzRl
-N2I3OWI4YmYwMmUyYmNjMDI4ZmZlZmQ3YTI1YTIxMjIyMDJhMCIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICIxODgwYjYzMzdkZTcyNDMxMTc0NTExNDE5NTUwYmI0Y2YxMzI3YjdjODIwMGE1NDY2ZDFj
-NGViM2VjYWM1MTMyIgogCiBTUkNfVVJJOmNsYXNzLW5hdGl2ZSA9ICIke0JBU0VfU1JDX1VSSX0i
-CiAKLS0gCjIuNDcuMQoK
-
---===============6781037669314750546==
+--===============1007242777060539629==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/tcl8: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8: SRC_URI changed from "https://downloads.sourceforge.net/tcl/tcl-core8.6.17-src.tar.gz file://tcl-add-soname.patch file://fix_non_native_build_issue.patch file://tcl-remove-hardcoded-install-path.patch file://alter-includedir.patch file://run-ptest file://0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch" to "https://downloads.sourceforge.net/tcl/tcl-core8.6.18-src.tar.gz file://tcl-add-soname.patch file://fix_non_native_build_issue.patch file://tcl-remove-hardcoded-install-path.patch file://alter-includedir.patch file://run-ptest file://0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch"
-packages/x86-64-v3-poky-linux/tcl8: PV changed from "8.6.17" to "8.6.18"
-Changes to packages/x86-64-v3-poky-linux/tcl8 (sysroot):
-  /usr/lib/tcl8/8.4/platform moved to /usr/lib/tcl8/8.6/platform
-  /usr/lib/tcl8/8.4/platform/shell-1.1.4.tm moved to /usr/lib/tcl8/8.6/platform/shell-1.1.4.tm
-  /usr/include/tcl8.6.17 moved to /usr/include/tcl8.6.18
-  /usr/lib/tcl8/8.5/tcltest-2.5.10.tm moved to /usr/lib/tcl8/8.5/tcltest-2.5.11.tm
-  /usr/lib/tcl8/8.6/http-2.9.8.tm moved to /usr/lib/tcl8/8.6/http-2.9.9.tm
-  /usr/lib/tcl8/8.6/platform-1.1.0.tm was added
-  /usr/lib/tcl8/8.4 was removed
-  /usr/lib/tcl8/8.4/platform-1.0.19.tm was removed
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dbg: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dbg: PKGSIZE changed from 8522120 to 8523808 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dbg: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: FILELIST: directory renamed /usr/include/tcl8.6.17/generic -> /usr/include/tcl8.6.18/generic, directory renamed /usr/include/tcl8.6.17/compat -> /usr/include/tcl8.6.18/compat, directory renamed /usr/include/tcl8.6.17/unix -> /usr/include/tcl8.6.18/unix
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: PKGSIZE changed from 1456892 to 1456818 (-0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-doc: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-doc: PKGSIZE changed from 3176831 to 3179431 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-doc: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-lib: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-lib: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-locale: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-locale: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-ptest: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-ptest: PKGSIZE changed from 6751648 to 6754626 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-ptest: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-src: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-src: FILELIST: directory renamed /usr/src/debug/tcl8/8.6.17/generic -> /usr/src/debug/tcl8/8.6.18/generic, directory renamed /usr/src/debug/tcl8/8.6.17/unix -> /usr/src/debug/tcl8/8.6.18/unix, directory renamed /usr/src/debug/tcl8/8.6.17/libtommath -> /usr/src/debug/tcl8/8.6.18/libtommath, directory renamed /usr/src/debug/tcl8/8.6.17/compat -> /usr/src/debug/tcl8/8.6.18/compat
-packages/x86-64-v3-poky-linux/tcl8/tcl8-src: PKGSIZE changed from 7653678 to 7661399 (+0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8-src: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8-staticdev: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8-staticdev: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8: PKGV changed from 8.6.17 [default] to 8.6.18 [default]
-packages/x86-64-v3-poky-linux/tcl8/tcl8: FILELIST: directory renamed /usr/lib/tcl8/8.4/platform -> /usr/lib/tcl8/8.6/platform, removed "/usr/lib/tcl8/8.4/platform-1.0.19.tm /usr/lib/tcl8/8.6/http-2.9.8.tm /usr/bin/tclsh8.6.17 /usr/lib/tcl8/8.5/tcltest-2.5.10.tm", added "/usr/bin/tclsh8.6.18 /usr/lib/tcl8/8.6/http-2.9.9.tm /usr/lib/tcl8/8.6/platform-1.1.0.tm /usr/lib/tcl8/8.5/tcltest-2.5.11.tm"
-packages/x86-64-v3-poky-linux/tcl8/tcl8: PKGSIZE changed from 3396959 to 3393567 (-0%)
-packages/x86-64-v3-poky-linux/tcl8/tcl8: PV changed from "8.6.17" to "8.6.18"
-packages/x86-64-v3-poky-linux/tcl8/tcl8: FILES: removed "/usr/lib/tcl8.6.17", added "/usr/lib/tcl8.6.18"
-Changes to packages/x86_64-linux/tcl8-native (sysroot):
-  /usr/bin/tclsh8 changed symlink target from ./tclsh8.6.17 to ./tclsh8.6.18
-  /usr/lib/tcl8/8.4/platform moved to /usr/lib/tcl8/8.6/platform
-  /usr/lib/tcl8/8.4/platform/shell-1.1.4.tm moved to /usr/lib/tcl8/8.6/platform/shell-1.1.4.tm
-  /usr/bin/tclsh8.6.17 moved to /usr/bin/tclsh8.6.18
-  /usr/include/tcl8.6.17 moved to /usr/include/tcl8.6.18
-  /usr/lib/tcl8/8.5/tcltest-2.5.10.tm moved to /usr/lib/tcl8/8.5/tcltest-2.5.11.tm
-  /usr/lib/tcl8/8.6/http-2.9.8.tm moved to /usr/lib/tcl8/8.6/http-2.9.9.tm
-  /usr/lib/tcl8/8.6/platform-1.1.0.tm was added
-  /usr/lib/tcl8/8.4 was removed
-  /usr/lib/tcl8/8.4/platform-1.0.19.tm was removed
+packages/x86-64-v3-poky-linux/rsync: SRC_URI changed from "https://download.samba.org/pub/rsync/src/rsync-3.4.2.tar.gz file://rsyncd.conf file://makefile-no-rebuild.patch file://determism.patch file://0001-Add-missing-prototypes-to-function-declarations.patch" to "https://download.samba.org/pub/rsync/src/rsync-3.4.4.tar.gz file://rsyncd.conf file://makefile-no-rebuild.patch file://determism.patch file://0001-Add-missing-prototypes-to-function-declarations.patch"
+packages/x86-64-v3-poky-linux/rsync: PV changed from "3.4.2" to "3.4.4"
+packages/x86-64-v3-poky-linux/rsync: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/x86-64-v3-poky-linux/rsync/rsync-dbg: PV changed from "3.4.2" to "3.4.4"
+packages/x86-64-v3-poky-linux/rsync/rsync-dbg: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/x86-64-v3-poky-linux/rsync/rsync-dbg: PKGSIZE changed from 1381616 to 1435976 (+4%)
+packages/x86-64-v3-poky-linux/rsync/rsync-dev: PV changed from "3.4.2" to "3.4.4"
+packages/x86-64-v3-poky-linux/rsync/rsync-dev: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/x86-64-v3-poky-linux/rsync/rsync-doc: PV changed from "3.4.2" to "3.4.4"
+packages/x86-64-v3-poky-linux/rsync/rsync-doc: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/x86-64-v3-poky-linux/rsync/rsync-doc: PKGSIZE changed from 300234 to 300231 (-0%)
+packages/x86-64-v3-poky-linux/rsync/rsync-locale: PV changed from "3.4.2" to "3.4.4"
+packages/x86-64-v3-poky-linux/rsync/rsync-locale: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/x86-64-v3-poky-linux/rsync/rsync-src: FILELIST: directory renamed /usr/src/debug/rsync/3.4.2/lib -> /usr/src/debug/rsync/3.4.4/lib, removed "/usr/src/debug/rsync/3.4.2/rsync.c /usr/src/debug/rsync/3.4.2/token.c /usr/src/debug/rsync/3.4.2/compat.c /usr/src/debug/rsync/3.4.2/socket.c /usr/src/debug/rsync/3.4.2/help-rsync.h /usr/src/debug/rsync/3.4.2/options.c /usr/src/debug/rsync/3.4.2/authenticate.c /usr/src/debug/rsync/3.4.2/byteorder.h /usr/src/debug/rsync/3.4.2/checksum.c /usr/src/debug/rsync/3.4.2/backup.c /usr/src/debug/rsync/3.4.2/connection.c /usr/src/debug/rsync/3.4.2/cleanup.c /usr/src/debug/rsync/3.4.2/receiver.c /usr/src/debug/rsync/3.4.2/main.c /usr/src/debug/rsync/3.4.2/pipe.c /usr/src/debug/rsync/3.4.2/acls.c /usr/src/debug/rsync/3.4.2/help-rsyncd.h /usr/src/debug/rsync/3.4.2/clientserver.c /usr/src/debug/rsync/3.4.2/generator.c /usr/src/debug/rsync/3.4.2/progress.c /usr/src/debug/rsync/3.4.2/exclude.c /usr/src/debug/rsync/3.4.2/inums.h /usr/src/debug/rsync/3.4.
+ 2/delete.c /usr/src/debug/rsync/3.4.2/proto.h /usr/src/debug/rsync/3.4.2/rsync.h /usr/src/debug/rsync/3.4.2/io.h /usr/src/debug/rsync/3.4.2/clientname.c /usr/src/debug/rsync/3.4.2/syscall.c /usr/src/debug/rsync/3.4.2/usage.c /usr/src/debug/rsync/3.4.2/util2.c /usr/src/debug/rsync/3.4.2/util1.c /usr/src/debug/rsync/3.4.2/uidlist.c /usr/src/debug/rsync/3.4.2/chmod.c /usr/src/debug/rsync/3.4.2/flist.c /usr/src/debug/rsync/3.4.2/batch.c /usr/src/debug/rsync/3.4.2/hlink.c /usr/src/debug/rsync/3.4.2/log.c /usr/src/debug/rsync/3.4.2/match.c /usr/src/debug/rsync/3.4.2/daemon-parm.h /usr/src/debug/rsync/3.4.2/access.c /usr/src/debug/rsync/3.4.2/params.c /usr/src/debug/rsync/3.4.2/xattrs.c /usr/src/debug/rsync/3.4.2/fileio.c /usr/src/debug/rsync/3.4.2/io.c /usr/src/debug/rsync/3.4.2/ifuncs.h /usr/src/debug/rsync/3.4.2/itypes.h /usr/src/debug/rsync/3.4.2/hashtable.c /usr/src/debug/rsync/3.4.2/loadparm.c /usr/src/debug/rsync/3.4.2/sender.c", added "/usr/src/debug/rsync/3.4.4/compat.c /usr/src/d
+ ebug/rsync/3.4.4/socket.c /usr/src/debug/rsync/3.4.4/help-rsync.h /usr/src/debug/rsync/3.4.4/options.c /usr/src/debug/rsync/3.4.4/authenticate.c /usr/src/debug/rsync/3.4.4/byteorder.h /usr/src/debug/rsync/3.4.4/backup.c /usr/src/debug/rsync/3.4.4/connection.c /usr/src/debug/rsync/3.4.4/cleanup.c /usr/src/debug/rsync/3.4.4/receiver.c /usr/src/debug/rsync/3.4.4/usage.c /usr/src/debug/rsync/3.4.4/checksum.c /usr/src/debug/rsync/3.4.4/main.c /usr/src/debug/rsync/3.4.4/pipe.c /usr/src/debug/rsync/3.4.4/acls.c /usr/src/debug/rsync/3.4.4/help-rsyncd.h /usr/src/debug/rsync/3.4.4/clientserver.c /usr/src/debug/rsync/3.4.4/generator.c /usr/src/debug/rsync/3.4.4/progress.c /usr/src/debug/rsync/3.4.4/exclude.c /usr/src/debug/rsync/3.4.4/inums.h /usr/src/debug/rsync/3.4.4/delete.c /usr/src/debug/rsync/3.4.4/log.c /usr/src/debug/rsync/3.4.4/proto.h /usr/src/debug/rsync/3.4.4/rsync.h /usr/src/debug/rsync/3.4.4/clientname.c /usr/src/debug/rsync/3.4.4/syscall.c /usr/src/debug/rsync/3.4.4/util1.c /usr
+ /src/debug/rsync/3.4.4/util2.c /usr/src/debug/rsync/3.4.4/chmod.c /usr/src/debug/rsync/3.4.4/flist.c /usr/src/debug/rsync/3.4.4/batch.c /usr/src/debug/rsync/3.4.4/hlink.c /usr/src/debug/rsync/3.4.4/match.c /usr/src/debug/rsync/3.4.4/rsync.c /usr/src/debug/rsync/3.4.4/token.c /usr/src/debug/rsync/3.4.4/uidlist.c /usr/src/debug/rsync/3.4.4/daemon-parm.h /usr/src/debug/rsync/3.4.4/fileio.c /usr/src/debug/rsync/3.4.4/android.c /usr/src/debug/rsync/3.4.4/ifuncs.h /usr/src/debug/rsync/3.4.4/io.c /usr/src/debug/rsync/3.4.4/itypes.h /usr/src/debug/rsync/3.4.4/access.c /usr/src/debug/rsync/3.4.4/params.c /usr/src/debug/rsync/3.4.4/xattrs.c /usr/src/debug/rsync/3.4.4/io.h /usr/src/debug/rsync/3.4.4/hashtable.c /usr/src/debug/rsync/3.4.4/loadparm.c /usr/src/debug/rsync/3.4.4/sender.c"
+packages/x86-64-v3-poky-linux/rsync/rsync-src: PV changed from "3.4.2" to "3.4.4"
+packages/x86-64-v3-poky-linux/rsync/rsync-src: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/x86-64-v3-poky-linux/rsync/rsync-src: PKGSIZE changed from 1244830 to 1309251 (+5%)
+packages/x86-64-v3-poky-linux/rsync/rsync-staticdev: PV changed from "3.4.2" to "3.4.4"
+packages/x86-64-v3-poky-linux/rsync/rsync-staticdev: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/x86-64-v3-poky-linux/rsync/rsync: PV changed from "3.4.2" to "3.4.4"
+packages/x86-64-v3-poky-linux/rsync/rsync: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
+packages/x86-64-v3-poky-linux/rsync/rsync: PKGSIZE changed from 530434 to 550914 (+4%)
 
---===============6781037669314750546==
-Content-Type: text/plain; charset="us-ascii"
+--===============1007242777060539629==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-rsync-upgrade-3.4.2-3.4.4.patch"
 
-Changes to packages/x86-64-v3-poky-linux/tcl8 (sysroot):
-  /usr/lib/tcl8/8.4/platform moved to /usr/lib/tcl8/8.6/platform
-  /usr/lib/tcl8/8.4/platform/shell-1.1.4.tm moved to /usr/lib/tcl8/8.6/platform/shell-1.1.4.tm
-  /usr/include/tcl8.6.17 moved to /usr/include/tcl8.6.18
-  /usr/lib/tcl8/8.5/tcltest-2.5.10.tm moved to /usr/lib/tcl8/8.5/tcltest-2.5.11.tm
-  /usr/lib/tcl8/8.6/http-2.9.8.tm moved to /usr/lib/tcl8/8.6/http-2.9.9.tm
-  /usr/lib/tcl8/8.6/platform-1.1.0.tm was added
-  /usr/lib/tcl8/8.4 was removed
-  /usr/lib/tcl8/8.4/platform-1.0.19.tm was removed
-packages/x86-64-v3-poky-linux/tcl8/tcl8-dev: FILELIST: directory renamed /usr/include/tcl8.6.17/generic -> /usr/include/tcl8.6.18/generic, directory renamed /usr/include/tcl8.6.17/unix -> /usr/include/tcl8.6.18/unix, directory renamed /usr/include/tcl8.6.17/compat -> /usr/include/tcl8.6.18/compat
-packages/x86-64-v3-poky-linux/tcl8/tcl8: FILELIST: directory renamed /usr/lib/tcl8/8.4/platform -> /usr/lib/tcl8/8.6/platform, removed "/usr/lib/tcl8/8.4/platform-1.0.19.tm /usr/lib/tcl8/8.6/http-2.9.8.tm /usr/bin/tclsh8.6.17 /usr/lib/tcl8/8.5/tcltest-2.5.10.tm", added "/usr/lib/tcl8/8.6/http-2.9.9.tm /usr/bin/tclsh8.6.18 /usr/lib/tcl8/8.6/platform-1.1.0.tm /usr/lib/tcl8/8.5/tcltest-2.5.11.tm"
-Changes to packages/x86_64-linux/tcl8-native (sysroot):
-  /usr/bin/tclsh8 changed symlink target from ./tclsh8.6.17 to ./tclsh8.6.18
-  /usr/lib/tcl8/8.4/platform moved to /usr/lib/tcl8/8.6/platform
-  /usr/lib/tcl8/8.4/platform/shell-1.1.4.tm moved to /usr/lib/tcl8/8.6/platform/shell-1.1.4.tm
-  /usr/bin/tclsh8.6.17 moved to /usr/bin/tclsh8.6.18
-  /usr/include/tcl8.6.17 moved to /usr/include/tcl8.6.18
-  /usr/lib/tcl8/8.5/tcltest-2.5.10.tm moved to /usr/lib/tcl8/8.5/tcltest-2.5.11.tm
-  /usr/lib/tcl8/8.6/http-2.9.8.tm moved to /usr/lib/tcl8/8.6/http-2.9.9.tm
-  /usr/lib/tcl8/8.6/platform-1.1.0.tm was added
-  /usr/lib/tcl8/8.4 was removed
-  /usr/lib/tcl8/8.4/platform-1.0.19.tm was removed
+RnJvbSBjOTU4ZWMxOGZhY2YxNTRkMmZmNDU4YzYwZjI2YjdhMDkxOGU4MWMxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMTA6NDA6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBy
+c3luYzogdXBncmFkZSAzLjQuMiAtPiAzLjQuNAoKLS0tCiAuLi4tQWRkLW1pc3NpbmctcHJvdG90
+eXBlcy10by1mdW5jdGlvbi1kZWNsYXJhdGlvbnMucGF0Y2ggfCA4ICsrKystLS0tCiBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcnN5bmMvZmlsZXMvZGV0ZXJtaXNtLnBhdGNoICAgICAgICAgfCA0ICsr
+LS0KIC4uLi9yc3luYy9maWxlcy9tYWtlZmlsZS1uby1yZWJ1aWxkLnBhdGNoICAgICAgICAgICAg
+ICAgICB8IDYgKysrLS0tCiAuLi4vcnN5bmMve3JzeW5jXzMuNC4yLmJiID0+IHJzeW5jXzMuNC40
+LmJifSAgICAgICAgICAgICAgfCAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDEwIGluc2VydGlvbnMo
+KyksIDEwIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9yc3luYy97
+cnN5bmNfMy40LjIuYmIgPT4gcnN5bmNfMy40LjQuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3JzeW5jL2ZpbGVzLzAwMDEtQWRkLW1pc3NpbmctcHJvdG90eXBl
+cy10by1mdW5jdGlvbi1kZWNsYXJhdGlvbnMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cnN5bmMvZmlsZXMvMDAwMS1BZGQtbWlzc2luZy1wcm90b3R5cGVzLXRvLWZ1bmN0aW9uLWRlY2xh
+cmF0aW9ucy5wYXRjaAppbmRleCBlNmQzNTc4ZTg1Li5lZGUwMjM4YjJlIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnN5bmMvZmlsZXMvMDAwMS1BZGQtbWlzc2luZy1wcm90b3R5
+cGVzLXRvLWZ1bmN0aW9uLWRlY2xhcmF0aW9ucy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcnN5bmMvZmlsZXMvMDAwMS1BZGQtbWlzc2luZy1wcm90b3R5cGVzLXRvLWZ1bmN0aW9u
+LWRlY2xhcmF0aW9ucy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNDZjYmU1YjcwYjVjYmY5
+ODFjZjY5MzEzN2FjMDgxY2FjYmJiMmUyYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20g
+YzA1Y2MxMTNmOTI1YmRhNjQ1YzhlNTFiODNlOWRjMzBiMDU0M2JhZCBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBNb24s
+IDI5IEF1ZyAyMDIyIDE5OjUzOjI4IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIEFkZCBtaXNzaW5n
+IHByb3RvdHlwZXMgdG8gZnVuY3Rpb24gZGVjbGFyYXRpb25zCkBAIC01MCw3ICs1MCw3IEBAIGlu
+ZGV4IDI0ZGU2NGYuLmE3ODc0ODggMTAwNjQ0CiAgCWlmIChwYXJ0aWFsX3N0cmluZ19idWYpIHsK
+ICAJCWlmIChwYXJ0aWFsX3N0cmluZ19sZW4pCiBkaWZmIC0tZ2l0IGEvbG9nLmMgYi9sb2cuYwot
+aW5kZXggZTRiYTFjYy4uODQ4MmI3MSAxMDA2NDQKK2luZGV4IGI5NDhmMTYuLmFmY2E4MWQgMTAw
+NjQ0CiAtLS0gYS9sb2cuYwogKysrIGIvbG9nLmMKIEBAIC0xMzEsNyArMTMxLDcgQEAgc3RhdGlj
+IHZvaWQgbG9naXQoaW50IHByaW9yaXR5LCBjb25zdCBjaGFyICpidWYpCkBAIC02MywxMSArNjMs
+MTEgQEAgaW5kZXggZTRiYTFjYy4uODQ4MmI3MSAxMDA2NDQKICAJaW50IG9wdGlvbnMgPSBMT0df
+UElEOwogIAogZGlmZiAtLWdpdCBhL21haW4uYyBiL21haW4uYwotaW5kZXggY2NhZDI4YS4uYmJi
+MDliYSAxMDA2NDQKK2luZGV4IDIyOWE4ODkuLmFhMTU4YWQgMTAwNjQ0CiAtLS0gYS9tYWluLmMK
+ICsrKyBiL21haW4uYwogQEAgLTI0Niw3ICsyNDYsNyBAQCB2b2lkIHJlYWRfZGVsX3N0YXRzKGlu
+dCBmKQotIAlzdGF0cy5kZWxldGVkX2ZpbGVzICs9IHN0YXRzLmRlbGV0ZWRfc3BlY2lhbHMgPSBy
+ZWFkX3ZhcmludChmKTsKKyAJc3RhdHMuZGVsZXRlZF9maWxlcyArPSBzdGF0cy5kZWxldGVkX3Nw
+ZWNpYWxzID0gcmVhZF92YXJpbnRfYm91bmRlZChmLCAwLCBNQVhfV0lSRV9ERUxfU1RBVCwgImRl
+bGV0ZWRfc3BlY2lhbHMiKTsKICB9CiAgCiAtc3RhdGljIHZvaWQgYmVjb21lX2NvcHlfYXNfdXNl
+cigpCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnN5bmMvZmlsZXMvZGV0ZXJt
+aXNtLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JzeW5jL2ZpbGVzL2RldGVybWlzbS5w
+YXRjaAppbmRleCBmZDk2Yjg3M2M4Li5hOGZlZTViYTBhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcnN5bmMvZmlsZXMvZGV0ZXJtaXNtLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9yc3luYy9maWxlcy9kZXRlcm1pc20ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
+cm9tIGI4MTBkNzhhOTMyN2I1YjMxM2ViYzBhYTFhMGIxNTVkZTdjMTBhZmQgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCitGcm9tIDMyODUyMDI4ZTk1Y2RmNzhkMDlmMWJkODY3ZjNiNDZiNDcyOGY5
+ZTMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFy
+ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KIERhdGU6IFN1biwgMjEgRmViIDIwMjEgMDk6
+NDU6NDggKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gcnN5bmM6IEZpeCBhIGZpbGUgc29ydGluZyBk
+ZXRlcm1pbmlzbSBpc3N1ZQpAQCAtMjUsNyArMjUsNyBAQCBodHRwczovL2dpdGh1Yi5jb20vV2F5
+bmVEL3JzeW5jL2NvbW1pdC9kMzA4NWY3YWRkMzhhNWNmODMzYTBiMzFjYjA2MzdmZjQ2YzgwZjhk
+CiAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQogCiBkaWZmIC0tZ2l0IGEvTWFrZWZp
+bGUuaW4gYi9NYWtlZmlsZS5pbgotaW5kZXggODBlOWQ3Mi4uYTdkMzEzYyAxMDA2NDQKK2luZGV4
+IDBiYTJkNWMuLmI5YzU0MzggMTAwNjQ0CiAtLS0gYS9NYWtlZmlsZS5pbgogKysrIGIvTWFrZWZp
+bGUuaW4KIEBAIC0yNyw2ICsyNywxMSBAQCBNS0RJUl9QPUBNS0RJUl9QQApkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3JzeW5jL2ZpbGVzL21ha2VmaWxlLW5vLXJlYnVpbGQucGF0
+Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnN5bmMvZmlsZXMvbWFrZWZpbGUtbm8tcmVidWls
+ZC5wYXRjaAppbmRleCBmYjE5NWIxZTY4Li45MTRiNTBhN2I3IDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcnN5bmMvZmlsZXMvbWFrZWZpbGUtbm8tcmVidWlsZC5wYXRjaAorKysg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnN5bmMvZmlsZXMvbWFrZWZpbGUtbm8tcmVidWlsZC5w
+YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDYwOGY1ZWJiMjZlMmU0NzQ4NjdiZWM2YzNkNjdk
+ZmQwYTc2NjNmMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNTBlZjVjY2Q5MTQ5Y2Vl
+MjdiYWUyOWU3NjdmZjFjMmU3NmJkYzg3OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
+IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiBEYXRlOiBUdWUsIDEyIEFwciAy
+MDE2IDE1OjUxOjU0ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIHJzeW5jOiByZW1vdmUgdXBzdHJl
+YW0ncyByZWJ1aWxkIGxvZ2ljCkBAIC0xMywxMCArMTMsMTAgQEAgU2lnbmVkLW9mZi1ieTogUm9z
+cyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgNTQgZGVs
+ZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZS5pbiBiL01ha2VmaWxlLmluCi1pbmRl
+eCBjMmZlNzc1Li44MGU5ZDcyIDEwMDY0NAoraW5kZXggNzkwNjBiMy4uMGJhMmQ1YyAxMDA2NDQK
+IC0tLSBhL01ha2VmaWxlLmluCiArKysgYi9NYWtlZmlsZS5pbgotQEAgLTE4NSw2MCArMTg1LDYg
+QEAgY29uZjogY29uZmlndXJlLnNoIGNvbmZpZy5oLmluCitAQCAtMjAwLDYwICsyMDAsNiBAQCBj
+b25mOiBjb25maWd1cmUuc2ggY29uZmlnLmguaW4KICAuUEhPTlk6IGdlbgogIGdlbjogY29uZiBw
+cm90by5oIG1hbiBnaXQtdmVyc2lvbi5oCiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcnN5bmMvcnN5bmNfMy40LjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnN5bmMv
+cnN5bmNfMy40LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3JzeW5jL3JzeW5jXzMuNC4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcnN5bmMvcnN5bmNfMy40LjQuYmIKaW5kZXggNWZlMWJjMmMyYi4uZmE5YTYxNzc4
+ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JzeW5jL3JzeW5jXzMuNC4yLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9yc3luYy9yc3luY18zLjQuNC5iYgpAQCAtMTYs
+NyArMTYsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vZG93bmxvYWQuc2FtYmEub3JnL3B1Yi8ke0JQ
+Tn0vc3JjLyR7QlB9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly9kZXRlcm1pc20ucGF0Y2gg
+XAogICAgICAgICAgICBmaWxlOi8vMDAwMS1BZGQtbWlzc2luZy1wcm90b3R5cGVzLXRvLWZ1bmN0
+aW9uLWRlY2xhcmF0aW9ucy5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICJmZjEwYWEyYzE1MWNkNGIyZGJiZTYxMzUxMjZkYmM4NTQwNDYxMTNkMmRmYjQ5NTcyYTM0
+ODIzMzI2N2ViMzE1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImJkODhjZjgyZmE2NTNkYTMyMzE0
+ZmIyMjkxMzY0MDdjNWM5MGY4MGQxNzU4ZDhmNGIwOTE3Njc4NzdkOGZhOTYiCiAKICMgT3V0LW9m
+LXRyZWUgYnVpbGRzIGRvbid0IGluc3RhbGwgdGhlIGRvY3VtZW50YXRpb24gY3VycmVudGx5CiAj
+IGh0dHBzOi8vZ2l0aHViLmNvbS9Sc3luY1Byb2plY3QvcnN5bmMvaXNzdWVzLzg0NgotLSAKMi40
+Ny4xCgo=
 
---===============6781037669314750546==--
+--===============1007242777060539629==--
 
