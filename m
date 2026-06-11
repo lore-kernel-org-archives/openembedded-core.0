@@ -1,110 +1,203 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jeremy.rosen@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 541C7CD98D2
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 08:33:11 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.40823.1781166784874808459
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 347A5CD98C7
+	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 08:33:41 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40819.1781166812690110382
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 01:33:05 -0700
+ Thu, 11 Jun 2026 01:33:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=XS+fHuWl;
- spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ccdef9f3d4so85150036d6.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 01:33:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781166784; cv=none;
-        d=google.com; s=arc-20240605;
-        b=i+t3TeF6DcYeN0ebSYLBhQMS6gB5xq1ujg6nbgQBNd/BD47jmR2VQSYPyObd2yvAhJ
-         AMgQyrRjTgMWbb2k5/z+EvbUKZX0KDlAdnP4e5RohMf7HkRoENuDBa6k45Qvo8rIcXk2
-         8IKrIM2IQZLWzZwJ9X5PWzgx+m/LaDfUHDReTyJbXzvrtMGy00WmsAlF63dcHS48/obb
-         AYro5sHIzafQsQry40WTuVX4jkS+Umf2mQ2MUzgyu5JoKdx/ST2JHQFdY3IVR9FfXkV2
-         Iwv0M0aznv8Kams5M1SjbPPmV7aG3/NHW2LzeMg33oesNJsg0GE9h9ozyvHhUHcWnPLV
-         5vTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=qc3ElifMg4zNM8p9yda8utf0t3JxjvR/vAbRqllEv/U=;
-        fh=c04py8gpHGD0wV58rRkaV2K/aOAPiVMiREd4MI7we2s=;
-        b=LKK6UfTE7wyBCMjwfol9eTXBczDPA4a9JD28LCA15YBOK15pbcM9ZUFzT69KvJ09Ab
-         0uRzQuPV6Q+269HJOr/RI7P38yl4Nx6twmJIkr2MyhWFW5ZUdYswowC0LusOuFA2+i+l
-         oLbD9VpmZ7507zt2+NRg1vdGfugAnzz+4MNJrrxj0P7DonTfGSWUklKcGB+afsbWbhgr
-         BqP0zfMpbQ8z4hv5M5zuGt82pbZwPeIKXTn7tzKGdkwx2XmUcrosCjl2oVmyXXUqm0OE
-         rhhNjJ2A9i387ze3XC3kTk6jznVrfBdQFV8SERHr3ncWm32COQxTSzxkj8yzcW2O9crD
-         zT5w==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=S1gJW2y3;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: jeremy.rosen@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490b64c8311so84102205e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 01:33:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781166784; x=1781771584; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qc3ElifMg4zNM8p9yda8utf0t3JxjvR/vAbRqllEv/U=;
-        b=XS+fHuWlzsL2cZTygVSdmppOKLAYDye7palMPdlTLpWkwU7yXX5WDi11g5A4LGcx8s
-         sK5FjGW7GcnnpewKC3ET3w1Nlj7VgFhsjW16zbUIOA9lViDlisJVczTiAk2ylnZWEPIW
-         merRqUW6EhVmn5VEcwowmlgod7ejtWdLP+EN/AtqRqdotI+APBDMuddH3Y50AFSH0k/P
-         rsb/uMe8ms1OWRZfiK8lSPnRAzxLI7PX6eZwXwwLuRfFUYc/1aspI2c2gFoQ0rYRK24g
-         MForU52+XUhAsMuzkR2nQlOUYhOiCwO7q0sTueDiHoIMzkdVPBBIs7MexpYsPGTPd2fw
-         u/Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781166784; x=1781771584;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1781166811; x=1781771611; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qc3ElifMg4zNM8p9yda8utf0t3JxjvR/vAbRqllEv/U=;
-        b=Wg3mgpr0xkiXchAiXrbhXgvpKKKRWjB3AJCABUeENCfbS2druUESjCwZvI2bmwtjzn
-         ABTDMfFhM7DBv0PMZC2cNd0XjZfLuy4XBm8qbrJfOVtj73/RWzK2uJ4MV2tRoP7bti0S
-         VZIUoEH4A3PdAvy6nuFCFDL8DqiYFPHtntagfZGL9WBHepUxXb1GcFEY6lRrglpMT0H4
-         eRVMEGzqktqLIP/G5E0+DizilzGpTgPCmYy2tHsZ3EmzpVapjD+uvNoNcG0o+IAjdNR+
-         CC6MLq8Jrrup8MQX/+hBqIKw/leUcNrtLY07eLoC/zoRdhgtaYwdpCZmF3zaQ9jj15NS
-         CAgQ==
-X-Gm-Message-State: AOJu0YxhBUidIQ94e+sBjaXt+GwB9QgYJFBlCuxhAZciyyjh/pStLwjf
-	Hp5ChJRtRYSBocVo4Hw4i3tqH/rbO85VFDPjswQYOCS7v93G+LUaJu7YpSCWgL+9TDy0EH47XuA
-	XL3IroGe64JgaS2G1tA9P3HLh36DZWWk=
-X-Gm-Gg: Acq92OF+wQcGq7OW5/dAg3Yo5PkMo/QoCRZ5g7psF9FFFx5nV7NBwChVvixIIYhwrUg
-	jNsrqf1UsutstZe77Vla8XLMFUQujq8b5YymDKAni7w/CHXjmBe9CADsPCIQnqDCKEe0L8w3leL
-	rCYFuDb64CSwIAZMociuHC7y0iVSKbje/WyDFHGALF2QaSodDeq9tQzoX+3LjYqTupoeCW5jIUu
-	3KI28nBo3+y2UJUdAPSvYi9APRIM2wK7o+TBUeubwSaR4eksZYtRr6B7RjTqMHlotOggfXed8/3
-	BIPxVmrrnTx3z3wTr8U=
-X-Received: by 2002:a05:6214:468d:b0:8ce:a93c:e1ad with SMTP id
- 6a1803df08f44-8d1dac2499emr28989296d6.32.1781166783804; Thu, 11 Jun 2026
- 01:33:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260610205912.1798968-1-danismostlikely@gmail.com>
-In-Reply-To: <20260610205912.1798968-1-danismostlikely@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 11 Jun 2026 10:32:54 +0200
-X-Gm-Features: AVVi8Ccl0sGd34YwtG0J7ZnWHnhadV6x000AdlljhwysKUaMd-v3ql8VN-2krt0
-Message-ID: <CANNYZj8woB5p0CniTqJkt17d=-F6JvtFd+LWcT445MXKVUuWSw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] dejagnu: Remove references to some home directories
-To: danismostlikely@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Dan McGregor <danmcgr@protonmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        bh=S2zHcYRkT1QznhDIL3nVy0IIxaJhRjgBJ9b2FH1LAZo=;
+        b=S1gJW2y3JqU2lFQfi0cfN4GD0ijttctK4iPU51duvETiqVMChm/jghe+Ct3ZXlsGm3
+         UBUIc0KOZOrxqTy9pYBI7idOosxGt4WRF1WRrNuf2NhdorQ2tFhvrDICMqsDdaE7L8HW
+         PSPQ0BPyjlXxcMYc2cfXI2qOXAme52YGmVvmM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781166811; x=1781771611;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S2zHcYRkT1QznhDIL3nVy0IIxaJhRjgBJ9b2FH1LAZo=;
+        b=QpBOI9uZFnZXp5OzdN2UjeI8iApgm2MwUbWN1Zq+Vk1bvbs5lD+MHhqWy2bsgBxCLQ
+         KecsyU9BRvqwb/Mjhd1Qm4SHAlZfV8JuRxS/3290stZb/3oL4dxMGnb7OmHzraJ984bi
+         /rYYgCJR/Ync0evgZfpNO4uTqgRr6+FW2jX8i2fsB1+PhUDDmFtgYaT1yGCAvw5p54BH
+         aqiL4ClwAnrXEJRa0WMie+kEHak5f2SEdHfC07a1xtAXe7eil8ufgTZQBIKnsyhFek/r
+         ttsucYVeVgvHjtED4exBpl392LfqSX8gzActbAZmBLyVQLdQyMe6j42jTDJCnwWJ60Y1
+         ishQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8n3YvMjuxdsx67ZY7F94lq6Rj9XAE3uyb3xmwXzKrnJub5v86lJvFWZ8c8y1Q12otx4aYCeeorchseQHzxjNtieA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyQQ7YJSLhWFXqnCaozyw5e468pa0uxIiuwJYS61pfmIm8DFfqb
+	Wxjx3o34DDV8k2cHSLzn4wv2tFxVyxp8CvX2Nqs43QwbsS2qOTPR6IG/b9qEcQwtFA==
+X-Gm-Gg: Acq92OEnD/g7R325QNyNqKj12Qz1gMd4Zg80NxBHFj1E13vsynW+7LW+yjY93b7IXTs
+	O46SRsuz/+ovTF4OVq3UoHsufdSPy3clYBGq1v0MHdOTrMFVt/qWiBPby1ECTYIL+KDOAI418LK
+	MkzKPLLml8MQ5Fo78WbEPiAQ3LVZNgyL4IuSePgiol9GYo/O+Uj3k1YBa/sZo7uQ//99m/Fw43P
+	wOfEgLv49pp9aqhuflVDCA01Wl2Vglm1S6Ti6k+gnZ5Lxnsnrs+uwRVxm8+FaBL//X7fH2nORq6
+	H4042rUq8B4Ru8gmgfwZsBl657JQHQ6FHZyYykTHziqLgqTyYoVS5zUeC943xVn5MC6Fbd2CDhu
+	bT85leIUP/wjDuvpJpaM8jGD6YIZq0a3bDb5mvso6f4mxGjmlkJVcaBMkB3PaB/gPtqlCPpI0cS
+	cZffTnkgc3b4WiVfkeGhnI5Hc7eir58BbcCiXShTq22HlJt8RPQx3WjSaCUn9QVuLLarEOOoCA/
+	ilqMDhHmRtTo8wir2ItCYJtTVRtC00=
+X-Received: by 2002:a05:600d:640f:10b0:490:adb6:793d with SMTP id 5b1f17b1804b1-490e5623617mr14652825e9.26.1781166810968;
+        Thu, 11 Jun 2026 01:33:30 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2e4b18sm62621438f8f.10.2026.06.11.01.33.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jun 2026 01:33:30 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 11 Jun 2026 10:33:30 +0200
+Message-Id: <DJ62XSGKYO25.UE3DCDH36ILV@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH] openssh: fix CVE-2026-35386
+From: "Jeremy Rosen" <jeremy.rosen@smile.fr>
+To: <adarsh.jagadish.kamini@est.tech>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0
+References: <20260522122927.530024-1-adarsh.jagadish.kamini@est.tech>
+In-Reply-To: <20260522122927.530024-1-adarsh.jagadish.kamini@est.tech>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 08:33:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238428
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 08:33:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238429
 
-On Wed, 10 Jun 2026 at 22:59, Dan McGregor via lists.openembedded.org
-<danismostlikely=gmail.com@lists.openembedded.org> wrote:
-> +From 5c809dfceb13faeaacaa096de816d74428f72efb Mon Sep 17 00:00:00 2001
-> +From: Dan McGregor <danmcgr@protonmail.com>
-> +Date: Tue, 9 Jun 2026 13:21:49 -0600
-> +Subject: [PATCH] Remove home directory references in board config
-> +
-> +The OpenEmbedded sanity checker finds a build user's home directory
-> +in the configuration files. If the user happens to have a home directory
-> +named "dan" or "nickc", then this check fails. Instead change the
-> +defaults to point outside of the home space.
-> +
-> +Since these are samples, it shouldn't harm anything.
-> +
-> +Upstream-Status: Inappropriate [OE configuration specific]
-> +Signed-off-by: Dan McGregor <danmcgr@protonmail.com>
+Hello Adarsh
 
-The patch as it is may be inappropriate, but the issue should still be
-reported upstream, and link included in brackets.
+This patch seems strange for various reasons
 
-Alex
+The only thing it does is move the check for valid_hostname, it does not
+include the original fix (check for valid_ruser)
+
+This is also strange since this particular fix seems to already be
+included (in a slightly different form) in CVE-2025-61984.patch
+
+(also your patch name includes a -1 in its name)
+
+Please check what is going on here... if the above patch fixes two CVE,
+please add the second CVE line to the correct patch and rename it to
+CVE-2025-61984_CVE-2026-35386.patch
+
+Thanks a lot
+Jeremy
+
+On Fri May 22, 2026 at 2:29 PM CEST, Adarsh Jagadish Kamini via lists.opene=
+mbedded.org wrote:
+> From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+>
+> Backport patch to fix CVE-2026-35386.
+> https://nvd.nist.gov/vuln/detail/CVE-2026-35386
+>
+> Upstream fix:
+>   https://github.com/openssh/openssh-portable/commit/76685c9b09a66435cd2a=
+d8373246adf1c53976d3
+>
+> Tested with openssh ptest suite via do_testimage on core-image-minimal.
+>
+> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+> ---
+>  .../openssh/openssh/CVE-2026-35386-1.patch    | 65 +++++++++++++++++++
+>  .../openssh/openssh_9.6p1.bb                  |  1 +
+>  2 files changed, 66 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-35=
+386-1.patch
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-35386-1.p=
+atch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-35386-1.patch
+> new file mode 100644
+> index 0000000000..a4b81bf407
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-35386-1.patch
+> @@ -0,0 +1,65 @@
+> +From 96968048d6bb9a3183882b7af0630895bd4e7059 Mon Sep 17 00:00:00 2001
+> +From: "djm@openbsd.org" <djm@openbsd.org>
+> +Date: Thu, 2 Apr 2026 07:50:55 +0000
+> +Subject: [PATCH] upstream: move username validity check for usernames
+> + specified on
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +the commandline to earlier in main(), specifically before some contexts =
+where
+> +a username with shell characters might be expanded by a %u directive in
+> +ssh_config.
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +We continue to recommend against using untrusted input on
+> +the SSH commandline. Mitigations like this are not 100%
+> +guarantees of safety because we can't control every
+> +combination of user shell and configuration where they are
+> +used.
+> +
+> +Reported by Florian Kohnh=C3=A4user
+> +
+> +OpenBSD-Commit-ID: 25ef72223f5ccf1c38d307ae77c23c03f59acc55
+> +
+> +Backport notes: The upstream commit uses renamed functions
+> +(ssh_valid_hostname, ssh_valid_ruser) that don't exist in 9.6p1.
+> +Adapted to use the existing function names (valid_hostname, valid_ruser)=
+.
+> +
+> +CVE: CVE-2026-35386
+> +Upstream-Status: Backport [https://github.com/openssh/openssh-portable/c=
+ommit/76685c9b09a66435cd2ad8373246adf1c53976d3]
+> +
+> +Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+> +---
+> + ssh.c | 10 +++++++---
+> + 1 file changed, 7 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/ssh.c b/ssh.c
+> +index 9c49f98a8..951da74fa 100644
+> +--- a/ssh.c
+> ++++ b/ssh.c
+> +@@ -1,4 +1,4 @@
+> +-/* $OpenBSD: ssh.c,v 1.599 2023/12/18 14:47:44 djm Exp $ */
+> ++/* $OpenBSD: ssh.c,v 1.630 2026/04/02 07:50:55 djm Exp $ */
+> + /*
+> +  * Author: Tatu Ylonen <ylo@cs.hut.fi>
+> +  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
+> +@@ -1160,10 +1160,14 @@ main(int ac, char **av)
+> + 	if (!host)
+> + 		usage();
+> +=20
+> +-	if (!valid_hostname(host))
+> +-		fatal("hostname contains invalid characters");
+> ++	/*
+> ++	 * Validate commandline-specified values that end up in %tokens
+> ++	 * before they are used in config parsing.
+> ++	 */
+> + 	if (options.user !=3D NULL && !valid_ruser(options.user))
+> + 		fatal("remote username contains invalid characters");
+> ++	if (!valid_hostname(host))
+> ++		fatal("hostname contains invalid characters");
+> + 	options.host_arg =3D xstrdup(host);
+> +=20
+> + 	/* Initialize the command to execute on remote host. */
+> diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/re=
+cipes-connectivity/openssh/openssh_9.6p1.bb
+> index 1cdd888ccb..98176a971b 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+> @@ -34,6 +34,7 @@ SRC_URI =3D "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH=
+/portable/openssh-${PV}.tar
+>             file://CVE-2025-32728.patch \
+>             file://CVE-2025-61985.patch \
+>             file://CVE-2025-61984.patch \
+> +		   file://CVE-2026-35386-1.patch \
+>             "
+>  SRC_URI[sha256sum] =3D "910211c07255a8c5ad654391b40ee59800710dd8119dd536=
+2de09385aa7a777c"
+> =20
+
 
