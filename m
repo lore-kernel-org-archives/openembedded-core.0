@@ -2,150 +2,391 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E61FCCDB462
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:31:53 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50408.1781195498601468821
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2085CD98FE
+	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:31:52 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.50605.1781195496442115901
  for <openembedded-core@lists.openembedded.org>;
  Thu, 11 Jun 2026 09:31:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TtG3Rghk;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bqhUn3pH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019eb786612b-d5bba252-a344-4f8a-ad1a-789a44ce004c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=cT4bXfWx;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=B4oMIbxr;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019eb7866406-a5cac07f-ab71-4b5d-bf98-83466af2d806-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781195497;
+	t=1781195498;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=95hJbgvKTlsYn//fwrOiHZK1E2d+QcOEhMeGL3SWXbk=;
-	b=TtG3RghkvuX/EMnlinkwSDjSPZo3v05q6s9HNZlZz4o2dlWgMHkOenVm/HhPIm5t
-	VMK4EBlbm7cV9cIBJO5Aj8C4cN+fb4F7/UmJRWvTF8bcfVOIa60XrtPThyzM5Sajftq
-	zj2H9fZG3pH2OUKkvsM1vHDfiuGWs+4oAR0zADWY=
+	bh=YCS8Q8DJwQp4cT1EzPle/+vGEKJWaNasLgD1bf9ynNg=;
+	b=cT4bXfWxBB3ASNnQZ1vjh8TAbd4T+WmtUyCkVnzez9ZRHH1c8sB6dFoWZnw+cqZP
+	0ugCzr86lNGUZAvqdicd7qPnf4Yu+sOONptMNPCOrQDbHv/nAOKM2OjRD2ygUta66Fw
+	scID+dYPvuIov7L/qYUqIzvCOmf0z/srP9yqWJ00=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195497;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195498;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=95hJbgvKTlsYn//fwrOiHZK1E2d+QcOEhMeGL3SWXbk=;
-	b=bqhUn3pHNNU81ZhwVx+9iuvCe0druyNCrDihshcxu0nVFgI/OonDiFNSeh6owuCD
-	zRzjvHP3SuaXCqr3jppJGuezRkd+IjvoQUfhetRBbiW7P/+IXOq5RgmXEohhYHYoDyc
-	NbirbtjfUZwAo5YDvu4Uo9hBSBOc1oUtEG49tUbo=
-Content-Type: multipart/mixed; boundary="===============8433184079652109957=="
+	bh=YCS8Q8DJwQp4cT1EzPle/+vGEKJWaNasLgD1bf9ynNg=;
+	b=B4oMIbxrcNtJieRX0hrQ3ypfaa7DK8Sdi0JeBrVVz0X4mc4bsJ9JcX4DdzXa82H1
+	PHZ6blMp4iaFxkEiz93p/k0+BDoS9LTPVUWTfieZHuZGOg3b7V1KDf8qZUl77AGE/VL
+	3HXe8T5L/7z6ZAw/YD1i+hThtrDaOBKCiMIqvs4E=
+Content-Type: multipart/mixed; boundary="===============2323947673789302853=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] inetutils: upgrading to 2.8 FAILED
-Message-ID: <0101019eb786612b-d5bba252-a344-4f8a-ad1a-789a44ce004c-000000@us-west-2.amazonses.com>
-Date: Thu, 11 Jun 2026 16:31:37 +0000
+Subject: [AUH] kbd: upgrading to 2.10.0 SUCCEEDED
+Message-ID: <0101019eb7866406-a5cac07f-ab71-4b5d-bf98-83466af2d806-000000@us-west-2.amazonses.com>
+Date: Thu, 11 Jun 2026 16:31:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.11-54.240.27.33
+X-SES-Outgoing: 2026.06.11-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:31:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238461
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:31:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238465
 
---===============8433184079652109957==
+--===============2323947673789302853==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICprYmQqIHRvICoyLjEwLjAqIGhhcyBTdWNjZWVkZWQuCgpOZXh0IHN0ZXBzOgogICAgLSBh
+cHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLWtiZC11cGdyYWRlLTIuOS4wLTIuMTAuMC5wYXRj
+aAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJp
+emUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhh
+dCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRl
+c3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMg
+LS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBt
+YWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hv
+dWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9f
+VVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGlj
+IHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRo
+ZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRl
+IGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3pp
+bGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVw
+ZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJv
+bSA1MmJlZGQ3YjllYTYwOWU2ZWJkODIxNmMzZDM4NjBmYzgzMDM0ZGI3IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRh
+dGU6IFRodSwgMTEgSnVuIDIwMjYgMDg6MzM6MzcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBrYmQ6
+IHVwZ3JhZGUgMi45LjAgLT4gMi4xMC4wCgotLS0KIC4uLmx5LW5lY2Vzc2FyeS1tZXRhZGF0YS1k
+dXJpbmctaW5zdGFsbC5wYXRjaCB8IDU0IC0tLS0tLS0tLS0tLS0tLS0tLQogLi4ueC1wcm9ibGVt
+LXdpdGgtdW5kZWNsYXJlZC1zeW1fZ3pvcGVuLnBhdGNoIHwgNTcgLS0tLS0tLS0tLS0tLS0tLS0t
+LQogLi4uL2tiZC97a2JkXzIuOS4wLmJiID0+IGtiZF8yLjEwLjAuYmJ9ICAgICAgIHwgIDcgKy0t
+CiAzIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMTE2IGRlbGV0aW9ucygtKQogZGVs
+ZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmQvMDAwMS1QcmVzZXJ2ZS1v
+bmx5LW5lY2Vzc2FyeS1tZXRhZGF0YS1kdXJpbmctaW5zdGFsbC5wYXRjaAogZGVsZXRlIG1vZGUg
+MTAwNjQ0IG1ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmQvMDAwMS1saWJrYmRmaWxlLUZpeC1wcm9i
+bGVtLXdpdGgtdW5kZWNsYXJlZC1zeW1fZ3pvcGVuLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVz
+LWNvcmUva2JkL3trYmRfMi45LjAuYmIgPT4ga2JkXzIuMTAuMC5iYn0gKDg3JSkKCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtY29yZS9rYmQva2JkLzAwMDEtUHJlc2VydmUtb25seS1uZWNlc3Nh
+cnktbWV0YWRhdGEtZHVyaW5nLWluc3RhbGwucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9rYmQv
+a2JkLzAwMDEtUHJlc2VydmUtb25seS1uZWNlc3NhcnktbWV0YWRhdGEtZHVyaW5nLWluc3RhbGwu
+cGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDg3Mjc1MDQwYzEuLjAwMDAwMDAw
+MDAKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZC8wMDAxLVByZXNlcnZlLW9ubHktbmVj
+ZXNzYXJ5LW1ldGFkYXRhLWR1cmluZy1pbnN0YWxsLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEs
+NTQgKzAsMCBAQAotRnJvbSBkOWQxYzIyNTkyYjZjZTIxYmY0NTVhMjJiY2E5MDAwYmY5YjNmZTYx
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogQWxleGV5IEdsYWRrb3YgPGxlZ2lvbkBr
+ZXJuZWwub3JnPgotRGF0ZTogV2VkLCAxMCBTZXAgMjAyNSAxMDo0NToyNSArMDIwMAotU3ViamVj
+dDogW1BBVENIXSBQcmVzZXJ2ZSBvbmx5IG5lY2Vzc2FyeSBtZXRhZGF0YSBkdXJpbmcgaW5zdGFs
+bAotCi0iY3AgLWEiIHRyaWVzIHRvIHByZXNlcnZlIGFsbCBhdHRyaWJ1dGVzIGlmIHBvc3NpYmxl
+LiBUaGlzIGltcGxpZXMKLXByZXNlcnZpbmcgbW9kZSwgYW55IEFDTCwgeGF0dHIgcGVybWlzc2lv
+bnMsIGFuZCBzZWN1cml0eSBjb250ZXh0LgotCi1JbiBzb21lIGNhc2VzIChzdWNoIGFzIGZha2Vy
+b290KSwgaXQgaXMgbm90IHBvc3NpYmxlIHRvIHByZXNlcnZlIHRoYXQKLWFsbCBhdHRyaWJ1dGVz
+IGFyZSBwcmVzZXJ2ZWQuCi0KLSAgY3A6IGZhaWxlZCB0byBwcmVzZXJ2ZSBvd25lcnNoaXAgZm9y
+IC90bXAvLnBrZ21rL3BrZy91c3Ivc2hhcmUva2JkL2tleW1hcHMvaTM4Ni9xd2VydHovc3ItbGF0
+aW4ubWFwLmd6OiBPcGVyYXRpb24gbm90IHN1cHBvcnRlZAotCi1UbyBhdm9pZCB0aGlzLCB3ZSB3
+aWxsIHJlcXVpcmUgdGhhdCBvbmx5IHRoZSBuZWNlc3NhcnkgYXR0cmlidXRlcyBiZQotcHJlc2Vy
+dmVkLiBJdCBpcyBpbXBvcnRhbnQgZm9yIHVzIHRvIHByZXNlcnZlIHRoZSBzaW1saW5rcy4KLQot
+U2lnbmVkLW9mZi1ieTogQWxleGV5IEdsYWRrb3YgPGxlZ2lvbkBrZXJuZWwub3JnPgotVXBzdHJl
+YW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29tL2xlZ2lvbnVzL2tiZC9jb21t
+aXQvZGI4MmViNmY4NmU2YzBiOGFjNDI2MGU4OGI4OGQ2NmUxY2Q3YzA3N10KLVNpZ25lZC1vZmYt
+Ynk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+Ci0tLS0KLSBkYXRhL01h
+a2VmaWxlLmFtIHwgMTAgKysrKystLS0tLQotIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMo
+KyksIDUgZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1naXQgYS9kYXRhL01ha2VmaWxlLmFtIGIvZGF0
+YS9NYWtlZmlsZS5hbQotaW5kZXggYTczMDA2Mi4uNGQyYWUzZCAxMDA2NDQKLS0tLSBhL2RhdGEv
+TWFrZWZpbGUuYW0KLSsrKyBiL2RhdGEvTWFrZWZpbGUuYW0KLUBAIC00NCwyMSArNDQsMjEgQEAg
+ZW5kaWYKLSAKLSBpbnN0YWxsLWNvbnNvbGVmb250czogJChTUkNfRk9OVERJUikgJChTUkNfUEFS
+VElBTERJUikKLSAJbWtkaXIgLXAgLW0gNzU1IC0tICQoREVTVERJUikkKGRhdGFkaXIpLyQoRk9O
+VERJUikKLS0JY3AgLWEgLS0gJChTUkNfRk9OVERJUikvKiAkKERFU1RESVIpJChkYXRhZGlyKS8k
+KEZPTlRESVIpLwotKwljcCAtZFBSIC0tICQoU1JDX0ZPTlRESVIpLyogJChERVNURElSKSQoZGF0
+YWRpcikvJChGT05URElSKS8KLSAJbWtkaXIgLXAgLW0gNzU1IC0tICQoREVTVERJUikkKGRhdGFk
+aXIpLyQoRk9OVERJUikvJChQQVJUSUFMRElSKQotLQljcCAtYSAtLSAkKFNSQ19QQVJUSUFMRElS
+KS8qICQoREVTVERJUikkKGRhdGFkaXIpLyQoRk9OVERJUikvJChQQVJUSUFMRElSKS8KLSsJY3Ag
+LWRQUiAtLSAkKFNSQ19QQVJUSUFMRElSKS8qICQoREVTVERJUikkKGRhdGFkaXIpLyQoRk9OVERJ
+UikvJChQQVJUSUFMRElSKS8KLSAKLSBpbnN0YWxsLWNvbnNvbGV0cmFuczoKLSAJbWtkaXIgLXAg
+LW0gNzU1IC0tICQoREVTVERJUikkKGRhdGFkaXIpLyQoVFJBTlNESVIpCi0tCWNwIC1hIC0tICQo
+c3JjZGlyKS8kKFRSQU5TRElSKS8qICQoREVTVERJUikkKGRhdGFkaXIpLyQoVFJBTlNESVIpLwot
+KwljcCAtZFBSIC0tICQoc3JjZGlyKS8kKFRSQU5TRElSKS8qICQoREVTVERJUikkKGRhdGFkaXIp
+LyQoVFJBTlNESVIpLwotIAotIGluc3RhbGwtdW5pbWFwczoKLSAJbWtkaXIgLXAgLW0gNzU1IC0t
+ICQoREVTVERJUikkKGRhdGFkaXIpLyQoVU5JTUFQRElSKQotLQljcCAtYSAtLSAkKHNyY2Rpcikv
+JChVTklNQVBESVIpLyogJChERVNURElSKSQoZGF0YWRpcikvJChVTklNQVBESVIpLwotKwljcCAt
+ZFBSIC0tICQoc3JjZGlyKS8kKFVOSU1BUERJUikvKiAkKERFU1RESVIpJChkYXRhZGlyKS8kKFVO
+SU1BUERJUikvCi0gCi0gaW5zdGFsbC1rZXltYXBzOiAkKFNSQ19LRVlNQVBESVIpCi0gCW1rZGly
+IC1wIC1tIDc1NSAtLSAkKERFU1RESVIpJChkYXRhZGlyKS8kKEtFWU1BUERJUikKLS0JY3AgLWFy
+IC0tICQoU1JDX0tFWU1BUERJUikvKiAkKERFU1RESVIpJChkYXRhZGlyKS8kKEtFWU1BUERJUikv
+Ci0rCWNwIC1kUFIgLS0gJChTUkNfS0VZTUFQRElSKS8qICQoREVTVERJUikkKGRhdGFkaXIpLyQo
+S0VZTUFQRElSKS8KLSAJY2QgIiQoREVTVERJUikkKGRhdGFkaXIpLyQoS0VZTUFQRElSKSI7IFwK
+LSAJICBmb3IgZiBpbiAkKElHTk9SRV9LRVlNQVBTKTsgZG8gISB0ZXN0IC1lICIkJGYiIHx8IHJt
+IC1mIC0tICIkJGYiOyBkb25lCi0gCXJtIC1mICQoREVTVERJUikkKGRhdGFkaXIpLyQoS0VZTUFQ
+RElSKS9wcGMKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmQvMDAwMS1saWJr
+YmRmaWxlLUZpeC1wcm9ibGVtLXdpdGgtdW5kZWNsYXJlZC1zeW1fZ3pvcGVuLnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLWNvcmUva2JkL2tiZC8wMDAxLWxpYmtiZGZpbGUtRml4LXByb2JsZW0td2l0aC11
+bmRlY2xhcmVkLXN5bV9nem9wZW4ucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4
+IDg0ZDI3M2MxOWEuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZC8w
+MDAxLWxpYmtiZGZpbGUtRml4LXByb2JsZW0td2l0aC11bmRlY2xhcmVkLXN5bV9nem9wZW4ucGF0
+Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw1NyArMCwwIEBACi1Gcm9tIDJmOWE0ZTU2YzJlZjI0NWZi
+ZTg0MDY3N2FhZDlkNTkzMmUxN2Y1MGQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBB
+bGV4ZXkgR2xhZGtvdiA8bGVnaW9uQGtlcm5lbC5vcmc+Ci1EYXRlOiBNb24sIDggRGVjIDIwMjUg
+MTE6Mjg6MjQgKzAxMDAKLVN1YmplY3Q6IFtQQVRDSF0gbGlia2JkZmlsZTogRml4IHByb2JsZW0g
+d2l0aCB1bmRlY2xhcmVkIHN5bV9nem9wZW4KLU1JTUUtVmVyc2lvbjogMS4wCi1Db250ZW50LVR5
+cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgKLUNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6
+IDhiaXQKLQotQSBjb21waWxlIGVycm9yIG9jY3VycyBvbiBjZXJ0YWluIHN5c3RlbXM6Ci0KLWti
+ZGZpbGUtemxpYi5jOiBJbiBmdW5jdGlvbiAnZGxvcGVuX25vdGUnOgotZWxmLW5vdGUuaDoyNzoz
+MDogZXJyb3I6ICdzeW1fZ3pvcGVuJyB1bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5j
+dGlvbik7IGRpZCB5b3UgbWVhbiAnc3ltX2d6b3BlbjY0Jz8KLSAgIDI3IHwgI2RlZmluZSBETFNZ
+TV9BUkcoc3ltYm9sX18pICZzeW1fIyNzeW1ib2xfXywgU1RSSU5HSUZZKHN5bWJvbF9fKSwKLQot
+a2JkZmlsZS16bGliLmM6IEluIGZ1bmN0aW9uICdrYmRmaWxlX2RlY29tcHJlc3Nvcl96bGliJzog
+a2JkZmlsZS16bGliLmM6NjE6MTU6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5j
+dGlvbiAnc3ltX2d6b3Blbic7IGRpZCB5b3UgbWVhbiAnc3ltX2d6b3BlbjY0Jz8KLSBbLVdpbXBs
+aWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0KLSAgIDYxIHwgICAgICAgICBnemYgPSBzeW1fZ3pv
+cGVuKGZpbGUtPnBhdGhuYW1lLCAicmIiKTsKLQotVGhlIHByb2JsZW0gYXJpc2VzIGJlY2F1c2Ug
+aWYgLURfRklMRV9PRkZTRVRfQklUUz02NCBpcyBzcGVjaWZpZWQsIHdoaWNoCi1pbiB6bGliIHVs
+dGltYXRlbHkgbWFrZXMgZ3pvcGVuIGEgbWFjcm8gdGhhdCBleHBhbmRzIHRvIGd6b3BlbjY0Lgot
+REVDTEFSRV9TWU0oZ3pvcGVuKSBmcm9tIGVsZi1ub3RlLmggdGhlbiBleHBhbmRzIGd6b3BlbiB0
+byBnem9wZW42NCwKLXJlc3VsdGluZyBpbiBzeW1fZ3pvcGVuNjQgZGVjbGFyZWQuIFRoYXQncyB3
+aHkgbm8gc3ltX2d6b3BlbiBleGlzdHMuCi0KLUxpbms6IGh0dHBzOi8vZ2l0aHViLmNvbS9sZWdp
+b251cy9rYmQvcHVsbC8xNTAKLVN1Z2dlc3RlZC1ieTogSmFuIMSMZXJtw6FrIDxzYWlyb25Ac2Fp
+cm9uLmN6PgotU2lnbmVkLW9mZi1ieTogQmVybmQgS3VobHMgPGJlcm5kQGt1aGxzLm5ldD4KLVNp
+Z25lZC1vZmYtYnk6IEFsZXhleSBHbGFka292IDxsZWdpb25Aa2VybmVsLm9yZz4KLQotVXBzdHJl
+YW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29tL2xlZ2lvbnVzL2tiZC9jb21t
+aXQvMmY5YTRlNTZjMmVmMjQ1ZmJlODQwNjc3YWFkOWQ1OTMyZTE3ZjUwZF0KLVNpZ25lZC1vZmYt
+Ynk6IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KLS0tLQotIHNyYy9saWJr
+YmRmaWxlL2VsZi1ub3RlLmggfCA1ICstLS0tCi0gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
+KCspLCA0IGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvc3JjL2xpYmtiZGZpbGUvZWxmLW5v
+dGUuaCBiL3NyYy9saWJrYmRmaWxlL2VsZi1ub3RlLmgKLWluZGV4IGEwZmQ5ZTIuLmQzYjhkNWMg
+MTAwNjQ0Ci0tLS0gYS9zcmMvbGlia2JkZmlsZS9lbGYtbm90ZS5oCi0rKysgYi9zcmMvbGlia2Jk
+ZmlsZS9lbGYtbm90ZS5oCi1AQCAtMjYsMTQgKzI2LDExIEBAIGludCBkbHN5bV9tYW55KHZvaWQg
+KipkbHAsIGNvbnN0IGNoYXIgKmZpbGVuYW1lLCAuLi4pOwotICAqLwotICNkZWZpbmUgRExTWU1f
+QVJHKHN5bWJvbF9fKSAmc3ltXyMjc3ltYm9sX18sIFNUUklOR0lGWShzeW1ib2xfXyksCi0gCi0t
+LyogRm9yIHN5bWJvbHMgYmVpbmcgZHluYW1pY2FsbHkgbG9hZGVkICovCi0tI2RlZmluZSBERUNM
+QVJFX0RMU1lNKHN5bWJvbCkgc3RhdGljIHR5cGVvZihzeW1ib2wpICpzeW1fIyNzeW1ib2wKLS0K
+LSAvKgotICAqIEhlbHBlciBkZWZpbmVzLCB0byBiZSBkb25lIGxvY2FsbHkgYmVmb3JlIGluY2x1
+ZGluZyB0aGlzIGhlYWRlciB0byBzd2l0Y2ggYmV0d2VlbgotICAqIGltcGxlbWVudGF0aW9ucwot
+ICAqLwotLSNkZWZpbmUgREVDTEFSRV9TWU0oc3ltX18pIERFQ0xBUkVfRExTWU0oc3ltX18pOwot
+KyNkZWZpbmUgREVDTEFSRV9TWU0oc3ltX18pIHN0YXRpYyB0eXBlb2Yoc3ltX18pICpzeW1fIyNz
+eW1fXzsKLSAKLSAvKgotICAqIE9yaWdpbmFsbHkgZnJvbSBzeXN0ZW1kIGNvZGViYXNlLgotLS0g
+Ci0yLjQ5LjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8yLjkuMC5i
+YiBiL21ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmRfMi4xMC4wLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+ODclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmRfMi45LjAuYmIKcmVuYW1l
+IHRvIG1ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmRfMi4xMC4wLmJiCmluZGV4IDc5YjAxMWU1Mjku
+LjVhODc3YjljMDQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmRfMi45LjAu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8yLjEwLjAuYmIKQEAgLTIzLDEyICsy
+Myw5IEBAIFJSRVBMQUNFUzoke1BOfSA9ICJjb25zb2xlLXRvb2xzIgogUlBST1ZJREVTOiR7UE59
+ID0gImNvbnNvbGUtdG9vbHMiCiBSQ09ORkxJQ1RTOiR7UE59ID0gImNvbnNvbGUtdG9vbHMiCiAK
+LVNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC91dGlscy8ke0JQTn0vJHtCUH0u
+dGFyLnh6IFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtUHJlc2VydmUtb25seS1uZWNlc3Nhcnkt
+bWV0YWRhdGEtZHVyaW5nLWluc3RhbGwucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vMDAwMS1s
+aWJrYmRmaWxlLUZpeC1wcm9ibGVtLXdpdGgtdW5kZWNsYXJlZC1zeW1fZ3pvcGVuLnBhdGNoIFwK
+LSAgICAgICAgICAgIgorU1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9L2xpbnV4L3V0aWxz
+LyR7QlBOfS8ke0JQfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmYjMxOTdmMTdh
+OTllYjQ0ZDIyYTNhMWE3MWY3NTVmOTYyMmRkOTYzZTY2YWNmZGVhMWE0NTEyMDk1MWIwMmVkIgor
+U1JDX1VSSVtzaGEyNTZzdW1dID0gIjZlNWNhNGY4ZDc2ZWU5ZTNhOGRiNzAwYjY2N2YxM2UxMmFh
+Yzk5MzM4MjhhNjRlMWFhYWQ5M2QyNmJlOWI0NzkiCiAKICMgJ2d6aXAgLW4nIGlzIHNldCBkdWUg
+dG8gaHR0cHM6Ly9naXRodWIuY29tL2xlZ2lvbnVzL2tiZC9pc3N1ZXMvMTI0CiBFWFRSQV9PRUNP
+TkYgPSAiLS1kaXNhYmxlLXRlc3RzIC0tZW5hYmxlLWNvbXByZXNzPSdnemlwIC1uJyIKLS0gCjIu
+NDcuMQoK
+
+--===============2323947673789302853==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Hello,
+packages/x86-64-v3-poky-linux/kbd/kbd-consolefonts: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd/kbd-consolefonts: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+packages/x86-64-v3-poky-linux/kbd/kbd-consoletrans: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd/kbd-consoletrans: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+packages/x86-64-v3-poky-linux/kbd/kbd-dbg: PKGSIZE changed from 1641488 to 1673280 (+2%)
+packages/x86-64-v3-poky-linux/kbd/kbd-dbg: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd/kbd-dbg: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+packages/x86-64-v3-poky-linux/kbd/kbd-dev: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd/kbd-dev: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+packages/x86-64-v3-poky-linux/kbd/kbd-doc: PKGSIZE changed from 72261 to 72666 (+1%)
+packages/x86-64-v3-poky-linux/kbd/kbd-doc: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd/kbd-doc: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+packages/x86-64-v3-poky-linux/kbd/kbd-keymaps-pine: PKGSIZE changed from 1987 to 1997 (+1%)
+packages/x86-64-v3-poky-linux/kbd/kbd-keymaps-pine: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd/kbd-keymaps-pine: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+packages/x86-64-v3-poky-linux/kbd/kbd-keymaps: PKGSIZE changed from 574008 to 576550 (+0%)
+packages/x86-64-v3-poky-linux/kbd/kbd-keymaps: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd/kbd-keymaps: FILELIST: added "/usr/share/keymaps/i386/qwerty/mac-no.map.gz"
+packages/x86-64-v3-poky-linux/kbd/kbd-keymaps: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+packages/x86-64-v3-poky-linux/kbd/kbd-locale: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd/kbd-locale: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+packages/x86-64-v3-poky-linux/kbd/kbd-src: PKGSIZE changed from 595950 to 608229 (+2%)
+packages/x86-64-v3-poky-linux/kbd/kbd-src: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd/kbd-src: FILELIST: directory renamed /usr/src/debug/kbd/2.9.0/src/vlock -> /usr/src/debug/kbd/2.10.0/src/vlock, directory renamed /usr/src/debug/kbd/2.9.0/src/libkeymap -> /usr/src/debug/kbd/2.10.0/src/libkeymap, directory renamed /usr/src/debug/kbd/2.9.0/src/libkbdfile -> /usr/src/debug/kbd/2.10.0/src/libkbdfile, directory renamed /usr/src/debug/kbd/2.9.0/src/libkfont -> /usr/src/debug/kbd/2.10.0/src/libkfont, directory renamed /usr/src/debug/kbd/2.9.0/src/include/kbd -> /usr/src/debug/kbd/2.10.0/src/include/kbd, directory renamed /usr/src/debug/kbd/2.9.0/src/include/kbd/keymap -> /usr/src/debug/kbd/2.10.0/src/include/kbd/keymap, directory renamed /usr/src/debug/kbd/2.9.0/src/libcommon -> /usr/src/debug/kbd/2.10.0/src/libcommon, directory renamed /usr/src/debug/kbd/2.9.0/src -> /usr/src/debug/kbd/2.10.0/src
+packages/x86-64-v3-poky-linux/kbd/kbd-src: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+packages/x86-64-v3-poky-linux/kbd/kbd-staticdev: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd/kbd-staticdev: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+packages/x86-64-v3-poky-linux/kbd/kbd-unimaps: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd/kbd-unimaps: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+packages/x86-64-v3-poky-linux/kbd/kbd: PKGSIZE changed from 908368 to 924752 (+2%)
+packages/x86-64-v3-poky-linux/kbd/kbd: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd/kbd: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+packages/x86-64-v3-poky-linux/kbd: PV changed from "2.9.0" to "2.10.0"
+packages/x86-64-v3-poky-linux/kbd: SRC_URI changed from "https://cdn.kernel.org/pub/linux/utils/kbd/kbd-2.9.0.tar.xz file://0001-Preserve-only-necessary-metadata-during-install.patch file://0001-libkbdfile-Fix-problem-with-undeclared-sym_gzopen.patch" to "https://cdn.kernel.org/pub/linux/utils/kbd/kbd-2.10.0.tar.xz"
+packages/x86-64-v3-poky-linux/kbd: PKGV changed from 2.9.0 [default] to 2.10.0 [default]
+Changes to packages/x86-64-v3-poky-linux/kbd (sysroot):
+  /usr/share/keymaps/i386/qwerty/mac-no.map.gz was added
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *inetutils* to *2.8* has Failed (devtool error).
+--===============2323947673789302853==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-kbd-upgrade-2.9.0-2.10.0.patch"
 
-Detailed error information:
+RnJvbSA1MmJlZGQ3YjllYTYwOWU2ZWJkODIxNmMzZDM4NjBmYzgzMDM0ZGI3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMDg6MzM6MzcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBr
+YmQ6IHVwZ3JhZGUgMi45LjAgLT4gMi4xMC4wCgotLS0KIC4uLmx5LW5lY2Vzc2FyeS1tZXRhZGF0
+YS1kdXJpbmctaW5zdGFsbC5wYXRjaCB8IDU0IC0tLS0tLS0tLS0tLS0tLS0tLQogLi4ueC1wcm9i
+bGVtLXdpdGgtdW5kZWNsYXJlZC1zeW1fZ3pvcGVuLnBhdGNoIHwgNTcgLS0tLS0tLS0tLS0tLS0t
+LS0tLQogLi4uL2tiZC97a2JkXzIuOS4wLmJiID0+IGtiZF8yLjEwLjAuYmJ9ICAgICAgIHwgIDcg
+Ky0tCiAzIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMTE2IGRlbGV0aW9ucygtKQog
+ZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmQvMDAwMS1QcmVzZXJ2
+ZS1vbmx5LW5lY2Vzc2FyeS1tZXRhZGF0YS1kdXJpbmctaW5zdGFsbC5wYXRjaAogZGVsZXRlIG1v
+ZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmQvMDAwMS1saWJrYmRmaWxlLUZpeC1w
+cm9ibGVtLXdpdGgtdW5kZWNsYXJlZC1zeW1fZ3pvcGVuLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWNvcmUva2JkL3trYmRfMi45LjAuYmIgPT4ga2JkXzIuMTAuMC5iYn0gKDg3JSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9rYmQva2JkLzAwMDEtUHJlc2VydmUtb25seS1uZWNl
+c3NhcnktbWV0YWRhdGEtZHVyaW5nLWluc3RhbGwucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9r
+YmQva2JkLzAwMDEtUHJlc2VydmUtb25seS1uZWNlc3NhcnktbWV0YWRhdGEtZHVyaW5nLWluc3Rh
+bGwucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDg3Mjc1MDQwYzEuLjAwMDAw
+MDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZC8wMDAxLVByZXNlcnZlLW9ubHkt
+bmVjZXNzYXJ5LW1ldGFkYXRhLWR1cmluZy1pbnN0YWxsLnBhdGNoCisrKyAvZGV2L251bGwKQEAg
+LTEsNTQgKzAsMCBAQAotRnJvbSBkOWQxYzIyNTkyYjZjZTIxYmY0NTVhMjJiY2E5MDAwYmY5YjNm
+ZTYxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogQWxleGV5IEdsYWRrb3YgPGxlZ2lv
+bkBrZXJuZWwub3JnPgotRGF0ZTogV2VkLCAxMCBTZXAgMjAyNSAxMDo0NToyNSArMDIwMAotU3Vi
+amVjdDogW1BBVENIXSBQcmVzZXJ2ZSBvbmx5IG5lY2Vzc2FyeSBtZXRhZGF0YSBkdXJpbmcgaW5z
+dGFsbAotCi0iY3AgLWEiIHRyaWVzIHRvIHByZXNlcnZlIGFsbCBhdHRyaWJ1dGVzIGlmIHBvc3Np
+YmxlLiBUaGlzIGltcGxpZXMKLXByZXNlcnZpbmcgbW9kZSwgYW55IEFDTCwgeGF0dHIgcGVybWlz
+c2lvbnMsIGFuZCBzZWN1cml0eSBjb250ZXh0LgotCi1JbiBzb21lIGNhc2VzIChzdWNoIGFzIGZh
+a2Vyb290KSwgaXQgaXMgbm90IHBvc3NpYmxlIHRvIHByZXNlcnZlIHRoYXQKLWFsbCBhdHRyaWJ1
+dGVzIGFyZSBwcmVzZXJ2ZWQuCi0KLSAgY3A6IGZhaWxlZCB0byBwcmVzZXJ2ZSBvd25lcnNoaXAg
+Zm9yIC90bXAvLnBrZ21rL3BrZy91c3Ivc2hhcmUva2JkL2tleW1hcHMvaTM4Ni9xd2VydHovc3It
+bGF0aW4ubWFwLmd6OiBPcGVyYXRpb24gbm90IHN1cHBvcnRlZAotCi1UbyBhdm9pZCB0aGlzLCB3
+ZSB3aWxsIHJlcXVpcmUgdGhhdCBvbmx5IHRoZSBuZWNlc3NhcnkgYXR0cmlidXRlcyBiZQotcHJl
+c2VydmVkLiBJdCBpcyBpbXBvcnRhbnQgZm9yIHVzIHRvIHByZXNlcnZlIHRoZSBzaW1saW5rcy4K
+LQotU2lnbmVkLW9mZi1ieTogQWxleGV5IEdsYWRrb3YgPGxlZ2lvbkBrZXJuZWwub3JnPgotVXBz
+dHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29tL2xlZ2lvbnVzL2tiZC9j
+b21taXQvZGI4MmViNmY4NmU2YzBiOGFjNDI2MGU4OGI4OGQ2NmUxY2Q3YzA3N10KLVNpZ25lZC1v
+ZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+Ci0tLS0KLSBkYXRh
+L01ha2VmaWxlLmFtIHwgMTAgKysrKystLS0tLQotIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlv
+bnMoKyksIDUgZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1naXQgYS9kYXRhL01ha2VmaWxlLmFtIGIv
+ZGF0YS9NYWtlZmlsZS5hbQotaW5kZXggYTczMDA2Mi4uNGQyYWUzZCAxMDA2NDQKLS0tLSBhL2Rh
+dGEvTWFrZWZpbGUuYW0KLSsrKyBiL2RhdGEvTWFrZWZpbGUuYW0KLUBAIC00NCwyMSArNDQsMjEg
+QEAgZW5kaWYKLSAKLSBpbnN0YWxsLWNvbnNvbGVmb250czogJChTUkNfRk9OVERJUikgJChTUkNf
+UEFSVElBTERJUikKLSAJbWtkaXIgLXAgLW0gNzU1IC0tICQoREVTVERJUikkKGRhdGFkaXIpLyQo
+Rk9OVERJUikKLS0JY3AgLWEgLS0gJChTUkNfRk9OVERJUikvKiAkKERFU1RESVIpJChkYXRhZGly
+KS8kKEZPTlRESVIpLwotKwljcCAtZFBSIC0tICQoU1JDX0ZPTlRESVIpLyogJChERVNURElSKSQo
+ZGF0YWRpcikvJChGT05URElSKS8KLSAJbWtkaXIgLXAgLW0gNzU1IC0tICQoREVTVERJUikkKGRh
+dGFkaXIpLyQoRk9OVERJUikvJChQQVJUSUFMRElSKQotLQljcCAtYSAtLSAkKFNSQ19QQVJUSUFM
+RElSKS8qICQoREVTVERJUikkKGRhdGFkaXIpLyQoRk9OVERJUikvJChQQVJUSUFMRElSKS8KLSsJ
+Y3AgLWRQUiAtLSAkKFNSQ19QQVJUSUFMRElSKS8qICQoREVTVERJUikkKGRhdGFkaXIpLyQoRk9O
+VERJUikvJChQQVJUSUFMRElSKS8KLSAKLSBpbnN0YWxsLWNvbnNvbGV0cmFuczoKLSAJbWtkaXIg
+LXAgLW0gNzU1IC0tICQoREVTVERJUikkKGRhdGFkaXIpLyQoVFJBTlNESVIpCi0tCWNwIC1hIC0t
+ICQoc3JjZGlyKS8kKFRSQU5TRElSKS8qICQoREVTVERJUikkKGRhdGFkaXIpLyQoVFJBTlNESVIp
+LwotKwljcCAtZFBSIC0tICQoc3JjZGlyKS8kKFRSQU5TRElSKS8qICQoREVTVERJUikkKGRhdGFk
+aXIpLyQoVFJBTlNESVIpLwotIAotIGluc3RhbGwtdW5pbWFwczoKLSAJbWtkaXIgLXAgLW0gNzU1
+IC0tICQoREVTVERJUikkKGRhdGFkaXIpLyQoVU5JTUFQRElSKQotLQljcCAtYSAtLSAkKHNyY2Rp
+cikvJChVTklNQVBESVIpLyogJChERVNURElSKSQoZGF0YWRpcikvJChVTklNQVBESVIpLwotKwlj
+cCAtZFBSIC0tICQoc3JjZGlyKS8kKFVOSU1BUERJUikvKiAkKERFU1RESVIpJChkYXRhZGlyKS8k
+KFVOSU1BUERJUikvCi0gCi0gaW5zdGFsbC1rZXltYXBzOiAkKFNSQ19LRVlNQVBESVIpCi0gCW1r
+ZGlyIC1wIC1tIDc1NSAtLSAkKERFU1RESVIpJChkYXRhZGlyKS8kKEtFWU1BUERJUikKLS0JY3Ag
+LWFyIC0tICQoU1JDX0tFWU1BUERJUikvKiAkKERFU1RESVIpJChkYXRhZGlyKS8kKEtFWU1BUERJ
+UikvCi0rCWNwIC1kUFIgLS0gJChTUkNfS0VZTUFQRElSKS8qICQoREVTVERJUikkKGRhdGFkaXIp
+LyQoS0VZTUFQRElSKS8KLSAJY2QgIiQoREVTVERJUikkKGRhdGFkaXIpLyQoS0VZTUFQRElSKSI7
+IFwKLSAJICBmb3IgZiBpbiAkKElHTk9SRV9LRVlNQVBTKTsgZG8gISB0ZXN0IC1lICIkJGYiIHx8
+IHJtIC1mIC0tICIkJGYiOyBkb25lCi0gCXJtIC1mICQoREVTVERJUikkKGRhdGFkaXIpLyQoS0VZ
+TUFQRElSKS9wcGMKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmQvMDAwMS1s
+aWJrYmRmaWxlLUZpeC1wcm9ibGVtLXdpdGgtdW5kZWNsYXJlZC1zeW1fZ3pvcGVuLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZC8wMDAxLWxpYmtiZGZpbGUtRml4LXByb2JsZW0td2l0
+aC11bmRlY2xhcmVkLXN5bV9nem9wZW4ucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cmlu
+ZGV4IDg0ZDI3M2MxOWEuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2ti
+ZC8wMDAxLWxpYmtiZGZpbGUtRml4LXByb2JsZW0td2l0aC11bmRlY2xhcmVkLXN5bV9nem9wZW4u
+cGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw1NyArMCwwIEBACi1Gcm9tIDJmOWE0ZTU2YzJlZjI0
+NWZiZTg0MDY3N2FhZDlkNTkzMmUxN2Y1MGQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9t
+OiBBbGV4ZXkgR2xhZGtvdiA8bGVnaW9uQGtlcm5lbC5vcmc+Ci1EYXRlOiBNb24sIDggRGVjIDIw
+MjUgMTE6Mjg6MjQgKzAxMDAKLVN1YmplY3Q6IFtQQVRDSF0gbGlia2JkZmlsZTogRml4IHByb2Js
+ZW0gd2l0aCB1bmRlY2xhcmVkIHN5bV9nem9wZW4KLU1JTUUtVmVyc2lvbjogMS4wCi1Db250ZW50
+LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgKLUNvbnRlbnQtVHJhbnNmZXItRW5jb2Rp
+bmc6IDhiaXQKLQotQSBjb21waWxlIGVycm9yIG9jY3VycyBvbiBjZXJ0YWluIHN5c3RlbXM6Ci0K
+LWtiZGZpbGUtemxpYi5jOiBJbiBmdW5jdGlvbiAnZGxvcGVuX25vdGUnOgotZWxmLW5vdGUuaDoy
+NzozMDogZXJyb3I6ICdzeW1fZ3pvcGVuJyB1bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBm
+dW5jdGlvbik7IGRpZCB5b3UgbWVhbiAnc3ltX2d6b3BlbjY0Jz8KLSAgIDI3IHwgI2RlZmluZSBE
+TFNZTV9BUkcoc3ltYm9sX18pICZzeW1fIyNzeW1ib2xfXywgU1RSSU5HSUZZKHN5bWJvbF9fKSwK
+LQota2JkZmlsZS16bGliLmM6IEluIGZ1bmN0aW9uICdrYmRmaWxlX2RlY29tcHJlc3Nvcl96bGli
+Jzoga2JkZmlsZS16bGliLmM6NjE6MTU6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBm
+dW5jdGlvbiAnc3ltX2d6b3Blbic7IGRpZCB5b3UgbWVhbiAnc3ltX2d6b3BlbjY0Jz8KLSBbLVdp
+bXBsaWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0KLSAgIDYxIHwgICAgICAgICBnemYgPSBzeW1f
+Z3pvcGVuKGZpbGUtPnBhdGhuYW1lLCAicmIiKTsKLQotVGhlIHByb2JsZW0gYXJpc2VzIGJlY2F1
+c2UgaWYgLURfRklMRV9PRkZTRVRfQklUUz02NCBpcyBzcGVjaWZpZWQsIHdoaWNoCi1pbiB6bGli
+IHVsdGltYXRlbHkgbWFrZXMgZ3pvcGVuIGEgbWFjcm8gdGhhdCBleHBhbmRzIHRvIGd6b3BlbjY0
+LgotREVDTEFSRV9TWU0oZ3pvcGVuKSBmcm9tIGVsZi1ub3RlLmggdGhlbiBleHBhbmRzIGd6b3Bl
+biB0byBnem9wZW42NCwKLXJlc3VsdGluZyBpbiBzeW1fZ3pvcGVuNjQgZGVjbGFyZWQuIFRoYXQn
+cyB3aHkgbm8gc3ltX2d6b3BlbiBleGlzdHMuCi0KLUxpbms6IGh0dHBzOi8vZ2l0aHViLmNvbS9s
+ZWdpb251cy9rYmQvcHVsbC8xNTAKLVN1Z2dlc3RlZC1ieTogSmFuIMSMZXJtw6FrIDxzYWlyb25A
+c2Fpcm9uLmN6PgotU2lnbmVkLW9mZi1ieTogQmVybmQgS3VobHMgPGJlcm5kQGt1aGxzLm5ldD4K
+LVNpZ25lZC1vZmYtYnk6IEFsZXhleSBHbGFka292IDxsZWdpb25Aa2VybmVsLm9yZz4KLQotVXBz
+dHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29tL2xlZ2lvbnVzL2tiZC9j
+b21taXQvMmY5YTRlNTZjMmVmMjQ1ZmJlODQwNjc3YWFkOWQ1OTMyZTE3ZjUwZF0KLVNpZ25lZC1v
+ZmYtYnk6IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KLS0tLQotIHNyYy9s
+aWJrYmRmaWxlL2VsZi1ub3RlLmggfCA1ICstLS0tCi0gMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
+aW9uKCspLCA0IGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvc3JjL2xpYmtiZGZpbGUvZWxm
+LW5vdGUuaCBiL3NyYy9saWJrYmRmaWxlL2VsZi1ub3RlLmgKLWluZGV4IGEwZmQ5ZTIuLmQzYjhk
+NWMgMTAwNjQ0Ci0tLS0gYS9zcmMvbGlia2JkZmlsZS9lbGYtbm90ZS5oCi0rKysgYi9zcmMvbGli
+a2JkZmlsZS9lbGYtbm90ZS5oCi1AQCAtMjYsMTQgKzI2LDExIEBAIGludCBkbHN5bV9tYW55KHZv
+aWQgKipkbHAsIGNvbnN0IGNoYXIgKmZpbGVuYW1lLCAuLi4pOwotICAqLwotICNkZWZpbmUgRExT
+WU1fQVJHKHN5bWJvbF9fKSAmc3ltXyMjc3ltYm9sX18sIFNUUklOR0lGWShzeW1ib2xfXyksCi0g
+Ci0tLyogRm9yIHN5bWJvbHMgYmVpbmcgZHluYW1pY2FsbHkgbG9hZGVkICovCi0tI2RlZmluZSBE
+RUNMQVJFX0RMU1lNKHN5bWJvbCkgc3RhdGljIHR5cGVvZihzeW1ib2wpICpzeW1fIyNzeW1ib2wK
+LS0KLSAvKgotICAqIEhlbHBlciBkZWZpbmVzLCB0byBiZSBkb25lIGxvY2FsbHkgYmVmb3JlIGlu
+Y2x1ZGluZyB0aGlzIGhlYWRlciB0byBzd2l0Y2ggYmV0d2VlbgotICAqIGltcGxlbWVudGF0aW9u
+cwotICAqLwotLSNkZWZpbmUgREVDTEFSRV9TWU0oc3ltX18pIERFQ0xBUkVfRExTWU0oc3ltX18p
+OwotKyNkZWZpbmUgREVDTEFSRV9TWU0oc3ltX18pIHN0YXRpYyB0eXBlb2Yoc3ltX18pICpzeW1f
+IyNzeW1fXzsKLSAKLSAvKgotICAqIE9yaWdpbmFsbHkgZnJvbSBzeXN0ZW1kIGNvZGViYXNlLgot
+LS0gCi0yLjQ5LjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8yLjku
+MC5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmRfMi4xMC4wLmJiCnNpbWlsYXJpdHkgaW5k
+ZXggODclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmRfMi45LjAuYmIKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmRfMi4xMC4wLmJiCmluZGV4IDc5YjAxMWU1
+MjkuLjVhODc3YjljMDQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2tiZC9rYmRfMi45
+LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUva2JkL2tiZF8yLjEwLjAuYmIKQEAgLTIzLDEy
+ICsyMyw5IEBAIFJSRVBMQUNFUzoke1BOfSA9ICJjb25zb2xlLXRvb2xzIgogUlBST1ZJREVTOiR7
+UE59ID0gImNvbnNvbGUtdG9vbHMiCiBSQ09ORkxJQ1RTOiR7UE59ID0gImNvbnNvbGUtdG9vbHMi
+CiAKLVNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC91dGlscy8ke0JQTn0vJHtC
+UH0udGFyLnh6IFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtUHJlc2VydmUtb25seS1uZWNlc3Nh
+cnktbWV0YWRhdGEtZHVyaW5nLWluc3RhbGwucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vMDAw
+MS1saWJrYmRmaWxlLUZpeC1wcm9ibGVtLXdpdGgtdW5kZWNsYXJlZC1zeW1fZ3pvcGVuLnBhdGNo
+IFwKLSAgICAgICAgICAgIgorU1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9L2xpbnV4L3V0
+aWxzLyR7QlBOfS8ke0JQfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmYjMxOTdm
+MTdhOTllYjQ0ZDIyYTNhMWE3MWY3NTVmOTYyMmRkOTYzZTY2YWNmZGVhMWE0NTEyMDk1MWIwMmVk
+IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjZlNWNhNGY4ZDc2ZWU5ZTNhOGRiNzAwYjY2N2YxM2Ux
+MmFhYzk5MzM4MjhhNjRlMWFhYWQ5M2QyNmJlOWI0NzkiCiAKICMgJ2d6aXAgLW4nIGlzIHNldCBk
+dWUgdG8gaHR0cHM6Ly9naXRodWIuY29tL2xlZ2lvbnVzL2tiZC9pc3N1ZXMvMTI0CiBFWFRSQV9P
+RUNPTkYgPSAiLS1kaXNhYmxlLXRlc3RzIC0tZW5hYmxlLWNvbXByZXNzPSdnemlwIC1uJyIKLS0g
+CjIuNDcuMQoK
 
-Running 'devtool upgrade' for recipe inetutils failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1980 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+--===============2323947673789302853==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-163381d69be900fe103d50fd94c0bfaeab67338d"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:163381d69be900fe103d50fd94c0bfaeab67338d"
-meta-yocto-bsp       
-meta-poky            = "master:59c41245ad231f5320defcb275477e3d25a2203e"
-workspace            = "<unknown>:<unknown>"
+packages/x86-64-v3-poky-linux/kbd/kbd-keymaps: FILELIST: added "/usr/share/keymaps/i386/qwerty/mac-no.map.gz"
+Changes to packages/x86-64-v3-poky-linux/kbd (sysroot):
+  /usr/share/keymaps/i386/qwerty/mac-no.map.gz was added
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 952 .bb files complete (0 cached, 952 parsed). 1981 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-163381d69be900fe103d50fd94c0bfaeab67338d"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:163381d69be900fe103d50fd94c0bfaeab67338d"
-meta-yocto-bsp       
-meta-poky            = "master:59c41245ad231f5320defcb275477e3d25a2203e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   9% |###                                 | ETA:  0:00:01
-Adding changed files:  18% |######                              | ETA:  0:00:00
-Adding changed files:  27% |#########                           | ETA:  0:00:00
-Adding changed files:  36% |############                        | ETA:  0:00:00
-Adding changed files:  45% |################                    | ETA:  0:00:00
-Adding changed files:  54% |###################                 | ETA:  0:00:00
-Adding changed files:  63% |######################              | ETA:  0:00:00
-Adding changed files:  72% |#########################           | ETA:  0:00:00
-Adding changed files:  81% |#############################       | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://ftpmirror.gnu.org/gnu/inetutils/inetutils-2.8.tar.gz...
-INFO: Rebasing devtool onto 7f0d325e32dcdff02fc00ecd731594283cf7ab43
-WARNING: Command 'git rebase 7f0d325e32dcdff02fc00ecd731594283cf7ab43' failed:
-Auto-merging telnetd/utility.c
-CONFLICT (content): Merge conflict in telnetd/utility.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/inetutils
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/inetutils/inetutils_2.8.bb
-INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/inetutils.txt
-
-
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
---===============8433184079652109957==--
+--===============2323947673789302853==--
 
