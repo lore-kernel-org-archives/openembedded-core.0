@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24257CD98F2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3430DCD98F3
 	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:31:51 +0000 (UTC)
 Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.50609.1781195500092651335
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.50606.1781195498768837415
  for <openembedded-core@lists.openembedded.org>;
  Thu, 11 Jun 2026 09:31:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TG9x3a9u;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=4t3Pqh3z;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019eb7866d90-aeabcad7-24f1-4177-a501-ef3957a2e9f6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=uS0LMEag;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Zje/Tcoa;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019eb7866c53-2913bbab-e24c-4be2-827e-628f028ab4ed-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781195501;
+	t=1781195500;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=unbdJ3YFHLSTBZ4AT1kfHssGMxzLMU9v4+dqtEhHtkM=;
-	b=TG9x3a9u3G5BCHReTyjzAyHm82OAmbyL5AZwAarPPKmh6FYe43DWDZBNe4YWbjgD
-	05JQuEJTB0GVcIdMbWWVpDp4i9rdZ2B7wbcGKkkRaLmhMMs47y4bvA6irmGoOXU8Coa
-	1Z4tvZCxrFzR7Y64x5F81ypUYZKrd3A0iYiBSpLc=
+	bh=Voem4sS8leptGti7Z9AOoCkRjTvvXU5txa0Ae7YvGHY=;
+	b=uS0LMEagKzF+qPacwrwPWAG+pkYcPp313tNWBFBz4rPmTYuwvqZcpZpTPEVkyAiH
+	ITzPb1ZbLs3w5+vgPPi67v03sFgVMcdqEFZ74ITFGPiiCTM+ajrxQM7OEvPUuFn24/Q
+	Wp984WAYga2MASOor7fLhl0RCBt63zkcERNWucXQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195501;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195500;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=unbdJ3YFHLSTBZ4AT1kfHssGMxzLMU9v4+dqtEhHtkM=;
-	b=4t3Pqh3ziAjXnG72QY7ojSVoL1CaWBn15dbhAqX5vzpFZ2LkCGadZWrizGTyqrUA
-	SlKVN6a4qqKLC7UVA3oAk5e0H5oRuMkSEirHizfN5lLITk+yplKKLVLVPHMYYG3Hxcm
-	CQw+nNVaqAwrcdY7irB6PdDAHrNbJYf9dvp5F2TE=
-Content-Type: multipart/mixed; boundary="===============8192168066074124324=="
+	bh=Voem4sS8leptGti7Z9AOoCkRjTvvXU5txa0Ae7YvGHY=;
+	b=Zje/Tcoa0aoiK3wDXlAq5T5x0O8HPGx9R8RYPOMaxW4EXgY/vkQsFp28sps/yhIM
+	FKwW0PvSeyuJsB0Rsy32/VjMy8O2CJvEIJgS97KeUZyumsYioqH079bFk3/k+FTD4qw
+	yyTn2wG9AFxUe9PJ04C6FTQ3Vt5dLGZ1gFvW+TBQ=
+Content-Type: multipart/mixed; boundary="===============5279421975745225759=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] createrepo-c: upgrading to 1.2.4 FAILED
-Message-ID: <0101019eb7866d90-aeabcad7-24f1-4177-a501-ef3957a2e9f6-000000@us-west-2.amazonses.com>
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] ttyrun: upgrading to 2.42.1 SUCCEEDED
+Message-ID: <0101019eb7866c53-2913bbab-e24c-4be2-827e-628f028ab4ed-000000@us-west-2.amazonses.com>
 Date: Thu, 11 Jun 2026 16:31:40 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.06.11-54.240.27.193
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:31:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238475
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238474
 
---===============8192168066074124324==
+--===============5279421975745225759==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,58 +51,109 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *createrepo-c* to *1.2.4* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *ttyrun* to *2.42.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-ttyrun-upgrade-2.42.0-2.42.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe createrepo-c failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1980 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-9544b33457a28084b0d5a5cf9ed4ff290c620c1e"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:9544b33457a28084b0d5a5cf9ed4ff290c620c1e"
-meta-yocto-bsp       
-meta-poky            = "master:59c41245ad231f5320defcb275477e3d25a2203e"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto 47ab8a418fb3abd58ef3760a7eace1481610c659
-WARNING: Command 'git rebase 47ab8a418fb3abd58ef3760a7eace1481610c659' failed:
-Auto-merging src/python/CMakeLists.txt
-CONFLICT (content): Merge conflict in src/python/CMakeLists.txt
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/createrepo-c
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/createrepo-c/createrepo-c_1.2.4.bb
-INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/createrepo-c.txt
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8192168066074124324==--
+
+-- >8 --
+From d1c73c54376b44ba58910455e728f7ee099e3d7f Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 11 Jun 2026 08:36:24 +0000
+Subject: [PATCH] ttyrun: upgrade 2.42.0 -> 2.42.1
+
+---
+ meta/recipes-core/ttyrun/{ttyrun_2.42.0.bb => ttyrun_2.42.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ttyrun/{ttyrun_2.42.0.bb => ttyrun_2.42.1.bb} (94%)
+
+diff --git a/meta/recipes-core/ttyrun/ttyrun_2.42.0.bb b/meta/recipes-core/ttyrun/ttyrun_2.42.1.bb
+similarity index 94%
+rename from meta/recipes-core/ttyrun/ttyrun_2.42.0.bb
+rename to meta/recipes-core/ttyrun/ttyrun_2.42.1.bb
+index 811a4da70a..c9dd4d564d 100644
+--- a/meta/recipes-core/ttyrun/ttyrun_2.42.0.bb
++++ b/meta/recipes-core/ttyrun/ttyrun_2.42.1.bb
+@@ -7,7 +7,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f5118f167b055bfd7c3450803f1847af"
+ 
+ SRC_URI = "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v${PV}"
+-SRCREV = "997343f8417ab0af0ceb869e7a34b23cae3061e3"
++SRCREV = "77083b1cbbd463a25cf1a94fc026b5401575bc5e"
+ 
+ CVE_PRODUCT = "s390-tools"
+ 
+-- 
+2.47.1
+
+
+--===============5279421975745225759==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/ttyrun: SRC_URI changed from "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v2.42.0" to "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v2.42.1"
+packages/x86-64-v3-poky-linux/ttyrun: PKGV changed from 2.42.0 [default] to 2.42.1 [default]
+packages/x86-64-v3-poky-linux/ttyrun: PV changed from "2.42.0" to "2.42.1"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dbg: PKGV changed from 2.42.0 [default] to 2.42.1 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dbg: PV changed from "2.42.0" to "2.42.1"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dev: PKGV changed from 2.42.0 [default] to 2.42.1 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-dev: PV changed from "2.42.0" to "2.42.1"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-doc: PKGV changed from 2.42.0 [default] to 2.42.1 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-doc: PV changed from "2.42.0" to "2.42.1"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-locale: PKGV changed from 2.42.0 [default] to 2.42.1 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-locale: PV changed from "2.42.0" to "2.42.1"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: FILELIST: directory renamed /usr/src/debug/ttyrun/2.42.0/iucvterm/src -> /usr/src/debug/ttyrun/2.42.1/iucvterm/src
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: PKGV changed from 2.42.0 [default] to 2.42.1 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-src: PV changed from "2.42.0" to "2.42.1"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-staticdev: PKGV changed from 2.42.0 [default] to 2.42.1 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun-staticdev: PV changed from "2.42.0" to "2.42.1"
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun: PKGV changed from 2.42.0 [default] to 2.42.1 [default]
+packages/x86-64-v3-poky-linux/ttyrun/ttyrun: PV changed from "2.42.0" to "2.42.1"
+
+--===============5279421975745225759==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-ttyrun-upgrade-2.42.0-2.42.1.patch"
+
+RnJvbSBkMWM3M2M1NDM3NmI0NGJhNTg5MTA0NTVlNzI4ZjdlZTA5OWUzZDdmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMDg6MzY6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
+dHlydW46IHVwZ3JhZGUgMi40Mi4wIC0+IDIuNDIuMQoKLS0tCiBtZXRhL3JlY2lwZXMtY29yZS90
+dHlydW4ve3R0eXJ1bl8yLjQyLjAuYmIgPT4gdHR5cnVuXzIuNDIuMS5iYn0gfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtY29yZS90dHlydW4ve3R0eXJ1bl8yLjQyLjAuYmIgPT4gdHR5cnVuXzIuNDIuMS5iYn0g
+KDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS90dHlydW4vdHR5cnVuXzIuNDIu
+MC5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5fMi40Mi4xLmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL3R0eXJ1bi90dHlydW5f
+Mi40Mi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS90dHlydW4vdHR5cnVuXzIuNDIu
+MS5iYgppbmRleCA4MTFhNGRhNzBhLi5jOWRkNGQ1NjRkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtY29yZS90dHlydW4vdHR5cnVuXzIuNDIuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS90
+dHlydW4vdHR5cnVuXzIuNDIuMS5iYgpAQCAtNyw3ICs3LDcgQEAgTElDRU5TRSA9ICJNSVQiCiBM
+SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1mNTExOGYxNjdiMDU1YmZkN2Mz
+NDUwODAzZjE4NDdhZiIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2libS1zMzkwLWxp
+bnV4L3MzOTAtdG9vbHM7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hc3Rlcjt0YWc9diR7UFZ9Igot
+U1JDUkVWID0gIjk5NzM0M2Y4NDE3YWIwYWYwY2ViODY5ZTdhMzRiMjNjYWUzMDYxZTMiCitTUkNS
+RVYgPSAiNzcwODNiMWNiYmQ0NjNhMjVjZjFhOTRmYzAyNmI1NDAxNTc1YmM1ZSIKIAogQ1ZFX1BS
+T0RVQ1QgPSAiczM5MC10b29scyIKIAotLSAKMi40Ny4xCgo=
+
+--===============5279421975745225759==--
 
