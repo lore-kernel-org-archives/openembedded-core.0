@@ -2,48 +2,52 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5649CD98D5
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:31:37 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.50605.1781195496442115901
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD34CD98DB
+	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:31:38 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.50601.1781195492677805375
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 09:31:36 -0700
+ Thu, 11 Jun 2026 09:31:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=suGPR6/h;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=kq6lKfkq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019eb78656f5-4d1a2fc7-ea13-4846-8f65-1d4ac0600887-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=cPM9c6an;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Vm4w6snJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019eb78649bf-442d1332-481d-436c-9b9f-c71ef746abf2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781195495;
+	t=1781195491;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=eZTmbf1DTL5tTTu6IzbG8ZkwlvA0XfyAYIM+Epz9DR8=;
-	b=suGPR6/hkAcwiQnY3r5+20mMOsThKqx4V9ZHHCVezgXLgzFcOZj01EiWzhjesa8K
-	Ay9Ady1I1it0VaF1d0Ks90v4yzai2jXn46uARPPYq8aQR/JCsv49ewxO2VcLJHHOpVS
-	wUrkW9jrtJwttMYc1qyNp1komLv+SBSK/Hapskyo=
+	bh=KUXzzDCOKXlZPhRc9aJv+nneADErL9Qcs4HQ/2OR1UU=;
+	b=cPM9c6an/K5dSZtq8a7eDYDguuUAasHxc8SrxD3rESKEh3pXM5fBYh6tXh3yY1k/
+	xcoGkQDe+voOfIRRIWolj/JRxQ6Aqi0ZgRy0k+S/sdOABILR66NAr0bOJpGGfmLJ1Ls
+	Au3+pa6KWJFdYk6g+XoT5IwOZcpZkVrmm8hVJphg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195495;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195491;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=eZTmbf1DTL5tTTu6IzbG8ZkwlvA0XfyAYIM+Epz9DR8=;
-	b=kq6lKfkqB2aJtUg51Env7zsw24qo9e6Q/d5iphih1u1nMgaL1gfNBjs3ncWCaJQd
-	se9i2vsHYC+xVMH3+3aYRVAB2aFqww8HpR2muH6LSAONi8LaabsF6MzJ0pm4gpcae/t
-	1QMgvgrpaDOQnGqbt2Wwr05IMOpho292I99d4q/I=
-Content-Type: multipart/mixed; boundary="===============6866682087533281068=="
+	bh=KUXzzDCOKXlZPhRc9aJv+nneADErL9Qcs4HQ/2OR1UU=;
+	b=Vm4w6snJiChCAj8icYd7pl6Krtgi+lPTTbbsRRIlkuhWYIG81fXdI3Fyz5UbeJ9b
+	n9N8ko6WzEHh5JL4V/jMmrOd/wZBkexqVBg6wbLwOhSMEONvCBHHbgDp+wwa1zz8V1j
+	xKU+NITbES7gsSw/st6qGot0wBiG5Gl8oBEOgk6o=
+Content-Type: multipart/mixed; boundary="===============4504584977480986413=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] mesa,mesa-tools-native: upgrading to 26.1.2,26.1.2 SUCCEEDED
-Message-ID: <0101019eb78656f5-4d1a2fc7-ea13-4846-8f65-1d4ac0600887-000000@us-west-2.amazonses.com>
-Date: Thu, 11 Jun 2026 16:31:35 +0000
+To: Viswanath Kraleti <quic_vkraleti@quicinc.com>, 
+	Chen Qi <Qi.Chen@windriver.com>, Chen Qi <Qi.Chen@windriver.com>, 
+	Chen Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH]
+ systemd-boot-native,systemd,systemd-systemctl-native,systemd-boot: upgrading
+ to 260.2,260.2,260.2,260.2 FAILED
+Message-ID: <0101019eb78649bf-442d1332-481d-436c-9b9f-c71ef746abf2-000000@us-west-2.amazonses.com>
+Date: Thu, 11 Jun 2026 16:31:31 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.11-54.240.27.30
+X-SES-Outgoing: 2026.06.11-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:31:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238460
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:31:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238453
 
---===============6866682087533281068==
+--===============4504584977480986413==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,283 +55,60 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *mesa,mesa-tools-native* to *26.1.2,26.1.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *systemd-boot-native,systemd,systemd-systemctl-native,systemd-boot* to *260.2,260.2,260.2,260.2* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-mesa-mesa-tools-native-upgrade-26.0.6-26.1.2-26.0.6-.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe systemd-boot-native failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1980 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-c1e1370f75c4e0f6bccbf2fc7b903c41784dcad0"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:c1e1370f75c4e0f6bccbf2fc7b903c41784dcad0"
+meta-yocto-bsp       
+meta-poky            = "master:59c41245ad231f5320defcb275477e3d25a2203e"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+done.
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto f1d0952a125b96b7ab2f1ff29a87448ade8ac29b
+WARNING: Command 'git rebase f1d0952a125b96b7ab2f1ff29a87448ade8ac29b' failed:
+Auto-merging .semaphore/semaphore-runner.sh
+CONFLICT (content): Merge conflict in .semaphore/semaphore-runner.sh
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/systemd-boot-native
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/systemd-boot-native/systemd-boot-native_260.2.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/systemd-boot-native.txt
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 22922a78004eab7f543033a0135949bf41d052bd Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 11 Jun 2026 07:44:30 +0000
-Subject: [PATCH] mesa,mesa-tools-native: upgrade 26.0.6 -> 26.1.2,26.0.6 ->
- 26.1.2
-
----
- ...0001-freedreno-don-t-encode-build-path-into-binaries.patch | 4 ++--
- .../files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch  | 4 ++--
- .../0001-meson-misdetects-64bit-atomics-on-mips-clang.patch   | 2 +-
- meta/recipes-graphics/mesa/mesa.inc                           | 4 ++--
- 4 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-index e976b3399f..d8fcf682ef 100644
---- a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
-@@ -1,4 +1,4 @@
--From 4ef7487109f9acfa2baf1a2224da31a0ae0c74c6 Mon Sep 17 00:00:00 2001
-+From ca4927f26b5b49acc4094e6489cc0e06b3f77f13 Mon Sep 17 00:00:00 2001
- From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
- Date: Wed, 10 Dec 2025 02:27:16 +0200
- Subject: [PATCH] freedreno: don't encode build path into binaries
-@@ -25,7 +25,7 @@ Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
-  2 files changed, 5 insertions(+), 2 deletions(-)
- 
- diff --git a/src/freedreno/meson.build b/src/freedreno/meson.build
--index a4bfd33..330b646 100644
-+index e8f01b8..8144a75 100644
- --- a/src/freedreno/meson.build
- +++ b/src/freedreno/meson.build
- @@ -4,9 +4,10 @@
-diff --git a/meta/recipes-graphics/mesa/files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch b/meta/recipes-graphics/mesa/files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch
-index 065dd373a7..00dd7b1304 100644
---- a/meta/recipes-graphics/mesa/files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-gallivm-Fix-armhf-build-against-LLVM-22.patch
-@@ -1,4 +1,4 @@
--From 2a40c481affef4df729d794daf378ed2e0184895 Mon Sep 17 00:00:00 2001
-+From fdbcca6c124db4fd6c63ea093861bfbdf1c485af Mon Sep 17 00:00:00 2001
- From: Alessandro Astone <ales.astone@gmail.com>
- Date: Sun, 1 Mar 2026 18:14:09 +0100
- Subject: [PATCH] gallivm: Fix armhf build against LLVM 22
-@@ -13,7 +13,7 @@ Signed-off-by: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp b/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp
--index d3ad342..c95d86e 100644
-+index ce8ca02..86779f0 100644
- --- a/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp
- +++ b/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp
- @@ -331,7 +331,7 @@ lp_build_fill_mattrs(std::vector<std::string> &MAttrs)
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-index b039ac213e..7654a8f169 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-@@ -1,4 +1,4 @@
--From 8943b38a0c14b220e3e173c038c87ce9a697c173 Mon Sep 17 00:00:00 2001
-+From 81134bcd096719e9e310b60aa7eee7438121a394 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 13 Jan 2020 15:23:47 -0800
- Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 15dad6eedd..c5bbf13def 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -20,8 +20,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
-            file://0001-gallivm-Fix-armhf-build-against-LLVM-22.patch \
- "
- 
--SRC_URI[sha256sum] = "1d3c3b8a8363b8cc354175bb4a684ad8b035211cc1d6fa17aeb9b9623c513f89"
--PV = "26.0.6"
-+SRC_URI[sha256sum] = "bac2bca9121897a2b8162e79636b50ac998fca799c8e6cf914edd85962babdf0"
-+PV = "26.1.2"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
--- 
-2.47.1
-
-
---===============6866682087533281068==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/mesa: SRC_URI changed from "https://archive.mesa3d.org/mesa-26.0.6.tar.xz file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-freedreno-don-t-encode-build-path-into-binaries.patch file://0001-gallivm-Fix-armhf-build-against-LLVM-22.patch" to "https://archive.mesa3d.org/mesa-26.1.2.tar.xz file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-freedreno-don-t-encode-build-path-into-binaries.patch file://0001-gallivm-Fix-armhf-build-against-LLVM-22.patch"
-packages/x86-64-v3-poky-linux/mesa: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libegl-mesa-dev: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libegl-mesa: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libegl-mesa: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libgallium: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libgallium: PKGSIZE changed from 43579104 to 44609248 (+2%)
-packages/x86-64-v3-poky-linux/mesa/libgallium: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libgallium: FILELIST: removed "/usr/lib/libgallium-26.0.6.so", added "/usr/lib/libgallium-26.1.2.so"
-packages/x86-64-v3-poky-linux/mesa/libgbm-dev: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libgbm-dev: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libgbm: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libgbm: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libgl-mesa-dev: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libgl-mesa: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libgl-mesa: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libglapi-dev: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libglapi-dev: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libglapi: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libglapi: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libgles1-mesa-dev: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libgles1-mesa: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libgles1-mesa: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libgles2-mesa-dev: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libgles2-mesa: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libgles2-mesa: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libglx-mesa-dev: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libglx-mesa: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libglx-mesa: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libopencl-mesa: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libopencl-mesa: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/libteflon: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/libteflon: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/mesa-dbg: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 729141280 to 750900704 (+3%)
-packages/x86-64-v3-poky-linux/mesa/mesa-dbg: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/mesa-dbg: FILELIST: removed "/usr/lib/.debug/libgallium-26.0.6.so", added "/usr/lib/.debug/libgallium-26.1.2.so"
-packages/x86-64-v3-poky-linux/mesa/mesa-dev: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-dev: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/mesa-doc: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-doc: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/mesa-locale: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-locale: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/mesa-megadriver: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 212338 to 215793 (+2%)
-packages/x86-64-v3-poky-linux/mesa/mesa-megadriver: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/mesa-src: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-src: PKGSIZE changed from 198543473 to 201059086 (+1%)
-packages/x86-64-v3-poky-linux/mesa/mesa-src: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/mesa-src: FILELIST: directory renamed /usr/src/debug/mesa/26.0.6/src/gallium/drivers/r600 -> /usr/src/debug/mesa/26.1.2/src/gallium/drivers/r600, directory renamed /usr/src/debug/mesa/26.0.6/src/intel/vulkan -> /usr/src/debug/mesa/26.1.2/src/intel/vulkan, directory renamed /usr/src/debug/mesa/26.0.6/src/virtio/vulkan -> /usr/src/debug/mesa/26.1.2/src/virtio/vulkan, directory renamed /usr/src/debug/mesa/26.0.6/src/mesa -> /usr/src/debug/mesa/26.1.2/src/mesa, directory renamed /usr/src/debug/mesa/26.0.6/src/amd/vulkan -> /usr/src/debug/mesa/26.1.2/src/amd/vulkan, directory renamed /usr/src/debug/mesa/26.0.6/src/gallium/drivers/zink -> /usr/src/debug/mesa/26.1.2/src/gallium/drivers/zink, directory renamed /usr/src/debug/mesa/26.0.6/src/intel/ds -> /usr/src/debug/mesa/26.1.2/src/intel/ds, directory renamed /usr/src/debug/mesa/26.0.6/src/intel/isl -> /usr/src/debug/mesa/26.1.2/src/intel/isl, directory renamed /usr/src/debug/mesa/26.0.6/src/intel/vulkan_h
- asvk -> /usr/src/debug/mesa/26.1.2/src/intel/vulkan_hasvk, directory renamed /usr/src/debug/mesa/26.0.6/src/gallium/frontends/lavapipe -> /usr/src/debug/mesa/26.1.2/src/gallium/frontends/lavapipe, directory renamed /usr/src/debug/mesa/26.0.6/src/mesa/program -> /usr/src/debug/mesa/26.1.2/src/mesa/program, directory renamed /usr/src/debug/mesa/26.0.6/src/compiler/nir -> /usr/src/debug/mesa/26.1.2/src/compiler/nir, directory renamed /usr/src/debug/mesa/26.0.6/src/nouveau/headers -> /usr/src/debug/mesa/26.1.2/src/nouveau/headers, directory renamed /usr/src/debug/mesa/26.0.6/src/vulkan/runtime -> /usr/src/debug/mesa/26.1.2/src/vulkan/runtime, directory renamed /usr/src/debug/mesa/26.0.6/src/gallium/drivers/radeonsi -> /usr/src/debug/mesa/26.1.2/src/gallium/drivers/radeonsi, directory renamed /usr/src/debug/mesa/26.0.6/src/intel/compiler -> /usr/src/debug/mesa/26.1.2/src/intel/compiler, directory renamed /usr/src/debug/mesa/26.0.6/src/intel/perf -> /usr/src/debug/mesa/26.1.2/src/intel/pe
- rf, directory renamed /usr/src/debug/mesa/26.0.6/src/mesa/glapi/shared-glapi -> /usr/src/debug/mesa/26.1.2/src/mesa/glapi/shared-glapi, directory renamed /usr/src/debug/mesa/26.0.6/src/util/format -> /usr/src/debug/mesa/26.1.2/src/util/format, directory renamed /usr/src/debug/mesa/26.0.6/src/gallium/drivers/r300 -> /usr/src/debug/mesa/26.1.2/src/gallium/drivers/r300, directory renamed /usr/src/debug/mesa/26.0.6/src/intel/compiler/elk -> /usr/src/debug/mesa/26.1.2/src/intel/compiler/elk, directory renamed /usr/src/debug/mesa/26.0.6/src/vulkan/util -> /usr/src/debug/mesa/26.1.2/src/vulkan/util, directory renamed /usr/src/debug/mesa/26.0.6/src/intel/compiler/brw -> /usr/src/debug/mesa/26.1.2/src/intel/compiler/brw, directory renamed /usr/src/debug/mesa/26.0.6/src/amd/compiler -> /usr/src/debug/mesa/26.1.2/src/amd/compiler, directory renamed /usr/src/debug/mesa/26.0.6/src/compiler/glsl -> /usr/src/debug/mesa/26.1.2/src/compiler/glsl, directory renamed /usr/src/debug/mesa/26.0.6/src/mesa
- /glapi/glapi/gen -> /usr/src/debug/mesa/26.1.2/src/mesa/glapi/glapi/gen, directory renamed /usr/src/debug/mesa/26.0.6/src/gallium/auxiliary -> /usr/src/debug/mesa/26.1.2/src/gallium/auxiliary, directory renamed /usr/src/debug/mesa/26.0.6/src/compiler/spirv -> /usr/src/debug/mesa/26.1.2/src/compiler/spirv, directory renamed /usr/src/debug/mesa/26.0.6/src/gfxstream/guest/vulkan_enc -> /usr/src/debug/mesa/26.1.2/src/gfxstream/guest/vulkan_enc, directory renamed /usr/src/debug/mesa/26.0.6/src/intel/dev -> /usr/src/debug/mesa/26.1.2/src/intel/dev, directory renamed /usr/src/debug/mesa/26.0.6/src/loader -> /usr/src/debug/mesa/26.1.2/src/loader, directory renamed /usr/src/debug/mesa/26.0.6/src/vulkan/wsi -> /usr/src/debug/mesa/26.1.2/src/vulkan/wsi, directory renamed /usr/src/debug/mesa/26.0.6/src/amd/vulkan/layers -> /usr/src/debug/mesa/26.1.2/src/amd/vulkan/layers, directory renamed /usr/src/debug/mesa/26.0.6/src/util -> /usr/src/debug/mesa/26.1.2/src/util, directory renamed /usr/src/deb
- ug/mesa/26.0.6/src/compiler -> /usr/src/debug/mesa/26.1.2/src/compiler, directory renamed /usr/src/debug/mesa/26.0.6/src/compiler/glsl/glcpp -> /usr/src/debug/mesa/26.1.2/src/compiler/glsl/glcpp, directory renamed /usr/src/debug/mesa/26.0.6/src/intel/blorp -> /usr/src/debug/mesa/26.1.2/src/intel/blorp, removed "/usr/src/debug/mesa/26.0.6/src/intel/genxml/gen200_rt_pack.h /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx120_shaders_binding.cpp /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx125_shaders_binding.cpp /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen300_rt_pack.h /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx110_shaders_binding.cpp /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx200_shaders_binding.cpp /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx300_shaders_binding.cpp /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen200_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen300_pack.h /usr/src/debug/mesa/26.0.6/src/amd/common/gfx10_format_t
- able.c /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen120_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen125_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/genX_bits.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen120_video_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen125_video_pack.h /usr/src/debug/mesa/26.0.6/src/intel/shaders/float64_spv.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen110_video_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/genX_xml.h /usr/src/debug/mesa/26.0.6/src/amd/common/sid_tables.h /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx80_shaders_binding.cpp /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx90_shaders_binding.cpp /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen90_video_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen125_rt_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen110_pack.h /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx110_shaders_binding.h /usr/src/debug/mesa/26.0.6/src/intel/shaders/
- intel_gfx120_shaders_binding.h /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx200_shaders_binding.h /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx300_shaders_binding.h /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx80_shaders_binding.h /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx90_shaders_binding.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen200_video_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen300_video_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen40_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen50_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen60_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen70_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen80_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen45_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen75_pack.h /usr/src/debug/mesa/26.0.6/src/intel/genxml/gen90_pack.h /usr/src/debug/mesa/26.0.6/src/intel/shaders/intel_gfx125_shaders_binding.h", ad
- ded "/usr/src/debug/mesa/26.1.2/src/intel/genxml/xe3_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/xe2_pack.h /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx110_shaders_binding.cpp /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx125_shaders_binding.cpp /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx120_shaders_binding.cpp /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx200_shaders_binding.cpp /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx300_shaders_binding.cpp /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx350_shaders_binding.cpp /usr/src/debug/mesa/26.1.2/src/intel/compiler/jay/jay_extra_info.h /usr/src/debug/mesa/26.1.2/src/amd/common/gfx10_format_table.c /usr/src/debug/mesa/26.1.2/src/amd/common/amd_cp_print_packet_gfx12.h /usr/src/debug/mesa/26.1.2/src/intel/compiler/jay/jay_opcodes.c /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen120_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen125_pack.h /usr/src/debug/mesa/26.1.2/src/int
- el/genxml/xe2_video_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/genX_bits.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/xe3_video_pack.h /usr/src/debug/mesa/26.1.2/src/amd/common/amd_cp_print_packet_gfx12.c /usr/src/debug/mesa/26.1.2/src/intel/compiler/jay/jay_opcodes.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen120_video_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen125_video_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/xe3p_pack.h /usr/src/debug/mesa/26.1.2/src/intel/shaders/float64_spv.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen110_video_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/genX_xml.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/xe3p_video_pack.h /usr/src/debug/mesa/26.1.2/src/intel/compiler/jay/jay_nir_algebraic.c /usr/src/debug/mesa/26.1.2/src/amd/common/sid_tables.h /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx80_shaders_binding.cpp /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx90_shaders_binding.cpp /usr/src/debug/m
- esa/26.1.2/src/intel/genxml/gen90_video_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen125_rt_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen110_pack.h /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx110_shaders_binding.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/xe2_rt_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/xe3_rt_pack.h /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx120_shaders_binding.h /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx200_shaders_binding.h /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx300_shaders_binding.h /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx350_shaders_binding.h /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx80_shaders_binding.h /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx90_shaders_binding.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/xe3p_rt_pack.h /usr/src/debug/mesa/26.1.2/src/intel/compiler/jay/jay_builder_opcodes.h /usr/src/debug/mesa/26.1.2/src/amd/common/amd_cp_print
- _packet_gfx11.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen40_pack.h /usr/src/debug/mesa/26.1.2/src/amd/common/amd_cp_print_packet_gfx11.c /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen50_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen60_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen70_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen45_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen75_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen80_pack.h /usr/src/debug/mesa/26.1.2/src/intel/genxml/gen90_pack.h /usr/src/debug/mesa/26.1.2/src/intel/shaders/intel_gfx125_shaders_binding.h"
-packages/x86-64-v3-poky-linux/mesa/mesa-staticdev: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-staticdev: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/mesa-tools: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-tools: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa-vulkan-drivers: PKGSIZE changed from 77369816 to 81458264 (+5%)
-packages/x86-64-v3-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "26.0.6" to "26.1.2"
-packages/x86-64-v3-poky-linux/mesa/mesa: PKGV changed from 26.0.6 [default] to 26.1.2 [default]
-packages/x86-64-v3-poky-linux/mesa/mesa: PV changed from "26.0.6" to "26.1.2"
-Changes to packages/x86-64-v3-poky-linux/mesa (sysroot):
-  /usr/lib/libgallium-26.0.6.so moved to /usr/lib/libgallium-26.1.2.so
-
---===============6866682087533281068==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/mesa/libgallium: FILELIST: removed "/usr/lib/libgallium-26.0.6.so", added "/usr/lib/libgallium-26.1.2.so"
-Changes to packages/x86-64-v3-poky-linux/mesa (sysroot):
-  /usr/lib/libgallium-26.0.6.so moved to /usr/lib/libgallium-26.1.2.so
-
---===============6866682087533281068==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-mesa-mesa-tools-native-upgrade-26.0.6-26.1.2-26.0.6-.patch"
-
-RnJvbSAyMjkyMmE3ODAwNGVhYjdmNTQzMDMzYTAxMzU5NDliZjQxZDA1MmJkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMDc6NDQ6MzAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-ZXNhLG1lc2EtdG9vbHMtbmF0aXZlOiB1cGdyYWRlIDI2LjAuNiAtPiAyNi4xLjIsMjYuMC42IC0+
-CiAyNi4xLjIKCi0tLQogLi4uMDAwMS1mcmVlZHJlbm8tZG9uLXQtZW5jb2RlLWJ1aWxkLXBhdGgt
-aW50by1iaW5hcmllcy5wYXRjaCB8IDQgKystLQogLi4uL2ZpbGVzLzAwMDEtZ2FsbGl2bS1GaXgt
-YXJtaGYtYnVpbGQtYWdhaW5zdC1MTFZNLTIyLnBhdGNoICB8IDQgKystLQogLi4uLzAwMDEtbWVz
-b24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2ggICB8IDIgKy0K
-IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5jICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgfCA0ICsrLS0KIDQgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0
-aW9ucygtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAw
-MDEtZnJlZWRyZW5vLWRvbi10LWVuY29kZS1idWlsZC1wYXRoLWludG8tYmluYXJpZXMucGF0Y2gg
-Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWZyZWVkcmVuby1kb24tdC1l
-bmNvZGUtYnVpbGQtcGF0aC1pbnRvLWJpbmFyaWVzLnBhdGNoCmluZGV4IGU5NzZiMzM5OWYuLmQ4
-ZmNmNjgyZWYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAw
-MDEtZnJlZWRyZW5vLWRvbi10LWVuY29kZS1idWlsZC1wYXRoLWludG8tYmluYXJpZXMucGF0Y2gK
-KysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1mcmVlZHJlbm8tZG9u
-LXQtZW5jb2RlLWJ1aWxkLXBhdGgtaW50by1iaW5hcmllcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAK
-LUZyb20gNGVmNzQ4NzEwOWY5YWNmYTJiYWYxYTIyMjRkYTMxYTBhZTBjNzRjNiBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKK0Zyb20gY2E0OTI3ZjI2YjViNDlhY2M0MDk0ZTY0ODljYzBlMDZiM2Y3
-N2YxMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IERtaXRyeSBCYXJ5c2hrb3YgPGRt
-aXRyeS5iYXJ5c2hrb3ZAb3NzLnF1YWxjb21tLmNvbT4KIERhdGU6IFdlZCwgMTAgRGVjIDIwMjUg
-MDI6Mjc6MTYgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gZnJlZWRyZW5vOiBkb24ndCBlbmNvZGUg
-YnVpbGQgcGF0aCBpbnRvIGJpbmFyaWVzCkBAIC0yNSw3ICsyNSw3IEBAIFNpZ25lZC1vZmYtYnk6
-IFF1ZW50aW4gU2NodWx6IDxxdWVudGluLnNjaHVsekBjaGVycnkuZGU+CiAgMiBmaWxlcyBjaGFu
-Z2VkLCA1IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9zcmMv
-ZnJlZWRyZW5vL21lc29uLmJ1aWxkIGIvc3JjL2ZyZWVkcmVuby9tZXNvbi5idWlsZAotaW5kZXgg
-YTRiZmQzMy4uMzMwYjY0NiAxMDA2NDQKK2luZGV4IGU4ZjAxYjguLjgxNDRhNzUgMTAwNjQ0CiAt
-LS0gYS9zcmMvZnJlZWRyZW5vL21lc29uLmJ1aWxkCiArKysgYi9zcmMvZnJlZWRyZW5vL21lc29u
-LmJ1aWxkCiBAQCAtNCw5ICs0LDEwIEBACmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvbWVzYS9maWxlcy8wMDAxLWdhbGxpdm0tRml4LWFybWhmLWJ1aWxkLWFnYWluc3QtTExWTS0y
-Mi5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZ2FsbGl2bS1G
-aXgtYXJtaGYtYnVpbGQtYWdhaW5zdC1MTFZNLTIyLnBhdGNoCmluZGV4IDA2NWRkMzczYTcuLjAw
-ZGQ3YjEzMDQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAw
-MDEtZ2FsbGl2bS1GaXgtYXJtaGYtYnVpbGQtYWdhaW5zdC1MTFZNLTIyLnBhdGNoCisrKyBiL21l
-dGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZ2FsbGl2bS1GaXgtYXJtaGYtYnVp
-bGQtYWdhaW5zdC1MTFZNLTIyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAyYTQwYzQ4MWFm
-ZmVmNGRmNzI5ZDc5NGRhZjM3OGVkMmUwMTg0ODk1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
-RnJvbSBmZGJjY2E2YzEyNGRiNGZkNmM2M2VhMDkzODYxYmZiZGYxYzQ4NWFmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQogRnJvbTogQWxlc3NhbmRybyBBc3RvbmUgPGFsZXMuYXN0b25lQGdtYWls
-LmNvbT4KIERhdGU6IFN1biwgMSBNYXIgMjAyNiAxODoxNDowOSArMDEwMAogU3ViamVjdDogW1BB
-VENIXSBnYWxsaXZtOiBGaXggYXJtaGYgYnVpbGQgYWdhaW5zdCBMTFZNIDIyCkBAIC0xMyw3ICsx
-Myw3IEBAIFNpZ25lZC1vZmYtYnk6IEpvc2UgUXVhcmVzbWEgPGpvc2UucXVhcmVzbWFAb3NzLnF1
-YWxjb21tLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkKIAogZGlmZiAtLWdpdCBhL3NyYy9nYWxsaXVtL2F1eGlsaWFyeS9nYWxsaXZtL2xwX2JsZF9t
-aXNjLmNwcCBiL3NyYy9nYWxsaXVtL2F1eGlsaWFyeS9nYWxsaXZtL2xwX2JsZF9taXNjLmNwcAot
-aW5kZXggZDNhZDM0Mi4uYzk1ZDg2ZSAxMDA2NDQKK2luZGV4IGNlOGNhMDIuLjg2Nzc5ZjAgMTAw
-NjQ0CiAtLS0gYS9zcmMvZ2FsbGl1bS9hdXhpbGlhcnkvZ2FsbGl2bS9scF9ibGRfbWlzYy5jcHAK
-ICsrKyBiL3NyYy9nYWxsaXVtL2F1eGlsaWFyeS9nYWxsaXZtL2xwX2JsZF9taXNjLmNwcAogQEAg
-LTMzMSw3ICszMzEsNyBAQCBscF9idWlsZF9maWxsX21hdHRycyhzdGQ6OnZlY3RvcjxzdGQ6OnN0
-cmluZz4gJk1BdHRycykKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2Zp
-bGVzLzAwMDEtbWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0
-Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLW1pc2RldGVj
-dHMtNjRiaXQtYXRvbWljcy1vbi1taXBzLWNsYW5nLnBhdGNoCmluZGV4IGIwMzlhYzIxM2UuLjc2
-NTRhOGYxNjkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAw
-MDEtbWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2gKKysr
-IGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRlY3Rz
-LTY0Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
-ODk0M2IzOGEwYzE0YjIyMGUzZTE3M2MwMzhjODdjZTlhNjk3YzE3MyBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb20gODExMzRiY2QwOTY3MTllOWUzMTBiNjBhYTdlZWU3NDM4MTIxYTM5NCBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5j
-b20+CiBEYXRlOiBNb24sIDEzIEphbiAyMDIwIDE1OjIzOjQ3IC0wODAwCiBTdWJqZWN0OiBbUEFU
-Q0hdIG1lc29uIG1pc2RldGVjdHMgNjRiaXQgYXRvbWljcyBvbiBtaXBzL2NsYW5nCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhLmluYyBiL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy9tZXNhL21lc2EuaW5jCmluZGV4IDE1ZGFkNmVlZGQuLmM1YmJmMTNkZWYgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5jCisrKyBiL21ldGEvcmVj
-aXBlcy1ncmFwaGljcy9tZXNhL21lc2EuaW5jCkBAIC0yMCw4ICsyMCw4IEBAIFNSQ19VUkkgPSAi
-aHR0cHM6Ly9hcmNoaXZlLm1lc2EzZC5vcmcvbWVzYS0ke1BWfS50YXIueHogXAogICAgICAgICAg
-ICBmaWxlOi8vMDAwMS1nYWxsaXZtLUZpeC1hcm1oZi1idWlsZC1hZ2FpbnN0LUxMVk0tMjIucGF0
-Y2ggXAogIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWQzYzNiOGE4MzYzYjhjYzM1NDE3NWJi
-NGE2ODRhZDhiMDM1MjExY2MxZDZmYTE3YWViOWI5NjIzYzUxM2Y4OSIKLVBWID0gIjI2LjAuNiIK
-K1NSQ19VUklbc2hhMjU2c3VtXSA9ICJiYWMyYmNhOTEyMTg5N2EyYjgxNjJlNzk2MzZiNTBhYzk5
-OGZjYTc5OWM4ZTZjZjkxNGVkZDg1OTYyYmFiZGYwIgorUFYgPSAiMjYuMS4yIgogCiBVUFNUUkVB
-TV9DSEVDS19HSVRUQUdSRUdFWCA9ICJtZXNhLSg/UDxwdmVyPlxkKyhcLlxkKykrKSIKIAotLSAK
-Mi40Ny4xCgo=
-
---===============6866682087533281068==--
+--===============4504584977480986413==--
 
