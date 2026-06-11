@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EF2DCDB479
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74114CDB47D
 	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:31:56 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50429.1781195510621012332
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.50611.1781195502460528921
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 09:31:54 -0700
+ Thu, 11 Jun 2026 09:31:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JoWs0t5+;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Wj6JXESO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019eb786a053-139fe3ce-2e89-4915-91fa-43e9a44f8e53-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=EW6NEzTV;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=CBjVtxHQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019eb7869da7-d597ea03-2338-427f-ad06-891ab6d99081-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781195514;
+	t=1781195513;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=wdAFUY15dbNyK+tZhfupTjHcNHsqM8Pxr/3vNeKgI9g=;
-	b=JoWs0t5+ul6WcIgiLUXQt6r74BGeCrpf5rpDX+7HEmsJoZ5LZ7tS09LjCgdZWIGK
-	wRtHFcD5DXFCMW3dyw79oVR/G2sQuYjfzLBqWKiup2rVDj2ShfQr3MrVV3lHJNp4ReZ
-	NjoBMvZ562o3+h3w4C87KO9qIkvFwKANbDwBVxUc=
+	bh=sZurQ/SwTYuxd6GbpK1qI/TgNRSF/iUPJyU/x3M6+1g=;
+	b=EW6NEzTViy71Th2N9BHavekdAm6p7++y1dShDaYGvXzeTsadxkA8O2BSXhM7Wmk9
+	4TGpMHE9qjdjTkCdMZNkPA6tNd7b7bPB5QbstSntCfS/YfkpC5Xv912dPAh5ZaTOfXe
+	SnH6NGBM/rKppubzNLdvZZLR1pbmnXcFX1RhdTvg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195514;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195513;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=wdAFUY15dbNyK+tZhfupTjHcNHsqM8Pxr/3vNeKgI9g=;
-	b=Wj6JXESOwZncopzPcfU6KZqV4AnF6shOY8UYSJiRkJcNZFabnkMk8L6fsrNr/rHt
-	ZA87Kio4saf2IbLrRdmarXiruu4f9BYWY/WTZWX+J2eBYlzNdxm0gg02EvT0KgzEQSM
-	dV4VYlmNNAkw3iXHK0k3lCHukb1ljH421ybIcxtA=
-Content-Type: multipart/mixed; boundary="===============0700254294422072993=="
+	bh=sZurQ/SwTYuxd6GbpK1qI/TgNRSF/iUPJyU/x3M6+1g=;
+	b=CBjVtxHQURKbG5oJGxNsI2o+a89lYTwIw0zs5WomWOQPAL8scVJoSzFiI8LHemjZ
+	/rF+bwdYZp0CIKUluPx1/aINyjj9H+XWDYG9A3tcShYokhl+KjLw/z0/5G1eDE+WqHg
+	76ecHFXfm/hqodtfdMTAiRhBQOFN7oR0ZCD+4BA4=
+Content-Type: multipart/mixed; boundary="===============2155866599150672669=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] libdrm: upgrading to 2.4.134 SUCCEEDED
-Message-ID: <0101019eb786a053-139fe3ce-2e89-4915-91fa-43e9a44f8e53-000000@us-west-2.amazonses.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] rpcbind: upgrading to 1.2.9 SUCCEEDED
+Message-ID: <0101019eb7869da7-d597ea03-2338-427f-ad06-891ab6d99081-000000@us-west-2.amazonses.com>
 Date: Thu, 11 Jun 2026 16:31:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.11-54.240.27.192
+X-SES-Outgoing: 2026.06.11-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:31:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238527
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238523
 
---===============0700254294422072993==
+--===============2155866599150672669==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libdrm* to *2.4.134* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *rpcbind* to *1.2.9* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libdrm-upgrade-2.4.133-2.4.134.patch
+    - apply the patch: git am 0001-rpcbind-upgrade-1.2.8-1.2.9.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,171 +72,293 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 94560dbc0d46bd32c86cfe7a25fddcda222e96a4 Mon Sep 17 00:00:00 2001
+From 023bb1c7a8b1bf494e42024c99fba9d085d61cc5 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 11 Jun 2026 11:57:35 +0000
-Subject: [PATCH] libdrm: upgrade 2.4.133 -> 2.4.134
+Date: Thu, 11 Jun 2026 11:31:49 +0000
+Subject: [PATCH] rpcbind: upgrade 1.2.8 -> 1.2.9
 
 ---
- .../drm/{libdrm_2.4.133.bb => libdrm_2.4.134.bb}                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.133.bb => libdrm_2.4.134.bb} (97%)
+ .../0001-systemd-use-EnvironmentFile.patch    |  7 ++----
+ ...pcbind_add_option_to_fix_port_number.patch | 25 ++++++++-----------
+ .../{rpcbind_1.2.8.bb => rpcbind_1.2.9.bb}    |  2 +-
+ 3 files changed, 14 insertions(+), 20 deletions(-)
+ rename meta/recipes-extended/rpcbind/{rpcbind_1.2.8.bb => rpcbind_1.2.9.bb} (96%)
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.133.bb b/meta/recipes-graphics/drm/libdrm_2.4.134.bb
-similarity index 97%
-rename from meta/recipes-graphics/drm/libdrm_2.4.133.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.134.bb
-index afddb21e0a..d344dc830f 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.133.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.134.bb
-@@ -13,7 +13,7 @@ DEPENDS = "libpthread-stubs"
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/0001-systemd-use-EnvironmentFile.patch b/meta/recipes-extended/rpcbind/rpcbind/0001-systemd-use-EnvironmentFile.patch
+index 28d83e74f5..621cc34322 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind/0001-systemd-use-EnvironmentFile.patch
++++ b/meta/recipes-extended/rpcbind/rpcbind/0001-systemd-use-EnvironmentFile.patch
+@@ -1,4 +1,4 @@
+-From 87a9931e4aa97d7b6eb3b25f26444e30e45e3e41 Mon Sep 17 00:00:00 2001
++From 43908891b9344054e23a7d9f4d6fc5b34b2406cf Mon Sep 17 00:00:00 2001
+ From: Stefan Agner <stefan.agner@toradex.com>
+ Date: Wed, 27 Aug 2025 11:30:48 +0800
+ Subject: [PATCH] systemd: use EnvironmentFile
+@@ -14,7 +14,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  2 files changed, 5 insertions(+), 3 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 6ede0af..d1ae5e4 100644
++index c46294c..1566386 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -86,5 +86,7 @@ AC_CHECK_HEADERS([nss.h])
+@@ -42,6 +42,3 @@ index 771b944..5992098 100644
+  ExecStart=@_sbindir@/rpcbind $RPCBIND_OPTIONS @warmstarts_opt@ -f
+  
+  [Install]
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch b/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
+index 3205ff3086..f0a4df04e4 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
++++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
+@@ -1,4 +1,4 @@
+-From 285c193dc94b53763ac8d6f91229eaab37d45fc6 Mon Sep 17 00:00:00 2001
++From fc77df5fed834dd1cffc8c58adb4a13a9b97f5cf Mon Sep 17 00:00:00 2001
+ From: Roy Li <rongqing.li@windriver.com>
+ Date: Wed, 27 Aug 2025 11:24:53 +0800
+ Subject: [PATCH] add option to make users able to use fixed port number
+@@ -38,18 +38,18 @@ index 15b70f9..4a6ffbc 100644
+  .Fl h
+  option is specified,
+ diff --git a/src/rpcb_svc_com.c b/src/rpcb_svc_com.c
+-index 1743dad..07a1c75 100644
++index 6d0d72d..2f10dac 100644
+ --- a/src/rpcb_svc_com.c
+ +++ b/src/rpcb_svc_com.c
+-@@ -48,6 +48,7 @@
+- #include <rpc/rpc.h>
++@@ -49,6 +49,7 @@
++ #include <rpc/rpc_com.h>
+  #include <rpc/rpcb_prot.h>
+  #include <rpc/svc_dg.h>
+ +#include <rpc/rpc_com.h>
+  #include <netconfig.h>
+  #include <errno.h>
+  #include <syslog.h>
+-@@ -497,6 +498,7 @@ xdr_opaque_parms(XDR *xdrs, struct r_rmtcall_args *cap)
++@@ -499,6 +500,7 @@ xdr_opaque_parms(XDR *xdrs, struct r_rmtcall_args *cap)
+  
+  static struct rmtcallfd_list *rmthead;
+  static struct rmtcallfd_list *rmttail;
+@@ -57,7 +57,7 @@ index 1743dad..07a1c75 100644
+  
+  int
+  create_rmtcall_fd(struct netconfig *nconf)
+-@@ -504,6 +506,8 @@ create_rmtcall_fd(struct netconfig *nconf)
++@@ -506,6 +508,8 @@ create_rmtcall_fd(struct netconfig *nconf)
+  	int fd;
+  	struct rmtcallfd_list *rmt;
+  	SVCXPRT *xprt;
+@@ -66,7 +66,7 @@ index 1743dad..07a1c75 100644
+  
+  	if ((fd = __rpc_nconf2fd(nconf)) == -1) {
+  		if (debugging)
+-@@ -512,6 +516,19 @@ create_rmtcall_fd(struct netconfig *nconf)
++@@ -514,6 +518,19 @@ create_rmtcall_fd(struct netconfig *nconf)
+  			nconf->nc_device, errno);
+  		return (-1);
+  	}
+@@ -87,7 +87,7 @@ index 1743dad..07a1c75 100644
+  	if (xprt == NULL) {
+  		if (debugging)
+ diff --git a/src/rpcbind.c b/src/rpcbind.c
+-index bf7b499..7268907 100644
++index 4212377..7e7f79d 100644
+ --- a/src/rpcbind.c
+ +++ b/src/rpcbind.c
+ @@ -112,6 +112,7 @@ int runasdaemon = 0;
+@@ -98,7 +98,7 @@ index bf7b499..7268907 100644
+  
+  char **hosts = NULL;
+  int nhosts = 0;
+-@@ -959,7 +960,7 @@ parseargs(int argc, char *argv[])
++@@ -963,7 +964,7 @@ parseargs(int argc, char *argv[])
+  {
+  	int c;
+  	oldstyle_local = 1;
+@@ -107,7 +107,7 @@ index bf7b499..7268907 100644
+  		switch (c) {
+  		case 'a':
+  			doabort = 1;	/* when debugging, do an abort on */
+-@@ -977,6 +978,9 @@ parseargs(int argc, char *argv[])
++@@ -981,6 +982,9 @@ parseargs(int argc, char *argv[])
+  			if (hosts[nhosts - 1] == NULL)
+  				errx(1, "Out of memory");
+  			break;
+@@ -117,7 +117,7 @@ index bf7b499..7268907 100644
+  		case 'i':
+  			insecure = 1;
+  			break;
+-@@ -999,7 +1003,7 @@ parseargs(int argc, char *argv[])
++@@ -1003,7 +1007,7 @@ parseargs(int argc, char *argv[])
+  			break;
+  #endif
+  		default:	/* error */
+@@ -126,6 +126,3 @@ index bf7b499..7268907 100644
+  			exit (1);
+  		}
+  	}
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb b/meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb
+similarity index 96%
+rename from meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb
+rename to meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb
+index bd8ba1e88a..692c421cd9 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_1.2.8.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.9.bb
+@@ -18,7 +18,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
+            file://rpcbind_add_option_to_fix_port_number.patch \
+            file://0001-systemd-use-EnvironmentFile.patch \
            "
+-SRC_URI[sha256sum] = "964132c389918e8964d7334936b6dd10ef025b300c6b29e693ba0f29550e3de5"
++SRC_URI[sha256sum] = "ce5f1a87c566ef0b2897a28f50a75c1dc23fec413a46a7f4183423b6b6aa991b"
  
--SRC_URI[sha256sum] = "fc68f9d0ba2ea63c9432a299e14fea09fad7a8a66e8039fcd7802ca59f77b4f5"
-+SRC_URI[sha256sum] = "ac5e74d157830eb8bee44c6a6bf3ad49774ef0dd2a72bdad74a8f20308b52a95"
- 
- inherit meson pkgconfig manpages
+ inherit autotools update-rc.d systemd pkgconfig update-alternatives sourceforge-releases
  
 -- 
 2.47.1
 
 
---===============0700254294422072993==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libdrm-upgrade-2.4.133-2.4.134.patch"
-
-RnJvbSA5NDU2MGRiYzBkNDZiZDMyYzg2Y2ZlN2EyNWZkZGNkYTIyMmU5NmE0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMTE6NTc6MzUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJkcm06IHVwZ3JhZGUgMi40LjEzMyAtPiAyLjQuMTM0CgotLS0KIC4uLi9kcm0ve2xpYmRybV8y
-LjQuMTMzLmJiID0+IGxpYmRybV8yLjQuMTM0LmJifSAgICAgICAgICAgICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy9kcm0ve2xpYmRybV8yLjQuMTMzLmJiID0+IGxpYmRybV8yLjQuMTM0
-LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJt
-XzIuNC4xMzMuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZHJtL2xpYmRybV8yLjQuMTM0LmJi
-CnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9k
-cm0vbGliZHJtXzIuNC4xMzMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9kcm0v
-bGliZHJtXzIuNC4xMzQuYmIKaW5kZXggYWZkZGIyMWUwYS4uZDM0NGRjODMwZiAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2RybS9saWJkcm1fMi40LjEzMy5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MvZHJtL2xpYmRybV8yLjQuMTM0LmJiCkBAIC0xMyw3ICsxMyw3IEBA
-IERFUEVORFMgPSAibGlicHRocmVhZC1zdHVicyIKIFNSQ19VUkkgPSAiaHR0cDovL2RyaS5mcmVl
-ZGVza3RvcC5vcmcvbGliZHJtLyR7QlB9LnRhci54eiBcCiAgICAgICAgICAgIgogCi1TUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiZmM2OGY5ZDBiYTJlYTYzYzk0MzJhMjk5ZTE0ZmVhMDlmYWQ3YThhNjZl
-ODAzOWZjZDc4MDJjYTU5Zjc3YjRmNSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJhYzVlNzRkMTU3
-ODMwZWI4YmVlNDRjNmE2YmYzYWQ0OTc3NGVmMGRkMmE3MmJkYWQ3NGE4ZjIwMzA4YjUyYTk1Igog
-CiBpbmhlcml0IG1lc29uIHBrZ2NvbmZpZyBtYW5wYWdlcwogCi0tIAoyLjQ3LjEKCg==
-
---===============0700254294422072993==
+--===============2155866599150672669==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libdrm: SRC_URI changed from "http://dri.freedesktop.org/libdrm/libdrm-2.4.133.tar.xz" to "http://dri.freedesktop.org/libdrm/libdrm-2.4.134.tar.xz"
-packages/x86-64-v3-poky-linux/libdrm: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: FILELIST: removed "/usr/lib/libdrm_amdgpu.so.1.133.0", added "/usr/lib/libdrm_amdgpu.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: PKGSIZE changed from 1779224 to 1779240 (+0%)
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: FILELIST: removed "/usr/lib/.debug/libdrm_omap.so.1.133.0 /usr/lib/.debug/libdrm_radeon.so.1.133.0 /usr/lib/.debug/libdrm_nouveau.so.2.133.0 /usr/lib/.debug/libdrm_freedreno.so.1.133.0 /usr/lib/.debug/libdrm_amdgpu.so.1.133.0 /usr/lib/.debug/libdrm_etnaviv.so.1.133.0 /usr/lib/.debug/libdrm.so.2.133.0 /usr/lib/.debug/libdrm_intel.so.1.133.0", added "/usr/lib/.debug/libdrm_freedreno.so.1.134.0 /usr/lib/.debug/libdrm_nouveau.so.2.134.0 /usr/lib/.debug/libdrm_amdgpu.so.1.134.0 /usr/lib/.debug/libdrm_etnaviv.so.1.134.0 /usr/lib/.debug/libdrm.so.2.134.0 /usr/lib/.debug/libdrm_intel.so.1.134.0 /usr/lib/.debug/libdrm_omap.so.1.134.0 /usr/lib/.debug/libdrm_radeon.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dbg: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dev: PKGSIZE changed from 796984 to 797932 (+0%)
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dev: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-dev: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-doc: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-doc: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-drivers: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-drivers: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: FILELIST: removed "/usr/lib/libdrm_etnaviv.so.1.133.0", added "/usr/lib/libdrm_etnaviv.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-exynos: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-exynos: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: FILELIST: removed "/usr/lib/libdrm_freedreno.so.1.133.0", added "/usr/lib/libdrm_freedreno.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: FILELIST: removed "/usr/lib/libdrm_intel.so.1.133.0", added "/usr/lib/libdrm_intel.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-locale: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-locale: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: FILELIST: removed "/usr/lib/libdrm_nouveau.so.2.133.0", added "/usr/lib/libdrm_nouveau.so.2.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: FILELIST: removed "/usr/lib/libdrm_omap.so.1.133.0", added "/usr/lib/libdrm_omap.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: FILELIST: removed "/usr/lib/libdrm_radeon.so.1.133.0", added "/usr/lib/libdrm_radeon.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-src: PKGSIZE changed from 1746521 to 1746557 (+0%)
-packages/x86-64-v3-poky-linux/libdrm/libdrm-src: FILELIST: directory renamed /usr/src/debug/libdrm/2.4.133/tests -> /usr/src/debug/libdrm/2.4.134/tests, directory renamed /usr/src/debug/libdrm/2.4.133 -> /usr/src/debug/libdrm/2.4.134, directory renamed /usr/src/debug/libdrm/2.4.133/include/drm -> /usr/src/debug/libdrm/2.4.134/include/drm, directory renamed /usr/src/debug/libdrm/2.4.133/tests/etnaviv -> /usr/src/debug/libdrm/2.4.134/tests/etnaviv, directory renamed /usr/src/debug/libdrm/2.4.133/freedreno/msm -> /usr/src/debug/libdrm/2.4.134/freedreno/msm, directory renamed /usr/src/debug/libdrm/2.4.133/etnaviv -> /usr/src/debug/libdrm/2.4.134/etnaviv, directory renamed /usr/src/debug/libdrm/2.4.133/tests/modetest -> /usr/src/debug/libdrm/2.4.134/tests/modetest, directory renamed /usr/src/debug/libdrm/2.4.133/tests/proptest -> /usr/src/debug/libdrm/2.4.134/tests/proptest, directory renamed /usr/src/debug/libdrm/2.4.133/tests/util -> /usr/src/debug/libdrm/2.4.134/tests/util, directory r
- enamed /usr/src/debug/libdrm/2.4.133/amdgpu -> /usr/src/debug/libdrm/2.4.134/amdgpu, directory renamed /usr/src/debug/libdrm/2.4.133/intel -> /usr/src/debug/libdrm/2.4.134/intel, directory renamed /usr/src/debug/libdrm/2.4.133/freedreno -> /usr/src/debug/libdrm/2.4.134/freedreno, directory renamed /usr/src/debug/libdrm/2.4.133/tests/modeprint -> /usr/src/debug/libdrm/2.4.134/tests/modeprint, directory renamed /usr/src/debug/libdrm/2.4.133/radeon -> /usr/src/debug/libdrm/2.4.134/radeon, directory renamed /usr/src/debug/libdrm/2.4.133/tests/vbltest -> /usr/src/debug/libdrm/2.4.134/tests/vbltest, directory renamed /usr/src/debug/libdrm/2.4.133/omap -> /usr/src/debug/libdrm/2.4.134/omap, directory renamed /usr/src/debug/libdrm/2.4.133/nouveau/nvif -> /usr/src/debug/libdrm/2.4.134/nouveau/nvif, directory renamed /usr/src/debug/libdrm/2.4.133/nouveau -> /usr/src/debug/libdrm/2.4.134/nouveau, directory renamed /usr/src/debug/libdrm/2.4.133/tests/amdgpu -> /usr/src/debug/libdrm/2.4.134/test
- s/amdgpu
-packages/x86-64-v3-poky-linux/libdrm/libdrm-src: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-src: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-staticdev: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-staticdev: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-tests: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm-tests: PV changed from "2.4.133" to "2.4.134"
-packages/x86-64-v3-poky-linux/libdrm/libdrm: FILELIST: removed "/usr/lib/libdrm.so.2.133.0", added "/usr/lib/libdrm.so.2.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm: PKGV changed from 2.4.133 [default] to 2.4.134 [default]
-packages/x86-64-v3-poky-linux/libdrm/libdrm: PV changed from "2.4.133" to "2.4.134"
-Changes to packages/x86-64-v3-poky-linux/libdrm (sysroot):
-  /usr/lib/libdrm_amdgpu.so.1 changed symlink target from libdrm_amdgpu.so.1.133.0 to libdrm_amdgpu.so.1.134.0
-  /usr/lib/libdrm_etnaviv.so.1 changed symlink target from libdrm_etnaviv.so.1.133.0 to libdrm_etnaviv.so.1.134.0
-  /usr/lib/libdrm_freedreno.so.1 changed symlink target from libdrm_freedreno.so.1.133.0 to libdrm_freedreno.so.1.134.0
-  /usr/lib/libdrm_intel.so.1 changed symlink target from libdrm_intel.so.1.133.0 to libdrm_intel.so.1.134.0
-  /usr/lib/libdrm_nouveau.so.2 changed symlink target from libdrm_nouveau.so.2.133.0 to libdrm_nouveau.so.2.134.0
-  /usr/lib/libdrm_omap.so.1 changed symlink target from libdrm_omap.so.1.133.0 to libdrm_omap.so.1.134.0
-  /usr/lib/libdrm_radeon.so.1 changed symlink target from libdrm_radeon.so.1.133.0 to libdrm_radeon.so.1.134.0
-  /usr/lib/libdrm.so.2 changed symlink target from libdrm.so.2.133.0 to libdrm.so.2.134.0
-  /usr/lib/libdrm_amdgpu.so.1.133.0 moved to /usr/lib/libdrm_amdgpu.so.1.134.0
-  /usr/lib/libdrm_etnaviv.so.1.133.0 moved to /usr/lib/libdrm_etnaviv.so.1.134.0
-  /usr/lib/libdrm_freedreno.so.1.133.0 moved to /usr/lib/libdrm_freedreno.so.1.134.0
-  /usr/lib/libdrm_intel.so.1.133.0 moved to /usr/lib/libdrm_intel.so.1.134.0
-  /usr/lib/libdrm_nouveau.so.2.133.0 moved to /usr/lib/libdrm_nouveau.so.2.134.0
-  /usr/lib/libdrm_omap.so.1.133.0 moved to /usr/lib/libdrm_omap.so.1.134.0
-  /usr/lib/libdrm_radeon.so.1.133.0 moved to /usr/lib/libdrm_radeon.so.1.134.0
-  /usr/lib/libdrm.so.2.133.0 moved to /usr/lib/libdrm.so.2.134.0
+packages/x86-64-v3-poky-linux/rpcbind: SRC_URI changed from "https://downloads.sourceforge.net/rpcbind/rpcbind-1.2.8.tar.bz2 file://init.d file://rpcbind.conf file://rpcbind.tmpfiles file://rpcbind.systemd file://rpcbind_add_option_to_fix_port_number.patch file://0001-systemd-use-EnvironmentFile.patch" to "https://downloads.sourceforge.net/rpcbind/rpcbind-1.2.9.tar.bz2 file://init.d file://rpcbind.conf file://rpcbind.tmpfiles file://rpcbind.systemd file://rpcbind_add_option_to_fix_port_number.patch file://0001-systemd-use-EnvironmentFile.patch"
+packages/x86-64-v3-poky-linux/rpcbind: PV changed from "1.2.8" to "1.2.9"
+packages/x86-64-v3-poky-linux/rpcbind: PKGV changed from 1.2.8 [default] to 1.2.9 [default]
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-dbg: PV changed from "1.2.8" to "1.2.9"
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-dbg: PKGV changed from 1.2.8 [default] to 1.2.9 [default]
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-dbg: PKGSIZE changed from 279496 to 279864 (+0%)
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-dev: PV changed from "1.2.8" to "1.2.9"
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-dev: PKGV changed from 1.2.8 [default] to 1.2.9 [default]
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-doc: PV changed from "1.2.8" to "1.2.9"
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-doc: PKGV changed from 1.2.8 [default] to 1.2.9 [default]
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-locale: PV changed from "1.2.8" to "1.2.9"
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-locale: PKGV changed from 1.2.8 [default] to 1.2.9 [default]
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-src: PV changed from "1.2.8" to "1.2.9"
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-src: FILELIST: directory renamed /usr/src/debug/rpcbind/1.2.8/src -> /usr/src/debug/rpcbind/1.2.9/src
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-src: PKGV changed from 1.2.8 [default] to 1.2.9 [default]
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-src: PKGSIZE changed from 189409 to 189730 (+0%)
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-staticdev: PV changed from "1.2.8" to "1.2.9"
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind-staticdev: PKGV changed from 1.2.8 [default] to 1.2.9 [default]
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind: PV changed from "1.2.8" to "1.2.9"
+packages/x86-64-v3-poky-linux/rpcbind/rpcbind: PKGV changed from 1.2.8 [default] to 1.2.9 [default]
 
---===============0700254294422072993==
-Content-Type: text/plain; charset="us-ascii"
+--===============2155866599150672669==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-rpcbind-upgrade-1.2.8-1.2.9.patch"
 
-packages/x86-64-v3-poky-linux/libdrm/libdrm-amdgpu: FILELIST: removed "/usr/lib/libdrm_amdgpu.so.1.133.0", added "/usr/lib/libdrm_amdgpu.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-etnaviv: FILELIST: removed "/usr/lib/libdrm_etnaviv.so.1.133.0", added "/usr/lib/libdrm_etnaviv.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-freedreno: FILELIST: removed "/usr/lib/libdrm_freedreno.so.1.133.0", added "/usr/lib/libdrm_freedreno.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-intel: FILELIST: removed "/usr/lib/libdrm_intel.so.1.133.0", added "/usr/lib/libdrm_intel.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-nouveau: FILELIST: removed "/usr/lib/libdrm_nouveau.so.2.133.0", added "/usr/lib/libdrm_nouveau.so.2.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-omap: FILELIST: removed "/usr/lib/libdrm_omap.so.1.133.0", added "/usr/lib/libdrm_omap.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm-radeon: FILELIST: removed "/usr/lib/libdrm_radeon.so.1.133.0", added "/usr/lib/libdrm_radeon.so.1.134.0"
-packages/x86-64-v3-poky-linux/libdrm/libdrm: FILELIST: removed "/usr/lib/libdrm.so.2.133.0", added "/usr/lib/libdrm.so.2.134.0"
-Changes to packages/x86-64-v3-poky-linux/libdrm (sysroot):
-  /usr/lib/libdrm_amdgpu.so.1 changed symlink target from libdrm_amdgpu.so.1.133.0 to libdrm_amdgpu.so.1.134.0
-  /usr/lib/libdrm_etnaviv.so.1 changed symlink target from libdrm_etnaviv.so.1.133.0 to libdrm_etnaviv.so.1.134.0
-  /usr/lib/libdrm_freedreno.so.1 changed symlink target from libdrm_freedreno.so.1.133.0 to libdrm_freedreno.so.1.134.0
-  /usr/lib/libdrm_intel.so.1 changed symlink target from libdrm_intel.so.1.133.0 to libdrm_intel.so.1.134.0
-  /usr/lib/libdrm_nouveau.so.2 changed symlink target from libdrm_nouveau.so.2.133.0 to libdrm_nouveau.so.2.134.0
-  /usr/lib/libdrm_omap.so.1 changed symlink target from libdrm_omap.so.1.133.0 to libdrm_omap.so.1.134.0
-  /usr/lib/libdrm_radeon.so.1 changed symlink target from libdrm_radeon.so.1.133.0 to libdrm_radeon.so.1.134.0
-  /usr/lib/libdrm.so.2 changed symlink target from libdrm.so.2.133.0 to libdrm.so.2.134.0
-  /usr/lib/libdrm_amdgpu.so.1.133.0 moved to /usr/lib/libdrm_amdgpu.so.1.134.0
-  /usr/lib/libdrm_etnaviv.so.1.133.0 moved to /usr/lib/libdrm_etnaviv.so.1.134.0
-  /usr/lib/libdrm_freedreno.so.1.133.0 moved to /usr/lib/libdrm_freedreno.so.1.134.0
-  /usr/lib/libdrm_intel.so.1.133.0 moved to /usr/lib/libdrm_intel.so.1.134.0
-  /usr/lib/libdrm_nouveau.so.2.133.0 moved to /usr/lib/libdrm_nouveau.so.2.134.0
-  /usr/lib/libdrm_omap.so.1.133.0 moved to /usr/lib/libdrm_omap.so.1.134.0
-  /usr/lib/libdrm_radeon.so.1.133.0 moved to /usr/lib/libdrm_radeon.so.1.134.0
-  /usr/lib/libdrm.so.2.133.0 moved to /usr/lib/libdrm.so.2.134.0
+RnJvbSAwMjNiYjFjN2E4YjFiZjQ5NGU0MjAyNGM5OWZiYTlkMDg1ZDYxY2M1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMTE6MzE6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBy
+cGNiaW5kOiB1cGdyYWRlIDEuMi44IC0+IDEuMi45CgotLS0KIC4uLi8wMDAxLXN5c3RlbWQtdXNl
+LUVudmlyb25tZW50RmlsZS5wYXRjaCAgICB8ICA3ICsrLS0tLQogLi4ucGNiaW5kX2FkZF9vcHRp
+b25fdG9fZml4X3BvcnRfbnVtYmVyLnBhdGNoIHwgMjUgKysrKysrKystLS0tLS0tLS0tLQogLi4u
+L3tycGNiaW5kXzEuMi44LmJiID0+IHJwY2JpbmRfMS4yLjkuYmJ9ICAgIHwgIDIgKy0KIDMgZmls
+ZXMgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgMjAgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWV4dGVuZGVkL3JwY2JpbmQve3JwY2JpbmRfMS4yLjguYmIgPT4gcnBjYmluZF8x
+LjIuOS5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvcnBjYmlu
+ZC9ycGNiaW5kLzAwMDEtc3lzdGVtZC11c2UtRW52aXJvbm1lbnRGaWxlLnBhdGNoIGIvbWV0YS9y
+ZWNpcGVzLWV4dGVuZGVkL3JwY2JpbmQvcnBjYmluZC8wMDAxLXN5c3RlbWQtdXNlLUVudmlyb25t
+ZW50RmlsZS5wYXRjaAppbmRleCAyOGQ4M2U3NGY1Li42MjFjYzM0MzIyIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvcnBjYmluZC9ycGNiaW5kLzAwMDEtc3lzdGVtZC11c2UtRW52
+aXJvbm1lbnRGaWxlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ycGNiaW5kL3Jw
+Y2JpbmQvMDAwMS1zeXN0ZW1kLXVzZS1FbnZpcm9ubWVudEZpbGUucGF0Y2gKQEAgLTEsNCArMSw0
+IEBACi1Gcm9tIDg3YTk5MzFlNGFhOTdkN2I2ZWIzYjI1ZjI2NDQ0ZTMwZTQ1ZTNlNDEgTW9uIFNl
+cCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDQzOTA4ODkxYjkzNDQwNTRlMjNhN2Q5ZjRkNmZjNWIz
+NGIyNDA2Y2YgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBTdGVmYW4gQWduZXIgPHN0
+ZWZhbi5hZ25lckB0b3JhZGV4LmNvbT4KIERhdGU6IFdlZCwgMjcgQXVnIDIwMjUgMTE6MzA6NDgg
+KzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gc3lzdGVtZDogdXNlIEVudmlyb25tZW50RmlsZQpAQCAt
+MTQsNyArMTQsNyBAQCBTaWduZWQtb2ZmLWJ5OiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRy
+aXZlci5jb20+CiAgMiBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25z
+KC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IDZl
+ZGUwYWYuLmQxYWU1ZTQgMTAwNjQ0CitpbmRleCBjNDYyOTRjLi4xNTY2Mzg2IDEwMDY0NAogLS0t
+IGEvY29uZmlndXJlLmFjCiArKysgYi9jb25maWd1cmUuYWMKIEBAIC04Niw1ICs4Niw3IEBAIEFD
+X0NIRUNLX0hFQURFUlMoW25zcy5oXSkKQEAgLTQyLDYgKzQyLDMgQEAgaW5kZXggNzcxYjk0NC4u
+NTk5MjA5OCAxMDA2NDQKICBFeGVjU3RhcnQ9QF9zYmluZGlyQC9ycGNiaW5kICRSUENCSU5EX09Q
+VElPTlMgQHdhcm1zdGFydHNfb3B0QCAtZgogIAogIFtJbnN0YWxsXQotLS0gCi0yLjM0LjEKLQpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3JwY2JpbmQvcnBjYmluZC9ycGNiaW5k
+X2FkZF9vcHRpb25fdG9fZml4X3BvcnRfbnVtYmVyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWV4dGVu
+ZGVkL3JwY2JpbmQvcnBjYmluZC9ycGNiaW5kX2FkZF9vcHRpb25fdG9fZml4X3BvcnRfbnVtYmVy
+LnBhdGNoCmluZGV4IDMyMDVmZjMwODYuLmYwYTRkZjA0ZTQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1leHRlbmRlZC9ycGNiaW5kL3JwY2JpbmQvcnBjYmluZF9hZGRfb3B0aW9uX3RvX2ZpeF9w
+b3J0X251bWJlci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvcnBjYmluZC9ycGNi
+aW5kL3JwY2JpbmRfYWRkX29wdGlvbl90b19maXhfcG9ydF9udW1iZXIucGF0Y2gKQEAgLTEsNCAr
+MSw0IEBACi1Gcm9tIDI4NWMxOTNkYzk0YjUzNzYzYWM4ZDZmOTEyMjllYWFiMzdkNDVmYzYgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGZjNzdkZjVmZWQ4MzRkZDFjZmZjOGM1OGFkYjRh
+MTNhOWI5N2Y1Y2YgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBSb3kgTGkgPHJvbmdx
+aW5nLmxpQHdpbmRyaXZlci5jb20+CiBEYXRlOiBXZWQsIDI3IEF1ZyAyMDI1IDExOjI0OjUzICsw
+ODAwCiBTdWJqZWN0OiBbUEFUQ0hdIGFkZCBvcHRpb24gdG8gbWFrZSB1c2VycyBhYmxlIHRvIHVz
+ZSBmaXhlZCBwb3J0IG51bWJlcgpAQCAtMzgsMTggKzM4LDE4IEBAIGluZGV4IDE1YjcwZjkuLjRh
+NmZmYmMgMTAwNjQ0CiAgLkZsIGgKICBvcHRpb24gaXMgc3BlY2lmaWVkLAogZGlmZiAtLWdpdCBh
+L3NyYy9ycGNiX3N2Y19jb20uYyBiL3NyYy9ycGNiX3N2Y19jb20uYwotaW5kZXggMTc0M2RhZC4u
+MDdhMWM3NSAxMDA2NDQKK2luZGV4IDZkMGQ3MmQuLjJmMTBkYWMgMTAwNjQ0CiAtLS0gYS9zcmMv
+cnBjYl9zdmNfY29tLmMKICsrKyBiL3NyYy9ycGNiX3N2Y19jb20uYwotQEAgLTQ4LDYgKzQ4LDcg
+QEAKLSAjaW5jbHVkZSA8cnBjL3JwYy5oPgorQEAgLTQ5LDYgKzQ5LDcgQEAKKyAjaW5jbHVkZSA8
+cnBjL3JwY19jb20uaD4KICAjaW5jbHVkZSA8cnBjL3JwY2JfcHJvdC5oPgogICNpbmNsdWRlIDxy
+cGMvc3ZjX2RnLmg+CiArI2luY2x1ZGUgPHJwYy9ycGNfY29tLmg+CiAgI2luY2x1ZGUgPG5ldGNv
+bmZpZy5oPgogICNpbmNsdWRlIDxlcnJuby5oPgogICNpbmNsdWRlIDxzeXNsb2cuaD4KLUBAIC00
+OTcsNiArNDk4LDcgQEAgeGRyX29wYXF1ZV9wYXJtcyhYRFIgKnhkcnMsIHN0cnVjdCByX3JtdGNh
+bGxfYXJncyAqY2FwKQorQEAgLTQ5OSw2ICs1MDAsNyBAQCB4ZHJfb3BhcXVlX3Bhcm1zKFhEUiAq
+eGRycywgc3RydWN0IHJfcm10Y2FsbF9hcmdzICpjYXApCiAgCiAgc3RhdGljIHN0cnVjdCBybXRj
+YWxsZmRfbGlzdCAqcm10aGVhZDsKICBzdGF0aWMgc3RydWN0IHJtdGNhbGxmZF9saXN0ICpybXR0
+YWlsOwpAQCAtNTcsNyArNTcsNyBAQCBpbmRleCAxNzQzZGFkLi4wN2ExYzc1IDEwMDY0NAogIAog
+IGludAogIGNyZWF0ZV9ybXRjYWxsX2ZkKHN0cnVjdCBuZXRjb25maWcgKm5jb25mKQotQEAgLTUw
+NCw2ICs1MDYsOCBAQCBjcmVhdGVfcm10Y2FsbF9mZChzdHJ1Y3QgbmV0Y29uZmlnICpuY29uZikK
+K0BAIC01MDYsNiArNTA4LDggQEAgY3JlYXRlX3JtdGNhbGxfZmQoc3RydWN0IG5ldGNvbmZpZyAq
+bmNvbmYpCiAgCWludCBmZDsKICAJc3RydWN0IHJtdGNhbGxmZF9saXN0ICpybXQ7CiAgCVNWQ1hQ
+UlQgKnhwcnQ7CkBAIC02Niw3ICs2Niw3IEBAIGluZGV4IDE3NDNkYWQuLjA3YTFjNzUgMTAwNjQ0
+CiAgCiAgCWlmICgoZmQgPSBfX3JwY19uY29uZjJmZChuY29uZikpID09IC0xKSB7CiAgCQlpZiAo
+ZGVidWdnaW5nKQotQEAgLTUxMiw2ICs1MTYsMTkgQEAgY3JlYXRlX3JtdGNhbGxfZmQoc3RydWN0
+IG5ldGNvbmZpZyAqbmNvbmYpCitAQCAtNTE0LDYgKzUxOCwxOSBAQCBjcmVhdGVfcm10Y2FsbF9m
+ZChzdHJ1Y3QgbmV0Y29uZmlnICpuY29uZikKICAJCQluY29uZi0+bmNfZGV2aWNlLCBlcnJubyk7
+CiAgCQlyZXR1cm4gKC0xKTsKICAJfQpAQCAtODcsNyArODcsNyBAQCBpbmRleCAxNzQzZGFkLi4w
+N2ExYzc1IDEwMDY0NAogIAlpZiAoeHBydCA9PSBOVUxMKSB7CiAgCQlpZiAoZGVidWdnaW5nKQog
+ZGlmZiAtLWdpdCBhL3NyYy9ycGNiaW5kLmMgYi9zcmMvcnBjYmluZC5jCi1pbmRleCBiZjdiNDk5
+Li43MjY4OTA3IDEwMDY0NAoraW5kZXggNDIxMjM3Ny4uN2U3Zjc5ZCAxMDA2NDQKIC0tLSBhL3Ny
+Yy9ycGNiaW5kLmMKICsrKyBiL3NyYy9ycGNiaW5kLmMKIEBAIC0xMTIsNiArMTEyLDcgQEAgaW50
+IHJ1bmFzZGFlbW9uID0gMDsKQEAgLTk4LDcgKzk4LDcgQEAgaW5kZXggYmY3YjQ5OS4uNzI2ODkw
+NyAxMDA2NDQKICAKICBjaGFyICoqaG9zdHMgPSBOVUxMOwogIGludCBuaG9zdHMgPSAwOwotQEAg
+LTk1OSw3ICs5NjAsNyBAQCBwYXJzZWFyZ3MoaW50IGFyZ2MsIGNoYXIgKmFyZ3ZbXSkKK0BAIC05
+NjMsNyArOTY0LDcgQEAgcGFyc2VhcmdzKGludCBhcmdjLCBjaGFyICphcmd2W10pCiAgewogIAlp
+bnQgYzsKICAJb2xkc3R5bGVfbG9jYWwgPSAxOwpAQCAtMTA3LDcgKzEwNyw3IEBAIGluZGV4IGJm
+N2I0OTkuLjcyNjg5MDcgMTAwNjQ0CiAgCQlzd2l0Y2ggKGMpIHsKICAJCWNhc2UgJ2EnOgogIAkJ
+CWRvYWJvcnQgPSAxOwkvKiB3aGVuIGRlYnVnZ2luZywgZG8gYW4gYWJvcnQgb24gKi8KLUBAIC05
+NzcsNiArOTc4LDkgQEAgcGFyc2VhcmdzKGludCBhcmdjLCBjaGFyICphcmd2W10pCitAQCAtOTgx
+LDYgKzk4Miw5IEBAIHBhcnNlYXJncyhpbnQgYXJnYywgY2hhciAqYXJndltdKQogIAkJCWlmICho
+b3N0c1tuaG9zdHMgLSAxXSA9PSBOVUxMKQogIAkJCQllcnJ4KDEsICJPdXQgb2YgbWVtb3J5Iik7
+CiAgCQkJYnJlYWs7CkBAIC0xMTcsNyArMTE3LDcgQEAgaW5kZXggYmY3YjQ5OS4uNzI2ODkwNyAx
+MDA2NDQKICAJCWNhc2UgJ2knOgogIAkJCWluc2VjdXJlID0gMTsKICAJCQlicmVhazsKLUBAIC05
+OTksNyArMTAwMyw3IEBAIHBhcnNlYXJncyhpbnQgYXJnYywgY2hhciAqYXJndltdKQorQEAgLTEw
+MDMsNyArMTAwNyw3IEBAIHBhcnNlYXJncyhpbnQgYXJnYywgY2hhciAqYXJndltdKQogIAkJCWJy
+ZWFrOwogICNlbmRpZgogIAkJZGVmYXVsdDoJLyogZXJyb3IgKi8KQEAgLTEyNiw2ICsxMjYsMyBA
+QCBpbmRleCBiZjdiNDk5Li43MjY4OTA3IDEwMDY0NAogIAkJCWV4aXQgKDEpOwogIAkJfQogIAl9
+Ci0tLSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvcnBjYmlu
+ZC9ycGNiaW5kXzEuMi44LmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3JwY2JpbmQvcnBjYmlu
+ZF8xLjIuOS5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+ZXh0ZW5kZWQvcnBjYmluZC9ycGNiaW5kXzEuMi44LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+ZXh0ZW5kZWQvcnBjYmluZC9ycGNiaW5kXzEuMi45LmJiCmluZGV4IGJkOGJhMWU4OGEuLjY5MmM0
+MjFjZDkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ycGNiaW5kL3JwY2JpbmRf
+MS4yLjguYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3JwY2JpbmQvcnBjYmluZF8xLjIu
+OS5iYgpAQCAtMTgsNyArMTgsNyBAQCBTUkNfVVJJID0gIiR7U09VUkNFRk9SR0VfTUlSUk9SfS9y
+cGNiaW5kL3JwY2JpbmQtJHtQVn0udGFyLmJ6MiBcCiAgICAgICAgICAgIGZpbGU6Ly9ycGNiaW5k
+X2FkZF9vcHRpb25fdG9fZml4X3BvcnRfbnVtYmVyLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTov
+LzAwMDEtc3lzdGVtZC11c2UtRW52aXJvbm1lbnRGaWxlLnBhdGNoIFwKICAgICAgICAgICAiCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiOTY0MTMyYzM4OTkxOGU4OTY0ZDczMzQ5MzZiNmRkMTBlZjAy
+NWIzMDBjNmIyOWU2OTNiYTBmMjk1NTBlM2RlNSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJjZTVm
+MWE4N2M1NjZlZjBiMjg5N2EyOGY1MGE3NWMxZGMyM2ZlYzQxM2E0NmE3ZjQxODM0MjNiNmI2YWE5
+OTFiIgogCiBpbmhlcml0IGF1dG90b29scyB1cGRhdGUtcmMuZCBzeXN0ZW1kIHBrZ2NvbmZpZyB1
+cGRhdGUtYWx0ZXJuYXRpdmVzIHNvdXJjZWZvcmdlLXJlbGVhc2VzCiAKLS0gCjIuNDcuMQoK
 
---===============0700254294422072993==--
+--===============2155866599150672669==--
 
