@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CFE2CD98E7
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:32:08 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50410.1781195498830752471
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BCAECD98DC
+	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 16:32:07 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.50407.1781195495833571318
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 09:32:03 -0700
+ Thu, 11 Jun 2026 09:32:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Z9+znSvt;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=1B9RPz+r;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019eb786c275-802a08b6-1add-4759-9087-5f0294fbab0f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BPd0tlQL;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=I8t46mVj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019eb786cbdb-805704ed-eb84-4db4-b242-1724c34c7038-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781195523;
+	t=1781195525;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=as4RoPdQFc2jrvmhGcYVN8XfIJQ8k24NTdVDI99b7JA=;
-	b=Z9+znSvtZZBNYXOHTzdaTpe8K5TggCmglySI3cSsv0GsCPlBwMZkj3VQe/rIzebY
-	OWYO/6n7JuajBPEtO0LSyzhhfwbAbSAKC/kjxJLwLUn7m3xvEcGbm2ogwoDyWQ5gAAt
-	6kIyRbGky2K9dv6Jed7WCMwjyk0+Tij3y5N9ikeM=
+	bh=WsHoC/vHMwbWqc0F1Ka7FLvwLf0dF+TCxGNev8lMvc8=;
+	b=BPd0tlQL6Lsf/7nUIhV4Q3Ekyu6nS60Ifasz9jytp7c9jXmmUdM5gkJxAo9PQgJQ
+	C5WlAoL5LFdIzwvMScnze+oFckuYUq0r3+DxJE7Qoni8wRqEeHUEcwVyj+Gx+5VgVGQ
+	Ch0EtF4LfQVXsvGTCXe7NZ8Rr9t7/dRYtrkjVH2Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195523;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781195525;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=as4RoPdQFc2jrvmhGcYVN8XfIJQ8k24NTdVDI99b7JA=;
-	b=1B9RPz+re8WJM4dMJnvkbOY8rGbdoID3skv4ozGrcMHqPzPulSgMlRN/kCegM04P
-	sBbwRQ/cz2a/tx2e0h8DSsSTTWllA7UpQ0TSoQ5FIBPV8FsJNV3R0jCwnUciNbDAHHR
-	osOWyJqvE0awjuzdjChFUczf531bNkjmKBtkQnwo=
-Content-Type: multipart/mixed; boundary="===============4228414947638171493=="
+	bh=WsHoC/vHMwbWqc0F1Ka7FLvwLf0dF+TCxGNev8lMvc8=;
+	b=I8t46mVjFgdh220e0y4zFJcTFNluJUsrkrQIHHR3cfYciuSJ5GMkooSMR5rqATB0
+	YpWX8d5QirNEXiOQU3BumHxnpVjCqImqiG7YlenU9sGuKEszRJ2cjqTIMBUCXkArcLJ
+	9NqxJBxgEQgEXmLl9EqrhCb5BdSjNyplcajkZELM=
+Content-Type: multipart/mixed; boundary="===============1888560771484592191=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gpgme: upgrading to 2.1.0 SUCCEEDED
-Message-ID: <0101019eb786c275-802a08b6-1add-4759-9087-5f0294fbab0f-000000@us-west-2.amazonses.com>
-Date: Thu, 11 Jun 2026 16:32:02 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] libksba: upgrading to 1.8.0 SUCCEEDED
+Message-ID: <0101019eb786cbdb-805704ed-eb84-4db4-b242-1724c34c7038-000000@us-west-2.amazonses.com>
+Date: Thu, 11 Jun 2026 16:32:05 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.11-54.240.27.30
+X-SES-Outgoing: 2026.06.11-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:32:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238569
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 16:32:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238579
 
---===============4228414947638171493==
+--===============1888560771484592191==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gpgme* to *2.1.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libksba* to *1.8.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gpgme-upgrade-2.0.1-2.1.0.patch
+    - apply the patch: git am 0001-libksba-upgrade-1.6.8-1.8.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,374 +72,465 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3a0694d1daaca9813cdcc33011c1c09362bee455 Mon Sep 17 00:00:00 2001
+From 79016fa6275cca63a385ef88a85bd1a66d6e2fcd Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 11 Jun 2026 15:15:16 +0000
-Subject: [PATCH] gpgme: upgrade 2.0.1 -> 2.1.0
+Date: Thu, 11 Jun 2026 15:51:13 +0000
+Subject: [PATCH] libksba: upgrade 1.6.8 -> 1.8.0
 
 ---
- ...uild-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch |  5 +----
- .../0001-autogen.sh-remove-unknown-in-version.patch   |  6 +++---
- meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch | 11 ++++-------
- ...0001-posix-io.c-Use-off_t-instead-of-off64_t.patch |  4 ++--
- .../0001-use-closefrom-on-linux-and-glibc-2.34.patch  |  6 +++---
- ...nfig-skip-all-lib-or-usr-lib-directories-in-.patch |  2 +-
- .../gpgme/{gpgme_2.0.1.bb => gpgme_2.1.0.bb}          |  2 +-
- 7 files changed, 15 insertions(+), 21 deletions(-)
- rename meta/recipes-support/gpgme/{gpgme_2.0.1.bb => gpgme_2.1.0.bb} (96%)
+ .../libksba/libksba/ksba-add-pkgconfig-support.patch            | 2 +-
+ .../libksba/{libksba_1.6.8.bb => libksba_1.8.0.bb}              | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libksba/{libksba_1.6.8.bb => libksba_1.8.0.bb} (95%)
 
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
-index 4b8d1ceecd..29c3c48670 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
+diff --git a/meta/recipes-support/libksba/libksba/ksba-add-pkgconfig-support.patch b/meta/recipes-support/libksba/libksba/ksba-add-pkgconfig-support.patch
+index ef9066cd1f..94612ec0a9 100644
+--- a/meta/recipes-support/libksba/libksba/ksba-add-pkgconfig-support.patch
++++ b/meta/recipes-support/libksba/libksba/ksba-add-pkgconfig-support.patch
 @@ -1,4 +1,4 @@
--From 6ad1ac8c03ae3acc0539fc1566070e2468c7df0a Mon Sep 17 00:00:00 2001
-+From d8663c7cb62c1db5972e7db23e17aaaaa22f4492 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 14 Oct 2025 14:12:55 +0800
- Subject: [PATCH] Revert "build: Make gpgme.m4 use gpgrt-config with *.pc."
-@@ -113,6 +113,3 @@ index acbfc1c..5f689e1 100644
-      AC_MSG_RESULT(yes)
-      ifelse([$2], , :, [$2])
-      _AM_PATH_GPGME_CONFIG_HOST_CHECK
---- 
--2.34.1
--
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch b/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch
-index 890909dd5e..4cd8d38488 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-version.patch
-@@ -1,4 +1,4 @@
--From 0bb7fddb6a768bbc46695de4c6e0256a3580ccbb Mon Sep 17 00:00:00 2001
-+From fbb0d8cbb3eae2e5eccc59f16fff76d591772410 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 26 Nov 2024 23:23:42 -0800
- Subject: [PATCH] autogen.sh: remove '-unknown' in version
-@@ -20,10 +20,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/autogen.sh b/autogen.sh
--index 9f91297..9f7559b 100755
-+index 71f89e2..6b407e2 100755
- --- a/autogen.sh
- +++ b/autogen.sh
--@@ -271,7 +271,7 @@ if [ "$myhost" = "find-version" ]; then
-+@@ -286,7 +286,7 @@ if [ "$myhost" = "find-version" ]; then
-      else
-        ingit=no
-        beta=yes
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-index 67b65157d1..4cfe53fad0 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-@@ -1,4 +1,4 @@
--From 4b4e6fc898dd249387bbed4924fa22c1c494327a Mon Sep 17 00:00:00 2001
-+From 34cd082b8d6a7893c054085ef2fc7afa66b9f39a Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Mon, 21 Jul 2025 12:43:29 +0800
- Subject: [PATCH] pkgconfig
-@@ -29,10 +29,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  create mode 100644 src/gpgme-pthread.pc.in
- 
- diff --git a/configure.ac b/configure.ac
--index d4dcb1c..293fcc2 100644
-+index a01a8c1..8b0dc40 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -844,6 +844,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
-+@@ -845,6 +845,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
-                  src/gpgme.pc
-                  src/gpgme-glib.pc
-                  src/gpgme.h)
-@@ -41,7 +41,7 @@ index d4dcb1c..293fcc2 100644
-  AC_CONFIG_FILES([lang/Makefile lang/cl/Makefile lang/cl/gpgme.asd])
-  AC_CONFIG_FILES([lang/js/Makefile lang/js/src/Makefile
- diff --git a/src/Makefile.am b/src/Makefile.am
--index edc239b..d427044 100644
-+index 4f45dfe..3c49190 100644
- --- a/src/Makefile.am
- +++ b/src/Makefile.am
- @@ -20,11 +20,11 @@
-@@ -295,6 +295,3 @@ index 9ddef5c..932645b 100644
- +Cflags: -I${includedir}
- +Libs: -L${libdir} -lgpgme
-  URL: https://www.gnupg.org/software/gpgme/index.html
---- 
--2.34.1
--
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch b/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch
-index 932fb9c962..a2c757d4ef 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch
-@@ -1,4 +1,4 @@
--From 417036051c84b02fe43f162ee378278a44636451 Mon Sep 17 00:00:00 2001
-+From 8e27dff3784039af68c537981c78d5f8b5c23cec Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 15 Dec 2022 08:44:13 -0800
- Subject: [PATCH] posix-io.c: Use off_t instead of off64_t
-@@ -26,7 +26,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/src/posix-io.c b/src/posix-io.c
--index 0d0a98b..286a626 100644
-+index 4dee776..3b99500 100644
- --- a/src/posix-io.c
- +++ b/src/posix-io.c
- @@ -74,8 +74,8 @@
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
-index ed2edabd63..0cdc4e91af 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch
-@@ -1,4 +1,4 @@
--From aaed03b76505b1feaeeb5a4a3c6bdcc7dd089f01 Mon Sep 17 00:00:00 2001
-+From 6b6d35523ef1b6d9c7940182ef49e111959f041e Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 15 Jul 2021 12:33:13 -0700
- Subject: [PATCH] use closefrom() on linux and glibc 2.34+
-@@ -13,10 +13,10 @@ Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/src/posix-io.c b/src/posix-io.c
--index a422d8f..0d0a98b 100644
-+index f8196f9..4dee776 100644
- --- a/src/posix-io.c
- +++ b/src/posix-io.c
--@@ -577,7 +577,7 @@ _gpgme_io_spawn (const char *path, char *const argv[], unsigned int flags,
-+@@ -599,7 +599,7 @@ _gpgme_io_spawn (const char *path, char *const argv[], unsigned int flags,
-                if (fd_list[i].fd > fd)
-                  fd = fd_list[i].fd;
-              fd++;
-diff --git a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
-index c021e48be9..d6445d4d44 100644
---- a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
-@@ -1,4 +1,4 @@
--From 9ea685f1b898ee703b85b705c35b9cbd77cca17f Mon Sep 17 00:00:00 2001
-+From 950651b3226240ef3453270fdca4213d6e42c52c Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 13 Apr 2017 16:40:27 +0300
- Subject: [PATCH] gpgme-config: skip all /lib* or /usr/lib* directories in
-diff --git a/meta/recipes-support/gpgme/gpgme_2.0.1.bb b/meta/recipes-support/gpgme/gpgme_2.1.0.bb
-similarity index 96%
-rename from meta/recipes-support/gpgme/gpgme_2.0.1.bb
-rename to meta/recipes-support/gpgme/gpgme_2.1.0.bb
-index ae20f785e6..269070b10b 100644
---- a/meta/recipes-support/gpgme/gpgme_2.0.1.bb
-+++ b/meta/recipes-support/gpgme/gpgme_2.1.0.bb
-@@ -24,7 +24,7 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
-            file://0001-autogen.sh-remove-unknown-in-version.patch \
+-From 929f7670a6c1e9450f239ee374bb34ac13c13592 Mon Sep 17 00:00:00 2001
++From a915d694b97f3226f6776ce405e8562b568070bf Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 3 Dec 2012 18:17:31 +0800
+ Subject: [PATCH] libksba: add pkgconfig support
+diff --git a/meta/recipes-support/libksba/libksba_1.6.8.bb b/meta/recipes-support/libksba/libksba_1.8.0.bb
+similarity index 95%
+rename from meta/recipes-support/libksba/libksba_1.6.8.bb
+rename to meta/recipes-support/libksba/libksba_1.8.0.bb
+index 205704917e..938bda67f5 100644
+--- a/meta/recipes-support/libksba/libksba_1.6.8.bb
++++ b/meta/recipes-support/libksba/libksba_1.8.0.bb
+@@ -28,7 +28,7 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://run-ptest \
             "
  
--SRC_URI[sha256sum] = "821ab0695c842eab51752a81980c92b0410c7eadd04103f791d5d2a526784966"
-+SRC_URI[sha256sum] = "841c5ea53fc26259f4fbf0e8bde982dea1b8a1ca0cb77e681c82b050566bf92b"
+-SRC_URI[sha256sum] = "0f4510f1c7a679c3545990a31479f391ad45d84e039176309d42f80cf41743f5"
++SRC_URI[sha256sum] = "296b9db9095749f2aa104202d7ab7fd09ad10710e00780a709c9754b1a1d9292"
  
- DEPENDS = "libgpg-error-native libgpg-error libassuan"
- 
+ do_configure:prepend () {
+ 	# Else these could be used in preference to those in aclocal-copy
 -- 
 2.47.1
 
 
---===============4228414947638171493==
+--===============1888560771484592191==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/gpgme/gpgme-dbg: FILELIST: removed "/usr/lib/.debug/libgpgme.so.45.0.1", added "/usr/lib/.debug/libgpgme.so.45.1.0"
-packages/x86-64-v3-poky-linux/gpgme/gpgme-dbg: PKGV changed from 2.0.1 [default] to 2.1.0 [default]
-packages/x86-64-v3-poky-linux/gpgme/gpgme-dbg: PKGSIZE changed from 2267416 to 2275632 (+0%)
-packages/x86-64-v3-poky-linux/gpgme/gpgme-dbg: PV changed from "2.0.1" to "2.1.0"
-packages/x86-64-v3-poky-linux/gpgme/gpgme-dev: PKGV changed from 2.0.1 [default] to 2.1.0 [default]
-packages/x86-64-v3-poky-linux/gpgme/gpgme-dev: PKGSIZE changed from 105967 to 106699 (+1%)
-packages/x86-64-v3-poky-linux/gpgme/gpgme-dev: PV changed from "2.0.1" to "2.1.0"
-packages/x86-64-v3-poky-linux/gpgme/gpgme-doc: PKGV changed from 2.0.1 [default] to 2.1.0 [default]
-packages/x86-64-v3-poky-linux/gpgme/gpgme-doc: PKGSIZE changed from 474423 to 476998 (+1%)
-packages/x86-64-v3-poky-linux/gpgme/gpgme-doc: PV changed from "2.0.1" to "2.1.0"
-packages/x86-64-v3-poky-linux/gpgme/gpgme-locale: PKGV changed from 2.0.1 [default] to 2.1.0 [default]
-packages/x86-64-v3-poky-linux/gpgme/gpgme-locale: PV changed from "2.0.1" to "2.1.0"
-packages/x86-64-v3-poky-linux/gpgme/gpgme-src: FILELIST: directory renamed /usr/src/debug/gpgme/2.0.1/src -> /usr/src/debug/gpgme/2.1.0/src, directory renamed /usr/src/debug/gpgme/2.0.1/tools -> /usr/src/debug/gpgme/2.1.0/tools
-packages/x86-64-v3-poky-linux/gpgme/gpgme-src: PKGV changed from 2.0.1 [default] to 2.1.0 [default]
-packages/x86-64-v3-poky-linux/gpgme/gpgme-src: PKGSIZE changed from 1332922 to 1340856 (+1%)
-packages/x86-64-v3-poky-linux/gpgme/gpgme-src: PV changed from "2.0.1" to "2.1.0"
-packages/x86-64-v3-poky-linux/gpgme/gpgme-staticdev: PKGV changed from 2.0.1 [default] to 2.1.0 [default]
-packages/x86-64-v3-poky-linux/gpgme/gpgme-staticdev: PV changed from "2.0.1" to "2.1.0"
-packages/x86-64-v3-poky-linux/gpgme/gpgme-tool: PKGV changed from 2.0.1 [default] to 2.1.0 [default]
-packages/x86-64-v3-poky-linux/gpgme/gpgme-tool: PV changed from "2.0.1" to "2.1.0"
-packages/x86-64-v3-poky-linux/gpgme/gpgme: FILELIST: removed "/usr/lib/libgpgme.so.45.0.1", added "/usr/lib/libgpgme.so.45.1.0"
-packages/x86-64-v3-poky-linux/gpgme/gpgme: PKGV changed from 2.0.1 [default] to 2.1.0 [default]
-packages/x86-64-v3-poky-linux/gpgme/gpgme: PKGSIZE changed from 487618 to 487650 (+0%)
-packages/x86-64-v3-poky-linux/gpgme/gpgme: PV changed from "2.0.1" to "2.1.0"
-packages/x86-64-v3-poky-linux/gpgme: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-2.0.1.tar.bz2 file://0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch file://0001-pkgconfig.patch file://0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch file://0001-use-closefrom-on-linux-and-glibc-2.34.patch file://0001-posix-io.c-Use-off_t-instead-of-off64_t.patch file://0001-autogen.sh-remove-unknown-in-version.patch" to "https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-2.1.0.tar.bz2 file://0001-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch file://0001-pkgconfig.patch file://0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch file://0001-use-closefrom-on-linux-and-glibc-2.34.patch file://0001-posix-io.c-Use-off_t-instead-of-off64_t.patch file://0001-autogen.sh-remove-unknown-in-version.patch"
-packages/x86-64-v3-poky-linux/gpgme: PKGV changed from 2.0.1 [default] to 2.1.0 [default]
-packages/x86-64-v3-poky-linux/gpgme: PV changed from "2.0.1" to "2.1.0"
-Changes to packages/x86-64-v3-poky-linux/gpgme (sysroot):
-  /usr/lib/libgpgme.so.45 changed symlink target from libgpgme.so.45.0.1 to libgpgme.so.45.1.0
-  /usr/lib/libgpgme.so changed symlink target from libgpgme.so.45.0.1 to libgpgme.so.45.1.0
-  /usr/lib/libgpgme.so.45.0.1 moved to /usr/lib/libgpgme.so.45.1.0
+packages/x86-64-v3-poky-linux/libksba: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.6.8.tar.bz2 file://ksba-add-pkgconfig-support.patch file://run-ptest" to "https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.8.0.tar.bz2 file://ksba-add-pkgconfig-support.patch file://run-ptest"
+packages/x86-64-v3-poky-linux/libksba: PKGV changed from 1.6.8 [default] to 1.8.0 [default]
+packages/x86-64-v3-poky-linux/libksba: PV changed from "1.6.8" to "1.8.0"
+packages/x86-64-v3-poky-linux/libksba/libksba-dbg: PKGV changed from 1.6.8 [default] to 1.8.0 [default]
+packages/x86-64-v3-poky-linux/libksba/libksba-dbg: PKGSIZE changed from 1438576 to 1461440 (+2%)
+packages/x86-64-v3-poky-linux/libksba/libksba-dbg: PV changed from "1.6.8" to "1.8.0"
+packages/x86-64-v3-poky-linux/libksba/libksba-dbg: FILELIST: removed "/usr/lib/.debug/libksba.so.8.14.8", added "/usr/lib/.debug/libksba.so.8.16.0"
+packages/x86-64-v3-poky-linux/libksba/libksba-dev: PKGV changed from 1.6.8 [default] to 1.8.0 [default]
+packages/x86-64-v3-poky-linux/libksba/libksba-dev: PKGSIZE changed from 33588 to 34015 (+1%)
+packages/x86-64-v3-poky-linux/libksba/libksba-dev: PV changed from "1.6.8" to "1.8.0"
+packages/x86-64-v3-poky-linux/libksba/libksba-doc: PKGV changed from 1.6.8 [default] to 1.8.0 [default]
+packages/x86-64-v3-poky-linux/libksba/libksba-doc: PV changed from "1.6.8" to "1.8.0"
+packages/x86-64-v3-poky-linux/libksba/libksba-locale: PKGV changed from 1.6.8 [default] to 1.8.0 [default]
+packages/x86-64-v3-poky-linux/libksba/libksba-locale: PV changed from "1.6.8" to "1.8.0"
+packages/x86-64-v3-poky-linux/libksba/libksba-ptest: PKGV changed from 1.6.8 [default] to 1.8.0 [default]
+packages/x86-64-v3-poky-linux/libksba/libksba-ptest: PKGSIZE changed from 221059 to 225155 (+2%)
+packages/x86-64-v3-poky-linux/libksba/libksba-ptest: PV changed from "1.6.8" to "1.8.0"
+packages/x86-64-v3-poky-linux/libksba/libksba-src: PKGV changed from 1.6.8 [default] to 1.8.0 [default]
+packages/x86-64-v3-poky-linux/libksba/libksba-src: PKGSIZE changed from 992924 to 1013623 (+2%)
+packages/x86-64-v3-poky-linux/libksba/libksba-src: PV changed from "1.6.8" to "1.8.0"
+packages/x86-64-v3-poky-linux/libksba/libksba-src: FILELIST: directory renamed /usr/src/debug/libksba/1.6.8/src -> /usr/src/debug/libksba/1.8.0/src, directory renamed /usr/src/debug/libksba/1.6.8/tests -> /usr/src/debug/libksba/1.8.0/tests
+packages/x86-64-v3-poky-linux/libksba/libksba-staticdev: PKGV changed from 1.6.8 [default] to 1.8.0 [default]
+packages/x86-64-v3-poky-linux/libksba/libksba-staticdev: PV changed from "1.6.8" to "1.8.0"
+packages/x86-64-v3-poky-linux/libksba/libksba: PKGV changed from 1.6.8 [default] to 1.8.0 [default]
+packages/x86-64-v3-poky-linux/libksba/libksba: PKGSIZE changed from 309337 to 317529 (+3%)
+packages/x86-64-v3-poky-linux/libksba/libksba: PV changed from "1.6.8" to "1.8.0"
+packages/x86-64-v3-poky-linux/libksba/libksba: FILELIST: removed "/usr/lib/libksba.so.8.14.8", added "/usr/lib/libksba.so.8.16.0"
+Changes to packages/x86-64-v3-poky-linux/libksba (sysroot):
+  /usr/lib/libksba.so.8 changed symlink target from libksba.so.8.14.8 to libksba.so.8.16.0
+  /usr/lib/libksba.so changed symlink target from libksba.so.8.14.8 to libksba.so.8.16.0
+  /usr/lib/libksba.so.8.14.8 moved to /usr/lib/libksba.so.8.16.0
 
---===============4228414947638171493==
+--===============1888560771484592191==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1980 targets, 62 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-musleabi"
+MACHINE              = "qemuarm"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-628a2bb12c62b85c8cb44e92d41b9f5f859f4f01"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+meta                 = "tmp-auh-upgrades:628a2bb12c62b85c8cb44e92d41b9f5f859f4f01"
+meta-yocto-bsp       
+meta-poky            = "master:59c41245ad231f5320defcb275477e3d25a2203e"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 216 Local 201 Mirrors 0 Missed 15 Current 299 (93% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 306 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 339 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 340 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 346 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_package_qa_setscene)
+NOTE: Running setscene task 352 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 362 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 374 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.60.bb:do_create_spdx_setscene)
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_qa_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe libksba-1.8.0-r0: task do_populate_lic_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libgpg-error-1.60-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_qa_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 393 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_packagedata_setscene)
+NOTE: recipe libksba-1.8.0-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 398 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 409 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libgpg-error-1.60-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 410 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.60.bb:do_packagedata_setscene)
+NOTE: Running setscene task 412 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 413 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.60.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 414 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.60.bb:do_populate_sysroot_setscene)
+NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libksba-1.8.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libgpg-error-1.60-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.60-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libgpg-error-1.60-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libksba-1.8.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 979 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_fetch)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 415 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_spdx_setscene)
+NOTE: recipe ptest-runner-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 417 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 422 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/shadow/shadow_4.19.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 425 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 427 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libgpg-error-1.60-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 429 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe libgpg-error-1.60-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libksba-1.8.0-r0: task do_fetch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libksba-1.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe shadow-4.19.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running task 985 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_unpack)
+NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 434 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_packagedata_setscene)
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libgpg-error/1.60/temp/log.do_packagedata_setscene.3186958
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.60.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 436 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.60.bb:do_package_setscene)
+NOTE: recipe ptest-runner-2.5.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.4-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libksba-1.8.0-r0: task do_unpack: Started
+NOTE: recipe base-passwd-3.6.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libksba-1.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe shadow-4.19.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 441 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 442 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 443 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 447 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 448 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: Running task 991 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_patch)
+NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libksba-1.8.0-r0: task do_patch: Started
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1013 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 460 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libksba-1.8.0-r0: task do_patch: Succeeded
+NOTE: Running task 1019 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: Running task 1021 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 1022 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1041 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_create_recipe_spdx)
+NOTE: recipe libksba-1.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: Running task 1043 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe libksba-1.8.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libgpg-error-1.60-r0: task do_package_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: Running task 1045 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe libksba-1.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_deploy_source_date_epoch unihash changed to 51e4fd12b1cf4feec160ff0460dd1b1dc07d17aca876a80fe9b3163707a9ca22
+NOTE: recipe libpam-1.7.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libksba-1.8.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: Running task 1052 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: Running task 1053 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe libgpg-error-1.60-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 472 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 473 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 475 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 476 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.60.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: recipe libgpg-error-1.60-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1054 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe libgpg-error-1.60-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 478 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 480 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 481 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 483 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtool-cross-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 485 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 486 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 488 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 490 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 492 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 493 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 494 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 495 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 496 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcc-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 502 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 504 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 505 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 506 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 511 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 513 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 515 of 515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1192 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1225 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libgpg-error/libgpg-error_1.60.bb:do_packagedata)
+NOTE: recipe libksba-1.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libgpg-error-1.60-r0: task do_packagedata: Started
+NOTE: recipe libksba-1.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1258 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_configure)
+NOTE: recipe libgpg-error-1.60-r0: task do_packagedata: Succeeded
+NOTE: recipe libksba-1.8.0-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: Running task 1260 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 27a1287f03f8699e6a83b8e7203f6b85f617ccd1b7f11fa183cd486905f39fba
+NOTE: Reported task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash 4bae438cf3d2afdc8c61fe77699cc4c8846b9391f67ac74fc8305abd206acd66 to wss://hashserv-eu.yoctoproject.org/ws ({'taskhash': 'bc386c511dc491e801d62a651308f8a5655316d1660c4fc346332802095204da', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '4bae438cf3d2afdc8c61fe77699cc4c8846b9391f67ac74fc8305abd206acd66'})
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed bc386c511dc491e801d62a651308f8a5655316d1660c4fc346332802095204da -> 4bae438cf3d2afdc8c61fe77699cc4c8846b9391f67ac74fc8305abd206acd66 as wanted
+NOTE: Already covered setscene for /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: recipe libksba-1.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 1269 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_configure_ptest_base)
+NOTE: recipe libksba-1.8.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe libksba-1.8.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1270 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_compile)
+NOTE: recipe libksba-1.8.0-r0: task do_compile: Started
+NOTE: recipe libksba-1.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 1271 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_compile_ptest_base)
+NOTE: recipe libksba-1.8.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe libksba-1.8.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1272 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_install)
+NOTE: recipe libksba-1.8.0-r0: task do_install: Started
+NOTE: recipe libksba-1.8.0-r0: task do_install: Succeeded
+NOTE: Running task 1273 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_install_ptest_base)
+NOTE: recipe libksba-1.8.0-r0: task do_install_ptest_base: Started
+NOTE: recipe libksba-1.8.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1274 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_package)
+NOTE: Running task 1275 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_populate_sysroot)
+NOTE: recipe libksba-1.8.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libksba-1.8.0-r0: task do_package: Started
+NOTE: recipe libksba-1.8.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libksba-1.8.0-r0: task do_package: Succeeded
+NOTE: Running task 1276 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_packagedata)
+NOTE: recipe libksba-1.8.0-r0: task do_packagedata: Started
+NOTE: recipe libksba-1.8.0-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_packagedata unihash changed to ffe57301d4a9a7a24c81b30a7e771928f4f290801de01af0d341f7d0a172c0fa
+NOTE: Setscene tasks completed
+NOTE: Running task 1277 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_create_spdx)
+NOTE: Running task 1278 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_package_write_ipk)
+NOTE: Running task 1279 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_package_write_deb)
+NOTE: Running task 1280 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_package_write_rpm)
+NOTE: Running task 1281 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_package_qa)
+NOTE: recipe libksba-1.8.0-r0: task do_create_spdx: Started
+NOTE: recipe libksba-1.8.0-r0: task do_package_write_ipk: Started
+NOTE: recipe libksba-1.8.0-r0: task do_package_write_deb: Started
+NOTE: recipe libksba-1.8.0-r0: task do_package_write_rpm: Started
+NOTE: recipe libksba-1.8.0-r0: task do_package_qa: Started
+NOTE: recipe libksba-1.8.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1282 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_create_package_spdx)
+NOTE: recipe libksba-1.8.0-r0: task do_create_package_spdx: Started
+NOTE: recipe libksba-1.8.0-r0: task do_package_write_ipk: Succeeded
+NOTE: recipe libksba-1.8.0-r0: task do_package_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_package_qa unihash changed to 32643c174827c940e1745bff9097909a52b45e64b468e017163020f5c599a4dd
+NOTE: recipe libksba-1.8.0-r0: task do_create_package_spdx: Succeeded
+NOTE: recipe libksba-1.8.0-r0: task do_package_write_deb: Succeeded
+NOTE: recipe libksba-1.8.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1283 of 1283 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libksba/libksba_1.8.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1283 tasks of which 1251 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There were 29 ERROR messages, returning a non-zero exit code.
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-src went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-dbg went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-ptest went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-staticdev went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-dev went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-doc went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-cs went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-da went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-de went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-eo went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-es went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-fr went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-hu went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-it went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-ja went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-nl went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-pl went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-pt went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-ro went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-ru went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-sr went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-sv went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-tr went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-uk went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-vi went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-zh-cn went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-zh-tw went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error went backwards which would break package feeds (from 0:1.61-r0 to 0:1.60-r0) [version-going-backwards]
+ERROR: libgpg-error-1.60-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============1888560771484592191==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gpgme-upgrade-2.0.1-2.1.0.patch"
+ filename="0001-libksba-upgrade-1.6.8-1.8.0.patch"
 
-RnJvbSAzYTA2OTRkMWRhYWNhOTgxM2NkY2MzMzAxMWMxYzA5MzYyYmVlNDU1IE1vbiBTZXAgMTcg
+RnJvbSA3OTAxNmZhNjI3NWNjYTYzYTM4NWVmODhhODViZDFhNjZkNmUyZmNkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMTU6MTU6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-cGdtZTogdXBncmFkZSAyLjAuMSAtPiAyLjEuMAoKLS0tCiAuLi51aWxkLU1ha2UtZ3BnbWUubTQt
-dXNlLWdwZ3J0LWNvbmZpZy13aXRoLS5wYy5wYXRjaCB8ICA1ICstLS0tCiAuLi4vMDAwMS1hdXRv
-Z2VuLnNoLXJlbW92ZS11bmtub3duLWluLXZlcnNpb24ucGF0Y2ggICB8ICA2ICsrKy0tLQogbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMS1wa2djb25maWcucGF0Y2ggfCAxMSAr
-KysrLS0tLS0tLQogLi4uMDAwMS1wb3NpeC1pby5jLVVzZS1vZmZfdC1pbnN0ZWFkLW9mLW9mZjY0
-X3QucGF0Y2ggfCAgNCArKy0tCiAuLi4vMDAwMS11c2UtY2xvc2Vmcm9tLW9uLWxpbnV4LWFuZC1n
-bGliYy0yLjM0LnBhdGNoICB8ICA2ICsrKy0tLQogLi4ubmZpZy1za2lwLWFsbC1saWItb3ItdXNy
-LWxpYi1kaXJlY3Rvcmllcy1pbi0ucGF0Y2ggfCAgMiArLQogLi4uL2dwZ21lL3tncGdtZV8yLjAu
-MS5iYiA9PiBncGdtZV8yLjEuMC5iYn0gICAgICAgICAgfCAgMiArLQogNyBmaWxlcyBjaGFuZ2Vk
-LCAxNSBpbnNlcnRpb25zKCspLCAyMSBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
-c3VwcG9ydC9ncGdtZS97Z3BnbWVfMi4wLjEuYmIgPT4gZ3BnbWVfMi4xLjAuYmJ9ICg5NiUpCgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMS1SZXZlcnQt
-YnVpbGQtTWFrZS1ncGdtZS5tNC11c2UtZ3BncnQtY29uZmlnLXdpdGgtLnBjLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMS1SZXZlcnQtYnVpbGQtTWFrZS1ncGdt
-ZS5tNC11c2UtZ3BncnQtY29uZmlnLXdpdGgtLnBjLnBhdGNoCmluZGV4IDRiOGQxY2VlY2QuLjI5
-YzNjNDg2NzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dwZ21lL2dwZ21lLzAw
-MDEtUmV2ZXJ0LWJ1aWxkLU1ha2UtZ3BnbWUubTQtdXNlLWdwZ3J0LWNvbmZpZy13aXRoLS5wYy5w
-YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLVJldmVydC1i
-dWlsZC1NYWtlLWdwZ21lLm00LXVzZS1ncGdydC1jb25maWctd2l0aC0ucGMucGF0Y2gKQEAgLTEs
-NCArMSw0IEBACi1Gcm9tIDZhZDFhYzhjMDNhZTNhY2MwNTM5ZmMxNTY2MDcwZTI0NjhjN2RmMGEg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGQ4NjYzYzdjYjYyYzFkYjU5NzJlN2RiMjNl
-MTdhYWFhYTIyZjQ0OTIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlh
-IDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiBEYXRlOiBUdWUsIDE0IE9jdCAyMDI1IDE0OjEy
-OjU1ICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIFJldmVydCAiYnVpbGQ6IE1ha2UgZ3BnbWUubTQg
-dXNlIGdwZ3J0LWNvbmZpZyB3aXRoICoucGMuIgpAQCAtMTEzLDYgKzExMywzIEBAIGluZGV4IGFj
-YmZjMWMuLjVmNjg5ZTEgMTAwNjQ0CiAgICAgIEFDX01TR19SRVNVTFQoeWVzKQogICAgICBpZmVs
-c2UoWyQyXSwgLCA6LCBbJDJdKQogICAgICBfQU1fUEFUSF9HUEdNRV9DT05GSUdfSE9TVF9DSEVD
-SwotLS0gCi0yLjM0LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUv
-Z3BnbWUvMDAwMS1hdXRvZ2VuLnNoLXJlbW92ZS11bmtub3duLWluLXZlcnNpb24ucGF0Y2ggYi9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLWF1dG9nZW4uc2gtcmVtb3ZlLXVu
-a25vd24taW4tdmVyc2lvbi5wYXRjaAppbmRleCA4OTA5MDlkZDVlLi40Y2Q4ZDM4NDg4IDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLWF1dG9nZW4uc2gt
-cmVtb3ZlLXVua25vd24taW4tdmVyc2lvbi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9y
-dC9ncGdtZS9ncGdtZS8wMDAxLWF1dG9nZW4uc2gtcmVtb3ZlLXVua25vd24taW4tdmVyc2lvbi5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMGJiN2ZkZGI2YTc2OGJiYzQ2Njk1ZGU0YzZlMDI1
-NmEzNTgwY2NiYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZmJiMGQ4Y2JiM2VhZTJl
-NWVjY2M1OWYxNmZmZjc2ZDU5MTc3MjQxMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KIERhdGU6IFR1ZSwgMjYgTm92
-IDIwMjQgMjM6MjM6NDIgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gYXV0b2dlbi5zaDogcmVtb3Zl
-ICctdW5rbm93bicgaW4gdmVyc2lvbgpAQCAtMjAsMTAgKzIwLDEwIEBAIFNpZ25lZC1vZmYtYnk6
-IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2F1dG9nZW4uc2gg
-Yi9hdXRvZ2VuLnNoCi1pbmRleCA5ZjkxMjk3Li45Zjc1NTliIDEwMDc1NQoraW5kZXggNzFmODll
-Mi4uNmI0MDdlMiAxMDA3NTUKIC0tLSBhL2F1dG9nZW4uc2gKICsrKyBiL2F1dG9nZW4uc2gKLUBA
-IC0yNzEsNyArMjcxLDcgQEAgaWYgWyAiJG15aG9zdCIgPSAiZmluZC12ZXJzaW9uIiBdOyB0aGVu
-CitAQCAtMjg2LDcgKzI4Niw3IEBAIGlmIFsgIiRteWhvc3QiID0gImZpbmQtdmVyc2lvbiIgXTsg
-dGhlbgogICAgICBlbHNlCiAgICAgICAgaW5naXQ9bm8KICAgICAgICBiZXRhPXllcwpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMS1wa2djb25maWcucGF0
-Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLXBrZ2NvbmZpZy5wYXRj
-aAppbmRleCA2N2I2NTE1N2QxLi40Y2ZlNTNmYWQwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLXBrZ2NvbmZpZy5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLXBrZ2NvbmZpZy5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gNGI0ZTZmYzg5OGRkMjQ5Mzg3YmJlZDQ5MjRmYTIyYzFjNDk0MzI3YSBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMzRjZDA4MmI4ZDZhNzg5M2MwNTQwODVlZjJmYzdhZmE2
-NmI5ZjM5YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEhvbmd4dSBKaWEgPGhvbmd4
-dS5qaWFAd2luZHJpdmVyLmNvbT4KIERhdGU6IE1vbiwgMjEgSnVsIDIwMjUgMTI6NDM6MjkgKzA4
-MDAKIFN1YmplY3Q6IFtQQVRDSF0gcGtnY29uZmlnCkBAIC0yOSwxMCArMjksMTAgQEAgU2lnbmVk
-LW9mZi1ieTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogIGNyZWF0ZSBt
-b2RlIDEwMDY0NCBzcmMvZ3BnbWUtcHRocmVhZC5wYy5pbgogCiBkaWZmIC0tZ2l0IGEvY29uZmln
-dXJlLmFjIGIvY29uZmlndXJlLmFjCi1pbmRleCBkNGRjYjFjLi4yOTNmY2MyIDEwMDY0NAoraW5k
-ZXggYTAxYThjMS4uOGIwZGM0MCAxMDA2NDQKIC0tLSBhL2NvbmZpZ3VyZS5hYwogKysrIGIvY29u
-ZmlndXJlLmFjCi1AQCAtODQ0LDYgKzg0NCw3IEBAIEFDX0NPTkZJR19GSUxFUyhNYWtlZmlsZSBz
-cmMvTWFrZWZpbGUKK0BAIC04NDUsNiArODQ1LDcgQEAgQUNfQ09ORklHX0ZJTEVTKE1ha2VmaWxl
-IHNyYy9NYWtlZmlsZQogICAgICAgICAgICAgICAgICBzcmMvZ3BnbWUucGMKICAgICAgICAgICAg
-ICAgICAgc3JjL2dwZ21lLWdsaWIucGMKICAgICAgICAgICAgICAgICAgc3JjL2dwZ21lLmgpCkBA
-IC00MSw3ICs0MSw3IEBAIGluZGV4IGQ0ZGNiMWMuLjI5M2ZjYzIgMTAwNjQ0CiAgQUNfQ09ORklH
-X0ZJTEVTKFtsYW5nL01ha2VmaWxlIGxhbmcvY2wvTWFrZWZpbGUgbGFuZy9jbC9ncGdtZS5hc2Rd
-KQogIEFDX0NPTkZJR19GSUxFUyhbbGFuZy9qcy9NYWtlZmlsZSBsYW5nL2pzL3NyYy9NYWtlZmls
-ZQogZGlmZiAtLWdpdCBhL3NyYy9NYWtlZmlsZS5hbSBiL3NyYy9NYWtlZmlsZS5hbQotaW5kZXgg
-ZWRjMjM5Yi4uZDQyNzA0NCAxMDA2NDQKK2luZGV4IDRmNDVkZmUuLjNjNDkxOTAgMTAwNjQ0CiAt
-LS0gYS9zcmMvTWFrZWZpbGUuYW0KICsrKyBiL3NyYy9NYWtlZmlsZS5hbQogQEAgLTIwLDExICsy
-MCwxMSBAQApAQCAtMjk1LDYgKzI5NSwzIEBAIGluZGV4IDlkZGVmNWMuLjkzMjY0NWIgMTAwNjQ0
-CiArQ2ZsYWdzOiAtSSR7aW5jbHVkZWRpcn0KICtMaWJzOiAtTCR7bGliZGlyfSAtbGdwZ21lCiAg
-VVJMOiBodHRwczovL3d3dy5nbnVwZy5vcmcvc29mdHdhcmUvZ3BnbWUvaW5kZXguaHRtbAotLS0g
-Ci0yLjM0LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUv
-MDAwMS1wb3NpeC1pby5jLVVzZS1vZmZfdC1pbnN0ZWFkLW9mLW9mZjY0X3QucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLXBvc2l4LWlvLmMtVXNlLW9mZl90LWlu
-c3RlYWQtb2Ytb2ZmNjRfdC5wYXRjaAppbmRleCA5MzJmYjljOTYyLi5hMmM3NTdkNGVmIDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLXBvc2l4LWlvLmMt
-VXNlLW9mZl90LWluc3RlYWQtb2Ytb2ZmNjRfdC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9ncGdtZS9ncGdtZS8wMDAxLXBvc2l4LWlvLmMtVXNlLW9mZl90LWluc3RlYWQtb2Ytb2Zm
-NjRfdC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNDE3MDM2MDUxYzg0YjAyZmU0M2YxNjJl
-ZTM3ODI3OGE0NDYzNjQ1MSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gOGUyN2RmZjM3
-ODQwMzlhZjY4YzUzNzk4MWM3OGQ1ZjhiNWMyM2NlYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-IEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBUaHUsIDE1IERlYyAy
-MDIyIDA4OjQ0OjEzIC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHBvc2l4LWlvLmM6IFVzZSBvZmZf
-dCBpbnN0ZWFkIG9mIG9mZjY0X3QKQEAgLTI2LDcgKzI2LDcgQEAgU2lnbmVkLW9mZi1ieTogS2hl
-bSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25z
-KCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvc3JjL3Bvc2l4LWlvLmMgYi9zcmMv
-cG9zaXgtaW8uYwotaW5kZXggMGQwYTk4Yi4uMjg2YTYyNiAxMDA2NDQKK2luZGV4IDRkZWU3NzYu
-LjNiOTk1MDAgMTAwNjQ0CiAtLS0gYS9zcmMvcG9zaXgtaW8uYwogKysrIGIvc3JjL3Bvc2l4LWlv
-LmMKIEBAIC03NCw4ICs3NCw4IEBACmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9n
-cGdtZS9ncGdtZS8wMDAxLXVzZS1jbG9zZWZyb20tb24tbGludXgtYW5kLWdsaWJjLTIuMzQucGF0
-Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdtZS8wMDAxLXVzZS1jbG9zZWZyb20t
-b24tbGludXgtYW5kLWdsaWJjLTIuMzQucGF0Y2gKaW5kZXggZWQyZWRhYmQ2My4uMGNkYzRlOTFh
-ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwMS11c2Ut
-Y2xvc2Vmcm9tLW9uLWxpbnV4LWFuZC1nbGliYy0yLjM0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
-cy1zdXBwb3J0L2dwZ21lL2dwZ21lLzAwMDEtdXNlLWNsb3NlZnJvbS1vbi1saW51eC1hbmQtZ2xp
-YmMtMi4zNC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYWFlZDAzYjc2NTA1YjFmZWFlZWI1
-YTRhM2M2YmRjYzdkZDA4OWYwMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNmI2ZDM1
-NTIzZWYxYjZkOWM3OTQwMTgyZWY0OWUxMTE5NTlmMDQxZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBUaHUsIDE1IEp1
-bCAyMDIxIDEyOjMzOjEzIC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIHVzZSBjbG9zZWZyb20oKSBv
-biBsaW51eCBhbmQgZ2xpYmMgMi4zNCsKQEAgLTEzLDEwICsxMywxMCBAQCBTaWduZWQtb2ZmLWJ5
-OiBXYW5nIE1pbmd5dSA8d2FuZ215QGZ1aml0c3UuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvc3JjL3Bvc2l4LWlvLmMg
-Yi9zcmMvcG9zaXgtaW8uYwotaW5kZXggYTQyMmQ4Zi4uMGQwYTk4YiAxMDA2NDQKK2luZGV4IGY4
-MTk2ZjkuLjRkZWU3NzYgMTAwNjQ0CiAtLS0gYS9zcmMvcG9zaXgtaW8uYwogKysrIGIvc3JjL3Bv
-c2l4LWlvLmMKLUBAIC01NzcsNyArNTc3LDcgQEAgX2dwZ21lX2lvX3NwYXduIChjb25zdCBjaGFy
-ICpwYXRoLCBjaGFyICpjb25zdCBhcmd2W10sIHVuc2lnbmVkIGludCBmbGFncywKK0BAIC01OTks
-NyArNTk5LDcgQEAgX2dwZ21lX2lvX3NwYXduIChjb25zdCBjaGFyICpwYXRoLCBjaGFyICpjb25z
-dCBhcmd2W10sIHVuc2lnbmVkIGludCBmbGFncywKICAgICAgICAgICAgICAgIGlmIChmZF9saXN0
-W2ldLmZkID4gZmQpCiAgICAgICAgICAgICAgICAgIGZkID0gZmRfbGlzdFtpXS5mZDsKICAgICAg
-ICAgICAgICBmZCsrOwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3Bn
-bWUvMDAwNS1ncGdtZS1jb25maWctc2tpcC1hbGwtbGliLW9yLXVzci1saWItZGlyZWN0b3JpZXMt
-aW4tLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWUvMDAwNS1ncGdtZS1j
-b25maWctc2tpcC1hbGwtbGliLW9yLXVzci1saWItZGlyZWN0b3JpZXMtaW4tLnBhdGNoCmluZGV4
-IGMwMjFlNDhiZTkuLmQ2NDQ1ZDRkNDQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
-L2dwZ21lL2dwZ21lLzAwMDUtZ3BnbWUtY29uZmlnLXNraXAtYWxsLWxpYi1vci11c3ItbGliLWRp
-cmVjdG9yaWVzLWluLS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9ncGdtZS9ncGdt
-ZS8wMDA1LWdwZ21lLWNvbmZpZy1za2lwLWFsbC1saWItb3ItdXNyLWxpYi1kaXJlY3Rvcmllcy1p
-bi0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDllYTY4NWYxYjg5OGVlNzAzYjg1YjcwNWMz
-NWI5Y2JkNzdjY2ExN2YgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDk1MDY1MWIzMjI2
-MjQwZWYzNDUzMjcwZmRjYTQyMTNkNmU0MmM1MmMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
-cm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IFRo
-dSwgMTMgQXByIDIwMTcgMTY6NDA6MjcgKzAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gZ3BnbWUtY29u
-ZmlnOiBza2lwIGFsbCAvbGliKiBvciAvdXNyL2xpYiogZGlyZWN0b3JpZXMgaW4KZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dwZ21lL2dwZ21lXzIuMC4xLmJiIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWVfMi4xLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVu
-YW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ3BnbWUvZ3BnbWVfMi4wLjEuYmIKcmVuYW1l
-IHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dwZ21lL2dwZ21lXzIuMS4wLmJiCmluZGV4IGFlMjBm
-Nzg1ZTYuLjI2OTA3MGIxMGIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dwZ21l
-L2dwZ21lXzIuMC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dwZ21lL2dwZ21lXzIu
-MS4wLmJiCkBAIC0yNCw3ICsyNCw3IEBAIFNSQ19VUkkgPSAiJHtHTlVQR19NSVJST1J9L2dwZ21l
-LyR7QlB9LnRhci5iejIgXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1hdXRvZ2VuLnNoLXJlbW92
-ZS11bmtub3duLWluLXZlcnNpb24ucGF0Y2ggXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICI4MjFhYjA2OTVjODQyZWFiNTE3NTJhODE5ODBjOTJiMDQxMGM3ZWFkZDA0MTAz
-Zjc5MWQ1ZDJhNTI2Nzg0OTY2IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjg0MWM1ZWE1M2ZjMjYy
-NTlmNGZiZjBlOGJkZTk4MmRlYTFiOGExY2EwY2I3N2U2ODFjODJiMDUwNTY2YmY5MmIiCiAKIERF
-UEVORFMgPSAibGliZ3BnLWVycm9yLW5hdGl2ZSBsaWJncGctZXJyb3IgbGliYXNzdWFuIgogCi0t
-IAoyLjQ3LjEKCg==
+CkRhdGU6IFRodSwgMTEgSnVuIDIwMjYgMTU6NTE6MTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJrc2JhOiB1cGdyYWRlIDEuNi44IC0+IDEuOC4wCgotLS0KIC4uLi9saWJrc2JhL2xpYmtzYmEv
+a3NiYS1hZGQtcGtnY29uZmlnLXN1cHBvcnQucGF0Y2ggICAgICAgICAgICB8IDIgKy0KIC4uLi9s
+aWJrc2JhL3tsaWJrc2JhXzEuNi44LmJiID0+IGxpYmtzYmFfMS44LjAuYmJ9ICAgICAgICAgICAg
+ICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
+KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmtzYmEve2xpYmtzYmFfMS42LjguYmIg
+PT4gbGlia3NiYV8xLjguMC5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9saWJrc2JhL2xpYmtzYmEva3NiYS1hZGQtcGtnY29uZmlnLXN1cHBvcnQucGF0Y2ggYi9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJrc2JhL2xpYmtzYmEva3NiYS1hZGQtcGtnY29uZmlnLXN1
+cHBvcnQucGF0Y2gKaW5kZXggZWY5MDY2Y2QxZi4uOTQ2MTJlYzBhOSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvbGlia3NiYS9saWJrc2JhL2tzYmEtYWRkLXBrZ2NvbmZpZy1zdXBw
+b3J0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmtzYmEvbGlia3NiYS9rc2Jh
+LWFkZC1wa2djb25maWctc3VwcG9ydC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOTI5Zjc2
+NzBhNmMxZTk0NTBmMjM5ZWUzNzRiYjM0YWMxM2MxMzU5MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gYTkxNWQ2OTRiOTdmMzIyNmY2Nzc2Y2U0MDVlODU2MmI1NjgwNzBiZiBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4K
+IERhdGU6IE1vbiwgMyBEZWMgMjAxMiAxODoxNzozMSArMDgwMAogU3ViamVjdDogW1BBVENIXSBs
+aWJrc2JhOiBhZGQgcGtnY29uZmlnIHN1cHBvcnQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1z
+dXBwb3J0L2xpYmtzYmEvbGlia3NiYV8xLjYuOC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xp
+YmtzYmEvbGlia3NiYV8xLjguMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBt
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJrc2JhL2xpYmtzYmFfMS42LjguYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L2xpYmtzYmEvbGlia3NiYV8xLjguMC5iYgppbmRleCAyMDU3MDQ5
+MTdlLi45MzhiZGE2N2Y1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJrc2Jh
+L2xpYmtzYmFfMS42LjguYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlia3NiYS9saWJr
+c2JhXzEuOC4wLmJiCkBAIC0yOCw3ICsyOCw3IEBAIFNSQ19VUkkgPSAiJHtHTlVQR19NSVJST1J9
+LyR7QlBOfS8ke0JQTn0tJHtQVn0udGFyLmJ6MiBcCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRl
+c3QgXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIwZjQ1MTBmMWM3YTY3
+OWMzNTQ1OTkwYTMxNDc5ZjM5MWFkNDVkODRlMDM5MTc2MzA5ZDQyZjgwY2Y0MTc0M2Y1IgorU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjI5NmI5ZGI5MDk1NzQ5ZjJhYTEwNDIwMmQ3YWI3ZmQwOWFkMTA3
+MTBlMDA3ODBhNzA5Yzk3NTRiMWExZDkyOTIiCiAKIGRvX2NvbmZpZ3VyZTpwcmVwZW5kICgpIHsK
+IAkjIEVsc2UgdGhlc2UgY291bGQgYmUgdXNlZCBpbiBwcmVmZXJlbmNlIHRvIHRob3NlIGluIGFj
+bG9jYWwtY29weQotLSAKMi40Ny4xCgo=
 
---===============4228414947638171493==
+--===============1888560771484592191==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/gpgme/gpgme: FILELIST: removed "/usr/lib/libgpgme.so.45.0.1", added "/usr/lib/libgpgme.so.45.1.0"
-Changes to packages/x86-64-v3-poky-linux/gpgme (sysroot):
-  /usr/lib/libgpgme.so.45 changed symlink target from libgpgme.so.45.0.1 to libgpgme.so.45.1.0
-  /usr/lib/libgpgme.so changed symlink target from libgpgme.so.45.0.1 to libgpgme.so.45.1.0
-  /usr/lib/libgpgme.so.45.0.1 moved to /usr/lib/libgpgme.so.45.1.0
+packages/x86-64-v3-poky-linux/libksba/libksba: FILELIST: removed "/usr/lib/libksba.so.8.14.8", added "/usr/lib/libksba.so.8.16.0"
+Changes to packages/x86-64-v3-poky-linux/libksba (sysroot):
+  /usr/lib/libksba.so.8 changed symlink target from libksba.so.8.14.8 to libksba.so.8.16.0
+  /usr/lib/libksba.so changed symlink target from libksba.so.8.14.8 to libksba.so.8.16.0
+  /usr/lib/libksba.so.8.14.8 moved to /usr/lib/libksba.so.8.16.0
 
---===============4228414947638171493==--
+--===============1888560771484592191==--
 
