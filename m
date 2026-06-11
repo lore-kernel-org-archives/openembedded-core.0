@@ -1,94 +1,109 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35374CD98D2
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 10:21:05 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.42265.1781173257272137010
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 456FFCD98CC
+	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 10:39:45 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.42538.1781174382450774431
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 03:20:57 -0700
+ Thu, 11 Jun 2026 03:39:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ENHDBLgb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-bec49f7e35eso1117347966b.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 03:20:57 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=364k5UjY;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso65360565e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 03:39:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1781173256; x=1781778056; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=u/Ll4Nfh5HpA04fDFvtrJefDfPXe9acWxM1pnUv3dfQ=;
-        b=ENHDBLgb60bjOUT7cY6+p7mt1NStTKiWw9BnTJTHO48QsJnMrJK5kedmeHpDM5c7dV
-         i8USloO7Fa6Pa4W0dZYav1JB0yN9kLuEm+SRob+/RJYsr7BhIBhDUjUJ+/xwtWSGU5Ow
-         TESf/RJYnxPMPupFTdTl53wJnk22QEoHw6Xvk=
+        d=smile.fr; s=google; t=1781174381; x=1781779181; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tr61Cfsbb+bOJy1v7HvgLEKQcaJGx5m7xrrD3np5lUo=;
+        b=364k5UjYNNoGB7rfzbUaUVVqVk7NKiYc36IXqiQNbwjjrVNjJS++t6QJgRt35GorJq
+         yv56nILgE1WjTGr1j8A0myASfc2gpzXAs3zjYjAxgN5Hirum57ENUQesgtT1JJfmA/Aj
+         Qnx9tInyv8IKlKqQaj/gZuYm5yto5bmapME88=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781173256; x=1781778056;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u/Ll4Nfh5HpA04fDFvtrJefDfPXe9acWxM1pnUv3dfQ=;
-        b=lBvlC9QEWda6dtR41MzU7iunI/2jGk/TdpGX3Zp5WmVTwISbxwyy8JZubOmcwPtTP6
-         Rf3ToLIxi4hER84JG//AdRas3KJGO/XC1bGlzdg/mPJvCopGxzgFHkt1zMN8vtsKjyFT
-         4Cu9YayR0TgTlymqBHRw1Q7Be1c2/WB7dD5V7opFo36X5lkiV0XR+XMQTO090XvEa6eT
-         KQu+miHWITTPwoLRVj5+05RJIXXC2+w9gl1BVvT6eLRvugehxAxLgVGZq5kjqaa0UrkA
-         UXCZSxNP06qU6Qf/VublS36B9ZdOYCRIjrXXuTEI0IZQ9n1Idey0Nv+r3taa/Nmk2t99
-         tJFQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+xbrQUcELtcGvEGaVhpMeEDIXexn9dTIuQPRKpV06r1EEZkqUzBOhr9DuldJEQWF83lizcdnn37fAzgTDJWm/VXQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxbT4z7pP2nFeTkGfIYBBEycD8CTWEy/r11lXEAZciYWxgxwsCL
-	GThSwkUBK0nYn4gy2XxBFMYLxLbjHIX0EIYTEFVE7uQHbCkgkVkJVaRhjZJQUy7ZN/k=
-X-Gm-Gg: Acq92OH9gKli2Th05MmMO3iJ3VMP4P0z0WsC89bBVniSX49EumG/xo33mkbofUX6kVb
-	YZDZ3CtTQWQ9dP2Gq8EAt2KTKZ6aLPzC/Z4gn84EFKpU+qBSlHtm8cELJBqX3X62wn/0/YIQ66N
-	ws1p8hjRh3MdyQ4lHDOSrok5/Y+uJn+VP+d4OBqkSPZDiy/VbWc4hM/C/SM5exCIBrZRc0Xm2hO
-	a1o7eE6UWIkWiY+7iP91aNdR9SG3H2QhKvHluhcvEq2/cpdZVtOaFyxvlPTjsVkQ01mt40Hwxd7
-	2Y6fE0CATqDHLPg+XN+n9lFUH+7vpiBTpcorug5KfswRx4ccD4Y8PGtqeTTQGn3F+YDvdHqovpa
-	QLQ7gIBE929+5z8lCFdcSDGlLjtcqysALVrBbA0UyW1O9Esgnu7txvxqumvYvkHDH4CphVnjTCZ
-	iTHZlZI6th12PrveiUEHlzLfPi/b9SO0ADoD5ZlLD3Xvaoxgick6v6xFuEP63vqSgi1MJXsOMNx
-	Em+9R3gaMhunN85COvlIU/ONKY=
-X-Received: by 2002:a17:907:7606:b0:bfb:bca0:5a04 with SMTP id a640c23a62f3a-bfc874f940amr62244266b.29.1781173255543;
-        Thu, 11 Jun 2026 03:20:55 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e596:3a72:77cb:f054? ([2001:8b0:aba:5f3c:e596:3a72:77cb:f054])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bfcb6785ee3sm45980266b.58.2026.06.11.03.20.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 03:20:55 -0700 (PDT)
-Message-ID: <34ad0e7a295bbf8b51017e679febd462ada1e6f4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH][oe][meta] runqemu: introduce unique instance
- ID
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Valekova Spitalova, Zuzana" <zuzana.valekova-spitalova@siemens.com>, 
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
-	 <alex.kanavin@gmail.com>
-Cc: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
-Date: Thu, 11 Jun 2026 11:20:53 +0100
-In-Reply-To: <4121e322999e882600f5470c767b9fd0259c7a8a.camel@siemens.com>
-References: <20260607174013.36552-1-zuzana.valekova-spitalova@siemens.com>
-		 <87166f2237c2327bfaf7b3d8aefe7ebb11de3246.camel@linuxfoundation.org>
-		 <89157e4191c5694f1bd13b821c172b1a691db7e2.camel@siemens.com>
-	 <4121e322999e882600f5470c767b9fd0259c7a8a.camel@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20251104; t=1781174381; x=1781779181;
+        h=in-reply-to:references:from:subject:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Tr61Cfsbb+bOJy1v7HvgLEKQcaJGx5m7xrrD3np5lUo=;
+        b=fCUTDiwy+CwL8We6t4L91MZNCbnL0WXv/21j/cSDEzMzXLYQI5RtPuEyNMCwa+2tyf
+         el5AMRQyo9K41qTjuzSDUfePVzNvMdLTkJ5/vnPS15BTU5e3UYZp4NtGp6301/KQQcYc
+         J2jppKZ8B7EP4K+v5h9t9v9m7XnFz97tF7Aklu0mkn6BYchDBNFYAVAleu4b/n3DM8UX
+         o0TSsLk0VMMt6PgPftDmxobkhdxPCvg3sG0OipURv314o2njeOFcJ2pS9J8G6JuTfDgD
+         iWAU0aT5zbD11vOkZdjmegthKXjpIwZAhDIRs9yreZerjTCLtM+5dihrKMVMDW1E39AO
+         yNrg==
+X-Forwarded-Encrypted: i=1; AFNElJ8GN5FOXDT82dFKhX5YPvLqd5QNzglG1lb1rXHqdk+z15NMpyil183keORC7IasWleruGoHxuvCqXnLIrsV7hlfeg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx4bac+lI1dMf3ekicysfA8vz7u3tzB6PFbe8K6QVWe+UA845as
+	b6hdOgqOMo7QymcHOJhiBMeP+hcNTfvkza6LuXPEQUBXY1lElzwCK7Q1XVOcJkVY8EM=
+X-Gm-Gg: Acq92OE2MVrwcn81W9Fr77OU5iJKTgf5q4bLUMwnj7wtYlzw4wCrGQBSgvw1fTOPv/S
+	7QdYURRBBuaoe2PfOfWlCV7/3zzOrpnyT6/WubPGHLlP7/dV3fvGd9YG0IsVP/udvFdP+t69TZe
+	nKnBgABg2ZqGjuJrLx1zuEJexJXockI8IKBCjJ8Tm3nxAyzqDhu3XAE7SvVKyZiLF6Qy83UXjmh
+	V9wMupw67pa2Wgwb25LShnB8x1fCx2ISr5F0frU3n1JgEqpA2PD2AhtA1tT4Hy0X4Ww3fIwfeTo
+	Ww51q47GFTQrOzladkGe6D5F6olF9GIXJKXlmlIZd21bH7wTBZimZ0WA1NKF1w30O4wUFTpdrce
+	Xj0X9GIQJ+5c/7toLC1/KW0H2+kcEAO32b0wxJdQJIY6O0e40d2Q4pp00Ld4Z+c7GBnHrUWkCo0
+	7OtAiNP3OAl0QKNd6Byz1VdbiesfyyW88XL2ULfHJfLr2PRWAhMSTOMt7tAE0Efwcshkko7oRbw
+	axfbglBG69uN8zg2yzjkwo3dYE=
+X-Received: by 2002:a05:600c:a31c:b0:490:d354:bd00 with SMTP id 5b1f17b1804b1-490e56190famr24696865e9.25.1781174380861;
+        Thu, 11 Jun 2026 03:39:40 -0700 (PDT)
+Received: from localhost (2a01cb001331aa0084744357c26c6744.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:8474:4357:c26c:6744])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490e2ca21f4sm55131325e9.7.2026.06.11.03.39.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jun 2026 03:39:40 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 11 Jun 2026 12:39:40 +0200
+Message-Id: <DJ65ME2CV03O.291OM3MDV8SQL@smile.fr>
+To: "Paul Barker" <paul@pbarker.dev>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][wrynose 18/21] python3: use SKIPPED_TESTS instead of
+ test skip patches
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <cover.1781132051.git.yoann.congal@smile.fr>
+ <c9df7ab1678751caa8c5195fd366d3058a3cc6fa.1781132051.git.yoann.congal@smile.fr> <ccf309b775b890e94e6cc0d5e8c13ffc4d4218ce.camel@pbarker.dev>
+In-Reply-To: <ccf309b775b890e94e6cc0d5e8c13ffc4d4218ce.camel@pbarker.dev>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 10:21:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238436
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 10:39:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238437
 
-On Thu, 2026-06-11 at 09:04 +0000, Valekova Spitalova, Zuzana wrote:
-> After some more re-thinking I would say I found a "solution". As it's
-> not designed for running multiple devices out of the box and some
-> qemuboot modifications are needed anyway (rootfs, MACs,... ), it
-> doesn't make any sense to introduce such a variable. I have to modify
-> the cfg anyway, so I will do it there.
->=20
-> Anyway thanks for the feedback, I appreciate it :).
+On Thu Jun 11, 2026 at 10:58 AM CEST, Paul Barker wrote:
+> On Thu, 2026-06-11 at 00:55 +0200, Yoann Congal via
+> lists.openembedded.org wrote:
+>> From: Trevor Gamblin <tgamblin@baylibre.com>
+>>=20
+>> Drop all 13 patches carried for skipping various known ptest failures
+>> and replace them with usage of the SKIPPED_TESTS variable, which we have
+>> started doing in recent commits (e.g. 40b0815dc9). Most but not all of
+>> the test skips are due to load variability, distinguish between them by
+>> using multiple SKIPPED_TESTS:append blocks with comments taken from the
+>> patch files indicating their purpose. This adds 62 lines to the Python 3
+>> recipe, but it also means that we no longer have to maintain the patch
+>> files across version upgrades, where they often break due to changes in
+>> the test modules upstream.
+>
+> Hi Yoann,
+>
+> What's the reason for backporting this (and the following patch) to the
+> stable branch?
 
-Thanks for the reply. I suspect you've reached the conclusion which a
-few of us suspected but couldn't easily articulate!
+Hello,
 
-Cheers,
+Mainly, it was to make future backports easier to hopefully fix the
+AB-INTs we have on python (as it would align wrynose & master for the
+python recipe). But I admit this is a weak argument. I don't mind
+dropping those now and revisit when we have an actual fix to backport.
 
-Richard
+>
+> Best regards,
+
+
+--=20
+Yoann Congal
+Smile ECS
+
 
