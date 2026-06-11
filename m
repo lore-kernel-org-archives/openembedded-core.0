@@ -1,120 +1,110 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEABFCD98C7
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 08:22:39 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.40721.1781166152321066104
- for <Openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 01:22:32 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 541C7CD98D2
+	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 08:33:11 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40823.1781166784874808459
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 11 Jun 2026 01:33:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=WfNCDLHh;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490aaeabdb4so50556335e9.1
-        for <Openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 01:22:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=XS+fHuWl;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ccdef9f3d4so85150036d6.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 01:33:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781166784; cv=none;
+        d=google.com; s=arc-20240605;
+        b=i+t3TeF6DcYeN0ebSYLBhQMS6gB5xq1ujg6nbgQBNd/BD47jmR2VQSYPyObd2yvAhJ
+         AMgQyrRjTgMWbb2k5/z+EvbUKZX0KDlAdnP4e5RohMf7HkRoENuDBa6k45Qvo8rIcXk2
+         8IKrIM2IQZLWzZwJ9X5PWzgx+m/LaDfUHDReTyJbXzvrtMGy00WmsAlF63dcHS48/obb
+         AYro5sHIzafQsQry40WTuVX4jkS+Umf2mQ2MUzgyu5JoKdx/ST2JHQFdY3IVR9FfXkV2
+         Iwv0M0aznv8Kams5M1SjbPPmV7aG3/NHW2LzeMg33oesNJsg0GE9h9ozyvHhUHcWnPLV
+         5vTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=qc3ElifMg4zNM8p9yda8utf0t3JxjvR/vAbRqllEv/U=;
+        fh=c04py8gpHGD0wV58rRkaV2K/aOAPiVMiREd4MI7we2s=;
+        b=LKK6UfTE7wyBCMjwfol9eTXBczDPA4a9JD28LCA15YBOK15pbcM9ZUFzT69KvJ09Ab
+         0uRzQuPV6Q+269HJOr/RI7P38yl4Nx6twmJIkr2MyhWFW5ZUdYswowC0LusOuFA2+i+l
+         oLbD9VpmZ7507zt2+NRg1vdGfugAnzz+4MNJrrxj0P7DonTfGSWUklKcGB+afsbWbhgr
+         BqP0zfMpbQ8z4hv5M5zuGt82pbZwPeIKXTn7tzKGdkwx2XmUcrosCjl2oVmyXXUqm0OE
+         rhhNjJ2A9i387ze3XC3kTk6jznVrfBdQFV8SERHr3ncWm32COQxTSzxkj8yzcW2O9crD
+         zT5w==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781166151; x=1781770951; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BxcKcEeyCswtEbeS1RNg7Ee7tgvGGV80Tn+oJ5AxUcI=;
-        b=WfNCDLHhrVgDC8GqoFKBAq0wwdXOhmMjYUgy/TXLeYuZIdvzvTwGsJzCZdVMjJTx5X
-         Z8d66R+3ZW89yBjlrz1tKOQD/CDgaGyG5ba8d1A2U+ZPSOz/wvhbz94nodO11lMTxUi7
-         /2ZGG+PIU80Ee90RjrRHFXm7agHXvEoZ4UUM4=
+        d=gmail.com; s=20251104; t=1781166784; x=1781771584; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=qc3ElifMg4zNM8p9yda8utf0t3JxjvR/vAbRqllEv/U=;
+        b=XS+fHuWlzsL2cZTygVSdmppOKLAYDye7palMPdlTLpWkwU7yXX5WDi11g5A4LGcx8s
+         sK5FjGW7GcnnpewKC3ET3w1Nlj7VgFhsjW16zbUIOA9lViDlisJVczTiAk2ylnZWEPIW
+         merRqUW6EhVmn5VEcwowmlgod7ejtWdLP+EN/AtqRqdotI+APBDMuddH3Y50AFSH0k/P
+         rsb/uMe8ms1OWRZfiK8lSPnRAzxLI7PX6eZwXwwLuRfFUYc/1aspI2c2gFoQ0rYRK24g
+         MForU52+XUhAsMuzkR2nQlOUYhOiCwO7q0sTueDiHoIMzkdVPBBIs7MexpYsPGTPd2fw
+         u/Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781166151; x=1781770951;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BxcKcEeyCswtEbeS1RNg7Ee7tgvGGV80Tn+oJ5AxUcI=;
-        b=Gur09q8JNYvJT/cQHRWHHKPN2bdb7TBJY3egt77UwKLoutOkqDacx1eG9iZEvIogm7
-         Nls6dDwFAJs7/8qIf5F4zP7Nly4DsRBJnuJhm0ZZlTaRneLw197omAFXIqgcPl3DccG+
-         zc6fJzNjtSl2O2vGJvCRWsB90a5dtfJbGJVlZeFu/FZ+OfMvXuQWc6bUz3uKzsawRPP5
-         gaqrp8zgfV7J7ak8GYa+ZPAmGkJhS3oTTdf2Oj7C2m7xv3tcCiyXNVe7mTvgQNc6QnPu
-         YLEJ4Tn3c1b2sNPntRd95W5HKIDwcuovIGw6Q0KMpA4HrQsf+YdvjELgInM7sm+f6iN7
-         qajA==
-X-Forwarded-Encrypted: i=1; AFNElJ/KLADHRsMrEIjKVS3wE1sl06BqyX1GosspMSrs2NAOAW64eKT6qvn7gCZTSN+AUUIjzsSvPvsQHP0zutQ2ZMT2sg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxatIJcLgrOlNRDWOAREkSCJSGO42fAHrbKDCCUiJtaMduPlPxP
-	/Q5A95jDMA0E84ABMhm6rcM67tfMjPILOxzsCaIfAvA5Wf1qJwyLukP5bLsvT/keejk=
-X-Gm-Gg: Acq92OGQBf0+gkzDhIOoVBBRuRtT27CH317QD60OjhoUgyy6ybrRiQRwIXQCdwvxZq/
-	H3VwwzJrn7zIhi78CGYHtRNSrrzpXakwTo0glIJOrUUnUcXlzbUJJ+q4vygeqGfrRk6TIqjN8CW
-	QQXtj9VEHqWKtdlzqBUKkYz/RGehXG2/Aha4DjKg5PfLj6Hx9J0pFUf+/EDkVgD6Et6PctAr9L4
-	5DP35NxIu2u1sWenmWd0iy1g9vh4i1MdR0q/JGLEAdxsJ/mEP+bnlnUfw4DvNldJ+CLkR+6Gw+B
-	jPOCgFs2CXsOlC2Nvmg0LGOaH/csL/pK4/QSWylyw45VWXvVGFi71b7Ze7N782+8m1vljvVqp7e
-	iTHm1LlVKOv0wxVyJU9QKjw6oKdGE7t7aHOT0MYaLh39DkVWyQH6Njo6XMrTtyh7pAOPGDBNm8U
-	xwOkF2l5havYyqv+s6iDh4xty8OX2zvS6RnlJgZF1W31tDA1C5zOWp5xI3W7iF5n9nXnS9i//gs
-	G4kLMKdQKkI+CE+d22y+Uw/0vY=
-X-Received: by 2002:a05:600c:3656:b0:490:bd1d:4732 with SMTP id 5b1f17b1804b1-490e5639467mr15299235e9.23.1781166150647;
-        Thu, 11 Jun 2026 01:22:30 -0700 (PDT)
-Received: from localhost (2a01cb001331aa0084744357c26c6744.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:8474:4357:c26c:6744])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490e532c778sm30585065e9.14.2026.06.11.01.22.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jun 2026 01:22:30 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 11 Jun 2026 10:22:29 +0200
-Message-Id: <DJ62PCZH9RWW.2CWRCZW35I546@smile.fr>
-Subject: Re: [OE-core] [wrynose] overlayfs.bbclass: upperdir ownership
- change in wrynose
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <andreas.muetzel@emlix.com>, <Openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <14026682.uLZWGnKmhe@mobilepool081.emlix.com>
-In-Reply-To: <14026682.uLZWGnKmhe@mobilepool081.emlix.com>
+        d=1e100.net; s=20251104; t=1781166784; x=1781771584;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qc3ElifMg4zNM8p9yda8utf0t3JxjvR/vAbRqllEv/U=;
+        b=Wg3mgpr0xkiXchAiXrbhXgvpKKKRWjB3AJCABUeENCfbS2druUESjCwZvI2bmwtjzn
+         ABTDMfFhM7DBv0PMZC2cNd0XjZfLuy4XBm8qbrJfOVtj73/RWzK2uJ4MV2tRoP7bti0S
+         VZIUoEH4A3PdAvy6nuFCFDL8DqiYFPHtntagfZGL9WBHepUxXb1GcFEY6lRrglpMT0H4
+         eRVMEGzqktqLIP/G5E0+DizilzGpTgPCmYy2tHsZ3EmzpVapjD+uvNoNcG0o+IAjdNR+
+         CC6MLq8Jrrup8MQX/+hBqIKw/leUcNrtLY07eLoC/zoRdhgtaYwdpCZmF3zaQ9jj15NS
+         CAgQ==
+X-Gm-Message-State: AOJu0YxhBUidIQ94e+sBjaXt+GwB9QgYJFBlCuxhAZciyyjh/pStLwjf
+	Hp5ChJRtRYSBocVo4Hw4i3tqH/rbO85VFDPjswQYOCS7v93G+LUaJu7YpSCWgL+9TDy0EH47XuA
+	XL3IroGe64JgaS2G1tA9P3HLh36DZWWk=
+X-Gm-Gg: Acq92OF+wQcGq7OW5/dAg3Yo5PkMo/QoCRZ5g7psF9FFFx5nV7NBwChVvixIIYhwrUg
+	jNsrqf1UsutstZe77Vla8XLMFUQujq8b5YymDKAni7w/CHXjmBe9CADsPCIQnqDCKEe0L8w3leL
+	rCYFuDb64CSwIAZMociuHC7y0iVSKbje/WyDFHGALF2QaSodDeq9tQzoX+3LjYqTupoeCW5jIUu
+	3KI28nBo3+y2UJUdAPSvYi9APRIM2wK7o+TBUeubwSaR4eksZYtRr6B7RjTqMHlotOggfXed8/3
+	BIPxVmrrnTx3z3wTr8U=
+X-Received: by 2002:a05:6214:468d:b0:8ce:a93c:e1ad with SMTP id
+ 6a1803df08f44-8d1dac2499emr28989296d6.32.1781166783804; Thu, 11 Jun 2026
+ 01:33:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260610205912.1798968-1-danismostlikely@gmail.com>
+In-Reply-To: <20260610205912.1798968-1-danismostlikely@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 11 Jun 2026 10:32:54 +0200
+X-Gm-Features: AVVi8Ccl0sGd34YwtG0J7ZnWHnhadV6x000AdlljhwysKUaMd-v3ql8VN-2krt0
+Message-ID: <CANNYZj8woB5p0CniTqJkt17d=-F6JvtFd+LWcT445MXKVUuWSw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] dejagnu: Remove references to some home directories
+To: danismostlikely@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Dan McGregor <danmcgr@protonmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 08:22:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238427
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 08:33:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238428
 
-On Thu Jun 11, 2026 at 8:12 AM CEST, Andreas M=C3=BCtzel via lists.openembe=
-dded.org wrote:
-> Hi all,
->
-> we observed a change in the behaviour of overlayfs.bbclass when porting a=
- BSP=20
-> from scarthgap to wrynose:
->
-> This class used to create a helper unit that created the upperdir if it d=
-id=20
-> not exist by calling the script found in meta/files/overlayfs-create-dirs=
-.sh.=20
-> Additionally, the script changed the owner of the upperdir to match the o=
-ne of=20
-> the lowerdir.
->
-> This helper unit and script been removed in oe-core with commit=20
-> 623c20ff1e989730138c3fbe6e8247eaada20707 because systemd now automaticall=
-y=20
-> creates the upperdir if it does not exist. But systemd does not adapt the=
-=20
-> ownership; instead, it gets created as owned by the default user and grou=
-p=20
-> (root:root).
->
-> I could not find any reference to this change in the migration notes - is=
- this=20
-> an intentional change or have we discovered a regression?
+On Wed, 10 Jun 2026 at 22:59, Dan McGregor via lists.openembedded.org
+<danismostlikely=gmail.com@lists.openembedded.org> wrote:
+> +From 5c809dfceb13faeaacaa096de816d74428f72efb Mon Sep 17 00:00:00 2001
+> +From: Dan McGregor <danmcgr@protonmail.com>
+> +Date: Tue, 9 Jun 2026 13:21:49 -0600
+> +Subject: [PATCH] Remove home directory references in board config
+> +
+> +The OpenEmbedded sanity checker finds a build user's home directory
+> +in the configuration files. If the user happens to have a home directory
+> +named "dan" or "nickc", then this check fails. Instead change the
+> +defaults to point outside of the home space.
+> +
+> +Since these are samples, it shouldn't harm anything.
+> +
+> +Upstream-Status: Inappropriate [OE configuration specific]
+> +Signed-off-by: Dan McGregor <danmcgr@protonmail.com>
 
-Hello,
+The patch as it is may be inappropriate, but the issue should still be
+reported upstream, and link included in brackets.
 
-Indeed, it looks like a regression to me. Would you be willing to handle
-it?
-
-If it is easily fixable, send a patch or, if not, open a bug on
-https://bugzilla.yoctoproject.org/ with, ideally, a reproducer.
-
-Thanks!
-
->
-> Best regards,
-> Andreas
-
-
---=20
-Yoann Congal
-Smile ECS
-
+Alex
 
