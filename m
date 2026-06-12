@@ -2,60 +2,60 @@ Return-Path: <jeremy.rosen@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C788CD98E5
-	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 14:26:50 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.71892.1781274409093507616
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20450CD98CE
+	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 14:27:00 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.71826.1781274411187886582
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2026 07:26:49 -0700
+ Fri, 12 Jun 2026 07:26:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=PvLj4NwO;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: jeremy.rosen@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so123915e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 07:26:48 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ETypZIho;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: jeremy.rosen@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso8550045e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 07:26:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781274407; x=1781879207; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1781274410; x=1781879210; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/e2HHdfh3jaicgWbX7tEBFxmV9FhzCBp9a5wQOb4JZQ=;
-        b=PvLj4NwOyvkBSewHqOT4azDuAl1UDPzk/XedvOVfkHFxQ/mqI0NRpiBRVMcAEXqNCy
-         B0lxjSMsRYMOtm3ToJuyBDAE9D0aCXzBRYPhkns0DVs7MHwZ5+o+DBsA7kg40qApzgTk
-         U1hdBB1AhS4yNMHsIIH814TrxszJNmemVtsXw=
+        bh=1Iov+40IxO8DDzBkZiRrKnyt6Zu5hJE6cGTCPKWtcUM=;
+        b=ETypZIhorfXwoIsbN6T363f8nLN86i7WL+MlsIx5aArkSSzfNnE1M6UYrAJ3Kis44k
+         AbHUIxdjAbrMkoB4wOOMrc01wS/31xPopKXPXq5A1u57MBS8ZztrA4RMYGnpy2V5uayB
+         LVFuMoihgJ/X9IiaQUp5pYndAF3CKeQLJxD6M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781274407; x=1781879207;
+        d=1e100.net; s=20251104; t=1781274410; x=1781879210;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/e2HHdfh3jaicgWbX7tEBFxmV9FhzCBp9a5wQOb4JZQ=;
-        b=L813WvRQP6BEt8Y9sf5x8fMDkFTo9lES0y7Ip1FwpgJooGIsojEBdZPEncWchwFTeK
-         T99dkgE0hTqJgmmDkR45MX7Cmpv6F+3vP3MKpG+MymD/azBAQBcFwrOXdm2ww5qkHR1F
-         JkDDE1D9qzVwLk2KPxcEyISjjIota/NWMdzutqL3s5UWLM+BEKCKlzlAVVHXVM24Q84m
-         oxdLOUqNrier9LJers6blhbEroM5wPAAPcAZIR4QBB+2Nfr2qg6qk3pDdDlZpQP5pD2D
-         mf7l0x+/EZvBPCuwQIxgsEFoTYsjrvyk+qv2/EoLJ9hYmY6pKJegQcCtPUzKR0/gOMAs
-         RFVw==
-X-Gm-Message-State: AOJu0YzcTleNl/CQ11c32xgsUl9wmy+HksVyFUEG/OOyutQWmljBsS/R
-	jGZt14urofGX1Jha3CuIa1zhyyx+X9PJ8XhNh1oLjHND/E+SNZUwAL/2hPIIVtxDF0X6YCBqf2Q
-	ikidbXQ==
-X-Gm-Gg: Acq92OFAsaTs5BKbP8yMA1yqUAx4rDBefGeFdIjZz4SIw9OanGc2tiRTZVh8t/BS+65
-	Om5qyOv2VmCu5usulQHtu6/Q5K8zVSTTzf+b0l0fkORZeAVm+5ImJ3LPWSPr74BPoAgCYR1l5bt
-	k4pFtWV3sFGjGgbeO/diAsgHRDWNnkPVefcxrSoj5W0l6FV97kuxW9pi1I7F3TiUWzSpoDsHWlJ
-	q0NTdCg5wZNGRkgdWKUr5HDHNlLIl1OWSSli9hl1BTiZSeCWSONmJ370l2qETQTX6cnSZhQqrnR
-	81uDG1srw0vzlLwc/T3SL+hSckjgRPWrG3x1qBf14gnGHfjUf0HoXjjE1RW6Mljq8ad2wkl3Wag
-	SMhCaDc28/oVOYntRCZWjRWDB+EFGzQtWTVenK8bw7HA3n3jysOEfe/Qyvuyn1JnLKxfALu276C
-	sIJOSZlQUNcF5XhCgVw7r2Ao8=
-X-Received: by 2002:a05:600c:4745:b0:490:d32b:39d6 with SMTP id 5b1f17b1804b1-490ec4fe770mr42407825e9.19.1781274407215;
-        Fri, 12 Jun 2026 07:26:47 -0700 (PDT)
+        bh=1Iov+40IxO8DDzBkZiRrKnyt6Zu5hJE6cGTCPKWtcUM=;
+        b=Y3/vamjdG2A8U4hfL8z0QuDUxT2AvVxiJO9xYmmNzyZnb+fURyedW2nbbbnFuqdFnT
+         B6R3VnqJ68iA0M1P5XzJKdLe1k/bcbKiryj3mEJBViXGjyOL0/h9rtULpPRK/8o/Ut7e
+         Au0dBhWalu7Nru9Pd6oxt5O08o9kn8qEpmcI+2LiXPTgp0bXzTW1sV3oHEhe2gaF7ka2
+         wiBswgiOxOZWKTZ1ubCqrRqltMJ6ciK7Nz7EvaJ5koDBMWeJUHwSNkEdAzL2QwjeVbj3
+         RysZaA1HRipMZjGZM+RVRwUMQXOARzsOyyEWRrN8Gknp1+fAIiIgSotZnLl+bqQ+PJa/
+         yXiw==
+X-Gm-Message-State: AOJu0YyOKT8dk+CcfPECput9S0wVZ5p5RXwQdDJ7hBwuOHJA5OD4u2u9
+	+EjXOxETR9W13Ohf4Jhg4pyC551pap7thGd1PfwhCcgnF0mWlVNWHUxH3Ql+8Lf0UUHgd59q+Vq
+	xuHhCSw==
+X-Gm-Gg: Acq92OGpOP507rFO3HmE/thFDFIW3uYMBZ1kHcudISeDQqueuRHYysWiW5kuW+z58PG
+	5hpeJCYSBC2cz4Q+zUhcnoyB/PrtnEfIS2EHx1upPnAoGAcy4+tETh+GLNcacaJ6iYVZlc0pj1x
+	gN5OJkWL7P051hySoks/8ydubpHF/PUXkOhnhQFZmjDoXV9T7GP1/TKFDyqSXs6K4inn1zVBeX8
+	PZEx70bejIvNh2xQA1oFUSn/v2AzuxuZDDupR3EL2mgWQbglgjKBElXl0XhC7YiNjs1rg4cUdXj
+	IdSPVbwV3Ft6bFiUROLv5DzItWXK2cSuiF5fDv+3YodcWOiLtGA+axEwCQWi9RP2HDPVlYHGFtf
+	fagnHyP8eaDbLy0LBgajySyYJuETpsRRoB5vsT064SeKy2ODXDNua2u3lN+q5DYFdWriDXS7zDW
+	UZYT/xDR7ROQmeNZqryIVZQhjS0W1vXv9LZw==
+X-Received: by 2002:a05:600c:8b09:b0:490:b446:fb8 with SMTP id 5b1f17b1804b1-490ec4d9298mr39748885e9.11.1781274409387;
+        Fri, 12 Jun 2026 07:26:49 -0700 (PDT)
 Received: from Logrus.lan ([2001:861:560f:240:8dd0:2c2:7492:641b])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4606f20e77asm6798747f8f.0.2026.06.12.07.26.46
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4606f20e77asm6798747f8f.0.2026.06.12.07.26.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 07:26:46 -0700 (PDT)
+        Fri, 12 Jun 2026 07:26:48 -0700 (PDT)
 From: Jeremy Rosen <jeremy.rosen@smile.fr>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][scarthgap 14/21] go: patch CVE-2026-39820
-Date: Fri, 12 Jun 2026 16:26:04 +0200
-Message-ID: <724767c15c6530fd3f4af6e0031ec2d1a040ab42.1781270474.git.jeremy.rosen@smile.fr>
+Subject: [OE-core][scarthgap 17/21] go: patch CVE-2026-42499
+Date: Fri, 12 Jun 2026 16:26:07 +0200
+Message-ID: <b0982ba6ae2de7bd57c6562015ec3386ed437f39.1781270474.git.jeremy.rosen@smile.fr>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1781270474.git.jeremy.rosen@smile.fr>
 References: <cover.1781270474.git.jeremy.rosen@smile.fr>
@@ -64,153 +64,130 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 14:26:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238636
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 14:27:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238639
 
 From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
 
-Backport patch from [1] mentionned in [2]
+Backport patch from [1]
 
-[1] https://go.dev/cl/759940
-
-[2] https://security-tracker.debian.org/tracker/CVE-2026-39820
+[1] https://go.dev/cl/771520
 
 Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 Reviewed-by: Bruno Vernay <bruno.vernay@se.com>
 Signed-off-by: Jeremy Rosen <jeremy.rosen@smile.fr>
 ---
- meta/recipes-devtools/go/go-1.22.12.inc       |   1 +
- .../go/go/CVE-2026-39820.patch                | 112 ++++++++++++++++++
- 2 files changed, 113 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39820.patch
+ meta/recipes-devtools/go/go-1.22.12.inc       |  1 +
+ .../go/go/CVE-2026-42499.patch                | 91 +++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-42499.patch
 
 diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index dba826011b..002d443059 100644
+index 77e6bcd59d..85f75f0d89 100644
 --- a/meta/recipes-devtools/go/go-1.22.12.inc
 +++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -48,6 +48,7 @@ SRC_URI += "\
-     file://CVE-2026-33811.patch \
-     file://CVE-2026-39817.patch \
-     file://CVE-2026-39819.patch \
-+    file://CVE-2026-39820.patch \
+@@ -51,6 +51,7 @@ SRC_URI += "\
+     file://CVE-2026-39820.patch \
+     file://CVE-2026-39825.patch \
+     file://CVE-2026-39826.patch \
++    file://CVE-2026-42499.patch \
  "
  SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
  
-diff --git a/meta/recipes-devtools/go/go/CVE-2026-39820.patch b/meta/recipes-devtools/go/go/CVE-2026-39820.patch
+diff --git a/meta/recipes-devtools/go/go/CVE-2026-42499.patch b/meta/recipes-devtools/go/go/CVE-2026-42499.patch
 new file mode 100644
-index 0000000000..c5f84282a9
+index 0000000000..d4ac9b3823
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2026-39820.patch
-@@ -0,0 +1,112 @@
-+From e459f8fe1061679f866c599210466db386348f08 Mon Sep 17 00:00:00 2001
-+From: mohammadmseet-hue <mohammadmseet@gmail.com>
-+Date: Sat, 4 Apr 2026 05:17:25 +0000
-+Subject: [PATCH] net/mail: fix quadratic complexity in consumeComment
++++ b/meta/recipes-devtools/go/go/CVE-2026-42499.patch
+@@ -0,0 +1,91 @@
++From dd339e72189d59f249786afd4021b9fb391f3562 Mon Sep 17 00:00:00 2001
++From: Neal Patel <nealpatel@google.com>
++Date: Tue, 28 Apr 2026 12:10:24 -0400
++Subject: [PATCH] net/mail: fix quadratic consumePhrase behavior
 +
-+consumeComment builds the comment string by repeated string
-+concatenation inside a loop. Each concatenation copies the
-+entire string built so far, making the function O(n^2) in the
-+depth of nested comments.
++Updates #78987
++Fixes CVE-2026-42499
 +
-+Replace the concatenation with a strings.Builder, which
-+amortizes allocation by doubling its internal buffer. This
-+reduces consumeComment from O(n^2) to O(n).
++Change-Id: I8438e5dee7e6433573d4161baf8fb2151e7fbc2f
++Reviewed-on: https://go-review.googlesource.com/c/go/+/771520
++Reviewed-by: Nicholas Husin <husin@google.com>
++Reviewed-by: Nicholas Husin <nsh@golang.org>
++LUCI-TryBot-Result: golang-scoped@luci-project-accounts.iam.gserviceaccount.com <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
 +
-+This is the same bug class as the consumeDomainLiteral fix
-+in CVE-2025-61725.
-+
-+Benchmark results (benchstat, 8 runs):
-+
-+  name                        old time/op  new time/op  delta
-+  ConsumeComment/depth10      2.481us      1.838us      -25.92%
-+  ConsumeComment/depth100     86.58us      6.498us      -92.50%
-+  ConsumeComment/depth1000    7.963ms      52.82us      -99.34%
-+  ConsumeComment/depth10000   897.8ms      521.3us      -99.94%
-+
-+The quadratic cost becomes visible at depth 100 and dominant
-+by depth 1000. At depth 10000, the fix is roughly 1700x
-+faster.
-+
-+Change-Id: I3c927f02646fcab7bab167cb82fd46d3327d6d34
-+GitHub-Last-Rev: 7742dad716ee371766543f88e82bd163bd9d7ac2
-+GitHub-Pull-Request: golang/go#78393
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/759940
-+Reviewed-by: Sean Liao <sean@liao.dev>
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+Auto-Submit: Sean Liao <sean@liao.dev>
-+Reviewed-by: David Chase <drchase@google.com>
-+Reviewed-by: Junyang Shao <shaojunyang@google.com>
-+
-+CVE: CVE-2026-39820
-+Upstream-Status: Backport [https://github.com/golang/go/commit/0d0799f055dcc9b3b41df74bee3fbe398ae2f0e7]
++CVE: CVE-2026-42499
++Upstream-Status: Backport [https://github.com/golang/go/commit/2c59389fcc5194aeae742fb413e55b656c22343f]
 +Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 +---
-+ src/net/mail/message.go      |  6 +++---
-+ src/net/mail/message_test.go | 19 +++++++++++++++++++
-+ 2 files changed, 22 insertions(+), 3 deletions(-)
++ src/net/mail/message.go      | 23 +++++++++++++++++------
++ src/net/mail/message_test.go | 11 +++++++++++
++ 2 files changed, 28 insertions(+), 6 deletions(-)
 +
 +diff --git a/src/net/mail/message.go b/src/net/mail/message.go
-+index fc2a9e46f8..37d7ff5df1 100644
++index 37d7ff5df1..f57742068e 100644
 +--- a/src/net/mail/message.go
 ++++ b/src/net/mail/message.go
-+@@ -780,7 +780,7 @@ func (p *addrParser) consumeComment() (string, bool) {
-+ 	// '(' already consumed.
-+ 	depth := 1
-+ 
-+-	var comment string
-++	var comment strings.Builder
++@@ -567,8 +567,10 @@ func (p *addrParser) consumeAddrSpec() (spec string, err error) {
++ func (p *addrParser) consumePhrase() (phrase string, err error) {
++ 	debug.Printf("consumePhrase: [%s]", p.s)
++ 	// phrase = 1*word
++-	var words []string
++-	var isPrevEncoded bool
+++	var (
+++		words []string
+++		sb    strings.Builder
+++	)
 + 	for {
-+ 		if p.empty() || depth == 0 {
++ 		// obs-phrase allows CFWS after one word
++ 		if len(words) > 0 {
++@@ -600,13 +602,22 @@ func (p *addrParser) consumePhrase() (phrase string, err error) {
 + 			break
-+@@ -794,12 +794,12 @@ func (p *addrParser) consumeComment() (string, bool) {
-+ 			depth--
 + 		}
-+ 		if depth > 0 {
-+-			comment += p.s[:1]
-++			comment.WriteByte(p.s[0])
++ 		debug.Printf("consumePhrase: consumed %q", word)
++-		if isPrevEncoded && isEncoded {
++-			words[len(words)-1] += word
++-		} else {
+++		switch {
+++		case isEncoded:
+++			sb.WriteString(word)
+++		case !isEncoded && sb.Len() > 0:
+++			words = append(words, sb.String())
+++			sb.Reset()
+++			words = append(words, word)
+++		default:
++ 			words = append(words, word)
 + 		}
-+ 		p.s = p.s[1:]
++-		isPrevEncoded = isEncoded
 + 	}
-+ 
-+-	return comment, depth == 0
-++	return comment.String(), depth == 0
-+ }
-+ 
-+ func (p *addrParser) decodeRFC2047Word(s string) (word string, isEncoded bool, err error) {
+++
+++	if sb.Len() > 0 {
+++		words = append(words, sb.String())
+++	}
+++
++ 	// Ignore any error if we got at least one word.
++ 	if err != nil && len(words) == 0 {
++ 		debug.Printf("consumePhrase: hit err: %v", err)
 +diff --git a/src/net/mail/message_test.go b/src/net/mail/message_test.go
-+index 1f2f62afbf..1b165317f9 100644
++index 1b165317f9..27837a9cbd 100644
 +--- a/src/net/mail/message_test.go
 ++++ b/src/net/mail/message_test.go
-+@@ -6,6 +6,7 @@ package mail
-+ 
-+ import (
-+ 	"bytes"
-++	"fmt"
-+ 	"io"
-+ 	"mime"
-+ 	"reflect"
-+@@ -1217,3 +1218,21 @@ func TestEmptyAddress(t *testing.T) {
-+ 		t.Errorf(`ParseAddressList("") = %v, %v, want nil, error`, list, err)
++@@ -1219,6 +1219,17 @@ func TestEmptyAddress(t *testing.T) {
 + 	}
 + }
-++
-++func BenchmarkConsumeComment(b *testing.B) {
++ 
+++func BenchmarkConsumePhrase(b *testing.B) {
 ++	for _, n := range []int{10, 100, 1000, 10000} {
-++		b.Run(fmt.Sprintf("depth-%d", n), func(b *testing.B) {
-++			// Build a deeply nested comment: (((...a...)))
-++			open := strings.Repeat("(", n)
-++			close := strings.Repeat(")", n)
-++			// consumeComment expects the leading '(' already consumed,
-++			// so we start with one fewer opening paren and the parser
-++			// will handle nesting from there.
-++			input := open[:n-1] + "a" + close
+++		b.Run(fmt.Sprintf("words-%d", n), func(b *testing.B) {
+++			input := strings.Repeat("=?utf-8?q?hello?= ", n) + "<user@example.com>"
 ++			for b.Loop() {
-++				p := addrParser{s: input}
-++				p.consumeComment()
+++				(&addrParser{s: input}).consumePhrase()
 ++			}
 ++		})
 ++	}
 ++}
+++
++ func BenchmarkConsumeComment(b *testing.B) {
++ 	for _, n := range []int{10, 100, 1000, 10000} {
++ 		b.Run(fmt.Sprintf("depth-%d", n), func(b *testing.B) {
 +-- 
 +2.43.0
 +
