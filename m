@@ -2,60 +2,60 @@ Return-Path: <jeremy.rosen@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D312CCD98E4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6B12CD98E3
 	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 14:26:49 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.71820.1781274402680570151
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.71817.1781274401087436875
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2026 07:26:43 -0700
+ Fri, 12 Jun 2026 07:26:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=o+Oqi3fF;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: jeremy.rosen@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45fd461e4a5so887655f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 07:26:42 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=CtHNUq2C;
+ spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: jeremy.rosen@smile.fr)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-45ee5cdbd28so1342293f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 07:26:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781274401; x=1781879201; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1781274399; x=1781879199; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EcDoHeR6CJQKLkQADLcnm9MMdBr63558ouu3EzWmbDI=;
-        b=o+Oqi3fFw/OJnejtQUFGGlbyK4609/PD7bu3QAF0pfPo7hlIFiXDib3B35ctiQmfnT
-         X+PgHn/1hb31VY7HOtfsxXALmsivMHMNxG+2x4uve2NIo8Ig6cIMl3OootWIdxmfo7/h
-         OQEHF6uVcvje17yqgZGG3SOSFR1zV2MKuZP98=
+        bh=Jfd4ageqIPVzcycMCaK8VS5kE9alBzdWXoZWgDx9KAk=;
+        b=CtHNUq2CfiOdT/TzGzlDhNy7ZL0F4Ft2rI+847ZM4ApdoOWmaJmUFmJikSwlgJ7Tit
+         j48Bm51vwaI9yZT7zWfMeS79Nnmia4XgTchbCavl0zl5d2wzdzFlnGCS6OL6cTzsvbaJ
+         k3ZoYvBz3y4XjwtKVLzMakMfmofJ4rKqB8ut4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781274401; x=1781879201;
+        d=1e100.net; s=20251104; t=1781274399; x=1781879199;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=EcDoHeR6CJQKLkQADLcnm9MMdBr63558ouu3EzWmbDI=;
-        b=hMJQ+dbjX2hPlj8U/Ac16J8afxQlWxCZJF66aW1eP58NdQ7JiLfgPZCtL/JXi8CejW
-         5rMHLmxGNmOUpPpxQoIBVAxJHfqg4Tdwg0v+dJJdlj9cxZl8fvUIeMIYbAq9Lb3pE6qG
-         Fs6LysWEDyxCk3BcpbIbaNWyp0mjQLEF/4QKnnu9DSZSorEiqxDnptNPVzS3y2C+JAru
-         15g5QPaM0+0jVlEq8BgKotB/w5YRBJbk5dWCTj0vjf8BRqDmcQUIbNkvnLTB+gTSf7/d
-         v502T0nqGb9cDH5DzWFsW4126jPqBwsKws4TwbK34nGRBxXGOK+396jLhsPGrhfH6rnv
-         ITiQ==
-X-Gm-Message-State: AOJu0YwIIN+YTKH40VLZrXuvl19PtgmIJhDNsT3XGR7MeLnccU+d8eoF
-	2wG6MQh7QuDmO24tnbFAcikOJNC9mbHI7z06eBpQKTbRc5Op8rZMuX618Ea2cIBZoTsyB7pTbRo
-	RL+Ee9g==
-X-Gm-Gg: Acq92OH9N2dc5tuL8fwRW32GAmKeyMOOZI+uNzZyne65ZLZ1XhCYmlInZtNnriDuZnc
-	nXEO5vRHFMQyg+DdCCsjfjyQwUxymwXspa+hjHHpaMB7VEYnSNmCAhM4+zPuma5yCcl0V1cv5Cv
-	0GQpsWu8yXonPiz9NGH/KTXOSmk6GUvhnFQqAQCJ2HdIg0+GCe8RhUW9z7tF2z0UO2asl33bgES
-	W1J5WZcAJT+mLJvdEC2A1PbiIhcSHybk2nGeUUmZ9muf4PsPvt3F5SEWIjxkAyuTTGIFkh6vJ01
-	nGkHA1hpgjEG17fCcNrw4M5U14NwLJ47VylOI/FidnQap7BCPUcPuXwBe1FPk5Can/YEDbT8luy
-	xAIlu1jWZ1io28y4cFJ8qGxoPGxG3v3W1nDj/OH9h+uRSLJeZLqHNmLiaOa99BP1kOAvyHerUbi
-	kbhR9GUWxKrL589VkaSZJo0wA=
-X-Received: by 2002:a05:6000:428a:b0:45e:edcc:f6dc with SMTP id ffacd0b85a97d-4606db9667amr4783477f8f.6.1781274400838;
-        Fri, 12 Jun 2026 07:26:40 -0700 (PDT)
+        bh=Jfd4ageqIPVzcycMCaK8VS5kE9alBzdWXoZWgDx9KAk=;
+        b=jy2hZLSMInpcbQR6djLTlbUnqGOGkxyOX9Dv9JogHU1Kb4IiJpaTB2cP88VEmjFtDL
+         Z1xdMSTS+ZQ3WFusRYNFrpMs9UiJbOygyTqMSPfS5OldSN9LuVaKD+Q/UkXtPKxnoqCs
+         HzqQDAnPQoadrrJN9PMK2nmuam69QZ+HAap9LnCDNFOjIoJ0qR2/GoOOyXKm71Ad2lYu
+         OJiarUdtxT3Y6of/j/7LMZsET9uDCAvy7iJAkm8N9ZsiPsrAuNpQsNnt+6UZulqbkx85
+         oJh3SI+f9H6cWpDHuw3CpOSuvM/aVyXTilcifWGHg71x5WjTu2s8fdhbd72V0dBBQNxL
+         g1WQ==
+X-Gm-Message-State: AOJu0Yx2RsxhtE5qbs8+D3qX6Bvo9E8M0KwEtAZAsLcRBKR29au6K8Ux
+	8Of2Q6fdchQ9elSdzHd820K8/gt0IYIigp6Wgw6afB4qMCny7ua3fEJFFS7Pg5FG5j4OMv3jw68
+	XWT7ROw==
+X-Gm-Gg: Acq92OF8d2zd+SMN5i4rEF1gziF71wJnF2X8TPK4h7FfjvcIwnHtNKzyrQttca18rMT
+	4hx4PO6DC/BkAbimbXkQtgbr+OekXJbRIPzFHbNG+nhpkMg51iOQtW72PHa0XyPNuiVXGwaGu4g
+	uKvGarVmhpLeYi00Rnrc6habc+z+Aev5XvkwgZtszD6jKT/C4p770SVB3F1cW1sesOGte82okK4
+	GuIGtuKBCbwkEPfi08NA4qNDxM4MdMZwGAUPGYwVKuO1YLpq/lceRZCt30MP/VQpcJouxREx4vo
+	FIYLuHNimMP2ot3W+hiAftNaQdzdZe8N2aXf+mNyG1uXSdWgfTyFDWmscJq/H/D7cowMeLaGw6w
+	v+cA7OYTUjdorX8MMW1sT87OySA7aYMGUlGm4KQP+ZS6Yo4gvqhXF7m7O1zuNuW+qWZrx0b74bI
+	QfYd3SeIlbLc8xeYkf+i8oFD4=
+X-Received: by 2002:a05:6000:4709:b0:460:602f:85ac with SMTP id ffacd0b85a97d-4606cae532fmr4203713f8f.0.1781274399289;
+        Fri, 12 Jun 2026 07:26:39 -0700 (PDT)
 Received: from Logrus.lan ([2001:861:560f:240:8dd0:2c2:7492:641b])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4606f20e77asm6798747f8f.0.2026.06.12.07.26.40
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4606f20e77asm6798747f8f.0.2026.06.12.07.26.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 07:26:40 -0700 (PDT)
+        Fri, 12 Jun 2026 07:26:38 -0700 (PDT)
 From: Jeremy Rosen <jeremy.rosen@smile.fr>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][scarthgap 07/21] go: patch CVE-2026-27142
-Date: Fri, 12 Jun 2026 16:25:57 +0200
-Message-ID: <bd443e123d8c10034e137296f82a43f8b764caa9.1781270474.git.jeremy.rosen@smile.fr>
+Subject: [OE-core][scarthgap 05/21] util-linux: Fix CVE-2026-27456
+Date: Fri, 12 Jun 2026 16:25:55 +0200
+Message-ID: <8a9fefa317baff6022334e46ab4ee87676c07699.1781270474.git.jeremy.rosen@smile.fr>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1781270474.git.jeremy.rosen@smile.fr>
 References: <cover.1781270474.git.jeremy.rosen@smile.fr>
@@ -65,424 +65,155 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 14:26:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238629
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238627
 
-From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
+From: "Hugo SIMELIERE (Schneider Electric)" <hsimeliere.opensource@witekio.com>
 
-Backport patch from [1]
+Pick patch from [1] as 2.39.x upstream backport of [2] mentioned in Debian report in [3].
 
-[1] https://go.dev/cl/752081
+[1] https://github.com/util-linux/util-linux/commit/79164668a412b71fcb1495c7d299cc5e9741fa30
+[2] https://github.com/util-linux/util-linux/commit/0ba0f14caa812349424df0da00ac2d97fee9d972
+[3] https://security-tracker.debian.org/tracker/CVE-2026-27456
 
-Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
-Reviewed-by: Bruno Vernay <bruno.vernay@se.com>
+Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
+Reviewed-by: Bruno VERNAY <bruno.vernay@se.com>
 Signed-off-by: Jeremy Rosen <jeremy.rosen@smile.fr>
 ---
- meta/recipes-devtools/go/go-1.22.12.inc       |   1 +
- .../go/go/CVE-2026-27142.patch                | 386 ++++++++++++++++++
- 2 files changed, 387 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-27142.patch
+ meta/recipes-core/util-linux/util-linux.inc   |   1 +
+ .../util-linux/CVE-2026-27456.patch           | 115 ++++++++++++++++++
+ 2 files changed, 116 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-27456.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index 3fa421e223..8efa82f862 100644
---- a/meta/recipes-devtools/go/go-1.22.12.inc
-+++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -41,6 +41,7 @@ SRC_URI += "\
-     file://CVE-2025-68121_p1.patch \
-     file://CVE-2025-68121_p2.patch \
-     file://CVE-2025-68121_p3.patch \
-+    file://CVE-2026-27142.patch \
- "
- SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 4797682c5d..8380419634 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -46,6 +46,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://sys-utils-hwclock-rtc-fix-pointer-usage.patch \
+            file://CVE-2025-14104-01.patch \
+            file://CVE-2025-14104-02.patch \
++           file://CVE-2026-27456.patch \
+            "
  
-diff --git a/meta/recipes-devtools/go/go/CVE-2026-27142.patch b/meta/recipes-devtools/go/go/CVE-2026-27142.patch
+ SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-27456.patch b/meta/recipes-core/util-linux/util-linux/CVE-2026-27456.patch
 new file mode 100644
-index 0000000000..e735abaf4b
+index 0000000000..4a5fef26d3
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2026-27142.patch
-@@ -0,0 +1,386 @@
-+From 1ac19df75e9c25951c04008a52b23a1cd95e81cc Mon Sep 17 00:00:00 2001
-+From: Roland Shoemaker <bracewell@google.com>
-+Date: Fri, 9 Jan 2026 11:12:01 -0800
-+Subject: [PATCH] html/template: properly escape URLs in meta content
-+ attributes
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-27456.patch
+@@ -0,0 +1,115 @@
++From af0b619f8eb15f738c69e33e0bb3a794e9cccf17 Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Thu, 19 Feb 2026 13:59:46 +0100
++Subject: [PATCH] loopdev: add LOOPDEV_FL_NOFOLLOW to prevent symlink attacks
 +
-+The meta tag can include a content attribute that contains URLs, which
-+we currently don't escape if they are inserted via a template action.
-+This can plausibly lead to XSS vulnerabilities if untrusted data is
-+inserted there, the http-equiv attribute is set to "refresh", and the
-+content attribute contains an action like `url={{.}}`.
++Add a new LOOPDEV_FL_NOFOLLOW flag for loop device context that
++prevents symlink following in both path canonicalization and file open.
 +
-+Track whether we are inside of a meta element, if we are inside of a
-+content attribute, _and_ if the content attribute contains "url=". If
-+all of those are true, then we will apply the same URL escaping that we
-+use elsewhere.
++When set:
++- loopcxt_set_backing_file() uses strdup() instead of
++  ul_canonicalize_path() (which calls realpath() and follows symlinks)
++- loopcxt_setup_device() adds O_NOFOLLOW to open() flags
 +
-+Also add a new GODEBUG, htmlmetacontenturlescape, to allow disabling this
-+escaping for cases where this behavior is considered safe. The behavior
-+can be disabled by setting htmlmetacontenturlescape=0.
++The flag is set for non-root (restricted) mount operations in
++libmount's loop device hook. This prevents a TOCTOU race condition
++where an attacker could replace the backing file (specified in
++/etc/fstab) with a symlink to an arbitrary root-owned file between
++path resolution and open().
 +
-+Updates #77954
-+Fixes #77972
-+Fixes CVE-2026-27142
++Vulnerable Code Flow:
 +
-+Change-Id: I9bbca263be9894688e6ef1e9a8f8d2f4304f5873
-+Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3360
-+Reviewed-by: Neal Patel <nealpatel@google.com>
-+Reviewed-by: Nicholas Husin <husin@google.com>
-+Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3643
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/752081
-+Auto-Submit: Gopher Robot <gobot@golang.org>
-+Reviewed-by: Cherry Mui <cherryyz@google.com>
-+TryBot-Bypass: Gopher Robot <gobot@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
++  mount /mnt/point (non-root, SUID)
++    mount.c: sanitize_paths() on user args (mountpoint only)
++    mnt_context_mount()
++      mnt_context_prepare_mount()
++        mnt_context_apply_fstab()           <-- source path from fstab
++        hooks run at MNT_STAGE_PREP_SOURCE
++          hook_loopdev.c: setup_loopdev()
++            backing_file = fstab source path ("/home/user/disk.img")
++            loopcxt_set_backing_file()       <-- calls realpath() as ROOT
++              ul_canonicalize_path()         <-- follows symlinks!
++            loopcxt_setup_device()
++              open(lc->filename, O_RDWR|O_CLOEXEC)  <-- no O_NOFOLLOW
 +
-+CVE: CVE-2026-27142
-+Upstream-Status: Backport [https://github.com/golang/go/commit/994692847a2cd3efd319f0cb61a07c0012c8a4ff]
-+Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
++Two vulnerabilities in the path:
++
++1) loopcxt_set_backing_file() calls ul_canonicalize_path() which uses
++   realpath() -- this follows symlinks as euid=0. If the attacker swaps
++   the file to a symlink before this call, lc->filename becomes the
++   resolved target path (e.g., /root/secret.img).
++
++2) loopcxt_setup_device() opens lc->filename without O_NOFOLLOW. Even
++   if canonicalization happened correctly, the file can be swapped to a
++   symlink between canonicalize and open.
++
++CVE: CVE-2026-27456
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/79164668a412b71fcb1495c7d299cc5e9741fa30]
++
++Addresses: https://github.com/util-linux/util-linux/security/advisories/GHSA-qq4x-vfq4-9h9g
++Signed-off-by: Karel Zak <kzak@redhat.com>
++(cherry picked from commit 5e390467b26a3cf3fecc04e1a0d482dff3162fc4)
++(cherry picked from commit 79164668a412b71fcb1495c7d299cc5e9741fa30)
++Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
 +---
-+ doc/godebug.md                      |  5 +++
-+ src/html/template/attr_string.go    |  5 +--
-+ src/html/template/context.go        |  8 +++++
-+ src/html/template/element_string.go |  5 +--
-+ src/html/template/escape.go         | 14 +++++++++
-+ src/html/template/escape_test.go    | 34 +++++++++++++++++++++
-+ src/html/template/state_string.go   |  8 +++--
-+ src/html/template/transition.go     | 47 +++++++++++++++++++++++++----
-+ src/internal/godebugs/table.go      |  1 +
-+ src/runtime/metrics/doc.go          |  5 +++
-+ 10 files changed, 119 insertions(+), 13 deletions(-)
++ include/loopdev.h           | 3 ++-
++ lib/loopdev.c               | 7 ++++++-
++ libmount/src/hook_loopdev.c | 3 ++-
++ 3 files changed, 10 insertions(+), 3 deletions(-)
 +
-+diff --git a/doc/godebug.md b/doc/godebug.md
-+index 635597e..07b63cb 100644
-+--- a/doc/godebug.md
-++++ b/doc/godebug.md
-+@@ -126,6 +126,11 @@ for example,
-+ see the [runtime documentation](/pkg/runtime#hdr-Environment_Variables)
-+ and the [go command documentation](/cmd/go#hdr-Build_and_test_caching).
++diff --git a/include/loopdev.h b/include/loopdev.h
++index 903adc491..d03e9b65e 100644
++--- a/include/loopdev.h
+++++ b/include/loopdev.h
++@@ -139,7 +139,8 @@ enum {
++ 	LOOPDEV_FL_NOIOCTL	= (1 << 6),
++ 	LOOPDEV_FL_DEVSUBDIR	= (1 << 7),
++ 	LOOPDEV_FL_CONTROL	= (1 << 8),	/* system with /dev/loop-control */
++-	LOOPDEV_FL_SIZELIMIT	= (1 << 9)
+++	LOOPDEV_FL_SIZELIMIT	= (1 << 9),
+++	LOOPDEV_FL_NOFOLLOW	= (1 << 10)	/* O_NOFOLLOW, don't follow symlinks */
++ };
 + 
-++Go 1.26.1 added a new `htmlmetacontenturlescape` setting that controls whether
-++html/template will escape URLs in the `url=` portion of the content attribute of
-++HTML meta tags. The default `htmlmetacontentescape=1` will cause URLs to be
-++escaped. Setting `htmlmetacontentescape=0` disables this behavior.
-++
-+ Go 1.26 added a new `urlmaxqueryparams` setting that controls the maximum number
-+ of query parameters that net/url will accept when parsing a URL-encoded query string.
-+ If the number of parameters exceeds the number set in `urlmaxqueryparams`,
-+diff --git a/src/html/template/attr_string.go b/src/html/template/attr_string.go
-+index 51c3f26..7159fa9 100644
-+--- a/src/html/template/attr_string.go
-++++ b/src/html/template/attr_string.go
-+@@ -14,11 +14,12 @@ func _() {
-+ 	_ = x[attrStyle-3]
-+ 	_ = x[attrURL-4]
-+ 	_ = x[attrSrcset-5]
-++	_ = x[attrMetaContent-6]
-+ }
++ /*
++diff --git a/lib/loopdev.c b/lib/loopdev.c
++index dd9ead3ee..4da251812 100644
++--- a/lib/loopdev.c
+++++ b/lib/loopdev.c
++@@ -1193,7 +1193,10 @@ int loopcxt_set_backing_file(struct loopdev_cxt *lc, const char *filename)
++ 	if (!lc)
++ 		return -EINVAL;
 + 
-+-const _attr_name = "attrNoneattrScriptattrScriptTypeattrStyleattrURLattrSrcset"
-++const _attr_name = "attrNoneattrScriptattrScriptTypeattrStyleattrURLattrSrcsetattrMetaContent"
++-	lc->filename = canonicalize_path(filename);
+++	if (lc->flags & LOOPDEV_FL_NOFOLLOW)
+++		lc->filename = strdup(filename);
+++	else
+++		lc->filename = canonicalize_path(filename);
++ 	if (!lc->filename)
++ 		return -errno;
 + 
-+-var _attr_index = [...]uint8{0, 8, 18, 32, 41, 48, 58}
-++var _attr_index = [...]uint8{0, 8, 18, 32, 41, 48, 58, 73}
++@@ -1332,6 +1335,8 @@ int loopcxt_setup_device(struct loopdev_cxt *lc)
 + 
-+ func (i attr) String() string {
-+ 	if i >= attr(len(_attr_index)-1) {
-+diff --git a/src/html/template/context.go b/src/html/template/context.go
-+index b78f0f7..8b3af2f 100644
-+--- a/src/html/template/context.go
-++++ b/src/html/template/context.go
-+@@ -156,6 +156,10 @@ const (
-+ 	// stateError is an infectious error state outside any valid
-+ 	// HTML/CSS/JS construct.
-+ 	stateError
-++	// stateMetaContent occurs inside a HTML meta element content attribute.
-++	stateMetaContent
-++	// stateMetaContentURL occurs inside a "url=" tag in a HTML meta element content attribute.
-++	stateMetaContentURL
-+ 	// stateDead marks unreachable code after a {{break}} or {{continue}}.
-+ 	stateDead
-+ )
-+@@ -267,6 +271,8 @@ const (
-+ 	elementTextarea
-+ 	// elementTitle corresponds to the RCDATA <title> element.
-+ 	elementTitle
-++	// elementMeta corresponds to the HTML <meta> element.
-++	elementMeta
-+ )
++ 	if (lc->config.info.lo_flags & LO_FLAGS_DIRECT_IO)
++ 		flags |= O_DIRECT;
+++	if (lc->flags & LOOPDEV_FL_NOFOLLOW)
+++		flags |= O_NOFOLLOW;
 + 
-+ //go:generate stringer -type attr
-+@@ -288,4 +294,6 @@ const (
-+ 	attrURL
-+ 	// attrSrcset corresponds to a srcset attribute.
-+ 	attrSrcset
-++	// attrMetaContent corresponds to the content attribute in meta HTML element.
-++	attrMetaContent
-+ )
-+diff --git a/src/html/template/element_string.go b/src/html/template/element_string.go
-+index db28665..bdf9da7 100644
-+--- a/src/html/template/element_string.go
-++++ b/src/html/template/element_string.go
-+@@ -13,11 +13,12 @@ func _() {
-+ 	_ = x[elementStyle-2]
-+ 	_ = x[elementTextarea-3]
-+ 	_ = x[elementTitle-4]
-++	_ = x[elementMeta-5]
-+ }
-+ 
-+-const _element_name = "elementNoneelementScriptelementStyleelementTextareaelementTitle"
-++const _element_name = "elementNoneelementScriptelementStyleelementTextareaelementTitleelementMeta"
-+ 
-+-var _element_index = [...]uint8{0, 11, 24, 36, 51, 63}
-++var _element_index = [...]uint8{0, 11, 24, 36, 51, 63, 74}
-+ 
-+ func (i element) String() string {
-+ 	if i >= element(len(_element_index)-1) {
-+diff --git a/src/html/template/escape.go b/src/html/template/escape.go
-+index 1eace16..b368cab 100644
-+--- a/src/html/template/escape.go
-++++ b/src/html/template/escape.go
-+@@ -165,6 +165,8 @@ func (e *escaper) escape(c context, n parse.Node) context {
-+ 
-+ var debugAllowActionJSTmpl = godebug.New("jstmpllitinterp")
-+ 
-++var htmlmetacontenturlescape = godebug.New("htmlmetacontenturlescape")
-++
-+ // escapeAction escapes an action template node.
-+ func (e *escaper) escapeAction(c context, n *parse.ActionNode) context {
-+ 	if len(n.Pipe.Decl) != 0 {
-+@@ -222,6 +224,18 @@ func (e *escaper) escapeAction(c context, n *parse.ActionNode) context {
-+ 		default:
-+ 			panic(c.urlPart.String())
-+ 		}
-++	case stateMetaContent:
-++		// Handled below in delim check.
-++	case stateMetaContentURL:
-++		if htmlmetacontenturlescape.Value() != "0" {
-++			s = append(s, "_html_template_urlfilter")
-++		} else {
-++			// We don't have a great place to increment this, since it's hard to
-++			// know if we actually escape any urls in _html_template_urlfilter,
-++			// since it has no information about what context it is being
-++			// executed in etc. This is probably the best we can do.
-++			htmlmetacontenturlescape.IncNonDefault()
-++		}
-+ 	case stateJS:
-+ 		s = append(s, "_html_template_jsvalescaper")
-+ 		// A slash after a value starts a div operator.
-+diff --git a/src/html/template/escape_test.go b/src/html/template/escape_test.go
-+index 497ead8..1970db1 100644
-+--- a/src/html/template/escape_test.go
-++++ b/src/html/template/escape_test.go
-+@@ -734,6 +734,16 @@ func TestEscape(t *testing.T) {
-+ 			"<script>var a = `${ var a = \"{{\"a \\\" d\"}}\" }`</script>",
-+ 			"<script>var a = `${ var a = \"a \\u0022 d\" }`</script>",
-+ 		},
-++		{
-++			"meta content attribute url",
-++			`<meta http-equiv="refresh" content="asd; url={{"javascript:alert(1)"}}; asd; url={{"vbscript:alert(1)"}}; asd">`,
-++			`<meta http-equiv="refresh" content="asd; url=#ZgotmplZ; asd; url=#ZgotmplZ; asd">`,
-++		},
-++		{
-++			"meta content string",
-++			`<meta http-equiv="refresh" content="{{"asd: 123"}}">`,
-++			`<meta http-equiv="refresh" content="asd: 123">`,
-++		},
++ 	if ((file_fd = open(lc->filename, mode | flags)) < 0) {
++ 		if (mode != O_RDONLY && (errno == EROFS || errno == EACCES))
++diff --git a/libmount/src/hook_loopdev.c b/libmount/src/hook_loopdev.c
++index 8c8f7f218..ce39a7a70 100644
++--- a/libmount/src/hook_loopdev.c
+++++ b/libmount/src/hook_loopdev.c
++@@ -276,7 +276,8 @@ static int setup_loopdev(struct libmnt_context *cxt,
 + 	}
 + 
-+ 	for _, test := range tests {
-+@@ -1016,6 +1026,14 @@ func TestErrors(t *testing.T) {
-+ 			"<script>var tmpl = `asd ${return \"{\"}`;</script>",
-+ 			``,
-+ 		},
-++		{
-++			`{{if eq "" ""}}<meta>{{end}}`,
-++			``,
-++		},
-++		{
-++			`{{if eq "" ""}}<meta content="url={{"asd"}}">{{end}}`,
-++			``,
-++		},
-+ 
-+ 		// Error cases.
-+ 		{
-+@@ -2194,3 +2212,19 @@ func TestAliasedParseTreeDoesNotOverescape(t *testing.T) {
-+ 		t.Fatalf(`Template "foo" and "bar" rendered %q and %q respectively, expected equal values`, got1, got2)
-+ 	}
-+ }
-++
-++func TestMetaContentEscapeGODEBUG(t *testing.T) {
-++	savedGODEBUG := os.Getenv("GODEBUG")
-++	os.Setenv("GODEBUG", savedGODEBUG+",htmlmetacontenturlescape=0")
-++	defer func() { os.Setenv("GODEBUG", savedGODEBUG) }()
-++
-++	tmpl := Must(New("").Parse(`<meta http-equiv="refresh" content="asd; url={{"javascript:alert(1)"}}; asd; url={{"vbscript:alert(1)"}}; asd">`))
-++	var b strings.Builder
-++	if err := tmpl.Execute(&b, nil); err != nil {
-++		t.Fatalf("unexpected error: %s", err)
-++	}
-++	want := `<meta http-equiv="refresh" content="asd; url=javascript:alert(1); asd; url=vbscript:alert(1); asd">`
-++	if got := b.String(); got != want {
-++		t.Fatalf("got %q, want %q", got, want)
-++	}
-++}
-+diff --git a/src/html/template/state_string.go b/src/html/template/state_string.go
-+index eed1e8b..f5a70b2 100644
-+--- a/src/html/template/state_string.go
-++++ b/src/html/template/state_string.go
-+@@ -36,12 +36,14 @@ func _() {
-+ 	_ = x[stateCSSBlockCmt-25]
-+ 	_ = x[stateCSSLineCmt-26]
-+ 	_ = x[stateError-27]
-+-	_ = x[stateDead-28]
-++	_ = x[stateMetaContent-28]
-++	_ = x[stateMetaContentURL-29]
-++	_ = x[stateDead-30]
-+ }
-+ 
-+-const _state_name = "stateTextstateTagstateAttrNamestateAfterNamestateBeforeValuestateHTMLCmtstateRCDATAstateAttrstateURLstateSrcsetstateJSstateJSDqStrstateJSSqStrstateJSTmplLitstateJSRegexpstateJSBlockCmtstateJSLineCmtstateJSHTMLOpenCmtstateJSHTMLCloseCmtstateCSSstateCSSDqStrstateCSSSqStrstateCSSDqURLstateCSSSqURLstateCSSURLstateCSSBlockCmtstateCSSLineCmtstateErrorstateDead"
-++const _state_name = "stateTextstateTagstateAttrNamestateAfterNamestateBeforeValuestateHTMLCmtstateRCDATAstateAttrstateURLstateSrcsetstateJSstateJSDqStrstateJSSqStrstateJSTmplLitstateJSRegexpstateJSBlockCmtstateJSLineCmtstateJSHTMLOpenCmtstateJSHTMLCloseCmtstateCSSstateCSSDqStrstateCSSSqStrstateCSSDqURLstateCSSSqURLstateCSSURLstateCSSBlockCmtstateCSSLineCmtstateErrorstateMetaContentstateMetaContentURLstateDead"
-+ 
-+-var _state_index = [...]uint16{0, 9, 17, 30, 44, 60, 72, 83, 92, 100, 111, 118, 130, 142, 156, 169, 184, 198, 216, 235, 243, 256, 269, 282, 295, 306, 322, 337, 347, 356}
-++var _state_index = [...]uint16{0, 9, 17, 30, 44, 60, 72, 83, 92, 100, 111, 118, 130, 142, 156, 169, 184, 198, 216, 235, 243, 256, 269, 282, 295, 306, 322, 337, 347, 363, 382, 391}
-+ 
-+ func (i state) String() string {
-+ 	if i >= state(len(_state_index)-1) {
-+diff --git a/src/html/template/transition.go b/src/html/template/transition.go
-+index d5a05f6..5aa3c35 100644
-+--- a/src/html/template/transition.go
-++++ b/src/html/template/transition.go
-+@@ -23,6 +23,8 @@ var transitionFunc = [...]func(context, []byte) (context, int){
-+ 	stateRCDATA:         tSpecialTagEnd,
-+ 	stateAttr:           tAttr,
-+ 	stateURL:            tURL,
-++	stateMetaContent:    tMetaContent,
-++	stateMetaContentURL: tMetaContentURL,
-+ 	stateSrcset:         tURL,
-+ 	stateJS:             tJS,
-+ 	stateJSDqStr:        tJSDelimited,
-+@@ -83,6 +85,7 @@ var elementContentType = [...]state{
-+ 	elementStyle:    stateCSS,
-+ 	elementTextarea: stateRCDATA,
-+ 	elementTitle:    stateRCDATA,
-++	elementMeta:     stateText,
-+ }
-+ 
-+ // tTag is the context transition function for the tag state.
-+@@ -93,6 +96,11 @@ func tTag(c context, s []byte) (context, int) {
-+ 		return c, len(s)
-+ 	}
-+ 	if s[i] == '>' {
-++		// Treat <meta> specially, because it doesn't have an end tag, and we
-++		// want to transition into the correct state/element for it.
-++		if c.element == elementMeta {
-++			return context{state: stateText, element: elementNone}, i + 1
-++		}
-+ 		return context{
-+ 			state:   elementContentType[c.element],
-+ 			element: c.element,
-+@@ -113,6 +121,8 @@ func tTag(c context, s []byte) (context, int) {
-+ 	attrName := strings.ToLower(string(s[i:j]))
-+ 	if c.element == elementScript && attrName == "type" {
-+ 		attr = attrScriptType
-++	} else if c.element == elementMeta && attrName == "content" {
-++		attr = attrMetaContent
-+ 	} else {
-+ 		switch attrType(attrName) {
-+ 		case contentTypeURL:
-+@@ -162,12 +172,13 @@ func tAfterName(c context, s []byte) (context, int) {
-+ }
-+ 
-+ var attrStartStates = [...]state{
-+-	attrNone:       stateAttr,
-+-	attrScript:     stateJS,
-+-	attrScriptType: stateAttr,
-+-	attrStyle:      stateCSS,
-+-	attrURL:        stateURL,
-+-	attrSrcset:     stateSrcset,
-++	attrNone:        stateAttr,
-++	attrScript:      stateJS,
-++	attrScriptType:  stateAttr,
-++	attrStyle:       stateCSS,
-++	attrURL:         stateURL,
-++	attrSrcset:      stateSrcset,
-++	attrMetaContent: stateMetaContent,
-+ }
-+ 
-+ // tBeforeValue is the context transition function for stateBeforeValue.
-+@@ -203,6 +214,7 @@ var specialTagEndMarkers = [...][]byte{
-+ 	elementStyle:    []byte("style"),
-+ 	elementTextarea: []byte("textarea"),
-+ 	elementTitle:    []byte("title"),
-++	elementMeta:     []byte(""),
-+ }
-+ 
-+ var (
-+@@ -612,6 +624,28 @@ func tError(c context, s []byte) (context, int) {
-+ 	return c, len(s)
-+ }
-+ 
-++// tMetaContent is the context transition function for the meta content attribute state.
-++func tMetaContent(c context, s []byte) (context, int) {
-++	for i := 0; i < len(s); i++ {
-++		if i+3 <= len(s)-1 && bytes.Equal(bytes.ToLower(s[i:i+4]), []byte("url=")) {
-++			c.state = stateMetaContentURL
-++			return c, i + 4
-++		}
-++	}
-++	return c, len(s)
-++}
-++
-++// tMetaContentURL is the context transition function for the "url=" part of a meta content attribute state.
-++func tMetaContentURL(c context, s []byte) (context, int) {
-++	for i := 0; i < len(s); i++ {
-++		if s[i] == ';' {
-++			c.state = stateMetaContent
-++			return c, i + 1
-++		}
-++	}
-++	return c, len(s)
-++}
-++
-+ // eatAttrName returns the largest j such that s[i:j] is an attribute name.
-+ // It returns an error if s[i:] does not look like it begins with an
-+ // attribute name, such as encountering a quote mark without a preceding
-+@@ -638,6 +672,7 @@ var elementNameMap = map[string]element{
-+ 	"style":    elementStyle,
-+ 	"textarea": elementTextarea,
-+ 	"title":    elementTitle,
-++	"meta":     elementMeta,
-+ }
-+ 
-+ // asciiAlpha reports whether c is an ASCII letter.
-+diff --git a/src/internal/godebugs/table.go b/src/internal/godebugs/table.go
-+index 7178df6..90311eb 100644
-+--- a/src/internal/godebugs/table.go
-++++ b/src/internal/godebugs/table.go
-+@@ -31,6 +31,7 @@ var All = []Info{
-+ 	{Name: "gocachetest", Package: "cmd/go"},
-+ 	{Name: "gocacheverify", Package: "cmd/go"},
-+ 	{Name: "gotypesalias", Package: "go/types"},
-++	{Name: "htmlmetacontenturlescape", Package: "html/template"},
-+ 	{Name: "http2client", Package: "net/http"},
-+ 	{Name: "http2debug", Package: "net/http", Opaque: true},
-+ 	{Name: "http2server", Package: "net/http"},
-+diff --git a/src/runtime/metrics/doc.go b/src/runtime/metrics/doc.go
-+index 335f787..f68e386 100644
-+--- a/src/runtime/metrics/doc.go
-++++ b/src/runtime/metrics/doc.go
-+@@ -255,6 +255,11 @@ Below is the full list of supported metrics, ordered lexicographically.
-+ 		The number of non-default behaviors executed by the go/types
-+ 		package due to a non-default GODEBUG=gotypesalias=... setting.
-+ 
-++	/godebug/non-default-behavior/htmlmetacontenturlescape:events
-++		The number of non-default behaviors executed by
-++		the html/template package due to a non-default
-++		GODEBUG=htmlmetacontenturlescape=... setting.
-++
-+ 	/godebug/non-default-behavior/http2client:events
-+ 		The number of non-default behaviors executed by the net/http
-+ 		package due to a non-default GODEBUG=http2client=... setting.
++ 	DBG(LOOP, ul_debugobj(cxt, "not found; create a new loop device"));
++-	rc = loopcxt_init(&lc, 0);
+++	rc = loopcxt_init(&lc,
+++			mnt_context_is_restricted(cxt) ? LOOPDEV_FL_NOFOLLOW : 0);
++ 	if (rc)
++ 		goto done_no_deinit;
++ 	if (mnt_opt_has_value(loopopt)) {
 +-- 
 +2.43.0
 +
