@@ -1,1357 +1,543 @@
-Return-Path: <hjadon@cisco.com>
+Return-Path: <asparmar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28498CD98CE
-	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 12:14:10 +0000 (UTC)
-Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.69050.1781266447284670028
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C350CD8CA8
+	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 12:15:30 +0000 (UTC)
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.69132.1781266523103137882
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2026 05:14:08 -0700
+ Fri, 12 Jun 2026 05:15:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=KL0QQMj3;
- spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: hjadon@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=IEhevZtt;
+ spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=40326; q=dns/txt;
-  s=iport01; t=1781266448; x=1782476048;
+  d=cisco.com; i=@cisco.com; l=16958; q=dns/txt;
+  s=iport01; t=1781266523; x=1782476123;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=ESEHB7NyrM28OH0KiNO0cM/xIBhFkdndmBsLTmH7rVA=;
-  b=KL0QQMj3GPdHY/bTYhfdC/2CSAMX0MnrG/oTK4CzBkckV95b1icn9+3p
-   IOSOYSXnN/z/i7AyVDz60vlaeTIINmu4ATOa2gl/klHfI+uZvrETmstDe
-   MEBR//JQXqvMfiKWc2jQO+ldb3NF4hdnngk2eWHaClzp6BA6NIjmgcgfb
-   M3TXQnraUItt7waACP27S1Hb1d3CXoTinqOfZYfHSuI0NWzKVbgUvlSPy
-   QwfMoVydY+Xbk0YNQCf+a0j1RRUP1cZ6+KXpnN9+/tFode1HSWrixFvoF
-   21zj7rDsa5USo+k7YDmXvS/cgalTFoCq6IUDswZSx0eMZhEnyG212OLDu
-   A==;
-X-CSE-ConnectionGUID: PuPDMLRyROi/7fkLqdz/fA==
-X-CSE-MsgGUID: 6V48xm1EQVCN2SY1Vxr5sg==
-X-IPAS-Result: =?us-ascii?q?A0DaAwA/9itq/5H/Ja0+HB4BAQsSDIIFC4JXdF4aKUkDh?=
- =?us-ascii?q?BiSMItnj1iCc4FkBg8BAQEPLhYNBAEBghKCdI1CAiY3Bg4BAgQDAgMBAQEBA?=
- =?us-ascii?q?QEBAQEBAQsBAQUBAQECAQcFgQ4ThhUIMg0nBAIBhiwBAgEECw4BDAsBNBIZE?=
- =?us-ascii?q?gEDAQJPBwQjGAkJgnkBgjoDNgMRBkKXCptEgXkzgQGDWgIDCQJDUNhJCAUQg?=
- =?us-ascii?q?kYBCxQBgTiFP4J8IAGFAlsYAYR8JxsbgXKBFYNpgQWBGjcLAwEBF4EJCAESA?=
- =?us-ascii?q?QeGXwSCIoEMgV0YgUKBGSyBUYNyhidIgQIcA1ksAVUTDQoLBwWBZgM1EioVb?=
- =?us-ascii?q?jIdgSM+FzRYGwcFgUqBK2qBA4UNIx8DOX+BdIEoZ2kVMDWBAQEREgMLGA1IE?=
- =?us-ascii?q?Sw3FBsEPm4HjEIXDgGBcSANDgsGAQEVFwQMPgkKAQcMCA4BAVBANQcBBA8dA?=
- =?us-ascii?q?S46DZJeEAqQFoIhn24wcQoog3WMIY0+ggCFfBozhASBV5JAklGZCIxcgS6EC?=
- =?us-ascii?q?YNTjgYGaIRogX4maXBwFTsNCYJRCUoZD4M3inYLC4F4H4Qfgj3CfCcyAgEBB?=
- =?us-ascii?q?wMwAQcCBwEMBIFzkX0BAQ?=
-IronPort-Data: A9a23:IITfdq+au8O2kikf/HxVDrUD13+TJUtcMsCJ2f8bNWPcYEJGY0x3z
- jZLCGqPbv+LNzOmc912OY209BkE7MLWzoJrQQdprypEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
- 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
- 4muyyHjEAX9gWAsbDtOs/vrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
- /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
- HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2kOILU038JNEFtp9
- LtHJjMpdxyRwOyflefTpulE3qzPLeHxN48Z/3UlxjbDALN+EdbIQr7B4plT2zJYasJmRKmFI
- ZFGL2AyMVKZP0An1lQ/UPrSmM+ohHDzdDtwo1OOrq1x6G/WpOB0+OS8bICIK4PTH625mG7Gm
- D6W72GgLygkH/rF8gvczGK22/TAyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl7JQGMFVTVGLtchsafaWAAX6
- 7NApPuxbRQHjVFfYS/1Gmu8xd9qBRUoEA==
-IronPort-HdrOrdr: A9a23:gNFNRqm55tK49gsS6BGu7DGE3iLpDfIA3DAbv31ZSRFFG/FwWf
- rAoB19726RtN9xYgBEpTnuAsi9qB/nmKKdgrNhX4tKPjOHhILAFugLhuHfKlbbdREWmNQw6U
- 4ZSdkcNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYLcemvAJsQljuQzW2gYytLeDU=
-X-Talos-CUID: 9a23:U0Azsm66ZISbhbuWnNsszFMsNuUBSGzn63aXfEG7LX9lWvqbYArF
-X-Talos-MUID: 9a23:h/xiBwSr10WS3G7IRXSyum0yJMIxzp2QI2ZXqqRfhdmeaDd/bmI=
+  bh=3M2CKGK8Jwg+wFlZqSve07XpkbO5lAFnYEW3nAbpOO4=;
+  b=IEhevZttdQGvaN2LR2x96O9ZDY9+BWF9RUVZEKY8xlqAqKWU7eCm9k5A
+   YmVRx9VrsnxYpZYIn2HrEmQGJKXpg4V+Esd1/M6fq+bHUTw0p5dMVgNvy
+   b3AchqDUn6Mx/m5R8QQAP0UFAx4avslAkLrfzIIrLFbIeucRd7/hwyfN4
+   jEFvefmgf3xsKwZJUzC9Z7zK25QUVvsdgtEHqFuOM4g6EImxWZsSi96gl
+   RNSyeUjqsWAS+6yuhWCl9tCxCutJIHhLUDEXNUqbELqjpQSsfsRbVf8rB
+   lBIfr24WOYz3wzT1/29RysXEooLX0zabupLDq2pjv4ZuqGDn5fIqZ7W6T
+   g==;
+X-CSE-ConnectionGUID: 4qTfFN6PQGqkqFJy/mRkVg==
+X-CSE-MsgGUID: mBsIkyBPR6io2wZ8fhmYeQ==
+X-IPAS-Result: =?us-ascii?q?A0AmAADn9itq/5D/Ja1aHQEBAQEJARIBBQUBgXwIAQsBg?=
+ =?us-ascii?q?lZ0X0JJjHOJWIEWnQiBfg8BAQEPRA0EAQGFBo1CAiY0CQ4BAgQDAgMBAQEBA?=
+ =?us-ascii?q?QEBAQEBAQsBAQUBAQECAQcFgQ4Thk8NhloBAgEqCwEYAS0sAwECWiMhgwIBg?=
+ =?us-ascii?q?nMCARGyPRo3gXkzgQGDKAE/AkNQ2ywBCxQBBYEzAYU+iB9bGAGEfCcbG4Fyg?=
+ =?us-ascii?q?RWBO4E4doEFgVwCAgEXgQ2GfgSCInoSgVsCHo5rSIEeA1ksAVUTDQoLBwWBZ?=
+ =?us-ascii?q?gM1EioVbjIdgSM+F4EMGwcFgUqBK2qBA4UNIx8DOX+BdIEoZ2kVMDWBAQERE?=
+ =?us-ascii?q?gMLGA1IESw3FBsEPm4HjEIXD4I+ASxHBxMBExh/EggqFCEvU5JgCQE4kgaBN?=
+ =?us-ascii?q?Z9aCiiDdYwhj0KFeBozhASUF5JRC5h9jgqVNIEchGiBaDyBRA4HcBWDIglKG?=
+ =?us-ascii?q?Q+OCx8DCwuDYIUTwnwkNQIJMgEBBwIHDgMLgWiQAAImB4FOAQE?=
+IronPort-Data: A9a23:EpCb3qqmQBF313IZ2Y70klss091eBmJJZBIvgKrLsJaIsI4StFCzt
+ garIBmOaa6KYmfyKN4laY3n/B5Qv5HRm4RrT1dlrXhhECxD+ePIVI+TRqvS04x+DSFioGZPt
+ Zh2hgzodZhsJpPkjk7zdOCn9j8kif3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYgPNNwJcaDpOtfrd8Uk35ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
+ 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0rpuPW9g0
+ 6IgER8UbQmtpfPxxYi4dOY506zPLOGzVG8ekmtrwTecCbMtRorOBv2Vo9RZxzw3wMtJGJ4yZ
+ eJANmEpN0uGOUASfA5LVPrSn8/w7pX7WzRDsFuPoKMty2PS1wd2lrPqNbI5f/TWFJ4KzxbD+
+ z+uE2LRBzsBFd+O4wK/rHOr3PD9zS37XbMfLejtnhJtqBjJroAJMzURTVa9rPyzh0KyVt4aI
+ EsO9wIqrLMu7wqsVtT7UhiyrXKIsxJaXMBfe9DW8ymXwabSpgLcDW8eQ3sZN5ottdQ9Qnoh0
+ Vrhc87VOAGDeYa9ERq1nop4ZxvrUcTJBQfuvRM5cDY=
+IronPort-HdrOrdr: A9a23:pVxP1KAeAijm0m7lHemA55DYdb4zR+YMi2TDGXofdfUzSL38qy
+ nAppUmPHPP5Qr5O0tQ++xoWpPhfZq0z/cciuMs1NyZMjUO1lHFEGhK1/qH/9SZIVycysdtkY
+ F9bqN5FNr8SXJ+jcr8/U2ENuxI+qjhzEht7t2utkuEimpRGsdd0zs=
+X-Talos-CUID: 9a23:0Wp7d2O4OK46De5DBDBb+mAyRPgcXWTe1VnyMgi9M2VXR+jA
+X-Talos-MUID: 9a23:qZiTMQj5FJ1/pTh1gw/OwMMpMe1zwqe/Ing3z5QB4da2ZSJwPgaQtWHi
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.24,200,1774310400"; 
-   d="scan'208";a="494259712"
-Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
-  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 12 Jun 2026 12:14:01 +0000
-Received: from sjc-ads-21441.cisco.com (sjc-ads-21441.cisco.com [10.128.164.182])
+   d="scan'208";a="493798355"
+Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
+  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 12 Jun 2026 12:15:22 +0000
+Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 73A9318003312;
-	Fri, 12 Jun 2026 12:13:15 +0000 (GMT)
-Received: by sjc-ads-21441.cisco.com (Postfix, from userid 1879343)
-	id C7159CC1611; Fri, 12 Jun 2026 05:13:14 -0700 (PDT)
-From: "Himanshu Jadon -X (hjadon - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hjadon@cisco.com>
+	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id C7A5C1800023E;
+	Fri, 12 Jun 2026 12:15:21 +0000 (GMT)
+Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
+	id 4B45FCC1611; Fri, 12 Jun 2026 05:15:21 -0700 (PDT)
+From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: vchavda@cisco.com
-Subject: [OE-core] [master] [PATCH] tar: Fix CVE-2026-5704
-Date: Fri, 12 Jun 2026 05:12:26 -0700
-Message-ID: <20260612121300.3427104-1-hjadon@cisco.com>
+Cc: xe-linux-external@cisco.com,
+	Ashishkumar Parmar <asparmar@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 1/6] rsync: Fix CVE-2026-29518
+Date: Fri, 12 Jun 2026 05:13:29 -0700
+Message-ID: <20260612121514.2282121-1-asparmar@cisco.com>
 X-Mailer: git-send-email 2.44.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-21441.cisco.com [10.128.164.182];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 10.128.164.182, sjc-ads-21441.cisco.com
-X-Outbound-Node: rcdn-l-core-08.cisco.com
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
+X-Outbound-Node: rcdn-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 12:14:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238604
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 12:15:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238607
 
-From: Himanshu Jadon <hjadon@cisco.com>
+From: Ashishkumar Parmar <asparmar@cisco.com>
 
-Backport the upstream 3-commit fix chain for CVE-2026-5704.
+Pick the upstream backport [1] for CVE-2026-29518 as mentioned in [3],
+where a non-chrooted rsync daemon could be exposed to a parent path
+TOCTOU race that allowed file access outside the module.
 
-The final fix is [1], which depends on the earlier cleanup in [2]
-and the behavioral change in [3]. Keep this patch order so the final
-fix applies cleanly and preserves the upstream logic.
+Also include the dependent upstream fix that followed the CVE fix:
+- CVE-2026-29518_p2.patch [2] secures sender read-path opens by
+  opening files from the module root, closing the same race on the
+  read side.
 
-[1] https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=b8d8a61b25588caca4efaf9bdd2e3f1a49da77e3
-[2] https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=112ead79312ea308e58414b74623f101b8c06f0b
-[3] https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=b009124ffde415515081db844d7a104e1d1c6c58
-[4] https://security-tracker.debian.org/tracker/CVE-2026-5704
+[1] https://github.com/RsyncProject/rsync/commit/1a5ad81add1004354a3d8ba841b94ffe19cd2505
+[2] https://github.com/RsyncProject/rsync/commit/99b36291d06ca66229942c7a525a1f5566f10c85
+[3] https://www.cve.org/CVERecord?id=CVE-2026-29518
 
-Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 ---
- .../tar/tar/CVE-2026-5704-dependent_p1.patch  | 484 +++++++++++++++
- .../tar/tar/CVE-2026-5704-dependent_p2.patch  | 169 ++++++
- .../tar/tar/CVE-2026-5704.patch               | 556 ++++++++++++++++++
- meta/recipes-extended/tar/tar_1.35.bb         |   3 +
- 4 files changed, 1212 insertions(+)
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2026-5704-dependent_p1.patch
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2026-5704-dependent_p2.patch
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2026-5704.patch
+ .../rsync/files/CVE-2026-29518_p1.patch       | 330 ++++++++++++++++++
+ .../rsync/files/CVE-2026-29518_p2.patch       |  73 ++++
+ meta/recipes-devtools/rsync/rsync_3.2.7.bb    |   2 +
+ 3 files changed, 405 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.patch
 
-diff --git a/meta/recipes-extended/tar/tar/CVE-2026-5704-dependent_p1.patch b/meta/recipes-extended/tar/tar/CVE-2026-5704-dependent_p1.patch
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.patch b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.patch
 new file mode 100644
-index 0000000000..b7180e1671
+index 0000000000..227ca56dd3
 --- /dev/null
-+++ b/meta/recipes-extended/tar/tar/CVE-2026-5704-dependent_p1.patch
-@@ -0,0 +1,484 @@
-+From cb6d041ba711620b52637ebd2f9cb0c445a91e4f Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Fri, 1 Nov 2024 14:15:09 -0700
-+Subject: [PATCH] Prefer other types to int in extract.c
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.patch
+@@ -0,0 +1,330 @@
++From c5192e125999130b7e15c621989839da31b15a05 Mon Sep 17 00:00:00 2001
++From: Andrew Tridgell <andrew@tridgell.net>
++Date: Wed, 31 Dec 2025 10:01:23 +1100
++Subject: [PATCH] syscall+clientserver: am_chrooted and use_secure_symlinks for
++ daemon-no-chroot (CVE-2026-29518)
 +
-+* src/extract.c (fd_chmod, extract_chdir, open_output_file)
-+(extract_file, extract_link, extract_symlink, extract_node)
-+(extract_fifo, tar_extractor_t, pepare_to_extract): Prefer char to
-+int for typeflag, since it’s a char.  All uses changed.
-+(fd_chmod): Use clearer code for errno.
-+(extract_dir, extract_file, create_placeholder_file, extract_link)
-+(extract_symlink, extract_node, extract_fifo, tar_extractor_t):
-+Return bool true for success, false for failure.  All uses changed.
-+(open_output_file): Prefer bool for boolean.
-+(prepare_to_extract): Simplify by returning the extractor a null
-+pointer, rather than storing through a pointer to an extractor.
++CVE-2026-29518: an rsync daemon configured with "use chroot = no"
++is exposed to a TOCTOU race on parent path components. A local
++attacker with write access to a module can replace a parent
++directory component with a symlink between the receiver's check
++and its open(), redirecting reads (basis-file disclosure) and
++writes (file overwrite) outside the module. Under elevated daemon
++privilege this allows privilege escalation. Default
++"use chroot = yes" is not exposed.
 +
-+CVE: CVE-2026-5704
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=112ead79312ea308e58414b74623f101b8c06f0b]
++Add secure_relative_open() in syscall.c. It walks the parent
++components under RESOLVE_BENEATH (Linux 5.6+) /
++O_RESOLVE_BENEATH (FreeBSD 13+, macOS 15+) / per-component
++O_NOFOLLOW elsewhere, anchored at a trusted dirfd, so a parent-
++symlink swap is rejected by the kernel. Route the receiver's
++basis-file open in receiver.c through it when use_secure_symlinks
++is set in clientserver.c rsync_module().
 +
-+Backport Changes:
-+- In src/extract.c, the extractor-selection and extraction-control-flow
-+  hunk was adapted to the older tar-1.35 code layout around
-+  prepare_to_extract() and extract_archive(). The backport preserves the
-+  upstream logic but does not apply as an exact textual match in that
-+  section.
++Reporters: Nullx3D (Batuhan SANCAK); Damien Neil; Michael Stapelberg.
 +
-+(cherry picked from commit 112ead79312ea308e58414b74623f101b8c06f0b)
-+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
++Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
++
++CVE: CVE-2026-29518
++Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/1a5ad81add1004354a3d8ba841b94ffe19cd2505]
++
++(cherry picked from commit 1a5ad81add1004354a3d8ba841b94ffe19cd2505)
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ src/extract.c | 141 ++++++++++++++++++++++++--------------------------
-+ 1 file changed, 69 insertions(+), 72 deletions(-)
++ clientserver.c |  25 +++++++++
++ options.c      |   9 ++++
++ receiver.c     |  22 ++++++--
++ syscall.c      | 139 +++++++++++++++++++++++++++++++++++++++++++++++++
++ 4 files changed, 192 insertions(+), 3 deletions(-)
 +
-+diff --git a/src/extract.c b/src/extract.c
-+index 314d8bc0..b384fed3 100644
-+--- a/src/extract.c
-++++ b/src/extract.c
-+@@ -254,9 +254,9 @@ fd_i_chmod (int fd, char const *file, mode_t mode, int atflag)
-+    notation.
-+  */
-+ static int
-+-fd_chmod(int fd, char const *file_name, int mode, int atflag, int typeflag)
-++fd_chmod (int fd, char const *file_name, int mode, int atflag, char typeflag)
-+ {
-+-  int chmod_errno = fd_i_chmod (fd, file_name, mode, atflag) == 0 ? 0 : errno;
-++  int chmod_errno = fd_i_chmod (fd, file_name, mode, atflag) < 0 ? errno : 0;
-+ 
-+   /* On Solaris, chmod may fail if we don't have PRIV_ALL, because
-+      setuid-root files would otherwise be a backdoor.  See
-+@@ -265,7 +265,7 @@ fd_chmod(int fd, char const *file_name, int mode, int atflag, int typeflag)
-+   if (chmod_errno == EPERM && (mode & S_ISUID)
-+       && priv_set_restore_linkdir () == 0)
-+     {
-+-      chmod_errno = fd_i_chmod (fd, file_name, mode, atflag) == 0 ? 0 : errno;
-++      chmod_errno = fd_i_chmod (fd, file_name, mode, atflag) < 0 ? errno : 0;
-+       priv_set_remove_linkdir ();
-+     }
-+ 
-+@@ -275,7 +275,7 @@ fd_chmod(int fd, char const *file_name, int mode, int atflag, int typeflag)
-+      supported and if the file is not a symlink.  This
-+      introduces a race, alas.  */
-+   if (atflag && typeflag != SYMTYPE && ! implemented (chmod_errno))
-+-    chmod_errno = fd_i_chmod (fd, file_name, mode, 0) == 0 ? 0 : errno;
-++    chmod_errno = fd_i_chmod (fd, file_name, mode, 0) < 0 ? errno : 0;
-+ 
-+   if (chmod_errno && (typeflag != SYMTYPE || implemented (chmod_errno)))
-+     {
-+@@ -1036,8 +1036,8 @@ safe_dir_mode (struct stat const *st)
-+ 
-+ /* Extractor functions for various member types */
-+ 
-+-static int
-+-extract_dir (char *file_name, int typeflag)
-++static bool
-++extract_dir (char *file_name, char typeflag)
-+ {
-+   int status;
-+   mode_t mode;
-+@@ -1089,7 +1089,7 @@ extract_dir (char *file_name, int typeflag)
-+ 
-+ 	      if (keep_directory_symlink_option
-+ 		  && is_directory_link (file_name, &st))
-+-		return 0;
-++		return true;
-+ 
-+ 	      if ((st.st_mode != 0 && fstatat_flags == 0)
-+ 		  || deref_stat (file_name, &st) == 0)
-+@@ -1102,7 +1102,7 @@ extract_dir (char *file_name, int typeflag)
-+ 		      if (interdir_made)
-+ 			{
-+ 			  repair_delayed_set_stat (file_name, &st);
-+-			  return 0;
-++			  return true;
-+ 			}
-+ 		      else if (old_files_option == NO_OVERWRITE_DIR_OLD_FILES)
-+ 			{
-+@@ -1154,7 +1154,7 @@ extract_dir (char *file_name, int typeflag)
-+ 	  if (errno != EEXIST)
-+ 	    {
-+ 	      mkdir_error (file_name);
-+-	      return 1;
-++	      return false;
-+ 	    }
-+ 	  break;
-+ 	}
-+@@ -1167,13 +1167,13 @@ extract_dir (char *file_name, int typeflag)
-+     delay_set_stat (file_name, &current_stat_info,
-+ 		    current_mode, current_mode_mask,
-+ 		    current_stat_info.stat.st_mode, atflag);
-+-  return status;
-++  return status == 0;
-+ }
-+ 
-+ 
-+ 
-+ static int
-+-open_output_file (char const *file_name, int typeflag, mode_t mode,
-++open_output_file (char const *file_name, char typeflag, mode_t mode,
-+                   int file_created, mode_t *current_mode,
-+                   mode_t *current_mode_mask)
-+ {
-+@@ -1189,11 +1189,11 @@ open_output_file (char const *file_name, int typeflag, mode_t mode,
-+ 
-+   if (typeflag == CONTTYPE)
-+     {
-+-      static int conttype_diagnosed;
-++      static bool conttype_diagnosed;
-+ 
-+       if (!conttype_diagnosed)
-+ 	{
-+-	  conttype_diagnosed = 1;
-++	  conttype_diagnosed = true;
-+ 	  WARNOPT (WARN_CONTIGUOUS_CAST,
-+ 		   (0, 0, _("Extracting contiguous files as regular files")));
-+ 	}
-+@@ -1245,8 +1245,8 @@ open_output_file (char const *file_name, int typeflag, mode_t mode,
-+   return fd;
-+ }
-+ 
-+-static int
-+-extract_file (char *file_name, int typeflag)
-++static bool
-++extract_file (char *file_name, char typeflag)
-+ {
-+   int fd;
-+   off_t size;
-+@@ -1268,7 +1268,7 @@ extract_file (char *file_name, int typeflag)
-+       if (fd < 0)
-+ 	{
-+ 	  skip_member ();
-+-	  return 0;
-++	  return true;
-+ 	}
-+     }
-+   else
-+@@ -1291,9 +1291,9 @@ extract_file (char *file_name, int typeflag)
-+ 	    {
-+ 	      skip_member ();
-+ 	      if (recover == RECOVER_SKIP)
-+-		return 0;
-++		return true;
-+ 	      open_error (file_name);
-+-	      return 1;
-++	      return false;
-+ 	    }
-+ 	}
-+     }
-+@@ -1344,7 +1344,7 @@ extract_file (char *file_name, int typeflag)
-+      it doesn't exist, or we don't want to touch it anyway.  */
-+ 
-+   if (to_stdout_option)
-+-    return 0;
-++    return true;
-+ 
-+   if (! to_command_option)
-+     set_stat (file_name, &current_stat_info, fd,
-+@@ -1359,7 +1359,7 @@ extract_file (char *file_name, int typeflag)
-+   if (to_command_option)
-+     sys_wait_command ();
-+ 
-+-  return status;
-++  return status == 0;
-+ }
-+ 
-+ /* Return true if NAME is a delayed link.  This can happen only if the link
-+@@ -1399,7 +1399,7 @@ find_delayed_link_source (char const *name)
-+    process.
-+ */
-+ 
-+-static int
-++static bool
-+ create_placeholder_file (char *file_name, bool is_symlink, bool *interdir_made)
-+ {
-+   int fd;
-+@@ -1413,7 +1413,7 @@ create_placeholder_file (char *file_name, bool is_symlink, bool *interdir_made)
-+ 	     that the link being extracted is a duplicate of an already
-+ 	     processed one.  Skip it.
-+ 	   */
-+-	  return 0;
-++	  return true;
-+ 	}
-+ 
-+       switch (maybe_recoverable (file_name, false, interdir_made))
-+@@ -1422,11 +1422,11 @@ create_placeholder_file (char *file_name, bool is_symlink, bool *interdir_made)
-+ 	  continue;
-+ 
-+ 	case RECOVER_SKIP:
-+-	  return 0;
-++	  return true;
-+ 
-+ 	case RECOVER_NO:
-+ 	  open_error (file_name);
-+-	  return -1;
-++	  return false;
-+ 	}
-+       }
-+ 
-+@@ -1484,14 +1484,14 @@ create_placeholder_file (char *file_name, bool is_symlink, bool *interdir_made)
-+       if ((h = find_direct_ancestor (file_name)) != NULL)
-+ 	mark_after_links (h);
-+ 
-+-      return 0;
-++      return true;
-+     }
-+ 
-+-  return -1;
-++  return false;
-+ }
-+ 
-+-static int
-+-extract_link (char *file_name, MAYBE_UNUSED int typeflag)
-++static bool
-++extract_link (char *file_name, MAYBE_UNUSED char typeflag)
-+ {
-+   bool interdir_made = false;
-+   char const *link_name;
-+@@ -1531,7 +1531,7 @@ extract_link (char *file_name, MAYBE_UNUSED int typeflag)
++diff --git a/clientserver.c b/clientserver.c
++index 7c897abc..b6eba098 100644
++--- a/clientserver.c
+++++ b/clientserver.c
++@@ -30,6 +30,7 @@ extern int list_only;
++ extern int am_sender;
++ extern int am_server;
++ extern int am_daemon;
+++extern int am_chrooted;
++ extern int am_root;
++ extern int msgs2stderr;
++ extern int rsync_port;
++@@ -38,6 +39,7 @@ extern int ignore_errors;
++ extern int preserve_xattrs;
++ extern int kluge_around_eof;
++ extern int munge_symlinks;
+++extern int use_secure_symlinks;
++ extern int open_noatime;
++ extern int sanitize_paths;
++ extern int numeric_ids;
++@@ -981,6 +983,7 @@ static int rsync_module(int f_in, int f_out, int i, const char *addr, const char
++ 			io_printf(f_out, "@ERROR: chroot failed\n");
++ 			return -1;
 + 		}
-+ 	    }
-+ 
-+-	  return 0;
-++	  return true;
+++		am_chrooted = 1;
++ 		module_chdir = module_dir;
 + 	}
-+       else if ((e == EEXIST && strcmp (link_name, file_name) == 0)
-+ 	       || ((fstatat (chdir_fd, link_name, &st1, AT_SYMLINK_NOFOLLOW)
-+@@ -1540,7 +1540,7 @@ extract_link (char *file_name, MAYBE_UNUSED int typeflag)
-+ 		       == 0)
-+ 		   && st1.st_dev == st2.st_dev
-+ 		   && st1.st_ino == st2.st_ino))
-+-	return 0;
-++	return true;
 + 
-+       errno = e;
-+     }
-+@@ -1548,17 +1548,17 @@ extract_link (char *file_name, MAYBE_UNUSED int typeflag)
-+ 	 == RECOVER_OK);
-+ 
-+   if (rc == RECOVER_SKIP)
-+-    return 0;
-++    return true;
-+   if (!(incremental_option && errno == EEXIST))
-+     {
-+       link_error (link_name, file_name);
-+-      return 1;
-++      return false;
-+     }
-+-  return 0;
-++  return true;
-+ }
-+ 
-+-static int
-+-extract_symlink (char *file_name, MAYBE_UNUSED int typeflag)
-++static bool
-++extract_symlink (char *file_name, MAYBE_UNUSED char typeflag)
-+ {
-+ #ifdef HAVE_SYMLINK
-+   bool interdir_made = false;
-+@@ -1575,16 +1575,16 @@ extract_symlink (char *file_name, MAYBE_UNUSED int typeflag)
-+ 	continue;
-+ 
-+       case RECOVER_SKIP:
-+-	return 0;
-++	return true;
-+ 
-+       case RECOVER_NO:
-+ 	symlink_error (current_stat_info.link_name, file_name);
-+-	return -1;
-++	return false;
-+       }
-+ 
-+   set_stat (file_name, &current_stat_info, -1, 0, 0,
-+ 	    SYMTYPE, false, AT_SYMLINK_NOFOLLOW);
-+-  return 0;
-++  return true;
-+ 
-+ #else
-+   static int warned_once;
-+@@ -1601,8 +1601,8 @@ extract_symlink (char *file_name, MAYBE_UNUSED int typeflag)
-+ }
-+ 
-+ #if S_IFCHR || S_IFBLK
-+-static int
-+-extract_node (char *file_name, int typeflag)
-++static bool
-++extract_node (char *file_name, char typeflag)
-+ {
-+   bool interdir_made = false;
-+   mode_t mode = (current_stat_info.stat.st_mode & (MODE_RWX | S_IFBLK | S_IFCHR)
-+@@ -1616,23 +1616,23 @@ extract_node (char *file_name, int typeflag)
-+ 	continue;
-+ 
-+       case RECOVER_SKIP:
-+-	return 0;
-++	return true;
-+ 
-+       case RECOVER_NO:
-+ 	mknod_error (file_name);
-+-	return -1;
-++	return false;
-+       }
-+ 
-+   set_stat (file_name, &current_stat_info, -1,
-+ 	    mode & ~ current_umask, MODE_RWX,
-+ 	    typeflag, false, AT_SYMLINK_NOFOLLOW);
-+-  return 0;
-++  return true;
-+ }
-+ #endif
-+ 
-+ #if HAVE_MKFIFO || defined mkfifo
-+-static int
-+-extract_fifo (char *file_name, int typeflag)
-++static bool
-++extract_fifo (char *file_name, char typeflag)
-+ {
-+   bool interdir_made = false;
-+   mode_t mode = (current_stat_info.stat.st_mode & MODE_RWX
-+@@ -1645,31 +1645,31 @@ extract_fifo (char *file_name, int typeflag)
-+ 	continue;
-+ 
-+       case RECOVER_SKIP:
-+-	return 0;
-++	return true;
-+ 
-+       case RECOVER_NO:
-+ 	mkfifo_error (file_name);
-+-	return -1;
-++	return false;
-+       }
-+ 
-+   set_stat (file_name, &current_stat_info, -1,
-+ 	    mode & ~ current_umask, MODE_RWX,
-+ 	    typeflag, false, AT_SYMLINK_NOFOLLOW);
-+-  return 0;
-++  return true;
-+ }
-+ #endif
-+ 
-+-typedef int (*tar_extractor_t) (char *file_name, int typeflag);
-++typedef bool (*tar_extractor_t) (char *file_name, char typeflag);
-+ 
-+ 
-+ /* Prepare to extract a file. Find extractor function.
-+-   Return true to proceed with the extraction, false to skip the current
-+-   member.  */
-++   Return an extractor to proceed with the extraction,
-++   a null pointer to skip the current member.  */
-+ 
-+-static bool
-+-prepare_to_extract (char const *file_name, int typeflag, tar_extractor_t *fun)
-++static tar_extractor_t
-++prepare_to_extract (char const *file_name, char typeflag)
-+ {
-+-  tar_extractor_t extractor = NULL;
-++  tar_extractor_t extractor;
-+ 
-+   /* Select the extractor */
-+   switch (typeflag)
-+@@ -1683,10 +1683,8 @@ prepare_to_extract (char const *file_name, int typeflag, tar_extractor_t *fun)
-+     case CONTTYPE:
-+       /* Appears to be a file.  But BSD tar uses the convention that a slash
-+ 	 suffix means a directory.  */
-+-      if (current_stat_info.had_trailing_slash)
-+-	extractor = extract_dir;
-+-      else
-+-	extractor = extract_file;
-++      extractor = (current_stat_info.had_trailing_slash
-++		   ? extract_dir : extract_file);
-+       break;
-+ 
-+     case SYMTYPE:
-+@@ -1725,18 +1723,18 @@ prepare_to_extract (char const *file_name, int typeflag, tar_extractor_t *fun)
-+       break;
-+ 
-+     case GNUTYPE_VOLHDR:
-+-      return false;
-++      return NULL;
-+ 
-+     case GNUTYPE_MULTIVOL:
-+       ERROR ((0, 0,
-+ 	      _("%s: Cannot extract -- file is continued from another volume"),
-+ 	      quotearg_colon (current_stat_info.file_name)));
-+-      return false;
-++      return NULL;
-+ 
-+     case GNUTYPE_LONGNAME:
-+     case GNUTYPE_LONGLINK:
-+       ERROR ((0, 0, _("Unexpected long name header")));
-+-      return false;
-++      return NULL;
-+ 
-+     default:
-+       WARNOPT (WARN_UNKNOWN_CAST,
-+@@ -1749,7 +1747,7 @@ prepare_to_extract (char const *file_name, int typeflag, tar_extractor_t *fun)
-+   if (EXTRACT_OVER_PIPE)
-+     {
-+       if (extractor != extract_file)
-+-	return false;
-++	return NULL;
-+     }
-+   else
-+     {
-+@@ -1763,7 +1761,7 @@ prepare_to_extract (char const *file_name, int typeflag, tar_extractor_t *fun)
-+ 	      && errno && errno != ENOENT)
-+ 	    {
-+ 	      unlink_error (file_name);
-+-	      return false;
-++	      return NULL;
-+ 	    }
-+ 	  break;
-+ 
-+@@ -1773,7 +1771,7 @@ prepare_to_extract (char const *file_name, int typeflag, tar_extractor_t *fun)
-+ 	      WARNOPT (WARN_IGNORE_NEWER,
-+ 		       (0, 0, _("Current %s is newer or same age"),
-+ 			quote (file_name)));
-+-	      return false;
-++	      return NULL;
-+ 	    }
-+ 	  break;
-+ 
-+@@ -1781,9 +1779,7 @@ prepare_to_extract (char const *file_name, int typeflag, tar_extractor_t *fun)
-+ 	  break;
++@@ -1003,6 +1006,15 @@ static int rsync_module(int f_in, int f_out, int i, const char *addr, const char
++ 		}
 + 	}
-+     }
-+-  *fun = extractor;
-+-
-+-  return true;
-++  return extractor;
++ 
+++	/* Enable secure symlink handling for any non-chrooted daemon module.
+++	 * This prevents TOCTOU race attacks where an attacker could switch a
+++	 * directory to a symlink between path validation and file open.
+++	 * Match the gate used by the do_*_at() wrappers in syscall.c
+++	 * (am_daemon && !am_chrooted) -- the protection has nothing to do
+++	 * with symlink munging, so a module configured with
+++	 * "munge symlinks = false" must still get the secure-open path. */
+++	use_secure_symlinks = am_daemon && !am_chrooted;
+++
++ 	if (gid_list.count) {
++ 		gid_t *gid_array = gid_list.items;
++ 		if (setgid(gid_array[0])) {
++@@ -1305,6 +1317,19 @@ int start_daemon(int f_in, int f_out)
++ 			rsyserr(FLOG, errno, "daemon chroot(\"%s\") failed", p);
++ 			return -1;
++ 		}
+++		/* Deliberately do NOT set am_chrooted here.  am_chrooted
+++		 * gates the per-module symlink-race defenses
+++		 * (secure_relative_open() and the do_*_at() wrappers in
+++		 * syscall.c) and means "the kernel is enforcing path
+++		 * confinement at the module boundary".  The daemon chroot
+++		 * confines path resolution to the daemon-chroot directory,
+++		 * not to any individual module path -- modules sharing the
+++		 * daemon chroot are still distinguishable filesystem
+++		 * subtrees and a sender-controlled symlink in module A
+++		 * could redirect a syscall to module B (or to other files
+++		 * inside the daemon chroot) without the per-module
+++		 * defenses.  Leave am_chrooted=0 here so secure_relative_open()
+++		 * still fires for "use chroot = no" modules. */
++ 		if (chdir("/") < 0) {
++ 			rsyserr(FLOG, errno, "daemon chdir(\"/\") failed");
++ 			return -1;
++diff --git a/options.c b/options.c
++index d38bbe8d..d4ca5396 100644
++--- a/options.c
+++++ b/options.c
++@@ -113,11 +113,20 @@ int mkpath_dest_arg = 0;
++ int allow_inc_recurse = 1;
++ int xfer_dirs = -1;
++ int am_daemon = 0;
+++/* Set after a successful per-module chroot ("use chroot = yes") in
+++ * clientserver.c. NOT set for the daemon-level "daemon chroot = /X"
+++ * chroot: that confines path resolution to /X, but module paths
+++ * /X/modA, /X/modB, etc. are not chroot boundaries, so the per-module
+++ * symlink-race defenses (secure_relative_open() / do_*_at() in
+++ * syscall.c, gated by `am_daemon && !am_chrooted`) must still fire
+++ * even when the daemon is inside a daemon chroot. */
+++int am_chrooted = 0;
++ int connect_timeout = 0;
++ int keep_partial = 0;
++ int safe_symlinks = 0;
++ int copy_unsafe_links = 0;
++ int munge_symlinks = 0;
+++int use_secure_symlinks = 0;
++ int size_only = 0;
++ int daemon_bwlimit = 0;
++ int bwlimit = 0;
++diff --git a/receiver.c b/receiver.c
++index 77de8697..cbe18196 100644
++--- a/receiver.c
+++++ b/receiver.c
++@@ -70,6 +70,7 @@ extern int fuzzy_basis;
++ 
++ extern struct name_num_item *xfer_sum_nni;
++ extern int xfer_sum_len;
+++extern int use_secure_symlinks;
++ 
++ static struct bitbag *delayed_bits = NULL;
++ static int phase = 0, redoing = 0;
++@@ -214,7 +215,12 @@ int open_tmpfile(char *fnametmp, const char *fname, struct file_struct *file)
++ 	 * access to ensure that there is no race condition.  They will be
++ 	 * correctly updated after the right owner and group info is set.
++ 	 * (Thanks to snabb@epipe.fi for pointing this out.) */
++-	fd = do_mkstemp(fnametmp, (file->mode|added_perms) & INITACCESSPERMS);
+++	/* When use_secure_symlinks is on (non-chroot daemon with munge_symlinks),
+++	 * use secure_mkstemp to prevent symlink race attacks on parent directories. */
+++	if (use_secure_symlinks)
+++		fd = secure_mkstemp(fnametmp, (file->mode|added_perms) & INITACCESSPERMS);
+++	else
+++		fd = do_mkstemp(fnametmp, (file->mode|added_perms) & INITACCESSPERMS);
++ 
++ #if 0
++ 	/* In most cases parent directories will already exist because their
++@@ -854,11 +860,21 @@ int recv_files(int f_in, int f_out, char *local_name)
++ 		/* We now check to see if we are writing the file "inplace" */
++ 		if (inplace || one_inplace)  {
++ 			fnametmp = one_inplace ? partialptr : fname;
++-			fd2 = do_open(fnametmp, O_WRONLY|O_CREAT, 0600);
+++			/* When use_secure_symlinks is on (non-chroot daemon),
+++			 * use secure open to prevent symlink race attacks where an
+++			 * attacker could switch a directory to a symlink between
+++			 * path validation and file open. */
+++			if (use_secure_symlinks)
+++				fd2 = secure_relative_open(NULL, fnametmp, O_WRONLY|O_CREAT, 0600);
+++			else
+++				fd2 = do_open(fnametmp, O_WRONLY|O_CREAT, 0600);
++ #ifdef linux
++ 			if (fd2 == -1 && errno == EACCES) {
++ 				/* Maybe the error was due to protected_regular setting? */
++-				fd2 = do_open(fname, O_WRONLY, 0600);
+++				if (use_secure_symlinks)
+++					fd2 = secure_relative_open(NULL, fname, O_WRONLY, 0600);
+++				else
+++					fd2 = do_open(fname, O_WRONLY, 0600);
++ 			}
++ #endif
++ 			if (fd2 == -1) {
++diff --git a/syscall.c b/syscall.c
++index 8aab2cc0..8b39a6e2 100644
++--- a/syscall.c
+++++ b/syscall.c
++@@ -882,6 +882,145 @@ cleanup:
++ #endif // O_NOFOLLOW, O_DIRECTORY
 + }
 + 
-+ /* Extract a file from the archive.  */
-+@@ -1791,7 +1787,6 @@ void
-+ extract_archive (void)
-+ {
-+   char typeflag;
-+-  tar_extractor_t fun;
-+   bool skip_dotdot_name;
-+ 
-+   fatal_exit_hook = extract_finish;
-+@@ -1841,12 +1836,14 @@ extract_archive (void)
-+ 
-+   /* Extract the archive entry according to its type.  */
-+   /* KLUDGE */
-+-  typeflag = sparse_member_p (&current_stat_info) ?
-+-                  GNUTYPE_SPARSE : current_header->header.typeflag;
-++  typeflag = (sparse_member_p (&current_stat_info)
-++	      ? GNUTYPE_SPARSE : current_header->header.typeflag);
-+ 
-+-  if (prepare_to_extract (current_stat_info.file_name, typeflag, &fun))
-++  tar_extractor_t fun = prepare_to_extract (current_stat_info.file_name,
-++					    typeflag);
-++  if (fun)
-+     {
-+-      if (fun (current_stat_info.file_name, typeflag) == 0)
-++      if (fun (current_stat_info.file_name, typeflag))
-+ 	return;
-+     }
-+   else
-+-- 
-+2.44.1
-+
-diff --git a/meta/recipes-extended/tar/tar/CVE-2026-5704-dependent_p2.patch b/meta/recipes-extended/tar/tar/CVE-2026-5704-dependent_p2.patch
-new file mode 100644
-index 0000000000..c3a94db5a0
---- /dev/null
-+++ b/meta/recipes-extended/tar/tar/CVE-2026-5704-dependent_p2.patch
-@@ -0,0 +1,169 @@
-+From a934d62acc1edc202e93e9f1b38eff1d880568a0 Mon Sep 17 00:00:00 2001
-+From: Sergey Poznyakoff <gray@gnu.org>
-+Date: Mon, 12 May 2025 17:17:21 +0300
-+Subject: [PATCH] Handle directory members consistently when listing and when
-+ extracting.
-+
-+* src/list.c (skim_member): Recognize directory members using
-+the same rules as during extraction.
-+* tests/skipdir.at: New testcase.
-+* tests/testsuite.at: Add new test.
-+* tests/Makefile.am: Likewise.
-+
-+CVE: CVE-2026-5704
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=b009124ffde415515081db844d7a104e1d1c6c58]
-+
-+(cherry picked from commit b009124ffde415515081db844d7a104e1d1c6c58)
-+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
-+---
-+ src/list.c         | 22 ++++++++++++++++--
-+ tests/Makefile.am  |  1 +
-+ tests/skipdir.at   | 56 ++++++++++++++++++++++++++++++++++++++++++++++
-+ tests/testsuite.at |  3 ++-
-+ 4 files changed, 79 insertions(+), 3 deletions(-)
-+ create mode 100644 tests/skipdir.at
-+
-+diff --git a/src/list.c b/src/list.c
-+index e9a68159..928779e1 100644
-+--- a/src/list.c
-++++ b/src/list.c
-+@@ -1440,6 +1440,23 @@ skip_member (void)
-+   skim_member (false);
-+ }
-+ 
-++static bool
-++member_is_dir (struct tar_stat_info *info, char typeflag)
+++/* Fill buf with len random bytes.  Prefers /dev/urandom for cryptographic
+++ * quality; falls back to rand() if /dev/urandom cannot be opened or read
+++ * (e.g. inside a chroot or container without /dev populated). */
+++static void rand_bytes(unsigned char *buf, size_t len)
 ++{
-++  switch (typeflag) {
-++  case AREGTYPE:
-++  case REGTYPE:
-++  case CONTTYPE:
-++    return info->had_trailing_slash;
-++
-++  case DIRTYPE:
-++    return true;
-++
-++  default:
-++    return false;
-++  }
+++#ifndef O_CLOEXEC
+++#define O_CLOEXEC 0
+++#endif
+++	int fd = open("/dev/urandom", O_RDONLY | O_CLOEXEC);
+++	if (fd >= 0) {
+++		ssize_t n = read(fd, buf, len);
+++		close(fd);
+++		if (n == (ssize_t)len) {
+++			return;
+++		}
+++	}
+++	for (size_t i = 0; i < len; i++) {
+++		buf[i] = (unsigned char)rand();
+++	}
 ++}
 ++
-+ /* Skip the current member in the archive.
-+    If MUST_COPY, always copy instead of skipping.  */
-+ void
-+@@ -1447,14 +1464,15 @@ skim_member (bool must_copy)
-+ {
-+   if (!current_stat_info.skipped)
-+     {
-+-      char save_typeflag = current_header->header.typeflag;
-++      bool is_dir = member_is_dir (&current_stat_info,
-++				   current_header->header.typeflag);
-+       set_next_block_after (current_header);
-+ 
-+       mv_begin_read (&current_stat_info);
-+ 
-+       if (current_stat_info.is_sparse)
-+ 	sparse_skim_file (&current_stat_info, must_copy);
-+-      else if (save_typeflag != DIRTYPE)
-++      else if (!is_dir)
-+ 	skim_file (current_stat_info.stat.st_size, must_copy);
-+ 
-+       mv_end ();
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 1884b722..6cf726c0 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -240,6 +240,7 @@ TESTSUITE_AT = \
-+  shortrec.at\
-+  shortupd.at\
-+  sigpipe.at\
-++ skipdir.at\
-+  sparse01.at\
-+  sparse02.at\
-+  sparse03.at\
-+diff --git a/tests/skipdir.at b/tests/skipdir.at
-+new file mode 100644
-+index 00000000..7106ee74
-+--- /dev/null
-++++ b/tests/skipdir.at
-+@@ -0,0 +1,56 @@
-++# Process this file with autom4te to create testsuite. -*- Autotest -*-
+++/*
+++  Secure version of mkstemp that prevents symlink attacks on parent directories.
+++  Like secure_relative_open(), this walks the path checking each component
+++  with O_NOFOLLOW to prevent TOCTOU race conditions.
 ++
-++# Test suite for GNU tar.
-++# Copyright 2025 Free Software Foundation, Inc.
+++  The template may be relative or absolute, but must not contain ../ components.
+++  Returns fd on success, -1 on error.
+++*/
+++int secure_mkstemp(char *template, mode_t perms)
+++{
+++#if !defined(O_NOFOLLOW) || !defined(O_DIRECTORY) || !defined(AT_FDCWD)
+++	/* Fall back to regular mkstemp on old systems */
+++	return do_mkstemp(template, perms);
+++#else
+++	char *lastslash;
+++	int dirfd = AT_FDCWD;
+++	int fd = -1;
 ++
-++# This file is part of GNU tar.
+++	if (!template) {
+++		errno = EINVAL;
+++		return -1;
+++	}
+++	if (strncmp(template, "../", 3) == 0 || strstr(template, "/../")) {
+++		errno = EINVAL;
+++		return -1;
+++	}
 ++
-++# GNU tar is free software; you can redistribute it and/or modify
-++# it under the terms of the GNU General Public License as published by
-++# the Free Software Foundation; either version 3 of the License, or
-++# (at your option) any later version.
+++	/* For absolute paths, start the secure walk from "/" rather than CWD. */
+++	if (template[0] == '/') {
+++		dirfd = open("/", O_RDONLY | O_DIRECTORY | O_NOFOLLOW);
+++		if (dirfd < 0)
+++			return -1;
+++	}
 ++
-++# GNU tar is distributed in the hope that it will be useful,
-++# but WITHOUT ANY WARRANTY; without even the implied warranty of
-++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++# GNU General Public License for more details.
+++	/* Find the last slash to separate directory from filename */
+++	lastslash = strrchr(template, '/');
+++	if (lastslash) {
+++		char *path_copy = my_strdup(template, __FILE__, __LINE__);
+++		if (!path_copy)
+++			return -1;
 ++
-++# You should have received a copy of the GNU General Public License
-++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+++		/* Null-terminate at the last slash to get directory part */
+++		path_copy[lastslash - template] = '\0';
 ++
-++# Description: determining member type when listing and extracting
-++# should follow the same principles.
-++#
-++# Until version 1.35 the same archive member could have been processed
-++# as a directory when extracting and as a regular file when being
-++# skipped during listing.
-++#
-++# References: https://savannah.gnu.org/patch/index.php?10100
+++		/* Walk the directory path securely */
+++		for (const char *part = strtok(path_copy, "/");
+++		     part != NULL;
+++		     part = strtok(NULL, "/"))
+++		{
+++			int next_fd = openat(dirfd, part, O_RDONLY | O_DIRECTORY | O_NOFOLLOW);
+++			if (next_fd == -1) {
+++				int save_errno = errno;
+++				free(path_copy);
+++				if (dirfd != AT_FDCWD) close(dirfd);
+++				errno = (save_errno == ELOOP) ? ELOOP : save_errno;
+++				return -1;
+++			}
+++			if (dirfd != AT_FDCWD) close(dirfd);
+++			dirfd = next_fd;
+++		}
+++		free(path_copy);
+++	}
 ++
-++AT_SETUP([skip directory members])
-++AT_KEYWORDS([skipdir])
-++AT_DATA([archive.in],
-++[/Td6WFoAAATm1rRGAgAhARwAAAAQz1jM4Cf/AG1dADedyh4ubnxHHIi7Cen6orusgKqY3paKeQwp
-++3//HS9EIT7Hm+MsndXfRntXVt8mu8oDpLOfC+AB9VldyCtp2jqOfTwa455qfGAcONPn6WWDgsaAh
-++O2Y6ptXuaF/vdaNkub7SkOBME8jHYITT5QAAAAAAHtdcflb5Zw8AAYkBgFAAAPYgb0axxGf7AgAA
-++AAAEWVo=
-++])
-++AT_CHECK([base64 --help >/dev/null 2>&1 || AT_SKIP_TEST
-++xz --help >/dev/null 2>&1 || AT_SKIP_TEST
-++base64 -d < archive.in | xz -c -d > archive.tar
-++])
-++AT_CHECK([tar tf archive.tar],
-++[0],
-++[owo1/
-++owo2/
-++])
-++AT_CHECK([tar vxf archive.tar],
-++[0],
-++[owo1/
-++owo2/
-++])
-++AT_CHECK([tar -xvf archive.tar --exclude owo1],
-++[0],
-++[owo2/
-++])
-++AT_CLEANUP
-+diff --git a/tests/testsuite.at b/tests/testsuite.at
-+index 44ae773b..f2229be1 100644
-+--- a/tests/testsuite.at
-++++ b/tests/testsuite.at
-+@@ -464,7 +464,7 @@ AT_BANNER([Volume operations])
-+ m4_include([volume.at])
-+ m4_include([volsize.at])
-+ 
-+-AT_BANNER()
-++AT_BANNER([Various tests])
-+ m4_include([comprec.at])
-+ m4_include([shortfile.at])
-+ m4_include([shortupd.at])
-+@@ -473,6 +473,7 @@ m4_include([truncate.at])
-+ m4_include([grow.at])
-+ m4_include([sigpipe.at])
-+ m4_include([comperr.at])
-++m4_include([skipdir.at])
-+ 
-+ AT_BANNER([Removing files after archiving])
-+ m4_include([remfiles01.at])
+++	/* Now create the temp file in the securely-opened directory */
+++	perms |= S_IWUSR;
+++
+++	/* Generate unique filename - we need to modify the template in place */
+++	char *filename = lastslash ? lastslash + 1 : template;
+++	size_t filename_len = strlen(filename);
+++
+++	if (filename_len < 6) {
+++		if (dirfd != AT_FDCWD) close(dirfd);
+++		errno = EINVAL;
+++		return -1;
+++	}
+++	char *suffix = filename + filename_len - 6; /* Points to XXXXXX */
+++	if (strcmp(suffix, "XXXXXX") != 0) {
+++		if (dirfd != AT_FDCWD) close(dirfd);
+++		errno = EINVAL;
+++		return -1;
+++	}
+++
+++	/* Try random suffixes until we find one that works */
+++	static const char letters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+++	for (int tries = 0; tries < 100; tries++) {
+++		unsigned char rbytes[6];
+++		rand_bytes(rbytes, sizeof(rbytes));
+++		for (int i = 0; i < 6; i++)
+++			suffix[i] = letters[rbytes[i] % (sizeof(letters) - 1)];
+++
+++		fd = openat(dirfd, filename, O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW, perms);
+++		if (fd >= 0)
+++			break;
+++		if (errno != EEXIST) {
+++			if (dirfd != AT_FDCWD) close(dirfd);
+++			return -1;
+++		}
+++	}
+++
+++	if (fd >= 0) {
+++		if (fchmod(fd, perms) != 0 && preserve_perms) {
+++			int errno_save = errno;
+++			close(fd);
+++			unlinkat(dirfd, filename, 0);
+++			if (dirfd != AT_FDCWD) close(dirfd);
+++			errno = errno_save;
+++			return -1;
+++		}
+++#if defined HAVE_SETMODE && O_BINARY
+++		setmode(fd, O_BINARY);
+++#endif
+++	}
+++
+++	if (dirfd != AT_FDCWD) close(dirfd);
+++	return fd;
+++#endif
+++}
+++
++ /*
++   varient of do_open/do_open_nofollow which does do_open() if the
++   copy_links or copy_unsafe_links options are set and does
 +-- 
-+2.44.1
-+
-diff --git a/meta/recipes-extended/tar/tar/CVE-2026-5704.patch b/meta/recipes-extended/tar/tar/CVE-2026-5704.patch
++2.35.6
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.patch b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.patch
 new file mode 100644
-index 0000000000..81c6df3712
+index 0000000000..4ce3d03248
 --- /dev/null
-+++ b/meta/recipes-extended/tar/tar/CVE-2026-5704.patch
-@@ -0,0 +1,556 @@
-+From b97bbb10103a911d418015b7ff41384af0419952 Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Sun, 22 Mar 2026 12:19:40 -0700
-+Subject: [PATCH] Fix more -t/-x discrepancies
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.patch
+@@ -0,0 +1,73 @@
++From 37d459f837868cf5dc6a3f4962c8c9d9bcd2d4b8 Mon Sep 17 00:00:00 2001
++From: Andrew Tridgell <andrew@tridgell.net>
++Date: Sun, 1 Mar 2026 09:28:40 +1100
++Subject: [PATCH] sender: fix read-path TOCTOU by opening from module root
++ (CVE-2026-29518)
 +
-+Problem reported by Guillermo de Angel in:
-+https://lists.gnu.org/r/bug-tar/2026-03/msg00007.html
-+* THANKS: Add him, and sort.
-+* src/extract.c (extract_dir, extract_file):
-+* src/incremen.c (purge_directory):
-+Do not call skip_member, as the caller now does that, and does it
-+more reliably.
-+* src/extract.c (extract_file):
-+Mark file as skipped when we’ve read it.
-+(extract_archive): Always call skip_member after extracting,
-+as it suppresses the skip as needed.
-+* src/incremen.c (try_purge_directory): Remove; no longer
-+needed.  Move internals to purge_directory.
-+* src/list.c (read_header): Do not treat LNKTYPE header as having
-+size zero, as it can be nonzero (e.g., ‘pax -o linkdata’).
-+Set info->skipped field according to how the header was read.
-+(member_is_dir): Remove; no longer needed.
-+(skim_member): Skip directory data too, unless it’s already been
-+skipped (i.e., read).
-+* tests/extrac32.at: New file.
-+* tests/Makefile.am (TESTSUITE_AT):
-+* tests/testsuite.at:
-+Add it.
-+* tests/skipdir.at (skip directory members):
-+Fix test to match the correct behavior.
-+This fixes a bug introduced in commit
-+b009124ffde415515081db844d7a104e1d1c6c58
-+dated 2025-05-12 17:17:21 +0300.
++The sender's file open was vulnerable to the same TOCTOU symlink
++race as the receiver-side basis-file open. change_pathname() calls
++chdir() into subdirectories, which follows symlinks; an attacker
++could race to swap a directory for a symlink between the chdir and
++the file open, allowing reads of privileged files through the
++daemon.
 +
-+CVE: CVE-2026-5704
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=b8d8a61b25588caca4efaf9bdd2e3f1a49da77e3]
++Reconstruct the full relative path (F_PATHNAME + fname) and open
++via secure_relative_open() from the trusted module_dir, which
++walks each path component without following symlinks. This is
++independent of CWD, so the chdir race is neutralised.
 +
-+Backport Changes:
-+- Replaced UNNAMED(typeflag) with MAYBE_UNUSED char typeflag in extract_dir()
-+  under src/extract.c, as the UNNAMED macro is not available in tar 1.35
-+  (introduced later in upstream commit 9280aa3807c1 "Prefer UNNAMED to
-+  MAYBE_UNUSED").
-+- THANKS file context difference: tar 1.35 has "Jurgen Botz" (ASCII),
-+  while upstream has "Jürgen Botz" (UTF-8 umlaut), changed in upstream
-+  commit 390950282d98 ("maint: fix some encodings and email addresses");
-+  the removed line in the diff reflects the tar 1.35 spelling.
++CVE-2026-29518.
 +
-+(cherry picked from commit b8d8a61b25588caca4efaf9bdd2e3f1a49da77e3)
-+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
++Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
++
++CVE: CVE-2026-29518
++Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/99b36291d06ca66229942c7a525a1f5566f10c85]
++
++(cherry picked from commit 99b36291d06ca66229942c7a525a1f5566f10c85)
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ THANKS             | 30 +++++++++++++++--------------
-+ src/extract.c      | 23 ++++++----------------
-+ src/incremen.c     | 22 +++++++--------------
-+ src/list.c         | 48 +++++++++++++++-------------------------------
-+ tests/Makefile.am  |  1 +
-+ tests/extrac32.at  | 47 +++++++++++++++++++++++++++++++++++++++++++++
-+ tests/skipdir.at   |  6 +-----
-+ tests/testsuite.at |  1 +
-+ 8 files changed, 94 insertions(+), 84 deletions(-)
-+ create mode 100644 tests/extrac32.at
++ sender.c | 22 +++++++++++++++++++++-
++ 1 file changed, 21 insertions(+), 1 deletion(-)
 +
-+diff --git a/THANKS b/THANKS
-+index aee0a924..03fa49d5 100644
-+--- a/THANKS
-++++ b/THANKS
-+@@ -6,6 +6,7 @@ Many people further contributed to GNU tar by reporting problems,
-+ suggesting various improvements or submitting actual code.  Here is a
-+ list of these people.  Help me keep it complete and exempt of errors.
-+ See various ChangeLogs for a detailed description of contributions.
-++This listed is sorted via "LC_ALL=C sort".
-+ 
-+ Aage Robeck		aagero@ifi.uio.no
-+ Adam Borowski		kilobyte@angband.pl
-+@@ -36,8 +37,8 @@ Andrew J. Schorr	schorr@ead.dsa.com
-+ Andrew Torda		torda@igc.chem.ethz.ch
-+ Andrey A. Chernov	ache@astral.msk.su
-+ Andy Gay		andy@rdl.co.uk
-+-Antonio Jose Coutinho	ajc@di.uminho.pt
-+ Anthony G. Basile	blueness@gentoo.org
-++Antonio Jose Coutinho	ajc@di.uminho.pt
-+ Ariel Faigon		ariel@engr.sgi.com
-+ Arne Wichmann		aw@math.uni-sb.de
-+ Arnold Robbins		arnold@gnu.org
-+@@ -79,9 +80,9 @@ Cesar Romani		romani@ifm.uni-hamburg.de
-+ Chad Hurwitz		churritz@cts.com
-+ Chance Reschke		creschke@usra.edu
-+ Charles Fu		ccwf@klab.caltech.edu
-+-Charles McGarvey        chazmcgarvey@brokenzipper.com
-+ Charles Lopes		Charles.Lopes@infm.ulst.ac.uk
-+ Charles M. Hannum	mycroft@gnu.org
-++Charles McGarvey        chazmcgarvey@brokenzipper.com
-+ Chip Salzenberg		tct!chip
-+ Chris Arthur		csa@gnu.org
-+ Chris F.M. Verberne	verberne@prl.philips.nl
-+@@ -93,9 +94,9 @@ Christian Callsen	Christian.Callsen@eng.sun.com
-+ Christian Kirsch	ck@held.mind.de
-+ Christian Laubscher	christian.laubscher@tiscalinet.ch
-+ Christian T. Dum	ctd@mpe-garching.mpg.de
-+-Christian von Roques	roques@pond.sub.org
-+-Christian Wetzel	wetzel@phoenix-pacs.de
-+ Christian Weisgerber	naddy@mips.inka.de
-++Christian Wetzel	wetzel@phoenix-pacs.de
-++Christian von Roques	roques@pond.sub.org
-+ Christoph Litauer	litauer@mailhost.uni-koblenz.de
-+ Christophe Colle	colle@krtkg1.rug.ac.be
-+ Christophe Kalt		Christophe.Kalt@kbcfp.com
-+@@ -117,8 +118,8 @@ Dan Bloch		dan@transarc.com
-+ Dan Drake               dan@dandrake.org
-+ Dan Reish		dreish@izzy.net
-+ Daniel Hagerty		hag@gnu.org
-+-Daniel Quinlan		quinlan@pathname.com
-+ Daniel Kahn Gillmor	dkg@fifthhorseman.net
-++Daniel Quinlan		quinlan@pathname.com
-+ Daniel R. Guilderson	d.guilderson@ma30.bull.com
-+ Daniel S. Barclay	daniel@compass-da.com
-+ Daniel Trinkle		trinkle@cs.purdue.edu
-+@@ -198,6 +199,7 @@ Greg Hudson		ghudson@mit.edu
-+ Greg Maples		greg@clari.net
-+ Greg McGary		gkm@cstone.net
-+ Greg Schafer		gschafer@zip.com.au
-++Guillermo de Angel	gdeangelg@gmail.com
-+ Göran Uddeborg		gvran@uddeborg.pp.se
-+ Gürkan Karaman		karaman@dssgmbh.de
-+ Hans Guerth		100664.3101@compuserve.com
-+@@ -222,6 +224,7 @@ Indra Singhal		indra@synoptics.com
-+ J. Dean Brock		brock@cs.unca.edu
-+ J.J. Bailey		jjb@jagware.bcc.com
-+ J.T. Conklin		jtc@cygnus.com
-++James Antill            jantill@redhat.com
-+ James Crawford Ralston	qralston+@pitt.edu
-+ James E. Carpenter	jimc@zach1.tiac.net
-+ James H Caldwell Jr	caldwell@cs.fsu.edu
-+@@ -233,15 +236,15 @@ Jan Carlson		janc@sni.ca
-+ Jan Djarv		jan.djarv@mbox200.swipnet.se
-+ Janice Burton		r06a165@bcc25.kodak.com
-+ Janne Snabb		snabb@niksula.hut.fi
-+-Jason R. Mastaler	jason@webmaster.net
-+ Jason Armistead		Jason.Armistead@otis.com
-++Jason R. Mastaler	jason@webmaster.net
-+ Jay Fenlason		hack@gnu.org
-+ Jean-Louis Martineau    martineau@zmanda.com
-+-Jean-Michel Soenen	soenen@lectra.fr
-+ Jean-Loup Gailly	jloup@chorus.fr
-+-Jeff Moskow		jeff@rtr.com
-++Jean-Michel Soenen	soenen@lectra.fr
-+ Jean-Ph. Martin-Flatin	syj@ecmwf.int
-+ Jean-Pierre Demailly	Jean-Pierre.Demailly@ujf-grenoble.fr
-++Jeff Moskow		jeff@rtr.com
-+ Jeff Prothero		jsp@betz.biostr.washington.edu
-+ Jeff Siegel		js@hornet.att.com
-+ Jeff Sorensen		sorenj@alumni.rpi.edu
-+@@ -249,7 +252,6 @@ Jeffrey Goldberg	J.Goldberg@cranfield.ac.uk
-+ Jeffrey Mark Siskind	Qobi@emba.uvm.edu
-+ Jeffrey W. Parker	jwpkr@mcs.com
-+ Jens Henrik Jensen	recjhl@mediator.uni-c.dk
-+-Jérémy Bobbio		lunar@debian.org
-+ Jim Blandy		jimb@totoro.cs.oberlin.edu
-+ Jim Clausing		jac@postbox.acs.ohio-state.edu
-+ Jim Farrell		jwf@platinum.com
-+@@ -283,13 +285,14 @@ Joutsiniemi Tommi Il	tj75064@cs.tut.fi
-+ Joy Kendall		jak8@world.std.com
-+ Judy Ricker		jricker@gdstech.grumman.com
-+ Juha Sarlin		juha@tds.kth.se
-+-Jurgen Botz		jbotz@orixa.mtholyoke.edu
-+ Jyh-Shyang Wang		erik@vsp.ee.nctu.edu.tw
-++Jérémy Bobbio		lunar@debian.org
-+ Jörg Schilling		schilling@fokus.fraunhofer.de
-+-Jörg Weule		weule@cs.uni-duesseldorf.de
-+ Jörg Weilbier 		gnu@weilbier.net
-++Jörg Weule		weule@cs.uni-duesseldorf.de
-+ Jörgen Hågg		Jorgen.Hagg@axis.se
-+ Jörgen Weigert		jw@suse.de
-++Jürgen Botz		jbotz@orixa.mtholyoke.edu
-+ Jürgen Lüters		jlueters@t-online.de
-+ Jürgen Reiss		reiss@psychologie.uni-wuerzburg.de
-+ Kai Petzke		wpp@marie.physik.tu-berlin.de
-+@@ -311,7 +314,6 @@ Kimmy Posey		kimmyd@bnr.ca
-+ Koji Kishi		kis@rqa.sony.co.jp
-+ Konno Hiroharu		konno@pac.co.jp
-+ Kurt Jaeger		pi@lf.net
-+-James Antill            jantill@redhat.com
-+ Larry Creech		lcreech@lonestar.rcclub.org
-+ Larry Schwimmer		rosebud@cyclone.stanford.edu
-+ Lasse Collin 		lasse.collin@tukaani.org
-+@@ -394,7 +396,6 @@ Oswald P. Backus IV	backus@lks.csi.com
-+ Pascal Meheut		pascal@cnam.cnam.fr
-+ Patrick Fulconis	fulco@sig.uvsq.fr
-+ Patrick Timmons		timmons@electech.polymtl.ca
-+-Pavel Raiskup           praiskup@redhat.com
-+ Paul Eggert		eggert@twinsun.com
-+ Paul Kanz		paul@icx.com
-+ Paul Mitchell		P.Mitchell@surrey.ac.uk
-+@@ -402,6 +403,7 @@ Paul Nevai		pali+@osu.edu
-+ Paul Nordstrom		100067.3532@compuserve.com
-+ Paul O'Connor		oconnorp@ul.ie
-+ Paul Siddall		pauls@postman.essex.ac.uk
-++Pavel Raiskup           praiskup@redhat.com
-+ Peder Chr. Norgaard	pcn@tbit.dk
-+ Pekka Janhunen		Pekka.Janhunen@fmi.fi
-+ Per Bojsen		pb@delta.dk
-+@@ -420,9 +422,9 @@ Piotr Rotter 		piotr.rotter@active24.pl
-+ R. Kent Dybvig		dyb@cadence.bloomington.in.us
-+ R. Scott Butler		butler@prism.es.dupont.com
-+ Rainer Orth		ro@TechFak.Uni-Bielefeld.DE
-+-Ralf Wildenhues 	Ralf.Wildenhues@gmx.de
-+ Ralf S. Engelschall	rse@engelschall.com
-+ Ralf Suckow		suckow@contrib.de
-++Ralf Wildenhues 	Ralf.Wildenhues@gmx.de
-+ Ralph Corderoy		ralph@inputplus.co.uk
-+ Ralph Schleicher	rs@purple.ul.bawue.de
-+ Randy Bias		randyb@edge.edge.net
-+diff --git a/src/extract.c b/src/extract.c
-+index b384fed3..3bf0d77e 100644
-+--- a/src/extract.c
-++++ b/src/extract.c
-+@@ -1037,7 +1037,7 @@ safe_dir_mode (struct stat const *st)
-+ /* Extractor functions for various member types */
-+ 
-+ static bool
-+-extract_dir (char *file_name, char typeflag)
-++extract_dir (char *file_name, MAYBE_UNUSED char typeflag)
-+ {
-+   int status;
-+   mode_t mode;
-+@@ -1060,8 +1060,6 @@ extract_dir (char *file_name, char typeflag)
-+   if (incremental_option)
-+     /* Read the entry and delete files that aren't listed in the archive.  */
-+     purge_directory (file_name);
-+-  else if (typeflag == GNUTYPE_DUMPDIR)
-+-    skip_member ();
-+ 
-+   mode = safe_dir_mode (&current_stat_info.stat);
-+ 
-+@@ -1266,10 +1264,7 @@ extract_file (char *file_name, char typeflag)
-+     {
-+       fd = sys_exec_command (file_name, 'f', &current_stat_info);
-+       if (fd < 0)
-+-	{
-+-	  skip_member ();
-+-	  return true;
-+-	}
-++	return true;
-+     }
-+   else
-+     {
-+@@ -1289,7 +1284,6 @@ extract_file (char *file_name, char typeflag)
-+ 	  int recover = maybe_recoverable (file_name, true, &interdir_made);
-+ 	  if (recover != RECOVER_OK)
-+ 	    {
-+-	      skip_member ();
-+ 	      if (recover == RECOVER_SKIP)
-+ 		return true;
-+ 	      open_error (file_name);
-+@@ -1337,6 +1331,7 @@ extract_file (char *file_name, char typeflag)
-+       }
-+ 
-+   skim_file (size, false);
-++  current_stat_info.skipped = true;
-+ 
-+   mv_end ();
-+ 
-+@@ -1841,15 +1836,9 @@ extract_archive (void)
-+ 
-+   tar_extractor_t fun = prepare_to_extract (current_stat_info.file_name,
-+ 					    typeflag);
-+-  if (fun)
-+-    {
-+-      if (fun (current_stat_info.file_name, typeflag))
-+-	return;
-+-    }
-+-  else
-+-    skip_member ();
-+-
-+-  if (backup_option)
-++  bool ok = fun && fun (current_stat_info.file_name, typeflag);
-++  skip_member ();
-++  if (!ok && backup_option)
-+     undo_last_backup ();
-+ }
-+ 
-+diff --git a/src/incremen.c b/src/incremen.c
-+index 7bcfdb93..194d5cb1 100644
-+--- a/src/incremen.c
-++++ b/src/incremen.c
-+@@ -1625,8 +1625,8 @@ dumpdir_ok (char *dumpdir)
-+ 
-+ /* Examine the directories under directory_name and delete any
-+    files that were not there at the time of the back-up. */
-+-static bool
-+-try_purge_directory (char const *directory_name)
-++void
-++purge_directory (char const *directory_name)
-+ {
-+   char *current_dir;
-+   char *cur, *arc, *p;
-+@@ -1634,18 +1634,18 @@ try_purge_directory (char const *directory_name)
-+   struct dumpdir *dump;
-+ 
-+   if (!is_dumpdir (&current_stat_info))
-+-    return false;
-++    return;
-+ 
-+   current_dir = tar_savedir (directory_name, 0);
-+ 
-+   if (!current_dir)
-+     /* The directory doesn't exist now.  It'll be created.  In any
-+        case, we don't have to delete any files out of it.  */
-+-    return false;
-++    return;
-+ 
-+   /* Verify if dump directory is sane */
-+   if (!dumpdir_ok (current_stat_info.dumpdir))
-+-    return false;
-++    return;
-+ 
-+   /* Process renames */
-+   for (arc = current_stat_info.dumpdir; *arc; arc += strlen (arc) + 1)
-+@@ -1666,7 +1666,7 @@ try_purge_directory (char const *directory_name)
-+ 		      quote (temp_stub)));
-+ 	      free (temp_stub);
-+ 	      free (current_dir);
-+-	      return false;
-++	      return;
-+ 	    }
-+ 	}
-+       else if (*arc == 'R')
-+@@ -1700,7 +1700,7 @@ try_purge_directory (char const *directory_name)
-+ 	      free (current_dir);
-+ 	      /* FIXME: Make sure purge_directory(dst) will return
-+ 		 immediately */
-+-	      return false;
-++	      return;
-+ 	    }
-+ 	}
-+     }
-+@@ -1758,14 +1758,6 @@ try_purge_directory (char const *directory_name)
-+   dumpdir_free (dump);
-+ 
-+   free (current_dir);
-+-  return true;
-+-}
-+-
-+-void
-+-purge_directory (char const *directory_name)
-+-{
-+-  if (!try_purge_directory (directory_name))
-+-    skip_member ();
-+ }
-+ 
-+ void
-+diff --git a/src/list.c b/src/list.c
-+index 928779e1..c9623eb4 100644
-+--- a/src/list.c
-++++ b/src/list.c
-+@@ -437,20 +437,15 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+       if ((status = tar_checksum (header, false)) != HEADER_SUCCESS)
-+ 	break;
-+ 
-+-      /* Good block.  Decode file size and return.  */
-+-
-+-      if (header->header.typeflag == LNKTYPE)
-+-	info->stat.st_size = 0;	/* links 0 size on tape */
-+-      else
-++      info->stat.st_size = OFF_FROM_HEADER (header->header.size);
-++      if (info->stat.st_size < 0)
-+ 	{
-+-	  info->stat.st_size = OFF_FROM_HEADER (header->header.size);
-+-	  if (info->stat.st_size < 0)
-+-	    {
-+-	      status = HEADER_FAILURE;
-+-	      break;
-+-	    }
-++	  status = HEADER_FAILURE;
-++	  break;
-+ 	}
-+ 
-++      info->skipped = false;
-++
-+       if (header->header.typeflag == GNUTYPE_LONGNAME
-+ 	  || header->header.typeflag == GNUTYPE_LONGLINK
-+ 	  || header->header.typeflag == XHDTYPE
-+@@ -513,11 +508,15 @@ read_header (union block **return_block, struct tar_stat_info *info,
++diff --git a/sender.c b/sender.c
++index b1588b70..99f431fe 100644
++--- a/sender.c
+++++ b/sender.c
++@@ -48,6 +48,8 @@ extern int make_backups;
++ extern int inplace;
++ extern int inplace_partial;
++ extern int batch_fd;
+++extern int use_secure_symlinks;
+++extern char *module_dir;
++ extern int write_batch;
++ extern int file_old_total;
++ extern BOOL want_progress_now;
++@@ -352,7 +354,25 @@ void send_files(int f_in, int f_out)
++ 			exit_cleanup(RERR_PROTOCOL);
 + 		}
 + 
-+ 	      *bp = '\0';
-++	      info->skipped = true;
-+ 	    }
-+ 	  else if (header->header.typeflag == XHDTYPE
-+ 		   || header->header.typeflag == SOLARIS_XHDTYPE)
-+-	    xheader_read (&info->xhdr, header,
-+-			  OFF_FROM_HEADER (header->header.size));
-++	    {
-++	      xheader_read (&info->xhdr, header,
-++			    OFF_FROM_HEADER (header->header.size));
-++	      info->skipped = true;
-++	    }
-+ 	  else if (header->header.typeflag == XGLTYPE)
-+ 	    {
-+ 	      struct xheader xhdr;
-+@@ -531,6 +530,7 @@ read_header (union block **return_block, struct tar_stat_info *info,
-+ 			    OFF_FROM_HEADER (header->header.size));
-+ 	      xheader_decode_global (&xhdr);
-+ 	      xheader_destroy (&xhdr);
-++	      info->skipped = true;
-+ 	      if (mode == read_header_x_global)
-+ 		{
-+ 		  status = HEADER_SUCCESS_EXTENDED;
-+@@ -1440,23 +1440,6 @@ skip_member (void)
-+   skim_member (false);
-+ }
-+ 
-+-static bool
-+-member_is_dir (struct tar_stat_info *info, char typeflag)
-+-{
-+-  switch (typeflag) {
-+-  case AREGTYPE:
-+-  case REGTYPE:
-+-  case CONTTYPE:
-+-    return info->had_trailing_slash;
-+-
-+-  case DIRTYPE:
-+-    return true;
-+-
-+-  default:
-+-    return false;
-+-  }
-+-}
-+-
-+ /* Skip the current member in the archive.
-+    If MUST_COPY, always copy instead of skipping.  */
-+ void
-+@@ -1464,18 +1447,17 @@ skim_member (bool must_copy)
-+ {
-+   if (!current_stat_info.skipped)
-+     {
-+-      bool is_dir = member_is_dir (&current_stat_info,
-+-				   current_header->header.typeflag);
-+       set_next_block_after (current_header);
-+ 
-+       mv_begin_read (&current_stat_info);
-+ 
-+       if (current_stat_info.is_sparse)
-+ 	sparse_skim_file (&current_stat_info, must_copy);
-+-      else if (!is_dir)
-++      else
-+ 	skim_file (current_stat_info.stat.st_size, must_copy);
-+ 
-+       mv_end ();
-++      current_stat_info.skipped = true;
-+     }
-+ }
-+ 
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 6cf726c0..baeb55bb 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -133,6 +133,7 @@ TESTSUITE_AT = \
-+  extrac23.at\
-+  extrac24.at\
-+  extrac25.at\
-++ extrac32.at\
-+  filerem01.at\
-+  filerem02.at\
-+  grow.at\
-+diff --git a/tests/extrac32.at b/tests/extrac32.at
-+new file mode 100644
-+index 00000000..3829a483
-+--- /dev/null
-++++ b/tests/extrac32.at
-+@@ -0,0 +1,47 @@
-++# Check for file injection bug with symlinks. -*- Autotest -*-
-++
-++# Copyright 2026 Free Software Foundation, Inc.
-++
-++# This file is part of GNU tar.
-++
-++# GNU tar is free software; you can redistribute it and/or modify
-++# it under the terms of the GNU General Public License as published by
-++# the Free Software Foundation; either version 3 of the License, or
-++# (at your option) any later version.
-++
-++# GNU tar is distributed in the hope that it will be useful,
-++# but WITHOUT ANY WARRANTY; without even the implied warranty of
-++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++# GNU General Public License for more details.
-++
-++# You should have received a copy of the GNU General Public License
-++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-++
-++# Thanks to Guillermo de Angel for the bug report and test cases; see:
-++# https://lists.gnu.org/r/bug-tar/2026-03/msg00007.html
-++
-++AT_SETUP([skip file injection])
-++AT_KEYWORDS([injection])
-++AT_DATA([archive.in],
-++[/Td6WFoAAATm1rRGBMDbAYAcIQEcAAAAAAAAACYr+9LgDf8A010AMZhKvfVdtHe4Rxjj7M03ek97
-++UgeKfJ0ORqYg0XDFntWxdTH4PYrTOo9CoqBrnTM2NcwFBrRVr7aFwdd56vddyAw2QGDjxgNexDU3
-++ImTi/+z8ZOLMi/+AybdEpd5aA/M9Maa+8tQ84bySzSAwrmxMWJJ6W9IKvsqfiRa3TrD51v44PZU/
-++KLVKpocS56n/O3g+b+hiZwaysR0eLO+tiU8FB/e3PEq3vTtDFVi/YfZMieBWSzomSX9eF13K1yPY
-++UuWgp7VokXqduL0YGNVV40MTPG9oAAAApD6mpajengIAAfcBgBwAAOM4xw6xxGf7AgAAAAAEWVo=
-++])
-++AT_CHECK([base64 --help >/dev/null 2>&1 || AT_SKIP_TEST
-++xz --help >/dev/null 2>&1 || AT_SKIP_TEST
-++base64 -d < archive.in | xz -c -d > archive.tar
-++])
-++cp archive.tar /tmp
-++AT_CHECK([tar tf archive.tar],
-++[0],
-++[carrier_entry
-++marker.txt
-++])
-++AT_CHECK([tar xvf archive.tar],
-++[0],
-++[carrier_entry
-++marker.txt
-++])
-++AT_CLEANUP
-+diff --git a/tests/skipdir.at b/tests/skipdir.at
-+index 7106ee74..a58a20fd 100644
-+--- a/tests/skipdir.at
-++++ b/tests/skipdir.at
-+@@ -42,15 +42,11 @@ base64 -d < archive.in | xz -c -d > archive.tar
-+ AT_CHECK([tar tf archive.tar],
-+ [0],
-+ [owo1/
-+-owo2/
-+ ])
-+ AT_CHECK([tar vxf archive.tar],
-+ [0],
-+ [owo1/
-+-owo2/
-+ ])
-+ AT_CHECK([tar -xvf archive.tar --exclude owo1],
-+-[0],
-+-[owo2/
-+-])
-++[0])
-+ AT_CLEANUP
-+diff --git a/tests/testsuite.at b/tests/testsuite.at
-+index f2229be1..58757005 100644
-+--- a/tests/testsuite.at
-++++ b/tests/testsuite.at
-+@@ -349,6 +349,7 @@ m4_include([extrac22.at])
-+ m4_include([extrac23.at])
-+ m4_include([extrac24.at])
-+ m4_include([extrac25.at])
-++m4_include([extrac32.at])
-+ 
-+ m4_include([backup01.at])
-+ 
++-		fd = do_open_checklinks(fname);
+++		if (use_secure_symlinks) {
+++			/* Open from module root to prevent TOCTOU race where
+++			 * change_pathname's chdir follows a directory symlink.
+++			 * Reconstruct the full path relative to module_dir
+++			 * from F_PATHNAME (path) and f_name (fname). */
+++			char secure_path[MAXPATHLEN];
+++			int slen = snprintf(secure_path, sizeof secure_path, "%s%s%s", path, slash, fname);
+++			if (slen >= (int)sizeof secure_path) {
+++				io_error |= IOERR_GENERAL;
+++				rprintf(FERROR_XFER, "path too long: %s%s%s\n", path, slash, fname);
+++				free_sums(s);
+++				if (protocol_version >= 30)
+++					send_msg_int(MSG_NO_SEND, ndx);
+++				continue;
+++			}
+++			fd = secure_relative_open(module_dir, secure_path, O_RDONLY, 0);
+++		} else {
+++			fd = do_open_checklinks(fname);
+++		}
++ 		if (fd == -1) {
++ 			if (errno == ENOENT) {
++ 				enum logcode c = am_daemon && protocol_version < 28 ? FERROR : FWARNING;
 +-- 
-+2.44.1
-+
-diff --git a/meta/recipes-extended/tar/tar_1.35.bb b/meta/recipes-extended/tar/tar_1.35.bb
-index c7bd1d195e..580dbf61ea 100644
---- a/meta/recipes-extended/tar/tar_1.35.bb
-+++ b/meta/recipes-extended/tar/tar_1.35.bb
-@@ -48,6 +48,9 @@ SRC_URI += " \
-     file://0001-tests-fix-TESTSUITE_AT.patch \
-     file://0002-tests-check-for-recently-fixed-bug.patch \
-     file://0003-Exclude-VCS-directory-with-writing-from-an-archive.patch \
-+    file://CVE-2026-5704-dependent_p1.patch \
-+    file://CVE-2026-5704-dependent_p2.patch \
-+    file://CVE-2026-5704.patch \
- "
++2.35.6
+diff --git a/meta/recipes-devtools/rsync/rsync_3.2.7.bb b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
+index 2a1c3d9d56..fdbee387e3 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.2.7.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
+@@ -29,6 +29,8 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://CVE-2024-12747.patch \
+            file://CVE-2025-10158.patch \
+            file://CVE-2026-41035.patch \
++           file://CVE-2026-29518_p1.patch \
++           file://CVE-2026-29518_p2.patch \
+            "
+ SRC_URI[sha256sum] = "4e7d9d3f6ed10878c58c5fb724a67dacf4b6aac7340b13e488fb2dc41346f2bb"
  
- inherit ptest
 -- 
-2.35.6
+2.44.1
 
 
