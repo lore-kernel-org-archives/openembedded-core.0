@@ -1,171 +1,122 @@
-Return-Path: <jeremy.rosen@smile.fr>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E54ECD98DD
-	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 14:27:00 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.71895.1781274410380702586
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C74ACD98CE
+	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 14:48:01 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.72397.1781275677583010296
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2026 07:26:50 -0700
+ Fri, 12 Jun 2026 07:47:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=SVx72xN/;
- spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: jeremy.rosen@smile.fr)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-45e9f4a3510so640994f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 07:26:50 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=hkHZ0CDm;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-45eeea039ebso612931f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 07:47:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781274409; x=1781879209; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1781275676; x=1781880476; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M//vCLIYhnCNQa3cdRUpWAbqO+Y8EY5iQ6r/7Rcj9D8=;
-        b=SVx72xN/Aq4WVz9R5mIKubEa5WAn0+h38wOdZn+o6e0SctNNO6SlCZbv0LVD77cAls
-         iG+VCn8vpGtZNX3mfc1HpKcfBdkirN/HzIMlzwpBigUNHDW+r0rubyvHNCFVlHBJ81sF
-         ZZkKxAqSS7n/187gOVwpyD1QLf/VN0g8Abql4=
+        bh=pu/yiHcv7PGfxTa3TxJYEciq9gIGF5zYElB9keIOjaw=;
+        b=hkHZ0CDmw3Hyg/3B8knvSaF/wnWZayS+13833CXSX2yvr6fSKL/+sx+h4Io/mj8pvq
+         kvdvZu2LR+NXZ3qYW8Y9ZPmILsP/AZWVxIfR8o+A55bUa5olPyEfKeHGXGrI/BrmyKL8
+         1oDWTMAHEK2cIbMVWo6djpMPlJ6oPgx4jGAWQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781274409; x=1781879209;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=M//vCLIYhnCNQa3cdRUpWAbqO+Y8EY5iQ6r/7Rcj9D8=;
-        b=g976K29QiyL+mdGlNe3i+osuBFZD9ORk9zns3udcdCLMD7rReMsvSarDYplMDEO78a
-         tNVAEuJE0+E8b5agTQYEf+70pYyrKn9+6gCKuCG7BSL9jv3yOjir2w9uNoa0ZzGhSWWd
-         Emft8rFZlWx7syShRCwwVY+f3DPbgF4CdZtTo4VVRbGjCvuayWNvv80pibN2eKpAeMdh
-         6PMPYBjupo1GWzdJoZQH5CMJemQbSuO/orZiMhGd0BufXD7KhAaCXHx3yLkILZnDt93n
-         OuGe+BN/UWszBnMbHf2VrX429NqhdkpecZscZfeXVYWM+WpkUFUF1h7pyf7t2KLlDfjY
-         lpEg==
-X-Gm-Message-State: AOJu0YxHFYy4IByDNM2q8s/Jd6RZxEWPpIO2l1QBW6JrXIPNx3rPXIya
-	UpzXFMNVI8XQKQF2jQ22p984OVIJ3cIjoN/zl2aRPzlqFq01R3dq7qMn9/ApLcqiw1+sGDpJLIm
-	N5BOd1g==
-X-Gm-Gg: Acq92OHnvly/oG8+AVveydkqesKuGSz9Vn9hqk0Nz/grhpzic+IYdq8B2m07f/AA7HU
-	oiLupGwg6+VvbdZgwHGNSQ5ZDHPMzXYMxsjCSVgvog1XAt0LUy2a7YXGqeaW1yXqIqD5GZ3miO9
-	ifKEj/RgBXZFxJJ1/yDBbnjg8fXy7MRBGHUWZR0csYDKBcBzU8COjcM5Fmyf50VSwZ7tNrrxrno
-	dw0o5MLKTHh3AByu/7N6uYRsqLImmJ09Sqr5u8SOm4clmMN3RtIm1W2tCS18PoDochj0Q6+iWtW
-	bNevZNxi13ufP7vFhA4bUnW6/C1LHSWS5EZCACezpSE/cXQNkbOTLds74CEce77q6qAd60DOwHB
-	BkTOAgeqnJzBjV35BRw3CKvDJiwra8PUh6UR5yJ1doOKJaaQHisI6kfirMEGnAHVUTEX6pfKcrc
-	3hEdpwLzooHhM07CJj4z68Rug=
-X-Received: by 2002:a05:6000:220d:b0:43d:733f:aee6 with SMTP id ffacd0b85a97d-4606da665e6mr4799990f8f.10.1781274408745;
-        Fri, 12 Jun 2026 07:26:48 -0700 (PDT)
-Received: from Logrus.lan ([2001:861:560f:240:8dd0:2c2:7492:641b])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4606f20e77asm6798747f8f.0.2026.06.12.07.26.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 07:26:48 -0700 (PDT)
-From: Jeremy Rosen <jeremy.rosen@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][scarthgap 16/21] go: patch CVE-2026-39826
-Date: Fri, 12 Jun 2026 16:26:06 +0200
-Message-ID: <3398ab7d66e68a36eea2f230aacbace7f9d8461a.1781270474.git.jeremy.rosen@smile.fr>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1781270474.git.jeremy.rosen@smile.fr>
-References: <cover.1781270474.git.jeremy.rosen@smile.fr>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20251104; t=1781275676; x=1781880476;
+        h=in-reply-to:references:from:subject:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pu/yiHcv7PGfxTa3TxJYEciq9gIGF5zYElB9keIOjaw=;
+        b=OaleF3msCrwzlwBeGbi3wtH9p5ypCzMKaNyF82ZicfTIjsOb9HKQWzs8/Si/YfqC3O
+         f9ar22BYPGVISGzbQiABH6sLjwDyOJtBxhMtAhkH4iy535fyU76/vU4YgJbMhaYPr3Zs
+         Tzx0FDSYAq+6EX4u27D0oOtJUriUIjeYYC8YTmadLFMLXQMvDLh94qH8ozjhehfsPXen
+         2BfpTe5GgmdEBAyF03W/EAg4bpvDjNoJxdACBclmMhmL3BXMimuumJt/MfycAinw6Um0
+         LI1U7BuXaMclx8Vu+7NfmtREw89xqaJIZm7EO3kQKfW8WfEHsInZQUOrdYardU1iKBX8
+         v3Zw==
+X-Forwarded-Encrypted: i=1; AFNElJ+Le3Dt0pKyL17IGWbtIaaARDnK2nkFVK5NgYxG1Yw6mVdrnWsjPzFMywbnsWoFHafCZyt5tDagLiA2na29uvJ9sg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzvtEUG7m+IGvcYDqGYPwzbxWLqByO2OChpr1GZl+AvR0EXtVD9
+	0Hn2Tev0xqHxRDNt50rEkZxc8V98SKu2xX+LYhWqkwATy/Mn49+WJoj/WqZV7VUIBn0lFUoUFx7
+	nme9k
+X-Gm-Gg: Acq92OGSNpYUe7fHSohb7D+cv40I2uao9CZ9iRQ18ZtksexWqJsATsETjMhq7Da8+Rg
+	yH7kCmWHTm1FvvGD3XWBh+GjdsFInTNCrn85gZ3DWbZkFmpONMpqvzj3ZtcRLXQ+mhX/h8usb6L
+	rqWwmxqM1itPRMV6ZdUx7hAQHLyKNFjQEEa4m8/iDVuSGWEJ1NZ95WOlWe1muvg+SbykQyBI0oN
+	fXHN0085f+6TAx9h/O8KcvC/YA4BA3y+Z5zchgwFAVOP1wWJJjeWbaucDcyMhgfbfk3oNHAR1rE
+	7lVZYhgf2TyMzaehgYiekmX0GeEkqv501fcXD1qYitAODdX1gWd6d0Tr5O2oRYtYEYiKTMPhtkf
+	jQMM8d3Uz9wxQH3+q4MCuJZX23ngbOWaj5feNyXSl5yHRtEVAAogtv8rqIjUW6KUnbILd9G+ORR
+	u3diuTybNeth274ndaHpISLWsIVbqAxbPyc9jsmLxG0Aff6tHlsMsTIPVzaUaiSoK8zkZzBSA4B
+	oq9lzx82NBzOTQM
+X-Received: by 2002:a05:6000:2381:b0:45e:9420:ed16 with SMTP id ffacd0b85a97d-4606da69a8dmr4785397f8f.10.1781275675812;
+        Fri, 12 Jun 2026 07:47:55 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a71583d8af7a53fb.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a715:83d8:af7a:53fb])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2e592csm6645153f8f.36.2026.06.12.07.47.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jun 2026 07:47:55 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 12 Jun 2026 16:47:54 +0200
+Message-Id: <DJ75J05DW9Y8.397UAAVTF0HKR@smile.fr>
+To: "Yoann Congal" <yoann.congal@smile.fr>, "Paul Barker"
+ <paul@pbarker.dev>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][wrynose 18/21] python3: use SKIPPED_TESTS instead of
+ test skip patches
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <cover.1781132051.git.yoann.congal@smile.fr>
+ <c9df7ab1678751caa8c5195fd366d3058a3cc6fa.1781132051.git.yoann.congal@smile.fr> <ccf309b775b890e94e6cc0d5e8c13ffc4d4218ce.camel@pbarker.dev> <DJ65ME2CV03O.291OM3MDV8SQL@smile.fr>
+In-Reply-To: <DJ65ME2CV03O.291OM3MDV8SQL@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 14:27:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238638
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 14:48:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238644
 
-From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
+On Thu Jun 11, 2026 at 12:39 PM CEST, Yoann Congal wrote:
+> On Thu Jun 11, 2026 at 10:58 AM CEST, Paul Barker wrote:
+>> On Thu, 2026-06-11 at 00:55 +0200, Yoann Congal via
+>> lists.openembedded.org wrote:
+>>> From: Trevor Gamblin <tgamblin@baylibre.com>
+>>>=20
+>>> Drop all 13 patches carried for skipping various known ptest failures
+>>> and replace them with usage of the SKIPPED_TESTS variable, which we hav=
+e
+>>> started doing in recent commits (e.g. 40b0815dc9). Most but not all of
+>>> the test skips are due to load variability, distinguish between them by
+>>> using multiple SKIPPED_TESTS:append blocks with comments taken from the
+>>> patch files indicating their purpose. This adds 62 lines to the Python =
+3
+>>> recipe, but it also means that we no longer have to maintain the patch
+>>> files across version upgrades, where they often break due to changes in
+>>> the test modules upstream.
+>>
+>> Hi Yoann,
+>>
+>> What's the reason for backporting this (and the following patch) to the
+>> stable branch?
+>
+> Hello,
+>
+> Mainly, it was to make future backports easier to hopefully fix the
+> AB-INTs we have on python (as it would align wrynose & master for the
+> python recipe). But I admit this is a weak argument. I don't mind
+> dropping those now and revisit when we have an actual fix to backport.
 
-Backport patch from [1]
+Hello Paul,
 
-[1] https://go.dev/cl/771180
+I'll send a pull request with those patches included but feel free to
+not merge it if you disagree. In that case, I would respin the series
+without those and send a new pull request.
 
-Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
-Reviewed-by: Bruno Vernay <bruno.vernay@se.com>
-Signed-off-by: Jeremy Rosen <jeremy.rosen@smile.fr>
----
- meta/recipes-devtools/go/go-1.22.12.inc       |  1 +
- .../go/go/CVE-2026-39826.patch                | 65 +++++++++++++++++++
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39826.patch
+Regards,
 
-diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index 952c0e4638..77e6bcd59d 100644
---- a/meta/recipes-devtools/go/go-1.22.12.inc
-+++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -50,6 +50,7 @@ SRC_URI += "\
-     file://CVE-2026-39819.patch \
-     file://CVE-2026-39820.patch \
-     file://CVE-2026-39825.patch \
-+    file://CVE-2026-39826.patch \
- "
- SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
- 
-diff --git a/meta/recipes-devtools/go/go/CVE-2026-39826.patch b/meta/recipes-devtools/go/go/CVE-2026-39826.patch
-new file mode 100644
-index 0000000000..d9fa751adc
---- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2026-39826.patch
-@@ -0,0 +1,65 @@
-+From 0d41a827f4d691be89c0285cd136cc45640341d4 Mon Sep 17 00:00:00 2001
-+From: Neal Patel <nealpatel@google.com>
-+Date: Mon, 27 Apr 2026 17:34:58 -0400
-+Subject: [PATCH] html/template: fix escaper bypass by treating empty script
-+ type as JavaScript
-+
-+Thank you to Mundur (https://github.com/M0nd0R) for reporting this issue.
-+
-+Fixes #78981
-+Fixes CVE-2026-39826
-+
-+Change-Id: I3f2e06496020ece655d156fb099ff556af8cc836
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/771180
-+Reviewed-by: Roland Shoemaker <roland@golang.org>
-+LUCI-TryBot-Result: golang-scoped@luci-project-accounts.iam.gserviceaccount.com <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+
-+CVE: CVE-2026-39826
-+Upstream-Status: Backport [https://github.com/golang/go/commit/a63b23ffb2eebc9ca3a14c369b615ca623bb20f7]
-+Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
-+---
-+ src/html/template/escape_test.go | 15 +++++++++++++++
-+ src/html/template/js.go          |  1 +
-+ 2 files changed, 16 insertions(+)
-+
-+diff --git a/src/html/template/escape_test.go b/src/html/template/escape_test.go
-+index 435c83378f..ce06440738 100644
-+--- a/src/html/template/escape_test.go
-++++ b/src/html/template/escape_test.go
-+@@ -231,6 +231,21 @@ func TestEscape(t *testing.T) {
-+ 			"<script>alert({{.A}})</script>",
-+ 			`<script>alert(["\u003ca\u003e","\u003cb\u003e"])</script>`,
-+ 		},
-++		{
-++			"scriptTypeSpace",
-++			"<script type=\" \">{{.H}}</script>",
-++			"<script type=\" \">\"\\u003cHello\\u003e\"</script>",
-++		},
-++		{
-++			"scriptTypeTab",
-++			"<script type=\"\t\">{{.H}}</script>",
-++			"<script type=\"\t\">\"\\u003cHello\\u003e\"</script>",
-++		},
-++		{
-++			"scriptTypeEmpty",
-++			"<script type=\"\">{{.H}}</script>",
-++			"<script type=\"\">\"\\u003cHello\\u003e\"</script>",
-++		},
-+ 		{
-+ 			"jsObjValueNotOverEscaped",
-+ 			"<button onclick='alert({{.A | html}})'>",
-+diff --git a/src/html/template/js.go b/src/html/template/js.go
-+index d911ada26d..90cf2dc982 100644
-+--- a/src/html/template/js.go
-++++ b/src/html/template/js.go
-+@@ -459,6 +459,7 @@ func isJSType(mimeType string) bool {
-+ 	mimeType = strings.TrimSpace(mimeType)
-+ 	switch mimeType {
-+ 	case
-++		"",
-+ 		"application/ecmascript",
-+ 		"application/javascript",
-+ 		"application/json",
-+-- 
-+2.43.0
-+
--- 
-2.53.0
+>
+>>
+>> Best regards,
+
+
+--=20
+Yoann Congal
+Smile ECS
 
 
