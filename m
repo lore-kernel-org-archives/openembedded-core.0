@@ -1,114 +1,101 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <otavio@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8DF1CD98C7
-	for <webhook@archiver.kernel.org>; Thu, 11 Jun 2026 22:07:06 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.58181.1781215623526827516
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0019ACD98C7
+	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 02:48:48 +0000 (UTC)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.62491.1781232525569553918
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2026 15:07:04 -0700
+ Thu, 11 Jun 2026 19:48:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=S7kwZOu2;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20260611220658fa24f7e9080002074c-s8txmm@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260611220658fa24f7e9080002074c
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 12 Jun 2026 00:06:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=HA20MyFX3R9AyJCtw5pPN4pnTGpllol0QsRrDZbhE+U=;
- b=S7kwZOu2iGorA34Nx8apjQimkO/YcVmlqK5EX4X/bNvfvD42llzqRndctTd6jfBlIvvaVd
- 0iw1JDmlEV4Q08ZzSi6VtC09q842/xZzZ+1lsIavDt2S25R6nD5bLRqC5VqQCe9C2lFVkRD+
- PMgaPgdkyp/sfBQgKvoH3cv1Ndi6mMBfH1kWDi0Gp3PFL3/r5T7OAZYOYQI7Doq+I9xz5qQP
- fKBQvtEYT3v5FjkTYFUU96tDeRAU80YdqfSSDgcKUUM+ymEnl6sJQr+dynmTA4RVJqQr2Dja
- 8ZaDfpA1ObE8dtDtHXTHQHX/9aTqy5bwSaYOkm038W5RjmS8DT/APw9Q==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] openssl: upgrade 3.5.6 -> 3.5.7
-Date: Fri, 12 Jun 2026 00:06:10 +0200
-Message-ID: <20260611220610.3160154-1-peter.marko@siemens.com>
+ dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 209.85.222.49, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-963849a4611so138546241.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 19:48:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781232524; x=1781837324;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yg3i7sfWlLgjRC76SB5tdXHWJl7jdM6tyrZ4dfym/X4=;
+        b=ot5hAlFr2BzOKE1K/YNY3J9+CYqs8fEdmCYQ5AjzwcVrGcwIFm5o54j9Mp05tDGVGN
+         k6Y8hDU7KI+yIKGzTrJlBs0Ztq7T/A/qGOml0fLnXwAB2Kl2zmEa5wpiFnFYg1wqL1HQ
+         sHD3EJlKl4V9CUSo68WHM03ExRbrluMrOWYIMv8YCv3UWujrVjWT15SH2uRDd3YBN7Dg
+         gmEkxl0WVG01JKgyt+lW/Gsh16W24JT1PHjZ/gVY3TBhtz9EwTL5SKEze/rQk7jiKJRs
+         yzu4MASRTUzK1irMw6KZEIpnzglzkx9H2zgNF+ZLI0BrO866ydE6hPxJhuzSRDRcZuKw
+         1Ayg==
+X-Gm-Message-State: AOJu0YxpBkweAAbuYKKhGHIpgUNMnAI99KF0+wvujkQCJTRqKbOaljSQ
+	QbCVzixviSbkClWysGkb0aKdkP6Db3kovTD+Bojk9CrVRJcByyOWgy/YPgOOLURo
+X-Gm-Gg: Acq92OFtEICjz/q56sav1qoI9tQmArmovTXl9exyVayyHylizMiA5VyDxa2x2WfLiGQ
+	FD1d7X9phLpzvBJqD2qwm9JfhohpJacpRR6T3HQtwngofSEw3oa1RtRW2nsAJadAkshVqGMeCqN
+	zPQZQ7H9qLNVrpdJOGxQp63S/atZY754B6yN9NLwlwgrQYCydZPgN2iLHS8civSUmEQ3cLqemIf
+	6CX5olzyAtWbjM6WxKSQ7aNfeGCDweFMnvHkZa9xB53fOhD8u+UQTHLxQfV3diBX5KxkEcO98Qy
+	+RVwHsTx7CxCqMvYpj6YU5I3gh6qNBp8mHfqCVmdOLcGIB6xaQ/gq1JyktlYBxDLziWHRojIyJP
+	/301tXNW0vXYvLo0PL9Amg+Xy/e6ivqlYENU3Qv7Za2fiYeZXVZGEC5jUFM99GVwid0Lsc5ALBo
+	1Twemn8fhICK6UEIb7GmHecpmCvvi3orlce0VcY4U8DGK+SDRaUXc3C8+Ii/9bDkoePxHYuEpmk
+	eJvIYgZjZ6XkYjLZWlnZ9omPmfxnZ+xMDKK9uNiNfeWGQNaPLTMlVpX45ENL7Q7pA==
+X-Received: by 2002:a05:6102:41a8:b0:6de:3c29:373b with SMTP id ada2fe7eead31-71e88c3d3a8mr358687137.15.1781232524456;
+        Thu, 11 Jun 2026 19:48:44 -0700 (PDT)
+Received: from localhost (201-35-188-177.user3p.v-tal.net.br. [201.35.188.177])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bb69225d75sm1205796e0c.14.2026.06.11.19.48.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 19:48:43 -0700 (PDT)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] quota: use native rpcgen and a single-word RPCGEN_CPP
+Date: Thu, 11 Jun 2026 23:48:29 -0300
+Message-ID: <20260612024829.4160586-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2026 22:07:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238588
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 02:48:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238589
 
-From: Peter Marko <peter.marko@siemens.com>
+The rpc PACKAGECONFIG regenerates rquota.{c,h} and rquota_clnt.c from
+rquota.x with rpcgen at build time, as the tarball ships no
+pre-generated copies. Two problems made this fail:
 
-Release information [1]:
+- rpcgen was picked up from the host via HOSTTOOLS rather than from the
+  build, which is non-deterministic and breaks on hosts that have no
+  rpcgen at all.
 
-OpenSSL 3.5.7 is a security patch release. The most severe CVE fixed in this release is High.
-This release incorporates the following bug fixes and mitigations:
-* Fixed heap use-after-free in PKCS7_verify(). (CVE-2026-45447)
-* Fixed CMS AuthEnvelopedData processing may accept forged messages. (CVE-2026-34182)
-* Fixed unbounded memory growth in the QUIC PATH_CHALLENGE handler. (CVE-2026-34183)
-* Fixed NULL pointer dereference in QUIC server initial packet handling. (CVE-2026-42764)
-* Fixed AES-OCB IV ignored on EVP_Cipher() path. (CVE-2026-45445)
-* Fixed possible heap buffer overflow in ASN.1 multibyte string conversion. (CVE-2026-7383)
-* Fixed out-of-bounds read in CMS password-based decryption. (CVE-2026-9076)
-* Fixed heap buffer over-read in ASN.1 content parsing. (CVE-2026-34180)
-* Fixed PKCS#12 files with PBMAC1 are accepted with short HMAC keys. (CVE-2026-34181)
-* Fixed possible NULL dereference in password-dased CMS decryption. (CVE-2026-42766)
-* Fixed NULL pointer dereference in CRMF EncryptedValue decryption. (CVE-2026-42767)
-* Fixed multi-RecipientInfo Bleichenbacher Oracle in CMS_decrypt() and PKCS7_decrypt(). (CVE-2026-42768)
-* Fixed trust anchor substitution via cert/issuer typo in CMP rootCaKeyUpdate. (CVE-2026-42769)
-* Fixed FFC-DH peer validation uses attacker-supplied q. (CVE-2026-42770)
-* Fixed incorrect tag processing for empty messages in AES-GCM-SIV and AES-SIV modes. (CVE-2026-45446)
+- rpcgen execs its C preprocessor as a single program name, but OE
+  exports $CPP as a multi-word "gcc -E --sysroot=... <flags>" string,
+  so rpcgen reports "cannot find C preprocessor" and aborts.
 
-Refreshed patches.
-Installed new test files to pass ptests.
+Depend on rpcsvc-proto-native so rpcgen comes from the build, and set
+RPCGEN_CPP to the single-word cross cpp so the preprocessor can be
+exec'd.
 
-[1] https://github.com/openssl/openssl/blob/openssl-3.5/NEWS.md#major-changes-between-openssl-356-and-openssl-357-9-jun-2026
+Tested with bitbake quota (configure/compile/install/package) on
+qemuarm.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../openssl/0001-Configure-do-not-tweak-mips-cflags.patch     | 2 +-
- .../openssl/{openssl_3.5.6.bb => openssl_3.5.7.bb}            | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_3.5.6.bb => openssl_3.5.7.bb} (98%)
+ meta/recipes-extended/quota/quota_4.11.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
-index cf5ff356ee..cd8906df67 100644
---- a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
-@@ -20,7 +20,7 @@ diff --git a/Configure b/Configure
- index fff97bd..5ee54c1 100755
- --- a/Configure
- +++ b/Configure
--@@ -1552,16 +1552,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
-+@@ -1557,16 +1557,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
-          push @{$config{shared_ldflag}}, "-mno-cygwin";
-          }
-  
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.6.bb b/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_3.5.6.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-index 6685654472..212879dfa3 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.5.6.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-@@ -19,7 +19,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
+diff --git a/meta/recipes-extended/quota/quota_4.11.bb b/meta/recipes-extended/quota/quota_4.11.bb
+index b386071961..811056f1f7 100644
+--- a/meta/recipes-extended/quota/quota_4.11.bb
++++ b/meta/recipes-extended/quota/quota_4.11.bb
+@@ -26,6 +26,10 @@ ASNEEDED = ""
+ PACKAGECONFIG ??= "rpc bsd"
+ PACKAGECONFIG:libc-musl = "rpc"
  
--SRC_URI[sha256sum] = "deae7c80cba99c4b4f940ecadb3c3338b13cb77418409238e57d7f31f2a3b736"
-+SRC_URI[sha256sum] = "a8c0d28a529ca480f9f36cf5792e2cd21984552a3c8e4aa11a24aa31aeac98e8"
- 
- inherit lib_package multilib_header multilib_script ptest perlnative manpages
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
-@@ -223,7 +223,7 @@ do_install_ptest() {
- 	ln -s ${bindir}/openssl ${D}${PTEST_PATH}/apps
- 
- 	cd ${S}
--	find test/certs test/ct test/d2i-tests test/recipes test/ocsp-tests test/ssl-tests test/smime-certs -type f -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
-+	find test/certs test/ct test/d2i-tests test/recipes test/ocsp-tests test/ssl-tests test/smime-certs test/smime-eml -type f -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
- 	find apps test -name \*.cnf -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
- 	find apps test -name \*.der -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
- 	find apps test -name \*.pem -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
+-PACKAGECONFIG[rpc] = "--enable-rpc,--disable-rpc,libtirpc"
++# rpcgen execs its preprocessor as a single program; OE's multi-word $CPP fails,
++# so point it at the cross cpp instead.
++export RPCGEN_CPP = "${TARGET_PREFIX}cpp"
++
++PACKAGECONFIG[rpc] = "--enable-rpc,--disable-rpc,libtirpc rpcsvc-proto-native"
+ PACKAGECONFIG[bsd] = "--enable-bsd_behaviour=yes,--enable-bsd_behaviour=no,"
+ PACKAGECONFIG[ldapmail] = "--enable-ldapmail,--disable-ldapmail,openldap"
+-- 
+2.53.0
+
 
