@@ -2,88 +2,89 @@ Return-Path: <adongare@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25685CD8CA8
-	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 12:38:31 +0000 (UTC)
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.69510.1781267908372549889
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28C4ECD98CE
+	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 12:39:51 +0000 (UTC)
+Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.69535.1781267989246207928
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2026 05:38:28 -0700
+ Fri, 12 Jun 2026 05:39:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=iOBIf7xZ;
- spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: adongare@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=iTOWEb7p;
+ spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: adongare@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=cisco.com; i=@cisco.com; l=5321; q=dns/txt;
-  s=iport01; t=1781267908; x=1782477508;
+  s=iport01; t=1781267989; x=1782477589;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
   bh=GHUftrBl1C9o1iTw1PE0fbKKPIeur3GABe1e9Fkpnlk=;
-  b=iOBIf7xZ4cfY2p9SOiB80MPumqhwOfC3g+SWrQaOHN8r5Omxoacd3sdN
-   kae+WWgbmTpJAnHywkGyt/AZaruMmzKNYfc2bgfi5I7F9f+JAWlM34InR
-   MLRlz3BSswsKdraWS4yY+/5SJykAOFgqePwt8ScbzbWcZz84gcvuupcSf
-   Zwt7AQ/ZxHOkCJVUmMOZWmP5M4MnHB4/tSaS3OYPu+BnUTBDR8OZkpHIk
-   E14VlD6fOiy5NLRRaOMKHHPfHM1EaWd3So0Gi8xeu+yM6K9a1x84uGdfk
-   HPoQSulwhi7LrMl9K9bdr4bODALehZsG10t6FkT6s5SL4+RuN+EBNvhzB
-   w==;
-X-CSE-ConnectionGUID: l9ktUIn5Q5eYajlx6A+GNA==
-X-CSE-MsgGUID: xs84QEl0RbSRPWvuxPBf4g==
-X-IPAS-Result: =?us-ascii?q?A0BGAgC//Ctq/4r/Ja1aglmCV3RfQkkDlkiBFp0IFIFqD?=
+  b=iTOWEb7p9DrYMSBqGoOxNrQJ+5edfoaP6xSXt4MvqC+gYYP5+QFb228C
+   oYCioie3pSugPO6b5ORMZwLumR3IDQAJomn+iehn1kxoXjSwlBKUacXkt
+   cT91g9fl8sU8MpyIA4X8mch99d5bSqHF8TLbVVZqZo98W3qB82AP1hVhH
+   E6e9yPwrgIPl9c4QnpD3etKSvNmNPTv6t+N6RyJzN/GoFCh/8WlivN0DY
+   SjFJwapzryC5Z0aPiCjF668Wnqo+v3BGf8n4HZOMo23Fwbnl7jfGmxz5T
+   qr4VRKWvqPYSk1eIzLgkQadRWTZOxQUB60l/FNFUXBStg6jOWB36IifB5
+   g==;
+X-CSE-ConnectionGUID: NTN2ALOpQs2tiqnvZPI25g==
+X-CSE-MsgGUID: BgEmqsDyRPOMAoJw2UGjRg==
+X-IPAS-Result: =?us-ascii?q?A0BGAgAv/Stq/5P/Ja1aglmCV3RfQkkDlkiBFp0IFIFqD?=
  =?us-ascii?q?wEBAQ9EDQQBAYRARo1CAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECA?=
  =?us-ascii?q?QcFgQ4Thk8NhloBAgEqCwEYAS0sAwECWiMhgwIBgnMCARGyQxo3gXkzgQGDK?=
  =?us-ascii?q?AE/AkNQ2ywBCxQBBYEzhT+IH1sYAYR8JxsbgXKBFYE7gTh2gQWBXAKBR4ZeB?=
  =?us-ascii?q?IIigQyBXR6CLyaMFkiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHB?=
  =?us-ascii?q?YFKgStqgQOFDSMfAzl/gXSBKGdpFTA1gQEBERIDCxgNSBEsNxQbBD5uB4xCF?=
  =?us-ascii?q?w+BeTMSAWMqAQohImMTCIEADBGTaQKReqEPCiiDdYwhlToaM4QElBeSUQuYf?=
- =?us-ascii?q?Y4KlWhohGiBaDyBWXAVO4JnCUoZD44qDguDYIUTwwUkNQIJAzABBwIHDwKBc?=
- =?us-ascii?q?5F9AQE?=
-IronPort-Data: A9a23:VezVaqleKjf6QESi/zP9jEbo5gzQJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
- xIbCm7UPvyCMGfwedh0aYvg9UtT7cfcxodlSAplqH8wFFtH+JHPbTi7wugcHM8zwunrFh8PA
- xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
- Y20+ZG31GONgWYubDpKsvjb8XuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
- /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
- OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FYlJ+fpKIGcTz
- KEVGTkPagDdrqGZ5pvuH4GAhux7RCXqFJkUtnclyXTSCuwrBMiaBa7L/tRfmjw3g6iiH96HO
- JFfMmUpNkmdJUQUaj/7C7pm9AusrnDzdDtXoUiYjaE2+GPUigd21dABNfKJK4fRFZsKxxbwS
- mTu73+pXig3MISlwwG/yk2ym//3ty2nV9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
- mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cF3hKaccts4k9QjlCO
- kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
-IronPort-HdrOrdr: A9a23:IjYF0awEX1DBPeyyECdeKrPwAL1zdoMgy1knxilNoNJuHfBw8P
- re+cjzuiWUtN98YhwdcLO7Scu9qBHnlaKdiLN5VdzJYOCMggWVxe9ZgbcK6geQfxEWjtQttp
- tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
-X-Talos-CUID: 9a23:QPei/W/Kl/AT7pPFBgyVv0pFGdwYU3uA9SrdEka6DXY3Yf66b3bFrQ==
-X-Talos-MUID: 9a23:ZjRWxgUKFb8114nq/C/31G1bGcMw2a6VMngyj4gWg+OKaSMlbg==
+ =?us-ascii?q?Y4KlWhohGiBaDyBWXAVO4JnCUoZD44qDguDYIUTwwgkNQIJAy8BAQcCBw4DC?=
+ =?us-ascii?q?4FokX0BAQ?=
+IronPort-Data: A9a23:SwLL7q7cyi12KB1CFvR8mAxRtGnGchMFZxGqfqrLsTDasY5as4F+v
+ mtOCz2PP/fbamWhfNwna4qw90xXupPWx95hGgM4qi4wZn8b8sCt6fZ1gavT04J+CuWZESqLO
+ u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
+ 5Wo/6UzBHf/g2QqajxNsfrawP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
+ +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
+ jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eG7E+oM9TJnl37
+ qYEKSkLcCK7prjrz+fuIgVsrpxLwMjDJogTvDRkiDreF/tjGMiFSKTR7tge1zA17ixMNa+BP
+ IxCNnw1MUmGOkEQUrsUIMpWcOOAj3X4dTJRsl+9rqss6G+Vxwt0uFToGIaEIIzRGZ8Mxy50o
+ Ers8En8Gwo2Jean7h+s9VCz3NLgnxn0Ddd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
+ 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzFcCDVAc9ch8sQxQFTGy
+ 2O0oj8gPhQ32JX9dJ5X3u78Qe+aUcTNEVI/WA==
+IronPort-HdrOrdr: A9a23:OaRKHK4k55jkYmqNIAPXwOTXdLJyesId70hD6qm+c3Nom6uj5q
+ WTdZsgtCMc5Ax9ZJhCo6HjBEDjexPhHPdOiOF7V4tKNzOJhILHFu1fBKLZslnd8lXFh41g/J
+ YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
+X-Talos-CUID: =?us-ascii?q?9a23=3A1tKYHWrzb80qEf8fKC+KbIrmUeYZVCf06FDIGlT?=
+ =?us-ascii?q?iFWdwTqOncX7Kpawxxg=3D=3D?=
+X-Talos-MUID: 9a23:z0KqKwueYkUp7q1u9M2nrj5PMd5zz7WUMGcouJIkpJO5Gi5KNGLI
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.24,200,1774310400"; 
-   d="scan'208";a="493386718"
-Received: from rcdn-l-core-01.cisco.com ([173.37.255.138])
-  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 12 Jun 2026 12:38:27 +0000
+   d="scan'208";a="492834211"
+Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
+  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 12 Jun 2026 12:39:48 +0000
 Received: from sjc-ads-3691.cisco.com (sjc-ads-3691.cisco.com [171.68.250.138])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-01.cisco.com (Postfix) with ESMTPS id 569AA180001CD;
-	Fri, 12 Jun 2026 12:38:27 +0000 (GMT)
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 19FED180008A6;
+	Fri, 12 Jun 2026 12:39:48 +0000 (GMT)
 Received: by sjc-ads-3691.cisco.com (Postfix, from userid 1870532)
-	id EFBE1CC12A6; Fri, 12 Jun 2026 05:38:26 -0700 (PDT)
+	id B893ACC12A6; Fri, 12 Jun 2026 05:39:47 -0700 (PDT)
 From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com, to@cisco.com,
 	Anil Dongare <adongare@cisco.com>
-Subject: [OE-core] [master] [PATCH] libusb1: fix CVE-2026-23679 and CVE-2026-47104
-Date: Fri, 12 Jun 2026 05:38:22 -0700
-Message-ID: <20260612123823.1236106-1-adongare@cisco.com>
+Subject: [OE-core] [wrynose] [PATCH] libusb1: fix CVE-2026-23679 and CVE-2026-47104
+Date: Fri, 12 Jun 2026 05:39:44 -0700
+Message-ID: <20260612123944.1237170-1-adongare@cisco.com>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-3691.cisco.com [171.68.250.138];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.68.250.138, sjc-ads-3691.cisco.com
-X-Outbound-Node: rcdn-l-core-01.cisco.com
+X-Outbound-Node: rcdn-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 12:38:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238616
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 12:39:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238617
 
 From: Anil Dongare <adongare@cisco.com>
 
