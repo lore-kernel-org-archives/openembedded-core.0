@@ -2,230 +2,203 @@ Return-Path: <sudumbha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9300CD98CE
-	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 13:18:16 +0000 (UTC)
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.70327.1781270286396324211
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6E50CD8CA8
+	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 13:18:26 +0000 (UTC)
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.70332.1781270305802310502
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2026 06:18:06 -0700
+ Fri, 12 Jun 2026 06:18:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=WByjkXBk;
- spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: sudumbha@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=R3v+J9S9;
+ spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: sudumbha@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=5843; q=dns/txt;
-  s=iport01; t=1781270286; x=1782479886;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=VHprbx1l+1GRZWN8VIEgA2xnZ1lYvkatcZFpx+TMV8A=;
-  b=WByjkXBkhDdeRnlx3xpTYEBbJWog5hdS9eV5QOUPwfhG0l71USMN1AL7
-   HMq0PDOZqqZsOljvWifpptU53i5ZnimUkIcRxfozijNpnOPHT+6iSvtTV
-   3slE67yI9bcugk5HnI+nUJSb/au8UDHtm4Tm6G4tGg+3rjBVx2TsGaRjJ
-   nTjL/FGfBj5wvVT97rCimRB/RCbTWb9Ff+urqacDKxVhnNwcyvERxhueL
-   m942uwsFEFkgW4aI58ePTY4HA0sIyT9WyQasTE6DjqxIgWwtEApZhbEeG
-   OrmQJajkFX0pK4rY3cKiEbHSjaQCvcDjPRk7MsvcqxGnqU+w4bBJ7g3xZ
-   g==;
-X-CSE-ConnectionGUID: 8Oi9maqvTwSPZYdHE/HF1g==
-X-CSE-MsgGUID: qq5zrBYNR3ukiAxPvh9q1Q==
-X-IPAS-Result: =?us-ascii?q?A0BDAgCMBixq/4v/Ja1aHgEBCxIMggULgld0X0JJA5Qng?=
- =?us-ascii?q?iGeHhSBEANXDwEBAQ9EDQQBAZJIAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBA?=
- =?us-ascii?q?QUBAQECAQcFgQ4Thk8NhloBOAFyAwECWiMhgwIBgnMCARGzM4IsgQGDYgEFA?=
- =?us-ascii?q?kNQ2ywBBQYUAYE4hT+IH1sYAYR8JxsbgXKEfoEFgVwBAYE4DoZfBIIJGYEMY?=
- =?us-ascii?q?3qPCUiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHBYFKgStqgQOFD?=
- =?us-ascii?q?SMfAzl/gXSBKGdpFTA1gQIREgMLGA1IESw3FBsEPm4HjEIXD4FMJS0fAXsTA?=
- =?us-ascii?q?SsgMTSBDgEYTqUooQ8KKIN1jCGVOhozhASUF5JRC5h9jgqWUIRogWg8OYEOC?=
- =?us-ascii?q?wdwFYMiUxkPjioDCwuDYIF/gxTDFSQ1CwMvAQEHAgcOAwuBaJABgXwBAQ?=
-IronPort-Data: A9a23:UrI0NqDommvjuBVW/3jiw5YqxClBgxIJ4kV8jS/XYbTApD8hhDIFx
- jRNWDyAOareYmv1fY0lPYznoxtQucKEnYM3OVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jX2thh
- fuo+5eBYAH8gWYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEk9JvXUQ/JJMk5d1PM1BC1
- dFfCB5UYUXW7w626OrTpuhEnM8vKozveYgYoHwllWufBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
- pdfMGE+BPjDS0Un1lM/E48ygeKihnDXeDxDo1XTrq0yi4TW5FAgi+mwaoaEKrRmQ+1MhxuKv
- Ej32V6iHxIbHcyn1zrU6yuV07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/KOpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOP9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:Q1dI2qlsJFzCZdzggU3KqgZ55RHpDfIc3DAbv31ZSRFFG/Fw8P
- re/sjzuiWbtN98YhwdcLO7Scq9qA3nlKKdiLN5VdzJYOCMggSVxe9ZgbcKuweBJwTOsshAyK
- xnb69yTPf0DVR8kILGxTPQKadE/DFCm5rY4ts3CBxWPGVXV50=
-X-Talos-CUID: 9a23:Ov9AQWOCh2Gs9+5DCA5mpUsdA94ZbUbl/kbcA2L/KUgwR+jA
-X-Talos-MUID: 9a23:vzmLFAmcTficoT8vWfXpdnp7LZp6+Y6fLnpWjJYHktm8KywhIm6k2WE=
+  d=cisco.com; i=@cisco.com; l=4743; q=dns/txt;
+  s=iport01; t=1781270305; x=1782479905;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=OSm0jqv4FIQvOjLaGNmfExPt4YwbmSzupx6cyaccqBg=;
+  b=R3v+J9S9ocheozgyn43APYevt2W5j6DK6GoB4rQRkM+KiZkiYWygYbzu
+   Y+qB5afc/8oPi1TQ+QVvQhIvlmkfx2UpCm7P2duGOfuox6kZC8Hk9QVXe
+   oz+vmPQeKWQL5SXJw5g31NAOsIjPwQDsRJMVgathbLXIXlrD0p0bYxDQc
+   pCGw8za4hHdNvoP5ggaw05tVlAd4xgd2k7+tj4+EUUiIUksjtQ7R9fKdw
+   RvBq4DfJGsfK2kwl/SiA3MWafj5ovIDQttVM7wZR4Z46cejRdWIS+XCjE
+   ++msJ4yJtW05wPfSwAPul4BPyjdYIe92DlYhfjL4+K79w1+Fr6dAJtKQ0
+   Q==;
+X-CSE-ConnectionGUID: QbNxLEkVSIGia5MozjwfAw==
+X-CSE-MsgGUID: PrXseKiKSKOaI9X4PQVayg==
+X-IPAS-Result: =?us-ascii?q?A0BkAwAcBixq/47/Ja1aHgEBCxIMggULg0tfQkkDlCeCI?=
+ =?us-ascii?q?QOeG4EkA1cPAQEBD0QNBAEBhQYCjUACJjQJDgECBAMCAwEBAQEBAQEBAQEBC?=
+ =?us-ascii?q?wEBBQEBAQIBBwWBDhOGTw2GWgECAQMnCwE0IhwDAQIvKyMIGYMCAYJzAgERs?=
+ =?us-ascii?q?zaBeTOBAYNiAQUCQ1DbLQsUAYE4hT+IH1sYAYR8JxsbgXKEfoEFTYEPAQGBJ?=
+ =?us-ascii?q?4Z+BIIigQyBXY8JSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4EMGwcFg?=
+ =?us-ascii?q?UqBK2qBA4UNIx8DOX+BdIEoZ2kVMDWBAhESAwsYDUgRLDcUGwQ+bgeMQhcPg?=
+ =?us-ascii?q?UxxAXsTASoBF4F8ARgcozmCIZ9RgT4KKIN1jCGVOhozhVulEQuYfYsnEIJTl?=
+ =?us-ascii?q?XNdhGiBaDw5gQ4LB3AVgyIJShkPjjiDa4F/gxTDFSQ1CwMvAQEHAgcOAwuBa?=
+ =?us-ascii?q?JAAAiYHgU4BAQ?=
+IronPort-Data: A9a23:iYN7VqmJN/sY8ibkVKwKa0vo5gzQJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xIWWj2FPfmLZzemLttwPY2xpBgAuMPdyddnSwJpqSA9FFtH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZG31GONgWYubDpKsvjb8XuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FbQS3PZTLGJwz
+ t03KTlQSxeRhf246a3uH4GAhux7RCXqFJkUtnclyXTSCuwrBMieBa7L/tRfmjw3g6iiH96HO
+ JFfMmUpNkmdJUQTYD/7C7pm9AusrmLifyBdolKcjaE2+GPUigd21dABNfKJK4faHJkMwx/wS
+ mTux37JGRw5Nf+k6h2M0yOc2tf2oyrqV9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cE3hKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:UFiLy6PFSZv53sBcTu2jsMiBIKoaSvp037BN7TEUdfU7SKKlfq
+ yV8cjzkCWE6wr5O0tQ/OxoRpPgfZq0z/cciuMs1PWZLWvbUQCTQ72Kg7GP/9SZIU3D398Y87
+ t8eK5jD9C1J117gcHmpDScKb8bsb66GGTCv5am85+rJjsaDZ1d0w==
+X-Talos-CUID: 9a23:QhyaQmBJUQPfurL6ExBt0l4wN8MbSVzyzX6NBkiqC3lnYaLAHA==
+X-Talos-MUID: 9a23:cGoiUQnr452HNDHKCdsydnpaLvdz7oevK3sutpwn6vnYDRVOMiaS2WE=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.24,200,1774310400"; 
-   d="scan'208";a="493952498"
-Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 12 Jun 2026 13:18:03 +0000
+   d="scan'208";a="493814151"
+Received: from rcdn-l-core-05.cisco.com ([173.37.255.142])
+  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 12 Jun 2026 13:18:24 +0000
 Received: from sjc-ads-12007.cisco.com (sjc-ads-12007.cisco.com [171.70.97.7])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id 841B6180007F5
-	for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 13:18:03 +0000 (GMT)
+	by rcdn-l-core-05.cisco.com (Postfix) with ESMTPS id B354818000341
+	for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 13:18:24 +0000 (GMT)
 Received: by sjc-ads-12007.cisco.com (Postfix, from userid 1840713)
-	id D7AB1CB6A93; Fri, 12 Jun 2026 06:18:02 -0700 (PDT)
+	id 4A9D1CB6A93; Fri, 12 Jun 2026 06:18:24 -0700 (PDT)
 From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH 1/3] go: fix CVE-2025-58183
-Date: Fri, 12 Jun 2026 06:16:16 -0700
-Message-Id: <20260612131618.664716-1-sudumbha@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 2/3] go: fix CVE-2026-25679
+Date: Fri, 12 Jun 2026 06:16:18 -0700
+Message-Id: <20260612131618.664716-2-sudumbha@cisco.com>
 X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260612131618.664716-1-sudumbha@cisco.com>
+References: <20260612131618.664716-1-sudumbha@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-12007.cisco.com [171.70.97.7];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.97.7, sjc-ads-12007.cisco.com
-X-Outbound-Node: rcdn-l-core-02.cisco.com
+X-Outbound-Node: rcdn-l-core-05.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 13:18:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238618
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 13:18:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238619
 
 From: Sudhir Dumbhare <sudumbha@cisco.com>
 
 This patch applies the upstream fix [1], as referenced in [2],
-to address unbounded memory consumption when reading GNU tar pax
-1.0 sparse file regions in archive/tar.
+to address insufficient validation in `url.Parse`.
 
-[1] https://github.com/golang/go/commit/613e746327381d820759ebea6ce722720b343556
-[2] https://security-tracker.debian.org/tracker/CVE-2025-58183
+Debian marks older Go branches as not affected because the vulnerable
+parseHost surface was introduced by the earlier CVE-2025-47912 fix.
+This Scarthgap recipe already carries CVE-2025-47912.patch, so the
+fix is applicable to the patched Go 1.22.12 source used here.
+
+[1] https://github.com/golang/go/commit/d8174a9500d53784594b198f6195d1fae8dfe803
+[2] https://security-tracker.debian.org/tracker/CVE-2026-25679
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-58183
+https://nvd.nist.gov/vuln/detail/CVE-2026-25679
 
 Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 ---
- meta/recipes-devtools/go/go-1.22.12.inc       |   1 +
- .../go/go/CVE-2025-58183.patch                | 107 ++++++++++++++++++
- 2 files changed, 108 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-58183.patch
+ meta/recipes-devtools/go/go-1.22.12.inc       |  1 +
+ .../go/go/CVE-2026-25679.patch                | 74 +++++++++++++++++++
+ 2 files changed, 75 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-25679.patch
 
 diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index 3fa421e223..5bd3e98938 100644
+index 5bd3e98938..7dd1c021cb 100644
 --- a/meta/recipes-devtools/go/go-1.22.12.inc
 +++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -41,6 +41,7 @@ SRC_URI += "\
-     file://CVE-2025-68121_p1.patch \
+@@ -42,6 +42,7 @@ SRC_URI += "\
      file://CVE-2025-68121_p2.patch \
      file://CVE-2025-68121_p3.patch \
-+    file://CVE-2025-58183.patch \
+     file://CVE-2025-58183.patch \
++    file://CVE-2026-25679.patch \
  "
  SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
  
-diff --git a/meta/recipes-devtools/go/go/CVE-2025-58183.patch b/meta/recipes-devtools/go/go/CVE-2025-58183.patch
+diff --git a/meta/recipes-devtools/go/go/CVE-2026-25679.patch b/meta/recipes-devtools/go/go/CVE-2026-25679.patch
 new file mode 100644
-index 0000000000..b3e043ea0a
+index 0000000000..6bd22a49ad
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2025-58183.patch
-@@ -0,0 +1,107 @@
-+From c25bf45db0b232e8ad9d2bc53e61678ebc5efe90 Mon Sep 17 00:00:00 2001
-+From: Damien Neil <dneil@google.com>
-+Date: Thu, 11 Sep 2025 13:32:10 -0700
-+Subject: [PATCH] [release-branch.go1.24] archive/tar: set a limit on the
-+ size of GNU sparse file 1.0 regions
++++ b/meta/recipes-devtools/go/go/CVE-2026-25679.patch
+@@ -0,0 +1,74 @@
++From c8f96fce4d34123a920558a1a3f5c0ddf2bf678e Mon Sep 17 00:00:00 2001
++From: Ian Alexander <jitsu@google.com>
++Date: Wed, 28 Jan 2026 15:29:52 -0500
++Subject: [PATCH] [release-branch.go1.25] net/url: reject IPv6 literal not
++ at start of host
 +
-+Sparse files in tar archives contain only the non-zero components
-+of the file. There are several different encodings for sparse
-+files. When reading GNU tar pax 1.0 sparse files, archive/tar did
-+not set a limit on the size of the sparse region data. A malicious
-+archive containing a large number of sparse blocks could cause
-+archive/tar to read an unbounded amount of data from the archive
-+into memory.
++This change rejects IPv6 literals that do not appear at the start of the
++host subcomponent of a URL.
 +
-+Since a malicious input can be highly compressable, a small
-+compressed input could cause very large allocations.
++For example:
++  http://example.com[::1] -> rejects
++  http://[::1]            -> accepts
 +
-+Cap the size of the sparse block data to the same limit used
-+for PAX headers (1 MiB).
++Thanks to Masaki Hara (https://github.com/qnighy) of Wantedly.
 +
-+Thanks to Harshit Gupta (Mr HAX) (https://www.linkedin.com/in/iam-harshit-gupta/)
-+for reporting this issue.
++Updates #77578
++Fixes #77969
++Fixes CVE-2026-25679
 +
-+Fixes CVE-2025-58183
-+For #75677
-+Fixes #75710
++CVE: CVE-2026-25679
++Upstream-Status: Backport [https://github.com/golang/go/commit/d8174a9500d53784594b198f6195d1fae8dfe803]
 +
-+CVE: CVE-2025-58183
-+Upstream-Status: Backport [https://github.com/golang/go/commit/613e746327381d820759ebea6ce722720b343556]
-+
-+Backport Changes:
-+- The upstream fix includes a testdata tarball as a git binary diff.
-+  However, quilt cannot apply git binary diffs and fails with the error:
-+  "File src/archive/tar/testdata/gnu-sparse-many-zeros.tar.bz2:
-+   git binary diffs are not supported."
-+- As a result, the unnecessary bzip2 test file
-+  src/archive/tar/testdata/gnu-sparse-many-zeros.tar.bz2
-+  has been removed.
-+- Furthermore, in src/archive/tar/reader_test.go, within the TestReader()
-+  function, the test vector entry for testdata/gnu-sparse-many-zeros.tar.bz2
-+  has been removed.
-+
-+Change-Id: I70b907b584a7b8676df8a149a1db728ae681a770
-+Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/2800
++Change-Id: I7109031880758f7c1eb4eca513323328feace33c
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3400
++Reviewed-by: Neal Patel <nealpatel@google.com>
 +Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Nicholas Husin <husin@google.com>
-+Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/2967
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/709843
-+Reviewed-by: Carlos Amedee <carlos@golang.org>
-+TryBot-Bypass: Michael Pratt <mpratt@google.com>
-+Auto-Submit: Michael Pratt <mpratt@google.com>
-+(cherry picked from commit 613e746327381d820759ebea6ce722720b343556)
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/3642
++Reviewed-on: https://go-review.googlesource.com/c/go/+/752100
++Reviewed-by: Cherry Mui <cherryyz@google.com>
++Auto-Submit: Gopher Robot <gobot@golang.org>
++TryBot-Bypass: Gopher Robot <gobot@golang.org>
++Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
++(cherry picked from commit d8174a9500d53784594b198f6195d1fae8dfe803)
 +Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 +---
-+ src/archive/tar/common.go | 1 +
-+ src/archive/tar/reader.go | 9 +++++++--
-+ 2 files changed, 8 insertions(+), 2 deletions(-)
++ src/net/url/url.go      | 4 +++-
++ src/net/url/url_test.go | 6 ++++++
++ 2 files changed, 9 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/archive/tar/common.go b/src/archive/tar/common.go
-+index 4910908f81e..ec1b8668547 100644
-+--- a/src/archive/tar/common.go
-++++ b/src/archive/tar/common.go
-+@@ -38,6 +38,7 @@ var (
-+ 	errMissData        = errors.New("archive/tar: sparse file references non-existent data")
-+ 	errUnrefData       = errors.New("archive/tar: sparse file contains unreferenced data")
-+ 	errWriteHole       = errors.New("archive/tar: write non-NUL byte in sparse hole")
-++	errSparseTooLong   = errors.New("archive/tar: sparse map too long")
-+ )
-+ 
-+ type headerError []string
-+diff --git a/src/archive/tar/reader.go b/src/archive/tar/reader.go
-+index 0811779adda..71d0b20b76d 100644
-+--- a/src/archive/tar/reader.go
-++++ b/src/archive/tar/reader.go
-+@@ -531,12 +531,17 @@ func readGNUSparseMap1x0(r io.Reader) (sparseDatas, error) {
-+ 		cntNewline int64
-+ 		buf        bytes.Buffer
-+ 		blk        block
-++		totalSize  int
-+ 	)
-+ 
-+ 	// feedTokens copies data in blocks from r into buf until there are
-+ 	// at least cnt newlines in buf. It will not read more blocks than needed.
-+ 	feedTokens := func(n int64) error {
-+ 		for cntNewline < n {
-++			totalSize += len(blk)
-++			if totalSize > maxSpecialFileSize {
-++				return errSparseTooLong
-++			}
-+ 			if _, err := mustReadFull(r, blk[:]); err != nil {
-+ 				return err
-+ 			}
-+@@ -569,8 +574,8 @@ func readGNUSparseMap1x0(r io.Reader) (sparseDatas, error) {
++diff --git a/src/net/url/url.go b/src/net/url/url.go
++index 5219e3c130b..ab59c63adfa 100644
++--- a/src/net/url/url.go
+++++ b/src/net/url/url.go
++@@ -623,7 +623,9 @@ func parseAuthority(authority string) (user *Userinfo, host string, err error) {
++ // parseHost parses host as an authority without user
++ // information. That is, as host[:port].
++ func parseHost(host string) (string, error) {
++-	if openBracketIdx := strings.LastIndex(host, "["); openBracketIdx != -1 {
+++	if openBracketIdx := strings.LastIndex(host, "["); openBracketIdx > 0 {
+++		return "", errors.New("invalid IP-literal")
+++	} else if openBracketIdx == 0 {
++ 		// Parse an IP-Literal in RFC 3986 and RFC 6874.
++ 		// E.g., "[fe80::1]", "[fe80::1%25en0]", "[fe80::1]:80".
++ 		closeBracketIdx := strings.LastIndex(host, "]")
++diff --git a/src/net/url/url_test.go b/src/net/url/url_test.go
++index b2f8bd95fcf..8ffbf075cb8 100644
++--- a/src/net/url/url_test.go
+++++ b/src/net/url/url_test.go
++@@ -1722,6 +1722,12 @@ func TestParseErrors(t *testing.T) {
++ 		{"http://[fe80::1", true},                   // missing closing bracket
++ 		{"http://fe80::1]/", true},                  // missing opening bracket
++ 		{"http://[test.com]/", true},                // domain name in brackets
+++		{"http://example.com[::1]", true},            // IPv6 literal doesn't start with '['
+++		{"http://example.com[::1", true},
+++		{"http://[::1", true},
+++		{"http://.[::1]", true},
+++		{"http:// [::1]", true},
+++		{"hxxp://mathepqo[.]serveftp(.)com:9059", true},
 + 	}
-+ 
-+ 	// Parse for all member entries.
-+-	// numEntries is trusted after this since a potential attacker must have
-+-	// committed resources proportional to what this library used.
-++	// numEntries is trusted after this since feedTokens limits the number of
-++	// tokens based on maxSpecialFileSize.
-+ 	if err := feedTokens(2 * numEntries); err != nil {
-+ 		return nil, err
-+ 	}
++ 	for _, tt := range tests {
++ 		u, err := Parse(tt.in)
 +-- 
 +2.35.6
 +
 -- 
 2.35.6
-
 
