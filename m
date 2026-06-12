@@ -2,60 +2,60 @@ Return-Path: <jeremy.rosen@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6B12CD98E3
-	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 14:26:49 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.71817.1781274401087436875
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C788CD98E5
+	for <webhook@archiver.kernel.org>; Fri, 12 Jun 2026 14:26:50 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.71892.1781274409093507616
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2026 07:26:41 -0700
+ Fri, 12 Jun 2026 07:26:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=CtHNUq2C;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: jeremy.rosen@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-45ee5cdbd28so1342293f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 07:26:40 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=PvLj4NwO;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: jeremy.rosen@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so123915e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 07:26:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781274399; x=1781879199; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1781274407; x=1781879207; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Jfd4ageqIPVzcycMCaK8VS5kE9alBzdWXoZWgDx9KAk=;
-        b=CtHNUq2CfiOdT/TzGzlDhNy7ZL0F4Ft2rI+847ZM4ApdoOWmaJmUFmJikSwlgJ7Tit
-         j48Bm51vwaI9yZT7zWfMeS79Nnmia4XgTchbCavl0zl5d2wzdzFlnGCS6OL6cTzsvbaJ
-         k3ZoYvBz3y4XjwtKVLzMakMfmofJ4rKqB8ut4=
+        bh=/e2HHdfh3jaicgWbX7tEBFxmV9FhzCBp9a5wQOb4JZQ=;
+        b=PvLj4NwOyvkBSewHqOT4azDuAl1UDPzk/XedvOVfkHFxQ/mqI0NRpiBRVMcAEXqNCy
+         B0lxjSMsRYMOtm3ToJuyBDAE9D0aCXzBRYPhkns0DVs7MHwZ5+o+DBsA7kg40qApzgTk
+         U1hdBB1AhS4yNMHsIIH814TrxszJNmemVtsXw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781274399; x=1781879199;
+        d=1e100.net; s=20251104; t=1781274407; x=1781879207;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Jfd4ageqIPVzcycMCaK8VS5kE9alBzdWXoZWgDx9KAk=;
-        b=jy2hZLSMInpcbQR6djLTlbUnqGOGkxyOX9Dv9JogHU1Kb4IiJpaTB2cP88VEmjFtDL
-         Z1xdMSTS+ZQ3WFusRYNFrpMs9UiJbOygyTqMSPfS5OldSN9LuVaKD+Q/UkXtPKxnoqCs
-         HzqQDAnPQoadrrJN9PMK2nmuam69QZ+HAap9LnCDNFOjIoJ0qR2/GoOOyXKm71Ad2lYu
-         OJiarUdtxT3Y6of/j/7LMZsET9uDCAvy7iJAkm8N9ZsiPsrAuNpQsNnt+6UZulqbkx85
-         oJh3SI+f9H6cWpDHuw3CpOSuvM/aVyXTilcifWGHg71x5WjTu2s8fdhbd72V0dBBQNxL
-         g1WQ==
-X-Gm-Message-State: AOJu0Yx2RsxhtE5qbs8+D3qX6Bvo9E8M0KwEtAZAsLcRBKR29au6K8Ux
-	8Of2Q6fdchQ9elSdzHd820K8/gt0IYIigp6Wgw6afB4qMCny7ua3fEJFFS7Pg5FG5j4OMv3jw68
-	XWT7ROw==
-X-Gm-Gg: Acq92OF8d2zd+SMN5i4rEF1gziF71wJnF2X8TPK4h7FfjvcIwnHtNKzyrQttca18rMT
-	4hx4PO6DC/BkAbimbXkQtgbr+OekXJbRIPzFHbNG+nhpkMg51iOQtW72PHa0XyPNuiVXGwaGu4g
-	uKvGarVmhpLeYi00Rnrc6habc+z+Aev5XvkwgZtszD6jKT/C4p770SVB3F1cW1sesOGte82okK4
-	GuIGtuKBCbwkEPfi08NA4qNDxM4MdMZwGAUPGYwVKuO1YLpq/lceRZCt30MP/VQpcJouxREx4vo
-	FIYLuHNimMP2ot3W+hiAftNaQdzdZe8N2aXf+mNyG1uXSdWgfTyFDWmscJq/H/D7cowMeLaGw6w
-	v+cA7OYTUjdorX8MMW1sT87OySA7aYMGUlGm4KQP+ZS6Yo4gvqhXF7m7O1zuNuW+qWZrx0b74bI
-	QfYd3SeIlbLc8xeYkf+i8oFD4=
-X-Received: by 2002:a05:6000:4709:b0:460:602f:85ac with SMTP id ffacd0b85a97d-4606cae532fmr4203713f8f.0.1781274399289;
-        Fri, 12 Jun 2026 07:26:39 -0700 (PDT)
+        bh=/e2HHdfh3jaicgWbX7tEBFxmV9FhzCBp9a5wQOb4JZQ=;
+        b=L813WvRQP6BEt8Y9sf5x8fMDkFTo9lES0y7Ip1FwpgJooGIsojEBdZPEncWchwFTeK
+         T99dkgE0hTqJgmmDkR45MX7Cmpv6F+3vP3MKpG+MymD/azBAQBcFwrOXdm2ww5qkHR1F
+         JkDDE1D9qzVwLk2KPxcEyISjjIota/NWMdzutqL3s5UWLM+BEKCKlzlAVVHXVM24Q84m
+         oxdLOUqNrier9LJers6blhbEroM5wPAAPcAZIR4QBB+2Nfr2qg6qk3pDdDlZpQP5pD2D
+         mf7l0x+/EZvBPCuwQIxgsEFoTYsjrvyk+qv2/EoLJ9hYmY6pKJegQcCtPUzKR0/gOMAs
+         RFVw==
+X-Gm-Message-State: AOJu0YzcTleNl/CQ11c32xgsUl9wmy+HksVyFUEG/OOyutQWmljBsS/R
+	jGZt14urofGX1Jha3CuIa1zhyyx+X9PJ8XhNh1oLjHND/E+SNZUwAL/2hPIIVtxDF0X6YCBqf2Q
+	ikidbXQ==
+X-Gm-Gg: Acq92OFAsaTs5BKbP8yMA1yqUAx4rDBefGeFdIjZz4SIw9OanGc2tiRTZVh8t/BS+65
+	Om5qyOv2VmCu5usulQHtu6/Q5K8zVSTTzf+b0l0fkORZeAVm+5ImJ3LPWSPr74BPoAgCYR1l5bt
+	k4pFtWV3sFGjGgbeO/diAsgHRDWNnkPVefcxrSoj5W0l6FV97kuxW9pi1I7F3TiUWzSpoDsHWlJ
+	q0NTdCg5wZNGRkgdWKUr5HDHNlLIl1OWSSli9hl1BTiZSeCWSONmJ370l2qETQTX6cnSZhQqrnR
+	81uDG1srw0vzlLwc/T3SL+hSckjgRPWrG3x1qBf14gnGHfjUf0HoXjjE1RW6Mljq8ad2wkl3Wag
+	SMhCaDc28/oVOYntRCZWjRWDB+EFGzQtWTVenK8bw7HA3n3jysOEfe/Qyvuyn1JnLKxfALu276C
+	sIJOSZlQUNcF5XhCgVw7r2Ao8=
+X-Received: by 2002:a05:600c:4745:b0:490:d32b:39d6 with SMTP id 5b1f17b1804b1-490ec4fe770mr42407825e9.19.1781274407215;
+        Fri, 12 Jun 2026 07:26:47 -0700 (PDT)
 Received: from Logrus.lan ([2001:861:560f:240:8dd0:2c2:7492:641b])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4606f20e77asm6798747f8f.0.2026.06.12.07.26.38
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4606f20e77asm6798747f8f.0.2026.06.12.07.26.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 07:26:38 -0700 (PDT)
+        Fri, 12 Jun 2026 07:26:46 -0700 (PDT)
 From: Jeremy Rosen <jeremy.rosen@smile.fr>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][scarthgap 05/21] util-linux: Fix CVE-2026-27456
-Date: Fri, 12 Jun 2026 16:25:55 +0200
-Message-ID: <8a9fefa317baff6022334e46ab4ee87676c07699.1781270474.git.jeremy.rosen@smile.fr>
+Subject: [OE-core][scarthgap 14/21] go: patch CVE-2026-39820
+Date: Fri, 12 Jun 2026 16:26:04 +0200
+Message-ID: <724767c15c6530fd3f4af6e0031ec2d1a040ab42.1781270474.git.jeremy.rosen@smile.fr>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1781270474.git.jeremy.rosen@smile.fr>
 References: <cover.1781270474.git.jeremy.rosen@smile.fr>
@@ -64,156 +64,153 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 14:26:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238627
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2026 14:26:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238636
 
-From: "Hugo SIMELIERE (Schneider Electric)" <hsimeliere.opensource@witekio.com>
+From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
 
-Pick patch from [1] as 2.39.x upstream backport of [2] mentioned in Debian report in [3].
+Backport patch from [1] mentionned in [2]
 
-[1] https://github.com/util-linux/util-linux/commit/79164668a412b71fcb1495c7d299cc5e9741fa30
-[2] https://github.com/util-linux/util-linux/commit/0ba0f14caa812349424df0da00ac2d97fee9d972
-[3] https://security-tracker.debian.org/tracker/CVE-2026-27456
+[1] https://go.dev/cl/759940
 
-Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
-Reviewed-by: Bruno VERNAY <bruno.vernay@se.com>
+[2] https://security-tracker.debian.org/tracker/CVE-2026-39820
+
+Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
+Reviewed-by: Bruno Vernay <bruno.vernay@se.com>
 Signed-off-by: Jeremy Rosen <jeremy.rosen@smile.fr>
 ---
- meta/recipes-core/util-linux/util-linux.inc   |   1 +
- .../util-linux/CVE-2026-27456.patch           | 115 ++++++++++++++++++
- 2 files changed, 116 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-27456.patch
+ meta/recipes-devtools/go/go-1.22.12.inc       |   1 +
+ .../go/go/CVE-2026-39820.patch                | 112 ++++++++++++++++++
+ 2 files changed, 113 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39820.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 4797682c5d..8380419634 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -46,6 +46,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://sys-utils-hwclock-rtc-fix-pointer-usage.patch \
-            file://CVE-2025-14104-01.patch \
-            file://CVE-2025-14104-02.patch \
-+           file://CVE-2026-27456.patch \
-            "
+diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
+index dba826011b..002d443059 100644
+--- a/meta/recipes-devtools/go/go-1.22.12.inc
++++ b/meta/recipes-devtools/go/go-1.22.12.inc
+@@ -48,6 +48,7 @@ SRC_URI += "\
+     file://CVE-2026-33811.patch \
+     file://CVE-2026-39817.patch \
+     file://CVE-2026-39819.patch \
++    file://CVE-2026-39820.patch \
+ "
+ SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
  
- SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-27456.patch b/meta/recipes-core/util-linux/util-linux/CVE-2026-27456.patch
+diff --git a/meta/recipes-devtools/go/go/CVE-2026-39820.patch b/meta/recipes-devtools/go/go/CVE-2026-39820.patch
 new file mode 100644
-index 0000000000..4a5fef26d3
+index 0000000000..c5f84282a9
 --- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-27456.patch
-@@ -0,0 +1,115 @@
-+From af0b619f8eb15f738c69e33e0bb3a794e9cccf17 Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Thu, 19 Feb 2026 13:59:46 +0100
-+Subject: [PATCH] loopdev: add LOOPDEV_FL_NOFOLLOW to prevent symlink attacks
++++ b/meta/recipes-devtools/go/go/CVE-2026-39820.patch
+@@ -0,0 +1,112 @@
++From e459f8fe1061679f866c599210466db386348f08 Mon Sep 17 00:00:00 2001
++From: mohammadmseet-hue <mohammadmseet@gmail.com>
++Date: Sat, 4 Apr 2026 05:17:25 +0000
++Subject: [PATCH] net/mail: fix quadratic complexity in consumeComment
 +
-+Add a new LOOPDEV_FL_NOFOLLOW flag for loop device context that
-+prevents symlink following in both path canonicalization and file open.
++consumeComment builds the comment string by repeated string
++concatenation inside a loop. Each concatenation copies the
++entire string built so far, making the function O(n^2) in the
++depth of nested comments.
 +
-+When set:
-+- loopcxt_set_backing_file() uses strdup() instead of
-+  ul_canonicalize_path() (which calls realpath() and follows symlinks)
-+- loopcxt_setup_device() adds O_NOFOLLOW to open() flags
++Replace the concatenation with a strings.Builder, which
++amortizes allocation by doubling its internal buffer. This
++reduces consumeComment from O(n^2) to O(n).
 +
-+The flag is set for non-root (restricted) mount operations in
-+libmount's loop device hook. This prevents a TOCTOU race condition
-+where an attacker could replace the backing file (specified in
-+/etc/fstab) with a symlink to an arbitrary root-owned file between
-+path resolution and open().
++This is the same bug class as the consumeDomainLiteral fix
++in CVE-2025-61725.
 +
-+Vulnerable Code Flow:
++Benchmark results (benchstat, 8 runs):
 +
-+  mount /mnt/point (non-root, SUID)
-+    mount.c: sanitize_paths() on user args (mountpoint only)
-+    mnt_context_mount()
-+      mnt_context_prepare_mount()
-+        mnt_context_apply_fstab()           <-- source path from fstab
-+        hooks run at MNT_STAGE_PREP_SOURCE
-+          hook_loopdev.c: setup_loopdev()
-+            backing_file = fstab source path ("/home/user/disk.img")
-+            loopcxt_set_backing_file()       <-- calls realpath() as ROOT
-+              ul_canonicalize_path()         <-- follows symlinks!
-+            loopcxt_setup_device()
-+              open(lc->filename, O_RDWR|O_CLOEXEC)  <-- no O_NOFOLLOW
++  name                        old time/op  new time/op  delta
++  ConsumeComment/depth10      2.481us      1.838us      -25.92%
++  ConsumeComment/depth100     86.58us      6.498us      -92.50%
++  ConsumeComment/depth1000    7.963ms      52.82us      -99.34%
++  ConsumeComment/depth10000   897.8ms      521.3us      -99.94%
 +
-+Two vulnerabilities in the path:
++The quadratic cost becomes visible at depth 100 and dominant
++by depth 1000. At depth 10000, the fix is roughly 1700x
++faster.
 +
-+1) loopcxt_set_backing_file() calls ul_canonicalize_path() which uses
-+   realpath() -- this follows symlinks as euid=0. If the attacker swaps
-+   the file to a symlink before this call, lc->filename becomes the
-+   resolved target path (e.g., /root/secret.img).
++Change-Id: I3c927f02646fcab7bab167cb82fd46d3327d6d34
++GitHub-Last-Rev: 7742dad716ee371766543f88e82bd163bd9d7ac2
++GitHub-Pull-Request: golang/go#78393
++Reviewed-on: https://go-review.googlesource.com/c/go/+/759940
++Reviewed-by: Sean Liao <sean@liao.dev>
++LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
++Auto-Submit: Sean Liao <sean@liao.dev>
++Reviewed-by: David Chase <drchase@google.com>
++Reviewed-by: Junyang Shao <shaojunyang@google.com>
 +
-+2) loopcxt_setup_device() opens lc->filename without O_NOFOLLOW. Even
-+   if canonicalization happened correctly, the file can be swapped to a
-+   symlink between canonicalize and open.
-+
-+CVE: CVE-2026-27456
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/79164668a412b71fcb1495c7d299cc5e9741fa30]
-+
-+Addresses: https://github.com/util-linux/util-linux/security/advisories/GHSA-qq4x-vfq4-9h9g
-+Signed-off-by: Karel Zak <kzak@redhat.com>
-+(cherry picked from commit 5e390467b26a3cf3fecc04e1a0d482dff3162fc4)
-+(cherry picked from commit 79164668a412b71fcb1495c7d299cc5e9741fa30)
-+Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
++CVE: CVE-2026-39820
++Upstream-Status: Backport [https://github.com/golang/go/commit/0d0799f055dcc9b3b41df74bee3fbe398ae2f0e7]
++Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 +---
-+ include/loopdev.h           | 3 ++-
-+ lib/loopdev.c               | 7 ++++++-
-+ libmount/src/hook_loopdev.c | 3 ++-
-+ 3 files changed, 10 insertions(+), 3 deletions(-)
++ src/net/mail/message.go      |  6 +++---
++ src/net/mail/message_test.go | 19 +++++++++++++++++++
++ 2 files changed, 22 insertions(+), 3 deletions(-)
 +
-+diff --git a/include/loopdev.h b/include/loopdev.h
-+index 903adc491..d03e9b65e 100644
-+--- a/include/loopdev.h
-++++ b/include/loopdev.h
-+@@ -139,7 +139,8 @@ enum {
-+ 	LOOPDEV_FL_NOIOCTL	= (1 << 6),
-+ 	LOOPDEV_FL_DEVSUBDIR	= (1 << 7),
-+ 	LOOPDEV_FL_CONTROL	= (1 << 8),	/* system with /dev/loop-control */
-+-	LOOPDEV_FL_SIZELIMIT	= (1 << 9)
-++	LOOPDEV_FL_SIZELIMIT	= (1 << 9),
-++	LOOPDEV_FL_NOFOLLOW	= (1 << 10)	/* O_NOFOLLOW, don't follow symlinks */
-+ };
++diff --git a/src/net/mail/message.go b/src/net/mail/message.go
++index fc2a9e46f8..37d7ff5df1 100644
++--- a/src/net/mail/message.go
+++++ b/src/net/mail/message.go
++@@ -780,7 +780,7 @@ func (p *addrParser) consumeComment() (string, bool) {
++ 	// '(' already consumed.
++ 	depth := 1
 + 
-+ /*
-+diff --git a/lib/loopdev.c b/lib/loopdev.c
-+index dd9ead3ee..4da251812 100644
-+--- a/lib/loopdev.c
-++++ b/lib/loopdev.c
-+@@ -1193,7 +1193,10 @@ int loopcxt_set_backing_file(struct loopdev_cxt *lc, const char *filename)
-+ 	if (!lc)
-+ 		return -EINVAL;
-+ 
-+-	lc->filename = canonicalize_path(filename);
-++	if (lc->flags & LOOPDEV_FL_NOFOLLOW)
-++		lc->filename = strdup(filename);
-++	else
-++		lc->filename = canonicalize_path(filename);
-+ 	if (!lc->filename)
-+ 		return -errno;
-+ 
-+@@ -1332,6 +1335,8 @@ int loopcxt_setup_device(struct loopdev_cxt *lc)
-+ 
-+ 	if (lc->config.info.lo_flags & LO_FLAGS_DIRECT_IO)
-+ 		flags |= O_DIRECT;
-++	if (lc->flags & LOOPDEV_FL_NOFOLLOW)
-++		flags |= O_NOFOLLOW;
-+ 
-+ 	if ((file_fd = open(lc->filename, mode | flags)) < 0) {
-+ 		if (mode != O_RDONLY && (errno == EROFS || errno == EACCES))
-+diff --git a/libmount/src/hook_loopdev.c b/libmount/src/hook_loopdev.c
-+index 8c8f7f218..ce39a7a70 100644
-+--- a/libmount/src/hook_loopdev.c
-++++ b/libmount/src/hook_loopdev.c
-+@@ -276,7 +276,8 @@ static int setup_loopdev(struct libmnt_context *cxt,
++-	var comment string
+++	var comment strings.Builder
++ 	for {
++ 		if p.empty() || depth == 0 {
++ 			break
++@@ -794,12 +794,12 @@ func (p *addrParser) consumeComment() (string, bool) {
++ 			depth--
++ 		}
++ 		if depth > 0 {
++-			comment += p.s[:1]
+++			comment.WriteByte(p.s[0])
++ 		}
++ 		p.s = p.s[1:]
 + 	}
 + 
-+ 	DBG(LOOP, ul_debugobj(cxt, "not found; create a new loop device"));
-+-	rc = loopcxt_init(&lc, 0);
-++	rc = loopcxt_init(&lc,
-++			mnt_context_is_restricted(cxt) ? LOOPDEV_FL_NOFOLLOW : 0);
-+ 	if (rc)
-+ 		goto done_no_deinit;
-+ 	if (mnt_opt_has_value(loopopt)) {
++-	return comment, depth == 0
+++	return comment.String(), depth == 0
++ }
++ 
++ func (p *addrParser) decodeRFC2047Word(s string) (word string, isEncoded bool, err error) {
++diff --git a/src/net/mail/message_test.go b/src/net/mail/message_test.go
++index 1f2f62afbf..1b165317f9 100644
++--- a/src/net/mail/message_test.go
+++++ b/src/net/mail/message_test.go
++@@ -6,6 +6,7 @@ package mail
++ 
++ import (
++ 	"bytes"
+++	"fmt"
++ 	"io"
++ 	"mime"
++ 	"reflect"
++@@ -1217,3 +1218,21 @@ func TestEmptyAddress(t *testing.T) {
++ 		t.Errorf(`ParseAddressList("") = %v, %v, want nil, error`, list, err)
++ 	}
++ }
+++
+++func BenchmarkConsumeComment(b *testing.B) {
+++	for _, n := range []int{10, 100, 1000, 10000} {
+++		b.Run(fmt.Sprintf("depth-%d", n), func(b *testing.B) {
+++			// Build a deeply nested comment: (((...a...)))
+++			open := strings.Repeat("(", n)
+++			close := strings.Repeat(")", n)
+++			// consumeComment expects the leading '(' already consumed,
+++			// so we start with one fewer opening paren and the parser
+++			// will handle nesting from there.
+++			input := open[:n-1] + "a" + close
+++			for b.Loop() {
+++				p := addrParser{s: input}
+++				p.consumeComment()
+++			}
+++		})
+++	}
+++}
 +-- 
 +2.43.0
 +
