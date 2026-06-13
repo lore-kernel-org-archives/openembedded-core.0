@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 301FACD98E2
-	for <webhook@archiver.kernel.org>; Sat, 13 Jun 2026 07:50:35 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.87191.1781337024871419158
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFCD4CD98DF
+	for <webhook@archiver.kernel.org>; Sat, 13 Jun 2026 07:50:34 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.87194.1781337025623345509
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Jun 2026 00:50:24 -0700
+ Sat, 13 Jun 2026 00:50:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=flZ5fUcZ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=PAnX7ZoC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019ebff5e62e-516567d0-4dd1-404e-a773-b19b0aee3b8e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Hm82jmfN;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=UHZ/tdTB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019ebff5e9a6-0bdaa310-9f2f-4e1c-97b0-0b65eefa051e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781337024;
+	t=1781337025;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=WSWJ8PHVTY5+cWaWpp2Vl5tp0vOQdF1NTK0HOOBQhOU=;
-	b=flZ5fUcZHs6JD3vpQP1tvo4eR3Bbz40NqabMkYJscNdqzC1SQSM7vZz6NDb82QRN
-	VK1vYrRPVP0yoBQvYZBadHUQjiGOFQHd/tEdlJPk+0Kk0pat7gxDMePaXXRbdld3wsa
-	k3oStVCC32OvNTpETaDK9D/7Uk3R/I2P4pCLBFVY=
+	bh=ZQNJfdDFyWiGY2gfs7Zvge5RUxM3TbAIroOZan4hXJc=;
+	b=Hm82jmfNeUl6QS8UON6ysdRKTCvaBRtB2QERDQ51LORh0vwDb+q6rRlLFM+5Dg8I
+	qdgj9zSPz+6lznZRkVvLal9KfOg9ekK5TMmyPugUh+xbIr/PDamws8YPY7aitp/69iq
+	W8UESYdXd5dZw3F/m8CUdUGOLrtiHHnu5Yfu4SGU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781337024;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781337025;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=WSWJ8PHVTY5+cWaWpp2Vl5tp0vOQdF1NTK0HOOBQhOU=;
-	b=PAnX7ZoCQRwECtrLPvfsbj8jZARA3QqWH8Mnb2QtDJGzMGTuvyrUr2J4YpOEbWbz
-	R6NRlaY8MllsVkAAJw18EbvCpZnrb5pzXCYY3oGBk2N2iFwmkJA9gG3DdMs8VFczDXp
-	5kS3ONlZaB9Cxnu+OXLrUZbsj+o/yaE9pxLsaYIA=
-Content-Type: multipart/mixed; boundary="===============5448343157874160456=="
+	bh=ZQNJfdDFyWiGY2gfs7Zvge5RUxM3TbAIroOZan4hXJc=;
+	b=UHZ/tdTBe+Cd84KKLqO0ydX/gzY9A8ilgETNDITNr0LryDXaczTYZ5dHapgLQHIm
+	6ybPuZX5s9W1PRx6dW1r76A59888X4QdGVYq4ADlQ5AyuM/Y4beUMaNYoF1oGQZQyXM
+	0PGDRYUWZ4zpwUva0YcOpO6lEkOZwwVChZG12AEk=
+Content-Type: multipart/mixed; boundary="===============7690389769721067528=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] libmodulemd: upgrading to 2.15.3 SUCCEEDED
-Message-ID: <0101019ebff5e62e-516567d0-4dd1-404e-a773-b19b0aee3b8e-000000@us-west-2.amazonses.com>
+Subject: [AUH] gst-devtools: upgrading to 1.28.4 SUCCEEDED
+Message-ID: <0101019ebff5e9a6-0bdaa310-9f2f-4e1c-97b0-0b65eefa051e-000000@us-west-2.amazonses.com>
 Date: Sat, 13 Jun 2026 07:50:24 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.13-54.240.27.192
+X-SES-Outgoing: 2026.06.13-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Jun 2026 07:50:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238655
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Jun 2026 07:50:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238658
 
---===============5448343157874160456==
+--===============7690389769721067528==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libmodulemd* to *2.15.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gst-devtools* to *1.28.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libmodulemd-upgrade-2.15.2-2.15.3.patch
+    - apply the patch: git am 0001-gst-devtools-upgrade-1.28.2-1.28.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,109 +72,141 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From cb6dbeebdf96f7c5dbedd2f33afb9d803b6d460a Mon Sep 17 00:00:00 2001
+From aedda7ac24cafcca7e5056f4a5abd13c4472a9e4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 13 Jun 2026 07:14:17 +0000
-Subject: [PATCH] libmodulemd: upgrade 2.15.2 -> 2.15.3
+Date: Sat, 13 Jun 2026 07:32:09 +0000
+Subject: [PATCH] gst-devtools: upgrade 1.28.2 -> 1.28.4
 
 ---
- .../{libmodulemd_2.15.2.bb => libmodulemd_2.15.3.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/libmodulemd/{libmodulemd_2.15.2.bb => libmodulemd_2.15.3.bb} (94%)
+ .../0001-connect-has-a-different-signature-on-musl.patch        | 2 +-
+ .../{gst-devtools_1.28.2.bb => gst-devtools_1.28.4.bb}          | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.28.2.bb => gst-devtools_1.28.4.bb} (95%)
 
-diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_2.15.2.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_2.15.3.bb
-similarity index 94%
-rename from meta/recipes-devtools/libmodulemd/libmodulemd_2.15.2.bb
-rename to meta/recipes-devtools/libmodulemd/libmodulemd_2.15.3.bb
-index 32d2a39c41..4627e53428 100644
---- a/meta/recipes-devtools/libmodulemd/libmodulemd_2.15.2.bb
-+++ b/meta/recipes-devtools/libmodulemd/libmodulemd_2.15.3.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=25a3927bff3ee4f5b21bcb0ed3fcd6bb"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
+index 34fcf6a30a..a348624e49 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
+@@ -1,4 +1,4 @@
+-From 13b0d8e55ad490c8e867c740da2a00eb49319f8e Mon Sep 17 00:00:00 2001
++From bb36ab400ee8b84b8f604aa3314952b7df2aeda6 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sun, 9 Sep 2018 17:38:10 -0700
+ Subject: [PATCH] connect has a different signature on musl
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.4.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.28.2.bb
+rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.28.4.bb
+index cbe488a049..9641e42d38 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.4.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
+            file://0001-connect-has-a-different-signature-on-musl.patch \
+            "
  
- SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=main;tag=${PV}"
+-SRC_URI[sha256sum] = "8e012bdcb55503f466d53f1f05e13e8993c69811b9db77cd16a8f6467723bf91"
++SRC_URI[sha256sum] = "11d4f1188639d3a9762039065bbb7b2c309b7a8ecc6fa4aed12245568bf00db3"
  
--SRCREV = "b8b11b4dafaa2c4d73883152bfa7e5bd81cd7395"
-+SRCREV = "a8f1c5b1243a8e844a276094007a2bbf8a13b40f"
- 
- inherit meson gobject-introspection pkgconfig manpages
- 
+ DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
+ RRECOMMENDS:${PN} = "git"
 -- 
 2.47.1
 
 
---===============5448343157874160456==
+--===============7690389769721067528==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libmodulemd: PV changed from "2.15.2" to "2.15.3"
-packages/x86-64-v3-poky-linux/libmodulemd: PKGV changed from 2.15.2 [default] to 2.15.3 [default]
-packages/x86-64-v3-poky-linux/libmodulemd: SRC_URI changed from "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=main;tag=2.15.2" to "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=main;tag=2.15.3"
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-dbg: PV changed from "2.15.2" to "2.15.3"
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-dbg: FILELIST: removed "/usr/lib/.debug/libmodulemd.so.2.15.2", added "/usr/lib/.debug/libmodulemd.so.2.15.3"
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-dbg: PKGV changed from 2.15.2 [default] to 2.15.3 [default]
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-dbg: PKGSIZE changed from 1837272 to 1839744 (+0%)
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-dev: PV changed from "2.15.2" to "2.15.3"
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-dev: PKGV changed from 2.15.2 [default] to 2.15.3 [default]
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-dev: PKGSIZE changed from 996841 to 996849 (+0%)
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-doc: PV changed from "2.15.2" to "2.15.3"
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-doc: PKGV changed from 2.15.2 [default] to 2.15.3 [default]
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-locale: PV changed from "2.15.2" to "2.15.3"
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-locale: PKGV changed from 2.15.2 [default] to 2.15.3 [default]
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-src: PV changed from "2.15.2" to "2.15.3"
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-src: FILELIST: directory renamed /usr/src/debug/libmodulemd/2.15.2/modulemd/include/modulemd-2.0 -> /usr/src/debug/libmodulemd/2.15.3/modulemd/include/modulemd-2.0, directory renamed /usr/src/debug/libmodulemd/2.15.2/modulemd -> /usr/src/debug/libmodulemd/2.15.3/modulemd, directory renamed /usr/src/debug/libmodulemd/2.15.2/modulemd/include/private -> /usr/src/debug/libmodulemd/2.15.3/modulemd/include/private
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-src: PKGV changed from 2.15.2 [default] to 2.15.3 [default]
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-src: PKGSIZE changed from 1223867 to 1225411 (+0%)
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-staticdev: PV changed from "2.15.2" to "2.15.3"
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd-staticdev: PKGV changed from 2.15.2 [default] to 2.15.3 [default]
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd: PV changed from "2.15.2" to "2.15.3"
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd: FILELIST: removed "/usr/lib/libmodulemd.so.2.15.2", added "/usr/lib/libmodulemd.so.2.15.3"
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd: PKGV changed from 2.15.2 [default] to 2.15.3 [default]
-Changes to packages/x86-64-v3-poky-linux/libmodulemd (sysroot):
-  /usr/lib/libmodulemd.so.2 changed symlink target from libmodulemd.so.2.15.2 to libmodulemd.so.2.15.3
-  /usr/lib/libmodulemd.so.2.15.2 moved to /usr/lib/libmodulemd.so.2.15.3
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-dbg: FILELIST: removed "/usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2802.0 /usr/lib/.debug/libgstvalidate-1.0.so.0.2802.0", added "/usr/lib/.debug/libgstvalidate-1.0.so.0.2804.0 /usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2804.0"
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-dbg: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-dbg: PKGSIZE changed from 3113328 to 3114136 (+0%)
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-dbg: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-dev: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-dev: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-doc: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-doc: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-locale: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-locale: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-src: FILELIST: directory renamed /usr/src/debug/gst-devtools/1.28.2/validate/plugins/gapplication -> /usr/src/debug/gst-devtools/1.28.4/validate/plugins/gapplication, directory renamed /usr/src/debug/gst-devtools/1.28.2/validate/gst/validate/flow -> /usr/src/debug/gst-devtools/1.28.4/validate/gst/validate/flow, directory renamed /usr/src/debug/gst-devtools/1.28.2/validate/tools -> /usr/src/debug/gst-devtools/1.28.4/validate/tools, directory renamed /usr/src/debug/gst-devtools/1.28.2/validate/plugins/fault_injection -> /usr/src/debug/gst-devtools/1.28.4/validate/plugins/fault_injection, directory renamed /usr/src/debug/gst-devtools/1.28.2/validate/gst/validate -> /usr/src/debug/gst-devtools/1.28.4/validate/gst/validate, directory renamed /usr/src/debug/gst-devtools/1.28.2/validate/gst/overrides -> /usr/src/debug/gst-devtools/1.28.4/validate/gst/overrides
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-src: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-src: PKGSIZE changed from 1014249 to 1014244 (-0%)
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-src: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-staticdev: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools-staticdev: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2802.0 /usr/lib/libgstvalidate-1.0.so.0.2802.0", added "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2804.0 /usr/lib/libgstvalidate-1.0.so.0.2804.0"
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools: PKGSIZE changed from 1527038 to 1527851 (+0%)
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gst-devtools: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.28.2.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch" to "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.28.4.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch"
+packages/x86-64-v3-poky-linux/gst-devtools: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gst-devtools: PV changed from "1.28.2" to "1.28.4"
+Changes to packages/x86-64-v3-poky-linux/gst-devtools (sysroot):
+  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2802.0 to libgstvalidate-1.0.so.0.2804.0
+  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2802.0 to libgstvalidate-default-overrides-1.0.so.0.2804.0
+  /usr/lib/libgstvalidate-1.0.so.0.2802.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2804.0
+  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2802.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2804.0
 
---===============5448343157874160456==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libmodulemd-upgrade-2.15.2-2.15.3.patch"
-
-RnJvbSBjYjZkYmVlYmRmOTZmN2M1ZGJlZGQyZjMzYWZiOWQ4MDNiNmQ0NjBhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTMgSnVuIDIwMjYgMDc6MTQ6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJtb2R1bGVtZDogdXBncmFkZSAyLjE1LjIgLT4gMi4xNS4zCgotLS0KIC4uLi97bGlibW9kdWxl
-bWRfMi4xNS4yLmJiID0+IGxpYm1vZHVsZW1kXzIuMTUuMy5iYn0gICAgICAgICAgICB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9saWJtb2R1bGVtZC97bGlibW9kdWxlbWRfMi4xNS4yLmJiID0+
-IGxpYm1vZHVsZW1kXzIuMTUuMy5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvbGlibW9kdWxlbWQvbGlibW9kdWxlbWRfMi4xNS4yLmJiIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2xpYm1vZHVsZW1kL2xpYm1vZHVsZW1kXzIuMTUuMy5iYgpzaW1pbGFyaXR5IGlu
-ZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlibW9kdWxlbWQvbGli
-bW9kdWxlbWRfMi4xNS4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlibW9k
-dWxlbWQvbGlibW9kdWxlbWRfMi4xNS4zLmJiCmluZGV4IDMyZDJhMzljNDEuLjQ2MjdlNTM0Mjgg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJtb2R1bGVtZC9saWJtb2R1bGVt
-ZF8yLjE1LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYm1vZHVsZW1kL2xpYm1v
-ZHVsZW1kXzIuMTUuMy5iYgpAQCAtNiw3ICs2LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxl
-Oi8vQ09QWUlORzttZDU9MjVhMzkyN2JmZjNlZTRmNWIyMWJjYjBlZDNmY2Q2YmIiCiAKIFNSQ19V
-UkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9mZWRvcmEtbW9kdWxhcml0eS9saWJtb2R1bGVtZDtwcm90
-b2NvbD1odHRwczticmFuY2g9bWFpbjt0YWc9JHtQVn0iCiAKLVNSQ1JFViA9ICJiOGIxMWI0ZGFm
-YWEyYzRkNzM4ODMxNTJiZmE3ZTViZDgxY2Q3Mzk1IgorU1JDUkVWID0gImE4ZjFjNWIxMjQzYThl
-ODQ0YTI3NjA5NDAwN2EyYmJmOGExM2I0MGYiCiAKIGluaGVyaXQgbWVzb24gZ29iamVjdC1pbnRy
-b3NwZWN0aW9uIHBrZ2NvbmZpZyBtYW5wYWdlcwogCi0tIAoyLjQ3LjEKCg==
-
---===============5448343157874160456==
+--===============7690389769721067528==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/libmodulemd/libmodulemd: FILELIST: removed "/usr/lib/libmodulemd.so.2.15.2", added "/usr/lib/libmodulemd.so.2.15.3"
-Changes to packages/x86-64-v3-poky-linux/libmodulemd (sysroot):
-  /usr/lib/libmodulemd.so.2 changed symlink target from libmodulemd.so.2.15.2 to libmodulemd.so.2.15.3
-  /usr/lib/libmodulemd.so.2.15.2 moved to /usr/lib/libmodulemd.so.2.15.3
+packages/x86-64-v3-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2802.0 /usr/lib/libgstvalidate-1.0.so.0.2802.0", added "/usr/lib/libgstvalidate-1.0.so.0.2804.0 /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2804.0"
+Changes to packages/x86-64-v3-poky-linux/gst-devtools (sysroot):
+  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2802.0 to libgstvalidate-1.0.so.0.2804.0
+  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2802.0 to libgstvalidate-default-overrides-1.0.so.0.2804.0
+  /usr/lib/libgstvalidate-1.0.so.0.2802.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2804.0
+  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2802.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2804.0
 
---===============5448343157874160456==--
+--===============7690389769721067528==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gst-devtools-upgrade-1.28.2-1.28.4.patch"
+
+RnJvbSBhZWRkYTdhYzI0Y2FmY2NhN2U1MDU2ZjRhNWFiZDEzYzQ0NzJhOWU0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTMgSnVuIDIwMjYgMDc6MzI6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3QtZGV2dG9vbHM6IHVwZ3JhZGUgMS4yOC4yIC0+IDEuMjguNAoKLS0tCiAuLi4vMDAwMS1jb25u
+ZWN0LWhhcy1hLWRpZmZlcmVudC1zaWduYXR1cmUtb24tbXVzbC5wYXRjaCAgICAgICAgfCAyICst
+CiAuLi4ve2dzdC1kZXZ0b29sc18xLjI4LjIuYmIgPT4gZ3N0LWRldnRvb2xzXzEuMjguNC5iYn0g
+ICAgICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
+dGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdC1k
+ZXZ0b29sc18xLjI4LjIuYmIgPT4gZ3N0LWRldnRvb2xzXzEuMjguNC5iYn0gKDk1JSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWRldnRvb2xzLzAw
+MDEtY29ubmVjdC1oYXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11c2wucGF0Y2ggYi9tZXRh
+L3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWRldnRvb2xzLzAwMDEtY29ubmVjdC1o
+YXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11c2wucGF0Y2gKaW5kZXggMzRmY2Y2YTMwYS4u
+YTM0ODYyNGU0OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
+L2dzdC1kZXZ0b29scy8wMDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1t
+dXNsLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2
+dG9vbHMvMDAwMS1jb25uZWN0LWhhcy1hLWRpZmZlcmVudC1zaWduYXR1cmUtb24tbXVzbC5wYXRj
+aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMTNiMGQ4ZTU1YWQ0OTBjOGU4NjdjNzQwZGEyYTAwZWI0
+OTMxOWY4ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYmIzNmFiNDAwZWU4Yjg0Yjhm
+NjA0YWEzMzE0OTUyYjdkZjJhZWRhNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEto
+ZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTdW4sIDkgU2VwIDIwMTggMTc6Mzg6
+MTAgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gY29ubmVjdCBoYXMgYSBkaWZmZXJlbnQgc2lnbmF0
+dXJlIG9uIG11c2wKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
+ci9nc3QtZGV2dG9vbHNfMS4yOC4yLmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVh
+bWVyL2dzdC1kZXZ0b29sc18xLjI4LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29sc18xLjI4LjIu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9v
+bHNfMS4yOC40LmJiCmluZGV4IGNiZTQ4OGEwNDkuLjk2NDFlNDJkMzggMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHNfMS4yOC4yLmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHNfMS4yOC40
+LmJiCkBAIC0xMiw3ICsxMiw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9nc3RyZWFtZXIuZnJlZWRl
+c2t0b3Aub3JnL3NyYy9nc3QtZGV2dG9vbHMvZ3N0LWRldnRvb2xzLSR7UFZ9CiAgICAgICAgICAg
+IGZpbGU6Ly8wMDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1tdXNsLnBh
+dGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGUwMTJiZGNiNTU1
+MDNmNDY2ZDUzZjFmMDVlMTNlODk5M2M2OTgxMWI5ZGI3N2NkMTZhOGY2NDY3NzIzYmY5MSIKK1NS
+Q19VUklbc2hhMjU2c3VtXSA9ICIxMWQ0ZjExODg2MzlkM2E5NzYyMDM5MDY1YmJiN2IyYzMwOWI3
+YThlY2M2ZmE0YWVkMTIyNDU1NjhiZjAwZGIzIgogCiBERVBFTkRTID0gImpzb24tZ2xpYiBnbGli
+LTIuMCBnbGliLTIuMC1uYXRpdmUgZ3N0cmVhbWVyMS4wIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJh
+c2UiCiBSUkVDT01NRU5EUzoke1BOfSA9ICJnaXQiCi0tIAoyLjQ3LjEKCg==
+
+--===============7690389769721067528==--
 
