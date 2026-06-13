@@ -1,129 +1,88 @@
-Return-Path: <contact@schnwalter.eu>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 158FECD8CA8
-	for <webhook@archiver.kernel.org>; Sat, 13 Jun 2026 12:11:43 +0000 (UTC)
-Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.89945.1781352695085861124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BC0ECD8CA8
+	for <webhook@archiver.kernel.org>; Sat, 13 Jun 2026 12:55:53 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.90386.1781355350853147638
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Jun 2026 05:11:35 -0700
+ Sat, 13 Jun 2026 05:55:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@schnwalter.eu header.s=fm2 header.b=DKXd7EG9;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=KpeClTJm;
- spf=pass (domain: schnwalter.eu, ip: 103.168.172.153, mailfrom: contact@schnwalter.eu)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 1A27E1400082;
-	Sat, 13 Jun 2026 08:11:34 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Sat, 13 Jun 2026 08:11:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=schnwalter.eu;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:message-id:mime-version
-	:reply-to:subject:subject:to:to; s=fm2; t=1781352694; x=
-	1781439094; bh=9zlbaCFO5j07hcerDwbaC7Z7aSQlF/jcdp+LDOkgYl0=; b=D
-	KXd7EG9oUFH6NCoUiw1vMq0INGgFAb3RXwdKPnFg6J1ctpF1MSs5gHu0I7pExnYE
-	bkTq5J174g9qebzvOnm9XzmAvaag9I6nXX9sVE0EsE91QRQQO1FdztJkoqnuRMeT
-	X4DgrXwTVeFHZloeOa94gQDW+gZxLzcgSVtawNMpPBLXYmJpsPuxz5VCkQKIPKhk
-	oufbXhB4fVyQsR3g6P0n3guHk34wEgrbCY0O7R0Spaf8xCS2edi0F5KDiLflmmUl
-	7vf+lujvOsQOLk4mKqDvBQQQtOUfeCJk3pMyb3xk9vIaKxCSCRDnxpgBH1nQp7eE
-	OuafXuHkgco2M6ropCVNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1781352694; x=1781439094; bh=9zlbaCFO5j07hcerDwbaC7Z7aSQl
-	F/jcdp+LDOkgYl0=; b=KpeClTJm2agGCKdZbrdJXtvbpWK4rQHR2ojD9ORr2tCh
-	fVuyaTqkmeJijjJXSDoHTtZ8Ek11o6sMUS5XDnhb5/rNd0zzCDHMspHHODoPkFkO
-	c6yUmne+JY6xZDYjqDBTGlgLtoUiU1QhF4CMvIBE/HaOBV9FDbYsZhu2hOt+PaUF
-	lYDEZ8jxbBgsJic83i8fxpvVfHx9AsjhqOnYY7gdWOcSbqx+AgGkfjKlgA1tv+n6
-	Md+biKS2GvNDYBcruxXA15SVSK6uE2M7Pjba6EtvwJGVpLBIFQ0OzZqfCs6GrZW2
-	7DCNmnuP7wdzegXO6TP6c/UPn3G4cattu+NgOhLypQ==
-X-ME-Sender: <xms:9UgtaptGoofdp9IGZolQaBgs95tbcide4NOiwu-OpFO2zIx96fhdMA>
-    <xme:9Ugtaofx_uRIBt6QTttbc7y2Ggnd4vhmT7eiQt4_5NRmeelgka1JXWFHF33Uzwh5_
-    rgXeUpVPbErXZJXMAotqL_HG0IJV5V249JXz0Vy4EJxLChC1p4qDg>
-X-ME-Received: <xmr:9UgtaqYWSXxUsb4S8FjQyZCQkm7lIooNs_nb-_CsLFUtfpHvNxP2JdlWsTg4b5oIiJdg_w>
-X-ME-Proxy-Cause: dmFkZTFD6J9Lw0yofr0qTA0oszvBoaBEJ1+dVlt+VxtlaOIDs8Hgp3LS+aJj/Z+tq2P1/R
-    7akNh5WcJ8scaombqsFM+MmcAYjyDDbN8Gprxn4vWznMdLiOb2RDDzdwi9VTX1IhVm9MmR
-    5nC8WnEXGzFAzD9UvD726CAfHi6tQzZvRTBxYR0pxrPSC5T9LJBRJwDbHZeaC8EaEh5r6U
-    8Tc0LM08cxV+c9G5dMvEq+vgco5GGVoFd6i8n8qwUzalCXbnuttpwcWAmSNGvipXIoDT65
-    wwmSeYPB4oibpesByBrYCTCh0djkEkiAF2QELcSsc3blX3Ls+ZwnkRahQ1YpdclgbYJza0
-    ZN/tSsnwNBHoHJZ0lMq3FESpejfPn0bFFwT0/3Pnl5PzGtUYKWT4PTneAC/zXuJMGFWQoS
-    cdamp18PgOj/2wslTMC6cjdLJ+ApbBzjqLpvILNr1IV4SDPNUbhhJ1pewODhqDCJhqM0vN
-    ytT4eFjIHr29hMIj4vCqN7wPhzwMCD4U0M6p6pM+q6LYk7tOuQnZXLGyMyoydfwbbX3ou1
-    kQOnM8uoJ4Upong2Z3Zo/URAlusLNOpcL/Y9OiZ0uIpcilyc+d/5HTZzYHvTdXGmcLs+i4
-    FqY9qsdCOgILayh4LvjqAaTa7MGrFYExGIUY/nl3bUpba7Cv+3vA7uqwLFvQ
-X-ME-Proxy: <xmx:9UgtarURWpLbk_omhnsE3DmmP2Y7uS5MtFkJa1dsWcjTSzAGqB4Qxw>
-    <xmx:9Ugtasil5G5WRL-uQi9SrJ-W-SmYR-5D7Mt9Gl4JY42F8JULuKPw3g>
-    <xmx:9UgtapUxRIaEHLV53_i69vXiaFdZ-1NbsfyIp7Fr25IajS92ClpU4g>
-    <xmx:9UgtajOthTYg6rI-jej-GsDhh_abNQFByn36Q4Jwn4_YJz2kTZmtcA>
-    <xmx:9kgtahRyaSnpOOlnlIDDKq02bQWcAkZ2hCFbSxdX6LIT46MSxvCrKGCy>
-Feedback-ID: i455149b6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 13 Jun 2026 08:11:33 -0400 (EDT)
-From: Walter Werner Schneider <contact@schnwalter.eu>
-Date: Sat, 13 Jun 2026 15:11:26 +0300
-Subject: [PATCH] devtool: provide explicit error for missing "script"
- command
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260613-script-command-not-found-v1-1-5c5f6742a6fa@schnwalter.eu>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqAIBAAvxJ7bsFNKegr0cFsqz2koRWB9Pek2
- 8xhJkPiKJygrzJEviVJ8EWorsBt1q+MMheHRjWtakljclGOE13Yd+tn9OHEJVyFyDBZPXFnSEH
- Jj8iLPP96GN/3A0xa9j9qAAAA
-X-Change-ID: 20260613-script-command-not-found-14e1a3be7410
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PAhQVL4V;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-45ef616daf6so1991720f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 13 Jun 2026 05:55:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1781355349; x=1781960149; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a6ep5Rwccm93ARzDa9gSQ2w9ftbLYDkQZtMY1G7aqUA=;
+        b=PAhQVL4Voy6iqZL+NcWoAeLfZOnh7OGhDUd9sCkIBXufdfakpvEGYd45JZriQF9fpq
+         4JFRorKQvPM44o/6vCU8uSoYfb8GpqotnG3U4zrlBVryyuoVNfMS/c/9tou3cpc2r7OG
+         D5tndz5rfmKKMMNMqFy0iMfitqER1RGYxFHuE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781355349; x=1781960149;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a6ep5Rwccm93ARzDa9gSQ2w9ftbLYDkQZtMY1G7aqUA=;
+        b=OX1FxO5eEN60p7wnGAvJL+P+yMn8itSyOwcOLKDvVdp46V8IQziK9YI/n58zFOFHM0
+         SMPVc/M3AU9hf4bWBd9ncqoBq01uBOCcko/0gXYzWvzgxpYNQTD5zsJqCwzBZOfutjDL
+         CCsEGMMVX6BKxpF544FCYJGnhfRE3JFSEPixonXl1fzPJ90bfhvOnWlcPsQgBTQRtwy/
+         E61r9iRQUF8pRRkw8BXN/oSzWhnp1hJRaNqZ3JmfMYqqUyTv1MmhJqhbqQlaG5MaEp3l
+         i5nEfpjwiVLpW8+3lvJHT5PUBud8zJOrFszESPEguCCFSvT3DNUeZ9NbvhdmgDpyIq/+
+         eiaQ==
+X-Gm-Message-State: AOJu0YwlVgC2DHyxex/cZ26XfBlyosZImW8Boelh6Tu/9B6PObK/khT/
+	TvllyQ8W/052M6J5nq89FM3XCp8Z+2kTmIYITlY3Kq+PwnBVcYtMWWIuUzXfI6ifimLoT3lSTYd
+	0XRIi
+X-Gm-Gg: Acq92OHLr3Cp2tI9TffREy8GkjRNHL+w46+UE3A6B1T7ab73otnksRZcwnXyd3RaKzK
+	EH01I82JAEXqZZqNOzgocDkPuisxBGmX3h0jn8S8sy7Vnh3JP2Rc4fJlR3S02JGUrTijaNwDF8G
+	Yk5u6m2WY/3vmhUEonFgja2Oob7IZqIalQ/bY4azi5D0H34Tp5gyHmAm/7vDTNzp64G5A62pafR
+	FcWDlIa03uV33Kmtq8/EMFeX0G3mFos0w/JtfTiq8CZ7TMaJXJG9Ls4BpIIgq9UgDtjptRfSWH3
+	+0jCS+UeO6uzQEAQYvOy0T/jalmIrtzPRUbq2DToERGKPcTvv6x4fN+AQGEmnDg6y64Cwac0jjs
+	9tMtmAbLlVFj9ke+UOB6oxFe3+Vl4SyEd46Jo8pD61ztCSXJWBu+k+bLoD78lyXA9UT3ui/P1+J
+	0sh8Y2Nxs5lR3qw5Ls5UkTbEZy24X69P1R7XQOYekvlWoY4CAKbID6
+X-Received: by 2002:a05:6000:438a:b0:453:e3a1:6580 with SMTP id ffacd0b85a97d-4606dbad46dmr9824325f8f.25.1781355348853;
+        Sat, 13 Jun 2026 05:55:48 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:4437:5798:e78b:2888])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2b0d28sm15571002f8f.20.2026.06.13.05.55.48
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jun 2026 05:55:48 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Walter Werner Schneider <contact@schnwalter.eu>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781352692; l=1445;
- i=contact@schnwalter.eu; s=20251106; h=from:subject:message-id;
- bh=TJk91j2B45YX26tqc5mEMvl8sUDymTqXJwF6+sNnp6Q=;
- b=LvkT8wWX0rCt69j3fU2/VnOpz/y6iaZrAWZ7Ddl0nsUBb/hhRKTuQazELH7ErcUl/q4TPDQlP
- tP8KblKoJ+/A3+iJ0ittnFPEO9zJ1kDbgyYRXPLhcye7d7U8TsG8nXx
-X-Developer-Key: i=contact@schnwalter.eu; a=ed25519;
- pk=OoafUGtB7zQJLYhKA7ALCjqddXAaem/uP/eb3GGNkTI=
+Subject: [PATCH 1/2] oeqa/maturin: Update dependency version
+Date: Sat, 13 Jun 2026 13:55:46 +0100
+Message-ID: <20260613125547.3358714-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Jun 2026 12:11:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238678
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Jun 2026 12:55:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238679
 
-Without this "script" command, the "devtool build" provides a very
-ambigous error: `/bin/sh: line 1: script: command not found`. With this
-patch we provide a more detailed error.
+There are security issues in earlier versions of pyo3, update the minimum version
+to avoid security warnings.
 
-On Fedora 43 the "script" command is not present by default, one needs
-to install the "util-linux-script" package. On other systems it's in a
-different package.
-
-Signed-off-by: Walter Werner Schneider <contact@schnwalter.eu>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/lib/devtool/__init__.py | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oeqa/files/maturin/guessing-game/Cargo.toml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
-index f47f57c465..58b02eb460 100644
---- a/scripts/lib/devtool/__init__.py
-+++ b/scripts/lib/devtool/__init__.py
-@@ -42,6 +42,9 @@ def exec_build_env_command(init_path, builddir, cmd, watch=False, **options):
-         init_prefix = ''
-     if watch:
-         if sys.stdout.isatty():
-+            import shutil
-+            if not shutil.which('script'):
-+                raise DevtoolError('The util-linux "script" command was not found')
-             # Fool bitbake into thinking it's outputting to a terminal (because it is, indirectly)
-             cmd = 'script -e -q -c "%s" /dev/null' % cmd
-         return exec_watch('%s%s' % (init_prefix, cmd), **options)
-
----
-base-commit: dcaea329458c741f47560d51732e3d9c88f3d5b4
-change-id: 20260613-script-command-not-found-14e1a3be7410
-
-Best regards,
--- 
-Walter Werner Schneider <contact@schnwalter.eu>
-
+diff --git a/meta/lib/oeqa/files/maturin/guessing-game/Cargo.toml b/meta/lib/oeqa/files/maturin/guessing-game/Cargo.toml
+index 5c0c06db4bc..0bf83bb6c43 100644
+--- a/meta/lib/oeqa/files/maturin/guessing-game/Cargo.toml
++++ b/meta/lib/oeqa/files/maturin/guessing-game/Cargo.toml
+@@ -14,7 +14,7 @@ crate-type = ["cdylib"]
+ rand = "0.9.0"
+ 
+ [dependencies.pyo3]
+-version = "0.27.2"
++version = "0.29.0"
+ # "abi3-py39" tells pyo3 (and maturin) to build using the stable ABI with minimum Python version 3.9
+ features = ["abi3-py39"]
+ 
 
