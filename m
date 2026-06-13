@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 978A3CD98DE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F60ACD98DA
 	for <webhook@archiver.kernel.org>; Sat, 13 Jun 2026 07:50:34 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.87192.1781337025499560530
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.87197.1781337027720383506
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Jun 2026 00:50:25 -0700
+ Sat, 13 Jun 2026 00:50:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=nH7i+0ZB;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=F6Bo/WJG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019ebff5e8af-2da017c9-93f0-4063-b5c0-1e192c288f60-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Xo9wCXrS;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nS4KvXwS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019ebff5f1c0-177dad7c-ff9f-4d8e-b3b6-fb6ccd672bf1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781337024;
+	t=1781337027;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=9W4fft9dc+BIahkWd5ALS0NFB+SCH6Kl/RJr6Z2DxBg=;
-	b=nH7i+0ZBCEdr1zoJ5NuuxVFB66DBxzkf0t2MGa01fOgig0nz7scXy9b8JQOO3jwf
-	8YvQUt7BoYnQgDEBGHD4bT3SSbjlNK9y9KsJ9gumY9ipmae1zTkuSBgvgGfUafjdXUk
-	TiCSSF4vo9YwjSGNH5DTpSGaLwT4J6AZu7c8zpOM=
+	bh=luFv1wLQLeWivqhaUIWauP/szUqoVoUUNtPUFi/OheM=;
+	b=Xo9wCXrSaQh0QyVFiCfHdRXoT0JtzGW4ttvfn/+nCXjp2QcXTkf0xoMPG8i2Sk8S
+	jZuGPqo80IdOfgQGLqzeNX8aa2mKA+wgrWqLB2h2gOWLoQ8g7OdeWH6k/Sg+u/WugjH
+	cWxu/N+H1777r0CssYPOui39/jBAIhiE6ioxHLJM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781337024;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781337027;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=9W4fft9dc+BIahkWd5ALS0NFB+SCH6Kl/RJr6Z2DxBg=;
-	b=F6Bo/WJGUakLytRhJG2xiNn4r/wyY9cgbeGfQigVZZjUCj/g+JhzUfkTkYw/0EnA
-	j02VqU1HCZJBjV3vT4h37Xw70mv7polHK/8EEw7+gn0a4x9ccoMI+VucuGBZvF76O92
-	MrrdygUKfpUJ16e1J1Bxugr4mtcUHJPR68OsKXlA=
-Content-Type: multipart/mixed; boundary="===============8995661182640328741=="
+	bh=luFv1wLQLeWivqhaUIWauP/szUqoVoUUNtPUFi/OheM=;
+	b=nS4KvXwSFWDgeRzQLe7667RBz9P+z+BDmOL3hp+Cadyu+TChl9jLIQwO/eNOOSy6
+	ru9i0GKMWP0mEjd8t4JyIp3+lnkzIT29HqaYxUkoQPfsCtlexriXDDyCT66iItVbwnp
+	8U5D/QTsEyfWCkohZa9CJ8c3nmMUNP7KxZIgF9Uw=
+Content-Type: multipart/mixed; boundary="===============7955927260065845201=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyopenssl: upgrading to 26.3.0 SUCCEEDED
-Message-ID: <0101019ebff5e8af-2da017c9-93f0-4063-b5c0-1e192c288f60-000000@us-west-2.amazonses.com>
-Date: Sat, 13 Jun 2026 07:50:24 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] gstreamer1.0: upgrading to 1.28.4 SUCCEEDED
+Message-ID: <0101019ebff5f1c0-177dad7c-ff9f-4d8e-b3b6-fb6ccd672bf1-000000@us-west-2.amazonses.com>
+Date: Sat, 13 Jun 2026 07:50:27 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.06.13-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 13 Jun 2026 07:50:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238657
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238662
 
---===============8995661182640328741==
+--===============7955927260065845201==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pyopenssl* to *26.3.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0* to *1.28.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pyopenssl-upgrade-26.2.0-26.3.0.patch
+    - apply the patch: git am 0001-gstreamer1.0-upgrade-1.28.2-1.28.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,105 +72,351 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 6209cc7872a127953994cd8e0a6aaee7774efdea Mon Sep 17 00:00:00 2001
+From f9ae224f650c207ff930e260c42e5ce38d8e81f3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 13 Jun 2026 07:22:08 +0000
-Subject: [PATCH] python3-pyopenssl: upgrade 26.2.0 -> 26.3.0
+Date: Sat, 13 Jun 2026 07:45:57 +0000
+Subject: [PATCH] gstreamer1.0: upgrade 1.28.2 -> 1.28.4
 
 ---
- ...{python3-pyopenssl_26.2.0.bb => python3-pyopenssl_26.3.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyopenssl_26.2.0.bb => python3-pyopenssl_26.3.0.bb} (85%)
+ .../0001-tests-respect-the-idententaion-used-in-meson.patch | 2 +-
+ .../0002-tests-add-support-for-install-the-tests.patch      | 6 +++---
+ .../0003-tests-use-a-dictionaries-for-environment.patch     | 2 +-
+ ...tests-add-helper-script-to-run-the-installed_tests.patch | 2 +-
+ .../{gstreamer1.0_1.28.2.bb => gstreamer1.0_1.28.4.bb}      | 2 +-
+ 5 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.28.2.bb => gstreamer1.0_1.28.4.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python3-pyopenssl_26.2.0.bb b/meta/recipes-devtools/python/python3-pyopenssl_26.3.0.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-pyopenssl_26.2.0.bb
-rename to meta/recipes-devtools/python/python3-pyopenssl_26.3.0.bb
-index 9660a03f89..c27f0719d1 100644
---- a/meta/recipes-devtools/python/python3-pyopenssl_26.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-pyopenssl_26.3.0.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+index e1d870b040..de255bf791 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+@@ -1,4 +1,4 @@
+-From ad4c577ff8d29f6dbaf5ca2d013e9d21c44f9122 Mon Sep 17 00:00:00 2001
++From 4e6aae8cbddb4567388f8f19919c2c17e36e0356 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 11 Apr 2021 19:48:13 +0100
+ Subject: [PATCH] tests: respect the idententaion used in meson
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+index 720a6f0c97..957356c2ba 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+@@ -1,4 +1,4 @@
+-From 92e7d4090fa458bf02d3418cd01c960982821e92 Mon Sep 17 00:00:00 2001
++From 34d24b8d66088d92ca306a488028dee82a6f6982 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 11 Apr 2021 19:48:13 +0100
+ Subject: [PATCH] tests: add support for install the tests
+@@ -19,10 +19,10 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+  create mode 100644 tests/check/template.test.in
  
- DEPENDS += "openssl python3-cryptography"
+ diff --git a/meson.build b/meson.build
+-index 8adc055..b5c9e5b 100644
++index abd0ad6..93cd692 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -667,6 +667,10 @@ if bashcomp_dep.found()
++@@ -661,6 +661,10 @@ if bashcomp_dep.found()
+    endif
+  endif
+  
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+index 1236290e2b..bc6dfe353a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+@@ -1,4 +1,4 @@
+-From 374c6ace83e9697aae0b21ba26f316b79279c39c Mon Sep 17 00:00:00 2001
++From f34bc3040b1564a3d39de4a4426326866c437dae Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 24 Apr 2021 10:34:47 +0100
+ Subject: [PATCH] tests: use a dictionaries for environment
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+index df382a4445..8eb4bc2a81 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+@@ -1,4 +1,4 @@
+-From e31ab477eed061cc72ed6795b483795d53af6dfc Mon Sep 17 00:00:00 2001
++From ee4f5bd19394e055109486d88ff8e876c5c2572f Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 2 May 2021 01:58:01 +0100
+ Subject: [PATCH] tests: add helper script to run the installed_tests
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb
+index b727783746..59f4e99c70 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb
+@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0003-tests-use-a-dictionaries-for-environment.patch \
+            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
+            "
+-SRC_URI[sha256sum] = "ce5cd44d4ffeafdcc3dddaa072b2179c0b7cb1abf4e6c5d18d4375f8a39fe491"
++SRC_URI[sha256sum] = "f5adc7e8f448c10260b3b25aa101c9d540674c8d9a54c2b77a86d04f2b3b50dd"
  
--SRC_URI[sha256sum] = "8c6fcecd1183a7fc897548dfe388b0cdb7f37e018200d8409cf33959dbe35387"
-+SRC_URI[sha256sum] = "589de7fae1c9ea670d18422ed00fc04da787bbde8e1454aea872aa57b49ad341"
- 
- inherit pypi setuptools3
- 
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    check \
 -- 
 2.47.1
 
 
---===============8995661182640328741==
+--===============7955927260065845201==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-pyopenssl: PKGV changed from 26.2.0 [default] to 26.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyopenssl: PV changed from "26.2.0" to "26.3.0"
-packages/x86-64-v3-poky-linux/python3-pyopenssl: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyopenssl/pyopenssl-26.2.0.tar.gz;downloadfilename=pyopenssl-26.2.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyopenssl/pyopenssl-26.3.0.tar.gz;downloadfilename=pyopenssl-26.3.0.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-dbg: PKGV changed from 26.2.0 [default] to 26.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-dbg: PV changed from "26.2.0" to "26.3.0"
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-dev: PKGV changed from 26.2.0 [default] to 26.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-dev: PV changed from "26.2.0" to "26.3.0"
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-doc: PKGV changed from 26.2.0 [default] to 26.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-doc: PV changed from "26.2.0" to "26.3.0"
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-locale: PKGV changed from 26.2.0 [default] to 26.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-locale: PV changed from "26.2.0" to "26.3.0"
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-src: PKGV changed from 26.2.0 [default] to 26.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-src: PV changed from "26.2.0" to "26.3.0"
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-staticdev: PKGV changed from 26.2.0 [default] to 26.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-staticdev: PV changed from "26.2.0" to "26.3.0"
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-tests: PKGV changed from 26.2.0 [default] to 26.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl-tests: PV changed from "26.2.0" to "26.3.0"
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl: PKGV changed from 26.2.0 [default] to 26.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl: PV changed from "26.2.0" to "26.3.0"
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pyopenssl-26.2.0.dist-info -> /usr/lib/python3.14/site-packages/pyopenssl-26.3.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/pyopenssl-26.2.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pyopenssl-26.3.0.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl: PKGSIZE changed from 497634 to 489068 (-2%)
-Changes to packages/x86-64-v3-poky-linux/python3-pyopenssl (sysroot):
-  /usr/lib/python3.14/site-packages/pyopenssl-26.2.0.dist-info moved to /usr/lib/python3.14/site-packages/pyopenssl-26.3.0.dist-info
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-bash-completion: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-bash-completion: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: FILELIST: removed "/usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2802.0-gdb.py /usr/lib/.debug/libgstnet-1.0.so.0.2802.0 /usr/lib/.debug/libgstcheck-1.0.so.0.2802.0 /usr/lib/.debug/libgstbase-1.0.so.0.2802.0 /usr/lib/.debug/libgstreamer-1.0.so.0.2802.0 /usr/lib/.debug/libgstcontroller-1.0.so.0.2802.0", added "/usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2804.0-gdb.py /usr/lib/.debug/libgstnet-1.0.so.0.2804.0 /usr/lib/.debug/libgstcontroller-1.0.so.0.2804.0 /usr/lib/.debug/libgstreamer-1.0.so.0.2804.0 /usr/lib/.debug/libgstcheck-1.0.so.0.2804.0 /usr/lib/.debug/libgstbase-1.0.so.0.2804.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PKGSIZE changed from 19074935 to 19125967 (+0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: PKGSIZE changed from 6778466 to 6781737 (+0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-doc: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-doc: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ar: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ar: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-az: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-az: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-be: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-be: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ja: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ja: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ka: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ka: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-kk: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-kk: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lv: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lv: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-rw: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-rw: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PKGSIZE changed from 4218467 to 4230819 (+0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0/1.28.2/tests/check/libs -> /usr/src/debug/gstreamer1.0/1.28.4/tests/check/libs, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/gst -> /usr/src/debug/gstreamer1.0/1.28.4/gst, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/gst/parse -> /usr/src/debug/gstreamer1.0/1.28.4/gst/parse, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/tests/check/generic -> /usr/src/debug/gstreamer1.0/1.28.4/tests/check/generic, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/libs/gst/check/libcheck -> /usr/src/debug/gstreamer1.0/1.28.4/libs/gst/check/libcheck, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/libs/gst/helpers -> /usr/src/debug/gstreamer1.0/1.28.4/libs/gst/helpers, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/tests/check/tools -> /usr/src/debug/gstreamer1.0/1.28.4/tests/check/tools, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/libs/gst/c
+ heck -> /usr/src/debug/gstreamer1.0/1.28.4/libs/gst/check, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/gst/printf -> /usr/src/debug/gstreamer1.0/1.28.4/gst/printf, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/tests/check/elements -> /usr/src/debug/gstreamer1.0/1.28.4/tests/check/elements, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/tests/check/pipelines -> /usr/src/debug/gstreamer1.0/1.28.4/tests/check/pipelines, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/plugins/elements -> /usr/src/debug/gstreamer1.0/1.28.4/plugins/elements, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/tools -> /usr/src/debug/gstreamer1.0/1.28.4/tools, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/tests/check/gst -> /usr/src/debug/gstreamer1.0/1.28.4/tests/check/gst, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/libs/gst/controller -> /usr/src/debug/gstreamer1.0/1.28.4/libs/gst/controller, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/libs/gst/net ->
+  /usr/src/debug/gstreamer1.0/1.28.4/libs/gst/net, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/libs/gst/base -> /usr/src/debug/gstreamer1.0/1.28.4/libs/gst/base, directory renamed /usr/src/debug/gstreamer1.0/1.28.2/tests/validate -> /usr/src/debug/gstreamer1.0/1.28.4/tests/validate
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: PKGSIZE changed from 10023669 to 10039199 (+0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-staticdev: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-staticdev: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: FILELIST: removed "/usr/lib/libgstcheck-1.0.so.0.2802.0 /usr/lib/libgstnet-1.0.so.0.2802.0 /usr/lib/libgstcontroller-1.0.so.0.2802.0 /usr/lib/libgstreamer-1.0.so.0.2802.0 /usr/lib/libgstbase-1.0.so.0.2802.0", added "/usr/lib/libgstnet-1.0.so.0.2804.0 /usr/lib/libgstbase-1.0.so.0.2804.0 /usr/lib/libgstcontroller-1.0.so.0.2804.0 /usr/lib/libgstcheck-1.0.so.0.2804.0 /usr/lib/libgstreamer-1.0.so.0.2804.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0: PKGV changed from 1.28.2 [default] to 1.28.4 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0: PV changed from "1.28.2" to "1.28.4"
+packages/x86-64-v3-poky-linux/gstreamer1.0: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.28.2.tar.xz file://run-ptest file://0001-tests-respect-the-idententaion-used-in-meson.patch file://0002-tests-add-support-for-install-the-tests.patch file://0003-tests-use-a-dictionaries-for-environment.patch file://0004-tests-add-helper-script-to-run-the-installed_tests.patch" to "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.28.4.tar.xz file://run-ptest file://0001-tests-respect-the-idententaion-used-in-meson.patch file://0002-tests-add-support-for-install-the-tests.patch file://0003-tests-use-a-dictionaries-for-environment.patch file://0004-tests-add-helper-script-to-run-the-installed_tests.patch"
+Changes to packages/x86-64-v3-poky-linux/gstreamer1.0 (sysroot):
+  /usr/lib/libgstbase-1.0.so.0 changed symlink target from libgstbase-1.0.so.0.2802.0 to libgstbase-1.0.so.0.2804.0
+  /usr/lib/libgstcheck-1.0.so.0 changed symlink target from libgstcheck-1.0.so.0.2802.0 to libgstcheck-1.0.so.0.2804.0
+  /usr/lib/libgstcontroller-1.0.so.0 changed symlink target from libgstcontroller-1.0.so.0.2802.0 to libgstcontroller-1.0.so.0.2804.0
+  /usr/lib/libgstnet-1.0.so.0 changed symlink target from libgstnet-1.0.so.0.2802.0 to libgstnet-1.0.so.0.2804.0
+  /usr/lib/libgstreamer-1.0.so.0 changed symlink target from libgstreamer-1.0.so.0.2802.0 to libgstreamer-1.0.so.0.2804.0
+  /usr/lib/libgstbase-1.0.so.0.2802.0 moved to /usr/lib/libgstbase-1.0.so.0.2804.0
+  /usr/lib/libgstcheck-1.0.so.0.2802.0 moved to /usr/lib/libgstcheck-1.0.so.0.2804.0
+  /usr/lib/libgstcontroller-1.0.so.0.2802.0 moved to /usr/lib/libgstcontroller-1.0.so.0.2804.0
+  /usr/lib/libgstnet-1.0.so.0.2802.0 moved to /usr/lib/libgstnet-1.0.so.0.2804.0
+  /usr/lib/libgstreamer-1.0.so.0.2802.0 moved to /usr/lib/libgstreamer-1.0.so.0.2804.0
+  /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2802.0-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2804.0-gdb.py
 
---===============8995661182640328741==
+--===============7955927260065845201==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pyopenssl-upgrade-26.2.0-26.3.0.patch"
+ filename="0001-gstreamer1.0-upgrade-1.28.2-1.28.4.patch"
 
-RnJvbSA2MjA5Y2M3ODcyYTEyNzk1Mzk5NGNkOGUwYTZhYWVlNzc3NGVmZGVhIE1vbiBTZXAgMTcg
+RnJvbSBmOWFlMjI0ZjY1MGMyMDdmZjkzMGUyNjBjNDJlNWNlMzhkOGU4MWYzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTMgSnVuIDIwMjYgMDc6MjI6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXB5b3BlbnNzbDogdXBncmFkZSAyNi4yLjAgLT4gMjYuMy4wCgotLS0KIC4uLntweXRo
-b24zLXB5b3BlbnNzbF8yNi4yLjAuYmIgPT4gcHl0aG9uMy1weW9wZW5zc2xfMjYuMy4wLmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHlvcGVuc3NsXzI2LjIu
-MC5iYiA9PiBweXRob24zLXB5b3BlbnNzbF8yNi4zLjAuYmJ9ICg4NSUpCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5b3BlbnNzbF8yNi4yLjAuYmIg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlvcGVuc3NsXzI2LjMuMC5i
-YgpzaW1pbGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtcHlvcGVuc3NsXzI2LjIuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5b3BlbnNzbF8yNi4zLjAuYmIKaW5kZXggOTY2MGEw
-M2Y4OS4uYzI3ZjA3MTlkMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLXB5b3BlbnNzbF8yNi4yLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLXB5b3BlbnNzbF8yNi4zLjAuYmIKQEAgLTUsNyArNSw3IEBAIExJQ19G
-SUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2Mzg3ZjE0NjU1ZmM4NTRk
-ZGMzYzZiZDU3IgogCiBERVBFTkRTICs9ICJvcGVuc3NsIHB5dGhvbjMtY3J5cHRvZ3JhcGh5Igog
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGM2ZmNlY2QxMTgzYTdmYzg5NzU0OGRmZTM4OGIwY2Ri
-N2YzN2UwMTgyMDBkODQwOWNmMzM5NTlkYmUzNTM4NyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI1
-ODlkZTdmYWUxYzllYTY3MGQxODQyMmVkMDBmYzA0ZGE3ODdiYmRlOGUxNDU0YWVhODcyYWE1N2I0
-OWFkMzQxIgogCiBpbmhlcml0IHB5cGkgc2V0dXB0b29sczMKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFNhdCwgMTMgSnVuIDIwMjYgMDc6NDU6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjA6IHVwZ3JhZGUgMS4yOC4yIC0+IDEuMjguNAoKLS0tCiAuLi4vMDAwMS10ZXN0
+cy1yZXNwZWN0LXRoZS1pZGVudGVudGFpb24tdXNlZC1pbi1tZXNvbi5wYXRjaCB8IDIgKy0KIC4u
+Li8wMDAyLXRlc3RzLWFkZC1zdXBwb3J0LWZvci1pbnN0YWxsLXRoZS10ZXN0cy5wYXRjaCAgICAg
+IHwgNiArKystLS0KIC4uLi8wMDAzLXRlc3RzLXVzZS1hLWRpY3Rpb25hcmllcy1mb3ItZW52aXJv
+bm1lbnQucGF0Y2ggICAgIHwgMiArLQogLi4udGVzdHMtYWRkLWhlbHBlci1zY3JpcHQtdG8tcnVu
+LXRoZS1pbnN0YWxsZWRfdGVzdHMucGF0Y2ggfCAyICstCiAuLi4ve2dzdHJlYW1lcjEuMF8xLjI4
+LjIuYmIgPT4gZ3N0cmVhbWVyMS4wXzEuMjguNC5iYn0gICAgICB8IDIgKy0KIDUgZmlsZXMgY2hh
+bmdlZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBl
+cy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0cmVhbWVyMS4wXzEuMjguMi5iYiA9PiBnc3RyZWFt
+ZXIxLjBfMS4yOC40LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1l
+ZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwMS10ZXN0cy1yZXNwZWN0LXRoZS1pZGVudGVu
+dGFpb24tdXNlZC1pbi1tZXNvbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
+YW1lci9nc3RyZWFtZXIxLjAvMDAwMS10ZXN0cy1yZXNwZWN0LXRoZS1pZGVudGVudGFpb24tdXNl
+ZC1pbi1tZXNvbi5wYXRjaAppbmRleCBlMWQ4NzBiMDQwLi5kZTI1NWJmNzkxIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDEtdGVz
+dHMtcmVzcGVjdC10aGUtaWRlbnRlbnRhaW9uLXVzZWQtaW4tbWVzb24ucGF0Y2gKKysrIGIvbWV0
+YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAxLXRlc3RzLXJl
+c3BlY3QtdGhlLWlkZW50ZW50YWlvbi11c2VkLWluLW1lc29uLnBhdGNoCkBAIC0xLDQgKzEsNCBA
+QAotRnJvbSBhZDRjNTc3ZmY4ZDI5ZjZkYmFmNWNhMmQwMTNlOWQyMWM0NGY5MTIyIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQorRnJvbSA0ZTZhYWU4Y2JkZGI0NTY3Mzg4ZjhmMTk5MTljMmMxN2Uz
+NmUwMzU2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSm9zZSBRdWFyZXNtYSA8cXVh
+cmVzbWEuam9zZUBnbWFpbC5jb20+CiBEYXRlOiBTdW4sIDExIEFwciAyMDIxIDE5OjQ4OjEzICsw
+MTAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRlc3RzOiByZXNwZWN0IHRoZSBpZGVudGVudGFpb24gdXNl
+ZCBpbiBtZXNvbgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
+L2dzdHJlYW1lcjEuMC8wMDAyLXRlc3RzLWFkZC1zdXBwb3J0LWZvci1pbnN0YWxsLXRoZS10ZXN0
+cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAv
+MDAwMi10ZXN0cy1hZGQtc3VwcG9ydC1mb3ItaW5zdGFsbC10aGUtdGVzdHMucGF0Y2gKaW5kZXgg
+NzIwYTZmMGM5Ny4uOTU3MzU2YzJiYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAyLXRlc3RzLWFkZC1zdXBwb3J0LWZvci1pbnN0
+YWxsLXRoZS10ZXN0cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
+ZXIvZ3N0cmVhbWVyMS4wLzAwMDItdGVzdHMtYWRkLXN1cHBvcnQtZm9yLWluc3RhbGwtdGhlLXRl
+c3RzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA5MmU3ZDQwOTBmYTQ1OGJmMDJkMzQxOGNk
+MDFjOTYwOTgyODIxZTkyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzNGQyNGI4ZDY2
+MDg4ZDkyY2EzMDZhNDg4MDI4ZGVlODJhNmY2OTgyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
+RnJvbTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiBEYXRlOiBTdW4s
+IDExIEFwciAyMDIxIDE5OjQ4OjEzICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRlc3RzOiBhZGQg
+c3VwcG9ydCBmb3IgaW5zdGFsbCB0aGUgdGVzdHMKQEAgLTE5LDEwICsxOSwxMCBAQCBTaWduZWQt
+b2ZmLWJ5OiBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KICBjcmVhdGUg
+bW9kZSAxMDA2NDQgdGVzdHMvY2hlY2svdGVtcGxhdGUudGVzdC5pbgogCiBkaWZmIC0tZ2l0IGEv
+bWVzb24uYnVpbGQgYi9tZXNvbi5idWlsZAotaW5kZXggOGFkYzA1NS4uYjVjOWU1YiAxMDA2NDQK
+K2luZGV4IGFiZDBhZDYuLjkzY2Q2OTIgMTAwNjQ0CiAtLS0gYS9tZXNvbi5idWlsZAogKysrIGIv
+bWVzb24uYnVpbGQKLUBAIC02NjcsNiArNjY3LDEwIEBAIGlmIGJhc2hjb21wX2RlcC5mb3VuZCgp
+CitAQCAtNjYxLDYgKzY2MSwxMCBAQCBpZiBiYXNoY29tcF9kZXAuZm91bmQoKQogICAgZW5kaWYK
+ICBlbmRpZgogIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
+L2dzdHJlYW1lcjEuMC8wMDAzLXRlc3RzLXVzZS1hLWRpY3Rpb25hcmllcy1mb3ItZW52aXJvbm1l
+bnQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
+LzAwMDMtdGVzdHMtdXNlLWEtZGljdGlvbmFyaWVzLWZvci1lbnZpcm9ubWVudC5wYXRjaAppbmRl
+eCAxMjM2MjkwZTJiLi5iYzZkZmUzNTNhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGlt
+ZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDMtdGVzdHMtdXNlLWEtZGljdGlvbmFyaWVz
+LWZvci1lbnZpcm9ubWVudC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
+ZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDMtdGVzdHMtdXNlLWEtZGljdGlvbmFyaWVzLWZvci1lbnZp
+cm9ubWVudC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMzc0YzZhY2U4M2U5Njk3YWFlMGIy
+MWJhMjZmMzE2Yjc5Mjc5YzM5YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZjM0YmMz
+MDQwYjE1NjRhM2QzOWRlNGE0NDI2MzI2ODY2YzQzN2RhZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKIEZyb206IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPgogRGF0ZTog
+U2F0LCAyNCBBcHIgMjAyMSAxMDozNDo0NyArMDEwMAogU3ViamVjdDogW1BBVENIXSB0ZXN0czog
+dXNlIGEgZGljdGlvbmFyaWVzIGZvciBlbnZpcm9ubWVudApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDA0LXRlc3RzLWFkZC1oZWxw
+ZXItc2NyaXB0LXRvLXJ1bi10aGUtaW5zdGFsbGVkX3Rlc3RzLnBhdGNoIGIvbWV0YS9yZWNpcGVz
+LW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDA0LXRlc3RzLWFkZC1oZWxwZXIt
+c2NyaXB0LXRvLXJ1bi10aGUtaW5zdGFsbGVkX3Rlc3RzLnBhdGNoCmluZGV4IGRmMzgyYTQ0NDUu
+LjhlYjRiYzJhODEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
+ci9nc3RyZWFtZXIxLjAvMDAwNC10ZXN0cy1hZGQtaGVscGVyLXNjcmlwdC10by1ydW4tdGhlLWlu
+c3RhbGxlZF90ZXN0cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
+ZXIvZ3N0cmVhbWVyMS4wLzAwMDQtdGVzdHMtYWRkLWhlbHBlci1zY3JpcHQtdG8tcnVuLXRoZS1p
+bnN0YWxsZWRfdGVzdHMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGUzMWFiNDc3ZWVkMDYx
+Y2M3MmVkNjc5NWI0ODM3OTVkNTNhZjZkZmMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IGVlNGY1YmQxOTM5NGUwNTUxMDk0ODZkODhmZjhlODc2YzVjMjU3MmYgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4K
+IERhdGU6IFN1biwgMiBNYXkgMjAyMSAwMTo1ODowMSArMDEwMAogU3ViamVjdDogW1BBVENIXSB0
+ZXN0czogYWRkIGhlbHBlciBzY3JpcHQgdG8gcnVuIHRoZSBpbnN0YWxsZWRfdGVzdHMKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4y
+OC4yLmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMF8x
+LjI4LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11
+bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMF8xLjI4LjIuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4yOC40LmJiCmluZGV4
+IGI3Mjc3ODM3NDYuLjU5ZjRlOTljNzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1l
+ZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4yOC4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1t
+dWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4yOC40LmJiCkBAIC0yMiw3ICsyMiw3
+IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy9nc3Ry
+ZWFtZXIvZ3N0cmVhbWVyLSR7UFZ9LnRhci54CiAgICAgICAgICAgIGZpbGU6Ly8wMDAzLXRlc3Rz
+LXVzZS1hLWRpY3Rpb25hcmllcy1mb3ItZW52aXJvbm1lbnQucGF0Y2ggXAogICAgICAgICAgICBm
+aWxlOi8vMDAwNC10ZXN0cy1hZGQtaGVscGVyLXNjcmlwdC10by1ydW4tdGhlLWluc3RhbGxlZF90
+ZXN0cy5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjZTVjZDQ0
+ZDRmZmVhZmRjYzNkZGRhYTA3MmIyMTc5YzBiN2NiMWFiZjRlNmM1ZDE4ZDQzNzVmOGEzOWZlNDkx
+IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImY1YWRjN2U4ZjQ0OGMxMDI2MGIzYjI1YWExMDFjOWQ1
+NDA2NzRjOGQ5YTU0YzJiNzdhODZkMDRmMmIzYjUwZGQiCiAKIFBBQ0tBR0VDT05GSUcgPz89ICIk
+e0BiYi51dGlscy5jb250YWlucygnUFRFU1RfRU5BQkxFRCcsICcxJywgJ3Rlc3RzJywgJycsIGQp
+fSBcCiAgICAgICAgICAgICAgICAgICAgY2hlY2sgXAotLSAKMi40Ny4xCgo=
 
---===============8995661182640328741==
+--===============7955927260065845201==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-pyopenssl/python3-pyopenssl: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pyopenssl-26.2.0.dist-info -> /usr/lib/python3.14/site-packages/pyopenssl-26.3.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/pyopenssl-26.2.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pyopenssl-26.3.0.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-pyopenssl (sysroot):
-  /usr/lib/python3.14/site-packages/pyopenssl-26.2.0.dist-info moved to /usr/lib/python3.14/site-packages/pyopenssl-26.3.0.dist-info
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: FILELIST: removed "/usr/lib/libgstreamer-1.0.so.0.2802.0 /usr/lib/libgstcontroller-1.0.so.0.2802.0 /usr/lib/libgstbase-1.0.so.0.2802.0 /usr/lib/libgstcheck-1.0.so.0.2802.0 /usr/lib/libgstnet-1.0.so.0.2802.0", added "/usr/lib/libgstcontroller-1.0.so.0.2804.0 /usr/lib/libgstcheck-1.0.so.0.2804.0 /usr/lib/libgstreamer-1.0.so.0.2804.0 /usr/lib/libgstbase-1.0.so.0.2804.0 /usr/lib/libgstnet-1.0.so.0.2804.0"
+Changes to packages/x86-64-v3-poky-linux/gstreamer1.0 (sysroot):
+  /usr/lib/libgstbase-1.0.so.0 changed symlink target from libgstbase-1.0.so.0.2802.0 to libgstbase-1.0.so.0.2804.0
+  /usr/lib/libgstcheck-1.0.so.0 changed symlink target from libgstcheck-1.0.so.0.2802.0 to libgstcheck-1.0.so.0.2804.0
+  /usr/lib/libgstcontroller-1.0.so.0 changed symlink target from libgstcontroller-1.0.so.0.2802.0 to libgstcontroller-1.0.so.0.2804.0
+  /usr/lib/libgstnet-1.0.so.0 changed symlink target from libgstnet-1.0.so.0.2802.0 to libgstnet-1.0.so.0.2804.0
+  /usr/lib/libgstreamer-1.0.so.0 changed symlink target from libgstreamer-1.0.so.0.2802.0 to libgstreamer-1.0.so.0.2804.0
+  /usr/lib/libgstbase-1.0.so.0.2802.0 moved to /usr/lib/libgstbase-1.0.so.0.2804.0
+  /usr/lib/libgstcheck-1.0.so.0.2802.0 moved to /usr/lib/libgstcheck-1.0.so.0.2804.0
+  /usr/lib/libgstcontroller-1.0.so.0.2802.0 moved to /usr/lib/libgstcontroller-1.0.so.0.2804.0
+  /usr/lib/libgstnet-1.0.so.0.2802.0 moved to /usr/lib/libgstnet-1.0.so.0.2804.0
+  /usr/lib/libgstreamer-1.0.so.0.2802.0 moved to /usr/lib/libgstreamer-1.0.so.0.2804.0
+  /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2802.0-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2804.0-gdb.py
 
---===============8995661182640328741==--
+--===============7955927260065845201==--
 
