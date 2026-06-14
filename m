@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B3E1CD98E5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5333CD98E8
 	for <webhook@archiver.kernel.org>; Sun, 14 Jun 2026 08:19:36 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.105196.1781425167482750220
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.105198.1781425166773227796
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jun 2026 01:19:27 -0700
+ Sun, 14 Jun 2026 01:19:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=jOPjH8M3;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=wLtDRTH+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019ec536d9d4-a8b84ca7-731b-4322-8c27-fa05431d0a6e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=mLK3r8cE;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=GyTzvyQh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019ec536fd7d-fab06fb4-0366-4751-9757-2f3d01f9dadc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781425166; i=@automation.yoctoproject.org;
+	t=1781425176; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=x7l6m5JQDcWJng6SB9rgSAyktM+twzJrYs+t4jU3H6o=;
-	b=jOPjH8M3LpjCJR/YaNL3IiuZT5Bko051IxqyhhCX3ce51F3jhErS8VRNcx0Cjq/e
-	QJnJelTYRpk7rJGs2rayIN+YBvy21dlijYbN0QdCDKXDLnL1FuiLMZ2iWAdU7dj8Ixy
-	3/vPQf5nsrSRWVgvwt1LsqoKcyXgWWDu+Bp1gqYg=
+	bh=gsLnVCbDYqIYhkKObVUQwr+qGkmmL8AdwU2k9sC5uzo=;
+	b=mLK3r8cEy/EobYHo2tRBtucbCCmM+PRE3djSaQLtMEr21yqy/jDWZtYiQBpXgafU
+	khnmkPYwUycbsR93Q+GJb0axW8KuyHt2Xkr367IyVZlrolW9Zu2jk+aTsgtnI3UclLy
+	HugWFON3+yFHYfgIG6p2uQRJthRraV5BwCU6/4r8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781425166;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781425176;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=x7l6m5JQDcWJng6SB9rgSAyktM+twzJrYs+t4jU3H6o=;
-	b=wLtDRTH+KGBr2Cox+bK/SWyTjZunGrgPNNwawEO4hqg2Ymbx9BQ0Y2VAj4F6e6Zg
-	9FcDg74uQ1WwnG51Z0krlo/a9ebdBUCjoDLJ9HvnmapzCQvOJm5gleZFc1Eghc6yaat
-	q88kuAqw6oV1H+0RLvZCy99i0zei6Joh7PJruzU4=
+	bh=gsLnVCbDYqIYhkKObVUQwr+qGkmmL8AdwU2k9sC5uzo=;
+	b=GyTzvyQhu7Nc8+3zy+pnz1hq7dArLCOSDyW7QQJOxw5qVwLPbLxGcDaArTVzKHuB
+	+BBX6TXHPNX/5S9YSAB4wcSXiff3XK2X63GZJMSwVtcWRFSDDnKfBUIeh48nYMbLnyO
+	ODiD3Fi9j+lbMchjTETDE8ejv60lza3yJdFWEErU=
 From: patchtest@automation.yoctoproject.org
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 32/56] python3-lxml: upgrade 6.1.0 -> 6.1.1
-In-Reply-To: <20260614080307.4017177-32-richard.purdie@linuxfoundation.org>
-References: <20260614080307.4017177-32-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [PATCH 44/56] rsync: upgrade 3.4.2 -> 3.4.4
+In-Reply-To: <20260614080307.4017177-44-richard.purdie@linuxfoundation.org>
+References: <20260614080307.4017177-44-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019ec536d9d4-a8b84ca7-731b-4322-8c27-fa05431d0a6e-000000@us-west-2.amazonses.com>
-Date: Sun, 14 Jun 2026 08:19:26 +0000
+Message-ID: <0101019ec536fd7d-fab06fb4-0366-4751-9757-2f3d01f9dadc-000000@us-west-2.amazonses.com>
+Date: Sun, 14 Jun 2026 08:19:35 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.14-54.240.27.30
+X-SES-Outgoing: 2026.06.14-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 08:19:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238772
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238784
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/32-56-python3-lxml-upgrade-6.1.0---6.1.1.patch
+Testing patch /home/patchtest/share/mboxes/44-56-rsync-upgrade-3.4.2---3.4.4.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
