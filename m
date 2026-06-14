@@ -2,60 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 496B3CD98D2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C03FCD98E1
 	for <webhook@archiver.kernel.org>; Sun, 14 Jun 2026 08:03:40 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.105037.1781424216033646967
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.105041.1781424212936160601
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jun 2026 01:03:36 -0700
+ Sun, 14 Jun 2026 01:03:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=G2IXsL23;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490b7866869so23584705e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 01:03:35 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EhluRlLy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b7866869so23584385e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 01:03:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1781424214; x=1782029014; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1781424211; x=1782029011; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OYrivPrWrrkTzgL3Phgr4P+LEv6up3m0JErw/Oc7d7M=;
-        b=G2IXsL23jHvY6LTAXRmt3/hxpYst9uH0bDaJpyJT8H3H1OtptFmV/VX+0yPVWBQyPq
-         wvkBTVr0b07mA8dPxVaJEyT6aYfq7jV8QTJlIqZRj4h2nhTklEVX8osVQ3eIrQ8EljcJ
-         f2ZbJkG11QWwUBr+er0UF0bhejPDq7aaOeJso=
+        bh=ODOC+n0cW6T6dFC7xNnwlyKlZkS+CmISoDaKdaWlXcQ=;
+        b=EhluRlLyRj7LZdNs+36/YeFtLOPNvw+HM54wzOW8lChSugLLmqgHrJulyVsqM8B6R1
+         qOD/rFt4XpACQb9Fu2qk6ojZyMxR1L3KcSzYI+82nR0zWop7vpK6PqcALnUX6uJz0u8j
+         LCn9szLd1iU+cLDMwFdfEwLvplXVjx6WaYJk4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781424214; x=1782029014;
+        d=1e100.net; s=20251104; t=1781424211; x=1782029011;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=OYrivPrWrrkTzgL3Phgr4P+LEv6up3m0JErw/Oc7d7M=;
-        b=F0CkoG6dUo5WFqzgMX4luwaMpZi5cUYT60ZxV4iD1QkUKLc19Hhmi63UGqsRX7AiRe
-         nE/V2M7x9WU2u0oDeRLJCk+ot5xE2Tb/D+UUu0PeCLbGkuKX4qdT11NyPJ7lrbkDpLS9
-         mAKFKbztJs++pllsgvvWDO5003CBYWlFW2flF1aUesqVzo9RrqT7vCOOK7A81BHuKGnS
-         CrtArJRjY7vCim6TuQ+wf4tazqCr+lsEGrvrdF74u5pvR0evIxJOPdyLV3Ls4zVFkRXR
-         L5kxMiH1OwuXGzdhVHJFm6h/uJHB0Qu04oZc2ShPA3gMi7DVobLTWYO49ESD73Jqcs25
-         lXsQ==
-X-Gm-Message-State: AOJu0YxSjxDD2+yRzmzcngpHFLAD7cFIp8DUK/oKSiucIMV0KGhIlK3f
-	J/kMojXyaZonc91tr8kwEjuYw76ooSavpSAtuGd4AK3VR++SCUt14kNwuumybtl+9wOFapBEM2e
-	JdH4r
-X-Gm-Gg: Acq92OEnaKdKtjwDOicAV8vYvtqxVqz7KzIuSgJ1p9YhN5w2mNjQ2kcAju8LGarQFWC
-	a/OPLyqoGOonumPcROa8TB5U/sCwaSQHzy4IZhI6Db+8mdZQPlMVET3AcKLDvCnTYI478c4D6mP
-	rPE8PS01JRpuqevS8SRn6dWMQCjZA4xyvcItsnNhVzBp8cqeyxuT/80RAAA1D3vGxFhVSlANam4
-	wvb6TD7Yk4eOGeyp95F1YR3CswpIjW82yp4vTsa8JNTzhEVtBtLNpiT+olruZeTi7W2zB6yTkak
-	S7pJIQt9OPxTC44Fpq4hzL8g/twePgUoU9mFPysVgBS5Pa87NQTkm1oQklK3W/6wU6V+HEZi/9V
-	UPv6thmsNGzHbN4HGmHjOCpsZ+vZV8QDwyiDIGrNII85mcL0jEL8VG6TuaQNlhaokUPEo/9K3Vw
-	DhVIWJvpplCqdoeu3uA7Rwx/U6m7V3Io7TAkF9ghgSS+qk1sXd5qlcoI0EHeE3fHA=
-X-Received: by 2002:a05:600c:4693:b0:490:cdb2:fb5e with SMTP id 5b1f17b1804b1-490ec504d88mr139305975e9.22.1781424214270;
-        Sun, 14 Jun 2026 01:03:34 -0700 (PDT)
+        bh=ODOC+n0cW6T6dFC7xNnwlyKlZkS+CmISoDaKdaWlXcQ=;
+        b=BrPh2nZo5dX+hKY7CqKb/lqp9vf6K/kPKooqSLV2zunhemkmRSvrQ6oufOatrUspbn
+         a52caShcbPkr5rMUWeF8JlH2ilh8EIwlQYKI7duGxVjhfEinlcqWVLyyNCJA2HJUdZgx
+         t8XMDOfTdS3UtXwjGIK3aJGzaW4ACQzXkZaCSu9Mbau/dERyPpFAo/NVqLCsTthWbXDN
+         6VBd0fZA7tkXu3gWJCcfwlJoEQqPDJKXoZ5mKuhxXzwu4/WgL5/1NNXn+h5NZhPOxNLZ
+         6I5vi+cL3yqz17o/20oN3HjwyQlewec6c+Z7ILecEwgmfqzsmQOulE5N5iCqTOwxoZ3G
+         RMhg==
+X-Gm-Message-State: AOJu0YwqfPNwdjHZUPSM9M8+GPNoUerLZY6fn61uPTEcgP2lEDIFfRWs
+	JsdzxAzpevXSFsLXGzQcG1s2v1WRzYudvVUiJ7B5o34FFBuxSOxPbZ0nQ5quYvA61pGxca/rkCz
+	Lr2JG
+X-Gm-Gg: Acq92OHrEx/NlTafZZMfdZaoZcYahLwstDy9ScnsYSDU+3BVaHIV1mUK4K1YwPKz6iT
+	vQ3o598PKn5ZxpsIO/Ldl+likKXNdqlMvy8vwHJN37ZYzCaCs6WmeK8B/zgax3lrKlaRnyPwz0k
+	/cxSvN+tdtpwOFUldKWjGWaiAJ1J4ZCyLIUFIlENIiRtZrmK57r8NbAsI4WtmBa5PHQ50au/3I3
+	svgW/bmS8KwuoyaHWxGqFxWImQG0zMpjX/eoK59Oj6TBfhZN6MoGHNv+grz2VZ/wkDAg2/TSZ0Z
+	ctE5HsUk8dVo4DnQfdAT7eU6mbs1e0Q5WwVMapF+I7ZrwWpIaQAatQeFYU3Yx/+ckoRyvcM2BfB
+	cuErejiLSyAGXq+3A4Mkg8CTQvGxKzmF9dL6d8zoISAn8mQMO4HwKYYwPMFiZNA28qTqf4cVHqa
+	OBt3JadPuCSlt/EB67h0cVRnkO6lnfujIqY9sXuRAuFEFo/B7ghmwn
+X-Received: by 2002:a7b:cc8e:0:b0:490:b0e1:2161 with SMTP id 5b1f17b1804b1-490ec4c1396mr83316955e9.2.1781424211238;
+        Sun, 14 Jun 2026 01:03:31 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b23b:4f5a:d2e8:6789])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492202edf89sm149999065e9.1.2026.06.14.01.03.32
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492202edf89sm149999065e9.1.2026.06.14.01.03.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2026 01:03:33 -0700 (PDT)
+        Sun, 14 Jun 2026 01:03:30 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 16/56] libadwaita: upgrade 1.9.0 -> 1.9.1
-Date: Sun, 14 Jun 2026 09:02:27 +0100
-Message-ID: <20260614080307.4017177-16-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 14/56] glslang: upgrade 1.4.341.0 -> 1.4.350.0
+Date: Sun, 14 Jun 2026 09:02:25 +0100
+Message-ID: <20260614080307.4017177-14-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260614080307.4017177-1-richard.purdie@linuxfoundation.org>
 References: <20260614080307.4017177-1-richard.purdie@linuxfoundation.org>
@@ -65,28 +65,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 08:03:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238700
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238698
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../libadwaita/{libadwaita_1.9.0.bb => libadwaita_1.9.1.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/libadwaita/{libadwaita_1.9.0.bb => libadwaita_1.9.1.bb} (89%)
+ .../glslang/glslang/0001-generate-glslang-pkg-config.patch      | 2 +-
+ .../glslang/{glslang_1.4.341.0.bb => glslang_1.4.350.0.bb}      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/glslang/{glslang_1.4.341.0.bb => glslang_1.4.350.0.bb} (96%)
 
-diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.9.0.bb b/meta/recipes-gnome/libadwaita/libadwaita_1.9.1.bb
-similarity index 89%
-rename from meta/recipes-gnome/libadwaita/libadwaita_1.9.0.bb
-rename to meta/recipes-gnome/libadwaita/libadwaita_1.9.1.bb
-index 6236d075fec..cf4fe6b45fc 100644
---- a/meta/recipes-gnome/libadwaita/libadwaita_1.9.0.bb
-+++ b/meta/recipes-gnome/libadwaita/libadwaita_1.9.1.bb
-@@ -12,7 +12,7 @@ DEPENDS = " \
+diff --git a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
+index 150242ce1d8..d74f37db91b 100644
+--- a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
++++ b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
+@@ -1,4 +1,4 @@
+-From 6a4237802d8a79f65ed74b12865e2ce5b666993d Mon Sep 17 00:00:00 2001
++From ee46f2f608ccbe9617ce41235d047f080d972ff7 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 7 Feb 2021 01:30:39 +0000
+ Subject: [PATCH] generate glslang pkg-config
+diff --git a/meta/recipes-graphics/glslang/glslang_1.4.341.0.bb b/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb
+similarity index 96%
+rename from meta/recipes-graphics/glslang/glslang_1.4.341.0.bb
+rename to meta/recipes-graphics/glslang/glslang_1.4.350.0.bb
+index aa4f48bb9c3..bc33931b3c5 100644
+--- a/meta/recipes-graphics/glslang/glslang_1.4.341.0.bb
++++ b/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb
+@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
+ LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=50ff9d0fcde2d5b953ebe431c48e34e3"
  
- inherit gnomebase gobject-introspection gi-docgen vala features_check
- 
--SRC_URI[archive.sha256sum] = "817837bf06363db5bbfce66085136eff1436af6625dfabff3ca08b87bfca1b6b"
-+SRC_URI[archive.sha256sum] = "2ae34dbb3ea56d270925707cefa36050482ec88a741f1810b7619a5377c41a66"
- 
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- REQUIRED_DISTRO_FEATURES = "opengl"
+-SRCREV = "f0bd0257c308b9a26562c1a30c4748a0219cc951"
++SRCREV = "275822a6261ee689aadb1da5f09a0ec2f058685c"
+ SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main;tag=vulkan-sdk-${PV} \
+            file://0001-generate-glslang-pkg-config.patch \
+            "
 
