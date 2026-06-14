@@ -2,60 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50E2FCD98DF
-	for <webhook@archiver.kernel.org>; Sun, 14 Jun 2026 08:04:01 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.105048.1781424235479444125
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41BD2CD98D6
+	for <webhook@archiver.kernel.org>; Sun, 14 Jun 2026 08:04:11 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.105054.1781424250686206179
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jun 2026 01:03:55 -0700
+ Sun, 14 Jun 2026 01:04:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KKPxkAF/;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490ac10e337so15116865e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 01:03:55 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BMKc4D0t;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490be03d47bso23102135e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 01:04:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1781424234; x=1782029034; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1781424249; x=1782029049; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+qCZrcLnKXFebTnj/CZN18FZjrmyVXh6k8wTpn5EYXU=;
-        b=KKPxkAF/T9ep4HgoT95XyWcIr2L8eELbQs+ReADdnjHoYrkY33gA994lngVgavjASK
-         s5QKW+UyptSNCiXT17baIlNRZIHAKMmwSqHPqLvY+FX1jEcUa8ZHiixVg9zFy+GMeQO1
-         JR6PZD9BL09NriXr3x3SiwIt3Yr18PRI9ZiDk=
+        bh=dRU639LbDz5Vo47zFhMjPSa6xIHrgJ3u7mXUiaTNfeA=;
+        b=BMKc4D0tuR1EhT/RJKfD1bq3oUO6RuNMXJVIF2mB1tBjPZWOLq7FtswgYoPb9+s8Wm
+         cP7/neJmJAwFCgj8Ch1ZtqUI9kRBiYYdy9127tpbtr4ofe9h4suMUcGz6gt06igF4RsI
+         oCbOUPV4MgFSF4gK7LyMj24tHLab8RUOimQoc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781424234; x=1782029034;
+        d=1e100.net; s=20251104; t=1781424249; x=1782029049;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=+qCZrcLnKXFebTnj/CZN18FZjrmyVXh6k8wTpn5EYXU=;
-        b=RJWicBZwHqX5U4LCCK5lo3Nu56fVQ8SdNqddmUhN3m9+GhndcAduxk59duDteXOFcz
-         xYrIUSKy4BJoyWcvxINKe5SPxU72sSNQM3cn/VTZmbDOCpI80N8j+iEyIK1B4mHhO/n0
-         jw8dAnlvXEqvQAI8M4g+0ZzRi+HePP2vMIqIwdv3QJB4T43eM85x1qrkDCWkEjx1EfeT
-         7jzk2A/q/yIwUmSv6AtoxPb9yATLXBySVIzcXOhgCn9vgeG4mgjet6nhu80FYD6a0sCM
-         qr19QrjlJapTC23XoRgS/thsx/UACo+FZZhk50fPWQoqj+yhGfEW19lGuYS+XdNHmX/i
-         WLiw==
-X-Gm-Message-State: AOJu0YwedRM46dTJZmSPle/g6hy8txvVJ34/pcYO5LHjAbimFtwioO5P
-	ab1ZQDuZZdxUvWtzv65PaH312q0qfvYGTTCgZMlnCdIZ98R1PVfE3eTgDV7+hDebvxUh0XA/Gvp
-	8fSYQ
-X-Gm-Gg: Acq92OHa1ZEb6+DXbeAofx7EFhYeO2dWmzj3nwQrr4nXu2NwhZkK+QTB8ZNFepDYb9g
-	7sI2hXxqyY4NdTuh3al1OqpVj++M1fxms7POROSZa35hmN+EVx0PIZ2FAUrmVCVWLxuQ89NlZGx
-	eOjBbMPY+bIIiwuUg9Wehhxr+4jpD2PDQVLRMhKio2q5rZQmRPT2HuuNHAj1coCnj4aWWGuBorl
-	BhG9UA5oaAY1BRq7Gr8u5o+NAV/6Y3LFXI/D+pCPWkdfQJY7y80eLfqkDz+dPX1EOOzlPLvM8cM
-	O8AdIsuQK7v9aos3o2L9KPtv5wrf5G9H/SZAD+YP+1UzBUS/gsyYkVfpJ/kqZMyWIB3M/HvxuSr
-	xXZLSOfblLFNocTRUT/waqOpsx/1Wk0YQMJuYGiDnkBxSy0599rISsLghgeKtLwQBTku6cytSKr
-	Vad7+U50Ez7LrYsLAGqDYS4E/CrS6VqyrlyWqB/yIVCE2e2jp6Pn+s
-X-Received: by 2002:a05:600c:2d88:b0:48e:7854:1608 with SMTP id 5b1f17b1804b1-492200e24cfmr41553685e9.25.1781424233521;
-        Sun, 14 Jun 2026 01:03:53 -0700 (PDT)
+        bh=dRU639LbDz5Vo47zFhMjPSa6xIHrgJ3u7mXUiaTNfeA=;
+        b=M9Jhrfr8Nozkkob2Gsld1qbU5YCf6M1UFMI4hD+vc1G6pgDa0okTIj+HZecMgz0qQP
+         72KvC6F3GW/sNwgWhJRcd6WYqjVl6cYB3QTVLAU17rGv3ubNeUCNo+kpZ0rktLMt31Wc
+         DlbuasrkDZUv28M2zChuUxe+G7MhBCqMQI2sD426OKWlvh/fh+HpJVIyV74tsLhnP74D
+         UjccWXZ3qsF/HTa2Ofm+D8PF/vNIOw3YCIN0Hz25dwoNltP8N35yOuph5dhC9SjXsZAO
+         abqcC2eAK+f3P4Vqg2IEYHSa0GSmZy+sxpUcv4lF+Ga5aaxNLvmFUdB+c4Bq9Qb5S6+I
+         u6aQ==
+X-Gm-Message-State: AOJu0YzfJ0OVCL0jhn3LAtRHfpX6BbmfVE3Eh8yVl2dq2NwB0vkO30i7
+	eE5FdyhX6t6DduaKox6R3kWcIydti523PxjvR34nkwGaLV5/Z13B7kcIOFN2NbHGjqK4P/i1Pc0
+	pUrX9
+X-Gm-Gg: Acq92OFpvCB4RO1bJ9eOCqvCU46HOJAdldcsZ85mJ/OYh3CNslX0VVZmPCS/QyW76vW
+	BiZpU4ZTds+T/cV3lKnIHlQ9XK90/HcNVXhaio5al9wiZcMbbop7xL5qanXtMHs72PJ5tOtZBla
+	Z0H7N5lMvXOJaxvUr2ikuwo8NhtcXcE4hTkkV/RSE+pewAjJhXmW7u3tI9vQAtg0i2SqAjqSJYA
+	xAgA6iaKIcDyCu9AqttkrH3VPEGxOPt+CM+9CXpleDFPIVLeivWUrv8c1eBFLsS4/VF+XelCacq
+	98pE3VbXLXpX/vQfF+d1mXmAx47IJL2MnnVbhWMm+z8Cu0Dg9fxZN9qx+dpxswCti+ussLEXMQA
+	ZD3uk/bLxW5r77mv9wDsmQ2k6Al9N/k9eBk4z6Y6tASKAMu7dHy/cHEcYOTbXObRs8w7EqygjFU
+	O9foasO0CF9fOpPd2R4iqVWx6BTMw2Yx/F/Vy57uWD3YAgNuqsgnOW
+X-Received: by 2002:a05:600c:3512:b0:490:bb45:79da with SMTP id 5b1f17b1804b1-490ec4d650amr120322795e9.13.1781424248893;
+        Sun, 14 Jun 2026 01:04:08 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b23b:4f5a:d2e8:6789])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492202edf89sm149999065e9.1.2026.06.14.01.03.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492202edf89sm149999065e9.1.2026.06.14.01.04.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2026 01:03:51 -0700 (PDT)
+        Sun, 14 Jun 2026 01:04:07 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 27/56] python3-cython: upgrade 3.2.4 -> 3.2.5
-Date: Sun, 14 Jun 2026 09:02:38 +0100
-Message-ID: <20260614080307.4017177-27-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 38/56] python3-pygobject: upgrade 3.56.2 -> 3.56.3
+Date: Sun, 14 Jun 2026 09:02:49 +0100
+Message-ID: <20260614080307.4017177-38-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260614080307.4017177-1-richard.purdie@linuxfoundation.org>
 References: <20260614080307.4017177-1-richard.purdie@linuxfoundation.org>
@@ -64,49 +64,29 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 08:04:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238711
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 08:04:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238722
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...Replace-not-predictable-build-path-prefix-with-hardc.patch | 4 ++--
- .../{python3-cython_3.2.4.bb => python3-cython_3.2.5.bb}      | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-cython_3.2.4.bb => python3-cython_3.2.5.bb} (93%)
+ ...{python3-pygobject_3.56.2.bb => python3-pygobject_3.56.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pygobject_3.56.2.bb => python3-pygobject_3.56.3.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch b/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch
-index d232f58e026..fad7f28a606 100644
---- a/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch
-+++ b/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch
-@@ -1,4 +1,4 @@
--From 77c73d8c317224f66af66521f8cfe7a8e5491136 Mon Sep 17 00:00:00 2001
-+From 949e3c185719c37b3a3e4c11664db16533f51dc8 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Wed, 17 Sep 2025 01:42:08 -0700
- Subject: [PATCH] Replace not predictable build path prefix with hardcode
-@@ -53,7 +53,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 3 insertions(+), 1 deletion(-)
- 
- diff --git a/Cython/Compiler/ModuleNode.py b/Cython/Compiler/ModuleNode.py
--index c1d8783..f24b2d9 100644
-+index 30e67aa..ade6a7f 100644
- --- a/Cython/Compiler/ModuleNode.py
- +++ b/Cython/Compiler/ModuleNode.py
- @@ -877,7 +877,9 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
-diff --git a/meta/recipes-devtools/python/python3-cython_3.2.4.bb b/meta/recipes-devtools/python/python3-cython_3.2.5.bb
+diff --git a/meta/recipes-devtools/python/python3-pygobject_3.56.2.bb b/meta/recipes-devtools/python/python3-pygobject_3.56.3.bb
 similarity index 93%
-rename from meta/recipes-devtools/python/python3-cython_3.2.4.bb
-rename to meta/recipes-devtools/python/python3-cython_3.2.5.bb
-index 3e889857e14..373387576a7 100644
---- a/meta/recipes-devtools/python/python3-cython_3.2.4.bb
-+++ b/meta/recipes-devtools/python/python3-cython_3.2.5.bb
-@@ -7,7 +7,7 @@ SECTION = "devel/python"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61c3ee8961575861fa86c7e62bc9f69c"
+rename from meta/recipes-devtools/python/python3-pygobject_3.56.2.bb
+rename to meta/recipes-devtools/python/python3-pygobject_3.56.3.bb
+index 24a58adee6c..e246a2d451b 100644
+--- a/meta/recipes-devtools/python/python3-pygobject_3.56.2.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.56.3.bb
+@@ -19,7 +19,7 @@ DEPENDS += "python3 glib-2.0"
+ GNOME_COMPRESS_TYPE = "gz"
+ GNOMEBN = "pygobject"
  
--SRC_URI[sha256sum] = "84226ecd313b233da27dc2eb3601b4f222b8209c3a7216d8733b031da1dc64e6"
-+SRC_URI[sha256sum] = "3dd42e4cf36ad15f265bdfec2337cc00c688c8eb6d374ffd13bb19437c27bba1"
+-SRC_URI[archive.sha256sum] = "b816098969544081de9eecedb94ad6ac59c77e4d571fe7051f18bebcec074313"
++SRC_URI[archive.sha256sum] = "12760e4a0e3d04b6eb95e06f7a27e362c826d567ea613373a92c003b6c70d2d6"
  
- inherit pypi setuptools3 cython
+ S = "${UNPACKDIR}/${GNOMEBN}-${PV}"
  
 
