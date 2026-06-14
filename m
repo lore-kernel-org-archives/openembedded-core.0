@@ -1,92 +1,114 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EDAECD98E2
-	for <webhook@archiver.kernel.org>; Sun, 14 Jun 2026 08:19:47 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.105204.1781425181819970289
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F973CD98C5
+	for <webhook@archiver.kernel.org>; Sun, 14 Jun 2026 10:37:20 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.106658.1781433436342514877
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jun 2026 01:19:41 -0700
+ Sun, 14 Jun 2026 03:37:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=U6ci0uq2;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rimY0mBH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019ec537128e-c49aa96b-8773-4d89-8dbc-9d591ff5ea8c-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781425181; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=8/B8MJ/v5GXP+Feq+DNCia4b7o6UHZa+iyBvzjzaA/U=;
-	b=U6ci0uq2xYeyLdTMJ58rsU25TOviSYsadPl9118UWOjhCwA7ClQZ179BnbRdTwlD
-	6isYeK2pDiNLPWLlwLi2hmJiyY0jt4RJeeNmnIRrK5iZ9jgXWoF4iZQPFxxYghzeQg+
-	nSCQsUcriH1sDy9jbNy3PeFCN1UlqtLaNqk1+In8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781425181;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=8/B8MJ/v5GXP+Feq+DNCia4b7o6UHZa+iyBvzjzaA/U=;
-	b=rimY0mBHAnJcnACQlHHfi4+SrWFjdSXJc3X2GmY9jXYsHwBMgqo2wraCE2MqQdEf
-	6f2DuQiZzHEJZtM0YQLAQdBNLYVyy8DapZa74UoK3nYjpS/VhGP0DHdoib4YycjgTfD
-	qYU3HhK4MF6udfsom4OAx1LqWo4++Ps8GOovB60I=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 51/56] utfcpp: upgrade 4.0.9 -> 4.1.1
-In-Reply-To: <20260614080307.4017177-51-richard.purdie@linuxfoundation.org>
-References: <20260614080307.4017177-51-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019ec537128e-c49aa96b-8773-4d89-8dbc-9d591ff5ea8c-000000@us-west-2.amazonses.com>
-Date: Sun, 14 Jun 2026 08:19:41 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.14-54.240.27.45
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=hRAGP5tN;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: benjamin.robin@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id A1FEDC2BB23
+	for <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 10:37:17 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 02A4360014;
+	Sun, 14 Jun 2026 10:37:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9C185106C8EB3;
+	Sun, 14 Jun 2026 12:37:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1781433433; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=j1MNAt0RtjXgYaOSPoP2CBwEx43Ci3sqdWcSR1MRAB8=;
+	b=hRAGP5tNz8MXPjDHcmQicUlXIeQ8vnkP6BRtMuOYRMDoBoJAx5bqRD6zmMezeWMVKTQmlR
+	Z1+9ir+pzqf7cyVPH4A69hZudPRrQHl3uiK/bGBXD2dzl4wGaivMJPAWcOnabydWQMBqhM
+	cKMuwtrT07xt6MiKwk9iQuqQ8qiY9mxUGPrczd0MSj/yeT2P6ea81zPPp8wQOgUA7DHRbS
+	Sum1zn4MZ92mL3QqBiHO9L4fIYjKPLrEnJbpZxXZ/AcqzGLPA09DDRMPb9Rbo33aXJ3tlV
+	1Mzd/o8+zBtLU/DbmstRenkzM58zTh3qiFWLEgdS6CexVRNk9SrtKsdmh2T8uA==
+From: Benjamin Robin <benjamin.robin@bootlin.com>
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: Joao Costa <joaomarcos.costa@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+Subject: Re: [scarthgap] SPDX3, lz4 and avahi: Patches status
+Date: Sun, 14 Jun 2026 12:37:11 +0200
+Message-ID: <hcX_7KWCTw2Sqh-NXl1vRw@bootlin.com>
+In-Reply-To: <DILSUWH1SPZX.1OX8ZCTTGJJ7X@smile.fr>
+References: 
+ <Mj30OkfVRxGpGbLR46KjAA@bootlin.com> <DILSUWH1SPZX.1OX8ZCTTGJJ7X@smile.fr>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 08:19:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238791
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 10:37:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238797
 
---NextPart
-Content-Type: text/plain
+Hello Yoann,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On Monday, May 18, 2026 at 2:26=E2=80=AFPM, Yoann Congal wrote:
+> On Fri May 8, 2026 at 2:57 PM CEST, Benjamin Robin wrote:
+> > Hello Yoann,
+> >
+> > Today I checked the status on patchwork of all the patches that I sent.
+> > I noticed that 3 patches, which I forgot to monitor, are currently stuc=
+k in
+> > the following state: Awaiting Upstream.
+> >
+> > Do you have any information about it?
+>=20
+> Hello,
+>=20
+> When I received them, I couldn't use these patches because they where
+> missing for whinlatter (This is why I use the "Awaiting Upstream" status
+> for).
+>=20
+> I must admit that I have lost track of those since then, but following
+> this mail I've added them to my branch under review. You can expect them
+> in the next patch review series.
 
----
-Testing patch /home/patchtest/share/mboxes/51-56-utfcpp-upgrade-4.0.9---4.1.1.patch
+I noticed that these fixes still hadn't been merged.
+Did I miss something?
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+> > meta: fix generation of kernel CONFIG_ in SPDX3
+> >  - https://patchwork.yoctoproject.org/project/oe-core/patch/20260303-ba=
+ckport-fixes-scarthgap-v1-3-2dc803f921a9@bootlin.com/
+> >  - https://lore.kernel.org/all/20260303-backport-fixes-scarthgap-v1-3-2=
+dc803f921a9@bootlin.com/
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+This patch is only in Wrynose since the following commit was never backport=
+ed
+to others Yocto branches:
+"kernel.bbclass: Add task to export kernel configuration to SPDX".
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+So this patch cannot be backported to whinlatter.
 
----
+> > lz4: Remove a reference to the rejected CVE-2025-62813
+> >  - https://patchwork.yoctoproject.org/project/oe-core/patch/20260303-ba=
+ckport-fixes-scarthgap-v1-2-2dc803f921a9@bootlin.com/
+> >  - https://lore.kernel.org/all/20260303-backport-fixes-scarthgap-v1-2-2=
+dc803f921a9@bootlin.com/
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+This patch is in whinlatter: 958ec6a496b4652a774e7bef58c052ebe40c704a
 
---NextPart
+> > avahi: Remove a reference to the rejected CVE-2021-36217
+> >  - https://patchwork.yoctoproject.org/project/oe-core/patch/20260303-ba=
+ckport-fixes-scarthgap-v1-1-2dc803f921a9@bootlin.com/
+> >  - https://lore.kernel.org/all/20260303-backport-fixes-scarthgap-v1-1-2=
+dc803f921a9@bootlin.com/
+
+This patch is in whinlatter: d6d36ee66aa69440e83f037863a4e747bf9693d1
 
 
---NextPart--
+=2D-=20
+Benjamin Robin, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+
+
 
