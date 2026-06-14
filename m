@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AED14CD98E5
-	for <webhook@archiver.kernel.org>; Sun, 14 Jun 2026 08:19:25 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.105189.1781425155137884390
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C14CCCD98D6
+	for <webhook@archiver.kernel.org>; Sun, 14 Jun 2026 08:19:35 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.105200.1781425175053312130
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jun 2026 01:19:15 -0700
+ Sun, 14 Jun 2026 01:19:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QdwBeX03;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=3jX3zqqh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019ec536a954-d60a1eb1-5cef-43b6-b6e1-c5010550d2a0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=D0oYVCuJ;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=GoxXtsSp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019ec536fa67-28b91a21-54dc-4acd-beb0-5da332260fc4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781425154; i=@automation.yoctoproject.org;
+	t=1781425175; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=iiWBpkoYsaxhKyQ625nzSKgOT4XFNBr/v4Y40Jthndg=;
-	b=QdwBeX039FpX4E5WjQbDKwRoiitH74vU8rrx9b2kasI+swMkmZulpmlFxOT919vh
-	rGSVRfrk4d3u/R9SdOUK5+G9vIzd44anmIwlN7n3VwI3a2KagAeHlAcNtRiL3vf1c3X
-	Nn54Rb/VolbrfCPVkajFVvagCDIGbQppAWZAc2yU=
+	bh=8vNVi8gNvBSEDNpRJWa/g5fTjcMipDeRjCAuap3zI3M=;
+	b=D0oYVCuJduHKidEqQaqxrIFCg/+ehc43ci29ESnFK2c0tE4nuJxuoQSW5OtPBD0g
+	Ts9irlhSAdAMoXNVoit3p1FNmICZlntSOuPqR8rI42EnyG0SAJ41l1kXE/DpGKdavfD
+	4RoVVxuStqp9u772M7BnzLC7Uk4YdRxHCb+37J1E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781425154;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781425175;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=iiWBpkoYsaxhKyQ625nzSKgOT4XFNBr/v4Y40Jthndg=;
-	b=3jX3zqqhXtibBvdh0AofJC1NQWwvsmESFk+RYaPmJHMqMV/vqh9K/FBA1BJhwycw
-	d8ASUaxAIb/TR6gBC8PFsMpyZNY4ZIF4XKEcICD/S3bHrU+4wQhekviBxKmk7QWh/6M
-	KI8FKtKDuerXo+NgESloHnap74Y2s2gXavUzcccM=
+	bh=8vNVi8gNvBSEDNpRJWa/g5fTjcMipDeRjCAuap3zI3M=;
+	b=GoxXtsSpOLGBekcE1Zuz4rqEkL9aQs9AjRPiBqmxm5xet+Qbiunv1ycYT7hNIp9Q
+	45b9RhWxhjQagqQUBC4BL+RVDhd0Nyg7CcmxGHRrDpQ0QJsVQ5BiA8T+OytZy9MTvRW
+	eCNBqaPQXwmlegHs8KoiugUwUtyL94n6sdXAUz2c=
 From: patchtest@automation.yoctoproject.org
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 16/56] libadwaita: upgrade 1.9.0 -> 1.9.1
-In-Reply-To: <20260614080307.4017177-16-richard.purdie@linuxfoundation.org>
-References: <20260614080307.4017177-16-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [PATCH 43/56] rpcbind: upgrade 1.2.8 -> 1.2.9
+In-Reply-To: <20260614080307.4017177-43-richard.purdie@linuxfoundation.org>
+References: <20260614080307.4017177-43-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019ec536a954-d60a1eb1-5cef-43b6-b6e1-c5010550d2a0-000000@us-west-2.amazonses.com>
-Date: Sun, 14 Jun 2026 08:19:14 +0000
+Message-ID: <0101019ec536fa67-28b91a21-54dc-4acd-beb0-5da332260fc4-000000@us-west-2.amazonses.com>
+Date: Sun, 14 Jun 2026 08:19:35 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.14-54.240.27.30
+X-SES-Outgoing: 2026.06.14-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 08:19:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238756
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 08:19:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238783
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/16-56-libadwaita-upgrade-1.9.0---1.9.1.patch
+Testing patch /home/patchtest/share/mboxes/43-56-rpcbind-upgrade-1.2.8---1.2.9.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
