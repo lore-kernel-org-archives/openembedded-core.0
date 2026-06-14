@@ -2,60 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C03FCD98E1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85EFECD98DF
 	for <webhook@archiver.kernel.org>; Sun, 14 Jun 2026 08:03:40 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.105041.1781424212936160601
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.105039.1781424211386144781
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jun 2026 01:03:33 -0700
+ Sun, 14 Jun 2026 01:03:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EhluRlLy;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b7866869so23584385e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 01:03:32 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NopbwXsI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4905529b933so23218985e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 01:03:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1781424211; x=1782029011; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1781424210; x=1782029010; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ODOC+n0cW6T6dFC7xNnwlyKlZkS+CmISoDaKdaWlXcQ=;
-        b=EhluRlLyRj7LZdNs+36/YeFtLOPNvw+HM54wzOW8lChSugLLmqgHrJulyVsqM8B6R1
-         qOD/rFt4XpACQb9Fu2qk6ojZyMxR1L3KcSzYI+82nR0zWop7vpK6PqcALnUX6uJz0u8j
-         LCn9szLd1iU+cLDMwFdfEwLvplXVjx6WaYJk4=
+        bh=MaWbSWpzWDR8gIPAcKxd+dI3upj3tsRDpoDDiBHq610=;
+        b=NopbwXsIVgl6m7Fk4OEvENr9CONDES75CId0oKxae7whxum9B3HTOsPlzqJwmTetzy
+         OqoR0UMKpkv8SGqkgbMvQlBFXQw7cPIbznX4m6JkAB8SoowCGMQlZshIu6+OoMAPlKye
+         upeN2cFQic3JuwhLh7Gbt4bUiSbC6Cnnoc6I8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781424211; x=1782029011;
+        d=1e100.net; s=20251104; t=1781424210; x=1782029010;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ODOC+n0cW6T6dFC7xNnwlyKlZkS+CmISoDaKdaWlXcQ=;
-        b=BrPh2nZo5dX+hKY7CqKb/lqp9vf6K/kPKooqSLV2zunhemkmRSvrQ6oufOatrUspbn
-         a52caShcbPkr5rMUWeF8JlH2ilh8EIwlQYKI7duGxVjhfEinlcqWVLyyNCJA2HJUdZgx
-         t8XMDOfTdS3UtXwjGIK3aJGzaW4ACQzXkZaCSu9Mbau/dERyPpFAo/NVqLCsTthWbXDN
-         6VBd0fZA7tkXu3gWJCcfwlJoEQqPDJKXoZ5mKuhxXzwu4/WgL5/1NNXn+h5NZhPOxNLZ
-         6I5vi+cL3yqz17o/20oN3HjwyQlewec6c+Z7ILecEwgmfqzsmQOulE5N5iCqTOwxoZ3G
-         RMhg==
-X-Gm-Message-State: AOJu0YwqfPNwdjHZUPSM9M8+GPNoUerLZY6fn61uPTEcgP2lEDIFfRWs
-	JsdzxAzpevXSFsLXGzQcG1s2v1WRzYudvVUiJ7B5o34FFBuxSOxPbZ0nQ5quYvA61pGxca/rkCz
-	Lr2JG
-X-Gm-Gg: Acq92OHrEx/NlTafZZMfdZaoZcYahLwstDy9ScnsYSDU+3BVaHIV1mUK4K1YwPKz6iT
-	vQ3o598PKn5ZxpsIO/Ldl+likKXNdqlMvy8vwHJN37ZYzCaCs6WmeK8B/zgax3lrKlaRnyPwz0k
-	/cxSvN+tdtpwOFUldKWjGWaiAJ1J4ZCyLIUFIlENIiRtZrmK57r8NbAsI4WtmBa5PHQ50au/3I3
-	svgW/bmS8KwuoyaHWxGqFxWImQG0zMpjX/eoK59Oj6TBfhZN6MoGHNv+grz2VZ/wkDAg2/TSZ0Z
-	ctE5HsUk8dVo4DnQfdAT7eU6mbs1e0Q5WwVMapF+I7ZrwWpIaQAatQeFYU3Yx/+ckoRyvcM2BfB
-	cuErejiLSyAGXq+3A4Mkg8CTQvGxKzmF9dL6d8zoISAn8mQMO4HwKYYwPMFiZNA28qTqf4cVHqa
-	OBt3JadPuCSlt/EB67h0cVRnkO6lnfujIqY9sXuRAuFEFo/B7ghmwn
-X-Received: by 2002:a7b:cc8e:0:b0:490:b0e1:2161 with SMTP id 5b1f17b1804b1-490ec4c1396mr83316955e9.2.1781424211238;
-        Sun, 14 Jun 2026 01:03:31 -0700 (PDT)
+        bh=MaWbSWpzWDR8gIPAcKxd+dI3upj3tsRDpoDDiBHq610=;
+        b=cEDJgNasfzehvjMQZGMbFh38sEDfUbHMwhCQJvVA8Ui5x1ZXshcCJH7eHV8dsYrdjC
+         FAw33xKhawSdmxnUD1zujQcTTurOSLQF7hEq5vKqImxeqzxayfjL4SRzjuEnv/pNwDl7
+         g9HknSbMD+MZ3N5VvbNJhRMKWn7QIYSgkqF8Td3sGLA5k40GndJt06vNFjb1aflicn0u
+         88abBhLdCOR6Z9Idu/LmhmG3vTjYJNisylTJDHmFHWrWFcnJoGUOULBUgQPhX1isFFvE
+         +PgRI9uRT/gcojtqaDEc12Vw5CsyplKnm8Uo+jSKbfn5XhzbQGSwz6TYmCdF1qgvzHkV
+         Q0WQ==
+X-Gm-Message-State: AOJu0YzhYkNN9VhwFqXF4LRf+rjEKnivm78/RsHIo3CeyDYk17FnEanG
+	zNmXA03PqU2xejhsL179FTJvJaWL5x2FYGOPS7Y6z8WOwmoEVjeN2HJx05fBihdYBENTZScfhd/
+	29xYh
+X-Gm-Gg: Acq92OHrUKvQcOsu6anVfSVbbz8/Z/uJGsn1aCk/jNGTd0L1FKyad5GzRakzAQt6hBJ
+	iwIlexdEgikv0w8TbEeapjZmoD7Ju3YmlohXDP5tD+BPefPFFQKByrkNfifU3PvX3icfLhpFbEh
+	7I9VtRNF3ZuuqT3Vp4zvVAwXWMypGLQHM5bCJ0v0YpS+uLtqfkbfuDbRFazFtdyU71lVmHVo36j
+	65nVmg2hrUP9NnX3BtuVIylfHQB5uJhR8HdJxDky60B/9AJgvooMZkFL7XMKFbkqi7c69xjUFRD
+	pl3X2KMU6liyOCP15Ul1uYRxTlxOflLRL8FLSZRQXkYg1eyd1RJcE7mL0lPUQZfS0qw1CUKI5o8
+	AkTV01vifVU9oO5IFFYZV//HJUfP1Khr1x8By3fl7ADwLbfv1gE7EtIXfU7a3unaOx/CR5F1O68
+	lQ+M1XHh162t3bIjV5bZntWNH/F6dprW4TBqz+zHGJa02DnTGO6lfC
+X-Received: by 2002:a05:600c:8b31:b0:490:b28d:a6f9 with SMTP id 5b1f17b1804b1-490ec4a8474mr117093035e9.8.1781424209463;
+        Sun, 14 Jun 2026 01:03:29 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b23b:4f5a:d2e8:6789])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492202edf89sm149999065e9.1.2026.06.14.01.03.30
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492202edf89sm149999065e9.1.2026.06.14.01.03.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2026 01:03:30 -0700 (PDT)
+        Sun, 14 Jun 2026 01:03:28 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 14/56] glslang: upgrade 1.4.341.0 -> 1.4.350.0
-Date: Sun, 14 Jun 2026 09:02:25 +0100
-Message-ID: <20260614080307.4017177-14-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 12/56] enchant2: upgrade 2.8.15 -> 2.8.16
+Date: Sun, 14 Jun 2026 09:02:23 +0100
+Message-ID: <20260614080307.4017177-12-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260614080307.4017177-1-richard.purdie@linuxfoundation.org>
 References: <20260614080307.4017177-1-richard.purdie@linuxfoundation.org>
@@ -65,39 +65,28 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 08:03:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238698
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238696
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../glslang/glslang/0001-generate-glslang-pkg-config.patch      | 2 +-
- .../glslang/{glslang_1.4.341.0.bb => glslang_1.4.350.0.bb}      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/glslang/{glslang_1.4.341.0.bb => glslang_1.4.350.0.bb} (96%)
+ .../enchant/{enchant2_2.8.15.bb => enchant2_2.8.16.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/enchant/{enchant2_2.8.15.bb => enchant2_2.8.16.bb} (91%)
 
-diff --git a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-index 150242ce1d8..d74f37db91b 100644
---- a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-+++ b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-@@ -1,4 +1,4 @@
--From 6a4237802d8a79f65ed74b12865e2ce5b666993d Mon Sep 17 00:00:00 2001
-+From ee46f2f608ccbe9617ce41235d047f080d972ff7 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 7 Feb 2021 01:30:39 +0000
- Subject: [PATCH] generate glslang pkg-config
-diff --git a/meta/recipes-graphics/glslang/glslang_1.4.341.0.bb b/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/glslang/glslang_1.4.341.0.bb
-rename to meta/recipes-graphics/glslang/glslang_1.4.350.0.bb
-index aa4f48bb9c3..bc33931b3c5 100644
---- a/meta/recipes-graphics/glslang/glslang_1.4.341.0.bb
-+++ b/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb
-@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=50ff9d0fcde2d5b953ebe431c48e34e3"
+diff --git a/meta/recipes-support/enchant/enchant2_2.8.15.bb b/meta/recipes-support/enchant/enchant2_2.8.16.bb
+similarity index 91%
+rename from meta/recipes-support/enchant/enchant2_2.8.15.bb
+rename to meta/recipes-support/enchant/enchant2_2.8.16.bb
+index bc1c5f7a676..e2c6eed602f 100644
+--- a/meta/recipes-support/enchant/enchant2_2.8.15.bb
++++ b/meta/recipes-support/enchant/enchant2_2.8.16.bb
+@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 groff-native"
+ inherit autotools pkgconfig github-releases
  
--SRCREV = "f0bd0257c308b9a26562c1a30c4748a0219cc951"
-+SRCREV = "275822a6261ee689aadb1da5f09a0ec2f058685c"
- SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main;tag=vulkan-sdk-${PV} \
-            file://0001-generate-glslang-pkg-config.patch \
-            "
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "d3fd9e4170bfb5110b0bda577fe764a38fb606b3c25d2f0c3840234521ff1252"
++SRC_URI[sha256sum] = "d73162b5eff401a6397e1215e2b103bcef83f921c396c7f6b1394d2450d124e2"
+ 
+ GITHUB_BASE_URI = "https://github.com/rrthomas/enchant/releases"
+ 
 
