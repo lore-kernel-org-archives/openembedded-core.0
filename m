@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18950CD98DC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32543CD98DE
 	for <webhook@archiver.kernel.org>; Sun, 14 Jun 2026 08:19:25 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.105187.1781425148956255468
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.105193.1781425160744217827
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jun 2026 01:19:21 -0700
+ Sun, 14 Jun 2026 01:19:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PupVXTVB;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=1WwStELT;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019ec536c1a0-768b1c62-c0f3-4c63-8336-9e09ace18361-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CKG3xzi9;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=G/D48SCa;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019ec536beb4-0d9e39ea-f8fb-42f1-ac1c-2bab37e2bb24-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781425160; i=@automation.yoctoproject.org;
+	t=1781425159; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=tVm73wJ0BzsQ2ky9DBrsWahT6BwMu7UbFSmhS1YHW+o=;
-	b=PupVXTVBbDBRb9PbdZr++snlYSYoEACDaNinV/y3egKGPCgH1mVhq4y/townabN9
-	1c2ze94xOVczntG9xDuPOuar1Qz9FTu4si4yW2kZZ9pHH5JJYz8P5A6IFWTMKdFgs0M
-	xHdz77CnNpm32Qw2IN4qkwM+qByb2yccHTETleIA=
+	bh=LfQYYJ1SrGuX52NJtAmD4OtRaGe6vC6rtMc0zMaKcks=;
+	b=CKG3xzi9euw2uVP2HW/mD6qWDyJXQ2npEH9O4RNX0rVUXebXWQ2PQ8sLtq21uDv5
+	uLb62yuJLjttXLyFQ4R3b0IP6C/czZz4avichrZQf6YkrR1n9gTlhuKEv0fvBs2wvMw
+	v8W6MMZz9GMdLrOQ+qPZ/hb9vGw4IZWz1dLiqhjs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781425160;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781425159;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=tVm73wJ0BzsQ2ky9DBrsWahT6BwMu7UbFSmhS1YHW+o=;
-	b=1WwStELTiMtRW12YQNTXNmxGoIJVCdqzNmEozbmFi7zY2GNlh4M4croeeEDtbxrp
-	d0ml9bhb/fkAKIjLPATjC6PsHP2PI4KuiaN4YMCb7t7rA3VG8/hvYumVNL7Xclzaoct
-	lSgcJa6QFOkqk4EqVRdVJCwfOVP5dql1n2xPqpOY=
+	bh=LfQYYJ1SrGuX52NJtAmD4OtRaGe6vC6rtMc0zMaKcks=;
+	b=G/D48SCaX+fEjbKWEbPHaLoiM8Bi/Z7ANwfkggTpx4O6JFwPoaduw89VoN9kPXIp
+	FXgIgmdgg4FfXNvvoPM5oHcn3VETOiWJlYuAM37oejM6cDLfO5VkZEOJa8IQAV5BbZi
+	GLsoR6AHXB3swPhtOv1TD0GBjc4+qUQkzy+JKy4U=
 From: patchtest@automation.yoctoproject.org
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 24/56] puzzles: upgrade to latest revision
-In-Reply-To: <20260614080307.4017177-24-richard.purdie@linuxfoundation.org>
-References: <20260614080307.4017177-24-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [PATCH 23/56] mkfontscale: upgrade 1.2.3 -> 1.2.4
+In-Reply-To: <20260614080307.4017177-23-richard.purdie@linuxfoundation.org>
+References: <20260614080307.4017177-23-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019ec536c1a0-768b1c62-c0f3-4c63-8336-9e09ace18361-000000@us-west-2.amazonses.com>
-Date: Sun, 14 Jun 2026 08:19:20 +0000
+Message-ID: <0101019ec536beb4-0d9e39ea-f8fb-42f1-ac1c-2bab37e2bb24-000000@us-west-2.amazonses.com>
+Date: Sun, 14 Jun 2026 08:19:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.14-54.240.27.29
+X-SES-Outgoing: 2026.06.14-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 08:19:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238764
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238763
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/24-56-puzzles-upgrade-to-latest-revision.patch
+Testing patch /home/patchtest/share/mboxes/23-56-mkfontscale-upgrade-1.2.3---1.2.4.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
