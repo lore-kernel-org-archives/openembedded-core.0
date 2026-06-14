@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36BF3CD98D8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AF1ECD98E0
 	for <webhook@archiver.kernel.org>; Sun, 14 Jun 2026 08:19:47 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.105205.1781425180569121458
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.105203.1781425181255385440
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jun 2026 01:19:43 -0700
+ Sun, 14 Jun 2026 01:19:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PHb+ejRu;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=JrX5dqX3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019ec5371878-41497745-e668-4ccd-bc84-7b1cf5390a73-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fuYbAjrc;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=k0NoP4X3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019ec5370fbb-15a6648f-ade1-45e7-8a52-982d7bd30e22-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781425182; i=@automation.yoctoproject.org;
+	t=1781425180; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=qo9Sd0L1yeM3obFgMCQf23x/if4FWh2OUosSRXClirs=;
-	b=PHb+ejRuKR85WmAtJ4+eRF5AYX4N7DpyFy88P6DUFGaaW1Ei2grN5tEkOFsJJNkj
-	KVFCe/qjSRuSSGcAZebPkjqrv5DWJ2YKkUS+36fvYzS5yXqX0Hkiha4jXQLsGN7AvwG
-	RXU1E2yImW6w54qs9aX7NkEYyWG0jcSbkMHZD3EY=
+	bh=ZhyfaF+1Cszk4vOZ54ytjkcxoDToO0A6QuB1BOjhcNw=;
+	b=fuYbAjrcASeJ2ZV8X2QlR2yod1IhP0J9SUHNAxxzn8SKnl3E0Gu+NToLtokC++jM
+	QfhZyfx9Gi4J7wr9GqlXllnf9dFrGuE2Fm/opzr9TfeiByatgYH11QzM5QjXx0Hb6zt
+	zFYU7C/TwCrd/+JyMne7auJN7QUB+H/hhx8YUp3k=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781425182;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781425180;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=qo9Sd0L1yeM3obFgMCQf23x/if4FWh2OUosSRXClirs=;
-	b=JrX5dqX3f9m0EwoY6fSWAE1+2Priq8vf4MZD+851dr3TJrUwAQDICco4PVMF5jty
-	yMrP3cQp4rHD2PgSzPUBvkN+ySttAp13WhhxEc1+lMzwXu7fQND6cRbXXREL2bX3Jtj
-	V/AncDWHTIlspG9uIX4fS2mH1eKQlfk/+wxvRRGo=
+	bh=ZhyfaF+1Cszk4vOZ54ytjkcxoDToO0A6QuB1BOjhcNw=;
+	b=k0NoP4X3UBG14BHpKXThkezq7gDfl9zpKU/0Ech4XcsDda3QMIhahbyJaCt5x+Sb
+	WrOJkecsXyofkTv3VE769gblGC7CLDQeKwVnKcGaPTRnXD22325MYkl4bfb4hypfvZy
+	Nq6ZiPq0tXiKhFylDqsOuxZ5QS3AVX74fVKlnfjE=
 From: patchtest@automation.yoctoproject.org
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 53/56] vulkan-samples: upgrade to latest revision
-In-Reply-To: <20260614080307.4017177-53-richard.purdie@linuxfoundation.org>
-References: <20260614080307.4017177-53-richard.purdie@linuxfoundation.org>
+Subject: Patchtest results for [PATCH 50/56] ttyrun: upgrade 2.42.0 -> 2.42.1
+In-Reply-To: <20260614080307.4017177-50-richard.purdie@linuxfoundation.org>
+References: <20260614080307.4017177-50-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019ec5371878-41497745-e668-4ccd-bc84-7b1cf5390a73-000000@us-west-2.amazonses.com>
-Date: Sun, 14 Jun 2026 08:19:42 +0000
+Message-ID: <0101019ec5370fbb-15a6648f-ade1-45e7-8a52-982d7bd30e22-000000@us-west-2.amazonses.com>
+Date: Sun, 14 Jun 2026 08:19:40 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.06.14-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 08:19:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238793
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238790
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/53-56-vulkan-samples-upgrade-to-latest-revision.patch
+Testing patch /home/patchtest/share/mboxes/50-56-ttyrun-upgrade-2.42.0---2.42.1.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
