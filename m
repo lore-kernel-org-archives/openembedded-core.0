@@ -1,101 +1,143 @@
-Return-Path: <saisneha196@gmail.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F4D2CD98DE
-	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 08:44:07 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.125394.1781513041699979410
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2F96CD98C5
+	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 08:56:57 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.125295.1781512409963220274
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2026 01:44:01 -0700
+ Mon, 15 Jun 2026 01:33:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=lMrruFYz;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: saisneha196@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2bf237e1433so37219985ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 01:44:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=edAK04eX;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: adityags2004@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-36b95eb4bb4so1871516a91.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 01:33:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781513041; x=1782117841; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1781512409; x=1782117209; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9sV4EgeQ2sPUpR/Nv5uKugV7u9d59Aeo1HeB3HoKLJ4=;
-        b=lMrruFYzusQMzwfOhCIJ8wUj7rmCUBwrRKKZsnyHXKBPG6GiUxlqcT9sabk1NCP0ci
-         uXfRNegY44k+DAaZ/y+Fk14ImfPM9MXDamAGNYNXx1bdz4PMmrwh3tays8DgIT8usu/E
-         jPwAzPTRzCz2P19gf9wY2/zW7YssUAwSXJzqlPjL4Gev7Ui4dR++mwsbclSbNnOU5g8Y
-         3WNBCKtDac2HGz7ZtFasrf6Q7Ym9gU8DCv4jrjWbPwbRVOC1pqjDhPbFCkk8iMc7UHHE
-         gFVtxRFPqzzD1+NmWowUp1kUV17E2PZ0PlQw8RyhZuKcOjJn0AsDS9fDmnS0u1hzTEvF
-         vvyQ==
+        bh=8cxA3vPu6e8y45vuLuFsPpSJzaQn/pbp4pVff9KARIk=;
+        b=edAK04eXB6kMtoxhRaEkymjUyi7J/b6BpYgff1J41qbfU+9aEzSbt9mrQJYa6WRuIZ
+         ItJh/lEB5Xk6aj87er+HjODUOIzrsQtsB24k9oWT3hPTA4QbbobwVQq7O0BDbUNjIIrC
+         iFwfVL0RVr8HRk4qAHdMgfDsWrD9MCYmNs8hstfQ9PXe2a9MRuAxbEuC8MrigW2mSYNl
+         dq+1Zu8nX1L8mOM1VXJcCu02KGVqeFfh7YXBuxNf7pnumqQjS9yacc8sFdr/XiwFD+lL
+         e4cNENQFuP859I3a7+j1LH4sgiWEyXrVhNP8Jf9bDLk2iqF+e5hhh3Ye+PFxRF7Fw9u5
+         Li3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781513041; x=1782117841;
+        d=1e100.net; s=20251104; t=1781512409; x=1782117209;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9sV4EgeQ2sPUpR/Nv5uKugV7u9d59Aeo1HeB3HoKLJ4=;
-        b=k7JgxjNTNSgHFmL1AeP4AS/GXVcRxUbwUfxBqKeDQM9j7TdlHMqLZlX4fhDTikuaV4
-         clHn6atp0x3jBLOiEPe1GCEfMlyusaVE/kj9trRJgBIfacttRKcUivH59iZce8kvhbtx
-         KGrXgWGioZ/UyOiYfrTUTGs9PqYzaoZYkw3Nnt5BRXidQjPXLB2qG/XOuqxClr93erXG
-         oaSkXYnF48qiAriy/RZCXgnXGykyVPUfjCglodFRqQU4YQtNTAHwzB2Fmx9RK81S9Kp8
-         PpbNPeNIM9/0DqUYFiFjqMcVxH2xKIqLZvskTAQ4XdVdCOiRJKS2WOTV5i63eVMfbpfU
-         0EqA==
-X-Gm-Message-State: AOJu0Yy27MsLbJQKzQmvT7cX6jCM7rgAkHbdN5OvgV5lGI6xUrVkJlyJ
-	drZM2BWtRHsL14B4d8SGvQo7KHlaqIrJuEqlKJVYUNmAOWIedsZ7ZYec8jNIsw==
-X-Gm-Gg: Acq92OGLIDxtxCWVhZB55i4ZLgDeUS4N1MDdyZcdxKotU1JZjmfAzvjoFPnoj53lzCV
-	/z1MJAcl79F9Akh+SkwzgKrqyN5F2DSKhtnCbxXlwM9GH/qTNy0sYXJbY/hb9uBR4dxFmf5zkFl
-	0jpV8kg1DGKN4U6O3s3bGlAJd49F73HvXKzKIVWnStBBRdi34t2h7+4rAxPQcZ59GFGc/E6OYtr
-	ScWZrauKH+SidE+G9xDGfgf5KHXwsh3wY99EPfJ/Qjo+CRQeDdkMiJpZWu4R9xFaTlqygKv1Qbo
-	ogcMB3FmFptA3wf8mA7DAWjJKiA4FkuWHDWdMWsANswYVi/HXiewzYTJLlxRReVcUSo7eixBZFX
-	17FhdrRDotJvQLlENY+I1aVTkEjHl5qRFG9AOz4OYZKN3CmS7hVd5NgVdcAbyUaG83+8P/ePjtV
-	iT+IFuJd5Kne0XsUohG1QXwTzQCewXrNtkAJ8KKSGham2LHA==
-X-Received: by 2002:a17:903:390b:b0:2b4:5aff:de60 with SMTP id d9443c01a7336-2c411d7b1famr157990555ad.22.1781513040922;
-        Mon, 15 Jun 2026 01:44:00 -0700 (PDT)
-Received: from BLR1RLPT00004.localdomain ([152.57.10.245])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c433747ef4sm94431735ad.82.2026.06.15.01.43.57
+        bh=8cxA3vPu6e8y45vuLuFsPpSJzaQn/pbp4pVff9KARIk=;
+        b=etBjZsrIEQWT12a5Auam7DDQ0lk4u7MlXi5NgnS5COK8PdSl5ahAtueSkzqF/3akyx
+         J08f3Zsx9YU1mqt26OLOe4ViZ+RyYTiSDT2e5qzEM0O8dGx77+GMc3Y0j2BJwMZ60CoP
+         kUQmLjwONcXrLBd3cGKDIo1iwnSfjl1sQDYqMocv9NyyNW3F6MvbiTwcX+AXtiNrATR1
+         +HZ/iU3k2q8SKFbIhcCNa0G2Lp66UUI/ev0C6QPi6yX9W2AW+FfgxUePXiut3y715yrz
+         UuB/vPwOou2lKMk5wAeH/MFehr0r0QNRr3F0cd6CCteLKigArG6qptMlUAe8JHeOugLj
+         8ZrA==
+X-Gm-Message-State: AOJu0Yx89SbgvOKR41D+kDQHemrS1fQ/REsOQSk9Dd19msyFr1mfWASN
+	IOuOWtAbfow2kNelET95v46NTuDORdVizMIk6YzEoju9vb3DEwl0RLQMhlc77w==
+X-Gm-Gg: Acq92OFbIUr0ECzpQSl1rtlwG6iBKNwkXMitCj8ImuJv1FQoxv8/VuI+KpjTXxmSVpO
+	eq8Imwf2towgXxNyUchJvE683hkTuH0BOqZkDCehhJiXBTmjbHGTYibWaWnqDNm6kxxiWbHRTMY
+	l2XJJ+vn26ujJ0l2mXbCCtb5J3Kk9qIxw9/LrWMCfNf0t/Yn1RsRKZXj1URWqfvPJxMhpPKmV0n
+	8B7gWsd6/nzB/WQ4gv8oJBaB6/gYjtSOt+dFLr9Sam2iQO0MLaB8WPlc165/s/IAPPBnVoxTapq
+	8dqCUUsWKofqQWsKgnar4lQsEibU6RI5a85Tqp3Y/o12x6H2rls3+KIkZKXDTqDCfszNXDbGeq4
+	Xb1dGutPy4V78ENT2UIbuO3C1Es1sVLQAI/2BiyLT34OjGCrWleFYWY90z1zhbZ6OWjle+Az+Jh
+	aNPE0sUvkRlMC4z6d8kEO0nfox1Q0ga5l6Lw12+BSvPqJI25k0JmwgMwJlarkbMf/wyjQz6XQAG
+	Z+rax3J
+X-Received: by 2002:a17:90b:1c09:b0:366:2e1f:393 with SMTP id 98e67ed59e1d1-37a03ebe902mr13086665a91.21.1781512409226;
+        Mon, 15 Jun 2026 01:33:29 -0700 (PDT)
+Received: from BLR1RLPT00005.localdomain ([152.57.128.230])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37a25ecd5f4sm11266001a91.11.2026.06.15.01.33.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 01:44:00 -0700 (PDT)
-From: Sai Sneha <saisneha196@gmail.com>
+        Mon, 15 Jun 2026 01:33:28 -0700 (PDT)
+From: Aditya GS <adityags2004@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: randy.macleod@windriver.com,
-	terry.s.duncan@intel.com,
-	Sai Sneha <saisneha196@gmail.com>
-Subject: [PATCH] i2c-tools: add LGPL-2.1-or-later license for libi2c
-Date: Mon, 15 Jun 2026 14:13:39 +0530
-Message-Id: <20260615084339.1286502-1-saisneha196@gmail.com>
+Cc: Nisha.M.Parrakat@bmw.de,
+	Suresh.HA@bmwtechworks.in,
+	AshishKumar.Mishra@bmwtechworks.in,
+	Nikhil.R@bmwtechworks.in,
+	Aditya GS <adityags2004@gmail.com>,
+	Aditya GS <aditya.gs@bmwtechworks.in>
+Subject: [PATCH] openssl: upgrade 3.0.19 -> 3.0.21
+Date: Mon, 15 Jun 2026 14:03:17 +0530
+Message-Id: <20260615083317.2657-1-adityags2004@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 08:44:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238824
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 08:56:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238825
 
-The libi2c library included in i2c-tools is licensed under
-LGPL-2.1-or-later, as stated in the upstream README and the
-COPYING.LGPL file. Update LICENSE and LIC_FILES_CHKSUM to reflect
-this.
+Upgrade OpenSSL from 3.0.19 to 3.0.21.
 
-Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=16313
+This upgrade brings in upstream fixes for multiple CVEs:
 
-Signed-off-by: Sai Sneha <saisneha196@gmail.com>
+  - CVE-2026-45447 (High): heap use-after-free in PKCS7_verify()
+  - CVE-2026-7383: heap buffer overflow in ASN.1 multibyte string
+  - CVE-2026-9076: out-of-bounds read in CMS password-based decryption
+  - CVE-2026-34180: heap buffer over-read in ASN.1 content parsing
+  - CVE-2026-42764: NULL pointer dereference in QUIC server packet handling
+  - CVE-2026-45445: AES-OCB IV ignored on EVP_Cipher() path
+  - CVE-2026-34182: CMS AuthEnvelopedData may accept forged messages
+  - CVE-2026-42766: NULL pointer dereference in password-based CMS decryption
+  - CVE-2026-42770: FFC-DH peer validation uses attacker-supplied q
+  - CVE-2026-45446: incorrect tag processing for empty messages in AES-GCM-SIV and AES-SIV modes
+  - CVE-2026-31790: incorrect failure handling in RSA KEM RSASVE encapsulation
+  - CVE-2026-28387: potential use-after-free in DANE client code
+  - CVE-2026-28388: NULL pointer dereference when processing a delta CRL
+  - CVE-2026-28389: NULL dereference in CMS KeyAgreeRecipientInfo
+  - CVE-2026-28390: NULL dereference in CMS KeyTransportRecipientInfo
+  - CVE-2026-31789: heap buffer overflow in hexadecimal conversion
+
+As a result of this upgrade, the following CVEs are already fixed in the
+upstream version and no longer require local patches:
+
+  - CVE-2024-41996: vulnerability that could lead to denial of service
+  - CVE-2023-50781: fixes related to certificate validation and memory handling
+
+Upstream changelog:
+https://github.com/openssl/openssl/blob/openssl-3.0.21/NEWS.md
+
+Signed-off-by: Aditya GS <adityags2004@gmail.com>
+Signed-off-by: Aditya GS <aditya.gs@bmwtechworks.in>
 ---
- meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../openssl/{openssl_3.0.19.bb => openssl_3.0.21.bb}     | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.0.19.bb => openssl_3.0.21.bb} (95%)
 
-diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb
-index f4881f3c2f..55d434ed21 100644
---- a/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb
-+++ b/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb
-@@ -2,8 +2,9 @@ SUMMARY = "Set of i2c tools for linux"
- HOMEPAGE = "https://i2c.wiki.kernel.org/index.php/I2C_Tools"
- DESCRIPTION = "The i2c-tools package contains a heterogeneous set of I2C tools for Linux: a bus probing tool, a chip dumper, register-level SMBus access helpers, EEPROM decoding scripts, EEPROM programming tools, and a python module for SMBus access. All versions of Linux are supported, as long as I2C support is included in the kernel."
- SECTION = "base"
--LICENSE = "GPL-2.0-or-later"
--LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-+LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-+                    file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.19.bb b/meta/recipes-connectivity/openssl/openssl_3.0.21.bb
+similarity index 95%
+rename from meta/recipes-connectivity/openssl/openssl_3.0.19.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.0.21.bb
+index 293b450cd0..2531305cda 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.19.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.21.bb
+@@ -12,20 +12,13 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+-           file://CVE-2024-41996.patch \
+-           file://CVE-2023-50781-1.patch \
+-           file://CVE-2023-50781-2.patch \
+-           file://CVE-2023-50781-3.patch \
+-           file://CVE-2023-50781-4.patch \
+-           file://CVE-2023-50781-5.patch \
+-           file://CVE-2023-50781-6.patch \
+           "
  
- SRC_URI = "${KERNELORG_MIRROR}/software/utils/i2c-tools/${BP}.tar.gz \
- "
+ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[sha256sum] = "fa5a4143b8aae18be53ef2f3caf29a2e0747430b8bc74d32d88335b94ab63072"
++SRC_URI[sha256sum] = "617e29af8e421f46649484a4937e48c685e47f46488167c982f88bc4ec1d522f"
+ 
+ inherit lib_package multilib_header multilib_script ptest perlnative
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
 2.34.1
 
