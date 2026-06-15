@@ -1,209 +1,96 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <florin.diaconescu009@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57430CD98CF
-	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 14:56:57 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.131670.1781535416668524473
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9D64CD98C5
+	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 15:39:58 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.132725.1781537989791134756
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2026 07:56:57 -0700
+ Mon, 15 Jun 2026 08:39:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ndbBdCoq;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490b8ac62baso33868255e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 07:56:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=BUqlsvzN;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: florin.diaconescu009@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4922244f7c7so18665795e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 08:39:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781535415; x=1782140215; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gsprOZZPDenDpB3deN6TiF7NpNKDf/O8dSM9XMzk3h4=;
-        b=ndbBdCoqj5fvELWcq+XY6DmCoMbrZ5O90B8+doP3cJJvdQnTJMBj8SzzYFtwefmkZZ
-         TVEn464lM7XSvuHbMThchkpM6vg/ynTq+Ud2EN8+9aeR7jTgM5NqfvXcpQnwyGhrty2i
-         +w1MwZOUPYuREvW2RGFUZka4u6vwXsZm4stWk=
+        d=gmail.com; s=20251104; t=1781537988; x=1782142788; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8cOmxyXdJAamiwPA+lti9oWIuzDN3d2X1tJxE9TH40Q=;
+        b=BUqlsvzNlBRo+lJPGkE811QDCJsTZ+jxaGv6Aa5BAFIRCwBbNjjS/sMyPxP3+GLdM5
+         a9rsrr2a7J32GZWAEBP6IrDf8aTyaXKuOB9kq8N91maBd/4cglUs3yT1hR8eIpYinUAP
+         gFukKuO+GYYn6jfxTJYZTXD3w667637yuerZao4eWq1nJu1pf5Vdgvwp+051vCtaWSX6
+         iIt3zo8DsP8BnM/70TQ+fAai/ONXEAHCiAhV38FITz2v11n0XPbmdT3+qxCyFQiadb+7
+         07pB7xS+BVDfEWKWmrB6Zfzwy6c3nNrc67EpwnOLK3vw8KtL/ltquD7491Duc1wVDXQ8
+         /zHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781535415; x=1782140215;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gsprOZZPDenDpB3deN6TiF7NpNKDf/O8dSM9XMzk3h4=;
-        b=Di5c+ThgN+GqrMIeJ8UJ69beBOfOtRqwV0yJerTFTcS2Y/6LVokr+ntLNvM99zR/pk
-         BjkUWskQMvjJ/XoK7n+sKl7yEjvettN0g80J2AuHfjt/QXLc5JV7w415yAa9O8mh3FBO
-         Au7C7znWVQhD+xC2L7W+qAmcG7DDdDhmk4bfciKiaAcDaoftwCfP0HtQAo8EeDhWTgcL
-         3GH/RLizXIJFUav7gs1BZ6cgaRg9TYnP546HgLfgRbtLZrkUUhz2/Rm7NjEZKqI+qcRE
-         AB5u2Ebodqxy9iNwoSwLAdSh8C5Z+VR7QoF4YzvHBYAqPzM1hmna11yG0MqVUu19lc8R
-         SVdw==
-X-Forwarded-Encrypted: i=1; AFNElJ/hIqrZ1yILNxTTW3DNWDfUOTCzrLOZOAtCX2NWIh+Uv1JSjpZQeUz7I7DAo4nlG5v7/tqq+wt3B8NJ5QwafGj5pQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwnXPt3mRzGc+5Bdq20N0Ljz6LYb1CstPjTlbvgCXeqx/L/Kz34
-	J4HofBuRdkG0NqaDR4ZWzyvdm4olCfQeu9yp3Rl6tmGeEm47lMAOUiJDrcXvsDPZN8I=
-X-Gm-Gg: Acq92OHAfU0ONxwGMpJvbXcvIEQJ2iLC+T2RtqX7GaZUs0J8IM9RtScKrJ9vV6YLKFR
-	Mgi3WFFRwWur0UQ2F6OKY8D54K2z+6vkcVLR+nNKMSbeF2a0lDPdsL65289xk2kee8KduG20hnD
-	jRvc2kJ4xDRx0ENEVCyOgXdR5Yi5sqoBjhAZQBvMaGfGBw4LPX9uYcMamnya5xAgd7+g7d1k70b
-	f4Ml8R5YxAUNZd15xdy7lyCDQA/jkOKEd07vsx9IWFXYrXl3LZJlHycXQNdJI9431oJAzPKC5GM
-	XSTpTVXbzMmyz/owIf5NUSIiwgX0rSe7pnY0OMlYRxKV4THeR8UCq6uix/yBT3iWbgNh5ss3gIb
-	UkXnHfU6nCka+VOmVoBN6nBT/cuPJya/5UPR4xhJDzDMbsIh/nv2sYhoQZNWh6Of66Jj1G8Fh6s
-	AkwEVdVbqPT3sxQ198M3887USexbOpoHcdYxxsOJP34iRLbADzsHgmOwgRpp1pRAuQrW8XNdPSm
-	5dV+WyCCyIW/1G2FyMYVvVn1A==
-X-Received: by 2002:a05:600c:1d89:b0:490:ad1e:1846 with SMTP id 5b1f17b1804b1-490ec4d786emr152931035e9.9.1781535414790;
-        Mon, 15 Jun 2026 07:56:54 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922034c1cbsm215413155e9.10.2026.06.15.07.56.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jun 2026 07:56:54 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 15 Jun 2026 16:56:53 +0200
-Message-Id: <DJ9PLINYS56D.SN9IE3Q5O3B2@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.9
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: "Marko, Peter" <Peter.Marko@siemens.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260110224453.395105-1-peter.marko@siemens.com>
- <DG63GSU9MVS3.304EAXA47JAF9@smile.fr>
- <AS1PR10MB5697F71F42D54E6DF1DBDA63FD6AA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM> <DGIZMOWN2GMB.2LUW1QWT0MLRW@smile.fr> <AS1PR10MB569707821CD8C3C3AA8DC9D8FD76A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB569707821CD8C3C3AA8DC9D8FD76A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+        d=1e100.net; s=20251104; t=1781537988; x=1782142788;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8cOmxyXdJAamiwPA+lti9oWIuzDN3d2X1tJxE9TH40Q=;
+        b=QsVZYnPoy46TLYhemL3J7DEYtNKOifcjrDqkbzeW8VdG91dhVEaKIKHLigI042GZQK
+         dWu6uImHSe2pCp4/JizWnNCtMmXdP22I/R6z7ErrTqQb/bzOtU6bGpm5pTU3DeyxXowi
+         2I9GG53mtIir8k5ByHNzuOb1MJh54ZjCJmgLzoXx0QHn8cY7uO58kpeWhjnPv47qF6FZ
+         ClYjU1f3MlBUTJW9OLoDgh8/BeF41wgdepjQatJUNvApqk+OOMOHAkTRVS6y/oZEbSFP
+         GpvAt/SyW0Gm0mKi5rN/JYbnvpLCbgvudhstyxx7JR/iTvkoN6St1pBSUMA8y9jMeaGH
+         ksUw==
+X-Gm-Message-State: AOJu0Yz2Kk94yZlOYkTZSGREN9o8NmsXwrFmmgM6U1QxtFceQDKADNym
+	FYBpvnfnCiIE643fNMHlew5ZX1scbapxTCJRhKnwvmSNS7rKR3OUfXNB+9G2Sg==
+X-Gm-Gg: Acq92OH+O8yCox24Vrd/PlTwoQbNI03qEwpYgqWrb3mQDrJAbpZaiji7zjNzeJUY4C0
+	+YJpudIdjnBPnqvYL1QewqyceksfyQ/IKgDcjcff8l05xvtGkm2H1Kl6DWMUTJjMh0gAGHHcrjR
+	UUmTEzxLFsNoxUODcBtiDb0FJeu/1Ub/Czd15zPAqZ5rUDY7d3Y3ex6YRuJMA7wqz6f/rUNbVGI
+	SMSbx8qukd4iBCx3bP1tmSXoweBrTdxx5hx7lJJi1ZCqyIGta3vVzy7+h/Y5tBP28qQ0qlSiD4V
+	paM0J6elzN2z/zQqgNY474xqFHS+/tsM6tTieq/2g4qdwbilQrx1OTTMYSBHuaZuuLjkms2y3rj
+	Kb4Wvrhd+r5GExy4em2HJviojX7rNqe8/owdCvoG38CCxShDfiGMRj6qR7c+xsZuNGidorhHrFX
+	37mq6BNqN5+eOydqpZSn0ISjSi8ngOmB7iiV7/wOur9qneQMIi3RtUgw==
+X-Received: by 2002:a05:600d:8444:10b0:48a:7a10:4f17 with SMTP id 5b1f17b1804b1-4922005e01fmr105340255e9.6.1781537987725;
+        Mon, 15 Jun 2026 08:39:47 -0700 (PDT)
+Received: from FDIACONESCU-3TG.lenovo.com ([92.87.113.27])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa50c26sm1241765e9.7.2026.06.15.08.39.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 08:39:47 -0700 (PDT)
+From: Florin Diaconescu <florin.diaconescu009@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Florin Diaconescu <florin.diaconescu009@gmail.com>
+Subject: [PATCH] scripts/rpm2cpio.sh: Use 'xz -dc' instead of xzcat
+Date: Mon, 15 Jun 2026 18:39:44 +0300
+Message-Id: <20260615153944.112726-1-florin.diaconescu009@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 14:56:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238855
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 15:39:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238856
 
-On Sun Feb 22, 2026 at 9:53 PM CET, Peter Marko wrote:
->
->
->> -----Original Message-----
->> From: Yoann Congal <yoann.congal@smile.fr>
->> Sent: Thursday, February 19, 2026 14:55
->> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
->> openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.9
->>=20
->> On Wed Feb 18, 2026 at 10:28 PM CET, Peter Marko wrote:
->> >
->> >
->> >> -----Original Message-----
->> >> From: Yoann Congal <yoann.congal@smile.fr>
->> >> Sent: Wednesday, February 4, 2026 11:10
->> >> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
->> >> openembedded-core@lists.openembedded.org
->> >> Subject: Re: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.=
-9
->> >>
->> >> On Sat Jan 10, 2026 at 11:44 PM CET, Peter Marko via
->> lists.openembedded.org
->> >> wrote:
->> >> > From: Peter Marko <peter.marko@siemens.com>
->> >> >
->> >> > Handles CVE-2025-68973.
->> >> >
->> >> > Refresh patches.
->> >> >
->> >> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
->> >> > ---
->> >> >  meta/recipes-support/gnupg/gnupg/relocate.patch    | 14 +++++++---=
-----
->> >> >  .../gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9.bb}       |  2 +-
->> >> >  2 files changed, 8 insertions(+), 8 deletions(-)
->> >> >  rename meta/recipes-support/gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9=
-.bb}
->> >> (97%)
->> >>
->> >> Hello,
->> >>
->> >> I've tested that on autobuilder but got an error in oe-selftest-debia=
-n:
->> >> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3=
-138
->> >>   ERROR: autoconf-native-2.72e-r0 do_recipe_qa: GPG exited with code =
-2:
->> gpg:
->> >> signing failed: Corrupted protection
->> >>   gpg: signing failed: Corrupted protection
->> >>   ERROR: patch-native-2.7.6-r0 do_recipe_qa: GPG exited with code 2: =
-gpg:
->> >> signing failed: Corrupted protection
->> >>   gpg: signing failed: Corrupted protection
->> >>
->> >> I've started a build with this gnupg upgrade reverted to confirm that
->> >> this is indeed the cause:
->> >> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3=
-142
->> >>
->> >> Can you look at this?
->> >> Thanks!
->> >
->> > Unfortunately, I'm not able to reproduce this failure.
->> >
->> > On my Debian 11 I have:
->> > SANITY_TESTED_DISTROS =3D ""
->> > PACKAGE_CLASSES =3D "package_rpm"
->> > RPM_GPG_SIGN_CHUNK =3D "1"
->> > IMAGE_CLASSES +=3D 'testimage'
->> > And run:
->> > oe-selftest -r signing -j 16
->> > And get:
->> > oe-selftest - INFO - RESULTS -
->> signing.LockedSignatures.test_locked_signatures: PASSED (122.35s)
->> > oe-selftest - INFO - RESULTS - signing.Signing.test_signing_packages:
->> PASSED (155.34s)
->> > oe-selftest - INFO - RESULTS - signing.Signing.test_signing_sstate_arc=
-hive:
->> PASSED (121.11s)
->> > oe-selftest - INFO - oe-selftest - OK - All required tests passed (suc=
-cesses=3D3,
->> skipped=3D0, failures=3D0, errors=3D0)
->>=20
->> FYI, the failing build:
->> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3138
->> ... was on Debian 12
->> (It's the retry with this patch reverted that was on Debian 11)
->>=20
->> Scarthgap has since been successfully retried on Debian 12 (without this
->> patch):
->> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3226
->>=20
->> Can you check this on Debian 12?
->
-> I have retested with Debian 12 and 13 and the tests were green.
-> I guess I'm missing some configuration from AB so I have no clue how to f=
-ix it...
-> So again, I'm just going to backport the CVE patch for now instead of upg=
-rade...
+rpm2cpio.sh calls xzcat to decompress,and xzcat is equivalent to:
+xz --decompress --stdout (-d and -c, in short)
 
-I've now taken this very same upgrade but that time it has gone through
-AB without errors.
+Since commit d1930f8, it is assumed that xz is provided, but 'xzcat'
+used in rpm2cpio.sh is not listed in HOSTTOOLS. With it being only a
+symlink, and with commit eb3ec74 replacing bzip2 with bunzip2 in a
+similar way, this fixes the bin_package class for rpm without adding
+xzcat to HOSTTOOLS.
 
-Sorry I did not take yours.
+Signed-off-by: Florin Diaconescu <florin.diaconescu009@gmail.com>
+---
+ scripts/rpm2cpio.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> Peter
->
->>=20
->> Thanks!
->>=20
->> > So I guess I just backport the CVE fix instead of this upgrade.
->> >
->> > Peter
->> >
->> >>
->> >> Regards,
->> >>
->> >> --
->> >> Yoann Congal
->> >> Smile ECS
->>=20
->>=20
->> --
->> Yoann Congal
->> Smile ECS
-
-
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/scripts/rpm2cpio.sh b/scripts/rpm2cpio.sh
+index 8199b43784..9343f70ea3 100755
+--- a/scripts/rpm2cpio.sh
++++ b/scripts/rpm2cpio.sh
+@@ -58,7 +58,7 @@ hdrsize=$rsize
+ case "$(_dd $offset bs=2 count=1 | tr -d '\0')" in
+ 	"$(printf '\102\132')") _dd $offset | bunzip2 ;; # '\x42\x5a'
+ 	"$(printf '\037\213')") _dd $offset | gunzip  ;; # '\x1f\x8b'
+-	"$(printf '\375\067')") _dd $offset | xzcat   ;; # '\xfd\x37'
++	"$(printf '\375\067')") _dd $offset | xz -dc  ;; # '\xfd\x37'
+ 	"$(printf '\135')") _dd $offset | unlzma      ;; # '\x5d\x00'
+ 	"$(printf '\050\265')") _dd $offset | unzstd  ;; # '\x28\xb5'
+ 	*) fatal "Unrecognized payload compression format in rpm file: $pkg" ;;
 
