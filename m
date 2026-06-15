@@ -1,316 +1,210 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58FC7CD98CF
-	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 14:03:53 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.130406.1781532229562897234
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1752CD98C5
+	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 14:23:03 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.123121.1781501229805256421
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2026 07:03:50 -0700
+ Sun, 14 Jun 2026 22:27:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=2NcPhNhL;
- spf=pass (domain: smile.fr, ip: 209.85.167.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5aa68cf03bfso3923702e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 07:03:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781532227; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=nbXl8ylK;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: adityags2004@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aa68d9d4a3so3213748e87.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 22:27:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781501228; cv=none;
         d=google.com; s=arc-20240605;
-        b=f++Gqcpi1Ys8EFUyCSCLBB0BCr5EGmb9I8zxkEyTIhaBfSpgY0PHkNaWi9CrWNsxIw
-         rfDCImW25WIXWEm9sHQqqZHk7EeiBmuiaHhQWyT+EjLAH3MV1JTu/9G9crivkALAdo4p
-         ouUvappxdlXhRUKDko09RfiNQfOafRjY26UGk1VIWnGWAH4dCmAJJyvBZAuV5mHCM5pr
-         9oBdsbesQtlw/JqX3Q6RffGuNU2gzU/8JQoYad96YxBCKR2wXHVgAH6FcOYwEBugJOg2
-         Brc/ar08Bi184kTBszmqU7mNxsmyNgY1U/1bOjKO4UvcJws8+983ets/XF6GGYpgkPzy
-         OwjA==
+        b=bwyCdfnnXexUcL/CsVaIHZfzv64C35aEpQ5nD5cZuD19o64vPFOQDKvpJHv1dmTWtz
+         HYq57+86ZsAVMbmXepYdvhbmqhABcjj/bqQWBfKYHmW5YDH7z5LAky7hiBxqPl6k7rdg
+         Ih9oQ4tQkZAGQKB7nTiDtUzxU15B+UMTBnOgVWPseWUOxAiTNlBcPNxJghlTqu+3X8cI
+         6EeRyi7kD4gr3289noh50w7p+J6nHEtqZIV5C2KYNKufqY43qV/I6BHcxz35PLGqCarE
+         bekpZr4vZ+L+i2pQJR1yFBKo15bmBlURAfG027ewUh0OEReB96bMt7xYZD6eZ8iJKdKO
+         N5QQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=+8TBZ/MGMx3yg97Bmd1/Thv8dNJbn2NhN/Ekx3hYG28=;
-        fh=kyrcx/wGdP1K8AcZ1t5dlAg43e9Kck6gc8gLfroTQbI=;
-        b=G8j3HP+uS83LcD719Nch/2aITi/YCzLEhE+3ugEo1/07Pt7Pz6yUvvUnYDtlF3IjmH
-         GshdSH+v1jKd1mm1KB4y2jxtJVaFZZu0dnEudnJYe+fUroCC3c+g8tJ7vbbBliYsHVc+
-         pYb5yL55xtfZONbbU/6ZhHzmhxSvDift6OwzcX/nQYl+IH78jXChe+Wwi4uNU5kERlVM
-         ZAn/R+0v0QUXMhn0BVUXR/68jlqapZ4XIuDfvqfjx0czVPEJh+AmYa2WnOkqHOH/N7sB
-         rH1YXyB+MsymF+k7D1HQTQ9ByG+nipM+THB9KQ5x9ETfafziWdgEXUmuiEFpba6+cgJz
-         sMUA==;
+        bh=7yFTVlUM5fqtTv7yGDiMfyowCyIF3jsGwvnNpHTaj4A=;
+        fh=9lY65nN0TEMrEQMKxg+aHg+T06NFIZOGgB1tC9Cp6GE=;
+        b=H842yRCr9WkMQ+zlGx5kKNfRWJyq7ZhfUJlSvHbA2MLvHhU8CyEaWMvhrQhEM5+NQv
+         bhSigyMKUeAYvSYMLutHw/aJ5leyvtAXvLzPTvxVe1rL9NMUOEeFtbZ3wepJVjk6vQ9O
+         TZaHqmFQrYwwJa79GdpzX1Z72EboQMcxFxToPZ41GzjiS5HHHy2ICVu8LDkP+/J2QjLF
+         /pPSwXhJuqRLVb3E2oPSRKfAparIodz/1S7+3MhHPg+aVUQyGvWBeyv4IWSA0uLRWjzb
+         0mjv0d4fdYulnsloVfTtqqKulDg/d1SUJEed/NCgc2ZJxZye/2JVmsuWfWZdI8JogNFZ
+         WaJA==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781532227; x=1782137027; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1781501228; x=1782106028; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+8TBZ/MGMx3yg97Bmd1/Thv8dNJbn2NhN/Ekx3hYG28=;
-        b=2NcPhNhLGAitALfs9d/+hQlTPG68kygr5q5AdPFTcxi3WAShPMai5tKCl2AyhSzy29
-         2a7oePKFWfz+IlqWkX4ssBPm+7lCYSFZVLNgEcnd7PsD0v/5/XONGnUE3QBn12lBjfhx
-         X8mmx0xe9f+VGuJamdGoxPYa5Jo/UgpyBGG9M=
+        bh=7yFTVlUM5fqtTv7yGDiMfyowCyIF3jsGwvnNpHTaj4A=;
+        b=nbXl8ylKW1Oydix5Tly9chP0g5D9+JkjBkyEYbCBzGqxxD6Bavd8RQMbh5pDaeytzI
+         7WQPgB3LCzBxpgNdelrDoHuhQQd/pNDh8Lz6VJxhDPgu9kcAX62MzDso77DCpssBJADK
+         386sXY2dxydjYujrJeqg3rcnei0LslMXHZBNdJs4bTs4/SKFftk4QrvQA24bYZBFDOMx
+         YAcHKVf3OWmPxNUwQR2xFhLrePEUPnazE4wj5qiUYzbukE6ODI0XRLRWYUYWh9UeuPmr
+         Jt9V18+OJ7EHSmKLa/t54yVkwOQvyR9Qp3iNDgTQNKoaTl4Lv5VnHZZWZZGEPMN7MEwv
+         V2Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781532227; x=1782137027;
+        d=1e100.net; s=20251104; t=1781501228; x=1782106028;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+8TBZ/MGMx3yg97Bmd1/Thv8dNJbn2NhN/Ekx3hYG28=;
-        b=Yvg3qTH1g0CBskQfscr+m1ZRVBBAQCHPsYGUhKs5OXftHLUC415e88MZLmL52jo+EZ
-         vlOkprAQlbt7b4QEJjpCHKvBmNS4VSLRoekuG2IFH8IpXkgzXnVSCz367OUCoy5Vbm8L
-         xUriAohAFx3rmCKBDYW0eZVXj6JFT7HgMHdKjgcMPJQMhkxaZbecscu6SR5donjBLiq3
-         8P4POGHYbvhPhCJeUYwga9uXcTQatr13aQeaT9+V6Yp4qqT/BUcgddpxpi3q+VUeGPwu
-         7m7ywSMJaXShHel0h7hM7P6YaBBjp9FaPLih7AuDye3EA/LPsHlkn5QY3ceLGVWPPC/l
-         ROZQ==
-X-Gm-Message-State: AOJu0YzsN0PQQxPaGGh4gBp4upz1a8oIu5vfPjQ3OVoj7rYO2yImlBcu
-	Z2buuJBM0hFSsgE3TIZokngUyoZeyJ8zMdAd36AUaqruSVmuwC4yBajkRU8c5d7nEuHf/77Iu51
-	7/jqnIIMisWVEOfVPqYZTZ3DY/ZLoOjh/Y8ZxXVTXog==
-X-Gm-Gg: Acq92OG4KJzI3jBwojqAIuUHJhFSzbobNiAEzMhXj20ZrZ0f2j+i80T6Ljn/nT+7bVS
-	MhAzQqYjfIArpQp8vxRGzYHTgYNhfiU1yHC9fTylaEsVxGujaC7Sal8NTGIGaYNG5YhOM9581+o
-	uusYxxkO2Evfkh/XmEiiFTqOdGhYTfpaUyPf/ywTqHO/U45oREapMk6ShrMu8+fKLc2biNKOdQK
-	BgNu1XRpmDnx+pBJ7RXPGihye+jV+vFTOqFbVslWVPAAp+pRVni3HAg06gsK50fAYrGWWzY73t2
-	v5dtdSlbpO9zgGo9EYXnADYDPzUhf3+dMFNh8bQr
-X-Received: by 2002:a05:6512:3f18:b0:5a8:7317:5417 with SMTP id
- 2adb3069b0e04-5ad2db1dd00mr3257795e87.9.1781532227101; Mon, 15 Jun 2026
- 07:03:47 -0700 (PDT)
+        bh=7yFTVlUM5fqtTv7yGDiMfyowCyIF3jsGwvnNpHTaj4A=;
+        b=dR1itFM79k+iowRv7l0MXw1mBbdA8Zr7w2Xs+ax3o6N5FOOnXm1g3d11ci38Twx6LK
+         piUbloY3/gs2gVDnwV8y1/U8LPjsuW2bxYNjazKhKyVOFbLTpNBLP46785dMCv38OCec
+         0TgT9JcJqvRD7z7JXWgfZy/7T8Yxy3txgx7woKoiffdB1skFXplDIsYB9VLCjoEjoJZ7
+         k4XxS+jEMMU1UcETErxir09UVVy0rnp7r6Z+NXxhh33kyz0lUv9VM/4xocH97LXVU2GO
+         sTiLNu2r5coNDJ2pj78uD0soWqqE1LQorx7rjrVw9xSBvmH3hKPyemlbXaZpkemEe23W
+         6Qng==
+X-Gm-Message-State: AOJu0Yzw41gsegxvfYDW1/NSErgP/EEzQzpjbRIzjGBVfmafS0eHqXRo
+	OAwSN+GNIES6JYz0Vnk8HCPtnOnxok13dfmUu6lCuLHqVLnHIjTXLFuoIjje+NJJggQIhNm94yV
+	nhguP2b4vpm9FXV5gwBHQ2FcvYrPAwiQwJw==
+X-Gm-Gg: Acq92OEsOsXXAxwRcmWdEW1GkqKjNApHa9M/Q7AueABtGzoh22KAjIzzJw4gffute8u
+	NlMMsXIDKUl97Etd1CyDTN2E2N3M/HvSFTzEgF/hVHcrc9EPJa65W8QqPs1tlG6Ey3SEARegv27
+	jaacu99Jue+UCJT+1hNIXjWhAHi0H8o2JvQkU7lRQ6Vhioc0N/jTxshDXJMWMM5f+7cZfJ69Kvg
+	C6AC2IMDPMLurfdiOiANYhalNjSpEVRAg25hnH1TnMVvZRSPM4dwbQiKcXtf/4p/U5rOddBN2wi
+	VHy+9dtiRszDc7qfthwBNmdpA/nirkUJPf0ENePeVruNWQhGSkeNp9nkfbpNVs6VE2kTog==
+X-Received: by 2002:a05:651c:2116:b0:396:892a:7392 with SMTP id
+ 38308e7fff4ca-3992b2e7221mr35422011fa.29.1781500850854; Sun, 14 Jun 2026
+ 22:20:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260608215354.3664441-1-peter.marko@siemens.com>
- <20260608215654.3664494-1-peter.marko@siemens.com> <20260608215654.3664494-2-peter.marko@siemens.com>
- <DJ9N3LXO3BIZ.1ZNV8G69H1RCK@smile.fr> <AS8PR10MB5073D3D3C7276E78F4A5EEF9FDE62@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS8PR10MB5073D3D3C7276E78F4A5EEF9FDE62@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Mon, 15 Jun 2026 16:03:20 +0200
-X-Gm-Features: AVVi8Cer2Vtgj-QwpuLNbPNbBdp9ZbVEiOp-jRc8WDKyYO0uW9vmU6QjDVtmKO0
-Message-ID: <CAMSfU+5mgOt-JwHpdGWvyA1yaVA+Bzvs=OiJPXk_KLuCiabe2Q@mail.gmail.com>
-Subject: Re: [OE-core] [wrynose][PATCH 3/6] python3: use SKIPPED_TESTS instead
- of test skip patches
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000008d7e5506544b4b56"
+References: <20260611090957.2606-1-adityags2004@gmail.com> <CANNYZj_GQpodkUJxX6BvTUz6=ZrRGQJ2b+5fSvm9KJVtBaOzpg@mail.gmail.com>
+In-Reply-To: <CANNYZj_GQpodkUJxX6BvTUz6=ZrRGQJ2b+5fSvm9KJVtBaOzpg@mail.gmail.com>
+From: "Aditya G.S" <adityags2004@gmail.com>
+Date: Mon, 15 Jun 2026 10:50:38 +0530
+X-Gm-Features: AVVi8CeKcWjvwNkhZNObZi4BIFdZ5tgtyU9GpZE644y5NQIIphD9ZY7PcUq-TSc
+Message-ID: <CAHaUZZBxYbO=+CXDo=DDd5AZ1W_WvPxnd_zmCn7QMeUwGEjdiw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] patchtest: warn if Upstream-Status is after patch scissors
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, tgamblin@baylibre.com
+Content-Type: multipart/alternative; boundary="00000000000061ddfa065443fd06"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 14:03:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238853
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 14:23:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238854
 
---0000000000008d7e5506544b4b56
+--00000000000061ddfa065443fd06
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le lun. 15 juin 2026 =C3=A0 15:56, Marko, Peter <Peter.Marko@siemens.com> a
-=C3=A9crit :
+Hi Alex,
 
+Thanks for the clarification.
+
+I understand now that the behavior should remain a hard failure in oe-core,
+and that the earlier interpretation was incorrect.
+
+I'll drop the patch that downgrades the check to a warning.
+
+Thanks for pointing out the existing commit in oe-core as well that helps
+clear up the confusion.
+
+Regards,
+Aditya
+
+On Sat, Jun 13, 2026, 6:41=E2=80=AFPM Alexander Kanavin <alex.kanavin@gmail=
+.com>
+wrote:
+
+> On Thu, 11 Jun 2026 at 18:05, Aditya GS via lists.openembedded.org
+> <adityags2004=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > [YOCTO #15940]
+> >
+> > Detect cases where Upstream-Status is placed after the patch
+> > scissors ("---") and emit a warning instead of failing.
+> >
+> > Such placement may be intentional in some workflows to avoid
+> > including the tag in upstream commits.
 >
+> I'm afraid there has been a confusion here, and the patch is not correct.
 >
-> > -----Original Message-----
-> > From: Yoann Congal <yoann.congal@smile.fr>
-> > Sent: Monday, June 15, 2026 2:59 PM
-> > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
-> > openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [wrynose][PATCH 3/6] python3: use SKIPPED_TESTS
-> > instead of test skip patches
-> >
-> > On Mon Jun 8, 2026 at 11:56 PM CEST, Peter Marko via
-> lists.openembedded.org
-> > wrote:
-> > > From: Trevor Gamblin <tgamblin@baylibre.com>
-> > >
-> > > Drop all 13 patches carried for skipping various known ptest failures
-> > > and replace them with usage of the SKIPPED_TESTS variable, which we
-> have
-> > > started doing in recent commits (e.g. 40b0815dc9). Most but not all o=
-f
-> > > the test skips are due to load variability, distinguish between them =
-by
-> > > using multiple SKIPPED_TESTS:append blocks with comments taken from t=
-he
-> > > patch files indicating their purpose. This adds 62 lines to the Pytho=
-n
-> 3
-> > > recipe, but it also means that we no longer have to maintain the patc=
-h
-> > > files across version upgrades, where they often break due to changes =
-in
-> > > the test modules upstream.
-> > >
-> > > Results look the same as those from my last upgrade run:
-> > >
-> > > |=3D=3D Tests result: SUCCESS =3D=3D
-> > > |
-> > > |28 tests skipped:
-> > > |    test.test_asyncio.test_windows_events
-> > > |    test.test_asyncio.test_windows_utils test.test_gdb.test_backtrac=
-e
-> > > |    test.test_gdb.test_cfunction test.test_gdb.test_cfunction_full
-> > > |    test.test_gdb.test_misc test.test_gdb.test_pretty_print
-> > > |    test_android test_apple test_asdl_parser test_clinic test_devpol=
-l
-> > > |    test_free_threading test_generated_cases test_idle test_kqueue
-> > > |    test_launcher test_msvcrt test_startfile test_tcl test_tkinter
-> > > |    test_ttk test_ttk_textonly test_turtle test_winapi
-> > > |    test_winconsoleio test_winreg test_wmi
-> > > |
-> > > |9 tests skipped (resource denied):
-> > > |    test_curses test_peg_generator test_smtpnet test_socketserver
-> > > |    test_urllib2net test_urllibnet test_winsound test_xpickle
-> > > |    test_zipfile64
-> > > |
-> > > |455 tests OK.
-> > > |
-> > > |Total duration: 3 min 9 sec
-> > > |Total tests: run=3D47,012 (filtered) skipped=3D2,336
-> > > |Total test files: run=3D483/492 (filtered) skipped=3D28 resource_den=
-ied=3D9
-> > > |Result: SUCCESS
-> > > |DURATION: 190
-> > > |END: /usr/lib/python3/ptest
-> > > |2026-05-29T02:22
-> > > |STOP: ptest-runner
-> > > |TOTAL: 1 FAIL: 0
-> > >
-> > > Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > (From OE-Core rev: a8b2baa6020f96468a98200619ec37c460694c4c)
-> > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> > > ---
-> >
-> > Hello Peter,
-> >
-> > After discussing with Paul, we decided to not take patches 3, 4 & 6/6 o=
-f
-> > this series. Those are (as of now) only cleanups and thus not eligible
-> > for stable merge.
-> >
-> > This will be most likely be revisited when a fix appear on master in th=
-e
-> > SKIPPED_TESTS list.
-> >
-> > Thanks!
+>  The bug was already addressed in oe-core earlier:
 >
-> OK, let's see on next upgrade what is needed for a clean cherry-pick.
-> v3.14.6 is already out, I will do the upgrade later this week.
+> commit 2156ef9e6defa3ec9087789fcea25fb4fee7b83c
+> Author: Luka Krstic <lukakrstic031@gmail.com>
+> Date:   Thu Dec 18 10:11:38 2025 +0100
+>
+>     patchtest: reject Upstream-Status after scissors
+>
+> but the bugzilla ticket was never closed.
+>
+> Then https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15940#c1 was
+> interpreted as a request to downgrade it to a warning, but we should
+> not be doing that: it means patchtest will not longer actually notify
+> of the issue on the oe-core mailing list.
+>
+> I understand some other layers intentionally put it after the
+> scissors; if they're using patchtest, they can disable this particular
+> test or configure it to produce some kind of soft fail, but in oe-core
+> it should remain a hard fail.
+>
+> Alex
 >
 
-Sounds good.
-Thank you!
---=20
-Yoann Congal
-Smile ECS
-
---0000000000008d7e5506544b4b56
+--00000000000061ddfa065443fd06
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0lun. 15=
- juin 2026 =C3=A0=C2=A015:56, Marko, Peter &lt;<a href=3D"mailto:Peter.Mark=
-o@siemens.com">Peter.Marko@siemens.com</a>&gt; a =C3=A9crit=C2=A0:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+<div dir=3D"auto">Hi Alex,<div dir=3D"auto"><br></div><div dir=3D"auto">Tha=
+nks for the clarification.</div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o">I understand now that the behavior should remain a hard failure in oe-co=
+re, and that the earlier interpretation was incorrect.</div><div dir=3D"aut=
+o"><br></div><div dir=3D"auto">I&#39;ll drop the patch that downgrades the =
+check to a warning.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Than=
+ks for pointing out the existing commit in oe-core as well that helps clear=
+ up the confusion.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Regar=
+ds,</div><div dir=3D"auto">Aditya</div></div><br><div class=3D"gmail_quote =
+gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jun 13=
+, 2026, 6:41=E2=80=AFPM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavi=
+n@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">On Thu, 11 Jun 2026 at 18:05, Aditya GS via <a href=3D"http=
+://lists.openembedded.org" rel=3D"noreferrer noreferrer" target=3D"_blank">=
+lists.openembedded.org</a><br>
+&lt;adityags2004=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" targ=
+et=3D"_blank" rel=3D"noreferrer">gmail.com@lists.openembedded.org</a>&gt; w=
+rote:<br>
+&gt;<br>
+&gt; [YOCTO #15940]<br>
+&gt;<br>
+&gt; Detect cases where Upstream-Status is placed after the patch<br>
+&gt; scissors (&quot;---&quot;) and emit a warning instead of failing.<br>
+&gt;<br>
+&gt; Such placement may be intentional in some workflows to avoid<br>
+&gt; including the tag in upstream commits.<br>
 <br>
-&gt; -----Original Message-----<br>
-&gt; From: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr" target=
-=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
-&gt; Sent: Monday, June 15, 2026 2:59 PM<br>
-&gt; To: Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Peter.Marko@s=
-iemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;;<br>
-&gt; <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"=
-_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Subject: Re: [OE-core] [wrynose][PATCH 3/6] python3: use SKIPPED_TESTS=
+I&#39;m afraid there has been a confusion here, and the patch is not correc=
+t.<br>
 <br>
-&gt; instead of test skip patches<br>
-&gt; <br>
-&gt; On Mon Jun 8, 2026 at 11:56 PM CEST, Peter Marko via <a href=3D"http:/=
-/lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openemb=
-edded.org</a><br>
-&gt; wrote:<br>
-&gt; &gt; From: Trevor Gamblin &lt;<a href=3D"mailto:tgamblin@baylibre.com"=
- target=3D"_blank">tgamblin@baylibre.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Drop all 13 patches carried for skipping various known ptest fail=
-ures<br>
-&gt; &gt; and replace them with usage of the SKIPPED_TESTS variable, which =
-we have<br>
-&gt; &gt; started doing in recent commits (e.g. 40b0815dc9). Most but not a=
-ll of<br>
-&gt; &gt; the test skips are due to load variability, distinguish between t=
-hem by<br>
-&gt; &gt; using multiple SKIPPED_TESTS:append blocks with comments taken fr=
-om the<br>
-&gt; &gt; patch files indicating their purpose. This adds 62 lines to the P=
-ython 3<br>
-&gt; &gt; recipe, but it also means that we no longer have to maintain the =
-patch<br>
-&gt; &gt; files across version upgrades, where they often break due to chan=
-ges in<br>
-&gt; &gt; the test modules upstream.<br>
-&gt; &gt;<br>
-&gt; &gt; Results look the same as those from my last upgrade run:<br>
-&gt; &gt;<br>
-&gt; &gt; |=3D=3D Tests result: SUCCESS =3D=3D<br>
-&gt; &gt; |<br>
-&gt; &gt; |28 tests skipped:<br>
-&gt; &gt; |=C2=A0 =C2=A0 test.test_asyncio.test_windows_events<br>
-&gt; &gt; |=C2=A0 =C2=A0 test.test_asyncio.test_windows_utils test.test_gdb=
-.test_backtrace<br>
-&gt; &gt; |=C2=A0 =C2=A0 test.test_gdb.test_cfunction test.test_gdb.test_cf=
-unction_full<br>
-&gt; &gt; |=C2=A0 =C2=A0 test.test_gdb.test_misc test.test_gdb.test_pretty_=
-print<br>
-&gt; &gt; |=C2=A0 =C2=A0 test_android test_apple test_asdl_parser test_clin=
-ic test_devpoll<br>
-&gt; &gt; |=C2=A0 =C2=A0 test_free_threading test_generated_cases test_idle=
- test_kqueue<br>
-&gt; &gt; |=C2=A0 =C2=A0 test_launcher test_msvcrt test_startfile test_tcl =
-test_tkinter<br>
-&gt; &gt; |=C2=A0 =C2=A0 test_ttk test_ttk_textonly test_turtle test_winapi=
+=C2=A0The bug was already addressed in oe-core earlier:<br>
 <br>
-&gt; &gt; |=C2=A0 =C2=A0 test_winconsoleio test_winreg test_wmi<br>
-&gt; &gt; |<br>
-&gt; &gt; |9 tests skipped (resource denied):<br>
-&gt; &gt; |=C2=A0 =C2=A0 test_curses test_peg_generator test_smtpnet test_s=
-ocketserver<br>
-&gt; &gt; |=C2=A0 =C2=A0 test_urllib2net test_urllibnet test_winsound test_=
-xpickle<br>
-&gt; &gt; |=C2=A0 =C2=A0 test_zipfile64<br>
-&gt; &gt; |<br>
-&gt; &gt; |455 tests OK.<br>
-&gt; &gt; |<br>
-&gt; &gt; |Total duration: 3 min 9 sec<br>
-&gt; &gt; |Total tests: run=3D47,012 (filtered) skipped=3D2,336<br>
-&gt; &gt; |Total test files: run=3D483/492 (filtered) skipped=3D28 resource=
-_denied=3D9<br>
-&gt; &gt; |Result: SUCCESS<br>
-&gt; &gt; |DURATION: 190<br>
-&gt; &gt; |END: /usr/lib/python3/ptest<br>
-&gt; &gt; |2026-05-29T02:22<br>
-&gt; &gt; |STOP: ptest-runner<br>
-&gt; &gt; |TOTAL: 1 FAIL: 0<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Trevor Gamblin &lt;<a href=3D"mailto:tgamblin@bayl=
-ibre.com" target=3D"_blank">tgamblin@baylibre.com</a>&gt;<br>
-&gt; &gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdi=
-e@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org=
-</a>&gt;<br>
-&gt; &gt; (From OE-Core rev: a8b2baa6020f96468a98200619ec37c460694c4c)<br>
-&gt; &gt; Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siem=
-ens.com" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; <br>
-&gt; Hello Peter,<br>
-&gt; <br>
-&gt; After discussing with Paul, we decided to not take patches 3, 4 &amp; =
-6/6 of<br>
-&gt; this series. Those are (as of now) only cleanups and thus not eligible=
+commit 2156ef9e6defa3ec9087789fcea25fb4fee7b83c<br>
+Author: Luka Krstic &lt;<a href=3D"mailto:lukakrstic031@gmail.com" target=
+=3D"_blank" rel=3D"noreferrer">lukakrstic031@gmail.com</a>&gt;<br>
+Date:=C2=A0 =C2=A0Thu Dec 18 10:11:38 2025 +0100<br>
 <br>
-&gt; for stable merge.<br>
-&gt; <br>
-&gt; This will be most likely be revisited when a fix appear on master in t=
-he<br>
-&gt; SKIPPED_TESTS list.<br>
-&gt; <br>
-&gt; Thanks!<br>
+=C2=A0 =C2=A0 patchtest: reject Upstream-Status after scissors<br>
 <br>
-OK, let&#39;s see on next upgrade what is needed for a clean cherry-pick.<b=
-r>
-v3.14.6 is already out, I will do the upgrade later this week.<br></blockqu=
-ote><div><br></div><div>Sounds good.</div><div>Thank you!</div></div><span =
-class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gm=
-ail_signature"><div dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Conga=
-l</font><div><font face=3D"Raleway, regular">Smile ECS</font></div></div></=
-div></div>
+but the bugzilla ticket was never closed.<br>
+<br>
+Then <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15940#c=
+1" rel=3D"noreferrer noreferrer" target=3D"_blank">https://bugzilla.yoctopr=
+oject.org/show_bug.cgi?id=3D15940#c1</a> was<br>
+interpreted as a request to downgrade it to a warning, but we should<br>
+not be doing that: it means patchtest will not longer actually notify<br>
+of the issue on the oe-core mailing list.<br>
+<br>
+I understand some other layers intentionally put it after the<br>
+scissors; if they&#39;re using patchtest, they can disable this particular<=
+br>
+test or configure it to produce some kind of soft fail, but in oe-core<br>
+it should remain a hard fail.<br>
+<br>
+Alex<br>
+</blockquote></div>
 
---0000000000008d7e5506544b4b56--
+--00000000000061ddfa065443fd06--
 
