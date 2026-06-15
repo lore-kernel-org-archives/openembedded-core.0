@@ -1,136 +1,102 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <saisneha196@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57732CD98C5
-	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 08:41:27 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.125371.1781512885833285437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F4D2CD98DE
+	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 08:44:07 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.125394.1781513041699979410
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2026 01:41:26 -0700
+ Mon, 15 Jun 2026 01:44:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=A7mXhuza;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49222fb062bso19968035e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 01:41:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=lMrruFYz;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: saisneha196@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2bf237e1433so37219985ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 01:44:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781512884; x=1782117684; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CvN53u2XgpUt43OzXtumkPkeJsMIYYxSqpYrOZigQuI=;
-        b=A7mXhuzaMryWjC+LoeheGz6nBgS/qSJ3nzELdk6FkHKk9b+kg5B/W9cPZjlMIuQ48A
-         2YB4GMnokKYIh7LBA/hwtNEJd05+RJYUqWvhfNAmGPG6C8L9aytD54A9f8OeAMeDgw9M
-         CS4t+WmFjqsGvmqWHb4dFNF8CvCrv0XKZOQpU=
+        d=gmail.com; s=20251104; t=1781513041; x=1782117841; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9sV4EgeQ2sPUpR/Nv5uKugV7u9d59Aeo1HeB3HoKLJ4=;
+        b=lMrruFYzusQMzwfOhCIJ8wUj7rmCUBwrRKKZsnyHXKBPG6GiUxlqcT9sabk1NCP0ci
+         uXfRNegY44k+DAaZ/y+Fk14ImfPM9MXDamAGNYNXx1bdz4PMmrwh3tays8DgIT8usu/E
+         jPwAzPTRzCz2P19gf9wY2/zW7YssUAwSXJzqlPjL4Gev7Ui4dR++mwsbclSbNnOU5g8Y
+         3WNBCKtDac2HGz7ZtFasrf6Q7Ym9gU8DCv4jrjWbPwbRVOC1pqjDhPbFCkk8iMc7UHHE
+         gFVtxRFPqzzD1+NmWowUp1kUV17E2PZ0PlQw8RyhZuKcOjJn0AsDS9fDmnS0u1hzTEvF
+         vvyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781512884; x=1782117684;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CvN53u2XgpUt43OzXtumkPkeJsMIYYxSqpYrOZigQuI=;
-        b=pNvU7z7WfMQWauFbM8t7oDWJXhkB5Ur2HFEAEd+jy+Wq8TEXU+hHpLt5mQ/M42jpWB
-         ifPAJtSLHfcPEyn4x5wm5D9YcYdxQu4c84NC0z7jMqxL1JvngK5SzCsjY0yyp05h3V9o
-         9vE9XUPj30LUBeOgc/5e0fHIW7pqq5Icl1aehD/GjjMlYMfQ0af2CxUL5JU42E2GNzv3
-         LWUHByEhj+KIzTVzW+E/6OUg6852BtBubTR02WSM3iXDeUbzQ2Mm7FT8AxS8A+rAZhkG
-         w72lk42s7JOXX8moEDYzxxJfXhkf/KWPjLB3/pyTj0E/cSh16Y/L7CMIA5W/YWmCyMLf
-         eDIg==
-X-Forwarded-Encrypted: i=1; AFNElJ9zKq7pbh4XuKgZEJj42G3z6wf3OJaQA42dKFfr5pXqLWCHlmTHIhYk8LZiNTKgWnGay71EgS521Pq2mTxtf1SK4g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxMJmoTYciVBJJdJtNP5GYRgQ09BG43EXpt1c1oiFcnaspHMacR
-	Rc9PqIfWgYFpG9CmYRr2oeZiyByNxDqGXPor0ADDe+bNBFZZui5metDo6mFHMNiMKsE=
-X-Gm-Gg: Acq92OEojyDf8/c2iK1hFIhnxsAgdq25HsdEwrbC5ESFsvns/b+6r7ENOMg5K08QThE
-	JtKjsbNze7IHCMikTObcJpBYPwLW6+RSZB/S9XYQ+qpOWQnGuBSfNs1j7ADQOCf4otorDeO9a24
-	6PNfl3fGc2iukIKdjA1yx2c+rwAJPznzQh6vW8vROwvsYWt45wBiRZI3v/znfKGIcivmTPLpHaC
-	Woy1uPoeG3fs4onVZvWEj07AJ5pb4vUKaBoxuV+DOdi0f+FIVy72h/d7fmc2x+3CfKee+dlfsUN
-	xHyKwckM2UxTVujNDGnmr8xilkG8i1cVjbmoha7baKRxdjJZ0k6iczm9oWZz2RELw0Df54o2VlA
-	kNIDuLubKCD4C4ci8nHTSH1n8A+9y0z/kMGegb0v6Y4cKBzg2vBt/2C7PgbYi6EGwv/KBZRbYIx
-	42ikMSkNT7cr+n859YfFxndppfLpvuiBmUlZNgG3iw6Q2aYh95NvGRKAtgDfXszvqKBSE43NbK8
-	9Oasi+nh2m0MM8=
-X-Received: by 2002:a05:600c:82c3:b0:490:bb45:79f0 with SMTP id 5b1f17b1804b1-490ec499290mr158365965e9.3.1781512883700;
-        Mon, 15 Jun 2026 01:41:23 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492202e5d61sm216492355e9.1.2026.06.15.01.41.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jun 2026 01:41:23 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 15 Jun 2026 10:41:22 +0200
-Message-Id: <DJ9HM01CT21Q.2HLOH1RLAP4JN@smile.fr>
-Subject: Re: [OE-core] [master] [PATCH] apt: fix CVE-2011-3374
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <xe-linux-external@cisco.com>, <to@cisco.com>
-To: <adongare@cisco.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260612122954.1229967-1-adongare@cisco.com>
-In-Reply-To: <20260612122954.1229967-1-adongare@cisco.com>
+        d=1e100.net; s=20251104; t=1781513041; x=1782117841;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9sV4EgeQ2sPUpR/Nv5uKugV7u9d59Aeo1HeB3HoKLJ4=;
+        b=k7JgxjNTNSgHFmL1AeP4AS/GXVcRxUbwUfxBqKeDQM9j7TdlHMqLZlX4fhDTikuaV4
+         clHn6atp0x3jBLOiEPe1GCEfMlyusaVE/kj9trRJgBIfacttRKcUivH59iZce8kvhbtx
+         KGrXgWGioZ/UyOiYfrTUTGs9PqYzaoZYkw3Nnt5BRXidQjPXLB2qG/XOuqxClr93erXG
+         oaSkXYnF48qiAriy/RZCXgnXGykyVPUfjCglodFRqQU4YQtNTAHwzB2Fmx9RK81S9Kp8
+         PpbNPeNIM9/0DqUYFiFjqMcVxH2xKIqLZvskTAQ4XdVdCOiRJKS2WOTV5i63eVMfbpfU
+         0EqA==
+X-Gm-Message-State: AOJu0Yy27MsLbJQKzQmvT7cX6jCM7rgAkHbdN5OvgV5lGI6xUrVkJlyJ
+	drZM2BWtRHsL14B4d8SGvQo7KHlaqIrJuEqlKJVYUNmAOWIedsZ7ZYec8jNIsw==
+X-Gm-Gg: Acq92OGLIDxtxCWVhZB55i4ZLgDeUS4N1MDdyZcdxKotU1JZjmfAzvjoFPnoj53lzCV
+	/z1MJAcl79F9Akh+SkwzgKrqyN5F2DSKhtnCbxXlwM9GH/qTNy0sYXJbY/hb9uBR4dxFmf5zkFl
+	0jpV8kg1DGKN4U6O3s3bGlAJd49F73HvXKzKIVWnStBBRdi34t2h7+4rAxPQcZ59GFGc/E6OYtr
+	ScWZrauKH+SidE+G9xDGfgf5KHXwsh3wY99EPfJ/Qjo+CRQeDdkMiJpZWu4R9xFaTlqygKv1Qbo
+	ogcMB3FmFptA3wf8mA7DAWjJKiA4FkuWHDWdMWsANswYVi/HXiewzYTJLlxRReVcUSo7eixBZFX
+	17FhdrRDotJvQLlENY+I1aVTkEjHl5qRFG9AOz4OYZKN3CmS7hVd5NgVdcAbyUaG83+8P/ePjtV
+	iT+IFuJd5Kne0XsUohG1QXwTzQCewXrNtkAJ8KKSGham2LHA==
+X-Received: by 2002:a17:903:390b:b0:2b4:5aff:de60 with SMTP id d9443c01a7336-2c411d7b1famr157990555ad.22.1781513040922;
+        Mon, 15 Jun 2026 01:44:00 -0700 (PDT)
+Received: from BLR1RLPT00004.localdomain ([152.57.10.245])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c433747ef4sm94431735ad.82.2026.06.15.01.43.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 01:44:00 -0700 (PDT)
+From: Sai Sneha <saisneha196@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: randy.macleod@windriver.com,
+	terry.s.duncan@intel.com,
+	Sai Sneha <saisneha196@gmail.com>
+Subject: [PATCH] i2c-tools: add LGPL-2.1-or-later license for libi2c
+Date: Mon, 15 Jun 2026 14:13:39 +0530
+Message-Id: <20260615084339.1286502-1-saisneha196@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 08:41:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238823
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 08:44:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238824
 
-On Fri Jun 12, 2026 at 2:29 PM CEST, Anil Dongare -X (adongare - E INFOCHIP=
-S PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> From: Anil Dongare <adongare@cisco.com>
->
-> Details: https://security-tracker.debian.org/tracker/CVE-2011-3374
->
-> The vulnerability is a design-level flaw in the legacy apt-key utility re=
-garding
-> the global trust model of GPG keys.
->
-> This is marked as not-applicable-config because apt-key net-update is
-> disabled by default, and Debian vendor configuration does not define the
-> archive keyring URI required to use that path. Ignore this CVE in this
-> recipe due to this configuration.
->
-> Signed-off-by: Anil Dongare <adongare@cisco.com>
-> ---
+The libi2c library included in i2c-tools is licensed under
+LGPL-2.1-or-later, as stated in the upstream README and the
+COPYING.LGPL file. Update LICENSE and LIC_FILES_CHKSUM to reflect
+this.
 
-Hello,
+Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=16313
 
-"Fix" in the commit is a bit misleading. How about
-"mark CVE-2011-3374 as not-applicable"?
+Signed-off-by: Sai Sneha <saisneha196@gmail.com>
+---
+ meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Also, please add a justification for
-"apt-key net-update is disabled by default"
-In this case, the commit:
-  Use sq in the test suite, remove apt-key
-  https://salsa.debian.org/apt-team/apt/-/commit/a00fbbdb2
-is present since 2.9.19.
-
-Finally, in this case, the "fixed-version" CVE_STATUS might be more
-appropriate. (Maybe reflect the new status in the patch title)
-
-Thanks!
-
->  meta/recipes-devtools/apt/apt_3.0.3.bb | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-devtools/apt/apt_3.0.3.bb b/meta/recipes-devtoo=
-ls/apt/apt_3.0.3.bb
-> index 08b6bac2e4..ad75f3b32a 100644
-> --- a/meta/recipes-devtools/apt/apt_3.0.3.bb
-> +++ b/meta/recipes-devtools/apt/apt_3.0.3.bb
-> @@ -34,6 +34,9 @@ UPSTREAM_CHECK_URI =3D "${DEBIAN_MIRROR}/main/a/apt/"
->  # to express 'divisible by 4 plus 2' in regex (that I know of), let's ha=
-rdcode a few.
->  UPSTREAM_CHECK_REGEX =3D "[^\d\.](?P<pver>((2\.2)|(2\.6)|(3\.0)|(3\.4)|(=
-3\.8)|(4\.2))(\.\d+)+)\.tar"
-> =20
-> +# Not applicable: Debian vendor configuration does not enable apt-key ne=
-t-update.
-> +CVE_STATUS[CVE-2011-3374] =3D "not-applicable-config: apt-key net-update=
- is disabled by default and Debian vendor configuration has no archive keyr=
-ing URI"
-> +
->  inherit cmake perlnative bash-completion useradd
-> =20
->  # User is added to allow apt to drop privs, will runtime warn without
-
-
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb
+index f4881f3c2f..55d434ed21 100644
+--- a/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb
++++ b/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb
+@@ -2,8 +2,9 @@ SUMMARY = "Set of i2c tools for linux"
+ HOMEPAGE = "https://i2c.wiki.kernel.org/index.php/I2C_Tools"
+ DESCRIPTION = "The i2c-tools package contains a heterogeneous set of I2C tools for Linux: a bus probing tool, a chip dumper, register-level SMBus access helpers, EEPROM decoding scripts, EEPROM programming tools, and a python module for SMBus access. All versions of Linux are supported, as long as I2C support is included in the kernel."
+ SECTION = "base"
+-LICENSE = "GPL-2.0-or-later"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
++LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
++LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
++                    file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/software/utils/i2c-tools/${BP}.tar.gz \
+ "
+-- 
+2.34.1
 
 
