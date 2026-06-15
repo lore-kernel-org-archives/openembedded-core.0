@@ -1,153 +1,308 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19C8FCD98C7
-	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 10:44:54 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.126829.1781520289772373957
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E0EBCD98DA
+	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 10:49:54 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.126818.1781520584151831526
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2026 03:44:49 -0700
+ Mon, 15 Jun 2026 03:49:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=VQ7QFzPj;
- spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-51778077b28so35893011cf.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 03:44:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781520289; cv=none;
-        d=google.com; s=arc-20240605;
-        b=j5CjiCT6ps8qgDiftbprRGv55T3IPnbqPAN9G8fZYagn75kVOPGbA9JZOFlZiVI6rr
-         Pb5UEv9/uZNdd6rb4mxqIErNoh3Nt1QX0+wU3itGiu7ewlNoDla2U8lVx7NBENfA4TeG
-         N7WijjkuGc+RcqmAHraF/RvpIcUraAPyN3PY4fkcXeIeWTZZrw58QWlOyzWY3+OPvAx7
-         3KSeBzs6E5PmoCpaDwXlmCfBvwoHdzFOmMDyynKAk/WcLx0gIG2EvvQ3BFEv7HG6g2fN
-         G3+uzGlLQwtFD0DS43Z+Tt9AJGpf0x85WlpN6SzwjIxfSTBInAtf0+jIodFPYRSm2dku
-         5DMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1fcTeCuwO9tMzBp/rMcNx4riyjl5IfFGuz12vUCpf20=;
-        fh=hFLUH0inB3fRLPMGVC9cwm2wvNrBX8CYP6AYojkoyeE=;
-        b=K7qL1c11Vs7dBAZu/OujONbE+y28QnYrq5J1jO6Z9bWOzo2h3l+YX96b5RmkadSunR
-         6J0huRTpPXNKLoxX35k8qXkR4xSdD5GlVsfYbUgM64Gz+bHoh77zYIgzxj7OqdKR98vn
-         DO+ahUEF0UwVxDNPLUcs6fpXH7XZ7643oUqI/h3IUi6wTkHfRRoSMEOIhlStMZaE5KEy
-         auY8vxLLtUUyMu0WgHzD6tYK8UWTFWisJs9apzXD0id005Emb+dzoiIli+ltQ8zk3qaE
-         hxCQ9qdfV6ygkj86MwWNfnxe3qKsYcGHomBehV81ZBKc4ym31JNZjZinOA8HnDin+F+L
-         ng/Q==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ly2k/P//;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so33577025e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 03:49:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781520289; x=1782125089; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1fcTeCuwO9tMzBp/rMcNx4riyjl5IfFGuz12vUCpf20=;
-        b=VQ7QFzPjKPzLRPxgE8JG2uy9NHhuHBDv2hBhMurmTyFRKceS23khunxQ3B89AUEW8i
-         i/Ba3+Kr0d5Y5fQcRuA4VJn02fC9TdaENfUxLA7eGTTCA2gha/JVLBx5OsQW7/tcmMxB
-         lqa5AAzx5wGNyb0Xet/6Ib/roNwXZHM0St8RMvZjloREwAhnRw1BwBO7ymLLtf9/1pog
-         hK4PndhZjn7zgEMz0TwiLdVGPf/h74P1OI5V86T12muALGHakKM1v6KJ+N544nhsM+y3
-         J8eOJ7/Ix/VZ7AnKQe8vTvPzyigtvErXeO8QaxSGOBbierB7+pnfS5qAU0Dc9JD15dvV
-         MGpw==
+        d=linuxfoundation.org; s=google; t=1781520582; x=1782125382; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lwr0BR0pe+3Udc9GRSABmtPTbl/tTE9a8p8U058oLUg=;
+        b=Ly2k/P//Y3DNLcjyAWTxHGItMcqd9CwuGndHyKTKUXhEmC9DL80Or7R7f/IL6erTeD
+         bqJDvR3PchoMcafb6LRC1sQzKVdXCPIthfU8nFgAbJuRjtEueCzDx3RmmB4KSAbt53lv
+         fiIRlcTttG5Mpoc0h85XpgwabDiCbwa1aOIxw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781520289; x=1782125089;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1fcTeCuwO9tMzBp/rMcNx4riyjl5IfFGuz12vUCpf20=;
-        b=P8sbA3EmATbLaAM+wEwasfTUYUqKWxLw97fNpOw+JjaZ8h+0kpsbRejaAqM8xPaR8d
-         syfZam6VeHR/8f4LUbk2vOsA6Or5GHwtWL8eoKHvGa8OZP5jn/w1s5LdiIJiQNP79jpc
-         35ZwVyD6rIPL0c8MZocYRgbNMzNwrZeQnDd6+GCf2AieqQqR+sOoTrXtzL9VyRKhPc3t
-         YKwR2MzqvSfqeZKOE+eXLt94WVWgtOtwArdkevrrSVdTN1oJ1vqHP/wp9JdY/vQeYZur
-         NV5Gk9x7OCsTUshqLlLij+BIswfqAMUhoX8a6cm/zDab4HjEBpUgNm26Ir5uExQFYk+U
-         UMgw==
-X-Forwarded-Encrypted: i=1; AFNElJ/oN+qIDA3jA00efbYnWflvdKijhTD2KtcB3j9CQpZzq8Td+1c95/DaiwTboxaqiJDI+wQgjwhjQ1wZyP5R4fLqvQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwtC7YeX+CPGVEQsTZS6lxAbpxTdeVVEh4Obw15AMVijpVqSway
-	t5osq5VSz6noAcGg/ccrkgeHFfZXTQmnhqeRvpNLRAfNIkpmiHP8MeWx3g0cjwtanhKhwjI9qM1
-	qeLq8+WVn3wxDw2guuJiSeJs/2yFljDI=
-X-Gm-Gg: Acq92OFmcg8+dVme6s00g0dExdEsqe9qBCCfs0wIR523DLvZnvK4kfd0G37JCERDjMm
-	el6J92rYFHsYTnij1pIxkTn2Fx0rvtjvpkokgxxD3loAI1LKgcLP5XkK6G50kTjoc+FoXfL6ufw
-	z7xEMqteLUjOOLbtouuuphrcdQUnLaSJJbnLjGNdJr5iO837gBCmdkyXSMIKozUi3xV5d17xBu8
-	/3SOwwstUBBH8mDWcnEftYpgAC6OXPf6pwqVfZu6bo5lsFY+58+splMGg1f7b6XwL4RJCDR1Txk
-	s1RNOefcka+/4x/a1gyc7IcDrnPTZRKcY0S9SiXFA1MJuZSuB2cz
-X-Received: by 2002:a05:622a:8d12:b0:50e:60d7:b272 with SMTP id
- d75a77b69052e-517fe52f2damr185939561cf.41.1781520288627; Mon, 15 Jun 2026
- 03:44:48 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781520582; x=1782125382;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Lwr0BR0pe+3Udc9GRSABmtPTbl/tTE9a8p8U058oLUg=;
+        b=XbZBspBm9KICwMl8V3gvMuJ370EomnHCvovDbyO+J90aY832CpKqW2alkq6nlTS5aB
+         XE5bmXVbxRQhprFVTCBL2sNCFpLUcz7znpcvxNg0VRi5nlSs5OUNzOqy/gf0dEMca11p
+         q6GywBlxS/F6/wiBCjd0r5MykWZrVsOLYixYobj8L/TTpHZ62PFlCFWTxw48etV2iO5O
+         FFirQoi5NROZhc5WbSRjYSYH8RRl9aMifXvf3f/lP56MvrSkWxEs6SwNqfQZln9y+QDa
+         DYhcOoVKi9yFvKGfve/4AMri4WTOMFURRxmnVnOHC2I+FewzoEkDrO8F4XO4HRQ2885i
+         StFQ==
+X-Gm-Message-State: AOJu0YyXOR7J3+okaUw1j1Hczouh/mYYT6+DwD50/tDZykRQpt7qWaph
+	Lfzdr1We/zDDMeL+T+jlam7lXfKkFWbpjQwObM+d/2Ak0Qc6fBnp7mo+u956Sk3joaeWG0OgPBj
+	38KbW
+X-Gm-Gg: Acq92OHhD3/rx7dR7igPJspimlfBndZ1HMeb0GMEfZttc+vNuX6F6InzWnNW0ushSXM
+	55hmKqr102HYkmrTLZRhNCgj422pVCdVxEdl2ePkFyN3/52a3RJX0s89DcMp2WG3uCNLEjXKin5
+	cZf/M7mTEGIW079TEfznJOwGVBzBygzD9sf5DQINM0f3dz8lGotluhYPtQRtsO2QnYjhsbazXpY
+	VnpkHbIvOl7zappsBzCW2ueqBW0kuxTLoWXivpt6t4d/X2phnazWfjdU9rO34gATm9C1CeGCTSd
+	NXSfTMeT9UmOxhFLwuUavg0pyoaWG8oIX0QJYRm1H9kg+7SzFZuQD2Wkry8JqTP3HWjPwBehGK1
+	VZFELgk8liu+a26DKafD8rAiPFkB8z9TQ//qSO4vd/AugpUfahalRjj1dm3bJHhAa/cHeKsdO/U
+	TsUkGb8a9e7TW2oH7yftlTMwxzl+eaC7zF3i5gWeYLI8TBN8xg2o8o
+X-Received: by 2002:a05:600c:8b5b:b0:490:7df7:9190 with SMTP id 5b1f17b1804b1-490ec49f2bemr157862345e9.8.1781520582014;
+        Mon, 15 Jun 2026 03:49:42 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:e2da:88d9:f720:efe2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49220207efesm208877515e9.0.2026.06.15.03.49.41
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 03:49:41 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] python3-click: Fixes for new pytest and flaky ptest
+Date: Mon, 15 Jun 2026 11:49:40 +0100
+Message-ID: <20260615104940.567584-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-References: <20260610094932.2264-1-wangmy@fujitsu.com> <20260610094932.2264-15-wangmy@fujitsu.com>
- <DJ5YPKB59JWN.379MO32ZI2BQH@bootlin.com> <OSCPR01MB13427F610C3A42F7ADB33ED9CDC182@OSCPR01MB13427.jpnprd01.prod.outlook.com>
- <CANNYZj-FbxWBK=F_hMeD3oJc7WF_4KOKjB8Jz7s_=JX_8ADEZg@mail.gmail.com> <TYYPR01MB13419567B9C3B4ECE846491C4DCE62@TYYPR01MB13419.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYYPR01MB13419567B9C3B4ECE846491C4DCE62@TYYPR01MB13419.jpnprd01.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 15 Jun 2026 12:44:37 +0200
-X-Gm-Features: AVVi8Cetq2UrHAD9M_9wnSVgYHuITyjpvWfhX3ufWEeRp4pzOIc3PdaWs04DdPI
-Message-ID: <CANNYZj8n13hzdw_jLYFrPCGVQHMHraJ8n7WE5EumGNnd2+cw9g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 15/16] mesa: upgrade 26.0.6 -> 26.1.2,26.0.6 -> 26.1.2
-To: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 10:44:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238830
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 10:49:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238831
 
-On Mon, 15 Jun 2026 at 04:04, Mingyu Wang (Fujitsu) <wangmy@fujitsu.com> wr=
-ote:
->
-> Thank you for the suggestion. I tried patching out the : uint8_t part fro=
-m enum jay_predication as you suggested, but that alone is not enough. Afte=
-r removing it, the build immediately fails with a static assertion:
->
-> static_assert(sizeof(jay_inst) =3D=3D 32 + (sizeof(uintptr_t) * 2), "pack=
-ed");
-> because the struct layout depends on the enum's underlying type.
+Submit a patch upstream to allow it to work with the new version of pytest.
 
-You also need to adjust the type of the struct member, so that the
-struct itself enforces the type:
+Also backport a "flaky test" fix which may help issues we're seeing on the
+autobuilder.
 
-@@ -634,7 +634,7 @@ typedef struct jay_inst {
-    bool decrement_dep:1;
-    unsigned padding  :12;
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ ...7494c991c9197902fdf4995e11b2da3e9762.patch | 173 ++++++++++++++++++
+ .../python/python3-click/pytest-fix.patch     |  29 +++
+ .../python/python3-click_8.4.1.bb             |   2 +
+ 3 files changed, 204 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-click/ffcc7494c991c9197902fdf4995e11b2da3e9762.patch
+ create mode 100644 meta/recipes-devtools/python/python3-click/pytest-fix.patch
 
--   enum jay_predication predication;
-+   uint8_t predication;
-    enum jay_conditional_mod conditional_mod;
-
-    jay_def cond_flag; /**< conditional flag */
-
-Or just take the full patch from here :)
-https://git.openembedded.org/openembedded-core-contrib/plain/meta/recipes-g=
-raphics/mesa/files/0001-src-intel-compiler-jay-jay_ir.h-do-not-used-typed-e=
-n.patch?h=3Dakanavin/package-version-updates
-
-I just confirmed that with the patch gcc-11 builds mesa-native successfully=
-.
-
-> Beyond that, there are additional errors in other files that appear one a=
-fter another when compiled with GCC 11:
->
-> src/imagination/pco/pco_nir_pvfio.c: function lower_pfo returns false but=
- should return nir_def *, causing error: incompatible types when returning =
-type '_Bool' but 'nir_def *' was expected
-
-This (imagination) is not enabled by default in poky or oe-core, and
-does not appear in my build logs for mesa-native. You should check and
-adjust your configuration, or perform test builds using exact
-unmodified poky or oe-core.
-
-> src/intel/compiler/jay/jay_from_nir.c: missing return in a non-void funct=
-ion, leading to error: control reaches end of non-void function
-
-This is the same error as the typed enum issue above.
-
-> I also tried passing -Dc_std=3Dgnu2x and -Dwerror=3Dfalse to Meson, but t=
-hey were not enough to get past all the failures, and the build never compl=
-eted successfully. It's therefore unclear how many more such issues might s=
-till be hidden =E2=80=93 we simply weren't able to reach a clean build with=
- GCC 11.
-
-I just succeeded in that :) so hope you can take the patch and make it work=
-.
-
-Alex
+diff --git a/meta/recipes-devtools/python/python3-click/ffcc7494c991c9197902fdf4995e11b2da3e9762.patch b/meta/recipes-devtools/python/python3-click/ffcc7494c991c9197902fdf4995e11b2da3e9762.patch
+new file mode 100644
+index 00000000000..e16f84ec9a3
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-click/ffcc7494c991c9197902fdf4995e11b2da3e9762.patch
+@@ -0,0 +1,173 @@
++"Fix pager test flackiness and add stress tests for echo_via_pager"
++
++From 7eb57cff7cd292fbd526eaf861c8f945ddeb07a3 Mon Sep 17 00:00:00 2001
++From: Kevin Deldycke <kevin@deldycke.com>
++Date: Fri, 22 May 2026 11:13:12 +0200
++Subject: [PATCH] Fix pager test race by raising before yield
++
++Upstream-Status: Backport [https://github.com/pallets/click/commit/ffcc7494c991c9197902fdf4995e11b2da3e9762]
++
++Refs: #3470 #2899
++---
++ pyproject.toml                 |  3 +-
++ src/click/_compat.py           |  1 -
++ tests/test_stream_lifecycle.py |  4 +-
++ tests/test_utils.py            | 79 +++++++++++++++++++++++++++++++---
++ 4 files changed, 78 insertions(+), 9 deletions(-)
++
++diff --git a/pyproject.toml b/pyproject.toml
++index e39ef21055..ed91e5d741 100644
++--- a/pyproject.toml
+++++ b/pyproject.toml
++@@ -185,12 +185,11 @@ commands = [[
++ ]]
++ 
++ [tool.tox.env.stress]
++-description = "stress tests for stream lifecycle race conditions"
+++description = "high-iteration stress tests for race conditions"
++ commands = [[
++     "pytest", "-v", "--tb=short", "-x", "-m", "stress",
++     "--basetemp={env_tmp_dir}",
++     "--override-ini=addopts=",
++-    "tests/test_stream_lifecycle.py",
++     {replace = "posargs", default = [], extend = true},
++ ]]
++ 
++diff --git a/src/click/_compat.py b/src/click/_compat.py
++index 36c0e53975..134c4f3893 100644
++--- a/src/click/_compat.py
+++++ b/src/click/_compat.py
++@@ -12,7 +12,6 @@
++ 
++ CYGWIN = sys.platform.startswith("cygwin")
++ WIN = sys.platform.startswith("win")
++-MAC = sys.platform == "darwin"
++ auto_wrap_for_ansi: t.Callable[[t.TextIO], t.TextIO] | None = None
++ _ansi_re = re.compile(r"\033\[[;?0-9]*[a-zA-Z]")
++ 
++diff --git a/tests/test_stream_lifecycle.py b/tests/test_stream_lifecycle.py
++index 42e26acc34..9f4aa20868 100644
++--- a/tests/test_stream_lifecycle.py
+++++ b/tests/test_stream_lifecycle.py
++@@ -484,7 +484,9 @@ def cli():
++ # Category 6: Stress tests - high-iteration reproducers for race conditions
++ #
++ # These are marked with ``pytest.mark.stress`` so they can be included or
++-# excluded independently. The CI workflow runs them in a separate job.
+++# excluded independently. The ``tox -e stress`` env collects every
+++# ``pytest.mark.stress`` test across the suite (not just this file), so
+++# stress regressions for other components live alongside their unit tests.
++ # ---------------------------------------------------------------------------
++ 
++ 
++diff --git a/tests/test_utils.py b/tests/test_utils.py
++index 139cd7324f..1aebf3cc5a 100644
++--- a/tests/test_utils.py
+++++ b/tests/test_utils.py
++@@ -16,7 +16,6 @@
++ 
++ import click._termui_impl
++ import click.utils
++-from click._compat import MAC
++ from click._compat import WIN
++ from click._utils import UNSET
++ 
++@@ -286,6 +285,11 @@ def _test_gen_func():
++ 
++ 
++ def _test_gen_func_fails():
+++    raise RuntimeError("This is a test.")
+++    yield  # unreachable, keeps this a generator function
+++
+++
+++def _test_gen_func_yields_then_fails():
++     yield "test"
++     raise RuntimeError("This is a test.")
++ 
++@@ -315,10 +319,6 @@ def _test_simulate_keyboard_interrupt(file=None):
++ 
++ 
++ @pytest.mark.skipif(WIN, reason="Different behavior on windows.")
++-@pytest.mark.skipif(
++-    MAC and sys.version_info >= (3, 13) and not sys._is_gil_enabled(),
++-    reason="Generator exception tests are flaky in Python 3.14t on macOS.",
++-)
++ @pytest.mark.parametrize(
++     "pager_cmd", ["cat", "cat ", " cat ", "less", " less", " less "]
++ )
++@@ -456,6 +456,75 @@ def test_echo_via_pager(monkeypatch, capfd, pager_cmd, test, tmp_path):
++     )
++ 
++ 
+++@pytest.mark.skipif(WIN, reason="Different behavior on windows.")
+++def test_echo_via_pager_yields_before_exception(monkeypatch, tmp_path):
+++    """A generator that yields then raises: click writes the partial output to
+++    the pager stream before propagating the exception.
+++
+++    The pager file content is intentionally NOT asserted: pipe-drain timing
+++    between click and the pager subprocess is outside click's control
+++    (#2899, #3470). Spying on ``MaybeStripAnsi.write`` records what click sent
+++    to the pager, which is deterministic regardless of scheduling.
+++    """
+++    monkeypatch.setitem(os.environ, "PAGER", "cat")
+++    monkeypatch.setattr(click._termui_impl, "isatty", lambda x: True)
+++
+++    writes: list[str] = []
+++    real_write = click._termui_impl.MaybeStripAnsi.write
+++
+++    def spy(self, text):
+++        writes.append(text)
+++        return real_write(self, text)
+++
+++    monkeypatch.setattr(click._termui_impl.MaybeStripAnsi, "write", spy)
+++
+++    pager_out_tmp = tmp_path / "pager_out.txt"
+++    with (
+++        pager_out_tmp.open("w") as f,
+++        patch.object(subprocess, "Popen", partial(subprocess.Popen, stdout=f)),
+++        pytest.raises(RuntimeError, match="This is a test."),
+++    ):
+++        click.echo_via_pager(_test_gen_func_yields_then_fails())
+++
+++    assert "".join(writes) == "test", (
+++        f"click should have written the yielded chunk before exception, got {writes!r}"
+++    )
+++
+++
+++@pytest.mark.stress
+++@pytest.mark.skipif(WIN, reason="Different behavior on windows.")
+++@pytest.mark.parametrize("_", range(1000))
+++def test_stress_echo_via_pager_exception_cleanup(_, monkeypatch, tmp_path):
+++    """Repeated exceptions during ``echo_via_pager`` must not leak subprocesses.
+++
+++    Regression coverage for the cleanup path in ``_pipepager``'s exception
+++    handler (issue #2899, PR #3470). Each iteration spawns a real pager
+++    subprocess, raises before any data is written and check there is no leak.
+++    """
+++    monkeypatch.setitem(os.environ, "PAGER", "cat")
+++    monkeypatch.setattr(click._termui_impl, "isatty", lambda x: True)
+++
+++    spawned: list[subprocess.Popen] = []
+++    real_popen = subprocess.Popen
+++
+++    def tracking_popen(*args, **kwargs):
+++        p = real_popen(*args, **kwargs)
+++        spawned.append(p)
+++        return p
+++
+++    pager_out_tmp = tmp_path / "pager_out.txt"
+++    with (
+++        pager_out_tmp.open("w") as f,
+++        patch.object(subprocess, "Popen", partial(tracking_popen, stdout=f)),
+++        pytest.raises(RuntimeError),
+++    ):
+++        click.echo_via_pager(_test_gen_func_fails())
+++
+++    assert spawned, "pager subprocess was never started"
+++    for p in spawned:
+++        assert p.returncode is not None, "pager subprocess not reaped"
+++
+++
++ def test_echo_color_flag(monkeypatch, capfd):
++     isatty = True
++     monkeypatch.setattr(click._compat, "isatty", lambda x: isatty)
+diff --git a/meta/recipes-devtools/python/python3-click/pytest-fix.patch b/meta/recipes-devtools/python/python3-click/pytest-fix.patch
+new file mode 100644
+index 00000000000..662ad8aae9d
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-click/pytest-fix.patch
+@@ -0,0 +1,29 @@
++Fix an error with newer versions of pytest (9.1.0) by converting the generator into a tuple:
++
++E   pytest.PytestRemovedIn10Warning: Passing a non-Collection iterable to parametrize is deprecated.
++E   Test: tests/test_basic.py::test_boolean_conversion, argvalues type: chain
++E   Please convert to a list or tuple.
++E   See https://docs.pytest.org/en/stable/deprecations.html#parametrize-iterators
++ERROR: tests/test_basic.py:tests/test_basic.py
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Upstream-Status: Submitted [https://github.com/pallets/click/pull/3597]
++
++Index: click-8.3.3/tests/test_basic.py
++===================================================================
++--- click-8.3.3.orig/tests/test_basic.py
+++++ click-8.3.3/tests/test_basic.py
++@@ -258,10 +258,10 @@ def test_boolean_flag(runner, default, a
++ 
++ @pytest.mark.parametrize(
++     ("value", "expect"),
++-    chain(
+++    tuple(chain(
++         ((x, "True") for x in ("1", "true", "t", "yes", "y", "on")),
++         ((x, "False") for x in ("0", "false", "f", "no", "n", "off")),
++-    ),
+++    )),
++ )
++ def test_boolean_conversion(runner, value, expect):
++     @click.command()
+diff --git a/meta/recipes-devtools/python/python3-click_8.4.1.bb b/meta/recipes-devtools/python/python3-click_8.4.1.bb
+index 0669cc65108..53c75c333c2 100644
+--- a/meta/recipes-devtools/python/python3-click_8.4.1.bb
++++ b/meta/recipes-devtools/python/python3-click_8.4.1.bb
+@@ -8,6 +8,8 @@ HOMEPAGE = "http://click.pocoo.org/"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1fa98232fd645608937a0fdc82e999b8"
+ 
++SRC_URI += "file://pytest-fix.patch"
++SRC_URI += "file://ffcc7494c991c9197902fdf4995e11b2da3e9762.patch"
+ SRC_URI[sha256sum] = "918b5633eddf6b41c32d4f454bf0de810065c74e3f7dbf8ee5452f8be88d3e96"
+ 
+ inherit pypi python_flit_core ptest-python-pytest
 
