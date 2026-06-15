@@ -1,490 +1,224 @@
-Return-Path: <aditya.gs@bmwtechworks.in>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 820C6CD98DA
-	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 09:15:43 +0000 (UTC)
-Received: from PNYPR01CU001.outbound.protection.outlook.com (PNYPR01CU001.outbound.protection.outlook.com [52.101.225.37])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.125669.1781514934793335854
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6986CD98C5
+	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 09:31:53 +0000 (UTC)
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.125845.1781515909597230805
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2026 02:15:35 -0700
+ Mon, 15 Jun 2026 02:31:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmwtechworks.in header.s=selector1 header.b=vheHIY/5;
- spf=pass (domain: bmwtechworks.in, ip: 52.101.225.37, mailfrom: aditya.gs@bmwtechworks.in)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sJ5mZo16tkjlttjyWGDEdek1geWc7F3+hWfoZUeDp2jz1fqeKmJGaRMVBhEaHEBs4j7EOqGYS75XKCfDutsBS+z06U9IZriAWVBX/znasUzX8ehsZMCB1f9WumR276l16svd5wsIBrc14kO7nBPPD3Q3Y8McoWh5f73xXoDhC4LNntTW5nWjTB8jnkcOVRm77tUxNfI6KwDU1jnMhUNoJKi/v7ZJEdEZ1rqlnDYwDmheCbygMRC2RJ+ZiZcozhkifApMUdeX8putlWDk/jEsj61ui2T3+xD/hddQCEW1K4YU71WVG5+DLNml6ky06PH/rNWjURiVXnptf3R9aZQpnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tIq8/orcW72HQl7KOSZBfdOM+zqf7VVr5wOlzeGZGso=;
- b=ABmbFGw9GjCbAX2JoMrjUkexMc9YRzHMv13WN/IJt535Ux42NJRXTFiBAXN2kaAtjVv/QfCIdji8oy/qZuMik/EU4C+W8I7jurN2UaAplAIe3IzYIl23kDujEKu4WmkcsnZmbmCjLGoFrLb68kyI3Tl7+Fc5cOYTm0D3lqq841GNeUalbywstnlApKhSps4hBbN0x9RCHK4zQkclfe7HUmdQp8juva2LY4oGWJlthpLWAik1fmfXoL9HlG0JWDYhT5rjo0y5ZDpZpSsJ/jrp1NrRrQR81/dTmJgXusMDUOAAA2VJ+R8sHHv4/NKbmbWx8rGbmwFfzFHaBAJTEnxjyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
- header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tIq8/orcW72HQl7KOSZBfdOM+zqf7VVr5wOlzeGZGso=;
- b=vheHIY/5B9RS3hkwZe6CEv7SnrUztBp0jHq6eOmwoCboqQvgfg9mFvkpLiLMc//GFam9MGhaRWoni2x4MNsm91XXzgF5hWMXrfVX88c7Ct1UmsxrPYdGirPQ2bXltJyGWXSxR/FBXSmiAAeW6U2UcUt7H5UdT2BVMpEElbJJ1UEyd97r7d9nZBgWZZ5nakLwi7sqi2OVyxIkRX3+uaFijWOjQ5pWgUkVte8eoBfkrMorOTLYgE4l2HVutln+QNHcI4Ch5EjkU5mkWXixFQVDLyM2KpZbXcrf0Kuwa7LzBY66aLsQyb6Y+o1MfzZEP0uBsMoeb9ocPFPjQoHovau5WA==
-Received: from PN0P287MB1221.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:190::13)
- by MAUP287MB5535.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:216::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Mon, 15 Jun
- 2026 09:15:26 +0000
-Received: from PN0P287MB1221.INDP287.PROD.OUTLOOK.COM
- ([fe80::c9fe:b41c:e003:e0b1]) by PN0P287MB1221.INDP287.PROD.OUTLOOK.COM
- ([fe80::c9fe:b41c:e003:e0b1%3]) with mapi id 15.21.0113.015; Mon, 15 Jun 2026
- 09:15:26 +0000
-From: Aditya GS <Aditya.GS@bmwtechworks.in>
-To: Yoann Congal <yoann.congal@smile.fr>, "adityags2004@gmail.com"
-	<adityags2004@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "Parrakat Nisha, JD-8" <Nisha.M.Parrakat@bmw.de>, Suresh H A
-	<Suresh.HA@bmwtechworks.in>, AshishKumar Mishra
-	<AshishKumar.Mishra@bmwtechworks.in>, Nikhil R <Nikhil.R@bmwtechworks.in>
-Subject: Re: [OE-core] [PATCH] openssl: upgrade 3.0.19 -> 3.0.21
-Thread-Topic: [OE-core] [PATCH] openssl: upgrade 3.0.19 -> 3.0.21
-Thread-Index: AQHc/KGnQ+MzV8ajrE643OxMkXz0cLY/Ud+AgAABQmc=
-Date: Mon, 15 Jun 2026 09:15:26 +0000
-Message-ID: 
- <PN0P287MB12213F647A0D7B19BC74E47CF9E62@PN0P287MB1221.INDP287.PROD.OUTLOOK.COM>
-References: <20260615083317.2657-1-adityags2004@gmail.com>
- <DJ9I1H3FGLVT.387B1AALA6MXN@smile.fr>
-In-Reply-To: <DJ9I1H3FGLVT.387B1AALA6MXN@smile.fr>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN0P287MB1221:EE_|MAUP287MB5535:EE_
-x-ms-office365-filtering-correlation-id: bd6a417a-66f9-4071-9a91-08decabea330
-x-ld-processed: 970fa6fd-1031-4cc6-8c56-488f3c61cd05,ExtAddr
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|376014|23010399003|31052699007|39142699007|1800799024|56012099006|4143699003|11063799006|22082099003|18002099003|4133799003|8096899003|55112099003|38070700021|13003099007;
-x-microsoft-antispam-message-info: 
- 1gMH1Qstunl/qnUidkpfiAtJH+4r7rRbYO4cImARbrvt0Z6XUtKvMOmQz14sTf/U2CbyIq3eWL2myjHeaYZvX9Qc91gXd7iAvima1N+D0hqOQB1hK00JZynxeI4HhpEtwar79vFkVDR23NEA1TZ+sy2n6vDjDaFBR+H9SXtEtQp+5RRPwydDJ0CscqSQQ3XDEN5Bjpz/6m/Sozn2H6TKdGb96GvbOMAz6Xu24P0hGTfaf/KPQLsSFMMaBaANn9uylIJL/eQDdHl46vSlmAcO7obMC8+O+LPiC9ZKCbl4kV4BFSq61K7pUo29peqKKdj/JMtr5Dz2g+4MHFARcbezyvk4swWQTYTHnacHFoebywZku1FrV8nD5gpdYG70ilQeHupyJrBPCHhSUVMgcJAJSlnriUYpbCeHnPha7wQ5e54MP44y30qR31gNg/3stWZ5PpT9QvkXAK52ORilZ0gyc+fkXQaSXO87RzX3ktCfA3K6NR5mB/ugcEbJfSNQ4o0Oc182rncRJNaBBft+QhzwqLLraNUp1J3dkA9Cl3wjVtGsDZ0WYDytOI1nKSpVBmQWdtofhmwcKJKVi7mIK0tbuNI0vn7sMz3JcRaFDjZeUtMhtTCicNAFds00VRMOemW4EpTP/3irfhiIgobqq860IMFpFE9CbQ8cVrv72RhJqzxRGooLut3+efe1JEbqLratRQIjciftKVPFDHyjy1Nj5Q==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB1221.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(31052699007)(39142699007)(1800799024)(56012099006)(4143699003)(11063799006)(22082099003)(18002099003)(4133799003)(8096899003)(55112099003)(38070700021)(13003099007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?R1ocG8Rgd0HzaJ9Lgyw4rdexp2/hQR24pdHw8F5reFxoR0RErXiuNQeP6bKs?=
- =?us-ascii?Q?o5kQqgH/BzxAah6vlGoUjdbhTAmn1EEzKiHaLq8XYHdOFTyHT2o3uqpljrnL?=
- =?us-ascii?Q?RJXqKbMeX19TetrSmjVdTn9Z9IT06lwsFshcveOpraFMOY2g/HbigntoZvyM?=
- =?us-ascii?Q?UDmucJ034oD/hnr+ojTo44rARr8nZzE23dAHchUQtJep7wIXYrE/PCLi4a1I?=
- =?us-ascii?Q?DLmxB+xSVNnYrmFmCgfr1iKSI0kj+bGLFTBoevWbSKNrpSJTlALF3oBKx911?=
- =?us-ascii?Q?C4fo5oSGGqDJNyz/f/op9OfpHGQGV4jQk/bLHGtrYtdqdJkaDzdqvBWKsiN9?=
- =?us-ascii?Q?xIwCml9Uo5RDt58xP7P6cSKCaCCBrqr682+AbLvjRG1ezWUdDisnDNXdM3Hg?=
- =?us-ascii?Q?n8r7wTQg6qxSGK5FHL5MaWoKt3JlDwbDTlRmfSn4mH0o7LIylIbsBljVEo9+?=
- =?us-ascii?Q?tHtSrj172lSxvpLW4dLdf3y/5TJd9mb8q8nLRrAHnIJaiF3P2t2urQTYWxdj?=
- =?us-ascii?Q?cOUTcvFgOk+xOImJnkPg7WaZxoz3JcBIQKDsvM/jW07/0e9SFJZxvI1f1VJF?=
- =?us-ascii?Q?0T0VTszvWpMq3UC0Q/cIdh9V2I1znMSa7jTxAyBkF+7r6HtpuqOi5c8rTXy8?=
- =?us-ascii?Q?BY69d8vAMoYJT2taFdJAxFIPpCwKh/mujNdylN89h6+J4+/Q0Mx/AD9Opt+5?=
- =?us-ascii?Q?j8YSigd0At7SdR6ihPGZ6//csl1fJ9bbz9o4QXqxsG+wRyfTJZDlZz7ffmSX?=
- =?us-ascii?Q?TAysQLKXq1VqHJEsO/TlY0IRCPLLt71YQVvtnTPjvRltLTU8Mr+bH8ZrtXaN?=
- =?us-ascii?Q?q/ZJBqk2ioUSqN9gOmSgsWESvK+mRFP/2jMdLnpyrnwhbnEPRnYLabHD1pK9?=
- =?us-ascii?Q?l0OB4kpNkLOjpW61KeGoGSn8K/8yvJKO8qzrJhkg9/meUwS9mUjMWkBs5g8c?=
- =?us-ascii?Q?tmMPaUECX/zSG2BhxAehRA+WBp5iAJ5sZRCOT3z6gl4egmhsPzNnfhziMffz?=
- =?us-ascii?Q?2vx33wM9aueWHt35MyD4n3BWrzLlETMUuxCG9T2u3OBYncGQEDubx4+yF6r+?=
- =?us-ascii?Q?PVZJlK7pnIafISpVICVh7QrVojPd7rm3lh3pxV51f+6yJ/b4T/tCtGhW0zLI?=
- =?us-ascii?Q?H8VZxKZuPgE1nDxVVtYIvNMb8iOh0AvYK44VjaYNLu3FDeWSKGa98CY+KHkD?=
- =?us-ascii?Q?P/Ol5ftSzUtf/Pb0SQ+JW9W5z9Rz4c1jSksQtfBnTeKhteQayUEJ4lGiCK7u?=
- =?us-ascii?Q?7wTjP9mevyG4sM9kseb+XggCsU4Wf+6PF5p74twyPcm4IftHNWjeZKgolUvU?=
- =?us-ascii?Q?7tGpiCXXU5qSUrA08JhBY4dzXxWl2i5Wll1YN9EIB1KEULuk7uCnm6gyNZ1D?=
- =?us-ascii?Q?DuipBVs7x8QrhAdI0U/0sk8xmjgMQ2fMyAJkxJynBlqKbkzPDjfQ2rn0ge5J?=
- =?us-ascii?Q?dS3l7y47ia4Y9wi9AGyDovGuKdYXgyfWQ33uHZCde4hLtTskYVsQrVzUIW9e?=
- =?us-ascii?Q?bxyaCe7dlkDOz7bKPuY5Mw2HVnChu6IFhjI1AeSbxm/AEHbSulFDUtgv9sM0?=
- =?us-ascii?Q?YFuqZqGvi8K9XDTAYn3k9x2GebnaCUTQT9vo2RyzzcmggFEJOtc922Ttck6a?=
- =?us-ascii?Q?Sn4uVLyq9tfGplvNYm69QyYPdKSGmBOEiebfyZ4aclkdOLDty5B+ziYohjrf?=
- =?us-ascii?Q?ei/qSCirJXatDOH8hE1J0rCB/rCLV8UzCkprcqLrCXvKPGzkwSEd14za3RZl?=
- =?us-ascii?Q?TtFEYhX7vg=3D=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_PN0P287MB12213F647A0D7B19BC74E47CF9E62PN0P287MB1221INDP_"
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=OeTMmppe;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=JievcYOQ;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.155, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 5EC967A00AF;
+	Mon, 15 Jun 2026 05:31:48 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Mon, 15 Jun 2026 05:31:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1781515908; x=1781602308; bh=qm4sFmyd6E
+	wiUGiH8ZSy11Or7q1qJhxNdQ80b5C2BeQ=; b=OeTMmppeMM7qpbkRwC6NegVxVy
+	bL1Q36jqcMRj2f1xxy/gPtAgLn0Mq6EG7jmQTB9PjN95zMoEocNvDV8stAR6Dpl6
+	hjIKAE6OHxcy+iaIKc/malVFLevfnFnohM0dKrCnKGcS1XCWSw5xIQqs13DYMH7U
+	cr6G8/0suk6EXqeGbHcWwivPbxGszfmcE9JCenJCUucyI9Behg36z7B1GnvRsLGG
+	MeoncIMllN59JP8lYg5JpxLWY/nFD1rnDtMjVopBOOU6MXsAwTWvCJzrprVTc2+y
+	LL5ZoCT047IxVLAIWulGFtqxPdKqLL7JV7tVcoCVZisKGpO2ICMTAALR54eg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1781515908; x=1781602308; bh=qm4sFmyd6EwiUGiH8ZSy11Or7q1qJhxNdQ8
+	0b5C2BeQ=; b=JievcYOQclc3cr11vjaY4nydz2oCwcgnnGSAOqUaFyFo/dKB2rN
+	ejppFuW2DKIw/pqwF4M5qvxLUBumSuJZCrWrHG1BT2TF53o23GnuKvTWSIbYE5Xl
+	zm0lBCvN7P4G6KFwEQBw42Nv9IeUAd4zAvJJ0JYqHtJfNBZxWdkf6288Me04IL7v
+	+XiAMFPZVFpiBbTMPuwa7GExwVGgOWYPLS5QS94sDjCTXznJIMyGlC/dU8gxHlbV
+	zcxUP7ONWo53SQvvN7+sg1AOvnziHJU4+noHXOapHWA//VE/7mNA835jVZcz0Njh
+	hS57e9Pk7f0fv7lP7JvQDgEextSNssaDGTA==
+X-ME-Sender: <xms:g8Yvaib-bYq0ekzL8cng7xn7ML0axhcPH-3wMJcbqA59VoK6dTLtBg>
+    <xme:g8Yvarb5xtoO3tN0bjfcc1kVvYL7Ww5OEJAIcftVw0nbKYOpTpbht9xmLlhsmsCVE
+    Y9pM0OA8EUhI2T3bWihtiqxLksyn1Wx3YJWi7d43fs8FL1hZLs2Eg>
+X-ME-Received: <xmr:g8YvaqnMIicdm8KQLopdQMz6XlZiJWwyj05MTKCKytAosMvYQGrhz1FdX2VLaGBZH88cmilL-d7FP3ZBrn_6Jew8OF3vXLNmJ4o1bR7OZ4zK>
+X-ME-Proxy-Cause: dmFkZTGaVP1SUaxOAimUl71Hw5lG1T9/0VBqPivbLADA0IwWJ7bvL0oqAPW0TBeQmpMVly
+    OH0FfZx+/nMwdMQQvT3DZhDDqHQT34FATPbVfNips4fXZndsk98gH+quetJ1K6+CXjKOIn
+    IIADFpknni24+0lm0s5jCTfiKreapmyMWzZfQekneD7Kn6e8uEYXdMasqz2iuEFaOyDkks
+    wjNfdHHReU9fa5XGZGugP7PRA7Sek5o6SUR4yikkoV1o4JFM8QfBUBRvufZwW/J0PzIouc
+    4A7MplBEnVhJ0biTMpCTBXZ2tSD0t5T1Ioz65JQP+2y9wJ5+7OW91TwfCLCmfb7PlP32i2
+    ccCBpTV+COCoQg25gwrG0xrIXbaTv/z0dFNVUNqnE3X8zTuvTrApTtnmYcmPH5nmRo6P0q
+    UNcqMgsOW/CeP+yzcagBlJ/XcDbWnOK5t91rWlC1sCH3qPZhJv/YyB8Sxea3Cdq38zmYyN
+    tCACtjwz0qzkmV3JMcB342Ffui5vsWMe9P559y6EwOPTVOGNhb/ePzGh7/xOQezBCkUWuL
+    1+4ojm6csgQd46L63+gjhXvdVDN8hgKLGg9GJ+yooKHX9hjnkcsmtswnjxWU9rUov3+YtL
+    NZbqjeWJGzlk/OO2Py/PnXjFc19/e6yoecLcB17zqIZmeR9/6P2NtXFtSpgw
+X-ME-Proxy: <xmx:hMYvavxCV0-iddjqEzJZJN4GtFZVAmuVW5fblTLAv5hXQO3zkX7w_w>
+    <xmx:hMYvagNrbGDCI6OXYo3SrVWq32lAOBZPisWf4WBGWIfsCxQ4LJOCyw>
+    <xmx:hMYvarQtqlQdavHmOicNRXvOcUxITcupLF1IiAsnwkc2jLK3kdfuzw>
+    <xmx:hMYvambgCQfl2fa3ku8Y5oJABlbST70xZhOV6rjNss3vke7jxJABJQ>
+    <xmx:hMYvas9w25_y7yx8l7Z4yq36az6i4fS2N-1uMwJ4S_xUJe9aD0zJyMtG>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Jun 2026 05:31:47 -0400 (EDT)
+Message-ID: <9ad4e8d57fb4019724138852b6998ffc484420c4.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH] systemd-conf: make KillUserProcesses
+ configurable via PACKAGECONFIG
+From: Paul Barker <paul@pbarker.dev>
+To: clopez@igalia.com, openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jun 2026 10:31:41 +0100
+In-Reply-To: <20260612135641.391245-1-clopez@igalia.com>
+References: <20260612135641.391245-1-clopez@igalia.com>
+Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
+ keydata=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
+ LUewj8JVy0aJsGTwI4invl
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-5DbR0+zzQKUBEuLn3E5t"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-X-OriginatorOrg: bmwtechworks.in
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB1221.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd6a417a-66f9-4071-9a91-08decabea330
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2026 09:15:26.3124
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /49xQ/aFghkhiVqQ8sm1unagSAs3KIJaS5DBZBykswETRYB3R2VeOAgTkKo/e2taFmiKMTISBP4PjPdTXRv9L7GkkV1P7D1NL87vJpQJpLA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAUP287MB5535
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 09:15:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238827
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 09:31:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238828
 
---_000_PN0P287MB12213F647A0D7B19BC74E47CF9E62PN0P287MB1221INDP_
-Content-Type: text/plain; charset="us-ascii"
+
+--=-5DbR0+zzQKUBEuLn3E5t
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Fri, 2026-06-12 at 14:56 +0100, Carlos Alberto Lopez Perez via
+lists.openembedded.org wrote:
+> The logind.conf config snippet installed by this recipe unconditionally
+> sets KillUserProcesses=3Dyes, so logind terminates the whole session scop=
+e
+> when a login session ends. Among other things this kills detached screen
+> or tmux sessions on logout, which is surprising on interactive developmen=
+t
+> images, and there is currently no recipe-level way to turn the policy off=
+.
+>=20
+> Add a 'kill-user-processes' PACKAGECONFIG option, enabled by default,
+> so behaviour is unchanged unless a distro or image opts out with:
+>=20
+>   PACKAGECONFIG:remove:pn-systemd-conf =3D "kill-user-processes"
 
-Thanks for the review. This patch is not targeted for any upstream OpenEmbe=
-dded/OE-Core supported branch. It is intended for an internal BSP layer (me=
-ta-collab) where we are required to upgrade OpenSSL from 3.0.19 to 3.0.21 t=
-o address the upstream CVEs fixed in the 3.0.20 and 3.0.21 security patch r=
-eleases. Since this is for an internal layer and not for OE-Core, you may i=
-gnore this submission.
+Using :remove should be reserved for exceptional cases, not recommended
+as the normal way to configure things. So perhaps we need to invert this
+and have a "no-kill-user-processes" PACKAGECONFIG.
 
-Regards,
-Aditya
-
-________________________________
-From: Yoann Congal <yoann.congal@smile.fr>
-Sent: Monday, June 15, 2026 2:31 PM
-To: adityags2004@gmail.com <adityags2004@gmail.com>; openembedded-core@list=
-s.openembedded.org <openembedded-core@lists.openembedded.org>
-Cc: Parrakat Nisha, JD-8 <Nisha.M.Parrakat@bmw.de>; Suresh H A <Suresh.HA@b=
-mwtechworks.in>; AshishKumar Mishra <AshishKumar.Mishra@bmwtechworks.in>; N=
-ikhil R <Nikhil.R@bmwtechworks.in>; Aditya GS <Aditya.GS@bmwtechworks.in>
-Subject: Re: [OE-core] [PATCH] openssl: upgrade 3.0.19 -> 3.0.21
-
-[You don't often get email from yoann.congal@smile.fr. Learn why this is im=
-portant at https://aka.ms/LearnAboutSenderIdentification ]
-
-Caution: "External email, be cautious especially with link(s), attachment(s=
-) or QR code(s)".
-
-On Mon Jun 15, 2026 at 10:33 AM CEST, Aditya GS via lists.openembedded.org =
-wrote:
-> Upgrade OpenSSL from 3.0.19 to 3.0.21.
-
-Hello,
-
-This does not match versions from supported branches. What are you
-targeting?
-
-Regards,
-
->
-> This upgrade brings in upstream fixes for multiple CVEs:
->
->   - CVE-2026-45447 (High): heap use-after-free in PKCS7_verify()
->   - CVE-2026-7383: heap buffer overflow in ASN.1 multibyte string
->   - CVE-2026-9076: out-of-bounds read in CMS password-based decryption
->   - CVE-2026-34180: heap buffer over-read in ASN.1 content parsing
->   - CVE-2026-42764: NULL pointer dereference in QUIC server packet handli=
-ng
->   - CVE-2026-45445: AES-OCB IV ignored on EVP_Cipher() path
->   - CVE-2026-34182: CMS AuthEnvelopedData may accept forged messages
->   - CVE-2026-42766: NULL pointer dereference in password-based CMS decryp=
-tion
->   - CVE-2026-42770: FFC-DH peer validation uses attacker-supplied q
->   - CVE-2026-45446: incorrect tag processing for empty messages in AES-GC=
-M-SIV and AES-SIV modes
->   - CVE-2026-31790: incorrect failure handling in RSA KEM RSASVE encapsul=
-ation
->   - CVE-2026-28387: potential use-after-free in DANE client code
->   - CVE-2026-28388: NULL pointer dereference when processing a delta CRL
->   - CVE-2026-28389: NULL dereference in CMS KeyAgreeRecipientInfo
->   - CVE-2026-28390: NULL dereference in CMS KeyTransportRecipientInfo
->   - CVE-2026-31789: heap buffer overflow in hexadecimal conversion
->
-> As a result of this upgrade, the following CVEs are already fixed in the
-> upstream version and no longer require local patches:
->
->   - CVE-2024-41996: vulnerability that could lead to denial of service
->   - CVE-2023-50781: fixes related to certificate validation and memory ha=
-ndling
->
-> Upstream changelog:
-> https://ind01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithu=
-b.com%2Fopenssl%2Fopenssl%2Fblob%2Fopenssl-3.0.21%2FNEWS.md&data=3D05%7C02%=
-7Caditya.gs%40bmwtechworks.in%7C4ca06f174ecd41274bcc08decabcb7fc%7C970fa6fd=
-10314cc68c56488f3c61cd05%7C0%7C0%7C639171109068806752%7CUnknown%7CTWFpbGZsb=
-3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFp=
-bCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D4zXCyTbP0EiXoF3vnNrmgILUnQlUiiV0d=
-yUk%2Ffy4iPk%3D&reserved=3D0<https://github.com/openssl/openssl/blob/openss=
-l-3.0.21/NEWS.md>
->
-> Signed-off-by: Aditya GS <adityags2004@gmail.com>
-> Signed-off-by: Aditya GS <aditya.gs@bmwtechworks.in>
+>=20
+> Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
 > ---
->  .../openssl/{openssl_3.0.19.bb =3D> openssl_3.0.21.bb}     | 9 +--------
->  1 file changed, 1 insertion(+), 8 deletions(-)
->  rename meta/recipes-connectivity/openssl/{openssl_3.0.19.bb =3D> openssl=
-_3.0.21.bb} (95%)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.19.bb b/meta/r=
-ecipes-connectivity/openssl/openssl_3.0.21.bb
-> similarity index 95%
-> rename from meta/recipes-connectivity/openssl/openssl_3.0.19.bb
-> rename to meta/recipes-connectivity/openssl/openssl_3.0.21.bb
-> index 293b450cd0..2531305cda 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_3.0.19.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_3.0.21.bb
-> @@ -12,20 +12,13 @@ SRC_URI =3D "https://ind01.safelinks.protection.outlo=
-ok.com/?url=3Dhttps%3A%2F%2Fgithub.com%2Fopenssl%2Fopenssl%2Freleases%2Fdow=
-nload%2Fopenssl-%24&data=3D05%7C02%7Caditya.gs%40bmwtechworks.in%7C4ca06f17=
-4ecd41274bcc08decabcb7fc%7C970fa6fd10314cc68c56488f3c61cd05%7C0%7C0%7C63917=
-1109068834034%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuM=
-DAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=
-=3DN8JHLKbuTSv%2F2FuSQciRUuAZP7%2FIxJtz3EpFCvW%2BtJU%3D&reserved=3D0{PV}/op
->             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from=
--co.patch \
->             file://afalg.patch \
->             file://0001-Configure-do-not-tweak-mips-cflags.patch \
-> -           file://CVE-2024-41996.patch \
-> -           file://CVE-2023-50781-1.patch \
-> -           file://CVE-2023-50781-2.patch \
-> -           file://CVE-2023-50781-3.patch \
-> -           file://CVE-2023-50781-4.patch \
-> -           file://CVE-2023-50781-5.patch \
-> -           file://CVE-2023-50781-6.patch \
->            "
->
->  SRC_URI:append:class-nativesdk =3D " \
->             file://environment.d-openssl.sh \
->             "
->
-> -SRC_URI[sha256sum] =3D "fa5a4143b8aae18be53ef2f3caf29a2e0747430b8bc74d32=
-d88335b94ab63072"
-> +SRC_URI[sha256sum] =3D "617e29af8e421f46649484a4937e48c685e47f46488167c9=
-82f88bc4ec1d522f"
->
->  inherit lib_package multilib_header multilib_script ptest perlnative
->  MULTILIB_SCRIPTS =3D "${PN}-bin:${bindir}/c_rehash"
+>  meta/recipes-core/systemd/systemd-conf/logind.conf | 2 +-
+>  meta/recipes-core/systemd/systemd-conf_1.0.bb      | 6 +++++-
+>  2 files changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd-conf/logind.conf b/meta/re=
+cipes-core/systemd/systemd-conf/logind.conf
+> index bf7f6920fa..25f01f3fb6 100644
+> --- a/meta/recipes-core/systemd/systemd-conf/logind.conf
+> +++ b/meta/recipes-core/systemd/systemd-conf/logind.conf
+> @@ -1,2 +1,2 @@
+>  [Login]
+> -KillUserProcesses=3Dyes
+> +KillUserProcesses=3D@KILL_USER_PROCESSES@
+> diff --git a/meta/recipes-core/systemd/systemd-conf_1.0.bb b/meta/recipes=
+-core/systemd/systemd-conf_1.0.bb
+> index 60066cd60a..55bbeb69eb 100644
+> --- a/meta/recipes-core/systemd/systemd-conf_1.0.bb
+> +++ b/meta/recipes-core/systemd/systemd-conf_1.0.bb
+> @@ -10,8 +10,9 @@ REQUIRED_DISTRO_FEATURES +=3D "usrmerge"
+> =20
+>  PE =3D "1"
+> =20
+> -PACKAGECONFIG ??=3D "dhcp-ethernet"
+> +PACKAGECONFIG ??=3D "dhcp-ethernet kill-user-processes"
+>  PACKAGECONFIG[dhcp-ethernet] =3D ""
+> +PACKAGECONFIG[kill-user-processes] =3D ""
+> =20
+>  SRC_URI =3D "\
+>      file://journald.conf \
+> @@ -28,6 +29,9 @@ do_install() {
+>  	install -D -m0644 ${S}/logind.conf ${D}${systemd_unitdir}/logind.conf.d=
+/00-${PN}.conf
+>  	install -D -m0644 ${S}/system.conf ${D}${systemd_unitdir}/system.conf.d=
+/00-${PN}.conf
+> =20
+> +        KILL_USER_PROCESSES=3D"${@bb.utils.contains('PACKAGECONFIG', 'ki=
+ll-user-processes', 'yes', 'no', d)}"
+> +        sed -i "s/@KILL_USER_PROCESSES@/${KILL_USER_PROCESSES}/" ${D}${s=
+ystemd_unitdir}/logind.conf.d/00-${PN}.conf
+> +
+
+Note that KillUserProcesses=3Dyes is the built-in default so we don't need
+to set that in a logind.conf.d file. To disable this at systemd build
+time we can add `-Ddefault-kill-user-processes=3Dfalse` to EXTRA_OEMESON.
+So, I think we should handle this in systemd instead of systemd-conf and
+drop the logind.conf file from systemd-conf completely.
+
+systemd-conf should remain fairly lightweight, we don't want to turn all
+systemd runtime options into PACKAGECONFIGs for systemd-conf or things
+will get out of hand.
+
+Best regards,
+
+--=20
+Paul Barker
 
 
---
-Yoann Congal
-Smile ECS
+--=-5DbR0+zzQKUBEuLn3E5t
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
+-----BEGIN PGP SIGNATURE-----
 
---_000_PN0P287MB12213F647A0D7B19BC74E47CF9E62PN0P287MB1221INDP_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCai/GfREccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bsahAP0fYFcQlt6PVBtQBxU0LH8MHNphJqRURHO8
+FHG9MAt+RAD8DeBNmGXFIQWbnqAaY5AfRpbZFqJxBrVEb8RnVQJThgA=
+=0DIy
+-----END PGP SIGNATURE-----
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"line-height: 20px; font-family: Apto=
-s, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif;=
- font-size: 12pt; color: rgb(0, 0, 0);">
-Hi,</div>
-<div class=3D"elementToProof" style=3D"line-height: 20px; font-family: Apto=
-s, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif;=
- font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"line-height: 20px; font-family: Apto=
-s, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif;=
- font-size: 12pt; color: rgb(0, 0, 0);">
-</div>
-<div class=3D"elementToProof" style=3D"line-height: 20px; font-family: Apto=
-s, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif;=
- font-size: 12pt; color: rgb(0, 0, 0);">
-Thanks for the review. This patch is not targeted for any upstream OpenEmbe=
-dded/OE-Core supported branch. It is intended for an internal BSP layer (me=
-ta-collab) where we are required to upgrade OpenSSL from 3.0.19 to 3.0.21 t=
-o address the upstream CVEs fixed
- in the 3.0.20 and 3.0.21 security patch releases. Since this is for an int=
-ernal layer and not for OE-Core, you may ignore this submission.
-</div>
-<div class=3D"elementToProof" style=3D"line-height: 20px; font-family: Apto=
-s, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif;=
- font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"line-height: 20px; font-family: Apto=
-s, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif;=
- font-size: 12pt; color: rgb(0, 0, 0);">
-Regards, </div>
-<div class=3D"elementToProof" style=3D"line-height: 20px; font-family: Apto=
-s, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif;=
- font-size: 12pt; color: rgb(0, 0, 0);">
-Aditya</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Yoann Congal &lt;yoan=
-n.congal@smile.fr&gt;<br>
-<b>Sent:</b> Monday, June 15, 2026 2:31 PM<br>
-<b>To:</b> adityags2004@gmail.com &lt;adityags2004@gmail.com&gt;; openembed=
-ded-core@lists.openembedded.org &lt;openembedded-core@lists.openembedded.or=
-g&gt;<br>
-<b>Cc:</b> Parrakat Nisha, JD-8 &lt;Nisha.M.Parrakat@bmw.de&gt;; Suresh H A=
- &lt;Suresh.HA@bmwtechworks.in&gt;; AshishKumar Mishra &lt;AshishKumar.Mish=
-ra@bmwtechworks.in&gt;; Nikhil R &lt;Nikhil.R@bmwtechworks.in&gt;; Aditya G=
-S &lt;Aditya.GS@bmwtechworks.in&gt;<br>
-<b>Subject:</b> Re: [OE-core] [PATCH] openssl: upgrade 3.0.19 -&gt; 3.0.21<=
-/font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">[You don't often get email from yoann.congal@smile=
-.fr. Learn why this is important at
-<a href=3D"https://aka.ms/LearnAboutSenderIdentification">https://aka.ms/Le=
-arnAboutSenderIdentification</a> ]<br>
-<br>
-Caution: &quot;External email, be cautious especially with link(s), attachm=
-ent(s) or QR code(s)&quot;.<br>
-<br>
-On Mon Jun 15, 2026 at 10:33 AM CEST, Aditya GS via lists.openembedded.org =
-wrote:<br>
-&gt; Upgrade OpenSSL from 3.0.19 to 3.0.21.<br>
-<br>
-Hello,<br>
-<br>
-This does not match versions from supported branches. What are you<br>
-targeting?<br>
-<br>
-Regards,<br>
-<br>
-&gt;<br>
-&gt; This upgrade brings in upstream fixes for multiple CVEs:<br>
-&gt;<br>
-&gt;&nbsp;&nbsp; - CVE-2026-45447 (High): heap use-after-free in PKCS7_veri=
-fy()<br>
-&gt;&nbsp;&nbsp; - CVE-2026-7383: heap buffer overflow in ASN.1 multibyte s=
-tring<br>
-&gt;&nbsp;&nbsp; - CVE-2026-9076: out-of-bounds read in CMS password-based =
-decryption<br>
-&gt;&nbsp;&nbsp; - CVE-2026-34180: heap buffer over-read in ASN.1 content p=
-arsing<br>
-&gt;&nbsp;&nbsp; - CVE-2026-42764: NULL pointer dereference in QUIC server =
-packet handling<br>
-&gt;&nbsp;&nbsp; - CVE-2026-45445: AES-OCB IV ignored on EVP_Cipher() path<=
-br>
-&gt;&nbsp;&nbsp; - CVE-2026-34182: CMS AuthEnvelopedData may accept forged =
-messages<br>
-&gt;&nbsp;&nbsp; - CVE-2026-42766: NULL pointer dereference in password-bas=
-ed CMS decryption<br>
-&gt;&nbsp;&nbsp; - CVE-2026-42770: FFC-DH peer validation uses attacker-sup=
-plied q<br>
-&gt;&nbsp;&nbsp; - CVE-2026-45446: incorrect tag processing for empty messa=
-ges in AES-GCM-SIV and AES-SIV modes<br>
-&gt;&nbsp;&nbsp; - CVE-2026-31790: incorrect failure handling in RSA KEM RS=
-ASVE encapsulation<br>
-&gt;&nbsp;&nbsp; - CVE-2026-28387: potential use-after-free in DANE client =
-code<br>
-&gt;&nbsp;&nbsp; - CVE-2026-28388: NULL pointer dereference when processing=
- a delta CRL<br>
-&gt;&nbsp;&nbsp; - CVE-2026-28389: NULL dereference in CMS KeyAgreeRecipien=
-tInfo<br>
-&gt;&nbsp;&nbsp; - CVE-2026-28390: NULL dereference in CMS KeyTransportReci=
-pientInfo<br>
-&gt;&nbsp;&nbsp; - CVE-2026-31789: heap buffer overflow in hexadecimal conv=
-ersion<br>
-&gt;<br>
-&gt; As a result of this upgrade, the following CVEs are already fixed in t=
-he<br>
-&gt; upstream version and no longer require local patches:<br>
-&gt;<br>
-&gt;&nbsp;&nbsp; - CVE-2024-41996: vulnerability that could lead to denial =
-of service<br>
-&gt;&nbsp;&nbsp; - CVE-2023-50781: fixes related to certificate validation =
-and memory handling<br>
-&gt;<br>
-&gt; Upstream changelog:<br>
-&gt; <a href=3D"https://github.com/openssl/openssl/blob/openssl-3.0.21/NEWS=
-.md">https://ind01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgi=
-thub.com%2Fopenssl%2Fopenssl%2Fblob%2Fopenssl-3.0.21%2FNEWS.md&amp;data=3D0=
-5%7C02%7Caditya.gs%40bmwtechworks.in%7C4ca06f174ecd41274bcc08decabcb7fc%7C9=
-70fa6fd10314cc68c56488f3c61cd05%7C0%7C0%7C639171109068806752%7CUnknown%7CTW=
-FpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOI=
-joiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3D4zXCyTbP0EiXoF3vnNrmgI=
-LUnQlUiiV0dyUk%2Ffy4iPk%3D&amp;reserved=3D0</a><br>
-&gt;<br>
-&gt; Signed-off-by: Aditya GS &lt;adityags2004@gmail.com&gt;<br>
-&gt; Signed-off-by: Aditya GS &lt;aditya.gs@bmwtechworks.in&gt;<br>
-&gt; ---<br>
-&gt;&nbsp; .../openssl/{openssl_3.0.19.bb =3D&gt; openssl_3.0.21.bb}&nbsp;&=
-nbsp;&nbsp;&nbsp; | 9 +--------<br>
-&gt;&nbsp; 1 file changed, 1 insertion(+), 8 deletions(-)<br>
-&gt;&nbsp; rename meta/recipes-connectivity/openssl/{openssl_3.0.19.bb =3D&=
-gt; openssl_3.0.21.bb} (95%)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.19.bb b/met=
-a/recipes-connectivity/openssl/openssl_3.0.21.bb<br>
-&gt; similarity index 95%<br>
-&gt; rename from meta/recipes-connectivity/openssl/openssl_3.0.19.bb<br>
-&gt; rename to meta/recipes-connectivity/openssl/openssl_3.0.21.bb<br>
-&gt; index 293b450cd0..2531305cda 100644<br>
-&gt; --- a/meta/recipes-connectivity/openssl/openssl_3.0.19.bb<br>
-&gt; +++ b/meta/recipes-connectivity/openssl/openssl_3.0.21.bb<br>
-&gt; @@ -12,20 +12,13 @@ SRC_URI =3D &quot;<a href=3D""></a>https://ind01.s=
-afelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithub.com%2Fopenssl%2=
-Fopenssl%2Freleases%2Fdownload%2Fopenssl-%24&amp;data=3D05%7C02%7Caditya.gs=
-%40bmwtechworks.in%7C4ca06f174ecd41274bcc08decabcb7fc%7C970fa6fd10314cc68c5=
-6488f3c61cd05%7C0%7C0%7C639171109068834034%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0=
-eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjo=
-yfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3DN8JHLKbuTSv%2F2FuSQciRUuAZP7%2FIxJtz3EpF=
-CvW%2BtJU%3D&amp;reserved=3D0{PV}/op<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; <a href=3D"file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-=
-co.patch">
-file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch</a> =
-\<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; <a href=3D"file://afalg.patch">file://afalg.patch</a> \<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; <a href=3D"file://0001-Configure-do-not-tweak-mips-cflags.patch">file://0=
-001-Configure-do-not-tweak-mips-cflags.patch</a> \<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://CVE-2024-41996.patch">file://CVE-2024-41996.patch</a> \<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://CVE-2023-50781-1.patch">file://CVE-2023-50781-1.patch</a> \<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://CVE-2023-50781-2.patch">file://CVE-2023-50781-2.patch</a> \<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://CVE-2023-50781-3.patch">file://CVE-2023-50781-3.patch</a> \<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://CVE-2023-50781-4.patch">file://CVE-2023-50781-4.patch</a> \<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://CVE-2023-50781-5.patch">file://CVE-2023-50781-5.patch</a> \<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://CVE-2023-50781-6.patch">file://CVE-2023-50781-6.patch</a> \<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quo=
-t;<br>
-&gt;<br>
-&gt;&nbsp; SRC_URI:append:class-nativesdk =3D &quot; \<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; <a href=3D"file://environment.d-openssl.sh">file://environment.d-openssl.=
-sh</a> \<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; &quot;<br>
-&gt;<br>
-&gt; -SRC_URI[sha256sum] =3D &quot;fa5a4143b8aae18be53ef2f3caf29a2e0747430b=
-8bc74d32d88335b94ab63072&quot;<br>
-&gt; +SRC_URI[sha256sum] =3D &quot;617e29af8e421f46649484a4937e48c685e47f46=
-488167c982f88bc4ec1d522f&quot;<br>
-&gt;<br>
-&gt;&nbsp; inherit lib_package multilib_header multilib_script ptest perlna=
-tive<br>
-&gt;&nbsp; MULTILIB_SCRIPTS =3D &quot;${PN}-bin:${bindir}/c_rehash&quot;<br=
->
-<br>
-<br>
---<br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_PN0P287MB12213F647A0D7B19BC74E47CF9E62PN0P287MB1221INDP_--
+--=-5DbR0+zzQKUBEuLn3E5t--
 
