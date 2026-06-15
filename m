@@ -1,210 +1,209 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1752CD98C5
-	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 14:23:03 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.123121.1781501229805256421
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57430CD98CF
+	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 14:56:57 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.131670.1781535416668524473
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jun 2026 22:27:10 -0700
+ Mon, 15 Jun 2026 07:56:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=nbXl8ylK;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: adityags2004@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aa68d9d4a3so3213748e87.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jun 2026 22:27:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781501228; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bwyCdfnnXexUcL/CsVaIHZfzv64C35aEpQ5nD5cZuD19o64vPFOQDKvpJHv1dmTWtz
-         HYq57+86ZsAVMbmXepYdvhbmqhABcjj/bqQWBfKYHmW5YDH7z5LAky7hiBxqPl6k7rdg
-         Ih9oQ4tQkZAGQKB7nTiDtUzxU15B+UMTBnOgVWPseWUOxAiTNlBcPNxJghlTqu+3X8cI
-         6EeRyi7kD4gr3289noh50w7p+J6nHEtqZIV5C2KYNKufqY43qV/I6BHcxz35PLGqCarE
-         bekpZr4vZ+L+i2pQJR1yFBKo15bmBlURAfG027ewUh0OEReB96bMt7xYZD6eZ8iJKdKO
-         N5QQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=7yFTVlUM5fqtTv7yGDiMfyowCyIF3jsGwvnNpHTaj4A=;
-        fh=9lY65nN0TEMrEQMKxg+aHg+T06NFIZOGgB1tC9Cp6GE=;
-        b=H842yRCr9WkMQ+zlGx5kKNfRWJyq7ZhfUJlSvHbA2MLvHhU8CyEaWMvhrQhEM5+NQv
-         bhSigyMKUeAYvSYMLutHw/aJ5leyvtAXvLzPTvxVe1rL9NMUOEeFtbZ3wepJVjk6vQ9O
-         TZaHqmFQrYwwJa79GdpzX1Z72EboQMcxFxToPZ41GzjiS5HHHy2ICVu8LDkP+/J2QjLF
-         /pPSwXhJuqRLVb3E2oPSRKfAparIodz/1S7+3MhHPg+aVUQyGvWBeyv4IWSA0uLRWjzb
-         0mjv0d4fdYulnsloVfTtqqKulDg/d1SUJEed/NCgc2ZJxZye/2JVmsuWfWZdI8JogNFZ
-         WaJA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=ndbBdCoq;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490b8ac62baso33868255e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 07:56:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781501228; x=1782106028; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7yFTVlUM5fqtTv7yGDiMfyowCyIF3jsGwvnNpHTaj4A=;
-        b=nbXl8ylKW1Oydix5Tly9chP0g5D9+JkjBkyEYbCBzGqxxD6Bavd8RQMbh5pDaeytzI
-         7WQPgB3LCzBxpgNdelrDoHuhQQd/pNDh8Lz6VJxhDPgu9kcAX62MzDso77DCpssBJADK
-         386sXY2dxydjYujrJeqg3rcnei0LslMXHZBNdJs4bTs4/SKFftk4QrvQA24bYZBFDOMx
-         YAcHKVf3OWmPxNUwQR2xFhLrePEUPnazE4wj5qiUYzbukE6ODI0XRLRWYUYWh9UeuPmr
-         Jt9V18+OJ7EHSmKLa/t54yVkwOQvyR9Qp3iNDgTQNKoaTl4Lv5VnHZZWZZGEPMN7MEwv
-         V2Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781501228; x=1782106028;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1781535415; x=1782140215; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7yFTVlUM5fqtTv7yGDiMfyowCyIF3jsGwvnNpHTaj4A=;
-        b=dR1itFM79k+iowRv7l0MXw1mBbdA8Zr7w2Xs+ax3o6N5FOOnXm1g3d11ci38Twx6LK
-         piUbloY3/gs2gVDnwV8y1/U8LPjsuW2bxYNjazKhKyVOFbLTpNBLP46785dMCv38OCec
-         0TgT9JcJqvRD7z7JXWgfZy/7T8Yxy3txgx7woKoiffdB1skFXplDIsYB9VLCjoEjoJZ7
-         k4XxS+jEMMU1UcETErxir09UVVy0rnp7r6Z+NXxhh33kyz0lUv9VM/4xocH97LXVU2GO
-         sTiLNu2r5coNDJ2pj78uD0soWqqE1LQorx7rjrVw9xSBvmH3hKPyemlbXaZpkemEe23W
-         6Qng==
-X-Gm-Message-State: AOJu0Yzw41gsegxvfYDW1/NSErgP/EEzQzpjbRIzjGBVfmafS0eHqXRo
-	OAwSN+GNIES6JYz0Vnk8HCPtnOnxok13dfmUu6lCuLHqVLnHIjTXLFuoIjje+NJJggQIhNm94yV
-	nhguP2b4vpm9FXV5gwBHQ2FcvYrPAwiQwJw==
-X-Gm-Gg: Acq92OEsOsXXAxwRcmWdEW1GkqKjNApHa9M/Q7AueABtGzoh22KAjIzzJw4gffute8u
-	NlMMsXIDKUl97Etd1CyDTN2E2N3M/HvSFTzEgF/hVHcrc9EPJa65W8QqPs1tlG6Ey3SEARegv27
-	jaacu99Jue+UCJT+1hNIXjWhAHi0H8o2JvQkU7lRQ6Vhioc0N/jTxshDXJMWMM5f+7cZfJ69Kvg
-	C6AC2IMDPMLurfdiOiANYhalNjSpEVRAg25hnH1TnMVvZRSPM4dwbQiKcXtf/4p/U5rOddBN2wi
-	VHy+9dtiRszDc7qfthwBNmdpA/nirkUJPf0ENePeVruNWQhGSkeNp9nkfbpNVs6VE2kTog==
-X-Received: by 2002:a05:651c:2116:b0:396:892a:7392 with SMTP id
- 38308e7fff4ca-3992b2e7221mr35422011fa.29.1781500850854; Sun, 14 Jun 2026
- 22:20:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260611090957.2606-1-adityags2004@gmail.com> <CANNYZj_GQpodkUJxX6BvTUz6=ZrRGQJ2b+5fSvm9KJVtBaOzpg@mail.gmail.com>
-In-Reply-To: <CANNYZj_GQpodkUJxX6BvTUz6=ZrRGQJ2b+5fSvm9KJVtBaOzpg@mail.gmail.com>
-From: "Aditya G.S" <adityags2004@gmail.com>
-Date: Mon, 15 Jun 2026 10:50:38 +0530
-X-Gm-Features: AVVi8CeKcWjvwNkhZNObZi4BIFdZ5tgtyU9GpZE644y5NQIIphD9ZY7PcUq-TSc
-Message-ID: <CAHaUZZBxYbO=+CXDo=DDd5AZ1W_WvPxnd_zmCn7QMeUwGEjdiw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] patchtest: warn if Upstream-Status is after patch scissors
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, tgamblin@baylibre.com
-Content-Type: multipart/alternative; boundary="00000000000061ddfa065443fd06"
+        bh=gsprOZZPDenDpB3deN6TiF7NpNKDf/O8dSM9XMzk3h4=;
+        b=ndbBdCoqj5fvELWcq+XY6DmCoMbrZ5O90B8+doP3cJJvdQnTJMBj8SzzYFtwefmkZZ
+         TVEn464lM7XSvuHbMThchkpM6vg/ynTq+Ud2EN8+9aeR7jTgM5NqfvXcpQnwyGhrty2i
+         +w1MwZOUPYuREvW2RGFUZka4u6vwXsZm4stWk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781535415; x=1782140215;
+        h=in-reply-to:references:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gsprOZZPDenDpB3deN6TiF7NpNKDf/O8dSM9XMzk3h4=;
+        b=Di5c+ThgN+GqrMIeJ8UJ69beBOfOtRqwV0yJerTFTcS2Y/6LVokr+ntLNvM99zR/pk
+         BjkUWskQMvjJ/XoK7n+sKl7yEjvettN0g80J2AuHfjt/QXLc5JV7w415yAa9O8mh3FBO
+         Au7C7znWVQhD+xC2L7W+qAmcG7DDdDhmk4bfciKiaAcDaoftwCfP0HtQAo8EeDhWTgcL
+         3GH/RLizXIJFUav7gs1BZ6cgaRg9TYnP546HgLfgRbtLZrkUUhz2/Rm7NjEZKqI+qcRE
+         AB5u2Ebodqxy9iNwoSwLAdSh8C5Z+VR7QoF4YzvHBYAqPzM1hmna11yG0MqVUu19lc8R
+         SVdw==
+X-Forwarded-Encrypted: i=1; AFNElJ/hIqrZ1yILNxTTW3DNWDfUOTCzrLOZOAtCX2NWIh+Uv1JSjpZQeUz7I7DAo4nlG5v7/tqq+wt3B8NJ5QwafGj5pQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwnXPt3mRzGc+5Bdq20N0Ljz6LYb1CstPjTlbvgCXeqx/L/Kz34
+	J4HofBuRdkG0NqaDR4ZWzyvdm4olCfQeu9yp3Rl6tmGeEm47lMAOUiJDrcXvsDPZN8I=
+X-Gm-Gg: Acq92OHAfU0ONxwGMpJvbXcvIEQJ2iLC+T2RtqX7GaZUs0J8IM9RtScKrJ9vV6YLKFR
+	Mgi3WFFRwWur0UQ2F6OKY8D54K2z+6vkcVLR+nNKMSbeF2a0lDPdsL65289xk2kee8KduG20hnD
+	jRvc2kJ4xDRx0ENEVCyOgXdR5Yi5sqoBjhAZQBvMaGfGBw4LPX9uYcMamnya5xAgd7+g7d1k70b
+	f4Ml8R5YxAUNZd15xdy7lyCDQA/jkOKEd07vsx9IWFXYrXl3LZJlHycXQNdJI9431oJAzPKC5GM
+	XSTpTVXbzMmyz/owIf5NUSIiwgX0rSe7pnY0OMlYRxKV4THeR8UCq6uix/yBT3iWbgNh5ss3gIb
+	UkXnHfU6nCka+VOmVoBN6nBT/cuPJya/5UPR4xhJDzDMbsIh/nv2sYhoQZNWh6Of66Jj1G8Fh6s
+	AkwEVdVbqPT3sxQ198M3887USexbOpoHcdYxxsOJP34iRLbADzsHgmOwgRpp1pRAuQrW8XNdPSm
+	5dV+WyCCyIW/1G2FyMYVvVn1A==
+X-Received: by 2002:a05:600c:1d89:b0:490:ad1e:1846 with SMTP id 5b1f17b1804b1-490ec4d786emr152931035e9.9.1781535414790;
+        Mon, 15 Jun 2026 07:56:54 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922034c1cbsm215413155e9.10.2026.06.15.07.56.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Jun 2026 07:56:54 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 15 Jun 2026 16:56:53 +0200
+Message-Id: <DJ9PLINYS56D.SN9IE3Q5O3B2@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.9
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: "Marko, Peter" <Peter.Marko@siemens.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260110224453.395105-1-peter.marko@siemens.com>
+ <DG63GSU9MVS3.304EAXA47JAF9@smile.fr>
+ <AS1PR10MB5697F71F42D54E6DF1DBDA63FD6AA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM> <DGIZMOWN2GMB.2LUW1QWT0MLRW@smile.fr> <AS1PR10MB569707821CD8C3C3AA8DC9D8FD76A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB569707821CD8C3C3AA8DC9D8FD76A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 14:23:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238854
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 14:56:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238855
 
---00000000000061ddfa065443fd06
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Alex,
-
-Thanks for the clarification.
-
-I understand now that the behavior should remain a hard failure in oe-core,
-and that the earlier interpretation was incorrect.
-
-I'll drop the patch that downgrades the check to a warning.
-
-Thanks for pointing out the existing commit in oe-core as well that helps
-clear up the confusion.
-
-Regards,
-Aditya
-
-On Sat, Jun 13, 2026, 6:41=E2=80=AFPM Alexander Kanavin <alex.kanavin@gmail=
-.com>
-wrote:
-
-> On Thu, 11 Jun 2026 at 18:05, Aditya GS via lists.openembedded.org
-> <adityags2004=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> > [YOCTO #15940]
-> >
-> > Detect cases where Upstream-Status is placed after the patch
-> > scissors ("---") and emit a warning instead of failing.
-> >
-> > Such placement may be intentional in some workflows to avoid
-> > including the tag in upstream commits.
+On Sun Feb 22, 2026 at 9:53 PM CET, Peter Marko wrote:
 >
-> I'm afraid there has been a confusion here, and the patch is not correct.
 >
->  The bug was already addressed in oe-core earlier:
+>> -----Original Message-----
+>> From: Yoann Congal <yoann.congal@smile.fr>
+>> Sent: Thursday, February 19, 2026 14:55
+>> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
+>> openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.9
+>>=20
+>> On Wed Feb 18, 2026 at 10:28 PM CET, Peter Marko wrote:
+>> >
+>> >
+>> >> -----Original Message-----
+>> >> From: Yoann Congal <yoann.congal@smile.fr>
+>> >> Sent: Wednesday, February 4, 2026 11:10
+>> >> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
+>> >> openembedded-core@lists.openembedded.org
+>> >> Subject: Re: [OE-core][scarthgap][PATCH] gnupg: upgrade 2.4.8 -> 2.4.=
+9
+>> >>
+>> >> On Sat Jan 10, 2026 at 11:44 PM CET, Peter Marko via
+>> lists.openembedded.org
+>> >> wrote:
+>> >> > From: Peter Marko <peter.marko@siemens.com>
+>> >> >
+>> >> > Handles CVE-2025-68973.
+>> >> >
+>> >> > Refresh patches.
+>> >> >
+>> >> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+>> >> > ---
+>> >> >  meta/recipes-support/gnupg/gnupg/relocate.patch    | 14 +++++++---=
+----
+>> >> >  .../gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9.bb}       |  2 +-
+>> >> >  2 files changed, 8 insertions(+), 8 deletions(-)
+>> >> >  rename meta/recipes-support/gnupg/{gnupg_2.4.8.bb =3D> gnupg_2.4.9=
+.bb}
+>> >> (97%)
+>> >>
+>> >> Hello,
+>> >>
+>> >> I've tested that on autobuilder but got an error in oe-selftest-debia=
+n:
+>> >> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3=
+138
+>> >>   ERROR: autoconf-native-2.72e-r0 do_recipe_qa: GPG exited with code =
+2:
+>> gpg:
+>> >> signing failed: Corrupted protection
+>> >>   gpg: signing failed: Corrupted protection
+>> >>   ERROR: patch-native-2.7.6-r0 do_recipe_qa: GPG exited with code 2: =
+gpg:
+>> >> signing failed: Corrupted protection
+>> >>   gpg: signing failed: Corrupted protection
+>> >>
+>> >> I've started a build with this gnupg upgrade reverted to confirm that
+>> >> this is indeed the cause:
+>> >> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3=
+142
+>> >>
+>> >> Can you look at this?
+>> >> Thanks!
+>> >
+>> > Unfortunately, I'm not able to reproduce this failure.
+>> >
+>> > On my Debian 11 I have:
+>> > SANITY_TESTED_DISTROS =3D ""
+>> > PACKAGE_CLASSES =3D "package_rpm"
+>> > RPM_GPG_SIGN_CHUNK =3D "1"
+>> > IMAGE_CLASSES +=3D 'testimage'
+>> > And run:
+>> > oe-selftest -r signing -j 16
+>> > And get:
+>> > oe-selftest - INFO - RESULTS -
+>> signing.LockedSignatures.test_locked_signatures: PASSED (122.35s)
+>> > oe-selftest - INFO - RESULTS - signing.Signing.test_signing_packages:
+>> PASSED (155.34s)
+>> > oe-selftest - INFO - RESULTS - signing.Signing.test_signing_sstate_arc=
+hive:
+>> PASSED (121.11s)
+>> > oe-selftest - INFO - oe-selftest - OK - All required tests passed (suc=
+cesses=3D3,
+>> skipped=3D0, failures=3D0, errors=3D0)
+>>=20
+>> FYI, the failing build:
+>> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3138
+>> ... was on Debian 12
+>> (It's the retry with this patch reverted that was on Debian 11)
+>>=20
+>> Scarthgap has since been successfully retried on Debian 12 (without this
+>> patch):
+>> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/3226
+>>=20
+>> Can you check this on Debian 12?
 >
-> commit 2156ef9e6defa3ec9087789fcea25fb4fee7b83c
-> Author: Luka Krstic <lukakrstic031@gmail.com>
-> Date:   Thu Dec 18 10:11:38 2025 +0100
->
->     patchtest: reject Upstream-Status after scissors
->
-> but the bugzilla ticket was never closed.
->
-> Then https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15940#c1 was
-> interpreted as a request to downgrade it to a warning, but we should
-> not be doing that: it means patchtest will not longer actually notify
-> of the issue on the oe-core mailing list.
->
-> I understand some other layers intentionally put it after the
-> scissors; if they're using patchtest, they can disable this particular
-> test or configure it to produce some kind of soft fail, but in oe-core
-> it should remain a hard fail.
->
-> Alex
->
+> I have retested with Debian 12 and 13 and the tests were green.
+> I guess I'm missing some configuration from AB so I have no clue how to f=
+ix it...
+> So again, I'm just going to backport the CVE patch for now instead of upg=
+rade...
 
---00000000000061ddfa065443fd06
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I've now taken this very same upgrade but that time it has gone through
+AB without errors.
 
-<div dir=3D"auto">Hi Alex,<div dir=3D"auto"><br></div><div dir=3D"auto">Tha=
-nks for the clarification.</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">I understand now that the behavior should remain a hard failure in oe-co=
-re, and that the earlier interpretation was incorrect.</div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">I&#39;ll drop the patch that downgrades the =
-check to a warning.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Than=
-ks for pointing out the existing commit in oe-core as well that helps clear=
- up the confusion.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Regar=
-ds,</div><div dir=3D"auto">Aditya</div></div><br><div class=3D"gmail_quote =
-gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jun 13=
-, 2026, 6:41=E2=80=AFPM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavi=
-n@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
-dding-left:1ex">On Thu, 11 Jun 2026 at 18:05, Aditya GS via <a href=3D"http=
-://lists.openembedded.org" rel=3D"noreferrer noreferrer" target=3D"_blank">=
-lists.openembedded.org</a><br>
-&lt;adityags2004=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" targ=
-et=3D"_blank" rel=3D"noreferrer">gmail.com@lists.openembedded.org</a>&gt; w=
-rote:<br>
-&gt;<br>
-&gt; [YOCTO #15940]<br>
-&gt;<br>
-&gt; Detect cases where Upstream-Status is placed after the patch<br>
-&gt; scissors (&quot;---&quot;) and emit a warning instead of failing.<br>
-&gt;<br>
-&gt; Such placement may be intentional in some workflows to avoid<br>
-&gt; including the tag in upstream commits.<br>
-<br>
-I&#39;m afraid there has been a confusion here, and the patch is not correc=
-t.<br>
-<br>
-=C2=A0The bug was already addressed in oe-core earlier:<br>
-<br>
-commit 2156ef9e6defa3ec9087789fcea25fb4fee7b83c<br>
-Author: Luka Krstic &lt;<a href=3D"mailto:lukakrstic031@gmail.com" target=
-=3D"_blank" rel=3D"noreferrer">lukakrstic031@gmail.com</a>&gt;<br>
-Date:=C2=A0 =C2=A0Thu Dec 18 10:11:38 2025 +0100<br>
-<br>
-=C2=A0 =C2=A0 patchtest: reject Upstream-Status after scissors<br>
-<br>
-but the bugzilla ticket was never closed.<br>
-<br>
-Then <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15940#c=
-1" rel=3D"noreferrer noreferrer" target=3D"_blank">https://bugzilla.yoctopr=
-oject.org/show_bug.cgi?id=3D15940#c1</a> was<br>
-interpreted as a request to downgrade it to a warning, but we should<br>
-not be doing that: it means patchtest will not longer actually notify<br>
-of the issue on the oe-core mailing list.<br>
-<br>
-I understand some other layers intentionally put it after the<br>
-scissors; if they&#39;re using patchtest, they can disable this particular<=
-br>
-test or configure it to produce some kind of soft fail, but in oe-core<br>
-it should remain a hard fail.<br>
-<br>
-Alex<br>
-</blockquote></div>
+Sorry I did not take yours.
 
---00000000000061ddfa065443fd06--
+>
+> Peter
+>
+>>=20
+>> Thanks!
+>>=20
+>> > So I guess I just backport the CVE fix instead of this upgrade.
+>> >
+>> > Peter
+>> >
+>> >>
+>> >> Regards,
+>> >>
+>> >> --
+>> >> Yoann Congal
+>> >> Smile ECS
+>>=20
+>>=20
+>> --
+>> Yoann Congal
+>> Smile ECS
+
+
+--=20
+Yoann Congal
+Smile ECS
+
 
