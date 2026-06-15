@@ -1,96 +1,169 @@
-Return-Path: <florin.diaconescu009@gmail.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9D64CD98C5
-	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 15:39:58 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.132725.1781537989791134756
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7A48CD98DA
+	for <webhook@archiver.kernel.org>; Mon, 15 Jun 2026 17:31:09 +0000 (UTC)
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.135237.1781544661710953262
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2026 08:39:50 -0700
+ Mon, 15 Jun 2026 10:31:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=BUqlsvzN;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: florin.diaconescu009@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4922244f7c7so18665795e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 08:39:49 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=FsZjMomm;
+ spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781537988; x=1782142788; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8cOmxyXdJAamiwPA+lti9oWIuzDN3d2X1tJxE9TH40Q=;
-        b=BUqlsvzNlBRo+lJPGkE811QDCJsTZ+jxaGv6Aa5BAFIRCwBbNjjS/sMyPxP3+GLdM5
-         a9rsrr2a7J32GZWAEBP6IrDf8aTyaXKuOB9kq8N91maBd/4cglUs3yT1hR8eIpYinUAP
-         gFukKuO+GYYn6jfxTJYZTXD3w667637yuerZao4eWq1nJu1pf5Vdgvwp+051vCtaWSX6
-         iIt3zo8DsP8BnM/70TQ+fAai/ONXEAHCiAhV38FITz2v11n0XPbmdT3+qxCyFQiadb+7
-         07pB7xS+BVDfEWKWmrB6Zfzwy6c3nNrc67EpwnOLK3vw8KtL/ltquD7491Duc1wVDXQ8
-         /zHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781537988; x=1782142788;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8cOmxyXdJAamiwPA+lti9oWIuzDN3d2X1tJxE9TH40Q=;
-        b=QsVZYnPoy46TLYhemL3J7DEYtNKOifcjrDqkbzeW8VdG91dhVEaKIKHLigI042GZQK
-         dWu6uImHSe2pCp4/JizWnNCtMmXdP22I/R6z7ErrTqQb/bzOtU6bGpm5pTU3DeyxXowi
-         2I9GG53mtIir8k5ByHNzuOb1MJh54ZjCJmgLzoXx0QHn8cY7uO58kpeWhjnPv47qF6FZ
-         ClYjU1f3MlBUTJW9OLoDgh8/BeF41wgdepjQatJUNvApqk+OOMOHAkTRVS6y/oZEbSFP
-         GpvAt/SyW0Gm0mKi5rN/JYbnvpLCbgvudhstyxx7JR/iTvkoN6St1pBSUMA8y9jMeaGH
-         ksUw==
-X-Gm-Message-State: AOJu0Yz2Kk94yZlOYkTZSGREN9o8NmsXwrFmmgM6U1QxtFceQDKADNym
-	FYBpvnfnCiIE643fNMHlew5ZX1scbapxTCJRhKnwvmSNS7rKR3OUfXNB+9G2Sg==
-X-Gm-Gg: Acq92OH+O8yCox24Vrd/PlTwoQbNI03qEwpYgqWrb3mQDrJAbpZaiji7zjNzeJUY4C0
-	+YJpudIdjnBPnqvYL1QewqyceksfyQ/IKgDcjcff8l05xvtGkm2H1Kl6DWMUTJjMh0gAGHHcrjR
-	UUmTEzxLFsNoxUODcBtiDb0FJeu/1Ub/Czd15zPAqZ5rUDY7d3Y3ex6YRuJMA7wqz6f/rUNbVGI
-	SMSbx8qukd4iBCx3bP1tmSXoweBrTdxx5hx7lJJi1ZCqyIGta3vVzy7+h/Y5tBP28qQ0qlSiD4V
-	paM0J6elzN2z/zQqgNY474xqFHS+/tsM6tTieq/2g4qdwbilQrx1OTTMYSBHuaZuuLjkms2y3rj
-	Kb4Wvrhd+r5GExy4em2HJviojX7rNqe8/owdCvoG38CCxShDfiGMRj6qR7c+xsZuNGidorhHrFX
-	37mq6BNqN5+eOydqpZSn0ISjSi8ngOmB7iiV7/wOur9qneQMIi3RtUgw==
-X-Received: by 2002:a05:600d:8444:10b0:48a:7a10:4f17 with SMTP id 5b1f17b1804b1-4922005e01fmr105340255e9.6.1781537987725;
-        Mon, 15 Jun 2026 08:39:47 -0700 (PDT)
-Received: from FDIACONESCU-3TG.lenovo.com ([92.87.113.27])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa50c26sm1241765e9.7.2026.06.15.08.39.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 08:39:47 -0700 (PDT)
-From: Florin Diaconescu <florin.diaconescu009@gmail.com>
+  d=cisco.com; i=@cisco.com; l=2958; q=dns/txt;
+  s=iport01; t=1781544661; x=1782754261;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=a1rjXrEQKaH3qZ62ONKqeYCaqJrer3bWqrxnq42kHP8=;
+  b=FsZjMomm1y4o7NnPhP5yd5HF9vIT7hil0Paod9gJ47APZiAuJfYJwLVO
+   Ds4I4efuLZ2WR0ODg+pB1qro0bz7lpIiBCIEAQgjQkXjStc40HYG/gfxj
+   0+pFOP4aHhWYIRIcmaelXEveYZGvKWlTvVR8v0TcunaXkzdrOp82sXDcp
+   evB4tItiRM+bzGWJFOtlgPxtJPCbsBuzwIb/YJl5rotqFQHvsTxArlULu
+   eDoyMgRt6ZBrmgSDev9Rl9BEL+0UfiLMuFp00ys98sAUUiz74VfV2Flhp
+   8sqgW4fboURD4cgdEjWGh3X1Qca1Ugc+/YXORwUxn2JFSfOQvGfW8T56G
+   g==;
+X-CSE-ConnectionGUID: lalyEjgWTZ2R7OEmWkkxuQ==
+X-CSE-MsgGUID: DFehz3EwTSS6hZcuw17N6Q==
+X-IPAS-Result: =?us-ascii?q?A0BDAgAJNjBq/4z/Ja1aglmCGD90X0JJA5QngiGeHoF+D?=
+ =?us-ascii?q?wEBAQ9EDQQBAZJKAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
+ =?us-ascii?q?Q4Thk8NhloBLQsBcgMBAlojIYIqWAGCcwIBEbVuGjeBeTOBAYNaBQkCQ1DbL?=
+ =?us-ascii?q?AEFBhQBgTiFP4gfWxgBhHwnGxuBcoQIdoEFgVwFgiqFeASCIoEMgVoeUoFRg?=
+ =?us-ascii?q?gqKXEiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHBYFKgg+BBYULI?=
+ =?us-ascii?q?x8DOX+Bb4ElZ2YVMDWBAhEfChwDCxgNSBEsNxQbBD5uB4xRFw+BSnOBDhQYU?=
+ =?us-ascii?q?IEtL5MRkmWhDwoog3WMIZU6GjOqbJkIjgqVaGiEaIFoPIFZcBWDIlMZD1aNV?=
+ =?us-ascii?q?wsLg2CFE8JmJDULAy8BAQcCBw4DC4FokX0BAQ?=
+IronPort-Data: A9a23:97OKAqAmFLeTJhVW/3jiw5YqxClBgxIJ4kV8jS/XYbTApDhw0TNSy
+ 2ZJUDiHPPyNNjTxKNFxOo2zoxkD6J/Un9diOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jX2thh
+ fuo+5eBYAH8hmYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEx/xqHWw0MrIkyLxNXkZj8
+ MMbKyAQV0XW7w626OrTpuhEnM8vKozveYgYoHwllWqfBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
+ pdfMGY3BPjDS0Un1lM/BJ8zhu60hn7XeDxDo1XTrq0yi4TW5FAgjOm2bIKEJ7RmQ+15sEuYt
+ Dnr4FjCOU8aBteC1mPa1CyV07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
+ UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/KPpQ2YHWMDCDVGbbTKqfMLeNDj7
+ XfR9/uBONClmOT9pa61nltMkQ6PBA==
+IronPort-HdrOrdr: A9a23:CoRrOKGnO5PqsCjppLqE2MeALOsnbusQ8zAXPidKOH5om6Oj+f
+ xG8M536faWskdzZJhfo7G90cC7KBu2n6KdirN/AV7NZmXbUROTTL1K3M/F3yDqHTH4+6p20K
+ dtdLU7NfjLZGIK6PoTJGKDYrEdKB7tytHNudvj
+X-Talos-CUID: 9a23:TKzH9W+DNIEwGbxoFIOVv0odHtEIcHLi8EWKGRCfJGNWS76FVGbFrQ==
+X-Talos-MUID: =?us-ascii?q?9a23=3ARimA7AyWRZqJC+cnr7J9v+rpV3maqIiABUAfyrg?=
+ =?us-ascii?q?Zh/K/ayxCMCqC1WuRHLZyfw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.24,206,1774310400"; 
+   d="scan'208";a="494934095"
+Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
+  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Jun 2026 17:31:00 +0000
+Received: from sjc-ads-3552.cisco.com (sjc-ads-3552.cisco.com [171.68.249.250])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id AB196180005A6
+	for <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 17:31:00 +0000 (GMT)
+Received: by sjc-ads-3552.cisco.com (Postfix, from userid 1795984)
+	id 52AA3CC2EC3; Mon, 15 Jun 2026 10:31:00 -0700 (PDT)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Florin Diaconescu <florin.diaconescu009@gmail.com>
-Subject: [PATCH] scripts/rpm2cpio.sh: Use 'xz -dc' instead of xzcat
-Date: Mon, 15 Jun 2026 18:39:44 +0300
-Message-Id: <20260615153944.112726-1-florin.diaconescu009@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][scarthgap][PATCH] qemu: Fix CVE-2024-6519
+Date: Mon, 15 Jun 2026 10:30:49 -0700
+Message-Id: <20260615173049.4156087-1-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-3552.cisco.com [171.68.249.250];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.68.249.250, sjc-ads-3552.cisco.com
+X-Outbound-Node: rcdn-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 15:39:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238856
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jun 2026 17:31:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238857
 
-rpm2cpio.sh calls xzcat to decompress,and xzcat is equivalent to:
-xz --decompress --stdout (-d and -c, in short)
+From: Deepak Rathore <deeratho@cisco.com>
 
-Since commit d1930f8, it is assumed that xz is provided, but 'xzcat'
-used in rpm2cpio.sh is not listed in HOSTTOOLS. With it being only a
-symlink, and with commit eb3ec74 replacing bzip2 with bunzip2 in a
-similar way, this fixes the bin_package class for rpm without adding
-xzcat to HOSTTOOLS.
+This patch applies the upstream v11.0.0-rc2 backport for
+CVE-2024-6519. The upstream fix commit is referenced in [1],
+and the public CVE advisory is referenced in [2]. The individual
+backported commit link is recorded in the embedded patch header.
 
-Signed-off-by: Florin Diaconescu <florin.diaconescu009@gmail.com>
----
- scripts/rpm2cpio.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1] https://gitlab.com/qemu-project/qemu/-/commit/4862d2c95104d9fd0430cc003c205094f8ada1f9
+[2] https://security-tracker.debian.org/tracker/CVE-2024-6519
 
-diff --git a/scripts/rpm2cpio.sh b/scripts/rpm2cpio.sh
-index 8199b43784..9343f70ea3 100755
---- a/scripts/rpm2cpio.sh
-+++ b/scripts/rpm2cpio.sh
-@@ -58,7 +58,7 @@ hdrsize=$rsize
- case "$(_dd $offset bs=2 count=1 | tr -d '\0')" in
- 	"$(printf '\102\132')") _dd $offset | bunzip2 ;; # '\x42\x5a'
- 	"$(printf '\037\213')") _dd $offset | gunzip  ;; # '\x1f\x8b'
--	"$(printf '\375\067')") _dd $offset | xzcat   ;; # '\xfd\x37'
-+	"$(printf '\375\067')") _dd $offset | xz -dc  ;; # '\xfd\x37'
- 	"$(printf '\135')") _dd $offset | unlzma      ;; # '\x5d\x00'
- 	"$(printf '\050\265')") _dd $offset | unzstd  ;; # '\x28\xb5'
- 	*) fatal "Unrecognized payload compression format in rpm file: $pkg" ;;
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 54644dd924..d232446e2e 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -45,6 +45,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2025-12464.patch \
+            file://0001-python-backport-Remove-deprecated-get_event_loop-cal.patch \
+            file://0002-python-backport-avoid-creating-additional-event-loop.patch \
++           file://CVE-2024-6519.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-6519.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-6519.patch
+new file mode 100644
+index 0000000000..431afbbc60
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-6519.patch
+@@ -0,0 +1,51 @@
++From 86bc714d9d02a23ea6be878febdc327bbfc9ff50 Mon Sep 17 00:00:00 2001
++From: Paolo Bonzini <pbonzini@redhat.com>
++Date: Fri, 27 Mar 2026 17:37:31 +0100
++Subject: [PATCH] lsi53c895a: keep a reference to the device while SCRIPTS
++ execute
++
++SCRIPTS execution can trigger PCI device unplug and consequently
++a use-after-free after the unplug returns.  Avoid this by keeping
++the device alive.
++
++Resolves: https://gitlab.com/qemu-project/qemu/-/work_items/3090
++
++CVE: CVE-2024-6519
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/4862d2c95104d9fd0430cc003c205094f8ada1f9]
++
++Cc: qemu-stable@nongnu.org
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++(cherry picked from commit 4862d2c95104d9fd0430cc003c205094f8ada1f9)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ hw/scsi/lsi53c895a.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
++index 4d0c5fcd9b7..37dd38d7a87 100644
++--- a/hw/scsi/lsi53c895a.c
+++++ b/hw/scsi/lsi53c895a.c
++@@ -1158,6 +1158,7 @@ static void lsi_execute_script(LSIState *s)
++         s->waiting = LSI_NOWAIT;
++     }
++ 
+++    object_ref(s);
++     reentrancy_level++;
++ 
++     s->istat1 |= LSI_ISTAT1_SRUN;
++@@ -1177,6 +1178,7 @@ again:
++         s->waiting = LSI_WAIT_SCRIPTS;
++         lsi_scripts_timer_start(s);
++         reentrancy_level--;
+++        object_unref(s);
++         return;
++     }
++     insn = read_dword(s, s->dsp);
++@@ -1625,6 +1627,7 @@ again:
++     trace_lsi_execute_script_stop();
++ 
++     reentrancy_level--;
+++    object_unref(s);
++ }
++ 
++ static uint8_t lsi_reg_readb(LSIState *s, int offset)
+-- 
+2.35.6
+
 
