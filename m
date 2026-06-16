@@ -1,253 +1,335 @@
-Return-Path: <anders.heimer@est.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FAC1CD98CF
-	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 08:26:03 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.71])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.149171.1781598324624140879
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98726CD98CF
+	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 08:44:03 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.149735.1781599435098245912
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2026 01:25:25 -0700
+ Tue, 16 Jun 2026 01:43:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Z//jpwrt;
- spf=pass (domain: est.tech, ip: 40.107.159.71, mailfrom: anders.heimer@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qX+gwXP9yjfHWH6Ys0GIb9x/DWUgkKd26gUzC7mu3KYlp/y9HRVaLIcSrvFG/slnuaPv/3kW+hjlvDrOLVyYM/zIxYMOgVQM0vGO0RMdL8AUkyxJXsjr1yGAsbuWpGE47urlb20OhBA0VipR8r2IioF7OwMA7mC9xZUFs7hpXAJAXTtP2Cqrk0l5pzt4d+IsMt8LIS1GJkmyaSLe7oxxHxQgHV4HxEiK2ySQbMZhwg/0wOM1yWSCSUnZDyXZsyuzs0mZe9mMxdAP17IIuu7z2riJzdUU3LoDE8C23l6aI9RLyUtYHGdcMBY4fclOwR0uVf1+TwBFwCbig6s7DQ0ycA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C7TCpyIYQD33jnwGNwa8hieQuaLB2qbbKmSEftBNglc=;
- b=yJ36r0bDUGmQLOU7nMLcqe1Od5l0ZvI9+nS7iBdWPmWhqB4R0NgYHPjm7ga1sW5Y9sp6avvXgIupuUzYzmfuUvKSUpmdQSVTZ93GW/pgJcKJ7LHcCRb+ag/nDF/OATTmtDosKEQ0nH2guBX1nhvUYEQCOWn1aa4TeQbi7thX44LEYeDbPO8lmR1yqmLMwDL8HahwCCR+WfLLshHMrNBHHiJjFKPYnA7kiVH0lpouh9nChlQjPtW0BMvcxgll7n5Tq4Hvl3LGz6TMNob2/gVnqhXH8/SSLnRGIlLimjjBuJKeLjfoQy2gQlEX6I+EMiMKMQmjzaW4N9U9bvN9wE5P3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C7TCpyIYQD33jnwGNwa8hieQuaLB2qbbKmSEftBNglc=;
- b=Z//jpwrtcDYF28dp7or+oGh7sMXwrd0pDI+rGDSOyn2TKohZz1eKh5ZrgNGOujfai08dFXs8pbbwudXPk83h8B9i61vwhj5Vu9UrWvy7rx68WNyMiKX62uPaXx1hEOtAFewkDwha3rQ1kXDVC3Afqv2VaM//pcVbX2WaaIZU+mlw/pHaGWIrK61oQ9gTaATEyNLf8JnPZPVuz0Ca8rasSZMfy6KEIWCxxLdrDzv9T2p7Is9DK8TJGuFl8dfmBDIo4PbYQGMA+6fii/rCZdWXRczyw/Intg5pc4ef4Q7Z8Ch4+jd0obk/gxttx/oArlPfMv4hH8nWX3d46aDJZf4O6A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:2ac::9) by
- VI0P189MB3317.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2b1::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.113.18; Tue, 16 Jun 2026 08:25:21 +0000
-Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
- ([fe80::90da:b700:f102:5c82]) by DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
- ([fe80::90da:b700:f102:5c82%6]) with mapi id 15.21.0113.015; Tue, 16 Jun 2026
- 08:25:21 +0000
-From: Anders Heimer <anders.heimer@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: Anders Heimer <anders.heimer@est.tech>
-Subject: [PATCH 1/2] package: replace copydebugsources shell pipelines with Popen
-Date: Tue, 16 Jun 2026 10:25:15 +0200
-Message-ID: <20260616082516.1553768-2-anders.heimer@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260616082516.1553768-1-anders.heimer@est.tech>
-References: <20260616082516.1553768-1-anders.heimer@est.tech>
+ dkim=pass header.i=@smile.fr header.s=google header.b=yMrs5u+E;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490cdae130cso20743295e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 01:43:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1781599433; x=1782204233; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rNyr/xJB6NOqT4Ts9/V2mTMW/v6pSDInJ3aED3932vE=;
+        b=yMrs5u+EFKFORAyHJokJcYG/Pl9wTFSr2ba7HqNy6DDZIJUxX9J4oDodwncysRgu4V
+         NIhdNNIfHiSvbOQ3ujW5Q2vOYybUjynX6ZJcvNon/bavFioAK4U6h4tDLmb1oI5SL7nz
+         1xll4gifR0st6P7dk7IKRVow1BYWoCxcekB+Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781599433; x=1782204233;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rNyr/xJB6NOqT4Ts9/V2mTMW/v6pSDInJ3aED3932vE=;
+        b=qHfNnj6hS87ngVzm5uYB8edtqMEES1/z2qEBtBOQsjBI7etuBhPM8a3A7nrZfip7/x
+         7kFUK886IkPEEFSdHgDVIcAIU4qno0AiDHLyHJZxb7smf/Pc/Ig5aKYyf2LoQeI04lqh
+         LRYTMtmcdgya1hBngaGj5g6eUdSYGeW0Bo7+f2D0Zlkv9OHpRL4NZvwy/i6JUpQnMsNw
+         VsfZwCU5MbFgK5/scuMeBjLSBX4P/MkcSTOzwohdp03MwWEgVNRLdopK7p3kigPJLqFr
+         dOjeM6X86p1e+NFnnTt57D1sU5P32dDi0tFjdoIiGMTfqNznTxZMz4AT99SIabLcs+YO
+         /Yhw==
+X-Forwarded-Encrypted: i=1; AFNElJ+BR4mi1loYVM7V9WwHp4e0RoVRWUO3wWvrdlmXTt7tPE+BhLE9TsJro+ijCYVLybASnJQmysrSKsCbQt8/bd/h7A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxxZRZzpCfJikt7Z9Rmqb3IDywIvuBMDk9UP5nJOxDDhnekcf+p
+	NFKK7VViwb6OnhoZb+Ht3Uc5zEOcBKtfVPEzMi4cq/jzI79mHQAwgjyRDZ3gsBr/w/hf1nrl2dz
+	W/6Zz
+X-Gm-Gg: Acq92OF8giKWTehh2f0eCsLvDZDDEcYHHRDbPmJ7VOk2hfgu7EXxV/TfMz5942UcyfA
+	FVx972ItLPkznk69YXlIt7N9ve/TRFbxlkzMpxTPzZZb3PxG5t0XupmyLXwYhi2A8tg2AXxwN56
+	2crGwXMLTOaaWHunnGCufrKHiXQGNXxYKtsYQHnOkcVSkjQ1jSwtFiu8mFqdQonSYSq0aiIjBWG
+	OX8Z3QuJxI4zN1G/2xlwj7h6cf6CYpl7cU4TQz/W65RiaFWPE+kbi0ZQE0CfyMdtxDwoKftHxHZ
+	3oJW9XPMerUvTrS2XZjJvoeEFfckZXWYscrmN9NJKU3/GqnEqLQYcK6paA8KWlvWerqQ4AyCK5+
+	U7k0Fd0X5zkTq/AZaODBWjzw6CvSpoh+bphYVpH1u0PGoboNMQDIUjFE2E7zG9qpA8Qvtw3Q+ZJ
+	LQ/tukRlksrDbxTLPHLup+2y3oSbdvbM27i/TiHTCXgQyldgnqwx9uJhN8LkF5M7VJQR7XAFgHL
+	BqR4VkfG7JY6KGd
+X-Received: by 2002:a05:600c:3b02:b0:492:2f3c:d0ed with SMTP id 5b1f17b1804b1-4922f3cd1a2mr52338225e9.30.1781599433093;
+        Tue, 16 Jun 2026 01:43:53 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00fdf7edbba0bd5f9d.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fdf7:edbb:a0bd:5f9d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4619a041986sm18517218f8f.23.2026.06.16.01.43.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jun 2026 01:43:52 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: PR3P189CA0050.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:53::25) To DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:10:2ac::9)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9P189MB1641:EE_|VI0P189MB3317:EE_
-X-MS-Office365-Filtering-Correlation-Id: 41d28981-6aed-42f1-bd0e-08decb80ce3f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|56012099006|11063799006|3023799007|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	zEQbYYGAkbhYR3MOSXZeuOvQVHdh6qfZW/hjk+zL8uSRLL2VNUFKeP1n0GGhAOxVMSjtCDcm2VGsRUz6bg0g7Ij3mQx/IHKTMMzXG0NfkbmhQLUBjPh8l4rAkJ/ZXjkuPv03h1GeNdOCXt56NnK2NdrHVOV0+q2qPaqui/Q6Za15HnEsvJACRBU2EZDJw7V4/uALAzz08o40Xv/C9WC2tSlm+xQ+KS10P+kv5OYiNPx3Mv0d4nz1kYcOS7ynPBJ8lshePa25hLmN/bdzy8nqAoXc5ee91iulMixdz8v7R6ZCyskj691v4xRA2x0OmBj+y9JGYv0pXn8S9sTRD4Fnn9IvIIFcLJBHQU/ML0d/xHgWPPySowZAmyLcW0+cmr86rH630+4M/bctO1UmDieA8XdPJuYFtvQE7bmQYy0p9hoqzrNaIJEHkCRadkJjegpt+Ih9rYld0MWwcL3gPc5+87Xe2LjY3wv82a+G65aYIzc0fVMQlqj0zxdxEZgNl2qmGlMFIhcbCj5UMAaAtBQm3IgR/VQbLgsMMQ+pPdHyZAKNG2Pe2rZy2vtjuN/nYFNraBuYKb30CoyVtQ/FthmSo0Od49gsmNOY3hKPvatL/qCYwRv1loBZ1DfwMD95FB+p1N5hX5qs/23sCK7t1ysiZfmOxgqCzYRbdqYhLnR42B0FBRaw16fjrjEDy8YAqhhC
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1641.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(56012099006)(11063799006)(3023799007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?6gyjxBqsWnTMt8Cp76oqSQyrUCHRGSb3Zbx+MRw6+8Tp0n3GDZ//sQRGwIaW?=
- =?us-ascii?Q?H6RIH/nAIfzRt7R6he6dvua8cySqmKxd1A2MJvwD8z+pNWr1ILp6GnBzuxJH?=
- =?us-ascii?Q?pPdy4+q64Y7sk3NxiGi3iSAFRXXAhD0EaJW88e9W1fXAIsDDE+79Z3BqdC/7?=
- =?us-ascii?Q?lmw25Oz53aPQoCPwC1F60NysVdPxc+/ElzVCYsmVfxQ6Wt2KCBO4SP6q39wx?=
- =?us-ascii?Q?ejLFMGbsoaE1Ejop/dJi40otid+fysXwd9B8Cx5Bl70QQSwzSpMMRoXPnLdN?=
- =?us-ascii?Q?+dXKiQPA/+7wlfIcHw0IyI3+dy11pDSWjHfzko0FfgFcJMW3xH4ecRwY5hs9?=
- =?us-ascii?Q?l1p8ZMZhYu4PkmVmI0Fzq0ODfQIhpQGa0iSHZyryydK+30nCJ2f9FfqYJyKX?=
- =?us-ascii?Q?hJbdVpz+f12CzQ064cpOe6cC7+A1njFqfuS86Lu0adB47aa2T3LdPaX1wG3G?=
- =?us-ascii?Q?nA3z9g30Ec31YVP+XadyfqFViJgSarxX3P3aW0fk+O0UcuJg9iacnc7ZLtZW?=
- =?us-ascii?Q?ccik+oIm95FjQrY+khiBWSnufsRpUbMjJWN+nbDEwcdv/qY7cW9JqAtlRlVG?=
- =?us-ascii?Q?RiUMvejrKthFjM8bqVQtyXWyRCQAhPWLu8+BEhgaRW53VEWU62J0ZEBtsdcT?=
- =?us-ascii?Q?AsKk6mMyC3vW73FZyuapq0FBoMgA7nReT4nMbV7Isk6rIxID53IhXUtaHLWv?=
- =?us-ascii?Q?HgWW+D/bs5U0LFvscgaxHUEp21v02h84c9XxJ22wQIEqowuejlnG3YaS7JFn?=
- =?us-ascii?Q?dyfgX74aN+UVJ6XM+Bh9k8SmgPbd9qrUBYb2VratCaPO5vrJWhV49YF2cv3F?=
- =?us-ascii?Q?zvZEPTEJAjvcPRaGBFstAqhL15N3DJHcYka9xQBPWwKSNoyzZIk6b2raZurL?=
- =?us-ascii?Q?jDJhru07oeN0i+CTonbYpESePQKLFzW+zvC/lW1l6hU/+7Hq93E2psTjBeHf?=
- =?us-ascii?Q?uTXtG8l54H2sk7Uow0NvNCt1bAWACBphafxpxM0yrCnyysN85azf1Vd7+Umh?=
- =?us-ascii?Q?tJKN0MqMDFd6gGJ2ZchKzu8SnUZc44FSJEc0M9+ZIoKp7fihhC9jHmhzn4TM?=
- =?us-ascii?Q?Ybtrq391vLegqp0Teii3op09+NzdN/6q3FfzkItzfiiyHufU/LUzypirceP+?=
- =?us-ascii?Q?yraiKenpQAUL+ENnZdLGe2IrpZnSkySNH5ihbcnpQ/oLTmCi/nmzkDnaKBHd?=
- =?us-ascii?Q?CWjCqmOhs1RjtzDFHeqi+oF7NMHCrWzGBX1K1TxjYGGeCc+C4v3Nyy7K6GVA?=
- =?us-ascii?Q?mvGxew/IcKSxiO8N/Uk+JOFvuzvOKtoaxZxQHEL4ULD1g3KlR5Y0orlLSoL+?=
- =?us-ascii?Q?0K6t6UbxnO5UC5RSKbhEHKuJZZvLrcfaUFo33ym8bUuZpzrssh6dlxD+vlW8?=
- =?us-ascii?Q?8bHecRCWkIfaimAl4H/A0oy3+uaTwm6EgEA8vCEsDZqDid/p7XwWzWj3gFZk?=
- =?us-ascii?Q?G/oZnyi4aeGpDFZd7oSz+oYaHY50Jhl7Mpi4/SQrR2lJmojML5/F8DDSbHzb?=
- =?us-ascii?Q?wQrIAOVKIC41UlpwHBuDssWgSQpKOijEm8yG+UDNf8q50dI//5VZ9nqbRei9?=
- =?us-ascii?Q?Hjt0THTzI3baaS3/rzABTCPRA/Kd2hmshRwJ2y93uQrjHHZnYltlLGFYVnRA?=
- =?us-ascii?Q?CVfIGmleFJXv5toNKnSRLAtcWnepTpdRtGJx8ZlE5pztua9f3OYNH5bHlS8B?=
- =?us-ascii?Q?7/Kd68SkpqICopkApFUJG75dJF9aUpsxhhzn/7mlWNoHJ3e4MXQTP+Hp0naj?=
- =?us-ascii?Q?cuun0/BKQw=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41d28981-6aed-42f1-bd0e-08decb80ce3f
-X-MS-Exchange-CrossTenant-AuthSource: DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 08:25:21.0809
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kKhQ06QNh3r42QfhfXiEGI2DVGcld80MMUm6Fof1hW0QDspUIhhLYREuTgp/KqfgnnWjKRewJpHtly0vI/SjSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3317
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 16 Jun 2026 10:43:52 +0200
+Message-Id: <DJACAG7CMC18.3FXGQ7XY58UM4@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] binutils: Fix CVE-2025-69646
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <Sundeep.Kokkonda@windriver.com>
+To: <Harish.Sadineni@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260420042409.1727728-1-Harish.Sadineni@windriver.com>
+In-Reply-To: <20260420042409.1727728-1-Harish.Sadineni@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 08:26:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238878
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 08:44:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238880
 
-Convert the copydebugsources command pipelines to explicit Popen calls
-using argument lists. Use env=3D for LC_ALL, cwd=3D for the cpio working
-directory and glob.glob() for the externalsrc move.
+On Mon Apr 20, 2026 at 6:24 AM CEST, Harish via lists.openembedded.org Sadi=
+neni wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>
+> CVE: CVE-2025-69646
+>
+> PR 33638
+> * dwarf.c (display_debug_rnglists_list): Return bool.  Rename
+> "inital_length" to plain "length".  Verify length is large
+> enough to read header.  Limit length to rest of section.
+> Similarly limit offset_entry_count.
+> (display_debug_ranges): Check display_debug_rnglists_unit_header
+> return status.  Stop output on error.
+>
+> Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.g=
+it;a=3Dpatch;h=3D598704a00cbac5e85c2bedd363357b5bf6fcee33]
+>
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
 
-The first pipeline keeps ignoring command failures as before since some
-inputs are expected to fail. The symlink fixup pipeline checks each stage
-so failures are reported directly.
+Hello Harish,
 
-Skip the externalsrc mv when the glob has no matches and let the
-following empty-directory cleanup handle the empty tree.
+This patch was lost for a time, my fault, sorry.
 
-Signed-off-by: Anders Heimer <anders.heimer@est.tech>
----
- meta/lib/oe/package.py | 63 ++++++++++++++++++++++++++++++------------
- 1 file changed, 45 insertions(+), 18 deletions(-)
+Now, when I try to apply it, do_patch fails for binutils. Could you
+rebase on the latest scarthgap and send a v2?
 
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index c375acc124..ad4b7a2769 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -1017,26 +1017,50 @@ def copydebugsources(debugsrcdir, sources, d):
-         bb.utils.mkdirhier(basepath)
-         cpath.updatecache(basepath)
-=20
--        for pmap in prefixmap:
-+        env =3D os.environ.copy()
-+        env["LC_ALL"] =3D "C"
-+
-+        for pmap, prefix in prefixmap.items():
-+            dstroot =3D dvar + prefix
-             # Ignore files from the recipe sysroots (target and native)
--            cmd =3D  "LC_ALL=3DC ; sort -z -u '%s' | egrep -v -z '((<inter=
-nal>|<built-in>)$|/.*recipe-sysroot.*/)' | " % sourcefile
-+            sort_p =3D subprocess.Popen(["sort", "-z", "-u", "--", sourcef=
-ile], stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNULL, env=3Denv)
-+            egrep_p =3D subprocess.Popen(["egrep", "-v", "-z", "-e", r"((<=
-internal>|<built-in>)$|/.*recipe-sysroot.*/)"], stdin=3Dsort_p.stdout, stdo=
-ut=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNULL, env=3Denv)
-+            sort_p.stdout.close()
-+
-             # We need to ignore files that are not actually ours
-             # we do this by only paying attention to items from this packa=
-ge
--            cmd +=3D "fgrep -zw '%s' | " % prefixmap[pmap]
-+            fgrep_p =3D subprocess.Popen(["fgrep", "-zw", "-e", prefix], s=
-tdin=3Degrep_p.stdout, stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNUL=
-L, env=3Denv)
-+            egrep_p.stdout.close()
-+
-             # Remove prefix in the source paths
--            cmd +=3D "sed 's#%s/##g' | " % (prefixmap[pmap])
--            cmd +=3D "(cd '%s' ; cpio -pd0mlLu --no-preserve-owner '%s%s' =
-2>/dev/null)" % (pmap, dvar, prefixmap[pmap])
-+            sed_p =3D subprocess.Popen(["sed", "s#%s/##g" % prefix], stdin=
-=3Dfgrep_p.stdout, stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNULL, e=
-nv=3Denv)
-+            fgrep_p.stdout.close()
-+
-+            cpio_p =3D subprocess.Popen(["cpio", "-pd0mlLu", "--no-preserv=
-e-owner", dstroot], stdin=3Dsed_p.stdout, cwd=3Dpmap, stderr=3Dsubprocess.D=
-EVNULL, env=3Denv)
-+            sed_p.stdout.close()
-+
-+            for proc in (cpio_p, sed_p, fgrep_p, egrep_p, sort_p):
-+                proc.wait()
-=20
--            try:
--                subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubpro=
-cess.STDOUT)
--            except subprocess.CalledProcessError:
--                # Can "fail" if internal headers/transient sources are att=
-empted
--                pass
-             # cpio seems to have a bug with -lL together and symbolic link=
-s are just copied, not dereferenced.
-             # Work around this by manually finding and copying any symboli=
-c links that made it through.
--            cmd =3D "find %s%s -type l -print0 -delete | sed s#%s%s/##g | =
-(cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s')" % \
--                    (dvar, prefixmap[pmap], dvar, prefixmap[pmap], pmap, d=
-var, prefixmap[pmap])
--            subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubprocess=
-.STDOUT)
-+            # The source copy pipeline above can fail without aborting, so=
- there may be no copied tree to scan for symlinks.
-+            if not os.path.exists(dstroot):
-+                continue
-+
-+            find_p =3D subprocess.Popen(["find", dstroot, "-type", "l", "-=
-print0", "-delete"], stdout=3Dsubprocess.PIPE)
-+            sed_p =3D subprocess.Popen(["sed", "s#%s/##g" % dstroot], stdi=
-n=3Dfind_p.stdout, stdout=3Dsubprocess.PIPE)
-+            find_p.stdout.close()
-+
-+            cpio_p =3D subprocess.Popen(["cpio", "-pd0mL", "--no-preserve-=
-owner", dstroot], stdin=3Dsed_p.stdout, stderr=3Dsubprocess.DEVNULL, cwd=3D=
-pmap)
-+            sed_p.stdout.close()
-+
-+            procs =3D (cpio_p, sed_p, find_p)
-+            for proc in procs:
-+                proc.wait()
-+            for proc in procs:
-+                if proc.returncode:
-+                    raise subprocess.CalledProcessError(proc.returncode, p=
-roc.args)
-=20
-         # debugsources.list may be polluted from the host if we used exter=
-nalsrc,
-         # cpio uses copy-pass and may have just created a directory struct=
-ure
-@@ -1046,13 +1070,16 @@ def copydebugsources(debugsrcdir, sources, d):
-=20
-         # Same check as above for externalsrc
-         if workdir not in sdir:
--            if os.path.exists(dvar + debugsrcdir + sdir):
--                cmd =3D "mv %s%s%s/* %s%s" % (dvar, debugsrcdir, sdir, dva=
-r,debugsrcdir)
--                subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubpro=
-cess.STDOUT)
-+            srcdir =3D dvar + debugsrcdir + sdir
-+            dstdir =3D dvar + debugsrcdir
-+            if os.path.exists(srcdir):
-+                entries =3D glob.glob(os.path.join(glob.escape(srcdir), "*=
-"))
-+                if entries:
-+                    subprocess.check_output(["mv", "--"] + entries + [dstd=
-ir], stderr=3Dsubprocess.STDOUT)
-=20
-         # The copy by cpio may have resulted in some empty directories!  R=
-emove these
--        cmd =3D "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
--        subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubprocess.STD=
-OUT)
-+        cmd =3D ["find", dvar + debugsrcdir, "-empty", "-type", "d", "-del=
-ete"]
-+        subprocess.check_output(cmd, stderr=3Dsubprocess.STDOUT)
-=20
-         # Also remove debugsrcdir if its empty
-         for p in nosuchdir[::-1]:
+Thanks!
+
+>  .../binutils/binutils-2.42.inc                |   1 +
+>  .../binutils/0031-CVE-2025-69646.patch        | 187 ++++++++++++++++++
+>  2 files changed, 188 insertions(+)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/0031-CVE-2025=
+-69646.patch
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/reci=
+pes-devtools/binutils/binutils-2.42.inc
+> index 839d31242e..beeb758b64 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.42.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+> @@ -69,5 +69,6 @@ SRC_URI =3D "\
+>       file://0028-CVE-2025-11494.patch \
+>       file://0029-CVE-2025-11839.patch \
+>       file://0030-CVE-2025-11840.patch \
+> +     file://0031-CVE-2025-69646.patch \
+>  "
+>  S  =3D "${WORKDIR}/git"
+> diff --git a/meta/recipes-devtools/binutils/binutils/0031-CVE-2025-69646.=
+patch b/meta/recipes-devtools/binutils/binutils/0031-CVE-2025-69646.patch
+> new file mode 100644
+> index 0000000000..42b0b858cc
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/0031-CVE-2025-69646.patch
+> @@ -0,0 +1,187 @@
+> +From 598704a00cbac5e85c2bedd363357b5bf6fcee33 Mon Sep 17 00:00:00 2001
+> +From: Alan Modra <amodra@gmail.com>
+> +Date: Sat, 22 Nov 2025 09:22:10 +1030
+> +Subject: [PATCH] PR 33638, debug_rnglists output
+> +
+> +The fuzzed testcase in this PR continuously outputs an error about
+> +the debug_rnglists header.  Fixed by taking notice of the error and
+> +stopping output.  The patch also limits the length in all cases, not
+> +just when a relocation is present, and limits the offset entry count
+> +read from the header.  I removed the warning and the test for relocs
+> +because the code can't work reliably with unresolved relocs in the
+> +length field.
+> +
+> +	PR 33638
+> +	* dwarf.c (display_debug_rnglists_list): Return bool.  Rename
+> +	"inital_length" to plain "length".  Verify length is large
+> +	enough to read header.  Limit length to rest of section.
+> +	Similarly limit offset_entry_count.
+> +	(display_debug_ranges): Check display_debug_rnglists_unit_header
+> +	return status.  Stop output on error.
+> +
+> +Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.=
+git;a=3Dpatch;h=3D598704a00cbac5e85c2bedd363357b5bf6fcee33]
+> +CVE: CVE-2025-69646
+> +
+> +Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> +---
+> + binutils/dwarf.c | 67 ++++++++++++++++++++++++------------------------
+> + 1 file changed, 34 insertions(+), 33 deletions(-)
+> +
+> +diff --git a/binutils/dwarf.c b/binutils/dwarf.c
+> +index 615e051b2bf..d718d97c771 100644
+> +--- a/binutils/dwarf.c
+> ++++ b/binutils/dwarf.c
+> +@@ -8206,7 +8206,7 @@ display_debug_rnglists_list (unsigned char * start=
+,
+> +   return start;
+> + }
+> +=20
+> +-static int
+> ++static bool
+> + display_debug_rnglists_unit_header (struct dwarf_section *  section,
+> + 				    uint64_t *              unit_offset,
+> + 				    unsigned char *         poffset_size)
+> +@@ -8214,7 +8214,8 @@ display_debug_rnglists_unit_header (struct dwarf_s=
+ection *  section,
+> +   uint64_t        start_offset =3D *unit_offset;
+> +   unsigned char * p =3D section->start + start_offset;
+> +   unsigned char * finish =3D section->start + section->size;
+> +-  uint64_t        initial_length;
+> ++  unsigned char * hdr;
+> ++  uint64_t        length;
+> +   unsigned char   segment_selector_size;
+> +   unsigned int    offset_entry_count;
+> +   unsigned int    i;
+> +@@ -8223,66 +8224,59 @@ display_debug_rnglists_unit_header (struct dwarf=
+_section *  section,
+> +   unsigned char   offset_size;
+> +=20
+> +   /* Get and check the length of the block.  */
+> +-  SAFE_BYTE_GET_AND_INC (initial_length, p, 4, finish);
+> ++  SAFE_BYTE_GET_AND_INC (length, p, 4, finish);
+> +=20
+> +-  if (initial_length =3D=3D 0xffffffff)
+> ++  if (length =3D=3D 0xffffffff)
+> +     {
+> +       /* This section is 64-bit DWARF 3.  */
+> +-      SAFE_BYTE_GET_AND_INC (initial_length, p, 8, finish);
+> ++      SAFE_BYTE_GET_AND_INC (length, p, 8, finish);
+> +       *poffset_size =3D offset_size =3D 8;
+> +     }
+> +   else
+> +     *poffset_size =3D offset_size =3D 4;
+> +=20
+> +-  if (initial_length > (size_t) (finish - p))
+> +-    {
+> +-      /* If the length field has a relocation against it, then we shoul=
+d
+> +-	 not complain if it is inaccurate (and probably negative).
+> +-	 It is copied from .debug_line handling code.  */
+> +-      if (reloc_at (section, (p - section->start) - offset_size))
+> +-	initial_length =3D finish - p;
+> +-      else
+> +-	{
+> +-	  warn (_("The length field (%#" PRIx64
+> +-		  ") in the debug_rnglists header is wrong"
+> +-		  " - the section is too small\n"),
+> +-		initial_length);
+> +-	  return 0;
+> +-	}
+> +-    }
+> +-
+> +-  /* Report the next unit offset to the caller.  */
+> +-  *unit_offset =3D (p - section->start) + initial_length;
+> ++  if (length < 8)
+> ++    return false;
+> +=20
+> +   /* Get the other fields in the header.  */
+> ++  hdr =3D p;
+> +   SAFE_BYTE_GET_AND_INC (version, p, 2, finish);
+> +   SAFE_BYTE_GET_AND_INC (address_size, p, 1, finish);
+> +   SAFE_BYTE_GET_AND_INC (segment_selector_size, p, 1, finish);
+> +   SAFE_BYTE_GET_AND_INC (offset_entry_count, p, 4, finish);
+> +=20
+> +   printf (_(" Table at Offset: %#" PRIx64 ":\n"), start_offset);
+> +-  printf (_("  Length:          %#" PRIx64 "\n"), initial_length);
+> ++  printf (_("  Length:          %#" PRIx64 "\n"), length);
+> +   printf (_("  DWARF version:   %u\n"), version);
+> +   printf (_("  Address size:    %u\n"), address_size);
+> +   printf (_("  Segment size:    %u\n"), segment_selector_size);
+> +   printf (_("  Offset entries:  %u\n"), offset_entry_count);
+> +=20
+> ++  if (length > (size_t) (finish - hdr))
+> ++    length =3D finish - hdr;
+> ++
+> ++  /* Report the next unit offset to the caller.  */
+> ++  *unit_offset =3D (hdr - section->start) + length;
+> ++
+> +   /* Check the fields.  */
+> +   if (segment_selector_size !=3D 0)
+> +     {
+> +       warn (_("The %s section contains "
+> + 	      "unsupported segment selector size: %d.\n"),
+> + 	    section->name, segment_selector_size);
+> +-      return 0;
+> ++      return false;
+> +     }
+> +=20
+> +   if (version < 5)
+> +     {
+> +       warn (_("Only DWARF version 5+ debug_rnglists info "
+> + 	      "is currently supported.\n"));
+> +-      return 0;
+> ++      return false;
+> +     }
+> +=20
+> ++  uint64_t max_off_count =3D (length - 8) / offset_size;
+> ++  if (offset_entry_count > max_off_count)
+> ++    offset_entry_count =3D max_off_count;
+> +   if (offset_entry_count !=3D 0)
+> +     {
+> +       printf (_("\n   Offsets starting at %#tx:\n"), p - section->start=
+);
+> +@@ -8296,7 +8290,7 @@ display_debug_rnglists_unit_header (struct dwarf_s=
+ection *  section,
+> + 	}
+> +     }
+> +=20
+> +-  return 1;
+> ++  return true;
+> + }
+> +=20
+> + static bool
+> +@@ -8327,6 +8321,7 @@ display_debug_ranges (struct dwarf_section *sectio=
+n,
+> +   uint64_t last_offset =3D 0;
+> +   uint64_t next_rnglists_cu_offset =3D 0;
+> +   unsigned char offset_size;
+> ++  bool ok_header =3D true;
+> +=20
+> +   if (bytes =3D=3D 0)
+> +     {
+> +@@ -8419,8 +8414,12 @@ display_debug_ranges (struct dwarf_section *secti=
+on,
+> +       /* If we've moved on to the next compile unit in the rnglists sec=
+tion - dump the unit header(s).  */
+> +       if (is_rnglists && next_rnglists_cu_offset < offset)
+> + 	{
+> +-	  while (next_rnglists_cu_offset < offset)
+> +-	    display_debug_rnglists_unit_header (section, &next_rnglists_cu_off=
+set, &offset_size);
+> ++	  while (ok_header && next_rnglists_cu_offset < offset)
+> ++	    ok_header =3D display_debug_rnglists_unit_header (section,
+> ++							    &next_rnglists_cu_offset,
+> ++							    &offset_size);
+> ++	  if (!ok_header)
+> ++	    break;
+> + 	  printf (_("    Offset   Begin    End\n"));
+> + 	}
+> +=20
+> +@@ -8461,10 +8460,12 @@ display_debug_ranges (struct dwarf_section *sect=
+ion,
+> +     }
+> +=20
+> +   /* Display trailing empty (or unreferenced) compile units, if any.  *=
+/
+> +-  if (is_rnglists)
+> ++  if (is_rnglists && ok_header)
+> +     while (next_rnglists_cu_offset < section->size)
+> +-      display_debug_rnglists_unit_header (section, &next_rnglists_cu_of=
+fset, &offset_size);
+> +-
+> ++      if (!display_debug_rnglists_unit_header (section,
+> ++					       &next_rnglists_cu_offset,
+> ++					       &offset_size))
+> ++	break;
+> +   putchar ('\n');
+> +=20
+> +   free (range_entries);
+> +--=20
+> +2.49.0
+
+
+--=20
+Yoann Congal
+Smile ECS
+
 
