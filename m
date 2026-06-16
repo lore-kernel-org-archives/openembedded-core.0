@@ -1,687 +1,279 @@
-Return-Path: <adongare@cisco.com>
+Return-Path: <spushpka@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08129CD8CA8
-	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 06:16:51 +0000 (UTC)
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.147894.1781590600776321049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72ECBCD8CA8
+	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 06:31:52 +0000 (UTC)
+Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.148033.1781591509253900633
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jun 2026 23:16:41 -0700
+ Mon, 15 Jun 2026 23:31:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=HCw70PGf;
- spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: adongare@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=TkZnS/DI;
+ spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: spushpka@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=22266; q=dns/txt;
-  s=iport01; t=1781590600; x=1782800200;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:mime-version;
-  bh=vspEJzUIFPhKBHOLl1euckRwXVP93BopbOBAOojiX3w=;
-  b=HCw70PGfH4vVIincJKkge+yQMR1R3GlZiahdA6I82uClD88W0JpfrElp
-   qWaOmrFlWxqWZAkpNJAXWOMvJqI5HCQ6HIa4XMhGpE8keQEEPnGZy4+ff
-   wjHiUWIS1TlEy5+NFGr7yBm0adZC5H63sTTFVdgNA008L1ZwhZU8gz646
-   Sam10aR3FkPsMvQ8kgK6LIEkCj4EUs03R49hcGpvoofqf1hxm5Bz3HF2I
-   lx1xphwYTgJAWxCDHmTP4K98ky5J8xjLIRbvo+LNxGsGhWuAdU4dp4qkr
-   Cs9ImEo+rnOcnB5fD04V2+4sGS5ppzQN9QYI/6cZpe6JNpKYgC3neCoZf
-   g==;
-X-CSE-ConnectionGUID: xiBusQ7SQfegtgkmLuWYJA==
-X-CSE-MsgGUID: XvsWnMr5Tcy9wVq6SnteQw==
-X-IPAS-Result: =?us-ascii?q?A0B3AwA46TBq/5QQJK1aHgEBCxIMZYEgC4E9MVOBCAKBI?=
- =?us-ascii?q?UkDAYgfA4UsiHkDgROdCBSBag8BAQENAi4BFQ0EAQGEQEYCjT8CJjQJDgECB?=
- =?us-ascii?q?AMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GWgEBAQEDAREVJAEtE?=
- =?us-ascii?q?AIBCBEDAQEBAScHJwoUCQgCBAENBQgagmGCHRZAAwECDqZCAYE9AolZGjd4g?=
- =?us-ascii?q?QEzgQGDKAExAwsCQ9wIFAEFgTOFP4MbAQEqgTWCXYEhGAFEhDgnGxuBcoEVQ?=
- =?us-ascii?q?nmBODg+gQWBXAIDgTQQGx4WCINXgjAEgiJ6EhuBPx6CJCaBY4puUnIiAyYzL?=
- =?us-ascii?q?AFVExcLBwWBIxAzAyovLSNLBS0dcAwnEg8dFxYeWBsHBRIgKkJFIwMCFjNZQ?=
- =?us-ascii?q?jgLQwWBXQKCGk4jHwM5f4FvgSVnZhUwNYEBAREfCjoDC209NwYOGwMEgTUFi?=
- =?us-ascii?q?34HVhcPgXgzEgFjKgEKISItCysTCIEADBGTaQKPEoF8oXsKKIN1jCGNPogyF?=
- =?us-ascii?q?4QEgVeSQJJRC5h9I41nlWiFJQIEAgQFAhABAQaBaDyBWXAVO4JnCQpAGQ+OK?=
- =?us-ascii?q?hkcg0SFE8MLeQIBAQcDMAEHAgcPAoFzkACBfQEB?=
-IronPort-PHdr: A9a23:NKGuBRAWdLk985GPWOKgUyQVXRdPi9zP1kY9454jjfdJaqu8us6kN
- 03E7vIrh1jMDs3X6PNB3vLfqLuoGXcB7pCIrG0YfdRSWgUEh8Qbk01oAMOMBUDhav+/Ryc7B
- 89FElRi+hmG
-IronPort-Data: A9a23:0S5mnq77pBETI4KqsUfSogxRtGDGchMFZxGqfqrLsTDasY5as4F+v
- mMbCmuCb6yJNGv3edElPIu2o0kO75PdxoI1HlRq+CE1Zn8b8sCt6fZ1gavT04J+CuWZESqLO
- u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
- 5Wo/6UzBHf/g2QqajxNtvrZwP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
- +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
- jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eLYwy5/1OXlp3+
- /EXND8OazSeuNOU6efuIgVsrpxLwMjDNYcbvDRkiDreF/tjGMmFSKTR7tge1zA17ixMNa+BP
- IxCN3w2MlKZP00n1lQ/UPrSmM+hin75fDRCpXqepLE85C7YywkZPL3Fb4SPI4PaGpoJ9qqej
- lLY5Fv/JwtHCNeOmCW76yyXgPPCpDyuDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
- 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4Guk+7kSJj6HT+QvcXzFCRT9aY9tgv8gzLdA36
- mK0cxrSLWUHmJWeSGmW8fGfqjbaBMTfBTZqifMsJefd3+TenQ==
-IronPort-HdrOrdr: A9a23:ot8GPaunij2iIF4L0irvTwMs7skCQIAji2hC6mlwRA09TyXGrb
- HMoB1L73/JYWgqOU3IwerwRpVoIUmxyXZ0ibNhW4tKLzOWyVdATbsSrLcKrAeQYREWmtQtsZ
- uINpIOd+EYbmIKzfoSgjPIburIqePvmMvH9IWuqkuFDzsaF52IhD0JczpzZ3cGPzWucqBJbK
- Z0iPA3wAZIUE5nHPiTNz0uZcSGjdvNk57tfB4BADAayCTmt1mVwY+/OSK1mjMFXR1y4ZpKyw
- X4uj28yrSosvm9xBOZ7GnO8pRQluLmz9tIFOaMhsIWJjiEsHfqWG1mYdK/lQFwhNvqxEchkd
- HKrRtlFd908Wntcma8pgao8xX80R41gkWSjGOwsD/Gm4jUVTg6A81OicZyaR3C8Xctu9l6ze
- Ziw3+ZjZxKFhnN9R6No+QgFisa0XZck0BSyNL7vEYvCbf2r4Uh9rD3yXklVqvo2hiKsrzPXt
- MeUf00r8wmAm9yJ0qpy1VH8ZiJUnMvHhGAWCE5y7yoOn5t7TJE5npd4tADlXEd8594YZxF6+
- PYdplMrth1P5MrhWYXPpZefSNxYVa9Hi4lPA+pUCDaPbBCNHTXp5Ht5rIpoOmsZZwT1ZM33I
- /MSVVCqAcJCg7T4OC1rdd2Gyr2MSiAdCWoztsb64lyu7X6SrauOSqfSEo2m8/lp/kEGMXUV/
- u6JZoTWpbYXCXTMJcM2xe7V4hZKHEYXsFQstEnW0iWqsaOLoHxrOTUfPvaObKoGzc5XWH0BG
- cFQVHIVYp9x1HuXmW9jAnaWnvrdEC69ZVsELLC9+xW04QJPp0kiHlftb143LDCFdRviN1+QK
- IlGsKRrkqSnxjBwVr1
-X-Talos-CUID: 9a23:drLLfW0R3eLiRX9zvY4+WbxfCsEPb2bkk0zpLUK3FWlqTZmIdm6y0fYx
-X-Talos-MUID: 9a23:y9hRkwp+FGKDRavvS8IezwF8L/huxr7zNEscwIo4ope/MzB9AijI2Q==
+  d=cisco.com; i=@cisco.com; l=7754; q=dns/txt;
+  s=iport01; t=1781591509; x=1782801109;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=3jSyfMCKuirRuTRrCn09inOClDuAAOd4Jnyu9A9uMh8=;
+  b=TkZnS/DIdZUxqJAz0bzBoFn0e6Lob025fKCh/GBFZ8czPVPo8Q7wq+o4
+   HTBGV/pu32TR0se3vorut1hY8w5tZk7QXzBoK/YSbTczmlo/UtM3GAQwl
+   Pya6fQ6FHQeeZzqWrBdwOmcB5vstjfPAbipbTyT0CAR6qKqqN8RBFDq+H
+   /SjxhjC6L+V86SE5+rYFKEGpeie+lzgiV4Uev/C45pZvvqAnZ30MYS6Ij
+   R+RXSvtHWurvFWXxSFcpuveVeC8s/CIhZIkQ0jkQCZws+dMkHhaY/kn4o
+   bjnSeB4ucHfcQZCkUafCXFypZOpoMW5VtU9CLTz7411Y/zBSh4Nfd2xS4
+   w==;
+X-CSE-ConnectionGUID: lBj4PnkTTvmc5hziELITsw==
+X-CSE-MsgGUID: QcqLA+vFTTmxqwP/kK9rKQ==
+X-IPAS-Result: =?us-ascii?q?A0BHAgCJ7DBq/5H/Ja1aHgEBCxIMggULgld0X0JJlksDn?=
+ =?us-ascii?q?huBfg8BAQEPRA0EAQGEQEYCjT8CJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBB?=
+ =?us-ascii?q?QEBAQIBBwWBDhOGTw2GWgECAQMyARgBLRAcAwECLysjCBmDAgGCcwIBEbFsg?=
+ =?us-ascii?q?iyBAYMoATEFCQJDUNssAQsUAQWBM4U/gxwBhQJbGAGEfCcbG4FygRWDaYEFg?=
+ =?us-ascii?q?VwBAYE4hm0EgiKBDIFaGAaPG0iBAhwDWSwBVRMNCgsHBYFmAzUSKhVuMh2BI?=
+ =?us-ascii?q?z4XNFgbBwWBHoIPgQWFDyMfAzl/gW+BJWdmFTA1gQEBER8KOgMLGA1IESw3F?=
+ =?us-ascii?q?BsEPm4HjGUXD4FLcnsTARMYL1aBdaMHgiGhDwoog3WMIZU6GjOEBIFXkkCSU?=
+ =?us-ascii?q?ZkIizeCU5ZQhGiBaDyBRwsHcBWDIglKGQ+OKg4Lg2CBf8ZDJDUCCTIBAQcCB?=
+ =?us-ascii?q?wEBCwEDC4FokAGBfAEB?=
+IronPort-Data: A9a23:K8N++qzm6Y2xzCmOG+56t+dmxyrEfRIJ4+MujC+fZmUNrF6WrkUFn
+ 2UaCDyEOanfMzenKooiOYqwpkoEvZbSyoAyHgVvpVhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4+aT/H3Ygf/hWYqaz9MscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJEUcP9Eg/OVLPX9L/
+ qEYOjEgSjG/nP3jldpXSsE07igiBNPgMIVavjRryivUSK52B5vCWK7No9Rf2V/chOgXQq2YP
+ JVfM2cyKk2cPnWjOX9PYH46tPywm2L/az5RgFmUvqEwpWPUyWSd1ZCxYYaMK4PbGZk9ckCwn
+ 2nf2026HD8mCNmP0CW9tXGP1/XspHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBVi4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:6UXSPa67nGsPhshrcAPXwBbXdLJyesId70hD6qm+c3Nom6uj5q
+ aTdZUgpHjJYVkqOU3I9ersBEDEewK/yXcX2/h0AV7dZmnbUQKTRekIh7cKgQeQfhEWndQy6U
+ 4PScRD4fTLfCFHZL7BkWqFOudl5sWb+6a1guqb5XJsQQZ2L5xE1W5Ce36m+okcfng9OXL/f6
+ DsnfZ6mw==
+X-Talos-CUID: 9a23:F+Fd+25nhzUkkcOSmdss8GQWRvgjcUHh0nLbfk+qCEtNaYGOVgrF
+X-Talos-MUID: =?us-ascii?q?9a23=3ACD3eiQ26Z8fNt8Z+DrZbNN3CyjUj2q+3LGlOj7s?=
+ =?us-ascii?q?6h8yULDNIfDS+3S6Ue9py?=
 X-IronPort-Anti-Spam-Filtered: true
-Received: from alln-l-core-11.cisco.com ([173.36.16.148])
-  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Jun 2026 06:16:39 +0000
-Received: from alln-opgw-2.cisco.com (alln-opgw-2.cisco.com [173.37.147.250])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-11.cisco.com (Postfix) with ESMTPS id 77C4B180001F6
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 06:16:39 +0000 (GMT)
-X-CSE-ConnectionGUID: 1QqwdvYPTe+cU8VLXjXk0g==
-X-CSE-MsgGUID: +HmgO8OmQa6JRs77xv1Sgw==
-Authentication-Results: alln-opgw-2.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
 X-IronPort-AV: E=Sophos;i="6.24,207,1774310400"; 
-   d="scan'208,217";a="53164662"
-Received: from mail-eastusazon11011044.outbound.protection.outlook.com (HELO BL2PR02CU003.outbound.protection.outlook.com) ([52.101.52.44])
-  by alln-opgw-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Jun 2026 06:16:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=A95gqNULJrg/jd1bhWahLfMaP9yntoksr1Rf9zpHxCDMb0TBSsmhPXCq9Oott6unVW/rqCqDSMtTek+b+It9nnJwjgzcIIfdc9CMZkv+cejQyluEJrN6+He7aJKM3g3nQyMAJPtJD8D0Zrt0fYTCOYz3q3ksP3ylLSjsFTAdbtdOxQFbCxTFi8D6J08MyTVbhNmgo3QozYBRHRV8e3nH/+upCsAHbjrfdcaKGepBAfnSxMNk4sa9HGSLXNF/yd6569PtKvT8meBktFrDstLLcXWeNESah7ZXCbsOWQssqwcmhowjB1Bbo8PcRmD3dfImH3CTYQkUqE9N7Alnk3uSvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vspEJzUIFPhKBHOLl1euckRwXVP93BopbOBAOojiX3w=;
- b=XjxlRO0aqz+SrUC9KD0PGvB43WS6K/KPD7rlrN9r61ng8F2mxoaJ2QInqW0zAPgh3ySV5UQTfZVNADyOnCILh0h0xoCbQz1jNSJMI4c8i6zoB334GMmxtvQngQ+CSDMzkpytuvXfXr4YHP0gAvQIkBGlPT5HXK0dyLt1LfPH3Sr7Jt2KHMxFWXgseuLojLMoCw1W0NS9NoXKJBlOEBOoY5HpmL5NTyHCKBg3G0FtffBPg4Rzg5Bc5W/aVFiV0CyR5JO5Be4CQcWqiI5wAOy3vl7ArR+wL4xvu+SsUffOy03cXFc59okls7bRBD80wAtjFMc0GE8hqmEzC+V3MbpVHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
- dkim=pass header.d=cisco.com; arc=none
-Received: from LV3PR11MB8507.namprd11.prod.outlook.com (2603:10b6:408:1b0::19)
- by SA2PR11MB5066.namprd11.prod.outlook.com (2603:10b6:806:110::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Tue, 16 Jun
- 2026 06:16:36 +0000
-Received: from LV3PR11MB8507.namprd11.prod.outlook.com
- ([fe80::947a:2130:8660:e048]) by LV3PR11MB8507.namprd11.prod.outlook.com
- ([fe80::947a:2130:8660:e048%5]) with mapi id 15.21.0113.015; Tue, 16 Jun 2026
- 06:16:36 +0000
-From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)"
-	<adongare@cisco.com>
-To: Yoann Congal <yoann.congal@smile.fr>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "xe-linux-external(mailer list)" <xe-linux-external@cisco.com>
-Subject: Re: [OE-core] [master] [PATCH v2] libusb1: fix CVE-2026-23679 and
- CVE-2026-47104
-Thread-Topic: [OE-core] [master] [PATCH v2] libusb1: fix CVE-2026-23679 and
- CVE-2026-47104
-Thread-Index: AQHc/LdPMET2EsEkokSpCf/tqaL7YbY/gx0AgAEyU6E=
-Date: Tue, 16 Jun 2026 06:16:36 +0000
-Message-ID: 
- <LV3PR11MB8507C38DEB7FF4F5793B431DD5E52@LV3PR11MB8507.namprd11.prod.outlook.com>
-References: <20260612123823.1236106-1-adongare@cisco.com>
- <20260615110825.230591-1-adongare@cisco.com>
- <DJ9LSVX9666D.1V4UR5LDDBT8O@smile.fr>
-In-Reply-To: <DJ9LSVX9666D.1V4UR5LDDBT8O@smile.fr>
-Accept-Language: en-US
-Content-Language: en-US
-X-Mentions: yoann.congal@smile.fr
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-msip_labels: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR11MB8507:EE_|SA2PR11MB5066:EE_
-x-ms-office365-filtering-correlation-id: 7957d4f4-f52f-40df-5138-08decb6ed1e8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|8096899003|13003099007|38070700021|5133699003|22082099003|18002099003|4143699003|11063799006|56012099006|6133799003;
-x-microsoft-antispam-message-info: 
- zgdKDR14E8/TklMTYUirAdr8y3boD/qf0p+BO+MaNXo2tWYSuK4VvBzE2+K4iVOfEn5Gg3jUvBcB+Gt3L87UXQiTIBpOx8tRyUagdWssiyaB+fl9z0LYcbv+MZWmoHPB+xsHCuY6SDelvvHPLC3KIsndBulhiIOjtyRWgH99/luI9vO9RO5/Pzdp8ry5n6gKxJcR0+istHD3AIVtJ06qAz5xwgcIJf3WXn77pJZXX/L0Up/nz0L9THGN3R+xT8rAKfoxCU6POVNa4MeRGb7YmiNMVzN+ZLv3Q5+OKEufihIKfxFe/heeuBvrtqNqIiL60sb3spZWrvu5A1snZ9d/qnJGOZXS613R7zns/jXi0nBx4lTjcnkSsuHK6gNvixx8+xp4qowxARSNMnjg7wRHxoIAuQu0Hr1DtyKQVXQ2yTEqe0JiWEbRRoj1K+NgVq7W0HFlfJmDgqVaIKUJ05r+zJBqhFLNIcI/uOjGY8y05PTE7Da34f0wq+mLJi296VdnwstJrSKWK44DuNUcn6Y5CBvpuah2TFN/zg3qVwWrawYugyXSV+HRi+6OwiIGr6tpWWRssJNOvI7p1G7HXbrcU9YgxIaNo9ZejHOkSOx4jJFnYhjYZ7J9JtD3PQm7+Rnv/eMhTOnJ4Kg7y7pfQeH6D8lfulyuqZDRJh7IHZpbCDlnsFy5Vm1jIre4uSqLLSzA54TlKCzgLZovmYSGsVpg4CORb4hUwIxWYXE/CT6Nd2vlMZzPVgUKA3i712md4GST
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8507.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(8096899003)(13003099007)(38070700021)(5133699003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?Hb0xJtQ5gwu3xeZUKzA8Gx/zCj3NBpdPhKf3WGTlpMxjUThZlQlugwsmUW?=
- =?iso-8859-1?Q?JeZcYlr6RhCejtr8hVKeQ4BlQbe2+wKtR5M/D81CCQxP+7U2yAZQ8sLaII?=
- =?iso-8859-1?Q?qt7DIwgLEsMESBMmBLA0GdsUl6KJMkXs/hDRO8w+e78tihusTvTrwD4uMN?=
- =?iso-8859-1?Q?1w+ggp7j31kQAL5Z2TQ6vJ4JFHudvfMDg2zr02VBnMZiPS+GZ7JPY/sk+U?=
- =?iso-8859-1?Q?+tVhAsrVkFCeie1d8gKTSJnx36nL6Qb4VnT8bwkieQ34xkXmrlkIsO6VkB?=
- =?iso-8859-1?Q?be7olUd3ItO5aTZMxRK/nzBunJjte60HMi5uZWzZennIwZSBJXVDnxWdUH?=
- =?iso-8859-1?Q?v8psW4qZXvAgz+w8V7spMw457yGfM8WY7OOwJwfoLbCqxn2Luac00kDGCk?=
- =?iso-8859-1?Q?NfcF3OPUcpJhuuPXuc9o+wumaPVqi/RoFecYfArKatpJqUqGwbz0jqc3BF?=
- =?iso-8859-1?Q?8wI/wYRleqgl3pRABbC11y2yPg/UNykGZ7AuF69um4CAzT1mnH+asgKcg9?=
- =?iso-8859-1?Q?ztOTR1njCfNhus7hpgy42bNvAUZv4p/eReEjY9jM6yVeu1qnKB/t70uVHK?=
- =?iso-8859-1?Q?zTLUzHhB3l1bPl5Zsdj3tC6xg4YSBg1fL+61LDQGPHbyYUKCi3R3m7+T/U?=
- =?iso-8859-1?Q?0LYdNRUE9BbMI7bZgVsFTTFhCnEYUPT4g9m8bXcQctHfqD8AUcmLyMPhui?=
- =?iso-8859-1?Q?lHzJg3687BLCZLEMQxn0KeNvgKRQHexoiVYLzUPOvYfy0ffph2AlsedExw?=
- =?iso-8859-1?Q?8nJI16OGbOBcBnTElPcJgVp2QL+Xa4G5NYlun2LEstiRa2XunOi6Sk0otb?=
- =?iso-8859-1?Q?4IYJEeOQmQ7MpfK18uyykXkgV1Q4GlXX1W2qEE0G4qoVIDH7hKPXBv4fDN?=
- =?iso-8859-1?Q?WNSbrSAGTYA1aMY3HPxtEkDTOcRLZ5zUOC5m2oqlDjCjkvBUMWgBIEAsaX?=
- =?iso-8859-1?Q?LV8kDO9oixSjlyZoqvOCDlSpQpc6klGRRi1sDxzd3bYf8CfSMP/IL/KPQ/?=
- =?iso-8859-1?Q?luBxWQmd4MLKAN3geTlNKWxxO0PwvEHMxvqMKjFTsJ5ULAxAm95W94yb9x?=
- =?iso-8859-1?Q?CaoTQnTFwoyBzMkzIBTVhPJGVnv50J0NsQdY1LpeAFvwcsQf2F7oVWqLby?=
- =?iso-8859-1?Q?P1dt83RqWv3vMI35ftYTkwS90IpU5TcSekhRn1JKY7e3eQE9albnQN63q9?=
- =?iso-8859-1?Q?8uhOACMA0/k37kayqFYCjqtMKOZGaF4+sIV3xxizz9q2p9JPHA+l6yoz3F?=
- =?iso-8859-1?Q?+5Qij4zgGrEpATNQJaotCMy77WTyRWMf0+a2PGXdtqkO03CJqmpGwEzhlF?=
- =?iso-8859-1?Q?7CvMmEzeSJWrNNb18o9qFbUlVgFYwS2Zx7pEhbpAUlfITU81UnCPEtmo9V?=
- =?iso-8859-1?Q?x5JillfgF5nHXgv81xEZpxgE1Jlupk2LUFv3Qni6yx0zby2Ns3azbfAhwE?=
- =?iso-8859-1?Q?MYAsbqIVpNu9lbhfAWZgYN50Hre29voaTtHzR/dRrZ10hhj5RzOLVeB4RX?=
- =?iso-8859-1?Q?fM6y2BLhZ5mT2dOhAf/BD41OJXX2XFASXD819PaxUYnNLFISrCnCcW9nPW?=
- =?iso-8859-1?Q?vVv01PP1KtCvU41DTuo6DpfpBrsHbzEbp6AWBtgV9Y7ASfSRfI3djBcmC6?=
- =?iso-8859-1?Q?C/noxJKu1Di84ydZFLFw6QepgDh8l3ti06XRJkXTKAswOvNjy0cp+BwWfv?=
- =?iso-8859-1?Q?FEodSYxwGM9SmudNIa7xa0XfNY6fP/+UBju8833JtDc74EgmxFls9IOTaR?=
- =?iso-8859-1?Q?IpnSWmciTx9figUdLQr1I8DZRfGEIOzitN4qvwt6WX6sVn?=
-Content-Type: multipart/alternative;
-	boundary="_000_LV3PR11MB8507C38DEB7FF4F5793B431DD5E52LV3PR11MB8507namp_"
+   d="scan'208";a="494197944"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Jun 2026 06:31:48 +0000
+Received: from sjc-ads-3321.cisco.com (sjc-ads-3321.cisco.com [171.68.249.19])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 3D6531800045F;
+	Tue, 16 Jun 2026 06:31:48 +0000 (GMT)
+Received: by sjc-ads-3321.cisco.com (Postfix, from userid 1839047)
+	id E000ECC1243; Mon, 15 Jun 2026 23:31:47 -0700 (PDT)
+From: "Shubham Pushpkar -X (spushpka - E INFOCHIPS PRIVATE LIMITED at Cisco)" <spushpka@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com,
+	Shubham Pushpkar <spushpka@cisco.com>
+Subject: [OE-core] [scarthgap] [PATCH 2/2] libsolv: Fix CVE-2026-9149
+Date: Mon, 15 Jun 2026 23:31:36 -0700
+Message-Id: <20260616063136.2772168-2-spushpka@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260616063136.2772168-1-spushpka@cisco.com>
+References: <20260616063136.2772168-1-spushpka@cisco.com>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
-	bZpuy1GVyDT15W/MqhCq8akKICwYu8pNnoyzmv315TPnixUJwjxXzInMDPwa0mwA3LfUybfP1KoiFHNMTx1LFzex5BPJx8w8lqJ4X0QXpWDrP0qR1JjCDJV3XdzwLnMUo5eC7ERq2pL/yw/pxu3NefmTi2BkePvt1RuEP+6SepfFEuhicREDp/gJZWvJNZ9SKE1x6VznCOKjGXrfnXs4M7haCN1nYruWUb19anbVccwYgKGWmsG8NVk5HTqwZ1AJaySh+5xzqNmUJz1i/YNMxkQtNO7s6F04xcm6HXqUtxkBYtMfJjC/m9ShqcJvaemM7Z+jeKtmbIhT6Pulwt23Hg==
-X-OriginatorOrg: cisco.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8507.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7957d4f4-f52f-40df-5138-08decb6ed1e8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2026 06:16:36.1606
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hTtIxuf/aSXknJs3F787y3ZjvqfkuhaHMkuv7Sq+sbC0PLKZZkTot6DSo2lby2LHYr66BZ1nO1sWFSqCNmSnKA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5066
-X-Outbound-Client-TLS: ANONYMOUS;alln-opgw-2.cisco.com [173.37.147.250];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 173.37.147.250, alln-opgw-2.cisco.com
-X-Outbound-Node: alln-l-core-11.cisco.com
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-3321.cisco.com [171.68.249.19];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.68.249.19, sjc-ads-3321.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 06:16:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238867
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 06:31:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238869
 
---_000_LV3PR11MB8507C38DEB7FF4F5793B431DD5E52LV3PR11MB8507namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+From: Shubham Pushpkar <spushpka@cisco.com>
 
-Hi @Yoann Congal<mailto:yoann.congal@smile.fr>,
-Thanks for the clarification. I understand that the fix is available in v1.=
-0.30 and will be covered by the planned upgrade, so this backport is not ne=
-eded for OE-Core master.
-Thanks for reviewing it and for checking the stable branch backports.
-Regards,
-Anil Dongare
-________________________________
-From: Yoann Congal <yoann.congal@smile.fr>
-Sent: Monday, June 15, 2026 4:58 AM
-To: Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco) <adon=
-gare@cisco.com>; openembedded-core@lists.openembedded.org <openembedded-cor=
-e@lists.openembedded.org>
-Cc: xe-linux-external(mailer list) <xe-linux-external@cisco.com>; to@cisco.=
-com <to@cisco.com>
-Subject: Re: [OE-core] [master] [PATCH v2] libusb1: fix CVE-2026-23679 and =
-CVE-2026-47104
+This patch applies the upstream fix as referenced in [1], using the CVE advisory shown in [2].
+[1] https://github.com/openSUSE/libsolv/commit/210386037c892a720972ad35a3d8f7073b4d763b
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-9149
 
-On Mon Jun 15, 2026 at 1:08 PM CEST, Anil Dongare -X (adongare - E INFOCHIP=
-S PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> From: Anil Dongare <adongare@cisco.com>
->
-> - Pick the upstream patch [1] as mentioned in [2] and [3].
->   included in v1.0.28.
+Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
+---
+ .../libsolv/0002-Fix-CVE-2026-9149.patch      | 152 ++++++++++++++++++
+ .../libsolv/libsolv_0.7.28.bb                 |   1 +
+ 2 files changed, 153 insertions(+)
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/0002-Fix-CVE-2026-9149.patch
 
-That patch in included in v1.0.30, not 1.0.28 (OE-core master is
-currently at v1.0.29).
+diff --git a/meta/recipes-extended/libsolv/libsolv/0002-Fix-CVE-2026-9149.patch b/meta/recipes-extended/libsolv/libsolv/0002-Fix-CVE-2026-9149.patch
+new file mode 100644
+index 0000000000..11acf758b5
+--- /dev/null
++++ b/meta/recipes-extended/libsolv/libsolv/0002-Fix-CVE-2026-9149.patch
+@@ -0,0 +1,152 @@
++From 175bd2008d3b3a4b54253bd6657cc46948360534 Mon Sep 17 00:00:00 2001
++From: Petr Písař <ppisar@redhat.com>
++Date: Thu, 23 Apr 2026 18:04:24 +0200
++Subject: [PATCH 2/2] Cope with integer overflow in data size arithmetics in
++ repo_add_solv()
++
++When parsing solv files with maliciously large "maxsize" or "allsize"
++data size, e.g. this maxsize value at offset 0x29--0x2E:
++
++    00000000  53 4f 4c 56 00 00 00 08  00 00 00 01 00 00 00 00  |SOLV............|
++    00000010  00 00 00 00 00 00 00 00  00 00 00 01 00 00 00 01  |................|
++    00000020  00 00 00 00 00 00 00 00  00 8f ff ff bf 77 86 8d  |.............w..|
++    00000030  20 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ...............|
++    00000040  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
++    *
++    00002030  00                                                |.|
++    00002031
++
++read_id() function will decode and return 4294959095 value, and a subsequent
++assignment:
++
++    int maxsize;
++    [...]
++    maxsize = read_id(&data, 0);
++
++will experience an integer overflow on plaforms where signed int has 4-byte
++size (e.g. x86_64).
++
++The same flaw is possible at the next line:
++
++    allsize = read_id(&data, 0);
++
++Subsequent arithmetics will interpreter the value as a very large negative
++number, possibly doing wrong decisions:
++
++    maxsize += 5; /* so we can read the next schema of an array */
++    if (maxsize > allsize)
++      maxsize = allsize;
++
++and finally, the negative value passed to solv_calloc():
++
++    buf = solv_calloc(maxsize + DATA_READ_CHUNK + 4, 1);  /* 4 extra bytes to detect overflows */
++
++will be coerced to an unsigned type (size_t) leading to allocating a smaller
++buffer then intended. Then writing to the small buffer will experience a heap
++buffer overflow:
++
++    l = maxsize;
++    if (l < DATA_READ_CHUNK)
++      l = DATA_READ_CHUNK;
++    if (l > allsize)
++      l = allsize;
++    if (!l || fread(buf, l, 1, data.fp) != 1)
++
++This flaw can be demostrated by passing that solv file to the dumpsolv tool which
++will crash if compiled with ASAN:
++
++    $ /tmp/b/tools/dumpsolv /tmp/vuln_1_101_1_negative_maxsize.solv
++    =================================================================
++    ==17608==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7c0a2ede00b1 at pc 0x7fea30451468 b
++    p 0x7ffe07220a50 sp 0x7ffe07220220
++    WRITE of size 8192 at 0x7c0a2ede00b1 thread T0
++	#0 0x7fea30451467 in fread.part.0 (/lib64/libasan.so.8+0x51467) (BuildId: 80bfc4ae44fdec6ef5fecfb01
++    e2b57d28660991c)
++	#1 0x7fea3028eef1 in repo_add_solv /home/test/libsolv/src/repo_solv.c:1034
++	#2 0x0000004041cc in main /home/test/libsolv/tools/dumpsolv.c:471
++	#3 0x7fea3003c680 in __libc_start_call_main (/lib64/libc.so.6+0x3680) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
++	#4 0x7fea3003c797 in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so.6+0x3797) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
++	#5 0x000000400694 in _start (/tmp/b/tools/dumpsolv+0x400694) (BuildId: 0a70b5b14e5cd81f90a309bb2ff3219dfbf30bb8)
++
++    0x7c0a2ede00b1 is located 0 bytes after 1-byte region [0x7c0a2ede00b0,0x7c0a2ede00b1)
++    allocated by thread T0 here:
++	#0 0x7fea304ef41f in malloc (/lib64/libasan.so.8+0xef41f) (BuildId: 80bfc4ae44fdec6ef5fecfb01e2b57d28660991c)
++	#1 0x7fea302e4b4c in solv_calloc /home/test/libsolv/src/util.c:77
++	#2 0x7fea3028ee38 in repo_add_solv /home/test/libsolv/src/repo_solv.c:1025
++	#3 0x0000004041cc in main /home/test/libsolv/tools/dumpsolv.c:471
++	#4 0x7fea3003c680 in __libc_start_call_main (/lib64/libc.so.6+0x3680) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
++	#5 0x7fea3003c797 in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so.6+0x3797) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
++	#6 0x000000400694 in _start (/tmp/b/tools/dumpsolv+0x400694) (BuildId: 0a70b5b14e5cd81f90a309bb2ff3219dfbf30bb8)
++
++    SUMMARY: AddressSanitizer: heap-buffer-overflow /home/test/libsolv/src/repo_solv.c:1034 in repo_add_solv
++
++This patch catches the integer overflow, sets an error and jumps to the end of
++the function just after deallocation of the buffer (which would contain an
++undefined pointer). This patch also handles a possible integer overflow at
++"maxsize += 5" line.
++
++I originally wanted to replace read_id() with read_u32(), but
++complemtary repowriter_write() function also stored the value as
++a signed integer, so I guess the the Id type is inteded there.
++
++There are probably other ways how to fix it, like passing INT_MAX-5
++limit to read_id(), though the error message would be less
++understandable.
++
++It's also possible to reject this patch with an explanation that loading
++untrusted solv files is not supported. Though some kind of
++fortification would be welcomed by people who debug solver problems
++from reported solv files.
++
++Reported by Aisle Research.
++
++CVE: CVE-2026-9149
++Upstream-Status: Backport [https://github.com/openSUSE/libsolv/commit/210386037c892a720972ad35a3d8f7073b4d763b]
++
++(cherry picked from commit 210386037c892a720972ad35a3d8f7073b4d763b)
++Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
++---
++ src/repo_solv.c | 14 ++++++++++++++
++ 1 file changed, 14 insertions(+)
++
++diff --git a/src/repo_solv.c b/src/repo_solv.c
++index 629ac683..00639aa0 100644
++--- a/src/repo_solv.c
+++++ b/src/repo_solv.c
++@@ -18,6 +18,7 @@
++ #include <stdlib.h>
++ #include <unistd.h>
++ #include <string.h>
+++#include <limits.h>
++ 
++ #include "repo_solv.h"
++ #include "util.h"
++@@ -1078,6 +1079,18 @@ repo_add_solv(Repo *repo, FILE *fp, int flags)
++ 
++   maxsize = read_id(&data, 0);
++   allsize = read_id(&data, 0);
+++  if (maxsize < 0 || allsize < 0)
+++    {
+++      data.error = pool_error(pool, SOLV_ERROR_CORRUPT, "negative data size in solv header");
+++      id = 0;
+++      goto data_error;
+++    }
+++  if (maxsize > INT_MAX - 5)
+++    {
+++      data.error = pool_error(pool, SOLV_ERROR_OVERFLOW, "data size overflow in solv header");
+++      id = 0;
+++      goto data_error;
+++    }
++   maxsize += 5;	/* so we can read the next schema of an array */
++   if (maxsize > allsize)
++     maxsize = allsize;
++@@ -1403,6 +1416,7 @@ printf("=> %s %s %p\n", pool_id2str(pool, keys[key].name), pool_id2str(pool, key
++     }
++   solv_free(buf);
++ 
+++data_error:
++   if (data.error)
++     {
++       /* free solvables */
++-- 
++2.35.6
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.28.bb b/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
+index 2b1b079ce1..4a9dd1278a 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
+@@ -11,6 +11,7 @@ DEPENDS = "expat zlib zstd"
+ SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https \
+            file://0001-utils-Conside-musl-when-wrapping-qsort_r.patch \
+            file://0001-Fix-CVE-2026-9150.patch \
++           file://0002-Fix-CVE-2026-9149.patch \
+ "
+ 
+ SRCREV = "c8dbb3a77c86600ce09d4f80a504cf4e78a3c359"
+-- 
+2.35.6
 
-Also, this backport will be superseded by the v1.0.30 upgrade in:
-https://lore.kernel.org/all/20260614080307.4017177-21-richard.purdie@linuxf=
-oundation.org/
-
-(I'll take a look at the backport for stable branches though)
-
-Regards,
-
-
-> [1] https://github.com/libusb/libusb/commit/bc0886173ea15b8cc9bba2918f58a=
-97a7f185231
-> [2] https://security-tracker.debian.org/tracker/CVE-2026-23679.
-> [3] https://security-tracker.debian.org/tracker/CVE-2026-47104.
->
-> Signed-off-by: Anil Dongare <adongare@cisco.com>
-> ---
->  .../CVE-2026-23679_CVE-2026-47104.patch       | 89 +++++++++++++++++++
->  meta/recipes-support/libusb/libusb1_1.0.29.bb |  1 +
->  2 files changed, 90 insertions(+)
->  create mode 100644 meta/recipes-support/libusb/libusb1/CVE-2026-23679_CV=
-E-2026-47104.patch
->
-> diff --git a/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-=
-47104.patch b/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-4=
-7104.patch
-> new file mode 100644
-> index 0000000000..f15f089f9f
-> --- /dev/null
-> +++ b/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104.p=
-atch
-> @@ -0,0 +1,89 @@
-> +From 04a9508e07582f553e9ea767f9e4a9b93839914b Mon Sep 17 00:00:00 2001
-> +From: MarkLee131 <kaixuan.li@ntu.edu.sg>
-> +Date: Sat, 25 Apr 2026 18:33:17 +0800
-> +Subject: [PATCH] descriptor: Fix two memory-safety bugs in malformed con=
-fig
-> + descriptor handling
-> +
-> +Two issues reachable from a malformed config descriptor returned by an
-> +attached USB device, both surfaced by the same libFuzzer + ASan run.
-> +
-> +1) parse_interface() reads bNumEndpoints from the interface descriptor a=
-nd
-> +   increments usb_interface->num_altsetting before entering the inner lo=
-op
-> +   that skips class/vendor specific descriptors ahead of the endpoint
-> +   array. If that loop's bLength > size short-read branch fires, the
-> +   function returns before the endpoint array is allocated, leaving the
-> +   caller with bNumEndpoints > 0 and endpoint =3D=3D NULL. libusb.h docu=
-ments
-> +   endpoint as an array sized by bNumEndpoints, and the testlibusb and
-> +   xusb examples both iterate it accordingly, so a NULL deref follows.
-> +   Reset bNumEndpoints to 0 before returning so the invariant holds.
-> +
-> +2) The first-pass loop in parse_iad_array() compares header.bLength
-> +   against the original size argument instead of the remaining bytes,
-> +   so a single descriptor with bLength =3D=3D size - 1 lets consumed rea=
-ch
-> +   size - 1 and the next iteration enters with only one byte of buffer
-> +   left. The buf[1] read on the second line of the loop body lands one
-> +   byte past the malloc allocation that backs the descriptor data. The
-> +   sibling parsers parse_configuration() and parse_interface() in the
-> +   same file already use the remaining-bytes form. Switch the IAD parser
-> +   loop guard and bound check to match.
-> +
-> +Both code paths are reachable from public APIs (libusb_get_*_config_desc=
-riptor
-> +and libusb_get_*_interface_association_descriptors), with the malformed
-> +input supplied by the attached device. Minimal reproducers are 20 and
-> +9 bytes respectively.
-> +
-> +Fixes #1813
-> +
-> +CVE: CVE-2026-23679 CVE-2026-47104
-> +Upstream-Status: Backport [https://github.com/libusb/libusb/commit/bc088=
-6173ea15b8cc9bba2918f58a97a7f185231]
-> +
-> +Backport Changes:
-> +- The upstream version_nano.h bump is omitted because this is a security
-> +  backport to libusb 1.0.29, not a version upgrade.
-> +
-> +Signed-off-by: MarkLee131 <kaixuan.li@ntu.edu.sg>
-> +(cherry picked from commit bc0886173ea15b8cc9bba2918f58a97a7f185231)
-> +Signed-off-by: Anil Dongare <adongare@cisco.com>
-> +---
-> + libusb/descriptor.c | 10 +++++++---
-> + 1 file changed, 7 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/libusb/descriptor.c b/libusb/descriptor.c
-> +index 870883a..7d4f118 100644
-> +--- a/libusb/descriptor.c
-> ++++ b/libusb/descriptor.c
-> +@@ -241,6 +241,10 @@ static int parse_interface(libusb_context *ctx,
-> +                              usbi_warn(ctx,
-> +                                        "short extra intf desc read %d/%=
-u",
-> +                                        size, header->bLength);
-> ++                            /* Keep the invariant: bNumEndpoints > 0 im=
-plies
-> ++                             * endpoint !=3D NULL. The endpoint array i=
-sn't
-> ++                             * allocated yet on this early return. */
-> ++                            ifp->bNumEndpoints =3D 0;
-> +                              return parsed;
-> +                      }
-> +
-> +@@ -1365,7 +1369,7 @@ static int parse_iad_array(struct libusb_context *=
-ctx,
-> +
-> +      /* First pass: Iterate through desc list, count number of IADs */
-> +      iad_array->length =3D 0;
-> +-    while (consumed < size) {
-> ++    while (size - consumed >=3D DESC_HEADER_LENGTH) {
-> +              header.bLength =3D buf[0];
-> +              header.bDescriptorType =3D buf[1];
-> +              if (header.bLength < DESC_HEADER_LENGTH) {
-> +@@ -1373,9 +1377,9 @@ static int parse_iad_array(struct libusb_context *=
-ctx,
-> +                               header.bLength);
-> +                      return LIBUSB_ERROR_IO;
-> +              }
-> +-            else if (header.bLength > size) {
-> ++            else if (header.bLength > size - consumed) {
-> +                      usbi_warn(ctx, "short config descriptor read %d/%u=
-",
-> +-                                      size, header.bLength);
-> ++                                      size - consumed, header.bLength);
-> +                      return LIBUSB_ERROR_IO;
-> +              }
-> +              if (header.bDescriptorType =3D=3D LIBUSB_DT_INTERFACE_ASSO=
-CIATION)
-> +--
-> +2.51.0
-> +
-> diff --git a/meta/recipes-support/libusb/libusb1_1.0.29.bb b/meta/recipes=
--support/libusb/libusb1_1.0.29.bb
-> index 856e32d1c6..d287ec171f 100644
-> --- a/meta/recipes-support/libusb/libusb1_1.0.29.bb
-> +++ b/meta/recipes-support/libusb/libusb1_1.0.29.bb
-> @@ -14,6 +14,7 @@ BBCLASSEXTEND =3D "native nativesdk"
->
->  SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/libusb-${PV}.tar.bz2 \
->             file://run-ptest \
-> +           file://CVE-2026-23679_CVE-2026-47104.patch \
->             "
->
->  GITHUB_BASE_URI =3D "https://github.com/libusb/libusb/releases"
-
-
---
-Yoann Congal
-Smile ECS
-
-
---_000_LV3PR11MB8507C38DEB7FF4F5793B431DD5E52LV3PR11MB8507namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
- font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
-etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Hi <a href=3D"mailto:yoann.congal@smile.fr" id=3D"OWAAM513132" class=3D"tWK=
-Ou mention ms-bgc-nlr ms-fcl-b">
-@Yoann Congal</a>,</div>
-<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
- font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
-etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Thanks for the clarification. I understand that the fix is available in <b>=
-v1.0.30</b>&nbsp;and will be covered by the planned upgrade, so this backpo=
-rt is not needed for OE-Core master.</div>
-<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
- font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
-etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Thanks for reviewing it and for checking the stable branch backports.</div>
-<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
- font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
-etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Regards,<br>
-Anil Dongare<span style=3D"font-family: Calibri, Arial, Helvetica, sans-ser=
-if;"><br>
-</span></div>
-<hr style=3D"display: inline-block; width: 98%;">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<b>From:</b>&nbsp;Yoann Congal &lt;yoann.congal@smile.fr&gt;<br>
-<b>Sent:</b>&nbsp;Monday, June 15, 2026 4:58 AM<br>
-<b>To:</b>&nbsp;Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at =
-Cisco) &lt;adongare@cisco.com&gt;; openembedded-core@lists.openembedded.org=
- &lt;openembedded-core@lists.openembedded.org&gt;<br>
-<b>Cc:</b>&nbsp;xe-linux-external(mailer list) &lt;xe-linux-external@cisco.=
-com&gt;; to@cisco.com &lt;to@cisco.com&gt;<br>
-<b>Subject:</b>&nbsp;Re: [OE-core] [master] [PATCH v2] libusb1: fix CVE-202=
-6-23679 and CVE-2026-47104
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-size: 11pt;">On Mon Jun 15, 2026 at 1:08 PM CEST, Anil D=
-ongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco) via lists.opene=
-mbedded.org wrote:<br>
-&gt; From: Anil Dongare &lt;adongare@cisco.com&gt;<br>
-&gt;<br>
-&gt; - Pick the upstream patch [1] as mentioned in [2] and [3].<br>
-&gt;&nbsp;&nbsp; included in v1.0.28.<br>
-<br>
-That patch in included in v1.0.30, not 1.0.28 (OE-core master is<br>
-currently at v1.0.29).<br>
-<br>
-Also, this backport will be superseded by the v1.0.30 upgrade in:<br>
-<a href=3D"https://lore.kernel.org/all/20260614080307.4017177-21-richard.pu=
-rdie@linuxfoundation.org/" id=3D"OWA59e357d2-1dd0-5441-44b9-c8491a88eb72" c=
-lass=3D"OWAAutoLink" data-auth=3D"NotApplicable">https://lore.kernel.org/al=
-l/20260614080307.4017177-21-richard.purdie@linuxfoundation.org/</a><br>
-<br>
-(I'll take a look at the backport for stable branches though)<br>
-<br>
-Regards,<br>
-<br>
-<br>
-&gt; [1] <a href=3D"https://github.com/libusb/libusb/commit/bc0886173ea15b8=
-cc9bba2918f58a97a7f185231" id=3D"OWA77c80b8e-6eee-7002-b3ad-90930b0105f0" c=
-lass=3D"OWAAutoLink" data-auth=3D"NotApplicable">
-https://github.com/libusb/libusb/commit/bc0886173ea15b8cc9bba2918f58a97a7f1=
-85231</a><br>
-&gt; [2] <a href=3D"https://security-tracker.debian.org/tracker/CVE-2026-23=
-679" id=3D"OWAc94cc63a-f755-6ceb-cfef-7d48a862cd9a" class=3D"OWAAutoLink" d=
-ata-auth=3D"NotApplicable">
-https://security-tracker.debian.org/tracker/CVE-2026-23679</a>.<br>
-&gt; [3] <a href=3D"https://security-tracker.debian.org/tracker/CVE-2026-47=
-104" id=3D"OWAe034419d-4532-2e28-cb0b-79ef29592710" class=3D"OWAAutoLink" d=
-ata-auth=3D"NotApplicable">
-https://security-tracker.debian.org/tracker/CVE-2026-47104</a>.<br>
-&gt;<br>
-&gt; Signed-off-by: Anil Dongare &lt;adongare@cisco.com&gt;<br>
-&gt; ---<br>
-&gt;&nbsp; .../CVE-2026-23679_CVE-2026-47104.patch&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp; | 89 +++++++++++++++++++<br>
-&gt;&nbsp; meta/recipes-support/libusb/libusb1_1.0.29.bb |&nbsp; 1 +<br>
-&gt;&nbsp; 2 files changed, 90 insertions(+)<br>
-&gt;&nbsp; create mode 100644 meta/recipes-support/libusb/libusb1/CVE-2026-=
-23679_CVE-2026-47104.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-20=
-26-47104.patch b/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-202=
-6-47104.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..f15f089f9f<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-4710=
-4.patch<br>
-&gt; @@ -0,0 +1,89 @@<br>
-&gt; +From 04a9508e07582f553e9ea767f9e4a9b93839914b Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: MarkLee131 &lt;kaixuan.li@ntu.edu.sg&gt;<br>
-&gt; +Date: Sat, 25 Apr 2026 18:33:17 +0800<br>
-&gt; +Subject: [PATCH] descriptor: Fix two memory-safety bugs in malformed =
-config<br>
-&gt; + descriptor handling<br>
-&gt; +<br>
-&gt; +Two issues reachable from a malformed config descriptor returned by a=
-n<br>
-&gt; +attached USB device, both surfaced by the same libFuzzer + ASan run.<=
-br>
-&gt; +<br>
-&gt; +1) parse_interface() reads bNumEndpoints from the interface descripto=
-r and<br>
-&gt; +&nbsp;&nbsp; increments usb_interface-&gt;num_altsetting before enter=
-ing the inner loop<br>
-&gt; +&nbsp;&nbsp; that skips class/vendor specific descriptors ahead of th=
-e endpoint<br>
-&gt; +&nbsp;&nbsp; array. If that loop's bLength &gt; size short-read branc=
-h fires, the<br>
-&gt; +&nbsp;&nbsp; function returns before the endpoint array is allocated,=
- leaving the<br>
-&gt; +&nbsp;&nbsp; caller with bNumEndpoints &gt; 0 and endpoint =3D=3D NUL=
-L. libusb.h documents<br>
-&gt; +&nbsp;&nbsp; endpoint as an array sized by bNumEndpoints, and the tes=
-tlibusb and<br>
-&gt; +&nbsp;&nbsp; xusb examples both iterate it accordingly, so a NULL der=
-ef follows.<br>
-&gt; +&nbsp;&nbsp; Reset bNumEndpoints to 0 before returning so the invaria=
-nt holds.<br>
-&gt; +<br>
-&gt; +2) The first-pass loop in parse_iad_array() compares header.bLength<b=
-r>
-&gt; +&nbsp;&nbsp; against the original size argument instead of the remain=
-ing bytes,<br>
-&gt; +&nbsp;&nbsp; so a single descriptor with bLength =3D=3D size - 1 lets=
- consumed reach<br>
-&gt; +&nbsp;&nbsp; size - 1 and the next iteration enters with only one byt=
-e of buffer<br>
-&gt; +&nbsp;&nbsp; left. The buf[1] read on the second line of the loop bod=
-y lands one<br>
-&gt; +&nbsp;&nbsp; byte past the malloc allocation that backs the descripto=
-r data. The<br>
-&gt; +&nbsp;&nbsp; sibling parsers parse_configuration() and parse_interfac=
-e() in the<br>
-&gt; +&nbsp;&nbsp; same file already use the remaining-bytes form. Switch t=
-he IAD parser<br>
-&gt; +&nbsp;&nbsp; loop guard and bound check to match.<br>
-&gt; +<br>
-&gt; +Both code paths are reachable from public APIs (libusb_get_*_config_d=
-escriptor<br>
-&gt; +and libusb_get_*_interface_association_descriptors), with the malform=
-ed<br>
-&gt; +input supplied by the attached device. Minimal reproducers are 20 and=
-<br>
-&gt; +9 bytes respectively.<br>
-&gt; +<br>
-&gt; +Fixes #1813<br>
-&gt; +<br>
-&gt; +CVE: CVE-2026-23679 CVE-2026-47104<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/libusb/libus=
-b/commit/bc0886173ea15b8cc9bba2918f58a97a7f185231" id=3D"OWAbf9ca498-4697-c=
-b0c-9d8a-ae3600f284df" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">ht=
-tps://github.com/libusb/libusb/commit/bc0886173ea15b8cc9bba2918f58a97a7f185=
-231</a>]<br>
-&gt; +<br>
-&gt; +Backport Changes:<br>
-&gt; +- The upstream version_nano.h bump is omitted because this is a secur=
-ity<br>
-&gt; +&nbsp; backport to libusb 1.0.29, not a version upgrade.<br>
-&gt; +<br>
-&gt; +Signed-off-by: MarkLee131 &lt;kaixuan.li@ntu.edu.sg&gt;<br>
-&gt; +(cherry picked from commit bc0886173ea15b8cc9bba2918f58a97a7f185231)<=
-br>
-&gt; +Signed-off-by: Anil Dongare &lt;adongare@cisco.com&gt;<br>
-&gt; +---<br>
-&gt; + libusb/descriptor.c | 10 +++++++---<br>
-&gt; + 1 file changed, 7 insertions(+), 3 deletions(-)<br>
-&gt; +<br>
-&gt; +diff --git a/libusb/descriptor.c b/libusb/descriptor.c<br>
-&gt; +index 870883a..7d4f118 100644<br>
-&gt; +--- a/libusb/descriptor.c<br>
-&gt; ++++ b/libusb/descriptor.c<br>
-&gt; +@@ -241,6 +241,10 @@ static int parse_interface(libusb_context *ctx,<=
-br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; usbi_warn(ctx,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; &quot;short extra intf desc read %d/%u&quot;,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; size, header-&gt;bLength);<br>
-&gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp; /* Keep the invariant: bNumEndpoints &gt; 0 implies<br>
-&gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp; * endpoint !=3D NULL. The endpoint array isn't<br=
->
-&gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp; * allocated yet on this early return. */<br>
-&gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp; ifp-&gt;bNumEndpoints =3D 0;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return parsed;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt; +<br>
-&gt; +@@ -1365,7 +1369,7 @@ static int parse_iad_array(struct libusb_contex=
-t *ctx,<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* First pass: Iterate through desc li=
-st, count number of IADs */<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; iad_array-&gt;length =3D 0;<br>
-&gt; +-&nbsp;&nbsp;&nbsp; while (consumed &lt; size) {<br>
-&gt; ++&nbsp;&nbsp;&nbsp; while (size - consumed &gt;=3D DESC_HEADER_LENGTH=
-) {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; header.bLength =3D buf[0];<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; header.bDescriptorType =3D buf[1];<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; if (header.bLength &lt; DESC_HEADER_LENGTH) {<br>
-&gt; +@@ -1373,9 +1377,9 @@ static int parse_iad_array(struct libusb_contex=
-t *ctx,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; header.bLength);<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return LIBUSB_ERR=
-OR_IO;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; }<br>
-&gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e=
-lse if (header.bLength &gt; size) {<br>
-&gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e=
-lse if (header.bLength &gt; size - consumed) {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; usbi_warn(ctx, &q=
-uot;short config descriptor read %d/%u&quot;,<br>
-&gt; +-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp; size, header.bLength);<br>
-&gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp; size - consumed, header.bLength);<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return LIBUSB_ERR=
-OR_IO;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; }<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; if (header.bDescriptorType =3D=3D LIBUSB_DT_INTERFACE_ASSOCIATION=
-)<br>
-&gt; +--<br>
-&gt; +2.51.0<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-support/libusb/libusb1_1.0.29.bb b/meta/reci=
-pes-support/libusb/libusb1_1.0.29.bb<br>
-&gt; index 856e32d1c6..d287ec171f 100644<br>
-&gt; --- a/meta/recipes-support/libusb/libusb1_1.0.29.bb<br>
-&gt; +++ b/meta/recipes-support/libusb/libusb1_1.0.29.bb<br>
-&gt; @@ -14,6 +14,7 @@ BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
-&gt;&nbsp;<br>
-&gt;&nbsp; SRC_URI =3D &quot;${GITHUB_BASE_URI}/download/v${PV}/libusb-${PV=
-}.tar.bz2 \<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; file://run-ptest&nbsp;\<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file://C=
-VE-2026-23679_CVE-2026-47104.patch&nbsp;\<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; &quot;<br>
-&gt;&nbsp;<br>
-&gt;&nbsp; GITHUB_BASE_URI =3D &quot;<a href=3D"https://github.com/libusb/l=
-ibusb/releases" id=3D"OWA736878c5-bffb-d2b5-f3ff-06fabe0d6efc" class=3D"OWA=
-AutoLink" data-auth=3D"NotApplicable">https://github.com/libusb/libusb/rele=
-ases</a>&quot;<br>
-<br>
-<br>
---<br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</div>
-</body>
-</html>
-
---_000_LV3PR11MB8507C38DEB7FF4F5793B431DD5E52LV3PR11MB8507namp_--
 
