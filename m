@@ -2,133 +2,388 @@ Return-Path: <anders.heimer@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28597CD98E3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 308A4CD98E6
 	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 08:25:33 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.71])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.149171.1781598324624140879
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.40])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.149549.1781598328874555928
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2026 01:25:25 -0700
+ Tue, 16 Jun 2026 01:25:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Qo0cJaY2;
- spf=pass (domain: est.tech, ip: 40.107.159.71, mailfrom: anders.heimer@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=WibQHEj1;
+ spf=pass (domain: est.tech, ip: 52.101.84.40, mailfrom: anders.heimer@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pFI1f9fXFypZwHtRQCUYny7my0ovFWPLufpvLztrjKp4FqJ1imiUcVAYcV01Xr/KkAsSwMGDvfFjAqRIM86kxbKLkgffHnoHwFc0QHprNFt826wqf/lsNqm1ZpPBBtPHPiHX6DBJn4dqLkRpWgq+sDGd1/X1sZQFbYlOXhVagO99u/P2fEMvdXixe/okWwX/IAeEJKD42zFiKVUuQx5s5YXaVa/EXP/c1uZfPL0HDlzqnu21piCZcc7YsFM2YCXyUjs59Y7tqu2xnZRO4YK/t3pQ2dpWQ5glBpAotp9XD0Ks1YoVeiYw9BzGmXu5XZ8CsrYh6wRWtQimS/PUM11fOA==
+ b=beaAPHoq1FIofcUhQZDW4uKH0LFF6JLkHTW/qBB3/ilvp1HoulwQwg5SVlpSeYwqWgOJ/lGzWtGaHxuqkcLwZ/oB1OUajDzfTn5SI58J456DXKtbDz6PUeuFJOTMsxJJWg7hkn5uORd/REAYMr4tG4nGeJ0BQmDzCCZcdpyJ2usoiAlN1kekPbmRmmsaSYdSZyMksP7QcZHHeeTU4FLIVLfV9fDVeB7nx7kOSEfIk1FzkL1kVYI4MOY+HThNqeNt33sKB2BYElYynpNK32AYFnzQugpvYwqpLsSHxNjVedrpZlXxgtDV6MGw8+rtGtQxq5aY7nro+H72c/4KWLT+1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UIhBoRrJhkyiywW1fSzE83TUNiXf0OC3ice0sndvGFM=;
- b=yOki4dCiU44wKZ2pxTiO4EgeothWiYRyYZR7B29YqbX7Cpu0lisg5IkrqBDU/nfQbyMZaIB22U2d0LWQBHlIvE5DfuGb5Ybkysb8SYO7pX/AZTzWU1ET2NXYmWwAOhjKXN+pXC4OZTnboJS/Wxnk+6c77jndK3sgLryBgUxqi4xAWlJyv6lT10xM+W7CukPNtO2BLeS+SxubCK37LwneSERI7ruXN03tWxn32hBjQRFjzCYfJjJFV3MdWsK24IfR5cwethX0Weu92q4qqt+PpqR1A7Z9YmBLLcPpKODzNKOWtDi7suXlzsU4SAlzHDZKrCJqzSUrq8RGh6bf2KeIIg==
+ bh=yrV0l06uZIujpA9XBnmHeqAl6XkDgBJcmOQ4SB1MXB4=;
+ b=OuLsfVlXo/n8uZuD4ynzdsGiOAjJohCF2BMNcp8JGaSwPuRY9ugAPF6KRjXgabqpmeyQyAX3TLCs4eJoIYiMSbkg0Y+rRMOE2WQsVEeVqQPb1Oe/cerclZMSIaNaGwal/4e/rA8XtYuRphkXTkVkF4HnjrHcGu50fD595B+Bn/kVE+oxFCwxnJy5RrHygpoCwPzEc+tIXWemvKRkY+n58xVmda6bqN6O+4r8AXjD0Pawqc1UNVpw4i1C/hFElLL9O0Rmx5sTri6bXonpsvs8WYJPKpxKWRLI5Cgi5hOGslJqgdC7lz5+w/X3ZPlx8vliwrEgFBYU7fvDq0z70AFMNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UIhBoRrJhkyiywW1fSzE83TUNiXf0OC3ice0sndvGFM=;
- b=Qo0cJaY2lhIn+Q/rkAwtz7Mjf3WqtI8XWZKHjNfNBUGfS06usgWBvXHst4TyOJJ/vruUmdSvYga9BlqC+6b7SKQP9msohsQLQrdzsSt6xPMzmP5KMzQQWBjrmM0ZfyQ1PGrw+wYl3CLwRtrTTIucvFsF88oEsmxA6G1EjHkL/ezGGLV7UFrQ8EkBKFaiFqjIUMKi2xHdaUHpNU29WTJPDF8W9O7ROC0DM+NpE2kmtFaYsGhZC94DLPYmm/Ij6dWn0OpoTNxKnq32d8NOt2lr6hYWN5qbqFQ0qHD1+XLt74AnbFVcD830CKgsKP1OMPLAT3ibP4O2AkaIEZ3hfJY3HQ==
+ bh=yrV0l06uZIujpA9XBnmHeqAl6XkDgBJcmOQ4SB1MXB4=;
+ b=WibQHEj1aJMn7owSi8reqCEQscTwcYg38DKQj8i64rKvuStaI7PcEfizm7jgzyg5biMOs3AuFZQ1+A7Ch43mTrlDHHyXGWK/5JabF3oOU64fXbuIU4BdkrTl08iNUPmRlstJkEXAOdTBZtZLXzOROCKxvv8JmNuyjY2T+vIdiudJZJiMIXpBuZsA5cEqN1GXan3Rxr2uocOoKehTLVhsmdoj84FMpCYvAzepO2So00kILi2gxqydMrGNzFH6+wXNNbVyBSySf8WkwM9PZ4n8pRwn5gDjnw2zYHKLxTXA38ljIXcw7wNI6RH0Mf3o7o23tncTlmKnoWSQBQv+9p+vSQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:2ac::9) by
- VI0P189MB3317.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2b1::16) with Microsoft
+ DU0P189MB2156.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3cb::8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.113.18; Tue, 16 Jun 2026 08:25:19 +0000
+ 15.21.113.18; Tue, 16 Jun 2026 08:25:23 +0000
 Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
  ([fe80::90da:b700:f102:5c82]) by DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
  ([fe80::90da:b700:f102:5c82%6]) with mapi id 15.21.0113.015; Tue, 16 Jun 2026
- 08:25:19 +0000
+ 08:25:23 +0000
 From: Anders Heimer <anders.heimer@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Anders Heimer <anders.heimer@est.tech>
-Subject: [PATCH 0/2] package: replace copydebugsources shell pipelines with Popen
-Date: Tue, 16 Jun 2026 10:25:14 +0200
-Message-ID: <20260616082516.1553768-1-anders.heimer@est.tech>
+Subject: [PATCH 2/2] oeqa/oelib: add copydebugsources tests
+Date: Tue, 16 Jun 2026 10:25:16 +0200
+Message-ID: <20260616082516.1553768-3-anders.heimer@est.tech>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260616082516.1553768-1-anders.heimer@est.tech>
+References: <20260616082516.1553768-1-anders.heimer@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0072.eurprd04.prod.outlook.com
- (2603:10a6:10:232::17) To DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: PR3P189CA0036.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:53::11) To DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:10:2ac::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9P189MB1641:EE_|VI0P189MB3317:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59733b31-7ba8-40e7-d02c-08decb80ccff
+X-MS-TrafficTypeDiagnostic: DB9P189MB1641:EE_|DU0P189MB2156:EE_
+X-MS-Office365-Filtering-Correlation-Id: 10a6b4ac-ae1e-4a55-2695-08decb80cf7e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|56012099006|11063799006|18002099003;
+	BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|22082099003|18002099003|11063799006|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	ZRbs49SJXcxhqsHUhJYRtQ6iM6EH1JZBV1YjBjzUttkKg8c3G2KwjaeFYfe7IiF89qlMBMzB6aGZNVukaWDArCaRFcMeZXSvNuUHrxPzsd2Zv5Qdpl2hT2Q8dCvxjZt9ziNCX6EKX7ZeYuEHGtgs0+c3YlnQoLUhQHr1WIzFHjclyCmqmd+4+yacqb3EfmNQ+aVP9BmHqmHTVa+6+1sBXH0oZ8VcFJHnnPkxSrbEyZDWOUTRfCe69EFftoZIF6qyYaodUBJruX6FA44WYkLDmLTDmAQXtBZ+U+4Vi0FnnJ6dMimCND0U/UWi8aU1cBQgZpt1Mr6RnsE/qbMJSIsJBe76gt7tVa9gkXqm3klErlSJo5c1v6Xv+5/1Bq7ClEpLDNQzk+ubOxaSa2UqpA981Xfq0BfgWH5KxrFJva6Cdb/V+tfnhGVW9VmM3967v8UMUGn4y3XmlUxW/kj6ndD4gJmetdVAv6tSbuRlX1FjpNbCo7Dy7g1CMml+6UucQ0N5yu2gkJ1mOWS8lCKzNFWIYB/j1OJ8CNqWFdVcygxfUeWLWdj64nohl+0HmtJ8efh35BHtyMvqJnkKKkK4SWsFMUtZhEwmc8L8haHc/UZXunNFaFukewWQSbAHqa8SiOh69ZPsQVR/j/9ufbKTBzgH2D2znMoXl4IKpHvOi2f1OlOXW4MR9Cmod7Nrc+iyXHcr
+	i2nQw780TX/kFNMSFvvula8CCixysxHxnNfF/QPtHy++BWStKCeHfjioSMSEwsJA25UhUNLWu6xgZdHaBoq1xqRj6gzk9B6l2hAgeeKiFjNzv+wg45BVvjxGyjLMSWPYiShudqorDzyD/WB+ea7eg9N4njZNI9rIMoCzNWivpKyX54R22pJDnHquKIQBwsvSAtqYFPQkZ5aYWp/3gKUEW7FPHe8dmPSQQn8TngagmrXHd+5lyn7xFCyKFX1n3vMtWe6J4fGKxpcpf1hrK9Sh4UsvXMm3q3P5ldQUfdpwyBVYbhB07tZdNFJTWSXR9rs3um2MQdWmvJfCyHs4sO0UM+naZtd9+hGNuXXRV2rGnazN/V5bSk3iZ9LPVLAGg5nMR5QMofULXlabf3tL0Bfpc4J2wiXWmTRCjPtegYLKFkS3OcbR8WH56EgRDJQhCSMQQNHJyJ6KSvokptBRuLVZ4k3bAuqvbRyXevp3hhnlU4UyT9vq/vZih9gvmTWtBeggE1chbFxdXwwvPkm7N1PXUs0bh1TsJobvlQFFGQCE17bsvx9MTie97KRAQlymx0oi9y/NTjQP8liTAKxNRUanf00+PZM4n0KCibikmrO07e8Rien6aP9YvhruzG6u3NkwyKSAAPN3f7Sgf1QwZk5Kw+y81rSp7mDrktlDT8rfznrlRmVidIPk/ZTGBic/o7SV
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1641.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1641.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(22082099003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?2SW6xAoDtJBWeFGcLMWdxM3JZiqDN90HF6gX1WcgggfZYNn/DIyLpv+aNvfL?=
- =?us-ascii?Q?H6V1ERadnR/YhPYBBWAIxmfYtv91N2USphScdB5tQVJGUOJer+x25jbHpHzy?=
- =?us-ascii?Q?BEVkFHlZ/utX46vvjqzEhX74/c+QbfVO/X/rhSFF9xCfkwOPA6VDgRWvPb/a?=
- =?us-ascii?Q?jxUG94tBZTO8ncYgPwYsHpFnJi0VIbptjZ+yF7iWO9aOvP2t4nHjYcznyHwg?=
- =?us-ascii?Q?cpObdzXKTdGRD8QCLQfesNzdDVnRKmAO46aXsWbl4CwpsvGoHCbfRrJ1WB3I?=
- =?us-ascii?Q?UWlvX6KcRKAl8EdyPqQJL97A03LoMoYSm1i1djXnXC6P6DFPDnvxrDeUeX0H?=
- =?us-ascii?Q?cpyHiuByWVPQD6nSfJ6l4izrOxdmjThh/TKRRfP2qqfUYZtlyhlENbSZh8an?=
- =?us-ascii?Q?mwUwi0MGwNmhnZGojhSQem9WpJPNMARjgVMaTYu7QtrOsXBoRK/XJJIcUB+/?=
- =?us-ascii?Q?i5vvWJbFcScHLHmYpyCNhHleQHbtE5oohiCYKj6TKNHEvFVQvc8SEFzunL3G?=
- =?us-ascii?Q?Qg6pjT762M+QI3snkAfv9Aum9qWhjpbQ77tkoZF48WFP5oq8VWg07cWcdJxt?=
- =?us-ascii?Q?Cb+SGVDxfcxelD92INao3bUexoXgIo0CJJRgjPQVJgemsygw4AZ3fAeJy6Bw?=
- =?us-ascii?Q?zE8zyb5MX/+9iXqpTJNwlz/C4ZGziDcmHnIutu/l1+zXrhVyMvr2haZ2x4yS?=
- =?us-ascii?Q?t8yF+aAaJK6wVsiScOj4KaRCtLQFH/1aRCFoIHK3rhAZ91zo5mVTsMzpWeCh?=
- =?us-ascii?Q?Lix/VRF/AWOEw+erEcrqykOevsUewBQRCln+KjJ4zYherq6KkkBl+XWSdV2E?=
- =?us-ascii?Q?fLOO2s/Ae49YbNdFMzs82rNa/oIphClxOvJdpUG/cbiz3tfR2EI0F7w4YQxg?=
- =?us-ascii?Q?fopSoNBRqrhqe7dgWSKxPN73rjriloAtiCciZ8kwfhkQMHBC97nVMNJ2ty8+?=
- =?us-ascii?Q?H4sKzwpVsUlDGYtf2EvNRQuysYLv8PbigVMd0f6RL+6wmU/8acrN6ixkhxCL?=
- =?us-ascii?Q?pYiaDTaTkstGNqRwEQhRBjNPHBrjigA88BqP/R2w07v29DHEg1EpotwrQhB4?=
- =?us-ascii?Q?XHsq5mVUyqKLl8IYeZvBww5IpwPE+wQZI6lMZsOk0a6NskDY8+I/LQblDJK2?=
- =?us-ascii?Q?mHKc9LqhGZBIPbbbpiN0oHKwrM3+/Rgzk63i0voFvjji3dm+Zkvu1+C1AAUz?=
- =?us-ascii?Q?14olW/oCfH6wNVMBI6KWtc3Vj+J59P67wlZOFiVjJ0jahKsqb9iiWNkHxSER?=
- =?us-ascii?Q?xnkfeOzWT82qx4dIOUoB+KXrWtiISQKcIvNZeFeUo4R7+nkWMlc+y4F8c0wP?=
- =?us-ascii?Q?6Wp3rdVg3BK8NdR416ALe0sJIQENyL86mLn3VU3dsWyvwlCdhtaGglNaTz4V?=
- =?us-ascii?Q?GK0f2tt841/rfIYq/Rri6zGnFc3QcQqh6qmpyZEkXUnPvbcMRJ1cC1I797bt?=
- =?us-ascii?Q?e9woldeXw/FVjBHeAh8BCdt6gCUQF26pINLIXYt5uFVgE8VBX2XcBo7V6BE4?=
- =?us-ascii?Q?/rgLwKSWGnJIKDW7lfQUaPdGlhzgoa4qnQ7Bv/zdXOxOXgXC0bTMx7B2wHqv?=
- =?us-ascii?Q?SafRH2m0EXSsm+2CK/ibsJkxdQFntGLIDIxWPmU2gO1Q3eiIO4t6xaQnDvE3?=
- =?us-ascii?Q?cOezRex24ZkhicpXIRxLF+67imEY/hg2C4tRTmGNDnAcbPFKGI+2Ur560Qv1?=
- =?us-ascii?Q?oCCBZqcYaTpWCmZ24aEaXGDN5hsD9cAxLdla8ROvmiFscXKf6q75ImsyeSo8?=
- =?us-ascii?Q?L9c2Fuh8vQ=3D=3D?=
+	=?us-ascii?Q?gwMK0MlI6+ijZQCtms7v6VQApr/z49xKhGytWqmb48fSVvXjLQ8mhuFD2NWz?=
+ =?us-ascii?Q?C1Gd4V3IrSvAcW/qwtmAwMExxiLp3rjCO/+Y3L3SuB0GZ0JZ994usBLd3JVv?=
+ =?us-ascii?Q?YkcyzbpO/3f6R7SIUGeJN7MjUWetTOWeuxJa5QUYQNGaMH57H5U1Vi0oTugf?=
+ =?us-ascii?Q?2DBJpHOHtAdcRb4/ho5b8zdOzOn4qimuMKkgTCwzZcexLY0PeJ10oaItqBNm?=
+ =?us-ascii?Q?ATcwFmnhmMac3uSezFxN1rq6Uo80kycNbVWUBihi35gSNlMa2N9sro5F+1AS?=
+ =?us-ascii?Q?qOfpMQu3/ZL917WMZL4LJpSMS1wkv77iYIJlvTZDtC0wck7Tfjq93BTnbQUx?=
+ =?us-ascii?Q?GZWcj1bznQi+gFYnS1nIZcFx+YibY645u7DdwtJNofajfNg6T98lc2WEbBvZ?=
+ =?us-ascii?Q?9du/pY3y2t6LjPV+vJ5ARFTYK2rqMdY6l1C5o6xbyT6A/oL/GWkSqDX5pZSa?=
+ =?us-ascii?Q?aWATxLRvvHbUsYN7/V6XLJCC0grmaiQUk3N/KGAZ48U3mHIYU3oZzmGcDojl?=
+ =?us-ascii?Q?2D6YwNL231PZ5MTonGrUUoh1rXjd2tXjIz9COd79mvUlFusEwmDmsYJpKDH1?=
+ =?us-ascii?Q?AGBmVkzaWwdOSvUV1qRIsyilbt3LvdJEx/Ht50e+JriDwmzVzBb1LkzVgzbY?=
+ =?us-ascii?Q?uMNBx44JiM9l4BXbwFtiEmD4IhxGnyinkDK1nLhNdbxjuuLccYdM2st4P4di?=
+ =?us-ascii?Q?p9dRu1GA3WJ4KLPS5Jb/cRqYUj5varEFE+Zgk34noxQ19A/TqpNXee0rL0dm?=
+ =?us-ascii?Q?gYvrY3cpJBQ2Ei9Y22o9N0BDRufslQ+uYlZQTOru7jWJWFUHNox7tI/z9HXe?=
+ =?us-ascii?Q?8gki0q6xkMk5/L+IPlCLTbVS0rEzadeMl6AsGHcoWBuFbfq56hCOWfZ9GJoX?=
+ =?us-ascii?Q?DlE43EyuQRFOhJ1Q0YmiE8dIUKSX+ZgGea+dt8PeU7BV/0PNl03M4R+1ZrAT?=
+ =?us-ascii?Q?gARYSrNfGgq9Lop5HjF+4VRhg4KW3rxyE/QW37fcOCpfm7FgyjqPC8mFjNbR?=
+ =?us-ascii?Q?YJAWfDWvHFyGXTN9XaD7Z8Eil1RYZUTEhb8mCrDBLadtSDdGlP6X9vDwxgqc?=
+ =?us-ascii?Q?C7AWJFXKpERaIw3EXruPQrerjkTJmCfapgAKvankG9fMZxKXOes21h66fFqM?=
+ =?us-ascii?Q?UP2MR3Lq2QEDKQ0mh4TLk82PkY4voH5cQSVAWbySmgn3OIJTvQ0jMdJzSk6s?=
+ =?us-ascii?Q?3mevzonRRRFi0AAws+Za4luITuFQ/+XoFBfOfA5eStTdNJu/dpoGZyao9Le5?=
+ =?us-ascii?Q?MZG+Fgx3QFb6u8NIB1ZB8z0O0FZ/hGezjEGyhAZCnUrN0EaSbDyyRmsXiqMl?=
+ =?us-ascii?Q?RsPwLFlGVH+gzUfGTMxNhwYaRf+1WGrHjcAL5XZTfKN/FcYlUwvNuFNCBZ6n?=
+ =?us-ascii?Q?GJ5ErSitM2ts/mEv00Joy35ZaKROaMFX3nlT6QP+Z/WoovoHIVx5ZrLfjs4Y?=
+ =?us-ascii?Q?aeu3adRgxLafTjgCLZqocvsHE/aELEno0avX0uWNHpDklZUp5iTLFCz8sYY2?=
+ =?us-ascii?Q?iL0yIzn9aHg4LFT7kDWCpfFE4fjnVgzykPOrZL1uKvnqywZyUA/eSD4OaHvX?=
+ =?us-ascii?Q?JteceLXZJVwzyU/I73LGJXFqPIWaRaS3AQQiLXUnWmhA6Wx294rP41AMuaTb?=
+ =?us-ascii?Q?IN3NEADzpwls/I6pWG/KyDKADq5r2ZlSTnxphQqQ3jN7g4ZOTDr65WjQ2OJp?=
+ =?us-ascii?Q?x2GKyxEGuafOkijECfCgnhXWYOfTZ3Ok0JBLOxwVBMA15cYfkl5oCQUGtoYO?=
+ =?us-ascii?Q?6cY5OItw7w=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59733b31-7ba8-40e7-d02c-08decb80ccff
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10a6b4ac-ae1e-4a55-2695-08decb80cf7e
 X-MS-Exchange-CrossTenant-AuthSource: DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 08:25:19.0046
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 08:25:23.1674
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QPQMBlzBQh3s7brkr/iZWJpkHEwcU2VhLdICGUNx6JZoVnYdoTHyK9CsYbPiulSkxa4FL9V/BD5lNlkkYKrv0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3317
+X-MS-Exchange-CrossTenant-UserPrincipalName: oBN8Z2soprb8lbW7Ewxxm4mcRkMddE6ohV02/eunOR4fsOndA+mHwGfspKQitvOpsnTuvfoeIf07CHSkuOM+Dw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB2156
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 08:25:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238877
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238879
 
-Continue the OE-Core shell=3DTrue cleanup in oe.package.
-
-Replace the copydebugsources() shell pipelines with explicit Popen
-chains using argv lists, env=3D for LC_ALL and cwd=3D for cpio. Also replac=
-e
-the externalsrc mv shell glob with glob.glob(glob.escape(...)) so
-metacharacters in the directory path are handled literally.
-
-The first copy pipeline keeps the previous failure-tolerant behavior,
-while the symlink fixup pipeline now checks each stage directly. Add
-oeqa tests for normal copying, symlink dereferencing, multiple
--ffile-prefix-map entries, ignored source paths, and externalsrc
+Cover debug source copying, ignored source paths and externalsrc
 relocation.
 
-Anders Heimer (2):
-  package: replace copydebugsources shell pipelines with Popen
-  oeqa/oelib: add copydebugsources tests
+AI-Generated: Claude Opus 4.6
 
- meta/lib/oe/package.py                        |  63 +++--
- meta/lib/oeqa/selftest/cases/oelib/package.py | 220 ++++++++++++++++++
- 2 files changed, 265 insertions(+), 18 deletions(-)
+Signed-off-by: Anders Heimer <anders.heimer@est.tech>
+---
+ meta/lib/oeqa/selftest/cases/oelib/package.py | 239 ++++++++++++++++++
+ 1 file changed, 239 insertions(+)
  create mode 100644 meta/lib/oeqa/selftest/cases/oelib/package.py
 
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/package.py b/meta/lib/oeqa/=
+selftest/cases/oelib/package.py
+new file mode 100644
+index 0000000000..39c7d0661d
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/oelib/package.py
+@@ -0,0 +1,239 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
++
++import os
++import shutil
++import tempfile
++from unittest.case import TestCase
++
++class FakeDataStore:
++    def __init__(self, values):
++        self.values =3D values
++
++    def getVar(self, name):
++        return self.values.get(name)
++
++    def expand(self, value):
++        for name, replacement in self.values.items():
++            value =3D value.replace("${%s}" % name, replacement)
++        return value
++
++class TestCopyDebugSources(TestCase):
++    def setUp(self):
++        for tool in ("sort", "egrep", "fgrep", "sed", "cpio", "find", "mv"=
+):
++            if shutil.which(tool) is None:
++                self.skipTest("Required tool %s not found" % tool)
++
++    def copydebugsources(self, debugsrcdir, sources, d):
++        try:
++            import oe.package
++        except ImportError:
++            self.skipTest("Cannot import oe.package")
++
++        oe.package.copydebugsources(debugsrcdir, sources, d)
++
++    def test_copydebugsources_copies_files_and_dereferences_links(self):
++        with tempfile.TemporaryDirectory(prefix=3D"oe-test-package-") as t=
+mpdir:
++            source_root =3D os.path.join(tmpdir, "source")
++            second_source_root =3D os.path.join(tmpdir, "second-source")
++            workdir =3D os.path.join(tmpdir, "work")
++            pkgd =3D os.path.join(tmpdir, "pkgd")
++            debugsrcdir =3D "/usr/src/debug/testpkg/1.0"
++            second_debugsrcdir =3D "/usr/src/debug/secondpkg/1.0"
++
++            os.makedirs(os.path.join(source_root, "nested"))
++            os.makedirs(second_source_root)
++            os.makedirs(workdir)
++            os.makedirs(pkgd)
++
++            normal =3D os.path.join(source_root, "nested", "normal.c")
++            special =3D os.path.join(source_root, "nested", "name with ; s=
+paces.c")
++            leading_dash =3D os.path.join(source_root, "nested", "-leading=
+-dash.c")
++            target =3D os.path.join(source_root, "nested", "target.c")
++            link =3D os.path.join(source_root, "nested", "link.c")
++            ignored_src =3D os.path.join(source_root, "recipe-sysroot", "i=
+gnored.c")
++            second =3D os.path.join(second_source_root, "second.c")
++
++            with open(normal, "w") as f:
++                f.write("normal\n")
++            with open(special, "w") as f:
++                f.write("special\n")
++            with open(leading_dash, "w") as f:
++                f.write("leading dash\n")
++            with open(target, "w") as f:
++                f.write("target\n")
++            os.symlink("target.c", link)
++            os.makedirs(os.path.dirname(ignored_src))
++            with open(ignored_src, "w") as f:
++                f.write("ignored\n")
++            with open(second, "w") as f:
++                f.write("second\n")
++
++            sources =3D [
++                os.path.join(debugsrcdir, "nested", "normal.c"),
++                os.path.join(debugsrcdir, "nested", "name with ; spaces.c"=
+),
++                os.path.join(debugsrcdir, "nested", "-leading-dash.c"),
++                os.path.join(debugsrcdir, "nested", "link.c"),
++                os.path.join(debugsrcdir, "recipe-sysroot", "ignored.c"),
++                os.path.join(second_debugsrcdir, "second.c"),
++                "<internal>",
++            ]
++            d =3D FakeDataStore({
++                "WORKDIR": workdir,
++                "PKGD": pkgd,
++                "STRIP": "strip",
++                "OBJCOPY": "objcopy",
++                "S": os.path.join(workdir, "source"),
++                "CFLAGS": (
++                    "-ffile-prefix-map=3D%s=3D%s "
++                    "-ffile-prefix-map=3D%s=3D%s"
++                ) % (
++                    source_root,
++                    debugsrcdir,
++                    second_source_root,
++                    second_debugsrcdir,
++                ),
++            })
++
++            self.copydebugsources(debugsrcdir, sources, d)
++
++            copied_normal =3D os.path.join(pkgd, debugsrcdir.lstrip("/"),
++                                         "nested", "normal.c")
++            copied_special =3D os.path.join(pkgd, debugsrcdir.lstrip("/"),
++                                          "nested", "name with ; spaces.c"=
+)
++            copied_leading_dash =3D os.path.join(pkgd, debugsrcdir.lstrip(=
+"/"),
++                                               "nested", "-leading-dash.c"=
+)
++            copied_link =3D os.path.join(pkgd, debugsrcdir.lstrip("/"),
++                                       "nested", "link.c")
++            copied_second =3D os.path.join(pkgd, second_debugsrcdir.lstrip=
+("/"),
++                                         "second.c")
++            ignored =3D os.path.join(pkgd, debugsrcdir.lstrip("/"),
++                                   "recipe-sysroot", "ignored.c")
++
++            with open(copied_normal) as f:
++                self.assertEqual(f.read(), "normal\n")
++            with open(copied_special) as f:
++                self.assertEqual(f.read(), "special\n")
++            with open(copied_leading_dash) as f:
++                self.assertEqual(f.read(), "leading dash\n")
++            with open(copied_link) as f:
++                self.assertEqual(f.read(), "target\n")
++            with open(copied_second) as f:
++                self.assertEqual(f.read(), "second\n")
++            self.assertFalse(os.path.islink(copied_link))
++            self.assertFalse(os.path.exists(ignored))
++
++    def test_copydebugsources_ignores_missing_destroot(self):
++        with tempfile.TemporaryDirectory(prefix=3D"oe-test-package-") as t=
+mpdir:
++            source_root =3D os.path.join(tmpdir, "source")
++            workdir =3D os.path.join(tmpdir, "work")
++            pkgd =3D os.path.join(tmpdir, "pkgd")
++            debugsrcdir =3D "/usr/src/debug/testpkg/1.0"
++            mapped_debugsrcdir =3D os.path.join(debugsrcdir, "mapped")
++
++            os.makedirs(source_root)
++            os.makedirs(workdir)
++            os.makedirs(pkgd)
++
++            sources =3D [
++                os.path.join(mapped_debugsrcdir, "recipe-sysroot", "ignore=
+d.c"),
++                "<internal>",
++                "<built-in>",
++            ]
++            d =3D FakeDataStore({
++                "WORKDIR": workdir,
++                "PKGD": pkgd,
++                "STRIP": "strip",
++                "OBJCOPY": "objcopy",
++                "S": os.path.join(workdir, "source"),
++                "CFLAGS": "-ffile-prefix-map=3D%s=3D%s" % (
++                    source_root,
++                    mapped_debugsrcdir,
++                ),
++            })
++
++            self.copydebugsources(debugsrcdir, sources, d)
++
++            self.assertFalse(os.path.exists(pkgd + mapped_debugsrcdir))
++            self.assertFalse(os.path.exists(pkgd + debugsrcdir))
++
++    def test_copydebugsources_moves_externalsrc_relocation(self):
++        with tempfile.TemporaryDirectory(prefix=3D"oe-test-package-") as t=
+mpdir:
++            source_root =3D os.path.join(tmpdir, "external-[source]")
++            workdir =3D os.path.join(tmpdir, "work")
++            pkgd =3D os.path.join(tmpdir, "pkgd")
++            debugsrcdir =3D "/usr/src/debug/testpkg/1.0"
++
++            os.makedirs(source_root)
++            os.makedirs(workdir)
++            os.makedirs(pkgd)
++
++            source =3D os.path.join(source_root, "real.c")
++            with open(source, "w") as f:
++                f.write("real\n")
++
++            relocation =3D pkgd + debugsrcdir + source_root
++            relocated_name =3D "-relocated with ; spaces.c"
++            os.makedirs(relocation)
++            with open(os.path.join(relocation, relocated_name), "w") as f:
++                f.write("relocated\n")
++
++            sources =3D [os.path.join(debugsrcdir, "real.c")]
++            d =3D FakeDataStore({
++                "WORKDIR": workdir,
++                "PKGD": pkgd,
++                "STRIP": "strip",
++                "OBJCOPY": "objcopy",
++                "S": source_root,
++                "CFLAGS": "-ffile-prefix-map=3D%s=3D%s" % (source_root, de=
+bugsrcdir),
++            })
++
++            self.copydebugsources(debugsrcdir, sources, d)
++
++            copied_source =3D os.path.join(pkgd, debugsrcdir.lstrip("/"), =
+"real.c")
++            moved_source =3D os.path.join(pkgd, debugsrcdir.lstrip("/"), r=
+elocated_name)
++
++            with open(copied_source) as f:
++                self.assertEqual(f.read(), "real\n")
++            with open(moved_source) as f:
++                self.assertEqual(f.read(), "relocated\n")
++            self.assertFalse(os.path.exists(relocation))
++
++    def test_copydebugsources_ignores_empty_externalsrc_relocation(self):
++        with tempfile.TemporaryDirectory(prefix=3D"oe-test-package-") as t=
+mpdir:
++            source_root =3D os.path.join(tmpdir, "external-source")
++            workdir =3D os.path.join(tmpdir, "work")
++            pkgd =3D os.path.join(tmpdir, "pkgd")
++            debugsrcdir =3D "/usr/src/debug/testpkg/1.0"
++
++            os.makedirs(source_root)
++            os.makedirs(workdir)
++            os.makedirs(pkgd)
++
++            source =3D os.path.join(source_root, "real.c")
++            with open(source, "w") as f:
++                f.write("real\n")
++
++            relocation =3D pkgd + debugsrcdir + source_root
++            os.makedirs(relocation)
++
++            sources =3D [os.path.join(debugsrcdir, "real.c")]
++            d =3D FakeDataStore({
++                "WORKDIR": workdir,
++                "PKGD": pkgd,
++                "STRIP": "strip",
++                "OBJCOPY": "objcopy",
++                "S": source_root,
++                "CFLAGS": "-ffile-prefix-map=3D%s=3D%s" % (source_root, de=
+bugsrcdir),
++            })
++
++            self.copydebugsources(debugsrcdir, sources, d)
++
++            copied_source =3D os.path.join(pkgd, debugsrcdir.lstrip("/"), =
+"real.c")
++
++            with open(copied_source) as f:
++                self.assertEqual(f.read(), "real\n")
++            self.assertFalse(os.path.exists(relocation))
 
