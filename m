@@ -1,521 +1,222 @@
-Return-Path: <rs@ti.com>
+Return-Path: <SunilKumar.Dora@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F98CD98E4
-	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 18:26:47 +0000 (UTC)
-Received: from mx0a-0002e601.pphosted.com (mx0a-0002e601.pphosted.com [148.163.150.75])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4637.1781634401429222462
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 234DFCD98E1
+	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 18:49:28 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5133.1781635762921592173
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2026 11:26:41 -0700
+ Tue, 16 Jun 2026 11:49:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=proofpoint-05-2026 header.b=H9lsZ2cY;
- dkim=pass header.i=@ti.com header.s=selector1 header.b=LFz7C2MX;
- spf=pass (domain: ti.com, ip: 148.163.150.75, mailfrom: rs@ti.com)
-Received: from pps.filterd (m0380145.ppops.net [127.0.0.1])
-	by m0380145.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 65GIPHCU3786545;
-	Tue, 16 Jun 2026 13:26:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=proofpoint-05-2026; bh=bAlmfuRrRg7dh
-	I7fkD3sW+tNc1XxJswGII5M7vMi0A0=; b=H9lsZ2cYJ4bt/DWS5VIq2kCXBk0k5
-	01o1ySV5cvShv/fBVnDGznVfAVZ0t8B4uCZLt6wrtwT/e/FMM0ll+WV2ACdH1fFB
-	6ms5zTRAJc/Hb/acG18bm5UDul1PvRc+BsGEnIGJHRqvSm4EJH+t4kiSETRcltDy
-	zEJOLBmZ2mPKmLQMiuO+WKrRXxCeDNtK13ZlGS3+uMGxTUeITew9DxEzVe7zVJbP
-	rG1NpPx9GMJzfw7xzL374R4EslYbjr5426d6IyvcOAV3v7A1UvnWaqhr6yjHCRdg
-	+gRkuMEwYDbeZs7/bXoF5H0tkizOQQwXZwO5jOludDndqpwgrQFQN73Ig==
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010036.outbound.protection.outlook.com [52.101.61.36])
-	by m0380145.ppops.net (PPS) with ESMTPS id 4eu5u3tqyg-1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=m8uyis1F;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=062783b9fa=sunilkumar.dora@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65GIPoD84156295
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 11:49:22 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=hAsm6fQkQ
+	4gRRrloosz/ekv0EDxpgIWc1RoqYHqvdNU=; b=m8uyis1F4jbF2caOTZU9Z53FN
+	8lhEcdl8Zr2Cvkg5YmRL6wU3i+KlaAbFViVYk5RZhOXpje1ZNpsQUVDe8d/lHrWc
+	BEF3U/6IMYInHXkEpXUBib8E72E3V63yiJ7SyIma4/5PgchmTQHNwvglBx0uZaqJ
+	Yxudpol8X5MzeJUNCqp4RFq5R9Vd9+iwGNT01JmVlKqqIggmCG5r2QVL6e1dHUMM
+	oft1JnJyQuk7EVMUu9XuIvOQRayHX5UheMQD6Vi5sUohu7uTXtrzTaVMmPk6zTD5
+	A/77wc3PBHMYxJJrI0NK1Q2NTj6Sz4vgMqglzcvPW+TRUHzPokuc89rcD3rYg==
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010069.outbound.protection.outlook.com [52.101.61.69])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4es2g0dakr-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 16 Jun 2026 13:26:12 -0500 (CDT)
+	Tue, 16 Jun 2026 11:49:21 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GtrL30diFcCIuL6/WHRlb1RHeTOndiTIAdxf2Tiu2rb2dtTsE3V3IuBVdlAPRPSNMNZQomhCr99s3+cQwV9PbOuiYmvHJFxDzfgN+/5ThLZwsLXyGzDZaGUGOzILzPzi0qBFqUJQvhDLOtl+8t6xhr5gX1xane7W6t79fCbSwaNm8vctY8ZRzjxVCgv0bG9OTJv1yvTOwxb2e9aedfOOjw1FWgEma/O/Dg0Bai76CuhZmMCvn7GAc3VHm2lfrc4RhJ2DofMPt5GtGw1vWi8n1r/sfj6WDgbXheAwU9nH/Z6Dnovmrguk4cpnBwmA0qECyjCoXsiAhG8kKWZ5W6au7g==
+ b=W8LvWi/Smwmlov8IKWXRxeVX5zb8KUWPiJIX2IDg/bHxFkMgidwI7LG2DUEYgS5kzUkaXFcV9NyY4v5fgAIVanrrWyqxbrXrW/F88n6ph2HMdBwE58rFOnErlAv3TuCvz6jP2UITs5Bzksb5hGfH9aNBQZfRqP+Av+YHZ2Ia8YA3P9r0oVdwrLtkQHArhHY+XUCNzisLjseqC6apE8MTLI7rMZVP0nxAi5ekVH/OVZjeNQiUsuSTVo3TNCfZ5l86VGoqiA+clRcJkwJsutmTn0Np+1K95HWBpxOTlsFg3yI0nLquwedHGM/rpgQRQWPUqJD6s/EZl2mjzLAUiwBvaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bAlmfuRrRg7dhI7fkD3sW+tNc1XxJswGII5M7vMi0A0=;
- b=li/HlRk25e4jZ8AUaix9q+Vrf/A5crrFyR37Lcm4MJ5wtOjM1DLfKhbZKKGgESZTBeLhnSzBI05hmk8K+tGkcrdgpkr+ftbIluod3R4PfdSH9/AdpwANYbjiQAjl/U+zQUdaKWT7GyL1CDL+aLvcUKidqdB3zYX8iXF2VIgzYfXdoyxEB0aUENxwq9p1196bw8zMYmlQDBZQNHx2i5FK6JiAoS18f5O/+9qfIzSrUa6vILR9UL8jFvGQPqu4bJoMLNWG6MoWPtDXhlEtGkeU0mNq9T76jviHXsSmK/7gXA3H85boTOC6DBF86jZ0Mc+BuzgJV+ciKG7GVAr3sotK1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bAlmfuRrRg7dhI7fkD3sW+tNc1XxJswGII5M7vMi0A0=;
- b=LFz7C2MXX9oslY1G4nDaeMWf/ELykhoqPjslCMdXz6+FaEyfbLEkzDF4RvJvQzC0iOyqSoMguh+EnxUW+sgQmd40JIGal/YGpVQPs/n2pmh7vD8MYEy3xiVkmXgAkvtAOG0Lj1xEUPgn4/J/09HoppWo22cZ1roKPz0wMgd1Dho=
-Received: from SJ0PR05CA0120.namprd05.prod.outlook.com (2603:10b6:a03:334::35)
- by CY8PR10MB6515.namprd10.prod.outlook.com (2603:10b6:930:5d::10) with
+ bh=hAsm6fQkQ4gRRrloosz/ekv0EDxpgIWc1RoqYHqvdNU=;
+ b=hB/pS+wPUZhEXl519kRm36qJOWce7rz3WUX+Kw/ZcrGEKa6EqPrGYjwHP3eiO0Q9gUMK2bomrnTgdAEKw7HksZutEK9oRUKoD5GeD3cBsxxzSawIgiVKM/9jziSdskjvTvEvgtHfgIAom4xwou0G7vhoE810APXcmMtsaxCUPWF9JRCdqp+/12zAfvnin6vzkTYk5/t1gb38yvstKzCAep+Dw6l1z2zovyqCyT12ONVW8lJkqcY/A875U+7kEi3yKTuMUF3wgpeq8d+oGtwgMzI0+5H4MU7JZJVfaXM7cvOwalM8dBOJmEE4kBiYbO34AOd/SwQei2lcEXVE01Fz9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
+ IA4PR11MB9232.namprd11.prod.outlook.com (2603:10b6:208:56e::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Tue, 16 Jun
- 2026 18:26:04 +0000
-Received: from SJ1PEPF000023D3.namprd21.prod.outlook.com
- (2603:10b6:a03:334:cafe::46) by SJ0PR05CA0120.outlook.office365.com
- (2603:10b6:a03:334::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.11 via Frontend Transport; Tue,
- 16 Jun 2026 18:26:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- SJ1PEPF000023D3.mail.protection.outlook.com (10.167.244.68) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.159.0 via Frontend Transport; Tue, 16 Jun 2026 18:26:02 +0000
-Received: from DFLE209.ent.ti.com (10.64.6.67) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 16 Jun
- 2026 13:26:01 -0500
-Received: from DFLE214.ent.ti.com (10.64.6.72) by DFLE209.ent.ti.com
- (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 16 Jun
- 2026 13:26:01 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE214.ent.ti.com
- (10.64.6.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
- Transport; Tue, 16 Jun 2026 13:26:01 -0500
-Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.39])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 65GIQ1Ub020968;
-	Tue, 16 Jun 2026 13:26:01 -0500
-From: <rs@ti.com>
-To: <raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>,
-        <mathieu.dubois-briand@bootlin.com>, <alex@linutronix.de>,
-        <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
-CC: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
-        <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-Subject: [oe-core][PATCHv2] xuser-account: convert to standard-user-account
-Date: Tue, 16 Jun 2026 13:25:53 -0500
-Message-ID: <20260616182553.3046153-1-rs@ti.com>
-X-Mailer: git-send-email 2.54.0
-MIME-Version: 1.0
+ 2026 18:49:18 +0000
+Received: from DS0PR11MB7901.namprd11.prod.outlook.com
+ ([fe80::4293:7c4b:a0b5:eb5f]) by DS0PR11MB7901.namprd11.prod.outlook.com
+ ([fe80::4293:7c4b:a0b5:eb5f%3]) with mapi id 15.21.0113.013; Tue, 16 Jun 2026
+ 18:49:18 +0000
+From: sunilkumar.dora@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Sundeep Kokkonda <sundeep.kokkonda@windriver.com>,
+        Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] clang/llvm: Upgrade to 22.1.8 release
+Date: Tue, 16 Jun 2026 11:49:00 -0700
+Message-ID: <20260616184900.4173394-1-sunilkumar.dora@windriver.com>
+X-Mailer: git-send-email 2.49.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
+X-ClientProxiedBy: SJ0PR13CA0237.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c1::32) To DS0PR11MB7901.namprd11.prod.outlook.com
+ (2603:10b6:8:f4::20)
+MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D3:EE_|CY8PR10MB6515:EE_
-X-MS-Office365-Filtering-Correlation-Id: c55d2f5d-5cce-4b0f-6aaf-08decbd4b887
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|IA4PR11MB9232:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4eaccbd5-ea2d-419c-fe23-08decbd7f8ae
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|23010399003|376014|82310400026|36860700016|20052099010|13003099007|18002099003|6133799003|3023799007|56012099006;
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|23010399003|18002099003|38350700014|3023799007|11063799006|56012099006|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	ULA/1x8xgGPcIbaGfFitPY54eHGOdeA9H2DWkf8ajtNIPYl2oR2JHMaPnKI/9z4Y4wf1QmEyQMaywab2bhS1zZfcPR/iklA8/LWXhVtos/mLCMToFeMaQF0g1N/YPkXHtB4Ef+5Mrzp2vIVh2kJnBmh77Zpnbl33OGBqVl43sSxqwGitc1dnfx0ohlO2KgFAyBgE/YatyVKmOlZS64gxotDvP2lWeqg18xOhfck/dq0myAJQrNRbSr4K1zaKU2IZickRLgiXLSQUkHVCMlJndTOBvES1FcBrUvv3Khm5eUCDLYSya8Y68P0QVBb4jxmu+Puvj9XyVnmxBi+O47iM2jye+Zh4Hsl6NZgstQdYlwfpANBNdxe2P7WEjytK9TrcfXKEdi5i7JA+JUP64L0wyaJxJbCr2+OhEbgPmxg9Q5LnMCi0dsHU5LrIEjGq1WZJhCDnbW5CDi4RBSA3YR86Vk5GEhPeSvgWy+hsM6MsxY2yjflrUkLYIuLQktHzdhPWs3a7k3Mb3rF/bHW6pqjCnTdKl2xw2XAg0ZBlC2Jz2rFZmlVrF6BzMZbuOKluDAdM6lVvSd/UojR3AiPxGUknW/4YJ+5nx9vCG5EH25eYjvZ63ToJXJZKp0PYF3UEd562jHLS97EbxaKu87MMgN5B6WW2L6hvEEBsxNobzSM6aZro0vwfqCcKuyfOMGMVT9Cp
+	1HB8Gauik5uZ7Hx7Hcp8M8ZAUgDnQXCBC63w7lSFRuuCF4fmXb7N9yt2mv2CMWzIq9CAcXkY+7k1Q7w8jv5oO3uPy2WE2F11pI//VM9101lG164yn/ywvBOssl7AgId/yaLCHKILmsXPKG8EM4GI39Mg5Pi20dk13zfiOmmbh5wAIC6YBhvoiao1xjL1Xu2FevG37i59bfsNGMif0iXAyuTbn7KmK2epwWEkDZAI56/UCvLMOU8B/GIIi6IzKeZoDGnUfrhLNxY3Vafql1XTgDpoytTAEkW4cmuXIUftdjPki1s336Qpz8OpaiFvXpTFlFocggLKLT8i2TqvC8zsigQsToFplGJiagoBF+3MxB1pva9PiYUP+IfancQNzCYiNKAxdxDmkt+fMvH8qlCJiPURBmVyCbdqgiljeYru2jp5ZNyUvalhj+1GhP3yV7tV12tb99vmFoPtOm1BAevffT3K2guSjC5vDFcwXmta8w0W+1XQuhVZCe88rzB3f9s46+4tfxV1ghw+0hRWaBg8+kTDvUrApXErCQGC4bfYEvIlFTtPa4RJeznCqk8jlDhh5Qx+JeOoz3zg9uUynzLBlAKqe0M4jzs//VD5kxOMsY4M2OBXIIvUY40Z+HD2qUEjah8jm7Wt3uqTtbU4i2tiuQLOa8xQYa16AhoPeCOjxB8gOw5s4A05nh4R60PTEAb/in50wf0poeARL9c31IB/jGI4807DZjouFofZMO+lwuO8dD/7rTqnzqqIAS5gsvHM
 X-Forefront-Antispam-Report: 
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(82310400026)(36860700016)(20052099010)(13003099007)(18002099003)(6133799003)(3023799007)(56012099006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(23010399003)(18002099003)(38350700014)(3023799007)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	Xy+mTpcImN6MTTQ89h5zQssz1fMaxd1ihTTsgJM8SgYD+p8ueARVgw5XZ0DUbmELkjhSsaw878P6/eP8eTkBoDrHTwj4sRu9cwR5bMOXskIvlYC71ZYO7M/3eY/AZw3zhYHFqX37XjGJJsiU02muUUlAZ03Nt0FANAZlMLGkFgGPg2JVervVlJxyLCnSg0+vK2qOVD27B5cwUBoHCE/LkOzbYvkbJfpY83BIFJmyM0wu5tV71cPw5YKFrOPausmm85spQfKkrCzU9etZJbzzdkAmWwP3SZZfQ1GeK1HSn0KTMJEILOyHxHcqU3d/QnuGP0bgMQJl85NGsf4sLWjF6yGQeAiPlL/GXYSNC1/3q1ap6A062NmRLdbhDLa3hMri7mZIWWU/XHHalCkER8GjZDtcD8K4yBt6Bnuk5hwudlrOig3s9pVoDWTHfstbWx/w
+	=?us-ascii?Q?elKuXm9VCN2Yh71XHMxZoCxS5xVK+QHyCQRwvBUz0DQRW05TYVgSJezsW9YC?=
+ =?us-ascii?Q?AsrPppAGVip+sAmKR8G6Ega1Jfxq49AwQWVJ/3r3TSFiuhbiNmyRdtlXAjNx?=
+ =?us-ascii?Q?cFsLWh4/d1svGXeqDfKXf15Z+8+/rfhhaJqFhwY/tbgTm0rUYOE+v/z+dZ2V?=
+ =?us-ascii?Q?nQOp/kCAiu9kwQg2rBwk7Ytv42QPnRsgQYQ2M+4p4CxkjY5jKbJuNBD//Lem?=
+ =?us-ascii?Q?vNnxQkCRdijsWfIV9JWRPRXpSahbPcVFJbk+MLecqwQAX6IU8QPaRUaSL4aQ?=
+ =?us-ascii?Q?G9OycP012FmQSXgf6telQ04In5v3vaCgikpHYfaz1zB0X8VaSxC/9ES6aVjB?=
+ =?us-ascii?Q?jwbF0TvEmT0GgQP49Z3Qmt2K5CJE4N7+K/+Zo9HJ3rD0nGtO4zaZDlbA9ikC?=
+ =?us-ascii?Q?i3s07P7tKlqg+hTLI5OMfGNPa4sv5E5++4G07EN4vJs3RsRDcX275TeAGjp3?=
+ =?us-ascii?Q?HrkzN8wumXpw4s9ieEAasBIS4S+ZAk7CpmC/0Ek6J8GcQGW4Z8Pw8bn8LmAg?=
+ =?us-ascii?Q?lMGT+RyvGLCtv5sctIYJiKzE+oA609pUmQIwXrTp6ItrmrMDyic6Wj0b2wHz?=
+ =?us-ascii?Q?HU89OCIsw62t33N5I9KYl/ywtJC9T0s9veBPVeaYGPAlhX0IiCRSAQRHE1zd?=
+ =?us-ascii?Q?ZfRoq6Ch1QGGj4X04dsWldZVS84irk0002DrgjxQ3fzouEAIUVNjhLNEYa2A?=
+ =?us-ascii?Q?1wlOAfR3vSjxiy2nZ38rpnSEZZwGbTcMzpYtiMqusx0ZCukgWb6QqLi3iKW/?=
+ =?us-ascii?Q?op7h10ZyxIAoYR4wlid/khIfb+WLeBXWJWllcED26/6+mZ23EsZK6/g2qWcd?=
+ =?us-ascii?Q?44cDifRwtNPmPi/JRkHP7G7J4IcnONJZ3OHQkMHJZNe/WWli9DECm0qA8E3r?=
+ =?us-ascii?Q?pyZLZAoTXaoMHdLh26iBASIWnntOAZq5S49H8VbtYzUc15VYLL7wIbnA7Cbt?=
+ =?us-ascii?Q?vpXZmCeleIxAqOrdPHg5DIR7XDCtfQTvKpXPa/qgK+YkZZPrBb1iVdtHaGiM?=
+ =?us-ascii?Q?q7IX6dRnuI7ufQa4vlv3dT7pFA/rvFwtC4BckaAia6RojNLXj5Xdi4ZUMyYI?=
+ =?us-ascii?Q?3+fIN8aKpowonA6hndZSSf6Q18bk19e+McBeVOd7bHZplF1W+3KDTy8uxEGD?=
+ =?us-ascii?Q?eDIP0hGUzkwgiY94pm6HSN+LSL96tf9p/9l7Kpm3d7u6xzc4DNEMEDhFoNTm?=
+ =?us-ascii?Q?FPXbwFUG8MhCj3GzVRJQi+G2HAVgNX6ZejX5onA89L2A/s9wO0fnOOdv25w1?=
+ =?us-ascii?Q?e6Qis5QIPkDZDiHZwuyu5CxcWqbDIcWFO+G9zVHipmu7tALxyTRqNhRgO4uI?=
+ =?us-ascii?Q?Z5firYzxxU8Z46YyTuy2UtpCJt3LejS4Z7gcZl+kAwSGaqMnRA7lw/LtkhR1?=
+ =?us-ascii?Q?HnNt0WNuQuKZ6dHy8h7NX9NnNdJwAYR0BFHPQhKLAnHJR6sR8qMJ3EHHGHjw?=
+ =?us-ascii?Q?0gySdU1kbwzCKY91HtHAaOns4aROSJ9e/hprQ9ZitYN9+a79vOFbUUTTbh99?=
+ =?us-ascii?Q?vi+20iF1nrAid+hvRSr/6WLT51k2UBitZWQkvyMson3aLlhiGN/DUkMRBjgb?=
+ =?us-ascii?Q?KgcvHeu7lcSpIoIPkJuTF9CzkUz9R0elf4RgDY3k3m+kixx5/uT3MRf3y6Pu?=
+ =?us-ascii?Q?lGkuvHj1yT2cJoKMCG+QtwUMiiv9wkD+A8pPUfDVjvCna0k06PJrjJ6dJAN5?=
+ =?us-ascii?Q?0/thlity0w33NPyAw/ht1s0OmppEdDkFKIHtSWQED4HLy+9Y8Kgx5QA5mMB5?=
+ =?us-ascii?Q?k91YPxA7ZScPcEpJlEerEYwl4JCjdVU=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	LjW3+A0cd0L3JU/hYAesXrJoazus5HKSbcjSoYchge6TtYR8DUIL0rvFg9GkRiza58mh6b5qjXckqkylgi02Q/+nuacN+RQhFoL3u8DLhj6XM+8OME50tsk0nRdR4Y9nsIy0lxdzvkfP5KINbUA3qNbK4B41vQbbCB3SDi5UpBJkTFVFZAAacZdumOLLJLHM5yZ+NaX8INoOr/OEMfigTcF4QSbq9epBU+mA413UYLZqeRRy8NIJJV36yydHNNDQoRIzFdwGZg3Jk9cdy7gQw7ZQX9La9/agtniD1uu0427iNNaRZA19DSOw/Gzgwj5W7PWxH+Wq42pdO8ba4WrgKA==
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 18:26:02.0852
+	tI9h6PrtwHg43rFgGqKtWlRWyFVsevfDEOrrFEKuQGszay3q7K/Oc2liSXB+iIo0/YoUlMgIl8hord2WZgoLJ0GzuzaDt2DaK57k19hRtCgxdo+ku3S2lWjvvj6aQOE4Ih2k35ji03X2WG7BAuumu0IQrFnk/E2izqpGI9aVzaSMME/BWk8Sx4K9sZWVJjrSymKVorScoQMOimmu1y3VQNP3RFxORStxAXmoxKcP1qtgah/UHyXv/Jnk+oZbiDy22BQyFVBUWStWMa51Lzz6Xw/ayQGyY4n9uwqyNO7w694x+saoQ5pPbTUU0tXrevNKmAQpbutWAkpgHH8GPddROA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4eaccbd5-ea2d-419c-fe23-08decbd7f8ae
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 18:49:18.5484
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c55d2f5d-5cce-4b0f-6aaf-08decbd4b887
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SJ1PEPF000023D3.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB6515
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE2MDE4OCBTYWx0ZWRfX/ZbK84BTOH/Y
- 5DWzj0LtrXi+vVT0uLR/cfcyPcCPvUqiLKuAvH1jxhQiPKpbnhEjJdjdhqr1HrBsyi/zKSn65Vx
- dFwhS2JlTA2SLkjNjim5MRVBI6ATVZ0Nr0bu42BRJ9Wrp+OgAJLIARQcREAyv8/wSzjmG2EbVOy
- ebIIjlZNmyFWXzlbM4o5pwpftMaNEmB0AD1cF3R0YF1dYbFokIGA77T4gurO2ItISleXZ/rq+xb
- 8i7vRwxS+LnDihtOsKRmtXq189ib++Bv+PXepRS4pdmUi3bFH3+lbo65rjfnyWngg1VtE9krK2T
- ru9EBQTvHUq/LPaMy+Y8/lIx9Jz8gIqn/u2vRgtYzLmixCNXM23IPSbiRPgPkJMpr5b3fHWROy4
- lgJ9baLsf6MjhPg2TgYFUN5rgMSx0qrpvrp6Xz2AMUeOlTb8T2ViThyX4wz7ILyZDmCSzbOrs/i
- nDSW5dyzAzjB3ee5erA==
-X-Proofpoint-GUID: 4bxUwHDZ-O7eejUWfltfkoy6ZfhgOtdS
-X-Proofpoint-ORIG-GUID: 4bxUwHDZ-O7eejUWfltfkoy6ZfhgOtdS
-X-Authority-Analysis: v=2.4 cv=ObWoyBTY c=1 sm=1 tr=0 ts=6a319544 cx=c_pps
- a=DYOzx0NG23oKzpQZkEOi/Q==:117 a=tJyPKKxUohctrY4NYmUjkA==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=FelO9ux0wxsA:10 a=V5UXEbMT0ywA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22 a=gO1vWkAQAl3rybz1DQOp:22
- a=Q4-j1AaZAAAA:8 a=iGHA9ds3AAAA:8 a=e5mUnYsNAAAA:8 a=sozttTNsAAAA:8
- a=pGLkceISAAAA:8 a=t7CeM3EgAAAA:8 a=ag1SF4gXAAAA:8 a=elOnJ-Ta_YVN36Tj1KAA:9
- a=LcK1uM26-OYnV89J:21 a=9H3Qd4_ONW2Ztcrla5EB:22 a=nM-MV4yxpKKO9kiQg6Ot:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=FdTzh2GWekK77mhwV6Dw:22 a=Yupwre4RP9_Eg_Bd0iYG:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE2MDE4OCBTYWx0ZWRfX5z4dsx+lQWcP
- ySI8OURCcCr7ZnkANbCAm6nvwL2Gnk8V0Vtf5dq1/MEtc8608AhizuprV+i1mHzvYZWTCRZWlFH
- Nf3+tZvp46dPRbw9JQgmt9KOjUcsI5w=
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CCSwZFVJBfaEdAn2FYCUQPhngVpM7RJAE43i4gO/Rtrz0n/Do/huO+GUwuJADrD+E6v8FPNiHZJD7+ZN0tCn6mfcSObRtPOEMMU5R8qvMQo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9232
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=ZJ/nX37b c=1 sm=1 tr=0 ts=6a319ab2 cx=c_pps
+ a=wsTBi80DslKxnI1CMYi+3A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=Twlkf-z8AAAA:8
+ a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=iGHA9ds3AAAA:8
+ a=aEUX_xsEGcrXPexDdrcA:9 a=-74SuR6ZdpOK_LpdRCUo:22 a=FdTzh2GWekK77mhwV6Dw:22
+ a=nM-MV4yxpKKO9kiQg6Ot:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE2MDE5MSBTYWx0ZWRfXzW935D3sVrqw
+ EkAGtd9Jxv0VTAv7Hp24Rk4m37oz5zaMDGbzrjQZyd8ehrgom9Kn1HVcP0CwA5rNiaV9Jz5+LC4
+ 476zMo0pasOIorWySk/UXV78rj5f/xxWCVjWWh/QXH29iPPbCkvey7VzVB9otqO/xliWZacVeIu
+ GoxO4YuNm4Oj5wC+F6NDVlTdHww2md0mV0x8D0uacIAYPg/ymOSTJte6FxW+J0UaKy3Ali4j8AY
+ xDxK9qcfd1/DMmWK63Jd2IvMTwuP32bxyc+jspuc0z/JwH3bYvlwKun1Lc/SQd7+9fdwudfmmCC
+ wv21EDNBm9hO8yxlcqkfTXEtvfe5TwVjLif42HtIyjjXmVULsQH0zjCgEw1XFGCpGmcZj4ZXCXi
+ ZVylijsdUyPxpnIl4+dosrl0w+Nj5Dnw32UaT9ZaMY7cP6g5urCZG8mCLi0TpuhkJq/KR/l8b/P
+ sr/NZ9LwjAhdxl10yXQ==
+X-Proofpoint-ORIG-GUID: pXRTdO0Dldj0j1qP1Jl7_i_u0h7UvFCC
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE2MDE5MSBTYWx0ZWRfX8s7P1ghQveHM
+ QuzkBWblsD70/XAUUC8FXB8OvZ8nbAYftm/IczM4dWnc8CeKzY3PofHg4sZ2y86JPwm4RnZbamo
+ lfpe/aimwJtpGhTWzDzuG3MmfmNO/ti1hYM1O5p9ZVjitD5FGLkj
+X-Proofpoint-GUID: 4FieVD31MmD1FUOWcg-5-pyBtC7gE8CY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-16_05,2026-06-16_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
- clxscore=1011 malwarescore=0 priorityscore=1501 phishscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606040000 definitions=main-2606160188
+ malwarescore=0 adultscore=0 priorityscore=1501 clxscore=1015
+ lowpriorityscore=0 suspectscore=0 spamscore=0 bulkscore=0 impostorscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606040000
+ definitions=main-2606160191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 18:26:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238924
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 18:49:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238925
 
-From: Randolph Sapp <rs@ti.com>
+From: Sunil Dora <sunilkumar.dora@windriver.com>
 
-Change this single xuser account template into a generic
-standard-user-account that uses distro level variables for
-configuration.
+https://discourse.llvm.org/t/llvm-22-1-8-released/91084
 
-This allows for seamless configuration of multiple out-of-box scripts
-and tests across layers without having to implicitly hope that the
-username or groups haven't been changed by a bbappend or recipe
-override.
+Brings following fixes:
+ca7933e47d3a [libc++] Disable mistakenly enabled `optional<T&>` constructors for `optional<T>` (#194446)
+208ef916cf20 [WebAssembly] narrow instructions use signed saturation (#201798)
+e80beda6e255 [VPlan] Account for any-of costs in legacy cost model
+3397c37d5d31 Inline stack probes immediately after `allocateStack` in `eliminateCallFramePseudoInstr` (#195456)
+1f5aee55a3fc [DAG] Narrow vselect mask to vXi1 in foldToMaskedStore (#201609)
+070e505ce21d [LLD][ELF] Add missing initialization of Symbol `used` member.
+761b9134dd9b [BPF] treat compiler fence as codegen no-op (#196734)
+724301d98c6e Fix "Cannot select" crash on bitcast between f64 and int vector types (#201509)
+60c18c6aeaed [CMake][Release] Use llvm-bitcode-strip on Darwin for build with -ffat-lto-objects (#200764)
+b65aa9b5ea8d [Clang] Profile the NNS of UnresolvedUsingType and CXXThisType correctly in concept hashing (#199617)
+b4fe3880d09b Bump version to 22.1.8
 
-This also adds a class and a variable to allow recipes to assert that
-the user is in requested groups.
-
-This was proposed specifically to remove some issues highlighted in:
-https://lists.openembedded.org/g/openembedded-core/message/230665
-
-Signed-off-by: Randolph Sapp <rs@ti.com>
+Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 ---
-v2:
-	- Add seat to the default STANDARD_USER_SYSTEM_GROUPS var
----
- meta-selftest/files/static-group              |  3 +-
- meta-selftest/files/static-passwd             |  3 +-
- meta/classes-recipe/standard-user.bbclass     | 26 +++++++++++
- .../distro/include/default-distrovars.inc     | 12 +++++
- meta/conf/distro/include/maintainers.inc      |  2 +-
- meta/conf/documentation.conf                  |  4 ++
- meta/recipes-graphics/wayland/weston-init.bb  | 12 ++---
- .../x11-common/xserver-nodm-init_3.0.bb       |  8 ++--
- .../{system-xuser.conf => system-user.conf}   |  2 +-
- .../standard-user-account_0.1.bb              | 46 +++++++++++++++++++
- .../user-creation/xuser-account_0.1.bb        | 30 ------------
- scripts/sstate-sysroot-cruft.sh               |  6 +--
- 12 files changed, 105 insertions(+), 49 deletions(-)
- create mode 100644 meta/classes-recipe/standard-user.bbclass
- rename meta/recipes-support/user-creation/files/{system-xuser.conf => system-user.conf} (90%)
- create mode 100644 meta/recipes-support/user-creation/standard-user-account_0.1.bb
- delete mode 100644 meta/recipes-support/user-creation/xuser-account_0.1.bb
+ meta/conf/distro/include/maintainers.inc     | 2 +-
+ meta/recipes-devtools/clang/common-clang.inc | 2 +-
+ meta/recipes-devtools/clang/common.inc       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta-selftest/files/static-group b/meta-selftest/files/static-group
-index 6a9ece20a8..9ef91bbdca 100644
---- a/meta-selftest/files/static-group
-+++ b/meta-selftest/files/static-group
-@@ -20,12 +20,11 @@ pulse:x:520:
- bind:x:521:
- builder:x:522:
- weston-launch:x:524:
--weston:x:525:
- wayland:x:526:
- render:x:527:
- sgx:x:528:
- ptest:x:529:
--xuser:x:530:
-+user:x:530:
- seat:x:531:
- audio:x:532:
- empower:x:533:
-diff --git a/meta-selftest/files/static-passwd b/meta-selftest/files/static-passwd
-index 98017c8153..cddf095ff2 100644
---- a/meta-selftest/files/static-passwd
-+++ b/meta-selftest/files/static-passwd
-@@ -16,8 +16,7 @@ pulse:x:520:520::/:/bin/nologin
- bind:x:521:521::/:/bin/nologin
- builder:x:522:522::/:/bin/nologin
- _apt:x:523:523::/:/bin/nologin
--weston:x:525:525::/:/bin/nologin
- ptest:x:529:529::/:/bin/nologin
--xuser:x:530:530::/:/bin/nologin
-+user:x:530:530::/:/bin/nologin
- cmake-example:x:534:534::/var/lib/cmake-example:/bin/false
- meson-example:x:535:535::/var/lib/meson-example:/bin/false
-diff --git a/meta/classes-recipe/standard-user.bbclass b/meta/classes-recipe/standard-user.bbclass
-new file mode 100644
-index 0000000000..ff931b8092
---- /dev/null
-+++ b/meta/classes-recipe/standard-user.bbclass
-@@ -0,0 +1,26 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+STANDARD_USER_PACKAGES ?= "${PN}"
-+REQUIRED_STANDARD_USER_GROUPS ?= ""
-+
-+python __anonymous() {
-+    d.appendVar("DEPENDS", " standard-user-account")
-+
-+    for pkg in d.getVar('STANDARD_USER_PACKAGES').split():
-+        d.appendVar("RDEPENDS:" + pkg, " standard-user-account")
-+
-+    active_groups = set(d.getVar('STANDARD_USER_GROUPS').split())
-+    active_groups.update(d.getVar('STANDARD_USER_SYSTEM_GROUPS').split())
-+    required_groups = set(d.getVar('REQUIRED_STANDARD_USER_GROUPS').split())
-+
-+    if not required_groups.issubset(active_groups):
-+        raise bb.parse.SkipRecipe(
-+            "one of '%s' needs to be in STANDARD_USER_GROUPS or "
-+            "STANDARD_USER_SYSTEM_GROUPS"
-+            % ' '.join(required_groups)
-+        )
-+}
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 69c6db589b..50feb066b6 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -66,3 +66,15 @@ KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
- # the variable to be empty.
- # Git example url: git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=master;branch=master
- CONNECTIVITY_CHECK_URIS ?= "https://www.yoctoproject.org/connectivity.html"
-+
-+# The STANDARD_USER_NAME is the default underprivileged user account name.
-+# The STANDARD_USER_GROUPS is a space delimited list of user groups that account
-+# should belong to, and STANDARD_USER_SYSTEM_GROUPS is the same but for system
-+# groups.
-+#
-+# Please take note that not all tooling currently supports changing these
-+# variables. Scripts like sstate-sysroot-cruft.sh and reproducible builds expect
-+# these values to be the defaults listed below.
-+STANDARD_USER_NAME ??= "user"
-+STANDARD_USER_GROUPS ??= ""
-+STANDARD_USER_SYSTEM_GROUPS ??= "video render tty audio input shutdown disk wayland seat"
 diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 86048e791c..76db73a462 100644
+index 86048e791c..1458af3681 100644
 --- a/meta/conf/distro/include/maintainers.inc
 +++ b/meta/conf/distro/include/maintainers.inc
-@@ -815,6 +815,7 @@ RECIPE_MAINTAINER:pn-spirv-tools = "Jose Quaresma <quaresma.jose@gmail.com>"
- RECIPE_MAINTAINER:pn-sqlite3 = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-squashfs-tools = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-ssh-pregen-hostkeys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-+RECIPE_MAINTAINER:pn-standard-user-account = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-startup-notification = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-strace = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-stress-ng = "Unassigned <unassigned@yoctoproject.org>"
-@@ -941,7 +942,6 @@ RECIPE_MAINTAINER:pn-xserver-xf86-config = "Unassigned <unassigned@yoctoproject.
- RECIPE_MAINTAINER:pn-xserver-xorg = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xset = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xtrans = "Unassigned <unassigned@yoctoproject.org>"
--RECIPE_MAINTAINER:pn-xuser-account = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xvinfo = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xwayland = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-xwininfo = "Unassigned <unassigned@yoctoproject.org>"
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 842cf31739..8701e001d6 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -346,6 +346,7 @@ RDEPENDS[doc] = "Lists a package's runtime dependencies (i.e. other packages) th
- REQUIRED_COMBINED_FEATURES[doc] = "When a recipe inherits the features_check class, all items in this variable must be included in COMBINED_FEATURES."
- REQUIRED_DISTRO_FEATURES[doc] = "When a recipe inherits the features_check class, all items in this variable must be included in DISTRO_FEATURES."
- REQUIRED_MACHINE_FEATURES[doc] = "When a recipe inherits the features_check class, all items in this variable must be included in MACHINE_FEATURES."
-+REQUIRED_STANDARD_USER_GROUPS[doc] = "When a recipe inherits the standard-user class, all items in this variable must be included in STANDARD_USER_GROUPS or STANDARD_USER_SYSTEM_GROUPS."
- RM_WORK_EXCLUDE[doc] = "With rm_work enabled, this variable specifies a list of packages whose work directories should not be removed."
- ROOTFS[doc] = "Indicates a filesystem image to include as the root filesystem."
- ROOTFS_POSTPROCESS_COMMAND[doc] = "Added by classes to run post processing commands once the OpenEmbedded build system has created the root filesystem."
-@@ -388,6 +389,9 @@ SSTATE_MIRRORS[doc] = "Configures the OpenEmbedded build system to search other
- STAGING_KERNEL_DIR[doc] = "The directory with kernel headers that are required to build out-of-tree modules."
- STAMP[doc] = "Specifies the base path used to create recipe stamp files. The path to an actual stamp file is constructed by evaluating this string and then appending additional information."
- STAMPS_DIR[doc] = "Specifies the base directory in which the OpenEmbedded build system places stamps."
-+STANDARD_USER_GROUPS[doc] = "Specifies the default underprivileged user's groups."
-+STANDARD_USER_NAME[doc] = "Specifies the default underprivileged user's account name."
-+STANDARD_USER_SYSTEM_GROUPS[doc] = "Specifies the default underprivileged user's system groups."
- SUMMARY[doc] = "The short (80 characters or less) summary of the binary package for packaging systems such as opkg, rpm or dpkg. By default, SUMMARY is used to define the DESCRIPTION variable if DESCRIPTION is not set in the recipe."
- SYSLINUX_DEFAULT_CONSOLE[doc] = "Specifies the kernel boot default console."
- SYSLINUX_OPTS[doc] = "Lists additional options to add to the syslinux file."
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index 29cfba0833..feecda7c83 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -26,8 +26,8 @@ PACKAGECONFIG[use-pixman] = ",,"
+@@ -482,7 +482,7 @@ RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.co
+ RECIPE_MAINTAINER:pn-lld = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-lldb = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-llvm = "Khem Raj <raj.khem@gmail.com>"
+-RECIPE_MAINTAINER:pn-llvm-project-source-22.1.7 = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER:pn-llvm-project-source-22.1.8 = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-llvm-tblgen-native = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-log4cplus = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
+diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
+index 1dd7903f32..ed628008e0 100644
+--- a/meta/recipes-devtools/clang/common-clang.inc
++++ b/meta/recipes-devtools/clang/common-clang.inc
+@@ -5,7 +5,7 @@ LLVM_HTTP ?= "https://github.com/llvm"
  
- DEFAULTBACKEND ??= ""
- DEFAULTBACKEND:qemuall ?= "drm"
--WESTON_USER ??= "weston"
--WESTON_USER_HOME ??= "/home/${WESTON_USER}"
-+WESTON_USER = "${STANDARD_USER_NAME}"
-+WESTON_USER_HOME = "/home/${WESTON_USER}"
+ MAJOR_VER = "22"
+ MINOR_VER = "1"
+-PATCH_VER = "7"
++PATCH_VER = "8"
+ # could be 'rcX' or 'git' or empty ( for release )
+ VER_SUFFIX = ""
  
- do_install() {
- 	# Install weston-start script
-@@ -83,14 +83,14 @@ do_install() {
+diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
+index 3e171624e1..441ea099a9 100644
+--- a/meta/recipes-devtools/clang/common.inc
++++ b/meta/recipes-devtools/clang/common.inc
+@@ -17,7 +17,7 @@ BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}${VER_SUFFI
+ UPSTREAM_CHECK_URI = "${LLVM_HTTP}/llvm-project/releases/"
+ UPSTREAM_CHECK_REGEX = "releases/tag/llvmorg-?(?P<pver>\d+(\.\d+)+)"
+ SOURCEDIR ?= "llvm-project-${PV}${VER_SUFFIX}.src"
+-SRC_URI[sha256sum] = "5cc4a3f12bba50b6bdfb4b61bdc852117a0ff2517807c3902fc13267fb93562e"
++SRC_URI[sha256sum] = "922f1817a0df7b1489272d18134ee0087a8b068828f87ac63b9861b1a9965888"
  
- INHIBIT_UPDATERCD_BBCLASS = "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1', '', d)}"
- 
--inherit update-rc.d systemd useradd
--
--USERADD_PACKAGES = "${PN}"
-+inherit update-rc.d systemd standard-user
- 
- # rdepends on weston which depends on virtual/egl
- #
- require ${THISDIR}/required-distro-features.inc
- 
-+REQUIRED_STANDARD_USER_GROUPS = "video input render seat wayland"
-+
- RDEPENDS:${PN} = "weston kbd ${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'weston-xwayland', '', d)}"
- 
- INITSCRIPT_NAME = "weston"
-@@ -109,5 +109,3 @@ FILES:${PN} += "\
- CONFFILES:${PN} += "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/default/weston"
- 
- SYSTEMD_SERVICE:${PN} = "weston.service weston.socket"
--USERADD_PARAM:${PN} = "--home ${WESTON_USER_HOME} --shell /bin/sh --user-group -G video,input,render,seat,wayland ${WESTON_USER}"
--GROUPADD_PARAM:${PN} = "-r wayland; -r render; -r seat"
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-index 169269eefb..4b8f7ff7b2 100644
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-@@ -18,7 +18,9 @@ S = "${UNPACKDIR}"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- inherit update-rc.d systemd features_check
-+inherit_defer ${@oe.utils.conditional('ROOTLESS_X', '1', 'standard-user', '', d)}
- 
-+REQUIRED_STANDARD_USER_GROUPS = "video tty audio input shutdown disk"
- REQUIRED_DISTRO_FEATURES = "x11 ${@oe.utils.conditional('ROOTLESS_X', '1', 'pam', '', d)}"
- 
- PACKAGECONFIG ??= "blank"
-@@ -38,8 +40,8 @@ do_install() {
-     BLANK_ARGS="${@bb.utils.contains('PACKAGECONFIG', 'blank', '', '-s 0 -dpms', d)}"
-     NO_CURSOR_ARG="${@bb.utils.contains('PACKAGECONFIG', 'nocursor', '-nocursor', '', d)}"
-     if [ "${ROOTLESS_X}" = "1" ] ; then
--        XUSER_HOME="/home/xuser"
--        XUSER="xuser"
-+        XUSER_HOME="/home/${STANDARD_USER_NAME}"
-+        XUSER="${STANDARD_USER_NAME}"
-         install -D capability.conf ${D}${sysconfdir}/security/capability.conf
-         sed -i "s:@USER@:${XUSER}:" ${D}${sysconfdir}/security/capability.conf
-     else
-@@ -62,7 +64,7 @@ do_install() {
-     fi
- }
- 
--RDEPENDS:${PN} = "xinit ${@oe.utils.conditional('ROOTLESS_X', '1', 'xuser-account libcap libcap-bin', '', d)}"
-+RDEPENDS:${PN} = "xinit ${@oe.utils.conditional('ROOTLESS_X', '1', 'libcap libcap-bin', '', d)}"
- 
- INITSCRIPT_NAME = "xserver-nodm"
- INITSCRIPT_PARAMS = "start 9 5 . stop 20 0 1 2 3 6 ."
-diff --git a/meta/recipes-support/user-creation/files/system-xuser.conf b/meta/recipes-support/user-creation/files/system-user.conf
-similarity index 90%
-rename from meta/recipes-support/user-creation/files/system-xuser.conf
-rename to meta/recipes-support/user-creation/files/system-user.conf
-index d42e3d1f50..7e94a1c938 100644
---- a/meta/recipes-support/user-creation/files/system-xuser.conf
-+++ b/meta/recipes-support/user-creation/files/system-user.conf
-@@ -1,7 +1,7 @@
- <!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
-  "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
- <busconfig>
--    <policy user="xuser">
-+    <policy user="@STANDARD_USER_NAME@">
-         <allow send_destination="net.connman"/>
-         <allow send_destination="net.connman.vpn"/>
-         <allow send_destination="org.ofono"/>
-diff --git a/meta/recipes-support/user-creation/standard-user-account_0.1.bb b/meta/recipes-support/user-creation/standard-user-account_0.1.bb
-new file mode 100644
-index 0000000000..558f1c70da
---- /dev/null
-+++ b/meta/recipes-support/user-creation/standard-user-account_0.1.bb
-@@ -0,0 +1,46 @@
-+SUMMARY = "Creates a standard user account"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+SRC_URI = "file://system-user.conf"
-+
-+inherit allarch useradd
-+
-+S = "${UNPACKDIR}"
-+
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+
-+COMMON_ARGS = "--create-home --user-group"
-+
-+python __anonymous() {
-+    common_args = d.getVar("COMMON_ARGS") or ""
-+    user = d.getVar("STANDARD_USER_NAME") or ""
-+    pn = d.getVar("PN") or ""
-+
-+    unique_groups = sorted(set((d.getVar("STANDARD_USER_GROUPS") or "").split()))
-+    unique_system_groups = sorted(set((d.getVar("STANDARD_USER_SYSTEM_GROUPS") or "").split()))
-+
-+    if unique_groups or unique_system_groups:
-+        joined_groups = ','.join(unique_groups + unique_system_groups)
-+        d.setVar(f"USERADD_PARAM:{pn}", f"{common_args} --groups {joined_groups} {user}")
-+
-+        # make sure all the groups exist
-+        groupadd_str = ""
-+        for group in unique_groups:
-+            groupadd_str += f" {group} ;"
-+        for group in unique_system_groups:
-+            groupadd_str += f" --system {group} ;"
-+        d.setVar(f"GROUPADD_PARAM:{pn}", f"{groupadd_str}")
-+}
-+
-+# default case, and a requirement to satisfy the parser check
-+USERADD_PACKAGES = "${PN}"
-+USERADD_PARAM:${PN} = "${COMMON_ARGS} ${STANDARD_USER_NAME}"
-+
-+do_install () {
-+	install -D -m 0644 ${UNPACKDIR}/system-user.conf ${D}${datadir}/dbus-1/system.d/system-user.conf
-+	sed -i -e 's|@STANDARD_USER_NAME@|${STANDARD_USER_NAME}|g' ${D}${datadir}/dbus-1/system.d/system-user.conf
-+}
-+
-+FILES:${PN} = "${datadir}/dbus-1/system.d/system-user.conf"
-diff --git a/meta/recipes-support/user-creation/xuser-account_0.1.bb b/meta/recipes-support/user-creation/xuser-account_0.1.bb
-deleted file mode 100644
-index 04f506e7a3..0000000000
---- a/meta/recipes-support/user-creation/xuser-account_0.1.bb
-+++ /dev/null
-@@ -1,30 +0,0 @@
--SUMMARY = "Creates an 'xuser' account used for running X11"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--
--SRC_URI = "file://system-xuser.conf"
--
--inherit allarch useradd
--
--S = "${UNPACKDIR}"
--
--do_configure() {
--    :
--}
--
--do_compile() {
--    :
--}
--
--do_install() {
--    install -D -m 0644 ${UNPACKDIR}/system-xuser.conf ${D}${sysconfdir}/dbus-1/system.d/system-xuser.conf
--}
--
--FILES:${PN} = "${sysconfdir}/dbus-1/system.d/system-xuser.conf"
--
--USERADD_PACKAGES = "${PN}"
--USERADD_PARAM:${PN} = "--create-home \
--                       --groups video,tty,audio,input,shutdown,disk \
--                       --user-group xuser"
--
--ALLOW_EMPTY:${PN} = "1"
-diff --git a/scripts/sstate-sysroot-cruft.sh b/scripts/sstate-sysroot-cruft.sh
-index b2002badfb..5e1ae9c535 100755
---- a/scripts/sstate-sysroot-cruft.sh
-+++ b/scripts/sstate-sysroot-cruft.sh
-@@ -127,9 +127,9 @@ WHITELIST="${WHITELIST} \
- # generated by useradd.bbclass
- WHITELIST="${WHITELIST} \
-   [^/]*/home \
--  [^/]*/home/xuser \
--  [^/]*/home/xuser/.bashrc \
--  [^/]*/home/xuser/.profile \
-+  [^/]*/home/user \
-+  [^/]*/home/user/.bashrc \
-+  [^/]*/home/user/.profile \
-   [^/]*/home/builder \
-   [^/]*/home/builder/.bashrc \
-   [^/]*/home/builder/.profile \
+ SRC_URI = "\
+     ${BASEURI} \
 -- 
-2.54.0
+2.49.0
 
 
