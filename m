@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB8DCD98EE
-	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 19:17:10 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5798.1781637421155858334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB5A0CD98E1
+	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 19:17:20 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5805.1781637432451979826
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2026 12:17:01 -0700
+ Tue, 16 Jun 2026 12:17:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=BELqc6lz;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4921e4dd62dso1750405e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 12:17:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=pjQyh+ft;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so32716585e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 12:17:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781637419; x=1782242219; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1781637431; x=1782242231; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1obVJ7Uhl7kuQbLbYUUpKrkAypDjTa/M5dlf+CwtBZY=;
-        b=BELqc6lzgyXmd1uzFRaStYTN0N5jUT/cP7UREp5HS/NaSsh13TfjOTRNPiftLCpo7+
-         80Q8mP4tf1wGc1aR+IGvGh4BjPGWBIGoOV4kVYwyRhITJc5EvmSZKpVEDzVZXRVPb0j9
-         OkAREQUfYIuTre8MX9RmsMJTneYPitFXXsbnyqv0Aqb5Qp5plAo77Gh57kEyNgPhzFhT
-         Ze7Hup6O76kAvCDOrfgB0Uve2peVxrWztnD7E2Lh9AKwUnJTrTabwk1OJtWR9IeSx+07
-         8hk6UrPIZX3ywQGR0jU3LBqeb5DmBijL7TsUjJtJAtD3/YqcTuqJRIoVvQkIpz/86fTw
-         x8Hw==
+        bh=NZzIxy+FJV1MgFvEVx+4gEi099DYtOJ3wnmbBY0YVbk=;
+        b=pjQyh+ftGKoxiAiFXTtZnL3OblKudSct0GIqJRwzjWAvvwwgsEpXojr8zGHf4kaSwz
+         mK6vOqBWkOuvRS7TZDZzfu8BWvhpa10jXWSYAHAifuNtenfk43DxWQco1AbBv791VgR8
+         u4ywPCVUSe4fPdRJaj/PBfnmoeZ/jP9LoAzWrphE+VU1y0pA4v7HMbZqvZeEptqtM7zC
+         fmmLUQ5XLNBxtjol7JAuHRDG6FwPTmt05rP7dyOdBt7JeS03WVFL3JRR0+SP8zzJFWN1
+         xUvnTDg8LOyOtJMxsKPpBP2Cm15vBbM/NbVV0Pwq7rUkziGRGvCo7iIvjJRe+bPojv5+
+         Qnxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781637419; x=1782242219;
+        d=1e100.net; s=20251104; t=1781637431; x=1782242231;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1obVJ7Uhl7kuQbLbYUUpKrkAypDjTa/M5dlf+CwtBZY=;
-        b=jvVNggnv3qwgdR++jQHiGr68cahasWoq7rsEJeouPW8IFdyhZsrE3bLNSaoAt4+kcV
-         W1itEHUIPsxQlb48RgglIdrSLVgiHTxSDWm/TPcLNBzXzGQuv+LSfujRC+w2mB1n6xwq
-         UrYzSpre7u/kOxp0LaGSW6DcIYPKOYs1JAMIK4wCW6aRRMwgSaVrSgfYszFMMHih23fS
-         iemmHsG38rj+F4AO4ASMrzZ16ObuHDjpOf6BvFU9MHJU/8QaGxJunINrUUaJAmuIj2cX
-         +oEdNuwMFlArV/7o+eXJUJinYgF4O8U9MfxKRufy5FXn5wQl5l4E2mPzAYMen1AH+ua5
-         gTTQ==
-X-Gm-Message-State: AOJu0Yw4oLtp/XQDoEKU9IwgRhIx4TonKRUoHK61iR1T39JCMssSc7nb
-	+J7CSZU3AEBs6y3IHJCcaQKBf+U9Tc88pg+mrBLlHa1uU0NdLeiwqjMJqzrBvnrI
-X-Gm-Gg: Acq92OH8pBzKeebVCjWS14Vckc/ilfMTuGzzYQUp+qKq+DfeNzq8RrA6atDpFaYj96x
-	3cA9x92zcBqwj9B25ifoa2L0e9nyOa12UWBgBA9pu2gm0G/32z+LYR8zsZbn+lsesaGnS5i6gcB
-	wFEp2aUwtwiFEYfzXaL1U/E4fCcnUhOo/9dwtQvxY7m6LPvbhuEqZ2cd1S4JsBQVNhi/oJvpo5j
-	9kls5eORRBuHVN01reu6nyz57OOSSDj0tzbWnB3gSh7TH6G1UeDoQWq6ns7lYPU8ubB6WbkrCJs
-	9APMCaHNIYPhjkN1/Gf5GFnbd0XSCg/tfj9hiWhF2bHdMHmonkmgHe3EjSbH33JGDvWPQKG4umY
-	fujCySiT/mghZo+Mu+W9n6sdMtv2uRCtPBXLDiEjfk5FJcE2FC+A3zW0EbaI8YfXvvd9SlMYHeY
-	48oRN+VhOFcrKFvIHH6++Ch+Ery7dUapIfotXDG0qzVCbx1zZ/7IjSWiI5NcsRz1qT9nwOqg==
-X-Received: by 2002:a05:600c:1382:b0:48f:e230:29f4 with SMTP id 5b1f17b1804b1-492340eb75fmr190875e9.15.1781637419178;
-        Tue, 16 Jun 2026 12:16:59 -0700 (PDT)
+        bh=NZzIxy+FJV1MgFvEVx+4gEi099DYtOJ3wnmbBY0YVbk=;
+        b=oLTRAqF89kv/8jhdzBuZzwgxQbUiPCnhqJCeG6y+6VW8HpT8lqJ+yQz2c3CzOboXBX
+         y9dB0aXN9LjmMQTBrdmrDh3d2uUeEgWZ7E+vs3Lg+T9DsdGmwvJpRgzTReWn0emga7Rn
+         84bB1SxQ9eagGGovMH3tHwdKsn00a/4XHN8yvF0EYq8sGod/UYJ9O33pDMR1MtZbU2BD
+         azyC5tbdBnaivhitQW57y9UBMRi2IQUVRbqXMKEX4RFi+QOgROY2vVahDUNG4h73tGeh
+         xft7CElNxEiKSJ8KMJ8zvt5BMwzxu672duCuZPBVbdE7+9p12qfkaagU5+z7KTIUTG5q
+         GXsw==
+X-Gm-Message-State: AOJu0YyBniEENeGsJSon+m67iYHNoQOXgPRMfkvZaTdEWyswCo7aa0zh
+	smcZ1MQMzHVlRQCf2XgImEFEBs/yJ3UF/ewp4uirMc7rXDR4tGoAnW0x/3VJygB3
+X-Gm-Gg: Acq92OEKCKr24ltGTXWtQ1C3ELShv2wrBgs/pXbrhDIkSK0oakYg4cqPgWCYoxN2wxj
+	E15AnCCnK8xRvJ8yYfbCCLJYLPeD7eZeIcY19Og29WuixA8a4rdQynxHPknLFvmaoOP+8Qlys72
+	vr500NSPgWwEoHBpLSfqzQFqbiQZwzY2YaB0ePa+7ZvzX6fOdausxD2QVfOOxH6WqMoc1MIayDZ
+	YrBpCtCErgewh3OSXF9yfUfjSG+LxqU8sPDxPj8pnGOkYRbrutv3QDHbhhiwsiuvaUeFXRVlhu0
+	QAW83zTKQsDvuFOgfHc3ALNEHyb8vBXaDgAPeqpMon7oGFvlntREK7M5MbYMj5xu3cLRUo9G2ND
+	UoIX7UURrNM7AArPmEMW/3IQB3XnZ9Lh+FRh0OkG75IKNsiHC65x76ug149gZQ+X6MkARFH9z/3
+	JXnOO/6RxMI1TwPPU+6umkrvUCTFJIdXgOdoaI9Fnr9aeIGAQzclSE4FuriIE=
+X-Received: by 2002:a05:600c:c113:b0:490:c2a3:3302 with SMTP id 5b1f17b1804b1-492333df412mr10754215e9.35.1781637430499;
+        Tue, 16 Jun 2026 12:17:10 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49230a4f8d7sm86982035e9.5.2026.06.16.12.16.57
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49230a4f8d7sm86982035e9.5.2026.06.16.12.17.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 12:16:58 -0700 (PDT)
+        Tue, 16 Jun 2026 12:17:09 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 24/30] neard: upgrade 0.19 -> 0.20
-Date: Tue, 16 Jun 2026 21:16:20 +0200
-Message-ID: <20260616191628.2014553-24-alex.kanavin@gmail.com>
+Subject: [PATCH 30/30] strace: remove skip-bpf.patch
+Date: Tue, 16 Jun 2026 21:16:26 +0200
+Message-ID: <20260616191628.2014553-30-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260616191628.2014553-1-alex.kanavin@gmail.com>
 References: <20260616191628.2014553-1-alex.kanavin@gmail.com>
@@ -66,150 +66,72 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 19:17:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238949
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 19:17:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238955
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Drop the systemduserunitdir option as it's removed upstream:
-https://github.com/linux-nfc/neard/commit/80e112f0f86b9a7296955e77822de4cc75808860
+Issue was resolved in https://github.com/strace/strace/commit/982e5ff96a670473187ccdf6e2d8ddb3c40c82e1
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...Add-header-dependency-to-nciattach.o.patch |  9 ++----
- .../Makefile.am-do-not-ship-version.h.patch   |  9 ++----
- .../Makefile.am-fix-parallel-issue.patch      | 30 -------------------
- .../neard/{neard_0.19.bb => neard_0.20.bb}    |  7 ++---
- 4 files changed, 9 insertions(+), 46 deletions(-)
- delete mode 100644 meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
- rename meta/recipes-connectivity/neard/{neard_0.19.bb => neard_0.20.bb} (88%)
+ .../strace/strace/skip-bpf.patch              | 34 -------------------
+ meta/recipes-devtools/strace/strace_7.0.bb    |  1 -
+ 2 files changed, 35 deletions(-)
+ delete mode 100644 meta/recipes-devtools/strace/strace/skip-bpf.patch
 
-diff --git a/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch b/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
-index d8e8a5e5da..e9dae82820 100644
---- a/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
-+++ b/meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
-@@ -1,4 +1,4 @@
--From affaa2021a54c30353e4e1fee09c13a4de2196be Mon Sep 17 00:00:00 2001
-+From 204b0eb85c7e98a0fc7cf54d8e2bc2c41b542dcf Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Fri, 17 Mar 2017 14:24:29 +0200
- Subject: [PATCH] Add header dependency to nciattach.o
-@@ -19,10 +19,10 @@ Upstream-Status: Submitted [mailinglist]
-  1 file changed, 1 insertion(+)
- 
- diff --git a/Makefile.am b/Makefile.am
--index fa552ee..acef6ba 100644
-+index d865e84..1c81d58 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -253,6 +253,7 @@ se/builtin.h: src/genbuiltin $(builtin_se_sources)
-+@@ -258,6 +258,7 @@ se/builtin.h: src/genbuiltin $(builtin_se_sources)
-  
-  $(src_neard_OBJECTS) \
-  $(tools_nfctool_nfctool_OBJECTS) \
-@@ -30,6 +30,3 @@ index fa552ee..acef6ba 100644
-  $(plugin_objects) \
-  $(se_seeld_OBJECTS) \
-  $(unit_test_ndef_parse_OBJECTS) \
---- 
--2.11.0
--
-diff --git a/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch b/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
-index 16875e0543..05a26fa740 100644
---- a/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
-+++ b/meta/recipes-connectivity/neard/neard/Makefile.am-do-not-ship-version.h.patch
-@@ -1,4 +1,4 @@
--From bfd32d68cfc9f1e31dab88e07446d1c02bc80b5e Mon Sep 17 00:00:00 2001
-+From 1ce6ddfbf32e42c1318bc8b652b5afd635677c7d Mon Sep 17 00:00:00 2001
- From: Robert Yang <liezhi.yang@windriver.com>
- Date: Thu, 12 Feb 2015 00:39:29 -0800
- Subject: [PATCH] Makefile.am: do not ship version.h
-@@ -10,11 +10,11 @@ Upstream-Status: Pending
- 
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- ---
-- Makefile.am |    4 ++--
-+ Makefile.am | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/Makefile.am b/Makefile.am
--index 3334790..69cd58f 100644
-+index 592fb7c..d865e84 100644
- --- a/Makefile.am
- +++ b/Makefile.am
- @@ -10,11 +10,11 @@ pkginclude_HEADERS = include/types.h include/log.h include/plugin.h \
-@@ -31,6 +31,3 @@ index 3334790..69cd58f 100644
-  			$(noinst_HEADERS), include/near/$(notdir $(file)))
-  
-  gdbus_sources = gdbus/gdbus.h gdbus/mainloop.c gdbus/watch.c \
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch b/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
+diff --git a/meta/recipes-devtools/strace/strace/skip-bpf.patch b/meta/recipes-devtools/strace/strace/skip-bpf.patch
 deleted file mode 100644
-index aeb33a5bdc..0000000000
---- a/meta/recipes-connectivity/neard/neard/Makefile.am-fix-parallel-issue.patch
+index 1fa8c2db2d..0000000000
+--- a/meta/recipes-devtools/strace/strace/skip-bpf.patch
 +++ /dev/null
-@@ -1,30 +0,0 @@
--From 43acc56d5506c7e318f717fb3634bc16e3438913 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Thu, 15 Jan 2015 18:12:07 -0800
--Subject: [PATCH] Makefile.am: fix parallel issue
+@@ -1,34 +0,0 @@
+-From 66edf5d44ba89f73d51657edeeb19fc10d008aea Mon Sep 17 00:00:00 2001
+-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Date: Mon, 22 Dec 2025 12:14:45 +0000
+-Subject: [PATCH] strace: Skip bpd tests for now since they don't work with the
 -
--There might be no src dir if src/builtin.h runs earlier, create it to
--fix the race issue:
+-These tests failed when upgrading to 6.18. Skip them for now until the issue can be resolved
+-as the upgrade is needed for newer kernel versons.
 -
--src/genbuiltin nfctype1 nfctype2 nfctype3 nfctype4 p2p > src/builtin.h
--/bin/sh: src/builtin.h: No such file or directory
--
--Upstream-Status: Backport [d39f8c0eee659743b4425d395c2f7ab1949e9c71]
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Upstream-Status: Inappropriate [issue reported at https://github.com/strace/strace/issues/370]
 ----
-- Makefile.am |    1 +
-- 1 file changed, 1 insertion(+)
+- tests/bpf-v.gen.test | 1 +
+- tests/bpf.gen.test   | 1 +
+- 2 files changed, 2 insertions(+)
 -
--Index: neard-0.16/Makefile.am
--===================================================================
----- neard-0.16.orig/Makefile.am
--+++ neard-0.16/Makefile.am
--@@ -244,6 +244,7 @@ SED_PROCESS = $(AM_V_GEN)$(MKDIR_P) $(di
-- src/plugin.$(OBJEXT): src/builtin.h
-- 
-- src/builtin.h: src/genbuiltin $(builtin_sources)
--+	$(AM_V_at)$(MKDIR_P) src
-- 	$(AM_V_GEN)$(srcdir)/src/genbuiltin $(builtin_modules) > $@
-- 
-- se/plugin.$(OBJEXT): se/builtin.h
-diff --git a/meta/recipes-connectivity/neard/neard_0.19.bb b/meta/recipes-connectivity/neard/neard_0.20.bb
-similarity index 88%
-rename from meta/recipes-connectivity/neard/neard_0.19.bb
-rename to meta/recipes-connectivity/neard/neard_0.20.bb
-index c1149e7631..7825b9a4bb 100644
---- a/meta/recipes-connectivity/neard/neard_0.19.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.20.bb
-@@ -10,18 +10,17 @@ DEPENDS = "dbus glib-2.0 libnl autoconf-archive-native"
- 
- SRC_URI = "git://github.com/linux-nfc/neard;protocol=https;branch=master \
-            file://neard.in \
--           file://Makefile.am-fix-parallel-issue.patch \
-            file://Makefile.am-do-not-ship-version.h.patch \
-            file://0001-Add-header-dependency-to-nciattach.o.patch \
--          "
-+           "
- 
--SRCREV = "a1dc8a75cba999728e154a0f811ab9dd50c809f7"
-+SRCREV = "7118668bc92fe15a8ff5e4067abd5e1622524f03"
- 
- inherit autotools pkgconfig systemd update-rc.d
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
- 
--PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir}/ --with-systemduserunitdir=${systemd_unitdir}/user/,--disable-systemd"
-+PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir}/,--disable-systemd"
- 
- EXTRA_OECONF += "--enable-tools"
- 
+-diff --git a/tests/bpf-v.gen.test b/tests/bpf-v.gen.test
+-index e57154e..440ddfe 100755
+---- a/tests/bpf-v.gen.test
+-+++ b/tests/bpf-v.gen.test
+-@@ -1,4 +1,5 @@
+- #!/bin/sh -efu
+- # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (bpf-v -a20 -v -e trace=bpf); do not edit.
+- . "${srcdir=.}/init.sh"
+-+skip_ "Test doesn't work atm"
+- run_strace_match_diff -a20 -v -e trace=bpf
+-diff --git a/tests/bpf.gen.test b/tests/bpf.gen.test
+-index 1391d6b..c4906b1 100755
+---- a/tests/bpf.gen.test
+-+++ b/tests/bpf.gen.test
+-@@ -1,4 +1,5 @@
+- #!/bin/sh -efu
+- # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (bpf -a20 ); do not edit.
+- . "${srcdir=.}/init.sh"
+-+skip_ "Test doesn't work atm"
+- run_strace_match_diff -a20 
+diff --git a/meta/recipes-devtools/strace/strace_7.0.bb b/meta/recipes-devtools/strace/strace_7.0.bb
+index d91f984189..fa86f7bb4e 100644
+--- a/meta/recipes-devtools/strace/strace_7.0.bb
++++ b/meta/recipes-devtools/strace/strace_7.0.bb
+@@ -12,7 +12,6 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/strace-${PV}.tar.xz \
+            file://ptest-spacesave.patch \
+            file://0001-strace-fix-reproducibilty-issues.patch \
+            file://skip-load.patch \
+-           file://skip-bpf.patch \
+            file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch \
+            file://0002-tests-Replace-off64_t-with-off_t.patch \
+ 		   file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch \
 -- 
 2.47.3
 
