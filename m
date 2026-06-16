@@ -1,309 +1,187 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12428CD98DA
-	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 12:12:58 +0000 (UTC)
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.152634.1781611977139488138
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 131A0CD98E1
+	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 12:35:28 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.153027.1781613322749608946
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2026 05:12:57 -0700
+ Tue, 16 Jun 2026 05:35:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=DPidXfAd;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=AHfbMu8T;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.157, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 09A4D1400109;
-	Tue, 16 Jun 2026 08:12:56 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Tue, 16 Jun 2026 08:12:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1781611976; x=1781698376; bh=M9jd4sRItb
-	dt/WhIPHw/4tNnT1r7RiL8RQoIm2fBJdE=; b=DPidXfAdG2X2TEWLAie9XnFPv7
-	+F6AXVy2qteQbNZC21dQYro5/uhhmv9Ys5rOU90fpktXJG/6JOTR2pUmdFQwF48I
-	XLtiGE3ro23hwOAjFvyg0qDWI7ksjgbQY3bAJZejQx9RId0QSlThchRrBEvNmjIF
-	8tpFnC5QNWJcK369Icp8CWeYyQOVUFjt7SnP4Qoe+dgwFgUkHdPvk7BGzeQnkiRK
-	E3JhEE6kiQCZsomQNXkNDAskwcfm0peg9CKI2UHAoQu3r0Hv22vuJQdU/uHwEcqJ
-	GL40XGpxLqO4EloBnOBSPw1BeUH5isXwxEQsmY86Cj9Qg0dfvDjMzBDQroug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1781611976; x=1781698376; bh=M9jd4sRItbdt/WhIPHw/4tNnT1r7RiL8RQo
-	Im2fBJdE=; b=AHfbMu8TFHErFYn0Q2SUfBxZo6aAXLlQSn42rre/NVmFPjJNA83
-	c9x872A62C3MSJP3JmKTJnrmAlKKERgLZwtWuhq7Mm8lHEV3dVhVw4cw0OIBcg3G
-	/dHUrvWlhrwj+PgQPmLuC7pWvXePhEp0GNwgIJ3+kZbxxRgu01q36rsHawMPJspc
-	7/TgW8nycWc5SCZejSmvt2MpLzb/p4vfP82ryHcEYDVljtuqcLlFTnlLFiPrfu1q
-	jMf9V1mqKEAT6yL+MiDUmc1cQwij0sMKDe61bNFEexFcugvhAfIBSuRrG5LLQp0W
-	9rhrh9Usa6d/h6mfh/v2dTZcegPlAMXBNHQ==
-X-ME-Sender: <xms:xz0xasz3gwSAItbMajMe4xiNpPd_MqGzMewd-yGGAxA9yskJ7jlSkw>
-    <xme:xz0xamRpda0mVeHV06c1xXw-3mSwoQ5ZjIMG7E3giYBv-vtmTJ5tJDA804UPBAC6Q
-    nBE3xrtj9FMRO9uNq8UKxJEBUuLCewAvA3UFaAKH8QXTc6-OVKUz6g>
-X-ME-Received: <xmr:xz0xar-tJmyUvjYZjp-caaOrBAeZNof76i3ru3kWqopwiUbP0Ic2t40NdJ3Pn-SJhV71BVQkZaXSweSpoUDYdk0-yOR1bmqrjfOA6SnEjUZu>
-X-ME-Proxy-Cause: dmFkZTGdxJ1b605HPo9xISqu2nX57KRXrlou13L/13AlnRyRARzmwV+05KsnHU57MYQAXf
-    vmGM6K6wHMVpA1VArg4sWKFirWmcisQBOGQSjtUMSFDZOGrHY6kinRfWfbHmGb9xIQtZTo
-    ZjZu6xlQDq4+OAcM3fSXy1BoIpM4kM6lPQGLzqi/UdY68t5jQxkMt55ofuulbh0zmGo8qa
-    V1dNAQOkIEuhtQpQa8OsKkzzm2aQuhaeHQN5YHpsLBIpFX07G57Tq3jDzrgewjNrFBKA0e
-    3pmX6mpph4AIBxgkOih0PHZT+SLff+zblfv7euP5rB9oRAuY6zG6vl+0OXxcg9RHS8Fwix
-    Rlh43VENfVKTaSvzqksvaaAtdQ5Mno8vDWUVQo8DhSN9i9PRVmUrXdMnL24QMbJyNL06mS
-    +1AyNh5ReEx9loFUSZaqtSgAMfLnRWPNbxRo+gcAAAOF3StfrxIbPf7w2LM3y/KygbRbDw
-    QsriexYmaUd/GXiqcLCCHPpJnvG5tYKgQDulEhngJ0heO6He6xRLPKzUkoHwZg9taUQpDL
-    Qmu0Rp2gKvS2vsec0layXegV6UIwRrkapjp6xnZM/8tIbFyB+j3WXIqrZwR/5yDk0NG40z
-    Vgk3oxZYp1UzNyviLboOytRTPo3xvnvBpDkEtXW939SBuwBgA4FJElNFmIGQ
-X-ME-Proxy: <xmx:xz0xalrdf8ILoU4ZbNrv0b47JysKQbfQTLlYsDQw509rzH46hU4OMA>
-    <xmx:xz0xagmZDrZVvSqhA9X2vZV_zNAWdXLnZzXaQL_4vMIKRFWzg_tmgQ>
-    <xmx:xz0xakIqmSGVRn2EJC2uwtzNYXgv0nTTVxm069qliFa_QC21aHxqZA>
-    <xmx:xz0xatz8mvaE-CF2uyr4VLsu5WOBKYZ8_dLJlQVoxKoZaiNMivjoJg>
-    <xmx:yD0xah_TOYOhTOKE-eRimD2ibReE5Z6cHyvXPA6h59gNX_KnUnezaKMN>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Jun 2026 08:12:55 -0400 (EDT)
-Message-ID: <d85afa2fdb8aa0d09a8d9e0ec106c201b1630e9e.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH 1/2] package: replace copydebugsources shell
- pipelines with Popen
-From: Paul Barker <paul@pbarker.dev>
-To: Anders Heimer <anders.heimer@est.tech>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jun 2026 13:12:48 +0100
-In-Reply-To: <20260616082516.1553768-2-anders.heimer@est.tech>
-References: <20260616082516.1553768-1-anders.heimer@est.tech>
-	 <20260616082516.1553768-2-anders.heimer@est.tech>
-Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
- keydata=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
- LUewj8JVy0aJsGTwI4invl
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-pNeBskg0yzdp/90bxQxE"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=SgYiajdG;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8ce65629acaso53075756d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 05:35:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781613322; cv=none;
+        d=google.com; s=arc-20240605;
+        b=b240qFltc/84Q1Egw6gO5UTbNd3vYKdFIepgEj/otim0tA8CCYTCpNJkJMhEE7ZALX
+         C9LohP6qEddPOxgmXwAuSm060EU1MTL9udgYisDN1D8Z9Xa6C6N5eJdhpbKM+nyy81nv
+         56WztxPMTtcS+rsPGRO7yMQGqsraRDE9azjezb2KqGJcIBRnz5PLncDjeuKxnLDotuEi
+         Pv+9Nzz5PmQWyCi1VHA0UYzVlMWrvLdS8d80iZCyEEd9IvPD5LcLGBzYEbh9cehX00Zc
+         meIhy5uRqS0QEbkrt4nje3y9VC4x8HOYO6q4M/BtiIXI6274eTDumlR7j9UI4QhlODqv
+         ogUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=yaqsbBW55m84p/FQ/vgU9JBlT6TbAQkPCDNkR5Uevmk=;
+        fh=cbgl5IOPsNxVRhYTH4PVIGJOnA+jpdWoNWXXxuAa4Z0=;
+        b=WJT/N43ltm5hOJIa517l0HpkDQAP1bKflrEz4UYc/3NQ1d2QCd+LtGYkrbD864Frbp
+         0N/kAhHZ9WDXbUYE4AgCKpTDanKlk3kRqUFYssZjn9Q4tlOOzaYJ5ZfUadxDT7B/UHh0
+         BRDxhsrFk0yWWwzC1BU+ZOBvN5FDBycDE29R2JVU3nUyWlLitJS+Hs8lstnmhlZmMCpK
+         5RiQ33pn88OF9Pnf+3JnOdu4ZD2gPzcGPk+GaSuZ158oCWVBauVr1NNbmrxT5LB+l3xg
+         vK9YrsYjxowqV/0Av2enWkKWP4YMTOC/XuHJGPzyRISmtSN96drPv9frs/0jujpk2iKN
+         0q2w==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781613322; x=1782218122; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yaqsbBW55m84p/FQ/vgU9JBlT6TbAQkPCDNkR5Uevmk=;
+        b=SgYiajdGnqxK4l3KmDOkdzfTx/uBRSX35PU6m1tJBJIj/1XuM130IXxIzw74CYJwcQ
+         QAVv/VACwBCo01UDmIQlf7S2vXVJJM1ZXH/a79RxmnxyOeBEbH/GAfCiyWrqG3PkKCka
+         5ze0TVVSkZwxqqDfOV468LGNyMMR6WPU+g+/72erW/rNjbodmwgvUFI0l9Aifnge10vb
+         4GPKFA+Fn+midVI/EehhBMDyjN64NplhTSQrz4SRrgu1Sea+OqSL7CqlMI0sOlnVXaJS
+         TIwbe76DKN59HfCmmNSDFsGP97ecJeTuAUPu0U+1M7d8SyFjmb867usXLXhzWE00HdFw
+         5qcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781613322; x=1782218122;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yaqsbBW55m84p/FQ/vgU9JBlT6TbAQkPCDNkR5Uevmk=;
+        b=JMTfd1mIeICeOZNlS1DGm1a+GPOoRiHljty/e3IUsjzdzwvPFjxcufjv/JW+PgbvCh
+         lDF9eQVUjrwXIg0FneZ1+GlTE0oeeHC2KW9kJ94h6hJwnJ5FMfPSZbqe5G5sg18BQLOu
+         QX8/Nh5aOq5HrCmn9NnBb0+vboMHATsc/R5oJV8YpS5AJvz56CXV8I9iLGmdriCPY+Qd
+         IwJ8VvTv4AnMtonaqshvXpshAEErQmSos4v+uZycp9uTm4CGX5xyLeh4i9JGPTd3bCov
+         4S8w6yoOjcghNyWGBSurfxkbMGeMy9tpnkFs5AYaCQ/fN4TyQg+GJnowVMF2I08fyZVn
+         bkLw==
+X-Gm-Message-State: AOJu0Yz1PYMb1c5jWRws/BwWxe5lAnEXRoFz8eSP2stS5YVWwggCcRgH
+	QKKadREyGUT++5itSHUIb7Cx63jzEQeGZZFNjCrZrqvlJGxSiRmjSR5VTcQH8HntIOE0IJuNkOZ
+	71K+qP1vQWOwnbpxPP90nK6uJnA91cvaJntjk
+X-Gm-Gg: Acq92OFXdJuiXxRNkRUIUyP7DCNgKVcIybddmG6gaYFSh32q5DldTD8IHEiZzMJ0v2/
+	3o3du93gk9LhJvPlbvTie1sFPLQJVt1Nal5j0r0nvlDHNr3frf08PgazuToK6H6l+whtAK5Mbae
+	fF/dV30RbW+ppRtWvZvMoxxepB20Dz016HwtnMwj191sOWGep+dPROPEp7+KzbuJ6dXHqZ9wown
+	0u8Gm18zG/2Gw4orZD0g8IBQBtrJ8Hu+CPaziIKwq8j/IHYafx1a1LKxbq5RQBZCaPIxgQubtxu
+	uYkabRL/McKIB8hYivUqrO4Hp1PfIqgggGpzeVFM2A==
+X-Received: by 2002:a05:6214:590d:b0:8cc:ed49:bdd4 with SMTP id
+ 6a1803df08f44-8da1b439235mr54275976d6.7.1781613321403; Tue, 16 Jun 2026
+ 05:35:21 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260614080307.4017177-1-richard.purdie@linuxfoundation.org> <20260614080307.4017177-5-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20260614080307.4017177-5-richard.purdie@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 16 Jun 2026 14:35:09 +0200
+X-Gm-Features: AVVi8Cei_JCm3NA0WFjSP8v4o9lb0jsWM8Ar63rUAp92wN-kPYIGDSJermVRPVw
+Message-ID: <CANNYZj9DNDyHb=wrVAZcEtQQ30XA7--peGbkiOH+URLMjgw+rQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 05/56] gstreamer1.0: upgrade 1.28.2 -> 1.28.4
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 12:12:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238894
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 12:35:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238895
 
+Note that this introduced a flaky ptest. I reported this upstream:
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/work_items/5163
+and will send a fix that disables the offending test, if upstream
+won't get to the fix soon.
 
---=-pNeBskg0yzdp/90bxQxE
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Alex
 
-On Tue, 2026-06-16 at 10:25 +0200, Anders Heimer wrote:
-> Convert the copydebugsources command pipelines to explicit Popen calls
-> using argument lists. Use env=3D for LC_ALL, cwd=3D for the cpio working
-> directory and glob.glob() for the externalsrc move.
->=20
-> The first pipeline keeps ignoring command failures as before since some
-> inputs are expected to fail. The symlink fixup pipeline checks each stage
-> so failures are reported directly.
->=20
-> Skip the externalsrc mv when the glob has no matches and let the
-> following empty-directory cleanup handle the empty tree.
->=20
-> Signed-off-by: Anders Heimer <anders.heimer@est.tech>
+On Sun, 14 Jun 2026 at 10:03, Richard Purdie via
+lists.openembedded.org
+<richard.purdie=linuxfoundation.org@lists.openembedded.org> wrote:
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  meta/lib/oe/package.py | 63 ++++++++++++++++++++++++++++++------------
->  1 file changed, 45 insertions(+), 18 deletions(-)
->=20
-> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-> index c375acc124..ad4b7a2769 100644
-> --- a/meta/lib/oe/package.py
-> +++ b/meta/lib/oe/package.py
-> @@ -1017,26 +1017,50 @@ def copydebugsources(debugsrcdir, sources, d):
->          bb.utils.mkdirhier(basepath)
->          cpath.updatecache(basepath)
-> =20
-> -        for pmap in prefixmap:
-> +        env =3D os.environ.copy()
-> +        env["LC_ALL"] =3D "C"
-> +
-> +        for pmap, prefix in prefixmap.items():
-> +            dstroot =3D dvar + prefix
->              # Ignore files from the recipe sysroots (target and native)
-> -            cmd =3D  "LC_ALL=3DC ; sort -z -u '%s' | egrep -v -z '((<int=
-ernal>|<built-in>)$|/.*recipe-sysroot.*/)' | " % sourcefile
-> +            sort_p =3D subprocess.Popen(["sort", "-z", "-u", "--", sourc=
-efile], stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNULL, env=3Denv)
-> +            egrep_p =3D subprocess.Popen(["egrep", "-v", "-z", "-e", r"(=
-(<internal>|<built-in>)$|/.*recipe-sysroot.*/)"], stdin=3Dsort_p.stdout, st=
-dout=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNULL, env=3Denv)
-> +            sort_p.stdout.close()
-> +
->              # We need to ignore files that are not actually ours
->              # we do this by only paying attention to items from this pac=
-kage
-> -            cmd +=3D "fgrep -zw '%s' | " % prefixmap[pmap]
-> +            fgrep_p =3D subprocess.Popen(["fgrep", "-zw", "-e", prefix],=
- stdin=3Degrep_p.stdout, stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVN=
-ULL, env=3Denv)
-> +            egrep_p.stdout.close()
-> +
->              # Remove prefix in the source paths
-> -            cmd +=3D "sed 's#%s/##g' | " % (prefixmap[pmap])
-> -            cmd +=3D "(cd '%s' ; cpio -pd0mlLu --no-preserve-owner '%s%s=
-' 2>/dev/null)" % (pmap, dvar, prefixmap[pmap])
-> +            sed_p =3D subprocess.Popen(["sed", "s#%s/##g" % prefix], std=
-in=3Dfgrep_p.stdout, stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNULL,=
- env=3Denv)
-> +            fgrep_p.stdout.close()
-> +
-> +            cpio_p =3D subprocess.Popen(["cpio", "-pd0mlLu", "--no-prese=
-rve-owner", dstroot], stdin=3Dsed_p.stdout, cwd=3Dpmap, stderr=3Dsubprocess=
-.DEVNULL, env=3Denv)
-> +            sed_p.stdout.close()
-> +
-> +            for proc in (cpio_p, sed_p, fgrep_p, egrep_p, sort_p):
-> +                proc.wait()
-
-Hi Anders, thanks for the patches!
-
-If we're reworking this code, I think we should replace the complex
-sed/grep/sort pipeline with Python code. We can read into a Python list
-and sort/filter using the Python standard library, then pass the results
-to cpio.
-
-> =20
-> -            try:
-> -                subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubp=
-rocess.STDOUT)
-> -            except subprocess.CalledProcessError:
-> -                # Can "fail" if internal headers/transient sources are a=
-ttempted
-> -                pass
->              # cpio seems to have a bug with -lL together and symbolic li=
-nks are just copied, not dereferenced.
->              # Work around this by manually finding and copying any symbo=
-lic links that made it through.
-> -            cmd =3D "find %s%s -type l -print0 -delete | sed s#%s%s/##g =
-| (cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s')" % \
-> -                    (dvar, prefixmap[pmap], dvar, prefixmap[pmap], pmap,=
- dvar, prefixmap[pmap])
-> -            subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubproce=
-ss.STDOUT)
-> +            # The source copy pipeline above can fail without aborting, =
-so there may be no copied tree to scan for symlinks.
-> +            if not os.path.exists(dstroot):
-> +                continue
-> +
-> +            find_p =3D subprocess.Popen(["find", dstroot, "-type", "l", =
-"-print0", "-delete"], stdout=3Dsubprocess.PIPE)
-> +            sed_p =3D subprocess.Popen(["sed", "s#%s/##g" % dstroot], st=
-din=3Dfind_p.stdout, stdout=3Dsubprocess.PIPE)
-> +            find_p.stdout.close()
-> +
-> +            cpio_p =3D subprocess.Popen(["cpio", "-pd0mL", "--no-preserv=
-e-owner", dstroot], stdin=3Dsed_p.stdout, stderr=3Dsubprocess.DEVNULL, cwd=
-=3Dpmap)
-> +            sed_p.stdout.close()
-> +
-> +            procs =3D (cpio_p, sed_p, find_p)
-> +            for proc in procs:
-> +                proc.wait()
-> +            for proc in procs:
-> +                if proc.returncode:
-> +                    raise subprocess.CalledProcessError(proc.returncode,=
- proc.args)
-
-This is a simpler pipeline but it may still be nicer to bring it into
-Python code.
-
-> =20
->          # debugsources.list may be polluted from the host if we used ext=
-ernalsrc,
->          # cpio uses copy-pass and may have just created a directory stru=
-cture
-> @@ -1046,13 +1070,16 @@ def copydebugsources(debugsrcdir, sources, d):
-> =20
->          # Same check as above for externalsrc
->          if workdir not in sdir:
-> -            if os.path.exists(dvar + debugsrcdir + sdir):
-> -                cmd =3D "mv %s%s%s/* %s%s" % (dvar, debugsrcdir, sdir, d=
-var,debugsrcdir)
-> -                subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubp=
-rocess.STDOUT)
-> +            srcdir =3D dvar + debugsrcdir + sdir
-> +            dstdir =3D dvar + debugsrcdir
-> +            if os.path.exists(srcdir):
-> +                entries =3D glob.glob(os.path.join(glob.escape(srcdir), =
-"*"))
-> +                if entries:
-> +                    subprocess.check_output(["mv", "--"] + entries + [ds=
-tdir], stderr=3Dsubprocess.STDOUT)
-
-We could simply use shutil.move().
-
-> =20
->          # The copy by cpio may have resulted in some empty directories! =
- Remove these
-> -        cmd =3D "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
-> -        subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubprocess.S=
-TDOUT)
-> +        cmd =3D ["find", dvar + debugsrcdir, "-empty", "-type", "d", "-d=
-elete"]
-> +        subprocess.check_output(cmd, stderr=3Dsubprocess.STDOUT)
-
-I think this is would be more complex in Python code so it is probably
-best left as a find command.
-
-Best regards,
-
---=20
-Paul Barker
-
-
---=-pNeBskg0yzdp/90bxQxE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCajE9wBEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bk6iAQCI/XwzFumeSTtOytwA+GsjAAOOVlG66ThG
-4q91lSlYeAD/U6HsvghMY02fZ8oT9RoQiDmD3yaIX/hZ2D1ojIu8IAo=
-=O4BS
------END PGP SIGNATURE-----
-
---=-pNeBskg0yzdp/90bxQxE--
+>  .../0001-tests-respect-the-idententaion-used-in-meson.patch | 2 +-
+>  .../0002-tests-add-support-for-install-the-tests.patch      | 6 +++---
+>  .../0003-tests-use-a-dictionaries-for-environment.patch     | 2 +-
+>  ...tests-add-helper-script-to-run-the-installed_tests.patch | 2 +-
+>  .../{gstreamer1.0_1.28.2.bb => gstreamer1.0_1.28.4.bb}      | 2 +-
+>  5 files changed, 7 insertions(+), 7 deletions(-)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.28.2.bb => gstreamer1.0_1.28.4.bb} (97%)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+> index e1d870b0405..de255bf7918 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+> @@ -1,4 +1,4 @@
+> -From ad4c577ff8d29f6dbaf5ca2d013e9d21c44f9122 Mon Sep 17 00:00:00 2001
+> +From 4e6aae8cbddb4567388f8f19919c2c17e36e0356 Mon Sep 17 00:00:00 2001
+>  From: Jose Quaresma <quaresma.jose@gmail.com>
+>  Date: Sun, 11 Apr 2021 19:48:13 +0100
+>  Subject: [PATCH] tests: respect the idententaion used in meson
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+> index 720a6f0c97e..957356c2ba6 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+> @@ -1,4 +1,4 @@
+> -From 92e7d4090fa458bf02d3418cd01c960982821e92 Mon Sep 17 00:00:00 2001
+> +From 34d24b8d66088d92ca306a488028dee82a6f6982 Mon Sep 17 00:00:00 2001
+>  From: Jose Quaresma <quaresma.jose@gmail.com>
+>  Date: Sun, 11 Apr 2021 19:48:13 +0100
+>  Subject: [PATCH] tests: add support for install the tests
+> @@ -19,10 +19,10 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+>   create mode 100644 tests/check/template.test.in
+>
+>  diff --git a/meson.build b/meson.build
+> -index 8adc055..b5c9e5b 100644
+> +index abd0ad6..93cd692 100644
+>  --- a/meson.build
+>  +++ b/meson.build
+> -@@ -667,6 +667,10 @@ if bashcomp_dep.found()
+> +@@ -661,6 +661,10 @@ if bashcomp_dep.found()
+>     endif
+>   endif
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+> index 1236290e2b6..bc6dfe353a3 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+> @@ -1,4 +1,4 @@
+> -From 374c6ace83e9697aae0b21ba26f316b79279c39c Mon Sep 17 00:00:00 2001
+> +From f34bc3040b1564a3d39de4a4426326866c437dae Mon Sep 17 00:00:00 2001
+>  From: Jose Quaresma <quaresma.jose@gmail.com>
+>  Date: Sat, 24 Apr 2021 10:34:47 +0100
+>  Subject: [PATCH] tests: use a dictionaries for environment
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+> index df382a4445d..8eb4bc2a816 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+> @@ -1,4 +1,4 @@
+> -From e31ab477eed061cc72ed6795b483795d53af6dfc Mon Sep 17 00:00:00 2001
+> +From ee4f5bd19394e055109486d88ff8e876c5c2572f Mon Sep 17 00:00:00 2001
+>  From: Jose Quaresma <quaresma.jose@gmail.com>
+>  Date: Sun, 2 May 2021 01:58:01 +0100
+>  Subject: [PATCH] tests: add helper script to run the installed_tests
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb
+> similarity index 97%
+> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.2.bb
+> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb
+> index b727783746d..59f4e99c705 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.2.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb
+> @@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+>             file://0003-tests-use-a-dictionaries-for-environment.patch \
+>             file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
+>             "
+> -SRC_URI[sha256sum] = "ce5cd44d4ffeafdcc3dddaa072b2179c0b7cb1abf4e6c5d18d4375f8a39fe491"
+> +SRC_URI[sha256sum] = "f5adc7e8f448c10260b3b25aa101c9d540674c8d9a54c2b77a86d04f2b3b50dd"
+>
+>  PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+>                     check \
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#238689): https://lists.openembedded.org/g/openembedded-core/message/238689
+> Mute This Topic: https://lists.openembedded.org/mt/119797965/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
