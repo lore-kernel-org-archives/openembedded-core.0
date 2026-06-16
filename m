@@ -1,103 +1,196 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92A7ECD98DA
-	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 09:39:26 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.150638.1781602757161606726
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 097C0CD98DA
+	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 10:17:47 +0000 (UTC)
+Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.150839.1781605056675568525
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2026 02:39:17 -0700
+ Tue, 16 Jun 2026 03:17:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JztChmWN;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0627f155f3=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65G8046w2882050
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 09:39:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=L5nINFX43C8A87EBVhGa
-	L32Vlv8H7iJkZHyk69We7y8=; b=JztChmWN7v6BDj12q8G367TPsIzJ+gRW/ZKm
-	IegRYajWiMiRicxBiN9ClSh7bEb4/R6ccExhzpNVB3ALHN4FXzA/vqqR4Vt5Ajrw
-	tF0vdY+LqnjXhZe+dMvHRHZMpJF36RLaxZ5zJdd/PuPyszyvp6nxQQUhsfQ59IkB
-	ouFxOjTocuD3/iyVzKGoCQzGH4rkIclWyKOLRAj3bcUH2kNWz0KznU8B7YUtxG7P
-	0VoqmvrfU/Rl5BB6W5yKEzer7aGDyo5pp6rQa7qu228SFtEVM2/hK55Xde8LLVxK
-	4ke7XH3K0UhOqsiBzRVnm0I562xoNB+FVD0c9aqWjSkpHOg+Gw==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4eu0vs0832-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 09:39:15 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Tue, 16 Jun 2026 02:39:14 -0700
-Received: from ala-lpggp9.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Tue, 16 Jun 2026 02:39:14 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] qemu: Correct the ppc64 setting in COMPATIBLE_HOST
-Date: Tue, 16 Jun 2026 02:39:14 -0700
-Message-ID: <20260616093914.1817650-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.54.0
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=O0v1GCSv;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1781605057; x=1813141057;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4rxsEjFNgoYIXRxZtHPG+jQ8AVsyDqyOUvLd9T6jUIM=;
+  b=O0v1GCSv9Um8W6zI+35nzLwzXk8o0v0ceJoHGGY24+czJKLoCt/6LeHh
+   ++hMRj6yCUxk5L/y52WBdhr+DTsWqREcvSmxN6bZzsZhnP2alrH7M/5RA
+   qaYnEZwynf7+3eQTHjDEE014xEO03O1gkGbNmPvrzUHZ4F1Kf2B7F8dkc
+   37dyHhUOGptiBp4QSTw+OZZ/Ex0JOL0J0yi1qfjlpjknFO+pEGqlFoz0Z
+   YeLy6bLrq4PUsykB0g865wJqgRt6Msvcdlkr6U3nXkYhRyxsL+if52ow2
+   1be1Ii69SeGQZK+yLmsBDpRfPURF8vvoJvLcwFJp2eWK/8qA0pd1TYuMC
+   Q==;
+X-CSE-ConnectionGUID: hmPdthNtQ6+M85NNZbbkfg==
+X-CSE-MsgGUID: OpKOp8JJRKSdcO5qJsCygg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="230445486"
+X-IronPort-AV: E=Sophos;i="6.24,208,1774278000"; 
+   d="scan'208";a="230445486"
+Received: from gmgwnl01.global.fujitsu.com (HELO mgmgwnl01.global.fujitsu.com) ([52.143.17.124])
+  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 19:17:32 +0900
+Received: from az2nlsmgm4.fujitsu.com (unknown [10.150.26.204])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mgmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id 7E1435C39
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 10:17:32 +0000 (UTC)
+Received: from az2uksmom1.o.css.fujitsu.com (unknown [10.151.22.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm4.fujitsu.com (Postfix) with ESMTPS id 321721032BA5
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 10:17:32 +0000 (UTC)
+Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.167.135.104])
+	by az2uksmom1.o.css.fujitsu.com (Postfix) with ESMTP id 458FF1800A50;
+	Tue, 16 Jun 2026 10:17:30 +0000 (UTC)
+From: Wang Mingyu < wangmy@fujitsu.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH v3] [PATCH] mesa: upgrade 26.0.6 -> 26.1.2,26.0.6 -> 26.1.2
+Date: Tue, 16 Jun 2026 18:17:24 +0800
+Message-ID: <20260616101724.462-1-wangmy@fujitsu.com>
+X-Mailer: git-send-email 2.49.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=IsIutr/g c=1 sm=1 tr=0 ts=6a3119c3 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=klDOsUkWDRETUCZYPvoE:22 a=69wJf7TsAAAA:8 a=t7CeM3EgAAAA:8
- a=s5S4eW_e9MvfE85_1SoA:9 a=Fg1AiH1G6rFz08G2ETeA:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: RSTbNioWhEIUCJ4SfvsQK4OaADXU1-Dd
-X-Proofpoint-ORIG-GUID: RSTbNioWhEIUCJ4SfvsQK4OaADXU1-Dd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE2MDA5NiBTYWx0ZWRfXzaoh3jMD9mUF
- pDSxaljVulNLvtzLGHOHOIIddJg1mtTwal07BiomYSioUc855iWKnUA9FJpIvC0NQcQRpnLhIYg
- 2rVM0m1JlPcQlY91mWd0L8ZBZppWjg5hiAbGn1pJ5qUOhtHq37+wjvb1SD51UEELBhoQ30bME2/
- 6kYQYpYyLdl97eox+hIFtH7ulxWqdKKbUs7yYG1pzlQZIsZn1MvixKiuzLY4ICa27Psm+TeyCeI
- T1ds745p9V/hIQ06Qx4LELoDAGlJAcoQkR6t8Qmvx1b3YOV/lFfZOD6qzxUEylTWcYaeOeSCvNH
- Hxu+QGdusmc3UtdcUEzCv8e1JxM//0sbo17KXmNHM6y1Gfxnqza+XGhjrk4gsqNx1BZxbGrDj4X
- J9N7+LJzc0LbIAOYWwCWl5UJWv/+o0E8Z8oIUjTP+sC0xPdBti+PV8+b0Pf3xApaxt6N7bpoUIO
- pP2cSOL5SYZeRIJq+rA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE2MDA5NiBTYWx0ZWRfX9T4PqbhtoAVs
- ncNRxcyNADK3au4B2F44uVQrCgOWrdBvbMkqGQmr0ZrTGAOcqFXLvwlsCb5LBtLTkLUAdwYlBlq
- OJ4jsijYk0eLwRQoFXNHiWsJRCqKUJK4Pxn9AG78MvrSKDzPG8ub
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-16_02,2026-06-15_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 phishscore=0 spamscore=0
- bulkscore=0 impostorscore=0 malwarescore=0 clxscore=1015 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606040000 definitions=main-2606160096
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 09:39:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238884
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 10:17:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238885
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+add patches to fix compilation with GCC < 13
+
+Add two patches to fix build failures when using older GCC:
+- Fix typed enum syntax not supported by GCC 11.
+- Fix variable declaration after case label not allowed by GCC 10.
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...er-jay-fix-GCC-10-case-label-declara.patch | 42 +++++++++++++++++++
+ ...er-jay-jay_ir.h-do-not-used-typed-en.patch | 39 +++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc           |  6 ++-
+ 3 files changed, 85 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-src-intel-compiler-jay-fix-GCC-10-case-label-declara.patch
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-src-intel-compiler-jay-jay_ir.h-do-not-used-typed-en.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 3071f74650..5a475e51a2 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -63,8 +63,8 @@ COMPATIBLE_HOST:mipsarchn64 = "null"
- COMPATIBLE_HOST:riscv32 = "null"
+diff --git a/meta/recipes-graphics/mesa/files/0001-src-intel-compiler-jay-fix-GCC-10-case-label-declara.patch b/meta/recipes-graphics/mesa/files/0001-src-intel-compiler-jay-fix-GCC-10-case-label-declara.patch
+new file mode 100644
+index 0000000000..b8b8718979
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-src-intel-compiler-jay-fix-GCC-10-case-label-declara.patch
+@@ -0,0 +1,42 @@
++From 0b4b577b7fc926d374234c80267a4bf9dcccb7ef Mon Sep 17 00:00:00 2001
++From: Wang Mingyu <wangmy@fujitsu.com>
++Date: Tue, 16 Jun 2026 09:12:34 +0000
++Subject: [PATCH] src/intel/compiler/jay: fix GCC 10 case label declaration
++ error
++
++GCC 10 (and earlier) does not allow a variable declaration immediately
++after a case label, because a label must be followed by a statement.
++
++  error: a label can only be part of a statement and a declaration is not a statement
++
++Wrap the case block for JAY_OPCODE_DESWIZZLE_ODD in braces to make the
++declaration a valid statement inside the block.
++
++Upstream-Status: Inappropriate [yocto host distro requirements]
++
++Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
++---
++ src/intel/compiler/jay/jay_to_binary.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/src/intel/compiler/jay/jay_to_binary.c b/src/intel/compiler/jay/jay_to_binary.c
++index 62b9576..a0a9498 100644
++--- a/src/intel/compiler/jay/jay_to_binary.c
+++++ b/src/intel/compiler/jay/jay_to_binary.c
++@@ -362,11 +362,12 @@ emit(struct brw_codegen *p,
++       brw_BFN(p, dst, SRC(0), SRC(1), SRC(2), brw_imm_ud(jay_bfn_ctrl(I)));
++       break;
++ 
++-   case JAY_OPCODE_DESWIZZLE_ODD:
+++   case JAY_OPCODE_DESWIZZLE_ODD: {
++       bool hi = simd_offs ? true : jay_deswizzle_odd_src2_hi(I);
++       brw_MOV(p, dst,
++               byte_offset(to_brw_reg(f, I, simd_offs, 0, false), hi ? 64 : 0));
++       break;
+++   }
++ 
++    case JAY_OPCODE_DESWIZZLE_EVEN:
++       brw_set_default_exec_size(p, BRW_EXECUTE_16);
++-- 
++2.43.0
++
+diff --git a/meta/recipes-graphics/mesa/files/0001-src-intel-compiler-jay-jay_ir.h-do-not-used-typed-en.patch b/meta/recipes-graphics/mesa/files/0001-src-intel-compiler-jay-jay_ir.h-do-not-used-typed-en.patch
+new file mode 100644
+index 0000000000..904b20d440
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-src-intel-compiler-jay-jay_ir.h-do-not-used-typed-en.patch
+@@ -0,0 +1,39 @@
++From 3adae0d97f655c2991d5b428a3bc95a972e6228b Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Sun, 14 Jun 2026 17:42:19 +0200
++Subject: [PATCH] src/intel/compiler/jay/jay_ir.h: do not used typed enum
++
++This is a C23 feature and not supported by gcc < 13, which
++many host distros still have (e.g. Debian 12).
++
++Upstream-Status: Inappropriate [yocto host distro requirements]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ src/intel/compiler/jay/jay_ir.h | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/intel/compiler/jay/jay_ir.h b/src/intel/compiler/jay/jay_ir.h
++index 8307044..abf175a 100644
++--- a/src/intel/compiler/jay/jay_ir.h
+++++ b/src/intel/compiler/jay/jay_ir.h
++@@ -579,7 +579,7 @@ jay_type_is_any_float(enum jay_type t)
++    return jay_base_type(t) == JAY_TYPE_F || jay_base_type(t) == JAY_TYPE_BF;
++ }
++ 
++-enum jay_predication : uint8_t {
+++enum jay_predication {
++    /** No predication. */
++    JAY_NOT_PREDICATED = 0,
++ 
++@@ -634,7 +634,7 @@ typedef struct jay_inst {
++    bool decrement_dep:1;
++    unsigned padding  :12;
++ 
++-   enum jay_predication predication;
+++   uint8_t predication;
++    enum jay_conditional_mod conditional_mod;
++ 
++    jay_def cond_flag; /**< conditional flag */
++-- 
++2.47.3
++
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 15dad6eedd..67b740f9e9 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -18,10 +18,12 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+            file://0001-freedreno-don-t-encode-build-path-into-binaries.patch \
+            file://0001-gallivm-Fix-armhf-build-against-LLVM-22.patch \
++           file://0001-src-intel-compiler-jay-jay_ir.h-do-not-used-typed-en.patch \
++           file://0001-src-intel-compiler-jay-fix-GCC-10-case-label-declara.patch \
+ "
  
- # QEMU 11.0.0+ requires a 64-bit host architecture for emulator builds
--COMPATIBLE_HOST:class-target = "(aarch64|x86_64|ppc64|riscv64|loongarch64|mips64|s390x|sparc64).*-linux"
--COMPATIBLE_HOST:class-nativesdk = "(aarch64|x86_64|ppc64|riscv64|loongarch64|mips64|s390x|sparc64).*-linux"
-+COMPATIBLE_HOST:class-target = "(aarch64|x86_64|powerpc64|riscv64|loongarch64|mips64|s390x|sparc64).*-linux"
-+COMPATIBLE_HOST:class-nativesdk = "(aarch64|x86_64|powerpc64|riscv64|loongarch64|mips64|s390x|sparc64).*-linux"
+-SRC_URI[sha256sum] = "1d3c3b8a8363b8cc354175bb4a684ad8b035211cc1d6fa17aeb9b9623c513f89"
+-PV = "26.0.6"
++SRC_URI[sha256sum] = "bac2bca9121897a2b8162e79636b50ac998fca799c8e6cf914edd85962babdf0"
++PV = "26.1.2"
  
- # Per https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg03873.html
- # upstream states qemu doesn't work without optimization
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
 -- 
-2.54.0
+2.43.0
 
 
