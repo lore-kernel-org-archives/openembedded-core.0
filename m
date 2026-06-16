@@ -1,168 +1,148 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <nmjain23@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46918CD98CF
-	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 10:57:57 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.55])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.151383.1781607473218178437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C076CD98E1
+	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 11:14:07 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.151952.1781608438451494173
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2026 03:57:53 -0700
+ Tue, 16 Jun 2026 04:13:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=qFOfIfCF;
- spf=pass (domain: est.tech, ip: 40.107.159.55, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=i2Yp4X6xkqlGVOrFmSY1/TpQWcn4s7Kwu+rEZ6XNuFVTyedwfQf2n5tViLIbr48ySll0n+M0PoiLBTeWhhbWINjll9B9qnUeUQXMbTeKEG7hhl0E7KW936XqyvCSsRe+NLD6elimLD0mgLv0thFu744MTVocDNFSaJv92PHG4HpVupDRGYSvVI61uPXY7TNVzPvZY/WWdjjEdbXFyqQ80mCHubsMGt/xWJBfMhwv3rSknhmE1Uq9S4ylLfRZ2zDYS9ebZHQpjwu6pVWyzWn9QXTVV0MUhT2CjknQbetsC38ziXyyUdrmDzhKLNmFAf0GAeI5ns+JQQPSvR5NU0Pu1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d6mypYunFYuseyFLg1L0iyoWt8pk+PtHp/J76fEQwko=;
- b=CE3G23oYmi3Omc9n/99A1d3RgmvtfmLZj0QextRXKR0Bilg6uWNMt2M2btxvm0hioXTxbSZmHJqVDQVlFor6AG/HyL3FFqmCCiGDeYmlLPoMp2F8U/PkcP589jmwUibP6dtwS6zUAsyNEcspwqsm2zLxGcP1iCZzU+9RUsFo4aNfH1TboOpEZ3NZL4q2F9Web62m+UdkdqetcEhuS1oJzS7+jn5P/X7DW7yk8KBqjD4qhxslzH3ZBW0ZOhTRozR0szSJgAye/itc3OZ+G13BhUJBRfjd056BXU+kMaAHXrDvE35D76T3s66ZOnPTZFYPiyhQCaAyfVcD769MRBGPzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d6mypYunFYuseyFLg1L0iyoWt8pk+PtHp/J76fEQwko=;
- b=qFOfIfCF5SAYpUusngsqsHTQY24UEn8fdwHPavWvx+c1pz6xTVFAqJvzKy85cHG8bMjoHglMIWEjTECT9jGMlIcIuBf/73mH3zU6Hs539S4BYu5S4+IUn1IB56hfPTsjl3kLwHg4BHwejd/f9/sSOeoBnZDsPJD/UC3d9GBYbmLQpTeDoYBbr50r2xJsk936jwM4wFul7nUbJJZ7D6U21E1mM/5nbSkQykX+NUsdXvQJJAOC+z03GxIJo6QeNrU06IWmxefJHqbjTSu/zmTgg4vmOOqHiV88DlgQ1lXoTglIGiaQywJwwoqWHFwq6l0E/bg8JbpqT3XZ3SgBREaq6g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by AMBP189MB3109.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6bc::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Tue, 16 Jun
- 2026 10:57:48 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::566d:7425:a795:5560]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::566d:7425:a795:5560%7]) with mapi id 15.21.0113.015; Tue, 16 Jun 2026
- 10:57:48 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=UFWiACHm;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: nmjain23@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2c0c3546924so27657845ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 04:13:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781608438; x=1782213238; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a2PWu7PypReKOd/s/OLxs2gq7hq2aFAkbcIWyKHTQLM=;
+        b=UFWiACHmQiEAcV2GKhrGiPBImXBrfPBr56dSgrvaDfBpQEuRiydN324zIVX+xhoWJF
+         wrFL8Ute/DGTBGAJYA6RSxL6bZyxIhVbVFMVHpb5LLZ/vwDT2FuwWLkCkrPTFMb0ZYL6
+         RN7GNBHs/TXgvSJ2AkLrzOeHjy1NidmEUTFpTzfDtzfycJfnvi8TYX7GR1lfdBnBnLqg
+         O7LDDDwUUlKfcfVWKW3QhXiDTpua/jAspK3UH14SLWntkXN9uryN0eb80skz6xpAo/NG
+         G7kU4WkQX/iC4DB5HCbX6S3n8Lp2r0Cn+p9DhFRto6tT7/qGYn+G7Vpbcn4JnJs39Lda
+         dJuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781608438; x=1782213238;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a2PWu7PypReKOd/s/OLxs2gq7hq2aFAkbcIWyKHTQLM=;
+        b=b4/tvb3vQl3457CJVvC6PHt7YCXqdFTENusYOK5BIBkw7QC0NBPwvlA1MSxt53I0cx
+         f3MlDbH8Tm2NTkbADP/YY6rsNpuhfwNJRzgZn6jt+M5IN8jchJh01ac/VxaEsvmuO1gS
+         mwiZptxTim5Xw2FDPwCjEclV3fQl8Niz/gyGCRQg/mbSwcL4fvx8U6FLllAhcKXdtPMN
+         rh6NEg44fuECicRXGUyHIxCJse1FLld4o8+Cn0RSeobypwbz67Nls4vrv47bPrYpwcXK
+         /sWPf1z3WbqsuBglNViXC/5EzRaY80SYRlBJzslsDnj9JnuA2ufP7Kb1onIUrbZa6dYS
+         0TFw==
+X-Gm-Message-State: AOJu0YytkXa6lzRlbyzN6HzqrNfwmzx4ai08L3TvOmK16abKsZAUlMMd
+	YZJv64cu3pIH9SWufwno3easM7hw9goh5++x1yCzbosxQVIgmMKfJtnvMsUBpg==
+X-Gm-Gg: Acq92OGvNU5eFQf0fZOxGDruYzGhO5FhLd9JJGBDEWOtP67Ep4DVgOD4twHfLoI8Mjs
+	sC02PalEK/C8MTXH4wUgAqNgVaiTg7lLZ6XBSuiSUNwm2PjE+cbRULa6JzEHcNgt2Yb6vDk/XCl
+	20S7WiPRLK8XENBtgY/SFhToCtBKxfxMj7pI5pE2fJjav/WYlp5YXqbrHEdN6+K1vYYEUgnPYzd
+	VSLbLL9ocwa/ktdDS2X/wMjcVZSfIebluNd/qenMXRJfd7m4zGjv3eBrwpjxpDkSrWZfoXeRzLv
+	r7Jh06Dh9hnoGqxb5SYPk1x1tSQm7EHpX8BqbLdjUx+QIbjbYwEowGKpdwaXURNC1nQR/WFqKSf
+	PuLg2ZxVjn62VYccgMOX1YDAbmS1sFKUlN9nNBhqbzz3P9qIzROeOtRsRMZi4vVp7cMuGEcUFkf
+	EMjVuR9yPyFhCfRxJQfl9xBYQfWTho/+3ViAUVyQtbfhE8k69qslAu7fAI6Lk19oEQnu1yyODD
+X-Received: by 2002:a17:902:fc4d:b0:2b0:7d3d:756a with SMTP id d9443c01a7336-2c6642c0c21mr162841275ad.35.1781608437569;
+        Tue, 16 Jun 2026 04:13:57 -0700 (PDT)
+Received: from LL-3450LLL.kpit.com ([103.133.67.152])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f7c5535sm130996435ad.18.2026.06.16.04.13.55
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 04:13:57 -0700 (PDT)
+From: Naman Jain <nmjain23@gmail.com>
+X-Google-Original-From: Naman Jain <naman.jain@partner.bmw.de>
 To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH v2] install-buildtools: auto-discover environment setup script via glob
-Date: Tue, 16 Jun 2026 12:57:34 +0200
-Message-ID: <20260616105734.47592-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20260615121653.96009-1-jaipaul.cheernam@est.tech>
-References: <20260615121653.96009-1-jaipaul.cheernam@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DU7P189CA0014.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:10:552::21) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
+Subject: [meta][wrynose][PATCH] openssl: upgrade 3.5.6 -> 3.5.7
+Date: Tue, 16 Jun 2026 16:43:41 +0530
+Message-Id: <20260616111341.1385673-1-naman.jain@partner.bmw.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AMBP189MB3109:EE_
-X-MS-Office365-Filtering-Correlation-Id: 904934b0-ede8-4fe0-2f59-08decb961a4c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|56012099006|11063799006|6133799003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	L+F+MNx4u/6rgxfJidkkLue7R48dqkS6KrgoQdXaPRYOz7X5jINCkVn2Ms7luN689N9agc4u3I8WNj1Oh0MIIm/4vrzRPJfv7vT9TmlxhqMAExeG7YQf/ewQnoY8qrk1yct1HkG8a6iACwOAC+TYgd2g8wOgGWdtReGJvdo5pbDPtfFkcjP2ntWFTmGsSX0/KhAsDjVefCQ7Pv02/YOD0oLdvcCENnlrYlRkk2Ft5Gu9+apJSicV4te9YJbO+UHZXBr/TxeMPKiADLfd9K+TOYjQytvH1BJC4cC9gclF8lrSg/GJen6lqIuxKg/pJoPtYoOjMG/LxPTHPzgDOW/0NYCcV+E/734Mw5pi0DOML8Ilj9Y7dCDGyOPkJi7BYm1zj3rCyGfypsI29jqpcdqez1dpSVQnS3qyizV+TXvbM81Li19dSDuVW9KKneviEvMFpVDmQ3EK1xq5MfZn8yXodQf6IubYumDvv8avGhzXUiL8ktjBeUlKTlkmd93GdxH8HShWgkH8kSYw+P9L/UCGNpprUc5+1SAnr9V965nJ3URi35NRra3tFHR/vGZK34yWWGwZY/QWoiBymhPtMDL7YUKBhHQ7ohpxD2nzO7IHd5fCAfMK+vwYX7QhlQZwjsrevCxXJ7NQ5oSBSX0X5HFosmKpvseBpBD5P/OvCBQRDC/X4a+8NsTXZXzebfFEiBvF
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(56012099006)(11063799006)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?tLj8GlYpA7WKAIQN+90RFemOWxEynSO3rEMFwXW2CPgVuhBz2hTzfgcwXKyW?=
- =?us-ascii?Q?p86HU4FJprsPdGxXzo2dKxAUqpX0M3WwNVQmEHIcwq35WNADC2TyGlq/s3cg?=
- =?us-ascii?Q?Z4vChAEXoPJk8dPxm4Ndv/rV8JPl5fqAevowUnPGufKT8Ok8d3LuCjLeYtLL?=
- =?us-ascii?Q?hMjrsDskUcp03j0bUiGFr1XzD6SDfKKLOOixl6633jmhU5Sl+tLbqPp/wpAj?=
- =?us-ascii?Q?3pFn5acOqEUP4H4CIp7sKNAVp2k7LkFwQFO3dSoQImYWOsRjapJ5T2dLbxb2?=
- =?us-ascii?Q?XC4BQ+bZv+KJw9hOzK5Tw9U0NGBJLtSBEHUpe9XCsO/uLhfDEhLy1yLoXpCT?=
- =?us-ascii?Q?Z1TRtoGUG1IAGUTlTX0RFmVKWoTbD57B1QFA2L1qBMTOWALPUnRbUJuWP2z7?=
- =?us-ascii?Q?Kz4CLorR7XwdThMPgJ7iQxJ/YRpP9DcCr/SvoA304sXs4SAsrZmd501zD+si?=
- =?us-ascii?Q?GsCCYBbF9uKqS4A7sZ3JDwPB2AFiuEQ9Ucp16xg0nT+5w8TsW3fCqrrniUlZ?=
- =?us-ascii?Q?EXtFgWTWFhGoR9AsLIGYvxdzC+If0pYDCP6CHmpVvuwCy19JJmYwgGjFN4/P?=
- =?us-ascii?Q?VSkngcZwPGI0fz9nUqCsRboNwg6gUdLAOXW1R4yvsBT69QNYCbCF4s3Iu1oq?=
- =?us-ascii?Q?fUC+41nOBMkaartqrk/KpLHFPjCLgyYymcjCVcdHZz6aepRk+nDdVVIGR6Jm?=
- =?us-ascii?Q?7LXRxH+IXf0HdHoWWgTnxuT8ldDfglOTyxF+A1U3ZFr7kTozAu9KUzGHXPsV?=
- =?us-ascii?Q?idEgbl+Z4haFlVFkSoRJg6DagbWQF+MVVPkgLrIJXGqMP7e6o2pm5C/jGTpA?=
- =?us-ascii?Q?/Hg+My8Ic00Mp78HjaRdQzpMi4SwF6LwYiBd4BNdRSwomdk5c5JC+Np3+Pif?=
- =?us-ascii?Q?yrYeexDgYQwtHnn/MjkVMD8LkbH9wZsyMtHwqMLoiKnbyvP5bluOZNw88Yk+?=
- =?us-ascii?Q?xfpAqndh7RfjZFeG14dL+Pb4d0Nf4I8KIkjXSDh0wvhD1t2HiPhC8bBzy2GZ?=
- =?us-ascii?Q?66xTHfxUBLya7dJPMju1sxmKrg2gdp8Q6TJN5RkHM0AZn/OTacG5SW4Iq2Sz?=
- =?us-ascii?Q?VgXiWzhbz1gMnePeusACBbVYi5/dlBeuFonK/6HCyhfW84dMmKKexNiYlec/?=
- =?us-ascii?Q?Jim8QD6sd06dmBIuZGE1kDjD527l3aJKur1RgCg7rocf1FD00qxdQHrwzhs9?=
- =?us-ascii?Q?H49JaDKJwtP2FAp8Jc3pKUWrowkWWyHO2AnNqjEaLWqtO9iChH54P9M2ZxPK?=
- =?us-ascii?Q?uvIOAIov3JHH58US1imdYvfFUaUtaynfJCoDMB715X16VYa8xaVE4JetSygV?=
- =?us-ascii?Q?yoQ2f4H/QO4MyKWlHzzG7x9JSAWmLiVukcRz1go2MHfNCEj73CbYjiAIneO6?=
- =?us-ascii?Q?+GEh1f50BJ4cDT3R/K+UUE1oZruJ2h9Vz0/f+P9Fewxz/8JunnJIhz6A50yF?=
- =?us-ascii?Q?IRQd0wYCOqnNhybruV7gpBH0HGB6+9iPCVih8gBf1Gg3OG0xHcEnAyvzf0F3?=
- =?us-ascii?Q?K78jMSMR83x908CNFljjExuKU3B3Z8hRxjXaSgI4JkqvnO63uyx1GA6ztBYP?=
- =?us-ascii?Q?zAqTwbh6Lm38Hmsd18OGu3ZATvX3lPenVgzS73m2MwGwvps75p7U2z390zXa?=
- =?us-ascii?Q?dokcMdfo8z4HLr0xNJUtw9uGgGxviXGHiq7VNuLLxt922E9rgUI05ycyFMKJ?=
- =?us-ascii?Q?0dUtWb0qOsRrsw+E1DFZStUSDt5nxZ3wKisvRFmYxINuOc3E6mbKToPOEbhw?=
- =?us-ascii?Q?AOr1br3rCg=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 904934b0-ede8-4fe0-2f59-08decb961a4c
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 10:57:48.1526
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /FxSr/81DLDgBMEJLGaVPl84gFZPIrZbmOFKY/jh6jC9Kxa1GuClm0b3sMzsbA39xdhtuyuCEh5fqWf+Qi185SjmHQFRv7q2ubDzkIBYmZc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBP189MB3109
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 10:57:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238888
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 11:14:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238889
 
-The environment setup script installed by a buildtools tarball is named
-environment-setup-<arch>-<sdk-name>-linux. The script previously hardcoded
-"pokysdk" for this component, so any distro that ships buildtools under a
-different SDK name gets a FileNotFoundError after an otherwise successful
-install.
+From: Peter Marko <peter.marko@siemens.com>
 
-Use glob.glob() to discover the environment setup script by pattern
-matching on environment-setup-<arch>-*-linux in the install directory.
-Since a buildtools install should produce exactly one such script, error
-out if zero or more than one match is found.
+Release information [1]:
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+OpenSSL 3.5.7 is a security patch release. The most severe CVE fixed in this release is High.
+This release incorporates the following bug fixes and mitigations:
+* Fixed heap use-after-free in PKCS7_verify(). (CVE-2026-45447)
+* Fixed CMS AuthEnvelopedData processing may accept forged messages. (CVE-2026-34182)
+* Fixed unbounded memory growth in the QUIC PATH_CHALLENGE handler. (CVE-2026-34183)
+* Fixed NULL pointer dereference in QUIC server initial packet handling. (CVE-2026-42764)
+* Fixed AES-OCB IV ignored on EVP_Cipher() path. (CVE-2026-45445)
+* Fixed possible heap buffer overflow in ASN.1 multibyte string conversion. (CVE-2026-7383)
+* Fixed out-of-bounds read in CMS password-based decryption. (CVE-2026-9076)
+* Fixed heap buffer over-read in ASN.1 content parsing. (CVE-2026-34180)
+* Fixed PKCS#12 files with PBMAC1 are accepted with short HMAC keys. (CVE-2026-34181)
+* Fixed possible NULL dereference in password-dased CMS decryption. (CVE-2026-42766)
+* Fixed NULL pointer dereference in CRMF EncryptedValue decryption. (CVE-2026-42767)
+* Fixed multi-RecipientInfo Bleichenbacher Oracle in CMS_decrypt() and PKCS7_decrypt(). (CVE-2026-42768)
+* Fixed trust anchor substitution via cert/issuer typo in CMP rootCaKeyUpdate. (CVE-2026-42769)
+* Fixed FFC-DH peer validation uses attacker-supplied q. (CVE-2026-42770)
+* Fixed incorrect tag processing for empty messages in AES-GCM-SIV and AES-SIV modes. (CVE-2026-45446)
+
+Refreshed patches.
+Installed new test files to pass ptests.
+
+[1] https://github.com/openssl/openssl/blob/openssl-3.5/NEWS.md#major-changes-between-openssl-356-and-openssl-357-9-jun-2026
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 50962b48a9e7b8b44bf1409d53aab03dd3686c99)
+Signed-off-by: Naman Jain <namanj1@kpit.com>
 ---
- scripts/install-buildtools | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ .../openssl/0001-Configure-do-not-tweak-mips-cflags.patch     | 2 +-
+ .../openssl/{openssl_3.5.6.bb => openssl_3.5.7.bb}            | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.5.6.bb => openssl_3.5.7.bb} (98%)
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index b9c008a2ec..723edd793e 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -33,6 +33,7 @@
- #
-=20
- import argparse
-+import glob
- import logging
- import os
- import platform
-@@ -305,8 +306,17 @@ def main():
-         # Setup the environment
-         logger.info("Setting up the environment")
-         regex =3D re.compile(r'^(?P<export>export )?(?P<env_var>[A-Z_]+)=
-=3D(?P<env_val>.+)$')
--        with open("%s/environment-setup-%s-pokysdk-linux" %
--                  (install_dir, arch), 'rb') as f:
-+        pattern =3D os.path.join(install_dir, "environment-setup-%s-*-linu=
-x" % arch)
-+        matches =3D glob.glob(pattern)
-+        if len(matches) =3D=3D 0:
-+            logger.error("No environment setup script matching %s" % patte=
-rn)
-+            return 1
-+        if len(matches) > 1:
-+            logger.error("Multiple environment setup scripts found: %s"
-+                         % " ".join(matches))
-+            return 1
-+        logger.debug("Using environment setup script: %s" % matches[0])
-+        with open(matches[0], 'rb') as f:
-             for line in f:
-                 match =3D regex.search(line.decode('utf-8'))
-                 logger.debug("export regex: %s" % match)
---=20
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
+index cf5ff356ee..cd8906df67 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
+@@ -20,7 +20,7 @@ diff --git a/Configure b/Configure
+ index fff97bd..5ee54c1 100755
+ --- a/Configure
+ +++ b/Configure
+-@@ -1552,16 +1552,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
++@@ -1557,16 +1557,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
+          push @{$config{shared_ldflag}}, "-mno-cygwin";
+          }
+  
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.6.bb b/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
+similarity index 98%
+rename from meta/recipes-connectivity/openssl/openssl_3.5.6.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.5.7.bb
+index 6685654472..212879dfa3 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.5.6.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
+@@ -19,7 +19,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[sha256sum] = "deae7c80cba99c4b4f940ecadb3c3338b13cb77418409238e57d7f31f2a3b736"
++SRC_URI[sha256sum] = "a8c0d28a529ca480f9f36cf5792e2cd21984552a3c8e4aa11a24aa31aeac98e8"
+ 
+ inherit lib_package multilib_header multilib_script ptest perlnative manpages
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+@@ -223,7 +223,7 @@ do_install_ptest() {
+ 	ln -s ${bindir}/openssl ${D}${PTEST_PATH}/apps
+ 
+ 	cd ${S}
+-	find test/certs test/ct test/d2i-tests test/recipes test/ocsp-tests test/ssl-tests test/smime-certs -type f -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
++	find test/certs test/ct test/d2i-tests test/recipes test/ocsp-tests test/ssl-tests test/smime-certs test/smime-eml -type f -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
+ 	find apps test -name \*.cnf -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
+ 	find apps test -name \*.der -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
+ 	find apps test -name \*.pem -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
+-- 
 2.34.1
 
 
