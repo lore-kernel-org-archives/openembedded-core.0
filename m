@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B290CD98E1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8714ECD98F0
 	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 19:17:10 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5763.1781637422977651857
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5801.1781637428316903285
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2026 12:17:03 -0700
+ Tue, 16 Jun 2026 12:17:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=PvaLDJNn;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490c1915793so41653045e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 12:17:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=JexVzFoS;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490acbb0f89so32341185e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 12:17:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781637421; x=1782242221; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1781637426; x=1782242226; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TCeLRZ8XBTBiZZ+kUoGdMix1ELLL4aIh4E8UlkhCSnw=;
-        b=PvaLDJNnYIVOAieLFOyoKshDQnAsvvnj7cjWnqRZVoDzddNPTm9aOQF6qOsI5/O2qh
-         JS/GyxPX0l8LVbxo6G4xcp75ONKo+c7Y0xdslYD0mdnHg+P/2kQ50BbCXOPTgW37MOJk
-         X9AEPEtDmLYVsoOVDk9KxgLS0x9Jc84nzaHvfINme6iVqif/FKSF7l1ZgF3SzJ1A2yZs
-         hr1+ubYe7AdoCsoyakUmQb6qMYpY7ycA/91bSXERlSajrnDr+qCYiTkJHmmip8yntwSl
-         8EAwbMv0FC5jvXyFx8tcXSq3Q658z270v5VP89xGb48gP/ghJXgtvs/IGcF1OSkOJ6vB
-         nhOQ==
+        bh=RNXo4uGgy1Ze+whLvvY1evTgDmT/TSqlDPuSfc/ieDU=;
+        b=JexVzFoSgJBMnksH5O5ZRfxRk3ZyGmPWkw5NCNMNx2wPa2VEoWe9UnWDj3tHUWYuFY
+         x2hZsxHfdmCcBah5xUJXbDttOvITv1OVWiq/MVJPmVsR7+1XKRvkl10HVvQVu/xAllvE
+         iINzbLgh2LLPeaFvODou9hmHDlOukRgodgy4qFnmHRC0UAG7OKfpw456wpQLHFJuTzmr
+         wZNkloz5d4wUcsseB2XeL2wIUPT02gYX4vbId7ow4kvNufbGyjsK7qHJjCJA0Bq0XNG1
+         dJoAAMKYi/nGDvoU0i/1KQejBH3F42BQZrTfSd+hkxXlwSvvME4/ZTlHZl0a27ZxlALV
+         /yJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781637421; x=1782242221;
+        d=1e100.net; s=20251104; t=1781637426; x=1782242226;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=TCeLRZ8XBTBiZZ+kUoGdMix1ELLL4aIh4E8UlkhCSnw=;
-        b=A80z17ITrhIcNIKuntjKNhGLEpXhHbz8Rb803n7BBXTAUfVmVUsZIdBeF3WexkTOg+
-         XQC5CasXX05qjc2YPvpHtEb2qTq0cGAW87WSA1yoEkBT2CPl1xV/uvfyR+lua8ez5Rgc
-         7yrkw7MHPNXYv5cJOlqwymwoww3102VzIvlAnC9bYBhNgREAN5QQlamQs1py09sbAIYj
-         KWTt0FB5P0wNys5DmpVw2fTf8PloqTEQcKVPfgrWIqD0ya9QlncpxFzVzzJtI/D1n9zc
-         MiaZQA94STJzq99b0Zk/XSQT5EXCXOORSyAQJvPzfXsGhPvYG/YGYqTnYrFs7K9Mi/Pr
-         3ihw==
-X-Gm-Message-State: AOJu0YyS35YIMbRu+ll0DF5CUgWpGu/Ux4KD4N0gC+jlgS8SS+HPG9yE
-	FwJBTJk7obalLGwPJWEP5BoWjblOb4Ni5yoAYs0mVO7PFssoplKHWdwKPdsGD5ez
-X-Gm-Gg: Acq92OG7B5YgdEA/3l/W0GFSRb8f647I5tegmcvLtycD/ywQFB6AIEFZ8dVCJ3JP82l
-	MV1MZrqb+hw1R4EKVMLq+/cpTJucqLeWRW2XtrBIse+IYtMpTFPo9gOYvdFvV6/OV9Jzre5IoI9
-	bmQ7Eja3ny4QATOsFcqyHaEp5irS5cbT/ex0VkdeMIqSv0KrFMpi00fjoIT2lKEGzc680NAVket
-	dlCztgC7FXpe64VgTHmChyZ2FsRuSmSqV1k0hxVNjCzkC7KEEMj4d6OqXA2NTFrdO4WMz/NbFOY
-	djHWlYkjUQe9Xdfoy+cOh/HDzytNaYIq3HgdCpIDDOy712zFnlr6GgKerU4W+xNsAMmk2usf8kt
-	A/59+7wgyO2ty1apGrSHepRR4ysqnnLEdMvdufNqJ1uzujedLVTtV/WxjbbHUEQ4jk3HWOOGbF8
-	l5Q1hlKQbjERDcaeQoXr6ErSyxPq9souvT6SckBF56ybFvoWoQeN3Bi7Gqj7s=
-X-Received: by 2002:a05:600c:c08b:b0:490:b5d0:598e with SMTP id 5b1f17b1804b1-492333c95b7mr10705825e9.21.1781637421017;
-        Tue, 16 Jun 2026 12:17:01 -0700 (PDT)
+        bh=RNXo4uGgy1Ze+whLvvY1evTgDmT/TSqlDPuSfc/ieDU=;
+        b=Z/9s2hv2fzl02cmZyuEUhtuUe+yuS3WZceufCwE7bssD33v/miJxkhi3TGGzj+WRep
+         7BmhrnClhWJYq4HEl6t6E0BLCYr04DidZS8d+scryxto64kpVd9jZ0biRKUBUUJZxALF
+         RJU+GrHpXGw68X1FCHNuQKlh3I1CCOWDy/fdBhGXaa3QDmsvFhJjLQcAPhAyNZIUyIud
+         T/9QNqDmqsXPfALG2bvnehjVnY8JCEy487X1tIByehRNty+S45NazCsRaaeJpRphWqc3
+         X/DFZKwyZuzUm6y7fSvXy6hhgmaFDCDQ5xagHo8UU0gaTCVCuz+BgabuOJe7YJrxkyx+
+         6jPQ==
+X-Gm-Message-State: AOJu0YzrlZcvhvgrXaOkCYbQI8DWcfV5iSM4Cz4E5r4fLXGLXUQ2xogS
+	U+7pIrYmKo/Sf+TUsh+irYy8TGdiOP60/3O+djuhNNHnkc7xGv44kpE9ZRveI3dN
+X-Gm-Gg: Acq92OGlzvT8no5C0ag1xNF/aUHl/Qx6J+zamc6C0N2oDqBuzOrPg/H/OToPleUhoeK
+	rf3/b6Ti6EkpLVWHTTvlbktxfuC512f1FbCvMMYtCNSDJhwXJ+VI69RA+Fo18C572iYDskB5SDP
+	7oVwd4e2zLDziLvyTqcYuwefg8uHDVP0VRbvR77nADxz656OxMP1waBUcH/K0tIvakWDz5lX5FB
+	I4qjSheobFin4UjX1kQjyBMTJdx6n5VWnNh2X0nlL3xdiyWqA0zH4qXxuXf5kGm6zOUkZlx/CwX
+	K/mtIXj5eFVwFnQtwmo61KTCsxi462s8eSlXPOgpglG8aV2SBBloy1UPV9FIr16snVzUfsCip7h
+	1lZbxdRhB7zolX3EMoAJYm1Cs6qt3pWGuM6VKKOazjeXbwT+h163m4ggkCLjVJnhyISX7cv0CnG
+	f5kSWtJjrdlXWaswLTS1mLwpIJM/PKBItxtTSrpLfX8EWOsipK4dSRTNzMhl96keurzkGQvA==
+X-Received: by 2002:a05:600c:c113:b0:490:ea88:9d4c with SMTP id 5b1f17b1804b1-492333df02dmr12000615e9.32.1781637426290;
+        Tue, 16 Jun 2026 12:17:06 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49230a4f8d7sm86982035e9.5.2026.06.16.12.16.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49230a4f8d7sm86982035e9.5.2026.06.16.12.17.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 12:17:00 -0700 (PDT)
+        Tue, 16 Jun 2026 12:17:05 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 25/30] perl: upgrade 5.42.0 -> 5.42.2
-Date: Tue, 16 Jun 2026 21:16:21 +0200
-Message-ID: <20260616191628.2014553-25-alex.kanavin@gmail.com>
+Subject: [PATCH 28/30] tcf-agent: upgrade 1.9.0 -> 1.11.0
+Date: Tue, 16 Jun 2026 21:16:24 +0200
+Message-ID: <20260616191628.2014553-28-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260616191628.2014553-1-alex.kanavin@gmail.com>
 References: <20260616191628.2014553-1-alex.kanavin@gmail.com>
@@ -67,310 +67,77 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 19:17:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238950
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238953
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Add a patch to perlcross to support building this perl
-version (perlcross is sluggish to support new perl releases
-lately).
-
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../files/0001-patches-for-perl-5.42.2.patch  | 110 ++++++++++++++++++
- .../perl-cross/perlcross_1.6.4.bb             |   1 +
- ...ule-breaks-through-the-perl-wrapper-.patch |   8 +-
- ...Makefile.PL-Fix-_PATH_LOG-for-determ.patch |   2 +-
- .../files/0002-Constant-Fix-up-shebang.patch  |   2 +-
- .../perl/files/determinism.patch              |   2 +-
- .../perl/files/encodefix.patch                |   2 +-
- .../perl/files/errno_ver.diff                 |   2 +-
- .../perl/files/native-perlinc.patch           |   6 +-
- .../perl/files/perl-configpm-switch.patch     |   4 +-
- .../perl/files/perl-dynloader.patch           |   2 +-
- .../perl/{perl_5.42.0.bb => perl_5.42.2.bb}   |   2 +-
- 12 files changed, 127 insertions(+), 16 deletions(-)
- create mode 100644 meta/recipes-devtools/perl-cross/files/0001-patches-for-perl-5.42.2.patch
- rename meta/recipes-devtools/perl/{perl_5.42.0.bb => perl_5.42.2.bb} (99%)
+ .../tcf-agent/tcf-agent/ldflags.patch         | 22 +++++++++----------
+ ...tcf-agent_1.9.0.bb => tcf-agent_1.11.0.bb} |  2 +-
+ 2 files changed, 11 insertions(+), 13 deletions(-)
+ rename meta/recipes-devtools/tcf-agent/{tcf-agent_1.9.0.bb => tcf-agent_1.11.0.bb} (98%)
 
-diff --git a/meta/recipes-devtools/perl-cross/files/0001-patches-for-perl-5.42.2.patch b/meta/recipes-devtools/perl-cross/files/0001-patches-for-perl-5.42.2.patch
-new file mode 100644
-index 0000000000..8d9aa26293
---- /dev/null
-+++ b/meta/recipes-devtools/perl-cross/files/0001-patches-for-perl-5.42.2.patch
-@@ -0,0 +1,110 @@
-+From 61e182b82c13111c91ccbe9f6e94ceb4164b2aea Mon Sep 17 00:00:00 2001
-+From: Francois Perrad <francois.perrad@gadz.org>
-+Date: Wed, 29 Apr 2026 12:43:32 +0200
-+Subject: [PATCH] patches for perl-5.42.2
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+index d701e8dec0..9a911051e6 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+@@ -1,29 +1,27 @@
++From 2132bc5206b5d619c74caa391bc00d6f91d6ebe2 Mon Sep 17 00:00:00 2001
++From: Abdur Rehman <abdur_rehman@mentor.com>
++Date: Wed, 26 Aug 2015 19:18:11 +0500
++Subject: [PATCH] tcf-agent: obey LDFLAGS
 +
-+Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/174]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ cnf/diffs/perl5-5.42.2/constant.patch       | 1 +
-+ cnf/diffs/perl5-5.42.2/dynaloader.patch     | 1 +
-+ cnf/diffs/perl5-5.42.2/findext.patch        | 1 +
-+ cnf/diffs/perl5-5.42.2/installscripts.patch | 1 +
-+ cnf/diffs/perl5-5.42.2/liblist.patch        | 1 +
-+ cnf/diffs/perl5-5.42.2/makemaker.patch      | 1 +
-+ cnf/diffs/perl5-5.42.2/posix-makefile.patch | 1 +
-+ cnf/diffs/perl5-5.42.2/test-checkcase.patch | 1 +
-+ cnf/diffs/perl5-5.42.2/test-makemaker.patch | 1 +
-+ cnf/diffs/perl5-5.42.2/xconfig.patch        | 1 +
-+ 10 files changed, 10 insertions(+)
-+ create mode 120000 cnf/diffs/perl5-5.42.2/constant.patch
-+ create mode 120000 cnf/diffs/perl5-5.42.2/dynaloader.patch
-+ create mode 120000 cnf/diffs/perl5-5.42.2/findext.patch
-+ create mode 120000 cnf/diffs/perl5-5.42.2/installscripts.patch
-+ create mode 120000 cnf/diffs/perl5-5.42.2/liblist.patch
-+ create mode 120000 cnf/diffs/perl5-5.42.2/makemaker.patch
-+ create mode 120000 cnf/diffs/perl5-5.42.2/posix-makefile.patch
-+ create mode 120000 cnf/diffs/perl5-5.42.2/test-checkcase.patch
-+ create mode 120000 cnf/diffs/perl5-5.42.2/test-makemaker.patch
-+ create mode 120000 cnf/diffs/perl5-5.42.2/xconfig.patch
-+
-+diff --git a/cnf/diffs/perl5-5.42.2/constant.patch b/cnf/diffs/perl5-5.42.2/constant.patch
-+new file mode 120000
-+index 0000000..065e198
-+--- /dev/null
-++++ b/cnf/diffs/perl5-5.42.2/constant.patch
-+@@ -0,0 +1 @@
-++../perl5-5.22.3/constant.patch
-+\ No newline at end of file
-+diff --git a/cnf/diffs/perl5-5.42.2/dynaloader.patch b/cnf/diffs/perl5-5.42.2/dynaloader.patch
-+new file mode 120000
-+index 0000000..ffb73eb
-+--- /dev/null
-++++ b/cnf/diffs/perl5-5.42.2/dynaloader.patch
-+@@ -0,0 +1 @@
-++../perl5-5.22.3/dynaloader.patch
-+\ No newline at end of file
-+diff --git a/cnf/diffs/perl5-5.42.2/findext.patch b/cnf/diffs/perl5-5.42.2/findext.patch
-+new file mode 120000
-+index 0000000..9efbe5b
-+--- /dev/null
-++++ b/cnf/diffs/perl5-5.42.2/findext.patch
-+@@ -0,0 +1 @@
-++../perl5-5.22.3/findext.patch
-+\ No newline at end of file
-+diff --git a/cnf/diffs/perl5-5.42.2/installscripts.patch b/cnf/diffs/perl5-5.42.2/installscripts.patch
-+new file mode 120000
-+index 0000000..1c05e0f
-+--- /dev/null
-++++ b/cnf/diffs/perl5-5.42.2/installscripts.patch
-+@@ -0,0 +1 @@
-++../perl5-5.36.0/installscripts.patch
-+\ No newline at end of file
-+diff --git a/cnf/diffs/perl5-5.42.2/liblist.patch b/cnf/diffs/perl5-5.42.2/liblist.patch
-+new file mode 120000
-+index 0000000..5037380
-+--- /dev/null
-++++ b/cnf/diffs/perl5-5.42.2/liblist.patch
-+@@ -0,0 +1 @@
-++../perl5-5.42.0/liblist.patch
-+\ No newline at end of file
-+diff --git a/cnf/diffs/perl5-5.42.2/makemaker.patch b/cnf/diffs/perl5-5.42.2/makemaker.patch
-+new file mode 120000
-+index 0000000..d7bd609
-+--- /dev/null
-++++ b/cnf/diffs/perl5-5.42.2/makemaker.patch
-+@@ -0,0 +1 @@
-++../perl5-5.38.0/makemaker.patch
-+\ No newline at end of file
-+diff --git a/cnf/diffs/perl5-5.42.2/posix-makefile.patch b/cnf/diffs/perl5-5.42.2/posix-makefile.patch
-+new file mode 120000
-+index 0000000..29463b7
-+--- /dev/null
-++++ b/cnf/diffs/perl5-5.42.2/posix-makefile.patch
-+@@ -0,0 +1 @@
-++../perl5-5.22.3/posix-makefile.patch
-+\ No newline at end of file
-+diff --git a/cnf/diffs/perl5-5.42.2/test-checkcase.patch b/cnf/diffs/perl5-5.42.2/test-checkcase.patch
-+new file mode 120000
-+index 0000000..36c5186
-+--- /dev/null
-++++ b/cnf/diffs/perl5-5.42.2/test-checkcase.patch
-+@@ -0,0 +1 @@
-++../perl5-5.22.3/test-checkcase.patch
-+\ No newline at end of file
-+diff --git a/cnf/diffs/perl5-5.42.2/test-makemaker.patch b/cnf/diffs/perl5-5.42.2/test-makemaker.patch
-+new file mode 120000
-+index 0000000..4e970ff
-+--- /dev/null
-++++ b/cnf/diffs/perl5-5.42.2/test-makemaker.patch
-+@@ -0,0 +1 @@
-++../perl5-5.34.0/test-makemaker.patch
-+\ No newline at end of file
-+diff --git a/cnf/diffs/perl5-5.42.2/xconfig.patch b/cnf/diffs/perl5-5.42.2/xconfig.patch
-+new file mode 120000
-+index 0000000..87ac501
-+--- /dev/null
-++++ b/cnf/diffs/perl5-5.42.2/xconfig.patch
-+@@ -0,0 +1 @@
-++../perl5-5.42.0/xconfig.patch
-+\ No newline at end of file
-diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb b/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb
-index 3c544c9746..bb6c1b908a 100644
---- a/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb
-+++ b/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb
-@@ -15,6 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/perl-cross-${PV}.tar.gz;name=perl-c
-            file://0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch \
-            file://determinism.patch \
-            file://0001-Makefile-check-the-file-if-patched-or-not.patch \
-+           file://0001-patches-for-perl-5.42.2.patch \
-            "
- GITHUB_BASE_URI = "https://github.com/arsv/perl-cross/releases/"
+ We need LDFLAGS to be respected otherwise there are QA warnings as the right
+ flags don't get used.
  
-diff --git a/meta/recipes-devtools/perl/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch b/meta/recipes-devtools/perl/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch
-index 2076c61ee0..915ae92dae 100644
---- a/meta/recipes-devtools/perl/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch
-+++ b/meta/recipes-devtools/perl/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch
-@@ -1,4 +1,4 @@
--From 47cd22cd213d2c5f28e674b12c264dc731682560 Mon Sep 17 00:00:00 2001
-+From 7e82d4ac0a2ae14c39b1d2e8e65daa714df4fe06 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 5 Jun 2018 14:58:42 +0300
- Subject: [PATCH] Somehow this module breaks through the perl wrapper and
-@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 4 insertions(+)
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
  
- diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
--index fe38598..0828f52 100644
-+index 570fe52..46fad15 100644
- --- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
- +++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
--@@ -1161,6 +1161,9 @@ WARNING
-+@@ -1188,6 +1188,9 @@ WARNING
-      }
+-From d92af0483c20365fd0af740d0baef8870b4aa374 Mon Sep 17 00:00:00 2001
+-From: Abdur Rehman <abdur_rehman@mentor.com>
+-Date: Wed, 26 Aug 2015 19:18:11 +0500
+-Subject: [PATCH] tcf-agent: obey LDFLAGS
+-
+ Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
+ 
+ Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
+ 
+ Signed-off-by: Mark hatle <mark.hatle@amd.com>
+-
+-
+ ---
+- Makefile.inc |    2 +-
++ Makefile.inc | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-Index: agent/Makefile.inc
+-===================================================================
+---- agent.orig/Makefile.inc
+-+++ agent/Makefile.inc
++diff --git a/Makefile.inc b/Makefile.inc
++index 63f062b2..5da23c02 100644
++--- a/Makefile.inc
+++++ b/Makefile.inc
+ @@ -111,7 +111,7 @@ NO_LINK_F   ?= -c
+  # Linker definition and flags
   
-      foreach my $name (@$names){
-@@ -24,7 +24,7 @@ index fe38598..0828f52 100644
-          my ($abs, $use_dir);
-          if ($self->file_name_is_absolute($name)) {     # /foo/bar
-              $abs = $name;
--@@ -2097,6 +2100,7 @@ sub init_PERL {
-+@@ -2120,6 +2123,7 @@ sub init_PERL {
-  
-      $self->{PERL} ||=
-          $self->find_perl(5.0, \@perls, \@defpath, $Verbose );
-diff --git a/meta/recipes-devtools/perl/files/0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-determ.patch b/meta/recipes-devtools/perl/files/0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-determ.patch
-index 7e5d08d8db..bf5c300980 100644
---- a/meta/recipes-devtools/perl/files/0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-determ.patch
-+++ b/meta/recipes-devtools/perl/files/0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-determ.patch
-@@ -1,4 +1,4 @@
--From 322972384e0795be339252f7cf9a318dc759b51e Mon Sep 17 00:00:00 2001
-+From deb4bdaab20ab3110682038877fdc3287af30703 Mon Sep 17 00:00:00 2001
- From: Robert Yang <liezhi.yang@windriver.com>
- Date: Fri, 18 Feb 2022 09:44:26 +0000
- Subject: [PATCH] cpan/Sys-Syslog/Makefile.PL: Fix _PATH_LOG for deterministic
-diff --git a/meta/recipes-devtools/perl/files/0002-Constant-Fix-up-shebang.patch b/meta/recipes-devtools/perl/files/0002-Constant-Fix-up-shebang.patch
-index 80986e66da..438a6173c8 100644
---- a/meta/recipes-devtools/perl/files/0002-Constant-Fix-up-shebang.patch
-+++ b/meta/recipes-devtools/perl/files/0002-Constant-Fix-up-shebang.patch
-@@ -1,4 +1,4 @@
--From a02355bdc8cde1115daf101675cdfb707d337bf1 Mon Sep 17 00:00:00 2001
-+From 5c9981da04fa0229ddc034eb58f69ad723fe7985 Mon Sep 17 00:00:00 2001
- From: Joshua Watt <JPEWhacker@gmail.com>
- Date: Mon, 17 Jun 2019 10:47:23 -0500
- Subject: [PATCH] Constant: Fix up shebang
-diff --git a/meta/recipes-devtools/perl/files/determinism.patch b/meta/recipes-devtools/perl/files/determinism.patch
-index bdb9a928bb..61ba1a5791 100644
---- a/meta/recipes-devtools/perl/files/determinism.patch
-+++ b/meta/recipes-devtools/perl/files/determinism.patch
-@@ -1,4 +1,4 @@
--From 5c4fd57daf125357262aa796057d7be8e78d378e Mon Sep 17 00:00:00 2001
-+From 012e670f8fb6d4c6c196c91909c95358ca9f6289 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Wed, 5 Feb 2020 23:54:02 +0000
- Subject: [PATCH] Fixes to make the perl build reproducible:
-diff --git a/meta/recipes-devtools/perl/files/encodefix.patch b/meta/recipes-devtools/perl/files/encodefix.patch
-index 665699d12d..20c66e6458 100644
---- a/meta/recipes-devtools/perl/files/encodefix.patch
-+++ b/meta/recipes-devtools/perl/files/encodefix.patch
-@@ -1,4 +1,4 @@
--From a4e22c7f2a519f24bc8aa89c6677017c0fe13679 Mon Sep 17 00:00:00 2001
-+From fa9b58f55bf76a13c360e921d169808c6c6058ca Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Tue, 18 Feb 2020 17:27:26 +0000
- Subject: [PATCH] perl: Fix encode module reproducibility issues
-diff --git a/meta/recipes-devtools/perl/files/errno_ver.diff b/meta/recipes-devtools/perl/files/errno_ver.diff
-index 477642f457..dfd93307ce 100644
---- a/meta/recipes-devtools/perl/files/errno_ver.diff
-+++ b/meta/recipes-devtools/perl/files/errno_ver.diff
-@@ -1,4 +1,4 @@
--From 9c404d4b1c3607e827fb56b5ae4f8fbbdb52cd0b Mon Sep 17 00:00:00 2001
-+From 0a95cdcd9d4724b27a8712caa52136266702cbe2 Mon Sep 17 00:00:00 2001
- From: Brendan O'Dea <bod@debian.org>
- Date: Fri, 16 Dec 2005 01:32:14 +1100
- Subject: [PATCH] Remove Errno version check due to upgrade problems with
-diff --git a/meta/recipes-devtools/perl/files/native-perlinc.patch b/meta/recipes-devtools/perl/files/native-perlinc.patch
-index 7e3e5f6652..33af3b1283 100644
---- a/meta/recipes-devtools/perl/files/native-perlinc.patch
-+++ b/meta/recipes-devtools/perl/files/native-perlinc.patch
-@@ -1,4 +1,4 @@
--From 9fec62b19a49d1451fd1120c5dc38baf59f73856 Mon Sep 17 00:00:00 2001
-+From 852ada6549493fbf6814be5a889d4f01ba4a2b62 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 30 May 2007 09:33:32 +0000
- Subject: [PATCH] perl: sync with OE
-@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 13 insertions(+)
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
+rename to meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
+index 132b3d7dee..6e9c7fc0ad 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_1.9.0.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
+@@ -6,7 +6,7 @@ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
+ LICENSE = "EPL-1.0 | BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
  
- diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
--index 0828f52..b8abff4 100644
-+index 46fad15..e543178 100644
- --- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
- +++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
--@@ -1862,6 +1862,19 @@ from the perl source tree.
-+@@ -1892,6 +1892,19 @@ from the perl source tree.
-  	$self->{PERL_LIB}     ||= $Config{privlibexp};
-  	$self->{PERL_ARCHLIB} ||= $Config{archlibexp};
-  	$self->{PERL_INC}     = $self->catdir("$self->{PERL_ARCHLIB}","CORE"); # wild guess for now
-diff --git a/meta/recipes-devtools/perl/files/perl-configpm-switch.patch b/meta/recipes-devtools/perl/files/perl-configpm-switch.patch
-index 3721277933..71f4232f8b 100644
---- a/meta/recipes-devtools/perl/files/perl-configpm-switch.patch
-+++ b/meta/recipes-devtools/perl/files/perl-configpm-switch.patch
-@@ -1,4 +1,4 @@
--From 7a48538a7e8614a3342151b646d2105c0cb0cdd9 Mon Sep 17 00:00:00 2001
-+From 74a6e07841cb0efe520e70b2ff7e17a29d081d78 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Sun, 27 May 2007 21:04:11 +0000
- Subject: [PATCH] perl: 5.8.7 -> 5.8.8 (from OE)
-@@ -19,7 +19,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 16 insertions(+), 2 deletions(-)
+-SRCREV = "9076423f959d53aafa4000d6bb8bf2a1485971b9"
++SRCREV = "3051a4806ac4b041ec7c49ffc6d07f0014b8480c"
  
- diff --git a/configpm b/configpm
--index 07219d8..01a23fa 100755
-+index 0c46b9e..1daebef 100755
- --- a/configpm
- +++ b/configpm
- @@ -718,7 +718,7 @@ $config_txt .= uncomment <<'ENDOFEND';
-diff --git a/meta/recipes-devtools/perl/files/perl-dynloader.patch b/meta/recipes-devtools/perl/files/perl-dynloader.patch
-index 5472602d3a..c54fca9486 100644
---- a/meta/recipes-devtools/perl/files/perl-dynloader.patch
-+++ b/meta/recipes-devtools/perl/files/perl-dynloader.patch
-@@ -1,4 +1,4 @@
--From 25a26c52c320e699b37a7ad1f4f045bc8aa4cb00 Mon Sep 17 00:00:00 2001
-+From 93243292a3b0cf0de5766a7429e8e6936236c236 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard@openedhand.com>
- Date: Sun, 27 May 2007 21:04:11 +0000
- Subject: [PATCH] perl: 5.8.7 -> 5.8.8 (from OE)
-diff --git a/meta/recipes-devtools/perl/perl_5.42.0.bb b/meta/recipes-devtools/perl/perl_5.42.2.bb
-similarity index 99%
-rename from meta/recipes-devtools/perl/perl_5.42.0.bb
-rename to meta/recipes-devtools/perl/perl_5.42.2.bb
-index 1833b7a352..f076431aff 100644
---- a/meta/recipes-devtools/perl/perl_5.42.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.42.2.bb
-@@ -26,7 +26,7 @@ SRC_URI:append:class-target = " \
-            file://encodefix.patch \
- "
- 
--SRC_URI[perl.sha256sum] = "e093ef184d7f9a1b9797e2465296f55510adb6dab8842b0c3ed53329663096dc"
-+SRC_URI[perl.sha256sum] = "9384e8deb75b7b1695e5637971b752281aaecd025a3d5d4734d33c1d0adfee47"
- 
- B = "${WORKDIR}/perl-${PV}-build"
- 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ SRC_URI = "git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git;protocol=https;branch=master;tag=${PV} \
 -- 
 2.47.3
 
