@@ -2,51 +2,53 @@ Return-Path: <andreas.muetzel@emlix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13AF2CD98E4
-	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 14:40:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC046CD98E1
+	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 14:40:38 +0000 (UTC)
 Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.155917.1781620827459130090
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.156147.1781620835592526761
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2026 07:40:28 -0700
+ Tue, 16 Jun 2026 07:40:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=YHqqhpOO;
- dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=AprIvLdn;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=kZphybbi;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=kZphybbi;
  spf=pass (domain: emlix.com, ip: 178.63.209.131, mailfrom: andreas.muetzel@emlix.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
-	s=20250930; t=1781620825;
-	bh=sTIxVnBBG717MadZbbDsyvf+z9r0Hmfd9rUgU0DdTdo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YHqqhpOO5tOPZWcdVlFdpAc1v1sZGhe2zoYLuF4RYB9q2v1HmQLQcDD/hL23A6KeJ
-	 wCIyVLdkV6iEDMd4zYD9S5eGB4oYIvjokcw5GYxf+Uph7CZii2deX46SZXeGEYc/JU
-	 9PI+G0dybFKpyeG0u8rJCk0M9e5qFc3VSSKw+eHGqkVySabryjatA6jW2jDAQBbOkq
-	 dLl1piBy83Nx62wDqzhADBMd8As7HyKmMt8l00v45wPtMCClUEib5fMaqxdWx6AsYj
-	 coXM5KmGv0nOQ3W4LaXDsWkJH0uHUs22yMr7aWkijjENqRdrG0/05D8PLeAxb4ucJo
-	 ykKv0CCHHnnjg==
+	s=20250930; t=1781620826;
+	bh=CtXyxuxhYiAE3FwXSbDxn4ixyORaUkVLk0oOfl5ycYg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=kZphybbijVf+O7Y0d6ItlDK90WDeHI5r4+Qm8eu231UUzxdSDOVQ0obsM7F9mgq7s
+	 MsdG1jhYE2y6mNoLnnCuAPE3v8fQu7BukuaxjKK0KiYiyQ1AGMJpPonOp8/3v/gqwc
+	 X5wA3AqcB76OzvrPFCEzhSe9doPoTW1Y7sQDB7V0zYXmMPOLhV1Wph3yDzz7UwGvYn
+	 /mj3PsNGZb9Yp1BV4Oi8UcxoDQ1LI7E121BdrfU7yM2rFVQdsicDUmY4T4E7Kybk5m
+	 J9wWfNBYWc3A6840H8+9ab6ZI9NqD5pj5lfAWDG+900ATzSXyzcrH5POIp6951J0aO
+	 c0FH0VfD75IJg==
 Received: from mx1.emlix.com (localhost [127.0.0.1])
-	by mx1.emlix.com (Postfix) with ESMTP id 07CAE5F9D3
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 16:40:25 +0200 (CEST)
+	by mx1.emlix.com (Postfix) with ESMTP id 5ABC45FA60
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 16:40:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
-	s=20250930; t=1781620824;
-	bh=sTIxVnBBG717MadZbbDsyvf+z9r0Hmfd9rUgU0DdTdo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=AprIvLdnlN16rUyFUlV2ZcXnueGo+pchTSmkN/y6NLgb2h7DXoaMM3XS+8qRtf/yR
-	 /mfnF99daTAYM1MLiYwA86khjZ7IxCJXdnxmTt5tkHbEuIRNi1Dq1JipclmLyPenhO
-	 t3444Je5mHaoEu3pa1qC1CUBmHE1DFuk6u4I+a3zt86qyxZQwE27gY0GQfKUGeru2z
-	 JdR6lX9MDmYuOxAS8M+RCWmpvaEWOdtsn3jlJMYDdebA5hZkSsFCIODlX1wMgRus93
-	 TB6XXcbUdzW1DRYukIhm73b3cGqTsLLU+mEkQ/BFwe9F4kfhvkX5Dm96Vn/FIeTaVp
-	 skjStQxf7BiHw==
+	s=20250930; t=1781620826;
+	bh=CtXyxuxhYiAE3FwXSbDxn4ixyORaUkVLk0oOfl5ycYg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=kZphybbijVf+O7Y0d6ItlDK90WDeHI5r4+Qm8eu231UUzxdSDOVQ0obsM7F9mgq7s
+	 MsdG1jhYE2y6mNoLnnCuAPE3v8fQu7BukuaxjKK0KiYiyQ1AGMJpPonOp8/3v/gqwc
+	 X5wA3AqcB76OzvrPFCEzhSe9doPoTW1Y7sQDB7V0zYXmMPOLhV1Wph3yDzz7UwGvYn
+	 /mj3PsNGZb9Yp1BV4Oi8UcxoDQ1LI7E121BdrfU7yM2rFVQdsicDUmY4T4E7Kybk5m
+	 J9wWfNBYWc3A6840H8+9ab6ZI9NqD5pj5lfAWDG+900ATzSXyzcrH5POIp6951J0aO
+	 c0FH0VfD75IJg==
 Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
 	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mx1.emlix.com (Postfix) with ESMTPS id DEEB45F9B8
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 16:40:24 +0200 (CEST)
+	by mx1.emlix.com (Postfix) with ESMTPS id 455E55F9B8
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 16:40:26 +0200 (CEST)
 From: =?UTF-8?q?Andreas=20M=C3=BCtzel?= <andreas.muetzel@emlix.com>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Andreas=20M=C3=BCtzel?= <andreas.muetzel@emlix.com>
-Subject: [PATCH 1/3] overlayfs: re-introduce helper unit
-Date: Tue, 16 Jun 2026 16:40:17 +0200
-Message-ID: <20260616144043.3303124-1-andreas.muetzel@emlix.com>
+Subject: [PATCH 2/3] overlayfs: optionally inherit ownership of lower layer
+Date: Tue, 16 Jun 2026 16:40:18 +0200
+Message-ID: <20260616144043.3303124-2-andreas.muetzel@emlix.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260616144043.3303124-1-andreas.muetzel@emlix.com>
+References: <20260616144043.3303124-1-andreas.muetzel@emlix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Virus-Scanned: ClamAV using ClamSMTP
@@ -54,189 +56,200 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 14:40:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238905
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 14:40:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238906
 
-systemd v256+ automatically creates the upperdir and workdir when
-starting an overlayfs mount unit. The directories created this way are
-owned by root:root; this behaviour differs from the previously used
-helper unit, which explicitly applied the ownership of the lowerdir to
-the upperdir.
+When the upperdir of an overlayfs does not exist at mount time, systemd
+since v256 automatically creates it with default permissions and
+ownership (0755, root:root).
 
-Revert commit 623c20ff1e989730138c3fbe6e8247eaada20707 to restore the
-previous behaviour.
+This ownership is often sufficient, so the overhead of using a helper
+unit to create the upper layer and apply the permissions of the lower
+layer before starting the overlayfs mount unit is not always necessary.
+
+Introduce the variable OVERLAYFS_INHERIT_LOWER_PERMISSIONS that can be
+used to control the creation of the helper unit. If set to "1", it will
+get created. Otherwise, systemd will create the directories and apply
+its defaults.
 
 Signed-off-by: Andreas M=C3=BCtzel <andreas.muetzel@emlix.com>
 ---
- meta/classes-recipe/overlayfs.bbclass           | 10 ++++++++++
- meta/classes-recipe/rootfs-postcommands.bbclass | 13 ++++++++++++-
- meta/files/overlayfs-create-dirs.service.in     | 13 +++++++++++++
- meta/files/overlayfs-create-dirs.sh             | 11 +++++++++++
- meta/files/overlayfs-unit.mount.in              |  3 ++-
- meta/lib/oe/overlayfs.py                        |  4 ++++
- 6 files changed, 52 insertions(+), 2 deletions(-)
- create mode 100644 meta/files/overlayfs-create-dirs.service.in
- create mode 100644 meta/files/overlayfs-create-dirs.sh
+ meta/classes-recipe/overlayfs.bbclass         | 42 +++++++++++++++----
+ .../files/overlayfs-unit-create-dirs.mount.in | 13 ++++++
+ meta/files/overlayfs-unit.mount.in            |  3 +-
+ meta/lib/oe/overlayfs.py                      |  3 +-
+ 4 files changed, 49 insertions(+), 12 deletions(-)
+ create mode 100644 meta/files/overlayfs-unit-create-dirs.mount.in
 
 diff --git a/meta/classes-recipe/overlayfs.bbclass b/meta/classes-recipe/=
 overlayfs.bbclass
-index 07cc68ad7b..a82763ec10 100644
+index a82763ec10..8a87624be3 100644
 --- a/meta/classes-recipe/overlayfs.bbclass
 +++ b/meta/classes-recipe/overlayfs.bbclass
-@@ -55,21 +55,27 @@ REQUIRED_DISTRO_FEATURES +=3D "systemd overlayfs"
+@@ -48,6 +48,21 @@
+ # started after the ${PN}-overlays.service to make sure that all overlay=
+s are
+ # mounted beforehand.
+ #
++# If the storage directories (upperdir and workdir) of the overlayfs do =
+not
++# exist when systemd mounts the overlayfs, systemd will create them with
++# default permissions (mode 0755, owned by root:root).
++# These permissions may be different from the actual permissions of the =
+lower layer;
++# in some cases, it is desirable to create the upper layer with the same=
+ owner and mode
++# of the lower layer.
++# To make the directory permissions of the upper directory match those o=
+f the lower
++# directory, set OVERLAYFS_INHERIT_LOWER_PERMISSIONS to 1 for the respec=
+tive overlay:
++#
++#   OVERLAYFS_WRITABLE_PATHS[data] =3D "/usr/share/my-custom-application=
+"
++#   OVERLAYFS_INHERIT_LOWER_PERMISSIONS[data] =3D 1
++#
++# This will result in an additional helper unit that creates the upper a=
+nd work
++# directories and applies the correct permissions before the overlayfs i=
+s mounted.
++#
+ # Note: the class does not support /etc directory itself, because system=
+d depends on it
+ # For /etc directory use overlayfs-etc class
 =20
- inherit systemd features_check
+@@ -57,6 +72,7 @@ inherit systemd features_check
 =20
-+OVERLAYFS_CREATE_DIRS_TEMPLATE ??=3D "${COREBASE}/meta/files/overlayfs-c=
+ OVERLAYFS_CREATE_DIRS_TEMPLATE ??=3D "${COREBASE}/meta/files/overlayfs-c=
 reate-dirs.service.in"
  OVERLAYFS_MOUNT_UNIT_TEMPLATE ??=3D "${COREBASE}/meta/files/overlayfs-un=
 it.mount.in"
++OVERLAYFS_MOUNT_UNIT_TEMPLATE_WITH_CREATE_DIRS ??=3D "${COREBASE}/meta/f=
+iles/overlayfs-unit-create-dirs.mount.in"
  OVERLAYFS_ALL_OVERLAYS_TEMPLATE ??=3D "${COREBASE}/meta/files/overlayfs-=
 all-overlays.service.in"
 =20
  python do_create_overlayfs_units() {
-     from oe.overlayfs import mountUnitName
-=20
-+    with open(d.getVar("OVERLAYFS_CREATE_DIRS_TEMPLATE"), "r") as f:
-+        CreateDirsUnitTemplate =3D f.read()
+@@ -66,10 +82,12 @@ python do_create_overlayfs_units() {
+         CreateDirsUnitTemplate =3D f.read()
      with open(d.getVar("OVERLAYFS_MOUNT_UNIT_TEMPLATE"), "r") as f:
          MountUnitTemplate =3D f.read()
++    with open(d.getVar("OVERLAYFS_MOUNT_UNIT_TEMPLATE_WITH_CREATE_DIRS")=
+, "r") as f:
++        MountUnitWithHelperTemplate =3D f.read()
      with open(d.getVar("OVERLAYFS_ALL_OVERLAYS_TEMPLATE"), "r") as f:
          AllOverlaysTemplate =3D f.read()
 =20
-     def prepareUnits(data, lower):
-+        from oe.overlayfs import helperUnitName
-+
+-    def prepareUnits(data, lower):
++    def prepareUnits(data, lower, use_helper):
+         from oe.overlayfs import helperUnitName
+=20
          args =3D {
-             'DATA_MOUNT_POINT': data,
-             'DATA_MOUNT_UNIT': mountUnitName(data),
-+            'CREATE_DIRS_SERVICE': helperUnitName(lower),
+@@ -79,13 +97,18 @@ python do_create_overlayfs_units() {
              'LOWERDIR': lower,
          }
 =20
-@@ -77,6 +83,10 @@ python do_create_overlayfs_units() {
-         with open(os.path.join(d.getVar('WORKDIR'), mountUnitName(lower)=
+-        bb.debug(1, "Generate systemd unit %s" % mountUnitName(lower))
+-        with open(os.path.join(d.getVar('WORKDIR'), mountUnitName(lower)=
 ), 'w') as f:
-             f.write(MountUnitTemplate.format(**args))
+-            f.write(MountUnitTemplate.format(**args))
++        if use_helper:
++            bb.debug(1, "Generate systemd unit %s" % mountUnitName(lower=
+))
++            with open(os.path.join(d.getVar('WORKDIR'), mountUnitName(lo=
+wer)), 'w') as f:
++                f.write(MountUnitWithHelperTemplate.format(**args))
 =20
-+        bb.debug(1, "Generate helper systemd unit %s" % helperUnitName(l=
+-        bb.debug(1, "Generate helper systemd unit %s" % helperUnitName(l=
 ower))
-+        with open(os.path.join(d.getVar('WORKDIR'), helperUnitName(lower=
+-        with open(os.path.join(d.getVar('WORKDIR'), helperUnitName(lower=
 )), 'w') as f:
-+            f.write(CreateDirsUnitTemplate.format(**args))
-+
+-            f.write(CreateDirsUnitTemplate.format(**args))
++            bb.debug(1, "Generate helper systemd unit %s" % helperUnitNa=
+me(lower))
++            with open(os.path.join(d.getVar('WORKDIR'), helperUnitName(l=
+ower)), 'w') as f:
++                f.write(CreateDirsUnitTemplate.format(**args))
++        else:
++            bb.debug(1, "Generate basic systemd unit %s" % mountUnitName=
+(lower))
++            with open(os.path.join(d.getVar('WORKDIR'), mountUnitName(lo=
+wer)), 'w') as f:
++                f.write(MountUnitTemplate.format(**args))
+=20
      def prepareGlobalUnit(dependentUnits):
          from oe.overlayfs import allOverlaysUnitName
-         args =3D {
-diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/class=
-es-recipe/rootfs-postcommands.bbclass
-index f0c7ee658d..2a36840f29 100644
---- a/meta/classes-recipe/rootfs-postcommands.bbclass
-+++ b/meta/classes-recipe/rootfs-postcommands.bbclass
-@@ -47,7 +47,7 @@ ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("=
-DISTRO_FEATURES", "systemd"
+@@ -109,7 +132,8 @@ python do_create_overlayfs_units() {
+         for lower in lowerList.split():
+             bb.debug(1, "Prepare mount unit for %s with data mount point=
+ %s" %
+                      (lower, d.getVarFlag('OVERLAYFS_MOUNT_POINT', mount=
+Point)))
+-            prepareUnits(d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoin=
+t), lower)
++            use_helper =3D d.getVarFlag('OVERLAYFS_INHERIT_LOWER_PERMISS=
+IONS', mountPoint) =3D=3D '1'
++            prepareUnits(d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoin=
+t), lower, use_helper)
+             mountUnitList.append(mountUnitName(lower))
 =20
- ROOTFS_POSTPROCESS_COMMAND +=3D 'empty_var_volatile'
-=20
--ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("DISTRO_FEATURES",=
- "overlayfs", "overlayfs_qa_check", "", d)}'
-+ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("DISTRO_FEATURES",=
- "overlayfs", "overlayfs_qa_check overlayfs_postprocess", "", d)}'
-=20
- inherit image-artifact-names
-=20
-@@ -570,3 +570,14 @@ python overlayfs_qa_check() {
-     if not allUnitExist:
-         bb.fatal('Not all mount paths and units are installed in the ima=
-ge')
+     # set up one unit, which depends on all mount units, so users can se=
+t
+@@ -138,5 +162,5 @@ do_install:append() {
+     done
  }
-+
-+python overlayfs_postprocess() {
-+    import shutil
-+
-+    # install helper script
-+    helperScriptName =3D "overlayfs-create-dirs.sh"
-+    helperScriptSource =3D oe.path.join(d.getVar("COREBASE"), "meta/file=
-s", helperScriptName)
-+    helperScriptDest =3D oe.path.join(d.getVar("IMAGE_ROOTFS"), "/usr/sb=
-in/", helperScriptName)
-+    shutil.copyfile(helperScriptSource, helperScriptDest)
-+    os.chmod(helperScriptDest, 0o755)
-+}
-diff --git a/meta/files/overlayfs-create-dirs.service.in b/meta/files/ove=
-rlayfs-create-dirs.service.in
+=20
+-do_create_overlayfs_units[vardeps] +=3D "OVERLAYFS_WRITABLE_PATHS"
++do_create_overlayfs_units[vardeps] +=3D "OVERLAYFS_WRITABLE_PATHS OVERLA=
+YFS_INHERIT_LOWER_PERMISSIONS"
+ addtask create_overlayfs_units before do_install
+diff --git a/meta/files/overlayfs-unit-create-dirs.mount.in b/meta/files/=
+overlayfs-unit-create-dirs.mount.in
 new file mode 100644
-index 0000000000..c8431548d7
+index 0000000000..9c117f2c52
 --- /dev/null
-+++ b/meta/files/overlayfs-create-dirs.service.in
++++ b/meta/files/overlayfs-unit-create-dirs.mount.in
 @@ -0,0 +1,13 @@
 +[Unit]
-+Description=3DOverlayfs directories setup {LOWERDIR}
-+RequiresMountsFor=3D{DATA_MOUNT_POINT}
-+DefaultDependencies=3Dno
++Description=3DOverlayfs mount unit {LOWERDIR}
++Requires=3D{CREATE_DIRS_SERVICE}
++After=3D{CREATE_DIRS_SERVICE}
 +
-+[Service]
-+Type=3Doneshot
-+ExecStart=3D/usr/sbin/overlayfs-create-dirs.sh {LOWERDIR} {DATA_MOUNT_PO=
-INT}
-+RemainAfterExit=3Dtrue
-+StandardOutput=3Djournal
++[Mount]
++What=3Doverlay
++Where=3D{LOWERDIR}
++Type=3Doverlay
++Options=3Dlowerdir=3D{LOWERDIR},upperdir=3D{DATA_MOUNT_POINT}/upper{LOWE=
+RDIR},workdir=3D{DATA_MOUNT_POINT}/workdir{LOWERDIR}
 +
 +[Install]
 +WantedBy=3Dmulti-user.target
-diff --git a/meta/files/overlayfs-create-dirs.sh b/meta/files/overlayfs-c=
-reate-dirs.sh
-new file mode 100644
-index 0000000000..9f38ad7648
---- /dev/null
-+++ b/meta/files/overlayfs-create-dirs.sh
-@@ -0,0 +1,11 @@
-+#!/bin/sh
-+# This script is intended to be used solely by overlayfs-create-dirs.ser=
-vice
-+# Usage: overlayfs-create-dirs.sh <LOWERDIR> <DATA_MOUNT_POINT>
-+
-+lowerdir=3D$1
-+datamountpoint=3D$2
-+mkdir -p ${datamountpoint}/upper${lowerdir}
-+mkdir -p ${datamountpoint}/workdir${lowerdir}
-+if [ -d "$lowerdir" ]; then
-+    chown $(stat -c "%U:%G" ${lowerdir}) ${datamountpoint}/upper${lowerd=
-ir}
-+fi
 diff --git a/meta/files/overlayfs-unit.mount.in b/meta/files/overlayfs-un=
 it.mount.in
-index eb78d2cb4f..9c117f2c52 100644
+index 9c117f2c52..eb78d2cb4f 100644
 --- a/meta/files/overlayfs-unit.mount.in
 +++ b/meta/files/overlayfs-unit.mount.in
-@@ -1,6 +1,7 @@
+@@ -1,7 +1,6 @@
  [Unit]
  Description=3DOverlayfs mount unit {LOWERDIR}
--RequiresMountsFor=3D{DATA_MOUNT_POINT}
-+Requires=3D{CREATE_DIRS_SERVICE}
-+After=3D{CREATE_DIRS_SERVICE}
+-Requires=3D{CREATE_DIRS_SERVICE}
+-After=3D{CREATE_DIRS_SERVICE}
++RequiresMountsFor=3D{DATA_MOUNT_POINT}
 =20
  [Mount]
  What=3Doverlay
 diff --git a/meta/lib/oe/overlayfs.py b/meta/lib/oe/overlayfs.py
-index 5a5ea03d45..8b88900f71 100644
+index 8b88900f71..c26fae07bd 100644
 --- a/meta/lib/oe/overlayfs.py
 +++ b/meta/lib/oe/overlayfs.py
-@@ -23,6 +23,9 @@ def allOverlaysUnitName(d):
- def mountUnitName(unit):
-     return escapeSystemdUnitName(unit) + '.mount'
-=20
-+def helperUnitName(unit):
-+    return escapeSystemdUnitName(unit) + '-create-upper-dir.service'
-+
- def unitFileList(d):
-     fileList =3D []
-     overlayMountPoints =3D d.getVarFlags("OVERLAYFS_MOUNT_POINT")
-@@ -43,6 +46,7 @@ def unitFileList(d):
+@@ -46,7 +46,8 @@ def unitFileList(d):
              continue
          for path in mountPointList.split():
              fileList.append(mountUnitName(path))
-+            fileList.append(helperUnitName(path))
+-            fileList.append(helperUnitName(path))
++            if d.getVarFlag('OVERLAYFS_INHERIT_LOWER_PERMISSIONS', mount=
+Point) =3D=3D '1':
++                fileList.append(helperUnitName(path))
 =20
      fileList.append(allOverlaysUnitName(d))
 =20
