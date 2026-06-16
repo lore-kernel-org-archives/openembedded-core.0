@@ -2,388 +2,252 @@ Return-Path: <anders.heimer@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 308A4CD98E6
-	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 08:25:33 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.40])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.149549.1781598328874555928
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FAC1CD98CF
+	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 08:26:03 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.71])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.149171.1781598324624140879
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2026 01:25:29 -0700
+ Tue, 16 Jun 2026 01:25:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=WibQHEj1;
- spf=pass (domain: est.tech, ip: 52.101.84.40, mailfrom: anders.heimer@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Z//jpwrt;
+ spf=pass (domain: est.tech, ip: 40.107.159.71, mailfrom: anders.heimer@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=beaAPHoq1FIofcUhQZDW4uKH0LFF6JLkHTW/qBB3/ilvp1HoulwQwg5SVlpSeYwqWgOJ/lGzWtGaHxuqkcLwZ/oB1OUajDzfTn5SI58J456DXKtbDz6PUeuFJOTMsxJJWg7hkn5uORd/REAYMr4tG4nGeJ0BQmDzCCZcdpyJ2usoiAlN1kekPbmRmmsaSYdSZyMksP7QcZHHeeTU4FLIVLfV9fDVeB7nx7kOSEfIk1FzkL1kVYI4MOY+HThNqeNt33sKB2BYElYynpNK32AYFnzQugpvYwqpLsSHxNjVedrpZlXxgtDV6MGw8+rtGtQxq5aY7nro+H72c/4KWLT+1w==
+ b=qX+gwXP9yjfHWH6Ys0GIb9x/DWUgkKd26gUzC7mu3KYlp/y9HRVaLIcSrvFG/slnuaPv/3kW+hjlvDrOLVyYM/zIxYMOgVQM0vGO0RMdL8AUkyxJXsjr1yGAsbuWpGE47urlb20OhBA0VipR8r2IioF7OwMA7mC9xZUFs7hpXAJAXTtP2Cqrk0l5pzt4d+IsMt8LIS1GJkmyaSLe7oxxHxQgHV4HxEiK2ySQbMZhwg/0wOM1yWSCSUnZDyXZsyuzs0mZe9mMxdAP17IIuu7z2riJzdUU3LoDE8C23l6aI9RLyUtYHGdcMBY4fclOwR0uVf1+TwBFwCbig6s7DQ0ycA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yrV0l06uZIujpA9XBnmHeqAl6XkDgBJcmOQ4SB1MXB4=;
- b=OuLsfVlXo/n8uZuD4ynzdsGiOAjJohCF2BMNcp8JGaSwPuRY9ugAPF6KRjXgabqpmeyQyAX3TLCs4eJoIYiMSbkg0Y+rRMOE2WQsVEeVqQPb1Oe/cerclZMSIaNaGwal/4e/rA8XtYuRphkXTkVkF4HnjrHcGu50fD595B+Bn/kVE+oxFCwxnJy5RrHygpoCwPzEc+tIXWemvKRkY+n58xVmda6bqN6O+4r8AXjD0Pawqc1UNVpw4i1C/hFElLL9O0Rmx5sTri6bXonpsvs8WYJPKpxKWRLI5Cgi5hOGslJqgdC7lz5+w/X3ZPlx8vliwrEgFBYU7fvDq0z70AFMNQ==
+ bh=C7TCpyIYQD33jnwGNwa8hieQuaLB2qbbKmSEftBNglc=;
+ b=yJ36r0bDUGmQLOU7nMLcqe1Od5l0ZvI9+nS7iBdWPmWhqB4R0NgYHPjm7ga1sW5Y9sp6avvXgIupuUzYzmfuUvKSUpmdQSVTZ93GW/pgJcKJ7LHcCRb+ag/nDF/OATTmtDosKEQ0nH2guBX1nhvUYEQCOWn1aa4TeQbi7thX44LEYeDbPO8lmR1yqmLMwDL8HahwCCR+WfLLshHMrNBHHiJjFKPYnA7kiVH0lpouh9nChlQjPtW0BMvcxgll7n5Tq4Hvl3LGz6TMNob2/gVnqhXH8/SSLnRGIlLimjjBuJKeLjfoQy2gQlEX6I+EMiMKMQmjzaW4N9U9bvN9wE5P3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yrV0l06uZIujpA9XBnmHeqAl6XkDgBJcmOQ4SB1MXB4=;
- b=WibQHEj1aJMn7owSi8reqCEQscTwcYg38DKQj8i64rKvuStaI7PcEfizm7jgzyg5biMOs3AuFZQ1+A7Ch43mTrlDHHyXGWK/5JabF3oOU64fXbuIU4BdkrTl08iNUPmRlstJkEXAOdTBZtZLXzOROCKxvv8JmNuyjY2T+vIdiudJZJiMIXpBuZsA5cEqN1GXan3Rxr2uocOoKehTLVhsmdoj84FMpCYvAzepO2So00kILi2gxqydMrGNzFH6+wXNNbVyBSySf8WkwM9PZ4n8pRwn5gDjnw2zYHKLxTXA38ljIXcw7wNI6RH0Mf3o7o23tncTlmKnoWSQBQv+9p+vSQ==
+ bh=C7TCpyIYQD33jnwGNwa8hieQuaLB2qbbKmSEftBNglc=;
+ b=Z//jpwrtcDYF28dp7or+oGh7sMXwrd0pDI+rGDSOyn2TKohZz1eKh5ZrgNGOujfai08dFXs8pbbwudXPk83h8B9i61vwhj5Vu9UrWvy7rx68WNyMiKX62uPaXx1hEOtAFewkDwha3rQ1kXDVC3Afqv2VaM//pcVbX2WaaIZU+mlw/pHaGWIrK61oQ9gTaATEyNLf8JnPZPVuz0Ca8rasSZMfy6KEIWCxxLdrDzv9T2p7Is9DK8TJGuFl8dfmBDIo4PbYQGMA+6fii/rCZdWXRczyw/Intg5pc4ef4Q7Z8Ch4+jd0obk/gxttx/oArlPfMv4hH8nWX3d46aDJZf4O6A==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:2ac::9) by
- DU0P189MB2156.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3cb::8) with Microsoft
+ VI0P189MB3317.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2b1::16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.113.18; Tue, 16 Jun 2026 08:25:23 +0000
+ 15.21.113.18; Tue, 16 Jun 2026 08:25:21 +0000
 Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
  ([fe80::90da:b700:f102:5c82]) by DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
  ([fe80::90da:b700:f102:5c82%6]) with mapi id 15.21.0113.015; Tue, 16 Jun 2026
- 08:25:23 +0000
+ 08:25:21 +0000
 From: Anders Heimer <anders.heimer@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Anders Heimer <anders.heimer@est.tech>
-Subject: [PATCH 2/2] oeqa/oelib: add copydebugsources tests
-Date: Tue, 16 Jun 2026 10:25:16 +0200
-Message-ID: <20260616082516.1553768-3-anders.heimer@est.tech>
+Subject: [PATCH 1/2] package: replace copydebugsources shell pipelines with Popen
+Date: Tue, 16 Jun 2026 10:25:15 +0200
+Message-ID: <20260616082516.1553768-2-anders.heimer@est.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260616082516.1553768-1-anders.heimer@est.tech>
 References: <20260616082516.1553768-1-anders.heimer@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: PR3P189CA0036.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:53::11) To DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: PR3P189CA0050.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:53::25) To DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:10:2ac::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9P189MB1641:EE_|DU0P189MB2156:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10a6b4ac-ae1e-4a55-2695-08decb80cf7e
+X-MS-TrafficTypeDiagnostic: DB9P189MB1641:EE_|VI0P189MB3317:EE_
+X-MS-Office365-Filtering-Correlation-Id: 41d28981-6aed-42f1-bd0e-08decb80ce3f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|22082099003|18002099003|11063799006|56012099006;
+	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|56012099006|11063799006|3023799007|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info: 
-	i2nQw780TX/kFNMSFvvula8CCixysxHxnNfF/QPtHy++BWStKCeHfjioSMSEwsJA25UhUNLWu6xgZdHaBoq1xqRj6gzk9B6l2hAgeeKiFjNzv+wg45BVvjxGyjLMSWPYiShudqorDzyD/WB+ea7eg9N4njZNI9rIMoCzNWivpKyX54R22pJDnHquKIQBwsvSAtqYFPQkZ5aYWp/3gKUEW7FPHe8dmPSQQn8TngagmrXHd+5lyn7xFCyKFX1n3vMtWe6J4fGKxpcpf1hrK9Sh4UsvXMm3q3P5ldQUfdpwyBVYbhB07tZdNFJTWSXR9rs3um2MQdWmvJfCyHs4sO0UM+naZtd9+hGNuXXRV2rGnazN/V5bSk3iZ9LPVLAGg5nMR5QMofULXlabf3tL0Bfpc4J2wiXWmTRCjPtegYLKFkS3OcbR8WH56EgRDJQhCSMQQNHJyJ6KSvokptBRuLVZ4k3bAuqvbRyXevp3hhnlU4UyT9vq/vZih9gvmTWtBeggE1chbFxdXwwvPkm7N1PXUs0bh1TsJobvlQFFGQCE17bsvx9MTie97KRAQlymx0oi9y/NTjQP8liTAKxNRUanf00+PZM4n0KCibikmrO07e8Rien6aP9YvhruzG6u3NkwyKSAAPN3f7Sgf1QwZk5Kw+y81rSp7mDrktlDT8rfznrlRmVidIPk/ZTGBic/o7SV
+	zEQbYYGAkbhYR3MOSXZeuOvQVHdh6qfZW/hjk+zL8uSRLL2VNUFKeP1n0GGhAOxVMSjtCDcm2VGsRUz6bg0g7Ij3mQx/IHKTMMzXG0NfkbmhQLUBjPh8l4rAkJ/ZXjkuPv03h1GeNdOCXt56NnK2NdrHVOV0+q2qPaqui/Q6Za15HnEsvJACRBU2EZDJw7V4/uALAzz08o40Xv/C9WC2tSlm+xQ+KS10P+kv5OYiNPx3Mv0d4nz1kYcOS7ynPBJ8lshePa25hLmN/bdzy8nqAoXc5ee91iulMixdz8v7R6ZCyskj691v4xRA2x0OmBj+y9JGYv0pXn8S9sTRD4Fnn9IvIIFcLJBHQU/ML0d/xHgWPPySowZAmyLcW0+cmr86rH630+4M/bctO1UmDieA8XdPJuYFtvQE7bmQYy0p9hoqzrNaIJEHkCRadkJjegpt+Ih9rYld0MWwcL3gPc5+87Xe2LjY3wv82a+G65aYIzc0fVMQlqj0zxdxEZgNl2qmGlMFIhcbCj5UMAaAtBQm3IgR/VQbLgsMMQ+pPdHyZAKNG2Pe2rZy2vtjuN/nYFNraBuYKb30CoyVtQ/FthmSo0Od49gsmNOY3hKPvatL/qCYwRv1loBZ1DfwMD95FB+p1N5hX5qs/23sCK7t1ysiZfmOxgqCzYRbdqYhLnR42B0FBRaw16fjrjEDy8YAqhhC
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1641.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(22082099003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1641.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(56012099006)(11063799006)(3023799007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?gwMK0MlI6+ijZQCtms7v6VQApr/z49xKhGytWqmb48fSVvXjLQ8mhuFD2NWz?=
- =?us-ascii?Q?C1Gd4V3IrSvAcW/qwtmAwMExxiLp3rjCO/+Y3L3SuB0GZ0JZ994usBLd3JVv?=
- =?us-ascii?Q?YkcyzbpO/3f6R7SIUGeJN7MjUWetTOWeuxJa5QUYQNGaMH57H5U1Vi0oTugf?=
- =?us-ascii?Q?2DBJpHOHtAdcRb4/ho5b8zdOzOn4qimuMKkgTCwzZcexLY0PeJ10oaItqBNm?=
- =?us-ascii?Q?ATcwFmnhmMac3uSezFxN1rq6Uo80kycNbVWUBihi35gSNlMa2N9sro5F+1AS?=
- =?us-ascii?Q?qOfpMQu3/ZL917WMZL4LJpSMS1wkv77iYIJlvTZDtC0wck7Tfjq93BTnbQUx?=
- =?us-ascii?Q?GZWcj1bznQi+gFYnS1nIZcFx+YibY645u7DdwtJNofajfNg6T98lc2WEbBvZ?=
- =?us-ascii?Q?9du/pY3y2t6LjPV+vJ5ARFTYK2rqMdY6l1C5o6xbyT6A/oL/GWkSqDX5pZSa?=
- =?us-ascii?Q?aWATxLRvvHbUsYN7/V6XLJCC0grmaiQUk3N/KGAZ48U3mHIYU3oZzmGcDojl?=
- =?us-ascii?Q?2D6YwNL231PZ5MTonGrUUoh1rXjd2tXjIz9COd79mvUlFusEwmDmsYJpKDH1?=
- =?us-ascii?Q?AGBmVkzaWwdOSvUV1qRIsyilbt3LvdJEx/Ht50e+JriDwmzVzBb1LkzVgzbY?=
- =?us-ascii?Q?uMNBx44JiM9l4BXbwFtiEmD4IhxGnyinkDK1nLhNdbxjuuLccYdM2st4P4di?=
- =?us-ascii?Q?p9dRu1GA3WJ4KLPS5Jb/cRqYUj5varEFE+Zgk34noxQ19A/TqpNXee0rL0dm?=
- =?us-ascii?Q?gYvrY3cpJBQ2Ei9Y22o9N0BDRufslQ+uYlZQTOru7jWJWFUHNox7tI/z9HXe?=
- =?us-ascii?Q?8gki0q6xkMk5/L+IPlCLTbVS0rEzadeMl6AsGHcoWBuFbfq56hCOWfZ9GJoX?=
- =?us-ascii?Q?DlE43EyuQRFOhJ1Q0YmiE8dIUKSX+ZgGea+dt8PeU7BV/0PNl03M4R+1ZrAT?=
- =?us-ascii?Q?gARYSrNfGgq9Lop5HjF+4VRhg4KW3rxyE/QW37fcOCpfm7FgyjqPC8mFjNbR?=
- =?us-ascii?Q?YJAWfDWvHFyGXTN9XaD7Z8Eil1RYZUTEhb8mCrDBLadtSDdGlP6X9vDwxgqc?=
- =?us-ascii?Q?C7AWJFXKpERaIw3EXruPQrerjkTJmCfapgAKvankG9fMZxKXOes21h66fFqM?=
- =?us-ascii?Q?UP2MR3Lq2QEDKQ0mh4TLk82PkY4voH5cQSVAWbySmgn3OIJTvQ0jMdJzSk6s?=
- =?us-ascii?Q?3mevzonRRRFi0AAws+Za4luITuFQ/+XoFBfOfA5eStTdNJu/dpoGZyao9Le5?=
- =?us-ascii?Q?MZG+Fgx3QFb6u8NIB1ZB8z0O0FZ/hGezjEGyhAZCnUrN0EaSbDyyRmsXiqMl?=
- =?us-ascii?Q?RsPwLFlGVH+gzUfGTMxNhwYaRf+1WGrHjcAL5XZTfKN/FcYlUwvNuFNCBZ6n?=
- =?us-ascii?Q?GJ5ErSitM2ts/mEv00Joy35ZaKROaMFX3nlT6QP+Z/WoovoHIVx5ZrLfjs4Y?=
- =?us-ascii?Q?aeu3adRgxLafTjgCLZqocvsHE/aELEno0avX0uWNHpDklZUp5iTLFCz8sYY2?=
- =?us-ascii?Q?iL0yIzn9aHg4LFT7kDWCpfFE4fjnVgzykPOrZL1uKvnqywZyUA/eSD4OaHvX?=
- =?us-ascii?Q?JteceLXZJVwzyU/I73LGJXFqPIWaRaS3AQQiLXUnWmhA6Wx294rP41AMuaTb?=
- =?us-ascii?Q?IN3NEADzpwls/I6pWG/KyDKADq5r2ZlSTnxphQqQ3jN7g4ZOTDr65WjQ2OJp?=
- =?us-ascii?Q?x2GKyxEGuafOkijECfCgnhXWYOfTZ3Ok0JBLOxwVBMA15cYfkl5oCQUGtoYO?=
- =?us-ascii?Q?6cY5OItw7w=3D=3D?=
+	=?us-ascii?Q?6gyjxBqsWnTMt8Cp76oqSQyrUCHRGSb3Zbx+MRw6+8Tp0n3GDZ//sQRGwIaW?=
+ =?us-ascii?Q?H6RIH/nAIfzRt7R6he6dvua8cySqmKxd1A2MJvwD8z+pNWr1ILp6GnBzuxJH?=
+ =?us-ascii?Q?pPdy4+q64Y7sk3NxiGi3iSAFRXXAhD0EaJW88e9W1fXAIsDDE+79Z3BqdC/7?=
+ =?us-ascii?Q?lmw25Oz53aPQoCPwC1F60NysVdPxc+/ElzVCYsmVfxQ6Wt2KCBO4SP6q39wx?=
+ =?us-ascii?Q?ejLFMGbsoaE1Ejop/dJi40otid+fysXwd9B8Cx5Bl70QQSwzSpMMRoXPnLdN?=
+ =?us-ascii?Q?+dXKiQPA/+7wlfIcHw0IyI3+dy11pDSWjHfzko0FfgFcJMW3xH4ecRwY5hs9?=
+ =?us-ascii?Q?l1p8ZMZhYu4PkmVmI0Fzq0ODfQIhpQGa0iSHZyryydK+30nCJ2f9FfqYJyKX?=
+ =?us-ascii?Q?hJbdVpz+f12CzQ064cpOe6cC7+A1njFqfuS86Lu0adB47aa2T3LdPaX1wG3G?=
+ =?us-ascii?Q?nA3z9g30Ec31YVP+XadyfqFViJgSarxX3P3aW0fk+O0UcuJg9iacnc7ZLtZW?=
+ =?us-ascii?Q?ccik+oIm95FjQrY+khiBWSnufsRpUbMjJWN+nbDEwcdv/qY7cW9JqAtlRlVG?=
+ =?us-ascii?Q?RiUMvejrKthFjM8bqVQtyXWyRCQAhPWLu8+BEhgaRW53VEWU62J0ZEBtsdcT?=
+ =?us-ascii?Q?AsKk6mMyC3vW73FZyuapq0FBoMgA7nReT4nMbV7Isk6rIxID53IhXUtaHLWv?=
+ =?us-ascii?Q?HgWW+D/bs5U0LFvscgaxHUEp21v02h84c9XxJ22wQIEqowuejlnG3YaS7JFn?=
+ =?us-ascii?Q?dyfgX74aN+UVJ6XM+Bh9k8SmgPbd9qrUBYb2VratCaPO5vrJWhV49YF2cv3F?=
+ =?us-ascii?Q?zvZEPTEJAjvcPRaGBFstAqhL15N3DJHcYka9xQBPWwKSNoyzZIk6b2raZurL?=
+ =?us-ascii?Q?jDJhru07oeN0i+CTonbYpESePQKLFzW+zvC/lW1l6hU/+7Hq93E2psTjBeHf?=
+ =?us-ascii?Q?uTXtG8l54H2sk7Uow0NvNCt1bAWACBphafxpxM0yrCnyysN85azf1Vd7+Umh?=
+ =?us-ascii?Q?tJKN0MqMDFd6gGJ2ZchKzu8SnUZc44FSJEc0M9+ZIoKp7fihhC9jHmhzn4TM?=
+ =?us-ascii?Q?Ybtrq391vLegqp0Teii3op09+NzdN/6q3FfzkItzfiiyHufU/LUzypirceP+?=
+ =?us-ascii?Q?yraiKenpQAUL+ENnZdLGe2IrpZnSkySNH5ihbcnpQ/oLTmCi/nmzkDnaKBHd?=
+ =?us-ascii?Q?CWjCqmOhs1RjtzDFHeqi+oF7NMHCrWzGBX1K1TxjYGGeCc+C4v3Nyy7K6GVA?=
+ =?us-ascii?Q?mvGxew/IcKSxiO8N/Uk+JOFvuzvOKtoaxZxQHEL4ULD1g3KlR5Y0orlLSoL+?=
+ =?us-ascii?Q?0K6t6UbxnO5UC5RSKbhEHKuJZZvLrcfaUFo33ym8bUuZpzrssh6dlxD+vlW8?=
+ =?us-ascii?Q?8bHecRCWkIfaimAl4H/A0oy3+uaTwm6EgEA8vCEsDZqDid/p7XwWzWj3gFZk?=
+ =?us-ascii?Q?G/oZnyi4aeGpDFZd7oSz+oYaHY50Jhl7Mpi4/SQrR2lJmojML5/F8DDSbHzb?=
+ =?us-ascii?Q?wQrIAOVKIC41UlpwHBuDssWgSQpKOijEm8yG+UDNf8q50dI//5VZ9nqbRei9?=
+ =?us-ascii?Q?Hjt0THTzI3baaS3/rzABTCPRA/Kd2hmshRwJ2y93uQrjHHZnYltlLGFYVnRA?=
+ =?us-ascii?Q?CVfIGmleFJXv5toNKnSRLAtcWnepTpdRtGJx8ZlE5pztua9f3OYNH5bHlS8B?=
+ =?us-ascii?Q?7/Kd68SkpqICopkApFUJG75dJF9aUpsxhhzn/7mlWNoHJ3e4MXQTP+Hp0naj?=
+ =?us-ascii?Q?cuun0/BKQw=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10a6b4ac-ae1e-4a55-2695-08decb80cf7e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41d28981-6aed-42f1-bd0e-08decb80ce3f
 X-MS-Exchange-CrossTenant-AuthSource: DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 08:25:23.1674
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 08:25:21.0809
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oBN8Z2soprb8lbW7Ewxxm4mcRkMddE6ohV02/eunOR4fsOndA+mHwGfspKQitvOpsnTuvfoeIf07CHSkuOM+Dw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB2156
+X-MS-Exchange-CrossTenant-UserPrincipalName: kKhQ06QNh3r42QfhfXiEGI2DVGcld80MMUm6Fof1hW0QDspUIhhLYREuTgp/KqfgnnWjKRewJpHtly0vI/SjSg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3317
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 08:25:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238879
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 08:26:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238878
 
-Cover debug source copying, ignored source paths and externalsrc
-relocation.
+Convert the copydebugsources command pipelines to explicit Popen calls
+using argument lists. Use env=3D for LC_ALL, cwd=3D for the cpio working
+directory and glob.glob() for the externalsrc move.
 
-AI-Generated: Claude Opus 4.6
+The first pipeline keeps ignoring command failures as before since some
+inputs are expected to fail. The symlink fixup pipeline checks each stage
+so failures are reported directly.
+
+Skip the externalsrc mv when the glob has no matches and let the
+following empty-directory cleanup handle the empty tree.
 
 Signed-off-by: Anders Heimer <anders.heimer@est.tech>
 ---
- meta/lib/oeqa/selftest/cases/oelib/package.py | 239 ++++++++++++++++++
- 1 file changed, 239 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/oelib/package.py
+ meta/lib/oe/package.py | 63 ++++++++++++++++++++++++++++++------------
+ 1 file changed, 45 insertions(+), 18 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/package.py b/meta/lib/oeqa/=
-selftest/cases/oelib/package.py
-new file mode 100644
-index 0000000000..39c7d0661d
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/oelib/package.py
-@@ -0,0 +1,239 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index c375acc124..ad4b7a2769 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -1017,26 +1017,50 @@ def copydebugsources(debugsrcdir, sources, d):
+         bb.utils.mkdirhier(basepath)
+         cpath.updatecache(basepath)
+=20
+-        for pmap in prefixmap:
++        env =3D os.environ.copy()
++        env["LC_ALL"] =3D "C"
 +
-+import os
-+import shutil
-+import tempfile
-+from unittest.case import TestCase
++        for pmap, prefix in prefixmap.items():
++            dstroot =3D dvar + prefix
+             # Ignore files from the recipe sysroots (target and native)
+-            cmd =3D  "LC_ALL=3DC ; sort -z -u '%s' | egrep -v -z '((<inter=
+nal>|<built-in>)$|/.*recipe-sysroot.*/)' | " % sourcefile
++            sort_p =3D subprocess.Popen(["sort", "-z", "-u", "--", sourcef=
+ile], stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNULL, env=3Denv)
++            egrep_p =3D subprocess.Popen(["egrep", "-v", "-z", "-e", r"((<=
+internal>|<built-in>)$|/.*recipe-sysroot.*/)"], stdin=3Dsort_p.stdout, stdo=
+ut=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNULL, env=3Denv)
++            sort_p.stdout.close()
 +
-+class FakeDataStore:
-+    def __init__(self, values):
-+        self.values =3D values
+             # We need to ignore files that are not actually ours
+             # we do this by only paying attention to items from this packa=
+ge
+-            cmd +=3D "fgrep -zw '%s' | " % prefixmap[pmap]
++            fgrep_p =3D subprocess.Popen(["fgrep", "-zw", "-e", prefix], s=
+tdin=3Degrep_p.stdout, stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNUL=
+L, env=3Denv)
++            egrep_p.stdout.close()
 +
-+    def getVar(self, name):
-+        return self.values.get(name)
+             # Remove prefix in the source paths
+-            cmd +=3D "sed 's#%s/##g' | " % (prefixmap[pmap])
+-            cmd +=3D "(cd '%s' ; cpio -pd0mlLu --no-preserve-owner '%s%s' =
+2>/dev/null)" % (pmap, dvar, prefixmap[pmap])
++            sed_p =3D subprocess.Popen(["sed", "s#%s/##g" % prefix], stdin=
+=3Dfgrep_p.stdout, stdout=3Dsubprocess.PIPE, stderr=3Dsubprocess.DEVNULL, e=
+nv=3Denv)
++            fgrep_p.stdout.close()
 +
-+    def expand(self, value):
-+        for name, replacement in self.values.items():
-+            value =3D value.replace("${%s}" % name, replacement)
-+        return value
++            cpio_p =3D subprocess.Popen(["cpio", "-pd0mlLu", "--no-preserv=
+e-owner", dstroot], stdin=3Dsed_p.stdout, cwd=3Dpmap, stderr=3Dsubprocess.D=
+EVNULL, env=3Denv)
++            sed_p.stdout.close()
 +
-+class TestCopyDebugSources(TestCase):
-+    def setUp(self):
-+        for tool in ("sort", "egrep", "fgrep", "sed", "cpio", "find", "mv"=
-):
-+            if shutil.which(tool) is None:
-+                self.skipTest("Required tool %s not found" % tool)
++            for proc in (cpio_p, sed_p, fgrep_p, egrep_p, sort_p):
++                proc.wait()
+=20
+-            try:
+-                subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubpro=
+cess.STDOUT)
+-            except subprocess.CalledProcessError:
+-                # Can "fail" if internal headers/transient sources are att=
+empted
+-                pass
+             # cpio seems to have a bug with -lL together and symbolic link=
+s are just copied, not dereferenced.
+             # Work around this by manually finding and copying any symboli=
+c links that made it through.
+-            cmd =3D "find %s%s -type l -print0 -delete | sed s#%s%s/##g | =
+(cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s')" % \
+-                    (dvar, prefixmap[pmap], dvar, prefixmap[pmap], pmap, d=
+var, prefixmap[pmap])
+-            subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubprocess=
+.STDOUT)
++            # The source copy pipeline above can fail without aborting, so=
+ there may be no copied tree to scan for symlinks.
++            if not os.path.exists(dstroot):
++                continue
 +
-+    def copydebugsources(self, debugsrcdir, sources, d):
-+        try:
-+            import oe.package
-+        except ImportError:
-+            self.skipTest("Cannot import oe.package")
++            find_p =3D subprocess.Popen(["find", dstroot, "-type", "l", "-=
+print0", "-delete"], stdout=3Dsubprocess.PIPE)
++            sed_p =3D subprocess.Popen(["sed", "s#%s/##g" % dstroot], stdi=
+n=3Dfind_p.stdout, stdout=3Dsubprocess.PIPE)
++            find_p.stdout.close()
 +
-+        oe.package.copydebugsources(debugsrcdir, sources, d)
++            cpio_p =3D subprocess.Popen(["cpio", "-pd0mL", "--no-preserve-=
+owner", dstroot], stdin=3Dsed_p.stdout, stderr=3Dsubprocess.DEVNULL, cwd=3D=
+pmap)
++            sed_p.stdout.close()
 +
-+    def test_copydebugsources_copies_files_and_dereferences_links(self):
-+        with tempfile.TemporaryDirectory(prefix=3D"oe-test-package-") as t=
-mpdir:
-+            source_root =3D os.path.join(tmpdir, "source")
-+            second_source_root =3D os.path.join(tmpdir, "second-source")
-+            workdir =3D os.path.join(tmpdir, "work")
-+            pkgd =3D os.path.join(tmpdir, "pkgd")
-+            debugsrcdir =3D "/usr/src/debug/testpkg/1.0"
-+            second_debugsrcdir =3D "/usr/src/debug/secondpkg/1.0"
-+
-+            os.makedirs(os.path.join(source_root, "nested"))
-+            os.makedirs(second_source_root)
-+            os.makedirs(workdir)
-+            os.makedirs(pkgd)
-+
-+            normal =3D os.path.join(source_root, "nested", "normal.c")
-+            special =3D os.path.join(source_root, "nested", "name with ; s=
-paces.c")
-+            leading_dash =3D os.path.join(source_root, "nested", "-leading=
--dash.c")
-+            target =3D os.path.join(source_root, "nested", "target.c")
-+            link =3D os.path.join(source_root, "nested", "link.c")
-+            ignored_src =3D os.path.join(source_root, "recipe-sysroot", "i=
-gnored.c")
-+            second =3D os.path.join(second_source_root, "second.c")
-+
-+            with open(normal, "w") as f:
-+                f.write("normal\n")
-+            with open(special, "w") as f:
-+                f.write("special\n")
-+            with open(leading_dash, "w") as f:
-+                f.write("leading dash\n")
-+            with open(target, "w") as f:
-+                f.write("target\n")
-+            os.symlink("target.c", link)
-+            os.makedirs(os.path.dirname(ignored_src))
-+            with open(ignored_src, "w") as f:
-+                f.write("ignored\n")
-+            with open(second, "w") as f:
-+                f.write("second\n")
-+
-+            sources =3D [
-+                os.path.join(debugsrcdir, "nested", "normal.c"),
-+                os.path.join(debugsrcdir, "nested", "name with ; spaces.c"=
-),
-+                os.path.join(debugsrcdir, "nested", "-leading-dash.c"),
-+                os.path.join(debugsrcdir, "nested", "link.c"),
-+                os.path.join(debugsrcdir, "recipe-sysroot", "ignored.c"),
-+                os.path.join(second_debugsrcdir, "second.c"),
-+                "<internal>",
-+            ]
-+            d =3D FakeDataStore({
-+                "WORKDIR": workdir,
-+                "PKGD": pkgd,
-+                "STRIP": "strip",
-+                "OBJCOPY": "objcopy",
-+                "S": os.path.join(workdir, "source"),
-+                "CFLAGS": (
-+                    "-ffile-prefix-map=3D%s=3D%s "
-+                    "-ffile-prefix-map=3D%s=3D%s"
-+                ) % (
-+                    source_root,
-+                    debugsrcdir,
-+                    second_source_root,
-+                    second_debugsrcdir,
-+                ),
-+            })
-+
-+            self.copydebugsources(debugsrcdir, sources, d)
-+
-+            copied_normal =3D os.path.join(pkgd, debugsrcdir.lstrip("/"),
-+                                         "nested", "normal.c")
-+            copied_special =3D os.path.join(pkgd, debugsrcdir.lstrip("/"),
-+                                          "nested", "name with ; spaces.c"=
-)
-+            copied_leading_dash =3D os.path.join(pkgd, debugsrcdir.lstrip(=
-"/"),
-+                                               "nested", "-leading-dash.c"=
-)
-+            copied_link =3D os.path.join(pkgd, debugsrcdir.lstrip("/"),
-+                                       "nested", "link.c")
-+            copied_second =3D os.path.join(pkgd, second_debugsrcdir.lstrip=
-("/"),
-+                                         "second.c")
-+            ignored =3D os.path.join(pkgd, debugsrcdir.lstrip("/"),
-+                                   "recipe-sysroot", "ignored.c")
-+
-+            with open(copied_normal) as f:
-+                self.assertEqual(f.read(), "normal\n")
-+            with open(copied_special) as f:
-+                self.assertEqual(f.read(), "special\n")
-+            with open(copied_leading_dash) as f:
-+                self.assertEqual(f.read(), "leading dash\n")
-+            with open(copied_link) as f:
-+                self.assertEqual(f.read(), "target\n")
-+            with open(copied_second) as f:
-+                self.assertEqual(f.read(), "second\n")
-+            self.assertFalse(os.path.islink(copied_link))
-+            self.assertFalse(os.path.exists(ignored))
-+
-+    def test_copydebugsources_ignores_missing_destroot(self):
-+        with tempfile.TemporaryDirectory(prefix=3D"oe-test-package-") as t=
-mpdir:
-+            source_root =3D os.path.join(tmpdir, "source")
-+            workdir =3D os.path.join(tmpdir, "work")
-+            pkgd =3D os.path.join(tmpdir, "pkgd")
-+            debugsrcdir =3D "/usr/src/debug/testpkg/1.0"
-+            mapped_debugsrcdir =3D os.path.join(debugsrcdir, "mapped")
-+
-+            os.makedirs(source_root)
-+            os.makedirs(workdir)
-+            os.makedirs(pkgd)
-+
-+            sources =3D [
-+                os.path.join(mapped_debugsrcdir, "recipe-sysroot", "ignore=
-d.c"),
-+                "<internal>",
-+                "<built-in>",
-+            ]
-+            d =3D FakeDataStore({
-+                "WORKDIR": workdir,
-+                "PKGD": pkgd,
-+                "STRIP": "strip",
-+                "OBJCOPY": "objcopy",
-+                "S": os.path.join(workdir, "source"),
-+                "CFLAGS": "-ffile-prefix-map=3D%s=3D%s" % (
-+                    source_root,
-+                    mapped_debugsrcdir,
-+                ),
-+            })
-+
-+            self.copydebugsources(debugsrcdir, sources, d)
-+
-+            self.assertFalse(os.path.exists(pkgd + mapped_debugsrcdir))
-+            self.assertFalse(os.path.exists(pkgd + debugsrcdir))
-+
-+    def test_copydebugsources_moves_externalsrc_relocation(self):
-+        with tempfile.TemporaryDirectory(prefix=3D"oe-test-package-") as t=
-mpdir:
-+            source_root =3D os.path.join(tmpdir, "external-[source]")
-+            workdir =3D os.path.join(tmpdir, "work")
-+            pkgd =3D os.path.join(tmpdir, "pkgd")
-+            debugsrcdir =3D "/usr/src/debug/testpkg/1.0"
-+
-+            os.makedirs(source_root)
-+            os.makedirs(workdir)
-+            os.makedirs(pkgd)
-+
-+            source =3D os.path.join(source_root, "real.c")
-+            with open(source, "w") as f:
-+                f.write("real\n")
-+
-+            relocation =3D pkgd + debugsrcdir + source_root
-+            relocated_name =3D "-relocated with ; spaces.c"
-+            os.makedirs(relocation)
-+            with open(os.path.join(relocation, relocated_name), "w") as f:
-+                f.write("relocated\n")
-+
-+            sources =3D [os.path.join(debugsrcdir, "real.c")]
-+            d =3D FakeDataStore({
-+                "WORKDIR": workdir,
-+                "PKGD": pkgd,
-+                "STRIP": "strip",
-+                "OBJCOPY": "objcopy",
-+                "S": source_root,
-+                "CFLAGS": "-ffile-prefix-map=3D%s=3D%s" % (source_root, de=
-bugsrcdir),
-+            })
-+
-+            self.copydebugsources(debugsrcdir, sources, d)
-+
-+            copied_source =3D os.path.join(pkgd, debugsrcdir.lstrip("/"), =
-"real.c")
-+            moved_source =3D os.path.join(pkgd, debugsrcdir.lstrip("/"), r=
-elocated_name)
-+
-+            with open(copied_source) as f:
-+                self.assertEqual(f.read(), "real\n")
-+            with open(moved_source) as f:
-+                self.assertEqual(f.read(), "relocated\n")
-+            self.assertFalse(os.path.exists(relocation))
-+
-+    def test_copydebugsources_ignores_empty_externalsrc_relocation(self):
-+        with tempfile.TemporaryDirectory(prefix=3D"oe-test-package-") as t=
-mpdir:
-+            source_root =3D os.path.join(tmpdir, "external-source")
-+            workdir =3D os.path.join(tmpdir, "work")
-+            pkgd =3D os.path.join(tmpdir, "pkgd")
-+            debugsrcdir =3D "/usr/src/debug/testpkg/1.0"
-+
-+            os.makedirs(source_root)
-+            os.makedirs(workdir)
-+            os.makedirs(pkgd)
-+
-+            source =3D os.path.join(source_root, "real.c")
-+            with open(source, "w") as f:
-+                f.write("real\n")
-+
-+            relocation =3D pkgd + debugsrcdir + source_root
-+            os.makedirs(relocation)
-+
-+            sources =3D [os.path.join(debugsrcdir, "real.c")]
-+            d =3D FakeDataStore({
-+                "WORKDIR": workdir,
-+                "PKGD": pkgd,
-+                "STRIP": "strip",
-+                "OBJCOPY": "objcopy",
-+                "S": source_root,
-+                "CFLAGS": "-ffile-prefix-map=3D%s=3D%s" % (source_root, de=
-bugsrcdir),
-+            })
-+
-+            self.copydebugsources(debugsrcdir, sources, d)
-+
-+            copied_source =3D os.path.join(pkgd, debugsrcdir.lstrip("/"), =
-"real.c")
-+
-+            with open(copied_source) as f:
-+                self.assertEqual(f.read(), "real\n")
-+            self.assertFalse(os.path.exists(relocation))
++            procs =3D (cpio_p, sed_p, find_p)
++            for proc in procs:
++                proc.wait()
++            for proc in procs:
++                if proc.returncode:
++                    raise subprocess.CalledProcessError(proc.returncode, p=
+roc.args)
+=20
+         # debugsources.list may be polluted from the host if we used exter=
+nalsrc,
+         # cpio uses copy-pass and may have just created a directory struct=
+ure
+@@ -1046,13 +1070,16 @@ def copydebugsources(debugsrcdir, sources, d):
+=20
+         # Same check as above for externalsrc
+         if workdir not in sdir:
+-            if os.path.exists(dvar + debugsrcdir + sdir):
+-                cmd =3D "mv %s%s%s/* %s%s" % (dvar, debugsrcdir, sdir, dva=
+r,debugsrcdir)
+-                subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubpro=
+cess.STDOUT)
++            srcdir =3D dvar + debugsrcdir + sdir
++            dstdir =3D dvar + debugsrcdir
++            if os.path.exists(srcdir):
++                entries =3D glob.glob(os.path.join(glob.escape(srcdir), "*=
+"))
++                if entries:
++                    subprocess.check_output(["mv", "--"] + entries + [dstd=
+ir], stderr=3Dsubprocess.STDOUT)
+=20
+         # The copy by cpio may have resulted in some empty directories!  R=
+emove these
+-        cmd =3D "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
+-        subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubprocess.STD=
+OUT)
++        cmd =3D ["find", dvar + debugsrcdir, "-empty", "-type", "d", "-del=
+ete"]
++        subprocess.check_output(cmd, stderr=3Dsubprocess.STDOUT)
+=20
+         # Also remove debugsrcdir if its empty
+         for p in nosuchdir[::-1]:
 
