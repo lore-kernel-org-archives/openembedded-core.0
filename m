@@ -1,179 +1,144 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62EA3CD98E1
-	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 16:32:26 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1950.1781627539939362415
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77373CD98E1
+	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 16:47:16 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2281.1781628428240587963
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2026 09:32:20 -0700
+ Tue, 16 Jun 2026 09:47:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ZQ9Rxg8l;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-491b390f9e9so40484615e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 09:32:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781627538; x=1782232338; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Codj+BF4w86gD9A1jCuk1GLKyVj2JK4dfCVQt4inswY=;
-        b=ZQ9Rxg8ltrf86DpU+ZsV10hnjIvKDk15arsvlnr7MDW5SY/U67mz+3LSoNC84CCgYL
-         wl7SES4kM2xdiQLl2M1I0l+11UYSXefMNFRM5LpcUiLqGksQVB8ib9g3wqbhoDF+Rsgs
-         R2AepWUJaSpYHacLdfSSwUKPbgbNZEpU8a2PA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781627538; x=1782232338;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Codj+BF4w86gD9A1jCuk1GLKyVj2JK4dfCVQt4inswY=;
-        b=cmGv6HxfmjJpcxNaMYIRcnZPe6FFf+BW3XdCtnQsqV7GACycSNaqLYARtgeH+RpIw+
-         wH7KtNcMdxVpZ20Z7Km8+HCnI7gyKouXpBMnuqEBgOzPmOnYdu3yf/kqc6rnWXhDOHSN
-         uM++zWear6bVTncO0UO3qdorUpbJC+GWUx3pi8/7TrpdKh8Y/3ome0nfDcBbYs44ucNP
-         vnaCmgowRnAelT2xW/B89VM15mV9VayPgQraQ8lDmHFYJa+J9XoKxpm09sRm/5z4RZLE
-         v0PUUkycbhXlydXsYeQy0mQXTQLMdu6t7Q0f+oKA0ia/Bwg6QoucvrGyjARI11vlJUOg
-         Bo1Q==
-X-Gm-Message-State: AOJu0YzNsaoM3uHwCQxzS5LX6rbQhb9y0G47IKtUDfYiOqVYsHUd3vWg
-	GmUMispmaaiM3YKDRE1P+r8UVT6/w3YletrDSYWspRFD7BQLqvlup0mqO3VPFlsKRKZIX9JDnik
-	sy/fE
-X-Gm-Gg: Acq92OGUxAGb2Lbmw5QvelIbPaLILbSouKeic8n34QemE7Z2UkP5vnYoeoZjY4j8qo6
-	uNx11e77lL7lee9LbrF2z9I+NjzGmioC3ZS0o8E8DAPNnlpGWlASS0WK5cNfqwfvJnC+PKMr8ix
-	Kwb0SebgbWsEAh4Y+2BqNDhCzwNGXVFZIcfjs7CZoQ4XC8iHUjcbkqOxqIAe3F2HfJ93zdE7Pew
-	/hD90wkC8NYpKBdJkDDeKCJwZmt2OYQna0X379kIpcOi5EF3NSj2ukYFhZt29b8B6GDiIY6K4Ld
-	Q7Ew6+1OapsnWWhebd59psGfkKZklo6eG/tUacY5iZOmDtE8uOOVguGUzs2A2pGCfKVmdftT34M
-	QsiBkTqg6xxc0lfUsqTekgiMdRri2PDyQ5yxKMPyNxlQ39PZ2TufeyPNnRZj2MWTwyOMZ0I5pS6
-	47iTc+rpXYs9hGGYA2teUx/Lon55jt1klfyHOIprZfXVXqMXzFn6cq1kH8jHigRiy3AqrvfWE03
-	jMComL0gs0jHbBddVMyGmdR2KXI
-X-Received: by 2002:a05:600c:c08a:b0:490:acb8:1490 with SMTP id 5b1f17b1804b1-492333a1716mr4534035e9.4.1781627537981;
-        Tue, 16 Jun 2026 09:32:17 -0700 (PDT)
-Received: from FRSMI25-LASER.home (2a01cb001331aa00fdf7edbba0bd5f9d.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fdf7:edbb:a0bd:5f9d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa3abd0sm102013985e9.1.2026.06.16.09.32.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 09:32:17 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=cZZpcYXn;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202606161647044b086036bb00020735-_2ywox@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202606161647044b086036bb00020735
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 16 Jun 2026 18:47:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=MYDlqqbex1zRmqgD6C3Ms1QcFYs/C+OwxLX0N60QTSE=;
+ b=cZZpcYXnMSkJR+CfI8jz/GQIts2X1du1dw816xqAUZ3U7qI+9hxdEIW8M9/xf4LMxYUkgv
+ NtrkGgLeNufrqPSHwhtocRnTMo1Hg27+lA8VZcmc/UxNKDuBkpv6k6ShVhklQisRuCf4WyoV
+ z6yN4cQCnP6q7teCnACMHIH03fRLpHrKyCG+BF//xxGDCXf9kv97k3L8r5L4E6V8hVKy9+ZY
+ wd33GAYOm62wIZIhjIueHjUiR1Mi7UNuhomUFQfT9YWxk5vm1gOFm3g66psTefRJRJXoHSu1
+ 5NKg5YeOGx+jN0D6vvCayy8vbU/ygpDNcYP78ppib0RHB4YikNuYtIFQ==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][scarthgap 00/20] Pull request (cover letter only)
-Date: Tue, 16 Jun 2026 18:32:05 +0200
-Message-ID: <cover.1781627207.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] python3: upgrade 3.14.5 -> 3.14.6
+Date: Tue, 16 Jun 2026 18:46:57 +0200
+Message-ID: <20260616164657.3046807-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 16:32:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238917
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 16:47:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238918
 
-Those are the patches from the last patch review:
-https://lore.kernel.org/openembedded-core/cover.1781270474.git.jeremy.rosen@smile.fr/
-... with "nfs-utils: fix CVE-2025-12801" removed,
-see https://lore.kernel.org/openembedded-core/8dd3e431cafdd364285eeaa79bf89507a4f4c6a1.camel@pbarker.dev/
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4001
-qemuarm64-ptest got impacted by 16267 – [scarthgap] AB-INT PTEST: python3 failure (test_wrong_cert_tls13)
-Succesfully rebuilt in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/3824>
+Release notes: [1]
 
-The following changes since commit e2864ea1ac022e43af92badc701fa1e2a9571f46:
+Resolves following CVEs from reports:
+* CVE-2026-3276
+* CVE-2026-7210
+* CVE-2026-7774
+* CVE-2026-8328
+* CVE-2026-9669
 
-  pseudo: Upgrade 1.9.6 -> 1.9.7 (2026-06-05 11:02:52 +0200)
+Resolves also:
+* shutil.move symlink-based bypass (CVE assignment unknown)
 
-are available in the Git repository at:
+Removed obsolete CVE_STATUS entries.
+Removed patch included in this release.
 
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-next
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-next
+[1] https://docs.python.org/3/whatsnew/changelog.html#python-3-14-6-final
+[2] https://security-tracker.debian.org/tracker/CVE-2026-7210
 
-for you to fetch changes up to dd74c1388d5bfefd2adcdb6abd622297138e2eb1:
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ ...eadingMock-call-count-race-condition.patch | 37 -------------------
+ .../{python3_3.14.5.bb => python3_3.14.6.bb}  |  7 +---
+ 2 files changed, 2 insertions(+), 42 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/0001-Fix-ThreadingMock-call-count-race-condition.patch
+ rename meta/recipes-devtools/python/{python3_3.14.5.bb => python3_3.14.6.bb} (98%)
 
-  meta/lib/oe/package.py: fix path to kernel sources in save_debugsources_info (2026-06-15 11:54:08 +0200)
-
-----------------------------------------------------------------
-
-Enrico Jörns (1):
-  devtool: prevent 'devtool modify -n' from corrupting kernel Git repos
-
-Hugo SIMELIERE (Schneider Electric) (3):
-  busybox: Fix CVE-2026-29004
-  xz: Fix CVE-2026-34743
-  util-linux: Fix CVE-2026-27456
-
-João Marcos Costa (Schneider Electric) (1):
-  meta/lib/oe/package.py: fix path to kernel sources in
-    save_debugsources_info
-
-Theo Gaige (Schneider Electric) (14):
-  go: patch CVE-2026-27142
-  go: patch CVE-2026-32280
-  go: patch CVE-2026-32283
-  go: patch CVE-2026-32289
-  go: patch CVE-2026-33811
-  go: patch CVE-2026-39817
-  go: patch CVE-2026-39819
-  go: patch CVE-2026-39820
-  go: patch CVE-2026-39825
-  go: patch CVE-2026-39826
-  go: patch CVE-2026-42499
-  go: patch CVE-2026-42501
-  go: patch CVE-2026-42504
-  go: patch CVE-2026-42507
-
-Zahir Hussain (1):
-  libpng: Fix CVE-2026-33416
-
- meta/classes/create-spdx-2.2.bbclass          |   2 +-
- meta/lib/oe/package.py                        |   4 +-
- .../busybox/busybox/CVE-2026-29004-01.patch   |  41 ++
- .../busybox/busybox/CVE-2026-29004-02.patch   |  46 +++
- meta/recipes-core/busybox/busybox_1.36.1.bb   |   2 +
- meta/recipes-core/util-linux/util-linux.inc   |   1 +
- .../util-linux/CVE-2026-27456.patch           | 115 ++++++
- meta/recipes-devtools/go/go-1.22.12.inc       |  14 +
- .../go/go/CVE-2026-27142.patch                | 386 ++++++++++++++++++
- .../go/go/CVE-2026-32280.patch                | 289 +++++++++++++
- .../go/go/CVE-2026-32283.patch                | 177 ++++++++
- .../go/go/CVE-2026-32289.patch                | 217 ++++++++++
- .../go/go/CVE-2026-33811.patch                |  46 +++
- .../go/go/CVE-2026-39817.patch                | 105 +++++
- .../go/go/CVE-2026-39819.patch                |  48 +++
- .../go/go/CVE-2026-39820.patch                | 112 +++++
- .../go/go/CVE-2026-39825.patch                | 104 +++++
- .../go/go/CVE-2026-39826.patch                |  65 +++
- .../go/go/CVE-2026-42499.patch                |  91 +++++
- .../go/go/CVE-2026-42501.patch                | 127 ++++++
- .../go/go/CVE-2026-42504.patch                |  58 +++
- .../go/go/CVE-2026-42507.patch                | 160 ++++++++
- .../xz/xz/CVE-2026-34743.patch                |  68 +++
- meta/recipes-extended/xz/xz_5.4.7.bb          |   1 +
- .../libpng/files/CVE-2026-33416-01.patch      | 143 +++++++
- .../libpng/files/CVE-2026-33416-02.patch      |  53 +++
- .../libpng/files/CVE-2026-33416-03.patch      | 163 ++++++++
- .../libpng/files/CVE-2026-33416-04.patch      |  53 +++
- .../libpng/libpng_1.6.42.bb                   |   4 +
- scripts/lib/devtool/standard.py               |   3 +-
- 30 files changed, 2694 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-29004-01.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-29004-02.patch
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-27456.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-27142.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-32280.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-32283.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-32289.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-33811.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39817.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39819.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39820.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39825.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39826.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-42499.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-42501.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-42504.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-42507.patch
- create mode 100644 meta/recipes-extended/xz/xz/CVE-2026-34743.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-01.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-02.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-03.patch
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-04.patch
-
+diff --git a/meta/recipes-devtools/python/python3/0001-Fix-ThreadingMock-call-count-race-condition.patch b/meta/recipes-devtools/python/python3/0001-Fix-ThreadingMock-call-count-race-condition.patch
+deleted file mode 100644
+index aba3188a59..0000000000
+--- a/meta/recipes-devtools/python/python3/0001-Fix-ThreadingMock-call-count-race-condition.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 388e023fe1197c1ffed374520ed45df4ac72b8f5 Mon Sep 17 00:00:00 2001
+-From: Sai Sneha <saisneha196@gmail.com>
+-Date: Thu, 21 May 2026 13:08:07 +0530
+-Subject: [PATCH] Fix ThreadingMock call_count race condition
+-
+-ThreadingMock._increment_mock_call() was not thread-safe.
+-Multiple threads calling the mock simultaneously could lose
+-increments due to race conditions on call_count and other
+-attributes.
+-
+-Fix by overriding _increment_mock_call in ThreadingMixin
+-and wrapping it with the existing _mock_calls_events_lock.
+-
+-Upstream-Status: Backport [https://github.com/python/cpython/pull/150176]
+-
+-Signed-off-by: Sai Sneha <saisneha196@gmail.com>
+----
+- Lib/unittest/mock.py | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/Lib/unittest/mock.py b/Lib/unittest/mock.py
+-index 16f3699e89..56cdc37942 100644
+---- a/Lib/unittest/mock.py
+-+++ b/Lib/unittest/mock.py
+-@@ -3113,6 +3113,10 @@ def _mock_call(self, *args, **kwargs):
+- 
+-         return ret_value
+- 
+-+    def _increment_mock_call(self, /, *args, **kwargs):
+-+        with self._mock_calls_events_lock:
+-+            super()._increment_mock_call(*args, **kwargs)
+-+
+-     def wait_until_called(self, *, timeout=_timeout_unset):
+-         """Wait until the mock object is called.
+- 
+--- 
+-2.34.1
+diff --git a/meta/recipes-devtools/python/python3_3.14.5.bb b/meta/recipes-devtools/python/python3_3.14.6.bb
+similarity index 98%
+rename from meta/recipes-devtools/python/python3_3.14.5.bb
+rename to meta/recipes-devtools/python/python3_3.14.6.bb
+index 02bda8ddcf..291bde70f6 100644
+--- a/meta/recipes-devtools/python/python3_3.14.5.bb
++++ b/meta/recipes-devtools/python/python3_3.14.6.bb
+@@ -22,13 +22,12 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+            file://0001-Update-test_sysconfig-for-posix_user-purelib.patch \
+            file://0001-prefer-valid-entrypoints.patch \
+-           file://0001-Fix-ThreadingMock-call-count-race-condition.patch \
+            "
+ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "7e32597b99e5d9a39abed35de4693fa169df3e5850d4c334337ffd6a19a36db6"
++SRC_URI[sha256sum] = "143b1dddefaec3bd2e21e3b839b34a2b7fb9842272883c576420d605e9f30c63"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+@@ -581,7 +580,5 @@ py3_sysroot_cleanup () {
+ 	rm -rf ${SYSROOT_DESTDIR}${libdir}/python${PYTHON_MAJMIN}/test
+ }
+ 
+-CVE_STATUS[CVE-2026-4786] = "cpe-stable-backport: backported to v3.14.5"
+-CVE_STATUS[CVE-2026-5713] = "cpe-stable-backport: backported to v3.14.5"
+ CVE_STATUS[CVE-2026-6019] = "cpe-stable-backport: backported to v3.14.5"
+-CVE_STATUS[CVE-2026-6100] = "cpe-stable-backport: backported to v3.14.5"
++CVE_STATUS[CVE-2026-7210] = "cpe-stable-backport: backported to v3.14.6"
 
