@@ -1,701 +1,361 @@
-Return-Path: <Hemanth.KumarMD@windriver.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 321B1CD98F0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98A6DCD98F7
 	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 07:45:51 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10225.1781682348139560213
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10399.1781682342302364961
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2026 00:45:48 -0700
+ Wed, 17 Jun 2026 00:45:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Lb48WsA2;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0628f81a38=hemanth.kumarmd@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65H51RfU451846
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 07:45:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=4vdL/Opab
-	C9aFhgzIwvYmhVVZsujouDeAFFgwD7ow98=; b=Lb48WsA2cp5rJBwBq8F31VR6B
-	ncb3Rqe2KHBxj/cELQoCcLCUIA9FkCwVrdfOqxHZIdy4Tub3yEZpeJx6UJUqyvoB
-	ShZ0ZMUlIYS5ImZfmkJl6wNRYAeulOOwhDOP2DKACKr/8EfZkNuv97wKwJx/OzZb
-	y8JAdAiJ92bci+Vua88X5zmaaE//SDp+YWpitkaQl9aFjgVjHbjA5sbp6JUrc0KB
-	6oqYi4TWY/K1HvtrO68OrjiMrd0Kyn5VX5rqlCZjNiV41hKDG16m5NcwJqyjuL0d
-	FSqZLQDjM0Nu1sfLW7/axao86FyPigftey2Sby7RwYDAjlYc6y/w5oYSa3kxA==
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010062.outbound.protection.outlook.com [52.101.61.62])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4euef80mfn-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 07:45:46 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bnxk+HP3Dqi3efEzSQH6DXkarU/6Lx5+p9F5cxuAmSHCGSUnJAU/udTJDICzt1NGaQfiHwPLvAvVTBABPIWMgnPUgzLxY7BmRbxGJHHp62aEEpZZFi4wUmqebkckUaL1v4OGV5DH/3etcA7YgeOlDm1h7re9NGX0l+PWXCfczLMv0gspvqexITYBYL24lgJut3PQNEa2LiTISQ5Z76cb6cW0DK+Iz9xFiZ/drkq0XsjOL4+yC+MYEGWCcbfrx5x5odmXgptlWjgqeCqmItAMFfzrsW9P1AjaUMkLsEWsmuxN6Cm1Mz0xISQCCzoQpT3igmjrm+ZaOcJ/PX0jtCJIhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4vdL/OpabC9aFhgzIwvYmhVVZsujouDeAFFgwD7ow98=;
- b=fTnDoZdu7bKZuiPeikM0Sxu9gyU/MN6JC354uXI1Qb7OVdMH/l0//hy72JnSNpakzXZFbaM657Qd+CeQNS+CU+Tseuiz5g9xcu/eJtfvkgH0GKZpavdXRUnym7PuLZuezdnS9znUVz685ELqEwZunhU8u97nAfsfj0f98x8Y/h61fAS1/fDjebP8Vt57qNVh87ltHgprMX0mTfc+nE7169JR/ABkYZtrZNdCRqV5eARtpyw5GWtRD+AV3KrVbNLFml2LYHOS8vOuZMH8JGjG9eQw1x9x3ZHiC0s5Lkp9InYr9MlRBSr2LG7BP8Ry3EMBIaLFPH2vFqk4K3maiALQkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB4564.namprd11.prod.outlook.com (2603:10b6:5:2a0::7) by
- MW6PR11MB8409.namprd11.prod.outlook.com (2603:10b6:303:24c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Wed, 17 Jun
- 2026 07:45:42 +0000
-Received: from DM6PR11MB4564.namprd11.prod.outlook.com
- ([fe80::21dd:5cab:fc47:1dfe]) by DM6PR11MB4564.namprd11.prod.outlook.com
- ([fe80::21dd:5cab:fc47:1dfe%3]) with mapi id 15.21.0139.009; Wed, 17 Jun 2026
- 07:45:41 +0000
-From: Hemanth.KumarMD@windriver.com
+ dkim=pass header.i=@smile.fr header.s=google header.b=xHtx4Xt1;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-462bb734793so219728f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 00:45:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1781682340; x=1782287140; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e22rWBXr4qAykEcj9vOpgRiVsmmqlAQH0Vcx2OTlycY=;
+        b=xHtx4Xt1GVc2P+ExgRYgRhKc8wm9WSTq7lhoGZO26z5DuZzP6Hq82hmCEk2tgO3dZd
+         vfWCLRXP5BzxEEaZuqhLAeYBdtZIXr45Sj0XGa9zvMnko1JNj+Z7xLH2w1CXGUFlxN+R
+         Vb3hY+ptHTVTd46tgi4YpdRFuzjWNrC6nDXoQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781682340; x=1782287140;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=e22rWBXr4qAykEcj9vOpgRiVsmmqlAQH0Vcx2OTlycY=;
+        b=MEZ53ymifzHdpShj2O5/PyADuGl9Z/G5tyUSAKK8OhAqPggyw53S/8pMfuyg4eXLsv
+         kQBIb3SEWGgKnynpN5tjPECm2cnfns0wuvpPlCQ1nRJP+s9fnLQEYTi8b1+CpzigmZur
+         DpdWmUuwbep1l82K0WF3KRBpt9XS0R0U20WRZDwMwj/pLH1vRzs6IOv3oAheyFWAwLl+
+         fbXhUvm5VoBsEqxCNwAP74tOAQxDryMs5Vg56wq0zwee5WqYvygjc8+1MyT/4nBkDdjz
+         SC1daYKQLLuEd2RepTkrXQJzXMEiPEohSNmwvt7kSsO/kWhV5Mt2GHk+trMis7+78D0K
+         Ds2Q==
+X-Gm-Message-State: AOJu0Yw95kW0zVPs/nxbCtJTt1XCn5NCrPa863ZacGRHlMOnYob86rRK
+	SkqoCSqyBTmMoffx8ETSDDO9AGkh84eZT6DaQlDckPVAk2Abyl2neAqjLeKq1xpi9wCdbq/zth2
+	VLRcG
+X-Gm-Gg: AfdE7cm8UUAyywIrJnDQM7c3QsWFK1KUKd0GjaxhW1hJdsd6WJbHeuQdl/6M/mmIxtr
+	DxIbZ0pA4ivEpIwg+eT4+M2Wjy2+2/RlRNnkVWBSyKWfK4mwQrwR5PV/i7o0lxI0HCdLySYrGsN
+	1fsoRTYqg1fYkFD640is8tCQsjkOwZVrv99db4XPF/3ZkAjwy0jUn/IZTSfnvez28x3A40n5fPk
+	CtPphn1/SMXS1bjoy45MjvLNZ30O38QV3sbyF+3u8I5wcgv0AdjJqpRcT+I7M1UJ0c5br95iy2k
+	WEYfV3C/f3NBAt4HEvNEWGS8wRPG8yGniL+r7OXsISEuMbDn0sr+gZ+2xXj7Eh9ZSG24MZthHLo
+	uNAaTvMwbjWIxCg7HLrTNBLM+uIbmw/7m0UKYb7Dpm+gd6DHpez3ha8nvRvPuj8trdYywsxcEAb
+	miSHibhwopAbwrKf8J58h4j2+p8SCZcCrZr8coJTj7fcsMRI5VAc+K5Tu4gADfB5oIyaYsmj93E
+	yDWr/D7zRqUzSqipg==
+X-Received: by 2002:a05:6000:2f88:b0:462:fdf2:3a50 with SMTP id ffacd0b85a97d-462fdf23aa6mr892874f8f.32.1781682340300;
+        Wed, 17 Jun 2026 00:45:40 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00bc19bde07170effe.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:bc19:bde0:7170:effe])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4619b9b7750sm23483215f8f.6.2026.06.17.00.45.39
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2026 00:45:39 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, Hemanth.KumarMD@windriver.com
-Subject: [wrynose][PATCH v2] gcc: Upgrade GCC to 15.3 release
-Date: Wed, 17 Jun 2026 00:45:28 -0700
-Message-ID: <20260617074528.2177417-1-Hemanth.KumarMD@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0024.namprd13.prod.outlook.com
- (2603:10b6:a03:2c0::29) To DM6PR11MB4564.namprd11.prod.outlook.com
- (2603:10b6:5:2a0::7)
+Subject: [OE-core][scarthgap 21/30] linux-yocto/6.6: update to v6.6.132
+Date: Wed, 17 Jun 2026 09:44:56 +0200
+Message-ID: <0b75b1150f2ff7dc5a1a9e2110dfb53fd1b39523.1781682189.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1781682189.git.yoann.congal@smile.fr>
+References: <cover.1781682189.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|MW6PR11MB8409:EE_
-X-MS-Office365-Filtering-Correlation-Id: d3ced6ac-d3e4-40cb-9607-08decc446e5a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|1800799024|52116014|376014|366016|56012099006|11063799006|6133799003|18002099003|38350700014|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	hbsj7QZrSmvvwzfa9tmwEUd15WjLVH81D0y7FuRjgMvQD/BH2ZWWkHzhRdbKCK9RFBuJL8Yk8B/h5mv3PkGrYst6fscvTWBNlxyU8M4dX5oj2K1f75Cuur3LIEL2sk/FS2ZA8DPBD35/FFTaFosIq2ytKbXM4v2iHhzSGJYYTKEEPbo780k1fSmvzF7IdseOVjy975FW+wLj8SRfOKjIZAzBUXVUw4HtsCn/xhVNYiod/Iz5fvNT6jbDtoOZzcncQc/PuMYvqs6pSIuDQjf0uxxYIIlrhR8iHeiQLzkZbfnc5xiFVhusq+mAF3bVr5/kmz8HqAexHV3PLrctFA63zi8SsrxC0zWFptfmbpaAtufc6/jgfgheoxpdB3fWCKOnXpJSyDznTXGDooIk+pabysTSFOBcMEUnq3Eqi56wSJ7ALEIEFHDCpsHhhnhfRjaiIUgpokoaLzZh02ZXQF7kpGjKBRIBZ+Zk5lq3WWcVE2JgBbdZfGTsF0VVoq0tzezOoizXT5x/aVo9kSWXYazm3uMo9r/MVFinYk5kXAK1W+qIUFvoR38hkAytooD3WBnPIztSWtrBglQReNHVv5DBix/J1ywptoH5On26IOfIzomgzgnftfTpceG81rYH/wpQnc6GK41supFgbh+q2r9RyNhG0bWnH0c5Z3hsTi6lDeST3bFxOEcZ53wOvztjkee3c1kkWs/w4YzL9h2pkuM/DA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(52116014)(376014)(366016)(56012099006)(11063799006)(6133799003)(18002099003)(38350700014)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?2bumnxvOJ9V19vJh6e7yPcKZZaMbnEiL8QbQlcSOXRvPbSUejW3ErabpSy5W?=
- =?us-ascii?Q?Xjl1UWipvjJQ1oRGjDSK1sXbt896NspqvCFO5GvBC6BpLppR4GTPO7lC+Drr?=
- =?us-ascii?Q?nKhyUDlQwv4JI1ZbnEnxIZG1E1iJLAgNqAjd019borI62fq8rENge6UBLlEU?=
- =?us-ascii?Q?6E2MRBvKaQXxqF4yyTEN3QrimkAcEUWtAb8n4gDxvVcZtRAIKRyxYZm3I+UG?=
- =?us-ascii?Q?70FwnWqSpak0X/DF/QBAdQ36WV2NgUo+C7zcYFFUPPF4rI1mOdFA0Jyxoeds?=
- =?us-ascii?Q?V/A7/xGzzRbexIPv7X/KgxvMYl+YCGOUUAnqUqJVL2zR+MLxvzBkdAT9Qki9?=
- =?us-ascii?Q?+dT93mxOj6rKXMOrJHtUzKnt2VSc2UXmCKJox1zx5KaD8/oON8qJfGhYBv2K?=
- =?us-ascii?Q?eAYpiaWoSu/7NjPEciJ2mwGT3gJz31OKGDTJwCM4Ybz4p+QrGjh+iKOVngWr?=
- =?us-ascii?Q?2cPIu6FCXMtcWYs4dTHRR3/aOviVz1aWeYV4vSB6bIFRCWs7SxItgNNAkPKl?=
- =?us-ascii?Q?0n81eZFjgXRLGiWhrkUASk5qxds5N5QExxHtKMr4Je0n2aGcojk/X0Gl1TMS?=
- =?us-ascii?Q?mos/9K+ncbY03sDvSdNpSGrOwYH4wI4RCu/2YSfrfYe3Lm1Zy16cUBf9LeGp?=
- =?us-ascii?Q?HGNQYpi/M5uADtln633HM+kjoYcYiOC3A3E+Mg1nN87EJejvJNlLKvXVfnPx?=
- =?us-ascii?Q?tv45bepu7nF7kydNSmBTg8O85i2YYTpFbQRw8p25lLp512p6f6eJ/xQuk2Tv?=
- =?us-ascii?Q?rUGt6CNdrSGEVuBGGE3vQdEk5vk2oq59YfvgmTqoNM625ylz8ufkaaaTqSwR?=
- =?us-ascii?Q?XRLcPcJNNj8NdXpO75l+lTxVCG7IiuZhNJsWMIClQN27r2S6d7oh/aJJJDqt?=
- =?us-ascii?Q?RzUPwtBJitPH7J6nPYO77duJ3HfDsct5M/FApnGJgEELvNaiWDyFFj6cDGb/?=
- =?us-ascii?Q?hDPKWxJTwV7pbJgF7qOD6Q6OnnplaplJvE7iLq35RUYbX2GZ9xuDgK6ZoSiQ?=
- =?us-ascii?Q?FIgZ5+6AD9R1N5T3/Jvsa05iPhIv4QLEm586fnvQz++gg7vim0Dcp+gvaNFo?=
- =?us-ascii?Q?ZXg8QRgcyzGCVSOiibwsTI8iERzAKQ0F9HKVeyV2EgeQ8BRpIXfRHcGehDgQ?=
- =?us-ascii?Q?pKmo0boquzEF0+w+96M0yU2iLjFKia03EBNNp6bXUgal+PmyYbH4FyKwf2HC?=
- =?us-ascii?Q?uGtGJFI5PALq7Q6BB+RW/XQ2E+T/ZECtq0ThENFTh55jn328g49EHrPwXzvM?=
- =?us-ascii?Q?k+mh77s3UXzpJ+vmCd8wf+a/OUEagaqUWFh04Fxw69VT7LwFFdh7vns3AauZ?=
- =?us-ascii?Q?D9kxerTBQ+hgM4QYipP8ei+1iKHL66NToCF8/4yI2/B6cf/FRZhoPl8dakSe?=
- =?us-ascii?Q?YPV+PxLWI4CXWfB+TTRtuBQWWwDpvlOLsBByYa3qIHeksSiux1WR6EGusEbf?=
- =?us-ascii?Q?8Za017u3sZDl1pNbwSCx/hPYRHvlgJGYzaT/u2F80aVo4JMACn1r6hAbTMRY?=
- =?us-ascii?Q?oY8GempDpZ+hyTqHojVWSYhQA9bG1gNZl6dwYDKw/aTbLQ35ubR7bmoEv3/2?=
- =?us-ascii?Q?/UgNRsnEZdT6Rd5UEGwkuKQc9sxitqAyzIWmVK5b+eiqHXvy8Ub0U+nVm+xA?=
- =?us-ascii?Q?mXNL/sAzQpH54rkxvFANhfgMGKjdYF0c3vILV7LTruHG04v+xXBlgoyU2VGS?=
- =?us-ascii?Q?MMd51ZcgoruuBd2QYa3PpBW93g5LO4o5kFGtNDuhLTDIkrJaTz8QwBM6ToMX?=
- =?us-ascii?Q?889/XN4k9wCq8zR/SukVVhjMaU8ugxA=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	Vmmo1FdFozfNpkQGIDbCFrWnVDp622M0snB6mdDY9cxFZWiM1iuZh1i/8GJ6ZZ1yooIDkzS0Cg+EMpiTqyeati5QYReNET7pIMA6iJTy5opBAPe8/j1bIvCq6uQtIByntcgg4gFIEUeCnaQSZnaMGTkJ6Ib8jl6GbrYb5VsKD9ebJFhQkosrzg1pqjZSIoO3G2WB7T3I+EDbMaT+bbEQwyUU8FJxsvGTmTAmkywhx/EnqNX9FrBkT9ZMPb1iQHG9hySkGyNl8FTFnBvJTS8TUVB4ntMWIgkWcsC9pUH3jIr6L+GnLPI304naIdGCJyB7OHSfX9ex4RyK32ILtuLreQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3ced6ac-d3e4-40cb-9607-08decc446e5a
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2026 07:45:41.6270
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T898CBrVJ1ajqSs+jWUHrOJKxwW+Hc7ja6n5PxBIhbsfA/ELhIIG+9AsGj92HfIL06/UkQ3SXjv3AMPcYFK5t/1Sp1dIpkzRQ1rnGNvcSXA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR11MB8409
-X-Proofpoint-ORIG-GUID: OTd4YMXkM4aV1GHqteVbZXzn8_jIAMbm
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE3MDA3MSBTYWx0ZWRfX2AFYmLE6Xvga
- j2cuUM8QToaIwMssxgNECwb189hMic4mXXOd03MlDNvkTCZLNJTga7N5EQg+G2gs9oBM0OdMD/F
- qih9OMLSDYz7yqX6yjrUoSsXASGhgONX5fBND7mwF9Esqbx/+5Nl
-X-Authority-Analysis: v=2.4 cv=auCCzyZV c=1 sm=1 tr=0 ts=6a3250aa cx=c_pps
- a=rA8xTxhMCG4Q6PG1LLvkJA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=mDV3o1hIAAAA:8
- a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=7CQSdrXTAAAA:8 a=iGHA9ds3AAAA:8
- a=20KFwNOVAAAA:8 a=aW_Z1E4S6AGfzCYL-CIA:9 a=qR47EbG77nc-FfNg:21
- a=FdTzh2GWekK77mhwV6Dw:22 a=a-qgeE7W1pNrGK8U0ZQC:22 a=nM-MV4yxpKKO9kiQg6Ot:22
-X-Proofpoint-GUID: OTd4YMXkM4aV1GHqteVbZXzn8_jIAMbm
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE3MDA3MSBTYWx0ZWRfX5LbCVMN1BSPp
- oXJV0/2XFUZ9V7QKpOuTyRTxB7XrD9y6faJBiP1GLBSyBAsUXj1RKD5A+QxAX+gqoEYyjGhF86n
- u8uJIDqywhqI0UTpmfydmry/odgdX1mJIZcFd9FrDgDXDr1L+z0sHgdCNCH/qH4Kn4CfEGyMjk7
- QYB2LnUCgjpp8J0A4G58D6hH1OngVOhihZpZJp4qSfONNdJTK4b/SEduLZp6VUa3PD2QRAeX3eg
- cxyXlyhxPuIyPg0+urYw71nTC4fhGmEhcwzHbNfXtDBaNLw9oE7MAiz1ez2Q5FrcLyeYIANB8z5
- fM2bozTw4ltI4JA60wnSqZbaLfq5OW+0lrOrgqj/aPbSKVtHX1fKlV4dsg+jQEV9CZvek5MXEsG
- IdlullQBnjhnRcpsi+YAtfXOaxwb0YGa0NSPyGbFgnX5ICnOBPM3ao4v/nseUzbb6b4MLbRLDea
- 5me+w7skCCInrALxH+A==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-16_05,2026-06-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 spamscore=0 phishscore=0 suspectscore=0 bulkscore=0
- clxscore=1015 adultscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606170071
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 07:45:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239010
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239003
 
-From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-- Added support for AVR32EB14/20/28/32, AVR16LA14/20/28/32, and
-  AVR32LA14/20/28/32 devices
-- Added IEEE double functions sincos and sincosl support
+Updating linux-yocto/6.6 to the latest korg -stable release that comprises
+the following commits:
 
-* Drop backports available in this release.
+    08667c1437c07 Linux 6.6.132
+    866c39b567bde Revert "rust: pin-init: add references to previously initialized fields"
+    e7ccb57fe7164 Revert "rust: pin-init: internal: init: document load-bearing fact of field accessors"
+    29242a6238213 Linux 6.6.131
+    e10af36ac3f7b tcp: Fix bind() regression for v6-only wildcard and v4-mapped-v6 non-wildcard addresses.
+    de7c0c04ad868 futex: Clear stale exiting pointer in futex_lock_pi() retry path
+    37cf97e37498a dmaengine: idxd: Fix freeing the allocated ida too late
+    509ff03a3f188 dmaengine: idxd: Remove usage of the deprecated ida_simple_xx() API
+    e3387416ad6b2 btrfs: fix lost error when running device stats on multiple devices fs
+    94054ffd311a1 btrfs: fix leak of kobject name for sub-group space_info
+    1ddab07bf2ed5 btrfs: fix super block offset in error message in btrfs_validate_super()
+    5a0538380d29e dmaengine: xilinx_dma: Fix reset related timeout with two-channel AXIDMA
+    ab4a8624b999a dmaengine: xilinx: xilinx_dma: Fix unmasked residue subtraction
+    26271695302c8 dmaengine: xilinx: xilinx_dma: Fix residue calculation for cyclic DMA
+    a3142cc1581a5 dmaengine: xilinx: xilinx_dma: Fix dma_device directions
+    4b6e1da50b22e dmaengine: xilinx: xdma: Fix regmap init error handling
+    afc39537cddcb dmaengine: dw-edma: Fix multiple times setting of the CYCLE_STATE and CYCLE_BIT bits for HDMA.
+    5893ae3b4591b phy: ti: j721e-wiz: Fix device node reference leak in wiz_get_lane_phy_types()
+    54d77cc0c40ca dmaengine: idxd: Fix memory leak when a wq is reset
+    2bb9e9e93adff dmaengine: idxd: Fix not releasing workqueue on .release()
+    cfadf46a67b68 erofs: fix "BUG: Bad page state in z_erofs_do_read_page"
+    75669e987137f xfs: save ailp before dropping the AIL lock in push callbacks
+    7121b22b0bac8 xfs: avoid dereferencing log items after push callbacks
+    aba546061341b mm/damon/sysfs: check contexts->nr before accessing contexts_arr[0]
+    2efbc838a26d3 nvme: fix admin queue leak on controller reset
+    5a1e865e51063 xattr: switch to CLASS(fd)
+    bb42e9627aa92 libbpf: Fix -Wdiscarded-qualifiers under C23
+    4913592a3358f gfs2: Fix unlikely race in gdlm_put_lock
+    8c93e73af8563 mtd: spi-nor: core: avoid odd length/address writes in 8D-8D-8D mode
+    8cdc84415a4d2 mtd: spi-nor: core: avoid odd length/address reads on 8D-8D-8D mode
+    0890fba6129dc rust: pin-init: internal: init: document load-bearing fact of field accessors
+    c28fc9b0dbc7a rust: pin-init: add references to previously initialized fields
+    ef41a85a55022 tracing: Fix potential deadlock in cpu hotplug with osnoise
+    5a9f33294cc04 tracing: Switch trace_osnoise.c code over to use guard() and __free()
+    c9b95ef6f5039 ksmbd: fix memory leaks and NULL deref in smb2_lock()
+    9e785f004cbc5 ksmbd: fix use-after-free and NULL deref in smb_grant_oplock()
+    d3c4458707e70 powerpc64/bpf: do not increment tailcall count when prog is NULL
+    d419788a834f7 arm64: dts: imx8mn-tqma8mqnl: fix LDO5 power off
+    1c82f863f090a ext4: always drain queued discard work in ext4_mb_release()
+    ca99cbcc316cd ext4: fix iloc.bh leak in ext4_fc_replay_inode() error paths
+    c84c0272e0b66 ext4: fix the might_sleep() warnings in kvfree()
+    9449f99ba04f5 ext4: fix use-after-free in update_super_work when racing with umount
+    b77de3fceafbb ext4: reject mount if bigalloc with s_first_data_block != 0
+    2d31a5073f86a ext4: avoid allocate block from corrupted group in ext4_mb_find_by_goal()
+    ecc50bfca9b5c ext4: avoid infinite loops caused by residual data
+    65c6c30ce6362 ext4: replace BUG_ON with proper error handling in ext4_read_inline_folio
+    df3cecfc5036f ext4: make recently_deleted() properly work with lazy itable initialization
+    2b7bf66a09873 ext4: fix fsync(2) for nojournal mode
+    850e68a1d3b06 ext4: fix stale xarray tags after writeback
+    699bac4d4c951 ext4: convert inline data to extents when truncate exceeds inline size
+    17c21b951e87c ext4: fix journal credit check when setting fscrypt context
+    813f372a3b8aa xfs: fix ri_total validation in xlog_recover_attri_commit_pass2
+    d38135af04a3a xfs: stop reclaim before pushing AIL during unmount
+    f458dceaa6a35 LoongArch: Workaround LS2K/LS7A GPU DMA hang bug
+    ebf6860ef7093 dmaengine: sh: rz-dmac: Move CHCTRL updates under spinlock
+    79c4796b2711e dmaengine: sh: rz-dmac: Protect the driver specific lists
+    75552b2c17124 irqchip/qcom-mpm: Add missing mailbox TX done acknowledgment
+    d536a00f1b451 jbd2: gracefully abort on checkpointing state corruptions
+    fd28c56186991 KVM: x86/mmu: Drop/zap existing present SPTE even when creating an MMIO SPTE
+    78c8b090a3d5c net: macb: Use dev_consume_skb_any() to free TX SKBs
+    d20d3eedbd04e scsi: ses: Handle positive SCSI error from ses_recv_diag()
+    4ed727e35b0ab scsi: ibmvfc: Fix OOB access in ibmvfc_discover_targets_done()
+    c9e137c26cd45 alarmtimer: Fix argument order in alarm_timer_forward()
+    5c8ecdcfbfb0b erofs: add GFP_NOIO in the bio completion if needed
+    a58d298a83a3a s390/entry: Scrub r12 register on kernel entry
+    fedd2e1630cac virtio_net: Fix UAF on dst_ops when IFF_XMIT_DST_RELEASE is cleared and napi_tx is false
+    1a0d9083c24fb media: mc, v4l2: serialize REINIT and REQBUFS with req_queue_mutex
+    ebdd28353b958 hwmon: (peci/cputemp) Fix off-by-one in cputemp_is_visible()
+    7c0666a26b290 hwmon: (peci/cputemp) Fix crit_hyst returning delta instead of absolute temperature
+    844a18493173f hwmon: (pmbus/isl68137) Add mutex protection for AVS enable sysfs attributes
+    d4f4364974460 KVM: arm64: Discard PC update state on vcpu reset
+    501559fbe2097 platform/x86: ISST: Correct locked bit width
+    2e2c7a6b2958e cpufreq: conservative: Reset requested_freq on limits change
+    cb3d6efa78460 can: isotp: fix tx.buf use-after-free in isotp_sendmsg()
+    54ecdf76a55e7 can: gw: fix OOB heap access in cgw_csum_crc8_rel()
+    9e7f353710f85 ASoC: SOF: ipc4-topology: Allow bytes controls without initial payload
+    a2842de6856a7 ALSA: firewire-lib: fix uninitialized local variable
+    6fafc4c4238e5 ksmbd: do not expire session on binding failure
+    358cdaa1f7fbf ksmbd: fix potencial OOB in get_file_all_info() for compound requests
+    c3a89e3ec1ccf ksmbd: replace hardcoded hdr2_len with offsetof() in smb2_calc_max_out_buf_len()
+    a11911d94c032 s390/barrier: Make array_index_mask_nospec() __always_inline
+    7a5260fbc6e79 s390/syscalls: Add spectre boundary for syscall dispatch table
+    adb25339b6611 spi: spi-fsl-lpspi: fix teardown order issue (UAF)
+    ffd860907d0cb ASoC: adau1372: Fix clock leak on PLL lock failure
+    94577b2e936f0 ASoC: adau1372: Fix unchecked clk_prepare_enable() return value
+    227b7e14ae408 sysctl: fix uninitialized variable in proc_do_large_bitmap
+    6ec394998c42a hwmon: (adm1177) fix sysfs ABI violation and current unit conversion
+    e23602eb07797 drm/amdgpu: Fix fence put before wait in amdgpu_amdkfd_submit_ib
+    9c886e63b6965 ACPI: EC: clean up handlers on probe failure in acpi_ec_setup()
+    d997deaa7de36 ASoC: Intel: catpt: Fix the device initialization
+    9014a30df4365 spi: sn-f-ospi: Fix resource leak in f_ospi_probe()
+    b5f87d8493f54 PM: hibernate: Drain trailing zero pages on userspace restore
+    8dda015822771 PM: hibernate: Don't ignore return from set_memory_ro()
+    6a492d10c2f88 drm/i915/gmbus: fix spurious timeout on 512-byte burst reads
+    daf1396e8f42a x86/efi: efi_unmap_boot_services: fix calculation of ranges_to_free size
+    8212295549e47 scsi: scsi_transport_sas: Fix the maximum channel scanning issue
+    ad5085d7ef1c5 RDMA/irdma: Return EINVAL for invalid arp index error
+    acb060bc2609c RDMA/irdma: Fix deadlock during netdev reset with active connections
+    45897c22a93ec RDMA/irdma: Remove reset check from irdma_modify_qp_to_err()
+    2175c64d27e27 RDMA/irdma: Clean up unnecessary dereference of event->cm_node
+    18386d84d2ad3 RDMA/irdma: Remove a NOP wait_event() in irdma_modify_qp_roce()
+    d783393d2122b RDMA/irdma: Update ibqp state to error if QP is already in error state
+    af310407f79d5 RDMA/irdma: Initialize free_qp completion before using it
+    e82f2775b50cc RDMA/rw: Fall back to direct SGE on MR pool exhaustion
+    96c60fb6896e6 regmap: Synchronize cache for the page selector
+    9524634194516 net: macb: use the current queue number for stats
+    fcec5ce2d73a4 netfilter: ctnetlink: use netlink policy range checks
+    fe463e76c9b4b netfilter: nf_conntrack_sip: fix use of uninitialized rtp_addr in process_sdp
+    168145c874446 netfilter: nf_conntrack_expect: skip expectations in other netns via proc
+    c6a503a9f4deb netfilter: ip6t_rt: reject oversized addrnr in rt_mt6_check()
+    a8365d1064ded netfilter: nfnetlink_log: fix uninitialized padding leak in NFULA_PAYLOAD
+    2dcf324855c34 tls: Purge async_hold in tls_decrypt_async_wait()
+    6fba3c3d48c92 Bluetooth: btusb: clamp SCO altsetting table indices
+    52667c859fe33 Bluetooth: L2CAP: Fix ERTM re-init and zero pdu_len infinite loop
+    5f84e845648df Bluetooth: btintel: serialize btintel_hw_error() with hci_req_sync_lock
+    8d83194e8a880 Bluetooth: hci_sync: Remove remaining dependencies of hci_request
+    0ee469ba7c58c Bluetooth: Remove 3 repeated macro definitions
+    50c1e5fc7c444 Bluetooth: L2CAP: Fix send LE flow credits in ACL link
+    acfb29f82223e dma-mapping: add missing `inline` for `dma_free_attrs`
+    47d5f290fab3c net: enetc: fix the output issue of 'ethtool --show-ring'
+    2297e38114316 udp: Fix wildcard bind conflict check when using hash2
+    5b5af243e566b tcp: optimize inet_use_bhash2_on_bind()
+    79a5c9344eaaf tcp: Rearrange tests in inet_csk_bind_conflict().
+    34f5fe33e43bc tcp: Use bhash2 for v4-mapped-v6 non-wildcard address.
+    654386baef228 net: fix fanout UAF in packet_release() via NETDEV_UP race
+    a8ec35bb7b503 ipv6: Don't remove permanent routes with exceptions from tb6_gc_hlist.
+    9241d441feb40 ipv6: Remove permanent routes from tb6_gc_hlist when all exceptions expire.
+    6ae421f59bf80 ice: use ice_update_eth_stats() for representor stats
+    0677d6bf6e853 platform/olpc: olpc-xo175-ec: Fix overflow error message to print inlen
+    b04420f5b9315 rtnetlink: count IFLA_INFO_SLAVE_KIND in if_nlmsg_size
+    81acbd345d405 net/smc: fix double-free of smc_spd_priv when tee() duplicates splice pipe buffer
+    c1f97152df8df openvswitch: validate MPLS set/set_masked payload length
+    42f0d3d812096 openvswitch: defer tunnel netdev_put to RCU release
+    4c3e25a7b711a net: openvswitch: Avoid releasing netdev before teardown completes
+    eb435d150ca74 nfc: nci: fix circular locking dependency in nci_close_device
+    cfd863d4a3f2e ionic: fix persistent MAC address override on PF
+    a4fd36bb000db pinctrl: mediatek: common: Fix probe failure for devices without EINT
+    a04a760c06bb5 Bluetooth: L2CAP: Fix null-ptr-deref on l2cap_sock_ready_cb
+    28904375d54b4 Bluetooth: hci_ll: Fix firmware leak on error path
+    45aaca995e4a7 Bluetooth: SCO: Fix use-after-free in sco_recv_frame() due to missing sock_hold
+    477ad49760720 Bluetooth: L2CAP: Validate PDU length before reading SDU length in l2cap_ecred_data_rcv()
+    a4bda464c0deb can: statistics: add missing atomic access in hot path
+    d6923498e972b dma: swiotlb: add KMSAN annotations to swiotlb_bounce()
+    d3225e6b9bd51 af_key: validate families in pfkey_send_migrate()
+    6a3ec6efbc4f9 esp: fix skb leak with espintcp and async crypto
+    e17b0106447ed xfrm: Fix the usage of skb->sk
+    86f130cf52504 xfrm: call xdo_dev_state_delete during state update
+    7aac2b997e614 spi: intel-pci: Add support for Nova Lake mobile SPI flash
+    56bc8de780720 usb: core: new quirk to handle devices with zero configurations
+    1eed0199dbf41 objtool: Handle Clang RSP musical chairs
+    006ce15577e76 ALSA: hda/realtek: Add headset jack quirk for Thinkpad X390
+    f264d4e3a9261 ALSA: hda/realtek: add HP Laptop 14s-dr5xxx mute LED quirk
+    c57276ced3c32 btrfs: set BTRFS_ROOT_ORPHAN_CLEANUP during subvol create
+    2635d0c715f3f HID: apple: avoid memory leak in apple_report_fixup()
+    d9365789a6fd7 dma-buf: Include ioctl.h in UAPI header
+    9d43a897a9122 ASoC: fsl_easrc: Fix event generation in fsl_easrc_iec958_put_bits()
+    cb4954fc2520d ASoC: fsl_easrc: Fix event generation in fsl_easrc_iec958_set_reg()
+    082f15d288732 module: Fix kernel panic when a symbol st_shndx is out of bounds
+    f18c38cb24c9c HID: asus: add xg mobile 2023 external hardware support
+    4d36b7ad2c18b HID: mcp2221: cancel last I2C command on read error
+    952e41b0f9238 net: usb: r8152: add TRENDnet TUC-ET2G
+    7edfe4346b052 HID: magicmouse: avoid memory leak in magicmouse_report_fixup()
+    eac08882569bc HID: magicmouse: fix battery reporting for Apple Magic Trackpad 2
+    6f12734c4b619 nvme-pci: ensure we're polling a polled queue
+    50063c576c6ed platform/x86: touchscreen_dmi: Add quirk for y-inverted Goodix touchscreen on SUPI S10
+    0ab508ace30c7 platform/x86: intel-hid: Enable 5-button array on ThinkPad X1 Fold 16 Gen 1
+    94cfabcf28209 nvme-fabrics: use kfree_sensitive() for DHCHAP secrets
+    c69b5dd587f6f nvme-pci: cap queue creation to used queues
+    79dc4ced3bb62 platform/x86: intel-hid: Add Dell 14 Plus 2-in-1 to dmi_vgbs_allow_list
+    f20f17cffbe34 HID: asus: avoid memory leak in asus_report_fixup()
+    694ea55f1b1c7 bpf: Fix undefined behavior in interpreter sdiv/smod for INT_MIN
+    d47bba0cfdd4c bpf: Release module BTF IDR before module unload
+    0f46fd10de29e sh: platform_early: remove pdev->driver_override check
+    0af982240b8f4 hwmon: axi-fan: don't use driver_override as IRQ name
+    e73121faf530e hwmon: (axi-fan-control) Make use of dev_err_probe()
+    50fe5fbf98290 hwmon: (axi-fan-control) Use device firmware agnostic API
+    bd738f986f6a0 cxl/hdm: Avoid incorrect DVSEC fallback when HDM decoders are enabled
+    656f35b463995 perf: Make sure to use pmu_ctx->pmu for groups
+    79cda13757901 perf: Extract a few helpers
 
-Release notes: https://gcc.gnu.org/gcc-15/changes.html
-Docs: https://gcc.gnu.org/onlinedocs/15.3.0/
-Bug fixes: https://gcc.gnu.org/bugzilla/buglist.cgi?bug_status=RESOLVED&list_id=522382&resolution=FIXED&target_milestone=15.3
-
-Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/conf/distro/include/maintainers.inc      |   2 +-
- .../gcc/{gcc-15.2.inc => gcc-15.3.inc}        |  11 +-
- ...ian_15.2.bb => gcc-cross-canadian_15.3.bb} |   0
- .../{gcc-cross_15.2.bb => gcc-cross_15.3.bb}  |   0
- ...-crosssdk_15.2.bb => gcc-crosssdk_15.3.bb} |   0
- ...cc-runtime_15.2.bb => gcc-runtime_15.3.bb} |   0
- ...itizers_15.2.bb => gcc-sanitizers_15.3.bb} |   0
- ...{gcc-source_15.2.bb => gcc-source_15.3.bb} |   0
- .../gcc/gcc/0026-fix-pr90579-testcases.patch  |  40 ---
- .../gcc/gcc/0027-gcc15-pr122394.patch         |  88 ------
- ...dy-Make-it-buildable-by-C-11-to-C-26.patch | 257 ------------------
- .../gcc/{gcc_15.2.bb => gcc_15.3.bb}          |   0
- ...initial_15.2.bb => libgcc-initial_15.3.bb} |   0
- .../gcc/{libgcc_15.2.bb => libgcc_15.3.bb}    |   0
- ...ibgfortran_15.2.bb => libgfortran_15.3.bb} |   0
- 15 files changed, 5 insertions(+), 393 deletions(-)
- rename meta/recipes-devtools/gcc/{gcc-15.2.inc => gcc-15.3.inc} (92%)
- rename meta/recipes-devtools/gcc/{gcc-cross-canadian_15.2.bb => gcc-cross-canadian_15.3.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-cross_15.2.bb => gcc-cross_15.3.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-crosssdk_15.2.bb => gcc-crosssdk_15.3.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-runtime_15.2.bb => gcc-runtime_15.3.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-sanitizers_15.2.bb => gcc-sanitizers_15.3.bb} (100%)
- rename meta/recipes-devtools/gcc/{gcc-source_15.2.bb => gcc-source_15.3.bb} (100%)
- delete mode 100644 meta/recipes-devtools/gcc/gcc/0026-fix-pr90579-testcases.patch
- delete mode 100644 meta/recipes-devtools/gcc/gcc/0027-gcc15-pr122394.patch
- delete mode 100644 meta/recipes-devtools/gcc/gcc/0028-libcody-Make-it-buildable-by-C-11-to-C-26.patch
- rename meta/recipes-devtools/gcc/{gcc_15.2.bb => gcc_15.3.bb} (100%)
- rename meta/recipes-devtools/gcc/{libgcc-initial_15.2.bb => libgcc-initial_15.3.bb} (100%)
- rename meta/recipes-devtools/gcc/{libgcc_15.2.bb => libgcc_15.3.bb} (100%)
- rename meta/recipes-devtools/gcc/{libgfortran_15.2.bb => libgfortran_15.3.bb} (100%)
+ .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++++----------
+ 3 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 07e840ac34..99242af484 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -200,7 +200,7 @@ RECIPE_MAINTAINER:pn-gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Khem Raj <r
- RECIPE_MAINTAINER:pn-gcc-crosssdk-${SDK_SYS} = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-gcc-runtime = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-gcc-sanitizers = "Khem Raj <raj.khem@gmail.com>"
--RECIPE_MAINTAINER:pn-gcc-source-15.2.0 = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-gcc-source-15.3.0 = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-gcompat = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-gconf = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-gcr = "Unassigned <unassigned@yoctoproject.org>"
-diff --git a/meta/recipes-devtools/gcc/gcc-15.2.inc b/meta/recipes-devtools/gcc/gcc-15.3.inc
-similarity index 92%
-rename from meta/recipes-devtools/gcc/gcc-15.2.inc
-rename to meta/recipes-devtools/gcc/gcc-15.3.inc
-index a96f2b8411..2f74351085 100644
---- a/meta/recipes-devtools/gcc/gcc-15.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-15.3.inc
-@@ -2,11 +2,11 @@ require gcc-common.inc
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+index ae78c91f64c..c58279873e6 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+@@ -14,13 +14,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- # Third digit in PV should be incremented after a minor release
+-SRCREV_machine ?= "aa09ac001c2f96bd4ba32ba47e84e02db0f6ceed"
+-SRCREV_meta ?= "a5d680f4986edab4c2c4636c0dc80ca559fc70ef"
++SRCREV_machine ?= "a6a88382093932d5f963f38334035221c0b8344e"
++SRCREV_meta ?= "8cfac9f000ccc138d1a11ed500406c4394d803d6"
  
--PV = "15.2.0"
-+PV = "15.3.0"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
  
- # BINV should be incremented to a revision after a minor gcc release
+-LINUX_VERSION ?= "6.6.130"
++LINUX_VERSION ?= "6.6.132"
  
--BINV = "15.2.0"
-+BINV = "15.3.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+index 0bc45ffd642..58fd5a57b84 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.6.inc
  
-@@ -44,7 +44,7 @@ LIC_FILES_CHKSUM = "\
- RELEASE ?= "${PV}"
- BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.xz"
- SOURCEDIR ?= "gcc-${PV}"
--SRC_URI[sha256sum] = "438fd996826b0c82485a29da03a72d71d6e3541a83ec702df4271f6fe025d24e"
-+SRC_URI[sha256sum] = "fa59c1beef8995f27c4d71c1df227587189315d3e6faff1bb4306e61b0c530eb"
+-LINUX_VERSION ?= "6.6.130"
++LINUX_VERSION ?= "6.6.132"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
- SRC_URI = "${BASEURI} \
-            file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
-@@ -71,12 +71,9 @@ SRC_URI = "${BASEURI} \
-            file://0022-libatomic-Do-not-enforce-march-on-aarch64.patch \
-            file://0023-Fix-install-path-of-linux64.h.patch \
-            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch \
--           file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
--           file://0026-fix-pr90579-testcases.patch \
--           file://0027-gcc15-pr122394.patch \
-            file://0028-fix-gcc-libitm-false-postives-01.patch \
-            file://0028-fix-gcc-libitm-false-postives-02.patch \
--           file://0028-libcody-Make-it-buildable-by-C-11-to-C-26.patch \
-+	    file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
-            file://0001-mapper-localhost-might-not-be-known.patch \
- "
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
  
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_15.2.bb b/meta/recipes-devtools/gcc/gcc-cross-canadian_15.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-cross-canadian_15.2.bb
-rename to meta/recipes-devtools/gcc/gcc-cross-canadian_15.3.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-cross_15.2.bb b/meta/recipes-devtools/gcc/gcc-cross_15.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-cross_15.2.bb
-rename to meta/recipes-devtools/gcc/gcc-cross_15.3.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk_15.2.bb b/meta/recipes-devtools/gcc/gcc-crosssdk_15.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-crosssdk_15.2.bb
-rename to meta/recipes-devtools/gcc/gcc-crosssdk_15.3.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime_15.2.bb b/meta/recipes-devtools/gcc/gcc-runtime_15.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-runtime_15.2.bb
-rename to meta/recipes-devtools/gcc/gcc-runtime_15.3.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers_15.2.bb b/meta/recipes-devtools/gcc/gcc-sanitizers_15.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-sanitizers_15.2.bb
-rename to meta/recipes-devtools/gcc/gcc-sanitizers_15.3.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-source_15.2.bb b/meta/recipes-devtools/gcc/gcc-source_15.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-source_15.2.bb
-rename to meta/recipes-devtools/gcc/gcc-source_15.3.bb
-diff --git a/meta/recipes-devtools/gcc/gcc/0026-fix-pr90579-testcases.patch b/meta/recipes-devtools/gcc/gcc/0026-fix-pr90579-testcases.patch
-deleted file mode 100644
-index 6ada61b74f..0000000000
---- a/meta/recipes-devtools/gcc/gcc/0026-fix-pr90579-testcases.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 679e24f5a751663998ff7202149a749e0f7251f9 Mon Sep 17 00:00:00 2001
--From: Harish Sadineni <Harish.Sadineni@windriver.com>
--Date: Sun, 10 Aug 2025 20:28:00 +0800
--Subject: [PATCH] testsuite: i386: Fix gcc.target/i386/pr90579.c when PIE is
-- enabled [PR118885]
--
--When gcc build with --enable-deafult-pie the following tests
--were getting failed:
-- FAIL: gcc.target/i386/pr90579.c scan-assembler vaddsd\tr\\+40
-- FAIL: gcc.target/i386/pr90579.c scan-assembler vaddsd\tr\\+32
-- FAIL: gcc.target/i386/pr90579.c scan-assembler vaddsd\tr\\+24
-- FAIL: gcc.target/i386/pr90579.c scan-assembler vaddsd\tr\\+16
--
--    PR target/118885
--
--gcc/testsuite/ChangeLog:
--
--    * gcc.target/i386/pr90579.c: add -fno-pie to dg-options
--    to fix tests when PIE is enabled.
--
--Upstream-Status: Backport [https://gcc.gnu.org/cgit/gcc/commit/?id=679e24f5a751663998ff7202149a749e0f7251f9]
--
--Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-----
-- gcc/testsuite/gcc.target/i386/pr90579.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/gcc/testsuite/gcc.target/i386/pr90579.c b/gcc/testsuite/gcc.target/i386/pr90579.c
--index ab48a44063c..19081ec9fdf 100644
----- a/gcc/testsuite/gcc.target/i386/pr90579.c
--+++ b/gcc/testsuite/gcc.target/i386/pr90579.c
--@@ -1,5 +1,5 @@
-- /* { dg-do compile } */
---/* { dg-options "-O3 -mavx2 -mfpmath=sse" } */
--+/* { dg-options "-O3 -mavx2 -mfpmath=sse -fno-pie" } */
-- 
-- extern double r[6];
-- extern double a[];
---- 
--2.49.0
-diff --git a/meta/recipes-devtools/gcc/gcc/0027-gcc15-pr122394.patch b/meta/recipes-devtools/gcc/gcc/0027-gcc15-pr122394.patch
-deleted file mode 100644
-index 9ee371cef7..0000000000
---- a/meta/recipes-devtools/gcc/gcc/0027-gcc15-pr122394.patch
-+++ /dev/null
-@@ -1,88 +0,0 @@
--From e55dcff97708a4937dc4d8736b8b3074ebbff6f3 Mon Sep 17 00:00:00 2001
--From: Jakub Jelinek <jakub@redhat.com>
--Date: Mon, 27 Oct 2025 17:43:17 +0100
--Subject: phiopt: Fix up DEBUG_EXPR_DECL creation in spaceship_replacement
-- [PR122394]
--
--The following testcase ICEs in gcc 15 (and is at least latent in 12-14 too),
--because the DEBUG_EXPR_DECL has incorrect mode.  It has
--TREE_TYPE (orig_use_lhs) type, but TYPE_MODE (type) rather than
--TYPE_MODE (TREE_TYPE (orig_use_lhs)) where the two types are sometimes
--the same, but sometimes different (same if !has_cast_debug_uses, different
--otherwise).
--
--Though, there wouldn't be the this issue if it used the proper API to create
--the DEBUG_EXPR_DECL which takes care of everything.  This is the sole
--spot that doesn't use that API.
--
--Doesn't affect the trunk because the code has been removed and replaced with
--different stuff after the libstdc++ ABI change in r16-3474.
--Before r15-5557 the mode has been always wrong because this was done only
--for has_cast_debug_uses.  And the bug has been introduced with r12-5490.
--
--Enough archeology, while it could be fixed by changing the second
--SET_DECL_MODE argument, I think it is better to use build_debug_expr_decl.
--
--2025-10-27  Jakub Jelinek  <jakub@redhat.com>
--
--	PR tree-optimization/122394
--	* tree-ssa-phiopt.cc (spaceship_replacement): Use
--	build_debug_expr_decl instead of manually building DEBUG_EXPR_DECL
--	and getting SET_DECL_MODE wrong.
--
--	* g++.dg/opt/pr122394.C: New test.
--
--Upstream-Status: Backport [https://gcc.gnu.org/cgit/gcc/commit/?id=e55dcff97708a4937dc4d8736b8b3074ebbff6f3]
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- gcc/testsuite/g++.dg/opt/pr122394.C | 20 ++++++++++++++++++++
-- gcc/tree-ssa-phiopt.cc              |  6 ++----
-- 2 files changed, 22 insertions(+), 4 deletions(-)
-- create mode 100644 gcc/testsuite/g++.dg/opt/pr122394.C
--
--diff --git a/gcc/testsuite/g++.dg/opt/pr122394.C b/gcc/testsuite/g++.dg/opt/pr122394.C
--new file mode 100644
--index 000000000000..1f84bebd74c2
----- /dev/null
--+++ b/gcc/testsuite/g++.dg/opt/pr122394.C
--@@ -0,0 +1,20 @@
--+// PR tree-optimization/122394
--+// { dg-do compile { target c++23 } }
--+// { dg-options "-O1 -g" }
--+
--+#include <compare>
--+
--+struct A {
--+  friend auto operator<=> (A, A) = default;
--+  double a;
--+};
--+void foo ();
--+A b, c;
--+
--+void
--+bar ()
--+{
--+  bool d = c >= b;
--+  if (d)
--+    foo ();
--+}
--diff --git a/gcc/tree-ssa-phiopt.cc b/gcc/tree-ssa-phiopt.cc
--index aaebae6b38c0..3e0ad9d3bb09 100644
----- a/gcc/tree-ssa-phiopt.cc
--+++ b/gcc/tree-ssa-phiopt.cc
--@@ -2995,10 +2995,8 @@ spaceship_replacement (basic_block cond_bb, basic_block middle_bb,
-- 	      if (has_cast_debug_uses
-- 		  || (HONOR_NANS (TREE_TYPE (lhs1)) && !is_cast))
-- 		{
---		  tree temp3 = make_node (DEBUG_EXPR_DECL);
---		  DECL_ARTIFICIAL (temp3) = 1;
---		  TREE_TYPE (temp3) = TREE_TYPE (orig_use_lhs);
---		  SET_DECL_MODE (temp3, TYPE_MODE (type));
--+		  tree temp3
--+		    = build_debug_expr_decl (TREE_TYPE (orig_use_lhs));
-- 		  if (has_cast_debug_uses)
-- 		    t = fold_convert (TREE_TYPE (temp3), temp2);
-- 		  else
---- 
--cgit 
--
-diff --git a/meta/recipes-devtools/gcc/gcc/0028-libcody-Make-it-buildable-by-C-11-to-C-26.patch b/meta/recipes-devtools/gcc/gcc/0028-libcody-Make-it-buildable-by-C-11-to-C-26.patch
-deleted file mode 100644
-index 431facb011..0000000000
---- a/meta/recipes-devtools/gcc/gcc/0028-libcody-Make-it-buildable-by-C-11-to-C-26.patch
-+++ /dev/null
-@@ -1,257 +0,0 @@
--From 0ffe3c9af4e5d5468df742512b6e930fe7039230 Mon Sep 17 00:00:00 2001
--From: Jakub Jelinek <jakub@redhat.com>
--Date: Fri, 21 Nov 2025 16:25:58 +0100
--Subject: [PATCH] libcody: Make it buildable by C++11 to C++26
--
--The following builds with -std=c++11 and c++14 and c++17 and c++20 and c++23
--and c++26.
--
--I see the u8 string literals are mixed e.g. with strerror, so in
---fexec-charset=IBM1047 there will still be garbage, so am not 100% sure if
--the u8 literals everywhere are worth it either.
--
--2025-11-21  Jakub Jelinek  <jakub@redhat.com>
--
--	* cody.hh (S2C): For __cpp_char8_t >= 201811 use char8_t instead of
--	char in argument type.
--	(MessageBuffer::Space): Revert 2025-11-15 change.
--	(MessageBuffer::Append): For __cpp_char8_t >= 201811 add overload
--	with char8_t const * type of first argument.
--	(Packet::Packet): Similarly for first argument.
--	* client.cc (CommunicationError, Client::ProcessResponse,
--	Client::Connect, ConnectResponse, PathnameResponse, OKResponse,
--	IncludeTranslateResponse): Cast u8 string literals to (const char *)
--	where needed.
--	* server.cc (Server::ProcessRequests, ConnectRequest): Likewise.
--
--Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
--Upstream-Status: Backport [07a767c7a50d1daae8ef7d4aba73fe53ad40c0b7]
-----
-- libcody/client.cc | 36 +++++++++++++++++++-----------------
-- libcody/cody.hh   | 22 ++++++++++++++++++++++
-- libcody/server.cc | 28 ++++++++++++++--------------
-- 3 files changed, 55 insertions(+), 31 deletions(-)
--
--diff --git a/libcody/client.cc b/libcody/client.cc
--index ae69d190cb77..147fecdbe500 100644
----- a/libcody/client.cc
--+++ b/libcody/client.cc
--@@ -97,7 +97,7 @@ int Client::CommunicateWithServer ()
-- 
-- static Packet CommunicationError (int err)
-- {
---  std::string e {u8"communication error:"};
--+  std::string e {(const char *) u8"communication error:"};
--   e.append (strerror (err));
-- 
--   return Packet (Client::PC_ERROR, std::move (e));
--@@ -110,33 +110,34 @@ Packet Client::ProcessResponse (std::vector<std::string> &words,
--     {
--       if (e == EINVAL)
-- 	{
---	  std::string msg (u8"malformed string '");
--+	  std::string msg ((const char *) u8"malformed string '");
-- 	  msg.append (words[0]);
---	  msg.append (u8"'");
--+	  msg.append ((const char *) u8"'");
-- 	  return Packet (Client::PC_ERROR, std::move (msg));
-- 	}
--       else
---	return Packet (Client::PC_ERROR, u8"missing response");
--+	return Packet (Client::PC_ERROR, (const char *) u8"missing response");
--     }
-- 
--   Assert (!words.empty ());
---  if (words[0] == u8"ERROR")
--+  if (words[0] == (const char *) u8"ERROR")
--     return Packet (Client::PC_ERROR,
---		   words.size () == 2 ? words[1]: u8"malformed error response");
--+		   words.size () == 2 ? words[1]
--+		   : (const char *) u8"malformed error response");
-- 
--   if (isLast && !read.IsAtEnd ())
--     return Packet (Client::PC_ERROR,
---		   std::string (u8"unexpected extra response"));
--+		   std::string ((const char *) u8"unexpected extra response"));
-- 
--   Assert (code < Detail::RC_HWM);
--   Packet result (responseTable[code] (words));
--   result.SetRequest (code);
--   if (result.GetCode () == Client::PC_ERROR && result.GetString ().empty ())
--     {
---      std::string msg {u8"malformed response '"};
--+      std::string msg {(const char *) u8"malformed response '"};
-- 
--       read.LexedLine (msg);
---      msg.append (u8"'");
--+      msg.append ((const char *) u8"'");
--       result.GetString () = std::move (msg);
--     }
--   else if (result.GetCode () == Client::PC_CONNECT)
--@@ -199,7 +200,7 @@ Packet Client::Connect (char const *agent, char const *ident,
-- 			  size_t alen, size_t ilen)
-- {
--   write.BeginLine ();
---  write.AppendWord (u8"HELLO");
--+  write.AppendWord ((const char *) u8"HELLO");
--   write.AppendInteger (Version);
--   write.AppendWord (agent, true, alen);
--   write.AppendWord (ident, true, ilen);
--@@ -211,7 +212,8 @@ Packet Client::Connect (char const *agent, char const *ident,
-- // HELLO $version $agent [$flags]
-- Packet ConnectResponse (std::vector<std::string> &words)
-- {
---  if (words[0] == u8"HELLO" && (words.size () == 3 || words.size () == 4))
--+  if (words[0] == (const char *) u8"HELLO"
--+      && (words.size () == 3 || words.size () == 4))
--     {
--       char *eptr;
--       unsigned long val = strtoul (words[1].c_str (), &eptr, 10);
--@@ -247,7 +249,7 @@ Packet Client::ModuleRepo ()
-- // PATHNAME $dir | ERROR
-- Packet PathnameResponse (std::vector<std::string> &words)
-- {
---  if (words[0] == u8"PATHNAME" && words.size () == 2)
--+  if (words[0] == (const char *) u8"PATHNAME" && words.size () == 2)
--     return Packet (Client::PC_PATHNAME, std::move (words[1]));
-- 
--   return Packet (Client::PC_ERROR, u8"");
--@@ -256,7 +258,7 @@ Packet PathnameResponse (std::vector<std::string> &words)
-- // OK or ERROR
-- Packet OKResponse (std::vector<std::string> &words)
-- {
---  if (words[0] == u8"OK")
--+  if (words[0] == (const char *) u8"OK")
--     return Packet (Client::PC_OK);
--   else
--     return Packet (Client::PC_ERROR,
--@@ -319,11 +321,11 @@ Packet Client::IncludeTranslate (char const *include, Flags flags, size_t ilen)
-- // PATHNAME $cmifile
-- Packet IncludeTranslateResponse (std::vector<std::string> &words)
-- {
---  if (words[0] == u8"BOOL" && words.size () == 2)
--+  if (words[0] == (const char *) u8"BOOL" && words.size () == 2)
--     {
---      if (words[1] == u8"FALSE")
---	return Packet (Client::PC_BOOL, 0);
---      else if (words[1] == u8"TRUE")
--+      if (words[1] == (const char *) u8"FALSE")
--+	return Packet (Client::PC_BOOL);
--+      else if (words[1] == (const char *) u8"TRUE")
-- 	return Packet (Client::PC_BOOL, 1);
--       else
-- 	return Packet (Client::PC_ERROR, u8"");
--diff --git a/libcody/cody.hh b/libcody/cody.hh
--index 789ce9e70b75..93bce93aa94d 100644
----- a/libcody/cody.hh
--+++ b/libcody/cody.hh
--@@ -47,12 +47,21 @@ namespace Detail  {
-- 
-- // C++11 doesn't have utf8 character literals :(
-- 
--+#if __cpp_char8_t >= 201811
--+template<unsigned I>
--+constexpr char S2C (char8_t const (&s)[I])
--+{
--+  static_assert (I == 2, "only single octet strings may be converted");
--+  return s[0];
--+}
--+#else
-- template<unsigned I>
-- constexpr char S2C (char const (&s)[I])
-- {
--   static_assert (I == 2, "only single octet strings may be converted");
--   return s[0];
-- }
--+#endif
-- 
-- /// Internal buffering class.  Used to concatenate outgoing messages
-- /// and Lex incoming ones.
--@@ -123,6 +132,13 @@ public:
--       Space ();
--     Append (str, maybe_quote, len);
--   }
--+#if __cpp_char8_t >= 201811
--+  void AppendWord (char8_t const *str, bool maybe_quote = false,
--+		   size_t len = ~size_t (0))
--+  {
--+    AppendWord ((const char *) str, maybe_quote, len);
--+  }
--+#endif
--   /// Add a word as with AppendWord
--   /// @param str the string to append
--   /// @param maybe_quote string might need quoting, as for Append
--@@ -264,6 +280,12 @@ public:
--     : string (s), cat (STRING), code (c)
--   {
--   }
--+#if __cpp_char8_t >= 201811
--+  Packet (unsigned c, const char8_t *s)
--+    : string ((const char *) s), cat (STRING), code (c)
--+  {
--+  }
--+#endif
--   Packet (unsigned c, std::vector<std::string> &&v)
--     : vector (std::move (v)), cat (VECTOR), code (c)
--   {
--diff --git a/libcody/server.cc b/libcody/server.cc
--index e2fa069bb933..c18469fae843 100644
----- a/libcody/server.cc
--+++ b/libcody/server.cc
--@@ -36,12 +36,12 @@ static RequestPair
--   const requestTable[Detail::RC_HWM] =
--   {
--     // Same order as enum RequestCode
---    RequestPair {u8"HELLO", nullptr},
---    RequestPair {u8"MODULE-REPO", ModuleRepoRequest},
---    RequestPair {u8"MODULE-EXPORT", ModuleExportRequest},
---    RequestPair {u8"MODULE-IMPORT", ModuleImportRequest},
---    RequestPair {u8"MODULE-COMPILED", ModuleCompiledRequest},
---    RequestPair {u8"INCLUDE-TRANSLATE", IncludeTranslateRequest},
--+    RequestPair {(const char *) u8"HELLO", nullptr},
--+    RequestPair {(const char *) u8"MODULE-REPO", ModuleRepoRequest},
--+    RequestPair {(const char *) u8"MODULE-EXPORT", ModuleExportRequest},
--+    RequestPair {(const char *) u8"MODULE-IMPORT", ModuleImportRequest},
--+    RequestPair {(const char *) u8"MODULE-COMPILED", ModuleCompiledRequest},
--+    RequestPair {(const char *) u8"INCLUDE-TRANSLATE", IncludeTranslateRequest},
--   };
-- }
-- 
--@@ -135,21 +135,21 @@ void Server::ProcessRequests (void)
-- 	  std::string msg;
-- 
-- 	  if (err > 0)
---	    msg = u8"error processing '";
--+	    msg = (const char *) u8"error processing '";
-- 	  else if (ix >= Detail::RC_HWM)
---	    msg = u8"unrecognized '";
--+	    msg = (const char *) u8"unrecognized '";
-- 	  else if (IsConnected () && ix == Detail::RC_CONNECT)
---	    msg = u8"already connected '";
--+	    msg = (const char *) u8"already connected '";
-- 	  else if (!IsConnected () && ix != Detail::RC_CONNECT)
---	    msg = u8"not connected '";
--+	    msg = (const char *) u8"not connected '";
-- 	  else
---	    msg = u8"malformed '";
--+	    msg = (const char *) u8"malformed '";
-- 
-- 	  read.LexedLine (msg);
---	  msg.append (u8"'");
--+	  msg.append ((const char *) u8"'");
-- 	  if (err > 0)
-- 	    {
---	      msg.append (u8" ");
--+	      msg.append ((const char *) u8" ");
-- 	      msg.append (strerror (err));
-- 	    }
-- 	  resolver->ErrorResponse (this, std::move (msg));
--@@ -176,7 +176,7 @@ Resolver *ConnectRequest (Server *s, Resolver *r,
--     return nullptr;
-- 
--   if (words.size () == 3)
---    words.emplace_back (u8"");
--+    words.emplace_back ((const char *) u8"");
--   unsigned version = ParseUnsigned (words[1]);
--   if (version == ~0u)
--     return nullptr;
-diff --git a/meta/recipes-devtools/gcc/gcc_15.2.bb b/meta/recipes-devtools/gcc/gcc_15.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc_15.2.bb
-rename to meta/recipes-devtools/gcc/gcc_15.3.bb
-diff --git a/meta/recipes-devtools/gcc/libgcc-initial_15.2.bb b/meta/recipes-devtools/gcc/libgcc-initial_15.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/libgcc-initial_15.2.bb
-rename to meta/recipes-devtools/gcc/libgcc-initial_15.3.bb
-diff --git a/meta/recipes-devtools/gcc/libgcc_15.2.bb b/meta/recipes-devtools/gcc/libgcc_15.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/libgcc_15.2.bb
-rename to meta/recipes-devtools/gcc/libgcc_15.3.bb
-diff --git a/meta/recipes-devtools/gcc/libgfortran_15.2.bb b/meta/recipes-devtools/gcc/libgfortran_15.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/gcc/libgfortran_15.2.bb
-rename to meta/recipes-devtools/gcc/libgfortran_15.3.bb
--- 
-2.49.0
-
+-SRCREV_machine ?= "2bf97eeefd96e27a2195cb4757c13110e92afcc6"
+-SRCREV_meta ?= "a5d680f4986edab4c2c4636c0dc80ca559fc70ef"
++SRCREV_machine ?= "ff381816e34f3ed488248a69843227160f7ede06"
++SRCREV_meta ?= "8cfac9f000ccc138d1a11ed500406c4394d803d6"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+index ce599405446..633abb36ddb 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.6/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.6/standard/base"
+ KBRANCH:qemumips64 ?= "v6.6/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "b4e8a23613e117b5803dae49e8d4d562c37bd8a3"
+-SRCREV_machine:qemuarm64 ?= "236dabe34ed663918803f17cbda90a1d6ac39922"
+-SRCREV_machine:qemuloongarch64 ?= "cc107ef0945033f98a169bf1294dad3b574bfc60"
+-SRCREV_machine:qemumips ?= "8022cb3ada420a7a3508dcd0a00e7367a0b08e52"
+-SRCREV_machine:qemuppc ?= "77817988bcc71ba230e44d14e2d1c66837543dc9"
+-SRCREV_machine:qemuriscv64 ?= "cc107ef0945033f98a169bf1294dad3b574bfc60"
+-SRCREV_machine:qemuriscv32 ?= "cc107ef0945033f98a169bf1294dad3b574bfc60"
+-SRCREV_machine:qemux86 ?= "cc107ef0945033f98a169bf1294dad3b574bfc60"
+-SRCREV_machine:qemux86-64 ?= "cc107ef0945033f98a169bf1294dad3b574bfc60"
+-SRCREV_machine:qemumips64 ?= "7ffb3cfb496703be3c0951bf54eb6ce69fdd1a1e"
+-SRCREV_machine ?= "cc107ef0945033f98a169bf1294dad3b574bfc60"
+-SRCREV_meta ?= "a5d680f4986edab4c2c4636c0dc80ca559fc70ef"
++SRCREV_machine:qemuarm ?= "ecff059b6885829e70f8a0fa96956e330b3dc8a4"
++SRCREV_machine:qemuarm64 ?= "a2808cd3d14323f1be06f83c084f7ccc19346305"
++SRCREV_machine:qemuloongarch64 ?= "81aa29cd11159e96623449efb43a609e1a814c87"
++SRCREV_machine:qemumips ?= "e785bf4e3c24d0f6a02c1c12c4b636eaaa539f19"
++SRCREV_machine:qemuppc ?= "f1e47cb079d5fa8a5f22f795bd4130dc001babab"
++SRCREV_machine:qemuriscv64 ?= "81aa29cd11159e96623449efb43a609e1a814c87"
++SRCREV_machine:qemuriscv32 ?= "81aa29cd11159e96623449efb43a609e1a814c87"
++SRCREV_machine:qemux86 ?= "81aa29cd11159e96623449efb43a609e1a814c87"
++SRCREV_machine:qemux86-64 ?= "81aa29cd11159e96623449efb43a609e1a814c87"
++SRCREV_machine:qemumips64 ?= "6357451678385be03d1f7d60d0f8868aa7514418"
++SRCREV_machine ?= "81aa29cd11159e96623449efb43a609e1a814c87"
++SRCREV_meta ?= "8cfac9f000ccc138d1a11ed500406c4394d803d6"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "c09fbcd31ae6d71e7c69545839bec92d8e15c13b"
++SRCREV_machine:class-devupstream ?= "08667c1437c07ce2e5d323165031ae152d6f061a"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v6.6/base"
+ 
+@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "6.6.130"
++LINUX_VERSION ?= "6.6.132"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
 
