@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D01ECD98F7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51644CD98F9
 	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 07:45:40 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10214.1781682330047987832
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10218.1781682338114114605
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2026 00:45:30 -0700
+ Wed, 17 Jun 2026 00:45:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=YamoTP3M;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4624c1409c9so391660f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 00:45:29 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=EyXzOkgJ;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-46019b190b6so4505036f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 00:45:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781682328; x=1782287128; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1781682336; x=1782287136; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1E79dQRqkBoQJNGiBypunlId49I9N2UvUtBtubF7aNk=;
-        b=YamoTP3MvY7ya7XSC+isry/RppAmF82HTYX/Ir/RbPiDz4deLH76FnzSafxNWND5w6
-         Jh+jrhbFNqA/7Q73nk9k5qrnp1zncBie6Iu0PkYC3ZZ7u/e0T2M97T3lEN6ehYECbhaS
-         FeW3hbrkBY/Qx5QEOJJhFagZOSvJGYpodHLOU=
+        bh=tLUYRJtYR4Fyy5Yyn3TZZ35Z1FEaT/xzPT3JZfFEQds=;
+        b=EyXzOkgJt7UQfz9lpRvSRBVGg9uK2UosZenJVl2bdPG+anlHztkJmxT9dBljDJVlMY
+         dpjHcVbCpOOyZdpT7Y4ewBgs5wSjtKvR8T/Xd2DEUF3KebUFNVtFbGX4w/TZMYecFCJr
+         BerI8iUHJNZGlINja675/WhwyYH2iQncOWjKM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781682328; x=1782287128;
+        d=1e100.net; s=20251104; t=1781682336; x=1782287136;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=1E79dQRqkBoQJNGiBypunlId49I9N2UvUtBtubF7aNk=;
-        b=oTBCpL5f5IfrPun+uOZuOT8GxFSvZs/GrYk4TIxGbXlDuhAoEncD5krOF9AxvSj4Sh
-         TmZRTnI1/2oA1HmCI23SnXeFJKtxl4KC9Cligteeft2dY+9VUhgn4DnW//XmIqokmw7I
-         n+U1D9X3HcXj0HcbxDWtacIyPXlUTNA1Wi8pfsMKQTCb+uFmVpDJ7ZVUeOnXZRQ0Zwqg
-         wRfw2HK9Re6/O5TO4woAW/gjdP0y6LiGvLT2ALkAe6hnfDwrkGRV8tKaR/UFYudA7BjQ
-         a3nm0TTXFHFjitbpP18fl3bFpcydTF7kELVamLRnGGhAipQH9nd1RjsdcQZ5XkiNwyjZ
-         ddfw==
-X-Gm-Message-State: AOJu0YyUfXq/F/lJMFOndcJm5PfVwdAZyWdT1Eu1XVOt70jK4ev/k4aJ
-	NEdprAla+I5FcuJMKKGQCx813F4I153cyfCYCCbyfCE0jDDUMHMHP+pm3HW9v7CAeUKkR/sqqn8
-	/JbiP
-X-Gm-Gg: AfdE7cnbC+SnpAQ0o9gLwJHcKnqLX7dfGJq/eeKm8DRk2v6jXG/1iC4570gStpjlOHv
-	Nh8faHf13zzHOnGJFqOL2H4szxgaC1r17ZtWrmHrde/9LQXyMObPW99TUO50YaBtYkYA+bR5kNh
-	qgb9Adx81e+vaa5mTbYQjY3VPhhYi5jBqyqwh2qzUPHo1RWLJt8xmsfViJwb8djBoedOkFb2Ix/
-	pTFsSyjdGFCMUhM0ahhHFsNqWlZH/97NMJxYvFPb9d2JZC2i4mWmQ5ayrNeIZxDryzaPZb97MG9
-	gXOruhNh+VVIDl8+rlkBhHcLcG/+dNUn6EZCcYsps+VimR425HFfJTBbFKzgVKMH8k98NTmUN2u
-	fwVwAuV7qJzP2EtguakQqgD8ApgD7jdAcpktlYYzs8h6iX46z6657XYrixKgftqzJ95NB31y1bX
-	GUkmBH5bBHEzuDxYZdKxTxm7jX1bbirhPFmfgq+Pgco70J+we5K18Z/kgDXcwfnvFXa5WS2jp5h
-	XeNbFD121s4A5oEwA==
-X-Received: by 2002:a5d:4812:0:b0:452:6aa0:1d11 with SMTP id ffacd0b85a97d-462368399b4mr2906584f8f.19.1781682328215;
-        Wed, 17 Jun 2026 00:45:28 -0700 (PDT)
+        bh=tLUYRJtYR4Fyy5Yyn3TZZ35Z1FEaT/xzPT3JZfFEQds=;
+        b=HIPsGB8dA8aKyQfjFUzugTEliVGl/dwftl56mzqHy7VrtDW7cvV0zd5L+qhnsEY+3g
+         tGjpZwms43BCTB4IIg+Skn7AzE98y0c2i/hyx3oBleTZk9dKDl5A1D2lgfpIem5EJldV
+         70clH9b2x7GqFEltyy45HdnVLylIvndQvNmfngQty8CPxSBwVwcB4eEYFwZqW8RF51aC
+         MblO/mCF2WUs++89/MUJ9tmR/aENelINKVE7LcVLk6ICgGiPCfifioh7HfaoZuJUqlPK
+         ED055N9j/bw39K4ZiV+5YiA32E6aNuH0ru9jw9qAdG546ud7Gq5/qqEzHh3/wdO5lzz7
+         pqvw==
+X-Gm-Message-State: AOJu0YwYtV8+/BqeaFEPSKDhyQm7Mvb0Zlm4kFcR3o/+11+dbuyRB9qb
+	VuCS0VzB2XlYpyw9lB2j+BFCtVLPXVJdWybl23f74kEW/0Ss0YLrRa2ML/0rvEg0pdUXOdUM7eo
+	t+G5Y
+X-Gm-Gg: AfdE7cnalPtHMkw9FFuZkUlkL4oauTcOQGZwC7uxkpCOSEIfcRS7PsWo9ziJsrn/Jhh
+	ZYBBYNRYe8j2ftBYsrFBHpC1T/Ot66UEFZlm4EWNF9Fpbrq7vIcFJ/wC2/N7seEI8CJ0HLn4rOm
+	zVS2LqpGcL+v1e62srln/FY/SkU42EgfA06B0Qhn6M0eUmTuIXO3Kb8nwuiqCBJJ8kyd/he8en6
+	mQZWf0JpV2V5g0VlBtfK0oqcTjruVfF+eLq/o6OchWetCPITnM+ID27vIf0YED1QLOoektSHPma
+	YNZam01MYAT2tJkWwf2U2/qoOu4sQwhb10Z+ASUjLYrqChyE3J2hoU6soOU2lzIooxqHvM2yF8p
+	0ZC/aPxwG0jPB2JlUaj49XOaRipghOqWl+WoYsyN3IPIShbMbeyLHV23jBU1eJyo4+ZeSxgH/UW
+	qin5J+D60dKGAAR6n9inILJOvWo0obbF8JOk2ByUfkxce+C3t8mVY7XoR2BWUmbg5pH0Sodmcxf
+	bGpgHg24zRtX1wGrw==
+X-Received: by 2002:a05:6000:200d:b0:45e:739b:3e43 with SMTP id ffacd0b85a97d-462323f334bmr4747057f8f.0.1781682336384;
+        Wed, 17 Jun 2026 00:45:36 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00bc19bde07170effe.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:bc19:bde0:7170:effe])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4619b9b7750sm23483215f8f.6.2026.06.17.00.45.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4619b9b7750sm23483215f8f.6.2026.06.17.00.45.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 00:45:27 -0700 (PDT)
+        Wed, 17 Jun 2026 00:45:35 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 04/30] avahi: Remove a reference to the rejected CVE-2021-36217
-Date: Wed, 17 Jun 2026 09:44:39 +0200
-Message-ID: <128af716be75ec76203f1d34a8448741e6573d9e.1781682189.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 16/30] setuptools3: clean the build directory in configure
+Date: Wed, 17 Jun 2026 09:44:51 +0200
+Message-ID: <a0151ab56cf3fcaa6587e240b5454fed5315a534.1781682189.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1781682189.git.yoann.congal@smile.fr>
 References: <cover.1781682189.git.yoann.congal@smile.fr>
@@ -66,35 +66,53 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 07:45:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238986
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238998
 
-From: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+From: Ross Burton <ross.burton@arm.com>
 
-CVE-2021-36217 is rejected, and should no longer be referenced.
-CVE-2021-36217 is a duplicate of CVE-2021-3502 which is already
-referenced in the local-ping.patch.
+It's not currently possible to set the build tree to be somewhere we
+control, but we know it will always be in the build directory alongside
+the setup.py so we can [cleandirs] that.
 
-The CVE database indicates the following reason:
-  ConsultIDs: CVE-2021-3502. Reason: This candidate is a duplicate of
-  CVE-2021-3502. Notes: All CVE users should reference CVE-2021-3502
-  instead of this candidate. All references and descriptions in this
-  candidate have been removed to prevent accidental usage.
+MJ: helps with build/lib directory being added when a recipe is rebuilt
+in the same WORKDIR multiple times, e.g.:
 
-(cherry picked from commit bf41240132e2efa6b46aab46290eed9c53e312e9)
+Just rebuilding python3-tqdm in the same TMPDIR after cherry-picking this:
 
-Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+$ buildhistory-diff -p buildhistory build-minus-1 | grep PKGSIZE
+python3-google-auth/python3-google-auth: PKGSIZE changed from 11752510 to 1315694 (-89%)
+python3-googleapis-common-protos/python3-googleapis-common-protos: PKGSIZE changed from 7108856 to 794024 (-89%)
+
+$ wc -l python3-google-auth/2.29.0*/image/usr/lib/python3.12/site-packages/google_auth-2.29.0.dist-info/RECORD
+  554 python3-google-auth/2.29.0-old/image/usr/lib/python3.12/site-packages/google_auth-2.29.0.dist-info/RECORD
+   66 python3-google-auth/2.29.0/image/usr/lib/python3.12/site-packages/google_auth-2.29.0.dist-info/RECORD
+
+$ wc -l python3-googleapis-common-protos/1.63.0*/image/usr/lib/python3.12/site-packages/googleapis_common_protos-1.63.0.dist-info/RECORD
+  1166 python3-googleapis-common-protos/1.63.0-old/image/usr/lib/python3.12/site-packages/googleapis_common_protos-1.63.0.dist-info/RECORD
+   134 python3-googleapis-common-protos/1.63.0/image/usr/lib/python3.12/site-packages/googleapis_common_protos-1.63.0.dist-info/RECORD
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+(cherry picked from commit f3854f4f60801e3b6788bee3a0a1850fc498d536)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-connectivity/avahi/files/local-ping.patch | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes-recipe/setuptools3.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-connectivity/avahi/files/local-ping.patch b/meta/recipes-connectivity/avahi/files/local-ping.patch
-index 29c192d296e..8f102815df0 100644
---- a/meta/recipes-connectivity/avahi/files/local-ping.patch
-+++ b/meta/recipes-connectivity/avahi/files/local-ping.patch
-@@ -1,4 +1,3 @@
--CVE: CVE-2021-36217
- CVE: CVE-2021-3502
- Upstream-Status: Backport
- Signed-off-by: Ross Burton <ross.burton@arm.com>
+diff --git a/meta/classes-recipe/setuptools3.bbclass b/meta/classes-recipe/setuptools3.bbclass
+index d71a0895398..c4fd30020aa 100644
+--- a/meta/classes-recipe/setuptools3.bbclass
++++ b/meta/classes-recipe/setuptools3.bbclass
+@@ -15,6 +15,9 @@ SETUPTOOLS_SETUP_PATH ?= "${S}"
+ setuptools3_do_configure() {
+     :
+ }
++# This isn't nice, but is the best solutions to ensure clean builds for now.
++# https://github.com/pypa/setuptools/issues/4732
++do_configure[cleandirs] = "${SETUPTOOLS_SETUP_PATH}/build"
+ 
+ setuptools3_do_compile() {
+         cd ${SETUPTOOLS_SETUP_PATH}
 
