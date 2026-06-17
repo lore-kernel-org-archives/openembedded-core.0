@@ -1,81 +1,124 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <saisneha196@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23EE5CD98E2
-	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 10:10:05 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12107.1781691000213205623
- for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2026 03:10:01 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=CVbnMac3;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id E070A1A394D;
-	Wed, 17 Jun 2026 10:09:57 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AB5BF601AA;
-	Wed, 17 Jun 2026 10:09:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 67C0F106C8F96;
-	Wed, 17 Jun 2026 12:09:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1781690997; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=UnN1NkPSppBjy+q6TsDXf3TTmUh6z1VnrpJ8X7vMCFE=;
-	b=CVbnMac3ROzPtk066OAqeGH8ErcGS0P/GxbH4PUncOVFxbF2K6W/3SuPJPApa6AhzPbOqq
-	SjGeRd4s/dp2fihsgkltOUGOJaOM6Dy1II+mm03U23d93hSIApvAu+SeeBSyWIkvIitNAb
-	Zha3TjTMSjkF0swCvIS9UrN9bRSBOHccw0qRHH/au98THlGIqEEdCaq1tmrXS0yFltqQIM
-	VGJoZPRD3No5nXezMtk17k968n+MQ6GO4iBXuHzqj2xWH7dyNZadB/lqWLfhD7oKLfNfyv
-	hL+VAKH0bWvXVweBFjbLqcZnKJFDliNWvAO8MUjSWCPdHrzv3AAGUgfofcVEzw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 17 Jun 2026 12:09:49 +0200
-Message-Id: <DJB8QT5HS9IM.PKY4DYL0A5XC@bootlin.com>
-Subject: Re: [OE-core] [PATCH] gcc: Upgrade GCC to 15.3 release
-Cc: <Sundeep.Kokkonda@windriver.com>, "Yoann Congal" <yoann.congal@smile.fr>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <Hemanth.KumarMD@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260617054716.1343535-1-Hemanth.KumarMD@windriver.com>
-In-Reply-To: <20260617054716.1343535-1-Hemanth.KumarMD@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27C15CD98E4
+	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 10:14:15 +0000 (UTC)
+Subject: Re: [scarthgap][PATCH] openssl: upgrade 3.5.6 -> 3.5.7
+To: openembedded-core@lists.openembedded.org
+From: "Sai Sneha" <saisneha196@gmail.com>
+X-Originating-Location: IN (203.197.190.100)
+X-Originating-Platform: Windows Edge 149
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Wed, 17 Jun 2026 03:14:05 -0700
+References: <20260616165623.3049563-1-peter.marko@siemens.com>
+In-Reply-To: <20260616165623.3049563-1-peter.marko@siemens.com>
+Message-ID: <197246.1781691245370176580@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="4MJQGXRaaq50pcaDm3xv"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 10:10:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239028
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 10:14:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239029
 
-On Wed Jun 17, 2026 at 7:47 AM CEST, Hemanth Kumar M D via lists.openembedd=
-ed.org wrote:
-> From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
->
-> - Added support for AVR32EB14/20/28/32, AVR16LA14/20/28/32, and
->   AVR32LA14/20/28/32 devices
-> - Added IEEE double functions sincos and sincosl support
->
-> * Drop backports available in this release.
->
-> Release notes: https://gcc.gnu.org/gcc-15/changes.html
-> Docs: https://gcc.gnu.org/onlinedocs/15.3.0/
-> Bug fixes: https://gcc.gnu.org/bugzilla/buglist.cgi?bug_status=3DRESOLVED=
-&list_id=3D522382&resolution=3DFIXED&target_milestone=3D15.3
->
-> Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
-> ---
+--4MJQGXRaaq50pcaDm3xv
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hemanth,
+Hi Peter,
 
-I believe we are using gcc 16.1 in master. Is that a patch for wrynose?
+I applied your scarthgap patch (#238923) directly via git am on a clean ori=
+gin/scarthgap checkout and ran the openssl ptests on QEMU (qemux86-64, defa=
+ult memory, no manual config changes).
+
+lhash_test fails with an OOM kill:
+
+Out of memory: Killed process 546 (lhash_test) total-vm:72960kB, anon-rss:6=
+5792kB
+
+41 tests pass before this ( 02-test_list.t is the last to pass), then 02-te=
+st_lhash.t fails with exit code 137 (SIGKILL). Later in the run, the ptest-=
+runner process itself also gets killed by the OOM killer, so the suite does=
+n't complete fully (TOTAL: 1 FAIL: 2).
+
+I also tested this independently on oe-core master-next (your original comm=
+it 9365ac47f994a7d6be92b8c011c51ecf48e8ef87 ) and on my own scarthgap backp=
+ort same lhash_test OOM occurs in all three cases under default QEMU memory=
+. When I manually bumped QEMU's memory to 1GB, lhash_test passes, so it's a=
+ memory-availability issue rather than a problem with the patch itself.
+
+Is this a known/expected limitation with the default qemux86-64 ptest QEMU =
+memory, or is there something I should configure differently when running t=
+hese tests?
 
 Thanks,
-Mathieu
+Sai Sneha
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--4MJQGXRaaq50pcaDm3xv
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div>
+<p class=3D"font-claude-response-body break-words whitespace-normal">Hi Pet=
+er,</p>
+<p class=3D"font-claude-response-body break-words whitespace-normal">I appl=
+ied your scarthgap patch (#238923) directly via git am on a clean origin/sc=
+arthgap checkout and ran the openssl ptests on QEMU (qemux86-64, default me=
+mory, no manual config changes).</p>
+<p class=3D"font-claude-response-body break-words whitespace-normal">lhash_=
+test fails with an OOM kill:</p>
+<div class=3D"relative group/copy bg-bg-000/50 border-0.5 border-border-400=
+ rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-acce=
+nt-100" tabindex=3D"0" role=3D"group" aria-label=3D"Code">
+<div class=3D"sticky opacity-0 group-hover/copy:opacity-100 group-focus-wit=
+hin/copy:opacity-100 top-2 py-2 h-12 w-0 float-right">
+<div class=3D"absolute right-0 h-8 px-2 items-center inline-flex z-10">
+<div class=3D"relative">
+<div class=3D"transition-all opacity-100 scale-100" style=3D"width: 20px; h=
+eight: 20px; display: flex; align-items: center; justify-content: center;">=
+&nbsp;</div>
+<div class=3D"absolute inset-0 flex items-center justify-center">
+<div class=3D"transition-all opacity-0 scale-50" style=3D"width: 20px; heig=
+ht: 20px; display: flex; align-items: center; justify-content: center;">&nb=
+sp;</div>
+</div>
+</div>
+</div>
+</div>
+<div class=3D"overflow-x-auto">
+<pre class=3D"code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed =
+p-3.5" style=3D"color: #14181f; background: transparent; font-family: var(-=
+-font-mono);"><code style=3D"color: #14181f; background: transparent; font-=
+family: var(--font-mono); white-space: pre-wrap;"><span><span>Out of memory=
+: Killed process 546 (lhash_test) total-vm:72960kB, anon-rss:65792kB</span>=
+</span></code></pre>
+</div>
+</div>
+<p class=3D"font-claude-response-body break-words whitespace-normal">41 tes=
+ts pass before this (<code class=3D"bg-text-200/5 border border-0.5 border-=
+border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px =
+text-[0.9rem]">02-test_list.t</code> is the last to pass), then <code class=
+=3D"bg-text-200/5 border border-0.5 border-border-300 text-danger-000 white=
+space-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">02-test_lhash.t</=
+code> fails with exit code 137 (SIGKILL). Later in the run, the ptest-runne=
+r process itself also gets killed by the OOM killer, so the suite doesn't c=
+omplete fully (TOTAL: 1 FAIL: 2).&nbsp;</p>
+<p class=3D"font-claude-response-body break-words whitespace-normal">I also=
+ tested this independently on oe-core master-next (your original commit <co=
+de class=3D"bg-text-200/5 border border-0.5 border-border-300 text-danger-0=
+00 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">9365ac47f=
+994a7d6be92b8c011c51ecf48e8ef87</code>) and on my own scarthgap backport sa=
+me lhash_test OOM occurs in all three cases under default QEMU memory. When=
+ I manually bumped QEMU's memory to 1GB, lhash_test passes, so it's a memor=
+y-availability issue rather than a problem with the patch itself.</p>
+<p class=3D"font-claude-response-body break-words whitespace-normal">Is thi=
+s a known/expected limitation with the default qemux86-64 ptest QEMU memory=
+, or is there something I should configure differently when running these t=
+ests?</p>
+<p class=3D"font-claude-response-body break-words whitespace-normal">Thanks=
+,<br />Sai Sneha</p>
+</div>
+
+--4MJQGXRaaq50pcaDm3xv--
 
