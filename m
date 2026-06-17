@@ -1,329 +1,294 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <zhengrq.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA452CD98D2
-	for <webhook@archiver.kernel.org>; Tue, 16 Jun 2026 23:37:41 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4127.1781653055599607442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D1E3CD98EC
+	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 01:16:52 +0000 (UTC)
+Received: from OS0P286CU011.outbound.protection.outlook.com (OS0P286CU011.outbound.protection.outlook.com [52.101.228.58])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5808.1781659009101392015
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jun 2026 16:37:36 -0700
+ Tue, 16 Jun 2026 18:16:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=hDiu8EZB;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490be29c1c5so54885975e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 16:37:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781653054; x=1782257854; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4fxoDhKW9P1YHmE37oCTB5UW5gqMoxOTIJWdnniwIqY=;
-        b=hDiu8EZBR6wwV4IN60lRdJ0ylwT+HqBY5TgALtMYV/SRWm+0/uUsvvyJ6YFFUALAE/
-         PgGdqaDyjoq21lFiilFwANjLqsc9HfF4zsmcEUUDtyEcHC0Ysd/V3Wc8LYzjOIOsQvgd
-         sPXfmRHgvRU++CmT5uCvb9+uQhhjmoExHeIJw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781653054; x=1782257854;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4fxoDhKW9P1YHmE37oCTB5UW5gqMoxOTIJWdnniwIqY=;
-        b=EvHV6UuVne7fgnXir/P9P7XJzBpoFWs+Ukvyi6xERoCQMeoIhmo+rWGBDgVmbPDunm
-         DBXmGuEFZHdySxe9iX2lBMJRGPdcAqypgF7s3gdAZSKDS3kjkf/X8YxJ288GWlfY5E+F
-         n6aRpD+MS6vNrGB21bGlp6uGX2GpS4/7UdywY94/P+UHiGQINWq7hEZbqH0R90hJUIcm
-         n/8ng2SBMAVPHeWqlZZ6UnrG0uf8BokrfEjUX8JWsQsKwbke+VYGRM4X2TFtmwngoocJ
-         +WP11kIBorLdEUoiFv8U9Kw1IrK9755hC+TaH+/ufiQF3qT0QXohw2SPSlbm26hb9w0V
-         HAng==
-X-Forwarded-Encrypted: i=1; AFNElJ+0OECYPbev8KOmvz63XuQxntFpoxfVC8R9yCJc8x1mPJTkGwZgTd0Caxd+LsoEjGHv+C4MDwY/BBiR9i7dTE2j8g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzF7LAt4+NJPwj+2AQMClRPjTDgpQ1DChd5tTyaBXmij2vn1g7G
-	acF3/7nw2j5b4wkD4kPaW/erN050boeoD4rSlasgu9/vfLxIadh8GhcLd2qUWVA+KO8=
-X-Gm-Gg: Acq92OHcdqy7K8rOIOJaFQsbx9Gx8Zi1x7fS2uD42yFdSsH9HYjEAEy3KOYjnvqkbJH
-	6XWQkxXkf3qLONtWp5y4/zFX4QyheZ5K/jUxld+X0M98cx+eCkkuSZCC5FYOaSy0c9E1mnjs+VH
-	VUBZGQOnDVrHi1bMyF8QvyKyFyhI4DNeUakOfeSUxY3iCZQ5F61FXI3BYaipoD9Xj+yHzY4pYVy
-	uOo85h7O/INDh6x/WhW+t0f5OFkzJhRLsZbRY/mfPmVFnx0MbXqr6p1sNJUZgrpHXtvC46tlphE
-	FwFgXgy5OFZf3xEiSgqePNGwX8AEbsXbbHzyi1KL8HCgaLMpShlxSgCIa26smtkTo0lgDzUZ7sc
-	rQ3TWPInVfZvwqtjXELaiMS/UgRANoD1a2A0HGUdTq17Af1FRLa4ZAerZM1zkcO5fVjk8zxAyoK
-	3I43oA/YLoJ5Y1EQYUn0fK1bPagPW+cGq8wtnIo2H7hFUA1z4Ez5K8nFJh07nMq3A1waabsIIlb
-	Df8qUqqCfWCAkpgEM8PkUKX5aU=
-X-Received: by 2002:a05:600c:c08b:b0:48e:6db3:ff3a with SMTP id 5b1f17b1804b1-492333c019cmr20834585e9.16.1781653053751;
-        Tue, 16 Jun 2026 16:37:33 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00fdf7edbba0bd5f9d.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fdf7:edbb:a0bd:5f9d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49233bebc57sm11478615e9.2.2026.06.16.16.37.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2026 16:37:33 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 17 Jun 2026 01:37:32 +0200
-Message-Id: <DJAVAP82IHN7.ZUBCLSIJUS0O@smile.fr>
-Subject: Re: [PATCH v2 2/2][OE-core][scarthgap] python3: fix CVE-2026-7210
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <amaury.couderc@est.tech>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260615063640.25128-1-amaury.couderc@est.tech>
-In-Reply-To: <20260615063640.25128-1-amaury.couderc@est.tech>
+ dkim=pass header.i=@fujitsu.com header.s=selector1 header.b=bGn7KWH/;
+ spf=pass (domain: fujitsu.com, ip: 52.101.228.58, mailfrom: zhengrq.fnst@fujitsu.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hllsDJdKmPSO1vrQHkKKy9U8utJAh5f43j4oBjgLr0XuAeznMWVRYBhLvqAms5RQHc3opLOtqEMUppT6tOWwD2rqc/QcR9b8aPccvMCZ5FvYBPrWkDf7VK9sobztBM1wilCovBV+b6MK7AkEJJyaxZ+/KU4Rvs07W1dTIUv0moYxtVkE8d6ItaATNqK0XV3mH7gvkPL22MR3U3dgSKgW6Qvz3QT3Ci0Fu+osvqjRLUvYbTr0SZ5X60VYSzqX7sEX4dSX3yh7si0PZC/EZddJeMRScjeuwVQby/x9trcCFUnLikoPOzMALHq6pWPct4n8TrYhtRMLY6o19lzjJ3jv4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Iz/A8/s4LYP09mlUbYZg3J0usNbG/JDT9tGZIKnz+b0=;
+ b=uaPQfJnCj7bqvmgVinXgR6kT+Zxv/1DeGSC7JTiZFDvi/DIHSx0rhGeWjLWOphAFxF9t3ok2pkf+O22fV0WnkyJH0CNC6cHzLkH7rDTLzZudYk9V4bnqr1JV6PWL1JjinQf/YtzLQKfqU3qj86V0GfrJc1tO3RmsdZyG7OzMxd1YestW6WYYXc1M8mCrQkG2+OE/rRRcEk38rNhNw1e4T150+1tMBdB62sAWAMP55i0XOryXQHvcE84ZLqtjd2JQY5YS0pY9Itd/hr35Aq0WMA3mTxdPNk95pBg+5LGUXyoyQbCYY6ZLvnxgFhMNbnN7na0nLbI75ynJrzAWyaqckA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Iz/A8/s4LYP09mlUbYZg3J0usNbG/JDT9tGZIKnz+b0=;
+ b=bGn7KWH/lgf87W8CBcHI9rFQUD44azIYwDfDblYmf5DwfgnjpYS9LHq7KPNfGST8n/CCmXauOqTfMgJkeVaWk16kVLjlk/FQNMZwNMVfdU7zytTyR/xiPbgufUap1DHzI5biXeGyX0YbvdSMoAwHrZhPC1iF7YnSxzmbNZpoMYZikVHn6OUsesCBu7AXIs2tJX//xEH4ZhBlxOs9jSG4Y1OLpuX8A0qSbqHXt19FBLkPD0AHyFMaO7XB/1cJZ1AFypNgCuduBNySpU3UohmPMPci9iSmzHYiI+0pHhGRDCBYSap5Uu8BGJnX/u9aFKRBtLbCv1VGxhNQTF6rUhdEXA==
+Received: from OSZPR01MB7868.jpnprd01.prod.outlook.com (2603:1096:604:1b8::10)
+ by TY3PR01MB11593.jpnprd01.prod.outlook.com (2603:1096:400:375::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Wed, 17 Jun
+ 2026 01:16:44 +0000
+Received: from OSZPR01MB7868.jpnprd01.prod.outlook.com
+ ([fe80::faa3:6cc4:2c96:cedc]) by OSZPR01MB7868.jpnprd01.prod.outlook.com
+ ([fe80::faa3:6cc4:2c96:cedc%3]) with mapi id 15.21.0113.015; Wed, 17 Jun 2026
+ 01:16:44 +0000
+From: "Ruoqin Zheng (Fujitsu)" <zhengrq.fnst@fujitsu.com>
+To: Paul Barker <paul@pbarker.dev>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH v2] vim-tiny: bugfix lack of defaults.vim
+Thread-Topic: [OE-core][PATCH v2] vim-tiny: bugfix lack of defaults.vim
+Thread-Index: AQHc9mgfEo0MzaVVeUaQ71Kp4cK247Y+3oJwgAMikAo=
+Date: Wed, 17 Jun 2026 01:16:44 +0000
+Message-ID: 
+ <OSZPR01MB7868E958149C84033E9B338C8BE42@OSZPR01MB7868.jpnprd01.prod.outlook.com>
+References: <20260605100736.13413-1-zhengrq.fnst@fujitsu.com>
+ <b2edbe057c6569a2260c5dc4ae4d8b8199c57f83.camel@pbarker.dev>
+ <OSZPR01MB7868612587B639A0A53174378BE62@OSZPR01MB7868.jpnprd01.prod.outlook.com>
+In-Reply-To: 
+ <OSZPR01MB7868612587B639A0A53174378BE62@OSZPR01MB7868.jpnprd01.prod.outlook.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=True;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2026-06-17T01:16:43.953Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=1;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OSZPR01MB7868:EE_|TY3PR01MB11593:EE_
+x-ms-office365-filtering-correlation-id: 0a19891d-044f-4ad0-7f90-08decc0e186b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|11063799006|4143699003|5023799004|56012099006|8096899003|6133799003|38070700021|22082099003|18002099003|1580799027|13003099007;
+x-microsoft-antispam-message-info: 
+ kLeRhGk6vfo24U+HSP6meNVJWlRlLWV1qvOdxO4bJCXMQBXyw6I4PqUujKu1BKzqU7aSzIQJbqBikmVsgTZzkG48xJYunVnHsBEsbeK416xTP6iGSgiUvXC9pnTw4D6P4XfSAzugKGzr9EHwsUPbA1GqvQyVTju7uR84pvHK49M05yM+4k3+8JANUqcQFQ7T/K2j1CsI6xtiNPwnhVxVrpVUoYJ7Ieb7HVwiQ+AsviIyhlmqQbWY7vQRxENz5lbHfjCE8gwuUh6HFA2Vc8E9+LiR9rgItYRZ/L65ZtRd9aiLW8xrVjW1eXuea/Y9Ni4QPdUMA8C+Bx0sQNFbhYMo2Ii5+EUGbmCANm/9brs3XAYR39ji53GQY2RtIBbJ2lK69QOypcdqRyLHihwJSjsfEETp2kkDvnuT1j5tgZyjcgYvXcVqEQ9KsizimuMhng1hcprOr6Dw5DSRtUIreKKoPRF0CIUsg/DDZKOzBFJC1qPsd+LMRnAzXWlF5TDtjGfHn3pOzG3D0VTlUIwaXGwGjy17h87hMPSwgknBh/Wp9qEUHqyNVjjHWucJJVQWn3h8ryuPrlYW/l1sRb8ZaHQqJVZm9VLQwFZ5Rx/cEGkVhUai9ZFUlG3yTsP8grX4GV+eZsiRTAeR29f9Ef3IqpD7tnuNeAlzf/C0T4qECnZfN3nFMJbbAzHIES+Ye2kgImA8hqDu0SuIHKG0Pj5uxDDHRD32780aFm8YaOrTMmd9hcS/cPloZ2zNiff1BV7UtObh7F3aY3VOGijAVEUiUuhJz2uHglnpKxdUw1eSAdf1ULI=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSZPR01MB7868.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(11063799006)(4143699003)(5023799004)(56012099006)(8096899003)(6133799003)(38070700021)(22082099003)(18002099003)(1580799027)(13003099007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?gb2312?B?SHlUaHRPS2N4TStPQUgxazgwbFJkVVdTWFZsWlNrb1M4UmJKNFAxemlUcUlQ?=
+ =?gb2312?B?aytVTHVZVzZLSk5vL0src09UTjhUS3ZhTGNuVzFMMWwrSEtzUmdHdE13MFEw?=
+ =?gb2312?B?WThCcjRHejdDdzBsWFZZcURtRXpEajlhYkFtNDJML0NXSmZKcjVtNmJ1MWE3?=
+ =?gb2312?B?Y3prbVNMNmtOMlN0dk0rSCtVUm53cndTVlI1UVZBUTdXNnEyY3ovMm9UdDBs?=
+ =?gb2312?B?aFhYeDFEN1VmaDZaMHFmNDlPTnYyQlRCOXluanNNWmgwREZZWWFBTnRnUlhK?=
+ =?gb2312?B?dWZsMTA1OHZPR2hZTlIvdTZBamFzRWFhQ3A0M29XQndBYWxJUlBISHM5MDdq?=
+ =?gb2312?B?M1RydHR5NkFscjRLb25zVlRkaXBwSloxS0VxNTBaeWhicmNSZGpyN2I1eks2?=
+ =?gb2312?B?RnVUY0hOT1RVSENwL1pyRmdSTzM5ejgzNnJISWc1ZkkyQmk0U0JiS2VWTUtF?=
+ =?gb2312?B?YTlyaHVHSTRmZU14cGg2a1FyMVNOSVJtS1B5b1VtSElhQmszZjBHN3B4Skl1?=
+ =?gb2312?B?VS9kZndsVUN0Q1UrTFpVazRpMDIvWTRDaDcrcGpBWDlpWnlaMU5zamF1ZU5V?=
+ =?gb2312?B?Qm1DbUtzWG5GankzZE83bFRickxnTXQzYVE2YjJCbzRjNnlXSU1maFA3NWVw?=
+ =?gb2312?B?Vm1HNnFKNDdVejJqdWhleXVudVA5akJyL2tHRExBemo0UFNFRnlEUmt0WHFJ?=
+ =?gb2312?B?SThNTUhMNmRXdklkb0h3RlJyTnBZWFA3K1hDNitZZHJveHdnQ01FY3lKbENx?=
+ =?gb2312?B?VE9GUVkvUDFFTG5iQW81SEhYQWtpVUppNDNZL216akR1Yi9Zbjk3OUJRS3ZP?=
+ =?gb2312?B?ODRTOWxEOEFwSUZ6YU9qenRPbVcxeFgydWp2YlUxQ3JXVUxVcVJoUnRQd1c3?=
+ =?gb2312?B?Z3hkbTRweVBqZFA3WFI5SWFMNk1wOWg5cFA3YlYxbjdXUUI1Z2I1MFhNTlBu?=
+ =?gb2312?B?eVdqdkJkQ1dzOVRUVmdKKzk2bGZDTjlOUEJtOWlKWVNOblg1ZFNIUnhqWU1k?=
+ =?gb2312?B?RWhMRzVhOFpxWVVKSWxDRmJ1Sk80ajVFd2txdjNtN1VEU2JBb1JnazNFSTVF?=
+ =?gb2312?B?c3MyaUllYUZaaGhNTHpqOVh3WHlpdk9ld0R3V241d2syL0VqMEhFUyswa3FO?=
+ =?gb2312?B?WStRbE9MOVlvYlQvMlltY2x2YmUvRnVJNU9KTjhwWWhTT0kvRWJHYTgxTUV5?=
+ =?gb2312?B?R0J3bDh0dkpLaGcvc3FKRWZ4d29KYlhUMkd0ZHp5TzBmSkpBRVZjWUZtNjNw?=
+ =?gb2312?B?b0xvTVNGc3R6RHpoZGlqZTJBcE9kQTYweDNwNlRJT1hlWFpLN1JycXZOSjFm?=
+ =?gb2312?B?OWNsS0lDYi96WWlCbERQU29nMkw1ZzdCdnBiYVUxWVdVTGx0eng0MVNnQldp?=
+ =?gb2312?B?MVZzS0xTdk5tMTF6YUh3M3Y0NURvcFNsWnpCamlmYXNLNjN4Y3JoSFUyUGFl?=
+ =?gb2312?B?bXBFOThjZVBMUXdNUmJIRnJsT2pMQ1Y4Zml2RmUxelNDTm1aSksyMVIvOC9t?=
+ =?gb2312?B?T0UwamhVQmhFa2E5d3RsdG5hKzMyeVVzc3ZNQTRhZVo1RGd5Z2thZTZQUEd1?=
+ =?gb2312?B?QTAwWThZeTRDWjFnZW96UXJ2Ri9iOWliR0t4ejBHd2doMEdjMzcrdDRrNzBL?=
+ =?gb2312?B?SHBDaCs0ZjhxL01WQW9VWERYS3p5YkF0SDZIZU5jYk8rTFZuTU1FNHR4T3Er?=
+ =?gb2312?B?dzZQdVA4SnpXMzdhWkhkRW1OTDY2L3VWbWRTeFBjRDh2V1NHZ1Q4T2l6bmxG?=
+ =?gb2312?B?TWNCRVE2WHlDWU1IVEZmaHl6RFVaLzNGZFFnSzl1U2dTYlJqTmxVUmMzT3Yy?=
+ =?gb2312?B?M3ZScFFid3JEajlrM2YyQUFxWDNXOG9HYTZPdlRpbGcrbjl3T3BHaFVPbndo?=
+ =?gb2312?B?SXZQTllRRWI2SkE0TUgzOHZSQVFkZklLczRlMjZ6clQ5bWdEUkxjdUt4MHVv?=
+ =?gb2312?B?UGRoanhLd1dnMVRnb3VkaUZJSTloc1VhKzdyd0RNcS9yY09yMGlmSU1SNS9F?=
+ =?gb2312?B?aHN0c3VnV2RzMlU3WlFZQTZQZXg4d0VXc1QwTFdQcitVbmd6S1ZxZGp3UkFi?=
+ =?gb2312?B?SG44SXpkTEQzaDZHQm1sblNkYkR6TFlRNjBLc0dRR2V1eVdLWUhnaUt4aWdx?=
+ =?gb2312?B?RC8wOXJrdVFqV0hPTDlJaVJTbUg5Z1FvekNTa0dMY0lHdGVqMGx6VVdVa0Np?=
+ =?gb2312?B?alpvSHNYK2svYzVKdVhUMmNjZUo5b3RRd250dk5yZ0pOUGhTa0VwU2twRzll?=
+ =?gb2312?B?d054KzlwL2dGUzVTMTN3N0FhaGx3QnovZGF0OEl5QjNHRG5MajBRWUEzS0t6?=
+ =?gb2312?B?Wi9IUzhyb2Vxc01zNlRHcm1abWJDTDBQeFpPZzMrQXRyODlrRmtodz09?=
+Content-Type: multipart/alternative;
+	boundary="_000_OSZPR01MB7868E958149C84033E9B338C8BE42OSZPR01MB7868jpnp_"
+MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: 
+	pN8WuzyZ6mgsDwemV1OsqfIm1CVMxRX20uvBLnhObLPqF96N8iRQZOeId1M/CA2b4m4+EQ9LKN5YdElNdg6cknLP0JbpHPgMxnwtWtbOtQDXTH0PN/Zd8iCpmGFaEsfnATHT5EzSnLnmwxMlkMMPa3/DjFkuTg7ycndwL380mz/4LROo653igbkmWfbx0KyTi6OmTImfVVBwi3qfCdrGbSu947G79ykyxiNMVzEQgeIMnPRd7lQVEzOkjCgkYo8Mh+r6JwME8khSWXCpSRcfWVsC++6sml71Dz+F8pLXG3TkegE/0eZ+HMtSwKd+LgHBYA7P+f5YOqenr3QajNmJXw==
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSZPR01MB7868.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a19891d-044f-4ad0-7f90-08decc0e186b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2026 01:16:44.4433
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: TufkacQGEBuoosbVh8IUXpnnnBacmxWn09PmdtI5DN8c1D+wpDXBfyKSoWsHetMX+DoEL57TxcQ1w3/6wGT0LHzIY3Nq+EJsIvCCGvGh5kI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11593
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jun 2026 23:37:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238967
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 01:16:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238968
 
-On Mon Jun 15, 2026 at 8:36 AM CEST, Amaury Couderc via lists.openembedded.=
-org wrote:
-> From: Amaury Couderc <amaury.couderc@est.tech>
->
-> Backport patch to fix CVE-2026-7210.
->   https://nvd.nist.gov/vuln/detail/CVE-2026-7210
->
-> In order to mitigate CVE-2026-7210 this patch should come alongside=20
-> the associated expat one which backports to expat 2.6.4 the fixes=20
-> introduced in expat 2.8.0.
->
-> Upstream fixes:
->   https://github.com/python/cpython/pull/149023/commits/03794ce9a58b1f337=
-51c88d7d876dfbf27645c56
->   https://github.com/python/cpython/pull/149023/commits/ccb8d2f7df9534e49=
-a43554193d7f5f4d993189c
+--_000_OSZPR01MB7868E958149C84033E9B338C8BE42OSZPR01MB7868jpnp_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-Hello,
+cGluZw0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCkZyb206IFpoZW5nLCBSdW9x
+aW4v1qMgyPTH1SA8emhlbmdycS5mbnN0QGZ1aml0c3UuY29tPg0KU2VudDogTW9uZGF5LCBKdW5l
+IDE1LCAyMDI2IDk6MjkNClRvOiBQYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj47IG9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdW1BBVENIIHYyXSB2
+aW0tdGlueTogYnVnZml4IGxhY2sgb2YgZGVmYXVsdHMudmltDQoNCkhpIFBhdWwNCiAgIEkgcmVm
+ZXIgdG8gdGhlIERlYmlhbiBwYXRjaCBhbmQgcmVtb3ZlIFNZU19USU5ZUkNfRklMRSByZWxhdGVk
+IGNvZGUgYXMgSSB0aGluayB3ZSBkb24ndCBuZWVkIHZpbXJjLnRpbnkgZmlsZS4NCg0KICAgSWYg
+dmltcmMudGlueSBpcyBuZWNlc3NhcnksIEkgd2lsbCBkaXJlY3RseSBpbXBvcnQgdGhlIERlYmlh
+biBwYXRjaCBhbmQgc2VuZCB2MyBwYXRjaC4NCg0KRnJvbSB6aGVuZw0KX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXw0KRnJvbTogUGF1bCBCYXJrZXINClNlbnQ6IFN1bmRh
+eSwgSnVuZSAwNywgMjAyNiAxODoyNg0KVG86IFpoZW5nLCBSdW9xaW4v1qMgyPTH1Tsgb3BlbmVt
+YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3Jl
+XVtQQVRDSCB2Ml0gdmltLXRpbnk6IGJ1Z2ZpeCBsYWNrIG9mIGRlZmF1bHRzLnZpbQ0KDQpPbiBG
+cmksIDIwMjYtMDYtMDUgYXQgMTg6MDcgKzA4MDAsIHpoZW5ncnVvcWluIHZpYQ0KbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZyB3cm90ZToNCj4gV2hlbiB2aW0tdGlueSB3YXMgdXNlZCBpbiBpbWFnZSwg
+aXQgbGFja3MgZGVmYXVsdHMudmltIGZpbGUgd2hpY2ggd2lsbCBjYXVzZSBmb2xsb3dpbmcgZXJy
+b3INCj4gcm9vdEBxZW11eDg2LTY0On4jIHZpDQo+IEUxMTg3OiBGYWlsZWQgdG8gc291cmNlIGRl
+ZmF1bHRzLnZpbQ0KPiBQcmVzcyBFTlRFUiBvciB0eXBlIGNvbW1hbmQgdG8gY29udGludWUNCj4N
+Cj4gU28gYWRkIGEgbmV3IHBhdGNoIHRvIGZpeCB0aGlzIGlzc3VlLg0KPg0KPiBTaWduZWQtb2Zm
+LWJ5OiBaaGVuZyBSdW9xaW4gPHpoZW5ncnEuZm5zdEBmdWppdHN1LmNvbT4NCj4gLS0tDQo+ICAu
+Li5lX2RlZmF1bHRzLXdoZW4tVmltLWlzLWludm9rZWQtYXMtdmkucGF0Y2ggfCA2MSArKysrKysr
+KysrKysrKysrKysrDQo+ICBtZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vdmltLmluYyAgICAgICAg
+ICAgICAgfCAgMyArDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDY0IGluc2VydGlvbnMoKykNCj4gIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vZmlsZXMvMDAwMS1za2lw
+LXNvdXJjZV9kZWZhdWx0cy13aGVuLVZpbS1pcy1pbnZva2VkLWFzLXZpLnBhdGNoDQo+DQo+IGRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vZmlsZXMvMDAwMS1za2lwLXNvdXJj
+ZV9kZWZhdWx0cy13aGVuLVZpbS1pcy1pbnZva2VkLWFzLXZpLnBhdGNoIGIvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvdmltL2ZpbGVzLzAwMDEtc2tpcC1zb3VyY2VfZGVmYXVsdHMtd2hlbi1WaW0taXMt
+aW52b2tlZC1hcy12aS5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAw
+MDAwMDAwLi43ZTdiZmUwYTZkDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvdmltL2ZpbGVzLzAwMDEtc2tpcC1zb3VyY2VfZGVmYXVsdHMtd2hlbi1WaW0taXMt
+aW52b2tlZC1hcy12aS5wYXRjaA0KPiBAQCAtMCwwICsxLDYxIEBADQo+ICtGcm9tIDdkYWQ0NWY3
+NTFkNGFkYmVlNDgwMDA1YTU1NDZiMzJhOTdmZGJmYjIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+DQo+ICtGcm9tOiBaaGVuZyBSdW9xaW4gPHpoZW5ncnEuZm5zdEBmdWppdHN1LmNvbT4NCj4gK0Rh
+dGU6IEZyaSwgNSBKdW4gMjAyNiAwOTozNDoxOCArMDAwMA0KPiArU3ViamVjdDpbUEFUQ0hdIFNr
+aXAgc291cmNpbmcgZGVmYXVsdHMudmltIHdoZW4gVmltIGlzIGludm9rZWQgYXMNCj4gKyB2aQ0K
+PiArDQo+ICtUaGlzIGlzIHVzZWQgb25seSBpbiB0aGUgdmltLXRpbnkgcGFja2FnZSB0byBza2lw
+ICJzb3VyY2VfZGVmYXVsdHMiIGVycm9yDQo+ICsgRTExODc6IEZhaWxlZCB0byBzb3VyY2UgZGVm
+YXVsdHMudmltDQo+ICtQcmVzcyBFTlRFUiBvciB0eXBlIGNvbW1hbmQgdG8gY29udGludWUNCj4g
+Kw0KPiArVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtvZSBzcGVjaWZpY10NCj4gKw0K
+PiArU2lnbmVkLW9mZi1ieTogWmhlbmcgUnVvcWluIDx6aGVuZ3JxLmZuc3RAZnVqaXRzdS5jb20+
+DQoNCldoeSBub3QgZGlyZWN0bHkgaW1wb3J0IHRoZSBEZWJpYW4gcGF0Y2g/IFlvdSBjYW4gZmlu
+ZCBpdCBhdA0KICBodHRwczovL3NhbHNhLmRlYmlhbi5vcmcvdmltLXRlYW0vdmltLy0vYmxvYi9k
+ZWJpYW4vc2lkL2RlYmlhbi9wYXRjaGVzL2RlYmlhbi9TdXBwb3J0LXNvdXJjaW5nLWEtdmltcmMu
+dGlueS13aGVuLVZpbS1pcy1pbnZva2VkLWFzLXZpLnBhdGNoP3JlZl90eXBlPWhlYWRzDQoNCkJl
+c3QgcmVnYXJkcywNCg0KLS0NClBhdWwgQmFya2VyDQoNCg==
 
-If I'm not mistaken those fixes are in 3.14.6 or the future 3.15 and
-neither are in wrynose nor master. Can you please send a fix for those
-branches (either backport or upgrade), and, then, ping back here?
+--_000_OSZPR01MB7868E958149C84033E9B338C8BE42OSZPR01MB7868jpnp_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+ping</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Zheng, Ruoqin/=D6=A3 =
+=C8=F4=C7=D5 &lt;zhengrq.fnst@fujitsu.com&gt;<br>
+<b>Sent:</b> Monday, June 15, 2026 9:29<br>
+<b>To:</b> Paul Barker &lt;paul@pbarker.dev&gt;; openembedded-core@lists.op=
+enembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
+<b>Subject:</b> Re: [OE-core][PATCH v2] vim-tiny: bugfix lack of defaults.v=
+im</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">Hi Paul <br>
+&nbsp;&nbsp; I refer to the Debian patch and remove SYS_TINYRC_FILE related=
+ code as I think we don't need vimrc.tiny file.<br>
+<br>
+&nbsp;&nbsp; If vimrc.tiny is necessary, I will directly import the Debian =
+patch and send v3 patch.<br>
+&nbsp;<br>
+From zheng<br>
+________________________________________<br>
+From: Paul Barker<br>
+Sent: Sunday, June 07, 2026 18:26<br>
+To: Zheng, Ruoqin/=D6=A3 =C8=F4=C7=D5; openembedded-core@lists.openembedded=
+.org<br>
+Subject: Re: [OE-core][PATCH v2] vim-tiny: bugfix lack of defaults.vim<br>
+<br>
+On Fri, 2026-06-05 at 18:07 +0800, zhengruoqin via<br>
+lists.openembedded.org wrote:<br>
+&gt; When vim-tiny was used in image, it lacks defaults.vim file which will=
+ cause following error<br>
+&gt; root@qemux86-64:~# vi<br>
+&gt; E1187: Failed to source defaults.vim<br>
+&gt; Press ENTER or type command to continue<br>
+&gt;<br>
+&gt; So add a new patch to fix this issue.<br>
+&gt;<br>
+&gt; Signed-off-by: Zheng Ruoqin &lt;zhengrq.fnst@fujitsu.com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp; ...e_defaults-when-Vim-is-invoked-as-vi.patch | 61 +++++++++++++=
+++++++<br>
+&gt;&nbsp; meta/recipes-support/vim/vim.inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 3 +<br>
+&gt;&nbsp; 2 files changed, 64 insertions(+)<br>
+&gt;&nbsp; create mode 100644 meta/recipes-support/vim/files/0001-skip-sour=
+ce_defaults-when-Vim-is-invoked-as-vi.patch<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-support/vim/files/0001-skip-source_defaults-=
+when-Vim-is-invoked-as-vi.patch b/meta/recipes-support/vim/files/0001-skip-=
+source_defaults-when-Vim-is-invoked-as-vi.patch<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..7e7bfe0a6d<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-support/vim/files/0001-skip-source_defaults-when-Vi=
+m-is-invoked-as-vi.patch<br>
+&gt; @@ -0,0 +1,61 @@<br>
+&gt; +From 7dad45f751d4adbee480005a5546b32a97fdbfb2 Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From: Zheng Ruoqin &lt;zhengrq.fnst@fujitsu.com&gt;<br>
+&gt; +Date: Fri, 5 Jun 2026 09:34:18 +0000<br>
+&gt; +Subject:[PATCH] Skip sourcing defaults.vim when Vim is invoked as<br>
+&gt; + vi<br>
+&gt; +<br>
+&gt; +This is used only in the vim-tiny package to skip &quot;source_defaul=
+ts&quot; error<br>
+&gt; + E1187: Failed to source defaults.vim<br>
+&gt; +Press ENTER or type command to continue<br>
+&gt; +<br>
+&gt; +Upstream-Status: Inappropriate [oe specific]<br>
+&gt; +<br>
+&gt; +Signed-off-by: Zheng Ruoqin &lt;zhengrq.fnst@fujitsu.com&gt;<br>
+<br>
+Why not directly import the Debian patch? You can find it at<br>
+&nbsp; <a href=3D"https://salsa.debian.org/vim-team/vim/-/blob/debian/sid/d=
+ebian/patches/debian/Support-sourcing-a-vimrc.tiny-when-Vim-is-invoked-as-v=
+i.patch?ref_type=3Dheads">
+https://salsa.debian.org/vim-team/vim/-/blob/debian/sid/debian/patches/debi=
+an/Support-sourcing-a-vimrc.tiny-when-Vim-is-invoked-as-vi.patch?ref_type=
+=3Dheads</a><br>
+<br>
+Best regards,<br>
+<br>
+--<br>
+Paul Barker<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
 
->
->
-> Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
-> ---
->  .../python/python3/CVE-2026-7210-1.patch      | 90 +++++++++++++++++++
->  .../python/python3/CVE-2026-7210-2.patch      | 74 +++++++++++++++
->  .../python/python3_3.12.13.bb                 |  2 +
->  3 files changed, 166 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-7210-1.=
-patch
->  create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-7210-2.=
-patch
->
-> diff --git a/meta/recipes-devtools/python/python3/CVE-2026-7210-1.patch b=
-/meta/recipes-devtools/python/python3/CVE-2026-7210-1.patch
-> new file mode 100644
-> index 0000000000..63aac320af
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3/CVE-2026-7210-1.patch
-> @@ -0,0 +1,90 @@
-> +From 03794ce9a58b1f33751c88d7d876dfbf27645c56 Mon Sep 17 00:00:00 2001
-> +From: Stan Ulbrych <stan@python.org>
-> +Date: Sun, 26 Apr 2026 19:31:25 +0100
-> +Subject: [PATCH] Use `XML_SetHashSalt16Bytes` from libExpat when possibl=
-e
-> +
-> +CVE: CVE-2026-7210
-> +Upstream-Status: Backport [https://github.com/python/cpython/pull/149023=
-/commits/03794ce9a58b1f33751c88d7d876dfbf27645c56] with downstream extensio=
-n for XML_BACKPORT_SET_HASH_SALT_16_BYTES detection
-> +
-> +Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
-> +---
-> + Include/pyexpat.h                                     |  3 +++
-> + .../2026-04-26-19-30-45.gh-issue-149018.a9SqWb.rst   |  3 +++
-> + Modules/_elementtree.c                                |  8 ++++++--
-> + Modules/pyexpat.c                                     | 11 ++++++++++-
-> + 4 files changed, 22 insertions(+), 3 deletions(-)
-> + create mode 100644 Misc/NEWS.d/next/Security/2026-04-26-19-30-45.gh-iss=
-ue-149018.a9SqWb.rst
-> +
-> +diff --git a/Include/pyexpat.h b/Include/pyexpat.h
-> +index f523f8bb273983a..a676e16a7a457ea 100644
-> +--- a/Include/pyexpat.h
-> ++++ b/Include/pyexpat.h
-> +@@ -57,6 +57,9 @@ struct PyExpat_CAPI
-> +         XML_Parser parser, unsigned long long activationThresholdBytes)=
-;
-> +     XML_Bool (*SetAllocTrackerMaximumAmplification)(
-> +         XML_Parser parser, float maxAmplificationFactor);
-> ++    /* might be NULL for expat < 2.8.0 */
-> ++    XML_Bool (*SetHashSalt16Bytes)(
-> ++        XML_Parser parser, const uint8_t entropy[16]);
-> +     /* always add new stuff to the end! */
-> + };
-> +=20
-> +diff --git a/Misc/NEWS.d/next/Security/2026-04-26-19-30-45.gh-issue-1490=
-18.a9SqWb.rst b/Misc/NEWS.d/next/Security/2026-04-26-19-30-45.gh-issue-1490=
-18.a9SqWb.rst
-> +new file mode 100644
-> +index 000000000000000..d1b5b368684e6a5
-> +--- /dev/null
-> ++++ b/Misc/NEWS.d/next/Security/2026-04-26-19-30-45.gh-issue-149018.a9Sq=
-Wb.rst
-> +@@ -0,0 +1,3 @@
-> ++Improved protection against XML hash-flooding attacks in
-> ++:mod:`xml.parsers.expat` and :mod:`xml.etree.ElementTree` when Python i=
-s
-> ++compiled with libExpat 2.8.0 or later.
-> +diff --git a/Modules/_elementtree.c b/Modules/_elementtree.c
-> +index cbd1e026df27227..b2d4b982602c583 100644
-> +--- a/Modules/_elementtree.c
-> ++++ b/Modules/_elementtree.c
-> +@@ -3657,8 +3657,12 @@ _elementtree_XMLParser___init___impl(XMLParserObj=
-ect *self, PyObject *target,
-> +         PyErr_NoMemory();
-> +         return -1;
-> +     }
-> +-    /* expat < 2.1.0 has no XML_SetHashSalt() */
-> +-    if (EXPAT(st, SetHashSalt) !=3D NULL) {
-> ++    // Prefer 16-byte entropy, only expat >=3D 2.8.0. See gh-149018
-> ++    if (EXPAT(st, SetHashSalt16Bytes) !=3D NULL) {
-> ++        EXPAT(st, SetHashSalt16Bytes)(self->parser,
-> ++                                      (const uint8_t *)_Py_HashSecret.u=
-c);
-> ++    }
-> ++    else if (EXPAT(st, SetHashSalt) !=3D NULL) {
-> +         EXPAT(st, SetHashSalt)(self->parser,
-> +                            (unsigned long)_Py_HashSecret.expat.hashsalt=
-);
-> +     }
-> +diff --git a/Modules/pyexpat.c b/Modules/pyexpat.c
-> +index 0f0afe17513ef1c..1df433e64bc096f 100644
-> +--- a/Modules/pyexpat.c
-> ++++ b/Modules/pyexpat.c
-> +@@ -1388,7 +1388,12 @@ newxmlparseobject(pyexpat_state *state, const cha=
-r *encoding,
-> +         Py_DECREF(self);
-> +         return NULL;
-> +     }
-> +-#if XML_COMBINED_VERSION >=3D 20100
-> ++#if defined(XML_BACKPORT_SET_HASH_SALT_16_BYTES) \
-> ++    || XML_COMBINED_VERSION >=3D 20800
-> ++    /* This feature was added upstream in libexpat 2.8.0. */
-> ++    XML_SetHashSalt16Bytes(self->itself,
-> ++                           (const uint8_t *)_Py_HashSecret.uc);
-> ++#elif XML_COMBINED_VERSION >=3D 20100
-> +     /* This feature was added upstream in libexpat 2.1.0. */
-> +     XML_SetHashSalt(self->itself,
-> +                     (unsigned long)_Py_HashSecret.expat.hashsalt);
-> +@@ -2257,6 +2262,12 @@ pyexpat_exec(PyObject *mod)
-> + #else
-> +     capi->SetHashSalt =3D NULL;
-> + #endif
-> ++#if defined(XML_BACKPORT_SET_HASH_SALT_16_BYTES) \
-> ++    || XML_COMBINED_VERSION >=3D 20800
-> ++    capi->SetHashSalt16Bytes =3D XML_SetHashSalt16Bytes;
-> ++#else
-> ++    capi->SetHashSalt16Bytes =3D NULL;
-> ++#endif
-> + #if XML_COMBINED_VERSION >=3D 20600
-> +     capi->SetReparseDeferralEnabled =3D XML_SetReparseDeferralEnabled;
-> + #else
-> diff --git a/meta/recipes-devtools/python/python3/CVE-2026-7210-2.patch b=
-/meta/recipes-devtools/python/python3/CVE-2026-7210-2.patch
-> new file mode 100644
-> index 0000000000..e9a10d3705
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3/CVE-2026-7210-2.patch
-> @@ -0,0 +1,74 @@
-> +From ccb8d2f7df9534e49a43554193d7f5f4d993189c Mon Sep 17 00:00:00 2001
-> +From: Stan Ulbrych <stan@python.org>
-> +Date: Sun, 26 Apr 2026 19:42:01 +0100
-> +Subject: [PATCH] Add `_Py_HashSecret_t.expat.hashsalt16` instead
-> +
-> +CVE: CVE-2026-7210
-> +Upstream-Status: Backport [https://github.com/python/cpython/pull/149023=
-/commits/ccb8d2f7df9534e49a43554193d7f5f4d993189c]
-> +
-> +Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
-> +---
-> + Include/pyhash.h       | 8 +++++---
-> + Modules/_elementtree.c | 2 +-
-> + Modules/pyexpat.c      | 3 +--
-> + 3 files changed, 7 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/Include/pyhash.h b/Include/pyhash.h
-> +index 84cb72fa6fd1b26..3056dc44cc0f1b1 100644
-> +--- a/Include/pyhash.h
-> ++++ b/Include/pyhash.h
-> +@@ -39,14 +39,14 @@
-> +  *   pppppppp ssssssss ........  fnv -- two Py_hash_t
-> +  *   k0k0k0k0 k1k1k1k1 ........  siphash -- two uint64_t
-> +  *   ........ ........ ssssssss  djbx33a -- 16 bytes padding + one Py_h=
-ash_t
-> +- *   ........ ........ eeeeeeee  pyexpat XML hash salt
-> ++ *   eeeeeeee eeeeeeee eeeeeeee  pyexpat XML hash salt
-> +  *
-> +  * memory layout on 32 bit systems
-> +  *   cccccccc cccccccc cccccccc  uc
-> +  *   ppppssss ........ ........  fnv -- two Py_hash_t
-> +  *   k0k0k0k0 k1k1k1k1 ........  siphash -- two uint64_t (*)
-> +  *   ........ ........ ssss....  djbx33a -- 16 bytes padding + one Py_h=
-ash_t
-> +- *   ........ ........ eeee....  pyexpat XML hash salt
-> ++ *   eeeeeeee eeeeeeee eeee....  pyexpat XML hash salt
-> +  *
-> +  * (*) The siphash member may not be available on 32 bit platforms with=
-out
-> +  *     an unsigned int64 data type.
-> +@@ -71,7 +71,9 @@ typedef union {
-> +         Py_hash_t suffix;
-> +     } djbx33a;
-> +     struct {
-> +-        unsigned char padding[16];
-> ++        /* 16 bytes for XML_SetHashSalt16Bytes */
-> ++        uint8_t hashsalt16[16];
-> ++        /* 4/8 bytes for legacy XML_SetHashSalt */
-> +         Py_hash_t hashsalt;
-> +     } expat;
-> + } _Py_HashSecret_t;
-> +diff --git a/Modules/_elementtree.c b/Modules/_elementtree.c
-> +index b2d4b982602c583..9e794be5c109ba5 100644
-> +--- a/Modules/_elementtree.c
-> ++++ b/Modules/_elementtree.c
-> +@@ -3660,7 +3660,7 @@ _elementtree_XMLParser___init___impl(XMLParserObje=
-ct *self, PyObject *target,
-> +     // Prefer 16-byte entropy, only expat >=3D 2.8.0. See gh-149018
-> +     if (EXPAT(st, SetHashSalt16Bytes) !=3D NULL) {
-> +         EXPAT(st, SetHashSalt16Bytes)(self->parser,
-> +-                                      (const uint8_t *)_Py_HashSecret.u=
-c);
-> ++                                      _Py_HashSecret.expat.hashsalt16);
-> +     }
-> +     else if (EXPAT(st, SetHashSalt) !=3D NULL) {
-> +         EXPAT(st, SetHashSalt)(self->parser,
-> +diff --git a/Modules/pyexpat.c b/Modules/pyexpat.c
-> +index 1df433e64bc096f..78efbef679024f3 100644
-> +--- a/Modules/pyexpat.c
-> ++++ b/Modules/pyexpat.c
-> +@@ -1391,8 +1391,7 @@ newxmlparseobject(pyexpat_state *state, const char=
- *encoding,
-> + #if defined(XML_BACKPORT_SET_HASH_SALT_16_BYTES) \
-> +     || XML_COMBINED_VERSION >=3D 20800
-> +     /* This feature was added upstream in libexpat 2.8.0. */
-> +-    XML_SetHashSalt16Bytes(self->itself,
-> +-                           (const uint8_t *)_Py_HashSecret.uc);
-> ++    XML_SetHashSalt16Bytes(self->itself, _Py_HashSecret.expat.hashsalt1=
-6);
-> + #elif XML_COMBINED_VERSION >=3D 20100
-> +     /* This feature was added upstream in libexpat 2.1.0. */
-> +     XML_SetHashSalt(self->itself,
-> diff --git a/meta/recipes-devtools/python/python3_3.12.13.bb b/meta/recip=
-es-devtools/python/python3_3.12.13.bb
-> index 5fa25235fe..3e5575d396 100644
-> --- a/meta/recipes-devtools/python/python3_3.12.13.bb
-> +++ b/meta/recipes-devtools/python/python3_3.12.13.bb
-> @@ -34,6 +34,8 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pyt=
-hon-${PV}.tar.xz \
->  	   file://0001-test_deadlock-skip-problematic-test.patch \
->  	   file://0001-test_active_children-skip-problematic-test.patch \
->             file://0001-test_readline-skip-limited-history-test.patch \
-> +           file://CVE-2026-7210-1.patch=C2=A0\
-> +           file://CVE-2026-7210-2.patch=C2=A0\
->             "
-> =20
->  SRC_URI:append:class-native =3D " \
-
-
---=20
-Yoann Congal
-Smile ECS
-
+--_000_OSZPR01MB7868E958149C84033E9B338C8BE42OSZPR01MB7868jpnp_--
 
