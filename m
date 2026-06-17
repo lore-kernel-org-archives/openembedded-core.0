@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 524EFCD98FB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76619CD98FC
 	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 07:45:40 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10388.1781682331838765260
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10216.1781682335435380796
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2026 00:45:32 -0700
+ Wed, 17 Jun 2026 00:45:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=bBCvxLTY;
- spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-462cdb88d01so173072f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 00:45:31 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=baMOpm6j;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4629324e170so375052f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 00:45:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781682330; x=1782287130; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1781682334; x=1782287134; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DSvP/NvN1t3/9H433a5MGzhTzF836fHRYB0mpjq3vhs=;
-        b=bBCvxLTYUNIToRrZrril1XsW+QxPL/JTGMe3q0ex54Banarn1Abdqd+64jlONGr9gX
-         7lqSnRmLKhPUGR4t0x7lYkVUVUS4oYsd2LL2c4hHKa8wYhD7VIQEz4QzI/i+m9H3Ige9
-         r8wkx577vk1XhzN3ZrKA+PVFBlu2VuCuRj1/E=
+        bh=2JbnHQbtrPP+NpYgyzB6NTZlsXsTBYaw1VYXFbbHmho=;
+        b=baMOpm6jzRJLxZ3uvZ/uSdR2+HrOY2R1EmWOdlqdtGYaNKYpwgajEIW8tUS7oxy5VY
+         2ahk20kr627DiadVVxKrA/GpSEs6UNujy4haKq72sjhZyG5EPpa/OUFFevzHJmPXvxxS
+         tCFHeBzOP7L8NpMTo9/zEZ/KC2O2JzJdaAWA8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781682330; x=1782287130;
+        d=1e100.net; s=20251104; t=1781682334; x=1782287134;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=DSvP/NvN1t3/9H433a5MGzhTzF836fHRYB0mpjq3vhs=;
-        b=MYpWvMgFq3DohXMpGJwN7rxO+Xu6YS6R46nd2RK5uCELS9mi6X4WKNxYJKIqhx9LqP
-         CbIM+g+sYoF5FfkjDUxGl+FaDROHK5WD32RPqTAppXbXr/bLKc9Za1Tg7hETX4OUlPqn
-         ZyurUFbeJYUs4Xf9F6q1gmq4G+pMnemstaZqJkvMZR/5mwi0iojB9m7y4leOViMHgvUQ
-         nkziTVC3K9Y5MgpxNdUJWWWIki+Ok0BTHGdwib+/ezrClOkMjwI8fd5s7K3ZswhICbmQ
-         28ZUQqvYV98vPjr8a1jxsGrJQeYKtp1bHMnhOSOg3grcwMehQvGIF765VUM9s+ORsVgz
-         Apeg==
-X-Gm-Message-State: AOJu0YztfrPHYmY9NAEyAqg5ojXgLaCKZ509WD6QRCREOmut7b6yx/K1
-	oXOzKD2GS0hkS78OCpLo3nJ1NSV0JJmMbS++dXYuPlH6OOpGL1DUC9vkfCrSKiVY+dVC7feaCdF
-	rDypG
-X-Gm-Gg: AfdE7ck+a/HVU8X+HQ9qXprqhorlxqpGSQuBGBe0BjVRw5NfgdNEcB3fur0OlgIclL2
-	mo40EDWbx2FiF6EuqCFfgRObGibmJXBu7v5jyfAYJMKKI1qhD8miit73gY0lRJGTCvehDz1Qcqw
-	USVBzMMdCJEaDh3lgSOLj6QDdw2pHrvHS08Slbirs1o+tKY60rdIdCC7ZjJ8rFDXfzI9J5bspOX
-	KQ/jxv+GT+PeAz26pzl6O3uZA/iBT48rq/X06NJW6elYvnsNa2GDOGf8+HdUxKGb7M/32/BUqjE
-	zvpRpc9ou205D/OoXyOTS/zYNDRI2JRn8N4tf8MZ6G+/SdJmAO6BC0X1k6eGY0kn76+pw5UQQ06
-	URoNd5pkr5gywNxbdW9rXZ8o5uNS1GKX+/62iF9tvQsAQft2epykr5I0N3f+gUicBrCKmt/I0RM
-	CEZuTW0JZF0MhLVT9oaYpofIBo+NMKFxNw06cSvzWXDWNJZcg0hlN423Wi664CMG2noTzj4bV/n
-	jlQ/Ro8TRZdXrmFzOocKAt80AKQ
-X-Received: by 2002:a05:6000:603:b0:463:1d06:ab33 with SMTP id ffacd0b85a97d-4631d06ab96mr206160f8f.27.1781682330101;
-        Wed, 17 Jun 2026 00:45:30 -0700 (PDT)
+        bh=2JbnHQbtrPP+NpYgyzB6NTZlsXsTBYaw1VYXFbbHmho=;
+        b=ouei/YG5KppiDJ6yXYi6n/FARk7VoIH868WZ41iHSLbqTIx9UiRm3mW4E9jPHm9Vfv
+         7MAWKiyXj21C7h0Ik1QMU5jUvIDsH35LCfQ3DVvWmfsAX4auDvdoJq4HNln2JA2VmdV+
+         VJPuB8ETlFKjCjZ8eev5HdpizOPBGt5uPknlysf/AwcuJBoIlFmXvX49luDjH3B4CGsR
+         Yvad8Ew2lukjJbd/4RSB9yWpsldu0V3ZxoPbYniiiCoV+cQ0FKcGJroJhoHF25//n9zJ
+         Yk7pNMNiGleEmLlYp1t9kACUFLSu1CQuqaN+l3BTQ/h5kunLLABDZ4tDy6t6ZRuFrC/6
+         xqNQ==
+X-Gm-Message-State: AOJu0YzzfAWG+n2rTk+JdZClyOrgMaplG6lzaEC4gNXp2RRWQrsFRlJs
+	e0hsFxIuyFk3buZuA/Wv+QMn0MHdD0rzn+SGr+zL392fXCqWNIptpH+WESDg/9IS01OYxNQiWez
+	q6q5w
+X-Gm-Gg: AfdE7cmHAmqdLTy8ZpGW2ulXOwf7jks4gWSi5/He2T/X/A0MD4kb1qq+frB465VN58s
+	5ulh1Ou8bUHMWP16aWRFn+c5OiFzjznmijeShYmtQfCOhvcE/y6lDDtvGAx/uSbMbMiKAKP3edE
+	SViPgsRrZXBdu9NFWD8jmrCSAWFWmn9WsOpIgsFsZRWrF+RHHzP7+JFkn97Nkkiic/80FoQEJjs
+	sYAmtx4Vfgk2T4xfug5CQBporL42o+ql2TBjkCJL0vcL6TTC1u/fMipbomOk8ulnSNk7BNScnKb
+	W+xyCz4FXxvupHuPKqmtvodUm9ttVnACYPWf7Ig6OyTT8LKODyCdy6ZCQB/P8DsdJg29wVfwZUZ
+	SuxUGz2fpTW/ACtdtblYbIYQAruzysJMMKXPZj5Sm0rRxD3Sd5jsE+Vfvf6njJ+le1+V38wRlTu
+	UYLoZeGldjn4ILCiFsNmJii0EhpuSfVLSaSZiUJw48uLXV/eiWaFkkrt5TmtL3X7RBaiBIx2OH/
+	IhAgbdwD6cThvWIlGlOX1JQyEnZ
+X-Received: by 2002:a5d:4e47:0:b0:460:3234:2940 with SMTP id ffacd0b85a97d-46239b1ed67mr3630234f8f.43.1781682333667;
+        Wed, 17 Jun 2026 00:45:33 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00bc19bde07170effe.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:bc19:bde0:7170:effe])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4619b9b7750sm23483215f8f.6.2026.06.17.00.45.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4619b9b7750sm23483215f8f.6.2026.06.17.00.45.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 00:45:29 -0700 (PDT)
+        Wed, 17 Jun 2026 00:45:33 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/30] libxml-parser-perl: fix for CVE-2006-10003
-Date: Wed, 17 Jun 2026 09:44:42 +0200
-Message-ID: <2abf26e7551a8a306d6aaabc9653f655f66b15a1.1781682189.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 12/30] xserver-xorg: Fix CVE-2026-34001
+Date: Wed, 17 Jun 2026 09:44:47 +0200
+Message-ID: <b85d3abfc5a1fd05c3a82f1f03579df493094719.1781682189.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1781682189.git.yoann.congal@smile.fr>
 References: <cover.1781682189.git.yoann.congal@smile.fr>
@@ -66,114 +66,143 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 07:45:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238989
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238994
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Pick patch from [1].
+Pick patch according to [1]
 
-[1] https://security-tracker.debian.org/tracker/CVE-2006-10003
+[1] https://lists.x.org/archives/xorg-announce/2026-April/003677.html
+[2] https://security-tracker.debian.org/tracker/CVE-2026-34001
 
-More details :
-https://nvd.nist.gov/vuln/detail/CVE-2006-10003
-
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libxml-parser-perl/CVE-2006-10003.patch   | 73 +++++++++++++++++++
- .../perl/libxml-parser-perl_2.47.bb           |  1 +
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
+ .../xserver-xorg/CVE-2026-34001.patch         | 104 ++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_21.1.18.bb      |   1 +
+ 2 files changed, 105 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34001.patch
 
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch b/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34001.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34001.patch
 new file mode 100644
-index 00000000000..e9a4b692d2d
+index 00000000000..a438f5ffcdd
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
-@@ -0,0 +1,73 @@
-+From 08dd37c35ec5e64e26aacb8514437f54708f7fd1 Mon Sep 17 00:00:00 2001
-+From: Toddr Bot <toddbot@rinaldo.us>
-+Date: Mon, 16 Mar 2026 22:16:11 +0000
-+Subject: [PATCH] fix: off-by-one heap buffer overflow in st_serial_stack
-+ growth check
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34001.patch
+@@ -0,0 +1,104 @@
++From f19ab94ba9c891d801231654267556dc7f32b5e0 Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Wed, 18 Feb 2026 16:23:23 +0100
++Subject: [PATCH] miext/sync: Fix use-after-free in miSyncTriggerFence()
 +
-+When st_serial_stackptr == st_serial_stacksize - 1, the old check
-+(stackptr >= stacksize) would not trigger reallocation. The subsequent
-+++stackptr then writes at index stacksize, one element past the
-+allocated buffer.
++As reported by valgrind:
 +
-+Fix by checking stackptr + 1 >= stacksize so the buffer is grown
-+before the pre-increment write.
++  == Invalid read of size 8
++  ==    at 0x568C14: miSyncTriggerFence (misync.c:140)
++  ==    by 0x540688: ProcSyncTriggerFence (sync.c:1957)
++  ==    by 0x540CCC: ProcSyncDispatch (sync.c:2152)
++  ==    by 0x4A28C5: Dispatch (dispatch.c:553)
++  ==    by 0x4B0B24: dix_main (main.c:274)
++  ==    by 0x42915E: main (stubmain.c:34)
++  ==  Address 0x17e35488 is 8 bytes inside a block of size 16 free'd
++  ==    at 0x4843E43: free (vg_replace_malloc.c:990)
++  ==    by 0x53D683: SyncDeleteTriggerFromSyncObject (sync.c:169)
++  ==    by 0x53F14D: FreeAwait (sync.c:1208)
++  ==    by 0x4DFB06: doFreeResource (resource.c:888)
++  ==    by 0x4DFC59: FreeResource (resource.c:918)
++  ==    by 0x53E349: SyncAwaitTriggerFired (sync.c:701)
++  ==    by 0x568C52: miSyncTriggerFence (misync.c:142)
++  ==    by 0x540688: ProcSyncTriggerFence (sync.c:1957)
++  ==    by 0x540CCC: ProcSyncDispatch (sync.c:2152)
++  ==    by 0x4A28C5: Dispatch (dispatch.c:553)
++  ==    by 0x4B0B24: dix_main (main.c:274)
++  ==    by 0x42915E: main (stubmain.c:34)
++  ==  Block was alloc'd at
++  ==    at 0x4840B26: malloc (vg_replace_malloc.c:447)
++  ==    by 0x5E50E1: XNFalloc (utils.c:1129)
++  ==    by 0x53D772: SyncAddTriggerToSyncObject (sync.c:206)
++  ==    by 0x53DCA8: SyncInitTrigger (sync.c:414)
++  ==    by 0x5409C7: ProcSyncAwaitFence (sync.c:2089)
++  ==    by 0x540D04: ProcSyncDispatch (sync.c:2160)
++  ==    by 0x4A28C5: Dispatch (dispatch.c:553)
++  ==    by 0x4B0B24: dix_main (main.c:274)
++  ==    by 0x42915E: main (stubmain.c:34)
 +
-+Add a deep nesting test (600 levels) to exercise this code path.
++When walking the list of fences to trigger, miSyncTriggerFence() may
++call TriggerFence() for the current trigger, which end up calling the
++function SyncAwaitTriggerFired().
 +
-+Fixes #39
++SyncAwaitTriggerFired() frees the entire await resource, which removes
++all triggers from that await - including pNext which may be another
++trigger from the same await attached to the same fence.
 +
-+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
++On the next iteration, ptl = pNext points to freed memory...
 +
-+CVE: CVE-2006-10003
-+Upstream-Status: Backport [https://github.com/cpan-authors/XML-Parser/commit/08dd37c35ec5e64e26aacb8514437f54708f7fd1]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++To avoid the issue, we need to restart the iteration from the beginning
++of the list each time a trigger fires, since the callback can modify the
++list.
++
++CVE-2026-34001, ZDI-CAN-28706
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with TrendAI Zero Day Initiative
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2176>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/f19ab94ba9c891d801231654267556dc7f32b5e0]
++CVE: CVE-2026-34001
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ Expat/Expat.xs   |  2 +-
-+ t/deep_nesting.t | 22 ++++++++++++++++++++++
-+ 2 files changed, 23 insertions(+), 1 deletion(-)
-+ create mode 100644 t/deep_nesting.t
++ miext/sync/misync.c | 18 ++++++++++++------
++ 1 file changed, 12 insertions(+), 6 deletions(-)
 +
-+diff --git a/Expat/Expat.xs b/Expat/Expat.xs
-+index dbad380..f04a0cf 100644
-+--- a/Expat/Expat.xs
-++++ b/Expat/Expat.xs
-+@@ -499,7 +499,7 @@ startElement(void *userData, const char *name, const char **atts)
-+     }
-+   }
++diff --git a/miext/sync/misync.c b/miext/sync/misync.c
++index 0931803..e11eba2 100644
++--- a/miext/sync/misync.c
+++++ b/miext/sync/misync.c
++@@ -131,16 +131,22 @@ miSyncDestroyFence(SyncFence * pFence)
++ void
++ miSyncTriggerFence(SyncFence * pFence)
++ {
++-    SyncTriggerList *ptl, *pNext;
+++    SyncTriggerList *ptl;
+++    Bool triggered;
 + 
-+-  if (cbv->st_serial_stackptr >= cbv->st_serial_stacksize) {
-++  if (cbv->st_serial_stackptr + 1 >= cbv->st_serial_stacksize) {
-+     unsigned int newsize = cbv->st_serial_stacksize + 512;
++     pFence->funcs.SetTriggered(pFence);
 + 
-+     Renew(cbv->st_serial_stack, newsize, unsigned int);
-+diff --git a/t/deep_nesting.t b/t/deep_nesting.t
-+new file mode 100644
-+index 0000000..8237b5f
-+--- /dev/null
-++++ b/t/deep_nesting.t
-+@@ -0,0 +1,22 @@
-++BEGIN { print "1..1\n"; }
-++
-++# Test for deeply nested elements to exercise st_serial_stack reallocation.
-++# This catches off-by-one errors in the stack growth check (GH #39).
-++
-++use XML::Parser;
-++
-++my $depth = 600;
-++
-++my $xml = '';
-++for my $i (1 .. $depth) {
-++    $xml .= "<e$i>";
-++}
-++for my $i (reverse 1 .. $depth) {
-++    $xml .= "</e$i>";
-++}
-++
-++my $p = XML::Parser->new;
-++eval { $p->parse($xml) };
-++
-++print "not " if $@;
-++print "ok 1\n";
++     /* run through triggers to see if any fired */
++-    for (ptl = pFence->sync.pTriglist; ptl; ptl = pNext) {
++-        pNext = ptl->next;
++-        if ((*ptl->pTrigger->CheckTrigger) (ptl->pTrigger, 0))
++-            (*ptl->pTrigger->TriggerFired) (ptl->pTrigger);
++-    }
+++    do {
+++	triggered = FALSE;
+++	for (ptl = pFence->sync.pTriglist; ptl; ptl = ptl->next) {
+++	    if ((*ptl->pTrigger->CheckTrigger) (ptl->pTrigger, 0)) {
+++                (*ptl->pTrigger->TriggerFired) (ptl->pTrigger);
+++		triggered = TRUE;
+++		break;
+++	    }
+++        }
+++    } while (triggered);
++ }
++ 
++ SyncScreenFuncsPtr
 +-- 
-+2.50.1
++2.43.0
 +
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
-index 803164f713d..6a36b763a83 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.47.bb
-@@ -8,6 +8,7 @@ DEPENDS += "expat"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
+index 658a608b5ea..dfed2c2437c 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.18.bb
+@@ -7,6 +7,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+             file://0004-xkb-Prevent-overflow-in-XkbSetCompatMap.patch \
+             file://CVE-2026-33999.patch \
+             file://CVE-2026-34000.patch \
++            file://CVE-2026-34001.patch \
+             "
+ SRC_URI[sha256sum] = "c878d1930d87725d4a5bf498c24f4be8130d5b2646a9fd0f2994deff90116352"
  
- SRC_URI = "${CPAN_MIRROR}/authors/id/T/TO/TODDR/XML-Parser-${PV}.tar.gz \
-            file://0001-Makefile.PL-make-check_lib-cross-friendly.patch \
-+           file://CVE-2006-10003.patch \
-            "
- 
- SRC_URI[sha256sum] = "ad4aae643ec784f489b956abe952432871a622d4e2b5c619e8855accbfc4d1d8"
 
