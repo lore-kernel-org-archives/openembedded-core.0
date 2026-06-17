@@ -2,62 +2,64 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EDC3CD98F0
-	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 07:06:49 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9944.1781680006637597598
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F55CCD98E2
+	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 07:15:49 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10034.1781680536127165424
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2026 00:06:47 -0700
+ Wed, 17 Jun 2026 00:15:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T2anmJdh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-462bb734793so185622f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 00:06:46 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dvnzFTDR;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.218.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bef47b1ac01so806645666b.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 00:15:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1781680005; x=1782284805; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1781680534; x=1782285334; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=48OBZ6wpOXmSTxwgQevOUp1kHOzDKn1FeaXiocIxG14=;
-        b=T2anmJdhGVRxKNRkmXVVY7sbkVg46iOmEG9ZRBweC8MKbkhumFpiZzccn1a+aNKeUK
-         VwoQ71NH5n9Yb3g45Jy+C7Qp6UFUbHwsJHsThyG0JKdMY32Z0WSwp6VgA7kD5zwUdwkW
-         IjRpWBtkZCwGYL1ZtkwzSOOVOBkwCdjoskpk4=
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=gQITHdCs3wTviKT88ph5GP55WCHfyqvbERXrsVBcisA=;
+        b=dvnzFTDRJM+mDl9LKnV7VSnZeZuGAURK6ukTVXolVcE+KfPSFx4nDRO5L+VtNsM0hn
+         8llmaMYHE+50qHMsh+Y789aOb8pEIhDLVTkxt1VYWzPi4GbDBgXLA4IfasaaITZOhd5m
+         o2X7IveldxQDfOxNLKTI2AB0SHlYAH5qHFn4k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781680005; x=1782284805;
+        d=1e100.net; s=20251104; t=1781680534; x=1782285334;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=48OBZ6wpOXmSTxwgQevOUp1kHOzDKn1FeaXiocIxG14=;
-        b=nnVnMHSM7Sg54oY9TtPP8vQylVaqu9Sr2qe/+1yQRzB2llriUU0izBNOoqsZjPPP66
-         Y/jdDGysN9nxbgS9pcvZgYdEBDEkTE5MJmR1NzEHaQryUmWppwq7n6Tj4X/W6swnxdiR
-         v6ydLECgI+ujfmcpdAnhAefhR5PZdkmKYGOkZwpjIhULaI80xjexFr9XPz2Wamdn9rBI
-         hB20k+Hx47mWrxHqhbwk6AylgjuvZ6bz94V3w89xu5tHZSPe+w99tzeFgdNrGZfpcmub
-         9fFiVm0ffk2zvBYOzjZB18IHWI2X5iCCvM2/XCCgkgrRfv8v2ugw70e77z3jrlEFapc1
-         IBkA==
-X-Forwarded-Encrypted: i=1; AFNElJ+hoMDrsrh7kK2uJuau4kvJADlVk5NNR3rSViocU1zklWpyYzT91oZ3Gw/FEov/SupLXucx8Osk8bxlXBj67bfWBw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxsDDcAg/JYPkMaQQ9ln8NSVQDiRqiP8tbit3EbN6v3UKjgcJ3z
-	N3PNjwgv6jn5lqtfXiHk3hVOSQbqyr1qML7G4XDCeqsdj4In4mTVo65xXIjh5uzM/6s=
-X-Gm-Gg: AfdE7cmYZAWdAQUe00rkC0bf65Sqtmy0YRAHO+MmvsdHZAiikvhrIKmgbQCa5+9PCIa
-	B4PLL1XI6WYNzuDsKt6KXYLb4iwlQL34a5m50oYIaIsSKHiH+Pf5fgfoPEnjrK0tZFpzh8+H2zW
-	A8NNjzqf6J+S2AyQjxujjAhppO2R7cIwXiOn2iF2xSBpBjxyrOiHZ12PvsNi42LB+iys9/ML9iW
-	H0WzBylVmtMQLfqWOEYkHcxcvgdCZNmgg718B4WnU9jM9J92+NjMoEqK/GKMSPVSfomTkj8y603
-	ckN7tHb5k6+bJeFhs0BxJlPKf46lUG9f0bs8v3w7D6E/OTv56Kel0QWotDNEEU/cSUsHgeFDsS9
-	lATP9tNLp0atfNHKa2qS22Nw0Uue8l9z21vhwkgPTYZC2Lwpbp6dIyAGDHR7gP+Mn2BlOVTWeeP
-	42nLT6rEcNVol0fcnG3qj6A4ebUIlKO0m659z8pfnr5U8ixOVKQq04lr5IBS3PUQNBLVqXTRJxA
-	6EOpQ==
-X-Received: by 2002:a5d:5d81:0:b0:460:3233:beef with SMTP id ffacd0b85a97d-4623936ca7bmr4168825f8f.43.1781680004637;
-        Wed, 17 Jun 2026 00:06:44 -0700 (PDT)
+        bh=gQITHdCs3wTviKT88ph5GP55WCHfyqvbERXrsVBcisA=;
+        b=CfkPKnoNOfiONMmQaZfM5wahhaiqP+H2fUUQ/6mB3cv3USOHBBh1VR5cQQVVQuKsUD
+         OtCvuBnTj4zuujNOgqQNxht2MJkLX6Z+10J1GispoJzPjyVyUlENtIVLG20DN/33BQUS
+         SYyj+Gfz8RUl02rb54LhF5AJN/RbVleZ2QZv+LEKF+yHBRMOKILW1ezl64YphTmM4s0Z
+         83dAQ5r2JDflQHT5h1oudY0UMuGONgBqt7lXVOEZvW70B4pGWu4EZ5iZhDLs/hby0WNa
+         j9AILv72yvYaiCNYLKeN78jpYhJQZ5VUgJqcMC1r69OO2KfFA7L6VUHTqnEpqoTwjhr0
+         gr0A==
+X-Forwarded-Encrypted: i=1; AFNElJ/iRCA0XJXXtJ2aHp7dwL+Yt077EYow6JweTnMX9kQFK8ay4+vcF7kVMtb83MhYR00JkOh3Fj2A+fBqf6sXD/+J4A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxS/bqJA2yH/YLV4GvOlIjhEPHhIVqYyFUKafdkG25+RGWn4WDd
+	I1hqiKNffzTmfmPmfZelKi5X1eNz2H9fo1kfbpWmEay6RxfLVa/zkiMZvk6uTqTJ7hXJgTyZ2XU
+	bqFd4
+X-Gm-Gg: Acq92OE+ggqjtL7cFYc55yXmBzqsOAFsYIM1W21+J4kiXZyAlD8x8ZlxFh56opsLEt1
+	LY6T5+YsjXqoU43EdDiXwuYWi8oKtlyfWMysgcIItiKTlWPkSQDvk8KxbTrlhNhXgCWoAuBjWGw
+	ZKR/2MkSKKIEALEnCjxducgS6PPoYmE97QCmctLAsfbz5ATa/BmptqZEur38DomjWjH896M7bYM
+	lKV2IC/hAg/WwnPngbWXYSEEOhSFiOvg1VNovhnYEXzVmzf9CQcbErjU9FVZMW5DwkPB8gV9Ofg
+	aB/L4JFObugkAh/o3pEyJosPjwq3cC5GGUkfLfHBuEt4+7TvPZkwilGEkhOCBPXfEoIRlfUMpQD
+	TaaqNQ4Ec/7Sa9olp6dyXqE/w4ij0+yzuU9ParcVKJFqMnJLgLQ1QjsLas+wpjV7u9OELDYwOJa
+	o4vMuHGwoy4YWXGuQyI0jwtZHhW1G5N9vXtmkFfXZwN8qTKXy3OGqUchDjJAzs70vbRouSdtiZa
+	jbP9A==
+X-Received: by 2002:a17:907:c1d:b0:c05:8527:87a8 with SMTP id a640c23a62f3a-c05a85a86f4mr185783666b.34.1781680534192;
+        Wed, 17 Jun 2026 00:15:34 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:1e34:81e7:2ec0:d3d5? ([2001:8b0:aba:5f3c:1e34:81e7:2ec0:d3d5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2c473bsm55539737f8f.28.2026.06.17.00.06.43
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bfdb7b6dbbcsm768088766b.32.2026.06.17.00.15.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 00:06:44 -0700 (PDT)
-Message-ID: <adc319e66320caeb6bed61ed0c57a6e404af50d7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/3] wget: remove pcre packageconfig option
+        Wed, 17 Jun 2026 00:15:33 -0700 (PDT)
+Message-ID: <31dce542911b3516d49f423f53d48f94be8bbd94.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] gcc: Upgrade GCC to 15.3 release
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: peter.marko@siemens.com, openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jun 2026 08:06:43 +0100
-In-Reply-To: <20260616194959.3748347-1-peter.marko@siemens.com>
-References: <20260616194959.3748347-1-peter.marko@siemens.com>
+To: Hemanth.KumarMD@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+Date: Wed, 17 Jun 2026 08:15:32 +0100
+In-Reply-To: <20260617054716.1343535-1-Hemanth.KumarMD@windriver.com>
+References: <20260617054716.1343535-1-Hemanth.KumarMD@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-9 
@@ -65,41 +67,73 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 07:06:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238980
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 07:15:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238981
 
-On Tue, 2026-06-16 at 21:49 +0200, Peter Marko via lists.openembedded.org w=
-rote:
-> From: Peter Marko <peter.marko@siemens.com>
+On Tue, 2026-06-16 at 22:47 -0700, Hemanth Kumar M D via lists.openembedded=
+.org wrote:
+> From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 >=20
-> libpcre is obsolete project replaced by libpcre2.
-> Also libpcre2 is the current default packageconfig option.
+> - Added support for AVR32EB14/20/28/32, AVR16LA14/20/28/32, and
+> =C2=A0 AVR32LA14/20/28/32 devices
+> - Added IEEE double functions sincos and sincosl support
 >=20
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> * Drop backports available in this release.
+>=20
+> Release notes: https://gcc.gnu.org/gcc-15/changes.html
+> Docs: https://gcc.gnu.org/onlinedocs/15.3.0/
+> Bug fixes: https://gcc.gnu.org/bugzilla/buglist.cgi?bug_status=3DRESOLVED=
+&list_id=3D522382&resolution=3DFIXED&target_milestone=3D15.3
+>=20
+> Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 > ---
-> =C2=A0meta/recipes-extended/wget/wget_1.25.0.bb | 1 -
-> =C2=A01 file changed, 1 deletion(-)
->=20
-> diff --git a/meta/recipes-extended/wget/wget_1.25.0.bb b/meta/recipes-ext=
-ended/wget/wget_1.25.0.bb
-> index f0d3458462..28e27396a4 100644
-> --- a/meta/recipes-extended/wget/wget_1.25.0.bb
-> +++ b/meta/recipes-extended/wget/wget_1.25.0.bb
-> @@ -34,7 +34,6 @@ PACKAGECONFIG[iri] =3D "--enable-iri,--disable-iri,libi=
-dn2"
-> =C2=A0PACKAGECONFIG[libpsl] =3D "--with-libpsl,--without-libpsl,libpsl"
-> =C2=A0PACKAGECONFIG[libuuid] =3D "--with-libuuid,--without-libuuid,util-l=
-inux"
-> =C2=A0PACKAGECONFIG[openssl] =3D "--with-ssl=3Dopenssl,,openssl"
-> -PACKAGECONFIG[pcre] =3D "--enable-pcre,--disable-pcre,libpcre"
-> =C2=A0PACKAGECONFIG[pcre2] =3D "--enable-pcre2,--disable-pcre2,libpcre2"
-> =C2=A0PACKAGECONFIG[zlib] =3D "--with-zlib,--without-zlib,zlib"
+> =C2=A0meta/conf/distro/include/maintainers.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A0.../gcc/{gcc-15.2.inc =3D> gcc-15.3.inc}=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 ++++--=
+-----
+> =C2=A0...ss-canadian_15.2.bb =3D> gcc-cross-canadian_15.3.bb} |=C2=A0 0
+> =C2=A0.../gcc/{gcc-cross_15.2.bb =3D> gcc-cross_15.3.bb}=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 0
+> =C2=A0.../{gcc-crosssdk_15.2.bb =3D> gcc-crosssdk_15.3.bb}=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 0
+> =C2=A0.../gcc/{gcc-runtime_15.2.bb =3D> gcc-runtime_15.3.bb}=C2=A0 |=C2=
+=A0 0
+> =C2=A0...{gcc-sanitizers_15.2.bb =3D> gcc-sanitizers_15.3.bb} |=C2=A0 0
+> =C2=A0.../gcc/{gcc-source_15.2.bb =3D> gcc-source_15.3.bb}=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 0
+> =C2=A0.../recipes-devtools/gcc/{gcc_15.2.bb =3D> gcc_15.3.bb} |=C2=A0 0
+> =C2=A0...{libgcc-initial_15.2.bb =3D> libgcc-initial_15.3.bb} |=C2=A0 0
+> =C2=A0.../gcc/{libgcc_15.2.bb =3D> libgcc_15.3.bb}=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 0
+> =C2=A0.../gcc/{libgfortran_15.2.bb =3D> libgfortran_15.3.bb}=C2=A0 |=C2=
+=A0 0
+> =C2=A012 files changed, 5 insertions(+), 8 deletions(-)
+> =C2=A0rename meta/recipes-devtools/gcc/{gcc-15.2.inc =3D> gcc-15.3.inc} (=
+92%)
+> =C2=A0rename meta/recipes-devtools/gcc/{gcc-cross-canadian_15.2.bb =3D> g=
+cc-cross-canadian_15.3.bb} (100%)
+> =C2=A0rename meta/recipes-devtools/gcc/{gcc-cross_15.2.bb =3D> gcc-cross_=
+15.3.bb} (100%)
+> =C2=A0rename meta/recipes-devtools/gcc/{gcc-crosssdk_15.2.bb =3D> gcc-cro=
+sssdk_15.3.bb} (100%)
+> =C2=A0rename meta/recipes-devtools/gcc/{gcc-runtime_15.2.bb =3D> gcc-runt=
+ime_15.3.bb} (100%)
+> =C2=A0rename meta/recipes-devtools/gcc/{gcc-sanitizers_15.2.bb =3D> gcc-s=
+anitizers_15.3.bb} (100%)
+> =C2=A0rename meta/recipes-devtools/gcc/{gcc-source_15.2.bb =3D> gcc-sourc=
+e_15.3.bb} (100%)
+> =C2=A0rename meta/recipes-devtools/gcc/{gcc_15.2.bb =3D> gcc_15.3.bb} (10=
+0%)
+> =C2=A0rename meta/recipes-devtools/gcc/{libgcc-initial_15.2.bb =3D> libgc=
+c-initial_15.3.bb} (100%)
+> =C2=A0rename meta/recipes-devtools/gcc/{libgcc_15.2.bb =3D> libgcc_15.3.b=
+b} (100%)
+> =C2=A0rename meta/recipes-devtools/gcc/{libgfortran_15.2.bb =3D> libgfort=
+ran_15.3.bb} (100%)
 
-Either this should be left, or it should be turned into a --disable-
-pcre in EXTRA_OECONF. Removing it entirely risks determinism issues,
-even if it is unlikely in this specific case due to pcre2.
-
-Thanks for spotting the removal though!
+Thanks for the patch! Shouldn't there be some patches being deleted
+here since they're no longer used?
 
 Cheers,
 
