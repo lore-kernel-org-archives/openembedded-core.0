@@ -1,133 +1,211 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2289CD98E4
-	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 09:40:54 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.64])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11736.1781689251591804801
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E148CD98E2
+	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 09:56:15 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11892.1781690172994810544
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2026 02:40:52 -0700
+ Wed, 17 Jun 2026 02:56:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=Lt9bEK9j;
- spf=pass (domain: axis.com, ip: 52.101.83.64, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n6jLBWMaZ+ycHS74tWyBLXzwV84uIYkeC3hNBUFgKAVu6CquzucTCTxXBH9MZBNSPUZrnBtJ7wuzAeryKJPIH/TY3k7C7XT79PHbZXE7iXU/xMF53/3FLT23VYFom13BW+9cGrU44+uyOQZm/vTGc8VfbIeyx2jTfJNJX3E2SM6TzBaHPwo1tBrGvBujXayC8LEDWKm34zlD3+ZztL3eb/eESswz3pmbcimG5djvEZIb1FvLR9Z+WhsV3uIUs2B5AlmM2V2GjAbk6viEFzBVAHb20dSGKDLpulVOWoQCx4g6dVLr+GV22e0E6uPjCYkglRqDBeeKroAVP1bH/5uB5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TPSMY7q9Mbzg4/RRAGEdjNC2Vtie8TJHGLY/g9ZfqYg=;
- b=UH4jHLmj+8WUyuqZDbwKQIxblv1J7Yh9W9TSWrKi9QmbzSp0GDPkrUdUJa0SWxfI0WkcpuoAfLQ6pStWWtJjcSTlW8J3tvxleESj8JgL1MZk1EOsX1E+DsQbBqUwviBLvWWHjNm6WjI1qyZ7xSXF0tUl3eVkDg8q1jZrom3UU8uQbpRCjUGDgeEjTYJFltSp8KeuRBcWuuNiquy07j3JV4tiD2NZHrLYhKSoVpAO3WBgPBUG7NAAmjgOg47zOZkmHgMmjnFAT2LVj9rfbLfSQXE8ulJtpvOm/vEs19raYlRh6HAT1hNrPs5aEZb9imQGul/9sG0YT7IYsrMd4G78JQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TPSMY7q9Mbzg4/RRAGEdjNC2Vtie8TJHGLY/g9ZfqYg=;
- b=Lt9bEK9jEG9N5kZO1gqFwgy3MHM21jQFkVZdZssfvKL7zrLNz5tTyrnkE6dWSRSYABFbI7S0H6X/XJyIaeOVrM3/erm0VCKqrmqcCDHI1ZwRaKIwGZIcfJ2svZW+M7FPRuq7JZVCZRCXf/aTXTjRptgniuRCadk/EZ03v16WiD4=
-Received: from DU7P195CA0012.EURP195.PROD.OUTLOOK.COM (2603:10a6:10:54d::22)
- by AS8PR02MB9316.eurprd02.prod.outlook.com (2603:10a6:20b:57f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.16; Wed, 17 Jun
- 2026 09:40:40 +0000
-Received: from DU6PEPF0000A7E0.eurprd02.prod.outlook.com
- (2603:10a6:10:54d:cafe::2f) by DU7P195CA0012.outlook.office365.com
- (2603:10a6:10:54d::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.11 via Frontend Transport; Wed,
- 17 Jun 2026 09:40:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DU6PEPF0000A7E0.mail.protection.outlook.com (10.167.8.39) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.139.8 via Frontend Transport; Wed, 17 Jun 2026 09:40:40 +0000
-Received: from se-mail10w.axis.com (10.20.40.10) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Wed, 17 Jun
- 2026 11:40:39 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
- Transport; Wed, 17 Jun 2026 11:40:39 +0200
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id C0B352A22
-	for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 11:40:39 +0200 (CEST)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id B6774129561; Wed, 17 Jun 2026 11:40:39 +0200 (CEST)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] toaster.bbclass: Support layers that are not Git repositories
-Date: Wed, 17 Jun 2026 11:40:37 +0200
-Message-ID: <20260617094037.104230-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=F4zGu0GZ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8ce9df31130so82045816d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 02:56:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781690172; cv=none;
+        d=google.com; s=arc-20240605;
+        b=lUXqVvdUDcx/ar+UdaGzW9Dm491qIn6UFZO7KOv9ViGMbEZUtM1/LTflDaYZ3cf9PD
+         pR1UhAkjlKbh9rO4HgTKiWp5gbxl9OvTi6CjFDJ3/Qcyy7CseRRHRvLtKGB0okf/2eb/
+         8US0vFDlu7AzMcCk7w2a1tyK2pWUVx3iFlA0RCdHuRBWNVbehlsd+cC7seD5yi7Wku0R
+         h2uvu+3ILuiPWAkDR2WeAXKwC/+CiP3RkdBmgK+Ur+Wj8jCcKivarTgVKzecKYZVmi0R
+         iFb0br4vc34IVdflGcLJDOzLTx8zDXtU22DltC/7stv+/aRpXkA8/FyGUe7vxE1RMphk
+         1FXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=tQu7RCEcp904zk+S//G0TKPg4JGBeBMRyi6PaeO4iNs=;
+        fh=Ab5QchtAs08eZNSFiBl6MfJNprT6k/vVQ8w3IX57Q1U=;
+        b=k+y0k7TJRLhSowJ/IHp4tNDQ0SNUyRsFMoRIBfMOqT0LSTMziSTbRYhHF3T0Tlla7K
+         RcmRaP+J74yKEqFSnZ4GA+u7wT31byyO2/nmudgpVM47/N683Y2sc9CDPvimt/scFx78
+         lWuPVLzXuC6GgTjsUtAarsUEVrzK33b9MA8H46HJv2QSsKpHjnIi8mehIK7tw+43oCYJ
+         nthxnVjyWldEZMbC4kXV6caiMMP9pjPluEXrlb744L/62RSVAukfZ3zHDKizam1lL28P
+         DSiPVOTuGqGS4HAw+KXfNBMPmjU32m01bSIV211HPXeNwWxog/fftIhWajDYXKGsTq47
+         yMxw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781690172; x=1782294972; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=tQu7RCEcp904zk+S//G0TKPg4JGBeBMRyi6PaeO4iNs=;
+        b=F4zGu0GZRAyI8hIAZcCO055fN2TvzcWYLM4KdIp0Y4mGB5FT0yyZplyqFSM+KN7oiV
+         h5tnUK4U73jnwo0gftDJDpnZVlmA3ZjnFEh4me0XBIwXqFf3QUzCZbv79D4NOuZ8tidJ
+         unrzt74EfvsdNozBb3qGaJUvofUqgEYdo8TEPTSfYslHo0hILpXUxOmA0wtcHbUaMszO
+         EP2O9u3ME5KBPFVUXhgNx1jznCOFnsHUEFhIhK0XIVXStQbdHTilaejZy1lmm59uKD3m
+         q5vloPlYNSr4c3dh8g1S7Azpba87FQ332Q+cOFhvodKHVmB6EiiBBFOrg2kzpT8bICg9
+         /hyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781690172; x=1782294972;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tQu7RCEcp904zk+S//G0TKPg4JGBeBMRyi6PaeO4iNs=;
+        b=hprkrQvtxQg3n9wcp7YUuGCNYHRn6O+DeY/ZSefxjcOHGIaKarPqAyaaW4LDiBJusc
+         MYSyPPyoifMSyQt+2MArYMZe/9zxqYC/cU7ectTJzjwa+mVM0HALgh0MrGJ76Yy84qKd
+         9pFc27ql2zJz9MRwM03dQBHNOWPY9JWaL+l1hq+drhSXvpkYArIntOHq3+jN9AGeh7fa
+         CbWohoPllCVRS7uT6kc1pJBic7Wprm6vo8HnSj+Kt7Jaf8Z5uhXtk+/YL9wxjWYYZyVm
+         2iwRqDk0v96SBNYydL6izp+R4e13RTirGUVFzPiVn22xBKcmY8EHVEYG7iySqqVGRZef
+         TFww==
+X-Gm-Message-State: AOJu0YxyPFjTK09Upk1wWcg6wuzo9BnSE+KeuIFgYo3SNRrUfkOdY8RF
+	lvBTg1Fh0w4izh/t3T9ExbWexcHP3WYJYQccyqoCSTTn7DCQkw5uB0BgrR4yb3EKHqTMg5s/QO2
+	7lIGG2yobwatxU5oXqm+IeTa5XNiDhvl/UA==
+X-Gm-Gg: AfdE7cmC4tQwywSu06yYYipsTv5oN1LtJluuNbRdGoEVPs0CBXum9CyF/p2hYtg15Za
+	RUcYNVhXABwUZkY1Rn5MjF8OByANOUC2UPC32hREeQnKxBnXh3YrtqIwk0/A/Iu7H+OF4kv7c3C
+	QxDXdncDqdwv9mJZB8WdXKBX847VUQPUZvEDmyK02r/jgUW1GPi6JRYhp7QPbGUu/MVI+kvZFKV
+	tgLhET4lbSCaiGy8L8+selQESAur6S/0OBZfN2tXzvELZD9viYV1YNsPhQE4RZgZDzcxhixx3oW
+	yzXg+MX4xNn22jbTzqnKrhmfQNE=
+X-Received: by 2002:ad4:4353:0:b0:8ce:b4aa:9caf with SMTP id
+ 6a1803df08f44-8db5b7ad845mr46799946d6.18.1781690171768; Wed, 17 Jun 2026
+ 02:56:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF0000A7E0:EE_|AS8PR02MB9316:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c3cf18f-81ea-4edd-25fe-08decc547e4b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|82310400026|36860700016|1800799024|11063799006|56012099006|6133799003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info: 
-	d2oIVdoAWLOOnNAn445U8Mdq4fRf2Wb38j6qqZK4qoEscJWjh/YQ/sOOymRY/2SrsplFJM9xSe6PVzZSr5l8QVC42RfDWKBz+d+xzqfFUFMrTeppTSQBPWq10CufK0I4HpmQzpjfkgFD3GWoSTB7GqIICD00jcjJFXn26cPZxiZpc5a3SrFuJiYlwwYIM6Djn3EDLSYg8yQZCnvafNxp95hICueFBpqNK+1K0Mhub7+JH/opUpmn4g2bp/oVRd899nizILDU0v13EAMvG4mqiKF2GHgbLMAbxCuNtHlZ2OLw8AoHOO4EVTRWAOdDknRv6//IpmWX7PZQKbMt5dN9ibvzzzqNrf4OV1whdgR8wMWr8njmkaLw3ypNycyKUfDmcURN+5cyt1I4iLIBFle4iooPolQWToAr4h2G09Irv9rMmKNteeHAWfnUcwGllM3ud+2FIqV8C2U8VUjhnob5HDlRY9qHzsOkSQAVEO6LNEUZEN1Iq1rkts70JTUOADDV/M8TJvXytNsX4Mca86Bw/238BkIQEHrszCYlpWrVTgP9RAh9Ef5duhyL6Tyvz9fMMLrfhXisjtYc4LpTf5h60/Mxyy0S3e59b7jOnFV2rUkKslEH1IRQbe7ypa8ABj1waNGByZV+ckUO5IcfmNnUNghu4nux51i6ULExuQxQ1Fkkdqz9IjtKIaVmn3YXafFw+RDxJyGjyaoDRYuLHrjXbs+na8FdylmiBfBfPiOnc5M=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(82310400026)(36860700016)(1800799024)(11063799006)(56012099006)(6133799003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	daU/ChEL9d8fq9pgXyYJmHVzM19yTC2jQfW8pjY2PE03R+rXxRHynHMbzgmQoLBaLHCxsOA/cm7m1Gm0c2Yv6e13pkyrWbYvs29hx7P5GVc6flN5AyqAboUAbyBknd0KyDopQY8jkEmLQdQctwoBfiDrVobyOs9DmqRqiiGHUkLafmT2nybkVq/WpwPXrUKGRc8oO+iX2wHbOtSVp+HMfotHv1RZQpn/2Gt9KY9TsIKY9sQTCiNa3nYdWCotZ6PBeB/82YNU4kykBxNUFzvmeSHfZhE0lb8u9d3AfCL9YFkmabvF8IkQR1VkhwVjqqS7NRLYLDOJ0f98LYrw3ALcbA5ir+Qokt8v98V2aWjTWYoOd0PhfgPK92VeiCWp5E4JAdF2tneVcLGkgIjpbhHeU4vli9038wfq3ZitVxstxabS3ZF6INjRKANCM1SgP2i9
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2026 09:40:40.0867
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c3cf18f-81ea-4edd-25fe-08decc547e4b
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF0000A7E0.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB9316
+References: <20260617093224.56557-1-ross.burton@arm.com>
+In-Reply-To: <20260617093224.56557-1-ross.burton@arm.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 17 Jun 2026 11:56:00 +0200
+X-Gm-Features: AVVi8CfNjvoUc8G8B-YYsCSluQl3WyNA_MNyk_eE73vCq70dBA8SFnV-tTT7Ggg
+Message-ID: <CANNYZj_kKi4sVZKLt2m6AT17CmFuSxx9YBKq2jk_yKvPkaACAA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] libaio: update SRC_URI
+To: ross.burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000c9c45206547011dc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 09:40:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239026
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 09:56:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239027
 
-Not all layers are Git repositories, e.g., the workspace layer created
-by devtool.
+--000000000000c9c45206547011dc
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/toaster.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Are there other Pagure items in core?
 
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index 5878230062..f6a6f87de5 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -32,12 +32,12 @@ python toaster_layerinfo_dumpdata() {
-     import subprocess
-=20
-     def _get_git_branch(layer_path):
--        branch =3D subprocess.check_output(['git', 'symbolic-ref', 'HEAD']=
-, cwd=3Dlayer_path, text=3DTrue).strip()
-+        branch =3D subprocess.run(['git', 'symbolic-ref', 'HEAD'], cwd=3Dl=
-ayer_path, text=3DTrue, stdout=3Dsubprocess.PIPE).stdout.strip()
-         branch =3D branch.replace('refs/heads/', '').rstrip()
-         return branch
-=20
-     def _get_git_revision(layer_path):
--        revision =3D subprocess.check_output(['git', 'rev-parse', 'HEAD'],=
- cwd=3Dlayer_path, text=3DTrue).strip()
-+        revision =3D subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=3Dla=
-yer_path, text=3DTrue, stdout=3Dsubprocess.PIPE).stdout.strip()
-         return revision
-=20
-     def _get_url_map_name(layer_name):
+Alex
+
+On Wed 17. Jun 2026 at 11.32, Ross Burton via lists.openembedded.org
+<ross.burton=arm.com@lists.openembedded.org> wrote:
+
+> libaio has moved to Codeberg as pagure.io will be closed down shortly.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-extended/libaio/libaio_0.3.113.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-extended/libaio/libaio_0.3.113.bb
+> b/meta/recipes-extended/libaio/libaio_0.3.113.bb
+> index 2392fd5db23..5f4c5547a11 100644
+> --- a/meta/recipes-extended/libaio/libaio_0.3.113.bb
+> +++ b/meta/recipes-extended/libaio/libaio_0.3.113.bb
+> @@ -5,7 +5,7 @@ HOMEPAGE = "http://lse.sourceforge.net/io/aio.html"
+>  LICENSE = "LGPL-2.1-or-later"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499"
+>
+> -SRC_URI = "git://pagure.io/libaio.git;protocol=https;branch=master \
+> +SRC_URI = "git://
+> codeberg.org/jmoyer/libaio.git;protocol=https;branch=master;tag=${BP}
+> <http://codeberg.org/jmoyer/libaio.git;protocol=https;branch=master;tag=$%7BBP%7D>
+> \
+>             file://00_arches.patch \
+>             file://libaio_fix_for_mips_syscalls.patch \
+>             file://system-linkage.patch \
+> --
+> 2.43.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#239025):
+> https://lists.openembedded.org/g/openembedded-core/message/239025
+> Mute This Topic: https://lists.openembedded.org/mt/119848149/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000c9c45206547011dc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Are there other Pagure items in core?</div><div dir=3D"au=
+to"><br></div><div dir=3D"auto">Alex=C2=A0</div><div><br><div class=3D"gmai=
+l_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed=
+ 17. Jun 2026 at 11.32, Ross Burton via <a href=3D"http://lists.openembedde=
+d.org">lists.openembedded.org</a> &lt;ross.burton=3D<a href=3D"mailto:arm.c=
+om@lists.openembedded.org">arm.com@lists.openembedded.org</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">libaio has moved t=
+o Codeberg as <a href=3D"http://pagure.io" rel=3D"noreferrer" target=3D"_bl=
+ank">pagure.io</a> will be closed down shortly.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
+t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-extended/libaio/<a href=3D"http://libaio_0.3.113.bb" rel=
+=3D"noreferrer" target=3D"_blank">libaio_0.3.113.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-extended/libaio/<a href=3D"http://libaio_0.3.113.=
+bb" rel=3D"noreferrer" target=3D"_blank">libaio_0.3.113.bb</a> b/meta/recip=
+es-extended/libaio/<a href=3D"http://libaio_0.3.113.bb" rel=3D"noreferrer" =
+target=3D"_blank">libaio_0.3.113.bb</a><br>
+index 2392fd5db23..5f4c5547a11 100644<br>
+--- a/meta/recipes-extended/libaio/<a href=3D"http://libaio_0.3.113.bb" rel=
+=3D"noreferrer" target=3D"_blank">libaio_0.3.113.bb</a><br>
++++ b/meta/recipes-extended/libaio/<a href=3D"http://libaio_0.3.113.bb" rel=
+=3D"noreferrer" target=3D"_blank">libaio_0.3.113.bb</a><br>
+@@ -5,7 +5,7 @@ HOMEPAGE =3D &quot;<a href=3D"http://lse.sourceforge.net/io=
+/aio.html" rel=3D"noreferrer" target=3D"_blank">http://lse.sourceforge.net/=
+io/aio.html</a>&quot;<br>
+=C2=A0LICENSE =3D &quot;LGPL-2.1-or-later&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dd8045f3b8f929c1cb29a1=
+e3fd737b499&quot;<br>
+<br>
+-SRC_URI =3D &quot;git://<a href=3D"http://pagure.io/libaio.git;protocol=3D=
+https;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">pagure.io/libai=
+o.git;protocol=3Dhttps;branch=3Dmaster</a> \<br>
++SRC_URI =3D &quot;git://<a href=3D"http://codeberg.org/jmoyer/libaio.git;p=
+rotocol=3Dhttps;branch=3Dmaster;tag=3D$%7BBP%7D" rel=3D"noreferrer" target=
+=3D"_blank">codeberg.org/jmoyer/libaio.git;protocol=3Dhttps;branch=3Dmaster=
+;tag=3D${BP}</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://00_arches.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://libaio_fix_for_mips_syscal=
+ls.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://system-linkage.patch \<br>
+-- <br>
+2.43.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#239025): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/239025" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/239025</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119848149/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/119848149/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000c9c45206547011dc--
 
