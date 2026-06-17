@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D57CD98ED
-	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 07:48:12 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10268.1781682491070214591
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 109FFCD98F5
+	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 07:48:14 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10439.1781682488333451997
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2026 00:48:11 -0700
+ Wed, 17 Jun 2026 00:48:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3BB1p7y3;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-45ef29c5561so2921331f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 00:48:10 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=uQKvKGEU;
+ spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4619990ca5fso1952281f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 00:48:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781682489; x=1782287289; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1781682486; x=1782287286; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=x4MdfBwCOsM/yIwHnL4kOnnt8u9j72yFSADMaboResc=;
-        b=3BB1p7y3pen2SzAh5YH++kXbWspwwQZqjPYUH6Q3JfREC/e42zczKYG9ryAcQeCYwM
-         DtjYQLluuJrrAG58XsymeED+Utwb5Rbj/H3xaW/fa4clG846ks50HWNRU6M24frgL8nG
-         zfYk+9WaOjbxEzOgHGWOgZZ2jQSVvayxq/2iI=
+        bh=syP5TuopevqJ8BRYp06FKgLnD30WQWd0veHkA6coQrk=;
+        b=uQKvKGEU8R3NFPLfofFxfzcDarzHJGb68PAib5irEJWAdcQsOXVTfv8D4R3eLIIU8H
+         /v8zXVSxFJrhKyNfj+tawPwfzLGXcStuFeD8cDBJiQJTLklh+4RiBxejy2gzY8AcnWLf
+         lWjqZwvucYS8AM+WseAMpSJz1ZSQLkNKb8xR4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781682489; x=1782287289;
+        d=1e100.net; s=20251104; t=1781682486; x=1782287286;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=x4MdfBwCOsM/yIwHnL4kOnnt8u9j72yFSADMaboResc=;
-        b=nooisKoy7it+KjERQe7tHZdcx0J9BVwSI0DrWfWXoWFUIXa83c58ACwz2sCczxEoBm
-         BAL24IB7KNMmI9EBanP1BW6UjuNaqTBQPO4IsvaMg8Qz1XazUimvkYhzNSu+l9PCTK2s
-         4Qwmv6V/8MkOpuso5PmqaYJ9TeoyvLDDFHNWKNK6W05Bhvpq8kIq3ieW3jNTJTds36Sq
-         Fea8sYxVfhBSB/kwz5RbTLVc9Z1JWid+rnsC9Z3GbLF4oPY/K8Jtfo4+Vk0jmW5zebdP
-         rJnMHUAdOP0Brow8vxMrjIMUBm558FqzcBVYfHg5wuQwBl/LqssUk2DN5sib4viZ7IX2
-         OjvA==
-X-Gm-Message-State: AOJu0YzwVL4bTmWaCcUs9UcyCiB2wt7gwdhgMlG3c9JidRBsaR2To8qv
-	DZB4hWmgQ8pgXTll0JVS8eJGj3NdlYE+1YG/rcSclY6hX/9vx0Aq0OqP7oarVMh3W5zlbOV2GHe
-	YjV3C
-X-Gm-Gg: AfdE7ckeSKpQPOCH+ISDX+XDSE0v45NAF1WjM0J3jZDE3+WQBoMoir5Tbx1IMOdplZn
-	oV7R2lOfNCrmkVet49hP6XpyObqxlqBfIkPmCetaZp3L1bn1T2sjvuZJw9E7+wa8ofW5yVamMmO
-	aJoUsDUXXlvDxAZQ/XtIEY9olbIIMQTojIGte3mUNelxja99Yi/q+nHu4KxEPvh5vMPY5ps1x2q
-	bwd6+JQzP2IvNqFgtGSJ2l09jeyLSd9nXBI5sidQhIEOcFF9+CT3qll5PgGqhUiFKkYXNBBEVf6
-	DNC2M7Fz63ifkz+w8VHHT9PYUuJORIDrT/BysFHZ3Wmc2IMoB5X6ItPGKTto67uCHPekS5MHbv7
-	QY0vZFKOdfBvPI18y7P4jgkAW9EfUXK/CSbBpzKJ3XUMEQYfaqrYUmQ9lOD6JrfF91vO8ejT8t4
-	wtup1eO527VzcMM7tcr4Fmix5WG7VHxJvLtuwwvYauwZrNNJT0HWS5Kb3ddxkUEhYsW/FJXucZm
-	85Hmde4GriNZ9fc4w==
-X-Received: by 2002:a05:6000:194f:b0:45e:fa38:c899 with SMTP id ffacd0b85a97d-462369304dbmr3583763f8f.4.1781682489242;
-        Wed, 17 Jun 2026 00:48:09 -0700 (PDT)
+        bh=syP5TuopevqJ8BRYp06FKgLnD30WQWd0veHkA6coQrk=;
+        b=Fu7BxuUn1QcDO/HnIVE7OU1Abc7FWUV7yzNB/aqvfUV6MkiyEjfJLMk3bqIoFD2Jlc
+         JqfzF82jDxyjs/l5Phml5VS8Lt4iumhg0h1rRHxPQMI2fdWg+zeQqY8C6Dwu00E1xL8x
+         +NgPwz+1Fwz65DU/JvTJM4dX5AG0+zKjU9NVtBbFJj35bU9hpraWRgG97UToGxexM/kf
+         9lFN2LJuGzzZLXQ+9hpILFyuE0VXSogf91K3Trf8bpZj/oVIdH75/0Dyzqdx04QtYOHh
+         95Sqf3h8TW2wNJiXJxGpN5hItFD2aFClDvmMyMf6baAgovo2VCI2/uFp61hZaJQFuXYA
+         F4yw==
+X-Gm-Message-State: AOJu0YwYwKgPN2O4OSiZ6Jmd/UTl820ZRVPdZ9wi2HczSij7MUEnjH52
+	HWxl00SzZ4j7MGcNpgWapEU+dyxYEwntGk8fToYYo4STBVLhLB2ElBNMPE67bsHZaKAnVkcTd70
+	xAoqa
+X-Gm-Gg: Acq92OFrq1SOLhAy+res5TTIqVgpZXr6t5FWvW9p611MGJ01vss0t4sAPisUgcTYnSV
+	RuLMH+3GEzWaMV2iDK4lblhyhuMYcfDGZXWlzaqko3vrdzm1+NuCB1VDW+HOudnkYP/3GTJlw37
+	K9vifX2YtSGTSgrq/GkBtRXqTeqeGzpbBHi00M7/vVJ/KqarrAJAw2TDK6LN/444dtB1mA0AGfS
+	lej2JX2yjAeKOln2UhPI2UePWSGSJcsfzPMKhQ3J1ENN6rVXZWue/1o9/c+saKTV+sIg2Y9td+4
+	uwVVQJMaxDZ1OvvswSO9NMlTospVOgBcgfcIBCFJvnpekW4qLMzzwH0yXJknT6SAVJQKxJZZPwh
+	ysDtwcxSH0v5ZDx3S1ZEa6HfvSyQME5n/XEIieZbOAodgftKL2XeFP6ymmzBCLs0ferHYdoRFJw
+	oA4L9BasoO37cwIwIo0H9pLOQdwvx1Z6YiSwbLZl16FwGRZBNM0sw7n10MIIqULvIztLdQbV+IM
+	ARKnCepsrGaYg3oAw==
+X-Received: by 2002:a05:600d:84ca:20b0:490:c2a2:b1d4 with SMTP id 5b1f17b1804b1-492333f7f68mr32446025e9.35.1781682486475;
+        Wed, 17 Jun 2026 00:48:06 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00bc19bde07170effe.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:bc19:bde0:7170:effe])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2dbfb1sm54721732f8f.35.2026.06.17.00.48.08
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2dbfb1sm54721732f8f.35.2026.06.17.00.48.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 00:48:08 -0700 (PDT)
+        Wed, 17 Jun 2026 00:48:06 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 7/8] libusb1: fix CVE-2026-23679 and CVE-2026-47104
-Date: Wed, 17 Jun 2026 09:47:58 +0200
-Message-ID: <8068c867330345bfea046542c91ad3f83552c265.1781682367.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 2/8] conf/machine: fix typos in ARM and x86 README files
+Date: Wed, 17 Jun 2026 09:47:53 +0200
+Message-ID: <9ec47b2706c28fe9a92303ddd150c5dadb38f713.1781682367.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1781682367.git.yoann.congal@smile.fr>
 References: <cover.1781682367.git.yoann.congal@smile.fr>
@@ -65,132 +65,82 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 07:48:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239022
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 07:48:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239017
 
-From: Anil Dongare <adongare@cisco.com>
+From: Prabhudasu Vatala <prabhudasuvatala@gmail.com>
 
-- Pick the upstream patch [1] as mentioned in [2] and [3].
-  included in v1.0.30.
+Correct spelling errors in the machine include README documentation
+for both ARM and x86 architectures to improve clarity.
 
-[1] https://github.com/libusb/libusb/commit/bc0886173ea15b8cc9bba2918f58a97a7f185231
-[2] https://security-tracker.debian.org/tracker/CVE-2026-23679.
-[3] https://security-tracker.debian.org/tracker/CVE-2026-47104.
+ARM changes:
+- Fix TUNE_PKGACH -> TUNE_PKGARCH.
+- Fix "definiton" -> "definition".
+- Fix "curently" -> "Currently".
+- Fix "specificed" -> "specified".
 
-Signed-off-by: Anil Dongare <adongare@cisco.com>
-[YC: Fixed the version containing the commit]
+x86 changes:
+- Fix "define" -> "defined".
+- Fix "to to" duplication.
+
+Signed-off-by: Prabhudasu Vatala <prabhudasuvatala@gmail.com>
+(cherry picked from commit a77dd221c31e44a17784c15f5402ef785fb9c1b7)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../CVE-2026-23679_CVE-2026-47104.patch       | 89 +++++++++++++++++++
- meta/recipes-support/libusb/libusb1_1.0.29.bb |  1 +
- 2 files changed, 90 insertions(+)
- create mode 100644 meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104.patch
+ meta/conf/machine/include/arm/README | 6 +++---
+ meta/conf/machine/include/x86/README | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104.patch b/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104.patch
-new file mode 100644
-index 00000000000..f15f089f9f6
---- /dev/null
-+++ b/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104.patch
-@@ -0,0 +1,89 @@
-+From 04a9508e07582f553e9ea767f9e4a9b93839914b Mon Sep 17 00:00:00 2001
-+From: MarkLee131 <kaixuan.li@ntu.edu.sg>
-+Date: Sat, 25 Apr 2026 18:33:17 +0800
-+Subject: [PATCH] descriptor: Fix two memory-safety bugs in malformed config
-+ descriptor handling
-+
-+Two issues reachable from a malformed config descriptor returned by an
-+attached USB device, both surfaced by the same libFuzzer + ASan run.
-+
-+1) parse_interface() reads bNumEndpoints from the interface descriptor and
-+   increments usb_interface->num_altsetting before entering the inner loop
-+   that skips class/vendor specific descriptors ahead of the endpoint
-+   array. If that loop's bLength > size short-read branch fires, the
-+   function returns before the endpoint array is allocated, leaving the
-+   caller with bNumEndpoints > 0 and endpoint == NULL. libusb.h documents
-+   endpoint as an array sized by bNumEndpoints, and the testlibusb and
-+   xusb examples both iterate it accordingly, so a NULL deref follows.
-+   Reset bNumEndpoints to 0 before returning so the invariant holds.
-+
-+2) The first-pass loop in parse_iad_array() compares header.bLength
-+   against the original size argument instead of the remaining bytes,
-+   so a single descriptor with bLength == size - 1 lets consumed reach
-+   size - 1 and the next iteration enters with only one byte of buffer
-+   left. The buf[1] read on the second line of the loop body lands one
-+   byte past the malloc allocation that backs the descriptor data. The
-+   sibling parsers parse_configuration() and parse_interface() in the
-+   same file already use the remaining-bytes form. Switch the IAD parser
-+   loop guard and bound check to match.
-+
-+Both code paths are reachable from public APIs (libusb_get_*_config_descriptor
-+and libusb_get_*_interface_association_descriptors), with the malformed
-+input supplied by the attached device. Minimal reproducers are 20 and
-+9 bytes respectively.
-+
-+Fixes #1813
-+
-+CVE: CVE-2026-23679 CVE-2026-47104
-+Upstream-Status: Backport [https://github.com/libusb/libusb/commit/bc0886173ea15b8cc9bba2918f58a97a7f185231]
-+
-+Backport Changes:
-+- The upstream version_nano.h bump is omitted because this is a security
-+  backport to libusb 1.0.29, not a version upgrade.
-+
-+Signed-off-by: MarkLee131 <kaixuan.li@ntu.edu.sg>
-+(cherry picked from commit bc0886173ea15b8cc9bba2918f58a97a7f185231)
-+Signed-off-by: Anil Dongare <adongare@cisco.com>
-+---
-+ libusb/descriptor.c | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
-+
-+diff --git a/libusb/descriptor.c b/libusb/descriptor.c
-+index 870883a..7d4f118 100644
-+--- a/libusb/descriptor.c
-++++ b/libusb/descriptor.c
-+@@ -241,6 +241,10 @@ static int parse_interface(libusb_context *ctx,
-+ 				usbi_warn(ctx,
-+ 					  "short extra intf desc read %d/%u",
-+ 					  size, header->bLength);
-++				/* Keep the invariant: bNumEndpoints > 0 implies
-++				 * endpoint != NULL. The endpoint array isn't
-++				 * allocated yet on this early return. */
-++				ifp->bNumEndpoints = 0;
-+ 				return parsed;
-+ 			}
-+ 
-+@@ -1365,7 +1369,7 @@ static int parse_iad_array(struct libusb_context *ctx,
-+ 
-+ 	/* First pass: Iterate through desc list, count number of IADs */
-+ 	iad_array->length = 0;
-+-	while (consumed < size) {
-++	while (size - consumed >= DESC_HEADER_LENGTH) {
-+ 		header.bLength = buf[0];
-+ 		header.bDescriptorType = buf[1];
-+ 		if (header.bLength < DESC_HEADER_LENGTH) {
-+@@ -1373,9 +1377,9 @@ static int parse_iad_array(struct libusb_context *ctx,
-+ 				 header.bLength);
-+ 			return LIBUSB_ERROR_IO;
-+ 		}
-+-		else if (header.bLength > size) {
-++		else if (header.bLength > size - consumed) {
-+ 			usbi_warn(ctx, "short config descriptor read %d/%u",
-+-					  size, header.bLength);
-++					  size - consumed, header.bLength);
-+ 			return LIBUSB_ERROR_IO;
-+ 		}
-+ 		if (header.bDescriptorType == LIBUSB_DT_INTERFACE_ASSOCIATION)
-+-- 
-+2.51.0
-+
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.29.bb b/meta/recipes-support/libusb/libusb1_1.0.29.bb
-index 856e32d1c62..d287ec171fe 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.29.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.29.bb
-@@ -14,6 +14,7 @@ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/conf/machine/include/arm/README b/meta/conf/machine/include/arm/README
+index c5637798e6f..bccbb1bdee9 100644
+--- a/meta/conf/machine/include/arm/README
++++ b/meta/conf/machine/include/arm/README
+@@ -10,7 +10,7 @@ of the existence of the "bigendian" feature in a given tune.
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/libusb-${PV}.tar.bz2 \
-            file://run-ptest \
-+           file://CVE-2026-23679_CVE-2026-47104.patch \
-            "
+ A small set of ARM specific variables have been defined to allow 
+ TUNE_PKGARCH to be automatically defined.  Optimized tunings must NOT 
+-change the definiton of TUNE_PKGARCH.  TUNE_PKGACH:tune-<tune> will be 
++change the definition of TUNE_PKGARCH.  TUNE_PKGARCH:tune-<tune> will be 
+ ignored.  The format of the package arch is enforced by the TUNE_PKGARCH
+ default.  The format must be of the form:
+ <armversion>[t][e][hf][b][-vfp][-neon]
+@@ -22,14 +22,14 @@ ARMPKGARCH - This is the core package arch component specified by each
+ tuning.  This is the primary identifier of a tuning.  Usual values are:
+ arm, armv4, armv5, armv6, armv7a, etc.
  
- GITHUB_BASE_URI = "https://github.com/libusb/libusb/releases"
+-ARMPKGSFX_THUMB - This is the thumb specific suffix.  Curently it is 
++ARMPKGSFX_THUMB - This is the thumb specific suffix.  Currently it is 
+ defined in feature-arm-thumb.inc.
+ 
+ ARMPKGSFX_DSP - This is the DSP specific suffix.  Currently this is set 
+ to 'e' when on armv5 and the dsp feature is enabled.
+ 
+ ARMPKGSFX_EABI - This is the eabi specific suffix.  There are currently 
+-two defined ABIs specificed, standard EABI and Hard Float (VFP) EABI.  
++two defined ABIs specified, standard EABI and Hard Float (VFP) EABI.  
+ When the callconvention-hard is enabled, "hf" is specified, otherwise it 
+ is blank.
+ 
+diff --git a/meta/conf/machine/include/x86/README b/meta/conf/machine/include/x86/README
+index 05aee533a71..f0a1882d818 100644
+--- a/meta/conf/machine/include/x86/README
++++ b/meta/conf/machine/include/x86/README
+@@ -4,7 +4,7 @@
+ Most of the items for the X86 architectures are defined in the single
+ arch-x86 file.
+ 
+-Three ABIs are define, m32, mx32 and m64.
++Three ABIs are defined, m32, mx32 and m64.
+ 
+ The following is the list of X86 specific variables:
+ 
+@@ -17,7 +17,7 @@ The TUNE_PKGARCH is defined as follows:
+ TUNE_PKGARCH = ${TUNE_PKGARCH:tune-${DEFAULTTUNE}}
+ 
+ The package architecture for 32-bit targets is historical and generally
+-set to to match the core compatible processor type, i.e. i386.
++set to match the core compatible processor type, i.e. i386.
+ 
+ For 64-bit architectures, the architecture is expected to end in '_64'.
+ 
 
