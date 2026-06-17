@@ -2,182 +2,114 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE15DCD98ED
-	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 07:45:29 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10384.1781682326140759818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D49CD98ED
+	for <webhook@archiver.kernel.org>; Wed, 17 Jun 2026 07:45:39 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10395.1781682338955082048
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jun 2026 00:45:26 -0700
+ Wed, 17 Jun 2026 00:45:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=zRETFTLz;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45eea68dd6fso2920170f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 00:45:25 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ujUDtEuR;
+ spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-46019b190b6so4505050f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 00:45:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781682324; x=1782287124; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lOHnoxV9331zKo63PAzKAt6ES/3fm9uLN3CEtoSGkQk=;
-        b=zRETFTLz5NHXZH84GQhKk8PyMMkLrEXybYLVDc5L7hVksAF5Xcy0Q+ThNWu5oaFTxC
-         JRDUexJxjSvtc3pyZGbdstnKCpmKlk2Y/QPfT8Hw6uPPP+627T9hou4efG1EewwiNpo7
-         +3Pr3yBgf70qOfyxCL+Q7Kz0OoeuCVbodm3ig=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781682324; x=1782287124;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=smile.fr; s=google; t=1781682337; x=1782287137; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lOHnoxV9331zKo63PAzKAt6ES/3fm9uLN3CEtoSGkQk=;
-        b=anzc11fEwK9VtKghnxNiEBnnlhFWXDO7lY8IBP4bcqLP5D5oXmQkjMj/F4SJkrrIcE
-         /+dp17GJYgTJSaqYfJazDh4cWxBSVzXN8JGkCKe/mrY7yCNewjwzEQg9QBgFB69DQsef
-         m/PQw+uXQ3UXhXOCjGvZCAD2rrGklpulkAss7fv92ByAb1fb37LvexBkuiZ1zxSwfuHN
-         8D8aGYUJ+zGZmyPDUF+YPq31srkymiOSFTMivShve2JwDEcYKxYs7LQFZc0zJetcIor7
-         3MTuEuXntxb+nZn5Sqz2g7LlnXwuS02uhuABCZ7TeCSx8OwwjQs/Qcqb8pcScHMWV4pi
-         q0iw==
-X-Gm-Message-State: AOJu0YzJWMTUfaqP6FRMXRnG3Rces+opQVVtrGwim24wqM9m2cRIjdXg
-	EJ/PHFJl+wj392yGRkhz/kgmqF9vWRUfep4Ym5O5pyyFSWxCmVQjEL8PNnzQyWkSDaOHmn+5bxo
-	SNKGN
-X-Gm-Gg: AfdE7cmUhF6VpRfxaYiWcYPiBgJack3GFBEAvJ09n592EQ6eUNawi8fTrDTyuSkIKgh
-	AcGvujR8Y9Rt9HnbphR+Gb1lFpZxjkeJpY8O7Ofc7eXLMC09O65cwGRb6REDVrSyuES1w2gsPn3
-	ttWeVseAxkTmG4vl8Viv8a/MuOsEGQIU44GZyQ+6Zw9IEvZ2uZ14zouT49zVsGQGPR8Jz4h8pvo
-	dtG0aFHmJud577OGkWpMsChtWjB1WT6LaE11tEks0ZqldaPAQWPaVdgtyzK9YXcoMpw2t4Nj5X3
-	dKbxoHnCmBN/ofqUd1IKWMdNdY5xgavuO1iDcqDRhvu71xAIgzgA9arW/t1sI4dqWf56xJr645k
-	NzoU8zmeWm48nC8H231o/V19e/2gbmITi4fzFYetQ3URwuV8k6dKE5bQw2AHh4b1gK4lVMTYF1p
-	rh6cftBIaHbrEkUjYT9PG/JV4Apk2uTXafy5v69JACclrHQN1fvhVhQQx2abEaF430btp4p6LL6
-	nBnrBFfZNaJ96OKDg==
-X-Received: by 2002:a5d:588d:0:b0:45e:d3aa:e45f with SMTP id ffacd0b85a97d-462416a2b3bmr4156794f8f.28.1781682323523;
-        Wed, 17 Jun 2026 00:45:23 -0700 (PDT)
+        bh=B94JmX623Cf1KR6qqmLKiB3yq2IpyDqfeom30f1RnUc=;
+        b=ujUDtEuRlOMfuPFdpTxBXob8Jo+MsclCyoVDtajB6CWRIW9WkS56GSuTLVoe8XOzx5
+         iToZMdaJ2inlM4ej2KYstYpOjSVZBN6jwk+N9tS1ienNzG4QecjZqNLjlCocrT8WcebX
+         NObq0nt6ZQVbzm3PCbzYmgLODMiCvGi454mFc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781682337; x=1782287137;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=B94JmX623Cf1KR6qqmLKiB3yq2IpyDqfeom30f1RnUc=;
+        b=Vf6ZViAW2b/l+ZhvqTU/LURH2yFm9eyPOnPtE4UWzhnaylyTXz98cIvYGMgqMaiKWf
+         3HrEQq62MIo4j50yyvDeafOs4ipNRm6JSe8Gf5diFyumKfZsUP3tqJzRgdrbR8LT7yDY
+         CusznUGW3b18jvubO20k00OG5pM2NWdeg9RGfMe5DUqEw3rAylGkRXSz1uPzAoYM/XTB
+         1TbxyePuxo4m9FxhKxYLqvEdBSSmzQyI6okemMMnZwJLX5HChumdW5DfM3AYT24cOn2H
+         xD50YyPQXbE3gM+bHFmfnOdQ4SDAHUOk+dRmP3K1HKe/6FjYICIXuCFUo1INPNOaqnND
+         DGfQ==
+X-Gm-Message-State: AOJu0Yzz2jk6pRGd+m4d22UZ9E8NinodjJNhk28tnfHm5MrxsLdonAN0
+	Rrb+K6OSPj+RL+u52O0xS0Vc9c7ehaKbgo19dKfnadQ23lGePp78D9gy33qsITRpDw9gy3DDMHw
+	md2LO
+X-Gm-Gg: AfdE7clI/B7FsQDFHrEkHJWMqsWCqJ0IqdF4/J7VtktGrkunak+ntkGKGZnZJrFIjWV
+	lwhTEJZXQ+KdHCB4T82y+Ni1CG2j2RlIi8up98+ENbq+qaOILJAZ62t+tBsdw/OPJ+0rWp4Ogl/
+	WmDAVhd3RmcYnziJb/D+5d16knvPbMcH5ZA0W6UKU7lKicVu84BZcboxYX6Mql9qB5f+ryI7vAK
+	Vs17hOH7PDuV44ZXzjf3eVOOytyBl/IpYIb7QRz7sPPCb8KwXHtORcpMkRDgalB5x0WSve6tAf2
+	EHf5j2RMfqSAgX0tPcYD6RP4CxcQAmkWCgMikQGAn+pYPb7QA220vQ9onwLyClj8cWsF8f0uSdX
+	tEp9i7Y9w5ZBFj4k1+50I+fUTKm8NFRDBK6xRHla6ZC14aIcNWZdY/eRt/KyvYaW0SgcFUPQiIF
+	Bbyp47ZaDm7grt5VUjpgW/zWX3yjT++908NvpBrlUVpnBJo2wTmTve26D1pCNoKFv/n03RYGvIF
+	prsefhOcV8TFfNTLg==
+X-Received: by 2002:adf:f44e:0:b0:461:bfd6:5109 with SMTP id ffacd0b85a97d-462371d7f68mr3633006f8f.22.1781682337071;
+        Wed, 17 Jun 2026 00:45:37 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00bc19bde07170effe.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:bc19:bde0:7170:effe])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4619b9b7750sm23483215f8f.6.2026.06.17.00.45.22
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4619b9b7750sm23483215f8f.6.2026.06.17.00.45.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 00:45:23 -0700 (PDT)
+        Wed, 17 Jun 2026 00:45:36 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/30] Patch review
-Date: Wed, 17 Jun 2026 09:44:35 +0200
-Message-ID: <cover.1781682189.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 17/30] python_setuptools_build_meta: clean the build directory in configure
+Date: Wed, 17 Jun 2026 09:44:52 +0200
+Message-ID: <d4950d6df0867dcd5c380d83ac4d138ec968e698.1781682189.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1781682189.git.yoann.congal@smile.fr>
+References: <cover.1781682189.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 07:45:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238982
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jun 2026 07:45:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/238999
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Thursday, June 18.
+From: Ross Burton <ross.burton@arm.com>
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/4014
+It's not currently possible to set the build tree to be somewhere we
+control, but we know it will always be in the build directory alongside
+the pyproject.toml so we can [cleandirs] that.
 
-The following changes since commit dd74c1388d5bfefd2adcdb6abd622297138e2eb1:
+MJ: this was later reverted in a532cb50151d773c1c351ffccf4d47a37f26f8aa:
+  This is not needed: setuptools.build_meta does the build under a new
+  temporary directory.
 
-  meta/lib/oe/package.py: fix path to kernel sources in save_debugsources_info (2026-06-15 11:54:08 +0200)
+but the builds in scarthgap aren't using new temporary directory yet,
+so this is still useful there:
 
-are available in the Git repository at:
+Just rebuilding python3-tqdm in the same TMPDIR after cherry-picking this:
 
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-review
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-review
+$ buildhistory-diff -p buildhistory build-minus-1 | grep PKGSIZE
+python3-tqdm/python3-tqdm: PKGSIZE changed from 3309408 to 426880 (-87%)
 
-for you to fetch changes up to 7d74e588802d87a07b14c1541651ad5ce8860a8f:
+$ wc -l python3-tqdm/4.66.3*/image/usr/lib/python3.12/site-packages/tqdm-4.66.3.dist-info/RECORD
+  297 python3-tqdm/4.66.3-old/image/usr/lib/python3.12/site-packages/tqdm-4.66.3.dist-info/RECORD
+   41 python3-tqdm/4.66.3/image/usr/lib/python3.12/site-packages/tqdm-4.66.3.dist-info/RECORD
 
-  lttng-modules: Fix trace_hrtimer_start build failure (2026-06-17 01:28:31 +0200)
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+(cherry picked from commit 383862cfe4c5acf04124080827c8bc6d00b2e86d)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/classes-recipe/python_setuptools_build_meta.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-----------------------------------------------------------------
-
-Benjamin Robin (Schneider Electric) (2):
-  avahi: Remove a reference to the rejected CVE-2021-36217
-  meta: fix generation of kernel CONFIG_ in SPDX3
-
-Bruce Ashfield (12):
-  oeqa/runtime/parselogs: update pci BAR ignore for kernel 6.10
-  linux-yocto/6.6: update to v6.6.129
-  linux-yocto/6.6: update to v6.6.130
-  linux-yocto/6.6: update to v6.6.132
-  linux-yocto/6.6: update to v6.6.134
-  linux-yocto/6.6: update to v6.6.135
-  linux-yocto/6.6: update to v6.6.136
-  linux-yocto/6.6: update to v6.6.137
-  linux-yocto/6.6: update to v6.6.138
-  linux-yocto/6.6: update to v6.6.140
-  linux-yocto/6.6: update to v6.6.141
-  linux-yocto/6.6: update to v6.6.142
-
-He Zhe (1):
-  lttng-modules: Fix trace_hrtimer_start build failure
-
-Hitendra Prajapati (6):
-  go 1.22.12: fix CVE-2026-27140
-  go 1.22.12: fix CVE-2026-27143, CVE-2026-27144
-  qemu: fix for CVE-2025-11234
-  libxml-parser-perl: fix for CVE-2006-10003
-  python3: fix for CVE-2026-1502
-  python3: fix CVE-2026-6100
-
-Prabhudasu Vatala (1):
-  conf/machine: fix typos in ARM and x86 README files
-
-Ross Burton (3):
-  setuptools3_legacy: ensure ${B} is clean
-  setuptools3: clean the build directory in configure
-  python_setuptools_build_meta: clean the build directory in configure
-
-Vijay Anusuri (5):
-  xserver-xorg: Fix CVE-2026-33999
-  xserver-xorg: Fix CVE-2026-34000
-  xserver-xorg: Fix CVE-2026-34001
-  xserver-xorg: Fix CVE-2026-34002
-  xserver-xorg: Fix CVE-2026-34003
-
- meta/classes-recipe/kernel.bbclass            |  27 ++-
- .../python_setuptools_build_meta.bbclass      |   4 +
- meta/classes-recipe/setuptools3.bbclass       |   3 +
- .../classes-recipe/setuptools3_legacy.bbclass |   1 +
- meta/conf/machine/include/arm/README          |   6 +-
- meta/conf/machine/include/x86/README          |   4 +-
- .../cases/parselogs-ignores-qemuall.txt       |   8 +
- meta/lib/oeqa/selftest/cases/spdx.py          |   2 +-
- .../avahi/files/local-ping.patch              |   1 -
- meta/recipes-devtools/go/go-1.22.12.inc       |   3 +
- .../go/go/CVE-2026-27140.patch                |  58 +++++
- .../go/go/CVE-2026-27143.patch                | 165 +++++++++++++
- .../go/go/CVE-2026-27144.patch                | 125 ++++++++++
- .../libxml-parser-perl/CVE-2006-10003.patch   |  73 ++++++
- .../perl/libxml-parser-perl_2.47.bb           |   1 +
- .../python/python3/CVE-2026-1502.patch        | 113 +++++++++
- .../python/python3/CVE-2026-6100.patch        |  75 ++++++
- .../python/python3_3.12.13.bb                 |   2 +
- meta/recipes-devtools/qemu/qemu.inc           |   2 +
- .../qemu/qemu/CVE-2025-11234-01.patch         |  72 ++++++
- .../qemu/qemu/CVE-2025-11234-02.patch         | 174 ++++++++++++++
- .../xserver-xorg/CVE-2026-33999.patch         |  49 ++++
- .../xserver-xorg/CVE-2026-34000.patch         |  72 ++++++
- .../xserver-xorg/CVE-2026-34001.patch         | 104 ++++++++
- .../xserver-xorg/CVE-2026-34002.patch         |  93 ++++++++
- .../xserver-xorg/CVE-2026-34003-1.patch       | 113 +++++++++
- .../xserver-xorg/CVE-2026-34003-2.patch       | 223 ++++++++++++++++++
- .../xorg-xserver/xserver-xorg_21.1.18.bb      |   6 +
- .../linux/linux-yocto-rt_6.6.bb               |   6 +-
- .../linux/linux-yocto-tiny_6.6.bb             |   6 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  |  28 +--
- ...ce-trace-noise-in-hrtimer_start-v7.1.patch | 103 ++++++++
- .../lttng/lttng-modules_2.13.12.bb            |   6 +-
- 33 files changed, 1687 insertions(+), 41 deletions(-)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-27140.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-27143.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-27144.patch
- create mode 100644 meta/recipes-devtools/perl/libxml-parser-perl/CVE-2006-10003.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-1502.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-6100.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-11234-01.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-11234-02.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-33999.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34000.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34001.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34002.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34003-1.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2026-34003-2.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch
-
+diff --git a/meta/classes-recipe/python_setuptools_build_meta.bbclass b/meta/classes-recipe/python_setuptools_build_meta.bbclass
+index 4c84d1e8d0b..046b4ffb74f 100644
+--- a/meta/classes-recipe/python_setuptools_build_meta.bbclass
++++ b/meta/classes-recipe/python_setuptools_build_meta.bbclass
+@@ -7,3 +7,7 @@
+ inherit setuptools3-base python_pep517
+ 
+ DEPENDS += "python3-setuptools-native python3-wheel-native"
++
++# This isn't nice, but is the best solutions to ensure clean builds for now.
++# https://github.com/pypa/setuptools/issues/4732
++do_configure[cleandirs] = "${PEP517_SOURCE_PATH}/build"
 
