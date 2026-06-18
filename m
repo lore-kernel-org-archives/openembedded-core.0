@@ -2,63 +2,63 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3715DCD98F8
-	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 20:36:42 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28951.1781815000235554379
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2A85CD98F2
+	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 20:36:41 +0000 (UTC)
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.28653.1781814998406190764
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2026 13:36:40 -0700
+ Thu, 18 Jun 2026 13:36:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=MmzUftzj;
- spf=pass (domain: baylibre.com, ip: 209.85.219.53, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8ccf01ba514so11932326d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 13:36:40 -0700 (PDT)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=e+JOpCQN;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.196, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f196.google.com with SMTP id af79cd13be357-915d64fead9so260050385a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 13:36:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781814999; x=1782419799; darn=lists.openembedded.org;
+        d=baylibre.com; s=google; t=1781814997; x=1782419797; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RD58iwcPZyb4LNxn/tcCInRALnWhpDqn940da7MF7iY=;
-        b=MmzUftzjfQtNUo7Z55Zbl6eCR3HMGnyoSK4ehv+NmsjVb7zca1gbxVeqQVnrnO+Msu
-         bdbZWxZBsRHLqLgAAqgvREMvf0qxgVIIsVVgWp2HrtbhstnaLVQ55pKJQEAlyhNzzBPX
-         dCG5QoPczzL+d9IOzC6/LzirMj0iHAw2v+chjetuG6ZZE2IfYcHneZCbeYM3GZWRmMbe
-         E0gK2WMojCUjg1FKUsF4Rc/kCzzMgma2DyS8kEyeXP3/XTF9b55CuyHeAue9OqAfa4WD
-         oCGlQhsPjMOpuaFupgwHpiFz/WaEafDRGhd2Io5A/RXOmJQdy+7g5EfOk2vN+Ftacxjv
-         SADg==
+        bh=SnK3cQAkJvSsE9KEoQeN0fuZPQkmRjocwgPx2HsG/ng=;
+        b=e+JOpCQN452CBC9et8kIfweF4AeZ4779quBwoRB1ZYWjeRpkWBqIq7n2lRRdaK4TaX
+         dqJfPvzVhipQwAUrXjRk3v0xJnkTRd44Qf0WDAoD6/hmogQTsvc0hGkN7Y092Nz4FBpC
+         kgzscs2ukA3RlPD41+fu+/Fm0pX5vH3Vk+IydIlzjdoB/5cPwYKFG66tKSChXIf8DAG6
+         tJjx2WCXJDiJeNT9vTLXNzuTxDa6wB0jf1TS48aeyHSfBFOJFJjCkfrFNWAnnCi07a9d
+         Ddhzt01z0xJXVgmzIIjIQsBBByy4tc9854NamWFzQJaFDC3QUo4cVlcsC297V/KSRhJo
+         +CIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781814999; x=1782419799;
+        d=1e100.net; s=20251104; t=1781814997; x=1782419797;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RD58iwcPZyb4LNxn/tcCInRALnWhpDqn940da7MF7iY=;
-        b=UDb1zgN5JBtnCmPOLy6QfIRSQh4YgVW4b2LaYottH9L+NPSA5FxHgZt9p9uW9D4HDZ
-         LOVqIkS1tkN8FtQ61eqChDGmhr/vp3Lh7u9O55BFEDIfJtSa/rEJU6LKMIIJbYlWjypZ
-         WZeHBydUj98J3Z2VdiQm31d4U4CTlaFnzzPxyqZBLf5EYNs6IOkuF3uFOBeurt7sNBhS
-         Zr+A6L4MjC1KAAI+QCmlbSNVzuYp9tGCHJOwteOe1IqRYNETJEF/TBEbC4U56MRtBEwc
-         3HEwehdltvi9Q19+ymUUwkvsFxJ7ZMf3C+p/VpD8owXmgmBf61Y1j68wzjw1Ouk1WVuL
-         Gstg==
-X-Gm-Message-State: AOJu0YwFc6q0fNfky0SYBchzHSsprowyszdWwq2XwhnF9X3O8ZE3QiNg
-	n3VJHAxSyb3OZ9aqgwQ25mjR2jhJrl284XtvcRuzAcE3iKaKxNRWKr7PZ49RJT1848aETGVthn3
-	xe0Rn1Pp6gA==
-X-Gm-Gg: AfdE7clySMgM1lfbrg8LAdq4EuXgdELhwDtSqLawps/t/gZYL9B582vT3rbYA+eMIvr
-	L7rUl2JUrswEAzzPgOPdakTAuKc9uZVUtwuF0uCvnG2wbeXM6cFI0JD9Xsr25rEwiPX5UtMvrrB
-	vgK+ZlQvqqGGUX5XDUgkcVSyQTcr/Q7e+6PO8pxeO6nFYsEDf832b+jxAjMzKOjB1otrhgDp8fk
-	0J5OSvoKeQ7SXtqaipE4xD/H3Q6SeRXrQVztLHDRQpnp7rZr3f8uUqgk3FaiXS2URb/kR1cGFtf
-	yPqqptsxzq74h3NdcXTCxninEaI0NBeTYoUIJCfLZTWzpGwPYiaqueEgtxTkIK1h4S1MZa3rlmj
-	Uv0oXg4JML5Ikv34EFpr2U+JHwifbDlyqwTU+BRp5y3jRySz+F+GE1Je7VC2I4INVvtEL8id5FK
-	ih8rew+wz+1rE961YY4IRjJG7XQKc=
-X-Received: by 2002:a0c:f6c4:0:b0:8db:3bf7:7aae with SMTP id 6a1803df08f44-8de3e7ef8fdmr11289626d6.35.1781814999047;
-        Thu, 18 Jun 2026 13:36:39 -0700 (PDT)
+        bh=SnK3cQAkJvSsE9KEoQeN0fuZPQkmRjocwgPx2HsG/ng=;
+        b=bLwvxJslRy22FwxDC1sYbtRIH/s2aKDs8KdpvZCJldw0YAOcy5/sp7SzUwHlTZyhT7
+         WoSde2tXCmlXmXMekcop/FIy210W0hbskLuolNjTmqTdwBYxN5XsjVrimw0vaFbI3+s+
+         /gJCA+0LD+vJOEhaJ3Tfv+qa4lUqKD18uBwKxwbZzfJ334QLLpGsTcRWcf+6RkJgW3qB
+         rPC87J0tOK7j1xAbx9hJeM7rGI+8gqffYt7Nj7fy+LNYOLRxTz+0MTjRDK46+dhFKynk
+         4teuKPAetXmubYZZvAeaeKIYDzrwOSduD1LnCHN0vtfg/3eyt0nsoN7gEOVz7WEjt6N0
+         uwNA==
+X-Gm-Message-State: AOJu0YyNYoJ+a2RUWl64uhkxXOe8NGET1uhQ5QBkCNT/UtRIdRMeGlIf
+	97ZPWx10enFJfm4YYRjAg3hmn/dK16zej2O5N4uL0+Ibl7fkZjhnmaxV8NyLprvKJ5969ibOpNk
+	dMMVFiUrBfwTr
+X-Gm-Gg: AfdE7cmRiY9U+Ka0NEaxAUSTMFut8yrNLr6jICGs9yosFf3dGu62m1+5uMTAfmurOsr
+	oqfAooKo3lRFwPHDCY/yB9HHFDhmxQplASSBDQr0mm9ejFGaQWifPW7BHq9w2qNXctPYVUk+ooy
+	qDJXuLKvzSVcPdnVOfFl3Mc25v1pwniYVYA3qRKrlsBSEzlrnwl958yJTXxJTAtKO4JgZfcAE+c
+	Rm66UnHxYlBtA9yGLCTb0k7Quagmgy5aOu5jvMvRNnsRFWdrWMW9jNcCmyHmjnkNhw9ejmKKEDp
+	Swp/fsGdkUe8LVQGNWN5/2J4uLLj2JTyQI51o+QBG+w08RAaJkicutMqVF4CWrWO/UAwlxpbkUv
+	Yiw6kofNUt3I2t3Wz1SLk4F6uV/UIXWy8UsY4DCN5vOIl+VlNlaad6rW1T/M+Qjd+/ejqP3vc8h
+	QDga1TaT8j4jmCOkvZ
+X-Received: by 2002:a05:620a:2611:b0:915:8e2b:e5de with SMTP id af79cd13be357-9208a3d5ebdmr93721285a.7.1781814997149;
+        Thu, 18 Jun 2026 13:36:37 -0700 (PDT)
 Received: from localhost ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8de62de5904sm1829036d6.43.2026.06.18.13.36.38
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-920a152b7f2sm20696085a.13.2026.06.18.13.36.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 13:36:38 -0700 (PDT)
+        Thu, 18 Jun 2026 13:36:36 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr
-Subject: [PATCH 2/7] scripts/patchtest: clean up startTestRun()
-Date: Thu, 18 Jun 2026 16:36:27 -0400
-Message-ID: <20260618203632.131125-3-tgamblin@baylibre.com>
+Subject: [PATCH 1/7] scripts/patchtest: refactor results methods
+Date: Thu, 18 Jun 2026 16:36:26 -0400
+Message-ID: <20260618203632.131125-2-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260618203632.131125-1-tgamblin@baylibre.com>
 References: <20260618203632.131125-1-tgamblin@baylibre.com>
@@ -67,51 +67,117 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 20:36:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239103
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 20:36:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239102
 
-- Initialize self.repo directly instead of in two steps
-- Remove extra whitespace when setting error and failure members
+The add{Error,Failure,Success,Skip} methods used by the inner
+PatchTestResult class re-use a lot of nearly-identical code. Encapsulate
+the logic used into two new functions:
+
+1. _format_test_description(), which includes all of the original
+   syntax/tag cleanup logic
+2. _write_patchtest_result(), which formats the actual result lines that
+   patchtest ultimately emits (to console and/or file)
+
+selftest:
+
+|============================================================================
+|Testsuite summary for patchtest
+|============================================================================
+|# TOTAL: 38
+|# XPASS: 18
+|# XFAIL: 18
+|# XSKIP: 2
+|# PASS: 0
+|# FAIL: 0
+|# SKIP: 0
+|# ERROR: 0
+|============================================================================
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- scripts/patchtest | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+ scripts/patchtest | 56 ++++++++++++++++++++---------------------------
+ 1 file changed, 24 insertions(+), 32 deletions(-)
 
 diff --git a/scripts/patchtest b/scripts/patchtest
-index 07c3ada6f7..ff8e8b11bd 100755
+index 143cf08572..07c3ada6f7 100755
 --- a/scripts/patchtest
 +++ b/scripts/patchtest
-@@ -61,20 +61,17 @@ def getResult(patch, mergepatch, logfile=None):
-         skip        = 'SKIP'
+@@ -33,6 +33,22 @@ logger.setLevel(logging.INFO)
+ info = logger.info
+ error = logger.error
  
-         def startTestRun(self):
--            # let's create the repo already, it can be used later on
--            repoargs = {
--                "repodir": PatchtestParser.repodir,
--                "commit": PatchtestParser.basecommit,
--                "branch": PatchtestParser.basebranch,
--                "patch": patch,
--            }
--
--            self.repo_error    = False
--            self.test_error    = False
--            self.test_failure  = False
-+            self.repo_error   = False
-+            self.test_error   = False
-+            self.test_failure = False
++def _format_test_description(test):
++    return (test.id().split('.')[-1]
++            .replace('_', ' ')
++            .replace("cve", "CVE")
++            .replace("signed off by", "Signed-off-by")
++            .replace("upstream status", "Upstream-Status")
++            .replace("non auh", "non-AUH")
++            .replace("presence format", "presence"))
++
++
++def _write_patchtest_result(line, logfile=None):
++    print(line)
++    if logfile:
++        with open(logfile, "a") as f:
++            f.write(line + "\n")
++
+ def getResult(patch, mergepatch, logfile=None):
  
-             try:
--                self.repo = PatchtestParser.repo = PatchTestRepo(**repoargs)
-+                self.repo = PatchtestParser.repo = PatchTestRepo(
-+                    patch=patch,
-+                    repodir=PatchtestParser.repodir,
-+                    commit=PatchtestParser.basecommit,
-+                    branch=PatchtestParser.basebranch,
-+                )
-             except:
-                 logger.error(traceback.print_exc())
-                 self.repo_error = True
+     class PatchTestResult(unittest.TextTestResult):
+@@ -74,43 +90,19 @@ def getResult(patch, mergepatch, logfile=None):
+             logger.error(traceback.print_exc())
+ 
+         def addFailure(self, test, err):
+-            test_description = test.id().split('.')[-1].replace('_', ' ').replace("cve", "CVE").replace("signed off by",
+-            "Signed-off-by").replace("upstream status",
+-            "Upstream-Status").replace("non auh",
+-            "non-AUH").replace("presence format", "presence")
+             self.test_failure = True
+-            fail_str = '{}: {}: {} ({})'.format(self.fail,
+-            test_description, json.loads(str(err[1]))["issue"],
+-            test.id())
+-            print(fail_str)
+-            if logfile:
+-                with open(logfile, "a") as f:
+-                    f.write(fail_str + "\n")
++            desc = _format_test_description(test)
++            issue = json.loads(str(err[1]))["issue"]
++            _write_patchtest_result('{}: {}: {} ({})'.format(self.fail, desc, issue, test.id()), logfile)
+ 
+         def addSuccess(self, test):
+-            test_description = test.id().split('.')[-1].replace('_', ' ').replace("cve", "CVE").replace("signed off by",
+-            "Signed-off-by").replace("upstream status",
+-            "Upstream-Status").replace("non auh",
+-            "non-AUH").replace("presence format", "presence")
+-            success_str = '{}: {} ({})'.format(self.success,
+-            test_description, test.id())
+-            print(success_str)
+-            if logfile:
+-                with open(logfile, "a") as f:
+-                    f.write(success_str + "\n")
++            desc = _format_test_description(test)
++            _write_patchtest_result('{}: {} ({})'.format(self.success, desc, test.id()), logfile)
+ 
+         def addSkip(self, test, reason):
+-            test_description = test.id().split('.')[-1].replace('_', ' ').replace("cve", "CVE").replace("signed off by",
+-            "Signed-off-by").replace("upstream status",
+-            "Upstream-Status").replace("non auh",
+-            "non-AUH").replace("presence format", "presence")
+-            skip_str = '{}: {}: {} ({})'.format(self.skip,
+-            test_description, json.loads(str(reason))["issue"],
+-            test.id())
+-            print(skip_str)
+-            if logfile:
+-                with open(logfile, "a") as f:
+-                    f.write(skip_str + "\n")
++            desc = _format_test_description(test)
++            issue = json.loads(str(reason))["issue"]
++            _write_patchtest_result('{}: {}: {} ({})'.format(self.skip, desc, issue, test.id()), logfile)
+ 
+         def stopTestRun(self):
+ 
 -- 
 2.54.0
 
