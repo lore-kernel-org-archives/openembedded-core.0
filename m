@@ -1,366 +1,143 @@
-Return-Path: <tdarote@qti.qualcomm.com>
+Return-Path: <anders.heimer@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD84BCD98F2
-	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 07:17:12 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14097.1781767030641104794
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7FB0CD98F2
+	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 07:19:22 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.65])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14114.1781767156114625589
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2026 00:17:10 -0700
+ Thu, 18 Jun 2026 00:19:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=PhGPp2RX;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: tdarote@qualcomm.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65I5C9hc3591349;
-	Thu, 18 Jun 2026 07:17:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=tsB3/zsdi/V
-	7dGQ2fQinfQRR90VL0SZ3mMM/5yYvJJU=; b=PhGPp2RX0SJpPd5l0nGyOvEBKyp
-	zkSGxqi9qcYgdAEfyUIM0/6ATpy5SFMdL1DrJrU2LTo+Rhf2gtaRvkP6AkvubvPi
-	ArxGol40MUbjlTkjaEQusTjz6mmdj0v/1LZkXVWvJQswlUgj4OlKE96RxAabnZvj
-	CLDtpvH446PW2EcRmWhSFXN0OOAF+3M2iH9ZJn8sGVfBRWSTwQXLYMLAj21k4spN
-	AdswhQ+BMvR97BR5l4svaFcxE8quiQtYT8a42QXCkGIDdXQoWcjlH9AJXlm7dKtU
-	GXH2KkEGF3Vz64bCPUBD06k6xjMmyhLjCTvMh1zUDs92My/tJAiD2yexcbw==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ev19a280k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Jun 2026 07:17:06 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 65I7H2Qi006420;
-	Thu, 18 Jun 2026 07:17:03 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4es09knf2a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Jun 2026 07:17:02 +0000 (GMT)
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 65I7H2TU006410;
-	Thu, 18 Jun 2026 07:17:02 GMT
-Received: from hyd-lnxbld389.qualcomm.com (hyd-lnxbld389.qualcomm.com [10.142.195.70])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 65I7H2oo006390
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Jun 2026 07:17:02 +0000 (GMT)
-Received: by hyd-lnxbld389.qualcomm.com (Postfix, from userid 4146169)
-	id 3C3DC225F2; Thu, 18 Jun 2026 12:47:01 +0530 (IST)
-From: Tushar Darote <tdarote@qti.qualcomm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=AbhSOuWi;
+ spf=pass (domain: est.tech, ip: 52.101.70.65, mailfrom: anders.heimer@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TeyQdKoUip3xEHWo0OghxIVzyTuztKWvF7HH91DFENSJCotflk91ByHyIPvnhuci/2drMeEKJ00eyfAUv9f+Kmj88mD7Yox8+H4brpVeMbSyl5IqDkLeKE19aB3Hr4LsgP8lqRzG5en6GlDLbCc98L1PdlkBTgayA+cyF/pUYKuDT2uqS615dil5QRrgapjziB1IHV+hvrN3WP5BZ1cvKyChsY/++Rt3naIuRetf+O3EwyrgByJF0Q/EOx0JVJgTeC+G5L7I/3v6LqT8ygPVLzyMIyAty33t9QlQ2Y+VYIaYES8fOotLtOfa2rgsR0mzhZyuUWqSZ1FGNbKtWLIGGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k3qpF6QIv89A+SRPhfPQGzP/UOlJ1OuYWN/yOw2uV0w=;
+ b=XlonVtFmyXU+p4ZlhSY349GKL4TS+1FUBM8ANQlBOYJRtHjJT3wbpb8FEgsUCpUkwAo0uOQ6VJNtJidHpYqYYPzcDQ/YHYVLXk7+14POqRoZG1tCnp90u5sD0RP8qMZTSHSbuZ6wd5XQNSu0J6EBUOnTPYrF3mbkt/3h5Nj0jVG0hX+gNT9XoGkdz+Dgb1ZADv7qL+Q1wNe18U7u+xYOKBP9Zs7q3xpa7yvMZyBbMJQC2jdnmG2REmg3M4htGOZPofMd0zWfoXIPiOWUfMomKPcfWa9zNNxQ4Fwka+OOgmb5Tzm449rm+rM6J8dQGdAxjD6IC4mqPlj07hdvY06cNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k3qpF6QIv89A+SRPhfPQGzP/UOlJ1OuYWN/yOw2uV0w=;
+ b=AbhSOuWiNIvk2l/HYgXBvK83fDw3GyrBzyqYNMePX3/22aZfihatLKrMtJTLFNA0QtiI+Ai6OEtLgf1eaJANMhS+JKKR6luH1asnvjm8Nu5q6VNUQZE9nxky16NeqKr8bhF1Kai8Korhd3ppSI3tQkCgtW9MvkYjyyhHYr4yppaODv/QB5JZqreZ5a9jDdUnJEKmyKkOaVuIexioyMIdZaJHhlpC8w7VxGHlBfwun7S5lDH1Q5NST7YLxRUHD9qkgCAluxo+xAZQePE6xuXuLrdpHKqluOC2cjufcK5zrtggWeUgT8wSEV8nXNqFS0G5NK6MaihhNgGGwO+2DdUCmw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:2ac::9) by
+ VI0P189MB2776.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:254::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.139.11; Thu, 18 Jun 2026 07:19:11 +0000
+Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+ ([fe80::90da:b700:f102:5c82]) by DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+ ([fe80::90da:b700:f102:5c82%6]) with mapi id 15.21.0139.011; Thu, 18 Jun 2026
+ 07:19:11 +0000
+From: Anders Heimer <anders.heimer@est.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: Tushar Darote <tdarote@qti.qualcomm.com>,
-        Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH wrynose v2] gstreamer1.0-plugins-bad: handle padded buffers in wl_shm buffer creation
-Date: Thu, 18 Jun 2026 12:46:58 +0530
-Message-Id: <20260618071658.571901-1-tdarote@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <239054>
-References: <239054>
+CC: Anders Heimer <anders.heimer@est.tech>
+Subject: [PATCH v2 0/2] package: replace copydebugsources shell pipelines
+Date: Thu, 18 Jun 2026 09:19:06 +0200
+Message-ID: <cover.1781766061.git.anders.heimer@est.tech>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0340.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18c::21) To DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:10:2ac::9)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Authority-Analysis: v=2.4 cv=YbmNIQRf c=1 sm=1 tr=0 ts=6a339b73 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=3WHJM1ZQz_JShphwDgj5:22 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8 a=P-IC7800AAAA:8
- a=ag1SF4gXAAAA:8 a=Uc49ZF9OE0rpvxTMQ1MA:9 a=Vxmtnl_E_bksehYqCbjh:22
- a=d3PnA9EDa4IxuAV0gXij:22 a=Yupwre4RP9_Eg_Bd0iYG:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE4MDA2NSBTYWx0ZWRfXy4/wp57bijEW
- WlyJdvbmjLwUDtJSYdLIz6wv/xt7LnNikXCLC+BiSXRw+p+1qZs/0kW9rmIAdTX0+JXMaQLMke6
- 519AIHGlzRmgAEan5H1XQfOGng6LWPo=
-X-Proofpoint-GUID: wzBsziSNW4K5HMPhALFEK3Ih0KiC0gQp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE4MDA2NSBTYWx0ZWRfX1B0dkgSnMJMm
- 3O1B3pk4Dwwj9prGuhgA1epzcxi9Cz4FiZoqZIPwj/yfPs9AlsLTgO7WSDCnIcjGLgpPssZF3Rg
- 4di5bpP7v6WPpz+0k1PMBZGnptQ6qLBagIUw1ftQtRNOblcZU0TixkNGPjptBogTFea31FR5O3U
- xc3jsATB3wMJ41HfGaaPmtPmJMgBf4Ntcpqfvsun5Ua+QB35n4VseCcK8Bs5tpavHhh9RQvtMuq
- s7fa+CNnQBd6tKrGgvlchsNKBpXSy+L4sehuIEOpOCm8pyF6XaT6Ajtuz09Sp9lcoHmSTasC/r2
- FNVGW72LRMQ/qg8/bzJyAyI3jb1sTcFEXBRqoO/bF8z5Cq5/o8lDLp+YYaLGmYkcO49uIwtp0s3
- xapuTKV9GuRFVQWTGeBcajzJW19VgqLyq6TDHyf2La6PKxAZJ+Wyy/LUrYuj2b3aJUmDAHY+Y6v
- QtXukf9lEaz/ugpy4FA==
-X-Proofpoint-ORIG-GUID: wzBsziSNW4K5HMPhALFEK3Ih0KiC0gQp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-17_02,2026-06-17_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- clxscore=1015 impostorscore=0 spamscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606180065
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9P189MB1641:EE_|VI0P189MB2776:EE_
+X-MS-Office365-Filtering-Correlation-Id: 837b72de-6487-4da2-ef85-08decd09e4c5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|11063799006|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	/AhlmJ07yAkFzlBv8Ynmvzbbd1lcYSUPy0YsjW6K8URJOUFLBDRY6UYLSmJnGKIoJ+GPYJc9D+abHzyKI/k86kfgUSTBjGwMRNUooJ/JjEmz1RSuqQ4Gzq/noXw4mVmpkNZE2fpxbMm0nG4ikideVRxNtjZQ1G7Q8lF7WCBFIadck8EOz6XBNhK37BD1T0PBXnK670A70hAEo48YJQuqXXq2tHOv0Gl8pzucfJ4WVnPRC5zy4HRK3HenyVHLwk0XBmuSFD2eo6l1UwY4TFs7FrzTJyY0GQxaTC2V6AR8g0vsr+NYChhPvWw/GxtppK2SUjddeRv+Lrjc0D8+MC9tBviRG8+x9RPInIVuG3VHw7fO98TsSOvoM9bfyrsOmE2jO0igm2HM8pyS+c8RJnOA8kuDml1Cx5RuDM3e0Ir7I7ZoOhDi4frt+wnPGnSEHcfL+PbMEU4YJzL53p0xCnQaHEr514t8xiFaVLQCzRXvm0rbSO0LSEhm2shn9aAEjBeFQlF/ngOhjN+5o8diSw5uR/o8ofIei7ydxnqdL5WUeA1+CpeGUFTiKK3PrL8j8o8xcEni1IpO+OhEHEcxWegvC0xrE6HTnj0MLuthmOi5axeRPQ6Gi86SZ6qb3BA7sBKOsmXIcTAw8JRF33dTD6YgygoMJUNO3b4b5/piZC0bmpZJB86lcDMjVN1HpOY3i/yW
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1641.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?NKwMALDK3ErRrVoyItZVP8IAFJvjjNsh+k4DczeQwyVtranTyKJ1PQbweAzG?=
+ =?us-ascii?Q?BMYQlkIgvU1j/PhBrvVNt2OZEXn4zV6+xlajkzqSyDMDXI9vr/Ccr1j8QbG3?=
+ =?us-ascii?Q?sr2PyiJW4P1GIlBK2GJdtMByzEOmQVVXa7PlqHFNgldNtjeszkoG5HD5odSG?=
+ =?us-ascii?Q?EmftogUKASdeex94VzS0FYde5Mt3qqevcLdJ04Kwu8m+o7cfOluH92sb6qF0?=
+ =?us-ascii?Q?e81kFcylpUBTSemNf4RXYBNK9EgmvLZRjkklB8Uy6/mhqjktTVRImbQW9PD9?=
+ =?us-ascii?Q?W/NYTZRQVFnnpfoh+Mc9wQeN8dPdiSYkBbNeVFSb1BAiI1NZ52U9VjDZPGjR?=
+ =?us-ascii?Q?Aw3kt0CmGVb3F4x3IjXyOfqhuwPKhJ0ZKB64+ACDeVNsBHeaNMCcoYj9yH/h?=
+ =?us-ascii?Q?IwRfT+A+6XLzAvnGzDEHVOpGtFULrFren2yOO2x1v07+XikztzzywLvv9ccl?=
+ =?us-ascii?Q?vYR4nDSJuZT5Uc+tNQjiWY2I3n3jX720g0zATzUwE1plqSsRJ+Mo/yUo/8Bv?=
+ =?us-ascii?Q?/Oc2NbWWNlgTx8mw+spGBNV+kq839Ih3/Na4X2uIJTBqZsnFu96+In8ChjxO?=
+ =?us-ascii?Q?oKMyPhGuaUOEK7onc3MAAR9CPDR19j4Sbx6W+2o0zyUDMZLfRrQhyNeHyqjl?=
+ =?us-ascii?Q?R1b1J3Au+65J3GDcUs8BLPQxFoEpXhPyo+fqSpqT8vmp5OIl/LtlOCpUJ9mO?=
+ =?us-ascii?Q?iSCXFTCNW0uT3dNocxagY2fm/Rgym9BgfeBpUvfe7ZTIXvMG1+OXReAzEtr/?=
+ =?us-ascii?Q?LrZ7xNxus4ZT0xIHhhOCrDY6zfnYelW4N7lRWHqqg7FgS5pTwhSy9+hXQ8Gi?=
+ =?us-ascii?Q?N1l7CRVhAsSWLqwpJ8aTPL6qjEEUphn7IZWasuoJxIcNfxhVlnJ8czTpJ/0v?=
+ =?us-ascii?Q?QBSsqArv96ILPZCZQj4JbGC6eEa6mAU4IDnLfwK1QMSyUTTrEew7DRIh7taK?=
+ =?us-ascii?Q?BqerU6IXM15RBoJ2cX8LzRY5YeOIdCHhzLJDGlQLl9QG795vzt9cUKx24key?=
+ =?us-ascii?Q?364k2vXH/ayW9NJT2he3altnQZj2pEB8wsl7JYd29jchALZZWuTomwq4bSdR?=
+ =?us-ascii?Q?7MLGBiRSxtf+QsxmW5EL0uit7LpcSBQ/EbhLFd7RANFUrEyfqgKmlSur2qy9?=
+ =?us-ascii?Q?GPDT2Haq12RuAi/EePwwJx9gIbXhTEP+FJJ6BPOt9rlsH0+FjcgsBH+SXwQc?=
+ =?us-ascii?Q?wlY63RZHt5Mo05o/sYpu8oyXKST67JPXbxO9edUPaO5vUKfAQiBkAh79PKPx?=
+ =?us-ascii?Q?jpBgRO5T/E9S5YG/qX2TGTK8s4IivSoNV69BMkchbOCuGLjc7V9a+YOQYHDz?=
+ =?us-ascii?Q?YXvePg2kmslBNaUmihzrNFVhpk5N02G5BisQxhLcNabCZRc+RCmPYNCgdjuh?=
+ =?us-ascii?Q?FwXd9KNGdKVWujxFeZMKIsV4SQafOyB5hBfYU2AWtxkK0Vzt43qWWvdt3AWg?=
+ =?us-ascii?Q?TTiRVCTIkcwDVBi0dZcYCfoXGKZH9yj/lsdKEeBsMMV/QZ7f4x2FEpmobenX?=
+ =?us-ascii?Q?9btfcrHqtbFls7QJOzU1GuDVeEQ6qjpVQTG8dSf6yio42PV1fXyCfoz6R0nm?=
+ =?us-ascii?Q?8s/BnmM+HUpWKpCvefeNsF4xSL1lfNM6OAC/dTCrC/3RFoPi1BJD9/umRFLC?=
+ =?us-ascii?Q?HJW5y6L2LGfvQ5wmMvs3qkvpthe5dBrff+PQke7xyRzSdSDI8OXQ1cp4Glww?=
+ =?us-ascii?Q?pbobnFe6Bi7QaB0hBsjoAzAgte+7mq7nyAQvlVXkJJ47TwAfnll6YBhOaT+F?=
+ =?us-ascii?Q?poYNgNZG2A=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 837b72de-6487-4da2-ef85-08decd09e4c5
+X-MS-Exchange-CrossTenant-AuthSource: DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2026 07:19:11.0624
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EC+IHp6451ZoWOu1bQ+b6Ljq1rO0VyC6U+jKSEDs2uPZwo7cg2TWw0TUw4OeZozqS0urim+T9Jx0BsX8MOkpUw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB2776
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 07:17:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239060
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 07:19:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239061
 
-Use GstBuffer metadata when constructing wl_shm buffers so stride and size reflect the actual buffer layout.
-This fixes incorrect rendering with DMA-backed buffers that include padding or custom strides.
-(cherry picked from commit 866915fa7bcbe563849aa1100033c684a805fc24)
+Replace the copydebugsources() sort/grep/sed shell pipeline with Python
+filtering over the NUL-separated source list while keeping cpio for the
+copy pass. Use an explicit prefix + "/" match before stripping the mapped
+debug source prefix, replace the symlink fixup pipeline with os.walk()
+plus cpio, use an argv-list mv for externalsrc relocation, and pass the
+empty-directory find command as an argv list.
 
-Signed-off-by: Tushar Darote <tdarote@qti.qualcomm.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...added-buffers-in-wl_shm-buffer-creat.patch | 238 ++++++++++++++++++
- .../gstreamer1.0-plugins-bad_1.28.2.bb        |   1 +
- 2 files changed, 239 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
+The externalsrc relocation keeps mv, but now with an argv list and
+glob.glob(glob.escape(...)). This preserves the old shell "*" and mv
+overwrite semantics.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
-new file mode 100644
-index 0000000000..2bb00e2b1d
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
-@@ -0,0 +1,238 @@
-+From 2af4bc8562f970207e3b1f6fc0b377ecf116a69c Mon Sep 17 00:00:00 2001
-+From: Tushar Darote <tdarote@qti.qualcomm.com>
-+Date: Mon, 8 Jun 2026 18:05:51 +0530
-+Subject: [PATCH] wayland: handle padded buffers in wl_shm buffer creation
-+
-+Use GstBuffer metadata when constructing wl_shm buffers so stride and
-+size reflect the actual buffer layout. This fixes incorrect rendering
-+with DMA-backed buffers that include padding or custom strides.
-+
-+gst_wl_shm_memory_construct_wl_buffer() now takes a GstBuffer instead of
-+a GstMemory. It derives the video layout from the buffer's GstVideoMeta
-+when present (width, height, stride and offset), falling back to the
-+caps-derived GstVideoInfo otherwise, and computes the real memory
-+footprint (plane_offset + stride * height) rather than the unpadded
-+GstVideoInfo size. The single-memory and fd-memory checks that used to
-+live in the callers are now performed inside the function.
-+
-+All callers in gstwlwindow, waylandsink and gtkwaylandsink are updated
-+accordingly.
-+
-+Upstream-Status: Backport [adapted from https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/11370 due to API differences]
-+
-+Signed-off-by: Tushar Darote <tdarote@qti.qualcomm.com>
-+---
-+ ext/gtk/gstgtkwaylandsink.c              | 11 ++---
-+ ext/wayland/gstwaylandsink.c             | 11 ++---
-+ gst-libs/gst/wayland/gstwlshmallocator.c | 59 ++++++++++++++++++------
-+ gst-libs/gst/wayland/gstwlshmallocator.h |  2 +-
-+ gst-libs/gst/wayland/gstwlwindow.c       |  4 +-
-+ 5 files changed, 52 insertions(+), 35 deletions(-)
-+
-+diff --git a/ext/gtk/gstgtkwaylandsink.c b/ext/gtk/gstgtkwaylandsink.c
-+index 0660b30..81bcd7f 100644
-+--- a/ext/gtk/gstgtkwaylandsink.c
-++++ b/ext/gtk/gstgtkwaylandsink.c
-+@@ -1179,7 +1179,6 @@ gst_gtk_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
-+       gst_gtk_wayland_sink_get_instance_private (self);
-+   GstBuffer *to_render;
-+   GstWlBuffer *wlbuffer;
-+-  GstMemory *mem;
-+   struct wl_buffer *wbuf = NULL;
-+ 
-+   GstFlowReturn ret = GST_FLOW_OK;
-+@@ -1240,8 +1239,6 @@ gst_gtk_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
-+   }
-+ 
-+   /* update video info from video meta */
-+-  mem = gst_buffer_peek_memory (buffer, 0);
-+-
-+   GST_LOG_OBJECT (self,
-+       "buffer %" GST_PTR_FORMAT " does not have a wl_buffer from our "
-+       "display, creating it", buffer);
-+@@ -1301,9 +1298,8 @@ gst_gtk_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
-+ handle_shm:
-+   if (!wbuf && gst_wl_display_check_format_for_shm (priv->display,
-+           &priv->render_info)) {
-+-    if (gst_buffer_n_memory (buffer) == 1 && gst_is_fd_memory (mem))
-+-      wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, priv->display,
-+-          &priv->render_info);
-++    wbuf = gst_wl_shm_memory_construct_wl_buffer (buffer, priv->display,
-++        &priv->render_info);
-+ 
-+     /* If nothing worked, copy into our internal pool */
-+     if (!wbuf) {
-+@@ -1328,8 +1324,7 @@ handle_shm:
-+ 
-+       /* attach a wl_buffer if there isn't one yet */
-+       if (G_UNLIKELY (!wlbuffer)) {
-+-        mem = gst_buffer_peek_memory (to_render, 0);
-+-        wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, priv->display,
-++        wbuf = gst_wl_shm_memory_construct_wl_buffer (to_render, priv->display,
-+             &priv->render_info);
-+ 
-+         if (G_UNLIKELY (!wbuf))
-+diff --git a/ext/wayland/gstwaylandsink.c b/ext/wayland/gstwaylandsink.c
-+index 443db24..60aa11d 100644
-+--- a/ext/wayland/gstwaylandsink.c
-++++ b/ext/wayland/gstwaylandsink.c
-+@@ -1011,7 +1011,6 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
-+   GstWaylandSink *self = GST_WAYLAND_SINK (vsink);
-+   GstBuffer *to_render;
-+   GstWlBuffer *wlbuffer;
-+-  GstMemory *mem;
-+   struct wl_buffer *wbuf = NULL;
-+ 
-+   GstFlowReturn ret = GST_FLOW_OK;
-+@@ -1086,8 +1085,6 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
-+   }
-+ 
-+   /* update video info from video meta */
-+-  mem = gst_buffer_peek_memory (buffer, 0);
-+-
-+   GST_LOG_OBJECT (self,
-+       "buffer %" GST_PTR_FORMAT " does not have a wl_buffer from our "
-+       "display, creating it", buffer);
-+@@ -1147,9 +1144,8 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
-+ handle_shm:
-+   if (!wbuf && gst_wl_display_check_format_for_shm (self->display,
-+           &self->render_info)) {
-+-    if (gst_buffer_n_memory (buffer) == 1 && gst_is_fd_memory (mem))
-+-      wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, self->display,
-+-          &self->video_info);
-++    wbuf = gst_wl_shm_memory_construct_wl_buffer (buffer, self->display,
-++        &self->video_info);
-+ 
-+     /* If nothing worked, copy into our internal pool */
-+     if (!wbuf) {
-+@@ -1173,8 +1169,7 @@ handle_shm:
-+ 
-+       /* attach a wl_buffer if there isn't one yet */
-+       if (G_UNLIKELY (!wlbuffer)) {
-+-        mem = gst_buffer_peek_memory (to_render, 0);
-+-        wbuf = gst_wl_shm_memory_construct_wl_buffer (mem, self->display,
-++        wbuf = gst_wl_shm_memory_construct_wl_buffer (to_render, self->display,
-+             &self->video_info);
-+ 
-+         if (G_UNLIKELY (!wbuf))
-+diff --git a/gst-libs/gst/wayland/gstwlshmallocator.c b/gst-libs/gst/wayland/gstwlshmallocator.c
-+index 671f2b7..11fb22c 100644
-+--- a/gst-libs/gst/wayland/gstwlshmallocator.c
-++++ b/gst-libs/gst/wayland/gstwlshmallocator.c
-+@@ -76,32 +76,60 @@ gst_wl_shm_validate_video_info (const GstVideoInfo * vinfo)
-+ }
-+ 
-+ struct wl_buffer *
-+-gst_wl_shm_memory_construct_wl_buffer (GstMemory * mem, GstWlDisplay * display,
-+-    const GstVideoInfo * info)
-++gst_wl_shm_memory_construct_wl_buffer (GstBuffer * buf,
-++    GstWlDisplay * display, const GstVideoInfo * info)
-+ {
-++  GstMemory *mem;
-++  GstVideoMeta *vmeta;
-++  GstVideoInfo vinfo;
-+   gint width, height, stride;
-+-  gsize offset, size, memsize, maxsize;
-++  gsize plane_offset = 0;
-++  gsize mem_offset = 0;
-++  gsize size, memsize, maxsize;
-+   enum wl_shm_format format;
-+   struct wl_shm_pool *wl_pool;
-+   struct wl_buffer *wbuffer;
-+ 
-+-  if (!gst_wl_shm_validate_video_info (info)) {
-++  /* Ensure the buffer has exactly one memory block */
-++  if (gst_buffer_n_memory (buf) != 1)
-++    return NULL;
-++
-++  /* Retrieve the memory and ensure it is FD backed */
-++  mem = gst_buffer_peek_memory (buf, 0);
-++  if (!gst_is_fd_memory (mem))
-++    return NULL;
-++
-++  /* Start from caps-derived video info */
-++  vinfo = *info;
-++
-++  /* Override layout using GstVideoMeta if present */
-++  vmeta = gst_buffer_get_video_meta (buf);
-++  if (vmeta) {
-++    vinfo.width = vmeta->width;
-++    vinfo.height = vmeta->height;
-++    vinfo.stride[0] = vmeta->stride[0];
-++    vinfo.offset[0] = vmeta->offset[0];
-++  }
-++
-++  /* Validate the final video layout */
-++  if (!gst_wl_shm_validate_video_info (&vinfo)) {
-+     GST_DEBUG_OBJECT (display, "Unsupported strides and offsets.");
-+     return NULL;
-+   }
-+ 
-+-  width = GST_VIDEO_INFO_WIDTH (info);
-+-  height = GST_VIDEO_INFO_HEIGHT (info);
-+-  stride = GST_VIDEO_INFO_PLANE_STRIDE (info, 0);
-+-  size = GST_VIDEO_INFO_SIZE (info);
-+-  format = gst_video_format_to_wl_shm_format (GST_VIDEO_INFO_FORMAT (info));
-++  width = GST_VIDEO_INFO_WIDTH (&vinfo);
-++  height = GST_VIDEO_INFO_HEIGHT (&vinfo);
-++  stride = GST_VIDEO_INFO_PLANE_STRIDE (&vinfo, 0);
-++  plane_offset = GST_VIDEO_INFO_PLANE_OFFSET (&vinfo, 0);
-++
-++  /* wl_shm requires the actual memory footprint of the buffer */
-++  size = plane_offset + (stride * height);
-++  format = gst_video_format_to_wl_shm_format (GST_VIDEO_INFO_FORMAT (&vinfo));
-+ 
-+-  memsize = gst_memory_get_sizes (mem, &offset, &maxsize);
-+-  offset += GST_VIDEO_INFO_PLANE_OFFSET (info, 0);
-++  memsize = gst_memory_get_sizes (mem, &mem_offset, &maxsize);
-+ 
-+-  g_return_val_if_fail (gst_is_fd_memory (mem), NULL);
-+   g_return_val_if_fail (size <= memsize, NULL);
-+-  g_return_val_if_fail (gst_wl_display_check_format_for_shm (display, info),
-++  g_return_val_if_fail (gst_wl_display_check_format_for_shm (display, &vinfo),
-+       NULL);
-+ 
-+   GST_DEBUG_OBJECT (display, "Creating wl_buffer from SHM of size %"
-+@@ -110,8 +138,9 @@ gst_wl_shm_memory_construct_wl_buffer (GstMemory * mem, GstWlDisplay * display,
-+ 
-+   wl_pool = wl_shm_create_pool (gst_wl_display_get_shm (display),
-+       gst_fd_memory_get_fd (mem), memsize);
-+-  wbuffer = wl_shm_pool_create_buffer (wl_pool, offset, width, height, stride,
-+-      format);
-++  wbuffer =
-++      wl_shm_pool_create_buffer (wl_pool, mem_offset + plane_offset, width,
-++      height, stride, format);
-+   wl_shm_pool_destroy (wl_pool);
-+ 
-+   return wbuffer;
-+diff --git a/gst-libs/gst/wayland/gstwlshmallocator.h b/gst-libs/gst/wayland/gstwlshmallocator.h
-+index 4309bd7..38f3ba5 100644
-+--- a/gst-libs/gst/wayland/gstwlshmallocator.h
-++++ b/gst-libs/gst/wayland/gstwlshmallocator.h
-+@@ -33,7 +33,7 @@ GST_WL_API
-+ void gst_wl_shm_init_once (void);
-+ 
-+ GST_WL_API
-+-struct wl_buffer * gst_wl_shm_memory_construct_wl_buffer (GstMemory * mem,
-++struct wl_buffer * gst_wl_shm_memory_construct_wl_buffer (GstBuffer * buf,
-+     GstWlDisplay * display, const GstVideoInfo * info);
-+ 
-+ G_END_DECLS
-+diff --git a/gst-libs/gst/wayland/gstwlwindow.c b/gst-libs/gst/wayland/gstwlwindow.c
-+index 3c5c3cc..cd9c964 100644
-+--- a/gst-libs/gst/wayland/gstwlwindow.c
-++++ b/gst-libs/gst/wayland/gstwlwindow.c
-+@@ -985,9 +985,7 @@ gst_wl_window_update_borders (GstWlWindow * self)
-+     buf = gst_buffer_new_allocate (alloc, info.size, NULL);
-+     gst_buffer_memset (buf, 0, 0, info.size);
-+ 
-+-    wlbuf =
-+-        gst_wl_shm_memory_construct_wl_buffer (gst_buffer_peek_memory (buf, 0),
-+-        priv->display, &info);
-++    wlbuf = gst_wl_shm_memory_construct_wl_buffer (buf, priv->display, &info);
-+ 
-+     g_object_unref (alloc);
-+   }
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
-index cdf3a20dff..72f2cc7342 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
-@@ -9,6 +9,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch \
-            file://0002-avoid-including-sys-poll.h-directly.patch \
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-+           file://0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch \
-            "
- SRC_URI[sha256sum] = "6467e3964828f4d7d08bfe1fbb4d76287a1c8fa76674e59e101a149c020fefd7"
- 
--- 
-2.34.1
+The first cpio copy pass keeps the previous failure-tolerant behavior,
+while the symlink fixup copy still reports cpio failures.
+
+Benchmarks did not indicate regression.
+
+Changes in v2:
+  - Replace sort/grep/sed filtering with Python filtering while keeping cpi=
+o.
+  - Preserve externalsrc mv behavior using argv-list mv.
+  - Add test coverage for filtering, copy failures, symlinks, and relocatio=
+n.
+
+Anders Heimer (2):
+  package: replace copydebugsources shell pipelines
+  oeqa/selftest: add copydebugsources tests
+
+ meta/lib/oe/package.py                        |  70 +++--
+ meta/lib/oeqa/selftest/cases/oelib/package.py | 274 ++++++++++++++++++
+ 2 files changed, 322 insertions(+), 22 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/cases/oelib/package.py
 
 
