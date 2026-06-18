@@ -1,90 +1,91 @@
-Return-Path: <sivakumar.bs@gmail.com>
+Return-Path: <yocto@nkent.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44BB2CD98F2
-	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 11:15:08 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17090.1781781305202147579
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23352CD98F2
+	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 11:22:08 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17209.1781781722690056613
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2026 04:15:05 -0700
+ Thu, 18 Jun 2026 04:22:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Fmi8nkGJ;
- spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: sivakumar.bs@gmail.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84538597e1fso433902b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 04:15:05 -0700 (PDT)
+ dkim=pass header.i=@otiv.ai header.s=google header.b=OPmkO+uk;
+ spf=pass (domain: otiv.ai, ip: 209.85.128.49, mailfrom: nathan@otiv.ai)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so5302245e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 04:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781781304; x=1782386104; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AB0Z2+SaSzQkeIG71noYLtyNECbmp3DJ2PmK3TUgYj0=;
-        b=Fmi8nkGJ1ykFwxAfN0+hW0djbzGQ1GDy/xbGEZh8YT8R/8lRjC04e0egMdWUFLbDAH
-         edpVcU2okMXPCvjKGqiirlswk5gg+eOcWCSYkyWx1MlSjqXHM1k6TyZHHlRsWnYk3WS5
-         s+LICkm+6c7yeqlPUF97Bw8GfiqHToDppIa2Ehjxpu/5RwUzSM7RnHmmNO14pUubMt2O
-         WD+4AODHSRF/Ccbo5TRUnMXWjCpUQYhBFxlCysn2UGyP3uMqGPCsEf3emeTe4KL2sxbO
-         ns/NCpQxWEh5kHiZ1mzLFcgbJ8oLSfNpMuBbjRQEj58ratbqf9/XMN4wFcYEgj/EzvMv
-         3OoQ==
+        d=otiv.ai; s=google; t=1781781721; x=1782386521; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pz6BHlMMBFiR7yveho5pXCAkAF+2n/e2yt202PVGta8=;
+        b=OPmkO+uk3aZyHg17z+yBV40CA8kEH72jayzS58RXKD+3EOVGumSiAdlx/AIuVSPk7z
+         dEMtwn5GmxFG6TJxGMXryeT82MueBI7L0y2j2RpH2hUDdkLNapMi2RMepT10FlmJ96Z8
+         JgAsff3kZ9zptqd/QBr+/VZtC4VUK6Y5GLy/sQ9ic78f/7VCgKspvTGYb5FrZZmPxTjA
+         WO5hIr7bAwWO2RuhgSU6vyabIGDCt+uJNsGksZ6tLPiv4G2XQYAzjDAFamDOJOngPymw
+         E97UJhpRpml7NnSqx/o5A9EY2dZ9Z83Cf6nqxaBVNPc5VxHF6rydy3P2ms6ZSa91fyYE
+         FKrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781781304; x=1782386104;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AB0Z2+SaSzQkeIG71noYLtyNECbmp3DJ2PmK3TUgYj0=;
-        b=MM9VZZu3031omG6eyfkErD+9AtKKMtH8YP7xVkN2H9FKJocIui23aDJhXEEx1sO2TG
-         2+j28zET+lqag3MNveLHgvzbRwMcsR2y/IXA242nsmiByA+PKIwbHcinEPIxdLiDFTbx
-         Z6nacEtPFuK9llKSjuUDYi/LxGElyQA1VmE7gJkgmbUn0sOmWMoBwdxuhO9HS6G3ZoOW
-         xpH7KSrcMgd+KzWV/PVFyxRhkUPJDSQ+Er8eK73b6TLNY6Y/cQI9FiRR7/xEGomJSc5w
-         W6kKwiCcWpSyezFqvcu+lRHX6U6XAUie/N/KNFVELhBpEhqu7lfyZ79jO7WSw9S45fJs
-         rq7w==
-X-Gm-Message-State: AOJu0YyIqRQRbPbL67qnruQI8W2+TpLTDgA0dO7jrG2xzZxco8/SXBY9
-	af5SPt2kslC8iKaBlMyUM7Sh8+xrI3jFwiD4vC11sqnCxVIFky8blwtnMVTaEq8va5g=
-X-Gm-Gg: AfdE7clb2kZwRjyK9oslqm4Iga7jiangx1hHgCoYI6R/VR28ew+v7GB1OkJUHruZYeG
-	YN1EGwWakUXcrWkH0/pfXXTepasQ8BwmvJkvpxbQK92U08ZcTUgs0tSILnExqeFqJkvxK/UswUH
-	M3obGgHf39+hG47gMBCnVPErx67UR9GLwm6yUDE63NbQ17CinCQ2mrBqxt+KNDYKFt/CwPQet70
-	m8czPWit4pwV6PFRCFxtQgmiK+gibRfrpbCU+17ZDMXly28a98flAf672jTVD8aQKdyS0dohyIm
-	7JvOw9L+RoAI9Xyj7DsMulgz+L1+27v9SO6gRTf0ZI1uaiRuOFwR6o4pZAbMcULoYGNYkiiKfqA
-	z9RiJGLx8teFb9SP/KpunhcJ2aIUHMv+KgXBpZg1tXvz1yWR0QBsNSTCJVJBg8qAEug4GEi10We
-	YCAoyEDjO1rEoBFZR9ibhGYOLYc94pgztS3bq9AVQL8FBhnQIV9M0ZPjM=
-X-Received: by 2002:a05:6a00:4287:b0:845:4928:8655 with SMTP id d2e1a72fcca58-84549288c40mr816954b3a.39.1781781304473;
-        Thu, 18 Jun 2026 04:15:04 -0700 (PDT)
-Received: from naduvan.timesys.com ([223.184.90.9])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434ac9bfe1sm19767475b3a.12.2026.06.18.04.15.02
+        d=1e100.net; s=20251104; t=1781781721; x=1782386521;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pz6BHlMMBFiR7yveho5pXCAkAF+2n/e2yt202PVGta8=;
+        b=TLE7v9dcemO/vWu9LrKScceFezvVakLbia1eu/b+dOIazgwHJsZKCpBmt66RK7Gl0/
+         9w5+1Xq8NYJ07KjI0KGUK/zwso0so2D5gD9977DUCvZXdqNvZJTc684heQu4qOJQOF+O
+         wr78XsO4nX9S6vPwlD5Aot8MJRl3M1qGI1FKxDauaGBwoSakgL5G+vtoX5XLjywRY3f/
+         dI2jr+s2xbD1cNJodOb/X+JdZAUXyphEsNmNYNzdzwK5P/ItcqQTA+x8cakRfDpcaoNL
+         cFrBEhMCAzevubqhbj3buVrVTkV+Hk3YfjmFAiSAQkWL83kWAOFsyvdZER/Y7YxqqKoR
+         XbSw==
+X-Gm-Message-State: AOJu0YyAli8F2kqNhMEnPzKtxsjfWALKCITEivDIOnQQaN6gGtH2iSAv
+	2zvg2PvrBRMN6tqQqwTAWkO458/2MrVwvHKUCo2pYSQ85e8JNIoyXZoXNGP+nxxo0qk=
+X-Gm-Gg: AfdE7cmJNN8ltVNjXov7wIUpEFIm++tMiuAhLR6f+Haa8hsC/TF2yT/YQ5tOaY+He0q
+	Z5GHl59YTduBaepzEFO0hTAq2dm91PVJmEW/JxxMI5bxaAWgRMtFnWMIOcGu+OjV2ky2KM1HEU/
+	4d5uWvgSBHc+nTzIaRoOcqWhtLUY2XHN0mcw6oAO3gfs8t2Q02mZMjqxrdjyksFKT6YgZgM7hPN
+	l6EYFBavG9WLImP4tVaLMGwjzoMHJ7nIMPaClzpKhGLPMFqilPudqVMtHeRb5WZ3C6yoxP+J+s9
+	fytgSPF98ZnFbhsksW+YLCU//rDuKjlA1WAMX3+3ZoHg+MpQqnv1unJSCOxNrh1IH/SvY+y3qvU
+	iq/+g7A5HSwqyCvI5rR1CwXLznclXoy7cpalTTWl7AhsJ8UAM7sc8x5FlACHno9GlHLo5nRQAH/
+	prGKHg01gM+zziLuoVZ2gCZ68AKmwXLBbFFoXJHx0GhQdvK4u/d5zEukXFryASTGzjrnoZn4+Ar
+	9/K3g==
+X-Received: by 2002:a05:600c:4f84:b0:490:d354:bd0a with SMTP id 5b1f17b1804b1-4923822a867mr54014425e9.31.1781781720826;
+        Thu, 18 Jun 2026 04:22:00 -0700 (PDT)
+Received: from localhost (2a02-1811-e507-d800-de56-e30c-805-27e7.ip6.access.telenet.be. [2a02:1811:e507:d800:de56:e30c:805:27e7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49230a9b45bsm206056135e9.15.2026.06.18.04.22.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 04:15:04 -0700 (PDT)
-From: Siva Balasubramanian <sivakumar.bs@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Nate Kent <nathan@otiv.ai>,
-	Siva Balasubramanian <sivakumar.bs@gmail.com>
+        Thu, 18 Jun 2026 04:22:00 -0700 (PDT)
+Date: Thu, 18 Jun 2026 13:21:57 +0200
+From: Nate Kent <nathan@otiv.ai>
+To: Siva Balasubramanian <sivakumar.bs@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] Update sed usage by 'pam-wheel' for sudoers
-Date: Thu, 18 Jun 2026 16:44:58 +0530
-Message-Id: <20260618111458.3490459-1-sivakumar.bs@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260618102839.363123-1-nathan@otiv.ai>
+Message-ID: <uzyyorseo2zcjbxjk4yi4h6kxcienx4tdo3funkrnpw6k5lwv7@aimmwwbtvknn>
 References: <20260618102839.363123-1-nathan@otiv.ai>
+ <20260618111458.3490459-1-sivakumar.bs@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260618111458.3490459-1-sivakumar.bs@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 11:15:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239076
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 11:22:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239077
 
-The code change here is identical to one I independently posted:
-https://patchwork.yoctoproject.org/project/oe-core/patch/20260618110111.3484982-1-sivakumar.bs@gmail.com/
+On Thu, Jun 18, 2026 at 04:44:58PM +0530, Siva Balasubramanian wrote:
+> The code change here is identical to one I independently posted:
+> https://patchwork.yoctoproject.org/project/oe-core/patch/20260618110111.3484982-1-sivakumar.bs@gmail.com/
+> 
+> One note: patchtest flagged the shortlog (it should be prefixed
+> "sudo: ..."), and the bug reference is best written as "[YOCTO #16321]"
+> so it auto-links. A v2 would be needed for those. Happy for either
+> patch to land.
 
-I built sudo with DISTRO_FEATURES += "pam" and PACKAGECONFIG:pn-sudo +=
-"pam-wheel" and confirmed /etc/sudoers ends up with
+I am also happy for either patch to land - I just want it working. That being
+said, if it's all the same to you I'd like to use this as a learning
+opportunity so I am better prepared for the next patch I submit.
 
-    %wheel ALL=(ALL:ALL) ALL
+Assuming you're fine with me fixing this: is the proper course of action to
+fix the patch and then repeat the `git send-email` I originally did or should
+it be a reply to this thread with the fixed patch?
 
-uncommented, while the separate "# %wheel ALL=(ALL:ALL) NOPASSWD: ALL"
-line is correctly left commented.
-
-Tested-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
-
-One note: patchtest flagged the shortlog (it should be prefixed
-"sudo: ..."), and the bug reference is best written as "[YOCTO #16321]"
-so it auto-links. A v2 would be needed for those. Happy for either
-patch to land.
+- Nate
 
