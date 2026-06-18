@@ -2,63 +2,63 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8BEFCD98F2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C507BCD98FC
 	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 16:50:47 +0000 (UTC)
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.24330.1781801439345593785
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24016.1781801440283505915
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2026 09:50:39 -0700
+ Thu, 18 Jun 2026 09:50:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=GVgZCiaL;
- spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7e6b5737bb2so1048524a34.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 09:50:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=gfegvryg;
+ spf=pass (domain: gmail.com, ip: 209.85.167.182, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-488b3fd8d0dso502699b6e.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 09:50:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781801438; x=1782406238; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1781801439; x=1782406239; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WQCKW8afwcAv+YtjmIMjDljbMzvW2SV26QGVFsGbe4M=;
-        b=GVgZCiaL5y6i8SjQ4maDJ2KEep9cjnux3qu9ii2ttAqc5mqCnFaYFENehuetd3t6NB
-         I7YxcQwe/9Fu/0arowCqw9jzwqvWZ+qWtDOJdRU/0qQAlmALVYNPka8ou8P3lFtsUfVi
-         gMuMLRcQ4KfpSArxgbCw9fVTqBALYuFpgLKTE+eHOQK7fhEQD8HnJF2sLxr2urc4+4v1
-         vPvAkNue2pupGnfLmD9A+yp7NC76z/wM6JowRHRgVdF9+yWZETn1xjNGt5gKOgkRxLsz
-         Hap+wn/kb8UHLKpQmtqmjCX5Ov15pk3IXrOQeAHbJL/VM6a9QDzYwnPEJwKoj7cSUKgr
-         oTXw==
+        bh=htmmbviTFKFO6CGnAjLliWc0qZi9TjaXMmIgPhE5RD0=;
+        b=gfegvrygoBjddg6tcZKEFNPmLCmGKk+Zk2cWCGihQ6FZOPzU5gp4ZTt+XYaMeafFQ6
+         RzKuFec6c6XGkWfLcbRHUOL3vqMuqR+5za76HlCoKEHhd8vylE1rVrcBu4417PgMB4bh
+         QtKDhEmVKEMfaV7gh/HgFJsten3vbnNM3tKyf/WxnNrFdy+sFiWjXqmfkaM5j8upEdzU
+         DEJG7C3w0qUJ+Zasdf6K7w4dwHyRw+iTdKLUrwlEqWkwwcuhA617aCIRp8ttnIZ+kl4I
+         q3cqPPEXCo8aEjuHtxNgQfFQSU1gqaGncp5rOWHodiouUnz4NrWXPcEyMm+/0LBcAYDL
+         e+ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781801438; x=1782406238;
+        d=1e100.net; s=20251104; t=1781801439; x=1782406239;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=WQCKW8afwcAv+YtjmIMjDljbMzvW2SV26QGVFsGbe4M=;
-        b=bMPcxcpW8/9EjaiKBIoDrKozanrgmhEa3TGbpaNRsGOY9V4k1HFe6jhMXGuigxTBJ7
-         2cobLhi31wfI7dCvwtt1SHzSnuta2PpKjjCN+CMH33561QV2YP3eySd1FI4WHMpiWFiv
-         5ZQ708MpyDEuq8auVovIsayo9DB1FKZtHL3cBhDdmvqclf8XTgJU7ulRe7Ui3G4hHfR0
-         coAoK+Q4FbLbjPIilzIeVtujdOTXBwtIKcyf/EK3dpVrSzZ5RjMe1NeCkbOfC1x7iRx2
-         0yEkVh2LWvEkbQecOxPzKEzI0ZYyFcoB9Ag9SmYNrZ/Wav7xpy7+JXbc7BSpy+a8FpeH
-         as/Q==
-X-Gm-Message-State: AOJu0Yzw9wrtWiCHAsvTalNtluTdmjd8kI4dflFepXdB0BsztGrpPdju
-	W6AvFkwmiYHN8ZYhBFKX9YqTwFHAHg8ba051Phqwc49OGySSQ4NTN+xEvwfCcw==
-X-Gm-Gg: AfdE7cnlhJcBF+qShZI+NX84gJZ/NoB00VSNfEwk7TI7YvWyM2jQiod2gRDOYvXl2w5
-	/Qj652WL245OlP7yAgik2HZwxgrwH8Vx1LmStfz/jYzRanw921n/8xilKg07FZJI38XO90sl5ey
-	WcDTQ9Hc53WZubRb0jNGpqxEDvmUC21dssJxNYKVmQOMIPAfy5Ks8U2kf+mKEMW/tmfanuNoVWC
-	Eq/uoFFhGWOePLmLA2+KYIEeqV3G8wXX/7IQpFY9O6drzmrEAaBRf+jvsHDDu/1hCWdXMdbhZWr
-	huS+8WBSETtJU7mFMTtJIXmff5R7q2HKrXrVM9EM1k43eXafZcE8v6HpDx9qNAGyN7Oj17wGzi5
-	QLhXSazym3byKpOIkhafCgnjjeKiy+/oiG/JtxErfjjWPRST9HaPZYbCdtvvnnegh4SEbso4Zfq
-	QKMFgzRggWyw==
-X-Received: by 2002:a05:6808:c3cc:b0:479:faf5:ef4c with SMTP id 5614622812f47-4896ac58f84mr134651b6e.32.1781801438488;
-        Thu, 18 Jun 2026 09:50:38 -0700 (PDT)
+        bh=htmmbviTFKFO6CGnAjLliWc0qZi9TjaXMmIgPhE5RD0=;
+        b=G35uibkoHML99wGLmdg7eHKVSgPP5VKk4S1rBIEWny2qxwOsKKcwq5MBnvIGy+kbEz
+         KiP2EKFua3nQFBlMkhvl0RG9qEcaduQQncQgjcU9zrc6Jr5Qfft7MDJZ/WjPuMkWtgJP
+         bbQzp1m9qTDozhUcyBr910Ywfi8McsgER7Xdii7RU5ZFO3InNcOmW8ceiH9PBRJPmwYR
+         8yGWVF+SOvPbsunqoql7fpzcv8aZGkQ1sMVTxhaepHCxRCGX7i/1q/TlHdxyBNp3JiNT
+         XfJNc11ArJ851xM6nk3sms6qyth+mrVohRw75SJn4IOFH4CVG1sibI0SSZTjeu+xIa7+
+         vIjw==
+X-Gm-Message-State: AOJu0Yx5qqxoPP/IZP+yDvObVlehhunCxC49JzjEFZMFy1Ea6wninwzT
+	y/iwZhDMPuP08/gSjphF+P9ltSxFEDzXpIPKYWx/Cukh9Zw2OXIc89maL29wMQ==
+X-Gm-Gg: AfdE7cmpf67g77utXRp1lIpua7jPQBDr6w9jA/B5Oi7MqGjcOYi4UJKCfQV3Anx6cYl
+	uGaaHuTB2NaaZKzWk32CPKaS3ABl8u1y/GbmLFwVlHwqpaI99kz7g8kWo6yrMEx3O5y+jZOWwFS
+	DWVd2LXo2FUvff5hdHIej4gS/D2A6i/4rbP1yrFINAsxmzJpOglhD+aKCtHChfg024uoaobQSw8
+	W7p5ZGsUd1ELsTrYFqaT1locN0mRcUcWSuoqfbwnBPDYVzveY0zp9urTXaAAzBEwQ1hvo6HdMvG
+	78ePDZ+eQUe/xK8jdAgKs9Dn3GcdIqBlPqvQQQWXsKJXmiHOViwvaZWxR3wo6f/LJ5kaHoHPpwy
+	YZnJ7yX6pW2q7nXNC9js/MpPx4T4q09OACN++e10TgxPaC+zRVOVZLOShA8rfgS+OgEi9OUbsO7
+	gXe4MFTtgupuIox/E50WvD
+X-Received: by 2002:a05:6808:7003:b0:486:560d:aa8e with SMTP id 5614622812f47-4896ab9cf48mr176809b6e.22.1781801439108;
+        Thu, 18 Jun 2026 09:50:39 -0700 (PDT)
 Received: from localhost.localdomain ([2601:283:4b02:22d0::8b4b])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4875dda5ee5sm8732987b6e.2.2026.06.18.09.50.37
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4875dda5ee5sm8732987b6e.2.2026.06.18.09.50.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 09:50:37 -0700 (PDT)
+        Thu, 18 Jun 2026 09:50:38 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v2 2/5] classes-global/sstate: Keep SPDX generating setscene dependencies
-Date: Thu, 18 Jun 2026 09:38:42 -0600
-Message-ID: <20260618165032.347436-3-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v2 3/5] Add SPDX deploy tasks to various recipes
+Date: Thu, 18 Jun 2026 09:38:43 -0600
+Message-ID: <20260618165032.347436-4-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260618165032.347436-1-JPEWhacker@gmail.com>
 References: <20260609222331.1293007-1-JPEWhacker@gmail.com>
@@ -69,93 +69,110 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 16:50:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239092
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239093
 
-Tasks that create SPDX documents can reference SPDX ids from documents
-created by any task they depend on. When it comes time to create the
-final SBoM, these referenced SPDX ids must be present so that they can
-be merged into the SBoM. Specifically, when a task that restores from
-sstate (a setscene task) is one that can create an SPDX document, and
-that task is depended on by at least one other task that can create an
-SPDX document, it must always be restored.
+Adds SPDX deploy tasks to many recipes to record their output when
+consumed in an SBoM
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes-global/sstate.bbclass | 38 ++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+ meta/classes-recipe/barebox.bbclass             | 1 +
+ meta/classes-recipe/devicetree.bbclass          | 1 +
+ meta/classes-recipe/kernel-fit-image.bbclass    | 1 +
+ meta/classes-recipe/kernel.bbclass              | 1 +
+ meta/recipes-bsp/grub/grub-efi_2.14.bb          | 1 +
+ meta/recipes-bsp/opensbi/opensbi_1.8.1.bb       | 1 +
+ meta/recipes-bsp/u-boot/u-boot.inc              | 1 +
+ meta/recipes-core/systemd/systemd-boot_259.5.bb | 2 +-
+ 8 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 50dd0e51c4..833b78b870 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -1115,11 +1115,28 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+diff --git a/meta/classes-recipe/barebox.bbclass b/meta/classes-recipe/barebox.bbclass
+index 2411fb5caa..60437c1ad1 100644
+--- a/meta/classes-recipe/barebox.bbclass
++++ b/meta/classes-recipe/barebox.bbclass
+@@ -158,5 +158,6 @@ barebox_do_deploy () {
+         fi
+ }
+ addtask deploy after do_compile
++SPDX_DEPLOY_TASKS += "do_deploy"
  
-     logit("Considering setscene task: %s" % (str(taskdependees[task])), log)
+ EXPORT_FUNCTIONS do_configure do_compile do_install do_deploy
+diff --git a/meta/classes-recipe/devicetree.bbclass b/meta/classes-recipe/devicetree.bbclass
+index ce9d008aac..35c2499bdb 100644
+--- a/meta/classes-recipe/devicetree.bbclass
++++ b/meta/classes-recipe/devicetree.bbclass
+@@ -164,6 +164,7 @@ devicetree_do_deploy() {
+     done
+ }
+ addtask deploy before do_build after do_install
++SPDX_DEPLOY_TASKS += "do_deploy"
  
--    directtasks = ["do_populate_lic", "do_deploy_source_date_epoch", "do_shared_workdir", "do_stash_locale", "do_gcc_stash_builddir", "do_create_spdx", "do_create_recipe_spdx", "do_deploy_archives"]
-+    directtasks = ["do_populate_lic", "do_deploy_source_date_epoch", "do_shared_workdir", "do_stash_locale", "do_gcc_stash_builddir", "do_deploy_archives"]
-+
-+    # SPDX tasks are only needed if depended on directly, unless they are
-+    # needed by another task that is creating SPDX documents
-+    SPDX_TASKS = {"do_create_spdx", "do_create_recipe_spdx", "do_create_package_spdx"}
+ EXPORT_FUNCTIONS do_compile do_install do_deploy
  
-     def isNativeCross(x):
-         return x.endswith("-native") or "-cross-" in x or "-crosssdk" in x or x.endswith("-cross")
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+index ae8f3c6688..5115482eff 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -241,3 +241,4 @@ do_deploy() {
+     fi
+ }
+ addtask deploy after do_compile before do_build
++SPDX_DEPLOY_TASKS += "do_deploy"
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index 50cef17f69..8d0cb91688 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -842,6 +842,7 @@ kernel_do_deploy() {
+ do_deploy[prefuncs] += "read_subpackage_metadata"
  
-+    def isSpdxTask(key):
-+        taskname = taskdependees[key][1]
-+        # Tasks that start with "do_deploy" might be included in
-+        # SPDX_DEPLOY_TASKS and should be kept
-+        if taskname.startswith("do_deploy"):
-+            return True
-+
-+        # Tasks that are don't start with do_deploy, but still deploy SPDX data
-+        if taskname in {"do_image_complete", "do_populate_sdk", "do_populate_sdk_ext"}:
-+            return True
-+
-+        return taskname in SPDX_TASKS
-+
-     # We only need to trigger deploy_source_date_epoch through direct dependencies
-     if taskdependees[task][1] in directtasks:
-         return True
-@@ -1132,6 +1149,8 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
-                 return False
-         return True
+ addtask deploy after do_install do_populate_sysroot do_packagedata
++SPDX_DEPLOY_TASKS += "do_deploy"
  
-+    spdx_deps = []
-+
-     for dep in taskdependees:
-         logit("  considering dependency: %s" % (str(taskdependees[dep])), log)
-         if task == dep:
-@@ -1188,12 +1207,27 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
-             # Target populate_sysroot need their dependencies
-             return False
+ EXPORT_FUNCTIONS do_deploy
  
--        if taskdependees[dep][1] in directtasks:
-+        # Collect dependees that create SPDX documents
-+        if isSpdxTask(dep):
-+            spdx_deps.append(dep)
-+            continue
-+
-+        if taskdependees[dep][1] in directtasks or taskdependees[dep][1] in SPDX_TASKS:
-             continue
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.14.bb b/meta/recipes-bsp/grub/grub-efi_2.14.bb
+index 6354b43989..e535d99710 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.14.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.14.bb
+@@ -97,6 +97,7 @@ do_deploy() {
+ }
  
-         # Safe fallthrough default
-         logit(" Default setscene dependency fall through due to dependency: %s" % (str(taskdependees[dep])), log)
-         return False
-+
-+    # SPDX generating tasks can refer to the SPDXID from the SPDX output of
-+    # their dependencies. Therefore if the current task can generate SPDX and
-+    # is depended on by another SPDX generating task, it must be kept so that
-+    # the IDs can be correctly resolved when merging SPDX output into a
-+    # complete SBoM
-+    if spdx_deps and isSpdxTask(task):
-+        logit(f"Keeping SPDX task {taskdependees[task]} needed by SPDX task(s) {', '.join(str(taskdependees[k]) for k in spdx_deps)}", log)
-+        return False
-+
-     return True
+ addtask deploy after do_install before do_build
++SPDX_DEPLOY_TASKS += "do_deploy"
  
- addhandler sstate_eventhandler
+ FILES:${PN} = "${libdir}/grub/${GRUB_TARGET}-efi \
+                ${datadir}/grub \
+diff --git a/meta/recipes-bsp/opensbi/opensbi_1.8.1.bb b/meta/recipes-bsp/opensbi/opensbi_1.8.1.bb
+index 0a9652c283..93646a97df 100644
+--- a/meta/recipes-bsp/opensbi/opensbi_1.8.1.bb
++++ b/meta/recipes-bsp/opensbi/opensbi_1.8.1.bb
+@@ -45,6 +45,7 @@ do_deploy () {
+ }
+ 
+ addtask deploy before do_build after do_install
++SPDX_DEPLOY_TASKS += "do_deploy"
+ 
+ FILES:${PN} += "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_jump.*"
+ FILES:${PN} += "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_payload.*"
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index a75948dfc3..acc2bf9819 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -471,3 +471,4 @@ uboot_deploy_spl () {
+ }
+ 
+ addtask deploy before do_build after do_compile
++SPDX_DEPLOY_TASKS += "do_deploy"
+diff --git a/meta/recipes-core/systemd/systemd-boot_259.5.bb b/meta/recipes-core/systemd/systemd-boot_259.5.bb
+index c6c443f929..c887835806 100644
+--- a/meta/recipes-core/systemd/systemd-boot_259.5.bb
++++ b/meta/recipes-core/systemd/systemd-boot_259.5.bb
+@@ -72,4 +72,4 @@ do_deploy () {
+ }
+ 
+ addtask deploy before do_build after do_compile
+-
++SPDX_DEPLOY_TASKS += "do_deploy"
 -- 
 2.54.0
 
