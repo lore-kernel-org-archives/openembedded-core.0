@@ -1,167 +1,96 @@
-Return-Path: <sivakumar.bs@gmail.com>
+Return-Path: <yocto@nkent.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71ED0CD98ED
-	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 09:17:57 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15415.1781774269768921944
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B03CECD98F2
+	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 10:29:07 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16457.1781778540445125831
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2026 02:17:49 -0700
+ Thu, 18 Jun 2026 03:29:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=lofFWebB;
- spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: sivakumar.bs@gmail.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-84229481d44so302052b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 02:17:49 -0700 (PDT)
+ dkim=pass header.i=@otiv.ai header.s=google header.b=KhnRPFon;
+ spf=pass (domain: otiv.ai, ip: 209.85.221.44, mailfrom: nathan@otiv.ai)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-460166910e6so505828f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 03:29:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781774269; x=1782379069; darn=lists.openembedded.org;
+        d=otiv.ai; s=google; t=1781778539; x=1782383339; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AuFbvjmWVwjS3cA/FBqXeeFe+Is5DCGf6YXUpg4Lpmw=;
-        b=lofFWebBv4Y57jjWvoAvxUoIMU4c61Op1YsZcKsGP+ZjFuVUK1CdRWDf8VoovEa92J
-         jNxPTGm7G92iDGexQl6VzrbIeqx0ihQ7gmFhvjCfQ2KOlgM8hTbG7427+Acenp1OjNFi
-         o25F54bbpt8JdjcJgya/7nlFvIG1lQvKScsFrwMvVdonrF+W/eYHaTbYs/m+Y1k+Il8V
-         FZZi+vj7ae1jOcg9O92fc7qWOR/rEhBYgZviwbLNaoXV5tTB0YcEsvcRUkatLr6ewT16
-         /fi7bPnXzEnkk4ZhO8epyLZqLbBlzdbJNawstkYDyBN/m7aMk/7mstf7nUcvLN7IfwOo
-         FL1A==
+        bh=zN2PyQtlxc8Ju+NRChw7Tb3q9m2WV+bIT7kK4uaOr74=;
+        b=KhnRPFonrLawBX/jpsXMkOTf63MfeKl+Zr2GPUeye7Ko45TVjKA3E2GoVZKItlXLaF
+         5W7K1J30CdLNnTK+wxM5KdAqyOeCcnopV9B6swJszkXaaQmJPXSi1+EmuNyXIdDRBMrK
+         IIDuRRF3zVE1hy67mB1dS8LAsaibYJs3Au7FZXgg28d/FlcH+waQiqjVZ+g54qrb3g+3
+         OUgh8U2/wGTWS+lRL6JtmWUZ3e20bN3rqSVkxvMzIcw93Pl2eIzqtTurSEKMRew32dbQ
+         6NE7U0mn9s6Gu838lIj/k6QuU5cnLQLWDJlkHap9E443UBU6HKskkz+KxH0vuaF4/T6Q
+         /DsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781774269; x=1782379069;
+        d=1e100.net; s=20251104; t=1781778539; x=1782383339;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AuFbvjmWVwjS3cA/FBqXeeFe+Is5DCGf6YXUpg4Lpmw=;
-        b=s9uqoY046CUN6on9OboHxc3P7Rbe7PQyPQC/PyF84ZWaPXTv7tUrAe0KkuZl+/msjM
-         /IIY637l7ZvbhZI8xADQRAI+1FS9BVUJvWLQtWpwiYbb9InclQ+DNUKm+rKOo50ezcg4
-         Mvj6Cr0XJ3t6xDB52VrUUF1jyv0RE6gs9OScmdDYzWF51MVMWQdoPuurz6RL6g2w9xr1
-         5AZR3xZbNCf8xjrhVh0SpGIkaoaaWhQaUmrBmqYP0uVtfHNNTUoDKWDpYfpdRihjW80q
-         amZlGuiPpTzaZTTp9MJCul12J6Q2U31A6UP6BGZ+XHcwU0hjjn1akXNKuKQXulns0aBf
-         qEow==
-X-Gm-Message-State: AOJu0Yx79iboCO1ZodVHnyzoYuriet4RaJqQ8sGK1Xjf+e9xNX5ctG2U
-	Pee6s+N+Sg4iB07ff+oESf44pXGh3HArJRBqrpyRj1DbE8frh0nxd5L777CFVYSEj4I=
-X-Gm-Gg: AfdE7clBv7cHzmWHUl3UO7VicRErsEuqSjC5dW20YV42Z/9wDAzb5Pl5Iu8wcq9k/P6
-	z4Y+xbVq5V1+m9BJV+w+R7Nvv894B2j9ZJCVDXcvL7iaLRT1OlvDel5/iIrgfAcT1AYlww5d6WM
-	kt10UjA+CgXqjDQOYbTIZvA2SMNpXAXLBg9QqCxH6CFow+ei8XnTrDQThVu6KCMqRwLYlBz0Qxh
-	aS9EsFW0EwYFQIS9oy2efCGD8O/A/crQx1LiyJ1UTrw/PhlbQvlxUkT4tLJ9HzgCshyUO6oEjje
-	A+W+QlE1K7kRFI6wPUNCI5g3Trn3aLoSC8OqcXJmzH9HTXwWYZfHMdecB+Pu/hIR+SCsSlNKrxc
-	hon9a8tb6Szo8f2O/3Pv81JK58Oqi3dvXneIutOO/IDDbgTblwlC0Rs3k3PqnCl8brUdnbV9q8v
-	tpQBhMwRt1d7IqRWsEJc68hPPi6MnUlDyIf+nNYkHpZp3VJ65nWvToBzM=
-X-Received: by 2002:a05:6a00:e1b:b0:842:74e3:48b5 with SMTP id d2e1a72fcca58-8453b12690amr3051412b3a.13.1781774268919;
-        Thu, 18 Jun 2026 02:17:48 -0700 (PDT)
-Received: from naduvan.timesys.com ([223.184.90.9])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434ac9cd8dsm18266769b3a.1.2026.06.18.02.17.45
+        bh=zN2PyQtlxc8Ju+NRChw7Tb3q9m2WV+bIT7kK4uaOr74=;
+        b=JZ3H20JFgW+nMoFeW93GOduP0p/Og/+e01fdEIH4/MnGQLFGYIgSgJSWpdhS+0vYGE
+         xOVLW/CNfIhOoMlurVxdqJrEhVQ9r9eKB9jTT5BA4pGkQZmNVw2nAO5K2Cro1T9HaGUX
+         o3n98pRR9RU7NjA++HuD46fubipMaxSEoHEG5eVCvQ/V0EsuC4g42lewZLqnAQ2hPuI1
+         pgp0+6nHf08S2Ejj0xzQlxQs5vs1yuK20ar2MGyPh0rbn6bQhRdHJ+s3WVpiJH+S/EZV
+         +BwyXDuyiOhpDqqZj8is/coC3eifDjukBykC4ugnDQlAtevCWmqDrDnWW2l39niig3iT
+         ClDA==
+X-Gm-Message-State: AOJu0YyYO04qJah+Q6ljit2yJu5PlIJ/W3rjs/3q6MQxIbQA6fPz4Y2d
+	7x5BFTV4qEA8jPZrfKuyRLAt//S4XrSGdXm/PdeGx5dA1OSJ7XPwrcQj5xJrIDVnKUrYNpAXAcs
+	wkHx3
+X-Gm-Gg: AfdE7cmelesgIAbSlxxeeno6h7TrAlkssvf9K33YOzMib5wP1ODQUhumnHxKMr4h1WC
+	bs3tnIc0vG/RiDZzkPQgiQL4Km6juDikZ9emD19Jc7ubs+TjFPJcUgonvKni3eY4nO+VNICOzdx
+	9F0+EbxkoJhUkkfQFHgymsYn3+ITLZYj7Jpil0y9VVV9HPkksahTGNbfsEihHjMLiPryeq22JUe
+	Uvsi1siI5F9owD+Lrg/WnA76ZoMRaGv8cE32u4Mwn+0BDEEmCWm5wZyUDtM0nq/9/iXgLZ1NzG6
+	y21oIV7K/5F6MRhQFekFyCUW5pUvmZk5vazzTLsUu6ufSFQE0kG+cEHCdyrAq1bLic4+nVj/jfW
+	JiBldNfCcnM8+ocnZRedDtF1AzZt/MdxtTzozBk2SiBA8olek/ng85BXkLYkQ8nDqHL4tBNfntl
+	EggcUBikgnsjPCG/rUbJVXvIpXtq5J+CoDNsFnddSSXxyBaX0Eh6WAQRC8na/XABgzu2GP7cd17
+	L54/PmFoOB6bg==
+X-Received: by 2002:a05:6000:1869:b0:460:25f3:b25a with SMTP id ffacd0b85a97d-463ad6ca6efmr5258059f8f.34.1781778538725;
+        Thu, 18 Jun 2026 03:28:58 -0700 (PDT)
+Received: from nkent02.otiv.ai (2a02-1811-e507-d800-de56-e30c-805-27e7.ip6.access.telenet.be. [2a02:1811:e507:d800:de56:e30c:805:27e7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4619b9b7750sm34059668f8f.6.2026.06.18.03.28.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 02:17:47 -0700 (PDT)
-From: Siva Balasubramanian <sivakumar.bs@gmail.com>
+        Thu, 18 Jun 2026 03:28:58 -0700 (PDT)
+From: Nate Kent <nathan@otiv.ai>
 To: openembedded-core@lists.openembedded.org
-Cc: Siva Balasubramanian <sivakumar.bs@gmail.com>
-Subject: [PATCH] oeqa/selftest/devtool: add regression test for kernel cfg in subdirs
-Date: Thu, 18 Jun 2026 14:47:36 +0530
-Message-Id: <20260618091736.2319572-1-sivakumar.bs@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Nate Kent <nathan@otiv.ai>
+Subject: [PATCH] Update sed usage by 'pam-wheel' for sudoers
+Date: Thu, 18 Jun 2026 12:28:39 +0200
+Message-ID: <20260618102839.363123-1-nathan@otiv.ai>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 09:17:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239071
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 10:29:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239072
 
-Add test_devtool_modify_kernel_cfg_subdirs which exercises a
-kernel-yocto recipe whose .scc file and the .cfg fragments it
-references (via "kconf"/"patch" lines) live in separate
-FILESEXTRAPATHS subdirectories (bsp/ and cfg/). This reproduces the
-layout from [YOCTO #15169], where devtool modify previously failed
-with FileNotFoundError while trying to copy the .cfg files: the path
-was computed as dirname(<.scc file>) + <cfg filename>, which broke
-whenever the .cfg file was not in the same directory as the .scc file
-that references it.
+Fixes Yocto Bug #16321
 
-The offending copy logic was removed in ce8190c519 ("devtool: Drop
-oe-local-files and simplify"); this test guards against a regression.
-Verified the test fails on d9328e3b0b (pre-fix, FileNotFoundError)
-and passes on current master.
+In version 1.9.17p2, the line that the recipe uses to add the 'wheel'
+group to the sudoers file does not exist. This updates the sed usage to
+the actual line in question.
 
-Signed-off-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
+Upstream-Status: Innappropriate [oe specific]
+Signed-off-by: Nate Kent <nathan@otiv.ai>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 64 +++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
+ meta/recipes-extended/sudo/sudo_1.9.17p2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 5a6f38f8d5..b4b6dadb75 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -1085,6 +1085,70 @@ class DevtoolModifyTests(DevtoolBase):
-         # Try building
-         bitbake(testrecipe)
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+index 7dfa0cef6c..489c0db09d 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+@@ -37,7 +37,7 @@ do_install:append () {
+ 		install -D -m 644 ${UNPACKDIR}/sudo.pam ${D}/${sysconfdir}/pam.d/sudo
+ 		if ${@bb.utils.contains('PACKAGECONFIG', 'pam-wheel', 'true', 'false', d)} ; then
+ 			echo 'auth       required     pam_wheel.so use_uid' >>${D}${sysconfdir}/pam.d/sudo
+-			sed -i 's/# \(%wheel ALL=(ALL) ALL\)/\1/' ${D}${sysconfdir}/sudoers
++			sed -i 's/# \(%wheel ALL=(ALL:ALL) ALL\)/\1/' ${D}${sysconfdir}/sudoers
+ 		fi
+ 	fi
  
-+    def test_devtool_modify_kernel_cfg_subdirs(self):
-+        """
-+        Regression test for YOCTO #15169: devtool modify of a kernel-yocto
-+        recipe must not fail when an .scc file and the .cfg fragments it
-+        references (via "kconf"/"patch" lines) live in different
-+        FILESEXTRAPATHS subdirectories. Pre-fix, devtool computed each .cfg
-+        file's path as dirname(<.scc file>) + <cfg filename>, which broke
-+        whenever the .cfg file was not in the same directory as the .scc
-+        file that references it.
-+        """
-+        testrecipe = 'virtual/kernel'
-+        bb_vars = get_bb_vars(['PN', 'FILE'], testrecipe)
-+        realrecipe = bb_vars['PN']
-+
-+        tempparentdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempparentdir)
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        self.add_command_to_tearDown('bitbake -c clean %s' % realrecipe)
-+
-+        # bitbake-layers create-layer refuses to run if the target
-+        # directory already exists, so pass a path that doesn't exist yet
-+        # rather than pre-creating it with mkdtemp()
-+        layerdir = os.path.join(tempparentdir, 'meta-selftest-kernelcfgsubdirs')
-+        runCmd('bitbake-layers create-layer %s' % layerdir)
-+        runCmd('bitbake-layers add-layer %s' % layerdir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer %s' % layerdir)
-+
-+        recipedir = os.path.join(layerdir, 'recipes-kernel', 'linux', realrecipe)
-+        bspdir = os.path.join(recipedir, 'bsp')
-+        cfgdir = os.path.join(recipedir, 'cfg')
-+        os.makedirs(bspdir)
-+        os.makedirs(cfgdir)
-+
-+        # .scc lives in bsp/, references .cfg files that live in cfg/ -
-+        # this is the exact split reported in the bug
-+        with open(os.path.join(bspdir, 'selftest-cfgsubdirs.scc'), 'w') as f:
-+            f.write('kconf hardware selftest-spi.cfg\n')
-+            f.write('kconf hardware selftest-clock.cfg\n')
-+        with open(os.path.join(cfgdir, 'selftest-spi.cfg'), 'w') as f:
-+            f.write('# CONFIG_SPI_SELFTEST is not set\n')
-+        with open(os.path.join(cfgdir, 'selftest-clock.cfg'), 'w') as f:
-+            f.write('# CONFIG_COMMON_CLK_SELFTEST is not set\n')
-+
-+        appendfile = os.path.join(layerdir, 'recipes-kernel', 'linux', realrecipe + '_%.bbappend')
-+        with open(appendfile, 'w') as f:
-+            f.write('FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:${THISDIR}/${PN}/cfg:${THISDIR}/${PN}/bsp:"\n')
-+            f.write('SRC_URI:append = " file://selftest-cfgsubdirs.scc"\n')
-+            f.write('SRC_URI:append = " file://selftest-spi.cfg"\n')
-+            f.write('SRC_URI:append = " file://selftest-clock.cfg"\n')
-+
-+        bitbake('%s -c cleansstate' % realrecipe)
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempdir)
-+
-+        # Pre-fix (kirkstone-era), this raised FileNotFoundError while
-+        # trying to shutil.copy2() selftest-spi.cfg/selftest-clock.cfg
-+        # from inside bsp/ (the .scc's directory) instead of cfg/ (where
-+        # they actually live).
-+        result = runCmd('devtool modify %s -x %s' % (testrecipe, tempdir))
-+        self.assertNotIn('FileNotFoundError', result.output)
-+        self.assertExists(os.path.join(self.workspacedir, 'conf', 'layer.conf'),
-+                           'Workspace directory not created')
-+
-     def test_devtool_modify_virtual(self):
-         # Try modifying a virtual recipe
-         virtrecipe = 'virtual/make'
--- 
-2.34.1
-
 
