@@ -1,96 +1,92 @@
-Return-Path: <yocto@nkent.net>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B03CECD98F2
-	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 10:29:07 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16457.1781778540445125831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E50A6CD98F2
+	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 10:45:57 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16856.1781779549993312839
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2026 03:29:00 -0700
+ Thu, 18 Jun 2026 03:45:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@otiv.ai header.s=google header.b=KhnRPFon;
- spf=pass (domain: otiv.ai, ip: 209.85.221.44, mailfrom: nathan@otiv.ai)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-460166910e6so505828f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 03:29:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=otiv.ai; s=google; t=1781778539; x=1782383339; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zN2PyQtlxc8Ju+NRChw7Tb3q9m2WV+bIT7kK4uaOr74=;
-        b=KhnRPFonrLawBX/jpsXMkOTf63MfeKl+Zr2GPUeye7Ko45TVjKA3E2GoVZKItlXLaF
-         5W7K1J30CdLNnTK+wxM5KdAqyOeCcnopV9B6swJszkXaaQmJPXSi1+EmuNyXIdDRBMrK
-         IIDuRRF3zVE1hy67mB1dS8LAsaibYJs3Au7FZXgg28d/FlcH+waQiqjVZ+g54qrb3g+3
-         OUgh8U2/wGTWS+lRL6JtmWUZ3e20bN3rqSVkxvMzIcw93Pl2eIzqtTurSEKMRew32dbQ
-         6NE7U0mn9s6Gu838lIj/k6QuU5cnLQLWDJlkHap9E443UBU6HKskkz+KxH0vuaF4/T6Q
-         /DsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781778539; x=1782383339;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zN2PyQtlxc8Ju+NRChw7Tb3q9m2WV+bIT7kK4uaOr74=;
-        b=JZ3H20JFgW+nMoFeW93GOduP0p/Og/+e01fdEIH4/MnGQLFGYIgSgJSWpdhS+0vYGE
-         xOVLW/CNfIhOoMlurVxdqJrEhVQ9r9eKB9jTT5BA4pGkQZmNVw2nAO5K2Cro1T9HaGUX
-         o3n98pRR9RU7NjA++HuD46fubipMaxSEoHEG5eVCvQ/V0EsuC4g42lewZLqnAQ2hPuI1
-         pgp0+6nHf08S2Ejj0xzQlxQs5vs1yuK20ar2MGyPh0rbn6bQhRdHJ+s3WVpiJH+S/EZV
-         +BwyXDuyiOhpDqqZj8is/coC3eifDjukBykC4ugnDQlAtevCWmqDrDnWW2l39niig3iT
-         ClDA==
-X-Gm-Message-State: AOJu0YyYO04qJah+Q6ljit2yJu5PlIJ/W3rjs/3q6MQxIbQA6fPz4Y2d
-	7x5BFTV4qEA8jPZrfKuyRLAt//S4XrSGdXm/PdeGx5dA1OSJ7XPwrcQj5xJrIDVnKUrYNpAXAcs
-	wkHx3
-X-Gm-Gg: AfdE7cmelesgIAbSlxxeeno6h7TrAlkssvf9K33YOzMib5wP1ODQUhumnHxKMr4h1WC
-	bs3tnIc0vG/RiDZzkPQgiQL4Km6juDikZ9emD19Jc7ubs+TjFPJcUgonvKni3eY4nO+VNICOzdx
-	9F0+EbxkoJhUkkfQFHgymsYn3+ITLZYj7Jpil0y9VVV9HPkksahTGNbfsEihHjMLiPryeq22JUe
-	Uvsi1siI5F9owD+Lrg/WnA76ZoMRaGv8cE32u4Mwn+0BDEEmCWm5wZyUDtM0nq/9/iXgLZ1NzG6
-	y21oIV7K/5F6MRhQFekFyCUW5pUvmZk5vazzTLsUu6ufSFQE0kG+cEHCdyrAq1bLic4+nVj/jfW
-	JiBldNfCcnM8+ocnZRedDtF1AzZt/MdxtTzozBk2SiBA8olek/ng85BXkLYkQ8nDqHL4tBNfntl
-	EggcUBikgnsjPCG/rUbJVXvIpXtq5J+CoDNsFnddSSXxyBaX0Eh6WAQRC8na/XABgzu2GP7cd17
-	L54/PmFoOB6bg==
-X-Received: by 2002:a05:6000:1869:b0:460:25f3:b25a with SMTP id ffacd0b85a97d-463ad6ca6efmr5258059f8f.34.1781778538725;
-        Thu, 18 Jun 2026 03:28:58 -0700 (PDT)
-Received: from nkent02.otiv.ai (2a02-1811-e507-d800-de56-e30c-805-27e7.ip6.access.telenet.be. [2a02:1811:e507:d800:de56:e30c:805:27e7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4619b9b7750sm34059668f8f.6.2026.06.18.03.28.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 03:28:58 -0700 (PDT)
-From: Nate Kent <nathan@otiv.ai>
-To: openembedded-core@lists.openembedded.org
-Cc: Nate Kent <nathan@otiv.ai>
-Subject: [PATCH] Update sed usage by 'pam-wheel' for sudoers
-Date: Thu, 18 Jun 2026 12:28:39 +0200
-Message-ID: <20260618102839.363123-1-nathan@otiv.ai>
-X-Mailer: git-send-email 2.53.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VzCZPZX4;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TalgoHHb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019eda564bd5-b37a4395-1b1c-4bc0-95ab-cb6df5b2433e-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1781779549; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=maIB2x0N66iGl+2Q2z6SoQMHn6fVPBYqsySpr+qEh30=;
+	b=VzCZPZX4eKwX6jNY7e1HK+OUdyIZChG45BeX+zVlOscXpcFsn6J0S9laSsTIwo6c
+	qYYdFIabUMTR9o+sFYG2o8Jgtar2YHaOyMHO0iHV0AKTYdPAtHsOOeSHtPEWErW/0q0
+	JmassCZtmIBr9AYNC07C8k7gnk6pUFn+aIw22ln0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781779549;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=maIB2x0N66iGl+2Q2z6SoQMHn6fVPBYqsySpr+qEh30=;
+	b=TalgoHHb+nptXW/SGpnnpqr2UX9RZSEIIxbsHwCBFA24fe5xvOZaiS8WjGQd1n8p
+	TEX5oQJYxxOH+SrlDXvvEk0EosezQoOx4CfwieAYWdX1YBsxDwPP4UyQxtK2b1CGyu1
+	HWD3rEvDA4+QPLOfGm3/E2KVOYLPVl/nz+IGz9Fs=
+From: patchtest@automation.yoctoproject.org
+To: Nate Kent <nathan@otiv.ai>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] Update sed usage by 'pam-wheel' for sudoers
+In-Reply-To: <20260618102839.363123-1-nathan@otiv.ai>
+References: <20260618102839.363123-1-nathan@otiv.ai>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019eda564bd5-b37a4395-1b1c-4bc0-95ab-cb6df5b2433e-000000@us-west-2.amazonses.com>
+Date: Thu, 18 Jun 2026 10:45:49 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.06.18-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 10:29:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239072
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 10:45:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239073
 
-Fixes Yocto Bug #16321
+--NextPart
+Content-Type: text/plain
 
-In version 1.9.17p2, the line that the recipe uses to add the 'wheel'
-group to the sudoers file does not exist. This updates the sed usage to
-the actual line in question.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Upstream-Status: Innappropriate [oe specific]
-Signed-off-by: Nate Kent <nathan@otiv.ai>
 ---
- meta/recipes-extended/sudo/sudo_1.9.17p2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/Update-sed-usage-by-pam-wheel-for-sudoers.patch
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
-index 7dfa0cef6c..489c0db09d 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
-@@ -37,7 +37,7 @@ do_install:append () {
- 		install -D -m 644 ${UNPACKDIR}/sudo.pam ${D}/${sysconfdir}/pam.d/sudo
- 		if ${@bb.utils.contains('PACKAGECONFIG', 'pam-wheel', 'true', 'false', d)} ; then
- 			echo 'auth       required     pam_wheel.so use_uid' >>${D}${sysconfdir}/pam.d/sudo
--			sed -i 's/# \(%wheel ALL=(ALL) ALL\)/\1/' ${D}${sysconfdir}/sudoers
-+			sed -i 's/# \(%wheel ALL=(ALL:ALL) ALL\)/\1/' ${D}${sysconfdir}/sudoers
- 		fi
- 	fi
- 
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
