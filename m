@@ -2,113 +2,103 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BCBDCD98ED
-	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 20:36:42 +0000 (UTC)
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28946.1781814996680656876
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CC65CD98F8
+	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 20:36:52 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.28663.1781815007886639875
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2026 13:36:37 -0700
+ Thu, 18 Jun 2026 13:36:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=QnagOb2c;
- spf=pass (domain: baylibre.com, ip: 209.85.219.65, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f65.google.com with SMTP id 6a1803df08f44-8de4dd10a61so1466406d6.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 13:36:36 -0700 (PDT)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=K9zJfSNL;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.54, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8ce9df4732cso14503446d6.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 13:36:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781814995; x=1782419795; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8YHlmFxBO7OiG03t5uYxhrr4iY3mHth/huCwu6h5sDQ=;
-        b=QnagOb2clVcyq4lTXGo3nGJeCCPwAVPOGqMi/63qZViidyyDPMAXia9adw4dnskZgs
-         ztMtGgLkPnKPkCukUNoBzMMgzAiNG2xXfds/eoa9h/oZIspz3op/a54w00KR7OOn1idN
-         xVvZT2tGs88kluvkTmKqgcenqDtgEvn2MxCXiWACM/0Yzxa42EfhGWf2GxHSsCA47yda
-         w6V52woiPvoLBofYt27uPG0pxjRPpt6XYbTfg5OwUJ+uJ0RwzPiBn60MY9Vefq/lB3cd
-         LZPOSCPXKbhurCiSDoK4otECRK+eDR1FctrmMBdN3NVtim1jRJnzyS3FwME28E6AtjPp
-         olPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781814995; x=1782419795;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=baylibre.com; s=google; t=1781815007; x=1782419807; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8YHlmFxBO7OiG03t5uYxhrr4iY3mHth/huCwu6h5sDQ=;
-        b=JOhcOCgXe+qza5mh72aaU70jx5Kj9oBUBKnmhy22k+uLW68iBzGx2qPN3jcr71qYYB
-         GEjgYc7UEj392E699LJ1+Gz+nYd44eHducaTfcD+CLfMfFnSSYGhS+xJsOsQ4cO3FUkD
-         aLMluLECsbvdoOkhxmA6jTn55Kr+ue7/3F6E6XwJ57Og9a116h6W6XNtYVwCK0K39m3m
-         eH8F/N52syhgbIaDS/w0Xv/Z6nkLu7dimw5do4C2y+xQ+rMgr57562JMOQvwEYKZIWuw
-         wSsbDgGE0S/6DJMiMJn5SL2XLx6Rnl6ah9wxhz+Fuq4FS4plqoGrYXzE2mzdnSA7IaFU
-         6P5w==
-X-Gm-Message-State: AOJu0YxRRpsVR5gNguxueWHQE9Z1b1tSfVGWzv+xOWfs0STJZT/IW1bY
-	tF8UzlbPDSKDPjLLdbBeKbevyOr+Np1ct3s+Dr1pBDmXVbSj16tu/QWCOEvUTmWil7HB0a8QjSS
-	ur7fdVbd/C5Jm
-X-Gm-Gg: AfdE7cmmRdBpvhFE6ercf+axNQrkNXVnsVxq2r8BPNBvH7fjh258bcQvtcjluoBtHyh
-	OUnulEiXIkNBSO85p6DL0NdJy0n/m3y1JsDkHgROlzrCQDontE186zHa17MJC8rh6K217pr0ncY
-	3AvintIifzJUeUO8BeuGiO+F6Yz5gabcFH4WjboSouvZVNOxWDt8jkWqHpqI6cm0wxRxJbMsAKM
-	SwKocoLillI6lB5ZQhVIz2yrFSXd3sVkRo8ug1QR/EIse20xwXXISEOwsuSYEUjGfBenM1fR9Dq
-	yWsYFR6SpXEMUlQIH1ptC2p93hctPbTvkB/M8ifwIK1xRx/GcX3X/rpILJwaRXx8Ov4TIINZF29
-	Y6cn71frXOxWHl2W8k9KgDhQDuyCCjttQ5jP53+/zSKftd/hsSRNtvIzZqwKsCwwWyMtwOl15Yz
-	D3hRtC2c3YTNRkWEih
-X-Received: by 2002:a05:620a:4046:b0:90d:6234:caa2 with SMTP id af79cd13be357-9208e0afa23mr99948085a.40.1781814995377;
-        Thu, 18 Jun 2026 13:36:35 -0700 (PDT)
+        bh=Uzfo6XagXiMnoqJUejq1mkjK4k4jq/M+q7PKHC+OHtE=;
+        b=K9zJfSNLLi7MoUggGFhmfgZtHWbZ0VdGYpq5/LAqhdtPyMAqXi5hzHe1stiajaz/ki
+         kFj+BU1+H1aaQKHyR9FkVo7410485G/yxZMDnJFOrMv3qClC6x1aWUgGAx99Ie0Vn4WX
+         jtK2RsT9AZMjePjd6XchyoI9TRpozngH8fUpKFvNKJxl4xNrJcpwqh5P4Q3xvhcCk/+y
+         9OFsIyxb7y3FrS04Ptp4zToH0M3CS7rKMQ22h3byL/XKpznSNQMR3Bbjhp1v6+dwPa+K
+         yyzX11DMLuhJqWMt04yh6XSx4VpIY/snXOZnMne1a9ygGkt9BnKX2e6Ztw71OG1VYt+P
+         Qttw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781815007; x=1782419807;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Uzfo6XagXiMnoqJUejq1mkjK4k4jq/M+q7PKHC+OHtE=;
+        b=a8xjLb58PAngB2Q6ZlSime6iEQPqnGa1jw3m4yIKBZ56DZJ0HMUIgpbRcuhqxlewd0
+         kY4xPclIZN7f7zLFMAIC/zckx0kJVFX1mKOscfDC9Vu3JBZbsfLyS8GMR8oFCEFd9fD7
+         5lRTkp4pNlFcK9pM4SsQsYvnnXHvK9cq6da4E8/SLPmnpmC5EmLWaCHR6WWG6V/QRtbz
+         8A+d9ygLcOROK4vJT3jspeOdPzwQBc/F3ym9g0urwAoApIO8wFbSTaARD8/3Io67NUZa
+         gyBvF2KjpakaLes0ig5e/yR0Pk+6QwRXiaSskNF1ke8z5wXE937CgZ+8ancWpWH6wIEd
+         2qsA==
+X-Gm-Message-State: AOJu0YwaoWUNgE0bw7pcsGK/Sgjrn0M4w1nu8/aT+LcAl07lFIAWxhMG
+	EEmcIkYCNT+go8zLI+fgXoTpUrrXp4jPBMEuZDT2FfIqiHwD8zRypngvs4LvgmJSl5d2+6L2BVs
+	sHCBc3MBalA==
+X-Gm-Gg: AfdE7ckuevYvyN8FP67lH8511HdWFkYqFOVAV8Zn9QZo8EELLMuFTLDdqwkhF634C/n
+	g/0FO7E+d/XTh3qS01KuyfGYXpjNtsxt8Yz7JC3X2/ksKamoDDdnBTQSn+4DidjrTa8w8EteErQ
+	yHVA/7bLNqW0AZEwPESq+M51YrISf7XIryOAjbVLakenlhF2TH4JBcPRJmw1mvpewsMfohw9QRq
+	2nDDCNjVAv9NqsQqBm4bPLoNY9JWiItk9oyXdsLMSMlaV9tyoF7Jn9yElKG52Is8zEmx9LlAejM
+	gNpPj//4R1NSxa+IpagNNH2ioDt4eJWJG/vdVirvIjy/VFqxLNT2U2OUvKAtlagBHqhOet+/udH
+	tOZFp0EC0mMVtKarFkkGO2mEqIdnbc7jgC1BSNyeMKc5eQusHwqli7JLNf/+/i9PE9n8UhmsJUX
+	HMbWOxF49O2XVjHDp5
+X-Received: by 2002:a05:6214:29ea:b0:8de:4553:7c7a with SMTP id 6a1803df08f44-8de45537cd1mr13422036d6.15.1781815006690;
+        Thu, 18 Jun 2026 13:36:46 -0700 (PDT)
 Received: from localhost ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9209de35275sm25456585a.0.2026.06.18.13.36.34
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8de5e12ca3asm2163126d6.4.2026.06.18.13.36.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 13:36:34 -0700 (PDT)
+        Thu, 18 Jun 2026 13:36:45 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr
-Subject: [PATCH 0/7 v2] patchtest: cleanups and fixes, part 1
-Date: Thu, 18 Jun 2026 16:36:25 -0400
-Message-ID: <20260618203632.131125-1-tgamblin@baylibre.com>
+Subject: [PATCH 5/7] scripts/patchtest: simplify run()
+Date: Thu, 18 Jun 2026 16:36:30 -0400
+Message-ID: <20260618203632.131125-6-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260618203632.131125-1-tgamblin@baylibre.com>
+References: <20260618203632.131125-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 20:36:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239101
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 20:36:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239106
 
-This is the first split of patches coming from a previous series[1] I submitted.
-Compared to that version, the changes here are refactors limited to the core
-scripts/patchtest script itself, and do the following:
+Set premerge_result and postmerge_result directly by calling
+getResult(), instead of doing it in multiple stages with confusing
+variable names.
 
-- Make sure that the user has enabled the meta-selftest layer before running
-  patchtest, as otherwise selftest results can be misleading
-- Avoid duplicating code for test results generation
-- Remove excess whitespace, unused variables, redundant function calls, and
-  unreachable code
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ scripts/patchtest | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-Note that this was driven partially by Claude Code (Sonnet 4.6 and 4.7), but
-I've gone back and reworked some of its changes before submission.
-
-Selftests look OK after these changes:
-
-|============================================================================
-|Testsuite summary for patchtest
-|============================================================================
-|# TOTAL: 38
-|# XPASS: 18
-|# XFAIL: 18
-|# XSKIP: 2
-|# PASS: 0
-|# FAIL: 0
-|# SKIP: 0
-|# ERROR: 0
-|============================================================================
-
-[1]: https://lists.openembedded.org/g/openembedded-core/message/237047
-
-Trevor Gamblin (7):
-  scripts/patchtest: refactor results methods
-  scripts/patchtest: clean up startTestRun()
-  scripts/patchtest: simplify _runner()
-  scripts/patchtest: simplify traceback logging, remove whitespace
-  scripts/patchtest: simplify run()
-  scripts/patchtest: clean up main()
-  scripts/patchtest: check for meta-selftest
-
- scripts/patchtest | 147 ++++++++++++++++++++--------------------------
- 1 file changed, 65 insertions(+), 82 deletions(-)
-
+diff --git a/scripts/patchtest b/scripts/patchtest
+index aef80a86bb..d2f6302743 100755
+--- a/scripts/patchtest
++++ b/scripts/patchtest
+@@ -141,13 +141,8 @@ def run(patch, logfile=None):
+     # Get the result class and install the control-c handler
+     unittest.installHandler()
+ 
+-    # run pre-merge tests, meaning those methods with 'pretest' as prefix
+-    premerge_resultklass = getResult(patch, False, logfile)
+-    premerge_result = _runner(premerge_resultklass, 'pretest')
+-
+-    # run post-merge tests, meaning those methods with 'test' as prefix
+-    postmerge_resultklass = getResult(patch, True, logfile)
+-    postmerge_result = _runner(postmerge_resultklass, 'test')
++    premerge_result = _runner(getResult(patch, False, logfile), 'pretest')
++    postmerge_result = _runner(getResult(patch, True, logfile), 'test')
+ 
+     print_result_message(premerge_result, postmerge_result)
+     return premerge_result or postmerge_result
 -- 
 2.54.0
 
