@@ -1,221 +1,240 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 091AFCD98ED
-	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 08:51:44 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14947.1781772699822542984
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CAC9CD98E2
+	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 09:00:14 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15193.1781773199536943262
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2026 01:51:40 -0700
+ Thu, 18 Jun 2026 01:59:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VeSq231e;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490afc47455so2110305e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 01:51:39 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=tWRq+w+X;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490c0c92cffso4160835e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 01:59:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781773198; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Evm39ybw3cbDHaF4pXy/d0jpykHByzMqLcB6KjRaIqCeDle1Wir/n6QmG5CkqaxzTx
+         Eq5IjUadLTXSqOpe/JOj3Y26H+BieeMMapsWmvOgbtB9AIY4WGA5uoL2DyixOPX3GKKp
+         9c7jJFu3/f9l3mVKWEax6H/ky0EvM6SjZNvvszE8N7Fat2LednQlCenK9Zf/yGa5mXun
+         UlSsQ268/BECogY2//yE3nwTMTAw4xHN+mGWfmM3oz3MP429nvwSr9cOsOxfI8PXbpzQ
+         qx8DTgTaTAYuEfgcNu1JC2MGi2H4UVfe2XhbVDGRDuDKba5DHxhzNa+sWsiF4c3kdhbi
+         8XYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=gaGxS8SIxq3+U45JxgQCObwjlwapn0TJ3gnXXi5Pk2k=;
+        fh=sNmvGu+/e0s9U2oilBnTb3LzY7GTFx+mL9WM42kBkkU=;
+        b=Ap4m3Ao++rzeID5ftjJUIErLjSVVpXh0270VD4GaIh59etIFxQqccYzjtEyJkW54e/
+         uRGe4RrZvlgEC3sqy59V31yMq5V8IOCEtXf8hgIgX1Ta35ST5GC7b2SqP9tei7izzc51
+         Xq/9B7QsQhTxYkWR4YhvZaMRkPeyJ24o0Tci3qIPiDMVxhlHL067RdRz9w/KecppYleS
+         EY2cnT3RWWFT+QWQasvBKfT2/8pVevFgCfQ8JvzeeRa1Q+1k3InT53YK/XlHHQrvMCsZ
+         jSi+LPpq+AQZMyilNvYs+Jq6GvK7kc6GzpYSDXtDssxn7DnQYa3CDnYYIV4sAucOl2hy
+         mTTQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1781772698; x=1782377498; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZIPimf3cir6O082W/SjckgZm5du6WEN/7MdC+/pd6lI=;
-        b=VeSq231e/52xqwAtOcVTTwR1P98BVeUGaSadTsatdsex+LbA/CYWFpUb82Jrc5ynu3
-         Cy1VusaXRUw8C4GbAw4lX6e6klWlPighKL9d8r1cOPtYHtQtjIlwtGM+xRZRxmBbWRf2
-         SzgkA+cjv3z57OBwJS0DRxUQr+B2iRkYbYIgc=
+        d=smile.fr; s=google; t=1781773198; x=1782377998; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gaGxS8SIxq3+U45JxgQCObwjlwapn0TJ3gnXXi5Pk2k=;
+        b=tWRq+w+Xkbnh9jvmNALgs4Jbmq9fmEhIGvDkMQJyEU/OltqsqlgKl9FTda+lFiqIUf
+         EPjqPa3w7zhC/7lLCtzZ3hYNOq1HDuNM43BQH8448a/kCGwZRu/TpYx6DlWuYh2D9bWm
+         UXp4huvDTHBnYS6+PzR6qVYeo37jBJgwT+N4M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781772698; x=1782377498;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZIPimf3cir6O082W/SjckgZm5du6WEN/7MdC+/pd6lI=;
-        b=Yjj//ejG28zPlRdUEkpoE3LsHS2HdbNOObzz5Et/mDrPojdgXAyY4gRrzQupENK6/d
-         LKG9RinAkxtAPpQX/SRJL48PI67pWisXaYht6LneyvCINEF5vf3WEmULfgEhITvFEu7N
-         Qur4UgShKAVUhAaz8bUGh4gWgJSUmVPC0rO9Yh+RdWVbruiaPqU2dxt7Rq4e2rp+UiFS
-         +bts3lpvzU915a+/MzFW6CFbRJ6LyL2GESFp/pAZl5BblHfbjNrDzpPtNU1KY6URzi9Z
-         z8wRlzIDshZ1mTxkebnrxaFEA8DflQ2vocqUgNjKfZlMTRVFDJ/Tg0mWBCiTM80NYFxN
-         xdiA==
-X-Gm-Message-State: AOJu0YztpBGz5soCp1STJTPU1fhyOgOhuu9yvTs0ZAnAtzGXxA8EUcjM
-	cPA53CPdr/8Q9PQsfKr/PQJnQm/g/Shsvye8DKWIQTGL7LVvy5ti7bas7RUK92qE5KdLxdBq368
-	lX5D/
-X-Gm-Gg: AfdE7cnTwNf8voK0EMWCXkC4rvefBwfPs9hvntiihXn6Y85ah+1mCi6lAkVQbh/dG3K
-	c0UMJZ8UOYD42uSFdRvD/m1RPtkglZUF+qHG6k+Lm+NeqiVpJeBKzvJeOsdRDyz0EmtHpJ0x55M
-	om46pBoARowHnAav2QRsaAWIori5aAi4EZOQmLt4VlnGA4XRhd8IBN71/BTYO10CxLmArPqLrwD
-	3aOFvyFirnXNlENwuQw+MgBLIhPvElPGgiJRmchhzo0B9VIokAIljFHO9uDXIXGEVR43q2tzjYx
-	LH+N3/eECW89zHIFwML+dH3GZAdI6XyOT7heDXWe3isRKQqE2dbFvGGEqodOP7IGD2JWn6g8XX8
-	PJNMXbfuzd5ggejgBymOzAtSKxI9l73q+PF9k1GfXp88M7WSuZXL7ziMoGimzROI2ShLM8w/Yvo
-	ro26k9GxYBN7qwzCHAGosYUeBcpCMhqx0F4Lbe4u0Rpw==
-X-Received: by 2002:a05:600c:1554:b0:490:688b:f9f8 with SMTP id 5b1f17b1804b1-4923a9dda73mr16798805e9.27.1781772697948;
-        Thu, 18 Jun 2026 01:51:37 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:70bd:e97f:6372:90f9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa8b423sm227634535e9.11.2026.06.18.01.51.36
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 01:51:36 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] README: Merge OE-Core and QEMU READMEs into one
-Date: Thu, 18 Jun 2026 09:51:33 +0100
-Message-ID: <20260618085133.3756278-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260618085133.3756278-1-richard.purdie@linuxfoundation.org>
-References: <20260618085133.3756278-1-richard.purdie@linuxfoundation.org>
+        d=1e100.net; s=20251104; t=1781773198; x=1782377998;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gaGxS8SIxq3+U45JxgQCObwjlwapn0TJ3gnXXi5Pk2k=;
+        b=G4L0UdLhiHTrFwKPLrV6GUz+T4tTxBSm5lwumGRtxwKf4JeKFiRecJYXSpyfV8VU8Q
+         9//WahZBwmfNll+rFRRz+/mdA0fPamAw26BKy7CtZV7St/RSzWygINX6cDdhfTOswQ3S
+         9RK26jX9y5is1snQ0qkVrEJv15YCK6nvfpXXCOER7Ayc1XU0Mwr650Sr23TZo9L2lQqO
+         xCRCCaHGywfnYwROPIh26jHoVhIDupqsejFBrp3IeY9VyDzbkP1S8uORauHGKtnXhwIe
+         F+s6j7rml8PQ+Ary0c6Em+Ne8PnhsITAYIiziWX0HUa40hp7SiEocsLbG09+0prYBleU
+         DlXA==
+X-Gm-Message-State: AOJu0YxHSqVdZX+WA+X3SqGpn5wn4bSmQ47om2Eo74Biu+n4dUnT5FeE
+	DG5wKAuKmSbwmA9qFybxI3fxTxdF7efz74yFRVcINF7VKTCIUQs4FwhOqprS5HqNu1uG3CC/5OZ
+	V2eS3wdEG1b4nFjGSbH/b1W9b+iRAt+pTNrmGKwKksFWutLyhNNo2akQ=
+X-Gm-Gg: AfdE7cncONmvLu+fN3YQQimPpHVWPvOODnT/TC62SyyLngVqAlcypFbitWPKw/97IVE
+	odENj+mck6gCH2uA4zkhHy2WFfAq/7QVDLW2i0EOLCITsTXU0meSxOw9OvHKrPErJxcwTwXdecG
+	0A3+QJbwP9yNtF29iTRNjyLJUzF41xiYD+60pMaEuuqGSpC9BjagC09kueBn4g2ImE0jFd27EaB
+	lPVsc5dpCJMFA/nkrbK2eTaD4ITZBD6+bx2btlxJNMwYY3lryyI4GyqaAfZyLxdCUvAUpkmx5OP
+	oEtV9wWQ5mCiw0mGP9eF2VSDuIpdag==
+X-Received: by 2002:a05:600c:c3cc:10b0:492:3778:d452 with SMTP id
+ 5b1f17b1804b1-4923778d457mr47074605e9.14.1781773196500; Thu, 18 Jun 2026
+ 01:59:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260420042409.1727728-1-Harish.Sadineni@windriver.com>
+ <DJACAG7CMC18.3FXGQ7XY58UM4@smile.fr> <e3fd8230-36de-4436-a8e7-8d5432cafad5@windriver.com>
+In-Reply-To: <e3fd8230-36de-4436-a8e7-8d5432cafad5@windriver.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Thu, 18 Jun 2026 10:59:30 +0200
+X-Gm-Features: AVVi8Cf9w0_BhtNtofCNU9CuQ6FdYRFr0jE-AxCNi0eQOmW8F-mBZKfZhIQLmwA
+Message-ID: <CAMSfU+6cPHYFuAM8sQPXdE2Ot3MjVSJ90zsVOhUfebCknUzKrQ@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH] binutils: Fix CVE-2025-69646
+To: Harish Sadineni <Harish.Sadineni@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, Sundeep.Kokkonda@windriver.com
+Content-Type: multipart/alternative; boundary="00000000000072b07d065483668b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 08:51:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239069
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 09:00:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239070
 
-OE-Core originally had separate READMEs due to the layout with Poky. This
-reason no longer exists and we can merge things into one README now which
-should make the contribution information easier to find for users.
+--00000000000072b07d065483668b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- README.OE-Core.md | 36 ------------------------------
- README.md         | 57 ++++++++++++++++++++++++++++++++++++++++++++++-
- README.qemu.md    | 19 ----------------
- 3 files changed, 56 insertions(+), 56 deletions(-)
- delete mode 100644 README.OE-Core.md
- mode change 120000 => 100644 README.md
- delete mode 100644 README.qemu.md
+Le jeu. 18 juin 2026 =C3=A0 10:49, Harish Sadineni <Harish.Sadineni@windriv=
+er.com>
+a =C3=A9crit :
 
-diff --git a/README.OE-Core.md b/README.OE-Core.md
-deleted file mode 100644
-index 4804e436322..00000000000
---- a/README.OE-Core.md
-+++ /dev/null
-@@ -1,36 +0,0 @@
--OpenEmbedded-Core
--=================
--
--OpenEmbedded-Core is a layer containing the core metadata for current versions
--of OpenEmbedded. It is distro-less (can build a functional image with
--DISTRO = "nodistro") and contains only emulated machine support.
--
--For information about OpenEmbedded, see the OpenEmbedded website:
--<https://www.openembedded.org/>
--
--The Yocto Project has extensive documentation about OE including a reference manual
--which can be found at:
--<https://docs.yoctoproject.org/>
--
--Contributing
--------------
--
--Please refer to our contributor guide here: <https://docs.yoctoproject.org/dev/contributor-guide/>
--for full details on how to submit changes.
--
--For any files containing sorted lists (such as recipe maintainers), please ensure
--alphabetical order is maintained using the C locale. For example, use:
--`LC_ALL=C sort` to sort the list.
--
--As a quick guide, patches should be sent to openembedded-core@lists.openembedded.org
--The git command to do that would be:
--
--```
--git send-email -M -1 --to openembedded-core@lists.openembedded.org
--```
--
--Mailing list:
--<https://lists.openembedded.org/g/openembedded-core>
--
--Source code:
--<https://git.openembedded.org/openembedded-core/>
-diff --git a/README.md b/README.md
-deleted file mode 120000
-index 4d7e9e8b429..00000000000
---- a/README.md
-+++ /dev/null
-@@ -1 +0,0 @@
--README.OE-Core.md
-\ No newline at end of file
-diff --git a/README.md b/README.md
-new file mode 100644
-index 00000000000..92373e4a047
---- /dev/null
-+++ b/README.md
-@@ -0,0 +1,56 @@
-+OpenEmbedded-Core
-+=================
-+
-+OpenEmbedded-Core is a layer containing the core metadata for current versions
-+of OpenEmbedded. It is distro-less (can build a functional image with
-+DISTRO = "nodistro") and contains only emulated machine support.
-+
-+For information about OpenEmbedded, see the OpenEmbedded website:
-+<https://www.openembedded.org/>
-+
-+The Yocto Project has extensive documentation about OE including a reference manual
-+which can be found at:
-+<https://docs.yoctoproject.org/>
-+
-+Contributing
-+------------
-+
-+Please refer to our contributor guide here: <https://docs.yoctoproject.org/dev/contributor-guide/>
-+for full details on how to submit changes.
-+
-+For any files containing sorted lists (such as recipe maintainers), please ensure
-+alphabetical order is maintained using the C locale. For example, use:
-+`LC_ALL=C sort` to sort the list.
-+
-+As a quick guide, patches should be sent to openembedded-core@lists.openembedded.org
-+The git command to do that would be:
-+
-+```
-+git send-email -M -1 --to openembedded-core@lists.openembedded.org
-+```
-+
-+Mailing list:
-+<https://lists.openembedded.org/g/openembedded-core>
-+
-+Source code:
-+<https://git.openembedded.org/openembedded-core/>
-+
-+QEMU Emulation Targets
-+======================
-+
-+To simplify development, the build system supports building images to
-+work with the QEMU emulator in system emulation mode and these machines are
-+the ones included in OE-Core. Our support and testing is currently focused
-+around the following primary architectures and machine targets:
-+
-+* ARM (qemuarm + qemuarm64)
-+* x86 (qemux86 + qemux86-64)
-+* RISC-V (qemuriscv64)
-+
-+Use of the QEMU images is covered in the Yocto Project Reference Manual.
-+The appropriate MACHINE variable value corresponding to the target is given
-+in brackets.
-+
-+OpenEmbedded does also have support for PowerPC (qemuppc/qemuppc64), MIPS
-+(qemumips + qemumips64), qemuriscv32 and other less common targets but these
-+are not as widely tested.
-diff --git a/README.qemu.md b/README.qemu.md
-deleted file mode 100644
-index bdd44082882..00000000000
---- a/README.qemu.md
-+++ /dev/null
-@@ -1,19 +0,0 @@
--QEMU Emulation Targets
--======================
--
--To simplify development, the build system supports building images to
--work with the QEMU emulator in system emulation mode. Our support and testing
--is currently focused around the following primary architectures and machine
--targets:
--
--* ARM (qemuarm + qemuarm64)
--* x86 (qemux86 + qemux86-64)
--* RISC-V (qemuriscv64)
--
--Use of the QEMU images is covered in the Yocto Project Reference Manual.
--The appropriate MACHINE variable value corresponding to the target is given
--in brackets.
--
--OpenEmbedded does also have support for PowerPC (qemuppc/qemuppc64), MIPS
--(qemumips + qemumips64), qemuriscv32 and other less common targets but these
--are not as widely tested.
+>
+> On 6/16/2026 2:13 PM, Yoann Congal wrote:
+> > CAUTION: This email comes from a non Wind River email account!
+> > Do not click links or open attachments unless you recognize the sender
+> and know the content is safe.
+> >
+> > On Mon Apr 20, 2026 at 6:24 AM CEST, Harish via lists.openembedded.org
+> Sadineni wrote:
+> >> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+> >>
+> >> CVE: CVE-2025-69646
+> >>
+> >> PR 33638
+> >> * dwarf.c (display_debug_rnglists_list): Return bool.  Rename
+> >> "inital_length" to plain "length".  Verify length is large
+> >> enough to read header.  Limit length to rest of section.
+> >> Similarly limit offset_entry_count.
+> >> (display_debug_ranges): Check display_debug_rnglists_unit_header
+> >> return status.  Stop output on error.
+> >>
+> >> Upstream-Status: Backport [
+> https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dpatch;h=3D598704a00c=
+bac5e85c2bedd363357b5bf6fcee33
+> ]
+> >>
+> >> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> >> ---
+> > Hello Harish,
+> >
+> > This patch was lost for a time, my fault, sorry.
+> >
+> > Now, when I try to apply it, do_patch fails for binutils. Could you
+> > rebase on the latest scarthgap and send a v2?
+> Hi Yoann,
+>
+> CVE-2025-69648 is a duplicate of CVE-2025-69646.
+>
+> The fix for CVE-2025-69648 has already been merged into Scarthgap, so
+> the corresponding fix for CVE-2025-69646 is already present
+> and no additional patch is required.
+>
+
+That explains the do_patch failure...
+
+In that case, CVE-2025-69646 needs to be added to the "CVE: " line in
+https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/b=
+inutils/binutils/CVE-2025-69648.patch?h=3Dscarthgap
+
+What do you think? If that's correct, could you please send the patch for
+it?
+
+Thanks!Could you handle it please?
+
+Thanks,
+> Harish
+> >
+> > Thanks!
+> >
+> [...]
+
+
+
+--=20
+Yoann Congal
+Smile ECS
+
+--00000000000072b07d065483668b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0jeu. 18=
+ juin 2026 =C3=A0=C2=A010:49, Harish Sadineni &lt;<a href=3D"mailto:Harish.=
+Sadineni@windriver.com">Harish.Sadineni@windriver.com</a>&gt; a =C3=A9crit=
+=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+On 6/16/2026 2:13 PM, Yoann Congal wrote:<br>
+&gt; CAUTION: This email comes from a non Wind River email account!<br>
+&gt; Do not click links or open attachments unless you recognize the sender=
+ and know the content is safe.<br>
+&gt;<br>
+&gt; On Mon Apr 20, 2026 at 6:24 AM CEST, Harish via <a href=3D"http://list=
+s.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded=
+.org</a> Sadineni wrote:<br>
+&gt;&gt; From: Harish Sadineni &lt;<a href=3D"mailto:Harish.Sadineni@windri=
+ver.com" target=3D"_blank">Harish.Sadineni@windriver.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; CVE: CVE-2025-69646<br>
+&gt;&gt;<br>
+&gt;&gt; PR 33638<br>
+&gt;&gt; * dwarf.c (display_debug_rnglists_list): Return bool.=C2=A0 Rename=
+<br>
+&gt;&gt; &quot;inital_length&quot; to plain &quot;length&quot;.=C2=A0 Verif=
+y length is large<br>
+&gt;&gt; enough to read header.=C2=A0 Limit length to rest of section.<br>
+&gt;&gt; Similarly limit offset_entry_count.<br>
+&gt;&gt; (display_debug_ranges): Check display_debug_rnglists_unit_header<b=
+r>
+&gt;&gt; return status.=C2=A0 Stop output on error.<br>
+&gt;&gt;<br>
+&gt;&gt; Upstream-Status: Backport [<a href=3D"https://sourceware.org/git/?=
+p=3Dbinutils-gdb.git;a=3Dpatch;h=3D598704a00cbac5e85c2bedd363357b5bf6fcee33=
+" rel=3D"noreferrer" target=3D"_blank">https://sourceware.org/git/?p=3Dbinu=
+tils-gdb.git;a=3Dpatch;h=3D598704a00cbac5e85c2bedd363357b5bf6fcee33</a>]<br=
+>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Harish Sadineni &lt;<a href=3D"mailto:Harish.Sadine=
+ni@windriver.com" target=3D"_blank">Harish.Sadineni@windriver.com</a>&gt;<b=
+r>
+&gt;&gt; ---<br>
+&gt; Hello Harish,<br>
+&gt;<br>
+&gt; This patch was lost for a time, my fault, sorry.<br>
+&gt;<br>
+&gt; Now, when I try to apply it, do_patch fails for binutils. Could you<br=
+>
+&gt; rebase on the latest scarthgap and send a v2?<br>
+Hi Yoann,<br>
+<br>
+CVE-2025-69648 is a duplicate of CVE-2025-69646.<br>
+<br>
+The fix for CVE-2025-69648 has already been merged into Scarthgap, so <br>
+the corresponding fix for CVE-2025-69646 is already present<br>
+and no additional patch is required.<br></blockquote><div><br></div><div>Th=
+at explains the do_patch failure...</div><div><br></div><div>In that case,=
+=C2=A0CVE-2025-69646 needs to be added to the &quot;CVE: &quot; line in</di=
+v><div><a href=3D"https://git.openembedded.org/openembedded-core/tree/meta/=
+recipes-devtools/binutils/binutils/CVE-2025-69648.patch?h=3Dscarthgap">http=
+s://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/binut=
+ils/binutils/CVE-2025-69648.patch?h=3Dscarthgap</a></div><div><br></div><di=
+v>What do you think? If that&#39;s correct, could you please send the patch=
+ for it?</div><div><br></div><div>Thanks!Could you handle it please?</div><=
+div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+
+Thanks,<br>
+Harish<br>
+&gt;<br>
+&gt; Thanks!<br>
+&gt;<br>[...]</blockquote></div><div><br clear=3D"all"></div><br><span clas=
+s=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_=
+signature"><div dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</f=
+ont><div><font face=3D"Raleway, regular">Smile ECS</font></div></div></div>=
+</div>
+
+--00000000000072b07d065483668b--
 
