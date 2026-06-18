@@ -1,254 +1,150 @@
-Return-Path: <anders.heimer@est.tech>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4249CD98ED
-	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 07:19:22 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.3])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14115.1781767159320576491
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21954CD98F0
+	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 07:54:33 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14324.1781769267434968549
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2026 00:19:19 -0700
+ Thu, 18 Jun 2026 00:54:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=nxF0xDXw;
- spf=pass (domain: est.tech, ip: 52.101.69.3, mailfrom: anders.heimer@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=0EX64cV9;
+ spf=pass (domain: est.tech, ip: 52.101.84.43, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HQuxqFa/mTsPKNr/6VqNN+HxhF0nZJtEGWF+8ZI4TShrHNt8zQQjC+2hYOK2pDxxChvSdw1DaWAbr9cPF0colNtrh8TLEkRX135Fqaheo6AmEtRLg09U0jZNfKcz5r/SppNum/0AL38IVlBDY8ujNoEQQkCu0esOIsS2WYmA2rzhWPHGWc7Jr5lb6RtACs9m9uEsG7A+Rta6ULPeGe0wudcteAw/mL1qD3Jp0dSHMQHtGPCeia1IfF1C974JLD3J/g4cX+L0+RRxEQb+JOpoOIMU1/fG9DrSM6MnaJVNqo6yQL+NXNrwkZeO9/42zUj0P1Jw/GIGqnAudgCiMsymLA==
+ b=eSpzThqlb47DXtaAekh6nsI2S+e/FjbcSQQCXNfrSInjSca/AK8N9jbuFuAvYbPK4JZau4C/ysFLiRoVr9DrfKG2qTW8+rO4+2hiqAz7s6x7YJDTqqyhPG1I3LgPbgDi1gBpJkYHJ+SwjXWlf+dGPJJLKn/ziGO6oQSq3UX/nCIG775/BR3gKZOTtsmr8XM9XqCAWFx/krWT+kV+iGs8jAg/fzkEK3Vvr1WbdQpP3NbEhHVAVXvNT6L3wnJBRKgs6Elz0wQDijVFSLdJT4IaB1IsfEla0qHc1/lqeaVnvADzzJHuvLYRJS1byFaKjMR1ttG/IhBZj4eTVNO4VCkKXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IXI3R9Itaw4Y6Fp4LbxisGFd1te3nTL+EJVYEu99Bp8=;
- b=Vhh+A8bkQb2Xh1S4/NY67x6zLieP3e5vsIhA/kJ2wkAjcImSG9CjszL/P5urSXP31E9qYnJr4Yjz0J+M7FrcrkJx2dYgOMHABUZRBv21vyWExoEBBCtqfKarMIIOjH7JtX4WtqTZUtyC6fHKFSNm6haGVzrXkm68Xb7ZPda8q5+5aXMHIc2QsfQLXy/4tILKi/3gV44eSvuOjistwh9epQ8ZP+I/JOfaesNTpxisqD9DWpTszW0tcK8lw8pLzKibvOYEG7jI4zVFtD18Xzno2Rqg5o1fSAZTmuty2zq747A2H/wUEYWbpIKPvf/zvSk45f5Iz1sgDq8cIMkOzNianA==
+ bh=DPBw4xDiZ+Lth1dOTsngOt0PaRvv47QvYeqowRPkjIs=;
+ b=MY+h/CoKNSlkpmz+3enea8tQUMH2PIeKDBCaICLT45Xa9nD4wEYYwZy+ugR0fmr3Sj46cLeba37tWf+XZ9vPV8MKtPpQRwxCbyk974AHeYHouHtO+ksF8lShiilbKFNOAc8/UaFL2aPnb7PAF4SzJINW/GpQZpzx6MfoXrB7cpFnzY4bWuIXAEYUCUANBPdwFTZ9f+xL4w8QvKK8ZZl8QVM9ywRGiK2oMumK7jj0fPUB40ftu2jdE0GJNHOlM91GQAfkr5s8vvjA0xzNoQUej2uZyrgB8lIRuYEAr14gPchZi/xGTFG3teR4JJNIreqhj9r3h6W2cUTBbBccIbkEAw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IXI3R9Itaw4Y6Fp4LbxisGFd1te3nTL+EJVYEu99Bp8=;
- b=nxF0xDXwWbkbihWO9Gm7JKiTSoPqC+7k4O6m802ASpnMfOncjB4r1Q7sawCjiWV13+oe3yNeqJuG+lyo6k5ooaorQpvmuR1YsPGATbtxNfoCLZWE/FiUoBiQ10mr5T1Y1eV38VNn+zyWBuDzZ3W4R2Rwq0ov2LI3czlbsiZTN52ohFae9vW24eGRjkFIvnwOZmmOJ8N4WgA7RNWU6JQox4dPEkmmvLx4Uu0RLj/sgWIuZoBuJI8Sd2zp0ujdritSdlt+gvKn3t82O948meRGFNqGCZT4YFdwaYJawyd64/DQFyTEZEpPmxdzgVNzc1kfb+zDzqMzc4eYYY1VOr3jwQ==
+ bh=DPBw4xDiZ+Lth1dOTsngOt0PaRvv47QvYeqowRPkjIs=;
+ b=0EX64cV9/E3AaeSelP0eCePOQJh05wRVgk4AnYq4TJzYN6gzXD6YBdbjuMkEhD74DnEQOSAwZvMUc1J6yG0sP9biotM3sHsKYi+F2Ybrb7sWHdKbpuBh1IPO11lz5q7fCI2M5CB9pIo+Dzfgc7OdEC5jLTi0Aq2m2Gm6vB0jsuq68mESMloMKWLL5hFCAlVXwvFOkG0EIHT8TNQ0BKDYa76+kQ0fa71Tj+qtX1svVBVtf198mdFWCdcYNY0rxfKhqqilFHefE5413pvMVuMjqW4Hy7bW7dstHEpZmAHOdYThcQuNVh1PgNMSr1LeijHdVq92BenIbqpWPucFiV7a4g==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:2ac::9) by
- VI0P189MB2776.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:254::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.139.11; Thu, 18 Jun 2026 07:19:13 +0000
-Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
- ([fe80::90da:b700:f102:5c82]) by DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
- ([fe80::90da:b700:f102:5c82%6]) with mapi id 15.21.0139.011; Thu, 18 Jun 2026
- 07:19:13 +0000
-From: Anders Heimer <anders.heimer@est.tech>
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by VI6PPFE19692F6E.EURP189.PROD.OUTLOOK.COM (2603:10a6:808:1::1aa) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Thu, 18 Jun
+ 2026 07:54:21 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::18b0:e114:b839:ca49]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::18b0:e114:b839:ca49%8]) with mapi id 15.21.0139.009; Thu, 18 Jun 2026
+ 07:54:21 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-CC: Anders Heimer <anders.heimer@est.tech>
-Subject: [PATCH v2 1/2] package: replace copydebugsources shell pipelines
-Date: Thu, 18 Jun 2026 09:19:07 +0200
-Message-ID: <a3e600b6d0d61b567c5ba296f66947a9728f296a.1781766061.git.anders.heimer@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1781766061.git.anders.heimer@est.tech>
-References: <cover.1781766061.git.anders.heimer@est.tech>
+CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>,
+	Anders Heimer <anders.heimer@est.tech>
+Subject: [PATCH] cmake-native: prevent host libidn2 contamination
+Date: Thu, 18 Jun 2026 09:54:05 +0200
+Message-ID: <20260618075405.73446-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0090.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:190::23) To DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:10:2ac::9)
+X-ClientProxiedBy: LO2P265CA0513.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:13b::20) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9P189MB1641:EE_|VI0P189MB2776:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8adca7c8-4013-4d1b-c856-08decd09e5ee
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|VI6PPFE19692F6E:EE_
+X-MS-Office365-Filtering-Correlation-Id: f6c95f44-65ae-4a92-ea94-08decd0eced3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|11063799006|3023799007|56012099006|22082099003|18002099003;
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|18002099003|11063799006|56012099006|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	56NvPpTY8jyHYHcXwravYzqQgNRMNKa5VEN/lGEVoIjL93A19TtELpJ+2dVV8mnlZCgpg20bXMgfiOFw6x+Fq+jy0kwpoKWX+Wb6LLNBxlgCVHDIYSPl5rWTEJoy7eU/d+Wk0o29pwXetAxlp7A8VKKFE0iXBxKPJQDKWme269Qs0vie1kqiIWPhvVv6Ip3FJEnGzXTKSBj13L6nkuZ81te91hTH3E29Q9f0J0Ro9Zl02zGWGxN01XfJbBgUEYjuvEbBG6hc/djvLcEHWoI0Kv9ha54BxJrFQe/6TcS1zf0o6TAkyNVv3fgBhG7xEKv6mgsMytgm0VpJUAX+5Ij5m1yaIF1xnm5pcVvXB/vdsa7eG9PqD0BGCvi/FLdWFz/hxhsH+ASIvonVTrj2bBI8EB0C4P6E7aoK6aY2QNxbWGjqt/Ll8SIaCmg1lWL7TI+1LVTad4cb0B7fTyg7Ohgp8aTzmBDztDGQi3ne5/qmEd5u1uEPxwdOPVvBVabXwKV9op1kNxmYvbi7P7UhKUaedmGaKk3gtUe2PmHUTU8zHmFV24MDaqwtFTAR3hR1Ub6Dbpmd8c3sbOuI7LRC9jTOZ/Txg28M17wXuK32fNNtVbDhcZ4enAkA0D5cQcQwFnHNkHGq3s0g0VZlT1BGGhv2lrdVd+Q0Wcgb1rK8uBVz0bohySZMWQzGXKDgPkJf/MLJ
+	5E/WTIQxKcH7h9slbv+0J9BpUdIH/HFyXA4iuKNaHDorAN2zWvzs8pYwBCrGc9toktgOh9J6g2gzWuXTymKDF7MS+k3J5yjxCR1riEtwle3n7BJcUXX+Ox0zNY7ErMoDHcrKQo3CaoJ0jaFIJzeXy4Elf3im+egnuw4Twh0ZMUFFLGx5p/x1ZFqvyRNOcZ40hayXFBXF28Jp7bGZlrMLlPb10VD4bTABXAPVar18JPm6fIfFvuNPT0etiUoGDMLKa2NxJ4cJp6BVb6Smk8sM+unmp/Wufsq94tN11DwPDqO+Phwr4cgiZeIab7IVPCIAJkKkFO2Y3joRN9XFnA0PK7lyzFcaprDqP7TtJlnvYWcO81rzpoEj/EBA/3XxNpmpvKo2jUcoZuudziM49aWjXW1ImY/nE1WiBVQQimpiUJJma5Zitk2eGj8v4sJe5Pov63mJhejUzvGazNuEbgyCx6i0Q4WEMzsUnlBDzPzVC1D8m0hPMLAWz3SyzdKlOCq1NCD/zboqxm9q4+/WQXu46KxPu386lXVmXtD/rbeasH5mmqZ7AuY8Z/SrGO1rgF4TR0+iJHHeZuUyY9Ux4qtq35siuYvb0HWpmYWLS4+VCUP5lJ/sDG5iQ29fiHN6wYfkdVgG2U0ZrMX5L/bISM2tx9yHcD53u76w060b6HkLPAFIDsLDtNpqnbI6nZNxFHvY
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1641.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(11063799006)(3023799007)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(18002099003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?qz/99HgMd5+f25fsWmguZuP+zmF5yP4qqJ2bnfH/T0V14ugKKCMfbbLjQlGq?=
- =?us-ascii?Q?zDNH4bYTj1RixMZ93rXgWsdUGhVmIgmFqsswvTEd09QYSBle8zlXBGhuB6vi?=
- =?us-ascii?Q?mKaviJe/XfA8sDFkDUaZHkHPiVuUzT3mVgXOQ66haUSzVOG3SHc9lz3hqYLb?=
- =?us-ascii?Q?fY/F406lqjmr7FlZ9bVKG4rWEfDwsKgC0C9QQl/O6EjV6gPyVZaMbBSQp67K?=
- =?us-ascii?Q?8A7CzldloAp12rWMeEe7+j/kIdTpzUbLQ1119Bfzm8rj6wXOow1ayNHksYV+?=
- =?us-ascii?Q?2igFGaZ0fHgiRrlI5XtS7P/6GQF8oQqrahFqTo+pO9Z1iN08VxIjg2lShO06?=
- =?us-ascii?Q?NOcHy1GplJNeM47cYS/2EP6138oT3tDrPot1314QlUyihMT87+AR2IBRS6LD?=
- =?us-ascii?Q?BbVqHxwp++JFozavOjPyJCs9v0BsmwE2SzhA5egz6LouudBOK5h9AQYm5APd?=
- =?us-ascii?Q?XCEq1RDzC46iLCeUdoZqTedEb+Ubhc359gAiEPTzxRXEGqVIgiAmIeWIk24I?=
- =?us-ascii?Q?beR8QjNyOp8klrBcNDScnhL2I9/LSzCTojPlHGJ+zoe+7o1+CpAEaG3qHW6m?=
- =?us-ascii?Q?09YWWndBMW2Qv9rwNzcyZ/KlC8a/0umbX1YtE44olreTiuNEb4anAWRLLd1b?=
- =?us-ascii?Q?Oq65L7CFeDke1P0KVKG101Rkh1wv5hL9vuaQVXOEuMYo/A92dzrB5f3WMq8o?=
- =?us-ascii?Q?J8tEQuREnbdDkWIOxEuizndB6hcHJNlR407QKA40k8HlGU/NZvOEF65dgKua?=
- =?us-ascii?Q?32kCR3CwPwa+KNIE5K2BnjtRWSiNTDEeTC8zThS2nWKr7lZkowr75DKXLaBQ?=
- =?us-ascii?Q?jCCVna2qAw/bfPdsDTHr0aVOAZYNPuTjkbf986Mg5pgmUSMlMNSIGCfXFM+e?=
- =?us-ascii?Q?Xrm2GzEzF18DUpGFcbupAWzLovXgGWJ4aW4Ys5b4v5YIKfbGxwlagtAP2JnY?=
- =?us-ascii?Q?w63mQDtCFcuV16mjxwq0a3VJYbJMkod9yAKXXRUVq5MlWKQljP5Q/OaaCX9C?=
- =?us-ascii?Q?eX4JAsNc8SVPkPqgKjnYp4ESg8wWSpisG25mYHleN2y+1erbWdVHLlCnNF6Q?=
- =?us-ascii?Q?ZiCEg65MTUNSnjzcn8DyhAxdZcfsx5bpdBGT6AxZIANOXdhPynhyUdJQVAJ/?=
- =?us-ascii?Q?QUtpH7maXHg/Y5prxgXKYPUjVAHbUT47gUJ93CyTJpGwu10bBL6E+hG/NW5T?=
- =?us-ascii?Q?A8Yi5etuwMtJulbnUCk6XexTwccQHqSbfZpCeanIb/4KL9De6lwnl+KKSONh?=
- =?us-ascii?Q?q8mS4m8n8oPq5x/C29/27JX+zblreE3LJ/05Hp5zCUBa17abtxCLMb7dLPFh?=
- =?us-ascii?Q?642HknI2YIOPLcxyCRev9SUemHXIxxqpR/hJQ/WOB/fwzMThzouT30ZmsYB+?=
- =?us-ascii?Q?0xF8wzvKFPID6GQc2IW6lGwX+xEEgkT0IPDC/ZJRlg7nfOHbErhLwjg29NUI?=
- =?us-ascii?Q?5DCwGTrJFd06oGIo0hLcwGaYtrS2ltQD+PH6A8ibOtAp7oJnG5BrUMjum5eB?=
- =?us-ascii?Q?A8JcJ65j2zztRLhemugtObX3z5reBXJzAVsFflTFadnuAHA+H8+JVca2MLLh?=
- =?us-ascii?Q?S9kAylkEzSfj3bk3kFEzAKF7HEHthS/nO++WSXDcLR856z4Ybzzjoqc6Wvnb?=
- =?us-ascii?Q?h2f1XZ9UN5qoKpgUJd53o7ETZB6UmgOQ5C6xsZHuwOYBj5G1baZqR+lrB7I7?=
- =?us-ascii?Q?t66/vgFpGP0a16vaM/mD9x8haJ/hIeBjKJgkPLsqown/Z7d7UWCBtR+AwZ+p?=
- =?us-ascii?Q?4gGr+l2w/g=3D=3D?=
+	=?us-ascii?Q?nC1fFwRvAwLk/t75fzuMiuDqgTwhzZLbaHEhxGEl4s5Qolkgv19L2MRhTa89?=
+ =?us-ascii?Q?58Y2Y5XJAGtmTbQSEvBNPjHTH92UGner1xZS41HLh39XnBaEISLzhV3hRBAY?=
+ =?us-ascii?Q?sNfUHi6hngZzX7SMwBShjmln3X3Hd+TBhVrJiV5fZg8qm0baw50mGmIGqcba?=
+ =?us-ascii?Q?yN5STaBgIdAYZGAeiQxuDsiVvGuNN4qp1nPZfJojC6GAgCSlr2uVQ2tVDFk8?=
+ =?us-ascii?Q?34bjA7prqFT9Vyse8h18a7uVgkXAzYKKYUDlGMcRyomkXtXGKlbtlSPJIXc2?=
+ =?us-ascii?Q?vRb9gkvMOrYHxsRq5LlFOvaQuq3H7lRu+HYG1nWKARudGuRxJjG8wQzKx8fg?=
+ =?us-ascii?Q?ue9apvy7IAJJWSQaYV80l1OJDLLvULYsEjaqKtbAxNbbhrdndo4auV4+Jn8m?=
+ =?us-ascii?Q?v5+pwCWiCJ6C/8O5G0mTZ2eXGp6wcYQ5bW4eRFQ6sjx6KG6y0bdx73oha5M5?=
+ =?us-ascii?Q?erl1Njjntf5oGkrwnYjEVYUhra9REZG2YLVtTauBa8OEjWqapyxmJcpdUcFc?=
+ =?us-ascii?Q?BzonPmh/c4I25wQ96pS/IIxTrrnSrBHyjESSFWSbEkZ6mHDYMqT5xGEnXnog?=
+ =?us-ascii?Q?XhMZFyfaMa9JnNv72wzd9Be9W5rKN+LLP/HThEKahQZAd7COAk4Sqe3dDrxs?=
+ =?us-ascii?Q?phoe1pXHEz/pfzXyzWkEWJAQNBcAduF8L8GXiUPK1wxzD1C8l1yoLdcUIyWT?=
+ =?us-ascii?Q?+ifzSrgXSWXUFZuHHprKwu2T3lXFbs4MSv8/H+Jpo+I/rYMOoKMCk9rIdnG8?=
+ =?us-ascii?Q?Ke13bb+UD2tBZCXyQ6Rrnn0Q0v2Y4/OUE4R3lJ2IdMY16O7YGUkoaVKiLQmU?=
+ =?us-ascii?Q?lwphkPxrr0RTKS4tPCR/jBxW1oFn1BwcmnGVnxUltwoYpMYCwO/4lU+abmdI?=
+ =?us-ascii?Q?lKUisu55Oei3kA1ns7XXgY7Bjen8k001kP/nqIvxtN4Onv0ZSdZKO0ugy9fV?=
+ =?us-ascii?Q?nnezTbVmsfVsFGG9DfqsIZ7waXJjeb3umEkk6bWLKTn63FNSXNOgTTy0UZPG?=
+ =?us-ascii?Q?MZ/U3tDA6jqYSyjdjsjXFSkeBGNm2YW3Cv9AJCCMn5OaeELrlx5ftgvxKsLY?=
+ =?us-ascii?Q?U6H68JL4lIPqWz81o0KbHivJT/wNMFtA4AC+kQr/P0OOkxunmDPaCc1OWRvp?=
+ =?us-ascii?Q?S0D6xnkDsCHHcSOOI4iro/Gy5bZh9qZKvcaI4GACjdxINzzmXVFcqhoKOFL3?=
+ =?us-ascii?Q?xJpC6QAJO8IRJc4FZXFryh+gei5e3H6HDf5e5lS0Jkr3QBPDax6aGGDULbVo?=
+ =?us-ascii?Q?+7iC/KzEEMN6Snv8iukjR3Ui8mUSLqcyylFyzqu8Yweg7jtFmCQRDWjkSRuo?=
+ =?us-ascii?Q?qvl95LKDFFBEfy9Hoj8kDqEpAAs9NOKiOxLSrNVLmExssPWdxtgJZQvBQI/B?=
+ =?us-ascii?Q?FrT9e+CpYg9aMLHyipQoTezz1tG/1MyhNsX4CF3dwn1rPrCtGM+kRHikDSy3?=
+ =?us-ascii?Q?xYoMC/SEqSO2Sas0tDoq/qry+Vg9fvp1L5xy3Z2Lnjrz1QIj9ZO4AFloRpCz?=
+ =?us-ascii?Q?sHEvFFVxUb+ANR7zTEjHLaHf0JdXbtCp1ksIg99Po7WFxbHlYurveVWLBU2+?=
+ =?us-ascii?Q?GmKCrsl38KCN8KyXydm5Hm1YMwART8Y5CYqzWDhofCh7IBX397Nm/7MQIEu6?=
+ =?us-ascii?Q?U8eU245ZUB6ZDYl8yTpPc42ZkXQ4xBEaERt5x51GqliZ5fQ+I03QetZJYOPD?=
+ =?us-ascii?Q?THWzXPZ1jLYIySA7kUhggMh9IQlVfU5GdSBVdbJRAjJ/iEJljhv1edV7pDAY?=
+ =?us-ascii?Q?YElZtnNV2w=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8adca7c8-4013-4d1b-c856-08decd09e5ee
-X-MS-Exchange-CrossTenant-AuthSource: DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6c95f44-65ae-4a92-ea94-08decd0eced3
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2026 07:19:13.0027
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2026 07:54:21.7558
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +mIeNYBahIPK2oN5Uc+LvUyMhpOsq73s3L8nyRAftVwZsIyZLzcX5hX93AK3XWAU4ybljRhmzqbeHd07rE9e7Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB2776
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0pn1J6L+38P0RHA5oWCFZH4Q4NsrE7t5ASTzWFVx1+QTt5R9iKg9kS7+2efvbk2ViM96Gn8dQCTHhoIOL15S8T3QNO/yLsFpzX+dpoOQ+BU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI6PPFE19692F6E
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 07:19:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239063
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 07:54:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239064
 
-Replace the sort/grep/sed parts of copydebugsources with Python
-filtering on the NUL-separated source list. Keep cpio since it is
-faster than doing it in python.
+The bundled cmcurl in CMake 4.3.x unconditionally enables USE_LIBIDN2
+and calls find_package(Libidn2). On hosts with libidn2-devel installed
+(common on RHEL/EL8), this detects the host library during configure
+but the compile fails because the compiler is correctly restricted to
+the native sysroot:
 
-Use an explicit prefix + "/" match before stripping the prefix so source
-selection is limited to files in the mapped debug source directory.
+  fatal error: idn2.h: No such file or directory
 
-Replace the find/sed symlink fixup pipeline with os.walk() plus cpio,
-use an argv-list mv for the externalsrc relocation, and pass the
-empty-directory find command as an argv list.
+This was introduced in the upgrade from CMake 3.28.x to 4.3.x, where
+the bundled cmcurl added find_package(Libidn2) for IDN support.
 
-The first cpio copy pass continues to ignore failures as before since
-some inputs are expected to fail. The symlink fixup copy still reports
-cpio failures.
+cmake-native does not need IDN support in its internal curl usage.
+Use CMAKE_DISABLE_FIND_PACKAGE_Libidn2 to prevent the host package
+from being found without patching the source.
 
-Signed-off-by: Anders Heimer <anders.heimer@est.tech>
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Reviewed-by: Anders Heimer <anders.heimer@est.tech>
 ---
- meta/lib/oe/package.py | 70 +++++++++++++++++++++++++++++-------------
- 1 file changed, 48 insertions(+), 22 deletions(-)
+ meta/recipes-devtools/cmake/cmake-native_4.3.3.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index c375acc124..c4ad364b64 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -1017,26 +1017,48 @@ def copydebugsources(debugsrcdir, sources, d):
-         bb.utils.mkdirhier(basepath)
-         cpath.updatecache(basepath)
-=20
--        for pmap in prefixmap:
--            # Ignore files from the recipe sysroots (target and native)
--            cmd =3D  "LC_ALL=3DC ; sort -z -u '%s' | egrep -v -z '((<inter=
-nal>|<built-in>)$|/.*recipe-sysroot.*/)' | " % sourcefile
--            # We need to ignore files that are not actually ours
--            # we do this by only paying attention to items from this packa=
-ge
--            cmd +=3D "fgrep -zw '%s' | " % prefixmap[pmap]
--            # Remove prefix in the source paths
--            cmd +=3D "sed 's#%s/##g' | " % (prefixmap[pmap])
--            cmd +=3D "(cd '%s' ; cpio -pd0mlLu --no-preserve-owner '%s%s' =
-2>/dev/null)" % (pmap, dvar, prefixmap[pmap])
-+        # Ignore files from the recipe sysroots (target and native), and
-+        # compiler internal entries.
-+        with open(sourcefile, "rb") as f:
-+            sourcepaths =3D sorted({path for path in f.read().split(b"\0")
-+                                  if path
-+                                  and not path.endswith((b"<internal>", b"=
-<built-in>"))
-+                                  and b"recipe-sysroot" not in os.path.dir=
-name(path)})
-+
-+        for pmap, prefix in prefixmap.items():
-+            dstroot =3D dvar + prefix
-+            prefix_slash =3D os.fsencode(prefix) + b"/"
-+            relpaths =3D [path[len(prefix_slash):]
-+                        for path in sourcepaths
-+                        if path.startswith(prefix_slash)]
-+
-+            if relpaths:
-+                subprocess.run(["cpio", "-pd0mlLu", "--no-preserve-owner",=
- dstroot],
-+                               input=3Db"\0".join(relpaths) + b"\0",
-+                               cwd=3Dpmap, stdout=3Dsubprocess.DEVNULL,
-+                               stderr=3Dsubprocess.DEVNULL, check=3DFalse)
-=20
--            try:
--                subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubpro=
-cess.STDOUT)
--            except subprocess.CalledProcessError:
--                # Can "fail" if internal headers/transient sources are att=
-empted
--                pass
-             # cpio seems to have a bug with -lL together and symbolic link=
-s are just copied, not dereferenced.
-             # Work around this by manually finding and copying any symboli=
-c links that made it through.
--            cmd =3D "find %s%s -type l -print0 -delete | sed s#%s%s/##g | =
-(cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s')" % \
--                    (dvar, prefixmap[pmap], dvar, prefixmap[pmap], pmap, d=
-var, prefixmap[pmap])
--            subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubprocess=
-.STDOUT)
-+            symlinks =3D []
-+            for root, dirs, files in os.walk(dstroot, topdown=3DTrue, foll=
-owlinks=3DFalse):
-+                for name in dirs[:]:
-+                    path =3D os.path.join(root, name)
-+                    if os.path.islink(path):
-+                        symlinks.append(os.fsencode(os.path.relpath(path, =
-dstroot)))
-+                        os.unlink(path)
-+                        dirs.remove(name)
-+
-+                for name in files:
-+                    path =3D os.path.join(root, name)
-+                    if os.path.islink(path):
-+                        symlinks.append(os.fsencode(os.path.relpath(path, =
-dstroot)))
-+                        os.unlink(path)
-+
-+            if symlinks:
-+                subprocess.check_output(["cpio", "-pd0mL", "--no-preserve-=
-owner", dstroot],
-+                                        input=3Db"\0".join(sorted(symlinks=
-)) + b"\0",
-+                                        cwd=3Dpmap, stderr=3Dsubprocess.ST=
-DOUT)
-=20
-         # debugsources.list may be polluted from the host if we used exter=
-nalsrc,
-         # cpio uses copy-pass and may have just created a directory struct=
-ure
-@@ -1046,13 +1068,17 @@ def copydebugsources(debugsrcdir, sources, d):
-=20
-         # Same check as above for externalsrc
-         if workdir not in sdir:
--            if os.path.exists(dvar + debugsrcdir + sdir):
--                cmd =3D "mv %s%s%s/* %s%s" % (dvar, debugsrcdir, sdir, dva=
-r,debugsrcdir)
--                subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubpro=
-cess.STDOUT)
-+            srcdir =3D dvar + debugsrcdir + sdir
-+            dstdir =3D dvar + debugsrcdir
-+            if os.path.exists(srcdir):
-+                entries =3D sorted(glob.glob(os.path.join(glob.escape(srcd=
-ir), "*")))
-+                if entries:
-+                    subprocess.check_output(["mv", "--"] + entries + [dstd=
-ir],
-+                                            stderr=3Dsubprocess.STDOUT)
-=20
-         # The copy by cpio may have resulted in some empty directories!  R=
-emove these
--        cmd =3D "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
--        subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubprocess.STD=
-OUT)
-+        cmd =3D ["find", dvar + debugsrcdir, "-empty", "-type", "d", "-del=
-ete"]
-+        subprocess.check_output(cmd, stderr=3Dsubprocess.STDOUT)
-=20
-         # Also remove debugsrcdir if its empty
-         for p in nosuchdir[::-1]:
+diff --git a/meta/recipes-devtools/cmake/cmake-native_4.3.3.bb b/meta/recip=
+es-devtools/cmake/cmake-native_4.3.3.bb
+index 9ab1f0ce73..a859cef151 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_4.3.3.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_4.3.3.bb
+@@ -31,6 +31,7 @@ EXTRA_OECMAKE +=3D "\
+     -DCMAKE_USE_SYSTEM_LIBRARY_LIBRHASH=3D0 \
+     -DCMAKE_USE_SYSTEM_LIBRARY_EXPAT=3D0 \
+     -DCMAKE_USE_SYSTEM_LIBRARY_CURL=3D0 \
++    -DCMAKE_DISABLE_FIND_PACKAGE_Libidn2=3DON \
+     -DENABLE_ACL=3D0 -DHAVE_ACL_LIBACL_H=3D0 \
+     -DHAVE_SYS_ACL_H=3D0 \
+ "
+--=20
+2.34.1
+
 
