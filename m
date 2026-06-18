@@ -1,92 +1,579 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E50A6CD98F2
-	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 10:45:57 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16856.1781779549993312839
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00222CD98ED
+	for <webhook@archiver.kernel.org>; Thu, 18 Jun 2026 10:55:37 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16970.1781780130613265519
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jun 2026 03:45:50 -0700
+ Thu, 18 Jun 2026 03:55:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VzCZPZX4;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TalgoHHb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019eda564bd5-b37a4395-1b1c-4bc0-95ab-cb6df5b2433e-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1781779549; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=maIB2x0N66iGl+2Q2z6SoQMHn6fVPBYqsySpr+qEh30=;
-	b=VzCZPZX4eKwX6jNY7e1HK+OUdyIZChG45BeX+zVlOscXpcFsn6J0S9laSsTIwo6c
-	qYYdFIabUMTR9o+sFYG2o8Jgtar2YHaOyMHO0iHV0AKTYdPAtHsOOeSHtPEWErW/0q0
-	JmassCZtmIBr9AYNC07C8k7gnk6pUFn+aIw22ln0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781779549;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=maIB2x0N66iGl+2Q2z6SoQMHn6fVPBYqsySpr+qEh30=;
-	b=TalgoHHb+nptXW/SGpnnpqr2UX9RZSEIIxbsHwCBFA24fe5xvOZaiS8WjGQd1n8p
-	TEX5oQJYxxOH+SrlDXvvEk0EosezQoOx4CfwieAYWdX1YBsxDwPP4UyQxtK2b1CGyu1
-	HWD3rEvDA4+QPLOfGm3/E2KVOYLPVl/nz+IGz9Fs=
-From: patchtest@automation.yoctoproject.org
-To: Nate Kent <nathan@otiv.ai>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] Update sed usage by 'pam-wheel' for sudoers
-In-Reply-To: <20260618102839.363123-1-nathan@otiv.ai>
-References: <20260618102839.363123-1-nathan@otiv.ai>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019eda564bd5-b37a4395-1b1c-4bc0-95ab-cb6df5b2433e-000000@us-west-2.amazonses.com>
-Date: Thu, 18 Jun 2026 10:45:49 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.18-54.240.27.33
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=MQ9iaDTy;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D78FE2910
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 03:55:24 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 015443F905
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 03:55:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1781780129; bh=KFKBDfN/sPy5lz1PNu3c3QLHBdjiNArR5i3vkrAV6CA=;
+	h=From:To:Subject:Date:From;
+	b=MQ9iaDTypKHO+G5yfe/HQhhjTgknfS8XXi4Yb4iIyOYtTC00Do6yo0S0nIT1Uj/rn
+	 L22y+9cy8eNWCMeUW9kJxXT06834mPL2jXxZAc0j0eLeXLXJp7XQCOWmTCfqTDrmmv
+	 9m7kNKmvpRZ2MThO7EAOw8KAOFIKrNGcZA9HCSrk=
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] libinput: upgrade 1.30.2 -> 1.31.3
+Date: Thu, 18 Jun 2026 11:55:22 +0100
+Message-ID: <20260618105522.2053085-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 10:45:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239073
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jun 2026 10:55:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239074
 
---NextPart
-Content-Type: text/plain
+Drop CVE backports, all patches integrated into this release.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+libinput 1.31.0:
 
+The disable-while-typing and disable-while-trackpointing timeouts are
+now configurable (within reasonable limits).
+
+We now support fast 3fg swipes when 3fg drag is enabled.
+
+A new API to get a tablet tool's (marketing) name is now available:
+libinput_tablet_tool_get_name().
+
+libinput 1.31.1:
+
+Fixes CVE-2026-35093 and CVE-2026-35094.
+
+libinput 1.31.2:
+
+Important fix for the new fast-swipe interaction during 3fg dragging. A
+wrong timestamp calculation could cause slow movements to be interpreted
+as swipes in some cases.
+
+Another fix for the Acer Swift SFX14-73G (and likely other devices with
+a similar touchpad) fixes a stuttering cursor caused by wrong SYN_REPORT
+handling in libinput.
+
+libinput 1.31.3:
+
+Fixes CVE-2026-50265.
+
+libinput 1.31.4:
+
+Two fixes for libinput record, the --autorestart interval handling was
+broken for intervals 5s and higher, and a convenience fix for running
+with --autorestart.
+
+Eraser buttons can now be mapped to any button (previously only
+BTN_STYLUS, BTN_STYULUS2 and BTN_STYLUS3 were permitted).
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
-Testing patch /home/patchtest/share/mboxes/Update-sed-usage-by-pam-wheel-for-sudoers.patch
+ .../wayland/libinput/CVE-2026-35093.patch     | 124 ------------
+ .../wayland/libinput/CVE-2026-35094.patch     | 191 ------------------
+ .../wayland/libinput/CVE-2026-50292.patch     |  79 --------
+ ...{libinput_1.30.2.bb =3D> libinput_1.31.3.bb} |   7 +-
+ 4 files changed, 2 insertions(+), 399 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/libinput/CVE-2026-35093=
+.patch
+ delete mode 100644 meta/recipes-graphics/wayland/libinput/CVE-2026-35094=
+.patch
+ delete mode 100644 meta/recipes-graphics/wayland/libinput/CVE-2026-50292=
+.patch
+ rename meta/recipes-graphics/wayland/{libinput_1.30.2.bb =3D> libinput_1=
+.31.3.bb} (90%)
 
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+diff --git a/meta/recipes-graphics/wayland/libinput/CVE-2026-35093.patch =
+b/meta/recipes-graphics/wayland/libinput/CVE-2026-35093.patch
+deleted file mode 100644
+index e0119caaca1..00000000000
+--- a/meta/recipes-graphics/wayland/libinput/CVE-2026-35093.patch
++++ /dev/null
+@@ -1,124 +0,0 @@
+-From 356c498fd4ba25ec99f6866fc96847ec3d1f16bf Mon Sep 17 00:00:00 2001
+-From: Peter Hutterer <peter.hutterer@who-t.net>
+-Date: Mon, 30 Mar 2026 11:35:35 +1000
+-Subject: [PATCH] lua: force text mode for loading plugins
+-
+-luaL_loadfile() by default allows for both text files and precompiled
+-lua files. Precompiled files are not verified on load allowing for a
+-sandbox escape.
+-
+-CVE-2026-35093
+-
+-Fixes: #1271
+-
+-Found-by: Koen Tange <koen@monokles.eu>
+-Part-of: <https://gitlab.freedesktop.org/libinput/libinput/-/merge_reque=
+sts/1459>
+-
+-CVE: CVE-2025-35093
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- src/libinput-plugin-lua.c |  2 +-
+- test/test-plugins-lua.c   | 69 +++++++++++++++++++++++++++++++++++++++
+- 2 files changed, 70 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/libinput-plugin-lua.c b/src/libinput-plugin-lua.c
+-index c6f99a5f..2a09a64a 100644
+---- a/src/libinput-plugin-lua.c
+-+++ b/src/libinput-plugin-lua.c
+-@@ -1362,7 +1362,7 @@ libinput_lua_plugin_new_from_path(struct libinput =
+*libinput, const char *path)
+- 		return NULL;
+- 	}
+-=20
+--	int ret =3D luaL_loadfile(L, path);
+-+	int ret =3D luaL_loadfilex(L, path, "t");
+- 	if (ret =3D=3D LUA_OK) {
+- 		plugin->L =3D steal(&L);
+-=20
+-diff --git a/test/test-plugins-lua.c b/test/test-plugins-lua.c
+-index aba8f6c6..e61806d3 100644
+---- a/test/test-plugins-lua.c
+-+++ b/test/test-plugins-lua.c
+-@@ -1204,10 +1204,79 @@ START_TEST(lua_remove_plugin_on_timeout)
+- }
+- END_TEST
+-=20
+-+/* Pre-compiled Lua 5.4 bytecode for the following source:
+-+ *
+-+ *   libinput:register({1})
+-+ *   libinput:connect("new-evdev-device", function(device)
+-+ *       libinput:log_info("loaded from binary lua file")
+-+ *   end)
+-+ *
+-+ * To regenerate:
+-+ *   luac5.4 -o /dev/stdout /tmp/plugin.lua | xxd -i
+-+ */
+-+static const unsigned char binary_lua_plugin[] =3D {
+-+	0x1b, 0x4c, 0x75, 0x61, 0x54, 0x00, 0x19, 0x93, 0x0d, 0x0a, 0x1a, 0x0a=
+, 0x04,
+-+	0x08, 0x08, 0x78, 0x56, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00=
+, 0x00,
+-+	0x00, 0x00, 0x28, 0x77, 0x40, 0x01, 0x9b, 0x40, 0x74, 0x65, 0x73, 0x74=
+, 0x2f,
+-+	0x31, 0x30, 0x2d, 0x62, 0x69, 0x6e, 0x61, 0x72, 0x79, 0x2d, 0x70, 0x6c=
+, 0x75,
+-+	0x67, 0x69, 0x6e, 0x2e, 0x6c, 0x75, 0x61, 0x80, 0x80, 0x00, 0x01, 0x04=
+, 0x8e,
+-+	0x51, 0x00, 0x00, 0x00, 0x0b, 0x00, 0x00, 0x00, 0x14, 0x80, 0x00, 0x01=
+, 0x13,
+-+	0x01, 0x00, 0x01, 0x52, 0x00, 0x00, 0x00, 0x81, 0x01, 0x00, 0x80, 0x4e=
+, 0x01,
+-+	0x01, 0x00, 0x44, 0x00, 0x03, 0x01, 0x0b, 0x00, 0x00, 0x00, 0x14, 0x80=
+, 0x00,
+-+	0x02, 0x03, 0x81, 0x01, 0x00, 0xcf, 0x01, 0x00, 0x00, 0x44, 0x00, 0x04=
+, 0x01,
+-+	0x46, 0x00, 0x01, 0x01, 0x84, 0x04, 0x89, 0x6c, 0x69, 0x62, 0x69, 0x6e=
+, 0x70,
+-+	0x75, 0x74, 0x04, 0x89, 0x72, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72=
+, 0x04,
+-+	0x88, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x04, 0x91, 0x6e, 0x65=
+, 0x77,
+-+	0x2d, 0x65, 0x76, 0x64, 0x65, 0x76, 0x2d, 0x64, 0x65, 0x76, 0x69, 0x63=
+, 0x65,
+-+	0x81, 0x01, 0x00, 0x00, 0x81, 0x80, 0x8d, 0x8f, 0x01, 0x00, 0x04, 0x85=
+, 0x8b,
+-+	0x00, 0x00, 0x00, 0x94, 0x80, 0x01, 0x01, 0x83, 0x01, 0x01, 0x00, 0xc4=
+, 0x00,
+-+	0x03, 0x01, 0xc7, 0x00, 0x01, 0x00, 0x83, 0x04, 0x89, 0x6c, 0x69, 0x62=
+, 0x69,
+-+	0x6e, 0x70, 0x75, 0x74, 0x04, 0x89, 0x6c, 0x6f, 0x67, 0x5f, 0x69, 0x6e=
+, 0x66,
+-+	0x6f, 0x04, 0x9c, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x64, 0x20, 0x66, 0x72=
+, 0x6f,
+-+	0x6d, 0x20, 0x62, 0x69, 0x6e, 0x61, 0x72, 0x79, 0x20, 0x6c, 0x75, 0x61=
+, 0x20,
+-+	0x66, 0x69, 0x6c, 0x65, 0x81, 0x00, 0x00, 0x00, 0x80, 0x85, 0x01, 0x00=
+, 0x00,
+-+	0x00, 0x01, 0x80, 0x81, 0x87, 0x64, 0x65, 0x76, 0x69, 0x63, 0x65, 0x80=
+, 0x85,
+-+	0x81, 0x85, 0x5f, 0x45, 0x4e, 0x56, 0x8e, 0x01, 0x0b, 0x00, 0x00, 0x00=
+, 0x00,
+-+	0x00, 0x00, 0x01, 0x00, 0x00, 0x02, 0xfe, 0x02, 0x80, 0x80, 0x81, 0x85=
+, 0x5f,
+-+	0x45, 0x4e, 0x56,
+-+};
+-+
+-+START_TEST(lua_reject_precompiled_files)
+-+{
+-+	_destroy_(tmpdir) *tmpdir =3D tmpdir_create(NULL);
+-+
+-+	/* Write the binary bytecode to a .lua file in the tmpdir.
+-+	 * Binary (pre-compiled) Lua files must be rejected by the
+-+	 * plugin loader for security reasons. */
+-+	_autofree_ char *path =3D strdup_printf("%s/10-binary-plugin.lua", tmp=
+dir->path);
+-+	_autoclose_ int fd =3D open(path, O_WRONLY | O_CREAT, 0644);
+-+	litest_assert_errno_success(fd);
+-+
+-+	ssize_t written =3D write(fd, binary_lua_plugin, sizeof(binary_lua_plu=
+gin));
+-+	litest_assert_int_eq((int)written, (int)sizeof(binary_lua_plugin));
+-+	fsync(fd);
+-+
+-+	_litest_context_destroy_ struct libinput *li =3D
+-+		litest_create_context_with_plugindir(tmpdir->path);
+-+
+-+	litest_with_logcapture(li, capture) {
+-+		libinput_plugin_system_load_plugins(li,
+-+						    LIBINPUT_PLUGIN_SYSTEM_FLAG_NONE);
+-+		litest_drain_events(li);
+-+
+-+		size_t index =3D 0;
+-+		litest_assert(
+-+			strv_find_substring(capture->errors, "Failed to load", &index));
+-+		litest_assert_str_in(path, capture->errors[index]);
+-+	}
+-+}
+-+END_TEST
+-+
+- TEST_COLLECTION(lua)
+- {
+- 	/* clang-format off */
+- 	litest_add_no_device(lua_load_failure);
+-+	litest_add_no_device(lua_reject_precompiled_files);
+- 	litest_with_parameters(params,
+- 			       "content", 'I', 6,
+- 					litest_named_i32(EMPTY),
+---=20
+-GitLab
+-
+diff --git a/meta/recipes-graphics/wayland/libinput/CVE-2026-35094.patch =
+b/meta/recipes-graphics/wayland/libinput/CVE-2026-35094.patch
+deleted file mode 100644
+index 405a262b03e..00000000000
+--- a/meta/recipes-graphics/wayland/libinput/CVE-2026-35094.patch
++++ /dev/null
+@@ -1,191 +0,0 @@
+-From 45dfd0f0301af855f068df27b2e40cc9f5713acd Mon Sep 17 00:00:00 2001
+-From: Peter Hutterer <peter.hutterer@who-t.net>
+-Date: Mon, 30 Mar 2026 09:41:08 +1000
+-Subject: [PATCH] lua: separate the API from the metatables
+-
+-Previously we had one vtable for the libinputplugin and EvdevDevice
+-objects. This allowed plugins to call __gc(), a decidedly internal
+-method.
+-
+-This fixes a use-after-free: A plugin that called EvdevDevice::__gc()
+-frees the plugin's copy of device->name but leaves the pointer in-place,
+-a subsequent call will thus cause a UAF read.
+-
+-Fix this by separating what is the object's metatable from the public
+-methods that are accessible to a plugin.
+-
+-CVE-2026-35094
+-
+-Fixes: #1272
+-
+-Found-by: Koen Tange <koen@monokles.eu>
+-Part-of: <https://gitlab.freedesktop.org/libinput/libinput/-/merge_reque=
+sts/1459>
+-
+-CVE: CVE-2025-35094
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+----
+- src/libinput-plugin-lua.c | 54 +++++++++++++++++++++++++++++----------
+- test/test-plugins-lua.c   | 33 ++++++++++++++++++++++++
+- 2 files changed, 73 insertions(+), 14 deletions(-)
+-
+-diff --git a/src/libinput-plugin-lua.c b/src/libinput-plugin-lua.c
+-index ac828f7f..c6f99a5f 100644
+---- a/src/libinput-plugin-lua.c
+-+++ b/src/libinput-plugin-lua.c
+-@@ -562,6 +562,12 @@ libinputplugin_unregister(lua_State *L)
+- 	return luaL_error(L, "@@unregistering@@");
+- }
+-=20
+-+static int
+-+readonly_newindex(lua_State *L)
+-+{
+-+	return luaL_error(L, "attempt to modify a read-only table");
+-+}
+-+
+- static int
+- libinputplugin_gc(lua_State *L)
+- {
+-@@ -673,7 +679,28 @@ libinputplugin_log_error(lua_State *L)
+- 	return libinputplugin_log(L, LIBINPUT_LOG_PRIORITY_ERROR);
+- }
+-=20
+--static const struct luaL_Reg libinputplugin_vtable[] =3D {
+-+static void
+-+setup_vfuncs(lua_State *L,
+-+	     const char *metatable_name,
+-+	     const struct luaL_Reg *vfuncs,
+-+	     const struct luaL_Reg *public_methods)
+-+{
+-+	luaL_newmetatable(L, metatable_name);
+-+	luaL_setfuncs(L, vfuncs, 0);
+-+
+-+	lua_newtable(L);
+-+	luaL_setfuncs(L, public_methods, 0);
+-+	lua_setfield(L, -2, "__index");
+-+
+-+	/* set metatable.__metatable =3D false to prevent a script from getmet=
+atable(),
+-+	   which is blocked anyway but safe and sorry and whatnot */
+-+	lua_pushboolean(L, 0);
+-+	lua_setfield(L, -2, "__metatable");
+-+
+-+	lua_pop(L, 1);
+-+}
+-+
+-+static const struct luaL_Reg libinputplugin_methods[] =3D {
+- 	{ "now", libinputplugin_now },
+- 	{ "version", libinputplugin_version },
+- 	{ "connect", libinputplugin_connect },
+-@@ -685,18 +712,18 @@ static const struct luaL_Reg libinputplugin_vtable=
+[] =3D {
+- 	{ "log_debug", libinputplugin_log_debug },
+- 	{ "log_info", libinputplugin_log_info },
+- 	{ "log_error", libinputplugin_log_error },
+--	{ "__gc", libinputplugin_gc },
+- 	{ NULL, NULL }
+- };
+-=20
+-+static const struct luaL_Reg libinputplugin_meta[] =3D { { "__gc", libi=
+nputplugin_gc },
+-+						       { "__newindex",
+-+							 readonly_newindex },
+-+						       { NULL, NULL } };
+-+
+- static void
+- libinputplugin_init(lua_State *L)
+- {
+--	luaL_newmetatable(L, PLUGIN_METATABLE);
+--	lua_pushstring(L, "__index");
+--	lua_pushvalue(L, -2); /* push metatable */
+--	lua_settable(L, -3);  /* metatable.__index =3D metatable */
+--	luaL_setfuncs(L, libinputplugin_vtable, 0);
+-+	setup_vfuncs(L, PLUGIN_METATABLE, libinputplugin_meta, libinputplugin_=
+methods);
+- }
+-=20
+- static int
+-@@ -1073,7 +1100,7 @@ evdevdevice_gc(lua_State *L)
+- 	return 0;
+- }
+-=20
+--static const struct luaL_Reg evdevdevice_vtable[] =3D {
+-+static const struct luaL_Reg evdevdevice_methods[] =3D {
+- 	{ "info", evdevdevice_info },
+- 	{ "name", evdevdevice_name },
+- 	{ "usages", evdevdevice_usages },
+-@@ -1087,18 +1114,17 @@ static const struct luaL_Reg evdevdevice_vtable[=
+] =3D {
+- 	{ "prepend_frame", evdevdevice_prepend_frame },
+- 	{ "append_frame", evdevdevice_append_frame },
+- 	{ "disable_feature", evdevdevice_disable_feature },
+--	{ "__gc", evdevdevice_gc },
+- 	{ NULL, NULL }
+- };
+-=20
+-+static const struct luaL_Reg evdevdevice_meta[] =3D { { "__gc", evdevde=
+vice_gc },
+-+						    { "__newindex", readonly_newindex },
+-+						    { NULL, NULL } };
+-+
+- static void
+- evdevdevice_init(lua_State *L)
+- {
+--	luaL_newmetatable(L, EVDEV_DEVICE_METATABLE);
+--	lua_pushstring(L, "__index");
+--	lua_pushvalue(L, -2); /* push metatable */
+--	lua_settable(L, -3);  /* metatable.__index =3D metatable */
+--	luaL_setfuncs(L, evdevdevice_vtable, 0);
+-+	setup_vfuncs(L, EVDEV_DEVICE_METATABLE, evdevdevice_meta, evdevdevice_=
+methods);
+- }
+-=20
+- static void
+-diff --git a/test/test-plugins-lua.c b/test/test-plugins-lua.c
+-index 4d687203..aba8f6c6 100644
+---- a/test/test-plugins-lua.c
+-+++ b/test/test-plugins-lua.c
+-@@ -526,6 +526,38 @@ START_TEST(lua_disallowed_functions)
+- }
+- END_TEST
+-=20
+-+START_TEST(lua_gc_not_accessible)
+-+{
+-+	_destroy_(tmpdir) *tmpdir =3D tmpdir_create(NULL);
+-+	const char *lua =3D
+-+		"libinput:register({1})\n"
+-+		"assert(libinput.__gc =3D=3D nil)\n"
+-+		"function check_device_gc(device)\n"
+-+		"  assert(device.__gc =3D=3D nil)\n"
+-+		"  libinput:log_info(\"gc_not_accessible: ok\")\n"
+-+		"end\n"
+-+		"libinput:connect(\"new-evdev-device\", check_device_gc)\n";
+-+
+-+	_autofree_ char *path =3D litest_write_plugin(tmpdir->path, lua);
+-+	_litest_context_destroy_ struct libinput *li =3D
+-+		litest_create_context_with_plugindir(tmpdir->path);
+-+	if (libinput_log_get_priority(li) > LIBINPUT_LOG_PRIORITY_INFO)
+-+		libinput_log_set_priority(li, LIBINPUT_LOG_PRIORITY_INFO);
+-+
+-+	litest_with_logcapture(li, capture) {
+-+		libinput_plugin_system_load_plugins(li,
+-+						    LIBINPUT_PLUGIN_SYSTEM_FLAG_NONE);
+-+		litest_drain_events(li);
+-+
+-+		_destroy_(litest_device) *device =3D litest_add_device(li, LITEST_MOU=
+SE);
+-+		litest_drain_events(li);
+-+
+-+		litest_assert_logcapture_no_errors(capture);
+-+		litest_assert_strv_substring(capture->infos, "gc_not_accessible: ok")=
+;
+-+	}
+-+}
+-+END_TEST
+-+
+- START_TEST(lua_frame_handler)
+- {
+- 	_destroy_(tmpdir) *tmpdir =3D tmpdir_create(NULL);
+-@@ -1219,6 +1251,7 @@ TEST_COLLECTION(lua)
+- 	litest_add_no_device(lua_register_multiversions);
+- 	litest_add_no_device(lua_allowed_functions);
+- 	litest_add_no_device(lua_disallowed_functions);
+-+	litest_add_no_device(lua_gc_not_accessible);
+-=20
+- 	litest_add_no_device(lua_frame_handler);
+- 	litest_add_no_device(lua_device_info);
+---=20
+-GitLab
+-
+diff --git a/meta/recipes-graphics/wayland/libinput/CVE-2026-50292.patch =
+b/meta/recipes-graphics/wayland/libinput/CVE-2026-50292.patch
+deleted file mode 100644
+index d2421aab105..00000000000
+--- a/meta/recipes-graphics/wayland/libinput/CVE-2026-50292.patch
++++ /dev/null
+@@ -1,79 +0,0 @@
+-From 76f0d8a7f57e2868882864b4611281f12f704b55 Mon Sep 17 00:00:00 2001
+-From: Peter Hutterer <peter.hutterer@who-t.net>
+-Date: Mon, 1 Jun 2026 10:48:24 +1000
+-Subject: [PATCH] libinput-device-group: sanitize phys before printing it
+-
+-A malicious uinput device could set the phys value (via UI_SET_PHYS)
+-to contain a '\n'. When the value is printed as part of the device group
+-the udev rules will interpret it as separate property.
+-
+-Depending on the property this can cause local privilege escalation.
+-
+-Closes #1296
+-
+-Found-by: Csome
+-Part-of: <https://gitlab.freedesktop.org/libinput/libinput/-/merge_reque=
+sts/1487>
+-
+-CVE: CVE-2026-50292
+-Upstream-Status: Backport [https://gitlab.freedesktop.org/libinput/libin=
+put/-/commit/76f0d8a7f57e2868882864b4611281f12f704b55]
+-
+-Signed-off-by: Omkar Patil <OmkarAbaji.Patil@windriver.com>
+----
+- udev/libinput-device-group.c | 13 +++++++------
+- 1 file changed, 7 insertions(+), 6 deletions(-)
+-
+-diff --git a/udev/libinput-device-group.c b/udev/libinput-device-group.c
+-index cdb38c0b..f9188406 100644
+---- a/udev/libinput-device-group.c
+-+++ b/udev/libinput-device-group.c
+-@@ -107,7 +107,8 @@ wacom_handle_ekr(struct udev_device *device,
+-=20
+- 	udev_list_entry_foreach(entry, udev_enumerate_get_list_entry(e)) {
+- 		struct udev_device *d;
+--		const char *path, *phys;
+-+		_autofree_ char *phys =3D NULL;
+-+		const char *path;
+- 		const char *pidstr, *vidstr;
+- 		int pid, vid, dist;
+-=20
+-@@ -122,7 +123,7 @@ wacom_handle_ekr(struct udev_device *device,
+-=20
+- 		vidstr =3D udev_device_get_property_value(d, "ID_VENDOR_ID");
+- 		pidstr =3D udev_device_get_property_value(d, "ID_MODEL_ID");
+--		phys =3D udev_device_get_sysattr_value(d, "phys");
+-+		phys =3D str_sanitize(udev_device_get_sysattr_value(d, "phys"));
+-=20
+- 		if (vidstr && pidstr && phys && safe_atoi_base(vidstr, &vid, 16) &&
+- 		    safe_atoi_base(pidstr, &pid, 16) && vid =3D=3D VENDOR_ID_WACOM &&
+-@@ -134,7 +135,7 @@ wacom_handle_ekr(struct udev_device *device,
+- 				best_dist =3D dist;
+-=20
+- 				free(*phys_attr);
+--				*phys_attr =3D safe_strdup(phys);
+-+				*phys_attr =3D steal(&phys);
+- 			}
+- 		}
+-=20
+-@@ -151,7 +152,8 @@ main(int argc, char **argv)
+- 	int rc =3D 1;
+- 	struct udev *udev =3D NULL;
+- 	struct udev_device *device =3D NULL;
+--	const char *syspath, *phys =3D NULL;
+-+	_autofree_ char *phys =3D NULL;
+-+	const char *syspath =3D NULL;
+- 	const char *product;
+- 	int bustype, vendor_id, product_id, version;
+- 	char group[1024];
+-@@ -175,8 +177,7 @@ main(int argc, char **argv)
+- 	 * bit and use the remainder as device group identifier */
+- 	while (device !=3D NULL) {
+- 		struct udev_device *parent;
+--
+--		phys =3D udev_device_get_sysattr_value(device, "phys");
+-+		phys =3D str_sanitize(udev_device_get_sysattr_value(device, "phys"));
+- 		if (phys)
+- 			break;
+-=20
+---=20
+-GitLab
+-
+diff --git a/meta/recipes-graphics/wayland/libinput_1.30.2.bb b/meta/reci=
+pes-graphics/wayland/libinput_1.31.3.bb
+similarity index 90%
+rename from meta/recipes-graphics/wayland/libinput_1.30.2.bb
+rename to meta/recipes-graphics/wayland/libinput_1.31.3.bb
+index 96531e8c54e..aed79951eaa 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.30.2.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.31.3.bb
+@@ -12,13 +12,10 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dbab4ac7dc1=
+c10bc0fb037dc76c46ef8a"
+=20
+ DEPENDS =3D "libevdev udev"
+=20
+-SRC_URI =3D "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=
+=3Dhttps;branch=3D1.30-branch;tag=3D${PV} \
+-           file://CVE-2026-35093.patch \
+-           file://CVE-2026-35094.patch \
++SRC_URI =3D "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=
+=3Dhttps;branch=3D1.31-branch;tag=3D${PV} \
+            file://run-ptest \
+-           file://CVE-2026-50292.patch \
+            "
+-SRCREV =3D "042c5e6fd9cc910307027a1522453794b29f2c72"
++SRCREV =3D "26191d396d74d505541d6311f0b4ae68d791b890"
+=20
+ UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+=20
+--=20
+2.43.0
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
