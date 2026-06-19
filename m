@@ -1,258 +1,338 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F1C2CDB46F
-	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 15:30:06 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.9])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.45013.1781883003644422553
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11BEACD98F2
+	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 15:33:36 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.18])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.45290.1781883213835165300
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jun 2026 08:30:04 -0700
+ Fri, 19 Jun 2026 08:33:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=Qk0bCxXr;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=Qk0bCxXr;
- spf=pass (domain: arm.com, ip: 52.101.66.9, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=iq/PS53dh/XilbSaN87qLs1v4mRLtPwLaKobgjOQlP4mCTa5xqDBv4C+Pw5ooTPFZBdkD9FcFMKABYS5l/Qu6YHYFneuexIUrCJiwoWYNVjKBOU5RtjGN0d9iZ4TuZKrsKEQeuQYuKnJC/ldfLd/kmI9MkFCDAeP4jjzx9rj2h5oSdx4/uC4zF7pQIUfPE9553WEmgnzTYtfl88dSxxBzQcPCTh8WAJUb68kakoknpPQ2BAdnvffYTBBZc+6w0G7BcbSusWoKaTVb52b5gK/gBMQJD8Qto6B2LL4+MFeZQNoxpkM4Y+dTBoh5jSdedQdyJ+7ZKHN87Q1f/9LMk16vw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9MfgO1iWCScC8ttnIdkBLSkaugNQWsKtM1Ou3NI2iyM=;
- b=fVjJT08svMPtyTHx05agpyfzKbdNXYz9RS0IKDWTmS2WjTOAP9NIWpMssNvsy5x3C7WH8YPxgGdmjqCWRqS5nTAlOSPmmXzpR9f6k/ZlkGhqfwykXUbUSu2Kqocnk5wuisoAQagENE3WWudSmqyn6VYHccOYUfQNu8T1d8JdBx/lT4Vi6ftDUc/NrR7xKsG52siShy5LaKErIbt5fIz6Ys1qAcCt2cdhN1dpqNhZ6wFtmqcErfH6gjfR/Hc5KwX3Jp03OpVTR3K9q2RlzKqLe7J3AjT9o18Suq4mqHm2IvmftOawriHeTBM2cOF/oS9R1sfzeipwuo7IsJjp0W9BfA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=axis.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9MfgO1iWCScC8ttnIdkBLSkaugNQWsKtM1Ou3NI2iyM=;
- b=Qk0bCxXrKcOvxoI3xCao0j3gWgV4OTiIvqnv6I7IU0FX6PjXJ5LLX9cTyArJsPJHFYp5p48vM9cjFhjUYA6GtU1guvCqLGwOBDJZlK8FaRz3rgfCX6Blx8DeuXCX8Rlom4pUbdu/tzwkCYUEuhXGknpfu0vNMS9yhzfqTHt7VEA=
-Received: from DUZPR01CA0125.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4bc::17) by GVXPR08MB11422.eurprd08.prod.outlook.com
- (2603:10a6:150:2e4::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Fri, 19 Jun
- 2026 15:29:54 +0000
-Received: from DB5PEPF00014B8A.eurprd02.prod.outlook.com
- (2603:10a6:10:4bc:cafe::12) by DUZPR01CA0125.outlook.office365.com
- (2603:10a6:10:4bc::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.16 via Frontend Transport; Fri,
- 19 Jun 2026 15:29:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB5PEPF00014B8A.mail.protection.outlook.com (10.167.8.198) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.8
- via Frontend Transport; Fri, 19 Jun 2026 15:29:53 +0000
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=W0Fj5qiL;
+ spf=pass (domain: est.tech, ip: 40.107.159.18, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ug4i6wDC958W7y5e6etJnWyD8Ld7Nwhox0+Q97fYBQhl+mQlsj/mXXX7v7kf7eWakpzAe7Ep0G1vlUTqLpIKWRRG1uGtGdZk31PvU0rV/4jJhe1HDG8eyAeFnQy/aUdbxnFZikPURJBWqEjugfvfSmE+lE999gN0i3B+gEu/c8cEahf67rO3Nct6uED/cZAeWtvjfsYMzux4NoiASRVBYyCTf/p26+SoO+TGp242F2bHVXOTmPOYJntzmOmyE4eXsh1RIkgfl8nNLdfqsMYTsQnvSxNqH05tkCEp09GuUdQDPs6lcxiph46XAg6RkMeQoXrHBSfU+FPjHdAsJWQgoQ==
+ b=kqd9GVD3a3kuHUIvNrwcvaWn1cKIcWdH616te71VStdJHupTG0JEcD8keCLcZD3ytTGNARzn7fFnPtIqsn2IsSxM7iHg22EeyRgSisoCxkqTylGDKqkL1vIqLQD6wv8p/YspKfKQ71jWMvNhYys4Ze7twvB8GbkWNrwVMANCuLOFDz3nqsC76265wamof7SZ8CgVSf95Vk/WkhZD6KcilMt8cJImgiJJe13vvvbXs5X4gbfC7aRGLijn43Qs/Pi0RXxlisYvgi/Q1U0L1cakAz+JFw8nd8LO7Q+JaUQmdyNbCzAOtxrdB1t5thCW3Lf5w6qdu3Dqn/eaXgoVl3vD0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9MfgO1iWCScC8ttnIdkBLSkaugNQWsKtM1Ou3NI2iyM=;
- b=VF7wncxCAK5UhyOMXfs+GAUqc8JkzvT5TgVZ6BVSc1X7yPnyd75Ee/zqJrtf1kQcoOK53SfJB+0lFYMwrz27iUm+N2Su2XKUKXDv+kXbSZyzWj0oR7wEp0uoEvkeED8FkXoFDq7tk+GAjWNjFLTz8+/sUwsUxKkb0bb5lTnJu6cbb0WiEzTCaFx2RqKPRwMtvl7Jv7lqsf+M4BVTYJDs/WtEqY0vcuTu8D0i81iakQKaDkfD71YBXkJf1PcSlZlmxoI8xQPZHt1ViX94E8BbQXSEJyw1RwMaHU7aUPMPuS+L4HoEDkBDoGlfr8Ff1QYru9pqihmVmEobMLCdD4Nstg==
+ bh=TLVlZ5OFHREzlZQxyeYvrfVOo7j8lPPbSrIJjZV5W/Q=;
+ b=DdTlmeulahnMO3JAVHj63fSbb4gYyzWYHEMdHHOnekfNsqxzQsI8NBnby7dLaLmfQ/SfAYDXkRSWqWqr6EuMvUjr/IPH8LjoExXm0oLBZ9IF990ZwlkATW93S9E0P5Z+or6upcggwooK6yidZQL/8VTJz9NAMcsJnQHwSXiEscbi+WmdXFwp39uVb1cO/uDZsSFPDdJUuS3DO8gbyG76Ijm+OYzIU4uNB0vSTQgIK/hqW6lI1zj78k8GosxP8ieoiICTOa4TL+sYTDu0RPS5hxWb9dhPt3PJLitUPf1JGYEH//f9WvfUtse1+ZLpj8M6510foxZFcHyeuZcUNvvmuw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9MfgO1iWCScC8ttnIdkBLSkaugNQWsKtM1Ou3NI2iyM=;
- b=Qk0bCxXrKcOvxoI3xCao0j3gWgV4OTiIvqnv6I7IU0FX6PjXJ5LLX9cTyArJsPJHFYp5p48vM9cjFhjUYA6GtU1guvCqLGwOBDJZlK8FaRz3rgfCX6Blx8DeuXCX8Rlom4pUbdu/tzwkCYUEuhXGknpfu0vNMS9yhzfqTHt7VEA=
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
- by DU0PR08MB9077.eurprd08.prod.outlook.com (2603:10a6:10:471::11) with
+ bh=TLVlZ5OFHREzlZQxyeYvrfVOo7j8lPPbSrIJjZV5W/Q=;
+ b=W0Fj5qiLo7DmBAFgqQ2JEA2eTl6fNagnltMl8BM7yRI6Y/k42WqXu2wkz0GmVQTnulT8w4jPMhNzSuDH8gqXWWihFrdVWxPmbLuqSYu8jCASCxMyPVJkheopla5NOMFP6Cmm3BGyoHCiFrWXdTtO9QncmZqwHp5edSREJKPkzngwXMHnbLdYiQ4hYnopxX1lWcZGnmISXRIdm6TXh1H73+Oxi4wjGL/LpOA896Ip8o7vzsxe4T3SUGuGCfyKHU4XAFV7by8VHZnjVpj4io2U2+khTC65+j9scOep7v8VsjRVFwDb05+n1qGRjji4u4DypFiG3N7llNqf6eSp/j+PYQ==
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by AS8P189MB1240.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:2a5::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.13; Fri, 19 Jun
- 2026 15:28:50 +0000
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.21.0139.009; Fri, 19 Jun 2026
- 15:28:50 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "peter.kjellerstedt@axis.com" <peter.kjellerstedt@axis.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 3/3] archiver.bbclass: Add
- ARCHIVER_MIRROR_INCLUDE
-Thread-Topic: [OE-core] [PATCH 3/3] archiver.bbclass: Add
- ARCHIVER_MIRROR_INCLUDE
-Thread-Index: AQHc92+7HycwSNQ7UkObH8O4D/iN8LZGEbuA
-Date: Fri, 19 Jun 2026 15:28:49 +0000
-Message-ID: <94ED7DB5-3D09-48B1-A1F3-347D9F7CC720@arm.com>
-References: <20260608175259.3238900-1-pkj@axis.com>
- <20260608175259.3238900-3-pkj@axis.com>
-In-Reply-To: <20260608175259.3238900-3-pkj@axis.com>
-Accept-Language: en-GB, en-US
+ 2026 15:33:28 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::18b0:e114:b839:ca49]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::18b0:e114:b839:ca49%8]) with mapi id 15.21.0139.009; Fri, 19 Jun 2026
+ 15:33:28 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: Jaipaul Cheernam via lists.openembedded.org
+	<jaipaul.cheernam=est.tech@lists.openembedded.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Jaipaul Cheernam
+	<jaipaul.cheernam@est.tech>
+Subject: Re: [OE-core] [PATCH v2] install-buildtools: auto-discover
+ environment setup script via glob
+Thread-Topic: [OE-core] [PATCH v2] install-buildtools: auto-discover
+ environment setup script via glob
+Thread-Index: AQHc/X8Cha2xGOD+nU+Hd6VV5mdcB7ZGBraU
+Date: Fri, 19 Jun 2026 15:33:28 +0000
+Message-ID: 
+ <DU7PPF66507B2D7AB53E81188C23F0256EBF3E22@DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM>
+References: <20260615121653.96009-1-jaipaul.cheernam@est.tech>
+ <18B98A8EDA01B41E.267903@lists.openembedded.org>
+In-Reply-To: <18B98A8EDA01B41E.267903@lists.openembedded.org>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3864.600.51.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	AM9PR08MB6258:EE_|DU0PR08MB9077:EE_|DB5PEPF00014B8A:EE_|GVXPR08MB11422:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5ba24719-2112-42a3-0859-08dece179c8c
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|23010399003|4022899009|376014|366016|1800799024|56012099006|11063799006|22082099003|18002099003|4143699003|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- Zljw7k9pTDubBddHXWmf4DAJVL6K4AbYCczp43DsoSS+DE2oK9kRa0XfOUwsHGTuDJux6yrnUiLT5h9mPQIXXuTCXyYjhbXXhyQWDZA744ZLYz6pbr/PgIimc2FjIJr8NKH/TB/hMY1haxz7a+OhUQS+HGxDtKcGw/B/6iyCNlf3DuKZygHAI4j5s4em/TUA4uwBKB1Rjic6dJVvynFraYpu4WNK+71G2ybGpPzTJUCVo6LEzreThWmqdmyQRu/Bk+XEVQ2+G2TthvF2lozG5p3iqO/tOabJZ9ghLwDjPdZfSMcPqaH+wLIqEB3kOBQM/OSvU4DZ+fXuuhwjwHmwTcGvOx9P0mBzvgGNwxRG/I3+tvuskEnqD923hTXRw/jzK4O4o79nAYuZ4/Trsidz81r9VTiVUfgb2BVyYkIFZL3p/9MEdHV919SNcZ2/LiAyHwGDP+6OsRu1z7rbwzZDZ+uohc5BQ1DklkTxxr3lLBtyh3dTIX/aPQApvMukiptdExDZCemhgwGmy7rPzc2ZpeTSISeP+AQCUnoBRO83XNjtRXStLXcnSxsFHP4vcVkKubX7/4ZMZbK8fo7L84cJOcnwPSYQl9aKnbNHOjt508BK0/fMBmGtaZZX9/TlsBCh9CQitdJJsqTmJZH1uL5PQZwWB23lVwxSuvK0gZNihdo=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(4022899009)(376014)(366016)(1800799024)(56012099006)(11063799006)(22082099003)(18002099003)(4143699003)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A6A0DDF24FD35248A80AEC91E1473E50@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU7PPF66507B2D7:EE_|AS8P189MB1240:EE_
+x-ms-office365-filtering-correlation-id: 0a21b695-77ca-4b78-a946-08dece181c45
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|38070700021|18002099003|22082099003|4143699003|6133799003|8096899003|11063799006|56012099006;
+x-microsoft-antispam-message-info: 
+ DmxLFr9vSwTsDiB9pH0nJAzAHo5gSU9uQNkoIoAget1zpJH2PYKlhoPSlcH8LF7G/2ziv2siSYKXmDYS7X2kA14gtFB69daROi1EE8LicCQKaUaRBDPnPEd7VXzBdWMaICUBuYGPbz3zfjurNDz9q/cJXuCPcyImcnpKesRn6pj7vNQ4D8gkevS2SLr9xM6UuHhdZTjin5Z99J8e9ULRITdjDYOiF5FtMtOmlEV734jYRlu48psvZJo69zLV8meeLyNS4WLupy4Y282GOMHP6Fbnx8zGSRcSt4LmSh1rXGlIIhE065QzYvEWRVruuEp4C361TUjqhT8eqSxc5QnBQ7+k65nnPB04ZbcIladSAwDAPihsEn6yzlynSOqacKPM7I8Ov6TaSYruJQnJxkv8B742Oty77U9wqGYm5OfjV6v2GKK/G0EdASorGk/9D534dGhNa/iyxX/+eMhcdVw/wrfezkNGhJruU5VQACP0WT/0XfIJaj2HTyHN7c/EmWJKJ+a8xv54t9J2530XnGqSBezX33iMI/W7bQslhkCQAkMyzDgJfIXwV2rA0u09NJTOm3CP+1YwjFtd8mwZYob68lvTUSKvMtEsObS4qQSGeoDN/kGGBVcESBu2q/Ye1fvQF/VYMfJOx5hYlvncwkzoodPRwdnp3xOr35SCm5LpuxR9Nr32yAgR72rzRPPou66qyAAFcenDrnAWc7IhZq7lHVMPHI/bsiM3RKnq4AXot4k=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(38070700021)(18002099003)(22082099003)(4143699003)(6133799003)(8096899003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?22wkBIWI3eazIhttiwDwqu5B/Y6tPvVDAtJ5bOsMkOI6RAqmeQ82pBnKvCvR?=
+ =?us-ascii?Q?2n9M9IhnJ8cyEu4Qqnb0TOEXJQfLU0R1Dk9l/aTmBcCEb2RqJeTh5nc8GWUC?=
+ =?us-ascii?Q?vOUM7/bL2WWqk9pRNPAbjcgbevIo9zx4Nw/V//HZ0tdJsngJDzcVQ1wsMZKD?=
+ =?us-ascii?Q?PRdlWJCQPAvljIOTZdcHpmcgT/VCwuwrgGD3SNZUOTtlQTEogPlJHcuKm+eF?=
+ =?us-ascii?Q?Yt8RqyCcc9XWp6aJ5H6gBzqQVYR5l7ijXlCgJDbcmDNDfDX8OJ29Ydz8ZWNO?=
+ =?us-ascii?Q?SF2qtVtM5cqoPqOzEheb2E48q21pJTsuxsAopKDj6m5zzXrls+/sb0UpCEVa?=
+ =?us-ascii?Q?hnuaaUMKeR+1/b2apPuzJqOfKf4CLYcIWV7AuTQiCSt7GHE7PcAqV9UJz1kJ?=
+ =?us-ascii?Q?4lgMw0QZ0MRO6Bg6BfEqMIrE4sFmk7srES8vAmtvLpcFkaaZVEwtGPiFIFyQ?=
+ =?us-ascii?Q?phFjDUZQRRyOnkU6hp+3w6S9FUtLX+DIctZ8RxQeTpZ0cCCX+TMReg/Qkuke?=
+ =?us-ascii?Q?Hwt370981dMdI/x6TRUE4LL0evXbxBZnmXIGjHJYcZfbr+ywFB8r6zQLfBSF?=
+ =?us-ascii?Q?1yOK9v841Y1iXZrf5sso7m0kBlUxRl1Fwi5+GRPWEzzZeigjHyYfYQ91BkcY?=
+ =?us-ascii?Q?qhiIwBmxXPx8/q1iXSqkLQp2RDF96jRKIhdDE/AqZcECp5EMXD+LHWTy+LBE?=
+ =?us-ascii?Q?Mtb/25tJnlFa+A3SeO8iKJxWiS8RPL4tncK++AsilNPaUoOauuhZOEmNWMQZ?=
+ =?us-ascii?Q?P8jTTh9W8JG1sMgFiSg72+D78aK40KHNv9Wi8zaABEdYR81+JhhXdxU19SMl?=
+ =?us-ascii?Q?6NQp1BE8zaTT2JSmAT71CbSmg28BO6maz/zDOnyn7Qmbt4tCwuD/J626LN+D?=
+ =?us-ascii?Q?NN/HCbz08dJy7liFY2ArAXsi6U7RXpZOQ1BdHddN/drNicw2wYqZlBOIN6QO?=
+ =?us-ascii?Q?0YsTyEQmsjnFTUMao2wtjfCLGpsE9s2HHnW2d+V/nbPel/kGpV0P4/jiEY0V?=
+ =?us-ascii?Q?TgCsNGnXxDjqrIq86n2RlAXIKxmSkQ04g6p7G5VGjmy6V8hHLZ/hoaxniwaF?=
+ =?us-ascii?Q?ByYpO8o5/iWCGpZJZdrM1TQ6Xpuii6riPHGB92twa0bvaqlH1XhUGmIrR0kE?=
+ =?us-ascii?Q?usM8jWXHgWMr4GBzsFVC6G1azW4F37bfJJ4yYgGT3vZa3ceyiCZwVnNlfWrv?=
+ =?us-ascii?Q?f+M/bLF7UDA3Jq909JyUqaMRp3nnSGA5x05xBXzDIW9cjqL/7lnxm3zDC/sP?=
+ =?us-ascii?Q?O9byW+3YH7pdXKgyw3lIssVXX2B+sslGiFV0HdHcQytfvZBsdegoE9QgO4VB?=
+ =?us-ascii?Q?7VtCd79IAjCp8MEA3VdBujeSvkNY9IDv9DUud47Vq/D2z7miARKJQp9O2fvf?=
+ =?us-ascii?Q?G1vCdyazePNIs6jSo9OOyz8QT4358bBLdrJfY4EUIf57isFczPbD8lEvgFFA?=
+ =?us-ascii?Q?a0kmyuhtgwHFwfApo79MvHZ9L9tPghog7314ZM5sb5xbUlUB90tLmhTWluPx?=
+ =?us-ascii?Q?LmZFycc34WfIOPeOTg3llnWWqv4AEf5UpmgnFNbrbTUjmycOzbVrmJ3lupop?=
+ =?us-ascii?Q?bAAsv5p3Uhiga0I6CNs9GM5oxn6UIIBKW46gkDuaXaxA9kFOBEjSHF6peB99?=
+ =?us-ascii?Q?ulliDOES53PN2lp9otvE9QkjTbotZP5V9UP1+sYovDlMppSSwn2JMsXJ/h6b?=
+ =?us-ascii?Q?hYZd4x57Bk+t68S38L5SCJaGfaqbpdqo0A+OXZ7mrDjd8mPkMVurMKpgQ/PR?=
+ =?us-ascii?Q?ZzbXb4b5kA=3D=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_DU7PPF66507B2D7AB53E81188C23F0256EBF3E22DU7PPF66507B2D7_"
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
- owNOVARFPMWmEkwBX3QAN3jyGkEv43wrnsZ+1ixuUwWk313NiUSkj8B55wwTGkwtkLUdFK58BnEKQwRiIDs0dbcIDqZo0oa0JcHABnSw2xLxvq6V/HT9eFJaXdWvP3T0FqUo6jEf+RinmlBnSA+djCBXcutDxfWO+psefbDhF7odZPIdtBUUfk66qTuWwsIz2zjm8X4rZ5a8LSwxNBa5PciO+2J2cTs+hBj8Z0DR2WnVD5Z9aWTdwbcRHfWb4rhy9Lct8wWfvo7sCFEswi6JAstkxk2ADfVeQx+6xsGXID3Y/l3NWLlAt0sbaWDq6/1kB8SKRnSmlTNWAfN8MQrW8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9077
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5PEPF00014B8A.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	e9588f72-98bb-4e65-d3dc-08dece177675
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|35042699022|36860700016|23010399003|376014|1800799024|14060799003|4022899009|13003099007|22082099003|18002099003|11063799006|56012099006|4143699003;
-X-Microsoft-Antispam-Message-Info: 
-	deOgCr9l2DChOr45OmAMqtO++95+uXhrvaAg2UiiWts4hJuWse4JdGrsq8ln8lMqgOloCLgYOwoiwVpr3DNej3rS29jl1B8+YbfGHci8LB2OONRSc3CquA11K0JawCuT+0a1pD8FN9sUkkyAMiFTEj0u64ab5NXC5z43QqzVVDWrQLhHUItIqvZHLCQax9awemc7jJybzEnLw3UIk3dSMg6wp5f64OzEGInEoIW8sgZl6QVHdYiQooe/HqjDwB5kg9A7InT8zXUGinyx2YgLCI5Mt2lsVveULPj7+VSkM9NCervixVVJqMspMyTRQwUJuhq/RAAgA1vqelmiFVyM7QoQ6wWDsEVMTFMa6s/yZ/rcSed4+5IaQ88qsQ1OaCNbkDMm/qiCMgJb1U1eYv99A5mH2AW2cxrDjSWCRSsS7PIxB5nlGymdwD7i44z+mTZyYb73HwX2SXPT/kj1GUV6IJLGSF3FYv1LP38qZoEP6+2FobP2NRitgFqi4YB303Oe3xU9HNA8ltTLiLOWYiyde5jjvuqiqXT9ZueXgxcVnQX6/CXV0+LtDom3UJwvTXwacCwIg7yPaSGeISD3qk5DjkgvGREA5yWZtA7HnVUzOsfC67FZ0p8GfypDRwI5jqSIvZBZElkPj+6DRgh7kuQGKA==
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35042699022)(36860700016)(23010399003)(376014)(1800799024)(14060799003)(4022899009)(13003099007)(22082099003)(18002099003)(11063799006)(56012099006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	Y6n9oVe2dNh2bJjwt2c8aUD1w3PGGg7LneV6yhmXgHs0INuMK4jW2t2ZaEa83Ccob7QUTa+ZWfX1Ur25SS73VCGhWhTFjKf9Gwg0VG1QikTbX+xyPPyTHHXFu0FqaUdwYeyhq4J7j0E1OFtTq5Sgt8z94S7a6K6YPgCBH7COLuFdSgJHEzDl5OyqE7fVFRjND8qDGAysqEUz/MhmQrkE5Gf+uLfIWhGk7AKOJB2qIRNjRJmUHyB7rGiaW9pKYtareU9T0QiiWbqgPMWNdWtOPTcojB2ntS1ubiJVYXJE7yFvv32PdSNqvss09821nOd3g6fUgSDOW61MV4vHU2E1JSUCxRYDfSxGK+2U1mdk7BrDNf2CSam7Mar82n9GovsN4gyhNVgH8B6E5QL/ixslAEhQnpLW6gd+60zmEum9ojXGKwShx3Ctx3KDxuJNIU7C
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2026 15:29:53.8631
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a21b695-77ca-4b78-a946-08dece181c45
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2026 15:33:28.2031
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ba24719-2112-42a3-0859-08dece179c8c
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5PEPF00014B8A.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB11422
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WyxKUfKKovB5KMFGWFZQR4LbweSMYSH/LsO0IVWO4rVcFHLeFRlYzQuznRczZnb6EFK4+gleKPS6Auc4dE1cIWJ0eRH4TNDOw7cPkIU5+qM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB1240
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 15:30:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239179
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 15:33:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239180
 
-T24gOCBKdW4gMjAyNiwgYXQgMTg6NTIsIFBldGVyIEtqZWxsZXJzdGVkdCB2aWEgbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZyA8cGV0ZXIua2plbGxlcnN0ZWR0PWF4aXMuY29tQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmc+IHdyb3RlOg0KPiANCj4gV2hlbiB1c2luZyB0aGUgYXJjaGl2ZXIncyBtaXJyb3Ig
-bW9kZSwgQVJDSElWRVJfTUlSUk9SX0lOQ0xVREUgY29udGFpbnMNCj4gYSBsaXN0IG9mIFVSSSBw
-cmVmaXhlcyB0byBhbHdheXMgaW5jbHVkZSBpbiB0aGUgbWlycm9yLiBUaGlzIG1heSBiZQ0KPiB1
-c2VmdWwgaWYgcmVjaXBlcyB0aGF0IGFyZSBpbmNsdWRlZCBpbiB0aGUgbWlycm9yIChkdWUgdG8g
-dGhlaXINCj4gbGljZW5zZXMpIGRlcGVuZCBvbiBzb21lIHJlY2lwZSB0aGF0IG90aGVyd2lzZSB3
-b3VsZCBub3QgYmUgaW5jbHVkZWQgaW4NCj4gdGhlIG1pcnJvciwgYW5kIHRoYXQgcmVjaXBlIHVz
-ZXMgZmlsZXMgdGhhdCBhcmUgbm9ybWFsbHkgb25seSBhdmFpbGFibGUNCj4gb24gYSBwcml2YXRl
-IHNlcnZlci4NCg0KVGhpcyBsb29rcyB1c2VmdWwsIGJ1dCBJIGRvbuKAmXQgc2VlIGFueSBkaXNj
-dXNzaW9uIG9mIHdobyB3aW5zIGlmIElOQ0xVREUgYW5kIEVYQ0xVREUgYm90aCBtYXRjaCBzb21l
-IHByZWZpeGVzLg0KDQpBbHNvIEnigJlkIGhhdmUgZXhwZWN0ZWQgdGhlIGltcGxlbWVudGF0aW9u
-IGZvciB0aGUgaW5jbHVkZSBhbmQgZXhjbHVkZSBsb2dpYyB0byBiZSBkb25lIGF0IHJvdWdobHkg
-dGhlIHNhbWUgcG9pbnQgaW4gdGhlIGNvZGUgYnV0IHRoaXMgZG9lc27igJl0IHNlZW0gdG8gYmUg
-dGhlIGNhc2UuIERvZXMgdGhlIGNvZGUgbmVlZCBzb21lIGdlbmVyYWwgcmVmYWN0b3JpbmcsIG9y
-IGlzIHRoZXJlIHNvbWUgY29tcGxleCBsb2dpYyByZXF1aXJlZCBkdWUgdG8gaG93IGl0IGhhcyB0
-byB3b3JrPw0KDQpDaGVlcnMsDQpSb3NzDQoNCj4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgS2plbGxl
-cnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+IC0tLQ0KPiBtZXRhL2NsYXNz
-ZXMvYXJjaGl2ZXIuYmJjbGFzcyAgICAgICAgICAgIHwgMzcgKysrKysrKysrKysrKysrKysrKysr
-Ky0tDQo+IG1ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvYXJjaGl2ZXIucHkgfCAyNCArKysr
-KysrKysrKysrKysNCj4gMiBmaWxlcyBjaGFuZ2VkLCA1OCBpbnNlcnRpb25zKCspLCAzIGRlbGV0
-aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9hcmNoaXZlci5iYmNsYXNz
-IGIvbWV0YS9jbGFzc2VzL2FyY2hpdmVyLmJiY2xhc3MNCj4gaW5kZXggYTNmODY4OWIxOS4uMDM1
-ZDBkY2UwZiAxMDA2NDQNCj4gLS0tIGEvbWV0YS9jbGFzc2VzL2FyY2hpdmVyLmJiY2xhc3MNCj4g
-KysrIGIvbWV0YS9jbGFzc2VzL2FyY2hpdmVyLmJiY2xhc3MNCj4gQEAgLTM1LDcgKzM1LDEzIEBA
-DQo+ICMgICAgIEFSQ0hJVkVSX01PREVbbWlycm9yXSA9ICJjb21iaW5lZCI6IEFsbCBzb3VyY2Vz
-IGFyZSBwbGFjZWQgaW50byBhIHNpbmdsZQ0KPiAjICAgICBkaXJlY3Rvcnkgc3VpdGFibGUgZm9y
-IGRpcmVjdCB1c2UgYXMgYSBtaXJyb3IuIER1cGxpY2F0ZSBzb3VyY2VzIGFyZQ0KPiAjICAgICBp
-Z25vcmVkLg0KPiAtIyAxMikgU291cmNlIG1pcnJvciBleGNsdXNpb25zOg0KPiArIyAxMikgU291
-cmNlIG1pcnJvciBpbmNsdXNpb25zOg0KPiArIyAgICAgQVJDSElWRVJfTUlSUk9SX0lOQ0xVREUg
-aXMgYSBsaXN0IG9mIFVSSSBwcmVmaXhlcyB0byBhbHdheXMgaW5jbHVkZSBpbg0KPiArIyAgICAg
-dGhlIG1pcnJvci4gVGhpcyBtYXkgYmUgdXNlZnVsIGlmIHJlY2lwZXMgdGhhdCBhcmUgaW5jbHVk
-ZWQgaW4gdGhlIG1pcnJvcg0KPiArIyAgICAgKGR1ZSB0byB0aGVpciBsaWNlbnNlcykgZGVwZW5k
-IG9uIHNvbWUgcmVjaXBlIHRoYXQgb3RoZXJ3aXNlIHdvdWxkIG5vdCBiZQ0KPiArIyAgICAgaW5j
-bHVkZWQgaW4gdGhlIG1pcnJvciwgYW5kIHRoYXQgcmVjaXBlIHVzZXMgZmlsZXMgdGhhdCBhcmUg
-bm9ybWFsbHkgb25seQ0KPiArIyAgICAgYXZhaWxhYmxlIG9uIGEgcHJpdmF0ZSBzZXJ2ZXIuDQo+
-ICsjIDEzKSBTb3VyY2UgbWlycm9yIGV4Y2x1c2lvbnM6DQo+ICMgICAgIEFSQ0hJVkVSX01JUlJP
-Ul9FWENMVURFIGlzIGEgbGlzdCBvZiBwcmVmaXhlcyB0byBleGNsdWRlIGZyb20gdGhlIG1pcnJv
-ci4NCj4gIyAgICAgVGhpcyBtYXkgYmUgdXNlZCBmb3Igc291cmNlcyB3aGljaCB5b3UgYXJlIGFs
-cmVhZHkgcHVibGlzaGluZyB5b3Vyc2VsZg0KPiAjICAgICAoZS5nLiBpZiB0aGUgVVJJIHN0YXJ0
-cyB3aXRoICdodHRwczovL215c2l0ZS5jb20vJyBhbmQgeW91ciBtaXJyb3IgaXMNCj4gQEAgLTc3
-LDggKzgzLDkgQEAgZG9fYXJfb3JpZ2luYWxbZGlyc10gPSAiJHtBUkNISVZFUl9PVVRESVJ9ICR7
-QVJDSElWRVJfV09SS0RJUn0iDQo+ICMgVGhpcyBpcyBhIGNvbnZlbmllbmNlIGZvciB0aGUgc2hl
-bGwgc2NyaXB0IHRvIHVzZSBpdA0KPiANCj4gZGVmIGluY2x1ZGVfcGFja2FnZShkLCBwbik6DQo+
-IC0NCj4gLSAgICBpbmNsdWRlZCwgcmVhc29uID0gY29weWxlZnRfc2hvdWxkX2luY2x1ZGUoZCkN
-Cj4gKyAgICBpbmNsdWRlZCwgcmVhc29uID0gYXJjaGl2ZXJfc2hvdWxkX2luY2x1ZGUoZCkNCj4g
-KyAgICBpZiBub3QgaW5jbHVkZWQ6DQo+ICsgICAgICAgIGluY2x1ZGVkLCByZWFzb24gPSBjb3B5
-bGVmdF9zaG91bGRfaW5jbHVkZShkKQ0KPiAgICAgaWYgbm90IGluY2x1ZGVkOg0KPiAgICAgICAg
-IGJiLmRlYnVnKDEsICdhcmNoaXZlcjogJXMgaXMgZXhjbHVkZWQ6ICVzJyAlIChwbiwgcmVhc29u
-KSkNCj4gICAgICAgICByZXR1cm4gRmFsc2UNCj4gQEAgLTk5LDYgKzEwNiwyOSBAQCBkZWYgaW5j
-bHVkZV9wYWNrYWdlKGQsIHBuKToNCj4gDQo+ICAgICByZXR1cm4gVHJ1ZQ0KPiANCj4gK2RlZiBh
-cmNoaXZlcl9zaG91bGRfaW5jbHVkZShkKToNCj4gKyAgICBhcl9zcmMgPSBkLmdldFZhckZsYWco
-J0FSQ0hJVkVSX01PREUnLCAnc3JjJykNCj4gKyAgICBpZiBhcl9zcmMgPT0gIm1pcnJvciI6DQo+
-ICsgICAgICAgIHNyY191cmkgPSAoZC5nZXRWYXIoJ1NSQ19VUkknKSBvciAnJykuc3BsaXQoKQ0K
-PiArICAgICAgICBpZiBsZW4oc3JjX3VyaSkgPT0gMDoNCj4gKyAgICAgICAgICAgIHJldHVybiBG
-YWxzZSwgTm9uZQ0KPiArDQo+ICsgICAgICAgIG1pcnJvcl9pbmNsdXNpb25zID0gKGQuZ2V0VmFy
-KCdBUkNISVZFUl9NSVJST1JfSU5DTFVERScpIG9yICcnKS5zcGxpdCgpDQo+ICsNCj4gKyAgICAg
-ICAgZGVmIGlzX2luY2x1ZGVkKHVybCk6DQo+ICsgICAgICAgICAgICBmb3IgcHJlZml4IGluIG1p
-cnJvcl9pbmNsdXNpb25zOg0KPiArICAgICAgICAgICAgICAgIGlmIHVybC5zdGFydHN3aXRoKHBy
-ZWZpeCk6DQo+ICsgICAgICAgICAgICAgICAgICAgIHJldHVybiBUcnVlDQo+ICsgICAgICAgICAg
-ICByZXR1cm4gRmFsc2UNCj4gKw0KPiArICAgICAgICBmZXRjaGVyID0gYmIuZmV0Y2gyLkZldGNo
-KHNyY191cmksIGQpDQo+ICsNCj4gKyAgICAgICAgZm9yIHVkIGluIGZldGNoZXIuZXhwYW5kZWRf
-dXJsZGF0YSgpOg0KPiArICAgICAgICAgICAgaWYgaXNfaW5jbHVkZWQodWQudXJsKToNCj4gKyAg
-ICAgICAgICAgICAgICByZXR1cm4gVHJ1ZSwgIlVSTCBtYXRjaGVzIEFSQ0hJVkVSX01JUlJPUl9J
-TkNMVURFIg0KPiArDQo+ICsgICAgcmV0dXJuIEZhbHNlLCBOb25lDQo+ICsNCj4gcHl0aG9uICgp
-IHsNCj4gICAgIHBuID0gZC5nZXRWYXIoJ1BOJykNCj4gICAgIGFzc3VtZV9wcm92aWRlZCA9IChk
-LmdldFZhcigiQVNTVU1FX1BST1ZJREVEIikgb3IgIiIpLnNwbGl0KCkNCj4gQEAgLTE4Miw2ICsy
-MTIsNyBAQCBweXRob24gKCkgew0KPiBkb19hcl9wcmVwYXJlW3ZhcmRlcHNdICs9ICIgXA0KPiAg
-ICAgQVJDSElWRVJfTU9ERSBcDQo+ICAgICBBUkNISVZFUl9NSVJST1JfRVhDTFVERSBcDQo+ICsg
-ICAgQVJDSElWRVJfTUlSUk9SX0lOQ0xVREUgXA0KPiAgICAgQ09QWUxFRlRfTElDRU5TRV9FWENM
-VURFIFwNCj4gICAgIENPUFlMRUZUX0xJQ0VOU0VfSU5DTFVERSBcDQo+ICAgICBDT1BZTEVGVF9Q
-Tl9FWENMVURFIFwNCj4gZGlmZiAtLWdpdCBhL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMv
-YXJjaGl2ZXIucHkgYi9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL2FyY2hpdmVyLnB5DQo+
-IGluZGV4IDEyMmQxNmI2NTUuLmU5ZjE3OGQ1YzkgMTAwNjQ0DQo+IC0tLSBhL21ldGEvbGliL29l
-cWEvc2VsZnRlc3QvY2FzZXMvYXJjaGl2ZXIucHkNCj4gKysrIGIvbWV0YS9saWIvb2VxYS9zZWxm
-dGVzdC9jYXNlcy9hcmNoaXZlci5weQ0KPiBAQCAtMjYxLDYgKzI2MSwzMCBAQCBjbGFzcyBBcmNo
-aXZlcihPRVNlbGZ0ZXN0VGVzdENhc2UpOg0KPiAgICAgICAgIGFyY2hpdmVfcGF0aCA9IG9zLnBh
-dGguam9pbihnbG9iX3Jlc3VsdFswXSwgdGFyZ2V0X2ZpbGVfbmFtZSkNCj4gICAgICAgICBzZWxm
-LmFzc2VydEZhbHNlKG9zLnBhdGguZXhpc3RzKGFyY2hpdmVfcGF0aCksICdGYWlsZWQgdG8gZXhj
-bHVkZSBhcmNoaXZlIGZpbGUgJXMnICUgKHRhcmdldF9maWxlX25hbWUpKQ0KPiANCj4gKyAgICBk
-ZWYgdGVzdF9hcmNoaXZlcl9tb2RlX21pcnJvcl9pbmNsdWRlKHNlbGYpOg0KPiArICAgICAgICAi
-IiINCj4gKyAgICAgICAgVGVzdCB0aGF0IGBBUkNISVZFUl9NSVJST1JfSU5DTFVERWAgY2F1c2Vz
-IGEgc291cmNlIFVSTCB0byBiZSBpbmNsdWRlZA0KPiArICAgICAgICBpbiB0aGUgbWlycm9yIGV2
-ZW4gd2hlbiB0aGUgcmVjaXBlIHdvdWxkIG90aGVyd2lzZSBiZSBleGNsdWRlZCBieSB0aGUNCj4g
-KyAgICAgICAgY29weWxlZnQgbGljZW5zZSBmaWx0ZXIuDQo+ICsgICAgICAgICIiIg0KPiArDQo+
-ICsgICAgICAgIHRhcmdldCA9ICdzZWxmdGVzdC1lZCcNCj4gKyAgICAgICAgdGFyZ2V0X2ZpbGVf
-bmFtZSA9ICdlZC0xLjIxLjEudGFyLmx6Jw0KPiArDQo+ICsgICAgICAgIGZlYXR1cmVzID0gJ0lO
-SEVSSVQgKz0gImFyY2hpdmVyIlxuJw0KPiArICAgICAgICBmZWF0dXJlcyArPSAnQVJDSElWRVJf
-TU9ERVtzcmNdID0gIm1pcnJvciJcbicNCj4gKyAgICAgICAgZmVhdHVyZXMgKz0gJ0FSQ0hJVkVS
-X01PREVbbWlycm9yXSA9ICJjb21iaW5lZCJcbicNCj4gKyAgICAgICAgZmVhdHVyZXMgKz0gJ0JC
-X0dFTkVSQVRFX01JUlJPUl9UQVJCQUxMUyA9ICIxIlxuJw0KPiArICAgICAgICBmZWF0dXJlcyAr
-PSAnQ09QWUxFRlRfTElDRU5TRV9JTkNMVURFID0gIkNMT1NFRCJcbicNCj4gKyAgICAgICAgZmVh
-dHVyZXMgKz0gJ0FSQ0hJVkVSX01JUlJPUl9JTkNMVURFID0gIiR7R05VX01JUlJPUn0iXG4nDQo+
-ICsgICAgICAgIHNlbGYud3JpdGVfY29uZmlnKGZlYXR1cmVzKQ0KPiArDQo+ICsgICAgICAgIGJp
-dGJha2UoJy1jIGRlcGxveV9hcmNoaXZlcyAlcycgJSAodGFyZ2V0KSkNCj4gKw0KPiArICAgICAg
-ICBiYl92YXJzID0gZ2V0X2JiX3ZhcnMoWydERVBMT1lfRElSX1NSQyddKQ0KPiArICAgICAgICB0
-YXJnZXRfcGF0aCA9IG9zLnBhdGguam9pbihiYl92YXJzWydERVBMT1lfRElSX1NSQyddLCAnbWly
-cm9yJywgdGFyZ2V0X2ZpbGVfbmFtZSkNCj4gKyAgICAgICAgc2VsZi5hc3NlcnRUcnVlKG9zLnBh
-dGguZXhpc3RzKHRhcmdldF9wYXRoKSwgJ01pc3NpbmcgYXJjaGl2ZSBmaWxlICVzJyAlICh0YXJn
-ZXRfZmlsZV9uYW1lKSkNCj4gKw0KPiAgICAgZGVmIHRlc3RfYXJjaGl2ZXJfbW9kZV9taXJyb3Jf
-Y29tYmluZWQoc2VsZik6DQo+ICAgICAgICAgIiIiDQo+ICAgICAgICAgVGVzdCB0aGF0IHRoZSBh
-cmNoaXZlciB3b3JrcyB3aXRoIGBBUkNISVZFUl9NT0RFW3NyY10gPSAibWlycm9yImANCj4gDQo+
-IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2Fn
-ZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiBWaWV3L1JlcGx5IE9ubGluZSAoIzIzODI1NSk6IGh0
-dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2Uv
-MjM4MjU1DQo+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3Jn
-L210LzExOTcxMDIzNi82ODc1ODg4DQo+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStv
-d25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFVuc3Vic2NyaWJlOiBodHRwczovL2xpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YiBbcm9zcy5idXJ0b25A
-YXJtLmNvbV0NCj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gDQoNCg==
+--_000_DU7PPF66507B2D7AB53E81188C23F0256EBF3E22DU7PPF66507B2D7_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Hi ,
+
+Please let me know feedback on below patch .
+
+
+Regards,
+Jaipaul
+________________________________
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of Jaipaul Cheernam via lists.openembedded.org <ja=
+ipaul.cheernam=3Dest.tech@lists.openembedded.org>
+Sent: Tuesday, June 16, 2026 12:57 PM
+To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>
+Cc: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Subject: [OE-core] [PATCH v2] install-buildtools: auto-discover environment=
+ setup script via glob
+
+The environment setup script installed by a buildtools tarball is named
+environment-setup-<arch>-<sdk-name>-linux. The script previously hardcoded
+"pokysdk" for this component, so any distro that ships buildtools under a
+different SDK name gets a FileNotFoundError after an otherwise successful
+install.
+
+Use glob.glob() to discover the environment setup script by pattern
+matching on environment-setup-<arch>-*-linux in the install directory.
+Since a buildtools install should produce exactly one such script, error
+out if zero or more than one match is found.
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ scripts/install-buildtools | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index b9c008a2ec..723edd793e 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -33,6 +33,7 @@
+ #
+
+ import argparse
++import glob
+ import logging
+ import os
+ import platform
+@@ -305,8 +306,17 @@ def main():
+         # Setup the environment
+         logger.info("Setting up the environment")
+         regex =3D re.compile(r'^(?P<export>export )?(?P<env_var>[A-Z_]+)=
+=3D(?P<env_val>.+)$')
+-        with open("%s/environment-setup-%s-pokysdk-linux" %
+-                  (install_dir, arch), 'rb') as f:
++        pattern =3D os.path.join(install_dir, "environment-setup-%s-*-linu=
+x" % arch)
++        matches =3D glob.glob(pattern)
++        if len(matches) =3D=3D 0:
++            logger.error("No environment setup script matching %s" % patte=
+rn)
++            return 1
++        if len(matches) > 1:
++            logger.error("Multiple environment setup scripts found: %s"
++                         % " ".join(matches))
++            return 1
++        logger.debug("Using environment setup script: %s" % matches[0])
++        with open(matches[0], 'rb') as f:
+             for line in f:
+                 match =3D regex.search(line.decode('utf-8'))
+                 logger.debug("export regex: %s" % match)
+--
+2.34.1
+
+
+--_000_DU7PPF66507B2D7AB53E81188C23F0256EBF3E22DU7PPF66507B2D7_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+</head>
+<body>
+<div style=3D"font-family: inherit; font-size: inherit; color: inherit; bac=
+kground-color: transparent;">
+</div>
+<div style=3D"font-family: inherit; font-size: inherit; color: inherit; bac=
+kground-color: transparent;">
+Hi ,</div>
+<div style=3D"font-family: inherit; font-size: inherit; color: inherit; bac=
+kground-color: transparent;">
+<br>
+</div>
+<div style=3D"font-family: inherit; font-size: inherit; color: inherit; bac=
+kground-color: transparent;">
+Please let me know feedback on below patch . &nbsp;</div>
+<div><br>
+</div>
+<div><br>
+</div>
+<div id=3D"editor-signature">
+<div>
+<div style=3D"font-family:Aptos,&quot;Aptos_EmbeddedFont&quot;,&quot;Aptos_=
+MSFontService&quot;,Calibri,Helvetica,sans-serif; font-size:12pt; color:rgb=
+(0,0,0)">
+Regards,</div>
+<div style=3D"font-family:Aptos,&quot;Aptos_EmbeddedFont&quot;,&quot;Aptos_=
+MSFontService&quot;,Calibri,Helvetica,sans-serif; font-size:12pt; color:rgb=
+(0,0,0)">
+Jaipaul</div>
+</div>
+</div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
+ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
+alf of Jaipaul Cheernam via lists.openembedded.org
+ &lt;jaipaul.cheernam=3Dest.tech@lists.openembedded.org&gt;<br>
+<b>Sent:</b> Tuesday, June 16, 2026 12:57 PM<br>
+<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;<br>
+<b>Cc:</b> Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
+<b>Subject:</b> [OE-core] [PATCH v2] install-buildtools: auto-discover envi=
+ronment setup script via glob</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">The environment setup script installed by a buildt=
+ools tarball is named<br>
+environment-setup-&lt;arch&gt;-&lt;sdk-name&gt;-linux. The script previousl=
+y hardcoded<br>
+&quot;pokysdk&quot; for this component, so any distro that ships buildtools=
+ under a<br>
+different SDK name gets a FileNotFoundError after an otherwise successful<b=
+r>
+install.<br>
+<br>
+Use glob.glob() to discover the environment setup script by pattern<br>
+matching on environment-setup-&lt;arch&gt;-*-linux in the install directory=
+.<br>
+Since a buildtools install should produce exactly one such script, error<br=
+>
+out if zero or more than one match is found.<br>
+<br>
+Signed-off-by: Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
+---<br>
+&nbsp;scripts/install-buildtools | 14 ++++++++++++--<br>
+&nbsp;1 file changed, 12 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools<br>
+index b9c008a2ec..723edd793e 100755<br>
+--- a/scripts/install-buildtools<br>
++++ b/scripts/install-buildtools<br>
+@@ -33,6 +33,7 @@<br>
+&nbsp;#<br>
+&nbsp;<br>
+&nbsp;import argparse<br>
++import glob<br>
+&nbsp;import logging<br>
+&nbsp;import os<br>
+&nbsp;import platform<br>
+@@ -305,8 +306,17 @@ def main():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Setup the environment<br=
+>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; logger.info(&quot;Setting =
+up the environment&quot;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; regex =3D re.compile(r'^(?=
+P&lt;export&gt;export )?(?P&lt;env_var&gt;[A-Z_]+)=3D(?P&lt;env_val&gt;.+)$=
+')<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; with open(&quot;%s/environment-=
+setup-%s-pokysdk-linux&quot; %<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp; (install_dir, arch), 'rb') as f:<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pattern =3D os.path.join(instal=
+l_dir, &quot;environment-setup-%s-*-linux&quot; % arch)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; matches =3D glob.glob(pattern)<=
+br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if len(matches) =3D=3D 0:<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; logger.=
+error(&quot;No environment setup script matching %s&quot; % pattern)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return =
+1<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if len(matches) &gt; 1:<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; logger.=
+error(&quot;Multiple environment setup scripts found: %s&quot;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; % &q=
+uot; &quot;.join(matches))<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return =
+1<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; logger.debug(&quot;Using enviro=
+nment setup script: %s&quot; % matches[0])<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; with open(matches[0], 'rb') as =
+f:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fo=
+r line in f:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; match =3D regex.search(line.decode('utf-8'))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; logger.debug(&quot;export regex: %s&quot; % match)<br=
+>
+-- <br>
+2.34.1<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_DU7PPF66507B2D7AB53E81188C23F0256EBF3E22DU7PPF66507B2D7_--
 
