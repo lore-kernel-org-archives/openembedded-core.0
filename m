@@ -1,119 +1,189 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DA01CD4F26
-	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 11:21:10 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.40122.1781868062005761549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72735CD4F26
+	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 11:47:00 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40723.1781869619254253234
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jun 2026 04:21:03 -0700
+ Fri, 19 Jun 2026 04:46:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=dBCjrLHH;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-20260619112053b25cfb8555000207cd-pza6ms@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20260619112053b25cfb8555000207cd
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 19 Jun 2026 13:20:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=KDB+iJQSd/chR5R+8We/5zxMYMl8S1pijU0ywVSjMVI=;
- b=dBCjrLHHBQ6wmpa+FjmS5AWH6t07qX4kttxqtq/jDnefJlroAeLzAmI/C1r6h82TACaSE1
- Smp0/92zEOHz7mSRDI1Z0Kr2XxnlIgI85FE/4G1t7IKtLnWFigH/2Unzy2W95+5Imo6o5o2h
- /cbkv24D87wLsyJagIKgJ0hRuruuTi4AxX+JJgiTOaCPj1bc+lsNWNjTvdgoMVX1X6fkM2/0
- pZ3dQQCFXUzKu1HjHg//9MlBJsBNeHzAfGRpwBOfWP6ILvJ8gpipBjS+6MLE9sXrNFWBGnMw
- f7zdC+jpAruvzlKiG3prkswlEUltuPSbLaVXT6yUPWBjvqzCNwtQoyuQ==;
-From: AdrianF <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 0/6] fitimage selftests: stop hardcoding DISTRO/MACHINE, drop meta-yocto-bsp dependency
-Date: Fri, 19 Jun 2026 13:17:08 +0200
-Message-ID: <20260619112046.125876-1-adrian.freihofer@siemens.com>
+ dkim=pass header.i=@smile.fr header.s=google header.b=eggKfAPH;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-491b390f9e9so17869455e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 04:46:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781869617; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Yyu3etCTLTfcrvsqNTcym+W4YhoNSv1a19yzdnKnMPP0/HimqpAhnfEepg5/HgKqL2
+         kVpCJm/lrVyTWeCQ0jbwq6DzWJW7yXwsg6AjhF4X1TB4OVB6y752nW6O6QCil2BkQZ0W
+         EhTy7PDT0tZCVu3+v5gWvII+pnUv7tg0q+X+VUgl4nWagd/BWvPAW++Bb48byfdHxfFl
+         swoYkxyBdgTEA4gJmzBtCPZWINXWrRCdDabFio8lZrKlt5KQK759hSOxb07AUp84imqd
+         1jPXze7VCx05w6adyt8meecnvJU+32U+MNQusc9ntEIcwedN+M/OJtCELvvp7PVKKUF4
+         IpGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=R49bL32HKxIMbtfhhoB2QzHBjXLhDyO0dkxTzqCP3bw=;
+        fh=7x4t8OARA91lI5Man9nJASx7ps3qoHGzU24nsmANEX8=;
+        b=bBL1psG1ya+2ae4YX8yeP1W1lqo17NABhUyvU9xow5FJc6hUNNMbom3gAVp3mBKzDe
+         76nisR39yrg7CWXldSdOGV1kM7M0NjJheXL2fiLIgBqi9fwTMnLZ5m76+6WjtbGaAChs
+         nPdv12lgURYlpreJ5TO67wPLAnh7K0wLLWoHijbZLX4dbgHVVAELs4fQjmK6P5UX86JB
+         /iTtpw0gCrG4PEQCmvwy/Ag4RJRg0cEqD+9ndC+zKu/2f3HKqQxsefKgB79Gd6qEMUxt
+         Jq/AEGPztiQU6snw9UtAmxZfW0IzuHkxHVG2x1TW/DcNDbs4AWpvkLS3EuxXLKhSksae
+         YZNg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1781869617; x=1782474417; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=R49bL32HKxIMbtfhhoB2QzHBjXLhDyO0dkxTzqCP3bw=;
+        b=eggKfAPHvD4q9TbAs6YPHQH7BVqfef4IlGy+eTtM797lw9LvU4gQ0IKhHWKh2YT0V8
+         qlW1j2w/EEK9YGd1P106kNF2Kxtugh/JtEzK+sk/mTbAeywkOq8hTuG1Qr+k0I+eySLz
+         8hCF8OoEplbW6Yyn3qHXyC+I29ypLHak2L7P8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781869617; x=1782474417;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R49bL32HKxIMbtfhhoB2QzHBjXLhDyO0dkxTzqCP3bw=;
+        b=Ur0q2WxpiLPNovA0tfbR/1JtxmFbE5ooK2qXeK0oPvUVPjMSMIvksq6yrc8+nIK2Mf
+         xeIwlXbsG+8IB5/MbnsvzShxUp+uCTKn+zT87Bg97F84zC+O/aB0zjaqnuq2KdQfJXCk
+         J5DuZ6GSTtyzPRqXaMge80lBas/0NV11KVYbk1Z8vgvqPLlWARoYjZhJ/OU6XgvRMqDf
+         7b8DPRfstCWcVt3wY0E/6KaJUX2LBO1NeU+LrJSRw23nl1VUo8GfFPzLq4eR8BQHL86d
+         mP5CcjMc+ebjbgDd+YWkUPv+Gxnr6ATCzmn7ruc7VKx1xATjzxxSRavQ6lmfXhNmwzjP
+         AueQ==
+X-Gm-Message-State: AOJu0Yw/Jhj3jjboAKGiZKpdmGBPI6W5f79ex7evpHmaIebFFfgqjQv9
+	D1CK2B7BGRgTq5qKj0fwbAWUY8X635Jd2ZKi+cpfKsGjx/PdsTNOZTkYiuoBI5VXr60cVYlEzXZ
+	LCrBnwFEtS4EagHaPfBB42LlZYSFCx665a75uIWwS5g==
+X-Gm-Gg: AfdE7ckv26Ey8SUqQo0gplm+o/8zvVQ+hfjLQhxdnQwBTSuXeGdfAoXeLTRFGvq3Bnh
+	jc1SSKRK2BOgyQMe294ckL5gQEi6WgHprQnEaqvSOiUIVFYw3TGvUwZcLUCJXSfzdeDI8ffaKV+
+	UFTFI+jfi1qHl7DvPOtlWW+lToCP0MOCaidK2eKAALhOuTJCKddqK8dd7P8j3Roe4y+nBb44RyG
+	R3V5Ann68ijhqzFqVWtIBNhuByZpdbfezpQ6nD0oEYlj93Jdkgbpkbfxyb/sbknPQ4thPnipVZm
+	TKPR4u4mxrTc3jz/+Hb6fbD46WaY3ZFWT2WdJ0w4
+X-Received: by 2002:a05:600c:8010:b0:490:e170:b80b with SMTP id
+ 5b1f17b1804b1-49240e7a4bfmr50865805e9.32.1781869616391; Fri, 19 Jun 2026
+ 04:46:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
+References: <20260616165623.3049563-1-peter.marko@siemens.com>
+ <197246.1781691245370176580@lists.openembedded.org> <AS8PR10MB507301A14BCF0FE4BE7DC044FDE42@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+ <211612.1781866151739911624@lists.openembedded.org>
+In-Reply-To: <211612.1781866151739911624@lists.openembedded.org>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Fri, 19 Jun 2026 13:46:29 +0200
+X-Gm-Features: AVVi8Cdj2d7-WfmmbG5i_Hk8c2m8Xqc6gkiLBExYTikNIYxbChxuvUhWWMdcDAk
+Message-ID: <CAMSfU+6Qub2T2+2jafz7d28iMXwRBmiB_6V2AzTc8xw_bXDeqw@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH] openssl: upgrade 3.5.6 -> 3.5.7
+To: ashishkumar.mishra@bmwtechworks.in
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000008586ac065499d95d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 11:21:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239165
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 11:47:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239167
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+--0000000000008586ac065499d95d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Changes in comparison to v1:
-- 2 of 3 patches got merged already, this is just the last one of v1
-- Split it into 6 smaller commits
-  - Final result is equal
-  - oe-selftest was run for all commits, for no-distro and for poky
+Le ven. 19 juin 2026 =C3=A0 12:49, AshishKumar Mishra via lists.openembedde=
+d.org
+<ashishkumar.mishra=3Dbmwtechworks.in@lists.openembedded.org> a =C3=A9crit =
+:
 
-Note: These 6 patches replace the commit
-  "oeqa/selftest/fitimage: use the provided DISTRO and MACHINE, skip if
-  unsupported"
-  on today's master-next.
+> Hi Team,
+>
+> Since openssl is a critical package , request you to please take this in
+> master branch
+> This will fix few high score CVE
+>
+
+Hello,
+
+This is already on master :
+https://git.openembedded.org/openembedded-core/commit/?id=3D9365ac47f994a7d=
+6be92b8c011c51ecf48e8ef87
+
+Also, this is part of the latest wyrnose PR, it will merge shortly.
+
+For scarthgap, it will be part of the next review cycle (planned next week)
+
+Regards,
 
 
+>
+>
 
-The fitimage selftests had two fundamental issues:
+> Thanks ,
+> Ashish
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#239159):
+> https://lists.openembedded.org/g/openembedded-core/message/239159
+> Mute This Topic: https://lists.openembedded.org/mt/119836905/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-- dependency on meta-yocto-bsp
-Several tests referenced `beaglebone-yocto` and the `bbb-dtbs-as-ext` recipe,
-both of which live in meta-yocto-bsp, not in OE-core. The tests simply could
-not pass in a plain OE-core setup.
+--=20
+Yoann Congal
+Smile ECS
 
-- hardcoded MACHINE overrides the caller's configuration
-Every test wrote `MACHINE = "beaglebone-yocto"` unconditionally into
-`selftest.inc`. This means that regardless of what MACHINE the user or
-autobuilder had configured, the tests always built for beaglebone. There are
-two consequences:
+--0000000000008586ac065499d95d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This results in a false sense of test coverage:
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0ven. 19=
+ juin 2026 =C3=A0=C2=A012:49, AshishKumar Mishra via <a href=3D"http://list=
+s.openembedded.org">lists.openembedded.org</a> &lt;ashishkumar.mishra=3D<a =
+href=3D"mailto:bmwtechworks.in@lists.openembedded.org">bmwtechworks.in@list=
+s.openembedded.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div>Hi Team,=C2=A0<br><br>Since openssl i=
+s a critical package , request you to please take this in master branch=C2=
+=A0<br>This will fix few high score CVE</div></blockquote><div><br></div><d=
+iv>Hello,</div><div><br></div><div>This is already on master :=C2=A0<a href=
+=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D9365ac47f99=
+4a7d6be92b8c011c51ecf48e8ef87">https://git.openembedded.org/openembedded-co=
+re/commit/?id=3D9365ac47f994a7d6be92b8c011c51ecf48e8ef87</a></div><div><br>=
+</div><div>Also, this is part of the latest wyrnose=C2=A0PR, it will merge =
+shortly.</div><div><br></div><div>For scarthgap, it will be part of the nex=
+t review cycle (planned next week)</div><div><br></div><div>Regards,</div><=
+div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div>=C2=
+=A0</div></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<div>=C2=A0</div>
+<div>Thanks ,<br>Ashish</div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#239159): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/239159" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/239159</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119836905/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/119836905/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
+t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
 
-- The test result says nothing about whether the active machine works — it
-  reports a pass for a machine that was silently substituted.
-- In environments that configure the machine via OE_FRAGMENTS, bitbake
-  `bb.fatal()`s on a non-weak `MACHINE` assignment, so the tests fail
-  immediately without even attempting to build.
-
-This series fixes both problems. Tests no longer write `MACHINE` to the config;
-instead they read the active machine at runtime via `get_bb_var("MACHINE")` and
-look it up in a new `_MACHINE_SETTINGS` dict. If the machine is not listed, the
-test calls `self.skipTest()` — keeping the suite green while making it obvious
-which machines are covered. Several correctness fixes follow naturally from
-exercising real per-machine code paths (conditional `sign-images`, `setup-1` on
-x86, graceful fallback when no key-holding DTB exists). The `bbb-dtbs-as-ext`
-recipe is replaced by a machine-agnostic `test-dtbs-as-ext`.
-That also means that the FIT image tests are now skipped for most machines,
-which is not ideal. But if the FIT image infrastructure is used on those
-machines, then the tests can be enabled by adding the appropriate settings to
-`_MACHINE_SETTINGS` later on.
-
-Adrian Freihofer (6):
-  oe-selftest: fitimage: replace _gen_random_file with _gen_elf64_dummy
-  oe-selftest: fitimage: add machine-agnostic test-dtbs-as-ext recipe
-  oe-selftest: fitimage: replace bbb-dtbs-as-ext with test-dtbs-as-ext
-  oe-selftest: fitimage: replace MACHINE==qemux86-64 guards with
-    KERNEL_SETUP_BIN
-  oe-selftest: fitimage: add machine settings table and skip helpers
-  oe-selftest: fitimage: stop hardcoding MACHINE and DISTRO in tests
-
- .../recipes-test/ext-dtb/bbb-dtbs-as-ext.bb   |  29 -
- .../ext-dtb/files/BBORG_RELAY-00A2.dts        |  49 --
- .../ext-dtb/files/am335x-bonegreen-ext.dts    |  14 -
- .../recipes-test/ext-dtb/files/test-ext.dts   |  17 +
- .../ext-dtb/files/test-overlay.dts            |  14 +
- .../recipes-test/ext-dtb/test-dtbs-as-ext.bb  |  25 +
- meta/lib/oeqa/selftest/cases/fitimage.py      | 536 +++++++++++++-----
- 7 files changed, 459 insertions(+), 225 deletions(-)
- delete mode 100644 meta-selftest/recipes-test/ext-dtb/bbb-dtbs-as-ext.bb
- delete mode 100644 meta-selftest/recipes-test/ext-dtb/files/BBORG_RELAY-00A2.dts
- delete mode 100644 meta-selftest/recipes-test/ext-dtb/files/am335x-bonegreen-ext.dts
- create mode 100644 meta-selftest/recipes-test/ext-dtb/files/test-ext.dts
- create mode 100644 meta-selftest/recipes-test/ext-dtb/files/test-overlay.dts
- create mode 100644 meta-selftest/recipes-test/ext-dtb/test-dtbs-as-ext.bb
-
--- 
-2.54.0
-
+--0000000000008586ac065499d95d--
 
