@@ -1,185 +1,92 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0225DCD98F2
-	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 20:06:54 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50754.1781899606564823798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14FFECD4F26
+	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 20:17:34 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.50923.1781900248303455995
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jun 2026 13:06:47 -0700
+ Fri, 19 Jun 2026 13:17:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=C0BsuANL;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490aaeabdb4so14635045e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 13:06:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781899605; x=1782504405; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GIxDfwpCSDEgfqsjaCd26iLGKXK7soi/iX5wb9bhoPA=;
-        b=C0BsuANL6PLCGLy7KCz5cJ090Ft4mo88lr+IrfBIgrUhBXHcCSoStdqjIp1Xooe4+O
-         293mV2Qg/v2VpwvEqs7fP8ntg3TdGVaKT1uzDk17X5+QNvuw8CBdyyn7u8b+Brt1JGc7
-         EycwNXzaFchLDECicaNIEWo28NKUmI9XeXEMI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781899605; x=1782504405;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GIxDfwpCSDEgfqsjaCd26iLGKXK7soi/iX5wb9bhoPA=;
-        b=gfakr73NnbRmAMGP6XFBNCXIAK3ZqBd7YEYBp9hwHj+uV5EGj/gAs0sQ3rnKK8eHrR
-         BwYG2IDvsoRGQhNNPc1eCqjahlrc7Y/FikXIt1Cw7e8mGus8pZC/afYUwXq2P/Iy26mT
-         Bqa2KvqkZ+0RAdDd43i+G/N9s+xM3kELvZ1ZLut+2EVI+UTaGgnJzywNua/xRJadJrpx
-         ZzN7mKiAQVFeAE4Nh3UwCxYLimUcPNS9zPe29QK+lmHiqdOpFDvUqa7Vrync6kCJnymR
-         nSqGn58ay1NtLh1XfcajF/mgI5rZ8CzoDpyGzPEvyyN7Vh4PnKs+FokfHGJt/UV85v6W
-         wYPQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+qyntcksUKg1easommZP51vwuEZf/FzwgKD/ESlULF4rFIU0v2566jpOlSgvHu+x4R+M7rWh70ZekBYJyagDp/cw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzL/ONySMjMp1UAXPWy54m60n5qTlXFjoW1G2LOlFTuPuZwg0cZ
-	n70/7e4CjDo4RxeL1zIjI8+UD5x+IyC24gntoAcYCk5oHvjgNviry/IEMIP1YdKzePMUQoflzH9
-	Cw+Fa
-X-Gm-Gg: AfdE7cnEotDeresa70gNtvL6eghF9hL7K+lDz7Eo9eaAz+WKYR+zhJLNxQeRMKzgs/l
-	S5hGhp4L+CWO1IJ9KRbtJFBJQxarPkIYh1GlYHPEN8z+s2N5r32q2cpGO9iEx+lgFKjkqoO3TJ2
-	JTHeBJr5RMNl72i5vbuZvYU9cyxvCV3Sd1RnF2Xnabt2r4iAniFh3RqGR/GfJSDU5eDcUmTTQik
-	kamzy0fRtDpuPzldn7dfYoZ9YpWwxALtF+i3+g4WVkdNv2+P+33Ri2H41jaJx7IiXGJq+9z4v/Q
-	JbURfhZFfo+NatYKBDJNq8G/xh54aoKZ+qZGjdIpBMNUD7fz5igSG9vn44Pt3uTjyguXehKfr9I
-	FCR0B45OnVVPGb2R6KGw29HjT1mlT2uLBEvlD4FaQjFNQbrUaxYBEb9r+OVr7GyOffSF4I4UqBM
-	pn81jcensy3e+2m7Goz8VwaS3uHOxT+6p4YiS5bHFyS/tVmedWvUZCHAHZNvnUyS25PrS5xoX3o
-	qeU
-X-Received: by 2002:a05:600c:5252:b0:490:bd1d:4732 with SMTP id 5b1f17b1804b1-4923f579333mr90174405e9.23.1781899604520;
-        Fri, 19 Jun 2026 13:06:44 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fd154fdsm85677425e9.1.2026.06.19.13.06.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jun 2026 13:06:44 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Jun 2026 22:06:43 +0200
-Message-Id: <DJDAOX536L0X.1J4TFH02UP4YL@smile.fr>
-Subject: Re: [OE-core][PATCH] python3: Skip test_tracemalloc_track_race for
- glibc and musl
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <kris.gavvala@windriver.com>
-To: <Kris.Gavvala@windriver.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260619195405.4021971-1-kris.gavvala@windriver.com>
-In-Reply-To: <20260619195405.4021971-1-kris.gavvala@windriver.com>
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JW4vYLjI;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=yNiVZPhX;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019ee1880194-99922989-1265-4ee8-832c-8e4ab6465ad1-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1781900247; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=JdXZw4jxrM0nmIjy/Sp96cVLF3ORCmRG55BN3rJha0g=;
+	b=JW4vYLjIpALb74r5KV3Bl7E/IpLZ7lkv2/U2nTZkRTsCdUHAEqUtFk4+QBHMeMiF
+	SX4GvmlbMZ3dqsghXf9INShRph7JWbrMgCtz4oZ2rkPZRFg15KHE2Ep/GreOSyerm+v
+	JrSFsRzyBSRopuRWGYOf5jwbtc43tcPuOzZj4ipI=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781900247;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=JdXZw4jxrM0nmIjy/Sp96cVLF3ORCmRG55BN3rJha0g=;
+	b=yNiVZPhXvaYRrg00gBhEz0fSq1e1IHGqCL9rwq/Z2oK4yWGaFYgqueRm+HrE0RJ9
+	DtdxedyPO8zaX8hdbISJltxXpZN+HoPrJXjgP9vm0XPmwKhYLwUaYPtaW0VOnYwJeQS
+	Kro3d+Q1M/pc9vcQztfkv1snWpF2A/9pAx0YTSFw=
+From: patchtest@automation.yoctoproject.org
+To: Paul Barker <paul@pbarker.dev>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/5] lsof: upgrade 4.99.6 -> 4.99.7
+In-Reply-To: <20260619-auh-v1-3-62299dbd8231@pbarker.dev>
+References: <20260619-auh-v1-3-62299dbd8231@pbarker.dev>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019ee1880194-99922989-1265-4ee8-832c-8e4ab6465ad1-000000@us-west-2.amazonses.com>
+Date: Fri, 19 Jun 2026 20:17:27 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.06.19-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 20:06:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239192
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 20:17:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239193
 
-On Fri Jun 19, 2026 at 9:54 PM CEST, Kris via lists.openembedded.org Gavval=
-a wrote:
-> Skip test_tracemalloc_track_race when running with glibc or musl to avoid=
- ptest
-> failures for now.
->
-> [YOCTO #16182]
->
-> Signed-off-by: Kris Gavvala <kris.gavvala@windriver.com>
-> ---
+--NextPart
+Content-Type: text/plain
 
-Hello,
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Given the python3 version, that looks like a scarthgap targeted patch.
-If so, you need to add "[scarthgap]" in the subject when sending.
-README.OE-Core.md has instructions on how to do that using
-git-send-email.
+---
+Testing patch /home/patchtest/share/mboxes/3-5-lsof-upgrade-4.99.6---4.99.7.patch
 
-That said, this fix need to be sent to master first then to wrynose and
-scarthgap to be accepted.
+FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
 
-Can you send a fix to master first (maybe using SKIPPED_TESTS) and then
-send a backport to wrynose/scarthgap?
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-Thanks!
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
 
->  ...malloc_track_race-for-glibc-and-musl.patch | 44 +++++++++++++++++++
->  .../python/python3_3.13.12.bb                 |  1 +
->  2 files changed, 45 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3/0001-Skip-test_t=
-racemalloc_track_race-for-glibc-and-musl.patch
->
-> diff --git a/meta/recipes-devtools/python/python3/0001-Skip-test_tracemal=
-loc_track_race-for-glibc-and-musl.patch b/meta/recipes-devtools/python/pyth=
-on3/0001-Skip-test_tracemalloc_track_race-for-glibc-and-musl.patch
-> new file mode 100644
-> index 0000000000..093de45995
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3/0001-Skip-test_tracemalloc_tra=
-ck_race-for-glibc-and-musl.patch
-> @@ -0,0 +1,44 @@
-> +From b0fcd618c8387387d38dd0b4494bb8d94b49b849 Mon Sep 17 00:00:00 2001
-> +From: Kris Gavvala <kris.gavvala@windriver.com>
-> +Date: Fri, 19 Jun 2026 10:44:22 -0700
-> +Subject: [PATCH] Skip test_tracemalloc_track_race for glibc and musl
-> +
-> +test_tracemalloc_track_race crashes with a SIGSEGV
-> +when running python3 ptests on qemuarm64.
-> +
-> +Skip the test when running with glibc or musl to avoid ptest
-> +failures for now.
-> +
-> +Upstream-Status: Inappropriate [OE-specific]
-> +
-> +[YOCTO: #16182]
-> +
-> +Signed-off-by: Kris Gavvala <kris.gavvala@windriver.com>
-> +---
-> + Lib/test/test_tracemalloc.py | 3 +++
-> + 1 file changed, 3 insertions(+)
-> +
-> +diff --git a/Lib/test/test_tracemalloc.py b/Lib/test/test_tracemalloc.py
-> +index 0220a83..b2159f9 100644
-> +--- a/Lib/test/test_tracemalloc.py
-> ++++ b/Lib/test/test_tracemalloc.py
-> +@@ -1,6 +1,7 @@
-> + import contextlib
-> + import os
-> + import sys
-> ++import platform=20
-> + import textwrap
-> + import tracemalloc
-> + import unittest
-> +@@ -1111,6 +1112,8 @@ class TestCAPI(unittest.TestCase):
-> +             self.untrack()
-> +=20
-> +     @unittest.skipIf(_testcapi is None, 'need _testcapi')
-> ++    @unittest.skipIf(platform.libc_ver()[0] =3D=3D 'glibc', "Skip test =
-for glibc")
-> ++    @unittest.skipIf(platform.libc_ver()[0] =3D=3D 'musl', "Skip test f=
-or musl")
-> +     @threading_helper.requires_working_threading()
-> +     # gh-128679: Test crash on a debug build (especially on FreeBSD).
-> +     @unittest.skipIf(support.Py_DEBUG, 'need release build')
-> +--=20
-> +2.49.0
-> +
-> diff --git a/meta/recipes-devtools/python/python3_3.13.12.bb b/meta/recip=
-es-devtools/python/python3_3.13.12.bb
-> index 854d834135..0176abb849 100644
-> --- a/meta/recipes-devtools/python/python3_3.13.12.bb
-> +++ b/meta/recipes-devtools/python/python3_3.13.12.bb
-> @@ -32,6 +32,7 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pyt=
-hon-${PV}.tar.xz \
->             file://0001-Generate-data-for-OpenSSL-3.4-and-add-it-to-multi=
-ssl.patch \
->             file://0001-Skip-flaky-test_default_timeout-tests.patch \
->             file://0001-gh-128377-Skip-test_cmd_line.test_non_interactive=
-_ou.patch \
-> +           file://0001-Skip-test_tracemalloc_track_race-for-glibc-and-mu=
-sl.patch \
->             "
->  SRC_URI:append:class-native =3D " \
->             file://0001-Lib-sysconfig.py-use-prefix-value-from-build-conf=
-igu.patch \
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
 
 
---=20
-Yoann Congal
-Smile ECS
-
+--NextPart--
 
