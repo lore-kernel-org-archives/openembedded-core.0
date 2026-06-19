@@ -2,327 +2,433 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66C3BCDB476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AD26CDB473
 	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 08:33:23 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38262.1781858000606644506
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38257.1781857994877010989
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jun 2026 01:33:20 -0700
+ Fri, 19 Jun 2026 01:33:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=iH5Mai0N;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-462342ac290so2104636f8f.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 01:33:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=MbDx+v0Q;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-46066e640easo1128703f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 01:33:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781857999; x=1782462799; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1781857993; x=1782462793; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rVy8GPABlrjlD+iZWF7C5l/VLEX+Ohtlv65sudnGGcI=;
-        b=iH5Mai0N0Va9XYSe3ebTUr0GjA70fHdVyOLLpC1WC6RdX8VBvO4I9odZLSl2ExyawG
-         d6PoYayxSDw3xbqv/Ln3BLKY4KNSTeQ65oOAS6SSOrP1m4K4k/VV/SRLLn35bUZAZlHN
-         xQtCJGiyOlBBkX8ZqRjx/+bF7DdjgUZqcE10TxruG2AsFxpPaI2PimFJj+5/AmPFW/gV
-         m7R27m1fqphBxDaceltY1FEfnNeLAcKT9cGTt8Myr/4lqwUtObd+DzfqDaQ/yAO7ePxn
-         SNUQ66PkJe3+84gnZD0HSSqPpCZocPNCFFMaPIXCFayqgMCNbl4nuNKj4fGiCT5jh39Y
-         VZIA==
+        bh=QXHNCJPS6qLN3PQYHf/9sM8KggzRMYc8WXxJstQB/jo=;
+        b=MbDx+v0QCQ8VrBhGK+xNY6/wKBYyqrRkWxTwOzk1beqB/NcGe47FlhjO3hIjMclQ8x
+         puKOLUqbuFMGimcfkjkhcQHcborJq2cqT54CANxR2UCYimKef+VIgTb6X9wy61Oekl3f
+         gHYtVJzGQhfI92kYRxpkFKWIZBEo3pgeQYACACy3k6Ft/d7ZUzxStaqD8qffTrth2ilM
+         pssu6VnVXrzOEaSsMZ2iWIc6QeBt89wH+7fFaMNGiPjJWdbJHmxOaSKFnxHwo2W+xpM/
+         60VObJobu7bHm1D7FT8lQCOUJE5QNuTKFxmGtpx4OA7gO222tUK0wkdXma0HAJNBgq0i
+         U0KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781857999; x=1782462799;
+        d=1e100.net; s=20251104; t=1781857993; x=1782462793;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=rVy8GPABlrjlD+iZWF7C5l/VLEX+Ohtlv65sudnGGcI=;
-        b=ICkgMkJy5zFC7eLKlHCKFGYjVMfl+sR175B4GUU3/fKjf4bUUi/GDkJfoah24icA48
-         yQl3/CEmFvnMs7CgrbshH2YELdVhwjXXoRAaoJnCIdpc9vr2NMYMOwMBMksShWXrKq1b
-         wGtTGyXBKjdwntFKXI4+2FTtqdojJxb3ACaLhmBYU3ZaGp8gRcfg1WW4Vg1ijN2CjUTS
-         Rfb1QpuKmxoc04LpgxmbfugRSOvmLHxiXnWHml5RlJC5sVrySg7JGe5kWUvmFu5MH6Am
-         SrWlsnkNMGJqhXboP8glz1/f398R/di9LDg1/Iio/5ranoz+xXad91dOEEYamnHo2zfO
-         C+dQ==
-X-Gm-Message-State: AOJu0YxhcNRQHvDxHOsmMZKeRQ6T4lm2Q8PmXt5rdDrn/ORIBIALRwJn
-	HpO+M2TD/fmnBz3u3AMvmjmaPnf8G3sMWJmzxqODUKhZSukt8Zpt298vaIvBvQvX
-X-Gm-Gg: AfdE7ckqgJCnLLkTILezAlKZiuWo2P5+r6rTZ7JL4bCmbHDYs/yCz/e/X8cBZBH3CzE
-	6CzVtRWwf8KIUa+y2BeFZvSIQlZWTACnFWRFQ0on40q6F6DEJru/BImEBgTvgG995vqFWGJfI0+
-	j7LvlxegpoTIjIQ0iPAwPYi/jYMKT47QxyGvKFYB7rd1e36aCaxCNxocaledxF0ZB8ORsVHFlhv
-	MYU4eSvHuTPNUhEvH7VIqTAXM+FD0ZE7R8tHUFJth4L+LHF0BpNuTiQxCWXl/u05gswMxvjN0t7
-	nTWfHKD2QgrT8mWpnE2BcztpZBjrCMkinm9PrKAOQA1oQ7nn1vh8hJ79/ee97/DA5VMNgAVeUW+
-	JIo/2PwSuhdTvhBeLFVTJS4JugLEQz41v0QCbE/on5LGN1iXof1lDs3PWT6Vm7dFAqk12B+cRVv
-	CzgXJuO5A23Lw6T7G9gOPSTJexKjc+SAhaz569ip9BOlC0Haiz
-X-Received: by 2002:a05:6000:41c6:b0:45e:de0a:1773 with SMTP id ffacd0b85a97d-4656e9ae04fmr2344682f8f.33.1781857998447;
-        Fri, 19 Jun 2026 01:33:18 -0700 (PDT)
+        bh=QXHNCJPS6qLN3PQYHf/9sM8KggzRMYc8WXxJstQB/jo=;
+        b=qHbW5Z+MXKTYqQLwQ1nD0do3zhHhAJJUUiXnFbiEJmYVDTMUadAtQcXLG3rf2FkHvf
+         u/MW5dGHWZ4Brl/zHzS+qrz4YtnDNAlPbAPKG1Je+Ad/QXnVJ5wp62zvS7ZiZjjkymDK
+         UEF87eTrZtkYmEs4GUgYMWHm8MqO62UZDINbkeQNseMlF6qWOagtjTIXx4nVhELU75NJ
+         Vrrx2wj1QtIrHjK0rDuQsrhj7ZAM5QQbfg7q5TjpnYpwHZZMDzWPWoewzR6xnX9KESUB
+         OhU7wDVU8DdsE3QPQwcdIFiR1s6Lsi352YFdzyr3hRE/RxgyCOfbBppl81ssbOM7yGIN
+         1EbQ==
+X-Gm-Message-State: AOJu0YyQVGnz/WOPQUi/KRoLsRzlE7dTxkFvpxa75ic+rrurbhtzVxAC
+	X3KDOgPQXclyc8uM2t/WaEBBrrW78wfEaHs6Se0yp0Icmdo815+e1V8G0nnXJF/P
+X-Gm-Gg: AfdE7cmrCdjzvTAluV7yczz5KUPnTDXnZKvqxZYwhUP87rfQubFO4gKFduMpcxS97Xf
+	g3ePz/tt+KckJJsqcMbV4TVoyrMwYK8SpYnrSad9SaHflog2o2uRDWJ/iLFm4/0BhzFdlFuxItq
+	unb+jAIVYCGPO7CCqRIN90PcCHK3MgnjFS7SPetcmTyMS8B1enrK70NSBQsRIuLrjVTZDJtG6Yb
+	UtV8NRdmCQxseB+m8VoVJVjReqXYH3MXl6glo9st6JnoXTQPww2EZq6AuVSLW5qw59o+0dsS5ls
+	KCONSwQQpxs62N2H+uEozoRSJ6M5W8re7BgBh9O850qTiNTNm+y8m+8+MxeI2Ej68tCuXNUZ0P3
+	fzAkayez+fzs+vPNMvgDE8+9xD/0uDNY1vHx3x6TYykFONSlfEO7zj2UVKDclFmWDLLPZaQbjO8
+	de+LQcUM3Y+sywjiRPXK5v0KmXQxfPnpRvQlHrApnhXNlQHDUR
+X-Received: by 2002:a05:6000:481b:b0:45e:eaed:afd2 with SMTP id ffacd0b85a97d-465041d5b0amr5022874f8f.0.1781857992985;
+        Fri, 19 Jun 2026 01:33:12 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650bc429a1sm5878368f8f.30.2026.06.19.01.33.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650bc429a1sm5878368f8f.30.2026.06.19.01.33.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 01:33:18 -0700 (PDT)
+        Fri, 19 Jun 2026 01:33:12 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 13/15] librsvg: upgrade: 2.62.2 -> 2.62.3
-Date: Fri, 19 Jun 2026 10:32:55 +0200
-Message-ID: <20260619083305.3505156-13-alex.kanavin@gmail.com>
+Subject: [PATCH 06/15] systemtap: upgrade 5.4 -> 5.5
+Date: Fri, 19 Jun 2026 10:32:48 +0200
+Message-ID: <20260619083305.3505156-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260619083305.3505156-1-alex.kanavin@gmail.com>
 References: <20260619083305.3505156-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 08:33:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239148
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239141
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Drop patch merged upstream.
-
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-gnome/librsvg/librsvg-crates.inc |   8 +-
- ...append-RUSTFLAGS-to-rustc-executable.patch |   2 +-
- ...e-care-of-deprecated-assert_cmd-Comm.patch |   2 +-
- .../librsvg/librsvg/cross-query-loaders.patch | 169 ------------------
- .../{librsvg_2.62.2.bb => librsvg_2.62.3.bb}  |   3 +-
- 5 files changed, 7 insertions(+), 177 deletions(-)
- delete mode 100644 meta/recipes-gnome/librsvg/librsvg/cross-query-loaders.patch
- rename meta/recipes-gnome/librsvg/{librsvg_2.62.2.bb => librsvg_2.62.3.bb} (97%)
+ ...-native_5.4.bb => systemtap-native_5.5.bb} |   0
+ ...gure-write-a-python-location-into-th.patch |   7 +-
+ ...ython-modules-to-correct-library-dir.patch |   2 +-
+ .../0001-elaborate.cxx-fix-32-bit-build.patch | 104 ------------------
+ ...rove-reproducibility-for-c-compiling.patch |  10 +-
+ ...staprun-address-ncurses-6.3-failures.patch |  11 +-
+ ...-don-t-support-installing-a-non-root.patch |  17 ++-
+ .../systemtap/systemtap/readline.patch        |  29 +++--
+ .../{systemtap_5.4.bb => systemtap_5.5.bb}    |   0
+ .../systemtap/systemtap_git.inc               |   3 +-
+ 10 files changed, 39 insertions(+), 144 deletions(-)
+ rename meta/recipes-kernel/systemtap/{systemtap-native_5.4.bb => systemtap-native_5.5.bb} (100%)
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-fix-32-bit-build.patch
+ rename meta/recipes-kernel/systemtap/{systemtap_5.4.bb => systemtap_5.5.bb} (100%)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg-crates.inc b/meta/recipes-gnome/librsvg/librsvg-crates.inc
-index dfa96e28b1..c6db9dc0bb 100644
---- a/meta/recipes-gnome/librsvg/librsvg-crates.inc
-+++ b/meta/recipes-gnome/librsvg/librsvg-crates.inc
-@@ -235,8 +235,8 @@ SRC_URI += " \
-     crate://crates.io/quick-error/2.0.1 \
-     crate://crates.io/quote/1.0.44 \
-     crate://crates.io/r-efi/5.3.0 \
--    crate://crates.io/rand/0.8.5 \
--    crate://crates.io/rand/0.9.2 \
-+    crate://crates.io/rand/0.8.6 \
-+    crate://crates.io/rand/0.9.4 \
-     crate://crates.io/rand_chacha/0.9.0 \
-     crate://crates.io/rand_core/0.6.4 \
-     crate://crates.io/rand_core/0.9.5 \
-@@ -589,8 +589,8 @@ SRC_URI[quick-error-1.2.3.sha256sum] = "a1d01941d82fa2ab50be1e79e6714289dd7cde78
- SRC_URI[quick-error-2.0.1.sha256sum] = "a993555f31e5a609f617c12db6250dedcac1b0a85076912c436e6fc9b2c8e6a3"
- SRC_URI[quote-1.0.44.sha256sum] = "21b2ebcf727b7760c461f091f9f0f539b77b8e87f2fd88131e7f1b433b3cece4"
- SRC_URI[r-efi-5.3.0.sha256sum] = "69cdb34c158ceb288df11e18b4bd39de994f6657d83847bdffdbd7f346754b0f"
--SRC_URI[rand-0.8.5.sha256sum] = "34af8d1a0e25924bc5b7c43c079c942339d8f0a8b57c39049bef581b46327404"
--SRC_URI[rand-0.9.2.sha256sum] = "6db2770f06117d490610c7488547d543617b21bfa07796d7a12f6f1bd53850d1"
-+SRC_URI[rand-0.8.6.sha256sum] = "5ca0ecfa931c29007047d1bc58e623ab12e5590e8c7cc53200d5202b69266d8a"
-+SRC_URI[rand-0.9.4.sha256sum] = "44c5af06bb1b7d3216d91932aed5265164bf384dc89cd6ba05cf59a35f5f76ea"
- SRC_URI[rand_chacha-0.9.0.sha256sum] = "d3022b5f1df60f26e1ffddd6c66e8aa15de382ae63b3a0c1bfc0e4d3e3f325cb"
- SRC_URI[rand_core-0.6.4.sha256sum] = "ec0be4795e2f6a28069bec0b5ff3e2ac9bafc99e6a9a7dc3547996c5c816922c"
- SRC_URI[rand_core-0.9.5.sha256sum] = "76afc826de14238e6e8c374ddcc1fa19e374fd8dd986b0d2af0d02377261d83c"
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch b/meta/recipes-gnome/librsvg/librsvg/0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch
-index a3596fc288..1c02edad38 100644
---- a/meta/recipes-gnome/librsvg/librsvg/0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch
-+++ b/meta/recipes-gnome/librsvg/librsvg/0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch
+diff --git a/meta/recipes-kernel/systemtap/systemtap-native_5.4.bb b/meta/recipes-kernel/systemtap/systemtap-native_5.5.bb
+similarity index 100%
+rename from meta/recipes-kernel/systemtap/systemtap-native_5.4.bb
+rename to meta/recipes-kernel/systemtap/systemtap-native_5.5.bb
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
+index 742b1187fc..8a6cc4e0a4 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
 @@ -1,4 +1,4 @@
--From e89982e61e50c7d25d563f2fa0481f9bba481f04 Mon Sep 17 00:00:00 2001
-+From 2becfbb5964754f7c3f1ff90f9447d84093ba986 Mon Sep 17 00:00:00 2001
- From: Gyorgy Sarvari <skandigraun@gmail.com>
- Date: Sat, 2 Aug 2025 20:57:49 +0200
- Subject: [PATCH] query-rustc: append RUSTFLAGS to rustc executable
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch b/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch
-index 85ae52c62f..05e0e0f857 100644
---- a/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch
-+++ b/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch
+-From ab29615ed6c2e779b472903564dc683dc1015de7 Mon Sep 17 00:00:00 2001
++From adf505ededdd25cf43111fd12a59090a8f7de856 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 22 Feb 2017 13:37:33 +0200
+ Subject: [PATCH] Do not let configure write a python location into the dtrace
+@@ -11,7 +11,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/dtrace.in b/dtrace.in
+-index 5e1cf8079..a24229cbc 100644
++index 73a6f22e2..870999e36 100644
+ --- a/dtrace.in
+ +++ b/dtrace.in
+ @@ -1,4 +1,4 @@
+@@ -20,6 +20,3 @@ index 5e1cf8079..a24229cbc 100644
+  # vim: et sta sts=4 sw=4 ts=8
+  
+  # This handles the systemtap equivalent of
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
+index 21e3096405..6a3fa04bea 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
 @@ -1,4 +1,4 @@
--From bc089af8ce38ad268bc4283040ec28241c5064a6 Mon Sep 17 00:00:00 2001
-+From 095e3c67c5e6b410098eb8d86878ec411d00fa0b Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Thu, 18 Dec 2025 18:43:20 +0100
- Subject: [PATCH] tests: revert 'Take care of deprecated
-diff --git a/meta/recipes-gnome/librsvg/librsvg/cross-query-loaders.patch b/meta/recipes-gnome/librsvg/librsvg/cross-query-loaders.patch
+-From 7847240a97f5010ebab775f7ac51812a7705a886 Mon Sep 17 00:00:00 2001
++From a261ee9efca120b6d65310a972d91dffc00ac937 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 24 Feb 2017 17:53:02 +0200
+ Subject: [PATCH] Install python modules to correct library dir.
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-fix-32-bit-build.patch b/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-fix-32-bit-build.patch
 deleted file mode 100644
-index dff36aadb3..0000000000
---- a/meta/recipes-gnome/librsvg/librsvg/cross-query-loaders.patch
+index bfc9699728..0000000000
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-fix-32-bit-build.patch
 +++ /dev/null
-@@ -1,169 +0,0 @@
--From e46317a80e9d37d7b9c4cbf43ff1d60c3ac21fff Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Mon, 11 May 2026 12:34:53 +0100
--Subject: [PATCH 1/2] gdk-pixbuf-loader/meson_install: improve argument parsing
-- and logic
+@@ -1,104 +0,0 @@
+-From 94efb7c4eb02de0e3565cb165b53963602d3dcb6 Mon Sep 17 00:00:00 2001
+-From: Sergei Trofimovich <slyich@gmail.com>
+-Date: Sun, 30 Nov 2025 20:58:01 +0000
+-Subject: [PATCH] elaborate.cxx: fix 32-bit build
 -
--Make the arguments more explicit by changing the path arguments to be
--specified with options, such as --queryloaders <path>. Previously one of
--the paths had an option, but the others were order-based.
+-Without the change the build fails on i686-linux as:
 -
--Check that either all of the paths have been set or --show-cross-message
--has been passed. If this is not the case, print the usage and exit.
--
--Clean up Path usage, as the options are using pathlib.Path types in the
--parser another Path instance does not need to be created.
--
--None of this changes the underlying logic, just makes it more consistent
--and explicit.
--
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/librsvg/-/merge_requests/1194]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
+-    elaborate.cxx:5119:33: error:
+-      format '%ld' expects argument of type 'long int',
+-      but argument 2 has type 'int64_t' {aka 'long long int'} [-Werror=format=]
+-     5119 |       session.print_warning (_F("Collapsing unresolved @define to %ld [stapprobes]", value), e->tok);
+-          |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=patch;h=94efb7c4eb02de0e3565cb165b53963602d3dcb6]
+-Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
 ----
-- gdk-pixbuf-loader/meson.build      |  4 +++-
-- gdk-pixbuf-loader/meson_install.py | 23 +++++++++++------------
-- 2 files changed, 14 insertions(+), 13 deletions(-)
+- elaborate.cxx    | 2 +-
+- po/cs.po         | 2 +-
+- po/en.po         | 2 +-
+- po/fr.po         | 2 +-
+- po/pl.po         | 2 +-
+- po/systemtap.pot | 2 +-
+- 6 files changed, 6 insertions(+), 6 deletions(-)
 -
--diff --git a/gdk-pixbuf-loader/meson.build b/gdk-pixbuf-loader/meson.build
--index 951d2d1c9..c7c017978 100644
----- a/gdk-pixbuf-loader/meson.build
--+++ b/gdk-pixbuf-loader/meson.build
--@@ -43,9 +43,11 @@ else
-- endif
+-diff --git a/elaborate.cxx b/elaborate.cxx
+-index 93ecffa1a..3ad3614e7 100644
+---- a/elaborate.cxx
+-+++ b/elaborate.cxx
+-@@ -5116,7 +5116,7 @@ const_folder::visit_defined_op (defined_op* e)
+-       // Don't be greedy... we'll only collapse one at a time so type
+-       // resolution can have another go at it.
+-       relaxed_p = false;
+--      session.print_warning (_F("Collapsing unresolved @define to %ld [stapprobes]", value), e->tok);
+-+      session.print_warning (_F("Collapsing unresolved @define to %lld [stapprobes]", (long long)value), e->tok);
+-       literal_number* n = new literal_number (value);
+-       n->tok = e->tok;
+-       n->visit (this);
+-diff --git a/po/cs.po b/po/cs.po
+-index df6412772..92fdef7ad 100644
+---- a/po/cs.po
+-+++ b/po/cs.po
+-@@ -2039,7 +2039,7 @@ msgstr "Zahazuji kontrolu '@defined' bez vedlejších účinků "
 - 
-- pixbufloader_svg_install_args = [
---  '--gdk-pixbuf-moduledir',
--+  '--moduledir',
--   pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_moduledir', pkgconfig_define: ['prefix', prefix]),
--+  '--queryloaders',
--   gdk_pixbuf_query_loaders,
--+  '--cache-file',
--   pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_cache_file', pkgconfig_define: ['prefix', prefix])
-- ]
+- #: elaborate.cxx:5119
+- #, fuzzy, c-format
+--msgid "Collapsing unresolved @define to %ld [stapprobes]"
+-+msgid "Collapsing unresolved @define to %lld [stapprobes]"
+- msgstr "Zahazuji kontrolu '@defined' bez vedlejších účinků "
 - 
--diff --git a/gdk-pixbuf-loader/meson_install.py b/gdk-pixbuf-loader/meson_install.py
--index ff003350f..d9bbbe433 100644
----- a/gdk-pixbuf-loader/meson_install.py
--+++ b/gdk-pixbuf-loader/meson_install.py
--@@ -6,29 +6,28 @@ import os
-- import subprocess
-- import sys
+- #: elaborate.cxx:5127
+-diff --git a/po/en.po b/po/en.po
+-index 8847639e8..1db2292bd 100644
+---- a/po/en.po
+-+++ b/po/en.po
+-@@ -2050,7 +2050,7 @@ msgstr ""
 - 
---argparse = ArgumentParser('Deploy loaders.cache')
---
---argparse.add_argument('--gdk-pixbuf-moduledir', type=Path)
---argparse.add_argument('gdk_pixbuf_queryloaders', type=Path)
---argparse.add_argument('gdk_pixbuf_cache_file', type=Path)
---argparse.add_argument('--show-cross-message', action='store_true')
---
-- if __name__ == '__main__':
--+    argparse = ArgumentParser(description='Deploy loaders.cache. Pass required paths, or --show-cross-message.')
--+    argparse.add_argument('--queryloaders', type=Path, metavar="PATH", help="gdk-pixbuf-queryloaders to run")
--+    argparse.add_argument('--moduledir', type=Path, metavar="PATH", help="installed gdk-pixbuf module directory")
--+    argparse.add_argument('--cache-file', type=Path, metavar="PATH", help="module cache file to write")
--+    argparse.add_argument('--show-cross-message', action='store_true', help="tell the user to run query-loaders manually")
--     args = argparse.parse_args()
+- #: elaborate.cxx:5119
+- #, c-format
+--msgid "Collapsing unresolved @define to %ld [stapprobes]"
+-+msgid "Collapsing unresolved @define to %lld [stapprobes]"
+- msgstr ""
 - 
---    cache_file: Path = args.gdk_pixbuf_cache_file
--+    if not(args.show_cross_message or (args.queryloaders and args.moduledir and args.cache_file)):
--+        argparse.print_help()
--+        sys.exit(1)
+- #: elaborate.cxx:5127
+-diff --git a/po/fr.po b/po/fr.po
+-index b8677707b..55e409919 100644
+---- a/po/fr.po
+-+++ b/po/fr.po
+-@@ -2090,7 +2090,7 @@ msgstr ""
 - 
--     if args.show_cross_message or os.environ.get("DESTDIR"):
--         print('*** Note: Please run gdk-pixbuf-queryloaders manually ' +
--               'against the newly-built gdkpixbuf-svg loader', file=sys.stderr)
--     else:
--         env = os.environ.copy()
---        env['GDK_PIXBUF_MODULEDIR'] = Path(args.gdk_pixbuf_moduledir).as_posix()
---        with cache_file.open('w', encoding='utf-8') as f:
--+        env['GDK_PIXBUF_MODULEDIR'] = args.moduledir.as_posix()
--+        with args.cache_file.open('w', encoding='utf-8') as f:
--             subprocess.run(
---                [Path(args.gdk_pixbuf_queryloaders).as_posix()],
--+                [args.queryloaders.as_posix()],
--                 env=env,
--                 stdout=f,
--                 check=True
--             )
---
+- #: elaborate.cxx:5119
+- #, c-format
+--msgid "Collapsing unresolved @define to %ld [stapprobes]"
+-+msgid "Collapsing unresolved @define to %lld [stapprobes]"
+- msgstr ""
+- 
+- #: elaborate.cxx:5127
+-diff --git a/po/pl.po b/po/pl.po
+-index e3b6700ee..0b35880c1 100644
+---- a/po/pl.po
+-+++ b/po/pl.po
+-@@ -1977,7 +1977,7 @@ msgstr ""
+- 
+- #: elaborate.cxx:5119
+- #, c-format
+--msgid "Collapsing unresolved @define to %ld [stapprobes]"
+-+msgid "Collapsing unresolved @define to %lld [stapprobes]"
+- msgstr ""
+- 
+- #: elaborate.cxx:5127
+-diff --git a/po/systemtap.pot b/po/systemtap.pot
+-index 32ddb2290..4ec0d9a8c 100644
+---- a/po/systemtap.pot
+-+++ b/po/systemtap.pot
+-@@ -1973,7 +1973,7 @@ msgstr ""
+- 
+- #: elaborate.cxx:5119
+- #, c-format
+--msgid "Collapsing unresolved @define to %ld [stapprobes]"
+-+msgid "Collapsing unresolved @define to %lld [stapprobes]"
+- msgstr ""
+- 
+- #: elaborate.cxx:5127
 --- 
--2.43.0
+-2.45.0
 -
--
--From 85e11b2c1c6b2a27949a0e3e883c01e4b48060e0 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Mon, 11 May 2026 12:46:08 +0100
--Subject: [PATCH 2/2] gdk-pixbuf-loader: fix install logic in cross builds
--
--The logic in this install rule was getting complicated, but it should be
--quite simple really:
--
--- In native builds we can run host binaries.  Look for the
--  gdk-pixbuf-query-loaders tool and run it when installing.
--- In cross builds we might be able to run host binaries, if an executable
--  wrapper has been set _and_ if the target sysroot contains executables.
--
--The presence of target executables isn't a given, as some systems (such
--as OpenEmbedded) strip the target sysroot down to headers are libraries.
--
--So the logic should be:
--
--- In native builds, look for query-loaders and fail if not found.
--- In cross builds where you can run host binaries, look for query-loaders
--  but allow it to be missing.
--- In cross builds where you cannot run host binaries, there's no use in
--  looking for query-loaders.
--
--Then either pass the paths or --show-cross-message to meson_install.py,
--depending on whether query-loaders was found or not.
--
--This fixes the case where Meson can run host executables, but the target
--sysroot does not actually contain gdk-pixbuf-query-loaders.
-----
-- gdk-pixbuf-loader/meson.build | 28 +++++++++++++---------------
-- 1 file changed, 13 insertions(+), 15 deletions(-)
--
--diff --git a/gdk-pixbuf-loader/meson.build b/gdk-pixbuf-loader/meson.build
--index c7c017978..4f88ba037 100644
----- a/gdk-pixbuf-loader/meson.build
--+++ b/gdk-pixbuf-loader/meson.build
--@@ -37,23 +37,21 @@ pixbuf_thumbnailer = configure_file(
-- )
-- 
-- if meson.can_run_host_binaries()
---  gdk_pixbuf_query_loaders = find_program(pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_query_loaders', default_value: 'gdk-pixbuf-query-loaders')).path()
---else
---  gdk_pixbuf_query_loaders = pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_query_loaders', pkgconfig_define: ['prefix', prefix])
--+  gdk_pixbuf_query_loaders = find_program(pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_query_loaders', default_value: 'gdk-pixbuf-query-loaders'), required: not meson.is_cross_build())
-- endif
-- 
---pixbufloader_svg_install_args = [
---  '--moduledir',
---  pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_moduledir', pkgconfig_define: ['prefix', prefix]),
---  '--queryloaders',
---  gdk_pixbuf_query_loaders,
---  '--cache-file',
---  pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_cache_file', pkgconfig_define: ['prefix', prefix])
---]
---
---# Tell people to run gdk-pixbuf-query-loaders manually for cross builds
---if not meson.can_run_host_binaries()
---  pixbufloader_svg_install_args += '--show-cross-message'
--+if meson.can_run_host_binaries() and gdk_pixbuf_query_loaders.found()
--+  pixbufloader_svg_install_args = [
--+    '--moduledir',
--+    pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_moduledir', pkgconfig_define: ['prefix', prefix]),
--+    '--queryloaders',
--+    gdk_pixbuf_query_loaders.full_path(),
--+    '--cache-file',
--+    pixbuf_dep.get_variable(pkgconfig: 'gdk_pixbuf_cache_file', pkgconfig_define: ['prefix', prefix])
--+  ]
--+else
--+  # Tell people to run gdk-pixbuf-query-loaders manually for cross builds
--+  pixbufloader_svg_install_args = ['--show-cross-message']
-- endif
-- 
-- meson.add_install_script(
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch b/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
+index 7d35f76b29..894cd3b407 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
+@@ -1,4 +1,4 @@
+-From 6288ba5df0a8c73ef842b609081449ac4de86123 Mon Sep 17 00:00:00 2001
++From 06522edad080caa76f5abc8586fe5baf3b620f16 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Wed, 18 Jul 2018 16:58:33 +0800
+ Subject: [PATCH] improve reproducibility for c++ compiling
+@@ -13,10 +13,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  stringtable.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-Index: git/stringtable.h
+-===================================================================
+---- git.orig/stringtable.h
+-+++ git/stringtable.h
++diff --git a/stringtable.h b/stringtable.h
++index aef564824..a04888f3c 100644
++--- a/stringtable.h
+++++ b/stringtable.h
+ @@ -23,7 +23,7 @@
+  
+  #if 0 && defined(HAVE_BOOST_UTILITY_STRING_REF_HPP)
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-address-ncurses-6.3-failures.patch b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-address-ncurses-6.3-failures.patch
+index 1decf21593..59c0e8a7fd 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-address-ncurses-6.3-failures.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-address-ncurses-6.3-failures.patch
+@@ -1,4 +1,4 @@
+-From 191f528da19193d713d94ee252e2485efd9af4d3 Mon Sep 17 00:00:00 2001
++From 7672d0e398b29a52f59a1a0cbb75d4d07bd5f975 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Mon, 25 Oct 2021 17:59:24 +0200
+ Subject: [PATCH] staprun: address ncurses 6.3 failures
+@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 12 insertions(+), 12 deletions(-)
+ 
+ diff --git a/staprun/monitor.c b/staprun/monitor.c
+-index 478634c09..f4fbfd686 100644
++index 851ee14c4..7d83a3846 100644
+ --- a/staprun/monitor.c
+ +++ b/staprun/monitor.c
+-@@ -448,12 +448,12 @@ void monitor_render(void)
++@@ -453,12 +453,12 @@ void monitor_render(void)
+        if (active_window == 0)
+          wattron(status, A_BOLD);
+        wprintw(status, "\n%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%s\n",
+@@ -32,7 +32,7 @@ index 478634c09..f4fbfd686 100644
+                HIGHLIGHT("name", p_name, comp_fn_index));
+        if (active_window == 0)
+          wattroff(status, A_BOLD);
+-@@ -466,17 +466,17 @@ void monitor_render(void)
++@@ -471,17 +471,17 @@ void monitor_render(void)
+            json_object *probe, *field;
+            probe = json_object_array_get_idx(jso_probe_list, i);
+            json_object_object_get_ex(probe, "index", &field);
+@@ -56,6 +56,3 @@ index 478634c09..f4fbfd686 100644
+            getyx(status, discard, cur_x);
+            json_object_object_get_ex(probe, "name", &field);
+            wprintw(status, "%.*s", max_cols-cur_x-1, json_object_get_string(field));
 --- 
--2.43.0
+-2.20.1
 -
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.62.2.bb b/meta/recipes-gnome/librsvg/librsvg_2.62.3.bb
-similarity index 97%
-rename from meta/recipes-gnome/librsvg/librsvg_2.62.2.bb
-rename to meta/recipes-gnome/librsvg/librsvg_2.62.3.bb
-index 8c2623468d..b54371a194 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.62.2.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.62.3.bb
-@@ -25,9 +25,8 @@ require ${BPN}-crates.inc
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch
+index e2f8b3b057..8273e34b57 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch
+@@ -1,4 +1,4 @@
+-From 3e13a006fe3dff9489269274093bf868532036e2 Mon Sep 17 00:00:00 2001
++From 3483d0bc400eb618add607097027eafb075722f4 Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Tue, 5 Sep 2017 16:02:55 -0700
+ Subject: [PATCH] staprun/stapbpf: don't support installing a non-root
+@@ -10,15 +10,14 @@ the binaries.
+ Upstream-Status: Inappropriate [Embedded]
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ ---
+- stapbpf/Makefile.am | 14 +++++++-------
+- staprun/Makefile.am | 12 ++++++------
+- 2 files changed, 13 insertions(+), 13 deletions(-)
++ stapbpf/Makefile.am | 12 ++++++------
++ 1 file changed, 6 insertions(+), 6 deletions(-)
  
- SRC_URI += "file://0001-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch \
-             file://0001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch \
--            file://cross-query-loaders.patch \
-             file://run-ptest"
--SRC_URI[archive.sha256sum] = "c0c1367e381e1ae4842a78f1b57c656ff19b25637e3a6527cb44ae5a1cc68d65"
-+SRC_URI[archive.sha256sum] = "7eb449b2722a768021356f66dfee3202c229b54ed4e6a70ce40c090e97ff16f2"
+-Index: git/stapbpf/Makefile.am
+-===================================================================
+---- git.orig/stapbpf/Makefile.am
+-+++ git/stapbpf/Makefile.am
+-@@ -41,10 +41,10 @@
++diff --git a/stapbpf/Makefile.am b/stapbpf/Makefile.am
++index 4bd116bc3..e06d0801b 100644
++--- a/stapbpf/Makefile.am
+++++ b/stapbpf/Makefile.am
++@@ -40,10 +40,10 @@ git_version.stamp ../git_version.h:
+  
+  # Why the "id -u" condition?  This way, an unprivileged user can run
+  # make install, and have "sudo stap ...." or "sudo stapbpf ...." work later.
+diff --git a/meta/recipes-kernel/systemtap/systemtap/readline.patch b/meta/recipes-kernel/systemtap/systemtap/readline.patch
+index d7afc800cd..f452188179 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/readline.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/readline.patch
+@@ -1,4 +1,7 @@
+-configure: add option to enable/disable readline
++From ee20cb1c1ca0337c56087934efbd66ba30d2d5c3 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Mon, 13 Apr 2026 11:28:39 +0100
++Subject: [PATCH] configure: add option to enable/disable readline
  
- UPSTREAM_CHECK_REGEX = "librsvg-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ Add an option to control explicitly whether systemtap will look for and
+ use readline, for reproducible builds.
+@@ -10,11 +13,14 @@ not be used.
  
+ Upstream-Status: Submitted [https://sourceware.org/pipermail/systemtap/2026q2/028333.html]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ configure.ac | 67 +++++++++++++++++++++++++++++-----------------------
++ 1 file changed, 38 insertions(+), 29 deletions(-)
+ 
+-diff --git i/configure.ac w/configure.ac
+-index 6fb99da40..01457bafb 100644
+---- i/configure.ac
+-+++ w/configure.ac
++diff --git a/configure.ac b/configure.ac
++index 6fb99da40..2ec72e85a 100644
++--- a/configure.ac
+++++ b/configure.ac
+ @@ -525,38 +525,47 @@ AC_CHECK_HEADERS([rpm/rpmcrypto.h], [
+                        have_rpmcrypto_h=yes
+  		      AC_MSG_NOTICE([separate rpm/rpmcrypto.h])])
+@@ -23,7 +29,7 @@ index 6fb99da40..01457bafb 100644
+ -dnl
+ -dnl First save the orignal value of LIBS.
+ -LIBS_no_readline=$LIBS
+- 
++-
+ -dnl Check how for readline presence and how to link with it. On some
+ -dnl systems you need to add a termcap compatible library.
+ -have_libreadline="no"
+@@ -31,6 +37,7 @@ index 6fb99da40..01457bafb 100644
+ -for libtermcap in "" tinfo ncursesw ncurses curses termcap; do
+ -  if test -z "$libtermcap"; then
+ -    READLINE_LIBS="-lreadline"
+++
+ +AC_ARG_WITH([readline],
+ +  AS_HELP_STRING([--without-readline],[disable use of readline]), [], [with_readline="check"])
+ +
+@@ -66,17 +73,17 @@ index 6fb99da40..01457bafb 100644
+ +    READLINE_LIBS=""
+    else
+ -    READLINE_LIBS="-lreadline -l$libtermcap"
+-+    AC_MSG_RESULT([$READLINE_LIBS])
+-+    AC_DEFINE(HAVE_LIBREADLINE, [1],
+-+        [Define if you have the readline library (-lreadline).])
+-   fi
++-  fi
+ -  LIBS="$READLINE_LIBS $LIBS_no_readline"
+ -  AC_LINK_IFELSE(
+ -    [AC_LANG_CALL([],[readline])],
+ -    [have_libreadline="yes"])
+ -  if test "$have_libreadline" = "yes"; then
+ -    break
+--  fi
+++    AC_MSG_RESULT([$READLINE_LIBS])
+++    AC_DEFINE(HAVE_LIBREADLINE, [1],
+++        [Define if you have the readline library (-lreadline).])
++   fi
+ -done
+ -if test "$have_libreadline" = "no"; then
+ -  AC_MSG_RESULT([none])
+diff --git a/meta/recipes-kernel/systemtap/systemtap_5.4.bb b/meta/recipes-kernel/systemtap/systemtap_5.5.bb
+similarity index 100%
+rename from meta/recipes-kernel/systemtap/systemtap_5.4.bb
+rename to meta/recipes-kernel/systemtap/systemtap_5.5.bb
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index a18381a56d..7845905d10 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -5,11 +5,10 @@ SRC_URI = "git://sourceware.org/git/systemtap.git;protocol=https;branch=master;t
+            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
+            file://0001-Install-python-modules-to-correct-library-dir.patch \
+            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
+-           file://0001-elaborate.cxx-fix-32-bit-build.patch \
+            file://readline.patch \
+            "
+ 
+-SRCREV = "911a1354aac264651fda932061e7f20d2ecc2471"
++SRCREV = "90b164cf106ef16f873ab58c8c6f653718bb6e17"
+ 
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips|riscv64|riscv32).*-linux'
+ COMPATIBLE_HOST:libc-musl = 'null'
 -- 
 2.47.3
 
