@@ -2,321 +2,257 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BAACCD98F2
-	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 14:12:35 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43301.1781878348992392459
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F1C2CDB46F
+	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 15:30:06 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.9])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.45013.1781883003644422553
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jun 2026 07:12:29 -0700
+ Fri, 19 Jun 2026 08:30:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=Fnv1qTH7;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D85FE2938
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 07:12:23 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 26CF53F62B
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 07:12:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1781878348; bh=WxXjXgY5rgl7CdNTRh4i+BjGHoI61pb8CoM1podO0/8=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Fnv1qTH7aG5d3z0C/AlGLm/1efoBJvuBfTHPIbHmBcwC2J7Mts52P1HsEuePrFFjj
-	 nfsaF1Nc/JxEt+JKmPWH/x0AdcxvxZHHCtZ8X/T0kxccwrBU8vYHgohu6KynftD5Fu
-	 tKW4jG/G2bijq46bSrCKrp/Z1oOKmp18in9M6ouc=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH 2/2] classes/archiver: remove SRPM mode
-Date: Fri, 19 Jun 2026 15:12:22 +0100
-Message-ID: <20260619141222.4097163-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260619141222.4097163-1-ross.burton@arm.com>
-References: <20260619141222.4097163-1-ross.burton@arm.com>
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=Qk0bCxXr;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=Qk0bCxXr;
+ spf=pass (domain: arm.com, ip: 52.101.66.9, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=iq/PS53dh/XilbSaN87qLs1v4mRLtPwLaKobgjOQlP4mCTa5xqDBv4C+Pw5ooTPFZBdkD9FcFMKABYS5l/Qu6YHYFneuexIUrCJiwoWYNVjKBOU5RtjGN0d9iZ4TuZKrsKEQeuQYuKnJC/ldfLd/kmI9MkFCDAeP4jjzx9rj2h5oSdx4/uC4zF7pQIUfPE9553WEmgnzTYtfl88dSxxBzQcPCTh8WAJUb68kakoknpPQ2BAdnvffYTBBZc+6w0G7BcbSusWoKaTVb52b5gK/gBMQJD8Qto6B2LL4+MFeZQNoxpkM4Y+dTBoh5jSdedQdyJ+7ZKHN87Q1f/9LMk16vw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9MfgO1iWCScC8ttnIdkBLSkaugNQWsKtM1Ou3NI2iyM=;
+ b=fVjJT08svMPtyTHx05agpyfzKbdNXYz9RS0IKDWTmS2WjTOAP9NIWpMssNvsy5x3C7WH8YPxgGdmjqCWRqS5nTAlOSPmmXzpR9f6k/ZlkGhqfwykXUbUSu2Kqocnk5wuisoAQagENE3WWudSmqyn6VYHccOYUfQNu8T1d8JdBx/lT4Vi6ftDUc/NrR7xKsG52siShy5LaKErIbt5fIz6Ys1qAcCt2cdhN1dpqNhZ6wFtmqcErfH6gjfR/Hc5KwX3Jp03OpVTR3K9q2RlzKqLe7J3AjT9o18Suq4mqHm2IvmftOawriHeTBM2cOF/oS9R1sfzeipwuo7IsJjp0W9BfA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=axis.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9MfgO1iWCScC8ttnIdkBLSkaugNQWsKtM1Ou3NI2iyM=;
+ b=Qk0bCxXrKcOvxoI3xCao0j3gWgV4OTiIvqnv6I7IU0FX6PjXJ5LLX9cTyArJsPJHFYp5p48vM9cjFhjUYA6GtU1guvCqLGwOBDJZlK8FaRz3rgfCX6Blx8DeuXCX8Rlom4pUbdu/tzwkCYUEuhXGknpfu0vNMS9yhzfqTHt7VEA=
+Received: from DUZPR01CA0125.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bc::17) by GVXPR08MB11422.eurprd08.prod.outlook.com
+ (2603:10a6:150:2e4::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Fri, 19 Jun
+ 2026 15:29:54 +0000
+Received: from DB5PEPF00014B8A.eurprd02.prod.outlook.com
+ (2603:10a6:10:4bc:cafe::12) by DUZPR01CA0125.outlook.office365.com
+ (2603:10a6:10:4bc::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.16 via Frontend Transport; Fri,
+ 19 Jun 2026 15:29:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB5PEPF00014B8A.mail.protection.outlook.com (10.167.8.198) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.8
+ via Frontend Transport; Fri, 19 Jun 2026 15:29:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ug4i6wDC958W7y5e6etJnWyD8Ld7Nwhox0+Q97fYBQhl+mQlsj/mXXX7v7kf7eWakpzAe7Ep0G1vlUTqLpIKWRRG1uGtGdZk31PvU0rV/4jJhe1HDG8eyAeFnQy/aUdbxnFZikPURJBWqEjugfvfSmE+lE999gN0i3B+gEu/c8cEahf67rO3Nct6uED/cZAeWtvjfsYMzux4NoiASRVBYyCTf/p26+SoO+TGp242F2bHVXOTmPOYJntzmOmyE4eXsh1RIkgfl8nNLdfqsMYTsQnvSxNqH05tkCEp09GuUdQDPs6lcxiph46XAg6RkMeQoXrHBSfU+FPjHdAsJWQgoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9MfgO1iWCScC8ttnIdkBLSkaugNQWsKtM1Ou3NI2iyM=;
+ b=VF7wncxCAK5UhyOMXfs+GAUqc8JkzvT5TgVZ6BVSc1X7yPnyd75Ee/zqJrtf1kQcoOK53SfJB+0lFYMwrz27iUm+N2Su2XKUKXDv+kXbSZyzWj0oR7wEp0uoEvkeED8FkXoFDq7tk+GAjWNjFLTz8+/sUwsUxKkb0bb5lTnJu6cbb0WiEzTCaFx2RqKPRwMtvl7Jv7lqsf+M4BVTYJDs/WtEqY0vcuTu8D0i81iakQKaDkfD71YBXkJf1PcSlZlmxoI8xQPZHt1ViX94E8BbQXSEJyw1RwMaHU7aUPMPuS+L4HoEDkBDoGlfr8Ff1QYru9pqihmVmEobMLCdD4Nstg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9MfgO1iWCScC8ttnIdkBLSkaugNQWsKtM1Ou3NI2iyM=;
+ b=Qk0bCxXrKcOvxoI3xCao0j3gWgV4OTiIvqnv6I7IU0FX6PjXJ5LLX9cTyArJsPJHFYp5p48vM9cjFhjUYA6GtU1guvCqLGwOBDJZlK8FaRz3rgfCX6Blx8DeuXCX8Rlom4pUbdu/tzwkCYUEuhXGknpfu0vNMS9yhzfqTHt7VEA=
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
+ by DU0PR08MB9077.eurprd08.prod.outlook.com (2603:10a6:10:471::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.13; Fri, 19 Jun
+ 2026 15:28:50 +0000
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.21.0139.009; Fri, 19 Jun 2026
+ 15:28:50 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "peter.kjellerstedt@axis.com" <peter.kjellerstedt@axis.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 3/3] archiver.bbclass: Add
+ ARCHIVER_MIRROR_INCLUDE
+Thread-Topic: [OE-core] [PATCH 3/3] archiver.bbclass: Add
+ ARCHIVER_MIRROR_INCLUDE
+Thread-Index: AQHc92+7HycwSNQ7UkObH8O4D/iN8LZGEbuA
+Date: Fri, 19 Jun 2026 15:28:49 +0000
+Message-ID: <94ED7DB5-3D09-48B1-A1F3-347D9F7CC720@arm.com>
+References: <20260608175259.3238900-1-pkj@axis.com>
+ <20260608175259.3238900-3-pkj@axis.com>
+In-Reply-To: <20260608175259.3238900-3-pkj@axis.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3864.600.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM9PR08MB6258:EE_|DU0PR08MB9077:EE_|DB5PEPF00014B8A:EE_|GVXPR08MB11422:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5ba24719-2112-42a3-0859-08dece179c8c
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|23010399003|4022899009|376014|366016|1800799024|56012099006|11063799006|22082099003|18002099003|4143699003|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ Zljw7k9pTDubBddHXWmf4DAJVL6K4AbYCczp43DsoSS+DE2oK9kRa0XfOUwsHGTuDJux6yrnUiLT5h9mPQIXXuTCXyYjhbXXhyQWDZA744ZLYz6pbr/PgIimc2FjIJr8NKH/TB/hMY1haxz7a+OhUQS+HGxDtKcGw/B/6iyCNlf3DuKZygHAI4j5s4em/TUA4uwBKB1Rjic6dJVvynFraYpu4WNK+71G2ybGpPzTJUCVo6LEzreThWmqdmyQRu/Bk+XEVQ2+G2TthvF2lozG5p3iqO/tOabJZ9ghLwDjPdZfSMcPqaH+wLIqEB3kOBQM/OSvU4DZ+fXuuhwjwHmwTcGvOx9P0mBzvgGNwxRG/I3+tvuskEnqD923hTXRw/jzK4O4o79nAYuZ4/Trsidz81r9VTiVUfgb2BVyYkIFZL3p/9MEdHV919SNcZ2/LiAyHwGDP+6OsRu1z7rbwzZDZ+uohc5BQ1DklkTxxr3lLBtyh3dTIX/aPQApvMukiptdExDZCemhgwGmy7rPzc2ZpeTSISeP+AQCUnoBRO83XNjtRXStLXcnSxsFHP4vcVkKubX7/4ZMZbK8fo7L84cJOcnwPSYQl9aKnbNHOjt508BK0/fMBmGtaZZX9/TlsBCh9CQitdJJsqTmJZH1uL5PQZwWB23lVwxSuvK0gZNihdo=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(4022899009)(376014)(366016)(1800799024)(56012099006)(11063799006)(22082099003)(18002099003)(4143699003)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A6A0DDF24FD35248A80AEC91E1473E50@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-Exchange-RoutingPolicyChecked: 
+ owNOVARFPMWmEkwBX3QAN3jyGkEv43wrnsZ+1ixuUwWk313NiUSkj8B55wwTGkwtkLUdFK58BnEKQwRiIDs0dbcIDqZo0oa0JcHABnSw2xLxvq6V/HT9eFJaXdWvP3T0FqUo6jEf+RinmlBnSA+djCBXcutDxfWO+psefbDhF7odZPIdtBUUfk66qTuWwsIz2zjm8X4rZ5a8LSwxNBa5PciO+2J2cTs+hBj8Z0DR2WnVD5Z9aWTdwbcRHfWb4rhy9Lct8wWfvo7sCFEswi6JAstkxk2ADfVeQx+6xsGXID3Y/l3NWLlAt0sbaWDq6/1kB8SKRnSmlTNWAfN8MQrW8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9077
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5PEPF00014B8A.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	e9588f72-98bb-4e65-d3dc-08dece177675
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|82310400026|35042699022|36860700016|23010399003|376014|1800799024|14060799003|4022899009|13003099007|22082099003|18002099003|11063799006|56012099006|4143699003;
+X-Microsoft-Antispam-Message-Info: 
+	deOgCr9l2DChOr45OmAMqtO++95+uXhrvaAg2UiiWts4hJuWse4JdGrsq8ln8lMqgOloCLgYOwoiwVpr3DNej3rS29jl1B8+YbfGHci8LB2OONRSc3CquA11K0JawCuT+0a1pD8FN9sUkkyAMiFTEj0u64ab5NXC5z43QqzVVDWrQLhHUItIqvZHLCQax9awemc7jJybzEnLw3UIk3dSMg6wp5f64OzEGInEoIW8sgZl6QVHdYiQooe/HqjDwB5kg9A7InT8zXUGinyx2YgLCI5Mt2lsVveULPj7+VSkM9NCervixVVJqMspMyTRQwUJuhq/RAAgA1vqelmiFVyM7QoQ6wWDsEVMTFMa6s/yZ/rcSed4+5IaQ88qsQ1OaCNbkDMm/qiCMgJb1U1eYv99A5mH2AW2cxrDjSWCRSsS7PIxB5nlGymdwD7i44z+mTZyYb73HwX2SXPT/kj1GUV6IJLGSF3FYv1LP38qZoEP6+2FobP2NRitgFqi4YB303Oe3xU9HNA8ltTLiLOWYiyde5jjvuqiqXT9ZueXgxcVnQX6/CXV0+LtDom3UJwvTXwacCwIg7yPaSGeISD3qk5DjkgvGREA5yWZtA7HnVUzOsfC67FZ0p8GfypDRwI5jqSIvZBZElkPj+6DRgh7kuQGKA==
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35042699022)(36860700016)(23010399003)(376014)(1800799024)(14060799003)(4022899009)(13003099007)(22082099003)(18002099003)(11063799006)(56012099006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	Y6n9oVe2dNh2bJjwt2c8aUD1w3PGGg7LneV6yhmXgHs0INuMK4jW2t2ZaEa83Ccob7QUTa+ZWfX1Ur25SS73VCGhWhTFjKf9Gwg0VG1QikTbX+xyPPyTHHXFu0FqaUdwYeyhq4J7j0E1OFtTq5Sgt8z94S7a6K6YPgCBH7COLuFdSgJHEzDl5OyqE7fVFRjND8qDGAysqEUz/MhmQrkE5Gf+uLfIWhGk7AKOJB2qIRNjRJmUHyB7rGiaW9pKYtareU9T0QiiWbqgPMWNdWtOPTcojB2ntS1ubiJVYXJE7yFvv32PdSNqvss09821nOd3g6fUgSDOW61MV4vHU2E1JSUCxRYDfSxGK+2U1mdk7BrDNf2CSam7Mar82n9GovsN4gyhNVgH8B6E5QL/ixslAEhQnpLW6gd+60zmEum9ojXGKwShx3Ctx3KDxuJNIU7C
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2026 15:29:53.8631
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ba24719-2112-42a3-0859-08dece179c8c
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B8A.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB11422
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 14:12:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239178
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 15:30:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239179
 
-The archiver supports saving the source code in either a tarball or a
-Source RPM (SRPM).  Tarballs are a logical choice as they're a standard
-format for source code, but SRPMs are primarily a way to distribute
-source plus packaging scripts for RPM-based distributions, and the SRPMs
-generated by the archiver do not include any packaging scripts.
-
-This can result in confusion when people may think that you can take the
-SRPM generated by the archiver and rebuild it with rpmbuild, whereas this
-will not work.
-
-I think we should remove the SRPM mode from the archiver on the grounds
-that tarballs are idiomatic for sharing software, and SRPMs are actively
-confusing.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes-global/package_rpm.bbclass       | 43 -------------------
- meta/classes/archiver.bbclass                 | 28 ------------
- .../default/local.conf.sample.extended        |  7 +--
- meta/lib/oeqa/selftest/cases/archiver.py      | 12 ------
- meta/lib/oeqa/selftest/cases/buildoptions.py  |  4 +-
- 5 files changed, 3 insertions(+), 91 deletions(-)
-
-diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-globa=
-l/package_rpm.bbclass
-index f383ed140e6..9eacd91cbc3 100644
---- a/meta/classes-global/package_rpm.bbclass
-+++ b/meta/classes-global/package_rpm.bbclass
-@@ -101,34 +101,6 @@ python write_specfile () {
-     import oe.packagedata
-     import os,pwd,grp,stat
-=20
--    # append information for logs and patches to %prep
--    def add_prep(d, spec_files_bottom):
--        if d.getVarFlag('ARCHIVER_MODE', 'srpm') =3D=3D '1' and bb.data.=
-inherits_class('archiver', d):
--            spec_files_bottom.append('%%prep')
--            spec_files_bottom.append('%s' % "echo \"include logs and pat=
-ches, Please check them in SOURCES\"")
--            spec_files_bottom.append('')
--
--    # append the name of tarball to key word 'SOURCE' in xxx.spec.
--    def tail_source(d):
--        if d.getVarFlag('ARCHIVER_MODE', 'srpm') =3D=3D '1' and bb.data.=
-inherits_class('archiver', d):
--            ar_outdir =3D d.getVar('ARCHIVER_OUTDIR')
--            if not os.path.exists(ar_outdir):
--                return
--            source_list =3D os.listdir(ar_outdir)
--            source_number =3D 0
--            for source in source_list:
--                # do_deploy_archives may have already run (from sstate) =
-meaning a .src.rpm may already
--                # exist in ARCHIVER_OUTDIR so skip if present.
--                if source.endswith(".src.rpm"):
--                    continue
--                # The rpmbuild doesn't need the root permission, but it =
-needs
--                # to know the file's user and group name, the only user =
-and
--                # group in fakeroot is "root" when working in fakeroot.
--                f =3D os.path.join(ar_outdir, source)
--                os.chown(f, 0, 0)
--                spec_preamble_top.append('Source%s: %s' % (source_number=
-, source))
--                source_number +=3D 1
--
-     # In RPM, dependencies are of the format: pkg <>=3D Epoch:Version-Re=
-lease
-     # This format is similar to OE, however there are restrictions on th=
-e
-     # characters that can be in a field.  In the Version field, "-"
-@@ -402,11 +374,6 @@ python write_specfile () {
-=20
-         # Gather special src/first package data
-         if srcname =3D=3D splitname:
--            archiving =3D d.getVarFlag('ARCHIVER_MODE', 'srpm') =3D=3D '=
-1' and \
--                        bb.data.inherits_class('archiver', d)
--            if archiving and srclicense !=3D splitlicense:
--                bb.warn("The SRPM produced may not have the correct over=
-all source license in the License tag. This is due to the LICENSE for the=
- primary package and SRPM conflicting.")
--
-             srclicense     =3D splitlicense
-             srcrdepends    =3D splitrdepends
-             srcrrecommends =3D splitrrecommends
-@@ -530,7 +497,6 @@ python write_specfile () {
-=20
-         del localdata
-=20
--    add_prep(d, spec_files_bottom)
-     spec_preamble_top.append('Summary: %s' % srcsummary)
-     spec_preamble_top.append('Name: %s' % srcname)
-     spec_preamble_top.append('Version: %s' % srcversion)
-@@ -544,7 +510,6 @@ python write_specfile () {
-         spec_preamble_top.append('URL: %s' % srchomepage)
-     if srccustomtagschunk:
-         spec_preamble_top.append(srccustomtagschunk)
--    tail_source(d)
-=20
-     # Replaces =3D=3D Obsoletes && Provides
-     robsoletes =3D bb.utils.explode_dep_versions2(srcrobsoletes)
-@@ -716,14 +681,6 @@ python do_package_rpm () {
-     cmd =3D cmd + " --define '_passwd_path " + "/completely/bogus/path" =
-+ "'"
-     cmd =3D cmd + " --define '_group_path " + "/completely/bogus/path" +=
- "'"
-     cmd =3D cmd + rpmbuild_extra_params
--    if d.getVarFlag('ARCHIVER_MODE', 'srpm') =3D=3D '1' and bb.data.inhe=
-rits_class('archiver', d):
--        cmd =3D cmd + " --define '_sourcedir " + d.getVar('ARCHIVER_OUTD=
-IR') + "'"
--        cmdsrpm =3D cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_=
-RPMOUTDIR') + "'"
--        cmdsrpm =3D cmdsrpm + " -bs " + outspecfile
--        # Build the .src.rpm
--        d.setVar('SBUILDSPEC', cmdsrpm + "\n")
--        d.setVarFlag('SBUILDSPEC', 'func', '1')
--        bb.build.exec_func('SBUILDSPEC', d)
-     cmd =3D cmd + " -bb " + outspecfile
-=20
-     # rpm 4 creates various empty directories in _topdir, let's clean th=
-em up
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclas=
-s
-index e27aee4e90a..3124b7040d4 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -17,8 +17,6 @@
- #  - The environment data, similar to 'bitbake -e recipe':
- #     ARCHIVER_MODE[dumpdata] =3D "1"
- #  - The recipe (.bb and .inc): ARCHIVER_MODE[recipe] =3D "1"
--#  - Whether output the .src.rpm package:
--#     ARCHIVER_MODE[srpm] =3D "1"
- #  - Filter the license, the recipe whose license in
- #    COPYLEFT_LICENSE_INCLUDE will be included, and in
- #    COPYLEFT_LICENSE_EXCLUDE will be excluded.
-@@ -48,7 +46,6 @@
- COPYLEFT_RECIPE_TYPES ?=3D 'target native nativesdk cross crosssdk cross=
--canadian'
- inherit copyleft_filter
-=20
--ARCHIVER_MODE[srpm] ?=3D "0"
- ARCHIVER_MODE[src] ?=3D "patched"
- ARCHIVER_MODE[diff] ?=3D "0"
- ARCHIVER_MODE[diff-exclude] ?=3D ".pc autom4te.cache patches"
-@@ -61,8 +58,6 @@ DEPLOY_DIR_SRC ?=3D "${DEPLOY_DIR}/sources"
- ARCHIVER_TOPDIR ?=3D "${WORKDIR}/archiver-sources"
- ARCHIVER_ARCH =3D "${TARGET_SYS}"
- ARCHIVER_OUTDIR =3D "${ARCHIVER_TOPDIR}/${ARCHIVER_ARCH}/${PF}/"
--ARCHIVER_RPMTOPDIR ?=3D "${WORKDIR}/deploy-sources-rpm"
--ARCHIVER_RPMOUTDIR =3D "${ARCHIVER_RPMTOPDIR}/${ARCHIVER_ARCH}/${PF}/"
- ARCHIVER_WORKDIR =3D "${WORKDIR}/archiver-work/"
-=20
- # When producing a combined mirror directory, allow duplicates for the c=
-ase
-@@ -154,29 +149,6 @@ python () {
-=20
-     if ar_recipe =3D=3D "1":
-         d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_reci=
-pe' % pn)
--
--    # Output the SRPM package
--    if d.getVarFlag('ARCHIVER_MODE', 'srpm') =3D=3D "1" and d.getVar('PA=
-CKAGES'):
--        if "package_rpm" not in d.getVar('PACKAGE_CLASSES'):
--            bb.fatal("ARCHIVER_MODE[srpm] needs package_rpm in PACKAGE_C=
-LASSES")
--
--        # Some recipes do not have any packaging tasks
--        if hasTask("do_package_write_rpm"):
--            d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_pac=
-kage_write_rpm' % pn)
--            d.appendVarFlag('do_package_write_rpm', 'dirs', ' ${ARCHIVER=
-_RPMTOPDIR}')
--            d.appendVarFlag('do_package_write_rpm', 'sstate-inputdirs', =
-' ${ARCHIVER_RPMTOPDIR}')
--            d.appendVarFlag('do_package_write_rpm', 'sstate-outputdirs',=
- ' ${DEPLOY_DIR_SRC}')
--            d.appendVar('PSEUDO_INCLUDE_PATHS', ',${ARCHIVER_TOPDIR}')
--            if ar_dumpdata =3D=3D "1":
--                d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:=
-do_dumpdata' % pn)
--            if ar_recipe =3D=3D "1":
--                d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:=
-do_ar_recipe' % pn)
--            if ar_src =3D=3D "original":
--                d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:=
-do_ar_original' % pn)
--            elif ar_src =3D=3D "patched":
--                d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:=
-do_ar_patched' % pn)
--            elif ar_src =3D=3D "configured":
--                d.appendVarFlag('do_package_write_rpm', 'depends', ' %s:=
-do_ar_configured' % pn)
- }
-=20
- do_ar_prepare[vardeps] +=3D " \
-diff --git a/meta/conf/templates/default/local.conf.sample.extended b/met=
-a/conf/templates/default/local.conf.sample.extended
-index 999a09dac1c..bb9807637c8 100644
---- a/meta/conf/templates/default/local.conf.sample.extended
-+++ b/meta/conf/templates/default/local.conf.sample.extended
-@@ -238,16 +238,13 @@
- # 6) the recipe (.bb and .inc):
- #ARCHIVER_MODE[recipe] =3D "1"
- #
--# 7) Whether output the .src.rpm package:
--#ARCHIVER_MODE[srpm] =3D "1"
--#
--# 8) Filter the license, the recipe whose license in
-+# 7) Filter the license, the recipe whose license in
- #    COPYLEFT_LICENSE_INCLUDE will be included, and in
- #    COPYLEFT_LICENSE_EXCLUDE will be excluded.
- #COPYLEFT_LICENSE_INCLUDE =3D 'GPL* LGPL*'
- #COPYLEFT_LICENSE_EXCLUDE =3D 'CLOSED Proprietary'
- #
--# 9) Config the recipe type that will be archived, the type can be
-+# 8) Config the recipe type that will be archived, the type can be
- #    target, native, nativesdk, cross, crosssdk and cross-canadian,
- #    you can set one or more types. Archive all types by default.
- #COPYLEFT_RECIPE_TYPES =3D 'target'
-diff --git a/meta/lib/oeqa/selftest/cases/archiver.py b/meta/lib/oeqa/sel=
-ftest/cases/archiver.py
-index 122d16b6557..8c5aa75e9b3 100644
---- a/meta/lib/oeqa/selftest/cases/archiver.py
-+++ b/meta/lib/oeqa/selftest/cases/archiver.py
-@@ -150,18 +150,6 @@ class Archiver(OESelftestTestCase):
-             'The task "%s" of the recipe "%s" has different signatures i=
-n "%s" for each machine in multiconfig' \
-             % (task, pn, locked_sigs_inc))
-=20
--    def test_archiver_srpm_mode(self):
--        """
--        Test that in srpm mode, the added recipe dependencies at least e=
-xist/work [YOCTO #11121]
--        """
--
--        features =3D 'INHERIT +=3D "archiver"\n'
--        features +=3D 'ARCHIVER_MODE[srpm] =3D "1"\n'
--        features +=3D 'PACKAGE_CLASSES =3D "package_rpm"\n'
--        self.write_config(features)
--
--        bitbake('-n selftest-nopackages selftest-ed')
--
-     def _test_archiver_mode(self, mode, target_file_name, extra_config=3D=
-None):
-         target =3D 'selftest-ed-native'
-=20
-diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa=
-/selftest/cases/buildoptions.py
-index d9d37ebc7fb..59145df0fd6 100644
---- a/meta/lib/oeqa/selftest/cases/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
-@@ -147,15 +147,13 @@ class ArchiverTest(OESelftestTestCase):
- INHERIT +=3D "archiver"
- PACKAGE_CLASSES =3D "package_rpm"
- ARCHIVER_MODE[src] =3D "original"
--ARCHIVER_MODE[srpm] =3D "1"
- """)
-         res =3D bitbake("xcursor-transparent-theme", ignore_status=3DTru=
-e)
-         self.assertEqual(res.status, 0, "\nCouldn't build xcursortranspa=
-renttheme.\nbitbake output %s" % res.output)
-         deploy_dir_src =3D get_bb_var('DEPLOY_DIR_SRC')
-         pkgs_path =3D g.glob(str(deploy_dir_src) + "/allarch*/xcurs*")
--        src_file_glob =3D str(pkgs_path[0]) + "/xcursor*.src.rpm"
-         tar_file_glob =3D str(pkgs_path[0]) + "/xcursor*.tar.xz"
--        self.assertTrue((g.glob(src_file_glob) and g.glob(tar_file_glob)=
-), "Couldn't find .src.rpm and .tar.xz files under %s/allarch*/xcursor*" =
-% deploy_dir_src)
-+        self.assertTrue(g.glob(tar_file_glob), "Couldn't find .tar.xz fi=
-les under %s/allarch*/xcursor*" % deploy_dir_src)
-=20
- class ToolchainOptions(OESelftestTestCase):
-     def test_toolchain_fortran(self):
---=20
-2.43.0
-
+T24gOCBKdW4gMjAyNiwgYXQgMTg6NTIsIFBldGVyIEtqZWxsZXJzdGVkdCB2aWEgbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZyA8cGV0ZXIua2plbGxlcnN0ZWR0PWF4aXMuY29tQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmc+IHdyb3RlOg0KPiANCj4gV2hlbiB1c2luZyB0aGUgYXJjaGl2ZXIncyBtaXJyb3Ig
+bW9kZSwgQVJDSElWRVJfTUlSUk9SX0lOQ0xVREUgY29udGFpbnMNCj4gYSBsaXN0IG9mIFVSSSBw
+cmVmaXhlcyB0byBhbHdheXMgaW5jbHVkZSBpbiB0aGUgbWlycm9yLiBUaGlzIG1heSBiZQ0KPiB1
+c2VmdWwgaWYgcmVjaXBlcyB0aGF0IGFyZSBpbmNsdWRlZCBpbiB0aGUgbWlycm9yIChkdWUgdG8g
+dGhlaXINCj4gbGljZW5zZXMpIGRlcGVuZCBvbiBzb21lIHJlY2lwZSB0aGF0IG90aGVyd2lzZSB3
+b3VsZCBub3QgYmUgaW5jbHVkZWQgaW4NCj4gdGhlIG1pcnJvciwgYW5kIHRoYXQgcmVjaXBlIHVz
+ZXMgZmlsZXMgdGhhdCBhcmUgbm9ybWFsbHkgb25seSBhdmFpbGFibGUNCj4gb24gYSBwcml2YXRl
+IHNlcnZlci4NCg0KVGhpcyBsb29rcyB1c2VmdWwsIGJ1dCBJIGRvbuKAmXQgc2VlIGFueSBkaXNj
+dXNzaW9uIG9mIHdobyB3aW5zIGlmIElOQ0xVREUgYW5kIEVYQ0xVREUgYm90aCBtYXRjaCBzb21l
+IHByZWZpeGVzLg0KDQpBbHNvIEnigJlkIGhhdmUgZXhwZWN0ZWQgdGhlIGltcGxlbWVudGF0aW9u
+IGZvciB0aGUgaW5jbHVkZSBhbmQgZXhjbHVkZSBsb2dpYyB0byBiZSBkb25lIGF0IHJvdWdobHkg
+dGhlIHNhbWUgcG9pbnQgaW4gdGhlIGNvZGUgYnV0IHRoaXMgZG9lc27igJl0IHNlZW0gdG8gYmUg
+dGhlIGNhc2UuIERvZXMgdGhlIGNvZGUgbmVlZCBzb21lIGdlbmVyYWwgcmVmYWN0b3JpbmcsIG9y
+IGlzIHRoZXJlIHNvbWUgY29tcGxleCBsb2dpYyByZXF1aXJlZCBkdWUgdG8gaG93IGl0IGhhcyB0
+byB3b3JrPw0KDQpDaGVlcnMsDQpSb3NzDQoNCj4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgS2plbGxl
+cnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+IC0tLQ0KPiBtZXRhL2NsYXNz
+ZXMvYXJjaGl2ZXIuYmJjbGFzcyAgICAgICAgICAgIHwgMzcgKysrKysrKysrKysrKysrKysrKysr
+Ky0tDQo+IG1ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvYXJjaGl2ZXIucHkgfCAyNCArKysr
+KysrKysrKysrKysNCj4gMiBmaWxlcyBjaGFuZ2VkLCA1OCBpbnNlcnRpb25zKCspLCAzIGRlbGV0
+aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9hcmNoaXZlci5iYmNsYXNz
+IGIvbWV0YS9jbGFzc2VzL2FyY2hpdmVyLmJiY2xhc3MNCj4gaW5kZXggYTNmODY4OWIxOS4uMDM1
+ZDBkY2UwZiAxMDA2NDQNCj4gLS0tIGEvbWV0YS9jbGFzc2VzL2FyY2hpdmVyLmJiY2xhc3MNCj4g
+KysrIGIvbWV0YS9jbGFzc2VzL2FyY2hpdmVyLmJiY2xhc3MNCj4gQEAgLTM1LDcgKzM1LDEzIEBA
+DQo+ICMgICAgIEFSQ0hJVkVSX01PREVbbWlycm9yXSA9ICJjb21iaW5lZCI6IEFsbCBzb3VyY2Vz
+IGFyZSBwbGFjZWQgaW50byBhIHNpbmdsZQ0KPiAjICAgICBkaXJlY3Rvcnkgc3VpdGFibGUgZm9y
+IGRpcmVjdCB1c2UgYXMgYSBtaXJyb3IuIER1cGxpY2F0ZSBzb3VyY2VzIGFyZQ0KPiAjICAgICBp
+Z25vcmVkLg0KPiAtIyAxMikgU291cmNlIG1pcnJvciBleGNsdXNpb25zOg0KPiArIyAxMikgU291
+cmNlIG1pcnJvciBpbmNsdXNpb25zOg0KPiArIyAgICAgQVJDSElWRVJfTUlSUk9SX0lOQ0xVREUg
+aXMgYSBsaXN0IG9mIFVSSSBwcmVmaXhlcyB0byBhbHdheXMgaW5jbHVkZSBpbg0KPiArIyAgICAg
+dGhlIG1pcnJvci4gVGhpcyBtYXkgYmUgdXNlZnVsIGlmIHJlY2lwZXMgdGhhdCBhcmUgaW5jbHVk
+ZWQgaW4gdGhlIG1pcnJvcg0KPiArIyAgICAgKGR1ZSB0byB0aGVpciBsaWNlbnNlcykgZGVwZW5k
+IG9uIHNvbWUgcmVjaXBlIHRoYXQgb3RoZXJ3aXNlIHdvdWxkIG5vdCBiZQ0KPiArIyAgICAgaW5j
+bHVkZWQgaW4gdGhlIG1pcnJvciwgYW5kIHRoYXQgcmVjaXBlIHVzZXMgZmlsZXMgdGhhdCBhcmUg
+bm9ybWFsbHkgb25seQ0KPiArIyAgICAgYXZhaWxhYmxlIG9uIGEgcHJpdmF0ZSBzZXJ2ZXIuDQo+
+ICsjIDEzKSBTb3VyY2UgbWlycm9yIGV4Y2x1c2lvbnM6DQo+ICMgICAgIEFSQ0hJVkVSX01JUlJP
+Ul9FWENMVURFIGlzIGEgbGlzdCBvZiBwcmVmaXhlcyB0byBleGNsdWRlIGZyb20gdGhlIG1pcnJv
+ci4NCj4gIyAgICAgVGhpcyBtYXkgYmUgdXNlZCBmb3Igc291cmNlcyB3aGljaCB5b3UgYXJlIGFs
+cmVhZHkgcHVibGlzaGluZyB5b3Vyc2VsZg0KPiAjICAgICAoZS5nLiBpZiB0aGUgVVJJIHN0YXJ0
+cyB3aXRoICdodHRwczovL215c2l0ZS5jb20vJyBhbmQgeW91ciBtaXJyb3IgaXMNCj4gQEAgLTc3
+LDggKzgzLDkgQEAgZG9fYXJfb3JpZ2luYWxbZGlyc10gPSAiJHtBUkNISVZFUl9PVVRESVJ9ICR7
+QVJDSElWRVJfV09SS0RJUn0iDQo+ICMgVGhpcyBpcyBhIGNvbnZlbmllbmNlIGZvciB0aGUgc2hl
+bGwgc2NyaXB0IHRvIHVzZSBpdA0KPiANCj4gZGVmIGluY2x1ZGVfcGFja2FnZShkLCBwbik6DQo+
+IC0NCj4gLSAgICBpbmNsdWRlZCwgcmVhc29uID0gY29weWxlZnRfc2hvdWxkX2luY2x1ZGUoZCkN
+Cj4gKyAgICBpbmNsdWRlZCwgcmVhc29uID0gYXJjaGl2ZXJfc2hvdWxkX2luY2x1ZGUoZCkNCj4g
+KyAgICBpZiBub3QgaW5jbHVkZWQ6DQo+ICsgICAgICAgIGluY2x1ZGVkLCByZWFzb24gPSBjb3B5
+bGVmdF9zaG91bGRfaW5jbHVkZShkKQ0KPiAgICAgaWYgbm90IGluY2x1ZGVkOg0KPiAgICAgICAg
+IGJiLmRlYnVnKDEsICdhcmNoaXZlcjogJXMgaXMgZXhjbHVkZWQ6ICVzJyAlIChwbiwgcmVhc29u
+KSkNCj4gICAgICAgICByZXR1cm4gRmFsc2UNCj4gQEAgLTk5LDYgKzEwNiwyOSBAQCBkZWYgaW5j
+bHVkZV9wYWNrYWdlKGQsIHBuKToNCj4gDQo+ICAgICByZXR1cm4gVHJ1ZQ0KPiANCj4gK2RlZiBh
+cmNoaXZlcl9zaG91bGRfaW5jbHVkZShkKToNCj4gKyAgICBhcl9zcmMgPSBkLmdldFZhckZsYWco
+J0FSQ0hJVkVSX01PREUnLCAnc3JjJykNCj4gKyAgICBpZiBhcl9zcmMgPT0gIm1pcnJvciI6DQo+
+ICsgICAgICAgIHNyY191cmkgPSAoZC5nZXRWYXIoJ1NSQ19VUkknKSBvciAnJykuc3BsaXQoKQ0K
+PiArICAgICAgICBpZiBsZW4oc3JjX3VyaSkgPT0gMDoNCj4gKyAgICAgICAgICAgIHJldHVybiBG
+YWxzZSwgTm9uZQ0KPiArDQo+ICsgICAgICAgIG1pcnJvcl9pbmNsdXNpb25zID0gKGQuZ2V0VmFy
+KCdBUkNISVZFUl9NSVJST1JfSU5DTFVERScpIG9yICcnKS5zcGxpdCgpDQo+ICsNCj4gKyAgICAg
+ICAgZGVmIGlzX2luY2x1ZGVkKHVybCk6DQo+ICsgICAgICAgICAgICBmb3IgcHJlZml4IGluIG1p
+cnJvcl9pbmNsdXNpb25zOg0KPiArICAgICAgICAgICAgICAgIGlmIHVybC5zdGFydHN3aXRoKHBy
+ZWZpeCk6DQo+ICsgICAgICAgICAgICAgICAgICAgIHJldHVybiBUcnVlDQo+ICsgICAgICAgICAg
+ICByZXR1cm4gRmFsc2UNCj4gKw0KPiArICAgICAgICBmZXRjaGVyID0gYmIuZmV0Y2gyLkZldGNo
+KHNyY191cmksIGQpDQo+ICsNCj4gKyAgICAgICAgZm9yIHVkIGluIGZldGNoZXIuZXhwYW5kZWRf
+dXJsZGF0YSgpOg0KPiArICAgICAgICAgICAgaWYgaXNfaW5jbHVkZWQodWQudXJsKToNCj4gKyAg
+ICAgICAgICAgICAgICByZXR1cm4gVHJ1ZSwgIlVSTCBtYXRjaGVzIEFSQ0hJVkVSX01JUlJPUl9J
+TkNMVURFIg0KPiArDQo+ICsgICAgcmV0dXJuIEZhbHNlLCBOb25lDQo+ICsNCj4gcHl0aG9uICgp
+IHsNCj4gICAgIHBuID0gZC5nZXRWYXIoJ1BOJykNCj4gICAgIGFzc3VtZV9wcm92aWRlZCA9IChk
+LmdldFZhcigiQVNTVU1FX1BST1ZJREVEIikgb3IgIiIpLnNwbGl0KCkNCj4gQEAgLTE4Miw2ICsy
+MTIsNyBAQCBweXRob24gKCkgew0KPiBkb19hcl9wcmVwYXJlW3ZhcmRlcHNdICs9ICIgXA0KPiAg
+ICAgQVJDSElWRVJfTU9ERSBcDQo+ICAgICBBUkNISVZFUl9NSVJST1JfRVhDTFVERSBcDQo+ICsg
+ICAgQVJDSElWRVJfTUlSUk9SX0lOQ0xVREUgXA0KPiAgICAgQ09QWUxFRlRfTElDRU5TRV9FWENM
+VURFIFwNCj4gICAgIENPUFlMRUZUX0xJQ0VOU0VfSU5DTFVERSBcDQo+ICAgICBDT1BZTEVGVF9Q
+Tl9FWENMVURFIFwNCj4gZGlmZiAtLWdpdCBhL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMv
+YXJjaGl2ZXIucHkgYi9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL2FyY2hpdmVyLnB5DQo+
+IGluZGV4IDEyMmQxNmI2NTUuLmU5ZjE3OGQ1YzkgMTAwNjQ0DQo+IC0tLSBhL21ldGEvbGliL29l
+cWEvc2VsZnRlc3QvY2FzZXMvYXJjaGl2ZXIucHkNCj4gKysrIGIvbWV0YS9saWIvb2VxYS9zZWxm
+dGVzdC9jYXNlcy9hcmNoaXZlci5weQ0KPiBAQCAtMjYxLDYgKzI2MSwzMCBAQCBjbGFzcyBBcmNo
+aXZlcihPRVNlbGZ0ZXN0VGVzdENhc2UpOg0KPiAgICAgICAgIGFyY2hpdmVfcGF0aCA9IG9zLnBh
+dGguam9pbihnbG9iX3Jlc3VsdFswXSwgdGFyZ2V0X2ZpbGVfbmFtZSkNCj4gICAgICAgICBzZWxm
+LmFzc2VydEZhbHNlKG9zLnBhdGguZXhpc3RzKGFyY2hpdmVfcGF0aCksICdGYWlsZWQgdG8gZXhj
+bHVkZSBhcmNoaXZlIGZpbGUgJXMnICUgKHRhcmdldF9maWxlX25hbWUpKQ0KPiANCj4gKyAgICBk
+ZWYgdGVzdF9hcmNoaXZlcl9tb2RlX21pcnJvcl9pbmNsdWRlKHNlbGYpOg0KPiArICAgICAgICAi
+IiINCj4gKyAgICAgICAgVGVzdCB0aGF0IGBBUkNISVZFUl9NSVJST1JfSU5DTFVERWAgY2F1c2Vz
+IGEgc291cmNlIFVSTCB0byBiZSBpbmNsdWRlZA0KPiArICAgICAgICBpbiB0aGUgbWlycm9yIGV2
+ZW4gd2hlbiB0aGUgcmVjaXBlIHdvdWxkIG90aGVyd2lzZSBiZSBleGNsdWRlZCBieSB0aGUNCj4g
+KyAgICAgICAgY29weWxlZnQgbGljZW5zZSBmaWx0ZXIuDQo+ICsgICAgICAgICIiIg0KPiArDQo+
+ICsgICAgICAgIHRhcmdldCA9ICdzZWxmdGVzdC1lZCcNCj4gKyAgICAgICAgdGFyZ2V0X2ZpbGVf
+bmFtZSA9ICdlZC0xLjIxLjEudGFyLmx6Jw0KPiArDQo+ICsgICAgICAgIGZlYXR1cmVzID0gJ0lO
+SEVSSVQgKz0gImFyY2hpdmVyIlxuJw0KPiArICAgICAgICBmZWF0dXJlcyArPSAnQVJDSElWRVJf
+TU9ERVtzcmNdID0gIm1pcnJvciJcbicNCj4gKyAgICAgICAgZmVhdHVyZXMgKz0gJ0FSQ0hJVkVS
+X01PREVbbWlycm9yXSA9ICJjb21iaW5lZCJcbicNCj4gKyAgICAgICAgZmVhdHVyZXMgKz0gJ0JC
+X0dFTkVSQVRFX01JUlJPUl9UQVJCQUxMUyA9ICIxIlxuJw0KPiArICAgICAgICBmZWF0dXJlcyAr
+PSAnQ09QWUxFRlRfTElDRU5TRV9JTkNMVURFID0gIkNMT1NFRCJcbicNCj4gKyAgICAgICAgZmVh
+dHVyZXMgKz0gJ0FSQ0hJVkVSX01JUlJPUl9JTkNMVURFID0gIiR7R05VX01JUlJPUn0iXG4nDQo+
+ICsgICAgICAgIHNlbGYud3JpdGVfY29uZmlnKGZlYXR1cmVzKQ0KPiArDQo+ICsgICAgICAgIGJp
+dGJha2UoJy1jIGRlcGxveV9hcmNoaXZlcyAlcycgJSAodGFyZ2V0KSkNCj4gKw0KPiArICAgICAg
+ICBiYl92YXJzID0gZ2V0X2JiX3ZhcnMoWydERVBMT1lfRElSX1NSQyddKQ0KPiArICAgICAgICB0
+YXJnZXRfcGF0aCA9IG9zLnBhdGguam9pbihiYl92YXJzWydERVBMT1lfRElSX1NSQyddLCAnbWly
+cm9yJywgdGFyZ2V0X2ZpbGVfbmFtZSkNCj4gKyAgICAgICAgc2VsZi5hc3NlcnRUcnVlKG9zLnBh
+dGguZXhpc3RzKHRhcmdldF9wYXRoKSwgJ01pc3NpbmcgYXJjaGl2ZSBmaWxlICVzJyAlICh0YXJn
+ZXRfZmlsZV9uYW1lKSkNCj4gKw0KPiAgICAgZGVmIHRlc3RfYXJjaGl2ZXJfbW9kZV9taXJyb3Jf
+Y29tYmluZWQoc2VsZik6DQo+ICAgICAgICAgIiIiDQo+ICAgICAgICAgVGVzdCB0aGF0IHRoZSBh
+cmNoaXZlciB3b3JrcyB3aXRoIGBBUkNISVZFUl9NT0RFW3NyY10gPSAibWlycm9yImANCj4gDQo+
+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2Fn
+ZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiBWaWV3L1JlcGx5IE9ubGluZSAoIzIzODI1NSk6IGh0
+dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2Uv
+MjM4MjU1DQo+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3Jn
+L210LzExOTcxMDIzNi82ODc1ODg4DQo+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStv
+d25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFVuc3Vic2NyaWJlOiBodHRwczovL2xpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YiBbcm9zcy5idXJ0b25A
+YXJtLmNvbV0NCj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gDQoNCg==
 
