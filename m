@@ -2,561 +2,402 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7E8FCDB475
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C77B7CDB477
 	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 08:33:23 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38123.1781857996049228912
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38121.1781857992822483975
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jun 2026 01:33:16 -0700
+ Fri, 19 Jun 2026 01:33:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=PlHntSXc;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso23587685e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 01:33:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Ov3oKUbU;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4602e2a0372so1473197f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 01:33:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781857994; x=1782462794; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1781857991; x=1782462791; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FwNfROmjO/EW0EiyHDeTbvQSHan7b/U1GdWAvAk+pk8=;
-        b=PlHntSXcepHniWDEbG2v78gywYmhe+JgfjzPgfz53VGA6nTrNA62cuSFRkwKtgiF8Y
-         iXjV21cS7LWuGln5prsGfCHK/8x4z320Ag4S8X/py4MPZv1TKSh3zzn+qZFmec2grgeX
-         UDN+SfRIpY1QvtDpyfTksHtCTURx2deEmwUtWAE40PiMEbZo2w/6tPbxNWBr5cqx3ZDR
-         dbWjfwqKFgpY2tD0rF7MOKUzdjexbvv4l3ZnImyaaQ8Aq/+EWW8nnCiLS0BE6qV7JJ2J
-         GARAN6P5W8jW/T+njGIA5aiCdPjXQ4GqNF8Zk0s+yizE+eYiWVWtdQwX1GU4Yk9nwF3w
-         lAEA==
+        bh=4xVY23Ehzc6zG/JYjo8GP7ySn/XADm3mzFV2jMNlTt8=;
+        b=Ov3oKUbUOKdkyEsbiFS3/pTf2YQm7Z+1qNN1Hz0+PAPvauFD+M1hs6SOScwaCTGAaJ
+         qDSPULIJwoeeh4dbHHdpjUN/0b0aUjZS6hH7h1WuN2vnrUKJyPdKxungZa4nuqXYTdZD
+         1+XJcmlw+GRXmWimxNeCXe7YZVA/i/xNWCCVXUgCBGBiA829+A/LTsQ40OdbDTYvkXDa
+         9me79fvVPUuBC29mO5pvKAz4TnXnxT7J8QqRSv++dO5oroqoy1XMOmYcP/OaNiq/2Fmk
+         0ZmiBZ7jJFnHjQBUC4/VeFX5PCzY7gKQ9GNi4a4gLEXV66OnItKMl0ymEWUO/8mi9XTr
+         0Upg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781857994; x=1782462794;
+        d=1e100.net; s=20251104; t=1781857991; x=1782462791;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=FwNfROmjO/EW0EiyHDeTbvQSHan7b/U1GdWAvAk+pk8=;
-        b=ZzLnF2HIf0XfRifOGYslo8LWH9YqE9k3c4F85OhbDIk3k/2ItcTaaRqnIq07c4olXQ
-         RrIo7pZSS71ZlFUEdzClWuuDcj0Auh6ZG6QAey418atKm6aDAJQVWwL7uIH2wCw0BnD0
-         uc75vG2bw6+yLdVEd5Jyt8PYN0XYjM7cUY8EOPln/yFYzTBlHbaxPF+uOSsK9KKwXTBK
-         Y1++263Xywbj7ply9Scmkofw5a8nSM0JYJ9AfIWM21F0PYw3+EBuDQefwq5zgfM7VPiM
-         9s5PIFptxHJ904ezW5bivthPg/1rHnPEdyXSSPWYYGx5IpsMujJWpDToF43eSWyRSDCe
-         Ycnw==
-X-Gm-Message-State: AOJu0YxEIGHN7jBb5zHMFGncAejfpV6UNAXMmVtNSgbUmBx3CJ2d3KkL
-	OxSkAbDB+P7NJmGfe5G+6hYoSGijpZtCcwUP9VJ8F5WiFo7LKZTLCLzliFKUcvEh
-X-Gm-Gg: AfdE7cngE2pLNkz6QL/gE6jrU+lbWDRr8d0lGLkKliuQ+P0eRmHHp/n8w2hxmrIW6G4
-	GiCfrRsuEPv1q1D7R3ApcR6u0IMJRvc0Ocmu6hV25e5zurnI/xUXR0cGqkqINtk2FVFICLFqLpm
-	MRn03Fo4RCP1P0iCURqEYhZn/OfVVFiLHkYi7GopbEg44epPKMnWP+3+oULY8MaolDjWKAEL5V5
-	yZHjCG4q3gOaA2M1IABL0EDGSql6hMhhaw5zDmiyYIddltNAwUCV/2cJbJFu/6ApAI//+P6AgH4
-	P8LeufaWQCp0s00oCfrFVZQsugcYcDOGOVdZq47hU2hl+lETS+Zx482RncEnxo5wLBiRiJkw35L
-	ji2h2Zw5yLgIsMx6wCDpJVBC+DdtsuVzZCuwMifVayw9KV+vORG0aMCGSkO+2drqEIr0roruHc0
-	HLkgnywh+1McBJmu0kF0em34kDND6sKYtAR24eXbd3jw8qIyR0
-X-Received: by 2002:a05:600c:8010:b0:490:bad9:de43 with SMTP id 5b1f17b1804b1-4923eeaca70mr51016745e9.0.1781857993718;
-        Fri, 19 Jun 2026 01:33:13 -0700 (PDT)
+        bh=4xVY23Ehzc6zG/JYjo8GP7ySn/XADm3mzFV2jMNlTt8=;
+        b=TRgFn8Jb6rtUXc1Kr/JNwlu078CduCpn6HcX6xuc8vtTu7lVj2QKoOQJB/N0y8+fym
+         58m/Q1TrYs2oSP+BDt7H7AQXUCjQwNYqPfwy+HtNGWfu2+8uJZNxlST7N1K0UM2iT5Yf
+         j/cEK6Tb6n5g8w19ZhteqlmsoZAneHUmTIoAKPFo26iYfcBQqsR97+4IJmTuoQWaVCO+
+         eX80sUj9xMxKzR3O5hPkua2NiV8H4qmHvszBAojyEa4PXwe4BSd0w/0t3i8vN/hXgE/X
+         1wN8+g8n+kiGFgkm8933gDCpWqI7if22lz4QcILKurAl59M6XNa779J0KU3mm0b1dQXU
+         ZpAA==
+X-Gm-Message-State: AOJu0Ywbfxp0rNO1dSeWaEdkbHkJ/7VsFqJBr1ge45aEBEHlmWEA3+Ra
+	0+CIoZeTa4sUUXxACWt0ZpSY3tJMvXc2ihenh4++u8gEMQv01xxBUO9iNJi1Nd3F
+X-Gm-Gg: AfdE7cmkcp5DEA4VcIE4wDUJEzwE9ypOATNUteeCnv+F8pUHHEFhHO/+rezyYiXgAfV
+	2lf3sZmbCMYRpKE0HsTVL08ashhs00AWDeEQeBzJUaOM/7iKfhIbkGt5NYIjy2P8YcC1wIlrKjl
+	AWhaATP5h9nBsvW5QSfxfqjYnZkaHPClq5TZQDfHZ0ley3KPpJhzwK/xZaD4Y57DK1rw3NJmlju
+	OHh1bXY5nk2vVSQe1H/3a7YF4qPyRa5gscKDz7hFg8vDKimBBNCWh/ATnJPwYZG56sEIV7rqmaL
+	rrMT/6GJTFca5mea+4GupG+HbpSnCUbWNPPY+mvoWUAPCAamoYXIno7X9kdYdneKWB2LeHE25IU
+	oVWH6wNwifoF2LvPe/ys9DVh/Q3Ds73xI9NEIaXADDvdh6krFfKS53epN/lvEAwInRQLbhF8FIq
+	SknABPxlkecxzlk2o5BG/AXn+t72gEck9YyifS85jpTstJzizhdW3ACJmKahk=
+X-Received: by 2002:a05:6000:1ac8:b0:45e:dacb:8885 with SMTP id ffacd0b85a97d-4656eaa4fc7mr2130922f8f.35.1781857990664;
+        Fri, 19 Jun 2026 01:33:10 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650bc429a1sm5878368f8f.30.2026.06.19.01.33.13
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650bc429a1sm5878368f8f.30.2026.06.19.01.33.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 01:33:13 -0700 (PDT)
+        Fri, 19 Jun 2026 01:33:10 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 07/15] inetutils: upgrade 2.7 -> 2.8
-Date: Fri, 19 Jun 2026 10:32:49 +0200
-Message-ID: <20260619083305.3505156-7-alex.kanavin@gmail.com>
+Subject: [PATCH 03/15] lttng-tools: upgrade 2.14.1 -> 2.15.1
+Date: Fri, 19 Jun 2026 10:32:45 +0200
+Message-ID: <20260619083305.3505156-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260619083305.3505156-1-alex.kanavin@gmail.com>
 References: <20260619083305.3505156-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 08:33:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239142
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239138
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-All dropped patches are backports.
+Adjust ptest tweaks and packaging to account for test data and test cases changes/renames.
 
-Add warnings disabling as upstream does something custom that clashes
-with oe's flags:
-| cc1: error: '-Wformat-security' ignored without '-Wformat' [-Werror=format-security]
+Add a patch to address reproducibility issues.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../inetutils/CVE-2026-24061-01.patch         |  38 -----
- .../inetutils/CVE-2026-24061-02.patch         |  82 -----------
- .../inetutils/inetutils/CVE-2026-28372.patch  |  86 -----------
- .../inetutils/inetutils/CVE-2026-32746.patch  |  55 -------
- .../inetutils/inetutils/CVE-2026-32772.patch  | 138 ------------------
- .../{inetutils_2.7.bb => inetutils_2.8.bb}    |   8 +-
- 6 files changed, 2 insertions(+), 405 deletions(-)
- delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch
- delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch
- delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch
- delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
- delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32772.patch
- rename meta/recipes-connectivity/inetutils/{inetutils_2.7.bb => inetutils_2.8.bb} (96%)
+ ...static.m4-do-not-write-generation-da.patch | 27 +++++++++++++++
+ ...-tests-do-not-strip-a-helper-library.patch | 31 +++++++++--------
+ .../lttng/lttng-tools/disable-tests.patch     | 11 ++++---
+ .../lttng/lttng-tools/disable-tests2.patch    | 31 ++++++++++++-----
+ .../lttng/lttng-tools/libc++.patch            | 33 ++++++++++++-------
+ .../lttng/lttng-tools/run-ptest               |  2 +-
+ ...-tools_2.14.1.bb => lttng-tools_2.15.1.bb} | 26 ++++++++-------
+ 7 files changed, 110 insertions(+), 51 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-m4-ax_am_macros_static.m4-do-not-write-generation-da.patch
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.14.1.bb => lttng-tools_2.15.1.bb} (91%)
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch
-deleted file mode 100644
-index 9c05df22c7..0000000000
---- a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--From fd702c02497b2f398e739e3119bed0b23dd7aa7b Mon Sep 17 00:00:00 2001
--From: Paul Eggert <eggert@cs.ucla.edu>
--Date: Tue, 20 Jan 2026 01:10:36 -0800
--Subject: [PATCH] Fix injection bug with bogus user names
--
--Problem reported by Kyu Neushwaistein.
--* telnetd/utility.c (_var_short_name):
--Ignore user names that start with '-' or contain shell metacharacters.
--
--Signed-off-by: Simon Josefsson <simon@josefsson.org>
--
--CVE: CVE-2026-24061
--Upstream-Status: Backport [https://codeberg.org/inetutils/inetutils/commit/fd702c02497b2f398e739e3119bed0b23dd7aa7b]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- telnetd/utility.c | 9 ++++++++-
-- 1 file changed, 8 insertions(+), 1 deletion(-)
--
--diff --git a/telnetd/utility.c b/telnetd/utility.c
--index b486226e..c02cd0e6 100644
----- a/telnetd/utility.c
--+++ b/telnetd/utility.c
--@@ -1733,7 +1733,14 @@ _var_short_name (struct line_expander *exp)
--       return user_name ? xstrdup (user_name) : NULL;
-- 
--     case 'U':
---      return getenv ("USER") ? xstrdup (getenv ("USER")) : xstrdup ("");
--+      {
--+	/* Ignore user names starting with '-' or containing shell
--+	   metachars, as they can cause trouble.  */
--+	char const *u = getenv ("USER");
--+	return xstrdup ((u && *u != '-'
--+			 && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
--+			? u : "");
--+      }
-- 
--     default:
--       exp->state = EXP_STATE_ERROR;
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch
-deleted file mode 100644
-index 62df504e60..0000000000
---- a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch
-+++ /dev/null
-@@ -1,82 +0,0 @@
--From ccba9f748aa8d50a38d7748e2e60362edd6a32cc Mon Sep 17 00:00:00 2001
--From: Simon Josefsson <simon@josefsson.org>
--Date: Tue, 20 Jan 2026 14:02:39 +0100
--Subject: [PATCH] telnetd: Sanitize all variable expansions
--
--* telnetd/utility.c (sanitize): New function.
--(_var_short_name): Use it for all variables.
--
--CVE: CVE-2026-24061
--Upstream-Status: Backport [https://codeberg.org/inetutils/inetutils/commit/ccba9f748aa8d50a38d7748e2e60362edd6a32cc]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- telnetd/utility.c | 32 ++++++++++++++++++--------------
-- 1 file changed, 18 insertions(+), 14 deletions(-)
--
--diff --git a/telnetd/utility.c b/telnetd/utility.c
--index c02cd0e6..b21ad961 100644
----- a/telnetd/utility.c
--+++ b/telnetd/utility.c
--@@ -1684,6 +1684,17 @@ static void _expand_cond (struct line_expander *exp);
-- static void _skip_block (struct line_expander *exp);
-- static void _expand_block (struct line_expander *exp);
-- 
--+static char *
--+sanitize (const char *u)
--+{
--+  /* Ignore values starting with '-' or containing shell metachars, as
--+     they can cause trouble.  */
--+  if (u && *u != '-' && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
--+    return u;
--+  else
--+    return "";
--+}
--+
-- /* Expand a variable referenced by its short one-symbol name.
--    Input: exp->cp points to the variable name.
--    FIXME: not implemented */
--@@ -1710,13 +1721,13 @@ _var_short_name (struct line_expander *exp)
--       return xstrdup (timebuf);
-- 
--     case 'h':
---      return xstrdup (remote_hostname);
--+      return xstrdup (sanitize (remote_hostname));
-- 
--     case 'l':
---      return xstrdup (local_hostname);
--+      return xstrdup (sanitize (local_hostname));
-- 
--     case 'L':
---      return xstrdup (line);
--+      return xstrdup (sanitize (line));
-- 
--     case 't':
--       q = strchr (line + 1, '/');
--@@ -1724,23 +1735,16 @@ _var_short_name (struct line_expander *exp)
-- 	q++;
--       else
-- 	q = line;
---      return xstrdup (q);
--+      return xstrdup (sanitize (q));
-- 
--     case 'T':
---      return terminaltype ? xstrdup (terminaltype) : NULL;
--+      return terminaltype ? xstrdup (sanitize (terminaltype)) : NULL;
-- 
--     case 'u':
---      return user_name ? xstrdup (user_name) : NULL;
--+      return user_name ? xstrdup (sanitize (user_name)) : NULL;
-- 
--     case 'U':
---      {
---	/* Ignore user names starting with '-' or containing shell
---	   metachars, as they can cause trouble.  */
---	char const *u = getenv ("USER");
---	return xstrdup ((u && *u != '-'
---			 && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
---			? u : "");
---      }
--+      return xstrdup (sanitize (getenv ("USER")));
-- 
--     default:
--       exp->state = EXP_STATE_ERROR;
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch
-deleted file mode 100644
-index 79d390f473..0000000000
---- a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch
-+++ /dev/null
-@@ -1,86 +0,0 @@
--From 4db2f19f4caac03c7f4da6363c140bd70df31386 Mon Sep 17 00:00:00 2001
--From: Erik Auerswald <auerswal@unix-ag.uni-kl.de>
--Date: Sun, 15 Feb 2026 15:38:50 +0100
--Subject: [PATCH] telnetd: don't allow systemd service credentials
--
--The login(1) implementation of util-linux added support for
--systemd service credentials in release 2.40.  This allows to
--bypass authentication by specifying a directory name in the
--environment variable CREDENTIALS_DIRECTORY.  If this directory
--contains a file named 'login.noauth' with the content of 'yes',
--login(1) skips authentication.
--
--GNU Inetutils telnetd supports to set arbitrary environment
--variables using the 'Environment' and 'New Environment'
--Telnet options.  This allows specifying a directory containing
--'login.noauth'.  A local user can create such a directory
--and file, and, e.g., specify the user name 'root' to escalate
--privileges.
--
--This problem was reported by Ron Ben Yizhak in
--<https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html>.
--
--This commit clears CREDENTIALS_DIRECTORY from the environment
--before executing login(1) to implement a simple fix that can
--be backported easily.
--
--* NEWS.md: Mention fix.
--* THANKS: Mention Ron Ben Yizhak.
--* telnetd/pty.c: Clear CREDENTIALS_DIRECTORY from the environment
--before executing 'login'.
--
--CVE: CVE-2026-28372
--Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=4db2f19f4caac03c7f4da6363c140bd70df31386]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- NEWS          | 5 +++++
-- THANKS        | 1 +
-- telnetd/pty.c | 8 ++++++++
-- 3 files changed, 14 insertions(+)
--
--diff --git a/NEWS b/NEWS
--index 877ca53b..f5172a71 100644
----- a/NEWS
--+++ b/NEWS
--@@ -1,5 +1,10 @@
-- GNU inetutils NEWS -- history of user-visible changes.
-- 
--+** Prevent privilege escalation via telnetd abusing systemd service
--+credentials support added to the login(1) implementation of util-linux
--+in release 2.40.  Reported by Ron Ben Yizhak in
--+<https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html>.
--+
-- # Noteworthy changes in release 2.7 (2025-12-14) [stable]
-- 
-- ** Systems without asprintf are now supported through the use of gnulib.
--diff --git a/THANKS b/THANKS
--index 8d1d3dbb..ef5f6063 100644
----- a/THANKS
--+++ b/THANKS
--@@ -9,6 +9,7 @@ In particular:
--   NIIBE Yutaka		 (Security fixes & making talk finally work)
--   Nathan Neulinger       (tftpd)
--   Thomas Bushnell        (sockaddr sin_len field)
--+  Ron Ben Yizhak         (reported privilege escalation via telnetd)
-- 
-- Please see version control logs and ChangeLog.? for full credits.
-- 
--diff --git a/telnetd/pty.c b/telnetd/pty.c
--index c727e7be..f3518049 100644
----- a/telnetd/pty.c
--+++ b/telnetd/pty.c
--@@ -129,6 +129,14 @@ start_login (char *host, int autologin, char *name)
--   if (!cmd)
--     fatal (net, "can't expand login command line");
--   argcv_get (cmd, "", &argc, &argv);
--+
--+  /* util-linux's "login" introduced an authentication bypass method
--+   * via environment variable "CREDENTIALS_DIRECTORY" in version 2.40.
--+   * Clear it from the environment before executing "login" to prevent
--+   * abuse via Telnet.
--+   */
--+  unsetenv ("CREDENTIALS_DIRECTORY");
--+
--   execv (argv[0], argv);
--   syslog (LOG_ERR, "%s: %m\n", cmd);
--   fatalperror (net, cmd);
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
-deleted file mode 100644
-index 63dd8b8c58..0000000000
---- a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
-+++ /dev/null
-@@ -1,55 +0,0 @@
--From 6864598a29b652a6b69a958f5cd1318aa2b258af Mon Sep 17 00:00:00 2001
--From: Collin Funk <collin.funk1@gmail.com>
--Date: Wed, 11 Mar 2026 23:06:46 -0700
--Subject: [PATCH] telnetd: fix stack buffer overflow processing SLC suboption
-- triplets
--
--Previously a client could write past the end of an internal buffer using
--an SLC suboption with many triplets using function octets greater than
--18, possibly leading to remote code execution. Reported by Adiel Sol,
--Arad Inbar, Erez Cohen, Nir Somech, Ben Grinberg, Daniel Lubel at DREAM
--Security Research Team at:
--<https://lists.gnu.org/r/bug-inetutils/2026-03/msg00031.html>.
--
--* telnetd/slc.c (add_slc): Return early if writing the tuple would lead
--us to writing past the end of the buffer.
--* NEWS.md: Mention the fix.
--
--CVE: CVE-2026-32746
--Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=6864598a29b652a6b69a958f5cd1318aa2b258af]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- NEWS          | 6 ++++++
-- telnetd/slc.c | 3 +++
-- 2 files changed, 9 insertions(+)
--
--diff --git a/NEWS b/NEWS
--index 5fe1e4c5..c03d22f4 100644
----- a/NEWS
--+++ b/NEWS
--@@ -1,5 +1,11 @@
-- GNU inetutils NEWS -- history of user-visible changes.
-- 
--+** telnetd no longer allows clients to write past the end of a stack
--+allocated buffer, possibly leading to remote code execution, using an
--+SLC suboption with many triplets using function octets greater than 18.
--+Reported by Adiel Sol, Arad Inbar, Erez Cohen, Nir Somech, Ben Grinberg,
--+Daniel Lubel at DREAM Security Research Team.
--+
-- ** Prevent privilege escalation via telnetd abusing systemd service
-- credentials support added to the login(1) implementation of util-linux
-- in release 2.40.  Reported by Ron Ben Yizhak in
--diff --git a/telnetd/slc.c b/telnetd/slc.c
--index f45e7725..2dfef22f 100644
----- a/telnetd/slc.c
--+++ b/telnetd/slc.c
--@@ -162,6 +162,9 @@ get_slc_defaults (void)
-- void
-- add_slc (char func, char flag, cc_t val)
-- {
--+  /* Do nothing if the entire triplet cannot fit in the buffer.  */
--+  if (slcbuf + sizeof slcbuf - slcptr <= 6)
--+    return;
-- 
--   if ((*slcptr++ = (unsigned char) func) == 0xff)
--     *slcptr++ = 0xff;
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32772.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32772.patch
-deleted file mode 100644
-index 232774195f..0000000000
---- a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32772.patch
-+++ /dev/null
-@@ -1,138 +0,0 @@
--From d6b8b83aa51616946fd314bc48087312d13c99f8 Mon Sep 17 00:00:00 2001
--From: Collin Funk <collin.funk1@gmail.com>
--Date: Thu, 26 Mar 2026 22:52:54 -0700
--Subject: [PATCH] telnet: don't leak the value of unexported environment
-- variables
--
--Patch based on the following OpenBSD commit:
--<https://github.com/openbsd/src/commit/1a11dc7253488a97d6df686dae9230f78682e8df>
--
--* NEWS.md: Mention the fix.
--* telnet/commands.c (env_getvalue): Add a boolean argument to prevent
--prevent unexported variables from being returned.
--* telnet/externs.h (env_getvalue): Adjust the function declaration.
--* telnet/authenc.c (telnet_getenv): Add the new argument.
--* telnet/telnet.c (dooption, gettermname, suboption, env_opt_add)
--(telnet): Likewise.
--
--CVE: CVE-2026-32772
--Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=d6b8b83aa51616946fd314bc48087312d13c99f8]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- NEWS              |  5 +++++
-- telnet/authenc.c  |  2 +-
-- telnet/commands.c |  6 ++----
-- telnet/externs.h  |  3 ++-
-- telnet/telnet.c   | 10 +++++-----
-- 5 files changed, 15 insertions(+), 11 deletions(-)
--
--diff --git a/NEWS b/NEWS
--index 08370442..6e259e02 100644
----- a/NEWS
--+++ b/NEWS
--@@ -1,5 +1,10 @@
-- GNU inetutils NEWS -- history of user-visible changes.
-- 
--+** telnet no longer leaks the value of unexported environment variables
--+to servers sending the NEW-ENVIRON SEND USERVAR command.
--+Reported by Justin Swartz in
--+<https://www.openwall.com/lists/oss-security/2026/03/13/1>.
--+
-- ** telnetd no longer allows clients to write past the end of a stack
-- allocated buffer, possibly leading to remote code execution, using an
-- SLC suboption with many triplets using function octets greater than 18.
--diff --git a/telnet/authenc.c b/telnet/authenc.c
--index 2706c9f8..f8daea9d 100644
----- a/telnet/authenc.c
--+++ b/telnet/authenc.c
--@@ -93,7 +93,7 @@ telnet_spin (void)
-- char *
-- telnet_getenv (char *val)
-- {
---  return ((char *) env_getvalue (val));
--+  return (char *) env_getvalue (val, false);
-- }
-- 
-- char *
--diff --git a/telnet/commands.c b/telnet/commands.c
--index 4967559b..9d85df73 100644
----- a/telnet/commands.c
--+++ b/telnet/commands.c
--@@ -2050,12 +2050,10 @@ env_default (int init, int welldefined)
-- }
-- 
-- unsigned char *
---env_getvalue (const char *var)
--+env_getvalue (const char *var, bool exported_only)
-- {
--   struct env_lst *ep = env_find (var);
---  if (ep)
---    return (ep->value);
---  return (NULL);
--+  return ep && (! exported_only || ep->export) ? ep->value : NULL;
-- }
-- 
-- #if defined OLD_ENVIRON && defined ENV_HACK
--diff --git a/telnet/externs.h b/telnet/externs.h
--index c1f5850e..0adc295a 100644
----- a/telnet/externs.h
--+++ b/telnet/externs.h
--@@ -331,7 +331,8 @@ env_opt (unsigned char *, int),
-- env_opt_start (void),
-- env_opt_start_info (void), env_opt_add (unsigned char *), env_opt_end (int);
-- 
---extern unsigned char *env_default (int, int), *env_getvalue (const char *);
--+extern unsigned char *env_default (int, int);
--+extern unsigned char *env_getvalue (const char *, bool);
-- 
-- int dosynch (const char *);
-- int get_status (const char *);
--diff --git a/telnet/telnet.c b/telnet/telnet.c
--index 6b0befc3..f83dfc18 100644
----- a/telnet/telnet.c
--+++ b/telnet/telnet.c
--@@ -496,7 +496,7 @@ dooption (int option)
-- #endif
-- 
-- 	    case TELOPT_XDISPLOC:	/* X Display location */
---	      if (env_getvalue ("DISPLAY"))
--+	      if (env_getvalue ("DISPLAY", false))
-- 		new_state_ok = 1;
-- 	      break;
-- 
--@@ -793,7 +793,7 @@ gettermname (void)
--       resettermname = 0;
--       if (tnamep && tnamep != unknown)
-- 	free (tnamep);
---      if ((tname = (char *) env_getvalue ("TERM")) &&
--+      if ((tname = (char *) env_getvalue ("TERM", false)) &&
-- 	  (init_term (tname, &err) == 0))
-- 	{
-- 	  tnamep = mklist (termbuf, tname);
--@@ -992,7 +992,7 @@ suboption (void)
-- 	  unsigned char temp[50], *dp;
-- 	  int len;
-- 
---	  if ((dp = env_getvalue ("DISPLAY")) == NULL)
--+	  if ((dp = env_getvalue ("DISPLAY", false)) == NULL)
-- 	    {
-- 	      /*
-- 	       * Something happened, we no longer have a DISPLAY
--@@ -1727,7 +1727,7 @@ env_opt_add (unsigned char *ep)
-- 	env_opt_add (ep);
--       return;
--     }
---  vp = env_getvalue ((char *) ep);
--+  vp = env_getvalue ((char *) ep, true);
--   if (opt_replyp + (vp ? strlen ((char *) vp) : 0) +
--       strlen ((char *) ep) + 6 > opt_replyend)
--     {
--@@ -2484,7 +2484,7 @@ telnet (char *user)
--       send_will (TELOPT_LINEMODE, 1);
--       send_will (TELOPT_NEW_ENVIRON, 1);
--       send_do (TELOPT_STATUS, 1);
---      if (env_getvalue ("DISPLAY"))
--+      if (env_getvalue ("DISPLAY", false))
-- 	send_will (TELOPT_XDISPLOC, 1);
--       if (eight)
-- 	tel_enter_binary (eight);
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.7.bb b/meta/recipes-connectivity/inetutils/inetutils_2.8.bb
-similarity index 96%
-rename from meta/recipes-connectivity/inetutils/inetutils_2.7.bb
-rename to meta/recipes-connectivity/inetutils/inetutils_2.8.bb
-index eb8b669e7c..b87c0ede43 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_2.7.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_2.8.bb
-@@ -11,18 +11,13 @@ LICENSE = "GPL-3.0-only"
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-m4-ax_am_macros_static.m4-do-not-write-generation-da.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-m4-ax_am_macros_static.m4-do-not-write-generation-da.patch
+new file mode 100644
+index 0000000000..5df7636be5
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-tools/0001-m4-ax_am_macros_static.m4-do-not-write-generation-da.patch
+@@ -0,0 +1,27 @@
++From c58eed85e47a605e2a9f2b2bc91917f68bec023f Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Thu, 18 Jun 2026 16:48:40 +0200
++Subject: [PATCH] m4/ax_am_macros_static.m4: do not write generation date into
++ Makefiles
++
++This breaks reproducibility of ptests (which install the Makefiles),
++but the fix isn't appropriate for upstream submission.
++
++Upstream-Status: Inappropriate [oe-core specific, really!]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ m4/ax_am_macros_static.m4 | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/m4/ax_am_macros_static.m4 b/m4/ax_am_macros_static.m4
++index f4cee8c..7fba5b2 100644
++--- a/m4/ax_am_macros_static.m4
+++++ b/m4/ax_am_macros_static.m4
++@@ -33,6 +33,6 @@ AC_DEFUN([AX_AM_MACROS_STATIC],
++ [
++ AX_AC_PRINT_TO_FILE(AMINCLUDE_STATIC,[
++ # ]AMINCLUDE_STATIC[ generated automatically by Autoconf
++-# from AX_AM_MACROS_STATIC on ]m4_esyscmd([LC_ALL=C date])[
+++# from AX_AM_MACROS_STATIC
++ ])
++ ])
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
+index 0547f30c02..36ddf029f6 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
++++ b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
+@@ -1,24 +1,27 @@
+-From a45157a50e14d4bd244a3dd05d79c5703c819550 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Thu, 12 Dec 2019 16:52:07 +0100
++From 8e56c9b414b60db1a14ea8ca664e2cff941ae14d Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Wed, 17 Jun 2026 10:04:13 +0200
+ Subject: [PATCH] tests: do not strip a helper library
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ ---
+- tests/utils/testapp/userspace-probe-elf-binary/Makefile.am | 2 +-
++ tests/utils/testapp/Makefile.am | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRC_URI[sha256sum] = "a156be1cde3c5c0ffefc262180d9369a60484087907aa554c62787d2f40ec086"
-+SRC_URI[sha256sum] = "57b3cf4f77555992881e5ba2a09a63b05aa2c56342a60ed4305b5f45938390b5"
- SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
-            file://rexec.xinetd.inetutils \
-            file://rlogin.xinetd.inetutils \
-            file://rsh.xinetd.inetutils \
-            file://telnet.xinetd.inetutils \
-            file://tftpd.xinetd.inetutils \
--           file://CVE-2026-24061-01.patch \
--           file://CVE-2026-24061-02.patch \
--           file://CVE-2026-28372.patch \
--           file://CVE-2026-32746.patch \
--           file://CVE-2026-32772.patch \
+-diff --git a/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am b/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
+-index 836f13e..e19a554 100644
+---- a/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
+-+++ b/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
+-@@ -14,7 +14,7 @@ userspace_probe_elf_binary_LDADD = libfoo.la
+- libfoo.strip: libfoo.la
+- 	$(OBJCOPY) --strip-all .libs/libfoo.so
++diff --git a/tests/utils/testapp/Makefile.am b/tests/utils/testapp/Makefile.am
++index 131a4af..38ce076 100644
++--- a/tests/utils/testapp/Makefile.am
+++++ b/tests/utils/testapp/Makefile.am
++@@ -363,7 +363,7 @@ endif # TEST_SDT_UPROBE
++ TEST_DEPS = gen-py-events.py
++ EXTRA_DIST += gen-py-events.py
+  
+--all-local: libfoo.strip
++-all-local: libdynsym.strip-stamp
+ +all-local:
+  	@if [ x"$(srcdir)" != x"$(builddir)" ]; then \
+- 		for script in $(EXTRA_DIST); do \
+- 			cp -f $(srcdir)/$$script $(builddir); \
++ 		for script in $(TEST_DEPS); do \
++ 			if [ x"$$(dirname $$script)" != x"." ]; then \
++-- 
++2.47.3
++
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/disable-tests.patch b/meta/recipes-kernel/lttng/lttng-tools/disable-tests.patch
+index d32cf87535..a8ee81ef0e 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools/disable-tests.patch
++++ b/meta/recipes-kernel/lttng/lttng-tools/disable-tests.patch
+@@ -1,4 +1,4 @@
+-From 05cf8ed6cc42a2f6ff53009d0ae2713fe63f1245 Mon Sep 17 00:00:00 2001
++From 44c14ba25747ccee72667212003658447d8297ae Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Tue, 14 Dec 2021 12:34:04 +0000
+ Subject: [PATCH] lttng-tools: Disable problem tests
+@@ -14,14 +14,14 @@ https://bugzilla.yoctoproject.org/show_bug.cgi?id=14263
+ 
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ ---
+- tests/regression/Makefile.am | 12 ------------
+- 1 file changed, 12 deletions(-)
++ tests/regression/Makefile.am | 13 -------------
++ 1 file changed, 13 deletions(-)
+ 
+ diff --git a/tests/regression/Makefile.am b/tests/regression/Makefile.am
+-index 7076488..e5be904 100644
++index 6730ff9..a7cd133 100644
+ --- a/tests/regression/Makefile.am
+ +++ b/tests/regression/Makefile.am
+-@@ -40,18 +40,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
++@@ -46,19 +46,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
+  	tools/regen-metadata/test_ust \
+  	tools/regen-statedump/test_kernel \
+  	tools/regen-statedump/test_ust \
+@@ -37,6 +37,7 @@ index 7076488..e5be904 100644
+ -	tools/notification/test_notification_notifier_discarded_count \
+ -	tools/notification/test_notification_kernel_userspace_probe \
+ -	tools/notification/test_notification_multi_app \
++-	tools/notification/test_rotation \
+  	tools/rotation/test_ust \
+  	tools/rotation/test_kernel \
+  	tools/rotation/test_ust_kernel \
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch b/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch
+index 5b9a07fcb8..a776638897 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch
++++ b/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch
+@@ -1,28 +1,43 @@
++From 16890a3395d62e760ce11c3c5e1b7323e1b79b46 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Tue, 19 Aug 2025 10:09:07 +0100
++Subject: [PATCH] lttng-tools: Disable slow tests to fix ptest runs
++
+ These tests take too long to run for our default output timeout in ptest-runner (450s).
+ We could change that to 900s but it is a global setting so skip these tests for
+ now. Ideally tests.serial would have occasional output when running to show activity.
+ 
+ Upstream-Status: Inappropriate [workaround for slow tests]
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++---
++ tests/regression/Makefile.am | 3 ---
++ 1 file changed, 3 deletions(-)
+ 
+-Index: lttng-tools-2.14.0/tests/regression/Makefile.am
+-===================================================================
+---- lttng-tools-2.14.0.orig/tests/regression/Makefile.am
+-+++ lttng-tools-2.14.0/tests/regression/Makefile.am
+-@@ -26,7 +26,6 @@ SERIAL_TESTS = tools/base-path/test_ust
++diff --git a/tests/regression/Makefile.am b/tests/regression/Makefile.am
++index a7cd133..b5a25eb 100644
++--- a/tests/regression/Makefile.am
+++++ b/tests/regression/Makefile.am
++@@ -30,7 +30,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
+  	tools/tracefile-limits/test_tracefile_count \
+  	tools/tracefile-limits/test_tracefile_size \
+  	tools/exclusion/test_exclusion \
+ -	tools/snapshots/test_kernel \
+  	tools/snapshots/test_ust_fast \
++ 	tools/snapshots/test_ust_long \
+  	tools/snapshots/test_ust_streaming \
+- 	tools/snapshots/test_kernel_streaming \
+-@@ -47,8 +46,6 @@ SERIAL_TESTS = tools/base-path/test_ust
++@@ -53,7 +52,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
+  	tools/rotation/test_schedule_api \
+  	tools/metadata/test_kernel \
+  	tools/working-directory/test_relayd_working_directory \
+--	tools/clear/test_ust \
+ -	tools/clear/test_kernel \
+  	tools/clear/test_live_hang.py \
+  	tools/tracker/test_event_tracker \
+  	tools/trigger/start-stop/test_start_stop \
++@@ -66,7 +64,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
++ 	tools/trace-format/test_trace_format_kernel.py
++ 
++ TESTS = tools/clear/test_disallow.py \
++-	tools/clear/test_ust.py \
++ 	tools/clear/test_ust_multi_user.py \
++ 	tools/live/test_early_inactive_app.py \
++ 	tools/live/test_high_latency.py \
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/libc++.patch b/meta/recipes-kernel/lttng/lttng-tools/libc++.patch
+index be793c7699..938f0856e6 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools/libc++.patch
++++ b/meta/recipes-kernel/lttng/lttng-tools/libc++.patch
+@@ -1,4 +1,11 @@
+-sessiond: avoid std::vector range-ctor on non-standard iterators (libc++)
++From 348e1be1cdfb897bc8a907e1a806cc7591efae8a Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 20 Aug 2025 23:45:20 -0700
++Subject: [PATCH] sessiond: avoid std::vector range-ctor on non-standard
++ iterators (libc++)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
+ 
+ libc++ SFINAE-gates std::vector(It, It) behind standard iterator requirements.
+ The events_view/channels_ht_view iterators don’t model Input/Forward, so the
+@@ -9,12 +16,16 @@ libstdc++ behavior unchanged.
+ 
+ Upstream-Status: Submitted [https://review.lttng.org/c/lttng-tools/+/15163]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/bin/lttng-sessiond/ust-registry-channel.cpp | 7 +++++--
++ src/bin/lttng-sessiond/ust-registry-session.cpp | 7 +++++--
++ 2 files changed, 10 insertions(+), 4 deletions(-)
+ 
+-Index: lttng-tools-2.14.0/src/bin/lttng-sessiond/ust-registry-channel.cpp
+-===================================================================
+---- lttng-tools-2.14.0.orig/src/bin/lttng-sessiond/ust-registry-channel.cpp
+-+++ lttng-tools-2.14.0/src/bin/lttng-sessiond/ust-registry-channel.cpp
+-@@ -529,8 +529,11 @@ void lsu::registry_channel::_accept_on_e
++diff --git a/src/bin/lttng-sessiond/ust-registry-channel.cpp b/src/bin/lttng-sessiond/ust-registry-channel.cpp
++index 45be2cc..01d5db3 100644
++--- a/src/bin/lttng-sessiond/ust-registry-channel.cpp
+++++ b/src/bin/lttng-sessiond/ust-registry-channel.cpp
++@@ -529,8 +529,11 @@ void lsu::registry_channel::_accept_on_event_classes(
+  		events_view(*_events->ht);
+  
+  	/* Copy the event ptrs from the _events ht to this vector which we'll sort. */
+@@ -28,11 +39,11 @@ Index: lttng-tools-2.14.0/src/bin/lttng-sessiond/ust-registry-channel.cpp
+  
+  	std::sort(sorted_event_classes.begin(),
+  		  sorted_event_classes.end(),
+-Index: lttng-tools-2.14.0/src/bin/lttng-sessiond/ust-registry-session.cpp
+-===================================================================
+---- lttng-tools-2.14.0.orig/src/bin/lttng-sessiond/ust-registry-session.cpp
+-+++ lttng-tools-2.14.0/src/bin/lttng-sessiond/ust-registry-session.cpp
+-@@ -586,8 +586,11 @@ void lsu::registry_session::_accept_on_s
++diff --git a/src/bin/lttng-sessiond/ust-registry-session.cpp b/src/bin/lttng-sessiond/ust-registry-session.cpp
++index 693fc71..b355a14 100644
++--- a/src/bin/lttng-sessiond/ust-registry-session.cpp
+++++ b/src/bin/lttng-sessiond/ust-registry-session.cpp
++@@ -587,8 +587,11 @@ void lsu::registry_session::_accept_on_stream_classes(lst::trace_class_visitor&
+  						  decltype(lsu::registry_channel::_node),
+  						  &lsu::registry_channel::_node>
+  		channels_ht_view(*_channels->ht);
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/run-ptest b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
+index e7edc03e96..a6764f8744 100755
+--- a/meta/recipes-kernel/lttng/lttng-tools/run-ptest
++++ b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
+@@ -20,7 +20,7 @@ function validate_lttng_modules_present()
+ 	return 1
+ }
+ 
+-export LD_LIBRARY_PATH=FIXMEPTESTPATH/tests/utils/testapp/userspace-probe-elf-binary/.libs:FIXMEPTESTPATH/tests/utils/testapp/gen-ust-events-constructor/.libs
++export LD_LIBRARY_PATH=FIXMEPTESTPATH/tests/utils/testapp/.libs:FIXMEPTESTPATH/tests/utils/testapp/gen-ust-events-constructor/.libs
+ makeargs="LOG_DRIVER_FLAGS=--ignore-exit top_srcdir=FIXMEPTESTPATH top_builddir=FIXMEPTESTPATH"
+ 
+ #If current system doesn't have lttng kernel modules, disable lttng kernel related tests.
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb b/meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb
+similarity index 91%
+rename from meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb
+index 3a3f2cff2c..9fdb0ede72 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.14.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb
+@@ -29,6 +29,7 @@ RDEPENDS:${PN}-ptest += "perl-module-getopt-long \
+                          python3-io \
+                          python3-shell \
+                          python3-xml \
++                         python3-resource \
+ "
+ 
+ INSANE_SKIP:${PN}-ptest += "dev-deps"
+@@ -50,9 +51,10 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://disable-tests.patch \
+            file://disable-tests2.patch \
+            file://libc++.patch \
++           file://0001-m4-ax_am_macros_static.m4-do-not-write-generation-da.patch \
             "
  
- inherit autotools gettext update-alternatives texinfo
-@@ -44,6 +39,7 @@ EXTRA_OECONF = "--with-ncurses-include-dir=${STAGING_INCDIR} \
-         --with-path-cp=${base_bindir}/cp \
-         --with-path-uucico=${libexecdir}/uuico \
-         --with-path-procnet-dev=/proc/net/dev \
-+        --enable-gcc-warnings=no \
-         "
+-SRC_URI[sha256sum] = "0e68eb27923621c4bc127cfce40422d28cf7e473fedf6229ae6c32ba5c5b7c6d"
++SRC_URI[sha256sum] = "8b6d4ba7ae2c036f7dafbb4e29717677411078f9a9d961b2dc7c1ba16273e9e9"
  
- EXTRA_OECONF:append:libc-musl = " --with-path-utmpx=/dev/null/utmpx --with-path-wtmpx=/dev/null/wtmpx"
+ inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
+ 
+@@ -95,7 +97,7 @@ do_install_ptest () {
+         install -D "${B}/$f" "${D}${PTEST_PATH}/$f"
+     done
+ 
+-    for f in tests/utils/tap-driver.sh config/test-driver src/common/session.xsd src/common/mi-lttng-4.1.xsd \
++    for f in tests/utils/tap-driver.sh config/test-driver src/common/session.xsd src/common/mi-lttng-4.2.xsd \
+              tests/regression/tests.serial; do
+         install -D "${S}/$f" "${D}${PTEST_PATH}/$f"
+     done
+@@ -140,8 +142,8 @@ do_install_ptest () {
+         done
+     done
+ 
+-    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/userspace-probe-elf-binary
+-    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/userspace-probe-elf-cxx-binary
++    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary
++    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary
+     chrpath --delete ${D}${PTEST_PATH}/tests/regression/ust/ust-dl/libbar.so
+     chrpath --delete ${D}${PTEST_PATH}/tests/regression/ust/ust-dl/libfoo.so
+ 
+@@ -207,12 +209,12 @@ do_install_ptest:append:libc-musl () {
+ }
+ 
+ INHIBIT_PACKAGE_STRIP_FILES = "\
+-    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/userspace-probe-elf-binary \
+-    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/.libs/userspace-probe-elf-binary \
+-    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/userspace-probe-elf-cxx-binary \
+-    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary/.libs/userspace-probe-elf-cxx-binary \
+-    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events/gen-syscall-events \
+-    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events/.libs/gen-syscall-events \
+-    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events-callstack/gen-syscall-events-callstack \
+-    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events-callstack/.libs/gen-syscall-events-callstack \
++    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary \
++    ${PKGD}${PTEST_PATH}/tests/utils/testapp/.libs/userspace-probe-elf-binary \
++    ${PKGD}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-cxx-binary \
++    ${PKGD}${PTEST_PATH}/tests/utils/testapp/.libs/userspace-probe-elf-cxx-binary \
++    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events \
++    ${PKGD}${PTEST_PATH}/tests/utils/testapp/.libs/gen-syscall-events \
++    ${PKGD}${PTEST_PATH}/tests/utils/testapp/gen-syscall-events-callstack \
++    ${PKGD}${PTEST_PATH}/tests/utils/testapp/.libs/gen-syscall-events-callstack \
+     "
 -- 
 2.47.3
 
