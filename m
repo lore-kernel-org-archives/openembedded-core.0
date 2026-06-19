@@ -2,132 +2,122 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1E0ECDB46B
-	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 11:30:43 +0000 (UTC)
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1084.1781930898285126667
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C462CD4F26
+	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 11:31:13 +0000 (UTC)
+Received: from isrv.corpit.ru (isrv.corpit.ru [212.248.84.144])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.37571.1781853465356577923
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jun 2026 21:48:18 -0700
+ Fri, 19 Jun 2026 00:17:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=IA5j9dUm;
- spf=pass (domain: gmail.com, ip: 74.125.82.170, mailfrom: adityags2004@gmail.com)
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-30bcf74e617so5726956eec.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 21:48:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781930898; x=1782535698; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wAm3lCSS8sjkkaFG1gll6DXchHwZ3hQZIzzxwDHzCUc=;
-        b=IA5j9dUmk38AV6uL+IekOeYsZ/fVysYghBBapePLU4GH9uDzFpenxn9184AEwU5tc/
-         vNjrVXzQl+ffAuJQx0W+7ZXcnARkWvZNGhB9bDzMZWMSS8bTdS9oyVrsqwuRAogWg2XI
-         WXCOfbLemBu3ewXw4XjlRI9av1L+oPMlLwzUTirRKW1pcIfNRWLq9OdxySayKl2CEAL3
-         HgSQRDgfGdMJra0/gbbxJQsYpAbaJci3iJGk0B3pj3SeuyipWc+ln9Bmyeie6F/tU4T+
-         zAPrdJDRkRfZM08o1BouVRfXouBOpqtWfZuzTS2g4sidmYYldB8kyInqMYzRQORDXyh+
-         zmaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781930898; x=1782535698;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wAm3lCSS8sjkkaFG1gll6DXchHwZ3hQZIzzxwDHzCUc=;
-        b=TTl8LdRzSi+l0EpiVCa80Pry0DVuo2cB6apzE0nRWW1TKtm9oXFGLReiDFCqwOLIYn
-         HfjDmuArcFZKPKl6LxZiUvSNAGS8Qtc5TJta2IG7UTsLaLp7KTRdjXBC/QwEm9IEHotx
-         6YYHJJ44d2UIK5jUl575dE5gec1uYXQaEEaDmzUD4tzbz0FpA7YA5B+clGEJLx6yjYn8
-         R1SJ1fbGIG7J/oa3IcsiZcPqBfLED0ZGzy5aXDQ6oKSPUNongDzvlGcOG16t/XeL7tSi
-         wZeEwxBdfZpttM/hzlDatzH3ZdTEzjYIGgBDxm4FsI9q4bBoGMCqQCC3b1Dsl/4oQyj9
-         ChHQ==
-X-Gm-Message-State: AOJu0Yy5DYK6RznTEb6iOvtZDJTHQP7Vf1w5kEZ5gPrnaIyhvUsxjrqm
-	wuAkWMCX+iTcTT0TK/+tHlIy68NlzTuKRUaNR1tAgRHqi4DQNV/ux/nJwAwDk7Ee
-X-Gm-Gg: AfdE7ckTkfNV8tdyChaoKbDVZvZYfBstvzRL+t/2JNPaF/bty8Mc7Ai5SQbFERqwR0g
-	vq2vDkJMaUlb8/YHyEcyfAcFJin1OH7wgQx9qr5RmEqo/TAc6y4pW9GGJGKDF0qVmlZdS67ZoXV
-	t1YX1b1+J7A0NWlK5+27QM36S5ysBt9JqKW40EuA33/xLAXhTK02gyjGvMo8aSpraa6BMQPHeoZ
-	I2x01SKQ5QUyZaFXUe6zkaBb7u1ONjExkY+72MCmJWcY80b//s8X0XaZm29QFFKinyG5Rj2g9mU
-	sFyVldruYykBSaZ2Q5gOAF/lqules4+LE2C0JKZiWHPjqjTyktnfNy9IKgsBm8fdrdiv2XKBMJa
-	WaoWtkGNApBqco33fWIs8Qn8IO6Y7fVL7+VgRyycApTl32R5h/+e9j1W6k6BVjBJUKK8YoHNNUM
-	PgpAKw3xORvbWQ2LT7tb0/jiBkyqBDb3Y4F8W69aVb4DIzqmZoo1OFna+UpnKtYMk=
-X-Received: by 2002:a17:902:d504:b0:2c2:8659:da2c with SMTP id d9443c01a7336-2c7425d58aamr18241395ad.14.1781930409299;
-        Fri, 19 Jun 2026 21:40:09 -0700 (PDT)
-Received: from BLR1RLPT00005.localdomain ([27.61.47.206])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c74478ff1csm9967405ad.83.2026.06.19.21.40.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 21:40:08 -0700 (PDT)
-From: Aditya GS <adityags2004@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Aditya GS <adityags2004@gmail.com>,
-	Aditya GS <aditya.gs@bmwtechworks.in>
-Subject: [PATCH] [Kirkstone][meta-lts-collab] openssl: upgrade 3.0.20 -> 3.0.21
-Date: Sat, 20 Jun 2026 10:09:20 +0530
-Message-Id: <20260620043921.514-1-adityags2004@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@tls.msk.ru header.s=202602 header.b=RtWMr5sW;
+ spf=pass (domain: tls.msk.ru, ip: 212.248.84.144, mailfrom: mjt@tls.msk.ru)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tls.msk.ru; s=202602;
+	t=1781853068; bh=IKdrc1DSaYw8nq4ztpb1fKTN5PAU0MU8T4KUhpWaFXg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RtWMr5sWtFAwkJPvEY1TCUAn8zHqeZt3ySI3NjX06PbtTLtaOy5whTZJHwcfeYa2S
+	 F6YtCVYjDxycXAIub3ewEFRV5XZdKy8NjWn0Mg7s7wbl1cseBYSHWVmxiS1uBK7arL
+	 oew/oqeX+JKsX2dyz44LpWYt3ulCUfcY+QUf2d9VAY0dJ+BANxa1o5xXj/LIFS9N5a
+	 vRoBWJOK5mhKxOLkWTnSy3Zqe4g0CnWKiq6ajTyy08XuZ/1zHZDCQvUhxzW07Z8pSS
+	 f+vflQnxOIf87iZSn8vPJvOI4OXY2pAS+6cCAwB41KX5EjyDw70bBasbzB7aNinI99
+	 +UUuZ5AuybNCA==
+Received: from [192.168.177.146] (mjtthink.wg.tls.msk.ru [192.168.177.146])
+	by isrv.corpit.ru (Postfix) with ESMTP id 310221B8D48;
+	Fri, 19 Jun 2026 10:11:08 +0300 (MSK)
+Message-ID: <391abf29-3fae-42a3-86a5-432a7a7a247c@tls.msk.ru>
+Date: Fri, 19 Jun 2026 10:11:14 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ui/sdl2: Explicitly specify EGL platform
+To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>, qemu-devel@nongnu.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+ =?UTF-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ openembedded-core@lists.openembedded.org, Quan.Sun@windriver.com,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ qemu-stable <qemu-stable@nongnu.org>
+References: <20260611-sdl-v1-1-93d4a51684bb@rsg.ci.i.u-tokyo.ac.jp>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Autocrypt: addr=mjt@tls.msk.ru; keydata=
+ xsFNBGYpLkcBEACsajkUXU2lngbm6RyZuCljo19q/XjZTMikctzMoJnBGVSmFV66kylUghxs
+ HDQQF2YZJbnhSVt/mP6+V7gG6MKR5gYXYxLmypgu2lJdqelrtGf1XtMrobG6kuKFiD8OqV6l
+ 2M5iyOZT3ydIFOUX0WB/B9Lz9WcQ6zYO9Ohm92tiWWORCqhAnwZy4ua/nMZW3RgO7bM6GZKt
+ /SFIorK9rVqzv40D6KNnSyeWfqf4WN3EvEOozMfWrXbEqA7kvd6ShjJoe1FzCEQ71Fj9dQHL
+ DZG+44QXvN650DqEtQ4RW9ozFk3Du9u8lbrXC5cqaCIO4dx4E3zxIddqf6xFfu4Oa5cotCM6
+ /4dgxDoF9udvmC36qYta+zuDsnAXrYSrut5RBb0moez/AR8HD/cs/dS360CLMrl67dpmA+XD
+ 7KKF+6g0RH46CD4cbj9c2egfoBOc+N5XYyr+6ejzeZNf40yjMZ9SFLrcWp4yQ7cpLsSz08lk
+ a0RBKTpNWJdblviPQaLW5gair3tyJR+J1ER1UWRmKErm+Uq0VgLDBDQoFd9eqfJjCwuWZECp
+ z2JUO+zBuGoKDzrDIZH2ErdcPx3oSlVC2VYOk6H4cH1CWr9Ri8i91ClivRAyVTbs67ha295B
+ y4XnxIVaZU+jJzNgLvrXrkI1fTg4FJSQfN4W5BLCxT4sq8BDtwARAQABzSBNaWNoYWVsIFRv
+ a2FyZXYgPG1qdEB0bHMubXNrLnJ1PsLBlAQTAQoAPhYhBJ2L4U4/Kp3XkZko8WGtPZjs3yyO
+ BQJmKS5HAhsDBQkSzAMABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEGGtPZjs3yyOZSAP
+ /ibilK1gbHqEI2zR2J59Dc0tjtbByVmQ8IMh0SYU3j1jeUoku2UCgdnGKpwvLXtwZINgdl6Q
+ cEaDBRX6drHLJFAi/sdgwVgdnDxaWVJO/ZIN/uJI0Tx7+FSAk8CWSa4IWUOzPNmtrDfb4z6v
+ G36rppY8bTNKbX6nWFXuv2LXQr7g6+kKnbwv4QFpD+UFF1CrLm3byMq4ikdBXpZx030qBL61
+ b7PrfXcBLao0357kWGH6C2Zu4wBnDUJwGi68pI5rzSRAFyAQsE89sjLdR1yFoBH8NiFnAQXP
+ LA8Am9FMsC7D/bi/kwKTJdcZvzdGU1HG6tJvXLWC+nqGpJNBzRdDpjqtxNuL76vVd/JbsFMS
+ JchLN+01fNQ5FHglvkd6md7vO+ULq+r9An5hMiDoRbYVUOBN8uiYNk+qKbdgSfbhsgPURqHi
+ 1bXkgMeMasqWbGMe7iBW/YH2ePfZ6HuKLNQDCkiWZYPQZvyXHvQHjuJJ5+US81tkqM+Q6Snq
+ 0L/O/LD0qLlbinHrcx0abg06VXBoYmGICJpf/3hhWQM4f+B/5w4vpl8q0B6Osz01pBUBfYak
+ CiYCNHMWWVZkW9ZnY7FWiiPOu8iE1s5oPYqBljk3FNUk04SDKMF5TxL87I2nMBnVnvp0ZAuY
+ k9ojiLqlhaKnZ1+zwmwmPmXzFSwlyMczPUMSzsFNBGYpLkcBEAC0mxV2j5M1x7GiXqxNVyWy
+ OnlWqJkbkoyMlWFSErf+RUYlC9qVGwUihgsgEhQMg0nJiSISmU3vsNEx5j0T13pTEyWXWBdS
+ XtZpNEW1lZ2DptoGg+6unpvxd2wn+dqzJqlpr4AY3vc95q4Za/NptWtSCsyJebZ7DxCCkzET
+ tzbbnCjW1souCETrMy+G916w1gJkz4V1jLlRMEEoJHLrr1XKDdJRk/34AqXPKOzILlWRFK6s
+ zOWa80/FNQV5cvjc2eN1HsTMFY5hjG3zOZb60WqwTisJwArjQbWKF49NLHp/6MpiSXIxF/FU
+ jcVYrEk9sKHN+pERnLqIjHA8023whDWvJide7f1V9lrVcFt0zRIhZOp0IAE86E3stSJhZRhY
+ xyIAx4dpDrw7EURLOhu+IXLeEJbtW89tp2Ydm7TVAt5iqBubpHpGTWV7hwPRQX2w2MBq1hCn
+ K5Xx79omukJisbLqG5xUCR1RZBUfBlYnArssIZSOpdJ9wWMK+fl5gn54cs+yziUYU3Tgk0fJ
+ t0DzQsgfd2JkxOEzJACjJWti2Gh3szmdgdoPEJH1Og7KeqbOu2mVCJm+2PrNlzCybOZuHOV5
+ +vSarkb69qg9nU+4ZGX1m+EFLDqVUt1g0SjY6QmM5yjGBA46G3dwTEV0/u5Wh7idNT0mRg8R
+ eP/62iTL55AM6QARAQABwsF8BBgBCgAmFiEEnYvhTj8qndeRmSjxYa09mOzfLI4FAmYpLkcC
+ GwwFCRLMAwAACgkQYa09mOzfLI53ag/+ITb3WW9iqvbjDueV1ZHwUXYvebUEyQV7BFofaJbJ
+ Sr7ek46iYdV4Jdosvq1FW+mzuzrhT+QzadEfYmLKrQV4EK7oYTyQ5hcch55eX00o+hyBHqM2
+ RR/B5HGLYsuyQNv7a08dAUmmi9eAktQ29IfJi+2Y+S1okAEkWFxCUs4EE8YinCrVergB/MG5
+ S7lN3XxITIaW00faKbqGtNqij3vNxua7UenN8NHNXTkrCgA+65clqYI3MGwpqkPnXIpTLGl+
+ wBI5S540sIjhgrmWB0trjtUNxe9QcTGHoHtLeGX9QV5KgzNKoUNZsyqh++CPXHyvcN3OFJXm
+ VUNRs/O3/b1capLdrVu+LPd6Zi7KAyWUqByPkK18+kwNUZvGsAt8WuVQF5telJ6TutfO8xqT
+ FUzuTAHE+IaRU8DEnBpqv0LJ4wqqQ2MeEtodT1icXQ/5EDtM7OTH231lJCR5JxXOnWPuG6el
+ YPkzzso6HT7rlapB5nulYmplJZSZ4RmE1ATZKf+wUPocDu6N10LtBNbwHWTT5NLtxNJAJAvl
+ ojis6H1kRWZE/n5buyPY2NYeyWfjjrerOYt3er55n4C1I88RSCTGeejVmXWuo65QD2epvzE6
+ 3GgKngeVm7shlp7+d3D3+fAAHTvulQQqV3jOodz+B4yzuZ7WljkNrmrWrH8aI4uA98c=
+In-Reply-To: <20260611-sdl-v1-1-93d4a51684bb@rsg.ci.i.u-tokyo.ac.jp>
+Content-Language: en-US, ru-RU
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 11:30:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239206
+ <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 11:31:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239207
 
-Upgrade OpenSSL from 3.0.20 to 3.0.21.
+On 11.06.2026 14:58, Akihiko Odaki wrote:
+> Mesa's eglGetDisplay() chooses the native EGL platform from
+> EGL_PLATFORM, limited autodetection, or the build-time default. If that
+> selects Wayland while SDL is using the X11 video backend, Mesa can treat
+> the X11 Display pointer as a wl_display and crash during eglInitialize().
+> 
+> Probe EGL with the X11 platform explicitly before enabling
+> SDL_HINT_VIDEO_X11_FORCE_EGL.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/work_items/3540
+> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+> ---
+> Resolving the issue described in the GitLab work item also requires:
+> https://github.com/libsdl-org/SDL/pull/15806
 
-This upgrade brings in upstream fixes for multiple CVEs:
+This looks like a qemu-stable material (11.0.x only?).
+I'm picking this up for qemu 11.0.x series.
+Please let me know if I shouldn't.
 
-  - CVE-2026-45447 (High): heap use-after-free in PKCS7_verify()
-  - CVE-2026-7383: heap buffer overflow in ASN.1 multibyte string
-  - CVE-2026-9076: out-of-bounds read in CMS password-based decryption
-  - CVE-2026-34180: heap buffer over-read in ASN.1 content parsing
-  - CVE-2026-42764: NULL pointer dereference in QUIC server packet handling
-  - CVE-2026-45445: AES-OCB IV ignored on EVP_Cipher() path
-  - CVE-2026-34182: CMS AuthEnvelopedData may accept forged messages
-  - CVE-2026-42766: NULL pointer dereference in password-based CMS decryption
-  - CVE-2026-42770: FFC-DH peer validation uses attacker-supplied q
-  - CVE-2026-45446: incorrect tag processing for empty messages in AES-GCM-SIV and AES-SIV modes
+>   include/ui/egl-helpers.h | 5 +++++
+>   ui/egl-helpers.c         | 4 ++--
+>   ui/sdl2.c                | 3 ++-
+>   3 files changed, 9 insertions(+), 3 deletions(-)
 
-As a result of this upgrade, the following CVEs are already fixed in the
-upstream version and no longer require local patches:
+Thanks,
 
-  - CVE-2024-41996: vulnerability that could lead to denial of service
-  - CVE-2023-50781: fixes related to certificate validation and memory handling
-
-Upstream changelog:
-https://github.com/openssl/openssl/blob/openssl-3.0.21/NEWS.md
-
-Signed-off-by: Aditya GS <adityags2004@gmail.com>
-Signed-off-by: Aditya GS <aditya.gs@bmwtechworks.in>
----
- .../openssl/{openssl_3.0.20.bb => openssl_3.0.21.bb}     | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
- rename meta-core/recipes-connectivity/openssl/{openssl_3.0.20.bb => openssl_3.0.21.bb} (96%)
-
-diff --git a/meta-core/recipes-connectivity/openssl/openssl_3.0.20.bb b/meta-core/recipes-connectivity/openssl/openssl_3.0.21.bb
-similarity index 96%
-rename from meta-core/recipes-connectivity/openssl/openssl_3.0.20.bb
-rename to meta-core/recipes-connectivity/openssl/openssl_3.0.21.bb
-index d33874e..fffe303 100644
---- a/meta-core/recipes-connectivity/openssl/openssl_3.0.20.bb
-+++ b/meta-core/recipes-connectivity/openssl/openssl_3.0.21.bb
-@@ -12,20 +12,13 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://afalg.patch \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
--           file://CVE-2024-41996.patch \
--           file://CVE-2023-50781-1.patch \
--           file://CVE-2023-50781-2.patch \
--           file://CVE-2023-50781-3.patch \
--           file://CVE-2023-50781-4.patch \
--           file://CVE-2023-50781-5.patch \
--           file://CVE-2023-50781-6.patch \
-           "
- 
- SRC_URI:append:class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
- 
--SRC_URI[sha256sum] = "c80a01dfc70ece4dc21168932c37739042d404d46ccc81a5986dd75314ecda6f"
-+SRC_URI[sha256sum] = "617e29af8e421f46649484a4937e48c685e47f46488167c982f88bc4ec1d522f"
- 
- inherit lib_package multilib_header multilib_script ptest perlnative
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
--- 
-2.34.1
-
+/mjt
 
