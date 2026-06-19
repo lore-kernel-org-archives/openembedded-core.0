@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DD34CD98E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65A5ACD98F6
 	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 06:18:41 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36828.1781849908347305541
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36832.1781849911843972510
  for <openembedded-core@lists.openembedded.org>;
  Thu, 18 Jun 2026 23:18:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=uFEGaVWN;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Epdu5OhW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019ede87ef1b-548c9476-d657-4be7-b52d-175d68a4c6bb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JH5lxv3l;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=iI7J/Ab+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019ede87ee95-97483992-5a65-4a51-8638-4327380a5791-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1781849911;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VdNPoReF+jqYaauxUmr2n19U7X6KSl+Y5HYXRUp/Bh0=;
-	b=uFEGaVWNEHIMqlT6k2LELHIinPI9BgsvpHxfWOqvl4y0ByzFCxpalxeyNP/fqo+o
-	6xDDjvURP9B148VCwm2u/anNQwzZooy29Dmgo3ImIDXml6lqstjHoblRIQpJc37Cjm4
-	unpx+ai1YIdyUo0stnq0sA845KWPRm85I3jTp8DU=
+	bh=4SptAi+pSVqr6m29FwNsy/Wga1lGxVgJjWWUDhKFUP0=;
+	b=JH5lxv3lzrBvWnKalIi/GBV2LAC/cA1JVuqFhN0gGRaTnsFM1SUwDcjFRc9XpEbZ
+	rxvAhF0IH4t8WUMzmIyLD9ZTnXzRmRKEd+tr3CTgM4RA5mZcBAWosRdOgfHRbIMNF1c
+	Muhd6exCYQEKKn1Pb+METtV8uyoLFtYzz4iOwix0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781849911;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VdNPoReF+jqYaauxUmr2n19U7X6KSl+Y5HYXRUp/Bh0=;
-	b=Epdu5OhWXxdtNckWrl/IyBGHRmAWAoFPmyvelShZPYKN2fytlfMypcMLX7FIQFtm
-	XaiqeT4t4neNaA7gJm6Ijk4jcYM1iQBZhLXN9n/BAN6wp6bin8prMSBbGB/G0vNcuzl
-	VYIW+/Sop2BK9e2TgemMthmGh2YMuRHMGo+5Kt6w=
-Content-Type: multipart/mixed; boundary="===============5796719234065443558=="
+	bh=4SptAi+pSVqr6m29FwNsy/Wga1lGxVgJjWWUDhKFUP0=;
+	b=iI7J/Ab+6pRFr1rXFLdQ9mFZ24JEB0t7Z+AND9RB/1Hg6+BdXJwoygBGH3+0PDx/
+	vLa/xGMNOFrYE33A7vtnmRZaiZHq+1Zplaso6gTH6hQnx216CDzTDyy72DKm7CXCcH6
+	3LIAiopBLZjJriMgXmpl4DiOSkL8WMH+vFejRVmw=
+Content-Type: multipart/mixed; boundary="===============5558377461749971847=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
+To: Vincent Davis Jr <vince@underview.tech>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] appstream: upgrading to 1.1.3 FAILED
-Message-ID: <0101019ede87ef1b-548c9476-d657-4be7-b52d-175d68a4c6bb-000000@us-west-2.amazonses.com>
-Date: Fri, 19 Jun 2026 06:18:31 +0000
+Subject: [AUH] vulkan-validation-layers: upgrading to 1.4.350.1 SUCCEEDED
+Message-ID: <0101019ede87ee95-97483992-5a65-4a51-8638-4327380a5791-000000@us-west-2.amazonses.com>
+Date: Fri, 19 Jun 2026 06:18:30 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.19-54.240.27.192
+X-SES-Outgoing: 2026.06.19-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 06:18:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239128
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239129
 
---===============5796719234065443558==
+--===============5558377461749971847==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *appstream* to *1.1.3* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *vulkan-validation-layers* to *1.4.350.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-appstream-upgrade-1.1.2-1.1.3.patch
+    - apply the patch: git am 0001-vulkan-validation-layers-upgrade-1.4.350.0-1.4.350.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,372 +72,547 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5ecb51985e6cdb7314d3f80b86a5c4d79f1d0900 Mon Sep 17 00:00:00 2001
+From 7515d1f1f50921abc98e68c43e75fc5ec60444db Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 19 Jun 2026 06:18:21 +0000
-Subject: [PATCH] appstream: upgrade 1.1.2 -> 1.1.3
+Date: Fri, 19 Jun 2026 06:13:10 +0000
+Subject: [PATCH] vulkan-validation-layers: upgrade 1.4.350.0 -> 1.4.350.1
 
 ---
- .../appstream/appstream/0001-remove-hardcoded-path.patch     | 4 ++--
- .../appstream/appstream/0002-Do-not-build-qt-tests.patch     | 5 +----
- ...ix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch | 2 +-
- .../appstream/{appstream_1.1.2.bb => appstream_1.1.3.bb}     | 2 +-
- 4 files changed, 5 insertions(+), 8 deletions(-)
- rename meta/recipes-support/appstream/{appstream_1.1.2.bb => appstream_1.1.3.bb} (95%)
+ ...-layers_1.4.350.0.bb => vulkan-validation-layers_1.4.350.1.bb} | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-graphics/vulkan/{vulkan-validation-layers_1.4.350.0.bb => vulkan-validation-layers_1.4.350.1.bb} (100%)
 
-diff --git a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
-index 5f4ec29628..56a5479099 100644
---- a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
-+++ b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
-@@ -1,4 +1,4 @@
--From e713f4d6ce2ee198eabcc31bc734e84cdb20ea32 Mon Sep 17 00:00:00 2001
-+From bf79c20cfee4a074ca752a1466dc96d0b9eb6175 Mon Sep 17 00:00:00 2001
- From: Markus Volk <f_l_k@t-online.de>
- Date: Mon, 12 Dec 2022 15:42:42 +0100
- Subject: [PATCH] remove hardcoded path
-@@ -14,7 +14,7 @@ Upstream-Status: Inappropriate [oe-specific]
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/meson.build b/meson.build
--index ee5b179..8a06e75 100644
-+index 9af5f58..ad1483d 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -194,10 +194,10 @@ endif
-diff --git a/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch b/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch
-index f6bbdd180a..3e666181eb 100644
---- a/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch
-+++ b/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch
-@@ -1,4 +1,4 @@
--From 5763a61ca9aff2e2383c1eeb1ef3f5e6cd07c539 Mon Sep 17 00:00:00 2001
-+From 1a1619dce3c3fa54fa5f47f7ed89447e0805de43 Mon Sep 17 00:00:00 2001
- From: Marc Ferland <marc.ferland@sonatest.com>
- Date: Fri, 26 Jul 2024 15:41:00 -0400
- Subject: [PATCH] Do not build qt/tests
-@@ -32,6 +32,3 @@ index 407a57a..840c838 100644
-  )
- -
- -subdir('tests/')
---- 
--2.34.1
--
-diff --git a/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch b/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch
-index d1994e3c4c..8ba4de95c9 100644
---- a/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch
-+++ b/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch
-@@ -1,4 +1,4 @@
--From f19365d8b90cde7d2a385f8c85b74a2565ff25fa Mon Sep 17 00:00:00 2001
-+From 4fdd29346b51eea577ee46c7166348dad19bbcb0 Mon Sep 17 00:00:00 2001
- From: Marc Ferland <marc.ferland@sonatest.com>
- Date: Mon, 29 Jul 2024 09:35:51 -0400
- Subject: [PATCH] Fix PACKAGE_PREFIX_DIR in qt/cmake/AppStreamQtConfig.cmake.in
-diff --git a/meta/recipes-support/appstream/appstream_1.1.2.bb b/meta/recipes-support/appstream/appstream_1.1.3.bb
-similarity index 95%
-rename from meta/recipes-support/appstream/appstream_1.1.2.bb
-rename to meta/recipes-support/appstream/appstream_1.1.3.bb
-index c6ec0fff0a..53eee13e84 100644
---- a/meta/recipes-support/appstream/appstream_1.1.2.bb
-+++ b/meta/recipes-support/appstream/appstream_1.1.3.bb
-@@ -30,7 +30,7 @@ SRC_URI = " \
- 	file://0002-Do-not-build-qt-tests.patch \
- 	file://0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch \
- "
--SRC_URI[sha256sum] = "46b4257100e25a6468ceed7b3ab82441f47b119da3398d30aea6d7b91174b586"
-+SRC_URI[sha256sum] = "2624f967068427edc94f3979edae3571bb077063f5bc231f737776da527bf467"
- 
- S = "${UNPACKDIR}/AppStream-${PV}"
- 
+diff --git a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.0.bb b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb
+similarity index 100%
+rename from meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb
 -- 
 2.47.1
 
 
---===============5796719234065443558==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-appstream-upgrade-1.1.2-1.1.3.patch"
-
-RnJvbSA1ZWNiNTE5ODVlNmNkYjczMTRkM2Y4MGI4NmE1YzRkNzlmMWQwOTAwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTkgSnVuIDIwMjYgMDY6MTg6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
-cHBzdHJlYW06IHVwZ3JhZGUgMS4xLjIgLT4gMS4xLjMKCi0tLQogLi4uL2FwcHN0cmVhbS9hcHBz
-dHJlYW0vMDAwMS1yZW1vdmUtaGFyZGNvZGVkLXBhdGgucGF0Y2ggICAgIHwgNCArKy0tCiAuLi4v
-YXBwc3RyZWFtL2FwcHN0cmVhbS8wMDAyLURvLW5vdC1idWlsZC1xdC10ZXN0cy5wYXRjaCAgICAg
-fCA1ICstLS0tCiAuLi5peC1QQUNLQUdFX1BSRUZJWF9ESVItaW4tcXQtY21ha2UtQXBwU3RyZWFt
-UXRDb25maWcucGF0Y2ggfCAyICstCiAuLi4vYXBwc3RyZWFtL3thcHBzdHJlYW1fMS4xLjIuYmIg
-PT4gYXBwc3RyZWFtXzEuMS4zLmJifSAgICAgfCAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDUgaW5z
-ZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9h
-cHBzdHJlYW0ve2FwcHN0cmVhbV8xLjEuMi5iYiA9PiBhcHBzdHJlYW1fMS4xLjMuYmJ9ICg5NSUp
-CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbS8w
-MDAxLXJlbW92ZS1oYXJkY29kZWQtcGF0aC5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2Fw
-cHN0cmVhbS9hcHBzdHJlYW0vMDAwMS1yZW1vdmUtaGFyZGNvZGVkLXBhdGgucGF0Y2gKaW5kZXgg
-NWY0ZWMyOTYyOC4uNTZhNTQ3OTA5OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
-YXBwc3RyZWFtL2FwcHN0cmVhbS8wMDAxLXJlbW92ZS1oYXJkY29kZWQtcGF0aC5wYXRjaAorKysg
-Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDEtcmVtb3ZlLWhh
-cmRjb2RlZC1wYXRoLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBlNzEzZjRkNmNlMmVlMTk4
-ZWFiY2MzMWJjNzM0ZTg0Y2RiMjBlYTMyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBi
-Zjc5YzIwY2ZlZTRhMDc0Y2E3NTJhMTQ2NmRjOTZkMGI5ZWI2MTc1IE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQogRnJvbTogTWFya3VzIFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPgogRGF0ZTogTW9u
-LCAxMiBEZWMgMjAyMiAxNTo0Mjo0MiArMDEwMAogU3ViamVjdDogW1BBVENIXSByZW1vdmUgaGFy
-ZGNvZGVkIHBhdGgKQEAgLTE0LDcgKzE0LDcgQEAgVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJp
-YXRlIFtvZS1zcGVjaWZpY10KICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRl
-bGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNvbi5idWlsZAotaW5k
-ZXggZWU1YjE3OS4uOGEwNmU3NSAxMDA2NDQKK2luZGV4IDlhZjVmNTguLmFkMTQ4M2QgMTAwNjQ0
-CiAtLS0gYS9tZXNvbi5idWlsZAogKysrIGIvbWVzb24uYnVpbGQKIEBAIC0xOTQsMTAgKzE5NCwx
-MCBAQCBlbmRpZgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL2Fw
-cHN0cmVhbS8wMDAyLURvLW5vdC1idWlsZC1xdC10ZXN0cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L2FwcHN0cmVhbS9hcHBzdHJlYW0vMDAwMi1Eby1ub3QtYnVpbGQtcXQtdGVzdHMucGF0
-Y2gKaW5kZXggZjZiYmRkMTgwYS4uM2U2NjYxODFlYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbS8wMDAyLURvLW5vdC1idWlsZC1xdC10ZXN0cy5w
-YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDIt
-RG8tbm90LWJ1aWxkLXF0LXRlc3RzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1NzYzYTYx
-Y2E5YWZmMmUyMzgzYzFlZWIxZWYzZjVlNmNkMDdjNTM5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbSAxYTE2MTlkY2UzYzNmYTU0ZmE1ZjQ3ZjdlZDg5NDQ3ZTA4MDVkZTQzIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWFyYyBGZXJsYW5kIDxtYXJjLmZlcmxhbmRAc29uYXRl
-c3QuY29tPgogRGF0ZTogRnJpLCAyNiBKdWwgMjAyNCAxNTo0MTowMCAtMDQwMAogU3ViamVjdDog
-W1BBVENIXSBEbyBub3QgYnVpbGQgcXQvdGVzdHMKQEAgLTMyLDYgKzMyLDMgQEAgaW5kZXggNDA3
-YTU3YS4uODQwYzgzOCAxMDA2NDQKICApCiAtCiAtc3ViZGlyKCd0ZXN0cy8nKQotLS0gCi0yLjM0
-LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVh
-bS8wMDAzLUZpeC1QQUNLQUdFX1BSRUZJWF9ESVItaW4tcXQtY21ha2UtQXBwU3RyZWFtUXRDb25m
-aWcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDMt
-Rml4LVBBQ0tBR0VfUFJFRklYX0RJUi1pbi1xdC1jbWFrZS1BcHBTdHJlYW1RdENvbmZpZy5wYXRj
-aAppbmRleCBkMTk5NGUzYzRjLi44YmE0ZGU5NWM5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDMtRml4LVBBQ0tBR0VfUFJFRklYX0RJUi1p
-bi1xdC1jbWFrZS1BcHBTdHJlYW1RdENvbmZpZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDMtRml4LVBBQ0tBR0VfUFJFRklYX0RJUi1pbi1x
-dC1jbWFrZS1BcHBTdHJlYW1RdENvbmZpZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZjE5
-MzY1ZDhiOTBjZGU3ZDJhMzg1ZjhjODViNzRhMjU2NWZmMjVmYSBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKK0Zyb20gNGZkZDI5MzQ2YjUxZWVhNTc3ZWU0NmM3MTY2MzQ4ZGFkMTliYmNiMCBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IE1hcmMgRmVybGFuZCA8bWFyYy5mZXJsYW5kQHNv
-bmF0ZXN0LmNvbT4KIERhdGU6IE1vbiwgMjkgSnVsIDIwMjQgMDk6MzU6NTEgLTA0MDAKIFN1Ympl
-Y3Q6IFtQQVRDSF0gRml4IFBBQ0tBR0VfUFJFRklYX0RJUiBpbiBxdC9jbWFrZS9BcHBTdHJlYW1R
-dENvbmZpZy5jbWFrZS5pbgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3Ry
-ZWFtL2FwcHN0cmVhbV8xLjEuMi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0cmVhbS9h
-cHBzdHJlYW1fMS4xLjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbV8xLjEuMi5iYgpyZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbV8xLjEuMy5iYgppbmRleCBjNmVj
-MGZmZjBhLi41M2VlZTEzZTg0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBz
-dHJlYW0vYXBwc3RyZWFtXzEuMS4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0
-cmVhbS9hcHBzdHJlYW1fMS4xLjMuYmIKQEAgLTMwLDcgKzMwLDcgQEAgU1JDX1VSSSA9ICIgXAog
-CWZpbGU6Ly8wMDAyLURvLW5vdC1idWlsZC1xdC10ZXN0cy5wYXRjaCBcCiAJZmlsZTovLzAwMDMt
-Rml4LVBBQ0tBR0VfUFJFRklYX0RJUi1pbi1xdC1jbWFrZS1BcHBTdHJlYW1RdENvbmZpZy5wYXRj
-aCBcCiAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDZiNDI1NzEwMGUyNWE2NDY4Y2VlZDdiM2Fi
-ODI0NDFmNDdiMTE5ZGEzMzk4ZDMwYWVhNmQ3YjkxMTc0YjU4NiIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICIyNjI0Zjk2NzA2ODQyN2VkYzk0ZjM5NzllZGFlMzU3MWJiMDc3MDYzZjViYzIzMWY3Mzc3
-NzZkYTUyN2JmNDY3IgogCiBTID0gIiR7VU5QQUNLRElSfS9BcHBTdHJlYW0tJHtQVn0iCiAKLS0g
-CjIuNDcuMQoK
-
---===============5796719234065443558==
+--===============5558377461749971847==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1978 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1978 targets, 63 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.19.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
+TARGET_SYS           = "arm-poky-linux-musleabi"
+MACHINE              = "qemuarm"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-7f7623a221b1e0ba4bbc216e837413ec9b69573b"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:7f7623a221b1e0ba4bbc216e837413ec9b69573b"
+DISTRO_VERSION       = "6.0.99+snapshot-21044a77494815cad35709db3b85fe1f77dad258"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+meta                 = "tmp-auh-upgrades:21044a77494815cad35709db3b85fe1f77dad258"
 meta-yocto-bsp       
 meta-poky            = "master:366fa2f21bfb0d9c4de492e0204a0dd38ce241ab"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 446 Local 427 Mirrors 0 Missed 19 Current 497 (95% match, 97% complete)
+Sstate summary: Wanted 369 Local 344 Mirrors 0 Missed 25 Current 231 (93% match, 95% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 894 of 943 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.27.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 896 of 943 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_create_spdx_setscene)
-NOTE: Running task 1113 of 2250 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_recipe_qa)
-NOTE: Running task 1118 of 2250 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_recipe_qa)
-NOTE: Running task 1148 of 2250 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_write_config)
-NOTE: Running task 1149 of 2250 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_write_config)
-NOTE: recipe libfyaml-native-0.9.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxmlb-native-0.3.27-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libfyaml-native-0.9.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 919 of 943 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe appstream-1.1.3-r0: task do_recipe_qa: Started
-NOTE: recipe libxmlb-native-0.3.27-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 924 of 943 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 927 of 943 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.27.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe appstream-1.1.3-r0: task do_write_config: Started
-NOTE: recipe appstream-native-1.1.3-r0: task do_recipe_qa: Started
-NOTE: recipe appstream-native-1.1.3-r0: task do_write_config: Started
-NOTE: recipe appstream-1.1.3-r0: task do_write_config: Succeeded
-NOTE: recipe appstream-native-1.1.3-r0: task do_write_config: Succeeded
-NOTE: recipe libfyaml-native-0.9.6-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libxmlb-native-0.3.27-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe glib-2.0-native-1_2.88.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libfyaml-native-0.9.6-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe libxmlb-native-0.3.27-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe glib-2.0-native-1_2.88.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 938 of 943 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.1.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe appstream-native-1.1.3-r0: task do_recipe_qa: Succeeded
-NOTE: recipe appstream-1.1.3-r0: task do_recipe_qa: Succeeded
-NOTE: recipe glib-2.0-native-1_2.88.1-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe glib-2.0-native-1_2.88.1-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 306 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 372 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 376 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.350.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 396 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb:do_recipe_qa_setscene)
+NOTE: Running task 899 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_recipe_qa)
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_populate_lic_setscene: Started
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_recipe_qa: Started
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_populate_lic_setscene: Succeeded
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running task 931 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb:do_fetch)
+NOTE: Running task 932 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb:do_recipe_qa)
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 398 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.350.0.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 399 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 400 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 401 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.25.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 402 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.350.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 403 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 404 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.350.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 405 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-headers_1.4.350.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 406 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 407 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.350.0.bb:do_packagedata_setscene)
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_fetch: Started
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_recipe_qa: Started
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-headers-1.4.350.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe spirv-headers-1_1.4.350.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_recipe_qa: Succeeded
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-1.25.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_packagedata_setscene: Started
+NOTE: Running task 933 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_fetch)
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe spirv-headers-1_1.4.350.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe wayland-1.25.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.4.350.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 408 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 411 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 413 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.350.0.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 414 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.25.0.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 415 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-headers_1.4.350.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_fetch: Started
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_recipe_qa: Succeeded
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/spirv-tools/1.4.350.0/temp/log.do_packagedata_setscene.1780055
+NOTE: Running setscene task 420 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.25.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 421 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 422 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.350.0.bb:do_packagedata_setscene)
+NOTE: Running task 934 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb:do_fetch)
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.350.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 423 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.350.0.bb:do_package_setscene)
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.4.350.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe spirv-headers-1_1.4.350.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe wayland-1.25.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.4.350.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_fetch: Started
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_fetch: Succeeded
+NOTE: recipe wayland-1.25.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.4.350.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.13-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe spirv-headers-1_1.4.350.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe wayland-1.25.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_fetch: Succeeded
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.4.350.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.25.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 426 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 429 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 432 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.350.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 434 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 436 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.25.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 438 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 439 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 441 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 442 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-loader_1.4.350.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 443 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 444 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_packagedata_setscene)
+NOTE: Running task 935 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_unpack)
+NOTE: Running task 936 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb:do_unpack)
+NOTE: recipe vulkan-headers-1.4.350.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_fetch: Succeeded
+NOTE: recipe expat-2.8.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 937 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb:do_unpack)
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe wayland-1.25.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_unpack: Started
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_unpack: Started
+NOTE: recipe vulkan-loader-1.4.350.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.13-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_unpack: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 447 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 455 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_spdx_setscene)
+NOTE: recipe libxrender-1_0.9.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 459 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_packagedata_setscene)
+NOTE: recipe expat-2.8.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxml2-2.15.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 462 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_packagedata_setscene)
+NOTE: recipe wayland-1.25.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 463 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 464 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 466 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrandr_1.5.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 467 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 468 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 469 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 471 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.25.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.4.350.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 473 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-headers_1.4.350.0.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.8.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.25.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.4.350.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 481 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 483 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe libxrandr-1_1.5.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.25.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 485 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 486 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_package_setscene: Started
+NOTE: recipe vulkan-headers-1.4.350.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 490 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 491 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.5.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 493 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 494 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxext_1.3.7.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe expat-2.8.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 496 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.8.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libxml2-2.15.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 498 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 499 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxext-1_1.3.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 505 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe expat-2.8.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxml2-2.15.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libffi-3.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxml2-2.15.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe expat-2.8.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 507 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 509 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libx11_1.8.13.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 510 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 512 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 513 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 514 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 515 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 517 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_unpack: Succeeded
+NOTE: Running task 987 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_patch)
+NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running task 1068 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_create_recipe_spdx)
+NOTE: Running task 1069 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb:do_create_recipe_spdx)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_patch: Started
+NOTE: recipe libx11-1_1.8.13-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe zlib-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 531 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 532 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_packagedata_setscene)
+NOTE: recipe xtrans-1_1.6.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 535 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/xtrans_1.6.0.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_patch: Succeeded
+NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 536 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 537 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 538 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 540 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 541 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: Running task 1080 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1081 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_generate_toolchain_file)
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_unpack: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1082 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb:do_patch)
+NOTE: recipe xorgproto-2025.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.6.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe xtrans-1_1.6.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_unpack: Succeeded
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_patch: Started
+NOTE: Running task 1088 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb:do_patch)
+NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe xorgproto-2025.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1094 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb:do_create_recipe_spdx)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 545 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 547 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 549 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxau_1.0.12.bb:do_recipe_qa_setscene)
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 550 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 551 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 553 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_patch: Started
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_patch: Succeeded
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1095 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1096 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb:do_generate_toolchain_file)
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_patch: Succeeded
+NOTE: Running task 1097 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1098 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.4.350.1.bb:do_generate_toolchain_file)
+NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.12-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe util-macros-1_1.20.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running setscene task 556 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.20.2.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe xorgproto-2025.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 560 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe xorgproto-2025.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_package_setscene: Succeeded
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running setscene task 561 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-headers_1.4.350.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 563 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.350.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 564 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-headers_1.4.350.0.bb:do_packagedata_setscene)
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb:do_deploy_source_date_epoch unihash changed to 065666cff0f62ce6b2fc2f2b64753cdcd29ba438d1318e21deb41e51bd017d1e
+NOTE: recipe util-macros-1_1.20.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xorgproto-2025.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe spirv-headers-1_1.4.350.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe spirv-headers-1_1.4.350.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-validation-layers-1.4.350.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe spirv-headers-1_1.4.350.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 566 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_packagedata_setscene)
+NOTE: recipe spirv-headers-1_1.4.350.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 568 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 569 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-headers_1.4.350.0.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe spirv-headers-1_1.4.350.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe spirv-headers-1_1.4.350.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 571 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 573 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 574 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 576 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 578 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 579 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_packagedata_setscene)
+NOTE: Running setscene task 580 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 582 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 583 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-16.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcc-16.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 587 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 589 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 590 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 592 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 596 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 598 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: recipe linux-libc-headers-6.18-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 600 of 600 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.18.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.18-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1944 of 2250 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_fetch)
-NOTE: Running task 1959 of 2250 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_fetch)
-NOTE: Running task 2175 of 2250 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_create_recipe_spdx)
-NOTE: recipe appstream-1.1.3-r0: task do_fetch: Started
-NOTE: recipe appstream-1.1.3-r0: task do_fetch: Succeeded
-NOTE: recipe appstream-native-1.1.3-r0: task do_fetch: Started
-NOTE: Running task 2223 of 2250 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_unpack)
-NOTE: recipe appstream-native-1.1.3-r0: task do_fetch: Succeeded
-NOTE: Running task 2224 of 2250 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_unpack)
-NOTE: Running task 2225 of 2250 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe appstream-native-1.1.3-r0: task do_create_recipe_spdx: Started
-NOTE: recipe appstream-1.1.3-r0: task do_unpack: Started
-NOTE: recipe appstream-native-1.1.3-r0: task do_unpack: Started
-NOTE: recipe appstream-native-1.1.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe appstream-1.1.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2226 of 2250 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_patch)
-NOTE: recipe appstream-native-1.1.3-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe appstream-1.1.3-r0: task do_patch: Started
-NOTE: Running task 2227 of 2250 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_create_recipe_spdx)
-NOTE: recipe appstream-native-1.1.3-r0: task do_unpack: Succeeded
-NOTE: Running task 2228 of 2250 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_patch)
-NOTE: recipe appstream-1.1.3-r0: task do_create_recipe_spdx: Started
-NOTE: recipe appstream-native-1.1.3-r0: task do_patch: Started
-NOTE: recipe appstream-native-1.1.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe appstream-1.1.3-r0: task do_patch: Succeeded
-NOTE: Running task 2229 of 2250 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2230 of 2250 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_populate_lic)
-NOTE: recipe appstream-1.1.3-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe appstream-1.1.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe appstream-1.1.3-r0: task do_populate_lic: Started
-NOTE: recipe appstream-native-1.1.3-r0: task do_patch: Succeeded
-NOTE: Running task 2231 of 2250 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe appstream-1.1.3-r0: task do_populate_lic: Succeeded
-NOTE: recipe appstream-1.1.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe appstream-native-1.1.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe appstream-native-1.1.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2232 of 2250 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_configure)
-NOTE: recipe appstream-native-1.1.3-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/gettext/gettext-minimal-native_1.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.3.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembe
- dded-core/meta/recipes-devtools/meson/meson_1.11.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygments_2.20.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.6.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/gperf/gperf_3.3.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-
- worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.27.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.20.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/itstool/itstool_2.0.7.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libxslt/libxslt_1.1.45.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['gettext-minimal-native', 'cmake-native', 'libtool-native', 'm4-native', 'quilt-native', 'texinfo-dummy-native', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'docbook-xml-dtd4-native', 'docbook-xsl-stylesheets-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'perl-native', 'pkgconf-native', 'python3-build-native', 'python3-calver-native', 'python3-editables-native', 'python3-flit-core-native', 'python3-hatchling-native', 'python3-installer-native', 'python3-lxml-native', 'python3-packaging-native', 'python3-pathspec-native', 'python3-pluggy-native', 'python3-pygments-native', 'python3-pyproject-hooks-native', 'python3-setuptools-scm-native', 'python3-setuptools-native', 'python3-trove-classifiers-native', 'python3-typing-extensions-native', 'python3-vcs-versioning-native',
-  'python3-wheel-native', 'python3-native', 'vala-native', 'bzip2-native', 'gperf-native', 'unzip-native', 'xz-native', 'zstd-native', 'gobject-introspection-native', 'libxmlb-native', 'curl-native', 'gdbm-native', 'itstool-native', 'libffi-native', 'libfyaml-native', 'libpcre2-native', 'libxslt-native', 're2c-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dapidocs=false -Dgir=false -Dvapi=false -Dbash-completion=false -Dqt=false -Dstemming=false -Dsystemd=false...
-| The Meson build system
-| Version: 1.11.1
-| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/sources/AppStream-1.1.3
-| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/build
-| Build type: native build
-| Project name: AppStream
-| Project version: 1.1.3
-| C compiler for the host machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
-| C linker for the host machine: gcc ld.bfd 2.43.1.20241111
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Compiler for C supports arguments -Werror=shadow: YES
-| Compiler for C supports arguments -Werror=empty-body: YES
-| Compiler for C supports arguments -Werror=strict-prototypes: YES
-| Compiler for C supports arguments -Werror=missing-prototypes: YES
-| Compiler for C supports arguments -Werror=implicit-function-declaration: YES
-| Compiler for C supports arguments -Werror=pointer-arith: YES
-| Compiler for C supports arguments -Werror=missing-declarations: YES
-| Compiler for C supports arguments -Werror=return-type: YES
-| Compiler for C supports arguments -Werror=int-conversion: YES
-| Compiler for C supports arguments -Werror=incompatible-pointer-types: YES
-| Compiler for C supports arguments -Werror=misleading-indentation: YES
-| Compiler for C supports arguments -Werror=missing-include-dirs: YES
-| Compiler for C supports arguments -Werror=declaration-after-statement: YES
-| Compiler for C supports arguments -Werror=format-security: NO
-| Compiler for C supports arguments -Wno-missing-field-initializers: YES
-| Compiler for C supports arguments -Wno-error=missing-field-initializers: YES
-| Compiler for C supports arguments -Wno-unused-parameter: YES
-| Compiler for C supports arguments -Wno-error=unused-parameter: YES
-| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/recipe-sysroot-native/usr/bin/pkg-config-native) 2.5.1
-| Run-time dependency glib-2.0 found: YES 2.88.1
-| Run-time dependency gobject-2.0 found: YES 2.88.1
-| Run-time dependency gio-2.0 found: YES 2.88.1
-| Run-time dependency libcurl found: YES 8.20.0
-| Run-time dependency libxml-2.0 found: YES 2.15.3
-| Run-time dependency libfyaml found: YES 0.9.6
-| Run-time dependency xmlb found: YES 0.3.27
-| Run-time dependency libzstd found: YES 1.5.7
-| Program gperf found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/recipe-sysroot-native/usr/bin/gperf)
-| Configuring config.h using configuration
-| Configuring as-version.h using configuration
-| Dependency glib-2.0 for build machine found: YES 2.88.1 (cached)
-| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/recipe-sysroot-native/usr/bin/glib-mkenums)
-| Dependency glib-2.0 for build machine found: YES 2.88.1 (cached)
-| Program glib-mkenums found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/recipe-sysroot-native/usr/bin/glib-mkenums)
-| Dependency gio-2.0 for build machine found: YES 2.88.1 (cached)
-| Program glib-compile-resources found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/recipe-sysroot-native/usr/bin/glib-compile-resources)
-| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/recipe-sysroot-native/usr/bin/pkg-config-native) 2.5.1
-| Program sed found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/sed)
-| Program msgfmt found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/recipe-sysroot-native/usr/bin/msgfmt)
-| Program msginit found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/recipe-sysroot-native/usr/bin/msginit)
-| Program msgmerge found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/recipe-sysroot-native/usr/bin/msgmerge)
-| Program xgettext found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/recipe-sysroot-native/usr/bin/xgettext)
-| Program itstool found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/recipe-sysroot-native/usr/bin/itstool)
-| Program xsltproc found: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/recipe-sysroot-native/usr/bin/xsltproc)
-| 
-| ../sources/AppStream-1.1.3/docs/meson.build:16:8: ERROR: Problem encountered: Unable to find Docbook XSL stylesheets for man pages
-| 
-| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/build/meson-logs/meson-log.txt
-| 
-| Last 10 lines of meson-log.txt:
-| --- stdout ---
-| 
-| --- stderr ---
-| I/O error : failed to load "http://docbook.sourceforge.net/release/xsl-ns/current/manpages/docbook.xsl": Attempt to load network entity
-| warning: failed to load external entity "http://docbook.sourceforge.net/release/xsl-ns/current/manpages/docbook.xsl"
-| cannot parse http://docbook.sourceforge.net/release/xsl-ns/current/manpages/docbook.xsl
-| 
-| 
-| 
-| ../sources/AppStream-1.1.3/docs/meson.build:16:8: ERROR: Problem encountered: Unable to find Docbook XSL stylesheets for man pages
-| 
-| ERROR: meson setup failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/temp/run.do_configure.1809275:175 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/temp/run.do_configure.1809275, line 175
-| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/temp/run.do_configure.1809275, line 164
-| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/temp/run.do_configure.1809275, line 151
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/temp/run.do_configure.1809275, line 188
-NOTE: recipe appstream-native-1.1.3-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 2232 tasks of which 2215 didn't need to be rerun and 1 failed.
+NOTE: Running task 1406 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/spir/spirv-tools_1.4.350.0.bb:do_packagedata)
+NOTE: Running task 1409 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1410 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_packagedata: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.4.350.0-r0: task do_packagedata: Succeeded
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1436 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_configure)
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1437 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb:do_configure)
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_configure: Started
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_configure: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_configure: Succeeded
+NOTE: Running task 1438 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_compile)
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_compile: Started
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_configure: Succeeded
+NOTE: Running task 1439 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/glslang/glslang_1.4.350.0.bb:do_compile)
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_compile: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_compile: Succeeded
+NOTE: Running task 1440 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_install)
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_install: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_install: Succeeded
+NOTE: Running task 1441 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_package)
+NOTE: Running task 1442 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_populate_sysroot)
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_populate_sysroot: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_package: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_package: Succeeded
+NOTE: Running task 1443 of 1463 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_packagedata)
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_packagedata: Started
+NOTE: recipe vulkan-utility-libraries-1.4.350.0-r0: task do_packagedata: Failed
+NOTE: recipe glslang-1_1.4.350.0-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 1443 tasks of which 1412 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260619061806.txt
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260619061207.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260619061806.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260619061207.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/temp/log.do_configure.1809275
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: appstream-native-1.1.3-r0 do_configure: meson setup failed
-ERROR: appstream-native-1.1.3-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/temp/run.do_configure.1809275' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/appstream-native/1.1.3/temp/log.do_configure.1809275
-ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.1.3.bb:do_configure) failed with exit code '1'
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_packagedata
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/vulkan-utility-libraries/1.4.350.0/temp/log.do_packagedata.1784526
+Summary: There were 17 ERROR messages, returning a non-zero exit code.
+ERROR: spirv-tools-1_1.4.350.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-tools-src went backwards which would break package feeds (from 1:1.4.350.1-r0 to 1:1.4.350.0-r0) [version-going-backwards]
+ERROR: spirv-tools-1_1.4.350.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-tools-dbg went backwards which would break package feeds (from 1:1.4.350.1-r0 to 1:1.4.350.0-r0) [version-going-backwards]
+ERROR: spirv-tools-1_1.4.350.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-tools-staticdev went backwards which would break package feeds (from 1:1.4.350.1-r0 to 1:1.4.350.0-r0) [version-going-backwards]
+ERROR: spirv-tools-1_1.4.350.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-tools-dev went backwards which would break package feeds (from 1:1.4.350.1-r0 to 1:1.4.350.0-r0) [version-going-backwards]
+ERROR: spirv-tools-1_1.4.350.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-tools-doc went backwards which would break package feeds (from 1:1.4.350.1-r0 to 1:1.4.350.0-r0) [version-going-backwards]
+ERROR: spirv-tools-1_1.4.350.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-tools-locale went backwards which would break package feeds (from 1:1.4.350.1-r0 to 1:1.4.350.0-r0) [version-going-backwards]
+ERROR: spirv-tools-1_1.4.350.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-tools-bin went backwards which would break package feeds (from 1:1.4.350.1-r0 to 1:1.4.350.0-r0) [version-going-backwards]
+ERROR: spirv-tools-1_1.4.350.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-tools went backwards which would break package feeds (from 1:1.4.350.1-r0 to 1:1.4.350.0-r0) [version-going-backwards]
+ERROR: spirv-tools-1_1.4.350.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: vulkan-utility-libraries-1.4.350.0-r0 do_packagedata: QA Issue: Package version for package vulkan-utility-libraries-src went backwards which would break package feeds (from 0:1.4.350.1-r0 to 0:1.4.350.0-r0) [version-going-backwards]
+ERROR: vulkan-utility-libraries-1.4.350.0-r0 do_packagedata: QA Issue: Package version for package vulkan-utility-libraries-dbg went backwards which would break package feeds (from 0:1.4.350.1-r0 to 0:1.4.350.0-r0) [version-going-backwards]
+ERROR: vulkan-utility-libraries-1.4.350.0-r0 do_packagedata: QA Issue: Package version for package vulkan-utility-libraries-staticdev went backwards which would break package feeds (from 0:1.4.350.1-r0 to 0:1.4.350.0-r0) [version-going-backwards]
+ERROR: vulkan-utility-libraries-1.4.350.0-r0 do_packagedata: QA Issue: Package version for package vulkan-utility-libraries-dev went backwards which would break package feeds (from 0:1.4.350.1-r0 to 0:1.4.350.0-r0) [version-going-backwards]
+ERROR: vulkan-utility-libraries-1.4.350.0-r0 do_packagedata: QA Issue: Package version for package vulkan-utility-libraries-doc went backwards which would break package feeds (from 0:1.4.350.1-r0 to 0:1.4.350.0-r0) [version-going-backwards]
+ERROR: vulkan-utility-libraries-1.4.350.0-r0 do_packagedata: QA Issue: Package version for package vulkan-utility-libraries-locale went backwards which would break package feeds (from 0:1.4.350.1-r0 to 0:1.4.350.0-r0) [version-going-backwards]
+ERROR: vulkan-utility-libraries-1.4.350.0-r0 do_packagedata: QA Issue: Package version for package vulkan-utility-libraries went backwards which would break package feeds (from 0:1.4.350.1-r0 to 0:1.4.350.0-r0) [version-going-backwards]
+ERROR: vulkan-utility-libraries-1.4.350.0-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/vulkan-utility-libraries/1.4.350.0/temp/log.do_packagedata.1784526
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.4.350.0.bb:do_packagedata) failed with exit code '1'
 
---===============5796719234065443558==--
+--===============5558377461749971847==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/vulkan-validation-layers: SRC_URI changed from "git://github.com/KhronosGroup/Vulkan-ValidationLayers.git;branch=vulkan-sdk-1.4.350;protocol=https;tag=vulkan-sdk-1.4.350.0" to "git://github.com/KhronosGroup/Vulkan-ValidationLayers.git;branch=vulkan-sdk-1.4.350;protocol=https;tag=vulkan-sdk-1.4.350.1"
+packages/x86-64-v3-poky-linux/vulkan-validation-layers: PV changed from "1.4.350.0" to "1.4.350.1"
+packages/x86-64-v3-poky-linux/vulkan-validation-layers: PKGV changed from 1.4.350.0 [default] to 1.4.350.1 [default]
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-dbg: PV changed from "1.4.350.0" to "1.4.350.1"
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-dbg: PKGV changed from 1.4.350.0 [default] to 1.4.350.1 [default]
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-dev: PV changed from "1.4.350.0" to "1.4.350.1"
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-dev: PKGV changed from 1.4.350.0 [default] to 1.4.350.1 [default]
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-doc: PV changed from "1.4.350.0" to "1.4.350.1"
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-doc: PKGV changed from 1.4.350.0 [default] to 1.4.350.1 [default]
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-locale: PV changed from "1.4.350.0" to "1.4.350.1"
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-locale: PKGV changed from 1.4.350.0 [default] to 1.4.350.1 [default]
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-src: FILELIST: directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/drawdispatch -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/drawdispatch, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/vulkan/generated -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/vulkan/generated, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/external -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/external, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/object_tracker -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/object_tracker, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/thread_tracker -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/thread_tracker, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/gpuav/reso
+ urces -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/gpuav/resources, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/gpu_dump -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/gpu_dump, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/chassis -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/chassis, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/gpuav/core -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/gpuav/core, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/error_message -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/error_message, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/gpuav/debug_printf -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/gpuav/debug_printf, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/gpuav/debug_descriptor -> /usr/src/de
+ bug/vulkan-validation-layers/1.4.350.1/layers/gpuav/debug_descriptor, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/best_practices -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/best_practices, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/gpuav/spirv -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/gpuav/spirv, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/utils -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/utils, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/external/vma -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/external/vma, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/gpuav/shaders/setup -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/gpuav/shaders/setup, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/containers -> /usr/src/debug/vulkan-vali
+ dation-layers/1.4.350.1/layers/containers, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/gpuav/validation_cmd -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/gpuav/validation_cmd, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/gpuav/instrumentation -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/gpuav/instrumentation, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/sync -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/sync, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/legacy -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/legacy, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/gpuav/descriptor_validation -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/gpuav/descriptor_validation, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers -> /usr/src/debug/vulkan-validati
+ on-layers/1.4.350.1/layers, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/stateless -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/stateless, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/state_tracker -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/state_tracker, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/core_checks -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/core_checks, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/gpuav/shaders/validation_cmd -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/gpuav/shaders/validation_cmd, directory renamed /usr/src/debug/vulkan-validation-layers/1.4.350.0/layers/gpuav/shaders -> /usr/src/debug/vulkan-validation-layers/1.4.350.1/layers/gpuav/shaders
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-src: PV changed from "1.4.350.0" to "1.4.350.1"
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-src: PKGV changed from 1.4.350.0 [default] to 1.4.350.1 [default]
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-staticdev: PV changed from "1.4.350.0" to "1.4.350.1"
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers-staticdev: PKGV changed from 1.4.350.0 [default] to 1.4.350.1 [default]
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers: PV changed from "1.4.350.0" to "1.4.350.1"
+packages/x86-64-v3-poky-linux/vulkan-validation-layers/vulkan-validation-layers: PKGV changed from 1.4.350.0 [default] to 1.4.350.1 [default]
+
+--===============5558377461749971847==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-vulkan-validation-layers-upgrade-1.4.350.0-1.4.350.1.patch"
+
+RnJvbSA3NTE1ZDFmMWY1MDkyMWFiYzk4ZTY4YzQzZTc1ZmM1ZWM2MDQ0NGRiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTkgSnVuIDIwMjYgMDY6MTM6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4tdmFsaWRhdGlvbi1sYXllcnM6IHVwZ3JhZGUgMS40LjM1MC4wIC0+IDEuNC4zNTAuMQoK
+LS0tCiAuLi4tbGF5ZXJzXzEuNC4zNTAuMC5iYiA9PiB2dWxrYW4tdmFsaWRhdGlvbi1sYXllcnNf
+MS40LjM1MC4xLmJifSB8IDAKIDEgZmlsZSBjaGFuZ2VkLCAwIGluc2VydGlvbnMoKyksIDAgZGVs
+ZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi97dnVsa2FuLXZh
+bGlkYXRpb24tbGF5ZXJzXzEuNC4zNTAuMC5iYiA9PiB2dWxrYW4tdmFsaWRhdGlvbi1sYXllcnNf
+MS40LjM1MC4xLmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+dnVsa2FuL3Z1bGthbi12YWxpZGF0aW9uLWxheWVyc18xLjQuMzUwLjAuYmIgYi9tZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi12YWxpZGF0aW9uLWxheWVyc18xLjQuMzUwLjEuYmIK
+c2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92
+dWxrYW4vdnVsa2FuLXZhbGlkYXRpb24tbGF5ZXJzXzEuNC4zNTAuMC5iYgpyZW5hbWUgdG8gbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tdmFsaWRhdGlvbi1sYXllcnNfMS40LjM1
+MC4xLmJiCi0tIAoyLjQ3LjEKCg==
+
+--===============5558377461749971847==--
 
