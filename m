@@ -2,433 +2,561 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AD26CDB473
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7E8FCDB475
 	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 08:33:23 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38257.1781857994877010989
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38123.1781857996049228912
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jun 2026 01:33:15 -0700
+ Fri, 19 Jun 2026 01:33:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=MbDx+v0Q;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-46066e640easo1128703f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 01:33:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=PlHntSXc;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso23587685e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 01:33:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781857993; x=1782462793; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1781857994; x=1782462794; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QXHNCJPS6qLN3PQYHf/9sM8KggzRMYc8WXxJstQB/jo=;
-        b=MbDx+v0QCQ8VrBhGK+xNY6/wKBYyqrRkWxTwOzk1beqB/NcGe47FlhjO3hIjMclQ8x
-         puKOLUqbuFMGimcfkjkhcQHcborJq2cqT54CANxR2UCYimKef+VIgTb6X9wy61Oekl3f
-         gHYtVJzGQhfI92kYRxpkFKWIZBEo3pgeQYACACy3k6Ft/d7ZUzxStaqD8qffTrth2ilM
-         pssu6VnVXrzOEaSsMZ2iWIc6QeBt89wH+7fFaMNGiPjJWdbJHmxOaSKFnxHwo2W+xpM/
-         60VObJobu7bHm1D7FT8lQCOUJE5QNuTKFxmGtpx4OA7gO222tUK0wkdXma0HAJNBgq0i
-         U0KQ==
+        bh=FwNfROmjO/EW0EiyHDeTbvQSHan7b/U1GdWAvAk+pk8=;
+        b=PlHntSXcepHniWDEbG2v78gywYmhe+JgfjzPgfz53VGA6nTrNA62cuSFRkwKtgiF8Y
+         iXjV21cS7LWuGln5prsGfCHK/8x4z320Ag4S8X/py4MPZv1TKSh3zzn+qZFmec2grgeX
+         UDN+SfRIpY1QvtDpyfTksHtCTURx2deEmwUtWAE40PiMEbZo2w/6tPbxNWBr5cqx3ZDR
+         dbWjfwqKFgpY2tD0rF7MOKUzdjexbvv4l3ZnImyaaQ8Aq/+EWW8nnCiLS0BE6qV7JJ2J
+         GARAN6P5W8jW/T+njGIA5aiCdPjXQ4GqNF8Zk0s+yizE+eYiWVWtdQwX1GU4Yk9nwF3w
+         lAEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781857993; x=1782462793;
+        d=1e100.net; s=20251104; t=1781857994; x=1782462794;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=QXHNCJPS6qLN3PQYHf/9sM8KggzRMYc8WXxJstQB/jo=;
-        b=qHbW5Z+MXKTYqQLwQ1nD0do3zhHhAJJUUiXnFbiEJmYVDTMUadAtQcXLG3rf2FkHvf
-         u/MW5dGHWZ4Brl/zHzS+qrz4YtnDNAlPbAPKG1Je+Ad/QXnVJ5wp62zvS7ZiZjjkymDK
-         UEF87eTrZtkYmEs4GUgYMWHm8MqO62UZDINbkeQNseMlF6qWOagtjTIXx4nVhELU75NJ
-         Vrrx2wj1QtIrHjK0rDuQsrhj7ZAM5QQbfg7q5TjpnYpwHZZMDzWPWoewzR6xnX9KESUB
-         OhU7wDVU8DdsE3QPQwcdIFiR1s6Lsi352YFdzyr3hRE/RxgyCOfbBppl81ssbOM7yGIN
-         1EbQ==
-X-Gm-Message-State: AOJu0YyQVGnz/WOPQUi/KRoLsRzlE7dTxkFvpxa75ic+rrurbhtzVxAC
-	X3KDOgPQXclyc8uM2t/WaEBBrrW78wfEaHs6Se0yp0Icmdo815+e1V8G0nnXJF/P
-X-Gm-Gg: AfdE7cmrCdjzvTAluV7yczz5KUPnTDXnZKvqxZYwhUP87rfQubFO4gKFduMpcxS97Xf
-	g3ePz/tt+KckJJsqcMbV4TVoyrMwYK8SpYnrSad9SaHflog2o2uRDWJ/iLFm4/0BhzFdlFuxItq
-	unb+jAIVYCGPO7CCqRIN90PcCHK3MgnjFS7SPetcmTyMS8B1enrK70NSBQsRIuLrjVTZDJtG6Yb
-	UtV8NRdmCQxseB+m8VoVJVjReqXYH3MXl6glo9st6JnoXTQPww2EZq6AuVSLW5qw59o+0dsS5ls
-	KCONSwQQpxs62N2H+uEozoRSJ6M5W8re7BgBh9O850qTiNTNm+y8m+8+MxeI2Ej68tCuXNUZ0P3
-	fzAkayez+fzs+vPNMvgDE8+9xD/0uDNY1vHx3x6TYykFONSlfEO7zj2UVKDclFmWDLLPZaQbjO8
-	de+LQcUM3Y+sywjiRPXK5v0KmXQxfPnpRvQlHrApnhXNlQHDUR
-X-Received: by 2002:a05:6000:481b:b0:45e:eaed:afd2 with SMTP id ffacd0b85a97d-465041d5b0amr5022874f8f.0.1781857992985;
-        Fri, 19 Jun 2026 01:33:12 -0700 (PDT)
+        bh=FwNfROmjO/EW0EiyHDeTbvQSHan7b/U1GdWAvAk+pk8=;
+        b=ZzLnF2HIf0XfRifOGYslo8LWH9YqE9k3c4F85OhbDIk3k/2ItcTaaRqnIq07c4olXQ
+         RrIo7pZSS71ZlFUEdzClWuuDcj0Auh6ZG6QAey418atKm6aDAJQVWwL7uIH2wCw0BnD0
+         uc75vG2bw6+yLdVEd5Jyt8PYN0XYjM7cUY8EOPln/yFYzTBlHbaxPF+uOSsK9KKwXTBK
+         Y1++263Xywbj7ply9Scmkofw5a8nSM0JYJ9AfIWM21F0PYw3+EBuDQefwq5zgfM7VPiM
+         9s5PIFptxHJ904ezW5bivthPg/1rHnPEdyXSSPWYYGx5IpsMujJWpDToF43eSWyRSDCe
+         Ycnw==
+X-Gm-Message-State: AOJu0YxEIGHN7jBb5zHMFGncAejfpV6UNAXMmVtNSgbUmBx3CJ2d3KkL
+	OxSkAbDB+P7NJmGfe5G+6hYoSGijpZtCcwUP9VJ8F5WiFo7LKZTLCLzliFKUcvEh
+X-Gm-Gg: AfdE7cngE2pLNkz6QL/gE6jrU+lbWDRr8d0lGLkKliuQ+P0eRmHHp/n8w2hxmrIW6G4
+	GiCfrRsuEPv1q1D7R3ApcR6u0IMJRvc0Ocmu6hV25e5zurnI/xUXR0cGqkqINtk2FVFICLFqLpm
+	MRn03Fo4RCP1P0iCURqEYhZn/OfVVFiLHkYi7GopbEg44epPKMnWP+3+oULY8MaolDjWKAEL5V5
+	yZHjCG4q3gOaA2M1IABL0EDGSql6hMhhaw5zDmiyYIddltNAwUCV/2cJbJFu/6ApAI//+P6AgH4
+	P8LeufaWQCp0s00oCfrFVZQsugcYcDOGOVdZq47hU2hl+lETS+Zx482RncEnxo5wLBiRiJkw35L
+	ji2h2Zw5yLgIsMx6wCDpJVBC+DdtsuVzZCuwMifVayw9KV+vORG0aMCGSkO+2drqEIr0roruHc0
+	HLkgnywh+1McBJmu0kF0em34kDND6sKYtAR24eXbd3jw8qIyR0
+X-Received: by 2002:a05:600c:8010:b0:490:bad9:de43 with SMTP id 5b1f17b1804b1-4923eeaca70mr51016745e9.0.1781857993718;
+        Fri, 19 Jun 2026 01:33:13 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650bc429a1sm5878368f8f.30.2026.06.19.01.33.12
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650bc429a1sm5878368f8f.30.2026.06.19.01.33.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 01:33:12 -0700 (PDT)
+        Fri, 19 Jun 2026 01:33:13 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 06/15] systemtap: upgrade 5.4 -> 5.5
-Date: Fri, 19 Jun 2026 10:32:48 +0200
-Message-ID: <20260619083305.3505156-6-alex.kanavin@gmail.com>
+Subject: [PATCH 07/15] inetutils: upgrade 2.7 -> 2.8
+Date: Fri, 19 Jun 2026 10:32:49 +0200
+Message-ID: <20260619083305.3505156-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260619083305.3505156-1-alex.kanavin@gmail.com>
 References: <20260619083305.3505156-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 08:33:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239141
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239142
 
 From: Alexander Kanavin <alex@linutronix.de>
 
+All dropped patches are backports.
+
+Add warnings disabling as upstream does something custom that clashes
+with oe's flags:
+| cc1: error: '-Wformat-security' ignored without '-Wformat' [-Werror=format-security]
+
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...-native_5.4.bb => systemtap-native_5.5.bb} |   0
- ...gure-write-a-python-location-into-th.patch |   7 +-
- ...ython-modules-to-correct-library-dir.patch |   2 +-
- .../0001-elaborate.cxx-fix-32-bit-build.patch | 104 ------------------
- ...rove-reproducibility-for-c-compiling.patch |  10 +-
- ...staprun-address-ncurses-6.3-failures.patch |  11 +-
- ...-don-t-support-installing-a-non-root.patch |  17 ++-
- .../systemtap/systemtap/readline.patch        |  29 +++--
- .../{systemtap_5.4.bb => systemtap_5.5.bb}    |   0
- .../systemtap/systemtap_git.inc               |   3 +-
- 10 files changed, 39 insertions(+), 144 deletions(-)
- rename meta/recipes-kernel/systemtap/{systemtap-native_5.4.bb => systemtap-native_5.5.bb} (100%)
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-fix-32-bit-build.patch
- rename meta/recipes-kernel/systemtap/{systemtap_5.4.bb => systemtap_5.5.bb} (100%)
+ .../inetutils/CVE-2026-24061-01.patch         |  38 -----
+ .../inetutils/CVE-2026-24061-02.patch         |  82 -----------
+ .../inetutils/inetutils/CVE-2026-28372.patch  |  86 -----------
+ .../inetutils/inetutils/CVE-2026-32746.patch  |  55 -------
+ .../inetutils/inetutils/CVE-2026-32772.patch  | 138 ------------------
+ .../{inetutils_2.7.bb => inetutils_2.8.bb}    |   8 +-
+ 6 files changed, 2 insertions(+), 405 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch
+ delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch
+ delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch
+ delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
+ delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32772.patch
+ rename meta/recipes-connectivity/inetutils/{inetutils_2.7.bb => inetutils_2.8.bb} (96%)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap-native_5.4.bb b/meta/recipes-kernel/systemtap/systemtap-native_5.5.bb
-similarity index 100%
-rename from meta/recipes-kernel/systemtap/systemtap-native_5.4.bb
-rename to meta/recipes-kernel/systemtap/systemtap-native_5.5.bb
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
-index 742b1187fc..8a6cc4e0a4 100644
---- a/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
-@@ -1,4 +1,4 @@
--From ab29615ed6c2e779b472903564dc683dc1015de7 Mon Sep 17 00:00:00 2001
-+From adf505ededdd25cf43111fd12a59090a8f7de856 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 22 Feb 2017 13:37:33 +0200
- Subject: [PATCH] Do not let configure write a python location into the dtrace
-@@ -11,7 +11,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/dtrace.in b/dtrace.in
--index 5e1cf8079..a24229cbc 100644
-+index 73a6f22e2..870999e36 100644
- --- a/dtrace.in
- +++ b/dtrace.in
- @@ -1,4 +1,4 @@
-@@ -20,6 +20,3 @@ index 5e1cf8079..a24229cbc 100644
-  # vim: et sta sts=4 sw=4 ts=8
-  
-  # This handles the systemtap equivalent of
---- 
--2.11.0
--
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
-index 21e3096405..6a3fa04bea 100644
---- a/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
-@@ -1,4 +1,4 @@
--From 7847240a97f5010ebab775f7ac51812a7705a886 Mon Sep 17 00:00:00 2001
-+From a261ee9efca120b6d65310a972d91dffc00ac937 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 24 Feb 2017 17:53:02 +0200
- Subject: [PATCH] Install python modules to correct library dir.
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-fix-32-bit-build.patch b/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-fix-32-bit-build.patch
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch
 deleted file mode 100644
-index bfc9699728..0000000000
---- a/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-fix-32-bit-build.patch
+index 9c05df22c7..0000000000
+--- a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-01.patch
 +++ /dev/null
-@@ -1,104 +0,0 @@
--From 94efb7c4eb02de0e3565cb165b53963602d3dcb6 Mon Sep 17 00:00:00 2001
--From: Sergei Trofimovich <slyich@gmail.com>
--Date: Sun, 30 Nov 2025 20:58:01 +0000
--Subject: [PATCH] elaborate.cxx: fix 32-bit build
+@@ -1,38 +0,0 @@
+-From fd702c02497b2f398e739e3119bed0b23dd7aa7b Mon Sep 17 00:00:00 2001
+-From: Paul Eggert <eggert@cs.ucla.edu>
+-Date: Tue, 20 Jan 2026 01:10:36 -0800
+-Subject: [PATCH] Fix injection bug with bogus user names
 -
--Without the change the build fails on i686-linux as:
+-Problem reported by Kyu Neushwaistein.
+-* telnetd/utility.c (_var_short_name):
+-Ignore user names that start with '-' or contain shell metacharacters.
 -
--    elaborate.cxx:5119:33: error:
--      format '%ld' expects argument of type 'long int',
--      but argument 2 has type 'int64_t' {aka 'long long int'} [-Werror=format=]
--     5119 |       session.print_warning (_F("Collapsing unresolved @define to %ld [stapprobes]", value), e->tok);
--          |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=patch;h=94efb7c4eb02de0e3565cb165b53963602d3dcb6]
--Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
+-Signed-off-by: Simon Josefsson <simon@josefsson.org>
+-
+-CVE: CVE-2026-24061
+-Upstream-Status: Backport [https://codeberg.org/inetutils/inetutils/commit/fd702c02497b2f398e739e3119bed0b23dd7aa7b]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ----
-- elaborate.cxx    | 2 +-
-- po/cs.po         | 2 +-
-- po/en.po         | 2 +-
-- po/fr.po         | 2 +-
-- po/pl.po         | 2 +-
-- po/systemtap.pot | 2 +-
-- 6 files changed, 6 insertions(+), 6 deletions(-)
+- telnetd/utility.c | 9 ++++++++-
+- 1 file changed, 8 insertions(+), 1 deletion(-)
 -
--diff --git a/elaborate.cxx b/elaborate.cxx
--index 93ecffa1a..3ad3614e7 100644
----- a/elaborate.cxx
--+++ b/elaborate.cxx
--@@ -5116,7 +5116,7 @@ const_folder::visit_defined_op (defined_op* e)
--       // Don't be greedy... we'll only collapse one at a time so type
--       // resolution can have another go at it.
--       relaxed_p = false;
---      session.print_warning (_F("Collapsing unresolved @define to %ld [stapprobes]", value), e->tok);
--+      session.print_warning (_F("Collapsing unresolved @define to %lld [stapprobes]", (long long)value), e->tok);
--       literal_number* n = new literal_number (value);
--       n->tok = e->tok;
--       n->visit (this);
--diff --git a/po/cs.po b/po/cs.po
--index df6412772..92fdef7ad 100644
----- a/po/cs.po
--+++ b/po/cs.po
--@@ -2039,7 +2039,7 @@ msgstr "Zahazuji kontrolu '@defined' bez vedlejších účinků "
+-diff --git a/telnetd/utility.c b/telnetd/utility.c
+-index b486226e..c02cd0e6 100644
+---- a/telnetd/utility.c
+-+++ b/telnetd/utility.c
+-@@ -1733,7 +1733,14 @@ _var_short_name (struct line_expander *exp)
+-       return user_name ? xstrdup (user_name) : NULL;
 - 
-- #: elaborate.cxx:5119
-- #, fuzzy, c-format
---msgid "Collapsing unresolved @define to %ld [stapprobes]"
--+msgid "Collapsing unresolved @define to %lld [stapprobes]"
-- msgstr "Zahazuji kontrolu '@defined' bez vedlejších účinků "
+-     case 'U':
+--      return getenv ("USER") ? xstrdup (getenv ("USER")) : xstrdup ("");
+-+      {
+-+	/* Ignore user names starting with '-' or containing shell
+-+	   metachars, as they can cause trouble.  */
+-+	char const *u = getenv ("USER");
+-+	return xstrdup ((u && *u != '-'
+-+			 && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
+-+			? u : "");
+-+      }
 - 
-- #: elaborate.cxx:5127
--diff --git a/po/en.po b/po/en.po
--index 8847639e8..1db2292bd 100644
----- a/po/en.po
--+++ b/po/en.po
--@@ -2050,7 +2050,7 @@ msgstr ""
-- 
-- #: elaborate.cxx:5119
-- #, c-format
---msgid "Collapsing unresolved @define to %ld [stapprobes]"
--+msgid "Collapsing unresolved @define to %lld [stapprobes]"
-- msgstr ""
-- 
-- #: elaborate.cxx:5127
--diff --git a/po/fr.po b/po/fr.po
--index b8677707b..55e409919 100644
----- a/po/fr.po
--+++ b/po/fr.po
--@@ -2090,7 +2090,7 @@ msgstr ""
-- 
-- #: elaborate.cxx:5119
-- #, c-format
---msgid "Collapsing unresolved @define to %ld [stapprobes]"
--+msgid "Collapsing unresolved @define to %lld [stapprobes]"
-- msgstr ""
-- 
-- #: elaborate.cxx:5127
--diff --git a/po/pl.po b/po/pl.po
--index e3b6700ee..0b35880c1 100644
----- a/po/pl.po
--+++ b/po/pl.po
--@@ -1977,7 +1977,7 @@ msgstr ""
-- 
-- #: elaborate.cxx:5119
-- #, c-format
---msgid "Collapsing unresolved @define to %ld [stapprobes]"
--+msgid "Collapsing unresolved @define to %lld [stapprobes]"
-- msgstr ""
-- 
-- #: elaborate.cxx:5127
--diff --git a/po/systemtap.pot b/po/systemtap.pot
--index 32ddb2290..4ec0d9a8c 100644
----- a/po/systemtap.pot
--+++ b/po/systemtap.pot
--@@ -1973,7 +1973,7 @@ msgstr ""
-- 
-- #: elaborate.cxx:5119
-- #, c-format
---msgid "Collapsing unresolved @define to %ld [stapprobes]"
--+msgid "Collapsing unresolved @define to %lld [stapprobes]"
-- msgstr ""
-- 
-- #: elaborate.cxx:5127
---- 
--2.45.0
+-     default:
+-       exp->state = EXP_STATE_ERROR;
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch
+deleted file mode 100644
+index 62df504e60..0000000000
+--- a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-24061-02.patch
++++ /dev/null
+@@ -1,82 +0,0 @@
+-From ccba9f748aa8d50a38d7748e2e60362edd6a32cc Mon Sep 17 00:00:00 2001
+-From: Simon Josefsson <simon@josefsson.org>
+-Date: Tue, 20 Jan 2026 14:02:39 +0100
+-Subject: [PATCH] telnetd: Sanitize all variable expansions
 -
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch b/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
-index 7d35f76b29..894cd3b407 100644
---- a/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
-@@ -1,4 +1,4 @@
--From 6288ba5df0a8c73ef842b609081449ac4de86123 Mon Sep 17 00:00:00 2001
-+From 06522edad080caa76f5abc8586fe5baf3b620f16 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Wed, 18 Jul 2018 16:58:33 +0800
- Subject: [PATCH] improve reproducibility for c++ compiling
-@@ -13,10 +13,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  stringtable.h | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--Index: git/stringtable.h
--===================================================================
----- git.orig/stringtable.h
--+++ git/stringtable.h
-+diff --git a/stringtable.h b/stringtable.h
-+index aef564824..a04888f3c 100644
-+--- a/stringtable.h
-++++ b/stringtable.h
- @@ -23,7 +23,7 @@
-  
-  #if 0 && defined(HAVE_BOOST_UTILITY_STRING_REF_HPP)
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-address-ncurses-6.3-failures.patch b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-address-ncurses-6.3-failures.patch
-index 1decf21593..59c0e8a7fd 100644
---- a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-address-ncurses-6.3-failures.patch
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-address-ncurses-6.3-failures.patch
-@@ -1,4 +1,4 @@
--From 191f528da19193d713d94ee252e2485efd9af4d3 Mon Sep 17 00:00:00 2001
-+From 7672d0e398b29a52f59a1a0cbb75d4d07bd5f975 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Mon, 25 Oct 2021 17:59:24 +0200
- Subject: [PATCH] staprun: address ncurses 6.3 failures
-@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 12 insertions(+), 12 deletions(-)
- 
- diff --git a/staprun/monitor.c b/staprun/monitor.c
--index 478634c09..f4fbfd686 100644
-+index 851ee14c4..7d83a3846 100644
- --- a/staprun/monitor.c
- +++ b/staprun/monitor.c
--@@ -448,12 +448,12 @@ void monitor_render(void)
-+@@ -453,12 +453,12 @@ void monitor_render(void)
-        if (active_window == 0)
-          wattron(status, A_BOLD);
-        wprintw(status, "\n%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%s\n",
-@@ -32,7 +32,7 @@ index 478634c09..f4fbfd686 100644
-                HIGHLIGHT("name", p_name, comp_fn_index));
-        if (active_window == 0)
-          wattroff(status, A_BOLD);
--@@ -466,17 +466,17 @@ void monitor_render(void)
-+@@ -471,17 +471,17 @@ void monitor_render(void)
-            json_object *probe, *field;
-            probe = json_object_array_get_idx(jso_probe_list, i);
-            json_object_object_get_ex(probe, "index", &field);
-@@ -56,6 +56,3 @@ index 478634c09..f4fbfd686 100644
-            getyx(status, discard, cur_x);
-            json_object_object_get_ex(probe, "name", &field);
-            wprintw(status, "%.*s", max_cols-cur_x-1, json_object_get_string(field));
---- 
--2.20.1
+-* telnetd/utility.c (sanitize): New function.
+-(_var_short_name): Use it for all variables.
 -
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch
-index e2f8b3b057..8273e34b57 100644
---- a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch
-@@ -1,4 +1,4 @@
--From 3e13a006fe3dff9489269274093bf868532036e2 Mon Sep 17 00:00:00 2001
-+From 3483d0bc400eb618add607097027eafb075722f4 Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Tue, 5 Sep 2017 16:02:55 -0700
- Subject: [PATCH] staprun/stapbpf: don't support installing a non-root
-@@ -10,15 +10,14 @@ the binaries.
- Upstream-Status: Inappropriate [Embedded]
- Signed-off-by: Saul Wold <sgw@linux.intel.com>
- ---
-- stapbpf/Makefile.am | 14 +++++++-------
-- staprun/Makefile.am | 12 ++++++------
-- 2 files changed, 13 insertions(+), 13 deletions(-)
-+ stapbpf/Makefile.am | 12 ++++++------
-+ 1 file changed, 6 insertions(+), 6 deletions(-)
- 
--Index: git/stapbpf/Makefile.am
--===================================================================
----- git.orig/stapbpf/Makefile.am
--+++ git/stapbpf/Makefile.am
--@@ -41,10 +41,10 @@
-+diff --git a/stapbpf/Makefile.am b/stapbpf/Makefile.am
-+index 4bd116bc3..e06d0801b 100644
-+--- a/stapbpf/Makefile.am
-++++ b/stapbpf/Makefile.am
-+@@ -40,10 +40,10 @@ git_version.stamp ../git_version.h:
-  
-  # Why the "id -u" condition?  This way, an unprivileged user can run
-  # make install, and have "sudo stap ...." or "sudo stapbpf ...." work later.
-diff --git a/meta/recipes-kernel/systemtap/systemtap/readline.patch b/meta/recipes-kernel/systemtap/systemtap/readline.patch
-index d7afc800cd..f452188179 100644
---- a/meta/recipes-kernel/systemtap/systemtap/readline.patch
-+++ b/meta/recipes-kernel/systemtap/systemtap/readline.patch
-@@ -1,4 +1,7 @@
--configure: add option to enable/disable readline
-+From ee20cb1c1ca0337c56087934efbd66ba30d2d5c3 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Mon, 13 Apr 2026 11:28:39 +0100
-+Subject: [PATCH] configure: add option to enable/disable readline
- 
- Add an option to control explicitly whether systemtap will look for and
- use readline, for reproducible builds.
-@@ -10,11 +13,14 @@ not be used.
- 
- Upstream-Status: Submitted [https://sourceware.org/pipermail/systemtap/2026q2/028333.html]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ configure.ac | 67 +++++++++++++++++++++++++++++-----------------------
-+ 1 file changed, 38 insertions(+), 29 deletions(-)
- 
--diff --git i/configure.ac w/configure.ac
--index 6fb99da40..01457bafb 100644
----- i/configure.ac
--+++ w/configure.ac
-+diff --git a/configure.ac b/configure.ac
-+index 6fb99da40..2ec72e85a 100644
-+--- a/configure.ac
-++++ b/configure.ac
- @@ -525,38 +525,47 @@ AC_CHECK_HEADERS([rpm/rpmcrypto.h], [
-                        have_rpmcrypto_h=yes
-  		      AC_MSG_NOTICE([separate rpm/rpmcrypto.h])])
-@@ -23,7 +29,7 @@ index 6fb99da40..01457bafb 100644
- -dnl
- -dnl First save the orignal value of LIBS.
- -LIBS_no_readline=$LIBS
+-CVE: CVE-2026-24061
+-Upstream-Status: Backport [https://codeberg.org/inetutils/inetutils/commit/ccba9f748aa8d50a38d7748e2e60362edd6a32cc]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- telnetd/utility.c | 32 ++++++++++++++++++--------------
+- 1 file changed, 18 insertions(+), 14 deletions(-)
+-
+-diff --git a/telnetd/utility.c b/telnetd/utility.c
+-index c02cd0e6..b21ad961 100644
+---- a/telnetd/utility.c
+-+++ b/telnetd/utility.c
+-@@ -1684,6 +1684,17 @@ static void _expand_cond (struct line_expander *exp);
+- static void _skip_block (struct line_expander *exp);
+- static void _expand_block (struct line_expander *exp);
 - 
-+-
- -dnl Check how for readline presence and how to link with it. On some
- -dnl systems you need to add a termcap compatible library.
- -have_libreadline="no"
-@@ -31,6 +37,7 @@ index 6fb99da40..01457bafb 100644
- -for libtermcap in "" tinfo ncursesw ncurses curses termcap; do
- -  if test -z "$libtermcap"; then
- -    READLINE_LIBS="-lreadline"
-++
- +AC_ARG_WITH([readline],
- +  AS_HELP_STRING([--without-readline],[disable use of readline]), [], [with_readline="check"])
- +
-@@ -66,17 +73,17 @@ index 6fb99da40..01457bafb 100644
- +    READLINE_LIBS=""
-    else
- -    READLINE_LIBS="-lreadline -l$libtermcap"
--+    AC_MSG_RESULT([$READLINE_LIBS])
--+    AC_DEFINE(HAVE_LIBREADLINE, [1],
--+        [Define if you have the readline library (-lreadline).])
--   fi
-+-  fi
- -  LIBS="$READLINE_LIBS $LIBS_no_readline"
- -  AC_LINK_IFELSE(
- -    [AC_LANG_CALL([],[readline])],
- -    [have_libreadline="yes"])
- -  if test "$have_libreadline" = "yes"; then
- -    break
---  fi
-++    AC_MSG_RESULT([$READLINE_LIBS])
-++    AC_DEFINE(HAVE_LIBREADLINE, [1],
-++        [Define if you have the readline library (-lreadline).])
-+   fi
- -done
- -if test "$have_libreadline" = "no"; then
- -  AC_MSG_RESULT([none])
-diff --git a/meta/recipes-kernel/systemtap/systemtap_5.4.bb b/meta/recipes-kernel/systemtap/systemtap_5.5.bb
-similarity index 100%
-rename from meta/recipes-kernel/systemtap/systemtap_5.4.bb
-rename to meta/recipes-kernel/systemtap/systemtap_5.5.bb
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index a18381a56d..7845905d10 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -5,11 +5,10 @@ SRC_URI = "git://sourceware.org/git/systemtap.git;protocol=https;branch=master;t
-            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
-            file://0001-Install-python-modules-to-correct-library-dir.patch \
-            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
--           file://0001-elaborate.cxx-fix-32-bit-build.patch \
-            file://readline.patch \
+-+static char *
+-+sanitize (const char *u)
+-+{
+-+  /* Ignore values starting with '-' or containing shell metachars, as
+-+     they can cause trouble.  */
+-+  if (u && *u != '-' && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
+-+    return u;
+-+  else
+-+    return "";
+-+}
+-+
+- /* Expand a variable referenced by its short one-symbol name.
+-    Input: exp->cp points to the variable name.
+-    FIXME: not implemented */
+-@@ -1710,13 +1721,13 @@ _var_short_name (struct line_expander *exp)
+-       return xstrdup (timebuf);
+- 
+-     case 'h':
+--      return xstrdup (remote_hostname);
+-+      return xstrdup (sanitize (remote_hostname));
+- 
+-     case 'l':
+--      return xstrdup (local_hostname);
+-+      return xstrdup (sanitize (local_hostname));
+- 
+-     case 'L':
+--      return xstrdup (line);
+-+      return xstrdup (sanitize (line));
+- 
+-     case 't':
+-       q = strchr (line + 1, '/');
+-@@ -1724,23 +1735,16 @@ _var_short_name (struct line_expander *exp)
+- 	q++;
+-       else
+- 	q = line;
+--      return xstrdup (q);
+-+      return xstrdup (sanitize (q));
+- 
+-     case 'T':
+--      return terminaltype ? xstrdup (terminaltype) : NULL;
+-+      return terminaltype ? xstrdup (sanitize (terminaltype)) : NULL;
+- 
+-     case 'u':
+--      return user_name ? xstrdup (user_name) : NULL;
+-+      return user_name ? xstrdup (sanitize (user_name)) : NULL;
+- 
+-     case 'U':
+--      {
+--	/* Ignore user names starting with '-' or containing shell
+--	   metachars, as they can cause trouble.  */
+--	char const *u = getenv ("USER");
+--	return xstrdup ((u && *u != '-'
+--			 && !u[strcspn (u, "\t\n !\"#$&'()*;<=>?[\\^`{|}~")])
+--			? u : "");
+--      }
+-+      return xstrdup (sanitize (getenv ("USER")));
+- 
+-     default:
+-       exp->state = EXP_STATE_ERROR;
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch
+deleted file mode 100644
+index 79d390f473..0000000000
+--- a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-28372.patch
++++ /dev/null
+@@ -1,86 +0,0 @@
+-From 4db2f19f4caac03c7f4da6363c140bd70df31386 Mon Sep 17 00:00:00 2001
+-From: Erik Auerswald <auerswal@unix-ag.uni-kl.de>
+-Date: Sun, 15 Feb 2026 15:38:50 +0100
+-Subject: [PATCH] telnetd: don't allow systemd service credentials
+-
+-The login(1) implementation of util-linux added support for
+-systemd service credentials in release 2.40.  This allows to
+-bypass authentication by specifying a directory name in the
+-environment variable CREDENTIALS_DIRECTORY.  If this directory
+-contains a file named 'login.noauth' with the content of 'yes',
+-login(1) skips authentication.
+-
+-GNU Inetutils telnetd supports to set arbitrary environment
+-variables using the 'Environment' and 'New Environment'
+-Telnet options.  This allows specifying a directory containing
+-'login.noauth'.  A local user can create such a directory
+-and file, and, e.g., specify the user name 'root' to escalate
+-privileges.
+-
+-This problem was reported by Ron Ben Yizhak in
+-<https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html>.
+-
+-This commit clears CREDENTIALS_DIRECTORY from the environment
+-before executing login(1) to implement a simple fix that can
+-be backported easily.
+-
+-* NEWS.md: Mention fix.
+-* THANKS: Mention Ron Ben Yizhak.
+-* telnetd/pty.c: Clear CREDENTIALS_DIRECTORY from the environment
+-before executing 'login'.
+-
+-CVE: CVE-2026-28372
+-Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=4db2f19f4caac03c7f4da6363c140bd70df31386]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- NEWS          | 5 +++++
+- THANKS        | 1 +
+- telnetd/pty.c | 8 ++++++++
+- 3 files changed, 14 insertions(+)
+-
+-diff --git a/NEWS b/NEWS
+-index 877ca53b..f5172a71 100644
+---- a/NEWS
+-+++ b/NEWS
+-@@ -1,5 +1,10 @@
+- GNU inetutils NEWS -- history of user-visible changes.
+- 
+-+** Prevent privilege escalation via telnetd abusing systemd service
+-+credentials support added to the login(1) implementation of util-linux
+-+in release 2.40.  Reported by Ron Ben Yizhak in
+-+<https://lists.gnu.org/archive/html/bug-inetutils/2026-02/msg00000.html>.
+-+
+- # Noteworthy changes in release 2.7 (2025-12-14) [stable]
+- 
+- ** Systems without asprintf are now supported through the use of gnulib.
+-diff --git a/THANKS b/THANKS
+-index 8d1d3dbb..ef5f6063 100644
+---- a/THANKS
+-+++ b/THANKS
+-@@ -9,6 +9,7 @@ In particular:
+-   NIIBE Yutaka		 (Security fixes & making talk finally work)
+-   Nathan Neulinger       (tftpd)
+-   Thomas Bushnell        (sockaddr sin_len field)
+-+  Ron Ben Yizhak         (reported privilege escalation via telnetd)
+- 
+- Please see version control logs and ChangeLog.? for full credits.
+- 
+-diff --git a/telnetd/pty.c b/telnetd/pty.c
+-index c727e7be..f3518049 100644
+---- a/telnetd/pty.c
+-+++ b/telnetd/pty.c
+-@@ -129,6 +129,14 @@ start_login (char *host, int autologin, char *name)
+-   if (!cmd)
+-     fatal (net, "can't expand login command line");
+-   argcv_get (cmd, "", &argc, &argv);
+-+
+-+  /* util-linux's "login" introduced an authentication bypass method
+-+   * via environment variable "CREDENTIALS_DIRECTORY" in version 2.40.
+-+   * Clear it from the environment before executing "login" to prevent
+-+   * abuse via Telnet.
+-+   */
+-+  unsetenv ("CREDENTIALS_DIRECTORY");
+-+
+-   execv (argv[0], argv);
+-   syslog (LOG_ERR, "%s: %m\n", cmd);
+-   fatalperror (net, cmd);
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
+deleted file mode 100644
+index 63dd8b8c58..0000000000
+--- a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32746.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From 6864598a29b652a6b69a958f5cd1318aa2b258af Mon Sep 17 00:00:00 2001
+-From: Collin Funk <collin.funk1@gmail.com>
+-Date: Wed, 11 Mar 2026 23:06:46 -0700
+-Subject: [PATCH] telnetd: fix stack buffer overflow processing SLC suboption
+- triplets
+-
+-Previously a client could write past the end of an internal buffer using
+-an SLC suboption with many triplets using function octets greater than
+-18, possibly leading to remote code execution. Reported by Adiel Sol,
+-Arad Inbar, Erez Cohen, Nir Somech, Ben Grinberg, Daniel Lubel at DREAM
+-Security Research Team at:
+-<https://lists.gnu.org/r/bug-inetutils/2026-03/msg00031.html>.
+-
+-* telnetd/slc.c (add_slc): Return early if writing the tuple would lead
+-us to writing past the end of the buffer.
+-* NEWS.md: Mention the fix.
+-
+-CVE: CVE-2026-32746
+-Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=6864598a29b652a6b69a958f5cd1318aa2b258af]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- NEWS          | 6 ++++++
+- telnetd/slc.c | 3 +++
+- 2 files changed, 9 insertions(+)
+-
+-diff --git a/NEWS b/NEWS
+-index 5fe1e4c5..c03d22f4 100644
+---- a/NEWS
+-+++ b/NEWS
+-@@ -1,5 +1,11 @@
+- GNU inetutils NEWS -- history of user-visible changes.
+- 
+-+** telnetd no longer allows clients to write past the end of a stack
+-+allocated buffer, possibly leading to remote code execution, using an
+-+SLC suboption with many triplets using function octets greater than 18.
+-+Reported by Adiel Sol, Arad Inbar, Erez Cohen, Nir Somech, Ben Grinberg,
+-+Daniel Lubel at DREAM Security Research Team.
+-+
+- ** Prevent privilege escalation via telnetd abusing systemd service
+- credentials support added to the login(1) implementation of util-linux
+- in release 2.40.  Reported by Ron Ben Yizhak in
+-diff --git a/telnetd/slc.c b/telnetd/slc.c
+-index f45e7725..2dfef22f 100644
+---- a/telnetd/slc.c
+-+++ b/telnetd/slc.c
+-@@ -162,6 +162,9 @@ get_slc_defaults (void)
+- void
+- add_slc (char func, char flag, cc_t val)
+- {
+-+  /* Do nothing if the entire triplet cannot fit in the buffer.  */
+-+  if (slcbuf + sizeof slcbuf - slcptr <= 6)
+-+    return;
+- 
+-   if ((*slcptr++ = (unsigned char) func) == 0xff)
+-     *slcptr++ = 0xff;
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32772.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32772.patch
+deleted file mode 100644
+index 232774195f..0000000000
+--- a/meta/recipes-connectivity/inetutils/inetutils/CVE-2026-32772.patch
++++ /dev/null
+@@ -1,138 +0,0 @@
+-From d6b8b83aa51616946fd314bc48087312d13c99f8 Mon Sep 17 00:00:00 2001
+-From: Collin Funk <collin.funk1@gmail.com>
+-Date: Thu, 26 Mar 2026 22:52:54 -0700
+-Subject: [PATCH] telnet: don't leak the value of unexported environment
+- variables
+-
+-Patch based on the following OpenBSD commit:
+-<https://github.com/openbsd/src/commit/1a11dc7253488a97d6df686dae9230f78682e8df>
+-
+-* NEWS.md: Mention the fix.
+-* telnet/commands.c (env_getvalue): Add a boolean argument to prevent
+-prevent unexported variables from being returned.
+-* telnet/externs.h (env_getvalue): Adjust the function declaration.
+-* telnet/authenc.c (telnet_getenv): Add the new argument.
+-* telnet/telnet.c (dooption, gettermname, suboption, env_opt_add)
+-(telnet): Likewise.
+-
+-CVE: CVE-2026-32772
+-Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/inetutils.git/commit/?id=d6b8b83aa51616946fd314bc48087312d13c99f8]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- NEWS              |  5 +++++
+- telnet/authenc.c  |  2 +-
+- telnet/commands.c |  6 ++----
+- telnet/externs.h  |  3 ++-
+- telnet/telnet.c   | 10 +++++-----
+- 5 files changed, 15 insertions(+), 11 deletions(-)
+-
+-diff --git a/NEWS b/NEWS
+-index 08370442..6e259e02 100644
+---- a/NEWS
+-+++ b/NEWS
+-@@ -1,5 +1,10 @@
+- GNU inetutils NEWS -- history of user-visible changes.
+- 
+-+** telnet no longer leaks the value of unexported environment variables
+-+to servers sending the NEW-ENVIRON SEND USERVAR command.
+-+Reported by Justin Swartz in
+-+<https://www.openwall.com/lists/oss-security/2026/03/13/1>.
+-+
+- ** telnetd no longer allows clients to write past the end of a stack
+- allocated buffer, possibly leading to remote code execution, using an
+- SLC suboption with many triplets using function octets greater than 18.
+-diff --git a/telnet/authenc.c b/telnet/authenc.c
+-index 2706c9f8..f8daea9d 100644
+---- a/telnet/authenc.c
+-+++ b/telnet/authenc.c
+-@@ -93,7 +93,7 @@ telnet_spin (void)
+- char *
+- telnet_getenv (char *val)
+- {
+--  return ((char *) env_getvalue (val));
+-+  return (char *) env_getvalue (val, false);
+- }
+- 
+- char *
+-diff --git a/telnet/commands.c b/telnet/commands.c
+-index 4967559b..9d85df73 100644
+---- a/telnet/commands.c
+-+++ b/telnet/commands.c
+-@@ -2050,12 +2050,10 @@ env_default (int init, int welldefined)
+- }
+- 
+- unsigned char *
+--env_getvalue (const char *var)
+-+env_getvalue (const char *var, bool exported_only)
+- {
+-   struct env_lst *ep = env_find (var);
+--  if (ep)
+--    return (ep->value);
+--  return (NULL);
+-+  return ep && (! exported_only || ep->export) ? ep->value : NULL;
+- }
+- 
+- #if defined OLD_ENVIRON && defined ENV_HACK
+-diff --git a/telnet/externs.h b/telnet/externs.h
+-index c1f5850e..0adc295a 100644
+---- a/telnet/externs.h
+-+++ b/telnet/externs.h
+-@@ -331,7 +331,8 @@ env_opt (unsigned char *, int),
+- env_opt_start (void),
+- env_opt_start_info (void), env_opt_add (unsigned char *), env_opt_end (int);
+- 
+--extern unsigned char *env_default (int, int), *env_getvalue (const char *);
+-+extern unsigned char *env_default (int, int);
+-+extern unsigned char *env_getvalue (const char *, bool);
+- 
+- int dosynch (const char *);
+- int get_status (const char *);
+-diff --git a/telnet/telnet.c b/telnet/telnet.c
+-index 6b0befc3..f83dfc18 100644
+---- a/telnet/telnet.c
+-+++ b/telnet/telnet.c
+-@@ -496,7 +496,7 @@ dooption (int option)
+- #endif
+- 
+- 	    case TELOPT_XDISPLOC:	/* X Display location */
+--	      if (env_getvalue ("DISPLAY"))
+-+	      if (env_getvalue ("DISPLAY", false))
+- 		new_state_ok = 1;
+- 	      break;
+- 
+-@@ -793,7 +793,7 @@ gettermname (void)
+-       resettermname = 0;
+-       if (tnamep && tnamep != unknown)
+- 	free (tnamep);
+--      if ((tname = (char *) env_getvalue ("TERM")) &&
+-+      if ((tname = (char *) env_getvalue ("TERM", false)) &&
+- 	  (init_term (tname, &err) == 0))
+- 	{
+- 	  tnamep = mklist (termbuf, tname);
+-@@ -992,7 +992,7 @@ suboption (void)
+- 	  unsigned char temp[50], *dp;
+- 	  int len;
+- 
+--	  if ((dp = env_getvalue ("DISPLAY")) == NULL)
+-+	  if ((dp = env_getvalue ("DISPLAY", false)) == NULL)
+- 	    {
+- 	      /*
+- 	       * Something happened, we no longer have a DISPLAY
+-@@ -1727,7 +1727,7 @@ env_opt_add (unsigned char *ep)
+- 	env_opt_add (ep);
+-       return;
+-     }
+--  vp = env_getvalue ((char *) ep);
+-+  vp = env_getvalue ((char *) ep, true);
+-   if (opt_replyp + (vp ? strlen ((char *) vp) : 0) +
+-       strlen ((char *) ep) + 6 > opt_replyend)
+-     {
+-@@ -2484,7 +2484,7 @@ telnet (char *user)
+-       send_will (TELOPT_LINEMODE, 1);
+-       send_will (TELOPT_NEW_ENVIRON, 1);
+-       send_do (TELOPT_STATUS, 1);
+--      if (env_getvalue ("DISPLAY"))
+-+      if (env_getvalue ("DISPLAY", false))
+- 	send_will (TELOPT_XDISPLOC, 1);
+-       if (eight)
+- 	tel_enter_binary (eight);
+diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.7.bb b/meta/recipes-connectivity/inetutils/inetutils_2.8.bb
+similarity index 96%
+rename from meta/recipes-connectivity/inetutils/inetutils_2.7.bb
+rename to meta/recipes-connectivity/inetutils/inetutils_2.8.bb
+index eb8b669e7c..b87c0ede43 100644
+--- a/meta/recipes-connectivity/inetutils/inetutils_2.7.bb
++++ b/meta/recipes-connectivity/inetutils/inetutils_2.8.bb
+@@ -11,18 +11,13 @@ LICENSE = "GPL-3.0-only"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
+ 
+-SRC_URI[sha256sum] = "a156be1cde3c5c0ffefc262180d9369a60484087907aa554c62787d2f40ec086"
++SRC_URI[sha256sum] = "57b3cf4f77555992881e5ba2a09a63b05aa2c56342a60ed4305b5f45938390b5"
+ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
+            file://rexec.xinetd.inetutils \
+            file://rlogin.xinetd.inetutils \
+            file://rsh.xinetd.inetutils \
+            file://telnet.xinetd.inetutils \
+            file://tftpd.xinetd.inetutils \
+-           file://CVE-2026-24061-01.patch \
+-           file://CVE-2026-24061-02.patch \
+-           file://CVE-2026-28372.patch \
+-           file://CVE-2026-32746.patch \
+-           file://CVE-2026-32772.patch \
             "
  
--SRCREV = "911a1354aac264651fda932061e7f20d2ecc2471"
-+SRCREV = "90b164cf106ef16f873ab58c8c6f653718bb6e17"
+ inherit autotools gettext update-alternatives texinfo
+@@ -44,6 +39,7 @@ EXTRA_OECONF = "--with-ncurses-include-dir=${STAGING_INCDIR} \
+         --with-path-cp=${base_bindir}/cp \
+         --with-path-uucico=${libexecdir}/uuico \
+         --with-path-procnet-dev=/proc/net/dev \
++        --enable-gcc-warnings=no \
+         "
  
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips|riscv64|riscv32).*-linux'
- COMPATIBLE_HOST:libc-musl = 'null'
+ EXTRA_OECONF:append:libc-musl = " --with-path-utmpx=/dev/null/utmpx --with-path-wtmpx=/dev/null/wtmpx"
 -- 
 2.47.3
 
