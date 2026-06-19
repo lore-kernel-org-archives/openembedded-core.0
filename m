@@ -1,189 +1,315 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72735CD4F26
-	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 11:47:00 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.40723.1781869619254253234
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A46ACD4F26
+	for <webhook@archiver.kernel.org>; Fri, 19 Jun 2026 12:03:10 +0000 (UTC)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40776.1781870581960994927
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jun 2026 04:46:59 -0700
+ Fri, 19 Jun 2026 05:03:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=eggKfAPH;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-491b390f9e9so17869455e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 04:46:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781869617; cv=none;
+ dkim=pass header.i=@mvista.com header.s=google header.b=cDGj79a0;
+ spf=pass (domain: mvista.com, ip: 209.85.208.43, mailfrom: vanusuri@mvista.com)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-68bd9fce347so3675256a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 05:03:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781870580; cv=none;
         d=google.com; s=arc-20240605;
-        b=Yyu3etCTLTfcrvsqNTcym+W4YhoNSv1a19yzdnKnMPP0/HimqpAhnfEepg5/HgKqL2
-         kVpCJm/lrVyTWeCQ0jbwq6DzWJW7yXwsg6AjhF4X1TB4OVB6y752nW6O6QCil2BkQZ0W
-         EhTy7PDT0tZCVu3+v5gWvII+pnUv7tg0q+X+VUgl4nWagd/BWvPAW++Bb48byfdHxfFl
-         swoYkxyBdgTEA4gJmzBtCPZWINXWrRCdDabFio8lZrKlt5KQK759hSOxb07AUp84imqd
-         1jPXze7VCx05w6adyt8meecnvJU+32U+MNQusc9ntEIcwedN+M/OJtCELvvp7PVKKUF4
-         IpGQ==
+        b=haK85f/frlCGrpDQzhCqDje9pEZyK3Zgx/NQJ5gFEjKMI1gwOMSq7u1/tfgBTFksoq
+         CeRskSS/sKknDz896STVayQCTpSQYESTIXykcQk1Dbh+bCX+cAqkJ3tOiIH730d6M/2c
+         UTqHKY89NV2V5eewsPGbODwa8TnsfGA4wbQhSYpWF0ynQzV7ULYVPXiI+fGJxEOteeC+
+         OW+rBAQRCADVOGV97WxtGzVM1rHnRt/6IlGDnPpb3BBbQrAHRS1UL0h7cNi6bXJlUbNP
+         nYIf1mFC1u/ThoxU2oCZzYQcD1mvBw5QoKvFGHbWE2J7Ih+OiM3xw+bD0Pz2mQANcFOX
+         ZWTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=R49bL32HKxIMbtfhhoB2QzHBjXLhDyO0dkxTzqCP3bw=;
-        fh=7x4t8OARA91lI5Man9nJASx7ps3qoHGzU24nsmANEX8=;
-        b=bBL1psG1ya+2ae4YX8yeP1W1lqo17NABhUyvU9xow5FJc6hUNNMbom3gAVp3mBKzDe
-         76nisR39yrg7CWXldSdOGV1kM7M0NjJheXL2fiLIgBqi9fwTMnLZ5m76+6WjtbGaAChs
-         nPdv12lgURYlpreJ5TO67wPLAnh7K0wLLWoHijbZLX4dbgHVVAELs4fQjmK6P5UX86JB
-         /iTtpw0gCrG4PEQCmvwy/Ag4RJRg0cEqD+9ndC+zKu/2f3HKqQxsefKgB79Gd6qEMUxt
-         Jq/AEGPztiQU6snw9UtAmxZfW0IzuHkxHVG2x1TW/DcNDbs4AWpvkLS3EuxXLKhSksae
-         YZNg==;
+        bh=JMkk+9XrIgkvJRNZp1JW1aFof1YXfMLTSMuM3sjBTQ0=;
+        fh=oPvenIe2MqcUANsejD5eLN/XIcBDx+IOit5ifV1vkh0=;
+        b=I+gT6LLdyqbK4KjLcP/KlGZvZ8JQb71XXNxQKEC9bRRC8ghllZNmolx0hUVeNP0Zi5
+         ts/lceDVXnXs0G5Pi11ONM28/rXgBi+JlOlwMp/lztDTo2Fdien16p5HLSZ0nTvpr8Ef
+         Pl+sQO33yksQaaExe8IC/ceAVI/X6I4cb1P/JgY7t0zT7+FBtCkacOX1DiGS3Z7FhuFz
+         2Sn9SVzuv3aRt+0duclkFJ2h2hD8+WsRp0cuOeMygnojhAUtykjiTqXfTRnSQtCHUtb+
+         SaXMiBBGjG8WKRne+ObKVIqYsAixHVEZDN2q9WtWForqvDwRHCU1zdptXGe5f1gaD4Y2
+         Ug9A==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781869617; x=1782474417; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1781870580; x=1782475380; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=R49bL32HKxIMbtfhhoB2QzHBjXLhDyO0dkxTzqCP3bw=;
-        b=eggKfAPHvD4q9TbAs6YPHQH7BVqfef4IlGy+eTtM797lw9LvU4gQ0IKhHWKh2YT0V8
-         qlW1j2w/EEK9YGd1P106kNF2Kxtugh/JtEzK+sk/mTbAeywkOq8hTuG1Qr+k0I+eySLz
-         8hCF8OoEplbW6Yyn3qHXyC+I29ypLHak2L7P8=
+        bh=JMkk+9XrIgkvJRNZp1JW1aFof1YXfMLTSMuM3sjBTQ0=;
+        b=cDGj79a046OEKzQxTMjXbWtM8smgY4iKbUp1r+yZfdAo1otqx+ERCxb7p39G2/CvXU
+         fEFFGbWnDT8wMcOJTBeLmkFl/vBxSvhCi48CHBqlnyYTsdL6K+W8aKXPWD5nDC0UUCl1
+         XQqsfC1enW4vfmz0dFerLeBg0vK8vbhRzHOcU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781869617; x=1782474417;
+        d=1e100.net; s=20251104; t=1781870580; x=1782475380;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R49bL32HKxIMbtfhhoB2QzHBjXLhDyO0dkxTzqCP3bw=;
-        b=Ur0q2WxpiLPNovA0tfbR/1JtxmFbE5ooK2qXeK0oPvUVPjMSMIvksq6yrc8+nIK2Mf
-         xeIwlXbsG+8IB5/MbnsvzShxUp+uCTKn+zT87Bg97F84zC+O/aB0zjaqnuq2KdQfJXCk
-         J5DuZ6GSTtyzPRqXaMge80lBas/0NV11KVYbk1Z8vgvqPLlWARoYjZhJ/OU6XgvRMqDf
-         7b8DPRfstCWcVt3wY0E/6KaJUX2LBO1NeU+LrJSRw23nl1VUo8GfFPzLq4eR8BQHL86d
-         mP5CcjMc+ebjbgDd+YWkUPv+Gxnr6ATCzmn7ruc7VKx1xATjzxxSRavQ6lmfXhNmwzjP
-         AueQ==
-X-Gm-Message-State: AOJu0Yw/Jhj3jjboAKGiZKpdmGBPI6W5f79ex7evpHmaIebFFfgqjQv9
-	D1CK2B7BGRgTq5qKj0fwbAWUY8X635Jd2ZKi+cpfKsGjx/PdsTNOZTkYiuoBI5VXr60cVYlEzXZ
-	LCrBnwFEtS4EagHaPfBB42LlZYSFCx665a75uIWwS5g==
-X-Gm-Gg: AfdE7ckv26Ey8SUqQo0gplm+o/8zvVQ+hfjLQhxdnQwBTSuXeGdfAoXeLTRFGvq3Bnh
-	jc1SSKRK2BOgyQMe294ckL5gQEi6WgHprQnEaqvSOiUIVFYw3TGvUwZcLUCJXSfzdeDI8ffaKV+
-	UFTFI+jfi1qHl7DvPOtlWW+lToCP0MOCaidK2eKAALhOuTJCKddqK8dd7P8j3Roe4y+nBb44RyG
-	R3V5Ann68ijhqzFqVWtIBNhuByZpdbfezpQ6nD0oEYlj93Jdkgbpkbfxyb/sbknPQ4thPnipVZm
-	TKPR4u4mxrTc3jz/+Hb6fbD46WaY3ZFWT2WdJ0w4
-X-Received: by 2002:a05:600c:8010:b0:490:e170:b80b with SMTP id
- 5b1f17b1804b1-49240e7a4bfmr50865805e9.32.1781869616391; Fri, 19 Jun 2026
- 04:46:56 -0700 (PDT)
+        bh=JMkk+9XrIgkvJRNZp1JW1aFof1YXfMLTSMuM3sjBTQ0=;
+        b=Xu5URiEa9yMghyZY5Edx7SvymL2+CoqYnyDGjIQUeRqs/sgC6eUN//cgvPE2+EDO8O
+         c6PW0RZfLlVPQQY8yYSrwQUy8BERdBDqaPTbDityTJDcgagPxYFLrS3x7nnoE6e4un/S
+         oZvTxhBopEah3hTxw1yQilyp++Pqo4bNu/AmF64Ne0FF392uzu+6xtxby6Sc42DpgXqW
+         FRbGzQ9dAVMQZvJpQYRLiPxB3sy354M+VdcXV4lvqzKihfd+ThSG16s32czoDh5SDPEl
+         aD+jNY7PCCTYGIRSguoYHYla0bW+0zMUuaOiNS/8AIZTAF1sL6mDLs8lbvKqZfbz/Iz5
+         sLFA==
+X-Gm-Message-State: AOJu0Ywcou8R1e6E+3HXgH1JXSmrADslBebgqTA/3285sQw8tQPyENCb
+	flnZRDamCstNyvXA+c9jYnnaRvSA9pGNAvXHVP3DrSfgCx6gYtm4jQrkCAvgg7C+FRVGExjO9VT
+	vf1wCgHEj+i8pUylRMD1E8wysRySaKYJDrPHNk395yg==
+X-Gm-Gg: AfdE7cnSYxcWvm62qHVUlfy0i4sCk0zdovbqrWp5TtvK1lgp+1sf2QuOtvag9AL/fpY
+	SWA10nFKe7Xh9ftaHtvKJcsnhNEV+AgaLiA2El7QmgB7IWr98oHsh9Rf3DArCD5U2WaSQ84rkfw
+	x3J+bhTgWwqxRK6IE3cRM5G8LOfid7riBaN4bHUQvNOB9f6jgadhhc4+I+64WudpEZY87b9GIiA
+	8qna2tplXgQ2K8ZXdc/CigOnIXpl7i2KeaItuGwEZjlgewAcZsWtWkxZ7UKKwA4vONTbzjMLy7N
+	38RD55aT5jWUeQeTyH5C2YFfNpd4zQ==
+X-Received: by 2002:a17:907:1c96:b0:bef:1df6:12e4 with SMTP id
+ a640c23a62f3a-c097c9c45acmr151595466b.29.1781870578784; Fri, 19 Jun 2026
+ 05:02:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260616165623.3049563-1-peter.marko@siemens.com>
- <197246.1781691245370176580@lists.openembedded.org> <AS8PR10MB507301A14BCF0FE4BE7DC044FDE42@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
- <211612.1781866151739911624@lists.openembedded.org>
-In-Reply-To: <211612.1781866151739911624@lists.openembedded.org>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Fri, 19 Jun 2026 13:46:29 +0200
-X-Gm-Features: AVVi8Cdj2d7-WfmmbG5i_Hk8c2m8Xqc6gkiLBExYTikNIYxbChxuvUhWWMdcDAk
-Message-ID: <CAMSfU+6Qub2T2+2jafz7d28iMXwRBmiB_6V2AzTc8xw_bXDeqw@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH] openssl: upgrade 3.5.6 -> 3.5.7
-To: ashishkumar.mishra@bmwtechworks.in
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000008586ac065499d95d"
+References: <20260618070328.650509-1-vanusuri@mvista.com> <20260618070328.650509-2-vanusuri@mvista.com>
+ <DJCV1YSQQZEZ.2A0D7446B7SLQ@smile.fr> <CANQUz1_g5aVAWkP5U1f=fEBz-4v9B8FM1nPv=Ua6=77PSHCu1A@mail.gmail.com>
+ <DJCWO0FKMMJQ.257GXC23HD9CC@smile.fr>
+In-Reply-To: <DJCWO0FKMMJQ.257GXC23HD9CC@smile.fr>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Fri, 19 Jun 2026 17:32:46 +0530
+X-Gm-Features: AVVi8CcMQw0j2AlZPIe6Awxm8XtrZ8PMRwdFsiZjJzB_e7mGb2YcZbFEVI3f15g
+Message-ID: <CANQUz1-_F8gUrp9fXHL5jzg1p4TC9emYgLPbwnqHZV2bRtO+LQ@mail.gmail.com>
+Subject: Re: [OE-core][wrynose][patch 2/5] scripts: Fix typo in
+ pull-spdx-licenses script name
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Antonin Godard <antonin.godard@bootlin.com>
+Content-Type: multipart/alternative; boundary="000000000000e275d606549a12a8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 11:47:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239167
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jun 2026 12:03:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239168
 
---0000000000008586ac065499d95d
+--000000000000e275d606549a12a8
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le ven. 19 juin 2026 =C3=A0 12:49, AshishKumar Mishra via lists.openembedde=
-d.org
-<ashishkumar.mishra=3Dbmwtechworks.in@lists.openembedded.org> a =C3=A9crit =
-:
+On Fri, 19 Jun, 2026, 2:37=E2=80=AFpm Yoann Congal, <yoann.congal@smile.fr>=
+ wrote:
 
-> Hi Team,
+> On Fri Jun 19, 2026 at 10:51 AM CEST, Vijay Anusuri wrote:
+> > Hi Yoann,
+> >
+> > The reason for the backport is that we are upgrading xwayland to 24.1.1=
+1
+> on
+> > the stable branch. As part of that upgrade, the license was changed to
+> > include X11-no-permit-persons by commit
+> > 91ecfdcc1da3fdfee670244c90da0ab4eb296453.
+> >
+> > Without commit e0f53fa1d09bd175766b3fa1582794ea008f4e1c, which adds
+> > X11-no-permit-persons to the common license set, the build fails during
+> > license validation/compliance checks when building xwayland 24.1.11.
+> >
+> > Therefore, this backport is not intended as a standalone cleanup. It is
+> > required to support the xwayland upgrade and ensure the associated
+> license
+> > metadata is correctly recognized by the build system.
 >
-> Since openssl is a critical package , request you to please take this in
-> master branch
-> This will fix few high score CVE
+> Sorry but I don't understand how changing the script name helps with
+> what you said above.
+> To be clear, I only have doubt about this patch:
+> 2/5 "scripts: Fix typo in pull-spdx-licenses script name"
+> I took the others in the series to the review series including the
+> licence updates that are needed for the xwayland upgrade.
 >
-
-Hello,
-
-This is already on master :
-https://git.openembedded.org/openembedded-core/commit/?id=3D9365ac47f994a7d=
-6be92b8c011c51ecf48e8ef87
-
-Also, this is part of the latest wyrnose PR, it will merge shortly.
-
-For scarthgap, it will be part of the next review cycle (planned next week)
-
-Regards,
-
-
+> This is a work in progress but you can see what I intend to keep of this
+> series at the bottom:
 >
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/wr=
+ynose-nut
 >
-
-> Thanks ,
-> Ashish
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#239159):
-> https://lists.openembedded.org/g/openembedded-core/message/239159
-> Mute This Topic: https://lists.openembedded.org/mt/119836905/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> yoann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Would that work for you?
 >
 
---=20
-Yoann Congal
-Smile ECS
+This works for me. 2nd commit is just typo fix.
 
---0000000000008586ac065499d95d
+Thanks for merging.
+
+>
+> >
+> > Thanks & Regards,
+> > Vijay
+> >
+> > On Fri, Jun 19, 2026 at 1:21=E2=80=AFPM Yoann Congal <yoann.congal@smil=
+e.fr>
+> wrote:
+> >
+> >> On Thu Jun 18, 2026 at 9:03 AM CEST, Vijay Anusuri via
+> >> lists.openembedded.org wrote:
+> >> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >> >
+> >> > Fix the typo in the script name since I can't unsee it now!
+> >> >
+> >> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >> > Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+> >> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >> > (cherry picked from commit 2776008404eebb58bb24e02140ed18760492752b)
+> >> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> >> > ---
+> >>
+> >> Hello,
+> >>
+> >> That kind of cleanup is not generally suitable for stable branches. Is
+> >> there a particular reason to backport this?
+> >>
+> >> Thanks!
+> >>
+> >> >  scripts/{pull-sdpx-licenses.py =3D> pull-spdx-licenses.py} | 0
+> >> >  1 file changed, 0 insertions(+), 0 deletions(-)
+> >> >  rename scripts/{pull-sdpx-licenses.py =3D> pull-spdx-licenses.py}
+> (100%)
+> >> >
+> >> > diff --git a/scripts/pull-sdpx-licenses.py
+> >> b/scripts/pull-spdx-licenses.py
+> >> > similarity index 100%
+> >> > rename from scripts/pull-sdpx-licenses.py
+> >> > rename to scripts/pull-spdx-licenses.py
+> >>
+> >>
+> >> --
+> >> Yoann Congal
+> >> Smile ECS
+> >>
+> >>
+>
+>
+> --
+> Yoann Congal
+> Smile ECS
+>
+>
+
+--000000000000e275d606549a12a8
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0ven. 19=
- juin 2026 =C3=A0=C2=A012:49, AshishKumar Mishra via <a href=3D"http://list=
-s.openembedded.org">lists.openembedded.org</a> &lt;ashishkumar.mishra=3D<a =
-href=3D"mailto:bmwtechworks.in@lists.openembedded.org">bmwtechworks.in@list=
-s.openembedded.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div>Hi Team,=C2=A0<br><br>Since openssl i=
-s a critical package , request you to please take this in master branch=C2=
-=A0<br>This will fix few high score CVE</div></blockquote><div><br></div><d=
-iv>Hello,</div><div><br></div><div>This is already on master :=C2=A0<a href=
-=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D9365ac47f99=
-4a7d6be92b8c011c51ecf48e8ef87">https://git.openembedded.org/openembedded-co=
-re/commit/?id=3D9365ac47f994a7d6be92b8c011c51ecf48e8ef87</a></div><div><br>=
-</div><div>Also, this is part of the latest wyrnose=C2=A0PR, it will merge =
-shortly.</div><div><br></div><div>For scarthgap, it will be part of the nex=
-t review cycle (planned next week)</div><div><br></div><div>Regards,</div><=
-div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div>=C2=
-=A0</div></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<div>=C2=A0</div>
-<div>Thanks ,<br>Ashish</div>
+<div dir=3D"auto"><br><div dir=3D"auto"></div><div class=3D"gmail_quote gma=
+il_quote_container" dir=3D"auto"><div dir=3D"ltr" class=3D"gmail_attr">On F=
+ri, 19 Jun, 2026, 2:37=E2=80=AFpm Yoann Congal, &lt;<a href=3D"mailto:yoann=
+.congal@smile.fr">yoann.congal@smile.fr</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex">On Fri Jun 19, 2026 at 10:51 AM CEST, Vijay Anusuri wro=
+te:<br>
+&gt; Hi Yoann,<br>
+&gt;<br>
+&gt; The reason for the backport is that we are upgrading xwayland to 24.1.=
+11 on<br>
+&gt; the stable branch. As part of that upgrade, the license was changed to=
 <br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#239159): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/239159" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/239159</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/119836905/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/119836905/4316185</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
-get=3D"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; include X11-no-permit-persons by commit<br>
+&gt; 91ecfdcc1da3fdfee670244c90da0ab4eb296453.<br>
+&gt;<br>
+&gt; Without commit e0f53fa1d09bd175766b3fa1582794ea008f4e1c, which adds<br=
+>
+&gt; X11-no-permit-persons to the common license set, the build fails durin=
+g<br>
+&gt; license validation/compliance checks when building xwayland 24.1.11.<b=
+r>
+&gt;<br>
+&gt; Therefore, this backport is not intended as a standalone cleanup. It i=
+s<br>
+&gt; required to support the xwayland upgrade and ensure the associated lic=
+ense<br>
+&gt; metadata is correctly recognized by the build system.<br>
 <br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
+Sorry but I don&#39;t understand how changing the script name helps with<br=
+>
+what you said above.<br>
+To be clear, I only have doubt about this patch:<br>
+2/5 &quot;scripts: Fix typo in pull-spdx-licenses script name&quot;<br>
+I took the others in the series to the review series including the<br>
+licence updates that are needed for the xwayland upgrade.<br>
+<br>
+This is a work in progress but you can see what I intend to keep of this<br=
+>
+series at the bottom:<br>
+<a href=3D"https://git.openembedded.org/openembedded-core-contrib/log/?h=3D=
+stable/wrynose-nut" rel=3D"noreferrer noreferrer" target=3D"_blank">https:/=
+/git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/wrynose-nut=
+</a><br>
+<br>
+Would that work for you?<br></blockquote></div><div dir=3D"auto"><br></div>=
+<div dir=3D"auto">This works for me. 2nd commit is just typo fix.</div><div=
+ dir=3D"auto"><br></div><div dir=3D"auto">Thanks for merging.</div><div cla=
+ss=3D"gmail_quote gmail_quote_container" dir=3D"auto"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex">
+<br>
+&gt;<br>
+&gt; Thanks &amp; Regards,<br>
+&gt; Vijay<br>
+&gt;<br>
+&gt; On Fri, Jun 19, 2026 at 1:21=E2=80=AFPM Yoann Congal &lt;<a href=3D"ma=
+ilto:yoann.congal@smile.fr" target=3D"_blank" rel=3D"noreferrer">yoann.cong=
+al@smile.fr</a>&gt; wrote:<br>
+&gt;<br>
+&gt;&gt; On Thu Jun 18, 2026 at 9:03 AM CEST, Vijay Anusuri via<br>
+&gt;&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer norefe=
+rrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt;&gt; &gt; From: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@lin=
+uxfoundation.org" target=3D"_blank" rel=3D"noreferrer">richard.purdie@linux=
+foundation.org</a>&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Fix the typo in the script name since I can&#39;t unsee it no=
+w!<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.p=
+urdie@linuxfoundation.org" target=3D"_blank" rel=3D"noreferrer">richard.pur=
+die@linuxfoundation.org</a>&gt;<br>
+&gt;&gt; &gt; Signed-off-by: Antonin Godard &lt;<a href=3D"mailto:antonin.g=
+odard@bootlin.com" target=3D"_blank" rel=3D"noreferrer">antonin.godard@boot=
+lin.com</a>&gt;<br>
+&gt;&gt; &gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.p=
+urdie@linuxfoundation.org" target=3D"_blank" rel=3D"noreferrer">richard.pur=
+die@linuxfoundation.org</a>&gt;<br>
+&gt;&gt; &gt; (cherry picked from commit 2776008404eebb58bb24e02140ed187604=
+92752b)<br>
+&gt;&gt; &gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@m=
+vista.com" target=3D"_blank" rel=3D"noreferrer">vanusuri@mvista.com</a>&gt;=
+<br>
+&gt;&gt; &gt; ---<br>
+&gt;&gt;<br>
+&gt;&gt; Hello,<br>
+&gt;&gt;<br>
+&gt;&gt; That kind of cleanup is not generally suitable for stable branches=
+. Is<br>
+&gt;&gt; there a particular reason to backport this?<br>
+&gt;&gt;<br>
+&gt;&gt; Thanks!<br>
+&gt;&gt;<br>
+&gt;&gt; &gt;=C2=A0 scripts/{pull-sdpx-licenses.py =3D&gt; pull-spdx-licens=
+es.py} | 0<br>
+&gt;&gt; &gt;=C2=A0 1 file changed, 0 insertions(+), 0 deletions(-)<br>
+&gt;&gt; &gt;=C2=A0 rename scripts/{pull-sdpx-licenses.py =3D&gt; pull-spdx=
+-licenses.py} (100%)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; diff --git a/scripts/pull-sdpx-licenses.py<br>
+&gt;&gt; b/scripts/pull-spdx-licenses.py<br>
+&gt;&gt; &gt; similarity index 100%<br>
+&gt;&gt; &gt; rename from scripts/pull-sdpx-licenses.py<br>
+&gt;&gt; &gt; rename to scripts/pull-spdx-licenses.py<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; Yoann Congal<br>
+&gt;&gt; Smile ECS<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+<br>
+<br>
+-- <br>
+Yoann Congal<br>
+Smile ECS<br>
+<br>
+</blockquote></div></div>
 
---0000000000008586ac065499d95d--
+--000000000000e275d606549a12a8--
 
