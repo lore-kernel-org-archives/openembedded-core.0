@@ -2,108 +2,115 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF397CDB46B
-	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 12:51:33 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5844.1781959891054578591
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07846CDB46B
+	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 12:54:54 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5882.1781960088717389695
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jun 2026 05:51:32 -0700
+ Sat, 20 Jun 2026 05:54:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=QLGXklpG;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=ULQRJ5z4;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id C39D54E4025C;
-	Sat, 20 Jun 2026 12:51:28 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id BBBE7C653F5;
+	Sat, 20 Jun 2026 12:54:52 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 781CF601B7;
-	Sat, 20 Jun 2026 12:51:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B0893106C819E;
-	Sat, 20 Jun 2026 14:51:21 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6E990601B7;
+	Sat, 20 Jun 2026 12:54:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1A4BF106C8864;
+	Sat, 20 Jun 2026 14:54:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1781959887; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1781960085; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=q/7pwpXN+4HZWfrLpqGCcSBahF+f0vWTNoc9W2rchH8=;
-	b=QLGXklpGufGginm7V+wFfUD9cPWyHBqA+3GXTlManciq02/pl27110yYgqTi4QqsOmLC0i
-	B+mHur+HKSQdSv3BIQwacVyQJUTJ75MJajeqkVzjTpqXdf0S1tEo4Jtp6UkH6XgbKO734i
-	VBcys93MvJQn/3bCeMbHkak1t6Wds9sTU9+w1AwhJdVS8r2ITZXABIUnSRKuYF2i8KIhe6
-	l2yTldx7QRxHMvSxCiaaAbn+Y/4Un77iLQf+O2lZT9lARAMrr0iaw2nWbGd9LfYHku5Gga
-	3n/NzWon6hW3YmsLlwA9cKoJa97tFvaK5kBj3uO/POJbJaRb00NrmsS5KR5CaQ==
+	bh=E0y5BLaoMscdvQfoL0NR+djpPKNxw+nVorZWmkYZdBA=;
+	b=ULQRJ5z4R9twS9ydp4VB7F04uwH2DdNA2GvVvWloCZpHgfeP+UrylJtLmy8ex8gGG/s6Zl
+	q+CVnDpq8zSG74zbQgZ5EkOrbLWDHOEaf0R0hLKsZTrszrkelVF8P1t4XOHtiOEWSmIqmA
+	bPhU9uOsPhaWXSBeth/FtAhiP85+6TUS+yj+E17Tl7DafXyU1hkI+ckn6IWZ8iC4Sv6fXu
+	8TngXk8EB+fPJGjuWexufaj3EPGvxagbsFui2QLKhyGnf9dASWdHQZyujna0iu7groMk8S
+	WH6ju2kcM2xivWrde/AxtHmdIBL0JnwezPOs8WpblqdahUx650iPf6jR3fcxgA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 20 Jun 2026 14:51:20 +0200
-Message-Id: <DJDW23PH3DPO.1NMHFSM6HL150@bootlin.com>
+Date: Sat, 20 Jun 2026 14:54:40 +0200
+Message-Id: <DJDW4NKSIJFE.2U7LKRVTZKGSS@bootlin.com>
+Cc: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
+ <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
 To: <rs@ti.com>, <raj.khem@gmail.com>, <richard.purdie@linuxfoundation.org>,
  <alex@linutronix.de>, <otavio@ossystems.com.br>, <kexin.hao@windriver.com>
 Subject: Re: [oe-core][PATCHv3] xuser-account: convert to
  standard-user-account
-Cc: <afd@ti.com>, <detheridge@ti.com>, <denis@denix.org>, <reatmon@ti.com>,
- <openembedded-core@lists.openembedded.org>, <vijayp@ti.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
 References: <20260618190003.3266810-1-rs@ti.com>
-In-Reply-To: <20260618190003.3266810-1-rs@ti.com>
+ <DJDW23PH3DPO.1NMHFSM6HL150@bootlin.com>
+In-Reply-To: <DJDW23PH3DPO.1NMHFSM6HL150@bootlin.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 12:51:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239208
+ <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 12:54:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239209
 
-On Thu Jun 18, 2026 at 9:00 PM CEST, rs wrote:
-> From: Randolph Sapp <rs@ti.com>
+On Sat Jun 20, 2026 at 2:51 PM CEST, Mathieu Dubois-Briand wrote:
+> On Thu Jun 18, 2026 at 9:00 PM CEST, rs wrote:
+>> From: Randolph Sapp <rs@ti.com>
+>>
+>> Change this single xuser account template into a generic
+>> standard-user-account that uses distro level variables for
+>> configuration.
+>>
+>> This allows for seamless configuration of multiple out-of-box scripts
+>> and tests across layers without having to implicitly hope that the
+>> username or groups haven't been changed by a bbappend or recipe
+>> override.
+>>
+>> This also adds a class and a variable to allow recipes to assert that
+>> the user is in requested groups.
+>>
+>> This was proposed specifically to remove some issues highlighted in:
+>> https://lists.openembedded.org/g/openembedded-core/message/230665
+>>
+>> Signed-off-by: Randolph Sapp <rs@ti.com>
+>> ---
+>> v2:
+>> 	- Add seat to the default STANDARD_USER_SYSTEM_GROUPS var
+>> v3:
+>> 	- Add STANDARD_USER_GROUPS_EXPECT to indicate what groups are
+>> 	  expected to be provided by other projects
+>> 	- Set user UID and GID as 1000 in the static tracking files
+>> 	- Update the weston test's user name
+>> ---
 >
-> Change this single xuser account template into a generic
-> standard-user-account that uses distro level variables for
-> configuration.
+> Hi Randolph,
 >
-> This allows for seamless configuration of multiple out-of-box scripts
-> and tests across layers without having to implicitly hope that the
-> username or groups haven't been changed by a bbappend or recipe
-> override.
+> Thanks for the new version.
 >
-> This also adds a class and a variable to allow recipes to assert that
-> the user is in requested groups.
+> I believe we still have some failure:
 >
-> This was proposed specifically to remove some issues highlighted in:
-> https://lists.openembedded.org/g/openembedded-core/message/230665
+> 2026-06-20 11:01:50,077 - oe-selftest - INFO - incompatible_lic.NoGPL3InI=
+magesTests.test_core_image_full_cmdline_weston (subunit.RemotedTestCase)
+> 2026-06-20 11:01:50,080 - oe-selftest - INFO -  ... FAIL
+> ...
+> ERROR: weston-init-1.0-r0 do_package_write_rpm: File /srv/pokybuild/yocto=
+-worker/oe-selftest-debian/build/build-st-4070494/tmp/work/qemux86_64-poky-=
+linux/weston-init/1.0/recipe-sysroot/etc/passwd doesn't exist in sysroot!
+> ERROR: weston-init-1.0-r0 do_package_write_rpm: Error executing a python =
+function in exec_func_python() autogenerated:
+> ...
+> Exception: KeyError: 'getpwuid(): uid not found: 1000'
 >
-> Signed-off-by: Randolph Sapp <rs@ti.com>
-> ---
-> v2:
-> 	- Add seat to the default STANDARD_USER_SYSTEM_GROUPS var
-> v3:
-> 	- Add STANDARD_USER_GROUPS_EXPECT to indicate what groups are
-> 	  expected to be provided by other projects
-> 	- Set user UID and GID as 1000 in the static tracking files
-> 	- Update the weston test's user name
-> ---
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4105
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3936
+>
+> Can you have a look at the issue?
+>
+> Thanks,
+> Mathieu
 
-Hi Randolph,
+Oh and I believe an error we already had before for no-x11:
+failed to create display: No such file or directory
 
-Thanks for the new version.
-
-I believe we still have some failure:
-
-2026-06-20 11:01:50,077 - oe-selftest - INFO - incompatible_lic.NoGPL3InIma=
-gesTests.test_core_image_full_cmdline_weston (subunit.RemotedTestCase)
-2026-06-20 11:01:50,080 - oe-selftest - INFO -  ... FAIL
-...
-ERROR: weston-init-1.0-r0 do_package_write_rpm: File /srv/pokybuild/yocto-w=
-orker/oe-selftest-debian/build/build-st-4070494/tmp/work/qemux86_64-poky-li=
-nux/weston-init/1.0/recipe-sysroot/etc/passwd doesn't exist in sysroot!
-ERROR: weston-init-1.0-r0 do_package_write_rpm: Error executing a python fu=
-nction in exec_func_python() autogenerated:
-...
-Exception: KeyError: 'getpwuid(): uid not found: 1000'
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4105
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/3936
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/3976
 
 --=20
 Mathieu Dubois-Briand, Bootlin
