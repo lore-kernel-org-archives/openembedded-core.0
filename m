@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 374D7CDB472
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F9D8CDB471
 	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 13:00:38 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5964.1781960427784995832
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6021.1781960432455936077
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jun 2026 06:00:28 -0700
+ Sat, 20 Jun 2026 06:00:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=dX2k6ZvW;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so2348993f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 06:00:27 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=lCXZbc6U;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45ef6565cfdso1344223f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 06:00:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781960426; x=1782565226; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1781960431; x=1782565231; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=59Xl4paUOIHgE/1ss/y7DyL709KS1y2/ZAHv3OnvLCM=;
-        b=dX2k6ZvWRLCntxBxjzupS7pqrxBiC5UUU6FFYNu7w6hS3r9XLE4CJOhZGYbJzdJuJ8
-         PnSyv0+5ylmnW4kMe0QWfA3mJP9tJcx00m80vMnLNw4wGoXv1tzWKlH89Ao9K8Dq/PNA
-         E+4SwaUK8FtTXsSbhOJb4S5KFr31RrRK22FQ0=
+        bh=ZGBC1yQl2vQXGoiqfzTDqcMcrH3whXaRU3QYBIg0M/0=;
+        b=lCXZbc6UvMgbrE/Zpt3A/g4VOZkLrPeZvkbfVFiSKonVMiBhjxqBEcSBvXz0nemhKR
+         y5nArLm+vvcq83gUnDR7cabFUe2uDR1SaURz7jMSTcW/TQfwkb2FntJbPvTYxIrjoipY
+         2yn+X4eFiy7ZaaKFtuFJII/iaJLu6mhTlOTmA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781960426; x=1782565226;
+        d=1e100.net; s=20251104; t=1781960431; x=1782565231;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=59Xl4paUOIHgE/1ss/y7DyL709KS1y2/ZAHv3OnvLCM=;
-        b=FkvWt7cGEoAeRb/aYz1T8OvBVJtYDqWPevw83st5e1eBCwy7Sr2PDaHf962Aq/A395
-         kGiVof7t6HcAlRRtha2dpaE1c8hMREvpFGVJE1LvCIIpj8SUBnE/H9BS3lNXc/tN+C/4
-         zXGvLqIT5jPxIUofJ7zit9zu4Yg+CZmsC+I+9nLplGzTIG82VrHy9HeuCVOpE/XFX++3
-         F/dyGj6hyHUyozdtWbIZrkfg7bnOrBCHKX2iLjPiEWbMIfS7R9S63+Dux3dVRouG1wpZ
-         XiqAhwBM+j3iZe8kZVyc+4M0mK/cuJgYqnZUsNWlkYzYTp7lECVYKSQbWuoN/iQ8pJ97
-         KgRg==
-X-Gm-Message-State: AOJu0YyU9/DNMK+xS8NUz21E+qqfuBQWhO5ByEfhrzATiaAlNpPIHGGr
-	6/DMDiPrBbDTskp6AlLoC0iCMtxa5mtgTgy1Gj7+lzgp9iiaBl33jUJSPzeiOnc72IS/dkghMeb
-	8waV6
-X-Gm-Gg: AfdE7ckLs1OYdG2R5nTFlpC2IFHuqd2pVf1rJ2do0IWfHfnwSC1+iJR24W+gVArR2a7
-	/+C4pXicb5m6JNHG1VTdzIxqYo4dqEWGJxeoSHRB/Hrz6iUmQCcMi1pZhH6UOphbfkIyhmV6dSJ
-	08XJ5Kfa8BZgDHPb9bZawcq4F1gxgtMxIZ+HoMAZBX0bC+WhpPkJlTu6k5FuFvmVoly0QKKBpS9
-	MC/fjEm/pUkbRWDB05DcWWcTlNQ5Flo6PjZ13xFq88/g1VaDl6rUqkMRiHOHcmG30rqde8GAJ9z
-	6c72yGIGV7YQJsTNdar7i/T3kEOCHz+G1DBZ78fbHk+H0AoOzPAmwGSUp37UyApKQiX4ZoBm5Tw
-	UuEoq1Z9Z6sZFPww6dmhmDrjY9uZYnwGxpp2ou+uM+4jXL+/S2eR/0xk/dMbiLonKVn5JaNmYpn
-	U9Vx5R4fNFXZbSupVGQwmVjhOMm3DRb/6k88lWKgM93GqcUgqCGFlOekfKo84+0G5JIT8sery58
-	xmwiw74CAn6W4H2
-X-Received: by 2002:a5d:634b:0:b0:461:bfd6:5109 with SMTP id ffacd0b85a97d-46501b5ac77mr9615413f8f.22.1781960426031;
-        Sat, 20 Jun 2026 06:00:26 -0700 (PDT)
+        bh=ZGBC1yQl2vQXGoiqfzTDqcMcrH3whXaRU3QYBIg0M/0=;
+        b=jSUvKypMekMJzonvDD9CPMgCHby7zRFbY3ZVAGau+Juw1BbxIYIfhbMFmpCryrmee1
+         CwMgSj+Ay0+pocUieiJ1PJiWsAxIoICmdpCa+ORxQb7G5jzINkokUVs9a1CsMMqWF4lE
+         E5v527CUhb8nvRnGzf9jzav/Wkj8jnhDa/+zpCat7Is8W1bZW5ENnUeg7wq+Mi9/YZiy
+         GAxcagn/L2GACgBblPg7q6fhkB5fJHCCyiG7rZwobqOWHRGZBbIkTpr22DvhrkZwcGuw
+         hGepVJil7lofeVdS4x+OYDKlMD0PCmUjtkpYgwbwUfeFZo0u5ALoQX4SVGt45exm/EKG
+         OggA==
+X-Gm-Message-State: AOJu0YzO4R5J5+TDJp5FM1Ehy1aVDI40dOWMn7qrh15FZBWnShIG7Hjl
+	ZDicW1uOgIApPhhcc4ILr6kC5/nI7eKkXfbkLgIu+JXp7jHp+iA7WVX+cz20cIUxH+esCLth5mX
+	RPAzV
+X-Gm-Gg: AfdE7cklDcdZGCCRPB0bYghrFXopONz4bGGZvt1ONrmDAgfjmf3Q94/1jGXAPxbahAz
+	KyPvn9hQFDexQcXn29Zp2rchCbBib84RArs7RwffStE9XlmGHYjEV0jP2ijg0nWzqd/M7X+hHPA
+	99XyTbO+9trh3PZuUBC9MRh+oXJUn3Fa+nq5H+c7+ETUYMtaktcAUv7GWDmG3e+CgzPq6O7axKB
+	2FajzHarHbIJ1BhQWfVZkeZYP3/VUzDFYvioj+sy242MxPPivu9lHLSjEkFAe2gwLz4A1OdYD9f
+	MCF4XQEa/K6O+6qXgngyywsmayxnDBmLJ0o3iL4Uqi6pm9EEsjDVq94Z5R78LqhfDoLTf2fJCaW
+	P3ea7cRzHJsVLNFNP74WLpCr0BkWfQVhGCZ+Oj1OtPnlE7PDbhZ6fiz8L4AAmssJheII8anb9z9
+	MFuBSHCFV4IZ8BTKFkaZOFkgZ+mRuuaBsRQle0okGk9if1q/fMw/f70FdMWBwvxux74cPlX6dx7
+	o09U+XftOAa8s4z
+X-Received: by 2002:a05:600c:a318:b0:492:4c2e:9613 with SMTP id 5b1f17b1804b1-4924c2e97d2mr19518615e9.18.1781960430664;
+        Sat, 20 Jun 2026 06:00:30 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4666722141csm7338573f8f.34.2026.06.20.06.00.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4666722141csm7338573f8f.34.2026.06.20.06.00.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 06:00:25 -0700 (PDT)
+        Sat, 20 Jun 2026 06:00:30 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 26/36] ttf-bitstream-vera: Use SPDX license identifier
-Date: Sat, 20 Jun 2026 14:59:41 +0200
-Message-ID: <4133d2b38e12ebecdcb41d01991d180f661715ee.1781960051.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 31/36] ppp: Remove PD license
+Date: Sat, 20 Jun 2026 14:59:46 +0200
+Message-ID: <a78184f423cc400f255a96a1a68212acd818db3c.1781960051.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1781960051.git.yoann.congal@smile.fr>
 References: <cover.1781960051.git.yoann.congal@smile.fr>
@@ -66,32 +66,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 13:00:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239236
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239241
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Change the license identifier to use the SPDX license identifier
-"Bitstream-Vera" which refers to the same license.
+The code referred to as having a "public domain" license (chat) has a
+MIT SPDX license indentifier and matching license text. We can therefore
+drop the PD license field entry.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a4a3816d33809be3d7e5601ad4ad176369dc09f2)
+(cherry picked from commit a6f416b0862c3dbe46f3ea2d8b77ef0ddfc12b36)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb | 2 +-
+ meta/recipes-connectivity/ppp/ppp_2.5.2.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-index ebc836d801c..d086485c92d 100644
---- a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-+++ b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
-@@ -6,7 +6,7 @@ and bold).  In addition Fontconfig/Xft2 can artificially oblique the \
- serif faces for you: this loses hinting and distorts the faces slightly, \
- but is visibly different than normal and bold, and reasonably pleasing."
- SECTION = "x11/fonts"
--LICENSE = "BitstreamVera"
-+LICENSE = "Bitstream-Vera"
- LIC_FILES_CHKSUM = "file://COPYRIGHT.TXT;md5=27d7484b1e18d0ee4ce538644a3f04be"
- 
- inherit allarch fontcache
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb b/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
+index 607678db8bb..37e223b4abe 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.5.2.bb
+@@ -5,7 +5,7 @@ SECTION = "console/network"
+ HOMEPAGE = "http://samba.org/ppp/"
+ BUGTRACKER = "http://ppp.samba.org/cgi-bin/ppp-bugs"
+ DEPENDS = "libpcap virtual/crypt"
+-LICENSE = "BSD-2-Clause & GPL-2.0-or-later & LGPL-2.0-or-later & PD & RSA-MD & MIT"
++LICENSE = "BSD-2-Clause & GPL-2.0-or-later & LGPL-2.0-or-later & RSA-MD & MIT"
+ LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=25;md5=f0463bd67ae70535c709fca554089bd8 \
+                     file://pppd/tdb.c;beginline=1;endline=27;md5=4ca3a9991b011038d085d6675ae7c4e6 \
+                     file://chat/chat.c;beginline=1;endline=1;md5=234d7d4edd08962c0144e4604050e0b6 \
 
