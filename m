@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA63CCD4F26
-	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 13:00:37 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5963.1781960427427398236
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10CE7CDB46F
+	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 13:00:38 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5966.1781960433771079938
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jun 2026 06:00:27 -0700
+ Sat, 20 Jun 2026 06:00:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=33FmzKac;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4921e4dd62dso21696495e9.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 06:00:27 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=LnrmVEdT;
+ spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4629051c946so2202261f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 06:00:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781960426; x=1782565226; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1781960432; x=1782565232; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WzZWTDBYHKEfeLN8yWlhdy7V6lMdWSjyMSpngS7qkf8=;
-        b=33FmzKacFOPEb5Roks2JsI3PgoyDhyJZUPdu7yLinwwdIDJZTK5e52ZfjWtakdQJaz
-         ravpgp4SvuGIKqCHO6liCMlFujU63V+7TfXsTnkW1LPqyPmAO01ajvIAs7pcZEaeLQ9+
-         qCxdVB7ZOGqp2dxSxeS+iunYR6kdL7WXHuo9w=
+        bh=/taymTgv+5QjxtWuMQ7BnZNfhOd2KmIBjHPaCWqHzUc=;
+        b=LnrmVEdTxdhrh2AGVM6C5AslPnv7VVW1G4bB4+PqVX6ZkU/X2A0ba/bO1HL2hypO2Q
+         UUC4ZtxB4DltMrEFw/qEcM51ieP+jdXURRit1f78+aciSc7BNeCNqJi+N31c9abkl49B
+         /xdxBGHEwUV6cxhDEK3g1IyGW8AI0iEj3m3Rg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781960426; x=1782565226;
+        d=1e100.net; s=20251104; t=1781960432; x=1782565232;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=WzZWTDBYHKEfeLN8yWlhdy7V6lMdWSjyMSpngS7qkf8=;
-        b=mIH0fGYtjAByjVd5Zfp+vKhDooBCuuadHB+xTJNhdA5sgKc5isph3pdBLcj/beE329
-         3skr4K12t7Y2FJ+np+WuoVoLKy8wAZyNmXo7mPzK5n4Gf5Ef4r4WbIJUYz7YEoIHaHya
-         dEjumk+0giR5Ukw1vWFsRd017wQR6du3VzYmDwvrEwxGTd0PyN+4lEOOSQoglBt1K1YK
-         ozi9LPUGqXoZ5WDp+oXXnTShuPbAmiGL7uUeLPxoghfsyOEcr13ASO3tZTF+JOeOkBVy
-         1k5POM0kQMasJNf7LuaBVUTsEvL3WxBIEFGVFvR+MGVC/mn9BKi1M5HraJqcoc1h9X9H
-         AkXw==
-X-Gm-Message-State: AOJu0YzQtc7tJ2z1LWEvAKYbt6/0aWG+KnYW1u2lkL2oC8cEBeXHTBva
-	FsQFcqIri5ULWBViEK3TkmxyraRhP34sBfEiDq6DgnIf0JKRGkvZHYRPeGazu/5CFiaygpiDPC5
-	nKCW2
-X-Gm-Gg: AfdE7cknTALjDBJAOigVFf4o9a69pxZkQ41Fza++SRGLpozuCbStYiJ0oM//UqCK1pl
-	TieKkxQ0CSXoNy04MPIo5pwaDlrnRGZwX1yBiMQ+qG2QVyi/WGUNwicSzYy+JhxWh3l10nQNF7e
-	Ld1g4e1J1rTVBgkhqeW9+sNOmE+C4DH/N/Aurfi/kI0GMoLa1L2HLp7XDDmnL6ztTfSqePy+bW2
-	sRKL9cUIRh92OPS6psnMkUrbFbDcNTbvduklqIENWc7mxt/MnFMcZQf+A5CJEfGJ6q2Ql1pILXU
-	p/mBmc47zE5YjW/PJDrLXXHGwPhEqFhaIWgrb//aHU9mHyu6OAzq4VXgDSgBv2LpJIHpI/MhxHC
-	tnWAewWA9NH1m6nfNDTMenb7lwGAQVpN7lcRvaMyiQDTb2Hg1G3aYVYv9biQ6Qqh2TieNNOJFTr
-	Ex8zCAMGYPo+1MMUArfn5PzOEyQD3LG+8FnphjraFPRQ7aMR1Lxbs60TAilznF7TY3P19oqLG7w
-	lPVFsCJMInL0SqN
-X-Received: by 2002:a05:600c:e556:10b0:492:37a3:acda with SMTP id 5b1f17b1804b1-49240897a3bmr70851955e9.0.1781960425602;
-        Sat, 20 Jun 2026 06:00:25 -0700 (PDT)
+        bh=/taymTgv+5QjxtWuMQ7BnZNfhOd2KmIBjHPaCWqHzUc=;
+        b=Box2d6iDWJSvtoYj/nfVEpEzqkmBlUvdSOtv3RVogfWqXsm0F9sdZze+90Rk7ChWvO
+         P/1TuQ3aiHc4seUss62dvogZNP3cT3G7Ok0GDNbsWQ/nHUwEQpMNiuRisvbv8JtWD0KY
+         agwYJJzvYonSC969nQSFAMnHX5CIbraM4ojR+DUGE+abFLnaRvocg44jEuy//hVgnOzM
+         TROZcB7+2UlsffHxVKB4qk5IYK/doHsV7JP85mCfGWhrnkEOfbNwM3C2NgBk+9jKPMv5
+         IEqm6pNMhLsyBxzTneTsis8jPnwApb6hO1bjzkdwE5hddsb35KN4OpWp/Ov5P6AleZqj
+         5d5g==
+X-Gm-Message-State: AOJu0YzbUnESBnSlootvzEo0L/Czhw5QQry+bpDo1TutKZ3lhu89OV7o
+	aOxhjGvm/A4rXHNkcNHa4W8W5m60wS8okj71ggIWf4lcGPyq34aXZ3DnpE8nCrnzuk8YBMi/Ndn
+	JEQPb
+X-Gm-Gg: AfdE7cn4pnkC0QqEMJ8qZaKGfBmD19LKGBquV0GApMstfdSQfJrMZhd91dbSl6uOWOw
+	B89uVTdNEldYtuQZhR4KezJKFhBeS36Jg3RTytqHHErzaKyQ/Rk8ZQief6dy7lQqjhy8SJpQ5xc
+	c8iZgoJkad3Q27lVCDHInx2H2kfCn+Gd9zEoB9ROSK8rE7IoC7HHq12VCycIjxR/gJ5XUazj4I+
+	tDeMK6x021rxlHY4wctehQEDzUb+V3N/DerfzK8HXh45VZL/XfFsuoJnBG/RSxRzRV/azkDBxt6
+	NiXAsb68pfmlGWQA63HFfmEeKQ3vktCCVYk4hn529rcKJNB+0NPVavVUluHxLRkstBq4FsH8SwC
+	0YO4wZ2mqUs3u9fW3vO9iAU/wPbxVIxuZPGb2icolvLJFGlt4JwBshmRHaQT4WPPzeYDcmIj27M
+	382i7qgTUj4BWAiZQ7KU3zKXsCD0953huUc28xan2PBgp8cCyO2ryD7geX5RqxSXRjPzoQczwLI
+	3NEL61GCQd3qQlH
+X-Received: by 2002:a05:6000:1885:b0:457:ff13:b2a4 with SMTP id ffacd0b85a97d-4651bc7c10dmr10738009f8f.3.1781960431961;
+        Sat, 20 Jun 2026 06:00:31 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4666722141csm7338573f8f.34.2026.06.20.06.00.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4666722141csm7338573f8f.34.2026.06.20.06.00.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 06:00:25 -0700 (PDT)
+        Sat, 20 Jun 2026 06:00:31 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 25/36] glib-2.0: Change from Public Domain to Gnome GCR Documentation License
-Date: Sat, 20 Jun 2026 14:59:40 +0200
-Message-ID: <97610cf8a7eb8744f2afcec2762f797405f8984d.1781960051.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 33/36] python3-pycryptodome: Update LICENSE PD -> Unlicense
+Date: Sat, 20 Jun 2026 14:59:48 +0200
+Message-ID: <252020203de1a4500fa86ade1449efe189c5c989.1781960051.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1781960051.git.yoann.congal@smile.fr>
 References: <cover.1781960051.git.yoann.congal@smile.fr>
@@ -65,37 +65,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 13:00:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239235
+ <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 13:00:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239243
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The file docs/reference/COPYING is an exact match for the text of the
-Gnome GCR Documentation License (SPDX ID GCR-docs), so use that license
-instead of Public Domain. This licenses actually requires that the
-copyright notice be preserved, unlike Public Domain, so its likely that
-using Public Domain is actually an error due to a misreading of the
-license text.
+The "public domain" license in the code matches the SPDX Unlicense
+license, update accordinly.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9b79254e86878c1dd46cd6af41a73f8ca2bd0b18)
+(cherry picked from commit 7a5f842cc62f4b3f7a98ffced085f89110895ab0)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 2 +-
+ meta/recipes-devtools/python/python-pycryptodome.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 349c33bd33c..ae40b7f41f3 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://developer.gnome.org/glib/"
+diff --git a/meta/recipes-devtools/python/python-pycryptodome.inc b/meta/recipes-devtools/python/python-pycryptodome.inc
+index ec9241e6d5d..466da553e75 100644
+--- a/meta/recipes-devtools/python/python-pycryptodome.inc
++++ b/meta/recipes-devtools/python/python-pycryptodome.inc
+@@ -2,7 +2,7 @@ SUMMARY = "Cryptographic library for Python"
+ DESCRIPTION = "PyCryptodome is a self-contained Python package of low-level\
+  cryptographic primitives."
+ HOMEPAGE = "http://www.pycryptodome.org"
+-LICENSE = "PD & BSD-2-Clause"
++LICENSE = "Unlicense & BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=29242a70410a4eeff488a28164e7ab93"
  
- # pcre is under BSD;
- # docs/reference/COPYING is with a 'public domain'-like license!
--LICENSE = "LGPL-2.1-or-later & BSD-3-Clause & PD"
-+LICENSE = "LGPL-2.1-or-later & BSD-3-Clause & GCR-docs"
- LIC_FILES_CHKSUM = "file://COPYING;md5=41890f71f740302b785c27661123bff5 \
-                     file://glib/glib.h;beginline=4;endline=17;md5=72f7cc2847407f65d8981ef112e4e630 \
-                     file://LICENSES/LGPL-2.1-or-later.txt;md5=41890f71f740302b785c27661123bff5 \
+ inherit pypi
 
