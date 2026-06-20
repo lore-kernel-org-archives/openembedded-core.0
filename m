@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A969CDB473
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 374D7CDB472
 	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 13:00:38 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5967.1781960434361568754
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5964.1781960427784995832
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jun 2026 06:00:34 -0700
+ Sat, 20 Jun 2026 06:00:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=GZGKEkJK;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49241a577d8so10757495e9.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 06:00:34 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=dX2k6ZvW;
+ spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so2348993f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 06:00:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781960433; x=1782565233; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1781960426; x=1782565226; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AeQ11XS8gmarwGQ9qvnXnloLOJwGZ1yGfg+7VhM/MXw=;
-        b=GZGKEkJKcWmV2/U6QiDR1oWwhfz3fwrZKjvXV3mcnSRhFBKHlOWvhQdewwjxcjCbij
-         jSFuigm9ADyRW0KF+lPPq7OdmmixKAeH6ecphVyS/M/ZNHyotrPaUw6NMknzcmHpDdcA
-         n5VJmm+ogruJoTb0xt7vobqmfNV6TFs8v1vfU=
+        bh=59Xl4paUOIHgE/1ss/y7DyL709KS1y2/ZAHv3OnvLCM=;
+        b=dX2k6ZvWRLCntxBxjzupS7pqrxBiC5UUU6FFYNu7w6hS3r9XLE4CJOhZGYbJzdJuJ8
+         PnSyv0+5ylmnW4kMe0QWfA3mJP9tJcx00m80vMnLNw4wGoXv1tzWKlH89Ao9K8Dq/PNA
+         E+4SwaUK8FtTXsSbhOJb4S5KFr31RrRK22FQ0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781960433; x=1782565233;
+        d=1e100.net; s=20251104; t=1781960426; x=1782565226;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=AeQ11XS8gmarwGQ9qvnXnloLOJwGZ1yGfg+7VhM/MXw=;
-        b=be3/BVVe6PERe4aUkgmbMsAiF5bIy+PLz8xZ2XvXdAqiwHKK+6T9zetSlqVI2YHxxH
-         ZPDFwCijm337OnhkiHHG8VFmiHGQiSRd33B8rfMs8nidykgnPVT+ucBS3oGFYow69csQ
-         8HYnsB9ddlLM1NFyGdTRUDg7yzKksLvEonbGuxMOxLt4Yidee9wVgla953rm5ao6jkQb
-         eaQ2dBtujoCB7JrKfHlz7gmy4TnwAS9RMiEurhW1fcuq46MFadUwBADt4eAQ4dnNDcSC
-         ITvz3DZU1cno5ceSriOuZviHH2535qMv/hOHI9hwzkeC9o5mYfk2eiMbFKPlhCmZqUNf
-         jTlw==
-X-Gm-Message-State: AOJu0YwIyvm3nT7P7dUa7EaQ2JN3ApyzrxHoJEH8hgjp7WXkLBgAOB45
-	jh7b49BKRkhstMtmogfXcEYDQBCXm4qbT1M3RnslBDtYcWDIDNPOHoEz72vBNE9L56Nv72T4eO4
-	Fgkhi
-X-Gm-Gg: AfdE7cluqsk9k2p5Rh66sGxXe4g0mK0Ae1XEo9s3LdpR3rKlEmYz2fhuCDeCBQL4WO8
-	56WlXjNQqPuUDNmPwIdEX8vYt+iqIQSvCzOP7/NPlrkAZJeEQCFipcHtfhcV+gAL3g+yqANzEuD
-	SAscgTvGCUEhdS8Y6PUpdtjzxKh4n0U0NhHe2DND8CJGPm+LP8T/LZqyoCWGDn6XgOgyyd9pIcC
-	qc0bJx8S8Sqvwxssl0UkCniEFvpzJDoismtGfkMMJRtbTWiQe9g49DLSPnHrHi31+ePuizUXbtm
-	81vyOswpw5vLp//6d5Hy6k7+bWzYU3Abrg5U64xGfIvRS5Bi2A0PFUSlCdYDQlVCKax+vlvSxFx
-	W7VOVdrszHf/GaNbBp8W+1FS+10SsTcMTWT1uO1p/wCWm7Lb5STm4L+hI68ercsEMAg3Yq3D+34
-	MmoY2yC6qBYTVZ0yVp53ZjZOgZEhpelXEqpQfruclk/N7FzqUKea6zdDHgZz7BQ8tr+0HPhIw5K
-	990L11TWz34PNF8
-X-Received: by 2002:a05:600c:674f:b0:490:bd66:db49 with SMTP id 5b1f17b1804b1-49240e41fbcmr117104595e9.12.1781960432574;
-        Sat, 20 Jun 2026 06:00:32 -0700 (PDT)
+        bh=59Xl4paUOIHgE/1ss/y7DyL709KS1y2/ZAHv3OnvLCM=;
+        b=FkvWt7cGEoAeRb/aYz1T8OvBVJtYDqWPevw83st5e1eBCwy7Sr2PDaHf962Aq/A395
+         kGiVof7t6HcAlRRtha2dpaE1c8hMREvpFGVJE1LvCIIpj8SUBnE/H9BS3lNXc/tN+C/4
+         zXGvLqIT5jPxIUofJ7zit9zu4Yg+CZmsC+I+9nLplGzTIG82VrHy9HeuCVOpE/XFX++3
+         F/dyGj6hyHUyozdtWbIZrkfg7bnOrBCHKX2iLjPiEWbMIfS7R9S63+Dux3dVRouG1wpZ
+         XiqAhwBM+j3iZe8kZVyc+4M0mK/cuJgYqnZUsNWlkYzYTp7lECVYKSQbWuoN/iQ8pJ97
+         KgRg==
+X-Gm-Message-State: AOJu0YyU9/DNMK+xS8NUz21E+qqfuBQWhO5ByEfhrzATiaAlNpPIHGGr
+	6/DMDiPrBbDTskp6AlLoC0iCMtxa5mtgTgy1Gj7+lzgp9iiaBl33jUJSPzeiOnc72IS/dkghMeb
+	8waV6
+X-Gm-Gg: AfdE7ckLs1OYdG2R5nTFlpC2IFHuqd2pVf1rJ2do0IWfHfnwSC1+iJR24W+gVArR2a7
+	/+C4pXicb5m6JNHG1VTdzIxqYo4dqEWGJxeoSHRB/Hrz6iUmQCcMi1pZhH6UOphbfkIyhmV6dSJ
+	08XJ5Kfa8BZgDHPb9bZawcq4F1gxgtMxIZ+HoMAZBX0bC+WhpPkJlTu6k5FuFvmVoly0QKKBpS9
+	MC/fjEm/pUkbRWDB05DcWWcTlNQ5Flo6PjZ13xFq88/g1VaDl6rUqkMRiHOHcmG30rqde8GAJ9z
+	6c72yGIGV7YQJsTNdar7i/T3kEOCHz+G1DBZ78fbHk+H0AoOzPAmwGSUp37UyApKQiX4ZoBm5Tw
+	UuEoq1Z9Z6sZFPww6dmhmDrjY9uZYnwGxpp2ou+uM+4jXL+/S2eR/0xk/dMbiLonKVn5JaNmYpn
+	U9Vx5R4fNFXZbSupVGQwmVjhOMm3DRb/6k88lWKgM93GqcUgqCGFlOekfKo84+0G5JIT8sery58
+	xmwiw74CAn6W4H2
+X-Received: by 2002:a5d:634b:0:b0:461:bfd6:5109 with SMTP id ffacd0b85a97d-46501b5ac77mr9615413f8f.22.1781960426031;
+        Sat, 20 Jun 2026 06:00:26 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4666722141csm7338573f8f.34.2026.06.20.06.00.32
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4666722141csm7338573f8f.34.2026.06.20.06.00.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 06:00:32 -0700 (PDT)
+        Sat, 20 Jun 2026 06:00:25 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 34/36] glib-2.0-native: Remove problematic path reference
-Date: Sat, 20 Jun 2026 14:59:49 +0200
-Message-ID: <4d1ad9324758d2707ad7dc3b808c03d559c5ffeb.1781960051.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 26/36] ttf-bitstream-vera: Use SPDX license identifier
+Date: Sat, 20 Jun 2026 14:59:41 +0200
+Message-ID: <4133d2b38e12ebecdcb41d01991d180f661715ee.1781960051.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1781960051.git.yoann.congal@smile.fr>
 References: <cover.1781960051.git.yoann.congal@smile.fr>
@@ -66,41 +66,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 13:00:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239244
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239236
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Joshua Watt <JPEWhacker@gmail.com>
 
-The gdb helper scripts are installed to a path that matches the installed
-binary path. Whilst technically correct, we relocate native tools and this
-path isn't relocated correctly.
+Change the license identifier to use the SPDX license identifier
+"Bitstream-Vera" which refers to the same license.
 
-The paths mean the build directory leaks into sstate objects and native
-sstate objects can have differing path contents as a result, which causes
-problems.
-
-Whilst we could relocate it, gdb would not be searching in these paths for
-helpers anyway so the tools aren't needed and we can simply remove them in
-the native case.
-
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 117ed64803dc2c8176125835b2bbcc08225f45da)
-[YC: This is part of the fix for [YOCTO #16281]]
+(cherry picked from commit a4a3816d33809be3d7e5601ad4ad176369dc09f2)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index ae40b7f41f3..dee94ec0600 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -124,6 +124,8 @@ do_install:append () {
- do_install:append:class-native () {
- 	# Link gio-querymodules into ${bindir} as otherwise tools like meson won't find it
-         ln -rs ${D}${libexecdir}/gio-querymodules ${D}${bindir}
-+	# Remove gdb plugins as we'd never use them for native and they encode system build paths into their location
-+	rm ${D}${datadir}/gdb -rf
- }
+diff --git a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
+index ebc836d801c..d086485c92d 100644
+--- a/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
++++ b/meta/recipes-graphics/ttf-fonts/ttf-bitstream-vera_1.10.bb
+@@ -6,7 +6,7 @@ and bold).  In addition Fontconfig/Xft2 can artificially oblique the \
+ serif faces for you: this loses hinting and distorts the faces slightly, \
+ but is visibly different than normal and bold, and reasonably pleasing."
+ SECTION = "x11/fonts"
+-LICENSE = "BitstreamVera"
++LICENSE = "Bitstream-Vera"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT.TXT;md5=27d7484b1e18d0ee4ce538644a3f04be"
  
- do_install:append:class-target () {
+ inherit allarch fontcache
 
