@@ -1,113 +1,92 @@
-Return-Path: <jan.vermaete@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9112ACD4F26
-	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 10:46:23 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4221.1781952377394646809
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F3BCD4F26
+	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 11:00:53 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4358.1781953250195235890
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jun 2026 03:46:17 -0700
+ Sat, 20 Jun 2026 04:00:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=E6CJFmZQ;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: jan.vermaete@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so20991005e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 03:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781952375; x=1782557175; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WaM+5KetZGJRf1ZtK/4gr557KqIP7F9rQqr62Qg4LkQ=;
-        b=E6CJFmZQsknbVapdWOkgGj70Gsfd2fTuWKftmEE08y2+DLEzLeogB/UlC6k79kWPsJ
-         CRxyJ5a/wej4odXcHSY99IM3D4CxRzfFm3jBooCvtB1aiuwl0om19ZAovBK+A7wy5uvC
-         IuxejkBDiZzXv9pbTrdIVFsowiGR1y6zktnyGTHdDc5hJvOY7X0Vp7SeMJtc6t+8BG6s
-         mvvElK2IcHlFUMIskAvEqb0ZojdqLR7xgt+EN8yzSO3Lj/Bo47RohnkuGvCH4rUWj0ym
-         otsY4S8WwKyvaCNiS/fodJvldV5HhCPjwl7fpOq5q9HPqxBkyXeSHF7Tfn+5BA9uZr/u
-         kjbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781952375; x=1782557175;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WaM+5KetZGJRf1ZtK/4gr557KqIP7F9rQqr62Qg4LkQ=;
-        b=bJ0E1dlQfE6K/+6flz7jdIbmrb4GAF6x3C38mE8koSwHjm5486yp3W3VhmbIWEJjs6
-         TbMZ0bWmBW5DTYOogeKoMRKIoZ3G7BjAYK1SgjcSCuLFfPNKtAmSsE6ZJUaUodmXO9UG
-         J/CqRRyyi3TaSv5mHxyi2swVJ9YgzPBVAHW87J+DpB3T2jQEnQOuzPG6BwD3eLB76uWt
-         c8u2FxtqDoWFfPErx0E4Y0tGYwkAGD4bdmBhJ9F/DqN6g2ruLt0QYbLgJ0tLHQ5ZitJR
-         kLN63ccJ9D/UUNY8u4WDbhAIdBAWLd/2/gvfNwDqmhP+iHUbPH8m0nT/Rwv8/RY/dRYC
-         cpjg==
-X-Gm-Message-State: AOJu0YxVIFDWBi70IH7/P/9EDBrPTVnkr52swPP+k8ZKnd+/whfKnYsm
-	bQtlSNuH5gz+YKP/yfSdOFUTmm9O/jdRZqLEz35k4yfSTRjToDmIQ1O8mRbfvF5t6lU=
-X-Gm-Gg: AfdE7cmYTzHG1Soxq1IiFiY6kIYSox3rbUFLAheGNEsDqOsz62rpov6DjJ3jc68VyI6
-	qrBuuYItlmq2nRfpuZ+Ed4utCD/owcf44cZ8+764F6qCIZ72Mh+fJZ01bHoq9MH0clDmSzisMSS
-	dLCYO0xDsg+nz+/He4sSyJ/K5SIcwWNC1IsNk69/+7auk4WA3VXwRnCfEOq0ODWOu43pqdmOX5a
-	47nI2t6a+2v3dQiQoKedeGgceXKu1+VkC6q/pFKs8qPWX1WV3rNhjckJ82Z+JiX6a1OyKtPWnMV
-	ka8D1sk7iPReojjJ4jHJztVD8SWnB9nX72JDx91MOT41bP+7qNopp5ehMohWhSSSQLjHFI+2G09
-	sDRcmZA9GMkZn+07KCJ8G+A5OUI3M7izebmufeGbX3dVyHPh0MZ4DhNcMWpgjtSfAL4CR8FDzdC
-	4ER5Dm3Evr4kgrYnbMxos4hcJHh/+kAjQTMO4+PqsoaQGSJv5IqlnltZH4xfiWf3Jawt748hrgK
-	YS0U7WGIcHw49+IjSziVUJtex8A5Z/Tu1roOD20hRp52wO2H0ldYLx9KNP1SlaV
-X-Received: by 2002:a05:600c:3b05:b0:492:4a70:faaa with SMTP id 5b1f17b1804b1-4924a7101b5mr33439045e9.11.1781952375278;
-        Sat, 20 Jun 2026 03:46:15 -0700 (PDT)
-Received: from jan.telenet.be (2a02-1812-512-2c00-98b7-aaed-b233-e195.ip6.access.telenet.be. [2a02:1812:512:2c00:98b7:aaed:b233:e195])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46666c57902sm7103257f8f.25.2026.06.20.03.46.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 03:46:14 -0700 (PDT)
-From: Jan Vermaete <jan.vermaete@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: ichiro_k@ca2.so-net.ne.jp,
-	Jan Vermaete <jan.vermaete@gmail.com>,
-	Gerbrand De Laender <gdelaende@gmail.com>
-Subject: [PATCH] u-dma-buf: new recipe at version 5.5.0
-Date: Sat, 20 Jun 2026 12:46:03 +0200
-Message-ID: <20260620104603.7194-1-jan.vermaete@gmail.com>
-X-Mailer: git-send-email 2.47.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=uTguHmDL;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rEFya6GG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019ee4b0c046-fe5a4d7e-b0ba-4d67-a39a-4306243548b7-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1781953249; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=DvqO4MvPgrT7LiVVyE3jB/8GpV6LIFF4gmbm4swduyY=;
+	b=uTguHmDL6aGs0Mp8uOmL6SDzg6EviU1ZTiJQziz9ez9C0H0fcqJH67J3NRublCYO
+	kRuIlPg3kDEGUXCnGcp9JGNmdPBGSMnEtmQkiUxVnFtJ22EyUUJUwcOGLcRYuPQIoQu
+	eDJ0oji6IeeSyDopouYNyTijEvnK0Nz4YHNIo5xs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1781953249;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=DvqO4MvPgrT7LiVVyE3jB/8GpV6LIFF4gmbm4swduyY=;
+	b=rEFya6GGhm42d897Fs6WtRmpxBv6AjQjuIT0/pygeINzOwSfUKtR1I+vvLAg79qf
+	rAQ8rj6gptugaI/kgOkixjQRKz0/crRhH1n4IU3djV1+XxfszsAglT03d2isJgyUP3C
+	54rJubhgtUWUHMmKZvQPK6nj1pr0bNf21L10EpqU=
+From: patchtest@automation.yoctoproject.org
+To: Jan Vermaete <jan.vermaete@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] u-dma-buf: new recipe at version 5.5.0
+In-Reply-To: <20260620104603.7194-1-jan.vermaete@gmail.com>
+References: <20260620104603.7194-1-jan.vermaete@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019ee4b0c046-fe5a4d7e-b0ba-4d67-a39a-4306243548b7-000000@us-west-2.amazonses.com>
+Date: Sat, 20 Jun 2026 11:00:49 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.06.20-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 10:46:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239203
+ <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 11:00:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239204
 
-Signed-off-by: Gerbrand De Laender <gdelaende@gmail.com>
-Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../u-dma-buf/u-dma-buf_5.5.0.bb              | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 meta/recipes-kernel/u-dma-buf/u-dma-buf_5.5.0.bb
+Testing patch /home/patchtest/share/mboxes/u-dma-buf-new-recipe-at-version-5.5.0.patch
 
-diff --git a/meta/recipes-kernel/u-dma-buf/u-dma-buf_5.5.0.bb b/meta/recipes-kernel/u-dma-buf/u-dma-buf_5.5.0.bb
-new file mode 100644
-index 0000000000..6dea825b31
---- /dev/null
-+++ b/meta/recipes-kernel/u-dma-buf/u-dma-buf_5.5.0.bb
-@@ -0,0 +1,25 @@
-+SUMMARY = "u-dma-buf: User-space mappable DMA buffer (CMA-backed)"
-+DESCRIPTION = "\
-+    u-dma-buf is a Linux device driver that allocates contiguous memory blocks in the kernel space as DMA buffers \
-+    and makes them available from the user space. It is intended that these memory blocks are used as DMA buffers \
-+    when a user application implements device driver in user space using UIO (User space I/O). \
-+    \
-+    A DMA buffer allocated by u-dma-buf can be accessed from the user space by opening the device file (e.g. /dev/udmabuf0) \
-+    and mapping to the user memory space, or using the read()/write() functions. \
-+"
-+
-+HOMEPAGE = "https://github.com/ikwzm/udmabuf"
-+LICENSE = "BSD-2-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=bebf0492502927bef0741aa04d1f35f5"
-+
-+PV = "5.5.0"
-+
-+SRC_URI = "git://github.com/ikwzm/udmabuf.git;protocol=https;branch=master"
-+
-+SRCREV = "15bcde3cb960321e99983e227aeacc5807888333"
-+
-+COMPATIBLE_HOST = '(arm|aarch64).*-linux'
-+
-+inherit module
-+
-+RPROVIDES:${PN} += "kernel-module-u-dma-buf"
--- 
-2.47.3
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
