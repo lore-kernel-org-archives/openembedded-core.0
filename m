@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CEE7CDB475
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A17DCDB478
 	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 13:00:38 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6017.1781960429690057874
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6015.1781960428733099455
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jun 2026 06:00:30 -0700
+ Sat, 20 Jun 2026 06:00:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=xBdN9bH0;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4629051c946so2202235f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 06:00:29 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=1/+EDC8m;
+ spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-45ee5cdbd28so2260451f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 06:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781960428; x=1782565228; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1781960427; x=1782565227; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Dpu7S/Tp3T5E6aKCCYomp9GWNr+QpZ13ZWXtId2M51Q=;
-        b=xBdN9bH026mHIlfgmb240jc4mc4eG2gl5+B7zL2fiHCQsSp3M8PVPbhq0TDKhdXV2S
-         PJ+s/S/7jS8fn5uvW72t7W9qpbzChqSudREKTEn5W0zO0MqiRQAioblwCOAdGuydX7JL
-         JDT8FcIt5EpXL+rNSMn61VIMbXDjHyYKWGet8=
+        bh=QbQlGupCgALxJTcilzTeca5bnMl17e1hku8zOAKlCrU=;
+        b=1/+EDC8mL3TTPbQpkVRPVnTSMLtDKqkjoOlXgmQx1F1Fu9/EmWNl7cSMyyVsY1wDX/
+         Z8JKFLUAqctC0ubMEzDrjHkAZhxF2SI1joswzF7ziyjhm0eIccXRB02KIkQ1YXkz60oD
+         j91UUEhNE/dh7hkhGdAbjo9Ht5XBeGZNkyYBw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781960428; x=1782565228;
+        d=1e100.net; s=20251104; t=1781960427; x=1782565227;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Dpu7S/Tp3T5E6aKCCYomp9GWNr+QpZ13ZWXtId2M51Q=;
-        b=DZNTkDsjmRxV79R/VENIY7EurTdUyhhIU/k6RBivlTkYjE2ImeFiuGKqkboU9kz93a
-         hHYuWydkrc+/va8S+osbA0N2J3Hh7bwUBli/wfUk2YVZjl6++S6VafJMt+MprPU1VMy9
-         EL+dRb5/bdG1K/sVOIZB6AEsn/PRDZ5xZ8J9TuaOMhkTISsO1S3joPEOwROfJlrIDQ94
-         IwrACP7CC3E1F6rezELtfBURRYt6WOOIadblsOOQ34S2dC9jONxp9Q6zuvYNfYBjXdkG
-         k4mSQmdKVpKRbVZeqrlI630YUNZy4MTcv3MaVioiPdo+gL1qojKgm6OoU3UhgZpGS4+w
-         ZgDA==
-X-Gm-Message-State: AOJu0YzqFFpb9vmdag5Gy0TDrmHnR/46nR4FEqcM15HDIille4sGAx4/
-	Ur4Au8dKYy2Hv9HaQN8fHrQcqYnpG6sJYG7QUPcAy/4MZkug64970Xqmfd5yv1bABebGWlwuegt
-	O8nUn
-X-Gm-Gg: AfdE7ckKpSyCW9vaeSctaJQ7j9OXjQoCSevXbYHlMlYUnizw8V5v8OB1UYPPOY+7Lax
-	koTYD8mbBV/4IEShWiu4AVp7R8AZZsWYnxSR9q4+1bywBNBgt4E7eyk/aENoYemOB+YA1W/NinD
-	C7JnF9BilwNb9wqv2YPZGFUiTiJyt2PjOGQvGuDansZ3pN5EuuxoiLhUWJjkmq3i0WhKTvovnaC
-	QGLb6Z0fsdGjfw3VB3LmUVnwxT1ykow2qtmFu8QmjCLj3OJpJmMkHSMuGoFgKnbuVRS2MHUJkU7
-	tg19ogxtub9vVlw9+l5VdA+hn3xK19PrPkOMtAymp+PODS6W6/Ld6F4rx8fI6KPC2LvEJM9rIk1
-	m1fa11oUT6FxzGd7WAK4sWV69nTGPWFLOUXO3fjXGWBwqavq/ILche2dw9Sd8qmiEggAtViMxEO
-	1OrRVhw4TKE+yfNmKQKmWkULLWeHmlEAcS6MX0+LxEtZvx9yGA880O7pENBegVV2PWQfzRRBg6d
-	KQWtJi3LC2yg6yA4WZGGw0lEIk=
-X-Received: by 2002:a5d:453b:0:b0:45a:5392:3a19 with SMTP id ffacd0b85a97d-4651dd1d5d9mr8043724f8f.16.1781960427803;
-        Sat, 20 Jun 2026 06:00:27 -0700 (PDT)
+        bh=QbQlGupCgALxJTcilzTeca5bnMl17e1hku8zOAKlCrU=;
+        b=tHjlG4+l9DuVyyZXOixb9ElXqw9kgOc3zueV+BUjMnZtrIOxSNAjviVfPHxAk99Mep
+         fs4j3snPU5PhukxKh1xBMosuXGYBoNWixkdwAjgI0SMRNdMbcKo3Q9YgM/R4c3W0Omcp
+         KmjgWtD+nJ0ex8dn0tr4WUzPW/Oj7lp/D/0ZM/gjTT3bBSbNrZy/1dAuWqY4thKJ2mWM
+         ltTe+Ruv1hpMgQFFO4mMCNYk3tnCnBCU+vzXhbBcQnaWXNrfxHavm1BN+o2UEzrlPnDB
+         Byy7WcimPF1DwrbjuNI6qa4kFe/z7CR5Ml+jNX8DqMtx1VOduUl94H80ab6xvxc4efuN
+         hyjQ==
+X-Gm-Message-State: AOJu0YxiaQfv4x0KtPuDy2XNA1rrR/0VRvTcWRd3u9latr1Cs223LkAi
+	2EDk9GFnNg9ICD3I4FsvDJhP5BeZZBypuHkXcHE12a4mCzpgAqyjmWtohibOAgvhn4oKB6xZcKa
+	1R9W/
+X-Gm-Gg: AfdE7cnc1tkbYUmxZZjOXyR9tAOFZJfwKwZI7EbuYp8bjJhXkMOwT0HzqB6GeL5zLbh
+	RzSBDq4U8oex/7Frp6jy7BeMn4DVH6TWrBjCu5U6RPSKLMRz3NhdY95t4f9eKSre6NRmGVk0akd
+	ZCAmVTnH4V5Uwc5YC4nOIGUggTjk6YYjQOEpVSstW3UM2uQHtvL4kf0lMoq3ymNmOqQyjuZcydp
+	Nvgo/d25rE7QVT7/sGhj+7+ljwnWN7LYbDhHD+phKmp+WQvDzijRQU7G6qXwJ0oPdEhE0aGlYoP
+	EzRdCzgksnHgWpGoWAo9bTg4MKYPVDsyHN8m2JlfP/Dd8LJ3fiYuruiBsUEAgmgiqHZZukVvG+C
+	ZE3/0VGVDoA26/x0+k14KYdvhczGTKQ6rLnHvy9n3XyytnZvKTB3l32gYq6yvguW6Zy91sDRmEZ
+	X62Bz3AonsS7pPXeUeDxE9QLQoEjmQJcMn5vtzNa2i7LEdVjbQpjfLmd+2jhUlzYMeqfaTSI8ME
+	aWZe5A+xVax00Qz
+X-Received: by 2002:a05:6000:4712:b0:462:d86:cd8b with SMTP id ffacd0b85a97d-4651dd1d7eemr10196035f8f.18.1781960426972;
+        Sat, 20 Jun 2026 06:00:26 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4666722141csm7338573f8f.34.2026.06.20.06.00.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4666722141csm7338573f8f.34.2026.06.20.06.00.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 06:00:27 -0700 (PDT)
+        Sat, 20 Jun 2026 06:00:26 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 28/36] pixman: Change PD license to HPND-sell-variant
-Date: Sat, 20 Jun 2026 14:59:43 +0200
-Message-ID: <e269116d815db459cd53f46486a465750435eb90.1781960051.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 27/36] sqlite3: Use SPDX identifier
+Date: Sat, 20 Jun 2026 14:59:42 +0200
+Message-ID: <d560c3a0cfda6f6abc498054905099ac1fdc9688.1781960051.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1781960051.git.yoann.congal@smile.fr>
 References: <cover.1781960051.git.yoann.congal@smile.fr>
@@ -66,32 +66,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 13:00:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239238
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239237
 
 From: Joshua Watt <JPEWhacker@gmail.com>
 
-The license listed matches the SPDX license HPND-sell-variant, so use
-that identifier instead
+SPDX has a license identifier for the sqlite license ("blessing"), so
+use it instead of marking it as Public Domain
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b0df576caa09506a6c7362311b9d2aadbe6d2133)
+(cherry picked from commit e771cbb6b9b0f0d5539dbcf3f5c92946ff065d81)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb | 2 +-
+ meta/recipes-support/sqlite/sqlite3_3.51.3.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb b/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb
-index 58c7bf3d034..468871f114e 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.46.4.bb
-@@ -15,7 +15,7 @@ UPSTREAM_CHECK_REGEX = "pixman-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.51.3.bb b/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
+index ea583e4a427..0a8727e4f2c 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
+@@ -1,6 +1,6 @@
+ require sqlite3.inc
  
- PE = "1"
+-LICENSE = "PD"
++LICENSE = "blessing"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
--LICENSE = "MIT & PD"
-+LICENSE = "MIT & HPND-sell-variant"
- LIC_FILES_CHKSUM = "file://COPYING;md5=14096c769ae0cbb5fcb94ec468be11b3 \
-                     file://pixman/pixman-matrix.c;endline=21;md5=4a018dff3e4e25302724c88ff95c2456 \
-                     file://pixman/pixman-arm-neon-asm.h;endline=24;md5=9a9cc1e51abbf1da58f4d9528ec9d49b \
+ SRC_URI = "http://www.sqlite.org/2026/sqlite-autoconf-${SQLITE_PV}.tar.gz"
 
