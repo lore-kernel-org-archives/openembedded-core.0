@@ -1,81 +1,150 @@
-Return-Path: <aleksandar.nikolic010@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA1EBCD98E4
-	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 20:57:56 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13412.1781989067757503604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5626FCD4F26
+	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 23:40:16 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15454.1781998811245689823
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jun 2026 13:57:48 -0700
+ Sat, 20 Jun 2026 16:40:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=miEcSi0k;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: aleksandar.nikolic010@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c0115a3794bso596151566b.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 13:57:47 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=lmIgqmAe;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-461edb387ddso3043461f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 16:40:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781989066; x=1782593866; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bkxn2Znq2suCWvs5gQQmuU6unIucXZfSrKAjh9DnHZg=;
-        b=miEcSi0kiK2xSh0kVOtK9VIqVoK1oKoUdj01J6bLKbNmnNuOGzrfXR6GZ87Vb2usYo
-         YQYv/3XRGc/mKFvVX9JtBDN520InvmV+6NeKQ3vVG/ZwG/RCFRSSkR06amwlo8GWvcvF
-         hPuKJHuu7HsB1+yCqeBPHlTmKJacnNx0w0wqINKr+NyZLdUI+K5p2A40/8+nJkO+Lcbg
-         5qX6CIgqBGCBW7LRcv3gMZ88ST7wC0XNpk+LXoYfJGf5kB5Xp46KJPDvyOIxpcJIYhP7
-         6ScLDmV5YQVOI6F82AKPkY0RN2PE88bLEdG4dH3z0YwuJIEO9wy7qcJIGaObn8XDavs4
-         DiWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781989066; x=1782593866;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1781998809; x=1782603609; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bkxn2Znq2suCWvs5gQQmuU6unIucXZfSrKAjh9DnHZg=;
-        b=RbtR2heyfF4J5aHfpolFbAxse2/rhx2ZnmdtREuUS0xu8KOanCSkiQ5yO82AF4bZfz
-         CQwUI/pYRCNyTszYwMuVRzElejKPrpswQ6eC1MgTBwwm8UR1CJ5ZAAp38ZbfHS52KF55
-         t+V/wz6IsMi0rStFS8DbINffJHFOGRMyVc69d/cF2l2laajHNv1g7ihecgxyW318OfB8
-         vXBN/I+QPd3ZzvvWuk2x+H8eMJJGbAet1GS3QxXeHXY/ikffGKve6Xq93urkH5edmyuA
-         Wc+8N4CIiK6EaTcCwwyeeyNDprvCVDA4PbFVFPLIZbgKuGyCuEHe6LN8Sf6xtI6KwoJD
-         nTCA==
-X-Gm-Message-State: AOJu0YySHt8K10DVBjAUWFfM81hRd2eT+ZaXfLU2cf+k2ovfB05L+v9b
-	JYk1KPyLOWv2nbM42crupLM6arHUuPb90nerBWUlakCS/baXJbrTC1dRUwfNvLMc
-X-Gm-Gg: AfdE7cm2YE4sNPFar9pLK+UhGWRVO+yvGbjlRH9L/6BFwKxLgSSXIqApwdYyzYeMXms
-	qLcY7XshVa6fInhbTxaPyiNEluNO/JrO98hUev6l/Sz/+5nNncRvtyb9aqus/fIeDq15BAQfSHz
-	e9cVbRLOGMiTJDfSMDAt3qYHWjXmWIGBZF4xmvqe7YZjHxwvcAt48BAOwG0A4jCU3hXcWY8qQsz
-	72foeGUPYBAySxeBE6xU90TVXPQBkXyLvNwFQgqtftz2yAGbqtMGbk4rEEq5wA+S95V2CmMrMXU
-	CKJM5FhJeZThjRrImi8o8hKVP6OgKPHo7PXFfujrAoaMEGTjs3aApRZ4i3SYp5KKen5x0X3WpYo
-	iiJt2QNZosm+DhydwPu05BU+KnihTFWFTCeLGmIJajAmmupcFG00l4MMNYNmFtPVFsIoVD6JqIJ
-	3qlvPSZwDmSwCaPNHIhJQOpzscP2/GLgCgP6J4
-X-Received: by 2002:a17:907:9445:b0:c08:5c5c:5bc with SMTP id a640c23a62f3a-c097ae018abmr460423466b.6.1781989065652;
-        Sat, 20 Jun 2026 13:57:45 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:810d:60a:2b00:46b1:66c9:a143:74d0])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c610e5280sm139343966b.53.2026.06.20.13.57.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 13:57:44 -0700 (PDT)
-From: Aleksandar Nikolic <aleksandar.nikolic010@gmail.com>
-X-Google-Original-From: Aleksandar Nikolic <aleksandar.nikolic22@pm.me>
-To: openembedded-core@lists.openembedded.org
-Cc: Aleksandar Nikolic <aleksandar.nikolic22@pm.me>
-Subject: [scarthgap][PATCH 0/1] Backport "wic: Fix updating fstab for nvme devices"
-Date: Sat, 20 Jun 2026 15:57:40 -0500
-Message-ID: <20260620205741.175107-1-aleksandar.nikolic22@pm.me>
-X-Mailer: git-send-email 2.47.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        bh=SOODvu2iWCVsmygTtI700/SSEGgfmHgqac6hbiJt1cI=;
+        b=lmIgqmAedUSvkLAZYP87VtVU0p57uG32pLpYcLHfFDPEPX1FFMB03EZj8k3GqTTd5n
+         sAxSdyJxub+MjobL1R4iopfTsx9lar7XBrJ8qn8b8VwItn9kllaiX3KcBE0F/tYenfX6
+         Frha8S1ker7LfNVeU76AV4g0Q+eYw+rKeb5mo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781998809; x=1782603609;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SOODvu2iWCVsmygTtI700/SSEGgfmHgqac6hbiJt1cI=;
+        b=fG1KwLwk2hnxlGDlCwmoJpP8z4kKqWeGcvAqHbO76ibcXZ5aq04IxYJQ4ADcmWr3av
+         3v6Ujg1Othb+k6OUCmtfLFOqv5dC20IEPZnqB4550Gnox4YDJEi7eg303U+kTpx76hkQ
+         iQudB+iHmp1/EdeAPqNJDCgaSlq1uJmY1PABUCiAJJf4+JrIwBpVY/oJEBqWjaQO5fSQ
+         ttki4V19KHvO31oX6vN5HUxQsC6eDmHe31ikQJ6YU0nTSADV5sRW1LWUBA24VvSgESfe
+         LXibmx0osuE+4vUfUWhqUJLRhMGVUdy2Dw2vFdhL4inVtjB8VEyj+Iht8bz4IFR7ZJUO
+         wg7A==
+X-Forwarded-Encrypted: i=1; AHgh+RralzVNek6vfqB8QCQWqnK22wwV5ZGdESZGmn9ZtO8UJAGaPe2epbj2KVzOGlSX3zGFZryRz+H+6Oj+WJf3VUc42Q==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzIweJk4GCzKI7ym6HrbJhmNrOYSiktPNimSmI6Zpn9wewespcA
+	0i8OjXKLbFFQas8LrOec7T2PhniHK0/JX+rsGqBBX6KQd9N0rZJhiSsGJHvONamlhdI=
+X-Gm-Gg: AfdE7clLqC/z0rhuHNGNdSp7xOHzOtIxytoDDMv5xzg+YlhvEW6K/NNBuc7Qp7VrXJA
+	toyCzuz2S/+QSI1quEyJjuzR68wHo0neZGwZq8Jg9ux9Z01ONH6fmq9/YTWjzbzGgZD1EYL228L
+	RX5rIQHELdurQMzEXk9nxToP9SBniwoWYHx+U4SNxlpOX2q1BKa/tgcqWy3jOfl9bU9efwOcU7c
+	qkrjT3pB+LfpTXNBt9rJ/uyn4tqMQJ+sSf1NS8uAWuoWEkB2AkA5P7GLD5mgWg18kWnYjCxvSg0
+	daK9AltQpLBVkWA13Pi0tOf/cyKfqUsxHwznsccjA+TwMBUUP+KDQRgXoGiKmx7ch3nM/pj5Xzu
+	ZKZYbqU8cjjHUnf0TQB0SlaOGGxmjM+pDDlYt3I+uz4RcIkn3k6y8Owz1iWfx4CyFTs/FImPJ5d
+	yIY3yI9RDpq0z/XnEJEC55mWnV4nssXBOj8DVeabkoVcIhfQsU39g959wiU/9iFYo5mJyhZp2l3
+	f5m
+X-Received: by 2002:a05:6000:290a:b0:460:70ae:f1a2 with SMTP id ffacd0b85a97d-465076ca3f9mr16658510f8f.17.1781998809424;
+        Sat, 20 Jun 2026 16:40:09 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46666c57afasm12522071f8f.29.2026.06.20.16.40.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Jun 2026 16:40:08 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 21 Jun 2026 01:40:08 +0200
+Message-Id: <DJE9UV5D5WKL.2GI2K1GSIHM73@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH 1/1] wic: Fix updating fstab for
+ nvme devices
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Aleksandar Nikolic" <aleksandar.nikolic@zeiss.com>
+To: <aleksandar.nikolic010@gmail.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260620205741.175107-1-aleksandar.nikolic22@pm.me>
+ <20260620205741.175107-2-aleksandar.nikolic22@pm.me>
+In-Reply-To: <20260620205741.175107-2-aleksandar.nikolic22@pm.me>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 20:57:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239248
+ <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 23:40:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239250
 
-The patch is backported from the wic repository (commit f20cda73b4).
+On Sat Jun 20, 2026 at 10:57 PM CEST, Aleksandar Nikolic via lists.openembe=
+dded.org wrote:
+> From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+>
+> In case wks file references nvme, update_fstab() function will not add
+> prefix 'p' before the partition number, as the if condition only takes
+> mmcblk into consideration.
+>
+> In case of nvme0n1 this leads that following entries are added to fstab:
+>
+>     /dev/nvme0n11
+>     /dev/nvme0n13
+>
+> instead of:
+>
+>     /dev/nvme0n1p1
+>     /dev/nvme0n1p3
+>
+> The patch fixes this as it extends the if condition and adds prefix 'p' f=
+or
+> both mmcblk and nvme.
+>
+> Upstream-Status: Submitted [https://lists.yoctoproject.org/g/yocto-patche=
+s/topic/119439838]
 
-Aleksandar Nikolic (1):
-  wic: Fix updating fstab for nvme devices
+That patch seem to have been merged here : https://git.yoctoproject.org/wic=
+/commit/?id=3Df20cda73b495b75ef399c331f59b0e2401a3e76a
+If that is the case, can you send a v2 patch with
+Upstream-Status: Backport [https://git.yoctoproject.org/wic/commit/?id=3Df2=
+0cda73b495b75ef399c331f59b0e2401a3e76a]
 
- scripts/lib/wic/plugins/imager/direct.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thanks!
 
--- 
-2.47.3
+> Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+> ---
+>  scripts/lib/wic/plugins/imager/direct.py | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/p=
+lugins/imager/direct.py
+> index a1d152659b..b06e6a8f23 100644
+> --- a/scripts/lib/wic/plugins/imager/direct.py
+> +++ b/scripts/lib/wic/plugins/imager/direct.py
+> @@ -133,8 +133,8 @@ class DirectPlugin(ImagerPlugin):
+>              elif part.use_label:
+>                  device_name =3D "LABEL=3D%s" % part.label
+>              else:
+> -                # mmc device partitions are named mmcblk0p1, mmcblk0p2..
+> -                prefix =3D 'p' if  part.disk.startswith('mmcblk') else '=
+'
+> +                # mmc and nvme device partitions start with prefix 'p'
+> +                prefix =3D 'p' if part.disk.startswith(('mmcblk', 'nvme'=
+)) else ''
+>                  device_name =3D "/dev/%s%s%d" % (part.disk, prefix, part=
+.realnum)
+> =20
+>              opts =3D part.fsopts if part.fsopts else "defaults"
+> @@ -266,7 +266,7 @@ class DirectPlugin(ImagerPlugin):
+>                  elif part.label and self.ptable_format !=3D 'msdos':
+>                      return "PARTLABEL=3D%s" % part.label
+>                  else:
+> -                    suffix =3D 'p' if part.disk.startswith('mmcblk') els=
+e ''
+> +                    suffix =3D 'p' if part.disk.startswith(('mmcblk', 'n=
+vme')) else ''
+>                      return "/dev/%s%s%-d" % (part.disk, suffix, part.rea=
+lnum)
+> =20
+>      def cleanup(self):
+
+
+--=20
+Yoann Congal
+Smile ECS
 
 
