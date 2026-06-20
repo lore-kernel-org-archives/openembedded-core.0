@@ -1,101 +1,125 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <aleksandar.nikolic010@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7857BCD98E4
-	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 17:45:00 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10401.1781977495572746773
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93668CD4F26
+	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 20:57:55 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13413.1781989069844385888
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jun 2026 10:44:55 -0700
+ Sat, 20 Jun 2026 13:57:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=VanI0lxh;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8dfd7b11e1eso5683926d6.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 10:44:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781977494; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TF2NmoQf8gi88j52X8HIFN0sACkZjA5NnKJQiRABzgayndggoVzi2erYAFOSkmawt9
-         i6s9LGKJJH8g6NFawb2IkkT8pQMnhPCqeTCjnpcxLJoOOVFWCLTK/na79Wol3SlosfFD
-         BqAy6Ydx6OpOlqfuAtuR4d1cUepi2R+Xkp1WPn6IB/+UFqBNALTDcnqmhpWTp4NIDjig
-         izA8S3fAVyWtPw3n9WA2nSn6vQvnehM7hKZ7PUFXTWXNNj+sUu5hWK18du7OffiFHbfE
-         AiAtdDg8vXX2RSezNbeLfwOMyc7MczskuugWX8CtRKS8x9rV8sZtwjn+3N6ZFPqBV4wo
-         wTeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=oR6iKvodSclGJ47cNWS/gLSwGDvD79WQ0h3y2/kpepA=;
-        fh=3v717uFJNr4+xuf+Wz69RL6wEJfn54tSSdOKZHzPuIY=;
-        b=PuZA/afwqVwhr+YUjmAkF3/r1iTRWIxUYgsxhu7bzByd/lD/RpyEqsIGctOIbLp52H
-         wGc4/BetS2gSVEKoDJxCkIGdOj57efBkdsDQZr6WrWAslVmTLtrHdH28+USQhJDQ60Oy
-         GWQH10eGmbYKT40Fhm9zswzv91+uvB2mu3gXtRP3E0I16cUTTXLYR9KJNNFzKhx4IcfN
-         3Jp3EhkIIb75GBDPoAhvSIdePtO9iDd3loKwJT4nV16X/6SArZN9zKkhJZP2ij3U9p7g
-         RKO81bhMDRqNQp3U3kpilMYMuT0Ww+HOvD1u++kkqwTD8AnjocVaFOz5lyyvyjWSms11
-         jlpQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Jx+kBH8K;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: aleksandar.nikolic010@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-bebb72b845aso496109266b.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 13:57:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781977494; x=1782582294; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=oR6iKvodSclGJ47cNWS/gLSwGDvD79WQ0h3y2/kpepA=;
-        b=VanI0lxhOvP1ZhCnSqxuJRwaMLfnUnl6FSY8MW1RQeLgNIwq7O+lyWiHOg9Kny6tNf
-         mUebf2Ysf1ssOGHoJbvUSv/3QI6Wzu9MookyvviU4QRuZ3oZtRRb1n2xLh9RiKFagSSE
-         Axi4iNgPgSKVOdSKb0J2Sc0G5lDGCo7lNRVb25RfqgZwQMxrNxaQHpPKbzXwZN3lI8YU
-         6oX6bb77xYJTGetto9zxpl2jXuw20zC5T+19XSbgXz4DMK+vci506PU9y2e/kMsP7/mO
-         1fg+xlq3uUtDYmEiuq1oIhwjwdT3NxagF+XgK/iBBRpRPhR9+FCMEdDvw/ADQgTJp7/p
-         kllA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781977494; x=1782582294;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781989068; x=1782593868; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oR6iKvodSclGJ47cNWS/gLSwGDvD79WQ0h3y2/kpepA=;
-        b=OlHVi9iMi50pPbGs6z7PZx+htR6YoHGFkELYG0icO/q+jV0p2/uY+zFqYP3UY0kBe4
-         xSMDKudqwXKIXU+KJ8jSBJKCmHFhrOjblgtN1vqxyaXy8G5ILSuy7a+Oqtb6O0cEPWY6
-         qfZOzj3k4G4HmM/WeNlKtwPhg4tynVuH09y8xw9nTtgAyfM2fNHNiTbFCRnuLmeK2/QD
-         fiFMLTca8wrvSO/Jh8Jg0z9u8aqXrT9Kiee9rwncG+/hynxm0wTL4bO9VoD7BEMiU8X0
-         sgb9Rdp1oZjDhOlZKObSAN6GXlu4dhVUf5+F/5H2O7jXzBPkxY+hgIDtU3y+m5Y8vI1Z
-         ufJA==
-X-Gm-Message-State: AOJu0YyldDNV6ZjVmFe2JJpBNzkb5krLMvnPZMW8Y+WX5neIPnpVP2x5
-	diTQyhd8fsHfq5oL8xbUj8zOLkVWgI+2Ht2acOg8q3PzGhj1WIeUsOIoJGdbg9ZTOmAQNHmwVdO
-	EbsbIs+IUrOa/m1BulvmWcE92q+eGwJE=
-X-Gm-Gg: AfdE7cktdDA/pIodin3j86TpyXOzA0t5Tbg8KZx5kY/eKkEA56UXs4I92MTrOLeYhuj
-	83H1Ae6tyUURz9iK832QDcH1EyvLb+Xxu52rHC75UmPR/Yvnzk41SaASWyftFtUlq4foE8A5mM6
-	zlVEi4cGuhRjZsdfNiofLjsibPpkOKchFAqBHMXEM5MkPutsUS+lDVZjLSTumxwPqXlAaaY/+7p
-	pSjMDohPgQOa1M0vzP0JE3z5MO1t6iqDi5neWFH9ufeq9hpiu1NNzv2BNLuoftvHGJB1iz8rHp9
-	IrVZB/dJdYcGrxCYGZccZQpWzlU=
-X-Received: by 2002:a05:6214:600e:b0:8ca:164c:a85c with SMTP id
- 6a1803df08f44-8de407172eemr133321836d6.34.1781977494447; Sat, 20 Jun 2026
- 10:44:54 -0700 (PDT)
+        bh=ozC19FqZsL1HSQUtK9O0+6EJhbaKufXI4VwGAhfPhKA=;
+        b=Jx+kBH8KL+bmxljnaLre6IQnFb5sua2CVG3zzLeQkANAVYvtlp33xtKYYTQmKCZQgG
+         QVyqhXSs7029Lj7/PpDMj3f7Wikmc3V1F1R/r6ee9nqqRo8TCDH+liinN+YR1iR7opS2
+         WEb/lSToPT8O0tJmICaK/gIrsly81G2oOurjljvnTf92/N65Iz8ab530cs7wU7tguUPI
+         oE+YneDPRaFSAE865ceb46Nzu6aip9AcNvMTLSDRbx+gAmWiuU4RO/r4CxQ820UJ8Hcl
+         KmITvQDeKCeqNX2FrhSyE9Ku0TnPRimZydl8i9V3nhb11yG0GuIuNmdC74qLftbuJGKm
+         AbTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781989068; x=1782593868;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ozC19FqZsL1HSQUtK9O0+6EJhbaKufXI4VwGAhfPhKA=;
+        b=dQSX+rHaEcDHajestE7me5VVlLwAIbtgBIss9k1uWbEVNKYDxdTVr7GE5GHdkVHGu7
+         x/9uudZYm5v6j2F+XOZpU9Op8+YbODBz54NTP5fcp/osPuNtHaTkgj+4K46/FsjDOU0M
+         1v26Ixnqvw++Y5FWk1urEK+L5XirJN2/aNWs/7AzZ38seWlJBsmSWSn2QMIHBnioGwvs
+         DjD+fjkZ40pGfTpYnBcrJZ+C0Yn9H6qkTRVaNq3ZR7rKhfoWxBuJwzH3S9Bo/RmGQOGM
+         QQ6BMLyN9V4BoZnw9rgWlw+G1juymMpy8LiKGxL9SyyO9Bs8t2Z/5BHDENUCJuopwQc3
+         Z2CQ==
+X-Gm-Message-State: AOJu0Ywq2bDu5zv1PGCDiM6pEGxuojmmmIKgcXeQ3nSPzKHjZrv2V4Qk
+	vgdcDMJKruJB5W0/eB4J+sNeGfWSc4VBhVyWpOjznp1vMMk3gHlTYFw99Xano3mu
+X-Gm-Gg: AfdE7clraKN+mPneA+1WRsu+VfvMBkxFD1VQfzPv4W9BLV5RrrbxKfCHwg9BfP+qrXw
+	HbqNAWzYmE2OwCd3hcGOIEc1X8UKh6zgVzKI3R8t3ON2AB1wl5/fQmvm/jw+plfoi05bL3MVg4T
+	c9K0PFW7+zYISGVNbhgDX9Jxq5ZvuyqqdT62aPXDQCpG5k8VPq6STe2Qnt9CHRodUvVAXwaaYEA
+	Te6c9/AsFSkz8h1k5VF5D6kjKawEDgJ7P0iUer2xG+zaorHZqbgmJnEKVmpibKRWvCLKPWG9Nsm
+	1JBIkJnuHEYEm3e15aWYLSjxw9Y3oA/ctRRorDgqeeLx5yrrGym18i27G2DGDqdSAW3blHWdgPQ
+	nQAWm8XPiipA18FDlXOky4QnU3v9n9mcLaSm3dH+yidYipLi2bY0DKWRYn0QbRdIs2INRCbSWP2
+	2hF8/YM7Yq/MoNsWo+H0gGFsU8+PTJXGAM3koZ
+X-Received: by 2002:a17:906:ee89:b0:be2:cd33:2142 with SMTP id a640c23a62f3a-c097af68d12mr445590766b.15.1781989067912;
+        Sat, 20 Jun 2026 13:57:47 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:810d:60a:2b00:46b1:66c9:a143:74d0])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c610e5280sm139343966b.53.2026.06.20.13.57.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Jun 2026 13:57:46 -0700 (PDT)
+From: Aleksandar Nikolic <aleksandar.nikolic010@gmail.com>
+X-Google-Original-From: Aleksandar Nikolic <aleksandar.nikolic22@pm.me>
+To: openembedded-core@lists.openembedded.org
+Cc: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+Subject: [scarthgap][PATCH 1/1] wic: Fix updating fstab for nvme devices
+Date: Sat, 20 Jun 2026 15:57:41 -0500
+Message-ID: <20260620205741.175107-2-aleksandar.nikolic22@pm.me>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260620205741.175107-1-aleksandar.nikolic22@pm.me>
+References: <20260620205741.175107-1-aleksandar.nikolic22@pm.me>
 MIME-Version: 1.0
-References: <20260620111501.8465-1-jan.vermaete@gmail.com>
-In-Reply-To: <20260620111501.8465-1-jan.vermaete@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 20 Jun 2026 19:44:46 +0200
-X-Gm-Features: AVVi8Cc9AQelANPsfyIkelR7id2b3YrxWC3aAdo9WFTbv_z4M8oove_C_tXsVow
-Message-ID: <CANNYZj8WMkUzhg_NxWczE4hXs68uQFP-1PPGSgrFJk_2fKYXvQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] u-dma-buf: new recipe at version 5.5.0
-To: jan.vermaete@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Gerbrand De Laender <gdelaende@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 17:45:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239247
+ <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 20:57:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239249
 
-On Sat, 20 Jun 2026 at 13:15, Jan Vermaete via lists.openembedded.org
-<jan.vermaete=gmail.com@lists.openembedded.org> wrote:
->
-> Add a Yocto recipe for u-dma-buf, an out-of-tree driver that
-> provides userspace-mappable contiguous DMA buffers for FPGA
-> and other DMA-capable devices.
+From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 
-This needs justification for inclusion in core. Is this widely used
-and widely useful? Why is it not in the kernel tree? Does it come with
-a maintenance promise?
+In case wks file references nvme, update_fstab() function will not add
+prefix 'p' before the partition number, as the if condition only takes
+mmcblk into consideration.
 
-Alex
+In case of nvme0n1 this leads that following entries are added to fstab:
+
+    /dev/nvme0n11
+    /dev/nvme0n13
+
+instead of:
+
+    /dev/nvme0n1p1
+    /dev/nvme0n1p3
+
+The patch fixes this as it extends the if condition and adds prefix 'p' for
+both mmcblk and nvme.
+
+Upstream-Status: Submitted [https://lists.yoctoproject.org/g/yocto-patches/topic/119439838]
+Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+---
+ scripts/lib/wic/plugins/imager/direct.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index a1d152659b..b06e6a8f23 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -133,8 +133,8 @@ class DirectPlugin(ImagerPlugin):
+             elif part.use_label:
+                 device_name = "LABEL=%s" % part.label
+             else:
+-                # mmc device partitions are named mmcblk0p1, mmcblk0p2..
+-                prefix = 'p' if  part.disk.startswith('mmcblk') else ''
++                # mmc and nvme device partitions start with prefix 'p'
++                prefix = 'p' if part.disk.startswith(('mmcblk', 'nvme')) else ''
+                 device_name = "/dev/%s%s%d" % (part.disk, prefix, part.realnum)
+ 
+             opts = part.fsopts if part.fsopts else "defaults"
+@@ -266,7 +266,7 @@ class DirectPlugin(ImagerPlugin):
+                 elif part.label and self.ptable_format != 'msdos':
+                     return "PARTLABEL=%s" % part.label
+                 else:
+-                    suffix = 'p' if part.disk.startswith('mmcblk') else ''
++                    suffix = 'p' if part.disk.startswith(('mmcblk', 'nvme')) else ''
+                     return "/dev/%s%s%-d" % (part.disk, suffix, part.realnum)
+ 
+     def cleanup(self):
+-- 
+2.47.3
+
 
