@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8645CDB46F
-	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 05:09:17 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36453.1782104955220011939
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 050EECDB46B
+	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 05:09:18 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36452.1782104955148692478
  for <openembedded-core@lists.openembedded.org>;
  Sun, 21 Jun 2026 22:09:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Fp1ol4Y/;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=GFvpu7X2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019eedbb9493-d3b3855d-6f60-45d9-827b-b1934f341696-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=q7RjStzw;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=01Hgz2HE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019eedbb9551-3133ad3c-ecf6-4b8c-8f67-dd13df97bcda-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1782104954;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Y3E0SzPHLtXHlfg5ehoxsAXtCnKW/ph6SeJ2Br5qkv4=;
-	b=Fp1ol4Y/olaGgDaYsQO/0GDCw/VfTlSrOr/F+w56/4x2lNmPCr1bDavkHnz/J2P4
-	rjLTO+8AE4sS0s+Ts4IR5DoASsv8wmnTBTyrwWGE+SUz+b3y149k9xJLmRu9ht9sxKW
-	xHk/c0jiWL2DNO9v1jXxQCkfPoRdq5txL0qdhElU=
+	bh=CNuJ/yBxVnXdF370LY5cWg/c/x+Qil4hByDSyqDOb1o=;
+	b=q7RjStzw6zz/P8g2wrim24YfsqlMP1A9pRQzkIAk+XDc4qjFS91VloeFR397Ej73
+	ziVXVoLWvjWFsdUG8yBq0t3qFe94S3ByaPph7JQG3fZywItgGhkYb1g7GKgPuMpDIQA
+	WuE9N/kYVpuj/3K6AcqTAvAQvasQiJG8Ah/WIRWQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782104954;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Y3E0SzPHLtXHlfg5ehoxsAXtCnKW/ph6SeJ2Br5qkv4=;
-	b=GFvpu7X24Hr6PyYwlhEFJBabORSw4rH7kDQz0vRSHC6vNfsq5TDhCsBVxeGh0Vq5
-	UJvdr+CKJXp6jXax+/wIZdahJm9MtB7OTq/5Rv5QMwwAsy/EopHav1gK7jQYc0WGOaM
-	0Gpp/RJMP06NNPA7aJnGSbLMOmNG78NEuXT/O/So=
-Content-Type: multipart/mixed; boundary="===============8316884477692044730=="
+	bh=CNuJ/yBxVnXdF370LY5cWg/c/x+Qil4hByDSyqDOb1o=;
+	b=01Hgz2HET8Clql25Hi0ZbS6mvQcck0iMzudc5yFZghsVpaoXJl50akom/L3uHe3O
+	InYdblKtxmtFmOEPFZ6g9Lwbfr2R9AAhtjsZXvfZ1H7KLQoQ+POM9pbd0qc/QSt2H0n
+	j6HYy8I4yz00iyG9a09M8ffeFe7IlAH0guwIYerQ=
+Content-Type: multipart/mixed; boundary="===============0734884189506042842=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.155.7 SUCCEEDED
-Message-ID: <0101019eedbb9493-d3b3855d-6f60-45d9-827b-b1934f341696-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-numpy: upgrading to 2.5.0 FAILED
+Message-ID: <0101019eedbb9551-3133ad3c-ecf6-4b8c-8f67-dd13df97bcda-000000@us-west-2.amazonses.com>
 Date: Mon, 22 Jun 2026 05:09:14 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.22-54.240.27.23
+X-SES-Outgoing: 2026.06.22-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 05:09:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239264
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 05:09:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239263
 
---===============8316884477692044730==
+--===============0734884189506042842==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,126 +51,98 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.155.7* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-numpy* to *2.5.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.155.2-6.155.7.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade python3-numpy -V 2.5.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1978 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-dd458059aea314e8747bb663a8745f73ee1c0b66"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:dd458059aea314e8747bb663a8745f73ee1c0b66"
+meta-yocto-bsp       
+meta-poky            = "master:366fa2f21bfb0d9c4de492e0204a0dd38ce241ab"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 14 Local 14 Mirrors 0 Missed 0 Current 16 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 952 .bb files complete (0 cached, 952 parsed). 1979 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-dd458059aea314e8747bb663a8745f73ee1c0b66"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:dd458059aea314e8747bb663a8745f73ee1c0b66"
+meta-yocto-bsp       
+meta-poky            = "master:366fa2f21bfb0d9c4de492e0204a0dd38ce241ab"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  10% |###                                 | ETA:  0:00:01
+Adding changed files:  21% |#######                             | ETA:  0:00:00
+Adding changed files:  31% |###########                         | ETA:  0:00:00
+Adding changed files:  42% |###############                     | ETA:  0:00:00
+Adding changed files:  53% |###################                 | ETA:  0:00:00
+Adding changed files:  63% |#######################             | ETA:  0:00:00
+Adding changed files:  74% |##########################          | ETA:  0:00:00
+Adding changed files:  85% |##############################      | ETA:  0:00:00
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://github.com/numpy/numpy/releases/download/v2.5.0/numpy-2.5.0.tar.gz...
+INFO: Rebasing devtool onto a035d6213d4c256255c4e8ff56b942d0184e6b21
+WARNING: Command 'git rebase a035d6213d4c256255c4e8ff56b942d0184e6b21' failed:
+CONFLICT (modify/delete): numpy/distutils/system_info.py deleted in HEAD and modified in 26c23a4 (Don't search /usr and so on for libraries by default to).  Version 26c23a4 (Don't search /usr and so on for libraries by default to) of numpy/distutils/system_info.py left in tree.
+
+ERROR: Execution of 'git checkout devtool' failed with exit code 1:
+error: you need to resolve your current index first
+numpy/distutils/system_info.py: needs merge
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 7002498e190cbd4def597b1049ae8d0330e796f9 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 22 Jun 2026 05:07:03 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.155.2 -> 6.155.7
-
----
- ...hon3-hypothesis_6.155.2.bb => python3-hypothesis_6.155.7.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.155.2.bb => python3-hypothesis_6.155.7.bb} (91%)
-
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.155.2.bb b/meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.155.2.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb
-index c828671ac8..70ae7877a1 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.155.2.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
- 
--SRC_URI[sha256sum] = "ae36880287c9c5defe9f199d3d2b67d9947a4da2a46e6c57373cbdf2345b20e1"
-+SRC_URI[sha256sum] = "d8d6091753d0669db3c90c5e5b346cb37c72f3dd9378c8413acb1fd5da63f7ea"
- 
- RDEPENDS:${PN} += " \
-     python3-attrs \
--- 
-2.47.1
-
-
---===============8316884477692044730==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/python3-hypothesis: PV changed from "6.155.2" to "6.155.7"
-packages/x86-64-v3-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.155.2.tar.gz;downloadfilename=hypothesis-6.155.2.tar.gz file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.155.7.tar.gz;downloadfilename=hypothesis-6.155.7.tar.gz file://test_binary_search.py file://test_rle.py"
-packages/x86-64-v3-poky-linux/python3-hypothesis: PKGV changed from 6.155.2 [default] to 6.155.7 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.155.2" to "6.155.7"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.155.2 [default] to 6.155.7 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.155.2" to "6.155.7"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.155.2 [default] to 6.155.7 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.155.2" to "6.155.7"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.155.2 [default] to 6.155.7 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.155.2" to "6.155.7"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.155.2 [default] to 6.155.7 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.155.2" to "6.155.7"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.155.2 [default] to 6.155.7 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.155.2" to "6.155.7"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.155.2 [default] to 6.155.7 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.155.2" to "6.155.7"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.155.2 [default] to 6.155.7 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.155.2" to "6.155.7"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 3944608 to 3946788 (+0%)
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.155.2.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.155.7.dist-info, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.155.2.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.155.7.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.155.2 [default] to 6.155.7 [default]
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.14/site-packages/hypothesis-6.155.2.dist-info moved to /usr/lib/python3.14/site-packages/hypothesis-6.155.7.dist-info
-
---===============8316884477692044730==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.155.2-6.155.7.patch"
-
-RnJvbSA3MDAyNDk4ZTE5MGNiZDRkZWY1OTdiMTA0OWFlOGQwMzMwZTc5NmY5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMjIgSnVuIDIwMjYgMDU6MDc6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xNTUuMiAtPiA2LjE1NS43CgotLS0KIC4uLmhv
-bjMtaHlwb3RoZXNpc182LjE1NS4yLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE1NS43LmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
-LjE1NS4yLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE1NS43LmJifSAoOTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
-MTU1LjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
-c182LjE1NS43LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTU1LjIuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTU1Ljcu
-YmIKaW5kZXggYzgyODY3MWFjOC4uNzBhZTc4NzdhMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNTUuMi5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE1NS43LmJiCkBA
-IC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
-ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJhZTM2ODgwMjg3YzljNWRlZmU5ZjE5OWQz
-ZDJiNjdkOTk0N2E0ZGEyYTQ2ZTZjNTczNzNjYmRmMjM0NWIyMGUxIgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gImQ4ZDYwOTE3NTNkMDY2OWRiM2M5MGM1ZTViMzQ2Y2IzN2M3MmYzZGQ5Mzc4Yzg0MTNh
-Y2IxZmQ1ZGE2M2Y3ZWEiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
-cnMgXAotLSAKMi40Ny4xCgo=
-
---===============8316884477692044730==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.155.2.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.155.7.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.155.2.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.155.7.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.14/site-packages/hypothesis-6.155.2.dist-info moved to /usr/lib/python3.14/site-packages/hypothesis-6.155.7.dist-info
-
---===============8316884477692044730==--
+--===============0734884189506042842==--
 
