@@ -1,238 +1,108 @@
-Return-Path: <leon.anavi@konsulko.com>
+Return-Path: <vpuar@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1B0ACDB46B
-	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 08:18:10 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38583.1782116282507010311
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C94FCDB471
+	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 08:18:20 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38586.1782116290765131691
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2026 01:18:02 -0700
+ Mon, 22 Jun 2026 01:18:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=YV1+V3wQ;
- spf=pass (domain: konsulko.com, ip: 209.85.221.45, mailfrom: leon.anavi@konsulko.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-462cdb88d01so2677605f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 01:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1782116280; x=1782721080; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kM/jlj8gRBxXuOOtVYA1MIzr9lLGh/xZD4tYieV5NGc=;
-        b=YV1+V3wQfOWzTj8Q4EFojXCHJXaTbtnTW7S0myUMNotb71sNag3nZj1zHVV9/PsetB
-         4UDkQTHJi7xs77B5K42dwKUr3OV4Hwtd5zgJIkSyoTIHbGM1QRBHYx29Xus2oIoNSF0X
-         N5B8emXOgBEJQTgToq2bPc6gSLmaukWDLxgxo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782116280; x=1782721080;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kM/jlj8gRBxXuOOtVYA1MIzr9lLGh/xZD4tYieV5NGc=;
-        b=RCp4cv8O13M3L01wBYHY2qupww2WAdp5zzr9ndfk3pM4DgDwxMd5KwdUeg5I7G2fta
-         44fw7/7+e5SLPrsKtB9TGECP4WbcATO8/JU2TRngaSVujez+9gaQCrFurRvPfEww9zzt
-         M9DEiG61toVk2YzR5vQB/UB6/bwZu2x0nLtIROVQxT0fCERRP4kvtQMORGOZk+wqNx/h
-         vOsG8UY7ArVAQ3DKxUI0kj69QtFKnbtotCGGHDboUwsXOjw3kJqLZwUS3Aafr3b8sXEA
-         p1tUaVhm5WgBBhzvlHObI9xLEtadLO5RNyqXiZrUOMZ13GoV8l8uVYmmh430p00Zs5L9
-         idfg==
-X-Gm-Message-State: AOJu0YwjqM5gKy3YNSVDrdeXTKmV/phvlAj3/iNTRqhDAGfuhJ/QA542
-	jchPCp7mvjvPPb6Do+sLKLXCm4kvifQsLDAkcMdtUWQVnKBn8+eqMR068/muJqLYKSJxVAZNsPz
-	NxTrv
-X-Gm-Gg: AfdE7clpf66CUcpNxKJ6li+Zi58J0yS/KI0JpH9xSEh9Bq8HvsEz+y6u1O0Xo1OB19+
-	kkKZ/OD4vKuhgK6IFt7HuCdo9+3DTdaBTZPnHzMfvpj2oFEVEaYrokGQ/gQoeefOpxPdNARfKQj
-	cuXMUl4A8oV05hskFqkdC81nioLF7qmU4DpclzEOQTS/q6rFMFkPbXCXH2zBMi/mYiMa0CMqGG5
-	SCarKQpdAbWlrMeU1bwdmR8UH4d62fJdfe+Duc/vsTIKUK+AVPlRG6CNSjreg9y4J1UOlI8b7h4
-	WaJSzx36VEqJG6QrtphsBpRN5U8qUK8T9H7JNCFtwZrKzC6fI7jmSZL7jWOg0w4iQ9LBPYt5VOb
-	ucO5vS+8Cws2nPmjeF7G9c3c3C0Yih/4plfNxDdz8ipdxB9kz5301963ZCOd1Z93OBVJY9eJ0Ls
-	wXOtoAWMJvlV6QLckMgoDA73t25Q==
-X-Received: by 2002:a05:6000:2f85:b0:45e:dc0a:bcb with SMTP id ffacd0b85a97d-4651e2e1bcemr17942425f8f.22.1782116280048;
-        Mon, 22 Jun 2026 01:18:00 -0700 (PDT)
-Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4666cea9581sm22381239f8f.0.2026.06.22.01.17.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 01:17:59 -0700 (PDT)
-From: Leon Anavi <leon.anavi@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Leon Anavi <leon.anavi@konsulko.com>
-Subject: [PATCH] python3-numpy: Upgrade 2.4.6 -> 2.5.0
-Date: Mon, 22 Jun 2026 11:17:56 +0300
-Message-ID: <20260622081756.3078004-1-leon.anavi@konsulko.com>
-X-Mailer: git-send-email 2.47.3
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=hra0NS28;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: vpuar@qti.qualcomm.com)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65M59I4F3850632
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:18:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=T41zaIs/JXw/buHtmzWHs1
+	RM293MmOVvlzxFXP3gmDo=; b=hra0NS28qH3bo1Cl6INroIh97ctDvbAsRv0ptW
+	ysfQQenlJwsjGnNTMR3K2Ym3Ua+2wX0JnQ7W7ZWrlfGTg96fciD2BHW279tsbq7s
+	IU1wfkqajom64+7nZSWslajtsbUPh1BhD5VMVub7xiLG6o4MLngPJvWq5UGSiJU2
+	4d5deCKUVEVMhZnmwnbc60zmEPn88DqzLdnFnqavQBbXJDR4QSpy5kajNvOO88GU
+	acJTOg97TrM/CQePPDgdNQgZN97JTysefup9iyuw9BaQaL4eS3M9QzPvPTXuqzdJ
+	ttLtBXovsbY9mRelHjrHPVeYVVzN7SQKfsx03/dXudrbdk+A==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ewm585bqp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:18:08 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTPS id 65M8HMvU026057
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:17:40 GMT
+Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Mon, 22 Jun 2026 01:17:25 -0700
+From: Vivek Puar <vpuar@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Vivek Puar <vpuar@qti.qualcomm.com>
+Subject: [PATCH] maintainers.inc: update ownership for linux-firmware
+Date: Mon, 22 Jun 2026 13:47:10 +0530
+Message-ID: <20260622081710.3632461-1-vpuar@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-ORIG-GUID: R6XDtIX33r06oC5EN_fnt0Z4vR1qPBC6
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIyMDA4MSBTYWx0ZWRfX7biXxh2d3gSl
+ n0HHXLiJgB5+/9AKIbrK0ysNQ24QyvM/i780qXmr+ObpVBrFdF2MmH7Si4BnACq3I36f3dHNtHV
+ FCZX7Ma17GD2i0hHz7Ogh5bm4d0KeEY=
+X-Proofpoint-GUID: R6XDtIX33r06oC5EN_fnt0Z4vR1qPBC6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIyMDA4MSBTYWx0ZWRfXwZWY2vl043Ob
+ V0wEUbmsO2maSl6IEi4F8sRy4ZVLC/EsKNThPRGiuIYplodpC9617S2caGwdJZ1i0XQp1P/afor
+ lJ8SoNhlgjOU+ZbGaOEKSb0hCbP8Ags7OI65BtZ64NHTcpqfBh5sMHGYF6QVuVr9XreDXMYED/F
+ zU3dsJ0HsMT42VGVBW3T5aRnTF5k99iqbeA5pQ2h0m2+c8n4O2Zj0WQ5NM1jy3Y0ldN6wStYWYh
+ AF+41E3Wb+RaG0XDMS/QbhHXefAjAAxBFVtGq6tIifTcNyMRfydbU/07QsQPADY9ab1jGWibJkq
+ 6VN0mVUTLVnSRFC1LZunwA7YzrK8j0ky1j/MK9L2VIUPbZOcMuGe2BFnDpCk8q50/8wfC6vtl9X
+ GU0ZtE3rLeV2F/r91TLUF3LA2Hx+H0pdrSILPIS2FCF8nfbuaEK0wAJ4q8U/3fQBJkIH+YFlY+b
+ G7OhvuLL/Fi5tGx64vQ==
+X-Authority-Analysis: v=2.4 cv=FOQrAeos c=1 sm=1 tr=0 ts=6a38efc0 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8
+ a=iGHA9ds3AAAA:8 a=omOdbC7AAAAA:8 a=pGLkceISAAAA:8 a=ENdlVatws_NGTdbHyKgA:9
+ a=nM-MV4yxpKKO9kiQg6Ot:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-22_01,2026-06-18_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 adultscore=0
+ phishscore=0 spamscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606220081
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:18:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239274
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:18:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239275
 
-Upgrade to release 2.5.0:
+I propose to take ownership for linux-firmware recipe.
 
-Numpy 2.5.0 is a transitional release. It drops support for Python 3.11,
-marking the end of distutils, and expires a large number of deprecations
-made in the 2.0.x release. It also improves free threading and brings
-sorting into compliance with the array-api standard with the addition of
-descending sorts. There is also a fair amount of preparation for Python
-3.15, which will be supported starting with the first rc.
-
-- Distutils has been removed
-- Many expired deprecations
-- Many new deprecations
-- Many static typing improvements
-- Improved support for free threading
-- Support for descending sorts
-
-Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
 ---
- ...-and-so-on-for-libraries-by-default-.patch | 69 -------------------
- .../python3-numpy/fix_reproducibility.patch   | 40 -----------
- ...-numpy_2.4.6.bb => python3-numpy_2.5.0.bb} |  4 +-
- 3 files changed, 1 insertion(+), 112 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
- delete mode 100644 meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
- rename meta/recipes-devtools/python/{python3-numpy_2.4.6.bb => python3-numpy_2.5.0.bb} (93%)
+ meta/conf/distro/include/maintainers.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-deleted file mode 100644
-index ba99997653..0000000000
---- a/meta/recipes-devtools/python/python3-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-+++ /dev/null
-@@ -1,69 +0,0 @@
--From e6a9ec520a5924af57ad5d117bc45cf6d8bcdb9a Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 10 Dec 2015 13:20:30 +0200
--Subject: [PATCH] Don't search /usr and so on for libraries by default to
--
-- avoid host contamination.
--
--Upstream-Status: Inappropriate (As the code stands, this is a hack)
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- numpy/distutils/system_info.py | 42 +++++-----------------------------
-- 1 file changed, 6 insertions(+), 36 deletions(-)
--
--diff --git a/numpy/distutils/system_info.py b/numpy/distutils/system_info.py
--index e428b47..65d95ed 100644
----- a/numpy/distutils/system_info.py
--+++ b/numpy/distutils/system_info.py
--@@ -326,44 +326,14 @@ def add_system_root(library_root):
--         add_system_root(os.path.join(conda_dir, 'Library'))
-- 
-- else:
---    default_lib_dirs = libpaths(['/usr/local/lib', '/opt/lib', '/usr/lib',
---                                 '/opt/local/lib', '/sw/lib'], platform_bits)
--     default_runtime_dirs = []
---    default_include_dirs = ['/usr/local/include',
---                            '/opt/include',
---                            # path of umfpack under macports
---                            '/opt/local/include/ufsparse',
---                            '/opt/local/include', '/sw/include',
---                            '/usr/include/suitesparse']
---    default_src_dirs = ['.', '/usr/local/src', '/opt/src', '/sw/src']
---
---    default_x11_lib_dirs = libpaths(['/usr/X11R6/lib', '/usr/X11/lib',
---                                     '/usr/lib'], platform_bits)
---    default_x11_include_dirs = ['/usr/X11R6/include', '/usr/X11/include']
---
---    if os.path.exists('/usr/lib/X11'):
---        globbed_x11_dir = glob('/usr/lib/*/libX11.so')
---        if globbed_x11_dir:
---            x11_so_dir = os.path.split(globbed_x11_dir[0])[0]
---            default_x11_lib_dirs.extend([x11_so_dir, '/usr/lib/X11'])
---            default_x11_include_dirs.extend(['/usr/lib/X11/include',
---                                             '/usr/include/X11'])
---
---    with open(os.devnull, 'w') as tmp:
---        try:
---            p = subprocess.Popen(["gcc", "-print-multiarch"], stdout=subprocess.PIPE,
---                         stderr=tmp)
---        except (OSError, DistutilsError):
---            # OSError if gcc is not installed, or SandboxViolation (DistutilsError
---            # subclass) if an old setuptools bug is triggered (see gh-3160).
---            pass
---        else:
---            triplet = str(p.communicate()[0].decode().strip())
---            if p.returncode == 0:
---                # gcc supports the "-print-multiarch" option
---                default_x11_lib_dirs += [os.path.join("/usr/lib/", triplet)]
---                default_lib_dirs += [os.path.join("/usr/lib/", triplet)]
-- 
--+    default_lib_dirs = libpaths(['/deadir/lib'], platform_bits)
--+    default_include_dirs = ['/deaddir/include']
--+    default_src_dirs = ['.', '/deaddir/src']
--+
--+    default_x11_lib_dirs = libpaths(['/deaddir/lib'], platform_bits)
--+    default_x11_include_dirs = ['/deaddir/include']
-- 
-- if os.path.join(sys.prefix, 'lib') not in default_lib_dirs:
--     default_lib_dirs.insert(0, os.path.join(sys.prefix, 'lib'))
-diff --git a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
-deleted file mode 100644
-index ca5dde1f32..0000000000
---- a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From b8bae174cfca4541a7288edcfdbc340d54f2673a Mon Sep 17 00:00:00 2001
--From: Richard Purdie <richard.purdie@linuxfoundation.org>
--Date: Fri, 29 Sep 2023 22:53:24 +0100
--Subject: [PATCH] This regex decides whether to use O3 opimisation on numpy or
-- not.
--
--It includes "od", which happens to be a substring of "reproducible"
--but not "qemux86-world".
--
--The regex will run against all compiler options including things like:
--
---fmacro-prefix-map=/XXX/build/tmp/work/core2-64-poky-linux/python3-numpy/1.26.0/numpy-1.26.0=/usr/src/debug/python3-numpy/1.26.0-r0
--
--i.e. including build paths.
--
--Reduce the regex to something deterministic for our builds, assuming
--nobody builds in /home/debug:full/
--
--The autobuilder race depended upon whether qemux86-world or the
--reproducible target ran first and won the race to populate sstate.
--
--Upstream-Status: Inappropriate [upstream have dropped distutils and switched to meson]
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-----
-- numpy/distutils/ccompiler_opt.py | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/numpy/distutils/ccompiler_opt.py b/numpy/distutils/ccompiler_opt.py
--index 4dea2f9..00f563f 100644
----- a/numpy/distutils/ccompiler_opt.py
--+++ b/numpy/distutils/ccompiler_opt.py
--@@ -991,7 +991,7 @@ def __init__(self):
--             ("cc_is_nocc",     "", ""),
--         )
--         detect_args = (
---           ("cc_has_debug",  ".*(O0|Od|ggdb|coverage|debug:full).*", ""),
--+           ("cc_has_debug",  ".*debug:full.*", ""),
--            ("cc_has_native",
--                 ".*(-march=native|-xHost|/QxHost|-mcpu=a64fx).*", ""),
--            # in case if the class run with -DNPY_DISABLE_OPTIMIZATION
-diff --git a/meta/recipes-devtools/python/python3-numpy_2.4.6.bb b/meta/recipes-devtools/python/python3-numpy_2.5.0.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-numpy_2.4.6.bb
-rename to meta/recipes-devtools/python/python3-numpy_2.5.0.bb
-index 2c892e9756..db15435f87 100644
---- a/meta/recipes-devtools/python/python3-numpy_2.4.6.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_2.5.0.bb
-@@ -8,12 +8,10 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=26080bf81b2662c7119d3ef28ae197fd"
- SRCNAME = "numpy"
- 
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
--           file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
--           file://fix_reproducibility.patch \
-            file://run-ptest \
-            file://0001-python-sysroot.patch \
-            "
--SRC_URI[sha256sum] = "f3a3570c4a2a16746ac2c31a7c7c7b0c186b95ce902e33db6f28094ed7387dda"
-+SRC_URI[sha256sum] = "5a129578019311b6e56bdd714250f19b518f7dceeeb8d1af5490f4942d3f891c"
- 
- GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index f757fafdcb..4c6307086c 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -472,7 +472,7 @@ RECIPE_MAINTAINER:pn-libxxf86vm = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libyaml = "Wang Mingyu <wangmy@fujitsu.com>"
+ RECIPE_MAINTAINER:pn-lighttpd = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-linux-dummy = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-linux-firmware = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-linux-firmware = "Vivek Puar <vpuar@qti.qualcomm.com>"
+ RECIPE_MAINTAINER:pn-linux-libc-headers = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-linux-yocto = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-linux-yocto-dev = "Bruce Ashfield <bruce.ashfield@gmail.com>"
 -- 
-2.47.3
+2.34.1
 
 
