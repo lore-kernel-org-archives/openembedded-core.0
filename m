@@ -1,148 +1,90 @@
-Return-Path: <auh@yoctoproject.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 050EECDB46B
-	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 05:09:18 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36452.1782104955148692478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15143CDB46B
+	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 05:12:18 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36474.1782105134295417947
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Jun 2026 22:09:15 -0700
+ Sun, 21 Jun 2026 22:12:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=q7RjStzw;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=01Hgz2HE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019eedbb9551-3133ad3c-ecf6-4b8c-8f67-dd13df97bcda-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1782104954;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=CNuJ/yBxVnXdF370LY5cWg/c/x+Qil4hByDSyqDOb1o=;
-	b=q7RjStzw6zz/P8g2wrim24YfsqlMP1A9pRQzkIAk+XDc4qjFS91VloeFR397Ej73
-	ziVXVoLWvjWFsdUG8yBq0t3qFe94S3ByaPph7JQG3fZywItgGhkYb1g7GKgPuMpDIQA
-	WuE9N/kYVpuj/3K6AcqTAvAQvasQiJG8Ah/WIRWQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782104954;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=CNuJ/yBxVnXdF370LY5cWg/c/x+Qil4hByDSyqDOb1o=;
-	b=01Hgz2HET8Clql25Hi0ZbS6mvQcck0iMzudc5yFZghsVpaoXJl50akom/L3uHe3O
-	InYdblKtxmtFmOEPFZ6g9Lwbfr2R9AAhtjsZXvfZ1H7KLQoQ+POM9pbd0qc/QSt2H0n
-	j6HYy8I4yz00iyG9a09M8ffeFe7IlAH0guwIYerQ=
-Content-Type: multipart/mixed; boundary="===============0734884189506042842=="
-MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-numpy: upgrading to 2.5.0 FAILED
-Message-ID: <0101019eedbb9551-3133ad3c-ecf6-4b8c-8f67-dd13df97bcda-000000@us-west-2.amazonses.com>
-Date: Mon, 22 Jun 2026 05:09:14 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.22-54.240.27.31
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=IxhDoW9p;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id DE16FC62203;
+	Mon, 22 Jun 2026 05:12:18 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C978A601BB;
+	Mon, 22 Jun 2026 05:12:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 109B2106C8961;
+	Mon, 22 Jun 2026 07:12:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1782105131; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=Zk7nsIeBTaWt6pIDtT8sUME+GoQwr1t62iVGKI7Hh0w=;
+	b=IxhDoW9pq8DGstuoyJkFOe313K7ffR1+bdxYseX0Hp9wTKcCo5fFbylAn+eQY84asMKuXa
+	MdVUJdBa/0pJ6yWrzo9PIZo0lCBi3MqmpQDujsYL0/pnJIzMG2tNpSUZW7Nt9Alyyll07x
+	HKXCaNWnzVjUPqLA5DCdxezt1tlSJlEhiqg6HEzYxdPMuGAQ7ZdLQHQRDV8eANn7VydhWn
+	DtHtqzOhTcXBZhttJiBvmRUyMX2NKt0aZwVade//tG0LcUL0Leasg+JyMsKrXJ6TJNDoJD
+	P6a4qrskK4KS0avs5Dw6FhFOyRl69Y8qNJZFlBrLArqjniKbh+HUxDBeRiVXOA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 22 Jun 2026 07:12:09 +0200
+Message-Id: <DJFBJM77757J.O3XZ0R6YJD4H@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <alex.kanavin@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 06/15] systemtap: upgrade 5.4 -> 5.5
+Cc: "Alexander Kanavin" <alex@linutronix.de>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260619083305.3505156-1-alex.kanavin@gmail.com>
+ <20260619083305.3505156-6-alex.kanavin@gmail.com>
+In-Reply-To: <20260619083305.3505156-6-alex.kanavin@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 05:09:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239263
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 05:12:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239266
 
---===============0734884189506042842==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Fri Jun 19, 2026 at 10:32 AM CEST, Alexander Kanavin via lists.openembed=
+ded.org wrote:
+> From: Alexander Kanavin <alex@linutronix.de>
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
 
-Hello,
+Hi Alex,
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-numpy* to *2.5.0* has Failed (devtool error).
+Thanks for the upgrade.
 
-Detailed error information:
+It looks like we got some reproducibility issue with this one:
 
-The following devtool command failed:  upgrade python3-numpy -V 2.5.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1978 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+AssertionError: The following deb packages are different and not in exclusi=
+on list:
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/deb/./x86-64-v3/systemtap-locale-pl_5.5-r0_amd64.deb
+The following ipk packages are different and not in exclusion list:
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/ipk/./x86-64-v3/systemtap-locale-pl_5.5-r0_x86-64-v3.ipk
 
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-dd458059aea314e8747bb663a8745f73ee1c0b66"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:dd458059aea314e8747bb663a8745f73ee1c0b66"
-meta-yocto-bsp       
-meta-poky            = "master:366fa2f21bfb0d9c4de492e0204a0dd38ce241ab"
-workspace            = "<unknown>:<unknown>"
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/4217
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/4219
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/4220
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 14 Local 14 Mirrors 0 Missed 0 Current 16 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 952 .bb files complete (0 cached, 952 parsed). 1979 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+It looks like systemtap.mo is a bit bigger:
+https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260621-447krk67/=
+packages/diff-html/
 
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-dd458059aea314e8747bb663a8745f73ee1c0b66"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:dd458059aea314e8747bb663a8745f73ee1c0b66"
-meta-yocto-bsp       
-meta-poky            = "master:366fa2f21bfb0d9c4de492e0204a0dd38ce241ab"
-workspace            = "<unknown>:<unknown>"
+Can you have a look at the issue?
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  10% |###                                 | ETA:  0:00:01
-Adding changed files:  21% |#######                             | ETA:  0:00:00
-Adding changed files:  31% |###########                         | ETA:  0:00:00
-Adding changed files:  42% |###############                     | ETA:  0:00:00
-Adding changed files:  53% |###################                 | ETA:  0:00:00
-Adding changed files:  63% |#######################             | ETA:  0:00:00
-Adding changed files:  74% |##########################          | ETA:  0:00:00
-Adding changed files:  85% |##############################      | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
+Thanks,
+Mathieu
 
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://github.com/numpy/numpy/releases/download/v2.5.0/numpy-2.5.0.tar.gz...
-INFO: Rebasing devtool onto a035d6213d4c256255c4e8ff56b942d0184e6b21
-WARNING: Command 'git rebase a035d6213d4c256255c4e8ff56b942d0184e6b21' failed:
-CONFLICT (modify/delete): numpy/distutils/system_info.py deleted in HEAD and modified in 26c23a4 (Don't search /usr and so on for libraries by default to).  Version 26c23a4 (Don't search /usr and so on for libraries by default to) of numpy/distutils/system_info.py left in tree.
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-ERROR: Execution of 'git checkout devtool' failed with exit code 1:
-error: you need to resolve your current index first
-numpy/distutils/system_info.py: needs merge
-
-
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
---===============0734884189506042842==--
 
