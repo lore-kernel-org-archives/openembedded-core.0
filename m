@@ -1,464 +1,577 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 820AECDB46B
-	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 09:49:35 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.28])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.39421.1782121767454444698
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B99B6CDB471
+	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 11:31:37 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40904.1782127888114148047
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2026 02:49:28 -0700
+ Mon, 22 Jun 2026 04:31:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ericsson.com header.s=selector2 header.b=knkoZPXg;
- spf=pass (domain: ericsson.com, ip: 52.101.69.28, mailfrom: daniel.turull@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n578IbDA5FEwUCAKGaL2AP65rFRv6ynnjFlC8hyZhVWh8LldhTgkO1kvMoLT7EfaI+3S0EZ3+uDzcPxCEZEXjziouvZCo016Uny5eK8UkFnKhGUQHbhmStW7OetPVbH1pLUlSztaOSaSpzlp8ZSxKxVPUZR3uHmr9RuXR2+jKPeYeeYooWkYV7Qwepub8nZ+hKZi2uFq3TkWcT7kNMATMtlAEMTrTxagGAGrxcjvhxRaYgSzqv+8fllmPhkv9d/nviw+zTgC5/LxRcaenA+i/34RCGBSF4ZxDn0nsdsq7mS43LcXa6s4X/eSuCZ0DAB8bm/bemNOCtG1Dtdcqi6uWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cjIPBb//NycKEX4EHvaAENKtVBeIbnu/Kx8uStcptAM=;
- b=k579BLwEa3GSNqUiXoiGSxvvlQVmzclTJY43OFG67bt29J09mIslD2vkhi0/djT4YUzrNNsvU22785Iz9FWOJaasgQOT9KzZ9W55+WBHZxmu6jAhVoMAMHW2xCWjbIXEQZ+YGXz3pLEOzT5Yl8+QP+0Tx8gvZBS/Wi5tjtGgN+i8TleqeLhH9e8OzaKLGM15wDB1og19B4QYXGnbG0Ugmz/FK17cmiv6+wqJUx9VNu8R3xQHt3GH4J9ErbC3x7oA73a/7uKEkG4IO8TEZvlLlsKB1+DYJUN/9xP/F6cl6EuhtMF3Dbn39f4nVMBWiLlWhfCXmXLX802OBDjvo4T7/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
- dkim=pass header.d=ericsson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cjIPBb//NycKEX4EHvaAENKtVBeIbnu/Kx8uStcptAM=;
- b=knkoZPXgWh+v57DzSNK4XgyDW1j76tziKlD/DKQGV5dn0QUyOU21hBubGSjBrGYudaZM0Kpwo14+JlKXYYfnmobGeBW+vEk/i6ySVjIxzMiiyDEflUpg1dgV7gx4aclTZLQ6+fcVwpZRRgeigsxieSX7l2pdY8mrQKy3wxs11cwdtP1HLFm9GdT0Gp52SsaCg2vhG8AWgOmEHvTNTnYNIXeJEfJi4rnk5E7ZWEOejQvbqFrcwPai/6PnKxJ97kFjtzknFwEyujqm1B5PWGcFIpiiOAzSJBzUMZ8U1u1kMLyevVKdCguMtC9UCVWox5IK5kwSBqCCpIrMc8Uo0J9+Uw==
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
- by DUYPR07MB12324.eurprd07.prod.outlook.com (2603:10a6:10:65e::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.19; Mon, 22 Jun
- 2026 09:49:21 +0000
-Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
- ([fe80::afd3:17e5:1663:7ce7%7]) with mapi id 15.21.0139.018; Mon, 22 Jun 2026
- 09:49:21 +0000
-From: Daniel Turull <daniel.turull@ericsson.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "anders.heimer@est.tech" <anders.heimer@est.tech>
-Subject: Re: [PATCH] libssh2: fix CVE-2026-55200
-Thread-Topic: [PATCH] libssh2: fix CVE-2026-55200
-Thread-Index: AQHdAiozw85OQEIrkUWXBB2wyiAOCLZKVD5k
-Date: Mon, 22 Jun 2026 09:49:20 +0000
-Message-ID: 
- <PA3PR07MB10721D4AD22A949F3729AA8178AEF2@PA3PR07MB10721.eurprd07.prod.outlook.com>
-References: <20260622093325.2735695-1-daniel.turull@ericsson.com>
-In-Reply-To: <20260622093325.2735695-1-daniel.turull@ericsson.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ericsson.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|DUYPR07MB12324:EE_
-x-ms-office365-filtering-correlation-id: 08cd35bb-c6f8-4979-82f7-08ded04388d9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|23010399003|10070799003|1800799024|376014|366016|13003099007|4133799003|6133799003|8096899003|18002099003|22082099003|56012099006|11063799006|38070700021;
-x-microsoft-antispam-message-info: 
- 9xpRF0rqSMVo/YZ+oZlwugk7seyj4Rm2q6phd7ta1gPX4ySFp8YJd2jj+wwF4gRqWKD5jBjieSBuvruNNOxn+swPGzbKJ3DeNy+9iw2m3eulOIObECDUTB039ZAgVKkRLcyGASaQMYB/6DoA7xMqpYa32eTmyhq3PidmjWngyTXMNF/hv/QZMavnH48/k4vbQmYgATsFN1VL3qevRslwkAnpQ7hahTqT045DZOY9PDxbeqRJ/qPuur5qbVkIlIaG2/02eRX69X89X6Gdpy9+V86J+wZhZVvCVX7aEC2pP+9FtnVGCCAhdCcO78R4YMVeMERmwE38UGarHhAmkFab+0sUzSQldsB5t3zxiI7f9RDNAWe5p0OlTNNmr/DJsuKkQle18hphF+i5Ge2OlOUxmggNu9KE/W0EuxYsCyvcHMXKSe+gLgeh8qwk9L5p/sfV3ZysoQ4H08OkPgvlgZ4EZsf9E5cJ6f29yv5lTBrghKJA8T3wAvKD/NpqYjr5utyaTVKL9NP5rxqFlngfrrYJilI6pvHpWjoXXxYhAiA6iAIOfW7niMfVowUUk9EAMVbNDo8bklfVNuklZHOrUTpXnhIPdc3OY71Y1UFoq573AQ+EtLKYi57FjGmfA+QMwA68qoIf6pLBX6Bf0nSNF4mFbo+g8bLPfDeqHhLxuYqIObk=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(1800799024)(376014)(366016)(13003099007)(4133799003)(6133799003)(8096899003)(18002099003)(22082099003)(56012099006)(11063799006)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?q8IO/Q25gxwsWiAoPO5e6XlR+Jl4oZYjJ9FBNZYQfVIKWCCtHGajdncdD6Qn?=
- =?us-ascii?Q?PfFk1JZr10hgNKO1NT667Psv2ZDh9bmfqZcB9Yaez8JTcuDIoLbvR78hT1m0?=
- =?us-ascii?Q?IWCCRvcjmr1odXf0PkRZDzSQYEU0Mg1R5gt/DPswQlb+B8Ux73rjOXVqR34r?=
- =?us-ascii?Q?ZU9KUSWbRcITN8AuBBf4mbeYQ8GM+D2x/ITrzBSkqe8zWYUHBupdYxxVF5ik?=
- =?us-ascii?Q?qvaWdNyjLh7WasjMbSV/Dg8crJR4V+/XqUWcPQyY246dKzcHy+C6gzumO1RE?=
- =?us-ascii?Q?ykMpUvlbKTs4aS1SBzSTUqi5xP+QyWKclIrjoRLsf2NGhtH3gXEjw+i9lLTT?=
- =?us-ascii?Q?WQI2tHHqpzUCFF4hDBAgMw0lkNfb7FFvnPvlNwB3DdNn6+bKs2SD7GaKG8OC?=
- =?us-ascii?Q?JB4uqkHiY/hC1lkAv2nnii2T81LtT580jVb5YfXQ47e9R8R/sxiNOYLuzqlR?=
- =?us-ascii?Q?yWFz8K9r70E4cB8JUeujGhKvjC56LFxnUpfnrQi+O6xFzPS+60t6NfaNCthl?=
- =?us-ascii?Q?Wv++Adp1Qw/fQrTbvVME8ivNrUho69Urkm/iH59Qro6zpVxVnmL5g3SXBgJg?=
- =?us-ascii?Q?6UzyI0c3MjOEY/jtSk+NjhwNWMoUsc3V6ewxHkm1PND+BmQlR5sv+VkCSTn1?=
- =?us-ascii?Q?yNrsuZvunq/q0Fafed5IfdF5IWxsUHMljhEJrHyMBC7DEdY1xIY68xYwuGeT?=
- =?us-ascii?Q?j8sjzt3mZrFyFh+1fTRQ30CWFAcmvwXgeZtED8MeAB5wI7a9UdCIYar1ZPmu?=
- =?us-ascii?Q?bLcjpeoEeg/y5c+s6lCmsRugMi+3ds/7h1v8AqjeR2JzuEkULZeHGVqPpzqr?=
- =?us-ascii?Q?oYbxAToT5E0oCbBRtFRB+RrrvazynCPPgnxUPVEr9ZzJIpJE4hv1pFzhyXL6?=
- =?us-ascii?Q?KP09ff2ydMvqTBHxdKSn9M4/YG6xW2BeQ1mHBzyCBLi3RyufZLCTvar80o+0?=
- =?us-ascii?Q?JcUHdZsQXjL7o4e6ipuHvAFGwEQYaEBjcfJo1v6xdmjc9i3+7gGYMe6kLA1w?=
- =?us-ascii?Q?FHVatP2hDnZhFcU4ITy5pUuaDIaRraL5FfE5aOxJ0og5GcX/tKGlHdImqVvN?=
- =?us-ascii?Q?V5WcE56FMtZ25LNbZOczKX5FU5s8aLyb8hXJSuC6oWj0oOQWPYBuNvA3KEPm?=
- =?us-ascii?Q?cxbQQtqRf7w8Ec1c+CfQm/GM5p7kEzFf2zdldbfZPzEFZsS2Y9CCopwmHyc6?=
- =?us-ascii?Q?c++hOZ2FmVTV9ViFif5IhCzm2RFHtBvpP1TxnOjz6ipxsBJ+caYT+YnAhODO?=
- =?us-ascii?Q?SQgBWTnu8ALEo96GMfsTkXuj1zMdtudXoTbuaCwE41zjEBPOYsk4GMU9OQoc?=
- =?us-ascii?Q?x+8I0e+btG21huoWu3/3QcwmAqqgeskQueRGc40nVuFx/kQj+1PeVXaC8I/5?=
- =?us-ascii?Q?Z5YkpBSjMgsDHHl/VHBhzsNpJ7hnHndhkihOFqAhTgBzrrEqZm9B04BB8etI?=
- =?us-ascii?Q?xlCpTH/7LvHGHmiVDAet3+/QgBdURe7AKmTCN0q/isTm2GYs9l3uBL2B0vrb?=
- =?us-ascii?Q?RzqhQm2Z4zknf7SD1MwoFX7cPKTlKNhCtOYIlOOL/Rm0ssiQmjR4BKpdvZbL?=
- =?us-ascii?Q?xp21k39kIdD87ElmpFWRD9bKhUsWOzxByFkx0ZgZrMKezpaPgiZEhjjKLwIz?=
- =?us-ascii?Q?5rjPkgJC/a5wH1khBzVgIdA8gI5WGGGu3oKZh7oUmG9S+CSfp6hEAY+HWPji?=
- =?us-ascii?Q?YFXkPEkJw2DenJ7awrK66IQ2Z7UsGRzAPBYX3X3jGVe+AhUIb+TntluCWhE2?=
- =?us-ascii?Q?75VnLV8xlDzZIA3PpzsXeyZTw+aGzQotv0BWW8H+IXiV3n1A/h34lAyg2q1I?=
-x-ms-exchange-antispam-messagedata-1: 8HWKhO/m9oUQcw==
-Content-Type: multipart/alternative;
-	boundary="_000_PA3PR07MB10721D4AD22A949F3729AA8178AEF2PA3PR07MB10721eu_"
-MIME-Version: 1.0
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08cd35bb-c6f8-4979-82f7-08ded04388d9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2026 09:49:21.0091
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SHHhkjDt+rIYjQSCucwkBlWoh82RbgCAiUst8yYRIwUIkw29jiZPQ0s30NStGXfJcSH/5HmhWXOjDwnV2pHVUzqGJy0IGmk0OpG95vRUL0Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUYPR07MB12324
+ dkim=pass header.i=@smile.fr header.s=google header.b=NZ2M4Qw2;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4923139e940so24845705e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 04:31:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1782127886; x=1782732686; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pejgqSbED2OINheXT4f2o3zDK/PQ3LNAuU+Cgx+3HbI=;
+        b=NZ2M4Qw20VQ5eeJv4mg83K2T86nk5F/t2cBM4Mtf8l7GP+psfBieRhEDFk0MnMO62E
+         L9jjj+cVPZYLN1gazQzSt7Jn9MWrdT9HhyBiWENLCNOkD+skv1XgmiGjkPZrxOYc4m6r
+         iixoYzZtmDqcVS4SkA468jFGiESHls09uMTIw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782127886; x=1782732686;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pejgqSbED2OINheXT4f2o3zDK/PQ3LNAuU+Cgx+3HbI=;
+        b=Pf/nQ0eoxl8gy9jKCw20H/7Ijv6Adf9cW1h5wxbsePVVwNjNSWc52TgS3DYVtOhdlE
+         D51tbluEwG+Q07oFYWaolqfJn6HrV3GX+HB7Nw7kidNy/XxJtsGE9xlKh4IHsmvN1nch
+         e/kUC0EaJDBI5+MK4xTeyY8/lRfswA4c6QE62xVYqiGEM0RmtaLhfTM27omI6TV+q4R7
+         cnC5ab3z2XXA6hSBpEimKA2Df0o9khS/1MHVPo5XGrenVi2uB5t/ZGPU2W+RIiN+UoG2
+         xHmSlboH2KWdsVL43hQuTPHX6ei/YPFncIXv+THeTStD10uQPj13Dqfaz1YyrTwKzhbO
+         XTLA==
+X-Forwarded-Encrypted: i=1; AFNElJ87CoCrB4pb3uRE8kqbRbUcbGhTgdEGnHBDOmHVMcpEmlqEIf3HjDSlpbVUBj+jSq9Mi8Hyv6Tuhr+NTfLi6p8FTA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyWHXStIgMB8OxaS85ixIc5HAzUd84iB56rVwcSRBkcHeg8ZZn6
+	w7sAnGEMsaYH6ndGXPu2fwFRMdK5mz4JhHuS5GSw64+WVnMgj8TptZ3IBdsxLL74ujs=
+X-Gm-Gg: AfdE7cm0bT+LhG5d3aQRHLIB/TiPaOcyUHVzoc/Yf0E/XgzmpG2ZV1RqccNWrHa88IG
+	PFxBA6biFNCRNiFDMlVogRkQ3ZlFSo+VMTCxU8+NWMJ5rp6WARJNXR6wSBbFeA6uQHWiWUztUXr
+	NxREAte4hWERrKFEhur1eOYToJg94ZgPHgiyAdiqM7mnG8HqtWUsaORo2FueFB3dJHftIcFul5V
+	tUbfVFpJoz9LqKGSBd50ze4KNBVNciTAgyrQLl/nTCdr+RJ2ggEqKD/UhBRxDsBEDK5GF2efjjA
+	/3CEV9f9yaWj+05wc558EhA1awrsVFDjPGQYdtPFRkk4QdTV/FSSSInufOwtl8CXmIrvyiAW0U1
+	1gAkvKGvY9iz3ZkLKd6FEcEzXN8k1BVoo5GRcnftbccx29FIMmXz330Rc4K289xltAeWzK9o6H1
+	pYTNBbHSQ04mXNZs5z9T1u9kxu497CeD7YzjRHXSPQ1BDi1SjFrI8qsqVd6u7vsOE69VE3Jb1SZ
+	KjB
+X-Received: by 2002:a05:600c:3516:b0:490:c2a2:e91c with SMTP id 5b1f17b1804b1-4924258fbbdmr212027205e9.34.1782127885685;
+        Mon, 22 Jun 2026 04:31:25 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00ae343d7f26e6048e.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:ae34:3d7f:26e6:48e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49249238bfbsm219014435e9.5.2026.06.22.04.31.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jun 2026 04:31:24 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 22 Jun 2026 13:31:24 +0200
+Message-Id: <DJFJLZY26OV8.76VQNOV5VDTV@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH 1/6] rsync: Fix CVE-2026-29518
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <xe-linux-external@cisco.com>
+To: <asparmar@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260612121514.2282121-1-asparmar@cisco.com>
+In-Reply-To: <20260612121514.2282121-1-asparmar@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 09:49:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239280
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 11:31:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239281
 
---_000_PA3PR07MB10721D4AD22A949F3729AA8178AEF2PA3PR07MB10721eu_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-it is the same patch for scarthgap, wrynose and master. The last release of=
- libssh2 was libssh2 1.11.1, released on 2024-10-16
-
-Best regards,
-Daniel
-________________________________
-From: Daniel Turull <daniel.turull@ericsson.com>
-Sent: Monday, June 22, 2026 11:33 AM
-To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Cc: anders.heimer@est.tech <anders.heimer@est.tech>; Daniel Turull <daniel.=
-turull@ericsson.com>
-Subject: [PATCH] libssh2: fix CVE-2026-55200
-
-From: Daniel Turull <daniel.turull@ericsson.com>
-
-Backport patch to fix CVE-2026-55200.
-https://eur02.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fnvd.nis=
-t.gov%2Fvuln%2Fdetail%2FCVE-2026-55200&data=3D05%7C02%7Cdaniel.turull%40eri=
-csson.com%7C380160d5f0454d1ff74708ded0415503%7C92e84cebfbfd47abbe52080c6b87=
-953f%7C0%7C0%7C639177176172245168%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiO=
-nRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D=
-%7C0%7C%7C%7C&sdata=3Dx0PEtNrUxDn3ap4t8IRPibWGSluDhB2fvbhGfqB5zI0%3D&reserv=
-ed=3D0<https://nvd.nist.gov/vuln/detail/CVE-2026-55200>
-
-Upstream fix:
-  https://eur02.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithu=
-b.com%2Flibssh2%2Flibssh2%2Fcommit%2F97acf3dfda80c91c3a8c9f2372546301d4a1a7=
-a8&data=3D05%7C02%7Cdaniel.turull%40ericsson.com%7C380160d5f0454d1ff74708de=
-d0415503%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C639177176172278243%7C=
-Unknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXa=
-W4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DpLfxTiNg%2BKJc=
-2KzfvPBJHTRCYdt7ruSljxCyiK9T6o4%3D&reserved=3D0<https://github.com/libssh2/=
-libssh2/commit/97acf3dfda80c91c3a8c9f2372546301d4a1a7a8>
-
-Tested with ptest:
-Before: PASSED: 3, FAILED: 0, SKIPPED: 0
-After: PASSED: 3, FAILED: 0, SKIPPED: 0
-
-Reviewed-by: Anders Heimer <anders.heimer@est.tech
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
- .../libssh2/libssh2/CVE-2026-55200.patch      | 36 +++++++++++++++++++
- .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-55200.pat=
-ch
-
-diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch b/me=
-ta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch
-new file mode 100644
-index 0000000000..9a71277cce
---- /dev/null
-+++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch
-@@ -0,0 +1,36 @@
-+From df0b03ee5ef12f3a46fccc0fc688ebfb91702972 Mon Sep 17 00:00:00 2001
-+From: Will Cosgrove <will@panic.com>
-+Date: Fri, 12 Jun 2026 15:57:44 -0700
-+Subject: [PATCH] transport.c: Additional boundary checks for packet length
-+ (#2052)
-+
-+Add additional bounds checking on packet length to prevent OOB write.
-+
-+Credit: [TristanInSec](https://eur02.safelinks.protection.outlook.com/?url=
-=3Dhttps%3A%2F%2Fgithub.com%2FTristanInSec&data=3D05%7C02%7Cdaniel.turull%4=
-0ericsson.com%7C380160d5f0454d1ff74708ded0415503%7C92e84cebfbfd47abbe52080c=
-6b87953f%7C0%7C0%7C639177176172291860%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hc=
-GkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3=
-D%3D%7C0%7C%7C%7C&sdata=3DburE%2BssH971QHGaL54oTCRH4KtOJmV7HARO9YVZ7t1U%3D&=
-reserved=3D0)
-+
-+CVE: CVE-2026-55200
-+Upstream-Status: Backport [https://eur02.safelinks.protection.outlook.com/=
-?url=3Dhttps%3A%2F%2Fgithub.com%2Flibssh2%2Flibssh2%2Fcommit%2F97acf3dfda80=
-c91c3a8c9f2372546301d4a1a7a8&data=3D05%7C02%7Cdaniel.turull%40ericsson.com%=
-7C380160d5f0454d1ff74708ded0415503%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7=
-C0%7C639177176172309431%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlY=
-iOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C=
-%7C&sdata=3Dxl8wl5MyK8t6qDm%2BCnhVF5MJ4%2BYwPWLgZwRVs%2Foll%2FA%3D&reserved=
-=3D0<https://github.com/libssh2/libssh2/commit/97acf3dfda80c91c3a8c9f237254=
-6301d4a1a7a8>]
-+
-+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-+---
-+ src/transport.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/transport.c b/src/transport.c
-+index e1120656..d147505b 100644
-+--- a/src/transport.c
-++++ b/src/transport.c
-+@@ -639,8 +639,12 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session=
-)
-+                 total_num =3D 4;
-+
-+                 p->packet_length =3D _libssh2_ntohu32(block);
-+-                if(p->packet_length < 1)
-++                if(p->packet_length < 1) {
-+                     return LIBSSH2_ERROR_DECRYPT;
-++                }
-++                else if(p->packet_length > LIBSSH2_PACKET_MAXPAYLOAD) {
-++                    return LIBSSH2_ERROR_OUT_OF_BOUNDARY;
-++                }
-+
-+                 /* total_num may include size field, however due to exist=
-ing
-+                  * logic it needs to be removed after the entire packet i=
-s read
-diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-=
-support/libssh2/libssh2_1.11.1.bb
-index e825c8c5bb..5ffc40b8fc 100644
---- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-@@ -11,6 +11,7 @@ SRC_URI =3D "https://eur02.safelinks.protection.outlook.c=
-om/?url=3Dhttp%3A%2F%2Fwww.libssh2.org%2Fdownload%2F%24&data=3D05%7C02%7Cda=
-niel.turull%40ericsson.com%7C380160d5f0454d1ff74708ded0415503%7C92e84cebfbf=
-d47abbe52080c6b87953f%7C0%7C0%7C639177176172325100%7CUnknown%7CTWFpbGZsb3d8=
-eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCI=
-sIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DYtFT2NdDTIZ6wdi0A9BWMoMd2dZAKxKfbjG8=
-UFFq9rM%3D&reserved=3D0{BP}.tar.gz \
-            file://run-ptest \
-            file://0001-Return-error-if-user-KEX-methods-are-invalid.patch =
-\
-            file://CVE-2026-7598.patch \
-+           file://CVE-2026-55200.patch \
-            "
-
- SRC_URI[sha256sum] =3D "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b=
-0f109cabf658f7"
---
-2.51.0
-
-
---_000_PA3PR07MB10721D4AD22A949F3729AA8178AEF2PA3PR07MB10721eu_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On Fri Jun 12, 2026 at 2:13 PM CEST, Ashishkumar Parmar X (asparmar - E INF=
+OCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+> From: Ashishkumar Parmar <asparmar@cisco.com>
 >
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Hi,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-it is the same patch for scarthgap, wrynose and master. The last release of=
- libssh2 was
-<b>libssh2 1.11.1</b>, released on&nbsp;<b>2024-10-16</b></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Best regards,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Daniel</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Daniel Turull &lt;dan=
-iel.turull@ericsson.com&gt;<br>
-<b>Sent:</b> Monday, June 22, 2026 11:33 AM<br>
-<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
-<b>Cc:</b> anders.heimer@est.tech &lt;anders.heimer@est.tech&gt;; Daniel Tu=
-rull &lt;daniel.turull@ericsson.com&gt;<br>
-<b>Subject:</b> [PATCH] libssh2: fix CVE-2026-55200</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">From: Daniel Turull &lt;daniel.turull@ericsson.com=
-&gt;<br>
-<br>
-Backport patch to fix CVE-2026-55200.<br>
-<a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-55200">https://eur02.s=
-afelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fnvd.nist.gov%2Fvuln%2F=
-detail%2FCVE-2026-55200&amp;data=3D05%7C02%7Cdaniel.turull%40ericsson.com%7=
-C380160d5f0454d1ff74708ded0415503%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C=
-0%7C639177176172245168%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYi=
-OiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%=
-7C&amp;sdata=3Dx0PEtNrUxDn3ap4t8IRPibWGSluDhB2fvbhGfqB5zI0%3D&amp;reserved=
-=3D0</a><br>
-<br>
-Upstream fix:<br>
-&nbsp; <a href=3D"https://github.com/libssh2/libssh2/commit/97acf3dfda80c91=
-c3a8c9f2372546301d4a1a7a8">
-https://eur02.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgithub.=
-com%2Flibssh2%2Flibssh2%2Fcommit%2F97acf3dfda80c91c3a8c9f2372546301d4a1a7a8=
-&amp;data=3D05%7C02%7Cdaniel.turull%40ericsson.com%7C380160d5f0454d1ff74708=
-ded0415503%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C639177176172278243%=
-7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJ=
-XaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3DpLfxTiNg=
-%2BKJc2KzfvPBJHTRCYdt7ruSljxCyiK9T6o4%3D&amp;reserved=3D0</a><br>
-<br>
-Tested with ptest:<br>
-Before: PASSED: 3, FAILED: 0, SKIPPED: 0<br>
-After: PASSED: 3, FAILED: 0, SKIPPED: 0<br>
-<br>
-Reviewed-by: Anders Heimer &lt;anders.heimer@est.tech<br>
-Signed-off-by: Daniel Turull &lt;daniel.turull@ericsson.com&gt;<br>
----<br>
-&nbsp;.../libssh2/libssh2/CVE-2026-55200.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; | 36 +++++++++++++++++++<br>
-&nbsp;.../recipes-support/libssh2/libssh2_1.11.1.bb |&nbsp; 1 +<br>
-&nbsp;2 files changed, 37 insertions(+)<br>
-&nbsp;create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-5520=
-0.patch<br>
-<br>
-diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch b/me=
-ta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch<br>
-new file mode 100644<br>
-index 0000000000..9a71277cce<br>
---- /dev/null<br>
-+++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch<br>
-@@ -0,0 +1,36 @@<br>
-+From df0b03ee5ef12f3a46fccc0fc688ebfb91702972 Mon Sep 17 00:00:00 2001<br>
-+From: Will Cosgrove &lt;will@panic.com&gt;<br>
-+Date: Fri, 12 Jun 2026 15:57:44 -0700<br>
-+Subject: [PATCH] transport.c: Additional boundary checks for packet length=
-<br>
-+ (#2052)<br>
-+<br>
-+Add additional bounds checking on packet length to prevent OOB write.<br>
-+<br>
-+Credit: [TristanInSec](https://eur02.safelinks.protection.outlook.com/?url=
-=3Dhttps%3A%2F%2Fgithub.com%2FTristanInSec&amp;data=3D05%7C02%7Cdaniel.turu=
-ll%40ericsson.com%7C380160d5f0454d1ff74708ded0415503%7C92e84cebfbfd47abbe52=
-080c6b87953f%7C0%7C0%7C639177176172291860%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0e=
-U1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoy=
-fQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3DburE%2BssH971QHGaL54oTCRH4KtOJmV7HARO9YVZ=
-7t1U%3D&amp;reserved=3D0)<br>
-+<br>
-+CVE: CVE-2026-55200<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/libssh2/libssh2/c=
-ommit/97acf3dfda80c91c3a8c9f2372546301d4a1a7a8">https://eur02.safelinks.pro=
-tection.outlook.com/?url=3Dhttps%3A%2F%2Fgithub.com%2Flibssh2%2Flibssh2%2Fc=
-ommit%2F97acf3dfda80c91c3a8c9f2372546301d4a1a7a8&amp;data=3D05%7C02%7Cdanie=
-l.turull%40ericsson.com%7C380160d5f0454d1ff74708ded0415503%7C92e84cebfbfd47=
-abbe52080c6b87953f%7C0%7C0%7C639177176172309431%7CUnknown%7CTWFpbGZsb3d8eyJ=
-FbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIl=
-dUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3Dxl8wl5MyK8t6qDm%2BCnhVF5MJ4%2BYwPWL=
-gZwRVs%2Foll%2FA%3D&amp;reserved=3D0</a>]<br>
-+<br>
-+Signed-off-by: Daniel Turull &lt;daniel.turull@ericsson.com&gt;<br>
-+---<br>
-+ src/transport.c | 6 +++++-<br>
-+ 1 file changed, 5 insertions(+), 1 deletion(-)<br>
-+<br>
-+diff --git a/src/transport.c b/src/transport.c<br>
-+index e1120656..d147505b 100644<br>
-+--- a/src/transport.c<br>
-++++ b/src/transport.c<br>
-+@@ -639,8 +639,12 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session=
-)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; total_num =3D 4;<br>
-+ <br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; p-&gt;packet_length =3D _libssh2_ntohu32(block);<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; if(p-&gt;packet_length &lt; 1)<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; if(p-&gt;packet_length &lt; 1) {<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return LIBSSH2_ERROR_DECRYPT=
-;<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; }<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; else if(p-&gt;packet_length &gt; LIBSSH2_PACKET_MAXPAYLOA=
-D) {<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return LIBSSH2_ERROR_OUT_OF_BOUND=
-ARY;<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; }<br>
-+ <br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; /* total_num may include size field, however due to =
-existing<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp; * logic it needs to be removed after the entir=
-e packet is read<br>
-diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-=
-support/libssh2/libssh2_1.11.1.bb<br>
-index e825c8c5bb..5ffc40b8fc 100644<br>
---- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb<br>
-+++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb<br>
-@@ -11,6 +11,7 @@ SRC_URI =3D &quot;<a href=3D""></a>https://eur02.safelink=
-s.protection.outlook.com/?url=3Dhttp%3A%2F%2Fwww.libssh2.org%2Fdownload%2F%=
-24&amp;data=3D05%7C02%7Cdaniel.turull%40ericsson.com%7C380160d5f0454d1ff747=
-08ded0415503%7C92e84cebfbfd47abbe52080c6b87953f%7C0%7C0%7C63917717617232510=
-0%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiO=
-iJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3DYtFT2N=
-dDTIZ6wdi0A9BWMoMd2dZAKxKfbjG8UFFq9rM%3D&amp;reserved=3D0{BP}.tar.gz
- \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://run-ptest">file://run-ptest</a> \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://0001-Return-error-if-user-KEX-methods-are-invalid.patch">
-file://0001-Return-error-if-user-KEX-methods-are-invalid.patch</a> \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://CVE-2026-7598.patch">file://CVE-2026-7598.patch</a> \<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
-le://CVE-2026-55200.patch">file://CVE-2026-55200.patch</a> \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<b=
-r>
-&nbsp;<br>
-&nbsp;SRC_URI[sha256sum] =3D &quot;d9ec76cbe34db98eec3539fe2c899d26b0c837cb=
-3eb466a56b0f109cabf658f7&quot;<br>
--- <br>
-2.51.0<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
+> Pick the upstream backport [1] for CVE-2026-29518 as mentioned in [3],
+> where a non-chrooted rsync daemon could be exposed to a parent path
+> TOCTOU race that allowed file access outside the module.
+>
+> Also include the dependent upstream fix that followed the CVE fix:
+> - CVE-2026-29518_p2.patch [2] secures sender read-path opens by
+>   opening files from the module root, closing the same race on the
+>   read side.
+>
+> [1] https://github.com/RsyncProject/rsync/commit/1a5ad81add1004354a3d8ba8=
+41b94ffe19cd2505
+> [2] https://github.com/RsyncProject/rsync/commit/99b36291d06ca66229942c7a=
+525a1f5566f10c85
+> [3] https://www.cve.org/CVERecord?id=3DCVE-2026-29518
+>
+> Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
+> ---
 
---_000_PA3PR07MB10721D4AD22A949F3729AA8178AEF2PA3PR07MB10721eu_--
+Hello,
+
+It looks like this whole series is needed for wrynose (rsync 3.4.1).
+Can you send fixes there first, and, then, ping here?
+
+Thanks!
+
+>  .../rsync/files/CVE-2026-29518_p1.patch       | 330 ++++++++++++++++++
+>  .../rsync/files/CVE-2026-29518_p2.patch       |  73 ++++
+>  meta/recipes-devtools/rsync/rsync_3.2.7.bb    |   2 +
+>  3 files changed, 405 insertions(+)
+>  create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.p=
+atch
+>  create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.p=
+atch
+>
+> diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.patch b/=
+meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.patch
+> new file mode 100644
+> index 0000000000..227ca56dd3
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.patch
+> @@ -0,0 +1,330 @@
+> +From c5192e125999130b7e15c621989839da31b15a05 Mon Sep 17 00:00:00 2001
+> +From: Andrew Tridgell <andrew@tridgell.net>
+> +Date: Wed, 31 Dec 2025 10:01:23 +1100
+> +Subject: [PATCH] syscall+clientserver: am_chrooted and use_secure_symlin=
+ks for
+> + daemon-no-chroot (CVE-2026-29518)
+> +
+> +CVE-2026-29518: an rsync daemon configured with "use chroot =3D no"
+> +is exposed to a TOCTOU race on parent path components. A local
+> +attacker with write access to a module can replace a parent
+> +directory component with a symlink between the receiver's check
+> +and its open(), redirecting reads (basis-file disclosure) and
+> +writes (file overwrite) outside the module. Under elevated daemon
+> +privilege this allows privilege escalation. Default
+> +"use chroot =3D yes" is not exposed.
+> +
+> +Add secure_relative_open() in syscall.c. It walks the parent
+> +components under RESOLVE_BENEATH (Linux 5.6+) /
+> +O_RESOLVE_BENEATH (FreeBSD 13+, macOS 15+) / per-component
+> +O_NOFOLLOW elsewhere, anchored at a trusted dirfd, so a parent-
+> +symlink swap is rejected by the kernel. Route the receiver's
+> +basis-file open in receiver.c through it when use_secure_symlinks
+> +is set in clientserver.c rsync_module().
+> +
+> +Reporters: Nullx3D (Batuhan SANCAK); Damien Neil; Michael Stapelberg.
+> +
+> +Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
+> +
+> +CVE: CVE-2026-29518
+> +Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/=
+1a5ad81add1004354a3d8ba841b94ffe19cd2505]
+> +
+> +(cherry picked from commit 1a5ad81add1004354a3d8ba841b94ffe19cd2505)
+> +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
+> +---
+> + clientserver.c |  25 +++++++++
+> + options.c      |   9 ++++
+> + receiver.c     |  22 ++++++--
+> + syscall.c      | 139 +++++++++++++++++++++++++++++++++++++++++++++++++
+> + 4 files changed, 192 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/clientserver.c b/clientserver.c
+> +index 7c897abc..b6eba098 100644
+> +--- a/clientserver.c
+> ++++ b/clientserver.c
+> +@@ -30,6 +30,7 @@ extern int list_only;
+> + extern int am_sender;
+> + extern int am_server;
+> + extern int am_daemon;
+> ++extern int am_chrooted;
+> + extern int am_root;
+> + extern int msgs2stderr;
+> + extern int rsync_port;
+> +@@ -38,6 +39,7 @@ extern int ignore_errors;
+> + extern int preserve_xattrs;
+> + extern int kluge_around_eof;
+> + extern int munge_symlinks;
+> ++extern int use_secure_symlinks;
+> + extern int open_noatime;
+> + extern int sanitize_paths;
+> + extern int numeric_ids;
+> +@@ -981,6 +983,7 @@ static int rsync_module(int f_in, int f_out, int i, =
+const char *addr, const char
+> + 			io_printf(f_out, "@ERROR: chroot failed\n");
+> + 			return -1;
+> + 		}
+> ++		am_chrooted =3D 1;
+> + 		module_chdir =3D module_dir;
+> + 	}
+> +=20
+> +@@ -1003,6 +1006,15 @@ static int rsync_module(int f_in, int f_out, int =
+i, const char *addr, const char
+> + 		}
+> + 	}
+> +=20
+> ++	/* Enable secure symlink handling for any non-chrooted daemon module.
+> ++	 * This prevents TOCTOU race attacks where an attacker could switch a
+> ++	 * directory to a symlink between path validation and file open.
+> ++	 * Match the gate used by the do_*_at() wrappers in syscall.c
+> ++	 * (am_daemon && !am_chrooted) -- the protection has nothing to do
+> ++	 * with symlink munging, so a module configured with
+> ++	 * "munge symlinks =3D false" must still get the secure-open path. */
+> ++	use_secure_symlinks =3D am_daemon && !am_chrooted;
+> ++
+> + 	if (gid_list.count) {
+> + 		gid_t *gid_array =3D gid_list.items;
+> + 		if (setgid(gid_array[0])) {
+> +@@ -1305,6 +1317,19 @@ int start_daemon(int f_in, int f_out)
+> + 			rsyserr(FLOG, errno, "daemon chroot(\"%s\") failed", p);
+> + 			return -1;
+> + 		}
+> ++		/* Deliberately do NOT set am_chrooted here.  am_chrooted
+> ++		 * gates the per-module symlink-race defenses
+> ++		 * (secure_relative_open() and the do_*_at() wrappers in
+> ++		 * syscall.c) and means "the kernel is enforcing path
+> ++		 * confinement at the module boundary".  The daemon chroot
+> ++		 * confines path resolution to the daemon-chroot directory,
+> ++		 * not to any individual module path -- modules sharing the
+> ++		 * daemon chroot are still distinguishable filesystem
+> ++		 * subtrees and a sender-controlled symlink in module A
+> ++		 * could redirect a syscall to module B (or to other files
+> ++		 * inside the daemon chroot) without the per-module
+> ++		 * defenses.  Leave am_chrooted=3D0 here so secure_relative_open()
+> ++		 * still fires for "use chroot =3D no" modules. */
+> + 		if (chdir("/") < 0) {
+> + 			rsyserr(FLOG, errno, "daemon chdir(\"/\") failed");
+> + 			return -1;
+> +diff --git a/options.c b/options.c
+> +index d38bbe8d..d4ca5396 100644
+> +--- a/options.c
+> ++++ b/options.c
+> +@@ -113,11 +113,20 @@ int mkpath_dest_arg =3D 0;
+> + int allow_inc_recurse =3D 1;
+> + int xfer_dirs =3D -1;
+> + int am_daemon =3D 0;
+> ++/* Set after a successful per-module chroot ("use chroot =3D yes") in
+> ++ * clientserver.c. NOT set for the daemon-level "daemon chroot =3D /X"
+> ++ * chroot: that confines path resolution to /X, but module paths
+> ++ * /X/modA, /X/modB, etc. are not chroot boundaries, so the per-module
+> ++ * symlink-race defenses (secure_relative_open() / do_*_at() in
+> ++ * syscall.c, gated by `am_daemon && !am_chrooted`) must still fire
+> ++ * even when the daemon is inside a daemon chroot. */
+> ++int am_chrooted =3D 0;
+> + int connect_timeout =3D 0;
+> + int keep_partial =3D 0;
+> + int safe_symlinks =3D 0;
+> + int copy_unsafe_links =3D 0;
+> + int munge_symlinks =3D 0;
+> ++int use_secure_symlinks =3D 0;
+> + int size_only =3D 0;
+> + int daemon_bwlimit =3D 0;
+> + int bwlimit =3D 0;
+> +diff --git a/receiver.c b/receiver.c
+> +index 77de8697..cbe18196 100644
+> +--- a/receiver.c
+> ++++ b/receiver.c
+> +@@ -70,6 +70,7 @@ extern int fuzzy_basis;
+> +=20
+> + extern struct name_num_item *xfer_sum_nni;
+> + extern int xfer_sum_len;
+> ++extern int use_secure_symlinks;
+> +=20
+> + static struct bitbag *delayed_bits =3D NULL;
+> + static int phase =3D 0, redoing =3D 0;
+> +@@ -214,7 +215,12 @@ int open_tmpfile(char *fnametmp, const char *fname,=
+ struct file_struct *file)
+> + 	 * access to ensure that there is no race condition.  They will be
+> + 	 * correctly updated after the right owner and group info is set.
+> + 	 * (Thanks to snabb@epipe.fi for pointing this out.) */
+> +-	fd =3D do_mkstemp(fnametmp, (file->mode|added_perms) & INITACCESSPERMS=
+);
+> ++	/* When use_secure_symlinks is on (non-chroot daemon with munge_symlin=
+ks),
+> ++	 * use secure_mkstemp to prevent symlink race attacks on parent direct=
+ories. */
+> ++	if (use_secure_symlinks)
+> ++		fd =3D secure_mkstemp(fnametmp, (file->mode|added_perms) & INITACCESS=
+PERMS);
+> ++	else
+> ++		fd =3D do_mkstemp(fnametmp, (file->mode|added_perms) & INITACCESSPERM=
+S);
+> +=20
+> + #if 0
+> + 	/* In most cases parent directories will already exist because their
+> +@@ -854,11 +860,21 @@ int recv_files(int f_in, int f_out, char *local_na=
+me)
+> + 		/* We now check to see if we are writing the file "inplace" */
+> + 		if (inplace || one_inplace)  {
+> + 			fnametmp =3D one_inplace ? partialptr : fname;
+> +-			fd2 =3D do_open(fnametmp, O_WRONLY|O_CREAT, 0600);
+> ++			/* When use_secure_symlinks is on (non-chroot daemon),
+> ++			 * use secure open to prevent symlink race attacks where an
+> ++			 * attacker could switch a directory to a symlink between
+> ++			 * path validation and file open. */
+> ++			if (use_secure_symlinks)
+> ++				fd2 =3D secure_relative_open(NULL, fnametmp, O_WRONLY|O_CREAT, 0600=
+);
+> ++			else
+> ++				fd2 =3D do_open(fnametmp, O_WRONLY|O_CREAT, 0600);
+> + #ifdef linux
+> + 			if (fd2 =3D=3D -1 && errno =3D=3D EACCES) {
+> + 				/* Maybe the error was due to protected_regular setting? */
+> +-				fd2 =3D do_open(fname, O_WRONLY, 0600);
+> ++				if (use_secure_symlinks)
+> ++					fd2 =3D secure_relative_open(NULL, fname, O_WRONLY, 0600);
+> ++				else
+> ++					fd2 =3D do_open(fname, O_WRONLY, 0600);
+> + 			}
+> + #endif
+> + 			if (fd2 =3D=3D -1) {
+> +diff --git a/syscall.c b/syscall.c
+> +index 8aab2cc0..8b39a6e2 100644
+> +--- a/syscall.c
+> ++++ b/syscall.c
+> +@@ -882,6 +882,145 @@ cleanup:
+> + #endif // O_NOFOLLOW, O_DIRECTORY
+> + }
+> +=20
+> ++/* Fill buf with len random bytes.  Prefers /dev/urandom for cryptograp=
+hic
+> ++ * quality; falls back to rand() if /dev/urandom cannot be opened or re=
+ad
+> ++ * (e.g. inside a chroot or container without /dev populated). */
+> ++static void rand_bytes(unsigned char *buf, size_t len)
+> ++{
+> ++#ifndef O_CLOEXEC
+> ++#define O_CLOEXEC 0
+> ++#endif
+> ++	int fd =3D open("/dev/urandom", O_RDONLY | O_CLOEXEC);
+> ++	if (fd >=3D 0) {
+> ++		ssize_t n =3D read(fd, buf, len);
+> ++		close(fd);
+> ++		if (n =3D=3D (ssize_t)len) {
+> ++			return;
+> ++		}
+> ++	}
+> ++	for (size_t i =3D 0; i < len; i++) {
+> ++		buf[i] =3D (unsigned char)rand();
+> ++	}
+> ++}
+> ++
+> ++/*
+> ++  Secure version of mkstemp that prevents symlink attacks on parent dir=
+ectories.
+> ++  Like secure_relative_open(), this walks the path checking each compon=
+ent
+> ++  with O_NOFOLLOW to prevent TOCTOU race conditions.
+> ++
+> ++  The template may be relative or absolute, but must not contain ../ co=
+mponents.
+> ++  Returns fd on success, -1 on error.
+> ++*/
+> ++int secure_mkstemp(char *template, mode_t perms)
+> ++{
+> ++#if !defined(O_NOFOLLOW) || !defined(O_DIRECTORY) || !defined(AT_FDCWD)
+> ++	/* Fall back to regular mkstemp on old systems */
+> ++	return do_mkstemp(template, perms);
+> ++#else
+> ++	char *lastslash;
+> ++	int dirfd =3D AT_FDCWD;
+> ++	int fd =3D -1;
+> ++
+> ++	if (!template) {
+> ++		errno =3D EINVAL;
+> ++		return -1;
+> ++	}
+> ++	if (strncmp(template, "../", 3) =3D=3D 0 || strstr(template, "/../")) =
+{
+> ++		errno =3D EINVAL;
+> ++		return -1;
+> ++	}
+> ++
+> ++	/* For absolute paths, start the secure walk from "/" rather than CWD.=
+ */
+> ++	if (template[0] =3D=3D '/') {
+> ++		dirfd =3D open("/", O_RDONLY | O_DIRECTORY | O_NOFOLLOW);
+> ++		if (dirfd < 0)
+> ++			return -1;
+> ++	}
+> ++
+> ++	/* Find the last slash to separate directory from filename */
+> ++	lastslash =3D strrchr(template, '/');
+> ++	if (lastslash) {
+> ++		char *path_copy =3D my_strdup(template, __FILE__, __LINE__);
+> ++		if (!path_copy)
+> ++			return -1;
+> ++
+> ++		/* Null-terminate at the last slash to get directory part */
+> ++		path_copy[lastslash - template] =3D '\0';
+> ++
+> ++		/* Walk the directory path securely */
+> ++		for (const char *part =3D strtok(path_copy, "/");
+> ++		     part !=3D NULL;
+> ++		     part =3D strtok(NULL, "/"))
+> ++		{
+> ++			int next_fd =3D openat(dirfd, part, O_RDONLY | O_DIRECTORY | O_NOFOL=
+LOW);
+> ++			if (next_fd =3D=3D -1) {
+> ++				int save_errno =3D errno;
+> ++				free(path_copy);
+> ++				if (dirfd !=3D AT_FDCWD) close(dirfd);
+> ++				errno =3D (save_errno =3D=3D ELOOP) ? ELOOP : save_errno;
+> ++				return -1;
+> ++			}
+> ++			if (dirfd !=3D AT_FDCWD) close(dirfd);
+> ++			dirfd =3D next_fd;
+> ++		}
+> ++		free(path_copy);
+> ++	}
+> ++
+> ++	/* Now create the temp file in the securely-opened directory */
+> ++	perms |=3D S_IWUSR;
+> ++
+> ++	/* Generate unique filename - we need to modify the template in place =
+*/
+> ++	char *filename =3D lastslash ? lastslash + 1 : template;
+> ++	size_t filename_len =3D strlen(filename);
+> ++
+> ++	if (filename_len < 6) {
+> ++		if (dirfd !=3D AT_FDCWD) close(dirfd);
+> ++		errno =3D EINVAL;
+> ++		return -1;
+> ++	}
+> ++	char *suffix =3D filename + filename_len - 6; /* Points to XXXXXX */
+> ++	if (strcmp(suffix, "XXXXXX") !=3D 0) {
+> ++		if (dirfd !=3D AT_FDCWD) close(dirfd);
+> ++		errno =3D EINVAL;
+> ++		return -1;
+> ++	}
+> ++
+> ++	/* Try random suffixes until we find one that works */
+> ++	static const char letters[] =3D "abcdefghijklmnopqrstuvwxyzABCDEFGHIJK=
+LMNOPQRSTUVWXYZ0123456789";
+> ++	for (int tries =3D 0; tries < 100; tries++) {
+> ++		unsigned char rbytes[6];
+> ++		rand_bytes(rbytes, sizeof(rbytes));
+> ++		for (int i =3D 0; i < 6; i++)
+> ++			suffix[i] =3D letters[rbytes[i] % (sizeof(letters) - 1)];
+> ++
+> ++		fd =3D openat(dirfd, filename, O_RDWR | O_CREAT | O_EXCL | O_NOFOLLOW=
+, perms);
+> ++		if (fd >=3D 0)
+> ++			break;
+> ++		if (errno !=3D EEXIST) {
+> ++			if (dirfd !=3D AT_FDCWD) close(dirfd);
+> ++			return -1;
+> ++		}
+> ++	}
+> ++
+> ++	if (fd >=3D 0) {
+> ++		if (fchmod(fd, perms) !=3D 0 && preserve_perms) {
+> ++			int errno_save =3D errno;
+> ++			close(fd);
+> ++			unlinkat(dirfd, filename, 0);
+> ++			if (dirfd !=3D AT_FDCWD) close(dirfd);
+> ++			errno =3D errno_save;
+> ++			return -1;
+> ++		}
+> ++#if defined HAVE_SETMODE && O_BINARY
+> ++		setmode(fd, O_BINARY);
+> ++#endif
+> ++	}
+> ++
+> ++	if (dirfd !=3D AT_FDCWD) close(dirfd);
+> ++	return fd;
+> ++#endif
+> ++}
+> ++
+> + /*
+> +   varient of do_open/do_open_nofollow which does do_open() if the
+> +   copy_links or copy_unsafe_links options are set and does
+> +--=20
+> +2.35.6
+> diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.patch b/=
+meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.patch
+> new file mode 100644
+> index 0000000000..4ce3d03248
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.patch
+> @@ -0,0 +1,73 @@
+> +From 37d459f837868cf5dc6a3f4962c8c9d9bcd2d4b8 Mon Sep 17 00:00:00 2001
+> +From: Andrew Tridgell <andrew@tridgell.net>
+> +Date: Sun, 1 Mar 2026 09:28:40 +1100
+> +Subject: [PATCH] sender: fix read-path TOCTOU by opening from module roo=
+t
+> + (CVE-2026-29518)
+> +
+> +The sender's file open was vulnerable to the same TOCTOU symlink
+> +race as the receiver-side basis-file open. change_pathname() calls
+> +chdir() into subdirectories, which follows symlinks; an attacker
+> +could race to swap a directory for a symlink between the chdir and
+> +the file open, allowing reads of privileged files through the
+> +daemon.
+> +
+> +Reconstruct the full relative path (F_PATHNAME + fname) and open
+> +via secure_relative_open() from the trusted module_dir, which
+> +walks each path component without following symlinks. This is
+> +independent of CWD, so the chdir race is neutralised.
+> +
+> +CVE-2026-29518.
+> +
+> +Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
+> +
+> +CVE: CVE-2026-29518
+> +Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/=
+99b36291d06ca66229942c7a525a1f5566f10c85]
+> +
+> +(cherry picked from commit 99b36291d06ca66229942c7a525a1f5566f10c85)
+> +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
+> +---
+> + sender.c | 22 +++++++++++++++++++++-
+> + 1 file changed, 21 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/sender.c b/sender.c
+> +index b1588b70..99f431fe 100644
+> +--- a/sender.c
+> ++++ b/sender.c
+> +@@ -48,6 +48,8 @@ extern int make_backups;
+> + extern int inplace;
+> + extern int inplace_partial;
+> + extern int batch_fd;
+> ++extern int use_secure_symlinks;
+> ++extern char *module_dir;
+> + extern int write_batch;
+> + extern int file_old_total;
+> + extern BOOL want_progress_now;
+> +@@ -352,7 +354,25 @@ void send_files(int f_in, int f_out)
+> + 			exit_cleanup(RERR_PROTOCOL);
+> + 		}
+> +=20
+> +-		fd =3D do_open_checklinks(fname);
+> ++		if (use_secure_symlinks) {
+> ++			/* Open from module root to prevent TOCTOU race where
+> ++			 * change_pathname's chdir follows a directory symlink.
+> ++			 * Reconstruct the full path relative to module_dir
+> ++			 * from F_PATHNAME (path) and f_name (fname). */
+> ++			char secure_path[MAXPATHLEN];
+> ++			int slen =3D snprintf(secure_path, sizeof secure_path, "%s%s%s", pat=
+h, slash, fname);
+> ++			if (slen >=3D (int)sizeof secure_path) {
+> ++				io_error |=3D IOERR_GENERAL;
+> ++				rprintf(FERROR_XFER, "path too long: %s%s%s\n", path, slash, fname)=
+;
+> ++				free_sums(s);
+> ++				if (protocol_version >=3D 30)
+> ++					send_msg_int(MSG_NO_SEND, ndx);
+> ++				continue;
+> ++			}
+> ++			fd =3D secure_relative_open(module_dir, secure_path, O_RDONLY, 0);
+> ++		} else {
+> ++			fd =3D do_open_checklinks(fname);
+> ++		}
+> + 		if (fd =3D=3D -1) {
+> + 			if (errno =3D=3D ENOENT) {
+> + 				enum logcode c =3D am_daemon && protocol_version < 28 ? FERROR : FW=
+ARNING;
+> +--=20
+> +2.35.6
+> diff --git a/meta/recipes-devtools/rsync/rsync_3.2.7.bb b/meta/recipes-de=
+vtools/rsync/rsync_3.2.7.bb
+> index 2a1c3d9d56..fdbee387e3 100644
+> --- a/meta/recipes-devtools/rsync/rsync_3.2.7.bb
+> +++ b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
+> @@ -29,6 +29,8 @@ SRC_URI =3D "https://download.samba.org/pub/${BPN}/src/=
+${BP}.tar.gz \
+>             file://CVE-2024-12747.patch \
+>             file://CVE-2025-10158.patch \
+>             file://CVE-2026-41035.patch \
+> +           file://CVE-2026-29518_p1.patch \
+> +           file://CVE-2026-29518_p2.patch \
+>             "
+>  SRC_URI[sha256sum] =3D "4e7d9d3f6ed10878c58c5fb724a67dacf4b6aac7340b13e4=
+88fb2dc41346f2bb"
+> =20
+
+
+--=20
+Yoann Congal
+Smile ECS
+
 
