@@ -1,257 +1,201 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A385CDB470
-	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 13:36:26 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.43342.1782135377702316164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB9F7CD98F2
+	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 14:05:17 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43978.1782137108193077371
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2026 06:36:18 -0700
+ Mon, 22 Jun 2026 07:05:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=JFAscUgY;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4627adcf4d6so2827779f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 06:36:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782135376; x=1782740176; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3qm7oeB0h3qUd/CW4jUx2NpBaDvisYF49K5CRSN3LFk=;
-        b=JFAscUgY7zhesyvePwqwWtu0S3Gq7LAz147M4Uh7RY/ugKw8K5i1djzpNcwgUIsIVW
-         dCrRc77AfesMfId67ZVcfbvuMUdFhMKa3GUJWrfwrMqMMkNeXFiMVhaE2roRnNRQtaE/
-         BgEyNWM7hrnsCB/l2nqWXUShBf/+pCcWgzfoI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782135376; x=1782740176;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3qm7oeB0h3qUd/CW4jUx2NpBaDvisYF49K5CRSN3LFk=;
-        b=KfMCH861bjXKKBKlDGeTvdbQlpHkJ5bwgP5DkzlKpGT8ijIg67rsm8t8y+g7YEevwp
-         bHNHhI7QSQ1qk1nNfDjZq77e0hgJEFwVUJLYaMZ8YBfTnXqXHBBCgcAD+esU3dak49gI
-         cYm1bVDCj0Am/Zjv+B9rfJ7sVUFsPyWoB3uc1naTy3jmK1KcB9vbIYkSLzBovTjCZmEc
-         7SSQV1Y+NhCugKDtY5xDgagWFjcQxmcYP+4QxH7L/y9srzP/g7CZFvM3Lz6sOLeUQbH2
-         AW3G7qAHUn5+SFHHXCBOBIuJRKleBIPEANJGIy7D1G3ldZhOzgHsXQt/pyd4XH9Mhg6A
-         nT0g==
-X-Forwarded-Encrypted: i=1; AHgh+Roy6i3xNg0DxsgFBVnytQT+YCpZVxRwo3+rYIEFq/vj6lvAf1/AmFbAyUal2xVdcvZnbYhN2wxCNLp2eKIYLKpc2A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwWrRQjL4Sv2eoKQauQwVzeinKxu0gjePD1Vr4j8PhFC09PuSwF
-	FMXqVBIvc8EigVYvvLAHsBDfUVtMyfEryAMkzQAPLiNlUegZ5vPMBww/UOMmHgMObiE=
-X-Gm-Gg: AfdE7cnh/ODkRJUIHUeGZMNi9FuyJZM2lTAb5/VpXmCGEkgLEESdvmQpEYdLd8dJx0n
-	fjygZ/kWs5krKuWCeWAPgTjFqsAraq4XNSAU5OLZ5oSG7tBwFLTiKqDSNu9qU5cgzqFM4yrMZGQ
-	oI7hHu6sXH6TTCJPKVDDnWFL/e24x9frOdL3OEh/ZZ7ecdtZXkbPPc7DwIppfOTzZW5Ag+WyZdg
-	aHD8ZeJk/uaH8p/Pt71s34miDP2HI8VtExtmMhMvQdh+ZGF0AOvfHQ2org5+yT8vJhHqR+gBxfB
-	2tQs8ZIQCgMKGJ4y8A2yYZzJizRsbd9NDSxKgAIybEhT92x7nGwuYUsZycLXEha5gdmugw1oA3i
-	5n51DHeT7eW6Ien5JLuzMQaW6NofF6eYlhyWYrLqIxJA87lal8jgVam2IR2Eeap6KT/U4DnhqkL
-	nYpHJcLkO6JRAvCZ2Xn/DZHnFA8p+kFqGvKUlP9Zf7HRLacPjvnx2/jaWlyO+t/4bGKdjJXTrSF
-	KJe
-X-Received: by 2002:a5d:5d01:0:b0:45e:73eb:5119 with SMTP id ffacd0b85a97d-465097867cfmr27542277f8f.22.1782135375822;
-        Mon, 22 Jun 2026 06:36:15 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00ae343d7f26e6048e.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:ae34:3d7f:26e6:48e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46666c57b8asm26958037f8f.26.2026.06.22.06.36.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jun 2026 06:36:15 -0700 (PDT)
-Mime-Version: 1.0
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=FMUaoozs;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=FMUaoozs;
+ spf=pass (domain: arm.com, ip: 52.101.65.56, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=QlUlhOCYWjXqmUcXKxNfDaMXfTrJ5UJ+dWNdCiq3aH0mGRAchF6XsNnZLCNxlVORCDykK3Lf1rUckLIvwu5CsirCmkTPIHtQm4XJDY3S3Wr+r5ngkUiEdrmemwT8IZvcLDCxupUyjTd+hrPOMCuVLCzuRqyREGcMtja6juKyCMIQZSDIbVrT8fXJ1TIX6gl5NjvXY7MFYH3thytHNfTZpBwlWKthXUCDO9gs5Nop1fNpcoBY5is0NgJa+xG2b7lLNVEkkb91v9fpoCBrOpE1XuUNYXHv1S1EgAoeDffsRiFYgHPy9FR6eSn4aEOOfbAZOCVl/vVwedSvIeaA4GL6RA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DiaqvgeSpSlPY4SaL4fT9c62kFzvuh53kuObyAQsCY4=;
+ b=RkrBfgCzd+H4i9jT92PKXZcY0F26y5HwQpZ37rBCAbJ0ikNkKEHWbqbtczNvXWQPUPFKObZkn22lF1CV/rOCndlNBHv+CPoT2rFZ4TtgwCb2gS0zaFIqU+IGBt+KTmYE2QEAASl1+51uxVxOHVxodDR6RQOj0Cyscd/XI092K6/vYq8E0L62Q7MOauuRvCAZFCFpFu5GI+tOHfg6EJrxRSoAZe4SOVJrOsCR5ROq8oMN/GpURduZ5CTs6fGBl9hrUBMazvQxQPtBfuJnC+hvvT8LszbyBjioz1K5KN+RsQDFmx8l5Jltg4nGSP98zw1MiI6pnu/Dxf3yKj7r+ZPSVw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DiaqvgeSpSlPY4SaL4fT9c62kFzvuh53kuObyAQsCY4=;
+ b=FMUaoozsY21iTmkQk+i2TKeaQfWpo3BJtGZ/Mh//TLC+T/T/PXGKKGD/re21ml3g82n2mTARzv0OY5xfV5iIFcAfSw6EyjtpJAdn1tq7HRpPAtRarLQ2jJp4tqYR0V2VQxxtXd+efqFTR/CnfgCy9wzAJuMm8GxIOgthvfXznUM=
+Received: from DU2PR04CA0306.eurprd04.prod.outlook.com (2603:10a6:10:2b5::11)
+ by GV2PR08MB8099.eurprd08.prod.outlook.com (2603:10a6:150:7d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.19; Mon, 22 Jun
+ 2026 14:04:58 +0000
+Received: from DB5PEPF00014B8D.eurprd02.prod.outlook.com
+ (2603:10a6:10:2b5:cafe::4) by DU2PR04CA0306.outlook.office365.com
+ (2603:10a6:10:2b5::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.14 via Frontend Transport; Mon,
+ 22 Jun 2026 14:04:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB5PEPF00014B8D.mail.protection.outlook.com (10.167.8.201) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.10
+ via Frontend Transport; Mon, 22 Jun 2026 14:04:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=A63eWGqD+m4Er+cc83YIonL9O7C61yMJsJrCFLJIMBhfCAqPZrBcUc+vETxwzZ2i+DfcGHTDRUs0WcrHirQS6EkGsEAmofmJfNTsNBOf4y0UaFz1/T34dwMM+Ln9GpUParly8N6jsY+D7tpQzi4Cboq5MVOoiCo2S6aRHH7g+DHPhdBfa9BPx9bMME6GrIWUV6xagDwQzib0XhQxSeWq/gbKXmsuISdTeNtA5YV36RVE+nW0/EQnlRCFvuDZjX8Nmjn6G3rnMqE7vHUi3d9r93tKX2Mn1D+wvGwlXSrOaDZmKe1f1pa6ORtcB4+aG51RFY5eTzybdKa/PTpX3iGq8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DiaqvgeSpSlPY4SaL4fT9c62kFzvuh53kuObyAQsCY4=;
+ b=SKOAOcStz0v+zPXFtozHeSve3L2ySuj0tWtupATRnMEaU7EPMNitN55gwVYZr9a+8TQ2yrJFxpzkcXU96S+5LI3z7sh32WZTZFiirMpoajUBNPyRLXSJfFDsl6rhw6CW4dKe0xuiF9t7jRn3E8wuQsSFF2N9621KGe30+tDWU0a9VUjTwTo2kjlyHbbihssos78YaHRKIV6y7fivPyMBxt/f+SBMopqhLRewm/VRdSONsCdhx2+gPPThrxqjQG7Ph5sODiM2c4L2qiTmxaHDnoGy84iH2Mv2EnqrxVRmNDJGUi0p37147QN6dGSWM/+rpxMQNLhc9jBoGYmsbsn7WQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DiaqvgeSpSlPY4SaL4fT9c62kFzvuh53kuObyAQsCY4=;
+ b=FMUaoozsY21iTmkQk+i2TKeaQfWpo3BJtGZ/Mh//TLC+T/T/PXGKKGD/re21ml3g82n2mTARzv0OY5xfV5iIFcAfSw6EyjtpJAdn1tq7HRpPAtRarLQ2jJp4tqYR0V2VQxxtXd+efqFTR/CnfgCy9wzAJuMm8GxIOgthvfXznUM=
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
+ by AS8PR08MB5912.eurprd08.prod.outlook.com (2603:10a6:20b:29f::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.13; Mon, 22 Jun
+ 2026 14:03:54 +0000
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.21.0139.009; Mon, 22 Jun 2026
+ 14:03:54 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] libjitterentropy: fix license statement
+Thread-Topic: [OE-core] [PATCH] libjitterentropy: fix license statement
+Thread-Index: AQHdAkp3LTn7Eq3yR0SeMvFrRXhXTLZKm0mA
+Date: Mon, 22 Jun 2026 14:03:54 +0000
+Message-ID: <CF3D22E9-50EF-4B7B-B620-A6977A2D6842@arm.com>
+References: <20260622132413.2346201-1-ross.burton@arm.com>
+In-Reply-To: <20260622132413.2346201-1-ross.burton@arm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3864.600.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM9PR08MB6258:EE_|AS8PR08MB5912:EE_|DB5PEPF00014B8D:EE_|GV2PR08MB8099:EE_
+X-MS-Office365-Filtering-Correlation-Id: 026a3d4b-a835-4524-d8f7-08ded0673e0c
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|376014|4022899009|1800799024|23010399003|366016|11063799006|3023799007|56012099006|18002099003|38070700021|22082099003;
+X-Microsoft-Antispam-Message-Info-Original: 
+ C+yFwBYpwkEJGRBvgACEljVsyT0ILF4nmSun93ih0ndS4VeYCHcUW/eSd3dtf7KX5TNBYkivPdBiPbq7oza8chLr7q+NJNqEKSSEr3O/CPsS6jjgQv2tCwIbKsKtxkxp0XlVtdBv6RY/b2hMnOPVEjm6kgbrsSQVOywLWDsgZXNvYSFRi7gwBoZqYShInx4Ysn8hGLaYmBbB0P4rks1ss//5xfUweAMSxQKNDMkjyqrS+2MT5UY8mO1lC9B+K8+aDLpDR2CJWBZz4XUQup+NDS6Es69r+EaxzJ0mQXEZs0LaxFdgxSPQacRn0eU43fFc6vpubdpbKUhGk1ypsbQege0lXTXQNZmZB63Yws0hKH9IcJEpkvzoce+LV/3W8DCp/GKiiVKGoGuGXa5pG8CrS32sk0lezLmyYnflrTNcf37rrXCmHcfAFMgxUvqxOienFLanxtaPZndZdPa0BttKQQ2gudymcMmE9079xu9N5MOfGiDBfdd63Hw0o0yCgg2H+aSDfOxm4C0ze9yNmL6aasA6u/zHwjhek1YeocpI0pYwe4WIwURH1+gF35hxnyJRt175xH+zl06TnXKRUJythmYVBOmLNYp0tcpL7QqO3LvfH2B5FprxyudOFCpXlncVmoGLyAr2BHB8xUauwdYnbcnH6I+Hml9WIJeyQ6qwK8k=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(4022899009)(1800799024)(23010399003)(366016)(11063799006)(3023799007)(56012099006)(18002099003)(38070700021)(22082099003);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <838415CD97918148AB2EC93AE3FE57A7@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 22 Jun 2026 15:36:15 +0200
-Message-Id: <DJFM9L0LTPH9.YF725UG8S9KX@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH 1/3] qemu: Fix CVE-2025-14876
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <xe-linux-external@cisco.com>
-To: <asparmar@cisco.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260612121820.2298565-1-asparmar@cisco.com>
-In-Reply-To: <20260612121820.2298565-1-asparmar@cisco.com>
+MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: 
+ WCXnQmJI4rlsGSaSUKGS8M4UFrKD2L5CN20h0NipqdZcF9CWuSrs+01QZhZZc+NyrOLAlFm7IIErGEUIIvMqscUQHc5f1E0vTzY/b7NwlI/v9iY9KhwF2CiJ2s1qkrXjqQhXFdeBxlN1SpwgN+is62bHR2QP8Hgn6EjoegzxFC3/YwmT2Uo46N0OAj56W7himY/nShqhJznm+o32vreD5KiPc9es21/x0FLBfOaAo87oMnqH11ZiD+Ys05pv+3Dqvg4A84UARtviGKFXdg/qqfHIPYzTvmdhEhnBgrC9Co+lp7Izh+oRfDn4kF+PqNF/gf9J/fG7fOUx0Y5iLYVP+A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5912
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5PEPF00014B8D.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	844fd2da-4823-4af5-c6cd-08ded0671897
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|14060799003|35042699022|82310400026|376014|4022899009|1800799024|36860700016|13003099007|18002099003|22082099003|11063799006|3023799007|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	NY06J5x4Uv8EZiImUEB5rxZ8sCh6Nu04Rm3sL8OA205U/RfmsgxhqaRt/IBHte3QvI4LLLuxpxs4xFauVHGWJxKX4qOgRddrnLXx6peSGruDgVdfX6noh2dOtQHK4LQMg11xidoyftEFyGGxW2MEY7wGh+hlEJj825knBHljSgB9yaDyRugsZ/+IkUNupI7+KZgltCNigIa5FxDQQe6Mkz8TTznyA7BRshmpMQhGgx3huOMRhtwAg//pK8kiyUz772RqdqA1XTIntwuQ+BDppUdgdbFkisX5G7qZ+jJHw4kP/2OIRKBtUX2gS/i94n1o8SGScDyFwxFcVbX2BuqeJ0KYO5tTHL/bE1hc87+vFLcuOQvUTi0QwgYKgh9kIxX7hQamihD2SssPt9VntWzGZKokGL/MTMQ7XoMno+fvlfHhADMsIBNBlKgt+cVWJK/s39QhoNVzhgyhV+k7Za0HM8ELYEUzUaRhFyCJZ+myXdaTaePCvjYMtqJpMU+X2uDOBqrBKrhYOd26snUZWoISOn8EAUEQ/u7VRrduyaSz4bzjCdWDSn+dxWqlxXhVzcBbyBcG9jxsDQ6lJhqukSJcTDSTg1ZuOQg9Ps+y85pRRwuNOhXpJ2DCLoRJi2plgKWC13kA5d43UkIcImTJRb7fog==
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(14060799003)(35042699022)(82310400026)(376014)(4022899009)(1800799024)(36860700016)(13003099007)(18002099003)(22082099003)(11063799006)(3023799007)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	KVEniTHfJBaz7u7aY6cjWgYMY2hvq/FTv9R8QWxvr2pCXW4YL+6C+hiZPt48VZb63gdXqbLwOh1gi5/v0FxCKyKTtN6t0/R3mwlckZktC07+wsiDOo4N8JCiMSZw17cKesN7EQF0sK/0uNOakfObhke7Zlim0DcwVRsrO9Lt0k8MSgSIqR3vj3wah+xY7Ed6GynPIPDCW/8EPYsl2jn6ynfHbjYEyB+YWvMjm8zwGfQN5RZexJIs0OuoDXMFPDka5YAQUGwRGrtUcyuMerZRGS8yiBOeTm9hS1Jf3FTLRVpSgM5rme6a0TpbJUi8bOaS/rSXiXEdtngS0gZwMebF9SI4PuyO9Q5uCSA0xoSn3vuppsGwM32XyK77ZRfmLX7pAXm89hsv8sZi94ZlKSm9e6d4pltteuNk6C5NCLJQoIb1BsjXhtBO60+WiGerW3v2
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2026 14:04:57.4035
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 026a3d4b-a835-4524-d8f7-08ded0673e0c
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B8D.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8099
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 13:36:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239299
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 14:05:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239300
 
-On Fri Jun 12, 2026 at 2:18 PM CEST, Ashishkumar Parmar X (asparmar - E INF=
-OCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> From: Ashishkumar Parmar <asparmar@cisco.com>
->
-> This patch applies the upstream v10.0.8 stable backport for
-> CVE-2025-14876. The upstream fix commit is referenced in [1],
-> and the public CVE advisory is referenced in [2]. The individual
-> backported commit links are recorded in the embedded patch headers
-> when the fix expands to multiple commits.
->
-> [1] https://gitlab.com/qemu-project/qemu/-/commit/e649201bb96ae7e91a69d57=
-392c8907ec085111e
-> [2] https://access.redhat.com/security/cve/CVE-2025-14876
->
-> Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
+Sigh, was splitting and rebasing and messed this up. v2 incoming.
+
+> On 22 Jun 2026, at 14:24, Ross Burton via lists.openembedded.org <ross.bu=
+rton=3Darm.com@lists.openembedded.org> wrote:
+>=20
+> LICENSE clearly states the alternative to BSD is GPL-2.0-only:
+>=20
+>  ALTERNATIVELY, this product may be distributed under the terms of the
+>  GNU General Public License, in which case the provisions of the GPL2
+>  are required INSTEAD OF the above restrictions.
+>=20
+> Use GPL-2.0-only, and reorder to match.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
-
-If I'm not mistaken, the 3 patches of this series where introduced after
-the 10.2.0 version on the 10.2.x branch of QEMU. In that case, they are
-missing for wrynose.
-
-Can you send the fix for wrynose, and then, ping back here?
-
-Thanks!
-
->  meta/recipes-devtools/qemu/qemu.inc           |  2 +
->  .../qemu/qemu/CVE-2025-14876_p1.patch         | 52 +++++++++++++++++
->  .../qemu/qemu/CVE-2025-14876_p2.patch         | 56 +++++++++++++++++++
->  3 files changed, 110 insertions(+)
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p1.pat=
-ch
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p2.pat=
-ch
->
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-> index 54644dd924..26d10991a7 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -45,6 +45,8 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
-.xz \
->             file://CVE-2025-12464.patch \
->             file://0001-python-backport-Remove-deprecated-get_event_loop-=
-cal.patch \
->             file://0002-python-backport-avoid-creating-additional-event-l=
-oop.patch \
-> +           file://CVE-2025-14876_p1.patch \
-> +           file://CVE-2025-14876_p2.patch \
->             "
->  UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
-> =20
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p1.patch b/me=
-ta/recipes-devtools/qemu/qemu/CVE-2025-14876_p1.patch
-> new file mode 100644
-> index 0000000000..1f47ff2ebc
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p1.patch
-> @@ -0,0 +1,52 @@
-> +From 96ac1b4f958287776ec2199749beaaad60148a85 Mon Sep 17 00:00:00 2001
-> +From: zhenwei pi <pizhenwei@tensorfer.com>
-> +Date: Sun, 21 Dec 2025 10:43:20 +0800
-> +Subject: [PATCH] hw/virtio/virtio-crypto: verify asym request size
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +The total lenght of request is limited by cryptodev config, verify it
-> +to avoid unexpected request from guest.
-> +
-> +CVE: CVE-2025-14876
-> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/e649201bb96ae7e91a69d57392c8907ec085111e]
-> +
-> +Fixes: CVE-2025-14876
-> +Fixes: 0e660a6f90a ("crypto: Introduce RSA algorithm")
-> +Reported-by: =EC=9D=B4=EC=9E=AC=EC=98=81 <nakamurajames123@gmail.com>
-> +Signed-off-by: zhenwei pi <zhenwei.pi@linux.dev>
-> +Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> +Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> +Message-Id: <20251221024321.143196-2-zhenwei.pi@linux.dev>
-> +(cherry picked from commit 91c6438caffc880e999a7312825479685d659b44)
-> +Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> +(cherry picked from commit e649201bb96ae7e91a69d57392c8907ec085111e)
-> +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-> +---
-> + hw/virtio/virtio-crypto.c | 7 +++++++
-> + 1 file changed, 7 insertions(+)
-> +
-> +diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-> +index 4aaced74b..6927f7d1a 100644
-> +--- a/hw/virtio/virtio-crypto.c
-> ++++ b/hw/virtio/virtio-crypto.c
-> +@@ -767,11 +767,18 @@ virtio_crypto_handle_asym_req(VirtIOCrypto *vcrypt=
-o,
-> +     uint32_t len;
-> +     uint8_t *src =3D NULL;
-> +     uint8_t *dst =3D NULL;
-> ++    uint64_t max_len;
-> +=20
-> +     asym_op_info =3D g_new0(CryptoDevBackendAsymOpInfo, 1);
-> +     src_len =3D ldl_le_p(&req->para.src_data_len);
-> +     dst_len =3D ldl_le_p(&req->para.dst_data_len);
-> +=20
-> ++    max_len =3D (uint64_t)src_len + dst_len;
-> ++    if (unlikely(max_len > vcrypto->conf.max_size)) {
-> ++        virtio_error(vdev, "virtio-crypto asym request is too large");
-> ++        goto err;
-> ++    }
-> ++
-> +     if (src_len > 0) {
-> +         src =3D g_malloc0(src_len);
-> +         len =3D iov_to_buf(iov, out_num, 0, src, src_len);
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p2.patch b/me=
-ta/recipes-devtools/qemu/qemu/CVE-2025-14876_p2.patch
-> new file mode 100644
-> index 0000000000..60432c8ebb
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p2.patch
-> @@ -0,0 +1,56 @@
-> +From 17f89320724d16437a26a250c82b1649777387f1 Mon Sep 17 00:00:00 2001
-> +From: zhenwei pi <pizhenwei@tensorfer.com>
-> +Date: Sun, 21 Dec 2025 10:43:21 +0800
-> +Subject: [PATCH] cryptodev-builtin: Limit the maximum size
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +This backend driver is used for demonstration purposes only, unlimited
-> +size leads QEMU OOM.
-> +
-> +CVE: CVE-2025-14876
-> +Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
-/3464e88bc98d72acc3a9674054b9ed0c3d4e9b90]
-> +
-> +Fixes: CVE-2025-14876
-> +Fixes: 1653a5f3fc7 ("cryptodev: introduce a new cryptodev backend")
-> +Reported-by: =EC=9D=B4=EC=9E=AC=EC=98=81 <nakamurajames123@gmail.com>
-> +Signed-off-by: zhenwei pi <zhenwei.pi@linux.dev>
-> +Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> +Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> +Message-Id: <20251221024321.143196-3-zhenwei.pi@linux.dev>
-> +(cherry picked from commit 7b913094c703641a0442bb1d1165323a019c591c)
-> +Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> +(cherry picked from commit 3464e88bc98d72acc3a9674054b9ed0c3d4e9b90)
-> +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-> +---
-> + backends/cryptodev-builtin.c | 9 +++------
-> + 1 file changed, 3 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/backends/cryptodev-builtin.c b/backends/cryptodev-builtin.c
-> +index 940104ee5..a4c544b6d 100644
-> +--- a/backends/cryptodev-builtin.c
-> ++++ b/backends/cryptodev-builtin.c
-> +@@ -53,6 +53,8 @@ typedef struct CryptoDevBackendBuiltinSession {
-> +=20
-> + #define CRYPTODEV_BUITLIN_MAX_AUTH_KEY_LEN    512
-> + #define CRYPTODEV_BUITLIN_MAX_CIPHER_KEY_LEN  64
-> ++/* demonstration purposes only, use a limited size to avoid QEMU OOM */
-> ++#define CRYPTODEV_BUITLIN_MAX_REQUEST_SIZE  (1024 * 1024)
-> +=20
-> + struct CryptoDevBackendBuiltin {
-> +     CryptoDevBackend parent_obj;
-> +@@ -98,12 +100,7 @@ static void cryptodev_builtin_init(
-> +                          1u << QCRYPTODEV_BACKEND_SERVICE_MAC;
-> +     backend->conf.cipher_algo_l =3D 1u << VIRTIO_CRYPTO_CIPHER_AES_CBC;
-> +     backend->conf.hash_algo =3D 1u << VIRTIO_CRYPTO_HASH_SHA1;
-> +-    /*
-> +-     * Set the Maximum length of crypto request.
-> +-     * Why this value? Just avoid to overflow when
-> +-     * memory allocation for each crypto request.
-> +-     */
-> +-    backend->conf.max_size =3D LONG_MAX - sizeof(CryptoDevBackendOpInfo=
-);
-> ++    backend->conf.max_size =3D CRYPTODEV_BUITLIN_MAX_REQUEST_SIZE;
-> +     backend->conf.max_cipher_key_len =3D CRYPTODEV_BUITLIN_MAX_CIPHER_K=
-EY_LEN;
-> +     backend->conf.max_auth_key_len =3D CRYPTODEV_BUITLIN_MAX_AUTH_KEY_L=
-EN;
-> +     cryptodev_builtin_init_akcipher(backend);
-
-
---=20
-Yoann Congal
-Smile ECS
+> .../recipes-support/libjitterentropy/libjitterentropy_3.6.3.bb | 3 +--
+> 1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/libjitterentropy/libjitterentropy_3.6.3=
+.bb b/meta/recipes-support/libjitterentropy/libjitterentropy_3.6.3.bb
+> index 7890dfa5c70..d119d8432be 100644
+> --- a/meta/recipes-support/libjitterentropy/libjitterentropy_3.6.3.bb
+> +++ b/meta/recipes-support/libjitterentropy/libjitterentropy_3.6.3.bb
+> @@ -4,7 +4,7 @@ It does not depend on any system resource other than a hi=
+gh-resolution time \
+> stamp. It is a small-scale, yet fast entropy source that is viable in alm=
+ost \
+> all environments and on a lot of CPU architectures."
+> HOMEPAGE =3D "http://www.chronox.de/jent.html"
+> -LICENSE =3D "GPL-2.0-or-later | BSD-3-Clause"
+> +LICENSE =3D "BSD-3-Clause | GPL-2.0"
+> LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3De01027c4ad1fe5a4768f8488c945d4=
+91 \
+>                     file://LICENSE.gplv2;md5=3Deb723b61539feef013de476e68=
+b5c50a \
+>                     file://LICENSE.bsd;md5=3D66a5cedaf62c4b2637025f049f9b=
+826f \
+> @@ -23,4 +23,3 @@ do_install () {
+>                        LIBDIR=3D"${baselib}" \
+>                        INSTALL_STRIP=3D"install"
+> }
+> -
+> --=20
+> 2.43.0
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#239296): https://lists.openembedded.org/g/openembedde=
+d-core/message/239296
+> Mute This Topic: https://lists.openembedded.org/mt/119923427/6875888
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ro=
+ss.burton@arm.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
 
