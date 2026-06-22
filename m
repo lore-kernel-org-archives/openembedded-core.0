@@ -1,447 +1,152 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <zhengrq.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB0ACDB46B
-	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 05:58:58 +0000 (UTC)
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.36974.1782107936805922538
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8CE0CD98F6
+	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 06:32:48 +0000 (UTC)
+Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.37291.1782109967935196803
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Jun 2026 22:58:56 -0700
+ Sun, 21 Jun 2026 23:32:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=QGddqyb/;
- spf=pass (domain: mvista.com, ip: 74.125.82.47, mailfrom: hprajapati@mvista.com)
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-139a71baa35so5619345c88.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Jun 2026 22:58:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1782107936; x=1782712736; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0b2tlCsez6SIXuehMQOJcaDXaWFzkonR31AiKtJAkCQ=;
-        b=QGddqyb/UnKCwybsgkOzGCG2ZhRbtyxEw6EIp+G+TykNPtmCCXCrN8a0vcpm7X6bEj
-         M692iIcuHcdBShQw5JYO28FDblZEIEQHRwQNCgG1JkKXAsz7qsRsC/t3ZoFCOVf0JDlb
-         eM++GKze+npHqJmTDx+gY/CV7/lnILqOEAh7o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782107936; x=1782712736;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0b2tlCsez6SIXuehMQOJcaDXaWFzkonR31AiKtJAkCQ=;
-        b=URVHPYJDYPMS0MXzkunr2baf43ApyMIRyjSLGTqK1+pPDqcJw+FMaJebcXH6VUSDb/
-         CJzmQrdkig0ciMbLLajexXw9LzDp4iOQu31RmtdCtVTAlNDAJ4m1yGXfgpgd51M8KIj0
-         vjmzFDgTh5HLX7YY0M+UUtrGvMl8Q2+SdT8Pt29TRWP53oaX5Au2K0sPd32MjXaO4amO
-         /owZB/t0eU62jqzEMxLiAK3rgDqALKy90yAFJlv17FLge2yNvwqwJmjPyiJx29URqlsr
-         3GHthmsUezN0Q48Z/OQ2c65cgiIj5KmuwdlQh5jx2SfnPDkz4/uC8cxXVvAouQ3QHHnD
-         UiYw==
-X-Gm-Message-State: AOJu0Yz/lfZtZiUuTVFj+CHPbHA9Ms0qhjuJGFQVlLvK+6r2v/wJ9o8X
-	NL0GvlROFPF8QqS+5Ieh+RjSrWtklCvqH513zV02jKAdI0hrvlkTa8tsKAdRl5JpnA3pDLT4jev
-	P5Zct
-X-Gm-Gg: AfdE7cnFpkb+riKkXgUh1oWPiCqb3SCF1OFf8M/aEzqPTjgzFupiGVZyqnZygkWLIOl
-	9O5HQM4SOOYDpr9XrVv8pGgQrVoeGz1edbhjp8gaHJXGPShUcx9S8XHAZc78vL+1oJOX6gs5/Ta
-	B9+xD7+bNryU653meo/99xkJJLtQM1KoZ8ulrB2rrKYf7TvuAstBCMjYBgqoHnZaRg+RZXSmnbK
-	BrZ7rGytcWfsMyeRB91N++ZIbvf2H6W3mTPSZoGx4ujYVZu+HMQN+GNoBx/ZzGF9vYDi5bMgb6K
-	WNa6iIRszbCB7KO0/sERIi0fKaOZjAiZyC8LvOwq6/96gpvjHnDxNU2KZFV/wBmS4wdnnMe/pZ+
-	CUbP+QwyJpuVo/Sx9l2yM3Yy7g8kjcOmzeqGGAUsQmfLcMBvnrBIAgawRfvupe3yUWpRoHpVebC
-	xuEM/rgpJDV+vg6n96p0+B45LohQ==
-X-Received: by 2002:a05:7023:b02:b0:139:78a4:f57a with SMTP id a92af1059eb24-139a367287bmr8024056c88.23.1782107935964;
-        Sun, 21 Jun 2026 22:58:55 -0700 (PDT)
-Received: from MVIN00013.mvista.com ([103.250.136.200])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-139adc0fdb6sm6277461c88.0.2026.06.21.22.58.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jun 2026 22:58:55 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Eimei3h+;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: zhengrq.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1782109970; x=1813645970;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=mwcgiM5E+UaqNnCn7IkRyvuHoB8eEQ5tt1LGFzg9aIs=;
+  b=Eimei3h++t2prxIQKLEHrRve4ng7fTEj7HsZJzIm5tqq8usaplo6a+hN
+   Q3Wvod6aj8R/5kuSGrCp4mm6aXrMCSA8vGVu6ClUNYkHrA8rPED6rkOYL
+   0z1L/uAQg3OGdy8AsqZXkikI4VLV42hN6e5BV9wwZ8HvXBDkG8w9qKd8T
+   n8mDOl6Pp9yZQN0rYqLhsAJOLD9jRJs6QCItWL62fx/rH6ZDysXrvka2M
+   omV/VaIKHrrwL4Zi4ofhF5MLrjXvCKYINakK0P2IFZU00ikcBGZUfbx46
+   AqJzHVA24Lv1lcMrwIkmZSyrRMGoqiU0Zk2cF4jZeyAmOT5570XzXTyVA
+   A==;
+X-CSE-ConnectionGUID: ff6HV+3IQj+i2VNO/pMATA==
+X-CSE-MsgGUID: Z55iIfIpSmqDxkpBRqt8xg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11824"; a="244825956"
+X-IronPort-AV: E=Sophos;i="6.24,218,1774278000"; 
+   d="scan'208";a="244825956"
+Received: from gmgwuk01.global.fujitsu.com ([172.187.114.235])
+  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 15:32:47 +0900
+Received: from az2uksmgm1.o.css.fujitsu.com (unknown [10.151.22.198])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gmgwuk01.global.fujitsu.com (Postfix) with ESMTPS id BA2161002BA2
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 06:32:44 +0000 (UTC)
+Received: from az2uksmom3.o.css.fujitsu.com (unknown [10.151.22.205])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 747198D29EE
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 06:32:44 +0000 (UTC)
+Received: from G08FNSTD190101.g08.fujitsu.local (unknown [10.167.135.148])
+	by az2uksmom3.o.css.fujitsu.com (Postfix) with ESMTP id D4DA410000BE
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 06:32:42 +0000 (UTC)
+From: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCHv2] vim: Fix for CVE-2026-28417, CVE-2026-32249, CVE-2026-45130
-Date: Mon, 22 Jun 2026 11:28:47 +0530
-Message-ID: <20260622055848.13061-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+Subject: [OE-core][PATCH v3] vim-tiny: bugfix for lack of defaults.vim
+Date: Mon, 22 Jun 2026 14:32:18 +0800
+Message-ID: <20260622063219.663-1-zhengrq.fnst@fujitsu.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 05:58:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239268
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 06:32:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239269
 
-Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
+When vim-tiny was used in image, it lacks defaults.vim file which will cause following error
+root@qemux86-64:~# vi
+E1187: Failed to source defaults.vim
+Press ENTER or type command to continue
 
-[1] https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d68514fcc1
-[2] https://github.com/vim/vim/commit/36d6e87542cf823d833e451e09a90ee429899cec
-[3] https://github.com/vim/vim/commit/92993329178cb1f72d700fff45ca86e1c2d369f8
-[4] https://nvd.nist.gov/vuln/detail/CVE-2026-28417
-[5] https://nvd.nist.gov/vuln/detail/CVE-2026-32249
-[6] https://nvd.nist.gov/vuln/detail/CVE-2026-45130
+So add a new patch to fix this issue.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 ---
- .../vim/files/CVE-2026-28417.patch            |  92 ++++++++++++++
- .../vim/files/CVE-2026-32249.patch            | 117 ++++++++++++++++++
- .../vim/files/CVE-2026-45130.patch            | 115 +++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   3 +
- 4 files changed, 327 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-28417.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-32249.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-45130.patch
+ ...faults.vim-when-Vim-is-invoked-as-vi.patch | 53 +++++++++++++++++++
+ meta/recipes-support/vim/vim-tiny_9.2.bb      |  2 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/0001-Skip-sourcing-defaults.vim-when-Vim-is-invoked-as-vi.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-28417.patch b/meta/recipes-support/vim/files/CVE-2026-28417.patch
+diff --git a/meta/recipes-support/vim/files/0001-Skip-sourcing-defaults.vim-when-Vim-is-invoked-as-vi.patch b/meta/recipes-support/vim/files/0001-Skip-sourcing-defaults.vim-when-Vim-is-invoked-as-vi.patch
 new file mode 100644
-index 0000000000..6598323c41
+index 0000000000..e1d240e7d8
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-28417.patch
-@@ -0,0 +1,92 @@
-+From 79348dbbc09332130f4c86045e1541d68514fcc1 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Sun, 22 Feb 2026 21:24:48 +0000
-+Subject: [PATCH] patch 9.2.0073: [security]: possible command injection using
-+ netrw
++++ b/meta/recipes-support/vim/files/0001-Skip-sourcing-defaults.vim-when-Vim-is-invoked-as-vi.patch
+@@ -0,0 +1,53 @@
++From 3360bfc9074130155996f7aaab2b2a6c33a62b11 Mon Sep 17 00:00:00 2001
++From: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
++Date: Mon, 22 Jun 2026 10:59:18 +0900
++Subject: [PATCH] Skip sourcing defaults.vim when Vim is invoked as vi
 +
-+Problem:  [security]: Insufficient validation of hostname and port in
-+          netrw URIs allows command injection via shell metacharacters
-+          (ehdgks0627, un3xploitable).
-+Solution: Implement stricter RFC1123 hostname and IP validation.
-+          Use shellescape() for the provided hostname and port.
++This is used only in the vim-tiny package to skip "source_defaults" error
++ E1187: Failed to source defaults.vim
++Press ENTER or type command to continue
 +
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-m3xh-9434-g336
++Upstream-Status: Inappropriate [oe specific]
 +
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport from [https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d68514fcc1]
-+CVE: CVE-2026-28417
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 +---
-+ .../pack/dist/opt/netrw/autoload/netrw.vim    | 34 +++++++++++++------
-+ 1 file changed, 24 insertions(+), 10 deletions(-)
++ src/main.c    | 3 +++
++ src/structs.h | 1 +
++ 2 files changed, 4 insertions(+)
 +
-+diff --git a/runtime/pack/dist/opt/netrw/autoload/netrw.vim b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+index 1c98104..7ebcd92 100644
-+--- a/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-++++ b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+@@ -5,6 +5,7 @@
-+ " 2025 Aug 07 by Vim Project (use correct "=~#" for netrw_stylesize option #17901)
-+ " 2025 Aug 07 by Vim Project (netrw#BrowseX() distinguishes remote files #17794)
-+ " 2025 Aug 22 by Vim Project netrw#Explore handle terminal correctly #18069
-++" 2026 Feb 27 by Vim Project Make the hostname validation more strict
-+ " Copyright:  Copyright (C) 2016 Charles E. Campbell {{{1
-+ "             Permission is hereby granted to use and distribute this code,
-+ "             with or without modifications, provided that this copyright
-+@@ -2575,13 +2576,26 @@ endfunction
++diff --git a/src/main.c b/src/main.c
++index d2fe22ebe5..e7ac4bd1e2 100644
++--- a/src/main.c
+++++ b/src/main.c
++@@ -2065,6 +2065,8 @@ parse_command_name(mparm_T *parmp)
++     }
++     else if (STRNICMP(initstr, "vim", 3) == 0)
++ 	initstr += 3;
+++    else if (STRNICMP(initstr, "vi", 2) == 0)
+++        parmp->vi_mode = TRUE;
 + 
-+ " s:NetrwValidateHostname:  Validate that the hostname is valid {{{2
-+ " Input:
-+-"   hostname
-++"   hostname, may include an optional username, e.g. user@hostname
-++"   allow a alphanumeric hostname or an IPv(4/6) address
-+ " Output:
-+ "  true if g:netrw_machine is valid according to RFC1123 #Section 2
-+ function s:NetrwValidateHostname(hostname)
-+-    " RFC1123#section-2 mandates, a valid hostname starts with letters or digits
-+-    " so reject everyhing else
-+-    return a:hostname =~? '^[a-z0-9]'
-++  " Username:
-++  let user_pat = '\%([a-zA-Z0-9._-]\+@\)\?'
-++  " Hostname: 1-64 chars, alphanumeric/dots/hyphens.
-++  " No underscores. No leading/trailing dots/hyphens.
-++  let host_pat = '[a-zA-Z0-9]\%([-a-zA-Z0-9.]{,62}[a-zA-Z0-9]\)\?$'
-++
-++  " IPv4: 1-3 digits separated by dots
-++  let ipv4_pat = '\%(\d\{1,3}\.\)\{3\}\d\{1,3\}$'
-++
-++  " IPv6: Hex, colons, and optional brackets
-++  let ipv6_pat = '\[\?\%([a-fA-F0-9:]\{2,}\)\+\]\?$'
-++
-++  return a:hostname =~? '^'.user_pat.host_pat ||
-++       \ a:hostname =~? '^'.user_pat.ipv4_pat ||
-++       \ a:hostname =~? '^'.user_pat.ipv6_pat
-+ endfunction
-+ 
-+ " NetUserPass: set username and password for subsequent ftp transfer {{{2
-+@@ -8948,15 +8962,15 @@ endfunction
-+ " s:MakeSshCmd: transforms input command using USEPORT HOSTNAME into {{{2
-+ "               a correct command for use with a system() call
-+ function s:MakeSshCmd(sshcmd)
-+-    if s:user == ""
-+-        let sshcmd = substitute(a:sshcmd,'\<HOSTNAME\>',s:machine,'')
-+-    else
-+-        let sshcmd = substitute(a:sshcmd,'\<HOSTNAME\>',s:user."@".s:machine,'')
-++    let machine = shellescape(s:machine, 1)
-++    if s:user != ''
-++        let machine    = shellescape(s:user, 1).'@'.machine
-+     endif
-++    let sshcmd = substitute(a:sshcmd,'\<HOSTNAME\>',machine,'')
-+     if exists("g:netrw_port") && g:netrw_port != ""
-+-        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.g:netrw_port,'')
-++        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.shellescape(g:netrw_port,1),'')
-+     elseif exists("s:port") && s:port != ""
-+-        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.s:port,'')
-++        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.shellescape(s:port,1),'')
-+     else
-+         let sshcmd= substitute(sshcmd,"USEPORT ",'','')
-+     endif
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/vim/files/CVE-2026-32249.patch b/meta/recipes-support/vim/files/CVE-2026-32249.patch
-new file mode 100644
-index 0000000000..841db9e016
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-32249.patch
-@@ -0,0 +1,117 @@
-+From 36d6e87542cf823d833e451e09a90ee429899cec Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Wed, 11 Mar 2026 14:16:29 +0100
-+Subject: [PATCH] patch 9.2.0137: [security]: crash with composing char in
-+ collection range
-+
-+Problem:  Using a composing character as the end of a range inside a
-+          collection may corrupt the NFA postfix stack
-+          (Nathan Mills, after v9.1.0011)
-+Solution: When a character is used as the endpoint of a range, do not emit
-+          its composing characters separately. Range handling only uses
-+          the base codepoint.
-+
-+supported by AI
-+
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-9phh-423r-778r
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport from [https://github.com/vim/vim/commit/36d6e87542cf823d833e451e09a90ee429899cec]
-+CVE: CVE-2026-32249
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/regexp_nfa.c                 | 17 +++++++++++++++--
-+ src/testdir/test_regexp_utf8.vim | 19 +++++++++++++++++++
-+ 2 files changed, 34 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/regexp_nfa.c b/src/regexp_nfa.c
-+index 6ad682b..7905ec1 100644
-+--- a/src/regexp_nfa.c
-++++ b/src/regexp_nfa.c
-+@@ -1765,6 +1765,7 @@ collection:
-+ 	    if (*endp == ']')
++     // Catch "[r][g]vimdiff" and "[r][g]viewdiff".
++     if (STRICMP(initstr, "diff") == 0)
++@@ -3433,6 +3435,7 @@ source_startup_scripts(mparm_T *parmp)
++ 		&& do_source((char_u *)USR_EXRC_FILE2, FALSE,
++ 						       DOSO_NONE, NULL) == FAIL
++ # endif
+++		&& !parmp->vi_mode
++ 		&& !has_dash_c_arg)
 + 	    {
-+ 		int plen;
-++		bool range_endpoint;
-+ 		/*
-+ 		 * Try to reverse engineer character classes. For example,
-+ 		 * recognize that [0-9] stands for \d and [A-Za-z_] for \h,
-+@@ -1812,6 +1813,7 @@ collection:
-+ 		while (regparse < endp)
-+ 		{
-+ 		    int	    oldstartc = startc;
-++		    range_endpoint = false;
++ 		// When no .vimrc file was found: source defaults.vim.
++diff --git a/src/structs.h b/src/structs.h
++index 8cb9b3f91d..96da090f4d 100644
++--- a/src/structs.h
+++++ b/src/structs.h
++@@ -4913,6 +4913,7 @@ typedef struct
++ #ifdef FEAT_DIFF
++     int		diff_mode;		// start with 'diff' set
++ #endif
+++    int         vi_mode;                /* started as "vi" */
++ } mparm_T;
 + 
-+ 		    startc = -1;
-+ 		    got_coll_char = FALSE;
-+@@ -1975,6 +1977,7 @@ collection:
-+ 		    if (emit_range)
-+ 		    {
-+ 			int	endc = startc;
-++			range_endpoint = true;
-+ 
-+ 			startc = oldstartc;
-+ 			if (startc > endc)
-+@@ -2053,7 +2056,14 @@ collection:
-+ 			}
-+ 		    }
-+ 
-+-		    if (enc_utf8 && (utf_ptr2len(regparse) != (plen = utfc_ptr2len(regparse))))
-++		    //
-++		    // If this character was consumed as the end of a range, do not emit its
-++		    // composing characters separately.  Range handling only uses the base
-++		    // codepoint; emitting the composing part again would duplicate the
-++		    // character in the postfix stream and corrupt the NFA stack.
-++		    //
-++		    if (!range_endpoint && enc_utf8 &&
-++			    (utf_ptr2len(regparse) != (plen = utfc_ptr2len(regparse))))
-+ 		    {
-+ 			int i = utf_ptr2len(regparse);
-+ 
-+@@ -3187,7 +3197,10 @@ nfa_max_width(nfa_state_T *startstate, int depth)
-+ 		    ++len;
-+ 		if (state->c != NFA_ANY)
-+ 		{
-+-		    // skip over the characters
-++		    // Skip over the compiled collection.
-++		    // malformed NFAs must not crash width estimation.
-++		    if (state->out1 == NULL || state->out1->out == NULL)
-++			return -1;
-+ 		    state = state->out1->out;
-+ 		    continue;
-+ 		}
-+diff --git a/src/testdir/test_regexp_utf8.vim b/src/testdir/test_regexp_utf8.vim
-+index a4353f1..3b58416 100644
-+--- a/src/testdir/test_regexp_utf8.vim
-++++ b/src/testdir/test_regexp_utf8.vim
-+@@ -615,6 +615,25 @@ func Test_search_multibyte_match_ascii()
-+     call assert_equal(['ſſ','ſ'], noic_match3, "No-Ignorecase Collection Regex-engine: " .. &re)
-+   endfor
-+   bw!
-++  set ignorecase&vim re&vim
-++endfun
-++
-++func Test_regex_collection_range_with_composing_crash()
-++  " Regression test: composing char in collection range caused NFA crash/E874
-++  new
-++  call setline(1, ['00', '0ֻ', '01'])
-++  let patterns = [ '0[0-0ֻ]\@<!','0[0ֻ]\@<!']
-++
-++  for pat in patterns
-++    " Should compile and execute without crash or error
-++    for re in range(3)
-++      let regex = '\%#=' .. re .. pat
-++      call search(regex)
-++      call assert_fails($"/{regex}\<cr>", 'E486:')
-++    endfor
-++  endfor
-++
-++  bwipe!
-+ endfunc
-+ 
-+ " vim: shiftwidth=2 sts=2 expandtab
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/vim/files/CVE-2026-45130.patch b/meta/recipes-support/vim/files/CVE-2026-45130.patch
-new file mode 100644
-index 0000000000..f44dfd66d6
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-45130.patch
-@@ -0,0 +1,115 @@
-+From 92993329178cb1f72d700fff45ca86e1c2d369f8 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Wed, 6 May 2026 20:50:00 +0200
-+Subject: [PATCH] patch 9.2.0450: [security]: heap buffer overflow in
-+ spellfile.c read_compound()
-+
-+Problem:  read_compound() in spellfile.c computes the size of the regex
-+          pattern buffer using signed-int arithmetic on the attacker
-+          controlled SN_COMPOUND sectionlen.  With sectionlen=0x40000008
-+          and UTF-8 encoding active the multiplication wraps to 27 while
-+          the per-byte loop writes up to ~1B bytes, overflowing the heap.
-+          Reachable when loading a crafted .spl file (e.g. via 'set spell'
-+          after a modeline sets 'spelllang').  The cp/ap/crp allocations
-+          have the same int + 1 overflow class (Daniel Cervera)
-+Solution: Use type size_t as buffer size and reject values larger than
-+          COMPOUND_MAX_LEN (100000).  Apply the same size_t treatment to
-+          the cp/ap/crp allocations.
-+
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-q4jv-r9gj-6cwv
-+
-+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport from [https://github.com/vim/vim/commit/92993329178cb1f72d700fff45ca86e1c2d369f8]
-+CVE: CVE-2026-45130
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/spellfile.c                | 20 ++++++++++++++------
-+ src/testdir/test_spellfile.vim |  4 ++++
-+ 2 files changed, 18 insertions(+), 6 deletions(-)
-+
-+diff --git a/src/spellfile.c b/src/spellfile.c
-+index 0b9536d..768e9fd 100644
-+--- a/src/spellfile.c
-++++ b/src/spellfile.c
-+@@ -296,6 +296,9 @@
-+ #define CF_WORD		0x01
-+ #define CF_UPPER	0x02
-+ 
-++// Max allowed length for COMPOUND section
-++#define COMPOUND_MAX_LEN	100000
-++
 + /*
-+  * Loop through all the siblings of a node (including the node)
-+  */
-+@@ -1225,6 +1228,8 @@ read_compound(FILE *fd, slang_T *slang, int len)
-+     char_u	*crp;
-+     int		cnt;
-+     garray_T	*gap;
-++    size_t	patsize;
-++    size_t	flagsize;
-+ 
-+     if (todo < 2)
-+ 	return SP_FORMERROR;	// need at least two bytes
-+@@ -1281,16 +1286,19 @@ read_compound(FILE *fd, slang_T *slang, int len)
-+     // "a[bc]/a*b+" -> "^\(a[bc]\|a*b\+\)$".
-+     // Inserting backslashes may double the length, "^\(\)$<Nul>" is 7 bytes.
-+     // Conversion to utf-8 may double the size.
-+-    c = todo * 2 + 7;
-++    if ((size_t)todo > COMPOUND_MAX_LEN)
-++	return SP_FORMERROR;
-++    patsize = (size_t)todo * 2 + 7;
-+     if (enc_utf8)
-+-	c += todo * 2;
-+-    pat = alloc(c);
-++	patsize += (size_t)todo * 2;
-++    flagsize = (size_t)todo + 1;
-++    pat = alloc(patsize);
-+     if (pat == NULL)
-+ 	return SP_OTHERERROR;
-+ 
-+     // We also need a list of all flags that can appear at the start and one
-+     // for all flags.
-+-    cp = alloc(todo + 1);
-++    cp = alloc(flagsize);
-+     if (cp == NULL)
-+     {
-+ 	vim_free(pat);
-+@@ -1299,7 +1307,7 @@ read_compound(FILE *fd, slang_T *slang, int len)
-+     slang->sl_compstartflags = cp;
-+     *cp = NUL;
-+ 
-+-    ap = alloc(todo + 1);
-++    ap = alloc(flagsize);
-+     if (ap == NULL)
-+     {
-+ 	vim_free(pat);
-+@@ -1311,7 +1319,7 @@ read_compound(FILE *fd, slang_T *slang, int len)
-+     // And a list of all patterns in their original form, for checking whether
-+     // compounding may work in match_compoundrule().  This is freed when we
-+     // encounter a wildcard, the check doesn't work then.
-+-    crp = alloc(todo + 1);
-++    crp = alloc(flagsize);
-+     slang->sl_comprules = crp;
-+ 
-+     pp = pat;
-+diff --git a/src/testdir/test_spellfile.vim b/src/testdir/test_spellfile.vim
-+index b72974e..d345492 100644
-+--- a/src/testdir/test_spellfile.vim
-++++ b/src/testdir/test_spellfile.vim
-+@@ -334,6 +334,10 @@ func Test_spellfile_format_error()
-+   " SN_COMPOUND: incorrect comppatlen
-+   call Spellfile_Test(0z080000000007040101000000020165, 'E758:')
-+ 
-++  " SN_COMPOUND: oversized sectionlen
-++  let v = eval('0z08004000000803010161' .. repeat('61', 50) .. 'FF')
-++  call Spellfile_Test(v, 'E759:')
-++
-+   " SN_INFO: missing info
-+   call Spellfile_Test(0z0F0000000005040101, '')
-+ 
 +-- 
-+2.34.1
++2.43.0
 +
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 3a988fbe7d..262833ea33 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -28,6 +28,9 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-44656.patch \
-            file://CVE-2026-41411.patch \
-            file://CVE-2026-28421.patch \
-+           file://CVE-2026-32249.patch \
-+           file://CVE-2026-28417.patch \
-+           file://CVE-2026-45130.patch \
-            "
+diff --git a/meta/recipes-support/vim/vim-tiny_9.2.bb b/meta/recipes-support/vim/vim-tiny_9.2.bb
+index e4c26d23f6..658f627d7d 100644
+--- a/meta/recipes-support/vim/vim-tiny_9.2.bb
++++ b/meta/recipes-support/vim/vim-tiny_9.2.bb
+@@ -2,6 +2,8 @@ require vim.inc
  
- PV .= ".1683"
+ SUMMARY += " (with tiny features)"
+ 
++SRC_URI += "file://0001-Skip-sourcing-defaults.vim-when-Vim-is-invoked-as-vi.patch"
++
+ PACKAGECONFIG += "tiny"
+ 
+ do_install() {
 -- 
-2.50.1
+2.43.0
 
 
