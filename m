@@ -2,59 +2,59 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46338CDB46B
-	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 05:52:38 +0000 (UTC)
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36809.1782107557657009925
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB0ACDB46B
+	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 05:58:58 +0000 (UTC)
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.36974.1782107936805922538
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Jun 2026 22:52:37 -0700
+ Sun, 21 Jun 2026 22:58:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=WcfbsM3C;
- spf=pass (domain: mvista.com, ip: 74.125.82.54, mailfrom: hprajapati@mvista.com)
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-139a71baa35so5610615c88.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 21 Jun 2026 22:52:37 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=QGddqyb/;
+ spf=pass (domain: mvista.com, ip: 74.125.82.47, mailfrom: hprajapati@mvista.com)
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-139a71baa35so5619345c88.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 21 Jun 2026 22:58:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1782107557; x=1782712357; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1782107936; x=1782712736; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YUnLr4a2i2+0wnsae1xMhshdd+PJxZugJ9M1zoDJ/Is=;
-        b=WcfbsM3C3zkW5sg4ET9yK4yvZB7R7ikAtNbE+JeZH1rVcuc6PAvxE+1WsBv8FBJLHa
-         K6PWX9Xyhq94aj2uhT5yOg1D9uPEXqUwK55iE16ct1ZqY57t+SeYqTNLSH1Qlpr/mKRo
-         K+kaPbOu7NEbNIMG7cIn4UhVtJuG7ZCmWpLaw=
+        bh=0b2tlCsez6SIXuehMQOJcaDXaWFzkonR31AiKtJAkCQ=;
+        b=QGddqyb/UnKCwybsgkOzGCG2ZhRbtyxEw6EIp+G+TykNPtmCCXCrN8a0vcpm7X6bEj
+         M692iIcuHcdBShQw5JYO28FDblZEIEQHRwQNCgG1JkKXAsz7qsRsC/t3ZoFCOVf0JDlb
+         eM++GKze+npHqJmTDx+gY/CV7/lnILqOEAh7o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782107557; x=1782712357;
+        d=1e100.net; s=20251104; t=1782107936; x=1782712736;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YUnLr4a2i2+0wnsae1xMhshdd+PJxZugJ9M1zoDJ/Is=;
-        b=g1lFU2IfXRXbjrY2Nqbci9Tjr6MjbxKtWKSDt+vllS2VY35Xi/IA6wBFQ8Y2/sw3Km
-         8MYMiUEYBp0sf2b8BJdMrva6m4G3uANGOLzQbXbu2sj3rlugPBiRqsvvFDqQegmmUbbp
-         po+iB/Sl4XRmwAJxMLTzxJMX9ICSnPrxNef+sKWl5BMXHG2ov5CSIkDnZYWjZjLlSt95
-         sqwfl4am6ARd6pugEJfL1uTE71SVmhMe6k6RZlUgtMXjaBHa04w3cXprl0IfzjhSIkon
-         AuNOziGmdzQfaKifIMpr4k1cWXmX0OOyHWwXjCHnwsmt+q/feF/r2Oi12AxiKT0klW+z
-         f8ug==
-X-Gm-Message-State: AOJu0Yw+bzE2y20e/IiVCBqBdzAx1LcMcWrqDmXnkD6Lfk94lUJtgwtz
-	2f2GzNSykqcbYs2ZyauWjFRaP5jXTMi4J0KGJSVymbCrnFXtm1FxNTYr+N8ny1zGfi0o0TA5n9R
-	DFKgH
-X-Gm-Gg: AfdE7cm30vdvWqLssH3MqfBXzceF8jFpYPetihNle+dHZly0ZQ4WVKK+7XrxeaI4GHb
-	+9uR1U+SZFt3MmhlbD41YkDEW3t6EQSXw57hZLbOsO8XiOKeEnzgSD0fwADsQHq3EyAQWlfcJsj
-	094WmCTUT1qdxFFSTKIqK8b7zy2ozAEBp2lcvNCEh5d8933nWvvVgHu4jT9GV8U8oik7LEfPP6e
-	5yf5PrmmjIqTB71ck3HBz42H0X5d+q7hqovXq46f17UpXbvKLJ/ALgK13tFLNeHn6gLvTQj6ePo
-	yBaOImRCmwZD/KXF8B0RJMVajwTJT27H7BBibCkW70jy40eZO4jr5L0Hu7d3QT9VsMrxrnp5FbC
-	TiG+6jAoqMS+BD2k9LZmmZ+kSVghnKspW4LHYZe3ztFFJtLjoSHMoYshmoYsoNB15h7QOwEJbLi
-	fUH7eUHw+hL3Yccnmk/bhkmjgpHg==
-X-Received: by 2002:a05:7022:3d18:b0:137:1ae1:bc19 with SMTP id a92af1059eb24-139a34e4cfemr7776822c88.5.1782107556810;
-        Sun, 21 Jun 2026 22:52:36 -0700 (PDT)
+        bh=0b2tlCsez6SIXuehMQOJcaDXaWFzkonR31AiKtJAkCQ=;
+        b=URVHPYJDYPMS0MXzkunr2baf43ApyMIRyjSLGTqK1+pPDqcJw+FMaJebcXH6VUSDb/
+         CJzmQrdkig0ciMbLLajexXw9LzDp4iOQu31RmtdCtVTAlNDAJ4m1yGXfgpgd51M8KIj0
+         vjmzFDgTh5HLX7YY0M+UUtrGvMl8Q2+SdT8Pt29TRWP53oaX5Au2K0sPd32MjXaO4amO
+         /owZB/t0eU62jqzEMxLiAK3rgDqALKy90yAFJlv17FLge2yNvwqwJmjPyiJx29URqlsr
+         3GHthmsUezN0Q48Z/OQ2c65cgiIj5KmuwdlQh5jx2SfnPDkz4/uC8cxXVvAouQ3QHHnD
+         UiYw==
+X-Gm-Message-State: AOJu0Yz/lfZtZiUuTVFj+CHPbHA9Ms0qhjuJGFQVlLvK+6r2v/wJ9o8X
+	NL0GvlROFPF8QqS+5Ieh+RjSrWtklCvqH513zV02jKAdI0hrvlkTa8tsKAdRl5JpnA3pDLT4jev
+	P5Zct
+X-Gm-Gg: AfdE7cnFpkb+riKkXgUh1oWPiCqb3SCF1OFf8M/aEzqPTjgzFupiGVZyqnZygkWLIOl
+	9O5HQM4SOOYDpr9XrVv8pGgQrVoeGz1edbhjp8gaHJXGPShUcx9S8XHAZc78vL+1oJOX6gs5/Ta
+	B9+xD7+bNryU653meo/99xkJJLtQM1KoZ8ulrB2rrKYf7TvuAstBCMjYBgqoHnZaRg+RZXSmnbK
+	BrZ7rGytcWfsMyeRB91N++ZIbvf2H6W3mTPSZoGx4ujYVZu+HMQN+GNoBx/ZzGF9vYDi5bMgb6K
+	WNa6iIRszbCB7KO0/sERIi0fKaOZjAiZyC8LvOwq6/96gpvjHnDxNU2KZFV/wBmS4wdnnMe/pZ+
+	CUbP+QwyJpuVo/Sx9l2yM3Yy7g8kjcOmzeqGGAUsQmfLcMBvnrBIAgawRfvupe3yUWpRoHpVebC
+	xuEM/rgpJDV+vg6n96p0+B45LohQ==
+X-Received: by 2002:a05:7023:b02:b0:139:78a4:f57a with SMTP id a92af1059eb24-139a367287bmr8024056c88.23.1782107935964;
+        Sun, 21 Jun 2026 22:58:55 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([103.250.136.200])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-139adc0fdb6sm6264669c88.0.2026.06.21.22.52.34
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-139adc0fdb6sm6277461c88.0.2026.06.21.22.58.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jun 2026 22:52:36 -0700 (PDT)
+        Sun, 21 Jun 2026 22:58:55 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] vim: Fix for CVE-2026-28417, CVE-2026-32249, CVE-2026-45130
-Date: Mon, 22 Jun 2026 11:22:28 +0530
-Message-ID: <20260622055229.12314-1-hprajapati@mvista.com>
+Subject: [scarthgap][PATCHv2] vim: Fix for CVE-2026-28417, CVE-2026-32249, CVE-2026-45130
+Date: Mon, 22 Jun 2026 11:28:47 +0530
+Message-ID: <20260622055848.13061-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -62,8 +62,8 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 05:52:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239267
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 05:58:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239268
 
 Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
 
@@ -87,7 +87,7 @@ Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 
 diff --git a/meta/recipes-support/vim/files/CVE-2026-28417.patch b/meta/recipes-support/vim/files/CVE-2026-28417.patch
 new file mode 100644
-index 0000000000..1136aa7f0c
+index 0000000000..6598323c41
 --- /dev/null
 +++ b/meta/recipes-support/vim/files/CVE-2026-28417.patch
 @@ -0,0 +1,92 @@
@@ -110,7 +110,7 @@ index 0000000000..1136aa7f0c
 +
 +Upstream-Status: Backport from [https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d68514fcc1]
 +CVE: CVE-2026-28417
-+Signed-off-by: Milan Satpathy <msatpathy@mvista.com>
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
 + .../pack/dist/opt/netrw/autoload/netrw.vim    | 34 +++++++++++++------
 + 1 file changed, 24 insertions(+), 10 deletions(-)
@@ -185,7 +185,7 @@ index 0000000000..1136aa7f0c
 +
 diff --git a/meta/recipes-support/vim/files/CVE-2026-32249.patch b/meta/recipes-support/vim/files/CVE-2026-32249.patch
 new file mode 100644
-index 0000000000..88440a3bae
+index 0000000000..841db9e016
 --- /dev/null
 +++ b/meta/recipes-support/vim/files/CVE-2026-32249.patch
 @@ -0,0 +1,117 @@
@@ -211,7 +211,7 @@ index 0000000000..88440a3bae
 +
 +Upstream-Status: Backport from [https://github.com/vim/vim/commit/36d6e87542cf823d833e451e09a90ee429899cec]
 +CVE: CVE-2026-32249
-+Signed-off-by: Milan Satpathy <msatpathy@mvista.com>
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
 + src/regexp_nfa.c                 | 17 +++++++++++++++--
 + src/testdir/test_regexp_utf8.vim | 19 +++++++++++++++++++
@@ -308,7 +308,7 @@ index 0000000000..88440a3bae
 +
 diff --git a/meta/recipes-support/vim/files/CVE-2026-45130.patch b/meta/recipes-support/vim/files/CVE-2026-45130.patch
 new file mode 100644
-index 0000000000..00972d1c2f
+index 0000000000..f44dfd66d6
 --- /dev/null
 +++ b/meta/recipes-support/vim/files/CVE-2026-45130.patch
 @@ -0,0 +1,115 @@
@@ -337,8 +337,8 @@ index 0000000000..00972d1c2f
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
 +Upstream-Status: Backport from [https://github.com/vim/vim/commit/92993329178cb1f72d700fff45ca86e1c2d369f8]
-+CVE: CVE-2026-45130 
-+Signed-off-by: Milan Satpathy <msatpathy@mvista.com>
++CVE: CVE-2026-45130
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
 + src/spellfile.c                | 20 ++++++++++++++------
 + src/testdir/test_spellfile.vim |  4 ++++
