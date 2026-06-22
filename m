@@ -1,85 +1,191 @@
-Return-Path: <joaomarcos.costa@bootlin.com>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD0DCDB46B
-	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 08:39:50 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38913.1782117587024099821
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65E56CDB46F
+	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 09:32:55 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.18])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.39261.1782120766386519663
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2026 01:39:48 -0700
+ Mon, 22 Jun 2026 02:32:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=Y1GaVYPz;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id BBCCE4E405B4
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:39:44 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 91482601BB
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:39:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CDE46106C89CF;
-	Mon, 22 Jun 2026 10:39:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782117583; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=wZvfLQD3kOyj3P9Q1pHCe9Vs2EO7S2NaSNwqv37LIUE=;
-	b=Y1GaVYPzBXkvrz0KPpmkg32FbaSLV4dGvthSD3jALMgxY7Lt43SF87COZND8ZNfmezOojS
-	7FpTEq1+48GSew/SBpxo7ZznZDf794X2IBywVLK/ORvIXIJmcQfjbqYYXmPF5TjQpfQ3Tl
-	ZCpYyMyKt6XftNK7fMG66x94k8MysL30hYhKg5WLafOfrB7XjOXOh7Vv6gSKEAeC0+QBOC
-	RyjyvnAcnRPsvjuhVNw5Cy5E04N7m/cTAaAJmZZxSN1JC5fjceCLrLE3coDItNbpvj51lv
-	TR71AaYNLa5R2AyyCAPdVrpKW37NtT47ZXd/m15WeJTkgYIAUM98mDVTk2Z0Gg==
-From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com,
-	thomas.perrot@bootlin.com,
-	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-Subject: [PATCH] local.conf.sample.extended: update fortran example
-Date: Mon, 22 Jun 2026 10:39:26 +0200
-Message-ID: <20260622083926.37678-1-joaomarcos.costa@bootlin.com>
-X-Mailer: git-send-email 2.47.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=dI8c3iWy;
+ spf=pass (domain: ericsson.com, ip: 52.101.72.18, mailfrom: edaturu@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jkaMpvXd6SbKbbc2nwOoee8zcIHqryN6+Y//WsSUHNAjB+37NWFOTS0/PlO/tpDBNk4K+htf/3WMeXLKbmn9QkydgAwjSH6D49yZHFVQnDFQd5Kv5gbnl0U1RM4CEThkT7J9+ZCFZx4RXNF/jlR+02AJYDbSO/X9e8cjNp7654oLLJ4VD3om2O1FJ5MP5ci4DqSpm/CS8ajMa7Z9Rb++2baL2QG0vxZ8K7Eq6+rgn6GwT/bDh0erXYkXPKr8oChlAye/NICp7jXTP00LWy6JIXlPHrGR1xG8ljsF337bybCohjWr8IiDZ4gD55FOiuG3XNoQ+GGgwRLZzqbIaYpC1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9CtN74w4iI4owgOnkGn9kJA5zqZUZk5DrhgJ1bUDnb0=;
+ b=ErgTgTpdgaRsI0u9iuavf25Vlb9ReELSItId4lBjPlwuNp1qsFLHKUo+jhYxGa7tA1kFNJYlhhJPPiyCC7Uhwg+k7EWqfEqN3i8lUGFHBOxikz7+llbHEm5V90ftYx988pjDCPQug6+YON7IlJPrYP5tF/Jc5QWyPUPfCVYgvrQ/dHCBlFZGUuWPaZcHmOd0TO9VHrHzIWLViS2M3sZsXcU+fZHYqyyDG5EAa66Si49tk4oLY/ytJChyAM7p/5LfVem5CP9lrAO76Q0Hbw5AXYsT4BIWIfvjYf7JTJb4tvBobK975FSZdg7LS4Zx9PtrfkIhl7q18C7KVdPTwus+OA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=ericsson.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9CtN74w4iI4owgOnkGn9kJA5zqZUZk5DrhgJ1bUDnb0=;
+ b=dI8c3iWyzyzG7/arURrPzGseRWA4azZvuezvDXH0jVqTj7v+8jzT1k2HN7wX3y22YKao7fq49/fp8odQd/EEC48OkBSpOCcCZAHb1xdQat4nDyTdETdhtDWgb41NE2l+l2JkHPnGNrrDS5fVatD9qJLy9YH47Y1Cjas4FN92XGPMeZyfYqZ9kXHIy9ZkRQCRYrov2OeL4BgKkha5NGtzHjYw6hu9zC6HzFx0pvYejrlRP45SwZFFYZA7UdUWskYsdQxp6ybReX/En2sZZzZQabb2fiM01erHlupE17orQD7+7EMiAkj5b90Ca1yZ4z+k+ulV5Aea3O3qJYWEnty1zQ==
+Received: from DU7PR01CA0022.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:50f::10) by MRWPR07MB11774.eurprd07.prod.outlook.com
+ (2603:10a6:501:8e::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.20; Mon, 22 Jun
+ 2026 09:32:41 +0000
+Received: from DU6PEPF0000B61C.eurprd02.prod.outlook.com
+ (2603:10a6:10:50f:cafe::59) by DU7PR01CA0022.outlook.office365.com
+ (2603:10a6:10:50f::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.16 via Frontend Transport; Mon,
+ 22 Jun 2026 09:32:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
+ smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ DU6PEPF0000B61C.mail.protection.outlook.com (10.167.8.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.159.10 via Frontend Transport; Mon, 22 Jun 2026 09:32:40 +0000
+Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.65) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 22 Jun 2026 11:32:40 +0200
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 430414020B70;
+	Mon, 22 Jun 2026 11:32:40 +0200 (CEST)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id 2B0B6700DBB0; Mon, 22 Jun 2026 11:32:40 +0200 (CEST)
+From: <daniel.turull@ericsson.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Daniel Turull <daniel.turull@ericsson.com>
+Subject: [wrynose] [patch] libssh2: fix CVE-2026-55200
+Date: Mon, 22 Jun 2026 11:32:32 +0200
+Message-ID: <20260622093232.2735667-1-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU6PEPF0000B61C:EE_|MRWPR07MB11774:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2b118d69-3ae6-46c2-c61d-08ded04134bb
+X-SMTP-Server: smtp-central.internal.ericsson.com
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700016|376014|23010399003|82310400026|1800799024|56012099006|11063799006|6133799003|12006099003|13003099007|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	Ovofm3zvYb3LaY7BK71GWSnvAvMz9Vdtygb5xXeEq1FRlDD9Y0cxllxafQtWAa3otLu0H0sPWBa2ypAUzpBNYkYIna9EGTiUxULkcRkiOJm2+itA3isxupnnxInTzjZUjsWNKtI+XdWkAnnltSkOwQqJ8qg7FtpOdKKg8WN3B5a8q/tsiMn6qu5W15T5JBbIlag6iYfRQKYDygi7dHqlm1xLfbEVyP60Uc385i6JR6bYnEugHZwtXLG7xCPi6XYE4woF6LNQRQ29R3a8/SiuhXzIHtQpZBosshlt78XYuel5rzRK6Q11+f14OnbXjSs5BrH+5hSdd2pRJxrQ59+QS2P4ong1xnYqmCoKVAJ1WX9g9pXKkCtKcKVvCEmEsRZAQaVhZf4IRRPRpSUxx2BfqZDX2KVu04qGhHHYgdWqQ5ok6GYoIJ57rOOmg471+YX62ZY2muCI0LdsOvF2pkhAsv9kiVJW+KJS2ZHJTXskia4VZQN84UrUgSA0ac2xG7UwfJjtj4GAawHSJOHfWE90j/uBClyKCIwGLlAUN524PU0iYMvGB26xQJwXvmroOSMj7C+rCY2bzortegQtpqUwqpMSNRi/gYHbKlRTM2qAdOTThFj3WtgL0CKypI4BFgLhib0Ft2aT0w9odUMsPxOT+v0C92UTKuP65KnJIDeebKOEu4S+LQTn7ilyA6Sv/Ui21AljNgPdF7FN+g+TDdQzRg==
+X-Forefront-Antispam-Report: 
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700016)(376014)(23010399003)(82310400026)(1800799024)(56012099006)(11063799006)(6133799003)(12006099003)(13003099007)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	7RkC1QtAFESs808nHGeAxADOObANzVs3qrbMVKIeG+TGV2HZ5S1A+PUzLdLTqAqQneyPjx4ilEyP3R460B6Q2solWlLnJHmANEKrTKug1SRmIXjHloqUHUozzR678a75KgHXnlmmxruEzn6WwgoygbRVHXWCNnPem8gBYtVl6UJvjcq6MeLLKxaJu4WgBPKCFmYyc8Xiz1wLfve1rGV5SrLbbDVPZFJGiH0RuQ6JO7Hw/RCa/Q7im69E+Lrs/J3Gfq68o5FbYNlTaFSRxZO/Y47wa2tmFgH+631Zl3aZq08bVGZaneTj0RGsWMhdqrahKdjtPeesM/gYjGbKL5pcHt7cBW0BCbToJ+k+23qTbrY93XQyqcPpoasEgmYxRBuGY7/avo2WVmt3RvY1QVWpyF2h8TG/sI38crQH+YM1jr86Hfk/BlJr0eBr25Xp2juY
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2026 09:32:40.8536
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b118d69-3ae6-46c2-c61d-08ded04134bb
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF0000B61C.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MRWPR07MB11774
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:39:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239276
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 09:32:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239277
 
-Since Whinlatter [1], FORTRAN is set by a weak assignment, so the
-':forcevariable' is no longer needed.
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-Update the example accordingly, and replace the outdated comments above.
+Backport patch to fix CVE-2026-55200.
+https://nvd.nist.gov/vuln/detail/CVE-2026-55200
 
-[1]: https://git.openembedded.org/openembedded-core/commit/?id=3D50abae55=
-eda0115d073bbc6552f2fcb4ecbb7949
+Upstream fix:
+  https://github.com/libssh2/libssh2/commit/97acf3dfda80c91c3a8c9f237254630=
+1d4a1a7a8
 
-Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+Tested with ptest:
+Before: PASSED: 3, FAILED: 0, SKIPPED: 0
+After: PASSED: 3, FAILED: 0, SKIPPED: 0
+
+Reviewed-by: Anders Heimer <anders.heimer@est.tech
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
- meta/conf/templates/default/local.conf.sample.extended | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ .../libssh2/libssh2/CVE-2026-55200.patch      | 36 +++++++++++++++++++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-55200.pat=
+ch
 
-diff --git a/meta/conf/templates/default/local.conf.sample.extended b/met=
-a/conf/templates/default/local.conf.sample.extended
-index 999a09dac1..f4e35d94fd 100644
---- a/meta/conf/templates/default/local.conf.sample.extended
-+++ b/meta/conf/templates/default/local.conf.sample.extended
-@@ -305,10 +305,9 @@
- #USERADD_ERROR_DYNAMIC =3D "1"
+diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch b/me=
+ta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch
+new file mode 100644
+index 0000000000..9a71277cce
+--- /dev/null
++++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch
+@@ -0,0 +1,36 @@
++From df0b03ee5ef12f3a46fccc0fc688ebfb91702972 Mon Sep 17 00:00:00 2001
++From: Will Cosgrove <will@panic.com>
++Date: Fri, 12 Jun 2026 15:57:44 -0700
++Subject: [PATCH] transport.c: Additional boundary checks for packet length
++ (#2052)
++
++Add additional bounds checking on packet length to prevent OOB write.
++
++Credit: [TristanInSec](https://github.com/TristanInSec)
++
++CVE: CVE-2026-55200
++Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/97acf=
+3dfda80c91c3a8c9f2372546301d4a1a7a8]
++
++Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
++---
++ src/transport.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/src/transport.c b/src/transport.c
++index e1120656..d147505b 100644
++--- a/src/transport.c
+++++ b/src/transport.c
++@@ -639,8 +639,12 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session=
+)
++                 total_num =3D 4;
++=20
++                 p->packet_length =3D _libssh2_ntohu32(block);
++-                if(p->packet_length < 1)
+++                if(p->packet_length < 1) {
++                     return LIBSSH2_ERROR_DECRYPT;
+++                }
+++                else if(p->packet_length > LIBSSH2_PACKET_MAXPAYLOAD) {
+++                    return LIBSSH2_ERROR_OUT_OF_BOUNDARY;
+++                }
++=20
++                 /* total_num may include size field, however due to exist=
+ing
++                  * logic it needs to be removed after the entire packet i=
+s read
+diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-=
+support/libssh2/libssh2_1.11.1.bb
+index e825c8c5bb..5ffc40b8fc 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+@@ -11,6 +11,7 @@ SRC_URI =3D "http://www.libssh2.org/download/${BP}.tar.gz=
+ \
+            file://run-ptest \
+            file://0001-Return-error-if-user-KEX-methods-are-invalid.patch =
+\
+            file://CVE-2026-7598.patch \
++           file://CVE-2026-55200.patch \
+            "
 =20
- # Enabling FORTRAN
--# Note this is not officially supported and is just illustrated here to
--# show an example of how it can be done
--# You'll also need your fortran recipe to depend on libgfortran
--#FORTRAN:forcevariable =3D ",fortran"
-+# This variable will fall into LANGUAGES variable (i.e., "c,c++${FORTRAN=
-}"),
-+# which is then consumed in gcc-configure-common.inc.
-+#FORTRAN =3D ",fortran"
-=20
- #
- # Kernel image features
+ SRC_URI[sha256sum] =3D "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b=
+0f109cabf658f7"
 --=20
-2.47.0
+2.51.0
 
 
