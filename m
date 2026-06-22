@@ -1,93 +1,93 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 805F7CDB46B
-	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 07:31:00 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38040.1782113459454870947
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C75CDB46B
+	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 08:17:40 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38434.1782116256790093391
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2026 00:30:59 -0700
+ Mon, 22 Jun 2026 01:17:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=f2eB1RTp;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=twe3JLtz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019eee3d5a02-41425ea8-4a53-4d00-a226-ea8d68ee618f-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1782113458; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=FTGuEe8p1VtrtJL7da4JNKCXBrqbM1oz5OtE5mOID90=;
-	b=f2eB1RTpto8t+wqvxOlAxvBSN8X1hnMo89MAWiNcI4UY/JMfgV1IKS61CUkxjPOn
-	naQhOlDB9SChJPrBlpDQrJwyEzUu1KFqU2SXDFrbrCeTP64rvjPSL0ITiP4wQQ+nKzU
-	1Mp791c1HLMAfA0pcDnu3RhvO+ctv3+qQnbWCC+I=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782113458;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=FTGuEe8p1VtrtJL7da4JNKCXBrqbM1oz5OtE5mOID90=;
-	b=twe3JLtzUls9gTkTb8ELXAPbZ2HRZ91kZ0iU3pnLAseVLsqm5ZdFyewL55mKG5k7
-	m5S5x80GG/UJnSiaG9EIFpM68PKkRmC55RRCa6bAw3nlZGcKU3SXCFBy/owP6+EtG8W
-	PTGndN4JCljgjRcL349207wslh7BN2No6JuquzCU=
-From: patchtest@automation.yoctoproject.org
-To: Hitendra Prajapati <hprajapati@mvista.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [scarthgap][PATCH] vim: Security fix for CVE-2026-28420 &
- CVE-2026-46483
-In-Reply-To: <20260622072620.23436-1-hprajapati@mvista.com>
-References: <20260622072620.23436-1-hprajapati@mvista.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019eee3d5a02-41425ea8-4a53-4d00-a226-ea8d68ee618f-000000@us-west-2.amazonses.com>
-Date: Mon, 22 Jun 2026 07:30:58 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.22-54.240.27.31
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=YytwgKeA;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 0D3D01A07AD
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:17:35 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D56A1601BB;
+	Mon, 22 Jun 2026 08:17:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8FC28106C895B;
+	Mon, 22 Jun 2026 10:17:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1782116254; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=3xnFRoRHugmYxm6pNqf2P44QXdkv4nMgL2skWx6amnY=;
+	b=YytwgKeAbKGcVJTTqQriFkoWWZha+TFQz4f+r/oQxAwWxHqeGsNl3lshbMbVjf3YjQiYTT
+	2ouOPwV12NqbODno2VTk9JHHvbHUPp7I5wU4Izo0u6LfiLRKniKrN9NuE6AOqsmqrirGB6
+	yGOigIJPh3NNajx70kMi6OgvuIhj0U4hH34BUXrLgeGw/8Ak72oTTKWfsi1FMi5/T/ja+s
+	kkdqlABQex1J4O8iqFhiUtEKY1KegIFcPMe12h3s87cyKRpW1V1m68CIpWYvxlbjaVk61n
+	m66bGzX54NEA8vvVN8YevV+5bHB6CwVt2vbv4QupxCUeqxbWQ2mE2W/biN26Qg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 22 Jun 2026 10:17:32 +0200
+Message-Id: <DJFFHKBZR8UH.319Q33MG5CVZJ@bootlin.com>
+Subject: Re: [OE-core] [PATCH 0/1] fix tests for kernel-fit-image.bbclass:
+ Do not include kernel property in DTBO config subnodes
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <adrian.freihofer@siemens.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260621101222.669557-1-adrian.freihofer@siemens.com>
+In-Reply-To: <20260621101222.669557-1-adrian.freihofer@siemens.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 07:31:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239272
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:17:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239273
 
---NextPart
-Content-Type: text/plain
+On Sun Jun 21, 2026 at 12:11 PM CEST, Adrian Freihofer via lists.openembedd=
+ed.org wrote:
+> From: Adrian Freihofer <adrian.freihofer@siemens.com>
+>
+> This patch
+> https://patchwork.yoctoproject.org/project/oe-core/patch/20260616220700.4=
+1516-1-marek.vasut@mailbox.org/
+> requires a fix in the oe-selftest.
+>
+> Without this the tests fail on the autobuilder with the following error:
+> https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/7316435/raw_inl=
+ine
+>
+> @Mathieu would it be possible to pick the patches in the following order =
+as I
+> tested them successfully on my WIP branch here?
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dadrianf/f=
+it-improvements-tests-dtbvendored
+>
+> It's esentially the same as you have it on
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dmathieu/m=
+aster-next-tests
+> but with the patch here before the two patches from Marek.
+>
+> Adrian Freihofer (1):
+>   oe-selftest: fitimage: Do not expect kernel property in DTBO config
+>     subnodes
+>
+>  meta/lib/oeqa/selftest/cases/fitimage.py | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+I confirm this this now working, it should be in my
+mathieu/master-next-success branch in the coming hours.
 
----
-Testing patch /home/patchtest/share/mboxes/scarthgap-vim-Security-fix-for-CVE-2026-28420-CVE-2026-46483.patch
+Thanks,
+Mathieu
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
-FAIL: test mbox format: Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am (test_mbox.TestMbox.test_mbox_format)
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: Parse error Hunk is shorter than expected (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: Parse error Hunk is shorter than expected (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: Parse error Hunk is shorter than expected (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
