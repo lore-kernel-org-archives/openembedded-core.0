@@ -1,108 +1,85 @@
-Return-Path: <vpuar@qti.qualcomm.com>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C94FCDB471
-	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 08:18:20 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38586.1782116290765131691
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD0DCDB46B
+	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 08:39:50 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38913.1782117587024099821
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2026 01:18:10 -0700
+ Mon, 22 Jun 2026 01:39:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=hra0NS28;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: vpuar@qti.qualcomm.com)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65M59I4F3850632
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:18:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=T41zaIs/JXw/buHtmzWHs1
-	RM293MmOVvlzxFXP3gmDo=; b=hra0NS28qH3bo1Cl6INroIh97ctDvbAsRv0ptW
-	ysfQQenlJwsjGnNTMR3K2Ym3Ua+2wX0JnQ7W7ZWrlfGTg96fciD2BHW279tsbq7s
-	IU1wfkqajom64+7nZSWslajtsbUPh1BhD5VMVub7xiLG6o4MLngPJvWq5UGSiJU2
-	4d5deCKUVEVMhZnmwnbc60zmEPn88DqzLdnFnqavQBbXJDR4QSpy5kajNvOO88GU
-	acJTOg97TrM/CQePPDgdNQgZN97JTysefup9iyuw9BaQaL4eS3M9QzPvPTXuqzdJ
-	ttLtBXovsbY9mRelHjrHPVeYVVzN7SQKfsx03/dXudrbdk+A==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ewm585bqp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:18:08 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTPS id 65M8HMvU026057
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:17:40 GMT
-Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 22 Jun 2026 01:17:25 -0700
-From: Vivek Puar <vpuar@qti.qualcomm.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <vpuar@qti.qualcomm.com>
-Subject: [PATCH] maintainers.inc: update ownership for linux-firmware
-Date: Mon, 22 Jun 2026 13:47:10 +0530
-Message-ID: <20260622081710.3632461-1-vpuar@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=Y1GaVYPz;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id BBCCE4E405B4
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:39:44 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 91482601BB
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:39:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CDE46106C89CF;
+	Mon, 22 Jun 2026 10:39:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1782117583; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=wZvfLQD3kOyj3P9Q1pHCe9Vs2EO7S2NaSNwqv37LIUE=;
+	b=Y1GaVYPzBXkvrz0KPpmkg32FbaSLV4dGvthSD3jALMgxY7Lt43SF87COZND8ZNfmezOojS
+	7FpTEq1+48GSew/SBpxo7ZznZDf794X2IBywVLK/ORvIXIJmcQfjbqYYXmPF5TjQpfQ3Tl
+	ZCpYyMyKt6XftNK7fMG66x94k8MysL30hYhKg5WLafOfrB7XjOXOh7Vv6gSKEAeC0+QBOC
+	RyjyvnAcnRPsvjuhVNw5Cy5E04N7m/cTAaAJmZZxSN1JC5fjceCLrLE3coDItNbpvj51lv
+	TR71AaYNLa5R2AyyCAPdVrpKW37NtT47ZXd/m15WeJTkgYIAUM98mDVTk2Z0Gg==
+From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: thomas.petazzoni@bootlin.com,
+	thomas.perrot@bootlin.com,
+	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
+Subject: [PATCH] local.conf.sample.extended: update fortran example
+Date: Mon, 22 Jun 2026 10:39:26 +0200
+Message-ID: <20260622083926.37678-1-joaomarcos.costa@bootlin.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-ORIG-GUID: R6XDtIX33r06oC5EN_fnt0Z4vR1qPBC6
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIyMDA4MSBTYWx0ZWRfX7biXxh2d3gSl
- n0HHXLiJgB5+/9AKIbrK0ysNQ24QyvM/i780qXmr+ObpVBrFdF2MmH7Si4BnACq3I36f3dHNtHV
- FCZX7Ma17GD2i0hHz7Ogh5bm4d0KeEY=
-X-Proofpoint-GUID: R6XDtIX33r06oC5EN_fnt0Z4vR1qPBC6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIyMDA4MSBTYWx0ZWRfXwZWY2vl043Ob
- V0wEUbmsO2maSl6IEi4F8sRy4ZVLC/EsKNThPRGiuIYplodpC9617S2caGwdJZ1i0XQp1P/afor
- lJ8SoNhlgjOU+ZbGaOEKSb0hCbP8Ags7OI65BtZ64NHTcpqfBh5sMHGYF6QVuVr9XreDXMYED/F
- zU3dsJ0HsMT42VGVBW3T5aRnTF5k99iqbeA5pQ2h0m2+c8n4O2Zj0WQ5NM1jy3Y0ldN6wStYWYh
- AF+41E3Wb+RaG0XDMS/QbhHXefAjAAxBFVtGq6tIifTcNyMRfydbU/07QsQPADY9ab1jGWibJkq
- 6VN0mVUTLVnSRFC1LZunwA7YzrK8j0ky1j/MK9L2VIUPbZOcMuGe2BFnDpCk8q50/8wfC6vtl9X
- GU0ZtE3rLeV2F/r91TLUF3LA2Hx+H0pdrSILPIS2FCF8nfbuaEK0wAJ4q8U/3fQBJkIH+YFlY+b
- G7OhvuLL/Fi5tGx64vQ==
-X-Authority-Analysis: v=2.4 cv=FOQrAeos c=1 sm=1 tr=0 ts=6a38efc0 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8
- a=iGHA9ds3AAAA:8 a=omOdbC7AAAAA:8 a=pGLkceISAAAA:8 a=ENdlVatws_NGTdbHyKgA:9
- a=nM-MV4yxpKKO9kiQg6Ot:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-22_01,2026-06-18_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 adultscore=0
- phishscore=0 spamscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606220081
+Content-Type: text/plain; charset=UTF-8
+X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:18:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239275
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 08:39:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239276
 
-I propose to take ownership for linux-firmware recipe.
+Since Whinlatter [1], FORTRAN is set by a weak assignment, so the
+':forcevariable' is no longer needed.
 
-Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+Update the example accordingly, and replace the outdated comments above.
+
+[1]: https://git.openembedded.org/openembedded-core/commit/?id=3D50abae55=
+eda0115d073bbc6552f2fcb4ecbb7949
+
+Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
 ---
- meta/conf/distro/include/maintainers.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/templates/default/local.conf.sample.extended | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index f757fafdcb..4c6307086c 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -472,7 +472,7 @@ RECIPE_MAINTAINER:pn-libxxf86vm = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libyaml = "Wang Mingyu <wangmy@fujitsu.com>"
- RECIPE_MAINTAINER:pn-lighttpd = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-linux-dummy = "Unassigned <unassigned@yoctoproject.org>"
--RECIPE_MAINTAINER:pn-linux-firmware = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-linux-firmware = "Vivek Puar <vpuar@qti.qualcomm.com>"
- RECIPE_MAINTAINER:pn-linux-libc-headers = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-linux-yocto-dev = "Bruce Ashfield <bruce.ashfield@gmail.com>"
--- 
-2.34.1
+diff --git a/meta/conf/templates/default/local.conf.sample.extended b/met=
+a/conf/templates/default/local.conf.sample.extended
+index 999a09dac1..f4e35d94fd 100644
+--- a/meta/conf/templates/default/local.conf.sample.extended
++++ b/meta/conf/templates/default/local.conf.sample.extended
+@@ -305,10 +305,9 @@
+ #USERADD_ERROR_DYNAMIC =3D "1"
+=20
+ # Enabling FORTRAN
+-# Note this is not officially supported and is just illustrated here to
+-# show an example of how it can be done
+-# You'll also need your fortran recipe to depend on libgfortran
+-#FORTRAN:forcevariable =3D ",fortran"
++# This variable will fall into LANGUAGES variable (i.e., "c,c++${FORTRAN=
+}"),
++# which is then consumed in gcc-configure-common.inc.
++#FORTRAN =3D ",fortran"
+=20
+ #
+ # Kernel image features
+--=20
+2.47.0
 
 
