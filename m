@@ -1,162 +1,210 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <ricardo.salveti@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA0ECDB46F
-	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 17:22:49 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2277.1782148963404545892
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2465CDB46F
+	for <webhook@archiver.kernel.org>; Mon, 22 Jun 2026 18:09:29 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3370.1782151761876036581
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2026 10:22:44 -0700
+ Mon, 22 Jun 2026 11:09:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=kgQzHFL8;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=kgQzHFL8;
- spf=pass (domain: arm.com, ip: 52.101.65.23, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=IDFSQ5bcE5yQ4nXrfy2MAuOyKK7VprdK/FfV3L1Q0GrZM/kCbJ6KwawXscUSrgjKiGs+S3hs0r0MitVbpLnK0Mk4YRMux/70U76JdxfkR9mMxMaLEM63VDw8NdV1wNG73oUw7NkdfjKAnLPy6+Y1uTTFXjvbWJNsVF2ih5mgKY6Vqffi7nS+rIjCSTSYKbx0FBUVaDPiA56Qhy9IR8I70ij++NsNmDjFEqIrM1jt/DIS5MOx8wGf+WrBfV4EUcI6STBsxDcKEEX46nf6zdaXFsvq43nr9x67D9eMUBxyRHGmmPDTTWZA7Tpa86m6KwvZUm4B/MIV48XjwP1cIq3lVg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=csUyfLKlsU1CIENyG/dKc/cWBVE2VspN5cdjanvG7zc=;
- b=oePX0DIFU9LWXnM6Cq5O5NxUUsBFD73rpQ2nugKrO6G6h3rCCYSRhvyqvx+P1k0zEp5GGwNrUsygE3w752EfNbbqGqyr4F6DIXMhcUAKH/CyZbM0KJ7c0f9ZgfoUt8uO5+RXA59piBbBZFDMGPwHwGVYJiN71YwTiGDk86yV4LdAvc/ZY0qPLhsDUUJRMYbkdcOwBs0JbQ6g55GdVhq8+5YtJQR/+HB7TjLsGasl5I5mS59hkN57m5lhQn1aRazdn9YRxMrWnHssfMOOBGUH5KgYxwwFBx9ZGsyzk8YWzbUT26rUhJeJ0fETyuZoWk1Yc+/NaEuYRk2+rSAf5rukxw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=csUyfLKlsU1CIENyG/dKc/cWBVE2VspN5cdjanvG7zc=;
- b=kgQzHFL8eS1AzOjW0/+tc51k3D+7/iWBMBpkfN/me/1uIN8NFkgSubdIuh4wqmEh/F/Swhfki1G586u6ctWHkdZPfzvWnUbRRIIRQsWJHqVF5Ufa82ijOg5yk5UQIlMlUbbx57cEdd8Bv1HoVqeDCOC8HUXnQUUL5VkZc9G02MQ=
-Received: from DU2P250CA0029.EURP250.PROD.OUTLOOK.COM (2603:10a6:10:231::34)
- by AM0PR08MB11257.eurprd08.prod.outlook.com (2603:10a6:20b:6fb::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.19; Mon, 22 Jun
- 2026 17:22:39 +0000
-Received: from DU6PEPF0000B61C.eurprd02.prod.outlook.com
- (2603:10a6:10:231:cafe::87) by DU2P250CA0029.outlook.office365.com
- (2603:10a6:10:231::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.20 via Frontend Transport; Mon,
- 22 Jun 2026 17:22:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU6PEPF0000B61C.mail.protection.outlook.com (10.167.8.135) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.10
- via Frontend Transport; Mon, 22 Jun 2026 17:22:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DvFNPwwTUb1DIuJi/UD2tKF7xTGxMgqc+ek75z+XG3x7/h9f9syfrAAiFetiORbczTG8suy4OPOMwVchIrzkNEkDliawn+TCjTk3rkThTHBv3DBcNIr4OW6iSYbSWcLVZZUz0NjXwSLaZgILFebnLsCN/W/qauCHHsh/ojeulpAmCHpYaRLr26bMudmxXOPcFuUlyf6LVAu5L0S8b6kelnm4Ae0bNZXfSRD3BPKXClrP9hZBmQxqGzamcxni0JCACxK6GjtLiuFA49BV4HaSe0BfxCuLaZq+ruhucqngcyPy1R98b7OBzn90zeeB3iHAigHcfD6qWenCQZONaX0L/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=csUyfLKlsU1CIENyG/dKc/cWBVE2VspN5cdjanvG7zc=;
- b=B8YLKZ4/gvNDo3oEywY4RzASu0lMGYAuZRrliThjJU02AHuqJjRD82nv92K2CATm28oRxtyr8n7rk4/t8EAurONxfU/KW64nO2e9J3xdlHd1wmUBA6abv9NLkV3MwDqpqDp3wnNouE7dwV1/T42zE85fGM2pawU33CJ8YJA7dnlCCn9T9F7ww2bH9bisQy67RanWA+h0L+BX9CVbFYKPsC+MDm4jddBngKjBjmdad8iHzlE8WJlEGs5RnqG9J9TlXCYJrUKbnVpu53KZGDLg946YnAd+xihlndSwXKPfDJjk3gDYqhTh9Sl2xegEZqZnx+lfLYWTTKuerx8IO730sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=csUyfLKlsU1CIENyG/dKc/cWBVE2VspN5cdjanvG7zc=;
- b=kgQzHFL8eS1AzOjW0/+tc51k3D+7/iWBMBpkfN/me/1uIN8NFkgSubdIuh4wqmEh/F/Swhfki1G586u6ctWHkdZPfzvWnUbRRIIRQsWJHqVF5Ufa82ijOg5yk5UQIlMlUbbx57cEdd8Bv1HoVqeDCOC8HUXnQUUL5VkZc9G02MQ=
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
- by GV1PR08MB8497.eurprd08.prod.outlook.com (2603:10a6:150:81::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.19; Mon, 22 Jun
- 2026 17:21:35 +0000
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.21.0139.018; Mon, 22 Jun 2026
- 17:21:34 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "sivakumar.bs@gmail.com" <sivakumar.bs@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] oeqa/selftest/devtool: add regression test for
- kernel cfg in subdirs
-Thread-Topic: [OE-core] [PATCH] oeqa/selftest/devtool: add regression test for
- kernel cfg in subdirs
-Thread-Index: AQHc/wNcU8i59om5a0+6RaIt544wtrZK2RMA
-Date: Mon, 22 Jun 2026 17:21:34 +0000
-Message-ID: <639C09DF-7336-4819-B0A2-B201BE80A608@arm.com>
-References: <20260618091736.2319572-1-sivakumar.bs@gmail.com>
-In-Reply-To: <20260618091736.2319572-1-sivakumar.bs@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3864.600.51.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	AM9PR08MB6258:EE_|GV1PR08MB8497:EE_|DU6PEPF0000B61C:EE_|AM0PR08MB11257:EE_
-X-MS-Office365-Filtering-Correlation-Id: 353171e0-a7b9-4c54-5387-08ded082dc06
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|22082099003|18002099003|38070700021|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info-Original: 
- oS9kJGVwsSS8iCdnoILia36ui9ocM2pF6/N2P0vwfiY7vKJD57SoJ6BqDXzgOR6v2X/90+dBC3f9AQekLWmx9zpJjZL1yALl4PVgCMr6weWdIphZZnY6C3coRpyoCw8Tt6nNtnxflkm4wbzUCq839dsbSDwFSeGbHdWhVMKMBIKQAIFWtT5XLadJGrbJc9bcHwYVLk0tzaQSBi98XcY19dk/VhgiYW9enuU4lfWvxgKF5ZXOxM/we1GbboC15oy95Dom5RoVIjmJNCr9B1BCvmC4Vwlqlomz+jPSkcaxQ3mhGmG0p9X22l8wVqlZQFSZgPRB0+WxK5WkLZKnWDrAETAHViwHVJekea8x3ePBOC+Rne8Y+Tuq5s0kWy6ACLkOohboNcyJ5x0YSCmlG77jjkMrGpFMd55BujoxFCJIrkUBjGYWjv3dRDMQi0mKF+as5NF5rfE8jzuPmDVvM5IO+z7qF4eoRL5w3jBhmrfggSnABH3U2JL/KEB4vO+ajWLW8zInADB86GAUKdMwdnpQVpaXprBwJD1snNbiXMlJC168aoVj6HDJWby+39zwvSDsAIx8LZ/uL77mJ+sp8uGNBzF2Bkoepy0VzzokCC8mYpejxnR+eAHpqEpVyiBPjRqOOCv6hv2SPv/f74sQxDfEByg1mGXgHhd3c5pcklotlABvQcsJDqrt/JDXu3V7ZmAdhwobLtDAaI21aWymBYdihbpOyZJ+1JLa6UDezL7lRZ0=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(22082099003)(18002099003)(38070700021)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <58E04FE49E413A44ADEB45007D5795AA@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=M1pARXMk;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=Ks5pJLJK;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65MFX8EN1370213
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 18:09:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=zgEfxZvZGzn4X/PAt/4ljA4Hi0e2HjW7jsL
+	HOYdMDOQ=; b=M1pARXMkiFDILs/LEP4j2yw1EP4gqcaVzb3qZIE7cgJKHFULnqu
+	GrDGGaTCempjMGhlue/Tp4K/nvPPKXdhYNzq7VLskKgFSeC7SmZHbXqbNmf6g4Jf
+	+TQDzqZgOhKA3o1QHwKgH66ZVuaTOeOaGuH6hAm13G57xRQILg/l1SnU4+n6dBOC
+	Ox0NVR6zOCMa0xEHznCyCfO+iUBZbkUdXpKao2FdFh+OMUanu+K73XIxoM0dybva
+	JpI6/fgwwa6NqGr8xeSMXQwNcH6ZYEeRIirECm2elvnNA3+HXAcwJxLgVuFNpfWB
+	oFaQA2Cu5/SHqPRETfKakCOJ4ODY4K8uddg==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4exyn1tsjw-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 18:09:20 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2c6a20348ceso55016875ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 11:09:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1782151759; x=1782756559; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zgEfxZvZGzn4X/PAt/4ljA4Hi0e2HjW7jsLHOYdMDOQ=;
+        b=Ks5pJLJKni/qUJ6LxXjvTcGluQdYQTP8vVc//uXyqc88caGpAALZAK07b//7d0jlS3
+         Wi8SJ4rohS6PJgnsnyI5L/GYokKjWu7pGYFM/TxyH3s4i4jE3ZjPau1D+m/EvBO0M7Ew
+         pnzxu/UCzYnQfFWco/Su5vapMBYluadmnykAARJ3SFMNJvrdJrF0LbDi/B3m/DkVjzoo
+         z9ULY2LM/R+XCu3G7o6QHLQhN3im2hEOvrSA5vfd84WFnvNpQjydjbxjzHSUYqpY/Cdt
+         sLjL9hBHyQhC/bJosiwKduP4bMN6s9gn+1c4BojNntECmZ/SBEKeeZykRtISQ98/pUBe
+         A61A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782151759; x=1782756559;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zgEfxZvZGzn4X/PAt/4ljA4Hi0e2HjW7jsLHOYdMDOQ=;
+        b=CwWSeJo6XmY24qZ1+WAN/IlPt6HxxcsyDtdianMIlGR1p5PtaByPXSuOQK0PU8vXRK
+         Y7gVVragOoLaSh3JZ2Cxs0eJBs0RxQmUNfmBLXpWyvpjnfa6m27Tp7/4fHGaxhoMhEFs
+         wjezdsBpSDjP1JrcaTtFMSZbNU2TqzP3+M9hTqk4lFVLPIhMwp4zeCS4HPKI+ElE4Hny
+         sviC9WcQCQxCebVwiFF/LlqfDwFXX6PBUFOUfRvvEK5Z9zQZiQ8ZAMhg8WU1yOiIZABV
+         KwNdCpG44a+m2KI/0YnvQ/AXS5a7AWaAtf+t/9/XEciJg2tFdMCPTbqeT7YkYYxzTezw
+         +ATg==
+X-Gm-Message-State: AOJu0YwpCy2pMWXqwhvNbna/3k8aQSbrcn3kAXidwBPyn7XoNmf+a81V
+	aWHROK4oS9pA2Z2H8Zv9juHpyHVlWS37Ug9B1OWR8tUroUGib9O392k8aLiH7jAO/VPu/W0YGUj
+	xK9ioeSlU4J6pvEE7aou2NIGJO8pi/VCQhM8sJqf/ehdkRIfAzXsf55VW9oEql6GWNyrW0HUczT
+	aeXHTamAhq6/r2teOG8A==
+X-Gm-Gg: AfdE7cnS9T6UgNpZj+UmYCFErj9Hou4z/JU4p90avXNM5QtMdlOQzUm65AFqp066PeD
+	shQ6QnaNIcVIG+Cxr7EeuChCB0ZtioQ7GbWCTMT4HHK4G9di2IbOxrj/jE/5wqtIIpSB4p0omVY
+	xd9Y8qsxcH4ePCvkCLgwbiU6M99uWKN2u2uChD2ZcNIRJ149mhDNbu1dGRMSQhuY3ePHEzuOyxl
+	TizVjvHIbpGrEuKzVgKFZU861adj3AQlKTCLzfAAYA6ZzayoBHMDxUshZZWR3osvbGcABf3CMLQ
+	x9jLdhosUBNjnXNh2WAlQgtl3pBcRyxBMwPgz2GSa36lJprijg5BiS7BxmSJRyV5pRIXEzTenL6
+	Kl12QKWG/qPeCL3/GZNJxOe1ztVRRlrqeAZHdFpljFD644Tl5Cw49dNcvO7srYDaPHM9gvNmAA6
+	TrBetMU3lA+92NNu/oIoZ9gET513RzqjNoM3GPqTqcLfnuVt1wDg==
+X-Received: by 2002:a17:902:e5ce:b0:2c6:f350:e895 with SMTP id d9443c01a7336-2c718fd3fc0mr151711595ad.35.1782151759333;
+        Mon, 22 Jun 2026 11:09:19 -0700 (PDT)
+X-Received: by 2002:a17:902:e5ce:b0:2c6:f350:e895 with SMTP id d9443c01a7336-2c718fd3fc0mr151711115ad.35.1782151758331;
+        Mon, 22 Jun 2026 11:09:18 -0700 (PDT)
+Received: from ip-172-31-25-255.us-west-2.compute.internal (ec2-35-83-207-173.us-west-2.compute.amazonaws.com. [35.83.207.173])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7439f8524sm94605995ad.47.2026.06.22.11.09.17
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2026 11:09:17 -0700 (PDT)
+From: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] uboot-sign: allow customizing the FIT configuration description
+Date: Mon, 22 Jun 2026 18:09:09 +0000
+Message-ID: <20260622180909.43993-1-ricardo.salveti@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
- jGsCPdvTI+UQaU57FX4jAdbVfhHgEJlQTqAzQZLT6RqicxdcOzCc1X/W/zOEf8JDAWUeouK3Q/+w/WqmMgWs1aQ00ICHb9A8DIfvt11KPIRhEpTDqvcHpJw3orQWoga/Evsw/GY2PmFh6UCSOBf63t8CR9CPUt0pitCJ/VLGZl5R8/KUVSc+pySz5wWt5Azl6533z9zZkbNPjrL80zo7OeAu1WdaKtGBb6/KTBJfVjPmAaBzzlxzUG06rBWj4Meyj+yH87eEq0k532JP0s6m2yvFQtbuHel7XO2P9TpKS9E0uXL+qBu2d7B9U8pUpw6Zcv8cnM9RPTTykzcfjQ2G3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8497
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DU6PEPF0000B61C.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	000dfa5d-5576-4371-382e-08ded082b5e0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|82310400026|36860700016|35042699022|23010399003|14060799003|1800799024|56012099006|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	/iQvvEkDwOOcs0qzTBWzfQFSqkoW5Lw36SecuPKTsAntXyPJwKt3XXeb8HBPLSzebzsYfepCqYdnyRCQR3f03UVSpz6cwYwU4oKd8/d+pUS+7BB8A/Pdf2KPyIVJP2ApyZ3IGBwSEWLhYBtg+h24AOHeol4PSGlcyp1TKsLvolJClP3qSCB8APN1JeUwOSABqJAjMd8xE2tN6uH43wmOma8V5h8ZEWIQiz48AS1AY9AaRHtA3GKYVjIilIMbCsOcqR4Dh8zqIHshSRyxdcPqvBJjDTs/cPH7ZtSN3dGsmYhQz5EFUSpOgxJ72aN9TXGitrfF/YLAQ7WOrQhh4lD7STNxeR7DRXaXH1KkBMksO91Zc+JCBC1/zEKS768l6GAQAABE1FnHN0ZmG8joQvt+RWwil9w1sYMBGjxXtSDzRVVSRys7WbURlPFhWnaYU4SYT6PgnfzLNUrI2P7+bkow1zX9/bZt/ZTf+029cQqvf+q9dIxQJ/awu3+4kIRwdD6LRzBuABnxnJxS61UJDWoUzLE0/l3IxsDEesEdrv68pNtE6RiQMCRkCQL/5pY39rWSAklJJrNguFzAJRZws16a+yQ7OzrZdFdLhj9DUVJh8TbOeaO0C+MFK/Jy8rwbyluXrRCkeCuJVd0RZlo9l7GGZIjIPkJn+MubCsCxiNIZGyjmSfmoWMP6Kw92HGp5eDku7gP5dvBJYXNp5lBwqA3GNw==
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700016)(35042699022)(23010399003)(14060799003)(1800799024)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	D5k136EccPUcbA9zf/u99cIYX49qVsDZ4t2CP8x+NpW6ynMkwoxog0KKFlQkHoCRywNcgy/fwtkg4z7+Tt+12inXrk2b1Q6X9IW5jcZaZBczsUIWf6dpwUZFKYNPzTFbXWnEO7DsISVDl6U/ED9v/q4/WVd59OnY2eUZFTKO96TIcwoGibysBDrZap2oFKg/pVIllNZ9krldS9WAJCK0Pk7DYum2oOSSfqsM0zsssVMyXCFM9AqRtGrSuafwxdQO7BehNpnsrDAXu4hB2qwySHfS0Vpfq8SCz4TEe/mzE9Xfn2KKFbxkIdDgrGfvVY7VumGRKKnpmPLWaLfZffsmmaLvUB+LGR5l3b7PlXaWDViFskln8Qgqw4Cw2Y1G/i4e3omp5G86PMWIz2so1A89AkSWo17gRPAcyXgVhIk6Kppcx0qzC+QAscSFZCFEFYBI
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2026 17:22:38.8382
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 353171e0-a7b9-4c54-5387-08ded082dc06
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF0000B61C.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB11257
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: goMy-IfrxYsi_r6bd69XzK2wpKn0ZjM7
+X-Authority-Analysis: v=2.4 cv=EOU2FVZC c=1 sm=1 tr=0 ts=6a397a50 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=P2/bgbqRawb6I1+7fxbs5g==:17
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8
+ a=VnNF1IyMAAAA:8 a=7CQSdrXTAAAA:8 a=I1JR4CY4CEBTJ48_3i8A:9
+ a=GvdueXVYPmCkWapjIL-Q:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIyMDE3NyBTYWx0ZWRfXywQR4IFKy0R9
+ ZCXEgzihs3wur2yyQVP54UMQVl5XbCW4/9qDSImxLcjcpUrrL/sSFDSJPtOQQWGZqlIAeXFxllo
+ Hq5E0X+KGwYX5kLTRj27QyV0zd09xTM=
+X-Proofpoint-ORIG-GUID: goMy-IfrxYsi_r6bd69XzK2wpKn0ZjM7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIyMDE3NyBTYWx0ZWRfX1/SEtssCmzpG
+ ImHkr2h4mdnU6NmKGNv0T1AnPve7/nwfKK3TQSlvWFVp5bcJ6JcwsmP681HR4UDa4QtjnAhQ56e
+ za2YRqqKG7aB2h7yJOiLW2pVekVGi+oGyElezyBVv3dvuA21cikuCosRWR3d3mGYU+s6t2sZWwA
+ phmCoJuFqjCzsmd0fkwKyzzkpockfY+e1CdjaB/VWZYJRvAU8BulVH/HszEW/oVddZAGaJS07BL
+ 6WNB+40IGLlDJhMHfri7RJtOfGes48c+hgZAfnVlxyBf6pG/KTCpr5yqCHuwXcEuE0MHW0Bpvys
+ BSFEs4pLcBryrd7TFEcz72OV0Umk0uaSwzd6jMbZRzGYkyA8tC9lJSMAnXFH05dsDri1n2eKc2E
+ J8eA8D7NcCbO+IM5/Qe1AkS2HyxZwuNYJyfxwssxNEkVVscLLJ1F+vQnbtkrYAMqNNoDcvEieM4
+ OKhKnHsKapAyxnMOTqw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-22_03,2026-06-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ lowpriorityscore=0 phishscore=0 clxscore=1011 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606220177
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 17:22:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239313
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 18:09:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239314
 
-T24gMTggSnVuIDIwMjYsIGF0IDEwOjE3LCBTaXZhIEJhbGFzdWJyYW1hbmlhbiB2aWEgbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZyA8c2l2YWt1bWFyLmJzPWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPiB3cm90ZToNCj4gKyAgICAgICAgdGVtcHBhcmVudGRpciA9IHRlbXBmaWxlLm1rZHRl
-bXAocHJlZml4PSdkZXZ0b29scWEnKQ0KPiArICAgICAgICBzZWxmLnRyYWNrX2Zvcl9jbGVhbnVw
-KHRlbXBwYXJlbnRkaXIpDQoNCkkga25vdyB0aGF0IHRoaXMgaXMgd2hhdCBvdGhlciB0ZXN0cyBz
-bywgYnV0IHVzaW5nIOKAnHdpdGggdGVtcGZpbGUuVGVtcG9yYXJ5RGlyZWN0b3J5KOKApinigJ0g
-aXMgbmVhdGVyLg0KDQo+ICsgICAgICAgIGJpdGJha2UoJyVzIC1jIGNsZWFuc3N0YXRlJyAlIHJl
-YWxyZWNpcGUpDQoNClRoZXJlIHNob3VsZCBiZSBubyByZWFzb24gdG8gY2FsbCBjbGVhbnNzdGF0
-ZS4gIFRoaXMgaXMgdXN1YWxseSBhIHByb3h5IGZvciDigJxJIHdhbnQgdG8gY2F1c2UgdGhpcyBy
-ZWNpcGUgdG8gcmVidWlsZOKAnSB3aGljaCBjYW4gYmUgZG9uZSB3aXRoICJiaXRiYWtlIC1DIHVu
-cGFjayBbcmVjaXBlXeKAnSwgYnV0IGFzIHRoaXMgdGVzdCBqdXN0IGRvZXMgYSDigJhkZXZ0b29s
-IG1vZGlmeeKAmSBJ4oCZbSBub3Qgc3VyZSB3aGF0IGl04oCZcyBhY2hpZXZpbmc/DQoNCj4gKyAg
-ICAgICAgdGVtcGRpciA9IHRlbXBmaWxlLm1rZHRlbXAocHJlZml4PSdkZXZ0b29scWEnKQ0KPiAr
-ICAgICAgICBzZWxmLnRyYWNrX2Zvcl9jbGVhbnVwKHRlbXBkaXIpDQoNCkFzIGFib3ZlLg0KDQpS
-b3Nz
+The U-Boot fitImage configuration node description was hardcoded to
+"Boot with signed U-Boot FIT". Some targets need a board/hardware
+specific configuration description so the correct configuration can be
+identified when the SPL loads the U-Boot FIT (SPL -> u-boot.itb).
+
+When CONFIG_SPL_LOAD_FIT is enabled, the SPL selects a U-Boot FIT
+configuration via fit_find_config_node(), which matches each
+configuration node's "description" property against the board's
+board_fit_config_name_match() hook. Boards that override this hook
+(e.g. CZ.NIC Turris MOX matching "armada-3720-turris-mox", Engicam
+i.CoreM6 matching "imx6q-icore", StarFive VisionFive2 and Siemens
+IOT2050) require the description to be a specific board/DT-derived
+string. The previously hardcoded "Boot with signed U-Boot FIT" can
+never match such a hook; it only works by falling through to the
+default configuration and breaks when the right configuration must be
+selected by name.
+
+Introduce UBOOT_FIT_CONF_DESC to make the configuration node
+description overridable, mirroring the existing UBOOT_FIT_DESC variable
+used for the root node description. The default value preserves the
+previous behaviour, so existing layers are unaffected.
+
+Signed-off-by: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
+---
+ meta/classes-recipe/uboot-sign.bbclass   | 5 ++++-
+ meta/lib/oeqa/selftest/cases/fitimage.py | 7 ++++++-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
+index 2b10e71730..78d85aaa9c 100644
+--- a/meta/classes-recipe/uboot-sign.bbclass
++++ b/meta/classes-recipe/uboot-sign.bbclass
+@@ -103,6 +103,9 @@ UBOOT_FIT_TEE_IMAGE ?= "tee-raw.bin"
+ # User specific settings
+ UBOOT_FIT_USER_SETTINGS ?= ""
+ 
++# U-Boot fitImage configuration description
++UBOOT_FIT_CONF_DESC ?= "Boot with signed U-Boot FIT"
++
+ # Sets the firmware property to select the image to boot first.
+ # If not set, the first entry in "loadables" is used instead.
+ UBOOT_FIT_CONF_FIRMWARE ?= ""
+@@ -452,7 +455,7 @@ EOF
+     configurations {
+         default = "conf";
+         conf {
+-            description = "Boot with signed U-Boot FIT";
++            description = "${UBOOT_FIT_CONF_DESC}";
+             ${conf_firmware}
+             loadables = ${conf_loadables};
+             fdt = "fdt";
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index 34b248ee0b..9858d8a4d5 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -1335,6 +1335,7 @@ class UBootFitImageTests(FitImageTestCase):
+             'UBOOT_FIT_ARM_TRUSTED_FIRMWARE_ENTRYPOINT',
+             'UBOOT_FIT_ARM_TRUSTED_FIRMWARE_LOADADDRESS',
+             'UBOOT_FIT_ARM_TRUSTED_FIRMWARE',
++            'UBOOT_FIT_CONF_DESC',
+             'UBOOT_FIT_CONF_USER_LOADABLES',
+             'UBOOT_FIT_DESC',
+             'UBOOT_FIT_HASH_ALG',
+@@ -1432,7 +1433,7 @@ class UBootFitImageTests(FitImageTestCase):
+             loadables.insert(0, "atf")
+         its_field_check += [
+             'default = "conf";',
+-            'description = "Boot with signed U-Boot FIT";',
++            'description = "%s";' % bb_vars['UBOOT_FIT_CONF_DESC'],
+             'loadables = "%s";' % '", "'.join(loadables),
+             'fdt = "fdt";',
+         ]
+@@ -1590,6 +1591,9 @@ class UBootFitImageTests(FitImageTestCase):
+                      Image Tree Source. Not all the fields are tested,
+                      only the key fields that wont vary between
+                      different architectures.
++                     3. The custom root node (UBOOT_FIT_DESC) and
++                     configuration node (UBOOT_FIT_CONF_DESC) descriptions
++                     are honoured in the Image Tree Source.
+         Product:     oe-core
+         Author:      Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>
+                      based on work by Usama Arif <usama.arif@arm.com>
+@@ -1607,6 +1611,7 @@ UBOOT_FITIMAGE_ENABLE = "1"
+ UBOOT_LOADADDRESS = "0x80080000"
+ UBOOT_ENTRYPOINT = "0x80080000"
+ UBOOT_FIT_DESC = "A model description"
++UBOOT_FIT_CONF_DESC = "Boot board XYZ config"
+ """
+         self.write_config(config)
+         bb_vars = self._fit_get_bb_vars()
+-- 
+2.43.0
+
 
