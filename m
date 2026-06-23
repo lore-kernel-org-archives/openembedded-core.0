@@ -1,191 +1,107 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1036CDB46F
-	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 12:09:04 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19193.1782216539138677403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEABFCDB479
+	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 13:14:35 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20441.1782220467618867207
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 05:08:59 -0700
+ Tue, 23 Jun 2026 06:14:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=DxE0w0qd;
- spf=pass (domain: est.tech, ip: 40.107.159.53, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zCe0GpVdorcAbfrHxanh9UoNdrxuexG7ghoCpde9qDJxDt+3VSCVSQgx5w29dZ6wObooO4rx8uQCF+MDDiVoPlc87aJe0GVxXJd/nRHqed0F0tiRIIh3SEOsbMVkaLSNIULlHTMn26KIThFezuJZfYY6LmzmnHCdAsTemaKsjXtB8nNX0b1JbdFPlf5a93XSdQPIlOyMWUe7st+oCN4MRMnDG+vhnaNHdItxSBggowMVkWgJWKAexVWWftvJMjfjF0A1hm4NFBl4w4fCeGJhUkilYcD42XpsnAZOue4GFNmZ2cVVg4JuFYOlJKFzk/VSm8VuRj4lI8d8tok8ElBaEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QU5TKkC2pZDyVmt0xxEmK/rUl8S59Fjb1MUeJnyiYvc=;
- b=LBXcZXcZFVl36svJ2KVeXyXOX30JtNWrzl562s7xHr9J85XgYIY7lJddoPidAyaB3cmEAE+GzbKMQ9XlLdUHfMoR7TNw8+gc9VP2YPNK0D3n4JOnq+ZRqTdBY+6+z0Wb1A4+dcSE//ph87X2GvvxLvnLJJskK+/PT/lruDPXYotrS+ZH8QsK9L6ykmua/ZrUXCd3z6pl5BYBm0fG3vJgdWAHUTUjB/uuSYyj7z5JPtTscpPCwBHdQs4c7eXIUQ2xJcYJPmWmUuGIEWz0jN/DglsUP5+4MljP1ukIU8SLismA+jeyus8+rklKyd65P2+lfDLv+aEn0e2zoTLUiEF9jQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QU5TKkC2pZDyVmt0xxEmK/rUl8S59Fjb1MUeJnyiYvc=;
- b=DxE0w0qdQwcCbU+OM12wI36ivD9vcRioYdSKvaP/RE8Jn8ExG+TOz0pC7oVoEDV65CFAAIW7YHxrAp7qgru2AGsAY3hMfpelUsLnmfu7HFwj59oFDItvdodTICNIAmQQ6XZDEdWoJjh7TTdIen1G/6GWWcCz5Q9oqg9DuYmlemwbob7BaXtDF+UEoa749ogcMtdfUzJD7lOa0F/lZC+KpUp6yppBnodaiWlWSCYOXVmGjJauIdQRSnTqWygot5MgekWZQY6ziNTLgJhLMUnFVib6clah0uG/1t+pTY7gyTj0jl9w95JLZTjxpedTuudkxLEkAMoz+x0jK15zC2gDxw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by VI1P189MB2597.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:1c6::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.20; Tue, 23 Jun
- 2026 12:08:54 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::18b0:e114:b839:ca49]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::18b0:e114:b839:ca49%8]) with mapi id 15.21.0139.018; Tue, 23 Jun 2026
- 12:08:53 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ dkim=pass header.i=@smile.fr header.s=google header.b=TqvY5tWh;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4629d80fa08so5347659f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 06:14:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1782220466; x=1782825266; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FbE9Pd6luAnxk6H8jtLKUvoGLuG03WOVQBvo9b1KoRY=;
+        b=TqvY5tWhXCAlB0m1PyRRS/gUzQ6amI2wSNmmpWzPvLIKnPfF363qGeWHVwy5ndz9mB
+         4+4RqNosu5Kr2Htv+szGsSkyaCY1mau4obF9VR6EwPcWs3OqO6WYedlcRNyO3hui4nNU
+         A382GUnITyNrndANFuw0dZGK+82CrGuNP+KMQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782220466; x=1782825266;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=FbE9Pd6luAnxk6H8jtLKUvoGLuG03WOVQBvo9b1KoRY=;
+        b=HoSHfoMJ0L07ke8vYjJeH1QvdZmAFLHbcI1e2j/f69pJ/HLEuT5+cwJSv57T//6jP3
+         cxmcw0LbpBNMy6Eive/y8NmZSxEvsKLP0nPnRcD54KF7q1Em0aqkwZQyJb4GQjfp+AxM
+         MVBZlcPgK4KUGYd+JYcTdEkgXGOpHXZxdWYxj4fy5vzBN/37ldA5U5j12pjjMpSGydqz
+         m+kDkC5fp6jcDwkjfl7U2MqiuJ1fBdxGEmu/xmK6TwL/m7T6kkTGUpxaPPBu3huKomKb
+         LeDc8BYEQWQc80pgsBzjtYJDhRGjzO7tX8tgBws1hnBHfNoRwk/WxbVr+Jw+HXOSHSQM
+         1SzQ==
+X-Gm-Message-State: AOJu0Yx61LVlf4RHjzRlfjipBDqaH5Fw+l/xqRrAqqyZosu3MSZBJY+7
+	410j7fNeOUeorCFgJcWxsXIUJcyOv9JqyPxh6scFQOzxp8Ieh4goTMHmm1rWyA1K+kL+NPQxeO6
+	C3Vwq
+X-Gm-Gg: AfdE7cnkGbAaRxAYL2eJiX2g0V4qcliivpy4fxm62YWWm9M/RNplMbxppXvqmOX0VJN
+	B+RvkEKl7KyZQ5biT5vnZnwjcOaDztDFk2uuKI9J6vVH80qVP+yySDZDQM69EqKiOwurgcXK39j
+	sMOFz1VlTwFIXTwso2/nx8tcgnqyVBPgcbo1HIX0kz3ogEX0HLCsPTcaSJFr3zFcCHg/E+YNkOb
+	1DdXw4GyKiXY+x9ycppw+DE4mSp1vNdIBPFUX4WOTcDjab5Ldwzu4cP2TD3JYFxLAdPmmzcsIPb
+	VURKmWLuqMWtW8iBYzAybaXU6E9M91S+/5hPgTbJurJtCpReKDzATJHkcxTxhsTDF1gixiOoutN
+	VMkjimFeEobOSLF9cPZeVd74bFpBlFfCJToQ2atysdCAHwhG6+E721jjAEvFyc1/jjuJzWn2Vxm
+	dBmZ7un5BoK5Q72hGDAClSeqLC7bDz9RtCIsfUfofIAIkuM04bp2mgEKKbrX6UuTIEbMXsaITCt
+	FlBvQPibaFkXBzhzQ==
+X-Received: by 2002:a05:600c:190a:b0:492:3071:1db7 with SMTP id 5b1f17b1804b1-49240e6ca7dmr311970635e9.28.1782220465733;
+        Tue, 23 Jun 2026 06:14:25 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa008234f3c115adbb1a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:8234:f3c1:15ad:bb1a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4925d013a69sm24334285e9.3.2026.06.23.06.14.25
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 06:14:25 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [wrynose][PATCH v2] curl: fix CVE-2026-5773 - wrong reuse of SMB connection
-Date: Tue, 23 Jun 2026 14:08:50 +0200
-Message-ID: <20260623120850.29881-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO3P265CA0022.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:387::13) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
+Subject: [OE-core][scarthgap 01/26] pseudo: Update to version 1.9.8
+Date: Tue, 23 Jun 2026 15:13:42 +0200
+Message-ID: <d716fe7e4f1dd2156be8773408611bb979a94d5d.1782220259.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1782220259.git.yoann.congal@smile.fr>
+References: <cover.1782220259.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|VI1P189MB2597:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3705d60d-070a-4172-ee14-08ded12031bd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|3023799007|11063799006|56012099006|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	Vy9/MJTn4vgT5mGaaL73vbpQbGRJahjiH/Fq6OWOzZgMEew2n3smXvqURo7PmF/XqmkCqxy/IEF+HgEE1fj1mxDxDzPEuM+Ai0dPXcp1ZwAxf/1Z7nHiI/rIOzPADdWt1naTXI8lg0vtnuwHECjP8/2ntxNA6hQ2y5LFcFV85kQBl3GHC2FvYp7YlilCRnKcmpskCXxnulsUs7+Al0qOg4pGYA3hrD9OGetZFP/EdjcrwAeYgGAeDaj3DvQnRRggzBQYcBzlqLVdOVRUC6a/7cuFATNp+L9nuqjGw3RqHpz8yK9A3tCVyPKsZS6BXVz2ydh/Ha/gc+pVN02V3HnXlH01rMDAffLxPOdgrpd3mhI4S937y8fRR25g4dOlSK01Qa0V5/EjyA9bp6CRqDh2UBlFwHVXFYyWM2qMIDVj1Hn6Pk1S7sUvS9/iWoySrtx3deM+CjJdLFqg+QUbj56ug2tgZv4wqxDlc2riVKyoPvJR9WgSColE2TjOQihUDTtzynKAQMnhvJVyK/abEIgBIyICNK/f6xXZBJZB5xtxBcEMsiwhxxCXUHRvC1HdurBqkYR1b8ApIndpe6QAEI7Rk/z6DpCjYhhC/3WkjG7yaN2h9eayztMRRkvATo1avrrTsVbAdj32DzHSUeEub/W+n9jnjcEeZCUW2zDADvkwO20=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(3023799007)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?qaBv0XFkICmjEMkNZ1Y9aazGjYdLhpRFt/Ka5Ekr/v8bCxAOi26bhR5zd67H?=
- =?us-ascii?Q?ueDEongwaADY7OQ8a8b9YfQvVnhSYHzT0OOBHKoIF3I+GpXX8Wqp3SJ7cKwe?=
- =?us-ascii?Q?4GPligzRLnp6MiWltt2sktukbM7VDRW1yuM+/Lfe5WY5QFC4nb7MUC1qbkeW?=
- =?us-ascii?Q?zkS32aGqYP2fTkizV6hnvMoLbmwZMUIJ34ixkJZqslI8X2xqunETj/fbVWn1?=
- =?us-ascii?Q?jbZ5BVRjZTybiNoQLa/gGMwjEN0RIlSvdcpuW7l9hQT6zV/p4UwcSnlhHgEn?=
- =?us-ascii?Q?g8ttIdSt4bdGY/OI61Q/GYzLYsHnvcpKGdqVO+enUQs7Flb9pEptq38OaCP6?=
- =?us-ascii?Q?8937psEjdZoE9W/pe34EqRYVuPnRPGfe4duYP3e2U44SeVp/JBaN4w7D/fk5?=
- =?us-ascii?Q?8FfTukb6krXkrSRm4ur25lrA6nXo9eDftDi1txPbZBmfgFCYIF5VgFADCSTr?=
- =?us-ascii?Q?m06aK0B+dy6yChKhgDkbSnJxdVRIW8Qqh8N6s8www3+M9uYW4xzSnM/bWz58?=
- =?us-ascii?Q?Ml2QQZol+oEtmBhg6XGuPDUv6O4CIJk5yYUt4wOhbUGDVOGN7yx0JTMtoC4E?=
- =?us-ascii?Q?m6CHtT7C8BRAk46CabYAVheTV08TXSSo04j3YiRtbd4PX5QaxrZPrpHNu84W?=
- =?us-ascii?Q?vXANMyCv6ki3HMuzp3E4F9/MBevkRCTw735lQ9OvSD9nheETQ8AFUee59T01?=
- =?us-ascii?Q?NpGi3eIZBYkHPq/yi7O7rj/qKS/M2K8n8yWtbL6ttuPNrh05AVYYxh+2+pL4?=
- =?us-ascii?Q?uqUYjTCEJEpmm9T744ohIMN/r9bzBzcLuKtO6jxgGkpggRcUBPYmBqi3Yo/b?=
- =?us-ascii?Q?Ql4W0REzK2APGVw7+brQmqrhq6+6ibfTPmz6QPsefMCvOu1HCzsuqeMkWTeA?=
- =?us-ascii?Q?V+xPB4tOT3TNmPlm8PAmq2jrTcu+8BwS8DiDdJQ/q7wGiXh2L2POgN8bWVaP?=
- =?us-ascii?Q?hlfElCk8N/DPOe2QBAFquPCW9dmuoqGyswtZx9WlSbmOlqNA8jRLEeoeu6si?=
- =?us-ascii?Q?gdWGv4ZwAF/cbsBj+uRdrClmfqNCkfz9LXKv/SBuq9j3ydcMyb7UZSfCj8aT?=
- =?us-ascii?Q?bHpNkI9VIJsJNLF6DZIk2GvFcPYwBGeTKwUyqd+icYmiGaf6GM0tgUr61XA+?=
- =?us-ascii?Q?Wv3ZEoommqMQe8w4FESPyb6FY5rVFtJwHMK4psFbyV3Fqgi0zXQM94V/M7fn?=
- =?us-ascii?Q?603i/nmf9+w4/ci0yRspIJYN948IC5xWi6hJwaJzKTqWp+4Kxyn+5IxLr2KT?=
- =?us-ascii?Q?UcCpuC9b/MDzWXC+fpGmaxiSDDeS2wg6q6x86llNhBD+TQlXpaqgwUoj2R+B?=
- =?us-ascii?Q?PkmE1bKNec/65PKexTdDOuJsF+LGGSn2LWE0hi03Vt5SrHwxxYUI8XTJ3WSf?=
- =?us-ascii?Q?ugmauoZYhurjjpbWEbg0Vdt5by4z6ZlhAEsJwg02EKNPiI3+VktVsOw7/pdk?=
- =?us-ascii?Q?sXnW+CPACfVQo8uUCOd7+9OMOiCk91vu/SC24FEiIm7RWeoTaNWEQwLvELCT?=
- =?us-ascii?Q?CU+wxw9aGjKEty16ltFWR8iBDx/XcNgrejxWHx9xPEHbhw7Lb/j2HmTnJvLF?=
- =?us-ascii?Q?h67XzjJC23Tj6YZG3u54CAbHhlR/9SCRRdBCXQZPqMKhiST8aGc7ntW7LovT?=
- =?us-ascii?Q?FN0dtOGioYqsF27YEBw1OAL6fyXDxczy0vB+CEYILxCDKJAuKdcbXs+MMeyd?=
- =?us-ascii?Q?vlIfsNZPYswVo/6HlGsr5b0LbtPYqXZeGPL4S1udh9U8UyLM4L8JZRrLH1AD?=
- =?us-ascii?Q?rR19XmbsTlkXQkCXelvRG0qtc7GRmmk=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3705d60d-070a-4172-ee14-08ded12031bd
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2026 12:08:53.8592
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WJsxuZKIHVeuUJ9GhJm9a4OKCj1memKSOb9NRiQlQqhi794n267QhuKkic6ErDCt+U2HzoZITBOmxV/wVZrx2i8pJHnh2v/5lB3R0cfmDWw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1P189MB2597
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 12:09:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239365
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 13:14:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239367
 
-Remove PROTOPT_CONN_REUSE from SMB handler flags to prevent
-connection pooling. Without this, a second SMB request to the same
-host reuses a connection authenticated for a different share.
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Changelog:
+    Makefile.in: Bump to 1.9.8
+    pseudo_client.h: Fix typo in the comment
+    client: permissions drop setuid and setgid
+    tests: Add setuid permission check
+    pseudo_client.h: Add +s to PSEUDO_DB_MODE for mkdir
+    tests: Add test that returned stat is correct
+    pseudo_client.h: Make it clear both macros must be updated together
+    Makefile.in: Add pseudo_client.h as a dependency
+
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit fa302de94c7da77a49ca0701580467ebaa8eda18)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../curl/curl/CVE-2026-5773.patch             | 44 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5773.patch
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-5773.patch b/meta/reci=
-pes-support/curl/curl/CVE-2026-5773.patch
-new file mode 100644
-index 0000000000..c2984de5ff
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-5773.patch
-@@ -0,0 +1,44 @@
-+From 74a169575d6412dc0ff532acdf94de35a6c2a571 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Sun, 5 Apr 2026 18:23:35 +0200
-+Subject: [PATCH] smb: disable connection reuse
-+
-+Connections should only be reused when using the same "share" (and
-+perhaps some additional conditions), but instead of fixing this flaw,
-+this change completely disables connection reuse for SMB.
-+
-+Reported-by: Osama Hamad
-+Closes #21238
-+
-+Signed-off-by: Daniel Stenberg <daniel@haxx.se>
-+
-+CVE: CVE-2026-5773
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/74a169575d6=
-412dc0ff532acdf94de35a6c2a571]
-+
-+(cherry picked from commit 74a169575d6412dc0ff532acdf94de35a6c2a571)
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ lib/smb.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/smb.c b/lib/smb.c
-+index ccd4f3f69d..2a9f08388f 100644
-+--- a/lib/smb.c
-++++ b/lib/smb.c
-+@@ -1242,7 +1242,7 @@
-+ #endif
-+   CURLPROTO_SMB,                        /* protocol */
-+   CURLPROTO_SMB,                        /* family */
-+-  PROTOPT_CONN_REUSE,                   /* flags */
-++  PROTOPT_NONE,                         /* flags */
-+   PORT_SMB,                             /* defport */
-+ };
-+=20
-+@@ -1259,7 +1259,7 @@
-+ #endif
-+   CURLPROTO_SMBS,                       /* protocol */
-+   CURLPROTO_SMB,                        /* family */
-+-  PROTOPT_SSL | PROTOPT_CONN_REUSE,     /* flags */
-++  PROTOPT_SSL,                          /* flags */
-+   PORT_SMBS,                            /* defport */
-+ };
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-suppor=
-t/curl/curl_8.19.0.bb
-index d58b774011..3326f478b5 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -15,6 +15,7 @@ SRC_URI =3D " \
-     file://disable-tests \
-     file://no-test-timeout.patch \
-     file://CVE-2026-6276.patch \
-+    file://CVE-2026-5773.patch \
-     file://mbedtls.patch \
- "
-=20
---=20
-2.34.1
-
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 1ca1ebd6bf2..3d7dd62448f 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -12,9 +12,9 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+ 
+-SRCREV = "5b7c4b59e7e198aab54b35ea194aeb6d99794f96"
++SRCREV = "823895ba708c63f6ae4dcbfc266210f26c02c698"
+ S = "${WORKDIR}/git"
+-PV = "1.9.7"
++PV = "1.9.8"
+ 
+ # largefile and 64bit time_t support adds these macros via compiler flags globally
+ # remove them for pseudo since pseudo intercepts some of the functions which will be
 
