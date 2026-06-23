@@ -2,252 +2,97 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA474CDE005
-	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 13:14:36 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20836.1782220475683681476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D09CBCDB46F
+	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 13:14:46 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20841.1782220484227881661
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 06:14:36 -0700
+ Tue, 23 Jun 2026 06:14:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=oV3Zus6v;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490a76757e5so35503615e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 06:14:35 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=GMmRZlPA;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490b7866869so55594735e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 06:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782220474; x=1782825274; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1782220482; x=1782825282; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=O3AV1TB8FYe9eINH+XA5/rWkSGE0mC2exO7JfYy/+n0=;
-        b=oV3Zus6vLd/uXl/gwNXY3HQlsMwEw/u1Do5qfPoIfa1cb5UGg+wjWPChStiAs8DvNt
-         +5Pbd7STXmuSAH0L3vp2k2lFJiO5EJxe2ZNm72T7AYPQKfKJlOSkQj7I+7p7n+EmTLVw
-         F/AZ2t1anEjJl5zfN7vbJF4xvWWw038nSUotI=
+        bh=p0M1v6M9AN7y0F8rum/iWIFJ8EiM9u40kMzPowt9N4k=;
+        b=GMmRZlPA+2is0+f8cwNjLmkTthPi4g5isy2a627suYcmumwOYwKQ0kWDwcTmPZ/g42
+         MOqRc6QHuZh0W82QTqWMqDu3PpVhXjCVYgR0z6vwThmph/T5WBOYl7js2kncVPeIJR97
+         nFWgrItCPTxgmXCDxZlPwwI7pw0m2JuXgpGRQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782220474; x=1782825274;
+        d=1e100.net; s=20251104; t=1782220482; x=1782825282;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=O3AV1TB8FYe9eINH+XA5/rWkSGE0mC2exO7JfYy/+n0=;
-        b=CUMKjjXUKC4IVLd06/7C7KS0EtxzFxtlaThhAJM3v2LczZV7q4UrzPe3+0dq0NZ4qX
-         L5j1w6+vtb0uVdkH7YrtmVyuX82IhuW41Tofi2UT6WTdCSB7ZDQApJZ5F3Py2kAuyNND
-         /GEiStC26nZ4JHJmcqHg+9cDDjY8PRglxx/i4RJCz9Xc+kafE368LyBDp0YrygPjCdGh
-         TK0mZKJX7KHEgEEfKk5xRi7eJSR3Flrn/nyraD5ihLZx9EcRNAK4SY8vShMT8YkSiraN
-         L0xYZSyIbuYOB3FqIGzOHDZIYlg5G0HTN3YTu0ESByt74SxlvjhWBZUruyKzv5PIqd8t
-         IAug==
-X-Gm-Message-State: AOJu0YwNnpS6Mgq2RWSuBPsXrP6dWmPCQWun2xK5L4YjAW7W61VukRP6
-	L4lm1J31dvRpqvJjrxpjv0XXl1FjIDiYIBxI7p/EuLjm8+zZe88L/z4lGfhdH5C2zdWayUKGoLL
-	yeT4q
-X-Gm-Gg: AfdE7cm9Sy0+ri+Rlk2T6tsVR/OJZbiSIzG/IPFW9DIhkpPTUrnBJQKlyaHgokN76pr
-	wpXXGEqciPcYwdgbg9x1drxruuofksmKz4Jhlh/t1qdvX2HRDg3fHoV5mOjj+ickTvLye/mGHu2
-	J1d5wGUGSCHV210OQsoXjs3XgiGx0kqBModLEPhs5/ieICOJyOvNEIqB5Xwq4h66mtCtVQgR7MD
-	+5Eefr9/FVRrnXyWmHtSRFe9Z0CSr1wBFeu1YyY7cJCBdT7OEujcOXjqKBXR0QG1AgWLLYMkNrP
-	QHe6c+e4I+uucaVjCluogjA9Y4r26HzsRJCzcebv0GltwNetvaifm+ttaJPgZR1fB96Bm8cf/OS
-	OSVbSlzcipaRN8mpT0VlUIKvtDHrsfNbSumQHksKrXFDH3ksE3kiPHme4i1pU+gdX1re/0CPy+3
-	PvzyoW+Xr9mw4GPaEDGAbAuz15Hp7r1jTKm+CDCgdOo+4LdzuCS8HZ+Z3ouKWjlunvzwYcf3c4a
-	U+rj9wmXeiactOJeQ==
-X-Received: by 2002:a05:600c:818e:b0:492:4d56:d5fe with SMTP id 5b1f17b1804b1-4925b39249dmr40881995e9.14.1782220473798;
-        Tue, 23 Jun 2026 06:14:33 -0700 (PDT)
+        bh=p0M1v6M9AN7y0F8rum/iWIFJ8EiM9u40kMzPowt9N4k=;
+        b=W1bCu45LpCJavnbei/JI9iouSDWic9uLwPMmUaJxUXZx/KR+p6QuOqWhD1NAB/bQHZ
+         cpOs60SUshyxhPyETxN9C13tLmxGwN+azCEYxRJpfsG7AaJi2lWAA/Jm3jRo8kehclyX
+         H6DtAlnbyncJWeOnLJXz5SZ5TFr8MkfnH3/biyg9vfDEaxu/dWDfTkePq38kwGAuxq8L
+         RIQ7+2OFOAtuXkG9Y+9FR/oDaCzGoYFaVxoSc/WHIQI+0g9fi+V+gPVV8aRE0FoZYhpq
+         /In45/JyecPZi9x6QftZEc2187gPVT56tSReKM3baF3LYXFTkMAHKeM9HVHImfVTQZdS
+         zEvA==
+X-Gm-Message-State: AOJu0Yz9cuUZdNlXHQ8gpOcDhBizhbevO1geaWujW7FJl2CKQklDiYPJ
+	oOOOlLpaqVRc4rQx7p5CgO1i4FqSbCx+MPQNdzljkFmvX8EuHsmtf0eFxo6Xa8XqmIc2vBsWCp+
+	uFFou
+X-Gm-Gg: AfdE7cnVqp5AYuNwqjro/ks+03H/ja1hkWNgQQnSks1U1CHWQYtD9mKYTbixnZr0V4n
+	ZkUK5H6v2a9AxzieLU0XQthRt6/9m88IGxwFJsV8IpYbat+LbVrx4yqosxhWPfcJzMw2Z1wjvBb
+	TZcw5Fy+1eYk1e5jfgp4ibQnntM0Dp6ymaWmaoUKZ/+6e6lrHVDaxtHqp04bOaSaLjJkXMeJkv1
+	EykOucKGiH8WRkXCY7VYN2+zDA0UNTW5bCIve6kmHMaYyEb65C8GKusupvqpp8lxcGzLiK1rX+U
+	smj9vKKCpZwPE3Wo8BphTXEAtZd6iHuWiAmzEwvsU4CdO9PTy5/eCK/fnrfA9EUMZbEQkNQ27c6
+	CgVzgPVly3Y+9duKZ5LCw67v6O9uP6GO1AxYeQFU3jrDnw/pWQAFYgN69124QKsrHklkLXGPUqX
+	+yRbdm/KBsxoRJLR36H2AUNJpeyqVVgm+2bFUNsv6U9xnz2VDi/i856cscjBotHJ/7hmxCbtKIR
+	so6ggY13Q9Au4OwLQMaEI+4Vpr/
+X-Received: by 2002:a05:600c:870f:b0:492:3445:ecf8 with SMTP id 5b1f17b1804b1-4925b34a38amr40976235e9.3.1782220482433;
+        Tue, 23 Jun 2026 06:14:42 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa008234f3c115adbb1a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:8234:f3c1:15ad:bb1a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4925d013a69sm24334285e9.3.2026.06.23.06.14.33
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4925d013a69sm24334285e9.3.2026.06.23.06.14.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 06:14:33 -0700 (PDT)
+        Tue, 23 Jun 2026 06:14:41 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 11/26] python3: Fix CVE-2025-13462
-Date: Tue, 23 Jun 2026 15:13:52 +0200
-Message-ID: <0b990a354ef858d903d4bed937b1233537c2c478.1782220259.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 22/26] apr-util: Add CVE_PRODUCT to support product name
+Date: Tue, 23 Jun 2026 15:14:03 +0200
+Message-ID: <3a157840148e14ec9019a008ab94e7f708baac05.1782220259.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1782220259.git.yoann.congal@smile.fr>
 References: <cover.1782220259.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 13:14:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239377
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 13:14:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239388
 
-From: Sudhir Dumbhare <sudumbha@cisco.com>
+From: Himanshu Jadon <hjadon@cisco.com>
 
-Apply the upstream v3.12 fix [1], aligned with the original v3.13 fix [2],
-to address incorrect tarfile handling where GNU long name follow-up headers
-could be normalized as directories, as referenced in [3].
+apr-util is tracked in NVD under apache:apr-util, while a smaller set
+of newer CVEs also appears under apache:portable_runtime_utility.
+Set CVE_PRODUCT accordingly so cve-check can cover both the historical
+and current NVD product identities used for APR-util.
 
-[1] https://github.com/python/cpython/commit/d10950739a78f54d0718d88fb5a868374603c084
-[2] https://github.com/python/cpython/commit/ae99fe3a33b43e303a05f012815cef60b611a9c7
-[3] https://security-tracker.debian.org/tracker/CVE-2025-13462
-
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2025-13462
-
-Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+(cherry picked from commit 927b505c982ed7443aed348ca54b0073ac63d938)
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../python/python3/CVE-2025-13462.patch       | 142 ++++++++++++++++++
- .../python/python3_3.12.13.bb                 |   1 +
- 2 files changed, 143 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13462.patch
+ meta/recipes-support/apr/apr-util_1.6.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2025-13462.patch b/meta/recipes-devtools/python/python3/CVE-2025-13462.patch
-new file mode 100644
-index 00000000000..36d492338ba
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2025-13462.patch
-@@ -0,0 +1,142 @@
-+From 14d7d2e8f51a17c23c98f13f33743253a0b7a18a Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Mon, 18 May 2026 19:43:51 +0200
-+Subject: [PATCH] [3.12] gh-141707: Skip TarInfo DIRTYPE normalization during
-+ GNU long name handling (#145817)
+diff --git a/meta/recipes-support/apr/apr-util_1.6.3.bb b/meta/recipes-support/apr/apr-util_1.6.3.bb
+index 1371e262ddb..3a5f52d2501 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.3.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.3.bb
+@@ -95,3 +95,6 @@ do_install_ptest() {
+ 	  cp -r ${B}/test/$i $t; \
+ 	done
+ }
 +
-+gh-141707: Skip TarInfo DIRTYPE normalization during GNU long name handling
-+
-+CVE: CVE-2025-13462
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/d10950739a78f54d0718d88fb5a868374603c084]
-+
-+Backport Changes:
-+- This file is not present in the current version and is therefore omitted
-+  Misc/NEWS.d/next/Library/2025-11-18-06-35-53.gh-issue-141707.DBmQIy.rst
-+
-+(cherry picked from commit 42d754e34c06e57ad6b8e7f92f32af679912d8ab)
-+
-+Co-authored-by: Seth Michael Larson <seth@python.org>
-+Co-authored-by: Eashwar Ranganathan <eashwar@eashwar.com>
-+(cherry picked from commit d10950739a78f54d0718d88fb5a868374603c084)
-+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
-+---
-+ Lib/tarfile.py           | 29 +++++++++++++++++++++++++----
-+ Lib/test/test_tarfile.py | 19 +++++++++++++++++++
-+ Misc/ACKS                |  1 +
-+ 3 files changed, 45 insertions(+), 4 deletions(-)
-+
-+diff --git a/Lib/tarfile.py b/Lib/tarfile.py
-+index 99451aa765..70fdbe85b0 100755
-+--- a/Lib/tarfile.py
-++++ b/Lib/tarfile.py
-+@@ -1246,6 +1246,20 @@ class TarInfo(object):
-+     @classmethod
-+     def frombuf(cls, buf, encoding, errors):
-+         """Construct a TarInfo object from a 512 byte bytes object.
-++
-++        To support the old v7 tar format AREGTYPE headers are
-++        transformed to DIRTYPE headers if their name ends in '/'.
-++        """
-++        return cls._frombuf(buf, encoding, errors)
-++
-++    @classmethod
-++    def _frombuf(cls, buf, encoding, errors, *, dircheck=True):
-++        """Construct a TarInfo object from a 512 byte bytes object.
-++
-++        If ``dircheck`` is set to ``True`` then ``AREGTYPE`` headers will
-++        be normalized to ``DIRTYPE`` if the name ends in a trailing slash.
-++        ``dircheck`` must be set to ``False`` if this function is called
-++        on a follow-up header such as ``GNUTYPE_LONGNAME``.
-+         """
-+         if len(buf) == 0:
-+             raise EmptyHeaderError("empty header")
-+@@ -1276,7 +1290,7 @@ class TarInfo(object):
-+ 
-+         # Old V7 tar format represents a directory as a regular
-+         # file with a trailing slash.
-+-        if obj.type == AREGTYPE and obj.name.endswith("/"):
-++        if dircheck and obj.type == AREGTYPE and obj.name.endswith("/"):
-+             obj.type = DIRTYPE
-+ 
-+         # The old GNU sparse format occupies some of the unused
-+@@ -1311,8 +1325,15 @@ class TarInfo(object):
-+         """Return the next TarInfo object from TarFile object
-+            tarfile.
-+         """
-++        return cls._fromtarfile(tarfile)
-++
-++    @classmethod
-++    def _fromtarfile(cls, tarfile, *, dircheck=True):
-++        """
-++        See dircheck documentation in _frombuf().
-++        """
-+         buf = tarfile.fileobj.read(BLOCKSIZE)
-+-        obj = cls.frombuf(buf, tarfile.encoding, tarfile.errors)
-++        obj = cls._frombuf(buf, tarfile.encoding, tarfile.errors, dircheck=dircheck)
-+         obj.offset = tarfile.fileobj.tell() - BLOCKSIZE
-+         return obj._proc_member(tarfile)
-+ 
-+@@ -1370,7 +1391,7 @@ class TarInfo(object):
-+ 
-+         # Fetch the next header and process it.
-+         try:
-+-            next = self.fromtarfile(tarfile)
-++            next = self._fromtarfile(tarfile, dircheck=False)
-+         except HeaderError as e:
-+             raise SubsequentHeaderError(str(e)) from None
-+ 
-+@@ -1505,7 +1526,7 @@ class TarInfo(object):
-+ 
-+         # Fetch the next header.
-+         try:
-+-            next = self.fromtarfile(tarfile)
-++            next = self._fromtarfile(tarfile, dircheck=False)
-+         except HeaderError as e:
-+             raise SubsequentHeaderError(str(e)) from None
-+ 
-+diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-+index 759fa03ead..82637841ed 100644
-+--- a/Lib/test/test_tarfile.py
-++++ b/Lib/test/test_tarfile.py
-+@@ -1134,6 +1134,25 @@ class LongnameTest:
-+                 self.assertIsNotNone(tar.getmember(longdir))
-+                 self.assertIsNotNone(tar.getmember(longdir.removesuffix('/')))
-+ 
-++    def test_longname_file_not_directory(self):
-++        # Test reading a longname file and ensure it is not handled as a directory
-++        # Issue #141707
-++        buf = io.BytesIO()
-++        with tarfile.open(mode='w', fileobj=buf, format=self.format) as tar:
-++            ti = tarfile.TarInfo()
-++            ti.type = tarfile.AREGTYPE
-++            ti.name = ('a' * 99) + '/' + ('b' * 3)
-++            tar.addfile(ti)
-++
-++            expected = {t.name: t.type for t in tar.getmembers()}
-++
-++        buf.seek(0)
-++        with tarfile.open(mode='r', fileobj=buf) as tar:
-++            actual = {t.name: t.type for t in tar.getmembers()}
-++
-++        self.assertEqual(expected, actual)
-++
-++
-+ class GNUReadTest(LongnameTest, ReadTest, unittest.TestCase):
-+ 
-+     subdir = "gnu"
-+diff --git a/Misc/ACKS b/Misc/ACKS
-+index a6e63a991f..30d5f99ebb 100644
-+--- a/Misc/ACKS
-++++ b/Misc/ACKS
-+@@ -1492,6 +1492,7 @@ Dhushyanth Ramasamy
-+ Ashwin Ramaswami
-+ Jeff Ramnani
-+ Bayard Randel
-++Eashwar Ranganathan
-+ Varpu Rantala
-+ Brodie Rao
-+ Rémi Rampin
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-devtools/python/python3_3.12.13.bb b/meta/recipes-devtools/python/python3_3.12.13.bb
-index be080c6a362..3e28a3942bd 100644
---- a/meta/recipes-devtools/python/python3_3.12.13.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.13.bb
-@@ -42,6 +42,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://CVE-2026-4519_CVE-2026-4786.patch \
-            file://CVE-2026-6019_p1.patch \
-            file://CVE-2026-6019_p2.patch \
-+           file://CVE-2025-13462.patch \
-            "
- 
- SRC_URI:append:class-native = " \
++# Add CVE_PRODUCT to match the NVD CPE product name
++CVE_PRODUCT = "apache:apr-util apache:portable_runtime_utility"
 
