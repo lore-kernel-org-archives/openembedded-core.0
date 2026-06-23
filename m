@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F91CCDE007
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A0C8CDE001
 	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 22:27:27 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33422.1782253642038033608
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32873.1782253639261564533
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 15:27:22 -0700
+ Tue, 23 Jun 2026 15:27:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Ck7Z+Ycz;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490c0c92cffso2390395e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 15:27:21 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=QjkyAbfX;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4926046fbc5so2235835e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 15:27:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782253640; x=1782858440; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1782253637; x=1782858437; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ao5YRHPjhdh+HOnpPuJI2tm0Wc4UzTBH1NhUZYCjfbE=;
-        b=Ck7Z+YczVj0BX0d8tIeFjvnottYHEu0rOp8gT1o+hev6+A5ovLSxfGCug0YYnhMLrw
-         208Y3YGVwe+CZp+V6rKNBRwNIvICJikVG+it/T9y6ijE4NKSl2DTa+W6q9l390+JXoNs
-         Hq2VjKvaWrdxjy74csoc7eXXEI0ENwP8XfA1w=
+        bh=T23sJpnNS7eEpXRxBkgx3gjF4/g+RkMSiqVk7bkpXUA=;
+        b=QjkyAbfXXZ3r1X1UhNWr27lhPg2Ksugw+jSzhoJq0uLv8lYGLmZjhSSB36h9OEdZMT
+         Dwv7VxuxsgwT7WaOFm3w9eb0xiVGUOr4lq8Kl+DEzAbmt06p072zT+Q5Sqf+pfJaYYyW
+         N/5gmHQRvvoxNeA86xpvwqqn+KyVVbLFaZEUE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782253640; x=1782858440;
+        d=1e100.net; s=20251104; t=1782253637; x=1782858437;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ao5YRHPjhdh+HOnpPuJI2tm0Wc4UzTBH1NhUZYCjfbE=;
-        b=aKu7ne/4EHEu5xafYr6QRWNHe03aaGKmnXDNkojcvi/ZdEN1nf1TNb4Z1aI6bmTlb3
-         EfWSj8AT5oCTVmNF505VAQyIk6qSMMo/aeCGthrAfLPMQKBiJPgSk//Tv/nbB3SUzeCR
-         vr91gfGwF8JnelSs4aq7K8GpkCKmtqxmu0d8xfIBvq+SEqvg2+GQURQDj8uMgi6mT443
-         EGzri59bdjfPDRLSLOPJUxt/MqL+qztwSSwT53WYxolPwbfTBbTD3CQPC58/2UccVTCc
-         hERND6I9McB/C6QqJw4mud9Yrs1EoEKCF0/WYcY3TMG2QfKS1A+EyqKcrphIEyyYEXuF
-         f1XQ==
-X-Gm-Message-State: AOJu0YxL34G9bROWqaR31RooE6ZJd/RT086WKH0O4qD33mIMmjlPrHW7
-	aZ2pEw1zfya7pR0DvyCZ/uTiEZMCkA6tMfNxgTRMicnSfK+0en14JkPS3HM2tWJG5tdzmDn8bpG
-	+c+u9
-X-Gm-Gg: AfdE7cmgzwJFQy2E8VPgsHWdjor+Y3xgLl1A7UttMMZRHsx6M+UyehKRvnaWAN3SxXI
-	bJljprLdWSb1GulfloAP9pmFR6LIZpFnJ7PWsk8gT28bjdRP3mcSmVmnxx9bHspIC7ACYH1QKQ1
-	5f7OEIEThQafQYZ2tJ0TfD9gOMa01eLyu+vxpb1cBOCFthPzmLp9qLR4sbqnd3SHbX185TTjdPU
-	tUk1rr5fmTYHzoUBcJUJxqrZ1iNsm7DIJ1VkaPkcmxjJRna6pKvn06JnMroD1Z5XF4Ll4gi6INh
-	DMuwFsxwSNQvB+e9i1OqUqcljX4u7yOR195H7FqwHfp6Uh9T2aHRkpyHvBiBuTawRNDao12qWiI
-	y5pEMPOUtZstZY5XbLOr4VvsEJixP5MZhbYI3Sfp1woIgcAoDQKSgVs47vnLzwH8PBwj1HI47e2
-	ViyaIcE9F/H2sLvXupW/I3GrEs/MHz0+e2UiOT4rV0PU4EHcya0Ox1VS/spClG4lKRivQGZv3Sw
-	khDLQv30tfIr5SkfCRXo55k52Q=
-X-Received: by 2002:a05:600c:3148:b0:490:bcc1:4edb with SMTP id 5b1f17b1804b1-492608784cbmr5692135e9.27.1782253640171;
-        Tue, 23 Jun 2026 15:27:20 -0700 (PDT)
+        bh=T23sJpnNS7eEpXRxBkgx3gjF4/g+RkMSiqVk7bkpXUA=;
+        b=F6382MSOAdMYlvRNBdvrWVcZcnLhopL3iICU06XywPCZ+6htS3v6JqTDRVdXp/+SuA
+         sY/TMQiLNdQGeArCtABlAhTxmHZ7ff2lxM3+RhUQ1s4OJJc76IN0hrqHCYyxNvF2e4OA
+         NFA/DCpn1rBSRMV2mUWCNXvcVHJD9omGxW8j3Sdswevn2CYRxTQJz59WRK89C4o1S4uk
+         DTg5ev8NlbWof9uC12s2N2xPe5DcTEo9wCdLF66v2UaqZlK82KnzoXuTGwsihARKTmkt
+         SUR8fW9+JwqoU3vjFA55MHAxOuZFLuL/FNgBFpXTrDXbRTaA9c9JHYmIVYLqZAnj5DKd
+         qBZQ==
+X-Gm-Message-State: AOJu0YxpenHIhi3sHx/hOPjtI/KeMZbZCUc0uikv7O2STztg95Xrcgqy
+	zz31zNCS0ImI+gdGVc4oxxaWz89l5LUu6vk/pCcaeNOuLQNWIfjtfJBhYzBqZxXCJY2lroRS1lJ
+	TFOFv
+X-Gm-Gg: AfdE7clnUMXEj6FRtbldTBlQRsnIZ/HKApskdrv1AVachSqyCp3vh5uHbEdPE2Sz//E
+	ZcNAAoZHYw0+TZGHEnOE8eBf489H2nqSHoZ7s/Ww9TzDRMCx2HFQsq3fQjsXFBGnK4/FbjiFoWu
+	MxPCgUO5CtYG+3kr8PXEhR839gGAieK+x9iJp6gTOtdklbS5cz1kpQfBMZSz+K4pL+5kCCgSaLM
+	tuXm1BXODh3eIDjyeQ2VeHi7N0UP1cpup5neYdaoTB+KJ8yyXBIanpFztpxGEMhLYUn1rHG8SKY
+	0NKkZEe54UU9uSzezrcFhmsUlyDl0QV5Td/qqjn4nh3LkfO6qDOJMqZa4ulDZm+2uwZlcusgMRv
+	H3CBGteKTskw/TtNiQ/nrre290BuZF1Rp7EFA8RIeowaQ1SFUFHiF+l0kaYMdGgB4Qo0AV6fpce
+	xl12EilWhezugJXaKUwAD3WEM/Qdof0OLx9FkXaOxCeHtLbJbZRn2RZDLdvZyU2u6ESLVDNqOOX
+	kqg4CQBYYWlulby
+X-Received: by 2002:a05:600c:620a:b0:490:bbc1:c9be with SMTP id 5b1f17b1804b1-4925a045e50mr73285655e9.0.1782253637469;
+        Tue, 23 Jun 2026 15:27:17 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa0055dd0cae868d89dd.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:55dd:cae:868d:89dd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fd21dbdsm370786745e9.6.2026.06.23.15.27.19
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fd21dbdsm370786745e9.6.2026.06.23.15.27.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 15:27:19 -0700 (PDT)
+        Tue, 23 Jun 2026 15:27:16 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap v2 39/41] lttng-modules: Fix trace_hrtimer_start build failure
-Date: Wed, 24 Jun 2026 00:26:38 +0200
-Message-ID: <e0598e2bbf9513ad71dea185a540de16996c4114.1782252148.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap v2 35/41] linux-yocto/6.6: update to v6.6.138
+Date: Wed, 24 Jun 2026 00:26:34 +0200
+Message-ID: <c5695ca3eef548ac0a2ce9dd933b8c776707c6d8.1782252148.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1782252148.git.yoann.congal@smile.fr>
 References: <cover.1782252148.git.yoann.congal@smile.fr>
@@ -66,155 +66,119 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 22:27:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239461
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239457
 
-From: He Zhe <zhe.he@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Fix the following build failure
+Updating linux-yocto/6.6 to the latest korg -stable release that comprises
+the following commits:
 
-probes/../../include/lttng/tracepoint-event-impl.h:133:6: error: conflicting
-types for 'trace_hrtimer_start'; have 'void(struct hrtimer *, enum hrtimer_mode)'
-  133 | void trace_##_name(_proto);
-      |      ^~~~~~
+    3b9f64db04968 Linux 6.6.138
+    50ed1e7873100 xfrm: esp: avoid in-place decrypt on shared skb frags
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
-[YC: backported from wrynose commit e32cbc177dae ("lttng-modules: Fix
-trace_hrtimer_start build failure").
-This is a partial backport of commit 7dae5f40e394 ("lttng-modules:
-fix build against kernel 7.1+")]
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...ce-trace-noise-in-hrtimer_start-v7.1.patch | 103 ++++++++++++++++++
- .../lttng/lttng-modules_2.13.12.bb            |   6 +-
- 2 files changed, 107 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch
+ .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++++----------
+ 3 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch
-new file mode 100644
-index 00000000000..e9124b4f87a
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch
-@@ -0,0 +1,103 @@
-+From c370026b0a077ba9491b07c559b343fde6353074 Mon Sep 17 00:00:00 2001
-+From: Michael Jeanson <mjeanson@efficios.com>
-+Date: Mon, 25 May 2026 10:38:18 -0400
-+Subject: [PATCH] fix: hrtimer: Reduce trace noise in hrtimer_start() (v7.1)
-+
-+
-+See upstream commit:
-+
-+  commit f2e388a019e4cf83a15883a3d1f1384298e9a6aa
-+  Author: Thomas Gleixner <tglx@kernel.org>
-+  Date:   Tue Feb 24 17:36:59 2026 +0100
-+
-+    hrtimer: Reduce trace noise in hrtimer_start()
-+
-+    hrtimer_start() when invoked with an already armed timer traces like:
-+
-+     <comm>-..   [032] d.h2. 5.002263: hrtimer_cancel: hrtimer= ....
-+     <comm>-..   [032] d.h1. 5.002263: hrtimer_start: hrtimer= ....
-+
-+    Which is incorrect as the timer doesn't get canceled. Just the expiry time
-+    changes. The internal dequeue operation which is required for that is not
-+    really interesting for trace analysis. But it makes it tedious to keep real
-+    cancellations and the above case apart.
-+
-+    Remove the cancel tracing in hrtimer_start() and add a 'was_armed'
-+    indicator to the hrtimer start tracepoint, which clearly indicates what the
-+    state of the hrtimer is when hrtimer_start() is invoked:
-+
-+    <comm>-..   [032] d.h1. 6.200103: hrtimer_start: hrtimer= .... was_armed=0
-+     <comm>-..   [032] d.h1. 6.200558: hrtimer_start: hrtimer= .... was_armed=1
-+
-+Change-Id: I37ee0ae0af665a51fd4f92adffb6b1dcb2ecd9d2
-+Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+Upstream-Status: Backport [https://github.com/lttng/lttng-modules/commit/b77f94c7a7109e70a97bf936b72d66d611187d61]
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+[YC: Backport: revert usage of non-defined-yet ctf_enum]
-+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-+---
-+ include/instrumentation/events/timer.h | 39 ++++++++++++++++++++++++--
-+ 1 file changed, 37 insertions(+), 2 deletions(-)
-+
-+diff --git a/include/instrumentation/events/timer.h b/include/instrumentation/events/timer.h
-+index bd21c03..9d4476a 100644
-+--- a/include/instrumentation/events/timer.h
-++++ b/include/instrumentation/events/timer.h
-+@@ -203,12 +203,43 @@ LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_init,
-+ 	)
-+ )
-+ 
-++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,1,0) || \
-++	LTTNG_KERNEL_RANGE(7,0,10, 7,1,0) || \
-++	LTTNG_KERNEL_RANGE(6,18,33, 6,19,0) || \
-++	LTTNG_KERNEL_RANGE(6,12,91, 6,13,0) || \
-++	LTTNG_KERNEL_RANGE(6,6,141, 6,7,0))
-+ /**
-+  * hrtimer_start - called when the hrtimer is started
-+- * @timer: pointer to struct hrtimer
-++ * @hrtimer:	pointer to struct hrtimer
-++ * @mode:	the hrtimers mode
-++ * @was_armed:	Was armed when hrtimer_start*() was invoked
-+  */
-+-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,16,0) || \
-++LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_start,
-++
-++	timer_hrtimer_start,
-++
-++	TP_PROTO(struct hrtimer *hrtimer, enum hrtimer_mode mode, bool was_armed),
-++
-++	TP_ARGS(hrtimer, mode, was_armed),
-++
-++	TP_FIELDS(
-++		ctf_integer_hex(void *, hrtimer, hrtimer)
-++		ctf_integer_hex(void *, function, hrtimer->function)
-++		ctf_integer(s64, expires,
-++			lttng_ktime_get_tv64(hrtimer_get_expires(hrtimer)))
-++		ctf_integer(s64, softexpires,
-++			lttng_ktime_get_tv64(hrtimer_get_softexpires(hrtimer)))
-++		ctf_integer(enum hrtimer_mode, mode, mode)
-++		ctf_integer(bool, was_armed, was_armed)
-++	)
-++)
-++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,16,0) || \
-+ 	LTTNG_RT_KERNEL_RANGE(4,14,0,0, 4,15,0,0))
-++/**
-++ * hrtimer_start - called when the hrtimer is started
-++ * @hrtimer:	pointer to struct hrtimer
-++ * @mode:	the hrtimers mode
-++ */
-+ LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_start,
-+ 
-+ 	timer_hrtimer_start,
-+@@ -228,6 +259,10 @@ LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_start,
-+ 	)
-+ )
-+ #else
-++/**
-++ * hrtimer_start - called when the hrtimer is started
-++ * @hrtimer: pointer to struct hrtimer
-++ */
-+ LTTNG_TRACEPOINT_EVENT_MAP(hrtimer_start,
-+ 
-+ 	timer_hrtimer_start,
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.12.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.12.bb
-index 34aff1ba8df..b29d73aa89e 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.12.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.12.bb
-@@ -15,10 +15,12 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0003-Fix-mm_compaction_migratepages-changed-in-linux-6.9-.patch \
-            file://0004-Fix-dev_base_lock-removed-in-linux-6.9-rc1.patch \
-            file://0001-Fix-sched_stat_runtime-changed-in-Linux-6.6.66.patch \
--        "
-+           "
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+index bbcf3122ea1..68c3c07ef63 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+@@ -14,13 +14,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- # Use :append here so that the patch is applied also when using devupstream
--SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
-+SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
-+                   file://0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch \
-+                 "
+-SRCREV_machine ?= "da5f16c9d10d53af703c809e864c09df336edfb7"
+-SRCREV_meta ?= "7d4cafa710da4e27a86cb015e50d91cf458af06f"
++SRCREV_machine ?= "9708fab99d7eb8962dda82d642c468a32b6682fa"
++SRCREV_meta ?= "0a6ad7549c97f8703f1f742f73ee65d29d121958"
  
- SRC_URI[sha256sum] = "d85fcb66c7bd31003ab8735e8c77700e5e4f417b4c22fe1f20112cf435abad79"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
+ 
+-LINUX_VERSION ?= "6.6.137"
++LINUX_VERSION ?= "6.6.138"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+index c5c6f88781c..52d89c713df 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.6.inc
+ 
+-LINUX_VERSION ?= "6.6.137"
++LINUX_VERSION ?= "6.6.138"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "cd2288c19d6b729b3c7b2b620eb9c311116c72f1"
+-SRCREV_meta ?= "7d4cafa710da4e27a86cb015e50d91cf458af06f"
++SRCREV_machine ?= "72c2c9b6014dd199bb70e07e19931b8691fa08e1"
++SRCREV_meta ?= "0a6ad7549c97f8703f1f742f73ee65d29d121958"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+index 358b6a7760b..e077808f288 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.6/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.6/standard/base"
+ KBRANCH:qemumips64 ?= "v6.6/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "eb708bdc972fc5dc22cdcbf3d3dbdb81e1450fd9"
+-SRCREV_machine:qemuarm64 ?= "eafa49201e224e87ad20cf849dead88aec204e68"
+-SRCREV_machine:qemuloongarch64 ?= "f14907570fc0bb7285c62bc9d5146180bafffbae"
+-SRCREV_machine:qemumips ?= "b75949027e1e8c8c90998ee144c6b97aa2fbf561"
+-SRCREV_machine:qemuppc ?= "1b302e1b1463e28dd8d446754cc3140e935ceec6"
+-SRCREV_machine:qemuriscv64 ?= "f14907570fc0bb7285c62bc9d5146180bafffbae"
+-SRCREV_machine:qemuriscv32 ?= "f14907570fc0bb7285c62bc9d5146180bafffbae"
+-SRCREV_machine:qemux86 ?= "f14907570fc0bb7285c62bc9d5146180bafffbae"
+-SRCREV_machine:qemux86-64 ?= "f14907570fc0bb7285c62bc9d5146180bafffbae"
+-SRCREV_machine:qemumips64 ?= "620abbeb29fcd44655d2de94ae7a7fff7656ed01"
+-SRCREV_machine ?= "f14907570fc0bb7285c62bc9d5146180bafffbae"
+-SRCREV_meta ?= "7d4cafa710da4e27a86cb015e50d91cf458af06f"
++SRCREV_machine:qemuarm ?= "9d8edc5598e5c5f17ce696ce032e8dc654858450"
++SRCREV_machine:qemuarm64 ?= "c6600bc98dbafed4fcbd6f1204da6b41ef5feec2"
++SRCREV_machine:qemuloongarch64 ?= "ad053e3390f755311a4d87911c13039387767122"
++SRCREV_machine:qemumips ?= "97c272b944970f93ef93eb87f54899ccb26671f1"
++SRCREV_machine:qemuppc ?= "8dfba699cafc5b5d5f50cb8f270db9b8ae112571"
++SRCREV_machine:qemuriscv64 ?= "ad053e3390f755311a4d87911c13039387767122"
++SRCREV_machine:qemuriscv32 ?= "ad053e3390f755311a4d87911c13039387767122"
++SRCREV_machine:qemux86 ?= "ad053e3390f755311a4d87911c13039387767122"
++SRCREV_machine:qemux86-64 ?= "ad053e3390f755311a4d87911c13039387767122"
++SRCREV_machine:qemumips64 ?= "2744d8ab5ccca406c0acc17c414ff4c8e186708f"
++SRCREV_machine ?= "ad053e3390f755311a4d87911c13039387767122"
++SRCREV_meta ?= "0a6ad7549c97f8703f1f742f73ee65d29d121958"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "258cf62a6dfde3c6a39d120a56a298f2ed6a8901"
++SRCREV_machine:class-devupstream ?= "3b9f64db049687c0d38b4b3ef2f297f0642179af"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v6.6/base"
+ 
+@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "6.6.137"
++LINUX_VERSION ?= "6.6.138"
+ 
+ PV = "${LINUX_VERSION}+git"
  
 
