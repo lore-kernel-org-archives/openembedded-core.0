@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E5D3CDB480
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5504FCDE003
 	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 13:14:47 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20839.1782220482650604179
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20457.1782220484893417670
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 06:14:42 -0700
+ Tue, 23 Jun 2026 06:14:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=fauaj724;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso36864495e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 06:14:42 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=gcGFxTts;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490a76757e5so35504735e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 06:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782220481; x=1782825281; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1782220483; x=1782825283; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=y/XdRCiD9YdIdvd5aoaNtBrMyOSMJjU6xvlaofT5HDs=;
-        b=fauaj724bbSsw1XO0dcWYRd6rYJDzBVvS679mKNgyJnPoiTGrX4Fu29VCX863zdnfi
-         /7HBmR+/56Nu/Y81M0BHQ89YwLa79eB0TxBmQ/JZLWg4J7gUq1Ujvjfkp6YaFbMekdtj
-         +t+2XixHxddgNBRZEYeCPnQ8483mqR0bmyxKs=
+        bh=IGleD6hhpZ+IyQpm/s4yTdo4tp1DsJfwgTMKkfLK6fw=;
+        b=gcGFxTtsvDWYoF1amEIqGYu1e5jwDTo8TNIUBJyePrpmqhL49rdgqelK/c/VMac84k
+         28M6adxdjZLn0t/Yzb58awxivoMRbh5X4j9A/npy8ToICi7PP24aVeDJ8pZmMBVRTwmY
+         +eOGvdfzQ5XFiqyHIXQAF4Fo4olXjViVow6Fg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782220481; x=1782825281;
+        d=1e100.net; s=20251104; t=1782220483; x=1782825283;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=y/XdRCiD9YdIdvd5aoaNtBrMyOSMJjU6xvlaofT5HDs=;
-        b=AlgdKYnVlMNFC5YdurT+B48B6mRMlpCHRWd92n8+tlXtEO5Z0gp8ephbaeQXjxF/Sj
-         EfBXRCwJ9x76772iqkE6+FvofE+e5oKlQEPrY8AjjpGmrligbCJldZbiwXnhPtpA+eSM
-         gWxME8AZpeqQwZmwbMoMVp4+ALIp9CVPHBq7wLXvXvv/HhDBN0oimEs8NzpUs4IodgE3
-         YJoqDYVQ5tJJywMpHyd6m9m+q7/oZGV7/1k7roxp2l3pW4d0K8MrJkdsYhC6JACQdJiV
-         B/DtAonICAr5lI8eHZA6tdJls+WocrijysG1JSgykoUVh86DwKMROtXKVre3e64eAcnX
-         LgEQ==
-X-Gm-Message-State: AOJu0YxcnKJvYC7SWStsLLuVcwnfDfKXYG0MKunNuDZynB8rOC42QAsP
-	m7Nx+HdO2zwRJxb+NuxIOYMD8WMOuTNIFMgzQ+X6V5jXt/GgP18h3MJj2Pbf6Nh5/9BCmN6belN
-	RHp4W
-X-Gm-Gg: AfdE7ckLnK5IVpaOA4NY6L7u3dnjhhQ4rhXvlcUJYKyPtii9yTZpP4YpNFD/HfFZ3u6
-	tSngDB4g1nANLHupHGQ51oyF6zuE0iedcT8BxZCia7eXfsSw496q+QGTWi26tBuQHXx2QopMn7I
-	WaFxnNmrwOGEDisMHNXKLDAAiwSeRsRD3X/ZLVCbJKHdDm9MeouGk64+268GNAAEflgQbwI2kRt
-	suADegqHkKRJN6tWRgQfdXIPg7ezHcRvhPZM09KvswsCifDrkiCdNo1YzC9njZL5fEBFqijDB+E
-	36dAWNAg8hiIVmbOfhOBcpc95qaPFfQUfuxuOSY+BB3mIiRVxjo7y/HtE/46hdGiOSRl5tOvz84
-	Ldr9PpEXGB/psoyP5YVDmpi0KqqQ4OcrAJU3FflrkoBQf+BYMp2qV9sVKalg+7vP/+uMeQ9IQ1b
-	2ZOrKQixFa9Tkx7VYB1gAMdcQcBD7vwyGiZajFZC/yGEYpYJJbpf0a2xO8NYie9tFdQIgrOmQUS
-	nTMfbw6CV+nr8zj1g==
-X-Received: by 2002:a05:600c:a117:b0:492:4b22:79ed with SMTP id 5b1f17b1804b1-4924b227be1mr161321015e9.4.1782220480847;
-        Tue, 23 Jun 2026 06:14:40 -0700 (PDT)
+        bh=IGleD6hhpZ+IyQpm/s4yTdo4tp1DsJfwgTMKkfLK6fw=;
+        b=jm4eC/XgaaYipcUzKJ+h+dgsKgLA8oRnWPGXGxS+lJ4MzcgvE3JVg/6J9dQax/tZ/c
+         I6xWDQzSVNqj+6tQP8wAaXEU/RsYpJlQm1J6xjfalX5xMbhHRE7K4SHrL2twZ10a3WyQ
+         8YbxkXPhA++xkxZWGWPCqIb28pOcmH13dz4uYIZjED+U3xqA7oRtI6w6b0yIo+gDgkzb
+         3yqhrNPRI6eYt5rBxgYvRW/ZBjoQYzTv68WMB12IWE7LbpwIdqVwdhd7h43P+Y4ZAoTd
+         PS8S8SEhcGYJOpEdAXO6MwsQWclKiinJKVrUVQkwZ6dx5JTVxpXhVsl/WDY3ohM4i8ev
+         LtXA==
+X-Gm-Message-State: AOJu0YwqXQ9TG9e9x3dj/YZItnXNpQHD1mCHzwDNfHpjKH0b90fltJ9G
+	U/Ewtjq6ArwSLf5XL4vPhruEpg1zyB/DeBuoa8adveKertg+6VS6VWtlodfja89Zyek+NPtdBKE
+	k07Kp
+X-Gm-Gg: AfdE7cnQNHM1S35u8j4ap1L7OVizm78BD5+ItZ3MKMCau4apNSxrX8Ko8+bVwjk9pDr
+	++yikyG8/EtUImnhnIpBOZKbDs+bzUAkKM6S/jHbobxhSpfg/KUWiz7Vm52SVi2D/cTqZJhRZMe
+	3hk8/bPTzWkbuE3SPLvs0lJ8Wo4HCTYg+kM8znHXPGS0k980yo1d7Hk3GlRcnA7mSXO+WDXANYO
+	YUmepHC6goGd/WTrZxRuQGei/B23LqUSgHKUkpPkQdvEEChJvtGeuVxnGubwtUTx4Dtwk0H8QXG
+	tdhmGbZk2BctyB+oau662WtkeXEuiDvg9OeyzQx+7XwE+6WAeIHKdGaxphhiHLP4RqdA/uUIKNq
+	d9orNCm/BsIRxiCUSPmTUIoNti7zrhFbiALnAm+oacWSb8gRsmpAQ4njPTQqjWKq96sPlS/nUnA
+	Xy+M8eBToxNX2VRoBSEUIQ7hLI1llLdSjrDCvvhUGwLY465nvHetAX514UUiIRcz6W+0rQc6Tgl
+	ImyYhV/f50KkgbpWA==
+X-Received: by 2002:a05:600c:818e:b0:492:4d56:d5fe with SMTP id 5b1f17b1804b1-4925b39249dmr40891505e9.14.1782220483121;
+        Tue, 23 Jun 2026 06:14:43 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa008234f3c115adbb1a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:8234:f3c1:15ad:bb1a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4925d013a69sm24334285e9.3.2026.06.23.06.14.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4925d013a69sm24334285e9.3.2026.06.23.06.14.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 06:14:40 -0700 (PDT)
+        Tue, 23 Jun 2026 06:14:42 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 20/26] python3: CVE-2026-3087 not applicable
-Date: Tue, 23 Jun 2026 15:14:01 +0200
-Message-ID: <96efecfbb2d1eaa24e1c96fbd6593a7087464844.1782220259.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 23/26] apr: Add CVE_PRODUCT to support product name
+Date: Tue, 23 Jun 2026 15:14:04 +0200
+Message-ID: <d93c564790a51b53347bde257151c778e8867624.1782220259.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1782220259.git.yoann.congal@smile.fr>
 References: <cover.1782220259.git.yoann.congal@smile.fr>
@@ -66,30 +66,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 13:14:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239386
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239389
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+From: Himanshu Jadon <hjadon@cisco.com>
 
-CVE link: https://nvd.nist.gov/vuln/detail/CVE-2026-3087
+apr is tracked in NVD under apache:portable_runtime rather than the
+recipe name apr. Set CVE_PRODUCT accordingly so cve-check uses the
+correct NVD product identity for APR.
 
-The CVE is only applicable to Windows OS
+No additional alias was found to be necessary for this recipe.
 
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+(cherry picked from commit bc3803e12d4938e2de514c39bd5d0f011f883ace)
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/python/python3_3.12.13.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-support/apr/apr_1.7.5.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3_3.12.13.bb b/meta/recipes-devtools/python/python3_3.12.13.bb
-index 3e28a3942bd..bf0e1702d54 100644
---- a/meta/recipes-devtools/python/python3_3.12.13.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.13.bb
-@@ -63,6 +63,7 @@ CVE_STATUS[CVE-2022-26488] = "not-applicable-platform: Issue only applies on Win
- # The module will be removed in the future and flaws documented.
- CVE_STATUS[CVE-2015-20107] = "upstream-wontfix: The mailcap module is insecure by design, so this can't be fixed in a meaningful way"
- CVE_STATUS[CVE-2023-36632] = "disputed: Not an issue, in fact expected behaviour"
-+CVE_STATUS[CVE-2026-3087] = "not-applicable-platform: Issue only applies on Windows"
+diff --git a/meta/recipes-support/apr/apr_1.7.5.bb b/meta/recipes-support/apr/apr_1.7.5.bb
+index 78796476e22..7a3445aa201 100644
+--- a/meta/recipes-support/apr/apr_1.7.5.bb
++++ b/meta/recipes-support/apr/apr_1.7.5.bb
+@@ -136,3 +136,6 @@ do_install_ptest() {
+ }
  
- PYTHON_MAJMIN = "3.12"
- 
+ export CONFIG_SHELL="/bin/bash"
++
++# Add CVE_PRODUCT to match the NVD CPE product name
++CVE_PRODUCT = "apache:portable_runtime"
 
