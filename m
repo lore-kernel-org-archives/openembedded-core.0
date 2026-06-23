@@ -2,249 +2,215 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD36CDE000
-	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 22:27:03 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33396.1782253619401462340
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85CBACDE003
+	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 22:27:04 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33400.1782253620750671038
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 15:26:59 -0700
+ Tue, 23 Jun 2026 15:27:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=MVsid3Xz;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49241dbf9c1so2616895e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 15:26:59 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=mWXoJ0Fm;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4926046fbc5so2234265e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 15:27:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782253617; x=1782858417; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NfFSpPNCuoLThCWm//X2/J3BtFhXss3g/XwR65nZSDU=;
-        b=MVsid3Xze5H4iMyZ1SJSn/Xtn1eUqkcrvnS2HYI2gC9G/k01xl9N46yvjPfz45N/Xo
-         la64cnTbucwoCP5Rv+IY3gVyQBJ/Z8khDxPORHOaa4rF0mbKwQwWRuDROXChoFgEKUsV
-         ehwzL/FMfplvkjt5UOp1DqVJl3m5CdOkcBVVg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782253617; x=1782858417;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=smile.fr; s=google; t=1782253619; x=1782858419; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NfFSpPNCuoLThCWm//X2/J3BtFhXss3g/XwR65nZSDU=;
-        b=CQA2U67eQsfauclVO1Hbfqt2U2Pn+KIpWmbMWtiOsJPce/x+PurWlR7LVzg/y/Zcmj
-         oAFhyHqcHqn28X7rlvx1g/Qel8UhUdlfCfGoLqI146p69i/G7zRpc+Pp6oCkmUQo0BHP
-         fLstgw1LxeT7RbZtURiEeSZme4lj6g3LWQW846N12A0JWVQjISEGJgNaCYF4G4Wl0rGH
-         NsHuPTM6W+T0+TVeiWAdNiOXpIl4iEg+RdBggJq012/RvJ+wC0TpnXtcALSir7cR4J7P
-         kIQd5f5GqhxiUkOYXhoQqpIRXnu+yefCOKA45qiyKOArxw4CtmZyjebrYThXWpeXfbLz
-         xhHQ==
-X-Gm-Message-State: AOJu0YzZJB0a1QTxjg8tDDCcz7lum/RBPgLLMlEjMcNYsVdVBPvg+cU+
-	7OCYLBQnCez1nnGU1PA40jIByEWmN81MEzMhqR9b/hwmRXbuYU628ufBcAcU26nGrxFuQIlStKQ
-	+hAbY
-X-Gm-Gg: AfdE7cly5n3IqRiobEo1UWeHLoU/pGM2/UuhXsxBqMAOICb8QZV4RXUWVNBQocp/mkZ
-	0sC7+svvz2ZWcDhDdNv+Gm6GGWrftFEej9cIqRdohUd6a6ftMCw11hktCr5Zc0WGJ7o/h5fP8Uo
-	xb4AM/BTCkdXikKrFMS/0dysn13u7499353LfHtA7PsIaYz8jzXmZVRmURPPrjG4rnuZ8dgUm0e
-	vuzdvBrLS/3+NDnY2LE8up/N0azExzZbdShpvPvQdgfD8WBSid2gyqIcLMwqhgDO06G/5nEafwh
-	o9r9fHTW3hDKkzIhmvSXmUOK4ILI8SmDMsBEMTOdGcT6nRpRysE+cw/tszp4wtXJP2Ym3wM1BLU
-	rBNTPEEXHhzWW1lOL/mPx1hvqafqhrT1AdvopKIfOmXjrUzHPjHqf7CyidaVSCyQpAwTG0JW/Ku
-	X9Jnr4WkTZBtdcKggFKkPZ2sLJVmGmVzaakuqSRJHVtuEFYct2RI0hw1AckCz1+LVJIMY6xhWWy
-	/nEuREGalFU4OYw
-X-Received: by 2002:a05:600c:4ecb:b0:492:433a:53af with SMTP id 5b1f17b1804b1-49260858030mr7819115e9.16.1782253617161;
-        Tue, 23 Jun 2026 15:26:57 -0700 (PDT)
+        bh=6o79g/SLJQl4RlHERpP4a6Mkds7gttqIZTFFIgM4Xek=;
+        b=mWXoJ0FmeCkWuZXleyZWVRfr1M4G/BX2K8Xu4wlTYa89xQ0t4GLOWSxyfO/nwOTQzd
+         KVb28fcphsMzGN44V1JWcvD5RKlS1HeN+YPpEqbiG/fNR7NYwl7CMTO0u1mkJ2cbedje
+         +mdaUdpYWnfYv7nLMaJAOsWlliqVJs9x2Kf54=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782253619; x=1782858419;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6o79g/SLJQl4RlHERpP4a6Mkds7gttqIZTFFIgM4Xek=;
+        b=XujCP3C8zY4p5Mh+P/qnHQ0LLiSr3V+wVe3Jsxow7gaotg+2kKqCO3w6iHA/vz//2H
+         JIjuuoewd0JD6Z+eRpJxNBnqAJaIS2VX5Q0zZP5uyBgJF53VuEEqDUbBoaXeKMS0xnQJ
+         CeEGSk15nuerOW0yR89NLVjpRP/WqQ9+yguWpJI/n4EiNv5vm/l5sHUbH0+netomuCdo
+         1D/IbmIOQQL3pDpSLTDpAGdqjwMtVCKPcU2CvRlbFeSswoC/KaRTybOd3EyEsDJc+NVs
+         HCf/sQtf3+XrmEXzA2LwqJyJScLA63qNc7o6sfDhetFJwzlFofZ/cxZhU/LLx0yQf81m
+         8IxA==
+X-Gm-Message-State: AOJu0Yz4na1NUncwslbVp93jGyqQjviHFYL8oPaBbZ3wC1/jsvnOeTU7
+	zgxDbz6+WokF8Ik4f6jl/yQCnwOitYZdQfixJAQgVIgR4GB06Zz2ThRxms8S+JxxaSCFP5ODVR+
+	7b/qk
+X-Gm-Gg: AfdE7ckMrRm+4hKbCdlILbfF4FPnTjTIHALnfb8arcu6EZkhMBJdO6bo/yVuicxZrYA
+	a8Hc0hfWPprQMpAFi8Mezz4AjM7xYqTxYcTuuQ9SbMmFqy4n+VAhnsRS/QxCKXkZzpHyzUTqpG1
+	5qzykpNmOiggoVj3CNFcVoisobPIanjInlOTGCzcclTVblKIMeqTUatDaA31b11yV8iCkmyzqw6
+	BjvY7/lJRfdHZlkcSI3+9SQ0YAP5UY2Q7pC1JIMeUdY9URzrZdCDbMiy//4TcZrKAaHiLNHPlgr
+	aVeK0IQBQ3HmJdup5jedApp6KOIbKsLuqYuca4TTQvgC1ZHC9kPRn7q4nVbsPTny3sYMKw8Ot3b
+	0WYKJsv1B68Ls0qysQUU0sSuVSI9p2LZzXvgH1rGIgVFfC/uLM6Nlv/iwtQayB2xrj2p1eAbclV
+	WVWdXAOASQvGXVEfuuI+a/l1jmilpt0T8jBBuhiJCtbjQcnDSaDdcysrfq0jCd7DjhsnxzbF5JQ
+	K+wNBIlae+IXuml
+X-Received: by 2002:a05:600c:6285:b0:492:4a1a:a96a with SMTP id 5b1f17b1804b1-4925a0b587fmr79518655e9.11.1782253618933;
+        Tue, 23 Jun 2026 15:26:58 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa0055dd0cae868d89dd.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:55dd:cae:868d:89dd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fd21dbdsm370786745e9.6.2026.06.23.15.26.56
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fd21dbdsm370786745e9.6.2026.06.23.15.26.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 15:26:56 -0700 (PDT)
+        Tue, 23 Jun 2026 15:26:58 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap v2 00/41] Patch review
-Date: Wed, 24 Jun 2026 00:25:59 +0200
-Message-ID: <cover.1782252148.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap v2 04/41] go: fix CVE-2025-58183
+Date: Wed, 24 Jun 2026 00:26:03 +0200
+Message-ID: <e0285488a93cf3b369ad7424d55938791f57174f.1782252148.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1782252148.git.yoann.congal@smile.fr>
+References: <cover.1782252148.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 22:27:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239423
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 22:27:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239426
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Thursday, June 25.
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 
-This v2 adds the kernel v6.6.142 upgrade and patches fixing failure
-triggered during integration:
-* oeqa/runtime/parselogs: update pci BAR ignore for kernel 6.10
-* linux-yocto/6.6: update to v6.6.129
-* linux-yocto/6.6: update to v6.6.130
-* linux-yocto/6.6: update to v6.6.132
-* linux-yocto/6.6: update to v6.6.134
-* linux-yocto/6.6: update to v6.6.135
-* linux-yocto/6.6: update to v6.6.136
-* linux-yocto/6.6: update to v6.6.137
-* linux-yocto/6.6: update to v6.6.138
-* linux-yocto/6.6: update to v6.6.140
-* linux-yocto/6.6: update to v6.6.141
-* linux-yocto/6.6: update to v6.6.142
-* lttng-modules: Fix trace_hrtimer_start build failure
-* linux-yocto/6.6: genericarm64 fix configuration audit warning
-* linux-yocto/6.6: address ltp hang
+This patch applies the upstream fix [1], as referenced in [2],
+to address unbounded memory consumption when reading GNU tar pax
+1.0 sparse file regions in archive/tar.
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4070
-* oe-selftest-debian failed
-  * on a github.com access glitch (I'll report it if that happen again)
-  * and a graphical VM: This is on Ubuntu 26.04, not yet officially
-    supported, I'll investigate this before the "official" support.
-  Retried as https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/4131
+[1] https://github.com/golang/go/commit/613e746327381d820759ebea6ce722720b343556
+[2] https://security-tracker.debian.org/tracker/CVE-2025-58183
 
-The following changes since commit d4950d6df0867dcd5c380d83ac4d138ec968e698:
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2025-58183
 
-  python_setuptools_build_meta: clean the build directory in configure (2026-06-17 01:09:26 +0200)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-review
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-review
-
-for you to fetch changes up to 737293bead3e7b994347e47f09bc69437479d50c:
-
-  linux-yocto/6.6: address ltp hang (2026-06-23 20:33:35 +0200)
-
-----------------------------------------------------------------
-
-Adarsh Jagadish Kamini (3):
-  openssh: fix CVE-2026-35386
-  libsolv: fix CVE-2026-9150
-  python3: CVE-2026-3087 not applicable
-
-Bruce Ashfield (14):
-  oeqa/runtime/parselogs: update pci BAR ignore for kernel 6.10
-  linux-yocto/6.6: update to v6.6.129
-  linux-yocto/6.6: update to v6.6.130
-  linux-yocto/6.6: update to v6.6.132
-  linux-yocto/6.6: update to v6.6.134
-  linux-yocto/6.6: update to v6.6.135
-  linux-yocto/6.6: update to v6.6.136
-  linux-yocto/6.6: update to v6.6.137
-  linux-yocto/6.6: update to v6.6.138
-  linux-yocto/6.6: update to v6.6.140
-  linux-yocto/6.6: update to v6.6.141
-  linux-yocto/6.6: update to v6.6.142
-  linux-yocto/6.6: genericarm64 fix configuration audit warning
-  linux-yocto/6.6: address ltp hang
-
-Deepak Rathore (2):
-  binutils: Fix CVE-2025-69644
-  qemu: Fix CVE-2024-6519
-
-He Zhe (1):
-  lttng-modules: Fix trace_hrtimer_start build failure
-
-Himanshu Jadon (2):
-  apr-util: Add CVE_PRODUCT to support product name
-  apr: Add CVE_PRODUCT to support product name
-
-Hitendra Prajapati (1):
-  libinput: fix for CVE-2026-50292
-
-Jonas Munsin (1):
-  bzip2: set CVE_PRODUCT
-
-Mark Hatle (1):
-  pseudo: Update to version 1.9.8
-
-Naman Jain (1):
-  tiff: fix CVE-2026-4775
-
-Peter Marko (1):
-  openssl: upgrade 3.5.6 -> 3.5.7
-
-Ross Burton (2):
-  oeqa/core/runner: stub addDuration in OETestResult
-  classes/gtk-icon-cache: fix libdir passed to the postrm intercept
-
-Shubham Pushpkar (1):
-  dpkg: Fix CVE-2026-2219
-
-Sudhir Dumbhare (10):
-  go: fix CVE-2025-58183
-  go: fix CVE-2026-25679
-  go: fix CVE-2026-32288
-  python3: Fix CVE-2026-3644 and CVE-2026-0672
-  python3: Fix CVE-2026-4519 and CVE-2026-4786
-  python3: Fix CVE-2026-6019
-  python3: Fix CVE-2025-13462
-  go-binary-native: set status for CVE-2026-39836
-  go: set status for CVE-2026-39836
-  rust,libstd-rs: set status for CVE-2024-3566
-
-Yoann Congal (1):
-  gdb: backport a patch to fix static_assert in recent GCC
-
- meta/classes-recipe/gtk-icon-cache.bbclass    |   2 +-
- meta/lib/oeqa/core/runner.py                  |   4 +
- .../cases/parselogs-ignores-qemuall.txt       |   8 +
- ...ch => CVE-2025-61984_CVE-2026-35386.patch} |   2 +-
- .../openssh/openssh_9.6p1.bb                  |   2 +-
- ...1-Configure-do-not-tweak-mips-cflags.patch |   2 +-
- .../{openssl_3.5.6.bb => openssl_3.5.7.bb}    |   4 +-
- .../binutils/binutils-2.42.inc                |   2 +-
- ...ch => CVE-2025-69644-CVE-2025-69647.patch} |   3 +-
- .../dpkg/dpkg/CVE-2026-2219.patch             |  47 +++++
- meta/recipes-devtools/dpkg/dpkg_1.22.0.bb     |   1 +
- meta/recipes-devtools/gdb/gdb.inc             |   1 +
- ...gnu23-compatibility-wrt-static_asser.patch |  75 ++++++++
- meta/recipes-devtools/go/go-1.22.12.inc       |   4 +
- .../go/go-binary-native_1.22.12.bb            |   1 +
- .../go/go/CVE-2025-58183.patch                | 107 ++++++++++++
- .../go/go/CVE-2026-25679.patch                |  74 ++++++++
- .../go/go/CVE-2026-32288.patch                | 162 ++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   4 +-
- .../python/python3/CVE-2025-13462.patch       | 142 +++++++++++++++
- .../python3/CVE-2026-3644_CVE-2026-0672.patch | 154 +++++++++++++++++
- .../python3/CVE-2026-4519_CVE-2026-4786.patch |  66 +++++++
- .../python/python3/CVE-2026-4519_p1.patch     | 107 ++++++++++++
- .../python/python3/CVE-2026-4519_p2.patch     | 159 +++++++++++++++++
- .../python/python3/CVE-2026-6019_p1.patch     | 133 ++++++++++++++
- .../python/python3/CVE-2026-6019_p2.patch     | 129 ++++++++++++++
- .../python/python3_3.12.13.bb                 |   8 +
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2024-6519.patch             |  51 ++++++
- meta/recipes-devtools/rust/rust-source.inc    |   1 +
- meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |   2 +
- .../libsolv/libsolv/CVE-2026-9150.patch       |  68 ++++++++
- .../libsolv/libsolv_0.7.28.bb                 |   1 +
- .../wayland/libinput/CVE-2026-50292-01.patch  | 109 ++++++++++++
- .../wayland/libinput/CVE-2026-50292-02.patch  |  99 +++++++++++
- .../wayland/libinput_1.25.0.bb                |   2 +
- .../linux/linux-yocto-rt_6.6.bb               |   6 +-
- .../linux/linux-yocto-tiny_6.6.bb             |   6 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  |  28 +--
- ...ce-trace-noise-in-hrtimer_start-v7.1.patch | 103 +++++++++++
- .../lttng/lttng-modules_2.13.12.bb            |   6 +-
- .../libtiff/tiff/CVE-2026-4775.patch          |  59 +++++++
- meta/recipes-multimedia/libtiff/tiff_4.6.0.bb |   1 +
- meta/recipes-support/apr/apr-util_1.6.3.bb    |   3 +
- meta/recipes-support/apr/apr_1.7.5.bb         |   3 +
- 45 files changed, 1920 insertions(+), 32 deletions(-)
- rename meta/recipes-connectivity/openssh/openssh/{CVE-2025-61984.patch => CVE-2025-61984_CVE-2026-35386.patch} (99%)
- rename meta/recipes-connectivity/openssl/{openssl_3.5.6.bb => openssl_3.5.7.bb} (98%)
- rename meta/recipes-devtools/binutils/binutils/{CVE-2025-69647.patch => CVE-2025-69644-CVE-2025-69647.patch} (96%)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/CVE-2026-2219.patch
- create mode 100644 meta/recipes-devtools/gdb/gdb/0001-opcodes-fix-std-gnu23-compatibility-wrt-static_asser.patch
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/recipes-devtools/go/go-1.22.12.inc       |   1 +
+ .../go/go/CVE-2025-58183.patch                | 107 ++++++++++++++++++
+ 2 files changed, 108 insertions(+)
  create mode 100644 meta/recipes-devtools/go/go/CVE-2025-58183.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-25679.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-32288.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13462.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-3644_CVE-2026-0672.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-4519_CVE-2026-4786.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-4519_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-4519_p2.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-6019_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-6019_p2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-6519.patch
- create mode 100644 meta/recipes-extended/libsolv/libsolv/CVE-2026-9150.patch
- create mode 100644 meta/recipes-graphics/wayland/libinput/CVE-2026-50292-01.patch
- create mode 100644 meta/recipes-graphics/wayland/libinput/CVE-2026-50292-02.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-hrtimer-Reduce-trace-noise-in-hrtimer_start-v7.1.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2026-4775.patch
 
+diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
+index 7016acd0616..f6feb1d0b5f 100644
+--- a/meta/recipes-devtools/go/go-1.22.12.inc
++++ b/meta/recipes-devtools/go/go-1.22.12.inc
+@@ -58,6 +58,7 @@ SRC_URI += "\
+     file://CVE-2026-42501.patch \
+     file://CVE-2026-42504.patch \
+     file://CVE-2026-42507.patch \
++    file://CVE-2025-58183.patch \
+ "
+ SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
+ 
+diff --git a/meta/recipes-devtools/go/go/CVE-2025-58183.patch b/meta/recipes-devtools/go/go/CVE-2025-58183.patch
+new file mode 100644
+index 00000000000..51a4f02ddcd
+--- /dev/null
++++ b/meta/recipes-devtools/go/go/CVE-2025-58183.patch
+@@ -0,0 +1,107 @@
++From c25bf45db0b232e8ad9d2bc53e61678ebc5efe90 Mon Sep 17 00:00:00 2001
++From: Damien Neil <dneil@google.com>
++Date: Thu, 11 Sep 2025 13:32:10 -0700
++Subject: [PATCH] [release-branch.go1.24] archive/tar: set a limit on the
++ size of GNU sparse file 1.0 regions
++
++Sparse files in tar archives contain only the non-zero components
++of the file. There are several different encodings for sparse
++files. When reading GNU tar pax 1.0 sparse files, archive/tar did
++not set a limit on the size of the sparse region data. A malicious
++archive containing a large number of sparse blocks could cause
++archive/tar to read an unbounded amount of data from the archive
++into memory.
++
++Since a malicious input can be highly compressable, a small
++compressed input could cause very large allocations.
++
++Cap the size of the sparse block data to the same limit used
++for PAX headers (1 MiB).
++
++Thanks to Harshit Gupta (Mr HAX) (https://www.linkedin.com/in/iam-harshit-gupta/)
++for reporting this issue.
++
++Fixes CVE-2025-58183
++For #75677
++Fixes #75710
++
++CVE: CVE-2025-58183
++Upstream-Status: Backport [https://github.com/golang/go/commit/613e746327381d820759ebea6ce722720b343556]
++
++Backport Changes:
++- The upstream fix includes a testdata tarball as a git binary diff.
++  However, quilt cannot apply git binary diffs and fails with the error:
++  "File src/archive/tar/testdata/gnu-sparse-many-zeros.tar.bz2:
++   git binary diffs are not supported."
++- As a result, the unnecessary bzip2 test file
++  src/archive/tar/testdata/gnu-sparse-many-zeros.tar.bz2
++  has been removed.
++- Furthermore, in src/archive/tar/reader_test.go, within the TestReader()
++  function, the test vector entry for testdata/gnu-sparse-many-zeros.tar.bz2
++  has been removed.
++
++Change-Id: I70b907b584a7b8676df8a149a1db728ae681a770
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/2800
++Reviewed-by: Roland Shoemaker <bracewell@google.com>
++Reviewed-by: Nicholas Husin <husin@google.com>
++Reviewed-on: https://go-internal-review.googlesource.com/c/go/+/2967
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/709843
++Reviewed-by: Carlos Amedee <carlos@golang.org>
++TryBot-Bypass: Michael Pratt <mpratt@google.com>
++Auto-Submit: Michael Pratt <mpratt@google.com>
++(cherry picked from commit 613e746327381d820759ebea6ce722720b343556)
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++---
++ src/archive/tar/common.go | 1 +
++ src/archive/tar/reader.go | 9 +++++++--
++ 2 files changed, 8 insertions(+), 2 deletions(-)
++
++diff --git a/src/archive/tar/common.go b/src/archive/tar/common.go
++index 4910908f81e..ec1b8668547 100644
++--- a/src/archive/tar/common.go
+++++ b/src/archive/tar/common.go
++@@ -38,6 +38,7 @@ var (
++ 	errMissData        = errors.New("archive/tar: sparse file references non-existent data")
++ 	errUnrefData       = errors.New("archive/tar: sparse file contains unreferenced data")
++ 	errWriteHole       = errors.New("archive/tar: write non-NUL byte in sparse hole")
+++	errSparseTooLong   = errors.New("archive/tar: sparse map too long")
++ )
++ 
++ type headerError []string
++diff --git a/src/archive/tar/reader.go b/src/archive/tar/reader.go
++index 0811779adda..71d0b20b76d 100644
++--- a/src/archive/tar/reader.go
+++++ b/src/archive/tar/reader.go
++@@ -531,12 +531,17 @@ func readGNUSparseMap1x0(r io.Reader) (sparseDatas, error) {
++ 		cntNewline int64
++ 		buf        bytes.Buffer
++ 		blk        block
+++		totalSize  int
++ 	)
++ 
++ 	// feedTokens copies data in blocks from r into buf until there are
++ 	// at least cnt newlines in buf. It will not read more blocks than needed.
++ 	feedTokens := func(n int64) error {
++ 		for cntNewline < n {
+++			totalSize += len(blk)
+++			if totalSize > maxSpecialFileSize {
+++				return errSparseTooLong
+++			}
++ 			if _, err := mustReadFull(r, blk[:]); err != nil {
++ 				return err
++ 			}
++@@ -569,8 +574,8 @@ func readGNUSparseMap1x0(r io.Reader) (sparseDatas, error) {
++ 	}
++ 
++ 	// Parse for all member entries.
++-	// numEntries is trusted after this since a potential attacker must have
++-	// committed resources proportional to what this library used.
+++	// numEntries is trusted after this since feedTokens limits the number of
+++	// tokens based on maxSpecialFileSize.
++ 	if err := feedTokens(2 * numEntries); err != nil {
++ 		return nil, err
++ 	}
++-- 
++2.35.6
++
 
