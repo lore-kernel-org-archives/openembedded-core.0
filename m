@@ -1,234 +1,139 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <anders.heimer@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03B71CD98F0
-	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 04:11:46 +0000 (UTC)
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13619.1782187904105654837
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50D13CD98F0
+	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 04:46:06 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13878.1782189956534568429
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2026 21:11:44 -0700
+ Mon, 22 Jun 2026 21:45:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=lnKTglQs;
- spf=pass (domain: gmail.com, ip: 74.125.224.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-660e9ff0587so2853061d50.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jun 2026 21:11:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782187903; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VKi4r7vd/YFaFEkyZN+njXg6xDL+s8X731Eh0ev2lXkzppyxeJOoneaJZ62L5vR/WN
-         4fp7ot7hBQ7AhWcuQM1z8zCV7kiWAn/BYPqRb4H3ygaeWU88QnasX2iM7Idwh4Ka/AYP
-         2ZhZROceHwfoqI9f3KIMKc1iwzTTB5DkRcyH+cZEuTkfHlygvf9ADzWNSm/AUYSnHMj4
-         PGm/SIDLeV8WdntqglF1aHiDCBv0E1Y0nZY84YfsRGc5E2vZomEPGSr0dFGfkmltAwDC
-         XQgkmLz7M/+6GtwEwlku88QGxRshG1RLnipn2/+Iy8CReefPrtScX8V193OguhWAoapn
-         5Brg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9Kgo2u1L7HEv2l8S3hTJKaDn56ghSYsSCY4oc9rkG4M=;
-        fh=Shyw4Ssou6l0RJ8Hg3PTolXkk/msdJJnlaELzE9n7QE=;
-        b=Qghe/Fql8R91fwXmi+4+3gCkbR2ZmaotWM0OdzfT8rPUiHhCP3HU/+7VGJoRyVXp52
-         IqWgOAqxl3dga0PzihlFXlm01Rj3UW+yRDovhVhFlmhsK89iAEjeW5kOZfSsBmVvyQ2Y
-         Z4xm129zWb/snTHZoLwzDmAxDGv3Z0xURzhzyR5YMelOGflciEbmvZylrfxvAtzEAyEE
-         k+U6AOb1tVpW3/4aqQNdtVIFRRBkCXNd9ytqiYt2fqlVrbTUHmG+dpnuR+CxepcQeSqc
-         5ptPa3hJr5puqD1Xfs2/eZd+3JlR92V0GkFHu2Os9nDb5vSjXE2WSPk0UniAbDkVwbMZ
-         /JeA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782187903; x=1782792703; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Kgo2u1L7HEv2l8S3hTJKaDn56ghSYsSCY4oc9rkG4M=;
-        b=lnKTglQsK2oZkJPjKtP95JwNSDbTFBuFSiAcRebmnidwv7TfCZPOWEAasQvhfFseDc
-         L2f6izi/5kEzPAAFg5bLRZic0IKSCwQMKG9OGoqYXlA7IllyluBA5tMiEg+hn3qcvdeC
-         pZx+3wVbsfXYdWNp68KixktthuGYn1X1A7zXcHg7HglVFOUfyKWsd4Psfupj6I+USnTD
-         gHRzlx/6nztYpbNuKwfVOfLo7Qtmtv93nNbzyydFAnXdJ922RnlpucBpb+aPWWKoAM3Q
-         k+h1IM5TBKVKbxC1I6n2sSnRsMNwmxFxSAcuT3kaUpXU/XrAO0dUEBN0TX4ll8rcrvF1
-         Kn/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782187903; x=1782792703;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9Kgo2u1L7HEv2l8S3hTJKaDn56ghSYsSCY4oc9rkG4M=;
-        b=oJwg2J5PPYLuJBeYUQ9OOonoUd9u1zRM4vFzvF5Cu+laKNcacBOejasPHHrOxdz0fV
-         zUaVZSKWXeoEabQmZZI4c9MS669PaVl/US1SmCID8CtPmi/1btU/jxGf+LWWmTX3dJVi
-         wzmbi8gRVmhmgcCHRhZwsE7slRXg0UOrAGRUiK9qU48LWsHcNgjnvPbpbz13KGDMStPc
-         lKygorjN5rMJR4QgFXDpyUCeeI7h4bmkf+8MkpREvOxMtarf107liuU24nBtmwyWZNOB
-         Gu0OUzht1idN6hP4LWWBvEt6qKxPF8DVvafnO0JIEH//Ff0arGo/APE1cFnHnkBuZhM5
-         Hx0g==
-X-Gm-Message-State: AOJu0Yw7QrNj6hcSr3Fny9no1nVvsDb94cLuufH1YyryZ1zyOWEtBOBC
-	ZZXYrUIr2lPfQc80ssE0OzvQJtKmqVgqLycg57518SgEzibG16CBlRd5EnexsFg9mjFiyOXhe77
-	e6cVwIIoHaccpRuvfJEiNK9pyjSvb8bk=
-X-Gm-Gg: AfdE7ckCnfK4lhssdCABpOxkhYpWD5zHQt3BpdutnUvXVcSKMfCXvs6tlmwEWMyyfzQ
-	hCBTA0eOc+N0TjkOF4N6FwSqFjNUqKzG0vqWHW/jtcqGIsfS8npukrd7HHeMLFmC4CN/bROs+gi
-	z3DlkSuUNlruUJPh8TTYp1rqehcGmUr1mucIGxZnmkiLeZCr9Qsb0m9o9GCkWNL3kI07wNu9a/9
-	HybNGUN2qgKlttwiNkCZ4zi0YLcFxyZZNQaPtBUrvCu2TG0q/jiAZGD+uI8fXSDK5S9ltwx0uKf
-	kK9sys+5kDebaOFve4FOZkEvm7Nz+uOIYbO4LxBAAzgp43SGEs8zdXBQ/UXAushOjvGMtL+cE7c
-	REZC/Su8BLVmI6ElPMIs7RvO6F+28LxE5DLh1c8kxZEmqxdI5Gs2+dITY6qWDQEW0P1oE8w==
-X-Received: by 2002:a05:690e:4842:b0:660:d512:470e with SMTP id
- 956f58d0204a3-6635d94b4c0mr381352d50.63.1782187903136; Mon, 22 Jun 2026
- 21:11:43 -0700 (PDT)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=QW9vhRfr;
+ spf=pass (domain: est.tech, ip: 40.107.159.41, mailfrom: anders.heimer@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LiD2ZZGg4iK6Slir23/acPbCA5UYumswuaJKclSzpfzeBQ4vEA0IHdlYte3lT93eIwPdBTqFqmxP1L6fZ6geZ6LO6WDWl6D2Qz6nqOEq5HB4bUrxYY0WZNJbpPz/7cTJnbdJeN2m+tfVTQ6aubIaN8iWVvcmSh+G+sevSLqi++/XqioWcHb3kjqApK4jgUD4eM9YO7PHPWPevdDENAQ04eOszGopM4R+0Dn4BHSfBHnh5TPeC32JGZSiKOUhZI2f46vGSGXGzZlWAF8LiR52iGR+4YUgZnCt3VnFbLJu2voboCfh9KC+MDHtUlQjL8ZLOxkXdBTv0TzhXt9gfzj9pQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZJHwk+Eji8yY0AroxRy7jYTxAdOexbd7Z9zB3Z0aQmQ=;
+ b=jIAI6y+4mveS3saMg20uak8jb6hZgAZ5Q6NNp/CF5FVDhGNs9mz+g26ivabirJSERyMVGftaBknRM/FkIg5D2Ld3Sar8TsF6Az9UJuydSfaMr8lEnQInpmNZuz05IihoseRqrz7E3Zy7Sa4Ovmij4DCzTkek/Zu9koiJp1dGZYZEcqupfxvQNyLAz8NgdxBHeBXrfYEEOUR73bBVs1vta1dTSiNmBExEK+/qeZkDkXuwNSf5zDVDPztFdEZ27199CavhZSynOAnMuzvZ4Xt6aqcmVONWsdpGMASAxc0H09QXrl15NG+HwjQCRme5gmYdmLzry7LwoIlSqHcfTtEniw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZJHwk+Eji8yY0AroxRy7jYTxAdOexbd7Z9zB3Z0aQmQ=;
+ b=QW9vhRfrHUkGfLPDhm6CTD7ohDFylZbAdioxH8b024ZRBcAL/n2QG8/lemtl7RHxuf1qQJwJqFpssEkdDM8fj6vV52DLlKqkqY5IB+mkDPEElKqQruHkPBuE8NRnoWMw3YaMJ9d+HFmuS8dxPvM5/6lk/2toU5OI1PvJBiGiYaB9bXZ+bu3jPR+dAclkNl6onl6UjGAn++3WclsKQsDMGBKk3qMGZmVcng19OEk9Ig378aLIyMdvEZesTL5gssS4DTIfV7wUBu3Cac3Fxy0a3VRZK5bt7tg3VRrB59nllVzyHLBNLohmgBXUXRM67J6cOyUaqeqkLEfmIV2FrWW9Pg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:2ac::9) by
+ DB8P189MB0700.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:fd::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.139.11; Tue, 23 Jun 2026 04:45:51 +0000
+Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+ ([fe80::90da:b700:f102:5c82]) by DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+ ([fe80::90da:b700:f102:5c82%6]) with mapi id 15.21.0139.018; Tue, 23 Jun 2026
+ 04:45:51 +0000
+From: Anders Heimer <anders.heimer@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: Anders Heimer <anders.heimer@est.tech>
+Subject: [PATCH v4 0/2] package: replace copydebugsources shell pipelines
+Date: Tue, 23 Jun 2026 06:45:46 +0200
+Message-ID: <cover.1782189065.git.anders.heimer@est.tech>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DB9PR02CA0019.eurprd02.prod.outlook.com
+ (2603:10a6:10:1d9::24) To DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:10:2ac::9)
 MIME-Version: 1.0
-References: <20260622132021.37598-1-joaomarcos.costa@bootlin.com>
-In-Reply-To: <20260622132021.37598-1-joaomarcos.costa@bootlin.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 22 Jun 2026 21:11:16 -0700
-X-Gm-Features: AVVi8CdE1qG_cBaud5JMCRr40cwcUmyY3Imvew6znbv4E9yG1yG3SBhzbFpHlPk
-Message-ID: <CAMKF1srZSyGgoNHztFqPPg5jm-m9Njxr_fv37_L0X3eE9vEmTQ@mail.gmail.com>
-Subject: Re: [PATCH 0/4] llvm/clang: fix some syntax issues in llvm-project-source
-To: =?UTF-8?Q?Jo=C3=A3o_Marcos_Costa?= <joaomarcos.costa@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, thomas.petazzoni@bootlin.com
-Content-Type: multipart/alternative; boundary="000000000000e3b8cd0654e3f4f9"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9P189MB1641:EE_|DB8P189MB0700:EE_
+X-MS-Office365-Filtering-Correlation-Id: 97737a60-b09e-44a9-3ec9-08ded0e24d41
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|18002099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	oCqQj0Ds8uosnquSGHfjSzA2rHUQOcl9dP1zjoASvDlO87yRv4FldQyYAwbEwxBom6JEJmrFkv/TQGCsUaFjHM5jI9XRlESJGrISTP6Q+G5eb9+K4Fz85GFdrQYTqNcAlCNngebikvllPr/e/UmdwPCoPacWI4/b3zez93Sf39Viq4146wX40BrVQkXC1B37wsH64u5DShm2OWaTKNExQ9XDT2z/vz14gx/+I5/cHKKgiOON6tw7/32WwgS5acvC8mTcBbZjx5SnUJ/JNNGckihx3W586JFp6p8qzL7eP9YMK+7rZuqerN9J0UczEQQHKyvSIjpt9ErGODX839bc5iGUY35tLO9X+Udg0YHIetN3ishd8jYWtssX7iwhNx9sYW9UATvcWmPFTDzrY9BJgTjZxNo2DXISAqWtxIZidsqe1tPVL8zXefWYm2dmqZUHZj9p3nxoslEDMmtiMZXpkvUWMX/XAaagdbRxDTpCunQdN3OvPsQMRQLB3jnG26DBpeoITh62dHKe7vKMAQaC1lu48NWxzRgnTrTTKQbtiFHtH28nX4a9k5WX7ZB7LUP9UztkEja6ciume2H51HcSVMP1ZRLtf6sW1ZAszV8mVj1VQcK1fOEIslsUREYh3BnPPcXpF0WYxCfowbdCbK8h9C+sr4RKsLA0vup+Fe55ECA=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1641.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?JtPD9S9nPhN5iVAfbfddL9LBwCgPpI/Q3ZVI9UDxv85vvwxLnk2qq4UywnXq?=
+ =?us-ascii?Q?T6YTpiqlBXzS4KhSKOCtrGb78ZEOsscLW1e5vA7DK7Qp0Jojsp0YlRNMqkcl?=
+ =?us-ascii?Q?GF4VT8VCdl8BWz0QzSZ+niSVbvILqh93c3habcfGCwZchIC8yfrC7mCgUIZ+?=
+ =?us-ascii?Q?3allGKU12wrMydF4FlaM42QpZPAqfywC0fXNG6GXD9YlATg6JDHHB82Vj5gC?=
+ =?us-ascii?Q?5hZg3NVLoJWKA23PHUIDJsZNlVziQd0+A1L/NH7KDD7fo/Jzv0j9T60OgP2X?=
+ =?us-ascii?Q?ofJusRDyIJ6YSPvk7H3LTzVcYCUWNh5ENwMcbPDdHBvzVFx0Bd6Ab/FZ5HP0?=
+ =?us-ascii?Q?OkhyZB0ynaC0IXUdE7xm6frmmh/nB2a8HO/UaOhuxoAn4LoIl1VRE8A4JHLn?=
+ =?us-ascii?Q?4Zic4lDVqFa7h/c43msedtrLHkFQXz1HZG8s4Eof7Csqd9RKf/XS+NNp8IDL?=
+ =?us-ascii?Q?oPddiiLdlam6cfwFZIqz01qyIUsAOkNzdWEowJGPxQ4KJclosYWYqfoPP9I8?=
+ =?us-ascii?Q?7KVB/M7vQvjDMkCnVFLtVqsSiQ63VtM1igcz0AsJwkPJR9XfubAi9939QtLM?=
+ =?us-ascii?Q?Ts65rJaBPOrpLqXbii/i75k5UeMeTh1VIogeXozBXUB5osFvz6EsfUeKatp+?=
+ =?us-ascii?Q?ZndvbJFKYAUIlfWkZq1U3yKBNg51mHWQnBBncu9++FQOaAOwRaBRJdiplInL?=
+ =?us-ascii?Q?Tdh+6D3RV1DjqjNoHQ7nSbHZrEZU3UIrfkH62nxyMGtzhldf6aZEQWxgnNjV?=
+ =?us-ascii?Q?/IW1zwor9RiK4OuKDcEa9G2+gQ6lHVRvzqHc/rYnNTNB16ofNcKzNkGe8uIj?=
+ =?us-ascii?Q?CEtJa1FWHI5WYC1L+ohCDLQXZ9ml8BcFRnnwh22sWpv2BLuztlMWs4IvYm3t?=
+ =?us-ascii?Q?cujk9434XEuWa+oegL8u2otfdTlgZKo9/Z0rcXyyrVI2aHoIMABKcnz1sZyA?=
+ =?us-ascii?Q?ZnNrMli395hxn4EFad5SrdOCxFFxd7QRYrPalzCYp/XLkqU+RvBsoLOUZGxL?=
+ =?us-ascii?Q?W2Jw0WtI/w849PnUAW8nFFlC+FvYhNzvSWNZ8+cSlTHcRxJM0AmHbGNEbvrv?=
+ =?us-ascii?Q?C42waQywIBEJoF4xTxskeQlds0tDO8+0/ipUWy/P/Uk9nh6A/inksLnOvZ0H?=
+ =?us-ascii?Q?k9nO/4Z2k8rA0pcyb2gnVk4I0QlIvEFCtVXwSs1ylNWQABi9uYAmnX1m00Cx?=
+ =?us-ascii?Q?2d2fS20oFyJtD4aXM5bF7Asc1CjQvVkkGEhSQQDXtR4GFN9ZnYemKs6Km3MU?=
+ =?us-ascii?Q?WlH+0tNojxpsZ5j0NuJiTf8Mf+0eJNF5BwO/3YKxlRx3EMGR2qpcK305DxN5?=
+ =?us-ascii?Q?Oy6LqTeZ68ZVsUYB55cNw+RPQqfrlDoi7OeKSyZrxJguZibGMy/Iys+yG7PN?=
+ =?us-ascii?Q?6Urj9S0f7kdXDK/5aCYrQWC20NVW8vAXV8I/MaLG3DxPBCFtps6MTcvF7Qri?=
+ =?us-ascii?Q?apafufbCtDD2GxFLcpQ45KLmRtLlTAPOy3jJ/c0MRMSHVJoPQonuW+9taIhs?=
+ =?us-ascii?Q?UfQPvLKMUoJkoZc2Q4gwo0iCKO+fPUC72mMlBNcEtEKYK4Z4DIIJ88iC7YBp?=
+ =?us-ascii?Q?sLwPB8pJ98LmMSfgBt3J6DsQ+aQbPsytETCMpl1P5XYkP2T4IDZtiAleob1J?=
+ =?us-ascii?Q?OKYjb7pV6bmSVhQS+6w1W6jaXRx4DUn49eHwE7vW/UdhJ14jJjlJdN4S4dfC?=
+ =?us-ascii?Q?Au1rAmt+vdfCqTFbb2/fuctyuDR0/3fDCDPagLn2meZhIIE/YjFG3xv3+yqA?=
+ =?us-ascii?Q?+gockRSBcA=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97737a60-b09e-44a9-3ec9-08ded0e24d41
+X-MS-Exchange-CrossTenant-AuthSource: DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2026 04:45:51.1514
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lRbXrX1V52ObjfRBrRrTNEcA+eqSp97HrdYF2/dxKDLHPGqbGBW5OB7Cb8O+Y3rIByaJGIlrQalky/f2Hwio0A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB0700
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 04:11:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239326
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 04:46:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239327
 
---000000000000e3b8cd0654e3f4f9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Replace the copydebugsources() sort/grep/sed shell pipeline with Python
+filtering over the NUL-separated source list while keeping cpio for the
+copy pass. Use an explicit prefix + "/" match before stripping the mapped
+debug source prefix, replace the symlink fixup pipeline with os.walk()
+plus cpio, use an argv-list mv for externalsrc relocation, and pass the
+empty-directory find command as an argv list.
 
-Thanks Jo=C3=A3o, the patchset looks solid, I have one comment if you can
-address that we are good to go
+The externalsrc relocation keeps mv, but now with an argv list and
+glob.glob(glob.escape(...)). This preserves the old shell "*" and mv
+overwrite semantics.
 
-On Mon, Jun 22, 2026 at 6:21=E2=80=AFAM Jo=C3=A3o Marcos Costa <
-joaomarcos.costa@bootlin.com> wrote:
+The first cpio copy pass keeps the previous failure-tolerant behavior,
+while the symlink fixup copy still reports cpio failures.
 
-> Hello,
->
-> I faced some strange build issues when switching from one distro to anoth=
-er
-> (i.e. DISTRO=3D"poky" to DISTRO=3D"foobar"), even after adding "foobar"
-> ("foobar:foobar" actually) to CLANG_EXTRA_OE_DISTRO. I started
-> investigating
-> what was wrong, and I believe the order of pathes in this series reflects
-> pretty
-> well what specific issue I stumbled upon and what was the next one, on an=
-d
-> on.
->
-> The error message was:
->
-> /src/build/tmp/work/riscv64imafdc-foobar-linux/libcxx/22.1.3/recipe-sysro=
-ot-native/usr/bin/riscv64-foobar-linux/riscv64-foobar-linux-ld:
-> cannot find crtbeginS.o: No such file or directory
-> /src/build/tmp/work/riscv64imafdc-foobar-linux/libcxx/22.1.3/recipe-sysro=
-ot-native/usr/bin/riscv64-foobar-linux/riscv64-foobar-linux-ld:
-> cannot find -lstdc++: No such file or directory
-> /src/build/tmp/work/riscv64imafdc-foobar-linux/libcxx/22.1.3/recipe-sysro=
-ot-native/usr/bin/riscv64-foobar-linux/riscv64-foobar-linux-ld:
-> cannot find -lgcc: No such file or directory
-> riscv64-foobar-linux-clang++: error: linker command failed with exit code
-> 1 (use -v to see invocation)
->
-> As far as I understand, this is precisely what do_preconfigure (+ some
-> patches)
-> is supposed to handle, so at first it looked like a regression, but it
-> seems the
-> error only reproduces when switching distros.
->
-> For some context, I was building something with
-> PREFERRED_TOOLCHAIN_TARGET=3D"clang", using wrynose branch. If I use the
-> custom
-> distro from the beginning (so no switching), everything works fine (as
-> expected).
->
-> Best regards,
->
-> Jo=C3=A3o Marcos Costa (4):
->   llvm-project-source.inc: fix string replacements in do_preconfigure
->   llvm-project-source.inc: fix end of line in triple variable
->   clang/llvm: add missing instance of Distro class in Linux.cpp
->   llvm-project-source.inc: add vardeps to do_preconfigure
->
->  ...istro-instance-to-getMultiarchTriple.patch | 35 +++++++++++++++++++
->  meta/recipes-devtools/clang/common.inc        |  1 +
->  .../clang/llvm-project-source.inc             |  7 ++--
->  3 files changed, 40 insertions(+), 3 deletions(-)
->  create mode 100644
-> meta/recipes-devtools/clang/clang/0001-llvm-clang-Add-Distro-instance-to-=
-getMultiarchTriple.patch
->
-> --
-> 2.47.0
->
->
+Benchmarks did not indicate regression.
 
---000000000000e3b8cd0654e3f4f9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Changes in v4:
+  - Rebase on origin/master instead of master-next.
 
-<div dir=3D"ltr">Thanks=C2=A0Jo=C3=A3o, the patchset looks solid, I have on=
-e comment if you can address that we are good=C2=A0to go</div><br><div clas=
-s=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Mon, Jun 22, 2026 at 6:21=E2=80=AFAM Jo=C3=A3o Marcos Costa &lt;<a hr=
-ef=3D"mailto:joaomarcos.costa@bootlin.com">joaomarcos.costa@bootlin.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hell=
-o,<br>
-<br>
-I faced some strange build issues when switching from one distro to another=
-<br>
-(i.e. DISTRO=3D&quot;poky&quot; to DISTRO=3D&quot;foobar&quot;), even after=
- adding &quot;foobar&quot;<br>
-(&quot;foobar:foobar&quot; actually) to CLANG_EXTRA_OE_DISTRO. I started in=
-vestigating<br>
-what was wrong, and I believe the order of pathes in this series reflects p=
-retty<br>
-well what specific issue I stumbled upon and what was the next one, on and =
-on.<br>
-<br>
-The error message was:<br>
-<br>
-/src/build/tmp/work/riscv64imafdc-foobar-linux/libcxx/22.1.3/recipe-sysroot=
--native/usr/bin/riscv64-foobar-linux/riscv64-foobar-linux-ld: cannot find c=
-rtbeginS.o: No such file or directory<br>
-/src/build/tmp/work/riscv64imafdc-foobar-linux/libcxx/22.1.3/recipe-sysroot=
--native/usr/bin/riscv64-foobar-linux/riscv64-foobar-linux-ld: cannot find -=
-lstdc++: No such file or directory<br>
-/src/build/tmp/work/riscv64imafdc-foobar-linux/libcxx/22.1.3/recipe-sysroot=
--native/usr/bin/riscv64-foobar-linux/riscv64-foobar-linux-ld: cannot find -=
-lgcc: No such file or directory<br>
-riscv64-foobar-linux-clang++: error: linker command failed with exit code 1=
- (use -v to see invocation)<br>
-<br>
-As far as I understand, this is precisely what do_preconfigure (+ some patc=
-hes)<br>
-is supposed to handle, so at first it looked like a regression, but it seem=
-s the<br>
-error only reproduces when switching distros.<br>
-<br>
-For some context, I was building something with<br>
-PREFERRED_TOOLCHAIN_TARGET=3D&quot;clang&quot;, using wrynose branch. If I =
-use the custom<br>
-distro from the beginning (so no switching), everything works fine (as expe=
-cted).<br>
-<br>
-Best regards,<br>
-<br>
-Jo=C3=A3o Marcos Costa (4):<br>
-=C2=A0 llvm-project-source.inc: fix string replacements in do_preconfigure<=
-br>
-=C2=A0 llvm-project-source.inc: fix end of line in triple variable<br>
-=C2=A0 clang/llvm: add missing instance of Distro class in Linux.cpp<br>
-=C2=A0 llvm-project-source.inc: add vardeps to do_preconfigure<br>
-<br>
-=C2=A0...istro-instance-to-getMultiarchTriple.patch | 35 ++++++++++++++++++=
-+<br>
-=C2=A0meta/recipes-devtools/clang/common.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 1 +<br>
-=C2=A0.../clang/llvm-project-source.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 7 ++--<br>
-=C2=A03 files changed, 40 insertions(+), 3 deletions(-)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/clang/clang/0001-llvm-clang-=
-Add-Distro-instance-to-getMultiarchTriple.patch<br>
-<br>
--- <br>
-2.47.0<br>
-<br>
-</blockquote></div>
+Anders Heimer (2):
+  package: replace copydebugsources shell pipelines
+  oeqa/selftest: add copydebugsources tests
 
---000000000000e3b8cd0654e3f4f9--
+ meta/lib/oe/package.py                        |  72 +++--
+ meta/lib/oeqa/selftest/cases/oelib/package.py | 274 ++++++++++++++++++
+ 2 files changed, 324 insertions(+), 22 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/cases/oelib/package.py
+
 
