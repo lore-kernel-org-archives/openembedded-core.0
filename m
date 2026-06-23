@@ -2,202 +2,382 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85DAFCDE004
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE97CDE003
 	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 13:14:36 +0000 (UTC)
 Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20829.1782220467197526341
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20835.1782220474880924451
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 06:14:27 -0700
+ Tue, 23 Jun 2026 06:14:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=QgdMxVTx;
+ dkim=pass header.i=@smile.fr header.s=google header.b=E/67sAf3;
  spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490ace40f4bso57944915e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 06:14:26 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4924f8db066so15389705e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 06:14:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782220465; x=1782825265; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VyjBCBVZwJxEwkOK1jLGYZ03fIj++LAdnqejw8qPf+8=;
-        b=QgdMxVTxxqLjRc/SvmZvbdgV9bW/3sk1Dngrx71F/WaJQYjRVfJI/9U2zhWgUgJtVH
-         f6a0oBI+QYMXwfl4yYyyn2u1ox43oHrH3k5+AMtQ0CxtTaQgDCCO14hFPgO9DNoClzpg
-         ngvD8sUieo40Oq0MU+/1M3lft8ucvV+eGzNiw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782220465; x=1782825265;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=smile.fr; s=google; t=1782220473; x=1782825273; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VyjBCBVZwJxEwkOK1jLGYZ03fIj++LAdnqejw8qPf+8=;
-        b=Z3EaBqP16zrFQTvGCkGiXZkeR4ZK6q+MgP5zCDkZKUxeY6JNkY1oqt88nSbcTVa0tj
-         UFqBXmXd7gwyrYJdHWlAQJ1y0DV2Us1IBbQ8qZGDqhEJHLcFqRPHv6Z4PA/rA0t6KHU6
-         IGVAsLBOgBmQ3CmqxrWHr8zbN4fm7sH3oRs9VPZi5+nFPLoVxCdu0Dh2EefAk2EG88Ho
-         FgCHqX7Lw+I6nk2Jr1g/TSZ4zjGKnjSrWwNalvwN5JhGL5d4ClTnv0WDP65d4SvaPro6
-         VD8FyvPb1FS9obH9msvmHiShJzoMVXkFSMJj+qr8QF9brQBtqb6TlOp4ajUMEHKet+53
-         oO5g==
-X-Gm-Message-State: AOJu0Ywc1TragXxB0it/f94M+zHxA5LT9ji0+kZ7s7TL9VERq92yfMii
-	0Swbpg8FlnL82bMZ1NEhvI6bgiqrKAB8rRTXPKq4hpcb1IVg+oU/cQq/llQ3N4ousTToKybb5em
-	ZbLa+
-X-Gm-Gg: AfdE7clIU9Z5HOSNetOVFvT0cEPrwW95qBMLMsykhvf1y4gJ5FXms3JbPZluw0AlT3X
-	SGYEXkONsVll4Gvc/LfoOnGwBNqzr3Vr+VkKNKTJVZWnchnxux4nd94XWiE0O3vzw+HhMr6G1Ex
-	x7RCBhOjlQOWD8t/517+CPHJKD6cfB0ViwWYwyCbllTesJGYpW3YTN8CfVjhSuk28sVdMu6YKp6
-	X+Ri/MGgXkGC6QjbHh9Qds3yqhPIgFv0PYW94r+JdFPGbOmoavky7YCu70cwHCLot0JTOEEx7hs
-	NrZUZRpqpP+aHoH7ep2CIuxppp3D2fiUWprE142h9vGLaQCpqZldHVfRjvyGPl6za3/6bpxsSd8
-	cimmiW5XaE45b1YXemKGYRzrPsXHoaBzlm0cDIwc3PmsdGBSsXgCb2Zb+F/q4PYh/58F/tMIPPD
-	hl1hCGU/WkR1/yqty+UyTR+9f3n60RGuG/KuLQ3CBPrW95vEJsAo9jT0+Djhyk/kzoOi95O2Saq
-	9gut548JhDWqZ67Ug==
-X-Received: by 2002:a05:600d:4448:20b0:491:9969:739d with SMTP id 5b1f17b1804b1-4925b3b96f5mr32879625e9.29.1782220465066;
-        Tue, 23 Jun 2026 06:14:25 -0700 (PDT)
+        bh=0MraQ6tvhm2y7hfkdi90CD4uwdt6iTPHXX5P2IRgoHY=;
+        b=E/67sAf3stX65RdVi0xaUnKBtKV0t7+ae90TlF9gK48zSG8vl4zi8GVYl6ru1hQfoL
+         DtVP+ZH8P5PqI/kH0Tz3pk9q+yYtmk0sES3517M6FOjRnCMWTEdiFmaTDUUjOCbBwf7U
+         eK6laF32XC0YjzdshZhXvL+EDKLV5CBl7SYZQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782220473; x=1782825273;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=0MraQ6tvhm2y7hfkdi90CD4uwdt6iTPHXX5P2IRgoHY=;
+        b=igOxilqEttbgSeYQlX/orQA8aKYyYJr1snHFSJBgjptdfLzLUwCC3Bv+2hST5MyoLa
+         RJLjxgPJO8rILPw4Gl8oC2c8x3kaa9GrMWaiVRyRBkTMuOD/7Z+IqBa17DEMadIlQ5QL
+         vJJ90shzXFCplF3LSRqZUO4qKMNtFWE1LzzRJtwZrS61nyoluqCPBr7gWoB5KI/xBM8e
+         N5oK0DsAxdjXf2MdEKEdrfFF9ZxZYwH3WQF36h3MCjMXXyDFBYYCKjUbP/cxKBf28t+9
+         IQElOI9rDC8PKFpxzQODNuv+Wig0AhB3hcV06VZzr7iB4aosBcV5IQR2XCn+iCpuCtfh
+         XArg==
+X-Gm-Message-State: AOJu0YyCCEe9upjcpKnRL/0Ntpp8Rtl07uNLg+e4QlBwHycvFWiqvo+F
+	whW+1xLctsPe3DJtf/Ab2P4jIyL1ri0OOumWGxI8QolIRzPR0fSGtXeovhWknXpee5GXVRu+MH7
+	0Jpqz
+X-Gm-Gg: AfdE7ckgr5nZq9QDSuAeYrdSzH11ZZFMigo9uGgUtYVeobwazcIo5B0QeBtME2YNrzL
+	ynVLg5mGsphEh8BlzlEeUsxobHeCJbSAKlMXXtmHYdfOtXycXnpSD0Ar5WSL5UZj9tuWuGidfJG
+	EbU0QShdTKqhkvfi72E0+Jawo6THEymgJTG/1fqj6Ke95AXS02pixcgdBJz1//Efx4coc9RCXx1
+	ygHcOssVKnmsgtQitv9WD8MqT2i1YKYvG3bsx9uOtz9WFwxnAbWJLRKKOQE9svK9c2euSTfl0k3
+	Hr0T5tiHJiITyqpBF0SASg6CQUrXjSJBlL1SZv8diIYDveXHgTjqh3TYybt7OKRY7tw0WFdgML1
+	Mm7i64gAvQO4NggshsjtK35DoHyzZFxbGrjkL1Qklnrc6nZwIY9Ztb1yvNqD7iKOhFvFyGw5KOn
+	mjSJJoJdfYfxu2ToT9//hSOnVb8PbY2jvqSR1cu+g3b3Kd29K9SkCyP9gI3l2704gIGlegP4soE
+	+w8xSaQ1tH4uJrczw==
+X-Received: by 2002:a05:600c:c4a5:b0:490:bcf6:469f with SMTP id 5b1f17b1804b1-4925b316213mr42882435e9.0.1782220473075;
+        Tue, 23 Jun 2026 06:14:33 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa008234f3c115adbb1a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:8234:f3c1:15ad:bb1a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4925d013a69sm24334285e9.3.2026.06.23.06.14.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4925d013a69sm24334285e9.3.2026.06.23.06.14.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 06:14:24 -0700 (PDT)
+        Tue, 23 Jun 2026 06:14:32 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/26] Patch review
-Date: Tue, 23 Jun 2026 15:13:41 +0200
-Message-ID: <cover.1782220259.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 10/26] python3: Fix CVE-2026-6019
+Date: Tue, 23 Jun 2026 15:13:51 +0200
+Message-ID: <e17af14ae72e21f7f63407ba5c88da160c73bea9.1782220259.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1782220259.git.yoann.congal@smile.fr>
+References: <cover.1782220259.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 13:14:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239366
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239376
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Thursday, June 25.
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/4064
-* oe-selftest-armhost failed with 15560 – Corrupt sqlite database in CVE updates
-  retried in https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/4185
+This patch applies the upstream fix [1] and follow-up fix [2], as
+referenced in [3] and [4], to address an http.cookies.Morsel.js_output()
+flaw where inline JavaScript output escaped quotes but did not neutralize
+the HTML parser-sensitive </script> sequence.
 
-The following changes since commit d4950d6df0867dcd5c380d83ac4d138ec968e698:
+[1] https://github.com/python/cpython/commit/3c59b8b53fc75c7f9578d16fb8201ceb43e8f76c
+[2] https://github.com/python/cpython/commit/e7d4c3ff421916986223690a8425d2383f6f3802
+[3] https://github.com/python/cpython/issues/149144
+[4] https://security-tracker.debian.org/tracker/CVE-2026-6019
 
-  python_setuptools_build_meta: clean the build directory in configure (2026-06-17 01:09:26 +0200)
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-6019
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-review
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-review
-
-for you to fetch changes up to 8c56e85dd02063da5630c9b73fb242686a970e20:
-
-  rust,libstd-rs: set status for CVE-2024-3566 (2026-06-23 09:21:53 +0200)
-
-----------------------------------------------------------------
-
-Adarsh Jagadish Kamini (3):
-  openssh: fix CVE-2026-35386
-  libsolv: fix CVE-2026-9150
-  python3: CVE-2026-3087 not applicable
-
-Deepak Rathore (2):
-  binutils: Fix CVE-2025-69644
-  qemu: Fix CVE-2024-6519
-
-Himanshu Jadon (2):
-  apr-util: Add CVE_PRODUCT to support product name
-  apr: Add CVE_PRODUCT to support product name
-
-Hitendra Prajapati (1):
-  libinput: fix for CVE-2026-50292
-
-Jonas Munsin (1):
-  bzip2: set CVE_PRODUCT
-
-Mark Hatle (1):
-  pseudo: Update to version 1.9.8
-
-Naman Jain (1):
-  tiff: fix CVE-2026-4775
-
-Peter Marko (1):
-  openssl: upgrade 3.5.6 -> 3.5.7
-
-Ross Burton (2):
-  oeqa/core/runner: stub addDuration in OETestResult
-  classes/gtk-icon-cache: fix libdir passed to the postrm intercept
-
-Shubham Pushpkar (1):
-  dpkg: Fix CVE-2026-2219
-
-Sudhir Dumbhare (10):
-  go: fix CVE-2025-58183
-  go: fix CVE-2026-25679
-  go: fix CVE-2026-32288
-  python3: Fix CVE-2026-3644 and CVE-2026-0672
-  python3: Fix CVE-2026-4519 and CVE-2026-4786
-  python3: Fix CVE-2026-6019
-  python3: Fix CVE-2025-13462
-  go-binary-native: set status for CVE-2026-39836
-  go: set status for CVE-2026-39836
-  rust,libstd-rs: set status for CVE-2024-3566
-
-Yoann Congal (1):
-  gdb: backport a patch to fix static_assert in recent GCC
-
- meta/classes-recipe/gtk-icon-cache.bbclass    |   2 +-
- meta/lib/oeqa/core/runner.py                  |   4 +
- ...ch => CVE-2025-61984_CVE-2026-35386.patch} |   2 +-
- .../openssh/openssh_9.6p1.bb                  |   2 +-
- ...1-Configure-do-not-tweak-mips-cflags.patch |   2 +-
- .../{openssl_3.5.6.bb => openssl_3.5.7.bb}    |   4 +-
- .../binutils/binutils-2.42.inc                |   2 +-
- ...ch => CVE-2025-69644-CVE-2025-69647.patch} |   3 +-
- .../dpkg/dpkg/CVE-2026-2219.patch             |  47 +++++
- meta/recipes-devtools/dpkg/dpkg_1.22.0.bb     |   1 +
- meta/recipes-devtools/gdb/gdb.inc             |   1 +
- ...gnu23-compatibility-wrt-static_asser.patch |  75 ++++++++
- meta/recipes-devtools/go/go-1.22.12.inc       |   4 +
- .../go/go-binary-native_1.22.12.bb            |   1 +
- .../go/go/CVE-2025-58183.patch                | 107 ++++++++++++
- .../go/go/CVE-2026-25679.patch                |  74 ++++++++
- .../go/go/CVE-2026-32288.patch                | 162 ++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   4 +-
- .../python/python3/CVE-2025-13462.patch       | 142 +++++++++++++++
- .../python3/CVE-2026-3644_CVE-2026-0672.patch | 154 +++++++++++++++++
- .../python3/CVE-2026-4519_CVE-2026-4786.patch |  66 +++++++
- .../python/python3/CVE-2026-4519_p1.patch     | 107 ++++++++++++
- .../python/python3/CVE-2026-4519_p2.patch     | 159 +++++++++++++++++
- .../python/python3/CVE-2026-6019_p1.patch     | 133 ++++++++++++++
- .../python/python3/CVE-2026-6019_p2.patch     | 129 ++++++++++++++
- .../python/python3_3.12.13.bb                 |   8 +
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2024-6519.patch             |  51 ++++++
- meta/recipes-devtools/rust/rust-source.inc    |   1 +
- meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |   2 +
- .../libsolv/libsolv/CVE-2026-9150.patch       |  68 ++++++++
- .../libsolv/libsolv_0.7.28.bb                 |   1 +
- .../wayland/libinput/CVE-2026-50292-01.patch  | 109 ++++++++++++
- .../wayland/libinput/CVE-2026-50292-02.patch  |  99 +++++++++++
- .../wayland/libinput_1.25.0.bb                |   2 +
- .../libtiff/tiff/CVE-2026-4775.patch          |  59 +++++++
- meta/recipes-multimedia/libtiff/tiff_4.6.0.bb |   1 +
- meta/recipes-support/apr/apr-util_1.6.3.bb    |   3 +
- meta/recipes-support/apr/apr_1.7.5.bb         |   3 +
- 39 files changed, 1785 insertions(+), 10 deletions(-)
- rename meta/recipes-connectivity/openssh/openssh/{CVE-2025-61984.patch => CVE-2025-61984_CVE-2026-35386.patch} (99%)
- rename meta/recipes-connectivity/openssl/{openssl_3.5.6.bb => openssl_3.5.7.bb} (98%)
- rename meta/recipes-devtools/binutils/binutils/{CVE-2025-69647.patch => CVE-2025-69644-CVE-2025-69647.patch} (96%)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/CVE-2026-2219.patch
- create mode 100644 meta/recipes-devtools/gdb/gdb/0001-opcodes-fix-std-gnu23-compatibility-wrt-static_asser.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2025-58183.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-25679.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-32288.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-13462.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-3644_CVE-2026-0672.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-4519_CVE-2026-4786.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-4519_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-4519_p2.patch
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ .../python/python3/CVE-2026-6019_p1.patch     | 133 ++++++++++++++++++
+ .../python/python3/CVE-2026-6019_p2.patch     | 129 +++++++++++++++++
+ .../python/python3_3.12.13.bb                 |   2 +
+ 3 files changed, 264 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-6019_p1.patch
  create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-6019_p2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-6519.patch
- create mode 100644 meta/recipes-extended/libsolv/libsolv/CVE-2026-9150.patch
- create mode 100644 meta/recipes-graphics/wayland/libinput/CVE-2026-50292-01.patch
- create mode 100644 meta/recipes-graphics/wayland/libinput/CVE-2026-50292-02.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2026-4775.patch
 
+diff --git a/meta/recipes-devtools/python/python3/CVE-2026-6019_p1.patch b/meta/recipes-devtools/python/python3/CVE-2026-6019_p1.patch
+new file mode 100644
+index 00000000000..78b01574c91
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2026-6019_p1.patch
+@@ -0,0 +1,133 @@
++From be751c3f3a11d40c2133bee5fb6ab6931df31936 Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Thu, 23 Apr 2026 15:05:17 +0200
++Subject: [PATCH] [3.13] gh-90309: Base64-encode cookie values embedded in
++ JS (GH-148888)
++
++CVE: CVE-2026-6019
++Upstream-Status: Backport [https://github.com/python/cpython/commit/3c59b8b53fc75c7f9578d16fb8201ceb43e8f76c]
++
++Backport Changes:
++- This file is not present in the current version and is therefore omitted.
++  Misc/NEWS.d/next/Security/2026-04-21-13-46-30.gh-issue-90309.srvj9q.rst
++
++(cherry picked from commit 76b3923d688c0efc580658476c5f525ec8735104)
++
++Co-authored-by: Seth Larson <seth@python.org>
++(cherry picked from commit 3c59b8b53fc75c7f9578d16fb8201ceb43e8f76c)
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++---
++ Lib/http/cookies.py           |  8 ++++++--
++ Lib/test/test_http_cookies.py | 29 ++++++++++++++++++-----------
++ 2 files changed, 24 insertions(+), 13 deletions(-)
++
++diff --git a/Lib/http/cookies.py b/Lib/http/cookies.py
++index 63d119ad46c..aebc2a163e4 100644
++--- a/Lib/http/cookies.py
+++++ b/Lib/http/cookies.py
++@@ -389,17 +389,21 @@ class Morsel(dict):
++         return '<%s: %s>' % (self.__class__.__name__, self.OutputString())
++ 
++     def js_output(self, attrs=None):
+++        import base64
++         # Print javascript
++         output_string = self.OutputString(attrs)
++         if _has_control_character(output_string):
++             raise CookieError("Control characters are not allowed in cookies")
+++        # Base64-encode value to avoid template
+++        # injection in cookie values.
+++        output_encoded = base64.b64encode(output_string.encode('utf-8')).decode("ascii")
++         return """
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = \"%s\";
+++        document.cookie = atob(\"%s\");
++         // end hiding -->
++         </script>
++-        """ % (output_string.replace('"', r'\"'))
+++        """ % (output_encoded,)
++ 
++     def OutputString(self, attrs=None):
++         # Build up our result
++diff --git a/Lib/test/test_http_cookies.py b/Lib/test/test_http_cookies.py
++index 2478a6c630f..6aa5df068f9 100644
++--- a/Lib/test/test_http_cookies.py
+++++ b/Lib/test/test_http_cookies.py
++@@ -1,5 +1,5 @@
++ # Simple test suite for http/cookies.py
++-
+++import base64
++ import copy
++ import unittest
++ import doctest
++@@ -152,17 +152,19 @@ class CookieTests(unittest.TestCase):
++ 
++         self.assertEqual(C.output(['path']),
++             'Set-Cookie: Customer="WILE_E_COYOTE"; Path=/acme')
++-        self.assertEqual(C.js_output(), r"""
+++        cookie_encoded = base64.b64encode(b'Customer="WILE_E_COYOTE"; Path=/acme; Version=1').decode('ascii')
+++        self.assertEqual(C.js_output(), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = "Customer=\"WILE_E_COYOTE\"; Path=/acme; Version=1";
+++        document.cookie = atob("{cookie_encoded}");
++         // end hiding -->
++         </script>
++         """)
++-        self.assertEqual(C.js_output(['path']), r"""
+++        cookie_encoded = base64.b64encode(b'Customer="WILE_E_COYOTE"; Path=/acme').decode('ascii')
+++        self.assertEqual(C.js_output(['path']), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = "Customer=\"WILE_E_COYOTE\"; Path=/acme";
+++        document.cookie = atob("{cookie_encoded}");
++         // end hiding -->
++         </script>
++         """)
++@@ -259,17 +261,19 @@ class CookieTests(unittest.TestCase):
++ 
++         self.assertEqual(C.output(['path']),
++                          'Set-Cookie: Customer="WILE_E_COYOTE"; Path=/acme')
++-        self.assertEqual(C.js_output(), r"""
+++        expected_encoded_cookie = base64.b64encode(b'Customer=\"WILE_E_COYOTE\"; Path=/acme; Version=1').decode('ascii')
+++        self.assertEqual(C.js_output(), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = "Customer=\"WILE_E_COYOTE\"; Path=/acme; Version=1";
+++        document.cookie = atob("{expected_encoded_cookie}");
++         // end hiding -->
++         </script>
++         """)
++-        self.assertEqual(C.js_output(['path']), r"""
+++        expected_encoded_cookie = base64.b64encode(b'Customer=\"WILE_E_COYOTE\"; Path=/acme').decode('ascii')
+++        self.assertEqual(C.js_output(['path']), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = "Customer=\"WILE_E_COYOTE\"; Path=/acme";
+++        document.cookie = atob("{expected_encoded_cookie}");
++         // end hiding -->
++         </script>
++         """)
++@@ -360,13 +364,16 @@ class MorselTests(unittest.TestCase):
++             self.assertEqual(
++                 M.output(),
++                 "Set-Cookie: %s=%s; Path=/foo" % (i, "%s_coded_val" % i))
+++            expected_encoded_cookie = base64.b64encode(
+++                ("%s=%s; Path=/foo" % (i, "%s_coded_val" % i)).encode("ascii")
+++            ).decode('ascii')
++             expected_js_output = """
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = "%s=%s; Path=/foo";
+++        document.cookie = atob("%s");
++         // end hiding -->
++         </script>
++-        """ % (i, "%s_coded_val" % i)
+++        """ % (expected_encoded_cookie,)
++             self.assertEqual(M.js_output(), expected_js_output)
++         for i in ["foo bar", "foo@bar"]:
++             # Try some illegal characters
++-- 
++2.35.6
++
+diff --git a/meta/recipes-devtools/python/python3/CVE-2026-6019_p2.patch b/meta/recipes-devtools/python/python3/CVE-2026-6019_p2.patch
+new file mode 100644
+index 00000000000..0646bd2133f
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2026-6019_p2.patch
+@@ -0,0 +1,129 @@
++From de449bbc6ff4ce869c17fb551dacc69de25d73a9 Mon Sep 17 00:00:00 2001
++From: Stan Ulbrych <stan@python.org>
++Date: Mon, 8 Jun 2026 20:15:21 +0100
++Subject: [PATCH] [3.13] gh-149144: Use `decodeURIComponent()` for UTF-8
++ support in `js_output()` (GH-149157) (#150949)
++
++CVE: CVE-2026-6019
++Upstream-Status: Backport [https://github.com/python/cpython/commit/e7d4c3ff421916986223690a8425d2383f6f3802]
++
++Co-authored-by: Seth Larson <seth@python.org>
++(cherry picked from commit e7d4c3ff421916986223690a8425d2383f6f3802)
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++---
++ Lib/http/cookies.py           |  6 +++---
++ Lib/test/test_http_cookies.py | 27 ++++++++++++++-------------
++ 2 files changed, 17 insertions(+), 16 deletions(-)
++
++diff --git a/Lib/http/cookies.py b/Lib/http/cookies.py
++index aebc2a163e4..2cffa2a9ad6 100644
++--- a/Lib/http/cookies.py
+++++ b/Lib/http/cookies.py
++@@ -389,18 +389,18 @@ class Morsel(dict):
++         return '<%s: %s>' % (self.__class__.__name__, self.OutputString())
++ 
++     def js_output(self, attrs=None):
++-        import base64
+++        import urllib.parse
++         # Print javascript
++         output_string = self.OutputString(attrs)
++         if _has_control_character(output_string):
++             raise CookieError("Control characters are not allowed in cookies")
++         # Base64-encode value to avoid template
++         # injection in cookie values.
++-        output_encoded = base64.b64encode(output_string.encode('utf-8')).decode("ascii")
+++        output_encoded = urllib.parse.quote(output_string, safe='', encoding='utf-8')
++         return """
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = atob(\"%s\");
+++        document.cookie = decodeURIComponent(\"%s\");
++         // end hiding -->
++         </script>
++         """ % (output_encoded,)
++diff --git a/Lib/test/test_http_cookies.py b/Lib/test/test_http_cookies.py
++index 6aa5df068f9..b9cc59cd1db 100644
++--- a/Lib/test/test_http_cookies.py
+++++ b/Lib/test/test_http_cookies.py
++@@ -1,10 +1,10 @@
++ # Simple test suite for http/cookies.py
++-import base64
++ import copy
++ import unittest
++ import doctest
++ from http import cookies
++ import pickle
+++import urllib.parse
++ from test import support
++ 
++ 
++@@ -152,19 +152,19 @@ class CookieTests(unittest.TestCase):
++ 
++         self.assertEqual(C.output(['path']),
++             'Set-Cookie: Customer="WILE_E_COYOTE"; Path=/acme')
++-        cookie_encoded = base64.b64encode(b'Customer="WILE_E_COYOTE"; Path=/acme; Version=1').decode('ascii')
+++        cookie_encoded = urllib.parse.quote('Customer="WILE_E_COYOTE"; Path=/acme; Version=1', safe='', encoding='utf-8')
++         self.assertEqual(C.js_output(), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = atob("{cookie_encoded}");
+++        document.cookie = decodeURIComponent("{cookie_encoded}");
++         // end hiding -->
++         </script>
++         """)
++-        cookie_encoded = base64.b64encode(b'Customer="WILE_E_COYOTE"; Path=/acme').decode('ascii')
+++        cookie_encoded = urllib.parse.quote('Customer="WILE_E_COYOTE"; Path=/acme', safe='', encoding='utf-8')
++         self.assertEqual(C.js_output(['path']), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = atob("{cookie_encoded}");
+++        document.cookie = decodeURIComponent("{cookie_encoded}");
++         // end hiding -->
++         </script>
++         """)
++@@ -261,19 +261,19 @@ class CookieTests(unittest.TestCase):
++ 
++         self.assertEqual(C.output(['path']),
++                          'Set-Cookie: Customer="WILE_E_COYOTE"; Path=/acme')
++-        expected_encoded_cookie = base64.b64encode(b'Customer=\"WILE_E_COYOTE\"; Path=/acme; Version=1').decode('ascii')
+++        expected_encoded_cookie = urllib.parse.quote('Customer=\"WILE_E_COYOTE\"; Path=/acme; Version=1', safe='', encoding='utf-8')
++         self.assertEqual(C.js_output(), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = atob("{expected_encoded_cookie}");
+++        document.cookie = decodeURIComponent("{expected_encoded_cookie}");
++         // end hiding -->
++         </script>
++         """)
++-        expected_encoded_cookie = base64.b64encode(b'Customer=\"WILE_E_COYOTE\"; Path=/acme').decode('ascii')
+++        expected_encoded_cookie = urllib.parse.quote('Customer=\"WILE_E_COYOTE\"; Path=/acme', safe='', encoding='utf-8')
++         self.assertEqual(C.js_output(['path']), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = atob("{expected_encoded_cookie}");
+++        document.cookie = decodeURIComponent("{expected_encoded_cookie}");
++         // end hiding -->
++         </script>
++         """)
++@@ -364,13 +364,14 @@ class MorselTests(unittest.TestCase):
++             self.assertEqual(
++                 M.output(),
++                 "Set-Cookie: %s=%s; Path=/foo" % (i, "%s_coded_val" % i))
++-            expected_encoded_cookie = base64.b64encode(
++-                ("%s=%s; Path=/foo" % (i, "%s_coded_val" % i)).encode("ascii")
++-            ).decode('ascii')
+++            expected_encoded_cookie = urllib.parse.quote(
+++                "%s=%s; Path=/foo" % (i, "%s_coded_val" % i),
+++                safe='', encoding='utf-8',
+++            )
++             expected_js_output = """
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = atob("%s");
+++        document.cookie = decodeURIComponent("%s");
++         // end hiding -->
++         </script>
++         """ % (expected_encoded_cookie,)
++-- 
++2.35.6
++
+diff --git a/meta/recipes-devtools/python/python3_3.12.13.bb b/meta/recipes-devtools/python/python3_3.12.13.bb
+index ec9ea94824e..be080c6a362 100644
+--- a/meta/recipes-devtools/python/python3_3.12.13.bb
++++ b/meta/recipes-devtools/python/python3_3.12.13.bb
+@@ -40,6 +40,8 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://CVE-2026-4519_p1.patch \
+            file://CVE-2026-4519_p2.patch \
+            file://CVE-2026-4519_CVE-2026-4786.patch \
++           file://CVE-2026-6019_p1.patch \
++           file://CVE-2026-6019_p2.patch \
+            "
+ 
+ SRC_URI:append:class-native = " \
 
