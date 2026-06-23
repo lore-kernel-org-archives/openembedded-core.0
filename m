@@ -1,554 +1,852 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <vpuar@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 274ADCDB470
-	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 17:11:42 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.26223.1782234690903746862
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4709ACDB47F
+	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 17:14:04 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.26714.1782234837182121626
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 10:11:31 -0700
+ Tue, 23 Jun 2026 10:13:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=PS+se6gU;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4602e2a0372so99997f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 10:11:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782234689; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HM3+hH5wV6HcrJ0pvGO5VZ4MQydfbvNWwpTFetBcaQycAI7gs34m30myIGx1S8O9CC
-         Tku15LpFibhiB0Qx1s3q6R/IK9Hot0DdJYodBsCSua5x2UPZGYUMUWEsDoZQZflr/orB
-         4S5ftQXNlsidYpz6vPtNSm4gjaFgu+c6tz7kjbgXOgmpNAP/Jw45F11/gdiq0ZGejVwI
-         pFdD3WZB7pXY9ECgQAbaXptNEIdnkCLTjX7gSq01MCeIbnozRdCcmUe422yWyIlTqrhc
-         Qsc3mefr8yvu873ysfvY68xgc7g8iVVa7+xacHbpEN7mR2tJIH5CUeg/kVIgmDP0bSIx
-         EDiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Hej/CRTD41iQ96G6easBHQ4n2mXksLXtbXSbNb9/EGU=;
-        fh=shO8evGkxDno+W+Pr2jcELQfkO21VX5ePkozMLN5SFE=;
-        b=bj6mR5BDAR7BV5FRXAFEFynnQ/9SMhHhbECcW6VjOzCnZiyR+z7/cPxcfXKb6GIxF7
-         FKfYTOeo5zobRJtmnM60jFnjqimdGhDnh1d64aNsWVlB3oHbW3wzGHjUjbq52dBP0BIv
-         ux2jAYf4hUKQLq/HMsbrLkPvVbrb034KNtQtnj5HzlWDJVTnDJv6xhPr2ipVw8Z6y+lR
-         JfgD27DxgXasZ755CO88GyOXrUWxH23IWiZpycpmvILgrWdDWF8nXe5jX1ZAQWtb2+2Q
-         U1kUffqrx42c82gV4WOGgoPRvrN1GeuCPp7fKVIGN+5Mav9LVzlX3MelV9Uyem8l6w1V
-         Bjtw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782234689; x=1782839489; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hej/CRTD41iQ96G6easBHQ4n2mXksLXtbXSbNb9/EGU=;
-        b=PS+se6gUZ4JiWWFPIAmN/+xakoFViVG0gqmRsZpBRvq759fassBJzm3rThWHnywGTO
-         F5DMCaT2vapzcwJc2/vkEkTMpL2laOCV13JtUc5Y+SVQ28jzUHVYijX7MG9Xhu+rwGg3
-         icQyAJD14xy4OKTRll6/Ks3n79/5+nt9U/f+k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782234689; x=1782839489;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Hej/CRTD41iQ96G6easBHQ4n2mXksLXtbXSbNb9/EGU=;
-        b=X3hJAN6EoydauuB+nlQc2ragJa/F49pwpJo6rs30t6q7MAUehtIKMIyfjJIzE4nMrs
-         +OE0+Nk5LpHTm9SrZzDWJOEoejYnBd2MSKocYly/UCqRrpmUKnfVEg+INXDQejeDxxR5
-         su7Z0wflaUjwm4K1k7EY6Sv1kK7FmBsA4Dl/dJT9pzesPrPQA6uSdy0Skn0jrQtpSV+W
-         SinVEbG3vFighiiO43usBm2gCbSbwchNX1xiBvhUbULVXoiu2XUMhZRO/BDCPO19BdzZ
-         YdSFtwm7eURrJUI9miRZrL/xsXMZE+Po7ed6V1iwfBpQBw4lka9XjQFh/9nJ3v9Bnp6X
-         600Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rox02y80dh267hsGjA7Se4oqfI7LGBIXpgxJvEJML2effe4Hwr6KyIGHzJScJYAfyWXIQwgPB2cZVuGGGaSVcjhIA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwuSUXWrBSocUH3hBW5ZRgF8MVluT7JORIthiM40/OkcsKQ7P5/
-	T7auHxjHjhMwKcTQ4TFYZEnVzE8+/WOpvwT7L7zCWiKd+t9m40PwrgcEPn/UZ7PPrTN/oZOH7MQ
-	q4o+67wMbIyozOnOJ0tOFhNMnTeqDvjOdZDGwxGSJ3g==
-X-Gm-Gg: AfdE7cm3RMh8AKzFv8/HIdC59kFe2dpJU+Boll5M3M74RatkNHIT76qRiD/S4fM0exe
-	BEcN3NTYd9tg+zZwpWIX8rF0659B/+L6DHKNAleUiFt1itdcYLcR8eNiJZ0AV2Lbs3HgbRSSf35
-	32HxKFkQ9n4V70o85zhDMjlzkvlGDwcqvfp+/OVo7vi/t4xCQsgcbgkpw1BBZfjZtMzdfj3ZYEs
-	OQHDQoWCZtTu7dETNKgT3cQpP7rnIBMgwlu69sPPK1f+meHe7JKiEB6XU+SWizTh0ZsK/XusVHB
-	D2ecOcRmxnS2gkLL4IE=
-X-Received: by 2002:a05:6000:4913:b0:46a:1f35:1189 with SMTP id
- ffacd0b85a97d-46adabe38fcmr5946636f8f.28.1782234687874; Tue, 23 Jun 2026
- 10:11:27 -0700 (PDT)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=BrDgGWMC;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: vpuar@qti.qualcomm.com)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65NC6gom3744652
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 17:13:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=TdsTr6clkXA9jCUcPxGZDC
+	+u45nWzMTOFWJMQ8vMuE8=; b=BrDgGWMCeL7Gvgz4V/FP62cDjgjQLFCgjL9+fJ
+	mP8ntR4wir2HIcrgF2ohL+2fHNddsjf4y5pwid2hqlVLH1C1kJsRJ8RHpvFpFSid
+	dKqEp9SJta7i3PNhlKLFxnCzV6JmeIbJh7IUvfA4tKf70hCu24xzkMRyeIdqKLfE
+	7Jm3VGGd0Az+s9M6Jg6AEzCvLtmIIJyc+vBp/lP2hmWiV+Y95mItneGCrML74JUi
+	diil7dMI2wJ80iB2xzfzuzvi5UogqKuqiBpPmkm9KxQEyjziOs7hkHXLIr3xdVI8
+	Vlqh3+NT9b0w7A7nM9g5FoVyXmt/zxy4amj0l+G8NjRW4ijQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eysv3hbq1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 17:13:56 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTPS id 65NHDt0u000642
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 17:13:55 GMT
+Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 23 Jun 2026 10:13:53 -0700
+From: Vivek Puar <vpuar@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Vivek Puar <vpuar@qti.qualcomm.com>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH] linux-firmware: upgrade 20260519 -> 20260622
+Date: Tue, 23 Jun 2026 22:43:39 +0530
+Message-ID: <20260623171339.1489308-1-vpuar@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20260610165008.1870552-1-bruce.ashfield@gmail.com>
- <20260610165008.1870552-2-bruce.ashfield@gmail.com> <DJGKEQF8GRU1.RF7JY64COTAA@smile.fr>
- <CADkTA4NoRbT1FkgdiYoM2d+qLavqR5TGthMm5bUyiWJ-V=3fpQ@mail.gmail.com>
-In-Reply-To: <CADkTA4NoRbT1FkgdiYoM2d+qLavqR5TGthMm5bUyiWJ-V=3fpQ@mail.gmail.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Tue, 23 Jun 2026 19:11:16 +0200
-X-Gm-Features: AVVi8Cd3T1CK59RQNLrruTyk8QCwDJxGyWY6wBgZ5j3SJZKQmf8-J2SgwWQtkL8
-Message-ID: <CAMSfU+7EMOGNeEs-Ta=-0dXHcfgFh06nL3mD5kCRDhRddPiu-Q@mail.gmail.com>
-Subject: Re: [OE-core] [meta][scarthgap][PATCH 02/11] linux-yocto/6.6: update
- to v6.6.130
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000007a38220654eed91e"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDE0MiBTYWx0ZWRfXzXF31S9mF06o
+ 4XKTsrK0HwYJTAQ+bqYtQ/W0MucHbfG2gE2dpEOXea8Zhqp8KYQYqBEOY2TcgxjJnTy/etsvgQ/
+ 8XVm7XfnHQuSxWRy/O7Y8Jgo2lAe7v4=
+X-Authority-Analysis: v=2.4 cv=WtAb99fv c=1 sm=1 tr=0 ts=6a3abed4 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
+ a=VwQbUJbxAAAA:8 a=94OFy9jEy3nmtz6u9-cA:9
+X-Proofpoint-ORIG-GUID: bbvcHHsaHFU82iXq33ssBiLQ79oSGVEp
+X-Proofpoint-GUID: bbvcHHsaHFU82iXq33ssBiLQ79oSGVEp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDE0MiBTYWx0ZWRfXz+X5b+dLGNo1
+ +M7lJlELrzIzfNNSLV0SQvconxoYwpjYDvKn1mN6mm/Md2KIT2ErMBP0rdXNEAFV9Q4/t7Zel6E
+ VfA1ClwxRmX7TXU/+Qu3nslZavIox/KydpCi2d+k/77vTgKe6qGylZIuMmiGszxvyWJ4dMoPrnA
+ cg4csXhlQIDXjiYDqTvSRdVAsE3xsC0o0TrzCwVUA+UlkrAoQopYibQ0tI5tmYt1pe3pIGi04UZ
+ QgwMT7WlN4ILmKTN0q3wDTzKC4Kl3s1acFJX88TKqQG8gOQUBvTl3iZ2CgkKBpxs1qH5eAnxy2d
+ e++Kx6jcnybOZN7YOhS1JLJjm4yUJ5JR91jRlzeSiffXQijL33DFuMLNuoE2eCPxWVNXW9VYNnb
+ 7z6UN01RfYkCyom5u7Mtv9/D6U5TT6b8vMwLvFJdQkOfTNoZBXZefqdktZjWEM2VkDdmh41hYpY
+ smLSo6s5AnIGR+TnQDA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-23_03,2026-06-23_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 lowpriorityscore=0 clxscore=1011 spamscore=0 adultscore=0
+ priorityscore=1501 suspectscore=0 phishscore=0 malwarescore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606230142
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 17:11:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239412
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 17:14:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239413
 
---0000000000007a38220654eed91e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Upgrade the firmware package to latest release. Add RCA firmware for
+tas257x, add firmware for NXP IW61x SDIO WiFi device, bluetooth firmware
+for NFA725B (QCA2066), add BCS calibration firmware for QCC2072. Add gpu,
+LPAICP and modem packages for QCOM shikra board.
 
-Le mar. 23 juin 2026, 19:00, Bruce Ashfield <bruce.ashfield@gmail.com> a
-=C3=A9crit :
+Firmware licenses and few that are not at the top level (qca/NOTICE.txt,
+qcom/NOTICE.txt, wfx/LICENCE.wf200) are moved to a LICENSES directory as
+per the REUSE specification. Update LIC_FILES_CHKSUM, NO_GENERIC_LICENSE
+and do_install accordingly. Remove REMOVE_UNLICENSED entries for firmware
+files that were deleted upstream.
 
->
->
-> On Tue, Jun 23, 2026 at 12:21=E2=80=AFPM Yoann Congal <yoann.congal@smile=
-.fr>
-> wrote:
->
->> On Wed Jun 10, 2026 at 6:49 PM CEST, Bruce Ashfield via
->> lists.openembedded.org wrote:
->> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
->> >
->> > Updating linux-yocto/6.6 to the latest korg -stable release that
->> comprises
->> > the following commits:
->> >
->> >     c09fbcd31ae6 Linux 6.6.130
->> > [...]
->> >     dc7c9b9d03a5 ext4: drop extent cache when splitting extent fails
->> >     f0931a5c1700 ext4: drop extent cache after doing PARTIAL_VALID1
->> zeroout
->> >     67cdb7bd7442 ext4: don't set EXT4_GET_BLOCKS_CONVERT when splittin=
-g
->> before submitting I/O
->> >     11406eb96a19 ext4: correct the comments place for
->> EXT4_EXT_MAY_ZEROOUT
->>
->> Hello Bruce,
->>
->> >     ed0096fc86b2 ext4: get rid of ppath in
->> ext4_ext_handle_unwritten_extents()
->> >     d7b04ea31c6e ext4: get rid of ppath in
->> ext4_ext_convert_to_initialized()
->> >     c24ce099bea9 ext4: get rid of ppath in
->> ext4_convert_unwritten_extents_endio()
->> >     147a6a2725b1 ext4: get rid of ppath in ext4_split_convert_extents(=
-)
->> >     cda8a34348d7 ext4: get rid of ppath in ext4_split_extent()
->> >     58ddae5d77b1 ext4: don't zero the entire extent if
->> EXT4_EXT_DATA_PARTIAL_VALID1
->> >     e766534911b3 ext4: subdivide EXT4_EXT_DATA_VALID1
->> >     ffb68fc57207 ext4: get rid of ppath in ext4_split_extent_at()
->> >     fb138df7d886 ext4: get rid of ppath in ext4_ext_insert_extent()
->> >     8f6e910852d8 ext4: get rid of ppath in ext4_ext_create_new_leaf()
->> >     cafb151eb180 ext4: get rid of ppath in ext4_find_extent()
->>
->> (The following was found by Gemini, but I've checked it)
->>
->> Looks like these commits introduced a bug causing an intermittent LTP
->> regression:
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/98/builds/3837
->> ->
->> https://valkyrie.yocto.io/pub/non-release/20260622-121/testresults/qemua=
-rm64-ltp/core-image-sato/qemu_boot_log.20260623002740
->>
->> [ 6952.500858] Unable to handle kernel paging request at virtual address
->> ffffffffffffffec
->> [ 6952.503768] Mem abort info:
->> [ 6952.504431]   ESR =3D 0x0000000096000005
->> [ 6952.505333]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
->> [ 6952.506541]   SET =3D 0, FnV =3D 0
->> [ 6952.507354]   EA =3D 0, S1PTW =3D 0
->> [ 6952.508154]   FSC =3D 0x05: level 1 translation fault
->> [ 6952.509208] Data abort info:
->> [ 6952.509849]   ISV =3D 0, ISS =3D 0x00000005, ISS2 =3D 0x00000000
->> [ 6952.511175]   CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
->> [ 6952.512372]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
->> [ 6952.513667] swapper pgtable: 4k pages, 39-bit VAs,
->> pgdp=3D0000000041250000
->> [ 6952.514909] [ffffffffffffffec] pgd=3D0000000000000000,
->> p4d=3D0000000000000000, pud=3D0000000000000000
->> [ 6952.516423] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
->> [ 6952.517503] Modules linked in: x_tables tun loop [last unloaded:
->> ip6_tables]
->> [ 6952.518691] CPU: 1 PID: 1078 Comm: kworker/u12:1 Tainted: G        W
->>         6.6.142-yocto-standard #1
->> [ 6952.520269] Hardware name: linux,dummy-virt (DT)
->> [ 6952.521094] Workqueue: writeback wb_workfn (flush-7:0)
->> [ 6952.521985] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS
->> BTYPE=3D--)
->> [ 6952.523184] pc : ext4_ext_map_blocks+0x260/0x1860
->> [ 6952.524011] lr : ext4_ext_map_blocks+0xdb8/0x1860
->> [ 6952.524851] sp : ffffffc086a3b620
->> [ 6952.525421] x29: ffffffc086a3b740 x28: ffffffffffffffe4 x27:
->> 000000000000808c
->> [ 6952.526624] x26: ffffff8017dd9000 x25: 000000000000808c x24:
->> 0000000000000002
->> [ 6952.527849] x23: ffffff8035e766c8 x22: ffffff802e589690 x21:
->> 000000000000042f
->> [ 6952.529087] x20: ffffffc086a3b948 x19: ffffff8035e767f0 x18:
->> 0000000000000000
->> [ 6952.530310] x17: ffffffc081691310 x16: fffffffe001ab548 x15:
->> 0000005564d4cb48
->> [ 6952.531519] x14: 00000000ffffffff x13: 0000000000000000 x12:
->> ffffffffffffffc0
->> [ 6952.532683] x11: 0000000000000040 x10: ffffff8005d81d80 x9 :
->> ffffffc0803cce14
->> [ 6952.533886] x8 : 00000000bab647bc x7 : 0000000000000000 x6 :
->> 000000000000d847
->> [ 6952.535065] x5 : 0000000000000000 x4 : 0000000000316019 x3 :
->> 0000000000000000
->> [ 6952.536264] x2 : 0000000000000000 x1 : 0000000000000000 x0 :
->> ffffff803deec880
->> [ 6952.537425] Call trace:
->> [ 6952.537860]  ext4_ext_map_blocks+0x260/0x1860
->> [ 6952.538589]  ext4_map_blocks+0x19c/0x598
->> [ 6952.539258]  ext4_do_writepages+0x5a4/0xbe0
->> [ 6952.539977]  ext4_writepages+0x84/0x110
->> [ 6952.540624]  do_writepages+0x94/0x1e0
->> [ 6952.541240]  __writeback_single_inode+0x60/0x4d8
->> [ 6952.542086]  writeback_sb_inodes+0x208/0x4b0
->> [ 6952.542812]  __writeback_inodes_wb+0x58/0x118
->> [ 6952.543578]  wb_writeback+0x274/0x440
->> [ 6952.544198]  wb_workfn+0x3b0/0x5c8
->> [ 6952.544788]  process_one_work+0x16c/0x3e0
->> [ 6952.545434]  worker_thread+0x1b4/0x378
->> [ 6952.546059]  kthread+0x118/0x128
->> [ 6952.546599]  ret_from_fork+0x10/0x20
->> [ 6952.547197] Code: 2a0103f9 b9009fe1 b9000e99 b40055fc (79401398)
->> [ 6952.548170] ---[ end trace 0000000000000000 ]---
->> [ 6952.551090] ------------[ cut here ]------------
->>
->> Reading the resulting code in 6.6.142:
->> fs/ext4/extents.c:
->> int ext4_ext_map_blocks(handle_t *handle, struct inode *inode,
->>                         struct ext4_map_blocks *map, int flags)
->> {
->>         struct ext4_ext_path *path =3D NULL;
->>         // ...
->>
->> got_allocated_blocks:
->>         path =3D ext4_ext_insert_extent(handle, inode, path, &newex, fla=
-gs);
->>         if (IS_ERR(path)) {
->>                 err =3D PTR_ERR(path);
->>                 /*
->>                  * Gracefully handle out of space conditions. If the
->> filesystem
->>                  * is inconsistent, we'll just leak allocated blocks to
->> avoid
->>                  * causing even more damage.
->>                  */
->>                 // ...
->>                 goto out;
->>         }
->>
->>         // ...
->> out:
->>         ext4_free_ext_path(path);
->>
->>         trace_ext4_ext_map_blocks_exit(inode, flags, map,
->>                                        err ? err : allocated);
->>         return err ? err : allocated;
->> }
->>
->> =3D> Under out of space condition (what LTP does a *LOT*): path is given
->> unmodified to
->> ext4_free_ext_path() that only does a NULL check (no IS_ERR) before
->> dereferencing it. And that produces the oops and then, the LTP failure.
->>
->> Notably, master commit 6b854d552711 ("ext4: get rid of ppath in
->> get_ext_path()")
->> never got backported to 6.6.y. But does add the IS_ERR_OR_NULL() check
->> to ext4_free_ext_path:
->>  void ext4_free_ext_path(struct ext4_ext_path *path)
->>  {
->> +       if (IS_ERR_OR_NULL(path))
->> +               return;
->>
->> Bruce, what do you think? Should we backport
->> 6b854d552711=C2=B7("ext4:=C2=B7get=C2=B7rid=C2=B7of=C2=B7ppath=C2=B7in=
-=C2=B7get_ext_path()")? Ask for it to
->> be backported?
->>
->
-> It's possible. But without being able to reproduce the issues locally, I'=
-m
-> just
-> guessing.
->
-> I wouldn't just backport it, I'd suggest that -stable pick it up as well,
-> but then
-> I'm back to not being able to see any issues locally.  I wouldn't ask for=
- a
-> backport without knowing it does fix the issues.
->
-> I'm happy to cherry-pick it as a shot in the dark, but that's all it woul=
-d
-> be :)
->
+Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ ...20260519.bb => linux-firmware_20260622.bb} | 574 +++++++++---------
+ 1 file changed, 286 insertions(+), 288 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260519.bb => linux-firmware_20260622.bb} (87%)
 
-I could setup AB to repeatedly test with/without the cherry-pick (only the
-fs section of ltp). I suspect the frequency of the bug triggering is quite
-high and that would prove the fix, enough to convince you and -stable?
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260519.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260622.bb
+similarity index 87%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20260519.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20260622.bb
+index 7eb9bf35fb..36f8441961 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260519.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260622.bb
+@@ -7,54 +7,18 @@ SECTION = "kernel"
+ 
+ REMOVE_UNLICENSED = ""
+ 
+-# For acenic - Alteon AceNIC Gigabit Ethernet card
+-REMOVE_UNLICENSED += "acenic/tg1.bin acenic/tg2.bin"
+-
+-# For emi62 - EMI 6|2m USB Audio interface
+-REMOVE_UNLICENSED += "emi62/bitstream.fw emi62/loader.fw emi62/midi.fw emi62/spdif.fw"
+-
+-# For snd-maestro3 - ESS Allegro Maestro3 audio device
+-REMOVE_UNLICENSED += "ess/maestro3_assp_kernel.fw ess/maestro3_assp_minisrc.fw"
+-
+ # For s2255drv
+ REMOVE_UNLICENSED += "f2255usb.bin"
+ 
+-# For snd-korg1212 - Korg 1212 IO audio device
+-REMOVE_UNLICENSED += "korg/k1212.dsp"
+-
+-# For lgs8gxx - Legend Silicon GB20600 demodulator driver
+-REMOVE_UNLICENSED += "lgs8g75.fw"
+-
+ # For ti_usb_3410_5052 - Multi-Tech USB cell modems
+-REMOVE_UNLICENSED += "mts_cdma.fw mts_gsm.fw mts_edge.fw mts_mt9234mu.fw mts_mt9234zba.fw"
+-
+-# For myri_sbus - MyriCOM Gigabit Ethernet
+-REMOVE_UNLICENSED += "myricom/lanai.bin"
+-
+-# For qlogicpti - PTI Qlogic, ISP Driver
+-REMOVE_UNLICENSED += "qlogic/isp1000.bin"
+-
+-# For cassini - Sun Cassini
+-REMOVE_UNLICENSED += "sun/cassini.bin"
+-
+-# For dvb-ttusb-budget - Technotrend/Hauppauge Nova-USB devices
+-REMOVE_UNLICENSED += "ttusb-budget/dspbootcode.bin"
++REMOVE_UNLICENSED += "mts_cdma.fw mts_gsm.fw mts_edge.fw"
+ 
+ # For ueagle-atm - Driver for USB ADSL Modems based on Eagle I,II,III
+ REMOVE_UNLICENSED += "ueagle-atm/930-fpga.bin ueagle-atm/CMVeiWO.bin ueagle-atm/CMVepFR10.bin ueagle-atm/DSP9p.bin ueagle-atm/eagleIII.fw ueagle-atm/adi930.fw ueagle-atm/CMVep.bin ueagle-atm/CMVepFR.bin ueagle-atm/DSPei.bin ueagle-atm/CMV9i.bin ueagle-atm/CMVepES03.bin ueagle-atm/CMVepIT.bin ueagle-atm/DSPep.bin ueagle-atm/CMV9p.bin ueagle-atm/CMVepES.bin ueagle-atm/CMVepWO.bin ueagle-atm/eagleI.fw ueagle-atm/CMVei.bin ueagle-atm/CMVepFR04.bin ueagle-atm/DSP9i.bin ueagle-atm/eagleII.fw"
+ 
+-# For vicam - USB 3com HomeConnect (aka vicam)
+-REMOVE_UNLICENSED += "vicam/firmware.fw"
+-
+-# For yam - YAM driver for AX.25
+-REMOVE_UNLICENSED += "yam/1200.bin yam/9600.bin"
+-
+ # For snd-wavefront - ISA WaveFront sound card
+ REMOVE_UNLICENSED += "yamaha/yss225_registers.bin"
+ 
+-# For snd-ymfpci - Yamaha YMF724/740/744/754 audio devices
+-REMOVE_UNLICENSED += "yamaha/ds1_ctrl.fw yamaha/ds1_dsp.fw yamaha/ds1e_ctrl.fw"
+-
+ 
+ LICENSE = "\
+     Firmware-Abilis \
+@@ -188,257 +152,257 @@ LICENSE = "\
+     & MIT \
+ "
+ 
+-LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+-                    file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
+-                    file://LICENCE.advansys;md5=bca735476602a7bcb187c7f8bf4a31d5 \
+-                    file://LICENSE.aeonsemi;md5=521c00bae0077c90d6ffb9ccf66905ae \
+-                    file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
+-                    file://LICENSE.airoha;md5=fa3dedb960e2673aea51aa509f7b537d \
+-                    file://LICENCE.alacritech;md5=75dabc07cc2fb59d929baa6bd6aae48a \
+-                    file://LICENSE.amdgpu;md5=1433dfea38c97a2e563a248a863dcb94 \
+-                    file://LICENSE.amdisp;md5=f040a36bf52c9643edb7c009d6f1b141 \
+-                    file://LICENSE.amdnpu;md5=ea42c0f38f2d42aad08bd50c822460dc \
+-                    file://LICENSE.amd_pmf;md5=a2589a05ea5b6bd2b7f4f623c7e7a649 \
+-                    file://LICENSE.amd-sev;md5=e750538791a8be0b7249c579edefb035 \
+-                    file://LICENSE.amd-ucode;md5=450f217aadc787514165e9568652d700 \
+-                    file://LICENSE.amlogic;md5=80e4e3f27def8bc4b232009c3a587c07 \
+-                    file://LICENSE.amlogic_vdec;md5=dc44f59bf64a81643e500ad3f39a468a \
+-                    file://LICENSE.amphion_vpu;md5=2bcdc00527b2d0542bd92b52aaec2b60 \
+-                    file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
+-                    file://LICENSE.atmel;md5=aa74ac0c60595dee4d4e239107ea77a3 \
+-                    file://LICENSE.bfa;md5=ff822aa5edf56d0159acfe5a49a5be2c \
+-                    file://LICENSE.bmi260;md5=0008c039ec4281e382bd0cb41b66866c \
+-                    file://LICENCE.bnx2;md5=d156fb810e162c4b0065ec8316efcd38 \
+-                    file://LICENCE.bnx2x;md5=9494ec1462e461dec5322d1a1f0adf81 \
+-                    file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc \
+-                    file://LICENCE.ca0132;md5=209b33e66ee5be0461f13d31da392198 \
+-                    file://LICENCE.cadence;md5=009f46816f6956cfb75ede13d3e1cee0 \
+-                    file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
+-                    file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
+-                    file://LICENSE.cirrus;md5=662ea2c1a8888f7d79ed7f27c27472e1 \
+-                    file://LICENCE.cnm;md5=df3992006621b797e36de43f36336e36 \
+-                    file://LICENSE.conexant;md5=768b10e3fc2bbc0725174a7d9e164c26 \
+-                    file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
+-                    file://LICENCE.cw1200-sdd;md5=7e99e5e15c3668e96504a82ebd532ee4 \
+-                    file://LICENCE.cxgb3;md5=1cf82d9e2a4b301e20c7936e61cd0e45 \
+-                    file://LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b \
+-                    file://LICENCE.dabusb;md5=fd785fc5f935c950a3423e4b1b996657 \
+-                    file://LICENSE.dell;md5=032c317c0483dd3364f478d2bf9d9818 \
+-                    file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
+-                    file://LICENSE.drxk;md5=87a325e2e9740837036af3f04efa0d0f \
+-                    file://LICENCE.e100;md5=ec0f84136766df159a3ae6d02acdf5a8 \
+-                    file://LICENCE.emi26;md5=2d1cd6e732b81824fe2f0fbf595b1413 \
+-                    file://LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921 \
+-                    file://LICENCE.fw_sst_0f28;md5=6353931c988ad52818ae733ac61cd293 \
+-                    file://LICENCE.go7007;md5=c0bb9f6aaaba55b0529ee9b30aa66beb \
+-                    file://LICENSE.hfi1_firmware;md5=5e7b6e586ce7339d12689e49931ad444 \
+-                    file://LICENCE.HP;md5=3506ce9cd4bedeaa4afb2d8fe24e0688 \
+-                    file://LICENSE.i915;md5=2b0b2e0d20984affd4490ba2cba02570 \
+-                    file://LICENSE.ib_qib;md5=b909c90fca84c507766601ecb6f3b9d9 \
+-                    file://LICENCE.ibt_firmware;md5=fdbee1ddfe0fb7ab0b2fcd6b454a366b \
+-                    file://LICENSE.ice;md5=742ab4850f2670792940e6d15c974b2f \
+-                    file://LICENSE.ice_enhanced;md5=f305cfc31b64f95f774f9edd9df0224d \
+-                    file://LICENCE.inside-secure;md5=71f2eb7c1d10ccbd198e2459adef6afa \
+-                    file://LICENCE.IntcSST2;md5=9e7d8bea77612d7cc7d9e9b54b623062 \
+-                    file://LICENSE.intel;md5=5c22a4ab607349c89ffcbb1595e493f8 \
+-                    file://LICENSE.intel_vpu;md5=1e231b7287d5a5018740041c352eb58e \
+-                    file://LICENSE.ipu3_firmware;md5=38fe8238c06bf7dcfd0eedbebf452c3b \
+-                    file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8 \
+-                    file://LICENSE.ivsc;md5=4f1f696a12c18dd058d3cc51006c640d \
+-                    file://LICENCE.iwlwifi_firmware;md5=2ce6786e0fc11ac6e36b54bb9b799f1b \
+-                    file://LICENSE.ixp4xx;md5=ddc5cd6cbc6745343926fe7ecc2cdeb2 \
+-                    file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f \
+-                    file://LICENCE.keyspan;md5=676af26017c45772c972ce4a75d467d9 \
+-                    file://LICENCE.lenovo;md5=7f25420b5c27211f7bf33bebb3042ce4 \
+-                    file://LICENCE.linaro;md5=936d91e71cf9cd30e733db4bf11661cc \
+-                    file://LICENSE.Lontium;md5=4ec8dc582ff7295f39e2ca6a7b0be2b6 \
+-                    file://LICENCE.mali_csffw;md5=e064aaec4d21ef856e1b76a6f5dc435f \
+-                    file://LICENCE.Marvell;md5=28b6ed8bd04ba105af6e4dcd6e997772 \
+-                    file://LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2 \
+-                    file://LICENSE.mellanox;md5=646741eee66a7925edc538650895b80c \
+-                    file://LICENSE.mga;md5=6191fc1ff8183b00515c36351ec24150 \
+-                    file://LICENCE.microchip;md5=db753b00305675dfbf120e3f24a47277 \
+-                    file://LICENSE.montage;md5=12a9f2b351f60fc9374da61c8b2f11ed \
+-                    file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261 \
+-                    file://LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed \
+-                    file://LICENCE.Netronome;md5=4add08f2577086d44447996503cddf5f \
+-                    file://LICENCE.nvidia;md5=4428a922ed3ba2ceec95f076a488ce07 \
+-                    file://LICENCE.NXP;md5=58bb8ba632cd729b9ba6183bc6aed36f \
+-                    file://LICENSE.nxp;md5=cca321ca1524d6a1e4fed87486cd82dc \
+-                    file://LICENSE.nxp_mc_firmware;md5=9dc97e4b279b3858cae8879ae2fe5dd7 \
+-                    file://LICENCE.OLPC;md5=5b917f9d8c061991be4f6f5f108719cd \
+-                    file://LICENCE.open-ath9k-htc-firmware;md5=1b33c9f4d17bc4d457bdb23727046837 \
+-                    file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa \
+-                    file://LICENSE.powervr;md5=83045ed2a2cda15b4eaff682c98c9533 \
+-                    file://LICENCE.qat_firmware;md5=72de83dfd9b87be7685ed099a39fbea4 \
+-                    file://LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b \
+-                    file://LICENSE.qcom-2;md5=165287851294f2fb8ac8cbc5e24b02b0 \
+-                    file://LICENSE.qcom_yamato;md5=d0de0eeccaf1843a850bf7a6777eec5c \
+-                    file://LICENSE.qed;md5=939ee0945e6efa0ce21f6d8a21c6564c \
+-                    file://LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d \
+-                    file://LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0 \
+-                    file://LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5 \
+-                    file://LICENSE.QualcommAtheros_ath10k;md5=cb42b686ee5f5cb890275e4321db60a8 \
+-                    file://LICENSE.r8169;md5=a9909160e6bd81b8770711918b418ef2 \
+-                    file://LICENCE.r8a779x_usb3;md5=4c1671656153025d7076105a5da7e498 \
+-                    file://LICENSE.radeon;md5=68ec28bacb3613200bca44f404c69b16 \
+-                    file://LICENCE.ralink_a_mediatek_company_firmware;md5=728f1a85fd53fd67fa8d7afb080bc435 \
+-                    file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
+-                    file://LICENCE.rockchip;md5=5fd70190c5ed39734baceada8ecced26 \
+-                    file://LICENCE.r8a779g_pcie_phy;md5=0b20e76a9a004b83c4a1c87e2153bbad \
+-                    file://LICENSE.rp2;md5=de5109226a643a1cdf706a633e993514 \
+-                    file://LICENSE.rsi;md5=a560f4b285f0733de1a3986ae847675d \
+-                    file://LICENSE.rt1320;md5=b44dab4314655e8f015009548dc4f962 \
+-                    file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
+-                    file://LICENSE.s5p-mfc;md5=5bdad20069b5c0268245609045374639 \
+-                    file://LICENSE.sdma_firmware;md5=51e8c19ecc2270f4b8ea30341ad63ce9 \
+-                    file://LICENCE.sensoray;md5=2273a7fed8223f6d3ef3e65f508f22eb \
+-                    file://LICENCE.siano;md5=4556c1bf830067f12ca151ad953ec2a5 \
+-                    file://LICENSE.tehuti;md5=2b0ebf8cdc4a1c4a49b8ad18c7cb2492 \
+-                    file://LICENCE.ti-connectivity;md5=3b1e9cf54aba8146dad4b735777d406f \
+-                    file://LICENCE.ti-keystone;md5=3a86335d32864b0bef996bee26cc0f2c \
+-                    file://LICENCE.ti-tspa;md5=d1a0eb27d0020752040190b9d51ad9be \
+-                    file://LICENCE.tigon;md5=49d104a32337f4a4c89478a86ce9ae4f \
+-                    file://LICENSE.tlg2300;md5=4b23ec9ced919a0bf2f7c56dac31b2b7 \
+-                    file://LICENCE.typhoon;md5=43b30243a6bda91f54c8e00600c4add5 \
+-                    file://LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118 \
+-                    file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
+-                    file://LICENSE.vxge;md5=91e196370d9927bdf7f566e47ea2c558 \
+-                    file://LICENCE.wl1251;md5=ad3f81922bb9e197014bb187289d3b5b \
+-                    file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+-                    file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+-                    file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://LICENSE.xe;md5=c674d38774242bc0c528214721488118 \
+-                    file://wfx/LICENCE.wf200;md5=4d1beff00d902c05c9c7e95a5d8eb52d \
++LIC_FILES_CHKSUM = "file://LICENSES/LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
++                    file://LICENSES/LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
++                    file://LICENSES/LICENCE.advansys;md5=bca735476602a7bcb187c7f8bf4a31d5 \
++                    file://LICENSES/LICENSE.aeonsemi;md5=521c00bae0077c90d6ffb9ccf66905ae \
++                    file://LICENSES/LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
++                    file://LICENSES/LICENSE.airoha;md5=fa3dedb960e2673aea51aa509f7b537d \
++                    file://LICENSES/LICENCE.alacritech;md5=75dabc07cc2fb59d929baa6bd6aae48a \
++                    file://LICENSES/LICENSE.amdgpu;md5=1433dfea38c97a2e563a248a863dcb94 \
++                    file://LICENSES/LICENSE.amdisp;md5=f040a36bf52c9643edb7c009d6f1b141 \
++                    file://LICENSES/LICENSE.amdnpu;md5=ea42c0f38f2d42aad08bd50c822460dc \
++                    file://LICENSES/LICENSE.amd_pmf;md5=a2589a05ea5b6bd2b7f4f623c7e7a649 \
++                    file://LICENSES/LICENSE.amd-sev;md5=e750538791a8be0b7249c579edefb035 \
++                    file://LICENSES/LICENSE.amd-ucode;md5=450f217aadc787514165e9568652d700 \
++                    file://LICENSES/LICENSE.amlogic;md5=80e4e3f27def8bc4b232009c3a587c07 \
++                    file://LICENSES/LICENSE.amlogic_vdec;md5=dc44f59bf64a81643e500ad3f39a468a \
++                    file://LICENSES/LICENSE.amphion_vpu;md5=2bcdc00527b2d0542bd92b52aaec2b60 \
++                    file://LICENSES/LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
++                    file://LICENSES/LICENSE.atmel;md5=aa74ac0c60595dee4d4e239107ea77a3 \
++                    file://LICENSES/LICENSE.bfa;md5=ff822aa5edf56d0159acfe5a49a5be2c \
++                    file://LICENSES/LICENSE.bmi260;md5=0008c039ec4281e382bd0cb41b66866c \
++                    file://LICENSES/LICENCE.bnx2;md5=d156fb810e162c4b0065ec8316efcd38 \
++                    file://LICENSES/LICENCE.bnx2x;md5=9494ec1462e461dec5322d1a1f0adf81 \
++                    file://LICENSES/LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc \
++                    file://LICENSES/LICENCE.ca0132;md5=209b33e66ee5be0461f13d31da392198 \
++                    file://LICENSES/LICENCE.cadence;md5=009f46816f6956cfb75ede13d3e1cee0 \
++                    file://LICENSES/LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
++                    file://LICENSES/LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
++                    file://LICENSES/LICENSE.cirrus;md5=662ea2c1a8888f7d79ed7f27c27472e1 \
++                    file://LICENSES/LICENCE.cnm;md5=df3992006621b797e36de43f36336e36 \
++                    file://LICENSES/LICENSE.conexant;md5=768b10e3fc2bbc0725174a7d9e164c26 \
++                    file://LICENSES/LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
++                    file://LICENSES/LICENCE.cw1200-sdd;md5=7e99e5e15c3668e96504a82ebd532ee4 \
++                    file://LICENSES/LICENCE.cxgb3;md5=1cf82d9e2a4b301e20c7936e61cd0e45 \
++                    file://LICENSES/LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b \
++                    file://LICENSES/LICENCE.dabusb;md5=fd785fc5f935c950a3423e4b1b996657 \
++                    file://LICENSES/LICENSE.dell;md5=032c317c0483dd3364f478d2bf9d9818 \
++                    file://LICENSES/LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
++                    file://LICENSES/LICENSE.drxk;md5=87a325e2e9740837036af3f04efa0d0f \
++                    file://LICENSES/LICENCE.e100;md5=ec0f84136766df159a3ae6d02acdf5a8 \
++                    file://LICENSES/LICENCE.emi26;md5=2d1cd6e732b81824fe2f0fbf595b1413 \
++                    file://LICENSES/LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921 \
++                    file://LICENSES/LICENCE.fw_sst_0f28;md5=6353931c988ad52818ae733ac61cd293 \
++                    file://LICENSES/LICENCE.go7007;md5=c0bb9f6aaaba55b0529ee9b30aa66beb \
++                    file://LICENSES/LICENSE.hfi1_firmware;md5=5e7b6e586ce7339d12689e49931ad444 \
++                    file://LICENSES/LICENCE.HP;md5=3506ce9cd4bedeaa4afb2d8fe24e0688 \
++                    file://LICENSES/LICENSE.i915;md5=2b0b2e0d20984affd4490ba2cba02570 \
++                    file://LICENSES/LICENSE.ib_qib;md5=b909c90fca84c507766601ecb6f3b9d9 \
++                    file://LICENSES/LICENCE.ibt_firmware;md5=fdbee1ddfe0fb7ab0b2fcd6b454a366b \
++                    file://LICENSES/LICENSE.ice;md5=742ab4850f2670792940e6d15c974b2f \
++                    file://LICENSES/LICENSE.ice_enhanced;md5=f305cfc31b64f95f774f9edd9df0224d \
++                    file://LICENSES/LICENCE.inside-secure;md5=71f2eb7c1d10ccbd198e2459adef6afa \
++                    file://LICENSES/LICENCE.IntcSST2;md5=9e7d8bea77612d7cc7d9e9b54b623062 \
++                    file://LICENSES/LICENSE.intel;md5=5c22a4ab607349c89ffcbb1595e493f8 \
++                    file://LICENSES/LICENSE.intel_vpu;md5=1e231b7287d5a5018740041c352eb58e \
++                    file://LICENSES/LICENSE.ipu3_firmware;md5=38fe8238c06bf7dcfd0eedbebf452c3b \
++                    file://LICENSES/LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8 \
++                    file://LICENSES/LICENSE.ivsc;md5=4f1f696a12c18dd058d3cc51006c640d \
++                    file://LICENSES/LICENCE.iwlwifi_firmware;md5=2ce6786e0fc11ac6e36b54bb9b799f1b \
++                    file://LICENSES/LICENSE.ixp4xx;md5=ddc5cd6cbc6745343926fe7ecc2cdeb2 \
++                    file://LICENSES/LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f \
++                    file://LICENSES/LICENCE.keyspan;md5=676af26017c45772c972ce4a75d467d9 \
++                    file://LICENSES/LICENCE.lenovo;md5=7f25420b5c27211f7bf33bebb3042ce4 \
++                    file://LICENSES/LICENCE.linaro;md5=936d91e71cf9cd30e733db4bf11661cc \
++                    file://LICENSES/LICENSE.Lontium;md5=4ec8dc582ff7295f39e2ca6a7b0be2b6 \
++                    file://LICENSES/LICENCE.mali_csffw;md5=e064aaec4d21ef856e1b76a6f5dc435f \
++                    file://LICENSES/LICENCE.Marvell;md5=28b6ed8bd04ba105af6e4dcd6e997772 \
++                    file://LICENSES/LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2 \
++                    file://LICENSES/LICENSE.mellanox;md5=646741eee66a7925edc538650895b80c \
++                    file://LICENSES/LICENSE.mga;md5=6191fc1ff8183b00515c36351ec24150 \
++                    file://LICENSES/LICENCE.microchip;md5=db753b00305675dfbf120e3f24a47277 \
++                    file://LICENSES/LICENSE.montage;md5=12a9f2b351f60fc9374da61c8b2f11ed \
++                    file://LICENSES/LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261 \
++                    file://LICENSES/LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed \
++                    file://LICENSES/LICENCE.Netronome;md5=4add08f2577086d44447996503cddf5f \
++                    file://LICENSES/LICENCE.nvidia;md5=4428a922ed3ba2ceec95f076a488ce07 \
++                    file://LICENSES/LICENCE.NXP;md5=58bb8ba632cd729b9ba6183bc6aed36f \
++                    file://LICENSES/LICENSE.nxp;md5=cca321ca1524d6a1e4fed87486cd82dc \
++                    file://LICENSES/LICENSE.nxp_mc_firmware;md5=9dc97e4b279b3858cae8879ae2fe5dd7 \
++                    file://LICENSES/LICENCE.OLPC;md5=5b917f9d8c061991be4f6f5f108719cd \
++                    file://LICENSES/LICENCE.open-ath9k-htc-firmware;md5=1b33c9f4d17bc4d457bdb23727046837 \
++                    file://LICENSES/LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa \
++                    file://LICENSES/LICENSE.powervr;md5=83045ed2a2cda15b4eaff682c98c9533 \
++                    file://LICENSES/LICENCE.qat_firmware;md5=72de83dfd9b87be7685ed099a39fbea4 \
++                    file://LICENSES/LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b \
++                    file://LICENSES/LICENSE.qcom-2;md5=165287851294f2fb8ac8cbc5e24b02b0 \
++                    file://LICENSES/LICENSE.qcom_yamato;md5=d0de0eeccaf1843a850bf7a6777eec5c \
++                    file://LICENSES/LICENSE.qed;md5=939ee0945e6efa0ce21f6d8a21c6564c \
++                    file://LICENSES/LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d \
++                    file://LICENSES/LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0 \
++                    file://LICENSES/LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5 \
++                    file://LICENSES/LICENSE.QualcommAtheros_ath10k;md5=cb42b686ee5f5cb890275e4321db60a8 \
++                    file://LICENSES/LICENSE.r8169;md5=a9909160e6bd81b8770711918b418ef2 \
++                    file://LICENSES/LICENCE.r8a779x_usb3;md5=4c1671656153025d7076105a5da7e498 \
++                    file://LICENSES/LICENSE.radeon;md5=68ec28bacb3613200bca44f404c69b16 \
++                    file://LICENSES/LICENCE.ralink_a_mediatek_company_firmware;md5=728f1a85fd53fd67fa8d7afb080bc435 \
++                    file://LICENSES/LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
++                    file://LICENSES/LICENCE.rockchip;md5=5fd70190c5ed39734baceada8ecced26 \
++                    file://LICENSES/LICENCE.r8a779g_pcie_phy;md5=0b20e76a9a004b83c4a1c87e2153bbad \
++                    file://LICENSES/LICENSE.rp2;md5=de5109226a643a1cdf706a633e993514 \
++                    file://LICENSES/LICENSE.rsi;md5=a560f4b285f0733de1a3986ae847675d \
++                    file://LICENSES/LICENSE.rt1320;md5=b44dab4314655e8f015009548dc4f962 \
++                    file://LICENSES/LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
++                    file://LICENSES/LICENSE.s5p-mfc;md5=5bdad20069b5c0268245609045374639 \
++                    file://LICENSES/LICENSE.sdma_firmware;md5=51e8c19ecc2270f4b8ea30341ad63ce9 \
++                    file://LICENSES/LICENCE.sensoray;md5=2273a7fed8223f6d3ef3e65f508f22eb \
++                    file://LICENSES/LICENCE.siano;md5=4556c1bf830067f12ca151ad953ec2a5 \
++                    file://LICENSES/LICENSE.tehuti;md5=2b0ebf8cdc4a1c4a49b8ad18c7cb2492 \
++                    file://LICENSES/LICENCE.ti-connectivity;md5=3b1e9cf54aba8146dad4b735777d406f \
++                    file://LICENSES/LICENCE.ti-keystone;md5=3a86335d32864b0bef996bee26cc0f2c \
++                    file://LICENSES/LICENCE.ti-tspa;md5=d1a0eb27d0020752040190b9d51ad9be \
++                    file://LICENSES/LICENCE.tigon;md5=49d104a32337f4a4c89478a86ce9ae4f \
++                    file://LICENSES/LICENSE.tlg2300;md5=4b23ec9ced919a0bf2f7c56dac31b2b7 \
++                    file://LICENSES/LICENCE.typhoon;md5=43b30243a6bda91f54c8e00600c4add5 \
++                    file://LICENSES/LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118 \
++                    file://LICENSES/LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
++                    file://LICENSES/LICENSE.vxge;md5=91e196370d9927bdf7f566e47ea2c558 \
++                    file://LICENSES/LICENCE.wl1251;md5=ad3f81922bb9e197014bb187289d3b5b \
++                    file://LICENSES/LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
++                    file://LICENSES/LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
++                    file://LICENSES/LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
++                    file://LICENSES/LICENSE.xe;md5=c674d38774242bc0c528214721488118 \
++                    file://LICENSES/LICENCE.wf200;md5=4d1beff00d902c05c9c7e95a5d8eb52d \
+                     file://WHENCE;md5=${WHENCE_CHKSUM} \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "6048e3ea8acf04b4c415db8a9e35a912"
++WHENCE_CHKSUM  = "991f6e7ad5cc20508ae8923edc342c8e"
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+-NO_GENERIC_LICENSE[Firmware-Abilis] = "LICENCE.Abilis"
+-NO_GENERIC_LICENSE[Firmware-adsp_sst] = "LICENCE.adsp_sst"
+-NO_GENERIC_LICENSE[Firmware-advansys] = "LICENCE.advansys"
+-NO_GENERIC_LICENSE[Firmware-aeonsemi] = "LICENSE.aeonsemi"
+-NO_GENERIC_LICENSE[Firmware-agere] = "LICENCE.agere"
+-NO_GENERIC_LICENSE[Firmware-airoha] = "LICENSE.airoha"
+-NO_GENERIC_LICENSE[Firmware-alacritech] = "LICENCE.alacritech"
+-NO_GENERIC_LICENSE[Firmware-amdgpu] = "LICENSE.amdgpu"
+-NO_GENERIC_LICENSE[Firmware-amdisp] = "LICENSE.amdisp"
+-NO_GENERIC_LICENSE[Firmware-amdnpu] = "LICENSE.amdnpu"
+-NO_GENERIC_LICENSE[Firmware-amd_pmf] = "LICENSE.amd_pmf"
+-NO_GENERIC_LICENSE[Firmware-amd-sev] = "LICENSE.amd-sev"
+-NO_GENERIC_LICENSE[Firmware-amd-ucode] = "LICENSE.amd-ucode"
+-NO_GENERIC_LICENSE[Firmware-amlogic] = "LICENSE.amlogic"
+-NO_GENERIC_LICENSE[Firmware-amlogic_vdec] = "LICENSE.amlogic_vdec"
+-NO_GENERIC_LICENSE[Firmware-amphion_vpu] = "LICENSE.amphion_vpu"
+-NO_GENERIC_LICENSE[Firmware-atheros_firmware] = "LICENCE.atheros_firmware"
+-NO_GENERIC_LICENSE[Firmware-atmel] = "LICENSE.atmel"
+-NO_GENERIC_LICENSE[Firmware-bfa] = "LICENSE.bfa"
+-NO_GENERIC_LICENSE[Firmware-bmi260] = "LICENSE.bmi260"
+-NO_GENERIC_LICENSE[Firmware-bnx2] = "LICENCE.bnx2"
+-NO_GENERIC_LICENSE[Firmware-bnx2x] = "LICENCE.bnx2x"
+-NO_GENERIC_LICENSE[Firmware-broadcom_bcm43xx] = "LICENCE.broadcom_bcm43xx"
+-NO_GENERIC_LICENSE[Firmware-ca0132] = "LICENCE.ca0132"
+-NO_GENERIC_LICENSE[Firmware-cadence] = "LICENCE.cadence"
+-NO_GENERIC_LICENSE[Firmware-cavium] = "LICENCE.cavium"
+-NO_GENERIC_LICENSE[Firmware-chelsio_firmware] = "LICENCE.chelsio_firmware"
+-NO_GENERIC_LICENSE[Firmware-cirrus] = "LICENSE.cirrus"
+-NO_GENERIC_LICENSE[Firmware-cnm] = "LICENCE.cnm"
+-NO_GENERIC_LICENSE[Firmware-conexant] = "LICENSE.conexant"
+-NO_GENERIC_LICENSE[Firmware-cw1200] = "LICENCE.cw1200"
+-NO_GENERIC_LICENSE[Firmware-cw1200-sdd] = "LICENCE.cw1200-sdd"
+-NO_GENERIC_LICENSE[Firmware-cxgb3] = "LICENCE.cxgb3"
+-NO_GENERIC_LICENSE[Firmware-cypress] = "LICENCE.cypress"
+-NO_GENERIC_LICENSE[Firmware-dabusb] = "LICENCE.dabusb"
+-NO_GENERIC_LICENSE[Firmware-dell] = "LICENSE.dell"
+-NO_GENERIC_LICENSE[Firmware-dib0700] = "LICENSE.dib0700"
+-NO_GENERIC_LICENSE[Firmware-drxk] = "LICENSE.drxk"
+-NO_GENERIC_LICENSE[Firmware-e100] = "LICENCE.e100"
+-NO_GENERIC_LICENSE[Firmware-emi26] = "LICENCE.emi26"
+-NO_GENERIC_LICENSE[Firmware-ene_firmware] = "LICENCE.ene_firmware"
+-NO_GENERIC_LICENSE[Firmware-fw_sst_0f28] = "LICENCE.fw_sst_0f28"
+-NO_GENERIC_LICENSE[Firmware-go7007] = "LICENCE.go7007"
+-NO_GENERIC_LICENSE[Firmware-hfi1_firmware] = "LICENSE.hfi1_firmware"
+-NO_GENERIC_LICENSE[Firmware-HP] = "LICENCE.HP"
+-NO_GENERIC_LICENSE[Firmware-i915] = "LICENSE.i915"
+-NO_GENERIC_LICENSE[Firmware-ib_qib] = "LICENSE.ib_qib"
+-NO_GENERIC_LICENSE[Firmware-ibt_firmware] = "LICENCE.ibt_firmware"
+-NO_GENERIC_LICENSE[Firmware-ice] = "LICENSE.ice"
+-NO_GENERIC_LICENSE[Firmware-ice_enhanced] = "LICENSE.ice_enhanced"
+-NO_GENERIC_LICENSE[Firmware-inside-secure] = "LICENCE.inside-secure"
+-NO_GENERIC_LICENSE[Firmware-IntcSST2] = "LICENCE.IntcSST2"
+-NO_GENERIC_LICENSE[Firmware-intel] = "LICENSE.intel"
+-NO_GENERIC_LICENSE[Firmware-intel_vpu] = "LICENSE.intel_vpu"
+-NO_GENERIC_LICENSE[Firmware-ipu3_firmware] = "LICENSE.ipu3_firmware"
+-NO_GENERIC_LICENSE[Firmware-it913x] = "LICENCE.it913x"
+-NO_GENERIC_LICENSE[Firmware-ivsc] = "LICENSE.ivsc"
+-NO_GENERIC_LICENSE[Firmware-iwlwifi_firmware] = "LICENCE.iwlwifi_firmware"
+-NO_GENERIC_LICENSE[Firmware-ixp4xx] = "LICENSE.ixp4xx"
+-NO_GENERIC_LICENSE[Firmware-kaweth] = "LICENCE.kaweth"
+-NO_GENERIC_LICENSE[Firmware-keyspan] = "LICENCE.keyspan"
+-NO_GENERIC_LICENSE[Firmware-lenovo] = "LICENCE.lenovo"
+-NO_GENERIC_LICENSE[Firmware-linaro] = "LICENCE.linaro"
+-NO_GENERIC_LICENSE[Firmware-Lontium] = "LICENSE.Lontium"
+-NO_GENERIC_LICENSE[Firmware-mali_csffw] = "LICENCE.mali_csffw"
+-NO_GENERIC_LICENSE[Firmware-Marvell] = "LICENCE.Marvell"
+-NO_GENERIC_LICENSE[Firmware-mediatek] = "LICENCE.mediatek"
+-NO_GENERIC_LICENSE[Firmware-mellanox] = "LICENSE.mellanox"
+-NO_GENERIC_LICENSE[Firmware-mga] = "LICENSE.mga"
+-NO_GENERIC_LICENSE[Firmware-microchip] = "LICENCE.microchip"
+-NO_GENERIC_LICENSE[Firmware-montage] = "LICENSE.montage"
+-NO_GENERIC_LICENSE[Firmware-moxa] = "LICENCE.moxa"
+-NO_GENERIC_LICENSE[Firmware-myri10ge_firmware] = "LICENCE.myri10ge_firmware"
+-NO_GENERIC_LICENSE[Firmware-netronome] = "LICENCE.Netronome"
+-NO_GENERIC_LICENSE[Firmware-nvidia] = "LICENCE.nvidia"
+-NO_GENERIC_LICENSE[Firmware-nxp] = "LICENSE.nxp"
+-NO_GENERIC_LICENSE[Firmware-nxp_mc_firmware] = "LICENSE.nxp_mc_firmware"
+-NO_GENERIC_LICENSE[Firmware-OLPC] = "LICENCE.OLPC"
+-NO_GENERIC_LICENSE[Firmware-ath9k-htc] = "LICENCE.open-ath9k-htc-firmware"
+-NO_GENERIC_LICENSE[Firmware-phanfw] = "LICENCE.phanfw"
+-NO_GENERIC_LICENSE[Firmware-powervr] = "LICENSE.powervr"
+-NO_GENERIC_LICENSE[Firmware-qat] = "LICENCE.qat_firmware"
+-NO_GENERIC_LICENSE[Firmware-qcom] = "LICENSE.qcom"
+-NO_GENERIC_LICENSE[Firmware-qcom-2] = "LICENSE.qcom-2"
+-NO_GENERIC_LICENSE[Firmware-qcom-yamato] = "LICENSE.qcom_yamato"
+-NO_GENERIC_LICENSE[Firmware-qed] = "LICENSE.qed"
+-NO_GENERIC_LICENSE[Firmware-qla1280] = "LICENCE.qla1280"
+-NO_GENERIC_LICENSE[Firmware-qla2xxx] = "LICENCE.qla2xxx"
+-NO_GENERIC_LICENSE[Firmware-qualcommAthos_ar3k] = "LICENSE.QualcommAtheros_ar3k"
+-NO_GENERIC_LICENSE[Firmware-qualcommAthos_ath10k] = "LICENSE.QualcommAtheros_ath10k"
+-NO_GENERIC_LICENSE[Firmware-r8169] = "LICENSE.r8169"
+-NO_GENERIC_LICENSE[Firmware-r8a779x_usb3] = "LICENCE.r8a779x_usb3"
+-NO_GENERIC_LICENSE[Firmware-radeon] = "LICENSE.radeon"
+-NO_GENERIC_LICENSE[Firmware-ralink_a_mediatek_company_firmware] = "LICENCE.ralink_a_mediatek_company_firmware"
+-NO_GENERIC_LICENSE[Firmware-ralink-firmware] = "LICENCE.ralink-firmware.txt"
+-NO_GENERIC_LICENSE[Firmware-r8a779g_pcie_phy] = "LICENCE.r8a779g_pcie_phy"
+-NO_GENERIC_LICENSE[Firmware-rockchip] = "LICENCE.rockchip"
+-NO_GENERIC_LICENSE[Firmware-rp2] = "LICENSE.rp2"
+-NO_GENERIC_LICENSE[Firmware-rsi] = "LICENSE.rsi"
+-NO_GENERIC_LICENSE[Firmware-rt1320] = "LICENSE.rt1320"
+-NO_GENERIC_LICENSE[Firmware-rtlwifi_firmware] = "LICENCE.rtlwifi_firmware.txt"
+-NO_GENERIC_LICENSE[Firmware-s5p-mfc] = "LICENSE.s5p-mfc"
+-NO_GENERIC_LICENSE[Firmware-sensoray] = "LICENCE.sensoray"
+-NO_GENERIC_LICENSE[Firmware-siano] = "LICENCE.siano"
+-NO_GENERIC_LICENSE[Firmware-imx-sdma_firmware] = "LICENSE.sdma_firmware"
+-NO_GENERIC_LICENSE[Firmware-tehuti] = "LICENSE.tehuti"
+-NO_GENERIC_LICENSE[Firmware-ti-connectivity] = "LICENCE.ti-connectivity"
+-NO_GENERIC_LICENSE[Firmware-ti-keystone] = "LICENCE.ti-keystone"
+-NO_GENERIC_LICENSE[Firmware-ti-tspa] = "LICENCE.ti-tspa"
+-NO_GENERIC_LICENSE[Firmware-tigon] = "LICENCE.tigon"
+-NO_GENERIC_LICENSE[Firmware-tlg2300] = "LICENSE.tlg2300"
+-NO_GENERIC_LICENSE[Firmware-typhoon] = "LICENCE.typhoon"
+-NO_GENERIC_LICENSE[Firmware-ueagle-atm4-firmware] = "LICENCE.ueagle-atm4-firmware"
+-NO_GENERIC_LICENSE[Firmware-via_vt6656] = "LICENCE.via_vt6656"
+-NO_GENERIC_LICENSE[Firmware-vxge] = "LICENSE.vxge"
+-NO_GENERIC_LICENSE[Firmware-wfx] = "wfx/LICENCE.wf200"
+-NO_GENERIC_LICENSE[Firmware-wl1251] = "LICENCE.wl1251"
+-NO_GENERIC_LICENSE[Firmware-xc4000] = "LICENCE.xc4000"
+-NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
+-NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
+-NO_GENERIC_LICENSE[Firmware-xe] = "LICENSE.xe"
++NO_GENERIC_LICENSE[Firmware-Abilis] = "LICENSES/LICENCE.Abilis"
++NO_GENERIC_LICENSE[Firmware-adsp_sst] = "LICENSES/LICENCE.adsp_sst"
++NO_GENERIC_LICENSE[Firmware-advansys] = "LICENSES/LICENCE.advansys"
++NO_GENERIC_LICENSE[Firmware-aeonsemi] = "LICENSES/LICENSE.aeonsemi"
++NO_GENERIC_LICENSE[Firmware-agere] = "LICENSES/LICENCE.agere"
++NO_GENERIC_LICENSE[Firmware-airoha] = "LICENSES/LICENSE.airoha"
++NO_GENERIC_LICENSE[Firmware-alacritech] = "LICENSES/LICENCE.alacritech"
++NO_GENERIC_LICENSE[Firmware-amdgpu] = "LICENSES/LICENSE.amdgpu"
++NO_GENERIC_LICENSE[Firmware-amdisp] = "LICENSES/LICENSE.amdisp"
++NO_GENERIC_LICENSE[Firmware-amdnpu] = "LICENSES/LICENSE.amdnpu"
++NO_GENERIC_LICENSE[Firmware-amd_pmf] = "LICENSES/LICENSE.amd_pmf"
++NO_GENERIC_LICENSE[Firmware-amd-sev] = "LICENSES/LICENSE.amd-sev"
++NO_GENERIC_LICENSE[Firmware-amd-ucode] = "LICENSES/LICENSE.amd-ucode"
++NO_GENERIC_LICENSE[Firmware-amlogic] = "LICENSES/LICENSE.amlogic"
++NO_GENERIC_LICENSE[Firmware-amlogic_vdec] = "LICENSES/LICENSE.amlogic_vdec"
++NO_GENERIC_LICENSE[Firmware-amphion_vpu] = "LICENSES/LICENSE.amphion_vpu"
++NO_GENERIC_LICENSE[Firmware-atheros_firmware] = "LICENSES/LICENCE.atheros_firmware"
++NO_GENERIC_LICENSE[Firmware-atmel] = "LICENSES/LICENSE.atmel"
++NO_GENERIC_LICENSE[Firmware-bfa] = "LICENSES/LICENSE.bfa"
++NO_GENERIC_LICENSE[Firmware-bmi260] = "LICENSES/LICENSE.bmi260"
++NO_GENERIC_LICENSE[Firmware-bnx2] = "LICENSES/LICENCE.bnx2"
++NO_GENERIC_LICENSE[Firmware-bnx2x] = "LICENSES/LICENCE.bnx2x"
++NO_GENERIC_LICENSE[Firmware-broadcom_bcm43xx] = "LICENSES/LICENCE.broadcom_bcm43xx"
++NO_GENERIC_LICENSE[Firmware-ca0132] = "LICENSES/LICENCE.ca0132"
++NO_GENERIC_LICENSE[Firmware-cadence] = "LICENSES/LICENCE.cadence"
++NO_GENERIC_LICENSE[Firmware-cavium] = "LICENSES/LICENCE.cavium"
++NO_GENERIC_LICENSE[Firmware-chelsio_firmware] = "LICENSES/LICENCE.chelsio_firmware"
++NO_GENERIC_LICENSE[Firmware-cirrus] = "LICENSES/LICENSE.cirrus"
++NO_GENERIC_LICENSE[Firmware-cnm] = "LICENSES/LICENCE.cnm"
++NO_GENERIC_LICENSE[Firmware-conexant] = "LICENSES/LICENSE.conexant"
++NO_GENERIC_LICENSE[Firmware-cw1200] = "LICENSES/LICENCE.cw1200"
++NO_GENERIC_LICENSE[Firmware-cw1200-sdd] = "LICENSES/LICENCE.cw1200-sdd"
++NO_GENERIC_LICENSE[Firmware-cxgb3] = "LICENSES/LICENCE.cxgb3"
++NO_GENERIC_LICENSE[Firmware-cypress] = "LICENSES/LICENCE.cypress"
++NO_GENERIC_LICENSE[Firmware-dabusb] = "LICENSES/LICENCE.dabusb"
++NO_GENERIC_LICENSE[Firmware-dell] = "LICENSES/LICENSE.dell"
++NO_GENERIC_LICENSE[Firmware-dib0700] = "LICENSES/LICENSE.dib0700"
++NO_GENERIC_LICENSE[Firmware-drxk] = "LICENSES/LICENSE.drxk"
++NO_GENERIC_LICENSE[Firmware-e100] = "LICENSES/LICENCE.e100"
++NO_GENERIC_LICENSE[Firmware-emi26] = "LICENSES/LICENCE.emi26"
++NO_GENERIC_LICENSE[Firmware-ene_firmware] = "LICENSES/LICENCE.ene_firmware"
++NO_GENERIC_LICENSE[Firmware-fw_sst_0f28] = "LICENSES/LICENCE.fw_sst_0f28"
++NO_GENERIC_LICENSE[Firmware-go7007] = "LICENSES/LICENCE.go7007"
++NO_GENERIC_LICENSE[Firmware-hfi1_firmware] = "LICENSES/LICENSE.hfi1_firmware"
++NO_GENERIC_LICENSE[Firmware-HP] = "LICENSES/LICENCE.HP"
++NO_GENERIC_LICENSE[Firmware-i915] = "LICENSES/LICENSE.i915"
++NO_GENERIC_LICENSE[Firmware-ib_qib] = "LICENSES/LICENSE.ib_qib"
++NO_GENERIC_LICENSE[Firmware-ibt_firmware] = "LICENSES/LICENCE.ibt_firmware"
++NO_GENERIC_LICENSE[Firmware-ice] = "LICENSES/LICENSE.ice"
++NO_GENERIC_LICENSE[Firmware-ice_enhanced] = "LICENSES/LICENSE.ice_enhanced"
++NO_GENERIC_LICENSE[Firmware-inside-secure] = "LICENSES/LICENCE.inside-secure"
++NO_GENERIC_LICENSE[Firmware-IntcSST2] = "LICENSES/LICENCE.IntcSST2"
++NO_GENERIC_LICENSE[Firmware-intel] = "LICENSES/LICENSE.intel"
++NO_GENERIC_LICENSE[Firmware-intel_vpu] = "LICENSES/LICENSE.intel_vpu"
++NO_GENERIC_LICENSE[Firmware-ipu3_firmware] = "LICENSES/LICENSE.ipu3_firmware"
++NO_GENERIC_LICENSE[Firmware-it913x] = "LICENSES/LICENCE.it913x"
++NO_GENERIC_LICENSE[Firmware-ivsc] = "LICENSES/LICENSE.ivsc"
++NO_GENERIC_LICENSE[Firmware-iwlwifi_firmware] = "LICENSES/LICENCE.iwlwifi_firmware"
++NO_GENERIC_LICENSE[Firmware-ixp4xx] = "LICENSES/LICENSE.ixp4xx"
++NO_GENERIC_LICENSE[Firmware-kaweth] = "LICENSES/LICENCE.kaweth"
++NO_GENERIC_LICENSE[Firmware-keyspan] = "LICENSES/LICENCE.keyspan"
++NO_GENERIC_LICENSE[Firmware-lenovo] = "LICENSES/LICENCE.lenovo"
++NO_GENERIC_LICENSE[Firmware-linaro] = "LICENSES/LICENCE.linaro"
++NO_GENERIC_LICENSE[Firmware-Lontium] = "LICENSES/LICENSE.Lontium"
++NO_GENERIC_LICENSE[Firmware-mali_csffw] = "LICENSES/LICENCE.mali_csffw"
++NO_GENERIC_LICENSE[Firmware-Marvell] = "LICENSES/LICENCE.Marvell"
++NO_GENERIC_LICENSE[Firmware-mediatek] = "LICENSES/LICENCE.mediatek"
++NO_GENERIC_LICENSE[Firmware-mellanox] = "LICENSES/LICENSE.mellanox"
++NO_GENERIC_LICENSE[Firmware-mga] = "LICENSES/LICENSE.mga"
++NO_GENERIC_LICENSE[Firmware-microchip] = "LICENSES/LICENCE.microchip"
++NO_GENERIC_LICENSE[Firmware-montage] = "LICENSES/LICENSE.montage"
++NO_GENERIC_LICENSE[Firmware-moxa] = "LICENSES/LICENCE.moxa"
++NO_GENERIC_LICENSE[Firmware-myri10ge_firmware] = "LICENSES/LICENCE.myri10ge_firmware"
++NO_GENERIC_LICENSE[Firmware-netronome] = "LICENSES/LICENCE.Netronome"
++NO_GENERIC_LICENSE[Firmware-nvidia] = "LICENSES/LICENCE.nvidia"
++NO_GENERIC_LICENSE[Firmware-nxp] = "LICENSES/LICENSE.nxp"
++NO_GENERIC_LICENSE[Firmware-nxp_mc_firmware] = "LICENSES/LICENSE.nxp_mc_firmware"
++NO_GENERIC_LICENSE[Firmware-OLPC] = "LICENSES/LICENCE.OLPC"
++NO_GENERIC_LICENSE[Firmware-ath9k-htc] = "LICENSES/LICENCE.open-ath9k-htc-firmware"
++NO_GENERIC_LICENSE[Firmware-phanfw] = "LICENSES/LICENCE.phanfw"
++NO_GENERIC_LICENSE[Firmware-powervr] = "LICENSES/LICENSE.powervr"
++NO_GENERIC_LICENSE[Firmware-qat] = "LICENSES/LICENCE.qat_firmware"
++NO_GENERIC_LICENSE[Firmware-qcom] = "LICENSES/LICENSE.qcom"
++NO_GENERIC_LICENSE[Firmware-qcom-2] = "LICENSES/LICENSE.qcom-2"
++NO_GENERIC_LICENSE[Firmware-qcom-yamato] = "LICENSES/LICENSE.qcom_yamato"
++NO_GENERIC_LICENSE[Firmware-qed] = "LICENSES/LICENSE.qed"
++NO_GENERIC_LICENSE[Firmware-qla1280] = "LICENSES/LICENCE.qla1280"
++NO_GENERIC_LICENSE[Firmware-qla2xxx] = "LICENSES/LICENCE.qla2xxx"
++NO_GENERIC_LICENSE[Firmware-qualcommAthos_ar3k] = "LICENSES/LICENSE.QualcommAtheros_ar3k"
++NO_GENERIC_LICENSE[Firmware-qualcommAthos_ath10k] = "LICENSES/LICENSE.QualcommAtheros_ath10k"
++NO_GENERIC_LICENSE[Firmware-r8169] = "LICENSES/LICENSE.r8169"
++NO_GENERIC_LICENSE[Firmware-r8a779x_usb3] = "LICENSES/LICENCE.r8a779x_usb3"
++NO_GENERIC_LICENSE[Firmware-radeon] = "LICENSES/LICENSE.radeon"
++NO_GENERIC_LICENSE[Firmware-ralink_a_mediatek_company_firmware] = "LICENSES/LICENCE.ralink_a_mediatek_company_firmware"
++NO_GENERIC_LICENSE[Firmware-ralink-firmware] = "LICENSES/LICENCE.ralink-firmware.txt"
++NO_GENERIC_LICENSE[Firmware-r8a779g_pcie_phy] = "LICENSES/LICENCE.r8a779g_pcie_phy"
++NO_GENERIC_LICENSE[Firmware-rockchip] = "LICENSES/LICENCE.rockchip"
++NO_GENERIC_LICENSE[Firmware-rp2] = "LICENSES/LICENSE.rp2"
++NO_GENERIC_LICENSE[Firmware-rsi] = "LICENSES/LICENSE.rsi"
++NO_GENERIC_LICENSE[Firmware-rt1320] = "LICENSES/LICENSE.rt1320"
++NO_GENERIC_LICENSE[Firmware-rtlwifi_firmware] = "LICENSES/LICENCE.rtlwifi_firmware.txt"
++NO_GENERIC_LICENSE[Firmware-s5p-mfc] = "LICENSES/LICENSE.s5p-mfc"
++NO_GENERIC_LICENSE[Firmware-sensoray] = "LICENSES/LICENCE.sensoray"
++NO_GENERIC_LICENSE[Firmware-siano] = "LICENSES/LICENCE.siano"
++NO_GENERIC_LICENSE[Firmware-imx-sdma_firmware] = "LICENSES/LICENSE.sdma_firmware"
++NO_GENERIC_LICENSE[Firmware-tehuti] = "LICENSES/LICENSE.tehuti"
++NO_GENERIC_LICENSE[Firmware-ti-connectivity] = "LICENSES/LICENCE.ti-connectivity"
++NO_GENERIC_LICENSE[Firmware-ti-keystone] = "LICENSES/LICENCE.ti-keystone"
++NO_GENERIC_LICENSE[Firmware-ti-tspa] = "LICENSES/LICENCE.ti-tspa"
++NO_GENERIC_LICENSE[Firmware-tigon] = "LICENSES/LICENCE.tigon"
++NO_GENERIC_LICENSE[Firmware-tlg2300] = "LICENSES/LICENSE.tlg2300"
++NO_GENERIC_LICENSE[Firmware-typhoon] = "LICENSES/LICENCE.typhoon"
++NO_GENERIC_LICENSE[Firmware-ueagle-atm4-firmware] = "LICENSES/LICENCE.ueagle-atm4-firmware"
++NO_GENERIC_LICENSE[Firmware-via_vt6656] = "LICENSES/LICENCE.via_vt6656"
++NO_GENERIC_LICENSE[Firmware-vxge] = "LICENSES/LICENSE.vxge"
++NO_GENERIC_LICENSE[Firmware-wfx] = "LICENSES/LICENCE.wf200"
++NO_GENERIC_LICENSE[Firmware-wl1251] = "LICENSES/LICENCE.wl1251"
++NO_GENERIC_LICENSE[Firmware-xc4000] = "LICENSES/LICENCE.xc4000"
++NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENSES/LICENCE.xc5000"
++NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENSES/LICENCE.xc5000c"
++NO_GENERIC_LICENSE[Firmware-xe] = "LICENSES/LICENSE.xe"
+ NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
+ 
+ PE = "1"
+@@ -452,7 +416,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+ 
+-SRC_URI[sha256sum] = "b14e7197a290a7e5569f5ef790cde289bddc47e32126f2eb262a8e677fc39727"
++SRC_URI[sha256sum] = "2b9d8a358e76eb766588609135e53fa548b902c551daae33ee32f26f25e60dbb"
+ 
+ inherit allarch
+ 
+@@ -494,8 +458,7 @@ do_install() {
+         if [ "${@bb.utils.contains('PACKAGECONFIG', 'deduplicate', '1', '0', d)}" = "1" ]; then
+                 oe_runmake 'DESTDIR=${D}' 'FIRMWAREDIR=${firmwaredir}' dedup
+         fi
+-        cp LICEN[CS]E.* WHENCE ${D}${firmwaredir}/
+-        cp wfx/LICEN[CS]E.* ${D}${firmwaredir}/wfx/
++        cp LICENSES/LICEN[CS]E.* WHENCE ${D}${firmwaredir}/
+ 
+         # Remove all unlicensed firmware
+         for file in ${REMOVE_UNLICENSED}; do
+@@ -564,11 +527,13 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-mwl8k ${PN}-mwlwifi\
+              ${PN}-ti-connectivity-license ${PN}-wl1251-license ${PN}-wlcommon ${PN}-wl1251 ${PN}-wl12xx ${PN}-wl18xx ${PN}-cc33xx \
+              ${PN}-ti-keystone-license ${PN}-ti-keystone \
+-             ${PN}-ti-tspa-license ${PN}-ti-pcm6240 ${PN}-ti-tas2563 ${PN}-ti-tas2781 ${PN}-ti-tas2783 ${PN}-ti-vpe \
++             ${PN}-ti-tspa-license ${PN}-ti-pcm6240 \
++             ${PN}-ti-tas2563 ${PN}-ti-tas257x ${PN}-ti-tas2781 ${PN}-ti-tas2783 ${PN}-ti-vpe \
+              ${PN}-ti-usb-3410-5052 \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+              ${PN}-rs9113 ${PN}-rs9116 ${PN}-rsi-91x \
+-             ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
++             ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
++             ${PN}-rtl8261c ${PN}-rtl8723 ${PN}-rtl8821 \
+              ${PN}-rtl8761 \
+              ${PN}-rtl8168 \
+              ${PN}-rtl8822 \
+@@ -704,6 +669,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-nxp9098-sdio \
+              ${PN}-nxpiw416-sdio \
+              ${PN}-nxpiw612-sdio \
++             ${PN}-nxpiw61x-sdio \
+              ${PN}-nxp-sr1xx \
+              ${PN}-nxp-mc-license ${PN}-nxp-mc \
+              ${PN}-netronome-license ${PN}-netronome \
+@@ -750,7 +716,8 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute \
+              ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
+              ${PN}-qcom-sdx35-foxconn-firehose ${PN}-qcom-sdx61-foxconn-firehose \
+-             ${PN}-qcom-shikra-compute ${PN}-qcom-shikra-qupv3fw \
++             ${PN}-qcom-shikra-adreno ${PN}-qcom-shikra-compute ${PN}-qcom-shikra-lpaicp \
++             ${PN}-qcom-shikra-modem ${PN}-qcom-shikra-qupv3fw \
+              ${PN}-qcom-sm8150-adreno \
+              ${PN}-qcom-sm8250-adreno ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
+              ${PN}-qcom-sm8250-thundercomm-rb5-sensors \
+@@ -1022,6 +989,7 @@ FILES:${PN}-qca-qca2066 = " \
+   ${firmwaredir}/qca/hpnv21g.309* \
+   ${firmwaredir}/qca/hpnv21.30a* \
+   ${firmwaredir}/qca/hpnv21g.30a* \
++  ${firmwaredir}/qca/hpnv21g.30c* \
+   ${firmwaredir}/qca/hpnv21.b8c* \
+   ${firmwaredir}/qca/hpnv21.b9f* \
+   ${firmwaredir}/qca/hpnv21.ba0* \
+@@ -1067,6 +1035,7 @@ FILES:${PN}-qca-qca6698 = " \
+   ${firmwaredir}/qca/QCA6698/hpnv21.bin* \
+ "
+ FILES:${PN}-qca-qcc2072 = " \
++  ${firmwaredir}/qca/ornbcscal11.bin* \
+   ${firmwaredir}/qca/ornbtfw11.tlv* \
+   ${firmwaredir}/qca/ornnv11.bin* \
+ "
+@@ -1541,6 +1510,7 @@ LICENSE:${PN}-nxp9098-pcie = "Firmware-nxp"
+ LICENSE:${PN}-nxp9098-sdio = "Firmware-nxp"
+ LICENSE:${PN}-nxpiw416-sdio = "Firmware-nxp"
+ LICENSE:${PN}-nxpiw612-sdio = "Firmware-nxp"
++LICENSE:${PN}-nxpiw61x-sdio = "Firmware-nxp"
+ LICENSE:${PN}-nxp-sr1xx = "Firmware-nxp"
+ LICENSE:${PN}-nxp-license = "Firmware-nxp"
+ 
+@@ -1556,6 +1526,7 @@ ALLOW_EMPTY:${PN}-nxp9098-pcie = "1"
+ ALLOW_EMPTY:${PN}-nxp9098-sdio = "1"
+ FILES:${PN}-nxpiw416-sdio = "${firmwaredir}/nxp/*iw416*"
+ FILES:${PN}-nxpiw612-sdio = "${firmwaredir}/nxp/uartspi_n61x_v1.bin.se*"
++FILES:${PN}-nxpiw61x-sdio = "${firmwaredir}/nxp/sd_w61x_v1.bin.se*"
+ FILES:${PN}-nxp-sr1xx = "${firmwaredir}/nxp/sr150_fw.bin*"
+ FILES:${PN}-nxp-license = "${firmwaredir}/LICENSE.nxp"
+ 
+@@ -1568,6 +1539,7 @@ RDEPENDS:${PN}-nxp9098-pcie += "${PN}-nxp9098-common"
+ RDEPENDS:${PN}-nxp9098-sdio += "${PN}-nxp9098-common"
+ RDEPENDS:${PN}-nxpiw416-sdio += "${PN}-nxp-license"
+ RDEPENDS:${PN}-nxpiw612-sdio += "${PN}-nxp-license"
++RDEPENDS:${PN}-nxpiw61x-sdio += "${PN}-nxp-license"
+ RDEPENDS:${PN}-nxp-sr1xx += "${PN}-nxp-license"
+ 
+ # For nxp-mc
+@@ -1660,6 +1632,7 @@ LICENSE:${PN}-rtl8188 = "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8192cu = "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8192ce = "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8192su = "Firmware-rtlwifi_firmware"
++LICENSE:${PN}-rtl8261c = "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8723 = "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8761 = "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8821 = "Firmware-rtlwifi_firmware"
+@@ -1691,6 +1664,9 @@ FILES:${PN}-rtl8192ce = " \
+ FILES:${PN}-rtl8192su = " \
+   ${firmwaredir}/rtlwifi/rtl8712u.bin* \
+ "
++FILES:${PN}-rtl8261c = " \
++  ${firmwaredir}/rtl_nic/rtl8261c.bin* \
++"
+ FILES:${PN}-rtl8723 = " \
+   ${firmwaredir}/rtlwifi/rtl8723*.bin* \
+   ${firmwaredir}/rtw88/rtw8723*.bin* \
+@@ -1745,6 +1721,7 @@ RDEPENDS:${PN}-rtl8188 += "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8192ce += "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8192cu += "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8192su = "${PN}-rtl-license"
++RDEPENDS:${PN}-rtl8261c = "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8723 += "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8821 += "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8761 += "${PN}-rtl-license"
+@@ -1768,7 +1745,7 @@ FILES:${PN}-wfx = " \
+   ${firmwaredir}/wfx/*.pds*        \
+   ${firmwaredir}/wfx/*.sec*        \
+ "
+-FILES:${PN}-wfx-license = "${firmwaredir}/wfx/LICENCE.wf200"
++FILES:${PN}-wfx-license = "${firmwaredir}/LICENCE.wf200"
+ 
+ RDEPENDS:${PN}-wfx += "${PN}-wfx-license"
+ 
+@@ -1842,6 +1819,18 @@ FILES:${PN}-ti-tas2563 = "\
+ "
+ RDEPENDS:${PN}-ti-tas2563 = "${PN}-ti-tspa-license"
+ 
++# For ti-tas257x - tas257x firmware
++LICENSE:${PN}-ti-tas257x = "Firmware-ti-tspa"
++FILES:${PN}-ti-tas257x = "\
++    ${firmwaredir}/tas257x-1amp-reg.bin*\
++    ${firmwaredir}/tas2572-1-1amp-reg.bin* \
++    ${firmwaredir}/tas2572-2-1amp-reg.bin* \
++    ${firmwaredir}/tas2572-3amp-reg.bin* \
++    ${firmwaredir}/tas2572-3-1amp-reg.bin* \
++    ${firmwaredir}/ti/audio/tas257x/* \
++"
++RDEPENDS:${PN}-ti-tas257x = "${PN}-ti-tspa-license"
++
+ # For ti-pcm6240 - pcm6240 firmware
+ LICENSE:${PN}-ti-pcm6240 = "Firmware-ti-tspa"
+ FILES:${PN}-ti-pcm6240 = "\
+@@ -2430,7 +2419,10 @@ LICENSE:${PN}-qcom-sdm845-modem = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sdx35-foxconn-firehose = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sdx61-foxconn-firehose = "Firmware-qcom"
++LICENSE:${PN}-qcom-shikra-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-shikra-compute = "Firmware-qcom-2"
++LICENSE:${PN}-qcom-shikra-lpaicp = "Firmware-qcom-2"
++LICENSE:${PN}-qcom-shikra-modem = "Firmware-qcom-2"
+ LICENSE:${PN}-qcom-shikra-qupv3fw = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8150-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8250-adreno = "Firmware-qcom"
+@@ -2594,7 +2586,10 @@ FILES:${PN}-qcom-sdm845-modem = "${firmwaredir}/qcom/sdm845/mba.mbn* ${firmwared
+ FILES:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${firmwaredir}/qcom/sdm845/Thundercomm/db845c/slpi*.*"
+ FILES:${PN}-qcom-sdx35-foxconn-firehose = "${firmwaredir}/qcom/sdx35/foxconn/xbl_s_devprg_ns.melf*"
+ FILES:${PN}-qcom-sdx61-foxconn-firehose = "${firmwaredir}/qcom/sdx61/foxconn/prog_firehose_lite.elf*"
++FILES:${PN}-qcom-shikra-adreno = "${nonarch_base_libdir}/firmware/qcom/shikra/a704_zap.mbn*"
+ FILES:${PN}-qcom-shikra-compute = "${firmwaredir}/qcom/shikra/cdsp*.*"
++FILES:${PN}-qcom-shikra-lpaicp = "${nonarch_base_libdir}/firmware/qcom/shikra/lpaicp*.*"
++FILES:${PN}-qcom-shikra-modem = "${nonarch_base_libdir}/firmware/qcom/shikra/cqs/qdsp6sw.mbn*"
+ FILES:${PN}-qcom-shikra-qupv3fw = "${firmwaredir}/qcom/shikra/qupv3fw.elf*"
+ FILES:${PN}-qcom-sm8150-adreno = "${firmwaredir}/qcom/sm8150/a640*.*"
+ FILES:${PN}-qcom-sm8250-adreno = "${firmwaredir}/qcom/sm8250/a650*.*"
+@@ -2756,7 +2751,10 @@ RDEPENDS:${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdx35-foxconn-firehose = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdx61-foxconn-firehose = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-shikra-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-shikra-compute = "${PN}-qcom-2-license"
++RDEPENDS:${PN}-qcom-shikra-lpaicp = "${PN}-qcom-2-license"
++RDEPENDS:${PN}-qcom-shikra-modem = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-shikra-qupv3fw = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8150-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8250-adreno = "${PN}-qcom-license"
+-- 
+2.34.1
 
-
-> Bruce
->
->
->
->>
->> Thanks for your help!
->> --
->> Yoann Congal
->> Smile ECS
->>
->>
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e
-> at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
->
-
---0000000000007a38220654eed91e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><br><div class=3D"gmail_quote gmail_quote_co=
-ntainer"><div dir=3D"ltr" class=3D"gmail_attr">Le mar. 23 juin 2026, 19:00,=
- Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfi=
-eld@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"g=
-mail_default" style=3D"font-size:small"><br></div></div><br><div class=3D"g=
-mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jun 23, 2026 at 1=
-2:21=E2=80=AFPM Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr" t=
-arget=3D"_blank" rel=3D"noreferrer">yoann.congal@smile.fr</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed Jun 10, 202=
-6 at 6:49 PM CEST, Bruce Ashfield via <a href=3D"http://lists.openembedded.=
-org" rel=3D"noreferrer noreferrer" target=3D"_blank">lists.openembedded.org=
-</a> wrote:<br>
-&gt; From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" t=
-arget=3D"_blank" rel=3D"noreferrer">bruce.ashfield@gmail.com</a>&gt;<br>
-&gt;<br>
-&gt; Updating linux-yocto/6.6 to the latest korg -stable release that compr=
-ises<br>
-&gt; the following commits:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0c09fbcd31ae6 Linux 6.6.130<br>
-&gt; [...]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0dc7c9b9d03a5 ext4: drop extent cache when splitting=
- extent fails<br>
-&gt;=C2=A0 =C2=A0 =C2=A0f0931a5c1700 ext4: drop extent cache after doing PA=
-RTIAL_VALID1 zeroout<br>
-&gt;=C2=A0 =C2=A0 =C2=A067cdb7bd7442 ext4: don&#39;t set EXT4_GET_BLOCKS_CO=
-NVERT when splitting before submitting I/O<br>
-&gt;=C2=A0 =C2=A0 =C2=A011406eb96a19 ext4: correct the comments place for E=
-XT4_EXT_MAY_ZEROOUT<br>
-<br>
-Hello Bruce,<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0ed0096fc86b2 ext4: get rid of ppath in ext4_ext_han=
-dle_unwritten_extents()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0d7b04ea31c6e ext4: get rid of ppath in ext4_ext_con=
-vert_to_initialized()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0c24ce099bea9 ext4: get rid of ppath in ext4_convert=
-_unwritten_extents_endio()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0147a6a2725b1 ext4: get rid of ppath in ext4_split_c=
-onvert_extents()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0cda8a34348d7 ext4: get rid of ppath in ext4_split_e=
-xtent()<br>
-&gt;=C2=A0 =C2=A0 =C2=A058ddae5d77b1 ext4: don&#39;t zero the entire extent=
- if EXT4_EXT_DATA_PARTIAL_VALID1<br>
-&gt;=C2=A0 =C2=A0 =C2=A0e766534911b3 ext4: subdivide EXT4_EXT_DATA_VALID1<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0ffb68fc57207 ext4: get rid of ppath in ext4_split_e=
-xtent_at()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0fb138df7d886 ext4: get rid of ppath in ext4_ext_ins=
-ert_extent()<br>
-&gt;=C2=A0 =C2=A0 =C2=A08f6e910852d8 ext4: get rid of ppath in ext4_ext_cre=
-ate_new_leaf()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0cafb151eb180 ext4: get rid of ppath in ext4_find_ex=
-tent()<br>
-<br>
-(The following was found by Gemini, but I&#39;ve checked it)<br>
-<br>
-Looks like these commits introduced a bug causing an intermittent LTP regre=
-ssion:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/98/buil=
-ds/3837" rel=3D"noreferrer noreferrer" target=3D"_blank">https://autobuilde=
-r.yoctoproject.org/valkyrie/#/builders/98/builds/3837</a><br>
--&gt; <a href=3D"https://valkyrie.yocto.io/pub/non-release/20260622-121/tes=
-tresults/qemuarm64-ltp/core-image-sato/qemu_boot_log.20260623002740" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">https://valkyrie.yocto.io/pub/non=
--release/20260622-121/testresults/qemuarm64-ltp/core-image-sato/qemu_boot_l=
-og.20260623002740</a><br>
-<br>
-[ 6952.500858] Unable to handle kernel paging request at virtual address ff=
-ffffffffffffec<br>
-[ 6952.503768] Mem abort info:<br>
-[ 6952.504431]=C2=A0 =C2=A0ESR =3D 0x0000000096000005<br>
-[ 6952.505333]=C2=A0 =C2=A0EC =3D 0x25: DABT (current EL), IL =3D 32 bits<b=
-r>
-[ 6952.506541]=C2=A0 =C2=A0SET =3D 0, FnV =3D 0<br>
-[ 6952.507354]=C2=A0 =C2=A0EA =3D 0, S1PTW =3D 0<br>
-[ 6952.508154]=C2=A0 =C2=A0FSC =3D 0x05: level 1 translation fault<br>
-[ 6952.509208] Data abort info:<br>
-[ 6952.509849]=C2=A0 =C2=A0ISV =3D 0, ISS =3D 0x00000005, ISS2 =3D 0x000000=
-00<br>
-[ 6952.511175]=C2=A0 =C2=A0CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0<=
-br>
-[ 6952.512372]=C2=A0 =C2=A0GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D=
- 0<br>
-[ 6952.513667] swapper pgtable: 4k pages, 39-bit VAs, pgdp=3D00000000412500=
-00<br>
-[ 6952.514909] [ffffffffffffffec] pgd=3D0000000000000000, p4d=3D00000000000=
-00000, pud=3D0000000000000000<br>
-[ 6952.516423] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP<br>
-[ 6952.517503] Modules linked in: x_tables tun loop [last unloaded: ip6_tab=
-les]<br>
-[ 6952.518691] CPU: 1 PID: 1078 Comm: kworker/u12:1 Tainted: G=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 W=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 6.6.142-yocto-standard #=
-1<br>
-[ 6952.520269] Hardware name: linux,dummy-virt (DT)<br>
-[ 6952.521094] Workqueue: writeback wb_workfn (flush-7:0)<br>
-[ 6952.521985] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=
-=3D--)<br>
-[ 6952.523184] pc : ext4_ext_map_blocks+0x260/0x1860<br>
-[ 6952.524011] lr : ext4_ext_map_blocks+0xdb8/0x1860<br>
-[ 6952.524851] sp : ffffffc086a3b620<br>
-[ 6952.525421] x29: ffffffc086a3b740 x28: ffffffffffffffe4 x27: 00000000000=
-0808c<br>
-[ 6952.526624] x26: ffffff8017dd9000 x25: 000000000000808c x24: 00000000000=
-00002<br>
-[ 6952.527849] x23: ffffff8035e766c8 x22: ffffff802e589690 x21: 00000000000=
-0042f<br>
-[ 6952.529087] x20: ffffffc086a3b948 x19: ffffff8035e767f0 x18: 00000000000=
-00000<br>
-[ 6952.530310] x17: ffffffc081691310 x16: fffffffe001ab548 x15: 0000005564d=
-4cb48<br>
-[ 6952.531519] x14: 00000000ffffffff x13: 0000000000000000 x12: fffffffffff=
-fffc0<br>
-[ 6952.532683] x11: 0000000000000040 x10: ffffff8005d81d80 x9 : ffffffc0803=
-cce14<br>
-[ 6952.533886] x8 : 00000000bab647bc x7 : 0000000000000000 x6 : 00000000000=
-0d847<br>
-[ 6952.535065] x5 : 0000000000000000 x4 : 0000000000316019 x3 : 00000000000=
-00000<br>
-[ 6952.536264] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff803de=
-ec880<br>
-[ 6952.537425] Call trace:<br>
-[ 6952.537860]=C2=A0 ext4_ext_map_blocks+0x260/0x1860<br>
-[ 6952.538589]=C2=A0 ext4_map_blocks+0x19c/0x598<br>
-[ 6952.539258]=C2=A0 ext4_do_writepages+0x5a4/0xbe0<br>
-[ 6952.539977]=C2=A0 ext4_writepages+0x84/0x110<br>
-[ 6952.540624]=C2=A0 do_writepages+0x94/0x1e0<br>
-[ 6952.541240]=C2=A0 __writeback_single_inode+0x60/0x4d8<br>
-[ 6952.542086]=C2=A0 writeback_sb_inodes+0x208/0x4b0<br>
-[ 6952.542812]=C2=A0 __writeback_inodes_wb+0x58/0x118<br>
-[ 6952.543578]=C2=A0 wb_writeback+0x274/0x440<br>
-[ 6952.544198]=C2=A0 wb_workfn+0x3b0/0x5c8<br>
-[ 6952.544788]=C2=A0 process_one_work+0x16c/0x3e0<br>
-[ 6952.545434]=C2=A0 worker_thread+0x1b4/0x378<br>
-[ 6952.546059]=C2=A0 kthread+0x118/0x128<br>
-[ 6952.546599]=C2=A0 ret_from_fork+0x10/0x20<br>
-[ 6952.547197] Code: 2a0103f9 b9009fe1 b9000e99 b40055fc (79401398)<br>
-[ 6952.548170] ---[ end trace 0000000000000000 ]---<br>
-[ 6952.551090] ------------[ cut here ]------------<br>
-<br>
-Reading the resulting code in 6.6.142:<br>
-fs/ext4/extents.c:<br>
-int ext4_ext_map_blocks(handle_t *handle, struct inode *inode,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 struct ext4_map_blocks *map, int flags)<br>
-{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct ext4_ext_path *path =3D NULL;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 // ...<br>
-<br>
-got_allocated_blocks:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 path =3D ext4_ext_insert_extent(handle, inode, =
-path, &amp;newex, flags);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (IS_ERR(path)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D PTR_ERR(pat=
-h);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Gracefully =
-handle out of space conditions. If the filesystem<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* is inconsis=
-tent, we&#39;ll just leak allocated blocks to avoid<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* causing eve=
-n more damage.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // ...<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 // ...<br>
-out:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ext4_free_ext_path(path);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_ext4_ext_map_blocks_exit(inode, flags, ma=
-p,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0err ? err=
- : allocated);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return err ? err : allocated;<br>
-}<br>
-<br>
-=3D&gt; Under out of space condition (what LTP does a *LOT*): path is given=
- unmodified to<br>
-ext4_free_ext_path() that only does a NULL check (no IS_ERR) before<br>
-dereferencing it. And that produces the oops and then, the LTP failure.<br>
-<br>
-Notably, master commit 6b854d552711 (&quot;ext4: get rid of ppath in get_ex=
-t_path()&quot;)<br>
-never got backported to 6.6.y. But does add the IS_ERR_OR_NULL() check<br>
-to ext4_free_ext_path:<br>
-=C2=A0void ext4_free_ext_path(struct ext4_ext_path *path)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR_OR_NULL(path))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-<br>
-Bruce, what do you think? Should we backport<br>
-6b854d552711=C2=B7(&quot;ext4:=C2=B7get=C2=B7rid=C2=B7of=C2=B7ppath=C2=B7in=
-=C2=B7get_ext_path()&quot;)? Ask for it to<br>
-be backported?<br></blockquote><div><br></div><div><div class=3D"gmail_defa=
-ult" style=3D"font-size:small">It&#39;s possible. But without being able to=
- reproduce the issues locally, I&#39;m just</div><div class=3D"gmail_defaul=
-t" style=3D"font-size:small">guessing.</div><div class=3D"gmail_default" st=
-yle=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"fon=
-t-size:small">I wouldn&#39;t just backport it, I&#39;d suggest that -stable=
- pick it up as well, but then</div><div class=3D"gmail_default" style=3D"fo=
-nt-size:small">I&#39;m back to not being able to see any issues locally.=C2=
-=A0 I wouldn&#39;t ask for a</div><div class=3D"gmail_default" style=3D"fon=
-t-size:small">backport without knowing it does fix the issues.</div><div cl=
-ass=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gma=
-il_default" style=3D"font-size:small"><div class=3D"gmail_default">I&#39;m =
-happy to cherry-pick it as a shot in the dark, but that&#39;s all it would =
-be :)</div></div></div></div></div></blockquote></div></div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">I could setup AB to repeatedly test with/wit=
-hout the cherry-pick (only the fs section of ltp). I suspect the frequency =
-of the bug triggering is quite high and that would prove the fix, enough to=
- convince you and -stable?</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o"><div class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div=
-><div class=3D"gmail_default" style=3D"font-size:small"><div class=3D"gmail=
-_default"><br></div></div><div class=3D"gmail_default" style=3D"font-size:s=
-mall">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">
-<br>
-Thanks for your help!<br>
--- <br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-</blockquote></div></div></div>
-
---0000000000007a38220654eed91e--
 
