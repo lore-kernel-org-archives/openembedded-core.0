@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 756FFCDE002
-	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 13:14:47 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20452.1782220478937373428
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A45BCDE008
+	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 13:14:48 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20843.1782220487409542042
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 06:14:39 -0700
+ Tue, 23 Jun 2026 06:14:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=xZDbtygI;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49241a577d8so29160165e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 06:14:38 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=HGzT+7jw;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490b8ac62baso9846185e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 06:14:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782220477; x=1782825277; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1782220486; x=1782825286; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=c5JGxmSM7GHnAgKiYWOOIKowHux69fx9+s0sP1H2H2Q=;
-        b=xZDbtygINpqekoOxfX+mkGCb1asIzvCU6c+PRDpirWkUY/lBbOPdwT4xYMoSwQOMQz
-         TKvetd891zZCuMilrW7/PU/5+yme0v/pFXFJlFdJzebcrjlJCANLIDJbZCttVscOeXkZ
-         p7pPXGM7spxERK84uwdSd9urMUqMyp7eIAVfM=
+        bh=7WPRV6tNRd22hIPzNE58QF8SoiX9yip6gF0cBKnZ4jU=;
+        b=HGzT+7jwoPtk6YwfczfX4cBqiX+z5gdpfM3DGi33B6s44izzB5Z3lSkx9yVEvga+VR
+         zjgSdwLDeSQM5spNVdnQTsOhvgaYDyP+pgjVdfvB+5TbZ9KkIKtjpkILDkwOktHMErL2
+         0APdIA88rBw+ULusLmlmauKuq11K9NeTxIemA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782220477; x=1782825277;
+        d=1e100.net; s=20251104; t=1782220486; x=1782825286;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=c5JGxmSM7GHnAgKiYWOOIKowHux69fx9+s0sP1H2H2Q=;
-        b=eKxyAJUq9KWDGxWkwQdHVVHuTyOWXGcPFMuh9U0hTP1XxUCZd/Y3knznJktkdv4+Nl
-         mNpvaOISOULQicg8dRFnOxo/SoCDlP5NCO1SisFvPuSzQjWhpaint2umeaN8wg5Tzcq6
-         6cOdkV/0Zx4ka4WOXRico8+aSjEuj6UOODFbm9Xwed2eP6Ms5Iy6KEssZLkk4hi9IF6d
-         ITOcx/Cr4/1VwrJwwwhZkIJfrDVw9kX6rU1F434KLxOljcXf2o01lEgSOWCITBpqvK5+
-         FtXR16EtiO2z+sbMBSzuvQ3WztTFsbXJXzLQ0al7m/KMctfENcS7UZnDlivfW8v7fNvE
-         euyg==
-X-Gm-Message-State: AOJu0YzXKunSTfTnGyrbO08DZt1a8wjTFsnXYALS6PeeCgnuidvFRtxs
-	iXaI4dda3rgou5AfGX7jtLKOcij24DtynBLBzQEDNOuixCtjcuLU5UJ5ij2X3VWFEbvnAW6gl5P
-	U3ET7
-X-Gm-Gg: AfdE7clg6+lDA07l6a9uMpf/lw0svxBGBYgIAHYkNSCBH2kLbIp3KnaFh7sMUrmHkFX
-	xqbB7O3L6h2OYyeAuBA+PUqrr0peuFgxcSqnWCEWgl+cKat1k6Hth/swhWZjTW5iq9YV/49cDiz
-	lBo1rGi3Qgm2GEOVHUq5JLIAxVHkv65NBNY6e8nAQPOBlzi+bHW9vKyFRF8Q4u+GlScEbmEDF3E
-	azk/DpdyPWvQC+hec8X7uuHmJNzwgiuJZyV8OoGp5sXlHNz9AyRzegqqdvxGoUVa5LI4QOeTeVF
-	3LhjvTrOfgrLakZy9vRSDF9anqO32ZVH4kMg5SjccsFnkAFeqgqnFiuGivY+VoHPw5ppQCuxYJg
-	1O0bVBK9WkyD6Cg0P8wFKc0QC1hHxBPRadfNTvNpK8AS2BiGCUxCW/VaJuYVQq4lv6w/NMN1qSd
-	b4hCU5IfKv9M0qYpx5+YlovdAuhXnt02sujKDrOWVKt4EACwL/Dqwz6qJ9ZR0F7PqzcHg5cn67N
-	FnQp68rvbfEeyESSg==
-X-Received: by 2002:a05:600c:3e06:b0:492:4fc6:75e with SMTP id 5b1f17b1804b1-4924fc613bamr197535825e9.0.1782220476995;
-        Tue, 23 Jun 2026 06:14:36 -0700 (PDT)
+        bh=7WPRV6tNRd22hIPzNE58QF8SoiX9yip6gF0cBKnZ4jU=;
+        b=OeSE7f3B0yVSace3D8y7lxGPDpCrOJqvrGiUzYxNihdv+8lw2BJIS+iwhvkUa5pv5t
+         rzDv2KgUCkSK1e7qFspWgffnqbnBKgUsNPVvJYE1QXmgO/weuN1VRC5oBedhjhOKGAJn
+         jJnCPDVVNyczaoTNnVRlzeDYvTKplXrM9UpmuAP0vDNfjsIDjtw1rY4kftYjUS8vfoRJ
+         v1Bdq2RR8X5P8HIRiQc1HvnAg0GnMVMAv6GcdSIfojzx08QpNCIxp7V61mqJT2AbLP6a
+         SPMBUkJnHV2CcFj8MPWL+lYNqVqQ879VtmiG49EOwZAma87/VUkQ4h0QmieOWrZDZtuL
+         mV5Q==
+X-Gm-Message-State: AOJu0Yw9JkuJQQXdm++xEYDkTPXbpDYz/OKFrACxsrahqxXbSbNBvOj7
+	7YXnFXpYPk9L5S6K9P5Ztko0PXhxkGAB1Uu5lTIwINbL3gcKIpjRM71hs+x51e3G93dkml+s/nY
+	+lIiK
+X-Gm-Gg: AfdE7cnUk3GRLLLZVGP+clMKJCXaXmtnojFCog2wFDMZh1vZFQz17GnLEiUG06d7jAM
+	iQCx0qQzQeGlBArV6bgw4ssw8M7PLvaeMdvIsfXR47ULqiPqxy+/O3gU3Qbb5sII6aPH3vwC77H
+	7uSV0W+eecQO/ErIqcUvTm+CoU6nanyJgLE9KBDJtT00i0gMQC1dSfw1idQ9Yfh6AV9ZVdCBX4L
+	PmCHCm5cxkGJUzBfsmqV0GYwHcPwysO+pnsZObv0jITGEjilKcYbFOA9u71kTZ7V5Bn/X1BtzJq
+	CIXteyaskFplhNlLYk+WthEIX7dsD00chD1CRGbOney8hWNp03NZuQmK0LAaqLuUCzYauTZGfYm
+	Z6ql4WE+Mg97JrGQIcpPiFojYTRNYkBgc2Cu5bYDHOn8EWyq75VlqRpxt33XqkhFCxin+Crvkn1
+	xDaRcGnYTSfCs1ExE6vOG5wqtz3aLRbNGP/us0Yqi7Y7iU4EL7xJNlHoxe8aD+A2fgSOVdY4DET
+	rGT7BIKCMpsZsh7mA==
+X-Received: by 2002:a05:600c:83c8:b0:492:4889:3d18 with SMTP id 5b1f17b1804b1-4925a0b434emr49490805e9.9.1782220485492;
+        Tue, 23 Jun 2026 06:14:45 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa008234f3c115adbb1a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:8234:f3c1:15ad:bb1a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4925d013a69sm24334285e9.3.2026.06.23.06.14.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4925d013a69sm24334285e9.3.2026.06.23.06.14.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 06:14:36 -0700 (PDT)
+        Tue, 23 Jun 2026 06:14:45 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 15/26] openssl: upgrade 3.5.6 -> 3.5.7
-Date: Tue, 23 Jun 2026 15:13:56 +0200
-Message-ID: <ed3353c07f6a8a6e55d244c0039e37fb62c81712.1782220259.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 26/26] rust,libstd-rs: set status for CVE-2024-3566
+Date: Tue, 23 Jun 2026 15:14:07 +0200
+Message-ID: <8c56e85dd02063da5630c9b73fb242686a970e20.1782220259.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1782220259.git.yoann.congal@smile.fr>
 References: <cover.1782220259.git.yoann.congal@smile.fr>
@@ -65,83 +65,31 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 13:14:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239381
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 13:14:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239392
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 
-Release information [1]:
+The vulnerability is Windows-specific and depends on command-line
+handling through CreateProcess, which does not apply to Linux/Yocto
+builds.
 
-OpenSSL 3.5.7 is a security patch release. The most severe CVE fixed in this release is High.
-This release incorporates the following bug fixes and mitigations:
-* Fixed heap use-after-free in PKCS7_verify(). (CVE-2026-45447)
-* Fixed CMS AuthEnvelopedData processing may accept forged messages. (CVE-2026-34182)
-* Fixed unbounded memory growth in the QUIC PATH_CHALLENGE handler. (CVE-2026-34183)
-* Fixed NULL pointer dereference in QUIC server initial packet handling. (CVE-2026-42764)
-* Fixed AES-OCB IV ignored on EVP_Cipher() path. (CVE-2026-45445)
-* Fixed possible heap buffer overflow in ASN.1 multibyte string conversion. (CVE-2026-7383)
-* Fixed out-of-bounds read in CMS password-based decryption. (CVE-2026-9076)
-* Fixed heap buffer over-read in ASN.1 content parsing. (CVE-2026-34180)
-* Fixed PKCS#12 files with PBMAC1 are accepted with short HMAC keys. (CVE-2026-34181)
-* Fixed possible NULL dereference in password-dased CMS decryption. (CVE-2026-42766)
-* Fixed NULL pointer dereference in CRMF EncryptedValue decryption. (CVE-2026-42767)
-* Fixed multi-RecipientInfo Bleichenbacher Oracle in CMS_decrypt() and PKCS7_decrypt(). (CVE-2026-42768)
-* Fixed trust anchor substitution via cert/issuer typo in CMP rootCaKeyUpdate. (CVE-2026-42769)
-* Fixed FFC-DH peer validation uses attacker-supplied q. (CVE-2026-42770)
-* Fixed incorrect tag processing for empty messages in AES-GCM-SIV and AES-SIV modes. (CVE-2026-45446)
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2024-3566
 
-Refreshed patches.
-Installed new test files to pass ptests.
-
-[1] https://github.com/openssl/openssl/blob/openssl-3.5/NEWS.md#major-changes-between-openssl-356-and-openssl-357-9-jun-2026
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 9365ac47f994a7d6be92b8c011c51ecf48e8ef87)
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../openssl/0001-Configure-do-not-tweak-mips-cflags.patch     | 2 +-
- .../openssl/{openssl_3.5.6.bb => openssl_3.5.7.bb}            | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_3.5.6.bb => openssl_3.5.7.bb} (98%)
+ meta/recipes-devtools/rust/rust-source.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
-index cf5ff356ee7..cd8906df675 100644
---- a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
-@@ -20,7 +20,7 @@ diff --git a/Configure b/Configure
- index fff97bd..5ee54c1 100755
- --- a/Configure
- +++ b/Configure
--@@ -1552,16 +1552,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
-+@@ -1557,16 +1557,6 @@ if ($target =~ /^mingw/ && `$config{CC} --target-help 2>&1` =~ m/-mno-cygwin/m)
-          push @{$config{shared_ldflag}}, "-mno-cygwin";
-          }
-  
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.6.bb b/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_3.5.6.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-index 3bf78eff5c2..0b8e8afec81 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.5.6.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-@@ -19,7 +19,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index 5b433ceae78..318c7f0e293 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -23,3 +23,4 @@ UPSTREAM_CHECK_REGEX = "rustc-(?P<pver>\d+(\.\d+)+)-src"
  
--SRC_URI[sha256sum] = "deae7c80cba99c4b4f940ecadb3c3338b13cb77418409238e57d7f31f2a3b736"
-+SRC_URI[sha256sum] = "a8c0d28a529ca480f9f36cf5792e2cd21984552a3c8e4aa11a24aa31aeac98e8"
- 
- inherit lib_package multilib_header multilib_script ptest perlnative manpages
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
-@@ -215,7 +215,7 @@ do_install_ptest() {
- 	ln -s ${bindir}/openssl ${D}${PTEST_PATH}/apps
- 
- 	cd ${S}
--	find test/certs test/ct test/d2i-tests test/recipes test/ocsp-tests test/ssl-tests test/smime-certs -type f -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
-+	find test/certs test/ct test/d2i-tests test/recipes test/ocsp-tests test/ssl-tests test/smime-certs test/smime-eml -type f -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
- 	find apps test -name \*.cnf -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
- 	find apps test -name \*.der -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
- 	find apps test -name \*.pem -exec install -m644 -D {} ${D}${PTEST_PATH}/{} \;
+ CVE_STATUS[CVE-2024-24576] = "not-applicable-platform: Issue only applies on Windows"
+ CVE_STATUS[CVE-2024-43402] = "not-applicable-platform: Issue only applies on Windows"
++CVE_STATUS[CVE-2024-3566] = "not-applicable-platform: Issue only applies on Windows"
 
