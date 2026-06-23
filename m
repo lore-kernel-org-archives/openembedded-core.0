@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 290F0CDE000
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E5D3CDB480
 	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 13:14:47 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20455.1782220481046041156
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20839.1782220482650604179
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 06:14:41 -0700
+ Tue, 23 Jun 2026 06:14:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=n5nZXsCn;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490b8ac62baso9844605e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 06:14:40 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=fauaj724;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso36864495e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 06:14:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782220479; x=1782825279; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1782220481; x=1782825281; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FztXDc0Ggh+2S1cZPE/sTwbrlJIo+v4a+px6yXZO+4s=;
-        b=n5nZXsCnq2ozkKYO2+h2Bjmq3TNwpPFBOv4AjcIx9psysPRzDgvZ89iF2RDiElzaN+
-         Abi3JeWMLzj99EIwpjNqVTFPrsQeoJb2yg8kwVpMlD0Nky7IhmvSst5pefdvHWmfA8pM
-         nbhNg50xrNWwB02kN3eHXNlmcR3DTHUz154mQ=
+        bh=y/XdRCiD9YdIdvd5aoaNtBrMyOSMJjU6xvlaofT5HDs=;
+        b=fauaj724bbSsw1XO0dcWYRd6rYJDzBVvS679mKNgyJnPoiTGrX4Fu29VCX863zdnfi
+         /7HBmR+/56Nu/Y81M0BHQ89YwLa79eB0TxBmQ/JZLWg4J7gUq1Ujvjfkp6YaFbMekdtj
+         +t+2XixHxddgNBRZEYeCPnQ8483mqR0bmyxKs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782220479; x=1782825279;
+        d=1e100.net; s=20251104; t=1782220481; x=1782825281;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=FztXDc0Ggh+2S1cZPE/sTwbrlJIo+v4a+px6yXZO+4s=;
-        b=H3om9jVbbvhE+ZruVup8CjAyNL9mFGAMc43D0W0oQsgku8zpYWEIr1duuPUNMcTKLK
-         HY48PL6Upe2fAwiKVt1JU8Rm+9DCZNjEfvJf5EQ2WA+TXj4gnS2E/hJ7324SGgFfv4Mi
-         7pEkU9Qv0M5tP/kmnYm+Oth89vxex459C5aOmJscDZXiD9/FO2YxpnnoP77EWaDZdD8j
-         tW4ZXK+Xe6FyD+EFzBuJdxFVDoO8yiLFe1xuuOOXQwUDcoRpnEq8IGtYspSWepZ68y+L
-         ix5SUNxefi9spORToHTPGDeJzHQE97DRjaFt9KlEejhGbCn8lhFp3ar3OokrAmIzBSqj
-         0V9g==
-X-Gm-Message-State: AOJu0YzwDYL0i7ZXl24UisZq4RT2OdVi3MA7Y1cprfPPr3PapGft2Lcj
-	GEX8FJg5phXPCktyfkHy3OeG1vGGWOQ4lxQjTHlk3M+fSTb3LIO196DOpsuAR8m28q7tfQIBEJE
-	1H/Hv
-X-Gm-Gg: AfdE7cmUpsDcrL7n8LrEo45FbYmp/HJqVS3Nkh4+JU/Cp/ltD8BZ7k2lc4yLl/sKRtj
-	MbXEewRcKO07+Qir/BE3w8XJN9BJj/Z/fkVQ91bH6EZiutW2VnB1CZ9ApBj451UHZ1m2UGfxN4q
-	mWsne+d49e/P8Jvxz2IpGwF0p7KuelRUng7EFmsrgIaO8XrCqtH8Rl+pktiozMFsT5B49IBzRb1
-	Mhm7TbpMPi8ETJUikP97IndDuIdZjZ1orjKT3lPfkCYq6S05sjlYMXgYbzvSSiPVJ7xM4UmNFRx
-	C1Oed1TZREoDnckRBhvzluFLBZPoc8P9iW9X196k2J6EIDAlvegGVkTKx4asAd/muXn7BvNY1B8
-	auRQHOvaW3j6M5xP0FKJA3/slrDC/aYJt8k3UpeZzuVN1uD0m5pdvWib5FIsq4cJ4l64a5BY0kJ
-	/aVC3ymrsvA3gudyYgA562F9bDioZzRfSmjC3BcWCtPz6GM1DbeN5nbx+I/jeYpcyL2YlFTNA+W
-	xjJ0d1KDiPRLztIjw==
-X-Received: by 2002:a05:600c:5287:b0:490:b26c:64ad with SMTP id 5b1f17b1804b1-4925a0a775dmr47833035e9.5.1782220479308;
-        Tue, 23 Jun 2026 06:14:39 -0700 (PDT)
+        bh=y/XdRCiD9YdIdvd5aoaNtBrMyOSMJjU6xvlaofT5HDs=;
+        b=AlgdKYnVlMNFC5YdurT+B48B6mRMlpCHRWd92n8+tlXtEO5Z0gp8ephbaeQXjxF/Sj
+         EfBXRCwJ9x76772iqkE6+FvofE+e5oKlQEPrY8AjjpGmrligbCJldZbiwXnhPtpA+eSM
+         gWxME8AZpeqQwZmwbMoMVp4+ALIp9CVPHBq7wLXvXvv/HhDBN0oimEs8NzpUs4IodgE3
+         YJoqDYVQ5tJJywMpHyd6m9m+q7/oZGV7/1k7roxp2l3pW4d0K8MrJkdsYhC6JACQdJiV
+         B/DtAonICAr5lI8eHZA6tdJls+WocrijysG1JSgykoUVh86DwKMROtXKVre3e64eAcnX
+         LgEQ==
+X-Gm-Message-State: AOJu0YxcnKJvYC7SWStsLLuVcwnfDfKXYG0MKunNuDZynB8rOC42QAsP
+	m7Nx+HdO2zwRJxb+NuxIOYMD8WMOuTNIFMgzQ+X6V5jXt/GgP18h3MJj2Pbf6Nh5/9BCmN6belN
+	RHp4W
+X-Gm-Gg: AfdE7ckLnK5IVpaOA4NY6L7u3dnjhhQ4rhXvlcUJYKyPtii9yTZpP4YpNFD/HfFZ3u6
+	tSngDB4g1nANLHupHGQ51oyF6zuE0iedcT8BxZCia7eXfsSw496q+QGTWi26tBuQHXx2QopMn7I
+	WaFxnNmrwOGEDisMHNXKLDAAiwSeRsRD3X/ZLVCbJKHdDm9MeouGk64+268GNAAEflgQbwI2kRt
+	suADegqHkKRJN6tWRgQfdXIPg7ezHcRvhPZM09KvswsCifDrkiCdNo1YzC9njZL5fEBFqijDB+E
+	36dAWNAg8hiIVmbOfhOBcpc95qaPFfQUfuxuOSY+BB3mIiRVxjo7y/HtE/46hdGiOSRl5tOvz84
+	Ldr9PpEXGB/psoyP5YVDmpi0KqqQ4OcrAJU3FflrkoBQf+BYMp2qV9sVKalg+7vP/+uMeQ9IQ1b
+	2ZOrKQixFa9Tkx7VYB1gAMdcQcBD7vwyGiZajFZC/yGEYpYJJbpf0a2xO8NYie9tFdQIgrOmQUS
+	nTMfbw6CV+nr8zj1g==
+X-Received: by 2002:a05:600c:a117:b0:492:4b22:79ed with SMTP id 5b1f17b1804b1-4924b227be1mr161321015e9.4.1782220480847;
+        Tue, 23 Jun 2026 06:14:40 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa008234f3c115adbb1a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:8234:f3c1:15ad:bb1a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4925d013a69sm24334285e9.3.2026.06.23.06.14.38
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4925d013a69sm24334285e9.3.2026.06.23.06.14.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 06:14:38 -0700 (PDT)
+        Tue, 23 Jun 2026 06:14:40 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 18/26] oeqa/core/runner: stub addDuration in OETestResult
-Date: Tue, 23 Jun 2026 15:13:59 +0200
-Message-ID: <9105e2bbf3245bfa02d2f4c55a010a7d2c3da6c2.1782220259.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 20/26] python3: CVE-2026-3087 not applicable
+Date: Tue, 23 Jun 2026 15:14:01 +0200
+Message-ID: <96efecfbb2d1eaa24e1c96fbd6593a7087464844.1782220259.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1782220259.git.yoann.congal@smile.fr>
 References: <cover.1782220259.git.yoann.congal@smile.fr>
@@ -66,39 +66,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 13:14:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239384
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239386
 
-From: Ross Burton <ross.burton@arm.com>
+From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
-We have a custom TestResult implementation, and Python 3.12 added a new
-method addDuration() to the TestResult interface.  This would be useful
-to implement correctly, but for now stub it out to silence the warning
-when running under Python 3.12:
+CVE link: https://nvd.nist.gov/vuln/detail/CVE-2026-3087
 
-/usr/lib64/python3.12/unittest/case.py:580: RuntimeWarning: TestResult has no addDuration method
-  warnings.warn("TestResult has no addDuration method",
+The CVE is only applicable to Windows OS
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2d6fff81b34476b890f6943997615fbf8d3d133f)
+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/lib/oeqa/core/runner.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-devtools/python/python3_3.12.13.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index b683d9b80a7..0d2bc3a3ed0 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -78,6 +78,10 @@ class OETestResult(_TestResult):
-                     self.shownmsg.append(test.id())
-                     break
+diff --git a/meta/recipes-devtools/python/python3_3.12.13.bb b/meta/recipes-devtools/python/python3_3.12.13.bb
+index 3e28a3942bd..bf0e1702d54 100644
+--- a/meta/recipes-devtools/python/python3_3.12.13.bb
++++ b/meta/recipes-devtools/python/python3_3.12.13.bb
+@@ -63,6 +63,7 @@ CVE_STATUS[CVE-2022-26488] = "not-applicable-platform: Issue only applies on Win
+ # The module will be removed in the future and flaws documented.
+ CVE_STATUS[CVE-2015-20107] = "upstream-wontfix: The mailcap module is insecure by design, so this can't be fixed in a meaningful way"
+ CVE_STATUS[CVE-2023-36632] = "disputed: Not an issue, in fact expected behaviour"
++CVE_STATUS[CVE-2026-3087] = "not-applicable-platform: Issue only applies on Windows"
  
-+    # Python 3.12 added this, stub it out for now
-+    def addDuration(self, test, elapsed):
-+         pass
-+
-     def logSummary(self, component, context_msg=''):
-         elapsed_time = self.tc._run_end_time - self.tc._run_start_time
-         self.tc.logger.info("SUMMARY:")
+ PYTHON_MAJMIN = "3.12"
+ 
 
