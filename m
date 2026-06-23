@@ -1,257 +1,173 @@
-Return-Path: <anders.heimer@est.tech>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84AC5CDB479
-	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 04:46:06 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13878.1782189956534568429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D99A4CD4F26
+	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 05:12:06 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14376.1782191526166090089
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jun 2026 21:45:57 -0700
+ Mon, 22 Jun 2026 22:12:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=gCmyeivs;
- spf=pass (domain: est.tech, ip: 40.107.159.41, mailfrom: anders.heimer@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cTE/wGmdWHugmf+mpA7G3MIXcL1K198WcIEZRf1bCLvsOt7FNgMVzf+8XSGOXn5JznlS4Z6g6kWfyxWsz960Oo9Z0QlxKva986K99Xc0YnaIuSwtXKrEvWIURlcOgLswtnUp9/1C4aRzGLYngSlpZjFOItGfdwZAjVP2B/jpUc/DNehLDhjgLsMgqw0sVN+Zemu2SBl7LalJ0Z0fHbfUQY4w8Try4712pM+I8t6qLQw2SCHDsPrttfXSKC7YQgkbyYrX7iCAKl2ripWsUut8BZwhjLesRwvWjg7NfVcUBcFONT1UuBP1AgBWBjUf75CvedUNntei0V/efOdJYj9Ctw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F9MKU9BS73MTJfpUZ9TLFhWzR4q/2L6fNjAyh+7EenI=;
- b=hOUSRnHg5fKHTR3cIekZP3sPoq9Kq+ygDV5NSxL+G2wt78Smn8/VmOobCo+tbgcy23VCvQ1xgr1GR3XSaiX9/yMfCsQWm+fJuhgPE6szDCsiDyLR226gCMPDy1QhGnKMcu7AYnrnlNEUmOXCsXIfZbuUKPgRU4QVKl3HKZKM8Mr6Y5YV8Y/ik1auHZNq1wN58qt+GT5Hiaez/PipglTB+oveNGnNP8i7chsgLrH5+CUpwHjd5sq8LrCL6XGm8vhVz/fRNWOYR1M0IG9JezGs2TpQUFrAV92yxwgvP3BnQSl+0M4yiwxQJgsWo3ZQsIOHHid07DX3VmYNMetc8EUJSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F9MKU9BS73MTJfpUZ9TLFhWzR4q/2L6fNjAyh+7EenI=;
- b=gCmyeivsL2PTJxOgH5G5/Dmtfcvw6OdgOB0VmOeTx3r8uJJlBsc35ISSuLuf/V0N3DF425HQ5WJ1PXY0ybYONIx9uq43YUIeyFWVXPW1DJIJX8w8KsPMasEA1bHq9T50xq08NZesgyulUqGU9T6N9qk9R5Ww5W3e5eeHAuJv2W3bDT7KixwKZ/oDFqG9nWN8HrM83UGFzdd1o1J8Y5i1jb40GgUWaLy1Hd0CxdqoxUfb8DhUaDi6wL9WVP/n3a84u4Msblpq3+CnvM3s4t7xvrc5/96Jl5h8SlAEwLAzmLtqob9QP8H1XZIJBSknsFaamRWGCxwCRHrw+UzYVM1N+Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:2ac::9) by
- DB8P189MB0700.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:fd::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.139.11; Tue, 23 Jun 2026 04:45:52 +0000
-Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
- ([fe80::90da:b700:f102:5c82]) by DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
- ([fe80::90da:b700:f102:5c82%6]) with mapi id 15.21.0139.018; Tue, 23 Jun 2026
- 04:45:52 +0000
-From: Anders Heimer <anders.heimer@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: Anders Heimer <anders.heimer@est.tech>
-Subject: [PATCH v4 1/2] package: replace copydebugsources shell pipelines
-Date: Tue, 23 Jun 2026 06:45:47 +0200
-Message-ID: <8008514308adb5deddaab041bf0094c9b1219a60.1782189065.git.anders.heimer@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1782189065.git.anders.heimer@est.tech>
-References: <cover.1782189065.git.anders.heimer@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DB9PR02CA0019.eurprd02.prod.outlook.com
- (2603:10a6:10:1d9::24) To DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:10:2ac::9)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=mHwVgfwX;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=vEGPjfWN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019ef2e48b86-75dcf01c-9d5e-451c-a4ac-13e3347e7f6c-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1782191525;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=he3y02uryfjGveZe6ea65aESNcRMF+a8WBO6avS1iC0=;
+	b=mHwVgfwX41X9aAxjGObuaUFGiCA7gE0RgWK5A7hh+y6BG8ZjvcQMM078LlPdJgAg
+	rf4D2QkbgFAXedXv8XVDiyXhO/XO9fCyp2kfDuqTESj7Drwu8SGu4rxBJK9OZ5gCxzK
+	wEQGX5nfUGkkfBs5P0vguf7HohXwLWUKnejkvFiA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782191525;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=he3y02uryfjGveZe6ea65aESNcRMF+a8WBO6avS1iC0=;
+	b=vEGPjfWNNPjQA0Vcq9IzGm/QZ1wvWbHZ/v1Sidq+EiZoRcyw7SMqJUNvbPwZpESm
+	wUz+HLAKUSq2xu6QDobCUOwhJnou7ZHMrbNRcU45UCtL/ZafDaZLB8N3eiQ7e8TEJzq
+	DUsYNhctMEIOzCzyVvlPbUKepxzpo+kFGiVV0Cdg=
+Content-Type: multipart/mixed; boundary="===============3462583541538573091=="
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9P189MB1641:EE_|DB8P189MB0700:EE_
-X-MS-Office365-Filtering-Correlation-Id: 442c0d9d-ece8-4f2e-6d53-08ded0e24e3d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|22082099003|18002099003|11063799006|3023799007|56012099006;
-X-Microsoft-Antispam-Message-Info: 
-	cQJBRbM60fFhlNRz8qNU1qEzh5CbOQdxPf8fyoYw2I0S0mzouEaolnGBXl13Lx8QSQhywmwyBDmOvCk1VJ24Qo6DrDtWhBpDCBY1v98ysOscwtBESliTIgI/VYudT4uMkFAQLhWo0AhYcMwj6U3DOVHBdZzPzhrFMWOY1EYr7mBudjBwZvLrAXy242+1wPbuuvcEtsMweousMVcMmdRCCuObhWkiqG6HA4b2UlXeUf3jRCZxgN3lIW1gOLKnWLX2Dg4d073UICpYGQuGkq8NN6WUKmKDk4AMpiqWUZlKKTf4QlgWMGE+eV5VG2H0PvEf+OascpfxmD5ggg6NqkVntCAt+ZhKoTKqfaInXNdiREsLV3Lqs0ozNedTxbsDKqK4CeCiRTVnJgsT+4r84E3ALTjuvaFZQlMbr7Cgj8k8aWF10AuF/osT87vHlERKVG3nvUSefWAkbiMDNQ+TrhcO9lox1Xi0DVT5ssK5WFGG4Fo2siqhq4Y1+cOXexTWfi2NibdyOkQgrSkeW5nq8+4voPp23MSELO35KzTXO/lsYMOtzmFqowegsJ3FYyUKIKmXEsCtepQbcn3WmywLyGytS7fKOXFswBpmMK3QdvzSHGiFEfMAqBfhwswvXkr3NwBnmNqVpulvEJvVgLmbLYP2QFQSW55z3e/6pAskgaN9710=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1641.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(22082099003)(18002099003)(11063799006)(3023799007)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?RXXyAXePdz1TgFOafy9ZEXDnmM/WK0pjaJADw1e5MxG0f3kdNu/y3lLRnbTi?=
- =?us-ascii?Q?RMtwMEY/T4nSEN5NUeZvn22grT8QPfb4Z0sQ+Ir7BLWeHi19TgqgiKrSU6lj?=
- =?us-ascii?Q?m9n6y4OP0sQQvtBwqyzjiEIJKmyIWHPrURc3DO0q9k65958AOQgY/y3y/5iR?=
- =?us-ascii?Q?rMlrHqfQTVuY4azXtCCASpxNncxHX6DVEqRxIGcKn2KHQj8cqLI4VOsaPiB+?=
- =?us-ascii?Q?w1ilKu/wUaNTzEcKlOoZWN+IxlEtFuR4etGvOaAecETyuJj7MUzeAWUMBla7?=
- =?us-ascii?Q?pgZjsvvJcQAxNakLjh/h/gNeX0k7bHPBA9lYxSm7LXJZs1N30B5OK49V0OlS?=
- =?us-ascii?Q?RdsZVAp3+reXR+PA8nVgIWG5JPh+ODTwEDnSfE5lY4B39QYeusZmOOv61yrp?=
- =?us-ascii?Q?ELBe3BRWE125jEgUsqTFXL0rrscYSocO5kQy3T6ujb4xJDUkVYrEdGz8Hc7g?=
- =?us-ascii?Q?BthPSxuzVDuRZzxsTAfdwLGoi98IU4d3pvUi1asmHLxc2qBi6X7NO0Wz7rk3?=
- =?us-ascii?Q?T7cZtPR8O2B/29GbQ2w61bcmN1O8SHLbet6WoHA80MgaXWa4z6zKyh4R2lOp?=
- =?us-ascii?Q?GDXJDFtEEh8CwFpwAZ9hwvPwL7ZP3wq5HOsNxlYB3wJxubIj8li3mmXWvgCl?=
- =?us-ascii?Q?tHcLK31u3UhG/fqL2k1FTphQxJXAXwNs2p57I0ukHS1biEntUKubcuh49PFC?=
- =?us-ascii?Q?lvwguJgCSE+Ijff64KDLUVq6jG4xMIE1KHOQpglYrUJGFcq1FFuALQieiuN+?=
- =?us-ascii?Q?1Ta+TGu+yATK/YFsfQEy/Y2/r8+FvpWrNaVJtiDoDeb8XoDV5zgbfyh0NZpJ?=
- =?us-ascii?Q?+iDJh3+waccgPiysH3WcuawaIJfavglfvPan9PgQn1rh7pWpQYPBS9svXNh1?=
- =?us-ascii?Q?XzQyDSsyzuXvwO1TKY/Glf5ppy/wDKlMJQGbdVi0YOxHUvjSemDhh5mjs6+h?=
- =?us-ascii?Q?STE9GMSqprYofft9ECUYG+keaYZC8Q5SoTSimrWB4DU/Nn5673BFpfZZ8A5M?=
- =?us-ascii?Q?kvY2/IJoo/9LKyGuO08/QFI4n+Pf53u5ZgUj+hnllg2XpnbPO3WQvuzPm6y/?=
- =?us-ascii?Q?24Qk0rvzkarpUQxW1j41jrUv04hQUoP9QQqs3u12sk/4R4t9iZCuK9NXCIH3?=
- =?us-ascii?Q?7la0R5nK2fGGFhS7/a7c6AFTdRUa4q/dksT3qVhzgUk09Ssx7nXppnHseySZ?=
- =?us-ascii?Q?hBphigfGCF3wLWgTlDzh9V2sOp7OTDnjBgMeFM0r24NKEMxkl/dVUB2O+0Dm?=
- =?us-ascii?Q?SXP7+H9WYMAo8WHhsX6jhEXUIhjFKWyLiTnKcSFYm59koRJyZNAjjrKnFvZv?=
- =?us-ascii?Q?lfDgk7WT1XNBPy+5K4ihB4vhAj1Tgy93VR7oMyaWNW8UHNP76ZYzO8uWa31d?=
- =?us-ascii?Q?3OyaVpJbDQ8xZZVaOjeWc5cEfU7N1LG3zL11d+fGjh+xHAcbRbbUW7Wwvn81?=
- =?us-ascii?Q?z6j3Dj7PQnXWVsgAip3+8Im9Y1TElL+iz1JObbRq6ps6mSNdDFe2ewz+QI/c?=
- =?us-ascii?Q?h+QkXSaxEGm3Mcz9WR39Chg8UEzcseMKyOC0TyY+KFRXulSPT/sGiItXEFBc?=
- =?us-ascii?Q?wMbMXLTXQBx7iTgPqBcAK638BNSFl5t47k9ZZNbEUvg7zv4SNTE5sRxVG1U6?=
- =?us-ascii?Q?NXp+hzzMqVBNtoLjlNk0iAIDaxYKftwvmCefM+YKBXfjlOsgMi2bzhXy9Nf9?=
- =?us-ascii?Q?lHZec2kID5rxm+26fnUbqZ1amezQZKV1yAn/rT1mrHDqMNsVtsSaJapecjt8?=
- =?us-ascii?Q?9bFtsP/qAw=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 442c0d9d-ece8-4f2e-6d53-08ded0e24e3d
-X-MS-Exchange-CrossTenant-AuthSource: DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2026 04:45:52.7810
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s8ouXWcx9XbzwhA60rk/PVfCGt2PrOPF7H0wvVBQw6gLElg0olrzthDTBFCfGmHFJ9ATx54gdhrkb5ZqAvwg2g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB0700
+From: auh@yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-pdm: upgrading to 2.28.0 SUCCEEDED
+Message-ID: <0101019ef2e48b86-75dcf01c-9d5e-451c-a4ac-13e3347e7f6c-000000@us-west-2.amazonses.com>
+Date: Tue, 23 Jun 2026 05:12:04 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.06.23-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 04:46:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239328
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 05:12:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239331
 
-Replace the sort/grep/sed parts of copydebugsources with Python
-filtering on the NUL-separated source list. Keep cpio since it is
-faster than doing it in python.
+--===============3462583541538573091==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Use an explicit prefix + "/" match before stripping the prefix so source
-selection is limited to files in the mapped debug source directory.
+Hello,
 
-Replace the find/sed symlink fixup pipeline with os.walk() plus cpio,
-use an argv-list mv for the externalsrc relocation, and pass the
-empty-directory find command as an argv list.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-pdm* to *2.28.0* has Succeeded.
 
-The first cpio copy pass continues to ignore failures as before since
-some inputs are expected to fail. The symlink fixup copy still reports
-cpio failures.
+Next steps:
+    - apply the patch: git am 0001-python3-pdm-upgrade-2.27.0-2.28.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Signed-off-by: Anders Heimer <anders.heimer@est.tech>
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 6120ece3e61af55f006b67b9fabf096e20ed27dc Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 23 Jun 2026 05:07:03 +0000
+Subject: [PATCH] python3-pdm: upgrade 2.27.0 -> 2.28.0
+
 ---
- meta/lib/oe/package.py | 72 +++++++++++++++++++++++++++++-------------
- 1 file changed, 50 insertions(+), 22 deletions(-)
+ .../python/{python3-pdm_2.27.0.bb => python3-pdm_2.28.0.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pdm_2.27.0.bb => python3-pdm_2.28.0.bb} (80%)
 
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index c375acc124..d047e41a78 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -1017,26 +1017,50 @@ def copydebugsources(debugsrcdir, sources, d):
-         bb.utils.mkdirhier(basepath)
-         cpath.updatecache(basepath)
-=20
--        for pmap in prefixmap:
--            # Ignore files from the recipe sysroots (target and native)
--            cmd =3D  "LC_ALL=3DC ; sort -z -u '%s' | egrep -v -z '((<inter=
-nal>|<built-in>)$|/.*recipe-sysroot.*/)' | " % sourcefile
--            # We need to ignore files that are not actually ours
--            # we do this by only paying attention to items from this packa=
-ge
--            cmd +=3D "fgrep -zw '%s' | " % prefixmap[pmap]
--            # Remove prefix in the source paths
--            cmd +=3D "sed 's#%s/##g' | " % (prefixmap[pmap])
--            cmd +=3D "(cd '%s' ; cpio -pd0mlLu --no-preserve-owner '%s%s' =
-2>/dev/null)" % (pmap, dvar, prefixmap[pmap])
-+        with open(sourcefile, "rb") as f:
-+            rawpaths =3D f.read().split(b"\0")
-+
-+        # Ignore files from the recipe sysroots (target and native), and
-+        # compiler internal entries. Use a set comprehension to prevent
-+        # duplicate entries.
-+        sourcepaths =3D {path for path in rawpaths
-+                       if path
-+                       and not path.endswith((b"<internal>", b"<built-in>"=
-))
-+                       and b"recipe-sysroot" not in os.path.dirname(path)}
-+
-+        for pmap, prefix in prefixmap.items():
-+            dstroot =3D dvar + prefix
-+            prefix_slash =3D os.fsencode(prefix) + b"/"
-+            relpaths =3D [path.removeprefix(prefix_slash) for path in sour=
-cepaths
-+                        if path.startswith(prefix_slash)]
-+
-+            if relpaths:
-+                subprocess.run(["cpio", "-pd0mlLu", "--no-preserve-owner",=
- dstroot],
-+                               input=3Db"\0".join(sorted(relpaths)) + b"\0=
-",
-+                               cwd=3Dpmap, stdout=3Dsubprocess.DEVNULL,
-+                               stderr=3Dsubprocess.DEVNULL, check=3DFalse)
-=20
--            try:
--                subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubpro=
-cess.STDOUT)
--            except subprocess.CalledProcessError:
--                # Can "fail" if internal headers/transient sources are att=
-empted
--                pass
-             # cpio seems to have a bug with -lL together and symbolic link=
-s are just copied, not dereferenced.
-             # Work around this by manually finding and copying any symboli=
-c links that made it through.
--            cmd =3D "find %s%s -type l -print0 -delete | sed s#%s%s/##g | =
-(cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s')" % \
--                    (dvar, prefixmap[pmap], dvar, prefixmap[pmap], pmap, d=
-var, prefixmap[pmap])
--            subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubprocess=
-.STDOUT)
-+            symlinks =3D []
-+            for root, dirs, files in os.walk(dstroot, topdown=3DTrue, foll=
-owlinks=3DFalse):
-+                for name in dirs[:]:
-+                    path =3D os.path.join(root, name)
-+                    if os.path.islink(path):
-+                        symlinks.append(os.fsencode(os.path.relpath(path, =
-dstroot)))
-+                        os.unlink(path)
-+                        dirs.remove(name)
-+
-+                for name in files:
-+                    path =3D os.path.join(root, name)
-+                    if os.path.islink(path):
-+                        symlinks.append(os.fsencode(os.path.relpath(path, =
-dstroot)))
-+                        os.unlink(path)
-+
-+            if symlinks:
-+                subprocess.check_output(["cpio", "-pd0mL", "--no-preserve-=
-owner", dstroot],
-+                                        input=3Db"\0".join(sorted(symlinks=
-)) + b"\0",
-+                                        cwd=3Dpmap, stderr=3Dsubprocess.ST=
-DOUT)
-=20
-         # debugsources.list may be polluted from the host if we used exter=
-nalsrc,
-         # cpio uses copy-pass and may have just created a directory struct=
-ure
-@@ -1046,13 +1070,17 @@ def copydebugsources(debugsrcdir, sources, d):
-=20
-         # Same check as above for externalsrc
-         if workdir not in sdir:
--            if os.path.exists(dvar + debugsrcdir + sdir):
--                cmd =3D "mv %s%s%s/* %s%s" % (dvar, debugsrcdir, sdir, dva=
-r,debugsrcdir)
--                subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubpro=
-cess.STDOUT)
-+            srcdir =3D dvar + debugsrcdir + sdir
-+            dstdir =3D dvar + debugsrcdir
-+            if os.path.exists(srcdir):
-+                entries =3D sorted(glob.glob(os.path.join(glob.escape(srcd=
-ir), "*")))
-+                if entries:
-+                    subprocess.check_output(["mv", "--"] + entries + [dstd=
-ir],
-+                                            stderr=3Dsubprocess.STDOUT)
-=20
-         # The copy by cpio may have resulted in some empty directories!  R=
-emove these
--        cmd =3D "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
--        subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubprocess.STD=
-OUT)
-+        cmd =3D ["find", dvar + debugsrcdir, "-empty", "-type", "d", "-del=
-ete"]
-+        subprocess.check_output(cmd, stderr=3Dsubprocess.STDOUT)
-=20
-         # Also remove debugsrcdir if its empty
-         for p in nosuchdir[::-1]:
+diff --git a/meta/recipes-devtools/python/python3-pdm_2.27.0.bb b/meta/recipes-devtools/python/python3-pdm_2.28.0.bb
+similarity index 80%
+rename from meta/recipes-devtools/python/python3-pdm_2.27.0.bb
+rename to meta/recipes-devtools/python/python3-pdm_2.28.0.bb
+index f378e1edda..23d2f9e521 100644
+--- a/meta/recipes-devtools/python/python3-pdm_2.27.0.bb
++++ b/meta/recipes-devtools/python/python3-pdm_2.28.0.bb
+@@ -4,7 +4,7 @@ LICENSE = "MIT"
+ SECTION = "devel/python"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
+ 
+-SRC_URI[sha256sum] = "dbfbc484065d0150fa5b29484ead908354313d8699cf74c099d4531826bd04de"
++SRC_URI[sha256sum] = "ca7d21548955086985070d2fe4334a55e59093a466b25eebc6bb0769a0539e89"
+ 
+ inherit pypi python_pdm
+ 
+-- 
+2.47.1
+
+
+--===============3462583541538573091==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-pdm: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.27.0.tar.gz;downloadfilename=pdm-2.27.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.28.0.tar.gz;downloadfilename=pdm-2.28.0.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pdm: PKGV changed from 2.27.0 [default] to 2.28.0 [default]
+packages/x86-64-v3-poky-linux/python3-pdm: PV changed from "2.27.0" to "2.28.0"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dbg: PKGV changed from 2.27.0 [default] to 2.28.0 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dbg: PV changed from "2.27.0" to "2.28.0"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dev: PKGV changed from 2.27.0 [default] to 2.28.0 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dev: PV changed from "2.27.0" to "2.28.0"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-doc: PKGV changed from 2.27.0 [default] to 2.28.0 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-doc: PV changed from "2.27.0" to "2.28.0"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-locale: PKGV changed from 2.27.0 [default] to 2.28.0 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-locale: PV changed from "2.27.0" to "2.28.0"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-src: PKGV changed from 2.27.0 [default] to 2.28.0 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-src: PV changed from "2.27.0" to "2.28.0"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-staticdev: PKGV changed from 2.27.0 [default] to 2.28.0 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-staticdev: PV changed from "2.27.0" to "2.28.0"
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pdm-2.27.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pdm-2.28.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pdm-2.27.0.dist-info -> /usr/lib/python3.14/site-packages/pdm-2.28.0.dist-info
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PKGV changed from 2.27.0 [default] to 2.28.0 [default]
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PKGSIZE changed from 2516493 to 2551788 (+1%)
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PV changed from "2.27.0" to "2.28.0"
+Changes to packages/x86-64-v3-poky-linux/python3-pdm (sysroot):
+  /usr/lib/python3.14/site-packages/pdm-2.27.0.dist-info moved to /usr/lib/python3.14/site-packages/pdm-2.28.0.dist-info
+
+--===============3462583541538573091==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pdm-2.27.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pdm-2.28.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pdm-2.27.0.dist-info -> /usr/lib/python3.14/site-packages/pdm-2.28.0.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-pdm (sysroot):
+  /usr/lib/python3.14/site-packages/pdm-2.27.0.dist-info moved to /usr/lib/python3.14/site-packages/pdm-2.28.0.dist-info
+
+--===============3462583541538573091==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pdm-upgrade-2.27.0-2.28.0.patch"
+
+RnJvbSA2MTIwZWNlM2U2MWFmNTVmMDA2YjY3YjlmYWJmMDk2ZTIwZWQyN2RjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMjMgSnVuIDIwMjYgMDU6MDc6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXBkbTogdXBncmFkZSAyLjI3LjAgLT4gMi4yOC4wCgotLS0KIC4uLi9weXRob24ve3B5
+dGhvbjMtcGRtXzIuMjcuMC5iYiA9PiBweXRob24zLXBkbV8yLjI4LjAuYmJ9ICAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcGRtXzIuMjcuMC5iYiA9PiBweXRo
+b24zLXBkbV8yLjI4LjAuYmJ9ICg4MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI3LjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtcGRtXzIuMjguMC5iYgpzaW1pbGFyaXR5IGluZGV4IDgwJQpyZW5hbWUg
+ZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGRtXzIuMjcuMC5iYgpy
+ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI4LjAu
+YmIKaW5kZXggZjM3OGUxZWRkYS4uMjNkMmY5ZTUyMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI3LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI4LjAuYmIKQEAgLTQsNyArNCw3IEBAIExJ
+Q0VOU0UgPSAiTUlUIgogU0VDVElPTiA9ICJkZXZlbC9weXRob24iCiBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9MSUNFTlNFO21kNT0yZWIzMWEyY2MxYTc1OGMzNGI0OTlmMjg3ZGQwNGVmMiIK
+IAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImRiZmJjNDg0MDY1ZDAxNTBmYTViMjk0ODRlYWQ5MDgz
+NTQzMTNkODY5OWNmNzRjMDk5ZDQ1MzE4MjZiZDA0ZGUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
+Y2E3ZDIxNTQ4OTU1MDg2OTg1MDcwZDJmZTQzMzRhNTVlNTkwOTNhNDY2YjI1ZWViYzZiYjA3Njlh
+MDUzOWU4OSIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9wZG0KIAotLSAKMi40Ny4xCgo=
+
+--===============3462583541538573091==--
 
