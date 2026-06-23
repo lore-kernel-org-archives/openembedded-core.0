@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37768CDE001
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 580CDCDE004
 	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 22:27:15 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33413.1782253633774080347
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32866.1782253630962160834
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 15:27:14 -0700
+ Tue, 23 Jun 2026 15:27:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=nmFSMJC/;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4922244f7c7so3487315e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 15:27:13 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=bc7wLEzt;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4924593f45dso3833245e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 15:27:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782253632; x=1782858432; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1782253629; x=1782858429; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7WPRV6tNRd22hIPzNE58QF8SoiX9yip6gF0cBKnZ4jU=;
-        b=nmFSMJC/3v52lq8WPW8GrSG+1+x9y3Ej44Ai3L/U3T+NrIlkwATD6vKGM0bLaFjoqa
-         7hq6EIzktMsyHlMTOQ+3JLG+GAvkTN6QQ8wMZA+e9H/CgU2l3ZBFr80VngXrZ1H04pdh
-         kJSus0mj+ZR3TUombdY2L6icg575AE+SlULIc=
+        bh=bW0wf28jLOy+Ca9B6aGkD6Rs4nTYm923FLflNVQsWhE=;
+        b=bc7wLEztzcJeq0b2LfvJYhoqD59ApOQhRw7T46GC7xecgOmYJeh+8U+crVQqpDtx4H
+         j8xXLcoXSnQm6qZ+c3EE7RPPINRwLmc6fSu1EKPUIFQrogJAS68t6y2eRwLkcMQOpLtI
+         A779x7kpVXaNvFpV/dvJ5iB7UsFcBynFyAOh8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782253632; x=1782858432;
+        d=1e100.net; s=20251104; t=1782253629; x=1782858429;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=7WPRV6tNRd22hIPzNE58QF8SoiX9yip6gF0cBKnZ4jU=;
-        b=pVN3Dt41bJ/yNbnlQkXG/2X6ZW4CJn1au2gXikf1kov9ec2llDheX1ihzpWuTu7+Cr
-         pEydd2oWY3vkVHKX00EJSn+aaC16wYfR6UwMc9PCCYIP25WcgCsZvl5chTHxfiNS+kuh
-         +QLFpROkzZR8thrNjEevQd2HocwRfEtFe0SgoPcQQ3DmQUjdNHAmrjLFgJg6W7ifQndz
-         hUAoEZyh0KYvX1Gmf8Lk3Ohu4EB1e56LR4iJlZRc0hhMIeUh68ElVJJ1Ufbd7q5z6ga+
-         bUG1oRJ5AFtbRy0VPUYyHctiwo5ZGMkn7FHYo9PID995GZZXQGELbcDiIXr7T8H974Bn
-         Z/qw==
-X-Gm-Message-State: AOJu0YwVpF/GXSBg1OUSp5YCt5StbVYeeaHHTrrNCWmYkvf6jk/iOl9t
-	zML4kwFMhQ5lh869XvMWESmJcXuQK/UBC8almBLragMiVnL8EjVaUNjS080h0lZZNAJnPDzeK0J
-	1fvGL
-X-Gm-Gg: AfdE7cnNnGe91R8woBtopbLt5PIuxu79NIgJDDdULMKgGnHdbR7wY+Rm4lyZD8nhNlr
-	fT5B1Hd38Q1CtCoWvUsbTD6drlg63sadtYmd0+ZwUmo7E5DwHBzbblU62IWBlvlVwkKJvI+r0ys
-	BaTJ5+HXPB1ADDWz8NFkUBDWhETZYbS74dZGlvzKyMCSAUws8zp7nSJTapybEO91KJ2dJ/U3YnU
-	Efb4Jj36WMnxp/og0BbNWAaPCiFryegLH/2RJF8Khwcl0VooV1t7hjU8w8O4shQkfsYaT3wlGEI
-	KPkCveyn/ELA7xgDCmDmomzQStHPBr6rNf1Gu1e6ryyWeJyyOb/q6M/+VJJ5xY8HVUyuH8szlyq
-	+CrL1529xNMUHRfDo7Qbub/shef9HnF9Ym6qvSCagmfy1NFfiq4vTBVt5kWb3Iu7FgONCKtjB9F
-	P1q78aDVDxnsfoOcvIU2V5RCoxhFp/+BFiQpZr0i3/9QsMXtA9A4OVK63O2S7uGX7s9G+6qgj8e
-	eiiLm9PVaPAt/HV
-X-Received: by 2002:a05:600c:4686:b0:490:50c5:8153 with SMTP id 5b1f17b1804b1-4926084ab47mr6505325e9.2.1782253631984;
-        Tue, 23 Jun 2026 15:27:11 -0700 (PDT)
+        bh=bW0wf28jLOy+Ca9B6aGkD6Rs4nTYm923FLflNVQsWhE=;
+        b=R0hD66BTuhypU0KKk7vv2DywxbdmwTN10usgv5RhR8bnnmwZjjIu2cSiFv1JIpX8MZ
+         xwvNM2g4tH9g39K/AzBC40zPKleHHpLH2KTU/4LI4aVP421BD+zsnsslwoHlwpVOg/JK
+         k5v1WtKzTNz89S2UvC2iqu/zKsZlaw05jmq5wSej8OKrsk0MTsBn5jjFD9wMGMOn2p+L
+         gfQljvO0VoXAkgpZmhspk5mYU/mZcdUXwcQ68glAgQOMoFn6YUqmx8P2m5hRUahzf6Rj
+         tAl5+9tt5XhFf4yGFP8BgzldEzQ2cCfiPv6RIM5RHW5taFKfEQ76bx9Nh1nqHPk9nyZl
+         5eAg==
+X-Gm-Message-State: AOJu0Yz6HfCjPhPBiLHynPi5ksneOFC2Xs0X+8AU5BQnA3wMbiL2ZNIX
+	fCQDphP/DbpSMP9lPDnFL014CwwSzOr8zaHgfEJj4HbzihHfrXn9/2ySPUWo6iA3grUF2qP5uAR
+	jBx3G
+X-Gm-Gg: AfdE7cljrMmcQslePjZgzrebWduOtHex4oC5scEgFGapzCGAZlVW8eeE63T6WXJ36Ld
+	Bmy9aEQq59Bm3HSa4QhiM+Rq0XfSxl0i2Tq5uEQII5siEWx/vKVJMh6kM7frvd94CWq+GYzIELN
+	zh0Jx1LI2hMJBDDV+XNGohVJMWD1l3PqWMUH0P9HPPQfL2gbmMZNyGkZ/NqfnV9OLtaqHA/uQQe
+	XIMTCpoa7kO6lFtl+vX6tXdWZH4sNHESVhGun7OKSU+YSi93Ijcgbr6JgRAW3Q03Quetp2Wl63o
+	r6se0PXdnVZ+jJqUNzb1gE5a4ROTXGwajxt6IV/seMgKR7FCCBXA/FgyAhzvHIN86n9AD3NmhnD
+	pLJYJTtiaI4pxCFHIfh2egyZCBAjle5py1i77HEVNonkMh1bb4u5VcvQ4GcHgqpfWWJyGR3EN0n
+	aN5qL4ILEEHndikBSxkTPIodr17WhdNpDY3EItjGWRgs3kANULJVHSz5QnDbKdOFUQ+G6mfaN7e
+	q+q/S0NJ7dXF5Ok
+X-Received: by 2002:a05:600c:c059:10b0:485:9a50:3370 with SMTP id 5b1f17b1804b1-49260840572mr5192955e9.8.1782253629196;
+        Tue, 23 Jun 2026 15:27:09 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa0055dd0cae868d89dd.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:55dd:cae:868d:89dd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fd21dbdsm370786745e9.6.2026.06.23.15.27.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fd21dbdsm370786745e9.6.2026.06.23.15.27.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 15:27:11 -0700 (PDT)
+        Tue, 23 Jun 2026 15:27:08 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap v2 26/41] rust,libstd-rs: set status for CVE-2024-3566
-Date: Wed, 24 Jun 2026 00:26:25 +0200
-Message-ID: <8c56e85dd02063da5630c9b73fb242686a970e20.1782252148.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap v2 21/41] bzip2: set CVE_PRODUCT
+Date: Wed, 24 Jun 2026 00:26:20 +0200
+Message-ID: <b976aed4282df6becec170ba6085e54df281603f.1782252148.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1782252148.git.yoann.congal@smile.fr>
 References: <cover.1782252148.git.yoann.congal@smile.fr>
@@ -66,30 +66,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 22:27:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239448
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239443
 
-From: Sudhir Dumbhare <sudumbha@cisco.com>
+From: Jonas Munsin <jonas.munsin@gehealthcare.com>
 
-The vulnerability is Windows-specific and depends on command-line
-handling through CreateProcess, which does not apply to Linux/Yocto
-builds.
+Add CVE_PRODUCT to bzip2
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2024-3566
-
-Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+Signed-off-by: Jonas Munsin <jonas.munsin@gehealthcare.com>
+Signed-off-by: Maxin John <maxin.john@gehealthcare.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit bc889ea799cc82f7fa018baabca0b821c1209897)
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/rust/rust-source.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index 5b433ceae78..318c7f0e293 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -23,3 +23,4 @@ UPSTREAM_CHECK_REGEX = "rustc-(?P<pver>\d+(\.\d+)+)-src"
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+index 4e3a06f2408..f9224908685 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+@@ -66,5 +66,7 @@ FILES:libbz2 = "${libdir}/lib*${SOLIBS}"
  
- CVE_STATUS[CVE-2024-24576] = "not-applicable-platform: Issue only applies on Windows"
- CVE_STATUS[CVE-2024-43402] = "not-applicable-platform: Issue only applies on Windows"
-+CVE_STATUS[CVE-2024-3566] = "not-applicable-platform: Issue only applies on Windows"
+ RDEPENDS:${PN}-ptest += "make bash"
+ 
++CVE_PRODUCT = "bzip:bzip2"
++
+ PROVIDES:append:class-native = " bzip2-replacement-native"
+ BBCLASSEXTEND = "native nativesdk"
 
