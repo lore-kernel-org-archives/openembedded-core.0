@@ -1,362 +1,187 @@
-Return-Path: <adongare@cisco.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 366EFCDE002
-	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 11:31:04 +0000 (UTC)
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18973.1782214253689841466
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8406DCDB46F
+	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 11:49:44 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.62])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19241.1782215379090045153
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 04:30:53 -0700
+ Tue, 23 Jun 2026 04:49:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Ur4DjzUH;
- spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: adongare@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=10348; q=dns/txt;
-  s=iport01; t=1782214253; x=1783423853;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=f2f2WVT77X3SZQ7w5uHVFZ7JyEqOET8iurrpyN9tNvk=;
-  b=Ur4DjzUHnbLrVWuPgk1TyL7Cig/acTd4JrvKfRAuhgWUVYTZ+O5HBsc1
-   NdIWyxG9PSGM42uNCj1lR5ym5u0ggXgUlFMAZ/88t5yIftSgxTcue0jwS
-   oXKWFxwYkFtzgbDBiXoV98QlHm8ArLrCklbd2kcDVQq49xhvSU4hbHXLu
-   QNiqiv77C/exPWvh+eRRlEAoBNOe74/2BvaS+f0WY/qsJe5YUTpJipgg/
-   TPxsitX5f9j6ZZ4uujGZL/nSZAqkEAaiX7oh9r5y39Yqp734XV4nIWf23
-   L4PpnI3pt+uBLYAxyDlGq42hku2hg6Gqh6XqgwzSver975uZKrRFuNI4r
-   w==;
-X-CSE-ConnectionGUID: YbtEW9UTSrKy24aEeiSEAg==
-X-CSE-MsgGUID: 8MQbZtoLSqKR+K8MVyTRkQ==
-X-IPAS-Result: =?us-ascii?q?A0BLAgACbTpq/4v/Ja1aHgEBCxIMggULgld0X0JJA4RUk?=
- =?us-ascii?q?XQDnhsUgWoPAQEBD0QNBAEBghKCdAKNSgImNAkOAQIEAwIDAQEBAQEBAQEBA?=
- =?us-ascii?q?QELAQEFAQEBAgEHBYEOE4ZPDYZaAQIBAyMECwE0EhAcAgEBAgMCJgICKyMIG?=
- =?us-ascii?q?YMCAYJzAgERnGeXFxo3en8zgQGDaAJDUNssAQsUAQWBBS6FP4McAYUCWxgBh?=
- =?us-ascii?q?HwnGxuBcoEVg2mBBYFcAoEjBIQUgmoEgiKBDIFaGAYyjldIgQIcA1ksAVUTD?=
- =?us-ascii?q?QoLBwWBZgM1EioVbjIdgSM+FzRYGwcFgR2BboEEhQIjHwM5f4E/gSRkZhUwN?=
- =?us-ascii?q?YEBAREfCoErAwsYDUgRLDcUGwQ9AW4HjFoXD4FuSAcBPD4TASsgAmOBJxwyk?=
- =?us-ascii?q?moxj2yCIYpzlhwKKIN1jCGVOhozhVulEQuYfY4KllCEaIFoPIFZcBWDIglKG?=
- =?us-ascii?q?Q+OLQsLg2CEB4EMgT3DQSQ1CwMvAQEHAgcOAwuBaJAALIFRAQE?=
-IronPort-Data: A9a23:+F7kV69e871kpzWYfeSnDrUD0X+TJUtcMsCJ2f8bNWPcYEJGY0x3m
- 2VODD3QbK6Pa2f0etF+a4+/80pUsMfcy4RnQFM4pX1EQiMRo6IpJzg2wmQcns+2BpeeJK6yx
- 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
- 4muyyHjEAX9gWAsbDhPs/vrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
- /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
- HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2kHN5E1xbdKPVpU1
- u1CdDkgYxG4qsu5lefTpulE3qzPLeHxN48Z/3UlxjbDALN+G9bIQr7B4plT2zJYasJmRKmFI
- ZFGL2AyMVKZOEwn1lQ/UPrSmM+hin75fDRCpXqepLE85C7YywkZPL3FbIuFK4PWG5kK9qqej
- jLjxm7LHhY+D8W883mmoleSl9P1nhquDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
- 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4CeY27kSJj6HT+QvcXjJCRT9aY9tgv8gzLdA36
- mK0cxrSLWQHmNWopbi1r994cRva1fApEFI/
-IronPort-HdrOrdr: A9a23:L6T0m69Hc8f28YqUbZxuk+AGI+orL9Y04lQ7vn2ZhyY7TiX+rb
- HJoB17726StN9/YhAdcLy7VZVoBEmsl6KdgrNhWYtKPjOHhILAFugLhuHfKn/bakjDH4Vmu5
- uIHZITNDTYNykCsS+D2njaL/8QhP+a7auvmeDSi11pTQ1sduVcyj0RMHfiLqWzLzM2f6bQ0/
- Gnl7F6mwY=
-X-Talos-CUID: 9a23:BbjuGm6mG3aSU6aHT9ssxUQIN/90T0Hm1lTBeROxJGtoc5C8RgrF
-X-Talos-MUID: 9a23:Mnk/FQWokxE0qtjq/G/JvTtQKMBM2L2NMgMuwbA4qvW+NhUlbg==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.24,220,1774310400"; 
-   d="scan'208";a="498974647"
-Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 23 Jun 2026 11:30:52 +0000
-Received: from sjc-ads-4153.cisco.com (sjc-ads-4153.cisco.com [171.70.54.174])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id 7A6D31800035E;
-	Tue, 23 Jun 2026 11:30:52 +0000 (GMT)
-Received: by sjc-ads-4153.cisco.com (Postfix, from userid 1870532)
-	id 217ABCC12A8; Tue, 23 Jun 2026 04:30:52 -0700 (PDT)
-From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=wkl78siw;
+ spf=pass (domain: est.tech, ip: 40.107.162.62, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xIkt+LM9EU1OAs6gYVNKbTaSV0F7Y6t0Kj3zoaqaqD3TxPJdbKChN9uZZYThCGk/uQKMFs4ns09Y+c9ZFUJT3pwtmh1hmFzTOmywLWUw6xd90g7YexVDpp6+WHuipYyO67zBTZKIy3TfEsUeWk0ntxhiPgCoEHzm/LU1x7JnvzCdqdXAQH4ljfJxMIf7hjbT52s+ZQreRYhJ3J1F0ahhv1SRO2qOWxNSOL0El7ZaeMUgO+DwRw9usN4TO4auvDG1unncNNH8ua1ih2Kt3jYJEERjock8sWeiVkzLLGzUcaiSQjhUea8EiEXWGieg5Jn7xSHnkOReKQ9JP2oUOblPDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SlbgEmHdgsspMm6ulsPPMrfOqnPkLFJh1waQhu4Chgg=;
+ b=sb3wsCgYwv9hALaf0jTohwFI2M11iFhK4ZiAAmJ+Q2eTF0hD4RJZ1t0k/NOKnOm3b3cLHFfXsmOFuM5b22lFDT6YXug9ywtJB5onY26QE7zkLGAj/2UnT4laFlgKiWAru6884cQe9FZa84ul9n9lUhdQcbFQsB8MVAF01T/aYE4KcKS3Ji2/KS6ol+HJf3ilo4R59FIzjKPXHGPWeBV2EAPzoV+dPmI1/4sgb70nBU+KJQypxWzDUfdi/nhz0ZevvmInchcP3++V1rdI33JaTs7BdCroQWfcdqV8s40sFr3NmgblVJuXm2yY8/hO/Mp8sNNUgwHz5vwnvgjgsWqsMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SlbgEmHdgsspMm6ulsPPMrfOqnPkLFJh1waQhu4Chgg=;
+ b=wkl78siwwIE7o6QyILmRHJF1bdF5bfNKrk8cbyARrHjlUqpWupeUm0VJu1byTTFXKsNSz0eduh7DDnTCRn7isQRbglnpTZgR6sjz3+fyXnqcnOCq9LnwOjhGQj6ryNWnp7Wx9mJAtChmRlVPyrO0PJ+iwYlv/VovecUQ8QoTbUh/hJvLMkWNKuXeUAx44HAxW34uxYUJFpihMNwsllvEUacuucYuRtjLv3MTmt3tA+cmR72AA/YGPoKKFvpZGOi8LFQvT9B/vQroWFkscjVZ3hN5yArfUkJ99y0MaTeqTRwCajCoCkkXbaFTiG0dBCPECgJndzL0pKpUf7h95IiOug==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by DB4P189MB2416.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3fb::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.13; Tue, 23 Jun
+ 2026 11:49:34 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::18b0:e114:b839:ca49]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::18b0:e114:b839:ca49%8]) with mapi id 15.21.0139.018; Tue, 23 Jun 2026
+ 11:49:34 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com, to@cisco.com,
-	Anil Dongare <adongare@cisco.com>
-Subject: [OE-core] [scarthgap] [PATCH 3/8] cups: Fix CVE-2026-34980
-Date: Tue, 23 Jun 2026 04:30:27 -0700
-Message-ID: <20260623113037.28968-3-adongare@cisco.com>
-X-Mailer: git-send-email 2.44.4
-In-Reply-To: <20260623113037.28968-1-adongare@cisco.com>
-References: <20260623113037.28968-1-adongare@cisco.com>
+CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Subject: [wrynose][PATCH] curl: fix CVE-2026-5773 - wrong reuse of SMB connection
+Date: Tue, 23 Jun 2026 13:49:26 +0200
+Message-ID: <20260623114926.27459-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P302CA0015.GBRP302.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c2::11) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-4153.cisco.com [171.70.54.174];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.54.174, sjc-ads-4153.cisco.com
-X-Outbound-Node: rcdn-l-core-02.cisco.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|DB4P189MB2416:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7fa02dc9-d3b7-4799-3682-08ded11d7ebb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|56012099006|11063799006|3023799007|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	pcThmorKxVlB0BXOuHyeKzLgm5wtqScT6uWAzKW0zCLazoeweJ0Hx2AHEYBuj2YtRQN2AqArw1idO+7aAPOP0p/YVukVHL3CJjWJaL6manOHx/eZyRwbTCnzkDB8uCls8DVxGXn9qg8WlWx97AFIfJf//+jL5wNDh8QzsqXWv01PPjbwRLyVXbk0AeRaq8soNdDDP3sOEUdoMMk8Q4mQmyTJzBhIjt2Lg7WvkyjtvLxXq5ubn/lVQF9NbSqwDumloDcPIbWrm/h5cNq99dq0ehQRXU5TCXhzD4JcozskhJloRFbmetPc+M02520LngIki7NJJc36ICnnWr0gP5WWiwEeskrvFR8zrUBaOIyGSy6+k5ZAVvCKsdM9I5OPwFpByjpKGWvtDRsIoCBVoNyHG1Bec0hhudKh2p6arH+bxxcXSZACodAKF8hoT0xFcviDXY+oI5dwhnk255Br6Po2B5dwNUHWgKB6lboHwF2z+eAobdKljhu917tf6QNfZplaxhZQnWBNXcpy1MkmvYAmnBp+GQMXKJMaNsa+tIR1L0PTPWSpcuopWnQIVzuRhf/W1HtUhAF9+DsVwBDlrPy7OLcjQQ5U5nSk1V+5cnE88FhZ3cglxQsFz5VTLxByTy/rq28uRjpcoXs/324ORPkkRD/yYqom/UfLie19FjjbtSs=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(56012099006)(11063799006)(3023799007)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?gRcwugeXgRMpsKrY4RzT6MNtso6D2NYvAzhoYovBbzU0HRiBFEcK3pmaZcrs?=
+ =?us-ascii?Q?MsN8ySeKeOnSzCXPillSTnUUgmihHPaaEh68PlFxrrTNj7e7GFaIRwRNCbhr?=
+ =?us-ascii?Q?llbTsGowyVvsgQZrBy0PlziSPqyVaciWxRaMf8vOHCysOvpH+mt8D2QzJ722?=
+ =?us-ascii?Q?S9+FkI6Ho/AzxVU1hzpN/EoAghBKMxBhVOYieEyrjAUZ0y1Xil77Cx2iJcU9?=
+ =?us-ascii?Q?F1/aZ0WEUGths5879TWzCOFkoS3qcwKisAULiMGmQPthLtC5GTV9VioHSCtT?=
+ =?us-ascii?Q?sFnBRLjSLJLGj0CCAQloz88OsPvYP72+W40Mw4VykpJ9m0i8KiRpdWNANL9k?=
+ =?us-ascii?Q?7zb6sX9cL2VPlYmtNPyoeIOUyoIF3CkvzV0wBPpvPnvRabePIr2R+x5BUwNK?=
+ =?us-ascii?Q?wzBJ8RTYSF3EtMoApFzw8wl8jyTAOenJScu1GJkB2r3GPQ6M4L4+0baZvPi1?=
+ =?us-ascii?Q?BSv6LbyLErjvbw+cNKY2C0dM9AFZ0sT/bJFWfvuJNTGqd9+0yizhLdPIGgOF?=
+ =?us-ascii?Q?0lPJ0YhA6NNoNLbj7HJNHR3OTtKBMMl/Ox4z3yrcMYRwPSQ9264FKojtr44k?=
+ =?us-ascii?Q?66pPAO+rMYhxvQZQ/m5xwL3/CvWJ7GreJcT16kdPMxP0C14Z6U8/1yt1qs3L?=
+ =?us-ascii?Q?L0cbYY6z7QOzDPVZGWsO+/Cy5Z8kEKLr7jwbJsxsbEIA6JEymX3h7gj0v4Hb?=
+ =?us-ascii?Q?BCvwzH2cAKIOGHe27irK9RwwvG3ZLjrcSsFtVTWl/6JL25ibUrDCWtBo+hJt?=
+ =?us-ascii?Q?dWxUEg5WOtxkpRkWprWors/TmN75zXY1DzQcAUbf731ILaNquTYkoSHiZTEC?=
+ =?us-ascii?Q?BNB9wvWutOcDQ5S1IavLwApirCIbHnfPcPwzAhVV817pxa+OQ27zGVkHaLaO?=
+ =?us-ascii?Q?um3AFUi+6wWJYG9P+cp0PPDw8asmB2GHt5UrIYcH8Xp0B/W1JWtULoB4NIGh?=
+ =?us-ascii?Q?qSB4TYVqEl/7cWiqe4XfOh1kBPfIHXquTkklMNVyVgNmC1CGlOF/PTKUAaS2?=
+ =?us-ascii?Q?sz0lLv5pjDF4YNzT+5lFpfqXgjfJsGU3bI1L7iKKQ2NX+KUefCdCVfXJNoZM?=
+ =?us-ascii?Q?/PQjz6WuLCM6lLXpONYlFz4C6nSO7znMpwqPD6qXdunsP1HJMcXzUTCMJMGO?=
+ =?us-ascii?Q?YhKazcfe5lgpU+OeFA7DZzbm6QEmapMhu6wD7FJwbwRT3ASvq1BEI+XGu7Mj?=
+ =?us-ascii?Q?d9X4Z8iwnwDIexcQX1YbPvPzArwzCQy4aZ/8o5uFaqgOVyaRWAC+dcZ00MZ0?=
+ =?us-ascii?Q?/vX2fIoMfK7zBxJSsA9qHOgucmN3MXKmqRRay0x2bguDcttSFY4WiGdCIR0q?=
+ =?us-ascii?Q?O9otqsQztO3UMOqjDJaCQgH6Ul2F1H1tn+trS/Q88P0HUqKLT6D31I0RQmBn?=
+ =?us-ascii?Q?U8gl/utkY9cQnBlr66yFf4DpuPrtCWqxSvgXaIr2vMySLBjM0bLBtXhjAwEc?=
+ =?us-ascii?Q?OMdvH95hAQTEgw+paeDC6/GruWCLICeG0GpOxPpnbfRghRJcAsf/ufe2pszZ?=
+ =?us-ascii?Q?bagmgX+rW1iGVpWxaVZBnIhqXmosdDC2qcLSl6bUE0mNLICnAJ2m5/1EGz58?=
+ =?us-ascii?Q?sqpv9frdqxiglcx6IYuHav5dCjdf+eTCSLh3wVsstKv9nu+Xhfzs53anRzKx?=
+ =?us-ascii?Q?BpU22ix+jB0FPSRVB0BytEvimumThgsnVD/xDPr0ZEhUiYB8aJdfVx+LnJBS?=
+ =?us-ascii?Q?g6tsnqotfO5a5KXAukhPlGjaBeM6yq/j418ywc/F6zA3AjM9cwDRdRTcLUmM?=
+ =?us-ascii?Q?O6bRE+cV9MeRRkIymlBCeLIra3Ckfzs=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fa02dc9-d3b7-4799-3682-08ded11d7ebb
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2026 11:49:34.4991
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AD9x6htvlZXPubMePqUEmrPXPCFK9dvSYoUyxHlsY0STpL1gQr1lf/bEbhsofqMUi9lyuiULstirA1RyR6ecjTANpsu2p2N7TowNWK/So0Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4P189MB2416
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 11:31:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239350
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 11:49:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239357
 
-From: Anil Dongare <adongare@cisco.com>
-
-Pick the upstream fix [1] for CVE-2026-34980 as mentioned in [2], where
-the scheduler did not filter control characters from option values.
-
-Also include the upstream regression fixes that followed the CVE fix:
-
-- CVE-2026-34980-regression_p1.patch [3] fixes filter PPD keyword
-  processing. The CVE fix parsed PPD keywords into a temporary array,
-  but the loop did not advance the keyword pointer. This regression was
-  reported in OpenPrinting/cups Issue [4].
-- CVE-2026-34980-regression_p2.patch [5] fixes a get_options() regression
-  where the option-value parser did not advance the input pointer for
-  whitespace/control-character paths.
-
-[1] https://github.com/OpenPrinting/cups/commit/8d0f51cac24cb5bf949c5b6a221e51a150d982e3
-[2] https://security-tracker.debian.org/tracker/CVE-2026-34980
-[3] https://github.com/OpenPrinting/cups/commit/3f2bdc293243bca938c6de23ba50e6d783189629
-[4] https://github.com/OpenPrinting/cups/issues/1562
-[5] https://github.com/OpenPrinting/cups/commit/52cfb028dc211a0fd9ba6fe6eba6d482ccc6c9af
-
-Signed-off-by: Anil Dongare <adongare@cisco.com>
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- meta/recipes-extended/cups/cups.inc           |  3 +
- .../cups/CVE-2026-34980-regression_p1.patch   | 31 ++++++
- .../cups/CVE-2026-34980-regression_p2.patch   | 75 ++++++++++++++
- .../cups/cups/CVE-2026-34980.patch            | 97 +++++++++++++++++++
- 4 files changed, 206 insertions(+)
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-34980-regression_p1.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-34980-regression_p2.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-34980.patch
+ .../curl/curl/CVE-2026-5773.patch             | 44 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5773.patch
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index e06bbc0a2a..dc5b971195 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -24,6 +24,9 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
-            file://CVE-2026-27447-regression_p1.patch \
-            file://CVE-2026-27447-regression_p2.patch \
-            file://CVE-2026-34978.patch \
-+           file://CVE-2026-34980.patch \
-+           file://CVE-2026-34980-regression_p1.patch \
-+           file://CVE-2026-34980-regression_p2.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2026-34980-regression_p1.patch b/meta/recipes-extended/cups/cups/CVE-2026-34980-regression_p1.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-5773.patch b/meta/reci=
+pes-support/curl/curl/CVE-2026-5773.patch
 new file mode 100644
-index 0000000000..9290a0e637
+index 0000000000..b89efe80e4
 --- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2026-34980-regression_p1.patch
-@@ -0,0 +1,31 @@
-+From 3f2bdc293243bca938c6de23ba50e6d783189629 Mon Sep 17 00:00:00 2001
-+From: Michael R Sweet <msweet@msweet.org>
-+Date: Tue, 28 Apr 2026 17:42:41 -0400
-+Subject: [PATCH] Fix filter PPD keyword processing (Issue #1562)
++++ b/meta/recipes-support/curl/curl/CVE-2026-5773.patch
+@@ -0,0 +1,44 @@
++From f13ce17168e6d37b3c6d1116a4fd8f2424c2c1d2 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Sun, 5 Apr 2026 18:23:35 +0200
++Subject: [PATCH] smb: disable connection reuse
 +
-+CVE: CVE-2026-34980
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/3f2bdc293243bca938c6de23ba50e6d783189629]
++Connections should only be reused when using the same "share" (and
++perhaps some additional conditions), but instead of fixing this flaw,
++this change completely disables connection reuse for SMB.
 +
-+(cherry picked from commit 3f2bdc293243bca938c6de23ba50e6d783189629)
-+Signed-off-by: Anil Dongare <adongare@cisco.com>
++Reported-by: Osama Hamad
++Closes #21238
++
++Signed-off-by: Daniel Stenberg <daniel@haxx.se>
++
++CVE: CVE-2026-5773
++Upstream-Status: Backport [https://github.com/curl/curl/commit/74a169575d6=
+412dc0ff532acdf94de35a6c2a571]
++
++(cherry picked from commit 74a169575d6412dc0ff532acdf94de35a6c2a571)
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ scheduler/job.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ lib/smb.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/scheduler/job.c b/scheduler/job.c
-+index 895b2d9..915ba94 100644
-+--- a/scheduler/job.c
-++++ b/scheduler/job.c
-+@@ -5419,7 +5419,7 @@ update_job(cupsd_job_t *job)		/* I - Job to check */
-+       keywords     = NULL;
-+       num_keywords = cupsParseOptions(message, 0, &keywords);
-+ 
-+-      for (i = 0, keyword = keywords; i < num_keywords; i ++)
-++      for (i = 0, keyword = keywords; i < num_keywords; i ++, keyword ++)
-+       {
-+        /*
-+         * Filter out "special" PPD keywords...
-+-- 
-+2.43.7
-+
-+
-diff --git a/meta/recipes-extended/cups/cups/CVE-2026-34980-regression_p2.patch b/meta/recipes-extended/cups/cups/CVE-2026-34980-regression_p2.patch
-new file mode 100644
-index 0000000000..73846cb8a3
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2026-34980-regression_p2.patch
-@@ -0,0 +1,75 @@
-+From 52cfb028dc211a0fd9ba6fe6eba6d482ccc6c9af Mon Sep 17 00:00:00 2001
-+From: Michael R Sweet <msweet@msweet.org>
-+Date: Wed, 8 Apr 2026 16:42:48 -0400
-+Subject: [PATCH] Fix get_options regression (Issue #1532)
-+
-+CVE: CVE-2026-34980
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/52cfb028dc211a0fd9ba6fe6eba6d482ccc6c9af]
-+
-+(cherry picked from commit 52cfb028dc211a0fd9ba6fe6eba6d482ccc6c9af)
-+Signed-off-by: Anil Dongare <adongare@cisco.com>
-+---
-+ scheduler/job.c |  4 ++--
-+ test/5.5-lp.sh  | 10 +++++-----
-+ 2 files changed, 7 insertions(+), 7 deletions(-)
-+
-+diff --git a/scheduler/job.c b/scheduler/job.c
-+index 6b9d366..cf019e1 100644
-+--- a/scheduler/job.c
-++++ b/scheduler/job.c
-+@@ -4144,7 +4144,7 @@ get_options(cupsd_job_t *job,		/* I - Job */
-+ 	  case IPP_TAG_CHARSET :
-+ 	  case IPP_TAG_LANGUAGE :
-+ 	  case IPP_TAG_URI :
-+-	      for (valptr = attr->values[i].string.text; *valptr;)
-++	      for (valptr = attr->values[i].string.text; *valptr; valptr ++)
-+ 	      {
-+ 	       /*
-+ 	        * Convert tabs and newlines to spaces, filter out control chars,
-+@@ -4159,7 +4159,7 @@ get_options(cupsd_job_t *job,		/* I - Job */
-+ 	        {
-+ 	          if (strchr("\\\'\"", *valptr))
-+ 		    *optptr++ = '\\';
-+-		  *optptr++ = *valptr++;
-++		  *optptr++ = *valptr;
-+ 		}
-+ 	      }
-+ 
-+diff --git a/test/5.5-lp.sh b/test/5.5-lp.sh
-+index 25e9d65..fe60890 100644
-+--- a/test/5.5-lp.sh
-++++ b/test/5.5-lp.sh
-+@@ -2,7 +2,7 @@
-+ #
-+ # Test the lp command.
-+ #
-+-# Copyright © 2020-2024 by OpenPrinting.
-++# Copyright © 2020-2026 by OpenPrinting.
-+ # Copyright © 2007-2019 by Apple Inc.
-+ # Copyright © 1997-2005 by Easy Software Products, all rights reserved.
-+ #
-+@@ -72,8 +72,8 @@ echo ""
-+ 
-+ echo "LP Flood Test ($1 times in parallel)"
-+ echo ""
-+-echo "    lp -d Test1 testfile.jpg"
-+-echo "    lp -d Test2 testfile.jpg"
-++echo "    lp -d Test1 -t 'Flood Test N' testfile.jpg"
-++echo "    lp -d Test2 -t 'Flood Test N' testfile.jpg"
-+ i=0
-+ pids=""
-+ while test $i -lt $1; do
-+@@ -83,9 +83,9 @@ while test $i -lt $1; do
-+ 		j=`expr $j + 1`
-+ 	done
-+ 
-+-	$runcups $VALGRIND ../systemv/lp -d Test1 ../examples/testfile.jpg 2>&1 &
-++	$runcups $VALGRIND ../systemv/lp -d Test1 -t "Flood Test $j" ../examples/testfile.jpg 2>&1 &
-+ 	pids="$pids $!"
-+-	$runcups $VALGRIND ../systemv/lp -d Test2 ../examples/testfile.jpg 2>&1 &
-++	$runcups $VALGRIND ../systemv/lp -d Test2 -t "Flood Test $j" ../examples/testfile.jpg 2>&1 &
-+ 	pids="$pids $!"
-+ 
-+ 	i=`expr $i + 1`
-+-- 
-+2.43.7
-diff --git a/meta/recipes-extended/cups/cups/CVE-2026-34980.patch b/meta/recipes-extended/cups/cups/CVE-2026-34980.patch
-new file mode 100644
-index 0000000000..286e9cd517
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2026-34980.patch
-@@ -0,0 +1,97 @@
-+From e206c7643a7574cab2e9457eac4c9f755dbf44ff Mon Sep 17 00:00:00 2001
-+From: Michael R Sweet <msweet@msweet.org>
-+Date: Tue, 31 Mar 2026 14:45:13 -0400
-+Subject: [PATCH] Filter out control characters from option values.
-+
-+CVE: CVE-2026-34980
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/8d0f51cac24cb5bf949c5b6a221e51a150d982e3]
-+
-+Backport Changes:
-+- Rebase CHANGES.md placement and scheduler/job.c option-handling context to
-+  the CUPS 2.4.11 source carried by this recipe.
-+
-+(cherry picked from commit 8d0f51cac24cb5bf949c5b6a221e51a150d982e3)
-+Signed-off-by: Anil Dongare <adongare@cisco.com>
-+---
-+ CHANGES.md      |  2 ++
-+ scheduler/job.c | 41 +++++++++++++++++++++++++++++++++++------
-+ 2 files changed, 37 insertions(+), 6 deletions(-)
-+
-+diff --git a/CHANGES.md b/CHANGES.md
-+index 7e24840..9863c17 100644
-+--- a/CHANGES.md
-++++ b/CHANGES.md
-+@@ -9,6 +9,8 @@ Changes in CUPS v2.4.10 (2024-06-18)
-+ - Fixed cupsd crash if user does not exist (Issue #1555)
-+ - CVE-2026-34978: The RSS notifier could write outside the scheduler's RSS
-+   directory.
-++- CVE-2026-34980: The scheduler did not filter control characters from option
-++  values.
-+ - Fixed error handling when reading a mixed `1setOf` attribute.
-+ - Fixed scheduler start if there is only domain socket to listen on (Issue #985)
-+ 
-+diff --git a/scheduler/job.c b/scheduler/job.c
-+index 822a247..895b2d9 100644
-+--- a/scheduler/job.c
-++++ b/scheduler/job.c
-+@@ -4121,9 +4121,21 @@ get_options(cupsd_job_t *job,		/* I - Job */
-+ 	  case IPP_TAG_URI :
-+ 	      for (valptr = attr->values[i].string.text; *valptr;)
-+ 	      {
-+-	        if (strchr(" \t\n\\\'\"", *valptr))
-+-		  *optptr++ = '\\';
-+-		*optptr++ = *valptr++;
-++	       /*
-++	        * Convert tabs and newlines to spaces, filter out control chars,
-++	        * and escape \, ', and ".
-++	        */
-++
-++	        if (isspace(*valptr & 255))
-++	        {
-++	          *optptr++ = ' ';
-++	        }
-++	        else if ((*valptr & 255) >= ' ' && *valptr != 0x7f)
-++	        {
-++	          if (strchr("\\\'\"", *valptr))
-++		    *optptr++ = '\\';
-++		  *optptr++ = *valptr++;
-++		}
-+ 	      }
-+ 
-+ 	      *optptr = '\0';
-+@@ -5394,13 +5409,30 @@ update_job(cupsd_job_t *job)		/* I - Job to check */
-+     else if (loglevel == CUPSD_LOG_PPD)
-+     {
-+      /*
-+-      * Set attribute(s)...
-++      * Set PPD keyword(s)/value(s)...
-+       */
-+ 
-++      int		i,		/* Looping var */
-++			num_keywords;	/* Number of keywords */
-++      cups_option_t	*keywords,	/* Keywords */
-++			*keyword;	/* Current keyword */
-++
-+       cupsdLogJob(job, CUPSD_LOG_DEBUG, "PPD: %s", message);
-+ 
-+-      job->num_keywords = cupsParseOptions(message, job->num_keywords,
-+-                                           &job->keywords);
-++      keywords     = NULL;
-++      num_keywords = cupsParseOptions(message, 0, &keywords);
-++
-++      for (i = 0, keyword = keywords; i < num_keywords; i ++)
-++      {
-++       /*
-++        * Filter out "special" PPD keywords...
-++        */
-++
-++        if (strcmp(keyword->name, "cupsFilter") && strcmp(keyword->name, "cupsFilter2") && strcmp(keyword->name, "cupsFinishingTemplate") && strcmp(keyword->name, "cupsIPPFinishings") && strcmp(keyword->name, "cupsIPPReason") && strcmp(keyword->name, "cupsMarkerName") && strcmp(keyword->name, "cupsMaxSize") && strncmp(keyword->name, "cupsMediaQualifier", 18) && strcmp(keyword->name, "cupsMinSize") && strcmp(keyword->name, "cupsPageSizeCategory") && strcmp(keyword->name, "cupsPortMonitor") && strcmp(keyword->name, "cupsPreFilter") && strcmp(keyword->name, "cupsPrintQuality") && strcmp(keyword->name, "APPrinterPreset"))
-++          job->num_keywords = cupsAddOption(keyword->name, keyword->value, job->num_keywords, &job->keywords);
-++      }
-++
-++      cupsFreeOptions(num_keywords, keywords);
-+     }
-+     else
-+     {
-+-- 
-+2.43.7
--- 
-2.44.4
++diff --git a/lib/smb.c b/lib/smb.c
++index 00297ad..c15fdce 100644
++--- a/lib/smb.c
+++++ b/lib/smb.c
++@@ -1242,7 +1242,7 @@ const struct Curl_scheme Curl_scheme_smb =3D {
++ #endif
++   CURLPROTO_SMB,                        /* protocol */
++   CURLPROTO_SMB,                        /* family */
++-  PROTOPT_CONN_REUSE,                   /* flags */
+++  PROTOPT_NONE,                         /* flags */
++   PORT_SMB,                             /* defport */
++ };
++=20
++@@ -1259,6 +1259,6 @@ const struct Curl_scheme Curl_scheme_smbs =3D {
++ #endif
++   CURLPROTO_SMBS,                       /* protocol */
++   CURLPROTO_SMB,                        /* family */
++-  PROTOPT_SSL | PROTOPT_CONN_REUSE,     /* flags */
+++  PROTOPT_SSL,                          /* flags */
++   PORT_SMBS,                            /* defport */
++ };
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-suppor=
+t/curl/curl_8.19.0.bb
+index d58b774011..3326f478b5 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -15,6 +15,7 @@ SRC_URI =3D " \
+     file://disable-tests \
+     file://no-test-timeout.patch \
+     file://CVE-2026-6276.patch \
++    file://CVE-2026-5773.patch \
+     file://mbedtls.patch \
+ "
+=20
+--=20
+2.34.1
 
 
