@@ -1,93 +1,110 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 784E5CD98F2
-	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 12:00:54 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19453.1782216049943566890
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A7CCCD98F2
+	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 12:08:44 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19593.1782216516081917639
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 05:00:50 -0700
+ Tue, 23 Jun 2026 05:08:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rv7DU/sO;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=hcjPy9ld;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019ef45ac152-5ea2e509-1e93-4519-b63d-b3cf51244b91-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1782216049; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=GqyQUJ1FW/IPZBRNICDijyUeMSCF7oN8h0u/2h0MJFA=;
-	b=rv7DU/sOmgfZBH9bNFJyZolNs11f2snD3PLEjN3kHP14MoIvOkFdB5+CYyMmJVeI
-	XaP819b3F6CnXTnXPQLhyojdLN2xbydDn792coeaZ0KcptwnwiVrv0ZXI3PnRHESbb+
-	b0FmXJQAqbgfqN1lwGSP26OKdQPalTGDwTml5M3U=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782216049;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=GqyQUJ1FW/IPZBRNICDijyUeMSCF7oN8h0u/2h0MJFA=;
-	b=hcjPy9ldnQTnwsumUMUz80hcRDKDTOzXg0E7oIHxxtWRL2l2nsGkQ9l83V7KG5fG
-	bMTy++g4xmZASTiujfkfLG618cvY9VYYx6a0SYbQWeI/XsTsd+9hnxBM7bKwPEiUjx1
-	Ld6oC8bnPvdHmohCnwyQvnkznd23Hgwdl0giXhko=
-From: patchtest@automation.yoctoproject.org
-To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [wrynose][PATCH] curl: fix CVE-2026-5773 - wrong reuse of SMB
- connection
-In-Reply-To: <20260623114926.27459-1-jaipaul.cheernam@est.tech>
-References: <20260623114926.27459-1-jaipaul.cheernam@est.tech>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019ef45ac152-5ea2e509-1e93-4519-b63d-b3cf51244b91-000000@us-west-2.amazonses.com>
-Date: Tue, 23 Jun 2026 12:00:48 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.23-54.240.27.193
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=cKY5CI/E;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: joaomarcos.costa@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 7FD28C6B385;
+	Tue, 23 Jun 2026 12:08:41 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 02DAD601C2;
+	Tue, 23 Jun 2026 12:08:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B1A9C106C83D2;
+	Tue, 23 Jun 2026 14:08:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1782216513; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=3CWm6TLNsHuK4qLa9HeRwSwY8gT6RFo/A3G5UJrjnVQ=;
+	b=cKY5CI/E5DT1lwYZUpQ5/3fnZWyNzkUQVF7O+Kx+3jwkX7hTXLSPajkbdsq0qnSpQr35sA
+	Jni0Y8XsMWI+IL6qskY4hbJwHdDhWi5yak/zaQEDVVnzoB6BTXY5OkOosAuUt/M9WPpslS
+	qTCpFmj8dCMvu6OymfWKaQ4x+Bepr8hovYHM/cVjg49qj8+nAzwq4cORiYOk4pedISX7qO
+	FiXhtMjw6RRBeVcgkGWDEGI53doUPuogFQKz39dpQRLZHKLJZacktvDktkDyeIiqVXCK8A
+	qS3bABPkv5MpQP0rhQzlppRYDdDvzD2obShOFmcwvjjH2arcDOUq6QDUl1vDgQ==
+From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: thomas.petazzoni@bootlin.com,
+	raj.khem@gmail.com,
+	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
+Subject: [PATCH v2 0/5] llvm/clang: fix some syntax issues in llvm-project-source
+Date: Tue, 23 Jun 2026 14:08:13 +0200
+Message-ID: <20260623120818.110754-1-joaomarcos.costa@bootlin.com>
+X-Mailer: git-send-email 2.47.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 12:00:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239358
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 12:08:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239359
 
---NextPart
-Content-Type: text/plain
+Hello,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+I faced some strange build issues when switching from one distro to anoth=
+er
+(i.e. DISTRO=3D"poky" to DISTRO=3D"foobar"), even after adding "foobar"
+("foobar:foobar" actually) to CLANG_EXTRA_OE_DISTRO. I started investigat=
+ing
+what was wrong, and I believe the order of pathes in this series reflects=
+ pretty
+well what specific issue I stumbled upon and what was the next one, on an=
+d on.
 
----
-Testing patch /home/patchtest/share/mboxes/wrynose-curl-fix-CVE-2026-5773---wrong-reuse-of-SMB-connection.patch
+The error message was:
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+/src/build/tmp/work/riscv64imafdc-foobar-linux/libcxx/22.1.3/recipe-sysro=
+ot-native/usr/bin/riscv64-foobar-linux/riscv64-foobar-linux-ld: cannot fi=
+nd crtbeginS.o: No such file or directory
+/src/build/tmp/work/riscv64imafdc-foobar-linux/libcxx/22.1.3/recipe-sysro=
+ot-native/usr/bin/riscv64-foobar-linux/riscv64-foobar-linux-ld: cannot fi=
+nd -lstdc++: No such file or directory
+/src/build/tmp/work/riscv64imafdc-foobar-linux/libcxx/22.1.3/recipe-sysro=
+ot-native/usr/bin/riscv64-foobar-linux/riscv64-foobar-linux-ld: cannot fi=
+nd -lgcc: No such file or directory
+riscv64-foobar-linux-clang++: error: linker command failed with exit code=
+ 1 (use -v to see invocation)
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+As far as I understand, this is precisely what do_preconfigure (+ some pa=
+tches)
+is supposed to handle, so at first it looked like a regression, but it se=
+ems the
+error only reproduces when switching distros.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+For some context, I was building something with
+PREFERRED_TOOLCHAIN_TARGET=3D"clang", using wrynose branch. If I use the =
+custom
+distro from the beginning (so no switching), everything works fine (as ex=
+pected).
 
----
+Best regards,
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Changes in v2:
+- squashed the patch* into 0016-llvm-clang-Insert-anchor-for-adding-OE-di=
+stro-vendor.patch
+- added vardeps to do_unpack as well (5th patch)
 
---NextPart
+* 0001-llvm-clang-Add-Distro-instance-to-getMultiarchTriple.patch
 
+Jo=C3=A3o Marcos Costa (5):
+  llvm-project-source.inc: fix string replacements in do_preconfigure
+  llvm-project-source.inc: fix end of line in triple variable
+  clang/llvm: add missing instance of Distro class in Linux.cpp
+  llvm-project-source.inc: add vardeps to do_preconfigure
+  llvm-project-source.inc: add vardeps to do_unpack
 
---NextPart--
+ ...t-anchor-for-adding-OE-distro-vendor.patch | 35 ++++++++++++++-----
+ .../clang/llvm-project-source.inc             |  8 +++--
+ 2 files changed, 31 insertions(+), 12 deletions(-)
+
+--=20
+2.43.0
+
 
