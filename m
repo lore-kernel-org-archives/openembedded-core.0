@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C071ECDB47C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD407CDB471
 	for <webhook@archiver.kernel.org>; Tue, 23 Jun 2026 22:27:14 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33414.1782253634345072714
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32857.1782253624821900977
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 15:27:14 -0700
+ Tue, 23 Jun 2026 15:27:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ChfT+taV;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4633193af19so296056f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 15:27:14 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=mlihI9TQ;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4924e6fda5dso1921075e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 15:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782253632; x=1782858432; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1782253623; x=1782858423; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BBaq3JZJdeGo3qyzraIALG1RjIpNe/voUNiclnJXtxg=;
-        b=ChfT+taVJf9p5gtrTL7z1ihx9snicRnwxmBEIkX4+M+tTum6V3+4LeJ0tOUtqGoDTK
-         bdOqP6Z6VBRXVPI/obPHL3ifqU0mnSFtQtsLwrR0CJ1/0GQ5ak4g877CDHPT7/G69nh9
-         HfspN7VdwT0EGDF2esX4Knle8rRbokDqHwi2o=
+        bh=0MraQ6tvhm2y7hfkdi90CD4uwdt6iTPHXX5P2IRgoHY=;
+        b=mlihI9TQ8Tj0QB+zGW8xSr6wmYkDmJrQ0U6iqy8Oh43RzVLj+z5tDSeqwEA1NdHyp5
+         9niqBjVma7Jx9LqUNya+5uWZDyYqraabf/CvLjp5PvQUJ9d0EwVZODunKcISVALocsM9
+         yww9x1fMdBRvgE9nvrNZLQKosGpFSWc5WZZas=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782253632; x=1782858432;
+        d=1e100.net; s=20251104; t=1782253623; x=1782858423;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=BBaq3JZJdeGo3qyzraIALG1RjIpNe/voUNiclnJXtxg=;
-        b=kVm2vdClNUgYllQuHKkdJDAqpNwtDvJvbTlzxlyX25dllNdoOZaN8sc4bdX5wBHn+P
-         1SPOxDBCbnkbMoxfBYPbl6nTsykH8b+LLR50hNqhhEHPoxgIV6kLT5lENLalMuKCTCDs
-         KD0YK0gUpKAg8/8pke1v1eIMR5CWv2Mu4CZFrET67eyXj2MJ/P2ff6j1DI9xL9eFG+sf
-         jpVSGBlkDxrZCqnEQQLZ+y641Ebp4bEfEDwUvy81TaAe2tP391XvX6kR9xgioL01nusc
-         r62ZMAmbTfn7bcxmGE66m4Pfe74BB/oDNOjF0gt4EpL9zGAXtBvGleouVyB4g+z52CLU
-         bpSQ==
-X-Gm-Message-State: AOJu0YwM70bHOGDozTVObVGtKXFCh8rEJ9czlBdxHrxc0ZsrRJCgCaBh
-	wfcPa61ssQq39b+7SsgwyTYGBbZhIu2dVE3z7B+tsvyGg6DHTyrXOup/8hn6KU0wky3ewxj1zO3
-	oIR9I
-X-Gm-Gg: AfdE7ckQy1B4pAtF1vmSpEwwfXAorarCjmVjssYmsEF/QA++Kaq9XQUrYd93xeJN0+V
-	5JUsO3xGasz4tI8Rzn1mNeRaIPksDwnCePrvIjOl269XsiHyZyjlsE1L70o2iYvhdAdUyGpjBB7
-	qUrMRm9G7959w4qCClxJOUQ5K3dWrD3tcvEk9ayzzrjaF+ENZp1JcrCGR1ZbVqunaoQwXp2CLVc
-	kOrHIL14ZJWuQIRWS4neHYyWmFmjF1UwWMbSl3ZSOpuF9BJ3cZ6lVjyuYcTC+JIkzy/TFejUzip
-	pdeRyf9lWlfsA6AIyC9fNC3WfDw1281gxM6skpow3L8eLnkdvyVPwcS+c3ouVqtq7CmBxg/yQnz
-	DcGHpBPqnUTKYUodaUc4pMRogAXEA6OtiR5OpGxASq9ebvefqvjNlvYF5m8eSADjx9iW+mTafRq
-	QkoYBOU1L5/nOFvuDbQ7UGMHh8GuHg4Us3MMN0sNGAmU1OSmMciyYw/D6PLq1WNxHtzz6Qfg17y
-	8TZuFwi6BTLFjEi
-X-Received: by 2002:a05:600c:698d:b0:490:d354:bd00 with SMTP id 5b1f17b1804b1-492490ae3a4mr246000615e9.25.1782253632430;
-        Tue, 23 Jun 2026 15:27:12 -0700 (PDT)
+        bh=0MraQ6tvhm2y7hfkdi90CD4uwdt6iTPHXX5P2IRgoHY=;
+        b=jK7BcRnA7doOGxWI6R+zJk3Pb5tITOOXjuDW55Ln2Y4tcDXGPjcbtMlD7mZ+7rqwck
+         v7jMlAFq+KgqcM8yg45h0uYWp5oPwyKLHglYJv4D+y6e2oKiaJXpOVVDruL6o5AspxL8
+         qbKqvUrgnr6Xw10nD/e3FKLI1KOLYVbhFlnK6hrESmiBpCP/Dt8DQjfU7iSUW3QzEZ6s
+         Of6c4bEm57harbo7BxU7YTKcvchoH+SOog9JL65tq06+fkWl+GG2unnjbK9fW9eXoMRl
+         tVoCVbuCCX/IgByEzHLooVJtt53aTp2qH8KXti5N/AFzbzqAC6j+vMEnIqesumveW9hL
+         BmTQ==
+X-Gm-Message-State: AOJu0YzfdGUptwaG+vakIoygI+rZBQmzb63lrf6TfG8bf73fh14mHzWh
+	bErFyyl9+0iqmyzVYo/XhJ0g5I5jUWc3gXPOIACNHzR9kkGU8LNTHqHsTCUPeLWB5ekIJskBIN/
+	st9wN
+X-Gm-Gg: AfdE7clxJtXPhjYjLAyUPFPr1fJfHMgruYzglo4SLb31KxG7HTALtIb51wyf0w+6Io7
+	1VZPV5HTbKYA4wWVHTWwYbFyCtNZ0A4xMjRjF0NdaspKfDKA2Px/uLXQytxWxL7CSx4sl6hDxwo
+	+uxkQsqJGCaBv+oHm0jJMs7zcwZdX20AS9ytErULipcyeJElmWG1xXjRqe7bp85w1UIh7iKyZ1e
+	Le1NXoAf1pkQbNvWzxR5EPhD4YBTEK4hmrFtj1E9dobuwErP+d0QFGobau2XnPsDR1TV2qZRiR3
+	iFUp/9uUDkYqck6BK8mpZmLgOozzT0JEPZ1Zoj11Qj3BpIxr44MVe/hxCsot0XdBcX4ncTgoYe1
+	ldiclhIe2nymUHKY3FUhJhwpdPTljZ1oS4Mvf/qf9TW4IrmGLA2gn4472Y54KqDgqDH358wRtq3
+	hraZN1Ey2J6tTz94NPvisu1CYXK3W3EPHu8BLFJAROMxyOLOjk6aWURsh7a9egvTcMNRF9zGjOq
+	onijT/nKAa3gXNN
+X-Received: by 2002:a05:600c:8b4c:b0:490:be1e:6ce6 with SMTP id 5b1f17b1804b1-4924908ab39mr252834345e9.9.1782253622890;
+        Tue, 23 Jun 2026 15:27:02 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa0055dd0cae868d89dd.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:55dd:cae:868d:89dd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fd21dbdsm370786745e9.6.2026.06.23.15.27.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fd21dbdsm370786745e9.6.2026.06.23.15.27.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 15:27:12 -0700 (PDT)
+        Tue, 23 Jun 2026 15:27:02 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap v2 27/41] oeqa/runtime/parselogs: update pci BAR ignore for kernel 6.10
-Date: Wed, 24 Jun 2026 00:26:26 +0200
-Message-ID: <004fc06a7792592f3847d92fc464347a279f998c.1782252148.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap v2 10/41] python3: Fix CVE-2026-6019
+Date: Wed, 24 Jun 2026 00:26:09 +0200
+Message-ID: <e17af14ae72e21f7f63407ba5c88da160c73bea9.1782252148.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1782252148.git.yoann.congal@smile.fr>
 References: <cover.1782252148.git.yoann.congal@smile.fr>
@@ -66,58 +66,318 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 22:27:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239449
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239432
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 
-The format of the pci BAR warnings we get on qemu boots has
-changed in 6.10+ via the following kernel commit:
+This patch applies the upstream fix [1] and follow-up fix [2], as
+referenced in [3] and [4], to address an http.cookies.Morsel.js_output()
+flaw where inline JavaScript output escaped quotes but did not neutralize
+the HTML parser-sensitive </script> sequence.
 
-    commit dc4e6f21c3f844ebc1c52b6920b8ec5dfc73f4e8
-    Author: Puranjay Mohan <puranjay@kernel.org>
-    Date:   Sat Nov 6 16:56:06 2021 +0530
+[1] https://github.com/python/cpython/commit/3c59b8b53fc75c7f9578d16fb8201ceb43e8f76c
+[2] https://github.com/python/cpython/commit/e7d4c3ff421916986223690a8425d2383f6f3802
+[3] https://github.com/python/cpython/issues/149144
+[4] https://security-tracker.debian.org/tracker/CVE-2026-6019
 
-        PCI: Use resource names in PCI log messages
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-6019
 
-        Use the pci_resource_name() to get the name of the resource and use it
-        while printing log messages.
-
-        [bhelgaas: rename to match struct resource * names, also use names in other BAR messages]
-        Link: https://lore.kernel.org/r/20211106112606.192563-3-puranjay12@gmail.com
-        Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
-        Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-
-Since it doesn't appear that we can do regex's in parselogs
-and the bar number is now in the middle of the message, we
-go with a slightly wider format of the message to ignore.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0a7126604b6536868600d43aff000a426384995c)
-[YC: In scarthgap, the breaking backported commit is in >=6.6.130:
-fffdb0fece19 ("PCI: Use resource names in PCI log messages")]
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/lib/oeqa/runtime/cases/parselogs-ignores-qemuall.txt | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../python/python3/CVE-2026-6019_p1.patch     | 133 ++++++++++++++++++
+ .../python/python3/CVE-2026-6019_p2.patch     | 129 +++++++++++++++++
+ .../python/python3_3.12.13.bb                 |   2 +
+ 3 files changed, 264 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-6019_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-6019_p2.patch
 
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs-ignores-qemuall.txt b/meta/lib/oeqa/runtime/cases/parselogs-ignores-qemuall.txt
-index b0c0fc9ddf4..143db40d63b 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs-ignores-qemuall.txt
-+++ b/meta/lib/oeqa/runtime/cases/parselogs-ignores-qemuall.txt
-@@ -13,6 +13,14 @@ FBIOPUT_VSCREENINFO failed, double buffering disabled
- # pci 0000:00:00.0: [Firmware Bug]: reg 0x20: invalid BAR (can't size)
- # pci 0000:00:00.0: [Firmware Bug]: reg 0x24: invalid BAR (can't size)
- invalid BAR (can't size)
-+# 6.10+ the invalid BAR warnings are of this format:
-+# pci 0000:00:00.0: [Firmware Bug]: BAR 0: invalid; can't size
-+# pci 0000:00:00.0: [Firmware Bug]: BAR 1: invalid; can't size
-+# pci 0000:00:00.0: [Firmware Bug]: BAR 2: invalid; can't size
-+# pci 0000:00:00.0: [Firmware Bug]: BAR 3: invalid; can't size
-+# pci 0000:00:00.0: [Firmware Bug]: BAR 4: invalid; can't size
-+# pci 0000:00:00.0: [Firmware Bug]: BAR 5: invalid; can't size
-+invalid; can't size
+diff --git a/meta/recipes-devtools/python/python3/CVE-2026-6019_p1.patch b/meta/recipes-devtools/python/python3/CVE-2026-6019_p1.patch
+new file mode 100644
+index 00000000000..78b01574c91
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2026-6019_p1.patch
+@@ -0,0 +1,133 @@
++From be751c3f3a11d40c2133bee5fb6ab6931df31936 Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Thu, 23 Apr 2026 15:05:17 +0200
++Subject: [PATCH] [3.13] gh-90309: Base64-encode cookie values embedded in
++ JS (GH-148888)
++
++CVE: CVE-2026-6019
++Upstream-Status: Backport [https://github.com/python/cpython/commit/3c59b8b53fc75c7f9578d16fb8201ceb43e8f76c]
++
++Backport Changes:
++- This file is not present in the current version and is therefore omitted.
++  Misc/NEWS.d/next/Security/2026-04-21-13-46-30.gh-issue-90309.srvj9q.rst
++
++(cherry picked from commit 76b3923d688c0efc580658476c5f525ec8735104)
++
++Co-authored-by: Seth Larson <seth@python.org>
++(cherry picked from commit 3c59b8b53fc75c7f9578d16fb8201ceb43e8f76c)
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++---
++ Lib/http/cookies.py           |  8 ++++++--
++ Lib/test/test_http_cookies.py | 29 ++++++++++++++++++-----------
++ 2 files changed, 24 insertions(+), 13 deletions(-)
++
++diff --git a/Lib/http/cookies.py b/Lib/http/cookies.py
++index 63d119ad46c..aebc2a163e4 100644
++--- a/Lib/http/cookies.py
+++++ b/Lib/http/cookies.py
++@@ -389,17 +389,21 @@ class Morsel(dict):
++         return '<%s: %s>' % (self.__class__.__name__, self.OutputString())
++ 
++     def js_output(self, attrs=None):
+++        import base64
++         # Print javascript
++         output_string = self.OutputString(attrs)
++         if _has_control_character(output_string):
++             raise CookieError("Control characters are not allowed in cookies")
+++        # Base64-encode value to avoid template
+++        # injection in cookie values.
+++        output_encoded = base64.b64encode(output_string.encode('utf-8')).decode("ascii")
++         return """
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = \"%s\";
+++        document.cookie = atob(\"%s\");
++         // end hiding -->
++         </script>
++-        """ % (output_string.replace('"', r'\"'))
+++        """ % (output_encoded,)
++ 
++     def OutputString(self, attrs=None):
++         # Build up our result
++diff --git a/Lib/test/test_http_cookies.py b/Lib/test/test_http_cookies.py
++index 2478a6c630f..6aa5df068f9 100644
++--- a/Lib/test/test_http_cookies.py
+++++ b/Lib/test/test_http_cookies.py
++@@ -1,5 +1,5 @@
++ # Simple test suite for http/cookies.py
++-
+++import base64
++ import copy
++ import unittest
++ import doctest
++@@ -152,17 +152,19 @@ class CookieTests(unittest.TestCase):
++ 
++         self.assertEqual(C.output(['path']),
++             'Set-Cookie: Customer="WILE_E_COYOTE"; Path=/acme')
++-        self.assertEqual(C.js_output(), r"""
+++        cookie_encoded = base64.b64encode(b'Customer="WILE_E_COYOTE"; Path=/acme; Version=1').decode('ascii')
+++        self.assertEqual(C.js_output(), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = "Customer=\"WILE_E_COYOTE\"; Path=/acme; Version=1";
+++        document.cookie = atob("{cookie_encoded}");
++         // end hiding -->
++         </script>
++         """)
++-        self.assertEqual(C.js_output(['path']), r"""
+++        cookie_encoded = base64.b64encode(b'Customer="WILE_E_COYOTE"; Path=/acme').decode('ascii')
+++        self.assertEqual(C.js_output(['path']), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = "Customer=\"WILE_E_COYOTE\"; Path=/acme";
+++        document.cookie = atob("{cookie_encoded}");
++         // end hiding -->
++         </script>
++         """)
++@@ -259,17 +261,19 @@ class CookieTests(unittest.TestCase):
++ 
++         self.assertEqual(C.output(['path']),
++                          'Set-Cookie: Customer="WILE_E_COYOTE"; Path=/acme')
++-        self.assertEqual(C.js_output(), r"""
+++        expected_encoded_cookie = base64.b64encode(b'Customer=\"WILE_E_COYOTE\"; Path=/acme; Version=1').decode('ascii')
+++        self.assertEqual(C.js_output(), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = "Customer=\"WILE_E_COYOTE\"; Path=/acme; Version=1";
+++        document.cookie = atob("{expected_encoded_cookie}");
++         // end hiding -->
++         </script>
++         """)
++-        self.assertEqual(C.js_output(['path']), r"""
+++        expected_encoded_cookie = base64.b64encode(b'Customer=\"WILE_E_COYOTE\"; Path=/acme').decode('ascii')
+++        self.assertEqual(C.js_output(['path']), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = "Customer=\"WILE_E_COYOTE\"; Path=/acme";
+++        document.cookie = atob("{expected_encoded_cookie}");
++         // end hiding -->
++         </script>
++         """)
++@@ -360,13 +364,16 @@ class MorselTests(unittest.TestCase):
++             self.assertEqual(
++                 M.output(),
++                 "Set-Cookie: %s=%s; Path=/foo" % (i, "%s_coded_val" % i))
+++            expected_encoded_cookie = base64.b64encode(
+++                ("%s=%s; Path=/foo" % (i, "%s_coded_val" % i)).encode("ascii")
+++            ).decode('ascii')
++             expected_js_output = """
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = "%s=%s; Path=/foo";
+++        document.cookie = atob("%s");
++         // end hiding -->
++         </script>
++-        """ % (i, "%s_coded_val" % i)
+++        """ % (expected_encoded_cookie,)
++             self.assertEqual(M.js_output(), expected_js_output)
++         for i in ["foo bar", "foo@bar"]:
++             # Try some illegal characters
++-- 
++2.35.6
++
+diff --git a/meta/recipes-devtools/python/python3/CVE-2026-6019_p2.patch b/meta/recipes-devtools/python/python3/CVE-2026-6019_p2.patch
+new file mode 100644
+index 00000000000..0646bd2133f
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2026-6019_p2.patch
+@@ -0,0 +1,129 @@
++From de449bbc6ff4ce869c17fb551dacc69de25d73a9 Mon Sep 17 00:00:00 2001
++From: Stan Ulbrych <stan@python.org>
++Date: Mon, 8 Jun 2026 20:15:21 +0100
++Subject: [PATCH] [3.13] gh-149144: Use `decodeURIComponent()` for UTF-8
++ support in `js_output()` (GH-149157) (#150949)
++
++CVE: CVE-2026-6019
++Upstream-Status: Backport [https://github.com/python/cpython/commit/e7d4c3ff421916986223690a8425d2383f6f3802]
++
++Co-authored-by: Seth Larson <seth@python.org>
++(cherry picked from commit e7d4c3ff421916986223690a8425d2383f6f3802)
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++---
++ Lib/http/cookies.py           |  6 +++---
++ Lib/test/test_http_cookies.py | 27 ++++++++++++++-------------
++ 2 files changed, 17 insertions(+), 16 deletions(-)
++
++diff --git a/Lib/http/cookies.py b/Lib/http/cookies.py
++index aebc2a163e4..2cffa2a9ad6 100644
++--- a/Lib/http/cookies.py
+++++ b/Lib/http/cookies.py
++@@ -389,18 +389,18 @@ class Morsel(dict):
++         return '<%s: %s>' % (self.__class__.__name__, self.OutputString())
++ 
++     def js_output(self, attrs=None):
++-        import base64
+++        import urllib.parse
++         # Print javascript
++         output_string = self.OutputString(attrs)
++         if _has_control_character(output_string):
++             raise CookieError("Control characters are not allowed in cookies")
++         # Base64-encode value to avoid template
++         # injection in cookie values.
++-        output_encoded = base64.b64encode(output_string.encode('utf-8')).decode("ascii")
+++        output_encoded = urllib.parse.quote(output_string, safe='', encoding='utf-8')
++         return """
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = atob(\"%s\");
+++        document.cookie = decodeURIComponent(\"%s\");
++         // end hiding -->
++         </script>
++         """ % (output_encoded,)
++diff --git a/Lib/test/test_http_cookies.py b/Lib/test/test_http_cookies.py
++index 6aa5df068f9..b9cc59cd1db 100644
++--- a/Lib/test/test_http_cookies.py
+++++ b/Lib/test/test_http_cookies.py
++@@ -1,10 +1,10 @@
++ # Simple test suite for http/cookies.py
++-import base64
++ import copy
++ import unittest
++ import doctest
++ from http import cookies
++ import pickle
+++import urllib.parse
++ from test import support
++ 
++ 
++@@ -152,19 +152,19 @@ class CookieTests(unittest.TestCase):
++ 
++         self.assertEqual(C.output(['path']),
++             'Set-Cookie: Customer="WILE_E_COYOTE"; Path=/acme')
++-        cookie_encoded = base64.b64encode(b'Customer="WILE_E_COYOTE"; Path=/acme; Version=1').decode('ascii')
+++        cookie_encoded = urllib.parse.quote('Customer="WILE_E_COYOTE"; Path=/acme; Version=1', safe='', encoding='utf-8')
++         self.assertEqual(C.js_output(), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = atob("{cookie_encoded}");
+++        document.cookie = decodeURIComponent("{cookie_encoded}");
++         // end hiding -->
++         </script>
++         """)
++-        cookie_encoded = base64.b64encode(b'Customer="WILE_E_COYOTE"; Path=/acme').decode('ascii')
+++        cookie_encoded = urllib.parse.quote('Customer="WILE_E_COYOTE"; Path=/acme', safe='', encoding='utf-8')
++         self.assertEqual(C.js_output(['path']), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = atob("{cookie_encoded}");
+++        document.cookie = decodeURIComponent("{cookie_encoded}");
++         // end hiding -->
++         </script>
++         """)
++@@ -261,19 +261,19 @@ class CookieTests(unittest.TestCase):
++ 
++         self.assertEqual(C.output(['path']),
++                          'Set-Cookie: Customer="WILE_E_COYOTE"; Path=/acme')
++-        expected_encoded_cookie = base64.b64encode(b'Customer=\"WILE_E_COYOTE\"; Path=/acme; Version=1').decode('ascii')
+++        expected_encoded_cookie = urllib.parse.quote('Customer=\"WILE_E_COYOTE\"; Path=/acme; Version=1', safe='', encoding='utf-8')
++         self.assertEqual(C.js_output(), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = atob("{expected_encoded_cookie}");
+++        document.cookie = decodeURIComponent("{expected_encoded_cookie}");
++         // end hiding -->
++         </script>
++         """)
++-        expected_encoded_cookie = base64.b64encode(b'Customer=\"WILE_E_COYOTE\"; Path=/acme').decode('ascii')
+++        expected_encoded_cookie = urllib.parse.quote('Customer=\"WILE_E_COYOTE\"; Path=/acme', safe='', encoding='utf-8')
++         self.assertEqual(C.js_output(['path']), fr"""
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = atob("{expected_encoded_cookie}");
+++        document.cookie = decodeURIComponent("{expected_encoded_cookie}");
++         // end hiding -->
++         </script>
++         """)
++@@ -364,13 +364,14 @@ class MorselTests(unittest.TestCase):
++             self.assertEqual(
++                 M.output(),
++                 "Set-Cookie: %s=%s; Path=/foo" % (i, "%s_coded_val" % i))
++-            expected_encoded_cookie = base64.b64encode(
++-                ("%s=%s; Path=/foo" % (i, "%s_coded_val" % i)).encode("ascii")
++-            ).decode('ascii')
+++            expected_encoded_cookie = urllib.parse.quote(
+++                "%s=%s; Path=/foo" % (i, "%s_coded_val" % i),
+++                safe='', encoding='utf-8',
+++            )
++             expected_js_output = """
++         <script type="text/javascript">
++         <!-- begin hiding
++-        document.cookie = atob("%s");
+++        document.cookie = decodeURIComponent("%s");
++         // end hiding -->
++         </script>
++         """ % (expected_encoded_cookie,)
++-- 
++2.35.6
++
+diff --git a/meta/recipes-devtools/python/python3_3.12.13.bb b/meta/recipes-devtools/python/python3_3.12.13.bb
+index ec9ea94824e..be080c6a362 100644
+--- a/meta/recipes-devtools/python/python3_3.12.13.bb
++++ b/meta/recipes-devtools/python/python3_3.12.13.bb
+@@ -40,6 +40,8 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://CVE-2026-4519_p1.patch \
+            file://CVE-2026-4519_p2.patch \
+            file://CVE-2026-4519_CVE-2026-4786.patch \
++           file://CVE-2026-6019_p1.patch \
++           file://CVE-2026-6019_p2.patch \
+            "
  
- # These should be reviewed to see if they are still needed
- wrong ELF class
+ SRC_URI:append:class-native = " \
 
