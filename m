@@ -1,92 +1,72 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <m.tretter@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E9D7CDB481
-	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 14:31:19 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8535.1782311472686880747
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE7E1CDB481
+	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 14:31:38 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8555.1782311496461861161
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2026 07:31:12 -0700
+ Wed, 24 Jun 2026 07:31:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=cva2uLG4;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=eoI9v3YJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019efa0acaad-5050b1f1-9823-4081-8011-dcc1730032f3-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1782311472; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=+g+omsg9C2HZiYUs0jM2amG45bF2KdL06ymV8oJd+q4=;
-	b=cva2uLG4erl+/NDYRY0MO2pTNr9did1xrHSJMnXoldVw62Q5mBFBY4VCX1JcZMwq
-	lnYfEafCD/gv+Oi3ZsvE9RRX+VWCfIY+w7uz1U2R5eXVkAC45F9JDfL9F014XqMLhi3
-	PzxOPHs9KK69lcAWrWBBjTWWktJ1eZ/48Zpae/DI=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782311472;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=+g+omsg9C2HZiYUs0jM2amG45bF2KdL06ymV8oJd+q4=;
-	b=eoI9v3YJ8aTYTSd0lC8BiC/ZdrN/6aEOjM+vwgO1XaIkAy2Ol32+DJkMNod6NnrO
-	LvBM+IpCj3mg6GplKKEX6QKwEYvVBaaI4rxySauTX9WnQEBJN+eBloTmX4FXnxwCKMc
-	+O/Vsbo5hL0mbkUt9IgTuKdwIBavpKf/VZiBJN4Q=
-From: patchtest@automation.yoctoproject.org
-To: Joshua Watt <jpewhacker@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][PATCH v3 5/8] Add SPDX deploy tasks to various recipes
-In-Reply-To: <20260624141706.2164567-6-JPEWhacker@gmail.com>
-References: <20260624141706.2164567-6-JPEWhacker@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019efa0acaad-5050b1f1-9823-4081-8011-dcc1730032f3-000000@us-west-2.amazonses.com>
-Date: Wed, 24 Jun 2026 14:31:11 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.24-54.240.27.29
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: m.tretter@pengutronix.de)
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wcOda-0006SA-8m; Wed, 24 Jun 2026 16:31:34 +0200
+From: Michael Tretter <m.tretter@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Michael Tretter <m.tretter@pengutronix.de>
+Subject: [PATCH] busybox: fdisk: enable GPT support
+Date: Wed, 24 Jun 2026 16:31:34 +0200
+Message-ID: <20260624143134.2398886-1-m.tretter@pengutronix.de>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
+X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 14:31:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239518
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 14:31:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239519
 
---NextPart
-Content-Type: text/plain
+busybox' fdisk has optional support for GPT partitions. Since GPT
+support is currently disabled in openembedded-core, fdisk cannot be used
+to inspect the GPT partition table on block devices on the target.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Make fdisk useful on systems with GPT partitions by enabling
+CONFIG_FEATURE_GPT_LABEL.
 
+Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
-Testing patch /home/patchtest/share/mboxes/v3-5-8-Add-SPDX-deploy-tasks-to-various-recipes.patch
+ meta/recipes-core/busybox/busybox/fdisk-gpt.cfg | 1 +
+ meta/recipes-core/busybox/busybox_1.38.0.bb     | 1 +
+ 2 files changed, 2 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/fdisk-gpt.cfg
 
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+diff --git a/meta/recipes-core/busybox/busybox/fdisk-gpt.cfg b/meta/recipes-core/busybox/busybox/fdisk-gpt.cfg
+new file mode 100644
+index 000000000000..686eb99d1433
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/fdisk-gpt.cfg
+@@ -0,0 +1 @@
++CONFIG_FEATURE_GPT_LABEL=y
+diff --git a/meta/recipes-core/busybox/busybox_1.38.0.bb b/meta/recipes-core/busybox/busybox_1.38.0.bb
+index 48b5e687b8ab..5ae58ce37f3b 100644
+--- a/meta/recipes-core/busybox/busybox_1.38.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.38.0.bb
+@@ -40,6 +40,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://unicode.cfg \
+            file://rev.cfg \
+            file://pgrep.cfg \
++           file://fdisk-gpt.cfg \
+            file://rcS \
+            file://rcK \
+            file://makefile-libbb-race.patch \
+-- 
+2.47.3
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
