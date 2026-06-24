@@ -1,152 +1,135 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <antoine.gouby@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7699FCDB479
-	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 09:43:40 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.14])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3296.1782294215516614578
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89AA8CDB479
+	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 09:57:10 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3433.1782295027869208680
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2026 02:43:36 -0700
+ Wed, 24 Jun 2026 02:57:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=KUy6gjkE;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=KUy6gjkE;
- spf=pass (domain: arm.com, ip: 52.101.72.14, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=JIfRabDK071Tt1MjFluqFNiYBy8V8yHeKd3ViaAeGW0DvnM36mSNrOFyiGG1k4ySklfMClLnc1m6iilQ/P6NJPE5gfl7oEhErFbk2j4ejgNc3DPKsPiNfDfY7ZdGcSyDWNWrY2VyN7JyRCdC0+EUhtJxdqEk8LtORBCBeBLtd7wo8joOXYzS/Y5y4KidX/MuE5TVJiqAHK4PuJMQQOjLGEr/dAhhGx7MslFtjwaXfJGyk8uzubgmIQp+QLBOfDqL02ZQwBzfV/7JGQhLa8/pzXs6DdzosAypnHx6wm6IPO9mmsaM4YNGu5tO3pGOnEqTAwL8n1iHig+VphnwQB74Ug==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uPAjrPd2Mic0S2+Ij1h2YElVe9lZ7LszShEWYVx3CNQ=;
- b=RsUZVCg6dtaAjBLUpMksdD+T0YodqAhF/Sg6syfVHmJimkr6f/WHn00P2RI6/iUS9dPVBZCA2Yt6lCL8iYIv+77fHznWphSOOOsbN0x1WiZbmHg293FvxClw2r5ptW7uz2wgNXQPcSGfWqTdLbJM9KU72KOCNa3N8t62jCl/yYYCaqETo2BcbsXt3EpaoPPHo7s94eOvDQnFIb6pgtd4OWB/bhPyomUuNLaAx7vVN5BntfRZwxOgNiZEuJGkpzJIc+pjpw9vMCoTY5yx6Zwa8nG5yv4m0pTXe5/CcUhgPR2QXBfLlryvmH5Iu4cMQ3AVncZs8QLW5ENhCkB4bkXnVg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uPAjrPd2Mic0S2+Ij1h2YElVe9lZ7LszShEWYVx3CNQ=;
- b=KUy6gjkEmCnV4MJhVWAPUSER/eZiQpsXToFhN5apGBDf1p8xLSttYLaNtKgwTpOHUOk6ozQPi8Rmtt+WtCDhM7j/+EfvzXYhpcp5o0gd7dX1bF8441gkbQKbHqpeaPR/MSBVd4LvklmTMtZYYvSOXRSgydgKIIsAZbAwtDyQ/EU=
-Received: from DB3PR06CA0025.eurprd06.prod.outlook.com (2603:10a6:8:1::38) by
- GV1PR08MB10569.eurprd08.prod.outlook.com (2603:10a6:150:16e::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.14; Wed, 24 Jun
- 2026 09:43:31 +0000
-Received: from DB1PEPF000509FC.eurprd03.prod.outlook.com
- (2603:10a6:8:1:cafe::f) by DB3PR06CA0025.outlook.office365.com
- (2603:10a6:8:1::38) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.14 via Frontend Transport; Wed,
- 24 Jun 2026 09:43:30 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB1PEPF000509FC.mail.protection.outlook.com (10.167.242.38) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.10
- via Frontend Transport; Wed, 24 Jun 2026 09:43:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uwRERCzs2YwWHmLXiKkXseS1gNRii7o6rVD5On6L27bkvJx/qZDQJet8llCFMcBLKJUKE0WHVqCEOBS9Lf+ccIIM02a2QbMfgZqAB4MCJGX9c+uS6T3dezL1v8y5cig+5XXQAuDu/I5uiTDqZDiWIG0KrhhlOHUU8cmu7zujP1nUuKZpQ3ILBXaggH7Pp3kdB00TkEPN371nnYiQQpmZ+UNgtpHF4vIlToluj+g+KUHff5sr+UfXwPqe0xHQ9riQd7cPTzcLYVfFFwzkPasXTHcVhxrKSXsyHH8JXsDtiEgRN0wyHW5QhPMkEWKvT9nd/FkSU35W0jOmIsgo3yChZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uPAjrPd2Mic0S2+Ij1h2YElVe9lZ7LszShEWYVx3CNQ=;
- b=khmSnr7EF3gjs3gZmfXb9wEuwu0IsbT1YtNvaZnQhaQ6a+TMBzuDmxXpIJvDfigIFxQRu/VbzMgrRcpBKlmui0HpapsgNs++QC0agRebTm75f7WLZ6WQ+D87/++D48N45Frtqo7GaqW/cBVFNW24w/naZTXkbjKaJez2yX3ZhG2rPejkAZy/EzczJZkMcvlEEPPyBJl03fM9aPPdr7wz9KjVwynjwblSidq/goMspia95UNkO2I8vxSv6TuOJfItP4q/SIOuwvjRi8DGbJHrGU4GLhoHU7Yhxr/YrR4RbQs8COHMV6xu2/PZVWxZkgLEXP2UB6iXWOVXK8gEUKZ+gw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uPAjrPd2Mic0S2+Ij1h2YElVe9lZ7LszShEWYVx3CNQ=;
- b=KUy6gjkEmCnV4MJhVWAPUSER/eZiQpsXToFhN5apGBDf1p8xLSttYLaNtKgwTpOHUOk6ozQPi8Rmtt+WtCDhM7j/+EfvzXYhpcp5o0gd7dX1bF8441gkbQKbHqpeaPR/MSBVd4LvklmTMtZYYvSOXRSgydgKIIsAZbAwtDyQ/EU=
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
- by GVXPR08MB11033.eurprd08.prod.outlook.com (2603:10a6:150:1ff::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.13; Wed, 24 Jun
- 2026 09:42:27 +0000
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.21.0139.018; Wed, 24 Jun 2026
- 09:42:27 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [AUH] pkgconf: upgrading to 2.9.90 SUCCEEDED
-Thread-Topic: [AUH] pkgconf: upgrading to 2.9.90 SUCCEEDED
-Thread-Index: AQHdA5v6SKxuUo5mYkym7fkD5yFpwrZNdEMA
-Date: Wed, 24 Jun 2026 09:42:27 +0000
-Message-ID: <94805360-EFEF-4C36-8ACD-D3FDA81706FB@arm.com>
-References: 
- <0101019ef824a589-9a7e06f3-449b-44c1-8212-1f1e5008a460-000000@us-west-2.amazonses.com>
-In-Reply-To: 
- <0101019ef824a589-9a7e06f3-449b-44c1-8212-1f1e5008a460-000000@us-west-2.amazonses.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3864.600.51.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	AM9PR08MB6258:EE_|GVXPR08MB11033:EE_|DB1PEPF000509FC:EE_|GV1PR08MB10569:EE_
-X-MS-Office365-Filtering-Correlation-Id: 476ba3d0-504e-4a12-07fc-08ded1d50cdc
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|56012099006|11063799006|22082099003|18002099003|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: 
- 82MmiuMLlfnaB7/j+yD8Do99nlWM5ObLq6QPgf5obVkI8e8yzvRYbgABsvRcpEjVQ/KJwlQR/M5+TZUOFAkm+35pVpC0ddK08EqgN29Yg4Ey7YdHBWkCG7Dh/s7KRrPU3gtuOv4NRFuMPL515oam9vDcEnLemj87uoPNcQ426g8CFUpT+TY4RLa6Ffsm/cByb8IaNpuhrgUxzYK53FPjgXTDh2Lh1Q8toBGgvjtGVjnhlqWKSd+1EP7Y8PhDUbLa7A9StkFSQ42EDeSULPAQbQpXcQjopYNZs50sfMn81l5v/QfbQpiLHfT/Ugdii/j0a6IZnp0qDSzef2gfJ+ew856oQXdxPwhx+Xxa6LjSHUqxAHzq5JS1pyV3x/Opr3+i0UPxXaAQT7ACsij0JW/Tatd4C/X77scKTIn9C4nuO6WS5B7up6k6afFmLSVEcidYAVg0T4eCoqz2LnMVvOvmtL4DD0SK0E4Dmh9wiG2f3y1sA7KFMMnGN+Kc8Rd0ejifPY1qwaK/Y0ETIAtOztBx6NsymqymBHI/+ixzVtvkX+HbxMymyV0Q27ob9gM4kEhLoFyEJ/HPtS69TUqn+eYRJlUfXoyG1QUQJrUSsFqPAUomGKUuAt1XZHLdi0/w5eUX77MDS8DLXjQ6INzNpnLOIdZHWjY9PQx04d4a+PvbMCtn9Qu9ueNo8/Rb24sCPOMYHawbo3TyjmAGIcnI9f/+lguWggey8uJIGu9m/IKylmA=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(56012099006)(11063799006)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4653355A2B993C4CB3BA5B16FD11B4D0@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=fmKZQfkU;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: antoine.gouby@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49258ac7294so5696525e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 02:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782295026; x=1782899826; darn=lists.openembedded.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IEYEuC+4KNLNU2dEfhebrEJwrP0SUPQCaTnchep7q3c=;
+        b=fmKZQfkUwJdafnMMbRZMpofzMrYJIF6VNIxhTKer4JS77f4DUSSVuMt6dP7/h+kYft
+         dZwkxKi6r/TVvZDO3tWKBCX3qJJntT+V107GkDSxAsTpDp/PYlgwjxiUeRa6R7I1O0oN
+         jSGVZ/wa5Tru1sKRTp1Kqgs0HEn2lyK8hDtv0yAqxFrRSV9HcqsntYcoJXIHPZx3VUdh
+         U+gm5Z8Avt+UvvrQ8VdaErJzZ08PNmqPBF47V/lOHPYo2Ml59aYsOpvqGOWSgr/Y1i4X
+         So/KYyprdqu3wAF5MREzYY1tM2U8aKNZ5cBvScYBm5sw75hk4J7Djl6+KSV+FSP4OT+r
+         /3TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782295026; x=1782899826;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IEYEuC+4KNLNU2dEfhebrEJwrP0SUPQCaTnchep7q3c=;
+        b=mroyYmfHJq5aZCZ771JfMfNlRYMO/fMYD6i1VOTCAAZ2s6RqbnnmJmSGc0LmkcsqqL
+         GI4txYE14CYjRpJj3RheI1aATp7h9rI29Kf5DWojxgdjuG2RrXNP56JODpY+9LKOXMKK
+         p+4msxqKaRqacPKj5xVaD5mhoTg1iii3eY2WwvCgY/fsV6B8gi84LwczCCQkqEMpmUBv
+         vLeSwws8Jh0tViBupnb+pcsMBdmbGJw9WHQye2yyzTHvMo3jQI3vTShcJ2e5TVsdR8tx
+         b1IPh+bURY6BCSbx74NW1+xw5EZqzjS+s5nkbO/ZGFCN7Flxz3gOw+kbcBSzHX29OxNo
+         vXwg==
+X-Gm-Message-State: AOJu0YxpnZUrfz05sURJa70Bs+kG+TeIeAMlIM7LFu0FqNdTnhKDya91
+	JARSHehsIjCGW4e4+CDAXcBYkY9O25aXpZZVWPk/j05NfAXezk8CLmJLySze4Gyl
+X-Gm-Gg: AfdE7cl2kYhgcbyCX3iipqAeVswPshIVyNHRpn5aScAyEKunmm6Hxft/R3zocWKtK8D
+	Lbqoi1nDDRoyYjwUujD9uDWCBb9J8xOkROYIlimBmgOq2OJOfdqxIBgVT/Iyo952JS4d3lrhdAK
+	9kZpOcoZ4uDFn/lIoFflzOrs6VfX1cPKhmNS1BayL9WlVfToi7/3riCHfN+0Hp5En6jutAAJ/PQ
+	TqX4jpFM9ipSEeRIFprQe84KQyQjzbpuYBpbZDnhww/eK7WwjbuUqGx9/E5LdDVtBEUQQZpoa25
+	C4wvVIg7FRzF+MwtkJDqWP1eIx+BMaqWd4r4EXjj0tuBq0av1Nw+0WtrP1VFvzchqOcaAWXsO3r
+	H9CjV4lJaEsm0LDF++MUAtIL4t1GmQ/XlGbTUjz7vuJzspOhoK3U8FoWDcN3bv6+enKWYe2h/Zy
+	e555fVoiwOEJDUqrtmkRrSQgHuY2TU+KwmHqmdtva48dZaNMBo6gF7HwOrq2QGfXdL+p17Kg0+A
+	CZAy+WGLvWJpu1zclkH8jxr9mgoNsLrsXj3NBY=
+X-Received: by 2002:a05:600c:3e15:b0:490:4663:691b with SMTP id 5b1f17b1804b1-49260849b67mr33382995e9.7.1782295025748;
+        Wed, 24 Jun 2026 02:57:05 -0700 (PDT)
+Received: from [10.0.1.77] (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch. [83.173.201.248])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1ee01d46sm4568216f8f.13.2026.06.24.02.57.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2026 02:57:04 -0700 (PDT)
+From: Antoine Gouby <antoine.gouby@gmail.com>
+Date: Wed, 24 Jun 2026 11:56:58 +0200
+Subject: [PATCH v2] mesa: fix INSANE_SKIP package name for mesa-gl
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
- rnVHx1ZenqWN1uGKkN553u3EkCBeaaEkOJmUIkQdm4DNDm+Bh+hCKN11w9enxxDHrTfrIP3943CzAya1QcG7+NCrNyI6JGgZQWBRBFzA6zkNEJ+5/8FBZTlPZ3lSdWdSTLLBcpQK1Y7RPUTPX/pnPANwsvhr8lO7TQswwuY1BumpXajy1JNSChS//JTjKV02F7ov2nFundc/lCIu34lyySmJIJZoiyIKBAUnEfgv72NzXu3hvWKGE5x2DEArTg2SmIqbp5IdYy0lQZoMDr9LGUnphlTH6XR2hXldbngNHSi7BOoRDsaIvEQMUJpnfmcnaaf8Dwo78g0v7WYyAF+tWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB11033
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB1PEPF000509FC.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	1bae6d56-79ee-4e53-54d7-08ded1d4e729
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|1800799024|82310400026|35042699022|14060799003|376014|23010399003|22082099003|56012099006|11063799006|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	PyiuajY82jcnS5isUvuSYiehs6o5z4ST1SZ+vGZiGJZzci1hBpgE5i2n6Z0hRRyNaZxxCQ3HqRGn+itXSMMvCYarG/5F8E+RWtUDZZpv6L6yrkcxtEfmq5xAOuqmaoxCcr3YD/WfwR72AhsQ6T+OSiW3ydMf1MAvwKUpKBe4CuEYDv8tlZLFaoC50obD+g2VnfQf8It4D2n1QHTQmdOMBfaVjB1xvFuUDakYewbitg3FvZuYh8kt2+eF0ciq7geQ8hf3CpAkz9YNW0ec1/ou0vCj8WgDHQx9q22+zrmsNoMBcMdsRHnBVY8/MxL25nwJGTuD8CoryYWLPYnO6exRtYdTQbArHJn7Np1PyrmVDkiSCmCVBnNZKHsmFguQbyRdJEBv2Ql8i2WPXdThWoqxpgy+HyLf0IUB3697qaoZjwl/gmFhcwamtMwP5Poa1rRXsVl1v2yW/iz0hzSJ19ZNeX2HFovVtpxMgcO2l7cMPfuZHblpn9arH0+pTbZZ3wr95EVhD0bI/M/YSov0q/I/C5YQ5aXX5klrjHCtwavHIR7E/tATcNRkS1Ap7uo/CfFV7F3n2VCvHWXH0P/Lcwosh1Q/1KuqPl/+Zr2SElilOe2GrKT6u3rsOWZspramTew7yl+fLdaMfb7hD7FIQHgYLWKx9qJtGmJgW1E/0RNvwRkwPhT88aVBImuVJmqqbEBjqRePZGKEFyubcqyZd+pM7A==
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(82310400026)(35042699022)(14060799003)(376014)(23010399003)(22082099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	1lN3vjjjA17JhyH+y+vUUWKUIoKmmHrNRL4Dfn4odD/2BJOs6qpAEf7Z4iLmk9a9QF2JsXn9S7cSOwDBqu16NRo+xUsSGfIvqXa4MN0FDP0mgIt9ssNGTA/FVZSB7ol9ILrLnOiec/mkfD623T5bRXZGAJGFuImjlVUnmBg/8Njc2jmH29OF9JfYqXc9KlcXRTmgkrK1eTyua8CWe7L2FMsou8ShbSxZLjDETy2H+pjMTbDBNHZosPEywKW84m0DBMI30H9xsqNnAbS+J5cndiyATLONG9ZT3QaJjrnc5DJ5xQT442fVpMVnSqKa44E2RJXvBpKwxrI9G/zMprXpMWJH/BNekhB+xDg6MPbsW8GxpBmQK97QbbhV9giIWLJYhs9+D9iijDWNIgLk7VxVWNR0OfLFdDTsqekY3Kuw9ygQJ2MZ5lDa55Ffqck938bx
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 09:43:30.5140
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 476ba3d0-504e-4a12-07fc-08ded1d50cdc
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB1PEPF000509FC.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB10569
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260624-mesa-fix-insane-skip-v2-1-0905e0c61457@toradex.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqAMAwEvyI5GyhRe/Ar4qHoqkGspQERxL9bP
+ A7MzEOGrDDqq4cyLjU9YwGpK5q2EFewzoVJnHjnpeUDFnjRmzVaiGDbNbGgaztpIAJHJU0ZRfm
+ 3w/i+H/FCtnFmAAAA
+X-Change-ID: 20260624-mesa-fix-insane-skip-2e54523e22e0
+To: openembedded-core@lists.openembedded.org
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+ Quentin Schulz <quentin.schulz@cherry.de>, 
+ Antoine Gouby <antoine.gouby@toradex.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1822;
+ i=antoine.gouby@toradex.com; h=from:subject:message-id;
+ bh=LdFaZTV3C5uD3JrktGFYrgpuC3rsU6S+U9ff5DEMpNA=;
+ b=owGbwMvMwCWm0rPo7MxLN2YynlZLYsiyXvku4ZB0R2RgDX8e93sGIY1zl+M2vVrnccppqXW2p
+ 6uLCI9cRykLgxgXg6yYIkvGE1VBPoUQWQ+O5mSYOaxMIEMYuDgFYCJ6fxj+R55vU7u2XEVIQzt1
+ 3rTy0Pwgofsn991uzJ36RlSAKWalOiPDfL14RuMr71xaJ4VffXhUNE7/4QPuVs6W2viq/V8K1op
+ xAgA=
+X-Developer-Key: i=antoine.gouby@toradex.com; a=openpgp;
+ fpr=68E425110E20541D48088363248CA2CD99D2D899
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 09:43:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239482
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 09:57:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239483
 
-T24gMjQgSnVuIDIwMjYsIGF0IDA2OjQwLCBhdWhAeW9jdG9wcm9qZWN0Lm9yZyB3cm90ZToNCj4g
-dGhpcyBlbWFpbCBpcyBhIG5vdGlmaWNhdGlvbiBmcm9tIHRoZSBBdXRvIFVwZ3JhZGUgSGVscGVy
-DQo+IHRoYXQgdGhlIGF1dG9tYXRpYyBhdHRlbXB0IHRvIHVwZ3JhZGUgdGhlIHJlY2lwZShzKSAq
-cGtnY29uZiogdG8gKjIuOS45MCogaGFzIFN1Y2NlZWRlZC4NCg0KTm90ZSB0aGF0IHRoaXMgaXMg
-YSByZWxlYXNlIGNhbmRpZGF0ZSBhbmQgd2Ugc2hvdWxkbuKAmXQgYmUgc2hpcHBpbmcgaXQuDQoN
-ClJvc3M=
+From: Antoine Gouby <antoine.gouby@toradex.com>
+
+mesa.inc is shared by both mesa.bb and mesa-gl.bb. The variable
+INSANE_SKIP:${PN}-megadriver expands to mesa-gl-megadriver when
+included by mesa-gl.bb, but the package is always named mesa-megadriver
+(hardcoded via PACKAGES =+). The skip therefore had no effect for
+mesa-gl builds.
+
+This was hidden until mesa 26.1.0 removed the with_gbm condition from
+the dril subdir build, causing mesa-gl to now install DRI driver
+symlinks into mesa-megadriver for the first time.
+
+Use ${MLPREFIX}mesa-megadriver to correctly handle both mesa-gl builds
+(where MLPREFIX is empty) and multilib variants (where it expands to
+e.g. "lib32-").
+
+Signed-off-by: Antoine Gouby <antoine.gouby@toradex.com>
+---
+Changes in v2:
+- Use ${MLPREFIX}mesa-megadriver instead of hardcoded mesa-megadriver
+  to also include multilib builds (e.g. lib32-mesa)
+
+v1: https://lore.kernel.org/openembedded-core/20260623-mesa-fix-insane-skip-v1-1-97856536ea8b@toradex.com
+---
+ meta/recipes-graphics/mesa/mesa.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 67b740f9e9fb..9c398951b6fc 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -347,7 +347,7 @@ FILES:${PN}-tools = "${bindir} ${datadir}"
+ ALLOW_EMPTY:${PN}-tools = "1"
+ 
+ # All DRI drivers are symlinks to libdril_dri.so
+-INSANE_SKIP:${PN}-megadriver += "dev-so"
++INSANE_SKIP:${MLPREFIX}mesa-megadriver += "dev-so"
+ 
+ # OpenCL ICDs package also ship correspondig .so files, there is no -dev package
+ INSANE_SKIP:libopencl-mesa += "dev-so"
+
+---
+base-commit: d595615c6a027b80d6f7ea80ab25e85e97b2436f
+change-id: 20260624-mesa-fix-insane-skip-2e54523e22e0
+
+Best regards,
+-- 
+Antoine Gouby <antoine.gouby@toradex.com>
+
 
