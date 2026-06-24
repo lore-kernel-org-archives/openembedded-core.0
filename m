@@ -1,180 +1,152 @@
-Return-Path: <antoine.gouby@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41CEACDB479
-	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 08:44:13 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2430.1782290645805476390
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7699FCDB479
+	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 09:43:40 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.14])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3296.1782294215516614578
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2026 01:44:05 -0700
+ Wed, 24 Jun 2026 02:43:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=mTUHUn9/;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: antoine.gouby@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-9203654905eso57030885a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 01:44:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782290645; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gLsXvtkFfk3lKt6xLmqKCq1EMAAvJiid134M24ZOGedINEghGpwcLuG4gYFns3Hqma
-         AcABEjQLW5Jw4hpATQuPxWnS3Q8BWUUYfO+k+X7nUohrrci4gnItwZ9NKNhEd9ajZ7Xm
-         3fgBd17DWsaww4gAlMnNEVO0Iqh1lgvfk4EbuVHqDbk9tbZBIcl4V392PWdrlllSEA4h
-         arIApyWAsvi5NEZKPtUKdQEr7va53JbyieJyq/Smxaam7Ocxt7W3aQH+wOfEzAHTkyH4
-         exwThRykATnTvWiH9TT/M+Vcx1ATvt0s+9RxxMgVoDbFmCHuXFNrc77W9U+kuk16IXfY
-         V3PQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=csZziTcXUSL7dYpbcCdRTUa8qYtdoqdeVjnNN4INZgA=;
-        fh=5AD09ljP9+WpFvhFoDd1R4EXvkhDWs0EYTVvuvi3FxY=;
-        b=fsw94TbAp+NmOwYi0yAxLwxRG9DQPrFV+FuFftu5+fId24cmNIEo5Q2OJ6axv7lEDU
-         ILkHWJS/bxNzLBpNk9lARQobA/DXTDWumpfuB+OI/5Mcm5MKOJA2OGP17NZPHalBApAQ
-         MVXy8ps6NLwvIWVFO5wZc7U8+zGftMwaLoQRQ37PayxW2ItfkFEMWyFuBWDP8tL+47MX
-         BJhMYAb6HCGSxbBA7SC6GUQpe5QN7APnwjPgX9ebZ4gSTlCorPZhBfykAlXd9gl2VVNq
-         GL58dsuYT1VXBm6Y0qfgClDgqjfVknkkBUTXtvS/IZy4tIbbp8Xa7VluENwbeU3V9jp7
-         KQwg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782290645; x=1782895445; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=csZziTcXUSL7dYpbcCdRTUa8qYtdoqdeVjnNN4INZgA=;
-        b=mTUHUn9/BjGezJJGG+I3fTrXQRVI4gXj6CM8F0JaLFeFCDX0AO74lX1B9YqBcWZRQF
-         +jBz1N2O9VN4MGSSDJYP0gyLo7pNSK/cUUUZWZN0wIVZjZWHOzesZoe3o9G5ajR7d1Ph
-         1OiNmlYeb85xfz/eSjOXdURNQ+D3gLvFs2p9BXwoZUbuutxziAEeSDwTlexyRTRs6r3c
-         iAgRKb3gHMXBhtA/kO4gwbNbTOnrvIAoM5yc/UIn5qiXrfFl7lQq974AY7QMYC/3WLsb
-         aTBwlwchjKLNSUpwH8IPnjXaBZTp09WROdCGrZvmBRogbRfILOu0uTwiICRSBUe3L9of
-         WkSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782290645; x=1782895445;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=csZziTcXUSL7dYpbcCdRTUa8qYtdoqdeVjnNN4INZgA=;
-        b=UCcphUGXkixgJx0H+Hy370e6ueS8VOi/Z1t+jWhevV4ZyHfLT0w06fxb8OQy0y9hA5
-         /bRtrF+DZvaVVZ3L8Z7S+asMre6Lc+Gu3ryi6Lk/qvW122pgsXeGXZNlBF+q2z/GWL3l
-         upyc4I54ihBPDdYZJk2I5SUpZyEcxN1Hrb6AlJzbH2uTa+CTilNDa2Z8/iPLcjOKBbpC
-         hWf3/BwIVt2CMg2OKUDIHUKJWIVgxh44wfxlgbATMCYsQYvsUDLyabgCU8xn0eBZiM9m
-         OzwwHVqIdaC4UXYtQQnX0ffPdtD7QUQZuoYlV+NL5KX2E3EuEIMcxQQE91404r3sLjA5
-         EAzg==
-X-Forwarded-Encrypted: i=1; AFNElJ/npPQ8xBtyuTnBzSh3kM2Rct3LyRwIXntpZfDkwvq/WEarZYd+zaa1OqvVZL7qfjmQdzXhGwHGTQ6M8+JBQDzWLw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxzJtpPmJAnBtJ/aZowy1vJGQOrTBuqA5PAOtxVDqMfKjKOJpel
-	HJRd/QlCupKSg4oVYT7lR0CRqsDSnjzGdsNkUjzzkM8rAsfwo493dwPVy3jshI8VTltU3jBmm/Z
-	CVJSbqtiu7qjDPsOykpzpKHj6+tEcOk8=
-X-Gm-Gg: AfdE7clZktAXAC51kaqmeb+X12UAwHMo5Q9/qDtuRi4FN/RxZiFULwWDjvd+I+sRmXi
-	rUmaB4V7JvrXh8Gju/3u7JFewyOXM0RuE2Et5cWY9a7FVBhkOZASjqfEHbjV7eNxTxJaqM1Iufd
-	8G22niphZ4h4ofQe0LWRhQod+A4FC8GYkJf8Y6Lh2NzEvNnYOXHg55ea2GtGnJjn0UFEM7DCEbA
-	S8rzG6nSwfOnuouQxfN4QloSOqcmO3jllTYe5WNHwsanwP4BGHRzp+b7+I8sB0n05/BZgXwgXdP
-	XoWk+ztYi0zJQJG+XapP0i1VDL4xQw==
-X-Received: by 2002:a05:620a:462c:b0:915:8c48:497c with SMTP id
- af79cd13be357-921d29f83f8mr2795098385a.28.1782290644650; Wed, 24 Jun 2026
- 01:44:04 -0700 (PDT)
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=KUy6gjkE;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=KUy6gjkE;
+ spf=pass (domain: arm.com, ip: 52.101.72.14, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=JIfRabDK071Tt1MjFluqFNiYBy8V8yHeKd3ViaAeGW0DvnM36mSNrOFyiGG1k4ySklfMClLnc1m6iilQ/P6NJPE5gfl7oEhErFbk2j4ejgNc3DPKsPiNfDfY7ZdGcSyDWNWrY2VyN7JyRCdC0+EUhtJxdqEk8LtORBCBeBLtd7wo8joOXYzS/Y5y4KidX/MuE5TVJiqAHK4PuJMQQOjLGEr/dAhhGx7MslFtjwaXfJGyk8uzubgmIQp+QLBOfDqL02ZQwBzfV/7JGQhLa8/pzXs6DdzosAypnHx6wm6IPO9mmsaM4YNGu5tO3pGOnEqTAwL8n1iHig+VphnwQB74Ug==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uPAjrPd2Mic0S2+Ij1h2YElVe9lZ7LszShEWYVx3CNQ=;
+ b=RsUZVCg6dtaAjBLUpMksdD+T0YodqAhF/Sg6syfVHmJimkr6f/WHn00P2RI6/iUS9dPVBZCA2Yt6lCL8iYIv+77fHznWphSOOOsbN0x1WiZbmHg293FvxClw2r5ptW7uz2wgNXQPcSGfWqTdLbJM9KU72KOCNa3N8t62jCl/yYYCaqETo2BcbsXt3EpaoPPHo7s94eOvDQnFIb6pgtd4OWB/bhPyomUuNLaAx7vVN5BntfRZwxOgNiZEuJGkpzJIc+pjpw9vMCoTY5yx6Zwa8nG5yv4m0pTXe5/CcUhgPR2QXBfLlryvmH5Iu4cMQ3AVncZs8QLW5ENhCkB4bkXnVg==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uPAjrPd2Mic0S2+Ij1h2YElVe9lZ7LszShEWYVx3CNQ=;
+ b=KUy6gjkEmCnV4MJhVWAPUSER/eZiQpsXToFhN5apGBDf1p8xLSttYLaNtKgwTpOHUOk6ozQPi8Rmtt+WtCDhM7j/+EfvzXYhpcp5o0gd7dX1bF8441gkbQKbHqpeaPR/MSBVd4LvklmTMtZYYvSOXRSgydgKIIsAZbAwtDyQ/EU=
+Received: from DB3PR06CA0025.eurprd06.prod.outlook.com (2603:10a6:8:1::38) by
+ GV1PR08MB10569.eurprd08.prod.outlook.com (2603:10a6:150:16e::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.14; Wed, 24 Jun
+ 2026 09:43:31 +0000
+Received: from DB1PEPF000509FC.eurprd03.prod.outlook.com
+ (2603:10a6:8:1:cafe::f) by DB3PR06CA0025.outlook.office365.com
+ (2603:10a6:8:1::38) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.14 via Frontend Transport; Wed,
+ 24 Jun 2026 09:43:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB1PEPF000509FC.mail.protection.outlook.com (10.167.242.38) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.10
+ via Frontend Transport; Wed, 24 Jun 2026 09:43:30 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uwRERCzs2YwWHmLXiKkXseS1gNRii7o6rVD5On6L27bkvJx/qZDQJet8llCFMcBLKJUKE0WHVqCEOBS9Lf+ccIIM02a2QbMfgZqAB4MCJGX9c+uS6T3dezL1v8y5cig+5XXQAuDu/I5uiTDqZDiWIG0KrhhlOHUU8cmu7zujP1nUuKZpQ3ILBXaggH7Pp3kdB00TkEPN371nnYiQQpmZ+UNgtpHF4vIlToluj+g+KUHff5sr+UfXwPqe0xHQ9riQd7cPTzcLYVfFFwzkPasXTHcVhxrKSXsyHH8JXsDtiEgRN0wyHW5QhPMkEWKvT9nd/FkSU35W0jOmIsgo3yChZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uPAjrPd2Mic0S2+Ij1h2YElVe9lZ7LszShEWYVx3CNQ=;
+ b=khmSnr7EF3gjs3gZmfXb9wEuwu0IsbT1YtNvaZnQhaQ6a+TMBzuDmxXpIJvDfigIFxQRu/VbzMgrRcpBKlmui0HpapsgNs++QC0agRebTm75f7WLZ6WQ+D87/++D48N45Frtqo7GaqW/cBVFNW24w/naZTXkbjKaJez2yX3ZhG2rPejkAZy/EzczJZkMcvlEEPPyBJl03fM9aPPdr7wz9KjVwynjwblSidq/goMspia95UNkO2I8vxSv6TuOJfItP4q/SIOuwvjRi8DGbJHrGU4GLhoHU7Yhxr/YrR4RbQs8COHMV6xu2/PZVWxZkgLEXP2UB6iXWOVXK8gEUKZ+gw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uPAjrPd2Mic0S2+Ij1h2YElVe9lZ7LszShEWYVx3CNQ=;
+ b=KUy6gjkEmCnV4MJhVWAPUSER/eZiQpsXToFhN5apGBDf1p8xLSttYLaNtKgwTpOHUOk6ozQPi8Rmtt+WtCDhM7j/+EfvzXYhpcp5o0gd7dX1bF8441gkbQKbHqpeaPR/MSBVd4LvklmTMtZYYvSOXRSgydgKIIsAZbAwtDyQ/EU=
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
+ by GVXPR08MB11033.eurprd08.prod.outlook.com (2603:10a6:150:1ff::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.13; Wed, 24 Jun
+ 2026 09:42:27 +0000
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.21.0139.018; Wed, 24 Jun 2026
+ 09:42:27 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [AUH] pkgconf: upgrading to 2.9.90 SUCCEEDED
+Thread-Topic: [AUH] pkgconf: upgrading to 2.9.90 SUCCEEDED
+Thread-Index: AQHdA5v6SKxuUo5mYkym7fkD5yFpwrZNdEMA
+Date: Wed, 24 Jun 2026 09:42:27 +0000
+Message-ID: <94805360-EFEF-4C36-8ACD-D3FDA81706FB@arm.com>
+References: 
+ <0101019ef824a589-9a7e06f3-449b-44c1-8212-1f1e5008a460-000000@us-west-2.amazonses.com>
+In-Reply-To: 
+ <0101019ef824a589-9a7e06f3-449b-44c1-8212-1f1e5008a460-000000@us-west-2.amazonses.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3864.600.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM9PR08MB6258:EE_|GVXPR08MB11033:EE_|DB1PEPF000509FC:EE_|GV1PR08MB10569:EE_
+X-MS-Office365-Filtering-Correlation-Id: 476ba3d0-504e-4a12-07fc-08ded1d50cdc
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|56012099006|11063799006|22082099003|18002099003|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ 82MmiuMLlfnaB7/j+yD8Do99nlWM5ObLq6QPgf5obVkI8e8yzvRYbgABsvRcpEjVQ/KJwlQR/M5+TZUOFAkm+35pVpC0ddK08EqgN29Yg4Ey7YdHBWkCG7Dh/s7KRrPU3gtuOv4NRFuMPL515oam9vDcEnLemj87uoPNcQ426g8CFUpT+TY4RLa6Ffsm/cByb8IaNpuhrgUxzYK53FPjgXTDh2Lh1Q8toBGgvjtGVjnhlqWKSd+1EP7Y8PhDUbLa7A9StkFSQ42EDeSULPAQbQpXcQjopYNZs50sfMn81l5v/QfbQpiLHfT/Ugdii/j0a6IZnp0qDSzef2gfJ+ew856oQXdxPwhx+Xxa6LjSHUqxAHzq5JS1pyV3x/Opr3+i0UPxXaAQT7ACsij0JW/Tatd4C/X77scKTIn9C4nuO6WS5B7up6k6afFmLSVEcidYAVg0T4eCoqz2LnMVvOvmtL4DD0SK0E4Dmh9wiG2f3y1sA7KFMMnGN+Kc8Rd0ejifPY1qwaK/Y0ETIAtOztBx6NsymqymBHI/+ixzVtvkX+HbxMymyV0Q27ob9gM4kEhLoFyEJ/HPtS69TUqn+eYRJlUfXoyG1QUQJrUSsFqPAUomGKUuAt1XZHLdi0/w5eUX77MDS8DLXjQ6INzNpnLOIdZHWjY9PQx04d4a+PvbMCtn9Qu9ueNo8/Rb24sCPOMYHawbo3TyjmAGIcnI9f/+lguWggey8uJIGu9m/IKylmA=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(56012099006)(11063799006)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4653355A2B993C4CB3BA5B16FD11B4D0@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20260623-mesa-fix-insane-skip-v1-1-97856536ea8b@toradex.com>
- <DJGHNTGT2MED.PW12J0XM4EPW@bootlin.com> <3ab79332-a44a-4408-99d1-c884f5b40313@cherry.de>
-In-Reply-To: <3ab79332-a44a-4408-99d1-c884f5b40313@cherry.de>
-From: Antoine <antoine.gouby@gmail.com>
-Date: Wed, 24 Jun 2026 10:43:53 +0200
-X-Gm-Features: AVVi8Ccf_PV167LF16669dPoRQjH97Vmat3P-cNhtp3T-6FwKjzLMxgP5AaZsgg
-Message-ID: <CAL2Htgxnc1-eqE8tF009oD1aN_fMXMgtm7+L23o5bq9R7-FQLg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] mesa: fix INSANE_SKIP package name for mesa-gl builds
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: mathieu.dubois-briand@bootlin.com, 
-	openembedded-core@lists.openembedded.org, 
-	Antoine Gouby <antoine.gouby@toradex.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Exchange-RoutingPolicyChecked: 
+ rnVHx1ZenqWN1uGKkN553u3EkCBeaaEkOJmUIkQdm4DNDm+Bh+hCKN11w9enxxDHrTfrIP3943CzAya1QcG7+NCrNyI6JGgZQWBRBFzA6zkNEJ+5/8FBZTlPZ3lSdWdSTLLBcpQK1Y7RPUTPX/pnPANwsvhr8lO7TQswwuY1BumpXajy1JNSChS//JTjKV02F7ov2nFundc/lCIu34lyySmJIJZoiyIKBAUnEfgv72NzXu3hvWKGE5x2DEArTg2SmIqbp5IdYy0lQZoMDr9LGUnphlTH6XR2hXldbngNHSi7BOoRDsaIvEQMUJpnfmcnaaf8Dwo78g0v7WYyAF+tWw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB11033
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB1PEPF000509FC.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	1bae6d56-79ee-4e53-54d7-08ded1d4e729
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700016|1800799024|82310400026|35042699022|14060799003|376014|23010399003|22082099003|56012099006|11063799006|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	PyiuajY82jcnS5isUvuSYiehs6o5z4ST1SZ+vGZiGJZzci1hBpgE5i2n6Z0hRRyNaZxxCQ3HqRGn+itXSMMvCYarG/5F8E+RWtUDZZpv6L6yrkcxtEfmq5xAOuqmaoxCcr3YD/WfwR72AhsQ6T+OSiW3ydMf1MAvwKUpKBe4CuEYDv8tlZLFaoC50obD+g2VnfQf8It4D2n1QHTQmdOMBfaVjB1xvFuUDakYewbitg3FvZuYh8kt2+eF0ciq7geQ8hf3CpAkz9YNW0ec1/ou0vCj8WgDHQx9q22+zrmsNoMBcMdsRHnBVY8/MxL25nwJGTuD8CoryYWLPYnO6exRtYdTQbArHJn7Np1PyrmVDkiSCmCVBnNZKHsmFguQbyRdJEBv2Ql8i2WPXdThWoqxpgy+HyLf0IUB3697qaoZjwl/gmFhcwamtMwP5Poa1rRXsVl1v2yW/iz0hzSJ19ZNeX2HFovVtpxMgcO2l7cMPfuZHblpn9arH0+pTbZZ3wr95EVhD0bI/M/YSov0q/I/C5YQ5aXX5klrjHCtwavHIR7E/tATcNRkS1Ap7uo/CfFV7F3n2VCvHWXH0P/Lcwosh1Q/1KuqPl/+Zr2SElilOe2GrKT6u3rsOWZspramTew7yl+fLdaMfb7hD7FIQHgYLWKx9qJtGmJgW1E/0RNvwRkwPhT88aVBImuVJmqqbEBjqRePZGKEFyubcqyZd+pM7A==
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(82310400026)(35042699022)(14060799003)(376014)(23010399003)(22082099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	1lN3vjjjA17JhyH+y+vUUWKUIoKmmHrNRL4Dfn4odD/2BJOs6qpAEf7Z4iLmk9a9QF2JsXn9S7cSOwDBqu16NRo+xUsSGfIvqXa4MN0FDP0mgIt9ssNGTA/FVZSB7ol9ILrLnOiec/mkfD623T5bRXZGAJGFuImjlVUnmBg/8Njc2jmH29OF9JfYqXc9KlcXRTmgkrK1eTyua8CWe7L2FMsou8ShbSxZLjDETy2H+pjMTbDBNHZosPEywKW84m0DBMI30H9xsqNnAbS+J5cndiyATLONG9ZT3QaJjrnc5DJ5xQT442fVpMVnSqKa44E2RJXvBpKwxrI9G/zMprXpMWJH/BNekhB+xDg6MPbsW8GxpBmQK97QbbhV9giIWLJYhs9+D9iijDWNIgLk7VxVWNR0OfLFdDTsqekY3Kuw9ygQJ2MZ5lDa55Ffqck938bx
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 09:43:30.5140
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 476ba3d0-504e-4a12-07fc-08ded1d50cdc
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509FC.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB10569
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 08:44:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239481
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 09:43:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239482
 
-Hi Mathieu and Quentin,
-
-Indeed I didn't take into account the multilib support when writing the pat=
-ch.
-I will send a v2 with:
-INSANE_SKIP:${MLPREFIX}mesa-megadriver +=3D "dev-so"
-
-Regarding PACKAGES_DYNAMIC and the other package-related variables, my
-understanding is that rename_package_variables() in multilib.bbclass
-already handles the multilib renaming for those variables, so I don't
-expect them to be affected.
-
-Kind regards,
-Antoine
-
-
-Le mar. 23 juin 2026 =C3=A0 16:22, Quentin Schulz
-<quentin.schulz@cherry.de> a =C3=A9crit :
->
->
->
-> On 6/23/26 4:12 PM, Mathieu Dubois-Briand via lists.openembedded.org wrot=
-e:
-> > On Tue Jun 23, 2026 at 1:21 PM CEST, Antoine Gouby via lists.openembedd=
-ed.org wrote:
-> >> From: Antoine Gouby <antoine.gouby@toradex.com>
-> >>
-> >> mesa.inc is shared by both mesa.bb and mesa-gl.bb. The variable
-> >> INSANE_SKIP:${PN}-megadriver expands to mesa-gl-megadriver when
-> >> included by mesa-gl.bb, but the package is always named mesa-megadrive=
-r
-> >> (hardcoded via PACKAGES =3D+). The skip therefore had no effect for
-> >> mesa-gl builds.
-> >>
-> >> This was hidden until mesa 26.1.0 removed the with_gbm condition from
-> >> the dril subdir build, causing mesa-gl to now install DRI driver
-> >> symlinks into mesa-megadriver for the first time.
-> >>
-> >> Use the hardcoded package name, consistent with the three RREPLACES/
-> >> RCONFLICTS/RPROVIDES lines right below.
-> >>
-> >> Signed-off-by: Antoine Gouby <antoine.gouby@toradex.com>
-> >> ---
-> >
-> > Hi Antoine,
-> >
-> > Thanks for your patch.
-> >
-> > This is now producing another QA issue about these symlinks, in multili=
-b
-> > configuration:
-> > ERROR: lib32-mesa-2_26.1.2-r0 do_package_qa: QA Issue: non -dev/-dbg/na=
-tivesdk- package lib32-mesa-megadriver contains symlink .so '/usr/lib/dri/p=
-anel-mipi-dbi_dri.so' [dev-so]
-> > ERROR: lib32-mesa-2_26.1.2-r0 do_package_qa: QA Issue: non -dev/-dbg/na=
-tivesdk- package lib32-mesa-megadriver contains symlink .so '/usr/lib/dri/c=
-rocus_dri.so' [dev-so]
-> > ERROR: lib32-mesa-2_26.1.2-r0 do_package_qa: QA Issue: non -dev/-dbg/na=
-tivesdk- package lib32-mesa-megadriver contains symlink .so '/usr/lib/dri/i=
-li9225_dri.so' [dev-so]
-> > ERROR: lib32-mesa-2_26.1.2-r0 do_package_qa: QA Issue: non -dev/-dbg/na=
-tivesdk- package lib32-mesa-megadriver contains symlink .so '/usr/lib/dri/g=
-m12u320_dri.so' [dev-so]
-> > ERROR: lib32-mesa-2_26.1.2-r0 do_package_qa: QA Issue: non -dev/-dbg/na=
-tivesdk- package lib32-mesa-megadriver contains symlink .so '/usr/lib/dri/r=
-car-du_dri.so' [dev-so]
-> >
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/92/builds/3975
-> >
-> > Can you have a look at the issue?
-> >
->
-> Likely simply
->
-> INSANE_SKIP:${MLPREFIX}mesa-megadriver +=3D "dev-so"
->
-> ?
->
-> I'm wondering if we also need something for PACKAGES_DYNAMIC for
-> multilib as well (and RREPLACES, RCONFLICTS, RPROVIDES, etc....). I
-> really dislike packages which don't use ${PN} in their name, a lot of
-> headaches are avoided by simply using ${PN} but I guess that ship has
-> sailed already.
->
-> Cheers,
-> Quentin
+T24gMjQgSnVuIDIwMjYsIGF0IDA2OjQwLCBhdWhAeW9jdG9wcm9qZWN0Lm9yZyB3cm90ZToNCj4g
+dGhpcyBlbWFpbCBpcyBhIG5vdGlmaWNhdGlvbiBmcm9tIHRoZSBBdXRvIFVwZ3JhZGUgSGVscGVy
+DQo+IHRoYXQgdGhlIGF1dG9tYXRpYyBhdHRlbXB0IHRvIHVwZ3JhZGUgdGhlIHJlY2lwZShzKSAq
+cGtnY29uZiogdG8gKjIuOS45MCogaGFzIFN1Y2NlZWRlZC4NCg0KTm90ZSB0aGF0IHRoaXMgaXMg
+YSByZWxlYXNlIGNhbmRpZGF0ZSBhbmQgd2Ugc2hvdWxkbuKAmXQgYmUgc2hpcHBpbmcgaXQuDQoN
+ClJvc3M=
 
