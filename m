@@ -1,70 +1,70 @@
 Return-Path: <yoann.congal@smile.fr>
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5A57CDB470
-	for <webhook@archiver.kernel.org>; Sat, 20 Jun 2026 13:00:26 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6010.1781960421871744839
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F79ECDB479
+	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 10:10:32 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3718.1782295823022922165
  for <openembedded-core@lists.openembedded.org>;
- Sat, 20 Jun 2026 06:00:22 -0700
+ Wed, 24 Jun 2026 03:10:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=msUg/SW4;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45fe59255beso1504611f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 06:00:21 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Ok2SNFRC;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so8559515e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 03:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1781960420; x=1782565220; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OGteOqRIntK2kVwj+Vg+B9xZVLyyin7lz5WzcMgjsTc=;
-        b=msUg/SW4P9/Yxq0s0+P4DYJp6fZWCPBvnhb1UBdSCcyZxBt4q8D2Oh+nniO4WsVK8b
-         oW4YcDr7NHDCv9EZHs2bgNzrsI4aqO0PGm/gM+4TXRWA5zbGkMrJhor5Omuk+rTOtgdT
-         TlPqRegpoRNcJvdxsyeF+YRuTKXR6nLZ1JRWQ=
+        d=smile.fr; s=google; t=1782295821; x=1782900621; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jypCqF8zwKM3W57yMcCFYWHJ03WKH8kwIPqNPGHK7BE=;
+        b=Ok2SNFRCXLhed2tnWCI70/bUKD9SjxEy2hJ8hfGiFxMR7nuWffnnqBWOQNkyykEMts
+         Pz7y7+qFQrCf7CoPDhL0abZLAJIWULQeyxlNbFqPa6MfS86ki1L/ffDlvWBo5Zq1xE5Z
+         EFbinvLkQSXcJwUcHVK8gHEcc2ZrFxpMWeCDI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781960420; x=1782565220;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OGteOqRIntK2kVwj+Vg+B9xZVLyyin7lz5WzcMgjsTc=;
-        b=dnbj/+kdcYH7Gy8r1XjYKPz7GE7NIOULXfu2AVd/L/4ZuvftEkjtRqzhpScjejNZaR
-         f9u1gyabVqOgw027Pwcx6dzGoy38ECdnXOTlwSAXnh3VcRxxyzm7v36fui4maE0g6onW
-         +QoczLMne1MMTCBIxiNEeV6PMt+v1+ovzm4Z+WvdeXARmgZMD85UWffSBeTE4SzkWmAG
-         DGwbLMqodTjehobVWfj04PEB4JZg5SyWXCioWWN3wAlu0JGwFMXxpr11VVcX/Ues+BsO
-         tZqEWRE2+K74g1QS5oBcsefmwSmkzP2nSjFQDQYrGJY0LKdD7kkVUCDY35wvgITuiaSF
-         h2DA==
-X-Gm-Message-State: AOJu0YyBmtLJMoePfclXVMpeVatIuBEOsKHKlg/JHLY7dNxhSQ+zkGfI
-	fF9hJ9/so/M+LNghxF+ArTCk8e9q3P9yYWaIIbMcNapChhrRhWd9mWd8ZpeqYV6k4gU9e3COJjp
-	34gaJ
-X-Gm-Gg: AfdE7cnRwaQP6sD7tX5RXwh1QGgQH74HliNw+Ujl6+WKG2GnZfiXmB1lfREvFWaI+Ir
-	IJMsaPdcsbdqeWf3SI4bmReb5WTJvlVWYwgwX93umCy3SeBGk/9MJKXc0zzacnD9DT9W+lpIBcx
-	j/DsiTNUlrJLHwmudDd60p6qB0/eHDKrJAblWKvzpRQYMJgRRgjVnxSc1d44sXyxqFMAM+L94X6
-	F1QJ+cL0cGkpDyMbQ7JvU1cIpbMIAx1sqw2vUYr2d8wzeMf1+lLZ+fYjrfiyZyPA7y9TXTGpARw
-	vcX4dtX1M6GUqcqbPWk91OidEEc5qXndhLxa0UBuGwGEPcSHhCEpRDpKSLV/dWS4lOH67xoevF7
-	mab4fJTVM56cZu+DGcoORTI+QY+EBZD8ULnbkZWI2UIkz1EsOptgpt7W/T4TIfsDHSycykzZmCS
-	fn3erDL/e4M/0W7ul0Lwd1SgoAZp3ZkerUKBm9Tif6cIDwQfIK+huHGnY2UzSt1JnH0FPbtjxJe
-	p5cN15N0z+mWIKi
-X-Received: by 2002:a5d:5e91:0:b0:464:f0a6:74b9 with SMTP id ffacd0b85a97d-4656d643df7mr9161237f8f.3.1781960416885;
-        Sat, 20 Jun 2026 06:00:16 -0700 (PDT)
-Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4666722141csm7338573f8f.34.2026.06.20.06.00.15
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20251104; t=1782295821; x=1782900621;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jypCqF8zwKM3W57yMcCFYWHJ03WKH8kwIPqNPGHK7BE=;
+        b=m/XfhIApX9lSsdQXKq95JMR+8vQQJYE2/c4xJ4B8MjfcAKVZ2xF1sEuwujFFqk5Wf7
+         vwIDSD/+mXPKv2dSKIafcC5PSPTfa4WS0sL/IcmyCRR/JC49qXQX3WPZa8t1bZS9h9G5
+         LdrVgaobJd9Y9rxPtoJKZL/i2jGStSGjfR/5hlHGyOOhmqkqBvuifn5c+VUtxYy0Qc1m
+         Kq0/sdLrL8Wjco9GYIPhnVEtH+pwVqLiIVeoeSOVMTz5aC3gGnEImSD5xE21XUxpB7zh
+         EyYT/Fp1K0lCRbtFLlzyPa31rrluyHiVDbQPMVZwcbSeWZJNqt+zNpYnJ5Hfy5THJhil
+         l0Rg==
+X-Gm-Message-State: AOJu0YwHRfNHu04UUzp4d8M8u5pAw8Jq5WTpvnbyM7NdeIO6ZBim3Wfz
+	zByIS+t9+IZN/R4rVhi+MF1tDgkKGQJcZUkAAY9lbKtgaVlz9rBp9O/iIhzp3nPTP7UnoZ8M8wl
+	vCnVE
+X-Gm-Gg: AfdE7cnsmhuOQltvpx2FfTtzPjftSwDeY2o/eCs661QlL5A94Ilm6fYo4PubNdNFV+S
+	IT+iC6ikmT9JN8VFvQ5czFGq/F4AgncqVAexQFpQWtl5S0BmvFsIAG11DLdkpTFPFNhNLBrFfbc
+	+j/kdvpwaZZw9qGnXoqhPQGq4jUCHrFcFnpU13qUYkr63IVlqwhVITSfgl5YQOm3ZA2t/2bx6X4
+	HxV7ONavXuJksbPcsuz9cycPpJu8DOFoIf7htinSnmK3GN2HO8gwzcnFQI9zYsiU7+3faXbWsbp
+	O2sYsaez2z1+wyjYi9KCuyTs6NO7uU57fyhJp7IJo8ouYUq4nLRQXLq45fUlXI6eiKMTrmGevYg
+	EVxVc3uwm52vb1NRZoVL5YyhQ6SLAmKMnK61NK/WsARh+ZR63TldnvFToN1ul6bO8TvwbfTaDfo
+	F2qVEmojrb8YCE8bGDhPYQX9Vvi57WHoABdRN0nw2RdvGIzgUdjbCkq0x3v7A1tpyTVwkAt45HU
+	DH2a9jswoWoVLwpmQ==
+X-Received: by 2002:a05:600c:4e15:b0:490:b2c9:e284 with SMTP id 5b1f17b1804b1-49260878a26mr32312925e9.30.1782295818664;
+        Wed, 24 Jun 2026 03:10:18 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00f2ebd4aef93feb0a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:f2eb:d4ae:f93f:eb0a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4924923cbe7sm341237565e9.8.2026.06.24.03.10.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 06:00:15 -0700 (PDT)
+        Wed, 24 Jun 2026 03:10:17 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 13/36] linux-yocto: remove CVE exclusion list, sbom-cve-check does this itself
-Date: Sat, 20 Jun 2026 14:59:28 +0200
-Message-ID: <9e1c6374e6d43de1fbaabe6639dd36f23ddde6d0.1781960051.git.yoann.congal@smile.fr>
+Cc: Yoann Congal <yoann.congal@smile.fr>,
+	Ross Burton <ross.burton@arm.com>,
+	Antonin Godard <antonin.godard@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [wrynose][PATCH v2] linux-yocto: remove CVE exclusion list, sbom-cve-check does this itself
+Date: Wed, 24 Jun 2026 12:09:48 +0200
+Message-ID: <20260624100948.1560587-2-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1781960051.git.yoann.congal@smile.fr>
-References: <cover.1781960051.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 20 Jun 2026 13:00:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239228
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 10:10:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239484
 
 From: Ross Burton <ross.burton@arm.com>
 
@@ -87,15 +87,22 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 (cherry picked from commit 596ad6c397c5ca264c6c257283ea78095562e67c)
+[YC: backporting to wrynose: generate-cve-exclusions.py script is merely
+moved to contrib/generate-linux-cve-exclusions.py instead of being
+removed, in case users need it]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
+ .../generate-linux-cve-exclusions.py          |     0
  .../linux/cve-exclusion_6.18.inc              | 21714 ----------------
- .../linux/generate-cve-exclusions.py          |   156 -
  meta/recipes-kernel/linux/linux-yocto_6.18.bb |     1 -
- 3 files changed, 21871 deletions(-)
+ 3 files changed, 21715 deletions(-)
+ rename meta/recipes-kernel/linux/generate-cve-exclusions.py => contrib/generate-linux-cve-exclusions.py (100%)
  delete mode 100644 meta/recipes-kernel/linux/cve-exclusion_6.18.inc
- delete mode 100755 meta/recipes-kernel/linux/generate-cve-exclusions.py
 
+diff --git a/meta/recipes-kernel/linux/generate-cve-exclusions.py b/contrib/generate-linux-cve-exclusions.py
+similarity index 100%
+rename from meta/recipes-kernel/linux/generate-cve-exclusions.py
+rename to contrib/generate-linux-cve-exclusions.py
 diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.18.inc b/meta/recipes-kernel/linux/cve-exclusion_6.18.inc
 deleted file mode 100644
 index ade11d80258..00000000000
@@ -21816,168 +21823,6 @@ index ade11d80258..00000000000
 -
 -CVE_STATUS[CVE-2026-31788] = "cpe-stable-backport: Backported in 6.18.20"
 -
-diff --git a/meta/recipes-kernel/linux/generate-cve-exclusions.py b/meta/recipes-kernel/linux/generate-cve-exclusions.py
-deleted file mode 100755
-index 5139b110558..00000000000
---- a/meta/recipes-kernel/linux/generate-cve-exclusions.py
-+++ /dev/null
-@@ -1,156 +0,0 @@
--#! /usr/bin/env python3
--
--# Generate granular CVE status metadata for a specific version of the kernel
--# using json data from cvelistV5 or vulns repository
--#
--# SPDX-License-Identifier: GPL-2.0-only
--
--import argparse
--import datetime
--import json
--import pathlib
--import os
--import glob
--import subprocess
--
--from packaging.version import Version
--
--
--def parse_version(s):
--    """
--    Parse the version string and either return a packaging.version.Version, or
--    None if the string was unset or "unk".
--    """
--    if s and s != "unk":
--        # packaging.version.Version doesn't approve of versions like v5.12-rc1-dontuse
--        s = s.replace("-dontuse", "")
--        return Version(s)
--    return None
--
--def get_fixed_versions(cve_info, base_version):
--    '''
--    Get fixed versionss
--    '''
--    first_affected = None
--    fixed = None
--    fixed_backport = None
--    next_version = Version(str(base_version) + ".5000")
--    for affected in cve_info["containers"]["cna"]["affected"]:
--        # In case the CVE info is not complete, it might not have default status and therefore
--        # we don't know the status of this CVE.
--        if not "defaultStatus" in affected:
--            return first_affected, fixed, fixed_backport
--        if affected["defaultStatus"] == "affected":
--            for version in affected["versions"]:
--                v = Version(version["version"])
--                if v == Version('0'):
--                    #Skiping non-affected
--                    continue
--                if version["status"] == "unaffected" and first_affected and v < first_affected:
--                    first_affected = Version(f"{v.major}.{v.minor}")
--                if version["status"] == "affected" and not first_affected:
--                    first_affected = v
--                elif (version["status"] == "unaffected" and
--                    version['versionType'] == "original_commit_for_fix"):
--                    fixed = v
--                elif base_version < v and v < next_version:
--                    fixed_backport = v
--        elif affected["defaultStatus"] == "unaffected":
--            # Only specific versions are affected. We care only about our base version
--            if "versions" not in affected:
--                continue
--            for version in affected["versions"]:
--                if "versionType" not in version:
--                    continue
--                if version["versionType"] == "git":
--                    continue
--                v = Version(version["version"])
--                # in case it is not in our base version
--                less_than = Version(version["lessThan"])
--
--                if not first_affected:
--                    first_affected = v
--                fixed = less_than
--                if base_version < v and v < next_version:
--                    fixed_backport = less_than
--
--    return first_affected, fixed, fixed_backport
--
--def is_linux_cve(cve_info):
--    '''Return true is the CVE belongs to Linux'''
--    if not "affected" in cve_info["containers"]["cna"]:
--        return False
--    for affected in cve_info["containers"]["cna"]["affected"]:
--        if not "product" in affected:
--            return False
--        if affected["product"] == "Linux" and affected["vendor"] == "Linux":
--            return True
--    return False
--
--def main(argp=None):
--    parser = argparse.ArgumentParser()
--    parser.add_argument("datadir", type=pathlib.Path, help="Path to a clone of https://github.com/CVEProject/cvelistV5 or https://git.kernel.org/pub/scm/linux/security/vulns.git")
--    parser.add_argument("version", type=Version, help="Kernel version number to generate data for, such as 6.1.38")
--
--    args = parser.parse_args(argp)
--    datadir = args.datadir.resolve()
--    version = args.version
--    base_version = Version(f"{version.major}.{version.minor}")
--
--    data_version = subprocess.check_output(("git", "describe", "--tags", "--always", "HEAD"), cwd=datadir, text=True)
--
--    print(f"""
--# Auto-generated CVE metadata, DO NOT EDIT BY HAND.
--# Generated at {datetime.datetime.now(datetime.timezone.utc)} for kernel version {version}
--# From {datadir.name} {data_version}
--
--python check_kernel_cve_status_version() {{
--    this_version = "{version}"
--    kernel_version = d.getVar("LINUX_VERSION")
--    if kernel_version != this_version:
--        bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
--}}
--do_cve_check[prefuncs] += "check_kernel_cve_status_version"
--""")
--
--    # Loop though all CVES and check if they are kernel related, newer than 2015
--    pattern = os.path.join(datadir, '**', "CVE-20*.json")
--
--    files = glob.glob(pattern, recursive=True)
--    for cve_file in sorted(files):
--        # Get CVE Id
--        cve = cve_file[cve_file.rfind("/")+1:cve_file.rfind(".json")]
--        # We process from 2015 data, old request are not properly formated
--        year = cve.split("-")[1]
--        if int(year) < 2015:
--            continue
--        with open(cve_file, 'r', encoding='utf-8') as json_file:
--            cve_info = json.load(json_file)
--
--        if not is_linux_cve(cve_info):
--            continue
--        first_affected, fixed, backport_ver = get_fixed_versions(cve_info, base_version)
--        if not fixed:
--            print(f"# {cve} has no known resolution")
--        elif first_affected and version < first_affected:
--            print(f'CVE_STATUS[{cve}] = "fixed-version: only affects {first_affected} onwards"')
--        elif fixed <= version:
--            print(
--                f'CVE_STATUS[{cve}] = "fixed-version: Fixed from version {fixed}"'
--            )
--        else:
--            if backport_ver:
--                if backport_ver <= version:
--                    print(
--                        f'CVE_STATUS[{cve}] = "cpe-stable-backport: Backported in {backport_ver}"'
--                    )
--                else:
--                    print(f"# {cve} may need backporting (fixed from {backport_ver})")
--            else:
--                print(f"# {cve} needs backporting (fixed from {fixed})")
--
--        print()
--
--
--if __name__ == "__main__":
--    main()
 diff --git a/meta/recipes-kernel/linux/linux-yocto_6.18.bb b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
 index e84c58af582..5a1c22b93d7 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_6.18.bb
