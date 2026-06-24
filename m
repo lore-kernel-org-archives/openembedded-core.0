@@ -2,235 +2,148 @@ Return-Path: <anders.heimer@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A85F3CDB481
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8A61CDE005
 	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 12:44:26 +0000 (UTC)
 Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.13])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.6140.1782305058372622363
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2026 05:44:21 -0700
+ Wed, 24 Jun 2026 05:44:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=nusN2EJf;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=tmWUhmoi;
  spf=pass (domain: est.tech, ip: 40.107.159.13, mailfrom: anders.heimer@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CWKnSgtV4Y0C04vUOUYKgjKc884gxs02RezZLCw9F2gZcs+icavThpdyhN069jOk08glTDLVzcEY9XPOHdsrVbp/dVBQ8m4DfkuMtAW8HD0eJAMdLzNS7TkM0HtX5B9atFpf5rw4hKbBUOrt0flvx0acR5AzzBSnLuMK1th/aIqFZceLkJ/un2m4YWfm1+z0oTVJMG88qkK9mn3b1ThoHbADfXc7d1qx6ucyGd3xTJmTVHG+CegXBXikz+AM6LIWoLVA4v4uln7RYgzGWqeYwZv8aupwmn2ulDLLJ2ByssfJ2h1mGAzSk1vVwGU9QnLGtLRJaip/Et5rIj3btcZrfA==
+ b=aVw6g53yFF6aaWUQ6+wGUKvYrVptPueyFAYOOUweYV0vH8pCGiYLYviVnGU8upYZf+BWEfoOoI8Ezt9phsBgpLf3iK5G17raufRPj9DHBfeVkkyxEhilGb7OG/rtOLQ+rAuPL37Ub9/Us5BjKoujpnivLFC8uelV9a4vAGG8WMs5Y2P0OmOTJGCOCAVUenSyykZCqo8euD5l95xAEaDedC86kq+/B6JLk31EUr2A442Ft9SLZ1oI2N79/oMm+CF3lvMhAVUnPl/hXLd8z0ilGhjLTEzKV+N3GAMinL5pw/7P4+1E3vQXDlhaeouXYneevtrriZdkdw5sFRFROywWHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bUMXPT0RNMhEGWRcUkOIVpJFUouVpn+8V6eK7zgZnhQ=;
- b=AXcY6gh8GDYmQhjq4TwlGzO+rwMWN4+bujpsLfbiM3R70PU+fTY0NKJAENePYfiBdej7CxHCZ0GALcJDlEoFaHirazzb1XJKs1wOKEARKvC6z/Z7a8myUWzdPGAePAjLcCu+OpyTQbdaPE61VAU/uvjyb3aKdbm+xitCU//DUHmtbJjTgzXoWNLlf4kmoOYOVUep/7TfsRf7F7etsyPzWNMLcwV9FUThbZNm8hiaiPuKwitrsKrMKyLh/2z6asDaNC1eagNW2F036xh8pcCibMJFNjVc9qCwy9wNBJhtFqjPAXn2Gwt55zMKOm+H9L05pFW1sl1u59JOkQDqgacqcw==
+ bh=vb2b9/0LpB67vSNBSKIg5k3RvHIC4dMIgkTzZCyYGcU=;
+ b=tu89GY+0Z1cLKoQkBWHNwG0HjJ7YmReEI2fk+fSTO9pWmcEV4IoIi+2S9DQ9eGMU8kaVc6zljhSnj0rN30GU7/CDm+T2GkJ9zbDTpbRrerCB9fCTT+kZM56Xk4Ul+G434C+kQ0Mvm9nYMlvzCp9Spw9qtIn2d9W5yrCzqNmJg6XBq8kI5GBshWusGsK8CR+OiOfOcPzQSPy4G6qrvEjNMcQXQ7Xb0Bd+/fL+Qsm8tZ/FL1fw6QgMe55yR7netUeWtmU3ih7ApBhZ2sbmDwGbfK2vlya11otBy7xwN37rXqRc/NvxjUGeFiZPrztXaLrJl0mnBJHKxLSQM1+EpJafPQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bUMXPT0RNMhEGWRcUkOIVpJFUouVpn+8V6eK7zgZnhQ=;
- b=nusN2EJfpYvtAKUQN3fsd6iVUDtvhJAXU/dmqd5BKb4n3L4JnS5YaqKzZGdBIx9vtu2uuec2hJtN7xJgXLJ8/dNdi+mic0NiKqxSSjLbFlHXsyntpyL6Mp2L26OcjV57WciQunMd/Mu7pxR9mRAbbFm4X+kEPZnwSBBG0FFkZz9wmAxzPuWFPcyzzXhgy08aWFtb41VQgwsJ7f4mPaYtVErYvMtLKQOCa0MFO48tugEUPSzG0o2A9xXMc+KfXhk5OCH0h56zcPa1zhPwpBYS6cc9AK0UABYx/es8nGmTtJKjGcsEpMkrjXO0EzVJjJNJmPGqFIL0MpDU9hPwRyzHmQ==
+ bh=vb2b9/0LpB67vSNBSKIg5k3RvHIC4dMIgkTzZCyYGcU=;
+ b=tmWUhmoibl7XSaQt9ncqXnyu8SabxYR0qGaXQ/+gs3C4l1PYrIbYuwAvTz6vFGwooayrmuXLIJoY9x9Frby1lKXfmb7OWZeaJk4Y69ztciv3x1yOxQXaraKY+TC4RrhxTtm8KLHpACG4CswTyFXcjIiqfXhkk3QgwUT1ftWsAYMkiK5xUA/YRmgOS6Qb/zcPeg7Exnjs9WxHApeCeVlk5fdsDwbXOkryFGXBkmom1oDd8QZ/IgYmjpzyv/OOLT8sJ/GPzFLAZKAvWjPFI1bO7IAvOeLUjt/7eoKNIQrXEBhujpI6ZAaPzEvC+53lSQJZ5pUCJWgrO5hytLeSh9Nygw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:2ac::9) by
  GV1P189MB2739.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:1c9::13) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.139.20; Wed, 24 Jun 2026 12:44:15 +0000
+ 15.21.139.20; Wed, 24 Jun 2026 12:44:11 +0000
 Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
  ([fe80::90da:b700:f102:5c82]) by DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
  ([fe80::90da:b700:f102:5c82%6]) with mapi id 15.21.0159.013; Wed, 24 Jun 2026
- 12:44:15 +0000
+ 12:44:11 +0000
 From: Anders Heimer <anders.heimer@est.tech>
 To: openembedded-core@lists.openembedded.org
-CC: Anders Heimer <anders.heimer@est.tech>,
-	Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH v2 3/9] oe/patch: convert simple runcmd shell callers
-Date: Wed, 24 Jun 2026 14:44:01 +0200
-Message-ID: <80eb96cbb38d155591d6f5eb5281e34ce0821f15.1782304923.git.anders.heimer@est.tech>
+CC: Anders Heimer <anders.heimer@est.tech>
+Subject: [PATCH v2 0/9]  execute patch commands without an implicit shell
+Date: Wed, 24 Jun 2026 14:43:58 +0200
+Message-ID: <cover.1782304923.git.anders.heimer@est.tech>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <cover.1782304923.git.anders.heimer@est.tech>
-References: <cover.1782304923.git.anders.heimer@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DUZPR01CA0086.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:46a::13) To DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU6P191CA0054.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:53e::21) To DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:10:2ac::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DB9P189MB1641:EE_|GV1P189MB2739:EE_
-X-MS-Office365-Filtering-Correlation-Id: 35842b75-0e99-4d2c-c9fa-08ded1ee4c82
-X-LD-Processed: d2585e63-66b9-44b6-a76e-4f4b217d97fd,ExtAddr
+X-MS-Office365-Filtering-Correlation-Id: 48bf42a0-ebf5-4fc9-01dc-08ded1ee4a46
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|22082099003|18002099003|3023799007|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: MA89k5yxDmRu8Y+xk/d8VD5vN2Ap9v4NISXXoBUBzFKqwnX2eamkj/YWWaFVsG9O/dQNcJO7WbnKOszxMyDEhHcBEA149DHO3tBQEltFPbkOp15EFh7lBLcf6S9YRidazuHR1Uipv3qbveID6V5THHxX7/nzd0GP5NCngRioFhKHitKIUUnAh1Q0Vz6odaJJUt6fXV/uKkGnr38gSIiAPY4gsbNthOW8SvJ14KHJ7wNlh04y7gw8IJiahH9cigVWUhlZFCihX/CyT0yfDq/Sj8otyE7veOjlbaLfNtOPJUxQYKnagXNLy3xSW4nbTx+WxOHbS/0WPiU58u2BXVqKVxHcmlpeD46luGd9btnpI/vpQ2uOwzv3BmKugohOOLs1ZHNiNMUlPQsy+WvCLzeeKAsq2wwDpuuHsrA5SUcgd/VE95soEm875FAiIghd6tjsH9uJXwce7/Mv/I7DOkd+BAM+N3YQWpIhpxxaOEjFCuhBO8gTXYJDpFhHPyXVuZlYm8FKyIu+UHnldtJU5px1/ZRz674EsLbTheI45rFYNRFmoxiNK8EPBHJ+oOiMUrB04jLQ+OSFNNu2GaSOJVpzydjGrNei5u5Eoogt9pKVXqa5+CTBlNeVquLIzBStmxzeZG8ij2tsGP9JL+epkCBGoBCbbf64SLPyEGOo14HeGW0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1641.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(22082099003)(18002099003)(3023799007)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|18002099003|3023799007|56012099006|6133799003|5023799004|11063799006;
+X-Microsoft-Antispam-Message-Info: 
+	rIysJMtcIH+Tscs2T6bSKcLtrP+qXSKKg9L8A05uowI48bY8akN4FBp9+kZNVICAJEkwKV8HMIcIBYaxgEVoJrTSTkdwZRufml1jJB55A4z+YP0QqPFAhypAPQwPBUD7WEDf8rnsYJaVIlA3gHUuKCdXYDmDagEBLLyV2xdjcJuHVeFDmGJdLFZkmF8fHrUMy//YcrY9U54hlNNKsy0GbGMWIvTxqk4DgKejeOL8ScVTlssJeOr21wBlwSiXCBlshrsPdkShZntotcWdMwZX3cu8DFIun9WMzueJLN4QT5wLfu+xhlzPvLp5xOfVyWyfb8uymkEW5L+KbUN3uA+Hngf+YC24Ti3lgTTQCjC1qyh/wnb2NZ7nOcU6v4ni9/bFLDKYHFBrJ2qohywNCNrS8y2Zc+ic48g7+ZmQdsnsTKx2owx2H+PTizOG7RNvQqMe1Vw703JQANVi0YUR5mRKtWPp0bNMCCEn24W14kwhiooPvHZfFTnj0CTWZBpqkOxpZp991uiAmihd/sdxCZlGgN/g1xoRnkFmJ1GScKSHwjGWOs7l9recsX9RYr6MO2gnpXR9QIa3Sw77bNFPDSsglCKqxCP78eCqWlQG0xiTAbkva6mBi82L0bIE4gyPYY9RD3Wb7234/zaZ9CbNW3tGfvxBBRuqRAjXiChdaPrKXAQ=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1641.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(18002099003)(3023799007)(56012099006)(6133799003)(5023799004)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+YaceDxvhSAnm4bP3H2et0Cb+KbxFzlVaY0NlyyuoxRb2ulxv2lB2CTCoc2n?=
- =?us-ascii?Q?B/kxTh2g5GA9lRXi8KgqtZj+wB8UT0GGiXTxTSlgq8w5LegL4PTP3+ZhsPF/?=
- =?us-ascii?Q?qPLXtKw+xDqXetT4UYRS2mdWtW4M4vWwY6BP5SRBGeOROdcWSH3KViJK4W+v?=
- =?us-ascii?Q?oHd9Vu/t+VuFeVpbP+JbkYEDo6mQC5UX6udMKut+zYUBhzJxWJgHG4t6elNh?=
- =?us-ascii?Q?6a5EjOTsfzrchWbwmlD+gV5xD4rGtO7xQiH2ukg5/l6YPCa8wQumDAOdQ06E?=
- =?us-ascii?Q?SCuG6IK/WmZVq5PUCkEGR3bVK6TnaKtqDbTziHlATCyAZ/u0qUKZL4mOM4Ab?=
- =?us-ascii?Q?yvwLl3scO3ZoGfqvl8XLlsqoRBVHCk7jtSU4Oc3va/BNRrLC0m03Bv5ww+T4?=
- =?us-ascii?Q?ebMSlqiDYu0VxrIEt8NRg7iTP4SzrJk47NHKAkrUV3kccIKCehFXpbD6PNuw?=
- =?us-ascii?Q?5zwgRCSDybNG1NOal6Kq2a8s5ywzRQhcgL3MoKTmaqcKe27/+FfLWfLTAF7d?=
- =?us-ascii?Q?5iGTLxvj6IsvMgRV/1ybZfxtgwg+raH8/wCFxi8jyea82eu75k6NPSnBbqGn?=
- =?us-ascii?Q?wKjOfe61Sc4lnfAbOgDtaT4IA1IhUTTjdPyRBgzamDp6FNxs5lHFjPBBS+gq?=
- =?us-ascii?Q?vU1CsUkTbbWgqZ8iEHzeaZYuSKvubZ/chCvfx6J0M+oe1ogRp/2RXemMiszf?=
- =?us-ascii?Q?80EbF/OkfoyZ/4jfZ0ucRxO8QzNXJn1DcQZemJQz3ho6JwppklT2ZiLSRfdZ?=
- =?us-ascii?Q?U7HiwRHdRBBygZ3IfiJ30VfpndoavunE3zs1wS5lr/4OsPU5mmxYLhVd9B3y?=
- =?us-ascii?Q?Bn4DDttUCBvB5JMP1S8V4eD+khyAsaHxDvB66mRlxFbV7V1YeOdutw+f36Mg?=
- =?us-ascii?Q?ZKx3ZBot25CXaqyVPYHOB6OiSXPvPmabqyo/Wu3Puv/Whqlfl+toS/2BRC0T?=
- =?us-ascii?Q?CDD4EkrWZXLjECkR/jsiaw6jG5SneKitbPzLXopcAENJf/b5BRBt0Y8YFhdt?=
- =?us-ascii?Q?ckVQcAuuOcMFBg7IOCrJGCDVzFnuhWf8lTS0PbnA/vtBAhUHQUpHExXNJ0AW?=
- =?us-ascii?Q?FYu9bhUL28WsYuDDP9m68AAABuDwus0j3qz8SgYSFYyrjfZN3jdQp+JmYJmw?=
- =?us-ascii?Q?3Puz8eTaIAu917yAQjNVFBdVOvcSmfmTciipzsxqlggoj81HWiyxDH9siXaF?=
- =?us-ascii?Q?MbzfFGXjC6+Fre1Fjx0+4VIpQlxnPYn2opHCHpbZry6kqwaiYuuDA/B7P9Ur?=
- =?us-ascii?Q?vJgzKbJ3w5AhqWYJNkr3LggYIB4ygkEPY+5Y4oUaCyOZXmCCG+G3V+XUHZsk?=
- =?us-ascii?Q?b6saU5CHplWQf/DMOLBlcmiMw1atx/3kYpRTlYKEIIYyBGA7ZynjEh3YGpYf?=
- =?us-ascii?Q?DuEDbszwkCaFgjEl+9E6J+ydtv27jTBtQeUmwY5LKqAp2F1ZN6yCtZNiZyHy?=
- =?us-ascii?Q?ARyEbdOV7Kklt1MxRxImET9ZyvLyLINwuOfFj6w4hUmkz/6woGpIOWFUKbun?=
- =?us-ascii?Q?Mi7MVs3aGr1w3y4uH4kvTjPaTM26GYRP+verIZugt/jxXMpyuB3M2lZfPUlD?=
- =?us-ascii?Q?kucgSAuDjFHGL9g76cq6JMDGg4sW9VnofickNwisnKV9RMIieFUbPTjtkKqX?=
- =?us-ascii?Q?IHzjGa98/zTKmnBXMRybVN8inSNreaGTk89wkAneYQ4MQsTiek5WxGE5m/Vk?=
- =?us-ascii?Q?P33TCbM20gbexXtG8w1GLU7b4cOqNSUJsCuFQDU16N/kCfNd1GDNPly9Engk?=
- =?us-ascii?Q?PczNfka5eA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?GSJa7Ya411NGbat3XXr6htwI5x7MDBpdHfKfdWFxDkRexoTC3BVh2JvlGgyN?=
+ =?us-ascii?Q?FEdbz1ousNKN1nIeNMaH4Fa03W9Z/wVHMrsIy36BzeQ9HLxL23lEWGGeml6Q?=
+ =?us-ascii?Q?CcVWsmE4kgKWU7GXZ/kbAdseQK72aQZ35iJRrHU/sW996ucGkdd48b+aZes3?=
+ =?us-ascii?Q?Fa+hzTmN3vrVB4QwBvqFZtDjAaG77+T25539BP1ew9Hk8qsysyjHoTSaD8DU?=
+ =?us-ascii?Q?ViK/y1vhbeahB3RxkKRM20WJIKC3pydA7llHdpMUBYRNnCZErQzWqFveVt7M?=
+ =?us-ascii?Q?AcG1UG4Idm9834CdYpfwHbW4CrBqn+JN9zNcV+T5uHKEP7W4uONuXcskT6pE?=
+ =?us-ascii?Q?Z9946rMkvaYJJKst+4+2eRuP2Kv570YJGeuGrr5maCo/GVzsfKpZYBV13Wjq?=
+ =?us-ascii?Q?Jq8IkKQGNWs7eQjgMGDE0rJbTPfSr+7NDzxgZmQSed5bp8bYkW3/XUV5SLnQ?=
+ =?us-ascii?Q?8Iddc6TV7gNWMeXViU9UDJkJz3FWnkvFXErjKwAw3EIoXGgsikBqj00tl/if?=
+ =?us-ascii?Q?2+tcuU7cxwNbxnXpqffaZvFOavtLkHZGXudFmid6SxTfRQqkieWe5+Q/uHRS?=
+ =?us-ascii?Q?6kT1GWKiNJ07dVwmp+Au9/YrGOFAvXD0KWyAinCpMF2L2GOpiWfxX5NvAAAH?=
+ =?us-ascii?Q?o6p/RJ7HC0zs0O1g1p+yNagd9/U7VP77UNoQ6RRBafSq7BDO4EGsT5PKGEfT?=
+ =?us-ascii?Q?E4uKmKWWYVRDzp24G/IFbSoPGJhATwQYfV9heTUsEnHqAa1vD+TaQD5Yb/Bk?=
+ =?us-ascii?Q?6EgogUvOlmubbUag0KiwIjLESlPuMN5Huw+1Xsebe7shqPsiKqROyrGJkmVL?=
+ =?us-ascii?Q?EGlfpa51D6rGN52x1pcSYLHIrFrpYpkCM2ozGC2ZKgM8UM/5BqUTb24qR9QX?=
+ =?us-ascii?Q?cVZXc4REr+XZeOwE4MXkgN/HI78WZvwnQKLOd7W6+fbMiaQIFgq6uuyRSjst?=
+ =?us-ascii?Q?BYEzkOnlPx+aUuU1Fco167fyA7tvjuR3B8BVS3ruLGnpwFye/EklaPVBcRot?=
+ =?us-ascii?Q?it+5/Rz85QSqyNrOYOF3bJTIUXJoVQvyRiTK9LWWy7o77LW5qIRYVj+p7cd8?=
+ =?us-ascii?Q?Uv18psE4i6gakYyEHLwnJlMrjXC+m2hox3KXCF9msfVVKj2ivHOXuqdKIKfg?=
+ =?us-ascii?Q?d3QoOhIKd598V6FvBwz/SfrQ/kt8JRlqTAphkmVDYkx0JghH1VITXscqDhZX?=
+ =?us-ascii?Q?6W5TTeIw7ZoZAWfODFDLIc3ZujbsdQtWNFLoDqqg3/2diEDh9EQ7O17ibJP5?=
+ =?us-ascii?Q?yEKmheTDzuJTClfo4Rq+H4wdt2l+gg7ATYYRefcqJlVA+gntSjJjY1aBkaW7?=
+ =?us-ascii?Q?5DP8yNTQTbf6vQGQJS6Hpd3njz+5XwD48WZfqgSmVPVUnrmG9Y1WHFkEw2rs?=
+ =?us-ascii?Q?uQN+4Xby3odJhHKJy29kpjWcHYMsKKK3De5astKn3HXBeTDWNVAF41Pti++q?=
+ =?us-ascii?Q?BE+AqJL9mNEu2miooObQFQtmX6/GnXdaVGWcl7vZHEZl8KL9BrEr9jxULX+Z?=
+ =?us-ascii?Q?lkWFDGJa5I2kByMOwZS4KcYZ/7PeNGdi/lkWkfHnxLKzPiD+injndnLO0QRl?=
+ =?us-ascii?Q?o7NNns5xzNqZeT3BILMUuGf7rAChqdnezOWgSw6qULV5Xh/FjlDlt0tj+WHg?=
+ =?us-ascii?Q?/tLQqkGue8lcLuO+kGlLnsxfiRPEQW3tFkBIzPlcByt93BrT0RsphfKcVSOu?=
+ =?us-ascii?Q?8xpPbLwibveftmjYl3ZdPDLX5WrMxf5altidJplaIlGglV3W2E9uLYMVjeIF?=
+ =?us-ascii?Q?mvMegSV5IA=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35842b75-0e99-4d2c-c9fa-08ded1ee4c82
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48bf42a0-ebf5-4fc9-01dc-08ded1ee4a46
 X-MS-Exchange-CrossTenant-AuthSource: DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 12:44:15.0263
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 12:44:11.3160
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zmmt4Ze8FnhXseDGOL20nFMn0MmZvN5p1ofSpkIjrRQBftfQRgRBKk/RSU0WYCiHvau0IsqVM9QY0Yk9FxU3Dw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: m5d4BsnUT85fExqoRHL0LZNyB9o878FgWwBDx9XxIoGWJeQ+r3Hp0AlBPBaiKHF4uQGS6jkEPufin3TL6aQZMg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB2739
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 12:44:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239497
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239494
 
-Replace simple sh -c runcmd() users with direct argv calls where the
-commands do not need shell syntax.
+Continue the shell=3DTrue cleanup in oe.patch.
 
-Also replace the cat-to-file redirection used when appending patch files
-with shutil.copyfile().
+Run runcmd() argument lists directly instead of joining them into an
+implicit shell command string.
 
-Reviewed-by: Daniel Turull <daniel.turull@ericsson.com>
-Signed-off-by: Anders Heimer <anders.heimer@est.tech>
----
- meta/lib/oe/patch.py | 42 ++++++++++++++++++++++--------------------
- 1 file changed, 22 insertions(+), 20 deletions(-)
+This series converts the non test runcmd() callers that invoked it with
+-sh.
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index b152a2d784..290eb990f1 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -195,10 +195,12 @@ class PatchTree(PatchSet):
-         bb.utils.mkdirhier(self.patchdir)
-=20
-     def _appendPatchFile(self, patch, strippath):
-+        import shutil
-+
-         with open(self.seriespath, 'a') as f:
-             f.write(os.path.basename(patch) + "," + strippath + "\n")
--        shellcmd =3D ["cat", patch, ">" , self.patchdir + "/" + os.path.ba=
-sename(patch)]
--        runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
-+        dest =3D os.path.join(self.patchdir, os.path.basename(patch))
-+        shutil.copyfile(patch, dest)
-=20
-     def _removePatch(self, p):
-         patch =3D {}
-@@ -433,8 +435,8 @@ class GitApplyTree(PatchTree):
-         outlines, author, date, subject =3D GitApplyTree.interpretPatchHea=
-der(lines)
-         if not author or not subject or not date:
-             try:
--                shellcmd =3D ["git", "log", "--format=3Demail", "--follow"=
-, "--diff-filter=3DA", "--", patchfile]
--                out =3D runcmd(["sh", "-c", " ".join(shellcmd)], os.path.d=
-irname(patchfile))
-+                cmd =3D ["git", "log", "--format=3Demail", "--follow", "--=
-diff-filter=3DA", "--", patchfile]
-+                out =3D runcmd(cmd, os.path.dirname(patchfile))
-             except CmdError:
-                 out =3D None
-             if out:
-@@ -525,11 +527,11 @@ class GitApplyTree(PatchTree):
-         patches =3D []
-         try:
-             for name, rev in startcommits.items():
--                shellcmd =3D ["git", "format-patch", "--no-signature", "--=
-no-numbered", rev, "-o", tempdir]
-+                cmd =3D ["git", "format-patch", "--no-signature", "--no-nu=
-mbered", rev, "-o", tempdir]
-                 if paths:
--                    shellcmd.append('--')
--                    shellcmd.extend(paths)
--                out =3D runcmd(["sh", "-c", " ".join(shellcmd)], os.path.j=
-oin(tree, name))
-+                    cmd.append('--')
-+                    cmd.extend(paths)
-+                out =3D runcmd(cmd, os.path.join(tree, name))
-                 if out:
-                     for srcfile in out.split():
-                         # This loop, which is used to remove any line that
-@@ -585,11 +587,11 @@ class GitApplyTree(PatchTree):
-     def _commitpatch(self, patch, patchfilevar):
-         output =3D ""
-         # Add all files
--        shellcmd =3D ["git", "add", "-f", "-A", "."]
--        output +=3D runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
-+        cmd =3D ["git", "add", "-f", "-A", "."]
-+        output +=3D runcmd(cmd, self.dir)
-         # Exclude the patches directory
--        shellcmd =3D ["git", "reset", "HEAD", self.patchdir]
--        output +=3D runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
-+        cmd =3D ["git", "reset", "HEAD", self.patchdir]
-+        output +=3D runcmd(cmd, self.dir)
-         # Commit the result
-         (tmpfile, shellcmd) =3D self.prepareCommit(patch['file'], self.com=
-mituser, self.commitemail)
-         try:
-@@ -642,21 +644,21 @@ class GitApplyTree(PatchTree):
-             except CmdError:
-                 # Need to abort the git am, or we'll still be within it at=
- the end
-                 try:
--                    shellcmd =3D ["git", "--work-tree=3D%s" % reporoot, "a=
-m", "--abort"]
--                    runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
-+                    cmd =3D ["git", "--work-tree=3D%s" % reporoot, "am", "=
---abort"]
-+                    runcmd(cmd, self.dir)
-                 except CmdError:
-                     pass
-                 # git am won't always clean up after itself, sadly, so...
--                shellcmd =3D ["git", "--work-tree=3D%s" % reporoot, "reset=
-", "--hard", "HEAD"]
--                runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
-+                cmd =3D ["git", "--work-tree=3D%s" % reporoot, "reset", "-=
--hard", "HEAD"]
-+                runcmd(cmd, self.dir)
-                 # Also need to take care of any stray untracked files
--                shellcmd =3D ["git", "--work-tree=3D%s" % reporoot, "clean=
-", "-f"]
--                runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
-+                cmd =3D ["git", "--work-tree=3D%s" % reporoot, "clean", "-=
-f"]
-+                runcmd(cmd, self.dir)
-=20
-                 # Fall back to git apply
--                shellcmd =3D ["git", "--git-dir=3D%s" % reporoot, "apply",=
- "-p%s" % patch['strippath']]
-+                cmd =3D ["git", "--git-dir=3D%s" % reporoot, "apply", "-p%=
-s" % patch['strippath']]
-                 try:
--                    output =3D _applypatchhelper(shellcmd, patch, force, r=
-everse, run)
-+                    output =3D _applypatchhelper(cmd, patch, force, revers=
-e, run)
-                 except CmdError:
-                     # Fall back to patch
-                     output =3D PatchTree._applypatch(self, patch, force, r=
-everse, run)
+The series also replaces the cat-to-patch pipeline with patch -i,
+removes the obsolete PATCHFILE assignment, converts GitApplyTree
+commands to argv lists, and keeps manual-resolution commands as argv
+lists.
+
+oelib tests cover argv handling and error reporting, GitApplyTree
+patch-name preservation, fallback commit metadata, and run=3DFalse
+command generation without repository side effects.
+
+Changes in v2:
+- Accept both valid Git `%aI` representations of UTC, `Z` and `+00:00`,
+  in the fallback metadata test
+
+Anders Heimer (9):
+  oe/patch: drop shell=3DTrue from runcmd
+  oeqa/oelib: add runcmd tests
+  oe/patch: convert simple runcmd shell callers
+  oe/patch: avoid shell pipeline in _applypatch
+  oe/patch: remove obsolete PATCHFILE assignment
+  oeqa/oelib: test GitApplyTree patch names
+  oe/patch: pass GitApplyTree commands as argv lists
+  oe/patch: return manual-resolution commands as argv lists
+  oeqa/oelib: test patch command argv handling
+
+ meta/lib/oe/patch.py                        | 131 +++++----
+ meta/lib/oeqa/selftest/cases/oelib/patch.py | 282 ++++++++++++++++++++
+ scripts/lib/devtool/upgrade.py              |   2 +-
+ 3 files changed, 355 insertions(+), 60 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/cases/oelib/patch.py
+
 
