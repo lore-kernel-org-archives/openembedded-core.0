@@ -2,604 +2,1115 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A870FCDB470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97DAECDB47F
 	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 05:40:20 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.689.1782279616432631089
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.682.1782279616752018013
  for <openembedded-core@lists.openembedded.org>;
  Tue, 23 Jun 2026 22:40:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MOKKsK9Z;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KnNflchv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019ef824b38d-6f9f7a70-fadd-4300-b841-57c316f92c2f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=oUiETM20;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ZZxLpIPy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019ef824b39a-13b0c7c9-e511-4eee-acab-d0caf83b0c41-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1782279615;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=B2DHgXkkRvEn1APcpezD139E3noMKKPP9Wy8EoH6KTY=;
-	b=MOKKsK9ZwBvyn4asN44nS0wxgAxWxfMs4Nk9agqzwgKi2U3epzBU0kr0rTDWbQw8
-	kK7PvQzBUBpFsmqwOKmp11WWxHsdr8vF6Qj/3btJh1sC8TC9aho1SEEICdvOV4XkKL7
-	Qnq0oGmxWxrOoTHfkI+OMd9iiA4wWnFpnS6AektQ=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=yc9xJQHqhtKTHtphmw9l+GmWHhfgM/jOIh4IvMYV3q8=;
+	b=oUiETM20ishAvX3t87fsqJFbvPW+YodKDnauWX0YQ9jTyvZG/Y7ziWiuArMoorDN
+	54hlgfExRtTffIU7lZPqz1w+E5y0LffTMPvDaShkcx04FYG0N3C9PMCYkkqZunYaOkX
+	XYI9YR9jvUhd7Y1/9dTKy8pXw+hQvj6DqGxjkjrY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782279615;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=B2DHgXkkRvEn1APcpezD139E3noMKKPP9Wy8EoH6KTY=;
-	b=KnNflchvXWXESM0IE6BcOkWSC/wF1xGMyi5FjvMq+8b5jQpwnvYW3Uyna+oFBqW/
-	6XscqtnYDhpoO3vdfHFvu2UXVe+8vnaKK2Gg7q1A5aHVpobv1o4gld4Uep43GC09qXC
-	kFvVS0ERkIKygvxO7ye56lwU0EOWEx/EunfTtx88=
-Content-Type: multipart/mixed; boundary="===============3653613518439026572=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=yc9xJQHqhtKTHtphmw9l+GmWHhfgM/jOIh4IvMYV3q8=;
+	b=ZZxLpIPyLWjWu7pv4q4BumNahGdzmU+PhK9a/dlFgwKSuDVaiCwbnperAZBiPqTB
+	tlcPbzsAuAZIL1wRld6uj32aOs+U9BXDckHaWUS1H6z3vXm4Cj8ezndRZaZDS/V08EI
+	DrKo/zoL44beaSIkvaKfZLsdzo+lvK8OqS0es49g=
+Content-Type: multipart/mixed; boundary="===============8369509027177431560=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-vcs-versioning: upgrading to 2.1.2 FAILED
-Message-ID: <0101019ef824b38d-6f9f7a70-fadd-4300-b841-57c316f92c2f-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] Upgrade status: 2026-06-24
+Message-ID: <0101019ef824b39a-13b0c7c9-e511-4eee-acab-d0caf83b0c41-000000@us-west-2.amazonses.com>
 Date: Wed, 24 Jun 2026 05:40:15 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.24-54.240.27.33
+X-SES-Outgoing: 2026.06.24-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 05:40:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239472
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239473
 
---===============3653613518439026572==
-Content-Type: text/plain; charset="us-ascii"
+--===============8369509027177431560==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+QVVIIGZpbmlzaGVkIHVwZ3JhZGUgYmF0Y2ggdGhlIHJlc3VsdCBwYXRjaGVzL2xvZ3MgY2FuIGJl
+IGZvdW5kIGF0OgpodHRwczovL3ZhbGt5cmllLnlvY3RvLmlvL3B1Yi9hdWgvMjAyNjA2MjQwNTAw
+NTgsIG5leHQgYXJlIHRoZSBzdGF0aXN0aWNzOgoKUmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoK
+CiAgICAqIFN1Y2NlZWRlZDogMwogICAgICAgIHBrZ2NvbmYsIDIuOS45MCwgUm9zcyBCdXJ0b24g
+PHJvc3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgcHl0aG9uMy1zcGR4LXB5dGhvbi1tb2RlbCwg
+MC4wLjYsIEJlbmphbWluIFJvYmluIDxiZW5qYW1pbi5yb2JpbkBib290bGluLmNvbT4KICAgICAg
+ICBweXRob24zLXV2LWJ1aWxkLCAwLjExLjI0LCBUcmV2b3IgR2FtYmxpbiA8dGdhbWJsaW5AYmF5
+bGlicmUuY29tPgogICAgKiBGYWlsZWQoZG9fY29tcGlsZSk6IDEKICAgICAgICBweXRob24zLXZj
+cy12ZXJzaW9uaW5nLCAyLjEuMiwgVHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxpYnJlLmNv
+bT4KICAgICogRmFpbGVkIChkZXZ0b29sIGVycm9yKTogMgogICAgICAgIGxpYmFyY2hpdmUsIDMu
+OC44LCBVbmFzc2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgbGlu
+dXgtZmlybXdhcmUsIDIwMjYwNjIyLCBVbmFzc2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVj
+dC5vcmc+CiAgICAqIFNraXBwZWQ6IDcwCiAgICAgICAgc3lzdGVtZCwgMjYxLCBsYXN0IGF0dGVt
+cHQgMjAyNi0wNi0yMCAwNTowNzoxMyByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyNyBk
+YXkocyksIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBzeXN0ZW1kLWJv
+b3QsIDI2MSwgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMjAgMDU6MDc6MTMgcmVzdWx0PWZhaWx1cmU7
+IHdpbGwgcmV0cnkgaW4gMjcgZGF5KHMpLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+
+CiAgICAgICAgc3lzdGVtZC1ib290LW5hdGl2ZSwgMjYxLCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0y
+MCAwNTowNzoxMyByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyNyBkYXkocyksIFZpc3dh
+bmF0aCBLcmFsZXRpIDxxdWljX3ZrcmFsZXRpQHF1aWNpbmMuY29tPgogICAgICAgIHN5c3RlbWQt
+c3lzdGVtY3RsLW5hdGl2ZSwgMjYxLCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0yMCAwNTowNzoxMyBy
+ZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyNyBkYXkocyksIENoZW4gUWkgPFFpLkNoZW5A
+d2luZHJpdmVyLmNvbT4KICAgICAgICB1dGlsLWxpbnV4LCAyLjQyLjIsIGxhc3QgYXR0ZW1wdCAy
+MDI2LTA2LTE3IDA1OjA2OjIzIHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDI0IGRheShz
+KSwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIHV0aWwtbGludXgtbGli
+dXVpZCwgMi40Mi4yLCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0xNyAwNTowNjoyMyByZXN1bHQ9ZmFp
+bHVyZTsgd2lsbCByZXRyeSBpbiAyNCBkYXkocyksIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVy
+LmNvbT4KICAgICAgICBjbWFrZSwgNC4zLjQsIGxhc3QgYXR0ZW1wdCAyMDI2LTA2LTE4IDA1OjI3
+OjA5IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDI1IGRheShzKSwgVW5hc3NpZ25lZCA8
+dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAgICAgIGNtYWtlLW5hdGl2ZSwgNC4zLjQs
+IGxhc3QgYXR0ZW1wdCAyMDI2LTA2LTE4IDA1OjI3OjA5IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJl
+dHJ5IGluIDI1IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3Jn
+PgogICAgICAgIHNib20tY3ZlLWNoZWNrLXVwZGF0ZS1jdmVsaXN0LW5hdGl2ZSwgMjAyNi0wNi0y
+NCwgcmFwaWQtZmlyZTsgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTEgMDc6MzQ6MTggcmVzdWx0PXN1
+Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMTggZGF5KHMpLCBCZW5qYW1pbiBSb2JpbiA8YmVuamFtaW4u
+cm9iaW5AYm9vdGxpbi5jb20+CiAgICAgICAgc2JvbS1jdmUtY2hlY2stdXBkYXRlLW52ZC1uYXRp
+dmUsIDIwMjYuMDYuMjQtMDAwMDAzLCByYXBpZC1maXJlOyBsYXN0IGF0dGVtcHQgMjAyNi0wNi0x
+MSAwNzozNDoxOCByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAxOCBkYXkocyksIEJlbmph
+bWluIFJvYmluIDxiZW5qYW1pbi5yb2JpbkBib290bGluLmNvbT4KICAgICAgICBtZXNhLXRvb2xz
+LW5hdGl2ZSwgMjYuMS4zLCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0xOSAwNToyMToyMyByZXN1bHQ9
+c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNiBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRA
+eW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBtZXNhLCAyNi4xLjMsIGxhc3QgYXR0ZW1wdCAyMDI2
+LTA2LTE5IDA1OjIxOjIzIHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDI2IGRheShzKSwg
+VW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAgICAgIGx0dG5nLXRv
+b2xzLCAyLjE1LjEsIGxhc3QgYXR0ZW1wdCAyMDI2LTA2LTIxIDA1OjA2OjIzIHJlc3VsdD1mYWls
+dXJlOyB3aWxsIHJldHJ5IGluIDI4IGRheShzKSwgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVy
+ZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAgICAgICAgbHR0bmctbW9kdWxlcywgMi4xNS4yLCBs
+YXN0IGF0dGVtcHQgMjAyNi0wNi0yMSAwNTowNjoyMyByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRy
+eSBpbiAyOCBkYXkocyksIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5k
+YXRpb24ub3JnPgogICAgICAgIGx0dG5nLXVzdCwgMi4xNS4xLCBsYXN0IGF0dGVtcHQgMjAyNi0w
+Ni0yMSAwNTowNjoyMyByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyOCBkYXkocyksIFJp
+Y2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgogICAgICAg
+IHN5c3RlbXRhcC1uYXRpdmUsIDUuNSwgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTEgMDc6NTI6MzMg
+cmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMTggZGF5KHMpLCBWaWN0b3IgS2FtZW5za3kg
+PHZpY3Rvci5rYW1lbnNreTdAZ21haWwuY29tPgogICAgICAgIHN5c3RlbXRhcCwgNS41LCBsYXN0
+IGF0dGVtcHQgMjAyNi0wNi0xMSAwNzo1MjozMyByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBp
+biAxOCBkYXkocyksIFZpY3RvciBLYW1lbnNreSA8dmljdG9yLmthbWVuc2t5N0BnbWFpbC5jb20+
+CiAgICAgICAgYmFyZWJveC10b29scywgMjAyNi4wNi4xLCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0y
+MCAwNToxMTozNCByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNyBkYXkocyksIEVucmlj
+byBKw7ZybnMgPHlvY3RvQHBlbmd1dHJvbml4LmRlPgogICAgICAgIGJpbmQsIDkuMjAuMjQsIGxh
+c3QgYXR0ZW1wdCAyMDI2LTA2LTE4IDA1OjMyOjQ2IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5
+IGluIDI1IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgog
+ICAgICAgIGluZXR1dGlscywgMi44LCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0xMSAwODoxNDo1NiBy
+ZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAxOCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNz
+aWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBpcHJvdXRlMiwgNy4xLjAsIGxhc3QgYXR0
+ZW1wdCAyMDI2LTA2LTE2IDA1OjE1OjEzIHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDIz
+IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAgICAg
+IG9wZW5zc2wsIDQuMC4xLCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0xMSAwODoxODo1OSByZXN1bHQ9
+ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAxOCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRA
+eW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBvdm1mLCBlZGsyLXN0YWJsZTIwMjYwNSwgbGFzdCBh
+dHRlbXB0IDIwMjYtMDYtMTEgMDg6MzM6NTggcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4g
+MTggZGF5KHMpLCBVbmFzc2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAg
+ICAgZGVidWdlZGl0LCA1LjMsIGxhc3QgYXR0ZW1wdCAyMDI2LTA2LTExIDA4OjUxOjA1IHJlc3Vs
+dD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDE4IGRheShzKSwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5k
+cml2ZXIuY29tPgogICAgICAgIGVsZnV0aWxzLCAwLjE5NSwgbGFzdCBhdHRlbXB0IDIwMjYtMDYt
+MTEgMDg6NTQ6MTIgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMTggZGF5KHMpLCBVbmFz
+c2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgZm10LCAxMi4yLjAs
+IGxhc3QgYXR0ZW1wdCAyMDI2LTA2LTE3IDA1OjE0OjM1IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJl
+dHJ5IGluIDI0IGRheShzKSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+
+CiAgICAgICAgZ24sIDAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBsYXN0IGF0dGVtcHQgMjAyNi0w
+Ni0xMSAwOTowODoyMyByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAxOCBkYXkocyksIEto
+ZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAgZ251LWNvbmZpZywgMjAyNTA3MDkt
+bmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0xMSAwOToxMDowMyBy
+ZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAxOCBkYXkocyksIFJvYmVydCBZYW5nIDxsaWV6
+aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIHB5dGhvbjMtY2VydGlmaSwgMjAyNi42LjE3
+LCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0xOCAwNTozNTo1OSByZXN1bHQ9c3VjY2Vzczsgd2lsbCBy
+ZXRyeSBpbiAyNSBkYXkocyksIFRpbSBPcmxpbmcgPHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPgog
+ICAgICAgIHB5dGhvbjMtZHRzY2hlbWEsIDIwMjYuNiwgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTcg
+MDU6MTk6MzcgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjQgZGF5KHMpLCBCcnVjZSBB
+c2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPgogICAgICAgIHB5dGhvbjMtaHlwb3Ro
+ZXNpcywgNi4xNTUuNywgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMjIgMDU6MDc6MDMgcmVzdWx0PXN1
+Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjkgZGF5KHMpLCBUcmV2b3IgR2FtYmxpbiA8dGdhbWJsaW5A
+YmF5bGlicmUuY29tPgogICAgICAgIHB5dGhvbjMtbWF0dXJpbiwgMS4xNC4xLCBsYXN0IGF0dGVt
+cHQgMjAyNi0wNi0yMCAwNTo0MDoxOSByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNyBk
+YXkocyksIFRpbSBPcmxpbmcgPHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPgogICAgICAgIHB5dGhv
+bjMtbnVtcHksIDIuNS4wLCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0yMiAwNTowOToxMCByZXN1bHQ9
+ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyOSBkYXkocyksIFRyZXZvciBHYW1ibGluIDx0Z2FtYmxp
+bkBiYXlsaWJyZS5jb20+CiAgICAgICAgcHl0aG9uMy1wZG0sIDIuMjguMCwgbGFzdCBhdHRlbXB0
+IDIwMjYtMDYtMjMgMDU6MDc6MDMgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMzAgZGF5
+KHMpLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIHB5dGhvbjMtcHl0ZXN0
+LCA5LjEuMSwgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMjAgMDU6NDM6NTEgcmVzdWx0PXN1Y2Nlc3M7
+IHdpbGwgcmV0cnkgaW4gMjcgZGF5KHMpLCBUcmV2b3IgR2FtYmxpbiA8dGdhbWJsaW5AYmF5bGli
+cmUuY29tPgogICAgICAgIHB5dGhvbjMtc2V0dXB0b29scy1zY20sIDEwLjEuMiwgbGFzdCBhdHRl
+bXB0IDIwMjYtMDYtMjMgMDU6MDk6MzcgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMzAg
+ZGF5KHMpLCBUcmV2b3IgR2FtYmxpbiA8dGdhbWJsaW5AYmF5bGlicmUuY29tPgogICAgICAgIHJw
+bSwgNi4wLjEsIGxhc3QgYXR0ZW1wdCAyMDI2LTA2LTExIDEwOjM2OjU1IHJlc3VsdD1mYWlsdXJl
+OyB3aWxsIHJldHJ5IGluIDE4IGRheShzKSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRy
+aXZlci5jb20+CiAgICAgICAgc3RyYWNlLCA3LjEsIGxhc3QgYXR0ZW1wdCAyMDI2LTA2LTE2IDA1
+OjI3OjExIHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDIzIGRheShzKSwgUm9iZXJ0IFlh
+bmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgbGlic29sdiwgMC43LjM5LCBs
+YXN0IGF0dGVtcHQgMjAyNi0wNi0xMSAxMToxODoxOCByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRy
+eSBpbiAxOCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4K
+ICAgICAgICBsaWdodHRwZCwgMS40Ljg0LCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0xOCAwNTozOTox
+NyByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNSBkYXkocyksIFVuYXNzaWduZWQgPHVu
+YXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBsc29mLCA0Ljk5LjcsIGxhc3QgYXR0
+ZW1wdCAyMDI2LTA2LTE3IDA1OjIyOjQ3IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDI0
+IGRheShzKSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgbWFuLXBh
+Z2VzLCA2LjE4LCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0xMSAxMToyMzoxNiByZXN1bHQ9ZmFpbHVy
+ZTsgd2lsbCByZXRyeSBpbiAxOCBkYXkocyksIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJp
+dmVyLmNvbT4KICAgICAgICBwYXJ0ZWQsIDMuNywgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTEgMTE6
+Mjg6MjEgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMTggZGF5KHMpLCBIb25neHUgSmlh
+IDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgZ3RrLWRvYywgMS4zNi4xLCBsYXN0
+IGF0dGVtcHQgMjAyNi0wNi0xMSAxMTo0Mjo1NyByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBp
+biAxOCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAg
+ICAgICBsaWJwb3J0YWwsIDAuMTAuMCwgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTggMDU6NTM6MjQg
+cmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjUgZGF5KHMpLCBVbmFzc2lnbmVkIDx1bmFz
+c2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgbGlicnN2ZywgMi42Mi4zLCBsYXN0IGF0
+dGVtcHQgMjAyNi0wNi0xMSAxMTo1MTo0MyByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAx
+OCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAg
+ICBnbHNsYW5nLCAxLjQuMzUwLjEsIGxhc3QgYXR0ZW1wdCAyMDI2LTA2LTE5IDA1OjQyOjI5IHJl
+c3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDI2IGRheShzKSwgSm9zZSBRdWFyZXNtYSA8cXVh
+cmVzbWEuam9zZUBnbWFpbC5jb20+CiAgICAgICAgcGlnbGl0LCAxLjAtbmV3LWNvbW1pdHMtYXZh
+aWxhYmxlLCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0xMSAxMjoyMzozMCByZXN1bHQ9ZmFpbHVyZTsg
+d2lsbCByZXRyeSBpbiAxOCBkYXkocyksIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29t
+PgogICAgICAgIHNwaXJ2LWhlYWRlcnMsIDEuNC4zNTAuMSwgbGFzdCBhdHRlbXB0IDIwMjYtMDYt
+MTkgMDU6NDQ6NTIgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjYgZGF5KHMpLCBKb3Nl
+IFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KICAgICAgICBzcGlydi1sbHZtLXRy
+YW5zbGF0b3IsIDIyLjEuMywgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTEgMTI6Mjg6MDcgcmVzdWx0
+PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMTggZGF5KHMpLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
+aWwuY29tPgogICAgICAgIHNwaXJ2LXRvb2xzLCAxLjQuMzUwLjEsIGxhc3QgYXR0ZW1wdCAyMDI2
+LTA2LTE5IDA1OjQ5OjI5IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDI2IGRheShzKSwg
+Sm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiAgICAgICAgdnVsa2FuLWhl
+YWRlcnMsIDEuNC4zNTAuMSwgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTkgMDU6NTI6MDQgcmVzdWx0
+PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjYgZGF5KHMpLCBVbmFzc2lnbmVkIDx1bmFzc2lnbmVk
+QHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgdnVsa2FuLWxvYWRlciwgMS40LjM1MC4xLCBsYXN0
+IGF0dGVtcHQgMjAyNi0wNi0xOSAwNTo1ODo0NyByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBp
+biAyNiBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAg
+ICAgICB2dWxrYW4tc2FtcGxlcywgZ2l0LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgcmFwaWQtZmly
+ZTsgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTEgMTI6NDg6NTUgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwg
+cmV0cnkgaW4gMTggZGF5KHMpLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAg
+ICAgICB2dWxrYW4tdG9vbHMsIDEuNC4zNTAuMSwgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTkgMDY6
+MDM6MTAgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjYgZGF5KHMpLCBVbmFzc2lnbmVk
+IDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgdnVsa2FuLXV0aWxpdHktbGli
+cmFyaWVzLCAxLjQuMzUwLjEsIGxhc3QgYXR0ZW1wdCAyMDI2LTA2LTE5IDA2OjA2OjAxIHJlc3Vs
+dD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDI2IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25l
+ZEB5b2N0b3Byb2plY3Qub3JnPgogICAgICAgIHZ1bGthbi12YWxpZGF0aW9uLWxheWVycywgMS40
+LjM1MC4xLCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0xOSAwNjoxMzoxMCByZXN1bHQ9c3VjY2Vzczsg
+d2lsbCByZXRyeSBpbiAyNiBkYXkocyksIFZpbmNlbnQgRGF2aXMgSnIgPHZpbmNlQHVuZGVydmll
+dy50ZWNoPgogICAgICAgIHZ1bGthbi12b2xrLCAxLjQuMzUwLjEsIGxhc3QgYXR0ZW1wdCAyMDI2
+LTA2LTE5IDA2OjE1OjM4IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDI2IGRheShzKSwg
+VW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAgICAgIHdhZmZsZSwg
+MS44LjIsIGxhc3QgYXR0ZW1wdCAyMDI2LTA2LTE1IDA1OjExOjU4IHJlc3VsdD1mYWlsdXJlOyB3
+aWxsIHJldHJ5IGluIDIyIGRheShzKSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+
+CiAgICAgICAgbGliaW5wdXQsIDEuMzEuMywgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTEgMTM6MTE6
+MDEgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMTggZGF5KHMpLCBSb3NzIEJ1cnRvbiA8
+cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAgICB4a2V5Ym9hcmQtY29uZmlnLCAyLjQ4LCBsYXN0
+IGF0dGVtcHQgMjAyNi0wNi0yMSAwNTowOTowOSByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBp
+biAyOCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAg
+ICAgICBmZm1wZWcsIDguMS4yLCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0xNyAwNTozMTo0MCByZXN1
+bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWdu
+ZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICB3ZWJraXRndGssIDIuNTIuNCwgbGFzdCBhdHRl
+bXB0IDIwMjYtMDYtMTEgMTQ6NDg6MTMgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMTgg
+ZGF5KHMpLCBVbmFzc2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAg
+YXBwc3RyZWFtLCAxLjEuMywgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTkgMDY6MTg6MjEgcmVzdWx0
+PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMjYgZGF5KHMpLCBNYXJrdXMgVm9sayA8Zl9sX2tAdC1v
+bmxpbmUuZGU+CiAgICAgICAgYm9vc3QsIDEuOTEuMCwgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTEg
+MTQ6NTM6MjQgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMTggZGF5KHMpLCBVbmFzc2ln
+bmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgZGlmZm9zY29wZSwgMzIx
+LCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0yMCAwNTo1NjozOCByZXN1bHQ9c3VjY2Vzczsgd2lsbCBy
+ZXRyeSBpbiAyNyBkYXkocyksIEpvc2h1YSBXYXR0IDxKUEVXaGFja2VyQGdtYWlsLmNvbT4KICAg
+ICAgICBsaWJmZmksIDMuNi4wLCBsYXN0IGF0dGVtcHQgMjAyNi0wNi0yMSAwNToyMDoyNSByZXN1
+bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyOCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWdu
+ZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBsaWJpY2FsLCA0LjAuMywgbGFzdCBhdHRlbXB0
+IDIwMjYtMDYtMTUgMDU6MTg6MzkgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMjIgZGF5
+KHMpLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAgICBsaWJqaXR0ZXJl
+bnRyb3B5LCAzLjcuMCwgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTEgMTU6NDc6NDEgcmVzdWx0PWZh
+aWx1cmU7IHdpbGwgcmV0cnkgaW4gMTggZGF5KHMpLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25A
+YXJtLmNvbT4KICAgICAgICB2dGUsIDAuODQuMCwgbGFzdCBhdHRlbXB0IDIwMjYtMDYtMTEgMTY6
+MzE6MjggcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMTggZGF5KHMpLCBVbmFzc2lnbmVk
+IDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CgogICAgVE9UQUw6IGF0dGVtcHRlZD02IHN1
+Y2NlZWRlZD0zKDUwLjAwJSkgZmFpbGVkPTMoNTAuMDAlKQoKUmVjaXBlIHVwZ3JhZGUgc3RhdGlz
+dGljcyBwZXIgTWFpbnRhaW5lcjoKCiAgICBVbmFzc2lnbmVkIDx1bmFzc2lnbmVkOiBhdHRlbXB0
+ZWQ9MiBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTIoMTAwLjAwJSkKICAgIEJlbmphbWluIFJv
+YmluIDxiZW5qYW1pbi5yb2JpbjogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFp
+bGVkPTAoMC4wMCUpCiAgICBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b246IGF0dGVtcHRlZD0xIHN1
+Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgVHJldm9yIEdhbWJsaW4gPHRn
+YW1ibGluOiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MSg1MC4wMCUpIGZhaWxlZD0xKDUwLjAwJSkK
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-vcs-versioning* to *2.1.2* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-python3-vcs-versioning-upgrade-1.1.1-2.1.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From d3407947d7c285e67a90bebdf25b7b1c0b16f357 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 24 Jun 2026 05:34:34 +0000
-Subject: [PATCH] python3-vcs-versioning: upgrade 1.1.1 -> 2.1.2
-
----
- ...-vcs-versioning_1.1.1.bb => python3-vcs-versioning_2.1.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-vcs-versioning_1.1.1.bb => python3-vcs-versioning_2.1.2.bb} (91%)
-
-diff --git a/meta/recipes-devtools/python/python3-vcs-versioning_1.1.1.bb b/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-vcs-versioning_1.1.1.bb
-rename to meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb
-index 4d2f5007b4..505c53ea19 100644
---- a/meta/recipes-devtools/python/python3-vcs-versioning_1.1.1.bb
-+++ b/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb
-@@ -5,7 +5,7 @@ library that can be used independently of setuptools."
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c9b06ad2ebd7e2e82d34b3caf353e7d5"
- 
--SRC_URI[sha256sum] = "fabd75a3cab7dd8ac02fe24a3a9ba936bf258667b5a62ed468c9a1da0f5775bc"
-+SRC_URI[sha256sum] = "7282122aee5de69d520a9dbe56ebac705a0be7e2cc9b1b97dde4333c45fe782c"
- 
- SRC_URI += "\
-     file://run-ptest \
--- 
-2.47.1
-
-
---===============3653613518439026572==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 951 .bb files complete (0 cached, 951 parsed). 1978 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-8f6d0c5135458b357315dbaefd657f4c49befa98"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:8f6d0c5135458b357315dbaefd657f4c49befa98"
-meta-yocto-bsp       
-meta-poky            = "master:366fa2f21bfb0d9c4de492e0204a0dd38ce241ab"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 477 Local 421 Mirrors 0 Missed 56 Current 444 (88% match, 93% complete)
-done.
-Removing 3 stale sstate objects for arch x86_64...done.
-Removing 12 stale sstate objects for arch x86-64-v3...done.
-Removing 6 stale sstate objects for arch qemux86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 516 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 529 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/git/git_2.54.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 535 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 584 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_82.0.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 611 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 626 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-typing-extensions_4.15.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 661 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-colorama_0.4.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 672 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 687 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 691 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygments_2.20.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 698 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 699 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 713 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 716 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-typing-extensions_4.15.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 720 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 724 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hatchling_1.30.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-setuptools-82.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe git-2.54.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-typing-extensions-4.15.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-colorama-0.4.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-iniconfig-2.3.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-packaging-26.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-pygments-2.20.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-pluggy-1.6.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-pytest-9.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-hatch-vcs-native-0.5.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-typing-extensions-native-4.15.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-hatchling-native-1.30.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-packaging-native-26.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-iniconfig-2.3.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-colorama-0.4.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-pygments-2.20.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 740 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-typing-extensions-4.15.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe git-2.54.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-setuptools-82.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 757 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 762 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-colorama_0.4.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 773 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 785 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygments_2.20.0.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-pluggy-1.6.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-packaging-26.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 834 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 853 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 860 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_82.0.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 861 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.2.bb:do_package_setscene)
-NOTE: recipe python3-pytest-9.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-hatchling-native-1.30.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-hatch-vcs-native-0.5.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-packaging-native-26.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-typing-extensions-native-4.15.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-colorama-0.4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-iniconfig-2.3.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-pygments-2.20.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-pluggy-1.6.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-pluggy-native-1.6.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-setuptools-native-82.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-colorama-0.4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-iniconfig-2.3.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-pygments-2.20.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-pluggy-1.6.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-pluggy-native-1.6.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-setuptools-native-82.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 864 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 867 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.2.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 878 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 885 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-typing-extensions_4.15.0.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 891 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_82.0.1.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 896 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-hatch-vcs-native-0.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-typing-extensions-native-4.15.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-setuptools-native-82.0.1-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-packaging-native-26.2-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-hatch-vcs-native-0.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-typing-extensions-native-4.15.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-setuptools-native-82.0.1-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-packaging-native-26.2-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 919 of 921 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe python3-packaging-26.2-r0: task do_package_setscene: Started
-NOTE: Running task 1410 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_recipe_qa)
-NOTE: Running task 1433 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_recipe_qa)
-NOTE: Running task 1451 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_fetch)
-NOTE: Running task 1517 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb:do_fetch)
-NOTE: Running task 1586 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.0.bb:do_fetch)
-NOTE: Running task 1599 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb:do_fetch)
-NOTE: Running task 1603 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hatchling_1.30.1.bb:do_fetch)
-NOTE: Running task 1613 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_fetch)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_recipe_qa: Started
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_recipe_qa: Started
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_fetch: Started
-NOTE: recipe python3-pluggy-1.6.0-r0: task do_fetch: Started
-NOTE: recipe python3-pytest-9.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_fetch: Started
-NOTE: Running task 1823 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb:do_fetch)
-NOTE: Running task 1838 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygments_2.20.0.bb:do_fetch)
-NOTE: Running task 1839 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-colorama_0.4.6.bb:do_fetch)
-NOTE: recipe python3-hatchling-native-1.30.1-r0: task do_fetch: Started
-NOTE: Running task 1840 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb:do_fetch)
-NOTE: recipe python3-pluggy-native-1.6.0-r0: task do_fetch: Started
-NOTE: recipe python3-packaging-26.2-r0: task do_package_setscene: Succeeded
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_fetch: Succeeded
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 921 of 921 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running task 1912 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_unpack)
-NOTE: Running task 1913 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_unpack)
-NOTE: Running task 1914 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_create_recipe_spdx)
-NOTE: recipe python3-pluggy-native-1.6.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pluggy-1.6.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1929 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb:do_unpack)
-NOTE: Running task 1930 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb:do_unpack)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_recipe_qa: Succeeded
-NOTE: recipe python3-pygments-2.20.0-r0: task do_fetch: Started
-NOTE: recipe python3-colorama-0.4.6-r0: task do_fetch: Started
-NOTE: recipe python3-iniconfig-2.3.0-r0: task do_fetch: Started
-NOTE: Running task 2003 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_fetch)
-NOTE: recipe python3-hatchling-native-1.30.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-hatch-vcs-native-0.5.0-r0: task do_fetch: Started
-NOTE: Running task 2022 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hatchling_1.30.1.bb:do_unpack)
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2048 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_fetch)
-NOTE: Running task 2053 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_create_recipe_spdx)
-NOTE: recipe python3-packaging-26.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_unpack: Started
-NOTE: recipe python3-pytest-9.1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2082 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.0.bb:do_unpack)
-NOTE: recipe python3-pluggy-1.6.0-r0: task do_unpack: Started
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_unpack: Succeeded
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_unpack: Started
-NOTE: Running task 2110 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_patch)
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_create_recipe_spdx: Started
-NOTE: recipe python3-pluggy-1.6.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pluggy-native-1.6.0-r0: task do_unpack: Started
-NOTE: Running task 2111 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb:do_patch)
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_unpack: Succeeded
-NOTE: recipe python3-colorama-0.4.6-r0: task do_fetch: Succeeded
-NOTE: recipe python3-iniconfig-2.3.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2112 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_patch)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_fetch: Started
-NOTE: Running task 2113 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-colorama_0.4.6.bb:do_unpack)
-NOTE: Running task 2114 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb:do_unpack)
-NOTE: recipe python3-hatch-vcs-native-0.5.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pluggy-native-1.6.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-packaging-26.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2125 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb:do_patch)
-NOTE: Running task 2129 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb:do_unpack)
-NOTE: Running task 2132 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_unpack)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_create_recipe_spdx: Started
-NOTE: Running task 2133 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-hatchling-native-1.30.1-r0: task do_unpack: Started
-NOTE: recipe python3-pytest-9.1.0-r0: task do_unpack: Started
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_fetch: Started
-NOTE: recipe python3-hatchling-native-1.30.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_patch: Started
-NOTE: Running task 2134 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hatchling_1.30.1.bb:do_patch)
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pluggy-1.6.0-r0: task do_patch: Started
-NOTE: Running task 2135 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_unpack)
-NOTE: Running task 2136 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-colorama-0.4.6-r0: task do_unpack: Started
-NOTE: recipe python3-iniconfig-2.3.0-r0: task do_unpack: Started
-NOTE: recipe python3-colorama-0.4.6-r0: task do_unpack: Succeeded
-NOTE: recipe python3-iniconfig-2.3.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2137 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-colorama_0.4.6.bb:do_patch)
-NOTE: Running task 2138 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb:do_patch)
-NOTE: recipe python3-pytest-9.1.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_unpack: Started
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_patch: Started
-NOTE: Running task 2139 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.0.bb:do_patch)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-hatch-vcs-native-0.5.0-r0: task do_unpack: Started
-NOTE: recipe python3-pluggy-native-1.6.0-r0: task do_patch: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_unpack: Succeeded
-NOTE: recipe python3-hatch-vcs-native-0.5.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pygments-2.20.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2140 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_patch)
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_patch: Succeeded
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_patch: Succeeded
-NOTE: Running task 2141 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb:do_patch)
-NOTE: Running task 2142 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygments_2.20.0.bb:do_unpack)
-NOTE: recipe python3-hatchling-native-1.30.1-r0: task do_patch: Started
-NOTE: recipe python3-pluggy-1.6.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-pluggy-native-1.6.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_unpack: Started
-NOTE: recipe python3-colorama-0.4.6-r0: task do_patch: Started
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-iniconfig-2.3.0-r0: task do_patch: Started
-NOTE: recipe python3-hatchling-native-1.30.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-pytest-9.1.0-r0: task do_patch: Started
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2148 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_patch)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_patch: Started
-NOTE: recipe python3-pygments-2.20.0-r0: task do_unpack: Started
-NOTE: recipe python3-hatch-vcs-native-0.5.0-r0: task do_patch: Started
-NOTE: recipe python3-colorama-0.4.6-r0: task do_patch: Succeeded
-NOTE: recipe python3-iniconfig-2.3.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-hatch-vcs-native-0.5.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe python3-pytest-9.1.0-r0: task do_patch: Succeeded
-NOTE: Running task 2153 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_create_recipe_spdx)
-NOTE: Running task 2154 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_create_recipe_spdx)
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_patch: Started
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_create_recipe_spdx: Started
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_create_recipe_spdx: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe python3-pygments-2.20.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2155 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pygments_2.20.0.bb:do_patch)
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_patch: Succeeded
-NOTE: Running task 2156 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pygments-2.20.0-r0: task do_patch: Started
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_patch: Succeeded
-NOTE: recipe python3-pygments-2.20.0-r0: task do_patch: Succeeded
-NOTE: Running task 2158 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2159 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_populate_lic)
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_create_recipe_spdx: Succeeded
-NOTE: Running task 2160 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.0.bb:do_create_recipe_spdx)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_populate_lic: Started
-NOTE: recipe python3-pytest-9.1.0-r0: task do_create_recipe_spdx: Started
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2161 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_configure)
-NOTE: recipe python3-pytest-9.1.0-r0: task do_create_recipe_spdx: Succeeded
-NOTE: Running task 2162 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_configure)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_configure: Started
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_configure: Started
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_configure: Succeeded
-NOTE: Running task 2163 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_compile)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_configure: Succeeded
-NOTE: Running task 2164 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_configure_ptest_base)
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_compile: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2165 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_compile)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_compile: Started
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_compile: Succeeded
-NOTE: Running task 2166 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_install)
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_install: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_compile: Succeeded
-NOTE: Running task 2167 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_compile_ptest_base)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2168 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_install)
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_install: Succeeded
-NOTE: Running task 2169 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_populate_sysroot)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_install: Started
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2170 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2171 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2172 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_create_spdx)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_install: Succeeded
-NOTE: Running task 2173 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_install_ptest_base)
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_create_spdx: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2174 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_package)
-NOTE: Running task 2175 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_populate_sysroot)
-NOTE: recipe python3-vcs-versioning-native-2.1.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2176 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_configure)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_package: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_configure: Started
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2177 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_configure)
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_configure: Succeeded
-NOTE: Running task 2178 of 2257 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_compile)
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_configure: Started
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_compile: Started
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_configure: Succeeded
-NOTE: Running task 2179 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_compile)
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_compile: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_package: Succeeded
-NOTE: Running task 2180 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_packagedata)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_packagedata: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2181 of 2257 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-vcs-versioning_2.1.2.bb:do_create_spdx)
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_create_spdx: Started
-NOTE: recipe python3-vcs-versioning-2.1.2-r0: task do_create_spdx: Succeeded
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| * Getting build dependencies for wheel...
-| Traceback (most recent call last):
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_in_process/_in_process.py", line 389, in <module>
-|     main()
-|     ~~~~^^
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_in_process/_in_process.py", line 373, in main
-|     json_out["return_val"] = hook(**hook_input["kwargs"])
-|                              ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_in_process/_in_process.py", line 143, in get_requires_for_build_wheel
-|     return hook(config_settings)
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/setuptools/build_meta.py", line 333, in get_requires_for_build_wheel
-|     return self._get_build_requires(config_settings, requirements=[])
-|            ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/setuptools/build_meta.py", line 301, in _get_build_requires
-|     self.run_setup()
-|     ~~~~~~~~~~~~~~^^
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/setuptools/build_meta.py", line 317, in run_setup
-|     exec(code, locals())
-|     ~~~~^^^^^^^^^^^^^^^^
-|   File "<string>", line 48, in <module>
-|   File "<string>", line 36, in _package_version
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/sources/setuptools_scm-10.0.5/src/setuptools_scm/_get_version.py", line 56, in get_version
-|     return _get_version_public(
-|         root=root,
-|     ...<17 lines>...
-|         scm=scm,
-|     )
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/vcs_versioning/_get_version_impl.py", line 315, in get_version
-|     _version_missing(config)
-|     ~~~~~~~~~~~~~~~~^^^^^^^^
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/vcs_versioning/_get_version_impl.py", line 239, in _version_missing
-|     raise LookupError(error_msg)
-| LookupError: setuptools-scm was unable to detect version for /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/sources.
-| 
-| Make sure you're either building from a fully intact git repository or PyPI tarballs. Most other sources (such as GitHub's tarballs, a git checkout without the .git folder) don't contain the necessary metadata and will not work.
-| 
-| For example, if you're using pip, instead of https://github.com/user/proj/archive/master.zip use git+https://github.com/user/proj.git#egg=proj
-| 
-| Alternatively, set the version with the environment variable SETUPTOOLS_SCM_PRETEND_VERSION_FOR_${NORMALIZED_DIST_NAME} as described in https://setuptools-scm.readthedocs.io/en/latest/config/
-| 
-| ERROR Backend subprocess exited when trying to invoke get_requires_for_build_wheel
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/run.do_compile.3223379:154 exit 1 from 'pyproject-build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/sources/setuptools_scm-10.0.5'
-| WARNING: Backtrace (BB generated script):
-| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/run.do_compile.3223379, line 154
-| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/run.do_compile.3223379, line 149
-| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/run.do_compile.3223379, line 158
-NOTE: recipe python3-setuptools-scm-native-10.0.5-r0: task do_compile: Failed
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| * Getting build dependencies for wheel...
-| Traceback (most recent call last):
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_in_process/_in_process.py", line 389, in <module>
-|     main()
-|     ~~~~^^
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_in_process/_in_process.py", line 373, in main
-|     json_out["return_val"] = hook(**hook_input["kwargs"])
-|                              ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_in_process/_in_process.py", line 143, in get_requires_for_build_wheel
-|     return hook(config_settings)
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/setuptools/build_meta.py", line 333, in get_requires_for_build_wheel
-|     return self._get_build_requires(config_settings, requirements=[])
-|            ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/setuptools/build_meta.py", line 301, in _get_build_requires
-|     self.run_setup()
-|     ~~~~~~~~~~~~~~^^
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/setuptools/build_meta.py", line 317, in run_setup
-|     exec(code, locals())
-|     ~~~~^^^^^^^^^^^^^^^^
-|   File "<string>", line 48, in <module>
-|   File "<string>", line 36, in _package_version
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/sources/setuptools_scm-10.0.5/src/setuptools_scm/_get_version.py", line 56, in get_version
-|     return _get_version_public(
-|         root=root,
-|     ...<17 lines>...
-|         scm=scm,
-|     )
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/vcs_versioning/_get_version_impl.py", line 315, in get_version
-|     _version_missing(config)
-|     ~~~~~~~~~~~~~~~~^^^^^^^^
-|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/recipe-sysroot-native/usr/lib/python3.14/site-packages/vcs_versioning/_get_version_impl.py", line 239, in _version_missing
-|     raise LookupError(error_msg)
-| LookupError: setuptools-scm was unable to detect version for /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/sources.
-| 
-| Make sure you're either building from a fully intact git repository or PyPI tarballs. Most other sources (such as GitHub's tarballs, a git checkout without the .git folder) don't contain the necessary metadata and will not work.
-| 
-| For example, if you're using pip, instead of https://github.com/user/proj/archive/master.zip use git+https://github.com/user/proj.git#egg=proj
-| 
-| Alternatively, set the version with the environment variable SETUPTOOLS_SCM_PRETEND_VERSION_FOR_${NORMALIZED_DIST_NAME} as described in https://setuptools-scm.readthedocs.io/en/latest/config/
-| 
-| ERROR Backend subprocess exited when trying to invoke get_requires_for_build_wheel
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/run.do_compile.3223405:151 exit 1 from 'pyproject-build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/sources/setuptools_scm-10.0.5'
-| WARNING: Backtrace (BB generated script):
-| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/run.do_compile.3223405, line 151
-| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/run.do_compile.3223405, line 146
-| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/run.do_compile.3223405, line 163
-NOTE: recipe python3-setuptools-scm-10.0.5-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 2181 tasks of which 2112 didn't need to be rerun and 2 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260624053413.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260624053413.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 2 tasks failed:
-  virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/log.do_compile.3223379
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/log.do_compile.3223405
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: python3-setuptools-scm-native-10.0.5-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/run.do_compile.3223379' failed with exit code 1
-ERROR: python3-setuptools-scm-10.0.5-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/run.do_compile.3223405' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/python3-setuptools-scm-native/10.0.5/temp/log.do_compile.3223379
-ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_compile) failed with exit code '1'
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-setuptools-scm/10.0.5/temp/log.do_compile.3223405
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb:do_compile) failed with exit code '1'
-
---===============3653613518439026572==
+--===============8369509027177431560==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-vcs-versioning-upgrade-1.1.1-2.1.2.patch"
+Content-Disposition: attachment; filename="20260624050058.tar.gz"
 
-RnJvbSBkMzQwNzk0N2Q3YzI4NWU2N2E5MGJlYmRmMjViN2IxYzBiMTZmMzU3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMjQgSnVuIDIwMjYgMDU6MzQ6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXZjcy12ZXJzaW9uaW5nOiB1cGdyYWRlIDEuMS4xIC0+IDIuMS4yCgotLS0KIC4uLi12
-Y3MtdmVyc2lvbmluZ18xLjEuMS5iYiA9PiBweXRob24zLXZjcy12ZXJzaW9uaW5nXzIuMS4yLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdmNzLXZlcnNpb25p
-bmdfMS4xLjEuYmIgPT4gcHl0aG9uMy12Y3MtdmVyc2lvbmluZ18yLjEuMi5iYn0gKDkxJSkKCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdmNzLXZlcnNp
-b25pbmdfMS4xLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdmNz
-LXZlcnNpb25pbmdfMi4xLjIuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXZjcy12ZXJzaW9uaW5nXzEuMS4xLmJi
-CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdmNzLXZlcnNp
-b25pbmdfMi4xLjIuYmIKaW5kZXggNGQyZjUwMDdiNC4uNTA1YzUzZWExOSAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXZjcy12ZXJzaW9uaW5nXzEuMS4x
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy12Y3MtdmVyc2lv
-bmluZ18yLjEuMi5iYgpAQCAtNSw3ICs1LDcgQEAgbGlicmFyeSB0aGF0IGNhbiBiZSB1c2VkIGlu
-ZGVwZW5kZW50bHkgb2Ygc2V0dXB0b29scy4iCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19D
-SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT1jOWIwNmFkMmViZDdlMmU4MmQzNGIzY2Fm
-MzUzZTdkNSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImZhYmQ3NWEzY2FiN2RkOGFjMDJmZTI0
-YTNhOWJhOTM2YmYyNTg2NjdiNWE2MmVkNDY4YzlhMWRhMGY1Nzc1YmMiCitTUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiNzI4MjEyMmFlZTVkZTY5ZDUyMGE5ZGJlNTZlYmFjNzA1YTBiZTdlMmNjOWIxYjk3
-ZGRlNDMzM2M0NWZlNzgyYyIKIAogU1JDX1VSSSArPSAiXAogICAgIGZpbGU6Ly9ydW4tcHRlc3Qg
-XAotLSAKMi40Ny4xCgo=
+H4sIALhtO2oAA+w8a3PbRpL+zF8x5bst25EAYgZv3cZnRdaudZvYKsnO3V42xRoMBiQivBYPSXSS
+/37dA5CiKBEktJav7lYomxLJfk13T093oyFmMMdwmGXYhmF742ePcRlwubYNP6lpO8bKz+X1jNqM
+Oo7DGGXP4GtmsWfEfhRp1q6mqnlJyLMiv5gHTZyEG+C2ff9/9GK37V81QkgZflk/GGB/x3Hhc2o5
+Ln2y/9e4Nti/uJiKPIu+jB8Mt79jMuPJ/l/j2mJ/teJZXNV5OdfCOIr0+roeygMN7FjWJvszZtgL
++1uGSZ/BJ5ZrPSPGYyx4/font3/BxQWfymp87TmaY2mXpoYr1ZI4a66XbtD91MJgekBO//Ln85P/
+PiZixrOpDElU5ikBB3Jsh9Q5cWzX9Czycs9hf3g1GkhfXm6gz1zIDJC8ZXiGA9RtYzj1XByQP518
+f/z9yfnHA8LDEKg/HzdVOa5mvJRjAFgiHX04/evJ+z+TDV+/Pfqw6aujD+8/np189+kjoOtpuAqW
+8gz/03FVhNd1nic6ff6QRdxvAsu0lYoc07RdUJFlDlZRVW6ibsJGBapoAZ+5ygSONZT+qvpLmeaX
+SwMkcYD/Ozi9ynVXN3SDbPry+f4t+92F8FrUIM6Wyt5EzENOA+2wQUvUtcD7UUvM9nzTRCt4oKUj
+BVThFzuxIS+reVXmef3qYEQ2yL3kXM1TQL4gEMimsm4FuU+XwPyehW+k32G1VgLcPu31ENlOYPS/
+HQT/ia8t5z8cz1RbBIemmJY8lBrTbZ3Cq6/7hl7wWsz6eWw5/23DZcvz33YhT2QWdd2n8/9rXH9S
+sZ0GwpcO94X0rTDyDGGFPqOhY1HfdzkTfuAYFuPkhzwj57KAMEcM40D9IwzMOUIyB+RT6yDknUwK
+WZI/8mb2Zp6LOi/K/Bcpaj0vp69Hb3ktD8h/ynCfMIv8R5MRdEJi2AeMHRg22UOnGJ03AaIckJ9O
+Dz8evfuZLANv54ZEuSHRXpPWE0cjTdNGRNf18a8d7ESB6EFAvn1Nbj5TfhsEvxNCfkMR9tYvpENJ
+FCdyEWNBVEbirJJlHedZ9XLvFXxCQpnI9r32agQHWsZTSVJZ83EpRVzIChMaPHmq5YbaVbSXrg/H
+xghTbqJp07gmfNxP+Q7hYGeEjuuoitM44WVcz2GtobwmIMSoW5Y6VYZJsECF0D9UkpY9c10Z+a7n
+CF3nhh1CaOLSIFSFEzT3YKWMwLoPUMybN0Sj+ybZo/vMJG/ejPb+BTKZ//rh+IDUM0m+PzmaYGJz
+Pjl695fzTz+QS540cNrP+KUkgZQZ+GwIXh+SYE5edPwWfvxCR2ofgUyUJ0l+FWdTEleKLlpfghIF
+UqmvkBB+nCch4Vmofs/kFRzqQoJrklpe14rYaSI5vG+ZLiQ8fn9+3ApG4gjwZIhujXSqJk3B6p9b
+UNGlKnGGpNQneZqCA6ayqiBxIZcxJy++b3lqnxSPgxeQfEwV75fymqdFAjt8HQboFPMyns5qMpe8
+rBZK0V+8AsSFEjr2B91HaOQuFce3aL6Vt61dbLSL1ZlFO1pyeSleQWihdB9fmXo11aulXm316qhX
+V716igCEhcWOJLypZzmI+rKSkhx++vjuw9l5GxjijFR5Uwq0EngSFsivlAL27gqgqQD3D9Ak6uVU
+lmlcVRBwcEs1ldxXKt2HDAs8Za6MOc5LQK7qMg4aZXtwpSqP6isoP8DBSoCZK2JFUxY5OMlVXM8I
+fI4/8wayRxAKcGbgd+Cs4KFZjX4CEfwyxny7nvFaeQUPIK9DUspSIwJ+/8Ph2V/Jt+T5YqUdUoUe
+VMACS+VumKvCrwgRT5uSYwRVosHGkElepDLDJBYix1VeXlT68xF5e3x+dHZy+vHkw/tV+iAnRyYg
+ZUquZrGYgdxJodLsBXl5L/O/jUiU8GnVx5ec1MihC4oqdb+Yai3dNhz+rQ0MbN8leya+wtuz07MP
+P56AwAf/+uvp+9/J3o288RSW0nr5YgWLrQuukCqxA7BSkwnUCU+SOZF/b2LYtCgafPvd+VuNaUcJ
+B+OD0ZDayfnRPgFbQ7CplgGjJrCEECLJPhhf7XXYz3VF8quMYEjWR8uIcCPe85F2J5DBt+iZB+NF
+PfxvaWh/yxi1GGNSUO4xIwgdIVybOi63HZ/ZEmqpvR0pUWmagvluZNqSOrYUkRUFwqO+a4XCFxwU
+Bp51djT5dHaCJMBueM3quqiAFHo6Uq10iF88zKReQXkl75S1YIoff9ch0dOvP3dWYwZazTJaq91l
+0Ql7Y3ItA0+9lDps0o0gsgovOgDQZkf0J6j9me1AlP0Z6YvQsIUP1WHgR54DKzYsS1CDM+b4HmOY
+iQWQUkkhQ6ghmYiiKHRsLzC4bQhmmaDc+wkzKwr90PCc0HC4xYMgEK5Fqcsl1KSu8EHRoecbPJKu
+9D3QNhB1mOtwF9JxVwql6ziDnY/ZRlPn6lQkS+eFryEYj5huuTodPRVt/y+uof1fLWqSZGATuL/+
+o7Zhrfd/TQvv/z3Vf49/7dSNUs2uH9casqr6+imUEW+S+mfV8lL58s1nu3XUDpbB9xb950NjfJvi
+dzH+bmi+KnmBRWlfXN8Y0J/j8h4gkaofHkmkXbV7uma450pR7YpaCQe3oB/7LgDS72sU66EMmul9
+3cq1tjB2fzvgu03ge6k8pBe8VMhjbZE1Rl/eoI9726Wj/vjaUYy+vHYe9Y7LwJtSQ24tPejelcrN
+H6qixzexYvTFTZzkgmPL4mssYcnri6/ikW/etfRvXHXZo+g6nwt3LMW4jawLfLWwsUjicZCnKgZr
+rzfD4spXgffXDoBN9G/i+Diowqpugkqf9Yt0H4rYGUVwMZMD4PEoj/MhDJIYSvkhHEo+TXdAQe2m
+PM4GkF45JbcoFYlPZZ0X9STJs+kAHqEsZBbKTMwHIMHPXZa7KtHuXsGbMN5JmyUKXspSS6tLMYRB
+Ob2siuQhTAaoiJeVLAcgxDWA776IgtezAdTrpkiG7JugwabWAIS/N7IZwgBy8ArbbXENjreWQfZG
+qJ2tvsRYHM5jMEgMHD/3ytmHto3bwLCwYU3bMAY4zTr8VjdYR9glRN+jsRjvRrR91rh/899FFnm5
+XdO32XW99kELUw5eyd0MtGTV1HEyROG33PwBah+kh23Hy4blDMJQ1hnmDAvrDLPpmgsNUN5uR9r9
+DjEEY3uqcCcobM1G1jHypi6aQTy2Hzx3MPpP86Vtdkww7oUfsGV2y3ruGGNbYriOsDXNuIOwS9qw
+jrT1WLy7enVzagjKJcSYON++81edfV5LkYeD2KiMY5c9vFOIGJDK3Ca8iwQ7BcJVDWJPMcCT8aHl
+36NXsC2jL1++1ryOxVfrFq2y+9JrGTgd+ngztL2jndtnaG9GcHeao32Ilh7bzrtZ92k+92k+95/y
+2nL/V8LxlUzaAbH5Q3lsmf914br9/Bej1KRP93+/xvUxPyA/vTjLq4p815R1npE/lvBGD9SbN7xM
+dZGnr1/8PELIHKoZmQYSTw0NU6A3SVzVlb76OQ75rkzvHn66O7uLI443gf3809HR8fHb47ejw7qG
+1BlbFdUBgWzpcrzU+ljNEWs4mSVLSJhn7WhC97qYTJ+pwePxmlPzJFk69L0PtD0Srx2H57/WSpej
+G6PRO5kk+f5opMYD1R5vZ+myvI6jWHQjeXhO4aTfYQPGuj3bPboZA4QvU8ykCK9rmRZqTm0xoo0A
+7Zjty+oV+aYT7RsE+aZVwTdqbu28DTvgPKPRewkGqWpZVAdqzEojvCiSuaKl9HVA1Dh0SnbUb0cF
+ajJxcWvCVQla1aUEWgoSPrszD5viVObdKdj9BdV2uBDwSJzidKxSDEhUQ95fdUKrhKJDAOVFeZmS
+Kk8lCXgFiqt4hiPXtYSttFgybILwZsmtWPEUmNQkj6JWBZ1EWkU0rZSVrLV2tBTeKvyOVoWkYmUX
+ZbCiKPMCioxaErQ8bkbcxaPRYVLLsh09SOb7OCU8zxsSyCSWl6u2JNUsb5IQvQXnFTvNh0R5BI4u
+xynoB3EFVxMMCTk7Pjo5PZ68/zD5dPr28OPx5Oz48PzDe9QtSF5AqACmC/JqFrbKlSpHN/7V8anI
+VcedYDkvS5Sh8z3lQN30cykvY3nVLlnFFcz/cGpDzXxGEN9mgBtnaI3W4VHJi12mJqcjUE8D8umj
+w2yOg6ZQl4GrtPSVlBwQprjwxWwIvP0MC+b6+nMPY4hqspzA97qYxv8O34SNqL89bJcnwz8wo52T
+hl/egSQJbLLRmZzyMqz2RzgzurYDcRjvtQe2Hj09w/H0DMfTMxxPz3A8PcPx9AzH0zMcT89wPD3D
+8fQMx27PcIw29n/mEEkyU2sutTYj/kd6DIP//g/DPwrz9Pd/vsa1q/3bWnvt02XRbeiU6ox2P621
+PwrQ3/+zKTXNhf1tlzpgf9cxnvp/X+VStaPHI2o7diSZFTqGZwrPsqltQuoeBRDdWcBCJwyF99i1
+o0kPbG9j7bjmfDdFZOd9WEZ2DrhSR7ZodxxaE5C0wJkTZ4J012/EYWRRPK5cik7HY1HsrVGbLBwf
+y77fCJSVe4DGun7Dsv6k/nr9admDCtB2Lb9uYL+TdC99tmtRul1zG6uwrahddRhIzK1tx/F0PYRD
+0pIe96OdqsPtLHrrxO3oNxkGW8swMB9cJBAKATKIBWI+xmNXRNMxhXrV2AwWcHEBElDd6YeqpGON
+DZ0xnQKYtgEsrlUuPGZoagTc2w5o9jJOcnGhtZNIwJ4autUDnF8LjmBAtQ8MahpYMG2Xgvp1fdQv
+vDq76zdqamzKaTgwBixN3WSbgacyg1xIaLws+RzXYeluH3QNxVKYpy3dzfpeBbTUajZRTPKgknUL
+5vXC5Ro2TstK8e6xDBQJs6CEMgCXY+t2p0rf3KcQd3y2T+nuyoxFM8F+MAYlqbxC79HmbegJlP58
+RxSsIUsF2+PFcQh2ggAIcL0aiEOAAUrbYCY85EUt0edYn5FULEp5gfJZvUQzfFiGwWng9qwig5QC
+WEKKzTZvxCWU18uwmtTYMYBCclLkyRyb6YDkGr0qB5Q2yhnb1lPnKAOAuYtCmKqIRw1vyJb8pdKq
+eeu4fo+ef+mqYqXBHrES/nk+aedzllF0g7ITGVDmRSnusF5/SOJAtAHKc/qgsuZaK/lVtx7a6zcJ
+aBrdxtC9ZUSjVIU0Sp0hZ0byOeULljrrWQbesVFjlQjp9AmXqjtaKpywPg2mMhUz3Jpe37mxAtXj
+eeCo8edJfg2bXSnF7wPN1bbsW2sDaZOKnEvvtGylXIsN8c4iL2scqdN4nafKpeDo69HcGvzioGF6
+j+MUeS2zOoZt2tSRsqK1WeVFKet63t5HUoTNnjMJgqfQUi7KnLVb1egToy4nKuHBrdi3xA5uAlE5
+vpRLcKVk2933Qcm2CT92VnIpI03wqlYyMns7oIZT1btAY7tPwyZpuzn8zXot5VRetwmGudmVV6B6
+chUFpXV3H3l7fveYtAWv5lnNr9t4YGyR4BZwj6nwgQwAstWSNsFczC9bQj2+gUA39u5glcFdU+0q
+Z1AaVoFJ5LThZbhtH1eSY84ytvojdCWTSCtlkWD3b0vYr2R6qc518J6evQO1VihbKNaTfCkwrQFz
+TKFOU27WE7kU9ASnX1YoKz16/j6YfY961qAcrIrTEKKGpxj37IWuiw1B2O3VY8KD1l9ZjwJTniSX
+UgVDuy/w3wbsif0AeHWhAkkfUBGix0P87dl6lYq+6KoymkCeHdfLBG6TkHUZFxrPqliTleBQ6bVH
+fR+PEtQ5Nhbl0iaweZusUNrnZXPI5cpGYFnSLo4tGtTM22cOFJDM2mdsd49oshhH4jU4R7Muovbo
+awENgVIGpeQX2xxpgXAVh/VMaarHUxbAcKhvOwSbDJSfZfNtuVhTJuopvJ4tifthEtfdHu9bPAAu
+EqL+dTSxilRmX1Z+A9QTbfEGLHqoWmaP83QPQ0zU5BEA+8omGzhf1rJN13sIXvHkIoxLpbse9V7x
+Ku48ew9/16qMF9Usr7WiHYrpZdHiQs7V4qJWe9SPMEWbmLAbhJ4zWiGYKj4ZCwQo9rRSqDusmkG1
+vgQHMFItgDoMCvt2j/c1HFah2xzqITha1RSYEw7EVX9dIVxB2qyRVJMZbjLVQrGsvpNPQWPqFrZp
+yQ7g7WNYK7CbpIcys4gX6S7tzUqusBS+wjDr0L690sFB/pYkUhV/NwWJipCuOiv3mOMMST46spNr
+z5k41gSfVcUcqTc6AU6WXylX7RW4XvEvm/Yq9wZWTcMOQiibqh6MsHTi7Wh4yzzP8PzY7iQAvrOT
+lBCVu+jn9B3117xW3b7eIvX6M1OutijwTGqpG/EGvVU9/8ThjBVqSaVU0xOaSnB8/fbtU8OxXRuH
+4BzXtD0jssGtqPAZNdyA8yCKRjcU2y6tphLNNTLC8BzDiTxhiiCyhHSk8CTzIryna3GGX7uGF0nf
+tiTnnmebnsUd6tjUZdKV3vMbNm2XV1Nd3nUuERCUvkk91w4cx4mEFYmAGZGUNpN+EIRURp7pRKEv
+fWlYUjBq23bkR54duTK6xQW7xFrbJV5j47LAZLYVUYfZlHumRzmnTFqGNIUVssigPlAUjg0rCqQI
+/NCnEarRiIIAPl+5Cb5oHmttl3l9PZZNGQNiILJhmTwwfG57prTdQMjA5jZYwOWuGQbUM2zP8iSo
+MDKFLz3hesHqTfFVRuYdxQWW6XmBlJ4D1M3QsHjkWq5wTYsxHtkmNVjIgpBZoDgeBo4IBDWMgMvI
+AtTolnlWutxa2+VeY2YaLojnMD9wWGjiwnwwc8RN3/J9hwsuhA0MfCpszowQFelJ1+VBaBsmd+kq
+M9Ul19ou+TobJ3KsQHKwC/eskNPACpgTRf/D3rc/R3Ic6fln/BUTDF+cpN3ZrfeDPsnak+jT2WEd
+Q5TsCFOKjXruQgQwOAyw5PJ8/7u/7O4Z9KN6gCWppXQGJFEgOruzHvn4siqrUljDg47O68RFyEnx
+nARGshQOcRExQgptMGXMBmB026+yz5gYyZQqPBRXDKYJc+IFhs2kYITx0WUuaoBkFeljlSrnyEzG
+aKbKikghftLraB8uSsMmFvvLw7r8bdh/te3X5efqKa3lPMqsfZKSMZWl06bGnJyM3mdVq7ThbPFF
+8kjtL0rnU1BceFMM9ywqSJbMhUnBMxPB2ipFdUFDGAzPYIeZTEx7CbpkshkN22SnYNtDoBk3NFaB
+n+Y1WyGsyNYJDkeMWVIBapOEc8KijzL7xPE75AFSEmytBjocJtyGDYS+XzNGwnClizZQHkxyonm3
+VmtZeUm6FOgqTJEzUF5oWEyYt4RB1JimANGvaqSzY0ZqIRFceqigdzBsnMTcySpqhk66xKOQCSpc
+mDVaG2iOrq54ZlQonDkSwS7f5Mio3+no2bgZHy1yTdxzLYNyEROE9pI0amm4To5rDhshYSJyDckG
+FkqsEb3jhWxRkVM+h52SHjrOrUOMXMlUvWEeHRNMysIgWsobGbmvWRQWrcCwVfQsYaaqrcZIVZmH
+9VIjVsedlm2/0zLj5GHtUi0QuJqhTwwMg/LVaMhazF5SBlAgGw4hzVoLnzPHWHoJGyVd4IM6Odtt
+3JBaTVYNvqStkyvKTqcLP2663ZZtt4Myt/Ch5JRSZrxCBorjBbMFnlxHoWx0Z5Mv3u/fdB9b6Khg
+sSYm8B3LSpLBGHSlGGvBIjANL8JM0c4KchnVeQnTUSCMXGerJhLR2C1qsoTnTMKrVB3UCmoZasqu
+ah1gt22CzhlVqhGcV1/IdCR4Tow6qX2Cpa1Llt1uU3OsnPaG7FkqTBReGCwfPihVsSnAmViZCrQ2
+BwXfaNEoeGGMBxQ+ag8TM9asw27VVjSkUGbJjM3WRw9X6pxSKVBSGAACN1FyQAv8z3jhSq4+GQsL
+r1zScFos49dxnzJ4dLtdcx6RATpUqGkIDJbQQXorJWpoBuNjgtLJZpnht2BpRfbwZC5DIAqPvKhc
+ZjwOu2XbbrFlzguerpBKaTioAMySobEa/YJcC10BW5yOmB4Gr2Qi9SFrGCZnKkfb1KQ/w27btt9t
+mzHKypjiFewec0UFz2ECYNUhIfBc8BXkGeEKOcBRUBbe2MB+Aa1BE+GRs58y2iGqpN26ucaAWico
+IqRXOAheqVHGICHcsHKRc2CikDAhgflUOKTQRxj6JJlk2bIxJur28bb9bt+cSwQqFMA50cPsKVgD
+2GZpM1SrBO0BJyCIOlpKmEQLAlBlNJADwJnCvCojQHTk4hYDhiGGGgI0OgBdo2BOtcsGQEIGzImQ
+ATACIAXWXMDwwDQYpWqxOZNSRSfGA9bYbdz2u40zpgGgiksXo/WBKwNngXmjZC4jJOZLFMBK2CGA
+M8F9igoWBCbFZvgNqY3XY6aH3cre5867J2CzAVLgSyVQVyZzHeAKlQPMUw5uKGZgFYg3kCWQOFQL
+0oc/wuwDjroppx2NIe12Lix5SQmhgsN/MtqutJXgCpMKLA5hcAWRRWEcaChrARAb0GOTk00cXiOL
+3pIr1gcvbrqO/uWfyTHevOsR5gs5h34+QPhyIWCZYRpgaoN1DJ8HpI8a4Yt1JVXO031P+v3Wbb/f
+ukDH3sLyW2ZlBbyKQUFRYWY0MDKmoxhMnYTFwbRB6o2J1vHKJTqCZng/NuCH/dpOh+YTww2rAvga
+ogqUxQS8KylMKDrTnmzIEljJM4/Ay3JWg1ARQ4o/sAgPzMbQa7Tf24zHYIRFhBQluPAqYJ0xHQEy
+lmwBjNUerYejk7B7mESngRkEPD/ADAcsNLWM1PW4X9zNxZwRgwVD0ODQk6I8ebkCcyagkjbDT8gS
+vIKgk0RDxlwKFp0BzkO/IThxrEu037wd9pvn/s6F6DlDFAGLlozA68YhHlOAwckHQGDERXRmBt0G
+EgdwgBGnZGK0B0IxGbnxfvWWtUC/FHDhMI2FbFdgjKKtrJREfEH53gwmFvCuKq6UR3QhrYKEo4tC
+Zw3kLCfcuv3ubbd7tIgtEEgwC7tWWSxWIkCKGHoF5OigwRVOViNuNUDlVTBKNUdTKEU8w4UgYBpU
+iPexhbfT+P9i96YDlmIe8QMlA+wXAevqGTk8itISJBMAIoI1AiSKMQBjtGdOjvoy7Lhv+x33+Wcr
+hkqFKC2wB0BiwWR4tBaQV1ULo4doKNikilNRmgLsABQJrOJ4dAg27GjQjjv2237Hfj5uDMMTPOxx
+ihDYoKGYBc4I4qEQSQtWLIynJ4/AIYcwErFCCh0gpyN/MuHU7/h3Yrfwq1wjbhQB7s7C3wRWAfIj
+5DAUmFN4UwEKqsUFQUGk4YuE/0a4FGGUNFz/SIf6XICtaElB9IqS1T1CxywEjHeOycChAldZUhNZ
+CVKmIGA/vbHcEtik4FwphL1u5PJGXObeB4CakQQDIAoP1MthgSDWSWtKxIc05dKdfYyQRs5zAOQX
+sG0AxdAemcZgZJSx0In1XL44vA1sTYKXtUzB16BTGfpkNBltQ+AXgYvT3GH2UmQagCwFB5GO0cD+
+TFjtOmi1kDWEIwVQ3QLFIWRVMSSXYOdkxZgAEzuEj4R9IdgBfgfBfgZwLMDc6DFc75gFZUx0ijL3
+cDCKFjpSBWBsDB7vBY5gllOoYoqrwLocgCFwSB+0T5pU4M4UDDfMQ2BpUE/ZJbcoIacebnR8ohmm
+W5jVTEgacaClfGKAKR90DREay4DnFOIwmKj7nsxzMPqcjfmKk5RQBcsdQCBPNBMJ0VYWiC4L0AZQ
+DyJjWLNUoGVK10qnNLSMUZD8qTFWbOV8dHo0N95QQ4xPRCwQGM8qFlrucYBdUEz8ay05co3WZA0/
+3AUATlgORFvwO4z7hOcoZ6SzQ3NoEC0tMykpANwEsKjRljEJ0xxTwIz6ABOaHNAj03BGMN2V7HxB
+6xihSDtS2nHOybbPOZkxU0DFwSEISDljyByiHgIKxQMbJVpngk0HUFCweITvLcx4TDC7sFEOTjKO
+e3afs7IdclbmKlwzY/AUwAKeZThPTkdoaKnSwC8aV1P0NWCqYIBZAqhEqAf11RJtYl6OVfiQy9KJ
+3lxEWMQgITTQkGyPyNJgzjA7McMFk/nxcEQQRRUUMERAlyUn40odEipY3+Az5FA02VmpLGA8EKgt
+HOOC0DkqYwHsi5MwQo7cepIwSYgzrNVQ9YwgChaYZ3jLYUlAaU4ZOLBwkwycL29K3n3zGk4rhQuS
+Tk2rEnNNc6EigKUAAiCLIXwysCksKwc/gr5BoEYLAsdknD4PZ/YxYCslGQsEoiypmENwUR0AkKQI
+GrMGTFkEGSuOaBOoRXmTHWCfQdBs8ycNRpT10+YWocgABYDVsA9eMO8ZZhrQEmFECYCXNiMytPAY
+UGpDmeOAFPDsGr7GAtpMuR2zhnoHv7DrEr5VSBk5eqAxQSpJGx2tHCM+hycHUxL7gu4YSzoGKYVH
+k4BqoYixZvXZPH3W0YxL4UA6ChES/CwCv2zpOAVsPUNAlJLnltcMyUdoEaKytmoeaQehItpmYGJG
+7nDEZW4lMB5eREiTDwWiDX0FUgCKy7BULDBYBYZIXCtO6+86QP5gnkyOSmcEqHE6cOOsp34tb87O
+FA7QxgUwHVk9iIGB0jqK2S3CV1EAzAPGklYzHOEXBbUTGG2AgACzshi6PhGqR5UL2JIcYSPXoXKg
+lOwSlMeJqD0CGUSVwF6QdcTsnlkAVoTRgY4XQZ0BxFhYjOCY2Vx7oYIGwBuG1ClETggiArpgjDYZ
+GBqhlIVHlPC+kDhvEYxIYYH2igWGo8GcDORV7jR0LhIJBhYhpuQ2iQ4I62BUtjUnmB1fYJJcQZDO
+EMTYCmgha0CgBevgAgSijAEFJXT1HZlbVysRhBaWvIfqKrhwj4bC2UYSPQux4DDnwSGY4JhMdBly
+Gao2wYOVmSy3jrLG2rxoAMizQyK05ASLaP1H8OIAWLjKPHFhNNlUyw2iDkTuVdESWCZ5oP2lzuQZ
+2yELPdtU2APRXgI9H5rQWpuymSPg1awqWpSGwAMy02KzqIYiAo0pG5m8+7y1JhpDDKRgdKxFdAS5
+QsgK0QXQTnDB2kfAWOUd3F5MkH6YCwsHUyl4DwrB6ARTDHlvW9WINDEqzCJAgrtgUM3kEJaaIhCn
+B+cMPoQPW/wJ+MsIGNaowcgb2ghCRG3ihM193lwzfGay0BJ71AVWRlDgCrMK4fXSWdeZawYz5FWC
+P0/wwojiYgQQ8FprUePY1vV5d739nuOHDCtaIgtA5c4hLvaEMqWGS+QWARlgq6YNSI3YACqE6Ydj
+zxH6CygF+ROTLlFC3pBdt1gucYSmAqwkRchSpIh/Wg5lpeVChU87lnSEQRUK7k8hmi8JEQCHQweY
+WbA55P11jmLuJypQSFX0aXgG+D24HYWQ3aETBWINcAmlhO2VFna2GIv2QrkCnpqEcMrNuXV5gys9
+o+jb0ZqtAroD1vE1ASwjXNZJeiejAaJ1WiAEEBoxE8SOc9gfxNiOnuVBk5zsshCV0bP9BMoz3Aa6
+WUaKDr3MG1AkpAPtBjrhCGIB0rWAG4Q7gq6SPwITCOrZ5IuUgNUN3dyfF4DzWiTiiQK3wxAMAY9I
+DYgFR2+BJTXMQKJNdG+4NnCUEXiFogILNzjZ0hwyH7dd5uNyvwcxKqAx5h4hjQFaURZyXgkCZbie
+ZGD+MieYallUtEista2Ak1HkMPZ+lDnZ+7zFrkiygKlF0EITHAS+ohVUFG4a4TGQKwsZwb8hCF00
+g3LDv9ocJPxuorXmsQoNCZXbPvNy7lwBEeClZQSaAlCV8Kiwmw6xGOLKCnNGG4mQCWgVyELOaAFU
+1JItoUXP8cnyCaNFDF2yAaiqDLEtwn2AkQBoA3QAmwToZRAXBuBUBoiM8AMyHoHBcsELmJ9Ed2Zu
+Roy+7nd850wApKSjrUSN6MHCjWIcFYUxScE/OEAIeFeDSB3YBJicjBIahcgU3gJ9Hq9FUubots8c
+na9Fu4w4XxbJIjTR08KGEnAkosDQOYg0ZqsgHpdMApkD+WN66KY6hxhRwoCPmSwyT5sOB8GxAKCn
+nXhavEJsDicKoa2hW/dE1IdIgmGaCgLpSusdGSDWxmQdwJ4fw7pl5mq/aDhfBQ8YESYRasK3GQhg
+RCiG0cXfOZAYhlcAeQfahZFw/BVyqAXFFPCwVPtl0kfKfO2Pai89aYC1RKMRLWdfgfCik7YAYntY
+O0H737Q0pWSwUC5azWGQPecksF6NarwYBZy1HTJn53aBoBQ8BMxChJkJVliInJC0VIgfOFigLXwf
+XYC10xTPwBfRppaMHk5wyuSYedsLx2LlQTi0tcocgW8iADCwsIqc4i4bIBUAV0FFDRuUHK0WkfsA
+bEJUQF08rOxrIbo8Xlj0aR7vl3cpbzGFHffFogt8AYJLnRimiVG6AQYSIYyWGYai6pyryDVHE4S6
+79Mk97f3FHOJLwaAA+gpwyZkCiZ1CpA96y2jlS6hFMI1DCCHwZCAz0BhqtBCqFCYYTuWhkXucNOU
+Y849LU7TPR+Qb81MgD8wLDFAIWkhD5g6Q5ePZQWHDD+pgDZhzIHKNYKcBsMu97iT9YXRUJBZhfmB
+lkLeizXA9YAOcD4ZYhm0ZMYwxJqIboryaJoD3k2mOFqT0OMt2lHucnMxp8TEwStZDrCX4BMYAgtB
+VkszWNjkK8VWsFZGBSalBHxmgEaqJq2qm6yNH3Kfm/sKxWOqIce0tYPpLx5mERMoIJgaLUhwjAhm
+EaQraJ2FFYmM54gozblsAGTGfG4uujsO5767VnwcOIUW7yxmqlRDS8uCVqqlMLC1As6XcYJ/xiFs
+UgJgXTqy8qyUcax+zL3upG+xJmUSkFu3MF1rjAIAOReAFYhgt8wGLYLzqklYyoyjVT70y0PHACYi
+wvYZo8PS+FIOIGQRDsdwbjTmHv0BPILFYZhxiYgplIQpCxrIC0NYhLZwJoh5YHo5c4KP5eDuvEP7
+S/tA97PQym2h7DomgRltSbSXKunalkAhJi0VeIiZVZBsBXFGsFcJSIOVHZnyeybzmI9jXg0AvqTl
+SQZHxCOtuAZPWVUK0BHeCOy9ZohY0YqcMar0d2ayyHE8/Yfc807MFlt/wdIWVUIMhz9nmDqXArxp
+0uRe4YEzWg9bpKDF0cJ8l4LfdIaTyLRDMuYzzl3fdrnry5U14aqU2dOSt4GJhjNPrgp4Aw3EKBAG
+Zh05PETlWokQBGyULh1CZnocmb+7Lf3m78LtSY7AOFvEyzAzxUnoiCvcIm5lHDA4wdQhSArQoOCd
+gBsBEkuy0h4UwpjxwA25853uLPaYEczDnxm8Tq4cviYzU2FWVEFgVAIHysIgltolJvBgEY0bCSGj
+lKWi4oRNl9F+Ivd+vh4AeF2SochIUfjEYfNkSkDcgCw2U24mjCFQPrwuwkBKIEDYhIC6IgZSTd7T
+3P3F3gktUQLKEhrCZCDcY3ShEKFUCnacjkCGgO4wTAE+I8DWwcxLmEoGE5tm/K77Bd5x7v88XqN0
+SS+kJ6jJDEmeLkZXbmkhOTgIUdHwzRjapHInNpBdRKWMeE6gc392YHv67MB8eUKBgYvAkwRjMJGO
+sggKzHFSgBkFTgRghEN0LYN+GgBET5gORk7Dduppf++z+4e0/jky1ADLsHmJtmul9S7BisOQAH5A
+ugBfZIRVVPD9UWlY6gC0rWilITgL61bWuPXnENo8uUNsqgF7Yfho+UVG2oFgsM8BYYGlLCYdREGY
+mCmCoGirZgdpsipxN1lRWj/7sMKbhgzRagmULWMToWCZBdwLsCiQnYQdxpzSInSkbGpYPCUoJ43S
+vCSfLDQ1zk6sMLU6wKPhg0LAgnHCn4EG0cNEa3QV2AgWQVjPKY8RuBUhjDXKw8VaBCNmKlHHsxfb
+Ifd9Lr8eZlgDCxcjGZOIaIHkEROliqhGRvQVAUZm0J5qNCvGOzJ6inYQAJm4n3M7nN1YYRcjQgVA
+BFhwSozlFmBKRMpeV9QLQfkL6CQMFkOEW2GcQOgpgc4kyq6YsevT+ld4UXIgs4ly0mIg1OZEJJGE
+XkbKUYJtKN32o6b85y48xET6AJfMSG3Hs3d/dqR3TQs7B3GALkBgnDUIWUKgZTYGGAEfCy9bYGU0
+AEvygQF70bKLpQzqEuER4Q+nvLozJf3Zk/l0AeTDmdFaBcQ7AAZhpBBzUtI8IAjl9yF0TxDVgFgX
+2Fk5WoiHtwc+d142+IzOrjS31mUEeiiQBp0oVx9BjTVROg55KfguglFOqUQZcQ4PCM8Q7Ua64gpa
+oOFV3BBjGNedhIEeTZdAZ2dd3lzdIaynAE4vAS20TUdas1Ewr/CMCBYdpxw5EdWiY+PTM+3Paecr
+xsgpAB8gPkUpRFxYFkTQxnBET6ZkAl8w25JnrUzNFdZHe+2rnySD9qdvOmcxnzKExJDA5OHyOKZJ
+FXwFoqhpT4Zy2BAEsgK3DOfnfQbq4AD7RnoeAJ9F5RMutyMLrZdIPFuhPKAW0CRazaA1nlYoKJOe
+KYB8gBkDnsDElRYl0UuGsJQRLo/AUhNvNDv902aIMYJLR0BN2UMG/gAmMXbQmDkE25CJlFxE6JYt
+wHhF7AmXWAOMebZa5LTCsDsM1GRIm1eYFlZVFA7G12hEtIDGgDVAF0rkoCgwRLBWI+1Jo1We9lTg
+kuCoJ7C5ffqozRaxYPWxZgtwFpQDNq+aS+0BkYq1iBiCrZrROi8i0WIE/EBGaJ9DpYG2Ycb2eHpp
+zSpn9DHAesBZS0LUFpFbIXvrVaEczkwJLeSOgWdo+w54OscKd1siBkLM2J00k+iLA1pArJiThF4D
+0NIBBkWhCBAEdwCNDF4ePoAxuszKA2BYYAwMPXzgxMEeTk9tu9NT807RshQDNIDRB/BPMLiAEJ5y
+QZiJwiS6ajIWin0pIIGrtRKtARAHdAS6GDHqTl91x46W+WBAAjB7AhAX4YWCJ3GaKwt4FpOgE0eK
+lpkdgimhgpAa7hYxkMUYBIfejZl8K5rrHqRRCHkS85m2jbWEFlGqIAI4AVRLGImOs0B1LQxvRFSC
+eMrGUIB4CZR+8j2uJxvfhfaBl3+N7klbXqPtxaOu0X6wUQ9fqP1w4/oWKURvBCyDffECgUIga1b0
+97g7bdzK73B32riF/U04/UU4fSbfictkh2tst68+f/Wr33zW3SkLcwV0QEGIRITiIaQRIYEzcGdV
+yfsrH+Y/wxf7A4Yv0bLrcg1D+/JwjfWrayoE0LEoQlIkADdQ6PgbtDhxisMQADr4sfBdWfzjF7/u
+v19tgNhb+OIkJF0VG8AP1tHjjypRbLp2vWzWXFDimqRtCk7ZODwWJQGHSoHZA8IJtHsrmPWUw1eA
+87XjMIUByDIWs3q9rNSIKj0QgqsVhkmJ4oz2gKsIDJxgWrCgET07xGy09cQq+QVEDpV8MCBad73s
+Dd1nfFM2//nf/vHz3/77+Ma86eWyP/bVlk8/j/h57P2vzbo5j+TxQP0nBBPmeP+rVvw/MYADpp7u
+f/0YPw9Uu5uLwfIS1vtihMf77odLTPN9QbnhtRdcvdwDAG2PXO/eve7v3Ty4HroNfEtFWQ7VR/d0
+resHf0g1PvT8B27h923YBxQdnI36SvXB79KHZfG/79KTH1uKn36+6893tv/HamIP83jg/m+DsH9k
+/wXsP2CKfbL/H+PnwwzPp8frWaYVVQ+1HPo6Dv1bb3f7274a4Msjk74yysu7oy1ZmiYq8PDm2/+S
+d19fXexCpi+Sqf75CmHr/mXKcBL9tV2tx293tFxDlde+6i6RVS2ii4tdChD2bbg+F/3VUs2PXfX1
+47pbZdgKwfuL/qY43uTUE/QrEA99Zvuvd+XmfddqfYLqa4BxBGiyS79o0r1/O9yEw5loEdyk/qpm
+0W4NXZFAd8LRyVrTIsDb4WJ7u/vqfLe97W6GprtiVgmH3cbtTecQh+sz16hfd5fBvP72nC5eZXSr
+cotydl9MfyGeb5FOrutePp/c0916PL6gu/F8djN3g6Jx03aDanLFduP56G7txtO7y+twsYNICNac
+iK4K+3BPmTtNMb5Dco1w/5KvdvdbujCMUqObL9PT4024XD4jIW3NcEqdeGrbelbfbM/rcHNc4/Fb
+0rXb4Za8xvOLcP1SdRcXtR/2lgizpVaEoiMahunkhy76m0jbH9ld7G7S29156u1Cs6m7q/3uYrgM
+WLYIru9qCd01Kr3sNMfrJklR+8tb20qQbt5f35LdvLzsdIlubGpQ7d/RjdbtL+zfHe7IonltUHSb
+Yt1e3PnVm15dWh/K5zARt72itBoBVHp9Ed7TRd3U4dao5burE2Oa319t08Xuarjes9WGck7FI2nm
+2vPf7yi+HtKPVq36obOvu1ua3QvZas6I6PX5bnXsy9XdZWdoRGeVeUu57mnudXiN9Fizqh+FFgl8
+aMnb/o7Vzrw2+3hzc7Xr7xdu6WLtbPpVfim6e/QbBOdUHuNyuN6xZcDr+VXedntYx0vPX7TpvikZ
+5rhXfd0cRYzObRGdSjY/sQMIpqts10zHiKDtOqna6Ou7m4teQvqrc1uDW/dbjNxL2V2E33h8d1Dp
+rvzBKsGWcNpVuXgEYa+bD1CVb0qCv7x5mPJ89zANnSd/KVbs44HocOPdA9/an1999TAV3U31MNW4
+ssSSqllSokU2rSVxmqIt/LPqEU2CWdmIJc2iXsQDJLbZlAEbtN3D2/JN18ZWL+lKnvHtj30NiDYd
+ge6L4W7lU3T3tyI9kuy+VMUa7aIIxkNk4+oXq7TjshcNomm9ixbBsdBF++GswkWDaFbaoklxrGnR
+ejoqZtF4fKI+RYN6XpiiRXJfkWL59M/ntfaOoKUM9HQ7lI04TXT7bY6dDW8FL0eKLXDELRnsjrQl
+28ebXXqKloOblsZoPJ/WxFgSLIthNGhmVTAaFOPyF63HjboXLbJxwYvGc0QyrxExH67Lb1G8edlf
+5NF6OKuCsaRYlL9okUzqXjQIxgUvGo8XNSxaNLvV4HhctWLl6euDT2vTXN31B0JIs8jksqbs7YBh
+X6fS6Ztox8tHkkfo5u5rgveIOPaIWNrWCAP/VQ/N29IxPIcVv+1FqOVqRkSvB8zh2xD0Oty+3e4v
+DmiqybHcJMoRGUUNstm7awoZaMZbwk8PD4D4JE3n+WlV6DRZt2u+TnH75iZcv+0Bf4vg/Go71Mvr
+TH9zBWdEtD2nwvIwwI+j7jDXaiR4f5HHOv5ZKafyIOG4jkqLeFlApUHVqJzSolqWTGlQTWulrBNM
+i6Qs6f71Dm3vVxtaEt89zkADmKjh4mTd/M7NttTzl3pF+wAV0+5muHO+8Xh8N0TPotWYeZmWdYpJ
+fZYm2aIwS4tqVJFl5fGiyMoa3bS6SovqWCml8XBUIqX9dFYbpUF0t79N2y68W4N9RHL+zeqyMj0e
+1jqH2iEtovd3/cNWN/bhsmwpJu5IWq08nJhfhYSzI/Un6GYFXhokk8oureeLki4tonEtl9bzcRGX
+lefz6i0rZNOyLWtEx4F5DNnrg/3tEIdvD2VH/+f9MO1ct8eBiPbXFLDn3pi3qN4G0S9+NTv5FtNF
+izJ9DZj2UtH+bb/s2LYz+/M36Mz27W73FabuDdWhf9+t6jUHYnSkvLOPa0Sj+jZNglFhm8bzUUWb
+xtNZKZsmxbE0TePpqCZN4+laMZoW6bimTOP5qJhM8+miisySCvj7GnDnXdeblvoTQWcfJN3Q0BrN
+Y8C2R2TcDWur37flm9uvbzqsz9t7N7dvzyGyNx0aWtmGOZL0zuQE3U0JuQ//Vxffbs+v3tMmx9q+
+Az0fxKBtjQaCHn3vVz1pt2tF1qrts/pNreEbaxLbEw17gx2jZrc7qgEW2TWay35IxLP9dX+Yf4Xj
+5QUtSfSLpZ31eMQLJZ939SGgN4/5/lAk4rHN6bKdbx7VmJuQCL93uK8pjj3BltKaz+Pd7bBLKJsT
+ONAetxtkU1EGqj4ibfu3A83+Lu4T+JZ+4bPpmQ+0t/3uRBvljolGBWmapO+vS1eMqB3+0eOrO9p4
+5r7Z9sPJ9FU30CwytU42ry61TjkuK7VOdV9PqkUzKSTVIDhWkGo8m5WOalOMa0Y1KEbFopZPZwWg
+GgSNyk9Lqmk5p9bzB+s4rb80K+DUJmxVblqhfLBkU/O9Za2m02SzIk2PIV5UZ3rgpf20LNMK9bwe
+0wrZohBTm25WXKdBtCy91CQa11xaJWgUWzpF2xlJ045nDlT9zsjqOsyBjLx8uexrDpn2OtORlFBz
+pbgAEZs/2Z2LfmvndJ8HotPtg8GkrZuHR+Wm7O8ubjtj3xSRgYxub7l6s+9XNE/RdWua+jTPnuiB
+ibgNN2/K7fC1ptIdCDtIdfCpJ/i+DuEmvb0/WPjgp48vjKturVOfG2fo24+nfFwrOurHNeH+5OSH
+0D6uGY0KZE3i+9JjrceLmmMniSbFxk5TjquMPUw5LS/Wpl/WFWvTPWzzZpXElhTjEmKNp8faYctn
+73dfldVdCnq4HS/2NGi+LTc7ym1c3SU6ENx/aJ1ugGHteIII+lw63oZVA8GIUdtEfHtxHrfdvkc7
+Fejby/M/9+6+2eH9be7Dzua7eLrdh1pe2hU40VO83/dBnnlG/97dJGQ/ofTyHy5FVD02RVQ9pYiu
+Uz2liP51poi21+SeUkTnT59SRDuCpxTRpxTRpxTRpxTR1uOnFNEZ2d9iiuhTAmiT7j9MAuhfTX6n
+a7/8lN/5V5Hf+ZS9eSS4z95sieBT9uZT9uYKzVP2Zkfzo2ZvPuVl/tXlZa7nW36XvMz2EDzlZf5N
+5mU+5V2OqJ7yLudPJ3mXKxQfKe9yVkNlFXI8pWiukjylaD6laD6laD6laJ7/VaVftsb1B0q/fNeF
+Ury9p/A3lJv5N5lj+ZTvuE76lO/4lO+4Qv3/U77jU3rggeA/dnrg2YfeQfn5/5pdP9n3mfeJhkPy
+33f47P/4p9mHh+9uvsylBtjHPxGD4fv3f/xARos/bHN88xfq1BqvH62n5d3H62nH60fr6S59vJ52
+vH6snvZb9h+ts0d2P1Z/9zcfb2Z7Xj9aT7tN6Y+ps2OOP1KvP1Zfux5+8c//57MpMy0VU8YQK/yq
+tBGbnzxjf/fTH4TdjzSgf6kSAd/3Av4fuiDAD1+y4KlEwNPPX/bnsff/F8rdeb2/u7wMN+8/kMcD
+9/8rrtXh/n9jLP4uhBHi6f7/j/Hz+92nmy///vc35d3uZvNP4TLCnGz+4fZN/9svY3gPhb8pL9Lu
+8hd//6czIt9dl6tyGalWXe6W0355AS3fvxj/nc50nX1xFylpBQxe/eE3f9osHcPd9Zubbs1m7Hi+
++MOvfvXZZ7/+7Ndnr25vQ3pLy2v7Tzcv9zfvXh4nAUE67Pb2693NV+XmZbh7+3JUpuJl/92yfVsu
+rin7cirjlIexkG+qQ7Rd4JHDhwajeDRr15Sl9pduUrPk0kdneqzzcXb2m3JxsXt+dkZbhpvOIGzw
+S9hc7W7P63kKtADbI4vbt2Xz6g6T+oe+BZvfdC3Am+G2eziklpynTbil7dBbkoChuR1BX3TuJ/uf
+bn42b+PPiPZnw1T8bPM27Ddf9GYLcnd29tuCUdrfluv9p10Bt+0mXF9fvO++2s3bp5uurCDwz4fP
++fDFbmOh+2K6d9B31/1mYs8FfwtXedNbzPNvu15dbqBc3Vu7y0u04bLs9/Cbzw9f3V1en19gcK42
+55f4+6YbrrS7ug3nV/uhA52nHV7AkFL66ma/uyybSMcVN/twRTULafNqf+g+NCjfd79v1vkbMLnd
+7Grth2No0RbYhRaDyy1l/7yFTdhuu/eHb+3pU+fdbHXTeE3p0Dfn4bZsSB5IlckYnJ29uuiSM27P
+35WL988353Xzfne3ieXivLwbz/Bm/3Z3B7gCGcLTgwjkTScnkC7aKn1+Ru8mDAslQW5+99mv/vnz
+z17/9l9e/+HzX7/6/Wevf/fZqy/+5bc0tmj5NW0EvDt+nvbZMT7dUJ7dS93AZ7/5euC+udhhHm+o
+DYNEdsL0eXfT4Kbf0um73BklgtB0kHWD8d/Uuxs667MhnHNz2asBDfJBCWnLd1MxPHRy4MXZq6v3
+GwxbvIA89DcZ9q0MeOENdfxwVBb/+i06HF50Sj6kAHanZQttJgBqvXmR3pz/VzzJd+n256/67pX8
+d4L9oeOKX36DllxA9c5+V96Em7x/fvZ79GKml1S37xcOc33230h9XahcG12LUNkwJ5NTmmsprK2R
+FymiyCbn5Db/Ez39olxvuIUyfdr9dyOgVd1nPp1x2fwD7NMv5335xdmvaa1w879Lfr6B+f/vd1cb
+MlQbpj+V/FPtNs8IJYycyeevfv+rE+6kHOMaoPBBeamD27PNixcv1opXjsoYHgo9/t8Ngq9n3c92
+/NN95wCTY9z8/BeLtoxKYf47vrPBd/CaGGRmCMKeb7iHzOzpNMHuav+TZz99vlF6kwudZqI/bH96
+NsQlp0uF/tupGqgPte4nXiC6/B4FV8cj94EVQ8e1I/uaprEIxqmErnvxIteaVXHB1+9R03TM4jvU
+NB2/TjVNBaOapt0/7yt0b579fPPJoVzocul7enp4lWxyiPgE1fgs8R/Ptitks6ozfzx79jChPMm4
+cQR5nXhyEnmdbHQg+Y/d+FpP44t/msePb+tI1ipx82TWCerpAa3V8Z5f5b/+xemBrlN0s3Ndq6SL
+4139UHr5nMPueEFV5R89mM2TUI+kHh+IeuiV8bmo1VGd3Y+//s37Y1QnaWanqdZpZ4eqThEez1at
+92J8hf6qIk4OYq0zPHEea/2l+bGsE5T3p7P+OBRx7iweZ+5DVHJ6KGqdbHo2apVueURqdbDnN+Gv
+f3N8pOoEVeNk1Qnq8QGrwwD6vgy2+RCfMT9LtUq4OFJ1gnJysmp1BCfX46+K6+QY1jrPxWmsE6SH
+Q1nrJKOzWcPgKt0NrhIfIp0rR2AeSz8+CXPineWBmNUhb91qvv7lxiGadeLpWZoH6aZHaoZB1va5
+xyBrif979CDPD7Q8SDg513KKenG8ZXVcJ7ePr4ry5CzMCcatIzGnWc9uLD/dgtkxmhMNOZ6mWacZ
+Hao5STQ7WzNMuJWdVpkPgmGLYynrlJPTKSfIFodUVod7eof4iU+Oj7ScJpufbDlNPT3gMoyj888x
+7c+4Ux+EwWbnNk7RjY5vrJONTnGsD+DsEu1VWZ2f+lhnOzr8sU40OgOyTrR2FGS9kWsnQk7wGB8M
+WScbnQ85RbQ4JtJLBGTjuTAIIIV6LsTjJaKZB/4g9Twd/MEXxlnhq5KyvL/3xHcneeTrdMd08nWS
+WVb5ScJxcvl6P0ZX/K4K0jgRfZXlLB99na6Rlr7KeZSdvvrBaZL6CbIHc9UffHeWsn6SvpW5vjoN
+j7tc+BS/Zf77o6hnafAf8M4iG/5x786S4k+NyPL+4dPUi2uIT5LPbuZcb/0ySf8U7ThX/yG6Rsr+
+YCFt5yufCWM+BHycyE4+9c59kvIJqkWu8vrgrlzR+qgXxje1PvqF6YWtJ19b3tt6kvzRQjJL014l
+HGdrrxMdk7Z7cZBcERSVjE+i5y8Xlzdu+8sbX9AxXW32d5d/2kBgmNFWFxO8sVI7VjXEiicvOLMx
+hFjr2f0X+1XabQc0Z59JzBlmqksyxapSMSW5IlyNjHEVBD22zNXitSohOKelU8Fwo7kVxRb3yT2b
+fpV3263yzrlUfLB4yZ3V0RhTk6opClZL0aL4GDMv1UlTsy++MFWS4Frr6qvT1ZY64UKrxNt+lXjG
+xooohVaVG6F5cNLxELgoihWZVBaVcY8vJqPRo1hS9NnzSsPIaoz4+ydn2yObYfF4268yz/ujNBcC
+H0OTmZIhMh+0k0XbmErUQWMGbLAyR+6YdsoVDGGVyReXrIvyk7NnLUZyMXBRSediKc7g6zIzFapV
+NlmphAhVS85EFjELhYELOZoUE2cshlIVXq2T6Rmtcm/7Ve4ZM8ksmmeEj0ZkSR3zmOYapFfem5BC
+ShoMPE86CJZpIF2xNsSsmQyWj5l1q+TbfpV8zsZUo2IJmJfgVA48qihMrcIaHnR0XicuQk6K5yQw
+kqVwiIuIEVJogyljNgCj236VfcbESKZU4aG4YjBNmBMvMGwmBSOMjy5zUQMkq0gfq1Q5R2YyRjNV
+VkQK8ZNeR/twURo2sdhfji9U2/br8nP1lNZyHmXWPknJmMrSaVNjTk5G77OqVdpwtvgieaT2F6Xz
+KSguvCmGexYVJEvmwqTgmYlgbZWiuqAhDIZnsMNMJqa9BF0y2YyGbbJTsO0h0IwbGqvAT/OarRBW
+ZOsEhyPGLKkAtUnCOWHRR5l94vgd8vD/2Pva5kaOI01/5q9AzN3GyvY0p167quWQTyNpYq2TLSsk
+6xx3CsdEvTUHOyDABUDOjPb2fvs9WQ2SDXRhpkEBkvaO3LU9bICV1VVZmc+TmVUFLXGmbWusYbcl
+bZNA6N5rR5CoudJJ11g8mORA826M1rLlKeiUsFZhimyNxYsV5gPmLWAQNabJQfVb1VuzfUFqoBFc
+NliCjYVh46TmVraijViTNnAvZMASTszUWtdYObq1qWG1cokzSyqYQv+NukxHJ8buyNEitoE3XEun
+rMcEob+kjVrWXAfLNYeNkDARsXXBOOaSbz3ejieyRUluy7nNlHTQcdc6eM+VDG1TswYvJpiUiUG1
+VFNLz5s2isS8ERi2Fm8WMFOtaetaqpY1sF6qJ+ou01J1mZYdSQ2sXWgTFK6NWE8MAp1q2lpD13xs
+oOA8ObLhUNKotWhi5BjLRsJGSev4ZjlZkxM3tKy2ogY/FE60q3IGZdfCuxRDCJHxFjqQLE+YLcjk
+2gtlvD3bavE+f5MbG6xRwXwbmEA7hqUgXV3jVVJtDEQ4puFFWJ20NYJcRmsbCdORoIxcR6O2NKKQ
+LSqKhOcMolGhtVhWWJauDdG2WjvYbROw5mqV2lpw3jaJTEeA58So07IPsLTtUGTONhXHyuqmJnsW
+EhOJJwbLhwalSiY4OBMjQ8KqjU7BNxp0Cl4Y44EF73UDE9NfWbfZqkoUtFBGyWoTTeMbuFJrlQqu
+SZ4BIPDaSw5ogf/UjbAptk2oDSy8skHDabGIf/bfKUJGznbtyvAM0KHFMnWOwRJaaG9LhRqawfjU
+TulgoozwW7C0IjbwZDZCIRL3PKmYdmTcZsuqHGzZlQVPl2hJaTgoB8wSsWI13gt6LXQL2GK1x/Qw
+eKXa0ztEDcNk65ajb2rrfTbZtqrLtu0IiqquU6Ng95hNyjUcJgBWHRoCzwVfQZ4RrpADHDll4I1r
+2C+gNaxEeOTYbAtagFVStm53xeDbOmAhQnuFheKl1kvvJJQbVs5zDkzkAibEsSYkDi1sPAx9kEyy
+aFgfE+U8XtVl+3aleKBCAZzjG5g9BWsA2yxNxNJKTjeAE1BE7U1oFfXAAVX6GnoAOJNYo1IPEN1J
+sYMBwxBjGQI0WgDdWsGcahtrAAnpMCdCOsAIgBRYcwHDA9NQK9UmEyMtKm9Ff8AK2caqyzbuCHUA
+VVxa703juKrhLDBvVNxbC4n5EgmwEnYI4EzwJngFCwKTYiL8htR1o/tCb7OVnc/dfT0Bmw2QAl8q
+gboimWsHV6gsYJ6ycEM+AqtAvYEsgcSxtKB9eAizDzhqtyUtaAzziae7ljyFAKpg8X8RfVfaSEiF
+SQUWhzLYBGaRGAcailoAxDq8cR2DCRxeI4rOkivWkRe7HUf/4e5Uyao7VXJXuIPyxUTAMsI0wNQ6
+YxmaB6T3GvTF2BRazsP9m3T51qrLtw7QcWNg+Q0zsgW88k5hocLMaGBkTEeqMXUSFgfTBq2va28s
+b7nEi6AbTdM34Lf52ryGdieG16wVwNdQVaAsJuBdacG4pCPlZF2UwEoNa0C8DGetE8pjSPGAeXhg
+1odevXxvkY/BCAsPLQpw4a2AdcZ0OOhYMAkwVjfoPRydhN3DJFoNzCDg+QFmOGBh3abecr3LF+e5
+2BXEYMFAGizeJKmGvFyCORNYkibCT8jkGgVFJ42GjtngDF4GOA/vDcXx/bVE+eZqk2/e9XfW+YYz
+sAhYtFAL/HltwccUYHBoHCAweFGLacdrA4kDOMCIA/lRf6AUWyPXz1dXrAT6pYALh2lMZLscY8S2
+olIS/EJz8FiYWMC7VnGlGrALaRQ0HK8odNRAznJLWs53Vzl7NOAWIBLMwK61zCcjQZA8hl4BOVqs
+4BZOVoO31kDlrWAGotGVxoBkwIWAMG2WEO+4RWO2+f9scVF1B5HuAssEmiWSgHVtGDk8YmkBmgkA
+4SEaBIk4BmCMbpiVvXfZZNyrLuO+22yLoVLOSwPsAZCYMBkNegvIq1oDowc25ExQySov6wTsABQJ
+rGK5tyAbpjdodxn7qsvY744bw/C4BvY4eCis01iYCc4I6qHApAVLBsazIY/AoYcwEr6FFlpATkv+
+ZEtSl/HPajfwq1yDNwoHd2fgbxxrAfI99NAlmFN4U4FvMM0MFAVMo0kS/ht0ycMoabj+3hrqagEq
+UdIC3yjAUThiz6IQMN7RhxoOFbjK0DKRLUHK4ATsZ1MbbghsEjlXCrTX9lxeT8qu9wGgZqTBAIii
+AerlsEBQ66DBgBSIE1ZJbAARPLSR8+gA+QVsG0AxVo8MfTDSq1jIar2rXxzeBrYmwMsapuBr8FIR
+66nWZLRrAr8gLlZzi9kLnmkAsuAsVNr7GvZnS9QiQ6uBroGOJEB1AxQHyqq8CzbAzskWYwJMbEEf
+CftCsR38Dsh+BHBMwNx4Y7jevgiqmMgLZdfDwSgarJFWAMZ61+DvHAeZ5URV6mRbYF0OwOA4tA+r
+T9YhwZ0pGG6YB8fCZnnKXNyihNz2cPcHkZZpuoFZjYSkwQMN1RMDTDVOt85jxTLgOQUeBhN1/ya7
+NRhdzcZuxElKLAXDLUAgDzQTAWwrCrDLBLQB1ANmDGsWElaZ0i0GFKRIei9I/1QfK5ZqPvI62jXe
+WIYYHw8u4BiPyicK91jALixM/Nqm6LlGb6KGH84EwArDgWgT/g3jviWzVzOS7dAuNPCGwkxKCgA3
+ASxaa8OYhGn2wWFGGwcTGizQI9NwRjDdLdn5hN4xQpGmt2j7NSdVV3OyI0wBFTsLEhBixJBZsB4C
+CqkBNgoUZ4JNB1BQsHiE7w3MuA8wu7BRFk7S99/svmal2tSs7C7hNjIGTwEs0LAI5wk0pwKFKmv4
+xdq2wTetw1TBALMAUAmqh+WrJfrEGtlfwre1LFn1dlWEeQwSqIGGZjdgljXmDLPjI1wwmZ8Gjgiq
+qJwChnB4ZcnJuNILCeVMU5CzqaEoijNSGcB4IFCTOMYF1Nmr2gDYJythhCy59SBhksAzjNFY6hEk
+ChaYR3jLTUhAaU4VOLBwWxU4P2ydLVt1Z8sOVpp1LQgsEQiALAb6VMOmsKgs/AjeDQrVCwjcFeN0
+dTg7jQFbKcmYIxBlaIlZkIvWAgBJYtCYNWDKJMhYcbBNoBbV1NEC9tUgzSY+KQiiqp+yNI+FDFAA
+WA370AjWNAwzDWgJGpEc4KWJYIYGHgOLuqbKcUAKeHYNX2MAbbal3VUNdQ5+YNclfKuQ0nO8gcYE
+qSCNtxQ5Bj+HJ4dQUvuE16kNrTFoKTyaBFRzSfRXVlfN01Ud7UhJHEhHgSHBz4L4RUPbKWDrGQhR
+CA03vI3QfFAL55UxreaeMggt2DaDkLrnDntSdq0ExqMRHtrUuATVxnoFUgCKi7BUzDFYBQYmrhWn
++Lt20D+Ypzp6pSMIqt8euH7VUxfL2xVXJw7QxgUwHVk9qEGNRWuJsxvQV5EAzB3GkqIZlvCLwrKj
+HZ4AAQ5mZTB0XSFUhyoHsCVYwkY2o3KglGgDFo8VXjcgMmCVwF7QdXD2hhkAVtBoR9tNsZwBxJgb
+jGBf2O7qxRKsAbxhSK0CcwKJcHiFutZ1BIYGlTLwiBLeFxrXGJARKQzQXjLAcDSYWwM5j3mF7qpE
+gIEFxZTcBJGBsHa1iqaNAWanSTBJNoGkM5AY0wJayNaBaME6WAeFSH1AQQVd3YvsWlcjQUITC02D
+pavgwht0FM7Wk+oZqAWHOXcWZIJjMvHK0EvX6to1EFVvhVt7VWNlWTQA5NmhEVpygkUU/xE8WQAW
+riIPXNSabKrhNVgHmHurKAQWSR8ov5RNXm0ystA7SYWdQ5KLsSkTOQivZq2ioDQUHpCZgs2irYkR
+aExZz+Td160V0Rg4kILRMQbsCHoFygrVBdAOcMG68YCxqrFwez5A+2EuDBxMS+TdKZDRLUyxqXur
+VIFpYlSYAUGCu2BYmsGCltZJgKc7a2s0hIYNHgF/1QKG1WsIampKBIFR135LzH3dXJE+M5koxO51
+gpURRFxhVqG8jbTGZnPNYIYaFeDPA7wwWJz3AAKN1lq0vm/rurq7zn7v4ocIK5o8c0Dl1oIXN4Qy
+pYZL5AaEDLBVUwJSgxtgCWH64dijx/oFlIL+ia1XooK8TXXdIFxiCU05WEliyFIEj/82HIuVwoUK
+TVsWtIdBFQruT4HNpwAGwOHQAWYGYm7r/rKj2PUTLVBIq6hpeAb4PbgdBcpu8RIJag1wiUUJ2ysN
+7GyqDfqLxeXwaR1Ap+yutFw3uOfNiH1bitkqoDtgnaYNAMugyzrIxkpfA9FaLUABhAZngtpxDvsD
+jm3ps7hZSVbmKkRV6518Qv8Q6YxedjuQJLQD/QY64SCxAOlawA3CHWGtkj+CECjq2VaLVICVh27X
+nyeA8zZJ8IkEt8NAhoBHpAbEgqM3wJIaZiBQEr2pua7hKD3wCrECAze4ldLcVD5WufJxmO8BRwU0
+xtyD0tRAK8pAz1uCQBGuJ9Qwf5ETTDXMKwoSa21awEkvout7P6qc7HzeICsSDGBqEhRogoNAK1ph
+icJNgx4DuTIXQf5rgtBJMyxu+FcTnYTfDRRr7i+hTUFl1VVe7jpXQAR4aemBpgBUJTwq7KYFFwOv
+bGHOKJEIncCqwtdcjOgBlqghW0JBz56/2xY04NAp1gBVLQO3Bd0HGHGANkAHsEmAXjV4oQNOZYDI
+oB/QcQ8MFhP+APMDi9EfNqr8zAq1KwRASlpKJWqwBwM3inFURGOCgn+wgBDwrjWYOrAJMDkZJXQK
+zBTeAu/cj0VS5WjVVY7uxqJtBM+XSTKPldhQYEMJOBKRYOgsVBqzlcDHJZNA5kD+mB46tMCCI0oY
+8L6QQeVp0eGAHAsAesrEU/AK3BxOFErbuhz3BOsDk2CYpgQi3VK8IwLEGh+MBdhr+rBuWLnaBQ13
+o+AOI8IkqCZ8Ww0F9KBiGF0850BiGF4B5O0oCyPh+FvooRbEKeBhGRN66x2p8rXb5j70pA7WEp0G
+W45NC4TnrTQJELuBtROU/6bQlJLOYHFRNIdB96yVwHqtV/1gFHBWtamc3bULBKXgIWAWPMyMM8JA
+5YSkUCF+4GCBttA+XgHWThOfgS+ipJb0DZzgtpC7yttOOQaRB2HR11ZGD3zjAYCBhZXnxLuMg1YA
+XDnlNWxQsBQtIvcB2ARWQK94G9nXQuQ6Xlj07TreH26PdM4WcPdN4QtALnVgmCZG5QYYSFAYLSMM
+RatjbEVso6+dUPfvtFX723mKXY1PNQAH0FOETYhEJnVw0D3TGEaRLqEU6BoGkMNgSMBnoDCVKBAq
+FGbY9LVhUDtcNOWY84aC0zKIBvqtWe3gD2oWGKCQNNAHTF0N+BiigkOGn1RAmzDmQOUaJKcgMNce
+Z10fGA0FnVWYH6xS6HsyNXA9oAOcT4RaOi1ZXTNwTbCbpBp0zQLvhjpZiknofoq2V7tcDOYkHzhk
+BcMB9gJ8AgOxEGS1NIOFDU1L3ArWqlaOSSkBnxmgkWqDVq3dio3f1j4X8wqpwVRDjym1g+lPDcwi
+JlBAMTV6EOAYQWZB0hVWnYEV8YxHD5ZmbawBZPpylrMq107vApUWjQOnUPDOYKZSW1NoWVCkWooa
+tlbA+TJO8K+2oE1KAKxLS1aepdTn6ne111n7BjGpOgC55cB023ovAJBjAliBCuYwG1YRnFcbhKHK
+OIry4b0arDGACQ/aviPoNjQ+1AMomYfDqTmvNeYe7wN4BIvDMOMSjMmlgClzGsgLQ5iENnAm4Dww
+vZxZwft6cD3NaH9oHyIMDEVuE1XXMQnMaFKgXCoWSwD1wkBSqKCBmhkFzVZQZ5C9loA0RJmeKb8X
+ssv5OOa1BsCXFJ5kcETcU8TVNVRVpQAd4Y0gvtEMjBW9iBGjSs9ZHUX0/em/rT3PajZI/TlDKaoA
+DofHEabOBgdvGjS5V3jgiN7DFimsYm9gvlPCv3SEk4iUIenL6deuV7l2fRhZE7aVMjYU8q5houHM
+g20FvIEGYhSggVF7Dg/Rcq2EcwI2SqeMkJnuM/ObdeqSvwO3JzmIcTTgyzAzyUqsEZu4AW9lHDA4
+wNSBJDmsINdYATcCJBZkSzko0Jj+wG1q5/PaGeSYQebhz2r8Obly+JrI6hZmRSUQo+Q4UBYGMbW5
+MIE7AzZeSygZlSwl5bfE5Ir299Te78YDAK9TqIkZKaJPHDZPhgDEDchiItVmwhgC5cPrggZSAQFo
+Ewh1Cw6kirK3a/cHuRMKUQLKEhrCZIDusQZcglAqkR2rPZAhoDsMk4PPcLB1MPMSppLBxIYdeVdd
+gLdf+7/L16hcshGyIajJatI8nWrdckOBZGehREnDN2Nog4pZbaC7YKWMZG5B527vQPX+vQO74QkF
+AdYDTxKMwURaqiJIMMdBAWYkOBGAEQ7VNQzrswZAbAjTwchp2E69/b731f2bsv5dZKgBlmHzAqVr
+pWlsgBWHIQH8gHYBvkgPq6jg+73SsNQOaFtRpMFZA+uW9knr9iGUZXILbqoBe2H4KPwiPWUgGOyz
+Ay0wVMWknUigiZEYBLGtNlpok1GB262I0v69D3tk05CBrSZH1TImEAqWUcC9AIsC2UnYYcwpBaE9
+VVPD4ilBNWlU5iX5VqCpsHdij1CjHTwaGhQCFowT/nQ0iA1MtMarAhvBIgjTcKpjBG4FhTG1auBi
+DchIva1Rd3svqk3t+67+NjDDGlg41ZIxCUYLJA9OFFqwGunxriAYkWH1tLVmqW4sGT1FGQRAJt7s
+Srvdu7FHnPegCoAIsOBUGMsNwJTwVL2u6C0E1S/gJWGwGBhuC+OELzZUQFcHqq7YEdeV9e+RRcWB
+zASqSfOOUJsVnlQS69JTjRJsQ8rpR031z5keYiIbB5fMaNn2Z+9+70jnmgZ2DuqAtQCFsaYGZXGO
+wmwMMAI+Fl42wcpoAJbQOAbsRWEXQxXUycMjwh9uy8p7Srq9J7vTBZAPZ0axCqi3AwzCSIFzUtE8
+IAjV94G6B6iqA9cFdlaWAvHw9sDntpEFOb29K8XUuvRADwnaoAPV6oPUmNpLy6EvCe2CjHIqJYrg
+OdyBnoHtegGAjlWg4VXshmPUNu+EwTraDoGWT+6vuu0uu55MweVSzEbBvMIzgixaTjVywqvBi/V3
+z5Sb07ZpMUZWAfgA8SkqIeLCMCecrmsO9lSnSOALZlvyqFXdxhbWRze6aZutYtBu9012FrtTBkoM
+DQwNXB7HNKmEVqCKmnIyVMMGEsgS3DKcX9NEoA4OsF/LhjvAZ9HyLSnrnoXWQyQejVANoBbQJHrN
+sGoailBQJT1TAPkAMzVkAhO3FJTEWzLQUka43ANLbXmjnd0/ZYEYI7h0EGqqHqrhD2ASfYbGzIJs
+QydCsB7ULRqA8RbcEy6xdTDm0WgRwx6BeTNQUSAlrzAtrFVeWBjfWoPRAhoD1gBdKBGdImIIstZ6
+ykmjVw3lVOCS4Ki3YHN591FZLLhg2/g2GoAzpyyweau51A0gUjIGjMGZVjOK84KJplrAD0RQ++ha
+GmjjdsTe7V7aZ5Uj3tHBesBZS0LUBswtkb1tVKIazkgFLeSOgWcofQc8HX0Ld5s8BkLsiHuvmcS7
+WKAFcMUYJNY1AC1tYFBERYAguAVoZPDy8AGM0WFWDQCGAcbA0MMHbjnY291TVd49tftSFJZigAYw
++gD+AQYXEKKhWhBWe1FD7eF1EnFfIiRwtUaiNwDigI5AFz1BefdV3nY0rAcDEoDZE4C4oBcKnsRq
+rgzgmQ+CdhwpCjNbkCmhnJAa7hYcyGAMnMXb9YX8KIpxD1pRoDyBNZHSxlpiFVGpIAicAKoljETb
+WbB0DQyvBysBnzLeJSBeAqVPfsLxZP2z0A48/Kt3TtrZJuJMZyt2J5U14p/ONoez5SMvH9qp20bW
+iwc1kTvX9UiBvRGwdOb8HETBkTVL+iecndbv5QPOTuv3sDsJpzsIp6vk+/OXn7+kg8G/e/n5n776
+7vu/5JjFdEbbAfHRi6+/e1E9/+b553968YfLqD+BuQI6IBIiwVAaKKkHJbA13Fmr5P2RD7s/mxa7
+DYbP0LOrdAVD++zP3QHb1fMrOswxi0hCEhOAG0i0/Q2rOHDiYSCAFn7MPVTEZ9990bXfGge1N/DF
+QUjbUJ7QgcoCjwh4NuKmvaTAtpPSXFDhmqQ0BadqHO6TkoBDKcHsAeE4yt4KZhqq4UvA+dpymEIH
+ZOnTVnx5e2FqsMoGCMG2LQyTEsnWugFcBTGwgmnBnAZ7tuBslHpiLfkFMIeWfDAgGvV5skz/dj1d
+psl//ffPvvn6P/on5k3oXMkzQbXw/Ozs8QjwX+HPB87/zlmW7pfqEqRo9uwBMuj8TqP1nvO/88/O
++d/0z99M9NHftvDz//n53wfPf/FU6vfLeP/578CgmOzN/GumxG+oS1CXx/Pff4afcbdKDNVg7yc/
+9boPavBl9+nL3GBFW030obd+lJupf+rlHx/s3YF3gHywm3ftPZ1QmDJOnjyg0WdE2vLFjS+XKb2l
++N351bvpk8OvFxlM96H3jHx4eg+4buSDo/ewLu0Zrskbt+om4f8hJHP+7PzZp39ezC/+PJ2/PpGM
+e/vf+fqd/wVFFltYgHFeM/6byZ9P1J+tn1v7Tzr8vu996PP/pD8H+/+tSxMGH/duT8Cq3izHfO3A
+L/2ijz/Fn59j/j+A/wxX8g7/cWZ+wyQ3tXzEfz/HT77voaYjSpxOTDfJdQcseFMzRzkgJZUwSkA5
+dDj1fQ8C/28+dN9DAXHeX/wApeuufYDe3V/6kO/CoBximIlc/7NedAcoVG5OFbCxep02d/r874ni
+k2r4k9vZuU9h0JOXnb5vLn2Qey59uL/zobvyQe5c+ZB/SxNqcRO8GxcZ3LtWb0d/vbicVd+PH4wD
+b58oD4c+YNA+svZhd1Ec/dXHxjqPP+bd7HfXy/R1YBPkjU0MzFHW9Pz8HjIdEt09fpcpNvwM4p5R
+JrIL9T7FKvo9e8omn356VmUb42shlaF9BsolT9W3TNgQjKpbqm+OTrVehCT325iqMzLPl+tX0Izv
+rpfTd+4NkOvr6xlMTX766QXtrs6XlZ1VnZ35zq2fTuqemREfK/WxomtlOA1cwc70B4KMWr6/534k
+iJt0lw3QJT8Yicnr9O7NYhlXZ9Xko/8i9W/PKrQ7vZinWC3atvLvDuj195tbpKrv1m59vfp48hl4
+ClGQyQ+39wJhYby69vT97vzc4Yx2tzk9E3nTiDPBppqytDxY0+gQk1etjCE2spFeuuYfw+7O0lu8
+HYz4V27ubuhOOIdHnxIbXC8X8+nb85j+eJYtY7UzZLB9tN/g9oe+wDt1vrOBg3tv+J0NJBOIP9my
+ATvt+50HZ1W3NoL1Mumabo6hfY62l/qoBq2cVV1KY/cpqS/ddfB7+5QrSlR092CtJp9MfujOS5z8
+ezaKn0ye/PfF6tW1m/zdrddPnm5uRKPH37z4O7TldVrez+yT/3iKv8ZAw6a62P35ty+ef/GXF+eX
+8Qk6c6tDnZx8KOwTmtgnT+9+82jmaf8z2ft10a7fuGWqPJ3RsmgrughqOXWzVe87dyp8/+yW6uYn
+1L0wc6vVtJ2mrVd+8kW6SbPFFV3GN+k0c/LxxxM1qSafwejQX3ff+3K+TnOKUzy/jtM0D4m+tvlj
+NElfzIdc1Xl3l+pyQV+uVteJxD0Zr+LT/DdP8oDm/MNWd1+RYcrXkf3xEyxWYc7ZfR/zh7c3Dofl
+9Gq9oq+RH1L0rWpntCafUBvsnJeGsvuQb9qnEewapoMe6bK0T3qdOc8fUZ+P4ePu3etDndWd6x2m
+N+GJD09v7u/ioVnO93S16x9vYuM97WI7PzdJaAbfEZsHJDvf0+cDcp7v6W+u5cknut3uv9rkN0k1
+uvwjbYx4cjYiJToqF5qTct/8z2++fPnN88+/ev4vWdAgyPVkX7JR+dCaUCedRLK0n8OaRNsFbOs1
+b/Aw0hY3S4cq1FTd1MikVGroVCsRnIh7k40tbyS+xWykamwrjOVCWIVpdFxIb5tG0vYinhq4J9qJ
+4VoDqGB4KwVTsXuvTdP5OOBbY0Hvlq/FW8b2GR29xjt7QTcnprfr839dLeaz+AdSwE/oA76Tyv1Q
+O/T31Spb0+mPCfhnvljnW/5W5+v17L5dcWC7eR62m7i7Ymo7ufxT0ex2v/oDmfdRDWrzjPCMqrlZ
+Q2cQJSrOMMYqOssieUwyHbDqOFMtHXcKBh8kHeIhA+1osp4sXC/v+0tT3Mef9/z89Pzf3QWxe2V8
+KP4jld7J/xnYgcf4z8/x88C0z8eTb/7HLZzvAMKT7DafkIfP/6yfnD287a/+Zaf1LrLzQ0ytu56t
+/9HdFw0h948eLu3WpWy/zq3xztGb8+4vXi1W6+5u62f32aPF9TKkZ6U00r5cFxTu/OLHP8TFm/ls
+4SJJuHMA+7//QXey390dz8E9yKUdx4l1qnWyaakPnJb6P/u0PHh97v+kiv7ilJbhg5J/Rrvxvr6k
+m19qFLLkX8koLMIvNQpZ8q9jFGaL4GD9fpmBuBP+6xiL1fKX0ohO8q9kFPK5tr+cjejL/1WMSO7H
+d1/+rxfbXTGy0bWiHhjNGReTj35PN5WfQvwvMA2/nsE/cbneCQvift3lhY/leo/ler/+n4PjPznL
+9XJ1fXnplu/GyXh//IeOK1I79f9K1fwx/vNz/Pxt8fHkh3/+LM3/1V1O55NvF55yvX7z+/mSfv/U
+w2DAsOQM9T//44z+ZnGV5unS0wbFmHe7fjrDKl6d958TE+3V8Tz/fkwVD+Xs7hzfd99//vmLF1+8
++OLs+XrtwitKP64+njxbLW+e3U3Is1xiVL1ZLF+n5TN3/aqLUW7++7Yg7VWuSXq2o+9u9h7fWN7r
+8LNJf2il5S83PHeh4LOzP6XZbPH07GyNzzeZcfzDTeaL9bSdhhzG6FDP+lWaPL/GlG9Xj+Ev3Tp/
+uDl9dhombr1Ol1dr0o/bki/6Qpec+2j128nv9nb2d/RHv8uj9LvJK3iG7zpLBy09O/s6YVpX63S1
++jgnSqqJu7qavcuN5yH9eJITtYBoD5yTTbP59JzcbLh35debio9OFJ5RWUlnYKc/5je8nGBR5r/K
+dR2Ty7RawRc+vW11cXlF5RVuPple4vkkDx3Fndx0vtq8Rfaemz/A8LaL5eVktbhME+9WGNqVm1Py
+d52wiG/H4JLy13dj0HVregEh68mibbsx2fSoAryrlonu++rqJfBr/vtNWytqappnLk/pFd0DtZxS
+YQ3pBi16sh9nZ89n67ScY7Zv0uzd08m0nbxbXE98mk3TTX+2J6tXi+tZJH3Cp7fqECdZZ6BpdCHY
+0zP624BhoYtrJt+++PzLb168/PqvL7//5ovnf3vx8tsXz7/769c0tuj5FZ3ocHPXfK5XWS3yUJ7d
+a+BGzmryZiN9MltgHpfUh412Zo36Jp+rPumO+OleORuwTWHXaoLxn7TXS3yynBD0WV52S4IG+XZl
+5rqjFsNDl96dnz2fv5tg2PwM+tCd29710uEPLujFb6OA+PVHvLA73629fAbzmZYv8fl5uJj+N3wS
+r8P6k+fd66X4T4J1AVn840/oyQzL8OzbdOGWcfX07G94i501Snm+P1rM9dljHeljHeljHeljHelj
+HeljHeljHeljHeljHeljHeljHeljHeljHeljHemR6kgfw/gn+NkJ+G2HA89ni4sjyHhv/F8Y2Jp6
+O/5P15A+7v/9WX6+TbBuc4p9dXF3P1179xo0JV9QfH5+jhX+enp1G0CcPLtYXvvJR6sOun0y+QuR
+naeTcL1cEqTbHBOOD+gy76eTOUVWtx/+ttRildrpcVu9rihrUWUvO6plLIRzVmi8e76n/VO0fJHW
+5G7GNA0jPWgWz/Y1WdHtppduVnUB1qNKmE09wY9xk2jtOS9MIz3e2zLI2ZQuxzyNhHCH4Ec1r+Tv
+AbkLAroPBiLCcrFabeqxYmoPmABqsihnz2vkCP71dH2SxrsXOM0QdRIu10sXTinhuMOSz/nNSZe7
+tXW5jnTq9ShFGru6CmLAII4pAUPzNizfXXUn7bpR1keB3ohB6/np/vaP3XD2ydnKV5dwXBW8uXez
+UVZi7Nj0RODLOSxxYjFxEVanENGZnVV8XfWEAehBna4vL9+dRhT9B4zjZhqJ+B5bDkYJ3u3EQjyF
+K7Gmq86OBzd3cermVVd8NdKk1EWPRI/3yzvUmj9Axgl7341Wd6r8qcWQAnSSciEc/Zpr4Y4vN5+2
+v6HQVbfPpBJ0RZsdJSt/cygrPy7IisdvdFMvsKyW6D/l/ac/UpT2+HJmDqTilN0/yYCPozcHtUpV
+UZdXJ+gtAM3bcSp+cLuzcVDpwNHF0ln7GV0gcAAEPljG8Vu9COHAtcLpqP2Ce8mPSyNOIg7gOIe1
+T40vr+dUFnOaxg+19Q+V8ADf+5CZOOEr/BRPdbDI07zHxut13ziBiOgP1ydToAz08D2tP0SXDhFz
+5AYXP6Hb56I+H4agusf7Jd1tLjiJjEPs0YFtn25MftLqPUgiDBERtHEAVhfazU/3NXtQCOrw1vNY
+Hbvxe055orG5VAeFRtW5GLKG7nGh6eO3eZs1zoGVxcXSXb16V93kPVGjxl4156xglbvHo6SdTsrV
+u05OXFymUYtL0k2rQzHd41Fiji/l39Ll9ahpz2Uhw2nPj4utHqKnhze+erdap8vTybiezkZxN3Ze
+N4NG6WG5yQM6PL5luuhs3NJt6mI4iR4PSaxbjvVShzQLu7hax2okQzmo6fWPuTjgALfBRO2LWS9f
+aJyuwDx2qxiNm3GNlle1KK/q3Oxh6ahDmn+TVuvFPLd/zBhm1+yoFnV5MeviYn5LWzlGop8C385P
+h41yTptUxjVbit3lp0Mn/LpdzNersUks6lsRrhWgw/JiHNynu1ALTfLSyI5XAVXspyr08+3lIl66
+kRNGN7iVlAuPhw2v0sjOAnsVB1UP23ztKdo3rlldXAi6sBTejs2diXNT7KkpNPkujTS6sqgAsqQA
+N3mL9Ui1Kg0qLw3q0s3jcuyYlvSqBJ2hrFfXIxWgTIJKHOjtG6yBA8agLo5BPWw3Xr0b364qapYq
+aRZVeR99wuiAq9ELtugN8HjYbAt2TwmzRUXXo45aElTROtTe/LTcftYKomsHqMcBC/n+FcALR7r6
+EubJT9/b/CVVxY/qvyzriywrzL2I6XydRsKJpjlv+NA03X7wvqlYvZu7q/U0jDRWvETdusfve5cw
+XQI3j7UGJQl756N7jXQzUmPpwvjihPMSSCJ4kC8tH03Wy1x90HC+U542SIw1DsVR39djN5u6sQUn
+RRvJCjaSSjZoxMelU6h3JWfJC86SWqZ+i3ETyAoN56fFhjkf1117zodFPt3jYrvTeVq6y1E25hBP
+RE3fXI6L05MdLzkNelxseGT04QBIQq2ux3qjA4DeGqDk6PaC2PBI5RXFCRN7JmyZ8p62UQ6zOedD
+I9E9LldJXS9Xi5HwTJyXVBhPiy1Hl08HOMFidiP1jJXGontcXnNjl3J5JZeHoZ2+HQfVoVIF+56f
+lrXiEFxdWhm6sDKo4atRSiwJhQ2DWt3jst0ZPWul8WX7LOVI63CY0SEeuFiNrIRi8MFD/c1Pi42v
+wnK+cjfjlvQhdg2Nk6OD9x+77IYTmJ8Wu53GD3VpNcs9o7Ecy2QPMz/tuHIddGs4BvlpqdXpuGJh
+GsOS5eF7ljJN2rEZcla0V5dt3s06ctpK4yv3mffLMDJScgD1DD7D4SotlyOTSnsyAeXY4W3znUMd
+C7wZWYkhCOge7xUy1nCU+K16X+dfp3erd5ejBudB7U/Huu0HtT4eb7AirGXlAMtt829G+S5WpFKs
+SKWozDumK9oUPVIdSzaVFexJ7vClo9z1SANYAgjd42HGp8szpptD6gUKu514abfTfeOXi3g9Nrp9
+eOu5Hvm4jV9051SkJe04vZpdX0znq+r6YjaygFvYcojelmo4SqK8G6lHR5C0Gpt2+KmiLhaLU7/V
+cr26qrptgseXtFyPVzVR8gWi5AlevZm5dUzrFEZCkbEN9/bnrNx6QbsRjpm6223++Ht/gruq5heb
+kwfG8tohOMlP97d/7IZvppfVejrvW4rvv/7q67/+/etSyw2QKdOFtH9TsNZo+gStUmePnth14Wo6
+bpcAnJ4slULR42Gzs5XLh4WPhB6i0N38dBgLbae0d/byYpzhKOSMhwljtHnjRrUnCxR5CAXoRL7W
+USXVuLcvvXuhsHV+PXans6JTZIZFU/R02CztoKYhDYv5yJw5K+rWsMfAtpfu6qibGWEOSGVHalVJ
+p4ZNLn9c/TgSwgrAsxKIpefDMrEwHb1JCuSjlLnqHg9bvqwO2CZawvW8iOtXad0dMTLSw5VC64UM
+EibtmjQszUfmCUshB1YMOVyv/OiRYIUAFytEt25sPcokEnkpMklecvPuxr2aUjJzvlpVl3FcwJqC
+80VWxktJ0yxi6HlefvbtX796UXRAcI3/ZxmGpoIVymr87Dr9qMf0Wp/bIdWjhwVwMp9funl1gO0Z
+CXq6di/mI0szS2miUpJo0/BIj1lyl4Mm46twFcYBbloDBc6YHw/anb4ZF6curOK6tIpfp1H5Kzpb
+aIjB8tOSYbgKY+uJeDn7yPekH69HwlwtiuaRHg+jBws/naXKLxcuejrgaLNreFmNrQcRTGjOWWG/
+6OaDgcx5csuR5qjomwqOad6uxvsPQdmmUrVAYXwW7WI+bhhKyQZRSjXQ7sfValxZDFTsqjCX+fHQ
+h15dVZFO0xpJWYpWuNTquPfXhUWSnw7pbFotZjfjLWRTis82xfTCajZdjuqvKhIrVSRWq0UYdwRE
+zpcXF58tljRCDbDgEu3/pKImipwetcb1CpTl+upqNg1uXABflCocRam+kaI3VXcG80gTWoiAdY/L
+bV+51erNKDMhz+tCJW1+Omz6evXOL95m1rl2I2tUpS0OOD3eJ+D4DVPUY7SJa0rz2JTmMaLD1Rs3
+joOPtRm5UTpfZmSjBdXIT4sNj/StdTnDVRdwRVwurnwax5fzMVVN0dvR8yETH3dkCeBpKcxjh8Yo
+vR15Ho0433Po075TpeZpTddiTEeeUnBuS+rQPR6a5kjmfnpx0D47XgIy3eMhNmyvr+iu0pGDfa6G
+PqV7XFjRdPAsXYExdfOQBvmn7vqEohbq4lYvqAo9vL+1Y5ncKn/ybXfbwnRF9y5c4/s3KZ+G/Srf
+PhAnboVuLem+ic3dD929B8BsIa1W7wuUjg+2HxyDJVO6dJdAYGOPgPsJ5zzdCTutnBO1fkVR/OrI
+pxgN2m/d6ProQwXcRWyPPgfUaHXIIj6k4dOo533LLf4nke08TfMz2IHN+Y3b4f1TyDhh89M5mp7N
+KOab81nH16CysJ9Bys/1OqeR0GXJTz9k23JOKmOV1tdXeeiObqU224G7Q4HHVumWii4K22tJwAFH
+b47t92s/MiVW3OAgyhscKJF5sVxcj+LbspgRk8WMWK7Vno0sh+fluAMvBR42lxN0d34edYB7Bwie
+4KBCOiy/SvOb6XIxp7si6OBFOveBdqcfcurJA6WdUkz3IjRy4ZUbF7k6SMDF4oSNT2PKAZbFuLPX
+Dmr7dL0GUMEquHp9MXaT+QNa7252qOhylWNK2PxjczPNERumm/xAfKtjh+AIF3SX8J7CLlyjz5lP
+n6LxN9Mw/rzwsY3OidaO3W8wTI7UhczIPK3Hstu6UOlbF+p8F6vqllsf8d3/L3tf3iS3cezpv+dT
+wHJsyAe7CRSuxizfC1ISLcuWJZmHHC9eOBgFoNANDhqAcMzBD7ZfYL/YZlahr0F2d2I0w42N9QSD
+01NoZAJ15vnL6nqdzVoQGybEsLL7dYsFNDTpg1njwE5Il52yBg2Dx7YrHBDXiudj6yQEBzy7VdsC
+PS7Y4IN5qaTI61bNUoVVKp+UVfm4+siYwSOH9REM2tVsim3213Ga4pd7OKNOlqksqlJ338zANT8t
+ywFD++kn3ICf3VS6Kt1nYIWHq6wfNxzrkNchwODTyMEHHMeohp+H6WeYjIgc9X/h5TTbz/B6rSoy
+fdYqbiIGj0dbF5K3K3G9c1gqschL1hKlckmpTNJWyY4Z08EPaAZFPWsnhHVQrndBO961CSd9oijR
+DfXHjgHb0F3LZAXjN+vRWPQUDEzIJJbJeVRrM5C/NnZ+vvcdi9SkbUb5GbF9rHB1d03PjGbzaP+i
+R/kXe8z3UZiYzx9VEtlqTNlUnGuSOXMBjWMdqODG66oAnQBju0BZftRZ8onp2Hfo2D4ytE/ySqFM
+CcXDMvU4VjPZwHJhg/R5aOx0xqrn7tJRTrxZF1LmypB+fkzuY841ytlvmsfGSpgRGHMEuggzkpRa
+KKaZII6+bNZYLojpoVvHRHGfXsmGh5GCQUVElqNpHtPumqzlWzpCYpWExyAtZ6xEd8Sjmgv3T+YW
+OAtD+iQffWnMNMHCp7z4N8clDCymeUw3bYzIzQ/fgEU5fglsHBNfNbXk4YRBJ1C7H5EBo6ttPBwh
+nKqkRVYy22PDR2d/APVfA7TNZbczIhnGy6J/3KARkDw71aiauS6mAE6m6qNclkzglYBEEgiIQyRV
+7VVX1TrSkR9hDAuVmqZiPE3TvO2wEoIOjnpUg2CG5bm04bl5ZAsaFtlGao/r+TQ9wdtZqEhSYkqs
+81TpYuIsouOkASo9J+Ud895cULB3pnlMtErghIMFvi5maZey9hCPsGV7hC17S7stZm13V6h2pRRX
+bQipSHnTTDACbY19jFIABxS8QVpfMdeFoGFdBDmKNxIO/SZhBzBz14YSWVs3FRfYzgtppNqQmM6q
+qaZkOThkloNDZjnARsFMAvfnHgXxYppHdDESLSsq3lYBch+VfGaaxxGrdZfBlsG1QE8AAuVaL+GF
+x5s8No4pFjxnpSChYAUJBbvkRWyLuU/tQ6Z5TLRCbVE2d5PqPkyp4oFBM4KZbgbrgLIVmeZx5IyY
+4K6kAKIpeOi87ApuZQ177lO7hGkeUf4IWhJbO2DKvBiQU6159nDM6RRk2D00U5SZBx9ohVTar2mm
+6KqUOZOxNLvviBkFlLZ/kWJigsLW3CCoCSFFQBwFWuZKoeFjBRldVS29pC56tu1zfJ4KGtCrZwV9
++CTwsE8CD3PNFB6Zue2RmdsG1+j60UG21oppn3AQE5e0qVBWvPU6mXI2MwNqunRKWiO5MkgIwfWE
+ndKG/ZYYM2wmNEgewijfOFDm5UcuyixtbnQoe2MFYuUUfY6y+uhWmjKaHJ9AqdO0r9Rdw4dO5hPm
+em+ojogomg3zeIP1T4OdeeNxq2WXsCxFVHENqrSGJqgK5tnmUAl7pnlMWTUFu+7XlCoA2/PMRK7o
+itXMnhYE4I1pprgM2SSdLCbwsElpxabFFc2hVCptp3CwhU2iVJgLR/mAzocxfpNYueTLuPTLgNys
+E2T49F1q4rs0COcaRkE2rWrY9AUokpR/i8Y5XU8aZbJfyG5Bwm2+rmG+8h9cjI0b2EguMqayJojT
+wTQTTnfVp9x6VGQVn4jaaoYia7KQMSjGXKA4WmY8VSxOtqVjQAp5HChAFocsYrHl0FXrPLlp8o5r
+PuFD9ux4dMwy3HQ1VUFXU92Qj2XMrS9B7vriyK6/Ia8HgDc1qRH2T44wRsR1dzUXi0yQ3jBsPs4B
+BEQly5oVAEBrCiceH88t7tzkVj/ZFmSUxTVvbSFCifaqkTm6w6XjfDJempSgk4BPF5VcySblBSsh
+ALs9r6u2Gy+wvWvHWRV5wrKiLcg1vDi5hpNqpZDMDJiosuWFRmH9HOpc9KmdesuoqLj1KFC0pIB7
+PcLxuaXPhoJ0STx0l8RD31Dnwxrway/t015XvCG2EXqCcj27VBjBlkOVTPGMUdFfYmxY2VLvmL5C
+OgDi1IOj6UnGTA8AhdVEATVtiWOsENt6MfWIz4q806GwvCnp0Ml3DpV9t2HBtDADlblHxeRg8yni
+vILgHl0lw6OrZGzIr1CrG9SjaemUk0fCsMpkmYDgf1fnMwyv5EG04RFDHQ3+ScHFMLzmlayyyQPU
+PnmAagYFEwbEmbu07c0lwaQGFnlaMqHXCG3SpWzfW8qYWdPmn5gQI9OP5rzM+YYdtL5RDE7VYB6y
+o/nqAdfyuWXQVovAZtWFEvQEPTk/P6LFjhWn5ZII+i6JoL+l3lZlXWFxOB68LRkU7JJBwfss2mSl
+1nLW1irJszyRHdzIU0ZQcCTx5YYLDLZM/zlV+ck0H+WBYLMmGpLne6I0w1N64SDmYeRJo1p9A2eQ
+bLJiq2k+zut2zdLfAnIKBCenAGwiOdt6KejaOmJsZtmRv2Kq5i5dIso9dfitZXPFRVFxtZJDLRAK
+WHifQ1+3MuNGArKDdrcc0EszCYCd9K3ZtG9ty0Uj28BWws9ztemCazZZcW3DxzRwgbUo5DJB4Zbt
+yHcr3KmYbhJ2xeUt/Zi114bkOIcnx7lO17MYGpnlS8ScCuzVradZaEmwADWIq4LyAZu3fBQ3ckSH
+ki9gp6aDzPHKcS45D44zoD3CAekS3hIv+uWSmfLBrzu4o84i7VLYhS6FXbglXCm0vXPVIUEaMsRJ
+QwYcZ90TlNjZkm+5JZnCOWXH1q3Hqd+hRZip5JLZWVRo7I56IvOGGwFB+Q9N8ykGxvHBPGyoo+YE
+cVVk7O0fdgCqe9xTvbNEDBWmB588xMTpQww4VPFHZvyeO/epETbNJ1iY5GievTyglZ7gpNYDqjOM
+MfOIdMnMIpfMLNpj0FTYTbNVVV2xS/qRs/X0ewxsEA2Fi7Bi02WZbbos844XfLHtkNSTiUj1XQun
+JjdcmI4WPrWv3mnXbNvH7AJHNl1Ywj5SWGLHiFUSQ+O4EgenfVoCu7uTXG2EEpKCk0JSk2bMlLuQ
+PJbDk8dyozK00SfMtQcPSgfDuFQ0zI7JLz2/gpVLRYeb5uMcssR13Wh2LYsclh2/hh8dBHlc70RG
+0SLk6m+Ud9g94R1uKizzUPZr1UhuiBa1d3gnjTRNjSEXLHlMT33KELC5cJxJL9eqmHGXBnQ7ZTgx
+zUeZtAnTMmOyN6l+OmUsaxUMR5cns80dPKvZBBi9Haeur02WHWIWMJU5utYDCZE8ZsRy+wnSxGia
+j/NYyaQQ3OQbh5zBzskZ3ObcopHUdmWajxNfa/+6ZAtulBFFkKWxdyzWvDohAWmkDk4aqduyukE8
+MEznXz+dpbStmk4hsncn81IxozVIH6Y46cNs6/SWH9xvkxXQbbIC+o7DKi9vZ7JZalXjqdzUA5uk
+qu/ivuu4tq0HM2q6dNatFM8d5ZKr0D29CjUfDvWIpB4xqOP8avJYQ7ArTCB5KtfOIbtUXX8+Zqtu
+XfC5TXfKHHL7CMJYwzr86Xj9EzvCIR/YR3mJ3Q/xYx3y+qX7fKNl8FHyTyAy48B9JqbXS1GnGfwJ
+9zPdXw+aKn3cs2tyUn4b56TbBvU89lY+pVTTlkFToXurkG2bZzn3VEJZVvuECPPy7tpxpnc1wofC
+jarE27gSKaXJeqc1WWBVLZs84wnvD5gAOPqmUMGAQDKr+q7umUYGMsD8OK8mZ08G2qR92qLdNwWo
+zi6vqyhBUZBJHhvy18nwTfZypKW5zYWjjG6SmzzlYmTQMVynIqFuVKwj6HhrxT+i3/inFRxggrYk
+bvI56WA4Zci4WSleRK+NCdaUCcM7Nda366Kr0pxnZ3XIerUOWa92wwD15CLnGfOm1Y7acPiU84q5
+PcCiwBQwqchL0zwivEMjQZTAAW6f2fdUzx/tFU3+lzWrZzCelooDpCIB9x57Uj417+mR+k0DMjFQ
+n5BmxCPOTWkV84BMWCdK2NdrEJt+6atczkxuwqyuijxhnWJcAJs9JkzbAKW3O3TwQ9PelVx8Ehqh
+hFj7TR8z5XCbxPuwiajipi9nGPONgWSPOysIBM8p6J0R7TOOTm3qiCA/S1CgWyleELND5sE6ZB5s
++0sv29UU+C8P5AFqIEJiIECSnmA1dHAbpCpdOhSsS3vDi0CcknLd3rX3MaWGgstH7FIe+sUpkcxG
++wtR4Gxzj4s1zuKmulIl9RQ7bE7EfGNtRC6RMOaOu61Lshl84B6ypFfOob1yXcISPiLSARSRDiAg
+uWDZaFE9GTsaTPOIal9mLeu8nuaVBLUhSxUTBJGIahNUTNu1LJgOVD+gdLehnaILOhQvoMOdC8qx
+aZpHlLWYyBUlBPXE2DwiK5M6T1hdobEwPCJBc3NhTLtN8jytePFj9px0OejmMWVmUAI/ZSZmgiFT
+EB5kSSBm1JxNgVWa5jFNkLNZAdCoD1D+QQrPFcafW4iayp11xl2ZNPCJ6VjWvisSFIXat0BGKHOm
+tBuS/RoS3Zr0PGgbHclFRwkSOwGi2bHTl8hwXDIYl4sCLqipb5rHNLsVF4yIi1KawR7IfnuP1vs9
+Wu1fyhuWvOaTDiGfdAgtEWDdJPQwNyubjEkx7eMZtqxQYSsqXcToMUXnyYS5YO5L0P9YZ65Lhn2N
+1+4SdL/HXQrLpsqYiNmCThMXlLS6/MQLhXWoyuMOVXd8ldayYeHXRPNgvGqxcTyldsVTs74oZsma
+jb3PhlXdsbhSTakKdF09EQO0C2uHRIUZSk9ejveQ3WMygR2Enfqps0gpIDpsJijzIZts4duBTZzX
+w4UR8Y+ybJn4VYL2LgjauwBdwYO/tseLCdrG9PJY8gQWjKp3iO4d2inKU5CVaLmNEtuAcJ6WzLKT
+VGCXIAO7EK6n5JaVIoUBysgDVMuWWyOTLtRO1mlHsu2szJniEA+JF6jWea34G59PisU+3btd3tRM
+KZ6GiKWyOooKji2gyIycEEeqm5LlTdt4Wnk50sU6JtvxvN8aKpFQPDcXxoTZBy2R0eJQySwFv4QE
+UYnBoWowYNAkL6NcICIcWSiGRMpjzSxM2iEyA0zzmGYqU5aYQXlLKFfJOi+nFGshVc7x0lrrVGfW
+gwoaK1EcwUps17y5ivs0AZFlmscOI9Xx7bgk1jCJNDx82C8YCCv38cEex3yeSmDE7Vgy67Ly1fN6
+gtnDoeUph5KnzHkPX+s0sNUUdDUqFuEI1F2+VroMDx+izCUT+8neRgi0Uq5VC41qKBjM5uTQKcCE
+orUBW5O3ZoryOdhkwhpxFOw4TCBOGs6ICZQveSkaXGjHpkp4FiOP9Op6pFe3btd5yzoUSEB6Eo5+
+4+y6yhuWyWSKf/6XvuLlIHlU3qVH5V2CuBUzbeeYLEXNLQp6DMi21wkWkOQC1/Gjz9qEa9/GI4u0
+F1AyV5s0SrG0MZ8Uwn1SCGfiZHnUEeZRR1i7kml1M2sVEOHKCVzZY0P7ruXWGZlGmdkTEYnojs1j
+uljchqvlUTZvymzWdgh4MePmUAnH+Ejvn066nXAk89EonbCm9ltzgXK2XoGqw0y+p4QBQQoDQBcJ
+sh4aKRB7hG4eu0S5pYAJhzA2jgmq27zMqlnar9fT6h7whK2BPs9oT8EnEG7hnBfQ79BVL4gNoi8P
+dbzTbv8RzR+evxqRvEEUqbRaPgEM9oY0b98lNEif0iBv2NVhBQ1KKSi72s0q5wJWczFvb9MJ0OUo
+VNOi9nhewURVvCquGlWeKgSzuTCmzRLtfDJ1xydTd9gzlspGp2bsp5b38miIosxIPiHZxUWv6iYv
+EaxvXedMI7bOyaaUF0HFj6o6r1ey5CG1UnR9iuoyYT0qRhLRaZUeKdss06tZnd/GPTNQxKOkBdM8
+pp0jFuWSJ5DpqP4jSa1EIEN6I/NOzhD7jZ9R5ZPIvqSzlFs/FKMiqBBaQfWHwYWY5ehAQYAgRDFj
+2l3oUL0FFaq3bEGm1MDqm2p5BsaMtT/5pFhMzpzu6k/MMGPhzX3KOanbKcLMimuCqkdomsfOxFxH
+1E+cMfxiP7qA0JJvR6UjTRwq1AR9N2a+s4VOWuKkKC97pndSENj7gkbeL6uOmQ+DaRBk/WS6G0Bj
+anhSgRbdKcgobD5iR2ENHbrBSIQ5l0KY00BX3EOGF2EwAd3HWdCq84JYH4ksQZZXRTHLKmaaNbyz
+TZnuh3aql1OeP1/HBhHmwqF9HDYDjzwFBZSszizo6sxZoxQX211gcDAZluVRoR2FYqnTUyoJLRtZ
+rxTXPj1lF1rJJov7Tyy5EV6XjEr0yKjEfNnNlnU/xVlATo1TkQs3qu1gg25TboXCqaERhsETEb91
+WHBhExwOH2u1nHV9E7O2Eo0efQSOgIoFulq3SR8zT1h64zviDVd1dcv0q/m0uu1TCjdQzuSVulLM
+U4sMjyBDDVA3jisuNgYzMgqPwpQbbeAe8a25pHsNSF/LKVXOBA2pLCh0sU1vzFo+Gi33XNzSvmG6
+0gSpiAtiHNeq7GfsUu5T0FNQACtYVbKn5CmsVStB+F9XrCGMyBTYiMx/RR/07EmGb+xuffwddcwD
+Nlbtm3t6Lretaq4fOWGSYvS4DMolt2YRjTXnk2BzVbmcJQWzCAb3YdE9oXg17qaBygG9poMe1lrN
+gD3OnPkUTAztKFaNpssXvhEzgEwsIILTui6bxXmHPhG5RuQsdjomz1x9nTfLAu6G/ufOcOrQcEhE
+ynXHDp+lND7dSpis7wpZpsa5mXDBpqnKmw5Vd3NDfoJZmN8hA/HHt40PWxRM9HStQ4l5oiEP4PUW
+bm2rZtY1smxriVQmmWHoY4TcXXQ1gkQWs9u8ZONkkAUMKZM8UMSaVnnc8FEN6TKVFDTAbdUsZ3jK
+ruUETXxKpFGSyyRhRhfbdA4fkbaDlLsV1lqZtV0fc4uhEMTJ2NrbhGtXm4Aup+leM+cH5baxSbcN
+kr3Cyt9rrvQypVKuoc6FNp8EmZvfMivB23OPKo9qmomVH08JIpkygrha2KRNDTnq1KdAMzeb4W22
+CCb4TLni7pY8vAHr4fEcI2p1De1j+g1Kz0wMDR5G0O2EgwczhMikYtNO+OWu4GBImHOaf1Y+YbWy
+tBuK0gyoH8wpSEpVQ/vYjqKa0pjFJkRCcK0TQ3JSmy+xDC/WsZ7ChXvkXKlblUwx7ZFVeE3zeHhV
+va7SJ4NduQLiLBmIwkcm0ZF1WWKY5+oaKTC9OSRIB3melf0t1hRKZiuFytB+Z7z/6ZtX717TESSE
+jyscJC4CNOKNSvJaIWJEX2OMbmrBwV/1y5UlrVaBaIdZGhjsCULGsUkHIn3L09X4og2+/F2VdNUs
+yzttN30i+hyy2KlUzNOu/bF7VhfQ1ZOLaRckC5KQ6G0adA7WwsTafax+Rdppv675Eg0ZnUYGp2FZ
+dtTAtDLzBM/OzfVl06tusPYRF3WUiStwk2N2U9vOGrVkpuSgIcT2yZD67aVxTEbRyhnbAa4h9sjk
+Yn2Bpo4FcXIemKMmREnVJK6Jps6vOjUne980H6NdV0W1vJtxA0uQGF0IXJAg75pLn6wnMXjAEEww
+aQg6W0xQ0X5ZIZnHAb8C9bLt8KCZMqy0w1xQDnOkrm7lumZnLU+kjsY61cA+ocsEMk1gD+aB5VEe
+3RR+wIFfPe7hr/H41AvJRuu2SbRumzQ8VEtuOVcivEy3kiYYbpHYYO5Tjn9sJp2Nepqj+MHqYZss
+imWTRbGQepni6c90XVCknWOku5WquNZuvqWky3kAGh5ZgccjK/Cg37VqYl6i95TM6XW9dAQrUA/u
+PzLbqOlW90WrZJ/yUAVoqw5l02l5EFDUNKAmQVsrxfS+07U7qIgVTTRtuWnYbLowCW5UzCTLr/h3
+K3iQkI1ru2PZWreeik5pJde2x1S1XJnVkgnLs9BRW1Su3N412lx9x0y9ojYGalvYRiAYc+Fs2bEc
+nBTmKQV4uiU/hPUyoz+oyI/jtK/UXVzJhouJxPbKbBnUEvV/rorKhCW8H1fCnpKTg0s61azzUjIz
+nicOrPaHTXh2Hnk6HuGxF22drGWZMUNvaH8HWS5we8rMkiJXOnGjzPhPP2ZDsPj0iSnDc92Eze11
+h7j93IJL0dwdPyk2jmMlMXy9lIgwwVfFcCeMaA9kRBzA0LcTw+S5gNCatEnSbVe87FSuNXuX9CAV
+0/Fmk2WibLJMVLvqOyziPWXzneCVveHFFyPUCp0+RpULBaJDLedZxk1YPWIRoO0BdTPj1sl1yEq2
+DlnJFuhyLYGUtBoSwqoEia1gbtqBTYJUbS6MaXezts7FhHrHAeVyM81j6jwYY0HuqYLcU2XXMctj
+UIWuBFnoCnFgdU5dobjxUYJ29Qra1RuvZc1F23RJp4lLOk3iqmq7oSD5FO9XRK/uiIzklrNENUP0
+GO+k0ehPgU0nxOEFQiAv26pQV7ywHZhqZOEEKo8P7mZ1+4KuaLugK9ryTNE+zuCxqcI0E/7AOJcl
++1z0MUp5PMNN85h41Qo401nKZAiLZNy9unVEV5XJSpYdUyReUEZV0zw2qjYIoZczzyraWmtThJdp
+zA2yZkKQLXn1Puha1nQp62VZgTS9yYFE6EpmSV3jjT/ipCfY9PU+2SHz+cNXb37822syAVob8Ako
+Glh8Yz0byHdcMGQSFtOlYTHROMYtQ+9pHAzCkCVIo2+95EmNU4phrW74tbspsHXdSkjTrNj7kMqC
+D6kk+LwFPQWEfibMkaBTtQWlgmL8LvP8w2gJan7ZdOqjbNueF/jlkhKzS0rMSLir1nkyq3ioTyEN
+Zx3ScNZAPm65ZgraHO0cMRonvEKwYh5SwFchaUFnl0vRddPJp6XELkypnKDvEPlF9pH8ojRv60Le
+zbhgKTa5M9vkzozx7tf8qG7aKO0c8YGwQ2vEkRA1OkINKd/mLLM/aArUuWeaKcLZGisVcv0UfOOJ
+Jv0URPklxCNSyozooVvqSlTMWUH7gY6t6WXOE7AwsoryDVLAVUi2Xs5U0/DiwEHbpXTrgDRPX7Ux
+cz7Qheeo4HLMR2TDxHGdYUg0T5pq1XU1F6N/CqzymgsmTGPVU+mpCFHAVCQdGkjYOdITddLwwq8c
+rG44flxsJek2zLRXLENNph35Rza1uuXasql8I9NMOnVVguYApkGElAMpVxZSrnpmRYSAhGYJ6M2n
+bVdctFRKO3BobF0gDDpj2zVM3QMnLLWvHQkm7csbNvIjJcQ6JJQTEm54orGWS6gt3qFUXSTcxtwc
+RSr+zDRThG/bgnt0zD2yrhs0U4T5hx1VO8YmyyYVn5g1+kiR2DkiEn/iViRiQi0DQa6hmyyuOj4y
+13XGhLGijnePDPMoVdfxYkepwjZUWRssI95xsZMDOkA7oIyNZc0tv05F54wVi7Jfy6Rj64RkFSYy
+nat2nBnbkkgm05rmMeG8hNt5xe4n+QkrtuBIRQ9TXaBrbjd9yS4mTWYXkcGaICQwcewpmh5Ns1zy
+I1gDygCFjXT0Fy+tYsqBizSZ1Vup2aVbCR8gNx7bpXOb3SNovY1KZ+t8rdjaMBehpv2lyDvFhFHz
+qeVgmschapKLRcYNEbntoXtnEqS6nqdfc2Mr+i5L+HWwSUxsgupNzppeU8wWt7crZrVDmxS27EHY
++t3ux3q3UlYB8qFVZVaj0z9aq6usWG2yQ9L9r//udxfWM2uoyPrMEn6EEodAtfLrlSqtf+TWi3/k
+c/z8EgXDJgfuc5DD//OZlaoojRM3lKknZeCGSti2TGwhbd/z7ciPotD2/TTb46Brvn4mNoPz7ZDb
+z3l7I+HCyvpbI9GzaL34pc+TD9dX5s+X+FdeJr+Ct/kNhyj5AI/6uuiXmuk8ome4GeiMYvitJZ2z
+jH54/uqQBkaF932ePpxWgrk3z2D9aFht/AWb1vsSduZ8WcLEe9FvP7/UiU+ghSKA5bxqlveobDvv
+VxI7LC89M2lQ2IBrZDdCtghmtj+zw83nYCaA3Veq/IihMdabKob/X8TD3/MG/36J0wy6buiEKAji
+NM3CRQhjFHuh4wpf2YGfSLUQIYxgYCeBl2XHH6u8Tg8eaW7Dv2hm40+waxKeaXInPqDjqECoWAp4
+NFf63sIN4lDaCye1/SyLgiwUKTx8jA+oEX/2E0Vx/poML/3bfcBYIM1HIFN03UYyeWaQ8JxnpuoZ
+/H6TY0np1Pqpb9JcWS8a8/e81n+/1BM9gwMn1egoFGHM8SrUhrQ3kBaPQbpvu4Gs/ThPbPaaTtbb
+QdKYzT5uNz/nCcJJ/E2uVdle3VkvrnXD/GpoCF8u1zIvNpPXjp3ASzLHDlTmBNkidGXsL5JFEmSB
+74bOIo4D5YQHXD8PuxikJR3MOIz4ZmHsPkIvvi6h3yrrr//7fzVla73Qs+dlrcpl32Gt2tt5qnbd
+hsUt4BnQLYYZ8ObDQ3YXxNPWwQE4nLh3oJo1nQq09h3WWQ8NclZo/JiTCVXwwm1bPEMZDh9nQG6e
+Tud6nT2zVHolZq2uooiQBhgQfdikCxvyice2K4UDZ5py49S2ncwXiS9C5Us/zFSaxr4rA5gY+ASp
+ivulSjEKUK89Xe2ZewypIhsGBVVRz/ya9KgDoWwN/J3Bq4yOAPwNO61qOuu/sMbEiyJXn1b5/A7+
+GD2NEysRLZQTp8Ei8kPlJanrC+VkQRhktq3sME2y2NdzfFnCU8K/WaluMOppnXftTF7DgsG+fmb9
+baXW1hv5EbYH+XF+BX8dLKfUdZQNgoKXLgLb80WchCJ0gYnIgLed2jJNIi+ThlU/xJM/M2UoQywO
+tPl07AHYb+2JRRB4iyhIskhFIhWBF4WBjODwC4MgsCN3kWZZovBR6isNi/1so+qKeaTDSt9g2v1X
+fYNobS8wB38e6z9eymZ9ONQb7IQhGmrYEmDKbHYHo5e+y9fWj02BJtMXXb6GUcbPL6+qsu2Lq4qm
+ucFjGCh5G4pw6jZ9oqxX7SrLVQGTKca/53L4+2Bk7tFc3dVVt1JtDpMTHs3Xk9t8wMds1DXsod/K
+dVzgad4tzaeXsbxDfCBFE12D9tDkMIOc4WhxhkPxQa9d9uv6Tst++KrCpEc+8MnqdI0kRGgOPKE9
+S2fm8n0Sd2g2wU1ar8LIaGwPfJ4WtuvaSDVtAo+GVk88vBzbyCQPJVunt0M2IooPqnhmDYRtU3hq
+kph2j3h/bYIJ9TYGT+lsPngPft7rpJ0NWiTMBz1fBhnqAZ3Q1Otn28iTwJw47N3CX8jICWWQ+Ep4
+KlILaTuwXSROmAqlQHoWXhRHcaDFDo1F8MyUPg8nsdlIYTnIEslKC0oYxRSaXw85s7XbqLjGsQjn
+bjj8jqZQEpmP4s4igLMvChcpaA8xyN9poqJk4buLhYJXT5PEsNMW5PSZ9tws3OH3Q2SWoq0yHLBI
+e9L175C15QZe4EZ+tlCLyFVwWvuh8Gw/Fq7jSDuMMt/PRBBlQov6spzVcqnMNhc+GzBB/lKVy9ve
++msurRcr/Xn+MZfHhquWTadSHKMA/wun3r/srrBeBPaVq88X+B08SCBCt2bVdFIvbI2Gbw+OFD6p
+RLg2dJgDQq6K7TDwvUg6vhNmSSzSMFvYqauESv2BX9Ne4wE9D7QGrn8/RFlaFroalpkvrqlXsfkI
+r/HXqlXWP3qQsNu1RFuI+TT/CO0Hu7II/YUAFVYEjlIgU0iZxk4q/cyOpK0Skdn+Ilj4erLW+bJA
+yc2ITfOjQg1jznmBCmMXRJcMtAUXdgM/S7IUPi/cEKRGmIih7athf6jz5noDVPOrX1imkbPwFIgu
+oNY7IK4mIkphK7KlqxYhPE4Aynyq7B3norheGzTCAoH8oM+GDVX/ds8efMqxExnFng0CcuZKZUep
+8IQvg1jYMC+8wBFBvAjEjuOgEf3KN7V9FzYcEEsj6aZSxaEdZKnrhbATycDxXD/2Qt/xdR9fg9wA
+S/tMJ/Nn6WIBY5kmIC7GcSLg7QMVu0HsCmeRJZHK/DCyF2kY7vEuKuT961nLSIUiCYLUT+IwihxH
+xZGM7MCNM1ilQQpCsysd4e6xNlnr8No6PQn++xUzW9gBqARuLGInypRagCoceV4gU3wAoWwfBGnf
+9fbZnxxu/os7SexK14miIEoyveu4jg/zehFKEXpeCBt57DnBfp+jOpV3dzMNUtnk6hGeAjSCOPUi
+103gnbNEOC6sL8dXEfyEEZwoju/Gcbb//teyyI0VZFbIuxPz7+e8TNB+/o28zlvrrw0aI6DlZY+A
+ste5upl3KlmhShqlHqgpMl3ACZw4cWynTugpOM7ShVTpApSohbOQ/v5DVMXVr397N4ERENLL3EWM
+Zt50YdtBDNqvL+NYqXgBK9IGWQAZ38gsw0k1YMoNFe8ZUyy00xT0dmW7kQ1TWqI04WVhsFAqCgLY
+r93MS0SwGE4cjUSqD0kdkwu/9a7FmcuBEzmpGwVp6KW+7fueA9PYcTI79iScFikMKLyS3itvNwnB
+OyVUBy7B/w+Tw9ByneXN+gb2t2dDkXMnGj4FQjxE78/WtYInWxi5eGG28clkblR8lXcghWg1yh7U
+KfEgO7asa4NKYqR1YX7B8PxdNld9a/0M09J6kX0oPly97GZViSWlD21emJaEd0XDrI0eZmNK8yyr
+2qSqUYbGfnaFOWxWvbT+KbvOevHXn17/c4V5gg2l2GG4J2rqrkkGc02s1kNEsjyR2tZla3XfM3j2
+fNsBFq3Iu06hq62pUOd1TU4hiJpznhVChQs3yZzE8+04UV4aiizykyiD1evBgS0D2NPR+qH3j06h
+2LjQ8hz89h7w2r/7FT8XGw8VLtdLq73K61rHkBWy7SwYOLWuu533wwa54NIOLx3XArmhL7r/yGAo
++0b9T+smLwpoxKAL0A9FaKXy7vftH/5wsedMGnxHZ/k4oeYTXIqzfLwdH+0iMj6h8xwWyEGEl3a0
+4dD2GrB4xMHfceD4jfZcRftP0cg6T3FLglegn8ixoGNd7xIe7fQTwRe2TzTyyAwelPMdEOkOcPa6
++FgHBDt2e16WwVVxfs447LHce6/7Pgx0J5x/J92Fvrh0z7Ha78IDT8LOe8BcDI4DY3auB/cWgy6h
+PfgWmLPUFZdeMGGWbv0P6Hlgddri0vEu/WBCp228E8YrcZ5JoPvK39s4jr2Iu2MyeC6Mx4L7IotL
+P5rwIujVGHswmMxc99JfTGC2dWCg64LJw3cubX8Cj42fw/g3uExg2xETmGTrbnB9MPdymF+uf27o
+9/byZXnM7cF6o+gSXurszrb/RjsHyBmvB5O/Y1/aU3ahez6LnZ+Cu0n4e/OesUnc92cMDLnDGV26
+4YThHHs6Nv6N89usGGQO++zWEY0ZDl6QwfnB3NM9G15wwp5+4CQxzhHua+FEOXcsEq9Vp+vBc3Ke
+kcvtP9cmGGlHi3GwcHsPNkXnAb136IYZvC/c19ufj0f6cf/1mnptvBKc1QxL2Q0u/SmbsPFK4OHI
+PBpBEnXOdtre0Th4GgYHA+stHDwbnSnH1ca/MLgVuDsRzOmze8PeToSuh8HjwNx9BAhEU3afrd9B
+OxyYnSXcS2eKRGT8EqgmchnACeVMYDA4LgZ/BZOJJy79cwvjcMgHn8bgy2COue9eirNSsH/ABl0Z
+gweD+S4gCXlTjtTBy7GzxTGVIugzcXb731OKjGfjuE+D9XoCJ5x77iw42GP2PRvTXxIEfjHhJUlv
+xuDE4L7gAo6hyS9o1LLJrxdNG8NDF8ZkdqBz2mfn/5id8VpM57Zg7H9jboOj4riLYqq9AsbUW+wd
+jAwxe99pMfG9A5Bg9qQl/nuP/BTTGcO/s6fzmPHINTGZsfOwN0Z3xHRecHSfMz3t8zIeCON5OM/C
+H4wlZ/VlEIz3jwlTW824HVj7jItc7CkH633ng/Y6cO1aEcOCuK84ayeCcR4wpR0Xjr2zc2BP2tk6
+GAa/AqvXPFzJZ626+7229T0YnwN3kjGEnv1Jph0Ug1+C+SIHsgjHKLP1XaDXgqnk+AFjsYQHMzkD
+rV77NZhTS9iX4qzJ5FB0Q9+HcXlwF+QCxPVpC/LAO2K8IqyBgTM5vPSmrMvrTg0uERaDAFeKmKLf
+BPbzINgmXmnk2tZwAkH+93mZNGoNLwp9ivF7cMNXGHKHT7FMEqvpyy5fw2kyn88vLCsmrlkZyEi/
+qHV/uwhmgXfuW7JZf1j3bXFhvXr37vXff3pn/fTq67+9+va19e2bH9//ZDnPg4tNeOyl9V5nbiGt
+rhqCZPeufl+Za6q8zpuqxPcwD7r9xndl3uXwbvqRVnkL8tydfpT//nL3yF/+695db/oSwwOtL4eS
+F5sEsi/PfS/Ly7xd3f8agjfkOhZ1m4i2yWQ77Lt7932NDhi87eDpJ9Pe9Pi9O98PJZPevv/669dv
+3/75/fe/tX4qFJatQHPIb/e++qqH3jeSlIUAe8vNhNh+4628VjDJumSF8y8FiQpTIO4uredtc/28
+rq7u9Ds8N0WlbqrmSjXPZb96bprN/8MbgIBa1HB5cGN7tm/b/uK5LIrnA7/5Beb6DQ+kp36MpZ/g
+xXWhpwpevSiqG6uDb9VVkSd3Vqs6fLJO34cHYG+qBFtYLmH3JsMcu8QEwqrRk+twczo2bYWetsei
+Yu9NZB0be/Lrx2f28XumzfXjdM7N/gl3Hq6H4zdOXSHHKZ1aM7+K/71VdG6kT66r4zcfX2nH7/lc
+a+/YEzzFajzGyyyd6cvT3V+em7jy0arUseXU984ux91XH7QKd7czF9+JG8g1t/v+A5fajgBjhU3i
+Ri+s+2PEWU+7e84uo91XP/Pq2TB+wkWzYbGZ0NNXi7e/Wg5TJkYiGXA4/t2z6+b+DQ9aPfeJMNfQ
+2dvIlXT/rgeup/tk0uqDoQSSMgj1Kj03AMr686vvvn/9zW+hk5etJcv0ObDTpR9R2YOWRllbqxdO
+nKeZ0IdPd/ypzy7J+zd85oV5yP4Jl+chI7OCiCU6qHbHlqiPS3SX1XNvWercnsPrR5fi/pcmLb/9
+G88suf2vYsea3sMbNt/HrsaC2GbyX1rbiq67W63Zz9SLHZ1Y+18qq2419I356v5lQ3X6GARmDPbD
+cO9vj0Mk7vhrJ4bj8IsTh+Tw5rPDcvj1yUOzfzsOz/H3PTFKh18kR+qAz4bJqQF7q0rTvRiFC7Qu
+obvORrV++S/6xgk5jMdI8DILn+ZujDBT61ilcDbpyhovMZKzne+3Y6jtY9z/LTThtgckcEe2OtnE
+sMs+6vEzB6Lz5Sc9fX7z7x/mD3H0PToPhGYJfR9+O64f2Hu/tz+/cXzhBPDjBs5vbMezhfsby3/0
+JyF++hbmjWX9ZjsFj3zv3PX/R3+I8d+dgI80FaaMfxBCuxM4bvDv8f8cP6fHX+/3H9oeTvrm7sE8
+NFqT5x0Zf8dxbXE4/sIOhfiNZT/iex79+f98/N9NPcvxhou3fYyZOHDrq/d/+deBSN2PFI5BI714
+1XUyWaFI2wKJi78okCifXVyAXNcOggV8kCjpmTJOWklqqrXWnbSguFFx/6LPf7hTdvqihItruCHZ
+OsfgyxtxFL9gcP9+3/7B+uPuWf+I3/qjfsQ/WivZWn/Wkqz1+42Eq2Hn/zC/uPhGdeaSAaJHiMpm
+rR/w8uLiERSXH3589xqkchBbyxK6dei8OO9izOppVYOZ/CDWbLSDBPpRQUNalcq0wrPZFjomMcRD
+d1qqYOxSVYIKar5+8ZME7VILxRoEcXv/pr3KrMh3rHkca920tYZiY8r6vW1oIEYUfKOGG1T6h7nl
+ROECZbml6tpnlmdvHIjP4GHWsr0yn3SntfOLN2pdXSMjZ/MIu+EFfeVD4GHqSwNi8/bRNh2D8Z54
+pyzvrHXe6sftgIH1S696tXtXePuLC+2ptL7eV7YvL7766sPPr9+8/e7HH6zdz39YX4CeHc3tLy6+
+ev/d9998ePtfb63D6+bBTArXFxc/vHr33c+vv3/71dt3b7774dvtt/oSwRZaWXxx8e7Vm29fv7tH
+aUcIt5ENtb+/+vov3/3w2rLu8dwpcF9cvP3mb+Ovbcl9cfHNd/AoP1ojGshnc/Xem8NVjP+Noj+1
+payxSuQsDkI/W/hJKmJXBI4fK08tIttLlefDv3ghXQFNAl7v/Q+vP/z59at379+8frvHbw2jZ555
+du1+cYG17q37P/C1bl3PQKqfDauhveRzRpIzox7EbT2QNK34svcYwfTrVHPpBkEmRSacOIvtNEqQ
+biQQGsqTdpq6i0QJz5HxFxeocrQ1Ri4fEnrRl1dldVP+5+X20xcXF4P6nW9nIi4nM1txP3heN1UC
+/6m2Bb1zs5xk+WVnDEYyneMEhZXeb03m1k3eraq+s9YVEK80nP2GwsVbRESFrcCcxJfWP2WJFifH
+tr6vMPABPvw91+vMwk9tqzeErwfYVGFbv3ds+39Yug4uovvA583q/sPF/lp7fauSXu9A7/Cthlb9
+2Xq74f7K7LL6AVzz+rh73KzyZIXErTRP8V1LZaxi+p2bvkRzpIV6nzY0KzxUBgb/bPLuvvPgxCUg
+Wl1dwkbS4p6Ztp9jZxRnd0ZxsDNG/J3x39vcv7e5f29zJ7a5YZcjNjlnu8nBHrfb4dj72z9fvfkB
+pvjlRvhDG75C58L7N99bmAHSXj7f04hQCH6OVYoxfLnduzDTktxgg3q2kUORz9+/e/PmxzdvrTzb
++V3Obavi/qZ6ekt1BjHzsXbT3QibHUoblrWcboYQza14JzzKRAseLIznRbV8runOGoUJF+aPD+aP
+DzuF1A1sb97ddhf/VfU4q+Dx4F273VNBN0jL3NYOUrIV32FomXYVXVj6jtk+ryd/WOu/Z5tn+dde
+P0K/dqj44IhiEiDoAeie27iQ6qrtTGfWfVyAHgOT5Q7eum+N/iLj6lptdQpcQbo5VZnsi26jIWz8
+36rUyxEJNChzK32g5HBygGZ1pw+0BtZcVcOZCBP2bl+hgfmmSrxoJmL8f9i79u6mkWTPv9efog97
+5yRAZOtpOb4TlgyEgd3wOAnsnntZVke22o4W2/JIMhD28dlvVXfLr1hvWTaMdWZIHEml6nr+qrpb
+pgP8zuWA93+hFHr5+vkb9CLc5MUMaf3V7IE38/uYgu9eemcmdP3a5+h5eGVRx0NSF+hughYYhOj9
+iz/MZfjh6Avk5qMTciRJDBucqeKDO6YQns4AxvA/wIfpLMTtRzOsXc/yWFA6w2Bj/DF9Hicp/zSf
+15QgNg7cr8WeirSKipLzAYYwxOB85nhCWKC7nhfQo48i5nBrpF9xAseD+lY/AWth5s0mnTFycAlG
+ivlFlLWRgi7QoYR62O/HR+8nbHJ6JRYz6IZ2LIym1NgeRMxcCjbBLYWhLAJbvillDBZ4qsVBJDYB
+JOvrN3fc1y1+AoM7xhMAlxYbV1NTVVNRT+cmW2EKajQaIhr4FF/wxMMI68DAI3imRt0MZn6IWlgO
+Aegf0YQLvuUjEg0g1XNQANgEaGdMppw+k58NNwBuDef8wsdvENzs5vqbW1rgQ9S34HyzP3T/CGec
+WT88O+ctHOr8pMrv2VPhlxfAyYj6jcYVHdq+E5ywZstaF2jXHbTv+4hfTVvdPFD+/r+hw+WH/n8N
+R4L+lyGihIuHEN8UeUZy/39F/7qsKfdkTdV1+R5R1pgTXYNqGTzoP07/ODcjiQ9RJSuxF5NLfDl8
+ky3DSn9GHv0bJsQJOKuY6fqvhMGD/jP7vzSYjUYFfCy//+taIf8vwuBB/3H6r2by914u/Yv5X1M3
+lHT9V8LgQf/Zlr6WgIO58Z8q67J+wH91HNn1L6ajo37IonufGnAT/V/R2kp7oX/4Cfo32oZ8WP9R
+x3FYeiAMedPyg5QVC3wW6LBoYUezeZ1B25H7BsQS3ej0NMPUFMPp2XTgtA1zoPf10x4d2Ked6mfz
+sj/5MJt3dzZPN00xn6eryt0ZPaM9n9LTdZ0cdzrzWb1T7e603txHwRFDewSP40/12Ao13uTEBqlY
+YrTBt9X0G7mF3L23nXLrIrasRYfNyyyifRkBBLU+nVAeLgylzQIkCOs4W0eav3GndWdVXwsNTzSo
+A0ksVQtEwl/sRZzgay6CUOLL6uYp35KbOkToLu5JA2sIqYX7cK2I2QfJg1BPtzuIoRvi/xbU//gW
+kMJ8asZW+AxmUzZ9uPyd5ysfLNa4KM53R6/VSBZvrLQ67BvuC3PeVpRaOefvPAE+LLXdVIuzrdbr
+leEtvgNGol9DOkFIHlg6voS8uKUD1q51AH1v5Pn22GZhpC3YBhA08m4tPqdn4bSPRade/ybrGEy1
+1jG4E5dv4gRv1eayLzuIjrkj18WXzVr8K/8qGsppzb58O2TryUEdqlyZPk479Q5iNBsOby0F349V
+1QgWyfaz64cze9Tl3yXQrWNAN4jWsH1goWFVNCZT0XY5poqyhrmE5XYwisqTiKnKNTs8QiaLffdp
+RXal6jv3FXxPhMW+ZkrJOyhOn6RhdwmSruTLXT7mGFV3yXXI3uS8RnsJpYrptaKU7mYgDh6LEsTX
+uXLAX5alO54hcc8oSzdCPRJDPSvUUnWcXYqQxyWexyt9whzuSAzuVEp7HlAlDKhlxRwBAYkDgWo5
+ZflZYvm5WsIsmEksmFVKeJ6AxTcISSwPV/qIu/4iHlWN28zDYkSWR8ctWaB4RhWGWDYARxtjtuny
+Mc8oFOaT+S0bQJKpl4ytycTLRpQ16jHgQ5d3CmpLVB4V5s/NisiX2zP7TXbAkU2DhrlLDW6xljfb
+9fZWNvaH+E3Wb3ZWpk1tDxpCubnubKfpnK9tEs91lYAoJermRoWZvLSj1dsd3xBY89pEx9iyJXvT
+T0P2/RDLv1r4pUrF2wGd9k7zWXWTEp2am+Mb20vi7eyp7limjEh2x6pgeIanlC9XskaWnGg/mWwF
+dVBhkHs3pJSo5zMTWwQLiQWLbZbuuUcYm5pyU1ortSL7r77JIlieO1jVXYalgYhnlOu5FTXM4pVi
+AXK5jSqFXC6z2kyriN/k6gaUM9FMAihlpJkHk9tMs2HA9k4b/V9uKB1hbVMOX+202kyaBBOekGcw
+ZmfnMy93Zilzw/Sl0m1vJ/QK6GZpIn//gHyR8Wx5tU7maiqJ9xyZYhOZ8rMCuVFSAfhbgHMWOxdc
+6xWgzjzppgDHmauNHLRLmEXp+qsAZqrONJKfU9A4qkMjhbguayCZIM+pstN1QPGQJ0MQzKne7UWV
+kuq9o9f1rs46l5Eq2fWKrrCOmqoaZj2dqNVdXxb7Hop1bLSeawWrmrZgdQfmVoJzQ9kp50mzOOxV
+MJvZNhSzXtvY0NZOYq/Trpm9u4vDktjjiyR3pvR8wmzLu3WumHVqSRwrWr3qz+xFa7F6NW5ILG5s
+Bj8pCWWNUJTYC9PL3N9hoyvaGc10c9wUQ5ab0xetbKSyak0ddQ/s/063IMH8O1qn7ui3aVI3kcPT
+ejncOMOf5JlZpp+y2I5eM4bavCogaaRp/dVMTpoLc5ZdaBZxVFGLOoZcTF2j7sHsbO7lNdwYTxV1
+b7HmbIIjjeN7j9J5MqP6vpYhdyvKkuGg4KxVirMJOap7h48T1a7VHORT+SsDM4vPbmbJFAlTt1lu
+T5qrTU/HqizXHEkSPLIq9FG6wZpFbupuM0dMCZjH6DOVRElRSZX1zr5G93iorcrG/ph89iQUjye3
+v3WJW1XZsjTZlDrqzvtTic4Tm78zCSeHjCvC8JvZWhW6Unc/OwlGsteDloxcd92paCMmozrSsGE2
+LSg7B0tJws9vcoUXUWbL4FkgT2KwUfa47MvhBnftPwNwUeouHTc2mhKKB+BQ34cOUWI2yAEiKwog
+hac4C6wGvF5u8Cze/5et0x5vlck+qRr7VuGuuOI6t7utxzd3wBO9SqsZYCWg3nKleXqSXx/5/uD9
+qU+ntr9gnr+tskTNWw6aZ7o7K/jK0q3INaSyXXHmv2m2sdv+ZEwZXwUWLtmWzCS83YbszBFmne32
+vrKdKzwk4OhMfp0EozMRyMJAcSQfR2JdmTUvu9kIZ5OQQt1Tz5vRbFJESU8PyVpMzdhFWiTxZWam
+yFTzbPqGblKpQm5zICi/pjwbXEipSTYqoLBNlO7WZy2RMszTJIeaulcuJCWK7P2aBA+qqNUYQ25d
+ertd1rm5YkoK3HrtHelNa4bS2xApcDqLt6aiwHJNjGxUsgLbstikQPiK5aVQnE5CPVmYy6P1tJgY
+k/mrlFFGILe/c4nlMnkW90tITZmsPUOWzMJHBqcpjuezUcgxkmqiycZuUkmvSTZ0Y7eLZ5MmH+Kn
+o9fHUHOLvhjTRYN6BldJB1m55yIz463clIu1VIvD6YwR3zD2AWBV0WuLhQHVxKiMcWVv21pxU1Cx
+/Yh409qib1ajq7ixlnXRakwss20VUEmKddbcBithjuuc19xLSkKi3nQ2Qn5Hbr/sao0sPrAmiXbd
+q3rvdtWKJvsaHXVJR0Xn5cpm+CLRqWwcWR12SWrZ+Vw30d12mZKWeoqvE8z95sAijro/c/1pw07H
+phGBilxgm/RStLK3W/JxhY87qkRFKSKouW7MYpgWe9m61bODjAJIMAUmxtLV2AbOtkQzRVs1F2jb
+tNACmsmg5xT57W1F5k7wuzJHJe1dUClvmxnFWfNUf7o55g4dsYOv1NU3UEyR7P4UZ1VbZsrAd7uM
+M0upl7wIKNUaCvlofCdqjavtkU3WmynvbQ89eQ3X+jhq3vpRHeO73UGRvqWuTGsga/Qw92dhsWA5
+PSFlWB1SZE47+2KRItRzTuZVMSVyV6BboZhiYPtTLom3lsSFg/2pFIolzowmVdWKqYzN/HUp77ae
+SJyELdvmEfZVWfe14rCVtWtUIrym6L7m4qeMsgtJNWX4u10dlCyNpNZEhsnIYqaVJNUszY58jKVo
+p+Ypsu2qo5ImXnpJUzxCJiujs0/LlBnLjh3aJfMCkiitkhVSKUKsuTDbbkFTIS6OwUOX3pCgYMnA
+G428L0G38S/y7OKX9792ycVX2p+FKNvgho5GZDCb9EOgv+RscPFD8isN2VVMnMShIEiHTvouDYCo
+T9gbopvNJlz7zrf7tAfaJMdjLwhxDHQSkj6gazKyg/ABPp2Q50CZ3M+mPf5vOJ628FTra6dttXVp
+5E5mX2OijgjALR5ChIIl4e3RyVngt0ZuLyLRVPRW4IZU7NemaAZT3/sH7YfWjed9ClpQJQBC8Po0
+WPm9Ob29f0KAHUq0zukJcSfk57HnzEb0MRsqIWPbnRw/EB/+A8ff//4jC8HUmBBw1GLM/wi8ieXN
+wg/3fWDRn1if7dH9j+SMIM3jhw/xBxCb4hWfvtj+MLj/MZJX7MEFufn4gcWr6Fy8QxoCTv1t5vo0
+sMAJLTYEi7miEB0XNhey2HcWcEcOHnw3ElrQ5CxYGLOXzU3LK4+AjgZNC6/nl0R3rcvohIgzbHnV
+2Yd1k/xPzBFnlN+heaYKX1aY8DdIU8iKCdufTSxGaiUKLkvsx5GIYjKJzIcsBkwh04KBORSu8yAb
+BscPVjNCrIX8HIQ+mOPj6Al6526O2Xyl1ubKid5qK8BD/bLma4WWhWctED7w0F8702L2JNhdEq7R
+nrv68ljmnr18mzWd9UZu/3jJZ1HRZ/jPifgjQJafFZPRDh5z/BIdwMUZ/B9d+f3ES9xGt0CJK5K0
+3PF0tGKrRow853eM3SAAMiI0bvbehfX+iEJSNY7p1kUSWZ7tBpRcQoqdTS983/OPKf5rjQMmraUT
+XbI6EvLFDshsYvdAXKEHoDoEGEDEUxisrtc70frhv1f2J0qCmU/JrTc7gh/UDW+oz6E/1gAD3xsT
+KCZmo9EtCCa0geuhi0h/6oGUPf+WAO9vb9++hMLE7wHwD5rkFdYCHiMkHkeOg1n/hoAMfnXDF7Pe
+UTC//ATII8X+De1/AthIvgAL+BPuJ008A5WMQ/0HUKZMjuA6D7gAFeHpCUW8ZAMTGJhZ2WNPHKAA
+9cfEA1IgIzHS58Am/WrjC5RAw4NovDPULpm6U1R7EFLbwXLzJgynQbfVgqffzHpNKI7AykAPCN9a
+tt+/QYGOocChfvObOwUqFMfwKOk+HMof6HB4hh84T+cjIMDVM7o9QYtho4qsAgXB/kAnn13fmyAy
+IZ9t32VWdH3x7v3bd2/eXF5b109fWW+vLt5dvH5m/eXi6vrlm9fW8zdX1n//8/Wbq1fnly//7+KZ
+9ezl9Tvr9fmri3+jGhwa9H0XqmO09ojtVcNpQoHpwOMdrx80Xa9FJy3sowRhi8eHFh/ExdXVmyvy
+CzgblIlgSz2BYkHa4IUOlougLP+W1fQePO6zBzaXAuD+en71+uVrqFlr8oqQwr2QxZuLUripqaqm
+madd3GOFYyEK94ajOYyXeIUsSRNPcgMPpINqk/h3KMFPsGLHrc2zHRe8bh9y/NGyAtEwQmwTkONf
+fgG1T6hvo1mg+U15g+C//qB0Rd/DmtKpoZjWQg0ne2ACUTFm6IxbtUv2kz/9lPGndVk5vk+cGZ2q
+WunPbfjxI7a5JBD6Z03COxOF/2P3ufZXCj9Go2tv5bs/na6aRHRode219Peo17UvIvldNLvyCvvQ
+7arRRL/zdtf+Sek77HcVdNBDw+vQ8PqRG1553SKuaNdlo6sYym46XnkHUarlVWmm35OeV4VWMG/d
+KFU2vbbAoN6upuu1BdbaWunFj6Lfxcm8s/FrIK5n4zGkgC45D5EHtCy2Ti5kZyGaf7lxIfewb1dx
+XAdzyITCRRCMehRYAZ5Z1lDJgBFvCup/9d1FQ+wGXAuSXcIpoOd96kKMCCjERyeIeMT4jZCAt9FC
+uFq02GxIP3gnj8F51TTyhi1GV8JU7If8g8U/WKqstuW2CrLXdEVrhl/Dxv96M9K3sSyGsYYLrkAM
+NuG3BXDS/4zp/xbLGoRL3QZhd0jLz9o6s+SDFPHycUmOmPqxRkelwggg6QLhgKd7UCUgkpALkxcE
+Is2z7IwDtnveZyQC5sJAgsiuDh3Ys1Eontckb0fUDjDpRrgIpDPGO+0JQCAHGHAHLJuBOiEPTH0X
+sIeP6AgUPOYpgCU9OMnNsUfhDGVyhPuajcbcZFVhpdzyUNj7uYi8gfAXhF3vDBQ8cEMTHXj5YaRS
+KMhuEAv4zsKowFXA2r7gP6qAZ2OEyVAMnYj6Gc3XBog8kb5R3+PoBnsWzQa7vpt1RmIlNouZBjB/
+8M+j3c+2HAm34q4+HyNRUga5zdFVmFVTh3fpDQdYoAO/eOVsOd/shSMLPjGN7+3umRghHylH2xVz
+lZFhRc7fgWDvHY69OhYATZaNTssejWL2h7Qo1BwjK+CZKNczZDjaug4/Fc1oy0s/2WHomn5PMfDd
+NXCY8HdVU2XlHpG3NOaVYxYAwiPk3txtYq5LO/+dHu+8Lvlw9M6nnwHy/mqPAVxPyM/hkP/2pGff
+jtyeT7Hf9fjoYwMvvxM4noygTAqay39vev4QUEsPOynwgPP3Lz7G7Pfpktl06NuO6CGx3T/k+fnL
+y4tnDaj67P4Nm7vLF205SSrd0NEUTmc38p4b9uxPFLs701ko/UbHMx6wWelSCwvgEYoUszcqIqqA
+lBS+U6rJ3oXaaLygo5F30miwKpT5KoFfEAhCTeP2ee3CelxYGJ3PQNbvOTXygrEId9q8SWnDSSx2
++sTmZTcqRjyaXcBzxHHwgDzczOhDvOMh4+8hubEDUdsfL+UIKJWeQb5heYKVjMtFVrfRWFwqskkD
+jtcUtACV4DToMoAuEXs6Hd0ypsQ7YbGrbI9JMSlymqxdzWj2b+wJQGs+/iD0KVBmV8LfbNYSxWjo
+fmNiGRPRusYyFLgQwPwkoipGA3W6O4a/EyZv0fIOxBDYvIa4AXSCAiGBN6akZwegj8CeuCEMl4K/
+RQIYR0U/Y4yz5Q7hISHAlgEXiOAIKm8JynRI4RLo+AZkLknsfkGL9Q9cpm5mB1NeA9shxYYTfv0D
+QVdvNNa626IY79GRSz8vmwgJbrzZyGENe6jiheAdwgwNzDN0xyCfW9G+GGCxf3Xx9OXbC+v1G+v9
+22fn7y6sq4vz6zev2XQsDaYQT+ChEXkGzgKPibKxMFvxnIB8EU+HSg706CMPdtRJAgMU7QAIfi79
+wofMIg5wiJR5W2cw89l0x3IPAIUcuTm+KTRCh0GzcT65xe5AbwT2MOX0GZc23DDEgUcdefj4DQZs
+N1kYEV1njJstiHcUu+bDZn/o/hHOOLN+eHbOh0edn1T5PXsq/PICOBmB7zau6ND2neCkgc2UNcdu
+SBJ53AFdN56j/zsAHM1T3XTMvtoxaNu0T+Ue7TkD1eiZPaUv95T2QDNM8gpGek2nRDHBnbrsP6KC
+XzEy3bWnkJ8hAj5ZH8vjxjNgtEv+Sp0TourkT7MJwVBIZKOr6fAfeYQQYClVvD1/9zQ1WUAlhL5L
+pMc8YeAQpQbOBK/vamXXATwlZ49jaM43vv6b/AuK6kdAR+Eq494PjCs4gUR9VP3xowf42aEjyj5K
+DxpgPxPwIpIIn/8Z8/Bc/B2fKj89gNDoDgagTRbpCm31nT+0V2qncCNwx+4I4l+IHTKHfiXAX0NI
+g6WaMsxFhCAYlWKSc6Y76gBSr9nTm01DNvqGRm3llCgMmaL1lBRl49GjR2XF+eQJkYwTkzzCf+AD
+Ii/sPvJEAQESQ2jAis9oDWcIyQ+K00VR1rzfIJcvn168vr4gZ+T+q5fv+B+s54Corq2nL/58/f4V
+nkELhygkrkV48z9jxzjrn/bktu2oEA9MqtKOCtGip/VtCAgaNR0DqDWk66un1vurlx+CG1s12pAE
+PzKKNtxj2HBxz3Scjt2X1QFVdVuzT3v2qdbuQYDpAMDvGXZbpY7e7vRPbcWx5YFhmkavf7/xaDNh
+U+2oiqralBoObZ86hirbp06PGm1cqmrKhg3xC7jtA/NK7xQeTnVN0/q6MaBmR+0jz0SQJo+A4N9Y
+viNCBP5sIrEXJJG/YaRsqE3dbCqANnaNzes4toxL2TNS6j9VN4x5/Qc/78maohzqv3qOAyI4IIID
+IjggggMiyIAIdh2st3Ak5P/ZZ74GqlX2GRjPTcjxMfkfj9X+r2IqhnmPGFUMMO34nef/LPpfQX7R
+X+eYT24qEK0U8VNfwn3RkYL/lvVvmEr7nqzrbRX0r6wxF/BXP1XL4EH/qfpfXgolIdTA3JDjGXn0
+b+gK4H+jbWg59F+GwYP+8+tfwjXj2WWcT/9Y/0G20MvoPweDB/2n6r/4zC8/cuif539NBUPIof8y
+DB70H6d/fN+iyKrS2IP6tigQzI3/VEVWtQP+q+PIpf+CeTZP/Jcx/utwPgP+q4TB37n+m61m68ml
+NxleupNPW3rGQv9c12s/ZdbzXbIFWVHa8IP8eUv8rByR/nHfYdJ1aee/0yO3i63UWndOLxVduM4W
+/21vqAgPx74ce+H/evuu/wP+v9wSPyvHwf+z5/+D7/9wRx36z4P/FNm8JxuqrGeo/yph8HeO/8rh
+/2x9lvz4X1Mrwv/pDB70n13/Bfss+fs/ba1dyP8LMHjQ/7r+2ZYkaeD64y+2T0vP/hWZ/2ub5mH+
+r5YjXf9lu79p/q8oumKu9/8MUz2s/6rj4Pt/sm7pETuA1nf2rFrM+o4ebmGbN/XsbN/KKstiv4rg
+dHnLCjkWa3b4JpXUbSu4/J6/qBWHH90bvZhAvAuAzLlaZYNIf5mLK/qOKHzjxAR3PXBpig1K0RsN
+ms3GpcdF3ceNC/AHx5tQ/ldg8f/bu/7etm0g2r8F9DsQKoY4mK1S1C/LWAc4qdMFS90hdjoMwxZI
+Fr14SWRPstdl6IffHSnJtmInUuq6wMoHIxEk+pH0kSdS4j2avtcm8FMnQutVrPXL1V/vsm8UGaXT
+m79F8Hh8RzJxLCnS8deCL/iabKymHQmdi+Nsu7as9kdHuUbRisbiK6Izw/QNqmtHF6dnry8HvwzI
++vXV0GNd63eHp+97Z4OjwfD8tP+mSLWIJ7hGKrjRtWH3/E1vWGJaEi0ja3Xtbff4h9N+j5BSnsvQ
+Ll0bvP7xfrKCTtdQX+n8HbnHgfnkV0s1h6suzC98/9s0Dmbp1XTeCl3PGbedUcRCi7mmE3Kbt31q
+R9x24BO2A4vBKQbVu+j3Lk963eHFeW+wkt+ta5MifljXcGkZKQOSzW9nrWBxlU930k71nJGyJePa
+wnSWUcqzWNlSRlImq2O57jhgY2aG45BG/gh5fcYpzOICGkVWe8SZbQahrmGsXDpDuaB1ou8W8XU8
+/RB/3ymOdE07jSfzSQCeKG+JKTTvpWQISm+N4A9PhZqHjNgZBSgCI8RfgsjABgo9Z7EUP84VyG6n
+MUqcCYWwjEEbwK1gzrOgrrsO+TmIUeLDpOQM1R7x4O1EKqvgUYoL7yg5XiQJqncxShompd+QW3zk
+0STiGIO+bvicH2qyW8rSL3WbhczNY5I3JrXKijdA/qDgDeo1p/lOabtSvXnQ09DH3MxPQSIMma2F
+LL6fn4e6+Q4juAg1M2X225EGlRxRU6SYwRd4dGigc/NRa+4PPk+bxKYkvZ7MZpiMghHSa3kktXCU
+m1NuTrm5B91c5uU2ODmzcHLg45Yeblf+7Z53+wK+rRtJ1yYX+MtfGcZpWMdHZMwFPpLesAvpW62O
++DzfE5/pA98LiUqEMmrD3MZnrfA9SLvOR7fxOff5NtNW5PPa2/hKtBX5/Mf4ctpqfOKeX4XvxUcy
+nNzCVEnyWc/BDfRP3mHXQTlF0V5HWZ/LNUOlKiMO+e8lLQKrt6U94dBjMWUefTyKYuOaJzG/ESHH
+s0Uo5/0v5cmXxfR/fYbSyqcnBtx3jX/+XeZwzjFEfWXOAy5pSjzXd0ah54RuNDYDOma+xS3bY7bt
+mZbjOGPPd7zIC7UKG0/U0yTeqnIjpSnTl1k5CxVlh61LcmMrSvgc/Ha2/8Nnzt9qL3ddWOaNeykY
+uK9HA4+aROqzNlEPgM+COXjh4maz8xKi9HJWylzOYkVQ2cu2MciuiDLH/MPlzQQsl8I96hW55LKJ
+FucaaTKaJ5xfQk0aSWTAyO19kDQOyuEoB4eowKfrh3uuk8MyLfxywUXthJwRUjemKb7YujL+nELL
+gDpJS+DfwyY5SEIofwADYSlSIVBtV4HfNaxsfzo/mS7iKJOb/hX+x1PCfiP9KRFay1KTKoG7JHQT
+vJ116qmWFU2mUHotPfMTMUDHPaMbTmBccqB9NVIJX/px3N5Rev4rH1Dt4Jn/Kuo//7cdytTz/31g
+s/3BS+ZS6DvI4wnvf1xT2X8veNT+n/765wnvf6nNNsR/yJdTuyzZM2X/jfbfIgHxxDxq939mUris
++v8eUMv+D6rjbc+jTv8Xa8Ftxlxzc//fbcmeKfvXsf/e1v84pk1r2f/p9wJl/+r2X1teWV0CqHb/
+d6i3af3nZxEnUvbfOP7b5RKw+uN/ML+K/9sLKtn/E0fa9f0/M5m7bfy/48VpX7n9FRQUFBQUFBQU
+FBQUFBQUFBQUFBQUFBQUFBQU/j/4D/xskywAiAQA
 
---===============3653613518439026572==--
+--===============8369509027177431560==--
 
