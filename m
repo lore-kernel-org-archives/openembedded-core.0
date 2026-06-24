@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95250CDB479
-	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 05:40:20 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.684.1782279613079964327
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0156ACDE000
+	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 05:40:21 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.685.1782279613197070786
  for <openembedded-core@lists.openembedded.org>;
  Tue, 23 Jun 2026 22:40:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZSddr7oe;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QoMIaRtw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019ef824a611-35390dee-4d01-4fe6-9b1c-20e85f4b0cc8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=leaiyvV0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=jrwdpRaM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019ef824a682-dba30ed1-5b07-4df3-8c56-082db4a98675-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1782279612;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=XWwxg7mJy3UDvasvVQolV75YxHIqvXlZR3x+NLqW9iI=;
-	b=ZSddr7oefGZv7+KnKIOnPDqfoLL8ObyNIKN909Osfe3+4RujLj0/hiRA8Dxybd49
-	898vo3xScAl/Fjo023nz1n6VyWiB023lbH5nyrnoEEIrXOmW4jZMGVVrLy5y5W00QVt
-	NRTdmetOtX45gT1sDbZgjoq678sElIs5x22lQv7U=
+	bh=cIqbwItMFKNWIimCXD2HT6I/TQdoP3HZ3W9tUgoeSAc=;
+	b=leaiyvV0vIv711LOg9+o7CvP+kglKg4NqzvPMM1Rx4cmKpKwFOjCd5e2D3LdlIlh
+	vMpyNh/L0EYH4zJQMMBlD1IdaRXRMCv8IpQAQblchdYexM+Jzi9ZR/wPYKTwgCdnR7H
+	oNgH6OgZ2/62GVKjETqP+iMbU16AtP12i52n6JMU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782279612;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=XWwxg7mJy3UDvasvVQolV75YxHIqvXlZR3x+NLqW9iI=;
-	b=QoMIaRtwefeNvsppFF3KSnQKE7IwrYxNNzk4lrkgHYbA7oLeQuCGWj6OKc3I48Yu
-	SPfbGfAmWyU3rnvXVRIjnEsQu/NxAgnLjgRsxDn/QL3AL214ORtjnZfnE6lgZKQKhuO
-	Q9SY+k5yQ9au9YcTfgGeRJRE/GRAZYzfqPwzm2/A=
-Content-Type: multipart/mixed; boundary="===============7703318625245965611=="
+	bh=cIqbwItMFKNWIimCXD2HT6I/TQdoP3HZ3W9tUgoeSAc=;
+	b=jrwdpRaMNaZNqKw0qxxjfHg+ec0d8ecM4fXuIPb/aW2OmZj/KTDb4Cmu99A+DkmM
+	jBRK8mVpGKQ6pRAl+T1cZbLuiRHnp+OETydHxxabN9GTqyK6ngrdKKH8xqWHLwzuno+
+	Xr5VVdwwT1KmYSGeL6Is2eiJgB7bfTt9D2TJZaa4=
+Content-Type: multipart/mixed; boundary="===============6694212075875374963=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Benjamin Robin <benjamin.robin@bootlin.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pkgconf: upgrading to 2.9.90 SUCCEEDED
-Message-ID: <0101019ef824a611-35390dee-4d01-4fe6-9b1c-20e85f4b0cc8-000000@us-west-2.amazonses.com>
-Date: Wed, 24 Jun 2026 05:40:11 +0000
+Subject: [AUH] python3-spdx-python-model: upgrading to 0.0.6 SUCCEEDED
+Message-ID: <0101019ef824a682-dba30ed1-5b07-4df3-8c56-082db4a98675-000000@us-west-2.amazonses.com>
+Date: Wed, 24 Jun 2026 05:40:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.24-54.240.27.23
+X-SES-Outgoing: 2026.06.24-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 05:40:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239467
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239468
 
---===============7703318625245965611==
+--===============6694212075875374963==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *pkgconf* to *2.9.90* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-spdx-python-model* to *0.0.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-pkgconf-upgrade-2.5.1-2.9.90.patch
+    - apply the patch: git am 0001-python3-spdx-python-model-upgrade-0.0.5-0.0.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,180 +72,202 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 31bc9e6a9ce94df80c4d921d641997a2c9b6042a Mon Sep 17 00:00:00 2001
+From 67713a5e059eac56464b760aac6943427420585c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 24 Jun 2026 05:22:05 +0000
-Subject: [PATCH] pkgconf: upgrade 2.5.1 -> 2.9.90
+Date: Wed, 24 Jun 2026 05:25:27 +0000
+Subject: [PATCH] python3-spdx-python-model: upgrade 0.0.5 -> 0.0.6
 
 ---
- .../{pkgconf_2.5.1.bb => pkgconf_2.9.90.bb}   | 24 +++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/pkgconf/{pkgconf_2.5.1.bb => pkgconf_2.9.90.bb} (79%)
+ ...pdate-shacl2code-to-1.1.0-and-add-ke.patch | 41 -------------------
+ ....bb => python3-spdx-python-model_0.0.6.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 43 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-spdx-python-model/0001-pyproject.toml-Update-shacl2code-to-1.1.0-and-add-ke.patch
+ rename meta/recipes-devtools/python/{python3-spdx-python-model_0.0.5.bb => python3-spdx-python-model_0.0.6.bb} (88%)
 
-diff --git a/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb b/meta/recipes-devtools/pkgconf/pkgconf_2.9.90.bb
-similarity index 79%
-rename from meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
-rename to meta/recipes-devtools/pkgconf/pkgconf_2.9.90.bb
-index 277ef9786c..a05dceeae0 100644
---- a/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
-+++ b/meta/recipes-devtools/pkgconf/pkgconf_2.9.90.bb
-@@ -1,3 +1,23 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- COPYING
-+# +++ COPYING
-+# @@ -1,5 +1,4 @@
-+# -Copyright (c) 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018
-+# -    pkgconf authors (see AUTHORS file in source directory).
-+# +Copyright (c) 2011-2026 pkgconf authors (see AUTHORS file in source directory).
-+#  
-+#  Permission to use, copy, modify, and/or distribute this software for any
-+#  purpose with or without fee is hereby granted, provided that the above
-+# 
-+#
-+
- SUMMARY = "pkgconf provides compiler and linker configuration for development frameworks."
- DESCRIPTION = "pkgconf is a program which helps to configure compiler and linker \
- flags for development frameworks. It is similar to pkg-config from \
-@@ -12,7 +32,7 @@ RPROVIDES:${PN} += "pkgconfig"
- # The pkgconf license seems to be functionally equivalent to BSD-2-Clause or
- # ISC, but has different wording, so needs its own name.
- LICENSE = "pkgconf"
--LIC_FILES_CHKSUM = "file://COPYING;md5=2214222ec1a820bd6cc75167a56925e0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1e33c297f35e165ecf4fbc81974dc9ca"
+diff --git a/meta/recipes-devtools/python/python3-spdx-python-model/0001-pyproject.toml-Update-shacl2code-to-1.1.0-and-add-ke.patch b/meta/recipes-devtools/python/python3-spdx-python-model/0001-pyproject.toml-Update-shacl2code-to-1.1.0-and-add-ke.patch
+deleted file mode 100644
+index d9dc0a03c8..0000000000
+--- a/meta/recipes-devtools/python/python3-spdx-python-model/0001-pyproject.toml-Update-shacl2code-to-1.1.0-and-add-ke.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From b623473f634aebeb30028cc746fb7a3da4fb2ce3 Mon Sep 17 00:00:00 2001
+-From: Arthit Suriyawongkul <arthit@gmail.com>
+-Date: Sat, 6 Jun 2026 02:44:48 +0100
+-Subject: [PATCH] pyproject.toml: Update shacl2code to 1.1.0 and add keywords
+- (#35)
+-
+-Signed-off-by: Arthit Suriyawongkul <arthit@gmail.com>
+-Upstream-Status: Backport [https://github.com/spdx/spdx-python-model/commit/2d7b71a7c8e6270a1c8795cdeb4f3dcd9393b3a9]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- pyproject.toml | 10 +++++++++-
+- 1 file changed, 9 insertions(+), 1 deletion(-)
+-
+-diff --git a/pyproject.toml b/pyproject.toml
+-index c8b3e56..df011e8 100644
+---- a/pyproject.toml
+-+++ b/pyproject.toml
+-@@ -8,6 +8,14 @@ authors = [
+-     {name = "Joshua Watt", email = "JPEWhacker@gmail.com"},
+- ]
+- readme = "README.md"
+-+keywords = [
+-+    "spdx",
+-+    "sbom",
+-+    "spdx3",
+-+    "software-bill-of-materials",
+-+    "shacl2code",
+-+    "bindings",
+-+]
+- classifiers = [
+-     "Development Status :: 4 - Beta",
+-     "Intended Audience :: Developers",
+-@@ -36,7 +44,7 @@ Issues = "https://github.com/spdx/spdx-python-model/issues"
+- requires = [
+-     "hatchling >= 1.27.0",
+-     "hatch-build-scripts >= 0.0.4",
+--    "shacl2code == 1.0.1",
+-+    "shacl2code == 1.1.0",
+- ]
+- build-backend = "hatchling.build"
+- 
+diff --git a/meta/recipes-devtools/python/python3-spdx-python-model_0.0.5.bb b/meta/recipes-devtools/python/python3-spdx-python-model_0.0.6.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-spdx-python-model_0.0.5.bb
+rename to meta/recipes-devtools/python/python3-spdx-python-model_0.0.6.bb
+index 19d9bb815b..7e2502ced9 100644
+--- a/meta/recipes-devtools/python/python3-spdx-python-model_0.0.5.bb
++++ b/meta/recipes-devtools/python/python3-spdx-python-model_0.0.6.bb
+@@ -5,12 +5,11 @@ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
  
- SRC_URI = "\
-     https://distfiles.ariadne.space/pkgconf/pkgconf-${PV}.tar.xz \
-@@ -20,7 +40,7 @@ SRC_URI = "\
-     file://pkg-config-native.in \
-     file://pkg-config-esdk.in \
- "
--SRC_URI[sha256sum] = "cd05c9589b9f86ecf044c10a2269822bc9eb001eced2582cfffd658b0a50c243"
-+SRC_URI[sha256sum] = "24fd9d086d06a4abbbc74117ae4737c93c2d890afe7e9816558b6276a71357ec"
+ PYPI_PACKAGE = "spdx_python_model"
+-SRC_URI[sha256sum] = "4bcf7c6e5e2e8f0b787ed4eb8fb519e2ed776e820cb6d9eb93e44e98eb92ca2d"
++SRC_URI[sha256sum] = "f1938eb08d08218278122849bba123b8993a0171e9b4f5ea6af7aeb71f3204d7"
  
- inherit autotools pkgconfig
+ SRC_URI += "https://spdx.org/rdf/3.0.1/spdx-context.jsonld;name=spdx1 \
+            https://spdx.org/rdf/3.0.1/spdx-json-serialize-annotations.ttl;name=spdx2 \
+            https://spdx.org/rdf/3.0.1/spdx-model.ttl;name=spdx3 \
+-           file://0001-pyproject.toml-Update-shacl2code-to-1.1.0-and-add-ke.patch \
+            "
  
+ SRC_URI[spdx1.sha256sum] = "c72b0928f094c83e5c127784edb1ebca2af74a104fcacc007c332b23cbc788bd"
 -- 
 2.47.1
 
 
---===============7703318625245965611==
+--===============6694212075875374963==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 405656 to 657384 (+62%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 27212 to 40806 (+50%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: FILELIST: added "/usr/share/doc/pkgconf/COPYING /usr/share/doc/pkgconf/DCO /usr/share/doc/pkgconf/CONTRIBUTING.md /usr/share/man/man1/spdxtool.1"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGSIZE changed from 44352 to 63357 (+43%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 300257 to 492706 (+64%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: FILELIST: removed "/usr/lib/libpkgconf.so.7.0.0 /usr/lib/libpkgconf.so.7", added "/usr/lib/libpkgconf.so.8 /usr/bin/spdxtool /usr/lib/libpkgconf.so.8.0.0"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 174738 to 258933 (+48%)
-Changes to packages/x86-64-v3-poky-linux/pkgconf (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.7.0.0 to libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7.0.0 moved to /usr/lib/libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7 moved to /usr/lib/libpkgconf.so.8
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model: FILELIST: directory renamed /usr/lib/python3.14/site-packages/spdx_python_model-0.0.5.dist-info -> /usr/lib/python3.14/site-packages/spdx_python_model-0.0.6.dist-info, directory renamed /usr/lib/python3.14/site-packages/spdx_python_model-0.0.5.dist-info/licenses -> /usr/lib/python3.14/site-packages/spdx_python_model-0.0.6.dist-info/licenses, added "/usr/lib/python3.14/site-packages/spdx_python_model/bindings/_reexport.pyi"
+Changes to packages/x86-64-v3-poky-linux/python3-spdx-python-model (sysroot):
+  /usr/lib/python3.14/site-packages/spdx_python_model-0.0.5.dist-info moved to /usr/lib/python3.14/site-packages/spdx_python_model-0.0.6.dist-info
+  /usr/lib/python3.14/site-packages/spdx_python_model/bindings/_reexport.pyi was added
 
---===============7703318625245965611==
+--===============6694212075875374963==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-pkgconf-upgrade-2.5.1-2.9.90.patch"
+ filename="0001-python3-spdx-python-model-upgrade-0.0.5-0.0.6.patch"
 
-RnJvbSAzMWJjOWU2YTljZTk0ZGY4MGM0ZDkyMWQ2NDE5OTdhMmM5YjYwNDJhIE1vbiBTZXAgMTcg
+RnJvbSA2NzcxM2E1ZTA1OWVhYzU2NDY0Yjc2MGFhYzY5NDM0Mjc0MjA1ODVjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMjQgSnVuIDIwMjYgMDU6MjI6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-a2djb25mOiB1cGdyYWRlIDIuNS4xIC0+IDIuOS45MAoKLS0tCiAuLi4ve3BrZ2NvbmZfMi41LjEu
-YmIgPT4gcGtnY29uZl8yLjkuOTAuYmJ9ICAgfCAyNCArKysrKysrKysrKysrKysrKy0tCiAxIGZp
-bGUgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi97cGtnY29uZl8yLjUuMS5iYiA9PiBwa2djb25mXzIu
-OS45MC5iYn0gKDc5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29u
-Zi9wa2djb25mXzIuNS4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29u
-Zl8yLjkuOTAuYmIKc2ltaWxhcml0eSBpbmRleCA3OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8yLjUuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8yLjkuOTAuYmIKaW5kZXggMjc3ZWY5Nzg2Yy4uYTA1
-ZGNlZWFlMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29u
-Zl8yLjUuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi9wa2djb25mXzIu
-OS45MC5iYgpAQCAtMSwzICsxLDIzIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2
-YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xs
-b3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vu
-c2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFu
-ZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGlj
-ZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdo
-dCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gQ09QWUlORwor
-IyArKysgQ09QWUlORworIyBAQCAtMSw1ICsxLDQgQEAKKyMgLUNvcHlyaWdodCAoYykgMjAxMSwg
-MjAxMiwgMjAxMywgMjAxNCwgMjAxNSwgMjAxNiwgMjAxNywgMjAxOAorIyAtICAgIHBrZ2NvbmYg
-YXV0aG9ycyAoc2VlIEFVVEhPUlMgZmlsZSBpbiBzb3VyY2UgZGlyZWN0b3J5KS4KKyMgK0NvcHly
-aWdodCAoYykgMjAxMS0yMDI2IHBrZ2NvbmYgYXV0aG9ycyAoc2VlIEFVVEhPUlMgZmlsZSBpbiBz
-b3VyY2UgZGlyZWN0b3J5KS4KKyMgIAorIyAgUGVybWlzc2lvbiB0byB1c2UsIGNvcHksIG1vZGlm
-eSwgYW5kL29yIGRpc3RyaWJ1dGUgdGhpcyBzb2Z0d2FyZSBmb3IgYW55CisjICBwdXJwb3NlIHdp
-dGggb3Igd2l0aG91dCBmZWUgaXMgaGVyZWJ5IGdyYW50ZWQsIHByb3ZpZGVkIHRoYXQgdGhlIGFi
-b3ZlCisjIAorIworCiBTVU1NQVJZID0gInBrZ2NvbmYgcHJvdmlkZXMgY29tcGlsZXIgYW5kIGxp
-bmtlciBjb25maWd1cmF0aW9uIGZvciBkZXZlbG9wbWVudCBmcmFtZXdvcmtzLiIKIERFU0NSSVBU
-SU9OID0gInBrZ2NvbmYgaXMgYSBwcm9ncmFtIHdoaWNoIGhlbHBzIHRvIGNvbmZpZ3VyZSBjb21w
-aWxlciBhbmQgbGlua2VyIFwKIGZsYWdzIGZvciBkZXZlbG9wbWVudCBmcmFtZXdvcmtzLiBJdCBp
-cyBzaW1pbGFyIHRvIHBrZy1jb25maWcgZnJvbSBcCkBAIC0xMiw3ICszMiw3IEBAIFJQUk9WSURF
-Uzoke1BOfSArPSAicGtnY29uZmlnIgogIyBUaGUgcGtnY29uZiBsaWNlbnNlIHNlZW1zIHRvIGJl
-IGZ1bmN0aW9uYWxseSBlcXVpdmFsZW50IHRvIEJTRC0yLUNsYXVzZSBvcgogIyBJU0MsIGJ1dCBo
-YXMgZGlmZmVyZW50IHdvcmRpbmcsIHNvIG5lZWRzIGl0cyBvd24gbmFtZS4KIExJQ0VOU0UgPSAi
-cGtnY29uZiIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTIyMTQyMjJl
-YzFhODIwYmQ2Y2M3NTE2N2E1NjkyNWUwIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
-WUlORzttZDU9MWUzM2MyOTdmMzVlMTY1ZWNmNGZiYzgxOTc0ZGM5Y2EiCiAKIFNSQ19VUkkgPSAi
-XAogICAgIGh0dHBzOi8vZGlzdGZpbGVzLmFyaWFkbmUuc3BhY2UvcGtnY29uZi9wa2djb25mLSR7
-UFZ9LnRhci54eiBcCkBAIC0yMCw3ICs0MCw3IEBAIFNSQ19VUkkgPSAiXAogICAgIGZpbGU6Ly9w
-a2ctY29uZmlnLW5hdGl2ZS5pbiBcCiAgICAgZmlsZTovL3BrZy1jb25maWctZXNkay5pbiBcCiAi
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiY2QwNWM5NTg5YjlmODZlY2YwNDRjMTBhMjI2OTgyMmJj
-OWViMDAxZWNlZDI1ODJjZmZmZDY1OGIwYTUwYzI0MyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIy
-NGZkOWQwODZkMDZhNGFiYmJjNzQxMTdhZTQ3MzdjOTNjMmQ4OTBhZmU3ZTk4MTY1NThiNjI3NmE3
-MTM1N2VjIgogCiBpbmhlcml0IGF1dG90b29scyBwa2djb25maWcKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFdlZCwgMjQgSnVuIDIwMjYgMDU6MjU6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXNwZHgtcHl0aG9uLW1vZGVsOiB1cGdyYWRlIDAuMC41IC0+IDAuMC42CgotLS0KIC4u
+LnBkYXRlLXNoYWNsMmNvZGUtdG8tMS4xLjAtYW5kLWFkZC1rZS5wYXRjaCB8IDQxIC0tLS0tLS0t
+LS0tLS0tLS0tLS0KIC4uLi5iYiA9PiBweXRob24zLXNwZHgtcHl0aG9uLW1vZGVsXzAuMC42LmJi
+fSB8ICAzICstCiAyIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCA0MyBkZWxldGlvbnMo
+LSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtc3BkeC1weXRob24tbW9kZWwvMDAwMS1weXByb2plY3QudG9tbC1VcGRhdGUtc2hhY2wyY29k
+ZS10by0xLjEuMC1hbmQtYWRkLWtlLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi97cHl0aG9uMy1zcGR4LXB5dGhvbi1tb2RlbF8wLjAuNS5iYiA9PiBweXRob24zLXNw
+ZHgtcHl0aG9uLW1vZGVsXzAuMC42LmJifSAoODglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGR4LXB5dGhvbi1tb2RlbC8wMDAxLXB5cHJvamVj
+dC50b21sLVVwZGF0ZS1zaGFjbDJjb2RlLXRvLTEuMS4wLWFuZC1hZGQta2UucGF0Y2ggYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3BkeC1weXRob24tbW9kZWwvMDAwMS1w
+eXByb2plY3QudG9tbC1VcGRhdGUtc2hhY2wyY29kZS10by0xLjEuMC1hbmQtYWRkLWtlLnBhdGNo
+CmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBkOWRjMGEwM2M4Li4wMDAwMDAwMDAwCi0t
+LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGR4LXB5dGhvbi1tb2Rl
+bC8wMDAxLXB5cHJvamVjdC50b21sLVVwZGF0ZS1zaGFjbDJjb2RlLXRvLTEuMS4wLWFuZC1hZGQt
+a2UucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw0MSArMCwwIEBACi1Gcm9tIGI2MjM0NzNmNjM0
+YWViZWIzMDAyOGNjNzQ2ZmI3YTNkYTRmYjJjZTMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1G
+cm9tOiBBcnRoaXQgU3VyaXlhd29uZ2t1bCA8YXJ0aGl0QGdtYWlsLmNvbT4KLURhdGU6IFNhdCwg
+NiBKdW4gMjAyNiAwMjo0NDo0OCArMDEwMAotU3ViamVjdDogW1BBVENIXSBweXByb2plY3QudG9t
+bDogVXBkYXRlIHNoYWNsMmNvZGUgdG8gMS4xLjAgYW5kIGFkZCBrZXl3b3JkcwotICgjMzUpCi0K
+LVNpZ25lZC1vZmYtYnk6IEFydGhpdCBTdXJpeWF3b25na3VsIDxhcnRoaXRAZ21haWwuY29tPgot
+VXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29tL3NwZHgvc3BkeC1w
+eXRob24tbW9kZWwvY29tbWl0LzJkN2I3MWE3YzhlNjI3MGExYzg3OTVjZGViNGYzZGNkOTM5M2Iz
+YTldCi1TaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRl
+PgotLS0tCi0gcHlwcm9qZWN0LnRvbWwgfCAxMCArKysrKysrKystCi0gMSBmaWxlIGNoYW5nZWQs
+IDkgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQotCi1kaWZmIC0tZ2l0IGEvcHlwcm9qZWN0
+LnRvbWwgYi9weXByb2plY3QudG9tbAotaW5kZXggYzhiM2U1Ni4uZGYwMTFlOCAxMDA2NDQKLS0t
+LSBhL3B5cHJvamVjdC50b21sCi0rKysgYi9weXByb2plY3QudG9tbAotQEAgLTgsNiArOCwxNCBA
+QCBhdXRob3JzID0gWwotICAgICB7bmFtZSA9ICJKb3NodWEgV2F0dCIsIGVtYWlsID0gIkpQRVdo
+YWNrZXJAZ21haWwuY29tIn0sCi0gXQotIHJlYWRtZSA9ICJSRUFETUUubWQiCi0ra2V5d29yZHMg
+PSBbCi0rICAgICJzcGR4IiwKLSsgICAgInNib20iLAotKyAgICAic3BkeDMiLAotKyAgICAic29m
+dHdhcmUtYmlsbC1vZi1tYXRlcmlhbHMiLAotKyAgICAic2hhY2wyY29kZSIsCi0rICAgICJiaW5k
+aW5ncyIsCi0rXQotIGNsYXNzaWZpZXJzID0gWwotICAgICAiRGV2ZWxvcG1lbnQgU3RhdHVzIDo6
+IDQgLSBCZXRhIiwKLSAgICAgIkludGVuZGVkIEF1ZGllbmNlIDo6IERldmVsb3BlcnMiLAotQEAg
+LTM2LDcgKzQ0LDcgQEAgSXNzdWVzID0gImh0dHBzOi8vZ2l0aHViLmNvbS9zcGR4L3NwZHgtcHl0
+aG9uLW1vZGVsL2lzc3VlcyIKLSByZXF1aXJlcyA9IFsKLSAgICAgImhhdGNobGluZyA+PSAxLjI3
+LjAiLAotICAgICAiaGF0Y2gtYnVpbGQtc2NyaXB0cyA+PSAwLjAuNCIsCi0tICAgICJzaGFjbDJj
+b2RlID09IDEuMC4xIiwKLSsgICAgInNoYWNsMmNvZGUgPT0gMS4xLjAiLAotIF0KLSBidWlsZC1i
+YWNrZW5kID0gImhhdGNobGluZy5idWlsZCIKLSAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGR4LXB5dGhvbi1tb2RlbF8wLjAuNS5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGR4LXB5dGhvbi1tb2RlbF8wLjAuNi5i
+YgpzaW1pbGFyaXR5IGluZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtc3BkeC1weXRob24tbW9kZWxfMC4wLjUuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGR4LXB5dGhvbi1tb2RlbF8wLjAuNi5i
+YgppbmRleCAxOWQ5YmI4MTViLi43ZTI1MDJjZWQ5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3BkeC1weXRob24tbW9kZWxfMC4wLjUuYmIKKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNwZHgtcHl0aG9uLW1vZGVsXzAu
+MC42LmJiCkBAIC01LDEyICs1LDExIEBAIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJQ19GSUxF
+U19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTg2ZDNmM2E5NWMzMjRjOTQ3OWJkODk4Njk2
+OGY0MzI3IgogCiBQWVBJX1BBQ0tBR0UgPSAic3BkeF9weXRob25fbW9kZWwiCi1TUkNfVVJJW3No
+YTI1NnN1bV0gPSAiNGJjZjdjNmU1ZTJlOGYwYjc4N2VkNGViOGZiNTE5ZTJlZDc3NmU4MjBjYjZk
+OWViOTNlNDRlOThlYjkyY2EyZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmMTkzOGViMDhkMDgy
+MTgyNzgxMjI4NDliYmExMjNiODk5M2EwMTcxZTliNGY1ZWE2YWY3YWViNzFmMzIwNGQ3IgogCiBT
+UkNfVVJJICs9ICJodHRwczovL3NwZHgub3JnL3JkZi8zLjAuMS9zcGR4LWNvbnRleHQuanNvbmxk
+O25hbWU9c3BkeDEgXAogICAgICAgICAgICBodHRwczovL3NwZHgub3JnL3JkZi8zLjAuMS9zcGR4
+LWpzb24tc2VyaWFsaXplLWFubm90YXRpb25zLnR0bDtuYW1lPXNwZHgyIFwKICAgICAgICAgICAg
+aHR0cHM6Ly9zcGR4Lm9yZy9yZGYvMy4wLjEvc3BkeC1tb2RlbC50dGw7bmFtZT1zcGR4MyBcCi0g
+ICAgICAgICAgIGZpbGU6Ly8wMDAxLXB5cHJvamVjdC50b21sLVVwZGF0ZS1zaGFjbDJjb2RlLXRv
+LTEuMS4wLWFuZC1hZGQta2UucGF0Y2ggXAogICAgICAgICAgICAiCiAKIFNSQ19VUklbc3BkeDEu
+c2hhMjU2c3VtXSA9ICJjNzJiMDkyOGYwOTRjODNlNWMxMjc3ODRlZGIxZWJjYTJhZjc0YTEwNGZj
+YWNjMDA3YzMzMmIyM2NiYzc4OGJkIgotLSAKMi40Ny4xCgo=
 
---===============7703318625245965611==
+--===============6694212075875374963==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/pkgconf: PKGV changed from 2.5.1 [default] to 2.9.90 [default]
-packages/x86-64-v3-poky-linux/pkgconf: SRC_URI changed from "https://distfiles.ariadne.space/pkgconf/pkgconf-2.5.1.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in" to "https://distfiles.ariadne.space/pkgconf/pkgconf-2.9.90.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in"
-packages/x86-64-v3-poky-linux/pkgconf: PV changed from "2.5.1" to "2.9.90"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 405656 to 657384 (+62%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: FILELIST: removed "/usr/lib/.debug/libpkgconf.so.7.0.0", added "/usr/bin/.debug/spdxtool /usr/lib/.debug/libpkgconf.so.8.0.0"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGV changed from 2.5.1 [default] to 2.9.90 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PV changed from "2.5.1" to "2.9.90"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 27212 to 40806 (+50%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGV changed from 2.5.1 [default] to 2.9.90 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PV changed from "2.5.1" to "2.9.90"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGSIZE changed from 44352 to 63357 (+43%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: FILELIST: added "/usr/share/doc/pkgconf/CONTRIBUTING.md /usr/share/man/man1/spdxtool.1 /usr/share/doc/pkgconf/DCO /usr/share/doc/pkgconf/COPYING"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGV changed from 2.5.1 [default] to 2.9.90 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PV changed from "2.5.1" to "2.9.90"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-locale: PKGV changed from 2.5.1 [default] to 2.9.90 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-locale: PV changed from "2.5.1" to "2.9.90"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 300257 to 492706 (+64%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: FILELIST: directory renamed /usr/src/debug/pkgconf/2.5.1/cli/bomtool -> /usr/src/debug/pkgconf/2.9.90/cli/bomtool, removed "/usr/src/debug/pkgconf/2.5.1/libpkgconf/bsdstubs.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/bsdstubs.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/cache.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/fileio.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/client.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/fragment.c /usr/src/debug/pkgconf/2.5.1/cli/main.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/libpkgconf.h /usr/src/debug/pkgconf/2.5.1/cli/getopt_long.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/dependency.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/pkg.c /usr/src/debug/pkgconf/2.5.1/cli/getopt_long.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/audit.c /usr/src/debug/pkgconf/2.5.1/cli/renderer-msvc.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/argvsplit.c /usr/src/debug/pkgconf/2.5.1/cli/renderer-msvc.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/
- parser.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/iter.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/path.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/tuple.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/buffer.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/queue.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/personality.c", added "/usr/src/debug/pkgconf/2.9.90/cli/renderer-msvc.h /usr/src/debug/pkgconf/2.9.90/cli/spdxtool/serialize.c /usr/src/debug/pkgconf/2.9.90/cli/spdxtool/serialize.h /usr/src/debug/pkgconf/2.9.90/libpkgconf/fragment.c /usr/src/debug/pkgconf/2.9.90/cli/renderer-msvc.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/iter.h /usr/src/debug/pkgconf/2.9.90/libpkgconf/tuple.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/bsdstubs.c /usr/src/debug/pkgconf/2.9.90/cli/spdxtool/simplelicensing.h /usr/src/debug/pkgconf/2.9.90/cli/spdxtool/core.h /usr/src/debug/pkgconf/2.9.90/cli/spdxtool/software.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/bufferset.c /usr/src/debug/pkgconf/2.9.90/cli/spdxtool/util.h /usr/sr
- c/debug/pkgconf/2.9.90/libpkgconf/personality.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/bsdstubs.h /usr/src/debug/pkgconf/2.9.90/cli/spdxtool/main.c /usr/src/debug/pkgconf/2.9.90/cli/spdxtool/util.c /usr/src/debug/pkgconf/2.9.90/cli/spdxtool/core.c /usr/src/debug/pkgconf/2.9.90/cli/spdxtool/software.h /usr/src/debug/pkgconf/2.9.90/cli/spdxtool/simplelicensing.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/dependency.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/buffer.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/client.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/fileio.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/output.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/parser.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/pkg.c /usr/src/debug/pkgconf/2.9.90/cli/getopt_long.c /usr/src/debug/pkgconf/2.9.90/cli/getopt_long.h /usr/src/debug/pkgconf/2.9.90/libpkgconf/libpkgconf.h /usr/src/debug/pkgconf/2.9.90/libpkgconf/cache.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/audit.c /usr/src/debug/pkgconf/2.9.90/lib
- pkgconf/argvsplit.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/queue.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/license.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/version.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/bytecode.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/path.h /usr/src/debug/pkgconf/2.9.90/cli/core.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/path.c /usr/src/debug/pkgconf/2.9.90/cli/core.h /usr/src/debug/pkgconf/2.9.90/cli/main.c /usr/src/debug/pkgconf/2.9.90/libpkgconf/variable.c"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGV changed from 2.5.1 [default] to 2.9.90 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PV changed from "2.5.1" to "2.9.90"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-staticdev: PKGV changed from 2.5.1 [default] to 2.9.90 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-staticdev: PV changed from "2.5.1" to "2.9.90"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 174738 to 258933 (+48%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: FILELIST: removed "/usr/lib/libpkgconf.so.7 /usr/lib/libpkgconf.so.7.0.0", added "/usr/lib/libpkgconf.so.8.0.0 /usr/bin/spdxtool /usr/lib/libpkgconf.so.8"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGV changed from 2.5.1 [default] to 2.9.90 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PV changed from "2.5.1" to "2.9.90"
-Changes to packages/x86-64-v3-poky-linux/pkgconf (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.7.0.0 to libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7.0.0 moved to /usr/lib/libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7 moved to /usr/lib/libpkgconf.so.8
+packages/x86-64-v3-poky-linux/python3-spdx-python-model: PV changed from "0.0.5" to "0.0.6"
+packages/x86-64-v3-poky-linux/python3-spdx-python-model: PKGV changed from 0.0.5 [default] to 0.0.6 [default]
+packages/x86-64-v3-poky-linux/python3-spdx-python-model: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/spdx_python_model/spdx_python_model-0.0.5.tar.gz;downloadfilename=spdx_python_model-0.0.5.tar.gz https://spdx.org/rdf/3.0.1/spdx-context.jsonld;name=spdx1 https://spdx.org/rdf/3.0.1/spdx-json-serialize-annotations.ttl;name=spdx2 https://spdx.org/rdf/3.0.1/spdx-model.ttl;name=spdx3 file://0001-pyproject.toml-Update-shacl2code-to-1.1.0-and-add-ke.patch" to "https://files.pythonhosted.org/packages/source/s/spdx_python_model/spdx_python_model-0.0.6.tar.gz;downloadfilename=spdx_python_model-0.0.6.tar.gz https://spdx.org/rdf/3.0.1/spdx-context.jsonld;name=spdx1 https://spdx.org/rdf/3.0.1/spdx-json-serialize-annotations.ttl;name=spdx2 https://spdx.org/rdf/3.0.1/spdx-model.ttl;name=spdx3"
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model-dbg: PV changed from "0.0.5" to "0.0.6"
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model-dbg: PKGV changed from 0.0.5 [default] to 0.0.6 [default]
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model-dev: PV changed from "0.0.5" to "0.0.6"
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model-dev: PKGV changed from 0.0.5 [default] to 0.0.6 [default]
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model-doc: PV changed from "0.0.5" to "0.0.6"
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model-doc: PKGV changed from 0.0.5 [default] to 0.0.6 [default]
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model-locale: PV changed from "0.0.5" to "0.0.6"
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model-locale: PKGV changed from 0.0.5 [default] to 0.0.6 [default]
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model-src: PV changed from "0.0.5" to "0.0.6"
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model-src: PKGV changed from 0.0.5 [default] to 0.0.6 [default]
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model-staticdev: PV changed from "0.0.5" to "0.0.6"
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model-staticdev: PKGV changed from 0.0.5 [default] to 0.0.6 [default]
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model: PKGSIZE changed from 739564 to 751012 (+2%)
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model: PV changed from "0.0.5" to "0.0.6"
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model: PKGV changed from 0.0.5 [default] to 0.0.6 [default]
+packages/x86-64-v3-poky-linux/python3-spdx-python-model/python3-spdx-python-model: FILELIST: directory renamed /usr/lib/python3.14/site-packages/spdx_python_model-0.0.5.dist-info/licenses -> /usr/lib/python3.14/site-packages/spdx_python_model-0.0.6.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/spdx_python_model-0.0.5.dist-info -> /usr/lib/python3.14/site-packages/spdx_python_model-0.0.6.dist-info, added "/usr/lib/python3.14/site-packages/spdx_python_model/bindings/_reexport.pyi"
+Changes to packages/x86-64-v3-poky-linux/python3-spdx-python-model (sysroot):
+  /usr/lib/python3.14/site-packages/spdx_python_model-0.0.5.dist-info moved to /usr/lib/python3.14/site-packages/spdx_python_model-0.0.6.dist-info
+  /usr/lib/python3.14/site-packages/spdx_python_model/bindings/_reexport.pyi was added
 
---===============7703318625245965611==--
+--===============6694212075875374963==--
 
