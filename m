@@ -1,135 +1,176 @@
-Return-Path: <antoine.gouby@gmail.com>
+Return-Path: <peter.tatrai.ext@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89AA8CDB479
-	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 09:57:10 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3433.1782295027869208680
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E5A9CDB479
+	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 10:11:54 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3655.1782295903156235249
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2026 02:57:08 -0700
+ Wed, 24 Jun 2026 03:11:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=fmKZQfkU;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: antoine.gouby@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49258ac7294so5696525e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 02:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782295026; x=1782899826; darn=lists.openembedded.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IEYEuC+4KNLNU2dEfhebrEJwrP0SUPQCaTnchep7q3c=;
-        b=fmKZQfkUwJdafnMMbRZMpofzMrYJIF6VNIxhTKer4JS77f4DUSSVuMt6dP7/h+kYft
-         dZwkxKi6r/TVvZDO3tWKBCX3qJJntT+V107GkDSxAsTpDp/PYlgwjxiUeRa6R7I1O0oN
-         jSGVZ/wa5Tru1sKRTp1Kqgs0HEn2lyK8hDtv0yAqxFrRSV9HcqsntYcoJXIHPZx3VUdh
-         U+gm5Z8Avt+UvvrQ8VdaErJzZ08PNmqPBF47V/lOHPYo2Ml59aYsOpvqGOWSgr/Y1i4X
-         So/KYyprdqu3wAF5MREzYY1tM2U8aKNZ5cBvScYBm5sw75hk4J7Djl6+KSV+FSP4OT+r
-         /3TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782295026; x=1782899826;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IEYEuC+4KNLNU2dEfhebrEJwrP0SUPQCaTnchep7q3c=;
-        b=mroyYmfHJq5aZCZ771JfMfNlRYMO/fMYD6i1VOTCAAZ2s6RqbnnmJmSGc0LmkcsqqL
-         GI4txYE14CYjRpJj3RheI1aATp7h9rI29Kf5DWojxgdjuG2RrXNP56JODpY+9LKOXMKK
-         p+4msxqKaRqacPKj5xVaD5mhoTg1iii3eY2WwvCgY/fsV6B8gi84LwczCCQkqEMpmUBv
-         vLeSwws8Jh0tViBupnb+pcsMBdmbGJw9WHQye2yyzTHvMo3jQI3vTShcJ2e5TVsdR8tx
-         b1IPh+bURY6BCSbx74NW1+xw5EZqzjS+s5nkbO/ZGFCN7Flxz3gOw+kbcBSzHX29OxNo
-         vXwg==
-X-Gm-Message-State: AOJu0YxpnZUrfz05sURJa70Bs+kG+TeIeAMlIM7LFu0FqNdTnhKDya91
-	JARSHehsIjCGW4e4+CDAXcBYkY9O25aXpZZVWPk/j05NfAXezk8CLmJLySze4Gyl
-X-Gm-Gg: AfdE7cl2kYhgcbyCX3iipqAeVswPshIVyNHRpn5aScAyEKunmm6Hxft/R3zocWKtK8D
-	Lbqoi1nDDRoyYjwUujD9uDWCBb9J8xOkROYIlimBmgOq2OJOfdqxIBgVT/Iyo952JS4d3lrhdAK
-	9kZpOcoZ4uDFn/lIoFflzOrs6VfX1cPKhmNS1BayL9WlVfToi7/3riCHfN+0Hp5En6jutAAJ/PQ
-	TqX4jpFM9ipSEeRIFprQe84KQyQjzbpuYBpbZDnhww/eK7WwjbuUqGx9/E5LdDVtBEUQQZpoa25
-	C4wvVIg7FRzF+MwtkJDqWP1eIx+BMaqWd4r4EXjj0tuBq0av1Nw+0WtrP1VFvzchqOcaAWXsO3r
-	H9CjV4lJaEsm0LDF++MUAtIL4t1GmQ/XlGbTUjz7vuJzspOhoK3U8FoWDcN3bv6+enKWYe2h/Zy
-	e555fVoiwOEJDUqrtmkRrSQgHuY2TU+KwmHqmdtva48dZaNMBo6gF7HwOrq2QGfXdL+p17Kg0+A
-	CZAy+WGLvWJpu1zclkH8jxr9mgoNsLrsXj3NBY=
-X-Received: by 2002:a05:600c:3e15:b0:490:4663:691b with SMTP id 5b1f17b1804b1-49260849b67mr33382995e9.7.1782295025748;
-        Wed, 24 Jun 2026 02:57:05 -0700 (PDT)
-Received: from [10.0.1.77] (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch. [83.173.201.248])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1ee01d46sm4568216f8f.13.2026.06.24.02.57.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 02:57:04 -0700 (PDT)
-From: Antoine Gouby <antoine.gouby@gmail.com>
-Date: Wed, 24 Jun 2026 11:56:58 +0200
-Subject: [PATCH v2] mesa: fix INSANE_SKIP package name for mesa-gl
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260624-mesa-fix-insane-skip-v2-1-0905e0c61457@toradex.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqAMAwEvyI5GyhRe/Ar4qHoqkGspQERxL9bP
- A7MzEOGrDDqq4cyLjU9YwGpK5q2EFewzoVJnHjnpeUDFnjRmzVaiGDbNbGgaztpIAJHJU0ZRfm
- 3w/i+H/FCtnFmAAAA
-X-Change-ID: 20260624-mesa-fix-insane-skip-2e54523e22e0
+ dkim=pass header.i=peter.tatrai.ext@siemens.com header.s=fm2 header.b=U2Fazsat;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1328017-20260624101138c4cb5e60ff0002079d-bwo8xv@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260624101138c4cb5e60ff0002079d
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 24 Jun 2026 12:11:39 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.tatrai.ext@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=TJf/Us4ER5ojDm0dX1DxA+WE0dA3aulfNDunnd29Bvk=;
+ b=U2Fazsat5NMDSajte69bQh99V4wpFwnWAcWJI6jAo6dRiQ3tn+eGfbFkEz5TuM8TV7/Wz6
+ G9rR3LrLleLc/NQFFJ/nVA3TDzp0F763nkmiAOOCZwMiEQhgbs0GmVnp/L8b6AuOAUdCs5jF
+ z9Uygu8YG0Kt6tN59lPnjFeYUXhRNPaudOL5z6c65hHY9L4Uq4Clyc1Z6L/7aYBGIgUhPRi5
+ 0w1UFMW4yLBfmIg+sJ7J8JPoYx2wK7N9IF8ria/Qg3JVUi5NJUttPRtashpxBHxauSK87T8O
+ ZK94sgfbwoYTwWrcHvfXqB6G32h7a60Gi4HhpSpupiSi1Z+dFXhCIf4g==;
+From: "P. Tatrai" <peter.tatrai.ext@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
- Quentin Schulz <quentin.schulz@cherry.de>, 
- Antoine Gouby <antoine.gouby@toradex.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1822;
- i=antoine.gouby@toradex.com; h=from:subject:message-id;
- bh=LdFaZTV3C5uD3JrktGFYrgpuC3rsU6S+U9ff5DEMpNA=;
- b=owGbwMvMwCWm0rPo7MxLN2YynlZLYsiyXvku4ZB0R2RgDX8e93sGIY1zl+M2vVrnccppqXW2p
- 6uLCI9cRykLgxgXg6yYIkvGE1VBPoUQWQ+O5mSYOaxMIEMYuDgFYCJ6fxj+R55vU7u2XEVIQzt1
- 3rTy0Pwgofsn991uzJ36RlSAKWalOiPDfL14RuMr71xaJ4VffXhUNE7/4QPuVs6W2viq/V8K1op
- xAgA=
-X-Developer-Key: i=antoine.gouby@toradex.com; a=openpgp;
- fpr=68E425110E20541D48088363248CA2CD99D2D899
+Cc: Peter Tatrai <peter.tatrai.ext@siemens.com>
+Subject: [PATCH] rust: backport explicit-tail-calls test skips for unsupported LLVM targets
+Date: Wed, 24 Jun 2026 12:11:15 +0200
+Message-Id: <20260624101115.52072-1-peter.tatrai.ext@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1328017:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 09:57:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239483
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 10:11:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239485
 
-From: Antoine Gouby <antoine.gouby@toradex.com>
+From: Peter Tatrai <peter.tatrai.ext@siemens.com>
 
-mesa.inc is shared by both mesa.bb and mesa-gl.bb. The variable
-INSANE_SKIP:${PN}-megadriver expands to mesa-gl-megadriver when
-included by mesa-gl.bb, but the package is always named mesa-megadriver
-(hardcoded via PACKAGES =+). The skip therefore had no effect for
-mesa-gl builds.
+oe-selftest for rust fails on powerpc and other architectures where LLVM
+does not fully support musttail lowering, causing:
 
-This was hidden until mesa 26.1.0 removed the with_gbm condition from
-the dril subdir build, causing mesa-gl to now install DRI driver
-symlinks into mesa-megadriver for the first time.
+  LLVM ERROR: failed to perform tail call elimination on musttail marked calls
 
-Use ${MLPREFIX}mesa-megadriver to correctly handle both mesa-gl builds
-(where MLPREFIX is empty) and multilib variants (where it expands to
-e.g. "lib32-").
+Add an upstream backport patch that marks the affected explicit-tail-calls
+tests as ignored on unsupported LLVM targets.
 
-Signed-off-by: Antoine Gouby <antoine.gouby@toradex.com>
+Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
 ---
-Changes in v2:
-- Use ${MLPREFIX}mesa-megadriver instead of hardcoded mesa-megadriver
-  to also include multilib builds (e.g. lib32-mesa)
+ ...lls-ignore-tests-on-unsupported-llvm.patch | 96 +++++++++++++++++++
+ meta/recipes-devtools/rust/rust-source.inc    |  1 +
+ 2 files changed, 97 insertions(+)
+ create mode 100644 meta/recipes-devtools/rust/files/0004-explicit-tail-calls-ignore-tests-on-unsupported-llvm.patch
 
-v1: https://lore.kernel.org/openembedded-core/20260623-mesa-fix-insane-skip-v1-1-97856536ea8b@toradex.com
----
- meta/recipes-graphics/mesa/mesa.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 67b740f9e9fb..9c398951b6fc 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -347,7 +347,7 @@ FILES:${PN}-tools = "${bindir} ${datadir}"
- ALLOW_EMPTY:${PN}-tools = "1"
+diff --git a/meta/recipes-devtools/rust/files/0004-explicit-tail-calls-ignore-tests-on-unsupported-llvm.patch b/meta/recipes-devtools/rust/files/0004-explicit-tail-calls-ignore-tests-on-unsupported-llvm.patch
+new file mode 100644
+index 0000000000..a6b73cf326
+--- /dev/null
++++ b/meta/recipes-devtools/rust/files/0004-explicit-tail-calls-ignore-tests-on-unsupported-llvm.patch
+@@ -0,0 +1,96 @@
++Backport commits that disable failing tests on unsupported LLVM targets.
++
++Fixes LLVM ERROR: failed to perform tail call elimination on musttail marked calls.
++
++Upstream-Status: Backport [https://github.com/rust-lang/rust/commit/ded0aaba6ce257adf0b7e1fb6b702cad12328faf]
++
++Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
++
++---
++ src/tools/compiletest/src/directives/directive_names.rs |  3 ++
++ tests/ui/explicit-tail-calls/become-indirect-return.rs  | 21 +++++++++++++++++
++ tests/ui/explicit-tail-calls/indirect.rs               | 19 ++++++++++++++++
++ 3 files changed, 43 insertions(+)
++diff --git a/src/tools/compiletest/src/directives/directive_names.rs b/src/tools/compiletest/src/directives/directive_names.rs
++index 1234567..abcdefg 100644
++--- a/src/tools/compiletest/src/directives/directive_names.rs
+++++ b/src/tools/compiletest/src/directives/directive_names.rs
++@@ -67,6 +67,7 @@ pub(crate) const KNOWN_DIRECTIVE_NAMES: &[&str] = &[
++     "ignore-coverage-map",
++     "ignore-coverage-run",
++     "ignore-cross-compile",
+++    "ignore-csky",
++     "ignore-eabi",
++     "ignore-elf",
++     "ignore-emscripten",
++@@ -91,6 +92,8 @@ pub(crate) const KNOWN_DIRECTIVE_NAMES: &[&str] = &[
++     "ignore-loongarch64",
++     "ignore-macabi",
++     "ignore-macos",
+++    "ignore-mips",
+++    "ignore-mips64",
++     "ignore-msp430",
++     "ignore-msvc",
++     "ignore-musl",
++diff --git a/tests/ui/explicit-tail-calls/become-indirect-return.rs b/tests/ui/explicit-tail-calls/become-indirect-return.rs
++index 1234567..abcdefg 100644
++--- a/tests/ui/explicit-tail-calls/become-indirect-return.rs
+++++ b/tests/ui/explicit-tail-calls/become-indirect-return.rs
++@@ -2,6 +2,27 @@
++ //@ ignore-backends: gcc
++ //@ ignore-wasm 'tail-call' feature not enabled in target wasm32-wasip1
++ //@ ignore-cross-compile
+++//
+++// LLVM musttail support is incomplete for these targets.
+++// See https://github.com/rust-lang/rust/issues/148748 for the target test matrix.
+++// See https://github.com/llvm/llvm-project/issues/63214 for AIX and PowerPC.
+++// See https://github.com/llvm/llvm-project/issues/57795 for MIPS and MIPS64.
+++//@ ignore-aix
+++//@ ignore-csky
+++//@ ignore-mips
+++//@ ignore-mips64
+++//@ ignore-powerpc
+++//@ ignore-powerpc64
+++//
+++// LLVM musttail support is lacking for sret lowering on these targets.
+++// Returning `[u8; 24]` uses sret lowering here.
+++// See https://github.com/llvm/llvm-project/issues/157814 for RISC-V.
+++// See https://github.com/llvm/llvm-project/issues/168152 for LoongArch.
+++// RISC-V fix: https://github.com/llvm/llvm-project/pull/185094, should be in LLVM 23.
+++// LoongArch will likely be fixed with similar changes.
+++//@ ignore-riscv64
+++//@ ignore-loongarch32
+++//@ ignore-loongarch64
++ #![expect(incomplete_features)]
++ #![feature(explicit_tail_calls)]
++ 
++diff --git a/tests/ui/explicit-tail-calls/indirect.rs b/tests/ui/explicit-tail-calls/indirect.rs
++index 1234567..abcdefg 100644
++--- a/tests/ui/explicit-tail-calls/indirect.rs
+++++ b/tests/ui/explicit-tail-calls/indirect.rs
++@@ -2,7 +2,26 @@
++ //@ ignore-backends: gcc
++ //
++ //@ ignore-wasm
+++//
+++// LLVM musttail support is incomplete for these targets.
+++// See https://github.com/rust-lang/rust/issues/148748 for the target test matrix.
+++// See https://github.com/llvm/llvm-project/issues/63214 for AIX and PowerPC.
+++// See https://github.com/llvm/llvm-project/issues/57795 for MIPS and MIPS64.
+++//@ ignore-aix
+++//@ ignore-csky
+++//@ ignore-mips
+++//@ ignore-mips64
+++//@ ignore-powerpc
+++//@ ignore-powerpc64
+++//
+++// LLVM musttail support is lacking for indirect arguments that do not fit in registers.
+++// See https://github.com/llvm/llvm-project/issues/157814 for RISC-V.
+++// See https://github.com/llvm/llvm-project/issues/168152 for LoongArch.
+++// RISC-V fix: https://github.com/llvm/llvm-project/pull/185094, should be in LLVM 23.
+++// LoongArch will likely be fixed with similar changes.
++ //@ ignore-riscv64
+++//@ ignore-loongarch32
+++//@ ignore-loongarch64
++ #![feature(explicit_tail_calls)]
++ #![expect(incomplete_features)]
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index 55c43ffd6d..094baba526 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -8,6 +8,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+             file://0001-riscv32-Define-plain-syscalls-as-their-time64-varian.patch;patchdir=${RUSTSRC} \
+             file://0002-Fix-rust-build-failure-with-unstable-options.patch;patchdir=${RUSTSRC} \
+             file://0003-explicit-tail-calls-disable-two-tests.patch;patchdir=${RUSTSRC} \
++            file://0004-explicit-tail-calls-ignore-tests-on-unsupported-llvm.patch;patchdir=${RUSTSRC} \
+ "
+ SRC_URI[rust.sha256sum] = "b99ce16cdf0ecfc761b585ac84d131b46733465a02f8ecd0ff2de9713c62ee09"
  
- # All DRI drivers are symlinks to libdril_dri.so
--INSANE_SKIP:${PN}-megadriver += "dev-so"
-+INSANE_SKIP:${MLPREFIX}mesa-megadriver += "dev-so"
- 
- # OpenCL ICDs package also ship correspondig .so files, there is no -dev package
- INSANE_SKIP:libopencl-mesa += "dev-so"
-
----
-base-commit: d595615c6a027b80d6f7ea80ab25e85e97b2436f
-change-id: 20260624-mesa-fix-insane-skip-2e54523e22e0
-
-Best regards,
 -- 
-Antoine Gouby <antoine.gouby@toradex.com>
+2.39.5
 
 
