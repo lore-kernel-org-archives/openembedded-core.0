@@ -1,851 +1,238 @@
-Return-Path: <vpuar@qti.qualcomm.com>
+Return-Path: <zhixiong.chi@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81746CDB475
-	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 03:53:28 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4919.1782273200874177617
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70BC9CDB479
+	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 04:58:20 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.253.1782277099539337111
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jun 2026 20:53:21 -0700
+ Tue, 23 Jun 2026 21:58:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=lr/G5Pig;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: vpuar@qti.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65O1TZp41307473
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 03:53:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=cNgQelP5XV9zjvF+0tkr5e
-	nZjQfEnaUhuSxPVIwmLRU=; b=lr/G5Pigubfd7y0IXzonhO8RudrqseWzCFIX7+
-	wdR9GC3tdWhpUhso/zakaqr3ll6xNzgRayuG1of0kAL+csaq+bjiEsO8s0FDRoR4
-	adDxSZkHu3kOHR9tgeccogO1MMZYUNsI5HvgPaauDjuOep6VesgG+WqLUr7UtUku
-	UsPxMdSqOaoPcc9CcN452pQlEsKODNKgvCRGOPUq+O11rWDSHRpDljpu3yLPeYFI
-	zbPYjq4oFZW9geWMwYHSB7a5xRxKbsllhtGy4qIcZq65SJI+S0vRKZGZDKjJH0o0
-	byvn24sTdnlLsXROsg6yEumelsXG6rOfC1fIrINQB1C9K6GA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eysv3k88t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 03:53:19 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTPS id 65O3rIaT025514
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 03:53:18 GMT
-Received: from hyd-e160-a01-2-02.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 23 Jun 2026 20:53:16 -0700
-From: Vivek Puar <vpuar@qti.qualcomm.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Shbzg8ZK;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0635550fb3=zhixiong.chi@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65O2kD9c1368353
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 21:58:19 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=ZtNYMWutJ32KO46+VnTz
+	GClb4rYFfn3Q5Agzf7ybqVE=; b=Shbzg8ZKVxJr4XmMmPlbXFwpgdaoLmVdQJ9v
+	7GH8DontBE9dzHyjycUfYdyNjtTu+MXLpvRnXaVJuHQBNilJk7B4PVxGaWhhfPoi
+	Sw7eeGwecaXh27ma6IDl7U8hfgV9+G3lDiQqR0SRuBLiYupAd/teQKMQ84nb76sr
+	v8mMlC3nt+TaQ8LBlJUpwuZzmXhuim10rW8z38Pm1wPFbyNgWXTy8LDysaQxSz5p
+	n8aQXZSNxPBbOuMr7CU8OvhsRZKlEYOYQtWZVnb6HQyIKyANAz26Ckl7PHOWuhTB
+	AoNyqCaDVmy+/JcMbPpXwnC61jDfkels6Sw26ezbOGoKtP7UvQ==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4eykj1hrrb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jun 2026 21:58:18 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 23 Jun 2026 21:58:18 -0700
+Received: from pek-lpggp2.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 23 Jun 2026 21:58:17 -0700
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <vpuar@qti.qualcomm.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v2] linux-firmware: upgrade 20260519 -> 20260622
-Date: Wed, 24 Jun 2026 09:23:02 +0530
-Message-ID: <20260624035302.2472686-1-vpuar@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][PATCH V3] python3-cython: make generated _cyutility.c be reproducible
+Date: Wed, 24 Jun 2026 12:58:16 +0800
+Message-ID: <20260624045816.477228-1-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI0MDAyOCBTYWx0ZWRfXxj64H1kFTK5N
- sg6qbi4KKuUsE0Gpb7ULelKLcNfax0cMCjTXnFF8dIj8fFws46mW4BXDzOJUSXKkJU4pNwK1va0
- w285ro9Buq2yuEHX4x/YvTTej5iUfXQ=
-X-Proofpoint-GUID: zLLiJXynWtFzYApe4FkrbUkMV61BebSN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI0MDAyOCBTYWx0ZWRfX1rAjd+T8xfNT
- qcRhP6Zg/cByc0GM3us6E/Heahc/LJQC0DAN8vkIwqtyfkY1FT6kp21f8kF9eOm7eWZCAsu8K/s
- RfCyLTkWzzuioOcO9adX+im5L2oZ0NEtImnoXC1TqMFqfrFNG4UKTFxj2GxqkCOy8X88//xf/Lm
- rQtD3H0kaAWi+GxiCeBMcsPMRfp4jadXmpq6mWBOtOsct4X0JZFb427fDpSIQtpdARp2Za0g/RL
- yBzW0niz9jf4zY6KyX0wo9KLOcREXyr3WVa8KwUYrczUVVAkV0TMeNOuJDTKq2dW1MqtlfYvNNr
- dGaAb3VPyLupW+Lv8/zSCOBZrFR5xtLMmiebO36uaiIezYIxCXcK9mKU0I//Vgbb5TGK7VDKriy
- +sdGOB8osu/OB2L74Ejx0IxAtEEXPw==
-X-Authority-Analysis: v=2.4 cv=WtAb99fv c=1 sm=1 tr=0 ts=6a3b54af cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
- a=VwQbUJbxAAAA:8 a=94OFy9jEy3nmtz6u9-cA:9
-X-Proofpoint-ORIG-GUID: zLLiJXynWtFzYApe4FkrbUkMV61BebSN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI0MDAzNyBTYWx0ZWRfXyUktN0xL8Nvh
+ HOqc/ogwUil/X8qB5b+ytkvwtMQkDslXX/Nz1rwhQvVTKSt4VojlA8LgwiqoM3n2z6tAiSeKEOR
+ mcDaVoULnIW/CjNVOZiA9r6agUt0nzQuVAIRM49liQhTNCZbvowFuKnKVc6q6/1cE/MsSBefI66
+ /SORbS4lznmdKMFEUssvGr8OfzHtsQnmpvRsv/zjgtXMi44322udqZMNgFddublrGJmKBkosTBE
+ spXpiI5JqXSlxi/UDwxA0tx35/xQVecSWnpECieHnUKepbwGcBJ66luzG2BWOARvbI8nQGa76/Y
+ B0leDvgOIbKeoAd8jT7QkwsO5D05hVxgnJOoIIqDz3rYB1VP/8H0BhZkBLG5hNubAKpTXcMY2Oh
+ ioQvyqbzlnd3GbZKVa1EJf1mK9q7PPVKiZDNAWDyT+VI9O/anHkSx78u34eny6S6PvDY5/sPmpl
+ M2zqTj2r6yk7L9zSINw==
+X-Proofpoint-ORIG-GUID: jdUptcpQFpgOPvT08skj-X5nfRRfOo3x
+X-Authority-Analysis: v=2.4 cv=JNILdcKb c=1 sm=1 tr=0 ts=6a3b63ea cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=HK-ge7EqtdluswH-FwHe:22 a=NEAV23lmAAAA:8 a=SsMK-6ewAAAA:8 a=t7CeM3EgAAAA:8
+ a=u3yaudG2xz5xCbVMCF8A:9 a=49hUO6naoDravHwzbBTq:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI0MDAzNyBTYWx0ZWRfX42KOKq2c6RTY
+ y1YdcQas/OMSeYkspzFR2XeqpZNpEz09BY1nWrAEI2Wap/6AJ10ewuE20xxZSuM5yo6cmGVgAEc
+ HxWFDeJfmo5A1YmN3eDmMcJODfcOIdurRGp3ZJOivkI9eeT35Q/a
+X-Proofpoint-GUID: jdUptcpQFpgOPvT08skj-X5nfRRfOo3x
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-24_01,2026-06-23_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 lowpriorityscore=0 adultscore=0 spamscore=0 suspectscore=0
- phishscore=0 malwarescore=0 classifier=typeunknown authscore=0 authtc=
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.22.0-2606150000 definitions=main-2606240028
+ clxscore=1015 phishscore=0 adultscore=0 malwarescore=0 spamscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2606240037
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 03:53:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239464
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 04:58:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239465
 
-Upgrade the firmware package to latest release. Add RCA firmware for
-tas257x, add firmware for NXP IW61x SDIO WiFi device, bluetooth firmware
-for NFA725B (QCA2066), add BCS calibration firmware for QCC2072. Add gpu,
-audio and modem packages for QCOM shikra board.
+While python3 module use cython to build shared moudle utility library,
+the generated source file _cyutility.c is not stable at each build and
+made the generated library not be reproducible.
 
-Firmware licenses and few that are not at the top level (qca/NOTICE.txt,
-qcom/NOTICE.txt, wfx/LICENCE.wf200) are moved to a LICENSES directory as
-per the REUSE specification. Update LIC_FILES_CHKSUM, NO_GENERIC_LICENSE
-and do_install accordingly. Remove REMOVE_UNLICENSED entries for firmware
-files that were deleted upstream.
+When the option "--generated-shared" is used to generated __cyutility as the
+link https://github.com/scikit-learn/scikit-learn/pull/31151/files, the path
+for filename_table in the generated pyx/c file contains tmp dir which is not
+predictable though it has been updated to the relative path, and it caused
+the generated output file is not stable at each build and made the generated
+library is not reproducible [1] between builds.
 
-Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+example as python3_pandas:
+
+vim build/_cyutility.c
+......
+/* #### Code section: filename_table ### */
+
+static const char* const __pyx_f[] = {
+  "../../../../../../../../../../../../tmp/tmpXXXXXX/_cyutility.pyx",
+  "<stringsource>",
+};
+
+After applied this commit, vim build/_cyutility.c
+......
+/* #### Code section: filename_table ### */
+
+static const char* const __pyx_f[] = {
+  "_cyutility.pyx",
+  "<stringsource>",
+};
+
+This commit use SharedUtilitySourceDescriptor instead of unpredictable
+temporary directory unpredictable tmpdir in the generated source file
+to assure the file _cyutility.c should be reproducible.
+
+[1] https://reproducible-builds.org/
+
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 ---
- ...20260519.bb => linux-firmware_20260622.bb} | 574 +++++++++---------
- 1 file changed, 286 insertions(+), 288 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260519.bb => linux-firmware_20260622.bb} (87%)
+ ...ule-Use-SharedUtilitySourceDescripto.patch | 94 +++++++++++++++++++
+ .../python/python3-cython_3.2.5.bb            |  1 +
+ 2 files changed, 95 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cython/0001-3.2.x-Shared-module-Use-SharedUtilitySourceDescripto.patch
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260519.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260622.bb
-similarity index 87%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20260519.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20260622.bb
-index 7eb9bf35fb..016905ef6d 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260519.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260622.bb
-@@ -7,54 +7,18 @@ SECTION = "kernel"
- 
- REMOVE_UNLICENSED = ""
- 
--# For acenic - Alteon AceNIC Gigabit Ethernet card
--REMOVE_UNLICENSED += "acenic/tg1.bin acenic/tg2.bin"
--
--# For emi62 - EMI 6|2m USB Audio interface
--REMOVE_UNLICENSED += "emi62/bitstream.fw emi62/loader.fw emi62/midi.fw emi62/spdif.fw"
--
--# For snd-maestro3 - ESS Allegro Maestro3 audio device
--REMOVE_UNLICENSED += "ess/maestro3_assp_kernel.fw ess/maestro3_assp_minisrc.fw"
--
- # For s2255drv
- REMOVE_UNLICENSED += "f2255usb.bin"
- 
--# For snd-korg1212 - Korg 1212 IO audio device
--REMOVE_UNLICENSED += "korg/k1212.dsp"
--
--# For lgs8gxx - Legend Silicon GB20600 demodulator driver
--REMOVE_UNLICENSED += "lgs8g75.fw"
--
- # For ti_usb_3410_5052 - Multi-Tech USB cell modems
--REMOVE_UNLICENSED += "mts_cdma.fw mts_gsm.fw mts_edge.fw mts_mt9234mu.fw mts_mt9234zba.fw"
--
--# For myri_sbus - MyriCOM Gigabit Ethernet
--REMOVE_UNLICENSED += "myricom/lanai.bin"
--
--# For qlogicpti - PTI Qlogic, ISP Driver
--REMOVE_UNLICENSED += "qlogic/isp1000.bin"
--
--# For cassini - Sun Cassini
--REMOVE_UNLICENSED += "sun/cassini.bin"
--
--# For dvb-ttusb-budget - Technotrend/Hauppauge Nova-USB devices
--REMOVE_UNLICENSED += "ttusb-budget/dspbootcode.bin"
-+REMOVE_UNLICENSED += "mts_cdma.fw mts_gsm.fw mts_edge.fw"
- 
- # For ueagle-atm - Driver for USB ADSL Modems based on Eagle I,II,III
- REMOVE_UNLICENSED += "ueagle-atm/930-fpga.bin ueagle-atm/CMVeiWO.bin ueagle-atm/CMVepFR10.bin ueagle-atm/DSP9p.bin ueagle-atm/eagleIII.fw ueagle-atm/adi930.fw ueagle-atm/CMVep.bin ueagle-atm/CMVepFR.bin ueagle-atm/DSPei.bin ueagle-atm/CMV9i.bin ueagle-atm/CMVepES03.bin ueagle-atm/CMVepIT.bin ueagle-atm/DSPep.bin ueagle-atm/CMV9p.bin ueagle-atm/CMVepES.bin ueagle-atm/CMVepWO.bin ueagle-atm/eagleI.fw ueagle-atm/CMVei.bin ueagle-atm/CMVepFR04.bin ueagle-atm/DSP9i.bin ueagle-atm/eagleII.fw"
- 
--# For vicam - USB 3com HomeConnect (aka vicam)
--REMOVE_UNLICENSED += "vicam/firmware.fw"
--
--# For yam - YAM driver for AX.25
--REMOVE_UNLICENSED += "yam/1200.bin yam/9600.bin"
--
- # For snd-wavefront - ISA WaveFront sound card
- REMOVE_UNLICENSED += "yamaha/yss225_registers.bin"
- 
--# For snd-ymfpci - Yamaha YMF724/740/744/754 audio devices
--REMOVE_UNLICENSED += "yamaha/ds1_ctrl.fw yamaha/ds1_dsp.fw yamaha/ds1e_ctrl.fw"
--
- 
- LICENSE = "\
-     Firmware-Abilis \
-@@ -188,257 +152,257 @@ LICENSE = "\
-     & MIT \
- "
- 
--LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
--                    file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
--                    file://LICENCE.advansys;md5=bca735476602a7bcb187c7f8bf4a31d5 \
--                    file://LICENSE.aeonsemi;md5=521c00bae0077c90d6ffb9ccf66905ae \
--                    file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
--                    file://LICENSE.airoha;md5=fa3dedb960e2673aea51aa509f7b537d \
--                    file://LICENCE.alacritech;md5=75dabc07cc2fb59d929baa6bd6aae48a \
--                    file://LICENSE.amdgpu;md5=1433dfea38c97a2e563a248a863dcb94 \
--                    file://LICENSE.amdisp;md5=f040a36bf52c9643edb7c009d6f1b141 \
--                    file://LICENSE.amdnpu;md5=ea42c0f38f2d42aad08bd50c822460dc \
--                    file://LICENSE.amd_pmf;md5=a2589a05ea5b6bd2b7f4f623c7e7a649 \
--                    file://LICENSE.amd-sev;md5=e750538791a8be0b7249c579edefb035 \
--                    file://LICENSE.amd-ucode;md5=450f217aadc787514165e9568652d700 \
--                    file://LICENSE.amlogic;md5=80e4e3f27def8bc4b232009c3a587c07 \
--                    file://LICENSE.amlogic_vdec;md5=dc44f59bf64a81643e500ad3f39a468a \
--                    file://LICENSE.amphion_vpu;md5=2bcdc00527b2d0542bd92b52aaec2b60 \
--                    file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
--                    file://LICENSE.atmel;md5=aa74ac0c60595dee4d4e239107ea77a3 \
--                    file://LICENSE.bfa;md5=ff822aa5edf56d0159acfe5a49a5be2c \
--                    file://LICENSE.bmi260;md5=0008c039ec4281e382bd0cb41b66866c \
--                    file://LICENCE.bnx2;md5=d156fb810e162c4b0065ec8316efcd38 \
--                    file://LICENCE.bnx2x;md5=9494ec1462e461dec5322d1a1f0adf81 \
--                    file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc \
--                    file://LICENCE.ca0132;md5=209b33e66ee5be0461f13d31da392198 \
--                    file://LICENCE.cadence;md5=009f46816f6956cfb75ede13d3e1cee0 \
--                    file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
--                    file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
--                    file://LICENSE.cirrus;md5=662ea2c1a8888f7d79ed7f27c27472e1 \
--                    file://LICENCE.cnm;md5=df3992006621b797e36de43f36336e36 \
--                    file://LICENSE.conexant;md5=768b10e3fc2bbc0725174a7d9e164c26 \
--                    file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
--                    file://LICENCE.cw1200-sdd;md5=7e99e5e15c3668e96504a82ebd532ee4 \
--                    file://LICENCE.cxgb3;md5=1cf82d9e2a4b301e20c7936e61cd0e45 \
--                    file://LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b \
--                    file://LICENCE.dabusb;md5=fd785fc5f935c950a3423e4b1b996657 \
--                    file://LICENSE.dell;md5=032c317c0483dd3364f478d2bf9d9818 \
--                    file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
--                    file://LICENSE.drxk;md5=87a325e2e9740837036af3f04efa0d0f \
--                    file://LICENCE.e100;md5=ec0f84136766df159a3ae6d02acdf5a8 \
--                    file://LICENCE.emi26;md5=2d1cd6e732b81824fe2f0fbf595b1413 \
--                    file://LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921 \
--                    file://LICENCE.fw_sst_0f28;md5=6353931c988ad52818ae733ac61cd293 \
--                    file://LICENCE.go7007;md5=c0bb9f6aaaba55b0529ee9b30aa66beb \
--                    file://LICENSE.hfi1_firmware;md5=5e7b6e586ce7339d12689e49931ad444 \
--                    file://LICENCE.HP;md5=3506ce9cd4bedeaa4afb2d8fe24e0688 \
--                    file://LICENSE.i915;md5=2b0b2e0d20984affd4490ba2cba02570 \
--                    file://LICENSE.ib_qib;md5=b909c90fca84c507766601ecb6f3b9d9 \
--                    file://LICENCE.ibt_firmware;md5=fdbee1ddfe0fb7ab0b2fcd6b454a366b \
--                    file://LICENSE.ice;md5=742ab4850f2670792940e6d15c974b2f \
--                    file://LICENSE.ice_enhanced;md5=f305cfc31b64f95f774f9edd9df0224d \
--                    file://LICENCE.inside-secure;md5=71f2eb7c1d10ccbd198e2459adef6afa \
--                    file://LICENCE.IntcSST2;md5=9e7d8bea77612d7cc7d9e9b54b623062 \
--                    file://LICENSE.intel;md5=5c22a4ab607349c89ffcbb1595e493f8 \
--                    file://LICENSE.intel_vpu;md5=1e231b7287d5a5018740041c352eb58e \
--                    file://LICENSE.ipu3_firmware;md5=38fe8238c06bf7dcfd0eedbebf452c3b \
--                    file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8 \
--                    file://LICENSE.ivsc;md5=4f1f696a12c18dd058d3cc51006c640d \
--                    file://LICENCE.iwlwifi_firmware;md5=2ce6786e0fc11ac6e36b54bb9b799f1b \
--                    file://LICENSE.ixp4xx;md5=ddc5cd6cbc6745343926fe7ecc2cdeb2 \
--                    file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f \
--                    file://LICENCE.keyspan;md5=676af26017c45772c972ce4a75d467d9 \
--                    file://LICENCE.lenovo;md5=7f25420b5c27211f7bf33bebb3042ce4 \
--                    file://LICENCE.linaro;md5=936d91e71cf9cd30e733db4bf11661cc \
--                    file://LICENSE.Lontium;md5=4ec8dc582ff7295f39e2ca6a7b0be2b6 \
--                    file://LICENCE.mali_csffw;md5=e064aaec4d21ef856e1b76a6f5dc435f \
--                    file://LICENCE.Marvell;md5=28b6ed8bd04ba105af6e4dcd6e997772 \
--                    file://LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2 \
--                    file://LICENSE.mellanox;md5=646741eee66a7925edc538650895b80c \
--                    file://LICENSE.mga;md5=6191fc1ff8183b00515c36351ec24150 \
--                    file://LICENCE.microchip;md5=db753b00305675dfbf120e3f24a47277 \
--                    file://LICENSE.montage;md5=12a9f2b351f60fc9374da61c8b2f11ed \
--                    file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261 \
--                    file://LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed \
--                    file://LICENCE.Netronome;md5=4add08f2577086d44447996503cddf5f \
--                    file://LICENCE.nvidia;md5=4428a922ed3ba2ceec95f076a488ce07 \
--                    file://LICENCE.NXP;md5=58bb8ba632cd729b9ba6183bc6aed36f \
--                    file://LICENSE.nxp;md5=cca321ca1524d6a1e4fed87486cd82dc \
--                    file://LICENSE.nxp_mc_firmware;md5=9dc97e4b279b3858cae8879ae2fe5dd7 \
--                    file://LICENCE.OLPC;md5=5b917f9d8c061991be4f6f5f108719cd \
--                    file://LICENCE.open-ath9k-htc-firmware;md5=1b33c9f4d17bc4d457bdb23727046837 \
--                    file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa \
--                    file://LICENSE.powervr;md5=83045ed2a2cda15b4eaff682c98c9533 \
--                    file://LICENCE.qat_firmware;md5=72de83dfd9b87be7685ed099a39fbea4 \
--                    file://LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b \
--                    file://LICENSE.qcom-2;md5=165287851294f2fb8ac8cbc5e24b02b0 \
--                    file://LICENSE.qcom_yamato;md5=d0de0eeccaf1843a850bf7a6777eec5c \
--                    file://LICENSE.qed;md5=939ee0945e6efa0ce21f6d8a21c6564c \
--                    file://LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d \
--                    file://LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0 \
--                    file://LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5 \
--                    file://LICENSE.QualcommAtheros_ath10k;md5=cb42b686ee5f5cb890275e4321db60a8 \
--                    file://LICENSE.r8169;md5=a9909160e6bd81b8770711918b418ef2 \
--                    file://LICENCE.r8a779x_usb3;md5=4c1671656153025d7076105a5da7e498 \
--                    file://LICENSE.radeon;md5=68ec28bacb3613200bca44f404c69b16 \
--                    file://LICENCE.ralink_a_mediatek_company_firmware;md5=728f1a85fd53fd67fa8d7afb080bc435 \
--                    file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
--                    file://LICENCE.rockchip;md5=5fd70190c5ed39734baceada8ecced26 \
--                    file://LICENCE.r8a779g_pcie_phy;md5=0b20e76a9a004b83c4a1c87e2153bbad \
--                    file://LICENSE.rp2;md5=de5109226a643a1cdf706a633e993514 \
--                    file://LICENSE.rsi;md5=a560f4b285f0733de1a3986ae847675d \
--                    file://LICENSE.rt1320;md5=b44dab4314655e8f015009548dc4f962 \
--                    file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
--                    file://LICENSE.s5p-mfc;md5=5bdad20069b5c0268245609045374639 \
--                    file://LICENSE.sdma_firmware;md5=51e8c19ecc2270f4b8ea30341ad63ce9 \
--                    file://LICENCE.sensoray;md5=2273a7fed8223f6d3ef3e65f508f22eb \
--                    file://LICENCE.siano;md5=4556c1bf830067f12ca151ad953ec2a5 \
--                    file://LICENSE.tehuti;md5=2b0ebf8cdc4a1c4a49b8ad18c7cb2492 \
--                    file://LICENCE.ti-connectivity;md5=3b1e9cf54aba8146dad4b735777d406f \
--                    file://LICENCE.ti-keystone;md5=3a86335d32864b0bef996bee26cc0f2c \
--                    file://LICENCE.ti-tspa;md5=d1a0eb27d0020752040190b9d51ad9be \
--                    file://LICENCE.tigon;md5=49d104a32337f4a4c89478a86ce9ae4f \
--                    file://LICENSE.tlg2300;md5=4b23ec9ced919a0bf2f7c56dac31b2b7 \
--                    file://LICENCE.typhoon;md5=43b30243a6bda91f54c8e00600c4add5 \
--                    file://LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118 \
--                    file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
--                    file://LICENSE.vxge;md5=91e196370d9927bdf7f566e47ea2c558 \
--                    file://LICENCE.wl1251;md5=ad3f81922bb9e197014bb187289d3b5b \
--                    file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
--                    file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
--                    file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://LICENSE.xe;md5=c674d38774242bc0c528214721488118 \
--                    file://wfx/LICENCE.wf200;md5=4d1beff00d902c05c9c7e95a5d8eb52d \
-+LIC_FILES_CHKSUM = "file://LICENSES/LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-+                    file://LICENSES/LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
-+                    file://LICENSES/LICENCE.advansys;md5=bca735476602a7bcb187c7f8bf4a31d5 \
-+                    file://LICENSES/LICENSE.aeonsemi;md5=521c00bae0077c90d6ffb9ccf66905ae \
-+                    file://LICENSES/LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
-+                    file://LICENSES/LICENSE.airoha;md5=fa3dedb960e2673aea51aa509f7b537d \
-+                    file://LICENSES/LICENCE.alacritech;md5=75dabc07cc2fb59d929baa6bd6aae48a \
-+                    file://LICENSES/LICENSE.amdgpu;md5=1433dfea38c97a2e563a248a863dcb94 \
-+                    file://LICENSES/LICENSE.amdisp;md5=f040a36bf52c9643edb7c009d6f1b141 \
-+                    file://LICENSES/LICENSE.amdnpu;md5=ea42c0f38f2d42aad08bd50c822460dc \
-+                    file://LICENSES/LICENSE.amd_pmf;md5=a2589a05ea5b6bd2b7f4f623c7e7a649 \
-+                    file://LICENSES/LICENSE.amd-sev;md5=e750538791a8be0b7249c579edefb035 \
-+                    file://LICENSES/LICENSE.amd-ucode;md5=450f217aadc787514165e9568652d700 \
-+                    file://LICENSES/LICENSE.amlogic;md5=80e4e3f27def8bc4b232009c3a587c07 \
-+                    file://LICENSES/LICENSE.amlogic_vdec;md5=dc44f59bf64a81643e500ad3f39a468a \
-+                    file://LICENSES/LICENSE.amphion_vpu;md5=2bcdc00527b2d0542bd92b52aaec2b60 \
-+                    file://LICENSES/LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
-+                    file://LICENSES/LICENSE.atmel;md5=aa74ac0c60595dee4d4e239107ea77a3 \
-+                    file://LICENSES/LICENSE.bfa;md5=ff822aa5edf56d0159acfe5a49a5be2c \
-+                    file://LICENSES/LICENSE.bmi260;md5=0008c039ec4281e382bd0cb41b66866c \
-+                    file://LICENSES/LICENCE.bnx2;md5=d156fb810e162c4b0065ec8316efcd38 \
-+                    file://LICENSES/LICENCE.bnx2x;md5=9494ec1462e461dec5322d1a1f0adf81 \
-+                    file://LICENSES/LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc \
-+                    file://LICENSES/LICENCE.ca0132;md5=209b33e66ee5be0461f13d31da392198 \
-+                    file://LICENSES/LICENCE.cadence;md5=009f46816f6956cfb75ede13d3e1cee0 \
-+                    file://LICENSES/LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
-+                    file://LICENSES/LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
-+                    file://LICENSES/LICENSE.cirrus;md5=662ea2c1a8888f7d79ed7f27c27472e1 \
-+                    file://LICENSES/LICENCE.cnm;md5=df3992006621b797e36de43f36336e36 \
-+                    file://LICENSES/LICENSE.conexant;md5=768b10e3fc2bbc0725174a7d9e164c26 \
-+                    file://LICENSES/LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
-+                    file://LICENSES/LICENCE.cw1200-sdd;md5=7e99e5e15c3668e96504a82ebd532ee4 \
-+                    file://LICENSES/LICENCE.cxgb3;md5=1cf82d9e2a4b301e20c7936e61cd0e45 \
-+                    file://LICENSES/LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b \
-+                    file://LICENSES/LICENCE.dabusb;md5=fd785fc5f935c950a3423e4b1b996657 \
-+                    file://LICENSES/LICENSE.dell;md5=032c317c0483dd3364f478d2bf9d9818 \
-+                    file://LICENSES/LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
-+                    file://LICENSES/LICENSE.drxk;md5=87a325e2e9740837036af3f04efa0d0f \
-+                    file://LICENSES/LICENCE.e100;md5=ec0f84136766df159a3ae6d02acdf5a8 \
-+                    file://LICENSES/LICENCE.emi26;md5=2d1cd6e732b81824fe2f0fbf595b1413 \
-+                    file://LICENSES/LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921 \
-+                    file://LICENSES/LICENCE.fw_sst_0f28;md5=6353931c988ad52818ae733ac61cd293 \
-+                    file://LICENSES/LICENCE.go7007;md5=c0bb9f6aaaba55b0529ee9b30aa66beb \
-+                    file://LICENSES/LICENSE.hfi1_firmware;md5=5e7b6e586ce7339d12689e49931ad444 \
-+                    file://LICENSES/LICENCE.HP;md5=3506ce9cd4bedeaa4afb2d8fe24e0688 \
-+                    file://LICENSES/LICENSE.i915;md5=2b0b2e0d20984affd4490ba2cba02570 \
-+                    file://LICENSES/LICENSE.ib_qib;md5=b909c90fca84c507766601ecb6f3b9d9 \
-+                    file://LICENSES/LICENCE.ibt_firmware;md5=fdbee1ddfe0fb7ab0b2fcd6b454a366b \
-+                    file://LICENSES/LICENSE.ice;md5=742ab4850f2670792940e6d15c974b2f \
-+                    file://LICENSES/LICENSE.ice_enhanced;md5=f305cfc31b64f95f774f9edd9df0224d \
-+                    file://LICENSES/LICENCE.inside-secure;md5=71f2eb7c1d10ccbd198e2459adef6afa \
-+                    file://LICENSES/LICENCE.IntcSST2;md5=9e7d8bea77612d7cc7d9e9b54b623062 \
-+                    file://LICENSES/LICENSE.intel;md5=5c22a4ab607349c89ffcbb1595e493f8 \
-+                    file://LICENSES/LICENSE.intel_vpu;md5=1e231b7287d5a5018740041c352eb58e \
-+                    file://LICENSES/LICENSE.ipu3_firmware;md5=38fe8238c06bf7dcfd0eedbebf452c3b \
-+                    file://LICENSES/LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8 \
-+                    file://LICENSES/LICENSE.ivsc;md5=4f1f696a12c18dd058d3cc51006c640d \
-+                    file://LICENSES/LICENCE.iwlwifi_firmware;md5=2ce6786e0fc11ac6e36b54bb9b799f1b \
-+                    file://LICENSES/LICENSE.ixp4xx;md5=ddc5cd6cbc6745343926fe7ecc2cdeb2 \
-+                    file://LICENSES/LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f \
-+                    file://LICENSES/LICENCE.keyspan;md5=676af26017c45772c972ce4a75d467d9 \
-+                    file://LICENSES/LICENCE.lenovo;md5=7f25420b5c27211f7bf33bebb3042ce4 \
-+                    file://LICENSES/LICENCE.linaro;md5=936d91e71cf9cd30e733db4bf11661cc \
-+                    file://LICENSES/LICENSE.Lontium;md5=4ec8dc582ff7295f39e2ca6a7b0be2b6 \
-+                    file://LICENSES/LICENCE.mali_csffw;md5=e064aaec4d21ef856e1b76a6f5dc435f \
-+                    file://LICENSES/LICENCE.Marvell;md5=28b6ed8bd04ba105af6e4dcd6e997772 \
-+                    file://LICENSES/LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2 \
-+                    file://LICENSES/LICENSE.mellanox;md5=646741eee66a7925edc538650895b80c \
-+                    file://LICENSES/LICENSE.mga;md5=6191fc1ff8183b00515c36351ec24150 \
-+                    file://LICENSES/LICENCE.microchip;md5=db753b00305675dfbf120e3f24a47277 \
-+                    file://LICENSES/LICENSE.montage;md5=12a9f2b351f60fc9374da61c8b2f11ed \
-+                    file://LICENSES/LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261 \
-+                    file://LICENSES/LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed \
-+                    file://LICENSES/LICENCE.Netronome;md5=4add08f2577086d44447996503cddf5f \
-+                    file://LICENSES/LICENCE.nvidia;md5=4428a922ed3ba2ceec95f076a488ce07 \
-+                    file://LICENSES/LICENCE.NXP;md5=58bb8ba632cd729b9ba6183bc6aed36f \
-+                    file://LICENSES/LICENSE.nxp;md5=cca321ca1524d6a1e4fed87486cd82dc \
-+                    file://LICENSES/LICENSE.nxp_mc_firmware;md5=9dc97e4b279b3858cae8879ae2fe5dd7 \
-+                    file://LICENSES/LICENCE.OLPC;md5=5b917f9d8c061991be4f6f5f108719cd \
-+                    file://LICENSES/LICENCE.open-ath9k-htc-firmware;md5=1b33c9f4d17bc4d457bdb23727046837 \
-+                    file://LICENSES/LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa \
-+                    file://LICENSES/LICENSE.powervr;md5=83045ed2a2cda15b4eaff682c98c9533 \
-+                    file://LICENSES/LICENCE.qat_firmware;md5=72de83dfd9b87be7685ed099a39fbea4 \
-+                    file://LICENSES/LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b \
-+                    file://LICENSES/LICENSE.qcom-2;md5=165287851294f2fb8ac8cbc5e24b02b0 \
-+                    file://LICENSES/LICENSE.qcom_yamato;md5=d0de0eeccaf1843a850bf7a6777eec5c \
-+                    file://LICENSES/LICENSE.qed;md5=939ee0945e6efa0ce21f6d8a21c6564c \
-+                    file://LICENSES/LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d \
-+                    file://LICENSES/LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0 \
-+                    file://LICENSES/LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5 \
-+                    file://LICENSES/LICENSE.QualcommAtheros_ath10k;md5=cb42b686ee5f5cb890275e4321db60a8 \
-+                    file://LICENSES/LICENSE.r8169;md5=a9909160e6bd81b8770711918b418ef2 \
-+                    file://LICENSES/LICENCE.r8a779x_usb3;md5=4c1671656153025d7076105a5da7e498 \
-+                    file://LICENSES/LICENSE.radeon;md5=68ec28bacb3613200bca44f404c69b16 \
-+                    file://LICENSES/LICENCE.ralink_a_mediatek_company_firmware;md5=728f1a85fd53fd67fa8d7afb080bc435 \
-+                    file://LICENSES/LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
-+                    file://LICENSES/LICENCE.rockchip;md5=5fd70190c5ed39734baceada8ecced26 \
-+                    file://LICENSES/LICENCE.r8a779g_pcie_phy;md5=0b20e76a9a004b83c4a1c87e2153bbad \
-+                    file://LICENSES/LICENSE.rp2;md5=de5109226a643a1cdf706a633e993514 \
-+                    file://LICENSES/LICENSE.rsi;md5=a560f4b285f0733de1a3986ae847675d \
-+                    file://LICENSES/LICENSE.rt1320;md5=b44dab4314655e8f015009548dc4f962 \
-+                    file://LICENSES/LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
-+                    file://LICENSES/LICENSE.s5p-mfc;md5=5bdad20069b5c0268245609045374639 \
-+                    file://LICENSES/LICENSE.sdma_firmware;md5=51e8c19ecc2270f4b8ea30341ad63ce9 \
-+                    file://LICENSES/LICENCE.sensoray;md5=2273a7fed8223f6d3ef3e65f508f22eb \
-+                    file://LICENSES/LICENCE.siano;md5=4556c1bf830067f12ca151ad953ec2a5 \
-+                    file://LICENSES/LICENSE.tehuti;md5=2b0ebf8cdc4a1c4a49b8ad18c7cb2492 \
-+                    file://LICENSES/LICENCE.ti-connectivity;md5=3b1e9cf54aba8146dad4b735777d406f \
-+                    file://LICENSES/LICENCE.ti-keystone;md5=3a86335d32864b0bef996bee26cc0f2c \
-+                    file://LICENSES/LICENCE.ti-tspa;md5=d1a0eb27d0020752040190b9d51ad9be \
-+                    file://LICENSES/LICENCE.tigon;md5=49d104a32337f4a4c89478a86ce9ae4f \
-+                    file://LICENSES/LICENSE.tlg2300;md5=4b23ec9ced919a0bf2f7c56dac31b2b7 \
-+                    file://LICENSES/LICENCE.typhoon;md5=43b30243a6bda91f54c8e00600c4add5 \
-+                    file://LICENSES/LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118 \
-+                    file://LICENSES/LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
-+                    file://LICENSES/LICENSE.vxge;md5=91e196370d9927bdf7f566e47ea2c558 \
-+                    file://LICENSES/LICENCE.wl1251;md5=ad3f81922bb9e197014bb187289d3b5b \
-+                    file://LICENSES/LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-+                    file://LICENSES/LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-+                    file://LICENSES/LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
-+                    file://LICENSES/LICENSE.xe;md5=c674d38774242bc0c528214721488118 \
-+                    file://LICENSES/LICENCE.wf200;md5=4d1beff00d902c05c9c7e95a5d8eb52d \
-                     file://WHENCE;md5=${WHENCE_CHKSUM} \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "6048e3ea8acf04b4c415db8a9e35a912"
-+WHENCE_CHKSUM  = "991f6e7ad5cc20508ae8923edc342c8e"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
--NO_GENERIC_LICENSE[Firmware-Abilis] = "LICENCE.Abilis"
--NO_GENERIC_LICENSE[Firmware-adsp_sst] = "LICENCE.adsp_sst"
--NO_GENERIC_LICENSE[Firmware-advansys] = "LICENCE.advansys"
--NO_GENERIC_LICENSE[Firmware-aeonsemi] = "LICENSE.aeonsemi"
--NO_GENERIC_LICENSE[Firmware-agere] = "LICENCE.agere"
--NO_GENERIC_LICENSE[Firmware-airoha] = "LICENSE.airoha"
--NO_GENERIC_LICENSE[Firmware-alacritech] = "LICENCE.alacritech"
--NO_GENERIC_LICENSE[Firmware-amdgpu] = "LICENSE.amdgpu"
--NO_GENERIC_LICENSE[Firmware-amdisp] = "LICENSE.amdisp"
--NO_GENERIC_LICENSE[Firmware-amdnpu] = "LICENSE.amdnpu"
--NO_GENERIC_LICENSE[Firmware-amd_pmf] = "LICENSE.amd_pmf"
--NO_GENERIC_LICENSE[Firmware-amd-sev] = "LICENSE.amd-sev"
--NO_GENERIC_LICENSE[Firmware-amd-ucode] = "LICENSE.amd-ucode"
--NO_GENERIC_LICENSE[Firmware-amlogic] = "LICENSE.amlogic"
--NO_GENERIC_LICENSE[Firmware-amlogic_vdec] = "LICENSE.amlogic_vdec"
--NO_GENERIC_LICENSE[Firmware-amphion_vpu] = "LICENSE.amphion_vpu"
--NO_GENERIC_LICENSE[Firmware-atheros_firmware] = "LICENCE.atheros_firmware"
--NO_GENERIC_LICENSE[Firmware-atmel] = "LICENSE.atmel"
--NO_GENERIC_LICENSE[Firmware-bfa] = "LICENSE.bfa"
--NO_GENERIC_LICENSE[Firmware-bmi260] = "LICENSE.bmi260"
--NO_GENERIC_LICENSE[Firmware-bnx2] = "LICENCE.bnx2"
--NO_GENERIC_LICENSE[Firmware-bnx2x] = "LICENCE.bnx2x"
--NO_GENERIC_LICENSE[Firmware-broadcom_bcm43xx] = "LICENCE.broadcom_bcm43xx"
--NO_GENERIC_LICENSE[Firmware-ca0132] = "LICENCE.ca0132"
--NO_GENERIC_LICENSE[Firmware-cadence] = "LICENCE.cadence"
--NO_GENERIC_LICENSE[Firmware-cavium] = "LICENCE.cavium"
--NO_GENERIC_LICENSE[Firmware-chelsio_firmware] = "LICENCE.chelsio_firmware"
--NO_GENERIC_LICENSE[Firmware-cirrus] = "LICENSE.cirrus"
--NO_GENERIC_LICENSE[Firmware-cnm] = "LICENCE.cnm"
--NO_GENERIC_LICENSE[Firmware-conexant] = "LICENSE.conexant"
--NO_GENERIC_LICENSE[Firmware-cw1200] = "LICENCE.cw1200"
--NO_GENERIC_LICENSE[Firmware-cw1200-sdd] = "LICENCE.cw1200-sdd"
--NO_GENERIC_LICENSE[Firmware-cxgb3] = "LICENCE.cxgb3"
--NO_GENERIC_LICENSE[Firmware-cypress] = "LICENCE.cypress"
--NO_GENERIC_LICENSE[Firmware-dabusb] = "LICENCE.dabusb"
--NO_GENERIC_LICENSE[Firmware-dell] = "LICENSE.dell"
--NO_GENERIC_LICENSE[Firmware-dib0700] = "LICENSE.dib0700"
--NO_GENERIC_LICENSE[Firmware-drxk] = "LICENSE.drxk"
--NO_GENERIC_LICENSE[Firmware-e100] = "LICENCE.e100"
--NO_GENERIC_LICENSE[Firmware-emi26] = "LICENCE.emi26"
--NO_GENERIC_LICENSE[Firmware-ene_firmware] = "LICENCE.ene_firmware"
--NO_GENERIC_LICENSE[Firmware-fw_sst_0f28] = "LICENCE.fw_sst_0f28"
--NO_GENERIC_LICENSE[Firmware-go7007] = "LICENCE.go7007"
--NO_GENERIC_LICENSE[Firmware-hfi1_firmware] = "LICENSE.hfi1_firmware"
--NO_GENERIC_LICENSE[Firmware-HP] = "LICENCE.HP"
--NO_GENERIC_LICENSE[Firmware-i915] = "LICENSE.i915"
--NO_GENERIC_LICENSE[Firmware-ib_qib] = "LICENSE.ib_qib"
--NO_GENERIC_LICENSE[Firmware-ibt_firmware] = "LICENCE.ibt_firmware"
--NO_GENERIC_LICENSE[Firmware-ice] = "LICENSE.ice"
--NO_GENERIC_LICENSE[Firmware-ice_enhanced] = "LICENSE.ice_enhanced"
--NO_GENERIC_LICENSE[Firmware-inside-secure] = "LICENCE.inside-secure"
--NO_GENERIC_LICENSE[Firmware-IntcSST2] = "LICENCE.IntcSST2"
--NO_GENERIC_LICENSE[Firmware-intel] = "LICENSE.intel"
--NO_GENERIC_LICENSE[Firmware-intel_vpu] = "LICENSE.intel_vpu"
--NO_GENERIC_LICENSE[Firmware-ipu3_firmware] = "LICENSE.ipu3_firmware"
--NO_GENERIC_LICENSE[Firmware-it913x] = "LICENCE.it913x"
--NO_GENERIC_LICENSE[Firmware-ivsc] = "LICENSE.ivsc"
--NO_GENERIC_LICENSE[Firmware-iwlwifi_firmware] = "LICENCE.iwlwifi_firmware"
--NO_GENERIC_LICENSE[Firmware-ixp4xx] = "LICENSE.ixp4xx"
--NO_GENERIC_LICENSE[Firmware-kaweth] = "LICENCE.kaweth"
--NO_GENERIC_LICENSE[Firmware-keyspan] = "LICENCE.keyspan"
--NO_GENERIC_LICENSE[Firmware-lenovo] = "LICENCE.lenovo"
--NO_GENERIC_LICENSE[Firmware-linaro] = "LICENCE.linaro"
--NO_GENERIC_LICENSE[Firmware-Lontium] = "LICENSE.Lontium"
--NO_GENERIC_LICENSE[Firmware-mali_csffw] = "LICENCE.mali_csffw"
--NO_GENERIC_LICENSE[Firmware-Marvell] = "LICENCE.Marvell"
--NO_GENERIC_LICENSE[Firmware-mediatek] = "LICENCE.mediatek"
--NO_GENERIC_LICENSE[Firmware-mellanox] = "LICENSE.mellanox"
--NO_GENERIC_LICENSE[Firmware-mga] = "LICENSE.mga"
--NO_GENERIC_LICENSE[Firmware-microchip] = "LICENCE.microchip"
--NO_GENERIC_LICENSE[Firmware-montage] = "LICENSE.montage"
--NO_GENERIC_LICENSE[Firmware-moxa] = "LICENCE.moxa"
--NO_GENERIC_LICENSE[Firmware-myri10ge_firmware] = "LICENCE.myri10ge_firmware"
--NO_GENERIC_LICENSE[Firmware-netronome] = "LICENCE.Netronome"
--NO_GENERIC_LICENSE[Firmware-nvidia] = "LICENCE.nvidia"
--NO_GENERIC_LICENSE[Firmware-nxp] = "LICENSE.nxp"
--NO_GENERIC_LICENSE[Firmware-nxp_mc_firmware] = "LICENSE.nxp_mc_firmware"
--NO_GENERIC_LICENSE[Firmware-OLPC] = "LICENCE.OLPC"
--NO_GENERIC_LICENSE[Firmware-ath9k-htc] = "LICENCE.open-ath9k-htc-firmware"
--NO_GENERIC_LICENSE[Firmware-phanfw] = "LICENCE.phanfw"
--NO_GENERIC_LICENSE[Firmware-powervr] = "LICENSE.powervr"
--NO_GENERIC_LICENSE[Firmware-qat] = "LICENCE.qat_firmware"
--NO_GENERIC_LICENSE[Firmware-qcom] = "LICENSE.qcom"
--NO_GENERIC_LICENSE[Firmware-qcom-2] = "LICENSE.qcom-2"
--NO_GENERIC_LICENSE[Firmware-qcom-yamato] = "LICENSE.qcom_yamato"
--NO_GENERIC_LICENSE[Firmware-qed] = "LICENSE.qed"
--NO_GENERIC_LICENSE[Firmware-qla1280] = "LICENCE.qla1280"
--NO_GENERIC_LICENSE[Firmware-qla2xxx] = "LICENCE.qla2xxx"
--NO_GENERIC_LICENSE[Firmware-qualcommAthos_ar3k] = "LICENSE.QualcommAtheros_ar3k"
--NO_GENERIC_LICENSE[Firmware-qualcommAthos_ath10k] = "LICENSE.QualcommAtheros_ath10k"
--NO_GENERIC_LICENSE[Firmware-r8169] = "LICENSE.r8169"
--NO_GENERIC_LICENSE[Firmware-r8a779x_usb3] = "LICENCE.r8a779x_usb3"
--NO_GENERIC_LICENSE[Firmware-radeon] = "LICENSE.radeon"
--NO_GENERIC_LICENSE[Firmware-ralink_a_mediatek_company_firmware] = "LICENCE.ralink_a_mediatek_company_firmware"
--NO_GENERIC_LICENSE[Firmware-ralink-firmware] = "LICENCE.ralink-firmware.txt"
--NO_GENERIC_LICENSE[Firmware-r8a779g_pcie_phy] = "LICENCE.r8a779g_pcie_phy"
--NO_GENERIC_LICENSE[Firmware-rockchip] = "LICENCE.rockchip"
--NO_GENERIC_LICENSE[Firmware-rp2] = "LICENSE.rp2"
--NO_GENERIC_LICENSE[Firmware-rsi] = "LICENSE.rsi"
--NO_GENERIC_LICENSE[Firmware-rt1320] = "LICENSE.rt1320"
--NO_GENERIC_LICENSE[Firmware-rtlwifi_firmware] = "LICENCE.rtlwifi_firmware.txt"
--NO_GENERIC_LICENSE[Firmware-s5p-mfc] = "LICENSE.s5p-mfc"
--NO_GENERIC_LICENSE[Firmware-sensoray] = "LICENCE.sensoray"
--NO_GENERIC_LICENSE[Firmware-siano] = "LICENCE.siano"
--NO_GENERIC_LICENSE[Firmware-imx-sdma_firmware] = "LICENSE.sdma_firmware"
--NO_GENERIC_LICENSE[Firmware-tehuti] = "LICENSE.tehuti"
--NO_GENERIC_LICENSE[Firmware-ti-connectivity] = "LICENCE.ti-connectivity"
--NO_GENERIC_LICENSE[Firmware-ti-keystone] = "LICENCE.ti-keystone"
--NO_GENERIC_LICENSE[Firmware-ti-tspa] = "LICENCE.ti-tspa"
--NO_GENERIC_LICENSE[Firmware-tigon] = "LICENCE.tigon"
--NO_GENERIC_LICENSE[Firmware-tlg2300] = "LICENSE.tlg2300"
--NO_GENERIC_LICENSE[Firmware-typhoon] = "LICENCE.typhoon"
--NO_GENERIC_LICENSE[Firmware-ueagle-atm4-firmware] = "LICENCE.ueagle-atm4-firmware"
--NO_GENERIC_LICENSE[Firmware-via_vt6656] = "LICENCE.via_vt6656"
--NO_GENERIC_LICENSE[Firmware-vxge] = "LICENSE.vxge"
--NO_GENERIC_LICENSE[Firmware-wfx] = "wfx/LICENCE.wf200"
--NO_GENERIC_LICENSE[Firmware-wl1251] = "LICENCE.wl1251"
--NO_GENERIC_LICENSE[Firmware-xc4000] = "LICENCE.xc4000"
--NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
--NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
--NO_GENERIC_LICENSE[Firmware-xe] = "LICENSE.xe"
-+NO_GENERIC_LICENSE[Firmware-Abilis] = "LICENSES/LICENCE.Abilis"
-+NO_GENERIC_LICENSE[Firmware-adsp_sst] = "LICENSES/LICENCE.adsp_sst"
-+NO_GENERIC_LICENSE[Firmware-advansys] = "LICENSES/LICENCE.advansys"
-+NO_GENERIC_LICENSE[Firmware-aeonsemi] = "LICENSES/LICENSE.aeonsemi"
-+NO_GENERIC_LICENSE[Firmware-agere] = "LICENSES/LICENCE.agere"
-+NO_GENERIC_LICENSE[Firmware-airoha] = "LICENSES/LICENSE.airoha"
-+NO_GENERIC_LICENSE[Firmware-alacritech] = "LICENSES/LICENCE.alacritech"
-+NO_GENERIC_LICENSE[Firmware-amdgpu] = "LICENSES/LICENSE.amdgpu"
-+NO_GENERIC_LICENSE[Firmware-amdisp] = "LICENSES/LICENSE.amdisp"
-+NO_GENERIC_LICENSE[Firmware-amdnpu] = "LICENSES/LICENSE.amdnpu"
-+NO_GENERIC_LICENSE[Firmware-amd_pmf] = "LICENSES/LICENSE.amd_pmf"
-+NO_GENERIC_LICENSE[Firmware-amd-sev] = "LICENSES/LICENSE.amd-sev"
-+NO_GENERIC_LICENSE[Firmware-amd-ucode] = "LICENSES/LICENSE.amd-ucode"
-+NO_GENERIC_LICENSE[Firmware-amlogic] = "LICENSES/LICENSE.amlogic"
-+NO_GENERIC_LICENSE[Firmware-amlogic_vdec] = "LICENSES/LICENSE.amlogic_vdec"
-+NO_GENERIC_LICENSE[Firmware-amphion_vpu] = "LICENSES/LICENSE.amphion_vpu"
-+NO_GENERIC_LICENSE[Firmware-atheros_firmware] = "LICENSES/LICENCE.atheros_firmware"
-+NO_GENERIC_LICENSE[Firmware-atmel] = "LICENSES/LICENSE.atmel"
-+NO_GENERIC_LICENSE[Firmware-bfa] = "LICENSES/LICENSE.bfa"
-+NO_GENERIC_LICENSE[Firmware-bmi260] = "LICENSES/LICENSE.bmi260"
-+NO_GENERIC_LICENSE[Firmware-bnx2] = "LICENSES/LICENCE.bnx2"
-+NO_GENERIC_LICENSE[Firmware-bnx2x] = "LICENSES/LICENCE.bnx2x"
-+NO_GENERIC_LICENSE[Firmware-broadcom_bcm43xx] = "LICENSES/LICENCE.broadcom_bcm43xx"
-+NO_GENERIC_LICENSE[Firmware-ca0132] = "LICENSES/LICENCE.ca0132"
-+NO_GENERIC_LICENSE[Firmware-cadence] = "LICENSES/LICENCE.cadence"
-+NO_GENERIC_LICENSE[Firmware-cavium] = "LICENSES/LICENCE.cavium"
-+NO_GENERIC_LICENSE[Firmware-chelsio_firmware] = "LICENSES/LICENCE.chelsio_firmware"
-+NO_GENERIC_LICENSE[Firmware-cirrus] = "LICENSES/LICENSE.cirrus"
-+NO_GENERIC_LICENSE[Firmware-cnm] = "LICENSES/LICENCE.cnm"
-+NO_GENERIC_LICENSE[Firmware-conexant] = "LICENSES/LICENSE.conexant"
-+NO_GENERIC_LICENSE[Firmware-cw1200] = "LICENSES/LICENCE.cw1200"
-+NO_GENERIC_LICENSE[Firmware-cw1200-sdd] = "LICENSES/LICENCE.cw1200-sdd"
-+NO_GENERIC_LICENSE[Firmware-cxgb3] = "LICENSES/LICENCE.cxgb3"
-+NO_GENERIC_LICENSE[Firmware-cypress] = "LICENSES/LICENCE.cypress"
-+NO_GENERIC_LICENSE[Firmware-dabusb] = "LICENSES/LICENCE.dabusb"
-+NO_GENERIC_LICENSE[Firmware-dell] = "LICENSES/LICENSE.dell"
-+NO_GENERIC_LICENSE[Firmware-dib0700] = "LICENSES/LICENSE.dib0700"
-+NO_GENERIC_LICENSE[Firmware-drxk] = "LICENSES/LICENSE.drxk"
-+NO_GENERIC_LICENSE[Firmware-e100] = "LICENSES/LICENCE.e100"
-+NO_GENERIC_LICENSE[Firmware-emi26] = "LICENSES/LICENCE.emi26"
-+NO_GENERIC_LICENSE[Firmware-ene_firmware] = "LICENSES/LICENCE.ene_firmware"
-+NO_GENERIC_LICENSE[Firmware-fw_sst_0f28] = "LICENSES/LICENCE.fw_sst_0f28"
-+NO_GENERIC_LICENSE[Firmware-go7007] = "LICENSES/LICENCE.go7007"
-+NO_GENERIC_LICENSE[Firmware-hfi1_firmware] = "LICENSES/LICENSE.hfi1_firmware"
-+NO_GENERIC_LICENSE[Firmware-HP] = "LICENSES/LICENCE.HP"
-+NO_GENERIC_LICENSE[Firmware-i915] = "LICENSES/LICENSE.i915"
-+NO_GENERIC_LICENSE[Firmware-ib_qib] = "LICENSES/LICENSE.ib_qib"
-+NO_GENERIC_LICENSE[Firmware-ibt_firmware] = "LICENSES/LICENCE.ibt_firmware"
-+NO_GENERIC_LICENSE[Firmware-ice] = "LICENSES/LICENSE.ice"
-+NO_GENERIC_LICENSE[Firmware-ice_enhanced] = "LICENSES/LICENSE.ice_enhanced"
-+NO_GENERIC_LICENSE[Firmware-inside-secure] = "LICENSES/LICENCE.inside-secure"
-+NO_GENERIC_LICENSE[Firmware-IntcSST2] = "LICENSES/LICENCE.IntcSST2"
-+NO_GENERIC_LICENSE[Firmware-intel] = "LICENSES/LICENSE.intel"
-+NO_GENERIC_LICENSE[Firmware-intel_vpu] = "LICENSES/LICENSE.intel_vpu"
-+NO_GENERIC_LICENSE[Firmware-ipu3_firmware] = "LICENSES/LICENSE.ipu3_firmware"
-+NO_GENERIC_LICENSE[Firmware-it913x] = "LICENSES/LICENCE.it913x"
-+NO_GENERIC_LICENSE[Firmware-ivsc] = "LICENSES/LICENSE.ivsc"
-+NO_GENERIC_LICENSE[Firmware-iwlwifi_firmware] = "LICENSES/LICENCE.iwlwifi_firmware"
-+NO_GENERIC_LICENSE[Firmware-ixp4xx] = "LICENSES/LICENSE.ixp4xx"
-+NO_GENERIC_LICENSE[Firmware-kaweth] = "LICENSES/LICENCE.kaweth"
-+NO_GENERIC_LICENSE[Firmware-keyspan] = "LICENSES/LICENCE.keyspan"
-+NO_GENERIC_LICENSE[Firmware-lenovo] = "LICENSES/LICENCE.lenovo"
-+NO_GENERIC_LICENSE[Firmware-linaro] = "LICENSES/LICENCE.linaro"
-+NO_GENERIC_LICENSE[Firmware-Lontium] = "LICENSES/LICENSE.Lontium"
-+NO_GENERIC_LICENSE[Firmware-mali_csffw] = "LICENSES/LICENCE.mali_csffw"
-+NO_GENERIC_LICENSE[Firmware-Marvell] = "LICENSES/LICENCE.Marvell"
-+NO_GENERIC_LICENSE[Firmware-mediatek] = "LICENSES/LICENCE.mediatek"
-+NO_GENERIC_LICENSE[Firmware-mellanox] = "LICENSES/LICENSE.mellanox"
-+NO_GENERIC_LICENSE[Firmware-mga] = "LICENSES/LICENSE.mga"
-+NO_GENERIC_LICENSE[Firmware-microchip] = "LICENSES/LICENCE.microchip"
-+NO_GENERIC_LICENSE[Firmware-montage] = "LICENSES/LICENSE.montage"
-+NO_GENERIC_LICENSE[Firmware-moxa] = "LICENSES/LICENCE.moxa"
-+NO_GENERIC_LICENSE[Firmware-myri10ge_firmware] = "LICENSES/LICENCE.myri10ge_firmware"
-+NO_GENERIC_LICENSE[Firmware-netronome] = "LICENSES/LICENCE.Netronome"
-+NO_GENERIC_LICENSE[Firmware-nvidia] = "LICENSES/LICENCE.nvidia"
-+NO_GENERIC_LICENSE[Firmware-nxp] = "LICENSES/LICENSE.nxp"
-+NO_GENERIC_LICENSE[Firmware-nxp_mc_firmware] = "LICENSES/LICENSE.nxp_mc_firmware"
-+NO_GENERIC_LICENSE[Firmware-OLPC] = "LICENSES/LICENCE.OLPC"
-+NO_GENERIC_LICENSE[Firmware-ath9k-htc] = "LICENSES/LICENCE.open-ath9k-htc-firmware"
-+NO_GENERIC_LICENSE[Firmware-phanfw] = "LICENSES/LICENCE.phanfw"
-+NO_GENERIC_LICENSE[Firmware-powervr] = "LICENSES/LICENSE.powervr"
-+NO_GENERIC_LICENSE[Firmware-qat] = "LICENSES/LICENCE.qat_firmware"
-+NO_GENERIC_LICENSE[Firmware-qcom] = "LICENSES/LICENSE.qcom"
-+NO_GENERIC_LICENSE[Firmware-qcom-2] = "LICENSES/LICENSE.qcom-2"
-+NO_GENERIC_LICENSE[Firmware-qcom-yamato] = "LICENSES/LICENSE.qcom_yamato"
-+NO_GENERIC_LICENSE[Firmware-qed] = "LICENSES/LICENSE.qed"
-+NO_GENERIC_LICENSE[Firmware-qla1280] = "LICENSES/LICENCE.qla1280"
-+NO_GENERIC_LICENSE[Firmware-qla2xxx] = "LICENSES/LICENCE.qla2xxx"
-+NO_GENERIC_LICENSE[Firmware-qualcommAthos_ar3k] = "LICENSES/LICENSE.QualcommAtheros_ar3k"
-+NO_GENERIC_LICENSE[Firmware-qualcommAthos_ath10k] = "LICENSES/LICENSE.QualcommAtheros_ath10k"
-+NO_GENERIC_LICENSE[Firmware-r8169] = "LICENSES/LICENSE.r8169"
-+NO_GENERIC_LICENSE[Firmware-r8a779x_usb3] = "LICENSES/LICENCE.r8a779x_usb3"
-+NO_GENERIC_LICENSE[Firmware-radeon] = "LICENSES/LICENSE.radeon"
-+NO_GENERIC_LICENSE[Firmware-ralink_a_mediatek_company_firmware] = "LICENSES/LICENCE.ralink_a_mediatek_company_firmware"
-+NO_GENERIC_LICENSE[Firmware-ralink-firmware] = "LICENSES/LICENCE.ralink-firmware.txt"
-+NO_GENERIC_LICENSE[Firmware-r8a779g_pcie_phy] = "LICENSES/LICENCE.r8a779g_pcie_phy"
-+NO_GENERIC_LICENSE[Firmware-rockchip] = "LICENSES/LICENCE.rockchip"
-+NO_GENERIC_LICENSE[Firmware-rp2] = "LICENSES/LICENSE.rp2"
-+NO_GENERIC_LICENSE[Firmware-rsi] = "LICENSES/LICENSE.rsi"
-+NO_GENERIC_LICENSE[Firmware-rt1320] = "LICENSES/LICENSE.rt1320"
-+NO_GENERIC_LICENSE[Firmware-rtlwifi_firmware] = "LICENSES/LICENCE.rtlwifi_firmware.txt"
-+NO_GENERIC_LICENSE[Firmware-s5p-mfc] = "LICENSES/LICENSE.s5p-mfc"
-+NO_GENERIC_LICENSE[Firmware-sensoray] = "LICENSES/LICENCE.sensoray"
-+NO_GENERIC_LICENSE[Firmware-siano] = "LICENSES/LICENCE.siano"
-+NO_GENERIC_LICENSE[Firmware-imx-sdma_firmware] = "LICENSES/LICENSE.sdma_firmware"
-+NO_GENERIC_LICENSE[Firmware-tehuti] = "LICENSES/LICENSE.tehuti"
-+NO_GENERIC_LICENSE[Firmware-ti-connectivity] = "LICENSES/LICENCE.ti-connectivity"
-+NO_GENERIC_LICENSE[Firmware-ti-keystone] = "LICENSES/LICENCE.ti-keystone"
-+NO_GENERIC_LICENSE[Firmware-ti-tspa] = "LICENSES/LICENCE.ti-tspa"
-+NO_GENERIC_LICENSE[Firmware-tigon] = "LICENSES/LICENCE.tigon"
-+NO_GENERIC_LICENSE[Firmware-tlg2300] = "LICENSES/LICENSE.tlg2300"
-+NO_GENERIC_LICENSE[Firmware-typhoon] = "LICENSES/LICENCE.typhoon"
-+NO_GENERIC_LICENSE[Firmware-ueagle-atm4-firmware] = "LICENSES/LICENCE.ueagle-atm4-firmware"
-+NO_GENERIC_LICENSE[Firmware-via_vt6656] = "LICENSES/LICENCE.via_vt6656"
-+NO_GENERIC_LICENSE[Firmware-vxge] = "LICENSES/LICENSE.vxge"
-+NO_GENERIC_LICENSE[Firmware-wfx] = "LICENSES/LICENCE.wf200"
-+NO_GENERIC_LICENSE[Firmware-wl1251] = "LICENSES/LICENCE.wl1251"
-+NO_GENERIC_LICENSE[Firmware-xc4000] = "LICENSES/LICENCE.xc4000"
-+NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENSES/LICENCE.xc5000"
-+NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENSES/LICENCE.xc5000c"
-+NO_GENERIC_LICENSE[Firmware-xe] = "LICENSES/LICENSE.xe"
- NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
- 
- PE = "1"
-@@ -452,7 +416,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "b14e7197a290a7e5569f5ef790cde289bddc47e32126f2eb262a8e677fc39727"
-+SRC_URI[sha256sum] = "2b9d8a358e76eb766588609135e53fa548b902c551daae33ee32f26f25e60dbb"
- 
- inherit allarch
- 
-@@ -494,8 +458,7 @@ do_install() {
-         if [ "${@bb.utils.contains('PACKAGECONFIG', 'deduplicate', '1', '0', d)}" = "1" ]; then
-                 oe_runmake 'DESTDIR=${D}' 'FIRMWAREDIR=${firmwaredir}' dedup
-         fi
--        cp LICEN[CS]E.* WHENCE ${D}${firmwaredir}/
--        cp wfx/LICEN[CS]E.* ${D}${firmwaredir}/wfx/
-+        cp LICENSES/LICEN[CS]E.* WHENCE ${D}${firmwaredir}/
- 
-         # Remove all unlicensed firmware
-         for file in ${REMOVE_UNLICENSED}; do
-@@ -564,11 +527,13 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-mwl8k ${PN}-mwlwifi\
-              ${PN}-ti-connectivity-license ${PN}-wl1251-license ${PN}-wlcommon ${PN}-wl1251 ${PN}-wl12xx ${PN}-wl18xx ${PN}-cc33xx \
-              ${PN}-ti-keystone-license ${PN}-ti-keystone \
--             ${PN}-ti-tspa-license ${PN}-ti-pcm6240 ${PN}-ti-tas2563 ${PN}-ti-tas2781 ${PN}-ti-tas2783 ${PN}-ti-vpe \
-+             ${PN}-ti-tspa-license ${PN}-ti-pcm6240 \
-+             ${PN}-ti-tas2563 ${PN}-ti-tas257x ${PN}-ti-tas2781 ${PN}-ti-tas2783 ${PN}-ti-vpe \
-              ${PN}-ti-usb-3410-5052 \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rs9113 ${PN}-rs9116 ${PN}-rsi-91x \
--             ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
-+             ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
-+             ${PN}-rtl8261c ${PN}-rtl8723 ${PN}-rtl8821 \
-              ${PN}-rtl8761 \
-              ${PN}-rtl8168 \
-              ${PN}-rtl8822 \
-@@ -704,6 +669,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-nxp9098-sdio \
-              ${PN}-nxpiw416-sdio \
-              ${PN}-nxpiw612-sdio \
-+             ${PN}-nxpiw61x-sdio \
-              ${PN}-nxp-sr1xx \
-              ${PN}-nxp-mc-license ${PN}-nxp-mc \
-              ${PN}-netronome-license ${PN}-netronome \
-@@ -750,7 +716,8 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute \
-              ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
-              ${PN}-qcom-sdx35-foxconn-firehose ${PN}-qcom-sdx61-foxconn-firehose \
--             ${PN}-qcom-shikra-compute ${PN}-qcom-shikra-qupv3fw \
-+             ${PN}-qcom-shikra-adreno ${PN}-qcom-shikra-compute ${PN}-qcom-shikra-audio \
-+             ${PN}-qcom-shikra-modem ${PN}-qcom-shikra-qupv3fw \
-              ${PN}-qcom-sm8150-adreno \
-              ${PN}-qcom-sm8250-adreno ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
-              ${PN}-qcom-sm8250-thundercomm-rb5-sensors \
-@@ -1022,6 +989,7 @@ FILES:${PN}-qca-qca2066 = " \
-   ${firmwaredir}/qca/hpnv21g.309* \
-   ${firmwaredir}/qca/hpnv21.30a* \
-   ${firmwaredir}/qca/hpnv21g.30a* \
-+  ${firmwaredir}/qca/hpnv21g.30c* \
-   ${firmwaredir}/qca/hpnv21.b8c* \
-   ${firmwaredir}/qca/hpnv21.b9f* \
-   ${firmwaredir}/qca/hpnv21.ba0* \
-@@ -1067,6 +1035,7 @@ FILES:${PN}-qca-qca6698 = " \
-   ${firmwaredir}/qca/QCA6698/hpnv21.bin* \
- "
- FILES:${PN}-qca-qcc2072 = " \
-+  ${firmwaredir}/qca/ornbcscal11.bin* \
-   ${firmwaredir}/qca/ornbtfw11.tlv* \
-   ${firmwaredir}/qca/ornnv11.bin* \
- "
-@@ -1541,6 +1510,7 @@ LICENSE:${PN}-nxp9098-pcie = "Firmware-nxp"
- LICENSE:${PN}-nxp9098-sdio = "Firmware-nxp"
- LICENSE:${PN}-nxpiw416-sdio = "Firmware-nxp"
- LICENSE:${PN}-nxpiw612-sdio = "Firmware-nxp"
-+LICENSE:${PN}-nxpiw61x-sdio = "Firmware-nxp"
- LICENSE:${PN}-nxp-sr1xx = "Firmware-nxp"
- LICENSE:${PN}-nxp-license = "Firmware-nxp"
- 
-@@ -1556,6 +1526,7 @@ ALLOW_EMPTY:${PN}-nxp9098-pcie = "1"
- ALLOW_EMPTY:${PN}-nxp9098-sdio = "1"
- FILES:${PN}-nxpiw416-sdio = "${firmwaredir}/nxp/*iw416*"
- FILES:${PN}-nxpiw612-sdio = "${firmwaredir}/nxp/uartspi_n61x_v1.bin.se*"
-+FILES:${PN}-nxpiw61x-sdio = "${firmwaredir}/nxp/sd_w61x_v1.bin.se*"
- FILES:${PN}-nxp-sr1xx = "${firmwaredir}/nxp/sr150_fw.bin*"
- FILES:${PN}-nxp-license = "${firmwaredir}/LICENSE.nxp"
- 
-@@ -1568,6 +1539,7 @@ RDEPENDS:${PN}-nxp9098-pcie += "${PN}-nxp9098-common"
- RDEPENDS:${PN}-nxp9098-sdio += "${PN}-nxp9098-common"
- RDEPENDS:${PN}-nxpiw416-sdio += "${PN}-nxp-license"
- RDEPENDS:${PN}-nxpiw612-sdio += "${PN}-nxp-license"
-+RDEPENDS:${PN}-nxpiw61x-sdio += "${PN}-nxp-license"
- RDEPENDS:${PN}-nxp-sr1xx += "${PN}-nxp-license"
- 
- # For nxp-mc
-@@ -1660,6 +1632,7 @@ LICENSE:${PN}-rtl8188 = "Firmware-rtlwifi_firmware"
- LICENSE:${PN}-rtl8192cu = "Firmware-rtlwifi_firmware"
- LICENSE:${PN}-rtl8192ce = "Firmware-rtlwifi_firmware"
- LICENSE:${PN}-rtl8192su = "Firmware-rtlwifi_firmware"
-+LICENSE:${PN}-rtl8261c = "Firmware-rtlwifi_firmware"
- LICENSE:${PN}-rtl8723 = "Firmware-rtlwifi_firmware"
- LICENSE:${PN}-rtl8761 = "Firmware-rtlwifi_firmware"
- LICENSE:${PN}-rtl8821 = "Firmware-rtlwifi_firmware"
-@@ -1691,6 +1664,9 @@ FILES:${PN}-rtl8192ce = " \
- FILES:${PN}-rtl8192su = " \
-   ${firmwaredir}/rtlwifi/rtl8712u.bin* \
- "
-+FILES:${PN}-rtl8261c = " \
-+  ${firmwaredir}/rtl_nic/rtl8261c.bin* \
-+"
- FILES:${PN}-rtl8723 = " \
-   ${firmwaredir}/rtlwifi/rtl8723*.bin* \
-   ${firmwaredir}/rtw88/rtw8723*.bin* \
-@@ -1745,6 +1721,7 @@ RDEPENDS:${PN}-rtl8188 += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8192ce += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8192cu += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8192su = "${PN}-rtl-license"
-+RDEPENDS:${PN}-rtl8261c = "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8723 += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8821 += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8761 += "${PN}-rtl-license"
-@@ -1768,7 +1745,7 @@ FILES:${PN}-wfx = " \
-   ${firmwaredir}/wfx/*.pds*        \
-   ${firmwaredir}/wfx/*.sec*        \
- "
--FILES:${PN}-wfx-license = "${firmwaredir}/wfx/LICENCE.wf200"
-+FILES:${PN}-wfx-license = "${firmwaredir}/LICENCE.wf200"
- 
- RDEPENDS:${PN}-wfx += "${PN}-wfx-license"
- 
-@@ -1842,6 +1819,18 @@ FILES:${PN}-ti-tas2563 = "\
- "
- RDEPENDS:${PN}-ti-tas2563 = "${PN}-ti-tspa-license"
- 
-+# For ti-tas257x - tas257x firmware
-+LICENSE:${PN}-ti-tas257x = "Firmware-ti-tspa"
-+FILES:${PN}-ti-tas257x = "\
-+    ${firmwaredir}/tas257x-1amp-reg.bin*\
-+    ${firmwaredir}/tas2572-1-1amp-reg.bin* \
-+    ${firmwaredir}/tas2572-2-1amp-reg.bin* \
-+    ${firmwaredir}/tas2572-3amp-reg.bin* \
-+    ${firmwaredir}/tas2572-3-1amp-reg.bin* \
-+    ${firmwaredir}/ti/audio/tas257x/* \
-+"
-+RDEPENDS:${PN}-ti-tas257x = "${PN}-ti-tspa-license"
+diff --git a/meta/recipes-devtools/python/python3-cython/0001-3.2.x-Shared-module-Use-SharedUtilitySourceDescripto.patch b/meta/recipes-devtools/python/python3-cython/0001-3.2.x-Shared-module-Use-SharedUtilitySourceDescripto.patch
+new file mode 100644
+index 0000000000..b57acb6969
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cython/0001-3.2.x-Shared-module-Use-SharedUtilitySourceDescripto.patch
+@@ -0,0 +1,94 @@
++From f3cfdebd75374a29a930687c1f126282c51b7a92 Mon Sep 17 00:00:00 2001
++From: mv-python <matusvalo@users.noreply.github.com>
++Date: Fri, 12 Jun 2026 10:32:42 +0200
++Subject: [PATCH] [3.2.x] Shared module: Use `SharedUtilitySourceDescriptor`
++ instead of temporary directory (#7723) (GH-7739)
 +
- # For ti-pcm6240 - pcm6240 firmware
- LICENSE:${PN}-ti-pcm6240 = "Firmware-ti-tspa"
- FILES:${PN}-ti-pcm6240 = "\
-@@ -2430,7 +2419,10 @@ LICENSE:${PN}-qcom-sdm845-modem = "Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "Firmware-qcom"
- LICENSE:${PN}-qcom-sdx35-foxconn-firehose = "Firmware-qcom"
- LICENSE:${PN}-qcom-sdx61-foxconn-firehose = "Firmware-qcom"
-+LICENSE:${PN}-qcom-shikra-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-shikra-compute = "Firmware-qcom-2"
-+LICENSE:${PN}-qcom-shikra-audio = "Firmware-qcom-2"
-+LICENSE:${PN}-qcom-shikra-modem = "Firmware-qcom-2"
- LICENSE:${PN}-qcom-shikra-qupv3fw = "Firmware-qcom"
- LICENSE:${PN}-qcom-sm8150-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-sm8250-adreno = "Firmware-qcom"
-@@ -2594,7 +2586,10 @@ FILES:${PN}-qcom-sdm845-modem = "${firmwaredir}/qcom/sdm845/mba.mbn* ${firmwared
- FILES:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${firmwaredir}/qcom/sdm845/Thundercomm/db845c/slpi*.*"
- FILES:${PN}-qcom-sdx35-foxconn-firehose = "${firmwaredir}/qcom/sdx35/foxconn/xbl_s_devprg_ns.melf*"
- FILES:${PN}-qcom-sdx61-foxconn-firehose = "${firmwaredir}/qcom/sdx61/foxconn/prog_firehose_lite.elf*"
-+FILES:${PN}-qcom-shikra-adreno = "${nonarch_base_libdir}/firmware/qcom/shikra/a704_zap.mbn*"
- FILES:${PN}-qcom-shikra-compute = "${firmwaredir}/qcom/shikra/cdsp*.*"
-+FILES:${PN}-qcom-shikra-audio = "${nonarch_base_libdir}/firmware/qcom/shikra/lpaicp*.*"
-+FILES:${PN}-qcom-shikra-modem = "${nonarch_base_libdir}/firmware/qcom/shikra/cqs/qdsp6sw.mbn*"
- FILES:${PN}-qcom-shikra-qupv3fw = "${firmwaredir}/qcom/shikra/qupv3fw.elf*"
- FILES:${PN}-qcom-sm8150-adreno = "${firmwaredir}/qcom/sm8150/a640*.*"
- FILES:${PN}-qcom-sm8250-adreno = "${firmwaredir}/qcom/sm8250/a650*.*"
-@@ -2756,7 +2751,10 @@ RDEPENDS:${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdx35-foxconn-firehose = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdx61-foxconn-firehose = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-shikra-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-shikra-compute = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-shikra-audio = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-shikra-modem = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-shikra-qupv3fw = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sm8150-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sm8250-adreno = "${PN}-qcom-license"
++This PR uses `SharedUtilitySourceDescriptor` instead of an empty pyx
++file in the temp dir. This simplifies the logic and also assures that
++`__pyx_f` is unchanged across builds.
++
++Backport of https://github.com/cython/cython/pull/7723
++Alternative to https://github.com/cython/cython/pull/7634
++
++Upstream-Status: Backport [https://github.com/cython/cython/commit/f3cfdebd75374a29a930687c1f126282c51b7a92]
++
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++---
++ Cython/Build/SharedModule.py | 25 ++++++++-----------------
++ Cython/Compiler/Scanning.py  |  9 +++++++++
++ 2 files changed, 17 insertions(+), 17 deletions(-)
++
++diff --git a/Cython/Build/SharedModule.py b/Cython/Build/SharedModule.py
++index fed6263cd..45da4b462 100644
++--- a/Cython/Build/SharedModule.py
+++++ b/Cython/Build/SharedModule.py
++@@ -1,13 +1,10 @@
++ import os
++-import re
++-import shutil
++-import tempfile
++ 
++ from Cython.Compiler import (
++     MemoryView, Code, Options, Pipeline, Errors, Main, Symtab
++ )
++ from Cython.Compiler.StringEncoding import EncodedString
++-from Cython.Compiler.Scanning import FileSourceDescriptor
+++from Cython.Compiler.Scanning import SharedUtilitySourceDescriptor
++ 
++ 
++ def create_shared_library_pipeline(context, scope, options, result):
++@@ -72,23 +69,17 @@ def generate_shared_module(options):
++     Errors.open_listing_file(None)
++ 
++     dest_c_file = options.shared_c_file_path
+++    pyx_file = os.path.splitext(dest_c_file)[0] + '.pyx'
++     module_name = os.path.splitext(os.path.basename(dest_c_file))[0]
++ 
++     context = Main.Context.from_options(options)
++     scope = Symtab.ModuleScope('MemoryView', parent_module = None, context = context, is_package=False)
++ 
++-    with tempfile.TemporaryDirectory() as tmpdirname:
++-        pyx_file = os.path.join(tmpdirname, f'{module_name}.pyx')
++-        c_file = os.path.join(tmpdirname, f'{module_name}.c')
++-        with open(pyx_file, 'w'):
++-            pass
++-        source_desc = FileSourceDescriptor(pyx_file)
++-        comp_src = Main.CompilationSource(source_desc, EncodedString(module_name), os.getcwd())
++-        result = Main.create_default_resultobj(comp_src, options)
++-
++-        pipeline = create_shared_library_pipeline(context, scope, options, result)
++-        err, enddata = Pipeline.run_pipeline(pipeline, comp_src)
++-        if err is None:
++-            shutil.copy(c_file, dest_c_file)
+++    source_desc = SharedUtilitySourceDescriptor(pyx_file)
+++    comp_src = Main.CompilationSource(source_desc, EncodedString(module_name), os.getcwd())
+++    result = Main.create_default_resultobj(comp_src, options)
+++
+++    pipeline = create_shared_library_pipeline(context, scope, options, result)
+++    err, enddata = Pipeline.run_pipeline(pipeline, comp_src)
++ 
++     return err, enddata
++diff --git a/Cython/Compiler/Scanning.py b/Cython/Compiler/Scanning.py
++index 2a8cb5a93..4cec7d1ed 100644
++--- a/Cython/Compiler/Scanning.py
+++++ b/Cython/Compiler/Scanning.py
++@@ -281,6 +281,15 @@ class StringSourceDescriptor(SourceDescriptor):
++         return "<StringSourceDescriptor:%s>" % self.name
++ 
++ 
+++class SharedUtilitySourceDescriptor(FileSourceDescriptor):
+++    """
+++    A specialized source descriptor for shared utility code only. Not part of public API.
+++    """
+++
+++    def get_file_object(self, encoding=None, error_handling=None):
+++        from io import StringIO
+++        return StringIO('')
+++
++ #------------------------------------------------------------------
++ 
++ class PyrexScanner(Scanner):
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/python/python3-cython_3.2.5.bb b/meta/recipes-devtools/python/python3-cython_3.2.5.bb
+index 373387576a..8bd68bd4df 100644
+--- a/meta/recipes-devtools/python/python3-cython_3.2.5.bb
++++ b/meta/recipes-devtools/python/python3-cython_3.2.5.bb
+@@ -13,6 +13,7 @@ inherit pypi setuptools3 cython
+ 
+ SRC_URI += " \
+     file://0001-Replace-not-predictable-build-path-prefix-with-hardc.patch \
++    file://0001-3.2.x-Shared-module-Use-SharedUtilitySourceDescripto.patch \
+ "
+ 
+ # No need to depend on self
 -- 
-2.34.1
+2.43.0
 
 
