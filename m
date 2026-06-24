@@ -1,201 +1,172 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <anders.heimer@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02BCECDB471
-	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 12:28:06 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5780.1782304076010881776
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22D54CDB471
+	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 12:44:26 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.13])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6140.1782305058372622363
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2026 05:27:56 -0700
+ Wed, 24 Jun 2026 05:44:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=Tdl64rMe;
- spf=pass (domain: cherry.de, ip: 40.107.162.53, mailfrom: quentin.schulz@cherry.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=g4k5+PT0;
+ spf=pass (domain: est.tech, ip: 40.107.159.13, mailfrom: anders.heimer@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EmujMF2Wrqc6QFG/uB54m0q0BTGJogdPfPERhQGVZ2+PMJTKf+vakXYA4krVliw943yRVYZxva9H+zAfy/vi5CC1YdFaCinUCi1iFsoc70aG2PMdp+Y77yy4OgRAfQZI2H7TsEM6yko5/uoDCD4PVz5SuDba7ejhOZQF9h5XivMoQgfOZW9eJ1aQeWD4rst79tBCGxEndW/qGcyvXb8OUWQLCIaCIekSJKzenK19qs+EDmhCD2Mz5v3pfIfauCePST+s+kLFuTzSUDxeq+a6mI2CwzPqN8WmAGQmJE/bf7ygCbzkJNWgxxAKNjQm+4GbJ7ehZ7M463MLENgV/O4gPQ==
+ b=LtvTor6GK5G4mZEsjcO4nHGYLdiFtX0L4cpu3aZHnQk5VNx6uQWvQQ35KnxPZbwFa2I6Jj9E+OKyhHea5R9e3hID9N0AgfKmSfht2w0ZXI2bHC9oHFtecZ5ywGmSm5VYEIJvdDgIMsWOqS9YGy6NU3EGXGakLOtc39bfIyondzonXVOxSeVylhhPa9IuX/P8Fg5Ow8FpEmr17OmOwsdgCtlQkSi5vfmiYPTs9WV5t0yzQOivygHQp5L0VHU8rviN5fqYgDPqgKFuMdiKCNRUVMn+C2D7F2iuuZ+eVY7gsxM3b/KxyAXXNHrN2v8FrNDpVjCWkGOA4tdxiHVSDRTfMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G19NHE2AsHEyGySQm8EplEtMiq7hhxDAuSNcoXr4vCw=;
- b=VH2SMpxLG84pWeW4nF5d+4cEbvuNMiD8cocEyuC08qXA75QC9neEoA4ekiRNGyVU7TNywnI6kdtKh8C2pX0INScWyS4bN9+fQLyrlN65dvRiM6DHcNlbC59nqet9DgeKlIpHkFwSSJvLy1P8rVhouG6XSQFEOx0ZlKDIL/jr0iz80nQ2XtROFjs8CBuUJNxRNdbILxWCMazHjoLbGDuDd5FsxuEkVdEqywZDMR0hG64zLfrCIOiXf1EQviCNR3kIRr9Ns39qTae3JQ6uMd84Eth3diT9UeVs9k5e9ocSFJG78UDGpDdECYDb4X6vrddtKGcRi+4Ag5Vo66T5NbtAyg==
+ bh=tr5xyvAjHrAr/JGTcwEbwEhjXHO4WKUV0tHv08/tb1Q=;
+ b=BqiLR0yWW4zY/c3LEnOlze+hx0FCisrR7TNwKdEJKTV9zD8kW9rCOuCwUvEsnHNsFa9vWKhSLCy4y5LpqwkbOth7SjP+1rZlsTacNsXD5jwZazK1zmtqtbxI5U8KYJGDObRdcH+47zJbdIe85eNeidzaRX7iuyRzIlQyAhNLK4dD8AyFJ8cms9aR5ByOEB+3GEK/PrxHjai8M92amCrsLvlh/Cj5nvGqjFNUcUkD8CmIDOFwuecgD2jR7xAqZ+Xg0WFk86Oe8VPOT6jN7jVuBHA/+c5F6tGi0rCXmowqsiwf7S1q+fC6DGpjiHIJbAQqO0Kgzprie9fzri0TKxEIRg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G19NHE2AsHEyGySQm8EplEtMiq7hhxDAuSNcoXr4vCw=;
- b=Tdl64rMeExFGwiSJqy4tZwxOqhUlq+1U/UsDVXskwSazPlBMuUPWBE2kt6ATMWd70eD/PKJCw38/MJLNj2zx2p539FVEyA3FTVFrh2pwZHpEjc2LyhtRjagJqQ3w0UobHPBwRB2fYucKmolAyXlFfW/4QhJLVE8uKIKrrLIyCo8=
+ bh=tr5xyvAjHrAr/JGTcwEbwEhjXHO4WKUV0tHv08/tb1Q=;
+ b=g4k5+PT02mBhvJw93tsVfrEdWdk9YZ4HVlSbV/NyoDMSqRHOYmGEU3CmRHJ0BuNG+NPQwwbw7DNeL74J/IUIfjcheSsv+leXOxVhjWpk+SVU2hhWxwJSSRhesbPqXBlRpn3ULGShDK5birSt9sql8EdLkIqIvATlNWPJNzaoc/Nz+mGjnFQPaP+JMGmYIZFXPvr4CvXX/IQDphjAnnY0smJ8qUf7DjSGigmPJ3uBreDCOOAYl1tsFlaOeV1hmgxjP6L6zDs6d5Mog35nbLLKAAN0X5C7bBFIq/LrFdE70AvFacKtvsI4rJ+Tt3PemQM9ZxPwkFxK5lkE/x3M8WvKaw==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
- by AM9PR04MB8305.eurprd04.prod.outlook.com (2603:10a6:20b:3ee::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.12; Wed, 24 Jun
- 2026 12:27:51 +0000
-Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
- ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
- ([fe80::5960:fb4b:9313:2b00%5]) with mapi id 15.21.0139.018; Wed, 24 Jun 2026
- 12:27:51 +0000
-Message-ID: <678f6221-8a20-4899-af67-aaeedc47dcbb@cherry.de>
-Date: Wed, 24 Jun 2026 14:27:49 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] uki.bbclass: add merge logic in dtb section
-To: shoudil@qti.qualcomm.com, openembedded-core@lists.openembedded.org
-References: <20260624023506.1474514-1-shoudil@qti.qualcomm.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20260624023506.1474514-1-shoudil@qti.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:2ac::9) by
+ GV1P189MB2739.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:1c9::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.139.20; Wed, 24 Jun 2026 12:44:12 +0000
+Received: from DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+ ([fe80::90da:b700:f102:5c82]) by DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+ ([fe80::90da:b700:f102:5c82%6]) with mapi id 15.21.0159.013; Wed, 24 Jun 2026
+ 12:44:12 +0000
+From: Anders Heimer <anders.heimer@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: Anders Heimer <anders.heimer@est.tech>,
+	Daniel Turull <daniel.turull@ericsson.com>
+Subject: [PATCH v2 1/9] oe/patch: drop shell=True from runcmd
+Date: Wed, 24 Jun 2026 14:43:59 +0200
+Message-ID: <9dc1edaa428d6a93b72170e9ed47377460c0d506.1782304923.git.anders.heimer@est.tech>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <cover.1782304923.git.anders.heimer@est.tech>
+References: <cover.1782304923.git.anders.heimer@est.tech>
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: VI1PR07CA0285.eurprd07.prod.outlook.com
- (2603:10a6:800:130::13) To DBBPR04MB7737.eurprd04.prod.outlook.com
- (2603:10a6:10:1e5::22)
+Content-Type: text/plain
+X-ClientProxiedBy: DU2PR04CA0175.eurprd04.prod.outlook.com
+ (2603:10a6:10:2b0::30) To DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:10:2ac::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|AM9PR04MB8305:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97f61bd3-8445-4d59-c243-08ded1ec0216
+X-MS-TrafficTypeDiagnostic: DB9P189MB1641:EE_|GV1P189MB2739:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4edfbaa1-0ea9-4379-341c-08ded1ee4b11
+X-LD-Processed: d2585e63-66b9-44b6-a76e-4f4b217d97fd,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|18002099003|22082099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	59N3ktxp4AZu6NWiv4HYvcX+KcmKM6w9eA+tPn08+rSdnyPCQQ4XZHnqjsNaQke6r4HX9zDtGG1LugyBEbqYQu3A1bz5BaYlbE0+gyhiZJRRsjOczdjrjElFVQbmLfdNqGdMVHMRe/qWe6Pa+qe9wIjaxEAHxn++QljMw3q+nfSIRcfOy0xYfismIW2sT4MbkNRXdPVi5NqxRYE2LEO7ic9XB3lvewL0TpSqRKJC6lmOdFBPooXj7/v4JkL+C7ZZfomAYubJszIzGe2WnUHB4TG23mfd35ce3b1yS+J1vQOrBTXw8PZE5JoxFV52oKqo0tDvlMxkLtx5yByY3eVImtolMnrIQcbjCnXeGitz03ey06/4Bj7muiJtvjgjEJmEiU98L4yocy2O778/melQWcYzt2eplNOjPW1t2TOgxKdQ1XNCaAtpFgKrp+RpDPDV05i9fGLh4nMIPacE1+YU03cL6xtyrFo4dhlqYn68O3jyv74gQEVI/FvA3dEyWY9hcXbQvhpd/ZsRqhbOET1Z937lWMUhTF4hYtL5fZpHSarnu4sJuZRVFIiWT2eEcu28BWVUYLaylD2s8k5ZJ2FDol37x/Txf4AQGI81PwqiKvkpHj1sLOCzMaKxmpOY96VS24X8S7JRfUTpnPzl+Z2qlVhWh6HRnEMvW54hQ1FLqNw=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(18002099003)(22082099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|22082099003|18002099003|56012099006|6133799003|5023799004|11063799006;
+X-Microsoft-Antispam-Message-Info: FpVMcvn+e8VoaaQJ9HjPhxkAIECwtqF+SSU/VISBdMuLErRHHK3JTA3q8NAXRIDlvzVcYd/AFeT46pkwykI9PYp+wUb/YgSAjS4WOeHmWYOJ/CC0xotOr1oJFB32ATr13r1G3aHur2xEAf0BsanI4sblJtMsdjDA7bhF0kvxG48Hxfj9J9+zJMsSlzeId6OzLG1WVrdTljNsDoE6moUXOx/ODva9YYl7Fhl27j1ZYXlJEwqQtWb+HCDggZIIjjKnmRFNgDahu3Gi2ipZ3iNW8j/ZWjTt2sLrwHg4EfwqunlOnpM/nxzdUwYMNbO8ukNUbha8sEXEbOqdP7Ifd0qwxZDjomQQ8F/BSQGUsOqv7vRlZFITKvU1WS2hoP3DgdA1lRhtFmo0RZbsSHXg288xs5EvQCbmJXJFfoGR69bF5KmS3xY/GD8XBXt2TURJygRHx9R7k1zP9RwWi4t4LDzUTrajzrjnWguq2kWLmnHPU1QgmzMFG2rYtqGmK219C384zwBY1AZYyarwr4xYd9HnTcG/nLsAwBhyxvIfO7bAeUvcZPopl4W58QeDaPphmA9wKmKXb/w1loY7z40VqpFPbPBD7tbv13hGfocvND3LTuNGH2scfL5sbl85DCXgowsRleKbXgRUdM/pDh4Pl5hKiNTjxoT+zD9fO6J3kVLipTM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9P189MB1641.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(22082099003)(18002099003)(56012099006)(6133799003)(5023799004)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?uQEsnxnIv4VrLmfyPPOpuwk+93Bm8Bb3mmLoLESq/HdTh3NLZpvESBr5/teA?=
- =?us-ascii?Q?ljYZyHkcAui1FnPM79N8Cr5AcuC97boKPakz4omF28QQ77CiWe8soXG9xmdI?=
- =?us-ascii?Q?9yTggqmOurPhk49YzIcwiX4C3Uqto3OHo3pdj+mpfyvcqw09TWCyJfAlxRIW?=
- =?us-ascii?Q?EHwETyrHKvm5Rpeull2WXAaWskJLCUJcGQIXYdMnKUf/3u5I9ZptCkYQcMK3?=
- =?us-ascii?Q?ClB3h9LCkh50+k+1ibZoDG87+f+EX1qOo4bUFQHAZm4IfWN02RH3VsNwW7IZ?=
- =?us-ascii?Q?jUs+vvREt3eYFJYOxZ4sEXGBMYgLrumoGIby5ZMBJHajiH+RuWngqo2E8TTj?=
- =?us-ascii?Q?o2+lGiukLD1iZJA6TiOeCX0hrg7A8phZU82K/oJLIvXIab0WSVFEoqIJb10b?=
- =?us-ascii?Q?jI4UTFeoH3ytuYksL3PQuGgvwxJXics4axP2jWA0SmFeKEXjnHF3WrBq3p6p?=
- =?us-ascii?Q?84d45wVqp9Cf6D+Ibeqxn6iHCYwQFbA8efQffaXae5kWILiKv9fyOKJxnncR?=
- =?us-ascii?Q?n44u8KRx2hPtdrE45Qp3Jkv71GK3iWr3PKcOIG2HKkvNIe1UInlaAoItCUU6?=
- =?us-ascii?Q?X9Mnp83Ib/Uu0qWbjH+XLJ+NDSOVd5H4UBFbFLMkFnq7yw4vaHWuYXIujT9U?=
- =?us-ascii?Q?Hwnx7upCN66ddsnUze9t5ywTlohr2xdUUG/0TcdjvYYA7AfCASAGz4E1o/NK?=
- =?us-ascii?Q?/RjGjaJaaOyZGmeLt7Pvll0HPugfSNmn5QJN06B8gUZ14777fAjiFXg6hEaO?=
- =?us-ascii?Q?ku5NvwJBolfemoyaZCImcB+/EUJvjodgHokuCFHdu1EHwxnkNg7CXDttZNIy?=
- =?us-ascii?Q?sgi+u6QMEOwcsFkTSR8UfzZWjIZsNZz+O+hA9URcqRaWCMEl1R1SiyRirtYW?=
- =?us-ascii?Q?7QeUObwSto38ba/YNQYCihPzBNxyxYlW/1Dz90XTeTQmD1hmgHssFK2zgdeG?=
- =?us-ascii?Q?LODVw/pCvk3LeFAkK2uMJ6e3S9LBTIvTJFNduloCSg6neK4HVfK1KcAGoRa3?=
- =?us-ascii?Q?jjC/6eCnZXOIxCItGgqc3+rCl8OAHU5xSR2Uu7JnLyofVFB+aEX/G1tgx2Q6?=
- =?us-ascii?Q?QQrWuqQqItrw1ljzSuopdhU5oj3hbd2Vlbu9I3e9axVoVj/U1Vmg0CDRjafA?=
- =?us-ascii?Q?GO6SNUp7kgmv5gRTRBxlrvSQlFnpImQLYcmVm6wC0l02CwJyK4MsE8eCjwgO?=
- =?us-ascii?Q?Oq9RPErHWD2Cz3vtP6dLD+tm/MAC4vLLMGIwXQgiSUBvqlGzKpE7mh4OAJzV?=
- =?us-ascii?Q?SKaxX3lTmvMYBLW53a/wNlM0iX+AXLfaC0HnTdmWs/que3xfs5YfUcDrfgmU?=
- =?us-ascii?Q?DTPDAWnCyT41or6AOgaxVBWKdYqG0ZojzrvlPrBrW2uCMR7m4+rkN+Cwobu6?=
- =?us-ascii?Q?/ztIIuxsZzn4xcpuaAVwBAmUe95EXrYPCjHFYX4WYdwFn/PedBhYmFBi2hX0?=
- =?us-ascii?Q?aWuW8zIUA41DTeKy9EF1QXmfMg9vRx5C7ji8jvR+ey9tLr8x1g9LXltvGVse?=
- =?us-ascii?Q?x7oPTHFzZPUTtip2NVAVOFLUuk64LfAfbGq+hNzU6lVdiv9W6CeTRoZNunYH?=
- =?us-ascii?Q?gJLoqY90PrS4z1zy53/nBvuhGQOa5VDDsmW3oDIK2i23dMpT2/cqvt5msdmv?=
- =?us-ascii?Q?hZby9F+5OyzvifMHXnqpXi5aIIGVGzFb1bVHn83kr+scmnd8ii+dx+4wSumd?=
- =?us-ascii?Q?a9f+oW44XYy6qLjgC0499sd8z83V4pnFmTWxhkkcObYCqh2Ixw7sZuD5zgaN?=
- =?us-ascii?Q?if2PWhSdYw=3D=3D?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97f61bd3-8445-4d59-c243-08ded1ec0216
-X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RpxgvXKsyHuFzEEaMxc311EGo2lIloYDZgpQIzMiV4XWMy31eck+GcfLxu1A?=
+ =?us-ascii?Q?KYD+LArVGHD++P+QVLPOJ9ab7KPdBar88rRMDhJJf0sI1tAx2rLrWvatY+NW?=
+ =?us-ascii?Q?GrdtZmOlHMPn7bP00coRo7ccL19aQXfWBwZIa+cp7FniUEkSlLSVOg/do6gH?=
+ =?us-ascii?Q?6tHhxQHdLIuDAUeVKfRedMo+xnHV5MdD4uYztsR421sWMLvkPz6SfFHOdSu/?=
+ =?us-ascii?Q?qn/9I2zr0JhutK2WVtUl7yXcdIKkXmsHpnzuFH2/Fs0Dx/mL08qlqmJZ8URd?=
+ =?us-ascii?Q?5HiMopF+ThB7eLz2BmaFBZcbuIC0F4rjp/isuB+GTsT8ELRl0gpZ09B8501M?=
+ =?us-ascii?Q?xYo7V9bKzaLqqiPHS1wnAobg2JMIza9a0IaEldJ7QKBso0D5p31jart7vXrT?=
+ =?us-ascii?Q?l/PJQgtAH4LtSBy74nuZ9xFd6Nhd4wj5TVibGbxzQMccd014VUZt7ZXjX3Wq?=
+ =?us-ascii?Q?vPmU0qu+h7BjmErHO5mM0CCjve6DY1Sd57Vsoy3ZSDNG89Om6Rpbd2Wq6OLj?=
+ =?us-ascii?Q?fQD+PJ1qHp3VmOwyyYHorycObh+l3UKXXer5sPjgRQhLNaPaEsbg0htXK8FV?=
+ =?us-ascii?Q?vhZgbUQLCms7Ze2M4nLxBqX3v/Uw/2Cz+j09HVxx4osaMysJhrDObg9H+6S/?=
+ =?us-ascii?Q?Ifa3cIIXZATR7iAR5/nBYPCdypcC2N/K0ZQDFO0dyVHFzcCwsT5SsuVpht8Y?=
+ =?us-ascii?Q?wHpfqgwNxdcmPMiaxkt+dLjOc32F4EZjKDf41FAcWSJNcBHPxijp+6WllbTb?=
+ =?us-ascii?Q?BCx7Sm+0zjqsYMF2T7mTDVCc+Jn2AdpZZgtVyCa1sepHJWE5OfNqXPMmO3bd?=
+ =?us-ascii?Q?kGFWEk6lgTF6GLK5Gpy9DNLW3N9mBT+9jEw4QUIZndYe/M29k5KN/F2Au5V0?=
+ =?us-ascii?Q?DD2N9+fu1ane0TPWhbGTw21LSOe9ERHvrXESnE6uNQwqLmQO+xRv1w9TdzKD?=
+ =?us-ascii?Q?H6VpLHygK3tfqZPX9zo8eiYm74p9mB8DtaKYK5opLfipueR889P1BwbYLAUc?=
+ =?us-ascii?Q?Fg+3zoAQQzH1GYSbH/Wp4M9opiO255ugk6+SQn2J6Njef39p5rOoAqxLghi3?=
+ =?us-ascii?Q?adgvJ0UFmexAc1RoypfJ1PZvLu8tBj0k62NY5sUyKaUdgaVw/SoE394capop?=
+ =?us-ascii?Q?yaOoBuiCCIcpqh+rL2qfcYmttbfgo24KF5TU8yhIk3ae0Y1YAPiYCjGYhiuP?=
+ =?us-ascii?Q?OedsqfCAHpyXjnmliVKzzCfSZXzqhbgLblabgPd+HOEv9DzC2krIaYXB+w6F?=
+ =?us-ascii?Q?Y2YkKWP5kLrNsbnC8XLNXv/GCKtQt4YuiuMZ9OTRjvrTO0hfj2JT3s0ny1MI?=
+ =?us-ascii?Q?0fZAm6bYYpCJzRWPruiV60rGfdxRvdku9/FeIE1LAdKn8NFYJRndUMi9lHod?=
+ =?us-ascii?Q?zpbz5Dho44ac3r7DtJMe5JJk0vPAACL/rd/UOiKp8yHMBCDOt/R7MBcrUumI?=
+ =?us-ascii?Q?mnWwSIsqDLIdORAsEN0HD1UKI7cqFUsNZoBjJK8K0YywW7/84oViD41bwE5A?=
+ =?us-ascii?Q?RCLVGOpSoESWRqBPjtWRhT89l/Fi19OVCaqmVO8zTgZoe2lQKpDHKqHPKKqf?=
+ =?us-ascii?Q?rWWM46GTATCBNJR2CFNJLTTfOSB3DPUltlY2/hKAaFrQ9g489psQUVUnC/rY?=
+ =?us-ascii?Q?qjGerK7N5TvgAUI2cTLpoQ3HSYmzHOiVD0n8tNfsKjDU34P0RGw/R6xXDOOm?=
+ =?us-ascii?Q?nZHGkKEBDlcD5VLCJqtHYg6XD5knu0mL5g4l0jdD4XJvNFOglAt5FdDjj9sB?=
+ =?us-ascii?Q?MGSpDXpgvQ=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4edfbaa1-0ea9-4379-341c-08ded1ee4b11
+X-MS-Exchange-CrossTenant-AuthSource: DB9P189MB1641.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 12:27:51.3142
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 12:44:12.6105
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w7mxvMedwrejLPE42sbOC23PTWzD/jmUub/x+u5Cd0iJkpeTsR9XxoSdUKRRxo3om6vR4c71ncg1rGHemyhkXtc1+862cEYLt8pqpXeN7FY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8305
+X-MS-Exchange-CrossTenant-UserPrincipalName: TwIRQ/5GjR5KZ83L/zKBS6TBpRN+iu4J0HRYvs1MpIxBEwBbgDde7iTNuyBG7EyEQ19/GOJgopJpf0tGitn+Qw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB2739
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 12:28:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239493
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 12:44:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239495
 
-Hi Shoudi Li,
+Run runcmd() argument lists directly instead of joining them into a
+shell command string.
 
-On 6/24/26 4:35 AM, Shoudi Li via lists.openembedded.org wrote:
-> [You don't often get email from shoudil=3Dqti.qualcomm.com@lists.openembe=
-dded.org. Learn why this is important at https://aka.ms/LearnAboutSenderIde=
-ntification ]
->=20
-> For machine with multiple dtbs specified, we need to merge dtb overlays
-> to base and pass the merged dtb to ukify to create UKI.
-> Walks UKI_DEVICETREE, splits entries into base_dtbs (.dtb) and overlays,
-> and validates all paths exist. For each base DTB, finds matching overlays
-> by checking whether the overlay filename starts with the base DTB name.
->=20
-> If matches exist, runs fdtoverlay -i <base> <overlays=E2=80=A6> -o <B>/<b=
-ase>-merged.dtb
-> and passes the merged file to ukify.
-> If no overlays match, passes the base DTB directly =E2=80=94 no change in=
- behaviour for
-> DTB-only boards.
->=20
-> Signed-off-by: Shoudi Li <shoudil@qti.qualcomm.com>
-> ---
->   meta/classes-recipe/uki.bbclass | 28 ++++++++++++++++++++++++++--
->   1 file changed, 26 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bb=
-class
-> index fa1c95603b..03eb9eafbd 100644
-> --- a/meta/classes-recipe/uki.bbclass
-> +++ b/meta/classes-recipe/uki.bbclass
-> @@ -61,6 +61,7 @@
->   #
->=20
->   DEPENDS +=3D "\
-> +    dtc-native \
->       os-release \
->       systemd-boot \
->       systemd-boot-native \
-> @@ -150,16 +151,39 @@ python do_uki() {
->       if cmdline:
->           ukify_cmd +=3D " --cmdline=3D'%s'" % (cmdline)
->=20
-> -    # dtb
-> +    # dtb: separate base DTBs from overlays, merge each base with its ma=
-tching overlays
->       uki_devicetree =3D d.getVar('UKI_DEVICETREE')
->       if uki_devicetree:
-> +        base_dtbs =3D []
-> +        overlays =3D []
->           for dtb in uki_devicetree.split():
->               # DTBs are without sub-directories in deploy_dir
->               dtb_name =3D os.path.basename(dtb)
->               dtb_path =3D "%s/%s" % (deploy_dir_image, dtb_name)
->               if not os.path.exists(dtb_path):
->                   bb.fatal(f"ERROR: cannot find {dtb_path}.")
-> -            ukify_cmd +=3D " --devicetree %s" % (dtb_path)
-> +            if dtb_name.endswith('.dtbo'):
-> +                overlays.append(dtb_path)
-> +            else:
-> +                base_dtbs.append(dtb_path)
-> +
-> +        fdtoverlay_bin =3D os.path.join(d.getVar('STAGING_BINDIR_NATIVE'=
-), 'fdtoverlay')
-> +        build_dir =3D d.getVar('B')
-> +        for base_dtb in base_dtbs:
-> +            base_name =3D os.path.splitext(os.path.basename(base_dtb))[0=
-]
-> +            # Overlays whose filename starts with the base DTB name
-> +            matching_overlays =3D [o for o in overlays
-> +                                  if os.path.basename(o).startswith(base=
-_name)]> +            if matching_overlays:
-> +                merged_dtb =3D os.path.join(build_dir, "%s-merged.dtb" %=
- base_name)
-> +                fdtoverlay_cmd =3D "%s -i %s %s -o %s" % (
-> +                    fdtoverlay_bin, base_dtb, " ".join(matching_overlays=
-), merged_dtb)
-> +                bb.debug(2, "uki: merging DTBs: %s" % fdtoverlay_cmd)
-> +                out, err =3D bb.process.run(fdtoverlay_cmd, shell=3DTrue=
-)
+Callers that still require shell syntax continue to invoke sh -c
+explicitly and are left for separate cleanup.
 
-Please do not use shell=3DTrue except absolutely required (and even then,=20
-we should really be thinking hard about not doing that). See recent=20
-patches on the ML where we started to migrate away from this.
+Running Popen with shell=3DTrue could return shell status 127/126.
+Preserve that behavior by translating the errno codes.
 
-Cheers,
-Quentin
+Unrelated bug fix: Stop shifting the return code by 8 bits.
+subprocess.Popen.returncode is already the process exit status.
+
+Reviewed-by: Daniel Turull <daniel.turull@ericsson.com>
+Signed-off-by: Anders Heimer <anders.heimer@est.tech>
+---
+ meta/lib/oe/patch.py | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 2cd8de22c7..b152a2d784 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -5,6 +5,7 @@
+ #
+=20
+ import os
++import errno
+ import shlex
+ import subprocess
+ import oe.path
+@@ -37,16 +38,19 @@ def runcmd(args, dir =3D None):
+         # print("cwd: %s -> %s" % (olddir, dir))
+=20
+     try:
+-        args =3D [ shlex.quote(str(arg)) for arg in args ]
+-        cmd =3D " ".join(args)
+-        # print("cmd: %s" % cmd)
+-        proc =3D subprocess.Popen(cmd, stdout=3Dsubprocess.PIPE, stderr=3D=
+subprocess.PIPE, shell=3DTrue)
++        cmd =3D [str(arg) for arg in args]
++        print_cmd =3D shlex.join(cmd)
++        try:
++            proc =3D subprocess.Popen(cmd, stdout=3Dsubprocess.PIPE, stder=
+r=3Dsubprocess.PIPE)
++        except OSError as exc:
++            status =3D 127 if exc.errno in (errno.ENOENT, errno.ENOTDIR) e=
+lse 126
++            raise CmdError(print_cmd, status, "stdout: \nstderr: %s" % exc=
+) from exc
+         stdout, stderr =3D proc.communicate()
+         stdout =3D stdout.decode('utf-8')
+         stderr =3D stderr.decode('utf-8')
+         exitstatus =3D proc.returncode
+         if exitstatus !=3D 0:
+-            raise CmdError(cmd, exitstatus >> 8, "stdout: %s\nstderr: %s" =
+% (stdout, stderr))
++            raise CmdError(print_cmd, exitstatus, "stdout: %s\nstderr: %s"=
+ % (stdout, stderr))
+         if " fuzz " in stdout and "Hunk " in stdout:
+             # Drop patch fuzz info with header and footer to log file so
+             # insane.bbclass can handle to throw error/warning
 
