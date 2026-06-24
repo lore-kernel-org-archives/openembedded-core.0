@@ -1,198 +1,144 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0949DCDB479
-	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 14:31:59 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8677.1782311512021896472
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DF9DCDB479
+	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 15:41:10 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10270.1782315666611256497
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2026 07:31:52 -0700
+ Wed, 24 Jun 2026 08:41:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=YCvpXRIj;
- spf=pass (domain: linaro.org, ip: 209.85.215.180, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c89636920a3so472765a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 07:31:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1782311511; x=1782916311; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=b6HwdNee5Ri3WqqBcZxJqq4d8lQKJFbbnXzj5GSoi5s=;
-        b=YCvpXRIjkszMjnqm6TGsHQOcK3TGBathhNGGmouzj9zHOc63qYoaccIDzS5GH624JT
-         eRc6SUu7ZXp1vN5rDjeM+lsrC2YJIwn76BrrDvcjAXxGgT08Ae6Kf8NtG2Tg938593iw
-         ChsyYWbxyB8AJOGyNtHI6XAeAn3KkK06KOXKGtqBj3OQyQmSn+lxbdURxdk+Uidei0Aw
-         5VjxiM7DD2SZL5uuvhKlD1e4/8rMwxFhqOq1dAaUzWDph9R60MFyTCtyrNwkJk+Ee+cK
-         enFtIUC1SBIfZyNJlsyPWNBZAAZWDyS1Cp7jk7FlOhFTzh1vzdfPBEMTRrnTHX8F4h5g
-         zROA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782311511; x=1782916311;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b6HwdNee5Ri3WqqBcZxJqq4d8lQKJFbbnXzj5GSoi5s=;
-        b=Vj6t5iN+hZXFyNVlTqjsyKYwYezjVa6n7gO6q7kojIx4wb8e5AAGb0sOJqi4ff1ddt
-         m4viQmwas4lBLOWoQ/2WpQbTQ0BdDJTH+21a26aG0ZVEB2DQMkOtSJMMQbgH4fl8M2Sb
-         7uqrZF8CFlDIX0jTpejIeWFSKqzn6CElOdAp1aP4tC8QvIlMkVYr3kV4uodki6Aw8OUo
-         EOZgOq97SZNbYuZVLRGzWzzxmuUf0XfUDjFQTqBNzOXIZKHsMvJ25jdyGy2W8Uxg8ReJ
-         XGCnNSMhl80WeY4tdN4gmNiXvUGOgt2OprIHBovZsAQ6k4DjiS04g/fvdqZsf4kW+fdp
-         3MNQ==
-X-Gm-Message-State: AOJu0Yym2PAnJZfc8SL1dfQ8xaPtQ/NJhYYWOlwFpGpWUq7MwY+f2CtE
-	Pp1k/UZKK8DyW73VfvCusBASxU54BMTKbKAmWM5E7dKYOX3eGg2YHNChni6cWw8I9qI=
-X-Gm-Gg: AfdE7cmvWsOCa+S2tO8CP+3Y7NXdPzVPRpV53bJM2AvB11QKxp5cVgRhC0WethaRVZa
-	9t/ks8jfkloN7FLtpykyArgqQCBOA71zCO2k5gYACJ1W4gxtQJq037XyUbXRvFWal8XLnIY694o
-	T1NW/8hbm5W6uAETCe257s6VgsoudhJWC8tTAXCG4tfSLk87iGssuVZJ0KF+SFlMwnRdte6sEcZ
-	t6l+X2LhddEon9G/3+Sspq92fGEQ3QFTxp+N0dpY/dXMy7/SXzR7zcyFLcfWWDWRzzsKkcKuTI5
-	1gmWT2Hqkv1NjuYOAvp4PYNvch55CNGh29PHG7/5XKVdAPeXdec/Vqqlupu/0aW01T1kmhemUqB
-	iChFx02gGhLvzBgSnJqJRqop8UUleEhgWT79ZOwt6Z0zPsthl0BGj0gwsdXmEKkUHHG+qE3R6K5
-	7/weJwVHcsCgHdSWM3BChsrWp2gWe70smVB2Hm5Tm8
-X-Received: by 2002:a17:902:ce85:b0:2c7:d329:fe4c with SMTP id d9443c01a7336-2c7e1537074mr41324585ad.31.1782311511127;
-        Wed, 24 Jun 2026 07:31:51 -0700 (PDT)
-Received: from nuoska (78-27-71-225.bb.dnainternet.fi. [78.27.71.225])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7436f7e0asm158843945ad.30.2026.06.24.07.31.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 07:31:50 -0700 (PDT)
-Date: Wed, 24 Jun 2026 17:31:46 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: JPEWhacker@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH v3 5/8] Add SPDX deploy tasks to various recipes
-Message-ID: <ajvqUhlN4Ge2MzG_@nuoska>
-References: <20260618165032.347436-1-JPEWhacker@gmail.com>
- <20260624141706.2164567-1-JPEWhacker@gmail.com>
- <20260624141706.2164567-6-JPEWhacker@gmail.com>
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=Wwj2iZLs;
+ spf=pass (domain: cherry.de, ip: 52.101.66.52, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=x3DzLn9ePC5BYD4jNg4j9livgRR1+jhHxhHoKTDFDPDKqEPPA4kJ3RoJF0ScKgoI12DwY2thAf6pH5HSYKlVZ6ljJ/k1MzERQUv0zDOf9L4j3eoydZRgzXFMiEmAqOlZDMx6P7zTZNo2LI6o6Vo4CZGgRhB6ccKXJEig9uBeORsvQXfy1znjZuT0vmAJDzxU0QPO9JK4xPJRjfkOct67ORZh5O30o8NWNdaiAgOPrD2fYIyxLY89ulSX0ryTX9vhOVsn0IwiL/5yP4zJBNzpyWfZuc/dCdiQ8u7GEZ39No4YKLbxA0+b7WHfMSp4MfHoQn5NbU/lK6zQOUKAjy7gOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+/OG2/CkPRjp8F4pEYHlzFPN67xlUo7ojRvPL1vYGRw=;
+ b=BctrQEAs8sXYK3iLAownmVGv66q17lt0iI9yddwtti/SqJ7RU8KauDeNCDthhQkCvbq1NULeg3Et9Z0zTjgktyfiv6UtIEHNfOgFvltSZ0fnzDacD+oaucizzfX/LRN5s8GmMBDqSlRck5UIZuIVNhHQwBvDDR7A9n4DEVb+o5cXo2TqX2zy7WJ7klAMOi8zSlW3g9F95S7sCnRlpM+SVCqU3+DBzQH8ZrJ7JSer9GIFW7HmWFM0n8Pw5eot1/cII5XGBNlet2aO25p43Z8mARDtW8cTys85MWKjQcOzhKeEKmL4pl1uAWN6oAN+X+zo8YvB3jt3cLTcrMJuyMSFfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+/OG2/CkPRjp8F4pEYHlzFPN67xlUo7ojRvPL1vYGRw=;
+ b=Wwj2iZLsBv9ZiGHAr+F6NZjZa6jmnp4YWlF1Xx7paB8Ucx84Kt6To9eXB4PBmGMLh5nho95cJ7tBhn/eZmzI1eSLgpYclxCVyEAvgrkYxlL5fpbS+fwQIZVg1Li3tpmQZLZdYPMxsYlgg6FtRbDPNhSfK2JqvQ1/6nbbmpA3Gt4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
+ by GV2PR04MB11448.eurprd04.prod.outlook.com (2603:10a6:150:2a3::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.12; Wed, 24 Jun
+ 2026 15:40:58 +0000
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00%5]) with mapi id 15.21.0139.018; Wed, 24 Jun 2026
+ 15:40:58 +0000
+Message-ID: <ea81a634-06f6-4ea0-b636-1346b2bbf7e6@cherry.de>
+Date: Wed, 24 Jun 2026 17:40:57 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] devtool: provide explicit error for missing
+ "script" command
+To: contact@schnwalter.eu, openembedded-core@lists.openembedded.org
+References: <20260613-script-command-not-found-v1-1-5c5f6742a6fa@schnwalter.eu>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20260613-script-command-not-found-v1-1-5c5f6742a6fa@schnwalter.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0113.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a8::13) To DBBPR04MB7737.eurprd04.prod.outlook.com
+ (2603:10a6:10:1e5::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260624141706.2164567-6-JPEWhacker@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|GV2PR04MB11448:EE_
+X-MS-Office365-Filtering-Correlation-Id: c98039aa-3576-43bd-ae86-08ded206fcd8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|56012099006|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	74VXF1x+JQmNlOzUsmDTb14hpGNUGO5Bndg1WItwmDeEWsv5/PjYhlKsdy/an7YhjhBNw+HbDdaOIFbU7fAi7/e/oHfxbtTWHsq/GdnRhz9rwYpiyOpXV5La1wy7CBt1fz8YU9i+PEsTZgxxFa0a+6kh1P6qequhviRsVE43NMenuTxOJAqdKU4CN9QwHmBeP8kzH6M4jvhAtTCZXHO/sATxOEtwkp2yzxoNaSvZ67PvnCmneW7FEHAJjNgvl1mC/x4a4HlI2x4gInhxlnX5MvJxWpHCX3XkaDYRjoyYaSamOE4/vxHQUTTYTkMvUXA/g0ZHPgNLT2RIizt6LsnmlkNMN4kBMDzGpXhHSiMVgD7abYmimd3XKNadgl3WB8/hczfXrQuHzD8B2B3rbaj0kS8uZI1rBzK0ZpOTLLdFjYkz7r3s/SYi1fJNo7HWzAOd2Mv50UUqj4bCBH03NpsYXC+nmv5vzPqH5YsRcABT5AJUmJZzsj5Ck0h+IxvoZydZreYvyPO5Wr+F+bch/hLuo8B1mJZUM/XL1X1qd17ydUQOQKGqPBBF1P9qt2uszA8X5Aa9/GxchbQlS9hJBZE2kC3k7nqiKL4DWgwR77FwV8Z9GFtPrDlbW771MpK5AcPD
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?QUQ4dGVyWnhWRDhtTXk3UG4vMEY5WGtyT0EzU256NmdobDdjWFRORk44QVdV?=
+ =?utf-8?B?ME5TTE8xZVVHMFZEcEZZL0JQcnZwMkh0NHN6OXBFUVRqZ0x3SWRwL2dNdHIw?=
+ =?utf-8?B?cGpEOHRlNTJzQ0NnaitkTlBtdDhZbjlHaFRCQnBybXBHbHNCK3l3TTdoVGFr?=
+ =?utf-8?B?dm0vSXhyQk1lUnJnZHJqN0UvbmZ0Q2llSWtSajFpRkhQYjBPSEpsN1RkbmxW?=
+ =?utf-8?B?UUFsclo2Y1c1RGxwSHJRMUlrMmgvc0JZNmpOYTFIMm40WTlYZEpiVzlqL0px?=
+ =?utf-8?B?UDE1NHZCc3lzUmgzeTgvZEJyY2Fpb3gxemJwR0RhRkRiOFBvaEt4cDNQbFND?=
+ =?utf-8?B?QjNqZU9PQ09ORVZoTEg3VitrZDZqc0hKM3ZmSjdUWXJLdW1ZUHNhM0xWanNN?=
+ =?utf-8?B?V3NaVTdRSmFzdHYyMGZ1ZTdMcnRLL2Mxb1ZGbWhBUTFHeERLU1QwMEoxMURv?=
+ =?utf-8?B?WWVIck1IQm4vNlp2aEp2ZkZQNjBkWHovWStqbUtXdndTSlNYdVFnVUYrZ0JJ?=
+ =?utf-8?B?eW5jOUlxRWFkYnhMcCtxdVZKSGQ2cENGcDQ1d3VRKzFkNGxjVHBPVE1ZNFJz?=
+ =?utf-8?B?bU1Wd21OUlQ0SjJvNEdzT2FtY0dVWlpUZEhRL25vNGpDbnNaWWRDMGdXUVVN?=
+ =?utf-8?B?UmFjblF6eGdyajdEMmtYMi8rZGk4NHhtSjMzVmwzVmtJYXl1cjdaWVltdzlu?=
+ =?utf-8?B?QVpkeHlFZlNucGpLWnpUTlQ0eTRveUJxU3ZnY0ZRaTNYQU1SdWJJSHNlYU15?=
+ =?utf-8?B?eTVxbjVNVEIwcXhITmVLazJQKy9mSHlERXNBYStldTRwRk03T0h0cVJuTjFP?=
+ =?utf-8?B?dzMrQWlYdFJaWlI0c0k1a2trV0ZVeDRveW44Si9xY0NTSHJSWW9OcXVGM05T?=
+ =?utf-8?B?K2J6RWJOcFQ5dzBRc1dLMXQ2QTRsMHJvR25obWNIYW16dmFCZFM2Rk9SZE03?=
+ =?utf-8?B?ZnBaMHNYTEVpV2xYekhlMFU3RjVKZk5jNndmcUgzTFZxU3ZGTktwL1NUb2NU?=
+ =?utf-8?B?SXdwT2VhemtZekpMbW1ETUdZQjIwQzZYeXNoYU5tWFJ6dmJ2WGthdE1wOEc3?=
+ =?utf-8?B?eUJNc08yQktudkdsUmIyelVvSzNsdU1yUHlXcElaVXZYV0tkZnZCS1h6Mkhm?=
+ =?utf-8?B?MldjU29hTFhUd0RveFZzREI1VjBNeWhZRGQrK2xkbk5vOERteFozOHp4S3No?=
+ =?utf-8?B?cVZYU0Rrdnl5K2oxc05EU01SNTgwNEIzN0k4SEt1SzZHc20yTWo3Zi9Db0Va?=
+ =?utf-8?B?Qm55bFNyaWU4aFQ5VjE2SGlJdzZybUI0N3IrVkdVR1c4NkM5c3RqQ21HaXNt?=
+ =?utf-8?B?aXQxa3kxSzhvUktySFowQjlGRWcxYkwyZmdzWXdVVHN3NXR4T1RZSDZsT2xq?=
+ =?utf-8?B?eFNvSU9ML1VCTTluV1JCdUVkUzF1TnFTSDRaYkp1Zkp2dTYxZ1hwU1ZxOVRE?=
+ =?utf-8?B?NkkwUEtGZHNkNkl2M1NKU0NpYm1FUkpyWG1QTWt0bzNvZlo2QkRUVjdXalEx?=
+ =?utf-8?B?a0dvRkVwWUR5aExoOGdPbVkydFA5MDZNbjd3dTdRaStFZFdsTGJhZ3VRSE5Y?=
+ =?utf-8?B?R3F0VjV4NXVYcXJLVXVHVnlEWURaVDhid0ZoRXZkbFhGSWZTaHRjc0NkM0ZN?=
+ =?utf-8?B?VE1ZeUE4MkpiQ2NFbDdIL0V1MnZkQzJyNW4xdURxLzBkQ1Z1VkU4MndDQnMy?=
+ =?utf-8?B?cWJXQ241ZFFuclRObS94Vmc3R2lXMXdtbGpzTFlmSTM0blhBbVFSZmRjbUl1?=
+ =?utf-8?B?ZmI0ZVhFUDBtNnIzeC9WSStmbUFoSnh0OEtvV0syV0xFSnc1MWZyck5wMU1l?=
+ =?utf-8?B?TVh5VVFKcW0vVlRrcWc2UUcxT05EdHphT1VuWGxPOEk0dlBsb2FFbGRhdHJP?=
+ =?utf-8?B?dE5YcFNRK2dZWHVKVDBEMm1rbC8rT2MrdmFBSDQ4d0NHaUtQWk40U0xEb2Vj?=
+ =?utf-8?B?encySjJxMWZSTlZXck56cm4rZWN4MjZMMHdUQUVWZHZkRXVzTTRCYjd0UUxI?=
+ =?utf-8?B?RlhoZmg1dks5RU5NK3ExNlFXczNPb0tKOTJTNllZVGJBb0R6dXNQRnVFTk94?=
+ =?utf-8?B?RVlXdXhBc3B5WFhhUk9FMEtUZEsyclNTYmZNVUpyb3F6OGNzenl3dnd5QUlm?=
+ =?utf-8?B?SW1wOEFjNXAvaWNIeW1ISFJzMThUL3ZyRDJrRE1CQ1VwOVpPUGEzRmZTeE9N?=
+ =?utf-8?B?OEkySERBcUJacE5JRVROblRPR1JxUFhGV0pMT0MrOWVzYTg2K2swNDg5NWtF?=
+ =?utf-8?B?cVlqNDV3ektrS1dXMDVCSDhuNzJWVEZRNE5RM2ZVZFZXWjk3M1VxdmdEUTRy?=
+ =?utf-8?B?OVJRZGZHZHBOS3U5UWNVUmFzVFlFN2t0ZENzUFc2Y0lQTGVsOXlsQT09?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: c98039aa-3576-43bd-ae86-08ded206fcd8
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 15:40:58.8543
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8EpLx10DR67PhTGdQH+cIr2E7i6StzNQzBaXr+tqjtGPRcgYabLz5Csy3TkL59Ez7fci0P86dc2cRhEsk0eVE4id+HdFYMAVr5b9oOy0AHE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11448
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 14:31:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239520
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 15:41:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239521
 
-Hi,
+Hi Walter,
 
-On Wed, Jun 24, 2026 at 08:15:22AM -0600, Joshua Watt via lists.openembedded.org wrote:
-> Adds SPDX deploy tasks to many recipes to record their output when
-> consumed in an SBoM
+On 6/13/26 2:11 PM, Walter Werner SCHNEIDER via lists.openembedded.org 
+wrote:
+> Without this "script" command, the "devtool build" provides a very
+> ambigous error: `/bin/sh: line 1: script: command not found`. With this
+> patch we provide a more detailed error.
 > 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/classes-recipe/barebox.bbclass             | 1 +
->  meta/classes-recipe/devicetree.bbclass          | 1 +
->  meta/classes-recipe/kernel-fit-image.bbclass    | 1 +
->  meta/classes-recipe/kernel.bbclass              | 1 +
->  meta/recipes-bsp/grub/grub-efi_2.14.bb          | 1 +
->  meta/recipes-bsp/opensbi/opensbi_1.8.1.bb       | 1 +
->  meta/recipes-bsp/u-boot/u-boot.inc              | 1 +
->  meta/recipes-core/systemd/systemd-boot_259.5.bb | 2 +-
->  8 files changed, 8 insertions(+), 1 deletion(-)
-
-Why not doing this in deploy.bbclass for all users of the class?
-
-Cheers
-
--Mikko
-
-> diff --git a/meta/classes-recipe/barebox.bbclass b/meta/classes-recipe/barebox.bbclass
-> index 2411fb5caa..60437c1ad1 100644
-> --- a/meta/classes-recipe/barebox.bbclass
-> +++ b/meta/classes-recipe/barebox.bbclass
-> @@ -158,5 +158,6 @@ barebox_do_deploy () {
->          fi
->  }
->  addtask deploy after do_compile
-> +SPDX_DEPLOY_TASKS += "do_deploy"
->  
->  EXPORT_FUNCTIONS do_configure do_compile do_install do_deploy
-> diff --git a/meta/classes-recipe/devicetree.bbclass b/meta/classes-recipe/devicetree.bbclass
-> index ce9d008aac..35c2499bdb 100644
-> --- a/meta/classes-recipe/devicetree.bbclass
-> +++ b/meta/classes-recipe/devicetree.bbclass
-> @@ -164,6 +164,7 @@ devicetree_do_deploy() {
->      done
->  }
->  addtask deploy before do_build after do_install
-> +SPDX_DEPLOY_TASKS += "do_deploy"
->  
->  EXPORT_FUNCTIONS do_compile do_install do_deploy
->  
-> diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
-> index ae8f3c6688..5115482eff 100644
-> --- a/meta/classes-recipe/kernel-fit-image.bbclass
-> +++ b/meta/classes-recipe/kernel-fit-image.bbclass
-> @@ -241,3 +241,4 @@ do_deploy() {
->      fi
->  }
->  addtask deploy after do_compile before do_build
-> +SPDX_DEPLOY_TASKS += "do_deploy"
-> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-> index 50cef17f69..8d0cb91688 100644
-> --- a/meta/classes-recipe/kernel.bbclass
-> +++ b/meta/classes-recipe/kernel.bbclass
-> @@ -842,6 +842,7 @@ kernel_do_deploy() {
->  do_deploy[prefuncs] += "read_subpackage_metadata"
->  
->  addtask deploy after do_install do_populate_sysroot do_packagedata
-> +SPDX_DEPLOY_TASKS += "do_deploy"
->  
->  EXPORT_FUNCTIONS do_deploy
->  
-> diff --git a/meta/recipes-bsp/grub/grub-efi_2.14.bb b/meta/recipes-bsp/grub/grub-efi_2.14.bb
-> index 6354b43989..e535d99710 100644
-> --- a/meta/recipes-bsp/grub/grub-efi_2.14.bb
-> +++ b/meta/recipes-bsp/grub/grub-efi_2.14.bb
-> @@ -97,6 +97,7 @@ do_deploy() {
->  }
->  
->  addtask deploy after do_install before do_build
-> +SPDX_DEPLOY_TASKS += "do_deploy"
->  
->  FILES:${PN} = "${libdir}/grub/${GRUB_TARGET}-efi \
->                 ${datadir}/grub \
-> diff --git a/meta/recipes-bsp/opensbi/opensbi_1.8.1.bb b/meta/recipes-bsp/opensbi/opensbi_1.8.1.bb
-> index 0a9652c283..93646a97df 100644
-> --- a/meta/recipes-bsp/opensbi/opensbi_1.8.1.bb
-> +++ b/meta/recipes-bsp/opensbi/opensbi_1.8.1.bb
-> @@ -45,6 +45,7 @@ do_deploy () {
->  }
->  
->  addtask deploy before do_build after do_install
-> +SPDX_DEPLOY_TASKS += "do_deploy"
->  
->  FILES:${PN} += "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_jump.*"
->  FILES:${PN} += "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_payload.*"
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-> index a75948dfc3..acc2bf9819 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -471,3 +471,4 @@ uboot_deploy_spl () {
->  }
->  
->  addtask deploy before do_build after do_compile
-> +SPDX_DEPLOY_TASKS += "do_deploy"
-> diff --git a/meta/recipes-core/systemd/systemd-boot_259.5.bb b/meta/recipes-core/systemd/systemd-boot_259.5.bb
-> index c6c443f929..c887835806 100644
-> --- a/meta/recipes-core/systemd/systemd-boot_259.5.bb
-> +++ b/meta/recipes-core/systemd/systemd-boot_259.5.bb
-> @@ -72,4 +72,4 @@ do_deploy () {
->  }
->  
->  addtask deploy before do_build after do_compile
-> -
-> +SPDX_DEPLOY_TASKS += "do_deploy"
-> -- 
-> 2.54.0
+> On Fedora 43 the "script" command is not present by default, one needs
+> to install the "util-linux-script" package. On other systems it's in a
+> different package.
 > 
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#239514): https://lists.openembedded.org/g/openembedded-core/message/239514
-> Mute This Topic: https://lists.openembedded.org/mt/119957548/7159507
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mikko.rapeli@linaro.org]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Just for reference, note that we have it in the list of required 
+packages in the docs, c.f. 
+https://docs.yoctoproject.org/ref-manual/system-requirements.html#fedora-packages.
 
+Cheers,
+Quentin
 
