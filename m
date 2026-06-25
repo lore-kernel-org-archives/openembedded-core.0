@@ -2,110 +2,110 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13BE3CDB466
-	for <webhook@archiver.kernel.org>; Thu, 25 Jun 2026 09:13:40 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.32])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7142.1782378811063670284
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84604CDB47F
+	for <webhook@archiver.kernel.org>; Thu, 25 Jun 2026 09:27:44 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.19])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7520.1782379663484853644
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2026 02:13:31 -0700
+ Thu, 25 Jun 2026 02:27:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Wf7q6LTm;
- spf=pass (domain: est.tech, ip: 52.101.84.32, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Ba41GVOa;
+ spf=pass (domain: est.tech, ip: 52.101.65.19, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NUPJMyRWI34s0nz2IlwAEiKOfdvPUyUjmj0TtgKmdXyxMjzMo8zoPOvxEqh2ihktz4PTNkWUu456JGeYGhAkmb39t1ddgnV0xvJ3UM/VUAF29/l3ZDpJmr5aEHybN3WWbXd9JFNxCf3gYV9TyHN5MvKZ4FAFD9OqbuxhHfxKJJ5VMvQJk535HFLeWqVx3KRhFfYflaU7ovJh+aXtR1YGAodJHSIocE1MrKhNuTPUn6NX1r0VllRU5rJJ4oET2lxzFXuxSmsS19lC7xTWG2wjxIQRy1KSHDB81glbEoTaoWaOH/GeBTLQOPFF5+ICv4uaJdQcUFlBg3mZeRoN4PsMbQ==
+ b=feBS+ixq9/y6KKY7009QbFzxMCq1g/yrBzKOnIu/psHP56C3AKUB2X83O27J6wLbSdymBRde2dDpwDsZcF5+SOY9p7yHUarB+2tLhEZzoJs8McDxJ4n14Ztw8gWHzr21hnBkVw7kMIUhH2xXdPy5r/byoh8S4XMggPveZnBWGtnzfSDWn60GaykvDvp8eDrDzhP2tMKmfSiOTCgLIa1X7DKbZsuGw2eQ3Nta9kst93lvdLd2v0j2fnaK4ghP3kYxOYlZrzvTqpE84ULSIEUnIPLVA0oWEPpi46vUHoUO47YBs68RGmuUSbkGkpnDfKON5ODA5BFxK7bzD9DFKPn9jQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2ZtGeWb5sxy6tpmvWNVkf+a/X9/jhFds35mngEOfa7Y=;
- b=P0EVTjwc04lKUNPLtQPuS82JPNBfPFT5MDnYNQ+IPXGl3NR1qa/25w0XL0Ybwjp0NkPu0wvb86TRRo8K7e5LN57bOZAeAno3vfB6o+ka2YxdL1Az4pNKw/L7dHAteUNHilwa9hZaSzxHhiVmwMQFDqUhZqS7AigYizUw9raQFfnLZpgv8jMcCEAWWf5YS3NVxbzYNFsX3bm0X9ej34zr77KWAaKlh/4NOSF/duVRBIw72qZ/YrazoLW6kZQBKBVfQZcIYXmZwBqdHYTM2a3NLJLlAXZhno7Os/rui/E2h2THhmLVW1b/JwJsx0/GisJa/VHi0pfPkvgb+pbV9tpFMg==
+ bh=eGYj79tFWTifMJVS0eyBDCph0SgQJyvWipeYJ14Q51E=;
+ b=e5+KPei4OJjFsXTuenx2PJiyUUrRk7nruRQaRTCzfdMM1hOqD2q2P9exZDLxGwBGaSG1cprrMvXy4bEel0Tdg2Y4/xqLTpFn3ZmuytVz1DHaorE3bpe4pWvHCpSr4PmmEBfRJ682A+RCYVGU1YsVxIRD3dVtuWeXfNq3vnOkg7Q4GVjinLQbBRBvIb2OqHA7jDZugSxYm0YkMsCizVRSCNhNxZbHDskH+78iHrj7ePvm9sGDmDJ1+wgzAPcFVem9E7ZM6/8J7bZQmU2S7Nd58Llb7PFFAxQu6BP/3mdY9MBLjdrNJf8H+beWziWIGz5Q0I5ZBETeKoW6olsvVudqjg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2ZtGeWb5sxy6tpmvWNVkf+a/X9/jhFds35mngEOfa7Y=;
- b=Wf7q6LTmwi5gif6SZFrcrv5XpqB8+Mdcwkqa5dE6JWQU5TXsoUrZkK2gaUtf+QKD6zIWnljzfeE6pZ02uYqAoGK7WcKz7U1SR3a/wW2UNxl4PRLg3vqLbO36QCYR4F5AkM5fdkbVS0lxg5z+D2onfqDMLmHyhGu+Vqq3yiWxyT0DhguhMxk36nt2QOQ/S+UmXZIijQAczdeZD4IyTImcZ+YFTX+dL8AXBl6RM6tspNCnA3TDGwK69DdcUR4fpicIqu1kdBAgKI2j1OBUfFvrGWRBS19Ft+xgGJq0jrJBOGc8rBxg0dj3YiPonU7kv9nDRJiutPixoKSob4oNdp15Hg==
+ bh=eGYj79tFWTifMJVS0eyBDCph0SgQJyvWipeYJ14Q51E=;
+ b=Ba41GVOakJQOsBanqXMAI/zlAn3vEWdmMM/YDZiuujRQ++/Udj5fwIr7RClKXuSUEiNdEjX5Hg5gKC3lJOudy4PMqh38+0vnmSwMZvCAp5UeuDSAt3etkC6wc7S7sZ1qLi2W8mxyRNUCRUOYmPx239GyrgttsqxDrStkFx3SjkX1a4QKLDYCLGWevvaPdx/h5+40KIWlUc/AXWKj0XFaaVb1wwLozYy9PUwlWPP0kuqa7xXhrJEzCVInU2fDuMvJd/GUCClzFPi17MKGNd4JGemjQkDOcQI5q/M1+4hHrKGCvk3loMUhXCUMmfey4DIAFGdGWVT8hdWAWs5yd8edug==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by PAXP189MB1903.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:28f::10) with
+ by PA2P189MB2692.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:41d::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.12; Thu, 25 Jun
- 2026 09:13:27 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.13; Thu, 25 Jun
+ 2026 09:27:37 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::18b0:e114:b839:ca49]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::18b0:e114:b839:ca49%8]) with mapi id 15.21.0159.015; Thu, 25 Jun 2026
- 09:13:26 +0000
+ 09:27:37 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>,
 	Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH] install-buildtools: add --local-file option
-Date: Thu, 25 Jun 2026 11:13:17 +0200
-Message-ID: <20260625091317.33964-1-jaipaul.cheernam@est.tech>
+Subject: [PATCH v2] install-buildtools: add --local-file option
+Date: Thu, 25 Jun 2026 11:27:26 +0200
+Message-ID: <20260625092726.35752-1-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0225.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a6::14) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU7P195CA0017.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:10:54d::27) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|PAXP189MB1903:EE_
-X-MS-Office365-Filtering-Correlation-Id: 492a6288-aa8a-4b26-f65e-08ded29a03ef
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|PA2P189MB2692:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40721d68-6ee8-4c1e-2464-08ded29bff31
 X-LD-Processed: d2585e63-66b9-44b6-a76e-4f4b217d97fd,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|11063799006|56012099006|6133799003|18002099003;
-X-Microsoft-Antispam-Message-Info: 0tdYyjLdx+TnSGKn8Ieu/+GXR9/jg09jszD6r6fhOLCo4gPlbInGGCgXVvLLY9YxPjAJqW4lIVgnIBclKVg39PwcPE2kUyR4w24S/fWSdgfyea0eu/PZVwf2F33XDYsIj0AWYyq4UXVGULD6bM3Yy3HlWTzZ8dYUP2fVCCDTTIwpVpDdtPDj/Gx2A5YRt7BJwqa8uAFlPf132wmQeX7xx6r60vaNnutPOO5M7ZfYOBHqvCmRO8pobr3uD8vc2XEgFG4PZs+os7Wh7M6a48EVcoL9+dKFwIsxydhpMm940TZX/3l4ge7AjPEZC/mzfMd9bBgOYnZwX90qXt8Olf29Jzo7vD/SqvQ5FzUAMAK7c58PnHw5fSOXUSXh469bs6IeesxF89i/wccH2tvqTacEKzSvpTnnTM99Hwpo63B/eVMqfABjHYnR2f2if/uisE8gGEsZhqEG9Cf9lCJ3W7w6VNn523m4sEnLaYDKWYXBstAr++2ewc7yfpf1q7/Y5OFgrzLYGT2gtPahtBGLfIrPewud4Vxg/Emb9qSucvH+tF3hkJc9Y84ef7D2yJMKDXWxU+BvyyLLHiGpTQhSIDg8dQbS0yj9x+wnJOg2A/YyFgtZBS/n8KLy5+15mVC0qfNntP40Zho7MwrA6STUFF4h7AS7GRnXAQa67X96LRuD9qU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(11063799006)(56012099006)(6133799003)(18002099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|18002099003|5023799004|6133799003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info: KKxreKmg6Lbbu3F5TufpVP3PttDob2Qi80mJIC3e7tFg88+B5HtRnkUAnqwWDLddy3togikK9muNtHnv2e+lK0EklkPtTwgCRQhnrKt4MvpaU0qyTQHc8ZnjYDZInUGbh2f0UYpAAgA03FoV57kZ63GFF63Yqvru60SRZBb/mZlQ5e7uAIg4rswEfJtt/vRX5gYpTReGndkfE7OeowvmVW6gCrRsv9HNIxOqpdRlWj5Ke8NHAFGBR97Dpe2RforL6SOSwC/C9ZjmfiaRXnwm8Z5TfioZ4rrSzbMnXOX0sVrr6Kd8cRBvbfiSKtBTsWtU1DfoWGBcFvU8XriKkLWPdtBIC9ewposjs91Nu8tlOTTFzlT7ZCazMi5eK3L65AdhLSeZf32r6g5ujAHgSszSiUSG/qUE/v2Tsd5B0Pamsqwi3syX+uo+dz2+mPBNgOh4313TFCYSujiq8N5hOKhRlZjkkcqxTJPhOtsFxi2fnIZNhIv28mz2j+WmzBTQqOUkmEPptDt4CSP2n8TjybZ9PraONFjikDYw99Hp8WiRMhpviI6oeHZm/zhRfb1rECsG1NqFy825exLy3ou0LwuXLAvvW9w5o1GECn/IFeKNULy7BCGWfajHxdotxqIdV9AbGsuakE07Hg8VuWmTV7Aierc0KuV6f/7F7g6y3Nix12Q=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(18002099003)(5023799004)(6133799003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LQGmwaAwl+V6OC2EKRKWXCeh1GwJleZr7x0+FHU1HE5PvCePb0gTMTmNYXJD?=
- =?us-ascii?Q?1SrgCe+0vsCeG4WCpLSqjMcvP4cRQWYnuZ8v84kmbqAt54J/mXY8tzvXWoR6?=
- =?us-ascii?Q?8bkc0RTu9HK3ESKh3NhYgdkbIqfKQ+yxkdRFaAzIFoQ22h9RTs6YA2AYUuqk?=
- =?us-ascii?Q?BvFZAtfSCsetZ/abL85XuL/KDo+Q20WJ7Ds9XMSUTbFIWvCHCqFFZP0tFoTq?=
- =?us-ascii?Q?gZXLFdhhbPK3Zp6gQsadNnEU5hlxPpCmXw8NAEMLxIallxQTy7+AEuv4K0s5?=
- =?us-ascii?Q?Eb3AyoOcLvFfGl5DdM1ycrLFF5hcBcFwm5V4CjKOvWl3b9KkLdynzf4JPG3h?=
- =?us-ascii?Q?XdSx3oAU3ZmRNP4w9bBJ45zyANKoz+vGc3oqPlQRbtxGE7lhS/77pb6JKjIo?=
- =?us-ascii?Q?l52t4eaqRSWDOFoEdrr2gVHC/8rwuFvNVNAyle/ahy6ddi31ShHM6qPJEKpp?=
- =?us-ascii?Q?2DJ1NfD5mVDIsMcx8QIDsKiBnOitk02fB3oWPIo4CqWFL4i6wFOPGQwRVDTQ?=
- =?us-ascii?Q?lLS9Qyncf0b5uVqluCsxwe0xj4GuLidioGNiSG+HG4GrlC1sdQ6gYwJHEs1y?=
- =?us-ascii?Q?pc0PVz7N12bTIg/txt2PEjtEp7S8gmAI3UXpBTOOdS0MpktVCAyORpGBEQMl?=
- =?us-ascii?Q?D/Pj+SrvHdr5oejHVlos+5gPiGMrjWoFAFxcREtTgg7OojyMlcqyKpZ1igqd?=
- =?us-ascii?Q?kCmC5jNDQCaAhIJcIUJgg9djhSIFGhtJ0KRXElsoT5IxQ3k/p2mfGDkyNscj?=
- =?us-ascii?Q?LqdZldo/Q+eye8w2v5+Ik310M45Rc5qZ/IDLJtkHQowOFOCpBjTgjbHKHSX6?=
- =?us-ascii?Q?1jWu8xymWAvHu1Lph6T62U3NHNXB1fwyVE2B9tVeZmsN1y9V4EC3CfbPp7WS?=
- =?us-ascii?Q?iQo5pw/2oBWaPJW71ltypioYQIn4lUfJR1E8cxtoMULjvczkdNj/+SV9V3yJ?=
- =?us-ascii?Q?IMSqd5B4FZr9cCw3uTx5r7Kq4CmfMVDH2+zU8qp3U0oVbUhlaFBvq2BUwFsi?=
- =?us-ascii?Q?aG24OOALNE6+VjQAgG2hNEd6Gz/SFaIjlnTghWo5x4LUyA/VIXiwIoD4O4gJ?=
- =?us-ascii?Q?ONpIt0Rn29FDL9Bt9aDV5uvbs4VhLCkKDVJ76mX+5WWkI2Hzj6RBME1j9FDw?=
- =?us-ascii?Q?rOcp9lpKH9aPmGTO28YVI0ZlU+abARgbMlfz08VKelI0pxU2S0px56PdrV2x?=
- =?us-ascii?Q?U19ykAIc7htzbRnmNfEWjoiKAukUGicRBjX/wuLolgZt8mjAxJk+H8/nQuiU?=
- =?us-ascii?Q?u/xdCL+vocrTjX5Xo8M9oa8tf4sPnqmheDE+JaLHJhJsMQxGoGoTjs/wmfAr?=
- =?us-ascii?Q?6dHcEMpnf8v6PEPwJ8AXevIukKUS8u939UX9ARzOp3B77uqQFt57l3K7ezfF?=
- =?us-ascii?Q?kEl1q1yrd8KL4gov05b/NWugec+u++UgA/65F29Sl5V0huh5uG2kSVqHfih0?=
- =?us-ascii?Q?n1TJ1r6XOKdPVzxai3m3uPzGFm3qxkTUG/WEI0i6dNDQifKonjksrDPjAtO2?=
- =?us-ascii?Q?OYaNmz12ubnw9oGjEQSM6QSm/IvYvYuC7YzO3gVr8pDfFSIQ9+on1uNVxZcc?=
- =?us-ascii?Q?h4s7iXeFKlvO0gkXEY/UYMRjoYVdvszdxaA/Iavnnhn0JzX2rJ7xXsa95psF?=
- =?us-ascii?Q?yFTB4q977pQGgPw7aQ7Pq0Y0AVXaOKyKQuaU6NTlF+EExX6IN2xf4KGcFP0K?=
- =?us-ascii?Q?LzbS5fn8WqLSAtgY0/e3W3LZ95frtOD9wOPeHtmv2qwHniZCFpSZCVsdVNHa?=
- =?us-ascii?Q?sRzbaxqsCDdIk3pH6vH2hJMzqyALgnk=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OY8GQgLIkqc1WSRY0ObizkwB6Bjg+rVgiexXc8B3K86QIyDIcXqkMDEwjLEg?=
+ =?us-ascii?Q?NLv8d1a+Whi08gXXq6VPo6S/wgKY6Ec4zQPfU3qNZrC1M7BnUp1zrEg8ABvN?=
+ =?us-ascii?Q?t2cgyDgiLuGduU0NSjePm/Wq27cUmOrWu9RkA1Az4KLwfxLWyHlXWpKXcdnv?=
+ =?us-ascii?Q?T4oN3gx7O4Bm7FUoG26Gb4m20jXzYYeEbGTNSCj3nILHp5EMzk2xWnoZysp1?=
+ =?us-ascii?Q?kdYogWOK/Aw/9C33iIXu24C4SIBjIToG10aHR8q+YY7ukwvJFEeNgtOwg7le?=
+ =?us-ascii?Q?DP6ioy7BYaITLS2WKmCKEqtNrkJ4EZ24t88cgUuE5wYi85+nE5uRWctRfaSb?=
+ =?us-ascii?Q?OenfUyXa/tV+I3CsbNFk/SDmdNKI8wuun892kQfJXujLY3+5+03DSI7HBmKr?=
+ =?us-ascii?Q?33MJDRWJGrYe/nvJBH/BzZzm0Re261Q1vUox0CWPjrEZP4n9s06OK9RZp/+K?=
+ =?us-ascii?Q?1Rz4rg5tRYTaAJXbYIpcggLvj6V5qC5NSQ14OurtoAJfGJcp4/HLwo1awfam?=
+ =?us-ascii?Q?BAubPcEYsPfL0Gj+iq3WqRWHnVdJeGYVpbDw8OWbHcfhYeM96bu79H/BqFG0?=
+ =?us-ascii?Q?iX/md1Z+zr2hEIQf4jJVfElshq14g8V0C1jYWGxobXwBviAcXxLRaNN+Hax2?=
+ =?us-ascii?Q?rAiR5M0CYASHIQsdeqrISzRJdwgsoOR6ghK2R2Ib6CSCwXkZIU9e6gZgfNy/?=
+ =?us-ascii?Q?7TXDRB6Zh2wN5Km8lefpLdG9kAU9St4fGY8GhRp0Vj/HWE3/lnNWisOc752r?=
+ =?us-ascii?Q?nXZXjAzyh6N2gTxYdHK7BzAzf6bYzWi4xKzRIL6fL1UJx0+pa3utVFyTrmt4?=
+ =?us-ascii?Q?iRxl8xhiT2Uvrr2dBP37DPwFz92TVWA6PRESRz5YQHMlIs9/pBxcXib34uGR?=
+ =?us-ascii?Q?xZS9MrfQFOEgYP6SgFJ5G3YoPj9bt6haVxTyXcactELYal4NliZHxj9StXAw?=
+ =?us-ascii?Q?3/5OBPLTI84F6WCBpzfhT6oBIHkK6w/5ZG0PA+V8Ys6Hh3w0ISMvlJFgNEWU?=
+ =?us-ascii?Q?00O5d+57w57wz1Je8Yr/NQhA6V9teA+HhL9j19/NkLh/aB3WxUFcl7uGXsu6?=
+ =?us-ascii?Q?+3GenKndYADodNNbGBocMQV4aMLnbM4OhqBEp2qIkC/BPiFtuNHcgeNZQ3h9?=
+ =?us-ascii?Q?ifuXMNCnDLLMOAakfLWMZBdUQnMVwReL4jULxj1gtOk6gMxW86/Y/0rAtsa6?=
+ =?us-ascii?Q?dV7lVHdui3VXmf+tubaGh8jquIge6vmEDxNTfijCYVqkRVnZA8aAYAZ1gQi3?=
+ =?us-ascii?Q?5DL7VN87GaNyLUmSACX63DlAicGbF5uSYwzNT5Sm8mFjpmPGTPeXjlRx4WiF?=
+ =?us-ascii?Q?663GRU8JdQcGxOyNLTgh1xHqUDMMQQYrjDod7suPuFFsnD0C5tf3VC3G5RYF?=
+ =?us-ascii?Q?h/5S8npUumJvO/bjxhri2u91a1lPJGvyPGBaJQ1INI7gJNDGsUxBKr17wBA0?=
+ =?us-ascii?Q?4f1agLA3TWQqTPuMWaYBT/7S+faO3z87/Ent9WRvKiSA/GmFCmmHL1aTw89j?=
+ =?us-ascii?Q?U/WktMmQ9sW0Jcuxw1fRKyvRwp0Hflv4HCZnbs0sI+3q1A9FnAI0UNXZFI1e?=
+ =?us-ascii?Q?zSxI3EX1InLBA2PyXlpijQ+9/UgGnAhUGk+qwhbiKE5ADTJaPRWqXZXx2ABP?=
+ =?us-ascii?Q?KFWkG6QbSNeBsLkm7Yiuvgv146/gSuqEGN8OrJ1mhKz81Z7m+GNJmIZRwaad?=
+ =?us-ascii?Q?KsFEVBDJFbABsmpc4CounNexr7/DFtOhHHi6HSvnBLABT2yJ/CEL1igqbmUP?=
+ =?us-ascii?Q?worELlo4yg=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 492a6288-aa8a-4b26-f65e-08ded29a03ef
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40721d68-6ee8-4c1e-2464-08ded29bff31
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2026 09:13:26.8301
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2026 09:27:37.7502
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bQnpD5jO47KrVHdYYfLqhSzh/mByjxBkR5BZnXVylAw+xdkxL2XPuov7Ng1xipqm/401UiDd9zayoGbW9FKbxM+voKVn5B1DSzsM5ftu1qk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP189MB1903
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y2pwYFBaQ4S2ISgKPD0cUWrO2sPDhUchArZM8yYKisIUQ60VEz724+skWk6D6LZjYOmK2n+YAHzdRCGEHCtSvA3WVw6OmUmnKQB4DWGzi08=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2P189MB2692
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2026 09:13:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239550
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2026 09:27:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239551
 
 When buildtools are fetched externally (e.g. by bitbake-setup using
 bb.fetch with checksum verification), install-buildtools does not need
@@ -118,11 +118,11 @@ download behaviour is preserved in the else branch.
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Reviewed-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
- scripts/install-buildtools | 91 ++++++++++++++++++++++----------------
- 1 file changed, 52 insertions(+), 39 deletions(-)
+ scripts/install-buildtools | 109 +++++++++++++++++++++----------------
+ 1 file changed, 62 insertions(+), 47 deletions(-)
 
 diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 723edd793e..52ff5ccdce 100755
+index 723edd793e..943770c84c 100755
 --- a/scripts/install-buildtools
 +++ b/scripts/install-buildtools
 @@ -130,6 +130,10 @@ def main():
@@ -139,7 +139,7 @@ ler file.\n'
                          help=3D'URL from where to fetch buildtools SDK ins=
 taller, not '
                               'including filename (optional)\n'
-@@ -243,49 +247,58 @@ def main():
+@@ -243,62 +247,73 @@ def main():
      os.makedirs(sdk_dir, exist_ok=3DTrue)
      try:
          # Fetch installer
@@ -165,6 +165,9 @@ l)
 name)
 -            with open(os.path.join(sdk_dir, 'checksum_url'), 'w') as f:
 -                f.write(checksum_url)
+-            ret =3D subprocess.call("wget -q -O %s %s" %
+-                                    (tmpbuildtools_checksum, checksum_url)=
+, shell=3DTrue)
 +        if args.local_file:
 +            if args.url or args.filename:
 +                parser.error("--local-file cannot be combined with --url o=
@@ -179,11 +182,8 @@ r --filename")
 +            tmpbuildtools =3D os.path.join(sdk_dir, filename)
 +            with open(os.path.join(sdk_dir, 'buildtools_url'), 'w') as f:
 +                f.write(buildtools_url)
-             ret =3D subprocess.call("wget -q -O %s %s" %
--                                    (tmpbuildtools_checksum, checksum_url)=
-, shell=3DTrue)
-+                                  (tmpbuildtools, buildtools_url), shell=
-=3DTrue)
++            ret =3D subprocess.call(["wget", "-q", "-O", tmpbuildtools, bu=
+ildtools_url])
              if ret !=3D 0:
 -                logger.error("Could not download file from %s" % checksum_=
 url)
@@ -216,9 +216,8 @@ filename)
 +                with open(os.path.join(sdk_dir, 'checksum_url'), 'w') as f=
 :
 +                    f.write(checksum_url)
-+                ret =3D subprocess.call("wget -q -O %s %s" %
-+                                        (tmpbuildtools_checksum, checksum_=
-url), shell=3DTrue)
++                ret =3D subprocess.call(["wget", "-q", "-O", tmpbuildtools=
+_checksum, checksum_url])
 +                if ret !=3D 0:
 +                    logger.error("Could not download file from %s" % check=
 sum_url)
@@ -256,7 +255,32 @@ ksum")
 -                return 1
 =20
          # Make installer executable
-         logger.info("Making installer executable")
+-        logger.info("Making installer executable")
+-        st =3D os.stat(tmpbuildtools)
+-        os.chmod(tmpbuildtools, st.st_mode | stat.S_IEXEC)
+-        logger.debug(os.stat(tmpbuildtools))
++        if args.local_file:
++            # Avoid mutating caller-owned file; invoke via /bin/sh instead
++            cmd =3D ["/bin/sh", tmpbuildtools]
++        else:
++            logger.info("Making installer executable")
++            st =3D os.stat(tmpbuildtools)
++            os.chmod(tmpbuildtools, st.st_mode | stat.S_IEXEC)
++            logger.debug(os.stat(tmpbuildtools))
++            cmd =3D [tmpbuildtools]
+         if args.directory:
+             install_dir =3D os.path.abspath(args.directory)
+-            ret =3D subprocess.call("%s -d %s -y" %
+-                                  (tmpbuildtools, install_dir), shell=3DTr=
+ue)
++            ret =3D subprocess.call(cmd + ["-d", install_dir, "-y"])
+         else:
+             install_dir =3D "/opt/poky/%s" % args.installer_version
+-            ret =3D subprocess.call("%s -y" % tmpbuildtools, shell=3DTrue)
++            ret =3D subprocess.call(cmd + ["-y"])
+         if ret !=3D 0:
+             logger.error("Could not run buildtools installer")
+             return ret
 --=20
 2.34.1
 
