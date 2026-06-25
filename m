@@ -2,226 +2,255 @@ Return-Path: <Hemanth.KumarMD@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E18CDB466
-	for <webhook@archiver.kernel.org>; Thu, 25 Jun 2026 06:52:45 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5813.1782370362254634260
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2161ACDB466
+	for <webhook@archiver.kernel.org>; Thu, 25 Jun 2026 07:01:25 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5935.1782370882074829722
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2026 23:52:42 -0700
+ Thu, 25 Jun 2026 00:01:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=mG9S7Hdb;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0636a81255=hemanth.kumarmd@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65P4u7m7452408
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 23:52:41 -0700
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=erTOvfeq;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0636a81255=hemanth.kumarmd@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65P5R1vA513575
+	for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2026 07:01:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=XwbZqeWHR
-	HBUHU2WHVSRIPv2bnCR/Kz8ppQRZL45v20=; b=mG9S7HdbH4d85ZQKk+hnPDmuF
-	KyMp29s4ky1U2vNOhb7TNpxD3OosFUN+1zqM6qwL0YiZ+sPhAR6UdBrQHcXvJNVZ
-	b/r4qDrgAm8rsuUxtphMzbSo+p/16JJlof8UTmsb1tyhE16h5I8e+ZNJwOR4lYLp
-	8HMgmpB3+Vntm5XlrcNNrmZzLkKY+19APrgLLhcrYZetVo+eLKyfMvj2h+KCygey
-	gguggIdG7tCgu/yD51oejs6DRFOWffFw8WKUbN9aMdaD4tKMXXLtZlq4s0bbI9fX
-	DmINLQ94YCnkqkytGi6Rtiu6rwTaqhaoy9BMEQ33D6Og3EOlwaV0ViiwrU+xw==
-Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012032.outbound.protection.outlook.com [40.107.200.32])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f0sybg93d-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 23:52:41 -0700 (PDT)
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=OMQ1C16Dqs8HVkfac8KrmetQUM/h3YPjbJ2a27SD4Mk=; b=
+	erTOvfeqAn1oD+49mpBT2gUProCxJ+d61TAeTUd8jkYR4jMUZmPU5/O4urHjfn5A
+	zol+o04yZd+30KjDWg4+LFXMkFP1HldkwqS5LHabUl+jPI+h4/OxfU1wvLZ083Em
+	W+dMJ6VOVnIIQVGLnN+d67kPgqUPKTs/2tQlMDx+vwZYBOY7rd5tF2NWNTVHECLB
+	yGgaKxIP6eLCoeZCU6Ev/AOt3FbjWhAxcFDJVdgiv3crfkzjzXrdQ91WYtTLomSs
+	KIMB6ZsU3pBnIVeu7IEI6tKmwAtgLxdS2etYh8J8px1/ySld34hdkomnmhjld3Rj
+	cX3lO/Vyp7/mtTfuNmH9iw==
+Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010065.outbound.protection.outlook.com [52.101.56.65])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f0t5dg943-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 25 Jun 2026 07:01:20 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ni5j6CU6MdD0DHZmtd7kEfNwI95Uaczz/jtYPgVNYSVOuunsSJU1kvkKRLRlFIBWrDUoe9gcsS+6S/pIP86X2RiapTBMd0fc4lYaNQL28kyLnFSfqFr4JhLY5QrBRZdSLOeR1wOSoa4HuAnqplxNh+hwMLmCF+78pIyAeoMhOortmonH815XKsE72cnwZX+CuTTUbfrNTD5RwdYgg4X0WngdMnLB2XPNGapK5TZHQxN1gJFBAjg9x4Yz5iUTF7zgk1yTqUoZjB9jZoMCjTNJV7s8K7zEvy8G2R4buWMjyEMgAr5ATHH3/aXkrNcLRHz0+VUZH8foY3ITxXoiAZz8tQ==
+ b=mFGJmeFf/UnxKaVx+1peCSswli0IDrybeXpi/WNEmTEqa2cjyGAlhTrkTlk5+Mlp7A2vJauyc6DyRai7nCxLkyzgAa6DUtSaZaB5S91CO2rk9zsx5Nq3Rw7biz0C4bZkAO9dBGAWsH5eeMOB67vqan9RCBjlNpRafMe1UHACd1sHuZnMZ0A688hm7czu8GZjltAPYFz0iLpYuEku/gJSZIqSmBVreYPly6wjIZwP/bq6lmU5bGJF7F0g/D9pZWqdblL0vIcxxxXU72eyTwVzFhAjnYwlGAWOp7Fcv3Z+HC/0f4uFlzRyJ1IKmfI6NcsO0A/LUVwbEvwhmJ160KKMSQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XwbZqeWHRHBUHU2WHVSRIPv2bnCR/Kz8ppQRZL45v20=;
- b=GkgICzuSBJ9PNeRCyZXPYa7DQMvC2PWvzlTAcgSVQ6ATr3RseR69AHz9IcjrOqYHT3TaGvaDs1EMrJBsAumQe/jIhgeCt2kXL58T+KRiA/twv83N9HiQxY+ZvrtpWuSPTdXpFTEqdlozxVniIWklZ/zCj2bVWfLeIlIwYNMkt6jHVULC7Tq4k0DsA1TJKJ5cZMMpPO2mlKFfSXhqvZLfWOptXsnKMZ9D6v1jtV9lcqzgWCA+rlR38AKoInU+6ab2/8EBuvTYkX+mIWm4KFJmwOOu11Z1gtSDXeLkYXoPMp7BKD07qziKOACyhvGAV7SsWY3j0syznsz9bB/aUDZIVA==
+ bh=OMQ1C16Dqs8HVkfac8KrmetQUM/h3YPjbJ2a27SD4Mk=;
+ b=LVeOyQEZYlf9RJVoB/qvAP2P1YqEzvPkvWEw1pZfP7nf5ui95GVxoH+RZPab0wqLBBjmBrLYQ9aMmmY2klJbqlPc5rwlYpUR25LhF/rklno6GvKcM3emICwIvEbissbfEGiD8kZRNpV3DqH3J1bwLhnM+d/byGkotqGTkEJIaSVEdZjPPJihBGKdYdd+Up7IaQ4wCIR8sFc7UvjZjp+QFBkDgoPFJ6SIP8KgVXKqytyrtVn3nZDmwpddEJjzWO5/9LwLyzkfIHQIBICNbXuHYuwwMFXKSk73YywrZp43V+JJcd0zTgxIkXFiVwYLP2OPINA7jpJ90gHYZwH9gvgakw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from DM6PR11MB4564.namprd11.prod.outlook.com (2603:10b6:5:2a0::7) by
- CH3PR11MB8517.namprd11.prod.outlook.com (2603:10b6:610:1ad::10) with
+ SN7PR11MB7640.namprd11.prod.outlook.com (2603:10b6:806:341::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Thu, 25 Jun
- 2026 06:52:35 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.15; Thu, 25 Jun
+ 2026 07:01:18 +0000
 Received: from DM6PR11MB4564.namprd11.prod.outlook.com
  ([fe80::21dd:5cab:fc47:1dfe]) by DM6PR11MB4564.namprd11.prod.outlook.com
  ([fe80::21dd:5cab:fc47:1dfe%3]) with mapi id 15.21.0159.015; Thu, 25 Jun 2026
- 06:52:35 +0000
-From: Hemanth.KumarMD@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com,
-        Hemanth.KumarMD@windriver.com
-Subject: [PATCH v2] sanity.bbclass: warn on cargo config files outside the build tree
-Date: Wed, 24 Jun 2026 23:52:13 -0700
-Message-ID: <20260625065213.2634586-1-Hemanth.KumarMD@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0162.namprd05.prod.outlook.com
- (2603:10b6:a03:339::17) To DM6PR11MB4564.namprd11.prod.outlook.com
+ 07:01:17 +0000
+Message-ID: <17171ab1-eafa-4303-bc3d-8a4c99ecb79c@windriver.com>
+Date: Thu, 25 Jun 2026 12:31:12 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] sanity.bbclass: warn on .cargo/config.toml
+ outside the build tree
+To: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com
+References: <20260624064224.2998388-1-Hemanth.KumarMD@windriver.com>
+ <f9be9a387e024dc86312a45e2a4b029e5cbf2ec2.camel@pbarker.dev>
+Content-Language: en-US
+From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+In-Reply-To: <f9be9a387e024dc86312a45e2a4b029e5cbf2ec2.camel@pbarker.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: MA5PR01CA0058.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1b8::12) To DM6PR11MB4564.namprd11.prod.outlook.com
  (2603:10b6:5:2a0::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|CH3PR11MB8517:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4002873c-b64d-467a-98d2-08ded28656b5
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|SN7PR11MB7640:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9bc6d3de-04d8-4340-4c6b-08ded2878dcc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|52116014|376014|23010399003|366016|1800799024|38350700014|56012099006|11063799006|18002099003|3023799007;
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|18002099003|22082099003|3023799007|11063799006|4143699003|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	r0ldcLpvMfJhJlmlKS2MZaG6U9j+OqJ96Ev0zvReVA9ahV4A5/Ni+9qULcN/39HayaRFV7u8V0j8hlo/Gg5VKD5Ue7o3Q4MQm8Csc9Oejwh7IkT+vXgUAs+O3e/xtYQnUggLya3fWrnXFBo4mry11hWMZCZcvS5Js18frJRJweeGWr1k6eWYc2JJ0Tn8g9hAE8jTK3JG/TA6BOPVJEhzPIR+88Vo4Zk4z0/27ykWdsMiBiDJnswsCqbaaZiRghNEcKhMBE8JCFbZHhs7zy6ajeNaORPl2SuiokRkCknvdcGJntKDiBWJwdJsLc9ioPh3iLdg2kzF2v4Ed86wRmC+LXSEOomRcHYkmWdMXBOR+PMq2mwru5cK43e/4FpwR5qne/yWC3AVwPn5vk/QWX4u6TpgsT18nUqMRtFXpyt+CF+ELCCo4pBoWRkxqFRYBZoXlOJBeliLAw4P3B6dOM1d4vNjiK5T8kTXmOVwMTY304aI6pTpTEt4+lRC7OWIryh5th0z01edIs7+/b4sE+zCjZuTNGpN5TaH3qCTv1h1xEUIH1t08lg5PRp85O9JHE4rEJVHDmIxbuwa60UncDjrzF4wjyTi868HDMzGSfv8j8MtpPyu7bixLQSPr0BLQ3eAOFxLAsATsMTb/MT2/KU+zDQn5dHIbdyV5ve3LRPY5IT8b2ODXcPZSTePQsxad9rUmrNJupyPRTzQ2WkGP3L0byjmtGODBf8QcAJ0TajPvwg=
+	w9cg/bzSMPeYS5e893Uhrbj8rUhQKOH0B0s26M+It0tuzmxzkjUL7g3Qtt8PuexQvdxpqcKHovbup4Qu1KxttWxEYvb8ReUAdXks8i60NqT9Y85+bnSGaRRG4vc4PABsE/Eau3sJhq8iwNBDepn8IIFdGh7Eh0JaDfGlWW9wdrHmAaiqt/Hpd7YX2jGi2UUAVbWE4rbDsUJ6iZD2ez3YhLaJK4fm3/60ANRNp2dn0Xt9IOZ4HAnehkByxjv+fai6d9VlIw1OANIaNSDLcDTDKJibTbSfoATlsVgIi+imjE4tT+2dXN1ljctmvz+C/mtVRdPsMKGYbCOZjuUkX5awvn2sgupGXtqjsC8A8cF57l82HUMUrtNoVxYnQFWtRvzH2QpJ/3kGkVoAlZEqRHevyPP5dzbHtRIO69o3rjP657VBJwSE8uNJJW3h9N+TlBhlafYSORDKinOY27YaaofulTfpgFRimCMIHapIsJt3ypDjLSRNvLsRFtx5rsb66cy7XjWcqPLCS8c+X/TkR3xIgGoOL+I415yeTKbLG2bX8B5febqdML/YKseF8ph3dvFTFZyc4U654haUMoH0UeP3xEz4yd0jqCjM1DTLHbEwyBQ=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(23010399003)(366016)(1800799024)(38350700014)(56012099006)(11063799006)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(18002099003)(22082099003)(3023799007)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?4rx3DbhGiXEC/ez4vr1cFOS1/odOmkjxlf7NZ0WKe7Y6zMguEujtoIkVewkM?=
- =?us-ascii?Q?vjxNlOlzPvnuHDYHyMrFAhxjIcQPDXBRk7s8onMQ2n/fRm6FiVF4Vlq3fbmw?=
- =?us-ascii?Q?svrSXHqZDM9qHkB+Y1G+cCS21FrZ+cv+xM+cEUIH65nRAEI19kJhH/SjUSv6?=
- =?us-ascii?Q?1ZqJHnCl46K1oaeHtPBgic7uxvhPamamZkGIRsP/pY+FIzBMwdgYVureQQ6C?=
- =?us-ascii?Q?dP8JE1OiT4DtoskyalRf9s1a1XKo3feqiwykdmV67hcRnJyO0KOmmaol4VMp?=
- =?us-ascii?Q?52p46BNykK6mj+XkY83yaLiinrQXzcgGLJPyCnwLyrR99ffr5OJklqDnLDvL?=
- =?us-ascii?Q?f9w/YPn+fFOVrpIu7Kh4VCtXuHlxwDvybmprf+THNRuvRisvumqEokhGWqtC?=
- =?us-ascii?Q?71NyDnRnQJ1NMXDWf0LLpFkRPy/CPT157FuwGNUkgAemm1djNRTxkm6p6NwB?=
- =?us-ascii?Q?D/yeHsracM8GivoDjVcL4VZ/SMlD6Z5LTHr691m6c8npjAeOwCLGXVCfnDda?=
- =?us-ascii?Q?F8hai5MtvqD+nA0Oava+HPWxs1eaImtjyE9lbUrap7Vw4yuBnoWRKVLqel/o?=
- =?us-ascii?Q?+C848loHYdIZ0AhGe0BedBznCSri8uYAS8pLzh3ze03UfgkURRmP9dp5EIht?=
- =?us-ascii?Q?7IM1Gxd3SD0htHXj4x/M6m5Vn/bd0T0/o37Dfl6nntNbyDPByMBEy5+4docA?=
- =?us-ascii?Q?k181MzWebmDopug+p4W4/s3N7OadA9s4gb9Rfo1IMyZNPZhmuRwLp5XowAlK?=
- =?us-ascii?Q?/XmWD/3EQt5KnP6zpmosY84KDBTRXzyQ/wF8ARE6uW+VKJwWXjtMODE4pQtM?=
- =?us-ascii?Q?/+qDqonxgTGX3l4ZhjbElTu/2nDOh25w/LhYZxuXncIS3tQ1H2HIhdIhJ1ZD?=
- =?us-ascii?Q?+DiqAYx5uvzJJBrtvo/7D1mwKsDnqHKtNhP0eSag9t+dxEwuU1dGTn5VWJkQ?=
- =?us-ascii?Q?VEh89a6O3epa1zKeNIN22V64xN2o0vTaBaIPo7+v0I2q7Wbug9zV4eLAuVGk?=
- =?us-ascii?Q?+RtyBOiJUEHk9DYEqmy/llcnS2ZwH6gNk+0DjcqmQDGdN24Ho2TXMY2yOwYj?=
- =?us-ascii?Q?e0qQ7HF2peCf5ILJCR4DDnGIpN9F6wNiJs9h1vu4bY4I3mW3GNpzgovyIuMI?=
- =?us-ascii?Q?Tob7dukSbjYJjv+YKXAklew9dwyjlnLryA2Egv7VNEcxnkGu7whWWbsLH3lD?=
- =?us-ascii?Q?fmp2jvymhTs2X7o428/kBBeV2agHKFogjs64M9pgeT4vuizfyPvkOA3/8GPL?=
- =?us-ascii?Q?QDhU0YKlqfhFy/EagF9sbViFRm1gTqJcxw8UostyaXc7iYXkyWPhlCNWi92+?=
- =?us-ascii?Q?NTip/IqL8ji0vUPTSzgHEgtRsbNyu1DPpphpFDIo4hiCb5UFq+Amj/7tFUej?=
- =?us-ascii?Q?b9tnmuZUTboD5V1XhXY9NivJzwAQOMxbfBE4KsyY652jpHNvU/bperKPjRa5?=
- =?us-ascii?Q?Xkwf6BbY21qKQtuvAnkyxd6S1ZEwwHKbmTQ4M/29YRKEPckFFbp8HazhOmfw?=
- =?us-ascii?Q?zP77V4D0HkT+ORSG7rsxiYWWEvk7iasQG/PEEE7Ujs2dHVNMVuxqsMlZpZqu?=
- =?us-ascii?Q?+rgOOjS0pZLwvyyfaZuca5prsH8FsK3odlm+fGjnIBoJhLA7tR+e8SQylz0F?=
- =?us-ascii?Q?ptNYkAJ0khyjOAI3v6ql0i/WuFgWOYTI+z+nnq/MDxz7IT6dKFS2PrUQhAMi?=
- =?us-ascii?Q?ldByU6Cx2XzBcbSO2AfoxpD8tpxlXJlmvJqoQaMWbshlYvGB9giZrEt2KCuu?=
- =?us-ascii?Q?ppQpI5UU/ZfTPDf7rDmRMarE7CWxs1I=3D?=
+	=?utf-8?B?WVhEZDZIQlNoc3IyaU1WSFdOSHNmTVQvZmUvV2FTUG5xZnZWbm1XVENKck1R?=
+ =?utf-8?B?aEJUR2J0WkFoeG5ub1dZV3g5OXlNM1ArTjFHSnlFdy9KR2MyRjlFQWxweFJG?=
+ =?utf-8?B?ZFFDV240R0d4R2RnSGlYb3ZFcTdWZUl0M2w3ek1PQTBvZkpGS24vRFJGQU1J?=
+ =?utf-8?B?ZHdWeTZjbHk0bit1SkJFY3o2VVZXaWZQV1MwUEJPQW52emRjVXRFMzlIK1ZU?=
+ =?utf-8?B?d05wMU9nT2d1Y04rL2gvRU5YUWV1SVMxQ1BwSVJuaUJrb1N6WTZPS1pYQmIz?=
+ =?utf-8?B?SHJZaU04TUtuUktmZWIzUlZUMDFTK0dvemxMK25ITTBkVVVKdzV0Nkd3QSs2?=
+ =?utf-8?B?RmJZZUNhMlZPTXZNZ3Q0SGRIRnVPMGFPRm5QMGNGZk51ZU9wY2lDQm5sUU83?=
+ =?utf-8?B?UlNKbVJ0T1NLQ3krSVVGa2M2K1kwSzhucmtJNmpKUWs4NGxDd01VYVdacEtl?=
+ =?utf-8?B?WDhLbEM2czlzekFsMFJGOHVISitNU3lRY1ZLblpMdUJxRi9mRitQVnhlR3FP?=
+ =?utf-8?B?NE9SdmxEL1g0QmNqMGFwKzk0NjZIb0Voc3VHQmpZaGQ4cGpiN29aYzhnamhv?=
+ =?utf-8?B?MEtjZXdyVVVsWlVCS3d4R0tscWh5ZUp5WnpDa2ZkOEVJRnIwSk52a1lxRGpt?=
+ =?utf-8?B?U0oxbythRHRVSEpLRWJTcXJEVmorZDFnNmhYc3lTZEM4bUlmRnRJeVN5S2VE?=
+ =?utf-8?B?UFBRUG1MRWV3QUx3dTVmYjhjMkxMZWc5REEwYjR2MWtJTGNVbkdGU2ZBaita?=
+ =?utf-8?B?akE5VHdoTkhyWWNTRExPS3hEMzNrU1FKeVhxakxzRDhtZHFVMVF1dzArZnU2?=
+ =?utf-8?B?b0p0QWlhTDduckY5WkFMbW0zVkF4SnM1eXlTL3BxcGlZblZLSEFhdWdTVXF4?=
+ =?utf-8?B?aVBRS3BGMHpoWjF2YUtXTzZIRUVhdzRqNFBYMWpES1hDYm1RYjIvb3h2Rmgy?=
+ =?utf-8?B?VjJFdFkwODlFMUROYkkvUTA0Tys3N1pKTE1oTUxNcmpnRUlXYWJtNVJhL3FN?=
+ =?utf-8?B?c0RDdVdPcXlpM0FkQmFnd29KZ0JZeWVMSHNnUExMWnhwclVSdjJSaGJYL2Fx?=
+ =?utf-8?B?TStnRHNPcHNubjdqT2p4cjY0eHhNYmFpS2FJbEtqWHpVM05JVDQ3dnBDdXdi?=
+ =?utf-8?B?QXZSMy9zbnJXYlZ1ejFRZS9WQm1nOVJoQzNXQitIQVAwQkxsYzlMeUhaMjJv?=
+ =?utf-8?B?cXQ0ci8wLytGNnovQWo4VWVIUlFXdFZRNE5UUkE4MStpTDcvN082cTFaaXlo?=
+ =?utf-8?B?VElZcDhlcmM1RFY4TXYxMlA3WVUrdTNCU1BZM3hIcmMwZlpzT3Jwck1xdlpi?=
+ =?utf-8?B?SXNhQWlQSzVvMnNPdXZwSFhxdUlnM2g0dHB2YzVzREdTdDRpcmZyS2xwb0gx?=
+ =?utf-8?B?SUkwdUh6cGwweXZnMXIxL1hZTDJmcFN1UHNQS3ZmaUo2dW1PSU9nZHBWRit5?=
+ =?utf-8?B?dEh4UG9lcTRHbG5CNXhtZGczZm5heTBBZXVLckFDQWV0OTNZcGhESFBRWHpR?=
+ =?utf-8?B?YTBNdWJockdWTDJNRTh2Sk11dEpESy9QQTNGZXhzelpyNzlDOWk3K05PRXRE?=
+ =?utf-8?B?dTF3akw1M0pqT0QvSDF6V01QOXQ3c0NhVFh2RGZlWXRkOTFJZEFjV3hrQ2wv?=
+ =?utf-8?B?V2ZVTW5odTQ5dlZRdk1GZVlaem52VzdoaEZlRkk3NTdQNWtUQmVKcDl0bG5l?=
+ =?utf-8?B?M3FBZ0RmNlJDRkVRUFBWNmJkWk91V1VrZUdnQW9OK05BZzFJTUt2VUhTRlZM?=
+ =?utf-8?B?c2c3N2JvVnJYQklISDY4U1Bid3duSUZpbTNSbUx1L0VZdWJYQlBYRFBidGpH?=
+ =?utf-8?B?N214VXloRTRzZW8ydnRvcWFyYkN3SjBWM0d3TXJlVDN1OHk3WVMzN2FrMGxl?=
+ =?utf-8?B?Qmp1Y29wY1VTeUl3V01pUVdiM1lraHcrekhEUklMNWYyQkJkSTZpd3B1QTdw?=
+ =?utf-8?B?a1RmeDJhbUZ1dy9qMTVIT2FWTU4rakxNZ1loTTlQajUzTnM2aWpnV2NxcThm?=
+ =?utf-8?B?NnVaMUJFYnBlWDh2eFVqWEVLd1ZOaDh1WFpMTExnblNsVkJIVi9sQStZWDNv?=
+ =?utf-8?B?NFFPNWhNU1ZadXZ1aXBwRVQzUVc2YnRxL09SRlp1blYzbk5zTlhSS2NPYlNw?=
+ =?utf-8?B?TENsend3VElSMmF4cjM2L25IYUVJS1VjbFZ5QXF5MFlta1JneGI1aXRzMnFB?=
+ =?utf-8?B?NzMwanVseWZpbGxWRFp6NjJyVEI4MVU3TlByc2tCMjQvaTN5Z041RmVFbVd0?=
+ =?utf-8?B?cUc1ZmM3S0ZmUHlicmpHbTdTMUNtRUo4bFJNd0ZnMVErK1R3K0VVWHNlaDNx?=
+ =?utf-8?B?NDBzUi9QL2VVS2I1c1VUa2dyL0lvNzJFalljTmxrMndySWF3Q2FWMmpROEhZ?=
+ =?utf-8?Q?ob3NFBOPUn19A8qI=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	IumzmcimhzpqwfxMEjMiS1lw1MwnW+iWffEnjYDTnlZ5eywvS/Vbnwt7WM2joRfx6jFMIKMyZ8dhiP3NEVj0imk7t86eoFNYXItuS27YUXfTk4SQkQ2ZrgJpOabnMQbSz9GENxndKi9fMQQfikDxjBrPMezmIVfJx/Ry4WlKAdRAMWty81a1M3z+AglqZrnicK88D/B1SMUB7+A3Pc0bG5R4gHtTj6A5AEj5mWacQqhY4RWGITzVwKKlo4bskd9/VqmjrJHXpGW8HPChpSmHu/r+Mqm7gbRmq814BNwFdLpFiQ3bsOUs0oROHKo46JUHWMMWi/9Vefkuu0Q4P1m6Hg==
+	DWSoGDrROsjetVt80F4jidyAmJiB2dVzpmITeT3iSA8u0xQkJzKyDueI01FeIq1crZSEIxVX8EawLEECGXQdbQAcPb7/yjDVJ6kTmoFcyTfxCKp9FivX1o+MuMdnBxaSPADAW1t4iHHTSP8WxAvFCBrdDVWQ8r8nZD7nmo3++mi5whWx0pivhCg4qkPi3cTdUiC5nsKFEj2kBZMWrY1dovjB8Jn4TvE3jBL1cUpADtmMKD/76h+vNUklha6LEoUy79LUsmkF/Y9o8LZD+xsz3CIJiVmfE9rtlKlpzXmwp+HUFFUiCMlf2zhziUc/PF9aW0yrj2PtBFCQdxM+GT2qXw==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4002873c-b64d-467a-98d2-08ded28656b5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9bc6d3de-04d8-4340-4c6b-08ded2878dcc
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2026 06:52:35.7063
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2026 07:01:17.9371
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rhs+Img22ESExOf2Szhfq2iGvBC579t/vHYP4RIOIQHZZyKcfdky5VeAe9VQfxT52rrkQiJ9w5hFj8/mSYvtz5nvi5mlPjPUhAfraE9/KDs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8517
-X-Proofpoint-GUID: E1SU7nw57svYVfm7yNWV70NK-9bCMH-4
-X-Proofpoint-ORIG-GUID: E1SU7nw57svYVfm7yNWV70NK-9bCMH-4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI1MDA1OCBTYWx0ZWRfX/VEKXk7JBpso
- Bizwe1LROoomhVzZkowWka97ghBgDJF0BfZmXuNjRwC0QEwbdGRCjAWjptsx5vfEo3i3FFXbdsg
- O+DyEy/oJGWLP4XfV5tOkXF/TGfxtE1rwQs8d8Lzo93eBsZ78gqq93klHbc+LIKAuarkwEFYd4M
- 29dObEklClPnOdul4KWGIrsl2WXzMItrWX+C8n6f2matmlAiZqI5N/I72I5o+a1EyyOvYGrvreT
- QYkUfDdPM0WdCHLPKMqs4+MGrRl23hcnjfK+jYMGFurtm1Ukq7kNnwyekUQx0E3SLa0nlt6BVlj
- WYAGk2Cp22jY9E3ktcjZpPs2iOit1w2+CgWLDD7cg8Zz+wTPyoraGI/Izn1ochjQO/n91rX+Xjn
- Gx22xRb6edJQj48N/2oiaOF3dtn+Gi4XiLqypCxRq40N2n/WXSvr0CfKCxXcY1aJD3EEvuC4CRI
- WTI1yT94HthhO0v5bwg==
-X-Authority-Analysis: v=2.4 cv=MpFiLWae c=1 sm=1 tr=0 ts=6a3cd039 cx=c_pps
- a=uEYA0xFIOgoeTHFe+isxXg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: OHoE4kTR/l0OqDenbF0nA4yiaQlXhcZcFyCc39rV7pXLgPqREa7XIcHi+6K3QVtwDWYAroD/SXW3sv3D6P4QaqDw2PiMJ15CBJ4911RKi4Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7640
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI1MDA1OSBTYWx0ZWRfX7uh9DhVxjWwD
+ a06egOrOuGBOT2RfaqznvUkSkNDilGi+iR5gDEMTcjTax76uO/1/EbWckl6uL1eDcoBixLUo8By
+ Z0PBa+EH55S3GbNGxoIw/5R1dnz8X1Q4DHyl5ZSP94uIU3dE0O2I
+X-Authority-Analysis: v=2.4 cv=HOvz0Itv c=1 sm=1 tr=0 ts=6a3cd240 cx=c_pps
+ a=eQn4vQZDn50HuGbH8T6KOA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=NEAV23lmAAAA:8
- a=iGHA9ds3AAAA:8 a=t7CeM3EgAAAA:8 a=6l6b2v__q5i8A1H3Te4A:9
- a=nM-MV4yxpKKO9kiQg6Ot:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI1MDA1OCBTYWx0ZWRfXxJtZoF7MMVHP
- dEnV3NeORIeA27SY8Pd4trtNOiQ+vu1no0LJJAu+yQ4XzOgM2Li48e0m0XgECm6lXHgJ+IG9n/N
- S5bbxp8PppuH74VpSl0sPPDgSmQ+g4TehiYAcEpP7Tmo6E0kGTum
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
+ a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8 a=ei4SEBeUAAAA:8 a=t7CeM3EgAAAA:8
+ a=OqpWfB6_mZ2_LRL5LrgA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=8zIOOLb7Ym0NljyPXbuS:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: MQlspJTLoLkFci4_-9xUSRdzj3dS7Tdw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI1MDA1OSBTYWx0ZWRfX3f29EUnnxHRW
+ LmaWy/64Hgaa/VTFsG/tBPOSFH7Y55zMat0NLx/j20H2m3B+tTIBeBV/QQvF8qxs0YM/UbTkxLf
+ Ny5qkowPY3abVj+IZk3vodLcWAKSyVhTcgNS0EoucZXR0EUbPVDUxM+GlLRA+RPHTGeeJH9FrV+
+ BEmP6jgBdlAxXc7K5gsWJNaRSyoX8wumXF50SwaTjC7Ip9kpa07a7E5z5mlMLAycUds6dsF5JCJ
+ MTWHdjw1FKYe4hwR2o0H1iF5ndh95WlPSSXQN7iLaUAexBXQFrWPVVBvm/+kSUwR3on4jbmPCvY
+ AmkLsKnt+J9fYL/n6HIHKRsRJ3Cb8yNhVTEUyy7PZZgGL7l/L85GJG+GoPYhqTEARnz2OX7kssr
+ 6bz2piisXHEjdnlb/AEcx/3jsbyzoQVt96eV+nqOiVlAH74/P2zA5f6BfHoJOU44kwVpSDYkBRI
+ CeI4wP0bmyFLUMyZx/Q==
+X-Proofpoint-ORIG-GUID: KccolDUDE_h4jx4fQD9DN5DOh1-FVPEQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-25_01,2026-06-24_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 adultscore=0 malwarescore=0 phishscore=0
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 bulkscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2606250058
+ impostorscore=0 spamscore=0 adultscore=0 phishscore=0 priorityscore=1501
+ suspectscore=0 bulkscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606250059
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 65P5R1vA513575
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2026 06:52:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239544
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2026 07:01:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239545
 
-From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 
-Cargo walks from CWD up to the filesystem root merging every
-.cargo/config[.toml] it finds. Any such file above BASE_WORKDIR is
-silently picked up and can override Yocto's linker, registry or
-compiler settings, leading to build failures.
+On 24-06-2026 01:11 pm, Paul Barker wrote:
+> On Tue, 2026-06-23 at 23:42 -0700, Hemanth Kumar M D via
+> lists.openembedded.org wrote:
+>> From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+>>
+>> Cargo walks from CWD up to the filesystem root merging every
+>> .cargo/config.toml it finds. Any such file above TOPDIR is silently
+>> picked up and can override Yocto's linker, registry or compiler
+>> settings, leading to build failures.
+>>
+>> Until cargo provides a proper fix upstream, add a warning so users
+>> get a clear diagnostic instead of a build error.
+>>
+>> Upstream meta-issue: https://github.com/rust-lang/cargo/issues/9769
+>>
+>> [YOCTO #15637]
+>>
+>> Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+>> ---
+>>   meta/classes-global/sanity.bbclass | 33 ++++++++++++++++++++++++++++=
+++
+>>   1 file changed, 33 insertions(+)
+>>
+>> diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/=
+sanity.bbclass
+>> index bdfa7f059d..c67c7b8f03 100644
+>> --- a/meta/classes-global/sanity.bbclass
+>> +++ b/meta/classes-global/sanity.bbclass
+>> @@ -854,6 +854,38 @@ def sanity_check_locale(d):
+>>       except locale.Error:
+>>           raise_sanity_error("Your system needs to support the en_US.U=
+TF-8 locale.", d)
+>>  =20
+>> +def check_cargo_config(d):
+>> +    # Cargo merges .cargo/config.toml from every directory between CW=
+D and
+>> +    # the filesystem root. Warn for anything found in ancestor direct=
+ories
+>> +    # above TOPDIR that Cargo would pick up silently.
+>> +    import os
+>> +
+>> +    topdir =3D d.getVar('TOPDIR')
 
-Until cargo provides a proper fix upstream, add a warning so users
-get a clear diagnostic instead of a build error.
+Hi Paul,
 
-Upstream meta-issue: https://github.com/rust-lang/cargo/issues/9769
+Thanks for the review!
 
-[YOCTO #15637]
+please find the v2 -=20
+https://lists.openembedded.org/g/openembedded-core/topic/patch_v2_sanity_=
+bbclass/119970000=20
 
-Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
----
- meta/classes-global/sanity.bbclass | 33 ++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
-
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index bdfa7f059d..5c5cf311da 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -854,6 +854,38 @@ def sanity_check_locale(d):
-     except locale.Error:
-         raise_sanity_error("Your system needs to support the en_US.UTF-8 locale.", d)
- 
-+def check_cargo_config(d):
-+    # Cargo merges .cargo/config[.toml] from every directory between CWD and
-+    # the filesystem root. Warn for anything found in ancestor directories
-+    # above BASE_WORKDIR that Cargo would pick up silently.
-+    import os
-+
-+    base_workdir = d.getVar('BASE_WORKDIR')
-+    ancestor = os.path.dirname(base_workdir)
-+    found = []
-+    last_ancestor = None
-+    while True:
-+        for name in ('config', 'config.toml'):
-+            cfg = os.path.join(ancestor, '.cargo', name)
-+            if os.path.exists(cfg):
-+                found.append(cfg)
-+                last_ancestor = ancestor
-+                break
-+        parent = os.path.dirname(ancestor)
-+        if parent == ancestor:
-+            break
-+        ancestor = parent
-+
-+    if found:
-+        bb.warn("Cargo config file(s) found at %s which is/are outside the build "
-+                "directory. Cargo will silently apply their settings during the "
-+                "rust/cargo build and can override Yocto's settings like linker, "
-+                "registry or compiler settings causing build failures. You can "
-+                "either remove these file(s) or move your build directory outside "
-+                "of %s to fix this. "
-+                "See https://bugzilla.yoctoproject.org/show_bug.cgi?id=15637 for more details."
-+                % (', '.join(found), last_ancestor))
-+
- def check_sanity_everybuild(status, d):
-     import os, stat
-     # Sanity tests which test the users environment so need to run at each build (or are so cheap
-@@ -873,6 +905,7 @@ def check_sanity_everybuild(status, d):
-         status.addresult('Bitbake version %s is required and version %s was found\n' % (minversion, bb.__version__))
- 
-     sanity_check_locale(d)
-+    check_cargo_config(d)
- 
-     paths = d.getVar('PATH').split(":")
-     if "." in paths or "./" in paths or "" in paths:
--- 
-2.49.0
+> TMPDIR and each package's WORKDIR are under TOPDIR by default, but this
+> can be overridden. Perhaps we should be checking ancestors of
+> BASE_WORKDIR instead.
+Agreed, updated to use BASE_WORKDIR in v2.
+>> +    ancestor =3D os.path.dirname(topdir)
+>> +    found =3D []
+>> +    last_ancestor =3D None
+>> +    while True:
+>> +        for name in ('config.toml', 'config'):
+>> +            cfg =3D os.path.join(ancestor, '.cargo', name)
+>> +            if os.path.exists(cfg):
+>> +                found.append(cfg)
+>> +                last_ancestor =3D ancestor
+>> +                break
+> This `break` should be dropped so that we tell the user about all
+> offending Cargo config files.
+Keeping the `break` ,
+ =C2=A0 Cargo docs say if both 'config' and 'config.toml'
+ =C2=A0 exist in the same directory, only 'config' is read. So only one f=
+ile per
+ =C2=A0 directory is ever active. I've also fixed the probe order to chec=
+k=20
+'config'
+ =C2=A0 before 'config.toml' to match this.
+ =C2=A0 Ref: https://doc.rust-lang.org/cargo/reference/config.html
+> The rest of this patch LGTM, thanks!
+>
+> Best regards,
+>
+--=20
+Regards,
+Hemanth Kumar M D
 
 
