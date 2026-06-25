@@ -1,149 +1,141 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <wei.deng@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8FC9CDE000
-	for <webhook@archiver.kernel.org>; Wed, 24 Jun 2026 23:21:28 +0000 (UTC)
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.456.1782343283971257090
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61A9FCDB466
+	for <webhook@archiver.kernel.org>; Thu, 25 Jun 2026 03:47:20 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3914.1782359238503523525
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jun 2026 16:21:24 -0700
+ Wed, 24 Jun 2026 20:47:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=rbBrLb0k;
- spf=pass (domain: gmail.com, ip: 74.125.82.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-30c6c8d7503so3518283eec.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 16:21:23 -0700 (PDT)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=ipnmtfM5;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=i0Da2avo;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: wei.deng@oss.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65P3dxC13405650
+	for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2026 03:47:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=AmaIKlRQu8e
+	+J9wEFzq2UufJsjd/PENRKFXha4rO+OE=; b=ipnmtfM5Va8lz1D1GLPFHDQK7UW
+	Xi5QKPOnDbV4isMrLz8Bs+PK/QoOD2vgXlkTkb7vZyk23YobsoV42z/HMeL2Di8G
+	GC20R7En/GMqA0YWJwQ5IkFO4njmt1BcbjiLgZoh3cepUmL91dZTpW5goHzJxkRc
+	lzK4rjt0L2xUlbhtscAEiC/eko1Ac7XLWNKN6ocdzDs43QPjvC9U4BKgah8Tl70B
+	vlwMnNK3ppadysYozTHBjugR7nakGFuXUZrGSF6EUP4e5uT6TPuOHkcgFxETkvxo
+	LbmXrte899kTztSHWckvfQUdyRDSY7+ZjE+KPc3aFdOcxtyxNt1SYtFrzmg==
+Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f0tsprhh5-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2026 03:47:17 +0000 (GMT)
+Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-1399a989312so269620c88.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 20:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782343283; x=1782948083; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GBnpEqdCI+R9mjPybjK7k4HNKiig5pvIvx9XhGLKbPQ=;
-        b=rbBrLb0kxF/ZHhP9eA9wLIC8eOI+bP7ttBEYBBIuikymfV4JGUmSppgG8LWDwyf7xD
-         2uUQRdj+LhrSzGvKIOYaiMPBFulkvqZeC1NzWyO9gefIklEwld29XrLbaRDflqDNIBgS
-         a8YL0A7blRHEKfb36yKcBQC34Q4ZbOPJdgOfpkWJ3E8dEfXpf7SiQidSMA8djQpaoS0k
-         ep/P+yRu7t4uAQd7umCSq0ZnQzbY+5NFKHPib9DD9DSIlOoFnM6qs/XBsynkFfkPkfF5
-         Vbh0AiONGlhDI+O7owmTuOXKYcKID0SdXPkxY9MK69zCtICWrK+MnxBgV0s7tba2ciNA
-         +2AA==
+        d=oss.qualcomm.com; s=google; t=1782359237; x=1782964037; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AmaIKlRQu8e+J9wEFzq2UufJsjd/PENRKFXha4rO+OE=;
+        b=i0Da2avorM3wb3y2rKJKvEL0BIaYkHaK3iUOhvnTrAY4XFlz88DWf8JOccOGFE5Z7i
+         HlVk9F7hR6jhHg1gbU2OyzMerPTgglMXJdI+WbGE9H4kaRj/LsSsR9Mez5m0FFkVp7E0
+         FHZ2XliC1UeRTsBGjZryDZKFq7ZrIFiZdybNzqENAU1J+MS7FH6liZH57slYVx1ZaiGd
+         39RhJ08pMqY86+Mvb14kz5f+OxJw7+b3exkOav53Taq2znoG8z/1rfPmVJHw6CqIDlTT
+         KV9iQ+4gjZiVAa+tPbKjHohKP6mQC7vfjieqCX/fwZSxGecdY6nZxYQOUNbhhDSaeyl2
+         iXtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782343283; x=1782948083;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GBnpEqdCI+R9mjPybjK7k4HNKiig5pvIvx9XhGLKbPQ=;
-        b=br38yKPVZH19f2FVDDdZ7AVooXzJj5qKyrwx0YNC8kBv2AQcnPYeLia/Bf8bT2+yAb
-         rI70d+otvWOiJy1ZstrCCu4zFA0vz7H/XkZxPeUJtOenPNFPQm8VhCPns88G5R4dS7I8
-         NeED7QL50KX4g79MYTQECouqHY/2LjYaij1pC1B3vV3i3TfZURKmZsGHVkouaXjSu4x4
-         M5er3kpO+YKKZWMwuKR/Cn2nrvqd6OiSQCiTqH4zVdv/BOpMj6Rv5E1WjgFITv4qQSXx
-         pwhRDkdSlgOVIwdGpLEzb/rQWGu/KzOvZbpS5eBwfc5/17Ud/vIE7wE3UEPop0cEwOot
-         CBRw==
-X-Gm-Message-State: AOJu0Yyda9ckoX6Fe0AHeI+LmksGlU6kiO98TUQJsnn/gSGdugafnrHG
-	wsNkcN1qmACG2gCDkEqqRzqVNooh+z1BP1F2QKD+i8CuVvKHejFEp6m7HhS1ZBNkJ04=
-X-Gm-Gg: AfdE7ckeOO4MFKe7PJqDWK1bGET45XOxPshSKQGMMCBfi/7z5S6E8BQYX3qFiC/x8hc
-	Z+CcTQ6RmzxLjklHIo6bGhmoRTpdVpMmO23ZdYpprmbfpC30rTScy9oUD+9SvtjgGu4P+j0pENe
-	yN2sDN/KWza2QVFq2jUWD/+k4mCYjPCgat73oyHyBHeTrmj/dlTYP1V4u1OdTNLD3M1NbczVk4P
-	9cXSt9yhS8VWItbYC+0IgiC+CT9wlWi/sKs0rJWeylJkqAd3Fqy/4s3Ve5DS5hc5vxvRVmMHLt+
-	8+A+QYLoht3zEjF2nWjmdgKNiWITC5CHbsIqjg6V85ULA5zmGv8lx1HNpwagwg/2UD3MJgYzZM+
-	2lLmjxdT5XLKwEjmKJYILtGnNxiIhVNjHxOnvECFxQCfsryxWmdbtmzeaDA+Z74LD5O62DqqoOX
-	zzg0oOEtd6KB59h3CvDKRYWwYgWACZcXx5pmWF7Kl+rOKMdxX2KThTmPtg0flh++lQwrd6chfQ2
-	RiCdRcf3qEbJDsez/62PufyQf4dsa7jE2oNGdmPkSvj3sJp0YaCbVJhDVCAw0Thf5Epi9wPkCGF
-	8sGH54odEA90SM+IpJZpAi58d3cWfw==
-X-Received: by 2002:a05:7300:80cf:b0:30c:52c5:6e3f with SMTP id 5a478bee46e88-30c84fa60aemr233031eec.18.1782343283001;
-        Wed, 24 Jun 2026 16:21:23 -0700 (PDT)
-Received: from apollo.localdomain ([208.95.233.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c52c664sm2248632eec.8.2026.06.24.16.21.22
+        d=1e100.net; s=20251104; t=1782359237; x=1782964037;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AmaIKlRQu8e+J9wEFzq2UufJsjd/PENRKFXha4rO+OE=;
+        b=ZlTzOZ18FTyXKHmXmWT8aMix+RNsM91Upo0Dgzmqi5dSfymidtm+m2A+fePWgHd3pg
+         h7OK2WqFyV/vDaYreSoBJJMZ0/U1AzEJ5z+izZq3AphwECmHwHglmsgFN4Dkj1UvDOiy
+         +4jZLoXbo3JusbYeFXif8FaXHVnMFdeg+dg0BgWhdGDIB9w48PONY46hhQa8CUp1PsYT
+         Cph65T9ITOj51PXVM+Rn18mdPQKoe7mGCOv838/bcqmPl4DiPpDnv1heMYkpOIRXo2nE
+         zMPbxPz5RAdhkrDWDzTMXY3pg3dha15Wec/KDcWOaM7dURPuK6vFAxFdcGdkR521+6pZ
+         sJrA==
+X-Gm-Message-State: AOJu0YzIaRVtJNQIzc/qdQCa0Nio0O0GgowRqQ1yYt+typXiC8vSfMl6
+	FV3Fi6TRqjwKvsTiGABuy0vPSARkysI7IlipixY+PqBSp7Yr9N3e0Jny8a1+cwUCwO1dKpMGcP6
+	mT51eBOE+zixb+yvovsfM2XaFjXsC8mbIPYElqpTEHdLRR7oqumSihliAgBygi0qdb9+NgZ7hbS
+	LSRhSPs6IF8nRA8spxOA==
+X-Gm-Gg: AfdE7cmrNGRP0YAC0Zq6KiD6NSjp0NEBbF4PqMUz9MZXuRa55IYjy88EvOm+3IhT56M
+	tr3zlA7E6dM8oKCQGDj/nirFqaOlAhJVt5z8T8DiDcRkuhobO7O0A9hp5ybIyJu/zU9ADQ3VrVU
+	eIE+DlCHxJURCISYSQcgaF1UAHucGGijmLZ733eO2uCocUzC2Qa7Io7dXWKPxWP6F9H2zd+FwjN
+	2kgf49nSZHnAqWWeUxXcCBIOseVvqm+AcM8M27bRgh6Mm2H87NBOnKUTAlCiVoH/L6Pm0gPkQBc
+	n9dRcARP95a95hiHhrNqgPEPxtRmCFsJ38M7Cyq0XKazLppEJOop+Li9P2MoxqF/twOxMmfdD4S
+	DAyV6KeGDcB1c6aUIh0AwKAKDIv08W1ZxLrBpn2SQeBhIRCGIGDRQ1svj1a08JQ==
+X-Received: by 2002:a05:7300:e82c:b0:304:5074:83b1 with SMTP id 5a478bee46e88-30c84d1d771mr334963eec.6.1782359236827;
+        Wed, 24 Jun 2026 20:47:16 -0700 (PDT)
+X-Received: by 2002:a05:7300:e82c:b0:304:5074:83b1 with SMTP id 5a478bee46e88-30c84d1d771mr334945eec.6.1782359236169;
+        Wed, 24 Jun 2026 20:47:16 -0700 (PDT)
+Received: from hu-weiden-sha.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c52c6c2sm3636933eec.10.2026.06.24.20.47.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 16:21:22 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+        Wed, 24 Jun 2026 20:47:15 -0700 (PDT)
+From: Wei Deng <wei.deng@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] jansson: Fix build with lld linker
-Date: Wed, 24 Jun 2026 16:21:19 -0700
-Message-ID: <20260624232119.1501995-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.54.0
+Cc: yoann.congal@smile.fr
+Subject: Re: [PATCH] bluez5: set L2CAP IMTU for OBEX profile listeners
+Date: Thu, 25 Jun 2026 09:17:12 +0530
+Message-Id: <20260625034712.3878106-1-wei.deng@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260605024308.222721-1-wei.deng@oss.qualcomm.com>
+References: <20260605024308.222721-1-wei.deng@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=OL8XGyaB c=1 sm=1 tr=0 ts=6a3ca4c5 cx=c_pps
+ a=SvEPeNj+VMjHSW//kvnxuw==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
+ a=BpvftRgChdhiQIXlemEA:9 a=Kq8ClHjjuc5pcCNDwlU0:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI1MDAyOSBTYWx0ZWRfXw1vpTCuJDIA2
+ IweG9amfwdEKv/V0r4WmIvz0CngVcHJlh1/C9pPfsQ2g2TmWhArhAOFz30ikntSatpfqg6bAt8a
+ c/rysO84bj/WBQlTeNz4s/RU8XSV2a8e2WTfW1QCJ7MTRwK7r8daHdvLOObZd0GUikcO9rc/pDn
+ AXBsTt4ZEW/nYCpCujM5uVQ6GJUfLwhxZlGIH20klLbAqxzI5/ds6JYzPwMlVzM0k4W7fLBx62i
+ bChhT9haNszGzCnF/fP8Q1xtwNnuXODVFADI5MYY4wW6fQJfN8xvusZyV5FFNV9TPhlUoxElz9t
+ HU1EQdd0abq9FVIVQFxDY7BddGtn1wUQV/6sC7lERMFNKhgILhuxn3G3YbU3Wexh+SKA124J+XT
+ OTXgkc+j8kfZia/NtjqCxgtHTeRWNvFmzRt38+lGT8iH4Ym84ytJWLzFbSl9ZG3iaUCcFbHa/Ax
+ JxEsv4NCcXlBcoKu1DA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI1MDAyOSBTYWx0ZWRfX2nOI3q30Ev/z
+ PymuFtXAVneGM3yeHrhI3+ifNMXPfEIHLE1GD04iDCXjup9sfcezH8IcKLVW1+3Lai+7G2G3tbi
+ SQLb4duqc4bnB0NtI2m1XuJQUJnPRF4=
+X-Proofpoint-ORIG-GUID: pR87zByPFhKShIQQX_Z-s4phX0JGlf5Q
+X-Proofpoint-GUID: pR87zByPFhKShIQQX_Z-s4phX0JGlf5Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-25_01,2026-06-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 phishscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0
+ suspectscore=0 priorityscore=1501 spamscore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606250029
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jun 2026 23:21:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239533
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2026 03:47:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239534
 
-jansson hard-codes -Wl,--default-symver on glibc, which ld.lld does not
-understand. Probe the linker for the option before using it so the recipe
-builds with the clang/lld toolchain as well as GNU ld.
+Hi Yoann,
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
----
- ...se-default-symver-when-the-linker-su.patch | 45 +++++++++++++++++++
- .../jansson/jansson_2.15.0.bb                 |  4 +-
- 2 files changed, 48 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/jansson/jansson/0001-configure-only-use-default-symver-when-the-linker-su.patch
+This patch was merged to OE-core master on 2026-06-11 (commit 13cb97f).
+Could you please cherry-pick it to the wrynose branch as well? It fixes
+an OBEX Rx throughput regression caused by an incorrect L2CAP IMTU being
+advertised on listening sockets.
 
-diff --git a/meta/recipes-extended/jansson/jansson/0001-configure-only-use-default-symver-when-the-linker-su.patch b/meta/recipes-extended/jansson/jansson/0001-configure-only-use-default-symver-when-the-linker-su.patch
-new file mode 100644
-index 0000000000..eb0c459f68
---- /dev/null
-+++ b/meta/recipes-extended/jansson/jansson/0001-configure-only-use-default-symver-when-the-linker-su.patch
-@@ -0,0 +1,45 @@
-+From 7c44ab421c725ea6fed358f435c5461c0096f852 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 24 Jun 2026 14:04:19 -0700
-+Subject: [PATCH] configure: only use --default-symver when the linker supports
-+ it
-+
-+jansson enables symbol versioning on glibc by passing
-+-Wl,--default-symver to the linker. This is a GNU ld option which is
-+not understood by every linker, e.g. ld.lld errors out with:
-+
-+  ld.lld: error: unknown argument '--default-symver'
-+
-+Probe the linker with a link test before adding the flag so the build
-+works with both GNU ld and lld. When the linker does not accept the
-+option the symbol versioning provided by the explicit version script
-+is still applied; only the implicit default version is dropped.
-+
-+Upstream-Status: Submitted [https://github.com/akheron/jansson/pull/744]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ configure.ac | 11 ++++++++++-
-+ 1 file changed, 10 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index e5c126a..1bb8b34 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -135,7 +135,16 @@ AC_SUBST(JSON_BSYMBOLIC_LDFLAGS)
-+
-+ # Enable symbol versioning on GNU libc
-+ JSON_SYMVER_LDFLAGS=
-+-AC_CHECK_DECL([__GLIBC__], [JSON_SYMVER_LDFLAGS=-Wl,--default-symver])
-++AC_CHECK_DECL([__GLIBC__], [
-++    saved_LDFLAGS="$LDFLAGS"
-++    LDFLAGS="$LDFLAGS -Wl,--default-symver"
-++    AC_MSG_CHECKING([whether the linker accepts -Wl,--default-symver])
-++    AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
-++        [AC_MSG_RESULT([yes])
-++         JSON_SYMVER_LDFLAGS=-Wl,--default-symver],
-++        [AC_MSG_RESULT([no])])
-++    LDFLAGS="$saved_LDFLAGS"
-++])
-+ AC_SUBST([JSON_SYMVER_LDFLAGS])
-+
-+ AC_ARG_ENABLE([dtoa],
-diff --git a/meta/recipes-extended/jansson/jansson_2.15.0.bb b/meta/recipes-extended/jansson/jansson_2.15.0.bb
-index fda7a54ed8..1a0b6f24ac 100644
---- a/meta/recipes-extended/jansson/jansson_2.15.0.bb
-+++ b/meta/recipes-extended/jansson/jansson_2.15.0.bb
-@@ -5,7 +5,9 @@ LICENSE = "MIT & dtoa"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=d9911525d4128bee234ee2d3ccaa2537"
- 
- GITHUB_BASE_URI = "https://github.com/akheron/jansson/releases"
--SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
-+SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
-+           file://0001-configure-only-use-default-symver-when-the-linker-su.patch \
-+		  "
- 
- SRC_URI[sha256sum] = "070a629590723228dc3b744ae90e965a569efb9c535b3309b52e80e75d8eb3be"
- 
+Thanks,
+
+On Fri, 5 Jun 2026 08:13:08 +0530, Wei Deng <wei.deng@oss.qualcomm.com> wrote:
+> Backport upstream fix that adds an imtu field to default_settings for
+> OBEX profiles (OPP, FTP, PBAP, MAS, MNS) and applies it to the L2CAP
+> listening socket via bt_io_set(). Without this, the listening socket
+> advertises the L2CAP minimum of 672 bytes in L2CAP_CONFIGURATION_RSP,
+> limiting the peer's outgoing PDU size and degrading Rx throughput.
+>
+> Upstream-Status: Backport [bluez/bluez@646014a]
+> Signed-off-by: Wei Deng <wei.deng@oss.qualcomm.com>
+> ---
+
+--
+Best Regards,
+Wei Deng
 
