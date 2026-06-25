@@ -1,155 +1,167 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <sivakumar.bs@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44DA5CDB479
-	for <webhook@archiver.kernel.org>; Thu, 25 Jun 2026 13:42:44 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11811.1782394960146427546
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB861CDB479
+	for <webhook@archiver.kernel.org>; Thu, 25 Jun 2026 15:00:36 +0000 (UTC)
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13347.1782399630732702598
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2026 06:42:40 -0700
+ Thu, 25 Jun 2026 08:00:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=DOpog+Bn;
- spf=pass (domain: ericsson.com, ip: 52.101.70.51, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=W3NfSlhGn93Yflo8ifmmge6EEExTFJ/Fnk3LL6oq/mj9rNWSp0jBBNufaxs7vL/vq3HQGbigHVIzfALbz8dINEsqtGJDs11N/XY0SH9R17193eba2XXU1sgAuaSrFNewgF/D2EqO9/jK/BVW1BySbTmisMdjDv9RTgVFZdS815e/UwJd/ttJqBPXv/I5kBXm0oLd+ao3qDL0OuEd73mi9Kf1fSL22OyrBb1kpYSSlEu5V6TKwbB34E7tsdJ1kW5SmWtpCuOq8TJgotgRRvd8+EIimZvqIdV021IAjSC/OcHR+3dlVNfuRLTfIGn9Nvpkx0LWSkRM7JqFB3kzS8LbLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zdM3n1/K8I8qoDt4PrFuWEjfbR1KN3NuBO3FB+aYVO8=;
- b=To5JEHlc7Cl6PWtjZcn0FPo0RVCJbqE+19EYtAmZZCgQhykssY6YdqSJK1AlKD+lFncoB3lRky61LA9jxiTRq+ghddB1ikBt7kcYiSU5bYNFEv+fPWh6CqLy4vxfZ7nf1j8EV6CKRyXpngXEU40Ab/8EhoLQUgE9IxzMf990MRWuuCBLnWYKKjSBoLrv5rQQDYgkg14Kev8yRub9/vzZSfvjmApAAr4ebS3evNYKcLxJt/MEd9RCAbVwMQe92ynaiBas5RS952Q4tbbPUP9X6T3l1SfNRaOI7c30DpFdhW7lcy8aaJi8L5Rsouak/4aQytNoR1Cw+Alv3+HtdF1y/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=est.tech smtp.mailfrom=ericsson.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zdM3n1/K8I8qoDt4PrFuWEjfbR1KN3NuBO3FB+aYVO8=;
- b=DOpog+BnsRIQTtYbOgVTVd+FAv8jOd+nwyyUvy3ughhVRHGFYf388vB2cFiKQn/N/fNeVbB0c2SjXiKHGRoOC+1VDSdoerlPI0XrEoA5a6bELCnxCIWaZiA8RlbgDfvmrkpiWvNn1mpwBgPrNtxIwEMN/L6HpxB26fwdX2cQEZb9hslzaK3rvHypTv0Qn8pGrE9WCT+fb38yF0iHAe6tZAP9chj5i3YHXUjPMBeKGouoa4D5P+YP8ajZM4K3hFm3hXk6ThBJ3LTQvjpUhfB6muWLcT+c2qPn8QiUuV4DeKOsdPB78rsIpTJe4TfXDNXG2gQPKGyZkWyB6vfafryxoA==
-Received: from DUZPR01CA0277.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b9::21) by AS8PR07MB7173.eurprd07.prod.outlook.com
- (2603:10a6:20b:257::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.16; Thu, 25 Jun
- 2026 13:42:34 +0000
-Received: from DB1PEPF0003922E.eurprd03.prod.outlook.com
- (2603:10a6:10:4b9:cafe::1f) by DUZPR01CA0277.outlook.office365.com
- (2603:10a6:10:4b9::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.16 via Frontend Transport; Thu,
- 25 Jun 2026 13:42:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- DB1PEPF0003922E.mail.protection.outlook.com (10.167.8.101) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Thu, 25 Jun 2026 13:42:33 +0000
-Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.63) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 25 Jun 2026 15:42:29 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 00ADF4020B42;
-	Thu, 25 Jun 2026 15:42:27 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id BBFED700DBB0; Thu, 25 Jun 2026 15:42:27 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <anders.heimer@est.tech>, <qi.chen@windriver.com>,
-	<alex.kanavin@gmail.com>, <richard.purdie@linuxfoundation.org>, Daniel Turull
-	<daniel.turull@ericsson.com>
-Subject: [PATCH 1/3] dlopen-deps.inc: treat soname list as ordered alternatives
-Date: Thu, 25 Jun 2026 15:41:30 +0200
-Message-ID: <20260625134210.4046622-2-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260625134210.4046622-1-daniel.turull@ericsson.com>
-References: <20260625134210.4046622-1-daniel.turull@ericsson.com>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=qu/sLcVT;
+ spf=pass (domain: gmail.com, ip: 74.125.82.172, mailfrom: sivakumar.bs@gmail.com)
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-30bf132969bso3369814eec.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2026 08:00:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782399630; x=1783004430; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=agTOZFCHaGco+nDcn62e1ac1dA2aZNl3wKi2FDcexOc=;
+        b=qu/sLcVTF3F3G1Wt9VvH6Oul7rZ73sLJQ21y9iD9Yw1y1Io2fVJmnRkTjZL0Uo7KXH
+         XABft6ZXidSh6Ex26Cx46BrV4WjR5J1/auSF6Q39HPj3LTbF6lx3xq4nE+AhhwjWnAjy
+         06MZIOmy8jhdatZgoD4dzH5KHTy+uRIl0B7cMiFa7UBvoir2N058ca6/3gTS3cya1/7G
+         CQb6n2DHakikUEmLY4iTwJZZ5Jk6R9N9dLgp44S3UuvVyhIEP/N3nWcbjsPtiySWwIPE
+         S4spGaJ1Xn3KLqwQOEq/hkNI3jUmapzYOqaHaBT0rRtSRzzvIun7adAXi5fIOkRlTbbS
+         3nLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782399630; x=1783004430;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=agTOZFCHaGco+nDcn62e1ac1dA2aZNl3wKi2FDcexOc=;
+        b=IIiMHs8ll2HDoh8s79smfJyfI71doFULIn3FS4P/Q9MS9qC0IBciXXotlsCWX/b1/y
+         PUZ79Qi6g6AEwPHh0mCIoazljZLvaLaJ1crA80+qVK41pM5kvET7b+hNLLZCMvj2+3rt
+         s+d2b1QRQ6K50TukiJRtz4hcxwpx0PoVhiGi0vtobkQ+eKYMyCiOXCFBB3Cav+sNgRhR
+         El/DNcf3ETCE6hdN8OdnUVZHzsdx/w7cPTYPJnEcCZhaf9ZmfBwJkWb42X2mYTzhrHf/
+         hw4LYRiO3KtUuVSTva4PK1vl5Og3zABBNf4ANPwpgjgBRqQxYUG9M4n3ywKTR8JLaOdx
+         GmkQ==
+X-Gm-Message-State: AOJu0YxtMhR763+Z2axUBZjPgyZ/XSzPA6Ys930VzqFs0s5kc/dNC4AL
+	E/Q2ZiEhD7649s2fgybI7ie0p39IJbCmatA6XPcvG2mi775xN9b2qS67Oz/Jmd9qyXw=
+X-Gm-Gg: AfdE7cm8Vnj8SkpWI1Q1+2pJIXDrqyZJwgG8LSZIzlHwK2DCNh86AcTbIBrZCmgjRey
+	aYxUrwFPgVBWBDoTR8J8YAO9UIKY94MzISeohtqSsqxef6Uo988W1pukaTTfCKXQX0SWEb3HDJG
+	e1ZIqt1skZ2Ax2l7rP24O9XQuXTQToRfYYFwyLEiF/kSzkHbZCLW6bO+pq9a4qlFSmuF/gC746m
+	JGRZfQe4LSyzzG4aQZ8uAdfuidEURH+H1roQg9s1SD4aRYrRpSsSkkJc15it9DHj6C5llOo4Nam
+	mKIjcKx/qcb6BageMIJ0GDkxmvvgpu/N8zTq+hNx7XXC20eA9rwghdMVCLUkwqTkEMg1jg0RiFU
+	CUuvGxEUM7G/ZVHZw49q/sVOhp5PX8Uhba5b33/2LAUwTicuyz4zPf+VXPJnReuObGwyKAot3FD
+	CYhUPjnlf6oQoNUXeCw86Sky9gpb0/EUCQQlfpS9k78AqJ4wcV4SM1CeIjpw==
+X-Received: by 2002:a05:7300:6919:b0:2be:7fc2:fc38 with SMTP id 5a478bee46e88-30c84b72f63mr3565111eec.5.1782399629670;
+        Thu, 25 Jun 2026 08:00:29 -0700 (PDT)
+Received: from naduvan.timesys.com ([122.178.167.70])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c52c591sm12691063eec.7.2026.06.25.08.00.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2026 08:00:25 -0700 (PDT)
+From: Siva Balasubramanian <sivakumar.bs@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Chen Qi <Qi.Chen@windriver.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Siva Balasubramanian <sivakumar.bs@gmail.com>
+Subject: [wrynose][PATCH] util-linux: backport pam_lastlog2 libpam linking fix
+Date: Thu, 25 Jun 2026 20:30:15 +0530
+Message-Id: <20260625150015.2832246-1-sivakumar.bs@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF0003922E:EE_|AS8PR07MB7173:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c49ea2f-d87f-4f58-d96c-08ded2bf9c8d
-X-SMTP-Server: smtp-central.internal.ericsson.com
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|23010399003|376014|82310400026|1800799024|18002099003|22082099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info: 
-	Lm6xn0BYFpQISEU+f2rgBnmz8N0OJzp4mNkzvZxMa7jdqgs0NWKZY8b99/qURR88VWI9zLKcGt7yTXjyjHxeBynvOPA+f6jwWpB/3qr515GRgqllioHvgCN2p+m9qXrXsawzH5l2NYL8KbehpqZ0kUbwbxBtFedRtdSuDkzBYFdflWSK64F5QOxQL4dUDUQW6ueFGJojUjKvmAfDYSeQFVXPtNdHcrlHYQU5wM4/PAtXarBylo+nalHAZNByExW1u/S4E8Ah6O4k0QY5PSUfTqm11OlOSgdfsAzuBlxB3LJckXEy6pAoyPt+F/oiRtTo4xsj1HBsF20kpWoF/V+X2HfCc1y8KGCcVhU/I+M7wHL6onZi7fNcBSY5AXJBYwEcTH9K9ePUbkhzaL99NUhWnWTt4DFVBU0Rh9YARyeTJFg0HSIAP77m2thyv3huFa+snq9dKtCu+bRtK8fnGwIcQ9FKR28stQmBnlHiKwx0E/02jrk5E/cjBBJpDJIpsGWkW/LTBNyJmIJ+MoxbgINqU2jON347+WDhVFUUBpZUVbkMo9wJYQlx4Lp3RH+8jIYXWcFrf6oyozcyfETi42KxeMfIPSekKVPl99eoPxtX/fPR9d8wjEeBo037t3qoCyewKSQqwNPjYdBTqyl/4pyle4260AaOQ4pCjMYyR3nCbstjleDnPVfaIUDfgHG2d3VJvdd4n8vt7Ctnhogx5c0pQA==
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(376014)(82310400026)(1800799024)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	BhI05rY6dd/SKOlAzBtlgFNO2C5PDm3e382mrwmzkt9Olzn8qHo39M8vKCnDzI85xdkWAs2ES/Hw/tk/x1O9zv7W7J92+5wKN5H5p953GGcHA/cIrJNl/h9CM9eWi1gTNwmB2/xX8uH996Z67kyb9BUI3S070H845VpCCyjfMylHhr/XXwfWAXF4dSx5eCRJqOGS5swOIhJwqVfc+87ZsCYu8d/R+bYDIPsybkQN3UdJ30ZNIALKM/g/SB9cJupYGFuA24CUWupgfNo17IctnsR/epBS0j79TwqsaAhICWn/jHdoDO5p9EAjS8ZyYsC+oSTFVyHS9nC1aYMuhSI5kQZEr091EJdQpCi1t5vqYyoasnajrnvMxbO5lJD5s0XuGkLeJdB/af24tD1OCOqFrOuZMTZP3oPjQBw4d/gDOeryHg+Us+PizECREu3gSXW2
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2026 13:42:33.9516
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c49ea2f-d87f-4f58-d96c-08ded2bf9c8d
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB1PEPF0003922E.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR07MB7173
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2026 13:42:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239569
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2026 15:00:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239571
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+pam_lastlog2.so uses pam_syslog() and other libpam symbols but the
+autotools build did not link the module against libpam. With the
+linker default of --as-needed, libpam was discarded and did not end
+up in the module's ELF NEEDED entries. The module then fails to load
+via dlopen() in processes that do not themselves link libpam (e.g.
+systemd on recent Fedora, or weston on journald-based systems without
+syslog):
 
-The .note.dlopen format defines the soname array as a list of
-alternatives (e.g. ["libcrypt.so.2", "libcrypt.so.1"]). The previous
-code warned for every soname that was not found, even when an earlier
-entry in the list already satisfied the dependency.
+  PAM unable to dlopen(/usr/lib/security/pam_lastlog2.so): undefined symbol: pam_syslog
+  PAM adding faulty module: /usr/lib/security/pam_lastlog2.so
 
-Select the first available provider and only warn when no alternative
-can be resolved.
+Backport the upstream fix (in 2.41.5) that moves -lpam into LIBADD so
+it is placed after the object files and retained as a NEEDED entry.
+Against 2.41.3 only the LIBADD line needs changing.
 
-AI-Generated: Claude-opus-4.6
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+[YOCTO #16320]
+
+Signed-off-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
 ---
- meta/recipes-core/systemd/dlopen-deps.inc | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ meta/recipes-core/util-linux/util-linux.inc   |  1 +
+ ...ix-libpam-linking-in-autotools-build.patch | 51 +++++++++++++++++++
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/0001-pam_lastlog2-fix-libpam-linking-in-autotools-build.patch
 
-diff --git a/meta/recipes-core/systemd/dlopen-deps.inc b/meta/recipes-core/=
-systemd/dlopen-deps.inc
-index e0b333398c..82a2ccd389 100644
---- a/meta/recipes-core/systemd/dlopen-deps.inc
-+++ b/meta/recipes-core/systemd/dlopen-deps.inc
-@@ -66,15 +66,18 @@ python package_generate_dlopen_deps() {
-                     elf =3D oe.qa.ELFFile(f)
-                     elf.open()
-                     for dep in parse(extract_segment(f, ".note.dlopen"), e=
-lf.isLittleEndian()):
-+                        # soname list contains alternatives; find the firs=
-t available provider
-+                        found =3D False
-                         for soname in dep["soname"]:
-                             if soname in shlibs:
--                                # TODO assumes the first match is good
-                                 package, version =3D list(shlibs[soname].v=
-alues())[0]
-                                 dependency =3D dep_map[dep["priority"]]
-                                 bb.note(f"{pkg}: adding {dependency} on {p=
-ackage} via .note.dlopen")
-                                 d.appendVar(f"{dependency}:{pkg}", f" {pac=
-kage} (>=3D {version})")
--                            else:
--                                bb.warn(f"cannot find {soname}")
-+                                found =3D True
-+                                break
-+                        if not found:
-+                            bb.warn(f"cannot find any provider for dlopen =
-dependency: {dep['soname']}")
-                 except oe.qa.NotELFFileError as e:
-                     bb.note(f"Cannot extract ELF notes: {e}")
-                     pass
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 0235862666..3cdc1e2c0f 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -21,6 +21,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://0001-ts-kill-decode-use-RTMIN-from-kill-L-instead-of-hard.patch \
+            file://0001-tests-script-Disable-size-option-test.patch \
+            file://0001-loopdev-add-LOOPDEV_FL_NOFOLLOW-to-prevent-symlink-a.patch \
++           file://0001-pam_lastlog2-fix-libpam-linking-in-autotools-build.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "3330d873f0fceb5560b89a7dc14e4f3288bbd880e96903ed9b50ec2b5799e58b"
+diff --git a/meta/recipes-core/util-linux/util-linux/0001-pam_lastlog2-fix-libpam-linking-in-autotools-build.patch b/meta/recipes-core/util-linux/util-linux/0001-pam_lastlog2-fix-libpam-linking-in-autotools-build.patch
+new file mode 100644
+index 0000000000..9aaa56e7b4
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/0001-pam_lastlog2-fix-libpam-linking-in-autotools-build.patch
+@@ -0,0 +1,51 @@
++From c8d0af0421f6491ab1cb2301d2e197315289d34c Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Tue, 19 May 2026 10:54:57 +0200
++Subject: [PATCH] pam_lastlog2: fix libpam linking in autotools build
++
++The pam_lastlog2 module uses pam_syslog() and other libpam symbols but
++the autotools build did not link the module against libpam. With the
++linker default of --as-needed (and -lpam previously only in LDFLAGS,
++before the object files), libpam was discarded and did not appear in the
++module's ELF NEEDED entries.
++
++The module then fails to load with dlopen() if the calling process does
++not itself link against libpam (e.g. systemd on recent Fedora, or weston
++on journald-based systems without syslog):
++
++  PAM unable to dlopen(/usr/lib/security/pam_lastlog2.so): undefined symbol: pam_syslog
++  PAM adding faulty module: /usr/lib/security/pam_lastlog2.so
++
++Move -lpam into pam_lastlog2_la_LIBADD so it is placed after the object
++files on the link line and is retained in the NEEDED entries. The meson
++build already links libpam correctly via cc.find_library('pam').
++
++Note for this backport: against 2.41.3 only the LIBADD line needs to
++change. The upstream commit also removes -lpam from LDFLAGS, but that
++LDFLAGS reference was added after 2.41.3 and is not present here, so the
++net change is the single LIBADD hunk below.
++
++Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2453457
++
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/c8d0af0421f6491ab1cb2301d2e197315289d34c]
++Signed-off-by: Karel Zak <kzak@redhat.com>
++Signed-off-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
++---
++ pam_lastlog2/src/Makemodule.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pam_lastlog2/src/Makemodule.am b/pam_lastlog2/src/Makemodule.am
++index 40d597c58..876171e9f 100644
++--- a/pam_lastlog2/src/Makemodule.am
+++++ b/pam_lastlog2/src/Makemodule.am
++@@ -11,7 +11,7 @@ pam_lastlog2_la_CFLAGS = \
++ 	 $(SOLIB_CFLAGS) \
++ 	 -I$(ul_liblastlog2_incdir)
++
++-pam_lastlog2_la_LIBADD = liblastlog2.la
+++pam_lastlog2_la_LIBADD = liblastlog2.la -lpam
++
++ pam_lastlog2_la_LDFLAGS = $(SOLIB_LDFLAGS) -module -avoid-version -shared
++ if HAVE_VSCRIPT
++--
++2.43.0
+-- 
+2.34.1
+
 
