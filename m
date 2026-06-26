@@ -1,273 +1,155 @@
-Return-Path: <wei.deng@oss.qualcomm.com>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D25D6CD4F26
-	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 06:42:58 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29692.1782456170318795084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44105CDE00E
+	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 07:38:39 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.24])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30535.1782459510193936901
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jun 2026 23:42:50 -0700
+ Fri, 26 Jun 2026 00:38:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=iaoXznYY;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=RxrhMG1m;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: wei.deng@oss.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65Q6VZEN4129694
-	for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 06:42:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=/SdhtEbBZag
-	HnQALTdv7hkXdXK1IKBp8oJe3NodW3as=; b=iaoXznYY8Rvl8X7g1/my10ywI2U
-	84r3SctSUKcmqymuY2++sBIxcDXxNFZ+17HPZxx+e6XwgzZeMtk5K/tsGQZEtPlp
-	OxBPEFGi1WqJpluURP/W/WNLXGkxQm7xscOg+SENTn+ntozco1h7qt0n7Dl3JjmN
-	NGtIiQr26RGBc1DhS9oSdN6HK2hJTis+6bexbR0VD1leUM4M9DFrMnbPZu+c4qhD
-	8gbk3sN5uGk+ENZEY3iqUlFIjt8LW19PEEkJ6litsriOEb36hRf4toYQPnCbQDYd
-	aCskSmlp5KxkVW9DKuc52hSll0pfuLt4OTGND4yQBtMrbXyi6eqEbCmZl9Q==
-Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f1j1ngnyj-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 06:42:49 +0000 (GMT)
-Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-139ab61b86aso21835c88.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jun 2026 23:42:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782456169; x=1783060969; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/SdhtEbBZagHnQALTdv7hkXdXK1IKBp8oJe3NodW3as=;
-        b=RxrhMG1m5EYLSDjLjllAY3WEa8pLUIWtryVTICrMlwke/YZwjjTuvotvmB2FAhdGDT
-         W+doPWxpqaqLFEVJN0lgN8jd+dUBTLwhkFQVANa28TKt7F2A6zev8g6EBHkHlyvYX/bd
-         rDtp1vgzat0UNX02Bx/lkn1on3v7cZjty+khDNDz6y9+p8URpd3os9Arqhxb49pin8sh
-         9+R7s/m8G9hBXVBMq0d1Z3Xyi3JmREB7DeG8xDbTZ2E8A1RRPeBH3+gSlpHxdZwky/fc
-         4YuVA6AB3yKgHox5k3JwzzHEYoDOOIJneJI5S+ZFYM9kls6tsXyBQbljcTyUv+oGghVq
-         i12g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782456169; x=1783060969;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/SdhtEbBZagHnQALTdv7hkXdXK1IKBp8oJe3NodW3as=;
-        b=kmv+tspoyDQBj0epUfRIm/6D55ZrI5KBML8zMZBUhpsrKqdaWXOaO7BcvkoJPyxWba
-         AhbVzxFqFSM5Pv6jGab1FNS0h1gbfxZae++Ixdh/Wctkp44VVLshiF7pbvDirEQ1eyVO
-         wkUzQ0fZp1C+gaUPkrfbVw4Zvu5yq9PnfEk18RvFc7dyKxyY/QOzB/HhBjnOi32eZgLL
-         EfcknHvOg8dATtrUMD4ow4v4zcV2JnrbrOcPmA+ahRcld34WLmRhd9KW2UsmUZBxslat
-         P9y0vFn2rd11g4jkujdBSGr9ipyRojR44tPBFNbVo2nVZPgQxqrxRlPOhVq1ygjTC+hF
-         KtDw==
-X-Gm-Message-State: AOJu0YzD7Udoif0d3nIrOBPtiI2U4jwAMqNlimQexbOZsknTrleXc8oJ
-	b0481ZtkIEoaqh1QVVAv+8oxOG1/7Bjjq6OMsEhOZhxw9+7eo4tSgoAID6ZZ1+FS6nNguHmCZFF
-	8B1EJuw/MucnYQ2XtQAMaJJRKnco4lZinu1/dh3xcapujINpts/pemghkar7dnldZb/MB64yA83
-	NxFrT7UbFYk0DCDEMQUg==
-X-Gm-Gg: AfdE7cnVRApDfV4UNU57fruhTEi9mPu5s1imd6tVchm3FQwzlaPSmK0wxqV1dhQJ1X7
-	kNvUkHNB0WFn6COJg3+7UFz+77G/MTOUN++05j/w5NxuOA9S4clM4bJp/ZdZgf23r/RKto98EPr
-	BJTJEalHTO04wVVVK6jqtb/sNkrptgB9p7honcqE0wKyVxKStYs5GQcTJe+IHVlhmPYZDyE4UDP
-	PD076wKAbxW7a2e+53R9p7qNNFOnL5InRXw+GB9EpbgkX6W6+JqIp294XMm4PhkoFz+NpttAL0d
-	+lZFlcqvY/LdfpPzIYOhws1TrTaLhTXsZ7pfDVWZIOvQX1HXbn4r2hWioNv9IB1N5L8ZkUPrI+o
-	I1hI0/MfEHEW6WJ362qIUd3s775VtBrvS6pLNXbzdLqVSJyOpZREjYx/JpnwIGw==
-X-Received: by 2002:a05:7300:cb86:b0:2da:b05a:5a7d with SMTP id 5a478bee46e88-30c8488c109mr3367957eec.0.1782456168726;
-        Thu, 25 Jun 2026 23:42:48 -0700 (PDT)
-X-Received: by 2002:a05:7300:cb86:b0:2da:b05a:5a7d with SMTP id 5a478bee46e88-30c8488c109mr3367931eec.0.1782456168150;
-        Thu, 25 Jun 2026 23:42:48 -0700 (PDT)
-Received: from hu-weiden-sha.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7cac87dcsm16628270eec.31.2026.06.25.23.42.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 23:42:47 -0700 (PDT)
-From: Wei Deng <wei.deng@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: yoann.congal@smile.fr, cheng.jiang@oss.qualcomm.com,
-        shuai.zhang@oss.qualcomm.com, mengshi.wu@oss.qualcomm.com,
-        jinwang.li@oss.qualcomm.com, xiuzhuo.shang@oss.qualcomm.com
-Subject: [PATCH 4/4] bluez5: set L2CAP IMTU for OBEX profile listeners
-Date: Fri, 26 Jun 2026 12:12:33 +0530
-Message-Id: <20260626064233.704350-5-wei.deng@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260626064233.704350-1-wei.deng@oss.qualcomm.com>
-References: <20260626064233.704350-1-wei.deng@oss.qualcomm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=SCRJriFl;
+ spf=pass (domain: ericsson.com, ip: 40.107.130.24, mailfrom: edaturu@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eRGCQy2/YfnIU4qqyYnJIIs9mb1/yo1e6g/u/mAmO2iOyEBg1k/JkdB1X1Ep8h3jQ4xvEsqhsgUHVUh2qcaSuX3itgetagqPn170eGlBDC7gO4xXxxSUyGOVYDFZ94YzcaHB384OIYDJtUH3onNxlier9wrq2wpkScOolRztkUcbit8WRHNo1Dcr1HDT64Q5xtsKllnVGu2R5YeZVNtMKtLpGAdEbuKuXcGZUZUBtp8tFg4CHKaI5soGcToFW02A3XmKJsIcgNUhOSGZxM+StIeadFkRTtss8+OlHl0Q7TCMd7E30CrfUpGLR5uoXdksj5jucZpw/ZeFwwX7RGwp/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zdM3n1/K8I8qoDt4PrFuWEjfbR1KN3NuBO3FB+aYVO8=;
+ b=ebSCrEWrYvwg54vbhW65mvOscPFVsu7/KhTN5EZuvfMe7xmZ3Kqvj8PS2vTIpaOttRQxZwDRKf8A35/ZNCWHz0B7JCpbsaslrr3yRtUcldnvi/HjxeZpjOGRvCf7/C5aMcOMG/x3E4WCnvtG/g7X4VFKXn5PmpQ+1N3d6Hi3kZpE2LF+SbIOFt3e0sIIZpy+QBaC3wEriImm+gkZl36ndN2VxqbqXQdtdfZJgmGBq9lqqyDH0eDvW8Ltp5eIQI7yL5715W+TskYSKDJF/DOQEgy7r5kWklrszV6uT4CWusqknuaBetMs+mjZsVq15OshEHb6DzgKJGVlD5TPfsTeKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=est.tech smtp.mailfrom=ericsson.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zdM3n1/K8I8qoDt4PrFuWEjfbR1KN3NuBO3FB+aYVO8=;
+ b=SCRJriFlLeATP0poUS1jUHeTRCxQczD57AFm6hhah8YRHM0rzYcThUbA85/f55xS1BTbrlh9Pn06X7sC4ATJp1BKfSgHdJ7LlW+N0CYPAYS2qUFZUoX4rTJ8qacIutxkY3E0twRbfe+39EVJNALpNHLVzclTf98xYYoD9t7lsSeqgPGNk3pcFNRh+8nPYGcy/Ia9YY0ChaYaJ63drUETGJD79gpGWofEBqkggSMzlSKucs3HnWOHEOxeupSVvr5GXqQ0CbT22LyrBGdbnc5SVHYVZCZ0ckYaGPSQlYcXW1KG7F54EDuoZuwpP8JzTk1BQAq8CaZl1PrD3DuQ2nkQMg==
+Received: from CWLP265CA0529.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:18d::20)
+ by PA4PR07MB7566.eurprd07.prod.outlook.com (2603:10a6:102:c2::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Fri, 26 Jun
+ 2026 07:38:24 +0000
+Received: from AMS0EPF0000019B.eurprd05.prod.outlook.com
+ (2603:10a6:400:18d:cafe::33) by CWLP265CA0529.outlook.office365.com
+ (2603:10a6:400:18d::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.17 via Frontend Transport; Fri,
+ 26 Jun 2026 07:38:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
+ smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ AMS0EPF0000019B.mail.protection.outlook.com (10.167.16.247) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Fri, 26 Jun 2026 07:38:23 +0000
+Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 26 Jun 2026 09:38:23 +0200
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id A7EC16BCE0;
+	Fri, 26 Jun 2026 09:38:19 +0200 (CEST)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id 67F59700DF49; Fri, 26 Jun 2026 09:38:19 +0200 (CEST)
+From: <daniel.turull@ericsson.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <anders.heimer@est.tech>, <qi.chen@windriver.com>,
+	<alex.kanavin@gmail.com>, <richard.purdie@linuxfoundation.org>,
+	<joerg.sommer@navimatix.de>, Daniel Turull <daniel.turull@ericsson.com>
+Subject: [PATCH v2 1/3] dlopen-deps.inc: treat soname list as ordered alternatives
+Date: Fri, 26 Jun 2026 09:38:07 +0200
+Message-ID: <20260626073812.769193-2-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260626073812.769193-1-daniel.turull@ericsson.com>
+References: <20260626073812.769193-1-daniel.turull@ericsson.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: gSZRuRnYsCtlwfFzSNlbr9sW8YTHRs_w
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDA1MCBTYWx0ZWRfX05gAf0eEGb0B
- ysKcbok51YGLG9Xd0pKPCwhticHhrbZoUZf/tx2fFO61gEpYFih7AmPCV27pnZuVH60oQsUyGq0
- eWNd6GxkIJyE6T5VckkyIkPAGqhvPGDAAxBexBdt15NEEtbVxe+oIM8HPHaRs8P4zmW5ATJf2Ll
- +eholnb5BHjxhFeBJpPYIFmyP5HlB17OSca+8fBA27wYba8ZVe1gjrjMvIlNoqfWgSngMck9Vf7
- dge4zBqMs5QfXs0NCWxJI0J9Vi90Q0x6RaTWbSSdWXxLhpr4w52Uy+8OL+gCZAI2Q+6LX8VbsVL
- wZzdOF3kLtM5dPLbLlgXihx0d6WUC1kmQVhFlF5PlibsIptjzYKl8/d00H0Cmo4ay+uDFET1Ib8
- QJaEc3lgulfvrPSBd2lYJG6BtPDkPJ5ecGAStjbni8O6+1wNZxYN6Z5pmJfeIwl5aK9GKE/Xelv
- VkNyTA15fTE0Y6A/Arw==
-X-Authority-Analysis: v=2.4 cv=W+cIkxWk c=1 sm=1 tr=0 ts=6a3e1f69 cx=c_pps
- a=kVLUcbK0zfr7ocalXnG1qA==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
- a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=NEAV23lmAAAA:8
- a=EUspDBNiAAAA:8 a=dOK3wYaXzV_A1W3SHmkA:9 a=vr4QvYf-bLy2KjpDp97w:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDA1MCBTYWx0ZWRfX0FCR2P2d/BLY
- QxijUtyPZtOBJeDh2/9WFslBVfTl3X9DsAuostXfxZiir2u3PqM7J21uFIKAkV+UkS8du/YmDJ7
- KXqdE78eugb4JAOQtUqykS+Z2kKlwkM=
-X-Proofpoint-ORIG-GUID: gSZRuRnYsCtlwfFzSNlbr9sW8YTHRs_w
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-26_02,2026-06-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 malwarescore=0 priorityscore=1501 spamscore=0
- bulkscore=0 phishscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606260050
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMS0EPF0000019B:EE_|PA4PR07MB7566:EE_
+X-MS-Office365-Filtering-Correlation-Id: 848ac914-bdda-4a04-a08c-08ded355e750
+X-SMTP-Server: smtp-central.internal.ericsson.com
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|1800799024|82310400026|376014|36860700016|22082099003|18002099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info: 
+	n22ZX4Kitu8JV++r1qF6Qcs0J6lwk1LiFV3Tu7n7XpGgfEQWwXL/glf4nCC8WqQ9WkFlU/QF4lzK7j8QfGY0MuNLs0lHE0mVYYMh1/1EIBbubfDMjEP55X+9/WW7JHZF40Bvh939QuL+6a6pNNDBM++ZxQccxdJpB9c6LYyHWmFmy7CXMfK5txepb81I1XdcvkbJx/395gi+rv61OnlP7sJHUIOrUUkWMfeHb5nUOFelUHGt0qS6W0zDV+HErh3Dk0OZjfVbzTu4oj2OG0/iG8sB+HhwIOOHk18Qs06oKqAsz3/u4iVyuPzE2+SLsfSq4w7VRJjPJl3mefa8vCuKEJraH85b+pVOOnaVT4ntl6FfXRouB6Baus9z7G7atZkLbOuc4FB01nF60KIgNSaYNTZTHXjg6hNz7lGB9fuGo8VzXw3vZtqYB/d+J2+zxSDIXE0ooE5Mru/ykugm7D3S/nTCe09+uL4ZmCgmw7CaixakXLBQ72VP/A6VIgn7lU77ULmDf7nha72nAGiov7epgx9L1JP1IofXgljcsqueynZXs5DfMFznNsdfrYWbSO/vnyIBNLCp8CniKtP4jvJTs5MZ6skEQ1Nn+WnKHBEMy2OSe1i+YRfrCCQiZtnsFJZpqeU+nO4KRN6qO91JN3TBJvYQoT8PJAshNgVWiVlUKwld/n9uGr6odtI49PFZ4M45RGzCKMcdbSX21JOm4z10xg==
+X-Forefront-Antispam-Report: 
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(82310400026)(376014)(36860700016)(22082099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	WAQE6cmkP2/6FQqcsJ939cLxPWJ67XOD14KjnjRlmswp9z+I1uepBmxzYYa+Z1k3HZIRylscQHaAtn9ZeKxSFlpHQdb7VXqhC56WxiDRpE6MmBFD7Whv617jYT4SIIVNqlf65WkvZCwDqoA4e5H1QD3qyjVLKO3qjVuegUMD0j5jv/5j7/vz4YhIZ4PWZ8rqA9VaV/MuRIKxytZS5isTxlD+H4unsgNp22YVqRBiVuHnJi+J2K0h5S1dGJcbmv+TwRVHl8GsYGE4MDDSSM0BgDRIAByJPbGtCtqJ3YvBqWCqQiDKglUlp55scxK+MM5bABONOwb4hJXg2NmsAaEAG2IMYiZqiqbs4mb9AMfHa6buee0gAyWsc6XuTyPKjb34hY6xhiaFlKdDjPL97JU0QALYB0a3LrpVb2NfG0WzD1P063zT7TQ6tVNhimJyf8+b
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 07:38:23.9061
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 848ac914-bdda-4a04-a08c-08ded355e750
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF0000019B.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR07MB7566
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 06:42:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239607
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 07:38:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239608
 
-Backport upstream fix that adds an imtu field to default_settings for
-OBEX profiles (OPP, FTP, PBAP, MAS, MNS) and applies it to the L2CAP
-listening socket via bt_io_set(). Without this, the listening socket
-advertises the L2CAP minimum of 672 bytes in L2CAP_CONFIGURATION_RSP,
-limiting the peer's outgoing PDU size and degrading Rx throughput.
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-Upstream-Status: Backport [bluez/bluez@646014a]
-Signed-off-by: Wei Deng <wei.deng@oss.qualcomm.com>
+The .note.dlopen format defines the soname array as a list of
+alternatives (e.g. ["libcrypt.so.2", "libcrypt.so.1"]). The previous
+code warned for every soname that was not found, even when an earlier
+entry in the list already satisfied the dependency.
+
+Select the first available provider and only warn when no alternative
+can be resolved.
+
+AI-Generated: Claude-opus-4.6
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
- ...2CAP-IMTU-for-OBEX-profile-listeners.patch | 118 ++++++++++++++++++
- 2 files changed, 119 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
+ meta/recipes-core/systemd/dlopen-deps.inc | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 4e51cc9a213..ad07e0d3c4f 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -74,6 +74,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-transport-Fix-set-volume-failure-with-invalid-device.patch \
-            file://0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_ADD.patch \
-            file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
-+           file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
-            "
- S = "${UNPACKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
-new file mode 100644
-index 00000000000..332b11464eb
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
-@@ -0,0 +1,118 @@
-+From 646014a6a246fe99df27da12d2de7bcd2e04d0df Mon Sep 17 00:00:00 2001
-+From: Wei Deng <wei.deng@oss.qualcomm.com>
-+Date: Thu, 4 Jun 2026 15:00:24 +0530
-+Subject: [PATCH] profile: Set L2CAP IMTU for OBEX profile listeners
-+
-+The default_settings entries for OBEX profiles (OPP, FTP, PBAP, MAS,
-+MNS) have no imtu field, so ext_start_servers() creates the L2CAP
-+listening socket without an explicit IMTU. This causes the socket to
-+advertise the L2CAP minimum of 672 bytes in L2CAP_CONFIGURATION_RSP,
-+limiting the peer's outgoing PDU size and degrading Rx throughput.
-+
-+Add an imtu field to default_settings and set it to 32767 for all
-+OBEX profiles that use L2CAP. Copy the value in ext_set_defaults()
-+and apply it to the listening socket via bt_io_set() after
-+bt_io_listen() succeeds.
-+
-+Signed-off-by: Wei Deng <wei.deng@oss.qualcomm.com>
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/646014a6a246fe99df27da12d2de7bcd2e04d0df]
-+---
-+ src/profile.c | 19 +++++++++++++++++--
-+ 1 file changed, 17 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/profile.c b/src/profile.c
-+index dfc5f7161..65df0f7a0 100644
-+--- a/src/profile.c
-++++ b/src/profile.c
-+@@ -55,6 +55,8 @@
-+ #define MAS_DEFAULT_CHANNEL	16
-+ #define MNS_DEFAULT_CHANNEL	17
-+ 
-++#define BT_RX_MTU		32767
-++
-+ #define BTD_PROFILE_PSM_AUTO	-1
-+ #define BTD_PROFILE_CHAN_AUTO	-1
-+ 
-+@@ -678,6 +680,7 @@ struct ext_profile {
-+ 
-+ 	uint16_t version;
-+ 	uint16_t features;
-++	uint16_t imtu;
-+ 
-+ 	GSList *records;
-+ 	GSList *servers;
-+@@ -1423,6 +1426,9 @@ static uint32_t ext_start_servers(struct ext_profile *ext,
-+ 			if (psm == 0)
-+ 				bt_io_get(io, NULL, BT_IO_OPT_PSM, &psm,
-+ 							BT_IO_OPT_INVALID);
-++			if (ext->imtu)
-++				bt_io_set(io, NULL, BT_IO_OPT_IMTU, ext->imtu,
-++							BT_IO_OPT_INVALID);
-+ 			l2cap->io = io;
-+ 			l2cap->proto = BTPROTO_L2CAP;
-+ 			l2cap->psm = psm;
-+@@ -2075,6 +2081,7 @@ static struct default_settings {
-+ 					struct ext_io *rfcomm);
-+ 	uint16_t	version;
-+ 	uint16_t	features;
-++	uint16_t	imtu;
-+ } defaults[] = {
-+ 	{
-+ 		.uuid		= SPP_UUID,
-+@@ -2142,6 +2149,7 @@ static struct default_settings {
-+ 		.authorize	= false,
-+ 		.get_record	= get_opp_record,
-+ 		.version	= 0x0102,
-++		.imtu		= BT_RX_MTU,
-+ 	}, {
-+ 		.uuid		= OBEX_FTP_UUID,
-+ 		.name		= "File Transfer",
-+@@ -2151,6 +2159,7 @@ static struct default_settings {
-+ 		.authorize	= true,
-+ 		.get_record	= get_ftp_record,
-+ 		.version	= 0x0103,
-++		.imtu		= BT_RX_MTU,
-+ 	}, {
-+ 		.uuid		= OBEX_SYNC_UUID,
-+ 		.name		= "Synchronization",
-+@@ -2167,6 +2176,7 @@ static struct default_settings {
-+ 		.authorize	= true,
-+ 		.get_record	= get_pse_record,
-+ 		.version	= 0x0101,
-++		.imtu		= BT_RX_MTU,
-+ 	}, {
-+ 		.uuid		= OBEX_PCE_UUID,
-+ 		.name		= "Phone Book Access Client",
-+@@ -2182,7 +2192,8 @@ static struct default_settings {
-+ 		.mode		= BT_IO_MODE_ERTM,
-+ 		.authorize	= true,
-+ 		.get_record	= get_mas_record,
-+-		.version	= 0x0100
-++		.version	= 0x0100,
-++		.imtu		= BT_RX_MTU,
-+ 	}, {
-+ 		.uuid		= OBEX_MNS_UUID,
-+ 		.name		= "Message Notification",
-+@@ -2191,7 +2202,8 @@ static struct default_settings {
-+ 		.mode		= BT_IO_MODE_ERTM,
-+ 		.authorize	= true,
-+ 		.get_record	= get_mns_record,
-+-		.version	= 0x0104
-++		.version	= 0x0104,
-++		.imtu		= BT_RX_MTU,
-+ 	},
-+ };
-+ 
-+@@ -2249,6 +2261,9 @@ static void ext_set_defaults(struct ext_profile *ext)
-+ 		if (settings->features)
-+ 			ext->features = settings->features;
-+ 
-++		if (settings->imtu)
-++			ext->imtu = settings->imtu;
-++
-+ 		if (settings->name)
-+ 			ext->name = g_strdup(settings->name);
-+ 	}
-+-- 
-+2.34.1
-+
--- 
-2.34.1
-
+diff --git a/meta/recipes-core/systemd/dlopen-deps.inc b/meta/recipes-core/=
+systemd/dlopen-deps.inc
+index e0b333398c..82a2ccd389 100644
+--- a/meta/recipes-core/systemd/dlopen-deps.inc
++++ b/meta/recipes-core/systemd/dlopen-deps.inc
+@@ -66,15 +66,18 @@ python package_generate_dlopen_deps() {
+                     elf =3D oe.qa.ELFFile(f)
+                     elf.open()
+                     for dep in parse(extract_segment(f, ".note.dlopen"), e=
+lf.isLittleEndian()):
++                        # soname list contains alternatives; find the firs=
+t available provider
++                        found =3D False
+                         for soname in dep["soname"]:
+                             if soname in shlibs:
+-                                # TODO assumes the first match is good
+                                 package, version =3D list(shlibs[soname].v=
+alues())[0]
+                                 dependency =3D dep_map[dep["priority"]]
+                                 bb.note(f"{pkg}: adding {dependency} on {p=
+ackage} via .note.dlopen")
+                                 d.appendVar(f"{dependency}:{pkg}", f" {pac=
+kage} (>=3D {version})")
+-                            else:
+-                                bb.warn(f"cannot find {soname}")
++                                found =3D True
++                                break
++                        if not found:
++                            bb.warn(f"cannot find any provider for dlopen =
+dependency: {dep['soname']}")
+                 except oe.qa.NotELFFileError as e:
+                     bb.note(f"Cannot extract ELF notes: {e}")
+                     pass
 
