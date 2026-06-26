@@ -2,892 +2,455 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A39DC43458
-	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 21:55:41 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.45127.1782510939559152786
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92724C43458
+	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 22:10:21 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.45424.1782511819062972530
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2026 14:55:40 -0700
+ Fri, 26 Jun 2026 15:10:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=hF+oMOzN;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4926f8e02e8so5449745e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 14:55:39 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=AZARG+Gl;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-46cdcec58c2so1338509f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 15:10:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782510938; x=1783115738; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
+        d=smile.fr; s=google; t=1782511817; x=1783116617; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=d2HV1knDZZT5imJ7mgf+avLAa58KH4EWaG222Y2UQkE=;
-        b=hF+oMOzNt3xkh/K9ZSAyPgUcli5+6pmDeCgac0ZhQvffWXpyEaDftJQ1AqzJBCxFuS
-         qu5M1EbcmslYFd9nvrdNMpfXF6cJHDfqtffjDTMH2W6TIFYx0OUR5S+DqbzXKABJcnbK
-         W6o417EEmiHZwihI1HH/Dudvt0qAo79I/p3ZU=
+        bh=Lh5zXXXkPS2NsWhIFpAScqkoO/5xfUHluX6eR3kwOFE=;
+        b=AZARG+GloA6HmlVVGNphAJQZCYZ6i8EwQWMG/1Z5ZtIK1D5fZ2MBSRmw7Hr6+OUIsz
+         Ed2yELx8gmz4YVaZ/CInXxPbj3BIJWj8Pixqn0NOkBnDKdNZjn6vzGzweOBgdQc735S5
+         /QXSuQ+LlTgiI/7ePEDUzxJwXVmt1P6JCkXRM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782510938; x=1783115738;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
+        d=1e100.net; s=20251104; t=1782511817; x=1783116617;
+        h=in-reply-to:references:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=d2HV1knDZZT5imJ7mgf+avLAa58KH4EWaG222Y2UQkE=;
-        b=jE+COpaToK03ueAYmv4uN8ZhHCyTauNnYuINOPVsYqgoyOYe9b3iz7aT3dzNWlIQfQ
-         xiBeB1Q+XZogn5IYtA7oWoAnzyai8eUOF2pKHOyOW7jDTLI/O4L2Fv4wnbbxwbtHbqxQ
-         RdWiEl712zOX/iepVQZzvJ2KGKkbpUWfIA3DCvGjYtP4PIUJ9TsGVmHPVCmGK3wSY1zs
-         oGBpSvN72akO+oIECfhCqEskzznKgeDk3oHODk+kF/tVzD5yyLcOifdQCPF/teEpD+q/
-         c6+NjccLHvUIoBzR0M0VesNPm8mZXzDlNno9NFYcBayu8hXtr+RLrqpu4pq4EmKWAu9V
-         yzlg==
-X-Forwarded-Encrypted: i=1; AFNElJ9yK59trHP2AJs5KOd8rF/8kXJy3x620H9/u1erCca9p7fPjgFTYBaEBH7isWQdBYOOsq0JNQ8hYMODPyXhU7G+hg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxcOljPInUkMoSmrxW3iyD8OKK4Kq8W5kkaXZlFs8UBWamYQRBn
-	lwTi+AsJD5Xpel29aR1RWW1z01/+nMEN8G+3LpzCxNqkPPLq1Iz0wAGjCFj7HlAZGo8=
-X-Gm-Gg: AfdE7cl1R5QFFvF93L4+waTItGQShockncWOcY62/xdqpa8r/9yB0h0/wrvlRGkVai4
-	8ARV9pNB7yCINSIg3Iah7Itw82Y4+8AU0G4OfNtjLD/rREdJ0d7KoJf2Ul6ME3aQ7eP/kKqhA6t
-	DO2xjU0/ZSgYG02/e0sMxUIvYmkp6+LTbqGDpf5IWfVAt52bbUkmroIRvHS1NCuyN6cPemTkxUH
-	JVMvWIsci7tk2RY4jL8qLebBw8tFKCBbvD5vvwuEXfeqHzAOOxj/FfBkPh/46RnLGtpEKIyuEoz
-	t0qtPncxgvsyQhoo6+KyY1UOUoRgXC0lf24Vm3PWzT/mTiIxflDWnjBWVcH1zy/zPVYEiwRO0s/
-	Id48yjGcduetOYoarTlIvU3T+nUINAltVBzbWl3TY85BOzr7Nu80xvpKPITBuzrSvL6tITUfdEW
-	dYIxUbrpr9qFOfchoJbLP78GqltNynoRxe4rw6gZt8pXuwudEANSHEnU5u8zi4xW92Nni3P2Pxh
-	ZDuHQ==
-X-Received: by 2002:a05:600c:1d1e:b0:492:2f3c:d0ed with SMTP id 5b1f17b1804b1-4926688a528mr121650055e9.30.1782510937558;
-        Fri, 26 Jun 2026 14:55:37 -0700 (PDT)
+        bh=Lh5zXXXkPS2NsWhIFpAScqkoO/5xfUHluX6eR3kwOFE=;
+        b=DkA3TJakM7oyspYA9Wix0jcArjS0OdKd7BYghIL7a0K7e/bFId5qJ9djPW3iHXwTZH
+         kQ4mwNoBp1BfWeOxSGmF4rFtWr2LLJ6K+pEhvTlb6xMbdUtPPGok27Dk/C+3mdJt6tHH
+         G2poyJzA2ev6JuW7CFd9c6WXbm4Ive3eyj7gDrkMw8L6PpRNHq2/FamNnlxrG+C2SnVS
+         wOTleH+qbx1fFyVr+gBumzwOTehsQAfa8maR+5vjUSna7Sn8J25Cn462d7Od/7+dE+ht
+         tPuZOYorE3ABQ/0YeO9UDJfPpe0JUvTwCgdM6ChHv0qmp7mh8y7by4ND8GPmgIFRVLAC
+         VmEQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrG0CKX/CqwvNhioOQB4oNdDqY9Lp4vtxDwpJOm1/pj9el6agoSaXDuRHrZrCxaMnD1yVJKwYwGSdPe5FP5zhyF0Q==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyWKWTFNHlquj5hGqdEOetvXxwC38Ry4qMJyI4yLIo+IccihCEy
+	wv3dxhief/kDZ5GcF3DGuqKIaBpfNh1hfWEGj63410RdxLkXscBpZSieoOTf2gC7OpPzU3IF3tZ
+	GVlD4
+X-Gm-Gg: AfdE7clGvAFZRIg77JQ7cKPW40qWXykrdsJhGpD8M49KpyDpW7alX866dESVUFnCVkk
+	cpDO/xBF/5FQvi+FzHRJlkNpTZPUgb5u8DZIk8rW9qy1VTGZMy0S39vwWCiLpUACkbtr0+fpk/3
+	TbzKm892SKj1v6JsdJwlg+gpjWRm0LEX65qUn+5vPtjtgUsO4u8OJ/7JclL75dl7LjNnpW/98vm
+	LT/NNCBAd4HRxt/VAM81oTILCJuB9uX8UADpM2BuJG3PM77PzXyVAYA3mdg1lV0+Urjz5mXGxKd
+	gHNqn6bc5vZyX6zFS3ij75Wg8XG+sm1F7FJ/QpaG2vF1rUOizl8HUdrF0x8+ahRwPCkymWP9F/2
+	pZasPRsVNawnlDMaUeZ+OMqTiKkQrBqkml9dlmPw+fB88wyYhsA9XrFV4QI/JCUhImXwYlSvCO5
+	XWqpe3krzcWM9FkZnakBR9+WBVJWxDsRmxjDet5vY3cKHHdgMmuvBTiueCQSwwNqZZQRaVHLNgo
+	c14adlisP2Lw1xM
+X-Received: by 2002:a05:6000:18a9:b0:461:a15a:4160 with SMTP id ffacd0b85a97d-46da8c5fcb6mr14294660f8f.13.1782511816934;
+        Fri, 26 Jun 2026 15:10:16 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00b5501ee7aae29268.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:b550:1ee7:aae2:9268])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c221d9371sm29490579f8f.21.2026.06.26.14.55.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46e3d6ba143sm15572854f8f.33.2026.06.26.15.10.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jun 2026 14:55:37 -0700 (PDT)
+        Fri, 26 Jun 2026 15:10:16 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 26 Jun 2026 23:55:36 +0200
-Message-Id: <DJJBE3OB1VCX.2TF3OKXRP1R5K@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH v2] expat: patch CVE-2026-45186
+Date: Sat, 27 Jun 2026 00:10:16 +0200
+Message-Id: <DJJBPBOYLJL3.3BJ4OY8GBGGUY@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] vim: fix for CVE-2026-34982,
+ CVE-2026-34714 & CVE-2026-35177
 From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <hsimeliere.opensource@witekio.com>, "Bruno Vernay"
- <bruno.vernay@se.com>
-To: <tgaige.opensource@witekio.com>,
- <openembedded-core@lists.openembedded.org>
+To: <hprajapati@mvista.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260619081053.796111-1-tgaige.opensource@witekio.com>
-In-Reply-To: <20260619081053.796111-1-tgaige.opensource@witekio.com>
+References: <20260619085840.386150-1-hprajapati@mvista.com>
+In-Reply-To: <20260619085840.386150-1-hprajapati@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 21:55:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239662
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 22:10:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239663
 
-On Fri Jun 19, 2026 at 10:10 AM CEST, Theo Gaige via lists.openembedded.org=
- wrote:
-> From: Theo Gaige <tgaige.opensource@witekio.com>
+On Fri Jun 19, 2026 at 10:58 AM CEST, Hitendra Prajapati via lists.openembe=
+dded.org wrote:
+> Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
 >
-> Backport patches from [1] also mentioned in [2].
+> [1] https://github.com/vim/vim/commit/75661a66a1db1e1f3f1245c615f13a7de44=
+c0587
+> [2] https://github.com/vim/vim/commit/664701eb7576edb7c7c7d9f2d600815ec1f=
+43459
+> [3] https://github.com/vim/vim/commit/7088926316d8d4a7572a242d0765e99adfc=
+8b083
+> [4] https://nvd.nist.gov/vuln/detail/CVE-2026-34982
+> [5] https://nvd.nist.gov/vuln/detail/CVE-2026-34714
+> [6] https://nvd.nist.gov/vuln/detail/CVE-2026-35177
 >
-> [1] https://github.com/libexpat/libexpat/pull/1216
-> [2] https://security-tracker.debian.org/tracker/CVE-2026-45186
+> More info :
+> CVE-2026-34982 - vim: arbitrary command execution via modeline sandbox by=
+pass.
+> CVE-2026-34714 - vim: Arbitrary code execution via crafted file.
+> CVE-2026-35177 - vim zip.vim plugin: Arbitrary file overwrite via path tr=
+aversal bypass.
 >
-> Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-> Reviewed-by: Bruno Vernay <bruno.vernay@se.com>
+> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 > ---
+>  .../vim/files/CVE-2026-34714.patch            | 109 ++++++++++++++++++
+>  .../vim/files/CVE-2026-34982.patch            | 105 +++++++++++++++++
+>  .../vim/files/CVE-2026-35177.patch            |  58 ++++++++++
+>  meta/recipes-support/vim/vim.inc              |   5 +-
+>  4 files changed, 276 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-support/vim/files/CVE-2026-34714.patch
+>  create mode 100644 meta/recipes-support/vim/files/CVE-2026-34982.patch
+>  create mode 100644 meta/recipes-support/vim/files/CVE-2026-35177.patch
+>
+> diff --git a/meta/recipes-support/vim/files/CVE-2026-34714.patch b/meta/r=
+ecipes-support/vim/files/CVE-2026-34714.patch
+> new file mode 100644
+> index 0000000000..fef167e535
+> --- /dev/null
+> +++ b/meta/recipes-support/vim/files/CVE-2026-34714.patch
+> @@ -0,0 +1,109 @@
+> +From 664701eb7576edb7c7c7d9f2d600815ec1f43459 Mon Sep 17 00:00:00 2001
+> +From: Christian Brabandt <cb@256bit.org>
+> +Date: Mon, 30 Mar 2026 08:20:43 +0000
+> +Subject: [PATCH] patch 9.2.0272: [security]: 'tabpanel' can be set in a
+> + modeline
+> +
+> +Problem:  'tabpanel' can be set in a modeline
+> +Solution: Set the P_MLE flag for the 'tabpanel' option, disable
+> +          autocmd_add()/autocomd_delete() functions in restricted/secure
+> +          mode.
+> +
+> +Github Advisory:
+> +https://github.com/vim/vim/security/advisories/GHSA-2gmj-rpqf-pxvh
+> +
+> +Signed-off-by: Christian Brabandt <cb@256bit.org>
+> +
+> +CVE: CVE-2026-34714
+> +Upstream-Status: Backport [https://github.com/vim/vim/commit/664701eb757=
+6edb7c7c7d9f2d600815ec1f43459]
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> +---
+> + src/autocmd.c                 |  3 +++
+> + src/optiondefs.h              |  2 +-
+> + src/testdir/test_autocmd.vim  |  5 +++++
+> + src/testdir/test_tabpanel.vim | 16 ++++++++++++++++
+> + src/version.c                 |  2 ++
+> + 5 files changed, 27 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/src/autocmd.c b/src/autocmd.c
+> +index 94f9c1fba4..8a6b363aad 100644
+> +--- a/src/autocmd.c
+> ++++ b/src/autocmd.c
+> +@@ -3069,6 +3069,9 @@ autocmd_add_or_delete(typval_T *argvars, typval_T =
+*rettv, int delete)
+> +     rettv->v_type =3D VAR_BOOL;
+> +     rettv->vval.v_number =3D VVAL_FALSE;
+> +=20
+> ++    if (check_restricted() || check_secure())
+> ++	return;
+> ++
+> +     if (check_for_list_arg(argvars, 0) =3D=3D FAIL)
+> + 	return;
+> +=20
+> +diff --git a/src/optiondefs.h b/src/optiondefs.h
+> +index 62d142e637..bd02d04f47 100644
+> +--- a/src/optiondefs.h
+> ++++ b/src/optiondefs.h
+> +@@ -2570,7 +2570,7 @@ static struct vimoption options[] =3D
+> + 			    (char_u *)&p_tpm, PV_NONE, NULL, NULL,
+> + 			    {(char_u *)10L, (char_u *)0L} SCTX_INIT},
+> + #if defined(FEAT_TABPANEL)
+> +-    {"tabpanel",  "tpl",    P_STRING|P_VI_DEF|P_RALL,
+> ++    {"tabpanel",  "tpl",    P_STRING|P_VI_DEF|P_RALL|P_MLE,
+> + 			    (char_u *)&p_tpl, PV_NONE, NULL, NULL,
+> + 			    {(char_u *)"", (char_u *)0L} SCTX_INIT},
+> +     {"tabpanelopt","tplo",  P_STRING|P_ALLOCED|P_VI_DEF|P_ONECOMMA|P_CO=
+LON
+> +diff --git a/src/testdir/test_autocmd.vim b/src/testdir/test_autocmd.vim
+> +index 43605f7e11..1fea13b00a 100644
+> +--- a/src/testdir/test_autocmd.vim
+> ++++ b/src/testdir/test_autocmd.vim
+> +@@ -5501,4 +5501,9 @@ func Test_VimResized_and_window_width_not_equalize=
+d()
+> +   call StopVimInTerminal(buf)
+> + endfunc
+> +=20
+> ++func Test_autocmd_add_secure()
+> ++  call assert_fails('sandbox call autocmd_add([{"event": "BufRead", "cm=
+d": "let x =3D 1"}])', 'E48:')
+> ++  call assert_fails('sandbox call autocmd_delete([{"event": "BufRead"}]=
+)', 'E48:')
+> ++endfunc
+> ++
+> + " vim: shiftwidth=3D2 sts=3D2 expandtab
+> +diff --git a/src/testdir/test_tabpanel.vim b/src/testdir/test_tabpanel.v=
+im
+> +index ecc12b59be..b0d4202dc4 100644
+> +--- a/src/testdir/test_tabpanel.vim
+> ++++ b/src/testdir/test_tabpanel.vim
+> +@@ -770,4 +770,20 @@ function Test_tabpanel_with_cmdline_pum()
+> +=20
+> +   call StopVimInTerminal(buf)
+> + endfunc
+> ++
+> ++func Test_tabpanel_no_modeline()
+> ++  let _tpl =3D &tabpanel
+> ++  let _mls =3D &modelineexpr
+> ++
+> ++  set nomodelineexpr
+> ++  setlocal modeline
+> ++  new
+> ++  call writefile(['/* vim: set tabpanel=3Dtest: */'], 'Xtabpanel.txt', =
+'D')
+> ++  call assert_fails(':e Xtabpanel.txt', 'E992:')
+> ++
+> ++  let &tabpanel =3D _tpl
+> ++  let &modelineexpr =3D _mls
+> ++  bw!
+> ++endfunc
+> ++
+> + " vim: shiftwidth=3D2 sts=3D2 expandtab
+> +diff --git a/src/version.c b/src/version.c
+> +index 4f47ec2688..309ddf7f7c 100644
+> +--- a/src/version.c
+> ++++ b/src/version.c
+> +@@ -724,6 +724,8 @@ static char *(features[]) =3D
+> +=20
+> + static int included_patches[] =3D
+> + {   /* Add new patch number below this line */
+> ++/**/
+> ++    1687,
+> + /**/
+> +     1686,
+> + /**/
+> +--=20
+> +2.50.1
+> +
+> diff --git a/meta/recipes-support/vim/files/CVE-2026-34982.patch b/meta/r=
+ecipes-support/vim/files/CVE-2026-34982.patch
+> new file mode 100644
+> index 0000000000..a646dfd8cb
+> --- /dev/null
+> +++ b/meta/recipes-support/vim/files/CVE-2026-34982.patch
+> @@ -0,0 +1,105 @@
+> +From 75661a66a1db1e1f3f1245c615f13a7de44c0587 Mon Sep 17 00:00:00 2001
+> +From: Christian Brabandt <cb@256bit.org>
+> +Date: Tue, 31 Mar 2026 18:29:00 +0000
+> +Subject: [PATCH] patch 9.2.0276: [security]: modeline security bypass
+> +
+> +Problem:  [security]: modeline security bypass
+> +Solution: disallow mapset() from secure mode, set the P_MLE flag for the
+> +          'complete', 'guitabtooltip' and 'printheader' options.
+> +
+> +Github Advisory:
+> +https://github.com/vim/vim/security/advisories/GHSA-8h6p-m6gr-mpw9
+> +
+> +Signed-off-by: Christian Brabandt <cb@256bit.org>
+> +
+> +CVE: CVE-2026-34982
+> +Upstream-Status: Backport from [https://github.com/vim/vim/commit/75661a=
+66a1db1e1f3f1245c615f13a7de44c0587]
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> +---
+> + src/map.c                     |  3 +++
+> + src/optiondefs.h              |  6 +++---
+> + src/testdir/test_modeline.vim | 25 +++++++++++++++++++++++++
+> + 3 files changed, 31 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/src/map.c b/src/map.c
+> +index fbecf4aced..7677243625 100644
+> +--- a/src/map.c
+> ++++ b/src/map.c
+> +@@ -2746,6 +2746,9 @@ f_mapset(typval_T *argvars, typval_T *rettv UNUSED=
+)
+> +     int		dict_only;
+> +     mapblock_T	*mp_result[2] =3D {NULL, NULL};
+> +=20
+> ++    if (check_secure())
+> ++	return;
+> ++
+> +     // If first arg is a dict, then that's the only arg permitted.
+> +     dict_only =3D argvars[0].v_type =3D=3D VAR_DICT;
+> +     if (in_vim9script()
+> +diff --git a/src/optiondefs.h b/src/optiondefs.h
+> +index 77155a63e8..62d142e637 100644
+> +--- a/src/optiondefs.h
+> ++++ b/src/optiondefs.h
+> +@@ -683,7 +683,7 @@ static struct vimoption options[] =3D
+> +     {"compatible",  "cp",   P_BOOL|P_RALL,
+> + 			    (char_u *)&p_cp, PV_NONE, did_set_compatible, NULL,
+> + 			    {(char_u *)TRUE, (char_u *)FALSE} SCTX_INIT},
+> +-    {"complete",    "cpt",  P_STRING|P_ALLOCED|P_VI_DEF|P_ONECOMMA|P_NO=
+DUP,
+> ++    {"complete",    "cpt",  P_STRING|P_ALLOCED|P_VI_DEF|P_ONECOMMA|P_NO=
+DUP|P_MLE,
+> + 			    (char_u *)&p_cpt, PV_CPT, did_set_complete, expand_set_complete,
+> + 			    {(char_u *)".,w,b,u,t,i", (char_u *)0L}
+> + 			    SCTX_INIT},
+> +@@ -1326,7 +1326,7 @@ static struct vimoption options[] =3D
+> + 			    {(char_u *)NULL, (char_u *)0L}
+> + #endif
+> + 			    SCTX_INIT},
+> +-    {"guitabtooltip",  "gtt", P_STRING|P_VI_DEF|P_RWIN,
+> ++    {"guitabtooltip",  "gtt", P_STRING|P_VI_DEF|P_RWIN|P_MLE,
+> + #if defined(FEAT_GUI_TABLINE)
+> + 			    (char_u *)&p_gtt, PV_NONE, NULL, NULL,
+> + 			    {(char_u *)"", (char_u *)0L}
+> +@@ -2044,7 +2044,7 @@ static struct vimoption options[] =3D
+> + 			    {(char_u *)NULL, (char_u *)0L}
+> + #endif
+> + 			    SCTX_INIT},
+> +-    {"printheader", "pheader",  P_STRING|P_VI_DEF|P_GETTEXT,
+> ++    {"printheader", "pheader",  P_STRING|P_VI_DEF|P_GETTEXT|P_MLE,
+> + #ifdef FEAT_PRINTER
+> + 			    (char_u *)&p_header, PV_NONE, NULL, NULL,
+> + 			    // untranslated to avoid problems when 'encoding'
+> +diff --git a/src/testdir/test_modeline.vim b/src/testdir/test_modeline.v=
+im
+> +index 1f8686328a..c00032ba72 100644
+> +--- a/src/testdir/test_modeline.vim
+> ++++ b/src/testdir/test_modeline.vim
+> +@@ -361,4 +361,29 @@ func Test_modeline_disable()
+> +   call assert_equal(2, &sw)
+> + endfunc
+> +=20
+> ++func Test_modeline_forbidden()
+> ++  let tempfile =3D tempname()
+> ++  let lines =3D<< trim END
+> ++    some test text for completion
+> ++    vim: set complete=3DF{->system('touch_should_not_run')} :
+> ++  END
+> ++  call writefile(lines, tempfile, 'D')
+> ++  call assert_fails($'new {tempfile}', 'E992:')
+> ++  bw!
+> ++  let lines =3D<< trim END
+> ++    some text
+> ++    vim: set guitabtooltip=3D%{%mapset()%}:
+> ++  END
+> ++  call writefile(lines, tempfile)
+> ++  call assert_fails($'new {tempfile}', 'E992:')
+> ++  bw!
+> ++  let lines =3D<< trim END
+> ++    some text
+> ++    vim: set printheader=3D%{mapset('n',0,{})%)%}:
+> ++  END
+> ++  call writefile(lines, tempfile, 'D')
+> ++  call assert_fails($'new {tempfile}', 'E992:')
+> ++  bw!
+> ++endfunc
+> ++
+> + " vim: shiftwidth=3D2 sts=3D2 expandtab
+> +--=20
+> +2.35.7
+> +
+> diff --git a/meta/recipes-support/vim/files/CVE-2026-35177.patch b/meta/r=
+ecipes-support/vim/files/CVE-2026-35177.patch
+> new file mode 100644
+> index 0000000000..23e1043879
+> --- /dev/null
+> +++ b/meta/recipes-support/vim/files/CVE-2026-35177.patch
+> @@ -0,0 +1,58 @@
+> +From 7088926316d8d4a7572a242d0765e99adfc8b083 Mon Sep 17 00:00:00 2001
+> +From: Christian Brabandt <cb@256bit.org>
+> +Date: Wed, 1 Apr 2026 16:23:49 +0000
+> +Subject: [PATCH] patch 9.2.0280: [security]: path traversal issue in zip=
+.vim
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +Problem:  [security]: path traversal issue in zip.vim
+> +          (Micha=C5=82 Majchrowicz)
+> +Solution: Detect more such attacks and warn the user.
+> +
+> +Github Advisory:
+> +https://github.com/vim/vim/security/advisories/GHSA-jc86-w7vm-8p24
+> +
+> +CVE: CVE-2026-35177
+> +Upstream-Status: Backport from https://github.com/vim/vim/commit/7088926=
+316d8d4a7572a242d0765e99adfc8b083
 
-Hello,
+Please respect the syntax "Upstream-Status: Backport [URL]" (with
+Brackets). I do use this syntax to automate much of my reviews.
 
-This CVE also impacts wrynose. Can you send a fix for wrynose, and then,
-ping back here?
+> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> +---
+> + runtime/autoload/zip.vim | 8 +++++++-
+> + 1 files changed, 7 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/runtime/autoload/zip.vim b/runtime/autoload/zip.vim
+> +index c46ec44708..e57fbcfde0 100644
+> +--- a/runtime/autoload/zip.vim
+> ++++ b/runtime/autoload/zip.vim
+> +@@ -16,6 +16,7 @@
+> + " 2024 Aug 21 by Vim Project: simplify condition to detect MS-Windows
+> + " 2025 Mar 11 by Vim Project: handle filenames with leading '-' correct=
+ly
+> + " 2025 Jul 12 by Vim Project: drop ../ on write to prevent path travers=
+al attacks
+> ++" 2026 Apr 01 by Vim Project: Detect more path traversal attacks
+> + " License:	Vim License  (see vim's :help license)
+> + " Copyright:	Copyright (C) 2005-2019 Charles E. Campbell {{{1
+> + "		Permission is hereby granted to use and distribute this code,
+> +@@ -246,6 +247,11 @@ fun! zip#Write(fname)
+> +     return
+> +   endif
+> +=20
+> ++  if simplify(a:fname) =3D~ '\.\.[/\\]'
+> ++    call s:Mess('Error', "***error*** (zip#Write) Path Traversal Attack=
+ detected, not writing!")
+> ++    return
+> ++  endif
+> ++
+> +   let curdir=3D getcwd()
+> +   let tmpdir=3D tempname()
+> +   if tmpdir =3D~ '\.'
+> +@@ -344,7 +350,7 @@ fun! zip#Extract()
+> +   if fname =3D~ '/$'
+> +     call s:Mess('Error', "***error*** (zip#Extract) Please specify a fi=
+le, not a directory")
+> +     return
+> +-  elseif fname =3D~ '^[.]\?[.]/'
+> ++  elseif fname =3D~ '^[.]\?[.]/' || simplify(fname) =3D~ '\.\.[/\\]'
+> +     call s:Mess('Error', "***error*** (zip#Browse) Path Traversal Attac=
+k detected, not extracting!")
+> +     return
+> +   endif
+> +--=20
+> +2.35.7
+> +
+> diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/=
+vim.inc
+> index 1396ac4fbc..0b7a831eed 100644
+> --- a/meta/recipes-support/vim/vim.inc
+> +++ b/meta/recipes-support/vim/vim.inc
+> @@ -16,12 +16,15 @@ SRC_URI =3D "git://github.com/vim/vim.git;branch=3Dma=
+ster;protocol=3Dhttps \
+>             file://disable_acl_header_check.patch \
+>             file://0001-src-Makefile-improve-reproducibility.patch \
+>             file://no-path-adjust.patch \
+> +           file://CVE-2026-34982.patch \
+> +           file://CVE-2026-33412.patch \
+>             file://CVE-2026-25749.patch \
+>             file://CVE-2026-26269.patch \
+> -           file://CVE-2026-33412.patch \
+
+CVE-2026-33412.patch was moved without being mentionned in commit
+message. Please don't mix unrelated changes.
+
+Since you sent 5 individual patches for vim: can you send me a v2 this
+the above changes but as a series (with the 4 other patches)?
 
 Thanks!
 
->  .../expat/expat/CVE-2026-45186-01.patch       |  70 ++++
->  .../expat/expat/CVE-2026-45186-02.patch       | 318 ++++++++++++++++++
->  .../expat/expat/CVE-2026-45186-03.patch       |  46 +++
->  .../expat/expat/CVE-2026-45186-04.patch       |  32 ++
->  .../expat/expat/CVE-2026-45186-05.patch       |  32 ++
->  .../expat/expat/CVE-2026-45186-06.patch       |  87 +++++
->  .../expat/expat/CVE-2026-45186-07.patch       |  52 +++
->  meta/recipes-core/expat/expat_2.6.4.bb        |   7 +
->  8 files changed, 644 insertions(+)
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
->
-> diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch b/meta=
-/recipes-core/expat/expat/CVE-2026-45186-01.patch
-> new file mode 100644
-> index 0000000000..787006c0fd
-> --- /dev/null
-> +++ b/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
-> @@ -0,0 +1,70 @@
-> +From 3020144133b2d860c44f4eeacf72e5f2843235a3 Mon Sep 17 00:00:00 2001
-> +From: =3D?UTF-8?q?Berkay=3D20Eren=3D20=3DC3=3D9Cr=3DC3=3DBCn?=3D <berkay=
-.ueruen@siemens.com>
-> +Date: Fri, 13 Mar 2026 13:26:45 +0100
-> +Subject: [PATCH 1/7] Make "counting_start_element_handler" count default=
- attrs
-> +
-> +(cherry picked from commit 0802a5892030610144b736dec6e2f63e8600fe85)
-> +
-> +CVE: CVE-2026-45186
-> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/121=
-6/commits/0802a5892030610144b736dec6e2f63e8600fe85]
-> +Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-> +---
-> + tests/basic_tests.c | 8 ++++----
-> + tests/handlers.c    | 2 +-
-> + tests/handlers.h    | 1 +
-> + 3 files changed, 6 insertions(+), 5 deletions(-)
-> +
-> +diff --git a/tests/basic_tests.c b/tests/basic_tests.c
-> +index 023d9ce..d6edb16 100644
-> +--- a/tests/basic_tests.c
-> ++++ b/tests/basic_tests.c
-> +@@ -2439,9 +2439,9 @@ START_TEST(test_attributes) {
-> +                          {XCS("id"), XCS("one")},
-> +                          {NULL, NULL}};
-> +   AttrInfo tag_info[] =3D {{XCS("c"), XCS("3")}, {NULL, NULL}};
-> +-  ElementInfo info[] =3D {{XCS("doc"), 3, XCS("id"), NULL},
-> +-                        {XCS("tag"), 1, NULL, NULL},
-> +-                        {NULL, 0, NULL, NULL}};
-> ++  ElementInfo info[] =3D {{XCS("doc"), 3, 0, XCS("id"), NULL},
-> ++                        {XCS("tag"), 1, 0, NULL, NULL},
-> ++                        {NULL, 0, 0, NULL, NULL}};
-> +   info[0].attributes =3D doc_info;
-> +   info[1].attributes =3D tag_info;
-> +=20
-> +@@ -5496,7 +5496,7 @@ START_TEST(test_deep_nested_attribute_entity) {
-> +            (long unsigned)(N_LINES - 1));
-> +=20
-> +   AttrInfo doc_info[] =3D {{XCS("name"), XCS("deepText")}, {NULL, NULL}=
-};
-> +-  ElementInfo info[] =3D {{XCS("foo"), 1, NULL, NULL}, {NULL, 0, NULL, =
-NULL}};
-> ++  ElementInfo info[] =3D {{XCS("foo"), 1, 0, NULL, NULL}, {NULL, 0, 0, =
-NULL, NULL}};
-> +   info[0].attributes =3D doc_info;
-> +=20
-> +   XML_Parser parser =3D XML_ParserCreate(NULL);
-> +diff --git a/tests/handlers.c b/tests/handlers.c
-> +index e658223..9ff7b35 100644
-> +--- a/tests/handlers.c
-> ++++ b/tests/handlers.c
-> +@@ -137,7 +137,7 @@ counting_start_element_handler(void *userData, const=
- XML_Char *name,
-> +     fail("ID does not have the correct name");
-> +     return;
-> +   }
-> +-  for (i =3D 0; i < info->attr_count; i++) {
-> ++  for (i =3D 0; i < info->attr_count + info->default_attr_count; i++) {
-> +     attr =3D info->attributes;
-> +     while (attr->name !=3D NULL) {
-> +       if (! xcstrcmp(atts[0], attr->name))
-> +diff --git a/tests/handlers.h b/tests/handlers.h
-> +index ac4ca94..11d45eb 100644
-> +--- a/tests/handlers.h
-> ++++ b/tests/handlers.h
-> +@@ -88,6 +88,7 @@ typedef struct attrInfo {
-> + typedef struct elementInfo {
-> +   const XML_Char *name;
-> +   int attr_count;
-> ++  int default_attr_count;
-> +   const XML_Char *id_name;
-> +   AttrInfo *attributes;
-> + } ElementInfo;
-> +--=20
-> +2.43.0
-> +
-> diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch b/meta=
-/recipes-core/expat/expat/CVE-2026-45186-02.patch
-> new file mode 100644
-> index 0000000000..fef531a439
-> --- /dev/null
-> +++ b/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
-> @@ -0,0 +1,318 @@
-> +From ba12af3b3ffd98b9e31c3a01a20d392c89aa974e Mon Sep 17 00:00:00 2001
-> +From: =3D?UTF-8?q?Berkay=3D20Eren=3D20=3DC3=3D9Cr=3DC3=3DBCn?=3D <berkay=
-.ueruen@siemens.com>
-> +Date: Fri, 13 Mar 2026 13:27:31 +0100
-> +Subject: [PATCH 2/7] test(attlist): Cover duplicate attribute names
-> +
-> +Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
-> +(cherry picked from commit e569f47181c43dca5d262089e541ddf9a9c09927)
-> +
-> +CVE: CVE-2026-45186
-> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/121=
-6/commits/e569f47181c43dca5d262089e541ddf9a9c09927]
-> +Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-> +---
-> + tests/basic_tests.c | 282 ++++++++++++++++++++++++++++++++++++++++++++
-> + 1 file changed, 282 insertions(+)
-> +
-> +diff --git a/tests/basic_tests.c b/tests/basic_tests.c
-> +index d6edb16..907a458 100644
-> +--- a/tests/basic_tests.c
-> ++++ b/tests/basic_tests.c
-> +@@ -2462,6 +2462,279 @@ START_TEST(test_attributes) {
-> + }
-> + END_TEST
-> +=20
-> ++START_TEST(test_duplicate_cdata_attribute) {
-> ++  /*
-> ++  https://www.w3.org/TR/xml/#attdecls
-> ++
-> ++  Test the following statement from the linked specification:
-> ++    When more than one definition is provided for the same attribute of=
- a given
-> ++    element type, the first declaration is binding and later declaratio=
-ns are
-> ++    ignored.
-> ++  */
-> ++
-> ++  const char *text
-> ++      =3D "<!DOCTYPE doc [\n"
-> ++        "  <!ATTLIST doc attribute CDATA 'expected' attribute CDATA 'ig=
-nored'>\n"
-> ++        "]>\n"
-> ++        "<doc/>\n";
-> ++  AttrInfo doc_info[] =3D {{XCS("attribute"), XCS("expected")}, {NULL, =
-NULL}};
-> ++  ElementInfo info[]
-> ++      =3D {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}=
-};
-> ++
-> ++  XML_Parser parser =3D XML_ParserCreate(NULL);
-> ++  assert_true(parser !=3D NULL);
-> ++
-> ++  ParserAndElementInfo parserAndElementInfos =3D {
-> ++      parser,
-> ++      info,
-> ++  };
-> ++
-> ++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-> ++  XML_SetUserData(parser, &parserAndElementInfos);
-> ++
-> ++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE=
-)
-> ++      !=3D XML_STATUS_OK)
-> ++    xml_failure(parser);
-> ++
-> ++  XML_ParserFree(parser);
-> ++}
-> ++END_TEST
-> ++
-> ++START_TEST(test_duplicate_id_attribute_1) {
-> ++  /*
-> ++  https://www.w3.org/TR/xml/#attdecls
-> ++
-> ++  Test the following statement from the linked specification:
-> ++    When more than one definition is provided for the same attribute of=
- a given
-> ++    element type, the first declaration is binding and later declaratio=
-ns are
-> ++    ignored.
-> ++  */
-> ++
-> ++  const char *text
-> ++      =3D "<!DOCTYPE doc [\n"
-> ++        "  <!ATTLIST doc identifier CDATA 'expected' identifier ID #REQ=
-UIRED>\n"
-> ++        "]>\n"
-> ++        "<doc/>\n";
-> ++  AttrInfo doc_info[] =3D {{XCS("identifier"), XCS("expected")}, {NULL,=
- NULL}};
-> ++  ElementInfo info[]
-> ++      =3D {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}=
-};
-> ++
-> ++  XML_Parser parser =3D XML_ParserCreate(NULL);
-> ++  assert_true(parser !=3D NULL);
-> ++
-> ++  ParserAndElementInfo parserAndElementInfos =3D {
-> ++      parser,
-> ++      info,
-> ++  };
-> ++
-> ++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-> ++  XML_SetUserData(parser, &parserAndElementInfos);
-> ++
-> ++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE=
-)
-> ++      !=3D XML_STATUS_OK)
-> ++    xml_failure(parser);
-> ++
-> ++  XML_ParserFree(parser);
-> ++}
-> ++END_TEST
-> ++
-> ++START_TEST(test_duplicate_id_attribute_2) {
-> ++  /*
-> ++  https://www.w3.org/TR/xml/#attdecls
-> ++
-> ++  Test the following statement from the linked specification:
-> ++    When more than one definition is provided for the same attribute of=
- a given
-> ++    element type, the first declaration is binding and later declaratio=
-ns are
-> ++    ignored.
-> ++  */
-> ++
-> ++  const char *text
-> ++      =3D "<!DOCTYPE doc [\n"
-> ++        "  <!ATTLIST doc identifier ID #REQUIRED identifier CDATA 'unex=
-pected'>\n"
-> ++        "]>\n"
-> ++        "<doc/>\n";
-> ++  AttrInfo doc_info[] =3D {{NULL, NULL}};
-> ++
-> ++  ElementInfo info[]
-> ++      =3D {{XCS("doc"), 0, 0, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}=
-};
-> ++
-> ++  XML_Parser parser =3D XML_ParserCreate(NULL);
-> ++  assert_true(parser !=3D NULL);
-> ++
-> ++  ParserAndElementInfo parserAndElementInfos =3D {
-> ++      parser,
-> ++      info,
-> ++  };
-> ++
-> ++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-> ++  XML_SetUserData(parser, &parserAndElementInfos);
-> ++
-> ++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE=
-)
-> ++      !=3D XML_STATUS_OK)
-> ++    xml_failure(parser);
-> ++
-> ++  XML_ParserFree(parser);
-> ++}
-> ++END_TEST
-> ++
-> ++START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl) {
-> ++  /*
-> ++  https://www.w3.org/TR/xml/#attdecls
-> ++
-> ++  Test the following statement from the linked specification:
-> ++    When more than one AttlistDecl is provided for a given element type=
-,
-> ++    the contents of all those provided are merged.
-> ++  */
-> ++  const char *text =3D "<!DOCTYPE doc [\n"
-> ++                     "  <!ATTLIST doc attribute CDATA 'expected'>\n"
-> ++                     "  <!ATTLIST doc attribute CDATA 'ignored'>\n"
-> ++                     "]>\n"
-> ++                     "<doc/>\n";
-> ++  AttrInfo doc_info[] =3D {{XCS("attribute"), XCS("expected")}, {NULL, =
-NULL}};
-> ++  ElementInfo info[]
-> ++      =3D {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}=
-};
-> ++
-> ++  XML_Parser parser =3D XML_ParserCreate(NULL);
-> ++  assert_true(parser !=3D NULL);
-> ++
-> ++  ParserAndElementInfo parserAndElementInfos =3D {
-> ++      parser,
-> ++      info,
-> ++  };
-> ++
-> ++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-> ++  XML_SetUserData(parser, &parserAndElementInfos);
-> ++
-> ++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE=
-)
-> ++      !=3D XML_STATUS_OK)
-> ++    xml_failure(parser);
-> ++
-> ++  XML_ParserFree(parser);
-> ++}
-> ++END_TEST
-> ++
-> ++START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl_2) {
-> ++  /*
-> ++  https://www.w3.org/TR/xml/#attdecls
-> ++
-> ++  Test the following statement from the linked specification:
-> ++    When more than one AttlistDecl is provided for a given element type=
-,
-> ++    the contents of all those provided are merged.
-> ++  */
-> ++  const char *text =3D "<!DOCTYPE doc [\n"
-> ++                     "  <!ATTLIST doc attribute CDATA 'expected_doc'>\n=
-"
-> ++                     "  <!ATTLIST tag attribute CDATA 'expected_tag'>\n=
-"
-> ++                     "  <!ATTLIST doc attribute CDATA 'ignored_doc'>\n"
-> ++                     "]>\n"
-> ++                     "<doc><tag></tag></doc>\n";
-> ++  AttrInfo doc_info[] =3D {{XCS("attribute"), XCS("expected_doc")}, {NU=
-LL, NULL}};
-> ++  AttrInfo tag_info[] =3D {{XCS("attribute"), XCS("expected_tag")}, {NU=
-LL, NULL}};
-> ++  ElementInfo info[] =3D {{XCS("doc"), 0, 1, NULL, doc_info},
-> ++                        {XCS("tag"), 0, 1, NULL, tag_info},
-> ++                        {NULL, 0, 0, NULL, NULL}};
-> ++
-> ++  XML_Parser parser =3D XML_ParserCreate(NULL);
-> ++  assert_true(parser !=3D NULL);
-> ++
-> ++  ParserAndElementInfo parserAndElementInfos =3D {
-> ++      parser,
-> ++      info,
-> ++  };
-> ++
-> ++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-> ++  XML_SetUserData(parser, &parserAndElementInfos);
-> ++
-> ++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE=
-)
-> ++      !=3D XML_STATUS_OK)
-> ++    xml_failure(parser);
-> ++
-> ++  XML_ParserFree(parser);
-> ++}
-> ++END_TEST
-> ++
-> ++START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl_3) {
-> ++  /*
-> ++  https://www.w3.org/TR/xml/#attdecls
-> ++
-> ++  Test the following statement from the linked specification:
-> ++    When more than one AttlistDecl is provided for a given element type=
-,
-> ++    the contents of all those provided are merged.
-> ++  */
-> ++  const char *text
-> ++      =3D "<!DOCTYPE doc [\n"
-> ++        "  <!ATTLIST doc attribute CDATA 'expected_doc'>\n"
-> ++        "  <!ATTLIST tag attribute CDATA 'expected_tag'>\n"
-> ++        "  <!ATTLIST doc second_attribute CDATA 'second_expected_doc' a=
-ttribute CDATA 'ignored_doc'>\n"
-> ++        "]>\n"
-> ++        "<doc><tag></tag></doc>\n";
-> ++  AttrInfo doc_info[] =3D {{XCS("attribute"), XCS("expected_doc")},
-> ++                         {XCS("second_attribute"), XCS("second_expected=
-_doc")},
-> ++                         {NULL, NULL}};
-> ++  AttrInfo tag_info[] =3D {{XCS("attribute"), XCS("expected_tag")}, {NU=
-LL, NULL}};
-> ++  ElementInfo info[] =3D {{XCS("doc"), 0, 2, NULL, doc_info},
-> ++                        {XCS("tag"), 0, 1, NULL, tag_info},
-> ++                        {NULL, 0, 0, NULL, NULL}};
-> ++
-> ++  XML_Parser parser =3D XML_ParserCreate(NULL);
-> ++  assert_true(parser !=3D NULL);
-> ++
-> ++  ParserAndElementInfo parserAndElementInfos =3D {
-> ++      parser,
-> ++      info,
-> ++  };
-> ++
-> ++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-> ++  XML_SetUserData(parser, &parserAndElementInfos);
-> ++
-> ++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE=
-)
-> ++      !=3D XML_STATUS_OK)
-> ++    xml_failure(parser);
-> ++
-> ++  XML_ParserFree(parser);
-> ++}
-> ++END_TEST
-> ++
-> ++START_TEST(test_duplicate_id_attribute_multiple_attlistdecl) {
-> ++  /*
-> ++  https://www.w3.org/TR/xml/#attdecls
-> ++
-> ++  Test the following statement from the linked specification:
-> ++    When more than one AttlistDecl is provided for a given element type=
-,
-> ++    the contents of all those provided are merged.
-> ++  */
-> ++  const char *text =3D "<!DOCTYPE doc [\n"
-> ++                     "  <!ATTLIST doc identifier ID #REQUIRED>\n"
-> ++                     "  <!ATTLIST tag identifier CDATA 'identifier_tag'=
->\n"
-> ++                     "  <!ATTLIST doc identifier CDATA 'ignored'>\n"
-> ++                     "]>\n"
-> ++                     "<doc identifier=3D'doc_identity'><tag></tag></doc=
->\n";
-> ++  AttrInfo doc_info[]
-> ++      =3D {{XCS("identifier"), XCS("doc_identity")}, {NULL, NULL}};
-> ++  AttrInfo tag_info[]
-> ++      =3D {{XCS("identifier"), XCS("identifier_tag")}, {NULL, NULL}};
-> ++  ElementInfo info[] =3D {{XCS("doc"), 1, 0, XCS("identifier"), doc_inf=
-o},
-> ++                        {XCS("tag"), 0, 1, NULL, tag_info},
-> ++                        {NULL, 0, 0, NULL, NULL}};
-> ++
-> ++  XML_Parser parser =3D XML_ParserCreate(NULL);
-> ++  assert_true(parser !=3D NULL);
-> ++
-> ++  ParserAndElementInfo parserAndElementInfos =3D {
-> ++      parser,
-> ++      info,
-> ++  };
-> ++
-> ++  XML_SetStartElementHandler(parser, counting_start_element_handler);
-> ++  XML_SetUserData(parser, &parserAndElementInfos);
-> ++
-> ++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE=
-)
-> ++      !=3D XML_STATUS_OK)
-> ++    xml_failure(parser);
-> ++
-> ++  XML_ParserFree(parser);
-> ++}
-> ++END_TEST
-> ++
-> + /* Test reset works correctly in the middle of processing an internal
-> +  * entity.  Exercises some obscure code in XML_ParserReset().
-> +  */
-> +@@ -6325,6 +6598,15 @@ make_basic_test_case(Suite *s) {
-> +   tcase_add_test__ifdef_xml_dtd(tc_basic, test_empty_foreign_dtd);
-> +   tcase_add_test(tc_basic, test_set_base);
-> +   tcase_add_test(tc_basic, test_attributes);
-> ++  tcase_add_test(tc_basic, test_duplicate_cdata_attribute);
-> ++  tcase_add_test(tc_basic, test_duplicate_id_attribute_1);
-> ++  tcase_add_test(tc_basic, test_duplicate_id_attribute_2);
-> ++  tcase_add_test(tc_basic, test_duplicate_cdata_attribute_multiple_attl=
-istdecl);
-> ++  tcase_add_test(tc_basic,
-> ++                 test_duplicate_cdata_attribute_multiple_attlistdecl_2)=
-;
-> ++  tcase_add_test(tc_basic,
-> ++                 test_duplicate_cdata_attribute_multiple_attlistdecl_3)=
-;
-> ++  tcase_add_test(tc_basic, test_duplicate_id_attribute_multiple_attlist=
-decl);
-> +   tcase_add_test__if_xml_ge(tc_basic, test_reset_in_entity);
-> +   tcase_add_test(tc_basic, test_resume_invalid_parse);
-> +   tcase_add_test(tc_basic, test_resume_resuspended);
-> +--=20
-> +2.43.0
-> +
-> diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch b/meta=
-/recipes-core/expat/expat/CVE-2026-45186-03.patch
-> new file mode 100644
-> index 0000000000..2afe6dbebc
-> --- /dev/null
-> +++ b/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
-> @@ -0,0 +1,46 @@
-> +From 852ab610685b45c62017556c38096d941c154963 Mon Sep 17 00:00:00 2001
-> +From: Sebastian Pipping <sebastian@pipping.org>
-> +Date: Mon, 20 Apr 2026 13:44:43 +0200
-> +Subject: [PATCH 3/7] tests: Define .attributes the first time around
-> +
-> +(cherry picked from commit 05307d352a5aa858cdda57ec53a53b597b3a4a82)
-> +
-> +CVE: CVE-2026-45186
-> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/121=
-6/commits/05307d352a5aa858cdda57ec53a53b597b3a4a82]
-> +Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-> +---
-> + tests/basic_tests.c | 10 ++++------
-> + 1 file changed, 4 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/tests/basic_tests.c b/tests/basic_tests.c
-> +index 907a458..b0178fc 100644
-> +--- a/tests/basic_tests.c
-> ++++ b/tests/basic_tests.c
-> +@@ -2439,11 +2439,9 @@ START_TEST(test_attributes) {
-> +                          {XCS("id"), XCS("one")},
-> +                          {NULL, NULL}};
-> +   AttrInfo tag_info[] =3D {{XCS("c"), XCS("3")}, {NULL, NULL}};
-> +-  ElementInfo info[] =3D {{XCS("doc"), 3, 0, XCS("id"), NULL},
-> +-                        {XCS("tag"), 1, 0, NULL, NULL},
-> ++  ElementInfo info[] =3D {{XCS("doc"), 3, 0, XCS("id"), doc_info},
-> ++                        {XCS("tag"), 1, 0, NULL, tag_info},
-> +                         {NULL, 0, 0, NULL, NULL}};
-> +-  info[0].attributes =3D doc_info;
-> +-  info[1].attributes =3D tag_info;
-> +=20
-> +   XML_Parser parser =3D XML_ParserCreate(NULL);
-> +   assert_true(parser !=3D NULL);
-> +@@ -5769,8 +5767,8 @@ START_TEST(test_deep_nested_attribute_entity) {
-> +            (long unsigned)(N_LINES - 1));
-> +=20
-> +   AttrInfo doc_info[] =3D {{XCS("name"), XCS("deepText")}, {NULL, NULL}=
-};
-> +-  ElementInfo info[] =3D {{XCS("foo"), 1, 0, NULL, NULL}, {NULL, 0, 0, =
-NULL, NULL}};
-> +-  info[0].attributes =3D doc_info;
-> ++  ElementInfo info[]
-> ++      =3D {{XCS("foo"), 1, 0, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}=
-};
-> +=20
-> +   XML_Parser parser =3D XML_ParserCreate(NULL);
-> +   ParserAndElementInfo parserPlusElemenInfo =3D {parser, info};
-> +--=20
-> +2.43.0
-> +
-> diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch b/meta=
-/recipes-core/expat/expat/CVE-2026-45186-04.patch
-> new file mode 100644
-> index 0000000000..f4c7733c70
-> --- /dev/null
-> +++ b/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
-> @@ -0,0 +1,32 @@
-> +From 89c6acdcd919b64014b180fadec46b0d25760832 Mon Sep 17 00:00:00 2001
-> +From: Sebastian Pipping <sebastian@pipping.org>
-> +Date: Mon, 13 Apr 2026 01:34:03 +0200
-> +Subject: [PATCH 4/7] tests: Make counting_start_element_handler enforce
-> + complete attribute lists
-> +
-> +(cherry picked from commit 4176aff73840711060913e0ac6aa1168d8ba5c8d)
-> +
-> +CVE: CVE-2026-45186
-> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/121=
-6/commits/4176aff73840711060913e0ac6aa1168d8ba5c8d]
-> +Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-> +---
-> + tests/handlers.c | 3 +++
-> + 1 file changed, 3 insertions(+)
-> +
-> +diff --git a/tests/handlers.c b/tests/handlers.c
-> +index 9ff7b35..5e72e8b 100644
-> +--- a/tests/handlers.c
-> ++++ b/tests/handlers.c
-> +@@ -155,6 +155,9 @@ counting_start_element_handler(void *userData, const=
- XML_Char *name,
-> +     /* Remember, two entries in atts per attribute (see above) */
-> +     atts +=3D 2;
-> +   }
-> ++
-> ++  // Self-test that the test case's list of expected attributes is comp=
-lete
-> ++  assert_true(atts[0] =3D=3D NULL);
-> + }
-> +=20
-> + void XMLCALL
-> +--=20
-> +2.43.0
-> +
-> diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch b/meta=
-/recipes-core/expat/expat/CVE-2026-45186-05.patch
-> new file mode 100644
-> index 0000000000..480f941cb6
-> --- /dev/null
-> +++ b/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
-> @@ -0,0 +1,32 @@
-> +From d352c83afaa3945c964aba74cb60a00822af96d3 Mon Sep 17 00:00:00 2001
-> +From: Sebastian Pipping <sebastian@pipping.org>
-> +Date: Sun, 8 Mar 2026 22:14:41 +0100
-> +Subject: [PATCH 5/7] lib: Extract a constant for upcoming reuse
-> +
-> +(cherry picked from commit fb35f2d2040d114f355bae8a7450942533237530)
-> +
-> +CVE: CVE-2026-45186
-> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/121=
-6/commits/fb35f2d2040d114f355bae8a7450942533237530]
-> +Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-> +---
-> + lib/xmlparse.c | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-> +index 9bc67f3..8d3e8db 100644
-> +--- a/lib/xmlparse.c
-> ++++ b/lib/xmlparse.c
-> +@@ -7708,8 +7708,9 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const D=
-TD *oldDtd,
-> +       newE->prefix =3D (PREFIX *)lookup(oldParser, &(newDtd->prefixes),
-> +                                       oldE->prefix->name, 0);
-> +     for (i =3D 0; i < newE->nDefaultAtts; i++) {
-> ++      const XML_Char *const attributeName =3D oldE->defaultAtts[i].id->=
-name;
-> +       newE->defaultAtts[i].id =3D (ATTRIBUTE_ID *)lookup(
-> +-          oldParser, &(newDtd->attributeIds), oldE->defaultAtts[i].id->=
-name, 0);
-> ++          oldParser, &(newDtd->attributeIds), attributeName, 0);
-> +       newE->defaultAtts[i].isCdata =3D oldE->defaultAtts[i].isCdata;
-> +       if (oldE->defaultAtts[i].value) {
-> +         newE->defaultAtts[i].value
-> +--=20
-> +2.43.0
-> +
-> diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch b/meta=
-/recipes-core/expat/expat/CVE-2026-45186-06.patch
-> new file mode 100644
-> index 0000000000..d39eb91f2f
-> --- /dev/null
-> +++ b/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
-> @@ -0,0 +1,87 @@
-> +From a2c8ddb3d6f4df7af64e05bed4b3a4edeae33fd0 Mon Sep 17 00:00:00 2001
-> +From: Sebastian Pipping <sebastian@pipping.org>
-> +Date: Sun, 8 Mar 2026 23:05:49 +0100
-> +Subject: [PATCH 6/7] lib: Introduce ELEMENT_TYPE.defaultAttsNames
-> +
-> +(cherry picked from commit 7f0f1b9e70d937072d2e9e37ae9edf27784cc080)
-> +
-> +CVE: CVE-2026-45186
-> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/121=
-6/commits/7f0f1b9e70d937072d2e9e37ae9edf27784cc080]
-> +Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-> +---
-> + lib/xmlparse.c | 17 +++++++++++++++++
-> + 1 file changed, 17 insertions(+)
-> +
-> +diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-> +index 8d3e8db..4a29c18 100644
-> +--- a/lib/xmlparse.c
-> ++++ b/lib/xmlparse.c
-> +@@ -388,6 +388,7 @@ typedef struct {
-> +   int nDefaultAtts;
-> +   int allocDefaultAtts;
-> +   DEFAULT_ATTRIBUTE *defaultAtts;
-> ++  HASH_TABLE defaultAttsNames;
-> + } ELEMENT_TYPE;
-> +=20
-> + typedef struct {
-> +@@ -3844,6 +3845,8 @@ storeAtts(XML_Parser parser, const ENCODING *enc, =
-const char *attStr,
-> +                                          sizeof(ELEMENT_TYPE));
-> +     if (! elementType)
-> +       return XML_ERROR_NO_MEMORY;
-> ++    if (! elementType->defaultAttsNames.parser)
-> ++      hashTableInit(&(elementType->defaultAttsNames), parser);
-> +     if (parser->m_ns && ! setElementTypePrefix(parser, elementType))
-> +       return XML_ERROR_NO_MEMORY;
-> +   }
-> +@@ -7549,6 +7552,7 @@ dtdReset(DTD *p, XML_Parser parser) {
-> +     ELEMENT_TYPE *e =3D (ELEMENT_TYPE *)hashTableIterNext(&iter);
-> +     if (! e)
-> +       break;
-> ++    hashTableDestroy(&(e->defaultAttsNames));
-> +     if (e->allocDefaultAtts !=3D 0)
-> +       FREE(parser, e->defaultAtts);
-> +   }
-> +@@ -7590,6 +7594,7 @@ dtdDestroy(DTD *p, XML_Bool isDocEntity, XML_Parse=
-r parser) {
-> +     ELEMENT_TYPE *e =3D (ELEMENT_TYPE *)hashTableIterNext(&iter);
-> +     if (! e)
-> +       break;
-> ++    hashTableDestroy(&(e->defaultAttsNames));
-> +     if (e->allocDefaultAtts !=3D 0)
-> +       FREE(parser, e->defaultAtts);
-> +   }
-> +@@ -7683,6 +7688,10 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const =
-DTD *oldDtd,
-> +                                   sizeof(ELEMENT_TYPE));
-> +     if (! newE)
-> +       return 0;
-> ++
-> ++    if (! newE->defaultAttsNames.parser)
-> ++      hashTableInit(&(newE->defaultAttsNames), parser);
-> ++
-> +     if (oldE->nDefaultAtts) {
-> +       /* Detect and prevent integer overflow.
-> +        * The preprocessor guard addresses the "always false" warning
-> +@@ -7719,6 +7728,12 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const =
-DTD *oldDtd,
-> +           return 0;
-> +       } else
-> +         newE->defaultAtts[i].value =3D NULL;
-> ++
-> ++      NAMED *const nameAddedOrFound =3D (NAMED *)lookup(
-> ++          parser, &(newE->defaultAttsNames), attributeName, sizeof(NAME=
-D));
-> ++      if (! nameAddedOrFound) {
-> ++        return 0;
-> ++      }
-> +     }
-> +   }
-> +=20
-> +@@ -8458,6 +8473,8 @@ getElementType(XML_Parser parser, const ENCODING *=
-enc, const char *ptr,
-> +                                sizeof(ELEMENT_TYPE));
-> +   if (! ret)
-> +     return NULL;
-> ++  if (! ret->defaultAttsNames.parser)
-> ++    hashTableInit(&(ret->defaultAttsNames), getRootParserOf(parser, NUL=
-L));
-> +   if (ret->name !=3D name)
-> +     poolDiscard(&dtd->pool);
-> +   else {
-> +--=20
-> +2.43.0
-> +
-> diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch b/meta=
-/recipes-core/expat/expat/CVE-2026-45186-07.patch
-> new file mode 100644
-> index 0000000000..26c829b522
-> --- /dev/null
-> +++ b/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
-> @@ -0,0 +1,52 @@
-> +From 0e4829f4be500ce687b37ec82f9650b86c8419c7 Mon Sep 17 00:00:00 2001
-> +From: Sebastian Pipping <sebastian@pipping.org>
-> +Date: Sun, 8 Mar 2026 23:06:29 +0100
-> +Subject: [PATCH 7/7] lib: Leverage ELEMENT_TYPE.defaultAttsNames for att=
-ribute
-> + collision detection
-> +
-> +.. to resolve quadratic runtime behavior
-> +
-> +(cherry picked from commit 4cd4eb0683e04cd45a2ffc81a08ca2a2663994b5)
-> +
-> +CVE: CVE-2026-45186
-> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/121=
-6/commits/4cd4eb0683e04cd45a2ffc81a08ca2a2663994b5]
-> +Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
-> +---
-> + lib/xmlparse.c | 14 ++++++++++----
-> + 1 file changed, 10 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-> +index 4a29c18..b3f0b73 100644
-> +--- a/lib/xmlparse.c
-> ++++ b/lib/xmlparse.c
-> +@@ -7177,10 +7177,10 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID=
- *attId, XML_Bool isCdata,
-> +   if (value || isId) {
-> +     /* The handling of default attributes gets messed up if we have
-> +        a default which duplicates a non-default. */
-> +-    int i;
-> +-    for (i =3D 0; i < type->nDefaultAtts; i++)
-> +-      if (attId =3D=3D type->defaultAtts[i].id)
-> +-        return 1;
-> ++    NAMED *const nameFound
-> ++        =3D (NAMED *)lookup(parser, &(type->defaultAttsNames), attId->n=
-ame, 0);
-> ++    if (nameFound)
-> ++      return 1;
-> +     if (isId && ! type->idAtt && ! attId->xmlns)
-> +       type->idAtt =3D attId;
-> +   }
-> +@@ -7227,6 +7227,12 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID =
-*attId, XML_Bool isCdata,
-> +   att->isCdata =3D isCdata;
-> +   if (! isCdata)
-> +     attId->maybeTokenized =3D XML_TRUE;
-> ++
-> ++  NAMED *const nameAddedOrFound =3D (NAMED *)lookup(
-> ++      parser, &(type->defaultAttsNames), attId->name, sizeof(NAMED));
-> ++  if (! nameAddedOrFound)
-> ++    return 0;
-> ++
-> +   type->nDefaultAtts +=3D 1;
-> +   return 1;
-> + }
-> +--=20
-> +2.43.0
-> +
-> diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/e=
-xpat/expat_2.6.4.bb
-> index 151720a9e3..da9419dda9 100644
-> --- a/meta/recipes-core/expat/expat_2.6.4.bb
-> +++ b/meta/recipes-core/expat/expat_2.6.4.bb
-> @@ -51,6 +51,13 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/R_${VERSION_T=
-AG}/expat-${PV}.tar.bz2  \
->             file://CVE-2026-32777-02.patch \
->             file://CVE-2026-32778-01.patch \
->             file://CVE-2026-32778-02.patch \
-> +           file://CVE-2026-45186-01.patch \
-> +           file://CVE-2026-45186-02.patch \
-> +           file://CVE-2026-45186-03.patch \
-> +           file://CVE-2026-45186-04.patch \
-> +           file://CVE-2026-45186-05.patch \
-> +           file://CVE-2026-45186-06.patch \
-> +           file://CVE-2026-45186-07.patch \
+>             file://CVE-2026-28418.patch \
+>             file://CVE-2026-28419.patch \
+> +           file://CVE-2026-34714.patch \
+>             file://CVE-2026-39881.patch \
+> +           file://CVE-2026-35177.patch \
 >             "
 > =20
->  GITHUB_BASE_URI =3D "https://github.com/libexpat/libexpat/releases/"
+>  PV .=3D ".1683"
 
 
 --=20
