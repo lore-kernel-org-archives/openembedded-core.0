@@ -1,183 +1,113 @@
-Return-Path: <martin@geanix.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87377CDE008
-	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 11:20:24 +0000 (UTC)
-Received: from mail-244118.protonmail.ch (mail-244118.protonmail.ch [109.224.244.118])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33205.1782472816800328336
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD09FCD4F26
+	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 11:38:14 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33117.1782473894012836463
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2026 04:20:18 -0700
+ Fri, 26 Jun 2026 04:38:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=protonmail3 header.b=vWzxLZvu;
- spf=pass (domain: geanix.com, ip: 109.224.244.118, mailfrom: martin@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=geanix.com;
-	s=protonmail3; t=1782472814; x=1782732014;
-	bh=SidadyCfv4RvFF0u4R2nZWZQn4mPZdjnR16mhxqsGB4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=vWzxLZvumjLjpESdkpYUhRHWWBogi9D4M5fUhZcM4MtY/JQ45ddh0FEBLsCFrkcJC
-	 +6BHH2k4HN14ITiEuAXKUgVCBUiaxfCqWjUF6P/aI8sUzzi4C2I7k1/egKR+ypgRrP
-	 3LGqxRXvbBMYsV0/OAMcuCfXbeP4L6jSf7Yl5tOa4oL5QXv5ZJ0eEfXauUjyrj+jP4
-	 ZQpHMO/6mQ+xmXJ1Yn3ykEH29Am619BTA22sLPaRwFrOD9bpo/x1g/hq5JXE1Fu/9v
-	 qgYNFVsdQ4YLP7KUs/ljxQKQSXyua8TIfJT0lpcuhiQ6UvRr+iPkGdZ+DK7FCSD2/D
-	 Tr5sYfMh/vtqA==
-Date: Fri, 26 Jun 2026 11:20:10 +0000
-To: Hemanth.KumarMD@windriver.com, openembedded-core@lists.openembedded.org
-From: =?utf-8?Q?Martin_Hundeb=C3=B8ll?= <martin@geanix.com>
-Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com
-Subject: Re: [OE-core] [PATCH v2] sanity.bbclass: warn on cargo config files outside the build tree
-Message-ID: <22e6d6813c9c58269482eb3f3031fc7ba38af8aa.camel@geanix.com>
-In-Reply-To: <20260625065213.2634586-1-Hemanth.KumarMD@windriver.com>
-References: <20260625065213.2634586-1-Hemanth.KumarMD@windriver.com>
-Feedback-ID: 134068524:user:proton
-X-Pm-Message-ID: 0d0aa5804537ccb9131f344f020de0ec6a58906f
+ dkim=pass header.i=@smile.fr header.s=google header.b=umZ7Nlm6;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b613a17bso8259445e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 04:38:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1782473892; x=1783078692; darn=lists.openembedded.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CTXAyJxgtidQ2YPWCiyHnHoEhaWx+uXLJbucVrnwhHs=;
+        b=umZ7Nlm6Lr3j/l+cKUAw3fdquviglElzFzkUMvAVuwkSaaTmWOEQeNRUQTkgBE1Zok
+         QEv8omiyLzneZ8y+4IkMtRP4UI8gfexPCgFgLVGdyTnbLtyYVJg78N1UXM5uf5H7uQ8I
+         V6x1K1rb5BmuL2IhBuf/I2s3rNuK9ubDwZeKo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782473892; x=1783078692;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=CTXAyJxgtidQ2YPWCiyHnHoEhaWx+uXLJbucVrnwhHs=;
+        b=Fp7YOxvXISG6swY7Me/9y01jAf1Ihs5LTMwdcdpO53BWCpzS+dzZQC40uRyr/yXu52
+         EwasfqREnaSwsv/iWiD3RWSGyrB4L9M92hDN8bh37kWCLxDXAyM2N1vsk5MeVy4SNI+C
+         bEp+mMHqP9A/NVL4ap0pY9GSUUFC4m0+7CdWoVS72ft9FZZTAW72S2RUgxiVZDpRXnMH
+         KFIANK8yv9gu1HUH4uVIZD0++GK7BXTMwXoILvamFNGzt+h/V5iQMQLqlycEbYeveki8
+         B93M//ru1mcsmnEkTeCAEWB8A8OSaWMdrJGYMcyWQvZsC21RGC5LKh6u1HH9xwb3pdfV
+         5iwA==
+X-Gm-Message-State: AOJu0YyUDxl+YizK6fKAFr4CXr4T5TCL8I20GkJGsIze2FLbDWCloL9+
+	OqxDTdon17j8aoVzpclycC9uacXBJqfEJ8iXZirdxtJBA+QA8lGCx4/YwMPRJC2spZY=
+X-Gm-Gg: AfdE7cmAt3IazO/eoBSxHgevKNS88NITTJrH3q60UDWQ+qwHrDrt4qniPxQQuQv/7EO
+	3T4OJZ4glz4S2C/auw5C+1R3DzvxpgWXgPXay3ViGVFkUmCYTNXvXI9wxPpfZLqiA4VbDwzjX2D
+	Rx1ANU52JaTEoSIk1rybv4BsE01DCetkU2ta7QLXfKLbc8cFE00vPLjQw3/eDw8BfRzC6Xj2Czf
+	RJaqKbrz6k/ocppxVhfJgS1LAIAQLcvfBeE6oiHE9233IF95sd/4yqjYOPOedBnxUGlb2HyYski
+	kBSzH+k7qS+kPnS4BqICgHjlXkLtdGOzsyXo6K1lEKpUyFWq5Hwlq2tDjQA73hosNPMWVNzj3ib
+	n6bAgikqTU+CEz3RB+sxkwAnurod/eU4C+x3cRCNOtZo9ZXKxCmipnBmE+Nka7ymXuzEfHXUXLk
+	bM9clZgzRhN1sUHz9/0Ib2Bz8eU97njOmJaNm2dDk92WVicSS0vkW4oC4R5GAblyrOUHBkCnDRO
+	J8vTyS2wg==
+X-Received: by 2002:a05:600c:4e45:b0:492:4948:bfce with SMTP id 5b1f17b1804b1-4926fc45f89mr7327275e9.16.1782473892228;
+        Fri, 26 Jun 2026 04:38:12 -0700 (PDT)
+Received: from [10.1.75.39] (2a01cb001331aa00dc663d106f146c8c.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:dc66:3d10:6f14:6c8c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49270208b29sm421345e9.10.2026.06.26.04.38.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2026 04:38:11 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Fri, 26 Jun 2026 13:37:55 +0200
+Subject: [PATCH RFC 2/3] rust-llvm: Disable libedit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260626-ycongal-scarthgap-rust-segfault-v1-2-97df64b7b298@smile.fr>
+References: <20260626-ycongal-scarthgap-rust-segfault-v1-0-97df64b7b298@smile.fr>
+In-Reply-To: <20260626-ycongal-scarthgap-rust-segfault-v1-0-97df64b7b298@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: alex.kanavin@gmail.com, ccasciato@21sw.us, paul@pbarker.dev, 
+ randy.macleod@windriver.com, ross.burton@arm.com, 
+ sundeep.kokkonda@windriver.com, SunilKumar.Dora@windriver.com, 
+ Yoann Congal <yoann.congal@smile.fr>, 
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782473890; l=1159;
+ i=yoann.congal@smile.fr; s=20260527; h=from:subject:message-id;
+ bh=he6Xk9kWKiIbL8hCU8snGm/CW+3Uo6+PrzUzMDqBWjQ=;
+ b=Zpzdm9rz4qU8hDoLX2MqYg7q9A18G5+90FgXukEyRZDqhrJARDUJt4eIFfDyQtfaSDBhVYN7S
+ O1JGz/Mo4ZJBk3HReLD9GLno96XjJOseRfQKbKoNzr0kA9SL4GZ6ta8
+X-Developer-Key: i=yoann.congal@smile.fr; a=ed25519;
+ pk=AccXM/XSn9zzv1zYXEM/MdcAaQ7cluqUBg1xzwrqNts=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 11:20:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239625
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 11:38:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239628
 
-Hi Hemanth,
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-On Wed, 2026-06-24 at 23:52 -0700, Hemanth Kumar M D via
-lists.openembedded.org wrote:
-> From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
->=20
-> Cargo walks from CWD up to the filesystem root merging every
-> .cargo/config[.toml] it finds. Any such file above BASE_WORKDIR is
-> silently picked up and can override Yocto's linker, registry or
-> compiler settings, leading to build failures.
->=20
-> Until cargo provides a proper fix upstream, add a warning so users
-> get a clear diagnostic instead of a build error.
->=20
-> Upstream meta-issue: https://github.com/rust-lang/cargo/issues/9769
->=20
-> [YOCTO #15637]
->=20
-> Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
-> ---
-> =C2=A0meta/classes-global/sanity.bbclass | 33
-> ++++++++++++++++++++++++++++++
-> =C2=A01 file changed, 33 insertions(+)
->=20
-> diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-
-> global/sanity.bbclass
-> index bdfa7f059d..5c5cf311da 100644
-> --- a/meta/classes-global/sanity.bbclass
-> +++ b/meta/classes-global/sanity.bbclass
-> @@ -854,6 +854,38 @@ def sanity_check_locale(d):
-> =C2=A0=C2=A0=C2=A0=C2=A0 except locale.Error:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raise_sanity_error("Your=
- system needs to support the
-> en_US.UTF-8 locale.", d)
->=20
-> +def check_cargo_config(d):
-> +=C2=A0=C2=A0=C2=A0 # Cargo merges .cargo/config[.toml] from every direct=
-ory between
-> CWD and
-> +=C2=A0=C2=A0=C2=A0 # the filesystem root. Warn for anything found in anc=
-estor
-> directories
-> +=C2=A0=C2=A0=C2=A0 # above BASE_WORKDIR that Cargo would pick up silentl=
-y.
-> +=C2=A0=C2=A0=C2=A0 import os
-> +
-> +=C2=A0=C2=A0=C2=A0 base_workdir =3D d.getVar('BASE_WORKDIR')
-> +=C2=A0=C2=A0=C2=A0 ancestor =3D os.path.dirname(base_workdir)
-> +=C2=A0=C2=A0=C2=A0 found =3D []
-> +=C2=A0=C2=A0=C2=A0 last_ancestor =3D None
-> +=C2=A0=C2=A0=C2=A0 while True:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for name in ('config', 'confi=
-g.toml'):
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cfg =
-=3D os.path.join(ancestor, '.cargo', name)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if os=
-.path.exists(cfg):
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 found.append(cfg)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 last_ancestor =3D ancestor
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 break
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 parent =3D os.path.dirname(an=
-cestor)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if parent =3D=3D ancestor:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ancestor =3D parent
+This option currently floats and is leading to non-deterministic builds. It
+is used for commandline option tab completion which we don't need in our
+builds in general, let alone internally within rust's llvm.
 
-This can easier be implemented using pathlib.Path:
+This should fix autobuilder deterministic build issues.
 
-  from pathlib import Path
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c31859be39c68f215576ba73b8a3d66c8ea590d3)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/recipes-devtools/rust/rust-llvm_1.75.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-  base_workdir =3D Path(d.getVar('BASE_WORKDIR'))
+diff --git a/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb b/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb
+index cba41c739e9692ec7b2cd7ee07554ab00dc98fc5..4adaf5fbf6d31b1984a81e864285c1e06218e325 100644
+--- a/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb
++++ b/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb
+@@ -46,6 +46,7 @@ EXTRA_OECMAKE = " \
+     -DLLVM_ENABLE_ZSTD=OFF \
+     -DLLVM_ENABLE_LIBXML2=OFF \
+     -DLLVM_ENABLE_FFI=OFF \
++    -DLLVM_ENABLE_LIBEDIT=OFF \
+     -DLLVM_INSTALL_UTILS=ON \
+     -DLLVM_BUILD_EXAMPLES=OFF \
+     -DLLVM_INCLUDE_EXAMPLES=OFF \
 
-  for path in base_workdir.parents:
-      for config in (".cargo/config", ".cargo/config.toml"):
-          if path.joinpath(config).exists():
-              found.append(path / config)
-
-// Martin
-
-> +
-> +=C2=A0=C2=A0=C2=A0 if found:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.warn("Cargo config file(s)=
- found at %s which is/are
-> outside the build "
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 "directory. Cargo will silently apply their settings
-> during the "
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 "rust/cargo build and can override Yocto's settings
-> like linker, "
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 "registry or compiler settings causing build
-> failures. You can "
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 "either remove these file(s) or move your build
-> directory outside "
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 "of %s to fix this. "
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 "See
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15637=C2=A0for more
-> details."
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 % (', '.join(found), last_ancestor))
-> +
-> =C2=A0def check_sanity_everybuild(status, d):
-> =C2=A0=C2=A0=C2=A0=C2=A0 import os, stat
-> =C2=A0=C2=A0=C2=A0=C2=A0 # Sanity tests which test the users environment =
-so need to run
-> at each build (or are so cheap
-> @@ -873,6 +905,7 @@ def check_sanity_everybuild(status, d):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 status.addresult('Bitbak=
-e version %s is required and version
-> %s was found\n' % (minversion, bb.__version__))
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0 sanity_check_locale(d)
-> +=C2=A0=C2=A0=C2=A0 check_cargo_config(d)
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0 paths =3D d.getVar('PATH').split(":")
-> =C2=A0=C2=A0=C2=A0=C2=A0 if "." in paths or "./" in paths or "" in paths:
-> --
-> 2.49.0
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#239544):
-> https://lists.openembedded.org/g/openembedded-core/message/239544
-> Mute This Topic: https://lists.openembedded.org/mt/119970000/3618414
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> martin@geanix.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+-- 
+2.47.3
 
 
