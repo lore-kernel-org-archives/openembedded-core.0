@@ -1,165 +1,353 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD47C43458
-	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 13:56:27 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.66])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.35695.1782482181168725040
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 821F6C43458
+	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 14:11:17 +0000 (UTC)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36022.1782483069476409841
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2026 06:56:22 -0700
+ Fri, 26 Jun 2026 07:11:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=cCD4fI+b;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=cCD4fI+b;
- spf=pass (domain: arm.com, ip: 40.107.159.66, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=yxNd0mp1QTpMAsj4yYM1FZ4GjNzxkxNiRhf81gbITo1xzneAvB6fBm5NfNRV5DSbdB61nIx1ffe1WqduwgBeQM57tVFJdCoweNxIbr2Vf790DOUIovs9MM6v6J/f6t809ik5Hnj44Z0MBFGid+1uz2wxErHPRXH7K+wpWdfcp6ymQ0gTEZPTkjPw8pzADvQI4F3qz5TXujYjEgpDTujSUiOLYxMxgToNpWtaYNcWtB3KbbeKZTBjyf003vHc+VBWH5w7gsoIYuCv0lTgtlxPx/iLytm8mbuXQuUH0MFpKXq22mPIFNKbCd/7tJQpXV2+zE/f3MP1zzqalrKuTQnQqQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ov/6hGeXBlI8XmUDh8Wkqb9O+kC21tbkl/KAI5GPPq8=;
- b=o/DfyDO7o9IxPNRRezhpK5ervLETbCGj6PUoyDNmnDSJve6VVG9ZOMKmXQETPLPArOWB+ggb6r+fCbSFO95iGgMtS8C1hH59xnp25AYfZj3+WgXQePdNA5ubuE8I6FWZgmtzQ/gQCHFd0rJaI7lEIrt88f25cyPKbbq29d5cb39xgKTFGjHAZLv43a+0GSwQGfEu/07i8xIZnlmCpyISJy0wXEoZQpxf3l2/fq+CfnzCe5w6pj0Zsc5Obbne/K6cUNKQkIiakB4PjyuD0EJENW+BRwVyghxSuqwA5sgHOvZE7bA9Yy+OmMQwaq39uQYKhCHA54yWbik84HkIg7KbVQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=keysight.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ov/6hGeXBlI8XmUDh8Wkqb9O+kC21tbkl/KAI5GPPq8=;
- b=cCD4fI+bjrDdKvCrAJpa9tJZu5jODBTttX7eFT7zxIeVni01I0E4m7bVkwpn1llcft16V0fpVlsgg34KlCAmUby9JvRJKJ7Fvl2TS0bJP2Wb5gBUxQI4cUpCrZTdrdcGgSi6mwAUtB91Hg6OD67PD+N1crVgVNJh7lIlvYwLrKA=
-Received: from CWLP265CA0324.GBRP265.PROD.OUTLOOK.COM (2603:10a6:401:57::24)
- by AM9PR08MB6209.eurprd08.prod.outlook.com (2603:10a6:20b:283::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Fri, 26 Jun
- 2026 13:56:16 +0000
-Received: from AMS0EPF00000191.eurprd05.prod.outlook.com
- (2603:10a6:401:57:cafe::42) by CWLP265CA0324.outlook.office365.com
- (2603:10a6:401:57::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.17 via Frontend Transport; Fri,
- 26 Jun 2026 13:56:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS0EPF00000191.mail.protection.outlook.com (10.167.16.216) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
- via Frontend Transport; Fri, 26 Jun 2026 13:56:15 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TEKoVrU7ICSKYZwZ6uykxnT5sanHDFrU9NQ3/5mbfR9LT85mb8mSvk9ZOtHhh8X5t5irupkfuuZ6VNQNCTmSPQ79KRVATrnd/VCS+7JYsPE2RJ5V8jgC/WpAdcL7aSQQhLM6KIXYcWPXa3Mn2tAAQWGYGOK+GPk5fEpWPBnka1JDRyiqmAZ6UVoWNWYKoMEnSo9u3vlLAqL5ws630x9EW407PwtiLAUYp2Ffw7csrCj7HdS6BNnMNDI4TcW9Mh47Br/zufL3LK62gBDN4Ubbct85AU7UmHkYPZrAkYeH73o9732HOQ+sCUpefQ1rysTEfam+jS9g8Gy62qG1ynJXmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ov/6hGeXBlI8XmUDh8Wkqb9O+kC21tbkl/KAI5GPPq8=;
- b=SEPdlia8lTrHN5D2q9vzZgzvCAdLQtfKfJuvuZyhOQ5qah++RMcGQq4xoYSx+TW25ZYrC8QtUYpz1QJXEbCN9VI+sN9jrG1WwKNisfwQmGbUHh12jaSOnW6WBow9pAmaqehjlZmzK7MD5WaELuJWKIhwWfRyG/6DRFRu8efhv0ZupdIDLNN6D9we1YxHpGWLfMEkLieaFKxQH8jdzAgnr18kBfGK8vX6ZhUMAepyjxEdQSXi/+AkDhK0KmC0hY7sOFZ9RkhUpmpTBXmLz3mvSOfdpQfGEortIeJee485/J0zrau0zG3TnlQBkyKcQNw8Hd8mwTYRyA+C/UchX8hKOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ov/6hGeXBlI8XmUDh8Wkqb9O+kC21tbkl/KAI5GPPq8=;
- b=cCD4fI+bjrDdKvCrAJpa9tJZu5jODBTttX7eFT7zxIeVni01I0E4m7bVkwpn1llcft16V0fpVlsgg34KlCAmUby9JvRJKJ7Fvl2TS0bJP2Wb5gBUxQI4cUpCrZTdrdcGgSi6mwAUtB91Hg6OD67PD+N1crVgVNJh7lIlvYwLrKA=
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
- by PA4PR08MB7460.eurprd08.prod.outlook.com (2603:10a6:102:2a7::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Fri, 26 Jun
- 2026 13:55:11 +0000
-Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
- ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.21.0159.013; Fri, 26 Jun 2026
- 13:55:11 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "john.ripple@keysight.com" <john.ripple@keysight.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [meta][PATCH v3 1/2] go-vendor.bbclass: Unpack into BP
- for destsuffix
-Thread-Topic: [OE-core] [meta][PATCH v3 1/2] go-vendor.bbclass: Unpack into BP
- for destsuffix
-Thread-Index: AQHdAptx00D/Dyvb5EmGWrJ7wgVVDbZQ4YsA
-Date: Fri, 26 Jun 2026 13:55:11 +0000
-Message-ID: <63E7937C-180C-4D86-AB9F-628D62ED2148@arm.com>
-References: <20260622230331.3754496-1-john.ripple@keysight.com>
-In-Reply-To: <20260622230331.3754496-1-john.ripple@keysight.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3864.600.51.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	AM9PR08MB6258:EE_|PA4PR08MB7460:EE_|AMS0EPF00000191:EE_|AM9PR08MB6209:EE_
-X-MS-Office365-Filtering-Correlation-Id: 303de869-ee89-4aa8-64b0-08ded38ab06d
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|18002099003|22082099003|38070700021|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info-Original: 
- iqopebzVvUHU3SotFP4iBoiN1DfFgz7ssgF4NKL/KuYZFTVWM/3xU4PpQFa5MKNHxnXsvCTbTkxbI4w7WPmwmyhBORaoBShAstvjXQFgsLyQ5DVFrogQxMNM2JMsS+v0l1PHW1OVqm1qTCDWbrQgspL8202305CjLH6n2oIoOrBoutIGnhhQBtBPi122YGiiTZK6Nch/vw5sgUIO3Edsz2zvdx9VqTRvbuB1PKQxUXemvAL755OuhE/Zp0d3pZ2KtiGBwglEGBRiXHCfHCQrYr7hplAyoNLP4/u62lq5OxUUR5SK4Cg467lI6w2psP1nwg//RLZkZ85EWdbvYjMDWbdWFDgfo6XeAWPHQXtUaKrqNqM3oWcqawV6rnrMkR5xdROy65u52M/1lDhoEV/POFysXms4ZQG+nebAA2ZME9G5f9WPvACue45GunA4UHP7WR+Z+VohbRcxhmXYJ8/UmoQ353/Gb2ZswQaESV+A05OGjbgF0cYoBorKVP+1e6dN14RUbEL3oQKupXmZAh4gFnkwFFXoWUS/Cs7RlrNudyuJ8of9+N6o1ILB4RICSQnSR4o02j4E61Wl6eWyBZWMlD6Tm5fPXOnKgFVNqxhTW43IdRsocPC+FWWmzS3vXtVnWDUxD4QdPss8CCb7e06rwUHmFUkxmuHxRnRoSMx/NFwnKHmA97jQFmG8P+4HwqckG1nxYFa5pQhQRjH/JAdmCv9i5LgJcgy/61FLrmjPXDw=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(18002099003)(22082099003)(38070700021)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <626CFAE0B657EC49A16E8C72D6D7ACF8@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=DYVtLf+0;
+ spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-80b9993928dso10027547b3.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 07:11:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782483068; cv=none;
+        d=google.com; s=arc-20260327;
+        b=HXxxk0Gt8FzTeCs8W/bD0WpJs2p9AAMOxMJG5gD6T3J9Jnz5t5QjlWiHydGFsXTDFL
+         wlEhLSpqh5tDGL4eqYBIzhNgypMumURxV5pU37k8KmDE6gHEOXKxxWW33zSR79HSqvHD
+         dedsJNvv7eNei7YlGHnxaV2+ICy3rmBd1by9pVc9zAdUpRY0qdSuzoGakDBvx69i/c8s
+         rAs+WjHRRkj0jlATLHz/C4FH53RgkRa9i065mwczsqVfgRYjU+Qh9P57WvRtUZ7aSqra
+         kxkvBKojc7Cxs+6wvoVgh+RJcaZ/PNS+I0ix+ZWXjFvLThScapjgxjpg6YUAoaw1jH57
+         JVpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=SJAndXN+U4tdqADMIgFYtASPqa+Vuwook79xyW2BQNg=;
+        fh=kyrcx/wGdP1K8AcZ1t5dlAg43e9Kck6gc8gLfroTQbI=;
+        b=bqbe8UtglhPGIJlrfZLXEXNHNHQ3UoCbISq6vXspG5xp3tWZ6K1qS3JYr1M7wkmZ0m
+         nBNNoF5Hvsd3hlmOMuIq4YUtZCXuKg4BW4H5G0mvLwBdBDLC6lIyAVPZU8r9FI25MxDU
+         VAv/VIe9wGnbp1aGVIeqwFt7r/9KAntYJ9qd/n9Y/wh48OoHbSNgha3ADk3XkAdg+oIf
+         ylhiIfMtQdpamHHlTrf9BXZP9mablIPas5MEasNfLWgdgqo2UN3xxhX9YeHbJIvs5jlh
+         yUNp+Cdo9aStrL4/Dxvsf0q1yUZc7XJ1rX5dM42qfHxvoBEffd0NXpFtcwlI9OyQuQGi
+         S8Jg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782483068; x=1783087868; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SJAndXN+U4tdqADMIgFYtASPqa+Vuwook79xyW2BQNg=;
+        b=DYVtLf+0WhPs+xQnu8h5pwJAs02nOJZN5lEGQKFVH7ohPGDVOe74VA6My2+vXdixxo
+         hfwj3M/qlxjz9F5SYlGoEoCdR/qZ/ltWLExsoFAuaDOslu2cL/BCHy4irK/HwZeNcWCv
+         BZP6Wj5vP0gHEI/qry6RzWnQUXXII4Vygbj3Uvhm1lbXgsYBT1xOWEuBW3sio0EaUv3A
+         h2WP8L/9EfSkpH0KHyQ3ibMupv9N6Apd//RYT/l2MJprA9zEhAbcB2DKKRnuECpbPtbH
+         eecnHwpkoiLZSa654LITJRfg2ld5qcNFRTDnzhMfLz/GD9HwgU2hKUUVGw11GaNqLo4w
+         aoHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782483068; x=1783087868;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SJAndXN+U4tdqADMIgFYtASPqa+Vuwook79xyW2BQNg=;
+        b=GH0tmaFyFy70K8tfZT+qwYwKuPo5kXvA3p8RhbUBq1O8p4w2F5vuqBFMe78DSD4MRY
+         lpQP+wfc7L1lJxb9KHLRl4BRaePif71GokSAHPaiXTr63CK4ihFe13oZyRuI7QKVn4nx
+         Xgz4lwdzcZYDF3OG0qYKHlXW73iIAb9gxNUtOIuFCvRxnbzK5EAqv1VqHD1Y56EwolP+
+         jT+ie1hPIITfYE4HmEPO3CPjGpPP1vmACkvZMJN48mz6iezlxvHnriMi0O8CEIC9B+kH
+         SCnGGkmePWv/XhaToJhOU0jBmI03c5bD063UIwuKCTJyYJYMchjUl1hCTaCgW+o+uksd
+         nCtQ==
+X-Gm-Message-State: AOJu0YyZLGhmV+YIIkcuQptPGMt0F/M9BP0h/9ILYbO1BgGvCkQwXTxc
+	LoDWQdwL3C3FxKZSO6lNN1JBdr7pcDKVUI/4KQAfaTG/8u+ZZ4iHpjUe3EBiaAE52eXhqmEpjPX
+	0YkJnw1IOmGB5Lzs4bVG0e8DpOGgD7GM=
+X-Gm-Gg: AfdE7clxlp3EQ05PcPw+h9Ni8bP3FjRDOMSz5eRjDKQiK9s72y5gyADPJO/OINZPTu6
+	SH35A6wMmxhKEZyHoqFRqPx86yQnHRONLFPJmajzA1dNedWmzOCbIT6yOV/+1n5rGaR7sImk7J8
+	/qliujDzs34yB8T55ER30fv/1UHi5ZuYejsGfOLCb+m9NgU9MJydL75GWaeRDn9O2RIZQqy9w8i
+	0nmfLS0M16mheP+t+5gC8fK7yvS2+1ORgc7viCR7qyKGBydlnl6KnFlESDejpY7ve0Mkw8fBIh5
+	Lyk109cCCubQbP97Ig7Qm1ZBxEBQsp1TY/lP2PNJ
+X-Received: by 2002:a05:690c:c4e4:b0:7fe:bd7:9c93 with SMTP id
+ 00721157ae682-80a6a9991bemr66080987b3.44.1782483068423; Fri, 26 Jun 2026
+ 07:11:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
- nJqjqSb+/j/pM9yNFrWMI4h4MouNjCIFYc3os9qwXfhOZW0AxB5ZAC0/XKHOtmJEyKdNf5qptWZvVzUryWUB2DBm9/m5SU0BkMxp8/1hQPusrtVEtXFF6+SFvJVo0orBancogTJJz0L4kwGYvWW2A28CHo7RjyhTF4uYLfYigl/CA3RS7zzs4wtIM77UYkAvMhdHVEYyAbBpdcZ9p7KAFG0ZUZHuvKH+UkoCuzBECWG2GSzZ3mAxq3tQ0Owngj0LvFCO8HBvTP/gsCs8UGEJuZcxm8r+tQXrwTN8q9mYw02bLR/x8eIKOOncJ+2Q0bUkVCdGezXkU+SFrlBAPVf/fQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB7460
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS0EPF00000191.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	483aa4fe-a9fd-43e9-9065-08ded38a8a4e
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|1800799024|23010399003|14060799003|35042699022|376014|82310400026|56012099006|11063799006|13003099007|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	hW5VG+LM2WsqHxl3KESzClvbUW4lEtVVl23DvSCuM2sFtHnRNqqxVlPEkjqJD0WL7AEqrl8ZAmjeIOubIYKwSYKL3D14sgSpPvTpIMYd+Qd4sqAgJFNMWq+RgOS24ODzwQ9dX7DitFcU0K/RpZzPsAIy00/HUuMAcFyw4GoxYCt1XRgPB/3Vi8oR1TA0qVfYYZCBDOSGLSNjtWtGd0XvpjMhdwZTswYa7EDHsYnNJONd/KyiqWoHhdnIADX84D7h6j85sqeNy8pOFWQZDH2TdDGe4ZFLWvO9CY/9TV8i9zxOOKXNXWw643jeWf5hUbk+GX4jxi01ZePMknuiCeDw22igKayXJu4rcKhqkFrpbW6Zz+s1DG6Ck7xFO4N6pKIMF34+fWQcOAOp7LhQvfZIXi9owtQF4Eu1Uz2hU1jQFnbqG0N31JGegh+DTu2DRI4w5xqLHV3kf3KDOR7IXMrmHtNNHHyFWR684+q8aE1k/xLhtS4Zd8T4V4bDfUVycOTAxVfIWn5j96z9/T/EG1p7/My7TSwnJarJcyq0N6jKpNXysOIaZcZdqLJNG4I1FS3f3s9yUCX+4hmAjpzhTPDoNvo2XgqaVNlNu2adkw9lAVurqlHYmi/nkDhTqveYanemSOSkawjkn2vORekZQlCxbP9VjAB9LT+/Q3h+PMtKV7AzudJL0OgQhNVm/aEaPiV2v6XbCRF59GR6PuZUj9xWJA==
-X-Forefront-Antispam-Report: 
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(23010399003)(14060799003)(35042699022)(376014)(82310400026)(56012099006)(11063799006)(13003099007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	QxWuKV/pvAOKf19Lq8Hx3KOX9/py4sB3YVph5CIcFJHyxDZlrrtMBsjLk3BoZAYhymrpXqKbAZijQLJyaBSfjnRGQ20WUQlUwODUt/+Ss2422NBhKHJzP4n0IRio7eJTnsWhOqhRsTNXvF1rHZ2M9ar/SlfRCFX024/wb7wb1JCG5SIOWocLbgpiiA4F0OlqLJs1aTFUJp+Nb5LrS3v8i66/ACYataxBPHJ/y58pNQdaAktk9137TSLG02HJLUPAZujN8IIBeTBFZ3M1cy6z3yQDhlRbIHGzEdRkZ0FT6BUIg0wE0ve1cg8aRHqJM2c0Sdox7Nrgzx/kEwYM0nx9xMB3tQjA7OzuYisRGRB7sOUjenkB4wnrGYUXWgoaOxtsqh0Tmdq0eWUH+WFBy/kVFUGRntZC/ZSabzDD/nWxuIN/LyGU5/zrqEdM25Y0sY+Y
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 13:56:15.1696
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 303de869-ee89-4aa8-64b0-08ded38ab06d
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF00000191.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6209
+References: <20260605120456.130264-1-peter.marko@siemens.com>
+ <20260605120456.130264-2-peter.marko@siemens.com> <CAJdd5Gb_oFCfDcn_wQHk6XnJtG3+zMmKruOyqPrpVgYUi0T9AQ@mail.gmail.com>
+ <AS8PR10MB50734EC9D7C1456FE1A143B9FD1C2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS8PR10MB50734EC9D7C1456FE1A143B9FD1C2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Fri, 26 Jun 2026 08:10:54 -0600
+X-Gm-Features: AVVi8CeoE5VEF6rAT5V33n4C3IIsM-opSmZkkEDlvkzwsVwU0wh8wdG9DluFEd8
+Message-ID: <CAJdd5GbCMsqA_BWmyWSpovu9Cj-ZYvxWrVmj2_p3+c04c5FUsw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed packages
+To: "Marko, Peter" <Peter.Marko@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 13:56:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239634
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 14:11:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239635
 
-SGkgSm9obiwNCg0KPiBPbiAyMyBKdW4gMjAyNiwgYXQgMDA6MDMsIEpvaG4gUmlwcGxlIHZpYSBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxqb2huLnJpcHBsZT1rZXlzaWdodC5jb21AbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+IA0KPiBUaGUgZ28tdmVuZG9yIGNsYXNzIGhhcyBhIGhh
-cmRjb2RlZCBkZXN0c3VmZml4IHZhcmlhYmxlIHVzZWQgdG8gdW5wYWNrDQo+IHNvdXJjZXMgZmV0
-Y2hlZCB3aXRoIHRoZSBnb19zcmNfdXJpIGZ1bmN0aW9uLiBUaGlzIHdhcyBjYXVzaW5nIGEgY29u
-ZmxpY3QNCj4gd2l0aCBpbnNhbmUuYmJjbGFzcyB3aGljaCBwcm9oaWJ0cyBzZXR0aW5nIFMgPSAi
-JHtVTlBBQ0tESVJ9L2dpdCIgd2hpY2gNCj4gd2FzIG5lZWRlZCB0byBmaW5kIHRoZSB2ZW5kb3Jl
-ZCBzb3VyY2VzIGluIHRoZSBoYXJkY29kZWQgbG9jYXRpb24uDQo+IENoYW5naW5nIHRoaXMgdW5w
-YWNrIGxvY2F0aW9uIHRvIHVzZSB0aGUgc3RhbmRhcmQgYmFzZSBwYWNrYWdlIG5hbWUgKEJQKQ0K
-PiBmaXhlcyB0aGUgcHJldmlvdXMgaXNzdWUgYW5kIG5vIGxvbmdlciByZXF1aXJlcyBtYW51YWxs
-eSBzZXR0aW5nIFMgaW4gdGhlDQo+IHJlY2lwZXMgdGhhdCB1c2UgZ28tdmVuZG9yLg0KDQpUaGFu
-a3MgZm9yIHRoZXNlIHBhdGNoZXMuICBTYWRseSB3ZSBkb27igJl0IGhhdmUgYSB0ZXN0IGNhc2Ug
-Zm9yIHRoZSBnby12ZW5kb3IgY2xhc3MsIGFzIHlvdSBjbGVhcmx5IHVzZSBpdCB3b3VsZCB5b3Ug
-YmUgYWJsZSB0byB3cml0ZSBhIHNtYWxsIHRlc3QgY2FzZSB0byB2ZXJpZnkgdGhhdCBhIHJlY2lw
-ZSB1c2luZyB0aGUgZ28tdmVuZG9yIGNsYXNzIHdvcmtzPyAgV2UgY2FuIGhvc3QgbGl0dGxlIHRl
-c3QgcmVwb3NpdG9yaWVzIG9uIGdpdC55b2N0b3Byb2plY3Qub3JnIGlmIG5lZWRlZCAoZm9yIGV4
-YW1wbGUsIGh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvcmVjaXBldG9vbC1nby10ZXN0Lyku
-DQoNCk1hbnkgdGhhbmtzLA0KUm9zcw==
+On Mon, Jun 8, 2026 at 7:56=E2=80=AFAM Marko, Peter <Peter.Marko@siemens.co=
+m> wrote:
+>
+>
+>
+> > -----Original Message-----
+> > From: Joshua Watt <jpewhacker@gmail.com>
+> > Sent: Friday, June 5, 2026 4:16 PM
+> > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed packages
+> >
+> > On Fri, Jun 5, 2026 at 6:05=E2=80=AFAM Peter Marko via lists.openembedd=
+ed.org
+> > <peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+> > >
+> > > From: Peter Marko <peter.marko@siemens.com>
+> > >
+> > > SPDX should not list packages which were removed from rootfs as insta=
+lled.
+> > >
+> > > The list of installed packages does not contain them directly, but as
+> > > dependencies of other installed packages.
+> > >
+> > > Siwtch them to "other" to keep them in SPDX as part of the build and
+> > > installation process.
+> >
+> > I agree the packages should be removed from the rootfs, but using the
+> > method described.
+> >
+> > Instead, the list of removed packages should be passed to
+> > collect_build_package_inputs(), and anything removed should skip
+> > having it's files added to files_by_hash (but, should still be added
+> > to build_deps, since it is a build dependency).
+>
+> I have tried several approaches here but all without success until now..
+> The problem is that these removed packages are "rdepends" and not "depend=
+s".
+> Thus in collect_build_package_inputs they are not present yet.
+> And even if they would be, the rdepends would anyway add it back later.
+>
+> SPDX entries for rdepend clauses are added in expand_collection function.
+> I obviously cannot remove the rdepends clause when the recipe sbom is cre=
+ated.
+>
+> The best approach probably is to remove the rdepends when iterating over =
+sbomx in expand_collection.
+> Would you agree when I try to send a patch in that direction?
+> Or do you have any other suggestion?
+
+That's going to be tricky because you can't just remove the packages;
+you also need to remove any reference to the package (e.g. if they are
+in a relationship or somewhere else); otherwise the resulting document
+will not be fully linked and you'll get errors when creating the SBoM.
+For an example of what that would sort of look like, you can look at
+the "duplicate" function which is used to replace references to
+licenses and CreationInfo with equivalent ones to reduce the document
+size.
+
+But, this is going to complicate an otherwise pretty simple merging
+algorithm; I'm just not sure we can currently accurately express what
+is going on here (packages being uninstalled at install time), and
+until we have a good idea how to express it, I don't want to make it
+more confusing by doing something weird (because, then people rely on
+the weird behavior and get upset when it changes because we found a
+better solution).
+
+>
+> >
+> > This will prevent that rootfs package from "containing" the files for
+> > removed packages, and break the linkage between the rootfs and the
+> > removed packages.
+> >
+> > I'm not exactly sure the reasoning behind changing the type the
+> > "other", but we should not be doing that.
+>
+> Well, "other" because there was no good value for that available in enum =
+(installation helper).
+>
+> >
+> > >
+> > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > > ---
+> > >  meta/classes-recipe/create-spdx-image-3.0.bbclass |  7 +++++++
+> > >  meta/lib/oe/rootfs.py                             |  6 ++++++
+> > >  meta/lib/oe/sbom30.py                             |  8 +++++++-
+> > >  meta/lib/oe/spdx30_tasks.py                       | 14 +++++++++++++=
+-
+> > >  4 files changed, 33 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass b/meta=
+/classes-
+> > recipe/create-spdx-image-3.0.bbclass
+> > > index 15a91e90e2..dfbd2961b3 100644
+> > > --- a/meta/classes-recipe/create-spdx-image-3.0.bbclass
+> > > +++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
+> > > @@ -6,6 +6,7 @@
+> > >  # SPDX image tasks
+> > >
+> > >  SPDX_ROOTFS_PACKAGES =3D "${SPDXDIR}/rootfs-packages.json"
+> > > +SPDX_ROOTFS_REMOVED_PACKAGES =3D "${SPDXDIR}/rootfs-removed-
+> > packages.json"
+> > >  SPDXIMAGEDEPLOYDIR =3D "${SPDXDIR}/image-deploy"
+> > >  SPDXROOTFSDEPLOY =3D "${SPDXDIR}/rootfs-deploy"
+> > >
+> > > @@ -15,14 +16,20 @@ python spdx_collect_rootfs_packages() {
+> > >      from oe.rootfs import image_list_installed_packages
+> > >
+> > >      root_packages_file =3D Path(d.getVar("SPDX_ROOTFS_PACKAGES"))
+> > > +    root_removed_packages_file =3D
+> > Path(d.getVar("SPDX_ROOTFS_REMOVED_PACKAGES"))
+> > >
+> > >      packages =3D image_list_installed_packages(d)
+> > >      if not packages:
+> > >          packages =3D {}
+> > >
+> > > +    removed_packages =3D (d.getVar("ROOTFS_REMOVED_PACKAGES") or
+> > "").split()
+> > > +
+> > >      root_packages_file.parent.mkdir(parents=3DTrue, exist_ok=3DTrue)
+> > >      with root_packages_file.open("w") as f:
+> > >          json.dump(packages, f)
+> > > +
+> > > +    with root_removed_packages_file.open("w") as f:
+> > > +        json.dump(removed_packages, f)
+> > >  }
+> > >  ROOTFS_POSTUNINSTALL_COMMAND =3D+ "spdx_collect_rootfs_packages"
+> > >
+> > > diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+> > > index 5eee48f587..b8830596ed 100644
+> > > --- a/meta/lib/oe/rootfs.py
+> > > +++ b/meta/lib/oe/rootfs.py
+> > > @@ -261,10 +261,13 @@ class Rootfs(object, metaclass=3DABCMeta):
+> > >
+> > >
+> > >      def _uninstall_unneeded(self):
+> > > +        removed_pkgs =3D set()
+> > > +
+> > >          # Remove the run-postinsts package if no delayed postinsts a=
+re found
+> > >          delayed_postinsts =3D self._get_delayed_postinsts()
+> > >          if delayed_postinsts is None:
+> > >              if
+> > os.path.exists(self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/init.d/run-p=
+ostinsts"))
+> > or os.path.exists(self.d.expand("${IMAGE_ROOTFS}${systemd_system_unitdi=
+r}/run-
+> > postinsts.service")):
+> > > +                removed_pkgs.add("run-postinsts")
+> > >                  self.pm.remove(["run-postinsts"])
+> > >
+> > >          image_rorfs =3D bb.utils.contains("IMAGE_FEATURES", "read-on=
+ly-rootfs",
+> > > @@ -285,6 +288,7 @@ class Rootfs(object, metaclass=3DABCMeta):
+> > >              # to be uninstalled or to be managed correctly otherwise=
+.
+> > >              provider =3D self.d.getVar("VIRTUAL-RUNTIME_update-alter=
+natives")
+> > >              pkgs_to_remove =3D sorted([pkg for pkg in pkgs_installed=
+ if pkg in
+> > unneeded_pkgs], key=3Dlambda x: x =3D=3D provider)
+> > > +            removed_pkgs.update(pkgs_to_remove)
+> > >
+> > >              # update-alternatives provider is removed in its own rem=
+ove()
+> > >              # call because all package managers do not guarantee the=
+ packages
+> > > @@ -296,6 +300,8 @@ class Rootfs(object, metaclass=3DABCMeta):
+> > >              if len(pkgs_to_remove) > 0:
+> > >                  self.pm.remove([pkgs_to_remove[-1]], False)
+> > >
+> > > +        self.d.setVar("ROOTFS_REMOVED_PACKAGES", "
+> > ".join(sorted(removed_pkgs)))
+> > > +
+> > >          if delayed_postinsts:
+> > >              self._save_postinsts()
+> > >              if image_rorfs:
+> > > diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+> > > index b379ff947c..4fa32266fa 100644
+> > > --- a/meta/lib/oe/sbom30.py
+> > > +++ b/meta/lib/oe/sbom30.py
+> > > @@ -1122,7 +1122,7 @@ def find_by_spdxid(d, spdxid, *, required=3DFal=
+se):
+> > >      return find_jsonld(d, *jsonld_hash_path(hash_id(spdxid)), requir=
+ed=3Drequired)
+> > >
+> > >
+> > > -def create_sbom(d, name, root_elements, add_objectsets=3D[]):
+> > > +def create_sbom(d, name, root_elements, add_objectsets=3D[],
+> > removed_packages=3D[]):
+> > >      objset =3D ObjectSet.new_objset(d, name)
+> > >
+> > >      sbom =3D objset.add(
+> > > @@ -1142,6 +1142,12 @@ def create_sbom(d, name, root_elements,
+> > add_objectsets=3D[]):
+> > >              + "\n  ".join(sorted(list(missing_spdxids)))
+> > >          )
+> > >
+> > > +    if removed_packages:
+> > > +        for pkg in objset.foreach_type(oe.spdx30.software_Package):
+> > > +            if pkg.name in removed_packages and pkg.software_primary=
+Purpose =3D=3D
+> > oe.spdx30.software_SoftwarePurpose.install:
+> > > +                pkg.software_primaryPurpose =3D
+> > oe.spdx30.software_SoftwarePurpose.other
+> > > +                bb.note("Reclassified removed package %s SPDX entry =
+from install to
+> > other" % pkg.name)
+> > > +
+> > >      # Filter out internal extensions from final SBoMs
+> > >      objset.remove_internal_extensions()
+> > >
+> > > diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.p=
+y
+> > > index 7cc46d579b..18c68f47de 100644
+> > > --- a/meta/lib/oe/spdx30_tasks.py
+> > > +++ b/meta/lib/oe/spdx30_tasks.py
+> > > @@ -1532,6 +1532,7 @@ def create_image_sbom_spdx(d):
+> > >      image_link_name =3D d.getVar("IMAGE_LINK_NAME")
+> > >      imgdeploydir =3D Path(d.getVar("SPDXIMAGEDEPLOYDIR"))
+> > >      machine =3D d.getVar("MACHINE")
+> > > +    root_removed_packages_file =3D
+> > Path(d.getVar("SPDX_ROOTFS_REMOVED_PACKAGES"))
+> > >
+> > >      spdx_path =3D imgdeploydir / (image_name + ".spdx.json")
+> > >
+> > > @@ -1553,7 +1554,18 @@ def create_image_sbom_spdx(d):
+> > >      for o in image_objset.foreach_root(oe.spdx30.software_File):
+> > >          root_elements.append(oe.sbom30.get_element_link_id(o))
+> > >
+> > > -    objset, sbom =3D oe.sbom30.create_sbom(d, image_name, root_eleme=
+nts)
+> > > +    try:
+> > > +        with root_removed_packages_file.open("r") as f:
+> > > +            removed_packages =3D json.load(f)
+> > > +    except FileNotFoundError:
+> > > +        removed_packages =3D []
+> > > +
+> > > +    objset, sbom =3D oe.sbom30.create_sbom(
+> > > +        d,
+> > > +        image_name,
+> > > +        root_elements,
+> > > +        removed_packages=3Dremoved_packages,
+> > > +    )
+> > >
+> > >      # Set supplier on root elements if SPDX_IMAGE_SUPPLIER is define=
+d
+> > >      supplier =3D objset.new_agent("SPDX_IMAGE_SUPPLIER", add=3DFalse=
+)
+> > >
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#238166): https://lists.openembedded.org/g/openemb=
+edded-
+> > core/message/238166
+> > > Mute This Topic: https://lists.openembedded.org/mt/119660891/3616693
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+> > [JPEWhacker@gmail.com]
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > >
 
