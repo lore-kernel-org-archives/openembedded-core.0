@@ -2,167 +2,121 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D3C9CD4F26
-	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 08:34:48 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31085.1782462887318268065
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C001CDE008
+	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 08:38:58 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31113.1782463135667880183
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2026 01:34:47 -0700
+ Fri, 26 Jun 2026 01:38:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=14N86I6m;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4629051c9d1so322679f8f.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 01:34:47 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Cnwnr8XM;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-492329c5514so2736155e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 01:38:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782462885; x=1783067685; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:from:message-id:date
+        d=smile.fr; s=google; t=1782463134; x=1783067934; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/V1pALw7OSBzBTGS1zQbEy1Fbo+cw4l4QVD6bsAT44c=;
-        b=14N86I6mkcEY3fyR0CkvRi5qyipan8UlIzNwhi1L30PzZPWmTFEVv+n8DemlLnMD7O
-         dg8PG90Amw9NNZBhgP/y+cqq2Ao3ym3L/RRhN5gDlkhzjLC/sODprKAMS6rA2xLhRoz9
-         oFRDAFteZfD2Q5AEH3VNPRMCBlm2giAwCA7uI=
+        bh=GbW20AocAlr5g85vUTUP5s2H4YSaE8utn+MqX5EfGvM=;
+        b=Cnwnr8XM3yrknPyxV9nNuc+UEofXtXyFWStbjFrAYm9sjaGL1A2o80o+v9p3ZPO/kh
+         hulaGLMf/939Cfwqdta1kwhCt3JcRRaxAq6WHCnyt6DcgC5Xba5O07hgHf6qjekyguRi
+         6uym3wVSMCFBdMYaetbn1O9vL8F22PxNksfqs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782462885; x=1783067685;
-        h=in-reply-to:references:subject:to:from:message-id:date
+        d=1e100.net; s=20251104; t=1782463134; x=1783067934;
+        h=in-reply-to:references:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=/V1pALw7OSBzBTGS1zQbEy1Fbo+cw4l4QVD6bsAT44c=;
-        b=bvEAMmX96PBnHPz/bnauWgTiYDwCUqwwU9efzxDoTxt5jF/TKMdebi39soyrDzuJO6
-         ouAulRcxzSNUGw2FX/QQtxG4wd6ARZQxOGcMBHGd5ocL3m2AzUI45I8tG0Jek9l2Ynjs
-         W8/xaZasrSiJhLbFh+IBAUeTcSiT4c1DvyMKkVUiOFAYyIjQ8I9ImnKjpzYBOQ3G286f
-         IlA3jOSHtWsMXSDwYES9dhoj6JjL62OqaFcoD55GE3lXinjiN+HYKPDMmJctsPib6S9R
-         kvtqBvr9aYzbbwnZVd0f7kBD6u8N7woWqaLFmS2dJAyf96UwDg3mTW3r1KSH2KRJOMrx
-         rJNg==
-X-Forwarded-Encrypted: i=1; AHgh+RrNTDaJi2h1I+aWssceTQ7QUcUnTImTw0cGkXPl8p+Qf4GBvBJH8l8pXjWPC+OmjOvC2qtx/H3zyxtkHgg2vdLZmQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxpY5Gt3DFUWcALJ3YQurZGtE4e0PqZr1oUJ7EA32OFDxbFVNnH
-	dIhQPcEmigj6hHZf+y/k9eIRmc91kf0mwtXocXvH2T8fbaeE7PyxGqEYf0QfECIjaGc=
-X-Gm-Gg: AfdE7cnfcAObjnkG3Kl0QOpakcoj3UmoFTLZxrWTvukkVYbkb8j/eQVj1HUMxzoQugU
-	Etb5LPkq2jfHoEASrg0SauZOZcZkx3/FsxC7ZqcqiW+0fRrVr9staNLR/zeLQcoQABb1JoMRFhR
-	BAsD56BHgf1TBSeACwqUDF/GbX3dWSF63nHAxXq2EsUeNSPOqfz8pfahTqB8187MgLNRygTru4q
-	Gh/7TlpauRWEgopm+008rm2GVtnFj/Wxz+K1d7E4wrlwVHwQIP6zHli5en5MZa8TKvEpp8TQyfK
-	TZveVG5ZiBkBeEx//4Q/k8zAVXe+ebBkKu5ouNdMDK0DE4otkPu/kkC+KVmOY51FVqJ6xn3T0v4
-	E2w1wSkawJJSnK+VQ7ZMvtR4Mq7lX/oPMJ6HkNDbwly8siUiyTiDPfk8TnaFIr9MKF98vBjEK7G
-	uN6zwRzEen8pDSyFOYWZPGNW9vvp1Lfyel3HBsrjlT7iJv2uqiPEIxbO3gx5/fBkbqLLTqPjxjU
-	6xoyg==
-X-Received: by 2002:a05:6000:2893:b0:460:1a36:deac with SMTP id ffacd0b85a97d-46dc0d0e9famr9448128f8f.24.1782462885409;
-        Fri, 26 Jun 2026 01:34:45 -0700 (PDT)
+        bh=GbW20AocAlr5g85vUTUP5s2H4YSaE8utn+MqX5EfGvM=;
+        b=BMoMerG7TXTdgnWP6MbP2BnPVVVTp+z5YOmO2APRLzmmi0qB41xmhtTvMXMw7dD1fG
+         xwdVFs2PUZkBOVodsuMh+rtJ70O6qsGyT7yMAnGv34umKkACVqqyV+WB3wQQxPUFPSzY
+         KgbC5b6ssVQ92TyYhuWkPKmg7LEHs4wXv+2fEvhiJuKopcY67IuDaz9vaVfSgUS8Zz9z
+         TI39tyvXATod0Pgp+umsosnZOZ17cuWvkLD6AqqoEoM4z0Y9BHsYHwDxuD0JviQq+Wep
+         833Q2cKpcUgW7iohyA6fZumMZQNxIYDiOy9aJsZ4TFg4dlpvk8gBIWS7OJElW5XbLNmi
+         g2ow==
+X-Forwarded-Encrypted: i=1; AFNElJ/y4eXpZG2py67kup5ZmiISPj4Ld0FeZSA5LCcDMNRKOs2MTp3vDJK9JCsUjEs2lzApCY/vna9YmR0Co/gQ5ULysA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzKF8Subl7V2ASiBfsRYzpNKKOh4PUxE1XmhX/Fn1d6Ob7KMFl9
+	dKY453bylFrDbGZcATp/+ml+qJO2GE47l+139iBxdZN9WokWJr2vrgYnWsGhVrv3FaE=
+X-Gm-Gg: AfdE7ckT8UMIX2bncwv/MlIeXRNaiKBqaTDl8s41z7URA3B9f3YmPXDqWqwbPfVArct
+	oIljCn4pz7BdxbhHr8dlfP7Zb32k6ezDthnmug6ncE1EWn3nCXhKVhFQ3KSyHtzWlecd/KMFs1T
+	JUXpkxnnizkWNCVlIbry7xQ8RZMgmRkrkqjRD69x55Sf4L2qgvGteFLQYI6MeRfS4HZ22tp3x+8
+	b/tVmij9uwUi8WfGVBU62KZ9K00ZR7PLujQx74MaD1v03AnPkhS92I1Q31n+yQTX9+RWwQuxPrm
+	KE8TtAbz+pcj32O4cJ54AP1sgdEmq6f5CKl5ulHX/8M9vOyRkspY8xD9y3P8trMIsNUUDHU0T2U
+	O8JyK7FhArGYJ55WEgaSzBARV/T7ejE/Y1p+RGO/awU8IoHofwnchw9lVEHLh1J1QDpnmg8jMuj
+	+9Hc0Yoo8dFSLtIhAvQmQXwAM0Zaa6ZhYZzUcjJ3ogp+8uQluJXKactlKHYNLf/JbQ2DxaFp7nH
+	jEcUA==
+X-Received: by 2002:a05:600c:c493:b0:490:e180:2e0 with SMTP id 5b1f17b1804b1-492663d6dbamr74655385e9.3.1782463133774;
+        Fri, 26 Jun 2026 01:38:53 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00dc663d106f146c8c.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:dc66:3d10:6f14:6c8c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46f8d6f10absm708100f8f.5.2026.06.26.01.34.44
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49268f7670bsm60227715e9.0.2026.06.26.01.38.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jun 2026 01:34:45 -0700 (PDT)
+        Fri, 26 Jun 2026 01:38:53 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 26 Jun 2026 10:34:44 +0200
-Message-Id: <DJIUCWVZ14A4.2PD6X0FXERH9Q@smile.fr>
+Date: Fri, 26 Jun 2026 10:38:53 +0200
+Message-Id: <DJIUG2YB576E.2A3V5VHSARVBR@smile.fr>
+Subject: Re: [OE-core][PATCH] python3: skiptest tracemalloc_track_race
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <hfranco@baylibre.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] sbom-cve-check-recipe: add
- SBOM_CVE_CHECK_RECIPE_AUTO
+To: <Kris.Gavvala@windriver.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260625182435.979787-1-hfranco@baylibre.com>
-In-Reply-To: <20260625182435.979787-1-hfranco@baylibre.com>
+References: <20260624223336.1254487-1-kris.gavvala@windriver.com>
+In-Reply-To: <20260624223336.1254487-1-kris.gavvala@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 08:34:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239615
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 08:38:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239616
 
-On Thu Jun 25, 2026 at 8:23 PM CEST, Hiago De Franco via lists.openembedded=
-.org wrote:
-> "do_sbom_cve_check_recipe" is only added "after do_create_recipe_sbom"
-> and is never wired before "do_build", so it does not run as part of a
-> normal build. Users who build packages directly or run "bitbake world"
-> without producing an image get no CVE analysis.
+On Thu Jun 25, 2026 at 12:33 AM CEST, Kris via lists.openembedded.org Gavva=
+la wrote:
+> In python3 ptests for whinlatter, tracemalloc_track_race fails with a seg=
+fault.
+> To avoid ptest failures for now, skip test_tracemalloc_track_race in ptes=
+ts if using glibc or musl.
+> Making the change on master to backport to whinlatter.
 >
-> Add SBOM_CVE_CHECK_RECIPE_AUTO variable that, when enabled, hooks
-> do_sbom_cve_check_recipe into do_build for every recipe. This lets
-> "bitbake world" run recipe-scoped CVE analysis across the whole package
-> feed without first building an image.
+> Fixes [YOCTO #16182]
+> Upstream Issue: https://github.com/python/cpython/issues/143143
 >
-> The task is only wired for recipes that actually produce a recipe SBOM.
-> Recipes inheriting "nospdx" delete "do_create_recipe_sbom" and are
-> skipped, to avoid scanning a non-existent SBOM.
+> Signed-off-by: Kris Gavvala <kris.gavvala@windriver.com>
+> ---
+>  meta/recipes-devtools/python/python3_3.14.6.bb | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >
-> Signed-off-by: Hiago De Franco <hfranco@baylibre.com>
+> diff --git a/meta/recipes-devtools/python/python3_3.14.6.bb b/meta/recipe=
+s-devtools/python/python3_3.14.6.bb
+> index 291bde70f6..0fd1831b86 100644
+> --- a/meta/recipes-devtools/python/python3_3.14.6.bb
+> +++ b/meta/recipes-devtools/python/python3_3.14.6.bb
+> @@ -320,6 +320,14 @@ SKIPPED_TESTS:append:libc-musl =3D " \
+>      --ignore test.test_ctypes.test_dlerror.TestNullDlsym.test_null_dlsym=
+ \
+>  "
+> =20
+> +# Fails due to potential race condition so remove it for glibc and musl
+> +# Bugzilla YP 16182 (test_tracemalloc)
+> +SKIPPED_TESTS:append:libc-glibc =3D " \
+> +    --ignore test.test_tracemalloc.TestCAPI.test_tracemalloc_track_race =
+\
+> +"
+> +SKIPPED_TESTS:append:libc-musl =3D " \
+> +    --ignore test.test_tracemalloc.TestCAPI.test_tracemalloc_track_race =
+\
+> +"
 
 Hello,
 
-Isn't what is meta-world-recipe-sbom for?
-
-To do a world CVE check we do:
-bitbake meta-world-recipe-sbom -R conf/distro/include/cve-extra-exclusions.=
-inc -c sbom_cve_check_recipe
-
-See:
-* https://git.openembedded.org/openembedded-core/tree/meta/recipes-core/met=
-a/meta-world-recipe-sbom.bb
-* https://git.yoctoproject.org/yocto-autobuilder-helper/tree/scripts/run-cv=
-echeck
+I'm not sure we need to specify glibc and musl (do we support anything
+else?). Most likely, we can unconditionnaly skip the test without
+override.
 
 Regards,
 
-> ---
-> Hello,
->
-> I tested this with Poky Wrynose, running "bitbake world" from an empty
-> build (from scratch). It worked as do_sbom_cve_check_recipe ran for
-> every recipe.
->
-> This patch is dependent on the patch I sent earlier,
-> https://lore.kernel.org/all/20260619183406.239931-1-hfranco@baylibre.com/=
-.
->
-> Thanks,
-> Hiago.
-> ---
->  meta/classes/sbom-cve-check-common.bbclass | 5 +++++
->  meta/classes/sbom-cve-check-recipe.bbclass | 7 +++++++
->  2 files changed, 12 insertions(+)
->
-> diff --git a/meta/classes/sbom-cve-check-common.bbclass b/meta/classes/sb=
-om-cve-check-common.bbclass
-> index 32c29a0ec2..236bce8545 100644
-> --- a/meta/classes/sbom-cve-check-common.bbclass
-> +++ b/meta/classes/sbom-cve-check-common.bbclass
-> @@ -52,6 +52,11 @@ SBOM_CVE_CHECK_SHOW_WARNINGS ?=3D "1"
->  SBOM_CVE_CHECK_SHOW_WARNINGS[doc] =3D "Show warning messages when unpatc=
-hed CVEs are found. \
->  Requires the SBOM_CVE_CHECK_EXPORT_CVECHECK report type to be enabled"
 > =20
-> +SBOM_CVE_CHECK_RECIPE_AUTO ?=3D "0"
-> +SBOM_CVE_CHECK_RECIPE_AUTO[doc] =3D "If '1', run do_sbom_cve_check_recip=
-e as part of \
-> +    the normal build (do_build) for every recipe. This also includes run=
-ning CVE \
-> +    check for all recipes with 'bitbake world'. Default is '0' (disabled=
-)."
-> +
->  def show_warnings_from_file(cvecheck_export_file):
->      import json
-> =20
-> diff --git a/meta/classes/sbom-cve-check-recipe.bbclass b/meta/classes/sb=
-om-cve-check-recipe.bbclass
-> index c80b8ac83f..084fcf4946 100644
-> --- a/meta/classes/sbom-cve-check-recipe.bbclass
-> +++ b/meta/classes/sbom-cve-check-recipe.bbclass
-> @@ -22,6 +22,13 @@ python do_sbom_cve_check_recipe() {
->  }
-> =20
->  addtask do_sbom_cve_check_recipe after do_create_recipe_sbom
-> +python() {
-> +    if oe.types.boolean(d.getVar("SBOM_CVE_CHECK_RECIPE_AUTO") or "0"):
-> +        # Recipes that inherit nospdx.bbclass delete do_create_recipe_sb=
-om, so
-> +        # skip them to avoid running the check against a missing SBOM.
-> +        if d.getVarFlag("do_create_recipe_sbom", "task", False):
-> +            bb.build.addtask("do_sbom_cve_check_recipe", "do_build", Non=
-e, d)
-> +}
-> =20
->  SSTATETASKS +=3D "do_sbom_cve_check_recipe"
->  do_sbom_cve_check_recipe[cleandirs] =3D "${SBOM_CVE_CHECK_DEPLOYDIR}"
+>  do_install_ptest:append () {
+>      sed -i -e "s|SKIPPED_TESTS=3D|SKIPPED_TESTS=3D\"${SKIPPED_TESTS}\"|"=
+ ${D}${PTEST_PATH}/run-ptest
 
 
 --=20
