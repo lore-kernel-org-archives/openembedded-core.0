@@ -2,278 +2,274 @@ Return-Path: <wei.deng@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C212ECDE012
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B06C9CD4F26
 	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 09:39:42 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31857.1782466772705963708
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.31546.1782466776582102482
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2026 02:39:32 -0700
+ Fri, 26 Jun 2026 02:39:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@qualcomm.com header.s=qcppdkim1 header.b=PGubzYpw;
- dkim=fail reason="dkim: body hash did not verify" header.i=@oss.qualcomm.com header.s=google header.b=aJ3CgFU6;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: wei.deng@oss.qualcomm.com)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65Q6VM944193025
-	for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 09:39:32 GMT
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=p5j3pZ65;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=hH0U3942;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: wei.deng@oss.qualcomm.com)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65Q6VXxR587008
+	for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 09:39:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Xo8b0tHGtR7s5bu8EuZlOyqo2wL71YT82d6KLcXWS8g=; b=PGubzYpwdnL9/ATX
-	PtU9f9QoR9/jHC8wGzBMvNFg40cx6IC6Mz0+fIzK8irBzfrZeOFx010iv5nKG0fk
-	ZsLy7TTcm5ZS2NXrDEqB0lrYpM6DykPLxrNEt82DZRfb3YIL1uAMix/V21bpKH1N
-	/qUChA13fSsoCCK8GZCckKLn/i5YMSeQbmilLcPCiyBSYgRiG9PxkvkCqGb69IWl
-	toPw/YWntpxV8FuRXHLLtI5hL6xCXHQynYPuszvgfCwGmwLtideWSwCHNHDGxXA1
-	V5lDCB1QRzsabbqMLSzlCRK0cXxts4jv+yweMnaGbPBWuaot1EDcK08tRi/fxlhu
-	OIMcSQ==
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=/SdhtEbBZag
+	HnQALTdv7hkXdXK1IKBp8oJe3NodW3as=; b=p5j3pZ65l1da6Rpv9VjyqG8GDJr
+	4aMCXQlnqf/l4xHZ/dQSC1CLjJEpG1KS1+EP4g5SuGIpGU9E+x8ro0hqXFAb/5O8
+	dw3TCe+UuBLHVnLrSjye+nfmzMl95ghOo5J1wpp3ya/FrO9Js7+NAC63n5g5lei8
+	3lJ7ZWnucal6RCMwEBJCOSXQYl/ImyS7t9fLRlTy4bOz6wUzHMBNTbdWUWiclvjI
+	Bmuu9FeidoZ2NrnQvQD+h58oo/pBVGOicfHHP8CMuqQ1Aps0EihG35WQKbAppYEV
+	+KTpkmjGQubOgr7yP6PdBp5VP7euiBWlZKnUAWtQ8DbEf5FzxBr9nf5CF6A==
 Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f1fgdstw9-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f1eewa31f-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 09:39:31 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-30c01418329so71342eec.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 02:39:31 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 09:39:34 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-30b7fe4d3f8so100189eec.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 02:39:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782466771; x=1783071571; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Xo8b0tHGtR7s5bu8EuZlOyqo2wL71YT82d6KLcXWS8g=;
-        b=aJ3CgFU6RU7kh9DlZ2k+R+3IfrMISw3hUoSmEqqeeJIofx2QyaHAHlBzHLokebwOBT
-         814k+h08ew0IrON4xfZM2noHsaVK/Np4vAFDKPl+lIvSrQcoemnGgiNO5zl9IwGh4/dq
-         iEn0Fm+hYpLQdPR/gljQsYb5Hlec4qvqVBctJSdaHH+3ru1aeGHGLA86FR0zVzTE1IQA
-         S5eWfrJfN+dsMLZ9tvpiyYse9mOCRg9ZaAJJE2s4M0NA3gzOaTktSp8nnN+HUIX2CLx3
-         dgom7eaSdrvx/kg7O+JUR7FN4iE6Q7qazTrg644Djcq8nejOigk+nsPZYEgIIn+ZC6yf
-         yOww==
+        d=oss.qualcomm.com; s=google; t=1782466774; x=1783071574; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/SdhtEbBZagHnQALTdv7hkXdXK1IKBp8oJe3NodW3as=;
+        b=hH0U39427CMrjKmDw+dIFYTHQxu2Gfq/OV4oojmGkwKIoFL2pkj6JVRCSEftNTKXeD
+         3WhOcvmmRdjoKqX12waz0JBd2p+gnlETtHUm78ULNIKc3ommeyog3pJMBN7e07RECNGe
+         zXrOptDenRFZwm2+1aWA3BsxZMA1B9Tt4pArEn2kaxYYP3MxElS/O9mkFHQaBW8scvDC
+         OrccgDVY2bUumL5uCj6DBSl9WP29HCNIhjuL+12PALI1LmOjW6Fv2yRhhLuKT2Y2mAZ0
+         syhV2XLPiYA8ZBwgfQRx+Ohq86acnhadWpnCcFhRrEHT1U+mfOUHHuDUz0R3Oz1axYq+
+         256g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782466771; x=1783071571;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Xo8b0tHGtR7s5bu8EuZlOyqo2wL71YT82d6KLcXWS8g=;
-        b=RU2LI1/Q+hmMHqUL0XhjMlk9RAg7/HYKdBfB+OXKvLY3IGyixxQo8HzJWncPJVyRKx
-         qf0ruFSDiEQBXHFi1Td/XW8pbn6LlGH8Jb446zjuVd9twoHM6Hs9XQG+HpLMRT2tNwJA
-         EY3uJFuxiGbN19kG4fA/1P5LNZQwLFO74aa1SOrZAeJN6HY+NHzRTbhkQHtrowV9Wrbg
-         98f06pKmGDBkcrrLMmoiBYPp9Zus9YdhRnCLYH/LubjopA0itYVq8Xv80JRFV0VueNgw
-         9zgbt/C2YKNB+Fh+uZEzGxGMvYwvhsn7vwvhT4zYQZ76UyUmH68QJTf/QqyCvOZ2QjDJ
-         /DcQ==
-X-Gm-Message-State: AOJu0YxDBru7D/tCT8sifk34i0WvR/+LOQpVOzDUUs8qRorrFfkQVbdc
-	ugPfD5pif9EI9gxp5WxqMcUejwNyrZH0fsMnAp/Umq6T7MkQoGmleOtafia9zwp+K12MWZQDWyR
-	QaCcI0wdM3Gj/VaBXNbRa6WmZspBqG8sgIarLEHXSBuQ9/ahWm6DZhQD0/H3HGmouPSFH1X6e4L
-	63t+3ksuY9dc95g3mOzA==
-X-Gm-Gg: AfdE7cnmdfo8+k468rrkie4upIw0zXldFZ5HbbzL0BnTJPXDO588PFc6CdJzKgQFAR7
-	sSucrG4TeiZ8e8MFYxFwiFf2NTAfP5gX36Qe0Qnt2MkOGcghSqbM7qGgofhbIT8oMbM/Xo1M9oe
-	EEBTvHNGISS70K8R4Qy5GX4rzzrucBwHXgl+0H3Ps214j1ChqLSi18VR9gYAuOBFB4y2M1ncbzd
-	7v8XrI3ohhxVI3Har+eiCILfZNGOPmTw69Y2ljc4STbyxQrxIx0yrdq/Gz95yO6JuCFm+a8J/Fm
-	tUvEJwq7cTElVheMWA0Dl4juI6xqEdslUhQTMJn9Ps9vPwNZOrpbheLwvgLSkIqsVFVPPn+iEUO
-	wjaI8HuZZKNOgpdZfQBS/amsyZMK66ruHWIbL80hDVBvXUJRKehlgw4IqTqNMUA==
-X-Received: by 2002:a05:7301:1930:b0:2ce:db5e:354b with SMTP id 5a478bee46e88-30c84d00a32mr3099279eec.6.1782466770989;
-        Fri, 26 Jun 2026 02:39:30 -0700 (PDT)
-X-Received: by 2002:a05:7301:1930:b0:2ce:db5e:354b with SMTP id 5a478bee46e88-30c84d00a32mr3099263eec.6.1782466770332;
-        Fri, 26 Jun 2026 02:39:30 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782466774; x=1783071574;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/SdhtEbBZagHnQALTdv7hkXdXK1IKBp8oJe3NodW3as=;
+        b=TCwLFFmC4AtQbiJXyLxZ/J18aoooha9SE/wT7aEIrsiH4XSGfpnrU+/dK0cfXbOFRx
+         iQep/cyCtGD/E3m0AqjaiPOnsc2fj+vspETB6Yp3yAg2yhyp/b4UwDeId1cGplljm7q8
+         yLuJa6IOhgyYkgGfWr+zpYn6VnndepLaPNuz0MqO9mke3Nh3h/eTye038asgQbISH9TD
+         k9FPJLsvS08K0SMp29jjFE/IgoyjtPm2A7UvfuX35bT515Ck95JfBk8Rdhh2Aty4qOIK
+         YgSx76r/XAbtDYS7hhC37sXbGo58z+ozfRUsXAQzb5O16u1wOsMV2zPgBVA+zJ0QGIaN
+         T+6g==
+X-Gm-Message-State: AOJu0Yz1CqGA6woKuomkjXWluFDkh1MWHi3brHcElu2zXtKu3G7I++wA
+	SIq5enduqa5vTK6H9qO9diFQNDw6ZVtIhO/davU0jpaAtVw2YvXQxZB+fFS0cCMSKlIcxiQjdVu
+	eMfducyWTnoOKP6m3JkflFgNdyqjs2YEiscx5vVWkQGYRO0M4QsuXQt83gghQmjpfttIqBVQozE
+	EIipeyJfDWjgLQr8ETrA==
+X-Gm-Gg: AfdE7ckM1yVbGwFMVk7v27/ihbhhXhsDr+FEEs+Es2QEM23etmzvetQsRQK/4/fEpTk
+	HtZR7Oq3O6faqAtIOMetITgD3Q2diL8RgoTyf3naIPfa8/yaEf4U0A+4+eO7bDKBF94dOXGTbdq
+	m1tnFFQyd4y5lqyEjvanWn1zCiFdQxRoyR13luy3aOjPls/SnN6m61eTH7nc8ps0lkT9uuMfFRk
+	iu2rgDvwDBL7HzJC9EzDN8kwtVskwTgY/hFlQZDvG+LApH423NYe+5nK8//dvfweFoj9raNbjbd
+	h2j4/QVAp5rVrO2KywsKWPkW/r42oB+eDe86KxAXSZi9SLTKM1ZscBnDa9jpa1zKoVZchWojMCD
+	KAX/Itn9TGS28alTAdYUsLS2y+5GhuwzgetldHYJCsTmKTqfQrjG0TgFHEUno7Q==
+X-Received: by 2002:a05:7301:5f02:b0:304:4f23:4823 with SMTP id 5a478bee46e88-30c84e49c6fmr2778368eec.7.1782466773763;
+        Fri, 26 Jun 2026 02:39:33 -0700 (PDT)
+X-Received: by 2002:a05:7301:5f02:b0:304:4f23:4823 with SMTP id 5a478bee46e88-30c84e49c6fmr2778349eec.7.1782466773207;
+        Fri, 26 Jun 2026 02:39:33 -0700 (PDT)
 Received: from hu-weiden-sha.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c9e9214sm16908725eec.20.2026.06.26.02.39.27
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c9e9214sm16908725eec.20.2026.06.26.02.39.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 02:39:29 -0700 (PDT)
+        Fri, 26 Jun 2026 02:39:32 -0700 (PDT)
 From: Wei Deng <wei.deng@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr, jinwang.li@oss.qualcomm.com,
         xiuzhuo.shang@oss.qualcomm.com, mengshi.wu@oss.qualcomm.com,
         cheng.jiang@oss.qualcomm.com, quic_chezhou@quicinc.com,
         shuai.zhang@oss.qualcomm.com
-Subject: [wrynose][PATCH 3/4] bluez5: fix gatt cache sync issue
-Date: Fri, 26 Jun 2026 15:09:19 +0530
-Message-Id: <20260626093920.1079859-3-wei.deng@oss.qualcomm.com>
+Subject: [wrynose][PATCH 4/4] bluez5: set L2CAP IMTU for OBEX profile listeners
+Date: Fri, 26 Jun 2026 15:09:20 +0530
+Message-Id: <20260626093920.1079859-4-wei.deng@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260626093920.1079859-1-wei.deng@oss.qualcomm.com>
 References: <20260626093920.1079859-1-wei.deng@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Authority-Analysis: v=2.4 cv=API5kwXb c=1 sm=1 tr=0 ts=6a3e48d3 cx=c_pps
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDA3NyBTYWx0ZWRfX2rGEznL5WRMI
+ N5FGgZ7LX12Fa8ZnXStdf77S2SPkLP+lP0uqfPyuQgFMDdNCmMpw5Xhr8AOZxNXATMrok4x+7o8
+ ysSYQDtXmfkEh5T8TXwY1mO//VeAU2w=
+X-Proofpoint-GUID: XXFyUz5WDM6L6pnRGAaNxOgDM1XPGSUw
+X-Proofpoint-ORIG-GUID: XXFyUz5WDM6L6pnRGAaNxOgDM1XPGSUw
+X-Authority-Analysis: v=2.4 cv=P7UKQCAu c=1 sm=1 tr=0 ts=6a3e48d7 cx=c_pps
  a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8
- a=k5HSx0GOXTMWBjfvI6MA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=6Ab_bkdmUrQuMsNx7PHu:22 a=d3PnA9EDa4IxuAV0gXij:22 a=Yupwre4RP9_Eg_Bd0iYG:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDA3NyBTYWx0ZWRfX78RlyU9FyjT4
- W6sUBh+wMfHKCy7BoobDMFPsw8xLrfwOuQpVFUo/4F1+ljpZ/xEDsg1o20hSOaPkadLQRaVz/5o
- F49xBgfo25O93xqXISOQCe7ts9dc09wyaDH12ORbbJwB8s5k7Okzc5scIQqwD7b8vsH7mPU4r+U
- GZbunGGikq9BtEiPKf9hvHCqNa7jsgr060U4pyijRL2JINZlm1SR8EpAGpYDzVO9gvcices9rWN
- B6Z2eEK3Ktp7ZYLjB10Ej2HAcRyuGhoq/VgYuCLlkA8rx36+o5UbG+fDRkHJM3aQQNYVyyoqVH2
- hRWCogcriNI5omsqXX870GUQJvXJGpchclhNtjDewkuZOmB71MfkYBB6sZ+Cd9oT45NeYRPy1UO
- 3gaGfN7s9JFLkWi3chckjtI0jX/X2ZLMzIwoIyQZX9EZ0N0DUBw6x99CdjU7kGjanSiIRytrHN8
- Qwfhxgs8cdhTWW/5OGg==
-X-Proofpoint-ORIG-GUID: 5_eb56nUjstw50UcrOvczU1roYtXvbk0
-X-Proofpoint-GUID: 5_eb56nUjstw50UcrOvczU1roYtXvbk0
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDA3NyBTYWx0ZWRfX4ecHauDicGAl
- 3ZeGM/mJAxSyHraLOAGSjEPVROusJu1Oc42H8HbZBKEzWJtPfmyuoF2GbsSZAhQ8WtLoD4O+ewF
- 0k3CichB8WtJhq4i2Dgz03eH/f8m6Iw=
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=NEAV23lmAAAA:8
+ a=EUspDBNiAAAA:8 a=dOK3wYaXzV_A1W3SHmkA:9 a=6Ab_bkdmUrQuMsNx7PHu:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDA3NyBTYWx0ZWRfXyDKx8/XwL8A8
+ XnkfvcaNAcNjkivDP62QE/uEdnAPLo5mG/jnTi1tl3gNFZatWdHNKGlqE2zs/sKmhVvyehr0IQO
+ 7AG5jo1wdvFqhuU33pKsYn0dYIbWqHrJw2dF3XbEECzAcnCBzB9HIqOhvpQrj97CqmBKfcezplJ
+ CxPoXq5gRWSYov9epKcLRMM7IcGNn0kyeT7/houBsjfu/NlblqjW+49TjQ0v8X6oJthZcvlBlYv
+ GKF1XYiB+fZTdwR6Gu9LZMpmi6ducDOj6RxiRsxVrvPffXDd3//ILrcmS2vll8b6aOCHQ6YPH4R
+ iOzswuO8GzpKcWXDlwWFAcljwGlS3fP25Fba0VCBP933JHVE1p9Qw0+p/r0MYJCRQRP1FK+6TBJ
+ IZLsBSnVBLhWnQ9f1HtmhjAIg7ObtlnfJSlcST7NtXrnp+IgGS2bPWvGG+zC7NbF4fOiJkiML4k
+ cKuwhpSeXZ16r8+DRQQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-26_02,2026-06-24_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 bulkscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 adultscore=0 malwarescore=0 phishscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606260077
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0031df01.pphosted.com id 65Q6VM944193025
+ priorityscore=1501 adultscore=0 phishscore=0 bulkscore=0 spamscore=0
+ impostorscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2606260077
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 09:39:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239621
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239622
 
-From: Mengshi Wu <mengshi.wu@oss.qualcomm.com>
+Backport upstream fix that adds an imtu field to default_settings for
+OBEX profiles (OPP, FTP, PBAP, MAS, MNS) and applies it to the L2CAP
+listening socket via bt_io_set(). Without this, the listening socket
+advertises the L2CAP minimum of 672 bytes in L2CAP_CONFIGURATION_RSP,
+limiting the peer's outgoing PDU size and degrading Rx throughput.
 
-There is a timing issue to update DB Hash value.
-
-The gatt_client_service_changed() callback in src/device.c
-is called from service_changed_complete() in gatt-client.c,
-which is invoked after db_hash_read_cb() has already updated
-the hash. Adding store_gatt_db(device) here guarantees the
-db is persisted with the correct, up-to-date hash for both
-the addition and removal cases.
-
-Upstream-Status: Backport [bluez/bluez@0fd01e9]
-Signed-off-by: Mengshi Wu <mengshi.wu@oss.qualcomm.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Upstream-Status: Backport [bluez/bluez@646014a]
+Signed-off-by: Wei Deng <wei.deng@oss.qualcomm.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...x-stored-gatt-cache-DB-Hash-value-no.patch | 84 +++++++++++++++++++
- 2 files changed, 85 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-src-devi=
-ce-Fix-stored-gatt-cache-DB-Hash-value-no.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+ ...2CAP-IMTU-for-OBEX-profile-listeners.patch | 118 ++++++++++++++++++
+ 2 files changed, 119 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-c=
-onnectivity/bluez5/bluez5.inc
-index 1600107b878..4e51cc9a213 100644
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 4e51cc9a213..ad07e0d3c4f 100644
 --- a/meta/recipes-connectivity/bluez5/bluez5.inc
 +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -73,6 +73,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/bluetooth/bluez-=
-${PV}.tar.xz \
-            file://0001-gatt-client-Fix-use-after-free-caused-by-reentran=
-t-c.patch \
-            file://0001-transport-Fix-set-volume-failure-with-invalid-dev=
-ice.patch \
-            file://0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_=
-ADD.patch \
-+           file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no=
-.patch    \
+@@ -74,6 +74,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-transport-Fix-set-volume-failure-with-invalid-device.patch \
+            file://0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_ADD.patch \
+            file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
++           file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
             "
- S =3D "${UNPACKDIR}/bluez-${PV}"
-=20
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-src-device-Fix-=
-stored-gatt-cache-DB-Hash-value-no.patch b/meta/recipes-connectivity/blue=
-z5/bluez5/0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch
+ S = "${UNPACKDIR}/bluez-${PV}"
+ 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
 new file mode 100644
-index 00000000000..69323bdc5ee
+index 00000000000..332b11464eb
 --- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-src-device-Fix-stored-=
-gatt-cache-DB-Hash-value-no.patch
-@@ -0,0 +1,84 @@
-+From 9ec8cad56e47c0555a056e928e6568d543b3ae0c Mon Sep 17 00:00:00 2001
-+From: Mengshi Wu <mengshi.wu@oss.qualcomm.com>
-+Date: Wed, 1 Apr 2026 19:30:04 +0800
-+Subject: [PATCH v1] src/device: Fix stored gatt cache DB Hash value not =
-update
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
+@@ -0,0 +1,118 @@
++From 646014a6a246fe99df27da12d2de7bcd2e04d0df Mon Sep 17 00:00:00 2001
++From: Wei Deng <wei.deng@oss.qualcomm.com>
++Date: Thu, 4 Jun 2026 15:00:24 +0530
++Subject: [PATCH] profile: Set L2CAP IMTU for OBEX profile listeners
 +
-+There is an asymmetry in behavior: when services are added during
-+the same connection (via Service Changed indication), the persistent
-+storage (disk) is not updated with the new DB hash, but when services
-+are removed, it is updated.
++The default_settings entries for OBEX profiles (OPP, FTP, PBAP, MAS,
++MNS) have no imtu field, so ext_start_servers() creates the L2CAP
++listening socket without an explicit IMTU. This causes the socket to
++advertise the L2CAP minimum of 672 bytes in L2CAP_CONFIGURATION_RSP,
++limiting the peer's outgoing PDU size and degrading Rx throughput.
 +
-+During the same connection, We check DB hash value stored at
-+/var/lib/bluetooth/<adaptor addr>/cache/<remote addr>.
-+When established connection, the stored DB Hash value is A.Then we
-+add new services, the stored DB Hash value is still A which should
-+change to B. However, if we remove the existing services, the stored
-+DB Hash value changed to C.
++Add an imtu field to default_settings and set it to 32767 for all
++OBEX profiles that use L2CAP. Copy the value in ext_set_defaults()
++and apply it to the listening socket via bt_io_set() after
++bt_io_listen() succeeds.
 +
-+When performing addition, it goes like this:
-+
-+discover_primary_cb()
-+  =E2=94=94=E2=94=80> gatt_db_insert_service()      =E2=86=90 NEW servic=
-e inserted into db
-+        =E2=94=94=E2=94=80> gatt_service_added()    =E2=86=90 callback f=
-ires immediately
-+              =E2=94=94=E2=94=80> store_gatt_db()   =E2=86=90 SAVED TO D=
-ISK (hash still OLD)
-+  ...
-+  =E2=94=94=E2=94=80> discovery_op_complete(success=3Dtrue)
-+        =E2=94=94=E2=94=80> read_db_hash(op)             =E2=86=90 sends=
- ATT Read By Type
-+              =E2=94=94=E2=94=80> [ATT response arrives]
-+                    =E2=94=94=E2=94=80> db_hash_read_cb()
-+                          =E2=94=9C=E2=94=80> gatt_db_attribute_write(op=
-->hash, ...)
-+                          =E2=94=82     =E2=94=94=E2=94=80> hash UPDATED=
- IN MEMORY
-+                          =E2=94=94=E2=94=80> discovery_op_complete(true=
-, 0)
-+                                =E2=94=9C=E2=94=80> [no services to remo=
-ve, no
-+                                =E2=94=82    store_gatt_db called]
-+                                =E2=94=94=E2=94=80> service_changed_comp=
-lete()
-+
-+Whereas removal perform like this:
-+discovery_op_complete(success=3Dtrue)  [1st call]
-+  =E2=94=94=E2=94=80> read_db_hash(op)
-+      =E2=94=94=E2=94=80> op->hash is NULL =E2=86=92 sends ATT request =E2=
-=86=92 early return
-+...
-+[ATT response arrives]
-+db_hash_read_cb()
-+  =E2=94=94=E2=94=80> gatt_db_attribute_write(op->hash, ) =E2=86=90 hash=
- UPDATED IN MEMORY
-+  =E2=94=94=E2=94=80> discovery_op_complete(true, 0)          [2nd call]
-+      =E2=94=94=E2=94=80> read_db_hash(op)  =E2=86=92 op->hash already s=
-et =E2=86=92 returns false
-+      =E2=94=94=E2=94=80> gatt_db_remove_service()
-+          =E2=94=94=E2=94=80> gatt_service_removed()
-+              =E2=94=94=E2=94=80> store_gatt_db() =E2=86=90 SAVED TO DIS=
-K (hash is NEW)
-+
-+There is a timing issue to update DB Hash value.
-+
-+The gatt_client_service_changed() callback in src/device.c is called
-+from service_changed_complete() in gatt-client.c, which is invoked
-+after db_hash_read_cb() has already updated the hash. Adding
-+store_gatt_db(device) here guarantees the db is persisted with the
-+correct, up-to-date hash for both the addition and removal cases.
-+
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/0fd01e9=
-8cf94616a5c1c39749314cdd4a1654687]
-+Signed-off-by: Mengshi Wu <mengshi.wu@oss.qualcomm.com>
++Signed-off-by: Wei Deng <wei.deng@oss.qualcomm.com>
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/646014a6a246fe99df27da12d2de7bcd2e04d0df]
 +---
-+ src/device.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
++ src/profile.c | 19 +++++++++++++++++--
++ 1 file changed, 17 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/device.c b/src/device.c
-+index 3ea683667..cfbde307b 100644
-+--- a/src/device.c
-++++ b/src/device.c
-+@@ -6267,7 +6267,11 @@ static void gatt_client_service_changed(uint16_t =
-start_handle,
-+ 							uint16_t end_handle,
-+ 							void *user_data)
-+ {
-++	struct btd_device *device =3D user_data;
++diff --git a/src/profile.c b/src/profile.c
++index dfc5f7161..65df0f7a0 100644
++--- a/src/profile.c
+++++ b/src/profile.c
++@@ -55,6 +55,8 @@
++ #define MAS_DEFAULT_CHANNEL	16
++ #define MNS_DEFAULT_CHANNEL	17
++ 
+++#define BT_RX_MTU		32767
 ++
-+ 	DBG("start 0x%04x, end: 0x%04x", start_handle, end_handle);
++ #define BTD_PROFILE_PSM_AUTO	-1
++ #define BTD_PROFILE_CHAN_AUTO	-1
++ 
++@@ -678,6 +680,7 @@ struct ext_profile {
++ 
++ 	uint16_t version;
++ 	uint16_t features;
+++	uint16_t imtu;
++ 
++ 	GSList *records;
++ 	GSList *servers;
++@@ -1423,6 +1426,9 @@ static uint32_t ext_start_servers(struct ext_profile *ext,
++ 			if (psm == 0)
++ 				bt_io_get(io, NULL, BT_IO_OPT_PSM, &psm,
++ 							BT_IO_OPT_INVALID);
+++			if (ext->imtu)
+++				bt_io_set(io, NULL, BT_IO_OPT_IMTU, ext->imtu,
+++							BT_IO_OPT_INVALID);
++ 			l2cap->io = io;
++ 			l2cap->proto = BTPROTO_L2CAP;
++ 			l2cap->psm = psm;
++@@ -2075,6 +2081,7 @@ static struct default_settings {
++ 					struct ext_io *rfcomm);
++ 	uint16_t	version;
++ 	uint16_t	features;
+++	uint16_t	imtu;
++ } defaults[] = {
++ 	{
++ 		.uuid		= SPP_UUID,
++@@ -2142,6 +2149,7 @@ static struct default_settings {
++ 		.authorize	= false,
++ 		.get_record	= get_opp_record,
++ 		.version	= 0x0102,
+++		.imtu		= BT_RX_MTU,
++ 	}, {
++ 		.uuid		= OBEX_FTP_UUID,
++ 		.name		= "File Transfer",
++@@ -2151,6 +2159,7 @@ static struct default_settings {
++ 		.authorize	= true,
++ 		.get_record	= get_ftp_record,
++ 		.version	= 0x0103,
+++		.imtu		= BT_RX_MTU,
++ 	}, {
++ 		.uuid		= OBEX_SYNC_UUID,
++ 		.name		= "Synchronization",
++@@ -2167,6 +2176,7 @@ static struct default_settings {
++ 		.authorize	= true,
++ 		.get_record	= get_pse_record,
++ 		.version	= 0x0101,
+++		.imtu		= BT_RX_MTU,
++ 	}, {
++ 		.uuid		= OBEX_PCE_UUID,
++ 		.name		= "Phone Book Access Client",
++@@ -2182,7 +2192,8 @@ static struct default_settings {
++ 		.mode		= BT_IO_MODE_ERTM,
++ 		.authorize	= true,
++ 		.get_record	= get_mas_record,
++-		.version	= 0x0100
+++		.version	= 0x0100,
+++		.imtu		= BT_RX_MTU,
++ 	}, {
++ 		.uuid		= OBEX_MNS_UUID,
++ 		.name		= "Message Notification",
++@@ -2191,7 +2202,8 @@ static struct default_settings {
++ 		.mode		= BT_IO_MODE_ERTM,
++ 		.authorize	= true,
++ 		.get_record	= get_mns_record,
++-		.version	= 0x0104
+++		.version	= 0x0104,
+++		.imtu		= BT_RX_MTU,
++ 	},
++ };
++ 
++@@ -2249,6 +2261,9 @@ static void ext_set_defaults(struct ext_profile *ext)
++ 		if (settings->features)
++ 			ext->features = settings->features;
++ 
+++		if (settings->imtu)
+++			ext->imtu = settings->imtu;
 ++
-++	store_gatt_db(device);
-+ }
-+
-+ static void gatt_debug(const char *str, void *user_data)
-+--
++ 		if (settings->name)
++ 			ext->name = g_strdup(settings->name);
++ 	}
++-- 
 +2.34.1
---=20
++
+-- 
 2.34.1
 
 
