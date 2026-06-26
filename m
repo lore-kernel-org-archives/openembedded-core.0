@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 564BCCD4F26
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68265CDE008
 	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 06:11:37 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29406.1782454296721765271
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29407.1782454296789974959
  for <openembedded-core@lists.openembedded.org>;
  Thu, 25 Jun 2026 23:11:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=YGwejMYm;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DEZVYEUV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019f028e1c47-028470c0-84bc-49ea-a136-6a752e29f24c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KdFWo/jW;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=V1dIt+u/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019f028e1ce3-ae6a0786-ce3c-47e8-b407-f616a222a83c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1782454295;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2B3K5ehWFONil6L814IqX/6O1beZxUaYnMLywvu4Hc8=;
-	b=YGwejMYmQRDFtseRYx1IRvr1gq9iXXDWjwxlgI6HvhkRwQ7aWVje/yDsz2HSVz9z
-	o5773kQXeRpmAvKEY1ouR7xeLyLLps4g5T6gZ/QOJZHueZxcy52cFuCIW3Szhe45QzQ
-	6aiSZSUyh8rKanXp+PVWMo5T39V6Mean3+6PWYSk=
+	bh=iIxMXV1iwPm3X54UgvdiIoljqKvx91OjMAh09wCmjMI=;
+	b=KdFWo/jW7c7oDUYL+iweXiaK4VYgCADxH9omcT+hutzi8dZggr+RgvNB9HrE26OF
+	Sc7CcSqgvx5QzJjPjwBS6CZ56JJB/YjwF7ujqrcSCcwG9ZTtUQHQeO+kfVxPeOWkDJW
+	BnSOfqlIRQPV9wQf+YepfPC+kzoeuRPWs2IUTIxo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782454295;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2B3K5ehWFONil6L814IqX/6O1beZxUaYnMLywvu4Hc8=;
-	b=DEZVYEUVEuUYKDLWA3sXzKcLViBHvFHpoRwawEXqE2uqlfx9hJnFJ6s1ByzQVSuP
-	49IgDUEjusodIPY7ka/FQc0ve2A0trZmMLKmytInR562NQSszfnMMnlymQlpPBUk5Qc
-	0WfTUFfIYI+IMG2jiou5WSsXR47BWnXlc3Taz7uc=
-Content-Type: multipart/mixed; boundary="===============7203467589731749061=="
+	bh=iIxMXV1iwPm3X54UgvdiIoljqKvx91OjMAh09wCmjMI=;
+	b=V1dIt+u/D4/ABECFBVzP60uC5ii/5dihWLQbMBrdo/YjMlr8yLoHyLQjn4Z+TuIv
+	lXzI3DW0oS0K1zf2g5Eyjfswh8wkNd6EHkDKaf92ZR0DRhSw55cS6g/TPlCleMCMRnA
+	RnskyUyVEw9bsH6OcOr6hsCOgvLQEOzbzGlrKObA=
+Content-Type: multipart/mixed; boundary="===============8704546177783317755=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] socat: upgrading to 1.8.1.2 SUCCEEDED
-Message-ID: <0101019f028e1c47-028470c0-84bc-49ea-a136-6a752e29f24c-000000@us-west-2.amazonses.com>
+Subject: [AUH] expat: upgrading to 2.8.2 SUCCEEDED
+Message-ID: <0101019f028e1ce3-ae6a0786-ce3c-47e8-b407-f616a222a83c-000000@us-west-2.amazonses.com>
 Date: Fri, 26 Jun 2026 06:11:35 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.26-54.240.27.29
+X-SES-Outgoing: 2026.06.26-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 06:11:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239594
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239593
 
---===============7203467589731749061==
+--===============8704546177783317755==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *socat* to *1.8.1.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *expat* to *2.8.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-socat-upgrade-1.8.1.1-1.8.1.2.patch
+    - apply the patch: git am 0001-expat-upgrade-2.8.1-2.8.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,163 +72,155 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 449f81681d704f5f61d1aa6a5f034592bd47bfe7 Mon Sep 17 00:00:00 2001
+From 173817d966706898769fea4b2dc2da560d828f27 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 26 Jun 2026 05:25:16 +0000
-Subject: [PATCH] socat: upgrade 1.8.1.1 -> 1.8.1.2
+Date: Fri, 26 Jun 2026 05:43:02 +0000
+Subject: [PATCH] expat: upgrade 2.8.1 -> 2.8.2
 
 ---
- .../files/0001-fix-compile-procan.c-failed.patch      | 11 ++++-------
- .../socat/{socat_1.8.1.1.bb => socat_1.8.1.2.bb}      |  2 +-
- 2 files changed, 5 insertions(+), 8 deletions(-)
- rename meta/recipes-connectivity/socat/{socat_1.8.1.1.bb => socat_1.8.1.2.bb} (94%)
+ meta/recipes-core/expat/{expat_2.8.1.bb => expat_2.8.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/expat/{expat_2.8.1.bb => expat_2.8.2.bb} (92%)
 
-diff --git a/meta/recipes-connectivity/socat/files/0001-fix-compile-procan.c-failed.patch b/meta/recipes-connectivity/socat/files/0001-fix-compile-procan.c-failed.patch
-index ea00dfa0a9..e283079afa 100644
---- a/meta/recipes-connectivity/socat/files/0001-fix-compile-procan.c-failed.patch
-+++ b/meta/recipes-connectivity/socat/files/0001-fix-compile-procan.c-failed.patch
-@@ -1,4 +1,4 @@
--From c4c3d5f2d4dfe8167205e8d20b4cb7a197706c16 Mon Sep 17 00:00:00 2001
-+From bbbdfd4229a76cff08e3738ad85c1cf8e515bf5b Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Wed, 27 Nov 2024 04:09:59 -0800
- Subject: [PATCH] fix compile procan.c failed
-@@ -32,10 +32,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 4 insertions(+), 4 deletions(-)
+diff --git a/meta/recipes-core/expat/expat_2.8.1.bb b/meta/recipes-core/expat/expat_2.8.2.bb
+similarity index 92%
+rename from meta/recipes-core/expat/expat_2.8.1.bb
+rename to meta/recipes-core/expat/expat_2.8.2.bb
+index fa48d42bf8..0b9dbe161b 100644
+--- a/meta/recipes-core/expat/expat_2.8.1.bb
++++ b/meta/recipes-core/expat/expat_2.8.2.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
+ UPSTREAM_CHECK_REGEX = "releases/tag/R_(?P<pver>.+)"
  
- diff --git a/Makefile.in b/Makefile.in
--index 631d31d..103d4d1 100644
-+index 629cb7e..4368a3f 100644
- --- a/Makefile.in
- +++ b/Makefile.in
--@@ -110,7 +110,7 @@ socat: socat.o libxio.a
-+@@ -112,7 +112,7 @@ socat: socat.o libxio.a
-  	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ socat.o libxio.a $(CLIBS)
-  
-  procan.o: $(srcdir)/procan.c
-@@ -44,7 +44,7 @@ index 631d31d..103d4d1 100644
-  
-  PROCAN_OBJS=procan_main.o procan.o procan-cdefs.o hostan.o error.o sycls.o sysutils.o utils.o vsnprintf_r.o snprinterr.o
-  procan: $(PROCAN_OBJS)
--@@ -132,9 +132,9 @@ install: progs $(srcdir)/doc/socat.1
-+@@ -134,9 +134,9 @@ install: progs $(srcdir)/doc/socat.1
-  	mkdir -p $(DESTDIR)$(BINDEST)
-  	$(INSTALL) -m 755 socat $(DESTDIR)$(BINDEST)/socat1
-  	ln -sf socat1 $(DESTDIR)$(BINDEST)/socat
-@@ -57,6 +57,3 @@ index 631d31d..103d4d1 100644
-  	$(INSTALL) -m 755 procan $(DESTDIR)$(BINDEST)
-  	$(INSTALL) -m 755 filan $(DESTDIR)$(BINDEST)
-  	mkdir -p $(DESTDIR)$(MANDEST)/man1
---- 
--2.25.1
--
-diff --git a/meta/recipes-connectivity/socat/socat_1.8.1.1.bb b/meta/recipes-connectivity/socat/socat_1.8.1.2.bb
-similarity index 94%
-rename from meta/recipes-connectivity/socat/socat_1.8.1.1.bb
-rename to meta/recipes-connectivity/socat/socat_1.8.1.2.bb
-index e662c79a75..205af07be7 100644
---- a/meta/recipes-connectivity/socat/socat_1.8.1.1.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.8.1.2.bb
-@@ -13,7 +13,7 @@ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
-            file://0001-fix-compile-procan.c-failed.patch \
- "
+-SRC_URI[sha256sum] = "f5833dd2e1cd7739ec9182804a1a29c4f0cc7c2f26b633d3a2188b7766a88ecb"
++SRC_URI[sha256sum] = "69e7f52417d85b1c2b7fe855e176eec55d0b2d7d92d691372d833a1c7df7923b"
  
--SRC_URI[sha256sum] = "5ebc636b7f427053f98806696521653a614c7e06464910353cbf54e2327adc1b"
-+SRC_URI[sha256sum] = "0e1b7eac0c6e3d6fa4d55b63c7fcddf03f4a2eaa59fa93b1f30dc2c73d42aa0d"
- 
- inherit autotools
+ EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
  
 -- 
 2.47.1
 
 
---===============7203467589731749061==
+--===============8704546177783317755==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/expat/expat-dev: FILELIST: directory renamed /usr/lib/cmake/expat-2.8.1 -> /usr/lib/cmake/expat-2.8.2
+packages/x86-64-v3-poky-linux/expat/expat: FILELIST: removed "/usr/lib/libexpat.so.1.12.1", added "/usr/lib/libexpat.so.1.12.2"
+Changes to packages/x86-64-v3-poky-linux/expat (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.12.1 to libexpat.so.1.12.2
+  /usr/lib/cmake/expat-2.8.1 moved to /usr/lib/cmake/expat-2.8.2
+  /usr/lib/libexpat.so.1.12.1 moved to /usr/lib/libexpat.so.1.12.2
+Changes to packages/x86_64-linux/expat-native (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.12.1 to libexpat.so.1.12.2
+  /usr/lib/cmake/expat-2.8.1 moved to /usr/lib/cmake/expat-2.8.2
+  /usr/lib/libexpat.so.1.12.1 moved to /usr/lib/libexpat.so.1.12.2
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.8800.2 to libgio-2.0.so.0.8800.1
+  /usr/lib/libgirepository-2.0.so.0 changed symlink target from libgirepository-2.0.so.0.8800.2 to libgirepository-2.0.so.0.8800.1
+  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.8800.2 to libglib-2.0.so.0.8800.1
+  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.8800.2 to libgmodule-2.0.so.0.8800.1
+  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.8800.2 to libgobject-2.0.so.0.8800.1
+  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.8800.2 to libgthread-2.0.so.0.8800.1
+  /usr/lib/libgio-2.0.so.0.8800.2 moved to /usr/lib/libgio-2.0.so.0.8800.1
+  /usr/lib/libgirepository-2.0.so.0.8800.2 moved to /usr/lib/libgirepository-2.0.so.0.8800.1
+  /usr/lib/libglib-2.0.so.0.8800.2 moved to /usr/lib/libglib-2.0.so.0.8800.1
+  /usr/lib/libgmodule-2.0.so.0.8800.2 moved to /usr/lib/libgmodule-2.0.so.0.8800.1
+  /usr/lib/libgobject-2.0.so.0.8800.2 moved to /usr/lib/libgobject-2.0.so.0.8800.1
+  /usr/lib/libgthread-2.0.so.0.8800.2 moved to /usr/lib/libgthread-2.0.so.0.8800.1
+
+--===============8704546177783317755==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-socat-upgrade-1.8.1.1-1.8.1.2.patch"
+ filename="0001-expat-upgrade-2.8.1-2.8.2.patch"
 
-RnJvbSA0NDlmODE2ODFkNzA0ZjVmNjFkMWFhNmE1ZjAzNDU5MmJkNDdiZmU3IE1vbiBTZXAgMTcg
+RnJvbSAxNzM4MTdkOTY2NzA2ODk4NzY5ZmVhNGIyZGMyZGE1NjBkODI4ZjI3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMjYgSnVuIDIwMjYgMDU6MjU6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-b2NhdDogdXBncmFkZSAxLjguMS4xIC0+IDEuOC4xLjIKCi0tLQogLi4uL2ZpbGVzLzAwMDEtZml4
-LWNvbXBpbGUtcHJvY2FuLmMtZmFpbGVkLnBhdGNoICAgICAgfCAxMSArKysrLS0tLS0tLQogLi4u
-L3NvY2F0L3tzb2NhdF8xLjguMS4xLmJiID0+IHNvY2F0XzEuOC4xLjIuYmJ9ICAgICAgfCAgMiAr
-LQogMiBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9zb2NhdC97c29jYXRfMS44LjEuMS5iYiA9PiBz
-b2NhdF8xLjguMS4yLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0
-aXZpdHkvc29jYXQvZmlsZXMvMDAwMS1maXgtY29tcGlsZS1wcm9jYW4uYy1mYWlsZWQucGF0Y2gg
-Yi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3NvY2F0L2ZpbGVzLzAwMDEtZml4LWNvbXBpbGUt
-cHJvY2FuLmMtZmFpbGVkLnBhdGNoCmluZGV4IGVhMDBkZmEwYTkuLmUyODMwNzlhZmEgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvc29jYXQvZmlsZXMvMDAwMS1maXgtY29t
-cGlsZS1wcm9jYW4uYy1mYWlsZWQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
-eS9zb2NhdC9maWxlcy8wMDAxLWZpeC1jb21waWxlLXByb2Nhbi5jLWZhaWxlZC5wYXRjaApAQCAt
-MSw0ICsxLDQgQEAKLUZyb20gYzRjM2Q1ZjJkNGRmZTgxNjcyMDVlOGQyMGI0Y2I3YTE5NzcwNmMx
-NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYmJiZGZkNDIyOWE3NmNmZjA4ZTM3Mzhh
-ZDg1YzFjZjhlNTE1YmY1YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEhvbmd4dSBK
-aWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KIERhdGU6IFdlZCwgMjcgTm92IDIwMjQgMDQ6
-MDk6NTkgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gZml4IGNvbXBpbGUgcHJvY2FuLmMgZmFpbGVk
-CkBAIC0zMiwxMCArMzIsMTAgQEAgU2lnbmVkLW9mZi1ieTogSG9uZ3h1IEppYSA8aG9uZ3h1Lmpp
-YUB3aW5kcml2ZXIuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVs
-ZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZS5pbiBiL01ha2VmaWxlLmluCi1pbmRl
-eCA2MzFkMzFkLi4xMDNkNGQxIDEwMDY0NAoraW5kZXggNjI5Y2I3ZS4uNDM2OGEzZiAxMDA2NDQK
-IC0tLSBhL01ha2VmaWxlLmluCiArKysgYi9NYWtlZmlsZS5pbgotQEAgLTExMCw3ICsxMTAsNyBA
-QCBzb2NhdDogc29jYXQubyBsaWJ4aW8uYQorQEAgLTExMiw3ICsxMTIsNyBAQCBzb2NhdDogc29j
-YXQubyBsaWJ4aW8uYQogIAkkKENDKSAkKENGTEFHUykgJChMREZMQUdTKSAtbyAkQCBzb2NhdC5v
-IGxpYnhpby5hICQoQ0xJQlMpCiAgCiAgcHJvY2FuLm86ICQoc3JjZGlyKS9wcm9jYW4uYwpAQCAt
-NDQsNyArNDQsNyBAQCBpbmRleCA2MzFkMzFkLi4xMDNkNGQxIDEwMDY0NAogIAogIFBST0NBTl9P
-QkpTPXByb2Nhbl9tYWluLm8gcHJvY2FuLm8gcHJvY2FuLWNkZWZzLm8gaG9zdGFuLm8gZXJyb3Iu
-byBzeWNscy5vIHN5c3V0aWxzLm8gdXRpbHMubyB2c25wcmludGZfci5vIHNucHJpbnRlcnIubwog
-IHByb2NhbjogJChQUk9DQU5fT0JKUykKLUBAIC0xMzIsOSArMTMyLDkgQEAgaW5zdGFsbDogcHJv
-Z3MgJChzcmNkaXIpL2RvYy9zb2NhdC4xCitAQCAtMTM0LDkgKzEzNCw5IEBAIGluc3RhbGw6IHBy
-b2dzICQoc3JjZGlyKS9kb2Mvc29jYXQuMQogIAlta2RpciAtcCAkKERFU1RESVIpJChCSU5ERVNU
-KQogIAkkKElOU1RBTEwpIC1tIDc1NSBzb2NhdCAkKERFU1RESVIpJChCSU5ERVNUKS9zb2NhdDEK
-ICAJbG4gLXNmIHNvY2F0MSAkKERFU1RESVIpJChCSU5ERVNUKS9zb2NhdApAQCAtNTcsNiArNTcs
-MyBAQCBpbmRleCA2MzFkMzFkLi4xMDNkNGQxIDEwMDY0NAogIAkkKElOU1RBTEwpIC1tIDc1NSBw
-cm9jYW4gJChERVNURElSKSQoQklOREVTVCkKICAJJChJTlNUQUxMKSAtbSA3NTUgZmlsYW4gJChE
-RVNURElSKSQoQklOREVTVCkKICAJbWtkaXIgLXAgJChERVNURElSKSQoTUFOREVTVCkvbWFuMQot
-LS0gCi0yLjI1LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9zb2Nh
-dC9zb2NhdF8xLjguMS4xLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9zb2NhdC9zb2Nh
-dF8xLjguMS4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvc29jYXQvc29jYXRfMS44LjEuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWNvbm5lY3Rpdml0eS9zb2NhdC9zb2NhdF8xLjguMS4yLmJiCmluZGV4IGU2NjJjNzlhNzUu
-LjIwNWFmMDdiZTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvc29jYXQv
-c29jYXRfMS44LjEuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3NvY2F0L3Nv
-Y2F0XzEuOC4xLjIuYmIKQEAgLTEzLDcgKzEzLDcgQEAgU1JDX1VSSSA9ICJodHRwOi8vd3d3LmRl
-c3QtdW5yZWFjaC5vcmcvc29jYXQvZG93bmxvYWQvc29jYXQtJHtQVn0udGFyLmJ6MiBcCiAgICAg
-ICAgICAgIGZpbGU6Ly8wMDAxLWZpeC1jb21waWxlLXByb2Nhbi5jLWZhaWxlZC5wYXRjaCBcCiAi
-CiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1ZWJjNjM2YjdmNDI3MDUzZjk4ODA2Njk2NTIxNjUz
-YTYxNGM3ZTA2NDY0OTEwMzUzY2JmNTRlMjMyN2FkYzFiIgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
-IjBlMWI3ZWFjMGM2ZTNkNmZhNGQ1NWI2M2M3ZmNkZGYwM2Y0YTJlYWE1OWZhOTNiMWYzMGRjMmM3
-M2Q0MmFhMGQiCiAKIGluaGVyaXQgYXV0b3Rvb2xzCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IEZyaSwgMjYgSnVuIDIwMjYgMDU6NDM6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+eHBhdDogdXBncmFkZSAyLjguMSAtPiAyLjguMgoKLS0tCiBtZXRhL3JlY2lwZXMtY29yZS9leHBh
+dC97ZXhwYXRfMi44LjEuYmIgPT4gZXhwYXRfMi44LjIuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNv
+cmUvZXhwYXQve2V4cGF0XzIuOC4xLmJiID0+IGV4cGF0XzIuOC4yLmJifSAoOTIlKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuOC4xLmJiIGIvbWV0YS9yZWNp
+cGVzLWNvcmUvZXhwYXQvZXhwYXRfMi44LjIuYmIKc2ltaWxhcml0eSBpbmRleCA5MiUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi44LjEuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuOC4yLmJiCmluZGV4IGZhNDhkNDJiZjguLjBi
+OWRiZTE2MWIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuOC4x
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuOC4yLmJiCkBAIC0xNSw3
+ICsxNSw3IEBAIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkL1JfJHtWRVJT
+SU9OX1RBR30vZXhwYXQtJHtQVn0udGFyLmJ6MiAgXAogR0lUSFVCX0JBU0VfVVJJID0gImh0dHBz
+Oi8vZ2l0aHViLmNvbS9saWJleHBhdC9saWJleHBhdC9yZWxlYXNlcy8iCiBVUFNUUkVBTV9DSEVD
+S19SRUdFWCA9ICJyZWxlYXNlcy90YWcvUl8oP1A8cHZlcj4uKykiCiAKLVNSQ19VUklbc2hhMjU2
+c3VtXSA9ICJmNTgzM2RkMmUxY2Q3NzM5ZWM5MTgyODA0YTFhMjljNGYwY2M3YzJmMjZiNjMzZDNh
+MjE4OGI3NzY2YTg4ZWNiIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjY5ZTdmNTI0MTdkODViMWMy
+YjdmZTg1NWUxNzZlZWM1NWQwYjJkN2Q5MmQ2OTEzNzJkODMzYTFjN2RmNzkyM2IiCiAKIEVYVFJB
+X09FQ01BS0U6Y2xhc3MtbmF0aXZlICs9ICItREVYUEFUX0JVSUxEX0RPQ1M9T0ZGIgogCi0tIAoy
+LjQ3LjEKCg==
 
---===============7203467589731749061==
+--===============8704546177783317755==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/socat: SRC_URI changed from "http://www.dest-unreach.org/socat/download/socat-1.8.1.1.tar.bz2 file://0001-fix-compile-procan.c-failed.patch" to "http://www.dest-unreach.org/socat/download/socat-1.8.1.2.tar.bz2 file://0001-fix-compile-procan.c-failed.patch"
-packages/x86-64-v3-poky-linux/socat: PKGV changed from 1.8.1.1 [default] to 1.8.1.2 [default]
-packages/x86-64-v3-poky-linux/socat: PV changed from "1.8.1.1" to "1.8.1.2"
-packages/x86-64-v3-poky-linux/socat/socat-dbg: PKGSIZE changed from 2091504 to 2091376 (-0%)
-packages/x86-64-v3-poky-linux/socat/socat-dbg: PKGV changed from 1.8.1.1 [default] to 1.8.1.2 [default]
-packages/x86-64-v3-poky-linux/socat/socat-dbg: PV changed from "1.8.1.1" to "1.8.1.2"
-packages/x86-64-v3-poky-linux/socat/socat-dev: PKGV changed from 1.8.1.1 [default] to 1.8.1.2 [default]
-packages/x86-64-v3-poky-linux/socat/socat-dev: PV changed from "1.8.1.1" to "1.8.1.2"
-packages/x86-64-v3-poky-linux/socat/socat-doc: PKGV changed from 1.8.1.1 [default] to 1.8.1.2 [default]
-packages/x86-64-v3-poky-linux/socat/socat-doc: PV changed from "1.8.1.1" to "1.8.1.2"
-packages/x86-64-v3-poky-linux/socat/socat-locale: PKGV changed from 1.8.1.1 [default] to 1.8.1.2 [default]
-packages/x86-64-v3-poky-linux/socat/socat-locale: PV changed from "1.8.1.1" to "1.8.1.2"
-packages/x86-64-v3-poky-linux/socat/socat-src: PKGSIZE changed from 1309149 to 1309167 (+0%)
-packages/x86-64-v3-poky-linux/socat/socat-src: FILELIST: directory renamed /usr/src/debug/socat/1.8.1.1 -> /usr/src/debug/socat/1.8.1.2
-packages/x86-64-v3-poky-linux/socat/socat-src: PKGV changed from 1.8.1.1 [default] to 1.8.1.2 [default]
-packages/x86-64-v3-poky-linux/socat/socat-src: PV changed from "1.8.1.1" to "1.8.1.2"
-packages/x86-64-v3-poky-linux/socat/socat-staticdev: PKGV changed from 1.8.1.1 [default] to 1.8.1.2 [default]
-packages/x86-64-v3-poky-linux/socat/socat-staticdev: PV changed from "1.8.1.1" to "1.8.1.2"
-packages/x86-64-v3-poky-linux/socat/socat: PKGV changed from 1.8.1.1 [default] to 1.8.1.2 [default]
-packages/x86-64-v3-poky-linux/socat/socat: PV changed from "1.8.1.1" to "1.8.1.2"
+packages/x86-64-v3-poky-linux/expat/expat-bin: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
+packages/x86-64-v3-poky-linux/expat/expat-bin: PV changed from "2.8.1" to "2.8.2"
+packages/x86-64-v3-poky-linux/expat/expat-dbg: FILELIST: removed "/usr/lib/.debug/libexpat.so.1.12.1", added "/usr/lib/.debug/libexpat.so.1.12.2"
+packages/x86-64-v3-poky-linux/expat/expat-dbg: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
+packages/x86-64-v3-poky-linux/expat/expat-dbg: PV changed from "2.8.1" to "2.8.2"
+packages/x86-64-v3-poky-linux/expat/expat-dbg: PKGSIZE changed from 1731216 to 1784736 (+3%)
+packages/x86-64-v3-poky-linux/expat/expat-dev: FILELIST: directory renamed /usr/lib/cmake/expat-2.8.1 -> /usr/lib/cmake/expat-2.8.2
+packages/x86-64-v3-poky-linux/expat/expat-dev: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
+packages/x86-64-v3-poky-linux/expat/expat-dev: PV changed from "2.8.1" to "2.8.2"
+packages/x86-64-v3-poky-linux/expat/expat-dev: PKGSIZE changed from 67193 to 67198 (+0%)
+packages/x86-64-v3-poky-linux/expat/expat-doc: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
+packages/x86-64-v3-poky-linux/expat/expat-doc: PV changed from "2.8.1" to "2.8.2"
+packages/x86-64-v3-poky-linux/expat/expat-doc: PKGSIZE changed from 113683 to 118263 (+4%)
+packages/x86-64-v3-poky-linux/expat/expat-locale: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
+packages/x86-64-v3-poky-linux/expat/expat-locale: PV changed from "2.8.1" to "2.8.2"
+packages/x86-64-v3-poky-linux/expat/expat-ptest: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
+packages/x86-64-v3-poky-linux/expat/expat-ptest: PV changed from "2.8.1" to "2.8.2"
+packages/x86-64-v3-poky-linux/expat/expat-ptest: PKGSIZE changed from 534624 to 538720 (+1%)
+packages/x86-64-v3-poky-linux/expat/expat-src: FILELIST: directory renamed /usr/src/debug/expat/2.8.1/tests/benchmark -> /usr/src/debug/expat/2.8.2/tests/benchmark, directory renamed /usr/src/debug/expat/2.8.1/xmlwf -> /usr/src/debug/expat/2.8.2/xmlwf, directory renamed /usr/src/debug/expat/2.8.1/tests -> /usr/src/debug/expat/2.8.2/tests, removed "/usr/src/debug/expat/2.8.1/lib/nametab.h /usr/src/debug/expat/2.8.1/lib/random_arc4random.c /usr/src/debug/expat/2.8.1/lib/xmltok.c /usr/src/debug/expat/2.8.1/lib/siphash.h /usr/src/debug/expat/2.8.1/lib/internal.h /usr/src/debug/expat/2.8.1/lib/xmltok.h /usr/src/debug/expat/2.8.1/lib/expat.h /usr/src/debug/expat/2.8.1/lib/random_getentropy.c /usr/src/debug/expat/2.8.1/lib/xmlrole.h /usr/src/debug/expat/2.8.1/lib/random_getrandom.c /usr/src/debug/expat/2.8.1/lib/xmlrole.c /usr/src/debug/expat/2.8.1/lib/xmlparse.c /usr/src/debug/expat/2.8.1/lib/expat_external.h /usr/src/debug/expat/2.8.1/lib/random_arc4random_buf.c /usr/src/debug/expat/2.8.1
+ /lib/xmltok_impl.c /usr/src/debug/expat/2.8.1/lib/random_arc4random_buf.h /usr/src/debug/expat/2.8.1/lib/xmltok_impl.h /usr/src/debug/expat/2.8.1/lib/xmltok_ns.c /usr/src/debug/expat/2.8.1/lib/random_dev_urandom.c", added "/usr/src/debug/expat/2.8.2/lib/nametab.h /usr/src/debug/expat/2.8.2/lib/random_arc4random.c /usr/src/debug/expat/2.8.2/lib/xmltok.c /usr/src/debug/expat/2.8.2/lib/siphash.h /usr/src/debug/expat/2.8.2/lib/internal.h /usr/src/debug/expat/2.8.2/lib/xmltok.h /usr/src/debug/expat/2.8.2/lib/expat.h /usr/src/debug/expat/2.8.2/lib/random_getentropy.c /usr/src/debug/expat/2.8.2/lib/xmlrole.h /usr/src/debug/expat/2.8.2/lib/random_getrandom.c /usr/src/debug/expat/2.8.2/lib/xmlrole.c /usr/src/debug/expat/2.8.2/lib/xmlparse.c /usr/src/debug/expat/2.8.2/lib/expat_external.h /usr/src/debug/expat/2.8.2/lib/xcsinc.c /usr/src/debug/expat/2.8.2/lib/random_arc4random_buf.c /usr/src/debug/expat/2.8.2/lib/xmltok_impl.c /usr/src/debug/expat/2.8.2/lib/random_arc4random_buf.h /usr/src/deb
+ ug/expat/2.8.2/lib/xmltok_impl.h /usr/src/debug/expat/2.8.2/lib/xmltok_ns.c"
+packages/x86-64-v3-poky-linux/expat/expat-src: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
+packages/x86-64-v3-poky-linux/expat/expat-src: PV changed from "2.8.1" to "2.8.2"
+packages/x86-64-v3-poky-linux/expat/expat-src: PKGSIZE changed from 1342883 to 1353198 (+1%)
+packages/x86-64-v3-poky-linux/expat/expat-staticdev: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
+packages/x86-64-v3-poky-linux/expat/expat-staticdev: PV changed from "2.8.1" to "2.8.2"
+packages/x86-64-v3-poky-linux/expat/expat: FILELIST: removed "/usr/lib/libexpat.so.1.12.1", added "/usr/lib/libexpat.so.1.12.2"
+packages/x86-64-v3-poky-linux/expat/expat: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
+packages/x86-64-v3-poky-linux/expat/expat: PV changed from "2.8.1" to "2.8.2"
+packages/x86-64-v3-poky-linux/expat: PKGV changed from 2.8.1 [default] to 2.8.2 [default]
+packages/x86-64-v3-poky-linux/expat: PV changed from "2.8.1" to "2.8.2"
+packages/x86-64-v3-poky-linux/expat: SRC_URI changed from "https://github.com/libexpat/libexpat/releases//download/R_2_8_1/expat-2.8.1.tar.bz2 file://run-ptest" to "https://github.com/libexpat/libexpat/releases//download/R_2_8_2/expat-2.8.2.tar.bz2 file://run-ptest"
+Changes to packages/x86-64-v3-poky-linux/expat (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.12.1 to libexpat.so.1.12.2
+  /usr/lib/cmake/expat-2.8.1 moved to /usr/lib/cmake/expat-2.8.2
+  /usr/lib/libexpat.so.1.12.1 moved to /usr/lib/libexpat.so.1.12.2
+Changes to packages/x86_64-linux/expat-native (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.12.1 to libexpat.so.1.12.2
+  /usr/lib/cmake/expat-2.8.1 moved to /usr/lib/cmake/expat-2.8.2
+  /usr/lib/libexpat.so.1.12.1 moved to /usr/lib/libexpat.so.1.12.2
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.8800.2 to libgio-2.0.so.0.8800.1
+  /usr/lib/libgirepository-2.0.so.0 changed symlink target from libgirepository-2.0.so.0.8800.2 to libgirepository-2.0.so.0.8800.1
+  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.8800.2 to libglib-2.0.so.0.8800.1
+  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.8800.2 to libgmodule-2.0.so.0.8800.1
+  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.8800.2 to libgobject-2.0.so.0.8800.1
+  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.8800.2 to libgthread-2.0.so.0.8800.1
+  /usr/lib/libgio-2.0.so.0.8800.2 moved to /usr/lib/libgio-2.0.so.0.8800.1
+  /usr/lib/libgirepository-2.0.so.0.8800.2 moved to /usr/lib/libgirepository-2.0.so.0.8800.1
+  /usr/lib/libglib-2.0.so.0.8800.2 moved to /usr/lib/libglib-2.0.so.0.8800.1
+  /usr/lib/libgmodule-2.0.so.0.8800.2 moved to /usr/lib/libgmodule-2.0.so.0.8800.1
+  /usr/lib/libgobject-2.0.so.0.8800.2 moved to /usr/lib/libgobject-2.0.so.0.8800.1
+  /usr/lib/libgthread-2.0.so.0.8800.2 moved to /usr/lib/libgthread-2.0.so.0.8800.1
 
---===============7203467589731749061==--
+--===============8704546177783317755==--
 
