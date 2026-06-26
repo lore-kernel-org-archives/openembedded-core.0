@@ -1,165 +1,200 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26535C43458
-	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 15:26:08 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.37524.1782487565244040612
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4285EC43458
+	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 15:43:38 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38124.1782488615635582152
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2026 08:26:05 -0700
+ Fri, 26 Jun 2026 08:43:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=viIFc/s5;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49241dbf9c1so9657385e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 08:26:05 -0700 (PDT)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=K3t6h83j;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=Z6/0EFSW;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65QF453U1470032
+	for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 15:43:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=1IYkWDts1PRRxDoKpSvSpUp3
+	x1EGqMKPsGimxJJAWn4=; b=K3t6h83jhzV16SG2NU81+dQB2t9MaAQObEJ6lU1y
+	x3gQxzxBOnUoJAOhJjvW6FyLFQzjsSc4pTrb1TEQhGaAHBhV4bp/35KWfg3w5Rvs
+	FerL6rs0Wz4vGdilCyTUBrQhs84D2MhT6yE3jnupaX0BScC7wdFUtZCE5s42cLqF
+	obgPuvMCIJJcTI/jmxSFjNjiEXrOlYazr45ev6Bpe6ueiRVJDNybdag5/cl/Yo7r
+	dE/t0klMBuJyCNc2x/cOPK2NIMVelnMboz/u/v5f3npNVpvGJ4408FEcnYJFIrRI
+	rFW8+hhPXYvdSogDA6VcwnulUsYg9ixzX7PVpj656aKzxA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f1eeqbee2-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 15:43:34 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-9254309dfd4so227824185a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 08:43:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782487563; x=1783092363; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A7tbhzwOigAxoR12g77YLW6+wlo6QFeuG8EKNDq5Zv8=;
-        b=viIFc/s5RywVWpVv34JLeaVDcAAZPZ2hubJfXPoL/nWKbdLIsqy/PyPm0MbyOsilte
-         VXJKW7bnqYBhN4AOfAQ6Bf86biEiwrfSirD5NVCOGmwfmWxjT6hHLOWj5EuKqEnAKJOb
-         LvUoUmhf3y2MFckwFyCth+guGpvmzOJHle/Nw=
+        d=oss.qualcomm.com; s=google; t=1782488613; x=1783093413; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1IYkWDts1PRRxDoKpSvSpUp3x1EGqMKPsGimxJJAWn4=;
+        b=Z6/0EFSWChC6XPtocYdPkVUE6qB3K/a1JtUSkPKPmaMvNCvHoJ8yBht8sFowG0YyI1
+         18HBs1OzcdCbpQ4j/DIAasO1EGdDD4JghsVeCyOwitzX7F9nGzuwnPmFgTU4V6GCC6Fp
+         ibkBmDaB0QlNqvPXXd9Ch6DNqoFTCSwQjeinxJj1yXtPbNHMH6DzJwMoNI2fDcQu4JHe
+         fWH3XfvVWWy56kLNvBFJtWfCHr2InabccG3hfJX1tWq7z42TmNnBUiUIkavTkVZSqT7D
+         GxegeYx7ccgCjMiWSqT1QpVX03i5OmFb9sh2lncQK/8hrWpkqGKQvDKDyxQFgq3H4IEg
+         mZvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782487563; x=1783092363;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=A7tbhzwOigAxoR12g77YLW6+wlo6QFeuG8EKNDq5Zv8=;
-        b=dK8Px1lxNj3PsbPyxEgcMwtrvYCULKuDpeKA7iiu8BcBLlRTZsTE4bTBo0l0QI4S4q
-         P3wjel7oI6OuOCYB/tLlSby6/sVc/TLcfdNdDMRYD/MXsd6rtzjEv0cWMyR3MG6hKH9u
-         8JhHvMz+QJ/7VU7ouKMCw3lf8LOoJfxywkOg35CjkbLz/tCVwNIhi9rhwpEp1Fm6k8YU
-         HHdbZVYbIw4EgypGMc7/4Yrb5tYMSWN3U5dLbJkzOLT6UIp2wW1rujeey5zk2HOa171i
-         zgltfD1+fljY+b6/RzwFLA+4QWJmuqYMXPGgGjgWANwlLAt+YuksfkCdtFwaXpJl0mNC
-         vJFw==
-X-Gm-Message-State: AOJu0Yxp+yXOHmnsA54+pj2yN8pd0o5UkJaRNnDGem6NIQSi0mYgQKfA
-	P9WcMn7QnMXXVhXT8DXq3pd2twMG/CTgYMBJ6WdESSA1Ut7vDs42TrFeFiPAJos3BFA=
-X-Gm-Gg: AfdE7cmwd/FTMz8UfsirXna5h9DqeSUnIPI5rnyXeEfVSJsepVjc+1FijAOGQ6YFKaS
-	iOPQxIAm/Bglo4U+KJhl5HYzadOrHTtYYOJJu990BLWFwIxQQLMlrF0u/u6HKmnvnmjTDrq2Agb
-	KzU65K3gUS4f5F3XdQtDlX+vgCIBLSfSaIJ//42qleqG5+Yei6Ro4BTfUi7w+q2NLse9S69GO8X
-	OS3tA3HTxCs1y+BfBxXuAMRTW0gN1zKVCGRrYhH83ydFj/2QUfQ75qV272583jXMRju6bbcUtZZ
-	9gJ7lQNaYKLp+9l7aQU8VHUuAXEd5K43j3z5AHmWLEl8QOFhDAeCF5KqEuWBBaEskHBKEhZIdbx
-	E3V3N770m4HzGOb+f9IRCeT6ds2JkrBAFTXRyiy2iSPjqQ3pMx7z5e/yosYT4Kn/K61yK/5SrHb
-	hQP1WP1W7dy3LO5EmD7kmmXAfRiPzl3cSE/9qFWZ60AN+vssmSAvTIVNlNa5boEn3nLJH0I0ZU4
-	+iXbpFieQcNkSM2
-X-Received: by 2002:a05:600d:8499:10b0:490:e196:6574 with SMTP id 5b1f17b1804b1-49266864b4cmr84503165e9.13.1782487563378;
-        Fri, 26 Jun 2026 08:26:03 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00dc663d106f146c8c.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:dc66:3d10:6f14:6c8c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49268ff1be9sm86541655e9.8.2026.06.26.08.26.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jun 2026 08:26:03 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 26 Jun 2026 17:26:02 +0200
-Message-Id: <DJJ33TR36YJC.24WW5E1PX60Z2@smile.fr>
-Subject: Re: [PATCH RFC 0/3] RFC: Fixing rust segfault (#16058) to support
- Ubuntu 26.04 on Scarthgap
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <openembedded-core@lists.openembedded.org>, <ccasciato@21sw.us>,
- <paul@pbarker.dev>, <randy.macleod@windriver.com>, <ross.burton@arm.com>,
- <sundeep.kokkonda@windriver.com>, <SunilKumar.Dora@windriver.com>,
- "Alexander Kanavin" <alex@linutronix.de>, "Richard Purdie"
- <richard.purdie@linuxfoundation.org>
-To: "Alexander Kanavin" <alex.kanavin@gmail.com>
-X-Mailer: aerc 0.20.0
-References: <20260626-ycongal-scarthgap-rust-segfault-v1-0-97df64b7b298@smile.fr> <CANNYZj81E4G9gSBPHNNsxg4JiJ_wEnmCoSkNdQ2bzJBjF5q=DA@mail.gmail.com>
-In-Reply-To: <CANNYZj81E4G9gSBPHNNsxg4JiJ_wEnmCoSkNdQ2bzJBjF5q=DA@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1782488613; x=1783093413;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1IYkWDts1PRRxDoKpSvSpUp3x1EGqMKPsGimxJJAWn4=;
+        b=S/HV3PVPg7K5WHIX/1ToUjeKqQehcHWAt9AMG9LKH/PC3plO+BSFscFroGl9OeOVN8
+         QP235gkfLqHh0qBKRjtMCDYl7ty3zsadiavW4FSKlHrGS0SsAtXLn9cipdPkQfJgIwkd
+         xBkaooOQuvPA15my4FAtPkGzBZdV2ojbYAOGX7n0+N59Nh+dd/vpX/Jd6TnYpWGLfXNs
+         MoVpj3B06mFJmWuGLyRLFmwNau9YOnR2L13iRMpFyInrQX2wQaQWAuV/lGIjJ3nBnXig
+         8UM/218pt+dts6XyNHNntgT/BYWjOfmY6EdPRtLd/ldfFe5NehaNCMAMS3Hhs40vj1c4
+         azFw==
+X-Gm-Message-State: AOJu0YxhmbFom1dTCzmOW0A8wzx8qJMe7gW8RTX/AUI8TpMLTPDq/HIk
+	UsaQ6EZLLCOyl9+ORGWe8FFGRDUgeHq/17BHXWMrF00FvUES7tAI5xXs1kjTDC4IfWT3OLvds63
+	EVm20fKCKiuDxi0SXo0KJcy3uVES2d5XwLK4OQVxMFZ6NX0H4XRSlXs66Idir6R1s8+YAWd7LoR
+	/z0G545VY=
+X-Gm-Gg: AfdE7cniZJhG8K/EAKY5m6JLz4h3KugOM388RV4ALAg+V9akP6ZRzH4pa2pbrsb0VPQ
+	zSluJyE6qQieTdHqsBMnRGr0WJk96FivXeMkm6VjawgAZsw/O79crFEinGlMvwUFR1YPWHnv9tp
+	/7psW3+aoP0KLf+rZ4B21SgM6iyjtJlhR/v3kBwTkyIk8HdzDvG3EqY85wxS1IeOcSq+iYChQkp
+	0reOEAY6a3Tmm7OF+qopIMYZvWicl+iHAIdzzCmvVM6y4bWx/dK5A9Ctspjm1Qxugx6IAutDHjo
+	IweZMIbvA5jHllV0/oJlWIyP+gE7w+APrJxuEE8EP2xXqo0P0GD1FMWjwGABEnPd1dK+ehpw1AF
+	teqU6zAk+uDAPetUyxitXaqUSXTbxOTmvjy79M2AhX16aRKWpPssClPq+gTKJR3X6FKeogZ3FKO
+	C9eC8u5CGY3ep3d/0/kYCcJkX1
+X-Received: by 2002:a05:620a:31a7:b0:92b:4ce5:6391 with SMTP id af79cd13be357-92b4ce5758emr143154585a.15.1782488613367;
+        Fri, 26 Jun 2026 08:43:33 -0700 (PDT)
+X-Received: by 2002:a05:620a:31a7:b0:92b:4ce5:6391 with SMTP id af79cd13be357-92b4ce5758emr143150585a.15.1782488612732;
+        Fri, 26 Jun 2026 08:43:32 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ae9f2e420csm1723240e87.46.2026.06.26.08.43.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2026 08:43:31 -0700 (PDT)
+Date: Fri, 26 Jun 2026 18:43:29 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vivek Puar <vpuar@qti.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] linux-firmware: upgrade 20260519 -> 20260622
+Message-ID: <b3n7cj5acxqtu6ddhvegwantzaifuqqucp3insbgf7jou7wefn@xty3iofctcb5>
+References: <20260624035302.2472686-1-vpuar@qti.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260624035302.2472686-1-vpuar@qti.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDEyOSBTYWx0ZWRfX19bQKLo6xzSc
+ h/tJ+pJpsvTNAPWH2H1X41qQIEv2XykvApb8L4KsLcZNbOuYpi3XEDCpaJAFsvIo9xzxgnMudrX
+ xQeeqftAwwsGNbeo/YdU8KfHStFK77pyN/R3JcrZY9m+vmpzBuFHWOsBt4fuzYCb5BdJPNqxb2D
+ 6fIjQB/rvNUMs5Ho8iuEnMXRGH+dhW3kX7bT7Lfz9RSMA2+5X4Z2z4yZRXmiR41sTmkOLBJuzMZ
+ CUSoAGB45dxiugCTRoflaYXESTqenn9SFzxFo+Mudgi8RskdAKDLvTMv40YCZMHVEq2KYqQ8Bcm
+ y1rKgiX1C8DEB1WN8TCTXZB5yg7J+Srue7fY3bg8ocqLmBkD5A69KFVW0Gea9OGO0qGj7hHWkNd
+ L2WHBP7nbMZQWRATVqXCIM4JdXLP8uk8UWHdB2tPb57IpBHrZULJ0x6rbvquUPev5sJ4KewtJKH
+ UeTRSpK5HKsFbYwkxkg==
+X-Proofpoint-ORIG-GUID: 4KOBXxyPEfLAr2_zw62CoYgh-UHVv1O_
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDEyOSBTYWx0ZWRfX5pYUyIRNrn0U
+ 0zrTEWYBJEMeXVM11nq9TCLudq1F+Ctym/xn4wYW0nUmQoOE1g1jq5a2EEM9g4v0O/OYNOuKyKU
+ MAMbh4GkBexjMDe+6pKuBoTNmdOv1bE=
+X-Proofpoint-GUID: 4KOBXxyPEfLAr2_zw62CoYgh-UHVv1O_
+X-Authority-Analysis: v=2.4 cv=MLpQXsZl c=1 sm=1 tr=0 ts=6a3e9e26 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8
+ a=y1JxGrKy7lSW6rs6uzwA:9 a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-26_03,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 spamscore=0 clxscore=1015 suspectscore=0
+ bulkscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606260129
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 15:26:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239650
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 15:43:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239651
 
-On Fri Jun 26, 2026 at 4:57 PM CEST, Alexander Kanavin wrote:
-> On Fri, 26 Jun 2026 at 13:38, Yoann Congal <yoann.congal@smile.fr> wrote:
->> I've hacked the backport until it passes testing:
->> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4085
->> ... but I'm really *NOT* sure this is the right approach. Hence this RFC
->> with the patches I ended-up with.
->>
->> If anyone could check/review/improve these patches to help me get them
->> to a mergable state, that'd be nice. Otherwise, I would have no other
->> choice than never support Ubuntu 26.04 on Scarthgap.
->
-> I had a quick look, and they're basically ok.
->
-> The key check is to run ldd on the rust-native pieces and confirm that
-> they indeed start linking libLLVM*so dynamically after the patches (if
-> it comes from rust-llvm, it's probably named differently). E.g. on my
-> master build:
->
-> alex@Zen2:/srv/storage/alex/yocto/build-64-alt$ ldd
-> tmp/sysroots-components/x86_64/rust-native/usr/lib/librustc_driver-5e2c75=
-e9f7705310.so
->     linux-vdso.so.1 (0x00007f8f929d0000)
->     libLLVM.so.22.1 =3D> not found
->     libstdc++.so.6 =3D> /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f8f8=
-ca00000)
->
-> alex@Zen2:/srv/storage/alex/yocto/build-64-alt$ ldd
-> tmp/sysroots-components/x86_64/rust-native/usr/bin/rustc
->     linux-vdso.so.1 (0x00007f3eee009000)
->     librustc_driver-5e2c75e9f7705310.so =3D>
-> /srv/storage/alex/yocto/build-64-alt/tmp/sysroots-components/x86_64/rust-=
-native/usr/bin/../lib/librustc_driver-5e2c75e9f7705310.so
-> (0x00007f3ee8400000)
->     libc.so.6 =3D> /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3ee820c000)
->     libLLVM.so.22.1 =3D> not found
->     libstdc++.so.6 =3D> /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f3ee=
-7e00000)
+On Wed, Jun 24, 2026 at 09:23:02AM +0530, Vivek Puar wrote:
+> Upgrade the firmware package to latest release. Add RCA firmware for
+> tas257x, add firmware for NXP IW61x SDIO WiFi device, bluetooth firmware
+> for NFA725B (QCA2066), add BCS calibration firmware for QCC2072. Add gpu,
+> audio and modem packages for QCOM shikra board.
+> 
+> Firmware licenses and few that are not at the top level (qca/NOTICE.txt,
+> qcom/NOTICE.txt, wfx/LICENCE.wf200) are moved to a LICENSES directory as
+> per the REUSE specification. Update LIC_FILES_CHKSUM, NO_GENERIC_LICENSE
+> and do_install accordingly. Remove REMOVE_UNLICENSED entries for firmware
+> files that were deleted upstream.
+> 
+> Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  ...20260519.bb => linux-firmware_20260622.bb} | 574 +++++++++---------
+>  1 file changed, 286 insertions(+), 288 deletions(-)
+>  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260519.bb => linux-firmware_20260622.bb} (87%)
+> 
+> @@ -750,7 +716,8 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+>               ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute \
+>               ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
+>               ${PN}-qcom-sdx35-foxconn-firehose ${PN}-qcom-sdx61-foxconn-firehose \
+> -             ${PN}-qcom-shikra-compute ${PN}-qcom-shikra-qupv3fw \
+> +             ${PN}-qcom-shikra-adreno ${PN}-qcom-shikra-compute ${PN}-qcom-shikra-audio \
 
-Ok! So that looks good, because with the patches I get:
-$ ldd tmp/sysroots-components/x86_64/rust-native/usr/bin/rustc
-	linux-vdso.so.1 (0x00007ffc06548000)
-	librustc_driver-686d20105d1a2cf7.so =3D> $BUILD/tmp/sysroots-components/x8=
-6_64/rust-native/usr/bin/../lib/librustc_driver-686d20105d1a2cf7.so (0x0000=
-7fcec0a00000)
-	libstd-64729a5a222c378b.so =3D> $BUILD/tmp/sysroots-components/x86_64/rust=
--native/usr/bin/../lib/libstd-64729a5a222c378b.so (0x00007fcec08c0000)
-	libc.so.6 =3D> /lib/x86_64-linux-gnu/libc.so.6 (0x00007fcec06de000)
-	libLLVM-17.so =3D> not found
-	libstdc++.so.6 =3D> /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007fcec04000=
-00)
-	libgcc_s.so.1 =3D> /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007fcec4d63000=
-)
-	libm.so.6 =3D> /lib/x86_64-linux-gnu/libm.so.6 (0x00007fcec0320000)
-	$BUILD/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 =3D> /=
-lib64/ld-linux-x86-64.so.2 (0x00007fcec4d98000)
+Keep the line sorted.
 
-And even: $ oe-run-native rust-native /bin/ldd $BUILD/tmp/work/x86_64-linux=
-/rust-native/1.75.0/recipe-sysroot-native/usr/bin/rustc
-Getting sysroot...
-	linux-vdso.so.1 (0x00007ffd807b1000)
-	librustc_driver-686d20105d1a2cf7.so =3D> $BUILD/tmp/work/x86_64-linux/rust=
--native/1.75.0/recipe-sysroot-native/usr/bin/../lib/librustc_driver-686d201=
-05d1a2cf7.so (0x00007f9ab0800000)
-	libstd-64729a5a222c378b.so =3D> $BUILD/tmp/work/x86_64-linux/rust-native/1=
-.75.0/recipe-sysroot-native/usr/bin/../lib/libstd-64729a5a222c378b.so (0x00=
-007f9ab06c0000)
-	libc.so.6 =3D> /lib/x86_64-linux-gnu/libc.so.6 (0x00007f9ab04de000)
-	libLLVM-17.so =3D> $BUILD/tmp/work/x86_64-linux/rust-native/1.75.0/recipe-=
-sysroot-native/usr/bin/../lib/./libLLVM-17.so (0x00007f9aab000000)
-	libstdc++.so.6 =3D> /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f9aaac000=
-00)
-	libgcc_s.so.1 =3D> /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f9ab04be000=
-)
-	libm.so.6 =3D> /lib/x86_64-linux-gnu/libm.so.6 (0x00007f9ab03de000)
-	$BUILD/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 =3D> /=
-lib64/ld-linux-x86-64.so.2 (0x00007f9ab4ae2000)
+> +             ${PN}-qcom-shikra-modem ${PN}-qcom-shikra-qupv3fw \
+>               ${PN}-qcom-sm8150-adreno \
+>               ${PN}-qcom-sm8250-adreno ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
+>               ${PN}-qcom-sm8250-thundercomm-rb5-sensors \
+> @@ -2430,7 +2419,10 @@ LICENSE:${PN}-qcom-sdm845-modem = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-sdx35-foxconn-firehose = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-sdx61-foxconn-firehose = "Firmware-qcom"
+> +LICENSE:${PN}-qcom-shikra-adreno = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-shikra-compute = "Firmware-qcom-2"
+> +LICENSE:${PN}-qcom-shikra-audio = "Firmware-qcom-2"
 
-=3D> It does, in fact, dynamically link on the built libLLVM-17.so.
+audio should be between adreno and compute.
 
-Thanks!
+> +LICENSE:${PN}-qcom-shikra-modem = "Firmware-qcom-2"
+>  LICENSE:${PN}-qcom-shikra-qupv3fw = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-sm8150-adreno = "Firmware-qcom"
+>  LICENSE:${PN}-qcom-sm8250-adreno = "Firmware-qcom"
+> @@ -2594,7 +2586,10 @@ FILES:${PN}-qcom-sdm845-modem = "${firmwaredir}/qcom/sdm845/mba.mbn* ${firmwared
+>  FILES:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${firmwaredir}/qcom/sdm845/Thundercomm/db845c/slpi*.*"
+>  FILES:${PN}-qcom-sdx35-foxconn-firehose = "${firmwaredir}/qcom/sdx35/foxconn/xbl_s_devprg_ns.melf*"
+>  FILES:${PN}-qcom-sdx61-foxconn-firehose = "${firmwaredir}/qcom/sdx61/foxconn/prog_firehose_lite.elf*"
+> +FILES:${PN}-qcom-shikra-adreno = "${nonarch_base_libdir}/firmware/qcom/shikra/a704_zap.mbn*"
+>  FILES:${PN}-qcom-shikra-compute = "${firmwaredir}/qcom/shikra/cdsp*.*"
+> +FILES:${PN}-qcom-shikra-audio = "${nonarch_base_libdir}/firmware/qcom/shikra/lpaicp*.*"
 
->
-> Alex
+The same.
 
+> +FILES:${PN}-qcom-shikra-modem = "${nonarch_base_libdir}/firmware/qcom/shikra/cqs/qdsp6sw.mbn*"
+>  FILES:${PN}-qcom-shikra-qupv3fw = "${firmwaredir}/qcom/shikra/qupv3fw.elf*"
+>  FILES:${PN}-qcom-sm8150-adreno = "${firmwaredir}/qcom/sm8150/a640*.*"
+>  FILES:${PN}-qcom-sm8250-adreno = "${firmwaredir}/qcom/sm8250/a650*.*"
+> @@ -2756,7 +2751,10 @@ RDEPENDS:${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
+>  RDEPENDS:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${PN}-qcom-license"
+>  RDEPENDS:${PN}-qcom-sdx35-foxconn-firehose = "${PN}-qcom-license"
+>  RDEPENDS:${PN}-qcom-sdx61-foxconn-firehose = "${PN}-qcom-license"
+> +RDEPENDS:${PN}-qcom-shikra-adreno = "${PN}-qcom-license"
+>  RDEPENDS:${PN}-qcom-shikra-compute = "${PN}-qcom-2-license"
+> +RDEPENDS:${PN}-qcom-shikra-audio = "${PN}-qcom-2-license"
 
---=20
-Yoann Congal
-Smile ECS
+The same.
 
+> +RDEPENDS:${PN}-qcom-shikra-modem = "${PN}-qcom-2-license"
+>  RDEPENDS:${PN}-qcom-shikra-qupv3fw = "${PN}-qcom-license"
+>  RDEPENDS:${PN}-qcom-sm8150-adreno = "${PN}-qcom-license"
+>  RDEPENDS:${PN}-qcom-sm8250-adreno = "${PN}-qcom-license"
+> -- 
+> 2.34.1
+> 
+> 
+
+-- 
+With best wishes
+Dmitry
 
