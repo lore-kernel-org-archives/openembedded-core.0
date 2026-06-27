@@ -1,124 +1,127 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jan.vermaete@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44AD6C43458
-	for <webhook@archiver.kernel.org>; Sat, 27 Jun 2026 15:16:26 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2824.1782573383221719782
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60F46C43458
+	for <webhook@archiver.kernel.org>; Sat, 27 Jun 2026 15:49:26 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.58068.1782575357602524657
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Jun 2026 08:16:23 -0700
+ Sat, 27 Jun 2026 08:49:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=eE2rhMt8;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8ee88fce476so2759566d6.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2026 08:16:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782573382; cv=none;
-        d=google.com; s=arc-20260327;
-        b=CSdwFQ6l+pexN3pExMnTMNixSPoxH0zgmJZe9HPAc4hJVCr/7koR6/qw8GXwu9xCNd
-         0XKMFb/PFrsIc7dl8kf5JMHlUvana+sopk6qjZyQin3zUIg5QqXFQWgJQ6J8GUXHnPvO
-         KsIAR/DddhdYe+dudtQxERoyav5QVqW9ufPyufnMKUQKaXUXQp9iXzwCRar+nlQUJH43
-         SVEvqp+VB+9t60kUT5jQfaV9x/Zq3ve4DTsh9keJrVkoUdZ4+CKkBCz0mbsJYYXvzr9H
-         l/1/sb93rrgRYxTG9tFVVaQ9QDlKFO4viEEsD76cynOWO//l6WDDdNkh+zCnojKw4MMe
-         ae8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=G+CUFER6qJDHugf6KWD/lYo6kq1hF9gQHq3qsydSm1I=;
-        fh=ydN80OVXL/Geam8lM55wCsCwJshcesBoEk21wk6VDRQ=;
-        b=JK5v6VsHeQd0xdUUBcQ52CcBbwjAKr4Z3Z2OEnkg2q3Bui3Cel19+Pdmpfa26WJgSg
-         cmRV4hAoh0Rtn1aypBtqfu79m7XOmd4LZC2sq8EUyrueAtfmq3eDW1o5UYNKVFmlu3+T
-         +R1Tku45wd5FSr4vONmroamrCDZNLCyxzdkWoy5XKGg9mjmBipIIneT8+0Z2wdwkr6le
-         I3pqY03pCbzcGFSd7+9gBXB3uIjSQSDDE4YBp20tbg+Fmpev/du/3jKtj4CzPE6kBqnD
-         eao/BUQzNtZBlzm+1QgcT7GGlH0zxc/DCbkYvi+zSn68XinBKJ9fdsS6ROjTxDvkRqcf
-         lHrQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=rigOIjkQ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: jan.vermaete@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4926f8e02e8so9258265e9.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2026 08:49:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782573382; x=1783178182; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=G+CUFER6qJDHugf6KWD/lYo6kq1hF9gQHq3qsydSm1I=;
-        b=eE2rhMt8295rSi4l8RCHApIfbvljcwASp6NAgsk0UtOwTBAEa/vSJdozNI3Jwjv7za
-         giAMQzW/mW10aMw/MBPmDcl7Aj/wdNGgP1GjZ2TSluKgpJbrUszbcuRBqL6Z+6mwd8J4
-         L3rJm/cxW4InixY0nz/NkQPv512Hz3PuZMT/1BqgLuLnTxd/pW1arc18s5ak0AwYk8sw
-         2DzVn+rHUz5PXShkWu4JjUtBp5gC66vogjOlCsIhP1iuw2zPvfQ/Mt5QkeuxaxFgFNiu
-         qnXWjjsqFICZMPUQk49xorNagEV691d0yASkS+Co7rA/f1TxLGAxcD2f0zAMs0oTB2f0
-         vynw==
+        d=gmail.com; s=20251104; t=1782575356; x=1783180156; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EcXotzLFlfzQSjM0JKzrqaJno82a6dGnyQ6+yA3AdiQ=;
+        b=rigOIjkQMNYnq1ZZEOfupkjmGxXrsGI7Xi80mWyag4HMgiOEPbDQ7pHLvN1WDx8weW
+         18TJwD8Dr8Kq4bewavTtOyMQgUsuL9gbTfJE8f+fTFXqcdf3n90IIi22OpPN08aC77xu
+         KRAl5b5OI04+ntUBkweU3L9XhPYcZAbV/DKHDK6nOGakNv8MPPFfYmbH6TDBPV701c4+
+         kzZ6qe070iFqKUZbGOVEecBsCPNdcg2R0HkApxLXS/B4ifoesrBkFQ2UJar9a/E6FyXD
+         hQ71wNiTquZR5XESQiq2cV1T8afaFZ83KKhUFdvlwv9Od/9nyrPIDsHr/WlC/NyHb7oB
+         1FCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782573382; x=1783178182;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1782575356; x=1783180156;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G+CUFER6qJDHugf6KWD/lYo6kq1hF9gQHq3qsydSm1I=;
-        b=tLQ8Es4YYdxGAqZ2dEc8IWoS2ttPV9+o0Pvz5EVTxNv7fijRzLw+eJilJuRlzgi1J/
-         ncoyBjPpo0XgjLduFqz9JY6GK9A9Cdc0CscztMngFPe1APQrRABZ7/Snwa8H+cSvXGKm
-         SReA2WrnvUSIWIu0NQDtbak6CNx0cpqfrtkb7EYVIfJ1q+2V2A1CPpigp9tA5WDUtsYN
-         WgYixCRNoPoWkPVapw59pKjnOIHY7bAJUGXT/K79oNrT9LPAjb3rglsVVTF79OTgBkwM
-         cY+Vczt0Prjzo4ceiGZtTj6Cby4UWjLue+dWjrZ8T5rBnuZ00EYawkuMuIwQxmW/uYGN
-         qdPA==
-X-Gm-Message-State: AOJu0YyaYWs5v6DYQaqXSNEboZJfbAPbDa1aiFLXfDkpJWxe9sO4cmMV
-	2osEwbZ1CiTA4y4rn+9ehockRICznVYfyS6DNkGmn09jEmcp9SYPrR/TgFX39YPX27/Po9zFk8i
-	H4Khd7Ruf7LGX4JTDhUTSsPUR+0UPPhI=
-X-Gm-Gg: AfdE7cmJ/eLFxsXBal8IoQMoAVS47JOPSbCvWwGkX/FjDqqtZzdWEmbtpQGvt9ePVHT
-	Jq0TCnaiVCsiDbyEmtMCsSVofkknXS0j3Vo8bu3AlEiRK1jgWGhAUrOe0jwjpIRE3Mu/HCDYEyY
-	lomiIxU+k6Q0QOglJYaVsG8KdmlW2mZ4nqdyg5/pboiYLch34bJlE8i6IFeZqVQzqlc3F0jekhX
-	8AtqsQV+GMAmDffrpyNX+Uv13UI+Ai6FLm0zwgYKKrN0XqFexdlD+Z5ysCFsXmuqfd15o7F0Q==
-X-Received: by 2002:a05:6214:448c:b0:8de:b9ed:a101 with SMTP id
- 6a1803df08f44-8e6d57c200amr189149576d6.24.1782573382158; Sat, 27 Jun 2026
- 08:16:22 -0700 (PDT)
+        bh=EcXotzLFlfzQSjM0JKzrqaJno82a6dGnyQ6+yA3AdiQ=;
+        b=F0bhBwpnPjSodnyG4hJ8bZZZWqJxPhbclvtvfYVQ/ZhvEGu01RYUazq0Vr5vSJL4hI
+         HkynNrV8G099K4hMs2yARZ5bPlmE4zfKDMZLqkVObIxcQEgf9SyqeSj2ifVglhn1c/DD
+         s3ElZIYm/XPXtZmaByHMYfWgwWSejTwyXbWxNZ3Bmsn4+ve9QJ9sEkWTq205CrU4fxkf
+         7432SLqqIMxDZ5lM3qiI+SHVXvzsqnXlgvBD8vOAA6lhcppYziaZygT4tksiZ918/oY2
+         4pPCEraPC4W4d6keVeaUHtSGoPx9rBJDsWdxylRO1hu7Ap0ctiWb744A8+EtI238Uf8E
+         Hv3w==
+X-Gm-Message-State: AOJu0YzWuhImp3V/fmK5N7TEKVfNmyrNLVmD6GKTTk95NX0qapoQF+zX
+	EqxUcoeEY6dFoFXRIVGIPNM2sHPYbmv8WyG6r0nbVmR/059YcuCpV56JN4SjtqzO2sY=
+X-Gm-Gg: AfdE7cn3SbjIO4tP69VPa5LsFuUNc6isw9gPQrYY0IX0r67mqc61WI0qYsEgrFgAKfm
+	Xoh8DsGR8FvMoilYjsWaLYnxAT50FFTWO7PFRxpOFB384neVhDVgLBbp2590iC8QBdJo4kSQgiL
+	2BCRskETjAnw2WyBfdZBMtqIfak3bYI284sWxFArvUQG5JwsXyk0cilVWfdvZ+WHnxcWBxvrPrz
+	xmf8eRDNsNpojp8wNR9QwrSXLfLpaOrliCVFRi5EVNbouXI0yQE4ZsY2KvTRdDRIGYYl7ucVsNa
+	R+ayxCHzblSVM3JYmdEbrAEc32F6PnYqPV5hle7uAS5b2af8y8PWY7+UgBnhL2qr5STFBViySxv
+	5Qxh30ImnQiXfEUlXtjK778afSRP7aLmd+os/rHVdAEgWbT67u6h3FNHMAIK94Zehg4J6iZRs/O
+	hZlYalvohr2X0Z7qYqeXzbI5T7IIYixwrTVA9gpDSNXdrb+ie5QHvPv0LXsu3mWx+Js9L0w+E+q
+	7/eg5mVIlJVIyZZ+VS35Uw1yZpI97uTskcYABaXNH9FjkP1pEjtwQ==
+X-Received: by 2002:a05:600c:a016:b0:492:e5a5:5a46 with SMTP id 5b1f17b1804b1-492e5a55a84mr39673245e9.35.1782575355493;
+        Sat, 27 Jun 2026 08:49:15 -0700 (PDT)
+Received: from jan.telenet.be (2a02-1812-512-2c00-268f-e96f-7400-513c.ip6.access.telenet.be. [2a02:1812:512:2c00:268f:e96f:7400:513c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49268ffe204sm173362895e9.7.2026.06.27.08.49.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jun 2026 08:49:15 -0700 (PDT)
+From: Jan Vermaete <jan.vermaete@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jan Vermaete <jan.vermaete@gmail.com>
+Subject: [PATCH] pull-spdx-license.py: add the SPDX licenses exceptions
+Date: Sat, 27 Jun 2026 17:49:04 +0200
+Message-ID: <20260627154904.338233-1-jan.vermaete@gmail.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-References: <20260626-ycongal-scarthgap-rust-segfault-v1-0-97df64b7b298@smile.fr>
- <CANNYZj81E4G9gSBPHNNsxg4JiJ_wEnmCoSkNdQ2bzJBjF5q=DA@mail.gmail.com>
- <DJJ33TR36YJC.24WW5E1PX60Z2@smile.fr> <DJJV9FGWRHJB.26TA7NN2T8LVS@smile.fr>
-In-Reply-To: <DJJV9FGWRHJB.26TA7NN2T8LVS@smile.fr>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 27 Jun 2026 17:16:10 +0200
-X-Gm-Features: AVVi8CfKaVFGarpbkfJCjkyrBpurk2xmNqjAyPi53REomt5hIEajhcTsX4hcogA
-Message-ID: <CANNYZj8nhGqmvy0tTnUHCNtnjkjweE-OwqL3gDL0mOYGgQO8OQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/3] RFC: Fixing rust segfault (#16058) to support
- Ubuntu 26.04 on Scarthgap
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org, ccasciato@21sw.us, 
-	paul@pbarker.dev, randy.macleod@windriver.com, ross.burton@arm.com, 
-	sundeep.kokkonda@windriver.com, SunilKumar.Dora@windriver.com, 
-	Alexander Kanavin <alex@linutronix.de>, Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2026 15:16:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239696
+ <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2026 15:49:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239697
 
-On Sat, 27 Jun 2026 at 15:29, Yoann Congal <yoann.congal@smile.fr> wrote:
-> Hmm, it looks like we have the problem but around the bootstraping rustc
-> compiler:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4033/steps/12/logs/stdio l45466:
-> |   process didn't exit successfully: `/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/core2-64-poky-linux/rust/1.75.0/rustc-1.75.0-src/build/bootstrap/debug/rustc [...] (exit status: 254)
-> | error: rustc interrupted by SIGSEGV, printing backtrace
->
-> I checked: it does not dynamically link to libLLVM.so
-> $ ldd $BUILD/tmp/work/core2-64-poky-linux/rust/1.75.0/rustc-1.75.0-src/build/bootstrap/debug/rustc
-> /bin/bash: warning: setlocale: LC_ALL: cannot change locale (fr_FR.utf8)
->         linux-vdso.so.1 (0x00007fffc78b9000)
->         libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f50950b2000)
->         libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f5094ed0000)
->         $BUILD/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 => /lib64/ld-linux-x86-64.so.2 (0x00007f509516a000)
->
-> I'll pull on that but suggestions welcome!
+Fetch and extract the SPDX exception licenses as the normal licenses are handled.
 
-The log is misleading. The actual crash happens in a different, later
-rustc, which does link to libllvm statically via librustc_driver:
+[YOCTO #16294]
 
-| error: rustc interrupted by SIGSEGV, printing backtrace
-|
-| /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/core2-64-poky-linux/rust/1.75.0/rustc-1.75.0-src/build/x86_64-unknown-linux-gnu/stage1/lib/librustc_driver-cf7d845e2aab959c.so(+0xa75206)
-[0x768caf675206]
-| /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/sysroots-uninative/x86_64-linux/lib/libc.so.6(+0x3b8e0)
-[0x768caea4c8e0]
-| /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/core2-64-poky-linux/rust/1.75.0/rustc-1.75.0-src/build/x86_64-unknown-linux-gnu/stage1/lib/librustc_driver-cf7d845e2aab959c.so(+0x637aaa0)
-[0x768cb4f7aaa0]
-|
+Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
+---
+ scripts/pull-spdx-licenses.py | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-Alex
+diff --git a/scripts/pull-spdx-licenses.py b/scripts/pull-spdx-licenses.py
+index 597a62133f..de1f5b7bad 100755
+--- a/scripts/pull-spdx-licenses.py
++++ b/scripts/pull-spdx-licenses.py
+@@ -55,20 +55,22 @@ def main():
+             data = json.load(response)
+             version = data["tag_name"]
+ 
+-    print(f"Pulling SPDX license list version {version}")
+-    req = urllib.request.Request(
+-        f"https://raw.githubusercontent.com/spdx/license-list-data/{version}/json/licenses.json"
+-    )
+-    with urllib.request.urlopen(req) as response:
+-        spdx_licenses = json.load(response)
++    spdx_licenses = {}
++    for jsonfile in ["licenses.json", "exceptions.json"]:
++        req = urllib.request.Request(
++            f"https://raw.githubusercontent.com/spdx/license-list-data/{version}/json/{jsonfile}"
++        )
++        with urllib.request.urlopen(req) as response:
++            spdx_licenses.update(json.load(response))
++            print(len(spdx_licenses))
+ 
+     with (TOP_DIR / "meta" / "files" / "spdx-licenses.json").open("w") as f:
+         json.dump(spdx_licenses, f, sort_keys=True, indent=2)
+ 
+-    total_count = len(spdx_licenses["licenses"])
++    total_count = len(spdx_licenses["licenses"] + spdx_licenses["exceptions"])
+     updated = 0
+-    for idx, lic in enumerate(spdx_licenses["licenses"]):
+-        lic_id = lic["licenseId"]
++    for idx, lic in enumerate(spdx_licenses["licenses"] + spdx_licenses["exceptions"]):
++        lic_id = lic.get("licenseId") or lic.get("licenseExceptionId")
+ 
+         print(f"[{idx + 1} of {total_count}] ", end="")
+ 
+@@ -88,7 +90,7 @@ def main():
+             continue
+ 
+         with dest_license_file.open("w") as f:
+-            f.write(lic_data["licenseText"])
++            f.write(lic_data.get("licenseText") or lic_data.get("licenseExceptionText"))
+         updated += 1
+         print("done")
+ 
+-- 
+2.47.3
+
 
