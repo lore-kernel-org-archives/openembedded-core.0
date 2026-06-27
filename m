@@ -2,140 +2,89 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5678BC44500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF51C44501
 	for <webhook@archiver.kernel.org>; Sat, 27 Jun 2026 07:55:47 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.51402.1782546944291163039
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.51397.1782546939268413372
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Jun 2026 00:55:44 -0700
+ Sat, 27 Jun 2026 00:55:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=G3hoQY6y;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-46ee68c3b7aso1259809f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2026 00:55:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=VYx/w0yL;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49222fb062bso18630485e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2026 00:55:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782546942; x=1783151742; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yo5Xu9fetRPVlIFdzir9QmdfZ1Ebe4qD3Xw+OPEODmo=;
-        b=G3hoQY6yVRQiiDG96I8pYbHsNSjBP8Fp0ej86QEkUkfeIvxt7Gz12A1q7Db77i+luU
-         jel+ROMpYO8qYaiFv+t7qL6sQgDjA4eNWZdU+Px0zcDEnDW/stP1MlLciccO+Qgc/G0P
-         UPHr0yYuu7/QReobBJTKaS03yhcT4EaU8hISfdH4fmhTh9kH5nJLU6niCK8lRGRfqRQa
-         dJzP2TpFQeISiKeoiJEYTnhbsCL6Uq0ca6sZU3FAJq5eHm6L6ihlgPQDu8yVKu/5/Rkq
-         1wMDH1UhqX4iLT0fW2AyWJaPt/Cnpz6uFjrdDFonLMUI/cEkTOok1cq6sgR/yNzkv8+L
-         WuoQ==
+        d=gmail.com; s=20251104; t=1782546937; x=1783151737; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EdL+Iy6NlfcrCo0JXX/tEiApTnX2e3Z/MdAecqdi5ZY=;
+        b=VYx/w0yLSFwmH2639ePrpUtS22doqWYCe/VDlbRp8AYIYiucxgQVIRBEGCnrMkss6p
+         5dHk5a+zUS44SlruKsVJOCCCeRDYYJOwei3y7XcLezK0yvk6hozaOjUP/jXUtEd+RAty
+         CLBzZtjCQcwRM24lWNGPJq/Stbx9uuc6qowLFYjMUsKpVVe6C1gdlL8/BOp34hLUPJV+
+         SDsAglZSYps9E/KTU420MhL7hbw8L5z/Fm/v3wt5HH8Fb/EMEaINFgaGLmFHTyxNHAX9
+         1zttqaYO3AK5cQExyqhLR4XMHs+6Xn/cncqLLkYOwK8qba5a4hsTT0w8NY0YuTNAIKDc
+         gAkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782546942; x=1783151742;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=yo5Xu9fetRPVlIFdzir9QmdfZ1Ebe4qD3Xw+OPEODmo=;
-        b=aPUQJZJy9pcoDOy15l3gHv6/9uNuQG/0R35ofXbIojI8SwyaSV5gJwEH0s2RERDBDa
-         XPn9XTgNV28td1aJywnMZo0LyODCKr4KGrnX80nWZ3AvpjAg7weAhD9aS7eU2suEQ0jA
-         zi3pr0A5UKetXD09fzlPiF+Xa9NSiPP4c+b09D0IwQFfa2OQ5nAF82HZpW9X4m+U3djC
-         3WOj8Jen4WrJdpIm9lLCMDh4lS7l5oW4ryUFaAkjSkztTCR7+lyLUg21U59dVgPuPxcq
-         oGgft09c7rP8tF0uqf3dEdC6yS1ucHNgT9PE7V26QUOAsZLKuGUHKDCfMENaTSl/zXNj
-         LjCw==
-X-Gm-Message-State: AOJu0YxEGLD6UyCuvv05HCMjtDs/6eK6LO5PpMlZtCJAbvw+M3AWlKd+
-	WO1tcSZwMtNlW7RN1JGrdZO3rTm7xHCJjL3lFoJ/z9/PEII4FcRRsTRRsJbRCA5DnKo=
-X-Gm-Gg: AfdE7cmd5wy6oe6cg5pAKi9YO8RS//KowFqTFnW88yHZbE9uI8Yg1LVL30S0GEz3X0P
-	OI16Ke+dfeQ96MvQ2SeXaLW+uFJgwi330VS0RSc+bf+22jvbg8/Kt3b5uAu9XWGtjIeNZMYOXVm
-	DZ/hDkCenjx0gQ5RDw9YsNiE1GIUmND/ZKI9Tn4aaKAwKylLxjZ4dqhvmV5n1mAmCyTHB3rAcbn
-	HXt4sFWidz/5ib9jvPqirCQr3SxGJwpO6xwC9XOVImAZC/hjb4AHq4nrRFmpDxLueRlThr4Z4Wb
-	pLlagi4Ram6r4BlSYgSrY2eqMQmLvsi/kNVb833o+GIvQsKlJbyeC0Q8ayXFhSVGcLTQoJ4e//8
-	3Zmmh151api5qV+ziRahGJvWZhjIfKnCnrsGwCvqvEFAb1A1HrX71N8aHXlW9nEVNQqiR36aMj8
-	YCsyLzrTiBH4+DQ5ren2EGYX6ApEsV+eIVueDvsedE2V+d8pH2
-X-Received: by 2002:a05:6000:4913:b0:46d:8169:bb39 with SMTP id ffacd0b85a97d-46dc1b9c344mr14915524f8f.37.1782546942502;
-        Sat, 27 Jun 2026 00:55:42 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782546937; x=1783151737;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EdL+Iy6NlfcrCo0JXX/tEiApTnX2e3Z/MdAecqdi5ZY=;
+        b=eDnVaLD3BjJfkTNUrMJKkVkRnHxAfc0HnPMwa0aXMO2+msKJ2sPsepyQhdUsQg8I5W
+         JJbcDvmnh8ouOZBmrdTCVOymNK+nEH6+MhLqBZUwq+ljornbdECZkFHp1u2/wlIldi2g
+         rYwsjJmD7eOuJD923bsDDSlevWKBEljOeOt9LJOdV75y/7cwowVg7HnLywIyPRUY87Pa
+         vNElarA6u8Fyz4P78FCkccDXklxd+IbXyJvSp2Fkh6rFm06gK0Jyk01G7WTzy+MMk40M
+         cPodIrc9zNO9hGRYvsDO6rRaHblKZRtQHNBGxIKM+4t6LdUo1MjwAePrvJH4u+GpNPj3
+         CycA==
+X-Gm-Message-State: AOJu0YzD2bm/RANgazUoROTCA6Zqqham3IfrQeWhGqD4rFPPltko7Xh4
+	g4CY4kNe5yLOuTJIqpjUn6GmQL9wuu1qz0FY7Yo8ms87uW+RYybUtb76bdt4hL59ntc=
+X-Gm-Gg: AfdE7cnEAvm0lfAIV0lEJv0d+oE62Yf2lYhvRHB5BucM5au21xn1Up8OcAeKjJxt3WH
+	b/IKxv4N/5P57O0ngvB7KMh8Ct1sY+YCCC5oCvYwyEj9UamUooHr3uqwcdQgLwEgMIGRndOU+5c
+	uwpG6gN3auIfcdxjg1uq/Fua573j61zhvqqSAXGgy6SSLHiENObNVCesYTrSxG2cO/oyPt9zISk
+	m/tO7TXh3GQ5gbC8mBNW4tBE4MvYxgDr7LMznDxon2jSig51Y24z1XrAtKN+pAL1r6z5NQ5t609
+	0YK9kLs3XxGvWAJKehE3JkB1BlPzvkSWowPgQyLIiTKOf6NgOQS16jLwDZaRiz/V0idgmcyHJov
+	PLOlMRAa8pO/RhrRxCcsK7CQHs4/bsocmXK6m4dAF71TVakSzJVfheWObq6SYxWwofw3jTAEpir
+	qWNJzJUAOxLEWB01t7Px6s4RWzp2/vgauVWamnIFwemqtdNDE+
+X-Received: by 2002:a05:600c:1d18:b0:490:b65f:8b1 with SMTP id 5b1f17b1804b1-492668553cfmr144806615e9.5.1782546936957;
+        Sat, 27 Jun 2026 00:55:36 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46f4ffc11d9sm11421952f8f.37.2026.06.27.00.55.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46f4ffc11d9sm11421952f8f.37.2026.06.27.00.55.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jun 2026 00:55:42 -0700 (PDT)
+        Sat, 27 Jun 2026 00:55:36 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 8/8] oeqa: allow exceptions in buildpath HOME checks
-Date: Sat, 27 Jun 2026 09:55:30 +0200
-Message-ID: <20260627075532.3153679-8-alex.kanavin@gmail.com>
+Subject: [PATCH 1/8] pkgconf: exclude pre-releases from version checks
+Date: Sat, 27 Jun 2026 09:55:23 +0200
+Message-ID: <20260627075532.3153679-1-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260627075532.3153679-1-alex.kanavin@gmail.com>
-References: <20260627075532.3153679-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2026 07:55:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239692
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239685
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Sometimes upstreams hardcode directories that match
-users' own home directories, which triggers a false
-positive in the test:
-
-https://lists.yoctoproject.org/g/yocto/message/66612
-
-It's very hard to programmatically establish what is
-hardcoded in the original source, and what is a genuine
-build contamination, so this adds a way to specify such
-occurences in recipes.
-
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes-global/insane.bbclass                   | 4 ++--
- meta/recipes-devtools/perl/perl_5.42.2.bb            | 2 ++
- meta/recipes-devtools/python/python3-numpy_2.4.6.bb  | 2 ++
- meta/recipes-devtools/python/python3-pytest_9.1.0.bb | 2 ++
- 4 files changed, 8 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index 4250331af1..a788817c89 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -445,9 +445,9 @@ def package_qa_check_buildpaths(path, name, d, elf):
-         if tmpdir in file_content:
-             path = package_qa_clean_path(path, d, name)
-             oe.qa.handle_error("buildpaths", "File %s in package %s contains reference to TMPDIR" % (path, name), d)
--        if homedir and homedir in file_content:
-+        if homedir and homedir in file_content and not homedir.decode() in (d.getVar("OEQA_BUILDPATHS_SKIP") or "").split():
-             path = package_qa_clean_path(path, d, name)
--            oe.qa.handle_error("buildpaths", "File %s in package %s contains reference to the build host HOME directory" % (path, name), d)
-+            oe.qa.handle_error("buildpaths", "File %s in package %s contains a reference to the build host HOME directory. If upstream hardcodes a directory path that matches your home, you can set OEQA_BUILDPATHS_SKIP = \"%s\" in the recipe." % (path, name, homedir.decode()), d)
- 
- 
- QAPATHTEST[xorg-driver-abi] = "package_qa_check_xorg_driver_abi"
-diff --git a/meta/recipes-devtools/perl/perl_5.42.2.bb b/meta/recipes-devtools/perl/perl_5.42.2.bb
-index f076431aff..f1f026579b 100644
---- a/meta/recipes-devtools/perl/perl_5.42.2.bb
-+++ b/meta/recipes-devtools/perl/perl_5.42.2.bb
-@@ -448,3 +448,5 @@ SSTATE_HASHEQUIV_FILEMAP = " \
-     populate_sysroot:*/lib*/perl5/config.sh:${TMPDIR} \
-     populate_sysroot:*/lib*/perl5/config.sh:${COREBASE} \
-     "
-+
-+OEQA_BUILDPATHS_SKIP = "/home/alex"
-diff --git a/meta/recipes-devtools/python/python3-numpy_2.4.6.bb b/meta/recipes-devtools/python/python3-numpy_2.4.6.bb
-index 2c892e9756..278e838820 100644
---- a/meta/recipes-devtools/python/python3-numpy_2.4.6.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_2.4.6.bb
-@@ -84,3 +84,5 @@ RDEPENDS:${PN}-ptest += "\
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb b/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
+index 277ef9786c..7d9205e560 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
+@@ -21,6 +21,7 @@ SRC_URI = "\
+     file://pkg-config-esdk.in \
  "
+ SRC_URI[sha256sum] = "cd05c9589b9f86ecf044c10a2269822bc9eb001eced2582cfffd658b0a50c243"
++UPSTREAM_CHECK_REGEX = "pkgconf-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)\.tar"
  
- BBCLASSEXTEND = "native nativesdk"
-+
-+OEQA_BUILDPATHS_SKIP = "/home/alex"
-diff --git a/meta/recipes-devtools/python/python3-pytest_9.1.0.bb b/meta/recipes-devtools/python/python3-pytest_9.1.0.bb
-index 9180e7bf1f..b61e86cd00 100644
---- a/meta/recipes-devtools/python/python3-pytest_9.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-pytest_9.1.0.bb
-@@ -33,3 +33,5 @@ ALTERNATIVE_LINK_NAME[py.test] = "${bindir}/py.test"
- ALTERNATIVE_TARGET[py.test] = "${bindir}/py.test"
+ inherit autotools pkgconfig
  
- BBCLASSEXTEND = "native nativesdk"
-+
-+OEQA_BUILDPATHS_SKIP = "/home/user"
 -- 
 2.47.3
 
