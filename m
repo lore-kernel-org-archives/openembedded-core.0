@@ -2,325 +2,453 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08C47C43327
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27583C43602
 	for <webhook@archiver.kernel.org>; Sat, 27 Jun 2026 07:55:47 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.51399.1782546941544034788
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.51587.1782546942382182681
  for <openembedded-core@lists.openembedded.org>;
- Sat, 27 Jun 2026 00:55:41 -0700
+ Sat, 27 Jun 2026 00:55:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Cq9weYiq;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4703bc0a99aso198296f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2026 00:55:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=mHPayYQD;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49249707788so13723405e9.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2026 00:55:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1782546940; x=1783151740; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5DRj1eJ5+JrVu1tZG+rEEkGWgzdLUA83OkAYblWjmdc=;
-        b=Cq9weYiqjtNJKcP87+tvtzFtBR/A/D1lZQC6M4BMK25oRBqaAmj408Dd4gsbHYbJaY
-         rC5i66wc8tDO7Qbp5mKn7M8U1PohtjOcCkBojvOuwJmyzoo3hHPlhFUYhRQJueGY2StT
-         kVQHJK2WTOr8BJeSiLHu7IEfgFrBMtMXtHavNRakL55uQqRN1BSxEv1qDSmZyNM+hl7t
-         NlH06r4/T7m9sxHLlWCSlM9hwOJYV7VPybaPiSlSJeSbN1d9Sae4H8ZeqIqCkAWRA6rm
-         BdFR48EDhDRJxdA6j+0F6IQ/FLYi1M2bMTFrqNprilyBpRLfzeQWOnMQ5Sq4wGBJbQOb
-         oiEw==
+        bh=6CuyuUSD2ynGPOh2hSGcnTaHui+ftnlUlqK2qEWAjjE=;
+        b=mHPayYQD1slhT2ivnyG9eOaitRNwRMimi5nIoOhrBLYHut6EbH88NGrp1vjVr5mob9
+         NMSdgG6mVlJqMDvJCjcq9lgm7FY3yX+sNqCst8x6MFmsJZ+TCG87mox2MScIG0Kixezz
+         r/hGtEEdsSQ6Bm3sJWrVXoeZUxulnSYvofrNEQWkY7QZ48322LBqFxWKSOWXdPt5u8+L
+         HTxaCo7Fhw4HYA1+BFgiqw/K9KF8OebJeQfpEzknfhZ8SetdO2+R/W/XiLLIKITAgiLV
+         b4tx6o7ShW1OFDZObiDFM25Vp8MBr8sr/gee6DfdK2UrAdS7qF44iHkwqd8Nm49WBM0U
+         HcWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1782546940; x=1783151740;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5DRj1eJ5+JrVu1tZG+rEEkGWgzdLUA83OkAYblWjmdc=;
-        b=RX0tBlBO5UjHG5Y/qHODtEtMTGneeiTvvEtObI6BEUav/gO67ryzE19zuleuKKq35l
-         ALkPW7iHqDlis4MySZPuC+y0zqvmkD4lXUJZJUvJoRPHzaJFuuDrf81KU9rrnwkrUVrl
-         m77e9LJ5o+dGTMqKAalL8nOvQ6LmKP+y8RKppNZiop2MLq9mkvOMVmzOWRqymgYZC+0W
-         G3mpjPgcKtsh+Ec2uachntarEt3KSVDjiLsmPK01zAg7k1unlhdN5SHQ5x32MrbfjhAb
-         7CBrsNPChl9qpj+pa6hN5I8rhw1yMpUQJZ3d5+SqX1A49iQzbF8URUbvykTCVf0TeXJY
-         mDHw==
-X-Gm-Message-State: AOJu0YxDcnC72DibOzHQhHnZqwcjANkPN4aeIL8BgGTnhge+YEJ4/tW3
-	7aIpnGR0wWOwLwjsf7sk6PYXNUglIie6MeCnlb6TvHQmvtgMKyd16Ek+4aPms5T4fk0=
-X-Gm-Gg: AfdE7cnKDXTygVga0xpVcyFU0L7yTVkSFDd5EUwVJum/qkLjqp3b1mIfQMceMt+w0dK
-	9GmjXIyaDzW303/F73kaKPt0vzAi4NKLnbA2Vrc1ZyXk4A236SiOROL+9ZqmL3NBeO1bZbXJdSK
-	GvyqVJ4HD1dKSXrVVa8QrZ0uwfGTw+5+NmZI18zRHOp39q+bPbWXmr/zkTxqUUsWDLdrL8QzW/L
-	FR6b4D0llwTB7WDSDFbG34D61g9w31gCZXxjzdh2r2SvGjZgoQ1sMfGHdsSIiAlFABRzmOwnSj8
-	K2Uye7eLpu0rxpW7fWQai8klBpUdoVfCu58K6eem7xFpVXQ8LEDt/ICGmM4JRCD8v8YGuSleDAu
-	/glXoZwNsubtZNrwBKvL2ALawkZp5YOkHxfpKBlc8uNXri2m4/++rGJBWTP4k1Aip9wkOLO7/I2
-	utcqmPYMLiLFY4OZeBxlq66bEzMeOoKPv9A20LTmBunA1xXBLK
-X-Received: by 2002:a05:6000:46ca:b0:460:2ee5:67b8 with SMTP id ffacd0b85a97d-46dc14cbc9cmr11220699f8f.36.1782546939637;
-        Sat, 27 Jun 2026 00:55:39 -0700 (PDT)
+        bh=6CuyuUSD2ynGPOh2hSGcnTaHui+ftnlUlqK2qEWAjjE=;
+        b=KhjiGUDp55WTPx2KrqQah+REO3cSswWqKyfz7jmYqu58QqEBz9yIliVQzmAo6+x4Jv
+         U3V2w2plIwVNyDsoFLGUTLPHGsDolYvgd/+0rQprjOLef5EqLp3jU4+mmGimOpuLyT/E
+         SazDD0aqo5Fl0CxW9jZMJLEh8EHeb8vAhsRhig7Wor/CAmX2Wpod5TEbcWW2L31nKnun
+         WYzummmOrsEBLsZskT7atBDJZqr22lxRz6X8n42LJ8FpJmWHXdr2Q4FA4YC9tPqTijuH
+         SC9l1uyF5r8n8m9qC8yM2n2VGO/++AE+uhxFgX9MFrfVVf5lIKu63xrj6H8bBdvlsd0A
+         7tew==
+X-Gm-Message-State: AOJu0YxBsl9xOy/u211MVOg3xyzYsvoQQYVHj5T0SrpTU3djHhHbOu4k
+	8ucQ3ooMwyTpi9pKeOkNJ5c9//hxe1GszdBz4fWI0PDIqL+k36dNYViThJohTHN6grg=
+X-Gm-Gg: AfdE7clozgY5sRUq+1IQMOJjj82t+MjyYzbEAm8154/HKJohqeKXzRlrWXCy+Y0k+Br
+	SFlUSDrv7KmRG7U/sNOvWc/A74LUSzo3X1st2Iu2MHqG3qvkJzscDCjRWB00MsJTohguG79htgi
+	QrKcGYQr0oxZBRyiFkxCX6KNtn1pd82DWOdEzUrfH97N/KW3Dv3H+72rV6Ma8nYHfmfCmBXx1CW
+	GLcu2tjOLU+jnyXfbQAV4uWPle9FT4PTmzgQRqrZbQHhJZI2I4HJvJIoJqS+lK3gP2YbvNLy8vW
+	KZ8eRQldFGL+rRAAEd/Jr66I0QvG/aOhmbehtjWBQrvlriL6j19bjNC928AXAvxt9DXuBrjCZ0p
+	Ds1mNR3xCRUwaUNz06iFc6fOTmsoixGp7Yryy8VbnVbGASI/K6bmmI2OYbWvvewjoMqrGkXrj5x
+	revGhfzyAjeY2lqP+SCI0oru7XwQDG2zafVeGN4hAUySUCaLfqoSqGeVK5o20=
+X-Received: by 2002:a05:600c:81c5:b0:490:ea8a:32d0 with SMTP id 5b1f17b1804b1-4926fc78e58mr51540315e9.20.1782546940353;
+        Sat, 27 Jun 2026 00:55:40 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46f4ffc11d9sm11421952f8f.37.2026.06.27.00.55.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jun 2026 00:55:39 -0700 (PDT)
+        Sat, 27 Jun 2026 00:55:40 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 4/8] libical: upgrade 3.0.20 -> 4.0.3
-Date: Sat, 27 Jun 2026 09:55:26 +0200
-Message-ID: <20260627075532.3153679-4-alex.kanavin@gmail.com>
+Subject: [PATCH 5/8] systemtap: upgrade 5.4 -> 5.5
+Date: Sat, 27 Jun 2026 09:55:27 +0200
+Message-ID: <20260627075532.3153679-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260627075532.3153679-1-alex.kanavin@gmail.com>
 References: <20260627075532.3153679-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2026 07:55:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239688
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239689
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Drop -DSHARED_ONLY=True (replaced upstream with LIBICAL_STATIC, false by default).
-
-Backport a bluez5 patch to support the new version.
-
-Drop 0001-cmake-Do-not-export-CC-into-gir-compiler.patch (merged upstream).
-
-Rebase flags.patch (couldn't find evidence of ical-glib-static and so
-that chunk was dropped).
-
-Rework various upstream cmake options.
-
-License-Update: file renamed, additional information added at the bottom:
-https://github.com/libical/libical/blob/v4.0.3/LICENSE.txt
-LGPL/MPL texts aren't necessary to track, as LICENSE.txt specifies
-what the actual terms are.
+Drop a backport, rebase a readline patch
+(it may be hard to read, but the + and - sections are reordered),
+add a reproducibility tweak.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/conf/distro/include/no-static-libs.inc   |  1 -
- meta/recipes-connectivity/bluez5/bluez5.inc   |  3 +-
- .../0001-build-Support-libical-4.0.patch      | 34 +++++++++++++++
- ...e-Do-not-export-CC-into-gir-compiler.patch | 30 -------------
- .../libical/libical/flags.patch               | 42 +++++++++----------
- .../{libical_3.0.20.bb => libical_4.0.3.bb}   | 19 ++++-----
- 6 files changed, 65 insertions(+), 64 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-build-Support-libical-4.0.patch
- delete mode 100644 meta/recipes-support/libical/libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch
- rename meta/recipes-support/libical/{libical_3.0.20.bb => libical_4.0.3.bb} (74%)
+ ...-native_5.4.bb => systemtap-native_5.5.bb} |   0
+ ...gure-write-a-python-location-into-th.patch |   7 +-
+ ...ython-modules-to-correct-library-dir.patch |   2 +-
+ .../0001-elaborate.cxx-fix-32-bit-build.patch | 104 ------------------
+ ...rove-reproducibility-for-c-compiling.patch |  10 +-
+ ...staprun-address-ncurses-6.3-failures.patch |  11 +-
+ ...-don-t-support-installing-a-non-root.patch |  17 ++-
+ .../systemtap/systemtap/readline.patch        |  29 +++--
+ .../{systemtap_5.4.bb => systemtap_5.5.bb}    |   6 +
+ .../systemtap/systemtap_git.inc               |   3 +-
+ 10 files changed, 45 insertions(+), 144 deletions(-)
+ rename meta/recipes-kernel/systemtap/{systemtap-native_5.4.bb => systemtap-native_5.5.bb} (100%)
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-fix-32-bit-build.patch
+ rename meta/recipes-kernel/systemtap/{systemtap_5.4.bb => systemtap_5.5.bb} (93%)
 
-diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
-index 75359928a1..cf26873992 100644
---- a/meta/conf/distro/include/no-static-libs.inc
-+++ b/meta/conf/distro/include/no-static-libs.inc
-@@ -23,7 +23,6 @@ DISABLE_STATIC:pn-musl = ""
+diff --git a/meta/recipes-kernel/systemtap/systemtap-native_5.4.bb b/meta/recipes-kernel/systemtap/systemtap-native_5.5.bb
+similarity index 100%
+rename from meta/recipes-kernel/systemtap/systemtap-native_5.4.bb
+rename to meta/recipes-kernel/systemtap/systemtap-native_5.5.bb
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
+index 742b1187fc..8a6cc4e0a4 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-Do-not-let-configure-write-a-python-location-into-th.patch
+@@ -1,4 +1,4 @@
+-From ab29615ed6c2e779b472903564dc683dc1015de7 Mon Sep 17 00:00:00 2001
++From adf505ededdd25cf43111fd12a59090a8f7de856 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 22 Feb 2017 13:37:33 +0200
+ Subject: [PATCH] Do not let configure write a python location into the dtrace
+@@ -11,7 +11,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- EXTRA_OECONF:append = "${DISABLE_STATIC}"
+ diff --git a/dtrace.in b/dtrace.in
+-index 5e1cf8079..a24229cbc 100644
++index 73a6f22e2..870999e36 100644
+ --- a/dtrace.in
+ +++ b/dtrace.in
+ @@ -1,4 +1,4 @@
+@@ -20,6 +20,3 @@ index 5e1cf8079..a24229cbc 100644
+  # vim: et sta sts=4 sw=4 ts=8
+  
+  # This handles the systemtap equivalent of
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
+index 21e3096405..6a3fa04bea 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
+@@ -1,4 +1,4 @@
+-From 7847240a97f5010ebab775f7ac51812a7705a886 Mon Sep 17 00:00:00 2001
++From a261ee9efca120b6d65310a972d91dffc00ac937 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 24 Feb 2017 17:53:02 +0200
+ Subject: [PATCH] Install python modules to correct library dir.
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-fix-32-bit-build.patch b/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-fix-32-bit-build.patch
+deleted file mode 100644
+index bfc9699728..0000000000
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-fix-32-bit-build.patch
++++ /dev/null
+@@ -1,104 +0,0 @@
+-From 94efb7c4eb02de0e3565cb165b53963602d3dcb6 Mon Sep 17 00:00:00 2001
+-From: Sergei Trofimovich <slyich@gmail.com>
+-Date: Sun, 30 Nov 2025 20:58:01 +0000
+-Subject: [PATCH] elaborate.cxx: fix 32-bit build
+-
+-Without the change the build fails on i686-linux as:
+-
+-    elaborate.cxx:5119:33: error:
+-      format '%ld' expects argument of type 'long int',
+-      but argument 2 has type 'int64_t' {aka 'long long int'} [-Werror=format=]
+-     5119 |       session.print_warning (_F("Collapsing unresolved @define to %ld [stapprobes]", value), e->tok);
+-          |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=patch;h=94efb7c4eb02de0e3565cb165b53963602d3dcb6]
+-Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
+----
+- elaborate.cxx    | 2 +-
+- po/cs.po         | 2 +-
+- po/en.po         | 2 +-
+- po/fr.po         | 2 +-
+- po/pl.po         | 2 +-
+- po/systemtap.pot | 2 +-
+- 6 files changed, 6 insertions(+), 6 deletions(-)
+-
+-diff --git a/elaborate.cxx b/elaborate.cxx
+-index 93ecffa1a..3ad3614e7 100644
+---- a/elaborate.cxx
+-+++ b/elaborate.cxx
+-@@ -5116,7 +5116,7 @@ const_folder::visit_defined_op (defined_op* e)
+-       // Don't be greedy... we'll only collapse one at a time so type
+-       // resolution can have another go at it.
+-       relaxed_p = false;
+--      session.print_warning (_F("Collapsing unresolved @define to %ld [stapprobes]", value), e->tok);
+-+      session.print_warning (_F("Collapsing unresolved @define to %lld [stapprobes]", (long long)value), e->tok);
+-       literal_number* n = new literal_number (value);
+-       n->tok = e->tok;
+-       n->visit (this);
+-diff --git a/po/cs.po b/po/cs.po
+-index df6412772..92fdef7ad 100644
+---- a/po/cs.po
+-+++ b/po/cs.po
+-@@ -2039,7 +2039,7 @@ msgstr "Zahazuji kontrolu '@defined' bez vedlejších účinků "
+- 
+- #: elaborate.cxx:5119
+- #, fuzzy, c-format
+--msgid "Collapsing unresolved @define to %ld [stapprobes]"
+-+msgid "Collapsing unresolved @define to %lld [stapprobes]"
+- msgstr "Zahazuji kontrolu '@defined' bez vedlejších účinků "
+- 
+- #: elaborate.cxx:5127
+-diff --git a/po/en.po b/po/en.po
+-index 8847639e8..1db2292bd 100644
+---- a/po/en.po
+-+++ b/po/en.po
+-@@ -2050,7 +2050,7 @@ msgstr ""
+- 
+- #: elaborate.cxx:5119
+- #, c-format
+--msgid "Collapsing unresolved @define to %ld [stapprobes]"
+-+msgid "Collapsing unresolved @define to %lld [stapprobes]"
+- msgstr ""
+- 
+- #: elaborate.cxx:5127
+-diff --git a/po/fr.po b/po/fr.po
+-index b8677707b..55e409919 100644
+---- a/po/fr.po
+-+++ b/po/fr.po
+-@@ -2090,7 +2090,7 @@ msgstr ""
+- 
+- #: elaborate.cxx:5119
+- #, c-format
+--msgid "Collapsing unresolved @define to %ld [stapprobes]"
+-+msgid "Collapsing unresolved @define to %lld [stapprobes]"
+- msgstr ""
+- 
+- #: elaborate.cxx:5127
+-diff --git a/po/pl.po b/po/pl.po
+-index e3b6700ee..0b35880c1 100644
+---- a/po/pl.po
+-+++ b/po/pl.po
+-@@ -1977,7 +1977,7 @@ msgstr ""
+- 
+- #: elaborate.cxx:5119
+- #, c-format
+--msgid "Collapsing unresolved @define to %ld [stapprobes]"
+-+msgid "Collapsing unresolved @define to %lld [stapprobes]"
+- msgstr ""
+- 
+- #: elaborate.cxx:5127
+-diff --git a/po/systemtap.pot b/po/systemtap.pot
+-index 32ddb2290..4ec0d9a8c 100644
+---- a/po/systemtap.pot
+-+++ b/po/systemtap.pot
+-@@ -1973,7 +1973,7 @@ msgstr ""
+- 
+- #: elaborate.cxx:5119
+- #, c-format
+--msgid "Collapsing unresolved @define to %ld [stapprobes]"
+-+msgid "Collapsing unresolved @define to %lld [stapprobes]"
+- msgstr ""
+- 
+- #: elaborate.cxx:5127
+--- 
+-2.45.0
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch b/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
+index 7d35f76b29..894cd3b407 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
+@@ -1,4 +1,4 @@
+-From 6288ba5df0a8c73ef842b609081449ac4de86123 Mon Sep 17 00:00:00 2001
++From 06522edad080caa76f5abc8586fe5baf3b620f16 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Wed, 18 Jul 2018 16:58:33 +0800
+ Subject: [PATCH] improve reproducibility for c++ compiling
+@@ -13,10 +13,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  stringtable.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--EXTRA_OECMAKE:append:pn-libical = " -DSHARED_ONLY=True"
- EXTRA_OECMAKE:append:pn-libjpeg-turbo = " -DENABLE_STATIC=False"
- EXTRA_OECMAKE:append:pn-libjpeg-turbo-native = " -DENABLE_STATIC=False"
+-Index: git/stringtable.h
+-===================================================================
+---- git.orig/stringtable.h
+-+++ git/stringtable.h
++diff --git a/stringtable.h b/stringtable.h
++index aef564824..a04888f3c 100644
++--- a/stringtable.h
+++++ b/stringtable.h
+ @@ -23,7 +23,7 @@
+  
+  #if 0 && defined(HAVE_BOOST_UTILITY_STRING_REF_HPP)
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-address-ncurses-6.3-failures.patch b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-address-ncurses-6.3-failures.patch
+index 1decf21593..59c0e8a7fd 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-address-ncurses-6.3-failures.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-address-ncurses-6.3-failures.patch
+@@ -1,4 +1,4 @@
+-From 191f528da19193d713d94ee252e2485efd9af4d3 Mon Sep 17 00:00:00 2001
++From 7672d0e398b29a52f59a1a0cbb75d4d07bd5f975 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Mon, 25 Oct 2021 17:59:24 +0200
+ Subject: [PATCH] staprun: address ncurses 6.3 failures
+@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 12 insertions(+), 12 deletions(-)
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 4bf4fce506..d2bcba92e8 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -73,8 +73,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-gatt-client-Fix-use-after-free-caused-by-reentrant-c.patch \
-            file://0001-transport-Fix-set-volume-failure-with-invalid-device.patch \
-            file://0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_ADD.patch \
--           file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
-+           file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch \
-            file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
-+           file://0001-build-Support-libical-4.0.patch \
-            "
- S = "${UNPACKDIR}/bluez-${PV}"
+ diff --git a/staprun/monitor.c b/staprun/monitor.c
+-index 478634c09..f4fbfd686 100644
++index 851ee14c4..7d83a3846 100644
+ --- a/staprun/monitor.c
+ +++ b/staprun/monitor.c
+-@@ -448,12 +448,12 @@ void monitor_render(void)
++@@ -453,12 +453,12 @@ void monitor_render(void)
+        if (active_window == 0)
+          wattron(status, A_BOLD);
+        wprintw(status, "\n%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%s\n",
+@@ -32,7 +32,7 @@ index 478634c09..f4fbfd686 100644
+                HIGHLIGHT("name", p_name, comp_fn_index));
+        if (active_window == 0)
+          wattroff(status, A_BOLD);
+-@@ -466,17 +466,17 @@ void monitor_render(void)
++@@ -471,17 +471,17 @@ void monitor_render(void)
+            json_object *probe, *field;
+            probe = json_object_array_get_idx(jso_probe_list, i);
+            json_object_object_get_ex(probe, "index", &field);
+@@ -56,6 +56,3 @@ index 478634c09..f4fbfd686 100644
+            getyx(status, discard, cur_x);
+            json_object_object_get_ex(probe, "name", &field);
+            wprintw(status, "%.*s", max_cols-cur_x-1, json_object_get_string(field));
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch
+index e2f8b3b057..8273e34b57 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch
+@@ -1,4 +1,4 @@
+-From 3e13a006fe3dff9489269274093bf868532036e2 Mon Sep 17 00:00:00 2001
++From 3483d0bc400eb618add607097027eafb075722f4 Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Tue, 5 Sep 2017 16:02:55 -0700
+ Subject: [PATCH] staprun/stapbpf: don't support installing a non-root
+@@ -10,15 +10,14 @@ the binaries.
+ Upstream-Status: Inappropriate [Embedded]
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ ---
+- stapbpf/Makefile.am | 14 +++++++-------
+- staprun/Makefile.am | 12 ++++++------
+- 2 files changed, 13 insertions(+), 13 deletions(-)
++ stapbpf/Makefile.am | 12 ++++++------
++ 1 file changed, 6 insertions(+), 6 deletions(-)
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-build-Support-libical-4.0.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-build-Support-libical-4.0.patch
-new file mode 100644
-index 0000000000..d4326e0640
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-build-Support-libical-4.0.patch
-@@ -0,0 +1,34 @@
-+From fe0d11b97634c546166e895bafbede2d4df6769f Mon Sep 17 00:00:00 2001
-+From: Funda Wang <fundawang@yeah.net>
-+Date: Thu, 4 Jun 2026 10:01:35 +0200
-+Subject: [PATCH] build: Support libical 4.0
-+
-+libical 4.0 split off some vcal related functions to a separate shared
-+library, libicalvcal. As libicalvcal depends on libical itself, first
-+check for libicalvcal being available, and if it fails, check for
-+just libical.
-+
-+Closes: https://github.com/bluez/bluez/issues/2090
-+
-+Tested-by: Bastien Nocera <hadess@hadess.net>
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/e60d07255327db3fc4e3a28d7fcc792cd42c34d0]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-Index: git/stapbpf/Makefile.am
+-===================================================================
+---- git.orig/stapbpf/Makefile.am
+-+++ git/stapbpf/Makefile.am
+-@@ -41,10 +41,10 @@
++diff --git a/stapbpf/Makefile.am b/stapbpf/Makefile.am
++index 4bd116bc3..e06d0801b 100644
++--- a/stapbpf/Makefile.am
+++++ b/stapbpf/Makefile.am
++@@ -40,10 +40,10 @@ git_version.stamp ../git_version.h:
+  
+  # Why the "id -u" condition?  This way, an unprivileged user can run
+  # make install, and have "sudo stap ...." or "sudo stapbpf ...." work later.
+diff --git a/meta/recipes-kernel/systemtap/systemtap/readline.patch b/meta/recipes-kernel/systemtap/systemtap/readline.patch
+index d7afc800cd..f452188179 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/readline.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/readline.patch
+@@ -1,4 +1,7 @@
+-configure: add option to enable/disable readline
++From ee20cb1c1ca0337c56087934efbd66ba30d2d5c3 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Mon, 13 Apr 2026 11:28:39 +0100
++Subject: [PATCH] configure: add option to enable/disable readline
+ 
+ Add an option to control explicitly whether systemtap will look for and
+ use readline, for reproducible builds.
+@@ -10,11 +13,14 @@ not be used.
+ 
+ Upstream-Status: Submitted [https://sourceware.org/pipermail/systemtap/2026q2/028333.html]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
 +---
-+ configure.ac | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
++ configure.ac | 67 +++++++++++++++++++++++++++++-----------------------
++ 1 file changed, 38 insertions(+), 29 deletions(-)
+ 
+-diff --git i/configure.ac w/configure.ac
+-index 6fb99da40..01457bafb 100644
+---- i/configure.ac
+-+++ w/configure.ac
 +diff --git a/configure.ac b/configure.ac
-+index 52de7d6..1cdd551 100644
++index 6fb99da40..2ec72e85a 100644
 +--- a/configure.ac
 ++++ b/configure.ac
-+@@ -306,7 +306,9 @@ fi
-+ AC_ARG_ENABLE(obex, AS_HELP_STRING([--disable-obex],
-+ 		[disable OBEX profile support]), [enable_obex=${enableval}])
-+ if (test "${enable_obex}" != "no"); then
-+-	PKG_CHECK_MODULES(ICAL, libical)
-++	PKG_CHECK_MODULES(ICAL, [libicalvcal >= 4.0.0], [],
-++                [PKG_CHECK_MODULES(ICAL, [libical])]
-++        )
-+ fi
-+ AM_CONDITIONAL(OBEX, test "${enable_obex}" != "no")
-+ 
-diff --git a/meta/recipes-support/libical/libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch b/meta/recipes-support/libical/libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch
-deleted file mode 100644
-index 4027c218c5..0000000000
---- a/meta/recipes-support/libical/libical/0001-cmake-Do-not-export-CC-into-gir-compiler.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 7b20ca7f24a4cac25998bfcc70eed75bf796816b Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 3 Mar 2022 20:10:04 -0800
--Subject: [PATCH] cmake: Do not export CC into gir compiler
--
--this helps cross compilers where full compiler commandline defines the
--compiler rather than just CC variable, therefore let it use the default
--values from environment and not synthesize it from CMAKE_C_COMPILER just
--for this case.
--
--Upstream-Status: Backport [https://github.com/libical/libical/pull/552]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- cmake/modules/GObjectIntrospectionMacros.cmake | 3 +--
-- 1 file changed, 1 insertion(+), 2 deletions(-)
--
--diff --git a/cmake/modules/GObjectIntrospectionMacros.cmake b/cmake/modules/GObjectIntrospectionMacros.cmake
--index 83aff93..d7d3f89 100644
----- a/cmake/modules/GObjectIntrospectionMacros.cmake
--+++ b/cmake/modules/GObjectIntrospectionMacros.cmake
--@@ -50,8 +50,7 @@ macro(gir_add_introspections introspections_girs)
--     set(_gir_libtool "--no-libtool")
+ @@ -525,38 +525,47 @@ AC_CHECK_HEADERS([rpm/rpmcrypto.h], [
+                        have_rpmcrypto_h=yes
+  		      AC_MSG_NOTICE([separate rpm/rpmcrypto.h])])
+@@ -23,7 +29,7 @@ index 6fb99da40..01457bafb 100644
+ -dnl
+ -dnl First save the orignal value of LIBS.
+ -LIBS_no_readline=$LIBS
 - 
--     add_custom_command(
---      COMMAND ${CMAKE_COMMAND} -E env "CC='${CMAKE_C_COMPILER}'"
---              ${GObjectIntrospection_SCANNER}
--+      COMMAND ${GObjectIntrospection_SCANNER}
--               ${GObjectIntrospection_SCANNER_ARGS}
--               --namespace=${_gir_namespace}
--               --nsversion=${_gir_version}
-diff --git a/meta/recipes-support/libical/libical/flags.patch b/meta/recipes-support/libical/libical/flags.patch
-index 5fa4b479ee..868314591c 100644
---- a/meta/recipes-support/libical/libical/flags.patch
-+++ b/meta/recipes-support/libical/libical/flags.patch
-@@ -1,7 +1,8 @@
--From a5642fa1cd8c835209b39ec99e534d341779c985 Mon Sep 17 00:00:00 2001
-+From cba8f762f6a3270530550915d957c01f3da9a601 Mon Sep 17 00:00:00 2001
- From: Milan Crha <mcrha@redhat.com>
- Date: Wed, 10 Sep 2025 09:52:37 +0200
- Subject: [PATCH] libical-glib: Hide some target options in the installed CMake
++-
+ -dnl Check how for readline presence and how to link with it. On some
+ -dnl systems you need to add a termcap compatible library.
+ -have_libreadline="no"
+@@ -31,6 +37,7 @@ index 6fb99da40..01457bafb 100644
+ -for libtermcap in "" tinfo ncursesw ncurses curses termcap; do
+ -  if test -z "$libtermcap"; then
+ -    READLINE_LIBS="-lreadline"
+++
+ +AC_ARG_WITH([readline],
+ +  AS_HELP_STRING([--without-readline],[disable use of readline]), [], [with_readline="check"])
+ +
+@@ -66,17 +73,17 @@ index 6fb99da40..01457bafb 100644
+ +    READLINE_LIBS=""
+    else
+ -    READLINE_LIBS="-lreadline -l$libtermcap"
+-+    AC_MSG_RESULT([$READLINE_LIBS])
+-+    AC_DEFINE(HAVE_LIBREADLINE, [1],
+-+        [Define if you have the readline library (-lreadline).])
+-   fi
++-  fi
+ -  LIBS="$READLINE_LIBS $LIBS_no_readline"
+ -  AC_LINK_IFELSE(
+ -    [AC_LANG_CALL([],[readline])],
+ -    [have_libreadline="yes"])
+ -  if test "$have_libreadline" = "yes"; then
+ -    break
+--  fi
+++    AC_MSG_RESULT([$READLINE_LIBS])
+++    AC_DEFINE(HAVE_LIBREADLINE, [1],
+++        [Define if you have the readline library (-lreadline).])
++   fi
+ -done
+ -if test "$have_libreadline" = "no"; then
+ -  AC_MSG_RESULT([none])
+diff --git a/meta/recipes-kernel/systemtap/systemtap_5.4.bb b/meta/recipes-kernel/systemtap/systemtap_5.5.bb
+similarity index 93%
+rename from meta/recipes-kernel/systemtap/systemtap_5.4.bb
+rename to meta/recipes-kernel/systemtap/systemtap_5.5.bb
+index 22dd76bbff..980c09d049 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_5.4.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_5.5.bb
+@@ -76,6 +76,12 @@ do_configure:prepend () {
+     # Improve reproducibility for c++ object files
+     reltivepath="${@os.path.relpath(d.getVar('STAGING_INCDIR'), d.getVar('S'))}"
+     sed -i "s:@RELATIVE_STAGING_INCDIR@:$reltivepath:g" ${S}/stringtable.h
 +
-  files
++    # These shouldn't be stored in git, as they can be spontaneously regenerated in
++    # non-reproducible ways in builds, if their timestamp is slightly newer than the
++    # source *.po file, depending on the order of git checkout.
++    # Use touch to avoid such re-generation.
++    touch ${S}/po/*.gmo
+ }
  
- The build paths could be shown in the installed .cmake files, thus
-@@ -12,29 +13,26 @@ Closes https://github.com/libical/libical/issues/532
- Upstream-Status: Submitted [https://github.com/libical/libical/pull/1010]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- ---
-- src/libical-glib/CMakeLists.txt | 5 +++--
-- 1 file changed, 3 insertions(+), 2 deletions(-)
-+ src/libical-glib/CMakeLists.txt | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
+ do_install:append () {
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index a18381a56d..7845905d10 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -5,11 +5,10 @@ SRC_URI = "git://sourceware.org/git/systemtap.git;protocol=https;branch=master;t
+            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
+            file://0001-Install-python-modules-to-correct-library-dir.patch \
+            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
+-           file://0001-elaborate.cxx-fix-32-bit-build.patch \
+            file://readline.patch \
+            "
  
- diff --git a/src/libical-glib/CMakeLists.txt b/src/libical-glib/CMakeLists.txt
--index 9f69e9c5..aa55e013 100644
-+index d63bbf3..d820160 100644
- --- a/src/libical-glib/CMakeLists.txt
- +++ b/src/libical-glib/CMakeLists.txt
--@@ -8,8 +8,8 @@ add_executable(ical-glib-src-generator
--   tools/xml-parser.h
-- )
--
---target_compile_options(ical-glib-src-generator PUBLIC ${GLIB_CFLAGS} ${LIBXML_CFLAGS} -DG_LOG_DOMAIN=\"src-generator\")
---target_link_libraries(ical-glib-src-generator ${GLIB_LIBRARIES} ${LIBXML_LIBRARIES})
--+target_compile_options(ical-glib-src-generator PRIVATE ${GLIB_CFLAGS} ${LIBXML_CFLAGS} -DG_LOG_DOMAIN=\"src-generator\")
--+target_link_libraries(ical-glib-src-generator PRIVATE ${GLIB_LIBRARIES} ${LIBXML_LIBRARIES})
--
-- install(
--   TARGETS ical-glib-src-generator
--@@ -130,7 +130,7 @@ target_link_libraries(ical-glib PRIVATE ical ${GLIB_LIBRARIES})
-- if(NOT SHARED_ONLY AND NOT STATIC_ONLY)
--   add_library(ical-glib-static STATIC ${LIBICAL_GLIB_SOURCES})
--   add_dependencies(ical-glib-static ical-header)
---  target_compile_options(ical-glib-static PUBLIC ${GLIB_CFLAGS} -DG_LOG_DOMAIN="libical-glib" -DLIBICAL_GLIB_COMPILATION)
--+  target_compile_options(ical-glib-static PRIVATE ${GLIB_CFLAGS} -DG_LOG_DOMAIN="libical-glib" -DLIBICAL_GLIB_COMPILATION)
--   target_link_libraries(ical-glib-static ${GLIB_LIBRARIES})
-+@@ -24,13 +24,14 @@ if(NOT DEFINED LIBXML2_DEFINITIONS)
-  endif()
-+ target_compile_options(
-+   ical-glib-src-generator
-+-  PUBLIC
-++  PRIVATE
-+     ${GLIB_CFLAGS}
-+     ${LIBXML2_DEFINITIONS}
-+     -DG_LOG_DOMAIN=\"src-generator\"
-+ )
-+ target_link_libraries(
-+   ical-glib-src-generator
-++  PRIVATE
-+   ${GLIB_LDFLAGS}
-+   ${GOBJECT_LDFLAGS}
-+   ${LIBXML2_LIBRARIES}
-diff --git a/meta/recipes-support/libical/libical_3.0.20.bb b/meta/recipes-support/libical/libical_4.0.3.bb
-similarity index 74%
-rename from meta/recipes-support/libical/libical_3.0.20.bb
-rename to meta/recipes-support/libical/libical_4.0.3.bb
-index 7f85522e91..d7001d4a8c 100644
---- a/meta/recipes-support/libical/libical_3.0.20.bb
-+++ b/meta/recipes-support/libical/libical_4.0.3.bb
-@@ -6,17 +6,14 @@ their calendar data and arrange meetings with other users. "
- HOMEPAGE = "https://github.com/libical/libical"
- BUGTRACKER = "https://github.com/libical/libical/issues"
- LICENSE = "LGPL-2.1-only | MPL-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=1910a2a76ddf6a9ba369182494170d87 \
--                    file://LICENSE.LGPL21.txt;md5=8f690bb538f4b301d931374a6eb864d0 \
--                    file://LICENSE.MPL2.txt;md5=f75d2927d3c1ed2414ef72048f5ad640 \
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=6d9294493d031c817783b0400a126c89 \
-                     "
- SECTION = "libs"
+-SRCREV = "911a1354aac264651fda932061e7f20d2ecc2471"
++SRCREV = "90b164cf106ef16f873ab58c8c6f653718bb6e17"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
--           file://0001-cmake-Do-not-export-CC-into-gir-compiler.patch \
-            file://flags.patch \
--          "
--SRC_URI[sha256sum] = "e73de92f5a6ce84c1b00306446b290a2b08cdf0a80988eca0a2c9d5c3510b4c2"
-+           "
-+SRC_URI[sha256sum] = "86f29029d0ec9fa30c9001de16c0859a3816ae154ff5b097392b014e21a3d254"
- 
- inherit cmake pkgconfig gobject-introspection vala github-releases
- 
-@@ -24,7 +21,7 @@ DEPENDS += "libical-native"
- 
- PACKAGECONFIG ??= "icu glib"
- PACKAGECONFIG[bdb] = ",-DCMAKE_DISABLE_FIND_PACKAGE_BDB=True,db"
--PACKAGECONFIG[glib] = "-DICAL_GLIB=True,-DICAL_GLIB=False,glib-2.0-native libxml2-native glib-2.0 libxml2"
-+PACKAGECONFIG[glib] = "-DLIBICAL_GLIB=True,-DLIBICAL_GLIB=False,glib-2.0-native libxml2-native glib-2.0 libxml2"
- # ICU is used for RSCALE (RFC7529) support
- PACKAGECONFIG[icu] = ",-DCMAKE_DISABLE_FIND_PACKAGE_ICU=True,icu"
- 
-@@ -33,13 +30,15 @@ EXTRA_OECMAKE += "-DPERL_EXECUTABLE=${HOSTTOOLS_DIR}/perl"
- # Disable the test suite as we can't install it
- EXTRA_OECMAKE += "-DLIBICAL_BUILD_TESTING=false"
- # doc build fails with linker error (??) for libical-glib so disable it
--EXTRA_OECMAKE += "-DICAL_BUILD_DOCS=false"
-+EXTRA_OECMAKE += "-DLIBICAL_GLIB_BUILD_DOCS=false"
- # gobject-introspection
- EXTRA_OECMAKE:append:class-target = " -DGObjectIntrospection_COMPILER=${STAGING_BINDIR}/g-ir-compiler-wrapper"
- EXTRA_OECMAKE:append:class-target = " -DGObjectIntrospection_SCANNER=${STAGING_BINDIR}/g-ir-scanner-wrapper"
- EXTRA_OECMAKE += "-DVAPIGEN=${STAGING_BINDIR_NATIVE}/vapigen"
--EXTRA_OECMAKE += "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-DGOBJECT_INTROSPECTION=ON -DICAL_GLIB_VAPI=ON', '-DGOBJECT_INTROSPECTION=OFF -DICAL_GLIB_VAPI=OFF', d)}"
--EXTRA_OECMAKE:append:class-native = " -DGOBJECT_INTROSPECTION=OFF -DICAL_GLIB_VAPI=OFF"
-+EXTRA_OECMAKE += "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-DLIBICAL_GOBJECT_INTROSPECTION=ON -DLIBICAL_GLIB_VAPI=ON', '-DLIBICAL_GOBJECT_INTROSPECTION=OFF -DLIBICAL_GLIB_VAPI=OFF', d)}"
-+EXTRA_OECMAKE:append:class-native = " -DLIBICAL_GOBJECT_INTROSPECTION=OFF -DLIBICAL_GLIB_VAPI=OFF"
-+# no java
-+EXTRA_OECMAKE += "-DLIBICAL_JAVA_BINDINGS=False"
- 
- # Tell the cross-libical where the tool it needs to build is
- EXTRA_OECMAKE:append:class-target = " -DIMPORT_ICAL_GLIB_SRC_GENERATOR=${STAGING_LIBDIR_NATIVE}/cmake/LibIcal/IcalGlibSrcGenerator.cmake"
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips|riscv64|riscv32).*-linux'
+ COMPATIBLE_HOST:libc-musl = 'null'
 -- 
 2.47.3
 
