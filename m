@@ -1,193 +1,161 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6428C43458
-	for <webhook@archiver.kernel.org>; Fri, 26 Jun 2026 23:06:41 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.45958.1782515195513957532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B262C43458
+	for <webhook@archiver.kernel.org>; Sat, 27 Jun 2026 00:18:02 +0000 (UTC)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.46948.1782519480849022220
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jun 2026 16:06:35 -0700
+ Fri, 26 Jun 2026 17:18:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=g4xr5cCw;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-46fe472da0dso447335f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 16:06:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=IvU7T4tp;
+ spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51a8dcdd8c7so5517531cf.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 17:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782515193; x=1783119993; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=99pyHlo2YCgKoB2CCHaEDLLIOJ2EMzu9HzuD/6pRpcE=;
-        b=g4xr5cCwxiyC5zq/tLPd6z9x6iDpfVTRmAPjtg2ZaO3/HgmCZTnFiSqTazq89F3Jgv
-         GRHKnOS3WnhvBtiELlXZICcc54ea9RvjlylGsqg59JIQeq7rlX3Z6lk8s3HK5gKMe3eY
-         My9eWodP6nayxnbqOyi6Px8X9UXMSozlDuH5c=
+        d=gmail.com; s=20251104; t=1782519480; x=1783124280; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GEOX+M8qXU4janaQc7MDkT2o0v5eZ75fP9ZdBz902AQ=;
+        b=IvU7T4tpKZqKPRxjyjlblotnd12bufEo0rft5WC5ilf+W/h/JdW8nnXb+7BDKJtnlZ
+         rEESt3a4zy3YQO9D6YcC//a9pczua2Tt8kS+5FARwQfsOcS5l8Kk6/tv5wb6YZjjliJL
+         TWayMX07VR+Us2NXRBQQRFSK3Rrr0s0eEFreXZS/xMLVajIjd8XSrJlxz3fHd4G4zCd/
+         mXNOV+hxE5CoLc2FIEf5BMUwfie984lPhD1NrD0VLBDUp+gjn2vUcJr88FQaC+K4gyn+
+         ntAqsuMguhmU5wTvWtxO6pAPgML7lxgzDY877und5a+H1UT3J4+9WYkQB9CA4BvEhChy
+         +kpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782515193; x=1783119993;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=99pyHlo2YCgKoB2CCHaEDLLIOJ2EMzu9HzuD/6pRpcE=;
-        b=HqR6kqmiDsgQ1YhHM4bmbp3z8YcGzwlaewBFBH+2eQS5+hAfX+jIQA4WC+YSzydPkf
-         yV5At+9ah/17cCsppczCzOjq9yiTM1olhvOp9eptA9wzKwyTUFJOPUcViU3HJm4AT4in
-         4OdzZX7pUB4ugWzU7ji4f0zA8c+TXA80bNqVGD9aCbYvC4Qu6qFrbiPyrJpdzkpSMQsf
-         0q4VXfnCfo8leX2un3F2c/YS8RQx0hEqp5Z9iUGVNa3081MRhYnQsQF1YrE1CYlKitKy
-         X5qmnef1kCJGfS01ZTshKOGZNakH1bzlFLZbdHQ9JS0+6WBdTXsNZAXd0S6yHx6NmLE6
-         Cg4g==
-X-Forwarded-Encrypted: i=1; AHgh+RprUjB5vg3xQ3tw+q5QRpIpAw0E2itFHwyD/yZqB+NAmwc1WKMJyu0zJAxyXO1hzzw1z49o9rin7BYlEr+N/oR5Tw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyeiPfGIE0JY71mLpm42FGEQsoc+JqUt8dcTIQpQ9/5yM/4sFu/
-	n/nU38/iBDtggww9LydEFOTfVk6DJNsXLNGXW6GsiWuL8SkA5Fy1mFyMwNDE59bFybc=
-X-Gm-Gg: AfdE7clwqwAE0Autsw/gMN7EhmcjJvoAlx1ePQhcA0IwHBKFiKFH/PzMgUXOZXHy80C
-	aEt+iN5vxAIvA/tP0119gMfoQ80EgeVHUjsgmqasTgGMjLRHs1HCv1YyFNeLIS4l75N7zQPrw9F
-	2ewrVdMxHIzPJI9Z8TwtQ3pQ6Z8KS59dy4YTMXaNHIy8TzcfG8Fz8+0uDSplkfWpEz+intwoo5D
-	qweneESrca4RK9Sj3kX07S5Igj9oBNxgmOQPt4wyQEVefMHlpfvMNf48HcB6fRnEw/4MY8OyfU4
-	ZfEYeoQj+gKUQFsxhd9mi/Eq66YuBq3rnT2QMW3NAsPS5VxT3E4syIMBKM2X5akM5W/nyF1O1Ti
-	xBl3UMRddVgU5sPQmygLq36+7GEekweTjApr+qWOSdVZOpircTFb5WPd+ta1HqqjImMasvkhO3n
-	JtqWjqxTfPoDnC0NokcgcnLAxEQ+OvrTBkjKD72eyt546HNdrpOlVCfvKhiDtEz5f8Fo+S98WNi
-	Qh6sQ==
-X-Received: by 2002:adf:e012:0:10b0:46d:cc92:e00e with SMTP id ffacd0b85a97d-46dcc92e148mr9949154f8f.35.1782515193564;
-        Fri, 26 Jun 2026 16:06:33 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00b5501ee7aae29268.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:b550:1ee7:aae2:9268])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46e3d6ba143sm15913291f8f.33.2026.06.26.16.06.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jun 2026 16:06:33 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 27 Jun 2026 01:06:32 +0200
-Message-Id: <DJJCWETHYRIH.1MYP9M9XYIZAS@smile.fr>
-Subject: Re: [OE-core] [scarthgap] [patch] libssh2: fix CVE-2026-55200
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <anders.heimer@est.tech>
-To: <daniel.turull@ericsson.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260622093400.2735723-1-daniel.turull@ericsson.com>
-In-Reply-To: <20260622093400.2735723-1-daniel.turull@ericsson.com>
+        d=1e100.net; s=20251104; t=1782519480; x=1783124280;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GEOX+M8qXU4janaQc7MDkT2o0v5eZ75fP9ZdBz902AQ=;
+        b=q4kLOt2kVSKXXeIMirMcl1gHOn2DK4kCKBvFmTWQ/Y6klzCFzxcgcqHXDQC3NvdNAF
+         xk+vFRl8ztd6MgUdetXeHMcyq3GoE2zjxqeRHOt+NB1/i9QjioXHaBxKIQR2Sylh+DCJ
+         +PKnmKIn8z6DXBd4bgoZmFd5yyv8t4W2LqdCXIxyfIRzYO5OPKzrg8x1FBuajH6xdxD1
+         arDP9r8t89mrdYZneCaHSRKDQ/GR8h0nt1j6vYGKFqRJ5O1YwUcnzYLntj1KgXolzd3g
+         Cwq3y3AuqPYo/uFNJYfxaiHo/WsFxEtcTADK4ysHwpGiDzXZaGoZK62qoUW3dvAqgsh0
+         w9KQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+bg30igD6iUSXixoLevOAhGy8dgnsoREvfWyIp7ouTQ0puli/tdBvc1AnOFQc3nwvApmCx1cFH019P+07ILJ8kcg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyTiHGbq7yI7Wv+XfAvixp0Nm/f17xZ5PruVPixcGMXA+xDbMsO
+	yvUuswsUxSqi/xwIZzF+FSFb1Yb+D4pK2qQhdzNLRsAiYceskh45zE7s
+X-Gm-Gg: AfdE7cl2gZrfG2QbH59ICENHgC6+bUlcjhUPK+ZCyoHgs9oT4quLmqCQkuw+SxIgXgj
+	xfSXQ8mk8n5kj/mjGum3O5/4kjd5WJ+8b3zyBQ19es/F2yauvc/SV4JAjvXqsfrsgq76oP2Z6as
+	T+7ogLP+YEarMY1X8qt0QwPmqsmkXD9B9P+SI8/nZknpwU3LyZ2q/+2o1/GK/AD/0RyK7z2wX0F
+	JrmKoRxN7XVEN9QtiNVobpl29umwjyFz5lIuVR4dXUc3nz2hZbYOx6d/CEuoxrYzbW/pbtsn8oc
+	4v+qqAsAs7Tw0E7KfdFl+wZ4ThVK8AOCo1Yi59xz2S/sfGidW2nAkL9/1yKUVwOOujK1vwA3Ept
+	cs24rG8lmEoAgNF9aBDoAm2iqt7FYBnIGGNn5GcoF1uXtIATHao4adfVTDq7SyEEVFh/rEPtiXg
+	aQnWrovPrTHgwj5x3sFJzfB95tzt4i1GsmICo7JKi00bElghwNBNnqld9FrbbFQ7q4kg==
+X-Received: by 2002:a05:622a:ab09:10b0:51a:89db:95a4 with SMTP id d75a77b69052e-51a89db9912mr27400901cf.6.1782519479711;
+        Fri, 26 Jun 2026 17:17:59 -0700 (PDT)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51a51b0cc9csm107145611cf.31.2026.06.26.17.17.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2026 17:17:57 -0700 (PDT)
+Date: Fri, 26 Jun 2026 20:17:55 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: yoann.congal@smile.fr
+Cc: aleksandar.nikolic010@gmail.com,
+	openembedded-core@lists.openembedded.org,
+	Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+Subject: Re: [OE-core] [scarthgap][PATCH v2] wic: Fix updating fstab for nvme
+ devices
+Message-ID: <aj8Ws4BY4p5RTISk@localhost.localdomain>
+References: <20260621202519.177293-1-aleksandar.nikolic22@pm.me>
+ <DJJCKP83KPUW.2ECUA0V3VKK9P@smile.fr>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <DJJCKP83KPUW.2ECUA0V3VKK9P@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jun 2026 23:06:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239669
+ <openembedded-core@lists.openembedded.org>; Sat, 27 Jun 2026 00:18:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239670
 
-On Mon Jun 22, 2026 at 11:33 AM CEST, Daniel Turull via lists.openembedded.=
-org wrote:
-> From: Daniel Turull <daniel.turull@ericsson.com>
->
-> Backport patch to fix CVE-2026-55200.
-> https://nvd.nist.gov/vuln/detail/CVE-2026-55200
->
-> Upstream fix:
->   https://github.com/libssh2/libssh2/commit/97acf3dfda80c91c3a8c9f2372546=
-301d4a1a7a8
->
-> Tested with ptest:
-> Before: PASSED: 3, FAILED: 0, SKIPPED: 0
-> After: PASSED: 3, FAILED: 0, SKIPPED: 0
->
-> Reviewed-by: Anders Heimer <anders.heimer@est.tech
-> Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-> ---
->  .../libssh2/libssh2/CVE-2026-55200.patch      | 51 +++++++++++++++++++
->  .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
->  2 files changed, 52 insertions(+)
->  create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-55200.p=
-atch
->
-> diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch b/=
-meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch
-> new file mode 100644
-> index 00000000000..f5ab9b9f204
-> --- /dev/null
-> +++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch
-> @@ -0,0 +1,51 @@
-> +From df0b03ee5ef12f3a46fccc0fc688ebfb91702972 Mon Sep 17 00:00:00 2001
-> +From: Will Cosgrove <will@panic.com>
-> +Date: Fri, 12 Jun 2026 15:57:44 -0700
-> +Subject: [PATCH] transport.c: Additional boundary checks for packet leng=
-th
-> + (#2052)
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Backport Resolution: Add additional bounds checking on packet length to
-> +prevent OOB write =E2=80=94 checks that packet_length is not below 1 and=
- not
-> +above LIBSSH2_PACKET_MAXPAYLOAD before proceeding.
-> +
-> +Conflicts Resolved:
-> +
-> +src/transport.c (1 conflict):
-> +- Upstream uses renamed API ssh2_ntohu32(); stable branch uses
-> +  _libssh2_ntohu32(). Kept stable function name while applying the
-> +  new upper-bound check (LIBSSH2_PACKET_MAXPAYLOAD) unchanged.
-> +
-> +Assisted-by: kiro:claude-sonnet-4.6
-> +
-> +Changes from upstream commit 97acf3dfda80:
-> +  - src/transport.c: adapted from upstream
+On Sat 2026-06-27 @ 12:51:14 AM, Yoann Congal via lists.openembedded.org wrote:
+> On Sun Jun 21, 2026 at 10:25 PM CEST, Aleksandar Nikolic via lists.openembedded.org wrote:
+> > From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+> >
+> > In case wks file references nvme, update_fstab() function will not add
+> > prefix 'p' before the partition number, as the if condition only takes
+> > mmcblk into consideration.
+> >
+> > In case of nvme0n1 this leads that following entries are added to fstab:
+> >
+> >     /dev/nvme0n11
+> >     /dev/nvme0n13
+> >
+> > instead of:
+> >
+> >     /dev/nvme0n1p1
+> >     /dev/nvme0n1p3
+> >
+> > The patch fixes this as it extends the if condition and adds prefix 'p' for
+> > both mmcblk and nvme.
+> >
+> > Upstream-Status: Backport [https://git.yoctoproject.org/wic/commit/?id=f20cda73b495b75ef399c331f59b0e2401a3e76a]
+> > Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+> 
+> Hello,
+> 
+> Sorry I missed it in earlier reviews but it look like this patch is also
+> needed on wrynose: wrynose has wic 0.3.0 but this patch is 2 commits
+> above that.
+> 
+> To accept this patch on scarthgap, I would need a equivalent patch for
+> wrynose. Can you send that and ping back here?
 
-While resolving the conflict, your AI completely rewrote the patch
-message and notably removed the Credit: line.
+In scarthgap wic is part of oe-core, in wrynose it is not.
 
-Please keep the original patch message and put the backporting
-information below the "Upstream-Status:" line. While you changing this,
-the conflict resolution is trivial, no need to be so verbose (a line
-referencing ssh2_ntohu32 should be enough).
+For wrynose it would require a completely different patch; but it would
+probably be best to just update the SRCREV instead.
 
-Thanks!
+> Thanks!
+> 
+> > ---
+> >  scripts/lib/wic/plugins/imager/direct.py | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+> > index a1d152659b..b06e6a8f23 100644
+> > --- a/scripts/lib/wic/plugins/imager/direct.py
+> > +++ b/scripts/lib/wic/plugins/imager/direct.py
+> > @@ -133,8 +133,8 @@ class DirectPlugin(ImagerPlugin):
+> >              elif part.use_label:
+> >                  device_name = "LABEL=%s" % part.label
+> >              else:
+> > -                # mmc device partitions are named mmcblk0p1, mmcblk0p2..
+> > -                prefix = 'p' if  part.disk.startswith('mmcblk') else ''
+> > +                # mmc and nvme device partitions start with prefix 'p'
+> > +                prefix = 'p' if part.disk.startswith(('mmcblk', 'nvme')) else ''
+> >                  device_name = "/dev/%s%s%d" % (part.disk, prefix, part.realnum)
+> >  
+> >              opts = part.fsopts if part.fsopts else "defaults"
+> > @@ -266,7 +266,7 @@ class DirectPlugin(ImagerPlugin):
+> >                  elif part.label and self.ptable_format != 'msdos':
+> >                      return "PARTLABEL=%s" % part.label
+> >                  else:
+> > -                    suffix = 'p' if part.disk.startswith('mmcblk') else ''
+> > +                    suffix = 'p' if part.disk.startswith(('mmcblk', 'nvme')) else ''
+> >                      return "/dev/%s%s%-d" % (part.disk, suffix, part.realnum)
+> >  
+> >      def cleanup(self):
+> 
+> 
+> -- 
+> Yoann Congal
+> Smile ECS
+> 
 
-> +
-> +CVE: CVE-2026-55200
-> +Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/97a=
-cf3dfda80c91c3a8c9f2372546301d4a1a7a8]
-> +
-> +Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-> +---
-> + src/transport.c | 6 +++++-
-> + 1 file changed, 5 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/transport.c b/src/transport.c
-> +index e1120656..d147505b 100644
-> +--- a/src/transport.c
-> ++++ b/src/transport.c
-> +@@ -639,8 +639,12 @@ int _libssh2_transport_read(LIBSSH2_SESSION * sessi=
-on)
-> +                 total_num =3D 4;
-> +=20
-> +                 p->packet_length =3D _libssh2_ntohu32(block);
-> +-                if(p->packet_length < 1)
-> ++                if(p->packet_length < 1) {
-> +                     return LIBSSH2_ERROR_DECRYPT;
-> ++                }
-> ++                else if(p->packet_length > LIBSSH2_PACKET_MAXPAYLOAD) {
-> ++                    return LIBSSH2_ERROR_OUT_OF_BOUNDARY;
-> ++                }
-> +=20
-> +                 /* total_num may include size field, however due to exi=
-sting
-> +                  * logic it needs to be removed after the entire packet=
- is read
-> diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipe=
-s-support/libssh2/libssh2_1.11.1.bb
-> index 2284d054b10..d6ee97f7ed0 100644
-> --- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-> +++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-> @@ -11,6 +11,7 @@ SRC_URI =3D "http://www.libssh2.org/download/${BP}.tar.=
-gz \
->             file://run-ptest \
->             file://0001-Return-error-if-user-KEX-methods-are-invalid.patc=
-h \
->             file://CVE-2026-7598.patch \
-> +           file://CVE-2026-55200.patch \
->             "
-> =20
->  SRC_URI[sha256sum] =3D "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a5=
-6b0f109cabf658f7"
-
-
---=20
-Yoann Congal
-Smile ECS
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#239668): https://lists.openembedded.org/g/openembedded-core/message/239668
+> Mute This Topic: https://lists.openembedded.org/mt/119915320/900817
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [twoerner@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
