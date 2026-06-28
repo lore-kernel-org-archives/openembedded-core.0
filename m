@@ -2,234 +2,121 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32337C43458
-	for <webhook@archiver.kernel.org>; Sun, 28 Jun 2026 20:54:48 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.79499.1782680076623647083
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C74CC43458
+	for <webhook@archiver.kernel.org>; Sun, 28 Jun 2026 21:41:28 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.80245.1782682884986262446
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2026 13:54:37 -0700
+ Sun, 28 Jun 2026 14:41:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=qE0gY79C;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47013e1996aso931799f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2026 13:54:36 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=jpY05yhl;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so19529695e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2026 14:41:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782680075; x=1783284875; darn=lists.openembedded.org;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
+        d=smile.fr; s=google; t=1782682883; x=1783287683; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wpgXFWYtFU+nu51jqf8dBYmgZ37+Ob+q73qbZIPd1Wo=;
-        b=qE0gY79CWcqBBWr9E77OYOy5AdGtR64g+0CSpyG1H2ivOsUTwMwRYcGHDu7rGyIE0J
-         t+8UGBi/HcCdpRdtJPpBpPpY95bNyZzXwYVLV9YJK4mgoofWxsySCaXbLjKuRk1ZtXun
-         +TSXvMHD3V1LMQe1M8RbG+sUbyelElyvA396Q=
+        bh=CVWeDk9BBVNGMLm/i5j1pb58HBnSo5g1FQo1mnRWuSY=;
+        b=jpY05yhlMcbFjZfzfzwMiqBdV8zDM4qn1uyN70EFUzY+o6UKQ63L3trRfs8FIfcCnx
+         KaKJF/DARJq6+1FfNh0BLnBhVNDYitCK01ZfdZONXNPTBIubD63VmDy0F0AVeHlUjE5A
+         ziAhS1S0cUsYN4PGmc2paoGWCmIEORWhVjiHo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782680075; x=1783284875;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
+        d=1e100.net; s=20251104; t=1782682883; x=1783287683;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=wpgXFWYtFU+nu51jqf8dBYmgZ37+Ob+q73qbZIPd1Wo=;
-        b=OuiQHvPYDEqi7w2IFpVXz9kixzonjpuEtNIIGgmWcCFzXlz3XD9o6kRXd2EB9dwEGV
-         oRDeJOmFHJF3NMiGhe9Ms0MnPcb2So5oajbajAKQOk7QwvP8f2gQ5tuPGnijCNvNOvQm
-         Bm/FHcADCz/kubIU1qayw4RDraUBssq3dV7n9GkeA7Oj3VRyMC7GaoIrdWTUdfyI3Bbt
-         6LxFdL0oZj04PKzqIFK0wr35QuJH+6t4LFFh7Q6bpmNlK/zM7sdcLEumJwFpo/Zu6RCm
-         YFbWe1PwOUl6YlBY31WSc1jIRPPb+cTIry/B8823C8eng/eA9/Z7QVYcXruXC+VzmMEo
-         JC7g==
-X-Forwarded-Encrypted: i=1; AHgh+RqnStuQQHiawzztkBAlEzDEt0eRX8og4Hr1PhUaTkVPebVII4XqkSjFO6L+wttys9EC8ut0pwSSiPG7ywwdCj41yA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzqKma1h9GNjwMLnqQifaE++YkCOxar1gDYlruO98AUZ5TTTLOe
-	XNvW4CLTkGYJBI2v4JYOq40y1Uix7ULgOosqAF5rBqEhalni/nspDJAfFzf2IUTTglw=
-X-Gm-Gg: AfdE7claLqL+oqxFCpPVCrineSsb8mRzLt0TzdMNynr0WFdRx46RTe1aZR/N/yPCX3v
-	045lUGKN4QkLOsW0zJhCFHlaHD/N+P8OGii8BgIUcGY18yXzrLnY9r6GM5+QquAnu54gYq9i/q7
-	j7/WCmZtYjcWQpYxw6nBuRelhMd253zJ35C0v2wp4IwqELq+Y3cklYW534F2lfbf2ZwqR9Mo0Zd
-	x74ACKDb4aqfj+tZHmjMgOhyQCAq9ZxcsJkfDrJeLD4pICchWBbtcTcE4hgnKBmmGoJ3BnkFwe3
-	zrUH/e3/15ZiifWj2nodwGiGWwHtEPAdHIKYlSjzaNWQhJJuLc8PjB1XI4T3/JDv5giVZMP0F1U
-	kE6UhxHqtlAzic1rc6ed0dmZYFQW6WI7qRy7Qy/6uHq61+mfncoT6KOwEIAYbs2ds1WNG+7s3rw
-	mFcCK7COB3maLUGCxupeWVcxbWsnsZmR4NgVd0ikwo5WnCtNXY1qYD81nk0Z0nynIvDRtqKGsEm
-	zw4Tw==
-X-Received: by 2002:a5d:6f18:0:b0:46f:7d90:8114 with SMTP id ffacd0b85a97d-46f7d9082dbmr14560642f8f.14.1782680074676;
-        Sun, 28 Jun 2026 13:54:34 -0700 (PDT)
+        bh=CVWeDk9BBVNGMLm/i5j1pb58HBnSo5g1FQo1mnRWuSY=;
+        b=BSbTYuIHqA+L/AL8rbFJqpdDX9tGgB2kGFyO4E+LLS7uxRkKExhW7LZU503J215eu+
+         XgXH6g/MSGLuS8u4sy6jHyyTPCI6ce6KL8vHZ7nEw/C4S2xkysuO3Un+7w+cm6XMQunc
+         mOhT7Vidqgj1XtyZiGJmSd4IkfxIULA5zygGp3dJ9guhU1ZoVp3tGdErePzyq1PvABnX
+         HZsHkx6WeKrPZB/4BeXPt8MyDA33sq8oIPreyRH3BsTYyZrgcNs/EBSS7nyiw371W8Is
+         L454ND/VGLZHepxhJI8o+Ql1QQe36B5Lzf8vMImNzsK9YOi5H1Hjx561QIFvYvcL11Me
+         Wwdg==
+X-Forwarded-Encrypted: i=1; AFNElJ+5gfVnq+2KyBhDh3jk6zpqa3otYAK9IlgGy+Uh4yt/1RnRRsC5AwIJtoJ0t64SkwzTi/XD//G2qSuJ33eTB1kWqw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw6dn4YGoKPpdpd+Su3MmA4C6JI/ga2kCBNm5jVBYsFG+qRmszJ
+	QnwvkrjJGr+J1K7xl3/mmqp5I8ZWPmeTFytZe1cNRY1GilwGkOtK5dkTrFOcfrqjZHE=
+X-Gm-Gg: AfdE7cmU/B7G5siNDr5o/APasdr84Sa6BtII2p7yk85U4e/1w/YSFjMpp6yzKvV+Si4
+	yV9v+aZliLkvz4VlvzYeLi1a6+4sL99Yfc/S708J+6vjQWCyoys5IffzLQ1K9Ic6z7XyTHFdsrR
+	Zzl1+ofjAS1yGOHBZrSJNRsGpQYc62GFSgqcNDUBKYn1+eoolWS4QokWuWua+1cIaHoma/LUw8w
+	WNzGq0kBjWMB/45xpxerjc8Wip12tcUxxtJ40Z8z0FfLfZu50+p9Hdic35BgybDhD4sySEhMqV9
+	5qbZjXzM0acjA5fIvdhc4ZYC+aQVX1vr9HJRm1V0EoNuLcAub4zMAT/3Fa2VUZTgKkBCLWIoRDI
+	m0Gy6Ng9vdEgcrzAYptHsP73SPTL3j7epaNvAoj/1L+Mw5b3HopZZ/wPt/j/L9ztOBELj2HaR3A
+	jAjR69GcKLa5KQxkLdl1dbakYz9WIyrNsdCGoxc9rKJFOLKMOHgxUYez0GTBL7BpjdoHDL46ZvV
+	AjY5g==
+X-Received: by 2002:a05:600c:8715:b0:493:a960:a0bf with SMTP id 5b1f17b1804b1-493a960a21emr40666985e9.21.1782682883088;
+        Sun, 28 Jun 2026 14:41:23 -0700 (PDT)
 Received: from localhost (2a01cb001331aa004db220001799fd29.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:4db2:2000:1799:fd29])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46d86960983sm36348197f8f.4.2026.06.28.13.54.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4939a8279f3sm113841865e9.10.2026.06.28.14.41.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Jun 2026 13:54:34 -0700 (PDT)
+        Sun, 28 Jun 2026 14:41:22 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 28 Jun 2026 22:54:34 +0200
-Message-Id: <DJKZCG8PLJ4N.HG3MQ0DUAVVU@smile.fr>
-To: "Trevor Woerner" <twoerner@gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH v2] wic: Fix updating fstab for
- nvme devices
+Date: Sun, 28 Jun 2026 23:41:22 +0200
+Message-Id: <DJL0CA8EYLXW.A5X09Y1P47MO@smile.fr>
 From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <aleksandar.nikolic010@gmail.com>, "Patches and discussions about the
- oe-core layer" <openembedded-core@lists.openembedded.org>, "Aleksandar
- Nikolic" <aleksandar.nikolic@zeiss.com>
+Cc: <xe-linux-external@cisco.com>, <to@cisco.com>
+To: <adongare@cisco.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [scarthgap] [PATCH 1/8] cups: Fix CVE-2026-27447
 X-Mailer: aerc 0.20.0
-References: <20260621202519.177293-1-aleksandar.nikolic22@pm.me>
- <DJJCKP83KPUW.2ECUA0V3VKK9P@smile.fr>
- <aj8Ws4BY4p5RTISk@localhost.localdomain>
- <CAMSfU+7MH7MrahkitU8Z-c0+dyZS=37bqo+V1iAczOOnUANRdQ@mail.gmail.com>
- <akASOiHwAAO8YQj-@localhost.localdomain>
-In-Reply-To: <akASOiHwAAO8YQj-@localhost.localdomain>
+References: <20260623113037.28968-1-adongare@cisco.com>
+In-Reply-To: <20260623113037.28968-1-adongare@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2026 20:54:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239715
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2026 21:41:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239716
 
-On Sat Jun 27, 2026 at 8:11 PM CEST, Trevor Woerner wrote:
-> On Sat 2026-06-27 @ 10:20:50 AM, Yoann Congal wrote:
->> Le sam. 27 juin 2026, 02:18, Trevor Woerner <twoerner@gmail.com> a =C3=
-=A9crit :
->>=20
->> > On Sat 2026-06-27 @ 12:51:14 AM, Yoann Congal via lists.openembedded.o=
-rg
->> > wrote:
->> > > On Sun Jun 21, 2026 at 10:25 PM CEST, Aleksandar Nikolic via
->> > lists.openembedded.org wrote:
->> > > > From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
->> > > >
->> > > > In case wks file references nvme, update_fstab() function will not=
- add
->> > > > prefix 'p' before the partition number, as the if condition only t=
-akes
->> > > > mmcblk into consideration.
->> > > >
->> > > > In case of nvme0n1 this leads that following entries are added to
->> > fstab:
->> > > >
->> > > >     /dev/nvme0n11
->> > > >     /dev/nvme0n13
->> > > >
->> > > > instead of:
->> > > >
->> > > >     /dev/nvme0n1p1
->> > > >     /dev/nvme0n1p3
->> > > >
->> > > > The patch fixes this as it extends the if condition and adds prefi=
-x
->> > 'p' for
->> > > > both mmcblk and nvme.
->> > > >
->> > > > Upstream-Status: Backport [
->> > https://git.yoctoproject.org/wic/commit/?id=3Df20cda73b495b75ef399c331=
-f59b0e2401a3e76a
->> > ]
->> > > > Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
->> > >
->> > > Hello,
->> > >
->> > > Sorry I missed it in earlier reviews but it look like this patch is =
-also
->> > > needed on wrynose: wrynose has wic 0.3.0 but this patch is 2 commits
->> > > above that.
->> > >
->> > > To accept this patch on scarthgap, I would need a equivalent patch f=
-or
->> > > wrynose. Can you send that and ping back here?
->> >
->> > In scarthgap wic is part of oe-core, in wrynose it is not.
->> >
->> > For wrynose it would require a completely different patch; but it woul=
-d
->> > probably be best to just update the SRCREV instead.
->> >
->>=20
->> Trevor, thanks for the added details.
->>=20
->> Do you plan to release a wic 0.3.1 soon? Or do you recommend we switch f=
-rom
->> version based SRC_URI to commit based SRCREV (I'd prefer to stay version
->> based)?
+On Tue Jun 23, 2026 at 1:30 PM CEST, Anil Dongare -X (adongare - E INFOCHIP=
+S PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+> From: Anil Dongare <adongare@cisco.com>
 >
-> I just sent: https://lists.openembedded.org/g/openembedded-core/topic/pat=
-ch_wic_upgrade_0_3_0/120007269
+> Pick the upstream backport [1] for CVE-2026-27447 as mentioned in [2], wh=
+ere
+> the scheduler treated local user and group names as case-insensitive.
+>
+> Also include the two upstream regression fixes that followed the CVE
+> fix:
+> - CVE-2026-27447-regression_p1.patch [3] fixes a cupsd crash when the
+>   referenced user does not exist on the server. This regression was
+>   reported in OpenPrinting/cups Issue [5].
+> - CVE-2026-27447-regression_p2.patch [4] fixes unauthenticated print
+>   policies for non-local accounts. This regression was reported in
+>   OpenPrinting/cups Issue [6].
+>
+> [1] https://github.com/OpenPrinting/cups/commit/a0c62c1e69604ff061089b750=
+073199fab5a1beb
+> [2] https://security-tracker.debian.org/tracker/CVE-2026-27447
+> [3] https://github.com/OpenPrinting/cups/commit/6d97ee39fedf12a7a5429a74f=
+4156ef9bb67f562
+> [4] https://github.com/OpenPrinting/cups/commit/849fba7d7a1144e48d45c5e6b=
+a2504765912ece0
+> [5] https://github.com/OpenPrinting/cups/issues/1555
+> [6] https://github.com/OpenPrinting/cups/issues/1557
+>
+> Signed-off-by: Anil Dongare <adongare@cisco.com>
+> ---
+>  meta/recipes-extended/cups/cups.inc           |   3 +
+>  .../cups/CVE-2026-27447-regression_p1.patch   |  48 +++++++
+>  .../cups/CVE-2026-27447-regression_p2.patch   |  46 +++++++
+>  .../cups/cups/CVE-2026-27447.patch            | 120 ++++++++++++++++++
+>  4 files changed, 217 insertions(+)
+>  create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-27447-regres=
+sion_p1.patch
+>  create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-27447-regres=
+sion_p2.patch
+>  create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-27447.patch
+
+Hello,
+
+As far as I can tell this fix is needed for wrynose:
+CVE impacts "up to 2.4.16 including" as per NVD but wrynose is 2.4.16.
+
+Can you send a fix for wrynose so I can take this one for scarthgap?
 
 Thanks!
-
-I've noted to try to backport it to wrynose when that land on master.
-
-Aleksandar, Trevor, ping me if you see me forget.
-
-Regards,
-
->
->> Looking at the master logs, I could take a 0.3.1 upgrade with the curren=
-t
->> master state.
->>=20
->> Alternatively, we could backport Aleksandar's fix on top of the 0.3.0
->> recipe (as usual)
->>=20
->> Regards,
->>=20
->>=20
->> > > Thanks!
->> > >
->> > > > ---
->> > > >  scripts/lib/wic/plugins/imager/direct.py | 6 +++---
->> > > >  1 file changed, 3 insertions(+), 3 deletions(-)
->> > > >
->> > > > diff --git a/scripts/lib/wic/plugins/imager/direct.py
->> > b/scripts/lib/wic/plugins/imager/direct.py
->> > > > index a1d152659b..b06e6a8f23 100644
->> > > > --- a/scripts/lib/wic/plugins/imager/direct.py
->> > > > +++ b/scripts/lib/wic/plugins/imager/direct.py
->> > > > @@ -133,8 +133,8 @@ class DirectPlugin(ImagerPlugin):
->> > > >              elif part.use_label:
->> > > >                  device_name =3D "LABEL=3D%s" % part.label
->> > > >              else:
->> > > > -                # mmc device partitions are named mmcblk0p1,
->> > mmcblk0p2..
->> > > > -                prefix =3D 'p' if  part.disk.startswith('mmcblk')=
- else
->> > ''
->> > > > +                # mmc and nvme device partitions start with prefi=
-x 'p'
->> > > > +                prefix =3D 'p' if part.disk.startswith(('mmcblk',
->> > 'nvme')) else ''
->> > > >                  device_name =3D "/dev/%s%s%d" % (part.disk, prefi=
-x,
->> > part.realnum)
->> > > >
->> > > >              opts =3D part.fsopts if part.fsopts else "defaults"
->> > > > @@ -266,7 +266,7 @@ class DirectPlugin(ImagerPlugin):
->> > > >                  elif part.label and self.ptable_format !=3D 'msdo=
-s':
->> > > >                      return "PARTLABEL=3D%s" % part.label
->> > > >                  else:
->> > > > -                    suffix =3D 'p' if part.disk.startswith('mmcbl=
-k')
->> > else ''
->> > > > +                    suffix =3D 'p' if part.disk.startswith(('mmcb=
-lk',
->> > 'nvme')) else ''
->> > > >                      return "/dev/%s%s%-d" % (part.disk, suffix,
->> > part.realnum)
->> > > >
->> > > >      def cleanup(self):
->> > >
->> > >
->> > > --
->> > > Yoann Congal
->> > > Smile ECS
->> > >
->> >
->> > >
->> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> > > Links: You receive all messages sent to this group.
->> > > View/Reply Online (#239668):
->> > https://lists.openembedded.org/g/openembedded-core/message/239668
->> > > Mute This Topic: https://lists.openembedded.org/mt/119915320/900817
->> > > Group Owner: openembedded-core+owner@lists.openembedded.org
->> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsu=
-b [
->> > twoerner@gmail.com]
->> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> > >
->> >
->> >
-
-
 --=20
 Yoann Congal
 Smile ECS
