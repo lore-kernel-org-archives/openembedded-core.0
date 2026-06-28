@@ -1,172 +1,145 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jan.vermaete@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CF4DC43458
-	for <webhook@archiver.kernel.org>; Sun, 28 Jun 2026 11:34:17 +0000 (UTC)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.71167.1782646448838752669
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0986AC43458
+	for <webhook@archiver.kernel.org>; Sun, 28 Jun 2026 11:38:47 +0000 (UTC)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16774.1782646716940118457
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2026 04:34:08 -0700
+ Sun, 28 Jun 2026 04:38:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=TKp7sp+T;
- spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51af8fda431so11459661cf.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2026 04:34:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782646448; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=pUTAp2cI;
+ spf=pass (domain: gmail.com, ip: 209.85.128.171, mailfrom: jan.vermaete@gmail.com)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-80cebd41372so6196327b3.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2026 04:38:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782646716; cv=none;
         d=google.com; s=arc-20260327;
-        b=ZEBKju7cN9pJhoo2kU42mcpd9owqXRhDTp5kB41Welco4IuDW0LlzNevRg6amK9vSo
-         BFn6UAWIMknK3m+qelAOqXvsavRsPmw5QfuHkN8EQpHvx4CHH4KXaI63uyHKS+mWFsEB
-         oHcyAWF922NRvrjEc48sM8w37AnxD/67gUAPdud0Oq1JleuU2tkpvKjdXyMJAAB0YYkG
-         9++PtNhTht6xI/ZQjOdueSlic40JaEOfDCdXAxwkOuJ+5h5OiwTjaeikqXag7noCS0Cr
-         HhuzOm5P8zrqTfZ2+2zGgtInAR1LA+RCgKxTKoQVf4kIwtJaizC12U/58K0bXpC2x1HU
-         bY3Q==
+        b=WvnN4CFMovJjbyG1qz9wjH7EnvzmlRZfomZYzCMvOiYheHMF+pZ0levc2HhdFN0rL4
+         rdj0hmIYkmcEF+Joy7P7WQF0YiAJ+iD35N0Bwe2CSaZly95TRqF7MVHpXAfWVvoyAsVT
+         SXdTinoECf0W+0jNv9MC7denMeXKbWfDWT4CH9ldKjwLqfbTaM3L1xVQum/DZLQlO1Fu
+         5l9GO3s5YkUBNYFcuhuHzqkeC2+E915OMCBRHO3f/Jshg+/RT88aodoZVab8psNFlr8b
+         Cw10jmAdqWqxUO6AnMwnXMUUAOkQpUyeaSdA1LTCMzr+DR01iPc2aocsVXB9S/1FN+Q9
+         rObw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZIfo4g3VD6BABiauW24d9RqdHikciospRC8IjWvj/B0=;
-        fh=FzKgdLV+w+uJAO8KsF/nrhSBzzBqFSq/gRIfLC2lntw=;
-        b=JSXZhUnpd4LvprGf8yljDcsGoSKghf2AqdZGB2ln767Jynk6iXIJbyOg1iLHvsnnqd
-         e87srH1XhDb4OpNDDc43ISDnOHmyXPKPKcYCQ5hnf/NAy8P1PJVdnAUad9PhA0mDwOKv
-         FZHdaxbchLXmJrmlD6LwpEZrzqdWRMeQO1fXobd9aIsUsyDvWgQHA0OwtjKRPsOUPWZy
-         N8wldWSjesEYA3qU5++3nzel9B4MuheD7iki2OlhnVKeMf10vgx9tI6xnxA7jmf0FQ/F
-         JF2colbbRRtvoUUSNDVVCT7fZE7Zds5kBekEahjy4KyFkUt0nbmrhnuRE+IsvFEhblIq
-         A9Dw==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=7EiWwjDHmm3sBpSP7m5NaU0C09Bj4218gVmjqMxTtIo=;
+        fh=x04p8img93tda512L7Uc/GJVxFSsE3/4wpZWux3OJi4=;
+        b=pjlQNUQNx91J9DM9flS7ZVZVX9DdQosn5CBwf2SfnoV/GQ8ipl+3QZWUQ/HbaePAgp
+         Cr7NT5qLo6Kj6fl1grgIWLo12/bQzRPSZgH5J/jy20c8v+HSIKkEp9VRhf3uN6uMU/CB
+         hkp142ea5YZxAwJdDkns9UVmLGS65rpvRGsLRYeN8548RQpGFWYYni9jQtqB1SQi41iA
+         M3ClQ+4YQ9rLQoqJOq9CRP/A9kY3Rmjm7S31tby2Yst3tdfdyVGQOq23+T5Cywa23uO/
+         oAKAZCF3qm1uZynSU0tUKkz1irpxqgNObq9syPPhzf8LS7YBmgC74Wvaw/kM6/9daGhy
+         8tVw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782646448; x=1783251248; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZIfo4g3VD6BABiauW24d9RqdHikciospRC8IjWvj/B0=;
-        b=TKp7sp+TPICr7dtbw7Q9VJBRGTBJw/ueoGo9me6Qf7H8vELNgi8ns+tHcxIJzy/vL/
-         n1feTVf6jUcANtU3NjaiPYj2Fqx0I2ZHXduImgZgEMxq7A9OX4ljMWyDTZHMqYoW/UoR
-         smD/JdB58CWb5jkxnYsAdsVUHtAeYxQGrlIzelRVQaHbZjK1mDRwUOgBvhus1F5SmEJZ
-         8VAPlr5ro8gzz2A6ZvhFzyrmtWAAWoaMrKqNL4v33bww8j8YGfA1xYlFRmHTPPjW4wUx
-         +66qlO5OUbBsB6WfBNXiZjb/fFy/RL6urq+5noYN2Z3v9GwWr+EvMGoph/dlEumN2ML7
-         ytEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782646448; x=1783251248;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782646716; x=1783251516; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZIfo4g3VD6BABiauW24d9RqdHikciospRC8IjWvj/B0=;
-        b=tTnCPo9frB2+gc3KKPhhx88OV3DzMlCtRNJfe8kGR6L3cI/fhEndzWHVYEj5hrAJT8
-         uIT/ikek4RvOTW3dOnZH9xBhS2SZtfdfU9CsWuebrxjCe/NBA+5ESqXlG3MOmeLjfJOV
-         ezFOKLCOq9divoLbZRVrrafCgeORA3iqhKB4Cr3tJe3y+YTkPZVJ7pVXfgYckrXYZ6nM
-         TdwfBgfQQSbbjbUt838HBJOPmcbyTdM1R4OugCtNieI0vf3fmfMf+k2p1vbCVxib0CcB
-         mymyxYh9F1ffbcxZJqqMH6GhHXIXzVA0lc6Cl/SWPnMaWdLqGtJkGdp0sMR5iO4LXJLB
-         mp3A==
-X-Gm-Message-State: AOJu0Yz1dHk9Jhamw+Mk0AoGl6OdLSfbFIJbaDutSmB6hSgPrQ8C4DVe
-	ujMfDajoXhYzrGKc2eA89TGP4JBPVADuZIYbsJ2sPpoliE21fWmGoxj/xB6YZj98kmbg94VyZYE
-	9C4kikMAwWLh6VfiIndojG2l72G23WXc=
-X-Gm-Gg: AfdE7cnRyGt09J4PElkLo9NO3RTEkXq2BK7/YBVooRxihaGwWhE6hE9KNF8ouA+D55R
-	XaSavzFOer38bHeJX1tCMztlqtvulFBxF50F9wTq/Aal1+L+1YNIuZpoFgOfCVvf5KHDPCDHG6v
-	estsfqDBc8DzwyYzs5KDz4pa8F80c1WS7e/X4YGCrSRAbx+00EFxCh0ABk8D6ivsdH4GxFDdJ9/
-	afLeDSgIstudavpfcEVcIavDqLGW6BOrxc1bYzStCC1R+8WAz6EhT5yKjJ5wmmZ9qhmgpynpw==
-X-Received: by 2002:a05:622a:312:b0:517:61d5:2f85 with SMTP id
- d75a77b69052e-51a7283d356mr199662511cf.33.1782646447643; Sun, 28 Jun 2026
- 04:34:07 -0700 (PDT)
+        bh=7EiWwjDHmm3sBpSP7m5NaU0C09Bj4218gVmjqMxTtIo=;
+        b=pUTAp2cIEmOkmHWnoXlaUtsg8hnV/UGs6+Jz1KlEsj5Yu0XDydr/ysXvP7keMcDyVN
+         hODKsjMSBPADZjUMwQNky+navYqP0PiaHW0wvGVYrqjVbBlhLIKcsNioppPidQeV+BZ6
+         KuI1O+C0rFlLdZhHX31ww6rnsQGF0wUuHM3anpjv0E+WeDFpghvD98VQIq6k13Ik7/fd
+         ZkiO3cjDwpeQ/OGu04S2ctnP6RsrDA1g2Nhc4484DmUyStIrjTarWZ1ILMx7+cS/OdvB
+         QT/HDJEgZwU9HooAg7cfbtIwmS8kXtzXXikLdcfWAMDRmisQBapLZc7QFhLUeNJAvut9
+         vnog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782646716; x=1783251516;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7EiWwjDHmm3sBpSP7m5NaU0C09Bj4218gVmjqMxTtIo=;
+        b=XVUBAZvFkGpJkJ0XiDq/i6bdQz/Gh3c7Izsxa6pR+zHruilnezYTBEyPCBaoe2c1AG
+         iqk1lNkBflZofGLLG21VOgQaMbenasUKYGAB/rHxXKZesqYiU8ot0j7PDfT/hVskq0JX
+         DO0viSV2DQm5fbkdZsHKeWzJBIYkiEJTHj/Jzvh5u6jnraYgV4Kc5rBTLQ4hx4UkY4u7
+         NjmXo3vv9x3WGmBwp0gUlo75o+8HmdZqFCjaiAqBGYkRnEp8WKLkeZSIW/FtirzxBCPc
+         4nS5Ijaek4MfhPbUt8H9xXCBa2QHUn2exvecFzBwQO2bN5DBQmW8fCjplhqChq2Ntb3B
+         8Tuw==
+X-Gm-Message-State: AOJu0YykHoe5hUAOFu+8VWAr9VNF22LKlQasz8v/jnt2k31/4IYCLSuW
+	AnvrJoIfKacmMpdk+sO2g34Pbaf3YjmRnG/gDjUlLarejYGbXTg7M3Nxo1PBB004gbMrBboYpW0
+	2SGDD/5XN60GGySKDPaCuY8EyprRapKd2OtF2
+X-Gm-Gg: AfdE7clXaLlM7QDK6rEUF2rhYTupbjOA3eG6VZJBYcwrznnJbDdhof1+OzSX3YGuG7l
+	h0sm11psF1UL4rICAUeIpWgeIP0Ozqgd3Bju9Ujq36Hmfuz3A7Ii/lBYBrV16TGU423DOFdGLe2
+	wNgN2ls3lqXjc4t/7XJZpMXoslhgDpdIORs80PsFrPvJ2xwk0VfmEEvuH97bbR8O7HwHCuY/lm4
+	Eb0kdW4uVlH18Lmve4PuGR3RgL4L0I0yBgmIxUeCtWnE4DONiqsEQ5C5XfP8/DAiaQc9qZZziQ3
+	XUuugSq21npz+cT8/41KlsTYAknjKtMZcAmt99qKd65RIPaa2DsM5fqmCxRSpA==
+X-Received: by 2002:a05:690c:6887:b0:7ff:1a06:472 with SMTP id
+ 00721157ae682-80a67806545mr125451127b3.4.1782646715792; Sun, 28 Jun 2026
+ 04:38:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <CABF_=yhLuHYF6MAW03=CbgUMFdBXaNBpQ=OEVe8d-bCimYv9eA@mail.gmail.com>
-In-Reply-To: <CABF_=yhLuHYF6MAW03=CbgUMFdBXaNBpQ=OEVe8d-bCimYv9eA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 28 Jun 2026 14:33:56 +0300
-X-Gm-Features: AVVi8CcBptK2fi6AvRrUiiNcomokg_6NJFbzRF1fyWp2RBZnlRvB5N-hjgQwTcQ
-Message-ID: <CANNYZj_=-X6Q_7r4qcSOT2f9f+pT=+E2TbHrpyM1Ksfv08neqA@mail.gmail.com>
+ <CANNYZj_=-X6Q_7r4qcSOT2f9f+pT=+E2TbHrpyM1Ksfv08neqA@mail.gmail.com>
+In-Reply-To: <CANNYZj_=-X6Q_7r4qcSOT2f9f+pT=+E2TbHrpyM1Ksfv08neqA@mail.gmail.com>
+From: jan vermaete <jan.vermaete@gmail.com>
+Date: Sun, 28 Jun 2026 13:38:25 +0200
+X-Gm-Features: AVVi8CdkmOkmyBwTORmCyXmy6VKyq6OH8bj6ntop0mrKXBh2eULSjE_JggpLt6w
+Message-ID: <CABF_=ygeFfSHEEk3SXZqh63cPLHEtVkZj6MRz=hUviQWGs6dOA@mail.gmail.com>
 Subject: Re: [OE-core] -native: which tests should be done
-To: jan.vermaete@gmail.com
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000459e4206554eb8da"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2026 11:34:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239711
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2026 11:38:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239712
 
---000000000000459e4206554eb8da
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Alexander,
 
-Maybe just tweaking BBCLASSEXTEND in a private .bbappend is fine? Any patch
-to oe-core needs a general use case, before considering tests.
+The recipe is in meta-python, not openembedded-core.  Sorry for
+sending to the wrong mailinglist.
 
-Alex
+Does it make a difference between openembedded-core and
+meta-openembedded/meta-python.
 
-On Sun 28. Jun 2026 at 14.07, Jan Vermaete via lists.openembedded.org
-<jan.vermaete=3Dgmail.com@lists.openembedded.org> wrote:
+The  recipe that requests the -native version of python3-unidiff is in meta=
+-ros.
+Is this enough to consider it as 'general'?
 
-> Question:
-> I need the python3-unidiff in the -native format.
-> And the -native is missing at the moment.
+Br and thanks for the fast answer.
+
+On Sun, Jun 28, 2026 at 1:34=E2=80=AFPM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> Which tests should I do before submitting the patch to add BBCLASSEXTEND?
-> Is loading the python package in qemu enough?
-> Or is there a kind of ptest for -native?
+> Maybe just tweaking BBCLASSEXTEND in a private .bbappend is fine? Any pat=
+ch to oe-core needs a general use case, before considering tests.
 >
-> br
-> --
-> Jan Vermaete
-> =E2=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel
+> Alex
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#239710):
-> https://lists.openembedded.org/g/openembedded-core/message/239710
-> Mute This Topic: https://lists.openembedded.org/mt/120014516/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> On Sun 28. Jun 2026 at 14.07, Jan Vermaete via lists.openembedded.org <ja=
+n.vermaete=3Dgmail.com@lists.openembedded.org> wrote:
+>>
+>> Question:
+>> I need the python3-unidiff in the -native format.
+>> And the -native is missing at the moment.
+>>
+>> Which tests should I do before submitting the patch to add BBCLASSEXTEND=
+?
+>> Is loading the python package in qemu enough?
+>> Or is there a kind of ptest for -native?
+>>
+>> br
+>> --
+>> Jan Vermaete
+>> =E2=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#239710): https://lists.openembedded.org/g/openembedd=
+ed-core/message/239710
+>> Mute This Topic: https://lists.openembedded.org/mt/120014516/1686489
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [a=
+lex.kanavin@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
 
---000000000000459e4206554eb8da
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Maybe just tweaking BBCLASSEXTEND in a private .bbappend =
-is fine? Any patch to oe-core needs a general use case, before considering =
-tests.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><b=
-r><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sun 28. Jun 2026 at 14.07, Jan Vermaete via <a href=3D"h=
-ttp://lists.openembedded.org">lists.openembedded.org</a> &lt;jan.vermaete=
-=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.open=
-embedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">Question:<br>
-I need the python3-unidiff in the -native format.<br>
-And the -native is missing at the moment.<br>
-<br>
-Which tests should I do before submitting the patch to add BBCLASSEXTEND?<b=
-r>
-Is loading the python package in qemu enough?<br>
-Or is there a kind of ptest for -native?<br>
-<br>
-br<br>
--- <br>
-Jan Vermaete<br>
-=E2=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel<br=
->
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#239710): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/239710" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/239710</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120014516/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/120014516/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000459e4206554eb8da--
+--=20
+Jan Vermaete
+=E2=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel
 
