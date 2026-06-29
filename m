@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C857BC43327
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8541C43458
 	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 14:20:37 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.93235.1782742827419384837
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38593.1782742836622847505
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 07:20:27 -0700
+ Mon, 29 Jun 2026 07:20:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=T0WDi+Iy;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-470174001a0so1491771f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 07:20:27 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=CpxRYo3t;
+ spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-46cbe01d4b6so1982544f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 07:20:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782742826; x=1783347626; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1782742835; x=1783347635; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eYxudwPqD6Vu2nOqb9IemCfdpST4RcV1eQKwzYiQ8ZQ=;
-        b=T0WDi+IyTs/K811nCDHLx2PVcLzTnaa4Pe0nBTsHXPt2s09oHpnN9aS6UA/ORgyW4H
-         CNdy/tdgKVIRaf0XPODrFmhhhUBaEfkJeXOoeTzxs54PiMZZmgdRNNvHGM6Y7YaTz4OB
-         sVgf/19gZx/C/f1n4YUQ0ZWg0OpGjdBNKiv5c=
+        bh=1wDpdZYxXnbxWMbqMDGvwm1UMYcZJLYu++CrXo9OKzk=;
+        b=CpxRYo3tRMqs6Pfz7g0LOo9jgQ63x1TELGgssLYHOB5aaLxF84vU55XdAyZDNZPPUk
+         WpQBRDN6dowKK9IjnA2YTMZ+0GwBCR/k1MJNeBauSPxsOb2gu2eaCuvaO4H11B4ks4TZ
+         JeQq6b9MnqZsFh8mcHVPD0bNqtQw6RlEbiJZ0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782742826; x=1783347626;
+        d=1e100.net; s=20251104; t=1782742835; x=1783347635;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=eYxudwPqD6Vu2nOqb9IemCfdpST4RcV1eQKwzYiQ8ZQ=;
-        b=Dnr/aeY+6UiyMiZNf2JQ9T/EA7FLZqj3WxgfGYfv8qFfcriVO7Gr/k+OCGwDWv/Wdp
-         qGFSDcQENQP/B93+lo5mYQL1IX7UbdRZzYUx+86QqikQlA3VWeD1bzJQUMW4iOWA3Bjv
-         VpN3SNtKy+VRvSaeT84hksjKjQVSV2U56z7PGAb/Hyah/41Ya0jZc7KT+jyCGUlOzQeE
-         Rz2+o4FaSy5VaVn7cV72OOAwhGl5DHG9u7wlUz8G2825Y2+rMDvBvCqb6U081Z6v6loV
-         FyZTEb4KwbhjXF32ZeJghw3/YNQPqYVjH2HAace0Rcni8UNi5O/jvs+Iz+mndEEVFZVd
-         d7mA==
-X-Gm-Message-State: AOJu0YwL6MLRhBEtP5W0gkDwUBbZDcWv3kDE6irF8iYP2Lv2U7AhISZP
-	mgwNGq7rDgXqVdWfsw1lFFonUGgqNvcCvSWBSXiltUVeiKK2+aTSCZozWRLrz0iFlzLK0FI1jXZ
-	ZHiveOnE=
-X-Gm-Gg: AfdE7cmA9nRF6y89LuADWLbKz0uRtU/FfCEgYAWjbYQZck/plS6HiuYqc9JWj6ajqPA
-	tPxUwWD+HAdr0I+LcMLZnc0sHH1WxoJh9lJxmwskEFY2DUa/Jp8JvabX+z64QB31v8zl6EzFSs+
-	u/qdLwMy6VUWoadD//RrR8J+ufPESTa2a60feA5PJ3c2WeqgU6jwfkZR/Oxs4yIQp1z/tbF08h2
-	eQpH5BKMpvwq0SiTzRrNxRWgFFX/jqOX8phD9OTsWEyjYDAKdPlKKV5hE53o3qEjua1kyzGAjNm
-	6sC6zymDP3YEUrFJ77zLCxp9yjeJTFmRIeTjxAjUqwFZvlxMK2ohRjJb5aaD8jddO5bPhcEM35S
-	zfFMrOlJqvgdy0PdIsfbncZ6uM8RD3IOiY/VFifibZMMAMQ3QVl/XbOVoJsO1ASNQNZGDfF1aEw
-	lQ26PpRFGrvYbjxJ8LYp5XLURsOIKCJnjvgr5HhmhXjgqdro3sn/bLHYyd/p87SWd+3NZVxw6jr
-	Tu917cy0TRuH/4gq1LByqU=
-X-Received: by 2002:a05:6000:46ca:b0:46f:8cc5:4548 with SMTP id ffacd0b85a97d-46f8cc546c8mr12381127f8f.9.1782742825573;
-        Mon, 29 Jun 2026 07:20:25 -0700 (PDT)
+        bh=1wDpdZYxXnbxWMbqMDGvwm1UMYcZJLYu++CrXo9OKzk=;
+        b=L/F7OLzp8FoZWvAf42jWe9KK/RV55gCoNwGUT0hwlNF15/2A8P8SO2uBprqg7tapd3
+         dgqqb5Zv31PdCk2FvmTkF+/NqIVCAc0vNeEhI3+Pzu66opmkvqFWRVKJHxTLTwH9ccO6
+         SK7eSwMSTD+6IoxyGOEnYNeVR5PbaqFWgJwf00IVNWuQBnSXb9so5a7hBChYHtJAL0k2
+         YORFAUefWJTQq/6t6HVLSyAtF6S9Yu2SWKPy6PEpjDFcYOaM7pN0Gx2+By9J9cp6VBz7
+         kkusrERX2DCQV1kje+oWvUk+QcB+1/wVp6BGfsANIImmP0CZBgP8B2gv/HTC3CjNHJVU
+         2r8g==
+X-Gm-Message-State: AOJu0YzPHUBShfuFRuFB+S4lb9WfdKPw79QuYeorl8YpRpPLK7NI7JlJ
+	QWv8NsLu+q4XaQu2Al1KYFsRhYCns5AjkHKSCauaxJ/n75SaxyVL89HkJEMve2wA3Ca2mpdl/IP
+	Cva8xPmQ=
+X-Gm-Gg: AfdE7cnukHaXO1MyhjwJfG5h4Gy2et9iNUHeY4jf0GV3GibdC/qqJ2+s9yVySx/A9Qj
+	SKox8oE/jgS7vkZZ133mF29v2vVkWNCS5+pySMRGkuEeEuQwHVGg/T2X7DZf7ccDckEJ/JwHlPs
+	PHDxyHXjUyRFjImkhDEjM9uHu9i4IZ4K1rHoaqG81STa53ckX2P/NMb2XRRxVnjDM8zOt0J6VNn
+	8Mk9pz0AOnF6z0rsQqELp/b415RzWYCNLlOQWlHGhyHDkqYlPx3FrOi9CkztZur2zAQNiKYvq8B
+	zi7MiZdWF/oANc5sW3EY5tgToMvJ/I4bIsGQQbW9wQ2/aMXfnajepvl0XKm5+dlpBkNiEu1OliA
+	mLwvlrW2eRDIfWZH+dUA7b0qs0Nei6E7Xi9xkaOahsz3b/jVRFjagX/wLLUy/xVRAmkyDlBMh3z
+	GezyBjtkXTyT62h2egTRbyal07vDj6sC95muF2bTV0/ZlzOvDtWTWovg889Rjgrszjf9fpAqUmm
+	DCmMBSTlz5/5nQTtvEnIO4=
+X-Received: by 2002:adf:f24e:0:b0:46d:d5da:f0a9 with SMTP id ffacd0b85a97d-475017f69a0mr1005281f8f.44.1782742834845;
+        Mon, 29 Jun 2026 07:20:34 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46f8d6f10absm44958410f8f.5.2026.06.29.07.20.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46f8d6f10absm44958410f8f.5.2026.06.29.07.20.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 07:20:25 -0700 (PDT)
+        Mon, 29 Jun 2026 07:20:33 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 02/19] grub/glibc: Bump versions to resolve hashequiv/reproducibility issues
-Date: Mon, 29 Jun 2026 16:19:47 +0200
-Message-ID: <a455b21f9170b3f2d74763b5bf99625dbda81ff9.1782742373.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 11/19] xwayland: Fix CVE-2026-34001
+Date: Mon, 29 Jun 2026 16:19:56 +0200
+Message-ID: <8e5404f100491b564706a7975fc3ded97abca090.1782742373.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1782742373.git.yoann.congal@smile.fr>
 References: <cover.1782742373.git.yoann.congal@smile.fr>
@@ -66,49 +66,143 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 14:20:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239790
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239799
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-After the gawk dependency change, we need to change PR/hashequiv version
-to replace the corrupted sstate/hashequiv data.
+Pick patch according to [2]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f0f7632595792a73ea0a935b924e8bdf9954ec7b)
+[1] https://lists.x.org/archives/xorg-announce/2026-April/003679.html
+[2] https://security-tracker.debian.org/tracker/CVE-2026-34001
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-bsp/grub/grub2.inc   | 4 ++++
- meta/recipes-core/glibc/glibc.inc | 4 ++++
- 2 files changed, 8 insertions(+)
+ .../xwayland/xwayland/CVE-2026-34001.patch    | 104 ++++++++++++++++++
+ .../xwayland/xwayland_23.2.5.bb               |   1 +
+ 2 files changed, 105 insertions(+)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2026-34001.patch
 
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index a2173bee04b..dfc87eaa94d 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -44,6 +44,10 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2025-61663_61664.patch \
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34001.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34001.patch
+new file mode 100644
+index 00000000000..a438f5ffcdd
+--- /dev/null
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34001.patch
+@@ -0,0 +1,104 @@
++From f19ab94ba9c891d801231654267556dc7f32b5e0 Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Wed, 18 Feb 2026 16:23:23 +0100
++Subject: [PATCH] miext/sync: Fix use-after-free in miSyncTriggerFence()
++
++As reported by valgrind:
++
++  == Invalid read of size 8
++  ==    at 0x568C14: miSyncTriggerFence (misync.c:140)
++  ==    by 0x540688: ProcSyncTriggerFence (sync.c:1957)
++  ==    by 0x540CCC: ProcSyncDispatch (sync.c:2152)
++  ==    by 0x4A28C5: Dispatch (dispatch.c:553)
++  ==    by 0x4B0B24: dix_main (main.c:274)
++  ==    by 0x42915E: main (stubmain.c:34)
++  ==  Address 0x17e35488 is 8 bytes inside a block of size 16 free'd
++  ==    at 0x4843E43: free (vg_replace_malloc.c:990)
++  ==    by 0x53D683: SyncDeleteTriggerFromSyncObject (sync.c:169)
++  ==    by 0x53F14D: FreeAwait (sync.c:1208)
++  ==    by 0x4DFB06: doFreeResource (resource.c:888)
++  ==    by 0x4DFC59: FreeResource (resource.c:918)
++  ==    by 0x53E349: SyncAwaitTriggerFired (sync.c:701)
++  ==    by 0x568C52: miSyncTriggerFence (misync.c:142)
++  ==    by 0x540688: ProcSyncTriggerFence (sync.c:1957)
++  ==    by 0x540CCC: ProcSyncDispatch (sync.c:2152)
++  ==    by 0x4A28C5: Dispatch (dispatch.c:553)
++  ==    by 0x4B0B24: dix_main (main.c:274)
++  ==    by 0x42915E: main (stubmain.c:34)
++  ==  Block was alloc'd at
++  ==    at 0x4840B26: malloc (vg_replace_malloc.c:447)
++  ==    by 0x5E50E1: XNFalloc (utils.c:1129)
++  ==    by 0x53D772: SyncAddTriggerToSyncObject (sync.c:206)
++  ==    by 0x53DCA8: SyncInitTrigger (sync.c:414)
++  ==    by 0x5409C7: ProcSyncAwaitFence (sync.c:2089)
++  ==    by 0x540D04: ProcSyncDispatch (sync.c:2160)
++  ==    by 0x4A28C5: Dispatch (dispatch.c:553)
++  ==    by 0x4B0B24: dix_main (main.c:274)
++  ==    by 0x42915E: main (stubmain.c:34)
++
++When walking the list of fences to trigger, miSyncTriggerFence() may
++call TriggerFence() for the current trigger, which end up calling the
++function SyncAwaitTriggerFired().
++
++SyncAwaitTriggerFired() frees the entire await resource, which removes
++all triggers from that await - including pNext which may be another
++trigger from the same await attached to the same fence.
++
++On the next iteration, ptl = pNext points to freed memory...
++
++To avoid the issue, we need to restart the iteration from the beginning
++of the list each time a trigger fires, since the callback can modify the
++list.
++
++CVE-2026-34001, ZDI-CAN-28706
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with TrendAI Zero Day Initiative
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2176>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/f19ab94ba9c891d801231654267556dc7f32b5e0]
++CVE: CVE-2026-34001
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ miext/sync/misync.c | 18 ++++++++++++------
++ 1 file changed, 12 insertions(+), 6 deletions(-)
++
++diff --git a/miext/sync/misync.c b/miext/sync/misync.c
++index 0931803..e11eba2 100644
++--- a/miext/sync/misync.c
+++++ b/miext/sync/misync.c
++@@ -131,16 +131,22 @@ miSyncDestroyFence(SyncFence * pFence)
++ void
++ miSyncTriggerFence(SyncFence * pFence)
++ {
++-    SyncTriggerList *ptl, *pNext;
+++    SyncTriggerList *ptl;
+++    Bool triggered;
++ 
++     pFence->funcs.SetTriggered(pFence);
++ 
++     /* run through triggers to see if any fired */
++-    for (ptl = pFence->sync.pTriglist; ptl; ptl = pNext) {
++-        pNext = ptl->next;
++-        if ((*ptl->pTrigger->CheckTrigger) (ptl->pTrigger, 0))
++-            (*ptl->pTrigger->TriggerFired) (ptl->pTrigger);
++-    }
+++    do {
+++	triggered = FALSE;
+++	for (ptl = pFence->sync.pTriglist; ptl; ptl = ptl->next) {
+++	    if ((*ptl->pTrigger->CheckTrigger) (ptl->pTrigger, 0)) {
+++                (*ptl->pTrigger->TriggerFired) (ptl->pTrigger);
+++		triggered = TRUE;
+++		break;
+++	    }
+++        }
+++    } while (triggered);
++ }
++ 
++ SyncScreenFuncsPtr
++-- 
++2.43.0
++
+diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
+index 1a076ab552f..800d0a8f634 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
+@@ -37,6 +37,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+            file://CVE-2025-62231.patch \
+            file://CVE-2026-33999.patch \
+            file://CVE-2026-34000.patch \
++           file://CVE-2026-34001.patch \
  "
+ SRC_URI[sha256sum] = "33ec7ff2687a59faaa52b9b09aa8caf118e7ecb6aed8953f526a625ff9f4bd90"
  
-+# remove at next version upgrade or when output changes
-+PR = "r1"
-+HASHEQUIV_HASH_VERSION .= ".1"
-+
- SRC_URI[sha256sum] = "b30919fa5be280417c17ac561bb1650f60cfb80cc6237fa1e2b6f56154cb9c91"
- 
- CVE_STATUS[CVE-2019-14865] = "not-applicable-platform: applies only to RHEL"
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index 60e3daaf326..a3d0bb40713 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -3,6 +3,10 @@ require glibc-ld.inc
- 
- DEPENDS = "virtual/${HOST_PREFIX}gcc virtual/${HOST_PREFIX}binutils libgcc-initial linux-libc-headers gawk-replacement-native"
- 
-+# remove at next version upgrade or when output changes
-+PR = "r1"
-+HASHEQUIV_HASH_VERSION .= ".1"
-+
- PROVIDES = "virtual/libc"
- PROVIDES += "virtual/libintl virtual/libiconv"
- inherit autotools texinfo systemd
 
