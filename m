@@ -1,123 +1,130 @@
-Return-Path: <adongare@cisco.com>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8532AC44502
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 13:15:05 +0000 (UTC)
-Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.37290.1782738900973189256
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F011C43602
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 13:19:55 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.91945.1782739190975536028
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 06:15:01 -0700
+ Mon, 29 Jun 2026 06:19:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=BXcvWKF7;
- spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: adongare@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1750; q=dns/txt;
-  s=iport01; t=1782738901; x=1783948501;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=akFs9bPzu/WBATdi82RuTMfVfkQQUEKQwxkIT4drzZQ=;
-  b=BXcvWKF7ZillQg8kc23nR7G+tSTQSIotP24GFRmvO1j97LsLKzy9UTOx
-   bp6rnJxPZuczRwd8rW/cMw7hLKepjLKS/+KcYUVCtKsdHsAjSQk+EFH9X
-   Argw6aqJrkLiHr4+qvb/p7Yb0HbW8IsYayaH1bOBFy1fc7/68Z13w/4il
-   KZibo8fcHlnhI+SqRxoKvJvozvDl8ZqP/OPWHiElKv6Q65rgJhG8H+lbU
-   S8wfuK09+xjbLGmzluu0ayBbm8A1y6lt7Kbpg/Wfprh7P1/WY9KhCSrmy
-   zvKcIzB+kbKwwSYSAJkLhe4+gt3qNMhFuu4SzfTtalpQnr72Pq/6I7bSI
-   g==;
-X-CSE-ConnectionGUID: dOEtBvXrQgSxDTVLfOTywg==
-X-CSE-MsgGUID: bJD5AYBzQ/CBug4BGipbww==
-X-IPAS-Result: =?us-ascii?q?A0BEAgAqb0Jq/5P/Ja1aHgEBCxIMggULgld0X0JJlksDn?=
- =?us-ascii?q?huBfg8BAQEPRA0EAQGFBgKNSwImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFA?=
- =?us-ascii?q?QEBAgEHBYEOE4ZPDYZbAgEDMgEYAS0QIDErKxmDAgGCcwIBEQa2coIsgQGDK?=
- =?us-ascii?q?AExBQkCAkABUNssAQsUAQWBM4U/iB9zAYJJgjMnGxuBcoR+gQWBXAEBAYIsh?=
- =?us-ascii?q?XgEgiJ6EoF4gXuNFkiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHB?=
- =?us-ascii?q?YEdgWmBBIR9Ix8DOX+BMHVYZhUwNYECAREeCoFSJwMLGA1IESw3FBsEPm4Hj?=
- =?us-ascii?q?F4XD4I9EEoHLSoCBIFoSwalZaEPCiiDdYwhlToaM6psmQiOCpZQhGiBaDw5g?=
- =?us-ascii?q?Q4LB3AVgyIJFjQZD444g2uBf4RBwU0kNQIBOgEBBwIHDgMLgWiRfQEB?=
-IronPort-Data: A9a23:F/wE9KulrutloekVR0KCCxd/g+fnVAdfMUV32f8akzHdYApBsoF/q
- tZmKW7UOq2CNjDxKtFyaI/l9UhTv5WAmNNgTQpurCs2HiJAgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuFZDdJ5xYuajhKs/zZ+Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw9sFaHUtQx
- eYhJwsdQiy9o+yR/KOkRbw57igjBJGD0II3oHpsy3TdSP0hW52GGv2M7t5D1zB2jcdLdRrcT
- 5NGMnw0M1KaPkAJYwtIYH49tL/Aan3XejFfrl2cv6cf6GnIxws327/oWDbQUoHSH5gLwh/E9
- woq+UzzID1HHe212wPC2VixibPlsiLjUp0NQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
- FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2cZLtcnr8QxAzct0
- zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
-IronPort-HdrOrdr: A9a23:Xw+BcKy9iVZ1/Fi3O8LTKrPw9L1zdoMgy1knxilNoNJuHfBw8P
- re+8jzuiWUtN98YhwdcJW7Scu9qBDnhPpICOsqXYtKNTOO0ADDEGgh1/qG/9SKIUPDH4BmuZ
- uIWpIObuEYdWIK7vrS0U2fD8sqxsWB/eSDgOfTyGoocCRRApsQljuQzm2gYzZLrM4sP+tAKK
- ah
-X-Talos-CUID: 9a23:a4gslmy2nXMy9xMhwfBRBgUYPe05WGPt1k7fGF+UNVhNRpqpWECfrfY=
-X-Talos-MUID: 9a23:oilVJwazxeJmoeBTvR3A2RhTHtVRpI+EFU9Ru7oHo8ObKnkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.24,232,1774310400"; 
-   d="scan'208";a="502564149"
-Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
-  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 29 Jun 2026 13:15:00 +0000
-Received: from sjc-ads-3691.cisco.com (sjc-ads-3691.cisco.com [171.68.250.138])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 120A6180008B5;
-	Mon, 29 Jun 2026 13:15:00 +0000 (GMT)
-Received: by sjc-ads-3691.cisco.com (Postfix, from userid 1870532)
-	id AF247CC12A8; Mon, 29 Jun 2026 06:14:59 -0700 (PDT)
-From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com,
-	Anil Dongare <adongare@cisco.com>
-Subject: [OE-core] [wrynose] [PATCH 3/6] curl: ignore CVE-2026-5773
-Date: Mon, 29 Jun 2026 06:14:47 -0700
-Message-ID: <20260629131453.1077612-3-adongare@cisco.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260629131453.1077612-1-adongare@cisco.com>
-References: <20260629131453.1077612-1-adongare@cisco.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=dNNEQOC4;
+ spf=pass (domain: ericsson.com, ip: 52.101.65.48, mailfrom: edaturu@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Yy1utCtk1eSxgJtMMO6/VSOiDBkFG3Cp44TKk5xX4B9KYFybGdo2EqupKEWwCT900H8FSJ8QX5ouaUcOoFbxgSqE8QKV3KLwFfRxmDP+zf4aq3CBfRN5C2lAme6aFitsL5sLKFpvqb1LASSi7lG3hTTCVcVdf0TsN1gOVRZwkVwzzMmVU3w4LmpDXVj0T3HQrhWIGXkn88tZBOrcRWG1QTfjsZNNjOcbjQVJgz9Wg8aKpTLHZlwP83aytGw1vuJkETskgJOxJkEm605Pr+LDYTBm4hB4GUvVxpo5sVNlFnnWnqphD2ug1P+ngDtabH6tSnVINDrb7pvOvS3PMdAzZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2Admpofs3miEQwO8COWTLpGqCr/+0BlvNaJ4XzFyGSc=;
+ b=bsWOVOmN29UkuLnsNefK0UO7uAdX80XetqijtpwR7bG4o8CHLTY/mOkUSK0jwXX5axP01nH98zCEJ7jZIyOf7kcMFe2nyr7fMEIQhPoiaiSvqY7qrfhGzWntSZzEMdpdwDMR292spQzFT68RWqQv9R/N3o8v7zdsdmJCH04VJFR9g0gH5AgF3QDpXfAghIsmbKDMqa0I/DglyRjQFbkp+DbNb9RRTP0rm8u0l735LOu3s6tng+Kw2uN72N5en3A73Ipe9s/cspfR23EKsdaZqOB9AJIm6r5UdphjmgStZilSHXY/tI6hza2sZE0YF30Og8gWRHHNAOTR0Cke/d+0+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=ericsson.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2Admpofs3miEQwO8COWTLpGqCr/+0BlvNaJ4XzFyGSc=;
+ b=dNNEQOC4m0L7lGXGrqQTpNz26qw2ul1CZ9P9BWa8764DO2nxYTD6bii7AVsNc2Br/0b/HrdyKK2yPgN/RQBuuJN+qRX867mPlRYYUlP1vO5nIGa0bH3FqFJzjN1kSUwI1LQoVE8PtxXhnl33wd5p5+JDcAW4pZ3xmdBt+sj6ZbLaHGdRMhEf5nBm5siNXVA5J3459tc7GQwYnu0Y/fUhJC092snN/kIswwtiIBpDLQRgg0bplloFLbmtgICLEXcU85CJ4ANLM19GW6la02/RRobuBmhcHQpFApHoplcoXRbrdJgSJYUCbTbB05nDHRsXhTdjDIdOCKZZVJt8AxyqgA==
+Received: from DU2PR04CA0243.eurprd04.prod.outlook.com (2603:10a6:10:28e::8)
+ by PA4PR07MB7455.eurprd07.prod.outlook.com (2603:10a6:102:b9::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
+ 2026 13:19:45 +0000
+Received: from DB1PEPF000509E5.eurprd03.prod.outlook.com
+ (2603:10a6:10:28e:cafe::25) by DU2PR04CA0243.outlook.office365.com
+ (2603:10a6:10:28e::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.19 via Frontend Transport; Mon,
+ 29 Jun 2026 13:19:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
+ smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ DB1PEPF000509E5.mail.protection.outlook.com (10.167.242.55) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Mon, 29 Jun 2026 13:19:45 +0000
+Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 29 Jun 2026 15:19:44 +0200
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 7200E95800;
+	Mon, 29 Jun 2026 15:19:44 +0200 (CEST)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id 4579A700DBB0; Mon, 29 Jun 2026 15:19:44 +0200 (CEST)
+From: <daniel.turull@ericsson.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Daniel Turull <daniel.turull@ericsson.com>
+Subject: [PATCH] bc: set CVE_PRODUCT
+Date: Mon, 29 Jun 2026 15:19:35 +0200
+Message-ID: <20260629131935.437083-1-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-3691.cisco.com [171.68.250.138];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.68.250.138, sjc-ads-3691.cisco.com
-X-Outbound-Node: rcdn-l-core-10.cisco.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509E5:EE_|PA4PR07MB7455:EE_
+X-MS-Office365-Filtering-Correlation-Id: 43246da9-9f03-469a-ad1b-08ded5e11659
+X-SMTP-Server: smtp-central.internal.ericsson.com
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|36860700016|23010399003|376014|82310400026|1800799024|6133799003|56012099006|11063799006|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	Hm7hzuAw99UK2cuqL7QXEsFiAuvN48LdWmMKfxzDRNgJE4HyAgRDti3sh4FyYZKAjXK2BDOg9APtPDk5sgUCWdaRDJL1GUlgPkFkXlFWN9aS+dXGmKunYPRE5sp8oEB7ZYu13KNXxm4mwqcmQNyyegLhuWgoS5eutYHZVrYcz1CPnwW3wM6DR/SLa+oAPU6YQGl9g2sqAbIrCvEcTfFKhhu/pnrgMbVGdXUtOK4UhBpcxbWQ8pe5uXyuEROB6MqMCQIM15sX4hbjPTdtFmlxlDcj22WWbIs82mFsnAyduSB1hkTvE1nE6hZ200QGM6R8iDIhXTwnpBAqpJvhMVHf8nKuwROfgwWKtljF1RCiBZqLqh1JsfXjmqvW8HI6xGAqpW+LHhfo/ZvntaZVr7bD1PUlQgt6YgcIxz+1gtoY3z+NKREKDq/w4ze7HbDRAw4KL832Di7C09nsNm8NWaw9m+7tB6+Y0pPyE3c3TC0es+YAB6DO2NGmHr4ejFYxBfeoKroK/V4mQhJWo8ihk4sgYhmx5MS0q1o/9H+kbLi5SoPGlVfPDcqHePZjcjM9FfKOSQ5FaHnY20S+ixkUlIIhNTu6Mhisdu8oA0PhAJ/kadygQzW2XFTjXN3dXLOWW9glDRp16v06smyiOJbXaG3UbPc+P1a+BoJOZ0afbZr8aFO1yCI8NXcWaQJbPy+JByyWBVQPjPb2J57JSWkBPlsbYQ==
+X-Forefront-Antispam-Report: 
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(376014)(82310400026)(1800799024)(6133799003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	681tEPC1il4QIGBATBzxZChebcQsQzCmgSx35/OJBqfw/mw7Im3RA/NtBCxTQ98N4p3JoR4mB4NRMAYSaGO/A6XSpmxW4G/DIass7BSPWsLXPko5l49jrNO80rvQ2nqX34ftorhQ7Cj3asZB6K35xYU5tdrJsOILGqWxINTEhJ0PZP7M+S7YM5zjUffy9VmHv6zlKl+vHe9QI5rb493Tbus6yr2B6NPhtw31JyZXlF9mFvzL3NBmwppfyZroAOBsHsjUCRMbhREC8zBdBvCPKEzZ3cJro0OLulkxx+WpBCnQm5R81eldvDBII4AFx1RI+pDisrZLQOHzuMOFOJPWuXQntGdaCOkHyPgh8pjOd627ZeSRmCVTcgHl9Lz++7LalxyKwpDIjgRnaNqLoucioneWtAgJnBSuiWp6cKCNLoBtuJedaCBB/IYRHtkPFS+z
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 13:19:45.1701
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 43246da9-9f03-469a-ad1b-08ded5e11659
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509E5.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR07MB7455
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 13:15:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239776
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 13:19:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239782
 
-From: Anil Dongare <adongare@cisco.com>
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-- CVE-2026-5773 affects curl before 8.20.0 when an authenticated SMB connection
-  can be reused for a different set of credentials.
-- In wrynose, SMB support is available only through PACKAGECONFIG[smb] and is not
-  enabled by default, so record this CVE as configuration-not-applicable for the
-  default recipe configuration.
+Set vendor to gnu similar as other tools from gnu
+to have clear naming for registering into vulnerability management tools
 
-Reference:
-- https://curl.se/docs/CVE-2026-5773.html
-- https://nvd.nist.gov/vuln/detail/CVE-2026-5773
-- https://github.com/openembedded/openembedded-core/blob/wrynose/meta/recipes-support/curl/curl_8.19.0.bb
-
-Signed-off-by: Anil Dongare <adongare@cisco.com>
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
- meta/recipes-support/curl/curl_8.19.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-extended/bc/bc_1.08.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 2b1bc40e37..5580791ec8 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -29,6 +29,7 @@ SRC_URI[sha256sum] = "4eb41489790d19e190d7ac7e18e82857cdd68af8f4e66b292ced562d33
- CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
- CVE_STATUS[CVE-2024-32928] = "ignored: CURLOPT_SSL_VERIFYPEER was disabled on google cloud services causing a potential man in the middle attack"
- CVE_STATUS[CVE-2026-4873] = "${@bb.utils.contains_any('PACKAGECONFIG', 'imap pop3 smtp', 'unpatched', 'not-applicable-config: clear-text imap/pop3/smtp support is not enabled in PACKAGECONFIG', d)}"
-+CVE_STATUS[CVE-2026-5773] = "${@bb.utils.contains('PACKAGECONFIG', 'smb', 'unpatched', 'not-applicable-config: smb support is not enabled in PACKAGECONFIG', d)}"
- 
- inherit autotools pkgconfig binconfig multilib_header ptest
- 
--- 
-2.51.0
-
+diff --git a/meta/recipes-extended/bc/bc_1.08.2.bb b/meta/recipes-extended/=
+bc/bc_1.08.2.bb
+index cebfed9642..933329caa6 100644
+--- a/meta/recipes-extended/bc/bc_1.08.2.bb
++++ b/meta/recipes-extended/bc/bc_1.08.2.bb
+@@ -10,6 +10,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb67346=
+3ab874e80d47fae504 \
+                     file://lib/number.c;endline=3D20;md5=3Dcf43068cc88f837=
+731dc53240456cfaf"
+=20
+ SECTION =3D "base"
++
++CVE_PRODUCT =3D "gnu:bc"
++
+ DEPENDS =3D "flex-native"
+=20
+ SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
 
