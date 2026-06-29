@@ -1,98 +1,110 @@
-Return-Path: <Moritz.Haase@bmw.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 026D4C43602
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 06:13:01 +0000 (UTC)
-Received: from esa9.hc324-48.eu.iphmx.com (esa9.hc324-48.eu.iphmx.com [207.54.69.27])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.86277.1782713569070305914
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 141FEC43458
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 06:29:51 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.86406.1782714582435385639
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2026 23:12:51 -0700
+ Sun, 28 Jun 2026 23:29:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=Rv+kFLoy;
- spf=permerror, err=parse error for token &{10 18 256wvd6dc.spf.checkpoint-spf.com}: parse error for token &{10 18 %{ir}.256wvd6dc.spf.checkpoint-spf.com}: invalid domain name (domain: bmw.de, ip: 207.54.69.27, mailfrom: prvs=633195dde=moritz.haase@bmw.de)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fB2sBoRM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493ae59eca6so2652285e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jun 2026 23:29:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1782713569; x=1814249569;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vJpWnpVTwJvtIk5zZ6hvj12UrkCbLNaUt0LYZCQnAbA=;
-  b=Rv+kFLoyYDSpFjPkV93bddmfmCuCRlwEcATDFdr9Pw53YQUHnVej9K00
-   vMh8vIGVt+H4yGgaWIEuTfhCo7hFQAEaxrV/ofIKyrvhUMpBmMWQv1DTM
-   c+vdF+2O0Rabm8hK/Rs00W1ef3zspLK+UAQXy1HAXGl2CJTjZ8UTpl+AX
-   o=;
-X-CSE-ConnectionGUID: Z4Lh1XukTSGGxxDmcAkYOg==
-X-CSE-MsgGUID: 8v3nL7IbQhKLyVfzXoDkdA==
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
- esa9.hc324-48.eu.iphmx.com with ESMTP/TLS; 29 Jun 2026 08:12:46 +0200
-Received: from unknown (HELO esabb6.muc) ([10.31.187.137]) by esagw1.muc with
- ESMTP/TLS; 29 Jun 2026 08:12:46 +0200
-Received: from smucmp18f.bmwgroup.net (HELO smucmp18f.europe.bmw.corp)
- ([10.30.13.164]) by esabb6.muc with ESMTP/TLS; 29 Jun 2026 08:12:46 +0200
-Received: from smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) by
- smucmp18f.europe.bmw.corp (2a03:1e80:a15:58f::1:47) with Microsoft SMTP
- Server (version=TLS; Mon, 29 Jun 2026 08:12:45 +0200
-Received: from q1054628.de-cci.bmwgroup.net (10.30.85.204) by
- smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) with Microsoft SMTP
- Server (version=TLS; Mon, 29 Jun 2026 08:12:45 +0200
-X-CSE-ConnectionGUID: TSiD67gsTXezjeisV+L8uQ==
-X-CSE-MsgGUID: 9wyehR5RRiutA24qz3WBlw==
-X-CSE-ConnectionGUID: 0ENdAkjvRxyrZ4ahstGAaQ==
-X-CSE-MsgGUID: t2uh6s/jTQiFi8wJERFVjA==
-From: Moritz Haase <Moritz.Haase@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Moritz Haase <Moritz.Haase@bmw.de>
-Subject: [PATCH] json-c: upgrade 0.18 -> 0.19
-Date: Mon, 29 Jun 2026 08:12:29 +0200
-Message-ID: <20260629061229.702229-1-Moritz.Haase@bmw.de>
-X-Mailer: git-send-email 2.54.0
+        d=linuxfoundation.org; s=google; t=1782714580; x=1783319380; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E+1YAcRMPf8SimN+yzh19kozO0oastdp3QEvDuzy3t4=;
+        b=fB2sBoRM6CAEh0jr1UD9TH7wKVMhCSRlCjqvbUi9sULHodtLVqZXmOrPFHyqjeCqNp
+         P8jIIl7KFkrf3cB87l8gihCpciEoF5nTL9LF4rgSBgcGqKxcefzukjF88C2QB081S3ZX
+         0RjfLGWv11geqMMbGsZSicSd46vaMVM+dKuFU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782714580; x=1783319380;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=E+1YAcRMPf8SimN+yzh19kozO0oastdp3QEvDuzy3t4=;
+        b=IvH9RNLYXhGBE0AFF1J+JTdRdY5+/pfaSzhNaeWW3Zi3PTsTvuFbLCr7tJtOjkYPNr
+         MS5RDnPdAUoCm9rNvo0aEdXoqMB7Op4NkImupnkWwYtD7d7an4S0chddPXJejBVY/gmC
+         GZBo8meEKt21qsMbV2f/dCK4kfLgUK3ijQwFe1GxFjC+79YqcXf64dRSbt3DyNFTc1qW
+         OTZ7CtIpcTHAVOR6LjAyGr1ZEsxo39WnrI+V+5t3hJpEgEpcKVQzGZCtB9labOK5yzFV
+         uJ+dvRd3rbvr3mwOmxXB86RsS66SunLsYDZjsBIQ/ZDtXd6IsrzEJOuCMUO4KKMDk78d
+         h1bA==
+X-Forwarded-Encrypted: i=1; AFNElJ+TWdVr1dpdsc7dui0n5bmQ59uyxu0WxM7Y4Rg4p40ycVvgQI7eGU40YSkAROMI+XLY/JYH8bjXk425HifhSij5wQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyHyFkebL30BwSOgDckuJExyZ/g8mKrOdldgdmjBWvDFZan6w4u
+	J6M+U6jekVMlS9r1+e70y4vFbnN3BVGlFY5VkLJP9R5hsd04p9Pak1TgQv5WD7bt5+Q=
+X-Gm-Gg: AfdE7ckrlHaUUpsWcoNEU0MzrnJtng5D7c6PRIJJLROaaCpE7OOoxUdB5MdvXtZ0xqp
+	QHiS3/bsGZZ32robYrdjclT0NtTpUImXxcmQ/a96HjXDF9FsRo570MgL/ZWAL9+7vwk5Q4AFoA1
+	j0/D8HVh4mlkfUQd6aA9GUgTRNjU3HDb5mOut2m1qJkeDMqMujXqB5ML4OHMCcZg3q98/EHeFw9
+	8wIj7jlZTtaxFVQ2OQnRWsu+nthRfzYlTnBYqwkPq9G2j5tckdqo5mtE+5zIVbO7DTYIoQ6X+3k
+	/820Wq/feVGcwkn0mKdicmP41/2ftbKumXakmkZJ7pVt6wR2RN3XiRyUPIrHGliW00DCdQogJ/D
+	NwTmdyvAkTwnNNkDMMRpJcmHguFfBmxoxqC5Oe+oiBkpwPWQsO3mGfToAyBwDAEkJ5Gw9Xg17nB
+	IP1Qk3NvFEHBw3xgvT9XeSeFRzXY2Xt6vQd+Iu9tPYHfS9fM2Bl7nqKHtmT9Jg37HwSHc0+ocvs
+	DxZ5g==
+X-Received: by 2002:a05:600c:3b96:b0:493:b4a3:5a97 with SMTP id 5b1f17b1804b1-493b4a35cd2mr7391885e9.16.1782714580434;
+        Sun, 28 Jun 2026 23:29:40 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5a58:86d2:ead6:c8fb? ([2001:8b0:aba:5f3c:5a58:86d2:ead6:c8fb])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926f94f213sm250016715e9.12.2026.06.28.23.29.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jun 2026 23:29:39 -0700 (PDT)
+Message-ID: <993e8d27ed255ee05dcdcf27b24a9fdd765c6ef3.camel@linuxfoundation.org>
+Subject: Re: [OE-core][master][PATCH] package.bbclass: add
+ PACKAGE_POSTPROCESS_FUNCS hook
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: emailaddress.ashish@gmail.com, openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jun 2026 07:29:38 +0100
+In-Reply-To: <20260618081020.86040-1-emailaddress.ashish@gmail.com>
+References: <20260618081020.86040-1-emailaddress.ashish@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: smucmp17c.europe.bmw.corp (2a03:1e80:a15:58f::1:46) To
- smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 06:13:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239723
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 06:29:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239724
 
-Release notes are available at [0].
+On Thu, 2026-06-18 at 13:40 +0530, Ashish Mishra via lists.openembedded.org=
+ wrote:
+> From: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+>=20
+> This patch adds a new hook point PACKAGE_POSTPROCESS_FUNCS to
+> package.bbclass, inserted into PACKAGEFUNCS immediately before
+> emit_pkgdata.
+>=20
+> PACKAGE_PREPROCESS_FUNCS comes in picture before the per-package file spl=
+it,
+> so at that point the final file lists are not yet available.
+> There is no existing hook that fires after the split with the ability to =
+still
+> modify package scripts postinst
+>=20
+> The primary use case driving this patch is SELinux context labeling
+> SELinux labels must be applied on the target via a postinst script
+> That script must know exactly which files are in the package but this is
+> only available after the split.
+> This hook enables a bbclass to auto-generate per-package postinst
+> scripts containing targeted chcon/restorecon calls
+> This helps while getting proper selinux context to files if package
+> is updated on target while incremental update scenarios
+>=20
+> There can be other user defined usage if the hook is available
+> The change is small 2 lines and entirely non-breaking as the variable
+> defaults to "" so all existing builds are unaffected
 
-[0]: https://github.com/json-c/json-c/blob/json-c-0.19/ChangeLog
+The trouble is that this is only going to work as long as it is only
+your use case using this function name. As soon as someone else decides
+their function should be last, it will break your use case.
 
-Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
----
- .../json-c/{json-c_0.18.bb => json-c_0.19.bb}               | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/json-c/{json-c_0.18.bb => json-c_0.19.bb} (85%)
+I guess we could hardcode the emit_pkgdata which would give you access
+to the end of the list of functions?
 
-diff --git a/meta/recipes-devtools/json-c/json-c_0.18.bb b/meta/recipes-devtools/json-c/json-c_0.19.bb
-similarity index 85%
-rename from meta/recipes-devtools/json-c/json-c_0.18.bb
-rename to meta/recipes-devtools/json-c/json-c_0.19.bb
-index c112aacf4bceb0c41dbe2e1643d2d7e0944bf250..f16c7f1d59455e9ef19e7dffd5494b25f5d90e8f 100644
---- a/meta/recipes-devtools/json-c/json-c_0.18.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.19.bb
-@@ -9,17 +9,17 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
- SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
-            file://run-ptest \
-            "
--SRC_URI[sha256sum] = "876ab046479166b869afc6896d288183bbc0e5843f141200c677b3e8dfb11724"
-+SRC_URI[sha256sum] = "37ad0249902e301bd9052bf712e511fcc6acff4ecaad4b5900aad9ce564e26de"
- 
- # NVD uses full tag name including date
--CVE_VERSION = "0.18-20240915"
-+CVE_VERSION = "0.19-20260627"
- 
- UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
- UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
- 
- RPROVIDES:${PN} = "libjson"
- 
--# Apps aren't needed/packaged and their CMakeLists.txt is incompatible with CMake 4+.
-+# Apps aren't needed/packaged.
- EXTRA_OECMAKE = "-DDISABLE_WERROR=ON \
-                  -DBUILD_APPS=OFF \
- "
+Cheers,
+
+Richard
 
