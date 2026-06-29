@@ -2,74 +2,72 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29AA2C43458
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 19:09:50 +0000 (UTC)
-Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4697.1782760187108820149
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52853C43458
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 19:33:30 +0000 (UTC)
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5200.1782761595760021301
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 12:09:47 -0700
+ Mon, 29 Jun 2026 12:33:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=UlZMc+2x;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=JErpTamb;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.153, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 107471400101;
-	Mon, 29 Jun 2026 15:09:46 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Mon, 29 Jun 2026 15:09:46 -0400
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=jLoxO9tO;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=HNnpsOGv;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.150, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfout.phl.internal (Postfix) with ESMTP id B82CDEC00F3;
+	Mon, 29 Jun 2026 15:33:14 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-08.internal (MEProxy); Mon, 29 Jun 2026 15:33:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1782760186; x=1782846586; bh=glySSENbMq
-	HtUesJ770VnLAura6yotNNO7CJLw565ww=; b=UlZMc+2xrQoEWu13rxR6HD/Rnj
-	BwMVso2oY4KBRdtuWEHZfhvLRPYLEvK2nagCr7boei+CmHuvez4RysR7q59R3oSI
-	xbiw6e39MBzyP/UrFvHvyS77GL3/rEj166p2+aEBCaAMC4fg8xOqHmKAfktw4Hu7
-	3CS++loC+xyDHLthbV2k9lPfLZV5HO05S+M0eXbpnccglMenQYJrLAbULQIm2/FO
-	VwHfvcIhKIh3DtEgxb0JKq04g/7ckovFGenYprVBDoj4r9oTYHP1jXinHf0/l1GP
-	dntd67fnJGB0uzkJZ0I9cSxCzVswvdA2IOcRBPo7QMxI251t6bxlZTpN+riQ==
+	cc:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm3;
+	 t=1782761594; x=1782847994; bh=VrsTgKkd2HDUCBIpGX7tdFsFSTtb2nwR
+	qIRBK9Q+SSY=; b=jLoxO9tOYTglELT5DVMPX1k1uUET7iMQrhqy0+aMQQH9bmKb
+	e3sszVUZ28MHA5JGBLqI16nlIrVuvnAeONlqXIsXNkzLixtOTmLAK1HTMAkQ+5O2
+	tfqadoLG928ST6XwTArxGEU7fOTHs3YuqWHktWRyDz285ei7/y8an6cURgUsq3fg
+	9TNVXY9GcIt4D5X7VXvArb86Opowg2lsiI39WkvWXdI66GZmru9Ckg8axjLwb7Zx
+	b8WY6NU/AQBa1BcR6UflSMt4GfomfQnDfoGQ2dmSeZ91ZW8SBioY1Ccu6PtzxV1r
+	GPXdg1KdKJuUY+mkUP/ES25eKXWmOpBOBT/kBw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1782760186; x=1782846586; bh=glySSENbMqHtUesJ770VnLAura6yotNNO7C
-	JLw565ww=; b=JErpTambwCIAhrtsvpbHpNJ8wAtb8chblis9vFmLlCYv89szWmL
-	t4Kk+yW3RLdJe4vjyIerPV7TpGnY+S29X+753PxAaOrpP5j7r7h9vS04V2b+CVWM
-	sUk9PjCXHAGrlGuD2NDyhG8OFjCoVgca+Vo0c80/asDriDnd+AYcR/jt7DtTWWLO
-	O/VNDTwIjmAGj3t6Otpy5zOedrhLNyFQWcvdqd6czb+3YYw3Iyybad9AmdOldUgu
-	gUQ5SRLtUU37WQG+MzLafUQE9j0tTJPTG0yef7zBfGydo+n5RzvK7jS9wjOd2RRX
-	SDwZ6KpaL8y2EFOjPcPBlRUuhNoVrEgRudQ==
-X-ME-Sender: <xms:-cJCaq2VJdI9Rzk1z_mnOtKYZF8TX2UAfsSQquD_bqBKgu3q8GZNCg>
-    <xme:-cJCakggyPF2GB1PZHHdg_UeKiMaRjZQabuk7H-qECzAxU50MDbcOk-L-dLWcF-f9
-    zxOz5jEOeaNY03hn0WzG60QgAwWtFxN5t10_t89vpRjiBzZ4dL2QsUt>
-X-ME-Received: <xmr:-cJCagR3FCbpmtCKrv_N91UoPpfA--1g7WRJs7Q1qeqmtuHzNAoldd2rAZPwYtpUWr8-slnJev-MhJCARqyU7JiTsuzRDhAIT3k-pvzRUPmy>
-X-ME-Proxy-Cause: dmFkZTGXvIsyffE7chGwmycNvwvWzCSq3ManVwnCKQTgDIfK3cMW89YA7frhkBGcfv0E99
-    ZFPK49//pSdGwxc9ljsbjUJ4LGD6TquMBY+5rzbZEb1rLKaSyAoBnmKyeApl9jNs4PsyeJ
-    htCNHOu+SVuPcg/WWfM7fQzy8n7iDeKIeyFnX9rKMYu+RzxIpafOYL0zKR1hNfVXIqIn/B
-    9mt3S5Y4pteZo/JYMWaxF5LF+ee2Y5uUtPFnS+sonaZVT6syC6vS8jrktYOt3KnV8PgvmP
-    5nWQOMZ/QL4q5HPC5PJ6mvlntIwCbt8mtkENpwo6crm5tVe1coCgqis5RWAONZWQMIxwQt
-    vC3qh7kZksqcc7ais2rD0PLmoIEfFcsHSaHz9G6AkZEaOY3XB5cyDfnSidGw7/vELWlL3P
-    dcCRHRR/kuTBhgpYUJa3v/Uqdvo1lX8rNLstFY3rrpsLer/CExyRnXi83atOb8CAu0HvfI
-    hNjYOthD1g5ik1jSNLM+kWdtRvcvnBhi+0/EWQPzemsrX7qH2/l6mw0E31gsxYlm5txSs2
-    YQe/RTv23vsy6rLkkpT3NR1mKLNWi2+QJIm6kTz3jMYd2+KxZGkB3Ds72V+a9drS9m3siB
-    G7iKttWAxxY7eupAlWohht26d97dMKfgYNxct7TrTMrglBN+zd+GRo1xVWRw
-X-ME-Proxy: <xmx:-cJCaljIHrKgbeOlPAD8uuwVGKLXugX_ACVu53eH5KFAtRew2kIRWQ>
-    <xmx:-cJCag7Zm-oA5WetGGxKdq0MArrxiw0_2czce1JIE3Ozy4iE6TmLHg>
-    <xmx:-cJCaiCA1zBDhj7f_YhQu15Zrjq2xYv4YpHXFg0Ev7tXgehNt81rlQ>
-    <xmx:-cJCanZXMbQVKJ4rRahlt5dfhgPb1sV8eW2aTpejXYTsbP6v5OpkSg>
-    <xmx:-sJCaire02WZzV1Q6ik8QiZPHTT4aaHHHovatmRDlf7aMo2kJ2V_KwT7>
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782761594; x=
+	1782847994; bh=VrsTgKkd2HDUCBIpGX7tdFsFSTtb2nwRqIRBK9Q+SSY=; b=H
+	NnpsOGvi1BYhCWwoVPfZz7usVG5KMg0Uz1eDIWhmXBFlK98vMpv2LDywdLBf1Syj
+	jL+xDjJJsdKRVVMUE+rHYfeEG6kucav5W4/88XlLD+72eLWM9jmFChTKOXKIAezY
+	7MfBepJekO6eBNJK8Bbkd9RbRLWXzGMAMXDxQ0/Kcwip11Qrk6v/+FJPH2IDPj+H
+	vwcImR0IEIMR41uUDvL7nffYi1DgEu7GnR9RZp8O1PI9JT7nJvun5VFU5U21rsx/
+	7csQSYUABJUXMs2XgLoDd8vS8VLV5yltSlfK8ysdAkOMq/LMdBZPnVIrivf/zrPP
+	h5Z1vEbNq20Niq+PNidKQ==
+X-ME-Sender: <xms:eshCaoLOIoAdDvoKQ4gwZesIe7SujzNGoxr-i33JUqA0yXEjlJloHg>
+    <xme:eshCaoQ6xPo-ocsyVTM5hcrOfF4BME0GTNhLLjtfjDJUQ1G5sLFk-v9RQW-2Up3BA
+    83THDa9xOE6kQ_yUreiiIWycZmmQien8TsYGee_-h6EARBX08kWz9w>
+X-ME-Received: <xmr:eshCagqMoukCYNgL_3Q0D7QcJZrcnHIQWRN6djDhS5ZBD00dntXO1fCWQXwOPD6ZdEflENQth8U3ORMaEdYe7j6TdjbbsEyZzNuFr0KsjPOV>
+X-ME-Proxy-Cause: dmFkZTEch/UdIqCSl3iOOV1WImcVs2RRAhCVLoSp3C21CEc2fJtoTExUxnhftV2GUZF8pF
+    55214FAJl9eai2kf+4uBUcDimCoUBxM24q+jNdaoTlZP7t4lyKdE+jC8JfjZ+GnWBbeLSY
+    T0kySNpGeSXFeVtnpiZgeOetWgagAOILvSuDpL+3gyvtWm8MsII4SBTrs5J/81SIcwxj2g
+    2DwZqwR8JL/2tGfLZsqXRuqFX8cDQKhRn4WIVhUsR0zvNfmpwsGDbCmN5q9AZsgxXYXAHi
+    ITxxwy/bHQ5NxcUK+JSohsMlp6tZcQ+NJbG1cGAeFCPGAJFnjc1y78O41g3H9E+Ux1Idbu
+    fiuLG1LJGcuSyxQ8Mo8WNbNtV4qfx47uFbbHfnBMQzeJAF+F27rM7TF8NkzLWPqjsMQGug
+    EqqoBpO51tJEBmTDyr8qpd4nWDcDx7VCh5zZ45oO6stlbNkTEhX7HH49mgWRRCjrKWP199
+    /9v946WPW2Hz+tegcgcsQgPPZDFWXR6dJGNx/7wbKCLf0+HMaWoCpyKUS5wq8P1PmFHn3A
+    zmOHeuHsfCVYkY6gGSrJKHdrSz8HnGcP1/gdK+GBTJlqF8zyLm1ICctjstfk0DFWCBcL9u
+    cBeN58fdrwH9hcMqEJ2hD2nVf/m1F50SUb/y+lDh2iDNYoit8WXTsc56ui0A
+X-ME-Proxy: <xmx:eshCatpcbay1dVwKp1cFE8DbYpjwtkm__S6KDWfIewzkKWr2616UxQ>
+    <xmx:eshCaqNy3r59GFWU9sUj_Svg76U0x08VFtMnfPvSI9hxFJN3mzbFQQ>
+    <xmx:eshCamxPGQFwDoMbT0m2GAivZ9COKwxaTPwBvqUaYSPXIaJujPDzZA>
+    <xmx:eshCarsO88Gxv0CmQt9_X9iqZYB556uAtNn12FZ1Yzx_uTbXzeImEg>
+    <xmx:eshCarCim53W36ywfb5JUzTuzMAEXFf8PYKvzddDksxUZZ82UkvHuXjh>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 29 Jun 2026 15:09:45 -0400 (EDT)
-Message-ID: <0426063dfeb7ea258ec2329c489e4ba6310a0ee9.camel@pbarker.dev>
-Subject: Re: [scarthgap][PATCH v2] cve-update-nvd2-native: allow setting
- resultsPerPage
+ 29 Jun 2026 15:33:13 -0400 (EDT)
+Message-ID: <4ac849a706feb16688020d5bcc3e74aececd63cf.camel@pbarker.dev>
+Subject: linux-yocto CVEs in need of triage
 From: Paul Barker <paul@pbarker.dev>
-To: Awais B <awais.belal@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Date: Mon, 29 Jun 2026 20:09:39 +0100
-In-Reply-To: <20260625132534.3979958-1-awais.belal@gmail.com>
-References: <20260625132534.3979958-1-awais.belal@gmail.com>
+To: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, "yocto@lists.yoctoproject.org"
+	 <yocto@lists.yoctoproject.org>, linux-yocto@lists.yoctoproject.org
+Date: Mon, 29 Jun 2026 20:33:10 +0100
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -115,74 +113,61 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-8T/lGCnWxe5UnejWRTx/"
+	protocol="application/pgp-signature"; boundary="=-0XEesQ6whmklxQQjMezh"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 19:09:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239822
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 19:33:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239823
 
 
---=-8T/lGCnWxe5UnejWRTx/
+--=-0XEesQ6whmklxQQjMezh
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi, thanks for the patch!
+Hi all,
 
-On Thu, 2026-06-25 at 18:25 +0500, Awais B wrote:
-> It is seen that during bulk updates on the NVD side the server
-> struggles to keep up with the default/max of 2000 entries per
-> page and we see a lot of incomplete read errors resulting in
-> proper db sync failures most of the times. Lowering the per
-> page value noticably increases the reliability of the process
-> and hence should ideally be configurable.
->=20
-> Signed-off-by: Awais B <awais.belal@gmail.com>
-> ---
->  meta/recipes-core/meta/cve-update-nvd2-native.bb | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->=20
-> diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/reci=
-pes-core/meta/cve-update-nvd2-native.bb
-> index 945bd1d927..731cbb5d88 100644
-> --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-> +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-> @@ -34,6 +34,10 @@ CVE_DB_INCR_UPDATE_AGE_THRES ?=3D "10368000"
->  # Number of attempts for each http query to nvd server before giving up
->  CVE_DB_UPDATE_ATTEMPTS ?=3D "5"
-> =20
-> +# Maximum number of CVE records per API response.
-> +# Lowering this value can help avoid incomplete read errors during bulk =
-NVD updates.
-> +CVE_DB_RESULTS_PER_PAGE ?=3D ""
+We would appreciate help triaging the following CVEs filed against the
+Linux Kernel, which therefore affect linux-yocto.
 
-It'd be good to document the max value in the comment here so users can
-easily spot it.
+Each of these is missing an upstream fix version in the CVE data, so
+they show as unresolved in our CVE metrics. However, they may well be
+fixed already in the kernel versions that we ship. So we need some help
+to determine the appropriate upstream fix versions.
 
-> +
->  CVE_CHECK_DB_DLDIR_FILE ?=3D "${DL_DIR}/CVE_CHECK/${CVE_CHECK_DB_FILENAM=
-E}"
->  CVE_CHECK_DB_DLDIR_LOCK ?=3D "${CVE_CHECK_DB_DLDIR_FILE}.lock"
->  CVE_CHECK_DB_TEMP_FILE ?=3D "${CVE_CHECK_DB_FILE}.tmp"
-> @@ -217,6 +221,15 @@ def update_db_file(db_tmp_file, d, database_time):
->          api_key =3D d.getVar("NVDCVE_API_KEY") or None
->          attempts =3D int(d.getVar("CVE_DB_UPDATE_ATTEMPTS"))
-> =20
-> +        results_per_page =3D d.getVar("CVE_DB_RESULTS_PER_PAGE")
-> +        RESULTS_PER_PAGE_MAX =3D 2000 # imposed by NVD
-> +        if results_per_page:
-> +            results_per_page =3D int(results_per_page)
-> +            if results_per_page > RESULTS_PER_PAGE_MAX:
-> +                bb.warn("CVE_DB_RESULTS_PER_PAGE exceeds maximum of %d, =
-capping" % RESULTS_PER_PAGE_MAX)
-> +                results_per_page =3D RESULTS_PER_PAGE_MAX
-> +            req_args['resultsPerPage'] =3D results_per_page
-> +
+For each CVE, at a minimum we need to know if they are resolved in the
+mainline kernel, and if so then which release they were resolved in. A
+pointer to the exact upstream commit resolving the issue would be
+preferred. This may involve a bit of investigation, so please share the
+information you find that proves that a CVE is resolved in a particular
+kernel version.
 
-This code can raise ValueError if CVE_DB_RESULTS_PER_PAGE is not
-convertible to an integer. That should be handled.
+Once you've investigated a particular CVE, if it is resolved upstream
+then please send a patch to update the linux-yocto cve-exclusion.inc
+file with the appropriate information. See recent commits to this file
+for examples of what we need, e.g:
+    https://git.openembedded.org/openembedded-core/commit/?id=3Dded28ca69b3=
+26e51ac5cf363f06c6f0931a9c1bd
+
+Once we've got patches merged into the master branch, we can look at
+backporting to wrynose & scarthgap as appropriate.
+
+The open linux-yocto CVEs lacking an upstream fix version and not
+currently tracked in cve-exclusion.inc are:
+
+- CVE-2019-14899
+- CVE-2021-3714
+- CVE-2021-3864
+- CVE-2022-0400
+- CVE-2022-1247
+- CVE-2022-4543
+- CVE-2023-3397
+- CVE-2023-3640
+- CVE-2023-4010
+- CVE-2023-6238
+- CVE-2023-6240
 
 Best regards,
 
@@ -190,17 +175,17 @@ Best regards,
 Paul Barker
 
 
---=-8T/lGCnWxe5UnejWRTx/
+--=-0XEesQ6whmklxQQjMezh
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCakLC8xEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bll/AQDlcsP0AskSqM3rGZRj1eC+BkvwVSH9D6kY
-SIpZ0PzD9wEAvOQeZQQEsUBEjzsOYVhbciI8R/r8Cab2qedGRWbPFw8=
-=9bse
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCakLIdhEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bkNtAQD9hQerlmRpBQwUSQc6EMfranRD7L4DHbGX
+yek6XnvHBAD/d8EmSza+X85R0Zc31rD4QVRD2ONw7Hs64qJxTtjNggI=
+=wGkH
 -----END PGP SIGNATURE-----
 
---=-8T/lGCnWxe5UnejWRTx/--
+--=-0XEesQ6whmklxQQjMezh--
 
