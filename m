@@ -1,253 +1,171 @@
-Return-Path: <adongare@cisco.com>
+Return-Path: <asparmar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 723C5C43638
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 12:39:24 +0000 (UTC)
-Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.91207.1782736762823690166
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8244BC43602
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 12:44:44 +0000 (UTC)
+Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36700.1782737079026797088
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 05:39:22 -0700
+ Mon, 29 Jun 2026 05:44:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=kuXi90KI;
- spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: adongare@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=iz8fP2jZ;
+ spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=6237; q=dns/txt;
-  s=iport01; t=1782736762; x=1783946362;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=PDj467sVbyIqMlsAR2DmF8zy1FsAFJQ7a7RrH+22fHM=;
-  b=kuXi90KIImahxjFuA6GE+6cuo/JkUt0bEs135O4ngKsOZhAv1dahAyvt
-   EB6yWabuPDKnO0HDr0JaisqkEJCYZ46sij4n3QtCnyQKl7RthGuMbxdcD
-   xfFeusfK8MKm6h71Ka9jSRR8jbUX5UwCqzGVW9X4eT+rWyfYRbbIqM+X6
-   9wuVvWcguhjXy319zJYD4Q942g3Ayfa/mmZnlepB9WI58G5e7vMqgRKj6
-   YYnexvuz8uZ+hDnmMtGdRncL3fvuP+ae+bBRXtQMS/8MT3Zw4EDpdxr75
-   HcgJnGrk9tgLGGVMKiqCIpU0nLmrhb+C56I2B2Pzyuo1BHWEJkulEsRvt
-   w==;
-X-CSE-ConnectionGUID: tUm/QafmTKurg3NVr8f0sQ==
-X-CSE-MsgGUID: xxCzxWAJQY680Ih6UaGA6A==
-X-IPAS-Result: =?us-ascii?q?A0BHAgDHZkJq/43/Ja1UBoJZgld0X0JJA5ZIA4ETnQiBf?=
- =?us-ascii?q?g8BAQEPRA0EAQGFBgKNSwImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBA?=
- =?us-ascii?q?gEHBYEOE4ZPDYZaAQIBAzIBRhAcAwECLysjCBmDAgGCcwIBEbY3GjeCLIEBg?=
- =?us-ascii?q?1oFCQJDUNssAQsUAQWBM4U/iB9bGAGEfCcbG4FygRWCc3aBBYFcAgOBTYZVB?=
- =?us-ascii?q?IIiehKBWh6BeoIIgRiJd0iBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBD?=
- =?us-ascii?q?BsHBYEdgWmBBIR9Ix8DOX+BMHVYZhUwNYECAREeCoFSJwMLGA1IESw3FBsEP?=
- =?us-ascii?q?m4HjF4XD4FwTQF6EwErF2QgKApfE5MbEZI3gTWfWgoog3WMIZU6GjOEBIFXk?=
- =?us-ascii?q?kCSUZkIjgqVU32EaIFoPIFZcBWDIglKGQ+OLAwLg2CCZIIvgQHBcCQ1CwMvA?=
- =?us-ascii?q?QEHAgcOAwuBaJF9AQE?=
-IronPort-Data: A9a23:Ol8jcKI3hpH6/4hbFE+RgJQlxSXFcZb7ZxGr2PjKsXjdYENS0DIBm
- GEZW2qDP/yMYDOjL9sib9u0pkkAuMOGyoBlHQcd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnR0
- T/Oi5eHYgH9hWQkajh8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1yMURxBIQW/9pUHHtBr
- tomMmADNgu60rfeLLKTEoGAh+w5J8XteYdasXZ6wHSBUbAtQIvIROPB4towMDUY358VW62BI
- ZBENHw2ME2ojx5nYj/7DLo3kOCuiXDlfhVTqUmeouw85G27IAlZjeC0aYSLJozXLSlTtlaIj
- XDWwE3bOyBEZIS+yWS4+12F2MaayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1rfDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9ExpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:Rdo4iqsknSY/xzNSdS9jYEep7skDrtV00zEX/kB9WHVpmwKj+P
- xG+85rsiMc5wxxZJhNo7290ey7MBHhHP1OkO0s1NWZPDUO0VHAROoJ0WKh+UyEJ8SUzIBgPM
- lbH5SWIeeAa2SS9fyKgzWQIpIH3MSN9ryuiKP1yndgShwvVoRbhj0Jczpy1iZNNXJ77V1TLu
- vl2vZ6
-X-Talos-CUID: =?us-ascii?q?9a23=3Att3bpWvVn72G2rwQTBWOwhi36Is5T3ia9X7eJnO?=
- =?us-ascii?q?bFHxmE5urUw+eoLhdxp8=3D?=
-X-Talos-MUID: =?us-ascii?q?9a23=3A2QtFrQ9R+szHICiQiMrvUKuQf9d4yLa+N2kvqKR?=
- =?us-ascii?q?Y65GlNXJNMhi00h3iFw=3D=3D?=
+  d=cisco.com; i=@cisco.com; l=3314; q=dns/txt;
+  s=iport01; t=1782737079; x=1783946679;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=xpJmEdHeWbCEndKx61xjty1JKEXwSAsupop1yyxVIbQ=;
+  b=iz8fP2jZLNnOClx1tOHoQYfM7TlEz6WqmVBrH8F23K71FYEPRGJ9qu79
+   Bg3H1k1pnr1kPtQh53KJy8yD0Xz9imOLnpyl/MFPyXIHki6C+dr19umRH
+   9/H0eLp8dfijBCb7u1BnEJk22yxNxs2An9hW12QMEjie9SambO23GGLtH
+   lqIhzJPKZ4dFxJ00v34yLeKAmY1m7whgEjjm6I6utL6H4Xk2d0xocUNJs
+   EPyCGGnoDr1YFqUZ1WCrnzhDH4ChJC6hJzdt652uQ4JUinpApixcc2zf/
+   xUDBxWhlS74sq6HONr/DJ0Oxh8cbUk8SgUmOaecvizv0qcnch6wuYZxCF
+   A==;
+X-CSE-ConnectionGUID: z0LJuR+xRL+03Lph4GucCg==
+X-CSE-MsgGUID: Zm+lRIn8RMqlDOuZUFc29w==
+X-IPAS-Result: =?us-ascii?q?A0BFAgA6aEJq/4z/Ja1aglmCV3RfQkmWS4tnkjcUgWoPA?=
+ =?us-ascii?q?QEBD0QNBAEBhQaNTQImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHB?=
+ =?us-ascii?q?YEOE4ZPDYZaAQIBKgsBRiwDAQIWOQsjIYMCAYI6AzYCARG2Kho3gXkzgQGEf?=
+ =?us-ascii?q?dhJDYJWAQsUAQWBM4U/gnyFI1sYAYR8JxsbgXKBFYNpgQWBGkICA4EWgQaGB?=
+ =?us-ascii?q?gSCIoEMgVoegXqCCIEYiXdIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4Xg?=
+ =?us-ascii?q?QwbBwWBHYFpgQSEfSMfAzl/gTB1WGYVMDWBAgERHgqBUicDCxgNSBEsNxQbB?=
+ =?us-ascii?q?D5uB4xeFw+CHSABgQ0BKyKBcqYOoB5xCiiDdYwhjz6FfBozhASBV5JAklGZC?=
+ =?us-ascii?q?I4KhAmSR4RogWg8gVlwFYMiCUoZD444g2uFE8J3JDULMgEBBwIHDgMLgWiRf?=
+ =?us-ascii?q?QEB?=
+IronPort-Data: A9a23:7kiLT6v/iEjud0ISeTw/XCDQL+fnVAdfMUV32f8akzHdYApBsoF/q
+ tZmKT3UP/6NYzf2fo10O9y3/UgG7JaByNM1SgdkqioyFCsUgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZDdJ5xYuajhKs/zZ+Es11BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw6L5TI3x0t
+ uwiDHNVNTSbh76Z3bmQRbw57igjBJGD0II3oHpsy3TdSP0hW52GG/6M7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwtPYH49tL/Aan3XeiZAoUiQrLAf6GnIxws327/oWDbQUoHSH5gIxBnD/
+ goq+UzLB1IeDv2ZmQCg63aAofL9oA3wAtMNQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2YaLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:8htFVq+bRx5AoFTB7tluk+D0I+orL9Y04lQ7vn2ZhyY7TiX+rb
+ HKoB11737JYVoqNU3I+urwWpVoP0m9yXcd2+B4Vt2ftWLd1ldAQrsP0WLK+UyFJ8SHzJ8/6Y
+ 5QN45jFdb3EV92yez+4AW+DpIc5ePvytHOuQ8bpE0dND2DrMpbnmFENjo=
+X-Talos-CUID: 9a23:kM1PXG4guxg66tvSMtss5hYwON0fMW3n6DSIeGugCTpGVba+RgrF
+X-Talos-MUID: =?us-ascii?q?9a23=3AKShrQQ5hot4JzoO/X99KQT+oxoxa5ueqMmELwa8?=
+ =?us-ascii?q?jos2oEjFCBhmW1mWoF9o=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.24,231,1774310400"; 
-   d="scan'208";a="501166485"
-Received: from rcdn-l-core-04.cisco.com ([173.37.255.141])
-  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 29 Jun 2026 12:39:21 +0000
-Received: from sjc-ads-4153.cisco.com (sjc-ads-4153.cisco.com [171.70.54.174])
+   d="scan'208";a="502552730"
+Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
+  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 29 Jun 2026 12:44:38 +0000
+Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-04.cisco.com (Postfix) with ESMTPS id C1C751800018F;
-	Mon, 29 Jun 2026 12:39:21 +0000 (GMT)
-Received: by sjc-ads-4153.cisco.com (Postfix, from userid 1870532)
-	id 76068CC12A7; Mon, 29 Jun 2026 05:39:21 -0700 (PDT)
-From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
+	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id 00989180005A1;
+	Mon, 29 Jun 2026 12:44:38 +0000 (GMT)
+Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
+	id 9D1DFCC124B; Mon, 29 Jun 2026 05:44:37 -0700 (PDT)
+From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com,
-	Anil Dongare <adongare@cisco.com>
-Subject: [OE-core] [wrynose] [PATCH 2/2] cargo: Fix CVE-2026-5223
-Date: Mon, 29 Jun 2026 05:39:16 -0700
-Message-ID: <20260629123917.60003-2-adongare@cisco.com>
-X-Mailer: git-send-email 2.44.4
-In-Reply-To: <20260629123917.60003-1-adongare@cisco.com>
-References: <20260629123917.60003-1-adongare@cisco.com>
+Cc: xe-linux-external@cisco.com, to@cisco.com,
+	Ashishkumar Parmar <asparmar@cisco.com>
+Subject: [OE-core][wrynose][PATCH 1/3] qemu: Fix CVE-2026-2243
+Date: Mon, 29 Jun 2026 05:44:29 -0700
+Message-Id: <20260629124431.2000781-1-asparmar@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-4153.cisco.com [171.70.54.174];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.54.174, sjc-ads-4153.cisco.com
-X-Outbound-Node: rcdn-l-core-04.cisco.com
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
+X-Outbound-Node: rcdn-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 12:39:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239768
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 12:44:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239769
 
-From: Anil Dongare <adongare@cisco.com>
+From: Ashishkumar Parmar <asparmar@cisco.com>
 
-This patch applies the upstream fix as referenced in [2], using the commit shown in [1].
+This patch applies the upstream stable-10.2 backport for CVE-2026-2243.
+The upstream fix commit is referenced in [1], and the public CVE advisory
+is referenced in [2].
 
-[1] https://github.com/rust-lang/cargo/commit/285cebf58911eca5b7f177f5d0b1c53e1f646577
-[2] https://security-tracker.debian.org/tracker/CVE-2026-5223
+[1] https://gitlab.com/qemu-project/qemu/-/commit/86b5130fefbe476f3c0a85b9e136f9e3fd518689
+[2] https://github.com/advisories/GHSA-cw9w-w7fx-35q6
 
-Signed-off-by: Anil Dongare <adongare@cisco.com>
+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 ---
- .../rust/files/CVE-2026-5223.patch            | 125 ++++++++++++++++++
- meta/recipes-devtools/rust/rust-source.inc    |   1 +
- 2 files changed, 126 insertions(+)
- create mode 100644 meta/recipes-devtools/rust/files/CVE-2026-5223.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2026-2243.patch             | 45 +++++++++++++++++++
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-2243.patch
 
-diff --git a/meta/recipes-devtools/rust/files/CVE-2026-5223.patch b/meta/recipes-devtools/rust/files/CVE-2026-5223.patch
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 4b6c2252b7..1d493ee1a3 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -37,6 +37,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
+            file://CVE-2024-6519.patch \
++           file://CVE-2026-2243.patch \
+            "
+ # file index at download.qemu.org isn't reliable: https://gitlab.com/qemu-project/qemu-web/-/issues/9
+ UPSTREAM_CHECK_URI = "https://www.qemu.org"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2026-2243.patch b/meta/recipes-devtools/qemu/qemu/CVE-2026-2243.patch
 new file mode 100644
-index 0000000000..5041dedac5
+index 0000000000..bb2cb63b91
 --- /dev/null
-+++ b/meta/recipes-devtools/rust/files/CVE-2026-5223.patch
-@@ -0,0 +1,125 @@
-+From 285cebf58911eca5b7f177f5d0b1c53e1f646577 Mon Sep 17 00:00:00 2001
-+From: Josh Triplett <josh@joshtriplett.org>
-+Date: Mon, 30 Mar 2026 10:35:55 -0700
-+Subject: [PATCH] CVE-2026-5223: prohibit unpacking symlinks and other
-+ unexpected entries
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2026-2243.patch
+@@ -0,0 +1,45 @@
++From 1633b8cd69483ed6c481aa596d3c760c09257c27 Mon Sep 17 00:00:00 2001
++From: "Halil Oktay (oblivionsage)" <cookieandcream560@gmail.com>
++Date: Tue, 10 Feb 2026 13:33:25 +0100
++Subject: [PATCH] block/vmdk: fix OOB read in vmdk_read_extent()
 +
-+Cargo has historically not allowed creating .crate packages containing
-+symlinks. (It packages the symlink target in place of the symlink,
-+instead.) So, any package containing a symlink would have to be
-+hand-constructed. Such packages are also not allowed on crates.io, so it
-+could only come from an alternate registry.
++Bounds check for marker.size doesn't account for the 12-byte marker
++header, allowing zlib to read past the allocated buffer.
 +
-+Rather than dealing with symlink traversal attacks when unpacking a
-+crate, just prohibit symlinks entirely.
++Move the check inside the has_marker block and subtract the marker size.
 +
-+In the process, also prohibit other kinds of unusual entries. As an
-+exception, allow character devices but warn about them, because some
-+exist in crates on crates.io.
++CVE: CVE-2026-2243
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/86b5130fefbe476f3c0a85b9e136f9e3fd518689]
 +
-+CVE: CVE-2026-5223
-+Upstream-Status: Backport [https://github.com/rust-lang/cargo/commit/285cebf58911eca5b7f177f5d0b1c53e1f646577]
-+
-+(cherry picked from commit 285cebf58911eca5b7f177f5d0b1c53e1f646577)
-+Signed-off-by: Anil Dongare <adongare@cisco.com>
++Fixes: CVE-2026-2243
++Reported-by: Halil Oktay (oblivionsage) <cookieandcream560@gmail.com>
++Signed-off-by: Halil Oktay (oblivionsage) <cookieandcream560@gmail.com>
++Reviewed-by: Kevin Wolf <kwolf@redhat.com>
++Signed-off-by: Kevin Wolf <kwolf@redhat.com>
++(cherry picked from commit cfda94eddb6c9c49b66461c950b22845a46a75c9)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++(cherry picked from commit 86b5130fefbe476f3c0a85b9e136f9e3fd518689)
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ src/tools/cargo/src/cargo/sources/registry/mod.rs | 10 +++++-
-+ src/tools/cargo/tests/testsuite/registry.rs       | 39 ++++++++++-------------
-+ 2 files changed, 26 insertions(+), 23 deletions(-)
++ block/vmdk.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
 +
-+diff --git a/src/tools/cargo/src/cargo/sources/registry/mod.rs b/src/tools/cargo/src/cargo/sources/registry/mod.rs
-+index 04d4ec3..d152a1e 100644
-+--- a/src/tools/cargo/src/cargo/sources/registry/mod.rs
-++++ b/src/tools/cargo/src/cargo/sources/registry/mod.rs
-+@@ -197,7 +197,7 @@ use cargo_util::paths::{self, exclude_from_backups_and_indexing};
-+ use flate2::read::GzDecoder;
-+ use serde::Deserialize;
-+ use serde::Serialize;
-+-use tar::Archive;
-++use tar::{Archive, EntryType};
-+ use tracing::debug;
-+ 
-+ use crate::core::dependency::Dependency;
-+@@ -1088,6 +1088,14 @@ fn unpack(
-+             )
-+         }
-+ 
-++        // Prevent unpacking symlinks and other unexpected entry types
-++        match entry.header().entry_type() {
-++            EntryType::Regular | EntryType::Directory => {}
-++            t => anyhow::bail!(
-++                "invalid tarball downloaded, contains an entry at {entry_path:?} with invalid type {t:?}",
-++            ),
++diff --git a/block/vmdk.c b/block/vmdk.c
++index 89e89cd10..cd8b4ec7c 100644
++--- a/block/vmdk.c
+++++ b/block/vmdk.c
++@@ -1951,10 +1951,10 @@ vmdk_read_extent(VmdkExtent *extent, int64_t cluster_offset,
++         marker = (VmdkGrainMarker *)cluster_buf;
++         compressed_data = marker->data;
++         data_len = le32_to_cpu(marker->size);
++-    }
++-    if (!data_len || data_len > buf_bytes) {
++-        ret = -EINVAL;
++-        goto out;
+++        if (!data_len || data_len > buf_bytes - sizeof(VmdkGrainMarker)) {
+++            ret = -EINVAL;
+++            goto out;
 ++        }
-++
-+         // Prevent unpacking the lockfile from the crate itself.
-+         if entry_path
-+             .file_name()
-+diff --git a/src/tools/cargo/tests/testsuite/registry.rs b/src/tools/cargo/tests/testsuite/registry.rs
-+index 5a30dad..4a4e836 100644
-+--- a/src/tools/cargo/tests/testsuite/registry.rs
-++++ b/src/tools/cargo/tests/testsuite/registry.rs
-+@@ -3274,8 +3274,7 @@ fn package_lock_inside_package_is_overwritten() {
-+ }
-+ 
-+ #[cargo_test]
-+-fn package_lock_as_a_symlink_inside_package_is_overwritten() {
-+-    let registry = registry::init();
-++fn package_lock_as_a_symlink_inside_package_is_invalid() {
-+     let p = project()
-+         .file(
-+             "Cargo.toml",
-+@@ -3298,21 +3297,23 @@ fn package_lock_as_a_symlink_inside_package_is_overwritten() {
-+         .symlink(".cargo-ok", "src/lib.rs")
-+         .publish();
-+ 
-+-    p.cargo("check").run();
-++    p.cargo("check")
-++        .with_status(101)
-++        .with_stderr_data(str![[r#"
-++[UPDATING] `dummy-registry` index
-++[LOCKING] 1 package to latest compatible version
-++[DOWNLOADING] crates ...
-++[DOWNLOADED] bar v0.0.1 (registry `dummy-registry`)
-++[ERROR] failed to download replaced source registry `crates-io`
-+ 
-+-    let id = SourceId::for_registry(registry.index_url()).unwrap();
-+-    let hash = cargo::util::hex::short_hash(&id);
-+-    let pkg_root = paths::cargo_home()
-+-        .join("registry")
-+-        .join("src")
-+-        .join(format!("-{}", hash))
-+-        .join("bar-0.0.1");
-+-    let ok = pkg_root.join(".cargo-ok");
-+-    let librs = pkg_root.join("src/lib.rs");
-++Caused by:
-++  failed to unpack package `bar v0.0.1 (registry `dummy-registry`)`
-+ 
-+-    // Is correctly overwritten and doesn't affect the file linked to
-+-    assert_eq!(ok.metadata().unwrap().len(), 7);
-+-    assert_eq!(fs::read_to_string(librs).unwrap(), "pub fn f() {}");
-++Caused by:
-++  invalid tarball downloaded, contains an entry at "bar-0.0.1/.cargo-ok" with invalid type Symlink
-++
-++"#]])
-++        .run();
-+ }
-+ 
-+ #[cargo_test]
-+@@ -4751,13 +4752,7 @@ Caused by:
-+   failed to unpack package `bar v1.0.0 (registry `dummy-registry`)`
-+ 
-+ Caused by:
-+-  failed to unpack entry at `bar-1.0.0/smuggled`
-+-
-+-Caused by:
-+-  failed to unpack `[ROOT]/home/.cargo/registry/src/-[HASH]/bar-1.0.0/smuggled`
-+-
-+-Caused by:
-+-  [..] when creating dir [ROOT]/home/.cargo/registry/src/-[HASH]/bar-1.0.0/smuggled
-++  invalid tarball downloaded, contains an entry at "bar-1.0.0/smuggled" with invalid type Symlink
-+ 
-+ "#]])
-+         .run();
-+-- 
-+2.44.4
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index 36407fa975..d897b2c262 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -12,6 +12,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
-             file://0001-Adjust-loongarch-assembly-test.patch;patchdir=${RUSTSRC} \
-             file://0001-Fix-multiple-option-or-permutations-test-for-big-end.patch;patchdir=${RUSTSRC} \
-             file://CVE-2026-5222.patch;patchdir=${RUSTSRC} \
-+            file://CVE-2026-5223.patch;patchdir=${RUSTSRC} \
- "
- SRC_URI[rust.sha256sum] = "174fce10ce012317ca995810296d8af199318838180b03d68a853e0f02d4b571"
- 
++     }
++     ret = uncompress(uncomp_buf, &buf_len, compressed_data, data_len);
++     if (ret != Z_OK) {
 -- 
-2.44.4
+2.35.6
 
 
