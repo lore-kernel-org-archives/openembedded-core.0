@@ -2,101 +2,103 @@ Return-Path: <adongare@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A385C44500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8532AC44502
 	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 13:15:05 +0000 (UTC)
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.37291.1782738901069608698
+Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.37290.1782738900973189256
  for <openembedded-core@lists.openembedded.org>;
  Mon, 29 Jun 2026 06:15:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=H50Hj28r;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: adongare@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=BXcvWKF7;
+ spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: adongare@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1568; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=1750; q=dns/txt;
   s=iport01; t=1782738901; x=1783948501;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4x0vvS5Z5zcvZHZjWj8lAzBx+MgdX/iRNDcHlTDkS38=;
-  b=H50Hj28rQ7KebLe5SDNaGGq8zAMAe90Yrxy3YbgCBqWaPYkUBjTMOgTK
-   sUrBKLwCybAh6U/GC9U0H3rnX1k4DU5QD4pl/Lhj8WxGN+OirpUjvJWs8
-   Z+VfjCmyZOCMwfaBAdebsiK/5NTdm/2YipNUHqLiXLbz5b4R8kHnVMTeg
-   d3NWE/hgv7O72EzHoO+QYUlV9viQr53sGRbRo4mVyC+Ik/mCB6bIYvo5n
-   NscUGcaMnZtlGMy4MiLt6uCU60gP1IKSuma/l5UhfEphvG6Dpi3/cXB6z
-   HVYauptGKGBuypLg7xg47MHl2FYU9p+1xEi66dfEIogxM+oxtXFOFyegO
-   A==;
-X-CSE-ConnectionGUID: yz7ujXjfRH2f1Lrp+HjqEg==
-X-CSE-MsgGUID: siVsF6o5QoqxRbv7PCuT1w==
-X-IPAS-Result: =?us-ascii?q?A0BBAgCnbkJq/5T/Ja1aHgEBCxIMggULgld0X0JJlkueH?=
- =?us-ascii?q?oF+DwEBAQ89FAQBAYUGjU0CJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBA?=
- =?us-ascii?q?QIBBwWBDhOGTw2GXTYBGAEtMFw7CYMCAYJzAgERBrZ0giyBAYMoATEFCQICQ?=
- =?us-ascii?q?AFQ2ywBCxQBBYEzhT+IH3MBgkmCMycbG4FygRWDaYEFgVwBAoIshXgEgiJ6E?=
- =?us-ascii?q?oF4UIErjRZIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQwbBwWBHYFpg?=
- =?us-ascii?q?QSEfSMfAzl/gTB1WGYVMDWBAgERHgqBUicDCxgNSBEsNxQbBD5uB4xeFw+CP?=
- =?us-ascii?q?RBKBy0qAgSBaBgzBqVloQ8KKIN1jCGVOhozqmyZCI4KllCEaIFoPDmBDgsHc?=
- =?us-ascii?q?BWDIgkWNBkPjjiFaoRBwU0kNQI7AQEHAgcOAwuBaJF9AQE?=
-IronPort-Data: A9a23:mIMi06qOmx5gVZcXKMG/YJzBijpeBmJJZBIvgKrLsJaIsI4StFCzt
- garIBnTO6zeZmTxKt0la97n8UNXuJTdztcySFRupSFjE3lEoOPIVI+TRqvS04x+DSFioGZPt
- Zh2hgzodZhsJpPkjk7zdOCn9j8kif3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
- T/Ji5OZYgPNNwJcaDpOtfrd8kI35ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
- 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
- I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0vdlXnxMx
- f4WEhBXYEmnnfr14LCiZ+Y506zPLOGzVG8ekmtrwTecCbMtRorOBvyTo9RZxzw3wMtJGJ4yZ
- eJANmEpN0uGOUASfA5LWPrSn8/w7pX7WzRUr1SarLA6y2PS1wd2lrPqNbI5f/TWFZoFwxvJ9
- ziuE2LRGRAkL/LBzme89Wu8vOXRwhvQRb5LC+jtnhJtqBjJroAJMzURTVa9rPyzh0KyVt4aI
- EsO9wIqrLMu7wqsVtT7UhiyrXKIsxJaXMBfe9DW8ymXwabSpgLcDW8eQ3sYMZottdQ9Qnoh0
- Vrhc87VOAGDeYa9ERq1nop4ZxvrUcTJBQfuvRM5cDY=
-IronPort-HdrOrdr: A9a23:pYxkZq/1y2Ws8XgzyRBuk+D0I+orL9Y04lQ7vn2ZhyY7TiX+rb
- HKoB11737JYVoqNU3I+urwWpVoI0m9yXcd2+B4Vt2ftWLd1ldAQrsP0WLK+UyFJ8SHzJ8/6Y
- 5QN45jFdb3EV92yez+4AW+DpIc5ePvytHOuQ8bpE0dND2DrMpbnmFENjo=
-X-Talos-CUID: 9a23:Ve2QK26SkHA07y+Ahdss5VxLB8IVcHPn7C3eemuiESVJSqS4RgrF
-X-Talos-MUID: =?us-ascii?q?9a23=3A9goHaQ6MfpIXqCpYMSyzVOFNxoxz4pq1Jh4KzKw?=
- =?us-ascii?q?Botm+PzIvAxyAsG2oF9o=3D?=
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=akFs9bPzu/WBATdi82RuTMfVfkQQUEKQwxkIT4drzZQ=;
+  b=BXcvWKF7ZillQg8kc23nR7G+tSTQSIotP24GFRmvO1j97LsLKzy9UTOx
+   bp6rnJxPZuczRwd8rW/cMw7hLKepjLKS/+KcYUVCtKsdHsAjSQk+EFH9X
+   Argw6aqJrkLiHr4+qvb/p7Yb0HbW8IsYayaH1bOBFy1fc7/68Z13w/4il
+   KZibo8fcHlnhI+SqRxoKvJvozvDl8ZqP/OPWHiElKv6Q65rgJhG8H+lbU
+   S8wfuK09+xjbLGmzluu0ayBbm8A1y6lt7Kbpg/Wfprh7P1/WY9KhCSrmy
+   zvKcIzB+kbKwwSYSAJkLhe4+gt3qNMhFuu4SzfTtalpQnr72Pq/6I7bSI
+   g==;
+X-CSE-ConnectionGUID: dOEtBvXrQgSxDTVLfOTywg==
+X-CSE-MsgGUID: bJD5AYBzQ/CBug4BGipbww==
+X-IPAS-Result: =?us-ascii?q?A0BEAgAqb0Jq/5P/Ja1aHgEBCxIMggULgld0X0JJlksDn?=
+ =?us-ascii?q?huBfg8BAQEPRA0EAQGFBgKNSwImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFA?=
+ =?us-ascii?q?QEBAgEHBYEOE4ZPDYZbAgEDMgEYAS0QIDErKxmDAgGCcwIBEQa2coIsgQGDK?=
+ =?us-ascii?q?AExBQkCAkABUNssAQsUAQWBM4U/iB9zAYJJgjMnGxuBcoR+gQWBXAEBAYIsh?=
+ =?us-ascii?q?XgEgiJ6EoF4gXuNFkiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHB?=
+ =?us-ascii?q?YEdgWmBBIR9Ix8DOX+BMHVYZhUwNYECAREeCoFSJwMLGA1IESw3FBsEPm4Hj?=
+ =?us-ascii?q?F4XD4I9EEoHLSoCBIFoSwalZaEPCiiDdYwhlToaM6psmQiOCpZQhGiBaDw5g?=
+ =?us-ascii?q?Q4LB3AVgyIJFjQZD444g2uBf4RBwU0kNQIBOgEBBwIHDgMLgWiRfQEB?=
+IronPort-Data: A9a23:F/wE9KulrutloekVR0KCCxd/g+fnVAdfMUV32f8akzHdYApBsoF/q
+ tZmKW7UOq2CNjDxKtFyaI/l9UhTv5WAmNNgTQpurCs2HiJAgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZDdJ5xYuajhKs/zZ+Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw9sFaHUtQx
+ eYhJwsdQiy9o+yR/KOkRbw57igjBJGD0II3oHpsy3TdSP0hW52GGv2M7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwtIYH49tL/Aan3XejFfrl2cv6cf6GnIxws327/oWDbQUoHSH5gLwh/E9
+ woq+UzzID1HHe212wPC2VixibPlsiLjUp0NQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2cZLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:Xw+BcKy9iVZ1/Fi3O8LTKrPw9L1zdoMgy1knxilNoNJuHfBw8P
+ re+8jzuiWUtN98YhwdcJW7Scu9qBDnhPpICOsqXYtKNTOO0ADDEGgh1/qG/9SKIUPDH4BmuZ
+ uIWpIObuEYdWIK7vrS0U2fD8sqxsWB/eSDgOfTyGoocCRRApsQljuQzm2gYzZLrM4sP+tAKK
+ ah
+X-Talos-CUID: 9a23:a4gslmy2nXMy9xMhwfBRBgUYPe05WGPt1k7fGF+UNVhNRpqpWECfrfY=
+X-Talos-MUID: 9a23:oilVJwazxeJmoeBTvR3A2RhTHtVRpI+EFU9Ru7oHo8ObKnkl
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.24,232,1774310400"; 
-   d="scan'208";a="487855992"
-Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 29 Jun 2026 13:15:00 +0000
+   d="scan'208";a="502564149"
+Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
+  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 29 Jun 2026 13:15:00 +0000
 Received: from sjc-ads-3691.cisco.com (sjc-ads-3691.cisco.com [171.68.250.138])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 0D78518000147;
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 120A6180008B5;
 	Mon, 29 Jun 2026 13:15:00 +0000 (GMT)
 Received: by sjc-ads-3691.cisco.com (Postfix, from userid 1870532)
-	id AA9A6CC12A6; Mon, 29 Jun 2026 06:14:59 -0700 (PDT)
+	id AF247CC12A8; Mon, 29 Jun 2026 06:14:59 -0700 (PDT)
 From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	Anil Dongare <adongare@cisco.com>
-Subject: [OE-core] [wrynose] [PATCH 1/6] curl: ignore CVE-2026-4873
-Date: Mon, 29 Jun 2026 06:14:45 -0700
-Message-ID: <20260629131453.1077612-1-adongare@cisco.com>
+Subject: [OE-core] [wrynose] [PATCH 3/6] curl: ignore CVE-2026-5773
+Date: Mon, 29 Jun 2026 06:14:47 -0700
+Message-ID: <20260629131453.1077612-3-adongare@cisco.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260629131453.1077612-1-adongare@cisco.com>
+References: <20260629131453.1077612-1-adongare@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-3691.cisco.com [171.68.250.138];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.68.250.138, sjc-ads-3691.cisco.com
-X-Outbound-Node: rcdn-l-core-11.cisco.com
+X-Outbound-Node: rcdn-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 13:15:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239777
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239776
 
 From: Anil Dongare <adongare@cisco.com>
 
-- CVE-2026-4873 affects curl before 8.20.0 when a connection negotiated with
-  clear-text IMAP, POP3, or SMTP can later be reused for a TLS-required
-  transfer.
-- In wrynose, these protocols are optional PACKAGECONFIG entries and are not
-  enabled by default in curl_8.19.0.bb, so record this CVE as configuration-not-applicable
-  for the default recipe configuration.
+- CVE-2026-5773 affects curl before 8.20.0 when an authenticated SMB connection
+  can be reused for a different set of credentials.
+- In wrynose, SMB support is available only through PACKAGECONFIG[smb] and is not
+  enabled by default, so record this CVE as configuration-not-applicable for the
+  default recipe configuration.
 
 Reference:
-- https://curl.se/docs/CVE-2026-4873.html
-- https://nvd.nist.gov/vuln/detail/CVE-2026-4873
+- https://curl.se/docs/CVE-2026-5773.html
+- https://nvd.nist.gov/vuln/detail/CVE-2026-5773
+- https://github.com/openembedded/openembedded-core/blob/wrynose/meta/recipes-support/curl/curl_8.19.0.bb
 
 Signed-off-by: Anil Dongare <adongare@cisco.com>
 ---
@@ -104,14 +106,14 @@ Signed-off-by: Anil Dongare <adongare@cisco.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index d58b774011..41e6888977 100644
+index 2b1bc40e37..5580791ec8 100644
 --- a/meta/recipes-support/curl/curl_8.19.0.bb
 +++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -27,6 +27,7 @@ SRC_URI[sha256sum] = "4eb41489790d19e190d7ac7e18e82857cdd68af8f4e66b292ced562d33
- # Curl has used many names over the years...
+@@ -29,6 +29,7 @@ SRC_URI[sha256sum] = "4eb41489790d19e190d7ac7e18e82857cdd68af8f4e66b292ced562d33
  CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
  CVE_STATUS[CVE-2024-32928] = "ignored: CURLOPT_SSL_VERIFYPEER was disabled on google cloud services causing a potential man in the middle attack"
-+CVE_STATUS[CVE-2026-4873] = "${@bb.utils.contains_any('PACKAGECONFIG', 'imap pop3 smtp', 'unpatched', 'not-applicable-config: clear-text imap/pop3/smtp support is not enabled in PACKAGECONFIG', d)}"
+ CVE_STATUS[CVE-2026-4873] = "${@bb.utils.contains_any('PACKAGECONFIG', 'imap pop3 smtp', 'unpatched', 'not-applicable-config: clear-text imap/pop3/smtp support is not enabled in PACKAGECONFIG', d)}"
++CVE_STATUS[CVE-2026-5773] = "${@bb.utils.contains('PACKAGECONFIG', 'smb', 'unpatched', 'not-applicable-config: smb support is not enabled in PACKAGECONFIG', d)}"
  
  inherit autotools pkgconfig binconfig multilib_header ptest
  
