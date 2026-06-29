@@ -2,59 +2,107 @@ Return-Path: <mac@mcrowe.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2514C43458
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 16:48:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01A4EC43458
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 16:51:36 +0000 (UTC)
 Received: from deneb.mcrowe.com (deneb.mcrowe.com [88.97.37.36])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1715.1782751725230753998
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1779.1782751889176924907
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 09:48:46 -0700
+ Mon, 29 Jun 2026 09:51:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20260328 header.b=nOcEbluY;
+ dkim=pass header.i=@mcrowe.com header.s=20260328 header.b=oM+VyocB;
  spf=pass (domain: mcrowe.com, ip: 88.97.37.36, mailfrom: mac@mcrowe.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20260328; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	s=20260328; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=sobcaaepxwb0GoRXbQP0Jk8Un4Lm/x1ocUKuaVrBy/U=; b=nOcEbluY4qBcE3JvYpbjcDSR/e
-	vaOXjlG3u7p1Nw7EyLQcxEoXfj3uxrNflHbllAl2LM9V1IyqhRydZi5jJnCiuZL7KH0LrTMWf815c
-	r0fwPUzruvhrbVqWwmlgfymI/C0WeyF+cv0MS6t92FECiJgoyXaWEhM9y8ifWuNAUvq/8O6nXs10y
-	64I2Vj2vfI9bOx2IJukVDCRqo5leQeEz4TqN2c2ueaZyS3YIN2VLKXLJrPQ/MJP9EC5BBBwCm40N8
-	hXH9WF5yBGsPmQMrTFP2w7rNYwfPq7cJl3tCjfxPuayPBTPF2n+by0wpFv1CM/YhUf+ROmcI+pzW9
-	We6zJPDQ==;
+	bh=Q3CkGt7tYvHOHqpERqbaO14KfBoF7xEvxc3+fRi3Qbs=; b=oM+VyocB1FVHcrwhfX3Cn0L0WH
+	NaEefeTwR9FISNyP//33lECwrDxMj+6sWUOFnXPq3ouJ4rFaSVY1gs/MuosXura3S1wmde4IsHaew
+	tob+oPAHpvt239pPOVVQ3JSsSp9c9KiivboEFxS/HagvvJm+WCxTPk20RPHqeNNmD8rzllGEgru3c
+	Q0IftK3IPqiGFl1iGWb141ij670WgbvPU75HmqGGTb5JAJURio+VXiKkrHL00bBIaHBNA+sCPSbFa
+	YU0uW1qC74tK/v5qApq7sRlJ8ljpTFXKmNDZp5FGaTrwAsbumGzz4ILUBSQGGLlNAZeiCoogoauCv
+	7PHI+J1Q==;
 Received: from mac by deneb.mcrowe.com with local (Exim 4.98.2)
 	(envelope-from <mac@mcrowe.com>)
-	id 1weFA2-00000004BJx-3nfi
-	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Jun 2026 17:48:42 +0100
-Date: Mon, 29 Jun 2026 17:48:42 +0100
-From: Mike Crowe <mac@mcrowe.com>
+	id 1weFCf-00000004Bpx-3h4w;
+	Mon, 29 Jun 2026 17:51:25 +0100
+From: mac@mcrowe.com
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] dropbear: Disable DSS correctly OS-21706
-Message-ID: <akKh6lfPnTeK0dBw@mcrowe.com>
-References: <20260629164452.2488757-1-mac@mcrowe.com>
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [scarthgap][PATCH] dropbear: Disable DSS correctly
+Date: Mon, 29 Jun 2026 17:50:56 +0100
+Message-ID: <20260629165056.2489582-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260629164452.2488757-1-mac@mcrowe.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 16:48:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239815
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 16:51:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239816
 
-On Monday 29 June 2026 at 17:44:52 +0100, mac@mcrowe.com wrote:
-> From: Mike Crowe <mac@mcrowe.com>
-> 
-> Take upstream patch that stops sysoptions.h unconditionally turning
-> DROPBEAR_DSS back on even when it has been disabled (which is the
-> default).
+From: Mike Crowe <mac@mcrowe.com>
 
-My apologies for forgetting to add the [scarthgap] to the subject line
-the first time. :(
+Take upstream patch that stops sysoptions.h unconditionally turning
+DROPBEAR_DSS back on even when it has been disabled (which is the
+default).
 
-I'll re-send with the correct subject line.
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ ...PBEAR_DSS-is-only-forced-for-fuzzing.patch | 29 +++++++++++++++++++
+ .../recipes-core/dropbear/dropbear_2022.83.bb |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/0001-Fix-so-DROPBEAR_DSS-is-only-forced-for-fuzzing.patch
 
-Mike.
+diff --git a/meta/recipes-core/dropbear/dropbear/0001-Fix-so-DROPBEAR_DSS-is-only-forced-for-fuzzing.patch b/meta/recipes-core/dropbear/dropbear/0001-Fix-so-DROPBEAR_DSS-is-only-forced-for-fuzzing.patch
+new file mode 100644
+index 0000000000..b9705a2bbb
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/0001-Fix-so-DROPBEAR_DSS-is-only-forced-for-fuzzing.patch
+@@ -0,0 +1,29 @@
++From c7dfaebd5f6a4cde4198f4d2a7baabaa1f632274 Mon Sep 17 00:00:00 2001
++From: Matt Johnston <matt@ucc.asn.au>
++Date: Tue, 6 Dec 2022 22:34:11 +0800
++Subject: [PATCH] Fix so DROPBEAR_DSS is only forced for fuzzing
++
++Regression from 787391ea3b5af2acf5e3c83372510f0c79477ad7,
++was missing fuzzing conditional
++
++Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/c043efb47c3173072fa636ca0da0d19875d4511f]
++---
++ sysoptions.h | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/sysoptions.h b/sysoptions.h
++index fb6adc7..12db59c 100644
++--- a/sysoptions.h
+++++ b/sysoptions.h
++@@ -383,9 +383,11 @@
++ #endif
++ 
++ /* Fuzzing expects all key types to be enabled */
+++#if DROPBEAR_FUZZ
++ #if defined(DROPBEAR_DSS)
++ #undef DROPBEAR_DSS
++ #endif
++ #define DROPBEAR_DSS 1
+++#endif
++ 
++ /* no include guard for this file */
+diff --git a/meta/recipes-core/dropbear/dropbear_2022.83.bb b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+index 93563aa3b4..d203fee34b 100644
+--- a/meta/recipes-core/dropbear/dropbear_2022.83.bb
++++ b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+@@ -28,6 +28,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            file://0001-Handle-arbitrary-length-paths-and-commands-in-multih.patch \
+            file://0001-cli-runopts.c-add-missing-DROPBEAR_CLI_PUBKEY_AUTH.patch \
+            file://0001-Avoid-unused-variable-with-DROPBEAR_CLI_PUBKEY_AUTH-.patch \
++           file://0001-Fix-so-DROPBEAR_DSS-is-only-forced-for-fuzzing.patch \
+            file://CVE-2025-47203.patch \
+            file://CVE-2019-6111.patch \
+            "
+-- 
+2.47.3
+
 
