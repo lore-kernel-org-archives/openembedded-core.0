@@ -2,448 +2,1638 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F376EC43638
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 14:20:48 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.93240.1782742838624266652
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 336B1C44502
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 14:20:49 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38595.1782742841130034222
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 07:20:38 -0700
+ Mon, 29 Jun 2026 07:20:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=UxhLxGzT;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4704d652e9cso1388119f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 07:20:38 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=dEdwUqKl;
+ spf=pass (domain: smile.fr, ip: 209.85.218.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c126eb4e003so100202566b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 07:20:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782742837; x=1783347637; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1782742839; x=1783347639; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gd/Fsm9SNXDS87ozyE2YiIFb/cUbd3/eOgy2h38u1BM=;
-        b=UxhLxGzTlDCCxpvl5mkL+9De4mSBJX2P+BGpIpjYSnaqvQC+//A0gSz3APrslIYsHH
-         G3JA6H4IQ05vF+52tVL8p8J0v7lBK2+v6VnO26mAnETyjwWHKo/buw8uCW5QTIpoYSsb
-         ABRxbVWjDWUnFkZHOINS7lzBDuKpn7DshVREs=
+        bh=Jpc5VEF3jLWa/JeXDqcMX0BYDrSL59zb6v+f0iZ3lUE=;
+        b=dEdwUqKlUttSoW7hqsOZ7vAYhRrRX8OrhYLzkkQVUdCf9gwxkfvEJVfcG9pAetdqM4
+         ESqlXD7w1Bn45L7IKxUbP3Geu+qEL0rJOIC95MC8bCkFlWYhoYIPsKEZsRnhK4vLq0Dv
+         tsgNYYre5MhGGN3jcLpQhimrjS9psKCP4kuHI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782742837; x=1783347637;
+        d=1e100.net; s=20251104; t=1782742839; x=1783347639;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=gd/Fsm9SNXDS87ozyE2YiIFb/cUbd3/eOgy2h38u1BM=;
-        b=GVwUwMf69tf15tgxX4vPjp6YAqKCzv+tjhsR49Ka9KtRsM101vgLoUlrgNGy/79N77
-         /e/aaI1gbzVTc6UDXGrenu1fM3hRt0+Akk7IW8Jpqgzn8eAKJIY83pFvxRuLAuJKbvyu
-         7CJ8o/PdQgJtxWYzUvhXxvUPtSw+Kts2iktXdxy8QnAyjdM45tp6doEBIDwZLotx6Ngj
-         0AjTf7ep3xQMq9PRrLHRkYipuHzmUNKIn9iOaPDsg504GUwkJCNhJ1yvfKshT+jdXCbO
-         vkN/m3CTTGHRLQR/RcW1gNJkdoleiRbj2EHVzBv4WC8/yz0AArLB8XsjieJw/f2MlDPV
-         91Rg==
-X-Gm-Message-State: AOJu0YyTsuJOMZgrlDI0a0QGTL7YYDQMwgqAhKfFggy8rWPpqlNiGfci
-	OUKdGSGTwCZZO6/9qYKofkfgTq34lJEslR/DdWDxv7MeARAoXZJo6Fz68UgXCHsqiHSOex4AqP7
-	Qb0zglXs=
-X-Gm-Gg: AfdE7ckVszYzq1gio6OIKGgmlBLXfv3Oi5/PzxoA5LjSY+BQAi+PPK6VVJTiookJSW6
-	dU2C9eQ2ugjvS2rctJcFotNoYHnPA39ml2Umw3rr/Cceey+hpTrePMy6tNALcfGkhC+SqbGtroo
-	WBMINx5hAE8ILqfpIBvdIo2NwANzTKOborR1ks58u9Vq3CVWPDfAycISk1pN5VPzq3t/I+VHthg
-	CpItpqIgMVHZSt6qRJFk+gEmEcN13/vq3dKJ0yX1/yWqz2oAOdpRC53We3wiaovBMGHR2c/ApBB
-	rzzPpkM8rAbyO7m6c+QHRRkYHGbXVrwVchA12FEMQxljMhsblm8eWdWfuR9Ag6pihPb5zwa5Ghb
-	EIMlcLZR1SDpV7yQj+xCCFFWfxBqroruOXh4a9mBaDCrxENpDaa9v4CpNy/tJEY+BwVAKL1n04y
-	QwWP3jfVVbij5UBqmTybayBHC+gx1XxBkWutxrRcaBsItAgi4aFMeLwfxBKUjLjCUuPti706xId
-	BXfHSkTGfgh6G4nO/nOYq8=
-X-Received: by 2002:a05:600c:848e:b0:490:3d62:f5e1 with SMTP id 5b1f17b1804b1-49266880e8fmr231003625e9.22.1782742836718;
-        Mon, 29 Jun 2026 07:20:36 -0700 (PDT)
+        bh=Jpc5VEF3jLWa/JeXDqcMX0BYDrSL59zb6v+f0iZ3lUE=;
+        b=CiuUW81UTwbr2pihoqnsnFxydOIp29koA/V2+9SUGKrIkJaGCRCh0if4ee2jYjUDoL
+         T+V/E6zaRqn/J81nO6b/yQvAD7SBTXYw857HU4R83rEiDdJwiZTY8Ku2Dkfk2v05VYig
+         8rl1fCvxhGII9+QqOeIm2rKANwqScimjHDk11xxOhNl2bcYHjvGpOzoWX9GgrI0T/Anz
+         FuLeU5kLU++gb2EF2BngrzV9RQTEnoi/8wGvOkHabEpmZlBDTm1A/ZW7WloSc22R8S0C
+         EDgG6DxNaKyRdlDsdZLonYo/N4a6kLd1izptpcEz+qAO5J3ZkCzzBC5A6YjcubiBeVPI
+         pu+g==
+X-Gm-Message-State: AOJu0Yw4OBd7cQfCSVc7rxZIkYBrH2+Kl8p8rlXNjZZKVgsiMEI8Y83z
+	8bqFwDk9HSQU05tnmIiCmaRuO//+SijuTLk5KJbVonsJB7+A72V5QXqW9Yabks5+PUPXRQ6QIXc
+	QdhInk2s=
+X-Gm-Gg: AfdE7cm3MWGCdZof/kQXDII91h6pxx9HM5eMZ9hozbGSHrKaOAo/DMuc75Yv++nezAr
+	j6h5BUhhE9Ug7SskTAnK92nlU/J1B9Rb0LrIGv3dduhuZw/Z+GLWy4HjJEavjI460Sxsl3WC+x/
+	41KkXW1iWslGyMlKTvJPkUXqlagOXf2i2aRGWtZnR9biVeT5PxpflOY1PxCsi42aVYS7PRIm7F2
+	s9r1RkOMf3uYORxtgdWnCQzfmK5lUBJAny7POM9ZFFoVDUd/7xwbJIwIOncWPhPdZM0D02mJv/u
+	w0ZvZGRZovjdidFEuhou+ktWCbKjmrA+zsECgC9nEbfwcHqjDp42WEdL7TJdHqQnzztu89vEK4g
+	KAS9s5KBPMWT0pMfU4VfraGT9Lfao/MDKbtNDC6uWrGONjLIEdqPRkg9UL7bO37wqzyzCQEzCCM
+	xlEJj+yqvMoqQMqlByJtqhgzqZtC94FZ/YlY1+Pg0oISz2BeiP5hxXgjzCyUGJxNby7Azcsfclr
+	2p4kB2Ij/6Ack7uiMvFssY=
+X-Received: by 2002:a17:906:6a84:b0:c12:557a:7533 with SMTP id a640c23a62f3a-c12816d8f6amr36628266b.58.1782742838733;
+        Mon, 29 Jun 2026 07:20:38 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46f8d6f10absm44958410f8f.5.2026.06.29.07.20.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46f8d6f10absm44958410f8f.5.2026.06.29.07.20.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 07:20:36 -0700 (PDT)
+        Mon, 29 Jun 2026 07:20:38 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 13/19] xwayland: Fix CVE-2026-34003
-Date: Mon, 29 Jun 2026 16:19:58 +0200
-Message-ID: <b8266375cceeb82cb53922468cf6409a0ff1e3f8.1782742373.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 15/19] nfs-utils: fix CVE-2025-12801
+Date: Mon, 29 Jun 2026 16:20:00 +0200
+Message-ID: <e1adf24482916767bf9a4229de006a49c7b1a77e.1782742373.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1782742373.git.yoann.congal@smile.fr>
 References: <cover.1782742373.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 14:20:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239801
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 14:20:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239803
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Sudhir Dumbhare <sudumbha@cisco.com>
 
-Pick patch according to [2]
+- This patch applies the upstream fix [5] as referenced in [7].
+- To successfully apply the fixed commit, apply the dependent commits [2] to [4]
+  which are included in v2.8.6, as referenced in [7].
+- Additionally, include dependent commit [1] from v2.8.3, as referenced in [8]
+  under the [2.5.4-38.2] description, along with compilation fix commit [6]
+  from v2.7.1
+- Reference:
+  [1] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=cd90f2925790
+  [2] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=7e8b36522f58
+  [3] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=42f01e6a78fe
+  [4] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=51738ae56d92
+  [5] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=f36bd900a899
+  [6] https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=a2c95e4f557a
+  [7] https://security-tracker.debian.org/tracker/CVE-2025-12801
+  [8] https://linux.oracle.com/errata/ELSA-2026-3940.html
 
-[1] https://lists.x.org/archives/xorg-announce/2026-April/003679.html
-[2] https://security-tracker.debian.org/tracker/CVE-2026-34003
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../xwayland/xwayland/CVE-2026-34003-1.patch  | 113 +++++++++
- .../xwayland/xwayland/CVE-2026-34003-2.patch  | 223 ++++++++++++++++++
- .../xwayland/xwayland_23.2.5.bb               |   2 +
- 3 files changed, 338 insertions(+)
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-1.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-2.patch
+ .../nfs-utils/CVE-2025-12801-build-fix.patch  |  44 ++
+ .../CVE-2025-12801-dependent_p1.patch         | 450 +++++++++++++++++
+ .../CVE-2025-12801-dependent_p2.patch         |  81 +++
+ .../CVE-2025-12801-dependent_p3.patch         | 181 +++++++
+ .../CVE-2025-12801-dependent_p4.patch         | 468 ++++++++++++++++++
+ .../nfs-utils/nfs-utils/CVE-2025-12801.patch  | 254 ++++++++++
+ .../nfs-utils/nfs-utils_2.6.4.bb              |   6 +
+ 7 files changed, 1484 insertions(+)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-build-fix.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p1.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p2.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p3.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p4.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801.patch
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-1.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-1.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-build-fix.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-build-fix.patch
 new file mode 100644
-index 00000000000..3a1a9db8cb3
+index 00000000000..d7aaca22425
 --- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-1.patch
-@@ -0,0 +1,113 @@
-+From b85b00dd7b9eee05e3c12e7ad1fce4fc6671507b Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Mon, 23 Feb 2026 15:52:49 +0100
-+Subject: [PATCH] xkb: Add additional bound checking in CheckKeyTypes()
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-build-fix.patch
+@@ -0,0 +1,44 @@
++From 30e0f57fff545b0bb3071fa071c7b12c2923bac8 Mon Sep 17 00:00:00 2001
++From: Steve Dickson <steved@redhat.com>
++Date: Mon, 22 Jan 2024 13:23:57 -0500
++Subject: [PATCH] reexport.c: Some Distros need the following include to
++ avoid the following error
 +
-+The function CheckKeyTypes() will loop over the client's request but
-+won't perform any additional bound checking to ensure that the data
-+read remains within the request bounds.
++reexport.c: In function ‘connect_fsid_service’:
++reexport.c:41:28: error: implicit declaration of function ‘offsetof’ [-Werror=implicit-function-declaration]
++   41 |                 addr_len = offsetof(struct sockaddr_un, sun_path) + strlen(addr.sun_path);
++      |                            ^~~~~~~~
++reexport.c:19:1: note: ‘offsetof’ is defined in header ‘<stddef.h>’; did you forget to ‘#include <stddef.h>’?
++   18 | #include "xlog.h"
++  +++ |+#include <stddef.h>
++   19 |
++reexport.c:41:37: error: expected expression before ‘struct’
++   41 |                 addr_len = offsetof(struct sockaddr_un, sun_path) + strlen(addr.sun_path);
++      |                                     ^~~~~~
++cc1: some warnings being treated as errors
 +
-+As a result, a specifically crafted request may cause CheckKeyTypes() to
-+read past the request data, as reported by valgrind:
++CVE: CVE-2025-12801
++Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=a2c95e4f557a71b482bb62bad6d93ddde51e5dc6]
 +
-+  == Invalid read of size 2
-+  ==    at 0x5A3D1D: CheckKeyTypes (xkb.c:1694)
-+  ==    by 0x5A6A9C: _XkbSetMapChecks (xkb.c:2515)
-+  ==    by 0x5A759E: ProcXkbSetMap (xkb.c:2736)
-+  ==    by 0x5BF832: SProcXkbSetMap (xkbSwap.c:245)
-+  ==    by 0x5C05ED: SProcXkbDispatch (xkbSwap.c:501)
-+  ==    by 0x4A20DF: Dispatch (dispatch.c:551)
-+  ==    by 0x4B03B4: dix_main (main.c:277)
-+  ==    by 0x428941: main (stubmain.c:34)
-+  ==  Address is 30 bytes after a block of size 28,672 in arena "client"
-+  ==
-+  == Invalid read of size 2
-+  ==    at 0x5A3AB6: CheckKeyTypes (xkb.c:1669)
-+  ==    by 0x5A6A9C: _XkbSetMapChecks (xkb.c:2515)
-+  ==    by 0x5A759E: ProcXkbSetMap (xkb.c:2736)
-+  ==    by 0x5BF832: SProcXkbSetMap (xkbSwap.c:245)
-+  ==    by 0x5C05ED: SProcXkbDispatch (xkbSwap.c:501)
-+  ==    by 0x4A20DF: Dispatch (dispatch.c:551)
-+  ==    by 0x4B03B4: dix_main (main.c:277)
-+  ==    by 0x428941: main (stubmain.c:34)
-+  ==  Address is 2 bytes after a block of size 28,672 alloc'd
-+  ==    at 0x4848897: realloc (vg_replace_malloc.c:1804)
-+  ==    by 0x5E357A: ReadRequestFromClient (io.c:336)
-+  ==    by 0x4A1FAB: Dispatch (dispatch.c:519)
-+  ==    by 0x4B03B4: dix_main (main.c:277)
-+  ==    by 0x428941: main (stubmain.c:34)
-+  ==
-+  == Invalid write of size 2
-+  ==    at 0x5A3AD7: CheckKeyTypes (xkb.c:1669)
-+  ==    by 0x5A6A9C: _XkbSetMapChecks (xkb.c:2515)
-+  ==    by 0x5A759E: ProcXkbSetMap (xkb.c:2736)
-+  ==    by 0x5BF832: SProcXkbSetMap (xkbSwap.c:245)
-+  ==    by 0x5C05ED: SProcXkbDispatch (xkbSwap.c:501)
-+  ==    by 0x4A20DF: Dispatch (dispatch.c:551)
-+  ==    by 0x4B03B4: dix_main (main.c:277)
-+  ==    by 0x428941: main (stubmain.c:34)
-+  ==  Address is 2 bytes after a block of size 28,672 alloc'd
-+  ==    at 0x4848897: realloc (vg_replace_malloc.c:1804)
-+  ==    by 0x5E357A: ReadRequestFromClient (io.c:336)
-+  ==    by 0x4A1FAB: Dispatch (dispatch.c:519)
-+  ==    by 0x4B03B4: dix_main (main.c:277)
-+  ==    by 0x428941: main (stubmain.c:34)
-+  ==
-+
-+To avoid that issue, add additional bounds checking within the loops by
-+calling _XkbCheckRequestBounds() and report an error if we are to read
-+past the client's request.
-+
-+CVE-2026-34003, ZDI-CAN-28736
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with TrendAI Zero Day Initiative
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2176>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/b85b00dd7b9eee05e3c12e7ad1fce4fc6671507b]
-+CVE: CVE-2026-34003
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++(cherry picked from commit a2c95e4f557a71b482bb62bad6d93ddde51e5dc6)
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 +---
-+ xkb/xkb.c | 15 +++++++++++++++
-+ 1 file changed, 15 insertions(+)
++ support/reexport/reexport.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/xkb/xkb.c b/xkb/xkb.c
-+index 3fcc6c4..0ef634b 100644
-+--- a/xkb/xkb.c
-++++ b/xkb/xkb.c
-+@@ -1639,6 +1639,10 @@ CheckKeyTypes(ClientPtr client,
-+     for (i = 0; i < req->nTypes; i++) {
-+         unsigned width;
++diff --git a/support/reexport/reexport.c b/support/reexport/reexport.c
++index 78516586..16dde0fb 100644
++--- a/support/reexport/reexport.c
+++++ b/support/reexport/reexport.c
++@@ -8,6 +8,7 @@
++ #include <sys/types.h>
++ #include <sys/vfs.h>
++ #include <errno.h>
+++#include <stddef.h>
 + 
-++	if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
-++	    *nMapsRtrn = _XkbErrCode3(0x0b, req->nTypes, i);
-++	    return 0;
++ #include "nfsd_path.h"
++ #include "conffile.h"
++-- 
++2.44.4
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p1.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p1.patch
+new file mode 100644
+index 00000000000..c1fb7c2f12e
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p1.patch
+@@ -0,0 +1,450 @@
++From bbec1c68cbf9a9b3b28aad213b4573d288879a6f Mon Sep 17 00:00:00 2001
++From: Christopher Bii <christopherbii@hyub.org>
++Date: Wed, 15 Jan 2025 12:10:48 -0500
++Subject: [PATCH] NFS export symlink vulnerability fix
++
++Replaced dangerous use of realpath within support/nfs/export.c with
++nfsd_realpath variant that is executed within the chrooted thread
++rather than main thread.
++
++Implemented nfsd_path.h methods to work securely within chrooted
++thread using nfsd_run_task() help
++
++CVE: CVE-2025-12801
++Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=cd90f29257904f36509ea5a04a86f42398fbe94a]
++
++Signed-off-by: Christopher Bii <christopherbii@hyub.org>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++(cherry picked from commit cd90f29257904f36509ea5a04a86f42398fbe94a)
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++---
++ support/export/cache.c      |   2 +-
++ support/include/nfsd_path.h |   5 +-
++ support/misc/nfsd_path.c    | 257 +++++++++++-------------------------
++ support/nfs/exports.c       |   3 +-
++ 4 files changed, 83 insertions(+), 184 deletions(-)
++
++diff --git a/support/export/cache.c b/support/export/cache.c
++index 6c0a44a3..a4c339f2 100644
++--- a/support/export/cache.c
+++++ b/support/export/cache.c
++@@ -65,7 +65,7 @@ static ssize_t cache_read(int fd, char *buf, size_t len)
++ 	return nfsd_path_read(fd, buf, len);
++ }
++ 
++-static ssize_t cache_write(int fd, const char *buf, size_t len)
+++static ssize_t cache_write(int fd, void *buf, size_t len)
++ {
++ 	return nfsd_path_write(fd, buf, len);
++ }
++diff --git a/support/include/nfsd_path.h b/support/include/nfsd_path.h
++index aa1e1dd0..f600fb5a 100644
++--- a/support/include/nfsd_path.h
+++++ b/support/include/nfsd_path.h
++@@ -8,6 +8,7 @@
++ 
++ struct file_handle;
++ struct statfs;
+++struct nfsd_task_t;
++ 
++ void 		nfsd_path_init(void);
++ 
++@@ -23,8 +24,8 @@ int		nfsd_path_statfs(const char *pathname,
++ 
++ char *		nfsd_realpath(const char *path, char *resolved_path);
++ 
++-ssize_t		nfsd_path_read(int fd, char *buf, size_t len);
++-ssize_t		nfsd_path_write(int fd, const char *buf, size_t len);
+++ssize_t		nfsd_path_read(int fd, void* buf, size_t len);
+++ssize_t		nfsd_path_write(int fd, void* buf, size_t len);
++ 
++ int		nfsd_name_to_handle_at(int fd, const char *path,
++ 				       struct file_handle *fh,
++diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
++index c3dea4f0..caec33ca 100644
++--- a/support/misc/nfsd_path.c
+++++ b/support/misc/nfsd_path.c
++@@ -19,7 +19,20 @@
++ #include "nfsd_path.h"
++ #include "workqueue.h"
++ 
++-static struct xthread_workqueue *nfsd_wq;
+++static struct xthread_workqueue *nfsd_wq = NULL;
+++
+++struct nfsd_task_t {
+++        int             ret;
+++        void*           data;
+++};
+++/* Function used to offload tasks that must be ran within the correct
+++ * chroot environment.
+++ */
+++static void
+++nfsd_run_task(void (*func)(void*), void* data){
+++        nfsd_wq ? xthread_work_run_sync(nfsd_wq, func, data) : func(data);
+++};
+++
++ 
++ static int
++ nfsd_path_isslash(const char *path)
++@@ -124,224 +137,119 @@ nfsd_path_init(void)
++ }
++ 
++ struct nfsd_stat_data {
++-	const char *pathname;
++-	struct stat *statbuf;
++-	int ret;
++-	int err;
+++	const char      *pathname;
+++	struct stat     *statbuf;
+++        int             (*stat_handler)(const char*, struct stat*);
++ };
++ 
++ static void
++-nfsd_statfunc(void *data)
++-{
++-	struct nfsd_stat_data *d = data;
++-
++-	d->ret = xstat(d->pathname, d->statbuf);
++-	if (d->ret < 0)
++-		d->err = errno;
++-}
++-
++-static void
++-nfsd_lstatfunc(void *data)
+++nfsd_handle_stat(void *data)
++ {
++-	struct nfsd_stat_data *d = data;
++-
++-	d->ret = xlstat(d->pathname, d->statbuf);
++-	if (d->ret < 0)
++-		d->err = errno;
+++        struct nfsd_task_t*     t = data;
+++	struct nfsd_stat_data*  d = t->data;
+++        t->ret = d->stat_handler(d->pathname, d->statbuf);
++ }
++ 
++ static int
++-nfsd_run_stat(struct xthread_workqueue *wq,
++-		void (*func)(void *),
++-		const char *pathname,
++-		struct stat *statbuf)
+++nfsd_run_stat(const char *pathname,
+++	        struct stat *statbuf,
+++                int (*handler)(const char*, struct stat*))
++ {
++-	struct nfsd_stat_data data = {
++-		pathname,
++-		statbuf,
++-		0,
++-		0
++-	};
++-	xthread_work_run_sync(wq, func, &data);
++-	if (data.ret < 0)
++-		errno = data.err;
++-	return data.ret;
+++        struct nfsd_task_t      t;
+++        struct nfsd_stat_data   d = { pathname, statbuf, handler };
+++        t.data = &d;
+++        nfsd_run_task(nfsd_handle_stat, &t);
+++	return t.ret;
++ }
++ 
++ int
++ nfsd_path_stat(const char *pathname, struct stat *statbuf)
++ {
++-	if (!nfsd_wq)
++-		return xstat(pathname, statbuf);
++-	return nfsd_run_stat(nfsd_wq, nfsd_statfunc, pathname, statbuf);
+++        return nfsd_run_stat(pathname, statbuf, stat);
++ }
++ 
++ int
++-nfsd_path_lstat(const char *pathname, struct stat *statbuf)
++-{
++-	if (!nfsd_wq)
++-		return xlstat(pathname, statbuf);
++-	return nfsd_run_stat(nfsd_wq, nfsd_lstatfunc, pathname, statbuf);
++-}
++-
++-struct nfsd_statfs_data {
++-	const char *pathname;
++-	struct statfs *statbuf;
++-	int ret;
++-	int err;
+++nfsd_path_lstat(const char* pathname, struct stat* statbuf){
+++        return nfsd_run_stat(pathname, statbuf, lstat);
++ };
++ 
++-static void
++-nfsd_statfsfunc(void *data)
++-{
++-	struct nfsd_statfs_data *d = data;
++-
++-	d->ret = statfs(d->pathname, d->statbuf);
++-	if (d->ret < 0)
++-		d->err = errno;
++-}
++-
++-static int
++-nfsd_run_statfs(struct xthread_workqueue *wq,
++-		  const char *pathname,
++-		  struct statfs *statbuf)
++-{
++-	struct nfsd_statfs_data data = {
++-		pathname,
++-		statbuf,
++-		0,
++-		0
++-	};
++-	xthread_work_run_sync(wq, nfsd_statfsfunc, &data);
++-	if (data.ret < 0)
++-		errno = data.err;
++-	return data.ret;
++-}
++-
++ int
++-nfsd_path_statfs(const char *pathname, struct statfs *statbuf)
+++nfsd_path_statfs(const char* pathname, struct statfs* statbuf)
++ {
++-	if (!nfsd_wq)
++-		return statfs(pathname, statbuf);
++-	return nfsd_run_statfs(nfsd_wq, pathname, statbuf);
++-}
+++        return nfsd_run_stat(pathname, (struct stat*)statbuf, (int (*)(const char*, struct stat*))statfs);
+++};
++ 
++-struct nfsd_realpath_data {
++-	const char *pathname;
++-	char *resolved;
++-	int err;
+++struct nfsd_realpath_t {
+++        const char*     path;
+++        char*           resolved_buf;
+++        char*           res_ptr;
++ };
++ 
++ static void
++ nfsd_realpathfunc(void *data)
++ {
++-	struct nfsd_realpath_data *d = data;
++-
++-	d->resolved = realpath(d->pathname, d->resolved);
++-	if (!d->resolved)
++-		d->err = errno;
+++        struct nfsd_realpath_t *d = data;
+++        d->res_ptr = realpath(d->path, d->resolved_buf);
++ }
++ 
++-char *
++-nfsd_realpath(const char *path, char *resolved_path)
+++char*
+++nfsd_realpath(const char *path, char *resolved_buf)
++ {
++-	struct nfsd_realpath_data data = {
++-		path,
++-		resolved_path,
++-		0
++-	};
++-
++-	if (!nfsd_wq)
++-		return realpath(path, resolved_path);
++-
++-	xthread_work_run_sync(nfsd_wq, nfsd_realpathfunc, &data);
++-	if (!data.resolved)
++-		errno = data.err;
++-	return data.resolved;
+++        struct nfsd_realpath_t realpath_buf = {
+++                .path = path,
+++                .resolved_buf = resolved_buf
+++        };
+++        nfsd_run_task(nfsd_realpathfunc, &realpath_buf);
+++        return realpath_buf.res_ptr;
++ }
++ 
++-struct nfsd_read_data {
++-	int fd;
++-	char *buf;
++-	size_t len;
++-	ssize_t ret;
++-	int err;
+++struct nfsd_rw_data {
+++	int             fd;
+++	void*           buf;
+++	size_t          len;
+++        ssize_t         bytes_read;
++ };
++ 
++ static void
++ nfsd_readfunc(void *data)
++ {
++-	struct nfsd_read_data *d = data;
++-
++-	d->ret = read(d->fd, d->buf, d->len);
++-	if (d->ret < 0)
++-		d->err = errno;
+++        struct nfsd_rw_data* t = (struct nfsd_rw_data*)data;
+++        t->bytes_read = read(t->fd, t->buf, t->len);
++ }
++ 
++ static ssize_t
++-nfsd_run_read(struct xthread_workqueue *wq, int fd, char *buf, size_t len)
+++nfsd_run_read(int fd, void* buf, size_t len)
++ {
++-	struct nfsd_read_data data = {
++-		fd,
++-		buf,
++-		len,
++-		0,
++-		0
++-	};
++-	xthread_work_run_sync(wq, nfsd_readfunc, &data);
++-	if (data.ret < 0)
++-		errno = data.err;
++-	return data.ret;
+++        struct nfsd_rw_data d = { .fd = fd, .buf = buf, .len = len };
+++        nfsd_run_task(nfsd_readfunc, &d);
+++	return d.bytes_read;
++ }
++ 
++ ssize_t
++-nfsd_path_read(int fd, char *buf, size_t len)
+++nfsd_path_read(int fd, void* buf, size_t len)
++ {
++-	if (!nfsd_wq)
++-		return read(fd, buf, len);
++-	return nfsd_run_read(nfsd_wq, fd, buf, len);
+++	return nfsd_run_read(fd, buf, len);
++ }
++ 
++-struct nfsd_write_data {
++-	int fd;
++-	const char *buf;
++-	size_t len;
++-	ssize_t ret;
++-	int err;
++-};
++-
++ static void
++ nfsd_writefunc(void *data)
++ {
++-	struct nfsd_write_data *d = data;
++-
++-	d->ret = write(d->fd, d->buf, d->len);
++-	if (d->ret < 0)
++-		d->err = errno;
+++	struct nfsd_rw_data* d = data;
+++	d->bytes_read = write(d->fd, d->buf, d->len);
++ }
++ 
++ static ssize_t
++-nfsd_run_write(struct xthread_workqueue *wq, int fd, const char *buf, size_t len)
+++nfsd_run_write(int fd, void* buf, size_t len)
++ {
++-	struct nfsd_write_data data = {
++-		fd,
++-		buf,
++-		len,
++-		0,
++-		0
++-	};
++-	xthread_work_run_sync(wq, nfsd_writefunc, &data);
++-	if (data.ret < 0)
++-		errno = data.err;
++-	return data.ret;
+++        struct nfsd_rw_data d = { .fd = fd, .buf = buf, .len = len };
+++        nfsd_run_task(nfsd_writefunc, &d);
+++	return d.bytes_read;
++ }
++ 
++ ssize_t
++-nfsd_path_write(int fd, const char *buf, size_t len)
+++nfsd_path_write(int fd, void* buf, size_t len)
++ {
++-	if (!nfsd_wq)
++-		return write(fd, buf, len);
++-	return nfsd_run_write(nfsd_wq, fd, buf, len);
+++	return nfsd_run_write(fd, buf, len);
++ }
++ 
++ #if defined(HAVE_NAME_TO_HANDLE_AT)
++@@ -352,23 +260,18 @@ struct nfsd_handle_data {
++ 	int *mount_id;
++ 	int flags;
++ 	int ret;
++-	int err;
++ };
++ 
++ static void
++ nfsd_name_to_handle_func(void *data)
++ {
++ 	struct nfsd_handle_data *d = data;
++-
++-	d->ret = name_to_handle_at(d->fd, d->path,
++-			d->fh, d->mount_id, d->flags);
++-	if (d->ret < 0)
++-		d->err = errno;
+++	d->ret = name_to_handle_at(d->fd, d->path, d->fh, d->mount_id, d->flags);
++ }
++ 
++ static int
++-nfsd_run_name_to_handle_at(struct xthread_workqueue *wq,
++-		int fd, const char *path, struct file_handle *fh,
+++nfsd_run_name_to_handle_at(int fd, const char *path,
+++                struct file_handle *fh,
++ 		int *mount_id, int flags)
++ {
++ 	struct nfsd_handle_data data = {
++@@ -377,25 +280,19 @@ nfsd_run_name_to_handle_at(struct xthread_workqueue *wq,
++ 		fh,
++ 		mount_id,
++ 		flags,
++-		0,
++ 		0
++ 	};
++ 
++-	xthread_work_run_sync(wq, nfsd_name_to_handle_func, &data);
++-	if (data.ret < 0)
++-		errno = data.err;
+++	nfsd_run_task(nfsd_name_to_handle_func, &data);
++ 	return data.ret;
++ }
++ 
++ int
++-nfsd_name_to_handle_at(int fd, const char *path, struct file_handle *fh,
+++nfsd_name_to_handle_at(int fd, const char *path,
+++                struct file_handle *fh,
++ 		int *mount_id, int flags)
++ {
++-	if (!nfsd_wq)
++-		return name_to_handle_at(fd, path, fh, mount_id, flags);
++-
++-	return nfsd_run_name_to_handle_at(nfsd_wq, fd, path, fh,
++-			mount_id, flags);
+++        return nfsd_run_name_to_handle_at(fd, path, fh, mount_id, flags);
++ }
++ #else
++ int
++diff --git a/support/nfs/exports.c b/support/nfs/exports.c
++index 15dc574c..c47e3d0a 100644
++--- a/support/nfs/exports.c
+++++ b/support/nfs/exports.c
++@@ -32,6 +32,7 @@
++ #include "xio.h"
++ #include "pseudoflavors.h"
++ #include "reexport.h"
+++#include "nfsd_path.h"
++ 
++ #define EXPORT_DEFAULT_FLAGS	\
++   (NFSEXP_READONLY|NFSEXP_ROOTSQUASH|NFSEXP_GATHERED_WRITES|NFSEXP_NOSUBTREECHECK)
++@@ -200,7 +201,7 @@ getexportent(int fromkernel, int fromexports)
++ 		return NULL;
++         }
++ 	/* resolve symlinks */
++-	if (realpath(ee.e_path, rpath) != NULL) {
+++	if (nfsd_realpath(ee.e_path, rpath) != NULL) {
++ 		rpath[sizeof (rpath) - 1] = '\0';
++ 		strncpy(ee.e_path, rpath, sizeof (ee.e_path) - 1);
++ 		ee.e_path[sizeof (ee.e_path) - 1] = '\0';
++-- 
++2.35.6
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p2.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p2.patch
+new file mode 100644
+index 00000000000..f088eadb4bd
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p2.patch
+@@ -0,0 +1,81 @@
++From a6ddd0e9594884cf61816478e8c561f1b3aac709 Mon Sep 17 00:00:00 2001
++From: Trond Myklebust <trond.myklebust@hammerspace.com>
++Date: Mon, 10 Nov 2025 11:26:03 -0500
++Subject: [PATCH] mountd: Minor refactor of get_rootfh()
++
++Perform the mountpoint checks before checking the user path.
++
++CVE: CVE-2025-12801
++Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=7e8b36522f58657359c6842119fc516c6dd1baa4]
++
++Reviewed-by: Jeff Layton <jlayton@kernel.org>
++Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++(cherry picked from commit 7e8b36522f58657359c6842119fc516c6dd1baa4)
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++---
++ utils/mountd/mountd.c | 34 +++++++++++++++++-----------------
++ 1 file changed, 17 insertions(+), 17 deletions(-)
++
++diff --git a/utils/mountd/mountd.c b/utils/mountd/mountd.c
++index dbd5546d..39afd4aa 100644
++--- a/utils/mountd/mountd.c
+++++ b/utils/mountd/mountd.c
++@@ -412,6 +412,23 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 		*error = MNT3ERR_ACCES;
++ 		return NULL;
++ 	}
+++	if (nfsd_path_stat(exp->m_export.e_path, &estb) < 0) {
+++		xlog(L_WARNING, "can't stat export point %s: %s",
+++		     p, strerror(errno));
+++		*error = MNT3ERR_NOENT;
+++		return NULL;
 ++	}
-+         if (client->swapped && doswap) {
-+             swaps(&wire->virtualMods);
-+         }
-+@@ -1664,7 +1668,18 @@ CheckKeyTypes(ClientPtr client,
-+             xkbModsWireDesc *preWire;
-+ 
-+             mapWire = (xkbKTSetMapEntryWireDesc *) &wire[1];
-++	    if (!_XkbCheckRequestBounds(client, req, mapWire,
-++				        &mapWire[wire->nMapEntries])) {
-++		*nMapsRtrn = _XkbErrCode3(0x0c, i, wire->nMapEntries);
-++		return 0;
-++	    }
-+             preWire = (xkbModsWireDesc *) &mapWire[wire->nMapEntries];
-++	    if (wire->preserve &&
-++		!_XkbCheckRequestBounds(client, req, preWire,
-++			                &preWire[wire->nMapEntries])) {
-++		*nMapsRtrn = _XkbErrCode3(0x0d, i, wire->nMapEntries);
-++		return 0;
-++	    }
-+             for (n = 0; n < wire->nMapEntries; n++) {
-+                 if (client->swapped && doswap) {
-+                     swaps(&mapWire[n].virtualMods);
+++	if (exp->m_export.e_mountpoint &&
+++		   !check_is_mountpoint(exp->m_export.e_mountpoint[0]?
+++				  exp->m_export.e_mountpoint:
+++				  exp->m_export.e_path,
+++				  nfsd_path_lstat)) {
+++		xlog(L_WARNING, "request to export an unmounted filesystem: %s",
+++		     p);
+++		*error = MNT3ERR_NOENT;
+++		return NULL;
+++	}
+++
++ 	if (nfsd_path_stat(p, &stb) < 0) {
++ 		xlog(L_WARNING, "can't stat exported dir %s: %s",
++ 				p, strerror(errno));
++@@ -426,12 +443,6 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 		*error = MNT3ERR_NOTDIR;
++ 		return NULL;
++ 	}
++-	if (nfsd_path_stat(exp->m_export.e_path, &estb) < 0) {
++-		xlog(L_WARNING, "can't stat export point %s: %s",
++-		     p, strerror(errno));
++-		*error = MNT3ERR_NOENT;
++-		return NULL;
++-	}
++ 	if (estb.st_dev != stb.st_dev
++ 	    && !(exp->m_export.e_flags & NFSEXP_CROSSMOUNT)) {
++ 		xlog(L_WARNING, "request to export directory %s below nearest filesystem %s",
++@@ -439,17 +450,6 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 		*error = MNT3ERR_ACCES;
++ 		return NULL;
++ 	}
++-	if (exp->m_export.e_mountpoint &&
++-		   !check_is_mountpoint(exp->m_export.e_mountpoint[0]?
++-				  exp->m_export.e_mountpoint:
++-				  exp->m_export.e_path,
++-				  nfsd_path_lstat)) {
++-		xlog(L_WARNING, "request to export an unmounted filesystem: %s",
++-		     p);
++-		*error = MNT3ERR_NOENT;
++-		return NULL;
++-	}
++-
++ 	/* This will be a static private nfs_export with just one
++ 	 * address.  We feed it to kernel then extract the filehandle,
++ 	 */
 +-- 
-+2.43.0
++2.44.4
 +
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-2.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-2.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p3.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p3.patch
 new file mode 100644
-index 00000000000..15b2b946d50
+index 00000000000..901069e3b9f
 --- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-2.patch
-@@ -0,0 +1,223 @@
-+From d38c563fab5c4a554e0939da39e4d1dadef7cbae Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Mon, 2 Mar 2026 14:09:57 +0100
-+Subject: [PATCH] xkb: Add more _XkbCheckRequestBounds()
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p3.patch
+@@ -0,0 +1,181 @@
++From 57732919d26ce523161392d688e3b67d6fc50839 Mon Sep 17 00:00:00 2001
++From: Trond Myklebust <trond.myklebust@hammerspace.com>
++Date: Mon, 10 Nov 2025 11:28:39 -0500
++Subject: [PATCH] mountd: Separate lookup of the exported directory and the
++ mount path
 +
-+Similar to the recent fixes, add more _XkbCheckRequestBounds() to the
-+functions that loop over the request data, i.e.:
++When the caller asks to mount a path that does not terminate with an
++exported directory, we want to split up the lookups so that we can
++look up the exported directory using the mountd privileged credential,
++and the remaining subdirectory lookups using the RPC caller's
++credential.
 +
-+ * CheckKeySyms()
-+ * CheckKeyActions()
-+ * CheckKeyBehaviors()
-+ * CheckVirtualMods()
-+ * CheckKeyExplicit()
-+ * CheckVirtualModMap()
-+ * _XkbSetMapChecks()
++CVE: CVE-2025-12801
++Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=42f01e6a78fed98f12437ac8b28cfb12b6bad056]
 +
-+All these are static functions so we can add the client to the parameters
-+without breaking any API.
-+
-+See also:
-+CVE-2026-34003, ZDI-CAN-28736, CVE-2026-34002, ZDI-CAN-28737
-+
-+v2: Check for "nSyms != 0" in CheckKeySyms() to avoid false positives.
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2176>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/d38c563fab5c4a554e0939da39e4d1dadef7cbae]
-+CVE: CVE-2026-34003
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++Reviewed-by: Jeff Layton <jlayton@kernel.org>
++Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++(cherry picked from commit 42f01e6a78fed98f12437ac8b28cfb12b6bad056)
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 +---
-+ xkb/xkb.c | 69 ++++++++++++++++++++++++++++++++++++++++++++-----------
-+ 1 file changed, 55 insertions(+), 14 deletions(-)
++ support/include/nfsd_path.h |  1 +
++ support/misc/nfsd_path.c    | 31 ++++++++++++++++++
++ utils/mountd/mountd.c       | 63 +++++++++++++++++++++++++++++++------
++ 3 files changed, 86 insertions(+), 9 deletions(-)
 +
-+diff --git a/xkb/xkb.c b/xkb/xkb.c
-+index 0ef634b..6320914 100644
-+--- a/xkb/xkb.c
-++++ b/xkb/xkb.c
-+@@ -1752,6 +1752,11 @@ CheckKeySyms(ClientPtr client,
-+         KeySym *pSyms;
-+         register unsigned nG;
++diff --git a/support/include/nfsd_path.h b/support/include/nfsd_path.h
++index f600fb5a..3e5a2f5d 100644
++--- a/support/include/nfsd_path.h
+++++ b/support/include/nfsd_path.h
++@@ -18,6 +18,7 @@ char *		nfsd_path_prepend_dir(const char *dir, const char *pathname);
 + 
-++        /* Check we received enough data to read the next xkbSymMapWireDesc */
-++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
-++            *errorRtrn = _XkbErrCode3(0x18, i + req->firstKeySym, i);
-++            return 0;
-++        }
-+         if (client->swapped && doswap) {
-+             swaps(&wire->nSyms);
-+         }
-+@@ -1790,6 +1795,12 @@ CheckKeySyms(ClientPtr client,
-+             return 0;
-+         }
-+         pSyms = (KeySym *) &wire[1];
-++        if (wire->nSyms != 0) {
-++            if (!_XkbCheckRequestBounds(client, req, pSyms, &pSyms[wire->nSyms])) {
-++                *errorRtrn = _XkbErrCode3(0x19, i + req->firstKeySym, wire->nSyms);
-++                return 0;
-++            }
-++        }
-+         wire = (xkbSymMapWireDesc *) &pSyms[wire->nSyms];
-+     }
++ int 		nfsd_path_stat(const char *pathname, struct stat *statbuf);
++ int 		nfsd_path_lstat(const char *pathname, struct stat *statbuf);
+++int		nfsd_openat(int dirfd, const char *path, int flags);
 + 
-+@@ -1813,11 +1824,12 @@ CheckKeySyms(ClientPtr client,
++ int		nfsd_path_statfs(const char *pathname,
++ 				   struct statfs *statbuf);
++diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
++index caec33ca..dfe88e4f 100644
++--- a/support/misc/nfsd_path.c
+++++ b/support/misc/nfsd_path.c
++@@ -203,6 +203,37 @@ nfsd_realpath(const char *path, char *resolved_buf)
++         return realpath_buf.res_ptr;
 + }
 + 
-+ static int
-+-CheckKeyActions(XkbDescPtr xkb,
-+-                xkbSetMapReq * req,
-+-                int nTypes,
-+-                CARD8 *mapWidths,
-+-                CARD16 *symsPerKey, CARD8 **wireRtrn, int *nActsRtrn)
-++CheckKeyActions(ClientPtr client,
-++               XkbDescPtr xkb,
-++               xkbSetMapReq * req,
-++               int nTypes,
-++               CARD8 *mapWidths,
-++               CARD16 *symsPerKey, CARD8 **wireRtrn, int *nActsRtrn)
-+ {
-+     int nActs;
-+     CARD8 *wire = *wireRtrn;
-+@@ -1828,6 +1840,11 @@ CheckKeyActions(XkbDescPtr xkb,
-+     CHK_REQ_KEY_RANGE2(0x21, req->firstKeyAct, req->nKeyActs, req, (*nActsRtrn),
-+                        0);
-+     for (nActs = i = 0; i < req->nKeyActs; i++) {
-++        /* Check we received enough data to read the next byte on the wire */
-++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
-++            *nActsRtrn = _XkbErrCode3(0x24, i + req->firstKeyAct, i);
-++            return 0;
-++        }
-+         if (wire[0] != 0) {
-+             if (wire[0] == symsPerKey[i + req->firstKeyAct])
-+                 nActs += wire[0];
-+@@ -1846,7 +1863,8 @@ CheckKeyActions(XkbDescPtr xkb,
-+ }
+++struct nfsd_openat_t {
+++	const char *path;
+++	int dirfd;
+++	int flags;
+++	int res_fd;
+++	int res_error;
+++};
+++
+++static void nfsd_openatfunc(void *data)
+++{
+++	struct nfsd_openat_t *d = data;
+++
+++	d->res_fd = openat(d->dirfd, d->path, d->flags);
+++	if (d->res_fd == -1)
+++		d->res_error = errno;
+++}
+++
+++int nfsd_openat(int dirfd, const char *path, int flags)
+++{
+++	struct nfsd_openat_t open_buf = {
+++		.path = path,
+++		.dirfd = dirfd,
+++		.flags = flags,
+++	};
+++
+++	nfsd_run_task(nfsd_openatfunc, &open_buf);
+++	if (open_buf.res_fd == -1)
+++		errno = open_buf.res_error;
+++	return open_buf.res_fd;
+++}
+++
++ struct nfsd_rw_data {
++ 	int             fd;
++ 	void*           buf;
++diff --git a/utils/mountd/mountd.c b/utils/mountd/mountd.c
++index 39afd4aa..f43ebef5 100644
++--- a/utils/mountd/mountd.c
+++++ b/utils/mountd/mountd.c
++@@ -392,7 +392,10 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 	struct nfs_fh_len *fh;
++ 	char		rpath[MAXPATHLEN+1];
++ 	char		*p = *path;
+++	char		*subpath;
++ 	char		buf[INET6_ADDRSTRLEN];
+++	size_t		epathlen;
+++	int		dirfd;
 + 
-+ static int
-+-CheckKeyBehaviors(XkbDescPtr xkb,
-++CheckKeyBehaviors(ClientPtr client,
-++                  XkbDescPtr xkb,
-+                   xkbSetMapReq * req,
-+                   xkbBehaviorWireDesc ** wireRtrn, int *errorRtrn)
-+ {
-+@@ -1872,6 +1890,11 @@ CheckKeyBehaviors(XkbDescPtr xkb,
-+     }
++ 	if (*p == '\0')
++ 		p = "/";
++@@ -412,12 +415,21 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 		*error = MNT3ERR_ACCES;
++ 		return NULL;
++ 	}
++-	if (nfsd_path_stat(exp->m_export.e_path, &estb) < 0) {
++-		xlog(L_WARNING, "can't stat export point %s: %s",
+++
+++	dirfd = nfsd_openat(AT_FDCWD, exp->m_export.e_path, O_PATH);
+++	if (dirfd == -1) {
+++		xlog(L_WARNING, "can't open export point %s: %s",
++ 		     p, strerror(errno));
++ 		*error = MNT3ERR_NOENT;
++ 		return NULL;
++ 	}
+++	if (fstat(dirfd, &estb) == -1) {
+++		xlog(L_WARNING, "can't stat export point %s: %s",
+++		     p, strerror(errno));
+++		*error = MNT3ERR_ACCES;
+++		close(dirfd);
+++		return NULL;
+++	}
++ 	if (exp->m_export.e_mountpoint &&
++ 		   !check_is_mountpoint(exp->m_export.e_mountpoint[0]?
++ 				  exp->m_export.e_mountpoint:
++@@ -426,18 +438,51 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 		xlog(L_WARNING, "request to export an unmounted filesystem: %s",
++ 		     p);
++ 		*error = MNT3ERR_NOENT;
+++		close(dirfd);
++ 		return NULL;
++ 	}
 + 
-+     for (i = 0; i < req->totalKeyBehaviors; i++, wire++) {
-++        /* Check we received enough data to read the next behavior */
-++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
-++            *errorRtrn = _XkbErrCode3(0x36, first, i);
-++            return 0;
-++        }
-+         if ((wire->key < first) || (wire->key > last)) {
-+             *errorRtrn = _XkbErrCode4(0x33, first, last, wire->key);
-+             return 0;
-+@@ -1897,7 +1920,8 @@ CheckKeyBehaviors(XkbDescPtr xkb,
-+ }
-+ 
-+ static int
-+-CheckVirtualMods(XkbDescRec * xkb,
-++CheckVirtualMods(ClientPtr client,
-++                 XkbDescRec * xkb,
-+                  xkbSetMapReq * req, CARD8 **wireRtrn, int *errorRtrn)
-+ {
-+     register CARD8 *wire = *wireRtrn;
-+@@ -1909,12 +1933,18 @@ CheckVirtualMods(XkbDescRec * xkb,
-+         if (req->virtualMods & bit)
-+             nMods++;
-+     }
-++    /* Check we received enough data for the number of virtual mods expected */
-++    if (!_XkbCheckRequestBounds(client, req, wire, wire + XkbPaddedSize(nMods))) {
-++        *errorRtrn = _XkbErrCode3(0x37, nMods, i);
-++        return 0;
-++    }
-+     *wireRtrn = (wire + XkbPaddedSize(nMods));
-+     return 1;
-+ }
-+ 
-+ static int
-+-CheckKeyExplicit(XkbDescPtr xkb,
-++CheckKeyExplicit(ClientPtr client,
-++                 XkbDescPtr xkb,
-+                  xkbSetMapReq * req, CARD8 **wireRtrn, int *errorRtrn)
-+ {
-+     register CARD8 *wire = *wireRtrn;
-+@@ -1940,6 +1970,11 @@ CheckKeyExplicit(XkbDescPtr xkb,
-+     }
-+     start = wire;
-+     for (i = 0; i < req->totalKeyExplicit; i++, wire += 2) {
-++        /* Check we received enough data to read the next two bytes */
-++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 2)) {
-++            *errorRtrn = _XkbErrCode4(0x54, first, last, i);
-++            return 0;
-++        }
-+         if ((wire[0] < first) || (wire[0] > last)) {
-+             *errorRtrn = _XkbErrCode4(0x53, first, last, wire[0]);
-+             return 0;
-+@@ -1995,7 +2030,8 @@ CheckModifierMap(ClientPtr client, XkbDescPtr xkb, xkbSetMapReq * req,
-+ }
-+ 
-+ static int
-+-CheckVirtualModMap(XkbDescPtr xkb,
-++CheckVirtualModMap(ClientPtr client,
-++                   XkbDescPtr xkb,
-+                    xkbSetMapReq * req,
-+                    xkbVModMapWireDesc ** wireRtrn, int *errRtrn)
-+ {
-+@@ -2019,6 +2055,11 @@ CheckVirtualModMap(XkbDescPtr xkb,
-+         return 0;
-+     }
-+     for (i = 0; i < req->totalVModMapKeys; i++, wire++) {
-++        /* Check we received enough data to read the next virtual mod map key */
-++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
-++            *errRtrn = _XkbErrCode3(0x74, first, i);
-++            return 0;
-++        }
-+         if ((wire->key < first) || (wire->key > last)) {
-+             *errRtrn = _XkbErrCode4(0x73, first, last, wire->key);
-+             return 0;
-+@@ -2563,7 +2604,7 @@ _XkbSetMapChecks(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq * req,
-+     }
-+ 
-+     if ((req->present & XkbKeyActionsMask) &&
-+-        (!CheckKeyActions(xkb, req, nTypes, mapWidths, symsPerKey,
-++        (!CheckKeyActions(client, xkb, req, nTypes, mapWidths, symsPerKey,
-+                           (CARD8 **) &values, &nActions))) {
-+         client->errorValue = nActions;
-+         return BadValue;
-+@@ -2571,18 +2612,18 @@ _XkbSetMapChecks(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq * req,
-+ 
-+     if ((req->present & XkbKeyBehaviorsMask) &&
-+         (!CheckKeyBehaviors
-+-         (xkb, req, (xkbBehaviorWireDesc **) &values, &error))) {
-++         (client, xkb, req, (xkbBehaviorWireDesc **) &values, &error))) {
-+         client->errorValue = error;
-+         return BadValue;
-+     }
-+ 
-+     if ((req->present & XkbVirtualModsMask) &&
-+-        (!CheckVirtualMods(xkb, req, (CARD8 **) &values, &error))) {
-++        (!CheckVirtualMods(client, xkb, req, (CARD8 **) &values, &error))) {
-+         client->errorValue = error;
-+         return BadValue;
-+     }
-+     if ((req->present & XkbExplicitComponentsMask) &&
-+-        (!CheckKeyExplicit(xkb, req, (CARD8 **) &values, &error))) {
-++        (!CheckKeyExplicit(client, xkb, req, (CARD8 **) &values, &error))) {
-+         client->errorValue = error;
-+         return BadValue;
-+     }
-+@@ -2593,7 +2634,7 @@ _XkbSetMapChecks(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq * req,
-+     }
-+     if ((req->present & XkbVirtualModMapMask) &&
-+         (!CheckVirtualModMap
-+-         (xkb, req, (xkbVModMapWireDesc **) &values, &error))) {
-++         (client, xkb, req, (xkbVModMapWireDesc **) &values, &error))) {
-+         client->errorValue = error;
-+         return BadValue;
-+     }
++-	if (nfsd_path_stat(p, &stb) < 0) {
++-		xlog(L_WARNING, "can't stat exported dir %s: %s",
++-				p, strerror(errno));
++-		if (errno == ENOENT)
++-			*error = MNT3ERR_NOENT;
++-		else
++-			*error = MNT3ERR_ACCES;
+++	epathlen = strlen(exp->m_export.e_path);
+++	if (epathlen > strlen(p)) {
+++		xlog(L_WARNING, "raced with change of exported path: %s", p);
+++		*error = MNT3ERR_NOENT;
+++		close(dirfd);
++ 		return NULL;
++ 	}
+++	subpath = &p[epathlen];
+++	while (*subpath == '/')
+++		subpath++;
+++	if (*subpath != '\0') {
+++		int fd;
+++
+++		/* Just perform a lookup of the path */
+++		fd = nfsd_openat(dirfd, subpath, O_PATH);
+++		close(dirfd);
+++		if (fd == -1) {
+++			xlog(L_WARNING, "can't open exported dir %s: %s", p,
+++			     strerror(errno));
+++			if (errno == ENOENT)
+++				*error = MNT3ERR_NOENT;
+++			else
+++				*error = MNT3ERR_ACCES;
+++			return NULL;
+++		}
+++		if (fstat(fd, &stb) == -1) {
+++			xlog(L_WARNING, "can't open exported dir %s: %s", p,
+++			     strerror(errno));
+++			if (errno == ENOENT)
+++				*error = MNT3ERR_NOENT;
+++			else
+++				*error = MNT3ERR_ACCES;
+++			close(fd);
+++			return NULL;
+++		}
+++		close(fd);
+++	} else {
+++		close(dirfd);
+++		stb = estb;
+++	}
+++
++ 	if (!S_ISDIR(stb.st_mode) && !S_ISREG(stb.st_mode)) {
++ 		xlog(L_WARNING, "%s is not a directory or regular file", p);
++ 		*error = MNT3ERR_NOTDIR;
 +-- 
-+2.43.0
++2.35.6
 +
-diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
-index e7412e20116..8d5cb05beb9 100644
---- a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
-@@ -39,6 +39,8 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
-            file://CVE-2026-34000.patch \
-            file://CVE-2026-34001.patch \
-            file://CVE-2026-34002.patch \
-+           file://CVE-2026-34003-1.patch \
-+           file://CVE-2026-34003-2.patch \
- "
- SRC_URI[sha256sum] = "33ec7ff2687a59faaa52b9b09aa8caf118e7ecb6aed8953f526a625ff9f4bd90"
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p4.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p4.patch
+new file mode 100644
+index 00000000000..4ef529e7373
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801-dependent_p4.patch
+@@ -0,0 +1,468 @@
++From 7eef498b6bd01adc45415b03ddf321c84f82aa45 Mon Sep 17 00:00:00 2001
++From: Trond Myklebust <trond.myklebust@hammerspace.com>
++Date: Mon, 10 Nov 2025 12:18:38 -0500
++Subject: [PATCH] support: Add a mini-library to extract and apply RPC
++ credentials
++
++Add server functionality to extract the credentials from the client RPC
++call, and apply them. This is needed in order to perform access checking
++on the requested path in the mountd daemon.
++
++CVE: CVE-2025-12801
++Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=51738ae56d922d4961e60dad73ad1c2d97d8d99b]
++
++Backport Changes:
++- In support/misc/Makefile.am, the non-essential file.c was omitted
++  as it does not exist in the current nfs-utils version.
++
++Reviewed-by: Jeff Layton <jlayton@kernel.org>
++Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++(cherry picked from commit 51738ae56d922d4961e60dad73ad1c2d97d8d99b)
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++---
++ aclocal/libtirpc.m4         |  11 +++
++ support/include/Makefile.am |   1 +
++ support/include/nfs_ucred.h |  44 ++++++++++
++ support/misc/Makefile.am    |   2 +-
++ support/misc/ucred.c        | 162 ++++++++++++++++++++++++++++++++++++
++ support/nfs/Makefile.am     |   2 +-
++ support/nfs/ucred.c         | 147 ++++++++++++++++++++++++++++++++
++ 7 files changed, 367 insertions(+), 2 deletions(-)
++ create mode 100644 support/include/nfs_ucred.h
++ create mode 100644 support/misc/ucred.c
++ create mode 100644 support/nfs/ucred.c
++
++diff --git a/aclocal/libtirpc.m4 b/aclocal/libtirpc.m4
++index bddae022..84e18f7e 100644
++--- a/aclocal/libtirpc.m4
+++++ b/aclocal/libtirpc.m4
++@@ -26,6 +26,17 @@ AC_DEFUN([AC_LIBTIRPC], [
++                                     [Define to 1 if your tirpc library provides libtirpc_set_debug])],,
++                          [${LIBS}])])
++ 
+++     AS_IF([test -n "${LIBTIRPC}"],
+++           [AC_CHECK_LIB([tirpc], [rpc_gss_getcred],
+++                         [AC_DEFINE([HAVE_TIRPC_GSS_GETCRED], [1],
+++                                    [Define to 1 if your tirpc library provides rpc_gss_getcred])],,
+++                         [${LIBS}])])
+++
+++     AS_IF([test -n "${LIBTIRPC}"],
+++           [AC_CHECK_LIB([tirpc], [authdes_getucred],
+++                         [AC_DEFINE([HAVE_TIRPC_AUTHDES_GETUCRED], [1],
+++                                    [Define to 1 if your tirpc library provides authdes_getucred])],,
+++                         [${LIBS}])])
++   AC_SUBST([AM_CPPFLAGS])
++   AC_SUBST(LIBTIRPC)
++ 
++diff --git a/support/include/Makefile.am b/support/include/Makefile.am
++index 1373891a..631a84f8 100644
++--- a/support/include/Makefile.am
+++++ b/support/include/Makefile.am
++@@ -10,6 +10,7 @@ noinst_HEADERS = \
++ 	misc.h \
++ 	nfs_mntent.h \
++ 	nfs_paths.h \
+++	nfs_ucred.h \
++ 	nfsd_path.h \
++ 	nfslib.h \
++ 	nfsrpc.h \
++diff --git a/support/include/nfs_ucred.h b/support/include/nfs_ucred.h
++new file mode 100644
++index 00000000..d58b61e4
++--- /dev/null
+++++ b/support/include/nfs_ucred.h
++@@ -0,0 +1,44 @@
+++#ifndef _NFS_UCRED_H
+++#define _NFS_UCRED_H
+++
+++#include <sys/types.h>
+++
+++struct nfs_ucred {
+++	uid_t uid;
+++	gid_t gid;
+++	int ngroups;
+++	gid_t *groups;
+++};
+++
+++struct svc_req;
+++struct exportent;
+++
+++int nfs_ucred_get(struct nfs_ucred **credp, struct svc_req *rqst,
+++		  const struct exportent *ep);
+++
+++void nfs_ucred_squash_groups(struct nfs_ucred *cred,
+++			     const struct exportent *ep);
+++int nfs_ucred_reload_groups(struct nfs_ucred *cred, const struct exportent *ep);
+++int nfs_ucred_swap_effective(const struct nfs_ucred *cred,
+++			     struct nfs_ucred **savedp);
+++
+++static inline void nfs_ucred_free(struct nfs_ucred *cred)
+++{
+++	free(cred->groups);
+++	free(cred);
+++}
+++
+++static inline void nfs_ucred_init_groups(struct nfs_ucred *cred, gid_t *groups,
+++					 int ngroups)
+++{
+++	cred->groups = groups;
+++	cred->ngroups = ngroups;
+++}
+++
+++static inline void nfs_ucred_free_groups(struct nfs_ucred *cred)
+++{
+++	free(cred->groups);
+++	nfs_ucred_init_groups(cred, NULL, 0);
+++}
+++
+++#endif /* _NFS_UCRED_H */
++diff --git a/support/misc/Makefile.am b/support/misc/Makefile.am
++index 8b0e9db9..ea970064 100644
++--- a/support/misc/Makefile.am
+++++ b/support/misc/Makefile.am
++@@ -2,6 +2,6 @@
++ 
++ noinst_LIBRARIES = libmisc.a
++ libmisc_a_SOURCES = tcpwrapper.c from_local.c mountpoint.c misc.c \
++-		    nfsd_path.c workqueue.c xstat.c
+++		    nfsd_path.c ucred.c workqueue.c xstat.c
++ 
++ MAINTAINERCLEANFILES = Makefile.in
++diff --git a/support/misc/ucred.c b/support/misc/ucred.c
++new file mode 100644
++index 00000000..92d97912
++--- /dev/null
+++++ b/support/misc/ucred.c
++@@ -0,0 +1,162 @@
+++#ifdef HAVE_CONFIG_H
+++#include <config.h>
+++#endif
+++
+++#include <alloca.h>
+++#include <errno.h>
+++#include <pwd.h>
+++#include <stdlib.h>
+++#include <unistd.h>
+++#include <grp.h>
+++
+++#include "exportfs.h"
+++#include "nfs_ucred.h"
+++
+++#include "xlog.h"
+++
+++void nfs_ucred_squash_groups(struct nfs_ucred *cred, const struct exportent *ep)
+++{
+++	int i;
+++
+++	if (!(ep->e_flags & NFSEXP_ROOTSQUASH))
+++		return;
+++	if (cred->gid == 0)
+++		cred->gid = ep->e_anongid;
+++	for (i = 0; i < cred->ngroups; i++) {
+++		if (cred->groups[i] == 0)
+++			cred->groups[i] = ep->e_anongid;
+++	}
+++}
+++
+++static int nfs_ucred_init_effective(struct nfs_ucred *cred)
+++{
+++	int ngroups = getgroups(0, NULL);
+++
+++	if (ngroups > 0) {
+++		size_t sz = ngroups * sizeof(gid_t);
+++		gid_t *groups = malloc(sz);
+++		if (groups == NULL)
+++			return ENOMEM;
+++		if (getgroups(ngroups, groups) == -1) {
+++			free(groups);
+++			return errno;
+++		}
+++		nfs_ucred_init_groups(cred, groups, ngroups);
+++	} else
+++		nfs_ucred_init_groups(cred, NULL, 0);
+++	cred->uid = geteuid();
+++	cred->gid = getegid();
+++	return 0;
+++}
+++
+++static size_t nfs_ucred_getpw_r_size_max(void)
+++{
+++	long buflen = sysconf(_SC_GETPW_R_SIZE_MAX);
+++
+++	if (buflen == -1)
+++		return 16384;
+++	return buflen;
+++}
+++
+++int nfs_ucred_reload_groups(struct nfs_ucred *cred, const struct exportent *ep)
+++{
+++	struct passwd pwd, *pw;
+++	uid_t uid = cred->uid;
+++	gid_t gid = cred->gid;
+++	size_t buflen;
+++	char *buf;
+++	int ngroups = 0;
+++	int ret;
+++
+++	if (ep->e_flags & (NFSEXP_ALLSQUASH | NFSEXP_ROOTSQUASH) &&
+++	    (int)uid == ep->e_anonuid)
+++		return 0;
+++	buflen = nfs_ucred_getpw_r_size_max();
+++	buf = alloca(buflen);
+++	ret = getpwuid_r(uid, &pwd, buf, buflen, &pw);
+++	if (ret != 0)
+++		return ret;
+++	if (!pw)
+++		return ENOENT;
+++	if (getgrouplist(pw->pw_name, gid, NULL, &ngroups) == -1 &&
+++	    ngroups > 0) {
+++		gid_t *groups = malloc(ngroups * sizeof(groups[0]));
+++		if (groups == NULL)
+++			return ENOMEM;
+++		if (getgrouplist(pw->pw_name, gid, groups, &ngroups) == -1) {
+++			free(groups);
+++			return ENOMEM;
+++		}
+++		free(cred->groups);
+++		nfs_ucred_init_groups(cred, groups, ngroups);
+++		nfs_ucred_squash_groups(cred, ep);
+++	} else
+++		nfs_ucred_free_groups(cred);
+++	return 0;
+++}
+++
+++static int nfs_ucred_set_effective(const struct nfs_ucred *cred,
+++				   const struct nfs_ucred *saved)
+++{
+++	uid_t suid = saved ? saved->uid : geteuid();
+++	gid_t sgid = saved ? saved->gid : getegid();
+++	int ret;
+++
+++	/* Start with a privileged effective user */
+++	if (setresuid(-1, 0, -1) < 0) {
+++		xlog(L_WARNING, "can't change privileged user %u-%u. %s",
+++		     geteuid(), getegid(), strerror(errno));
+++		return errno;
+++	}
+++
+++	if (setgroups(cred->ngroups, cred->groups) == -1) {
+++		xlog(L_WARNING, "can't change groups for user %u-%u. %s",
+++		     geteuid(), getegid(), strerror(errno));
+++		return errno;
+++	}
+++	if (setresgid(-1, cred->gid, sgid) == -1) {
+++		xlog(L_WARNING, "can't change gid for user %u-%u. %s",
+++		     geteuid(), getegid(), strerror(errno));
+++		ret = errno;
+++		goto restore_groups;
+++	}
+++	if (setresuid(-1, cred->uid, suid) == -1) {
+++		xlog(L_WARNING, "can't change uid for user %u-%u. %s",
+++		     geteuid(), getegid(), strerror(errno));
+++		ret = errno;
+++		goto restore_gid;
+++	}
+++	return 0;
+++restore_gid:
+++	if (setresgid(-1, sgid, -1) < 0) {
+++		xlog(L_WARNING, "can't restore privileged user %u-%u. %s",
+++		     geteuid(), getegid(), strerror(errno));
+++	}
+++restore_groups:
+++	if (saved)
+++		setgroups(saved->ngroups, saved->groups);
+++	else
+++		setgroups(0, NULL);
+++	return ret;
+++}
+++
+++int nfs_ucred_swap_effective(const struct nfs_ucred *cred,
+++			     struct nfs_ucred **savedp)
+++{
+++	struct nfs_ucred *saved = malloc(sizeof(*saved));
+++	int ret;
+++
+++	if (saved == NULL)
+++		return ENOMEM;
+++	ret = nfs_ucred_init_effective(saved);
+++	if (ret != 0) {
+++		free(saved);
+++		return ret;
+++	}
+++	ret = nfs_ucred_set_effective(cred, saved);
+++	if (savedp == NULL || ret != 0)
+++		nfs_ucred_free(saved);
+++	else
+++		*savedp = saved;
+++	return ret;
+++}
++diff --git a/support/nfs/Makefile.am b/support/nfs/Makefile.am
++index 2e1577cc..f6921265 100644
++--- a/support/nfs/Makefile.am
+++++ b/support/nfs/Makefile.am
++@@ -7,7 +7,7 @@ libnfs_la_SOURCES = exports.c rmtab.c xio.c rpcmisc.c rpcdispatch.c \
++ 		   xcommon.c wildmat.c mydaemon.c \
++ 		   rpc_socket.c getport.c \
++ 		   svc_socket.c cacheio.c closeall.c nfs_mntent.c \
++-		   svc_create.c atomicio.c strlcat.c strlcpy.c
+++		   svc_create.c atomicio.c strlcat.c strlcpy.c ucred.c
++ libnfs_la_LIBADD = libnfsconf.la
++ libnfs_la_CPPFLAGS = $(AM_CPPFLAGS) $(CPPFLAGS) -I$(top_srcdir)/support/reexport
++ 
++diff --git a/support/nfs/ucred.c b/support/nfs/ucred.c
++new file mode 100644
++index 00000000..6ea8efdf
++--- /dev/null
+++++ b/support/nfs/ucred.c
++@@ -0,0 +1,147 @@
+++#ifdef HAVE_CONFIG_H
+++#include <config.h>
+++#endif
+++
+++#include <errno.h>
+++#include <stdlib.h>
+++#include <unistd.h>
+++#include <rpc/rpc.h>
+++
+++#include "exportfs.h"
+++#include "nfs_ucred.h"
+++
+++#ifdef HAVE_TIRPC_GSS_GETCRED
+++#include <rpc/rpcsec_gss.h>
+++#endif /* HAVE_TIRPC_GSS_GETCRED */
+++#ifdef HAVE_TIRPC_AUTHDES_GETUCRED
+++#include <rpc/auth_des.h>
+++#endif /* HAVE_TIRPC_AUTHDES_GETUCRED */
+++
+++static int nfs_ucred_copy_cred(struct nfs_ucred *cred, uid_t uid, gid_t gid,
+++			       const gid_t *groups, int ngroups)
+++{
+++	if (ngroups > 0) {
+++		size_t sz = ngroups * sizeof(groups[0]);
+++		cred->groups = malloc(sz);
+++		if (cred->groups == NULL)
+++			return ENOMEM;
+++		cred->ngroups = ngroups;
+++		memcpy(cred->groups, groups, sz);
+++	} else
+++		nfs_ucred_init_groups(cred, NULL, 0);
+++	cred->uid = uid;
+++	cred->gid = gid;
+++	return 0;
+++}
+++
+++static int nfs_ucred_init_cred_squashed(struct nfs_ucred *cred,
+++					const struct exportent *ep)
+++{
+++	cred->uid = ep->e_anonuid;
+++	cred->gid = ep->e_anongid;
+++	nfs_ucred_init_groups(cred, NULL, 0);
+++	return 0;
+++}
+++
+++static int nfs_ucred_init_cred(struct nfs_ucred *cred, uid_t uid, gid_t gid,
+++			       const gid_t *groups, int ngroups,
+++			       const struct exportent *ep)
+++{
+++	if (ep->e_flags & NFSEXP_ALLSQUASH) {
+++		nfs_ucred_init_cred_squashed(cred, ep);
+++	} else if (ep->e_flags & NFSEXP_ROOTSQUASH && uid == 0) {
+++		nfs_ucred_init_cred_squashed(cred, ep);
+++		if (gid != 0)
+++			cred->gid = gid;
+++	} else {
+++		int ret = nfs_ucred_copy_cred(cred, uid, gid, groups, ngroups);
+++		if (ret != 0)
+++			return ret;
+++		nfs_ucred_squash_groups(cred, ep);
+++	}
+++	return 0;
+++}
+++
+++static int nfs_ucred_init_null(struct nfs_ucred *cred,
+++			       const struct exportent *ep)
+++{
+++	return nfs_ucred_init_cred_squashed(cred, ep);
+++}
+++
+++static int nfs_ucred_init_unix(struct nfs_ucred *cred, struct svc_req *rqst,
+++			       const struct exportent *ep)
+++{
+++	struct authunix_parms *aup;
+++
+++	aup = (struct authunix_parms *)rqst->rq_clntcred;
+++	return nfs_ucred_init_cred(cred, aup->aup_uid, aup->aup_gid,
+++				   aup->aup_gids, aup->aup_len, ep);
+++}
+++
+++#ifdef HAVE_TIRPC_GSS_GETCRED
+++static int nfs_ucred_init_gss(struct nfs_ucred *cred, struct svc_req *rqst,
+++			      const struct exportent *ep)
+++{
+++	rpc_gss_ucred_t *gss_ucred = NULL;
+++
+++	if (!rpc_gss_getcred(rqst, NULL, &gss_ucred, NULL) || gss_ucred == NULL)
+++		return EINVAL;
+++	return nfs_ucred_init_cred(cred, gss_ucred->uid, gss_ucred->gid,
+++				   gss_ucred->gidlist, gss_ucred->gidlen, ep);
+++}
+++#endif /* HAVE_TIRPC_GSS_GETCRED */
+++
+++#ifdef HAVE_TIRPC_AUTHDES_GETUCRED
+++int authdes_getucred(struct authdes_cred *adc, uid_t *uid, gid_t *gid,
+++		     int *grouplen, gid_t *groups);
+++
+++static int nfs_ucred_init_des(struct nfs_ucred *cred, struct svc_req *rqst,
+++			      const struct exportent *ep)
+++{
+++	struct authdes_cred *des_cred;
+++	uid_t uid;
+++	gid_t gid;
+++	int grouplen;
+++	gid_t groups[NGROUPS];
+++
+++	des_cred = (struct authdes_cred *)rqst->rq_clntcred;
+++	if (!authdes_getucred(des_cred, &uid, &gid, &grouplen, &groups[0]))
+++		return EINVAL;
+++	return nfs_ucred_init_cred(cred, uid, gid, groups, grouplen, ep);
+++}
+++#endif /* HAVE_TIRPC_AUTHDES_GETUCRED */
+++
+++int nfs_ucred_get(struct nfs_ucred **credp, struct svc_req *rqst,
+++		  const struct exportent *ep)
+++{
+++	struct nfs_ucred *cred = malloc(sizeof(*cred));
+++	int ret;
+++
+++	*credp = NULL;
+++	if (cred == NULL)
+++		return ENOMEM;
+++	switch (rqst->rq_cred.oa_flavor) {
+++	case AUTH_UNIX:
+++		ret = nfs_ucred_init_unix(cred, rqst, ep);
+++		break;
+++#ifdef HAVE_TIRPC_GSS_GETCRED
+++	case RPCSEC_GSS:
+++		ret = nfs_ucred_init_gss(cred, rqst, ep);
+++		break;
+++#endif /* HAVE_TIRPC_GSS_GETCRED */
+++#ifdef HAVE_TIRPC_AUTHDES_GETUCRED
+++	case AUTH_DES:
+++		ret = nfs_ucred_init_des(cred, rqst, ep);
+++		break;
+++#endif /* HAVE_TIRPC_AUTHDES_GETUCRED */
+++	default:
+++		ret = nfs_ucred_init_null(cred, ep);
+++		break;
+++	}
+++	if (ret == 0) {
+++		*credp = cred;
+++		return 0;
+++	}
+++	free(cred);
+++	return ret;
+++}
++-- 
++2.44.4
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801.patch
+new file mode 100644
+index 00000000000..9f01604af0f
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/CVE-2025-12801.patch
+@@ -0,0 +1,254 @@
++From a94b2b6002f31acc5a66893b7c6d368c6b7b8806 Mon Sep 17 00:00:00 2001
++From: Trond Myklebust <trond.myklebust@hammerspace.com>
++Date: Thu, 5 Mar 2026 10:41:02 -0500
++Subject: [PATCH] Fix access checks when mounting subdirectories in NFSv3
++
++If a NFSv3 client asks to mount a subdirectory of one of the exported
++directories, then apply the RPC credential together with any root
++or all squash rules that would apply to the client in question.
++
++CVE: CVE-2025-12801
++Upstream-Status: Backport [https://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=f36bd900a899088ca1925de079bd58d6205a1f3c]
++
++Reviewed-by: Jeff Layton <jlayton@kernel.org>
++Signed-off-by: Trond Myklebust <trond.myklebust@hammerspace.com>
++Signed-off-by: Scott Mayhew <smayhew@redhat.com>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++(cherry picked from commit f36bd900a899088ca1925de079bd58d6205a1f3c)
++Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
++---
++ nfs.conf                    |  1 +
++ support/include/nfsd_path.h |  9 ++++++++-
++ support/misc/nfsd_path.c    | 32 ++++++++++++++++++++++++++++++--
++ utils/mountd/mountd.c       | 28 ++++++++++++++++++++++++++--
++ utils/mountd/mountd.man     | 26 ++++++++++++++++++++++++++
++ 5 files changed, 91 insertions(+), 5 deletions(-)
++
++diff --git a/nfs.conf b/nfs.conf
++index 323f072b..e08cd9a9 100644
++--- a/nfs.conf
+++++ b/nfs.conf
++@@ -45,6 +45,7 @@
++ # ttl=1800
++ [mountd]
++ # debug="all|auth|call|general|parse"
+++# apply-root-cred=n
++ # manage-gids=n
++ # descriptors=0
++ # port=0
++diff --git a/support/include/nfsd_path.h b/support/include/nfsd_path.h
++index 3e5a2f5d..06c0f2f4 100644
++--- a/support/include/nfsd_path.h
+++++ b/support/include/nfsd_path.h
++@@ -9,6 +9,7 @@
++ struct file_handle;
++ struct statfs;
++ struct nfsd_task_t;
+++struct nfs_ucred;
++ 
++ void 		nfsd_path_init(void);
++ 
++@@ -18,7 +19,8 @@ char *		nfsd_path_prepend_dir(const char *dir, const char *pathname);
++ 
++ int 		nfsd_path_stat(const char *pathname, struct stat *statbuf);
++ int 		nfsd_path_lstat(const char *pathname, struct stat *statbuf);
++-int		nfsd_openat(int dirfd, const char *path, int flags);
+++int		nfsd_cred_openat(const struct nfs_ucred *cred, int dirfd,
+++				 const char *path, int flags);
++ 
++ int		nfsd_path_statfs(const char *pathname,
++ 				   struct statfs *statbuf);
++@@ -31,4 +33,9 @@ ssize_t		nfsd_path_write(int fd, void* buf, size_t len);
++ int		nfsd_name_to_handle_at(int fd, const char *path,
++ 				       struct file_handle *fh,
++ 				       int *mount_id, int flags);
+++
+++static inline int nfsd_openat(int dirfd, const char *path, int flags)
+++{
+++	return nfsd_cred_openat(NULL, dirfd, path, flags);
+++}
++ #endif
++diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
++index dfe88e4f..6466666d 100644
++--- a/support/misc/nfsd_path.c
+++++ b/support/misc/nfsd_path.c
++@@ -17,6 +17,7 @@
++ #include "xstat.h"
++ #include "nfslib.h"
++ #include "nfsd_path.h"
+++#include "nfs_ucred.h"
++ #include "workqueue.h"
++ 
++ static struct xthread_workqueue *nfsd_wq = NULL;
++@@ -204,6 +205,7 @@ nfsd_realpath(const char *path, char *resolved_buf)
++ }
++ 
++ struct nfsd_openat_t {
+++	const struct nfs_ucred *cred;
++ 	const char *path;
++ 	int dirfd;
++ 	int flags;
++@@ -220,15 +222,41 @@ static void nfsd_openatfunc(void *data)
++ 		d->res_error = errno;
++ }
++ 
++-int nfsd_openat(int dirfd, const char *path, int flags)
+++static void nfsd_cred_openatfunc(void *data)
+++{
+++	struct nfsd_openat_t *d = data;
+++	struct nfs_ucred *saved = NULL;
+++	int ret;
+++
+++	ret = nfs_ucred_swap_effective(d->cred, &saved);
+++	if (ret != 0) {
+++		d->res_fd = -1;
+++		d->res_error = ret;
+++		return;
+++	}
+++
+++	nfsd_openatfunc(data);
+++
+++	if (saved != NULL) {
+++		nfs_ucred_swap_effective(saved, NULL);
+++		nfs_ucred_free(saved);
+++	}
+++}
+++
+++int nfsd_cred_openat(const struct nfs_ucred *cred, int dirfd, const char *path,
+++		     int flags)
++ {
++ 	struct nfsd_openat_t open_buf = {
+++		.cred = cred,
++ 		.path = path,
++ 		.dirfd = dirfd,
++ 		.flags = flags,
++ 	};
++ 
++-	nfsd_run_task(nfsd_openatfunc, &open_buf);
+++	if (cred)
+++		nfsd_run_task(nfsd_cred_openatfunc, &open_buf);
+++	else
+++		nfsd_run_task(nfsd_openatfunc, &open_buf);
++ 	if (open_buf.res_fd == -1)
++ 		errno = open_buf.res_error;
++ 	return open_buf.res_fd;
++diff --git a/utils/mountd/mountd.c b/utils/mountd/mountd.c
++index f43ebef5..6e6777cd 100644
++--- a/utils/mountd/mountd.c
+++++ b/utils/mountd/mountd.c
++@@ -31,6 +31,7 @@
++ #include "nfsd_path.h"
++ #include "nfslib.h"
++ #include "export.h"
+++#include "nfs_ucred.h"
++ 
++ extern void my_svc_run(void);
++ 
++@@ -40,6 +41,7 @@ static struct nfs_fh_len *get_rootfh(struct svc_req *, dirpath *, nfs_export **,
++ 
++ int reverse_resolve = 0;
++ int manage_gids;
+++int apply_root_cred;
++ int use_ipaddr = -1;
++ 
++ /* PRC: a high-availability callout program can be specified with -H
++@@ -74,9 +76,10 @@ static struct option longopts[] =
++ 	{ "log-auth", 0, 0, 'l'},
++ 	{ "cache-use-ipaddr", 0, 0, 'i'},
++ 	{ "ttl", 1, 0, 'T'},
+++	{ "apply-root-cred", 0, 0, 'c' },
++ 	{ NULL, 0, 0, 0 }
++ };
++-static char shortopts[] = "o:nFd:p:P:hH:N:V:vurs:t:gliT:";
+++static char shortopts[] = "o:nFd:p:P:hH:N:V:vurs:t:gliT:c";
++ 
++ #define NFSVERSBIT(vers)	(0x1 << (vers - 1))
++ #define NFSVERSBIT_ALL		(NFSVERSBIT(2) | NFSVERSBIT(3) | NFSVERSBIT(4))
++@@ -453,11 +456,27 @@ get_rootfh(struct svc_req *rqstp, dirpath *path, nfs_export **expret,
++ 	while (*subpath == '/')
++ 		subpath++;
++ 	if (*subpath != '\0') {
+++		struct nfs_ucred *cred = NULL;
++ 		int fd;
++ 
+++		/* Load the user cred */
+++		if (!apply_root_cred) {
+++			nfs_ucred_get(&cred, rqstp, &exp->m_export);
+++			if (cred == NULL) {
+++				xlog(L_WARNING, "can't retrieve credential");
+++				*error = MNT3ERR_ACCES;
+++				close(dirfd);
+++				return NULL;
+++			}
+++			if (manage_gids)
+++				nfs_ucred_reload_groups(cred, &exp->m_export);
+++		}
+++
++ 		/* Just perform a lookup of the path */
++-		fd = nfsd_openat(dirfd, subpath, O_PATH);
+++		fd = nfsd_cred_openat(cred, dirfd, subpath, O_PATH);
++ 		close(dirfd);
+++		if (cred)
+++			nfs_ucred_free(cred);
++ 		if (fd == -1) {
++ 			xlog(L_WARNING, "can't open exported dir %s: %s", p,
++ 			     strerror(errno));
++@@ -681,6 +700,8 @@ read_mountd_conf(char **argv)
++ 	ttl = conf_get_num("mountd", "ttl", default_ttl);
++ 	if (ttl > 0)
++ 		default_ttl = ttl;
+++	apply_root_cred = conf_get_bool("mountd", "apply-root-cred",
+++					apply_root_cred);
++ }
++ 
++ int
++@@ -794,6 +815,9 @@ main(int argc, char **argv)
++ 			}
++ 			default_ttl = ttl;
++ 			break;
+++		case 'c':
+++			apply_root_cred = 1;
+++			break;
++ 		case 0:
++ 			break;
++ 		case '?':
++diff --git a/utils/mountd/mountd.man b/utils/mountd/mountd.man
++index a206a3e2..f4f1fc23 100644
++--- a/utils/mountd/mountd.man
+++++ b/utils/mountd/mountd.man
++@@ -242,6 +242,32 @@ can support both NFS version 2 and the newer version 3.
++ Print the version of
++ .B rpc.mountd
++ and exit.
+++.TP
+++.B \-c " or " \-\-apply-root-cred
+++When mountd is asked to allow a NFSv3 mount to a subdirectory of the
+++exported directory, then it will check if the user asking to mount has
+++lookup rights to the directories below that exported directory. When
+++performing the check, mountd will apply any root squash or all squash
+++rules that were specified for that client.
+++
+++Performing lookup checks as the user requires that the mountd daemon
+++be run as root or that it be given CAP_SETUID and CAP_SETGID privileges
+++so that it can change its own effective user and effective group settings.
+++When troubleshooting, please also note that LSM frameworks such as SELinux
+++can sometimes prevent the daemon from changing the effective user/groups
+++despite the capability settings.
+++
+++In earlier versions of mountd, the same checks were performed using the
+++mountd daemon's root privileges, meaning that it could authorise access
+++to directories that are not normally accessible to the user requesting
+++to mount them. This option enables that legacy behaviour.
+++
+++.BR Note:
+++If there is a need to provide access to specific subdirectories that
+++are not normally accessible to a client, it is always possible to add
+++export entries that explicitly grant such access. That ability does
+++not depend on this option being enabled.
+++
++ .TP
++ .B \-g " or " \-\-manage-gids
++ Accept requests from the kernel to map user id numbers into  lists of
++-- 
++2.35.6
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+index 2f2644f9a83..91c74fe5ef7 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+@@ -33,6 +33,12 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://0001-locktest-Makefile.am-Do-not-use-build-flags.patch \
+            file://0001-tools-locktest-Use-intmax_t-to-print-off_t.patch \
+            file://0001-reexport.h-Include-unistd.h-to-compile-with-musl.patch \
++           file://CVE-2025-12801-dependent_p1.patch \
++           file://CVE-2025-12801-dependent_p2.patch \
++           file://CVE-2025-12801-dependent_p3.patch \
++           file://CVE-2025-12801-dependent_p4.patch \
++           file://CVE-2025-12801.patch \
++           file://CVE-2025-12801-build-fix.patch \
+            "
+ SRC_URI[sha256sum] = "01b3b0fb9c7d0bbabf5114c736542030748c788ec2fd9734744201e9b0a1119d"
  
 
