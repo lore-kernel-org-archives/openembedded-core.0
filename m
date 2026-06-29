@@ -1,139 +1,134 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 156ABC43458
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 17:44:17 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2956.1782755054560360380
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ED7BC43458
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 18:17:58 +0000 (UTC)
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3577.1782757072596029948
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 10:44:14 -0700
+ Mon, 29 Jun 2026 11:17:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=WXs7PL8o;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4629051c9d1so1996568f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 10:44:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=JBbDOouR;
+ spf=pass (domain: gmail.com, ip: 74.125.224.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-6647bc8f900so4344582d50.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 11:17:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782757072; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nTOMh6hEsUUpc22OcvWk6GSmzeOnhujoqn4+wif2Z+EGTqk31oSi9yCjyqv0wMACAp
+         LbFtz46hYjFl6kc4FKh/XTXHHP5fJx2mDC/eVCxX//OFcOWUcD3pUw3XQIs1DgFL2Jsv
+         avUpM1QHP3TDwEfG6zD6L9ZJaj3cm7IuBcoumFnH5nXS0fspGku3ejXN+xTZwFOgT9dV
+         3nSes3E6FvZHrHam7pHbRCmxgpdaElaLZZJZCzZ4gqv5yBRfhNItQkE/85Cs9Pl4pop2
+         6GGFwkAtyGBhYxLmaPBGVuliRNLzZOZJ2ei7f9PWBn+sakTm5hPjT+sWmpwrqoGrWw6+
+         qQTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/q7I8HEBEXHHgHzvsf9k+jqnWFDNMKYdoTsa4JsNQI4=;
+        fh=QEHLwtqS71Z2YUr9+lozElpw6h8TYix4W/jHxWTlj80=;
+        b=ZWLb8I9hi4seZH1rY7eNCRdGzpzAvWEy2tEUzAgcVwjCifoQNrxazbp8PIRTC/XHh4
+         Bap9aOnFgcaO4I28Rf0S/e7LZVVNGeyLDPfd/1GfHUI8CbC8pdSo+Z8rPIowUrNWJqO4
+         izPIR7LXG54kIdIgTLhyidXV1C0kJ6RAnMKmUQrRUpx55UH6oY+uAi7J6d9Po4tUFugl
+         aghlUimCTGcVJE7xVyJhVpOpbI74O+FhtlzHCvQH6bP9jt5OPp8WAGBS0577a8v73TnJ
+         E0BvQXWS6aVczwXE97l80ALsVAFqeZ3z3wZ+xYc/7n4zYoXCbAU2lvDJr3wjIEegICXb
+         9kMA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782755053; x=1783359853; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bZLIq0GcfhQxLsWqOmo7N2xOtQNYoCfBAqXCCdgDF9I=;
-        b=WXs7PL8oB5WEuYgxpgUpiO5rNP5gj5oby7+qWJ+Xt7csT98GCB1ZRlFr4+d+q6PHR1
-         iz+kyDsAeMyHa4nHds71irCh8LhyZUV5WFjIDkxFkat4eXDGyDh3AQmIPfJYEMXqbxv/
-         kmGAGR+zjdGeW80gLZLMmDmaCMBr8hqnNSOSU=
+        d=gmail.com; s=20251104; t=1782757072; x=1783361872; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/q7I8HEBEXHHgHzvsf9k+jqnWFDNMKYdoTsa4JsNQI4=;
+        b=JBbDOouRtxeyKU4aDkg5vLoSjSHZGWZrwH/E4XfHtlqvikhLamOrvhw139OQ6z6w9s
+         mqQZNXmsGtX/3G0/I0K6jjLCpRlPw6z0OPFBTM79xNnGeJ/r6+s+tsSjugNZG4lIp2xl
+         Pzcjv8ahp6RWuSbNsB27hMZhJeTbzc/1EHA7ZJfNmS+ahvFCMNvY2Xe2/QQdazbzRTb9
+         ibNuUk7jCDoLl0IV87YW0Z7voWXc5iSXI3UZA6LL1MuD2VozSM+wU0jcl9P9xkLrrZxb
+         E3ZToH/8DxLTMzIwi6CFgT+Q2jnC2nQc88F9D8moBeymd6bFqaCB3UzzgwVeSfHs5BcH
+         xW1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782755053; x=1783359853;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bZLIq0GcfhQxLsWqOmo7N2xOtQNYoCfBAqXCCdgDF9I=;
-        b=Yweqt/agehI1XALonSSQkAWAp69TnoWMqgw6W9bnVynJDbwPd0pjvRWoIJ2xZKuPIa
-         unW4hsGJfHLgisX48Qrkxjw9vfx3+BaeClHfiOtNr+WV3SZM67reFi6XRBffHMJ16gzv
-         aeYPfMGDm0y2R3kJz2OJL/6K2w6C7Iyv84ClLAVtt+lJYcbDMX7DnaAsVVEvWrDBU7nn
-         haPoSrXoo18aGnewcchNi1E0Z+XB1G2EkIj4RqoQaRNpCHIWsmk3rE6p184arp2Qy2kl
-         l+JB7bkWC9/jI3rvRXeCCqBaEuyjIjN3uzeHrwDoo2APTX55J/APnVoHfR6tsZW4WMAY
-         MBVQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9vGT6VFU5Ubamd6jw6COTFfgadd3x4GAtJSlkQZpXySUBk3V4y9CW9MUquFYBsI5UJabkVXA/WHft/8UXrunN1ig==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwfdhK+59cjZqTmm0xLCN6ctEqwgFR/iy6oX/H3pz14TKVg82FE
-	EtPr+g8fi8PsiX/ntfG9dupXYJ+4d9hG63vCYiKIXaBqFm2f75Lt7c5yuO80pD43B5g=
-X-Gm-Gg: AfdE7cmEfFDlumQn/h0eLq8VT1kRQMIk1ZLb0T2Nhky1EP1ZxTwgOqwNtxq/RsGQsjR
-	C53iob4d4Is2hb3i3DRFkLjf8Wrd5KFGF2KJzFZLiTrJe6e56bFG2ZRcGUYwG8xoXhBNj5/QiDB
-	BhNda2AJgxJX/o6QmFdO9v+FygkmCq8x0WK3w1j0t3PYcH65A8BgF8gMqd++Z/dQzzGDPNP307/
-	Xo2floF9NFagxtNtW6TnypSbM97DP1XY1BsAuQCfygPXNg9JZZQ1ARehxmItHWL+Kxuqwa/NeeW
-	woESKUKqu88qgyPr1YIOWke6LMpnCEGuFMZ2F0CIA7+bDF5LJJBq5aP8BO1GFXJCPTdw+Zm0LwQ
-	v89XkmhHCm0E8Q6SZdmdWQtWLYDi5g18H/G47NM64OyitNaNli7DipOnK0H9dOtPjNQn5BnF6lR
-	0OGbNcrIpH990ZUXWc4FwubyNIV6hYiAKgmXQ8rsG4TGzc7yan1cWC4L8qFoRy6Op8XivO0VaC/
-	Uo=
-X-Received: by 2002:a05:600c:4ecb:b0:492:3754:15f2 with SMTP id 5b1f17b1804b1-493b82bcf9emr9531905e9.32.1782755052383;
-        Mon, 29 Jun 2026 10:44:12 -0700 (PDT)
-Received: from localhost (2a02-8440-b509-543a-ecf7-ac86-ae4c-24ec.rev.sfr.net. [2a02:8440:b509:543a:ecf7:ac86:ae4c:24ec])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46fccca2781sm26446485f8f.6.2026.06.29.10.44.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jun 2026 10:44:11 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 29 Jun 2026 19:44:10 +0200
-Message-Id: <DJLPX85YAIYO.3H1CN7IRKC1F4@smile.fr>
-Subject: Re: [scarthgap][PATCH] binutils: Fix for CVE-2025-69648 and
- CVE-2025-69646
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <Sundeep.Kokkonda@windriver.com>
-To: <Harish.Sadineni@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260619095907.3687727-1-Harish.Sadineni@windriver.com>
-In-Reply-To: <20260619095907.3687727-1-Harish.Sadineni@windriver.com>
+        d=1e100.net; s=20251104; t=1782757072; x=1783361872;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/q7I8HEBEXHHgHzvsf9k+jqnWFDNMKYdoTsa4JsNQI4=;
+        b=R4X4UuPhIml/k0wv5NFv511O1TyhSs4b7fGVF/NIWNfzK5u4ttLyCLFuhvaBqQxLQX
+         ZLja4BqiavmlAmwJXF218ALSWL+tuaGenaPu6cOZYeOI6lGJEZUhuFUlLPB2bwKNxFtg
+         C38TZ/EhvZg/gd8FknpqJv/GLQZgJA8fARK3t8T/LxsqYoNE1HdnVRY14YFxK5H+k9g3
+         jnq26gTS8qHD11hiplWjyGHBwihwsh6ldD+v9L8BHJiq1km3xTd1CJxytMn6F/MQjpUb
+         06WnmwSshaY7N6HpfwPg6Fue2xuHSVoBaEBT73SIr0iJpb1bAeKJ8mHLnwqGjlVD4rh4
+         B34A==
+X-Gm-Message-State: AOJu0Yzc05WRR4I/PWbY408b/P5kUSjXvn9gXFSKZ/UVdr/PMXFkxKy9
+	bpoQiqHBt7T1NsJ7DDlz/mqxuCtDcNBsSXsAwPVshF6TAYMVZQeDa9FmA34b7Ng/iucCw/5c+Gn
+	TFMirMo4q13Cg5PRIpwRw8qdNxJFl8lg=
+X-Gm-Gg: AfdE7cnVX1vIEl7a/obWtq/HvAW53LQVIJBcFr8rDlXXN2HnT9+7xwPXiqUU2opV1EI
+	yMSlN027LW5sFw80jjiBXdFpk31/J+Z01ax2d7qn/h2jq2pQiTVKi8AGwxMGv8NgtQdjKYU/utZ
+	B6Rem9NJgg+eWibN4zDUdUsltjnFBmJoEUiMrNP0DzoeLGoqyNJt5ZsSsTXVSULLMmPXl+vXltY
+	MOSn4KOQWmO+LtwtLxrZMUWBjRyY0C5wsWcLNcr3Trqvj1i9S+SBbl0vqpGwnZtbmc36dpLGF6Q
+	Nfe6ilV8Tk4wP4Gf5vtwu9wuNhL1TPCV0U1+yFWTO4MPjgOty+x7EcbUJhAOOxQ+KzZrYNDxVTg
+	iXRvONwC4U7Lwbdw4LaTW9f3RIfu4CYjNM6p/9A4hziN5g1pTcIsBSyj+bD700sZ8VXldDg+it+
+	upnmQF
+X-Received: by 2002:a05:690e:d50:b0:664:d52e:e704 with SMTP id
+ 956f58d0204a3-664f98ced69mr646388d50.43.1782757071555; Mon, 29 Jun 2026
+ 11:17:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260629141559.1305873-1-ross.burton@arm.com> <CAMKF1spi6u8p2GN1cOgRhwifTtH5ZX14Y8OnByn2fGjU+AtoYQ@mail.gmail.com>
+ <2B810764-3EBC-42D8-BF96-B9AAE9C087B2@arm.com>
+In-Reply-To: <2B810764-3EBC-42D8-BF96-B9AAE9C087B2@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 29 Jun 2026 11:17:40 -0700
+X-Gm-Features: AVVi8CcpF-E2YJNzc7Dkk2UkTA1rbRlLfE81MQdncT_L_l17EcvDTYaHNEopZmw
+Message-ID: <CAMKF1srMzTTYVC=Z-7ZRHMD+oXRQidq5E_HFBuq37y_wPP4D7Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] classes/meson: use ninja explicitly when compiling
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000f893120655687963"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 17:44:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239817
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 18:17:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239818
 
-On Fri Jun 19, 2026 at 11:59 AM CEST, Harish.Sadineni wrote:
-> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+--000000000000f893120655687963
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Sometimes they can make non trivial difference in compile time of they are
+large projects
+
+On Mon, Jun 29, 2026, 8:58=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wro=
+te:
+
+> On 29 Jun 2026, at 15:32, Khem Raj <raj.khem@gmail.com> wrote:
+> > Like cmake verbose could be a configurable knob since its being added b=
+y
+> this patch
 >
-> CVE-2025-69648 was marked as a duplicate of CVE-2025-69646. The
-> existing patch already fixes the issue associated with both CVEs.
+> -v was already an option, but I=E2=80=99m a bit meh on adding options to =
+make the
+> logs useful.
 >
-> Rename the patch and update the CVE tag to reference both identifiers.
+> Ross
 
-Hello,
+--000000000000f893120655687963
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Since these 2 CVEs are duplicates, please juste add the "CVE:" tag to
-the existing patch without renaming. Also, if possible, could you reach
-NVD to make them mark the second CVE as duplicate of the first?
+<div dir=3D"auto">Sometimes they can make non trivial difference in compile=
+ time of they are large projects=C2=A0</div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 29,=
+ 2026, 8:58=E2=80=AFAM Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.co=
+m">Ross.Burton@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">On 29 Jun 2026, at 15:32, Khem Raj &lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank" rel=3D"noreferrer">raj.khem@gmail=
+.com</a>&gt; wrote:<br>
+&gt; Like cmake verbose could be a configurable knob since its being added =
+by this patch<br>
+<br>
+-v was already an option, but I=E2=80=99m a bit meh on adding options to ma=
+ke the logs useful.<br>
+<br>
+Ross</blockquote></div>
 
-Thanks!
-
->
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> ---
->  meta/recipes-devtools/binutils/binutils-2.42.inc                | 2 +-
->  ...CVE-2025-69648.patch =3D> CVE-2025-69646_CVE-2025-69648.patch} | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/binutils/binutils/{CVE-2025-69648.patch =3D=
-> CVE-2025-69646_CVE-2025-69648.patch} (99%)
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/reci=
-pes-devtools/binutils/binutils-2.42.inc
-> index 1a865c45f4..96e9e6cc21 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-> @@ -73,6 +73,6 @@ SRC_URI =3D "\
->       file://0029-CVE-2025-11839.patch \
->       file://0030-CVE-2025-11840.patch \
->       file://CVE-2025-69647.patch \
-> -     file://CVE-2025-69648.patch \
-> +     file://CVE-2025-69646_CVE-2025-69648.patch \
->  "
->  S  =3D "${WORKDIR}/git"
-> diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch=
- b/meta/recipes-devtools/binutils/binutils/CVE-2025-69646_CVE-2025-69648.pa=
-tch
-> similarity index 99%
-> rename from meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
-> rename to meta/recipes-devtools/binutils/binutils/CVE-2025-69646_CVE-2025=
--69648.patch
-> index e04d7ed6c2..b02b5e0531 100644
-> --- a/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
-> +++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69646_CVE-2025-696=
-48.patch
-> @@ -19,7 +19,7 @@ length field.
->  	(display_debug_ranges): Check display_debug_rnglists_unit_header
->  	return status.  Stop output on error.
-> =20
-> -CVE: CVE-2025-69648
-> +CVE: CVE-2025-69646 CVE-2025-69648
->  Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbin=
-utils-gdb.git;h=3D598704a00cbac5e85c2bedd363357b5bf6fcee33]
-> =20
->  (cherry picked from commit 598704a00cbac5e85c2bedd363357b5bf6fcee33)
-
-
---=20
-Yoann Congal
-Smile ECS
-
+--000000000000f893120655687963--
 
