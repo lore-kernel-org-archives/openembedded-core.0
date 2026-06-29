@@ -1,167 +1,493 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <adongare@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C573FC43327
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 13:05:34 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.37100.1782738325842836255
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD6B0C43638
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 13:15:04 +0000 (UTC)
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.91875.1782738901259413270
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 06:05:26 -0700
+ Mon, 29 Jun 2026 06:15:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=njYqb2qG;
- spf=pass (domain: est.tech, ip: 52.101.83.4, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r5polP1/o7PzjQn5KFQTQf3vmbo3HNB8oF86ZYAK9TFxOB2bJfb/eDBwIw7eOj/ir7cyc/wu0ivCEVOgaoAdspdphMZnGMGqOxtDCtIMt/phjG5Oud+IelD+/Wz94DzkVmu87e+mKHQevAtE02C+6ZgEK9MQIEPOB/nVCWZ4+GlUFcO0c5tRufVsMMQ6qiw0JQgDvLwr8+D4zFu7pIngzD34MnxTIDqjXidz6eM8qokLXuwCH8Cjn299hpmQjVE9DVHibtQ3dwShDWFsb/x7ID1h5a+R4pLMYoDerjzj1Ry+0RRfOBd+jZoMiqv51grRF07IVAbmowoWBeWCIxamJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8L+BIvvSwiflqX3YWMjUHgjgowUBrjhIRHW+wHMy+M4=;
- b=ydw8A7dGcFfElfEKzghHpR+GMIlkTtJLdMVVKWauVuB9/qJMcuPX20RUV5RotWkILWG6yx5wv/3O2DDflw5uB42Ejr4LhinhoIErAWWaDTw5Yh5Ym7LbTt5ugVrNCKhUNrPJ94tlrWw1mUW+FGzXWziu/Vj1Vq44i0u6nS4feGbwwKgVugk5BnbkSQCTFewze485u/gRUHSjCBgUE37we5EUIRmKXbyFBDO0h2zH7yTLJeTQv6wmmSFv/mB40HYELIAxsSzXdvTDMCKNg4YR9GsY0asUVDFP3ElrDHuU/OtblhtetKKk4puPc4zsCf9u0X+MGU0C6AeLF8bT59peOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8L+BIvvSwiflqX3YWMjUHgjgowUBrjhIRHW+wHMy+M4=;
- b=njYqb2qGL2tqRw4R8bDZuY8m7ghTnWclw4eMXf2F9Y6q6OTbEmglCCci4GijlCL3y0jbJL0elRtay1SXu6oKjDufTlRP6xsos4bjd5g8hh9sHgIN7n16/fsC0BwJpzORl7eOkH48n7H6XNxD9N8HCjjlvXmvRkHR/qeeBVFld1nbk6oa56je5F8IcJgjlhGu2ND5E6AwobevP3mfEIZjWFPuYpePTdWyB1oRFTZUrABXeX+12BRl+PlvvxNMLw6uhRVQ8jVu6l2iQ67kdGMYKr7f9I+HcfwaxBxkDWtqZPRMQCJb+xLyM5pTBrNgzaTneFxFrzYN8Eh7o4JucOixZA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by AM4P189MB3502.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6d0::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.18; Mon, 29 Jun
- 2026 13:05:18 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::18b0:e114:b839:ca49]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::18b0:e114:b839:ca49%8]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
- 13:05:18 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Rv/uClps;
+ spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: adongare@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=12014; q=dns/txt;
+  s=iport01; t=1782738901; x=1783948501;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=wTqW7vzETGCq+4/j6GrIrUYKnB5NTd6bjjDiBDpzR3Y=;
+  b=Rv/uClps/S8wP4No6INrlRK8Fx9FLd9mTcRc4GbHfljgyUdEJXvkOrZP
+   zm5v5e6emzcDEA8Jry4xgO0ccuFSxW26/HLoC9zdmk2AIxvd6nJNGyyBt
+   GEQHBc6STLwfwxy2+T1mdzRomdELwq97RXI+vO8Px0AlP33cEo2LgreCL
+   3U3Gtyn4FvKW06gFK/hBZY0VGANKnt4c66Z5+eR1z4xjHp2jAxRt0dCCZ
+   eZy9ZT+s4XU9/tIyJfLwjwL2gkczc16U6/c8IjafRlPRYoV8qfNK521gD
+   a+P9nnxEEfndMzNRC7T9G5HIotRwucpZAqiKPBD+CcnxljJaTAoXT1wk2
+   w==;
+X-CSE-ConnectionGUID: AenX/qYoSDGu0TiGOk1D6g==
+X-CSE-MsgGUID: QBfMMi9mRoClyzdtT32HnQ==
+X-IPAS-Result: =?us-ascii?q?A0AaAAAqb0Jq/4v/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
+ =?us-ascii?q?AcBAQsBglZ0X0JJjHOJWAOeGxSBag8BAQEPRA0EAQGBcQEggnQCjUsCJjQJD?=
+ =?us-ascii?q?gECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GWgECAQMnCwEYA?=
+ =?us-ascii?q?S0QHAMBAhcBARYrIwgZgwIBgnMCAREGtnKBeTOBAYMoATEFCQICQAFQ2ywBC?=
+ =?us-ascii?q?xQBBYEzAYU+iB9bGAGEfCcbG4FygRWDaYEFgVwBAQGBIiVgAgaFdQSCInoSg?=
+ =?us-ascii?q?VqCGCeBYYsPSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4EMGwcFgR2Ba?=
+ =?us-ascii?q?YEEhH0jHwM5f4EwdVhmFTA1gQIBER4KgVInAwsYDUgRLDcUGwQ+bgeMXhcPg?=
+ =?us-ascii?q?j0xLwEhDAEpAQEvVn07Cx6SdAoHkBaCIYE1n1oKKIN1jCGODYctGjOFW6URm?=
+ =?us-ascii?q?QiOCpVoaIRogWg8gUcLB3AVgyIJFjQZD44tCwuBeIFogX+EQcFNJDUCCTIBA?=
+ =?us-ascii?q?QcCBw4DC4FokAIkgVcBAQ?=
+IronPort-Data: A9a23:RJkutah1Tu/bPyxWKyPuz8qkX161MREKZh0ujC45NGQN5FlHY01je
+ htvCjrXaaqOMGH3fI9yYduy80pUvJfQyNc2TlE+qSBnRnhjpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeDULOZ82QsaDxMtfjS8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUx9+BHRnh/8
+ sc0By1VUhGsoOHv7Oy0H7wEasQLdKEHPasFsX1miDWcBvE8TNWbGePB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWYQZ/5JEWxI9EglH2fzpep1uPqII84nPYy0p6172F3N/9J4TTG5QIxxzAz
+ o7A113TDDQ/NY2a8z2u9mO+ivPzxnnbXrtHQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
+ UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBFmQHY909v8hwTjsvv
+ rOUo+7U6fVUmOX9YRqgGn2891te5QB9wbc+WBI5
+IronPort-HdrOrdr: A9a23:rUzMFqxQcK04OSbScGLsKrPw9L1zdoMgy1knxilNoNJuHfBw8P
+ re+8jzuiWUtN98YhwdcJW7Scu9qBDnhPpICOsqXYtKNTOO0ADDEGgh1/qG/9SKIUPDH4BmuZ
+ uIWpIObuEYdWIK7vrS0U2fD8sqxsWB/eSDgOfTyGoocCRRApsQljuQzm2gYzZLrM4sP+tAKK
+ ah
+X-Talos-CUID: =?us-ascii?q?9a23=3AO2DQ92hmfY5hPpjUje4gH9OXtDJuW3Db/DDJEki?=
+ =?us-ascii?q?DJUl0EIGUZniToY86nJ87?=
+X-Talos-MUID: =?us-ascii?q?9a23=3A1+U8qgy7+szHbQbT8+YkByYojGuaqJ2EBmUokMQ?=
+ =?us-ascii?q?Dgc6vMT1iNyuh126XRLZyfw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.24,232,1774310400"; 
+   d="scan'208";a="501695120"
+Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
+  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 29 Jun 2026 13:15:00 +0000
+Received: from sjc-ads-3691.cisco.com (sjc-ads-3691.cisco.com [171.68.250.138])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id 1F2F7180007CD;
+	Mon, 29 Jun 2026 13:15:00 +0000 (GMT)
+Received: by sjc-ads-3691.cisco.com (Postfix, from userid 1870532)
+	id BBE97CC124A; Mon, 29 Jun 2026 06:14:59 -0700 (PDT)
+From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
 To: openembedded-core@lists.openembedded.org
-CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [PATCH] perf: Fix BUILD_BPF_SKEL PACKAGECONFIG to not define variable when disabled
-Date: Mon, 29 Jun 2026 15:05:15 +0200
-Message-ID: <20260629130515.39891-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DUZPR01CA0070.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:3c2::9) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
+Cc: xe-linux-external@cisco.com,
+	Anil Dongare <adongare@cisco.com>
+Subject: [OE-core] [wrynose] [PATCH 5/6] curl: fix CVE-2026-6429
+Date: Mon, 29 Jun 2026 06:14:49 -0700
+Message-ID: <20260629131453.1077612-5-adongare@cisco.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260629131453.1077612-1-adongare@cisco.com>
+References: <20260629131453.1077612-1-adongare@cisco.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AM4P189MB3502:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3a108fb9-c5c5-4072-dad4-08ded5df119b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|6133799003|18002099003|5023799004|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info: 
-	JQzYUXY15xlJWN3PY/DDEmCSSbBEFnypWW9sGYWDWx6vM7kgV6LYMR72xq8TY/r/b7xiBaCuDS27ew+XDQPv36ArWnJus49aIGoBhuHfLarxlDZhm/K6SuODK0WGjtlaBF4gpKFrbybkaR9nLFnop16aAqBdFS/NSlRpedHSzTgdoSc6tUIqlneVulnSkZeJMo/RdgihZrXXMi0zKrEvCfeXrPtaFSWHBmuKC1mY522JjNeDBluUX39G16sOmlzLlg32SXiI0Gr4g5TjPWfgNW0rkM3ZXsomgDkOYJgEnxJ5FcbsS82SXXxzGWQXQLCb7JdxvWikUPDQ8F3Ril80u9ZH6tj6mb0wC9DSvwH21BVoElzJpwzs3bMfzk2l8QTWjjpxKrGq+ac3vPUv/KImSy1P7Q3zBKnCg0CQcecp+a8ntjspoUbitoTFVD6A+VPOwIMNKAC5V5gsS+cj2FkIpxMVb9S24CNkEmH6S9v3g2YQXYQ8qCnHAE8pQg4d6OJ8U0zIc1WZ5Mi7eAv+FbmTYB+TyuIFrbzaSOm5w86+6/KrEceuNsykS3yPcYAWoq2/MVMnmwwUFJVoPxQQFdvRaJmXGkd/Ly7IB1b/ib8yd1eOarSg/3UpRongOUQHO2M1AKoO4YPbUO3oQ1rMWR+8xw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(6133799003)(18002099003)(5023799004)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?bNdtzbrk5IoZP/o3G6NZnG+3wvYAe0Vj1436Ox8uFPCb5Oo/rzdjkIqAfTi7?=
- =?us-ascii?Q?4cKTadGh3JfJ++ypTUiacyDseCx6I9PnVl67QyumEdQA+SgvGclmaEQvHfUW?=
- =?us-ascii?Q?x8CkEBveKQPtZAQwxCKq+niL8hhydMOQa7cojXh/zhk4QZzUuW4aiWipiF7K?=
- =?us-ascii?Q?k9HPSLpCyfhM81a6ueYORAE6Vs9aAoRei0EW+6X+r9Q9CelS9ykpeh3v+rdz?=
- =?us-ascii?Q?vjAzjs9dI56X3kuJ4OQMB0PrU3QJi/bGOjf6Voxr1etlSixev3V2KIJrQ7zS?=
- =?us-ascii?Q?Vu9iDiIesregeZzDxiGoakFi4kaNYgOVP8S4uK7zdHOBb3e/g1EbdZmied87?=
- =?us-ascii?Q?WisLAE823Gjc0UtUm50IiADqhOcCuhWZqFe+YEXFeq7R9/TW1ZHjVGRlTX8/?=
- =?us-ascii?Q?+fE7INwuxi99R7bU1LywIdLVPmyFIGpWZn/ydzklTuXJbWtWwl2He/xez6mU?=
- =?us-ascii?Q?wFHxtjI0kgVci9L4YZO5WUbnIEEoBD5MgRZbTjcLVgLcKeBPhBSNMTLJmJ1T?=
- =?us-ascii?Q?MCI3/IIhq2mNCCALklUQ4bM8AcfY6lmiGJjKZL3HkA7fPqJKfvPoLUMo6Hbt?=
- =?us-ascii?Q?l2cKQAYhY5NLYIQ6Xb8xDZxpJIn1Ff4RUJGwpsSRBt8iVIwSBUi50zaVHQLL?=
- =?us-ascii?Q?AC00GbiznySjAKgt1e5VuhQC2+dNLZ9sMSelJthFe9i/DqxIPkmiWK/b5X9i?=
- =?us-ascii?Q?Z9sSZJ7G62vvkA9hThNCW3cer2xYn9XfrzVNHGmBA7nWwMvJaxOpd21jFL2n?=
- =?us-ascii?Q?benPrIwFPedGM1oIVVhLgdvfYFc8SRoGC7otctjzwiIjScwY1vSpVQhe43Q2?=
- =?us-ascii?Q?KplllQTAIG2eTeqTFwK1TCSsVOmtiC5tv3dJ0iEZTr+Bx+uHrxt+fVj/gJPc?=
- =?us-ascii?Q?WWcVvUG85GV9fLjfKMd0lifneFGoRf92nby02imYEyLhUBGB8fPsSVgFITou?=
- =?us-ascii?Q?H2pzFlXrMWPeYE6cYWDA1dHWaW9GfMZW4HFluNhYmO65h6N3ZsN4yQy+3hoL?=
- =?us-ascii?Q?Jy5rjRfUOjubUldQdLVGVA8S95urZ3bxJqvvnxtDCtmly4Hf5qlZn6tDAVP4?=
- =?us-ascii?Q?lhMyo1KrkaI8LrydEbN6MhGErlf0p3e+n17Q46/PI+eLKxWLq2A5yQrMKkye?=
- =?us-ascii?Q?gLdlqCRfnfFRcKeXexmvgn4weWNMPHmbYff08umLVAyufrTsXMH2405dYRWO?=
- =?us-ascii?Q?GSXgCqeOnLVQhJcqIrwgjK0C7oXrD8G1I1/oxuj5UMKGuS+ei0TinnWMsuJr?=
- =?us-ascii?Q?+NiCAsjWyPQevzrABLwWlHHOiqoSicbr/ERCjfGrGmCMrQGj4rgIAlUbDcKw?=
- =?us-ascii?Q?m6MfeCr6WTyZSH0ax1hMrbgCj3i9YkGrdqqb9U7UNqDnnborC7VVgHVCGEid?=
- =?us-ascii?Q?SD5gGlDWTjvw0u6oNu/Kbi6Sh6+cvhlyg6wyT+uyyC6ugVASI+TXQ0nYgvyC?=
- =?us-ascii?Q?/c5W2fZdCLxuKZTj5TCWCSUGJlvbt8guGdV/I66Sexs546g4Ckjhz+alqu5v?=
- =?us-ascii?Q?sqoEHJD8pIvfLZN8Wxef4BojO4QA8q6698NHpuru9bJHxrfkbYLg3OVgUmML?=
- =?us-ascii?Q?aAbhXp7GemnKZPZ/pvx0xBBY7fZ8MzxagfDczH670eRw9pcqQxqBAeyqJ5t0?=
- =?us-ascii?Q?9kYam3Mnn/Go0EYt0zodo6454ZNkgrEcTo5wazGlYoHT4U0qTWTFNHfvO6zV?=
- =?us-ascii?Q?ltlafTBTCAXiNyVyP5Mmery9MEcaOV5N1Q5VM8hSufYUm7jH87rxtkBhvtvx?=
- =?us-ascii?Q?4G+kJ7IkGQ=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a108fb9-c5c5-4072-dad4-08ded5df119b
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 13:05:18.4643
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cRwCWyVpWJQ4nes9kZTQ2ebWWV339hYROwH3ylEhd4S/1VVkduvAty+pMBKNLivBiHKIs3IfelnuK8UGwyT/bqLRth1VDcbzGEgRV6CbZIo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4P189MB3502
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-3691.cisco.com [171.68.250.138];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.68.250.138, sjc-ads-3691.cisco.com
+X-Outbound-Node: rcdn-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 13:05:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239774
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 13:15:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239780
 
-The kernel's Makefile.config has two BUILD_BPF_SKEL checks:
-- Line 219: ifeq ($(BUILD_BPF_SKEL),1) - value check (works with =3D0)
-- Line 668: ifdef BUILD_BPF_SKEL - defined check (triggers for ANY value)
+From: Anil Dongare <adongare@cisco.com>
 
-The previous fix (f48f6fb91c) passed BUILD_BPF_SKEL=3D0 which correctly
-skips the first check but still triggers the second 'ifdef' check,
-causing a build failure when clang is not available or too old.
+Backport the upstream fix [1] for the netrc credential leak on redirect
+described in [2] and tracked by [3].
 
-Change from:
-  PACKAGECONFIG[bpf-skel] =3D ",BUILD_BPF_SKEL=3D0"
-To:
-  PACKAGECONFIG[bpf-skel] =3D "BUILD_BPF_SKEL=3D1,"
+[1] https://github.com/curl/curl/commit/b4024bf808bd558026fdc6096e8457f199ace306
+[2] https://curl.se/docs/CVE-2026-6429.html
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-6429
 
-When bpf-skel is not in PACKAGECONFIG (the default), nothing is
-passed to make and BUILD_BPF_SKEL remains undefined, which correctly
-skips both checks. When enabled, BUILD_BPF_SKEL=3D1 is passed.
-
-Also move the PACKAGECONFIG entry to be grouped with the other
-PACKAGECONFIG options for consistency.
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Anil Dongare <adongare@cisco.com>
 ---
- meta/recipes-kernel/perf/perf.bb | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ .../curl/curl/CVE-2026-6429.patch             | 362 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
+ 2 files changed, 363 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6429.patch
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/pe=
-rf.bb
-index e3e5d55e39..65dc8e7538 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -40,6 +40,12 @@ PACKAGECONFIG[pfm4] =3D ",NO_LIBPFM4=3D1,libpfm4"
- PACKAGECONFIG[babeltrace] =3D ",NO_LIBBABELTRACE=3D1,babeltrace"
- PACKAGECONFIG[zstd] =3D ",NO_LIBZSTD=3D1,zstd"
- PACKAGECONFIG[llvm] =3D ",NO_LIBLLVM=3D1,llvm"
-+# Disable BUILD_BPF_SKEL by default. Use "BUILD_BPF_SKEL=3D1," format
-+# instead of ",BUILD_BPF_SKEL=3D0" because Make's ifdef triggers on any
-+# defined value including 0. Note: Rust-in-kernel support pulls in
-+# clang-native, satisfying the dependency checks and causing perf to
-+# attempt building bpftool, which fails without an adequate clang.
-+PACKAGECONFIG[bpf-skel] =3D "BUILD_BPF_SKEL=3D1,"
-=20
- # libunwind is not yet ported for some architectures
- PACKAGECONFIG:remove:arc =3D "libunwind"
-@@ -439,8 +445,3 @@ perf_fix_sources () {
- 	done
- }
-=20
--# Disable BUILD_BPF_SKEL by default.
--# Rust in kernel support pulls in clang-native, which satisfies the
--# BUILD_BPF_SKEL dependency checks and causes perf to attempt
--# building bpftool, resulting in a build failure.
--PACKAGECONFIG[bpf-skel] =3D ",BUILD_BPF_SKEL=3D0"=20
---=20
-2.34.1
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-6429.patch b/meta/recipes-support/curl/curl/CVE-2026-6429.patch
+new file mode 100644
+index 0000000000..f4398e00f6
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-6429.patch
+@@ -0,0 +1,362 @@
++From b4024bf808bd558026fdc6096e8457f199ace306 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 16 Apr 2026 14:26:20 +0200
++Subject: [PATCH] http: clear credentials better on redirect
++
++Verify with test 2506: netrc with redirect using proxy
++
++Updated test 998 which was wrong.
++
++Reported-by: Muhamad Arga Reksapati
++
++Closes #21345
++
++CVE: CVE-2026-6429
++Upstream-Status: Backport [https://github.com/curl/curl/commit/b4024bf808bd558026fdc6096e8457f199ace306]
++
++Backport Changes:
++- curl 8.19.0 does not have Curl_url_same_origin(), so the same-origin comparison is kept inline in Curl_http_follow().
++- Adapted tests/data/Makefile.am and tests/libtest/Makefile.inc placement for the wrynose test lists.
++
++(cherry picked from commit b4024bf808bd558026fdc6096e8457f199ace306)
++Signed-off-by: Anil Dongare <adongare@cisco.com>
++---
++ lib/http.c                 | 121 +++++++++++++++++++------------------
++ tests/data/Makefile.am     |   2 +-
++ tests/data/test2506        |  64 ++++++++++++++++++++
++ tests/data/test998         |   1 -
++ tests/libtest/Makefile.inc |   2 +-
++ tests/libtest/lib2506.c    |  71 ++++++++++++++++++++++
++ 6 files changed, 198 insertions(+), 63 deletions(-)
++ create mode 100644 tests/data/test2506
++ create mode 100644 tests/libtest/lib2506.c
++
++diff --git a/lib/http.c b/lib/http.c
++index b960d79..9ac96ad 100644
++--- a/lib/http.c
+++++ b/lib/http.c
++@@ -1201,75 +1201,76 @@ CURLcode Curl_http_follow(struct Curl_easy *data, const char *newurl,
++       return CURLE_OUT_OF_MEMORY;
++   }
++   else {
++-    uc = curl_url_get(data->state.uh, CURLUPART_URL, &follow_url, 0);
++-    if(uc)
++-      return Curl_uc_to_curlcode(uc);
++-
++-    /* Clear auth if this redirects to a different port number or protocol,
++-       unless permitted */
++-    if(!data->set.allow_auth_to_other_hosts && (type != FOLLOW_FAKE)) {
++-      int port;
++-      bool clear = FALSE;
+++    bool same_origin;
+++    CURLcode result;
+++    CURLU *u = curl_url();
+++    char *oldscheme = NULL;
+++    char *oldhost = NULL;
+++    char *oldport = NULL;
+++    char *newscheme = NULL;
+++    char *newhost = NULL;
+++    char *newport = NULL;
+++    if(!u)
+++      return CURLE_OUT_OF_MEMORY;
++ 
++-      if(data->set.use_port && data->state.allow_port)
++-        /* a custom port is used */
++-        port = (int)data->set.use_port;
++-      else {
++-        curl_off_t value;
++-        char *portnum;
++-        const char *p;
++-        uc = curl_url_get(data->state.uh, CURLUPART_PORT, &portnum,
++-                          CURLU_DEFAULT_PORT);
++-        if(uc) {
++-          curlx_free(follow_url);
++-          return Curl_uc_to_curlcode(uc);
++-        }
++-        p = portnum;
++-        curlx_str_number(&p, &value, 0xffff);
++-        port = (int)value;
++-        curlx_free(portnum);
++-      }
++-      if(port != data->info.conn_remote_port) {
++-        infof(data, "Clear auth, redirects to port from %u to %u",
++-              data->info.conn_remote_port, port);
++-        clear = TRUE;
++-      }
++-      else {
++-        char *scheme;
++-        const struct Curl_scheme *p;
++-        uc = curl_url_get(data->state.uh, CURLUPART_SCHEME, &scheme, 0);
++-        if(uc) {
++-          curlx_free(follow_url);
++-          return Curl_uc_to_curlcode(uc);
++-        }
+++    uc = curl_url_set(u, CURLUPART_URL, Curl_bufref_ptr(&data->state.url),
+++                      CURLU_URLENCODE | CURLU_ALLOW_SPACE);
+++    if(!uc)
+++      uc = curl_url_get(data->state.uh, CURLUPART_URL, &follow_url, 0);
+++    if(!uc)
+++      uc = curl_url_get(u, CURLUPART_SCHEME, &oldscheme, 0);
+++    if(!uc)
+++      uc = curl_url_get(u, CURLUPART_HOST, &oldhost, 0);
+++    if(!uc)
+++      uc = curl_url_get(u, CURLUPART_PORT, &oldport, CURLU_DEFAULT_PORT);
+++    if(!uc)
+++      uc = curl_url_get(data->state.uh, CURLUPART_SCHEME, &newscheme, 0);
+++    if(!uc)
+++      uc = curl_url_get(data->state.uh, CURLUPART_HOST, &newhost, 0);
+++    if(!uc)
+++      uc = curl_url_get(data->state.uh, CURLUPART_PORT, &newport,
+++                        CURLU_DEFAULT_PORT);
+++    if(uc) {
+++      curl_url_cleanup(u);
+++      curlx_free(oldscheme);
+++      curlx_free(oldhost);
+++      curlx_free(oldport);
+++      curlx_free(newscheme);
+++      curlx_free(newhost);
+++      curlx_free(newport);
+++      curlx_free(follow_url);
+++      return Curl_uc_to_curlcode(uc);
+++    }
++ 
++-        p = Curl_get_scheme(scheme);
++-        if(p && (p->protocol != data->info.conn_protocol)) {
++-          infof(data, "Clear auth, redirects scheme from %s to %s",
++-                data->info.conn_scheme, scheme);
++-          clear = TRUE;
++-        }
++-        curlx_free(scheme);
++-      }
++-      if(clear) {
++-        CURLcode result = Curl_reset_userpwd(data);
++-        if(result) {
++-          curlx_free(follow_url);
++-          return result;
++-        }
++-        Curl_safefree(data->state.aptr.user);
++-        Curl_safefree(data->state.aptr.passwd);
+++    same_origin = strcasecompare(oldscheme, newscheme) &&
+++                  strcasecompare(oldhost, newhost) &&
+++                  !strcmp(oldport, newport);
+++
+++    curl_url_cleanup(u);
+++    curlx_free(oldscheme);
+++    curlx_free(oldhost);
+++    curlx_free(oldport);
+++    curlx_free(newscheme);
+++    curlx_free(newhost);
+++    curlx_free(newport);
+++
+++    if((!same_origin && !data->set.allow_auth_to_other_hosts) ||
+++       !data->set.str[STRING_USERNAME]) {
+++      result = Curl_reset_userpwd(data);
+++      if(result) {
+++        curlx_free(follow_url);
+++        return result;
++       }
+++      Curl_safefree(data->state.aptr.user);
+++      Curl_safefree(data->state.aptr.passwd);
++     }
++-  }
++-  DEBUGASSERT(follow_url);
++-  {
++-    CURLcode result = Curl_reset_proxypwd(data);
+++    result = Curl_reset_proxypwd(data);
++     if(result) {
++       curlx_free(follow_url);
++       return result;
++     }
++   }
+++  DEBUGASSERT(follow_url);
++ 
++   if(type == FOLLOW_FAKE) {
++     /* we are only figuring out the new URL if we would have followed locations
++diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
++index 00a5221..1b76b01 100644
++--- a/tests/data/Makefile.am
+++++ b/tests/data/Makefile.am
++@@ -265,7 +265,7 @@ test2309 \
++ \
++ test2400 test2401 test2402 test2403 test2404 test2405 test2406 test2407 \
++ \
++-test2500 test2501 test2502 test2503 test2504 \
+++test2500 test2501 test2502 test2503 test2504 test2506 \
++ \
++ test2600 test2601 test2602 test2603 test2604 test2605 \
++ \
++diff --git a/tests/data/test2506 b/tests/data/test2506
++new file mode 100644
++index 0000000..9c65002
++--- /dev/null
+++++ b/tests/data/test2506
++@@ -0,0 +1,64 @@
+++<?xml version="1.0" encoding="US-ASCII"?>
+++<testcase>
+++<info>
+++<keywords>
+++HTTP
+++cookies
+++</keywords>
+++</info>
+++
+++<reply>
+++<data crlf="headers" nocheck="yes">
+++HTTP/1.1 301 redirect
+++Date: Tue, 09 Nov 2010 14:49:00 GMT
+++Content-Length: 3
+++Location: http://numbertwo.example/%TESTNUMBER0002
+++
+++ok
+++</data>
+++<data2 crlf="headers" nocheck="yes">
+++HTTP/1.1 200 OK
+++Date: Tue, 09 Nov 2010 14:49:00 GMT
+++Content-Length: 4
+++
+++yes
+++</data2>
+++</reply>
+++
+++<client>
+++<server>
+++http
+++</server>
+++<features>
+++proxy
+++</features>
+++<tool>
+++lib%TESTNUMBER
+++</tool>
+++<name>
+++netrc with redirect using proxy
+++</name>
+++<file name="%LOGDIR/netrc2506">
+++machine site.example login batman password robin
+++</file>
+++<command>
+++http://%HOSTIP:%HTTPPORT http://site.example/ %LOGDIR/netrc2506
+++</command>
+++</client>
+++
+++<verify>
+++<protocol crlf="headers">
+++GET http://site.example/ HTTP/1.1
+++Host: site.example
+++Authorization: Basic %b64[batman:robin]b64%
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++GET http://numbertwo.example/25060002 HTTP/1.1
+++Host: numbertwo.example
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++</protocol>
+++</verify>
+++</testcase>
++diff --git a/tests/data/test998 b/tests/data/test998
++index 24d1d3d..56dbc0c 100644
++--- a/tests/data/test998
+++++ b/tests/data/test998
++@@ -77,7 +77,6 @@ Proxy-Connection: Keep-Alive
++ 
++ GET http://somewhere.else.example/a/path/9980002 HTTP/1.1
++ Host: somewhere.else.example
++-Authorization: Basic %b64[alberto:einstein]b64%
++ User-Agent: curl/%VERSION
++ Accept: */*
++ Proxy-Connection: Keep-Alive
++diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
++index 2319baf..2f77c16 100644
++--- a/tests/libtest/Makefile.inc
+++++ b/tests/libtest/Makefile.inc
++@@ -113,7 +113,7 @@ TESTS_C = \
++   lib2023.c lib2032.c lib2082.c \
++   lib2301.c lib2302.c lib2304.c           lib2306.c lib2308.c lib2309.c \
++   lib2402.c           lib2404.c lib2405.c \
++-  lib2502.c lib2504.c \
+++  lib2502.c lib2504.c lib2506.c \
++   lib2700.c \
++   lib3010.c lib3025.c lib3026.c lib3027.c lib3033.c lib3034.c \
++   lib3100.c lib3101.c lib3102.c lib3103.c lib3104.c lib3105.c \
++diff --git a/tests/libtest/lib2506.c b/tests/libtest/lib2506.c
++new file mode 100644
++index 0000000..8b3b342
++--- /dev/null
+++++ b/tests/libtest/lib2506.c
++@@ -0,0 +1,71 @@
+++/***************************************************************************
+++ *                                  _   _ ____  _
+++ *  Project                     ___| | | |  _ \| |
+++ *                             / __| | | | |_) | |
+++ *                            | (__| |_| |  _ <| |___
+++ *                             \___|\___/|_| \_\_____|
+++ *
+++ * Copyright (C) Linus Nielsen Feltzing <linus@haxx.se>
+++ *
+++ * This software is licensed as described in the file COPYING, which
+++ * you should have received as part of this distribution. The terms
+++ * are also available at https://curl.se/docs/copyright.html.
+++ *
+++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
+++ * copies of the Software, and permit persons to whom the Software is
+++ * furnished to do so, under the terms of the COPYING file.
+++ *
+++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
+++ * KIND, either express or implied.
+++ *
+++ * SPDX-License-Identifier: curl
+++ *
+++ ***************************************************************************/
+++#include "first.h"
+++
+++#include "testtrace.h"
+++
+++static size_t sink2506(char *ptr, size_t size, size_t nmemb, void *ud)
+++{
+++  (void)ptr;
+++  (void)ud;
+++  return size * nmemb;
+++}
+++
+++static CURLcode test_lib2506(const char *URL)
+++{
+++  CURL *curl;
+++  CURLcode result = CURLE_OUT_OF_MEMORY;
+++
+++  if(curl_global_init(CURL_GLOBAL_ALL) != CURLE_OK) {
+++    curl_mfprintf(stderr, "curl_global_init() failed\n");
+++    return TEST_ERR_MAJOR_BAD;
+++  }
+++
+++  curl = curl_easy_init();
+++  if(!curl) {
+++    curl_mfprintf(stderr, "curl_easy_init() failed\n");
+++    curl_global_cleanup();
+++    return TEST_ERR_MAJOR_BAD;
+++  }
+++
+++  test_setopt(curl, CURLOPT_WRITEFUNCTION, sink2506);
+++  test_setopt(curl, CURLOPT_PROXY, URL);
+++  test_setopt(curl, CURLOPT_URL, libtest_arg2);
+++  test_setopt(curl, CURLOPT_NETRC, CURL_NETRC_OPTIONAL);
+++  test_setopt(curl, CURLOPT_NETRC_FILE, libtest_arg3);
+++  test_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+++  test_setopt(curl, CURLOPT_VERBOSE, 1L);
+++
+++  /* CURLOPT_UNRESTRICTED_AUTH should not make a difference because the
+++     credentials come from netrc */
+++  test_setopt(curl, CURLOPT_UNRESTRICTED_AUTH, 1L);
+++
+++  result = curl_easy_perform(curl);
+++
+++test_cleanup:
+++  curl_easy_cleanup(curl);
+++  curl_global_cleanup();
+++
+++  return result;
+++}
++-- 
++2.43.7
++
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index 09e93c8ce5..6c31978519 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -17,6 +17,7 @@ SRC_URI = " \
+     file://CVE-2026-6276.patch \
+     file://CVE-2026-5545.patch \
+     file://CVE-2026-6253.patch \
++    file://CVE-2026-6429.patch \
+     file://mbedtls.patch \
+ "
+ 
+-- 
+2.51.0
 
 
