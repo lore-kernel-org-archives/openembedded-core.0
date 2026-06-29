@@ -1,80 +1,79 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8831BC43458
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 10:55:13 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.35019.1782730510244996828
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A94D1C43327
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 11:07:03 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.89748.1782731214455707510
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 03:55:10 -0700
+ Mon, 29 Jun 2026 04:06:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=uB7k5CVw;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3CC8E176C
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 03:55:05 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5308E3F836
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 03:55:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1782730509; bh=H6qTw8/YNU5RKletI/Nu3FgBA7+WA9zzlte7OZkRH+4=;
-	h=From:To:Subject:Date:From;
-	b=uB7k5CVwDtpARFMUuszYDdoDotNX/gBUcc/4B1fGPoBlRIV4h2iJlBnQv2neLTrl+
-	 PRwWVvQNyV21fClTlSeCIizTp5WsDKI/gFvIN8/mERclzCGfdi747WUP/H9xyQxEKf
-	 g1ZCxzUtnxC/bD9PNmIGL1ZSYHROPIxjXh5Npoko=
-From: Ross Burton <ross.burton@arm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=M8ivRolD;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id CB19D4E40B66
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 11:06:52 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A163D5FF96;
+	Mon, 29 Jun 2026 11:06:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D2D67106F1739;
+	Mon, 29 Jun 2026 13:06:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1782731212; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=BSuUxVtYO/lNmATiVbFSGpoXaCZ0eULy6HiAPUjmuEY=;
+	b=M8ivRolDd8cN7KS8Lq/oyMLEc0AqRqYn+3jWmDSXLVjb0iF5f+73pavC90z2dRk02kKcH7
+	vZDEJZ+PD+feRH49/LSod6eR9Xf9KcFgzQ2wJGxdJIXUgMEesgx39drZb/VyslVJIM5t/w
+	D46qyjqgRL3mAZPNpBRWjpiBEJYrkKOdCdutoik0Z1b3VSsjRYFkvV/PYR8x91uhWi/7Vj
+	kEmpsXXqbBprTLGhvqbtVUXq1x1LT6rql8m7ksOTYCScak5AWXzb7aL5b1sB4JlFN5d8F2
+	ULXgM4aw9UeTIVubzoHxbo1dvxnWTSFhpdPxVJbDobip/feAg/XEUF4iy6JH8A==
+From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] pango: upgrade 1.57.1 -> 1.58.0
-Date: Mon, 29 Jun 2026 11:55:04 +0100
-Message-ID: <20260629105506.2156617-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+Cc: thomas.petazzoni@bootlin.com,
+	raj.khem@gmail.com,
+	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
+Subject: [PATCH 1/2] common-clang.inc: fix undefined name in get_clang_arch
+Date: Mon, 29 Jun 2026 13:06:18 +0200
+Message-ID: <20260629110619.530623-2-joaomarcos.costa@bootlin.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20260629110619.530623-1-joaomarcos.costa@bootlin.com>
+References: <20260629110619.530623-1-joaomarcos.costa@bootlin.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 10:55:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239753
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 11:07:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239757
 
-Upstream changes:
+Replace arch_val by arch_var, thus fixing:
 
-* PangoFontDescription has a new width attribute, which is like stretch,
-  but allows intermediate values
+NameError: name 'arch_val' is not defined. Did you mean: 'arch_var'?
 
-* PangoRenderer has gained the ability to render only certain components
-  of a layout (such overlines, underlines, text,...)
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
 ---
- .../recipes-graphics/pango/{pango_1.57.1.bb =3D> pango_1.58.0.bb} | 2 +-
+ meta/recipes-devtools/clang/common-clang.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/pango/{pango_1.57.1.bb =3D> pango_1.58.0.bb=
-} (94%)
 
-diff --git a/meta/recipes-graphics/pango/pango_1.57.1.bb b/meta/recipes-g=
-raphics/pango/pango_1.58.0.bb
-similarity index 94%
-rename from meta/recipes-graphics/pango/pango_1.57.1.bb
-rename to meta/recipes-graphics/pango/pango_1.58.0.bb
-index a9129dad4ca..6e1aebad1df 100644
---- a/meta/recipes-graphics/pango/pango_1.57.1.bb
-+++ b/meta/recipes-graphics/pango/pango_1.58.0.bb
-@@ -18,7 +18,7 @@ UPSTREAM_CHECK_REGEX =3D "pango-(?P<pver>\d+\.(?!9\d+)\=
-d+\.\d+)"
- GIR_MESON_ENABLE_FLAG =3D "enabled"
- GIR_MESON_DISABLE_FLAG =3D "disabled"
+diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-=
+devtools/clang/common-clang.inc
+index ed628008e0..9018094419 100644
+--- a/meta/recipes-devtools/clang/common-clang.inc
++++ b/meta/recipes-devtools/clang/common-clang.inc
+@@ -35,7 +35,7 @@ def get_clang_arch(bb, d, arch_var):
+     elif re.match('p(pc|owerpc)(|64)', a):             return 'PowerPC'
+     elif re.match('loongarch64$', a):                  return 'LoongArch=
+'
+     else:
+-        bb.fatal("Unhandled architecture %s" % arch_val)
++        bb.fatal("Unhandled architecture %s" % arch_var)
+         return ""
 =20
--SRC_URI[archive.sha256sum] =3D "e65d6d117080dc3aeeb7d8b4b3b518f7383aa2e6=
-cfce23117c623cd624764c2f"
-+SRC_URI[archive.sha256sum] =3D "bc5bad6213ad4886a47d1e80292fd850b64159b5=
-0db67917a43d9ea80ee2298a"
-=20
- DEPENDS =3D "glib-2.0 glib-2.0-native fontconfig freetype virtual/libico=
-nv cairo harfbuzz fribidi"
- DEPENDS +=3D "${@' python3-docutils-native' if d.getVar('GIDOCGEN_ENABLE=
-D') =3D=3D 'True' else ''}"
+ def get_clang_host_arch(bb, d):
 --=20
-2.43.0
+2.47.0
 
 
