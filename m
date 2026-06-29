@@ -2,51 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45C3CC44501
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 14:20:49 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.93241.1782742840151955116
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F376EC43638
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 14:20:48 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.93240.1782742838624266652
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 07:20:40 -0700
+ Mon, 29 Jun 2026 07:20:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=kCX/mm5y;
- spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-45fd464d51fso1942212f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 07:20:39 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=UxhLxGzT;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4704d652e9cso1388119f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 07:20:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782742838; x=1783347638; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1782742837; x=1783347637; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AASe5hNtm3+pyHRJiSSUb8NINtGmY8YOjsgGM8RCKwM=;
-        b=kCX/mm5ycq3Pd2eFJTU9ac6c/CXKX0bEtPeqIzicIgVx8Moy7tYE24iXrdCLcZ33A6
-         3aLKIvnMgvqHi2M1vYLNi0msDHjIlPt1VT8+HqrVC7cbOi4ISrrzgGB0AsFs6m9kz1j9
-         o3g5ANuFZnLMu1YWig+olqKJt03ONxbo7TBJc=
+        bh=gd/Fsm9SNXDS87ozyE2YiIFb/cUbd3/eOgy2h38u1BM=;
+        b=UxhLxGzTlDCCxpvl5mkL+9De4mSBJX2P+BGpIpjYSnaqvQC+//A0gSz3APrslIYsHH
+         G3JA6H4IQ05vF+52tVL8p8J0v7lBK2+v6VnO26mAnETyjwWHKo/buw8uCW5QTIpoYSsb
+         ABRxbVWjDWUnFkZHOINS7lzBDuKpn7DshVREs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782742838; x=1783347638;
+        d=1e100.net; s=20251104; t=1782742837; x=1783347637;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=AASe5hNtm3+pyHRJiSSUb8NINtGmY8YOjsgGM8RCKwM=;
-        b=Ar0rViy3PTCVXDflLc0VGSIc2+iRcTELQ+LMRJPm8bsY2zDbHhU6sFfeXiEVmb5H7+
-         X7h1YYdd/5JX0aJTWkgwYJUKS4FBh2vVUTCxE9nqrI7TOlZx96PlD/I73WGUxjvopbwR
-         3JtprIeYX1TsIzTCfMzeHfupIiKtndOucUKLvdHp4VNBPJ3+qz82hqi6K6Is8jNeACxb
-         AuKA/OK+HKEU5BCtKG9kafrv/HkZKmrd2eWGjCwnUz9xzxMLoR18F7b27t3cp6xXFEHs
-         PgSIwbCB7m5zTK3wuocLNmdpC26YX06RT+5o4YtfKh4bKpZRqBcNLqchbijSW7glkuXj
-         VE0Q==
-X-Gm-Message-State: AOJu0YzHPS2SqKfhANaahqQnMVxF+rkFqGZvfvhjiT/CwXs8R9I1gtuK
-	ijDsBycyq6kiJlDV7p8U3OYFPyk5Sfm/3r4+vQsAChX8MbGh6CbvM52Zlh/hrATwXFUifd/wzjR
-	zw9OpNP8=
-X-Gm-Gg: AfdE7cmnGfKPK5ESCfrssqmV4XfTkicjsn6goTPdDKb4HJ2pgnKt0bU3QD8UQMRkLqv
-	2i+6ZlOKbH0uw8iQuifurl8dlsTMqPXaCydOXfuWCkRzcW9UAMMisGSwtINWpq6H0vVWISWbstI
-	2ln8lINYtwTM/cyUwYhyXNSN8VweLV9OPmPazL3SipMy+Qzwg+ZTdbHRs6nXSKw1h00bExcKmIg
-	BT7UOzg69SB2JddAL8iNx0SgUWdpgX2f6jHAm7e5pXYakXyuJx81MvDSwNNQaPR0cUEwNOibvii
-	VwHaYUQ9THffZEo3F0pX6Dt97f77gmS9vzJjM5Xrj3FsYL+hEuCISZ5wfbkB2TT83ERwg+p+YpI
-	S6NtbgTwBvEcocH51iLSl07zVL0TTciGu6shYxagwyFkb2TETgNjbBLLcCkogwN5R1Ta3G71MMD
-	pxwKlapjvzgEfeHDEWXDn0BttTCRYL0YYJiIUUzP+5bCZss/qVIWwm6QJ9U+VKGEHrpxdWAWaum
-	nbskuk2M6vNjrF846GDGsfRGIu9FRr72g==
-X-Received: by 2002:a05:6000:4210:b0:468:7ca1:2368 with SMTP id ffacd0b85a97d-46dc2a17107mr30603045f8f.29.1782742837701;
-        Mon, 29 Jun 2026 07:20:37 -0700 (PDT)
+        bh=gd/Fsm9SNXDS87ozyE2YiIFb/cUbd3/eOgy2h38u1BM=;
+        b=GVwUwMf69tf15tgxX4vPjp6YAqKCzv+tjhsR49Ka9KtRsM101vgLoUlrgNGy/79N77
+         /e/aaI1gbzVTc6UDXGrenu1fM3hRt0+Akk7IW8Jpqgzn8eAKJIY83pFvxRuLAuJKbvyu
+         7CJ8o/PdQgJtxWYzUvhXxvUPtSw+Kts2iktXdxy8QnAyjdM45tp6doEBIDwZLotx6Ngj
+         0AjTf7ep3xQMq9PRrLHRkYipuHzmUNKIn9iOaPDsg504GUwkJCNhJ1yvfKshT+jdXCbO
+         vkN/m3CTTGHRLQR/RcW1gNJkdoleiRbj2EHVzBv4WC8/yz0AArLB8XsjieJw/f2MlDPV
+         91Rg==
+X-Gm-Message-State: AOJu0YyTsuJOMZgrlDI0a0QGTL7YYDQMwgqAhKfFggy8rWPpqlNiGfci
+	OUKdGSGTwCZZO6/9qYKofkfgTq34lJEslR/DdWDxv7MeARAoXZJo6Fz68UgXCHsqiHSOex4AqP7
+	Qb0zglXs=
+X-Gm-Gg: AfdE7ckVszYzq1gio6OIKGgmlBLXfv3Oi5/PzxoA5LjSY+BQAi+PPK6VVJTiookJSW6
+	dU2C9eQ2ugjvS2rctJcFotNoYHnPA39ml2Umw3rr/Cceey+hpTrePMy6tNALcfGkhC+SqbGtroo
+	WBMINx5hAE8ILqfpIBvdIo2NwANzTKOborR1ks58u9Vq3CVWPDfAycISk1pN5VPzq3t/I+VHthg
+	CpItpqIgMVHZSt6qRJFk+gEmEcN13/vq3dKJ0yX1/yWqz2oAOdpRC53We3wiaovBMGHR2c/ApBB
+	rzzPpkM8rAbyO7m6c+QHRRkYHGbXVrwVchA12FEMQxljMhsblm8eWdWfuR9Ag6pihPb5zwa5Ghb
+	EIMlcLZR1SDpV7yQj+xCCFFWfxBqroruOXh4a9mBaDCrxENpDaa9v4CpNy/tJEY+BwVAKL1n04y
+	QwWP3jfVVbij5UBqmTybayBHC+gx1XxBkWutxrRcaBsItAgi4aFMeLwfxBKUjLjCUuPti706xId
+	BXfHSkTGfgh6G4nO/nOYq8=
+X-Received: by 2002:a05:600c:848e:b0:490:3d62:f5e1 with SMTP id 5b1f17b1804b1-49266880e8fmr231003625e9.22.1782742836718;
+        Mon, 29 Jun 2026 07:20:36 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46f8d6f10absm44958410f8f.5.2026.06.29.07.20.36
         for <openembedded-core@lists.openembedded.org>
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouygu
         Mon, 29 Jun 2026 07:20:36 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 14/19] libusb1: fix CVE-2026-23679 and CVE-2026-47104
-Date: Mon, 29 Jun 2026 16:19:59 +0200
-Message-ID: <22580c001cc7426a6844cdc128120031c47d0d3b.1782742373.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 13/19] xwayland: Fix CVE-2026-34003
+Date: Mon, 29 Jun 2026 16:19:58 +0200
+Message-ID: <b8266375cceeb82cb53922468cf6409a0ff1e3f8.1782742373.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1782742373.git.yoann.congal@smile.fr>
 References: <cover.1782742373.git.yoann.congal@smile.fr>
@@ -65,187 +65,385 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 14:20:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239802
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 14:20:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239801
 
-From: Anil Dongare <adongare@cisco.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-- Pick the upstream patch [1] as mentioned in [2] and [3].
-- To successfully apply the fixed commit, apply the dependent commits [4], which are
-  included in v1.0.28.
+Pick patch according to [2]
 
-[1] https://github.com/libusb/libusb/commit/bc0886173ea15b8cc9bba2918f58a97a7f185231
-[2] https://security-tracker.debian.org/tracker/CVE-2026-23679.
-[3] https://security-tracker.debian.org/tracker/CVE-2026-47104.
-[4] https://github.com/libusb/libusb/commit/016a0de33ac94b19c7772d6c20fbea7fec23bf68
+[1] https://lists.x.org/archives/xorg-announce/2026-April/003679.html
+[2] https://security-tracker.debian.org/tracker/CVE-2026-34003
 
-Signed-off-by: Anil Dongare <adongare@cisco.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...-2026-23679_CVE-2026-47104-dependent.patch | 46 ++++++++++
- .../CVE-2026-23679_CVE-2026-47104.patch       | 88 +++++++++++++++++++
- meta/recipes-support/libusb/libusb1_1.0.27.bb |  2 +
- 3 files changed, 136 insertions(+)
- create mode 100644 meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104-dependent.patch
- create mode 100644 meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104.patch
+ .../xwayland/xwayland/CVE-2026-34003-1.patch  | 113 +++++++++
+ .../xwayland/xwayland/CVE-2026-34003-2.patch  | 223 ++++++++++++++++++
+ .../xwayland/xwayland_23.2.5.bb               |   2 +
+ 3 files changed, 338 insertions(+)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-1.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-2.patch
 
-diff --git a/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104-dependent.patch b/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104-dependent.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-1.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-1.patch
 new file mode 100644
-index 00000000000..04f1e684263
+index 00000000000..3a1a9db8cb3
 --- /dev/null
-+++ b/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104-dependent.patch
-@@ -0,0 +1,46 @@
-+From 2c1bb758e3b61355f50df61b6eb474d90bec2fab Mon Sep 17 00:00:00 2001
-+From: Sean McBride <sean@rogue-research.com>
-+Date: Sat, 3 Feb 2024 22:32:52 -0500
-+Subject: [PATCH] descriptor: Fix potential offsetting of pointer by too
-+ much
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-1.patch
+@@ -0,0 +1,113 @@
++From b85b00dd7b9eee05e3c12e7ad1fce4fc6671507b Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Mon, 23 Feb 2026 15:52:49 +0100
++Subject: [PATCH] xkb: Add additional bound checking in CheckKeyTypes()
 +
-+This was checking that `size` is at least `LIBUSB_DT_CONFIG_SIZE` (9)
-+bytes long, but then increments the pointer with `buf +=
-+header.bLength`. That could end up pointing past of the end of the
-+buffer. There is a subsequent check that would prevent dereferencing it,
-+but it's still undefined behaviour to even create such a pointer.
++The function CheckKeyTypes() will loop over the client's request but
++won't perform any additional bound checking to ensure that the data
++read remains within the request bounds.
 +
-+Add a check with a similar pattern as elsewhere in this file.
++As a result, a specifically crafted request may cause CheckKeyTypes() to
++read past the request data, as reported by valgrind:
 +
-+CVE: CVE-2026-23679 CVE-2026-47104
-+Upstream-Status: Backport [https://github.com/libusb/libusb/commit/016a0de33ac94b19c7772d6c20fbea7fec23bf68]
++  == Invalid read of size 2
++  ==    at 0x5A3D1D: CheckKeyTypes (xkb.c:1694)
++  ==    by 0x5A6A9C: _XkbSetMapChecks (xkb.c:2515)
++  ==    by 0x5A759E: ProcXkbSetMap (xkb.c:2736)
++  ==    by 0x5BF832: SProcXkbSetMap (xkbSwap.c:245)
++  ==    by 0x5C05ED: SProcXkbDispatch (xkbSwap.c:501)
++  ==    by 0x4A20DF: Dispatch (dispatch.c:551)
++  ==    by 0x4B03B4: dix_main (main.c:277)
++  ==    by 0x428941: main (stubmain.c:34)
++  ==  Address is 30 bytes after a block of size 28,672 in arena "client"
++  ==
++  == Invalid read of size 2
++  ==    at 0x5A3AB6: CheckKeyTypes (xkb.c:1669)
++  ==    by 0x5A6A9C: _XkbSetMapChecks (xkb.c:2515)
++  ==    by 0x5A759E: ProcXkbSetMap (xkb.c:2736)
++  ==    by 0x5BF832: SProcXkbSetMap (xkbSwap.c:245)
++  ==    by 0x5C05ED: SProcXkbDispatch (xkbSwap.c:501)
++  ==    by 0x4A20DF: Dispatch (dispatch.c:551)
++  ==    by 0x4B03B4: dix_main (main.c:277)
++  ==    by 0x428941: main (stubmain.c:34)
++  ==  Address is 2 bytes after a block of size 28,672 alloc'd
++  ==    at 0x4848897: realloc (vg_replace_malloc.c:1804)
++  ==    by 0x5E357A: ReadRequestFromClient (io.c:336)
++  ==    by 0x4A1FAB: Dispatch (dispatch.c:519)
++  ==    by 0x4B03B4: dix_main (main.c:277)
++  ==    by 0x428941: main (stubmain.c:34)
++  ==
++  == Invalid write of size 2
++  ==    at 0x5A3AD7: CheckKeyTypes (xkb.c:1669)
++  ==    by 0x5A6A9C: _XkbSetMapChecks (xkb.c:2515)
++  ==    by 0x5A759E: ProcXkbSetMap (xkb.c:2736)
++  ==    by 0x5BF832: SProcXkbSetMap (xkbSwap.c:245)
++  ==    by 0x5C05ED: SProcXkbDispatch (xkbSwap.c:501)
++  ==    by 0x4A20DF: Dispatch (dispatch.c:551)
++  ==    by 0x4B03B4: dix_main (main.c:277)
++  ==    by 0x428941: main (stubmain.c:34)
++  ==  Address is 2 bytes after a block of size 28,672 alloc'd
++  ==    at 0x4848897: realloc (vg_replace_malloc.c:1804)
++  ==    by 0x5E357A: ReadRequestFromClient (io.c:336)
++  ==    by 0x4A1FAB: Dispatch (dispatch.c:519)
++  ==    by 0x4B03B4: dix_main (main.c:277)
++  ==    by 0x428941: main (stubmain.c:34)
++  ==
 +
-+Backport Changes:
-+- The upstream version_nano.h bump is omitted because this is a security
-+  backport to libusb 1.0.27, not a version upgrade.
++To avoid that issue, add additional bounds checking within the loops by
++calling _XkbCheckRequestBounds() and report an error if we are to read
++past the client's request.
 +
-+(cherry picked from commit 016a0de33ac94b19c7772d6c20fbea7fec23bf68)
-+Signed-off-by: Anil Dongare <adongare@cisco.com>
++CVE-2026-34003, ZDI-CAN-28736
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with TrendAI Zero Day Initiative
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2176>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/b85b00dd7b9eee05e3c12e7ad1fce4fc6671507b]
++CVE: CVE-2026-34003
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libusb/descriptor.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
++ xkb/xkb.c | 15 +++++++++++++++
++ 1 file changed, 15 insertions(+)
 +
-+diff --git a/libusb/descriptor.c b/libusb/descriptor.c
-+index 4623ad1..4862c69 100644
-+--- a/libusb/descriptor.c
-++++ b/libusb/descriptor.c
-+@@ -1233,6 +1233,11 @@ static int parse_iad_array(struct libusb_context *ctx,
-+ 				 header.bLength);
-+ 			return LIBUSB_ERROR_IO;
-+ 		}
-++		else if (header.bLength > size) {
-++			usbi_warn(ctx, "short config descriptor read %d/%u",
-++					  size, header.bLength);
-++			return LIBUSB_ERROR_IO;
-++		}
-+ 		if (header.bDescriptorType == LIBUSB_DT_INTERFACE_ASSOCIATION)
-+ 			iad_array->length++;
-+ 		buf += header.bLength;
++diff --git a/xkb/xkb.c b/xkb/xkb.c
++index 3fcc6c4..0ef634b 100644
++--- a/xkb/xkb.c
+++++ b/xkb/xkb.c
++@@ -1639,6 +1639,10 @@ CheckKeyTypes(ClientPtr client,
++     for (i = 0; i < req->nTypes; i++) {
++         unsigned width;
++ 
+++	if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
+++	    *nMapsRtrn = _XkbErrCode3(0x0b, req->nTypes, i);
+++	    return 0;
+++	}
++         if (client->swapped && doswap) {
++             swaps(&wire->virtualMods);
++         }
++@@ -1664,7 +1668,18 @@ CheckKeyTypes(ClientPtr client,
++             xkbModsWireDesc *preWire;
++ 
++             mapWire = (xkbKTSetMapEntryWireDesc *) &wire[1];
+++	    if (!_XkbCheckRequestBounds(client, req, mapWire,
+++				        &mapWire[wire->nMapEntries])) {
+++		*nMapsRtrn = _XkbErrCode3(0x0c, i, wire->nMapEntries);
+++		return 0;
+++	    }
++             preWire = (xkbModsWireDesc *) &mapWire[wire->nMapEntries];
+++	    if (wire->preserve &&
+++		!_XkbCheckRequestBounds(client, req, preWire,
+++			                &preWire[wire->nMapEntries])) {
+++		*nMapsRtrn = _XkbErrCode3(0x0d, i, wire->nMapEntries);
+++		return 0;
+++	    }
++             for (n = 0; n < wire->nMapEntries; n++) {
++                 if (client->swapped && doswap) {
++                     swaps(&mapWire[n].virtualMods);
 +-- 
-+2.43.7
++2.43.0
 +
-diff --git a/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104.patch b/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-2.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-2.patch
 new file mode 100644
-index 00000000000..d868207e9aa
+index 00000000000..15b2b946d50
 --- /dev/null
-+++ b/meta/recipes-support/libusb/libusb1/CVE-2026-23679_CVE-2026-47104.patch
-@@ -0,0 +1,88 @@
-+From 0735213e5118d5c9c732b7c891446b35e0d6b8d5 Mon Sep 17 00:00:00 2001
-+From: MarkLee131 <kaixuan.li@ntu.edu.sg>
-+Date: Sat, 25 Apr 2026 18:33:17 +0800
-+Subject: [PATCH] descriptor: Fix two memory-safety bugs in malformed
-+ config descriptor handling
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34003-2.patch
+@@ -0,0 +1,223 @@
++From d38c563fab5c4a554e0939da39e4d1dadef7cbae Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Mon, 2 Mar 2026 14:09:57 +0100
++Subject: [PATCH] xkb: Add more _XkbCheckRequestBounds()
 +
-+Two issues reachable from a malformed config descriptor returned by an
-+attached USB device, both surfaced by the same libFuzzer + ASan run.
++Similar to the recent fixes, add more _XkbCheckRequestBounds() to the
++functions that loop over the request data, i.e.:
 +
-+1) parse_interface() reads bNumEndpoints from the interface descriptor and
-+   increments usb_interface->num_altsetting before entering the inner loop
-+   that skips class/vendor specific descriptors ahead of the endpoint
-+   array. If that loop's bLength > size short-read branch fires, the
-+   function returns before the endpoint array is allocated, leaving the
-+   caller with bNumEndpoints > 0 and endpoint == NULL. libusb.h documents
-+   endpoint as an array sized by bNumEndpoints, and the testlibusb and
-+   xusb examples both iterate it accordingly, so a NULL deref follows.
-+   Reset bNumEndpoints to 0 before returning so the invariant holds.
++ * CheckKeySyms()
++ * CheckKeyActions()
++ * CheckKeyBehaviors()
++ * CheckVirtualMods()
++ * CheckKeyExplicit()
++ * CheckVirtualModMap()
++ * _XkbSetMapChecks()
 +
-+2) The first-pass loop in parse_iad_array() compares header.bLength
-+   against the original size argument instead of the remaining bytes,
-+   so a single descriptor with bLength == size - 1 lets consumed reach
-+   size - 1 and the next iteration enters with only one byte of buffer
-+   left. The buf[1] read on the second line of the loop body lands one
-+   byte past the malloc allocation that backs the descriptor data. The
-+   sibling parsers parse_configuration() and parse_interface() in the
-+   same file already use the remaining-bytes form. Switch the IAD parser
-+   loop guard and bound check to match.
++All these are static functions so we can add the client to the parameters
++without breaking any API.
 +
-+Both code paths are reachable from public APIs (libusb_get_*_config_descriptor
-+and libusb_get_*_interface_association_descriptors), with the malformed
-+input supplied by the attached device. Minimal reproducers are 20 and
-+9 bytes respectively.
++See also:
++CVE-2026-34003, ZDI-CAN-28736, CVE-2026-34002, ZDI-CAN-28737
 +
-+Fixes #1813
++v2: Check for "nSyms != 0" in CheckKeySyms() to avoid false positives.
 +
-+CVE: CVE-2026-23679 CVE-2026-47104
-+Upstream-Status: Backport [https://github.com/libusb/libusb/commit/bc0886173ea15b8cc9bba2918f58a97a7f185231]
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2176>
 +
-+Backport Changes:
-+- The upstream version_nano.h bump is omitted because this is a security
-+  backport to libusb 1.0.27, not a version upgrade.
-+
-+Signed-off-by: MarkLee131 <kaixuan.li@ntu.edu.sg>
-+(cherry picked from commit bc0886173ea15b8cc9bba2918f58a97a7f185231)
-+Signed-off-by: Anil Dongare <adongare@cisco.com>
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/d38c563fab5c4a554e0939da39e4d1dadef7cbae]
++CVE: CVE-2026-34003
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libusb/descriptor.c | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
++ xkb/xkb.c | 69 ++++++++++++++++++++++++++++++++++++++++++++-----------
++ 1 file changed, 55 insertions(+), 14 deletions(-)
 +
-+diff --git a/libusb/descriptor.c b/libusb/descriptor.c
-+index 4862c69..97143bb 100644
-+--- a/libusb/descriptor.c
-++++ b/libusb/descriptor.c
-+@@ -260,6 +260,10 @@ static int parse_interface(libusb_context *ctx,
-+ 				usbi_warn(ctx,
-+ 					  "short extra intf desc read %d/%u",
-+ 					  size, header->bLength);
-++				/* Keep the invariant: bNumEndpoints > 0 implies
-++				 * endpoint != NULL. The endpoint array isn't
-++				 * allocated yet on this early return. */
-++				ifp->bNumEndpoints = 0;
-+ 				return parsed;
-+ 			}
++diff --git a/xkb/xkb.c b/xkb/xkb.c
++index 0ef634b..6320914 100644
++--- a/xkb/xkb.c
+++++ b/xkb/xkb.c
++@@ -1752,6 +1752,11 @@ CheckKeySyms(ClientPtr client,
++         KeySym *pSyms;
++         register unsigned nG;
 + 
-+@@ -1226,16 +1230,16 @@ static int parse_iad_array(struct libusb_context *ctx,
+++        /* Check we received enough data to read the next xkbSymMapWireDesc */
+++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
+++            *errorRtrn = _XkbErrCode3(0x18, i + req->firstKeySym, i);
+++            return 0;
+++        }
++         if (client->swapped && doswap) {
++             swaps(&wire->nSyms);
++         }
++@@ -1790,6 +1795,12 @@ CheckKeySyms(ClientPtr client,
++             return 0;
++         }
++         pSyms = (KeySym *) &wire[1];
+++        if (wire->nSyms != 0) {
+++            if (!_XkbCheckRequestBounds(client, req, pSyms, &pSyms[wire->nSyms])) {
+++                *errorRtrn = _XkbErrCode3(0x19, i + req->firstKeySym, wire->nSyms);
+++                return 0;
+++            }
+++        }
++         wire = (xkbSymMapWireDesc *) &pSyms[wire->nSyms];
++     }
 + 
-+ 	// First pass: Iterate through desc list, count number of IADs
-+ 	iad_array->length = 0;
-+-	while (consumed < size) {
-++	while (size - consumed >= DESC_HEADER_LENGTH) {
-+ 		parse_descriptor(buf, "bb", &header);
-+ 		if (header.bLength < 2) {
-+ 			usbi_err(ctx, "invalid descriptor bLength %d",
-+ 				 header.bLength);
-+ 			return LIBUSB_ERROR_IO;
-+ 		}
-+-		else if (header.bLength > size) {
-++		else if (header.bLength > size - consumed) {
-+ 			usbi_warn(ctx, "short config descriptor read %d/%u",
-+-					  size, header.bLength);
-++					  size - consumed, header.bLength);
-+ 			return LIBUSB_ERROR_IO;
-+ 		}
-+ 		if (header.bDescriptorType == LIBUSB_DT_INTERFACE_ASSOCIATION)
++@@ -1813,11 +1824,12 @@ CheckKeySyms(ClientPtr client,
++ }
++ 
++ static int
++-CheckKeyActions(XkbDescPtr xkb,
++-                xkbSetMapReq * req,
++-                int nTypes,
++-                CARD8 *mapWidths,
++-                CARD16 *symsPerKey, CARD8 **wireRtrn, int *nActsRtrn)
+++CheckKeyActions(ClientPtr client,
+++               XkbDescPtr xkb,
+++               xkbSetMapReq * req,
+++               int nTypes,
+++               CARD8 *mapWidths,
+++               CARD16 *symsPerKey, CARD8 **wireRtrn, int *nActsRtrn)
++ {
++     int nActs;
++     CARD8 *wire = *wireRtrn;
++@@ -1828,6 +1840,11 @@ CheckKeyActions(XkbDescPtr xkb,
++     CHK_REQ_KEY_RANGE2(0x21, req->firstKeyAct, req->nKeyActs, req, (*nActsRtrn),
++                        0);
++     for (nActs = i = 0; i < req->nKeyActs; i++) {
+++        /* Check we received enough data to read the next byte on the wire */
+++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
+++            *nActsRtrn = _XkbErrCode3(0x24, i + req->firstKeyAct, i);
+++            return 0;
+++        }
++         if (wire[0] != 0) {
++             if (wire[0] == symsPerKey[i + req->firstKeyAct])
++                 nActs += wire[0];
++@@ -1846,7 +1863,8 @@ CheckKeyActions(XkbDescPtr xkb,
++ }
++ 
++ static int
++-CheckKeyBehaviors(XkbDescPtr xkb,
+++CheckKeyBehaviors(ClientPtr client,
+++                  XkbDescPtr xkb,
++                   xkbSetMapReq * req,
++                   xkbBehaviorWireDesc ** wireRtrn, int *errorRtrn)
++ {
++@@ -1872,6 +1890,11 @@ CheckKeyBehaviors(XkbDescPtr xkb,
++     }
++ 
++     for (i = 0; i < req->totalKeyBehaviors; i++, wire++) {
+++        /* Check we received enough data to read the next behavior */
+++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
+++            *errorRtrn = _XkbErrCode3(0x36, first, i);
+++            return 0;
+++        }
++         if ((wire->key < first) || (wire->key > last)) {
++             *errorRtrn = _XkbErrCode4(0x33, first, last, wire->key);
++             return 0;
++@@ -1897,7 +1920,8 @@ CheckKeyBehaviors(XkbDescPtr xkb,
++ }
++ 
++ static int
++-CheckVirtualMods(XkbDescRec * xkb,
+++CheckVirtualMods(ClientPtr client,
+++                 XkbDescRec * xkb,
++                  xkbSetMapReq * req, CARD8 **wireRtrn, int *errorRtrn)
++ {
++     register CARD8 *wire = *wireRtrn;
++@@ -1909,12 +1933,18 @@ CheckVirtualMods(XkbDescRec * xkb,
++         if (req->virtualMods & bit)
++             nMods++;
++     }
+++    /* Check we received enough data for the number of virtual mods expected */
+++    if (!_XkbCheckRequestBounds(client, req, wire, wire + XkbPaddedSize(nMods))) {
+++        *errorRtrn = _XkbErrCode3(0x37, nMods, i);
+++        return 0;
+++    }
++     *wireRtrn = (wire + XkbPaddedSize(nMods));
++     return 1;
++ }
++ 
++ static int
++-CheckKeyExplicit(XkbDescPtr xkb,
+++CheckKeyExplicit(ClientPtr client,
+++                 XkbDescPtr xkb,
++                  xkbSetMapReq * req, CARD8 **wireRtrn, int *errorRtrn)
++ {
++     register CARD8 *wire = *wireRtrn;
++@@ -1940,6 +1970,11 @@ CheckKeyExplicit(XkbDescPtr xkb,
++     }
++     start = wire;
++     for (i = 0; i < req->totalKeyExplicit; i++, wire += 2) {
+++        /* Check we received enough data to read the next two bytes */
+++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 2)) {
+++            *errorRtrn = _XkbErrCode4(0x54, first, last, i);
+++            return 0;
+++        }
++         if ((wire[0] < first) || (wire[0] > last)) {
++             *errorRtrn = _XkbErrCode4(0x53, first, last, wire[0]);
++             return 0;
++@@ -1995,7 +2030,8 @@ CheckModifierMap(ClientPtr client, XkbDescPtr xkb, xkbSetMapReq * req,
++ }
++ 
++ static int
++-CheckVirtualModMap(XkbDescPtr xkb,
+++CheckVirtualModMap(ClientPtr client,
+++                   XkbDescPtr xkb,
++                    xkbSetMapReq * req,
++                    xkbVModMapWireDesc ** wireRtrn, int *errRtrn)
++ {
++@@ -2019,6 +2055,11 @@ CheckVirtualModMap(XkbDescPtr xkb,
++         return 0;
++     }
++     for (i = 0; i < req->totalVModMapKeys; i++, wire++) {
+++        /* Check we received enough data to read the next virtual mod map key */
+++        if (!_XkbCheckRequestBounds(client, req, wire, wire + 1)) {
+++            *errRtrn = _XkbErrCode3(0x74, first, i);
+++            return 0;
+++        }
++         if ((wire->key < first) || (wire->key > last)) {
++             *errRtrn = _XkbErrCode4(0x73, first, last, wire->key);
++             return 0;
++@@ -2563,7 +2604,7 @@ _XkbSetMapChecks(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq * req,
++     }
++ 
++     if ((req->present & XkbKeyActionsMask) &&
++-        (!CheckKeyActions(xkb, req, nTypes, mapWidths, symsPerKey,
+++        (!CheckKeyActions(client, xkb, req, nTypes, mapWidths, symsPerKey,
++                           (CARD8 **) &values, &nActions))) {
++         client->errorValue = nActions;
++         return BadValue;
++@@ -2571,18 +2612,18 @@ _XkbSetMapChecks(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq * req,
++ 
++     if ((req->present & XkbKeyBehaviorsMask) &&
++         (!CheckKeyBehaviors
++-         (xkb, req, (xkbBehaviorWireDesc **) &values, &error))) {
+++         (client, xkb, req, (xkbBehaviorWireDesc **) &values, &error))) {
++         client->errorValue = error;
++         return BadValue;
++     }
++ 
++     if ((req->present & XkbVirtualModsMask) &&
++-        (!CheckVirtualMods(xkb, req, (CARD8 **) &values, &error))) {
+++        (!CheckVirtualMods(client, xkb, req, (CARD8 **) &values, &error))) {
++         client->errorValue = error;
++         return BadValue;
++     }
++     if ((req->present & XkbExplicitComponentsMask) &&
++-        (!CheckKeyExplicit(xkb, req, (CARD8 **) &values, &error))) {
+++        (!CheckKeyExplicit(client, xkb, req, (CARD8 **) &values, &error))) {
++         client->errorValue = error;
++         return BadValue;
++     }
++@@ -2593,7 +2634,7 @@ _XkbSetMapChecks(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq * req,
++     }
++     if ((req->present & XkbVirtualModMapMask) &&
++         (!CheckVirtualModMap
++-         (xkb, req, (xkbVModMapWireDesc **) &values, &error))) {
+++         (client, xkb, req, (xkbVModMapWireDesc **) &values, &error))) {
++         client->errorValue = error;
++         return BadValue;
++     }
 +-- 
-+2.43.7
++2.43.0
 +
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.27.bb b/meta/recipes-support/libusb/libusb1_1.0.27.bb
-index 5bf854f95d4..3c463301644 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.27.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.27.bb
-@@ -14,6 +14,8 @@ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
+index e7412e20116..8d5cb05beb9 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
+@@ -39,6 +39,8 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+            file://CVE-2026-34000.patch \
+            file://CVE-2026-34001.patch \
+            file://CVE-2026-34002.patch \
++           file://CVE-2026-34003-1.patch \
++           file://CVE-2026-34003-2.patch \
+ "
+ SRC_URI[sha256sum] = "33ec7ff2687a59faaa52b9b09aa8caf118e7ecb6aed8953f526a625ff9f4bd90"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/libusb-${PV}.tar.bz2 \
-            file://run-ptest \
-+           file://CVE-2026-23679_CVE-2026-47104-dependent.patch \
-+           file://CVE-2026-23679_CVE-2026-47104.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/libusb/libusb/releases"
 
