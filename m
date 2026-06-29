@@ -1,197 +1,288 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39051C43458
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 06:58:01 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.1])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.86699.1782716275039157759
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E6F6C43458
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 07:17:11 +0000 (UTC)
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.86924.1782717421415089267
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2026 23:57:55 -0700
+ Mon, 29 Jun 2026 00:17:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=ErRzp4Oe;
- spf=pass (domain: ericsson.com, ip: 52.101.84.1, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fJbHfCw5juKZOcoMxm6ZSGLWYblVujxLy6xM9VWGKMMWkFN+QKrAk4yvhAwwcGzcoWPcBSD+jhXxeRvYobReHNer7muq7SiHGO2Z8wq8XmbMbK9pqtpCZnlvs6kCQddZ3Bv//YpflnFh+Kz1jZ5Xeu+L5zzVQ4hMUF4ts0yqTT6ImqNGIAtuIkihaEKRZYij4yxN9foA7C19xG5oRI8kjxaDSknJsVRYJ3mDe+JBxCh4YvO+P5ou2vnfzyO8ovcsEdQpcEYsxU97ve+aAlDe4XV+72hTIV1DzaNaci9k0g5XL5DrlKdHa1WQUvoh1kIPPyGvPS1KmLSNvg3eDLtHHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mOTRxRdgeMot3kxUO5exwSGXgP/Xwxp4OAykMm+JrSE=;
- b=HOo12eSDJVmEtcP9+brd8dp8BQSI/XNbmGygt70tgV7JR1AJjv6c6bapXy5SyxMMS3TuMcgmpny3N09CnpoZrZKf8+7snaxIbLbzHwjso+/1D4FqoT6uN4+A5sL1mVMns6QLaxL6MX5yZ7nAcTWQjKw9sj/1sagb0ZyRyTW96SLxglURMDWO2Z57fQrlVEAE32BAkE4Qh3W4N7FvygvtPSu4VQ/PIKuXUKSO3Cjwr2U+eyvrttr9oDfPU8dkAQ4F+2pzzL5fpefPv38F9b/A0GTNrDC2h+goeHEeXRBqxXfurozuR1oAcga98taa7k1hvV37hglnmjY1SiNbmdVyFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=ericsson.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mOTRxRdgeMot3kxUO5exwSGXgP/Xwxp4OAykMm+JrSE=;
- b=ErRzp4OeIe0Em3dmR+kfgZIk0e5XPJ/o15RKtS/BiY8DErmqIttxFg1K5PDWE1C+qTA8mQFGq89cq8jahh3EGIrF93am00e4HIDL6/JrYSLnvBUp20oDkMchuxjDQIeEwqUykH/REsuBQVvVx5ubkGNlE3zy2umJZcOlN80M6kr5+MV33GEGlR7qXC8NifQWQzwrlgGCgXZZOVe6N6kY7xXjYak0CZ3PxTMfbW+QwUS6S8yM9UGTqNe9v/hlee+f3/jEvB8IjgHNncajYcyCj9WBX5xmmSS+EKYUfxbcRVVcGr8KV/OXxnsHngIEUu2581UWK10fi960YYu6OWeV4Q==
-Received: from AS4PR10CA0004.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5dc::8)
- by AM8PR07MB8293.eurprd07.prod.outlook.com (2603:10a6:20b:328::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
- 2026 06:57:50 +0000
-Received: from AM3PEPF00009B9B.eurprd04.prod.outlook.com
- (2603:10a6:20b:5dc:cafe::ad) by AS4PR10CA0004.outlook.office365.com
- (2603:10a6:20b:5dc::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.19 via Frontend Transport; Mon,
- 29 Jun 2026 06:57:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- AM3PEPF00009B9B.mail.protection.outlook.com (10.167.16.20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Mon, 29 Jun 2026 06:57:50 +0000
-Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 29 Jun 2026 08:57:49 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 681CB95800;
-	Mon, 29 Jun 2026 08:57:49 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 3D471700DBB0; Mon, 29 Jun 2026 08:57:49 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <yoann.congal@smile.fr>, Daniel Turull <daniel.turull@ericsson.com>
-Subject: [scarthgap] [PATCH v2 2/2] libssh2: fix CVE-2026-55199
-Date: Mon, 29 Jun 2026 08:57:32 +0200
-Message-ID: <20260629065732.3314317-2-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260629065732.3314317-1-daniel.turull@ericsson.com>
-References: <20260629065732.3314317-1-daniel.turull@ericsson.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=QaNSm8TU;
+ spf=pass (domain: mvista.com, ip: 74.125.82.53, mailfrom: vanusuri@mvista.com)
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-139b914bab6so4042568c88.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 00:17:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1782717421; x=1783322221; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BLipXZpLCj/21Lgnx5U48p1UYMq04H9ta3+Hmj0HgYo=;
+        b=QaNSm8TUytgABReGPam/SZDZDpYdcXytlsZZd7xO535Jf+pEOsIet5W76cKh4BIJFX
+         DTxu/SZEPdNQ34eKPIsEMTjaY1vrVNxMjTVnvCUXqgrOZ1IudgPQP1inVJ9icRdEoY0U
+         RGy7AHa6t9jbOCy2/lvUT1ApWJLdpNBEHUr8o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782717421; x=1783322221;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BLipXZpLCj/21Lgnx5U48p1UYMq04H9ta3+Hmj0HgYo=;
+        b=aR60R0nEPNVx6LjQhl3iND24r7qriwGFionJ8HHQlAuw9stpYaWbFx1RYBGXed4j+a
+         A5WrjlIpRaxhDOn446cKDDlUWmkSZsUgYykW2OiCkU+6yn14uj17V3cMjZeHoIBQIVyT
+         ohGir+ilCbyosL6Gtd7CJHAiVHKyBgGge+T2gvHEKkkAg9KAaCy9m/RPj1+bJOCWHb9a
+         5GofgTEZ0F7dBeOePcrjxSh42lJ85QePb+50lNscghE71oxVzh9bodbhZldt2XyhpDgV
+         ixAz9c5DtDp1MjnkrKMVEA1eqfJDeBBGAD3gHyIDTAInjTbTjxqygY08iE1yRV/ukYuw
+         AcQw==
+X-Gm-Message-State: AOJu0YwCVRtOTEcanCxScq0cWZtQYigx8bQwqYWOZTF5eF/aPsuvp+Iu
+	oJl36ifn2Qqo8M4T7K3tbOm+w4Bi8hJl9MjECX66drfYLJHNWXGdShHEQ+R0hv+Jij4NyZP4E4X
+	4slapEsU=
+X-Gm-Gg: AfdE7cns7orvX9RA5RpEf3XpZmYjEJBEUGrYMYN4TP5FVJTq+mKKC3fZVpcUkXhyIix
+	rzb3YD2YFJBi1UzAB2rOxL87nu50MVKmQBFZmQe4rFUPWlMRU5jCByXsWgktLuvcFafGNUj+Cvh
+	4nGmarpgsgymcr7L15AUyFwHQSJZLDIq3/jjxvfUplvAsICr14qeGxYAKOiJ5DmrrXmHxMUbzzM
+	5ysmUdYsXIGmY03K+vbk+KILuvHjeWzXzbPlfVhy+RV8hgPd9+tsRoMi+ZCqqc+4Ht/CHkMTk7o
+	8xJY0lJv24w8SBjJjN14BZeAjwkzs5RgAH8BKxe0TkrLn5AkS8ZYybJbXT+oRjKt1y3I2H8Q/D1
+	G1fJHHvwCz8JF7ME9uq+g2Sd8cM/fDVhvuQkjA+OXkLloVl/QMFb5+vQFpO5ibosKz0p19khulb
+	jxGXtGOKv7KdyDdKLd32zGYd32elfuefWKsQQXQA==
+X-Received: by 2002:a05:7022:e12:b0:139:ed5a:eef1 with SMTP id a92af1059eb24-139ed5b0566mr6977371c88.48.1782717420482;
+        Mon, 29 Jun 2026 00:17:00 -0700 (PDT)
+Received: from MVIN00352.mvista.com ([2401:4900:1f28:5dd:9bfe:f931:c732:fcef])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-139fcf63021sm9674234c88.0.2026.06.29.00.16.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 00:16:59 -0700 (PDT)
+From: Vijay Anusuri <vanusuri@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][wrynose][patch] gnutls: upgrade 3.8.12 -> 3.8.13
+Date: Mon, 29 Jun 2026 12:46:48 +0530
+Message-ID: <20260629071648.1471849-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM3PEPF00009B9B:EE_|AM8PR07MB8293:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34049b76-c21d-4714-a8f1-08ded5abbbf0
-X-SMTP-Server: smtp-central.internal.ericsson.com
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|23010399003|82310400026|1800799024|36860700016|12006099003|13003099007|22082099003|18002099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	y53TU7YyPIcW/jMGFLKuz6FbOEMOc1LhOiGI/NQJ+shsEqTETpPwZE589EwHNoTQ4M66gBKvP2PCir7p9xKkEo8LJ79YA7ZXQPy/kpOMHROYXse8re5HcDErzqCziVCi9hvq65WxohGm966rcgV6bTo5ntDLb1jRaJlvwX8lcJpTvP7rtzAu4eNUkprUxW7X6zpAe2FfKT8JC3noGxV++taSHhNLyFWzV2qVw3KqA6w5uXCPDejqpIrfgMwgFCfM1Tc9ySN274oCfBjZU+JOZNMWwPege5igyQznlMVNVMsVdbDQ0nq2BG4EJCNFw6wENJ13Kv/sYX3lxV86YYpI4AT5KDLnalEX/J4HHxEnccdHMYVlD4v2tuk0By6lyWSeoQuHEnTFqoR2+npfnJKd9MhWBJpr1ydv1T21LoiCBhF+TO/h6VmBeWo2V8/SkUwef/mHC40XAKugojnP1LLCnUjfKWJ5DQ3fbQckbMpqsp1htT+yp1DxdlVSOEwx+kawNX3/Clok1Z62cWtT8Olo1ZuglxUkoFoDLaXzK6LRP4BH4ci+YLUSH5ylitpouDXc91lt76KjvYMVRH7dl2dv4FqZWGZRmKioBznqUSzqYg6kh2NvPu49qd/sB1qSynl8Rj6W3O/XYUvsVDW6H58oNJPj2uS6v4W2RwegoBhT2vbqWM+ziAwEC/oKEJ5erlJlYt/97yG0vDoBzyFW78CLLA==
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(23010399003)(82310400026)(1800799024)(36860700016)(12006099003)(13003099007)(22082099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	NO+qDNC3RRoNZgLGn9A02ZZLrj0/DMXiD8chLYyN0sG3r4U25ULydoUhbM364GkSatmviN699Qsr9XVbTdmvDTek/wz0ILlaUBGQ+j4aqSANOtLVuTAlJmVdKqCvHlvE42gvnlpQKjZJ45evL8Qj5ChufVne43bwgbIPnySxdR2Jn72An19lHuBRmrNP5d2vpi+9zzWUzpk28aFrUSFuaUheWTWo/tlBlpWVEpq+BfO6pg3ip+cMDCDVzBe+2OSeg6pVrBuE30jXY7lWpfmZq7tfOZU69dx6hnykho9Jtldba/Put4Kn8joAIlHz5lWlvmCWyrgbGvYyXAyORtOiGBi9n+fn61OqfP4xbaK2f8zAUAc8py7wlOV/f3ob9X6E8KCi9XltHhOadPLt4HQ3IGNhR6gPoPbQD/+JsRPDgXEujSQv0CvCrIcz/dtW8Tb0
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 06:57:50.1818
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34049b76-c21d-4714-a8f1-08ded5abbbf0
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM3PEPF00009B9B.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR07MB8293
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 06:58:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239729
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 07:17:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239730
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Backport patch to fix CVE-2026-55199.
-https://nvd.nist.gov/vuln/detail/CVE-2026-55199
+Solves CVE-2026-33846, CVE-2026-42009, CVE-2026-33845, CVE-2026-42010,
+CVE-2026-3833, CVE-2026-42011, CVE-2026-42012, CVE-2026-42013,
+CVE-2026-42014, CVE-2026-5260, CVE-2026-42015, CVE-2026-3832 and
+CVE-2026-5419.
 
-Upstream fix:
-  https://github.com/libssh2/libssh2/commit/17626857d20b3c9a1addfa45979dadc=
-ee1cd84a4
+Release notes: [1]
 
-Tested with ptest:
-Before: PASSED: 3, FAILED: 0, SKIPPED: 0
-After: PASSED: 3, FAILED: 0, SKIPPED: 0
+Rebase patches and drop patch included in this release.
+Add patches to fix linking with musl libc.
+Increase memory needed to successfully run test key-openssl.
+Drop code for previous release tarball problem.
 
-Reviewed-by: Anders Heimer <anders.heimer@est.tech
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+[1] https://github.com/gnutls/gnutls/blob/3.8.13/NEWS
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 1193b0778a0f81bd75f7ec6f8f44fa44cf4b8f5e)
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../libssh2/libssh2/CVE-2026-55199.patch      | 44 +++++++++++++++++++
- .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-55199.pat=
-ch
+ meta/recipes-core/images/core-image-ptest.bb  |  1 +
+ ...ts-mini-dtls-framents-link-to-gnulib.patch | 25 +++++++++++
+ ...ust-list-fault-fix-issues-in-linking.patch | 31 ++++++++++++++
+ .../gnutls/gnutls/Add-ptest-support.patch     |  4 +-
+ meta/recipes-support/gnutls/gnutls/c99.patch  | 41 -------------------
+ .../{gnutls_3.8.12.bb => gnutls_3.8.13.bb}    |  9 ++--
+ 6 files changed, 62 insertions(+), 49 deletions(-)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link-to-gnulib.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch
+ delete mode 100644 meta/recipes-support/gnutls/gnutls/c99.patch
+ rename meta/recipes-support/gnutls/{gnutls_3.8.12.bb => gnutls_3.8.13.bb} (93%)
 
-diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-55199.patch b/me=
-ta/recipes-support/libssh2/libssh2/CVE-2026-55199.patch
+diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-core/images/core-image-ptest.bb
+index c08561296f..008b5770a8 100644
+--- a/meta/recipes-core/images/core-image-ptest.bb
++++ b/meta/recipes-core/images/core-image-ptest.bb
+@@ -39,6 +39,7 @@ QB_MEM:virtclass-mcextend-python3 = "-m 2048"
+ QB_MEM:virtclass-mcextend-python3-cryptography = "-m 5100"
+ QB_MEM:virtclass-mcextend-python3-numpy = "-m 4096"
+ QB_MEM:virtclass-mcextend-tcl = "-m 5100"
++QB_MEM:virtclass-mcextend-gnutls = "-m 1536"
+ 
+ TEST_SUITES = "ping ssh parselogs ptest"
+ 
+diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link-to-gnulib.patch b/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link-to-gnulib.patch
 new file mode 100644
-index 0000000000..81815486ad
+index 0000000000..7f999c4b22
 --- /dev/null
-+++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-55199.patch
-@@ -0,0 +1,44 @@
-+From b5cb1c1781ba5f275485f65855d61faaba6542b2 Mon Sep 17 00:00:00 2001
-+From: TristanInSec <tristan.mtn@gmail.com>
-+Date: Wed, 15 Apr 2026 14:51:08 -0400
-+Subject: [PATCH] packet: check `_libssh2_get_string()` return in `EXT_INFO=
-`
-+ handler
++++ b/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link-to-gnulib.patch
+@@ -0,0 +1,25 @@
++From 68b2fb63c8df61d1480121a859f8c955f4910c01 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Thu, 30 Apr 2026 13:08:01 +0200
++Subject: [PATCH] tests/mini-dtls-framents: link to gnulib
 +
-+The `SSH_MSG_EXT_INFO` handler discards the return values from
-+`_libssh2_get_string()` when parsing extension name/value pairs. When
-+the buffer is exhausted before all claimed extensions are parsed,
-+the loop continues with no-op iterations until `nr_extensions` reaches
-+zero.
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
 +
-+The `nr_extensions >=3D 1024` cap limits the worst case, but the loop
-+should still break on parse failure for correctness and consistency
-+with other parsers in this file (e.g. `SSH_MSG_CHANNEL_OPEN`,
-+`SSH_MSG_KEXINIT`) that check `_libssh2_get_string()` return values.
-+
-+Closes #1864
-+
-+CVE: CVE-2026-55199
-+Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/17626=
-857d20b3c9a1addfa45979dadcee1cd84a4]
-+
-+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
++Upstream-Status: Backport [https://github.com/gnutls/gnutls/commit/68b2fb63c8df61d1480121a859f8c955f4910c01]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/packet.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
++ tests/Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/src/packet.c b/src/packet.c
-+index 6da14e9f..ebaddae5 100644
-+--- a/src/packet.c
-++++ b/src/packet.c
-+@@ -868,8 +868,10 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsign=
-ed char *data,
-+=20
-+                     nr_extensions -=3D 1;
-+=20
-+-                    _libssh2_get_string(&buf, &name, &name_len);
-+-                    _libssh2_get_string(&buf, &value, &value_len);
-++                    if(_libssh2_get_string(&buf, &name, &name_len))
-++                        break;
-++                    if(_libssh2_get_string(&buf, &value, &value_len))
-++                        break;
-+=20
-+                     if(name && value) {
-+                         _libssh2_debug((session,
-diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-=
-support/libssh2/libssh2_1.11.1.bb
-index d6ee97f7ed..960ff71df2 100644
---- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-@@ -12,6 +12,7 @@ SRC_URI =3D "http://www.libssh2.org/download/${BP}.tar.gz=
- \
-            file://0001-Return-error-if-user-KEX-methods-are-invalid.patch =
-\
-            file://CVE-2026-7598.patch \
-            file://CVE-2026-55200.patch \
-+           file://CVE-2026-55199.patch \
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index f8797964d..1b27df751 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -524,6 +524,7 @@ pathbuf_CPPFLAGS = $(AM_CPPFLAGS) \
++ mini_dtls_fragments_CPPFLAGS = $(AM_CPPFLAGS) \
++ 	-I$(top_srcdir)/gl	\
++ 	-I$(top_builddir)/gl
+++mini_dtls_fragments_LDADD = $(LDADD) ../gl/libgnu.la
++ 
++ if ENABLE_PKCS11
++ if !WINDOWS
+diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch b/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch
+new file mode 100644
+index 0000000000..b15a05d5b6
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch
+@@ -0,0 +1,31 @@
++From 9c573a2a0e7473ab79c43a6d3ecb0ab68ce896dc Mon Sep 17 00:00:00 2001
++From: Daiki Ueno <ueno@gnu.org>
++Date: Thu, 7 May 2026 09:42:09 +0900
++Subject: [PATCH] tests/pkcs11/trust-list-fault: fix issues in linking
++
++This fixes the use of automake variables and also adds the linked mock
++library in .gitignore.
++
++Signed-off-by: Daiki Ueno <ueno@gnu.org>
++
++Upstream-Status: Backport [https://github.com/gnutls/gnutls/commit/9c573a2a0e7473ab79c43a6d3ecb0ab68ce896dc]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ tests/Makefile.am | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index 1b27df751..f6a60a32b 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -540,8 +540,8 @@ pkcs11_os_locking_ok_DEPENDENCIES = libpkcs11mock4.la libutils.la
++ pkcs11_os_locking_ok_LDADD = $(LDADD) $(LIBDL)
++ pkcs11_long_label_DEPENDENCIES = libpkcs11mock4.la libutils.la
++ pkcs11_long_label_LDADD = $(LDADD) $(LIBDL)
++-pkcs11_trust_fault_DEPENDENCIES = libpkcs11mock5.la libutils.la
++-pkcs11_trust_fault_LDADD = $(LDADD) $(LIBDL)
+++pkcs11_trust_list_fault_DEPENDENCIES = libpkcs11mock5.la libutils.la
+++pkcs11_trust_list_fault_LDADD = $(LDADD) $(LIBDL)
++ endif
++ endif
++ 
+diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
+index 398c0464e0..8c867a5a40 100644
+--- a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
++++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
+@@ -29,7 +29,7 @@ diff --git a/configure.ac b/configure.ac
+ index 1744813..efb9e34 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1448,6 +1448,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
++@@ -1413,6 +1413,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
+  
+  AM_CONDITIONAL(NEEDS_LIBRT, test "$gnutls_needs_librt" = "yes")
+  
+@@ -42,7 +42,7 @@ diff --git a/tests/Makefile.am b/tests/Makefile.am
+ index 189d068..8430b05 100644
+ --- a/tests/Makefile.am
+ +++ b/tests/Makefile.am
+-@@ -721,6 +721,12 @@ SH_LOG_COMPILER = $(SHELL)
++@@ -745,6 +745,12 @@ SH_LOG_COMPILER = $(SHELL)
+  AM_VALGRINDFLAGS = --suppressions=$(srcdir)/suppressions.valgrind
+  LOG_COMPILER = $(LOG_VALGRIND)
+  
+diff --git a/meta/recipes-support/gnutls/gnutls/c99.patch b/meta/recipes-support/gnutls/gnutls/c99.patch
+deleted file mode 100644
+index 3f41241deb..0000000000
+--- a/meta/recipes-support/gnutls/gnutls/c99.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From 203d8f2187bb7f483290e0f8b7b48b152b1d027f Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Thu, 5 Mar 2026 11:33:57 +0000
+-Subject: [PATCH] configure: make the C99 detection more resiliant
+-
+-autoconf 2.73 will default to C23 by default, which means that the >C99
+-detection logic in configure.ac will fail because it only handles c11
+-and c99.
+-
+-Instead of adding c23 to the list and then breaking again in the future,
+-flip the logic around (as suggested by Zack Weinberg) and check
+-explicitly for just c89.
+-
+-Closes #1806.
+-
+-Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/merge_requests/2081]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- configure.ac | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 740fb6339..c708d8f5e 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -54,9 +54,9 @@ AC_USE_SYSTEM_EXTENSIONS
+- # Require C99 support
+- #
+- AS_CASE([$ac_prog_cc_stdc],
+--  [c11 | c99], [AC_DEFINE([C99_MACROS], 1, [C99 macros are supported])],
+--  [AC_MSG_WARN([[Compiler does not support C99. It may not be able to compile the project.]])]
+--)
+-+  [c89],
+-+  [AC_MSG_WARN([[Compiler does not support C99. It may not be able to compile the project.]])],
+-+  [AC_DEFINE([C99_MACROS], 1, [C99 macros are supported])])
+- 
+- AM_CONDITIONAL(CROSS_COMPILING, test "$cross_compiling" = yes)
+- 
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
+similarity index 93%
+rename from meta/recipes-support/gnutls/gnutls_3.8.12.bb
+rename to meta/recipes-support/gnutls/gnutls_3.8.13.bb
+index 8554ab943d..943864d4ba 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
+@@ -23,10 +23,11 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch \
+            file://run-ptest \
+            file://Add-ptest-support.patch \
+-           file://c99.patch \
++           file://0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch \
++           file://0001-tests-mini-dtls-framents-link-to-gnulib.patch \
             "
-=20
- SRC_URI[sha256sum] =3D "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b=
-0f109cabf658f7"
+ 
+-SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
++SRC_URI[sha256sum] = "ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e604e99a8b16ca9c97e"
+ 
+ inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
+ 
+@@ -63,10 +64,6 @@ do_configure:prepend() {
+ 	for dir in . lib; do
+ 		rm -f ${dir}/aclocal.m4 ${dir}/m4/libtool.m4 ${dir}/m4/lt*.m4
+ 	done
+-
+-	# remove on next upgrade when release tarball gets fixed
+-	# https://gitlab.com/gnutls/gnutls/-/issues/1797
+-	cp -p ${S}/doc/stamp_enums ${S}/doc/stamp_error_codes
+ }
+ 
+ do_compile_ptest() {
+-- 
+2.43.0
+
 
