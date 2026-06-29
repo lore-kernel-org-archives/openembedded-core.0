@@ -1,125 +1,167 @@
-Return-Path: <adongare@cisco.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE442C43458
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 12:47:34 +0000 (UTC)
-Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36738.1782737246694412318
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C30EFC43458
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 13:05:34 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.37100.1782738325842836255
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 05:47:26 -0700
+ Mon, 29 Jun 2026 06:05:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=A9NXIh2+;
- spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: adongare@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1637; q=dns/txt;
-  s=iport01; t=1782737246; x=1783946846;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=UtEyQnuxwGx3IOz50J6BAarJEw2IYOE5VtT4eqzt77k=;
-  b=A9NXIh2+EtFlE/ihlqFuhKZZPRvQs2OceLFtlutR5q8h/Li//t6w0tR1
-   o4HMK2H7yBCLePQZ58EVtuDB2+JAB8S/BLGSZ7OOEGiKhEDnQXaFC7aS7
-   HLIwzTu9K9sjvI/IhpsRTVURGJ4JW2Axlp1u0uRaVve073k2N7ShdXrZ8
-   4fINJ9jmX73YVJF1lHMGcub2pqZlcw5XQEEIksmYM3H5mVKYpNw4XSWlN
-   OyoD51upSK7gy2XBHRoo69VkvUzYkJidali2rf69to+b1kuov4hafmc6w
-   E9r+YQBLcLVZKDmQClFJx50Ba32u9osM7V5Iqkl6eAYE+seGBYW9Z4zL4
-   g==;
-X-CSE-ConnectionGUID: 6hrk29f2RFmyKbB7ZKH+fQ==
-X-CSE-MsgGUID: fNkUNTDIQ72vMNmq0ppxIw==
-X-IPAS-Result: =?us-ascii?q?A0D3AgDCaEJq/4//Ja1aHgEBCxIMggULgld0X0JJA5ZIn?=
- =?us-ascii?q?h6Bfg8BAQEPPRQEAQGBcQGDFI1NAiY2Bw4BAgQDAgMBAQEBAQEBAQEBAQsBA?=
- =?us-ascii?q?QUBAQECAQcFgQ4Thk8Nhl02ARgBLTBcRIMCAYJzAgERtn2CLIEBgygBMQWBH?=
- =?us-ascii?q?tssAQsUAQWBM4U/iB90hHwnGxuBcoR+gQWEC4V4BIIigQyBeIF7hVeHP0iBH?=
- =?us-ascii?q?gNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHBYEdgWmBBIR9Ix8DOX+BM?=
- =?us-ascii?q?HVYZhUwNYECAREeCoFSJwMLGA1IESw3FBsEPm4HjF4XD4I9PUUMLCCCDByTC?=
- =?us-ascii?q?VeReqEPCiiDdYwhlToaM4QEpmiZCIJZizGWUIRogW8GL4FZcBWDIglKGQ+OO?=
- =?us-ascii?q?Ih+wnckNQIMLwEBBwIHDgMLgWiRfQEB?=
-IronPort-Data: A9a23:3qWcN6/mhb7PH1c9CZQ3DrUD0X+TJUtcMsCJ2f8bNWPcYEJGY0x3y
- GsaCD+EPvmCZWLxeN8gbt+1/RwP7ZaDytA1SwE+/nxEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
- 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
- 4muyyHjEAX9gWAsbDhEs/jrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
- /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
- HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2loPZcboLd5W1tg8
- O07IhpSXDOjxOyPlefTpulE3qzPLeHxN48Z/3UlxjbDALN+H9bIQr7B4plT2zJYasJmRKmFI
- ZFGL2AyMVKZP0Yn1lQ/UPrSmM+hin75fDRCpXqepLE85C7YywkZPL3FbYKPI4TVFZwN9qqej
- mzg/FnfPj07DYPF1x+j92v0nvffvDyuDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
- 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4CeY27kSJj6HT+QvcXjZCRT9aY9tgv8gzLdA36
- mK0cxrSLWQHmNWopbi1rN94cRva1fApEFI/
-IronPort-HdrOrdr: A9a23:Rmxq264ufpbXDMrVuAPXwOTXdLJyesId70hD6qm+c3Nom6uj5q
- WTdZsgtCMc5Ax9ZJhCo6HjBEDjexPhHPdOiOF7V4tKNzOJhILHFu1fBKLZslnd8lXFh41g/J
- YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
-X-Talos-CUID: =?us-ascii?q?9a23=3AnSc4hmmkrmDX1RbISAi83Stv3OvXOSPd1nSKckH?=
- =?us-ascii?q?iM0hsWZ6fYwCi24MnnfM7zg=3D=3D?=
-X-Talos-MUID: 9a23:9miGkAQO7O6ElwSkRXTiojJfEvtEwp3xUl4ot5Af49GcJQ1vbmI=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.24,231,1774310400"; 
-   d="scan'208";a="502107810"
-Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
-  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 29 Jun 2026 12:47:25 +0000
-Received: from sjc-ads-4153.cisco.com (sjc-ads-4153.cisco.com [171.70.54.174])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id BEC581800039E;
-	Mon, 29 Jun 2026 12:47:25 +0000 (GMT)
-Received: by sjc-ads-4153.cisco.com (Postfix, from userid 1870532)
-	id 7758CCC12A6; Mon, 29 Jun 2026 05:47:25 -0700 (PDT)
-From: "Anil Dongare -X (adongare - E INFOCHIPS PRIVATE LIMITED at Cisco)" <adongare@cisco.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=AJAWINSP;
+ spf=pass (domain: est.tech, ip: 52.101.83.4, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=R6VsTJbYO4NvrmrS6y2cwFSPxVOEVX8rhOxa8KhDWLUDE7hZm+mvFV5tifjCSLpnTygcFp2vWtXRFmuG5lQ+tNbV9gsXgN56Rg3+JU19VyYIqsXjQMK/KJCfuBcN4SZyAh00gGz0sm9hYDnC15da/6YosKBL1HO26WlRDKPbMRhwoR+TCcDjJEcf5XoJsrRaz9mieBUcIywHX4wSu8sgVBbsE937zK00f+WYDghPpLrK/u6YtFTT8RejK0VmAzVUJDotYSt/pQj2FhU9YZHuvdHQvUqFVkngwd49Tg3AWdiu8K2KtpXdhg83bICse98cOq64npLbBkqBNfTKa9uA3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8L+BIvvSwiflqX3YWMjUHgjgowUBrjhIRHW+wHMy+M4=;
+ b=kG7wPcQZY+GPlPBw9ds9LPFoc1+Mmq/G1a6CmFt+iy4YFSqAOKQyhHXKiRmP4DIiE0vSgbcbil1UlCQzXy3xEfEbbnEoGN6FFFvVTDWt1+Hbh2T8dBwNr23oO/IavNq4j6clXDdACJgZXSc0nsgzWjS/jKuV0VBzilXT3j31t7LCZNBsvnqBV7Zljzk5D2A1xTd0ORxBv5gVdup/ED7ysjFwLzbfv5XE1CgPXa3op6gRY8Fx8YijBc7ZeiqxNW8Sdl6cGwxC9EC5LyVBCTMtGwqGguTvRgg+QSr2iNb8D8Pvva6e7i5oJ1A/EpR+CYq0driGlslwaBVn/rrg54UupA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8L+BIvvSwiflqX3YWMjUHgjgowUBrjhIRHW+wHMy+M4=;
+ b=AJAWINSP5/19+cLOWDiGGIIguJaOdJzco2ytwlUqJUhsVyHeri827qgxtN1IOd4f9OtEWwukGMXUysWWjJI+aV9Wbs1y60uidJCTeViKgo2i3qxOGuX2ytfn3cE2QN3CIVd9ynbSpc7jUp0f4CgGrS9HdSY6TaJkYMuYNidSLHsz7SOhmeFpENQbVQE8BSetzOJHnkqsB+7pHfaHBhSD8GJL9566QSaQVAsojA4oQxFpcte4gm9qbfkWXBlyZEYoDQsJEssbrg8zdt9npZr91nC4UpMqONvGZaWIeHFz8L5mu9UFGBMsQHWQKk0vo3wrOnGWkiHyooVhZ0JEeh0Eaw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by AM4P189MB3502.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6d0::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.18; Mon, 29 Jun
+ 2026 13:05:21 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::18b0:e114:b839:ca49]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::18b0:e114:b839:ca49%8]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
+ 13:05:21 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com,
-	Anil Dongare <adongare@cisco.com>
-Subject: [OE-core] [wrynose] [PATCH] apt: mark CVE-2011-3374 as not-applicable-config
-Date: Mon, 29 Jun 2026 05:47:12 -0700
-Message-ID: <20260629124712.1159-1-adongare@cisco.com>
-X-Mailer: git-send-email 2.44.4
+CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Subject: [PATCH] [wrynose] perf: Fix BUILD_BPF_SKEL PACKAGECONFIG to not define variable when disabled
+Date: Mon, 29 Jun 2026 15:05:18 +0200
+Message-ID: <20260629130518.39904-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DU7P191CA0018.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:54e::11) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-4153.cisco.com [171.70.54.174];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.54.174, sjc-ads-4153.cisco.com
-X-Outbound-Node: rcdn-l-core-06.cisco.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AM4P189MB3502:EE_
+X-MS-Office365-Filtering-Correlation-Id: 765ca4a6-c841-4594-80c2-08ded5df135f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|6133799003|18002099003|5023799004|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	M1YWGz+AYOfQ2rsxXE+ILirjdPOKBehMhBZlj6LVPB+IslAEF+oCysZzJglE9zIszN9bT0ApEw5+qvO9Pss6F1S1/EEq3yUWDv4erJ+D+o1L3ziuqR4XviPPZ8wlbV0euj2XXc8EPYZKQAi2jxnuXRELn5lJwnw023TDFFw6dedN+krVKoR/E/FR0IsbuosafziVjOm5gNf0MLqrUPVQpX7p14MpFodPTVMZpF3euKFd70uI9G4pZyBeb7NSAAmgCrxHOGXCgYTIZgPjvf1BlTAYT44T2Yj9TjTsC8cnzJCa8eMev1UjRSFHnAV+73rPpQ2aPZWZQdzi3ejyECuTlXBbyF+HvtnMqa6usYZroelAKSBHdGelnIiuE1MZ4Yy3dFsSWKOGpx/x2o5ZUAaSt6Kw5MmAwUmCAV01jHZ1hZEFvZXfd/LephVVP+/ULLKqUH5/1eGe0ziOyDHn07ix4LN3q6ZdxBZutnfsefIoJpQ1m0/Q7eoSH0nfit8LGHfSljQJxkoRIKEqwco7LMo/DYg0TYPfqnOOdODDf+y3N08SlRL3iPxmWdN57bxg+pNWo47NaTpVxBEAIiCuZZWY4U6lB1zdBTZXBFIW4mPK4wyHIGwZzgMGo1WTRjgIhqt0dloQ3KdCDI2Alht2+0y2WA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(6133799003)(18002099003)(5023799004)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?m/WmxAmbnvqFzG0gt6faSiwdECbN0Lp82z0KQRbSM7d5WnyXvinUqenm5nVu?=
+ =?us-ascii?Q?d6gsGXbXp2GrK7w5ZzrWJwOSSG5LZ44MOnim6RJpY0MHbvdNT4h7+ztLe1Ts?=
+ =?us-ascii?Q?eWdm9GGb+r2Skve4DkN/gHQ2J4o4kFUPVsnVJaLc0SewMR5hRmB40m8BtAn4?=
+ =?us-ascii?Q?kDZZ5/5vHcWpSTAyEavgmtKQMCQh724mBRLiDolRMRsHAEwRTH74pbKOpLpm?=
+ =?us-ascii?Q?2051QyT713YV5vP4l2dQVTnGICW1eUiQRMLnGuhg2QeCx2IUK3KS0jF+nr6Y?=
+ =?us-ascii?Q?jsvmmuBzN8iUqGITAKkpczNk44u86+v5I5BYPmAuBF275GCCDbHz/Jxq6xs/?=
+ =?us-ascii?Q?ydfdy+I3j+woMlcxHE/nX60raRetivc6w+WHfks/RynwuY0r7T9f2a2T7lYd?=
+ =?us-ascii?Q?2KEruI9yhGqkqfYsy+7fLPGX+zapIKFUEvIeWZ7RsyA2mNbWRkhVYogVYiBp?=
+ =?us-ascii?Q?QzPuie7i7XakBv4fWAOsA+rGB0eHoI/WMI0Rbyg2wczgaqba1YSeFHICjX5O?=
+ =?us-ascii?Q?ANH6xqsrCgAx4JWuLtoExIbWbF1dNADac2Au45X8IgUle5uiO0E1mTkRSuyW?=
+ =?us-ascii?Q?zOMQXqlC5gHkrIeK1kRqo91kae13qwmOpLE/Ls4yCfNfnRqZ1FbAn/zXrlEh?=
+ =?us-ascii?Q?JYFqoIA+nKWAvRYt2N5kG/te2BInikknBhRYq2mlECSHL54vlCc1Ocz1qeoT?=
+ =?us-ascii?Q?wf6eisNsdeUKBSmm7rzdWeQJ6FAHCHooRAWvfPYCgilUqWwGbaX9pJtBgww2?=
+ =?us-ascii?Q?qmjtv+P85irInnx7njZAZi4RFoYAb3YJUvosV50W2hwZL4DS41XusdSudnsp?=
+ =?us-ascii?Q?bVDb/qRgT0skC5XPbgR0EjhsoVIq1m+KfF7o12wUR4Sjntuegb0jnqt6ceyd?=
+ =?us-ascii?Q?3VPdzZxb47SAOte3/vMRBesAaGS1gUrO5Gg97bTtxRDZPMMthhxfzE+idwJ0?=
+ =?us-ascii?Q?b1NUcyhm7aQXbX1Zb+Y+oGdGJaHwGJ7iEv/GIgr0HMuvVhUjBYQ4zJ8RPFtv?=
+ =?us-ascii?Q?+aQJ1Cf2L1TnH9ByX/xr8/bb/QoBeNjZ3+/AbSy9HfpQm+i/Ib1nkgGQEBw6?=
+ =?us-ascii?Q?gqZrQIYb/srffhdqQaqSplkaqx8x88BBz+puXwCWgnf/HFsfTDeTmxZ9CfMI?=
+ =?us-ascii?Q?YBQrxxEew7x4f6Ud6m8iesRuoVKy4Rs6V9A9C6NqFT9hukNWQlbsO14gpOtX?=
+ =?us-ascii?Q?niiqB8QGEhr+RXpLm5NWIQuloJsjkXFrl0Kq+OJQWqFIfSEsEKIsEmmdpcRw?=
+ =?us-ascii?Q?9FJocEQcisIT2esKrStgsn2VFM/tttCwxekvbadKr72yvvDDWOb6eEE91Bho?=
+ =?us-ascii?Q?zB0/XDBkdsG25bLk5iUEzVAausW0yMII9QcAXXW13GzN0iIQyjVUpJdg6brM?=
+ =?us-ascii?Q?+LI7BWZpHTJlf5JhLCcZRFsYA3KM+mnxYCz2RqrvrF3Z2KLAVxeAKQj0FeB1?=
+ =?us-ascii?Q?bss6gnPsKjSRmPKLCcOfOlwuFX6MXDuXnHQhCBCUC6NESH/vQeSXYlcn7T8n?=
+ =?us-ascii?Q?jKDsiaYg8n+tXayapc+2enFui3IoEYVy43u1vNs6Xv/AKPDEZqcFkSQ3GSNg?=
+ =?us-ascii?Q?7IneZIOiwHjVuo6VVjny7pYTQEygr9GZvrRvfllaX9oQx7+HCn+46VHf0DlN?=
+ =?us-ascii?Q?lpRmz8Gibb4iFQhnkgge878JvACU5TumuHOklUJndfDnW3G4FehUG0BjvruY?=
+ =?us-ascii?Q?Y1F2pKamsHET8cNfnpx1Dff6dFD9UxNeFpmGiXzPswt8QOs3f4X7a0SZi5kH?=
+ =?us-ascii?Q?Upf6B6xAbA=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 765ca4a6-c841-4594-80c2-08ded5df135f
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 13:05:21.3695
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pLe3Rfxp5UgYNY9kz9jE8qfVpW9gEGdrrR0nM+9kcTXIcd992nabLoRi3Z44kV+aUB2C/3/BFesrRVTP4VSNKWWzxTSDyjJH4aaz+Ng5NkU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4P189MB3502
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 12:47:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239773
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 13:05:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239775
 
-From: Anil Dongare <adongare@cisco.com>
+The kernel's Makefile.config has two BUILD_BPF_SKEL checks:
+- Line 219: ifeq ($(BUILD_BPF_SKEL),1) - value check (works with =3D0)
+- Line 668: ifdef BUILD_BPF_SKEL - defined check (triggers for ANY value)
 
-Details: https://security-tracker.debian.org/tracker/CVE-2011-3374
+The previous fix (f48f6fb91c) passed BUILD_BPF_SKEL=3D0 which correctly
+skips the first check but still triggers the second 'ifdef' check,
+causing a build failure when clang is not available or too old.
 
-CVE-2011-3374 describes a design flaw in the legacy apt-key trust model.
+Change from:
+  PACKAGECONFIG[bpf-skel] =3D ",BUILD_BPF_SKEL=3D0"
+To:
+  PACKAGECONFIG[bpf-skel] =3D "BUILD_BPF_SKEL=3D1,"
 
-This does not apply to the current apt recipe in OE-Core because it uses
-Debian vendor configuration. Debian security tracker notes this issue is not
-exploitable in Debian since no keyring URI is defined for the apt-key
-net-update path.
+When bpf-skel is not in PACKAGECONFIG (the default), nothing is
+passed to make and BUILD_BPF_SKEL remains undefined, which correctly
+skips both checks. When enabled, BUILD_BPF_SKEL=3D1 is passed.
 
-Mark this CVE as not-applicable-config for the recipe. This is a
-configuration-based status, not a fixed-version status.
+Also move the PACKAGECONFIG entry to be grouped with the other
+PACKAGECONFIG options for consistency.
 
-Signed-off-by: Anil Dongare <adongare@cisco.com>
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- meta/recipes-devtools/apt/apt_3.0.3.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-kernel/perf/perf.bb | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/apt/apt_3.0.3.bb b/meta/recipes-devtools/apt/apt_3.0.3.bb
-index 08b6bac2e4..03da3fbcf1 100644
---- a/meta/recipes-devtools/apt/apt_3.0.3.bb
-+++ b/meta/recipes-devtools/apt/apt_3.0.3.bb
-@@ -34,6 +34,10 @@ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/a/apt/"
- # to express 'divisible by 4 plus 2' in regex (that I know of), let's hardcode a few.
- UPSTREAM_CHECK_REGEX = "[^\d\.](?P<pver>((2\.2)|(2\.6)|(3\.0)|(3\.4)|(3\.8)|(4\.2))(\.\d+)+)\.tar"
- 
-+# Not applicable: this OE-Core apt recipe uses Debian vendor configuration,
-+# which does not define a keyring URI for the apt-key net-update path.
-+CVE_STATUS[CVE-2011-3374] = "not-applicable-config: OE-Core apt uses Debian vendor configuration, which defines no keyring URI for the apt-key net-update path"
-+
- inherit cmake perlnative bash-completion useradd
- 
- # User is added to allow apt to drop privs, will runtime warn without
--- 
-2.44.4
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/pe=
+rf.bb
+index e3e5d55e39..65dc8e7538 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -40,6 +40,12 @@ PACKAGECONFIG[pfm4] =3D ",NO_LIBPFM4=3D1,libpfm4"
+ PACKAGECONFIG[babeltrace] =3D ",NO_LIBBABELTRACE=3D1,babeltrace"
+ PACKAGECONFIG[zstd] =3D ",NO_LIBZSTD=3D1,zstd"
+ PACKAGECONFIG[llvm] =3D ",NO_LIBLLVM=3D1,llvm"
++# Disable BUILD_BPF_SKEL by default. Use "BUILD_BPF_SKEL=3D1," format
++# instead of ",BUILD_BPF_SKEL=3D0" because Make's ifdef triggers on any
++# defined value including 0. Note: Rust-in-kernel support pulls in
++# clang-native, satisfying the dependency checks and causing perf to
++# attempt building bpftool, which fails without an adequate clang.
++PACKAGECONFIG[bpf-skel] =3D "BUILD_BPF_SKEL=3D1,"
+=20
+ # libunwind is not yet ported for some architectures
+ PACKAGECONFIG:remove:arc =3D "libunwind"
+@@ -439,8 +445,3 @@ perf_fix_sources () {
+ 	done
+ }
+=20
+-# Disable BUILD_BPF_SKEL by default.
+-# Rust in kernel support pulls in clang-native, which satisfies the
+-# BUILD_BPF_SKEL dependency checks and causes perf to attempt
+-# building bpftool, resulting in a build failure.
+-PACKAGECONFIG[bpf-skel] =3D ",BUILD_BPF_SKEL=3D0"=20
+--=20
+2.34.1
 
 
