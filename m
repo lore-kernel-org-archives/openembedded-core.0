@@ -1,108 +1,139 @@
-Return-Path: <mac@mcrowe.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01A4EC43458
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 16:51:36 +0000 (UTC)
-Received: from deneb.mcrowe.com (deneb.mcrowe.com [88.97.37.36])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1779.1782751889176924907
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 156ABC43458
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 17:44:17 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2956.1782755054560360380
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 09:51:29 -0700
+ Mon, 29 Jun 2026 10:44:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20260328 header.b=oM+VyocB;
- spf=pass (domain: mcrowe.com, ip: 88.97.37.36, mailfrom: mac@mcrowe.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20260328; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=Q3CkGt7tYvHOHqpERqbaO14KfBoF7xEvxc3+fRi3Qbs=; b=oM+VyocB1FVHcrwhfX3Cn0L0WH
-	NaEefeTwR9FISNyP//33lECwrDxMj+6sWUOFnXPq3ouJ4rFaSVY1gs/MuosXura3S1wmde4IsHaew
-	tob+oPAHpvt239pPOVVQ3JSsSp9c9KiivboEFxS/HagvvJm+WCxTPk20RPHqeNNmD8rzllGEgru3c
-	Q0IftK3IPqiGFl1iGWb141ij670WgbvPU75HmqGGTb5JAJURio+VXiKkrHL00bBIaHBNA+sCPSbFa
-	YU0uW1qC74tK/v5qApq7sRlJ8ljpTFXKmNDZp5FGaTrwAsbumGzz4ILUBSQGGLlNAZeiCoogoauCv
-	7PHI+J1Q==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.98.2)
-	(envelope-from <mac@mcrowe.com>)
-	id 1weFCf-00000004Bpx-3h4w;
-	Mon, 29 Jun 2026 17:51:25 +0100
-From: mac@mcrowe.com
-To: openembedded-core@lists.openembedded.org
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [scarthgap][PATCH] dropbear: Disable DSS correctly
-Date: Mon, 29 Jun 2026 17:50:56 +0100
-Message-ID: <20260629165056.2489582-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.47.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@smile.fr header.s=google header.b=WXs7PL8o;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4629051c9d1so1996568f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 10:44:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1782755053; x=1783359853; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bZLIq0GcfhQxLsWqOmo7N2xOtQNYoCfBAqXCCdgDF9I=;
+        b=WXs7PL8oB5WEuYgxpgUpiO5rNP5gj5oby7+qWJ+Xt7csT98GCB1ZRlFr4+d+q6PHR1
+         iz+kyDsAeMyHa4nHds71irCh8LhyZUV5WFjIDkxFkat4eXDGyDh3AQmIPfJYEMXqbxv/
+         kmGAGR+zjdGeW80gLZLMmDmaCMBr8hqnNSOSU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782755053; x=1783359853;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bZLIq0GcfhQxLsWqOmo7N2xOtQNYoCfBAqXCCdgDF9I=;
+        b=Yweqt/agehI1XALonSSQkAWAp69TnoWMqgw6W9bnVynJDbwPd0pjvRWoIJ2xZKuPIa
+         unW4hsGJfHLgisX48Qrkxjw9vfx3+BaeClHfiOtNr+WV3SZM67reFi6XRBffHMJ16gzv
+         aeYPfMGDm0y2R3kJz2OJL/6K2w6C7Iyv84ClLAVtt+lJYcbDMX7DnaAsVVEvWrDBU7nn
+         haPoSrXoo18aGnewcchNi1E0Z+XB1G2EkIj4RqoQaRNpCHIWsmk3rE6p184arp2Qy2kl
+         l+JB7bkWC9/jI3rvRXeCCqBaEuyjIjN3uzeHrwDoo2APTX55J/APnVoHfR6tsZW4WMAY
+         MBVQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9vGT6VFU5Ubamd6jw6COTFfgadd3x4GAtJSlkQZpXySUBk3V4y9CW9MUquFYBsI5UJabkVXA/WHft/8UXrunN1ig==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwfdhK+59cjZqTmm0xLCN6ctEqwgFR/iy6oX/H3pz14TKVg82FE
+	EtPr+g8fi8PsiX/ntfG9dupXYJ+4d9hG63vCYiKIXaBqFm2f75Lt7c5yuO80pD43B5g=
+X-Gm-Gg: AfdE7cmEfFDlumQn/h0eLq8VT1kRQMIk1ZLb0T2Nhky1EP1ZxTwgOqwNtxq/RsGQsjR
+	C53iob4d4Is2hb3i3DRFkLjf8Wrd5KFGF2KJzFZLiTrJe6e56bFG2ZRcGUYwG8xoXhBNj5/QiDB
+	BhNda2AJgxJX/o6QmFdO9v+FygkmCq8x0WK3w1j0t3PYcH65A8BgF8gMqd++Z/dQzzGDPNP307/
+	Xo2floF9NFagxtNtW6TnypSbM97DP1XY1BsAuQCfygPXNg9JZZQ1ARehxmItHWL+Kxuqwa/NeeW
+	woESKUKqu88qgyPr1YIOWke6LMpnCEGuFMZ2F0CIA7+bDF5LJJBq5aP8BO1GFXJCPTdw+Zm0LwQ
+	v89XkmhHCm0E8Q6SZdmdWQtWLYDi5g18H/G47NM64OyitNaNli7DipOnK0H9dOtPjNQn5BnF6lR
+	0OGbNcrIpH990ZUXWc4FwubyNIV6hYiAKgmXQ8rsG4TGzc7yan1cWC4L8qFoRy6Op8XivO0VaC/
+	Uo=
+X-Received: by 2002:a05:600c:4ecb:b0:492:3754:15f2 with SMTP id 5b1f17b1804b1-493b82bcf9emr9531905e9.32.1782755052383;
+        Mon, 29 Jun 2026 10:44:12 -0700 (PDT)
+Received: from localhost (2a02-8440-b509-543a-ecf7-ac86-ae4c-24ec.rev.sfr.net. [2a02:8440:b509:543a:ecf7:ac86:ae4c:24ec])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46fccca2781sm26446485f8f.6.2026.06.29.10.44.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jun 2026 10:44:11 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 29 Jun 2026 19:44:10 +0200
+Message-Id: <DJLPX85YAIYO.3H1CN7IRKC1F4@smile.fr>
+Subject: Re: [scarthgap][PATCH] binutils: Fix for CVE-2025-69648 and
+ CVE-2025-69646
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <Sundeep.Kokkonda@windriver.com>
+To: <Harish.Sadineni@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260619095907.3687727-1-Harish.Sadineni@windriver.com>
+In-Reply-To: <20260619095907.3687727-1-Harish.Sadineni@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 16:51:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239816
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 17:44:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239817
 
-From: Mike Crowe <mac@mcrowe.com>
+On Fri Jun 19, 2026 at 11:59 AM CEST, Harish.Sadineni wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>
+> CVE-2025-69648 was marked as a duplicate of CVE-2025-69646. The
+> existing patch already fixes the issue associated with both CVEs.
+>
+> Rename the patch and update the CVE tag to reference both identifiers.
 
-Take upstream patch that stops sysoptions.h unconditionally turning
-DROPBEAR_DSS back on even when it has been disabled (which is the
-default).
+Hello,
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- ...PBEAR_DSS-is-only-forced-for-fuzzing.patch | 29 +++++++++++++++++++
- .../recipes-core/dropbear/dropbear_2022.83.bb |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-core/dropbear/dropbear/0001-Fix-so-DROPBEAR_DSS-is-only-forced-for-fuzzing.patch
+Since these 2 CVEs are duplicates, please juste add the "CVE:" tag to
+the existing patch without renaming. Also, if possible, could you reach
+NVD to make them mark the second CVE as duplicate of the first?
 
-diff --git a/meta/recipes-core/dropbear/dropbear/0001-Fix-so-DROPBEAR_DSS-is-only-forced-for-fuzzing.patch b/meta/recipes-core/dropbear/dropbear/0001-Fix-so-DROPBEAR_DSS-is-only-forced-for-fuzzing.patch
-new file mode 100644
-index 0000000000..b9705a2bbb
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/0001-Fix-so-DROPBEAR_DSS-is-only-forced-for-fuzzing.patch
-@@ -0,0 +1,29 @@
-+From c7dfaebd5f6a4cde4198f4d2a7baabaa1f632274 Mon Sep 17 00:00:00 2001
-+From: Matt Johnston <matt@ucc.asn.au>
-+Date: Tue, 6 Dec 2022 22:34:11 +0800
-+Subject: [PATCH] Fix so DROPBEAR_DSS is only forced for fuzzing
-+
-+Regression from 787391ea3b5af2acf5e3c83372510f0c79477ad7,
-+was missing fuzzing conditional
-+
-+Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/c043efb47c3173072fa636ca0da0d19875d4511f]
-+---
-+ sysoptions.h | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/sysoptions.h b/sysoptions.h
-+index fb6adc7..12db59c 100644
-+--- a/sysoptions.h
-++++ b/sysoptions.h
-+@@ -383,9 +383,11 @@
-+ #endif
-+ 
-+ /* Fuzzing expects all key types to be enabled */
-++#if DROPBEAR_FUZZ
-+ #if defined(DROPBEAR_DSS)
-+ #undef DROPBEAR_DSS
-+ #endif
-+ #define DROPBEAR_DSS 1
-++#endif
-+ 
-+ /* no include guard for this file */
-diff --git a/meta/recipes-core/dropbear/dropbear_2022.83.bb b/meta/recipes-core/dropbear/dropbear_2022.83.bb
-index 93563aa3b4..d203fee34b 100644
---- a/meta/recipes-core/dropbear/dropbear_2022.83.bb
-+++ b/meta/recipes-core/dropbear/dropbear_2022.83.bb
-@@ -28,6 +28,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            file://0001-Handle-arbitrary-length-paths-and-commands-in-multih.patch \
-            file://0001-cli-runopts.c-add-missing-DROPBEAR_CLI_PUBKEY_AUTH.patch \
-            file://0001-Avoid-unused-variable-with-DROPBEAR_CLI_PUBKEY_AUTH-.patch \
-+           file://0001-Fix-so-DROPBEAR_DSS-is-only-forced-for-fuzzing.patch \
-            file://CVE-2025-47203.patch \
-            file://CVE-2019-6111.patch \
-            "
--- 
-2.47.3
+Thanks!
+
+>
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
+>  meta/recipes-devtools/binutils/binutils-2.42.inc                | 2 +-
+>  ...CVE-2025-69648.patch =3D> CVE-2025-69646_CVE-2025-69648.patch} | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/binutils/binutils/{CVE-2025-69648.patch =3D=
+> CVE-2025-69646_CVE-2025-69648.patch} (99%)
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/reci=
+pes-devtools/binutils/binutils-2.42.inc
+> index 1a865c45f4..96e9e6cc21 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.42.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+> @@ -73,6 +73,6 @@ SRC_URI =3D "\
+>       file://0029-CVE-2025-11839.patch \
+>       file://0030-CVE-2025-11840.patch \
+>       file://CVE-2025-69647.patch \
+> -     file://CVE-2025-69648.patch \
+> +     file://CVE-2025-69646_CVE-2025-69648.patch \
+>  "
+>  S  =3D "${WORKDIR}/git"
+> diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch=
+ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69646_CVE-2025-69648.pa=
+tch
+> similarity index 99%
+> rename from meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
+> rename to meta/recipes-devtools/binutils/binutils/CVE-2025-69646_CVE-2025=
+-69648.patch
+> index e04d7ed6c2..b02b5e0531 100644
+> --- a/meta/recipes-devtools/binutils/binutils/CVE-2025-69648.patch
+> +++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69646_CVE-2025-696=
+48.patch
+> @@ -19,7 +19,7 @@ length field.
+>  	(display_debug_ranges): Check display_debug_rnglists_unit_header
+>  	return status.  Stop output on error.
+> =20
+> -CVE: CVE-2025-69648
+> +CVE: CVE-2025-69646 CVE-2025-69648
+>  Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbin=
+utils-gdb.git;h=3D598704a00cbac5e85c2bedd363357b5bf6fcee33]
+> =20
+>  (cherry picked from commit 598704a00cbac5e85c2bedd363357b5bf6fcee33)
+
+
+--=20
+Yoann Congal
+Smile ECS
 
 
