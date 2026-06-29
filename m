@@ -1,128 +1,116 @@
-Return-Path: <andreas.muetzel@emlix.com>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 271F2C44500
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 08:04:42 +0000 (UTC)
-Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32873.1782720272821829868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03050C43458
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 08:09:35 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.87457.1782720572323116934
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 01:04:33 -0700
+ Mon, 29 Jun 2026 01:09:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@emlix.com header.s=20250930 header.b=E5R5hvvx;
- dkim=pass header.i=@emlix.com header.s=20250930 header.b=E5R5hvvx;
- spf=pass (domain: emlix.com, ip: 178.63.209.131, mailfrom: andreas.muetzel@emlix.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
-	s=20250930; t=1782720270;
-	bh=vUzjCu9FF48vv9QP8/Tf/lIglZ4flqSFamKdzyXAjKc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=E5R5hvvxiRQ7J/1y2y1uUhA/qRX9eGgA6/LBlKUuezE+alzxoGW1stY18VvJWTgc4
-	 3vvMaWyp0TKtDtOkPc91r1xC8tkgm8ICjt/sv78euXcQ/o7PQuuiNDoBs775zsup0l
-	 9Idxq687QaY3KT3/zsWQB0mW+A9dWls6yVcE2HF+kQgBtsERusTcQUc5KzQVFZ0IiZ
-	 Izfh4FftmMFGDvPAr2acjT2QpeKwSbWUtzCNc2gsqhbrXoF7JombTyixMEs9ojsz9z
-	 pgiOw4WZZkX7vHaAWicjGnokYW/uiSSKUVb3jOZVEe8LcQ7/dCPboS+ybGa0n1BIv6
-	 DwB/5igZpm5rA==
-Received: from mx1.emlix.com (localhost [127.0.0.1])
-	by mx1.emlix.com (Postfix) with ESMTP id 648F85F9AC;
-	Mon, 29 Jun 2026 10:04:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
-	s=20250930; t=1782720270;
-	bh=vUzjCu9FF48vv9QP8/Tf/lIglZ4flqSFamKdzyXAjKc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=E5R5hvvxiRQ7J/1y2y1uUhA/qRX9eGgA6/LBlKUuezE+alzxoGW1stY18VvJWTgc4
-	 3vvMaWyp0TKtDtOkPc91r1xC8tkgm8ICjt/sv78euXcQ/o7PQuuiNDoBs775zsup0l
-	 9Idxq687QaY3KT3/zsWQB0mW+A9dWls6yVcE2HF+kQgBtsERusTcQUc5KzQVFZ0IiZ
-	 Izfh4FftmMFGDvPAr2acjT2QpeKwSbWUtzCNc2gsqhbrXoF7JombTyixMEs9ojsz9z
-	 pgiOw4WZZkX7vHaAWicjGnokYW/uiSSKUVb3jOZVEe8LcQ7/dCPboS+ybGa0n1BIv6
-	 DwB/5igZpm5rA==
-Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.emlix.com (Postfix) with ESMTPS id 42C755F904;
-	Mon, 29 Jun 2026 10:04:30 +0200 (CEST)
-From: Andreas =?UTF-8?B?TcO8dHplbA==?= <andreas.muetzel@emlix.com>
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: 
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/3] overlayfs: re-introduce helper unit
-Date: Mon, 29 Jun 2026 10:04:29 +0200
-Message-ID: <6-XLRYS_SBS0soQ94uQY2g@emlix.com>
-In-Reply-To: <AB6072BD-1529-4080-B9E4-1FBA3774748E@arm.com>
-References: 
- <20260616144043.3303124-1-andreas.muetzel@emlix.com>
- <AB6072BD-1529-4080-B9E4-1FBA3774748E@arm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=ZnbI3Uf2;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 8FA921A088A;
+	Mon, 29 Jun 2026 08:09:30 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 651595FF96;
+	Mon, 29 Jun 2026 08:09:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F0570106F158C;
+	Mon, 29 Jun 2026 10:09:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1782720569; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=Y3lUJJnlOXe6fMLl0Mr1pS8CS3b841v9Fo6gtdrxSdc=;
+	b=ZnbI3Uf2Gk1Ui+df1SUTq1f/pmu8AJxh9Wvptc1h0BQaWY24UuLeWwQsqq3hMgPvRNEZEN
+	w622hsKQNjKuSMRn09EveQ+9bx6DVOdE/6NVPAuMMiZ3KwdBPIaOkewDTArGwPBC20jFiX
+	3klozNAdtIevtCw2d25uuRgVnyFIBqouaZEp0CVCwmf2QDZ+zHh+iiQ+STV7aHFDn75Avq
+	gRDx2/ZL7Wtmx7M1CZa9mr9lIjiw5JGrJAOOg+ySrlJgkaD8yRAVQyYWd2JrspSF+YIK3x
+	qYo/yJxUTx8+peGBC7yjzg9QN10OS3/6iL1g/ev5RMjKaoNQhQi4pcP29Q/w3A==
+Message-ID: <53e5f5cc-f919-4ac1-879d-0d5381bdfc57@bootlin.com>
+Date: Mon, 29 Jun 2026 10:09:28 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2 4/5] llvm-project-source.inc: add vardeps to
+ do_preconfigure
+To: richard.purdie@linuxfoundation.org,
+ openembedded-core@lists.openembedded.org
+Cc: thomas.petazzoni@bootlin.com, raj.khem@gmail.com
+References: <20260623120818.110754-1-joaomarcos.costa@bootlin.com>
+ <20260623120818.110754-5-joaomarcos.costa@bootlin.com>
+ <9ec404ced0ab0f4762d9c4e863ffe67de4baa025.camel@linuxfoundation.org>
+Content-Language: en-US, fr
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <9ec404ced0ab0f4762d9c4e863ffe67de4baa025.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 08:04:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239732
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 08:09:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239733
 
-On Friday, 26 June 2026 16:48:46 CEST Ross Burton wrote:
-> On 16 Jun 2026, at 15:40, Andreas M=C3=BCtzel via lists.openembedded.org =
-<andreas.muetzel=3Demlix.com@lists.openembedded.org> wrote:
-> >=20
-> > systemd v256+ automatically creates the upperdir and workdir when
-> > starting an overlayfs mount unit. The directories created this way are
-> > owned by root:root; this behaviour differs from the previously used
-> > helper unit, which explicitly applied the ownership of the lowerdir to
-> > the upperdir.
+Hello, Richard
+
+On 6/28/26 12:25, Richard Purdie via lists.openembedded.org wrote:
+> On Tue, 2026-06-23 at 14:08 +0200, Joao Marcos Costa via lists.openembe=
+dded.org wrote:
+>> The task's signature should change if CLANG_EXTRA_OE_DISTRO and/or
+>> CLANG_EXTRA_OE_VENDORS, considering the couple of for loops in
+>> do_preconfigure iterate over their values.
+>>
+>> By adding them to 'vardeps', bitbake will correctly detect if
+>> do_preconfigure needs to be executed.
+>>
+>> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+>> ---
+>>  =C2=A0meta/recipes-devtools/clang/llvm-project-source.inc | 1 +
+>>  =C2=A01 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-devtools/clang/llvm-project-source.inc b/met=
+a/recipes-devtools/clang/llvm-project-source.inc
+>> index 85b5ef06dc..84d4bae0ab 100644
+>> --- a/meta/recipes-devtools/clang/llvm-project-source.inc
+>> +++ b/meta/recipes-devtools/clang/llvm-project-source.inc
+>> @@ -90,4 +90,5 @@ python do_preconfigure() {
+>>  =20
+>>  =C2=A0do_patch[vardepsexclude] +=3D "MULTILIBS MULTILIB_VARIANTS"
+>>  =C2=A0addtask do_preconfigure after do_patch
+>> +do_preconfigure[vardeps] +=3D "CLANG_EXTRA_OE_DISTRO CLANG_EXTRA_OE_V=
+ENDORS"
+>>  =C2=A0do_create_spdx[depends] +=3D "${PN}:do_preconfigure"
 >=20
-> I=E2=80=99d prefer not to have to carry unit files that mostly duplicates=
- code that systemd has integrated.  Have you spoken to systemd upstream abo=
-ut changing the behaviour there, or adding some options?
+> We require that tasks can run in isolation and that can happen for many
+> different reasons. Your fix does improve things a bit but it doesn't
+> fix the underlying problem.
+>=20
+> Ideally we'd change the search/replace expressions so that they always
+> change/update the required entries. That does sometimes need a bit more
+> thought about how the expressions work and it means you can't use
+> replacement tokens (unless as a comment on the line above?).
+>=20
+> Another less optimal way to improve things is to change do_preconfigure
+> into a postfunc for do_unpack, but it wouldn't be able to change things
+> altered by do_patch. You can't make it a do_patch postfunc as it could
+> still have the current issues with the changes not being updated.
+>=20
+> Cheers,
+>=20
+> Richard
 
-No, I haven't, sorry. In short: I suspected the original change to be a reg=
-ression in oe-core, so my idea was to fix it here.
+I see your point. I'd be more eager to have a reproducible=20
+search/replace strategy than using postfuncs, but this would require=20
+some more time, and I will soon be OOO for a few days.
 
-The long story:
-When upgrading a BSP to wrynose, I noticed that services now failed to star=
-t because they relied on the previous behaviour (upperdir inherits owner of=
- lowerdir).
-See my original mail from Jun 11, "overlayfs.bbclass: upperdir ownership ch=
-ange in wrynose"; Yoann's answer seemed to confirm my suspicion. So my idea=
- was to
-restore the previous behaviour, but only for the cases where it is explicit=
-ly needed.
+What is the perspective for this series? Does it heavily depend on this=20
+last part? I would prefer not to delay this fix any longer, and I could=20
+send another series later to add some testing (to avoid regressions in=20
+the future), and a more solid search/replace in do_preconfigure.
 
-In general, there are already some alternative approaches to configure the =
-upperdir. Systemd already offers (at least):
- - DirectoryMode=3D<mode> in the mount unit can be used to control the mode=
- at directory creation time
- - StateDirectory=3D<path> in the unit of the service that uses the overlay=
-: makes the directory owned by the service user when the service is started=
-, optionally with a mode as given by StateDirectoryMode=3D
- - tmpfiles.d: can be used, but  states in the manpage that a StateDirector=
-y=3D in the service unit is best used for service-local data
-
-All those options have in common that the ownership and permissions are def=
-ined by the unit/config, not by the actual properties of the lowerdir. (Whi=
-ch may be
-desired or not.)
-DirectoryMode is closest to the previous behaviour for cases where these pr=
-operties are static, but there is no corresponding DirectoryUser/DirectoryG=
-roup property.
-StateDirectory (and similar properties) get complicated for directories sha=
-red between multiple services.
-And the tmpfiles.d solution relies on the tmpfiles service instead of being=
- tied to the overlayfs unit itself.
-
-I am not sure if inheriting the lowerdir permissions is always better or wo=
-rse than using one of the systemd-provided options. In the BSP in question,
-the systemd-provided options would actually work fine for most applications.
-But is there already a "best-practice" way of configuring the overlayfs per=
-missions?
-
-BTW:  I tried to open an account on the bug tracker to discuss this, but ha=
-ven't received any reaction to my request. So I implemented a minimal solut=
-ion to start this conversation here.
-I hope this is fine :-)
-
-Andreas
-
-
+--=20
+Best regards,
+Jo=C3=A3o Marcos Costa
 
