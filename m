@@ -1,261 +1,98 @@
-Return-Path: <auh@yoctoproject.org>
+Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDA19C43327
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 05:26:20 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.85893.1782710774865277880
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 026D4C43602
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 06:13:01 +0000 (UTC)
+Received: from esa9.hc324-48.eu.iphmx.com (esa9.hc324-48.eu.iphmx.com [207.54.69.27])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.86277.1782713569070305914
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jun 2026 22:26:15 -0700
+ Sun, 28 Jun 2026 23:12:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Hd6x5FQv;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=3RJ+E9gG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019f11d7a8a5-440ebe5b-10db-4b9c-8903-f9a14b229615-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1782710774;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Emea8KoL0P0x5RdbxMAIODu4R265EGAMmO6DmLeHSnw=;
-	b=Hd6x5FQv99kLYw8WUEBWuoU+c9hVqnVyNZWRGchF3kIOS4cytC1n1YPIGtUyqv4v
-	EGlaYZLTNsh8GQ942Y4yuzbuWpsPQpeoeZr9Py6CNF73Sbe5FsJiPCNz3FtDxAQGEkO
-	Iz4YxWPRxgdSNbnj8db3OJiAQE7RSDSbHR3Gxx1Q=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782710774;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Emea8KoL0P0x5RdbxMAIODu4R265EGAMmO6DmLeHSnw=;
-	b=3RJ+E9gG3O5/Cez/0kZiFahm6p+8QI/iU4rcJoRi/bMtrz/2hRZblHtgyd7/95wf
-	mEF0zbr/mQgaSBQKDD7ZPotjOnH2+mOkiYdIjeiqsf169EqaAgMMGOQeuON6IFxJmWj
-	duOkL4XhdmWXYA9D7yykhS2GHa2IhDGnadpH8RXo=
-Content-Type: multipart/mixed; boundary="===============0637535370224481214=="
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=Rv+kFLoy;
+ spf=permerror, err=parse error for token &{10 18 256wvd6dc.spf.checkpoint-spf.com}: parse error for token &{10 18 %{ir}.256wvd6dc.spf.checkpoint-spf.com}: invalid domain name (domain: bmw.de, ip: 207.54.69.27, mailfrom: prvs=633195dde=moritz.haase@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1782713569; x=1814249569;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vJpWnpVTwJvtIk5zZ6hvj12UrkCbLNaUt0LYZCQnAbA=;
+  b=Rv+kFLoyYDSpFjPkV93bddmfmCuCRlwEcATDFdr9Pw53YQUHnVej9K00
+   vMh8vIGVt+H4yGgaWIEuTfhCo7hFQAEaxrV/ofIKyrvhUMpBmMWQv1DTM
+   c+vdF+2O0Rabm8hK/Rs00W1ef3zspLK+UAQXy1HAXGl2CJTjZ8UTpl+AX
+   o=;
+X-CSE-ConnectionGUID: Z4Lh1XukTSGGxxDmcAkYOg==
+X-CSE-MsgGUID: 8v3nL7IbQhKLyVfzXoDkdA==
+Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
+ esa9.hc324-48.eu.iphmx.com with ESMTP/TLS; 29 Jun 2026 08:12:46 +0200
+Received: from unknown (HELO esabb6.muc) ([10.31.187.137]) by esagw1.muc with
+ ESMTP/TLS; 29 Jun 2026 08:12:46 +0200
+Received: from smucmp18f.bmwgroup.net (HELO smucmp18f.europe.bmw.corp)
+ ([10.30.13.164]) by esabb6.muc with ESMTP/TLS; 29 Jun 2026 08:12:46 +0200
+Received: from smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) by
+ smucmp18f.europe.bmw.corp (2a03:1e80:a15:58f::1:47) with Microsoft SMTP
+ Server (version=TLS; Mon, 29 Jun 2026 08:12:45 +0200
+Received: from q1054628.de-cci.bmwgroup.net (10.30.85.204) by
+ smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) with Microsoft SMTP
+ Server (version=TLS; Mon, 29 Jun 2026 08:12:45 +0200
+X-CSE-ConnectionGUID: TSiD67gsTXezjeisV+L8uQ==
+X-CSE-MsgGUID: 9wyehR5RRiutA24qz3WBlw==
+X-CSE-ConnectionGUID: 0ENdAkjvRxyrZ4ahstGAaQ==
+X-CSE-MsgGUID: t2uh6s/jTQiFi8wJERFVjA==
+From: Moritz Haase <Moritz.Haase@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Moritz Haase <Moritz.Haase@bmw.de>
+Subject: [PATCH] json-c: upgrade 0.18 -> 0.19
+Date: Mon, 29 Jun 2026 08:12:29 +0200
+Message-ID: <20260629061229.702229-1-Moritz.Haase@bmw.de>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pkgconf: upgrading to 2.9.95 SUCCEEDED
-Message-ID: <0101019f11d7a8a5-440ebe5b-10db-4b9c-8903-f9a14b229615-000000@us-west-2.amazonses.com>
-Date: Mon, 29 Jun 2026 05:26:13 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.29-54.240.27.193
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: smucmp17c.europe.bmw.corp (2a03:1e80:a15:58f::1:46) To
+ smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 05:26:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239720
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 06:13:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239723
 
---===============0637535370224481214==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Release notes are available at [0].
 
-Hello,
+[0]: https://github.com/json-c/json-c/blob/json-c-0.19/ChangeLog
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *pkgconf* to *2.9.95* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-pkgconf-upgrade-2.5.1-2.9.95.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 0e2dc0b0b78419742f19834ff8b24edd947d55a8 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 29 Jun 2026 05:26:10 +0000
-Subject: [PATCH] pkgconf: upgrade 2.5.1 -> 2.9.95
-
+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
 ---
- .../{pkgconf_2.5.1.bb => pkgconf_2.9.95.bb}   | 24 +++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/pkgconf/{pkgconf_2.5.1.bb => pkgconf_2.9.95.bb} (79%)
+ .../json-c/{json-c_0.18.bb => json-c_0.19.bb}               | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/json-c/{json-c_0.18.bb => json-c_0.19.bb} (85%)
 
-diff --git a/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb b/meta/recipes-devtools/pkgconf/pkgconf_2.9.95.bb
-similarity index 79%
-rename from meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
-rename to meta/recipes-devtools/pkgconf/pkgconf_2.9.95.bb
-index 277ef9786c..a3c258f372 100644
---- a/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
-+++ b/meta/recipes-devtools/pkgconf/pkgconf_2.9.95.bb
-@@ -1,3 +1,23 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- COPYING
-+# +++ COPYING
-+# @@ -1,5 +1,4 @@
-+# -Copyright (c) 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018
-+# -    pkgconf authors (see AUTHORS file in source directory).
-+# +Copyright (c) 2011-2026 pkgconf authors (see AUTHORS file in source directory).
-+#  
-+#  Permission to use, copy, modify, and/or distribute this software for any
-+#  purpose with or without fee is hereby granted, provided that the above
-+# 
-+#
-+
- SUMMARY = "pkgconf provides compiler and linker configuration for development frameworks."
- DESCRIPTION = "pkgconf is a program which helps to configure compiler and linker \
- flags for development frameworks. It is similar to pkg-config from \
-@@ -12,7 +32,7 @@ RPROVIDES:${PN} += "pkgconfig"
- # The pkgconf license seems to be functionally equivalent to BSD-2-Clause or
- # ISC, but has different wording, so needs its own name.
- LICENSE = "pkgconf"
--LIC_FILES_CHKSUM = "file://COPYING;md5=2214222ec1a820bd6cc75167a56925e0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1e33c297f35e165ecf4fbc81974dc9ca"
+diff --git a/meta/recipes-devtools/json-c/json-c_0.18.bb b/meta/recipes-devtools/json-c/json-c_0.19.bb
+similarity index 85%
+rename from meta/recipes-devtools/json-c/json-c_0.18.bb
+rename to meta/recipes-devtools/json-c/json-c_0.19.bb
+index c112aacf4bceb0c41dbe2e1643d2d7e0944bf250..f16c7f1d59455e9ef19e7dffd5494b25f5d90e8f 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.18.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.19.bb
+@@ -9,17 +9,17 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+ SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "876ab046479166b869afc6896d288183bbc0e5843f141200c677b3e8dfb11724"
++SRC_URI[sha256sum] = "37ad0249902e301bd9052bf712e511fcc6acff4ecaad4b5900aad9ce564e26de"
  
- SRC_URI = "\
-     https://distfiles.ariadne.space/pkgconf/pkgconf-${PV}.tar.xz \
-@@ -20,7 +40,7 @@ SRC_URI = "\
-     file://pkg-config-native.in \
-     file://pkg-config-esdk.in \
+ # NVD uses full tag name including date
+-CVE_VERSION = "0.18-20240915"
++CVE_VERSION = "0.19-20260627"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
+ UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
+ 
+ RPROVIDES:${PN} = "libjson"
+ 
+-# Apps aren't needed/packaged and their CMakeLists.txt is incompatible with CMake 4+.
++# Apps aren't needed/packaged.
+ EXTRA_OECMAKE = "-DDISABLE_WERROR=ON \
+                  -DBUILD_APPS=OFF \
  "
--SRC_URI[sha256sum] = "cd05c9589b9f86ecf044c10a2269822bc9eb001eced2582cfffd658b0a50c243"
-+SRC_URI[sha256sum] = "f8f0c834a493c610d31a1a84142fdbc5f8273fb3d98c3e9bb6fc0e1d999739c6"
- 
- inherit autotools pkgconfig
- 
--- 
-2.47.1
-
-
---===============0637535370224481214==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 405656 to 670472 (+65%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 27212 to 41498 (+52%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: FILELIST: added "/usr/share/doc/pkgconf/DCO /usr/share/man/man1/spdxtool.1 /usr/share/doc/pkgconf/COPYING /usr/share/doc/pkgconf/CONTRIBUTING.md"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGSIZE changed from 44352 to 64051 (+44%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 300257 to 505740 (+68%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: FILELIST: removed "/usr/lib/libpkgconf.so.7.0.0 /usr/lib/libpkgconf.so.7", added "/usr/lib/libpkgconf.so.8.0.0 /usr/lib/libpkgconf.so.8 /usr/bin/spdxtool"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 174738 to 263101 (+51%)
-Changes to packages/x86-64-v3-poky-linux/pkgconf (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.7.0.0 to libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7.0.0 moved to /usr/lib/libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7 moved to /usr/lib/libpkgconf.so.8
-Changes to packages/x86_64-linux/pkgconf-native (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.7.0.0 to libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7.0.0 moved to /usr/lib/libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7 moved to /usr/lib/libpkgconf.so.8
-  /usr/bin/spdxtool was added
-
---===============0637535370224481214==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-pkgconf-upgrade-2.5.1-2.9.95.patch"
-
-RnJvbSAwZTJkYzBiMGI3ODQxOTc0MmYxOTgzNGZmOGIyNGVkZDk0N2Q1NWE4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMjkgSnVuIDIwMjYgMDU6MjY6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-a2djb25mOiB1cGdyYWRlIDIuNS4xIC0+IDIuOS45NQoKLS0tCiAuLi4ve3BrZ2NvbmZfMi41LjEu
-YmIgPT4gcGtnY29uZl8yLjkuOTUuYmJ9ICAgfCAyNCArKysrKysrKysrKysrKysrKy0tCiAxIGZp
-bGUgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi97cGtnY29uZl8yLjUuMS5iYiA9PiBwa2djb25mXzIu
-OS45NS5iYn0gKDc5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29u
-Zi9wa2djb25mXzIuNS4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29u
-Zl8yLjkuOTUuYmIKc2ltaWxhcml0eSBpbmRleCA3OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8yLjUuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8yLjkuOTUuYmIKaW5kZXggMjc3ZWY5Nzg2Yy4uYTNj
-MjU4ZjM3MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29u
-Zl8yLjUuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi9wa2djb25mXzIu
-OS45NS5iYgpAQCAtMSwzICsxLDIzIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2
-YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xs
-b3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vu
-c2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFu
-ZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGlj
-ZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdo
-dCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gQ09QWUlORwor
-IyArKysgQ09QWUlORworIyBAQCAtMSw1ICsxLDQgQEAKKyMgLUNvcHlyaWdodCAoYykgMjAxMSwg
-MjAxMiwgMjAxMywgMjAxNCwgMjAxNSwgMjAxNiwgMjAxNywgMjAxOAorIyAtICAgIHBrZ2NvbmYg
-YXV0aG9ycyAoc2VlIEFVVEhPUlMgZmlsZSBpbiBzb3VyY2UgZGlyZWN0b3J5KS4KKyMgK0NvcHly
-aWdodCAoYykgMjAxMS0yMDI2IHBrZ2NvbmYgYXV0aG9ycyAoc2VlIEFVVEhPUlMgZmlsZSBpbiBz
-b3VyY2UgZGlyZWN0b3J5KS4KKyMgIAorIyAgUGVybWlzc2lvbiB0byB1c2UsIGNvcHksIG1vZGlm
-eSwgYW5kL29yIGRpc3RyaWJ1dGUgdGhpcyBzb2Z0d2FyZSBmb3IgYW55CisjICBwdXJwb3NlIHdp
-dGggb3Igd2l0aG91dCBmZWUgaXMgaGVyZWJ5IGdyYW50ZWQsIHByb3ZpZGVkIHRoYXQgdGhlIGFi
-b3ZlCisjIAorIworCiBTVU1NQVJZID0gInBrZ2NvbmYgcHJvdmlkZXMgY29tcGlsZXIgYW5kIGxp
-bmtlciBjb25maWd1cmF0aW9uIGZvciBkZXZlbG9wbWVudCBmcmFtZXdvcmtzLiIKIERFU0NSSVBU
-SU9OID0gInBrZ2NvbmYgaXMgYSBwcm9ncmFtIHdoaWNoIGhlbHBzIHRvIGNvbmZpZ3VyZSBjb21w
-aWxlciBhbmQgbGlua2VyIFwKIGZsYWdzIGZvciBkZXZlbG9wbWVudCBmcmFtZXdvcmtzLiBJdCBp
-cyBzaW1pbGFyIHRvIHBrZy1jb25maWcgZnJvbSBcCkBAIC0xMiw3ICszMiw3IEBAIFJQUk9WSURF
-Uzoke1BOfSArPSAicGtnY29uZmlnIgogIyBUaGUgcGtnY29uZiBsaWNlbnNlIHNlZW1zIHRvIGJl
-IGZ1bmN0aW9uYWxseSBlcXVpdmFsZW50IHRvIEJTRC0yLUNsYXVzZSBvcgogIyBJU0MsIGJ1dCBo
-YXMgZGlmZmVyZW50IHdvcmRpbmcsIHNvIG5lZWRzIGl0cyBvd24gbmFtZS4KIExJQ0VOU0UgPSAi
-cGtnY29uZiIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTIyMTQyMjJl
-YzFhODIwYmQ2Y2M3NTE2N2E1NjkyNWUwIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
-WUlORzttZDU9MWUzM2MyOTdmMzVlMTY1ZWNmNGZiYzgxOTc0ZGM5Y2EiCiAKIFNSQ19VUkkgPSAi
-XAogICAgIGh0dHBzOi8vZGlzdGZpbGVzLmFyaWFkbmUuc3BhY2UvcGtnY29uZi9wa2djb25mLSR7
-UFZ9LnRhci54eiBcCkBAIC0yMCw3ICs0MCw3IEBAIFNSQ19VUkkgPSAiXAogICAgIGZpbGU6Ly9w
-a2ctY29uZmlnLW5hdGl2ZS5pbiBcCiAgICAgZmlsZTovL3BrZy1jb25maWctZXNkay5pbiBcCiAi
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiY2QwNWM5NTg5YjlmODZlY2YwNDRjMTBhMjI2OTgyMmJj
-OWViMDAxZWNlZDI1ODJjZmZmZDY1OGIwYTUwYzI0MyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJm
-OGYwYzgzNGE0OTNjNjEwZDMxYTFhODQxNDJmZGJjNWY4MjczZmIzZDk4YzNlOWJiNmZjMGUxZDk5
-OTczOWM2IgogCiBpbmhlcml0IGF1dG90b29scyBwa2djb25maWcKIAotLSAKMi40Ny4xCgo=
-
---===============0637535370224481214==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/pkgconf: SRC_URI changed from "https://distfiles.ariadne.space/pkgconf/pkgconf-2.5.1.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in" to "https://distfiles.ariadne.space/pkgconf/pkgconf-2.9.95.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in"
-packages/x86-64-v3-poky-linux/pkgconf: PV changed from "2.5.1" to "2.9.95"
-packages/x86-64-v3-poky-linux/pkgconf: PKGV changed from 2.5.1 [default] to 2.9.95 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: FILELIST: removed "/usr/lib/.debug/libpkgconf.so.7.0.0", added "/usr/lib/.debug/libpkgconf.so.8.0.0 /usr/bin/.debug/spdxtool"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PV changed from "2.5.1" to "2.9.95"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGV changed from 2.5.1 [default] to 2.9.95 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 405656 to 670472 (+65%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PV changed from "2.5.1" to "2.9.95"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGV changed from 2.5.1 [default] to 2.9.95 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 27212 to 41498 (+52%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: FILELIST: added "/usr/share/doc/pkgconf/DCO /usr/share/doc/pkgconf/CONTRIBUTING.md /usr/share/man/man1/spdxtool.1 /usr/share/doc/pkgconf/COPYING"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PV changed from "2.5.1" to "2.9.95"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGV changed from 2.5.1 [default] to 2.9.95 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGSIZE changed from 44352 to 64051 (+44%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-locale: PV changed from "2.5.1" to "2.9.95"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-locale: PKGV changed from 2.5.1 [default] to 2.9.95 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: FILELIST: directory renamed /usr/src/debug/pkgconf/2.5.1/cli/bomtool -> /usr/src/debug/pkgconf/2.9.95/cli/bomtool, removed "/usr/src/debug/pkgconf/2.5.1/cli/getopt_long.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/audit.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/cache.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/libpkgconf.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/parser.c /usr/src/debug/pkgconf/2.5.1/cli/getopt_long.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/buffer.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/tuple.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/argvsplit.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/dependency.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/pkg.c /usr/src/debug/pkgconf/2.5.1/cli/main.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/fragment.c /usr/src/debug/pkgconf/2.5.1/cli/renderer-msvc.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/iter.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/bsdstubs.c /usr/src/debug/pkgconf/2.5.1/cli/renderer-msv
- c.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/bsdstubs.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/client.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/fileio.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/queue.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/path.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/personality.c", added "/usr/src/debug/pkgconf/2.9.95/libpkgconf/queue.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/path.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/buffer.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/client.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/fileio.c /usr/src/debug/pkgconf/2.9.95/cli/renderer-msvc.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/output.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/parser.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/path.h /usr/src/debug/pkgconf/2.9.95/libpkgconf/cache.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/personality.c /usr/src/debug/pkgconf/2.9.95/cli/renderer-msvc.h /usr/src/debug/pkgconf/2.9.95/cli/core.h /usr/src/debug/pkgconf/2.9.95/libpkgconf/pkg.c
-  /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/software.h /usr/src/debug/pkgconf/2.9.95/cli/core.c /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/software.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/license.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/argvsplit.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/version.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/audit.c /usr/src/debug/pkgconf/2.9.95/cli/main.c /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/serialize.c /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/generate.h /usr/src/debug/pkgconf/2.9.95/libpkgconf/fragment.c /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/serialize.h /usr/src/debug/pkgconf/2.9.95/libpkgconf/dependency.c /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/generate.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/tuple.c /usr/src/debug/pkgconf/2.9.95/cli/getopt_long.h /usr/src/debug/pkgconf/2.9.95/libpkgconf/bsdstubs.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/bufferset.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/libpkgconf.h /usr/src/debug/pkgconf
- /2.9.95/cli/getopt_long.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/bsdstubs.h /usr/src/debug/pkgconf/2.9.95/libpkgconf/iter.h /usr/src/debug/pkgconf/2.9.95/libpkgconf/bytecode.c /usr/src/debug/pkgconf/2.9.95/libpkgconf/variable.c /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/core.c /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/main.c /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/util.c /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/simplelicensing.c /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/simplelicensing.h /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/core.h /usr/src/debug/pkgconf/2.9.95/cli/spdxtool/util.h"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PV changed from "2.5.1" to "2.9.95"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGV changed from 2.5.1 [default] to 2.9.95 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 300257 to 505740 (+68%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-staticdev: PV changed from "2.5.1" to "2.9.95"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-staticdev: PKGV changed from 2.5.1 [default] to 2.9.95 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: FILELIST: removed "/usr/lib/libpkgconf.so.7.0.0 /usr/lib/libpkgconf.so.7", added "/usr/lib/libpkgconf.so.8 /usr/bin/spdxtool /usr/lib/libpkgconf.so.8.0.0"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PV changed from "2.5.1" to "2.9.95"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGV changed from 2.5.1 [default] to 2.9.95 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 174738 to 263101 (+51%)
-Changes to packages/x86-64-v3-poky-linux/pkgconf (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.7.0.0 to libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7.0.0 moved to /usr/lib/libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7 moved to /usr/lib/libpkgconf.so.8
-Changes to packages/x86_64-linux/pkgconf-native (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.7.0.0 to libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7.0.0 moved to /usr/lib/libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7 moved to /usr/lib/libpkgconf.so.8
-  /usr/bin/spdxtool was added
-
---===============0637535370224481214==--
 
