@@ -1,779 +1,960 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EB3AC43458
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 22:56:04 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9725.1782773760821590258
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 549DEC43458
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 23:01:54 +0000 (UTC)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9393.1782774108005488611
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 15:56:01 -0700
+ Mon, 29 Jun 2026 16:01:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=XbAD16hu;
- spf=pass (domain: siemens.com, ip: 52.101.83.53, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EQDEOv8oPhYqLPj/nbhx1HoOhWBYaOonysmjASTTiUepQy+kPc4Vj8+nVBsvup0u905UX43vOKXhJ9Bn1nKu2E2mXhd1Jft7sWkwuQpV6Ta1JEkj2U9axFF2XgY/SYO7/qRrHcM7p8GF81GxgsOl/2b/Un/0XN5IHi9Bldt6KROEiVDhGj2g/BvfsrhLrbiNz22Xc/0JJ/7BwhqWRoLw77q4wT7AuYJKOZpxAmqJ/31Rnkhm7VHeJglX+MhyFRFwaGHQbnZmyaEqjUjsDJALLY70+Enbj2+BXvxmZ108eHFix4gOctK8tSOJrIFsmRZmyxE4tYsLHbGpDp/wHT1Acg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Db20zl4bIPoAgu39ADNE/ocwdc6eS+08s2plNsWfsiA=;
- b=WG5u/Bs7KUFBoimVy+guWc8RMSzF10R7RVZ+WYKIjv2IbrT536Vqb5qxM2HaXdH1FjBt0hGylB2wPFD+/bhsfgQvct/rQwPB0y5h04DFEUkmTTZ+yTqlVzFqLh1dOPVqmXS3p2Vp+J0k8XpVFcLTrEDKJr4Uj/hvPiKUDbmdxR79UCnXA7Rq9PiQ5m8Ny2crxeedIls6PgbBySJhZYewtXW/qmIiieMxmxfQGtXp/2Z4BauD9SZtsX1TauMyjHVVc2r7kfcHjrpSFFBLpMUu4jqTASshpf8rjheMHyKkxnfY+6dtCBrgrmSch+Ib/ywfA9OMJ9Z4cRmFP99+1xkSKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Db20zl4bIPoAgu39ADNE/ocwdc6eS+08s2plNsWfsiA=;
- b=XbAD16huw/k3cBOKGDUUwqMhbCWaTMZQUQAmavgBGjgisYGRo1nUhKCVuLihi7MvYGsdSlM8mcG+7jh7QKQZLzqXq4XSqS55yBfLIJYau1dfsfH1ip3Vi9aop0ICjuNirYobWbVeA7LeRYehFermTrU5cvlGoZCIRSoId2+JbFf7P51BDBnc14gnFwovEAOGgT5Y9Kta4bcWz2XkpjS0mf8xWeeidIrjqZITv1HahCfF2jbknQvmBJF2yuSdd0ByYgCpsIkMWEBVkNMdCQ4AD7OrHttPq/FsxtaBNP8mtr3UkjmMyUOlgHu0gKo9lmxZ5Fuvy4sV2jUbNbFUOQbFYw==
-Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
- by AS8PR10MB6507.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:567::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.18; Mon, 29 Jun
- 2026 22:55:56 +0000
-Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a905:57e5:8858:d008%4]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
- 22:55:56 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Joshua Watt <jpewhacker@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed packages
-Thread-Topic: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed packages
-Thread-Index: 
- AQHc9OOYXROQ1FUQf0qI3FKxvBWQ/LYwAf+AgASuHACAHFFRAIAElbOwgACDmACAADAtwA==
-Date: Mon, 29 Jun 2026 22:55:56 +0000
-Message-ID: 
- <AS8PR10MB507362F79560545D2411C3D7FDE82@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=ZHTXNCtP;
+ spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7fe4808741eso40439247b3.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 16:01:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782774107; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fThc7QrOpIvra65JFKJ5QgUPNd1aOLlpXOoc/UxEZv+Lj2Iqv5OTEKGf1CFeE//riB
+         Gxt04pjf5q6ldfMeBT8/DXv3SRAEGXRsz7mmGL+MPL5o3SbNuNOEVZGhMGYrtagqw3Eg
+         l8qPMAGCiZuDLyJ+sHy2WLFTL/TZPb/0DprfI1dMtOpf0VPfn/ratioJ8tjlYgPWgGKt
+         piLvZD3XReTBI9196Qy9Fa7j81mcFWwYfzIsQdKuJcS581gZ4AnvKLPJK3s2Gzaq+LP2
+         ZuKmarum+/rp/A2diS1SDPqa/7waURezEzZPCh+Ee+d1FjQx5KghYZmkMLYrilKrESUT
+         jIvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=gx2Si0pYUSXNZERcMw0D1W2R8OsazX/t43mcqIr2AG0=;
+        fh=kyrcx/wGdP1K8AcZ1t5dlAg43e9Kck6gc8gLfroTQbI=;
+        b=rikZ8E5eUTyK50FblxiWDn97dch+QhOWXm/RoxDphGYNyReGFyDUrN3iLW5GzgQYW4
+         76XZaanhQecULl9G9w732QormlTRptP2OSl3gDwZetnVHud+rZvOrguwMx/Tvpnp15HJ
+         Szy/tsC/GlkCYezt++psHHoXkanaq2NdZ3Rzojo5t5sWZtWMeY1dtFM8Vmr9Ffkv9O2M
+         i2Zoa0DDB5FsljBthiOraZ0lS3LBFZx7sKlaFRiVnjYRTCwnbhx1TzUl1FLyXZVzpor0
+         yXQVpz2aHrMV6mTXo9m7++tDsIOInb5XWpDknNnjCHOWAlAzx7grPq8y/G2Ii2MsfJeS
+         qA6w==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782774107; x=1783378907; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gx2Si0pYUSXNZERcMw0D1W2R8OsazX/t43mcqIr2AG0=;
+        b=ZHTXNCtPE8+O5gtQsSULbwJ9w2d7hsEdpKvVJZ85+xQQjGg9QiGVgOAOJc2fzOPirl
+         et6jb/KlC52HN2yT6ZwfVdjPKDmXYAHDm0aWVFZy5w4UlthIV6lpFBGraN1mxhonlazM
+         zqQ8qa+rVL0bs8J/UGmd04THFKpgfA9xKTuKwW//yPfFB6JmftIIY3FaHNIA5W5ToUVz
+         9WRKGZWE9XFUIffquBnYExC9VbfATztdAhg/Jw+hIcax16z4JZXI/Raysu1nW7BMTXzD
+         TF9pZIGRKWJZzgKiL3cJuU/BWEK6XoGXm66RxsOMuHr0rvwrv1ElH5X1MAZbTWgjnslP
+         GprQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782774107; x=1783378907;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gx2Si0pYUSXNZERcMw0D1W2R8OsazX/t43mcqIr2AG0=;
+        b=Cz16w4R8JwiD/nuuXoCsPRh2gTcDseZUKkWcfv2N6WYNAwUA29bTNW2nvCTPPI4rPC
+         6aGBN97uHKW05EnZ1C/yyJ3z2KyI4EQ4IPBnnmEjoy+kwXDrff366O6ZslU9iOIo7VWj
+         Hhxe7qDT48hhdO60hookj4UXFOU7vZORSc54s2YXsDBRD2dx/ev6x7fvSqtxTWOG2oBh
+         dXx0Bt18eib69ZsIGnZAebCMB6FBX0FFFclVZRu1Ib6BtrU6qROdcAkkOgJQK6Xbjdx4
+         kB0lMpaHBMyDrgVcGu/9QLqCoF1CYm3iz0n8Qs43+Vl+eo7aIuhCLFWHsOzJFh9LGmIe
+         1hzQ==
+X-Gm-Message-State: AOJu0YzqDv0gEEBpajnGmvm0o6V+QSLaLt+SimJcixINZ4BXsAom5z6Z
+	7T0YZeezIs3CQZH3EvoqCkg1+z9ub7ngQib/y4MSupG2nboHr/LBvs2GBjUkFJIDWHCz7kOf0a2
+	Rc/qKCMJA72f0BtiTCZRfW3NyGPJsdo+3EQ==
+X-Gm-Gg: AfdE7cnL/bFiGdQp9RU8egaCP15Me0BzVRkqvcavw2r1LR5bV9SKIEHjcS+im/9EWg1
+	yriiAQou1wPPw5XKsueifTKjxgFXISuuje+rLB8d5yenmafaluOfcne/CWjWchvUhlv/hHfjzHn
+	x2t5WE6mxcIrzh5+3JWSwaiJCj7HNFcCyOsH9dq3ht0MlIUIc2rZmoyKJVGTUtLRuZRTgE5Kzr9
+	rXQLaIv//doSvbr356fYxVKXo/O105R1VTiO8aNHmp95e9iBbhtXTQLwWoqXqmjiZmRN9hJ2Ja6
+	xkeHAnamKDU=
+X-Received: by 2002:a05:690c:dc1:b0:80c:85b6:7644 with SMTP id
+ 00721157ae682-810dab0b72cmr15518357b3.57.1782774106579; Mon, 29 Jun 2026
+ 16:01:46 -0700 (PDT)
+MIME-Version: 1.0
 References: <20260605120456.130264-1-peter.marko@siemens.com>
- <20260605120456.130264-2-peter.marko@siemens.com>
- <CAJdd5Gb_oFCfDcn_wQHk6XnJtG3+zMmKruOyqPrpVgYUi0T9AQ@mail.gmail.com>
+ <20260605120456.130264-2-peter.marko@siemens.com> <CAJdd5Gb_oFCfDcn_wQHk6XnJtG3+zMmKruOyqPrpVgYUi0T9AQ@mail.gmail.com>
  <AS8PR10MB50734EC9D7C1456FE1A143B9FD1C2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
  <CAJdd5GbCMsqA_BWmyWSpovu9Cj-ZYvxWrVmj2_p3+c04c5FUsw@mail.gmail.com>
  <AS8PR10MB50731323D15B57740A5A6714FDE82@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
- <CAJdd5GYBAZ5LaUs+nrKrp3o4EweejFgPubnqJzw=ym=hwj9Tpg@mail.gmail.com>
-In-Reply-To: 
- <CAJdd5GYBAZ5LaUs+nrKrp3o4EweejFgPubnqJzw=ym=hwj9Tpg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=b7fe0fe7-7b9a-49a3-9b64-800c9f948c82;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-06-29T22:55:09Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|AS8PR10MB6507:EE_
-x-ms-office365-filtering-correlation-id: 13f3be36-72dc-4a62-ddaa-08ded631943c
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|376014|4022899009|23010399003|1800799024|56012099006|8096899003|55112099003|6133799003|11063799006|4143699003|13003099007|38070700021|22082099003|18002099003;
-x-microsoft-antispam-message-info: 
- Fo272SqXj/qiGsXHE1zL5wzMouu+fcVArMQm585QPqpWcckaKXUHp/NvqRtvl/6zMrBW3qOqOPlZXSHrQGJmXeeZ189mWhP+X1XK5ftom87htkt2lR2JWTk0QGwBxpk9ddNfJKdhpAp5tF48EBPz5fMwQK+VtqSE3FMvs/OXCEdh+kQXj1zI4mOqJMXPF5YSp6wqaekDeKDn7M4ZZaxkdfjCMa2nC4RDzhJOUr9Ecn7YnlrZr/+BCw/ToJhZ1sSiuIkX+j5nxasVlNFlzd1wIBF99crQrMeJycsOIXfw+i2oTSo3Yq9lzyaiX+i1F8dMUy9E+GdKQUdxLoy69n69VhQqgtGUX4gZKYbjCsKWqgSxbwz84xJX9+rMmhEzV9bWirGeL6lms4khojBFKxHP4pNFEDPmqdoUWP+dYdxVIQvGXA/LOoeA6Mw4YB8w07AuS3qtMhHm9v9ysIVov5Tci+Ac7XEhSYkCFWpWtFbPplMD4g4uC5jhTiF+QzqM9BGRLNLi9jGi/oiyHbxbni9LqlZjKuD1o+Qwuy1QccISRgbSedipuHfGS8sUMPGoI9I7+dKKn9CfEYaju/aIMQNlFibZr1hGJqRd/SpB8aNqdnUaYtN2BC1HGBBUixNVcfQkigQZTt4XA5K/iIeft9K8ugU8RmFe0XtRIRChncYGys8=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(4022899009)(23010399003)(1800799024)(56012099006)(8096899003)(55112099003)(6133799003)(11063799006)(4143699003)(13003099007)(38070700021)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?ajEwTXZmUk93V2xzRzY2emRUVGIzZlcybjY2K3Y1THpHRFdQMWNiVEZsS1p3?=
- =?utf-8?B?QTk1TkxTM29Ba3hFYWFNRkZkY0plWUd6SEdmaUFheFVmWFgyRlpvYjBrT01Q?=
- =?utf-8?B?L2YvY2F5N2NyR3oyY0ZWRDRSUXRlNlJvN01CZCt1TG1vckpsQjBmdzFYcERK?=
- =?utf-8?B?OHMyWkpBTnN2ZXpEZlVOenpheHF0RlByTnc0RzZ2b0RJWEowOWJKdTVzczg3?=
- =?utf-8?B?c3NyTEJwWEp2Rk1ka1ZyVFJudGVmSkZ1RFpqYlJ4L3dRQU5VVVN6L3NhMXRG?=
- =?utf-8?B?T1RTTVo0M2FSOXdpSUI3RXM2STZFZWdHZThoTEcvdW5vQi9vZm94d2xNY2I0?=
- =?utf-8?B?emk1QkRWSEJBbkVnZ1UwQXJPeTBmbS9aeE5tTHhoNGZWV1JwTXpJdHQ4OWxn?=
- =?utf-8?B?OUpDWlBlVE9wRDkwVEZrSHVBNnQxWk1zWjRMcDhBdTNpSVN4bk1KRkY1MENP?=
- =?utf-8?B?UWhsUFVpb0xEeUVvZ09xWmlxVGcxYnVCc0RQVTVnakJzUUU0Kzc3UC9yZFQy?=
- =?utf-8?B?WTJiTW5hZlZ3WWh1U0hiRHUwWTlyRFdmVUpBaUQvbzZsYUVUWS9mSnZRL0pB?=
- =?utf-8?B?ZnpPMmJ3TW1TYTVkODd5U0pWMUJERkxLZXNTRk9GQ2Y2OGw4TWdmTm1rSGN2?=
- =?utf-8?B?elpuMVdBdDRtSzBvNVhna01WbmpxdVphQlhaNnhaT0ZJQTA1aENxVDQxbStI?=
- =?utf-8?B?QnQ3ckpOQk4yL0t2MzVyS2FhQ3I0UVRGRW9oVVNGVUgxOGRDSkhQVWJQWGta?=
- =?utf-8?B?TWNHdHdtR1hLeWI1MWZ4cXhZUlRtaWtQd0dMenVobCtkc1I4ampnejhheEpu?=
- =?utf-8?B?VlNZY3B6dmRSbU1uaU1wYzF1QXZYQ3Z0a2pvTTlHeUpkem9tYWtqZFF1N3d6?=
- =?utf-8?B?RnVFQ0ZhbWZweGprQjhpZE9zMGpHSEw4SlNXeks0RHNobXFldXU1VU0yWXd2?=
- =?utf-8?B?RnRJZlRjbk5RK0Z0SEkwVjFXbGp1RU54d25ybWRpOUhPUWludFZoTWtzQ0lO?=
- =?utf-8?B?ZmJSQ29TY2VSVEJUbDR3WVM2Sy9MTnBjUW5NU00vdytDU0tXMTFDd0l2T1NS?=
- =?utf-8?B?MFFnRU1xOW1Rc1V4ZTJYVElOdngrMmR2akhDbmZySWdyd1puVFBlZEt0YU80?=
- =?utf-8?B?Mkw0T2ZkNUhMbmIzQVF0WGtxU3NnYjJ5MFZra3IwNnlQMjNLRnV0eGUxR2ZU?=
- =?utf-8?B?ekk2UVBCSE54WFQ1NmFrc3JDRXdUaDNDcVd5Skx1RFBaMWdWRStHSU0vblky?=
- =?utf-8?B?WXB3WGZ3azZ4MDVnWTMvTFU4ZGxLeWxpOW45WWRVWUgvb3A1MnQ3V2NnYmNV?=
- =?utf-8?B?SlcyUDZPSU1SQXdpZkF4Ym96ZWZOdHZMSXpKWDFwdlJyOU9ieFg0enBLWnVw?=
- =?utf-8?B?Z0RlTDN2d0J4cWtFcDBVNWJDdFlLRlk0NlhrL0U0L2dhMlkwbHhLbnNxVHN0?=
- =?utf-8?B?ZHY4cXBHcXM3RjZERklNWFUvelozbk9idExNUEYvbC9oNE9lSXdiZXBpVGV6?=
- =?utf-8?B?Qy8rclRFTFdnekk5M0w1b1N5T3diVk8vRy9LYU1ZMGFyWkl6czdjZ2RxcEFz?=
- =?utf-8?B?bThabEpVUG1JajZJU1ovRzFaSFlhU1lOQmpRMTF0Q2wxM2dlanp3SU1KMGI2?=
- =?utf-8?B?NDYwcG1FNURFUmhhRDQwZ2RLNGpmTTM1RVIrWng1WkJ3djhmNTI2NXRidnBM?=
- =?utf-8?B?RnZIdjNRK3VpYmJGVnpFTEhIUW82MjQ5S091dGtUQXBKaE1sSUFXUkNQTVZa?=
- =?utf-8?B?cXJZekhraUFJb2lCdnZnbEkyTG43L2VBT3FZSktrbW9wZ08rODZEVEhlV3No?=
- =?utf-8?B?RzdwUWxFcC9BQ2dvY0hCNXVJOHczVCtMMUJ3MHRsVFFQSnRWbkJqWGw5Mmk2?=
- =?utf-8?B?VXQzTjB5SjF4aXlubVN1SGM4S1VzWnNiR2V0ZUNIUis3T25mUXhxQ2ZSSk9H?=
- =?utf-8?B?UXRCNnVGbGwzSGMwTWVWWndTdXgya3V5WHBjRUxibDJTWGl0bFkzQVhNT1Fv?=
- =?utf-8?B?SVMxWmpualNKYkw1anh1THMyNFlVRlB1bXdvSG5LaWtNZTM0KzU4YkgvRTU2?=
- =?utf-8?B?Nm42RHlETWNhdXhBQ0JLZ3g1K1pzdUtNWS9NblJpZVpSZXVodm9YbDRYM3hs?=
- =?utf-8?B?WWkrNi8xTTJnSXJGWjNyMzFpWEdMNjBMSDBIT29tTEZuVkgyL1dxbDdwck5r?=
- =?utf-8?B?Uit5ZHVlbmpUenNLa3NKQlgxUGtOL25TOUEzdS85cFk0MU44SngzZU10U1py?=
- =?utf-8?B?UGgxZkJwY3dSZUJReVBTaGJKcE9mVmdhWlN6Q1czR05FK0VFT1ZvNXN4N05y?=
- =?utf-8?B?WVMzdHUrK2duUmFoZk1mQlk0N01BYSszaEZLRnBaNUtYeHdhZXpSQT09?=
-Content-Type: multipart/alternative;
-	boundary="_000_AS8PR10MB507362F79560545D2411C3D7FDE82AS8PR10MB5073EURP_"
-MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13f3be36-72dc-4a62-ddaa-08ded631943c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2026 22:55:56.1327
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /LuLHpZYKVaQCirzKYEgxiXiiHrB0OE8ySPvusv8m8bI7rGvMeV5UuykOhp5KnnwrU6CIsLde6ooQ+ObCIMd/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB6507
+ <CAJdd5GYBAZ5LaUs+nrKrp3o4EweejFgPubnqJzw=ym=hwj9Tpg@mail.gmail.com> <AS8PR10MB507362F79560545D2411C3D7FDE82@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS8PR10MB507362F79560545D2411C3D7FDE82@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 29 Jun 2026 17:01:35 -0600
+X-Gm-Features: AVVi8Cdl5t3ZSdrL5s-4BpVykb9amfP2oWwadkqweJrp4D3d616DQPdqteCsHxY
+Message-ID: <CAJdd5GaMa-p_xx5oAfQtQEaUiU=ACvvDW5u0_B4C9GUnheBE+w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed packages
+To: "Marko, Peter" <Peter.Marko@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000056671c06556c7101"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 22:56:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239829
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 23:01:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239830
 
---_000_AS8PR10MB507362F79560545D2411C3D7FDE82AS8PR10MB5073EURP_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--00000000000056671c06556c7101
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-DQoNCkZyb206IEpvc2h1YSBXYXR0IDxqcGV3aGFja2VyQGdtYWlsLmNvbT4NClNlbnQ6IE1vbmRh
-eSwgSnVuZSAyOSwgMjAyNiAxMDowMyBQTQ0KVG86IE1hcmtvLCBQZXRlciAoRlQgRCBFVSBTSyBC
-RlMxKSA8UGV0ZXIuTWFya29Ac2llbWVucy5jb20+DQpDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi8yXSBy
-b290ZnMsc3BkeDogaGFuZGxlIHJlbW92ZWQgcGFja2FnZXMNCg0KDQoNCk9uIE1vbiwgSnVuIDI5
-LCAyMDI2IGF0IDY6MjLigK9BTSBNYXJrbywgUGV0ZXIgPFBldGVyLk1hcmtvQHNpZW1lbnMuY29t
-PG1haWx0bzpQZXRlci5NYXJrb0BzaWVtZW5zLmNvbT4+IHdyb3RlOg0KDQoNCj4gLS0tLS1Pcmln
-aW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSm9zaHVhIFdhdHQgPGpwZXdoYWNrZXJAZ21haWwu
-Y29tPG1haWx0bzpqcGV3aGFja2VyQGdtYWlsLmNvbT4+DQo+IFNlbnQ6IEZyaWRheSwgSnVuZSAy
-NiwgMjAyNiA0OjExIFBNDQo+IFRvOiBNYXJrbywgUGV0ZXIgKEZUIEQgRVUgU0sgQkZTMSkgPFBl
-dGVyLk1hcmtvQHNpZW1lbnMuY29tPG1haWx0bzpQZXRlci5NYXJrb0BzaWVtZW5zLmNvbT4+DQo+
-IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KPiBTdWJqZWN0OiBSZTogW09F
-LWNvcmVdIFtQQVRDSCAyLzJdIHJvb3RmcyxzcGR4OiBoYW5kbGUgcmVtb3ZlZCBwYWNrYWdlcw0K
-Pg0KPiBPbiBNb24sIEp1biA4LCAyMDI2IGF0IDc6NTbigK9BTSBNYXJrbywgUGV0ZXIgPFBldGVy
-Lk1hcmtvQHNpZW1lbnMuY29tPG1haWx0bzpQZXRlci5NYXJrb0BzaWVtZW5zLmNvbT4+IHdyb3Rl
-Og0KPiA+DQo+ID4NCj4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+
-IEZyb206IEpvc2h1YSBXYXR0IDxqcGV3aGFja2VyQGdtYWlsLmNvbTxtYWlsdG86anBld2hhY2tl
-ckBnbWFpbC5jb20+Pg0KPiA+ID4gU2VudDogRnJpZGF5LCBKdW5lIDUsIDIwMjYgNDoxNiBQTQ0K
-PiA+ID4gVG86IE1hcmtvLCBQZXRlciAoRlQgRCBFVSBTSyBCRlMxKSA8UGV0ZXIuTWFya29Ac2ll
-bWVucy5jb208bWFpbHRvOlBldGVyLk1hcmtvQHNpZW1lbnMuY29tPj4NCj4gPiA+IENjOiBvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpvcGVuZW1iZWRkZWQt
-Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KPiA+ID4gU3ViamVjdDogUmU6IFtPRS1jb3Jl
-XSBbUEFUQ0ggMi8yXSByb290ZnMsc3BkeDogaGFuZGxlIHJlbW92ZWQgcGFja2FnZXMNCj4gPiA+
-DQo+ID4gPiBPbiBGcmksIEp1biA1LCAyMDI2IGF0IDY6MDXigK9BTSBQZXRlciBNYXJrbyB2aWEg
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZzxodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCj4g
-PiA+IDxwZXRlci5tYXJrbz1zaWVtZW5zLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0
-bzpzaWVtZW5zLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPj4gd3JvdGU6DQo+ID4gPiA+DQo+
-ID4gPiA+IEZyb206IFBldGVyIE1hcmtvIDxwZXRlci5tYXJrb0BzaWVtZW5zLmNvbTxtYWlsdG86
-cGV0ZXIubWFya29Ac2llbWVucy5jb20+Pg0KPiA+ID4gPg0KPiA+ID4gPiBTUERYIHNob3VsZCBu
-b3QgbGlzdCBwYWNrYWdlcyB3aGljaCB3ZXJlIHJlbW92ZWQgZnJvbSByb290ZnMgYXMgaW5zdGFs
-bGVkLg0KPiA+ID4gPg0KPiA+ID4gPiBUaGUgbGlzdCBvZiBpbnN0YWxsZWQgcGFja2FnZXMgZG9l
-cyBub3QgY29udGFpbiB0aGVtIGRpcmVjdGx5LCBidXQgYXMNCj4gPiA+ID4gZGVwZW5kZW5jaWVz
-IG9mIG90aGVyIGluc3RhbGxlZCBwYWNrYWdlcy4NCj4gPiA+ID4NCj4gPiA+ID4gU2l3dGNoIHRo
-ZW0gdG8gIm90aGVyIiB0byBrZWVwIHRoZW0gaW4gU1BEWCBhcyBwYXJ0IG9mIHRoZSBidWlsZCBh
-bmQNCj4gPiA+ID4gaW5zdGFsbGF0aW9uIHByb2Nlc3MuDQo+ID4gPg0KPiA+ID4gSSBhZ3JlZSB0
-aGUgcGFja2FnZXMgc2hvdWxkIGJlIHJlbW92ZWQgZnJvbSB0aGUgcm9vdGZzLCBidXQgdXNpbmcg
-dGhlDQo+ID4gPiBtZXRob2QgZGVzY3JpYmVkLg0KPiA+ID4NCj4gPiA+IEluc3RlYWQsIHRoZSBs
-aXN0IG9mIHJlbW92ZWQgcGFja2FnZXMgc2hvdWxkIGJlIHBhc3NlZCB0bw0KPiA+ID4gY29sbGVj
-dF9idWlsZF9wYWNrYWdlX2lucHV0cygpLCBhbmQgYW55dGhpbmcgcmVtb3ZlZCBzaG91bGQgc2tp
-cA0KPiA+ID4gaGF2aW5nIGl0J3MgZmlsZXMgYWRkZWQgdG8gZmlsZXNfYnlfaGFzaCAoYnV0LCBz
-aG91bGQgc3RpbGwgYmUgYWRkZWQNCj4gPiA+IHRvIGJ1aWxkX2RlcHMsIHNpbmNlIGl0IGlzIGEg
-YnVpbGQgZGVwZW5kZW5jeSkuDQo+ID4NCj4gPiBJIGhhdmUgdHJpZWQgc2V2ZXJhbCBhcHByb2Fj
-aGVzIGhlcmUgYnV0IGFsbCB3aXRob3V0IHN1Y2Nlc3MgdW50aWwgbm93Li4NCj4gPiBUaGUgcHJv
-YmxlbSBpcyB0aGF0IHRoZXNlIHJlbW92ZWQgcGFja2FnZXMgYXJlICJyZGVwZW5kcyIgYW5kIG5v
-dCAiZGVwZW5kcyIuDQo+ID4gVGh1cyBpbiBjb2xsZWN0X2J1aWxkX3BhY2thZ2VfaW5wdXRzIHRo
-ZXkgYXJlIG5vdCBwcmVzZW50IHlldC4NCj4gPiBBbmQgZXZlbiBpZiB0aGV5IHdvdWxkIGJlLCB0
-aGUgcmRlcGVuZHMgd291bGQgYW55d2F5IGFkZCBpdCBiYWNrIGxhdGVyLg0KPiA+DQo+ID4gU1BE
-WCBlbnRyaWVzIGZvciByZGVwZW5kIGNsYXVzZXMgYXJlIGFkZGVkIGluIGV4cGFuZF9jb2xsZWN0
-aW9uIGZ1bmN0aW9uLg0KPiA+IEkgb2J2aW91c2x5IGNhbm5vdCByZW1vdmUgdGhlIHJkZXBlbmRz
-IGNsYXVzZSB3aGVuIHRoZSByZWNpcGUgc2JvbSBpcyBjcmVhdGVkLg0KPiA+DQo+ID4gVGhlIGJl
-c3QgYXBwcm9hY2ggcHJvYmFibHkgaXMgdG8gcmVtb3ZlIHRoZSByZGVwZW5kcyB3aGVuIGl0ZXJh
-dGluZyBvdmVyIHNib214DQo+IGluIGV4cGFuZF9jb2xsZWN0aW9uLg0KPiA+IFdvdWxkIHlvdSBh
-Z3JlZSB3aGVuIEkgdHJ5IHRvIHNlbmQgYSBwYXRjaCBpbiB0aGF0IGRpcmVjdGlvbj8NCj4gPiBP
-ciBkbyB5b3UgaGF2ZSBhbnkgb3RoZXIgc3VnZ2VzdGlvbj8NCj4NCj4gVGhhdCdzIGdvaW5nIHRv
-IGJlIHRyaWNreSBiZWNhdXNlIHlvdSBjYW4ndCBqdXN0IHJlbW92ZSB0aGUgcGFja2FnZXM7DQo+
-IHlvdSBhbHNvIG5lZWQgdG8gcmVtb3ZlIGFueSByZWZlcmVuY2UgdG8gdGhlIHBhY2thZ2UgKGUu
-Zy4gaWYgdGhleSBhcmUNCj4gaW4gYSByZWxhdGlvbnNoaXAgb3Igc29tZXdoZXJlIGVsc2UpOyBv
-dGhlcndpc2UgdGhlIHJlc3VsdGluZyBkb2N1bWVudA0KPiB3aWxsIG5vdCBiZSBmdWxseSBsaW5r
-ZWQgYW5kIHlvdSdsbCBnZXQgZXJyb3JzIHdoZW4gY3JlYXRpbmcgdGhlIFNCb00uDQo+IEZvciBh
-biBleGFtcGxlIG9mIHdoYXQgdGhhdCB3b3VsZCBzb3J0IG9mIGxvb2sgbGlrZSwgeW91IGNhbiBs
-b29rIGF0DQo+IHRoZSAiZHVwbGljYXRlIiBmdW5jdGlvbiB3aGljaCBpcyB1c2VkIHRvIHJlcGxh
-Y2UgcmVmZXJlbmNlcyB0bw0KPiBsaWNlbnNlcyBhbmQgQ3JlYXRpb25JbmZvIHdpdGggZXF1aXZh
-bGVudCBvbmVzIHRvIHJlZHVjZSB0aGUgZG9jdW1lbnQNCj4gc2l6ZS4NCj4NCj4gQnV0LCB0aGlz
-IGlzIGdvaW5nIHRvIGNvbXBsaWNhdGUgYW4gb3RoZXJ3aXNlIHByZXR0eSBzaW1wbGUgbWVyZ2lu
-Zw0KPiBhbGdvcml0aG07IEknbSBqdXN0IG5vdCBzdXJlIHdlIGNhbiBjdXJyZW50bHkgYWNjdXJh
-dGVseSBleHByZXNzIHdoYXQNCj4gaXMgZ29pbmcgb24gaGVyZSAocGFja2FnZXMgYmVpbmcgdW5p
-bnN0YWxsZWQgYXQgaW5zdGFsbCB0aW1lKSwgYW5kDQo+IHVudGlsIHdlIGhhdmUgYSBnb29kIGlk
-ZWEgaG93IHRvIGV4cHJlc3MgaXQsIEkgZG9uJ3Qgd2FudCB0byBtYWtlIGl0DQo+IG1vcmUgY29u
-ZnVzaW5nIGJ5IGRvaW5nIHNvbWV0aGluZyB3ZWlyZCAoYmVjYXVzZSwgdGhlbiBwZW9wbGUgcmVs
-eSBvbg0KPiB0aGUgd2VpcmQgYmVoYXZpb3IgYW5kIGdldCB1cHNldCB3aGVuIGl0IGNoYW5nZXMg
-YmVjYXVzZSB3ZSBmb3VuZCBhDQo+IGJldHRlciBzb2x1dGlvbikuDQo+DQoNCkxpdHRsZSBzYWQg
-dGhhdCB0aGVyZSBpcyBjdXJyZW50bHkgbm8gY2xlYXIgdmlzaW9uIGhvdyB0byBoYW5kbGUgdGhp
-cyBzY2VuYXJpbyBpbiBvdXIgY2xhc3Nlcy4NCkluIGNhc2UgeW91IGdldCBhIG5ldyBpZGVhLCBs
-ZXQgbWUga25vdyBhbmQgSSBjYW4gc3BlbmQgdGhlIGVmZm9ydCB0byBjb252ZXJ0IHRoYXQgdG8g
-YSBwYXRjaC4NCg0KSSBoYXZlIGNyZWF0ZWQgaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qu
-b3JnL3Nob3dfYnVnLmNnaT9pZD0xNjMzNiBmb3IgdGhpcyBzbyBpdCdzIG5vdCBmb3Jnb3R0ZW4u
-DQoNCkkgdGhpbmsgd2Ugd2lsbCBuZWVkIHNvbWV0aGluZyBsaWtlIHRoaXM6IGh0dHBzOi8vZ2l0
-aHViLmNvbS9zcGR4L3NwZHgtMy1tb2RlbC9wdWxsLzEyOTcgYnV0IEkgd2lsbCBzZWUgaWYgdGhl
-IFNQRFggY29tbXVuaXR5IGhhcyBhIGJldHRlciBpZGVhIGluIHRoZSBuZXh0IGZldyB3ZWVrcy4g
-QmFzaWNhbGx5IHRoZSBpZGVhIHdvdWxkIGJlIHRvIGFkZCBhIHJlbGF0aW9uc2hpcCB0aGF0IGlu
-ZGljYXRlcyB0aGF0IHRoZSBwYWNrYWdlIHdhcyB1bmluc3RhbGxlZCBmcm9tIHRoZSByb290ZnMs
-IHdoaWxlIHByZXNlcnZpbmcgdGhlIHJ1bnRpbWUgZGVwZW5kZW5jaWVzLg0KDQpUaGF0IGhvd2V2
-ZXIgZG9lcyBub3QgaGVscCBzY2FydGhnYXAvd3J5bm9zZSBhcyBpdCB3aWxsIGJlIGluIHNwZHgg
-My4xLjAsIGNvcnJlY3Q/DQoNCg0KUGV0ZXINCg0KPiA+DQo+ID4gPg0KPiA+ID4gVGhpcyB3aWxs
-IHByZXZlbnQgdGhhdCByb290ZnMgcGFja2FnZSBmcm9tICJjb250YWluaW5nIiB0aGUgZmlsZXMg
-Zm9yDQo+ID4gPiByZW1vdmVkIHBhY2thZ2VzLCBhbmQgYnJlYWsgdGhlIGxpbmthZ2UgYmV0d2Vl
-biB0aGUgcm9vdGZzIGFuZCB0aGUNCj4gPiA+IHJlbW92ZWQgcGFja2FnZXMuDQo+ID4gPg0KPiA+
-ID4gSSdtIG5vdCBleGFjdGx5IHN1cmUgdGhlIHJlYXNvbmluZyBiZWhpbmQgY2hhbmdpbmcgdGhl
-IHR5cGUgdGhlDQo+ID4gPiAib3RoZXIiLCBidXQgd2Ugc2hvdWxkIG5vdCBiZSBkb2luZyB0aGF0
-Lg0KPiA+DQo+ID4gV2VsbCwgIm90aGVyIiBiZWNhdXNlIHRoZXJlIHdhcyBubyBnb29kIHZhbHVl
-IGZvciB0aGF0IGF2YWlsYWJsZSBpbiBlbnVtDQo+IChpbnN0YWxsYXRpb24gaGVscGVyKS4NCj4g
-Pg0KPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBl
-dGVyLm1hcmtvQHNpZW1lbnMuY29tPG1haWx0bzpwZXRlci5tYXJrb0BzaWVtZW5zLmNvbT4+DQo+
-ID4gPiA+IC0tLQ0KPiA+ID4gPiAgbWV0YS9jbGFzc2VzLXJlY2lwZS9jcmVhdGUtc3BkeC1pbWFn
-ZS0zLjAuYmJjbGFzcyB8ICA3ICsrKysrKysNCj4gPiA+ID4gIG1ldGEvbGliL29lL3Jvb3Rmcy5w
-eSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgNiArKysrKysNCj4gPiA+ID4gIG1ldGEv
-bGliL29lL3Nib20zMC5weSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgOCArKysrKysr
-LQ0KPiA+ID4gPiAgbWV0YS9saWIvb2Uvc3BkeDMwX3Rhc2tzLnB5ICAgICAgICAgICAgICAgICAg
-ICAgICB8IDE0ICsrKysrKysrKysrKystDQo+ID4gPiA+ICA0IGZpbGVzIGNoYW5nZWQsIDMzIGlu
-c2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+ID4gPiA+DQo+ID4gPiA+IGRpZmYgLS1naXQg
-YS9tZXRhL2NsYXNzZXMtcmVjaXBlL2NyZWF0ZS1zcGR4LWltYWdlLTMuMC5iYmNsYXNzIGIvbWV0
-YS9jbGFzc2VzLQ0KPiA+ID4gcmVjaXBlL2NyZWF0ZS1zcGR4LWltYWdlLTMuMC5iYmNsYXNzDQo+
-ID4gPiA+IGluZGV4IDE1YTkxZTkwZTIuLmRmYmQyOTYxYjMgMTAwNjQ0DQo+ID4gPiA+IC0tLSBh
-L21ldGEvY2xhc3Nlcy1yZWNpcGUvY3JlYXRlLXNwZHgtaW1hZ2UtMy4wLmJiY2xhc3MNCj4gPiA+
-ID4gKysrIGIvbWV0YS9jbGFzc2VzLXJlY2lwZS9jcmVhdGUtc3BkeC1pbWFnZS0zLjAuYmJjbGFz
-cw0KPiA+ID4gPiBAQCAtNiw2ICs2LDcgQEANCj4gPiA+ID4gICMgU1BEWCBpbWFnZSB0YXNrcw0K
-PiA+ID4gPg0KPiA+ID4gPiAgU1BEWF9ST09URlNfUEFDS0FHRVMgPSAiJHtTUERYRElSfS9yb290
-ZnMtcGFja2FnZXMuanNvbiINCj4gPiA+ID4gK1NQRFhfUk9PVEZTX1JFTU9WRURfUEFDS0FHRVMg
-PSAiJHtTUERYRElSfS9yb290ZnMtcmVtb3ZlZC0NCj4gPiA+IHBhY2thZ2VzLmpzb24iDQo+ID4g
-PiA+ICBTUERYSU1BR0VERVBMT1lESVIgPSAiJHtTUERYRElSfS9pbWFnZS1kZXBsb3kiDQo+ID4g
-PiA+ICBTUERYUk9PVEZTREVQTE9ZID0gIiR7U1BEWERJUn0vcm9vdGZzLWRlcGxveSINCj4gPiA+
-ID4NCj4gPiA+ID4gQEAgLTE1LDE0ICsxNiwyMCBAQCBweXRob24gc3BkeF9jb2xsZWN0X3Jvb3Rm
-c19wYWNrYWdlcygpIHsNCj4gPiA+ID4gICAgICBmcm9tIG9lLnJvb3RmcyBpbXBvcnQgaW1hZ2Vf
-bGlzdF9pbnN0YWxsZWRfcGFja2FnZXMNCj4gPiA+ID4NCj4gPiA+ID4gICAgICByb290X3BhY2th
-Z2VzX2ZpbGUgPSBQYXRoKGQuZ2V0VmFyKCJTUERYX1JPT1RGU19QQUNLQUdFUyIpKQ0KPiA+ID4g
-PiArICAgIHJvb3RfcmVtb3ZlZF9wYWNrYWdlc19maWxlID0NCj4gPiA+IFBhdGgoZC5nZXRWYXIo
-IlNQRFhfUk9PVEZTX1JFTU9WRURfUEFDS0FHRVMiKSkNCj4gPiA+ID4NCj4gPiA+ID4gICAgICBw
-YWNrYWdlcyA9IGltYWdlX2xpc3RfaW5zdGFsbGVkX3BhY2thZ2VzKGQpDQo+ID4gPiA+ICAgICAg
-aWYgbm90IHBhY2thZ2VzOg0KPiA+ID4gPiAgICAgICAgICBwYWNrYWdlcyA9IHt9DQo+ID4gPiA+
-DQo+ID4gPiA+ICsgICAgcmVtb3ZlZF9wYWNrYWdlcyA9IChkLmdldFZhcigiUk9PVEZTX1JFTU9W
-RURfUEFDS0FHRVMiKSBvcg0KPiA+ID4gIiIpLnNwbGl0KCkNCj4gPiA+ID4gKw0KPiA+ID4gPiAg
-ICAgIHJvb3RfcGFja2FnZXNfZmlsZS5wYXJlbnQubWtkaXIocGFyZW50cz1UcnVlLCBleGlzdF9v
-az1UcnVlKQ0KPiA+ID4gPiAgICAgIHdpdGggcm9vdF9wYWNrYWdlc19maWxlLm9wZW4oInciKSBh
-cyBmOg0KPiA+ID4gPiAgICAgICAgICBqc29uLmR1bXAocGFja2FnZXMsIGYpDQo+ID4gPiA+ICsN
-Cj4gPiA+ID4gKyAgICB3aXRoIHJvb3RfcmVtb3ZlZF9wYWNrYWdlc19maWxlLm9wZW4oInciKSBh
-cyBmOg0KPiA+ID4gPiArICAgICAgICBqc29uLmR1bXAocmVtb3ZlZF9wYWNrYWdlcywgZikNCj4g
-PiA+ID4gIH0NCj4gPiA+ID4gIFJPT1RGU19QT1NUVU5JTlNUQUxMX0NPTU1BTkQgPSsNCj4gInNw
-ZHhfY29sbGVjdF9yb290ZnNfcGFja2FnZXMiDQo+ID4gPiA+DQo+ID4gPiA+IGRpZmYgLS1naXQg
-YS9tZXRhL2xpYi9vZS9yb290ZnMucHkgYi9tZXRhL2xpYi9vZS9yb290ZnMucHkNCj4gPiA+ID4g
-aW5kZXggNWVlZTQ4ZjU4Ny4uYjg4MzA1OTZlZCAxMDA2NDQNCj4gPiA+ID4gLS0tIGEvbWV0YS9s
-aWIvb2Uvcm9vdGZzLnB5DQo+ID4gPiA+ICsrKyBiL21ldGEvbGliL29lL3Jvb3Rmcy5weQ0KPiA+
-ID4gPiBAQCAtMjYxLDEwICsyNjEsMTMgQEAgY2xhc3MgUm9vdGZzKG9iamVjdCwgbWV0YWNsYXNz
-PUFCQ01ldGEpOg0KPiA+ID4gPg0KPiA+ID4gPg0KPiA+ID4gPiAgICAgIGRlZiBfdW5pbnN0YWxs
-X3VubmVlZGVkKHNlbGYpOg0KPiA+ID4gPiArICAgICAgICByZW1vdmVkX3BrZ3MgPSBzZXQoKQ0K
-PiA+ID4gPiArDQo+ID4gPiA+ICAgICAgICAgICMgUmVtb3ZlIHRoZSBydW4tcG9zdGluc3RzIHBh
-Y2thZ2UgaWYgbm8gZGVsYXllZCBwb3N0aW5zdHMgYXJlIGZvdW5kDQo+ID4gPiA+ICAgICAgICAg
-IGRlbGF5ZWRfcG9zdGluc3RzID0gc2VsZi5fZ2V0X2RlbGF5ZWRfcG9zdGluc3RzKCkNCj4gPiA+
-ID4gICAgICAgICAgaWYgZGVsYXllZF9wb3N0aW5zdHMgaXMgTm9uZToNCj4gPiA+ID4gICAgICAg
-ICAgICAgIGlmDQo+ID4gPiBvcy5wYXRoLmV4aXN0cyhzZWxmLmQuZXhwYW5kKCIke0lNQUdFX1JP
-T1RGU30ke3N5c2NvbmZkaXJ9L2luaXQuZC9ydW4tDQo+IHBvc3RpbnN0cyIpKQ0KPiA+ID4gb3IN
-Cj4gb3MucGF0aC5leGlzdHMoc2VsZi5kLmV4cGFuZCgiJHtJTUFHRV9ST09URlN9JHtzeXN0ZW1k
-X3N5c3RlbV91bml0ZGlyfS9ydW4tDQo+ID4gPiBwb3N0aW5zdHMuc2VydmljZSIpKToNCj4gPiA+
-ID4gKyAgICAgICAgICAgICAgICByZW1vdmVkX3BrZ3MuYWRkKCJydW4tcG9zdGluc3RzIikNCj4g
-PiA+ID4gICAgICAgICAgICAgICAgICBzZWxmLnBtLnJlbW92ZShbInJ1bi1wb3N0aW5zdHMiXSkN
-Cj4gPiA+ID4NCj4gPiA+ID4gICAgICAgICAgaW1hZ2Vfcm9yZnMgPSBiYi51dGlscy5jb250YWlu
-cygiSU1BR0VfRkVBVFVSRVMiLCAicmVhZC1vbmx5LXJvb3RmcyIsDQo+ID4gPiA+IEBAIC0yODUs
-NiArMjg4LDcgQEAgY2xhc3MgUm9vdGZzKG9iamVjdCwgbWV0YWNsYXNzPUFCQ01ldGEpOg0KPiA+
-ID4gPiAgICAgICAgICAgICAgIyB0byBiZSB1bmluc3RhbGxlZCBvciB0byBiZSBtYW5hZ2VkIGNv
-cnJlY3RseSBvdGhlcndpc2UuDQo+ID4gPiA+ICAgICAgICAgICAgICBwcm92aWRlciA9IHNlbGYu
-ZC5nZXRWYXIoIlZJUlRVQUwtUlVOVElNRV91cGRhdGUtYWx0ZXJuYXRpdmVzIikNCj4gPiA+ID4g
-ICAgICAgICAgICAgIHBrZ3NfdG9fcmVtb3ZlID0gc29ydGVkKFtwa2cgZm9yIHBrZyBpbiBwa2dz
-X2luc3RhbGxlZCBpZiBwa2cgaW4NCj4gPiA+IHVubmVlZGVkX3BrZ3NdLCBrZXk9bGFtYmRhIHg6
-IHggPT0gcHJvdmlkZXIpDQo+ID4gPiA+ICsgICAgICAgICAgICByZW1vdmVkX3BrZ3MudXBkYXRl
-KHBrZ3NfdG9fcmVtb3ZlKQ0KPiA+ID4gPg0KPiA+ID4gPiAgICAgICAgICAgICAgIyB1cGRhdGUt
-YWx0ZXJuYXRpdmVzIHByb3ZpZGVyIGlzIHJlbW92ZWQgaW4gaXRzIG93biByZW1vdmUoKQ0KPiA+
-ID4gPiAgICAgICAgICAgICAgIyBjYWxsIGJlY2F1c2UgYWxsIHBhY2thZ2UgbWFuYWdlcnMgZG8g
-bm90IGd1YXJhbnRlZSB0aGUgcGFja2FnZXMNCj4gPiA+ID4gQEAgLTI5Niw2ICszMDAsOCBAQCBj
-bGFzcyBSb290ZnMob2JqZWN0LCBtZXRhY2xhc3M9QUJDTWV0YSk6DQo+ID4gPiA+ICAgICAgICAg
-ICAgICBpZiBsZW4ocGtnc190b19yZW1vdmUpID4gMDoNCj4gPiA+ID4gICAgICAgICAgICAgICAg
-ICBzZWxmLnBtLnJlbW92ZShbcGtnc190b19yZW1vdmVbLTFdXSwgRmFsc2UpDQo+ID4gPiA+DQo+
-ID4gPiA+ICsgICAgICAgIHNlbGYuZC5zZXRWYXIoIlJPT1RGU19SRU1PVkVEX1BBQ0tBR0VTIiwg
-Ig0KPiA+ID4gIi5qb2luKHNvcnRlZChyZW1vdmVkX3BrZ3MpKSkNCj4gPiA+ID4gKw0KPiA+ID4g
-PiAgICAgICAgICBpZiBkZWxheWVkX3Bvc3RpbnN0czoNCj4gPiA+ID4gICAgICAgICAgICAgIHNl
-bGYuX3NhdmVfcG9zdGluc3RzKCkNCj4gPiA+ID4gICAgICAgICAgICAgIGlmIGltYWdlX3JvcmZz
-Og0KPiA+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9saWIvb2Uvc2JvbTMwLnB5IGIvbWV0YS9saWIv
-b2Uvc2JvbTMwLnB5DQo+ID4gPiA+IGluZGV4IGIzNzlmZjk0N2MuLjRmYTMyMjY2ZmEgMTAwNjQ0
-DQo+ID4gPiA+IC0tLSBhL21ldGEvbGliL29lL3Nib20zMC5weQ0KPiA+ID4gPiArKysgYi9tZXRh
-L2xpYi9vZS9zYm9tMzAucHkNCj4gPiA+ID4gQEAgLTExMjIsNyArMTEyMiw3IEBAIGRlZiBmaW5k
-X2J5X3NwZHhpZChkLCBzcGR4aWQsICosIHJlcXVpcmVkPUZhbHNlKToNCj4gPiA+ID4gICAgICBy
-ZXR1cm4gZmluZF9qc29ubGQoZCwgKmpzb25sZF9oYXNoX3BhdGgoaGFzaF9pZChzcGR4aWQpKSwg
-cmVxdWlyZWQ9cmVxdWlyZWQpDQo+ID4gPiA+DQo+ID4gPiA+DQo+ID4gPiA+IC1kZWYgY3JlYXRl
-X3Nib20oZCwgbmFtZSwgcm9vdF9lbGVtZW50cywgYWRkX29iamVjdHNldHM9W10pOg0KPiA+ID4g
-PiArZGVmIGNyZWF0ZV9zYm9tKGQsIG5hbWUsIHJvb3RfZWxlbWVudHMsIGFkZF9vYmplY3RzZXRz
-PVtdLA0KPiA+ID4gcmVtb3ZlZF9wYWNrYWdlcz1bXSk6DQo+ID4gPiA+ICAgICAgb2Jqc2V0ID0g
-T2JqZWN0U2V0Lm5ld19vYmpzZXQoZCwgbmFtZSkNCj4gPiA+ID4NCj4gPiA+ID4gICAgICBzYm9t
-ID0gb2Jqc2V0LmFkZCgNCj4gPiA+ID4gQEAgLTExNDIsNiArMTE0MiwxMiBAQCBkZWYgY3JlYXRl
-X3Nib20oZCwgbmFtZSwgcm9vdF9lbGVtZW50cywNCj4gPiA+IGFkZF9vYmplY3RzZXRzPVtdKToN
-Cj4gPiA+ID4gICAgICAgICAgICAgICsgIlxuICAiLmpvaW4oc29ydGVkKGxpc3QobWlzc2luZ19z
-cGR4aWRzKSkpDQo+ID4gPiA+ICAgICAgICAgICkNCj4gPiA+ID4NCj4gPiA+ID4gKyAgICBpZiBy
-ZW1vdmVkX3BhY2thZ2VzOg0KPiA+ID4gPiArICAgICAgICBmb3IgcGtnIGluIG9ianNldC5mb3Jl
-YWNoX3R5cGUob2Uuc3BkeDMwLnNvZnR3YXJlX1BhY2thZ2UpOg0KPiA+ID4gPiArICAgICAgICAg
-ICAgaWYgcGtnLm5hbWU8aHR0cDovL3BrZy5uYW1lPiBpbiByZW1vdmVkX3BhY2thZ2VzIGFuZCBw
-a2cuc29mdHdhcmVfcHJpbWFyeVB1cnBvc2UNCj4gPT0NCj4gPiA+IG9lLnNwZHgzMC5zb2Z0d2Fy
-ZV9Tb2Z0d2FyZVB1cnBvc2UuaW5zdGFsbDoNCj4gPiA+ID4gKyAgICAgICAgICAgICAgICBwa2cu
-c29mdHdhcmVfcHJpbWFyeVB1cnBvc2UgPQ0KPiA+ID4gb2Uuc3BkeDMwLnNvZnR3YXJlX1NvZnR3
-YXJlUHVycG9zZS5vdGhlcg0KPiA+ID4gPiArICAgICAgICAgICAgICAgIGJiLm5vdGUoIlJlY2xh
-c3NpZmllZCByZW1vdmVkIHBhY2thZ2UgJXMgU1BEWCBlbnRyeSBmcm9tIGluc3RhbGwNCj4gdG8N
-Cj4gPiA+IG90aGVyIiAlIHBrZy5uYW1lPGh0dHA6Ly9wa2cubmFtZT4pDQo+ID4gPiA+ICsNCj4g
-PiA+ID4gICAgICAjIEZpbHRlciBvdXQgaW50ZXJuYWwgZXh0ZW5zaW9ucyBmcm9tIGZpbmFsIFNC
-b01zDQo+ID4gPiA+ICAgICAgb2Jqc2V0LnJlbW92ZV9pbnRlcm5hbF9leHRlbnNpb25zKCkNCj4g
-PiA+ID4NCj4gPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvbGliL29lL3NwZHgzMF90YXNrcy5weSBi
-L21ldGEvbGliL29lL3NwZHgzMF90YXNrcy5weQ0KPiA+ID4gPiBpbmRleCA3Y2M0NmQ1NzliLi4x
-OGM2OGY0N2RlIDEwMDY0NA0KPiA+ID4gPiAtLS0gYS9tZXRhL2xpYi9vZS9zcGR4MzBfdGFza3Mu
-cHkNCj4gPiA+ID4gKysrIGIvbWV0YS9saWIvb2Uvc3BkeDMwX3Rhc2tzLnB5DQo+ID4gPiA+IEBA
-IC0xNTMyLDYgKzE1MzIsNyBAQCBkZWYgY3JlYXRlX2ltYWdlX3Nib21fc3BkeChkKToNCj4gPiA+
-ID4gICAgICBpbWFnZV9saW5rX25hbWUgPSBkLmdldFZhcigiSU1BR0VfTElOS19OQU1FIikNCj4g
-PiA+ID4gICAgICBpbWdkZXBsb3lkaXIgPSBQYXRoKGQuZ2V0VmFyKCJTUERYSU1BR0VERVBMT1lE
-SVIiKSkNCj4gPiA+ID4gICAgICBtYWNoaW5lID0gZC5nZXRWYXIoIk1BQ0hJTkUiKQ0KPiA+ID4g
-PiArICAgIHJvb3RfcmVtb3ZlZF9wYWNrYWdlc19maWxlID0NCj4gPiA+IFBhdGgoZC5nZXRWYXIo
-IlNQRFhfUk9PVEZTX1JFTU9WRURfUEFDS0FHRVMiKSkNCj4gPiA+ID4NCj4gPiA+ID4gICAgICBz
-cGR4X3BhdGggPSBpbWdkZXBsb3lkaXIgLyAoaW1hZ2VfbmFtZSArICIuc3BkeC5qc29uIikNCj4g
-PiA+ID4NCj4gPiA+ID4gQEAgLTE1NTMsNyArMTU1NCwxOCBAQCBkZWYgY3JlYXRlX2ltYWdlX3Ni
-b21fc3BkeChkKToNCj4gPiA+ID4gICAgICBmb3IgbyBpbiBpbWFnZV9vYmpzZXQuZm9yZWFjaF9y
-b290KG9lLnNwZHgzMC5zb2Z0d2FyZV9GaWxlKToNCj4gPiA+ID4gICAgICAgICAgcm9vdF9lbGVt
-ZW50cy5hcHBlbmQob2Uuc2JvbTMwLmdldF9lbGVtZW50X2xpbmtfaWQobykpDQo+ID4gPiA+DQo+
-ID4gPiA+IC0gICAgb2Jqc2V0LCBzYm9tID0gb2Uuc2JvbTMwLmNyZWF0ZV9zYm9tKGQsIGltYWdl
-X25hbWUsIHJvb3RfZWxlbWVudHMpDQo+ID4gPiA+ICsgICAgdHJ5Og0KPiA+ID4gPiArICAgICAg
-ICB3aXRoIHJvb3RfcmVtb3ZlZF9wYWNrYWdlc19maWxlLm9wZW4oInIiKSBhcyBmOg0KPiA+ID4g
-PiArICAgICAgICAgICAgcmVtb3ZlZF9wYWNrYWdlcyA9IGpzb24ubG9hZChmKQ0KPiA+ID4gPiAr
-ICAgIGV4Y2VwdCBGaWxlTm90Rm91bmRFcnJvcjoNCj4gPiA+ID4gKyAgICAgICAgcmVtb3ZlZF9w
-YWNrYWdlcyA9IFtdDQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICBvYmpzZXQsIHNib20gPSBvZS5z
-Ym9tMzAuY3JlYXRlX3Nib20oDQo+ID4gPiA+ICsgICAgICAgIGQsDQo+ID4gPiA+ICsgICAgICAg
-IGltYWdlX25hbWUsDQo+ID4gPiA+ICsgICAgICAgIHJvb3RfZWxlbWVudHMsDQo+ID4gPiA+ICsg
-ICAgICAgIHJlbW92ZWRfcGFja2FnZXM9cmVtb3ZlZF9wYWNrYWdlcywNCj4gPiA+ID4gKyAgICAp
-DQo+ID4gPiA+DQo+ID4gPiA+ICAgICAgIyBTZXQgc3VwcGxpZXIgb24gcm9vdCBlbGVtZW50cyBp
-ZiBTUERYX0lNQUdFX1NVUFBMSUVSIGlzIGRlZmluZWQNCj4gPiA+ID4gICAgICBzdXBwbGllciA9
-IG9ianNldC5uZXdfYWdlbnQoIlNQRFhfSU1BR0VfU1VQUExJRVIiLCBhZGQ9RmFsc2UpDQo+ID4g
-PiA+DQo+ID4gPiA+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+ID4gPiA+IExpbmtzOiBZb3Ug
-cmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiA+ID4gPiBWaWV3L1Jl
-cGx5IE9ubGluZSAoIzIzODE2Nik6DQo+IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9n
-L29wZW5lbWJlZGRlZC0NCj4gPiA+IGNvcmUvbWVzc2FnZS8yMzgxNjYNCj4gPiA+ID4gTXV0ZSBU
-aGlzIFRvcGljOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvMTE5NjYwODkxLzM2
-MTY2OTMNCj4gPiA+ID4gR3JvdXAgT3duZXI6IG9wZW5lbWJlZGRlZC1jb3JlK293bmVyQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlJTJCb3duZXJAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZz4NCj4gPiA+ID4gVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViDQo+ID4gPiBbSlBFV2hhY2tl
-ckBnbWFpbC5jb208bWFpbHRvOkpQRVdoYWNrZXJAZ21haWwuY29tPl0NCj4gPiA+ID4gLT0tPS09
-LT0tPS09LT0tPS09LT0tPS0NCj4gPiA+ID4NCg==
+On Mon, Jun 29, 2026 at 4:55=E2=80=AFPM Marko, Peter <Peter.Marko@siemens.c=
+om>
+wrote:
 
---_000_AS8PR10MB507362F79560545D2411C3D7FDE82AS8PR10MB5073EURP_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+>
+>
+>
+>
+> *From:* Joshua Watt <jpewhacker@gmail.com>
+> *Sent:* Monday, June 29, 2026 10:03 PM
+> *To:* Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+> *Cc:* openembedded-core@lists.openembedded.org
+> *Subject:* Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed packages
+>
+>
+>
+>
+>
+>
+>
+> On Mon, Jun 29, 2026 at 6:22=E2=80=AFAM Marko, Peter <Peter.Marko@siemens=
+.com>
+> wrote:
+>
+>
+>
+> > -----Original Message-----
+> > From: Joshua Watt <jpewhacker@gmail.com>
+> > Sent: Friday, June 26, 2026 4:11 PM
+> > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed packages
+> >
+> > On Mon, Jun 8, 2026 at 7:56=E2=80=AFAM Marko, Peter <Peter.Marko@siemen=
+s.com>
+> wrote:
+> > >
+> > >
+> > >
+> > > > -----Original Message-----
+> > > > From: Joshua Watt <jpewhacker@gmail.com>
+> > > > Sent: Friday, June 5, 2026 4:16 PM
+> > > > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+> > > > Cc: openembedded-core@lists.openembedded.org
+> > > > Subject: Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed
+> packages
+> > > >
+> > > > On Fri, Jun 5, 2026 at 6:05=E2=80=AFAM Peter Marko via
+> lists.openembedded.org
+> > > > <peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+> > > > >
+> > > > > From: Peter Marko <peter.marko@siemens.com>
+> > > > >
+> > > > > SPDX should not list packages which were removed from rootfs as
+> installed.
+> > > > >
+> > > > > The list of installed packages does not contain them directly, bu=
+t
+> as
+> > > > > dependencies of other installed packages.
+> > > > >
+> > > > > Siwtch them to "other" to keep them in SPDX as part of the build
+> and
+> > > > > installation process.
+> > > >
+> > > > I agree the packages should be removed from the rootfs, but using t=
+he
+> > > > method described.
+> > > >
+> > > > Instead, the list of removed packages should be passed to
+> > > > collect_build_package_inputs(), and anything removed should skip
+> > > > having it's files added to files_by_hash (but, should still be adde=
+d
+> > > > to build_deps, since it is a build dependency).
+> > >
+> > > I have tried several approaches here but all without success until
+> now..
+> > > The problem is that these removed packages are "rdepends" and not
+> "depends".
+> > > Thus in collect_build_package_inputs they are not present yet.
+> > > And even if they would be, the rdepends would anyway add it back late=
+r.
+> > >
+> > > SPDX entries for rdepend clauses are added in expand_collection
+> function.
+> > > I obviously cannot remove the rdepends clause when the recipe sbom is
+> created.
+> > >
+> > > The best approach probably is to remove the rdepends when iterating
+> over sbomx
+> > in expand_collection.
+> > > Would you agree when I try to send a patch in that direction?
+> > > Or do you have any other suggestion?
+> >
+> > That's going to be tricky because you can't just remove the packages;
+> > you also need to remove any reference to the package (e.g. if they are
+> > in a relationship or somewhere else); otherwise the resulting document
+> > will not be fully linked and you'll get errors when creating the SBoM.
+> > For an example of what that would sort of look like, you can look at
+> > the "duplicate" function which is used to replace references to
+> > licenses and CreationInfo with equivalent ones to reduce the document
+> > size.
+> >
+> > But, this is going to complicate an otherwise pretty simple merging
+> > algorithm; I'm just not sure we can currently accurately express what
+> > is going on here (packages being uninstalled at install time), and
+> > until we have a good idea how to express it, I don't want to make it
+> > more confusing by doing something weird (because, then people rely on
+> > the weird behavior and get upset when it changes because we found a
+> > better solution).
+> >
+>
+> Little sad that there is currently no clear vision how to handle this
+> scenario in our classes.
+> In case you get a new idea, let me know and I can spend the effort to
+> convert that to a patch.
+>
+> I have created https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16336
+> for this so it's not forgotten.
+>
+>
+>
+> I think we will need something like this:
+> https://github.com/spdx/spdx-3-model/pull/1297 but I will see if the SPDX
+> community has a better idea in the next few weeks. Basically the idea wou=
+ld
+> be to add a relationship that indicates that the package was uninstalled
+> from the rootfs, while preserving the runtime dependencies.
+>
+>
+>
+> That however does not help scarthgap/wrynose as it will be in spdx 3.1.0,
+> correct?
+>
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpBcHRvczt9DQovKiBTdHlsZSBEZWZpbml0
-aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJn
-aW46MGNtOw0KCWZvbnQtc2l6ZToxMi4wcHQ7DQoJZm9udC1mYW1pbHk6IkFwdG9zIixzYW5zLXNl
-cmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5
-Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQouTXNvQ2hwRGVm
-YXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTt9DQpAcGFnZSBXb3JkU2VjdGlvbjEN
-Cgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7DQoJbWFyZ2luOjcyLjBwdCA3Mi4wcHQgNzIuMHB0IDcy
-LjBwdDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5
-bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0
-IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDld
-Pjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRp
-dCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVh
-ZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIiBzdHlsZT0i
-d29yZC13cmFwOmJyZWFrLXdvcmQiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5
-OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWYiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdiBzdHls
-ZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBjbSAw
-Y20gMGNtIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9w
-OnNvbGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSI+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
-eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNh
-bnMtc2VyaWYiPiBKb3NodWEgV2F0dCAmbHQ7anBld2hhY2tlckBnbWFpbC5jb20mZ3Q7DQo8YnI+
-DQo8Yj5TZW50OjwvYj4gTW9uZGF5LCBKdW5lIDI5LCAyMDI2IDEwOjAzIFBNPGJyPg0KPGI+VG86
-PC9iPiBNYXJrbywgUGV0ZXIgKEZUIEQgRVUgU0sgQkZTMSkgJmx0O1BldGVyLk1hcmtvQHNpZW1l
-bnMuY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZzxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCAyLzJd
-IHJvb3RmcyxzcGR4OiBoYW5kbGUgcmVtb3ZlZCBwYWNrYWdlczxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpw
-PjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
-cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
-Pg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiBNb24sIEp1biAyOSwgMjAy
-NiBhdCA2OjIyPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMt
-c2VyaWYiPuKArzwvc3Bhbj5BTSBNYXJrbywgUGV0ZXIgJmx0OzxhIGhyZWY9Im1haWx0bzpQZXRl
-ci5NYXJrb0BzaWVtZW5zLmNvbSI+UGV0ZXIuTWFya29Ac2llbWVucy5jb208L2E+Jmd0OyB3cm90
-ZTo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25l
-O2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2LjBw
-dDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxicj4NCjxicj4NCiZndDsgLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS08YnI+DQomZ3Q7
-IEZyb206IEpvc2h1YSBXYXR0ICZsdDs8YSBocmVmPSJtYWlsdG86anBld2hhY2tlckBnbWFpbC5j
-b20iIHRhcmdldD0iX2JsYW5rIj5qcGV3aGFja2VyQGdtYWlsLmNvbTwvYT4mZ3Q7PGJyPg0KJmd0
-OyBTZW50OiBGcmlkYXksIEp1bmUgMjYsIDIwMjYgNDoxMSBQTTxicj4NCiZndDsgVG86IE1hcmtv
-LCBQZXRlciAoRlQgRCBFVSBTSyBCRlMxKSAmbHQ7PGEgaHJlZj0ibWFpbHRvOlBldGVyLk1hcmtv
-QHNpZW1lbnMuY29tIiB0YXJnZXQ9Il9ibGFuayI+UGV0ZXIuTWFya29Ac2llbWVucy5jb208L2E+
-Jmd0Ozxicj4NCiZndDsgQ2M6IDxhIGhyZWY9Im1haWx0bzpvcGVuZW1iZWRkZWQtY29yZUBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnIiB0YXJnZXQ9Il9ibGFuayI+b3BlbmVtYmVkZGVkLWNvcmVAbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZzwvYT48YnI+DQomZ3Q7IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0g
-W1BBVENIIDIvMl0gcm9vdGZzLHNwZHg6IGhhbmRsZSByZW1vdmVkIHBhY2thZ2VzPGJyPg0KJmd0
-OyA8YnI+DQomZ3Q7IE9uIE1vbiwgSnVuIDgsIDIwMjYgYXQgNzo1NjxzcGFuIHN0eWxlPSJmb250
-LWZhbWlseTomcXVvdDtBcmlhbCZxdW90OyxzYW5zLXNlcmlmIj7igK88L3NwYW4+QU0gTWFya28s
-IFBldGVyICZsdDs8YSBocmVmPSJtYWlsdG86UGV0ZXIuTWFya29Ac2llbWVucy5jb20iIHRhcmdl
-dD0iX2JsYW5rIj5QZXRlci5NYXJrb0BzaWVtZW5zLmNvbTwvYT4mZ3Q7IHdyb3RlOjxicj4NCiZn
-dDsgJmd0Ozxicj4NCiZndDsgJmd0Ozxicj4NCiZndDsgJmd0Ozxicj4NCiZndDsgJmd0OyAmZ3Q7
-IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tPGJyPg0KJmd0OyAmZ3Q7ICZndDsgRnJvbTogSm9z
-aHVhIFdhdHQgJmx0OzxhIGhyZWY9Im1haWx0bzpqcGV3aGFja2VyQGdtYWlsLmNvbSIgdGFyZ2V0
-PSJfYmxhbmsiPmpwZXdoYWNrZXJAZ21haWwuY29tPC9hPiZndDs8YnI+DQomZ3Q7ICZndDsgJmd0
-OyBTZW50OiBGcmlkYXksIEp1bmUgNSwgMjAyNiA0OjE2IFBNPGJyPg0KJmd0OyAmZ3Q7ICZndDsg
-VG86IE1hcmtvLCBQZXRlciAoRlQgRCBFVSBTSyBCRlMxKSAmbHQ7PGEgaHJlZj0ibWFpbHRvOlBl
-dGVyLk1hcmtvQHNpZW1lbnMuY29tIiB0YXJnZXQ9Il9ibGFuayI+UGV0ZXIuTWFya29Ac2llbWVu
-cy5jb208L2E+Jmd0Ozxicj4NCiZndDsgJmd0OyAmZ3Q7IENjOiA8YSBocmVmPSJtYWlsdG86b3Bl
-bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyIgdGFyZ2V0PSJfYmxhbmsiPg0K
-b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT48YnI+DQomZ3Q7ICZn
-dDsgJmd0OyBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAyLzJdIHJvb3RmcyxzcGR4OiBo
-YW5kbGUgcmVtb3ZlZCBwYWNrYWdlczxicj4NCiZndDsgJmd0OyAmZ3Q7PGJyPg0KJmd0OyAmZ3Q7
-ICZndDsgT24gRnJpLCBKdW4gNSwgMjAyNiBhdCA2OjA1PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5
-OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWYiPuKArzwvc3Bhbj5BTSBQZXRlciBNYXJrbyB2
-aWENCjxhIGhyZWY9Imh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnIiB0YXJnZXQ9Il9ibGFu
-ayI+bGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT48YnI+DQomZ3Q7ICZndDsgJmd0OyAmbHQ7cGV0
-ZXIubWFya289PGEgaHJlZj0ibWFpbHRvOnNpZW1lbnMuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmciIHRhcmdldD0iX2JsYW5rIj5zaWVtZW5zLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9h
-PiZndDsgd3JvdGU6PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0Ozxicj4NCiZndDsgJmd0OyAmZ3Q7
-ICZndDsgRnJvbTogUGV0ZXIgTWFya28gJmx0OzxhIGhyZWY9Im1haWx0bzpwZXRlci5tYXJrb0Bz
-aWVtZW5zLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnBldGVyLm1hcmtvQHNpZW1lbnMuY29tPC9hPiZn
-dDs8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyBTUERY
-IHNob3VsZCBub3QgbGlzdCBwYWNrYWdlcyB3aGljaCB3ZXJlIHJlbW92ZWQgZnJvbSByb290ZnMg
-YXMgaW5zdGFsbGVkLjxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDs8YnI+DQomZ3Q7ICZndDsgJmd0
-OyAmZ3Q7IFRoZSBsaXN0IG9mIGluc3RhbGxlZCBwYWNrYWdlcyBkb2VzIG5vdCBjb250YWluIHRo
-ZW0gZGlyZWN0bHksIGJ1dCBhczxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgZGVwZW5kZW5jaWVz
-IG9mIG90aGVyIGluc3RhbGxlZCBwYWNrYWdlcy48YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7PGJy
-Pg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyBTaXd0Y2ggdGhlbSB0byAmcXVvdDtvdGhlciZxdW90OyB0
-byBrZWVwIHRoZW0gaW4gU1BEWCBhcyBwYXJ0IG9mIHRoZSBidWlsZCBhbmQ8YnI+DQomZ3Q7ICZn
-dDsgJmd0OyAmZ3Q7IGluc3RhbGxhdGlvbiBwcm9jZXNzLjxicj4NCiZndDsgJmd0OyAmZ3Q7PGJy
-Pg0KJmd0OyAmZ3Q7ICZndDsgSSBhZ3JlZSB0aGUgcGFja2FnZXMgc2hvdWxkIGJlIHJlbW92ZWQg
-ZnJvbSB0aGUgcm9vdGZzLCBidXQgdXNpbmcgdGhlPGJyPg0KJmd0OyAmZ3Q7ICZndDsgbWV0aG9k
-IGRlc2NyaWJlZC48YnI+DQomZ3Q7ICZndDsgJmd0Ozxicj4NCiZndDsgJmd0OyAmZ3Q7IEluc3Rl
-YWQsIHRoZSBsaXN0IG9mIHJlbW92ZWQgcGFja2FnZXMgc2hvdWxkIGJlIHBhc3NlZCB0bzxicj4N
-CiZndDsgJmd0OyAmZ3Q7IGNvbGxlY3RfYnVpbGRfcGFja2FnZV9pbnB1dHMoKSwgYW5kIGFueXRo
-aW5nIHJlbW92ZWQgc2hvdWxkIHNraXA8YnI+DQomZ3Q7ICZndDsgJmd0OyBoYXZpbmcgaXQncyBm
-aWxlcyBhZGRlZCB0byBmaWxlc19ieV9oYXNoIChidXQsIHNob3VsZCBzdGlsbCBiZSBhZGRlZDxi
-cj4NCiZndDsgJmd0OyAmZ3Q7IHRvIGJ1aWxkX2RlcHMsIHNpbmNlIGl0IGlzIGEgYnVpbGQgZGVw
-ZW5kZW5jeSkuPGJyPg0KJmd0OyAmZ3Q7PGJyPg0KJmd0OyAmZ3Q7IEkgaGF2ZSB0cmllZCBzZXZl
-cmFsIGFwcHJvYWNoZXMgaGVyZSBidXQgYWxsIHdpdGhvdXQgc3VjY2VzcyB1bnRpbCBub3cuLjxi
-cj4NCiZndDsgJmd0OyBUaGUgcHJvYmxlbSBpcyB0aGF0IHRoZXNlIHJlbW92ZWQgcGFja2FnZXMg
-YXJlICZxdW90O3JkZXBlbmRzJnF1b3Q7IGFuZCBub3QgJnF1b3Q7ZGVwZW5kcyZxdW90Oy48YnI+
-DQomZ3Q7ICZndDsgVGh1cyBpbiBjb2xsZWN0X2J1aWxkX3BhY2thZ2VfaW5wdXRzIHRoZXkgYXJl
-IG5vdCBwcmVzZW50IHlldC48YnI+DQomZ3Q7ICZndDsgQW5kIGV2ZW4gaWYgdGhleSB3b3VsZCBi
-ZSwgdGhlIHJkZXBlbmRzIHdvdWxkIGFueXdheSBhZGQgaXQgYmFjayBsYXRlci48YnI+DQomZ3Q7
-ICZndDs8YnI+DQomZ3Q7ICZndDsgU1BEWCBlbnRyaWVzIGZvciByZGVwZW5kIGNsYXVzZXMgYXJl
-IGFkZGVkIGluIGV4cGFuZF9jb2xsZWN0aW9uIGZ1bmN0aW9uLjxicj4NCiZndDsgJmd0OyBJIG9i
-dmlvdXNseSBjYW5ub3QgcmVtb3ZlIHRoZSByZGVwZW5kcyBjbGF1c2Ugd2hlbiB0aGUgcmVjaXBl
-IHNib20gaXMgY3JlYXRlZC48YnI+DQomZ3Q7ICZndDs8YnI+DQomZ3Q7ICZndDsgVGhlIGJlc3Qg
-YXBwcm9hY2ggcHJvYmFibHkgaXMgdG8gcmVtb3ZlIHRoZSByZGVwZW5kcyB3aGVuIGl0ZXJhdGlu
-ZyBvdmVyIHNib214PGJyPg0KJmd0OyBpbiBleHBhbmRfY29sbGVjdGlvbi48YnI+DQomZ3Q7ICZn
-dDsgV291bGQgeW91IGFncmVlIHdoZW4gSSB0cnkgdG8gc2VuZCBhIHBhdGNoIGluIHRoYXQgZGly
-ZWN0aW9uPzxicj4NCiZndDsgJmd0OyBPciBkbyB5b3UgaGF2ZSBhbnkgb3RoZXIgc3VnZ2VzdGlv
-bj88YnI+DQomZ3Q7IDxicj4NCiZndDsgVGhhdCdzIGdvaW5nIHRvIGJlIHRyaWNreSBiZWNhdXNl
-IHlvdSBjYW4ndCBqdXN0IHJlbW92ZSB0aGUgcGFja2FnZXM7PGJyPg0KJmd0OyB5b3UgYWxzbyBu
-ZWVkIHRvIHJlbW92ZSBhbnkgcmVmZXJlbmNlIHRvIHRoZSBwYWNrYWdlIChlLmcuIGlmIHRoZXkg
-YXJlPGJyPg0KJmd0OyBpbiBhIHJlbGF0aW9uc2hpcCBvciBzb21ld2hlcmUgZWxzZSk7IG90aGVy
-d2lzZSB0aGUgcmVzdWx0aW5nIGRvY3VtZW50PGJyPg0KJmd0OyB3aWxsIG5vdCBiZSBmdWxseSBs
-aW5rZWQgYW5kIHlvdSdsbCBnZXQgZXJyb3JzIHdoZW4gY3JlYXRpbmcgdGhlIFNCb00uPGJyPg0K
-Jmd0OyBGb3IgYW4gZXhhbXBsZSBvZiB3aGF0IHRoYXQgd291bGQgc29ydCBvZiBsb29rIGxpa2Us
-IHlvdSBjYW4gbG9vayBhdDxicj4NCiZndDsgdGhlICZxdW90O2R1cGxpY2F0ZSZxdW90OyBmdW5j
-dGlvbiB3aGljaCBpcyB1c2VkIHRvIHJlcGxhY2UgcmVmZXJlbmNlcyB0bzxicj4NCiZndDsgbGlj
-ZW5zZXMgYW5kIENyZWF0aW9uSW5mbyB3aXRoIGVxdWl2YWxlbnQgb25lcyB0byByZWR1Y2UgdGhl
-IGRvY3VtZW50PGJyPg0KJmd0OyBzaXplLjxicj4NCiZndDsgPGJyPg0KJmd0OyBCdXQsIHRoaXMg
-aXMgZ29pbmcgdG8gY29tcGxpY2F0ZSBhbiBvdGhlcndpc2UgcHJldHR5IHNpbXBsZSBtZXJnaW5n
-PGJyPg0KJmd0OyBhbGdvcml0aG07IEknbSBqdXN0IG5vdCBzdXJlIHdlIGNhbiBjdXJyZW50bHkg
-YWNjdXJhdGVseSBleHByZXNzIHdoYXQ8YnI+DQomZ3Q7IGlzIGdvaW5nIG9uIGhlcmUgKHBhY2th
-Z2VzIGJlaW5nIHVuaW5zdGFsbGVkIGF0IGluc3RhbGwgdGltZSksIGFuZDxicj4NCiZndDsgdW50
-aWwgd2UgaGF2ZSBhIGdvb2QgaWRlYSBob3cgdG8gZXhwcmVzcyBpdCwgSSBkb24ndCB3YW50IHRv
-IG1ha2UgaXQ8YnI+DQomZ3Q7IG1vcmUgY29uZnVzaW5nIGJ5IGRvaW5nIHNvbWV0aGluZyB3ZWly
-ZCAoYmVjYXVzZSwgdGhlbiBwZW9wbGUgcmVseSBvbjxicj4NCiZndDsgdGhlIHdlaXJkIGJlaGF2
-aW9yIGFuZCBnZXQgdXBzZXQgd2hlbiBpdCBjaGFuZ2VzIGJlY2F1c2Ugd2UgZm91bmQgYTxicj4N
-CiZndDsgYmV0dGVyIHNvbHV0aW9uKS48YnI+DQomZ3Q7IDxicj4NCjxicj4NCkxpdHRsZSBzYWQg
-dGhhdCB0aGVyZSBpcyBjdXJyZW50bHkgbm8gY2xlYXIgdmlzaW9uIGhvdyB0byBoYW5kbGUgdGhp
-cyBzY2VuYXJpbyBpbiBvdXIgY2xhc3Nlcy48YnI+DQpJbiBjYXNlIHlvdSBnZXQgYSBuZXcgaWRl
-YSwgbGV0IG1lIGtub3cgYW5kIEkgY2FuIHNwZW5kIHRoZSBlZmZvcnQgdG8gY29udmVydCB0aGF0
-IHRvIGEgcGF0Y2guPGJyPg0KPGJyPg0KSSBoYXZlIGNyZWF0ZWQgPGEgaHJlZj0iaHR0cHM6Ly9i
-dWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL3Nob3dfYnVnLmNnaT9pZD0xNjMzNiIgdGFyZ2V0PSJf
-YmxhbmsiPg0KaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL3Nob3dfYnVnLmNnaT9p
-ZD0xNjMzNjwvYT4gZm9yIHRoaXMgc28gaXQncyBub3QgZm9yZ290dGVuLjxvOnA+PC9vOnA+PC9w
-Pg0KPC9ibG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7
-PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSB0aGluayB3
-ZSB3aWxsIG5lZWQgc29tZXRoaW5nIGxpa2UgdGhpczombmJzcDs8YSBocmVmPSJodHRwczovL2dp
-dGh1Yi5jb20vc3BkeC9zcGR4LTMtbW9kZWwvcHVsbC8xMjk3Ij5odHRwczovL2dpdGh1Yi5jb20v
-c3BkeC9zcGR4LTMtbW9kZWwvcHVsbC8xMjk3PC9hPiBidXQgSSB3aWxsIHNlZSBpZiB0aGUgU1BE
-WCBjb21tdW5pdHkgaGFzIGEgYmV0dGVyIGlkZWEgaW4gdGhlIG5leHQgZmV3IHdlZWtzLiBCYXNp
-Y2FsbHkNCiB0aGUgaWRlYSB3b3VsZCBiZSB0byBhZGQgYSByZWxhdGlvbnNoaXAgdGhhdCBpbmRp
-Y2F0ZXMgdGhhdCB0aGUgcGFja2FnZSB3YXMgdW5pbnN0YWxsZWQgZnJvbSB0aGUgcm9vdGZzLCB3
-aGlsZSBwcmVzZXJ2aW5nIHRoZSBydW50aW1lIGRlcGVuZGVuY2llcy48bzpwPjwvbzpwPjwvcD4N
-CjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZuYnNwOzxvOnA+PC9vOnA+PC9w
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9u
-dC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJpZiI+VGhhdCBob3dldmVyIGRvZXMg
-bm90IGhlbHAgc2NhcnRoZ2FwL3dyeW5vc2UgYXMgaXQgd2lsbCBiZSBpbiBzcGR4IDMuMS4wLCBj
-b3JyZWN0PzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNh
-bnMtc2VyaWYiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGJsb2NrcXVv
-dGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFk
-ZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNt
-Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NClBldGVyPGJyPg0KPGJyPg0KJmd0OyAmZ3Q7
-PGJyPg0KJmd0OyAmZ3Q7ICZndDs8YnI+DQomZ3Q7ICZndDsgJmd0OyBUaGlzIHdpbGwgcHJldmVu
-dCB0aGF0IHJvb3RmcyBwYWNrYWdlIGZyb20gJnF1b3Q7Y29udGFpbmluZyZxdW90OyB0aGUgZmls
-ZXMgZm9yPGJyPg0KJmd0OyAmZ3Q7ICZndDsgcmVtb3ZlZCBwYWNrYWdlcywgYW5kIGJyZWFrIHRo
-ZSBsaW5rYWdlIGJldHdlZW4gdGhlIHJvb3RmcyBhbmQgdGhlPGJyPg0KJmd0OyAmZ3Q7ICZndDsg
-cmVtb3ZlZCBwYWNrYWdlcy48YnI+DQomZ3Q7ICZndDsgJmd0Ozxicj4NCiZndDsgJmd0OyAmZ3Q7
-IEknbSBub3QgZXhhY3RseSBzdXJlIHRoZSByZWFzb25pbmcgYmVoaW5kIGNoYW5naW5nIHRoZSB0
-eXBlIHRoZTxicj4NCiZndDsgJmd0OyAmZ3Q7ICZxdW90O290aGVyJnF1b3Q7LCBidXQgd2Ugc2hv
-dWxkIG5vdCBiZSBkb2luZyB0aGF0Ljxicj4NCiZndDsgJmd0Ozxicj4NCiZndDsgJmd0OyBXZWxs
-LCAmcXVvdDtvdGhlciZxdW90OyBiZWNhdXNlIHRoZXJlIHdhcyBubyBnb29kIHZhbHVlIGZvciB0
-aGF0IGF2YWlsYWJsZSBpbiBlbnVtPGJyPg0KJmd0OyAoaW5zdGFsbGF0aW9uIGhlbHBlcikuPGJy
-Pg0KJmd0OyAmZ3Q7PGJyPg0KJmd0OyAmZ3Q7ICZndDs8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7
-PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyBTaWduZWQtb2ZmLWJ5OiBQZXRlciBNYXJrbyAmbHQ7
-PGEgaHJlZj0ibWFpbHRvOnBldGVyLm1hcmtvQHNpZW1lbnMuY29tIiB0YXJnZXQ9Il9ibGFuayI+
-cGV0ZXIubWFya29Ac2llbWVucy5jb208L2E+Jmd0Ozxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsg
-LS0tPGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyZuYnNwOyBtZXRhL2NsYXNzZXMtcmVjaXBlL2Ny
-ZWF0ZS1zcGR4LWltYWdlLTMuMC5iYmNsYXNzIHwmbmJzcDsgNyArKysrKysrPGJyPg0KJmd0OyAm
-Z3Q7ICZndDsgJmd0OyZuYnNwOyBtZXRhL2xpYi9vZS9yb290ZnMucHkmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO3wmbmJzcDsgNiArKysrKys8YnI+DQomZ3Q7
-ICZndDsgJmd0OyAmZ3Q7Jm5ic3A7IG1ldGEvbGliL29lL3Nib20zMC5weSZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7fCZuYnNwOyA4ICsrKysrKystPGJyPg0K
-Jmd0OyAmZ3Q7ICZndDsgJmd0OyZuYnNwOyBtZXRhL2xpYi9vZS9zcGR4MzBfdGFza3MucHkmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwO3wgMTQgKysrKysrKysrKysrKy08YnI+DQomZ3Q7ICZndDsg
-Jmd0OyAmZ3Q7Jm5ic3A7IDQgZmlsZXMgY2hhbmdlZCwgMzMgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
-dGlvbnMoLSk8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0
-OyBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzLXJlY2lwZS9jcmVhdGUtc3BkeC1pbWFnZS0zLjAu
-YmJjbGFzcyBiL21ldGEvY2xhc3Nlcy08YnI+DQomZ3Q7ICZndDsgJmd0OyByZWNpcGUvY3JlYXRl
-LXNwZHgtaW1hZ2UtMy4wLmJiY2xhc3M8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7IGluZGV4IDE1
-YTkxZTkwZTIuLmRmYmQyOTYxYjMgMTAwNjQ0PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyAtLS0g
-YS9tZXRhL2NsYXNzZXMtcmVjaXBlL2NyZWF0ZS1zcGR4LWltYWdlLTMuMC5iYmNsYXNzPGJyPg0K
-Jmd0OyAmZ3Q7ICZndDsgJmd0OyArKysgYi9tZXRhL2NsYXNzZXMtcmVjaXBlL2NyZWF0ZS1zcGR4
-LWltYWdlLTMuMC5iYmNsYXNzPGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyBAQCAtNiw2ICs2LDcg
-QEA8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7Jm5ic3A7ICMgU1BEWCBpbWFnZSB0YXNrczxicj4N
-CiZndDsgJmd0OyAmZ3Q7ICZndDs8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7Jm5ic3A7IFNQRFhf
-Uk9PVEZTX1BBQ0tBR0VTID0gJnF1b3Q7JHtTUERYRElSfS9yb290ZnMtcGFja2FnZXMuanNvbiZx
-dW90Ozxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgK1NQRFhfUk9PVEZTX1JFTU9WRURfUEFDS0FH
-RVMgPSAmcXVvdDske1NQRFhESVJ9L3Jvb3Rmcy1yZW1vdmVkLTxicj4NCiZndDsgJmd0OyAmZ3Q7
-IHBhY2thZ2VzLmpzb24mcXVvdDs8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7Jm5ic3A7IFNQRFhJ
-TUFHRURFUExPWURJUiA9ICZxdW90OyR7U1BEWERJUn0vaW1hZ2UtZGVwbG95JnF1b3Q7PGJyPg0K
-Jmd0OyAmZ3Q7ICZndDsgJmd0OyZuYnNwOyBTUERYUk9PVEZTREVQTE9ZID0gJnF1b3Q7JHtTUERY
-RElSfS9yb290ZnMtZGVwbG95JnF1b3Q7PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0Ozxicj4NCiZn
-dDsgJmd0OyAmZ3Q7ICZndDsgQEAgLTE1LDE0ICsxNiwyMCBAQCBweXRob24gc3BkeF9jb2xsZWN0
-X3Jvb3Rmc19wYWNrYWdlcygpIHs8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7Jm5ic3A7ICZuYnNw
-OyAmbmJzcDsgZnJvbSBvZS5yb290ZnMgaW1wb3J0IGltYWdlX2xpc3RfaW5zdGFsbGVkX3BhY2th
-Z2VzPGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0Ozxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsmbmJz
-cDsgJm5ic3A7ICZuYnNwOyByb290X3BhY2thZ2VzX2ZpbGUgPSBQYXRoKGQuZ2V0VmFyKCZxdW90
-O1NQRFhfUk9PVEZTX1BBQ0tBR0VTJnF1b3Q7KSk8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7ICsm
-bmJzcDsgJm5ic3A7IHJvb3RfcmVtb3ZlZF9wYWNrYWdlc19maWxlID08YnI+DQomZ3Q7ICZndDsg
-Jmd0OyBQYXRoKGQuZ2V0VmFyKCZxdW90O1NQRFhfUk9PVEZTX1JFTU9WRURfUEFDS0FHRVMmcXVv
-dDspKTxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDs8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7Jm5i
-c3A7ICZuYnNwOyAmbmJzcDsgcGFja2FnZXMgPSBpbWFnZV9saXN0X2luc3RhbGxlZF9wYWNrYWdl
-cyhkKTxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyBpZiBub3Qg
-cGFja2FnZXM6PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgcGFja2FnZXMgPSB7fTxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDs8YnI+DQom
-Z3Q7ICZndDsgJmd0OyAmZ3Q7ICsmbmJzcDsgJm5ic3A7IHJlbW92ZWRfcGFja2FnZXMgPSAoZC5n
-ZXRWYXIoJnF1b3Q7Uk9PVEZTX1JFTU9WRURfUEFDS0FHRVMmcXVvdDspIG9yPGJyPg0KJmd0OyAm
-Z3Q7ICZndDsgJnF1b3Q7JnF1b3Q7KS5zcGxpdCgpPGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyAr
-PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7IHJvb3RfcGFja2Fn
-ZXNfZmlsZS5wYXJlbnQubWtkaXIocGFyZW50cz1UcnVlLCBleGlzdF9vaz1UcnVlKTxicj4NCiZn
-dDsgJmd0OyAmZ3Q7ICZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyB3aXRoIHJvb3RfcGFja2FnZXNf
-ZmlsZS5vcGVuKCZxdW90O3cmcXVvdDspIGFzIGY6PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsganNvbi5kdW1wKHBhY2thZ2VzLCBmKTxi
-cj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgKzxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgKyZuYnNw
-OyAmbmJzcDsgd2l0aCByb290X3JlbW92ZWRfcGFja2FnZXNfZmlsZS5vcGVuKCZxdW90O3cmcXVv
-dDspIGFzIGY6PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyArJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7IGpzb24uZHVtcChyZW1vdmVkX3BhY2thZ2VzLCBmKTxicj4NCiZndDsgJmd0OyAmZ3Q7
-ICZndDsmbmJzcDsgfTxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsmbmJzcDsgUk9PVEZTX1BPU1RV
-TklOU1RBTExfQ09NTUFORCA9Kzxicj4NCiZndDsgJnF1b3Q7c3BkeF9jb2xsZWN0X3Jvb3Rmc19w
-YWNrYWdlcyZxdW90Ozxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDs8YnI+DQomZ3Q7ICZndDsgJmd0
-OyAmZ3Q7IGRpZmYgLS1naXQgYS9tZXRhL2xpYi9vZS9yb290ZnMucHkgYi9tZXRhL2xpYi9vZS9y
-b290ZnMucHk8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7IGluZGV4IDVlZWU0OGY1ODcuLmI4ODMw
-NTk2ZWQgMTAwNjQ0PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyAtLS0gYS9tZXRhL2xpYi9vZS9y
-b290ZnMucHk8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7ICsrKyBiL21ldGEvbGliL29lL3Jvb3Rm
-cy5weTxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgQEAgLTI2MSwxMCArMjYxLDEzIEBAIGNsYXNz
-IFJvb3RmcyhvYmplY3QsIG1ldGFjbGFzcz1BQkNNZXRhKTo8YnI+DQomZ3Q7ICZndDsgJmd0OyAm
-Z3Q7PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0Ozxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsmbmJz
-cDsgJm5ic3A7ICZuYnNwOyBkZWYgX3VuaW5zdGFsbF91bm5lZWRlZChzZWxmKTo8YnI+DQomZ3Q7
-ICZndDsgJmd0OyAmZ3Q7ICsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgcmVtb3ZlZF9wa2dz
-ID0gc2V0KCk8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7ICs8YnI+DQomZ3Q7ICZndDsgJmd0OyAm
-Z3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAjIFJlbW92ZSB0aGUgcnVuLXBv
-c3RpbnN0cyBwYWNrYWdlIGlmIG5vIGRlbGF5ZWQgcG9zdGluc3RzIGFyZSBmb3VuZDxicj4NCiZn
-dDsgJmd0OyAmZ3Q7ICZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGRlbGF5
-ZWRfcG9zdGluc3RzID0gc2VsZi5fZ2V0X2RlbGF5ZWRfcG9zdGluc3RzKCk8YnI+DQomZ3Q7ICZn
-dDsgJmd0OyAmZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBpZiBkZWxheWVk
-X3Bvc3RpbnN0cyBpcyBOb25lOjxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgaWY8YnI+DQomZ3Q7ICZndDsgJmd0
-OyBvcy5wYXRoLmV4aXN0cyhzZWxmLmQuZXhwYW5kKCZxdW90OyR7SU1BR0VfUk9PVEZTfSR7c3lz
-Y29uZmRpcn0vaW5pdC5kL3J1bi08YnI+DQomZ3Q7IHBvc3RpbnN0cyZxdW90OykpPGJyPg0KJmd0
-OyAmZ3Q7ICZndDsgb3I8YnI+DQomZ3Q7IG9zLnBhdGguZXhpc3RzKHNlbGYuZC5leHBhbmQoJnF1
-b3Q7JHtJTUFHRV9ST09URlN9JHtzeXN0ZW1kX3N5c3RlbV91bml0ZGlyfS9ydW4tPGJyPg0KJmd0
-OyAmZ3Q7ICZndDsgcG9zdGluc3RzLnNlcnZpY2UmcXVvdDspKTo8YnI+DQomZ3Q7ICZndDsgJmd0
-OyAmZ3Q7ICsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7IHJlbW92ZWRfcGtncy5hZGQoJnF1b3Q7cnVuLXBvc3RpbnN0cyZxdW90Oyk8YnI+DQom
-Z3Q7ICZndDsgJmd0OyAmZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgc2VsZi5wbS5yZW1vdmUoWyZxdW90O3J1bi1wb3N0aW5z
-dHMmcXVvdDtdKTxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDs8YnI+DQomZ3Q7ICZndDsgJmd0OyAm
-Z3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBpbWFnZV9yb3JmcyA9IGJiLnV0
-aWxzLmNvbnRhaW5zKCZxdW90O0lNQUdFX0ZFQVRVUkVTJnF1b3Q7LCAmcXVvdDtyZWFkLW9ubHkt
-cm9vdGZzJnF1b3Q7LDxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgQEAgLTI4NSw2ICsyODgsNyBA
-QCBjbGFzcyBSb290ZnMob2JqZWN0LCBtZXRhY2xhc3M9QUJDTWV0YSk6PGJyPg0KJmd0OyAmZ3Q7
-ICZndDsgJmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAjIHRvIGJlIHVuaW5zdGFsbGVkIG9yIHRvIGJlIG1hbmFnZWQgY29ycmVjdGx5IG90aGVyd2lz
-ZS48YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7IHByb3ZpZGVyID0gc2VsZi5kLmdldFZhcigmcXVvdDtWSVJUVUFM
-LVJVTlRJTUVfdXBkYXRlLWFsdGVybmF0aXZlcyZxdW90Oyk8YnI+DQomZ3Q7ICZndDsgJmd0OyAm
-Z3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IHBrZ3Nf
-dG9fcmVtb3ZlID0gc29ydGVkKFtwa2cgZm9yIHBrZyBpbiBwa2dzX2luc3RhbGxlZCBpZiBwa2cg
-aW48YnI+DQomZ3Q7ICZndDsgJmd0OyB1bm5lZWRlZF9wa2dzXSwga2V5PWxhbWJkYSB4OiB4ID09
-IHByb3ZpZGVyKTxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgKyZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7IHJlbW92ZWRfcGtncy51cGRhdGUocGtnc190b19yZW1vdmUp
-PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0Ozxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsmbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgIyB1cGRhdGUtYWx0ZXJu
-YXRpdmVzIHByb3ZpZGVyIGlzIHJlbW92ZWQgaW4gaXRzIG93biByZW1vdmUoKTxicj4NCiZndDsg
-Jmd0OyAmZ3Q7ICZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgIyBjYWxsIGJlY2F1c2UgYWxsIHBhY2thZ2UgbWFuYWdlcnMgZG8gbm90IGd1YXJhbnRl
-ZSB0aGUgcGFja2FnZXM8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7IEBAIC0yOTYsNiArMzAwLDgg
-QEAgY2xhc3MgUm9vdGZzKG9iamVjdCwgbWV0YWNsYXNzPUFCQ01ldGEpOjxicj4NCiZndDsgJmd0
-OyAmZ3Q7ICZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgaWYgbGVuKHBrZ3NfdG9fcmVtb3ZlKSAmZ3Q7IDA6PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0
-OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7IHNlbGYucG0ucmVtb3ZlKFtwa2dzX3RvX3JlbW92ZVstMV1dLCBGYWxzZSk8YnI+DQom
-Z3Q7ICZndDsgJmd0OyAmZ3Q7PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyArJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7IHNlbGYuZC5zZXRWYXIoJnF1b3Q7Uk9PVEZTX1JFTU9WRURfUEFDS0FH
-RVMmcXVvdDssICZxdW90Ozxicj4NCiZndDsgJmd0OyAmZ3Q7ICZxdW90Oy5qb2luKHNvcnRlZChy
-ZW1vdmVkX3BrZ3MpKSk8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7ICs8YnI+DQomZ3Q7ICZndDsg
-Jmd0OyAmZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBpZiBkZWxheWVkX3Bv
-c3RpbnN0czo8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IHNlbGYuX3NhdmVfcG9zdGluc3RzKCk8YnI+DQomZ3Q7
-ICZndDsgJmd0OyAmZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7IGlmIGltYWdlX3JvcmZzOjxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgZGlmZiAtLWdp
-dCBhL21ldGEvbGliL29lL3Nib20zMC5weSBiL21ldGEvbGliL29lL3Nib20zMC5weTxicj4NCiZn
-dDsgJmd0OyAmZ3Q7ICZndDsgaW5kZXggYjM3OWZmOTQ3Yy4uNGZhMzIyNjZmYSAxMDA2NDQ8YnI+
-DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7IC0tLSBhL21ldGEvbGliL29lL3Nib20zMC5weTxicj4NCiZn
-dDsgJmd0OyAmZ3Q7ICZndDsgKysrIGIvbWV0YS9saWIvb2Uvc2JvbTMwLnB5PGJyPg0KJmd0OyAm
-Z3Q7ICZndDsgJmd0OyBAQCAtMTEyMiw3ICsxMTIyLDcgQEAgZGVmIGZpbmRfYnlfc3BkeGlkKGQs
-IHNwZHhpZCwgKiwgcmVxdWlyZWQ9RmFsc2UpOjxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsmbmJz
-cDsgJm5ic3A7ICZuYnNwOyByZXR1cm4gZmluZF9qc29ubGQoZCwgKmpzb25sZF9oYXNoX3BhdGgo
-aGFzaF9pZChzcGR4aWQpKSwgcmVxdWlyZWQ9cmVxdWlyZWQpPGJyPg0KJmd0OyAmZ3Q7ICZndDsg
-Jmd0Ozxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDs8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7IC1k
-ZWYgY3JlYXRlX3Nib20oZCwgbmFtZSwgcm9vdF9lbGVtZW50cywgYWRkX29iamVjdHNldHM9W10p
-Ojxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgK2RlZiBjcmVhdGVfc2JvbShkLCBuYW1lLCByb290
-X2VsZW1lbnRzLCBhZGRfb2JqZWN0c2V0cz1bXSw8YnI+DQomZ3Q7ICZndDsgJmd0OyByZW1vdmVk
-X3BhY2thZ2VzPVtdKTo8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJz
-cDsgb2Jqc2V0ID0gT2JqZWN0U2V0Lm5ld19vYmpzZXQoZCwgbmFtZSk8YnI+DQomZ3Q7ICZndDsg
-Jmd0OyAmZ3Q7PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7IHNi
-b20gPSBvYmpzZXQuYWRkKDxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgQEAgLTExNDIsNiArMTE0
-MiwxMiBAQCBkZWYgY3JlYXRlX3Nib20oZCwgbmFtZSwgcm9vdF9lbGVtZW50cyw8YnI+DQomZ3Q7
-ICZndDsgJmd0OyBhZGRfb2JqZWN0c2V0cz1bXSk6PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyArICZxdW90O1xu
-Jm5ic3A7ICZxdW90Oy5qb2luKHNvcnRlZChsaXN0KG1pc3Npbmdfc3BkeGlkcykpKTxicj4NCiZn
-dDsgJmd0OyAmZ3Q7ICZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICk8YnI+
-DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyArJm5ic3A7ICZu
-YnNwOyBpZiByZW1vdmVkX3BhY2thZ2VzOjxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgKyZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBmb3IgcGtnIGluIG9ianNldC5mb3JlYWNoX3R5cGUob2Uu
-c3BkeDMwLnNvZnR3YXJlX1BhY2thZ2UpOjxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgKyZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGlmIDxhIGhyZWY9Imh0dHA6Ly9w
-a2cubmFtZSIgdGFyZ2V0PSJfYmxhbmsiPnBrZy5uYW1lPC9hPiBpbiByZW1vdmVkX3BhY2thZ2Vz
-IGFuZCBwa2cuc29mdHdhcmVfcHJpbWFyeVB1cnBvc2U8YnI+DQomZ3Q7ID09PGJyPg0KJmd0OyAm
-Z3Q7ICZndDsgb2Uuc3BkeDMwLnNvZnR3YXJlX1NvZnR3YXJlUHVycG9zZS5pbnN0YWxsOjxicj4N
-CiZndDsgJmd0OyAmZ3Q7ICZndDsgKyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgcGtnLnNvZnR3YXJlX3ByaW1hcnlQdXJwb3NlID08YnI+DQom
-Z3Q7ICZndDsgJmd0OyBvZS5zcGR4MzAuc29mdHdhcmVfU29mdHdhcmVQdXJwb3NlLm90aGVyPGJy
-Pg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyArJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBiYi5ub3RlKCZxdW90O1JlY2xhc3NpZmllZCByZW1vdmVk
-IHBhY2thZ2UgJXMgU1BEWCBlbnRyeSBmcm9tIGluc3RhbGw8YnI+DQomZ3Q7IHRvPGJyPg0KJmd0
-OyAmZ3Q7ICZndDsgb3RoZXImcXVvdDsgJSA8YSBocmVmPSJodHRwOi8vcGtnLm5hbWUiIHRhcmdl
-dD0iX2JsYW5rIj5wa2cubmFtZTwvYT4pPGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyArPGJyPg0K
-Jmd0OyAmZ3Q7ICZndDsgJmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICMgRmlsdGVyIG91dCBpbnRl
-cm5hbCBleHRlbnNpb25zIGZyb20gZmluYWwgU0JvTXM8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgb2Jqc2V0LnJlbW92ZV9pbnRlcm5hbF9leHRlbnNpb25zKCk8
-YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyBkaWZmIC0t
-Z2l0IGEvbWV0YS9saWIvb2Uvc3BkeDMwX3Rhc2tzLnB5IGIvbWV0YS9saWIvb2Uvc3BkeDMwX3Rh
-c2tzLnB5PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyBpbmRleCA3Y2M0NmQ1NzliLi4xOGM2OGY0
-N2RlIDEwMDY0NDxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgLS0tIGEvbWV0YS9saWIvb2Uvc3Bk
-eDMwX3Rhc2tzLnB5PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyArKysgYi9tZXRhL2xpYi9vZS9z
-cGR4MzBfdGFza3MucHk8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7IEBAIC0xNTMyLDYgKzE1MzIs
-NyBAQCBkZWYgY3JlYXRlX2ltYWdlX3Nib21fc3BkeChkKTo8YnI+DQomZ3Q7ICZndDsgJmd0OyAm
-Z3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgaW1hZ2VfbGlua19uYW1lID0gZC5nZXRWYXIoJnF1b3Q7
-SU1BR0VfTElOS19OQU1FJnF1b3Q7KTxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsmbmJzcDsgJm5i
-c3A7ICZuYnNwOyBpbWdkZXBsb3lkaXIgPSBQYXRoKGQuZ2V0VmFyKCZxdW90O1NQRFhJTUFHRURF
-UExPWURJUiZxdW90OykpPGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyZuYnNwOyAmbmJzcDsgJm5i
-c3A7IG1hY2hpbmUgPSBkLmdldFZhcigmcXVvdDtNQUNISU5FJnF1b3Q7KTxicj4NCiZndDsgJmd0
-OyAmZ3Q7ICZndDsgKyZuYnNwOyAmbmJzcDsgcm9vdF9yZW1vdmVkX3BhY2thZ2VzX2ZpbGUgPTxi
-cj4NCiZndDsgJmd0OyAmZ3Q7IFBhdGgoZC5nZXRWYXIoJnF1b3Q7U1BEWF9ST09URlNfUkVNT1ZF
-RF9QQUNLQUdFUyZxdW90OykpPGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0Ozxicj4NCiZndDsgJmd0
-OyAmZ3Q7ICZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyBzcGR4X3BhdGggPSBpbWdkZXBsb3lkaXIg
-LyAoaW1hZ2VfbmFtZSArICZxdW90Oy5zcGR4Lmpzb24mcXVvdDspPGJyPg0KJmd0OyAmZ3Q7ICZn
-dDsgJmd0Ozxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgQEAgLTE1NTMsNyArMTU1NCwxOCBAQCBk
-ZWYgY3JlYXRlX2ltYWdlX3Nib21fc3BkeChkKTo8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7Jm5i
-c3A7ICZuYnNwOyAmbmJzcDsgZm9yIG8gaW4gaW1hZ2Vfb2Jqc2V0LmZvcmVhY2hfcm9vdChvZS5z
-cGR4MzAuc29mdHdhcmVfRmlsZSk6PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgcm9vdF9lbGVtZW50cy5hcHBlbmQob2Uuc2JvbTMwLmdl
-dF9lbGVtZW50X2xpbmtfaWQobykpPGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0Ozxicj4NCiZndDsg
-Jmd0OyAmZ3Q7ICZndDsgLSZuYnNwOyAmbmJzcDsgb2Jqc2V0LCBzYm9tID0gb2Uuc2JvbTMwLmNy
-ZWF0ZV9zYm9tKGQsIGltYWdlX25hbWUsIHJvb3RfZWxlbWVudHMpPGJyPg0KJmd0OyAmZ3Q7ICZn
-dDsgJmd0OyArJm5ic3A7ICZuYnNwOyB0cnk6PGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyArJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IHdpdGggcm9vdF9yZW1vdmVkX3BhY2thZ2VzX2ZpbGUu
-b3BlbigmcXVvdDtyJnF1b3Q7KSBhcyBmOjxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgKyZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IHJlbW92ZWRfcGFja2FnZXMgPSBq
-c29uLmxvYWQoZik8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7ICsmbmJzcDsgJm5ic3A7IGV4Y2Vw
-dCBGaWxlTm90Rm91bmRFcnJvcjo8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7ICsmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgcmVtb3ZlZF9wYWNrYWdlcyA9IFtdPGJyPg0KJmd0OyAmZ3Q7ICZn
-dDsgJmd0OyArPGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyArJm5ic3A7ICZuYnNwOyBvYmpzZXQs
-IHNib20gPSBvZS5zYm9tMzAuY3JlYXRlX3Nib20oPGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyAr
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGQsPGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0OyAr
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGltYWdlX25hbWUsPGJyPg0KJmd0OyAmZ3Q7ICZn
-dDsgJmd0OyArJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IHJvb3RfZWxlbWVudHMsPGJyPg0K
-Jmd0OyAmZ3Q7ICZndDsgJmd0OyArJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IHJlbW92ZWRf
-cGFja2FnZXM9cmVtb3ZlZF9wYWNrYWdlcyw8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7ICsmbmJz
-cDsgJm5ic3A7ICk8YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7PGJyPg0KJmd0OyAmZ3Q7ICZndDsg
-Jmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICMgU2V0IHN1cHBsaWVyIG9uIHJvb3QgZWxlbWVudHMg
-aWYgU1BEWF9JTUFHRV9TVVBQTElFUiBpcyBkZWZpbmVkPGJyPg0KJmd0OyAmZ3Q7ICZndDsgJmd0
-OyZuYnNwOyAmbmJzcDsgJm5ic3A7IHN1cHBsaWVyID0gb2Jqc2V0Lm5ld19hZ2VudCgmcXVvdDtT
-UERYX0lNQUdFX1NVUFBMSUVSJnF1b3Q7LCBhZGQ9RmFsc2UpPGJyPg0KJmd0OyAmZ3Q7ICZndDsg
-Jmd0Ozxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgLT0tPS09LT0tPS09LT0tPS09LT0tPS08YnI+
-DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2Vu
-dCB0byB0aGlzIGdyb3VwLjxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgVmlldy9SZXBseSBPbmxp
-bmUgKCMyMzgxNjYpOjxicj4NCiZndDsgPGEgaHJlZj0iaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRk
-ZWQub3JnL2cvb3BlbmVtYmVkZGVkLSIgdGFyZ2V0PSJfYmxhbmsiPmh0dHBzOi8vbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC08L2E+PGJyPg0KJmd0OyAmZ3Q7ICZndDsgY29y
-ZS9tZXNzYWdlLzIzODE2Njxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgTXV0ZSBUaGlzIFRvcGlj
-OiA8YSBocmVmPSJodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvMTE5NjYwODkxLzM2
-MTY2OTMiIHRhcmdldD0iX2JsYW5rIj4NCmh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9t
-dC8xMTk2NjA4OTEvMzYxNjY5MzwvYT48YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7IEdyb3VwIE93
-bmVyOiA8YSBocmVmPSJtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUlMkJvd25lckBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnIiB0YXJnZXQ9Il9ibGFuayI+DQpvcGVuZW1iZWRkZWQtY29yZStvd25lckBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPjxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgVW5zdWJz
-Y3JpYmU6IDxhIGhyZWY9Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJl
-ZGRlZC1jb3JlL3Vuc3ViIiB0YXJnZXQ9Il9ibGFuayI+DQpodHRwczovL2xpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YjwvYT48YnI+DQomZ3Q7ICZndDsgJmd0
-OyBbPGEgaHJlZj0ibWFpbHRvOkpQRVdoYWNrZXJAZ21haWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+
-SlBFV2hhY2tlckBnbWFpbC5jb208L2E+XTxicj4NCiZndDsgJmd0OyAmZ3Q7ICZndDsgLT0tPS09
-LT0tPS09LT0tPS09LT0tPS08YnI+DQomZ3Q7ICZndDsgJmd0OyAmZ3Q7PG86cD48L286cD48L3A+
-DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4N
-CjwvaHRtbD4NCg==
+Correct, but if we can figure out it _will_ be done in 3.1, we can
+implement a similar mechanism in 3.0.1 for the older versions using
+extensions etc. I just don't want to make up something that isn't
+expressiable any other way than by custom extensions.
 
---_000_AS8PR10MB507362F79560545D2411C3D7FDE82AS8PR10MB5073EURP_--
+
+>
+>
+>
+> Peter
+>
+> > >
+> > > >
+> > > > This will prevent that rootfs package from "containing" the files f=
+or
+> > > > removed packages, and break the linkage between the rootfs and the
+> > > > removed packages.
+> > > >
+> > > > I'm not exactly sure the reasoning behind changing the type the
+> > > > "other", but we should not be doing that.
+> > >
+> > > Well, "other" because there was no good value for that available in
+> enum
+> > (installation helper).
+> > >
+> > > >
+> > > > >
+> > > > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > > > > ---
+> > > > >  meta/classes-recipe/create-spdx-image-3.0.bbclass |  7 +++++++
+> > > > >  meta/lib/oe/rootfs.py                             |  6 ++++++
+> > > > >  meta/lib/oe/sbom30.py                             |  8 +++++++-
+> > > > >  meta/lib/oe/spdx30_tasks.py                       | 14
+> +++++++++++++-
+> > > > >  4 files changed, 33 insertions(+), 2 deletions(-)
+> > > > >
+> > > > > diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass
+> b/meta/classes-
+> > > > recipe/create-spdx-image-3.0.bbclass
+> > > > > index 15a91e90e2..dfbd2961b3 100644
+> > > > > --- a/meta/classes-recipe/create-spdx-image-3.0.bbclass
+> > > > > +++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
+> > > > > @@ -6,6 +6,7 @@
+> > > > >  # SPDX image tasks
+> > > > >
+> > > > >  SPDX_ROOTFS_PACKAGES =3D "${SPDXDIR}/rootfs-packages.json"
+> > > > > +SPDX_ROOTFS_REMOVED_PACKAGES =3D "${SPDXDIR}/rootfs-removed-
+> > > > packages.json"
+> > > > >  SPDXIMAGEDEPLOYDIR =3D "${SPDXDIR}/image-deploy"
+> > > > >  SPDXROOTFSDEPLOY =3D "${SPDXDIR}/rootfs-deploy"
+> > > > >
+> > > > > @@ -15,14 +16,20 @@ python spdx_collect_rootfs_packages() {
+> > > > >      from oe.rootfs import image_list_installed_packages
+> > > > >
+> > > > >      root_packages_file =3D Path(d.getVar("SPDX_ROOTFS_PACKAGES")=
+)
+> > > > > +    root_removed_packages_file =3D
+> > > > Path(d.getVar("SPDX_ROOTFS_REMOVED_PACKAGES"))
+> > > > >
+> > > > >      packages =3D image_list_installed_packages(d)
+> > > > >      if not packages:
+> > > > >          packages =3D {}
+> > > > >
+> > > > > +    removed_packages =3D (d.getVar("ROOTFS_REMOVED_PACKAGES") or
+> > > > "").split()
+> > > > > +
+> > > > >      root_packages_file.parent.mkdir(parents=3DTrue, exist_ok=3DT=
+rue)
+> > > > >      with root_packages_file.open("w") as f:
+> > > > >          json.dump(packages, f)
+> > > > > +
+> > > > > +    with root_removed_packages_file.open("w") as f:
+> > > > > +        json.dump(removed_packages, f)
+> > > > >  }
+> > > > >  ROOTFS_POSTUNINSTALL_COMMAND =3D+
+> > "spdx_collect_rootfs_packages"
+> > > > >
+> > > > > diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+> > > > > index 5eee48f587..b8830596ed 100644
+> > > > > --- a/meta/lib/oe/rootfs.py
+> > > > > +++ b/meta/lib/oe/rootfs.py
+> > > > > @@ -261,10 +261,13 @@ class Rootfs(object, metaclass=3DABCMeta):
+> > > > >
+> > > > >
+> > > > >      def _uninstall_unneeded(self):
+> > > > > +        removed_pkgs =3D set()
+> > > > > +
+> > > > >          # Remove the run-postinsts package if no delayed
+> postinsts are found
+> > > > >          delayed_postinsts =3D self._get_delayed_postinsts()
+> > > > >          if delayed_postinsts is None:
+> > > > >              if
+> > > >
+> os.path.exists(self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/init.d/run-
+> > postinsts"))
+> > > > or
+> >
+> os.path.exists(self.d.expand("${IMAGE_ROOTFS}${systemd_system_unitdir}/ru=
+n-
+> > > > postinsts.service")):
+> > > > > +                removed_pkgs.add("run-postinsts")
+> > > > >                  self.pm.remove(["run-postinsts"])
+> > > > >
+> > > > >          image_rorfs =3D bb.utils.contains("IMAGE_FEATURES",
+> "read-only-rootfs",
+> > > > > @@ -285,6 +288,7 @@ class Rootfs(object, metaclass=3DABCMeta):
+> > > > >              # to be uninstalled or to be managed correctly
+> otherwise.
+> > > > >              provider =3D
+> self.d.getVar("VIRTUAL-RUNTIME_update-alternatives")
+> > > > >              pkgs_to_remove =3D sorted([pkg for pkg in
+> pkgs_installed if pkg in
+> > > > unneeded_pkgs], key=3Dlambda x: x =3D=3D provider)
+> > > > > +            removed_pkgs.update(pkgs_to_remove)
+> > > > >
+> > > > >              # update-alternatives provider is removed in its own
+> remove()
+> > > > >              # call because all package managers do not guarantee
+> the packages
+> > > > > @@ -296,6 +300,8 @@ class Rootfs(object, metaclass=3DABCMeta):
+> > > > >              if len(pkgs_to_remove) > 0:
+> > > > >                  self.pm.remove([pkgs_to_remove[-1]], False)
+> > > > >
+> > > > > +        self.d.setVar("ROOTFS_REMOVED_PACKAGES", "
+> > > > ".join(sorted(removed_pkgs)))
+> > > > > +
+> > > > >          if delayed_postinsts:
+> > > > >              self._save_postinsts()
+> > > > >              if image_rorfs:
+> > > > > diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+> > > > > index b379ff947c..4fa32266fa 100644
+> > > > > --- a/meta/lib/oe/sbom30.py
+> > > > > +++ b/meta/lib/oe/sbom30.py
+> > > > > @@ -1122,7 +1122,7 @@ def find_by_spdxid(d, spdxid, *,
+> required=3DFalse):
+> > > > >      return find_jsonld(d, *jsonld_hash_path(hash_id(spdxid)),
+> required=3Drequired)
+> > > > >
+> > > > >
+> > > > > -def create_sbom(d, name, root_elements, add_objectsets=3D[]):
+> > > > > +def create_sbom(d, name, root_elements, add_objectsets=3D[],
+> > > > removed_packages=3D[]):
+> > > > >      objset =3D ObjectSet.new_objset(d, name)
+> > > > >
+> > > > >      sbom =3D objset.add(
+> > > > > @@ -1142,6 +1142,12 @@ def create_sbom(d, name, root_elements,
+> > > > add_objectsets=3D[]):
+> > > > >              + "\n  ".join(sorted(list(missing_spdxids)))
+> > > > >          )
+> > > > >
+> > > > > +    if removed_packages:
+> > > > > +        for pkg in
+> objset.foreach_type(oe.spdx30.software_Package):
+> > > > > +            if pkg.name in removed_packages and
+> pkg.software_primaryPurpose
+> > =3D=3D
+> > > > oe.spdx30.software_SoftwarePurpose.install:
+> > > > > +                pkg.software_primaryPurpose =3D
+> > > > oe.spdx30.software_SoftwarePurpose.other
+> > > > > +                bb.note("Reclassified removed package %s SPDX
+> entry from install
+> > to
+> > > > other" % pkg.name)
+> > > > > +
+> > > > >      # Filter out internal extensions from final SBoMs
+> > > > >      objset.remove_internal_extensions()
+> > > > >
+> > > > > diff --git a/meta/lib/oe/spdx30_tasks.py
+> b/meta/lib/oe/spdx30_tasks.py
+> > > > > index 7cc46d579b..18c68f47de 100644
+> > > > > --- a/meta/lib/oe/spdx30_tasks.py
+> > > > > +++ b/meta/lib/oe/spdx30_tasks.py
+> > > > > @@ -1532,6 +1532,7 @@ def create_image_sbom_spdx(d):
+> > > > >      image_link_name =3D d.getVar("IMAGE_LINK_NAME")
+> > > > >      imgdeploydir =3D Path(d.getVar("SPDXIMAGEDEPLOYDIR"))
+> > > > >      machine =3D d.getVar("MACHINE")
+> > > > > +    root_removed_packages_file =3D
+> > > > Path(d.getVar("SPDX_ROOTFS_REMOVED_PACKAGES"))
+> > > > >
+> > > > >      spdx_path =3D imgdeploydir / (image_name + ".spdx.json")
+> > > > >
+> > > > > @@ -1553,7 +1554,18 @@ def create_image_sbom_spdx(d):
+> > > > >      for o in image_objset.foreach_root(oe.spdx30.software_File):
+> > > > >          root_elements.append(oe.sbom30.get_element_link_id(o))
+> > > > >
+> > > > > -    objset, sbom =3D oe.sbom30.create_sbom(d, image_name,
+> root_elements)
+> > > > > +    try:
+> > > > > +        with root_removed_packages_file.open("r") as f:
+> > > > > +            removed_packages =3D json.load(f)
+> > > > > +    except FileNotFoundError:
+> > > > > +        removed_packages =3D []
+> > > > > +
+> > > > > +    objset, sbom =3D oe.sbom30.create_sbom(
+> > > > > +        d,
+> > > > > +        image_name,
+> > > > > +        root_elements,
+> > > > > +        removed_packages=3Dremoved_packages,
+> > > > > +    )
+> > > > >
+> > > > >      # Set supplier on root elements if SPDX_IMAGE_SUPPLIER is
+> defined
+> > > > >      supplier =3D objset.new_agent("SPDX_IMAGE_SUPPLIER", add=3DF=
+alse)
+> > > > >
+> > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > > Links: You receive all messages sent to this group.
+> > > > > View/Reply Online (#238166):
+> > https://lists.openembedded.org/g/openembedded-
+> > > > core/message/238166
+> > > > > Mute This Topic:
+> https://lists.openembedded.org/mt/119660891/3616693
+> > > > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > > > Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/unsub
+> > > > [JPEWhacker@gmail.com]
+> > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > >
+>
+>
+
+--00000000000056671c06556c7101
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 29,=
+ 2026 at 4:55=E2=80=AFPM Marko, Peter &lt;<a href=3D"mailto:Peter.Marko@sie=
+mens.com">Peter.Marko@siemens.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div class=3D"msg4950663986882234481">
+
+
+
+
+
+<div lang=3D"EN-US" style=3D"overflow-wrap: break-word;">
+<div class=3D"m_4950663986882234481WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
+l&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div style=3D"border-width:medium medium medium 1.5pt;border-style:none non=
+e none solid;border-color:currentcolor currentcolor currentcolor blue;paddi=
+ng:0cm 0cm 0cm 4pt">
+<div>
+<div style=3D"border-width:1pt medium medium;border-style:solid none none;b=
+order-color:rgb(225,225,225) currentcolor currentcolor;padding:3pt 0cm 0cm"=
+>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11pt;font-family:&quot;C=
+alibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11pt;font=
+-family:&quot;Calibri&quot;,sans-serif"> Joshua Watt &lt;<a href=3D"mailto:=
+jpewhacker@gmail.com" target=3D"_blank">jpewhacker@gmail.com</a>&gt;
+<br>
+<b>Sent:</b> Monday, June 29, 2026 10:03 PM<br>
+<b>To:</b> Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Peter.Marko=
+@siemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;<br>
+<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+<b>Subject:</b> Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed packa=
+ges<u></u><u></u></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">On Mon, Jun 29, 2026 at 6:22<span style=3D"font-fami=
+ly:&quot;Arial&quot;,sans-serif">=E2=80=AF</span>AM Marko, Peter &lt;<a hre=
+f=3D"mailto:Peter.Marko@siemens.com" target=3D"_blank">Peter.Marko@siemens.=
+com</a>&gt; wrote:<u></u><u></u></p>
+</div>
+<blockquote style=3D"border-width:medium medium medium 1pt;border-style:non=
+e none none solid;border-color:currentcolor currentcolor currentcolor rgb(2=
+04,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4.8pt;margin-right:0cm">
+<p class=3D"MsoNormal"><br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: Joshua Watt &lt;<a href=3D"mailto:jpewhacker@gmail.com" target=
+=3D"_blank">jpewhacker@gmail.com</a>&gt;<br>
+&gt; Sent: Friday, June 26, 2026 4:11 PM<br>
+&gt; To: Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Peter.Marko@s=
+iemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;<br>
+&gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Subject: Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed package=
+s<br>
+&gt; <br>
+&gt; On Mon, Jun 8, 2026 at 7:56<span style=3D"font-family:&quot;Arial&quot=
+;,sans-serif">=E2=80=AF</span>AM Marko, Peter &lt;<a href=3D"mailto:Peter.M=
+arko@siemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt; wrote:<=
+br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; -----Original Message-----<br>
+&gt; &gt; &gt; From: Joshua Watt &lt;<a href=3D"mailto:jpewhacker@gmail.com=
+" target=3D"_blank">jpewhacker@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; Sent: Friday, June 5, 2026 4:16 PM<br>
+&gt; &gt; &gt; To: Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Pet=
+er.Marko@siemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;<br>
+&gt; &gt; &gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.o=
+rg" target=3D"_blank">
+openembedded-core@lists.openembedded.org</a><br>
+&gt; &gt; &gt; Subject: Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle remov=
+ed packages<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; On Fri, Jun 5, 2026 at 6:05<span style=3D"font-family:&quot;=
+Arial&quot;,sans-serif">=E2=80=AF</span>AM Peter Marko via
+<a href=3D"http://lists.openembedded.org" target=3D"_blank">lists.openembed=
+ded.org</a><br>
+&gt; &gt; &gt; &lt;peter.marko=3D<a href=3D"mailto:siemens.com@lists.openem=
+bedded.org" target=3D"_blank">siemens.com@lists.openembedded.org</a>&gt; wr=
+ote:<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; From: Peter Marko &lt;<a href=3D"mailto:peter.marko@sie=
+mens.com" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; SPDX should not list packages which were removed from r=
+ootfs as installed.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; The list of installed packages does not contain them di=
+rectly, but as<br>
+&gt; &gt; &gt; &gt; dependencies of other installed packages.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Siwtch them to &quot;other&quot; to keep them in SPDX a=
+s part of the build and<br>
+&gt; &gt; &gt; &gt; installation process.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; I agree the packages should be removed from the rootfs, but =
+using the<br>
+&gt; &gt; &gt; method described.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Instead, the list of removed packages should be passed to<br=
+>
+&gt; &gt; &gt; collect_build_package_inputs(), and anything removed should =
+skip<br>
+&gt; &gt; &gt; having it&#39;s files added to files_by_hash (but, should st=
+ill be added<br>
+&gt; &gt; &gt; to build_deps, since it is a build dependency).<br>
+&gt; &gt;<br>
+&gt; &gt; I have tried several approaches here but all without success unti=
+l now..<br>
+&gt; &gt; The problem is that these removed packages are &quot;rdepends&quo=
+t; and not &quot;depends&quot;.<br>
+&gt; &gt; Thus in collect_build_package_inputs they are not present yet.<br=
+>
+&gt; &gt; And even if they would be, the rdepends would anyway add it back =
+later.<br>
+&gt; &gt;<br>
+&gt; &gt; SPDX entries for rdepend clauses are added in expand_collection f=
+unction.<br>
+&gt; &gt; I obviously cannot remove the rdepends clause when the recipe sbo=
+m is created.<br>
+&gt; &gt;<br>
+&gt; &gt; The best approach probably is to remove the rdepends when iterati=
+ng over sbomx<br>
+&gt; in expand_collection.<br>
+&gt; &gt; Would you agree when I try to send a patch in that direction?<br>
+&gt; &gt; Or do you have any other suggestion?<br>
+&gt; <br>
+&gt; That&#39;s going to be tricky because you can&#39;t just remove the pa=
+ckages;<br>
+&gt; you also need to remove any reference to the package (e.g. if they are=
+<br>
+&gt; in a relationship or somewhere else); otherwise the resulting document=
+<br>
+&gt; will not be fully linked and you&#39;ll get errors when creating the S=
+BoM.<br>
+&gt; For an example of what that would sort of look like, you can look at<b=
+r>
+&gt; the &quot;duplicate&quot; function which is used to replace references=
+ to<br>
+&gt; licenses and CreationInfo with equivalent ones to reduce the document<=
+br>
+&gt; size.<br>
+&gt; <br>
+&gt; But, this is going to complicate an otherwise pretty simple merging<br=
+>
+&gt; algorithm; I&#39;m just not sure we can currently accurately express w=
+hat<br>
+&gt; is going on here (packages being uninstalled at install time), and<br>
+&gt; until we have a good idea how to express it, I don&#39;t want to make =
+it<br>
+&gt; more confusing by doing something weird (because, then people rely on<=
+br>
+&gt; the weird behavior and get upset when it changes because we found a<br=
+>
+&gt; better solution).<br>
+&gt; <br>
+<br>
+Little sad that there is currently no clear vision how to handle this scena=
+rio in our classes.<br>
+In case you get a new idea, let me know and I can spend the effort to conve=
+rt that to a patch.<br>
+<br>
+I have created <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=
+=3D16336" target=3D"_blank">
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16336</a> for this so i=
+t&#39;s not forgotten.<u></u><u></u></p>
+</blockquote>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">I think we will need something like this:=C2=A0<a hr=
+ef=3D"https://github.com/spdx/spdx-3-model/pull/1297" target=3D"_blank">htt=
+ps://github.com/spdx/spdx-3-model/pull/1297</a> but I will see if the SPDX =
+community has a better idea in the next few weeks. Basically
+ the idea would be to add a relationship that indicates that the package wa=
+s uninstalled from the rootfs, while preserving the runtime dependencies.<u=
+></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
+l&quot;,sans-serif">That however does not help scarthgap/wrynose as it will=
+ be in spdx 3.1.0, correct?</span></p></div></div></div></div></div></div><=
+/div></blockquote><div><br></div><div>Correct, but if we can figure out it =
+_will_ be done in 3.1, we can implement a similar mechanism in 3.0.1 for th=
+e older versions using extensions etc. I just don&#39;t want to make up som=
+ething that isn&#39;t expressiable any other way than by custom extensions.=
+</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
+iv class=3D"msg4950663986882234481"><div lang=3D"EN-US" style=3D"overflow-w=
+rap: break-word;"><div class=3D"m_4950663986882234481WordSection1"><div sty=
+le=3D"border-width:medium medium medium 1.5pt;border-style:none none none s=
+olid;border-color:currentcolor currentcolor currentcolor blue;padding:0cm 0=
+cm 0cm 4pt"><div><div><div><p class=3D"MsoNormal"><span style=3D"font-size:=
+10pt;font-family:&quot;Arial&quot;,sans-serif"><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
+l&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
+</div>
+<blockquote style=3D"border-width:medium medium medium 1pt;border-style:non=
+e none none solid;border-color:currentcolor currentcolor currentcolor rgb(2=
+04,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4.8pt;margin-right:0cm">
+<p class=3D"MsoNormal"><br>
+Peter<br>
+<br>
+&gt; &gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; This will prevent that rootfs package from &quot;containing&=
+quot; the files for<br>
+&gt; &gt; &gt; removed packages, and break the linkage between the rootfs a=
+nd the<br>
+&gt; &gt; &gt; removed packages.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; I&#39;m not exactly sure the reasoning behind changing the t=
+ype the<br>
+&gt; &gt; &gt; &quot;other&quot;, but we should not be doing that.<br>
+&gt; &gt;<br>
+&gt; &gt; Well, &quot;other&quot; because there was no good value for that =
+available in enum<br>
+&gt; (installation helper).<br>
+&gt; &gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.=
+marko@siemens.com" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+&gt; &gt; &gt; &gt; ---<br>
+&gt; &gt; &gt; &gt;=C2=A0 meta/classes-recipe/create-spdx-image-3.0.bbclass=
+ |=C2=A0 7 +++++++<br>
+&gt; &gt; &gt; &gt;=C2=A0 meta/lib/oe/rootfs.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 6 ++++++<br>
+&gt; &gt; &gt; &gt;=C2=A0 meta/lib/oe/sbom30.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 8 +++++++-<br>
+&gt; &gt; &gt; &gt;=C2=A0 meta/lib/oe/spdx30_tasks.py=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 14 ++++++++=
++++++-<br>
+&gt; &gt; &gt; &gt;=C2=A0 4 files changed, 33 insertions(+), 2 deletions(-)=
+<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; diff --git a/meta/classes-recipe/create-spdx-image-3.0.=
+bbclass b/meta/classes-<br>
+&gt; &gt; &gt; recipe/create-spdx-image-3.0.bbclass<br>
+&gt; &gt; &gt; &gt; index 15a91e90e2..dfbd2961b3 100644<br>
+&gt; &gt; &gt; &gt; --- a/meta/classes-recipe/create-spdx-image-3.0.bbclass=
+<br>
+&gt; &gt; &gt; &gt; +++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass=
+<br>
+&gt; &gt; &gt; &gt; @@ -6,6 +6,7 @@<br>
+&gt; &gt; &gt; &gt;=C2=A0 # SPDX image tasks<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;=C2=A0 SPDX_ROOTFS_PACKAGES =3D &quot;${SPDXDIR}/rootfs-=
+packages.json&quot;<br>
+&gt; &gt; &gt; &gt; +SPDX_ROOTFS_REMOVED_PACKAGES =3D &quot;${SPDXDIR}/root=
+fs-removed-<br>
+&gt; &gt; &gt; packages.json&quot;<br>
+&gt; &gt; &gt; &gt;=C2=A0 SPDXIMAGEDEPLOYDIR =3D &quot;${SPDXDIR}/image-dep=
+loy&quot;<br>
+&gt; &gt; &gt; &gt;=C2=A0 SPDXROOTFSDEPLOY =3D &quot;${SPDXDIR}/rootfs-depl=
+oy&quot;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; @@ -15,14 +16,20 @@ python spdx_collect_rootfs_packages=
+() {<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 from oe.rootfs import image_list_in=
+stalled_packages<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 root_packages_file =3D Path(d.getVa=
+r(&quot;SPDX_ROOTFS_PACKAGES&quot;))<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 root_removed_packages_file =3D<br>
+&gt; &gt; &gt; Path(d.getVar(&quot;SPDX_ROOTFS_REMOVED_PACKAGES&quot;))<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 packages =3D image_list_installed_p=
+ackages(d)<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 if not packages:<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 packages =3D {}<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 removed_packages =3D (d.getVar(&quot;ROO=
+TFS_REMOVED_PACKAGES&quot;) or<br>
+&gt; &gt; &gt; &quot;&quot;).split()<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 root_packages_file.parent.mkdir(par=
+ents=3DTrue, exist_ok=3DTrue)<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 with root_packages_file.open(&quot;=
+w&quot;) as f:<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 json.dump(packages, f=
+)<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 with root_removed_packages_file.open(&qu=
+ot;w&quot;) as f:<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 json.dump(removed_packages=
+, f)<br>
+&gt; &gt; &gt; &gt;=C2=A0 }<br>
+&gt; &gt; &gt; &gt;=C2=A0 ROOTFS_POSTUNINSTALL_COMMAND =3D+<br>
+&gt; &quot;spdx_collect_rootfs_packages&quot;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs=
+.py<br>
+&gt; &gt; &gt; &gt; index 5eee48f587..b8830596ed 100644<br>
+&gt; &gt; &gt; &gt; --- a/meta/lib/oe/rootfs.py<br>
+&gt; &gt; &gt; &gt; +++ b/meta/lib/oe/rootfs.py<br>
+&gt; &gt; &gt; &gt; @@ -261,10 +261,13 @@ class Rootfs(object, metaclass=3D=
+ABCMeta):<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 def _uninstall_unneeded(self):<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 removed_pkgs =3D set()<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Remove the run-post=
+insts package if no delayed postinsts are found<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 delayed_postinsts =3D=
+ self._get_delayed_postinsts()<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if delayed_postinsts =
+is None:<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if<br>
+&gt; &gt; &gt; os.path.exists(self.d.expand(&quot;${IMAGE_ROOTFS}${sysconfd=
+ir}/init.d/run-<br>
+&gt; postinsts&quot;))<br>
+&gt; &gt; &gt; or<br>
+&gt; os.path.exists(self.d.expand(&quot;${IMAGE_ROOTFS}${systemd_system_uni=
+tdir}/run-<br>
+&gt; &gt; &gt; postinsts.service&quot;)):<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 removed_pkgs.add(&quot;run-postinsts&quot;)<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 self.pm.remove([&quot;run-postinsts&quot;])<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 image_rorfs =3D bb.ut=
+ils.contains(&quot;IMAGE_FEATURES&quot;, &quot;read-only-rootfs&quot;,<br>
+&gt; &gt; &gt; &gt; @@ -285,6 +288,7 @@ class Rootfs(object, metaclass=3DAB=
+CMeta):<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # to be=
+ uninstalled or to be managed correctly otherwise.<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 provide=
+r =3D self.d.getVar(&quot;VIRTUAL-RUNTIME_update-alternatives&quot;)<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgs_to=
+_remove =3D sorted([pkg for pkg in pkgs_installed if pkg in<br>
+&gt; &gt; &gt; unneeded_pkgs], key=3Dlambda x: x =3D=3D provider)<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 removed_pkgs=
+.update(pkgs_to_remove)<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # updat=
+e-alternatives provider is removed in its own remove()<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # call =
+because all package managers do not guarantee the packages<br>
+&gt; &gt; &gt; &gt; @@ -296,6 +300,8 @@ class Rootfs(object, metaclass=3DAB=
+CMeta):<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(=
+pkgs_to_remove) &gt; 0:<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 self.pm.remove([pkgs_to_remove[-1]], False)<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.d.setVar(&quot;ROOTFS=
+_REMOVED_PACKAGES&quot;, &quot;<br>
+&gt; &gt; &gt; &quot;.join(sorted(removed_pkgs)))<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if delayed_postinsts:=
+<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._s=
+ave_postinsts()<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if imag=
+e_rorfs:<br>
+&gt; &gt; &gt; &gt; diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30=
+.py<br>
+&gt; &gt; &gt; &gt; index b379ff947c..4fa32266fa 100644<br>
+&gt; &gt; &gt; &gt; --- a/meta/lib/oe/sbom30.py<br>
+&gt; &gt; &gt; &gt; +++ b/meta/lib/oe/sbom30.py<br>
+&gt; &gt; &gt; &gt; @@ -1122,7 +1122,7 @@ def find_by_spdxid(d, spdxid, *, =
+required=3DFalse):<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 return find_jsonld(d, *jsonld_hash_=
+path(hash_id(spdxid)), required=3Drequired)<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; -def create_sbom(d, name, root_elements, add_objectsets=
+=3D[]):<br>
+&gt; &gt; &gt; &gt; +def create_sbom(d, name, root_elements, add_objectsets=
+=3D[],<br>
+&gt; &gt; &gt; removed_packages=3D[]):<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 objset =3D ObjectSet.new_objset(d, =
+name)<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 sbom =3D objset.add(<br>
+&gt; &gt; &gt; &gt; @@ -1142,6 +1142,12 @@ def create_sbom(d, name, root_el=
+ements,<br>
+&gt; &gt; &gt; add_objectsets=3D[]):<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 + &quot=
+;\n=C2=A0 &quot;.join(sorted(list(missing_spdxids)))<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 if removed_packages:<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for pkg in objset.foreach_=
+type(oe.spdx30.software_Package):<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if <a href=
+=3D"http://pkg.name" target=3D"_blank">pkg.name</a> in removed_packages and=
+ pkg.software_primaryPurpose<br>
+&gt; =3D=3D<br>
+&gt; &gt; &gt; oe.spdx30.software_SoftwarePurpose.install:<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 pkg.software_primaryPurpose =3D<br>
+&gt; &gt; &gt; oe.spdx30.software_SoftwarePurpose.other<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 bb.note(&quot;Reclassified removed package %s SPDX entry from install<b=
+r>
+&gt; to<br>
+&gt; &gt; &gt; other&quot; % <a href=3D"http://pkg.name" target=3D"_blank">=
+pkg.name</a>)<br>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 # Filter out internal extensions fr=
+om final SBoMs<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 objset.remove_internal_extensions()=
+<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/=
+spdx30_tasks.py<br>
+&gt; &gt; &gt; &gt; index 7cc46d579b..18c68f47de 100644<br>
+&gt; &gt; &gt; &gt; --- a/meta/lib/oe/spdx30_tasks.py<br>
+&gt; &gt; &gt; &gt; +++ b/meta/lib/oe/spdx30_tasks.py<br>
+&gt; &gt; &gt; &gt; @@ -1532,6 +1532,7 @@ def create_image_sbom_spdx(d):<br=
+>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 image_link_name =3D d.getVar(&quot;=
+IMAGE_LINK_NAME&quot;)<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 imgdeploydir =3D Path(d.getVar(&quo=
+t;SPDXIMAGEDEPLOYDIR&quot;))<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 machine =3D d.getVar(&quot;MACHINE&=
+quot;)<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 root_removed_packages_file =3D<br>
+&gt; &gt; &gt; Path(d.getVar(&quot;SPDX_ROOTFS_REMOVED_PACKAGES&quot;))<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 spdx_path =3D imgdeploydir / (image=
+_name + &quot;.spdx.json&quot;)<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; @@ -1553,7 +1554,18 @@ def create_image_sbom_spdx(d):<b=
+r>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 for o in image_objset.foreach_root(=
+oe.spdx30.software_File):<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 root_elements.append(=
+oe.sbom30.get_element_link_id(o))<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; -=C2=A0 =C2=A0 objset, sbom =3D oe.sbom30.create_sbom(d=
+, image_name, root_elements)<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 try:<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 with root_removed_packages=
+_file.open(&quot;r&quot;) as f:<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 removed_pack=
+ages =3D json.load(f)<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 except FileNotFoundError:<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 removed_packages =3D []<br=
+>
+&gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 objset, sbom =3D oe.sbom30.create_sbom(<=
+br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 d,<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_name,<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 root_elements,<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 removed_packages=3Dremoved=
+_packages,<br>
+&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 )<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 # Set supplier on root elements if =
+SPDX_IMAGE_SUPPLIER is defined<br>
+&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 supplier =3D objset.new_agent(&quot=
+;SPDX_IMAGE_SUPPLIER&quot;, add=3DFalse)<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; &gt; &gt; &gt; Links: You receive all messages sent to this group.<br>
+&gt; &gt; &gt; &gt; View/Reply Online (#238166):<br>
+&gt; <a href=3D"https://lists.openembedded.org/g/openembedded-" target=3D"_=
+blank">https://lists.openembedded.org/g/openembedded-</a><br>
+&gt; &gt; &gt; core/message/238166<br>
+&gt; &gt; &gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.=
+org/mt/119660891/3616693" target=3D"_blank">
+https://lists.openembedded.org/mt/119660891/3616693</a><br>
+&gt; &gt; &gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowne=
+r@lists.openembedded.org" target=3D"_blank">
+openembedded-core+owner@lists.openembedded.org</a><br>
+&gt; &gt; &gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/=
+g/openembedded-core/unsub" target=3D"_blank">
+https://lists.openembedded.org/g/openembedded-core/unsub</a><br>
+&gt; &gt; &gt; [<a href=3D"mailto:JPEWhacker@gmail.com" target=3D"_blank">J=
+PEWhacker@gmail.com</a>]<br>
+&gt; &gt; &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; &gt; &gt; &gt;<u></u><u></u></p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div></blockquote></div></div>
+
+--00000000000056671c06556c7101--
 
