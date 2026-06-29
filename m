@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97F3FC44507
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 14:20:38 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38582.1782742827893622269
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A751C44508
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 14:20:39 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.93239.1782742837883045142
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 07:20:28 -0700
+ Mon, 29 Jun 2026 07:20:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=oOOJsVEY;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47122683cf3so962551f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 07:20:27 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=eZMTHvhs;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-46db1eb3100so361240f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 07:20:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782742826; x=1783347626; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1782742836; x=1783347636; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ejGm2IJG5YnbEOWqbCTqO7CbKg46gZpL/uN/xLgfCR4=;
-        b=oOOJsVEYzb1Gh0jI1NvaZSbSs8IiiZF5zjPuwmOkCP3yYzUYbJfFFNgYOZwDdeChsw
-         y4PPwNnPB/Lyj3pIJKWv3cpuD7HtRnk2bmP9mE+Y1uSu5iaJwBtF88R/J4RZy05AkE3D
-         ZK2GsmQ1zzyj6iilptIj0cWvcn5idC3dnaExY=
+        bh=I8ywHwmyAuiBl3RYyDgTSudSWXHHyKBmXCQsp22FxcI=;
+        b=eZMTHvhsSV9zQ2wK6z1iv2h7dVTQsJWYffMl03MArjfdZrZ3uvJTJvWHNUtTQ/41P3
+         VJMXhHpCe1maNgo5fs6WPoh/niAmT4ZNagxwf0XXa0+W0PBgWd70SD3xhvsQOgzq/kAb
+         dEtOBEP+r4Qqu9QxbCuBW8VaGIbVsoamqwvUw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782742826; x=1783347626;
+        d=1e100.net; s=20251104; t=1782742836; x=1783347636;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ejGm2IJG5YnbEOWqbCTqO7CbKg46gZpL/uN/xLgfCR4=;
-        b=AmEHUBuDLFULE3tZhdwaX2+UQpD+Leusp7Ffm+vKlvxX9zLV0UVL/K2Nnfbct9G5Wa
-         km/MKKorMTKV/zmXBR6hLOSRe8HUNOFbBCO8OutgHADINJViuTOwVvnR2HHQwjgY12bK
-         LdFGdlJtBqXc7/fnx6M65KfCrejLK1OHo3rDds0vNnIrqMVpVzAePtO2MtUmS3jL/jmY
-         3KzQ/VQgruIs5yq1wWNHnGhr9W3VE7zoBM0m1nyDPOPF7rWLSuV8+uHKd++APXMKtsnt
-         vzLw9Oewm+0xOQMZau1f1HbX6XhgeejinfbSAdKho6MS/7iD27gzoxun6cF7DRnwSGEl
-         1Orw==
-X-Gm-Message-State: AOJu0YzwTQVKy41DNDEZWDtsHGUPxz238K4nTcTPib2NXZFCqXz2pkSd
-	iLHFSTsvLe12FmsJwHvlfdFBZto4Dm+wgv09UXr28iT3mkF9QMzODujDNThXxX8rNV6zFSy+IJq
-	wR7CMnLc=
-X-Gm-Gg: AfdE7clllhydv7PeIzzXEqPUNUew5YRI+loz6lYWDMTk1B8kl/NpOLoW04rAMZmVlOa
-	bFxS+0Ei49diPc6Ym6TvkBMqKWHoRPQpfUkC0VVagInAtndce7W7L3oczP0DNAuPJPaI/jgqCmO
-	BFXOSal2w8I/Wm5wh0pG3IDfGZsUuoJL3wOm/E0qJzsjipDyZhpDsz4uWqkLYJXlqbPBZ+MX584
-	SLFbLU3y4H47190lS5/28u1mrg9ipQzQ0eCyJ7K8E9SU2pSnGS3GfkFcBruDMIuuXH1MsKherYM
-	7I88Hoe43UaP7A0qgVtjYMlNYGYjh6wU6GF8kiXf8EON/a5DeObsulXEKNFmPI/lEXhVl7pjfc9
-	ZIXqzJV2QWASkEg/QgLdbMfg+PafXCKNpE+JVuwShcHt6uIcyfkrgZ/xLc7kEqCfE1k8jVhrnhp
-	HsLOBGjE6UGnZG8WOx9aCMt98HJZgLSoJEgBgU+FqxOaqAUNMhJjPQ3G+SbCPx+JUaTyPcOTeTo
-	0QxaduSuxVX7OrCz8FDNS0=
-X-Received: by 2002:a5d:6a48:0:b0:46d:32:3340 with SMTP id ffacd0b85a97d-46fb8d93892mr14394711f8f.36.1782742826056;
-        Mon, 29 Jun 2026 07:20:26 -0700 (PDT)
+        bh=I8ywHwmyAuiBl3RYyDgTSudSWXHHyKBmXCQsp22FxcI=;
+        b=nWBv/z0eGvdQGltShrcJJmWmFGdyFH/8sENd/62/CrZZgw3Gv/dSJIDpmlpGqn8rlq
+         yWnIAqLYaeHY0P3b6x6U6/SxEHC3avLfW88tTJnDuaKfe5sp9TJZvOITleNgOn1zaWMk
+         V9rc//MSzC6JT+GBnSdDycteIjXSxGiU/66vQ36pBNcGFWxzlXLIC5PV7wXWnCPuYcLH
+         imjxsUlbVpxFAOw1bCSpXhK3iCblx+s6yZ7jLi2nEoINBTwGLsD6AJdbZIMTkOOjZmXk
+         yZ7t/kHrAzDQlBL1PVWfAr2LXJMoResMY66Az2+WLIF46zW6lA7LYcNxVv3Afz1ziyT7
+         y54Q==
+X-Gm-Message-State: AOJu0YxqiApaFhPxKCvG5x9fWcSICcLN1h1Y6emI5SGCK0nvNc8ZvsY1
+	QsKbQ6TrepTJAXU0nsLBtxzoesUeD/9aofFrWeEoSKVD2ky0Xh8sxl+/o4GajDBC0xpBqDX73LE
+	DKZ0skHM=
+X-Gm-Gg: AfdE7cnbMW7vgGe8chpjp5vmMRMxAS1sMAr+6ecsQpVgt04bE9tqWnGP9/RtgvoW2ub
+	1D94vqd7GlIy8aUn8AzFKRIJfhVaOzKrkTRXzo8ClHysUr3KZu+7LJ2x0frF8sSMKwZ1r274waJ
+	Vf1thURh/DqMhXUUMJx+kohOxT/xa1YUfXZxGuhS76W9LI+4yoMjHQqNeQamkCMtWMi0TptNh/S
+	KzqGn7qVFWBrcy2E8LwzEUKSukPQg7Zl4VQDrYKs9cAMYG9i6WkR8RHeyNLRIVvJGxvsc2OW4v4
+	gVHQECcGAkL+BEu7/BlJ5O56tulYeKt4bFaWY8RNKmlKer0iB0SJkkfsVtghMuoG8dUdgkToY22
+	jryAvBvLKTY0BZEk+ycHVPezelxldy9vBQytHS9mGQ1lOwY8q3Zljibg4o1UN6MdigJxDi0bRgT
+	ZTLIThpyqWEF+ji/zWRXziKMJxBbsrVAvqZNT7lz3XZ6okAmILNmHLh0xMj57cX4XLJb2J4BXGe
+	eNPqJmOaOA9pAj9igotWQI=
+X-Received: by 2002:a05:6000:4b0b:b0:470:80f7:9ef with SMTP id ffacd0b85a97d-47080f70cb1mr13247665f8f.19.1782742835996;
+        Mon, 29 Jun 2026 07:20:35 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46f8d6f10absm44958410f8f.5.2026.06.29.07.20.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46f8d6f10absm44958410f8f.5.2026.06.29.07.20.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 07:20:25 -0700 (PDT)
+        Mon, 29 Jun 2026 07:20:35 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 03/19] gawk: trim native build configuration
-Date: Mon, 29 Jun 2026 16:19:48 +0200
-Message-ID: <c80a422c9c1392127a431c2dd38b203266b0b1ed.1782742373.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 12/19] xwayland: Fix CVE-2026-34002
+Date: Mon, 29 Jun 2026 16:19:57 +0200
+Message-ID: <d9656559ca24cdebbea49c9ce76bc1841b46b773.1782742373.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1782742373.git.yoann.congal@smile.fr>
 References: <cover.1782742373.git.yoann.congal@smile.fr>
@@ -65,40 +65,133 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 14:20:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239791
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 14:20:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239800
 
-From: Ross Burton <ross.burton@arm.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-When we build gawk-native it is only for use in builds where the host
-gawk output isn't reproducible across versions[1]. As such it doesn't
-need support for readline or mprf, and by removing those from gawk-native
-we can get building gawk-native sooner.
+Pick patch according to [2]
 
-[1] oe-core c5bbf0a60b ("gawk: use native gawk when building glibc and grub")
+[1] https://lists.x.org/archives/xorg-announce/2026-April/003679.html
+[2] https://security-tracker.debian.org/tracker/CVE-2026-34002
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1e6b810f60fd45856fc6a57270bf85342bcd9415)
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-extended/gawk/gawk_5.3.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ .../xwayland/xwayland/CVE-2026-34002.patch    | 93 +++++++++++++++++++
+ .../xwayland/xwayland_23.2.5.bb               |  1 +
+ 2 files changed, 94 insertions(+)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2026-34002.patch
 
-diff --git a/meta/recipes-extended/gawk/gawk_5.3.0.bb b/meta/recipes-extended/gawk/gawk_5.3.0.bb
-index a05ec3b34bc..e38c1f84366 100644
---- a/meta/recipes-extended/gawk/gawk_5.3.0.bb
-+++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb
-@@ -12,6 +12,9 @@ LICENSE = "GPL-3.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- PACKAGECONFIG ??= "readline"
-+# Make native builds lean
-+PACKAGECONFIG:class-native = ""
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34002.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34002.patch
+new file mode 100644
+index 00000000000..131caefcd5e
+--- /dev/null
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2026-34002.patch
+@@ -0,0 +1,93 @@
++From f056ce1cc96ed9261052c31524162c78e458f98c Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Wed, 18 Feb 2026 17:02:09 +0100
++Subject: [PATCH] xkb: Fix out-of-bounds read in CheckModifierMap()
 +
- PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
- PACKAGECONFIG[mpfr] = "--with-mpfr,--without-mpfr, mpfr"
++As reported by valgrind:
++
++  == Conditional jump or move depends on uninitialised value(s)
++  ==    at 0x547E5B: CheckModifierMap (xkb.c:1972)
++  ==    by 0x54A086: _XkbSetMapChecks (xkb.c:2574)
++  ==    by 0x54A845: ProcXkbSetMap (xkb.c:2741)
++  ==    by 0x556EF4: ProcXkbDispatch (xkb.c:7048)
++  ==    by 0x454A8C: Dispatch (dispatch.c:553)
++  ==    by 0x462CEB: dix_main (main.c:274)
++  ==    by 0x405EA7: main (stubmain.c:34)
++  ==  Uninitialised value was created by a heap allocation
++  ==    at 0x4840B26: malloc (vg_replace_malloc.c:447)
++  ==    by 0x592D5A: AllocateInputBuffer (io.c:981)
++  ==    by 0x591F77: InsertFakeRequest (io.c:516)
++  ==    by 0x45CA27: NextAvailableClient (dispatch.c:3629)
++  ==    by 0x58FA81: AllocNewConnection (connection.c:628)
++  ==    by 0x58FC70: EstablishNewConnections (connection.c:692)
++  ==    by 0x58FFAA: HandleNotifyFd (connection.c:809)
++  ==    by 0x593F42: ospoll_wait (ospoll.c:660)
++  ==    by 0x58B9B6: WaitForSomething (WaitFor.c:208)
++  ==    by 0x4548AC: Dispatch (dispatch.c:493)
++  ==    by 0x462CEB: dix_main (main.c:274)
++  ==    by 0x405EA7: main (stubmain.c:34)
++
++The issue is that the loop in CheckModifierMap() reads from wire without
++verifying that the data is within the request bounds.
++
++The req->totalModMapKeys value could exceed the actual data provided,
++causing reads of uninitialized memory.
++
++To fix that issue, we add a bounds check using _XkbCheckRequestBounds,
++but for that, we need to also pass a ClientPtr parameter, which is not
++a problem since CheckModifierMap() is a private, static function.
++
++CVE-2026-34002, ZDI-CAN-28737
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
++Part-of: <https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2176>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/f056ce1cc96ed9261052c31524162c78e458f98c]
++CVE: CVE-2026-34002
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ xkb/xkb.c | 10 +++++++---
++ 1 file changed, 7 insertions(+), 3 deletions(-)
++
++diff --git a/xkb/xkb.c b/xkb/xkb.c
++index 1ba638b..3fcc6c4 100644
++--- a/xkb/xkb.c
+++++ b/xkb/xkb.c
++@@ -1940,8 +1940,8 @@ CheckKeyExplicit(XkbDescPtr xkb,
++ }
++ 
++ static int
++-CheckModifierMap(XkbDescPtr xkb, xkbSetMapReq * req, CARD8 **wireRtrn,
++-                 int *errRtrn)
+++CheckModifierMap(ClientPtr client, XkbDescPtr xkb, xkbSetMapReq * req,
+++                 CARD8 **wireRtrn, int *errRtrn)
++ {
++     register CARD8 *wire = *wireRtrn;
++     CARD8 *start;
++@@ -1965,6 +1965,10 @@ CheckModifierMap(XkbDescPtr xkb, xkbSetMapReq * req, CARD8 **wireRtrn,
++     }
++     start = wire;
++     for (i = 0; i < req->totalModMapKeys; i++, wire += 2) {
+++	if (!_XkbCheckRequestBounds(client, req, wire, wire + 2)) {
+++	    *errRtrn = _XkbErrCode3(0x64, req->totalModMapKeys, i);
+++	    return 0;
+++	}
++         if ((wire[0] < first) || (wire[0] > last)) {
++             *errRtrn = _XkbErrCode4(0x63, first, last, wire[0]);
++             return 0;
++@@ -2568,7 +2572,7 @@ _XkbSetMapChecks(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq * req,
++         return BadValue;
++     }
++     if ((req->present & XkbModifierMapMask) &&
++-        (!CheckModifierMap(xkb, req, (CARD8 **) &values, &error))) {
+++        (!CheckModifierMap(client, xkb, req, (CARD8 **) &values, &error))) {
++         client->errorValue = error;
++         return BadValue;
++     }
++-- 
++2.43.0
++
+diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
+index 800d0a8f634..e7412e20116 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_23.2.5.bb
+@@ -38,6 +38,7 @@ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
+            file://CVE-2026-33999.patch \
+            file://CVE-2026-34000.patch \
+            file://CVE-2026-34001.patch \
++           file://CVE-2026-34002.patch \
+ "
+ SRC_URI[sha256sum] = "33ec7ff2687a59faaa52b9b09aa8caf118e7ecb6aed8953f526a625ff9f4bd90"
  
 
