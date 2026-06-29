@@ -2,76 +2,77 @@ Return-Path: <contact@schnwalter.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F188AC43458
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 20:48:42 +0000 (UTC)
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7233.1782766121390251683
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4244CC43458
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 21:42:03 +0000 (UTC)
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8298.1782769317626672658
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 13:48:41 -0700
+ Mon, 29 Jun 2026 14:41:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@schnwalter.eu header.s=fm2 header.b=bSn64OeN;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=VqH0ToKH;
- spf=pass (domain: schnwalter.eu, ip: 103.168.172.149, mailfrom: contact@schnwalter.eu)
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfout.phl.internal (Postfix) with ESMTP id 67461EC01E5;
-	Mon, 29 Jun 2026 16:48:40 -0400 (EDT)
+ dkim=pass header.i=@schnwalter.eu header.s=fm2 header.b=RKEvoAvO;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=gviixnHR;
+ spf=pass (domain: schnwalter.eu, ip: 103.168.172.156, mailfrom: contact@schnwalter.eu)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id AA109140013A;
+	Mon, 29 Jun 2026 17:41:56 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Mon, 29 Jun 2026 16:48:40 -0400
+  by phl-compute-02.internal (MEProxy); Mon, 29 Jun 2026 17:41:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=schnwalter.eu;
 	 h=cc:cc:content-transfer-encoding:content-type:content-type
 	:date:date:from:from:in-reply-to:message-id:mime-version
-	:reply-to:subject:subject:to:to; s=fm2; t=1782766120; x=
-	1782852520; bh=p79Sg4AK3Z2jnZu4A2t1yemYS6xtctcaj3+73b8wijk=; b=b
-	Sn64OeNIGM3/qsUVcCLELh1Ucjb+Eq8daEIdQLeH+DmA/TsKUGngS0ieNPQwo5E1
-	Vc3R2a+BVyPG4p/b3rxMzU0n3q60eXxpHWv79Z37OT2+kWpqhNQEdrUKCfnLN+zH
-	u+q0G+1A3oLhJuh0sGRVQrPf+l4o/tSgf11evPrkVSNBwzLramTRNoOIBHeWiY4q
-	5bDMFXcAmzh7uj85a1AjcQKGrYSJXTOa4t2Ke6OKUm9HlMvm6Zade/3Deefhc4gt
-	5kIQOc3i0SoC5qSHzbqTSitzkoOdWZYbJr8jOwbWfV9n5obIuFsbkTmvWWXE5j+v
-	t0ztyuIj1Emkyl3Qg3/Zw==
+	:reply-to:subject:subject:to:to; s=fm2; t=1782769316; x=
+	1782855716; bh=wi/wYBQDJYCnPBtyulJrLS6VshBwaNSr/tdav2d9lkE=; b=R
+	KEvoAvOhuJmc0bf3fEPmlFOQAq3J2eR/cVFiHYC9onwJMhigoXCHAmL2rcU3NMIV
+	Wv0eS3lqjKY0SbU/K+JlN29WQ6YbonFp0xqAVcgpQEL8kQtWmEciUEAEGKFH9R8C
+	lFDtyRJTlWVpIAvhD0QZYn+oWVOO36MmIGmzIChFgOfzraITq9iZl/4aag8mf+lb
+	7dg+5xJsrao4Qw++6PUKyZTIUXd9QzhO3uIQLDV00uO1nxQaPav0JaIVQqk96wXK
+	5AMJy22N9d8U6xhIMmEY6GGia9Z2a91n+O8J2V0MAta3zYkSaWa4OflpYTEAnT+U
+	81V2j/7idNZAzO4gj/jPA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
 	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1782766120; x=1782852520; bh=p79Sg4AK3Z2jnZu4A2t1yemYS6xt
-	ctcaj3+73b8wijk=; b=VqH0ToKHIfMDu2zgKPgGsx5YZAgkPyLjoPKBAz8O8ZoI
-	Uu4e7xGzrcDzKZnIXRba9CG4Ub9dkKFfVrMTLRqkw4N7hiuFKxARwHA7A2cdkNkR
-	ojsYNYOV1SQcqgOUhm9qS6sHol9l3ha908SQf+6OazFWphAo0daLmr2NAMqvKXzT
-	Gmi3JfDG2vdPQp8//KGFxdm3twR+5Q83iZNxsou3XAXMRkb5P+KO8REmWyc4fOI8
-	mhpIJBZrt3Nb47TGAtZcFVHnHrAb4gJPsrJIbes5w6N0l6et5LigMCrd7qbRVr4a
-	9M/A4aU1/T7Sp60U0+QTfqVpXV32CVI5f58xJpqBAg==
-X-ME-Sender: <xms:J9pCamR40UmyaBAdGCItBVVmzG7BRhGhSWEDdi-aChkhDSTka0XSsg>
-    <xme:J9pCavdb-0sXUQlO37135osOL7yHVckHnOpDSG_m6tWJT6WpS7QgL_LPGDlOPvt2N
-    Sk0LaCYtQfU2MVm38rHRPH7LCcxiLEhJdPi3yVCF-GWyzKbiPkLRg>
-X-ME-Received: <xmr:J9pCatpsHXH_zQyA1bMttMT5O9TpLGCnK0goRmLxN8FeKL74EsDmPJzac8FRZZ8>
-X-ME-Proxy-Cause: dmFkZTGDcTrpCjttAgZmWFC2jT4PNCCb+CWM+yLnYE7ydiT5L0emw9jiozUuglxNXzhhw1
-    bVtIT/CE/LBHbDanETdfRxcQObrBnYn52AS0//I+hyJSMpPlRLTaUoPDcw4BQ6yaH56nPR
-    uknTGtOf3k/gWIt8uSgCvFl5x85ImQA7dpxJQe9bSxsvKyeZpumhYPSp7ZfD8wY1JVDhtH
-    U/nqPaI6+/xf4UlLB0GLIqCcOcW8SNYn72uqHP/viiJ3zm/8NzHLh4Q/hQNzKVZyAN8Ssn
-    C/WNnxnZ/OItvPCFKOACtTd+YVVpaSb3PrOX7rxbMQR8OaeOgRs9PsUJy3QsFMk8143dkd
-    KGKj2g/+yoPkLJWK9Q7tv2wP8si9P1xoHcQWzGrjxoJN9TbKL2oJ0YNB6of2IU7xHYKVd1
-    iXhMB2HDpdMSyV0i/jqsxTTYUtJ2PLV+Qf+N5QwJpNLoU4bFMIyfTwQyfOBt2qgTDm51CU
-    LvBTNhNAXIVWc+GOhW8Ew3ZQSDLWHzgsO3KY33SxS/+TM463pkVW0Wu3ktDrnjX9RiqVrs
-    R1G8vZ9bJshNLzqTM+16XdTXrH+SoTdTsrcJjdZBi5kDGfdCrBjEh6NOpcCvrBKMwB0zR9
-    bAFW4d9/xui3EwFF4SGSa7NvQhrGYimad3ydV1WvGseLMaVybxE4PMV5tK0w
-X-ME-Proxy: <xmx:J9pCao-kOOKZs1-PLVt9R8HvvKRgB76YxgfyybwbxoluipT2MMfOog>
-    <xmx:J9pCahdaQFJSKLu3TmZg-RuR7Q2Y_j84PNYbdX4_W1rp8YiK2yn98w>
-    <xmx:J9pCaqIku2TtnUEajOt3kY8L7B6cI9t55nR9hxVa5_an2fl6xZVFeg>
-    <xmx:J9pCapib-FUYUmZ_0uQGpxB6e7DkGWya5dQ6ghj_o2VHrv6bZp9b5w>
-    <xmx:KNpCamydnSWmNB5r0ocUqS97q5hxPFAFXZihHx8ievlmk0g0RJ8G0vod>
+	fm1; t=1782769316; x=1782855716; bh=wi/wYBQDJYCnPBtyulJrLS6VshBw
+	aNSr/tdav2d9lkE=; b=gviixnHRO59hOA7d11EgcUbCDa4tzCfbK1jcrf79R/tG
+	lU+TI/BQZ0fwMnOReCM8XRZXyOk5L2dSMJrQo435BnqNyglien/aaBQP1zBF+3gf
+	yCZYgIqRAcWWD2E2LVoRqUmwTU3mSdTU8ZjRNGWTdSE5far+RVk3hAWkTqbar2+1
+	oQwkNsvNWxUN+BMzn5SOu17DcfNNJ4zuqNJ4APfjZunW+YgOaz/jttcw8UrPQyb2
+	spD8eCZXPldacHu2wnObt72j/h1D/3VoH4p/xdM1ZC9CMI2e6y5P5KWZXcTScpHy
+	gS+ZQ0wGjVp7zCepjU5MAyxRWfrb9LB50ivhU338vw==
+X-ME-Sender: <xms:pOZCaldERxd1qtadcFIDY69T16eEfIA8TaHysHNvQg9CiI0Pea2qSA>
+    <xme:pOZCam6EY1pO1iOXhRch9lbs2iwfeN0gV-1eSoNax3AcgPfUtXBu8BWo3Lyu6UsSf
+    R959RfOinsQP7SroyH9eA3VO97hbSNjvH2-h9bVolJnkXE67H4>
+X-ME-Received: <xmr:pOZCaoWRhackMkD4vP1apVhOktqrM3pIYakNykqklQ7hzU5nn5w-ytxjQ-jWPMo>
+X-ME-Proxy-Cause: dmFkZTEyZeexhPn1Gf5uHrIPut7zciX1HWhKd1fAh3/APP3CWLX44Ic8zelbe0LTSYd4dP
+    qSt8/kmjolLCSRoX+XluvC+AYQJ0V2Yk796tRXkubi5NVIzlAzwp2Srr557Ffhhe3IcspN
+    KbtuIgi3ZxJhFfDLzu6fH6CiDGUjblNfzQHYkxFzDdRH6SwKMge1x4MyJW3qeTgSRB8MaQ
+    JPIs1DDa2iAqjsufou+wtl5b3XZ14nMMKNQxguHNMJDzxjHWZvKTS8weTp8eE7B3B416vB
+    4tW/BmbhlP2O/QrAU2GSVAdu43e7vDncwrlPMdzjlF2u/2btwwRh1JbiOnmm92n5Aow8S4
+    JrpXd/zoUDTZay0VbcdM0jvkGQRPPVMwEfiLhZmC6p8oqvPrBoTTv5DDnPf6DefWKBduQA
+    /FH6LuV6EHX2ZJKn29UJR8wwLInDmT7Pp6U9mgVp5+9Ik7PwbH8vJAtEksJLG1dRRfNQ9m
+    EfZWbQ3tgu2XAXt5LEZt8yM3kcqXvTz3HR7EKNdhNhPryBrB013FcgpGb1Z8zjvNg3dnZY
+    Pch7GELsXXzm8AfoikLMQSNp7WcmKCTs2OTVlqC3dR4918/5zu/a5MC3hAGn8579mYc6aS
+    U66Xt0Ye8bQRtvh+CboTrB63XeFXMTGlK6Cy/7+3wXZfQIRnWUS6YMEijr2g
+X-ME-Proxy: <xmx:pOZCal7jJbUK0964x1q7UDO7jCkoFb4mso59tkJfb-ya-vTRR8OAdg>
+    <xmx:pOZCajoShrBu5HCRBsO4Job_oNeR08KFhpIBD-9CjbxWpt4QLRJerw>
+    <xmx:pOZCaon9HUbhNK9jY5Aq43jKo8IG0AkUzBd2YNifX2_MEVOdrNKunw>
+    <xmx:pOZCavN_4mIAxAejGjIyVx7nFpr5F3MdaiXFOYF1CciLUL3VUkgrSw>
+    <xmx:pOZCalP9vmR2pFQsuu-jeCUMUGumgy5IYBPkNmXbdOX6eWwU4eOw-Ext>
 Feedback-ID: i455149b6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 29 Jun 2026 16:48:38 -0400 (EDT)
+ 29 Jun 2026 17:41:54 -0400 (EDT)
 From: Walter Werner Schneider <contact@schnwalter.eu>
-Date: Mon, 29 Jun 2026 23:48:25 +0300
-Subject: [PATCH] meson: Apply clang specific OVERRIDES for bindgen
+Date: Tue, 30 Jun 2026 00:41:46 +0300
+Subject: [PATCH v2] meson: Apply clang specific OVERRIDES for bindgen
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260629-fix-rust-bindgen-for-big-little-arch-v1-1-7f7d70c9d593@schnwalter.eu>
-X-B4-Tracking: v=1; b=H4sIABjaQmoC/x2NQQqEMAxFryJZT6BqqeJVZBa1xhqQKmlnEMS7G
- 9y9t3j/X5BJmDIM1QVCf868J5X6U0FYfYqEPKtDYxpnnLG48InyywUnTnOkhMsuyhE3LmUj9BJ
- WbG3X98a5YD2BTh1C2r034/e+H9k3H9R2AAAA
+Message-Id: <20260630-fix-rust-bindgen-for-big-little-arch-v2-1-e6262b34d069@schnwalter.eu>
+X-B4-Tracking: v=1; b=H4sIAJnmQmoC/42NQQ6CMBBFr0K6dkwp2Ior72FY1HaASUgx04Iaw
+ t2txAO4++8n/79VRGTCKC7FKhgXijSFDOpQCDfY0COQzyyUVFpqWUNHL+A5JrhT8D0G6CbOuYe
+ RUhoRLLsBqtqcz1JrV1sU+erBmHe75tZmHiimid+7dSm/7U+gmv8ESwklmM54I13jT011jW4IT
+ zsm5CPOot227QO9/2II3AAAAA==
 X-Change-ID: 20260604-fix-rust-bindgen-for-big-little-arch-34788066c4ae
 To: openembedded-core@lists.openembedded.org
 Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
@@ -80,18 +81,18 @@ Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
  Quentin Schulz <quentin.schulz@cherry.de>, 
  Walter Werner Schneider <contact@schnwalter.eu>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782766118; l=1936;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782769314; l=2205;
  i=contact@schnwalter.eu; s=20251106; h=from:subject:message-id;
- bh=u3FlakQzP0nfKUxMg5g24+GSS8DSWeN82xaNQob0no0=;
- b=y0V1JXwHLouyCeBDXYC9YZ02LcVbjac9Y7hq86PMUIED6NjyM+3tLBEPMDHeepF9vjOobrLiv
- hWyiCFsihC4CdAnawxL7dQ2un+82yTPY2SeWSw2g0ig3dWiBZV81YMo
+ bh=JevdaXnQpMFYjbGLmWbZ9ai4+6f/cHyr8+HtkFx1d20=;
+ b=z19KDrO7SLY3oRgN3+LghKoHpvkeNjlXU5lIeneg1Aum1yNzkMGiz4kpW+49GN1OeQ9f9ilTy
+ UlalUagxqI6BQd28A5IaxrJzia6UHL7f4tZb6izTqkSbqO2dahATgoX
 X-Developer-Key: i=contact@schnwalter.eu; a=ed25519;
  pk=OoafUGtB7zQJLYhKA7ALCjqddXAaem/uP/eb3GGNkTI=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 20:48:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239826
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 21:42:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239827
 
 The Rust bindgen uses libclang to parse target headers, so the arguments
 passed to bindgen_clang_arguments must be valid clang arguments.
@@ -105,14 +106,21 @@ it is either the host system, the target system or the SDK system.
 Fixes: a647a0ff4c4e ("meson: correct bindgen_clang_argments")
 Signed-off-by: Walter Werner Schneider <contact@schnwalter.eu>
 ---
- meta/classes-recipe/meson.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+I'm testing in a different repo clone, so I botched the code before
+sending to the mailing list.
+
+Changes in v2:
+- Fixed new line escape.
+- Link to v1: https://lore.kernel.org/r/20260629-fix-rust-bindgen-for-big-little-arch-v1-1-7f7d70c9d593@schnwalter.eu
+---
+ meta/classes-recipe/meson.bbclass | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meson.bbclass
-index 9bed293603..8a37aa45ed 100644
+index 9bed293603..238c418e26 100644
 --- a/meta/classes-recipe/meson.bbclass
 +++ b/meta/classes-recipe/meson.bbclass
-@@ -59,11 +59,14 @@ def rust_tool(d, target_var):
+@@ -59,11 +59,15 @@ def rust_tool(d, target_var):
      return "rust = %s" % repr(cmd)
  
  def bindgen_args(d):
@@ -124,7 +132,8 @@ index 9bed293603..8a37aa45ed 100644
 -    items = d.expand(args).split()
 +    # Rust bindgen uses libclang under the hood. Apply variable overrides for
 +    # clang; Fixes big.LITTLE -mcpu values.
-+    localdata = d.createCopy()\n    localdata.setVar('TCOVERRIDE', 'toolchain-clang');
++    localdata = d.createCopy()
++    localdata.setVar('TCOVERRIDE', 'toolchain-clang');
 +    items = localdata.expand(args).split()
      return repr(items[0] if len(items) == 1 else items)
  
