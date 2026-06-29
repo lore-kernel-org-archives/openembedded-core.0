@@ -1,92 +1,128 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <andreas.muetzel@emlix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F87AC43458
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 07:31:01 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32523.1782718251209047688
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 271F2C44500
+	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 08:04:42 +0000 (UTC)
+Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32873.1782720272821829868
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 00:30:51 -0700
+ Mon, 29 Jun 2026 01:04:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=kuOBJlOF;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=x03UQV4U;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019f1249bd47-65e9429b-26fc-423b-b653-a3a7dd218aac-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1782718250; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=NjdgJltFnwTSuML7FkLgcWTD4bNfgrEXDt49Yc2zGUg=;
-	b=kuOBJlOF46UekmTI9y8f77zv9A0w6fjwGfZyMPIVsgE5iISL0t4gxEmo5JyJRnpB
-	ddEsedzps/RnsM106IMQVo7FLU5t3RD1Vfr2ougif0HfYULspPM7wNnDEmgydjqtHP2
-	K3Gds/I0v2muApNCYUaDqosp6TWIcJQut7Abggpc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782718250;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=NjdgJltFnwTSuML7FkLgcWTD4bNfgrEXDt49Yc2zGUg=;
-	b=x03UQV4UjpzyPcrsAsmGWbwK8VoCMt+0b6k8eajtE0b6laGLX5bMVDUTiF6YQJyO
-	okLzPsm8+OcYN6b5b/I3caI5E9MhXtSQ4S7UoD4GveexN3i9c6yiXu3Ke6YqQkCXX95
-	x1HSZre60nnIFXt1tvNj6OFXYUlK12Cs/QmxyuOc=
-From: patchtest@automation.yoctoproject.org
-To: Vijay Anusuri <vanusuri@mvista.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][wrynose][patch] gnutls: upgrade 3.8.12 -> 3.8.13
-In-Reply-To: <20260629071648.1471849-1-vanusuri@mvista.com>
-References: <20260629071648.1471849-1-vanusuri@mvista.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019f1249bd47-65e9429b-26fc-423b-b653-a3a7dd218aac-000000@us-west-2.amazonses.com>
-Date: Mon, 29 Jun 2026 07:30:50 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.29-54.240.27.33
+ dkim=pass header.i=@emlix.com header.s=20250930 header.b=E5R5hvvx;
+ dkim=pass header.i=@emlix.com header.s=20250930 header.b=E5R5hvvx;
+ spf=pass (domain: emlix.com, ip: 178.63.209.131, mailfrom: andreas.muetzel@emlix.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
+	s=20250930; t=1782720270;
+	bh=vUzjCu9FF48vv9QP8/Tf/lIglZ4flqSFamKdzyXAjKc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=E5R5hvvxiRQ7J/1y2y1uUhA/qRX9eGgA6/LBlKUuezE+alzxoGW1stY18VvJWTgc4
+	 3vvMaWyp0TKtDtOkPc91r1xC8tkgm8ICjt/sv78euXcQ/o7PQuuiNDoBs775zsup0l
+	 9Idxq687QaY3KT3/zsWQB0mW+A9dWls6yVcE2HF+kQgBtsERusTcQUc5KzQVFZ0IiZ
+	 Izfh4FftmMFGDvPAr2acjT2QpeKwSbWUtzCNc2gsqhbrXoF7JombTyixMEs9ojsz9z
+	 pgiOw4WZZkX7vHaAWicjGnokYW/uiSSKUVb3jOZVEe8LcQ7/dCPboS+ybGa0n1BIv6
+	 DwB/5igZpm5rA==
+Received: from mx1.emlix.com (localhost [127.0.0.1])
+	by mx1.emlix.com (Postfix) with ESMTP id 648F85F9AC;
+	Mon, 29 Jun 2026 10:04:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
+	s=20250930; t=1782720270;
+	bh=vUzjCu9FF48vv9QP8/Tf/lIglZ4flqSFamKdzyXAjKc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=E5R5hvvxiRQ7J/1y2y1uUhA/qRX9eGgA6/LBlKUuezE+alzxoGW1stY18VvJWTgc4
+	 3vvMaWyp0TKtDtOkPc91r1xC8tkgm8ICjt/sv78euXcQ/o7PQuuiNDoBs775zsup0l
+	 9Idxq687QaY3KT3/zsWQB0mW+A9dWls6yVcE2HF+kQgBtsERusTcQUc5KzQVFZ0IiZ
+	 Izfh4FftmMFGDvPAr2acjT2QpeKwSbWUtzCNc2gsqhbrXoF7JombTyixMEs9ojsz9z
+	 pgiOw4WZZkX7vHaAWicjGnokYW/uiSSKUVb3jOZVEe8LcQ7/dCPboS+ybGa0n1BIv6
+	 DwB/5igZpm5rA==
+Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.emlix.com (Postfix) with ESMTPS id 42C755F904;
+	Mon, 29 Jun 2026 10:04:30 +0200 (CEST)
+From: Andreas =?UTF-8?B?TcO8dHplbA==?= <andreas.muetzel@emlix.com>
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: 
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/3] overlayfs: re-introduce helper unit
+Date: Mon, 29 Jun 2026 10:04:29 +0200
+Message-ID: <6-XLRYS_SBS0soQ94uQY2g@emlix.com>
+In-Reply-To: <AB6072BD-1529-4080-B9E4-1FBA3774748E@arm.com>
+References: 
+ <20260616144043.3303124-1-andreas.muetzel@emlix.com>
+ <AB6072BD-1529-4080-B9E4-1FBA3774748E@arm.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 07:31:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239731
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 08:04:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239732
 
---NextPart
-Content-Type: text/plain
+On Friday, 26 June 2026 16:48:46 CEST Ross Burton wrote:
+> On 16 Jun 2026, at 15:40, Andreas M=C3=BCtzel via lists.openembedded.org =
+<andreas.muetzel=3Demlix.com@lists.openembedded.org> wrote:
+> >=20
+> > systemd v256+ automatically creates the upperdir and workdir when
+> > starting an overlayfs mount unit. The directories created this way are
+> > owned by root:root; this behaviour differs from the previously used
+> > helper unit, which explicitly applied the ownership of the lowerdir to
+> > the upperdir.
+>=20
+> I=E2=80=99d prefer not to have to carry unit files that mostly duplicates=
+ code that systemd has integrated.  Have you spoken to systemd upstream abo=
+ut changing the behaviour there, or adding some options?
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+No, I haven't, sorry. In short: I suspected the original change to be a reg=
+ression in oe-core, so my idea was to fix it here.
 
----
-Testing patch /home/patchtest/share/mboxes/wrynose-gnutls-upgrade-3.8.12---3.8.13.patch
+The long story:
+When upgrading a BSP to wrynose, I noticed that services now failed to star=
+t because they relied on the previous behaviour (upperdir inherits owner of=
+ lowerdir).
+See my original mail from Jun 11, "overlayfs.bbclass: upperdir ownership ch=
+ange in wrynose"; Yoann's answer seemed to confirm my suspicion. So my idea=
+ was to
+restore the previous behaviour, but only for the cases where it is explicit=
+ly needed.
 
-FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
+In general, there are already some alternative approaches to configure the =
+upperdir. Systemd already offers (at least):
+ - DirectoryMode=3D<mode> in the mount unit can be used to control the mode=
+ at directory creation time
+ - StateDirectory=3D<path> in the unit of the service that uses the overlay=
+: makes the directory owned by the service user when the service is started=
+, optionally with a mode as given by StateDirectoryMode=3D
+ - tmpfiles.d: can be used, but  states in the manpage that a StateDirector=
+y=3D in the service unit is best used for service-local data
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+All those options have in common that the ownership and permissions are def=
+ined by the unit/config, not by the actual properties of the lowerdir. (Whi=
+ch may be
+desired or not.)
+DirectoryMode is closest to the previous behaviour for cases where these pr=
+operties are static, but there is no corresponding DirectoryUser/DirectoryG=
+roup property.
+StateDirectory (and similar properties) get complicated for directories sha=
+red between multiple services.
+And the tmpfiles.d solution relies on the tmpfiles service instead of being=
+ tied to the overlayfs unit itself.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+I am not sure if inheriting the lowerdir permissions is always better or wo=
+rse than using one of the systemd-provided options. In the BSP in question,
+the systemd-provided options would actually work fine for most applications.
+But is there already a "best-practice" way of configuring the overlayfs per=
+missions?
 
----
+BTW:  I tried to open an account on the bug tracker to discuss this, but ha=
+ven't received any reaction to my request. So I implemented a minimal solut=
+ion to start this conversation here.
+I hope this is fine :-)
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+Andreas
 
 
---NextPart--
 
