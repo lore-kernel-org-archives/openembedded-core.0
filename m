@@ -1,416 +1,1011 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8303C43458
-	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 04:39:15 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14098.1782794348624008516
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E406DC43458
+	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 04:42:25 +0000 (UTC)
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14467.1782794544756509134
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 21:39:09 -0700
+ Mon, 29 Jun 2026 21:42:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=PyflJn5Q;
- spf=pass (domain: est.tech, ip: 52.101.70.43, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ftjG3Pwc/VpcwEyk6TlBzEplKXdV32Q2nifnLW9YnlXXu1b1ZxHq/lZB7QIMCZL6QClsKXcrl5KxLuP7kNr2JvMAZt3nKYGNh95HNu848S4C3onKhMMFFbZao4i6FOr6NsVnnW2GJik/XKZH9nsezIewStfa2UqmBo8OXCuQpwyxKkReNE5caIFhIVDmaTpW74anYM/g7ekXmmyutABxcdXaWUqD6D1yAvjbnDHwqpVPkREpVwsyJmi3oLDAyPpT9h6FrPW0wkE7dIg9MCvkYq0Lk13c5nSTiHMoRVUyOS6x9azWD17xpcdf2PERlplG8pi8+hoDRmJ2g/ribqvoPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d06QAhHKVp8hyp/pJFyHCzrMfFUQY0vPbyrNqo0Yi5M=;
- b=TK0/ybOVHacgN9FsMliD7Lu/Kpn1Y8m9EZoV3Wr0xUaTzAkEd6gg3Yk1tFDHTiYI735svY2o95HIxh9iw4jq5lr+zSpe1x8uipGhN2/w0d7gThghI3Hj9dtFSBaSOhgIQeWXjQF0YI4zI8yqbASe777z35N+5rII9jTs8CIN6TrihcFhRTQ36qSPR5o2djOtkS2ZgCU0HctbqSHxDDsyGv2aWR1cafcjX5Pi9xHak/wtmakjSNzIPD4AILj4T/a9LLm1PIzJ/cgcTTU2Q6ecwgcVUaxwa3VAyv/GeUaVQ/qHk/YmtVTsbVZaBfztOrUq1ws8goWjgAixWqRCQa/bbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d06QAhHKVp8hyp/pJFyHCzrMfFUQY0vPbyrNqo0Yi5M=;
- b=PyflJn5QxsRJKoUuR75+/i709IzI9JHphewbrCxAS8bB22xDvP8SN/cd1hXnf0HNuL9IhEZ92aBR+CIhDkz4Zd+I1XzJ2UuU/fM8D4hTd7q//HrEjQK//FiVyT+gE1DnKDSnJ7IgDHECZO81O8QOHhKo6QHUVW9q2uvTg8dM5seH4aogs5IXhrRk0fwjxTyizi7UAnHqmGjplpTYq2qZ5kGxW3us/xMdjc8kQer7okGvNzTF2ncS9meL54Od1PIhHcKjbndi/pGgjN2jLjP3YwA2sED/yE0DFAKrgwlWvJiZ5IrK7+Csuz/UM7VuBOs00K72tAB3cWKoa48+CwlS+g==
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by PAWP189MB2545.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:35c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 30 Jun
- 2026 04:39:03 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::18b0:e114:b839:ca49]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::18b0:e114:b839:ca49%8]) with mapi id 15.21.0159.018; Tue, 30 Jun 2026
- 04:39:03 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: Jaipaul Cheernam via lists.openembedded.org
-	<jaipaul.cheernam=est.tech@lists.openembedded.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Jaipaul Cheernam
-	<jaipaul.cheernam@est.tech>, "yoann.congal@smile.fr" <yoann.congal@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH v2] curl: fix CVE-2026-5773 - wrong
- reuse of SMB connection
-Thread-Topic: [OE-core] [scarthgap][PATCH v2] curl: fix CVE-2026-5773 - wrong
- reuse of SMB connection
-Thread-Index: AQHdA7RZnqCNaZK1qE2SBTivFOXcJ7ZWjNuZ
-Date: Tue, 30 Jun 2026 04:39:03 +0000
-Message-ID: 
- <DU7PPF66507B2D74801DCDBE0149F5394B9F3F72@DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM>
-References: <20260623074847.3424-1-jaipaul.cheernam@est.tech>
- <18BBF7650C0584E5.1138462@lists.openembedded.org>
-In-Reply-To: <18BBF7650C0584E5.1138462@lists.openembedded.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU7PPF66507B2D7:EE_|PAWP189MB2545:EE_
-x-ms-office365-filtering-correlation-id: 0b012e8f-ba0b-4f23-193a-08ded6618346
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|38070700021|56012099006|3023799007|4143699003|22082099003|18002099003|11063799006|8096899003|13003099007;
-x-microsoft-antispam-message-info: 
- LzfQoHNmM9WnjH9p5XZXkny+FdS7GIiAGSf9PVk24wQBPf5RHB+wa2kRMUgT+TvPk/J44Zgcl411bMURT5U1YxXC48RQQfDVPRkeNaXjV1K0fWHlDnN6M5Sz0hhvyc42Uoqp6aBVZtk+0pACulg01W303uDjn0C+hrVby4mopsM7lhOCwx+c+NRiGkBnte9n+SMu+Q1h7J0lbaNQdQeSk5OM8nO6Fbp7NdYEhiACI9zncmwODy5V6xgowb1x8s+F2WC6R9gQUWkO3pdXzr9X9S1Sujsiu1gskMBhrPmnrTYDE3j13skan4TLnuBR2xBtlaFugcFbwtlGe7C7NuLyjYFZF1BI61IhzvrCsED2c1qFA5iV8SSYkU0XS+x2IYAvLbbaVnrJPtniuKSk3EJBr2xMQ7eAP+aTRTs7XG1wSnQkOflrv4h3QBsZrHKrtsXNZKqsYye2ao7hfh81+UoSaRVv/DOAs3n0v7CoUqoln6HGQJd5ySfUpTZfVCfEdjcCyfap7ZMAJNZlYF9/Q3AbfJi+6DxwegUcuc8FahF5eBm1kLuvNNAWqK2vp0kXOuzlWBUfWP3ohUA0jgchtR2zYfxhC5vfNlAuM9Xg+dKhs7nJmIzEI/rrvIbAlp9Qy4Y4UJmr6gV1nsAAq/qxKtKOw+GKXWXfBQw+T1rHiEVhjlI=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(38070700021)(56012099006)(3023799007)(4143699003)(22082099003)(18002099003)(11063799006)(8096899003)(13003099007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?Windows-1252?Q?FxnOlZz4nsfpsAQBINdemoncJk6XFA434TMCzyER3iin1YnyuQoStbQa?=
- =?Windows-1252?Q?myqPdEziM61N3Qy914p3SGcWPJeK6BIg2EqI0AkBqlOtwcs1rQPFy6TE?=
- =?Windows-1252?Q?wt/xvDf6nbdA7hIqGGxxrBClPQxz1jdxb6GduAS0fFCO1liITyuq4zkr?=
- =?Windows-1252?Q?xg1U34oitcAeuWicYcjYqd7wVDAVHmdM7/88ROrOlGLjWSnwSh7dfP0U?=
- =?Windows-1252?Q?k9lAG92wviuRPhv0rJgDmXYmG70tBasnEm/mY1CSlbRh40aj0luDaxfr?=
- =?Windows-1252?Q?M3a3fpCo87yoilxZgVLzhOV6QJ4x+PbcD2awaIKBoFW/c6emDBJDTEMY?=
- =?Windows-1252?Q?Yz2X9A8C4FQZ64aVaTjU8fzceMQnAMGMJ2jAnI50EfjTKGtDpsKg9Jl2?=
- =?Windows-1252?Q?l/2c0gbv5ctVeXLxm9cS84g75kkAk3yOgFeR12c2p0R/d6g4g3OKyxoE?=
- =?Windows-1252?Q?QshAN70oIe/Wr/TVGu+NPM2Ti9aJDcHgywXmnCsGXpgH+Ig9YWGrxxQM?=
- =?Windows-1252?Q?luEDJ9suPg8nv82CtXSGhj/8JKIz+3ihLoOVcNQ2NtAuLvWfnp/gecrB?=
- =?Windows-1252?Q?smAhxCiQd9xJHFrXHqGNO1bUJnmzEZwdDiFFVA4PrH/daTDikTva8QlO?=
- =?Windows-1252?Q?fbvCSlF6g4aJCkZ8m3x0oNCV2PnOOggvrNTvFMju2uHzegmW37bLErHn?=
- =?Windows-1252?Q?bhc6PPU3GmihBKwYmbgpY8WtbJlHzrCJZ0dW7l50WFwNnZIJcCZTIsiJ?=
- =?Windows-1252?Q?FXWIifrdf+wlR9Z2CaDM1stEYB1pyJUrAQeqOodsqsYgVlVL2+DtexTN?=
- =?Windows-1252?Q?QputRdnUe/htQSSLTIZ12Wr0zMVR1uGk7MOlrLNEHXbygnvGFsDAuaGo?=
- =?Windows-1252?Q?lGa4wicGfrhWgRbNBU9xXw3A6pOQvN+wUZd+TQDeKQlV4EuVugZzr+n7?=
- =?Windows-1252?Q?9T8Hhj0MZfBdR8qS5gMWGqaASwbppZmvt393h5hFCplTptr5FvE+6JsY?=
- =?Windows-1252?Q?i8HC3X4u/zHrdhBR2KV/0WHoyWXEMH5N+wP+mf0NPTJxUO6MuZQi7/74?=
- =?Windows-1252?Q?5kTQHNfTmAVbo9Fab3yNCatuR+eNgsc8Nzjr9nAtVnB+xdoTW4XNM0Qd?=
- =?Windows-1252?Q?dS97fLDb/t/qX0782GT+I3PsHfQ4UKUNQXbYOEkNvDLasFdmbUIH4Bvi?=
- =?Windows-1252?Q?zPXO8d0J9OFlDTbLcf4OV7EN7IsVzT0DzYo21xKtaXygVEXtbLXsfL4V?=
- =?Windows-1252?Q?wP1IGHLPm/uayeDKRtI45z+ha1R2VdIeGrBBfXGm+iLBlLoM3f2zoOdP?=
- =?Windows-1252?Q?/A0JMufrIDfhMHdKpf4SrHI3dqsGGnMm6yK/2eE3a0Z6ZH1mEMH8roJB?=
- =?Windows-1252?Q?9i0gp+QkMHdaWbCfy4d1rJC+JN9ZiyrCUj/84UD/+SZRvXWQk4X6/dZC?=
- =?Windows-1252?Q?sq2G/69czY6kk01fDyD9bm90L8DUH06l8QxNVxo8w1SHgF7WEWxE1p4d?=
- =?Windows-1252?Q?IDisXXqXnM8L01sD6bEOKQSYz0lECC1EaYT6uncfzqtwijLS9/4OzPnq?=
- =?Windows-1252?Q?6vqIl6e9Mb6O6hjjcdnt8zmrk7QZ72ZKg0nBdtc4T+r7HTpFFQxixtI/?=
- =?Windows-1252?Q?GB8XSDT9jY3tzgvCJoXkES3lECYKsBtLEOv+PZPfXHuZSEYyKEMPiQIh?=
- =?Windows-1252?Q?lz2GHIdXDIqkZ5yv1qIgV2vUZNFarE+c5H2fW9a8nKkcTqYOv8NNRqNa?=
- =?Windows-1252?Q?8/ICyioouDzRzo+6EFxQFoFybbRGbbNsazWhrx2jdfBV1ABschOIpDyM?=
- =?Windows-1252?Q?HSCgWzIl9CoUa3ZmleiDKWdSHYWOdJFvt+jpRk6kYXQ1XPnK+ADejjfI?=
- =?Windows-1252?Q?vZmZBvtFNNi7gQ=3D=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_DU7PPF66507B2D74801DCDBE0149F5394B9F3F72DU7PPF66507B2D7_"
+ dkim=pass header.i=@mvista.com header.s=google header.b=ijRHEXw1;
+ spf=pass (domain: mvista.com, ip: 74.125.82.182, mailfrom: hprajapati@mvista.com)
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-30ec3dfbcd1so2887861eec.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 21:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1782794544; x=1783399344; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MKUiMchy3Ql+4Kd36aUH1Kge9Xcje3V09vzERvFFoAY=;
+        b=ijRHEXw1Yl7sXMLFA264khhFJ5Mlt/msS9CxE/gm3RC1R0AUExtWAsacm2qU67EP5m
+         7/5RkZWBN6PK4EyY8/lFTSxEpsSeYjh0uUY3wfdgjRafASLTcleZF7dCCUGNpyhxgVlj
+         bRkyqZG3fSril43R7nHSXpLMiMLtPpNCkliS4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782794544; x=1783399344;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=MKUiMchy3Ql+4Kd36aUH1Kge9Xcje3V09vzERvFFoAY=;
+        b=IPlXZB8ScM1lVbB+LJz6n/qQrqb97XB880k3lmqpGyOYKfyWkgi7rQj166cT6ArXfU
+         Cvl4fGYPTTNea+U9LXugv8+bbYNw3GC5t9H6ozST/Yv4mPHazyg28eg+qWHpbLMjvws/
+         9KC+ZJp8hszi6kwclNuss2S8B+aJQuMu8wcw6yYbdATN0nAeypEGek/IldYbijeeS5Qk
+         9PTcN0/Wf3/YeJy8lvTxAn7d407i4JBNzRQPAAkaxuOXzqlTeDl7kbzQSy12Kpa/M1ZP
+         ZhykRVx0jmvMicjR5d3Ac2XXhO0o7mjejhZggSB4qSTuIP/YOoYTlIUI40E3c2M9jbCw
+         6gDQ==
+X-Gm-Message-State: AOJu0YyUOA15HE9Kv2K5uPAA3juDHbb9EOW3tPiDQzxCZDorUYDijNE4
+	qdIErVwSXLdN7ubY6g0t7G3sgQv/E41E7jWpxq4IL0ZXqb4EOoXRP4TKku9o1l/K4lebkIcBsl5
+	Kg2oMQl4=
+X-Gm-Gg: AfdE7cnXxK4gH6dCwt9P42GVT9pe6wcUo8yU4/9wv8KAtAc+Ro5kDPrvheIoa2F74pl
+	jaw6m95aa1Wran2zichE8UqgU6+HCOFA6iTi4LB+X/vR7DPSAn7xUro7wa5+b0/DNsov53wGbcE
+	ue+8DSz+wiK/LPSJJL60kpdgtv/QeBwU3aGvyDhoUNJkwV6at+A+LMT+gkNV5E4JEbCFr+QdnW7
+	SSs8F+MDA3DnnXov6oEkxNCek2NeqV6pmKszh13Vvgo3A6kgod/Q38Fh/f5PDI/hL+ia4WO/SqP
+	SoVWkhNME15xX5cacXdQOV2sfCE00rsbUHPrUwGDDtbi4/iwE8wXnZJzWMu0eUGX7/+i68X8lwm
+	ky7O0bwg/FGnvdyF4pzIR5W4+3o3V4ec6TY/WniSgDWB3dBcTi+AOdVGj7jqPsRfedipohzlh8p
+	M5aPi1VKlAjuZ0llMLVct/2M9MvpBddIjR7BMr
+X-Received: by 2002:a05:693c:23c5:b0:304:bce9:25fa with SMTP id 5a478bee46e88-30ee12f1d30mr1345333eec.4.1782794543385;
+        Mon, 29 Jun 2026 21:42:23 -0700 (PDT)
+Received: from MVIN00013.mvista.com ([103.250.136.242])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2f5ed29sm3568309eec.1.2026.06.29.21.42.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 21:42:22 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] vim: Fix for CVE-2026-52858,CVE-2026-52859,CVE-2026-52860
+Date: Tue, 30 Jun 2026 10:12:11 +0530
+Message-ID: <20260630044212.11961-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b012e8f-ba0b-4f23-193a-08ded6618346
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2026 04:39:03.5598
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2YyUpAKJagnVoLynDtuzV6PNAzE2jvXXNZEG7OdY3BSV3UM4KmmWmrO2qHif0kh4QtAzUy0t60vvzoizWzEN+dRc3Uk4HfJ1kH5C2WRVzMU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWP189MB2545
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 04:39:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239831
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 04:42:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239832
 
---_000_DU7PPF66507B2D74801DCDBE0149F5394B9F3F72DU7PPF66507B2D7_
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
 
-Hi Yoann,
+[1] https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d
+[2] https://github.com/vim/vim/commit/63680c6d3d52477817b49cd1a66e7aabe8a7aa19
+[3] https://github.com/vim/vim/commit/c8c63673bc4253212820626aeeb75999d9a539d2
+[4] https://nvd.nist.gov/vuln/detail/CVE-2026-52858
+[5] https://nvd.nist.gov/vuln/detail/CVE-2026-52859
+[6] https://nvd.nist.gov/vuln/detail/CVE-2026-52860
 
-I see that status in patch work shows Changes Requested but I didn=92t see =
-any response on this mail thread .
-
-Can you check
-
-Regards,
-Jaipaul
-________________________________
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> on behalf of Jaipaul Cheernam via lists.openembedded.org <ja=
-ipaul.cheernam=3Dest.tech@lists.openembedded.org>
-Sent: Wednesday, June 24, 2026 10:34 AM
-To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Cc: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [OE-core] [scarthgap][PATCH v2] curl: fix CVE-2026-5773 - wrong re=
-use of SMB connection
-
-libcurl's SMB handler marks connections for reuse (connkeep) without
-verifying that subsequent requests target the same share. This allows
-a second SMB request to the same host to reuse a connection
-authenticated for a different share, potentially accessing data
-without proper authorization.
-
-The upstream fix removes connection reuse for SMB entirely in
-lib/protocol.c, a file introduced in curl 8.20.0. For 8.7.1, the
-equivalent fix is changing connkeep() to connclose() in lib/smb.c,
-which prevents the connection from being returned to the pool.
-
-Tested with SMBv1 server (Docker dperson/samba):
-  Without patch: "Re-using existing connection" for different shares
-  With patch: New connection per request, no reuse
-
-Binary verified: Curl_conncontrol arg changes from 0 (KEEP) to 1 (CLOSE)
-
-Reference: https://curl.se/docs/CVE-2026-5773.html
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../curl/curl/CVE-2026-5773.patch             | 41 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5773.patch
+ .../vim/files/CVE-2026-52858.patch            | 167 +++++++
+ .../vim/files/CVE-2026-52859.patch            | 274 +++++++++++
+ .../vim/files/CVE-2026-52860.patch            | 446 ++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |   3 +
+ 4 files changed, 890 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-52858.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-52859.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-52860.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-5773.patch b/meta/reci=
-pes-support/curl/curl/CVE-2026-5773.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-52858.patch b/meta/recipes-support/vim/files/CVE-2026-52858.patch
 new file mode 100644
-index 0000000000..0a5fa588fe
+index 0000000000..38d477eeb9
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-5773.patch
-@@ -0,0 +1,41 @@
-+From 74a169575d6412dc0ff532acdf94de35a6c2a571 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Sun, 5 Apr 2026 18:23:35 +0200
-+Subject: [PATCH] protocol: disable connection reuse for SMB(S)
++++ b/meta/recipes-support/vim/files/CVE-2026-52858.patch
+@@ -0,0 +1,167 @@
++From 4b850457e12e1a678dd209f2868154f7553cbf8d Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Fri, 29 May 2026 19:05:53 +0000
++Subject: [PATCH] patch 9.2.0561: [security]: possible code execution with
++ python3complete
 +
-+Connections should only be reused when using the same "share" (and
-+perhaps some additional conditions), but instead of fixing this flaw,
-+this change completely disables connection reuse for SMB. This protocol
-+is about to get dropped soon anyway.
++Problem:  [security]: possible code execution with python3complete
++Solution: Disable execution of import/from statements
 +
-+Reported-by: Osama Hamad
-+Closes #21238
-+Signed-off-by: Daniel Stenberg <daniel@haxx.se>
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-52mc-rq6p-rc7c
 +
-+CVE: CVE-2026-5773
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/74a169575d6=
-412dc0ff532acdf94de35a6c2a571]
++Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Note: The upstream fix targets lib/protocol.c which was introduced in
-+curl 8.20.0. In 8.7.1 the equivalent is changing connkeep() to
-+connclose() in lib/smb.c, which prevents the connection from being
-+returned to the pool. The effect is identical.
-+
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++Upstream-Status: Backport [https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d]
++CVE: CVE-2026-52858
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ lib/smb.c | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
++ runtime/autoload/README.txt          |  1 +
++ runtime/autoload/python3complete.vim | 17 ++++++++++++++---
++ runtime/autoload/pythoncomplete.vim  | 17 ++++++++++++++---
++ runtime/doc/filetype.txt             | 15 ++++++++++++++-
++ 4 files changed, 43 insertions(+), 7 deletions(-)
 +
-+diff --git a/lib/smb.c b/lib/smb.c
-+index 7c73cbcec..a1f5c9b31 100644
-+--- a/lib/smb.c
-++++ b/lib/smb.c
-+@@ -461,8 +461,7 @@ static CURLcode smb_connect(struct Curl_easy *data, bo=
-ol *done)
-+   if(!smbc->send_buf)
-+     return CURLE_OUT_OF_MEMORY;
++diff --git a/runtime/autoload/README.txt b/runtime/autoload/README.txt
++index 3b18d3dde5..b22581963e 100644
++--- a/runtime/autoload/README.txt
+++++ b/runtime/autoload/README.txt
++@@ -17,6 +17,7 @@ htmlcomplete.vim	HTML
++ javascriptcomplete.vim  Javascript
++ phpcomplete.vim		PHP
++ pythoncomplete.vim	Python
+++python3complete.vim Python
++ rubycomplete.vim	Ruby
++ syntaxcomplete.vim	from syntax highlighting
++ xmlcomplete.vim		XML (uses files in the xml directory)
++diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
++index 3e54433f41..2b6a652525 100644
++--- a/runtime/autoload/python3complete.vim
+++++ b/runtime/autoload/python3complete.vim
++@@ -14,6 +14,10 @@
++ "   i.e. "import url<c-x,c-o>"
++ " Continue parsing on invalid line??
++ "
+++" v 0.10 by Vim project
+++"   * disables importing local modules, unless the global Vim variable
+++"     g:pythoncomplete_allow_import is set to non-zero
+++"
++ " v 0.9
++ "   * Fixed docstring parsing for classes and functions
++ "   * Fixed parsing of *args and **kwargs type arguments
++@@ -132,11 +136,20 @@ class Completer(object):
++ 
++     def evalsource(self,text,line=0):
++         sc = self.parser.parse(text,line)
+++        try: allow_imports = int(
+++          vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
+++        except Exception:
+++          allow_imports = 0
++         src = sc.get_code()
++         dbg("source: %s" % src)
++         try: exec(src,self.compldict)
++         except: dbg("parser: %s, %s" % (sys.exc_info()[0],sys.exc_info()[1]))
++         for l in sc.locals:
+++            # Executing import/from statements harvested from the buffer runs
+++            # arbitrary package code; only do so when the user opted in.
+++            if not allow_imports and (l.startswith('import')
+++                                            or l.startswith('from ')):
+++                continue
++             try: exec(l,self.compldict)
++             except: dbg("locals: %s, %s [%s]" % (sys.exc_info()[0],sys.exc_info()[1],l))
++ 
++@@ -300,13 +313,11 @@ class Scope(object):
++     def get_code(self):
++         str = ""
++         if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
++-        for l in self.locals:
++-            if l.startswith('import'): str += l+'\n'
++         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
++         for sub in self.subscopes:
++             str += sub.get_code()
++         for l in self.locals:
++-            if not l.startswith('import'): str += l+'\n'
+++            if not l.startswith('import') and not l.startswith('from '): str += l+'\n'
++ 
++         return str
++ 
++diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
++index aa28bb721f..10147767ef 100644
++--- a/runtime/autoload/pythoncomplete.vim
+++++ b/runtime/autoload/pythoncomplete.vim
++@@ -12,6 +12,10 @@
++ "   i.e. "import url<c-x,c-o>"
++ " Continue parsing on invalid line??
++ "
+++" v 0.10 by Vim project
+++"   * disables importing local modules, unless the global Vim variable
+++"     g:pythoncomplete_allow_import is set to non-zero
+++"
++ " v 0.9
++ "   * Fixed docstring parsing for classes and functions
++ "   * Fixed parsing of *args and **kwargs type arguments
++@@ -146,11 +150,20 @@ class Completer(object):
++ 
++     def evalsource(self,text,line=0):
++         sc = self.parser.parse(text,line)
+++        try: allow_imports = int(
+++          vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
+++        except Exception:
+++          allow_imports = 0
++         src = sc.get_code()
++         dbg("source: %s" % src)
++         try: exec(src) in self.compldict
++         except: dbg("parser: %s, %s" % (sys.exc_info()[0],sys.exc_info()[1]))
++         for l in sc.locals:
+++            # Executing import/from statements harvested from the buffer runs
+++            # arbitrary package code; only do so when the user opted in.
+++            if not allow_imports and (l.startswith('import')
+++                                            or l.startswith('from ')):
+++                continue
++             try: exec(l) in self.compldict
++             except: dbg("locals: %s, %s [%s]" % (sys.exc_info()[0],sys.exc_info()[1],l))
++ 
++@@ -315,13 +328,11 @@ class Scope(object):
++     def get_code(self):
++         str = ""
++         if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
++-        for l in self.locals:
++-            if l.startswith('import'): str += l+'\n'
++         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
++         for sub in self.subscopes:
++             str += sub.get_code()
++         for l in self.locals:
++-            if not l.startswith('import'): str += l+'\n'
+++            if not l.startswith('import') and not l.startswith('from '): str += l+'\n'
++ 
++         return str
++ 
++diff --git a/runtime/doc/filetype.txt b/runtime/doc/filetype.txt
++index 461f801ccc..24d833cd54 100644
++--- a/runtime/doc/filetype.txt
+++++ b/runtime/doc/filetype.txt
++@@ -982,7 +982,20 @@ By default the following options are set, in accordance with PEP8: >
++ To disable this behavior, set the following variable in your vimrc: >
++ 
++ 	let g:python_recommended_style = 0
++-
+++<
+++Python omni-completion |compl-omni| is provided by python3complete.vim (or
+++pythoncomplete.vim) for Vim builds with the |+python|/|+python3| interpreter.
+++By default it does not inspect the import / from statements found in the
+++buffer. This means completion of names defined in the buffer itself (classes,
+++functions, variables) works, but completion of members of imported modules is
+++not offered.
+++
+++To enable completion of imported module members, set: >
+++	let g:pythoncomplete_allow_import = 1
+++<
+++WARNING: enabling this causes omni-completion to execute the import statements
+++found in the buffer through Python's import machinery, which runs the imported
+++modules' top-level code. Only enable this for code you trust.
++ 
++ QF QUICKFIX					    *qf.vim* *ft-qf-plugin*
++ 
++-- 
++2.34.1
 +
-+-  /* Multiple requests are allowed with this connection */
-+-  connkeep(conn, "SMB default");
-++  connclose(conn, "SMB default");
+diff --git a/meta/recipes-support/vim/files/CVE-2026-52859.patch b/meta/recipes-support/vim/files/CVE-2026-52859.patch
+new file mode 100644
+index 0000000000..7a91dab496
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-52859.patch
+@@ -0,0 +1,274 @@
++From 63680c6d3d52477817b49cd1a66e7aabe8a7aa19 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Sat, 30 May 2026 16:34:40 +0000
++Subject: [PATCH] patch 9.2.0565: [security]: out-of-bounds read in
++ update_snapshot()
 +
-+   /* Parse the username, domain, and password */
-+   slash =3D strchr(conn->user, '/');
-diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support=
-/curl/curl_8.7.1.bb
-index 14d63d6373..d026731751 100644
---- a/meta/recipes-support/curl/curl_8.7.1.bb
-+++ b/meta/recipes-support/curl/curl_8.7.1.bb
-@@ -36,6 +36,7 @@ SRC_URI =3D " \
-     file://CVE-2026-1965-2.patch \
-     file://CVE-2026-3783.patch \
-     file://CVE-2026-3784.patch \
-+    file://CVE-2026-5773.patch \
- "
++Problem:  Out-of-bounds read in update_snapshot() when a terminal cell
++          fills all VTERM_MAX_CHARS_PER_CELL slots (a base character
++          plus five combining marks): the loop over cell.chars[] has no
++          upper bound and libvterm leaves the array unterminated when full, so
++          it reads past the array and appends out-of-bounds values to a
++          buffer sized for only VTERM_MAX_CHARS_PER_CELL characters.
++Solution: Bound the loop with i < VTERM_MAX_CHARS_PER_CELL, mirroring
++          the loop in handle_pushline() (Christian Brabandt).
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++Upstream-Status: Backport [https://github.com/vim/vim/commit/63680c6d3d52477817b49cd1a66e7aabe8a7aa19]
++CVE: CVE-2026-52859
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/terminal.c                          |   3 +-
++ src/testdir/samples/combining_chars.txt | 200 ++++++++++++++++++++++++
++ src/testdir/test_terminal3.vim          |  15 ++
++ 3 files changed, 217 insertions(+), 1 deletion(-)
++ create mode 100644 src/testdir/samples/combining_chars.txt
++
++diff --git a/src/terminal.c b/src/terminal.c
++index 6a9c286e29..f42125bf22 100644
++--- a/src/terminal.c
+++++ b/src/terminal.c
++@@ -2265,7 +2265,8 @@ update_snapshot(term_T *term)
++ 			    int	    i;
++ 			    int	    c;
++ 
++-			    for (i = 0; (c = cell.chars[i]) > 0 || i == 0; ++i)
+++			    for (i = 0; i < VTERM_MAX_CHARS_PER_CELL &&
+++				    ((c = cell.chars[i]) > 0 || i == 0); ++i)
++ 				ga.ga_len += utf_char2bytes(c == NUL ? ' ' : c,
++ 					     (char_u *)ga.ga_data + ga.ga_len);
++ 			}
++diff --git a/src/testdir/samples/combining_chars.txt b/src/testdir/samples/combining_chars.txt
++new file mode 100644
++index 0000000000..d9a3c171fb
++--- /dev/null
+++++ b/src/testdir/samples/combining_chars.txt
++@@ -0,0 +1,200 @@
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
+++á́́́́ጁ
++diff --git a/src/testdir/test_terminal3.vim b/src/testdir/test_terminal3.vim
++index 04c7c925e3..738a4c6284 100644
++--- a/src/testdir/test_terminal3.vim
+++++ b/src/testdir/test_terminal3.vim
++@@ -1241,4 +1241,19 @@ func Test_terminal_csi_args_overflow()
++   call StopVimInTerminal(buf)
++ endfunc
++ 
+++func Test_terminal_output_combining_chars()
+++  CheckUnix
+++  new
+++  let cmd = "cat samples/combining_chars.txt"
+++  let buf = term_start(cmd, {'curwin': 1, 'term_finish': 'open', 'term_rows': 10, 'term_cols': 30})
+++  call WaitForAssert({-> assert_match('finished', term_getstatus(buf))})
+++  call TermWait(buf)
+++  let lines = getbufline(buf, 1, '$')
+++  " get byte lengths to confirm combining chars present
+++  let lens = map(copy(lines), 'len(v:val)')
+++  let expected = repeat([11], 190) + repeat([14], 10)
+++  call assert_equal(expected, lens)
+++  bw!
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/vim/files/CVE-2026-52860.patch b/meta/recipes-support/vim/files/CVE-2026-52860.patch
+new file mode 100644
+index 0000000000..1e370847f6
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-52860.patch
+@@ -0,0 +1,446 @@
++From c8c63673bc4253212820626aeeb75999d9a539d2 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Thu, 4 Jun 2026 21:06:09 +0000
++Subject: [PATCH] patch 9.2.0597: [security]: possible code execution with
++ python complete
++
++Problem:  [security]: another possible code execution with python complete
++          (David Carliez)
++Solution: Strip default expressions and annotations from generated
++          source for pythoncomplete and python3complete.
++
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-65p9-mwwx-7468
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++Upstream-Status: Backport [https://github.com/vim/vim/commit/c8c63673bc4253212820626aeeb75999d9a539d2]
++CVE: CVE-2026-52860
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ runtime/autoload/python3complete.vim        |  43 +++-
++ runtime/autoload/pythoncomplete.vim         |  43 +++-
++ src/testdir/Make_all.mak                    |   2 +
++ src/testdir/test_plugin_python3complete.vim | 224 ++++++++++++++++++++
++ 4 files changed, 304 insertions(+), 8 deletions(-)
++ create mode 100644 src/testdir/test_plugin_python3complete.vim
++
++diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
++index 2b6a652525..c4ef19d82f 100644
++--- a/runtime/autoload/python3complete.vim
+++++ b/runtime/autoload/python3complete.vim
++@@ -1,8 +1,8 @@
++ "python3complete.vim - Omni Completion for python
++ " Maintainer: <vacancy>
++ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
++-" Version: 0.9
++-" Last Updated: 2022 Mar 30
+++" Version: 0.10
+++" Last Updated: 2026 Jun 04
++ "
++ " Roland Puntaier: this file contains adaptations for python3 and is parallel to pythoncomplete.vim
++ "
++@@ -17,6 +17,11 @@
++ " v 0.10 by Vim project
++ "   * disables importing local modules, unless the global Vim variable
++ "     g:pythoncomplete_allow_import is set to non-zero
+++"   * strip default values and annotations from function parameter lists
+++"     before exec(), and whitelist class base lists to dotted names: the
+++"     previous code passed buffer-supplied expressions to exec() which
+++"     Python evaluates at definition time, allowing arbitrary code
+++"     execution via crafted def/class headers
++ "
++ " v 0.9
++ "   * Fixed docstring parsing for classes and functions
++@@ -100,6 +105,24 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
++ 
++ import sys, tokenize, io, types
++ from token import NAME, DEDENT, NEWLINE, STRING
+++import re
+++
+++# Used by Class.get_code(): a base class expression is only included in the
+++# code passed to exec() if it is a pure dotted name (e.g. "Base", "mod.Base",
+++# "pkg.sub.Cls").  Anything containing calls, subscripts, "=", ":" or other
+++# operators is dropped, since exec()-ing it would evaluate buffer-supplied
+++# expressions.  See the security note in the file header.
+++_DOTTED_NAME_RE = re.compile(r'^[A-Za-z_]\w*(\s*\.\s*[A-Za-z_]\w*)*$')
+++
+++def _strip_param(p):
+++    # Return the bare parameter name from a parameter spec harvested by
+++    # _parenparse(), discarding any default value or annotation.  Default
+++    # values and annotations would otherwise be evaluated by exec() at
+++    # function-definition time.  Star prefixes ("*args", "**kw") and bare
+++    # "*" / "/" are preserved as written.
+++    p = p.split('=', 1)[0]
+++    p = p.split(':', 1)[0]
+++    return p.strip()
++ 
++ debugstmts=[]
++ def dbg(s): debugstmts.append(s)
++@@ -347,7 +370,13 @@ class Class(Scope):
++         return c
++     def get_code(self):
++         str = '%sclass %s' % (self.currentindent(),self.name)
++-        if len(self.supers) > 0: str += '(%s)' % ','.join(self.supers)
+++        # Only include base class expressions that are pure dotted names.
+++        # Anything else (calls, subscripts, conditionals, ...) is dropped
+++        # because exec() would evaluate it at class-definition time.  See
+++        # the security note in the file header.
+++        safe_supers = [s.strip() for s in self.supers
+++                       if _DOTTED_NAME_RE.match(s.strip())]
+++        if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
++         str += ':\n'
++         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
++         if len(self.subscopes) > 0:
++@@ -364,8 +393,14 @@ class Function(Scope):
++     def copy_decl(self,indent=0):
++         return Function(self.name,self.params,indent, self.docstr)
++     def get_code(self):
+++        # Strip default values and annotations from each parameter before
+++        # joining: exec() evaluates these at definition time and a hostile
+++        # buffer could otherwise execute arbitrary code via crafted def
+++        # headers.  See file header for details.
+++        safe_params = [_strip_param(p) for p in self.params]
+++        safe_params = [p for p in safe_params if p]
++         str = "%sdef %s(%s):\n" % \
++-            (self.currentindent(),self.name,','.join(self.params))
+++            (self.currentindent(),self.name,','.join(safe_params))
++         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
++         str += "%spass\n" % self.childindent()
++         return str
++diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
++index 10147767ef..39b1efd299 100644
++--- a/runtime/autoload/pythoncomplete.vim
+++++ b/runtime/autoload/pythoncomplete.vim
++@@ -1,8 +1,8 @@
++ "pythoncomplete.vim - Omni Completion for python
++ " Maintainer: <vacancy>
++ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
++-" Version: 0.9
++-" Last Updated: 2020 Oct 9
+++" Version: 0.10
+++" Last Updated: 2026 Jun 04
++ "
++ " Changes
++ " TODO:
++@@ -15,6 +15,11 @@
++ " v 0.10 by Vim project
++ "   * disables importing local modules, unless the global Vim variable
++ "     g:pythoncomplete_allow_import is set to non-zero
+++"   * strip default values and annotations from function parameter lists
+++"     before exec(), and whitelist class base lists to dotted names: the
+++"     previous code passed buffer-supplied expressions to exec() which
+++"     Python evaluates at definition time, allowing arbitrary code
+++"     execution via crafted def/class headers
++ "
++ " v 0.9
++ "   * Fixed docstring parsing for classes and functions
++@@ -95,6 +100,24 @@ function! s:DefPython()
++ python << PYTHONEOF
++ import sys, tokenize, cStringIO, types
++ from token import NAME, DEDENT, NEWLINE, STRING
+++import re
+++
+++# Used by Class.get_code(): a base class expression is only included in the
+++# code passed to exec() if it is a pure dotted name (e.g. "Base", "mod.Base",
+++# "pkg.sub.Cls").  Anything containing calls, subscripts, "=", ":" or other
+++# operators is dropped, since exec()-ing it would evaluate buffer-supplied
+++# expressions.  See the security note in the file header.
+++_DOTTED_NAME_RE = re.compile(r'^[A-Za-z_]\w*(\s*\.\s*[A-Za-z_]\w*)*$')
+++
+++def _strip_param(p):
+++    # Return the bare parameter name from a parameter spec harvested by
+++    # _parenparse(), discarding any default value or annotation.  Default
+++    # values and annotations would otherwise be evaluated by exec() at
+++    # function-definition time.  Star prefixes ("*args", "**kw") and bare
+++    # "*" / "/" are preserved as written.
+++    p = p.split('=', 1)[0]
+++    p = p.split(':', 1)[0]
+++    return p.strip()
++ 
++ debugstmts=[]
++ def dbg(s): debugstmts.append(s)
++@@ -362,7 +385,13 @@ class Class(Scope):
++         return c
++     def get_code(self):
++         str = '%sclass %s' % (self.currentindent(),self.name)
++-        if len(self.supers) > 0: str += '(%s)' % ','.join(self.supers)
+++        # Only include base class expressions that are pure dotted names.
+++        # Anything else (calls, subscripts, conditionals, ...) is dropped
+++        # because exec() would evaluate it at class-definition time.  See
+++        # the security note in the file header.
+++        safe_supers = [s.strip() for s in self.supers
+++                       if _DOTTED_NAME_RE.match(s.strip())]
+++        if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
++         str += ':\n'
++         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
++         if len(self.subscopes) > 0:
++@@ -379,8 +408,14 @@ class Function(Scope):
++     def copy_decl(self,indent=0):
++         return Function(self.name,self.params,indent, self.docstr)
++     def get_code(self):
+++        # Strip default values and annotations from each parameter before
+++        # joining: exec() evaluates these at definition time and a hostile
+++        # buffer could otherwise execute arbitrary code via crafted def
+++        # headers.  See file header for details.
+++        safe_params = [_strip_param(p) for p in self.params]
+++        safe_params = [p for p in safe_params if p]
++         str = "%sdef %s(%s):\n" % \
++-            (self.currentindent(),self.name,','.join(self.params))
+++            (self.currentindent(),self.name,','.join(safe_params))
++         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
++         str += "%spass\n" % self.childindent()
++         return str
++diff --git a/src/testdir/Make_all.mak b/src/testdir/Make_all.mak
++index f8c7f8bb46..b06d1af431 100644
++--- a/src/testdir/Make_all.mak
+++++ b/src/testdir/Make_all.mak
++@@ -250,6 +250,7 @@ NEW_TESTS = \
++ 	test_plugin_man \
++ 	test_plugin_matchparen \
++ 	test_plugin_netrw \
+++	test_plugin_python3complete \
++ 	test_plugin_osc52 \
++ 	test_plugin_tar \
++ 	test_plugin_termdebug \
++@@ -528,6 +529,7 @@ NEW_TESTS_RES = \
++ 	test_plugin_man.res \
++ 	test_plugin_matchparen.res \
++ 	test_plugin_netrw.res \
+++	test_plugin_python3complete.res \
++ 	test_plugin_osc52.res \
++ 	test_plugin_tar.res \
++ 	test_plugin_termdebug.res \
++diff --git a/src/testdir/test_plugin_python3complete.vim b/src/testdir/test_plugin_python3complete.vim
++new file mode 100644
++index 0000000000..e2b0c6616d
++--- /dev/null
+++++ b/src/testdir/test_plugin_python3complete.vim
++@@ -0,0 +1,224 @@
+++" Tests for the Python omni-completion plugin (runtime/autoload/python3complete.vim).
+++"
+++CheckFeature python3
+++
+++" Run omni-completion against the given buffer contents and assert that the
+++" marker file was not created.  Pre-patch behaviour exec()s reconstructed
+++" def/class headers, which evaluates the buffer-supplied expression and
+++" creates the marker file.  Post-patch, the expressions are stripped.
+++func s:CompleteAndExpectNoMarker(buffer_lines, marker_path, msg)
+++  call delete(a:marker_path)
+++  defer delete(a:marker_path)
+++  let g:pythoncomplete_allow_import = 0
+++  new
+++  setfiletype python
+++  call setline(1, a:buffer_lines)
+++  call cursor(line('$'), col([line('$'), '$']))
+++
+++  " The PoC trigger -- direct invocation of the omnifunc with an empty base.
+++  " This is the same path Vim takes for CTRL-X CTRL-O.
+++  silent! call python3complete#Complete(0, '')
+++
+++  call assert_false(filereadable(a:marker_path),
+++        \ a:msg . ' (marker ' . a:marker_path . ' was created)')
+++
+++  bwipe!
+++  unlet! g:pythoncomplete_allow_import
+++endfunc
+++
+++func Test_python3complete_no_exec_via_function_default()
+++  let marker = tempname()
+++  call s:CompleteAndExpectNoMarker([
+++        \ 'def f(x=open(' . string(marker) . ', "w").close()):',
+++        \ '    pass',
+++        \ 'f.',
+++        \ ], marker,
+++        \ 'function default expression was evaluated during omni-completion')
+++endfunc
+++
+++func Test_python3complete_no_exec_via_function_annotation()
+++  let marker = tempname()
+++  call s:CompleteAndExpectNoMarker([
+++        \ 'def f(x: open(' . string(marker) . ', "w").close()):',
+++        \ '    pass',
+++        \ 'f.',
+++        \ ], marker,
+++        \ 'function annotation expression was evaluated during omni-completion')
+++endfunc
+++
+++func Test_python3complete_no_exec_via_class_base()
+++  let marker = tempname()
+++  " "or object" gives the class a valid base after the side-effecting
+++  " open().close() expression returns None.  Without "or object" the
+++  " exec would raise TypeError, but the file would still be created
+++  " before the exception -- the assertion would still hold.  Using
+++  " "or object" keeps the buffer parseable as valid Python.
+++  call s:CompleteAndExpectNoMarker([
+++        \ 'class Foo(open(' . string(marker) . ', "w").close() or object):',
+++        \ '    pass',
+++        \ 'Foo.',
+++        \ ], marker,
+++        \ 'class base expression was evaluated during omni-completion')
+++endfunc
+++
+++func Test_python3complete_no_exec_with_multiple_params()
+++  " The strip must apply to every parameter, not just the first.
+++  let marker = tempname()
+++  call s:CompleteAndExpectNoMarker([
+++        \ 'def f(a, b=1, c=open(' . string(marker) . ', "w").close(), d=2):',
+++        \ '    pass',
+++        \ 'f.',
+++        \ ], marker,
+++        \ 'non-first parameter default was evaluated during omni-completion')
+++endfunc
+++
+++func Test_python3complete_no_exec_via_starargs_default()
+++  " "*args" and "**kw" must still be preserved after stripping; ensure a
+++  " default following them is also stripped.
+++  let marker = tempname()
+++  call s:CompleteAndExpectNoMarker([
+++        \ 'def f(*args, key=open(' . string(marker) . ', "w").close(), **kw):',
+++        \ '    pass',
+++        \ 'f.',
+++        \ ], marker,
+++        \ 'keyword-only default after *args was evaluated during omni-completion')
+++endfunc
+++
+++func Test_python3complete_normal_completion_still_works()
+++  " Positive control: completion against a buffer with a legitimate class
+++  " must still produce completion items.  The stripping logic should not
+++  " break the normal completion path.
+++  let g:pythoncomplete_allow_import = 0
+++
+++  new
+++  setfiletype python
+++  call setline(1, [
+++        \ 'class MyHelper:',
+++        \ '    def alpha(self): pass',
+++        \ '    def beta(self): pass',
+++        \ 'h = MyHelper()',
+++        \ 'h.',
+++        \ ])
+++  call cursor(5, 3)
+++
+++  " First call returns the column to start completion at; second returns
+++  " the list of completion items.
+++  let start = python3complete#Complete(1, '')
+++  call assert_true(start >= 0,
+++        \ 'python3complete#Complete(1, "") returned ' . start)
+++
+++  let items = python3complete#Complete(0, '')
+++  " Items should be a list (possibly empty if the parser can't resolve "h",
+++  " but should not be a parse error from our stripping changes).
+++  call assert_equal(type([]), type(items),
+++        \ 'python3complete#Complete(0, "") did not return a list')
+++
+++  bwipe!
+++  unlet! g:pythoncomplete_allow_import
+++endfunc
+++
+++func Test_python3complete_inherited_completion_via_dotted_base()
+++  " Positive control for the class-base whitelist: a dotted-name base class
+++  " (the common, safe case) must still be carried into the reconstructed
+++  " source so that completion on a subclass can resolve inherited members.
+++  let g:pythoncomplete_allow_import = 0
+++
+++  new
+++  setfiletype python
+++  call setline(1, [
+++        \ 'class Base:',
+++        \ '    def shared(self): pass',
+++        \ 'class Derived(Base):',
+++        \ '    def own(self): pass',
+++        \ 'd = Derived()',
+++        \ 'd.',
+++        \ ])
+++  call cursor(6, 3)
+++
+++  let items = python3complete#Complete(0, '')
+++  call assert_equal(type([]), type(items),
+++        \ 'completion against a subclass with a dotted base did not return a list')
+++
+++  bwipe!
+++  unlet! g:pythoncomplete_allow_import
+++endfunc
+++
+++" Build a tiny Python module that creates a marker file as a side effect of
+++" being imported, add its directory to sys.path, run omni-completion against
+++" a buffer containing `import vimtest_marker_mod`, and report whether the
+++" marker file was created.  Used by the two allow_import tests below.
+++func s:RunImportCompletion(allow_import_value)
+++  let g:pythoncomplete_allow_import = a:allow_import_value
+++  let marker = tempname()
+++  let module_dir = tempname()
+++  call mkdir(module_dir, 'R')
+++
+++  call writefile([
+++        \ 'open(' . string(marker) . ', "w").close()',
+++        \ ], module_dir . '/vimtest_marker_mod.py')
+++
+++  defer delete(marker)
+++
+++  " Pass module_dir to Python via a g: variable so vim.eval() can read it.
+++  let g:pythoncomplete_test_module_dir = module_dir
+++  py3 << EOF
+++import sys, vim
+++_p = vim.eval('g:pythoncomplete_test_module_dir')
+++if _p not in sys.path:
+++    sys.path.insert(0, _p)
+++# Drop any cached copy so the module body re-runs and the marker side
+++# effect fires on import.
+++sys.modules.pop('vimtest_marker_mod', None)
+++EOF
+++
+++  new
+++  setfiletype python
+++  call setline(1, [
+++        \ 'import vimtest_marker_mod',
+++        \ 'vimtest_marker_mod.',
+++        \ ])
+++  call cursor(2, 2)
+++
+++  silent! call python3complete#Complete(0, '')
+++
+++  let ran = filereadable(marker)
+++
+++  bwipe!
+++  unlet g:pythoncomplete_allow_import
+++
+++  " Teardown: restore sys.path, drop the cached module so a subsequent
+++  " test run starts clean, clean up the temp module dir.
+++  py3 << EOF
+++import sys, vim
+++_p = vim.eval('g:pythoncomplete_test_module_dir')
+++if _p in sys.path:
+++    sys.path.remove(_p)
+++sys.modules.pop('vimtest_marker_mod', None)
+++EOF
+++  unlet g:pythoncomplete_test_module_dir
+++  call delete(module_dir, 'rf')
+++  call delete(marker)
+++  unlet! g:pythoncomplete_allow_import
+++
+++  return ran
+++endfunc
+++
+++func Test_python3complete_allow_import_off_blocks_imports()
+++  " GHSA-52mc-rq6p-rc7c mitigation: with the default flag value (0), an
+++  " `import` line harvested from the buffer must NOT be exec()'d.  The
+++  " marker module's side effect (creating a file when its body runs) is
+++  " the observable proof that the exec did or did not happen.
+++  call assert_false(s:RunImportCompletion(0),
+++        \ 'g:pythoncomplete_allow_import=0 did not block the buffer import')
+++endfunc
+++
+++func Test_python3complete_allow_import_on_runs_imports()
+++  " Symmetric positive control: with the flag set to non-zero, the harvested
+++  " import IS exec()'d and the module loads.  Without this control the
+++  " negative test above could pass for unrelated reasons (e.g. completion
+++  " failing to parse the buffer at all).
+++  call assert_true(s:RunImportCompletion(1),
+++        \ 'g:pythoncomplete_allow_import=1 did not run the buffer import')
+++endfunc
+++
+++" vim: shiftwidth=2 sts=2 expandtab
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 6eafc53c74..e34cc17fe5 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -20,6 +20,9 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
+            file://CVE-2026-41411.patch \
+            file://CVE-2026-45130.patch \
+            file://CVE-2026-46483.patch \
++           file://CVE-2026-52858.patch \
++           file://CVE-2026-52859.patch \
++           file://CVE-2026-52860.patch \
+            "
+ 
+ PV .= ".0340"
+-- 
+2.50.1
 
- SRC_URI:append:class-nativesdk =3D " \
---
-2.34.1
-
-
---_000_DU7PPF66507B2D74801DCDBE0149F5394B9F3F72DU7PPF66507B2D7_
-Content-Type: text/html; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
-252">
-</head>
-<body>
-<div style=3D"font-family: inherit; font-size: inherit; color: inherit; bac=
-kground-color: transparent;">
-</div>
-<div style=3D"font-family: inherit; font-size: inherit; color: inherit; bac=
-kground-color: transparent;">
-Hi Yoann,</div>
-<div><br>
-</div>
-<div><span style=3D"color: rgb(0, 0, 0); font-family: Aptos, Aptos_Embedded=
-Font, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;=
- -webkit-text-size-adjust: 100%;">I see that status in patch work shows Cha=
-nges Requested but I didn=92t see any
- response on this mail thread .&nbsp;</span></div>
-<div><span style=3D"color: rgb(0, 0, 0); font-family: Aptos, Aptos_Embedded=
-Font, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;=
- -webkit-text-size-adjust: 100%;"><br>
-</span></div>
-<div><span style=3D"color: rgb(0, 0, 0); font-family: Aptos, Aptos_Embedded=
-Font, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;=
- -webkit-text-size-adjust: 100%;">Can you check&nbsp;</span></div>
-<div><span style=3D"color: rgb(0, 0, 0); font-family: Aptos, Aptos_Embedded=
-Font, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;=
- -webkit-text-size-adjust: 100%;"><br>
-</span></div>
-<div><span style=3D"color: rgb(0, 0, 0); font-family: Aptos, Aptos_Embedded=
-Font, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;=
- -webkit-text-size-adjust: 100%;">Regards,</span><br>
-</div>
-<div id=3D"editor-signature">
-<div>
-<div style=3D"font-family:Aptos,&quot;Aptos_EmbeddedFont&quot;,&quot;Aptos_=
-MSFontService&quot;,Calibri,Helvetica,sans-serif; font-size:12pt; color:rgb=
-(0,0,0)">
-Jaipaul</div>
-</div>
-</div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
-ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
-alf of Jaipaul Cheernam via lists.openembedded.org
- &lt;jaipaul.cheernam=3Dest.tech@lists.openembedded.org&gt;<br>
-<b>Sent:</b> Wednesday, June 24, 2026 10:34 AM<br>
-<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
-<b>Cc:</b> Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
-<b>Subject:</b> [OE-core] [scarthgap][PATCH v2] curl: fix CVE-2026-5773 - w=
-rong reuse of SMB connection</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">libcurl's SMB handler marks connections for reuse =
-(connkeep) without<br>
-verifying that subsequent requests target the same share. This allows<br>
-a second SMB request to the same host to reuse a connection<br>
-authenticated for a different share, potentially accessing data<br>
-without proper authorization.<br>
-<br>
-The upstream fix removes connection reuse for SMB entirely in<br>
-lib/protocol.c, a file introduced in curl 8.20.0. For 8.7.1, the<br>
-equivalent fix is changing connkeep() to connclose() in lib/smb.c,<br>
-which prevents the connection from being returned to the pool.<br>
-<br>
-Tested with SMBv1 server (Docker dperson/samba):<br>
-&nbsp; Without patch: &quot;Re-using existing connection&quot; for differen=
-t shares<br>
-&nbsp; With patch: New connection per request, no reuse<br>
-<br>
-Binary verified: Curl_conncontrol arg changes from 0 (KEEP) to 1 (CLOSE)<br=
->
-<br>
-Reference: <a href=3D"https://curl.se/docs/CVE-2026-5773.html">https://curl=
-.se/docs/CVE-2026-5773.html</a><br>
-<br>
-Signed-off-by: Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
----<br>
-&nbsp;.../curl/curl/CVE-2026-5773.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 41 +++++++++++++++++++<br>
-&nbsp;meta/recipes-support/curl/curl_8.7.1.bb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp; |&nbsp; 1 +<br>
-&nbsp;2 files changed, 42 insertions(+)<br>
-&nbsp;create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5773.patch=
-<br>
-<br>
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-5773.patch b/meta/reci=
-pes-support/curl/curl/CVE-2026-5773.patch<br>
-new file mode 100644<br>
-index 0000000000..0a5fa588fe<br>
---- /dev/null<br>
-+++ b/meta/recipes-support/curl/curl/CVE-2026-5773.patch<br>
-@@ -0,0 +1,41 @@<br>
-+From 74a169575d6412dc0ff532acdf94de35a6c2a571 Mon Sep 17 00:00:00 2001<br>
-+From: Daniel Stenberg &lt;daniel@haxx.se&gt;<br>
-+Date: Sun, 5 Apr 2026 18:23:35 +0200<br>
-+Subject: [PATCH] protocol: disable connection reuse for SMB(S)<br>
-+<br>
-+Connections should only be reused when using the same &quot;share&quot; (a=
-nd<br>
-+perhaps some additional conditions), but instead of fixing this flaw,<br>
-+this change completely disables connection reuse for SMB. This protocol<br=
->
-+is about to get dropped soon anyway.<br>
-+<br>
-+Reported-by: Osama Hamad<br>
-+Closes #21238<br>
-+Signed-off-by: Daniel Stenberg &lt;daniel@haxx.se&gt;<br>
-+<br>
-+CVE: CVE-2026-5773<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/curl/curl/commit/=
-74a169575d6412dc0ff532acdf94de35a6c2a571">https://github.com/curl/curl/comm=
-it/74a169575d6412dc0ff532acdf94de35a6c2a571</a>]<br>
-+<br>
-+Note: The upstream fix targets lib/protocol.c which was introduced in<br>
-+curl 8.20.0. In 8.7.1 the equivalent is changing connkeep() to<br>
-+connclose() in lib/smb.c, which prevents the connection from being<br>
-+returned to the pool. The effect is identical.<br>
-+<br>
-+Signed-off-by: Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
-+---<br>
-+ lib/smb.c | 3 +--<br>
-+ 1 file changed, 1 insertion(+), 2 deletions(-)<br>
-+<br>
-+diff --git a/lib/smb.c b/lib/smb.c<br>
-+index 7c73cbcec..a1f5c9b31 100644<br>
-+--- a/lib/smb.c<br>
-++++ b/lib/smb.c<br>
-+@@ -461,8 +461,7 @@ static CURLcode smb_connect(struct Curl_easy *data, bo=
-ol *done)<br>
-+&nbsp;&nbsp; if(!smbc-&gt;send_buf)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; return CURLE_OUT_OF_MEMORY;<br>
-+ <br>
-+-&nbsp; /* Multiple requests are allowed with this connection */<br>
-+-&nbsp; connkeep(conn, &quot;SMB default&quot;);<br>
-++&nbsp; connclose(conn, &quot;SMB default&quot;);<br>
-+ <br>
-+&nbsp;&nbsp; /* Parse the username, domain, and password */<br>
-+&nbsp;&nbsp; slash =3D strchr(conn-&gt;user, '/');<br>
-diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support=
-/curl/curl_8.7.1.bb<br>
-index 14d63d6373..d026731751 100644<br>
---- a/meta/recipes-support/curl/curl_8.7.1.bb<br>
-+++ b/meta/recipes-support/curl/curl_8.7.1.bb<br>
-@@ -36,6 +36,7 @@ SRC_URI =3D &quot; \<br>
-&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2026-1965-2.patch">file://CV=
-E-2026-1965-2.patch</a> \<br>
-&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2026-3783.patch">file://CVE-=
-2026-3783.patch</a> \<br>
-&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2026-3784.patch">file://CVE-=
-2026-3784.patch</a> \<br>
-+&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2026-5773.patch">file://CVE-2026-=
-5773.patch</a> \<br>
-&nbsp;&quot;<br>
-&nbsp;<br>
-&nbsp;SRC_URI:append:class-nativesdk =3D &quot; \<br>
--- <br>
-2.34.1<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_DU7PPF66507B2D74801DCDBE0149F5394B9F3F72DU7PPF66507B2D7_--
 
