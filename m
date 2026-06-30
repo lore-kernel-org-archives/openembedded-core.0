@@ -1,98 +1,149 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1233CC43458
-	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 13:16:53 +0000 (UTC)
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20795.1782825405729294075
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A542C43458
+	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 13:19:13 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21230.1782825546787223018
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2026 06:16:45 -0700
+ Tue, 30 Jun 2026 06:19:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=HGhFGU9p;
- spf=pass (domain: gmail.com, ip: 74.125.224.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-664c1cf7445so2840780d50.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 06:16:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782825405; cv=none;
-        d=google.com; s=arc-20260327;
-        b=UzKDaWYA+sNuPlW4RytPsmGYT+LdOoC0Fh7ewuVJxH4KY08yks2Xw0SmpX0l3fp6/l
-         5ZyvcQI+8TSPlo83F20azIFKoWTbOZwVOawW0I4znPyZUQGeFUbnXMJQyUlmM/LRJ3jA
-         R49mwkIgteSYgI2u8oAHYQZ31VpMLG/XjHk0HmVjvAokp6LYCE8njsTZPREKTdrmkFub
-         lDRzhaV6C/mp9Dwp2TKMS44y7tMcG4paJ4Z5fnaaZfrtde0Ix4Pk0rk+aEtt8ko6ksvR
-         NUNLUivtysoMPAT1D8Lq1KFHlq2+EK/ML0rX9U990/CmlxN0RieJOSz0KALZq3YAHGz8
-         v3oA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=e/zV96UuTAiVmF8QCcA8LKsE5al1/u8jwDNss1YpiwU=;
-        fh=1bzQBy263yG0kkWtbodxqgt+fT47BnHwriUuK9cWLI4=;
-        b=GAQjLDKaNpMq8DNpxIg6lmXTQUoeypfauNhXSju0nCvmqrAJQX2Q3P54deIAfkphJo
-         baUV3mPrtXWpj06M4f+RgKvM9veE92Fq2P5f1k1476yRe59iX9r9Nrea3QUJYpUB9rBD
-         3VkGQ1fafIpJq6HtWRa5kq6iUK+Ki0uS/l4iTl4jlQwmP9vMm5JkqECofWUBciPYOm6C
-         wMfXx8EJFFTj26+J2k+/GmfRWcCbetxBLkHMIjm9I4IH6i2nPZb2Trk6b4z8qSiAkMOm
-         hPc6O44duMb09B9QwrBU34BeXmSQBa7hv7AB2uz0MD/5ma0L1McysX9FZRHS7WgYVDD+
-         V+8A==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=pOXvCNHH;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-461edb387ddso4393210f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 06:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782825405; x=1783430205; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1782825545; x=1783430345; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=e/zV96UuTAiVmF8QCcA8LKsE5al1/u8jwDNss1YpiwU=;
-        b=HGhFGU9pnOpwt2DlgDc0Me6GVBS2nH9QUHUZ+ld0b1ENsYSdgD3pmqlrXVfRrrFtUP
-         H99HMwfCRZUevVTA4SchhxVd3YauFYJrlBHZdoeCUzyziJEXFs7wP61PsIzy/+6uCJta
-         CBOBj12Jz+ukUyc8rnbP4HQx8mokZG0ENl4X5Ktmpc/is9+kpeFprueqz5YWVdCTLuDv
-         bWPR4edZ5VH//Q2FQcbEFLIbjaJFPns4IIX4UYVJHAETYQP/w4qdTLLzsx3HnK1jWd+j
-         JbqIrBxTlkw5pmqBIEOncZrGHfQyXzRo5l2jVpQuAcpxvI4xtihiZqPufudoBsAL8dSP
-         +rlQ==
+        bh=+7F/TzUBr7XbEg00nYC8+I+9tfdc8zgMRgOLMt9Px8o=;
+        b=pOXvCNHHQ9ElYNSJV01arg2usBrDLTjXT45pHXz6Hw+imLbzTSb4nkrtAVYpAMh5WU
+         ozCRNvh6FEtMLYGigtFPd8icDyxsfw9WeAThNtMMuscvoTB3C2YuNj/MAKOM4Ln3h1bQ
+         pn/KPckLB2juVnPWJJD5DUu/6VyWazfc/kYrQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782825405; x=1783430205;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=e/zV96UuTAiVmF8QCcA8LKsE5al1/u8jwDNss1YpiwU=;
-        b=C7Y+y4VynkxWQB+L6Xht7eRUELhkeE7Acb27tQEONzV6muFUi2ju/nxEANNIaQT+Al
-         rWKdiHxNuvE0LUuX1CcPpLN4cuLdHZSDBmzzpLrPDX/F6BbYmNmyJmY7x3yra1hjwxni
-         wvujdj5X0q34HhtxDnJWozouVY9QOeb4jiWGpF1f74CVto5Izd584fRg12PC//EQ4siQ
-         +y1RczyGVHgcg822FQYuHJxAwSBcM4Gf02EKOHVPKH97kuk880O8SWXPn/1m/710eyXq
-         KwTZ12dSvK0AvaYgJZcrh4KdNpkRHTYP+WJWlTwaG5muttGvhzh/1CehHEOwEF4Sczfw
-         PkJw==
-X-Gm-Message-State: AOJu0Yxq/L8n+Y75is6Ug3rE9E4hgSk2bAqQiFxu/txwjnJjkzxL2d57
-	FiFQ2MUZ3uXFAAWXzugko/8pWNYax5q2evBzuF7z6xthamlpkavhfIqT4RVHd2UmwaFGNhOP2mW
-	OLRLz/AO274jKvbuPUqWM0xrctBTivl4=
-X-Gm-Gg: AfdE7clQstD97bZ+4I2zDxJcd3um08tQgKihDfmeNzmzkhywYrAdLN/h4yRIn0xL6gl
-	7xNd/GPrgvxWRXscbSzGP2qWiyaYq3jK+IXyKP4br3OVYQqIDJJdv/4Y3Cm5XtIhXJ/nwvTlCS6
-	UXJUx0uEmuFydAvuQU9NzfK//xg3XdczzYOPqI/PTpb/PThfrOHTaJY4WBd7xq1HjhDvF1GWbIY
-	MgrUxcoxVsTknE8w7oZPWISbrYEG5p8IJXOl3Sn04BMFlz6mSfnfoZ3Iv4zyJOg+AXSbbW1TQ==
-X-Received: by 2002:a05:690e:43dc:b0:651:c160:1c06 with SMTP id
- 956f58d0204a3-66510c4dc4fmr256113d50.58.1782825404533; Tue, 30 Jun 2026
- 06:16:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260630130341.71014-1-roland.kovacs@est.tech> <20260630130341.71014-2-roland.kovacs@est.tech>
-In-Reply-To: <20260630130341.71014-2-roland.kovacs@est.tech>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 30 Jun 2026 15:16:33 +0200
-X-Gm-Features: AVVi8CdEcHNtsmTZjDBwv_sj4tHCwkQkWDYU_fl7aLFbMmKFZ7zKtawNHcPmHEQ
-Message-ID: <CANNYZj8LEYXW_NF-p=Beko9__kL4u_1=ngAuP1KFO6wUidUG-g@mail.gmail.com>
-Subject: Re: [OE-core] [master][PATCH 1/2] gnupg: Upgrade 2.5.17 -> 2.5.20
-To: roland.kovacs@est.tech
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20251104; t=1782825545; x=1783430345;
+        h=in-reply-to:references:from:subject:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+7F/TzUBr7XbEg00nYC8+I+9tfdc8zgMRgOLMt9Px8o=;
+        b=I5FYCXpZ+Q6ArSPCNR1SAQ87Ztnny7Y3tTaSXW+DBaYEDUtUriQQ2b5Ltg+IHBBrM9
+         ejCjbdz1VGMb/rkhrxZbxtDsZ8N2I7+tPMzZwxVVjcICnEoWdZpiLNbckBlfGwfIC35X
+         IctNJeQ/Ku8vhItKDPcUDIwNZrZHodEW9XRbE7+nbNNHMNws/D2UbJzEA7hPooxq23p8
+         hNLR3RMFiLA8bfJ0lp0ivNAbBu+m00dPaO7aSQ6MJ1tp/fdOmri9JNKNjrX0eirNIWNc
+         OBlK7K0MeejE6a5WhVNOXaOiTviuj4ItlaO1vgabonwdTg1AwfQ40/Lt+vx6DE2S5s3o
+         Y2zw==
+X-Forwarded-Encrypted: i=1; AHgh+Rqf+QB/k511VXnQ7VhKKRDbF4bKmuVwCmK7tkJQb94uQLn5ZNSoVcYw85Z1muRvqeMCToSoz826V1bgJezC/I0X7w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyKgb40LUyb+qeEY3Z8NABsKDoppawp5X7K1tCNU55ToZNZJHLt
+	dJrXmyqEuVKWONfCJbJouAay9JBteMgHtkTQ3DvcaVgWrdSCxjqZkKDnmCvJ30DVzLI=
+X-Gm-Gg: AfdE7cm3sD+29NWXiEhFQqytYjw1ytwpEDkPN3c85vUMLjzLq0gqXGeOdkFDEih0riW
+	fXOtmOEmEWUYb1bB/0lQAuof7LSOmp6KDPRtE9tX/WeAxT1sTBFgr9MD82jm/luNqiA1NzyvlZ+
+	QJs6zvmRZ+064Jcgf2e8YvNAfbHz6jB5XgV99a3Vjug5dhlBrWJrARtwfUWj+MBmRdLJl9gCaGQ
+	iQ3ESHzDt+gAQzpzArK/T0ED8WqAvISH3U3+dHkiR8nb8LdYNcL/64ctCZHx4dnPdH/YDfkp5Nx
+	T6nbzUHBg9QtNRW48wl5HqRYjoDPIJr59YBlhJxRW4uAieWlcEcOzBI53/catNU7ytdAhfdAvuk
+	qSEc5HF5wiCUIYodqNUtebOdDClo4ZjI2E4YfVYO8sRj34iLQ/zTTJQPJ6kdMj3jwZKm9f95RxT
+	ic4bWFzs7VdcK7sZ+mg1nWhwsu+Dd1JbZq8S/EC6WF1iFi3UAouXiirpzLhJPimsczzeG227zo/
+	QOG/A==
+X-Received: by 2002:a05:6000:2893:b0:44a:be4:d0e4 with SMTP id ffacd0b85a97d-475524a86aemr4926712f8f.25.1782825544706;
+        Tue, 30 Jun 2026 06:19:04 -0700 (PDT)
+Received: from localhost (2a01cb001331aa0041d7d5fc68d4e77b.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:41d7:d5fc:68d4:e77b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-475641e4618sm7615653f8f.9.2026.06.30.06.19.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jun 2026 06:19:04 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 30 Jun 2026 15:19:04 +0200
+Message-Id: <DJMEWS9R1XRF.1VEP9G7EHB1S6@smile.fr>
+To: <roland.kovacs@est.tech>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [wrynose][PATCH 1/2] gnupg: Upgrade 2.5.17 -> 2.5.20
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260630130358.71091-1-roland.kovacs@est.tech>
+ <20260630130358.71091-2-roland.kovacs@est.tech>
+In-Reply-To: <20260630130358.71091-2-roland.kovacs@est.tech>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 13:16:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239894
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 13:19:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239895
 
-On Tue, 30 Jun 2026 at 15:03, Roland Kov=C3=A1cs via lists.openembedded.org
-<roland.kovacs=3Dest.tech@lists.openembedded.org> wrote:
+On Tue Jun 30, 2026 at 3:03 PM CEST, Roland Kov=C3=A1cs via lists.openembed=
+ded.org wrote:
+> Bug fixes included in this release:
+>    - gpg: Fix wrong assertion failure which could very rarely occur
+>      during key signature checking.  [rG693f5642f6]
+>    - gpg: Consider certify-only keys for revocation signature check.
+>      [T8196]
+>    - gpgsm: Fix possible double free in the CMS parser.  [T8240]
+>    - gpgsm: Fix possible too early removal of ephemeral keys.  [T8236]
+>    - gpgsm: Avoid emitting a final FAILURE status line if --status-fd
+>      is not used.  [rG69c27fe377]
+>    - gpgsm: Fix a regression in 2.5.19 for password encrypted GCM
+>      data.  [rG60a823c97b]
+>    - agent: Fix not using cache for pinentry loopback.  [rGd4b608a31f]
+>    - agent: Fix command PUT_SECRET by saving input line.  [rG1875bc185e]
+>    - keyboxd: Mark keys searched but not imported via LDAP correctly
+>      as ephemeral.  [T8048]
+>    - scdaemon: Avoid buffer overflow with SC-HSM cards providing RSA
+>      keys > 2k.  [T8244]
+>    - dirmngr: Fix uninitialized use of the dns_any union in
+>      dns_rr_cmp.  [T8251]
+>  Release-info: https://dev.gnupg.org/T7997
+>
+> Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
+
+Sorry but that URL also contains:
+| New and extended features:
+|  gpgsm: Implement GCM encryption. Note that decryption works since
+|         version 2.3.2. [T3979]
+|  gpgsm: New option --attribute and server command SETATTR to include
+|         arbitrary signed or unsigned attributes into a signature.
+|         Enabled only with libksba 1.7.0 or later. [T4537]
+|  gpgsm: Introduce system attribute _signingCertificateV2. [rG0335a9cb04]
+... which are new features, and thus, that upgrade is not acceptable for
+stable branches.
+
+> ---
+>  .../recipes-support/gnupg/{gnupg_2.5.17.bb =3D> gnupg_2.5.20.bb} | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>  rename meta/recipes-support/gnupg/{gnupg_2.5.17.bb =3D> gnupg_2.5.20.bb}=
+ (95%)
+>
+> diff --git a/meta/recipes-support/gnupg/gnupg_2.5.17.bb b/meta/recipes-su=
+pport/gnupg/gnupg_2.5.20.bb
+> similarity index 95%
+> rename from meta/recipes-support/gnupg/gnupg_2.5.17.bb
+> rename to meta/recipes-support/gnupg/gnupg_2.5.20.bb
+> index fd6588769c..a1a50e2384 100644
+> --- a/meta/recipes-support/gnupg/gnupg_2.5.17.bb
+> +++ b/meta/recipes-support/gnupg/gnupg_2.5.20.bb
+> @@ -16,6 +16,7 @@ inherit autotools gettext texinfo pkgconfig upstream-ve=
+rsion-is-even
+>  require drop-unknown-suffix.inc
+> =20
 >  UPSTREAM_CHECK_URI =3D "https://gnupg.org/ftp/gcrypt/gnupg/"
 > +SRCREV =3D "343d0cb8910441aa44c56ce8673a78e137040c87"
 >  SRC_URI =3D "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+>             file://0002-use-pkgconfig-instead-of-npth-config.patch \
+>             file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
+> @@ -24,7 +25,7 @@ SRC_URI:append:class-native =3D " file://0001-configure=
+.ac-use-a-custom-value-for-
+>                                  file://relocate.patch"
+>  SRC_URI:append:class-nativesdk =3D " file://relocate.patch"
+> =20
+> -SRC_URI[sha256sum] =3D "2c1fbe20e2958fd8fb53cf37d7c38e84a900edc0d561a1c4=
+af4bc3a10888685d"
+> +SRC_URI[sha256sum] =3D "6461266e99c308419a379abe6c356d54c214136c4589bd65=
+951091138989ffc6"
+> =20
+>  EXTRA_OECONF =3D "--disable-ldap \
+>  		--disable-ccid-driver \
 
-There's a stray SRCREV here.
 
-Alex
+--=20
+Yoann Congal
+Smile ECS
+
 
