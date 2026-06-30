@@ -2,538 +2,243 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8577BC43602
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91FF7C43327
 	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 07:19:30 +0000 (UTC)
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15496.1782803969190350901
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15493.1782803961669391089
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2026 00:19:29 -0700
+ Tue, 30 Jun 2026 00:19:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Heou2TvR;
- spf=pass (domain: mvista.com, ip: 74.125.82.171, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-30df5854e1eso292275eec.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 00:19:29 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=Y0xdgm2O;
+ spf=pass (domain: mvista.com, ip: 74.125.82.174, mailfrom: hprajapati@mvista.com)
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-30bf132969bso6044751eec.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 00:19:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1782803968; x=1783408768; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1782803961; x=1783408761; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iY8sNDvAFtpbfV6DQH7SC1m/Gsy2djm5Ftv0DkLuE88=;
-        b=Heou2TvRxc1Aav4oJFe5vaPnGR0yhM+LI3QoqwbZ+8FdtbQOwRmwAHmlMJ1Guv6ScL
-         YVzl37hkXH0Dl0n3oXPblC++1skcBy+kvzxW6VqKhrjxAbXxfQcQkjrnuVMB3L9o4UgD
-         lWyVTyTaFNxQELcipm8ghpGRLtb6kzjQRWncw=
+        bh=iwJzYBc6OAG8LuNCrKWeSZ9RYdpiJnrutzfrdoXsJ1E=;
+        b=Y0xdgm2OxomqS5O+1N0drWB8PHaNAS5NO07xfgls9YwXwLW2eNhZ8/ciL+/+uvLo0M
+         px8cIvoxfuC49kOHy8BlL1sQi1Y2bvBreEPLdRDu09796Jhi9+gCkGOofYGBukHrw7xK
+         oWVfKKD/5/2jSqenivj5w0R2giddM4Baq7sIk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782803968; x=1783408768;
+        d=1e100.net; s=20251104; t=1782803961; x=1783408761;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=iY8sNDvAFtpbfV6DQH7SC1m/Gsy2djm5Ftv0DkLuE88=;
-        b=Sl9f6Md4jcCui0Fb+ZqEfPozwDBPDNHws+BKx1T3zEx0t6kz8LycWEQ8r1itnA4XDx
-         MHGz5KeDkwtiFgLyNrn2awfuNOZeWciFYH+RW4xWS1j8xLBioxJaRYVGfse8DrRZfrAP
-         7u0nio9cLYgRa5imaKA0zF1ug5nLmtjT77E6cP5JbHLFLRs2VJ3ebZewzn1FaMmxDMk4
-         IJkhO7mPdbqObEb4yqHYr8oD4TsY7WxvJbBzzDPIbfOuDFdKo2UZsIridDrSa7om3Rz0
-         /+/oeJ0R+MMb4Iybx1W7wjBgBkZpoEfpzRgyybZ5HP/YeaO7qOuK4r/sK9uHMWb84iRa
-         uZww==
-X-Gm-Message-State: AOJu0Yweed9Pyqn7VAA7v/h+xEw0p85NpsqCZNhprBI1YZ+kocbW+Bey
-	8URdR1WmjOpBSDx6g/U2DmS7NH4QhZS4JlO26RVo5jomFdmaZg80vcGU6SHAxGe6a+CLGuKWkaJ
-	74BC1dFE=
-X-Gm-Gg: AfdE7clIGg+nZRg+05PvL1zFA6JykX75iMPLFFLcWpr+5if8K2P9MEK03jJmPBqxE9m
-	kOuDukUMS6c964sjCULUXXgefE9VvyoAzwelslma3LlemzwqZhRBUWlHybbLQDjw0QUqqyxrEPt
-	QnNPgSIO911oQuOA7UU1HyiBaNdIDHQ9Q4vD4EntOyrgUJ4WUENr4SJ1+bSBXMRqsjfhs8y9q/m
-	AZGavBD7NVmdTiBUntUceWA504brgPbv9cTxpsj6cIqNbscPwui39NrUH3mHX3Txnf8+rJW554q
-	W+KCJTlI/aYHkRgi3WBgklAz4CUgyafZiOT6/8emLmYeZwy/v2haZLxblmw4n19sFaTzD/gcjVm
-	35t6racCu6sUk9wRBhHRRMRl6d/2/eBCYve44bdeTSxE4vPdC9r7IP5DsU9j4NZjIAVGLhNwef+
-	4VO5As8d/whgeu9NGAbZAa0Qpkrw==
-X-Received: by 2002:a05:7300:8ca4:b0:30c:ab96:7306 with SMTP id 5a478bee46e88-30eea0e9753mr592693eec.22.1782803967981;
-        Tue, 30 Jun 2026 00:19:27 -0700 (PDT)
+        bh=iwJzYBc6OAG8LuNCrKWeSZ9RYdpiJnrutzfrdoXsJ1E=;
+        b=A1td4jBTyq7KsnLnEr8ywHMmcJ5y8FOVSPVPUOddOux71+g3kUMRmyeX3ElZ1tAUps
+         +jkG8Vwnx93wXrLX5lN20eIKmovD6SM8MoxopLv4jP/yt5mZ6irl9sBqLnFPu8pWJN8w
+         ci6xMvEXtVrvYiyGpMWhgqgplq5+G/h9Jj1wNCXckp1Uq2WNquNeqdRA9/7sHPKX9w/R
+         mcCneazx89Ovc/7tiYfZQgwk2rAMY5q285WdJba47dA1J+kbo2H24nxm2f2bmP/oA3qE
+         DUEscDtAB5SwT/GBn3J3oRuJlvWXzaaJVwv7yRpcLbLL+qlcBVf4J5FvKaJIY57aQSai
+         UP3g==
+X-Gm-Message-State: AOJu0YwMZ7Y4iflYVtUDSPbvckhVztFVM9YBY4jCEs8F64hEcgDxMpaP
+	O3nH12HWcI2y7qqwYgcRK6qREBRI8FJKcBH1iKKv39Q5LwoHGyyfvJomVggdhsatVDVIx6Il5tP
+	2QIyLq8M=
+X-Gm-Gg: AfdE7cmxQAqTLw9L55HiMCkbkgj9x3M73O3ofuqHgVTqb8bA1JWdDWVNBVoOmqNbDf0
+	dObg8gtlZr1r+TltOFOpiBq1WKbZB3DvXTozquL8cncVxLVNF6AMQixi9djhDxYgN1owVssroFa
+	DZk1Vg3jHvQoefDOo2dKQH7AlgOf29OHXWj7VMuGWJBhZ2r/Nd3vWBV98DrV3hnqYhSNUYzhjHZ
+	6f20Gs5EW6nXaheQ0b2pdw3bt9mi9bivR4TB9xDo69D2BWD9pxu3OEH+99SPFpcJO1+gi3IRsBT
+	fYum44Wy7ZMAKFoLk65TrGlRhsRlA3WVD/e57NY9Az7fHFF6Z4wKL+FyvBJQbsI4QCRf776KJme
+	SfjcFdgCzElV6oRQIOCEE7MeTLLK2gh7NVpFJ2+nT2099FC/8fmmfcrGJ0NTpsqagoQoJ+ScCut
+	7UwwWRHgsjEOsODf/u5q2WNrsQKg==
+X-Received: by 2002:a05:7300:a994:b0:30c:7b76:9047 with SMTP id 5a478bee46e88-30ee13435bcmr1726288eec.17.1782803960792;
+        Tue, 30 Jun 2026 00:19:20 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([103.250.136.242])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2fb6514sm4311038eec.7.2026.06.30.00.19.26
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2fb6514sm4311038eec.7.2026.06.30.00.19.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 00:19:27 -0700 (PDT)
+        Tue, 30 Jun 2026 00:19:20 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCHv2 5/5] vim: Fix for CVE-2026-52858,CVE-2026-52859,CVE-2026-52860
-Date: Tue, 30 Jun 2026 12:48:59 +0530
-Message-ID: <20260630071903.155470-5-hprajapati@mvista.com>
+Subject: [scarthgap][PATCHv2 2/5] vim: fix for CVE-2026-28421, CVE-2026-41411 & CVE-2026-44656
+Date: Tue, 30 Jun 2026 12:48:56 +0530
+Message-ID: <20260630071903.155470-2-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260630071903.155470-1-hprajapati@mvista.com>
 References: <20260630071903.155470-1-hprajapati@mvista.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 07:19:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239858
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239854
 
 Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
 
-[1] https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d
-[2] https://github.com/vim/vim/commit/63680c6d3d52477817b49cd1a66e7aabe8a7aa19
-[3] https://github.com/vim/vim/commit/c8c63673bc4253212820626aeeb75999d9a539d2
-[4] https://nvd.nist.gov/vuln/detail/CVE-2026-52858
-[5] https://nvd.nist.gov/vuln/detail/CVE-2026-52859
-[6] https://nvd.nist.gov/vuln/detail/CVE-2026-52860
+[1] https://github.com/vim/vim/commit/65c1a143c331c886dc28888dd632708f953b4eb3
+[2] https://github.com/vim/vim/commit/c78194e41d5a0b05b0ddf383b6679b1503f977fb
+[3] https://github.com/vim/vim/commit/190cb3c2b9c769a3972bcfd991a7b5b6cb771ef0
+[4] https://nvd.nist.gov/vuln/detail/CVE-2026-28421
+[5] https://nvd.nist.gov/vuln/detail/CVE-2026-41411
+[6] https://nvd.nist.gov/vuln/detail/CVE-2026-44656
+
+More info :
+CVE-2026-28421 - Validate block tree indices and readfile() line bounds.
+CVE-2026-41411 - Disallow backticks before attempting to expand filenames.
+CVE-2026-44656 - Prevent shell execution from 'path' backticks via modelines.
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../vim/files/CVE-2026-52858.patch            | 167 +++++++
- .../vim/files/CVE-2026-52859.patch            | 274 +++++++++++
- .../vim/files/CVE-2026-52860.patch            | 446 ++++++++++++++++++
+ .../vim/files/CVE-2026-28421.patch            | 148 ++++++++++++++++++
+ .../vim/files/CVE-2026-41411.patch            |  75 +++++++++
+ .../vim/files/CVE-2026-44656.patch            | 130 +++++++++++++++
  meta/recipes-support/vim/vim.inc              |   3 +
- 4 files changed, 890 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52858.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52859.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52860.patch
+ 4 files changed, 356 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-28421.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-41411.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-44656.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-52858.patch b/meta/recipes-support/vim/files/CVE-2026-52858.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-28421.patch b/meta/recipes-support/vim/files/CVE-2026-28421.patch
 new file mode 100644
-index 0000000000..7e036e45ea
+index 0000000000..cd3dd1d13f
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-52858.patch
-@@ -0,0 +1,167 @@
-+From 4b850457e12e1a678dd209f2868154f7553cbf8d Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/vim/files/CVE-2026-28421.patch
+@@ -0,0 +1,148 @@
++From 65c1a143c331c886dc28888dd632708f953b4eb3 Mon Sep 17 00:00:00 2001
 +From: Christian Brabandt <cb@256bit.org>
-+Date: Fri, 29 May 2026 19:05:53 +0000
-+Subject: [PATCH] patch 9.2.0561: [security]: possible code execution with
-+ python3complete
++Date: Mon, 23 Feb 2026 21:42:39 +0000
++Subject: [PATCH] patch 9.2.0077: [security]: Crash when recovering a corrupted
++ swap file
 +
-+Problem:  [security]: possible code execution with python3complete
-+Solution: Disable execution of import/from statements
++Problem:  memline: a crafted swap files with bogus pe_page_count/pe_bnum
++          values could cause a multi-GB allocation via mf_get(), and
++          invalid pe_old_lnum/pe_line_count values could cause a SEGV
++          when passed to readfile() (ehdgks0627, un3xploitable)
++Solution: Add bounds checks on pe_page_count and pe_bnum against
++          mf_blocknr_max before descending into the block tree, and
++          validate pe_old_lnum >= 1 and pe_line_count > 0 before calling
++          readfile().
 +
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-52mc-rq6p-rc7c
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-r2gw-2x48-jj5p
 +
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d]
-+CVE: CVE-2026-52858
++CVE: CVE-2026-28421
++Upstream-Status: Backport [https://github.com/vim/vim/commit/65c1a143c331c886dc28888dd632708f953b4eb3]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ runtime/autoload/README.txt          |  1 +
-+ runtime/autoload/python3complete.vim | 17 ++++++++++++++---
-+ runtime/autoload/pythoncomplete.vim  | 17 ++++++++++++++---
-+ runtime/doc/filetype.txt             | 15 ++++++++++++++-
-+ 4 files changed, 43 insertions(+), 7 deletions(-)
++ src/memline.c                | 29 ++++++++++++++++++++++++++--
++ src/po/vim.pot               |  5 ++++-
++ src/testdir/test_recover.vim | 37 ++++++++++++++++++++++++++++++++++++
++ 3 files changed, 68 insertions(+), 3 deletions(-)
 +
-+diff --git a/runtime/autoload/README.txt b/runtime/autoload/README.txt
-+index 3b18d3d..b225819 100644
-+--- a/runtime/autoload/README.txt
-++++ b/runtime/autoload/README.txt
-+@@ -17,6 +17,7 @@ htmlcomplete.vim	HTML
-+ javascriptcomplete.vim  Javascript
-+ phpcomplete.vim		PHP
-+ pythoncomplete.vim	Python
-++python3complete.vim Python
-+ rubycomplete.vim	Ruby
-+ syntaxcomplete.vim	from syntax highlighting
-+ xmlcomplete.vim		XML (uses files in the xml directory)
-+diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
-+index ea0a331..aba3412 100644
-+--- a/runtime/autoload/python3complete.vim
-++++ b/runtime/autoload/python3complete.vim
-+@@ -14,6 +14,10 @@
-+ "   i.e. "import url<c-x,c-o>"
-+ " Continue parsing on invalid line??
-+ "
-++" v 0.10 by Vim project
-++"   * disables importing local modules, unless the global Vim variable
-++"     g:pythoncomplete_allow_import is set to non-zero
-++"
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+ "   * Fixed parsing of *args and **kwargs type arguments
-+@@ -132,11 +136,20 @@ class Completer(object):
++diff --git a/src/memline.c b/src/memline.c
++index b93eb0a..15ac203 100644
++--- a/src/memline.c
+++++ b/src/memline.c
++@@ -1597,8 +1597,12 @@ ml_recover(int checkext)
++ 			if (!cannot_open)
++ 			{
++ 			    line_count = pp->pb_pointer[idx].pe_line_count;
++-			    if (readfile(curbuf->b_ffname, NULL, lnum,
++-					pp->pb_pointer[idx].pe_old_lnum - 1,
+++			    linenr_T pe_old_lnum = pp->pb_pointer[idx].pe_old_lnum;
+++			    // Validate pe_line_count and pe_old_lnum from the
+++			    // untrusted swap file before passing to readfile().
+++			    if (line_count <= 0 || pe_old_lnum < 1 ||
+++				    readfile(curbuf->b_ffname, NULL, lnum,
+++					pe_old_lnum - 1,
++ 					line_count, NULL, 0) != OK)
++ 				cannot_open = TRUE;
++ 			    else
++@@ -1629,6 +1633,27 @@ ml_recover(int checkext)
++ 		    bnum = pp->pb_pointer[idx].pe_bnum;
++ 		    line_count = pp->pb_pointer[idx].pe_line_count;
++ 		    page_count = pp->pb_pointer[idx].pe_page_count;
+++		    // Validate pe_bnum and pe_page_count from the untrusted
+++		    // swap file before passing to mf_get(), which uses
+++		    // page_count to calculate allocation size.  A bogus value
+++		    // (e.g. 0x40000000) would cause a multi-GB allocation.
+++		    // pe_page_count must be >= 1 and bnum + page_count must
+++		    // not exceed the number of pages in the swap file.
+++		    if (page_count < 1
+++			    || bnum + page_count > mfp->mf_blocknr_max + 1)
+++		    {
+++			++error;
+++			ml_append(lnum++,
+++				(char_u *)_("???ILLEGAL BLOCK NUMBER"),
+++				(colnr_T)0, TRUE);
+++			// Skip this entry and pop back up the stack to keep
+++			// recovering whatever else we can.
+++			idx = ip->ip_index + 1;
+++			bnum = ip->ip_bnum;
+++			page_count = 1;
+++			--buf->b_ml.ml_stack_top;
+++			continue;
+++		    }
++ 		    idx = 0;
++ 		    continue;
++ 		}
++diff --git a/src/po/vim.pot b/src/po/vim.pot
++index 9608271..be79cf0 100644
++--- a/src/po/vim.pot
+++++ b/src/po/vim.pot
++@@ -8,7 +8,7 @@ msgid ""
++ msgstr ""
++ "Project-Id-Version: Vim\n"
++ "Report-Msgid-Bugs-To: vim-dev@vim.org\n"
++-"POT-Creation-Date: 2026-04-30 12:40+0200\n"
+++"POT-Creation-Date: 2026-02-27 21:04+0000\n"
++ "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
++ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
++ "Language-Team: LANGUAGE <LL@li.org>\n"
++@@ -1960,6 +1960,9 @@ msgstr ""
++ msgid "???LINES MISSING"
++ msgstr ""
 + 
-+     def evalsource(self,text,line=0):
-+         sc = self.parser.parse(text,line)
-++        try: allow_imports = int(
-++          vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
-++        except Exception:
-++          allow_imports = 0
-+         src = sc.get_code()
-+         dbg("source: %s" % src)
-+         try: exec(src,self.compldict)
-+         except: dbg("parser: %s, %s" % (sys.exc_info()[0],sys.exc_info()[1]))
-+         for l in sc.locals:
-++            # Executing import/from statements harvested from the buffer runs
-++            # arbitrary package code; only do so when the user opted in.
-++            if not allow_imports and (l.startswith('import')
-++                                            or l.startswith('from ')):
-++                continue
-+             try: exec(l,self.compldict)
-+             except: dbg("locals: %s, %s [%s]" % (sys.exc_info()[0],sys.exc_info()[1],l))
-+ 
-+@@ -300,13 +313,11 @@ class Scope(object):
-+     def get_code(self):
-+         str = ""
-+         if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
-+-        for l in self.locals:
-+-            if l.startswith('import'): str += l+'\n'
-+         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
-+         for sub in self.subscopes:
-+             str += sub.get_code()
-+         for l in self.locals:
-+-            if not l.startswith('import'): str += l+'\n'
-++            if not l.startswith('import') and not l.startswith('from '): str += l+'\n'
-+ 
-+         return str
-+ 
-+diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
-+index aa28bb7..1014776 100644
-+--- a/runtime/autoload/pythoncomplete.vim
-++++ b/runtime/autoload/pythoncomplete.vim
-+@@ -12,6 +12,10 @@
-+ "   i.e. "import url<c-x,c-o>"
-+ " Continue parsing on invalid line??
-+ "
-++" v 0.10 by Vim project
-++"   * disables importing local modules, unless the global Vim variable
-++"     g:pythoncomplete_allow_import is set to non-zero
-++"
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+ "   * Fixed parsing of *args and **kwargs type arguments
-+@@ -146,11 +150,20 @@ class Completer(object):
-+ 
-+     def evalsource(self,text,line=0):
-+         sc = self.parser.parse(text,line)
-++        try: allow_imports = int(
-++          vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
-++        except Exception:
-++          allow_imports = 0
-+         src = sc.get_code()
-+         dbg("source: %s" % src)
-+         try: exec(src) in self.compldict
-+         except: dbg("parser: %s, %s" % (sys.exc_info()[0],sys.exc_info()[1]))
-+         for l in sc.locals:
-++            # Executing import/from statements harvested from the buffer runs
-++            # arbitrary package code; only do so when the user opted in.
-++            if not allow_imports and (l.startswith('import')
-++                                            or l.startswith('from ')):
-++                continue
-+             try: exec(l) in self.compldict
-+             except: dbg("locals: %s, %s [%s]" % (sys.exc_info()[0],sys.exc_info()[1],l))
-+ 
-+@@ -315,13 +328,11 @@ class Scope(object):
-+     def get_code(self):
-+         str = ""
-+         if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
-+-        for l in self.locals:
-+-            if l.startswith('import'): str += l+'\n'
-+         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
-+         for sub in self.subscopes:
-+             str += sub.get_code()
-+         for l in self.locals:
-+-            if not l.startswith('import'): str += l+'\n'
-++            if not l.startswith('import') and not l.startswith('from '): str += l+'\n'
-+ 
-+         return str
-+ 
-+diff --git a/runtime/doc/filetype.txt b/runtime/doc/filetype.txt
-+index 597141d..c8572fe 100644
-+--- a/runtime/doc/filetype.txt
-++++ b/runtime/doc/filetype.txt
-+@@ -739,7 +739,20 @@ By default the following options are set, in accordance with PEP8: >
-+ To disable this behavior, set the following variable in your vimrc: >
-+ 
-+ 	let g:python_recommended_style = 0
-+-
-++<
-++Python omni-completion |compl-omni| is provided by python3complete.vim (or
-++pythoncomplete.vim) for Vim builds with the |+python|/|+python3| interpreter.
-++By default it does not inspect the import / from statements found in the
-++buffer. This means completion of names defined in the buffer itself (classes,
-++functions, variables) works, but completion of members of imported modules is
-++not offered.
+++msgid "???ILLEGAL BLOCK NUMBER"
+++msgstr ""
 ++
-++To enable completion of imported module members, set: >
-++	let g:pythoncomplete_allow_import = 1
-++<
-++WARNING: enabling this causes omni-completion to execute the import statements
-++found in the buffer through Python's import machinery, which runs the imported
-++modules' top-level code. Only enable this for code you trust.
++ msgid "???BLOCK MISSING"
++ msgstr ""
 + 
-+ QF QUICKFIX					    *qf.vim* *ft-qf-plugin*
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/vim/files/CVE-2026-52859.patch b/meta/recipes-support/vim/files/CVE-2026-52859.patch
-new file mode 100644
-index 0000000000..472d7c0640
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-52859.patch
-@@ -0,0 +1,274 @@
-+From 63680c6d3d52477817b49cd1a66e7aabe8a7aa19 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Sat, 30 May 2026 16:34:40 +0000
-+Subject: [PATCH] patch 9.2.0565: [security]: out-of-bounds read in
-+ update_snapshot()
-+
-+Problem:  Out-of-bounds read in update_snapshot() when a terminal cell
-+          fills all VTERM_MAX_CHARS_PER_CELL slots (a base character
-+          plus five combining marks): the loop over cell.chars[] has no
-+          upper bound and libvterm leaves the array unterminated when full, so
-+          it reads past the array and appends out-of-bounds values to a
-+          buffer sized for only VTERM_MAX_CHARS_PER_CELL characters.
-+Solution: Bound the loop with i < VTERM_MAX_CHARS_PER_CELL, mirroring
-+          the loop in handle_pushline() (Christian Brabandt).
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/63680c6d3d52477817b49cd1a66e7aabe8a7aa19]
-+CVE: CVE-2026-52859
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/terminal.c                          |   3 +-
-+ src/testdir/samples/combining_chars.txt | 200 ++++++++++++++++++++++++
-+ src/testdir/test_terminal3.vim          |  15 ++
-+ 3 files changed, 217 insertions(+), 1 deletion(-)
-+ create mode 100644 src/testdir/samples/combining_chars.txt
-+
-+diff --git a/src/terminal.c b/src/terminal.c
-+index 78990ac..527f1b9 100644
-+--- a/src/terminal.c
-++++ b/src/terminal.c
-+@@ -2080,7 +2080,8 @@ update_snapshot(term_T *term)
-+ 			    int	    i;
-+ 			    int	    c;
-+ 
-+-			    for (i = 0; (c = cell.chars[i]) > 0 || i == 0; ++i)
-++			    for (i = 0; i < VTERM_MAX_CHARS_PER_CELL &&
-++				    ((c = cell.chars[i]) > 0 || i == 0); ++i)
-+ 				ga.ga_len += utf_char2bytes(c == NUL ? ' ' : c,
-+ 					     (char_u *)ga.ga_data + ga.ga_len);
-+ 			}
-+diff --git a/src/testdir/samples/combining_chars.txt b/src/testdir/samples/combining_chars.txt
-+new file mode 100644
-+index 0000000..d9a3c17
-+--- /dev/null
-++++ b/src/testdir/samples/combining_chars.txt
-+@@ -0,0 +1,200 @@
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-+diff --git a/src/testdir/test_terminal3.vim b/src/testdir/test_terminal3.vim
-+index cb1946f..c02801e 100644
-+--- a/src/testdir/test_terminal3.vim
-++++ b/src/testdir/test_terminal3.vim
-+@@ -1051,4 +1051,19 @@ func Test_terminal_max_combining_chars()
-+   exe buf . "bwipe!"
++diff --git a/src/testdir/test_recover.vim b/src/testdir/test_recover.vim
++index db59223..93425f1 100644
++--- a/src/testdir/test_recover.vim
+++++ b/src/testdir/test_recover.vim
++@@ -471,4 +471,41 @@ func Test_noname_buffer()
++   call assert_equal(['one', 'two'], getline(1, '$'))
 + endfunc
 + 
-++func Test_terminal_output_combining_chars()
+++" Test for recovering a corrupted swap file, those caused a crash
+++func Test_recover_corrupted_swap_file1()
 ++  CheckUnix
+++  " only works correctly on 64bit Unix systems:
+++  if v:sizeoflong != 8 || !has('unix')
+++    throw 'Skipped: Corrupt Swap file sample requires a 64bit Unix build'
+++  endif
+++  " Test 1: Heap buffer-overflow
 ++  new
-++  let cmd = "cat samples/combining_chars.txt"
-++  let buf = term_start(cmd, {'curwin': 1, 'term_finish': 'open', 'term_rows': 10, 'term_cols': 30})
-++  call WaitForAssert({-> assert_match('finished', term_getstatus(buf))})
-++  call TermWait(buf)
-++  let lines = getbufline(buf, 1, '$')
-++  " get byte lengths to confirm combining chars present
-++  let lens = map(copy(lines), 'len(v:val)')
-++  let expected = repeat([11], 190) + repeat([14], 10)
-++  call assert_equal(expected, lens)
+++  let sample = 'samples/recover-crash1.swp'
+++  let target = 'Xpoc1.swp'
+++  call filecopy(sample, target)
+++  try
+++    sil recover! Xpoc1
+++  catch /^Vim\%((\S\+)\)\=:E1364:/
+++  endtry
+++  let content = getline(1, '$')->join()
+++  call assert_match('???ILLEGAL BLOCK NUMBER', content)
+++  call delete(target)
+++  bw!
+++"
+++"  " Test 2: Segfault
+++  new
+++  let sample = 'samples/recover-crash2.swp'
+++  let target = 'Xpoc2.swp'
+++  call filecopy(sample, target)
+++  try
+++    sil recover! Xpoc2
+++  catch /^Vim\%((\S\+)\)\=:E1364:/
+++  endtry
+++  let content = getline(1, '$')->join()
+++  call assert_match('???ILLEGAL BLOCK NUMBER', content)
+++  call assert_match('???LINES MISSING', content)
+++  call delete(target)
 ++  bw!
 ++endfunc
 ++
@@ -541,469 +246,234 @@ index 0000000000..472d7c0640
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-support/vim/files/CVE-2026-52860.patch b/meta/recipes-support/vim/files/CVE-2026-52860.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-41411.patch b/meta/recipes-support/vim/files/CVE-2026-41411.patch
 new file mode 100644
-index 0000000000..52a18415ce
+index 0000000000..11a34f4087
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-52860.patch
-@@ -0,0 +1,446 @@
-+From c8c63673bc4253212820626aeeb75999d9a539d2 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/vim/files/CVE-2026-41411.patch
+@@ -0,0 +1,75 @@
++From c78194e41d5a0b05b0ddf383b6679b1503f977fb Mon Sep 17 00:00:00 2001
 +From: Christian Brabandt <cb@256bit.org>
-+Date: Thu, 4 Jun 2026 21:06:09 +0000
-+Subject: [PATCH] patch 9.2.0597: [security]: possible code execution with
-+ python complete
++Date: Wed, 15 Apr 2026 20:17:17 +0000
++Subject: [PATCH] patch 9.2.0357: [security]: command injection via backticks
++ in tag files
 +
-+Problem:  [security]: another possible code execution with python complete
-+          (David Carliez)
-+Solution: Strip default expressions and annotations from generated
-+          source for pythoncomplete and python3complete.
++Problem:  [security]: command injection via backticks in tag files
++          (Srinivas Piskala Ganesh Babu, Andy Ngo)
++Solution: Disallow backticks before attempting to expand filenames.
 +
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-65p9-mwwx-7468
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-cwgx-gcj7-6qh8
++
++Supported by AI
 +
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/c8c63673bc4253212820626aeeb75999d9a539d2]
-+CVE: CVE-2026-52860
++CVE: CVE-2026-41411
++Upstream-Status: Backport [https://github.com/vim/vim/commit/c78194e41d5a0b05b0ddf383b6679b1503f977fb]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ runtime/autoload/python3complete.vim        |  43 +++-
-+ runtime/autoload/pythoncomplete.vim         |  43 +++-
-+ src/testdir/Make_all.mak                    |   2 +
-+ src/testdir/test_plugin_python3complete.vim | 224 ++++++++++++++++++++
-+ 4 files changed, 304 insertions(+), 8 deletions(-)
-+ create mode 100644 src/testdir/test_plugin_python3complete.vim
++ src/tag.c                    |  4 +++-
++ src/testdir/test_tagjump.vim | 22 ++++++++++++++++++++++
++ 2 files changed, 25 insertions(+), 1 deletion(-)
 +
-+diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
-+index aba3412..a031424 100644
-+--- a/runtime/autoload/python3complete.vim
-++++ b/runtime/autoload/python3complete.vim
-+@@ -1,8 +1,8 @@
-+ "python3complete.vim - Omni Completion for python
-+ " Maintainer: <vacancy>
-+ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
-+-" Version: 0.9
-+-" Last Updated: 2022 Mar 30
-++" Version: 0.10
-++" Last Updated: 2026 Jun 04
-+ "
-+ " Roland Puntaier: this file contains adaptations for python3 and is parallel to pythoncomplete.vim
-+ "
-+@@ -17,6 +17,11 @@
-+ " v 0.10 by Vim project
-+ "   * disables importing local modules, unless the global Vim variable
-+ "     g:pythoncomplete_allow_import is set to non-zero
-++"   * strip default values and annotations from function parameter lists
-++"     before exec(), and whitelist class base lists to dotted names: the
-++"     previous code passed buffer-supplied expressions to exec() which
-++"     Python evaluates at definition time, allowing arbitrary code
-++"     execution via crafted def/class headers
-+ "
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+@@ -100,6 +105,24 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
++diff --git a/src/tag.c b/src/tag.c
++index d3a7399..0e203f0 100644
++--- a/src/tag.c
+++++ b/src/tag.c
++@@ -4126,8 +4126,10 @@ expand_tag_fname(char_u *fname, char_u *tag_fname, int expand)
 + 
-+ import sys, tokenize, io, types
-+ from token import NAME, DEDENT, NEWLINE, STRING
-++import re
-++
-++# Used by Class.get_code(): a base class expression is only included in the
-++# code passed to exec() if it is a pure dotted name (e.g. "Base", "mod.Base",
-++# "pkg.sub.Cls").  Anything containing calls, subscripts, "=", ":" or other
-++# operators is dropped, since exec()-ing it would evaluate buffer-supplied
-++# expressions.  See the security note in the file header.
-++_DOTTED_NAME_RE = re.compile(r'^[A-Za-z_]\w*(\s*\.\s*[A-Za-z_]\w*)*$')
-++
-++def _strip_param(p):
-++    # Return the bare parameter name from a parameter spec harvested by
-++    # _parenparse(), discarding any default value or annotation.  Default
-++    # values and annotations would otherwise be evaluated by exec() at
-++    # function-definition time.  Star prefixes ("*args", "**kw") and bare
-++    # "*" / "/" are preserved as written.
-++    p = p.split('=', 1)[0]
-++    p = p.split(':', 1)[0]
-++    return p.strip()
++     /*
++      * Expand file name (for environment variables) when needed.
+++     * Disallow backticks, they could execute arbitrary shell
+++     * commands.  This is not needed for tag filenames.
++      */
++-    if (expand && mch_has_wildcard(fname))
+++    if (expand && mch_has_wildcard(fname) && vim_strchr(fname, '`') == NULL)
++     {
++ 	ExpandInit(&xpc);
++ 	xpc.xp_context = EXPAND_FILES;
++diff --git a/src/testdir/test_tagjump.vim b/src/testdir/test_tagjump.vim
++index 47618d0..a95b8b5 100644
++--- a/src/testdir/test_tagjump.vim
+++++ b/src/testdir/test_tagjump.vim
++@@ -1670,4 +1670,26 @@ func Test_tag_excmd_with_number_vim9script()
++   bwipe!
++ endfunc
 + 
-+ debugstmts=[]
-+ def dbg(s): debugstmts.append(s)
-+@@ -347,7 +370,13 @@ class Class(Scope):
-+         return c
-+     def get_code(self):
-+         str = '%sclass %s' % (self.currentindent(),self.name)
-+-        if len(self.supers) > 0: str += '(%s)' % ','.join(self.supers)
-++        # Only include base class expressions that are pure dotted names.
-++        # Anything else (calls, subscripts, conditionals, ...) is dropped
-++        # because exec() would evaluate it at class-definition time.  See
-++        # the security note in the file header.
-++        safe_supers = [s.strip() for s in self.supers
-++                       if _DOTTED_NAME_RE.match(s.strip())]
-++        if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
-+         str += ':\n'
-+         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-+         if len(self.subscopes) > 0:
-+@@ -364,8 +393,14 @@ class Function(Scope):
-+     def copy_decl(self,indent=0):
-+         return Function(self.name,self.params,indent, self.docstr)
-+     def get_code(self):
-++        # Strip default values and annotations from each parameter before
-++        # joining: exec() evaluates these at definition time and a hostile
-++        # buffer could otherwise execute arbitrary code via crafted def
-++        # headers.  See file header for details.
-++        safe_params = [_strip_param(p) for p in self.params]
-++        safe_params = [p for p in safe_params if p]
-+         str = "%sdef %s(%s):\n" % \
-+-            (self.currentindent(),self.name,','.join(self.params))
-++            (self.currentindent(),self.name,','.join(safe_params))
-+         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-+         str += "%spass\n" % self.childindent()
-+         return str
-+diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
-+index 1014776..39b1efd 100644
-+--- a/runtime/autoload/pythoncomplete.vim
-++++ b/runtime/autoload/pythoncomplete.vim
-+@@ -1,8 +1,8 @@
-+ "pythoncomplete.vim - Omni Completion for python
-+ " Maintainer: <vacancy>
-+ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
-+-" Version: 0.9
-+-" Last Updated: 2020 Oct 9
-++" Version: 0.10
-++" Last Updated: 2026 Jun 04
-+ "
-+ " Changes
-+ " TODO:
-+@@ -15,6 +15,11 @@
-+ " v 0.10 by Vim project
-+ "   * disables importing local modules, unless the global Vim variable
-+ "     g:pythoncomplete_allow_import is set to non-zero
-++"   * strip default values and annotations from function parameter lists
-++"     before exec(), and whitelist class base lists to dotted names: the
-++"     previous code passed buffer-supplied expressions to exec() which
-++"     Python evaluates at definition time, allowing arbitrary code
-++"     execution via crafted def/class headers
-+ "
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+@@ -95,6 +100,24 @@ function! s:DefPython()
-+ python << PYTHONEOF
-+ import sys, tokenize, cStringIO, types
-+ from token import NAME, DEDENT, NEWLINE, STRING
-++import re
+++" Test that backtick expressions in tag filenames are not expanded.
+++" This prevents command injection via malicious tags files.
+++func Test_tag_backtick_filename_not_expanded()
+++  let pwned_file = 'Xtags_pwnd'
+++  call assert_false(filereadable(pwned_file))
 ++
-++# Used by Class.get_code(): a base class expression is only included in the
-++# code passed to exec() if it is a pure dotted name (e.g. "Base", "mod.Base",
-++# "pkg.sub.Cls").  Anything containing calls, subscripts, "=", ":" or other
-++# operators is dropped, since exec()-ing it would evaluate buffer-supplied
-++# expressions.  See the security note in the file header.
-++_DOTTED_NAME_RE = re.compile(r'^[A-Za-z_]\w*(\s*\.\s*[A-Za-z_]\w*)*$')
+++  let tagline = "main\t`touch " .. pwned_file .. "`\t/^int main/;\"\tf"
+++  call writefile([tagline], 'Xbt_tags', 'D')
+++  call writefile(['int main(int argc, char **argv) {', '}'], 'Xbt_main.c', 'D')
 ++
-++def _strip_param(p):
-++    # Return the bare parameter name from a parameter spec harvested by
-++    # _parenparse(), discarding any default value or annotation.  Default
-++    # values and annotations would otherwise be evaluated by exec() at
-++    # function-definition time.  Star prefixes ("*args", "**kw") and bare
-++    # "*" / "/" are preserved as written.
-++    p = p.split('=', 1)[0]
-++    p = p.split(':', 1)[0]
-++    return p.strip()
+++  set tags=Xbt_tags
+++  sp Xbt_main.c
+++
+++  " The :tag command should fail to find the file, but must NOT execute
+++  " the backtick shell command.
+++  call assert_fails('tag main', 'E429:')
+++  call assert_false(filereadable(pwned_file))
+++
+++  set tags&
+++  bwipe!
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/vim/files/CVE-2026-44656.patch b/meta/recipes-support/vim/files/CVE-2026-44656.patch
+new file mode 100644
+index 0000000000..70cd72b098
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-44656.patch
+@@ -0,0 +1,130 @@
++From 190cb3c2b9c769a3972bcfd991a7b5b6cb771ef0 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Sun, 3 May 2026 16:10:03 +0000
++Subject: [PATCH] patch 9.2.0435: [security]: backticks in 'path' may cause
++ shell execution on completion
++
++Problem:  [security]: Backticks enclosed shell commands in the 'path'
++          option value are executed during completion (q1uf3ng).
++Solution: Skip path entries containing backticks, add P_SECURE to 'path'
++          option, so that it cannot be set from a modeline (for symmetry with
++          the 'cdpath' option)
++
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-hwg5-3cxw-wvvg
++
++Supported by AI.
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++CVE: CVE-2026-44656
++Upstream-Status: Backport [https://github.com/vim/vim/commit/190cb3c2b9c769a3972bcfd991a7b5b6cb771ef0]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ runtime/doc/options.txt            |  5 ++++-
++ src/findfile.c                     |  4 ++++
++ src/optiondefs.h                   |  2 +-
++ src/testdir/test_find_complete.vim | 17 +++++++++++++++++
++ src/testdir/test_modeline.vim      | 14 ++++++++++++++
++ 5 files changed, 40 insertions(+), 2 deletions(-)
++
++diff --git a/runtime/doc/options.txt b/runtime/doc/options.txt
++index 8dba6f4..d06411f 100644
++--- a/runtime/doc/options.txt
+++++ b/runtime/doc/options.txt
++@@ -1,4 +1,4 @@
++-*options.txt*	For Vim version 9.1.  Last change: 2025 Aug 23
+++*options.txt*	For Vim version 9.2.  Last change: 2026 May 03
 + 
-+ debugstmts=[]
-+ def dbg(s): debugstmts.append(s)
-+@@ -362,7 +385,13 @@ class Class(Scope):
-+         return c
-+     def get_code(self):
-+         str = '%sclass %s' % (self.currentindent(),self.name)
-+-        if len(self.supers) > 0: str += '(%s)' % ','.join(self.supers)
-++        # Only include base class expressions that are pure dotted names.
-++        # Anything else (calls, subscripts, conditionals, ...) is dropped
-++        # because exec() would evaluate it at class-definition time.  See
-++        # the security note in the file header.
-++        safe_supers = [s.strip() for s in self.supers
-++                       if _DOTTED_NAME_RE.match(s.strip())]
-++        if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
-+         str += ':\n'
-+         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-+         if len(self.subscopes) > 0:
-+@@ -379,8 +408,14 @@ class Function(Scope):
-+     def copy_decl(self,indent=0):
-+         return Function(self.name,self.params,indent, self.docstr)
-+     def get_code(self):
-++        # Strip default values and annotations from each parameter before
-++        # joining: exec() evaluates these at definition time and a hostile
-++        # buffer could otherwise execute arbitrary code via crafted def
-++        # headers.  See file header for details.
-++        safe_params = [_strip_param(p) for p in self.params]
-++        safe_params = [p for p in safe_params if p]
-+         str = "%sdef %s(%s):\n" % \
-+-            (self.currentindent(),self.name,','.join(self.params))
-++            (self.currentindent(),self.name,','.join(safe_params))
-+         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-+         str += "%spass\n" % self.childindent()
-+         return str
-+diff --git a/src/testdir/Make_all.mak b/src/testdir/Make_all.mak
-+index 0d4aeb0..87545b7 100644
-+--- a/src/testdir/Make_all.mak
-++++ b/src/testdir/Make_all.mak
-+@@ -247,6 +247,7 @@ NEW_TESTS = \
-+ 	test_plugin_helptoc \
-+ 	test_plugin_man \
-+ 	test_plugin_matchparen \
-++	test_plugin_python3complete \
-+ 	test_plugin_tar \
-+ 	test_plugin_termdebug \
-+ 	test_plugin_tohtml \
-+@@ -520,6 +521,7 @@ NEW_TESTS_RES = \
-+ 	test_plugin_helptoc.res \
-+ 	test_plugin_man.res \
-+ 	test_plugin_matchparen.res \
-++	test_plugin_python3complete.res \
-+ 	test_plugin_tar.res \
-+ 	test_plugin_termdebug.res \
-+ 	test_plugin_tohtml.res \
-+diff --git a/src/testdir/test_plugin_python3complete.vim b/src/testdir/test_plugin_python3complete.vim
-+new file mode 100644
-+index 0000000..e2b0c66
-+--- /dev/null
-++++ b/src/testdir/test_plugin_python3complete.vim
-+@@ -0,0 +1,224 @@
-++" Tests for the Python omni-completion plugin (runtime/autoload/python3complete.vim).
-++"
-++CheckFeature python3
++ 
++ 		  VIM REFERENCE MANUAL	  by Bram Moolenaar
++@@ -6615,6 +6615,9 @@ A jump table for the options with a short description can be found at |Q_op|.
++ <	Replace the ';' with a ':' or whatever separator is used.  Note that
++ 	this doesn't work when $INCL contains a comma or white space.
++ 
+++	This option cannot be set from a |modeline| or in the |sandbox|, for
+++	security reasons.
 ++
-++" Run omni-completion against the given buffer contents and assert that the
-++" marker file was not created.  Pre-patch behaviour exec()s reconstructed
-++" def/class headers, which evaluates the buffer-supplied expression and
-++" creates the marker file.  Post-patch, the expressions are stripped.
-++func s:CompleteAndExpectNoMarker(buffer_lines, marker_path, msg)
-++  call delete(a:marker_path)
-++  defer delete(a:marker_path)
-++  let g:pythoncomplete_allow_import = 0
-++  new
-++  setfiletype python
-++  call setline(1, a:buffer_lines)
-++  call cursor(line('$'), col([line('$'), '$']))
++ 						*'perldll'*
++ 'perldll'		string	(default depends on the build)
++ 			global
++diff --git a/src/findfile.c b/src/findfile.c
++index 008338c..f73a66b 100644
++--- a/src/findfile.c
+++++ b/src/findfile.c
++@@ -2412,6 +2412,10 @@ expand_path_option(
++     {
++ 	buflen = copy_option_part(&path_option, buf, MAXPATHL, " ,");
++ 
+++	// do not expand backticks, could have been set via a modeline
+++	if (vim_strchr(buf, '`') != NULL)
+++	    continue;
 ++
-++  " The PoC trigger -- direct invocation of the omnifunc with an empty base.
-++  " This is the same path Vim takes for CTRL-X CTRL-O.
-++  silent! call python3complete#Complete(0, '')
++ 	if (buf[0] == '.' && (buf[1] == NUL || vim_ispathsep(buf[1])))
++ 	{
++ 	    size_t  plen;
++diff --git a/src/optiondefs.h b/src/optiondefs.h
++index bd02d04..72d3f36 100644
++--- a/src/optiondefs.h
+++++ b/src/optiondefs.h
++@@ -1957,7 +1957,7 @@ static struct vimoption options[] =
++ 			    (char_u *)&p_pm, PV_NONE,
++ 			    did_set_backupext_or_patchmode, NULL,
++ 			    {(char_u *)"", (char_u *)0L} SCTX_INIT},
++-    {"path",	    "pa",   P_STRING|P_EXPAND|P_VI_DEF|P_COMMA|P_NODUP,
+++    {"path",	    "pa",   P_STRING|P_EXPAND|P_VI_DEF|P_SECURE|P_COMMA|P_NODUP,
++ 			    (char_u *)&p_path, PV_PATH, NULL, NULL,
++ 			    {
++ #if defined(AMIGA) || defined(MSWIN)
++diff --git a/src/testdir/test_find_complete.vim b/src/testdir/test_find_complete.vim
++index 079fb78..8b8b71c 100644
++--- a/src/testdir/test_find_complete.vim
+++++ b/src/testdir/test_find_complete.vim
++@@ -161,4 +161,21 @@ func Test_find_complete()
++   set path&
++ endfunc
++ 
+++" Verify that backticks in 'path' are not executed
+++func Test_find_completion_backtick_in_path()
+++  CheckUnix
+++  CheckExecutable id
 ++
-++  call assert_false(filereadable(a:marker_path),
-++        \ a:msg . ' (marker ' . a:marker_path . ' was created)')
+++  new Xpoc.c
+++  setl path+=`id>Xrce_marker`
+++  " Triggering completion must not execute the backtick command.
+++  call getcompletion('', 'file_in_path')
+++  call assert_false(filereadable('Xrce_marker'))
+++  call feedkeys(":find \t\n", "xt")
+++  call assert_false(filereadable('Xrce_marker'))
 ++
 ++  bwipe!
-++  unlet! g:pythoncomplete_allow_import
+++  call delete('Xrce_marker')
 ++endfunc
 ++
-++func Test_python3complete_no_exec_via_function_default()
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'def f(x=open(' . string(marker) . ', "w").close()):',
-++        \ '    pass',
-++        \ 'f.',
-++        \ ], marker,
-++        \ 'function default expression was evaluated during omni-completion')
-++endfunc
++ " vim: shiftwidth=2 sts=2 expandtab
++diff --git a/src/testdir/test_modeline.vim b/src/testdir/test_modeline.vim
++index c00032b..fc11cc6 100644
++--- a/src/testdir/test_modeline.vim
+++++ b/src/testdir/test_modeline.vim
++@@ -386,4 +386,18 @@ func Test_modeline_forbidden()
++   bw!
++ endfunc
++ 
+++" Verify that backticks in 'path' set from a modeline are not executed
+++func Test_path_modeline()
+++  let lines =<< trim END
+++    // vim: set path+=foobar :
+++  END
+++  call writefile(lines, 'Xpoc.c', 'D')
 ++
-++func Test_python3complete_no_exec_via_function_annotation()
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'def f(x: open(' . string(marker) . ', "w").close()):',
-++        \ '    pass',
-++        \ 'f.',
-++        \ ], marker,
-++        \ 'function annotation expression was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_no_exec_via_class_base()
-++  let marker = tempname()
-++  " "or object" gives the class a valid base after the side-effecting
-++  " open().close() expression returns None.  Without "or object" the
-++  " exec would raise TypeError, but the file would still be created
-++  " before the exception -- the assertion would still hold.  Using
-++  " "or object" keeps the buffer parseable as valid Python.
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'class Foo(open(' . string(marker) . ', "w").close() or object):',
-++        \ '    pass',
-++        \ 'Foo.',
-++        \ ], marker,
-++        \ 'class base expression was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_no_exec_with_multiple_params()
-++  " The strip must apply to every parameter, not just the first.
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'def f(a, b=1, c=open(' . string(marker) . ', "w").close(), d=2):',
-++        \ '    pass',
-++        \ 'f.',
-++        \ ], marker,
-++        \ 'non-first parameter default was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_no_exec_via_starargs_default()
-++  " "*args" and "**kw" must still be preserved after stripping; ensure a
-++  " default following them is also stripped.
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'def f(*args, key=open(' . string(marker) . ', "w").close(), **kw):',
-++        \ '    pass',
-++        \ 'f.',
-++        \ ], marker,
-++        \ 'keyword-only default after *args was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_normal_completion_still_works()
-++  " Positive control: completion against a buffer with a legitimate class
-++  " must still produce completion items.  The stripping logic should not
-++  " break the normal completion path.
-++  let g:pythoncomplete_allow_import = 0
-++
-++  new
-++  setfiletype python
-++  call setline(1, [
-++        \ 'class MyHelper:',
-++        \ '    def alpha(self): pass',
-++        \ '    def beta(self): pass',
-++        \ 'h = MyHelper()',
-++        \ 'h.',
-++        \ ])
-++  call cursor(5, 3)
-++
-++  " First call returns the column to start completion at; second returns
-++  " the list of completion items.
-++  let start = python3complete#Complete(1, '')
-++  call assert_true(start >= 0,
-++        \ 'python3complete#Complete(1, "") returned ' . start)
-++
-++  let items = python3complete#Complete(0, '')
-++  " Items should be a list (possibly empty if the parser can't resolve "h",
-++  " but should not be a parse error from our stripping changes).
-++  call assert_equal(type([]), type(items),
-++        \ 'python3complete#Complete(0, "") did not return a list')
+++  set nomodelinestrict modeline
+++  call assert_fails('split Xpoc.c', 'E520:')
 ++
 ++  bwipe!
-++  unlet! g:pythoncomplete_allow_import
+++  set modelinestrict& modeline&
 ++endfunc
 ++
-++func Test_python3complete_inherited_completion_via_dotted_base()
-++  " Positive control for the class-base whitelist: a dotted-name base class
-++  " (the common, safe case) must still be carried into the reconstructed
-++  " source so that completion on a subclass can resolve inherited members.
-++  let g:pythoncomplete_allow_import = 0
-++
-++  new
-++  setfiletype python
-++  call setline(1, [
-++        \ 'class Base:',
-++        \ '    def shared(self): pass',
-++        \ 'class Derived(Base):',
-++        \ '    def own(self): pass',
-++        \ 'd = Derived()',
-++        \ 'd.',
-++        \ ])
-++  call cursor(6, 3)
-++
-++  let items = python3complete#Complete(0, '')
-++  call assert_equal(type([]), type(items),
-++        \ 'completion against a subclass with a dotted base did not return a list')
-++
-++  bwipe!
-++  unlet! g:pythoncomplete_allow_import
-++endfunc
-++
-++" Build a tiny Python module that creates a marker file as a side effect of
-++" being imported, add its directory to sys.path, run omni-completion against
-++" a buffer containing `import vimtest_marker_mod`, and report whether the
-++" marker file was created.  Used by the two allow_import tests below.
-++func s:RunImportCompletion(allow_import_value)
-++  let g:pythoncomplete_allow_import = a:allow_import_value
-++  let marker = tempname()
-++  let module_dir = tempname()
-++  call mkdir(module_dir, 'R')
-++
-++  call writefile([
-++        \ 'open(' . string(marker) . ', "w").close()',
-++        \ ], module_dir . '/vimtest_marker_mod.py')
-++
-++  defer delete(marker)
-++
-++  " Pass module_dir to Python via a g: variable so vim.eval() can read it.
-++  let g:pythoncomplete_test_module_dir = module_dir
-++  py3 << EOF
-++import sys, vim
-++_p = vim.eval('g:pythoncomplete_test_module_dir')
-++if _p not in sys.path:
-++    sys.path.insert(0, _p)
-++# Drop any cached copy so the module body re-runs and the marker side
-++# effect fires on import.
-++sys.modules.pop('vimtest_marker_mod', None)
-++EOF
-++
-++  new
-++  setfiletype python
-++  call setline(1, [
-++        \ 'import vimtest_marker_mod',
-++        \ 'vimtest_marker_mod.',
-++        \ ])
-++  call cursor(2, 2)
-++
-++  silent! call python3complete#Complete(0, '')
-++
-++  let ran = filereadable(marker)
-++
-++  bwipe!
-++  unlet g:pythoncomplete_allow_import
-++
-++  " Teardown: restore sys.path, drop the cached module so a subsequent
-++  " test run starts clean, clean up the temp module dir.
-++  py3 << EOF
-++import sys, vim
-++_p = vim.eval('g:pythoncomplete_test_module_dir')
-++if _p in sys.path:
-++    sys.path.remove(_p)
-++sys.modules.pop('vimtest_marker_mod', None)
-++EOF
-++  unlet g:pythoncomplete_test_module_dir
-++  call delete(module_dir, 'rf')
-++  call delete(marker)
-++  unlet! g:pythoncomplete_allow_import
-++
-++  return ran
-++endfunc
-++
-++func Test_python3complete_allow_import_off_blocks_imports()
-++  " GHSA-52mc-rq6p-rc7c mitigation: with the default flag value (0), an
-++  " `import` line harvested from the buffer must NOT be exec()'d.  The
-++  " marker module's side effect (creating a file when its body runs) is
-++  " the observable proof that the exec did or did not happen.
-++  call assert_false(s:RunImportCompletion(0),
-++        \ 'g:pythoncomplete_allow_import=0 did not block the buffer import')
-++endfunc
-++
-++func Test_python3complete_allow_import_on_runs_imports()
-++  " Symmetric positive control: with the flag set to non-zero, the harvested
-++  " import IS exec()'d and the module loads.  Without this control the
-++  " negative test above could pass for unrelated reasons (e.g. completion
-++  " failing to parse the buffer at all).
-++  call assert_true(s:RunImportCompletion(1),
-++        \ 'g:pythoncomplete_allow_import=1 did not run the buffer import')
-++endfunc
-++
-++" vim: shiftwidth=2 sts=2 expandtab
++ " vim: shiftwidth=2 sts=2 expandtab
 +-- 
 +2.34.1
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 9a4b21f530..d69a337b4e 100644
+index e9b5df291d..b7cdd61c93 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -33,6 +33,9 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-45130.patch \
-            file://CVE-2026-46483.patch \
-            file://CVE-2026-28420.patch \
-+           file://CVE-2026-52858.patch \
-+           file://CVE-2026-52859.patch \
-+           file://CVE-2026-52860.patch \
+@@ -25,6 +25,9 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-34982.patch \
+            file://CVE-2026-34714.patch \
+            file://CVE-2026-35177.patch \
++           file://CVE-2026-44656.patch \
++           file://CVE-2026-41411.patch \
++           file://CVE-2026-28421.patch \
             "
  
  PV .= ".1683"
