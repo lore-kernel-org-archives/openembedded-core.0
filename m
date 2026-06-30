@@ -1,960 +1,416 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 549DEC43458
-	for <webhook@archiver.kernel.org>; Mon, 29 Jun 2026 23:01:54 +0000 (UTC)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9393.1782774108005488611
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8303C43458
+	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 04:39:15 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14098.1782794348624008516
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 16:01:48 -0700
+ Mon, 29 Jun 2026 21:39:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=ZHTXNCtP;
- spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7fe4808741eso40439247b3.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 16:01:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782774107; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fThc7QrOpIvra65JFKJ5QgUPNd1aOLlpXOoc/UxEZv+Lj2Iqv5OTEKGf1CFeE//riB
-         Gxt04pjf5q6ldfMeBT8/DXv3SRAEGXRsz7mmGL+MPL5o3SbNuNOEVZGhMGYrtagqw3Eg
-         l8qPMAGCiZuDLyJ+sHy2WLFTL/TZPb/0DprfI1dMtOpf0VPfn/ratioJ8tjlYgPWgGKt
-         piLvZD3XReTBI9196Qy9Fa7j81mcFWwYfzIsQdKuJcS581gZ4AnvKLPJK3s2Gzaq+LP2
-         ZuKmarum+/rp/A2diS1SDPqa/7waURezEzZPCh+Ee+d1FjQx5KghYZmkMLYrilKrESUT
-         jIvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=gx2Si0pYUSXNZERcMw0D1W2R8OsazX/t43mcqIr2AG0=;
-        fh=kyrcx/wGdP1K8AcZ1t5dlAg43e9Kck6gc8gLfroTQbI=;
-        b=rikZ8E5eUTyK50FblxiWDn97dch+QhOWXm/RoxDphGYNyReGFyDUrN3iLW5GzgQYW4
-         76XZaanhQecULl9G9w732QormlTRptP2OSl3gDwZetnVHud+rZvOrguwMx/Tvpnp15HJ
-         Szy/tsC/GlkCYezt++psHHoXkanaq2NdZ3Rzojo5t5sWZtWMeY1dtFM8Vmr9Ffkv9O2M
-         i2Zoa0DDB5FsljBthiOraZ0lS3LBFZx7sKlaFRiVnjYRTCwnbhx1TzUl1FLyXZVzpor0
-         yXQVpz2aHrMV6mTXo9m7++tDsIOInb5XWpDknNnjCHOWAlAzx7grPq8y/G2Ii2MsfJeS
-         qA6w==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782774107; x=1783378907; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gx2Si0pYUSXNZERcMw0D1W2R8OsazX/t43mcqIr2AG0=;
-        b=ZHTXNCtPE8+O5gtQsSULbwJ9w2d7hsEdpKvVJZ85+xQQjGg9QiGVgOAOJc2fzOPirl
-         et6jb/KlC52HN2yT6ZwfVdjPKDmXYAHDm0aWVFZy5w4UlthIV6lpFBGraN1mxhonlazM
-         zqQ8qa+rVL0bs8J/UGmd04THFKpgfA9xKTuKwW//yPfFB6JmftIIY3FaHNIA5W5ToUVz
-         9WRKGZWE9XFUIffquBnYExC9VbfATztdAhg/Jw+hIcax16z4JZXI/Raysu1nW7BMTXzD
-         TF9pZIGRKWJZzgKiL3cJuU/BWEK6XoGXm66RxsOMuHr0rvwrv1ElH5X1MAZbTWgjnslP
-         GprQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782774107; x=1783378907;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gx2Si0pYUSXNZERcMw0D1W2R8OsazX/t43mcqIr2AG0=;
-        b=Cz16w4R8JwiD/nuuXoCsPRh2gTcDseZUKkWcfv2N6WYNAwUA29bTNW2nvCTPPI4rPC
-         6aGBN97uHKW05EnZ1C/yyJ3z2KyI4EQ4IPBnnmEjoy+kwXDrff366O6ZslU9iOIo7VWj
-         Hhxe7qDT48hhdO60hookj4UXFOU7vZORSc54s2YXsDBRD2dx/ev6x7fvSqtxTWOG2oBh
-         dXx0Bt18eib69ZsIGnZAebCMB6FBX0FFFclVZRu1Ib6BtrU6qROdcAkkOgJQK6Xbjdx4
-         kB0lMpaHBMyDrgVcGu/9QLqCoF1CYm3iz0n8Qs43+Vl+eo7aIuhCLFWHsOzJFh9LGmIe
-         1hzQ==
-X-Gm-Message-State: AOJu0YzqDv0gEEBpajnGmvm0o6V+QSLaLt+SimJcixINZ4BXsAom5z6Z
-	7T0YZeezIs3CQZH3EvoqCkg1+z9ub7ngQib/y4MSupG2nboHr/LBvs2GBjUkFJIDWHCz7kOf0a2
-	Rc/qKCMJA72f0BtiTCZRfW3NyGPJsdo+3EQ==
-X-Gm-Gg: AfdE7cnL/bFiGdQp9RU8egaCP15Me0BzVRkqvcavw2r1LR5bV9SKIEHjcS+im/9EWg1
-	yriiAQou1wPPw5XKsueifTKjxgFXISuuje+rLB8d5yenmafaluOfcne/CWjWchvUhlv/hHfjzHn
-	x2t5WE6mxcIrzh5+3JWSwaiJCj7HNFcCyOsH9dq3ht0MlIUIc2rZmoyKJVGTUtLRuZRTgE5Kzr9
-	rXQLaIv//doSvbr356fYxVKXo/O105R1VTiO8aNHmp95e9iBbhtXTQLwWoqXqmjiZmRN9hJ2Ja6
-	xkeHAnamKDU=
-X-Received: by 2002:a05:690c:dc1:b0:80c:85b6:7644 with SMTP id
- 00721157ae682-810dab0b72cmr15518357b3.57.1782774106579; Mon, 29 Jun 2026
- 16:01:46 -0700 (PDT)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=PyflJn5Q;
+ spf=pass (domain: est.tech, ip: 52.101.70.43, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ftjG3Pwc/VpcwEyk6TlBzEplKXdV32Q2nifnLW9YnlXXu1b1ZxHq/lZB7QIMCZL6QClsKXcrl5KxLuP7kNr2JvMAZt3nKYGNh95HNu848S4C3onKhMMFFbZao4i6FOr6NsVnnW2GJik/XKZH9nsezIewStfa2UqmBo8OXCuQpwyxKkReNE5caIFhIVDmaTpW74anYM/g7ekXmmyutABxcdXaWUqD6D1yAvjbnDHwqpVPkREpVwsyJmi3oLDAyPpT9h6FrPW0wkE7dIg9MCvkYq0Lk13c5nSTiHMoRVUyOS6x9azWD17xpcdf2PERlplG8pi8+hoDRmJ2g/ribqvoPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=d06QAhHKVp8hyp/pJFyHCzrMfFUQY0vPbyrNqo0Yi5M=;
+ b=TK0/ybOVHacgN9FsMliD7Lu/Kpn1Y8m9EZoV3Wr0xUaTzAkEd6gg3Yk1tFDHTiYI735svY2o95HIxh9iw4jq5lr+zSpe1x8uipGhN2/w0d7gThghI3Hj9dtFSBaSOhgIQeWXjQF0YI4zI8yqbASe777z35N+5rII9jTs8CIN6TrihcFhRTQ36qSPR5o2djOtkS2ZgCU0HctbqSHxDDsyGv2aWR1cafcjX5Pi9xHak/wtmakjSNzIPD4AILj4T/a9LLm1PIzJ/cgcTTU2Q6ecwgcVUaxwa3VAyv/GeUaVQ/qHk/YmtVTsbVZaBfztOrUq1ws8goWjgAixWqRCQa/bbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d06QAhHKVp8hyp/pJFyHCzrMfFUQY0vPbyrNqo0Yi5M=;
+ b=PyflJn5QxsRJKoUuR75+/i709IzI9JHphewbrCxAS8bB22xDvP8SN/cd1hXnf0HNuL9IhEZ92aBR+CIhDkz4Zd+I1XzJ2UuU/fM8D4hTd7q//HrEjQK//FiVyT+gE1DnKDSnJ7IgDHECZO81O8QOHhKo6QHUVW9q2uvTg8dM5seH4aogs5IXhrRk0fwjxTyizi7UAnHqmGjplpTYq2qZ5kGxW3us/xMdjc8kQer7okGvNzTF2ncS9meL54Od1PIhHcKjbndi/pGgjN2jLjP3YwA2sED/yE0DFAKrgwlWvJiZ5IrK7+Csuz/UM7VuBOs00K72tAB3cWKoa48+CwlS+g==
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by PAWP189MB2545.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:35c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 30 Jun
+ 2026 04:39:03 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::18b0:e114:b839:ca49]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::18b0:e114:b839:ca49%8]) with mapi id 15.21.0159.018; Tue, 30 Jun 2026
+ 04:39:03 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: Jaipaul Cheernam via lists.openembedded.org
+	<jaipaul.cheernam=est.tech@lists.openembedded.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Jaipaul Cheernam
+	<jaipaul.cheernam@est.tech>, "yoann.congal@smile.fr" <yoann.congal@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH v2] curl: fix CVE-2026-5773 - wrong
+ reuse of SMB connection
+Thread-Topic: [OE-core] [scarthgap][PATCH v2] curl: fix CVE-2026-5773 - wrong
+ reuse of SMB connection
+Thread-Index: AQHdA7RZnqCNaZK1qE2SBTivFOXcJ7ZWjNuZ
+Date: Tue, 30 Jun 2026 04:39:03 +0000
+Message-ID: 
+ <DU7PPF66507B2D74801DCDBE0149F5394B9F3F72@DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM>
+References: <20260623074847.3424-1-jaipaul.cheernam@est.tech>
+ <18BBF7650C0584E5.1138462@lists.openembedded.org>
+In-Reply-To: <18BBF7650C0584E5.1138462@lists.openembedded.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU7PPF66507B2D7:EE_|PAWP189MB2545:EE_
+x-ms-office365-filtering-correlation-id: 0b012e8f-ba0b-4f23-193a-08ded6618346
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|38070700021|56012099006|3023799007|4143699003|22082099003|18002099003|11063799006|8096899003|13003099007;
+x-microsoft-antispam-message-info: 
+ LzfQoHNmM9WnjH9p5XZXkny+FdS7GIiAGSf9PVk24wQBPf5RHB+wa2kRMUgT+TvPk/J44Zgcl411bMURT5U1YxXC48RQQfDVPRkeNaXjV1K0fWHlDnN6M5Sz0hhvyc42Uoqp6aBVZtk+0pACulg01W303uDjn0C+hrVby4mopsM7lhOCwx+c+NRiGkBnte9n+SMu+Q1h7J0lbaNQdQeSk5OM8nO6Fbp7NdYEhiACI9zncmwODy5V6xgowb1x8s+F2WC6R9gQUWkO3pdXzr9X9S1Sujsiu1gskMBhrPmnrTYDE3j13skan4TLnuBR2xBtlaFugcFbwtlGe7C7NuLyjYFZF1BI61IhzvrCsED2c1qFA5iV8SSYkU0XS+x2IYAvLbbaVnrJPtniuKSk3EJBr2xMQ7eAP+aTRTs7XG1wSnQkOflrv4h3QBsZrHKrtsXNZKqsYye2ao7hfh81+UoSaRVv/DOAs3n0v7CoUqoln6HGQJd5ySfUpTZfVCfEdjcCyfap7ZMAJNZlYF9/Q3AbfJi+6DxwegUcuc8FahF5eBm1kLuvNNAWqK2vp0kXOuzlWBUfWP3ohUA0jgchtR2zYfxhC5vfNlAuM9Xg+dKhs7nJmIzEI/rrvIbAlp9Qy4Y4UJmr6gV1nsAAq/qxKtKOw+GKXWXfBQw+T1rHiEVhjlI=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(38070700021)(56012099006)(3023799007)(4143699003)(22082099003)(18002099003)(11063799006)(8096899003)(13003099007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?Windows-1252?Q?FxnOlZz4nsfpsAQBINdemoncJk6XFA434TMCzyER3iin1YnyuQoStbQa?=
+ =?Windows-1252?Q?myqPdEziM61N3Qy914p3SGcWPJeK6BIg2EqI0AkBqlOtwcs1rQPFy6TE?=
+ =?Windows-1252?Q?wt/xvDf6nbdA7hIqGGxxrBClPQxz1jdxb6GduAS0fFCO1liITyuq4zkr?=
+ =?Windows-1252?Q?xg1U34oitcAeuWicYcjYqd7wVDAVHmdM7/88ROrOlGLjWSnwSh7dfP0U?=
+ =?Windows-1252?Q?k9lAG92wviuRPhv0rJgDmXYmG70tBasnEm/mY1CSlbRh40aj0luDaxfr?=
+ =?Windows-1252?Q?M3a3fpCo87yoilxZgVLzhOV6QJ4x+PbcD2awaIKBoFW/c6emDBJDTEMY?=
+ =?Windows-1252?Q?Yz2X9A8C4FQZ64aVaTjU8fzceMQnAMGMJ2jAnI50EfjTKGtDpsKg9Jl2?=
+ =?Windows-1252?Q?l/2c0gbv5ctVeXLxm9cS84g75kkAk3yOgFeR12c2p0R/d6g4g3OKyxoE?=
+ =?Windows-1252?Q?QshAN70oIe/Wr/TVGu+NPM2Ti9aJDcHgywXmnCsGXpgH+Ig9YWGrxxQM?=
+ =?Windows-1252?Q?luEDJ9suPg8nv82CtXSGhj/8JKIz+3ihLoOVcNQ2NtAuLvWfnp/gecrB?=
+ =?Windows-1252?Q?smAhxCiQd9xJHFrXHqGNO1bUJnmzEZwdDiFFVA4PrH/daTDikTva8QlO?=
+ =?Windows-1252?Q?fbvCSlF6g4aJCkZ8m3x0oNCV2PnOOggvrNTvFMju2uHzegmW37bLErHn?=
+ =?Windows-1252?Q?bhc6PPU3GmihBKwYmbgpY8WtbJlHzrCJZ0dW7l50WFwNnZIJcCZTIsiJ?=
+ =?Windows-1252?Q?FXWIifrdf+wlR9Z2CaDM1stEYB1pyJUrAQeqOodsqsYgVlVL2+DtexTN?=
+ =?Windows-1252?Q?QputRdnUe/htQSSLTIZ12Wr0zMVR1uGk7MOlrLNEHXbygnvGFsDAuaGo?=
+ =?Windows-1252?Q?lGa4wicGfrhWgRbNBU9xXw3A6pOQvN+wUZd+TQDeKQlV4EuVugZzr+n7?=
+ =?Windows-1252?Q?9T8Hhj0MZfBdR8qS5gMWGqaASwbppZmvt393h5hFCplTptr5FvE+6JsY?=
+ =?Windows-1252?Q?i8HC3X4u/zHrdhBR2KV/0WHoyWXEMH5N+wP+mf0NPTJxUO6MuZQi7/74?=
+ =?Windows-1252?Q?5kTQHNfTmAVbo9Fab3yNCatuR+eNgsc8Nzjr9nAtVnB+xdoTW4XNM0Qd?=
+ =?Windows-1252?Q?dS97fLDb/t/qX0782GT+I3PsHfQ4UKUNQXbYOEkNvDLasFdmbUIH4Bvi?=
+ =?Windows-1252?Q?zPXO8d0J9OFlDTbLcf4OV7EN7IsVzT0DzYo21xKtaXygVEXtbLXsfL4V?=
+ =?Windows-1252?Q?wP1IGHLPm/uayeDKRtI45z+ha1R2VdIeGrBBfXGm+iLBlLoM3f2zoOdP?=
+ =?Windows-1252?Q?/A0JMufrIDfhMHdKpf4SrHI3dqsGGnMm6yK/2eE3a0Z6ZH1mEMH8roJB?=
+ =?Windows-1252?Q?9i0gp+QkMHdaWbCfy4d1rJC+JN9ZiyrCUj/84UD/+SZRvXWQk4X6/dZC?=
+ =?Windows-1252?Q?sq2G/69czY6kk01fDyD9bm90L8DUH06l8QxNVxo8w1SHgF7WEWxE1p4d?=
+ =?Windows-1252?Q?IDisXXqXnM8L01sD6bEOKQSYz0lECC1EaYT6uncfzqtwijLS9/4OzPnq?=
+ =?Windows-1252?Q?6vqIl6e9Mb6O6hjjcdnt8zmrk7QZ72ZKg0nBdtc4T+r7HTpFFQxixtI/?=
+ =?Windows-1252?Q?GB8XSDT9jY3tzgvCJoXkES3lECYKsBtLEOv+PZPfXHuZSEYyKEMPiQIh?=
+ =?Windows-1252?Q?lz2GHIdXDIqkZ5yv1qIgV2vUZNFarE+c5H2fW9a8nKkcTqYOv8NNRqNa?=
+ =?Windows-1252?Q?8/ICyioouDzRzo+6EFxQFoFybbRGbbNsazWhrx2jdfBV1ABschOIpDyM?=
+ =?Windows-1252?Q?HSCgWzIl9CoUa3ZmleiDKWdSHYWOdJFvt+jpRk6kYXQ1XPnK+ADejjfI?=
+ =?Windows-1252?Q?vZmZBvtFNNi7gQ=3D=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_DU7PPF66507B2D74801DCDBE0149F5394B9F3F72DU7PPF66507B2D7_"
 MIME-Version: 1.0
-References: <20260605120456.130264-1-peter.marko@siemens.com>
- <20260605120456.130264-2-peter.marko@siemens.com> <CAJdd5Gb_oFCfDcn_wQHk6XnJtG3+zMmKruOyqPrpVgYUi0T9AQ@mail.gmail.com>
- <AS8PR10MB50734EC9D7C1456FE1A143B9FD1C2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
- <CAJdd5GbCMsqA_BWmyWSpovu9Cj-ZYvxWrVmj2_p3+c04c5FUsw@mail.gmail.com>
- <AS8PR10MB50731323D15B57740A5A6714FDE82@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
- <CAJdd5GYBAZ5LaUs+nrKrp3o4EweejFgPubnqJzw=ym=hwj9Tpg@mail.gmail.com> <AS8PR10MB507362F79560545D2411C3D7FDE82@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS8PR10MB507362F79560545D2411C3D7FDE82@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Mon, 29 Jun 2026 17:01:35 -0600
-X-Gm-Features: AVVi8Cdl5t3ZSdrL5s-4BpVykb9amfP2oWwadkqweJrp4D3d616DQPdqteCsHxY
-Message-ID: <CAJdd5GaMa-p_xx5oAfQtQEaUiU=ACvvDW5u0_B4C9GUnheBE+w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed packages
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000056671c06556c7101"
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b012e8f-ba0b-4f23-193a-08ded6618346
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2026 04:39:03.5598
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2YyUpAKJagnVoLynDtuzV6PNAzE2jvXXNZEG7OdY3BSV3UM4KmmWmrO2qHif0kh4QtAzUy0t60vvzoizWzEN+dRc3Uk4HfJ1kH5C2WRVzMU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWP189MB2545
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jun 2026 23:01:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239830
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 04:39:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239831
 
---00000000000056671c06556c7101
-Content-Type: text/plain; charset="UTF-8"
+--_000_DU7PPF66507B2D74801DCDBE0149F5394B9F3F72DU7PPF66507B2D7_
+Content-Type: text/plain; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 29, 2026 at 4:55=E2=80=AFPM Marko, Peter <Peter.Marko@siemens.c=
-om>
-wrote:
+Hi Yoann,
 
->
->
->
->
-> *From:* Joshua Watt <jpewhacker@gmail.com>
-> *Sent:* Monday, June 29, 2026 10:03 PM
-> *To:* Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> *Cc:* openembedded-core@lists.openembedded.org
-> *Subject:* Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed packages
->
->
->
->
->
->
->
-> On Mon, Jun 29, 2026 at 6:22=E2=80=AFAM Marko, Peter <Peter.Marko@siemens=
-.com>
-> wrote:
->
->
->
-> > -----Original Message-----
-> > From: Joshua Watt <jpewhacker@gmail.com>
-> > Sent: Friday, June 26, 2026 4:11 PM
-> > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed packages
-> >
-> > On Mon, Jun 8, 2026 at 7:56=E2=80=AFAM Marko, Peter <Peter.Marko@siemen=
-s.com>
-> wrote:
-> > >
-> > >
-> > >
-> > > > -----Original Message-----
-> > > > From: Joshua Watt <jpewhacker@gmail.com>
-> > > > Sent: Friday, June 5, 2026 4:16 PM
-> > > > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
-> > > > Cc: openembedded-core@lists.openembedded.org
-> > > > Subject: Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed
-> packages
-> > > >
-> > > > On Fri, Jun 5, 2026 at 6:05=E2=80=AFAM Peter Marko via
-> lists.openembedded.org
-> > > > <peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
-> > > > >
-> > > > > From: Peter Marko <peter.marko@siemens.com>
-> > > > >
-> > > > > SPDX should not list packages which were removed from rootfs as
-> installed.
-> > > > >
-> > > > > The list of installed packages does not contain them directly, bu=
-t
-> as
-> > > > > dependencies of other installed packages.
-> > > > >
-> > > > > Siwtch them to "other" to keep them in SPDX as part of the build
-> and
-> > > > > installation process.
-> > > >
-> > > > I agree the packages should be removed from the rootfs, but using t=
-he
-> > > > method described.
-> > > >
-> > > > Instead, the list of removed packages should be passed to
-> > > > collect_build_package_inputs(), and anything removed should skip
-> > > > having it's files added to files_by_hash (but, should still be adde=
-d
-> > > > to build_deps, since it is a build dependency).
-> > >
-> > > I have tried several approaches here but all without success until
-> now..
-> > > The problem is that these removed packages are "rdepends" and not
-> "depends".
-> > > Thus in collect_build_package_inputs they are not present yet.
-> > > And even if they would be, the rdepends would anyway add it back late=
-r.
-> > >
-> > > SPDX entries for rdepend clauses are added in expand_collection
-> function.
-> > > I obviously cannot remove the rdepends clause when the recipe sbom is
-> created.
-> > >
-> > > The best approach probably is to remove the rdepends when iterating
-> over sbomx
-> > in expand_collection.
-> > > Would you agree when I try to send a patch in that direction?
-> > > Or do you have any other suggestion?
-> >
-> > That's going to be tricky because you can't just remove the packages;
-> > you also need to remove any reference to the package (e.g. if they are
-> > in a relationship or somewhere else); otherwise the resulting document
-> > will not be fully linked and you'll get errors when creating the SBoM.
-> > For an example of what that would sort of look like, you can look at
-> > the "duplicate" function which is used to replace references to
-> > licenses and CreationInfo with equivalent ones to reduce the document
-> > size.
-> >
-> > But, this is going to complicate an otherwise pretty simple merging
-> > algorithm; I'm just not sure we can currently accurately express what
-> > is going on here (packages being uninstalled at install time), and
-> > until we have a good idea how to express it, I don't want to make it
-> > more confusing by doing something weird (because, then people rely on
-> > the weird behavior and get upset when it changes because we found a
-> > better solution).
-> >
->
-> Little sad that there is currently no clear vision how to handle this
-> scenario in our classes.
-> In case you get a new idea, let me know and I can spend the effort to
-> convert that to a patch.
->
-> I have created https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16336
-> for this so it's not forgotten.
->
->
->
-> I think we will need something like this:
-> https://github.com/spdx/spdx-3-model/pull/1297 but I will see if the SPDX
-> community has a better idea in the next few weeks. Basically the idea wou=
-ld
-> be to add a relationship that indicates that the package was uninstalled
-> from the rootfs, while preserving the runtime dependencies.
->
->
->
-> That however does not help scarthgap/wrynose as it will be in spdx 3.1.0,
-> correct?
->
+I see that status in patch work shows Changes Requested but I didn=92t see =
+any response on this mail thread .
 
-Correct, but if we can figure out it _will_ be done in 3.1, we can
-implement a similar mechanism in 3.0.1 for the older versions using
-extensions etc. I just don't want to make up something that isn't
-expressiable any other way than by custom extensions.
+Can you check
+
+Regards,
+Jaipaul
+________________________________
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of Jaipaul Cheernam via lists.openembedded.org <ja=
+ipaul.cheernam=3Dest.tech@lists.openembedded.org>
+Sent: Wednesday, June 24, 2026 10:34 AM
+To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>
+Cc: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Subject: [OE-core] [scarthgap][PATCH v2] curl: fix CVE-2026-5773 - wrong re=
+use of SMB connection
+
+libcurl's SMB handler marks connections for reuse (connkeep) without
+verifying that subsequent requests target the same share. This allows
+a second SMB request to the same host to reuse a connection
+authenticated for a different share, potentially accessing data
+without proper authorization.
+
+The upstream fix removes connection reuse for SMB entirely in
+lib/protocol.c, a file introduced in curl 8.20.0. For 8.7.1, the
+equivalent fix is changing connkeep() to connclose() in lib/smb.c,
+which prevents the connection from being returned to the pool.
+
+Tested with SMBv1 server (Docker dperson/samba):
+  Without patch: "Re-using existing connection" for different shares
+  With patch: New connection per request, no reuse
+
+Binary verified: Curl_conncontrol arg changes from 0 (KEEP) to 1 (CLOSE)
+
+Reference: https://curl.se/docs/CVE-2026-5773.html
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ .../curl/curl/CVE-2026-5773.patch             | 41 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5773.patch
+
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-5773.patch b/meta/reci=
+pes-support/curl/curl/CVE-2026-5773.patch
+new file mode 100644
+index 0000000000..0a5fa588fe
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-5773.patch
+@@ -0,0 +1,41 @@
++From 74a169575d6412dc0ff532acdf94de35a6c2a571 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Sun, 5 Apr 2026 18:23:35 +0200
++Subject: [PATCH] protocol: disable connection reuse for SMB(S)
++
++Connections should only be reused when using the same "share" (and
++perhaps some additional conditions), but instead of fixing this flaw,
++this change completely disables connection reuse for SMB. This protocol
++is about to get dropped soon anyway.
++
++Reported-by: Osama Hamad
++Closes #21238
++Signed-off-by: Daniel Stenberg <daniel@haxx.se>
++
++CVE: CVE-2026-5773
++Upstream-Status: Backport [https://github.com/curl/curl/commit/74a169575d6=
+412dc0ff532acdf94de35a6c2a571]
++
++Note: The upstream fix targets lib/protocol.c which was introduced in
++curl 8.20.0. In 8.7.1 the equivalent is changing connkeep() to
++connclose() in lib/smb.c, which prevents the connection from being
++returned to the pool. The effect is identical.
++
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ lib/smb.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/lib/smb.c b/lib/smb.c
++index 7c73cbcec..a1f5c9b31 100644
++--- a/lib/smb.c
+++++ b/lib/smb.c
++@@ -461,8 +461,7 @@ static CURLcode smb_connect(struct Curl_easy *data, bo=
+ol *done)
++   if(!smbc->send_buf)
++     return CURLE_OUT_OF_MEMORY;
++
++-  /* Multiple requests are allowed with this connection */
++-  connkeep(conn, "SMB default");
+++  connclose(conn, "SMB default");
++
++   /* Parse the username, domain, and password */
++   slash =3D strchr(conn->user, '/');
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support=
+/curl/curl_8.7.1.bb
+index 14d63d6373..d026731751 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -36,6 +36,7 @@ SRC_URI =3D " \
+     file://CVE-2026-1965-2.patch \
+     file://CVE-2026-3783.patch \
+     file://CVE-2026-3784.patch \
++    file://CVE-2026-5773.patch \
+ "
+
+ SRC_URI:append:class-nativesdk =3D " \
+--
+2.34.1
 
 
->
->
->
-> Peter
->
-> > >
-> > > >
-> > > > This will prevent that rootfs package from "containing" the files f=
-or
-> > > > removed packages, and break the linkage between the rootfs and the
-> > > > removed packages.
-> > > >
-> > > > I'm not exactly sure the reasoning behind changing the type the
-> > > > "other", but we should not be doing that.
-> > >
-> > > Well, "other" because there was no good value for that available in
-> enum
-> > (installation helper).
-> > >
-> > > >
-> > > > >
-> > > > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> > > > > ---
-> > > > >  meta/classes-recipe/create-spdx-image-3.0.bbclass |  7 +++++++
-> > > > >  meta/lib/oe/rootfs.py                             |  6 ++++++
-> > > > >  meta/lib/oe/sbom30.py                             |  8 +++++++-
-> > > > >  meta/lib/oe/spdx30_tasks.py                       | 14
-> +++++++++++++-
-> > > > >  4 files changed, 33 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass
-> b/meta/classes-
-> > > > recipe/create-spdx-image-3.0.bbclass
-> > > > > index 15a91e90e2..dfbd2961b3 100644
-> > > > > --- a/meta/classes-recipe/create-spdx-image-3.0.bbclass
-> > > > > +++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
-> > > > > @@ -6,6 +6,7 @@
-> > > > >  # SPDX image tasks
-> > > > >
-> > > > >  SPDX_ROOTFS_PACKAGES =3D "${SPDXDIR}/rootfs-packages.json"
-> > > > > +SPDX_ROOTFS_REMOVED_PACKAGES =3D "${SPDXDIR}/rootfs-removed-
-> > > > packages.json"
-> > > > >  SPDXIMAGEDEPLOYDIR =3D "${SPDXDIR}/image-deploy"
-> > > > >  SPDXROOTFSDEPLOY =3D "${SPDXDIR}/rootfs-deploy"
-> > > > >
-> > > > > @@ -15,14 +16,20 @@ python spdx_collect_rootfs_packages() {
-> > > > >      from oe.rootfs import image_list_installed_packages
-> > > > >
-> > > > >      root_packages_file =3D Path(d.getVar("SPDX_ROOTFS_PACKAGES")=
-)
-> > > > > +    root_removed_packages_file =3D
-> > > > Path(d.getVar("SPDX_ROOTFS_REMOVED_PACKAGES"))
-> > > > >
-> > > > >      packages =3D image_list_installed_packages(d)
-> > > > >      if not packages:
-> > > > >          packages =3D {}
-> > > > >
-> > > > > +    removed_packages =3D (d.getVar("ROOTFS_REMOVED_PACKAGES") or
-> > > > "").split()
-> > > > > +
-> > > > >      root_packages_file.parent.mkdir(parents=3DTrue, exist_ok=3DT=
-rue)
-> > > > >      with root_packages_file.open("w") as f:
-> > > > >          json.dump(packages, f)
-> > > > > +
-> > > > > +    with root_removed_packages_file.open("w") as f:
-> > > > > +        json.dump(removed_packages, f)
-> > > > >  }
-> > > > >  ROOTFS_POSTUNINSTALL_COMMAND =3D+
-> > "spdx_collect_rootfs_packages"
-> > > > >
-> > > > > diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-> > > > > index 5eee48f587..b8830596ed 100644
-> > > > > --- a/meta/lib/oe/rootfs.py
-> > > > > +++ b/meta/lib/oe/rootfs.py
-> > > > > @@ -261,10 +261,13 @@ class Rootfs(object, metaclass=3DABCMeta):
-> > > > >
-> > > > >
-> > > > >      def _uninstall_unneeded(self):
-> > > > > +        removed_pkgs =3D set()
-> > > > > +
-> > > > >          # Remove the run-postinsts package if no delayed
-> postinsts are found
-> > > > >          delayed_postinsts =3D self._get_delayed_postinsts()
-> > > > >          if delayed_postinsts is None:
-> > > > >              if
-> > > >
-> os.path.exists(self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/init.d/run-
-> > postinsts"))
-> > > > or
-> >
-> os.path.exists(self.d.expand("${IMAGE_ROOTFS}${systemd_system_unitdir}/ru=
-n-
-> > > > postinsts.service")):
-> > > > > +                removed_pkgs.add("run-postinsts")
-> > > > >                  self.pm.remove(["run-postinsts"])
-> > > > >
-> > > > >          image_rorfs =3D bb.utils.contains("IMAGE_FEATURES",
-> "read-only-rootfs",
-> > > > > @@ -285,6 +288,7 @@ class Rootfs(object, metaclass=3DABCMeta):
-> > > > >              # to be uninstalled or to be managed correctly
-> otherwise.
-> > > > >              provider =3D
-> self.d.getVar("VIRTUAL-RUNTIME_update-alternatives")
-> > > > >              pkgs_to_remove =3D sorted([pkg for pkg in
-> pkgs_installed if pkg in
-> > > > unneeded_pkgs], key=3Dlambda x: x =3D=3D provider)
-> > > > > +            removed_pkgs.update(pkgs_to_remove)
-> > > > >
-> > > > >              # update-alternatives provider is removed in its own
-> remove()
-> > > > >              # call because all package managers do not guarantee
-> the packages
-> > > > > @@ -296,6 +300,8 @@ class Rootfs(object, metaclass=3DABCMeta):
-> > > > >              if len(pkgs_to_remove) > 0:
-> > > > >                  self.pm.remove([pkgs_to_remove[-1]], False)
-> > > > >
-> > > > > +        self.d.setVar("ROOTFS_REMOVED_PACKAGES", "
-> > > > ".join(sorted(removed_pkgs)))
-> > > > > +
-> > > > >          if delayed_postinsts:
-> > > > >              self._save_postinsts()
-> > > > >              if image_rorfs:
-> > > > > diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-> > > > > index b379ff947c..4fa32266fa 100644
-> > > > > --- a/meta/lib/oe/sbom30.py
-> > > > > +++ b/meta/lib/oe/sbom30.py
-> > > > > @@ -1122,7 +1122,7 @@ def find_by_spdxid(d, spdxid, *,
-> required=3DFalse):
-> > > > >      return find_jsonld(d, *jsonld_hash_path(hash_id(spdxid)),
-> required=3Drequired)
-> > > > >
-> > > > >
-> > > > > -def create_sbom(d, name, root_elements, add_objectsets=3D[]):
-> > > > > +def create_sbom(d, name, root_elements, add_objectsets=3D[],
-> > > > removed_packages=3D[]):
-> > > > >      objset =3D ObjectSet.new_objset(d, name)
-> > > > >
-> > > > >      sbom =3D objset.add(
-> > > > > @@ -1142,6 +1142,12 @@ def create_sbom(d, name, root_elements,
-> > > > add_objectsets=3D[]):
-> > > > >              + "\n  ".join(sorted(list(missing_spdxids)))
-> > > > >          )
-> > > > >
-> > > > > +    if removed_packages:
-> > > > > +        for pkg in
-> objset.foreach_type(oe.spdx30.software_Package):
-> > > > > +            if pkg.name in removed_packages and
-> pkg.software_primaryPurpose
-> > =3D=3D
-> > > > oe.spdx30.software_SoftwarePurpose.install:
-> > > > > +                pkg.software_primaryPurpose =3D
-> > > > oe.spdx30.software_SoftwarePurpose.other
-> > > > > +                bb.note("Reclassified removed package %s SPDX
-> entry from install
-> > to
-> > > > other" % pkg.name)
-> > > > > +
-> > > > >      # Filter out internal extensions from final SBoMs
-> > > > >      objset.remove_internal_extensions()
-> > > > >
-> > > > > diff --git a/meta/lib/oe/spdx30_tasks.py
-> b/meta/lib/oe/spdx30_tasks.py
-> > > > > index 7cc46d579b..18c68f47de 100644
-> > > > > --- a/meta/lib/oe/spdx30_tasks.py
-> > > > > +++ b/meta/lib/oe/spdx30_tasks.py
-> > > > > @@ -1532,6 +1532,7 @@ def create_image_sbom_spdx(d):
-> > > > >      image_link_name =3D d.getVar("IMAGE_LINK_NAME")
-> > > > >      imgdeploydir =3D Path(d.getVar("SPDXIMAGEDEPLOYDIR"))
-> > > > >      machine =3D d.getVar("MACHINE")
-> > > > > +    root_removed_packages_file =3D
-> > > > Path(d.getVar("SPDX_ROOTFS_REMOVED_PACKAGES"))
-> > > > >
-> > > > >      spdx_path =3D imgdeploydir / (image_name + ".spdx.json")
-> > > > >
-> > > > > @@ -1553,7 +1554,18 @@ def create_image_sbom_spdx(d):
-> > > > >      for o in image_objset.foreach_root(oe.spdx30.software_File):
-> > > > >          root_elements.append(oe.sbom30.get_element_link_id(o))
-> > > > >
-> > > > > -    objset, sbom =3D oe.sbom30.create_sbom(d, image_name,
-> root_elements)
-> > > > > +    try:
-> > > > > +        with root_removed_packages_file.open("r") as f:
-> > > > > +            removed_packages =3D json.load(f)
-> > > > > +    except FileNotFoundError:
-> > > > > +        removed_packages =3D []
-> > > > > +
-> > > > > +    objset, sbom =3D oe.sbom30.create_sbom(
-> > > > > +        d,
-> > > > > +        image_name,
-> > > > > +        root_elements,
-> > > > > +        removed_packages=3Dremoved_packages,
-> > > > > +    )
-> > > > >
-> > > > >      # Set supplier on root elements if SPDX_IMAGE_SUPPLIER is
-> defined
-> > > > >      supplier =3D objset.new_agent("SPDX_IMAGE_SUPPLIER", add=3DF=
-alse)
-> > > > >
-> > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > > > Links: You receive all messages sent to this group.
-> > > > > View/Reply Online (#238166):
-> > https://lists.openembedded.org/g/openembedded-
-> > > > core/message/238166
-> > > > > Mute This Topic:
-> https://lists.openembedded.org/mt/119660891/3616693
-> > > > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > > > Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub
-> > > > [JPEWhacker@gmail.com]
-> > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > > >
->
->
-
---00000000000056671c06556c7101
-Content-Type: text/html; charset="UTF-8"
+--_000_DU7PPF66507B2D74801DCDBE0149F5394B9F3F72DU7PPF66507B2D7_
+Content-Type: text/html; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 29,=
- 2026 at 4:55=E2=80=AFPM Marko, Peter &lt;<a href=3D"mailto:Peter.Marko@sie=
-mens.com">Peter.Marko@siemens.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div class=3D"msg4950663986882234481">
-
-
-
-
-
-<div lang=3D"EN-US" style=3D"overflow-wrap: break-word;">
-<div class=3D"m_4950663986882234481WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div style=3D"border-width:medium medium medium 1.5pt;border-style:none non=
-e none solid;border-color:currentcolor currentcolor currentcolor blue;paddi=
-ng:0cm 0cm 0cm 4pt">
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+</head>
+<body>
+<div style=3D"font-family: inherit; font-size: inherit; color: inherit; bac=
+kground-color: transparent;">
+</div>
+<div style=3D"font-family: inherit; font-size: inherit; color: inherit; bac=
+kground-color: transparent;">
+Hi Yoann,</div>
+<div><br>
+</div>
+<div><span style=3D"color: rgb(0, 0, 0); font-family: Aptos, Aptos_Embedded=
+Font, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ -webkit-text-size-adjust: 100%;">I see that status in patch work shows Cha=
+nges Requested but I didn=92t see any
+ response on this mail thread .&nbsp;</span></div>
+<div><span style=3D"color: rgb(0, 0, 0); font-family: Aptos, Aptos_Embedded=
+Font, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ -webkit-text-size-adjust: 100%;"><br>
+</span></div>
+<div><span style=3D"color: rgb(0, 0, 0); font-family: Aptos, Aptos_Embedded=
+Font, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ -webkit-text-size-adjust: 100%;">Can you check&nbsp;</span></div>
+<div><span style=3D"color: rgb(0, 0, 0); font-family: Aptos, Aptos_Embedded=
+Font, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ -webkit-text-size-adjust: 100%;"><br>
+</span></div>
+<div><span style=3D"color: rgb(0, 0, 0); font-family: Aptos, Aptos_Embedded=
+Font, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ -webkit-text-size-adjust: 100%;">Regards,</span><br>
+</div>
+<div id=3D"editor-signature">
 <div>
-<div style=3D"border-width:1pt medium medium;border-style:solid none none;b=
-order-color:rgb(225,225,225) currentcolor currentcolor;padding:3pt 0cm 0cm"=
+<div style=3D"font-family:Aptos,&quot;Aptos_EmbeddedFont&quot;,&quot;Aptos_=
+MSFontService&quot;,Calibri,Helvetica,sans-serif; font-size:12pt; color:rgb=
+(0,0,0)">
+Jaipaul</div>
+</div>
+</div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
+ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
+alf of Jaipaul Cheernam via lists.openembedded.org
+ &lt;jaipaul.cheernam=3Dest.tech@lists.openembedded.org&gt;<br>
+<b>Sent:</b> Wednesday, June 24, 2026 10:34 AM<br>
+<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;<br>
+<b>Cc:</b> Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
+<b>Subject:</b> [OE-core] [scarthgap][PATCH v2] curl: fix CVE-2026-5773 - w=
+rong reuse of SMB connection</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">libcurl's SMB handler marks connections for reuse =
+(connkeep) without<br>
+verifying that subsequent requests target the same share. This allows<br>
+a second SMB request to the same host to reuse a connection<br>
+authenticated for a different share, potentially accessing data<br>
+without proper authorization.<br>
+<br>
+The upstream fix removes connection reuse for SMB entirely in<br>
+lib/protocol.c, a file introduced in curl 8.20.0. For 8.7.1, the<br>
+equivalent fix is changing connkeep() to connclose() in lib/smb.c,<br>
+which prevents the connection from being returned to the pool.<br>
+<br>
+Tested with SMBv1 server (Docker dperson/samba):<br>
+&nbsp; Without patch: &quot;Re-using existing connection&quot; for differen=
+t shares<br>
+&nbsp; With patch: New connection per request, no reuse<br>
+<br>
+Binary verified: Curl_conncontrol arg changes from 0 (KEEP) to 1 (CLOSE)<br=
 >
-<p class=3D"MsoNormal"><b><span style=3D"font-size:11pt;font-family:&quot;C=
-alibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11pt;font=
--family:&quot;Calibri&quot;,sans-serif"> Joshua Watt &lt;<a href=3D"mailto:=
-jpewhacker@gmail.com" target=3D"_blank">jpewhacker@gmail.com</a>&gt;
 <br>
-<b>Sent:</b> Monday, June 29, 2026 10:03 PM<br>
-<b>To:</b> Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Peter.Marko=
-@siemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;<br>
-<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-<b>Subject:</b> Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed packa=
-ges<u></u><u></u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">On Mon, Jun 29, 2026 at 6:22<span style=3D"font-fami=
-ly:&quot;Arial&quot;,sans-serif">=E2=80=AF</span>AM Marko, Peter &lt;<a hre=
-f=3D"mailto:Peter.Marko@siemens.com" target=3D"_blank">Peter.Marko@siemens.=
-com</a>&gt; wrote:<u></u><u></u></p>
-</div>
-<blockquote style=3D"border-width:medium medium medium 1pt;border-style:non=
-e none none solid;border-color:currentcolor currentcolor currentcolor rgb(2=
-04,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4.8pt;margin-right:0cm">
-<p class=3D"MsoNormal"><br>
+Reference: <a href=3D"https://curl.se/docs/CVE-2026-5773.html">https://curl=
+.se/docs/CVE-2026-5773.html</a><br>
 <br>
-&gt; -----Original Message-----<br>
-&gt; From: Joshua Watt &lt;<a href=3D"mailto:jpewhacker@gmail.com" target=
-=3D"_blank">jpewhacker@gmail.com</a>&gt;<br>
-&gt; Sent: Friday, June 26, 2026 4:11 PM<br>
-&gt; To: Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Peter.Marko@s=
-iemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;<br>
-&gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Subject: Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle removed package=
-s<br>
-&gt; <br>
-&gt; On Mon, Jun 8, 2026 at 7:56<span style=3D"font-family:&quot;Arial&quot=
-;,sans-serif">=E2=80=AF</span>AM Marko, Peter &lt;<a href=3D"mailto:Peter.M=
-arko@siemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt; wrote:<=
-br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; -----Original Message-----<br>
-&gt; &gt; &gt; From: Joshua Watt &lt;<a href=3D"mailto:jpewhacker@gmail.com=
-" target=3D"_blank">jpewhacker@gmail.com</a>&gt;<br>
-&gt; &gt; &gt; Sent: Friday, June 5, 2026 4:16 PM<br>
-&gt; &gt; &gt; To: Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Pet=
-er.Marko@siemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;<br>
-&gt; &gt; &gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.o=
-rg" target=3D"_blank">
-openembedded-core@lists.openembedded.org</a><br>
-&gt; &gt; &gt; Subject: Re: [OE-core] [PATCH 2/2] rootfs,spdx: handle remov=
-ed packages<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; On Fri, Jun 5, 2026 at 6:05<span style=3D"font-family:&quot;=
-Arial&quot;,sans-serif">=E2=80=AF</span>AM Peter Marko via
-<a href=3D"http://lists.openembedded.org" target=3D"_blank">lists.openembed=
-ded.org</a><br>
-&gt; &gt; &gt; &lt;peter.marko=3D<a href=3D"mailto:siemens.com@lists.openem=
-bedded.org" target=3D"_blank">siemens.com@lists.openembedded.org</a>&gt; wr=
-ote:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; From: Peter Marko &lt;<a href=3D"mailto:peter.marko@sie=
-mens.com" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; SPDX should not list packages which were removed from r=
-ootfs as installed.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; The list of installed packages does not contain them di=
-rectly, but as<br>
-&gt; &gt; &gt; &gt; dependencies of other installed packages.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Siwtch them to &quot;other&quot; to keep them in SPDX a=
-s part of the build and<br>
-&gt; &gt; &gt; &gt; installation process.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I agree the packages should be removed from the rootfs, but =
-using the<br>
-&gt; &gt; &gt; method described.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Instead, the list of removed packages should be passed to<br=
+Signed-off-by: Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
+---<br>
+&nbsp;.../curl/curl/CVE-2026-5773.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 41 +++++++++++++++++++<br>
+&nbsp;meta/recipes-support/curl/curl_8.7.1.bb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; |&nbsp; 1 +<br>
+&nbsp;2 files changed, 42 insertions(+)<br>
+&nbsp;create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5773.patch=
+<br>
+<br>
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-5773.patch b/meta/reci=
+pes-support/curl/curl/CVE-2026-5773.patch<br>
+new file mode 100644<br>
+index 0000000000..0a5fa588fe<br>
+--- /dev/null<br>
++++ b/meta/recipes-support/curl/curl/CVE-2026-5773.patch<br>
+@@ -0,0 +1,41 @@<br>
++From 74a169575d6412dc0ff532acdf94de35a6c2a571 Mon Sep 17 00:00:00 2001<br>
++From: Daniel Stenberg &lt;daniel@haxx.se&gt;<br>
++Date: Sun, 5 Apr 2026 18:23:35 +0200<br>
++Subject: [PATCH] protocol: disable connection reuse for SMB(S)<br>
++<br>
++Connections should only be reused when using the same &quot;share&quot; (a=
+nd<br>
++perhaps some additional conditions), but instead of fixing this flaw,<br>
++this change completely disables connection reuse for SMB. This protocol<br=
 >
-&gt; &gt; &gt; collect_build_package_inputs(), and anything removed should =
-skip<br>
-&gt; &gt; &gt; having it&#39;s files added to files_by_hash (but, should st=
-ill be added<br>
-&gt; &gt; &gt; to build_deps, since it is a build dependency).<br>
-&gt; &gt;<br>
-&gt; &gt; I have tried several approaches here but all without success unti=
-l now..<br>
-&gt; &gt; The problem is that these removed packages are &quot;rdepends&quo=
-t; and not &quot;depends&quot;.<br>
-&gt; &gt; Thus in collect_build_package_inputs they are not present yet.<br=
->
-&gt; &gt; And even if they would be, the rdepends would anyway add it back =
-later.<br>
-&gt; &gt;<br>
-&gt; &gt; SPDX entries for rdepend clauses are added in expand_collection f=
-unction.<br>
-&gt; &gt; I obviously cannot remove the rdepends clause when the recipe sbo=
-m is created.<br>
-&gt; &gt;<br>
-&gt; &gt; The best approach probably is to remove the rdepends when iterati=
-ng over sbomx<br>
-&gt; in expand_collection.<br>
-&gt; &gt; Would you agree when I try to send a patch in that direction?<br>
-&gt; &gt; Or do you have any other suggestion?<br>
-&gt; <br>
-&gt; That&#39;s going to be tricky because you can&#39;t just remove the pa=
-ckages;<br>
-&gt; you also need to remove any reference to the package (e.g. if they are=
++is about to get dropped soon anyway.<br>
++<br>
++Reported-by: Osama Hamad<br>
++Closes #21238<br>
++Signed-off-by: Daniel Stenberg &lt;daniel@haxx.se&gt;<br>
++<br>
++CVE: CVE-2026-5773<br>
++Upstream-Status: Backport [<a href=3D"https://github.com/curl/curl/commit/=
+74a169575d6412dc0ff532acdf94de35a6c2a571">https://github.com/curl/curl/comm=
+it/74a169575d6412dc0ff532acdf94de35a6c2a571</a>]<br>
++<br>
++Note: The upstream fix targets lib/protocol.c which was introduced in<br>
++curl 8.20.0. In 8.7.1 the equivalent is changing connkeep() to<br>
++connclose() in lib/smb.c, which prevents the connection from being<br>
++returned to the pool. The effect is identical.<br>
++<br>
++Signed-off-by: Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
++---<br>
++ lib/smb.c | 3 +--<br>
++ 1 file changed, 1 insertion(+), 2 deletions(-)<br>
++<br>
++diff --git a/lib/smb.c b/lib/smb.c<br>
++index 7c73cbcec..a1f5c9b31 100644<br>
++--- a/lib/smb.c<br>
+++++ b/lib/smb.c<br>
++@@ -461,8 +461,7 @@ static CURLcode smb_connect(struct Curl_easy *data, bo=
+ol *done)<br>
++&nbsp;&nbsp; if(!smbc-&gt;send_buf)<br>
++&nbsp;&nbsp;&nbsp;&nbsp; return CURLE_OUT_OF_MEMORY;<br>
++ <br>
++-&nbsp; /* Multiple requests are allowed with this connection */<br>
++-&nbsp; connkeep(conn, &quot;SMB default&quot;);<br>
+++&nbsp; connclose(conn, &quot;SMB default&quot;);<br>
++ <br>
++&nbsp;&nbsp; /* Parse the username, domain, and password */<br>
++&nbsp;&nbsp; slash =3D strchr(conn-&gt;user, '/');<br>
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support=
+/curl/curl_8.7.1.bb<br>
+index 14d63d6373..d026731751 100644<br>
+--- a/meta/recipes-support/curl/curl_8.7.1.bb<br>
++++ b/meta/recipes-support/curl/curl_8.7.1.bb<br>
+@@ -36,6 +36,7 @@ SRC_URI =3D &quot; \<br>
+&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2026-1965-2.patch">file://CV=
+E-2026-1965-2.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2026-3783.patch">file://CVE-=
+2026-3783.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2026-3784.patch">file://CVE-=
+2026-3784.patch</a> \<br>
++&nbsp;&nbsp;&nbsp; <a href=3D"file://CVE-2026-5773.patch">file://CVE-2026-=
+5773.patch</a> \<br>
+&nbsp;&quot;<br>
+&nbsp;<br>
+&nbsp;SRC_URI:append:class-nativesdk =3D &quot; \<br>
+-- <br>
+2.34.1<br>
 <br>
-&gt; in a relationship or somewhere else); otherwise the resulting document=
-<br>
-&gt; will not be fully linked and you&#39;ll get errors when creating the S=
-BoM.<br>
-&gt; For an example of what that would sort of look like, you can look at<b=
-r>
-&gt; the &quot;duplicate&quot; function which is used to replace references=
- to<br>
-&gt; licenses and CreationInfo with equivalent ones to reduce the document<=
-br>
-&gt; size.<br>
-&gt; <br>
-&gt; But, this is going to complicate an otherwise pretty simple merging<br=
->
-&gt; algorithm; I&#39;m just not sure we can currently accurately express w=
-hat<br>
-&gt; is going on here (packages being uninstalled at install time), and<br>
-&gt; until we have a good idea how to express it, I don&#39;t want to make =
-it<br>
-&gt; more confusing by doing something weird (because, then people rely on<=
-br>
-&gt; the weird behavior and get upset when it changes because we found a<br=
->
-&gt; better solution).<br>
-&gt; <br>
-<br>
-Little sad that there is currently no clear vision how to handle this scena=
-rio in our classes.<br>
-In case you get a new idea, let me know and I can spend the effort to conve=
-rt that to a patch.<br>
-<br>
-I have created <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=
-=3D16336" target=3D"_blank">
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16336</a> for this so i=
-t&#39;s not forgotten.<u></u><u></u></p>
-</blockquote>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
 </div>
-<div>
-<p class=3D"MsoNormal">I think we will need something like this:=C2=A0<a hr=
-ef=3D"https://github.com/spdx/spdx-3-model/pull/1297" target=3D"_blank">htt=
-ps://github.com/spdx/spdx-3-model/pull/1297</a> but I will see if the SPDX =
-community has a better idea in the next few weeks. Basically
- the idea would be to add a relationship that indicates that the package wa=
-s uninstalled from the rootfs, while preserving the runtime dependencies.<u=
-></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif">That however does not help scarthgap/wrynose as it will=
- be in spdx 3.1.0, correct?</span></p></div></div></div></div></div></div><=
-/div></blockquote><div><br></div><div>Correct, but if we can figure out it =
-_will_ be done in 3.1, we can implement a similar mechanism in 3.0.1 for th=
-e older versions using extensions etc. I just don&#39;t want to make up som=
-ething that isn&#39;t expressiable any other way than by custom extensions.=
-</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
-iv class=3D"msg4950663986882234481"><div lang=3D"EN-US" style=3D"overflow-w=
-rap: break-word;"><div class=3D"m_4950663986882234481WordSection1"><div sty=
-le=3D"border-width:medium medium medium 1.5pt;border-style:none none none s=
-olid;border-color:currentcolor currentcolor currentcolor blue;padding:0cm 0=
-cm 0cm 4pt"><div><div><div><p class=3D"MsoNormal"><span style=3D"font-size:=
-10pt;font-family:&quot;Arial&quot;,sans-serif"><u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10pt;font-family:&quot;Aria=
-l&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
-</div>
-<blockquote style=3D"border-width:medium medium medium 1pt;border-style:non=
-e none none solid;border-color:currentcolor currentcolor currentcolor rgb(2=
-04,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4.8pt;margin-right:0cm">
-<p class=3D"MsoNormal"><br>
-Peter<br>
-<br>
-&gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; This will prevent that rootfs package from &quot;containing&=
-quot; the files for<br>
-&gt; &gt; &gt; removed packages, and break the linkage between the rootfs a=
-nd the<br>
-&gt; &gt; &gt; removed packages.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I&#39;m not exactly sure the reasoning behind changing the t=
-ype the<br>
-&gt; &gt; &gt; &quot;other&quot;, but we should not be doing that.<br>
-&gt; &gt;<br>
-&gt; &gt; Well, &quot;other&quot; because there was no good value for that =
-available in enum<br>
-&gt; (installation helper).<br>
-&gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.=
-marko@siemens.com" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; ---<br>
-&gt; &gt; &gt; &gt;=C2=A0 meta/classes-recipe/create-spdx-image-3.0.bbclass=
- |=C2=A0 7 +++++++<br>
-&gt; &gt; &gt; &gt;=C2=A0 meta/lib/oe/rootfs.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 6 ++++++<br>
-&gt; &gt; &gt; &gt;=C2=A0 meta/lib/oe/sbom30.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 8 +++++++-<br>
-&gt; &gt; &gt; &gt;=C2=A0 meta/lib/oe/spdx30_tasks.py=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 14 ++++++++=
-+++++-<br>
-&gt; &gt; &gt; &gt;=C2=A0 4 files changed, 33 insertions(+), 2 deletions(-)=
-<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; diff --git a/meta/classes-recipe/create-spdx-image-3.0.=
-bbclass b/meta/classes-<br>
-&gt; &gt; &gt; recipe/create-spdx-image-3.0.bbclass<br>
-&gt; &gt; &gt; &gt; index 15a91e90e2..dfbd2961b3 100644<br>
-&gt; &gt; &gt; &gt; --- a/meta/classes-recipe/create-spdx-image-3.0.bbclass=
-<br>
-&gt; &gt; &gt; &gt; +++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass=
-<br>
-&gt; &gt; &gt; &gt; @@ -6,6 +6,7 @@<br>
-&gt; &gt; &gt; &gt;=C2=A0 # SPDX image tasks<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;=C2=A0 SPDX_ROOTFS_PACKAGES =3D &quot;${SPDXDIR}/rootfs-=
-packages.json&quot;<br>
-&gt; &gt; &gt; &gt; +SPDX_ROOTFS_REMOVED_PACKAGES =3D &quot;${SPDXDIR}/root=
-fs-removed-<br>
-&gt; &gt; &gt; packages.json&quot;<br>
-&gt; &gt; &gt; &gt;=C2=A0 SPDXIMAGEDEPLOYDIR =3D &quot;${SPDXDIR}/image-dep=
-loy&quot;<br>
-&gt; &gt; &gt; &gt;=C2=A0 SPDXROOTFSDEPLOY =3D &quot;${SPDXDIR}/rootfs-depl=
-oy&quot;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; @@ -15,14 +16,20 @@ python spdx_collect_rootfs_packages=
-() {<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 from oe.rootfs import image_list_in=
-stalled_packages<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 root_packages_file =3D Path(d.getVa=
-r(&quot;SPDX_ROOTFS_PACKAGES&quot;))<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 root_removed_packages_file =3D<br>
-&gt; &gt; &gt; Path(d.getVar(&quot;SPDX_ROOTFS_REMOVED_PACKAGES&quot;))<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 packages =3D image_list_installed_p=
-ackages(d)<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 if not packages:<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 packages =3D {}<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 removed_packages =3D (d.getVar(&quot;ROO=
-TFS_REMOVED_PACKAGES&quot;) or<br>
-&gt; &gt; &gt; &quot;&quot;).split()<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 root_packages_file.parent.mkdir(par=
-ents=3DTrue, exist_ok=3DTrue)<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 with root_packages_file.open(&quot;=
-w&quot;) as f:<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 json.dump(packages, f=
-)<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 with root_removed_packages_file.open(&qu=
-ot;w&quot;) as f:<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 json.dump(removed_packages=
-, f)<br>
-&gt; &gt; &gt; &gt;=C2=A0 }<br>
-&gt; &gt; &gt; &gt;=C2=A0 ROOTFS_POSTUNINSTALL_COMMAND =3D+<br>
-&gt; &quot;spdx_collect_rootfs_packages&quot;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs=
-.py<br>
-&gt; &gt; &gt; &gt; index 5eee48f587..b8830596ed 100644<br>
-&gt; &gt; &gt; &gt; --- a/meta/lib/oe/rootfs.py<br>
-&gt; &gt; &gt; &gt; +++ b/meta/lib/oe/rootfs.py<br>
-&gt; &gt; &gt; &gt; @@ -261,10 +261,13 @@ class Rootfs(object, metaclass=3D=
-ABCMeta):<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 def _uninstall_unneeded(self):<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 removed_pkgs =3D set()<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Remove the run-post=
-insts package if no delayed postinsts are found<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 delayed_postinsts =3D=
- self._get_delayed_postinsts()<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if delayed_postinsts =
-is None:<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if<br>
-&gt; &gt; &gt; os.path.exists(self.d.expand(&quot;${IMAGE_ROOTFS}${sysconfd=
-ir}/init.d/run-<br>
-&gt; postinsts&quot;))<br>
-&gt; &gt; &gt; or<br>
-&gt; os.path.exists(self.d.expand(&quot;${IMAGE_ROOTFS}${systemd_system_uni=
-tdir}/run-<br>
-&gt; &gt; &gt; postinsts.service&quot;)):<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 removed_pkgs.add(&quot;run-postinsts&quot;)<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 self.pm.remove([&quot;run-postinsts&quot;])<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 image_rorfs =3D bb.ut=
-ils.contains(&quot;IMAGE_FEATURES&quot;, &quot;read-only-rootfs&quot;,<br>
-&gt; &gt; &gt; &gt; @@ -285,6 +288,7 @@ class Rootfs(object, metaclass=3DAB=
-CMeta):<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # to be=
- uninstalled or to be managed correctly otherwise.<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 provide=
-r =3D self.d.getVar(&quot;VIRTUAL-RUNTIME_update-alternatives&quot;)<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgs_to=
-_remove =3D sorted([pkg for pkg in pkgs_installed if pkg in<br>
-&gt; &gt; &gt; unneeded_pkgs], key=3Dlambda x: x =3D=3D provider)<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 removed_pkgs=
-.update(pkgs_to_remove)<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # updat=
-e-alternatives provider is removed in its own remove()<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # call =
-because all package managers do not guarantee the packages<br>
-&gt; &gt; &gt; &gt; @@ -296,6 +300,8 @@ class Rootfs(object, metaclass=3DAB=
-CMeta):<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(=
-pkgs_to_remove) &gt; 0:<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 self.pm.remove([pkgs_to_remove[-1]], False)<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.d.setVar(&quot;ROOTFS=
-_REMOVED_PACKAGES&quot;, &quot;<br>
-&gt; &gt; &gt; &quot;.join(sorted(removed_pkgs)))<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if delayed_postinsts:=
-<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._s=
-ave_postinsts()<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if imag=
-e_rorfs:<br>
-&gt; &gt; &gt; &gt; diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30=
-.py<br>
-&gt; &gt; &gt; &gt; index b379ff947c..4fa32266fa 100644<br>
-&gt; &gt; &gt; &gt; --- a/meta/lib/oe/sbom30.py<br>
-&gt; &gt; &gt; &gt; +++ b/meta/lib/oe/sbom30.py<br>
-&gt; &gt; &gt; &gt; @@ -1122,7 +1122,7 @@ def find_by_spdxid(d, spdxid, *, =
-required=3DFalse):<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 return find_jsonld(d, *jsonld_hash_=
-path(hash_id(spdxid)), required=3Drequired)<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; -def create_sbom(d, name, root_elements, add_objectsets=
-=3D[]):<br>
-&gt; &gt; &gt; &gt; +def create_sbom(d, name, root_elements, add_objectsets=
-=3D[],<br>
-&gt; &gt; &gt; removed_packages=3D[]):<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 objset =3D ObjectSet.new_objset(d, =
-name)<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 sbom =3D objset.add(<br>
-&gt; &gt; &gt; &gt; @@ -1142,6 +1142,12 @@ def create_sbom(d, name, root_el=
-ements,<br>
-&gt; &gt; &gt; add_objectsets=3D[]):<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 + &quot=
-;\n=C2=A0 &quot;.join(sorted(list(missing_spdxids)))<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 if removed_packages:<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for pkg in objset.foreach_=
-type(oe.spdx30.software_Package):<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if <a href=
-=3D"http://pkg.name" target=3D"_blank">pkg.name</a> in removed_packages and=
- pkg.software_primaryPurpose<br>
-&gt; =3D=3D<br>
-&gt; &gt; &gt; oe.spdx30.software_SoftwarePurpose.install:<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 pkg.software_primaryPurpose =3D<br>
-&gt; &gt; &gt; oe.spdx30.software_SoftwarePurpose.other<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 bb.note(&quot;Reclassified removed package %s SPDX entry from install<b=
-r>
-&gt; to<br>
-&gt; &gt; &gt; other&quot; % <a href=3D"http://pkg.name" target=3D"_blank">=
-pkg.name</a>)<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 # Filter out internal extensions fr=
-om final SBoMs<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 objset.remove_internal_extensions()=
-<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/=
-spdx30_tasks.py<br>
-&gt; &gt; &gt; &gt; index 7cc46d579b..18c68f47de 100644<br>
-&gt; &gt; &gt; &gt; --- a/meta/lib/oe/spdx30_tasks.py<br>
-&gt; &gt; &gt; &gt; +++ b/meta/lib/oe/spdx30_tasks.py<br>
-&gt; &gt; &gt; &gt; @@ -1532,6 +1532,7 @@ def create_image_sbom_spdx(d):<br=
->
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 image_link_name =3D d.getVar(&quot;=
-IMAGE_LINK_NAME&quot;)<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 imgdeploydir =3D Path(d.getVar(&quo=
-t;SPDXIMAGEDEPLOYDIR&quot;))<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 machine =3D d.getVar(&quot;MACHINE&=
-quot;)<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 root_removed_packages_file =3D<br>
-&gt; &gt; &gt; Path(d.getVar(&quot;SPDX_ROOTFS_REMOVED_PACKAGES&quot;))<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 spdx_path =3D imgdeploydir / (image=
-_name + &quot;.spdx.json&quot;)<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; @@ -1553,7 +1554,18 @@ def create_image_sbom_spdx(d):<b=
-r>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 for o in image_objset.foreach_root(=
-oe.spdx30.software_File):<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 root_elements.append(=
-oe.sbom30.get_element_link_id(o))<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; -=C2=A0 =C2=A0 objset, sbom =3D oe.sbom30.create_sbom(d=
-, image_name, root_elements)<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 try:<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 with root_removed_packages=
-_file.open(&quot;r&quot;) as f:<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 removed_pack=
-ages =3D json.load(f)<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 except FileNotFoundError:<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 removed_packages =3D []<br=
->
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 objset, sbom =3D oe.sbom30.create_sbom(<=
-br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 d,<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_name,<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 root_elements,<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 removed_packages=3Dremoved=
-_packages,<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 )<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 # Set supplier on root elements if =
-SPDX_IMAGE_SUPPLIER is defined<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 supplier =3D objset.new_agent(&quot=
-;SPDX_IMAGE_SUPPLIER&quot;, add=3DFalse)<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt; &gt; &gt; Links: You receive all messages sent to this group.<br>
-&gt; &gt; &gt; &gt; View/Reply Online (#238166):<br>
-&gt; <a href=3D"https://lists.openembedded.org/g/openembedded-" target=3D"_=
-blank">https://lists.openembedded.org/g/openembedded-</a><br>
-&gt; &gt; &gt; core/message/238166<br>
-&gt; &gt; &gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.=
-org/mt/119660891/3616693" target=3D"_blank">
-https://lists.openembedded.org/mt/119660891/3616693</a><br>
-&gt; &gt; &gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowne=
-r@lists.openembedded.org" target=3D"_blank">
-openembedded-core+owner@lists.openembedded.org</a><br>
-&gt; &gt; &gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/=
-g/openembedded-core/unsub" target=3D"_blank">
-https://lists.openembedded.org/g/openembedded-core/unsub</a><br>
-&gt; &gt; &gt; [<a href=3D"mailto:JPEWhacker@gmail.com" target=3D"_blank">J=
-PEWhacker@gmail.com</a>]<br>
-&gt; &gt; &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt; &gt; &gt;<u></u><u></u></p>
-</blockquote>
-</div>
-</div>
-</div>
-</div>
-</div>
+</span></font></div>
+</body>
+</html>
 
-</div></blockquote></div></div>
-
---00000000000056671c06556c7101--
+--_000_DU7PPF66507B2D74801DCDBE0149F5394B9F3F72DU7PPF66507B2D7_--
 
