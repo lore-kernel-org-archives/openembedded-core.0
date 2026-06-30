@@ -1,1048 +1,696 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AC7AC43458
-	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 17:01:15 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25912.1782838865582833520
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90C22C43327
+	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 17:11:55 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.26139.1782839511050262035
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2026 10:01:06 -0700
+ Tue, 30 Jun 2026 10:11:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=0XJlhhfU;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493be1b9682so1604305e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 10:01:05 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=X9vvtiIf;
+ spf=pass (domain: mvista.com, ip: 209.85.218.42, mailfrom: vanusuri@mvista.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c08acccf4a4so667163866b.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 10:11:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782839509; cv=none;
+        d=google.com; s=arc-20260327;
+        b=IupfTcwnKToe/A3vdsQSPdN7Dc71gtOlTaNMUB9zbmbeJiWxfHVovhnJrQRHKqcyao
+         NOYlM3h8ql7glK0y9mHQwM/8z8wVsud+jQ7qud2d4LtK4PgGNrINgPCoHjQQEZ2YmFqi
+         mIj+pRvq/AbzSpfzOovzAqkp1YvX7vSiDWlJq+gIs+bvutrHMQQ/ScaZ1wlyuhvh7cEn
+         Zn096p9J+DlMAENpUce0iFHIhjrPW6T9s3ZUy51ZSTjLy3dju/O1uVjmkfw0rAYbh/Aw
+         Lcln/Lm/yMH4j6mmPxI8f03Tevwt08Ginu4oAphGMbpljByx+/rMKLV6f03chsIesQs6
+         7Nxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=u77ejUNo6KZxy+B3uPnQnSZxoXgU8tufYzbEXT5JLL8=;
+        fh=N647RZAEAq0QEJ6mmY353qVQ3BU40Lxqmqa1Uk4oRhw=;
+        b=g9m2xSXuz3JAKffQbdKKGgvrAkxMeeWPXCbzpD35vyg6hfXKRYAMs3D4tdA14Z9dj5
+         Hk/RWSUbC0HmBH+zB0W6V0vpy+fuaaW9kAJRjiInh1stjPEaTm0Huc6CUWi3g3fPn3sA
+         hhEF4STiqRKqheAcRsadYIH+ncU+6xI8KtySB3T1fQB8LTcycdEknNFaTgJ6AFTsERjK
+         VCDb9qFIfF/XC1fu5ZcroXQd6zLCweAF9wtwWTccaFp3bRA461fQM4LJe8wQd2Lls6zY
+         PcwYwcBM/x3okGYlLPqC3ZzWzhw2/AEexOFSeyOr29XC1wrzXVJWzgOy70zLrXi8+DvL
+         DWGw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782838864; x=1783443664; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5MsXSsLm37Sbbc/98NFWFNHxOgfzlTMRoqVjhXtiq0Q=;
-        b=0XJlhhfUXcEYbXdw79drsernCz6Z0MJmH16G32ZVx6zw2fNhStxKn5RAFaWfCBPtL5
-         GuOR04Wp5X3SltwFnOk9J/NNORFQ4zZ3OZ7JioiX+QbjjZ/QXF01buMZ7z2/sRNzDhhV
-         dsNOOBMwt9h/wqFcLFf+VIYDPhpuHrImaqQ1A=
+        d=mvista.com; s=google; t=1782839509; x=1783444309; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=u77ejUNo6KZxy+B3uPnQnSZxoXgU8tufYzbEXT5JLL8=;
+        b=X9vvtiIfJ3WqC+75U5oobGB3kZR5dN26V3PtcfGY1N7XZB3ZY29gUboK693vYFEqGK
+         qQljrFXcfRCh2J/tjMtK3YB5m+G1mLZULVW9gdHLH8qg4/6v90TZoflp/1pGd5DLL4oY
+         ExQT+ar8qA78Syu0UsTXCm2rKDWtTiEO08MuU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782838864; x=1783443664;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5MsXSsLm37Sbbc/98NFWFNHxOgfzlTMRoqVjhXtiq0Q=;
-        b=ZLUlywjpC4bM2IC1wIyxOG0yRrPEO0hMNvoh3Z5m9KyW6rXrOJJ06vD2yS/nYvC/YS
-         tV0xlvdejPj6fDUmjen7B0YDCgZZWYRsQbV+E2K5zf8L35qUzF5ZsyhnWxKGOKtT2iNS
-         qeuC7RwCpHT2j0vOf3Q7zVnx46jPhQaybIfUbOTS84hJzYmthX7z1i9X04vOHux9Mxmc
-         7ZnLHan+WiWYRbt0z+Gy+fpelOusntQnfDl/D1xPcVFFYcKhqU/fqb8J2gnWeGe7XB3d
-         ud9uYTxfADqlxFZLOMoRhjkitkHAVUJkQeA5LmfUEh431gzw1Tmo6f9/jyp80wVLY4jy
-         5Jeg==
-X-Forwarded-Encrypted: i=1; AFNElJ/XU0g7pkxsNK9SJeDtGwLJn2jwWZxQNFtl1dHAE4w+SK3JDaFE7hMqZlmhNTpaK2+v4rSdqe+VcJfjULjC4fThjw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzMmCj3vjTJKbwMb/sVSlJRAQIaHE9wh03TOFC3HMz2Cfq/gH/v
-	HyJObV7UZT2mCtKRl4s81tRCW1RtHly2oH4/9o0WbIyMJpD8efzeRt5cD8pm2G5JKTU=
-X-Gm-Gg: AfdE7cmOB1R4izqHwzoFulXs4ezbIjfLzU7H3/rhMmzlnmj/0zQ1HqVLVWxjrak2qpz
-	58TdKw0vfAhBOJpIOoFYQhOWiktPoLOIwHQeW1M3G1sv68ZgNzwil9AUOdjCtxHhoaBB+izqIHB
-	TAm42x7pVY/vLZVL3RHjJ7E60m3QXLaLcA5gYZqRdSUM0j173tTNXD9TcVX8AIWw7ZsRYzC/cQ7
-	EBMfEHhv/3I3d0mdtS6xAkImxisL3Ue3SSlyPrI+wjgxrOv7dzYHyxNqkWQXvCDd/etRC6LWhww
-	mY71+Heyo7OyNtGcRYhOKzeBcsi0nhnwY8yaY3b4L3thgtcdpNAIYjnwhn6z0TkYwyb2KdHF4hk
-	dYXAee7Gyea8EefT/x5Ou6skFoekTkXq39nMUkMeAxAnHGOfmJ85m8VsaQjVMnftR2VykC5BxCg
-	q1uuRB/byCYtEwcrEfjy9K2uPqc+IEJPjuJCN/+CHO43YH76PtZ2GopcHU+qf8EdY2Vnb9jDKLL
-	AF1ACVwUxQGFf7j
-X-Received: by 2002:a05:600c:3546:b0:492:6113:d4fc with SMTP id 5b1f17b1804b1-493b82ad209mr65261355e9.17.1782838863301;
-        Tue, 30 Jun 2026 10:01:03 -0700 (PDT)
-Received: from localhost (2a01cb001331aa0041d7d5fc68d4e77b.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:41d7:d5fc:68d4:e77b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493be4c7f90sm8602355e9.2.2026.06.30.10.01.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2026 10:01:02 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 30 Jun 2026 19:01:02 +0200
-Message-Id: <DJMJMQLPT6XT.3N7DDSPUVEBY0@smile.fr>
-Subject: Re: [OE-core] [PATCH] gnutls: fix CVE-2026-33846
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <Randy.MacLeod@windriver.com>, <Yi.Zhao@windriver.com>,
- <Shiva.Komati@windriver.com>, <Qi.Chen@windriver.com>,
- <Libo.Chen.CN@windriver.com>, <Jinfeng.Wang.CN@windriver.com>,
- <Shailesh.Masih@windriver.com>, <Tomas.Holmberg@windriver.com>,
- <Haixiao.Yan.CN@windriver.com>
-To: <PritamSrichandan.Sahoo@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260629050225.2061089-1-PritamSrichandan.Sahoo@windriver.com>
-In-Reply-To: <20260629050225.2061089-1-PritamSrichandan.Sahoo@windriver.com>
+        d=1e100.net; s=20251104; t=1782839509; x=1783444309;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u77ejUNo6KZxy+B3uPnQnSZxoXgU8tufYzbEXT5JLL8=;
+        b=mZzRM5ZKZnY6IJib5kxY5gkTh8+ynzGed4IKnccZAEj4aRdHH8QtExkEYxRX0Byrp3
+         venefk2An9Zggi7qacHcuEpQ97C0eh4o+qXmvCW67j8+yc11cRhp1PwoDjqdgKzlfSf8
+         pcT4NTOXfvGkUmWrxRgo4xuOI7q+1hDdHQBa2h1JYD7T5NFAppIGLBf8wupCL6r60AwD
+         9V3pWZRuoQWIRE6gMAirkFuVnBWLDzd4nuT7PelNffG2zS6ZMx+y99zlaUuJNvAJg1c7
+         TWNwVYJhD5VkVgKsgkSoOp9DT3Y/NtBAmZL++mo+26eIZhJ6kb1V9Uj0/XnRMyXKPCAQ
+         gTCA==
+X-Gm-Message-State: AOJu0YzvnmsC4MhJdQ3LcXco0Y4dmXHC04nwdp9LfLrCiJOpsnI0eSEl
+	fXb7f3COPkJvMtjuFKYwRIGc7RZlwZDOK+A1JUfqi1DmaCsFdqmgrVHx8r3D0uxC59wQ/BCWIVa
+	EIZug37LidyTpFC4r5MZSg3mkdVhETp3g1tXx2awsYXDMJN3yhxXxQfA=
+X-Gm-Gg: AfdE7cmPYHCQ9rvPFnQw++DL1utxdFdt9Xfz10J3LDQHkAx9jqh4kZbyGWbbAOMwwLf
+	C0bwsMK+3vldlsFPT4IMtcTjx+RiFOT9btmEPe5HxILIRnZ14dC8lHCrdlKLQ8Q7wmbotdydOCy
+	YchiHjbdNgU8YA/ekQMQIic4H51FNf7cq55eOKxeqUcRylSVTnQjTgnhgvw5f3HPzYMfXXCiyAh
+	8A8ktoi9D/4n2ZhGchHjCKaGd8iP4L815r0mi8obkJpiis6c1aHanSYicGa26ZCJd0suF8GlMJA
+	hlh3zVUdLrHv45/UBp97US2V2o0Gp0g=
+X-Received: by 2002:a17:907:c24:b0:c12:63d6:d287 with SMTP id
+ a640c23a62f3a-c12872f5a77mr214700966b.42.1782839508901; Tue, 30 Jun 2026
+ 10:11:48 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260629071648.1471849-1-vanusuri@mvista.com>
+In-Reply-To: <20260629071648.1471849-1-vanusuri@mvista.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Tue, 30 Jun 2026 22:41:37 +0530
+X-Gm-Features: AVVi8CdXLSHj5lV46L76eBvMkKFTg8haxuGbpcTT2v96KYw2hIdvDsjJ0BO7ico
+Message-ID: <CANQUz1-0nv9S0QiempdvvcuxUwS2OMY14d=NjPhgvMp18vUMXA@mail.gmail.com>
+Subject: Re: [OE-core][wrynose][patch] gnutls: upgrade 3.8.12 -> 3.8.13
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="0000000000009eb6ee06557babeb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 17:01:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239909
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 17:11:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239910
 
-On Mon Jun 29, 2026 at 7:02 AM CEST, Pritam Srichandan Sahoo via lists.open=
-embedded.org wrote:
-> Backport upstream fixes for DTLS handshake fragment reassembly
-> vulnerability (CVE-2026-33846).
+--0000000000009eb6ee06557babeb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Yoann,
+
+Any update on this ?
+
+Thanks & Regards,
+Vijay
+
+On Mon, Jun 29, 2026 at 12:46=E2=80=AFPM Vijay Anusuri <vanusuri@mvista.com=
+> wrote:
+
+> From: Peter Marko <peter.marko@siemens.com>
 >
-> Includes:
-> - 4f94e5cfe1f2: add basic DTLS fragment reassembly test
-> - 9deffca528c2: shorten merge_handshake_packet using recv_buf
-> - 65ab33fa54e3: add validation checks for DTLS fragment length and bounds
-> - cf3f1955e58c: add reproducer for DTLS fragment reassembly bug (#1816)
-> - bb427ff74dba: add fragmented ClientHello test coverage
-> - 092c65d004e2: match DTLS datagrams by handshake sequence number
-> - a2b41be83a1a: add test for mismatched message_seq handling (#1839)
+> Solves CVE-2026-33846, CVE-2026-42009, CVE-2026-33845, CVE-2026-42010,
+> CVE-2026-3833, CVE-2026-42011, CVE-2026-42012, CVE-2026-42013,
+> CVE-2026-42014, CVE-2026-5260, CVE-2026-42015, CVE-2026-3832 and
+> CVE-2026-5419.
 >
-> These commits are included in gnutls 3.8.13 and are backported by
-> both Debian (gnutls28_3.8.9-3+deb13u4) and CentOS 10-stream
-> (gnutls-3.8.10-4.el10) using identical commit selection.
+> Release notes: [1]
 >
-> Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.=
-com>"
+> Rebase patches and drop patch included in this release.
+> Add patches to fix linking with musl libc.
+> Increase memory needed to successfully run test key-openssl.
+> Drop code for previous release tarball problem.
+>
+> [1] https://github.com/gnutls/gnutls/blob/3.8.13/NEWS
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 1193b0778a0f81bd75f7ec6f8f44fa44cf4b8f5e)
+> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 > ---
-
-Hello,
-
-looks like it breaks musl build:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/109/builds/643/st=
-eps/12/logs/stdio (line 18053)
-
-Can you check please?
-
-Thanks!
-
->  .../gnutls/gnutls/CVE-2026-33846.patch        | 862 ++++++++++++++++++
->  meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   1 +
->  2 files changed, 863 insertions(+)
->  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-33846.pat=
-ch
+>  meta/recipes-core/images/core-image-ptest.bb  |  1 +
+>  ...ts-mini-dtls-framents-link-to-gnulib.patch | 25 +++++++++++
+>  ...ust-list-fault-fix-issues-in-linking.patch | 31 ++++++++++++++
+>  .../gnutls/gnutls/Add-ptest-support.patch     |  4 +-
+>  meta/recipes-support/gnutls/gnutls/c99.patch  | 41 -------------------
+>  .../{gnutls_3.8.12.bb =3D> gnutls_3.8.13.bb}    |  9 ++--
+>  6 files changed, 62 insertions(+), 49 deletions(-)
+>  create mode 100644
+> meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link-to-=
+gnulib.patch
+>  create mode 100644
+> meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault-fix=
+-issues-in-linking.patch
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/c99.patch
+>  rename meta/recipes-support/gnutls/{gnutls_3.8.12.bb =3D> gnutls_3.8.13.=
+bb}
+> (93%)
 >
-> diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch b/me=
-ta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch
+> diff --git a/meta/recipes-core/images/core-image-ptest.bb
+> b/meta/recipes-core/images/core-image-ptest.bb
+> index c08561296f..008b5770a8 100644
+> --- a/meta/recipes-core/images/core-image-ptest.bb
+> +++ b/meta/recipes-core/images/core-image-ptest.bb
+> @@ -39,6 +39,7 @@ QB_MEM:virtclass-mcextend-python3 =3D "-m 2048"
+>  QB_MEM:virtclass-mcextend-python3-cryptography =3D "-m 5100"
+>  QB_MEM:virtclass-mcextend-python3-numpy =3D "-m 4096"
+>  QB_MEM:virtclass-mcextend-tcl =3D "-m 5100"
+> +QB_MEM:virtclass-mcextend-gnutls =3D "-m 1536"
+>
+>  TEST_SUITES =3D "ping ssh parselogs ptest"
+>
+> diff --git
+> a/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link-t=
+o-gnulib.patch
+> b/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link-t=
+o-gnulib.patch
 > new file mode 100644
-> index 0000000000..5c85a531b3
+> index 0000000000..7f999c4b22
 > --- /dev/null
-> +++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch
-> @@ -0,0 +1,862 @@
-> +From 4f94e5cfe1f252a431e41642b0752e7e0daf43b9 Mon Sep 17 00:00:00 2001
+> +++
+> b/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link-t=
+o-gnulib.patch
+> @@ -0,0 +1,25 @@
+> +From 68b2fb63c8df61d1480121a859f8c955f4910c01 Mon Sep 17 00:00:00 2001
 > +From: Alexander Sosedkin <asosedkin@redhat.com>
-> +Date: Fri, 20 Mar 2026 16:09:40 +0100
-> +Subject: [PATCH 1/7] tests/mini-dtls-fragments: implement a basic DTLS t=
-est
+> +Date: Thu, 30 Apr 2026 13:08:01 +0200
+> +Subject: [PATCH] tests/mini-dtls-framents: link to gnulib
 > +
-> +Upstream-Status: Backport
-> +[1] https://gitlab.com/gnutls/gnutls/-/commit/4f94e5cfe1f252a431e41642b0=
-752e7e0daf43b9
-> +[2] https://gitlab.com/gnutls/gnutls/-/commit/9deffca528c23bbb218f5ec3bd=
-4bb1bf4cbd1fc0
-> +[3] https://gitlab.com/gnutls/gnutls/-/commit/65ab33fa54e34fba69d793735b=
-7df3d383d1ff78
-> +[4] https://gitlab.com/gnutls/gnutls/-/commit/cf3f1955e58cbcc10373b841bb=
-101fb058565d87
-> +[5] https://gitlab.com/gnutls/gnutls/-/commit/bb427ff74dba849d40753ed9c8=
-511e873f762743
-> +[6] https://gitlab.com/gnutls/gnutls/-/commit/092c65d004e2f125f2fea3db84=
-d801ac49a09f78
-> +[7] https://gitlab.com/gnutls/gnutls/-/commit/a2b41be83a1a3529c551ccf549=
-58da91a656550e
-> +
-> +CVE: CVE-2026-33846
 > +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-> +Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver=
-.com>
+> +
+> +Upstream-Status: Backport [
+> https://github.com/gnutls/gnutls/commit/68b2fb63c8df61d1480121a859f8c955f=
+4910c01
+> ]
+> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 > +---
-> + tests/Makefile.am           |   7 +-
-> + tests/mini-dtls-fragments.c | 208 ++++++++++++++++++++++++++++++++++++
-> + 2 files changed, 214 insertions(+), 1 deletion(-)
-> + create mode 100644 tests/mini-dtls-fragments.c
+> + tests/Makefile.am | 1 +
+> + 1 file changed, 1 insertion(+)
 > +
 > +diff --git a/tests/Makefile.am b/tests/Makefile.am
-> +index aeeaaf79d..586f1952d 100644
+> +index f8797964d..1b27df751 100644
 > +--- a/tests/Makefile.am
 > ++++ b/tests/Makefile.am
-> +@@ -241,7 +241,8 @@ ctests +=3D mini-record-2 simple gnutls_hmac_fast se=
-t_pkcs12_cred cert certuniquei
-> + 	 x509cert-dntypes id-on-xmppAddr tls13-compat-mode ciphersuite-name \
-> + 	 x509-upnconstraint xts-key-check cipher-padding pkcs7-verify-double-f=
-ree \
-> + 	 fips-rsa-sizes tls12-rehandshake-ticket pathbuf tls-force-ems \
-> +-	 psk-importer privkey-derive dh-compute2 ecdh-compute2
-> ++	 psk-importer privkey-derive dh-compute2 ecdh-compute2 \
-> ++	 mini-dtls-fragments
-> +=20
-> + ctests +=3D tls-channel-binding
-> +=20
-> +@@ -513,6 +514,10 @@ pathbuf_CPPFLAGS =3D $(AM_CPPFLAGS) \
-> + 	-I$(top_srcdir)/gl	\
-> + 	-I$(top_builddir)/gl
-> +=20
-> ++mini_dtls_fragments_CPPFLAGS =3D $(AM_CPPFLAGS) \
-> ++	-I$(top_srcdir)/gl	\
-> ++	-I$(top_builddir)/gl
-> ++
+> +@@ -524,6 +524,7 @@ pathbuf_CPPFLAGS =3D $(AM_CPPFLAGS) \
+> + mini_dtls_fragments_CPPFLAGS =3D $(AM_CPPFLAGS) \
+> +       -I$(top_srcdir)/gl      \
+> +       -I$(top_builddir)/gl
+> ++mini_dtls_fragments_LDADD =3D $(LDADD) ../gl/libgnu.la
+> +
 > + if ENABLE_PKCS11
 > + if !WINDOWS
-> + ctests +=3D tls13/post-handshake-with-cert-pkcs11 pkcs11/tls-neg-pkcs11=
--no-key \
-> +diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
-> +new file mode 100644
-> +index 000000000..ee75feeb6
-> +--- /dev/null
-> ++++ b/tests/mini-dtls-fragments.c
-> +@@ -0,0 +1,208 @@
-> ++/*
-> ++ * Copyright (C) 2026 Red Hat, Inc.
-> ++ *
-> ++ * Author: Alexander Sosedkin
-> ++ *
-> ++ * This file is part of GnuTLS.
-> ++ *
-> ++ * GnuTLS is free software; you can redistribute it and/or modify it
-> ++ * under the terms of the GNU General Public License as published by
-> ++ * the Free Software Foundation; either version 3 of the License, or
-> ++ * (at your option) any later version.
-> ++ *
-> ++ * GnuTLS is distributed in the hope that it will be useful, but
-> ++ * WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> ++ * General Public License for more details.
-> ++ *
-> ++ * You should have received a copy of the GNU Lesser General Public Lic=
-ense
-> ++ * along with this program.  If not, see <https://www.gnu.org/licenses/=
+> diff --git
+> a/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault-f=
+ix-issues-in-linking.patch
+> b/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault-f=
+ix-issues-in-linking.patch
+> new file mode 100644
+> index 0000000000..b15a05d5b6
+> --- /dev/null
+> +++
+> b/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault-f=
+ix-issues-in-linking.patch
+> @@ -0,0 +1,31 @@
+> +From 9c573a2a0e7473ab79c43a6d3ecb0ab68ce896dc Mon Sep 17 00:00:00 2001
+> +From: Daiki Ueno <ueno@gnu.org>
+> +Date: Thu, 7 May 2026 09:42:09 +0900
+> +Subject: [PATCH] tests/pkcs11/trust-list-fault: fix issues in linking
+> +
+> +This fixes the use of automake variables and also adds the linked mock
+> +library in .gitignore.
+> +
+> +Signed-off-by: Daiki Ueno <ueno@gnu.org>
+> +
+> +Upstream-Status: Backport [
+> https://github.com/gnutls/gnutls/commit/9c573a2a0e7473ab79c43a6d3ecb0ab68=
+ce896dc
+> ]
+> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> +---
+> + tests/Makefile.am | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/tests/Makefile.am b/tests/Makefile.am
+> +index 1b27df751..f6a60a32b 100644
+> +--- a/tests/Makefile.am
+> ++++ b/tests/Makefile.am
+> +@@ -540,8 +540,8 @@ pkcs11_os_locking_ok_DEPENDENCIES =3D libpkcs11mock4=
+.la
+> libutils.la
+> + pkcs11_os_locking_ok_LDADD =3D $(LDADD) $(LIBDL)
+> + pkcs11_long_label_DEPENDENCIES =3D libpkcs11mock4.la libutils.la
+> + pkcs11_long_label_LDADD =3D $(LDADD) $(LIBDL)
+> +-pkcs11_trust_fault_DEPENDENCIES =3D libpkcs11mock5.la libutils.la
+> +-pkcs11_trust_fault_LDADD =3D $(LDADD) $(LIBDL)
+> ++pkcs11_trust_list_fault_DEPENDENCIES =3D libpkcs11mock5.la libutils.la
+> ++pkcs11_trust_list_fault_LDADD =3D $(LDADD) $(LIBDL)
+> + endif
+> + endif
+> +
+> diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
+> b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
+> index 398c0464e0..8c867a5a40 100644
+> --- a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
+> +++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
+> @@ -29,7 +29,7 @@ diff --git a/configure.ac b/configure.ac
+>  index 1744813..efb9e34 100644
+>  --- a/configure.ac
+>  +++ b/configure.ac
+> -@@ -1448,6 +1448,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
+> +@@ -1413,6 +1413,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
 >
-> ++ */
-> ++
-> ++#ifdef HAVE_CONFIG_H
-> ++#include "config.h"
-> ++#endif
-> ++
-> ++#include <stdio.h>
-> ++#include <stdlib.h>
-> ++
-> ++#if defined(_WIN32)
-> ++
-> ++int main(void)
-> ++{
-> ++	exit(77);
-> ++}
-> ++
-> ++#else
-> ++
-> ++#include <assert.h>
-> ++#include <errno.h>
-> ++#include <stdbool.h>
-> ++#include <stdint.h>
-> ++#include <string.h>
-> ++#include <gnutls/gnutls.h>
-> ++#include <gnutls/dtls.h>
-> ++#include "cert-common.h"
-> ++#include "utils.h"
-> ++
-> ++#include "attribute.h"
-> ++
-> ++static void server_log_func(int level, const char *str)
-> ++{
-> ++	fprintf(stderr, "server|<%d>| %s", level, str);
-> ++}
-> ++
-> ++static void client_log_func(int level, const char *str)
-> ++{
-> ++	fprintf(stderr, "client|<%d>| %s", level, str);
-> ++}
-> ++
-> ++#define QUEUE_SIZE 1024
-> ++#define PACKET_SIZE 2048
-> ++
-> ++typedef struct {
-> ++	uint8_t buf[PACKET_SIZE];
-> ++	size_t len;
-> ++} packet_t;
-> ++typedef struct {
-> ++	packet_t packets[QUEUE_SIZE];
-> ++	size_t head;
-> ++	size_t tail;
-> ++} queue_t;
-> ++
-> ++static queue_t c2s, s2c;
-> ++
-> ++static int queue_put(queue_t *q, const void *buf, size_t len)
-> ++{
-> ++	assert(len <=3D PACKET_SIZE);
-> ++	memcpy(q->packets[q->tail].buf, buf, len);
-> ++	q->packets[q->tail].len =3D len;
-> ++	q->tail++;
-> ++	q->tail %=3D QUEUE_SIZE;
-> ++	assert(q->tail !=3D q->head);
-> ++	return len;
-> ++}
-> ++
-> ++static ssize_t queue_get(queue_t *q, gnutls_session_t s, void *buf, siz=
-e_t len)
-> ++{
-> ++	if (q->head =3D=3D q->tail) {
-> ++		gnutls_transport_set_errno(s, EAGAIN);
-> ++		return -1;
-> ++	}
-> ++	size_t n =3D q->packets[q->head].len;
-> ++	memcpy(buf, q->packets[q->head].buf, n);
-> ++	q->head++;
-> ++	q->head %=3D QUEUE_SIZE;
-> ++	return n;
-> ++}
-> ++
-> ++static void queue_reset(queue_t *q)
-> ++{
-> ++	q->head =3D q->tail =3D 0;
-> ++}
-> ++
-> ++static int pull_timeout(gnutls_transport_ptr_t tr, unsigned ms)
-> ++{
-> ++	return 1;
-> ++}
-> ++
-> ++static ssize_t server_pull(gnutls_transport_ptr_t tr, void *b, size_t l=
-)
-> ++{
-> ++	return queue_get(&c2s, (gnutls_session_t)tr, b, l);
-> ++}
-> ++
-> ++static ssize_t client_pull(gnutls_transport_ptr_t tr, void *b, size_t l=
-)
-> ++{
-> ++	return queue_get(&s2c, (gnutls_session_t)tr, b, l);
-> ++}
-> ++
-> ++static ssize_t server_push(gnutls_transport_ptr_t tr, const void *b, si=
-ze_t l)
-> ++{
-> ++	return queue_put(&s2c, b, l);
-> ++}
-> ++
-> ++static ssize_t client_push_normal(gnutls_transport_ptr_t tr, const void=
- *b,
-> ++				  size_t l)
-> ++{
-> ++	return queue_put(&c2s, b, l);
-> ++}
-> ++
-> ++static void test(gnutls_push_func client_push)
-> ++{
-> ++	gnutls_session_t client, server;
-> ++	gnutls_certificate_credentials_t ccred, scred;
-> ++	int cr =3D 0, sr =3D 0;
-> ++	bool cdone =3D false, sdone =3D false;
-> ++
-> ++	if (debug)
-> ++		gnutls_global_set_log_level(4711);
-> ++
-> ++	gnutls_certificate_allocate_credentials(&scred);
-> ++	gnutls_certificate_set_x509_key_mem(scred, &server_cert, &server_key,
-> ++					    GNUTLS_X509_FMT_PEM);
-> ++	gnutls_certificate_allocate_credentials(&ccred);
-> ++
-> ++	gnutls_init(&server, GNUTLS_SERVER | GNUTLS_DATAGRAM);
-> ++	gnutls_init(&client, GNUTLS_CLIENT | GNUTLS_DATAGRAM);
-> ++
-> ++	gnutls_priority_set_direct(server, "NORMAL:-VERS-ALL:+VERS-DTLS1.2",
-> ++				   NULL);
-> ++	gnutls_priority_set_direct(client, "NORMAL:-VERS-ALL:+VERS-DTLS1.2",
-> ++				   NULL);
-> ++
-> ++	gnutls_credentials_set(server, GNUTLS_CRD_CERTIFICATE, scred);
-> ++	gnutls_credentials_set(client, GNUTLS_CRD_CERTIFICATE, ccred);
-> ++
-> ++	gnutls_dtls_set_timeouts(client, get_dtls_retransmit_timeout(),
-> ++				 get_timeout());
-> ++	gnutls_dtls_set_timeouts(server, get_dtls_retransmit_timeout(),
-> ++				 get_timeout());
-> ++
-> ++	gnutls_transport_set_ptr(client, client);
-> ++	gnutls_transport_set_push_function(client, client_push);
-> ++	gnutls_transport_set_pull_function(client, client_pull);
-> ++	gnutls_transport_set_pull_timeout_function(client, pull_timeout);
-> ++
-> ++	gnutls_transport_set_ptr(server, server);
-> ++	gnutls_transport_set_push_function(server, server_push);
-> ++	gnutls_transport_set_pull_function(server, server_pull);
-> ++	gnutls_transport_set_pull_timeout_function(server, pull_timeout);
-> ++
-> ++	while (!cdone || !sdone) {
-> ++		gnutls_global_set_log_function(client_log_func);
-> ++		if (!cdone)
-> ++			cr =3D gnutls_handshake(client);
-> ++		if (!cr || gnutls_error_is_fatal(cr))
-> ++			cdone =3D true;
-> ++
-> ++		gnutls_global_set_log_function(server_log_func);
-> ++		if (!sdone)
-> ++			sr =3D gnutls_handshake(server);
-> ++		if (!sr || gnutls_error_is_fatal(sr))
-> ++			sdone =3D true;
-> ++	}
-> ++
-> ++	if (cr)
-> ++		fail("client: %s\n", gnutls_strerror(cr));
-> ++	if (sr)
-> ++		fail("server: %s\n", gnutls_strerror(sr));
-> ++
-> ++	success("OK\n");
-> ++
-> ++	queue_reset(&c2s);
-> ++	queue_reset(&s2c);
-> ++
-> ++	gnutls_deinit(client);
-> ++	gnutls_deinit(server);
-> ++	gnutls_certificate_free_credentials(ccred);
-> ++	gnutls_certificate_free_credentials(scred);
-> ++}
-> ++
-> ++void doit(void)
-> ++{
-> ++	global_init();
-> ++	test(client_push_normal);
-> ++	gnutls_global_deinit();
-> ++}
-> ++
-> ++#endif /* _WIN32 */
-> +--=20
-> +2.54.0
-> +
-> +
-> +From 9deffca528c23bbb218f5ec3bd4bb1bf4cbd1fc0 Mon Sep 17 00:00:00 2001
-> +From: Alexander Sosedkin <asosedkin@redhat.com>
-> +Date: Fri, 17 Apr 2026 17:49:31 +0200
-> +Subject: [PATCH 2/7] buffers: shorten merge_handshake_packet using recv_=
-buf
-> +
-> +I had vague concerns about thread-safety of this,
-> +but then this pattern already exists within the file.
-> +
-> +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-> +---
-> + lib/buffers.c | 52 +++++++++++++++++----------------------------------
-> + 1 file changed, 17 insertions(+), 35 deletions(-)
-> +
-> +diff --git a/lib/buffers.c b/lib/buffers.c
-> +index 672380b05..d54c77022 100644
-> +--- a/lib/buffers.c
-> ++++ b/lib/buffers.c
-> +@@ -967,9 +967,11 @@ static int merge_handshake_packet(gnutls_session_t =
-session,
-> + 	int exists =3D 0, i, pos =3D 0;
-> + 	int ret;
-> +=20
-> ++	handshake_buffer_st *recv_buf =3D
-> ++		session->internals.handshake_recv_buffer;
-> ++
-> + 	for (i =3D 0; i < session->internals.handshake_recv_buffer_size; i++) =
-{
-> +-		if (session->internals.handshake_recv_buffer[i].htype =3D=3D
-> +-		    hsk->htype) {
-> ++		if (recv_buf[i].htype =3D=3D hsk->htype) {
-> + 			exists =3D 1;
-> + 			pos =3D i;
-> + 			break;
-> +@@ -1005,44 +1007,24 @@ static int merge_handshake_packet(gnutls_session=
-_t session,
-> + 		_gnutls_write_uint24(0, &hsk->header[6]);
-> + 		_gnutls_write_uint24(hsk->length, &hsk->header[9]);
-> +=20
-> +-		_gnutls_handshake_buffer_move(
-> +-			&session->internals.handshake_recv_buffer[pos], hsk);
-> ++		_gnutls_handshake_buffer_move(&recv_buf[pos], hsk);
-> +=20
-> + 	} else {
-> +-		if (hsk->start_offset <
-> +-			    session->internals.handshake_recv_buffer[pos]
-> +-				    .start_offset &&
-> +-		    hsk->end_offset + 1 >=3D
-> +-			    session->internals.handshake_recv_buffer[pos]
-> +-				    .start_offset) {
-> +-			memcpy(&session->internals.handshake_recv_buffer[pos]
-> +-					.data.data[hsk->start_offset],
-> ++		if (hsk->start_offset < recv_buf[pos].start_offset &&
-> ++		    hsk->end_offset + 1 >=3D recv_buf[pos].start_offset) {
-> ++			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
-> + 			       hsk->data.data, hsk->data.length);
-> +-			session->internals.handshake_recv_buffer[pos]
-> +-				.start_offset =3D hsk->start_offset;
-> +-			session->internals.handshake_recv_buffer[pos]
-> +-				.end_offset =3D MIN(
-> +-				hsk->end_offset,
-> +-				session->internals.handshake_recv_buffer[pos]
-> +-					.end_offset);
-> +-		} else if (hsk->end_offset >
-> +-				   session->internals.handshake_recv_buffer[pos]
-> +-					   .end_offset &&
-> +-			   hsk->start_offset <=3D
-> +-				   session->internals.handshake_recv_buffer[pos]
-> +-						   .end_offset +
-> +-					   1) {
-> +-			memcpy(&session->internals.handshake_recv_buffer[pos]
-> +-					.data.data[hsk->start_offset],
-> ++			recv_buf[pos].start_offset =3D hsk->start_offset;
-> ++			recv_buf[pos].end_offset =3D
-> ++				MIN(hsk->end_offset, recv_buf[pos].end_offset);
-> ++		} else if (hsk->end_offset > recv_buf[pos].end_offset &&
-> ++			   hsk->start_offset <=3D recv_buf[pos].end_offset + 1) {
-> ++			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
-> + 			       hsk->data.data, hsk->data.length);
-> +=20
-> +-			session->internals.handshake_recv_buffer[pos]
-> +-				.end_offset =3D hsk->end_offset;
-> +-			session->internals.handshake_recv_buffer[pos]
-> +-				.start_offset =3D MIN(
-> +-				hsk->start_offset,
-> +-				session->internals.handshake_recv_buffer[pos]
-> +-					.start_offset);
-> ++			recv_buf[pos].end_offset =3D hsk->end_offset;
-> ++			recv_buf[pos].start_offset =3D MIN(
-> ++				hsk->start_offset, recv_buf[pos].start_offset);
-> + 		}
-> + 		_gnutls_handshake_buffer_clear(hsk);
-> + 	}
-> +--=20
-> +2.54.0
-> +
-> +
-> +From 65ab33fa54e34fba69d793735b7df3d383d1ff78 Mon Sep 17 00:00:00 2001
-> +From: Alexander Sosedkin <asosedkin@redhat.com>
-> +Date: Fri, 17 Apr 2026 18:21:36 +0200
-> +Subject: [PATCH 3/7] buffers: add more checks to DTLS reassembly
-> +
-> +Previously, gnutls didn't check that DTLS fragments claimed
-> +a consistent message_length value.
-> +Additionally, a crucial array size check was missing,
-> +enabling an attacker to cause a heap overwrite.
-> +The updated version rejects fragments with mismatching length
-> +and adds a missing boundary check.
-> +
-> +Reported-by: Haruto Kimura (Stella)
-> +Reported-by: Oscar Reparaz
-> +Reported-by: Zou Dikai
-> +Fixes: #1816
-> +Fixes: #1838
-> +Fixes: #1839
-> +Fixes: CVE-2026-33846
-> +Fixes: GNUTLS-SA-2026-04-29-1
-> +CVSS: 7.4 High CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H
-> +CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
-> +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-> +---
-> + lib/buffers.c | 20 ++++++++++++++++++++
-> + 1 file changed, 20 insertions(+)
-> +
-> +diff --git a/lib/buffers.c b/lib/buffers.c
-> +index d54c77022..5d4d16276 100644
-> +--- a/lib/buffers.c
-> ++++ b/lib/buffers.c
-> +@@ -1010,6 +1010,26 @@ static int merge_handshake_packet(gnutls_session_=
-t session,
-> + 		_gnutls_handshake_buffer_move(&recv_buf[pos], hsk);
-> +=20
-> + 	} else {
-> ++		if (hsk->length !=3D recv_buf[pos].length) {
-> ++			/* inconsistent across fragments */
-> ++			_gnutls_handshake_buffer_clear(hsk);
-> ++			return gnutls_assert_val(
-> ++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
-> ++		}
-> ++		/* start_offset + data.length <=3D hsk->length <=3D max_length */
-> ++		if (hsk->length < hsk->start_offset + hsk->data.length) {
-> ++			/* impossible claims, overflow requested */
-> ++			_gnutls_handshake_buffer_clear(hsk);
-> ++			return gnutls_assert_val(
-> ++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
-> ++		}
-> ++		if (hsk->length > recv_buf[pos].data.max_length) {
-> ++			/* we don't have this much allocated, overflow guard */
-> ++			_gnutls_handshake_buffer_clear(hsk);
-> ++			return gnutls_assert_val(
-> ++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
-> ++		}
-> ++
-> + 		if (hsk->start_offset < recv_buf[pos].start_offset &&
-> + 		    hsk->end_offset + 1 >=3D recv_buf[pos].start_offset) {
-> + 			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
-> +--=20
-> +2.54.0
-> +
-> +
-> +From cf3f1955e58cbcc10373b841bb101fb058565d87 Mon Sep 17 00:00:00 2001
-> +From: Alexander Sosedkin <asosedkin@redhat.com>
-> +Date: Wed, 1 Apr 2026 19:51:45 +0200
-> +Subject: [PATCH 4/7] tests/mini-dtls-fragments: extend with a #1816 repr=
-oducer
-> +
-> +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-> +---
-> + tests/mini-dtls-fragments.c | 120 ++++++++++++++++++++++++++++++++++++
-> + 1 file changed, 120 insertions(+)
-> +
-> +diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
-> +index ee75feeb6..8d5a18acd 100644
-> +--- a/tests/mini-dtls-fragments.c
-> ++++ b/tests/mini-dtls-fragments.c
-> +@@ -106,6 +106,11 @@ static int pull_timeout(gnutls_transport_ptr_t tr, =
-unsigned ms)
-> + 	return 1;
-> + }
-> +=20
-> ++static int c2s_pull_timeout_once(gnutls_transport_ptr_t tr, unsigned ms=
-)
-> ++{
-> ++	return c2s.head !=3D c2s.tail ? 1 : 0;
-> ++}
-> ++
-> + static ssize_t server_pull(gnutls_transport_ptr_t tr, void *b, size_t l=
-)
-> + {
-> + 	return queue_get(&c2s, (gnutls_session_t)tr, b, l);
-> +@@ -198,10 +203,125 @@ static void test(gnutls_push_func client_push)
-> + 	gnutls_certificate_free_credentials(scred);
-> + }
-> +=20
-> ++static void test_malicious1816(void)
-> ++{
-> ++	/* dgram1: msg_len=3D50, frag_offset=3D25, frag_len=3D25 */
-> ++	static const uint8_t dgram1_hdr[] =3D {
-> ++		0x16, /* type: handshake */
-> ++		0xfe, 0xfd, /* version: DTLS 1.2 */
-> ++		0x00, 0x00, /* epoch: 0 */
-> ++		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* seq: 0 */
-> ++		0x00, 0x25, /* record_length: 37 */
-> ++		0x01, /* msg_type: ClientHello */
-> ++		0x00, 0x00, 0x32, /* msg_length: 50 */
-> ++		0x00, 0x00, /* msg_seq: 0 */
-> ++		0x00, 0x00, 0x19, /* frag_offset: 25 */
-> ++		0x00, 0x00, 0x19, /* frag_length: 25 */
-> ++	};
-> ++	/* dgram2: msg_len=3D3000, frag_offset=3D0, frag_len=3D48 */
-> ++	static const uint8_t dgram2_hdr[] =3D {
-> ++		0x16, /* type: handshake */
-> ++		0xfe, 0xfd, /* version: DTLS 1.2 */
-> ++		0x00, 0x00, /* epoch: 0 */
-> ++		0x00, 0x00, 0x00, 0x00, 0x00, 0x01, /* seq: 1 */
-> ++		0x00, 0x3c, /* record_length: 60 */
-> ++		0x01, /* msg_type: ClientHello */
-> ++		0x00, 0x0b, 0xb8, /* msg_length: 3000 */
-> ++		0x00, 0x00, /* msg_seq: 0 */
-> ++		0x00, 0x00, 0x00, /* frag_offset: 0 */
-> ++		0x00, 0x00, 0x30, /* frag_length: 48 */
-> ++	};
-> ++	/* dgram3: msg_len=3D3000, frag_offset=3D40, frag_len=3D1475 */
-> ++	static const uint8_t dgram3_hdr[] =3D {
-> ++		0x16, /* type: handshake */
-> ++		0xfe, 0xfd, /* version: DTLS 1.2 */
-> ++		0x00, 0x00, /* epoch: 0 */
-> ++		0x00, 0x00, 0x00, 0x00, 0x00, 0x02, /* seq: 2 */
-> ++		0x05, 0xcf, /* record_length: 1487 */
-> ++		0x01, /* msg_type: ClientHello */
-> ++		0x00, 0x0b, 0xb8, /* msg_length: 3000 */
-> ++		0x00, 0x00, /* msg_seq: 0 */
-> ++		0x00, 0x00, 0x28, /* frag_offset: 40 */
-> ++		0x00, 0x05, 0xc3, /* frag_length: 1475 */
-> ++	};
-> ++	/* dgram4: msg_len=3D3000, frag_offset=3D1500, frag_len=3D1475 */
-> ++	static const uint8_t dgram4_hdr[] =3D {
-> ++		0x16, /* type: handshake */
-> ++		0xfe, 0xfd, /* version: DTLS 1.2 */
-> ++		0x00, 0x00, /* epoch: 0 */
-> ++		0x00, 0x00, 0x00, 0x00, 0x00, 0x03, /* seq: 3 */
-> ++		0x05, 0xcf, /* record_length: 1487 */
-> ++		0x01, /* msg_type: ClientHello */
-> ++		0x00, 0x0b, 0xb8, /* msg_length: 3000 */
-> ++		0x00, 0x00, /* msg_seq: 0 */
-> ++		0x00, 0x05, 0xdc, /* frag_offset: 1500 */
-> ++		0x00, 0x05, 0xc3, /* frag_length: 1475 */
-> ++	};
-> ++	gnutls_session_t server;
-> ++	gnutls_certificate_credentials_t scred;
-> ++	uint8_t dgram[1500];
-> ++	int sr;
-> ++
-> ++	if (debug)
-> ++		gnutls_global_set_log_level(4711);
-> ++
-> ++	gnutls_certificate_allocate_credentials(&scred);
-> ++	gnutls_certificate_set_x509_key_mem(scred, &server_cert, &server_key,
-> ++					    GNUTLS_X509_FMT_PEM);
-> ++
-> ++	gnutls_init(&server, GNUTLS_SERVER | GNUTLS_DATAGRAM);
-> ++	gnutls_priority_set_direct(server, "NORMAL:+VERS-DTLS1.2", NULL);
-> ++	gnutls_credentials_set(server, GNUTLS_CRD_CERTIFICATE, scred);
-> ++
-> ++	gnutls_dtls_set_timeouts(server, get_dtls_retransmit_timeout(),
-> ++				 get_timeout());
-> ++
-> ++	gnutls_transport_set_ptr(server, server);
-> ++	gnutls_transport_set_push_function(server, server_push);
-> ++	gnutls_transport_set_pull_function(server, server_pull);
-> ++	gnutls_transport_set_pull_timeout_function(server,
-> ++						   c2s_pull_timeout_once);
-> ++
-> ++	memset(dgram, 0, sizeof(dgram));
-> ++	memcpy(dgram, dgram1_hdr, 25);
-> ++	queue_put(&c2s, dgram, 25 + 25);
-> ++
-> ++	memset(dgram, 0, sizeof(dgram));
-> ++	memcpy(dgram, dgram2_hdr, 25);
-> ++	queue_put(&c2s, dgram, 25 + 48);
-> ++
-> ++	memset(dgram, 0, sizeof(dgram));
-> ++	memcpy(dgram, dgram3_hdr, 25);
-> ++	queue_put(&c2s, dgram, 25 + 1475);
-> ++
-> ++	memset(dgram, 0, sizeof(dgram));
-> ++	memcpy(dgram, dgram4_hdr, 25);
-> ++	queue_put(&c2s, dgram, 25 + 1475);
-> ++
-> ++	gnutls_global_set_log_function(server_log_func);
-> ++	do {
-> ++		sr =3D gnutls_handshake(server); /* invalid write if vulnerable */
-> ++	} while (c2s.head !=3D c2s.tail && !gnutls_error_is_fatal(sr));
-> ++	if (sr !=3D GNUTLS_E_UNEXPECTED_PACKET_LENGTH)
-> ++		fail("server: expected GNUTLS_E_UNEXPECTED_PACKET_LENGTH, "
-> ++		     "got: %s\n",
-> ++		     gnutls_strerror(sr));
-> ++
-> ++	success("OK\n");
-> ++
-> ++	queue_reset(&c2s);
-> ++	queue_reset(&s2c);
-> ++
-> ++	gnutls_deinit(server);
-> ++	gnutls_certificate_free_credentials(scred);
-> ++}
-> ++
-> + void doit(void)
-> + {
-> + 	global_init();
-> + 	test(client_push_normal);
-> ++	success("malicious reassembly bug exploitation (#1816):\n");
-> ++	test_malicious1816();
-> + 	gnutls_global_deinit();
-> + }
-> +=20
-> +--=20
-> +2.54.0
-> +
-> +
-> +From bb427ff74dba849d40753ed9c8511e873f762743 Mon Sep 17 00:00:00 2001
-> +From: Alexander Sosedkin <asosedkin@redhat.com>
-> +Date: Mon, 20 Apr 2026 16:08:11 +0200
-> +Subject: [PATCH 5/7] tests/mini-dtls-fragments: extend with fragmenting
-> + ClientHello
-> +
-> +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-> +---
-> + tests/mini-dtls-fragments.c | 107 ++++++++++++++++++++++++++++++++++++
-> + 1 file changed, 107 insertions(+)
-> +
-> +diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
-> +index 8d5a18acd..93490bac2 100644
-> +--- a/tests/mini-dtls-fragments.c
-> ++++ b/tests/mini-dtls-fragments.c
-> +@@ -132,6 +132,39 @@ static ssize_t client_push_normal(gnutls_transport_=
-ptr_t tr, const void *b,
-> + 	return queue_put(&c2s, b, l);
-> + }
-> +=20
-> ++static void write_u16(uint8_t *p, uint16_t val)
-> ++{
-> ++	p[0] =3D val >> 8;
-> ++	p[1] =3D val & 0xff;
-> ++}
-> ++
-> ++static void write_u24(uint8_t *p, uint32_t val)
-> ++{
-> ++	p[0] =3D (val >> 16) & 0xff;
-> ++	p[1] =3D (val >> 8) & 0xff;
-> ++	p[2] =3D val & 0xff;
-> ++}
-> ++
-> ++static void write_u48(uint8_t *p, uint64_t seq)
-> ++{
-> ++	int i;
-> ++	for (i =3D 5; i >=3D 0; i--) {
-> ++		p[i] =3D seq & 0xff;
-> ++		seq >>=3D 8;
-> ++	}
-> ++}
-> ++
-> ++static uint64_t read_u48(const uint8_t *p)
-> ++{
-> ++	uint64_t seq =3D 0;
-> ++	int i;
-> ++	for (i =3D 5; i >=3D 0; i--) {
-> ++		seq <<=3D 8;
-> ++		seq |=3D p[i];
-> ++	}
-> ++	return seq;
-> ++}
-> ++
-> + static void test(gnutls_push_func client_push)
-> + {
-> + 	gnutls_session_t client, server;
-> +@@ -316,12 +349,86 @@ static void test_malicious1816(void)
-> + 	gnutls_certificate_free_credentials(scred);
-> + }
-> +=20
-> ++static ssize_t queue_put_renumbered(queue_t *q, const uint8_t *data, si=
-ze_t l,
-> ++				    int delta_n)
-> ++{
-> ++	if (delta_n =3D=3D 0 || l < 13 || data[3] !=3D 0 || data[4] !=3D 0)
-> ++		return queue_put(&c2s, data, l);
-> ++
-> ++	uint8_t *p =3D malloc(l);
-> ++	assert(p);
-> ++	memcpy(p, data, l);
-> ++	write_u48(p + 5, read_u48(p + 5) + delta_n);
-> ++	ssize_t ret =3D queue_put(q, p, l);
-> ++	free(p);
-> ++	return ret;
-> ++}
-> ++
-> ++static void split_client_hello(const uint8_t *data, size_t len, uint8_t=
- **frag1,
-> ++			       size_t *frag1_len, uint8_t **frag2,
-> ++			       size_t *frag2_len)
-> ++{
-> ++	size_t body_size =3D len - 25;
-> ++	*frag1_len =3D 13 + 12 + 1;
-> ++	*frag2_len =3D 13 + 12 + (body_size - 1);
-> ++
-> ++	*frag1 =3D malloc(13 + 12 + 1);
-> ++	assert(*frag1);
-> ++	*frag2 =3D malloc(13 + 12 + body_size - 1);
-> ++	assert(*frag2);
-> ++
-> ++	/* first fragment: record header + handshake header + first body byte =
-*/
-> ++	memcpy(*frag1, data, 13); /* record header */
-> ++	write_u16(*frag1 + 11, 12 + 1); /* record length */
-> ++	memcpy(*frag1 + 13, data + 13, 12); /* handshake header */
-> ++	write_u24(*frag1 + 19, 0); /* fragment_offset =3D 0 */
-> ++	write_u24(*frag1 + 22, 1); /* fragment_length =3D 1 */
-> ++	(*frag1)[25] =3D data[25]; /* first body byte */
-> ++
-> ++	/* second fragment: record header + handshake header + remaining body =
-*/
-> ++	memcpy(*frag2, data, 13); /* record header */
-> ++	write_u16(*frag2 + 11, *frag2_len - 13); /* record length */
-> ++	write_u48(*frag2 + 5, read_u48(*frag2 + 5) + 1); /* sequence number */
-> ++	memcpy(*frag2 + 13, data + 13, 12); /* handshake header */
-> ++	write_u24(*frag2 + 19, 1); /* fragment_offset =3D 1 */
-> ++	write_u24(*frag2 + 22, body_size - 1); /* shortened fragment_length */
-> ++	memcpy(*frag2 + 25, data + 26, body_size - 1); /* remaining body */
-> ++}
-> ++
-> ++static ssize_t client_push_split_hello(gnutls_transport_ptr_t tr, const=
- void *b,
-> ++				       size_t l)
-> ++{
-> ++	static int seq_offset =3D 0; /* for renumbering follow-up epoch0 ones =
-*/
-> ++
-> ++	const uint8_t *data =3D (const uint8_t *)b;
-> ++	uint8_t *frag1, *frag2;
-> ++	size_t frag1_len, frag2_len;
-> ++
-> ++	/* Pass through anything that isn't an epoch0 ClientHello with body */
-> ++	if (l < 13 + 12 + 1 || /* too short for DTLS record header */
-> ++	    data[0] !=3D 22 || /* not a handshake record */
-> ++	    data[3] !=3D 0 || data[4] !=3D 0 || /* not epoch 0 */
-> ++	    data[13] !=3D 1) /* not ClientHello */
-> ++		return queue_put_renumbered(&c2s, b, l, seq_offset);
-> ++
-> ++	/* epoch0 Client Hello: special treatment of splitting into fragments =
-*/
-> ++	split_client_hello(data, l, &frag1, &frag1_len, &frag2, &frag2_len);
-> ++	queue_put(&c2s, frag1, frag1_len);
-> ++	queue_put(&c2s, frag2, frag2_len);
-> ++	free(frag1);
-> ++	free(frag2);
-> ++	seq_offset++;
-> ++	return l;
-> ++}
-> ++
-> + void doit(void)
-> + {
-> + 	global_init();
-> + 	test(client_push_normal);
-> + 	success("malicious reassembly bug exploitation (#1816):\n");
-> + 	test_malicious1816();
-> ++	success("split client hello smoke-test\n");
-> ++	test(client_push_split_hello);
-> + 	gnutls_global_deinit();
-> + }
-> +=20
-> +--=20
-> +2.54.0
-> +
-> +
-> +From 092c65d004e2f125f2fea3db84d801ac49a09f78 Mon Sep 17 00:00:00 2001
-> +From: Alexander Sosedkin <asosedkin@redhat.com>
-> +Date: Mon, 20 Apr 2026 16:32:02 +0200
-> +Subject: [PATCH 6/7] buffers: match DTLS datagrams by sequence number
-> +
-> +DTLS handshake fragment reassembly previously matched incoming fragments
-> +by handshake type only, without checking the sequence number.
-> +This allowed fragments from different handshake messages
-> +to be merged into the same reassembly buffer.
-> +
-> +Now sequence number is accounted for during reassembly,
-> +ensuring fragments are only merged when they belong
-> +to the same handshake message.
-> +
-> +Reported-by: Zou Dikai
-> +Fixes: #1839
-> +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-> +---
-> + lib/buffers.c | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/lib/buffers.c b/lib/buffers.c
-> +index 5d4d16276..62f140ed3 100644
-> +--- a/lib/buffers.c
-> ++++ b/lib/buffers.c
-> +@@ -971,7 +971,8 @@ static int merge_handshake_packet(gnutls_session_t s=
-ession,
-> + 		session->internals.handshake_recv_buffer;
-> +=20
-> + 	for (i =3D 0; i < session->internals.handshake_recv_buffer_size; i++) =
-{
-> +-		if (recv_buf[i].htype =3D=3D hsk->htype) {
-> ++		if (recv_buf[i].htype =3D=3D hsk->htype &&
-> ++		    recv_buf[i].sequence =3D=3D hsk->sequence) {
-> + 			exists =3D 1;
-> + 			pos =3D i;
-> + 			break;
-> +--=20
-> +2.54.0
-> +
-> +
-> +From a2b41be83a1a3529c551ccf54958da91a656550e Mon Sep 17 00:00:00 2001
-> +From: Alexander Sosedkin <asosedkin@redhat.com>
-> +Date: Mon, 20 Apr 2026 16:36:08 +0200
-> +Subject: [PATCH 7/7] tests/mini-dtls-fragments: #1839 mismatching messag=
-e_seq
-> +
-> +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-> +---
-> + tests/mini-dtls-fragments.c | 54 ++++++++++++++++++++++++++++++++-----
-> + 1 file changed, 47 insertions(+), 7 deletions(-)
-> +
-> +diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
-> +index 93490bac2..499a92a92 100644
-> +--- a/tests/mini-dtls-fragments.c
-> ++++ b/tests/mini-dtls-fragments.c
-> +@@ -165,7 +165,7 @@ static uint64_t read_u48(const uint8_t *p)
-> + 	return seq;
-> + }
-> +=20
-> +-static void test(gnutls_push_func client_push)
-> ++static void test(gnutls_push_func client_push, bool expect_success)
-> + {
-> + 	gnutls_session_t client, server;
-> + 	gnutls_certificate_credentials_t ccred, scred;
-> +@@ -218,12 +218,22 @@ static void test(gnutls_push_func client_push)
-> + 			sr =3D gnutls_handshake(server);
-> + 		if (!sr || gnutls_error_is_fatal(sr))
-> + 			sdone =3D true;
-> ++
-> ++		if (c2s.head =3D=3D c2s.tail && s2c.head =3D=3D s2c.tail)
-> ++			break; /* speed the test up */
-> + 	}
-> +=20
-> +-	if (cr)
-> +-		fail("client: %s\n", gnutls_strerror(cr));
-> +-	if (sr)
-> +-		fail("server: %s\n", gnutls_strerror(sr));
-> ++	if (expect_success) {
-> ++		if (cr)
-> ++			fail("client: %s\n", gnutls_strerror(cr));
-> ++		if (sr)
-> ++			fail("server: %s\n", gnutls_strerror(sr));
-> ++
-> ++	} else {
-> ++		if (cr =3D=3D 0 && sr =3D=3D 0)
-> ++			fail("handshake unexpectedly succeeded: %s / %s\n",
-> ++			     gnutls_strerror(cr), gnutls_strerror(sr));
-> ++	}
-> +=20
-> + 	success("OK\n");
-> +=20
-> +@@ -421,14 +431,44 @@ static ssize_t client_push_split_hello(gnutls_tran=
-sport_ptr_t tr, const void *b,
-> + 	return l;
-> + }
-> +=20
-> ++static ssize_t client_push_split_hello_bad_seq(gnutls_transport_ptr_t t=
-r,
-> ++					       const void *b, size_t l)
-> ++{
-> ++	/* gnutls wasn't matching on message_seq on merging, see #1839 */
-> ++	static int seq_offset =3D 0; /* for renumbering follow-up epoch0 ones =
-*/
-> ++
-> ++	const uint8_t *data =3D (const uint8_t *)b;
-> ++	uint8_t *frag1, *frag2;
-> ++	size_t frag1_len, frag2_len;
-> ++
-> ++	/* Pass through anything that isn't an epoch0 ClientHello with body */
-> ++	if (l < 13 + 12 + 1 || /* too short for DTLS record header */
-> ++	    data[0] !=3D 22 || /* not a handshake record */
-> ++	    data[3] !=3D 0 || data[4] !=3D 0 || /* not epoch 0 */
-> ++	    data[13] !=3D 1) /* not ClientHello */
-> ++		return queue_put_renumbered(&c2s, b, l, seq_offset);
-> ++
-> ++	/* epoch0 Client Hello: special treatment of splitting into fragments =
-*/
-> ++	split_client_hello(data, l, &frag1, &frag1_len, &frag2, &frag2_len);
-> ++	queue_put(&c2s, frag1, frag1_len);
-> ++	frag2[18]++; /* WRONG, message_seq mismatch must be rejected, #1839 */
-> ++	queue_put(&c2s, frag2, frag2_len);
-> ++	free(frag1);
-> ++	free(frag2);
-> ++	seq_offset++;
-> ++	return l;
-> ++}
-> ++
-> + void doit(void)
-> + {
-> + 	global_init();
-> +-	test(client_push_normal);
-> ++	test(client_push_normal, true);
-> + 	success("malicious reassembly bug exploitation (#1816):\n");
-> + 	test_malicious1816();
-> + 	success("split client hello smoke-test\n");
-> +-	test(client_push_split_hello);
-> ++	test(client_push_split_hello, true);
-> ++	success("split client hello smoke-test and mangle sequence number\n");
-> ++	test(client_push_split_hello_bad_seq, false);
-> + 	gnutls_global_deinit();
-> + }
-> +=20
-> +--=20
-> +2.54.0
-> +
-> diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-=
-support/gnutls/gnutls_3.8.12.bb
-> index 8554ab943d..3ae7a2eb78 100644
+>   AM_CONDITIONAL(NEEDS_LIBRT, test "$gnutls_needs_librt" =3D "yes")
+>
+> @@ -42,7 +42,7 @@ diff --git a/tests/Makefile.am b/tests/Makefile.am
+>  index 189d068..8430b05 100644
+>  --- a/tests/Makefile.am
+>  +++ b/tests/Makefile.am
+> -@@ -721,6 +721,12 @@ SH_LOG_COMPILER =3D $(SHELL)
+> +@@ -745,6 +745,12 @@ SH_LOG_COMPILER =3D $(SHELL)
+>   AM_VALGRINDFLAGS =3D --suppressions=3D$(srcdir)/suppressions.valgrind
+>   LOG_COMPILER =3D $(LOG_VALGRIND)
+>
+> diff --git a/meta/recipes-support/gnutls/gnutls/c99.patch
+> b/meta/recipes-support/gnutls/gnutls/c99.patch
+> deleted file mode 100644
+> index 3f41241deb..0000000000
+> --- a/meta/recipes-support/gnutls/gnutls/c99.patch
+> +++ /dev/null
+> @@ -1,41 +0,0 @@
+> -From 203d8f2187bb7f483290e0f8b7b48b152b1d027f Mon Sep 17 00:00:00 2001
+> -From: Ross Burton <ross.burton@arm.com>
+> -Date: Thu, 5 Mar 2026 11:33:57 +0000
+> -Subject: [PATCH] configure: make the C99 detection more resiliant
+> -
+> -autoconf 2.73 will default to C23 by default, which means that the >C99
+> -detection logic in configure.ac will fail because it only handles c11
+> -and c99.
+> -
+> -Instead of adding c23 to the list and then breaking again in the future,
+> -flip the logic around (as suggested by Zack Weinberg) and check
+> -explicitly for just c89.
+> -
+> -Closes #1806.
+> -
+> -Upstream-Status: Backport [
+> https://gitlab.com/gnutls/gnutls/-/merge_requests/2081]
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ----
+> - configure.ac | 6 +++---
+> - 1 file changed, 3 insertions(+), 3 deletions(-)
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index 740fb6339..c708d8f5e 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -54,9 +54,9 @@ AC_USE_SYSTEM_EXTENSIONS
+> - # Require C99 support
+> - #
+> - AS_CASE([$ac_prog_cc_stdc],
+> --  [c11 | c99], [AC_DEFINE([C99_MACROS], 1, [C99 macros are supported])]=
+,
+> --  [AC_MSG_WARN([[Compiler does not support C99. It may not be able to
+> compile the project.]])]
+> --)
+> -+  [c89],
+> -+  [AC_MSG_WARN([[Compiler does not support C99. It may not be able to
+> compile the project.]])],
+> -+  [AC_DEFINE([C99_MACROS], 1, [C99 macros are supported])])
+> -
+> - AM_CONDITIONAL(CROSS_COMPILING, test "$cross_compiling" =3D yes)
+> -
+> ---
+> -2.43.0
+> -
+> diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
+> b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
+> similarity index 93%
+> rename from meta/recipes-support/gnutls/gnutls_3.8.12.bb
+> rename to meta/recipes-support/gnutls/gnutls_3.8.13.bb
+> index 8554ab943d..943864d4ba 100644
 > --- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-> +++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-> @@ -24,6 +24,7 @@ SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v$=
-{SHRT_VER}/gnutls-${PV}.tar
+> +++ b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
+> @@ -23,10 +23,11 @@ SRC_URI =3D "
+> https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+>
+> file://0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch \
 >             file://run-ptest \
 >             file://Add-ptest-support.patch \
->             file://c99.patch \
-> +           file://CVE-2026-33846.patch \
+> -           file://c99.patch \
+> +
+>  file://0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch \
+> +           file://0001-tests-mini-dtls-framents-link-to-gnulib.patch \
 >             "
-> =20
->  SRC_URI[sha256sum] =3D "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2=
-bf470bea012b8e51"
+>
+> -SRC_URI[sha256sum] =3D
+> "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
+> +SRC_URI[sha256sum] =3D
+> "ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e604e99a8b16ca9c97e"
+>
+>  inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
+>
+> @@ -63,10 +64,6 @@ do_configure:prepend() {
+>         for dir in . lib; do
+>                 rm -f ${dir}/aclocal.m4 ${dir}/m4/libtool.m4
+> ${dir}/m4/lt*.m4
+>         done
+> -
+> -       # remove on next upgrade when release tarball gets fixed
+> -       # https://gitlab.com/gnutls/gnutls/-/issues/1797
+> -       cp -p ${S}/doc/stamp_enums ${S}/doc/stamp_error_codes
+>  }
+>
+>  do_compile_ptest() {
+> --
+> 2.43.0
+>
+>
 
+--0000000000009eb6ee06557babeb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---=20
-Yoann Congal
-Smile ECS
+<div dir=3D"ltr"><div><div><div>Hi Yoann,<br><br></div>Any update on this ?=
+<br><br></div>Thanks &amp;=C2=A0Regards,<br></div>Vijay</div><br><div class=
+=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Mon, Jun 29, 2026 at 12:46=E2=80=AFPM Vijay Anusuri &lt;<a href=3D"mai=
+lto:vanusuri@mvista.com">vanusuri@mvista.com</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">From: Peter Marko &lt;<a href=
+=3D"mailto:peter.marko@siemens.com" target=3D"_blank">peter.marko@siemens.c=
+om</a>&gt;<br>
+<br>
+Solves CVE-2026-33846, CVE-2026-42009, CVE-2026-33845, CVE-2026-42010,<br>
+CVE-2026-3833, CVE-2026-42011, CVE-2026-42012, CVE-2026-42013,<br>
+CVE-2026-42014, CVE-2026-5260, CVE-2026-42015, CVE-2026-3832 and<br>
+CVE-2026-5419.<br>
+<br>
+Release notes: [1]<br>
+<br>
+Rebase patches and drop patch included in this release.<br>
+Add patches to fix linking with musl libc.<br>
+Increase memory needed to successfully run test key-openssl.<br>
+Drop code for previous release tarball problem.<br>
+<br>
+[1] <a href=3D"https://github.com/gnutls/gnutls/blob/3.8.13/NEWS" rel=3D"no=
+referrer" target=3D"_blank">https://github.com/gnutls/gnutls/blob/3.8.13/NE=
+WS</a><br>
+<br>
+Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" t=
+arget=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+Signed-off-by: Mathieu Dubois-Briand &lt;<a href=3D"mailto:mathieu.dubois-b=
+riand@bootlin.com" target=3D"_blank">mathieu.dubois-briand@bootlin.com</a>&=
+gt;<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
+r>
+(cherry picked from commit 1193b0778a0f81bd75f7ec6f8f44fa44cf4b8f5e)<br>
+Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" tar=
+get=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/images/<a href=3D"http://core-image-ptest.bb" rel=
+=3D"noreferrer" target=3D"_blank">core-image-ptest.bb</a>=C2=A0 |=C2=A0 1 +=
+<br>
+=C2=A0...ts-mini-dtls-framents-link-to-gnulib.patch | 25 +++++++++++<br>
+=C2=A0...ust-list-fault-fix-issues-in-linking.patch | 31 ++++++++++++++<br>
+=C2=A0.../gnutls/gnutls/Add-ptest-support.patch=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+4 +-<br>
+=C2=A0meta/recipes-support/gnutls/gnutls/c99.patch=C2=A0 | 41 -------------=
+------<br>
+=C2=A0.../{<a href=3D"http://gnutls_3.8.12.bb" rel=3D"noreferrer" target=3D=
+"_blank">gnutls_3.8.12.bb</a> =3D&gt; <a href=3D"http://gnutls_3.8.13.bb" r=
+el=3D"noreferrer" target=3D"_blank">gnutls_3.8.13.bb</a>}=C2=A0 =C2=A0 |=C2=
+=A0 9 ++--<br>
+=C2=A06 files changed, 62 insertions(+), 49 deletions(-)<br>
+=C2=A0create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-mini=
+-dtls-framents-link-to-gnulib.patch<br>
+=C2=A0create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-pkcs=
+11-trust-list-fault-fix-issues-in-linking.patch<br>
+=C2=A0delete mode 100644 meta/recipes-support/gnutls/gnutls/c99.patch<br>
+=C2=A0rename meta/recipes-support/gnutls/{<a href=3D"http://gnutls_3.8.12.b=
+b" rel=3D"noreferrer" target=3D"_blank">gnutls_3.8.12.bb</a> =3D&gt; <a hre=
+f=3D"http://gnutls_3.8.13.bb" rel=3D"noreferrer" target=3D"_blank">gnutls_3=
+.8.13.bb</a>} (93%)<br>
+<br>
+diff --git a/meta/recipes-core/images/<a href=3D"http://core-image-ptest.bb=
+" rel=3D"noreferrer" target=3D"_blank">core-image-ptest.bb</a> b/meta/recip=
+es-core/images/<a href=3D"http://core-image-ptest.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">core-image-ptest.bb</a><br>
+index c08561296f..008b5770a8 100644<br>
+--- a/meta/recipes-core/images/<a href=3D"http://core-image-ptest.bb" rel=
+=3D"noreferrer" target=3D"_blank">core-image-ptest.bb</a><br>
++++ b/meta/recipes-core/images/<a href=3D"http://core-image-ptest.bb" rel=
+=3D"noreferrer" target=3D"_blank">core-image-ptest.bb</a><br>
+@@ -39,6 +39,7 @@ QB_MEM:virtclass-mcextend-python3 =3D &quot;-m 2048&quot;=
+<br>
+=C2=A0QB_MEM:virtclass-mcextend-python3-cryptography =3D &quot;-m 5100&quot=
+;<br>
+=C2=A0QB_MEM:virtclass-mcextend-python3-numpy =3D &quot;-m 4096&quot;<br>
+=C2=A0QB_MEM:virtclass-mcextend-tcl =3D &quot;-m 5100&quot;<br>
++QB_MEM:virtclass-mcextend-gnutls =3D &quot;-m 1536&quot;<br>
+<br>
+=C2=A0TEST_SUITES =3D &quot;ping ssh parselogs ptest&quot;<br>
+<br>
+diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framen=
+ts-link-to-gnulib.patch b/meta/recipes-support/gnutls/gnutls/0001-tests-min=
+i-dtls-framents-link-to-gnulib.patch<br>
+new file mode 100644<br>
+index 0000000000..7f999c4b22<br>
+--- /dev/null<br>
++++ b/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link=
+-to-gnulib.patch<br>
+@@ -0,0 +1,25 @@<br>
++From 68b2fb63c8df61d1480121a859f8c955f4910c01 Mon Sep 17 00:00:00 2001<br>
++From: Alexander Sosedkin &lt;<a href=3D"mailto:asosedkin@redhat.com" targe=
+t=3D"_blank">asosedkin@redhat.com</a>&gt;<br>
++Date: Thu, 30 Apr 2026 13:08:01 +0200<br>
++Subject: [PATCH] tests/mini-dtls-framents: link to gnulib<br>
++<br>
++Signed-off-by: Alexander Sosedkin &lt;<a href=3D"mailto:asosedkin@redhat.c=
+om" target=3D"_blank">asosedkin@redhat.com</a>&gt;<br>
++<br>
++Upstream-Status: Backport [<a href=3D"https://github.com/gnutls/gnutls/com=
+mit/68b2fb63c8df61d1480121a859f8c955f4910c01" rel=3D"noreferrer" target=3D"=
+_blank">https://github.com/gnutls/gnutls/commit/68b2fb63c8df61d1480121a859f=
+8c955f4910c01</a>]<br>
++Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" =
+target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
++---<br>
++ tests/Makefile.am | 1 +<br>
++ 1 file changed, 1 insertion(+)<br>
++<br>
++diff --git a/tests/Makefile.am b/tests/Makefile.am<br>
++index f8797964d..1b27df751 100644<br>
++--- a/tests/Makefile.am<br>
+++++ b/tests/Makefile.am<br>
++@@ -524,6 +524,7 @@ pathbuf_CPPFLAGS =3D $(AM_CPPFLAGS) \<br>
++ mini_dtls_fragments_CPPFLAGS =3D $(AM_CPPFLAGS) \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0-I$(top_srcdir)/gl=C2=A0 =C2=A0 =C2=A0 \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0-I$(top_builddir)/gl<br>
+++mini_dtls_fragments_LDADD =3D $(LDADD) ../gl/<a href=3D"http://libgnu.la"=
+ rel=3D"noreferrer" target=3D"_blank">libgnu.la</a><br>
++ <br>
++ if ENABLE_PKCS11<br>
++ if !WINDOWS<br>
+diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-lis=
+t-fault-fix-issues-in-linking.patch b/meta/recipes-support/gnutls/gnutls/00=
+01-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch<br>
+new file mode 100644<br>
+index 0000000000..b15a05d5b6<br>
+--- /dev/null<br>
++++ b/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault=
+-fix-issues-in-linking.patch<br>
+@@ -0,0 +1,31 @@<br>
++From 9c573a2a0e7473ab79c43a6d3ecb0ab68ce896dc Mon Sep 17 00:00:00 2001<br>
++From: Daiki Ueno &lt;<a href=3D"mailto:ueno@gnu.org" target=3D"_blank">uen=
+o@gnu.org</a>&gt;<br>
++Date: Thu, 7 May 2026 09:42:09 +0900<br>
++Subject: [PATCH] tests/pkcs11/trust-list-fault: fix issues in linking<br>
++<br>
++This fixes the use of automake variables and also adds the linked mock<br>
++library in .gitignore.<br>
++<br>
++Signed-off-by: Daiki Ueno &lt;<a href=3D"mailto:ueno@gnu.org" target=3D"_b=
+lank">ueno@gnu.org</a>&gt;<br>
++<br>
++Upstream-Status: Backport [<a href=3D"https://github.com/gnutls/gnutls/com=
+mit/9c573a2a0e7473ab79c43a6d3ecb0ab68ce896dc" rel=3D"noreferrer" target=3D"=
+_blank">https://github.com/gnutls/gnutls/commit/9c573a2a0e7473ab79c43a6d3ec=
+b0ab68ce896dc</a>]<br>
++Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" =
+target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
++---<br>
++ tests/Makefile.am | 4 ++--<br>
++ 1 file changed, 2 insertions(+), 2 deletions(-)<br>
++<br>
++diff --git a/tests/Makefile.am b/tests/Makefile.am<br>
++index 1b27df751..f6a60a32b 100644<br>
++--- a/tests/Makefile.am<br>
+++++ b/tests/Makefile.am<br>
++@@ -540,8 +540,8 @@ pkcs11_os_locking_ok_DEPENDENCIES =3D <a href=3D"http:=
+//libpkcs11mock4.la" rel=3D"noreferrer" target=3D"_blank">libpkcs11mock4.la=
+</a> <a href=3D"http://libutils.la" rel=3D"noreferrer" target=3D"_blank">li=
+butils.la</a><br>
++ pkcs11_os_locking_ok_LDADD =3D $(LDADD) $(LIBDL)<br>
++ pkcs11_long_label_DEPENDENCIES =3D <a href=3D"http://libpkcs11mock4.la" r=
+el=3D"noreferrer" target=3D"_blank">libpkcs11mock4.la</a> <a href=3D"http:/=
+/libutils.la" rel=3D"noreferrer" target=3D"_blank">libutils.la</a><br>
++ pkcs11_long_label_LDADD =3D $(LDADD) $(LIBDL)<br>
++-pkcs11_trust_fault_DEPENDENCIES =3D <a href=3D"http://libpkcs11mock5.la" =
+rel=3D"noreferrer" target=3D"_blank">libpkcs11mock5.la</a> <a href=3D"http:=
+//libutils.la" rel=3D"noreferrer" target=3D"_blank">libutils.la</a><br>
++-pkcs11_trust_fault_LDADD =3D $(LDADD) $(LIBDL)<br>
+++pkcs11_trust_list_fault_DEPENDENCIES =3D <a href=3D"http://libpkcs11mock5=
+.la" rel=3D"noreferrer" target=3D"_blank">libpkcs11mock5.la</a> <a href=3D"=
+http://libutils.la" rel=3D"noreferrer" target=3D"_blank">libutils.la</a><br=
+>
+++pkcs11_trust_list_fault_LDADD =3D $(LDADD) $(LIBDL)<br>
++ endif<br>
++ endif<br>
++ <br>
+diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch b/m=
+eta/recipes-support/gnutls/gnutls/Add-ptest-support.patch<br>
+index 398c0464e0..8c867a5a40 100644<br>
+--- a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch<br>
++++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch<br>
+@@ -29,7 +29,7 @@ diff --git a/<a href=3D"http://configure.ac" rel=3D"noref=
+errer" target=3D"_blank">configure.ac</a> b/<a href=3D"http://configure.ac"=
+ rel=3D"noreferrer" target=3D"_blank">configure.ac</a><br>
+=C2=A0index 1744813..efb9e34 100644<br>
+=C2=A0--- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
+lank">configure.ac</a><br>
+=C2=A0+++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
+lank">configure.ac</a><br>
+-@@ -1448,6 +1448,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)<br>
++@@ -1413,6 +1413,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)<br>
+<br>
+=C2=A0 AM_CONDITIONAL(NEEDS_LIBRT, test &quot;$gnutls_needs_librt&quot; =3D=
+ &quot;yes&quot;)<br>
+<br>
+@@ -42,7 +42,7 @@ diff --git a/tests/Makefile.am b/tests/Makefile.am<br>
+=C2=A0index 189d068..8430b05 100644<br>
+=C2=A0--- a/tests/Makefile.am<br>
+=C2=A0+++ b/tests/Makefile.am<br>
+-@@ -721,6 +721,12 @@ SH_LOG_COMPILER =3D $(SHELL)<br>
++@@ -745,6 +745,12 @@ SH_LOG_COMPILER =3D $(SHELL)<br>
+=C2=A0 AM_VALGRINDFLAGS =3D --suppressions=3D$(srcdir)/suppressions.valgrin=
+d<br>
+=C2=A0 LOG_COMPILER =3D $(LOG_VALGRIND)<br>
+<br>
+diff --git a/meta/recipes-support/gnutls/gnutls/c99.patch b/meta/recipes-su=
+pport/gnutls/gnutls/c99.patch<br>
+deleted file mode 100644<br>
+index 3f41241deb..0000000000<br>
+--- a/meta/recipes-support/gnutls/gnutls/c99.patch<br>
++++ /dev/null<br>
+@@ -1,41 +0,0 @@<br>
+-From 203d8f2187bb7f483290e0f8b7b48b152b1d027f Mon Sep 17 00:00:00 2001<br>
+-From: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_bl=
+ank">ross.burton@arm.com</a>&gt;<br>
+-Date: Thu, 5 Mar 2026 11:33:57 +0000<br>
+-Subject: [PATCH] configure: make the C99 detection more resiliant<br>
+-<br>
+-autoconf 2.73 will default to C23 by default, which means that the &gt;C99=
+<br>
+-detection logic in <a href=3D"http://configure.ac" rel=3D"noreferrer" targ=
+et=3D"_blank">configure.ac</a> will fail because it only handles c11<br>
+-and c99.<br>
+-<br>
+-Instead of adding c23 to the list and then breaking again in the future,<b=
+r>
+-flip the logic around (as suggested by Zack Weinberg) and check<br>
+-explicitly for just c89.<br>
+-<br>
+-Closes #1806.<br>
+-<br>
+-Upstream-Status: Backport [<a href=3D"https://gitlab.com/gnutls/gnutls/-/m=
+erge_requests/2081" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com=
+/gnutls/gnutls/-/merge_requests/2081</a>]<br>
+-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targ=
+et=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+----<br>
+- <a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank">conf=
+igure.ac</a> | 6 +++---<br>
+- 1 file changed, 3 insertions(+), 3 deletions(-)<br>
+-<br>
+-diff --git a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"=
+_blank">configure.ac</a> b/<a href=3D"http://configure.ac" rel=3D"noreferre=
+r" target=3D"_blank">configure.ac</a><br>
+-index 740fb6339..c708d8f5e 100644<br>
+---- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
+>configure.ac</a><br>
+-+++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
+>configure.ac</a><br>
+-@@ -54,9 +54,9 @@ AC_USE_SYSTEM_EXTENSIONS<br>
+- # Require C99 support<br>
+- #<br>
+- AS_CASE([$ac_prog_cc_stdc],<br>
+--=C2=A0 [c11 | c99], [AC_DEFINE([C99_MACROS], 1, [C99 macros are supported=
+])],<br>
+--=C2=A0 [AC_MSG_WARN([[Compiler does not support C99. It may not be able t=
+o compile the project.]])]<br>
+--)<br>
+-+=C2=A0 [c89],<br>
+-+=C2=A0 [AC_MSG_WARN([[Compiler does not support C99. It may not be able t=
+o compile the project.]])],<br>
+-+=C2=A0 [AC_DEFINE([C99_MACROS], 1, [C99 macros are supported])])<br>
+- <br>
+- AM_CONDITIONAL(CROSS_COMPILING, test &quot;$cross_compiling&quot; =3D yes=
+)<br>
+- <br>
+--- <br>
+-2.43.0<br>
+-<br>
+diff --git a/meta/recipes-support/gnutls/<a href=3D"http://gnutls_3.8.12.bb=
+" rel=3D"noreferrer" target=3D"_blank">gnutls_3.8.12.bb</a> b/meta/recipes-=
+support/gnutls/<a href=3D"http://gnutls_3.8.13.bb" rel=3D"noreferrer" targe=
+t=3D"_blank">gnutls_3.8.13.bb</a><br>
+similarity index 93%<br>
+rename from meta/recipes-support/gnutls/<a href=3D"http://gnutls_3.8.12.bb"=
+ rel=3D"noreferrer" target=3D"_blank">gnutls_3.8.12.bb</a><br>
+rename to meta/recipes-support/gnutls/<a href=3D"http://gnutls_3.8.13.bb" r=
+el=3D"noreferrer" target=3D"_blank">gnutls_3.8.13.bb</a><br>
+index 8554ab943d..943864d4ba 100644<br>
+--- a/meta/recipes-support/gnutls/<a href=3D"http://gnutls_3.8.12.bb" rel=
+=3D"noreferrer" target=3D"_blank">gnutls_3.8.12.bb</a><br>
++++ b/meta/recipes-support/gnutls/<a href=3D"http://gnutls_3.8.13.bb" rel=
+=3D"noreferrer" target=3D"_blank">gnutls_3.8.13.bb</a><br>
+@@ -23,10 +23,11 @@ SRC_URI =3D &quot;<a href=3D"https://www.gnupg.org/ftp/=
+gcrypt/gnutls/v$%7BSHRT_VER%7D/gnutls-$%7BPV%7D.tar" rel=3D"noreferrer" tar=
+get=3D"_blank">https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-=
+${PV}.tar</a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Creating-.hmac-file-s=
+hould-be-excuted-in-target-envi.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://Add-ptest-support.patch \<=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://c99.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-tests-pkcs11-trust-li=
+st-fault-fix-issues-in-linking.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-tests-mini-dtls-frame=
+nts-link-to-gnulib.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+-SRC_URI[sha256sum] =3D &quot;a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd79=
+2b2bf470bea012b8e51&quot;<br>
++SRC_URI[sha256sum] =3D &quot;ffed8ec1bf09c2426d4f14aae377de4753b53e537d685=
+e604e99a8b16ca9c97e&quot;<br>
+<br>
+=C2=A0inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest=
+<br>
+<br>
+@@ -63,10 +64,6 @@ do_configure:prepend() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for dir in . lib; do<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f ${dir}/acloca=
+l.m4 ${dir}/m4/libtool.m4 ${dir}/m4/lt*.m4<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# remove on next upgrade when release tarball g=
+ets fixed<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# <a href=3D"https://gitlab.com/gnutls/gnutls/-=
+/issues/1797" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/gnutl=
+s/gnutls/-/issues/1797</a><br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -p ${S}/doc/stamp_enums ${S}/doc/stamp_error=
+_codes<br>
+=C2=A0}<br>
+<br>
+=C2=A0do_compile_ptest() {<br>
+-- <br>
+2.43.0<br>
+<br>
+</blockquote></div>
 
+--0000000000009eb6ee06557babeb--
 
