@@ -1,160 +1,141 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38CA5C43458
-	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 13:51:03 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21517.1782827459134390176
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EEFDC43327
+	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 13:51:23 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21525.1782827475058135476
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2026 06:50:59 -0700
+ Tue, 30 Jun 2026 06:51:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ktYt2NjY;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-475417f010dso673619f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 06:50:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=fMxUVB2q;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: twoerner@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-39acf7c6d59so37978231fa.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 06:51:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782827473; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Ww2uoFPAa0y03g93pIpzkRt3bEvg6bm7Tll3gxmkrxz7zSPztLfALR5L+/nFT8BGNd
+         llgFyH3eoQiiItv8ougoolmmHRGPPueWfM7GlYnV2jHTHlLZ5phSao5zJREHTtGDkgop
+         7AmOzsWnZV41Wy22QU4gaTQdjvt2rQG6jGvJblPmE4y6ZBTZnRa+KnWlGCoQQ91Tn9vy
+         mQ2FhJnVIr7ds787IjupTUBOrIx0Ji0R6OhG9KLNpk0dLTabs2YPxEMuujWPT1VvlkFP
+         a0rp4GYl4ruSPZWtyObwLVmJ4ViK95JOSGgyEacnAnRDzsICP2tHKu1LKlqt7RaFWjpT
+         CJ5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vf47Wfd1ykrOSVLyryGpokkxwwIvUMioncZe1zGobi8=;
+        fh=UxP1HceJM0T1LJz3AZ4pRYR3KesS3Uwc4ek1/I2Z9pE=;
+        b=HwLckWLSNfUNa149L8r/BUwM2gq9qhDzTudquihRZrpR79LJNyRCnZ0zNsFQoio5U7
+         kBXAECgyRLiFhXrHyiJz8rjguTe9i8cHkCVP2XEeCsgBxj8FbxvUo9U+Dx5l32oEGxzw
+         DLqtNe9tg6RU6UVXd/FSHxd7jGW/Te4cFERLx/LyodZ4uwMRRPcSp3W5sIT6TztXp5fM
+         WV7g/3upbL0cNWWf64GbKniq/eH92gbwdv/5A4aMzxBaXlaqQYcge4AblCGNcc+qhRMA
+         9DpTcCBAhXwaT4EvLUcbhbBeVBNHUKvm0hTrIqMjR90nrxVsMJcZ4oliZCuzNsllraTd
+         j1HQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782827457; x=1783432257; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782827473; x=1783432273; darn=lists.openembedded.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7/jexmkBlgAlPZsOzqYzb5DmGlUuuI419n2rAj7/sIU=;
-        b=ktYt2NjYKaK/QE7FgI+iQl9eJ6tyXbFQXdsZm56ZR3bCbUvBp2nVJk+2swG4ITEtw1
-         J7D6PWrEl3wx7n+n1iAkTEDwxYeA/RZ88RAHAQkctqYJGip52jiCrIEkegmWOxdzF4Aj
-         7hMn/ibvT3ALI6NgDVQySqn8ImuwosNIzo7zE=
+        bh=vf47Wfd1ykrOSVLyryGpokkxwwIvUMioncZe1zGobi8=;
+        b=fMxUVB2q1jeEFsTkloSpbADwNXkk5HSsv+U0I2qRhr1xt9NlTxr0V0hk3aTNS2mJst
+         cDPrQbUm4bYwAVJ8xk2PB1pkxCxPlue29kNscCv2rPkm0yplFNVkGdOdQfVWNCSMMfA7
+         s+YFKuCvnLXqVgSOdWEXPtQVzw89gbUi5KGiMniWO5F7/yZ0TcDVZ9eaIoloZhPnvdtd
+         aAsKwsTz/UP1qdtva3HEHT8kCqwXoWCGOCsIP2Z+ly97SUzJqvyQn4lLQbe9H22vXeyI
+         B03Q94WgTUryloV8Jbo75ZDs1maVJJcs0ispJS1RInua6yiTWOj4OXbMhNxOAjs+7DD/
+         +SMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782827457; x=1783432257;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7/jexmkBlgAlPZsOzqYzb5DmGlUuuI419n2rAj7/sIU=;
-        b=ddMoDlRyg1E7/xmNgTmPwdxEuazBDumKmJjvRfPzqpDaTYs3DeF5nwrfeUVJ3l9yXH
-         0RmFUk9YGkimtmL7r2o2zDPKGr1jOp8IvS2rltO3gI5UCxfFTi4mLttp0WNEDKst4Amf
-         hSTRso24vueQhWB3IjkCb/z1DNYr1KE7rc2X7HjOm9NAepxSLLNHgCJ8b9v0/Qc+1dlt
-         7IA9oc7d+62c3tbttZJCeHI+NSffB3K/hXk29Fu+ld3iB6UR5SwHI1CUBWwvgAfdtnx+
-         Q2sYAi5BCp3wrDlhNT7+Gsxct/8nDbo00G2MM0JsRbxyzSz7nN9zShzf7wLzj7jOi33c
-         T9Mw==
-X-Gm-Message-State: AOJu0YwPTi4LZUaGWemXKsb7p0mNPYMW8smv96L4eRaHfinATGwGXKjn
-	RZlBThbxxwc94dUyRws7gfHCgzXUnBzKVHKnxlCOIxGKCP/ZIIRSdfTkOt6v4SZGQcg=
-X-Gm-Gg: AfdE7cljdJxPq/ybOTG1sxF7wVvDF9yoNqVYpg7zX2K2+XY8K7KhrNqZoshIn4U9j80
-	e8M/r9GIr5f2O/g7DN5BJWEBLbNdShU0tJpeqTptI0VJ4lx4o93ikIWW0lsSY4sUC7HK4fKtUG0
-	ZKlc7VUP67EN0UTy/lGfE2MO8VDuacldbIY/ZClIzTaZvbx7Jtp0k+F+7PY3ktun4UtNB4AO0+u
-	zDdWP6aTsGKYVg5Kgfg00MeVjc5+/CUKezrdFldODFIPEYMWZuyv7Hl1nIdfbNh/qW2uJD0WcM4
-	egdP3OfK0jUyVUVYfLldPKaL8GbsfpmU1tOd88Qs2VIGg52qlfYj9zUTahfRYZ97Yiuvbf2v9xZ
-	VDH98gNHKeYRRKmri8xRbd/U1HUD4WgW4+f7Q7K8dEpWJtkMmC2BkIkRSCBhvynxjRFOSpHqibH
-	wJUHJpard9VHEYQDFXDg2MFWD0CQGUCrIqZ56KtFvifJ//iESrTqRW02yVBzsJ7vdfR3pz2QOIJ
-	1lW9Q==
-X-Received: by 2002:a5d:6e56:0:b0:46f:e796:c3fc with SMTP id ffacd0b85a97d-47658f7fb06mr781848f8f.25.1782827457222;
-        Tue, 30 Jun 2026 06:50:57 -0700 (PDT)
-Received: from localhost (2a01cb001331aa0041d7d5fc68d4e77b.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:41d7:d5fc:68d4:e77b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4756778fac3sm7386394f8f.32.2026.06.30.06.50.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2026 06:50:56 -0700 (PDT)
-Mime-Version: 1.0
+        d=1e100.net; s=20251104; t=1782827473; x=1783432273;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vf47Wfd1ykrOSVLyryGpokkxwwIvUMioncZe1zGobi8=;
+        b=fBNdmtNFXrl45h39FbhQwXAmlrq/ZOk2v5cWMosqh2POemp8oQDp+LcO6R3grUDj48
+         PN2HNpBs3Qhx/Pzq4fE2dWYSM/Y4Hle5gHb4Y0zL19slIQ9JwnWKXXNYmE1tNXgQxB8o
+         DJ/RPo5sbG0T590AnK2/hTcqXHAxa7ys6mXhXuyGv+0GUPZWv9sqHXNJhVw6zsDv7uV5
+         WDHnLCOKSrDYLLkkTmZQzwI/IefBRYEsRxRj0VMrb1eQAMCgERQhn3GfvtEWQN4d9ChH
+         SfzjrU4ABTuXZGU0E6/rm8VU843eEhXcOSIFLZSCMLZ/4kRc8fbC/aofoCQquCcYuD1z
+         964A==
+X-Gm-Message-State: AOJu0YwkqYZU+QZj/Z8kdiH71D0DzuZXtVJZc2p8JhL7ExwV4A/MWThf
+	IZ8k+GaO6uel9N7jiU9vVjpBd3dPeD843fKI+bxOZ9HCWWhXqi+Ul2MorXfhP1wtNBFDr0ggWzQ
+	Qf3Sv4I06GSgmoIUbHkqOv5vBh843kiMwlQ==
+X-Gm-Gg: AfdE7ckKgCVjJZR0/5XPlgrfhi/fJyJlH1mQBknewFYZaCU12nrBgDh9Ifb2jIwC4OV
+	HLjzmszKtDs0be0quG4mWlruQnGMdwUX4aZ8sIMdZiSdo1ka/OHItNlGAYQNEa4Jhy2LrYx9AOH
+	EE9FNzjTC0eXO0a1hPrnOnb/E7w5NS7UhXmxTe1o4HOMGX5tbCT68bQcWPSf5Xg1qE/6eOeX5Ym
+	FYE+pDdL0pIol6CsPqN9cs5ZDi6uxTIiaaBs0WAHL1DjW1ld2EZnojofMr/1aL3+VGyUYZhg4P5
+	Oe8EdreR
+X-Received: by 2002:a05:651c:234d:10b0:393:d706:7bc with SMTP id
+ 38308e7fff4ca-39b28bbfa18mr2222921fa.0.1782827472598; Tue, 30 Jun 2026
+ 06:51:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260627180658.558372-1-twoerner@gmail.com>
+In-Reply-To: <20260627180658.558372-1-twoerner@gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Tue, 30 Jun 2026 09:50:59 -0400
+X-Gm-Features: AVVi8CfVn0gcHmwqU1gAndMaj8QY65BRu_NKff2BqCXllgqGeWfz-MAgRFhoTIE
+Message-ID: <CAHUNapRFfgnAtx8=k0AduSh=O7m8HFAsdNHKyFuaqp2C3My91A@mail.gmail.com>
+Subject: Re: [PATCH] wic: upgrade 0.3.0 -> 0.3.1
+To: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 30 Jun 2026 15:50:56 +0200
-Message-Id: <DJMFL6TE8JWX.2O3VSPN2AKF1J@smile.fr>
-Subject: Re: [OE-core] [PATCH] dropbear: Clarify LICENSE and drop PD
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <openembedded-core@lists.openembedded.org>
-To: "Yoann Congal" <yoann.congal@smile.fr>, "Richard Purdie"
- <richard.purdie@linuxfoundation.org>
-X-Mailer: aerc 0.20.0
-References: <20260602150018.189097-1-richard.purdie@linuxfoundation.org>
- <DJLWBE1WSDSN.G0FEJAKOMOUI@smile.fr>
- <82485f53d8cdfc2fded0f3786cbe97fb105e9902.camel@linuxfoundation.org>
- <CAMSfU+4hVA5oHERs8D0_pR2eWVeFeKdhogvvQLqGTD6XOgciXQ@mail.gmail.com>
-In-Reply-To: <CAMSfU+4hVA5oHERs8D0_pR2eWVeFeKdhogvvQLqGTD6XOgciXQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 13:51:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239897
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 13:51:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239898
 
-On Tue Jun 30, 2026 at 9:34 AM CEST, Yoann Congal wrote:
-> Le mar. 30 juin 2026 =C3=A0 08:42, Richard Purdie <
-> richard.purdie@linuxfoundation.org> a =C3=A9crit :
+NAK (if it's not too late)
+I didn't update the version in the wic project itself.
+
+On Sat, Jun 27, 2026 at 2:07=E2=80=AFPM Trevor Woerner <twoerner@gmail.com>=
+ wrote:
 >
->> On Tue, 2026-06-30 at 00:44 +0200, Yoann Congal wrote:
->> > On Tue Jun 2, 2026 at 5:00 PM CEST, Richard Purdie via
->> lists.openembedded.org wrote:
->> > > The "public-domain" code has a MIT license header so we can remove
->> > > that from LICENSE (MIT is already listed).
->> > >
->> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> > > ---
->> > >  meta/recipes-core/dropbear/dropbear_2025.89.bb | 3 ++-
->> > >  1 file changed, 2 insertions(+), 1 deletion(-)
->> > >
->> > > diff --git a/meta/recipes-core/dropbear/dropbear_2025.89.bb
->> b/meta/recipes-core/dropbear/dropbear_2025.89.bb
->> > > index 957a0901fb0..ece065265ff 100644
->> > > --- a/meta/recipes-core/dropbear/dropbear_2025.89.bb
->> > > +++ b/meta/recipes-core/dropbear/dropbear_2025.89.bb
->> > > @@ -5,7 +5,8 @@ SECTION =3D "console/network"
->> > >
->> > >  # some files are from other projects and have others license terms:
->> > >  #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
->> > > -LICENSE =3D "MIT & BSD-3-Clause & BSD-2-Clause & PD"
->> > > +# The 'public-domain' file is headered as MIT
->> > > +LICENSE =3D "MIT & BSD-3-Clause & BSD-2-Clause"
->> > >  LIC_FILES_CHKSUM =3D
->> "file://LICENSE;md5=3D25cf44512b7bc8966a48b6b1a9b7605f"
->> >
->> > While reviewing backporting this patch for scarthgap, I've look at the
->> > licences of dropbear:
->> > The "'public-domain' file headered as MIT" is (I think):
->> > https://github.com/mkj/dropbear/blob/DROPBEAR_2026.91/src/curve25519.c
->> > (indeed MIT header)
->> >
->> > But:
->> > * vendored libtommcrypt is "PD OR WTFPL"
->> >
->> https://github.com/mkj/dropbear/blob/DROPBEAR_2026.91/libtomcrypt/LICENS=
-E
->> > * vendored libtommath is "Unlicense"
->> >
->> https://github.com/mkj/dropbear/blob/DROPBEAR_2026.91/libtommath/LICENSE
->> > ... is that OK that those don't appear in LICENSE?
->> >
->> > If yes, then the argument is still valid for scarthgap and I'll will
->> > backport.
->>
->> Well spotted, I think you're right that I didn't get this quite right.
->> It should be:
->>
->> "MIT & BSD-3-Clause & BSD-2-Clause & (PD | WTFPL) & Unlicense"
->>
->> assuming those libs are always used in the build.
->>
->> We should probably just make it:
->>
->> "MIT & BSD-3-Clause & BSD-2-Clause & WTFPL & Unlicense"
->>
->> since PD just causes us pain and WTFPL is effectively the alternative.
->>
+> Pick up nine commits since the v0.3.0 tagged release.
 >
-> Ok, I'll drop that for scarthgap for now, send a fix for master and then,
-> look backporting this.
-
-master fix: https://lore.kernel.org/openembedded-core/20260630134853.537737=
--2-yoann.congal@smile.fr/T/#u
-
+> git log --oneline 5974ade11032f218841d9f449ef0efeee3f9a2ca..5137f70fb4318=
+9d98e5738b7734f69f214516b97
+> 5137f70fb431 wic: Update after plugin name changes once again
+> bb768b12b733 bootimg_pcbios: fix typo in comment
+> 85067dd89492 README.md: literal cleanups
+> 9c75ddc60d06 README.md: add Trevor (the maintainer)'s mail as Cc recipien=
+ts
+> 0cbe5b9d2934 README.md: add example instruction for sending patches
+> 1f9e8c77c049 add basic b4 config file
+> 0a8ddac66dc1 wic/plugins: gate root=3D with rootdev check for efi, pcbios=
+ and partition
+> f20cda73b495 wic: Fix updating fstab for nvme devices
+> bc0a8d88f6cd src: rename top-level bb imports to avoid oe-core/bitbake co=
+llision
 >
-> Thanks!
+> AI-Generated: codex/claude-sonnet 4.6 (high)
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> ---
+>  meta/recipes-support/wic/{wic_0.3.0.bb =3D> wic_0.3.1.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-support/wic/{wic_0.3.0.bb =3D> wic_0.3.1.bb} (90%)
 >
+> diff --git a/meta/recipes-support/wic/wic_0.3.0.bb b/meta/recipes-support=
+/wic/wic_0.3.1.bb
+> similarity index 90%
+> rename from meta/recipes-support/wic/wic_0.3.0.bb
+> rename to meta/recipes-support/wic/wic_0.3.1.bb
+> index 7dbf84b039a6..bfd34374a14c 100644
+> --- a/meta/recipes-support/wic/wic_0.3.0.bb
+> +++ b/meta/recipes-support/wic/wic_0.3.1.bb
+> @@ -4,7 +4,7 @@ LICENSE =3D "GPL-2.0-only"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D4ee23c52855c222cba72583d301d2=
+338"
 >
->>
->> Cheers,
->>
->> Richard
->>
->>
-
-
---=20
-Yoann Congal
-Smile ECS
-
+>  SRC_URI =3D "git://git.yoctoproject.org/wic.git;branch=3Dmaster;protocol=
+=3Dhttps;tag=3Dv${PV}"
+> -SRCREV =3D "5974ade11032f218841d9f449ef0efeee3f9a2ca"
+> +SRCREV =3D "5137f70fb43189d98e5738b7734f69f214516b97"
+>
+>  CVE_PRODUCT =3D "yoctoproject:wic"
+>
+> --
+> 2.50.0.173.g8b6f19ccfc3a
+>
 
