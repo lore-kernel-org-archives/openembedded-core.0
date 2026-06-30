@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C84FC43458
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A4C2C43602
 	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 05:52:36 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14769.1782798747911718937
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15163.1782798751403633914
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jun 2026 22:52:28 -0700
+ Mon, 29 Jun 2026 22:52:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=mY9hlZlF;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Llg5c0pK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019f171604b5-2f9fb5c8-5897-443d-ae66-842cd3a2bdf4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=s9QsbTYZ;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=aInIXfzS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019f171611bf-2b784629-e21d-46be-9d5b-db8a15a9aa85-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1782798747;
+	t=1782798750;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=dV1MAwCM3BF5pJY3RVYn+lE/GIjgMBoLeJCQ1UJTgz4=;
-	b=mY9hlZlFus/RJVz0MFG8Vek7SgsJzXSGhKEC9PFFFAMuqQSuG++CUVl6Fcg5Win0
-	43ChI29XkBSBX32IWkHswFbOgXIVIcuQRw8RThUUoDFk4caXw+rTC0ot4myhiJfDYot
-	slfjMDp0VML0p/QWWd8lVnyX4tEfOCd67dUvtDmY=
+	bh=ARIHAiVb5Z45hQt+TSrdCHtckfM7WG58Lfn/KswGBm8=;
+	b=s9QsbTYZmb9Gb6gYoQ1uEmwjxkjbKV1MDIrkoAJ/mg9W8zo2NlU1DF4hlfPkPViU
+	EsGrhIAyrKLEwUY9OHpcq+33WVMDbU+W6dW3Ur6R6c99YLPtD0zX4TEjHpBnaDi9LDF
+	7u1rckP2ussqwOgPF+ZBt7qmVPTFJuDNKiizrQbA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782798747;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1782798750;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=dV1MAwCM3BF5pJY3RVYn+lE/GIjgMBoLeJCQ1UJTgz4=;
-	b=Llg5c0pK9Q0MZF/PGY/dy2eAYautSvDgF3aZ0XEevDcwbH1cOVomqPo4jQt91wH2
-	FvyakRYM9kOm0Ci/P9ykRoRqnznWtEvtW/cn8AOiJJ3AJDK2lRZTR4BxuVtqhopFSIt
-	4pag2GfkE4/lb7UEaiatjUHvHSb3+l5bV7lzB5Jk=
-Content-Type: multipart/mixed; boundary="===============5826051345165596214=="
+	bh=ARIHAiVb5Z45hQt+TSrdCHtckfM7WG58Lfn/KswGBm8=;
+	b=aInIXfzSl/wj0yPhSZqmP+4/rwJfipzCGYNHYX+YJWU1si2a98ZsP/3nL63tEvwZ
+	itmNa4n/OfzLB31J/qAwVhCmK/iCAthglqo4Fx2+zuKEn2OdGv73fQqJ6O4KFMN3rDF
+	ESVw+bOedBEIt3kZDxIRWJbAeGRdP3/LJuqEt9MQ=
+Content-Type: multipart/mixed; boundary="===============3404021505099657088=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alex Stewart <alex.stewart@ni.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] opkg: upgrading to 0.10.0 SUCCEEDED
-Message-ID: <0101019f171604b5-2f9fb5c8-5897-443d-ae66-842cd3a2bdf4-000000@us-west-2.amazonses.com>
-Date: Tue, 30 Jun 2026 05:52:26 +0000
+Subject: [AUH] acl: upgrading to 2.4.0 SUCCEEDED
+Message-ID: <0101019f171611bf-2b784629-e21d-46be-9d5b-db8a15a9aa85-000000@us-west-2.amazonses.com>
+Date: Tue, 30 Jun 2026 05:52:30 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.06.30-54.240.27.31
+X-SES-Outgoing: 2026.06.30-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 05:52:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239840
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239847
 
---===============5826051345165596214==
+--===============3404021505099657088==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *opkg* to *0.10.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *acl* to *2.4.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-opkg-upgrade-0.9.0-0.10.0.patch
+    - apply the patch: git am 0001-acl-upgrade-2.3.2-2.4.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,393 +72,358 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4e6a94ff7b6b9337f26673d930bc74f0eb8070a3 Mon Sep 17 00:00:00 2001
+From 051007f02197165c795e372c8732437f7166840e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 30 Jun 2026 05:16:51 +0000
-Subject: [PATCH] opkg: upgrade 0.9.0 -> 0.10.0
+Date: Tue, 30 Jun 2026 05:48:53 +0000
+Subject: [PATCH] acl: upgrade 2.3.2 -> 2.4.0
 
 ---
- ...-opkg.lock-in-run-instead-of-var-run.patch |  4 +-
- .../opkg/opkg/0002-config.h.in-fix-typo.patch | 27 ------
- ...003-cmake-fix-WITH_ACL-and-USE_XATTR.patch | 95 -------------------
- .../opkg/{opkg_0.9.0.bb => opkg_0.10.0.bb}    |  4 +-
- 4 files changed, 3 insertions(+), 127 deletions(-)
- delete mode 100644 meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
- delete mode 100644 meta/recipes-devtools/opkg/opkg/0003-cmake-fix-WITH_ACL-and-USE_XATTR.patch
- rename meta/recipes-devtools/opkg/{opkg_0.9.0.bb => opkg_0.10.0.bb} (94%)
+ ...t_uid-fix-memory-wasting-loop-if-use.patch | 49 -------------------
+ ...isc.test-Don-t-mix-stdout-and-stderr.patch | 35 -------------
+ .../attr/{acl_2.3.2.bb => acl_2.4.0.bb}       |  4 +-
+ 3 files changed, 1 insertion(+), 87 deletions(-)
+ delete mode 100644 meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch
+ delete mode 100644 meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch
+ rename meta/recipes-support/attr/{acl_2.3.2.bb => acl_2.4.0.bb} (90%)
 
-diff --git a/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch b/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
-index 98daf746ec..88aadbd51c 100644
---- a/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
-+++ b/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
-@@ -1,4 +1,4 @@
--From 82b29dcfe3033d8285890bf46e58f464d9944196 Mon Sep 17 00:00:00 2001
-+From 1b1ea74d7375168eadc562d316a590e0dcae1260 Mon Sep 17 00:00:00 2001
- From: Jonathan Liu <net147@gmail.com>
- Date: Mon, 21 Sep 2015 20:23:23 +1000
- Subject: [PATCH] opkg_conf: create opkg.lock in /run instead of /var/run
-@@ -17,7 +17,7 @@ Signed-off-by: Jonathan Liu <net147@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch b/meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch
+deleted file mode 100644
+index 5052bdaa2f..0000000000
+--- a/meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From 56abe432b65801f31277fb9a3bca0f9e31502315 Mon Sep 17 00:00:00 2001
+-From: Matthias Gerstner <matthias.gerstner@suse.de>
+-Date: Thu, 25 Apr 2024 12:43:49 +0200
+-Subject: [PATCH] libmisc: __acl_get_uid(): fix memory wasting loop if user
+- does not exist
+-
+-I noticed that `acl_from_text()` unexpectedly returns ENOMEM for invalid
+-user names. The reason for this is a missing break statement in the for
+-loop in `__acl_get_uid()`, which causes the loop to act as if ERANGE was
+-returned from `getpwnam_r()`, thereby exponentially increasing the
+-buffer size to (in my case) multiple gigabytes, until `grow_buffer()`
+-reports ENOMEM, which terminates the `__acl_get_uid()` function.
+-
+-This is a pretty costly "no such user" lookup that can disturb a
+-process's heap memory management, but can also cause a process to fail
+-e.g. if it is multithreaded and other threads encounter an ENOMEM,
+-before `__acl_get_uid()` frees the gigantic heap buffer and returns.
+-The allocated memory isn't actually used. Therefore on Linux it should
+-not affect other processes by default, due to its overcommit memory
+-and lazy memory allocation strategy.
+-
+-Fix this by properly terminating the for loop on any conditions except
+-an ERANGE error being reported. The same break statement correctly
+-exists in `__acl_get_gid()` already.
+-
+-Fixes: 3737f00 ("use thread-safe getpwnam_r and getgrnam_r")
+-Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- libmisc/uid_gid_lookup.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/libmisc/uid_gid_lookup.c b/libmisc/uid_gid_lookup.c
+-index a4f21f6..74baab4 100644
+---- a/libmisc/uid_gid_lookup.c
+-+++ b/libmisc/uid_gid_lookup.c
+-@@ -91,6 +91,7 @@ __acl_get_uid(const char *token, uid_t *uid_p)
+- 		if (err == ERANGE)
+- 			continue;
+- 		errno = err ? err : EINVAL;
+-+		break;
+- 	}
+- 	free(buffer);
+- 	return result ? 0 : -1;
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch b/meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch
+deleted file mode 100644
+index 5aa3f3224c..0000000000
+--- a/meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 47f8039ec9bd08b629775c8e788d11e41fa95f14 Mon Sep 17 00:00:00 2001
+-From: Andreas Gruenbacher <agruenba@redhat.com>
+-Date: Mon, 24 Mar 2025 21:14:09 +0100
+-Subject: [PATCH] test/misc.test: Don't mix stdout and stderr
+-
+-In different environments, we may not get the stdout and stderr output
+-in the order the run script expects, so check both separately.
+-
+-Fixes: https://savannah.nongnu.org/bugs/?66944
+-Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- test/misc.test | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/test/misc.test b/test/misc.test
+-index 06b3136..57c02e5 100644
+---- a/test/misc.test
+-+++ b/test/misc.test
+-@@ -440,8 +440,9 @@ Dangling symlink test https://savannah.nongnu.org/bugs/?28131
+- 	> other::r-x
+- 	> 
+- 	$ setfacl -R -m u:bin:rw d
+--	$ getfacl -RL d
+-+	$ getfacl -RL d > /dev/null
+- 	> getfacl: d/b: No such file or directory
+-+	$ getfacl -RL d 2> /dev/null
+- 	> # file: d
+- 	> # owner: %TUSER
+- 	> # group: %TGROUP
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-support/attr/acl_2.3.2.bb b/meta/recipes-support/attr/acl_2.4.0.bb
+similarity index 90%
+rename from meta/recipes-support/attr/acl_2.3.2.bb
+rename to meta/recipes-support/attr/acl_2.4.0.bb
+index a405cc2692..ef9ee492a0 100644
+--- a/meta/recipes-support/attr/acl_2.3.2.bb
++++ b/meta/recipes-support/attr/acl_2.4.0.bb
+@@ -16,11 +16,9 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=c781d70ed2b4d48995b790403217a249 \
+ DEPENDS = "attr"
  
- diff --git a/libopkg/opkg_conf.h b/libopkg/opkg_conf.h
--index 3fa6ca9..b12672e 100644
-+index 650b59c..f9cf981 100644
- --- a/libopkg/opkg_conf.h
- +++ b/libopkg/opkg_conf.h
- @@ -42,7 +42,7 @@ extern "C" {
-diff --git a/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch b/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
-deleted file mode 100644
-index 626bbd01b6..0000000000
---- a/meta/recipes-devtools/opkg/opkg/0002-config.h.in-fix-typo.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From 5a81faadbc2397d554bc598d535fd2d44cbc8d10 Mon Sep 17 00:00:00 2001
--From: Etienne Cordonnier <ecordonnier@snap.com>
--Date: Mon, 20 Oct 2025 18:57:56 +0200
--Subject: [PATCH] config.h.in: fix typo
--
--Upstream-Status: Backport [https://git.yoctoproject.org/opkg/commit/?id=d723a90bfe6409c7ad983ed911225d4aefbfd09e]
--Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
-----
-- config.h.in | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/config.h.in b/config.h.in
--index 4fa9842..877b8c7 100644
----- a/config.h.in
--+++ b/config.h.in
--@@ -2,7 +2,7 @@
-- #cmakedefine01 WITH_XZ
-- #cmakedefine01 WITH_BZIP2
-- #cmakedefine01 WITH_LZ4
---#cmakedefine01 WITH_LZSTD
--+#cmakedefine01 WITH_ZSTD
-- #cmakedefine01 WITH_CURL
-- #cmakedefine01 WITH_SSLCURL
-- #cmakedefine01 WITH_ACL
---- 
--2.43.0
--
-diff --git a/meta/recipes-devtools/opkg/opkg/0003-cmake-fix-WITH_ACL-and-USE_XATTR.patch b/meta/recipes-devtools/opkg/opkg/0003-cmake-fix-WITH_ACL-and-USE_XATTR.patch
-deleted file mode 100644
-index a041965515..0000000000
---- a/meta/recipes-devtools/opkg/opkg/0003-cmake-fix-WITH_ACL-and-USE_XATTR.patch
-+++ /dev/null
-@@ -1,95 +0,0 @@
--From 6d2eb69bb7b8f1ada6232eba4eb9c223be386d29 Mon Sep 17 00:00:00 2001
--From: Etienne Cordonnier <ecordonnier@snap.com>
--Date: Thu, 27 Nov 2025 19:05:16 +0100
--Subject: [PATCH] cmake: fix WITH_ACL and USE_XATTR
--
--- CMakeLists.txt was using USE_ACL, but config.h.in was using WITH_ACL.
--  Use the consistent logic that optional dependencies use the prefix HAVE_,
--  and thus since use WITH_ACL consistently (build dependency libacl).
--
--- opkg_archive.c was using ifdef instead of if for both USE_ACL and USE_XATTR.
--
--- ENABLE_XATTR and ENABLE_ACL were both "no" per default in autoconf, and this default
--  value was mistakenly changed during the cmake migration. Change it back to OFF per default.
--
--Upstream-Status: Backport [https://git.yoctoproject.org/opkg/commit/?id=6d2eb69bb7b8f1ada6232eba4eb9c223be386d29]
--Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
--Signed-off-by: Alex Stewart <alex.stewart@emerson.com>
-----
-- CMakeLists.txt         | 6 ++++--
-- config.h.in            | 2 +-
-- libopkg/CMakeLists.txt | 2 +-
-- libopkg/opkg_archive.c | 4 ++--
-- 4 files changed, 8 insertions(+), 6 deletions(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index f2c01b1..316e343 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -13,6 +13,7 @@ set(PROJECT_VERSION "${PROJECT_VERSION}+git")
-- set(VERSION ${PROJECT_VERSION})
-- 
-- option(STATIC_LIBOPKG "Statically link libopkg into opkg" OFF)
--+# Options which add optional dependencies are prefixed with "WITH_"
-- # The current libopkg API is deprecated so only build it if requested
-- option(WITH_LIBOPKG_API "Enable deprecated libopkg API" OFF)
-- option(WITH_XZ "Enable xz compressor support" ON)
--@@ -23,8 +24,9 @@ option(WITH_CURL "Enable downloading with curl" ON)
-- include(CMakeDependentOption)
-- cmake_dependent_option(WITH_SSLCURL "Enable certificate authentication with curl" ON "WITH_CURL" OFF)
-- option(WITH_SHA256 "Enable sha256sum check" OFF)
---option(USE_ACL "Enable ACL support" ON)
---option(USE_XATTR "Enable xattr support" ON)
--+option(WITH_ACL "Enable ACL support" OFF)
--+# Options which don't add optional dependencies are prefixed with "USE_"
--+option(USE_XATTR "Enable xattr support" OFF)
-- option(USE_SOLVER_LIBSOLV "Enable libsolv solver support if true. Enable the internal solver if false." ON)
-- if(USE_SOLVER_LIBSOLV)
--     set(USE_SOLVER_INTERNAL OFF CACHE BOOL "Disable internal solver")
--diff --git a/config.h.in b/config.h.in
--index 877b8c7..f2d74c5 100644
----- a/config.h.in
--+++ b/config.h.in
--@@ -6,7 +6,7 @@
-- #cmakedefine01 WITH_CURL
-- #cmakedefine01 WITH_SSLCURL
-- #cmakedefine01 WITH_ACL
---#cmakedefine01 WITH_XATTR
--+#cmakedefine01 USE_XATTR
-- #cmakedefine01 USE_SOLVER_LIBSOLV
-- #cmakedefine01 USE_SOLVER_INTERNAL
-- #cmakedefine01 WITH_GPGME
--diff --git a/libopkg/CMakeLists.txt b/libopkg/CMakeLists.txt
--index 628cb8c..39064c2 100644
----- a/libopkg/CMakeLists.txt
--+++ b/libopkg/CMakeLists.txt
--@@ -182,7 +182,7 @@ if(WITH_SSLCURL)
--     target_link_libraries(libopkg OpenSSL::Crypto OpenSSL::SSL)
-- endif()
-- 
---if(USE_ACL)
--+if(WITH_ACL)
--     pkg_check_modules(acl REQUIRED IMPORTED_TARGET libacl)
--     target_link_libraries(libopkg PkgConfig::acl)
-- endif()
--diff --git a/libopkg/opkg_archive.c b/libopkg/opkg_archive.c
--index 48f80c0..fb40db3 100644
----- a/libopkg/opkg_archive.c
--+++ b/libopkg/opkg_archive.c
--@@ -914,11 +914,11 @@ struct opkg_ar *ar_open_pkg_data_archive(const char *filename)
--     ar->extract_flags = ARCHIVE_EXTRACT_OWNER | ARCHIVE_EXTRACT_PERM |
--         ARCHIVE_EXTRACT_TIME | ARCHIVE_EXTRACT_UNLINK | ARCHIVE_EXTRACT_NO_OVERWRITE;
-- 
---#ifdef USE_ACL
--+#if WITH_ACL
--     ar->extract_flags |= ARCHIVE_EXTRACT_ACL;
-- #endif
-- 
---#ifdef USE_XATTR
--+#if USE_XATTR
--     ar->extract_flags |= ARCHIVE_EXTRACT_FFLAGS | ARCHIVE_EXTRACT_XATTR;
-- #endif
-- 
---- 
--2.43.0
--
-diff --git a/meta/recipes-devtools/opkg/opkg_0.9.0.bb b/meta/recipes-devtools/opkg/opkg_0.10.0.bb
-similarity index 94%
-rename from meta/recipes-devtools/opkg/opkg_0.9.0.bb
-rename to meta/recipes-devtools/opkg/opkg_0.10.0.bb
-index 7551f1bc49..debcd94a30 100644
---- a/meta/recipes-devtools/opkg/opkg_0.9.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.10.0.bb
-@@ -15,12 +15,10 @@ PE = "1"
- SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz \
-            file://opkg.conf \
-            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
--           file://0002-config.h.in-fix-typo.patch \
--           file://0003-cmake-fix-WITH_ACL-and-USE_XATTR.patch \
+ SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.tar.gz \
+-           file://0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch \
+-           file://0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch \
             file://run-ptest \
             "
+-SRC_URI[sha256sum] = "5f2bdbad629707aa7d85c623f994aa8a1d2dec55a73de5205bac0bf6058a2f7c"
++SRC_URI[sha256sum] = "73c853c3d44e1f693e5a96a986f1bd19d3d0dac2c7d453e796177774bc4e5f6a"
  
--SRC_URI[sha256sum] = "440ef321862e01f83da4d02884a0cbb4d9d7b32f82faa81a6a85493f0c89d0f5"
-+SRC_URI[sha256sum] = "4d099e010a5d262b34184fee4766bc60a8c7439741fb210aa11d51704afd04d1"
+ inherit autotools gettext ptest
  
- # This needs to be before ptest inherit, otherwise all ptest files end packaged
- # in libopkg package if OPKGLIBDIR == libdir, because default
 -- 
 2.47.1
 
 
---===============5826051345165596214==
+--===============3404021505099657088==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/opkg: SRC_URI changed from "http://downloads.yoctoproject.org/releases/opkg/opkg-0.9.0.tar.gz file://opkg.conf file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch file://0002-config.h.in-fix-typo.patch file://0003-cmake-fix-WITH_ACL-and-USE_XATTR.patch file://run-ptest" to "http://downloads.yoctoproject.org/releases/opkg/opkg-0.10.0.tar.gz file://opkg.conf file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch file://run-ptest"
-packages/x86-64-v3-poky-linux/opkg: PKGV changed from 0.9.0 [default] to 0.10.0 [default]
-packages/x86-64-v3-poky-linux/opkg: PV changed from "0.9.0" to "0.10.0"
-packages/x86-64-v3-poky-linux/opkg/libopkg: PKGV changed from 0.9.0 [default] to 0.10.0 [default]
-packages/x86-64-v3-poky-linux/opkg/libopkg: PV changed from "0.9.0" to "0.10.0"
-packages/x86-64-v3-poky-linux/opkg/opkg-dbg: PKGV changed from 0.9.0 [default] to 0.10.0 [default]
-packages/x86-64-v3-poky-linux/opkg/opkg-dbg: PKGSIZE changed from 649024 to 651560 (+0%)
-packages/x86-64-v3-poky-linux/opkg/opkg-dbg: PV changed from "0.9.0" to "0.10.0"
-packages/x86-64-v3-poky-linux/opkg/opkg-dev: PKGV changed from 0.9.0 [default] to 0.10.0 [default]
-packages/x86-64-v3-poky-linux/opkg/opkg-dev: PKGSIZE changed from 231 to 232 (+0%)
-packages/x86-64-v3-poky-linux/opkg/opkg-dev: PV changed from "0.9.0" to "0.10.0"
-packages/x86-64-v3-poky-linux/opkg/opkg-doc: PKGV changed from 0.9.0 [default] to 0.10.0 [default]
-packages/x86-64-v3-poky-linux/opkg/opkg-doc: PKGSIZE changed from 15125 to 15121 (-0%)
-packages/x86-64-v3-poky-linux/opkg/opkg-doc: PV changed from "0.9.0" to "0.10.0"
-packages/x86-64-v3-poky-linux/opkg/opkg-locale: PKGV changed from 0.9.0 [default] to 0.10.0 [default]
-packages/x86-64-v3-poky-linux/opkg/opkg-locale: PV changed from "0.9.0" to "0.10.0"
-packages/x86-64-v3-poky-linux/opkg/opkg-ptest: PKGV changed from 0.9.0 [default] to 0.10.0 [default]
-packages/x86-64-v3-poky-linux/opkg/opkg-ptest: PKGSIZE changed from 172305 to 173222 (+1%)
-packages/x86-64-v3-poky-linux/opkg/opkg-ptest: PV changed from "0.9.0" to "0.10.0"
-packages/x86-64-v3-poky-linux/opkg/opkg-ptest: FILELIST: added "/usr/lib/opkg/ptest/tests/build/test-openembedded-build.sh"
-packages/x86-64-v3-poky-linux/opkg/opkg-src: PKGV changed from 0.9.0 [default] to 0.10.0 [default]
-packages/x86-64-v3-poky-linux/opkg/opkg-src: PKGSIZE changed from 523591 to 525200 (+0%)
-packages/x86-64-v3-poky-linux/opkg/opkg-src: PV changed from "0.9.0" to "0.10.0"
-packages/x86-64-v3-poky-linux/opkg/opkg-src: FILELIST: directory renamed /usr/src/debug/opkg/0.9.0/libopkg -> /usr/src/debug/opkg/0.10.0/libopkg, directory renamed /usr/src/debug/opkg/0.9.0/src -> /usr/src/debug/opkg/0.10.0/src, directory renamed /usr/src/debug/opkg/0.9.0/libopkg/solvers/libsolv -> /usr/src/debug/opkg/0.10.0/libopkg/solvers/libsolv
-packages/x86-64-v3-poky-linux/opkg/opkg-staticdev: PKGV changed from 0.9.0 [default] to 0.10.0 [default]
-packages/x86-64-v3-poky-linux/opkg/opkg-staticdev: PV changed from "0.9.0" to "0.10.0"
-packages/x86-64-v3-poky-linux/opkg/opkg: PKGV changed from 0.9.0 [default] to 0.10.0 [default]
-packages/x86-64-v3-poky-linux/opkg/opkg: PV changed from "0.9.0" to "0.10.0"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: FILES: removed "/lib/lib*.so /lib/*.o /lib/*.la"
+packages/all-poky-linux/wayland-protocols/wayland-protocols-staticdev: FILES: removed "/lib/*.a"
+packages/all-poky-linux/wayland-protocols/wayland-protocols: FILES: removed "/lib/*.so.* /sbin/* /bin/*", added "/usr/lib/*.so.*"
+packages/x86-64-v3-poky-linux/acl/acl-dbg: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-dbg: RRECOMMENDS: removed "libattr-dbg"
+packages/x86-64-v3-poky-linux/acl/acl-dbg: PKGSIZE changed from 368440 to 439288 (+19%)
+packages/x86-64-v3-poky-linux/acl/acl-dbg: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-dbg: FILELIST: removed "/usr/lib/.debug/libacl.so.1.1.2302", added "/usr/lib/.debug/libacl.so.1.2.2400"
+packages/x86-64-v3-poky-linux/acl/acl-dev: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-dev: RRECOMMENDS: removed "libattr-dev"
+packages/x86-64-v3-poky-linux/acl/acl-dev: PKGSIZE changed from 6482 to 6866 (+6%)
+packages/x86-64-v3-poky-linux/acl/acl-dev: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-doc: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-doc: PKGSIZE changed from 222615 to 235588 (+6%)
+packages/x86-64-v3-poky-linux/acl/acl-doc: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-doc: FILELIST: added "/usr/share/man/man3/acl_set_file_at.3 /usr/share/man/man3/acl_extended_file_at.3 /usr/share/man/man3/acl_get_file_at.3 /usr/share/man/man3/acl_delete_def_file_at.3"
+packages/x86-64-v3-poky-linux/acl/acl-locale-de: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-locale-de: PKGSIZE changed from 8722 to 9261 (+6%)
+packages/x86-64-v3-poky-linux/acl/acl-locale-de: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-locale-en+boldquot: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-locale-en+boldquot: PKGSIZE changed from 8581 to 9091 (+6%)
+packages/x86-64-v3-poky-linux/acl/acl-locale-en+boldquot: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-locale-en+quot: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-locale-en+quot: PKGSIZE changed from 8497 to 9007 (+6%)
+packages/x86-64-v3-poky-linux/acl/acl-locale-en+quot: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-locale-es: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-locale-es: PKGSIZE changed from 6972 to 6751 (-3%)
+packages/x86-64-v3-poky-linux/acl/acl-locale-es: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-locale-fr: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-locale-fr: PKGSIZE changed from 7691 to 7440 (-3%)
+packages/x86-64-v3-poky-linux/acl/acl-locale-fr: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-locale-gl: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-locale-gl: PKGSIZE changed from 6970 to 6738 (-3%)
+packages/x86-64-v3-poky-linux/acl/acl-locale-gl: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-locale-ka: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-locale-ka: PKGSIZE changed from 13107 to 10125 (-23%)
+packages/x86-64-v3-poky-linux/acl/acl-locale-ka: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-locale-pl: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-locale-pl: PKGSIZE changed from 9321 to 7204 (-23%)
+packages/x86-64-v3-poky-linux/acl/acl-locale-pl: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-locale-sv: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-locale-sv: PKGSIZE changed from 6704 to 6491 (-3%)
+packages/x86-64-v3-poky-linux/acl/acl-locale-sv: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-ptest: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-ptest: RDEPENDS: removed "libattr (['>= 2.5.2'])"
+packages/x86-64-v3-poky-linux/acl/acl-ptest: PKGSIZE changed from 42237 to 25258 (-40%)
+packages/x86-64-v3-poky-linux/acl/acl-ptest: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-ptest: FILELIST: removed "/usr/lib/acl/ptest/setfacl-X.test /usr/lib/acl/ptest/sbits-restore.test /usr/lib/acl/ptest/getfacl-recursive.test /usr/lib/acl/ptest/cp.test /usr/lib/acl/ptest/utf8-filenames.test /usr/lib/acl/ptest/getfacl-lfs.test /usr/lib/acl/ptest/getfacl-noacl.test /usr/lib/acl/ptest/malformed-restore.test /usr/lib/acl/ptest/misc.test"
+packages/x86-64-v3-poky-linux/acl/acl-src: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-src: PKGSIZE changed from 204219 to 234173 (+15%)
+packages/x86-64-v3-poky-linux/acl/acl-src: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl-src: FILELIST: directory renamed /usr/src/debug/acl/2.3.2/tools -> /usr/src/debug/acl/2.4.0/tools, directory renamed /usr/src/debug/acl/2.3.2/test -> /usr/src/debug/acl/2.4.0/test, removed "/usr/src/debug/acl/2.3.2/libmisc/next_line.c /usr/src/debug/acl/2.3.2/libacl/libobj.h /usr/src/debug/acl/2.3.2/libacl/acl_get_qualifier.c /usr/src/debug/acl/2.3.2/libacl/acl_copy_entry.c /usr/src/debug/acl/2.3.2/libacl/acl_set_qualifier.c /usr/src/debug/acl/2.3.2/libacl/__libobj.c /usr/src/debug/acl/2.3.2/libacl/acl_entries.c /usr/src/debug/acl/2.3.2/libacl/acl_get_fd.c /usr/src/debug/acl/2.3.2/libacl/acl_set_fd.c /usr/src/debug/acl/2.3.2/libacl/acl_cmp.c /usr/src/debug/acl/2.3.2/libacl/acl_dup.c /usr/src/debug/acl/2.3.2/include/walk_tree.h /usr/src/debug/acl/2.3.2/libacl/acl_get_file.c /usr/src/debug/acl/2.3.2/libacl/acl_set_file.c /usr/src/debug/acl/2.3.2/libacl/libacl.h /usr/src/debug/acl/2.3.2/libmisc/walk_tree.c /usr/src/debug/acl/2.3.2/libmisc/unquote.c 
+ /usr/src/debug/acl/2.3.2/libacl/acl_extended_file_nofollow.c /usr/src/debug/acl/2.3.2/libacl/__acl_to_any_text.c /usr/src/debug/acl/2.3.2/libacl/__apply_mask_to_mode.c /usr/src/debug/acl/2.3.2/libacl/acl_to_text.c /usr/src/debug/acl/2.3.2/libacl/acl_from_mode.c /usr/src/debug/acl/2.3.2/libacl/acl_clear_perms.c /usr/src/debug/acl/2.3.2/libacl/acl_extended_file.c /usr/src/debug/acl/2.3.2/libacl/perm_copy_fd.c /usr/src/debug/acl/2.3.2/include/acl.h /usr/src/debug/acl/2.3.2/libacl/acl_valid.c /usr/src/debug/acl/2.3.2/libacl/acl_copy_int.c /usr/src/debug/acl/2.3.2/libacl/acl_get_permset.c /usr/src/debug/acl/2.3.2/libacl/__acl_from_xattr.h /usr/src/debug/acl/2.3.2/libacl/acl_set_permset.c /usr/src/debug/acl/2.3.2/libmisc/high_water_alloc.c /usr/src/debug/acl/2.3.2/libacl/acl_free.c /usr/src/debug/acl/2.3.2/libacl/__acl_from_xattr.c /usr/src/debug/acl/2.3.2/libacl/acl_init.c /usr/src/debug/acl/2.3.2/libacl/acl_size.c /usr/src/debug/acl/2.3.2/libacl/acl_check.c /usr/src/debug/acl/2.3.2/liba
+ cl/acl_add_perm.c /usr/src/debug/acl/2.3.2/libacl/acl_delete_perm.c /usr/src/debug/acl/2.3.2/libacl/acl_get_perm.c /usr/src/debug/acl/2.3.2/libmisc/quote.c /usr/src/debug/acl/2.3.2/libacl/__acl_extended_file.h /usr/src/debug/acl/2.3.2/libacl/acl_calc_mask.c /usr/src/debug/acl/2.3.2/libacl/__acl_extended_file.c /usr/src/debug/acl/2.3.2/libacl/acl_from_text.c /usr/src/debug/acl/2.3.2/libmisc/uid_gid_lookup.c /usr/src/debug/acl/2.3.2/include/libacl.h /usr/src/debug/acl/2.3.2/include/acl_ea.h /usr/src/debug/acl/2.3.2/libacl/acl_error.c /usr/src/debug/acl/2.3.2/libacl/acl_set_tag_type.c /usr/src/debug/acl/2.3.2/libacl/perm_copy_file.c /usr/src/debug/acl/2.3.2/libacl/__acl_to_xattr.h /usr/src/debug/acl/2.3.2/libacl/acl_equiv_mode.c /usr/src/debug/acl/2.3.2/libacl/acl_copy_ext.c /usr/src/debug/acl/2.3.2/libacl/acl_extended_fd.c /usr/src/debug/acl/2.3.2/libacl/acl_to_any_text.c /usr/src/debug/acl/2.3.2/libacl/__acl_to_xattr.c /usr/src/debug/acl/2.3.2/include/misc.h /usr/src/debug/acl/2.3.2/
+ libacl/acl_get_entry.c /usr/src/debug/acl/2.3.2/libacl/acl_delete_entry.c /usr/src/debug/acl/2.3.2/libacl/acl_create_entry.c /usr/src/debug/acl/2.3.2/libacl/__acl_reorder_obj_p.c /usr/src/debug/acl/2.3.2/libacl/acl_get_tag_type.c /usr/src/debug/acl/2.3.2/libacl/acl_delete_def_file.c", added "/usr/src/debug/acl/2.4.0/libacl/acl_set_qualifier.c /usr/src/debug/acl/2.4.0/libacl/acl_get_qualifier.c /usr/src/debug/acl/2.4.0/libacl/acl_cmp.c /usr/src/debug/acl/2.4.0/libacl/acl_dup.c /usr/src/debug/acl/2.4.0/include/walk_tree.h /usr/src/debug/acl/2.4.0/include/xattrat.h /usr/src/debug/acl/2.4.0/libacl/libacl.h /usr/src/debug/acl/2.4.0/libmisc/unquote.c /usr/src/debug/acl/2.4.0/libacl/acl_valid.c /usr/src/debug/acl/2.4.0/libmisc/fchmodat_compat.c /usr/src/debug/acl/2.4.0/libacl/acl_delete_perm.c /usr/src/debug/acl/2.4.0/include/libacl.h /usr/src/debug/acl/2.4.0/libmisc/setxattrat_compat.c /usr/src/debug/acl/2.4.0/libmisc/getxattrat_compat.c /usr/src/debug/acl/2.4.0/include/xattrat_compat.h /
+ usr/src/debug/acl/2.4.0/libacl/__acl_to_xattr.h /usr/src/debug/acl/2.4.0/libacl/acl_extended_file_at.c /usr/src/debug/acl/2.4.0/libacl/acl_extended_fd.c /usr/src/debug/acl/2.4.0/libacl/__acl_to_xattr.c /usr/src/debug/acl/2.4.0/libacl/acl_entries.c /usr/src/debug/acl/2.4.0/libacl/acl_get_file.c /usr/src/debug/acl/2.4.0/libacl/acl_set_file.c /usr/src/debug/acl/2.4.0/libacl/acl_to_text.c /usr/src/debug/acl/2.4.0/libacl/acl_clear_perms.c /usr/src/debug/acl/2.4.0/libacl/acl_extended_file.c /usr/src/debug/acl/2.4.0/libacl/acl_delete_def_file_at.c /usr/src/debug/acl/2.4.0/libacl/acl_copy_int.c /usr/src/debug/acl/2.4.0/libacl/__acl_from_xattr.h /usr/src/debug/acl/2.4.0/libacl/__acl_from_xattr.c /usr/src/debug/acl/2.4.0/libacl/acl_calc_mask.c /usr/src/debug/acl/2.4.0/libacl/acl_copy_ext.c /usr/src/debug/acl/2.4.0/libacl/__acl_reorder_obj_p.c /usr/src/debug/acl/2.4.0/libacl/acl_set_tag_type.c /usr/src/debug/acl/2.4.0/libacl/acl_delete_entry.c /usr/src/debug/acl/2.4.0/libacl/acl_create_entry.c
+  /usr/src/debug/acl/2.4.0/libacl/acl_get_tag_type.c /usr/src/debug/acl/2.4.0/libmisc/listxattrat_compat.c /usr/src/debug/acl/2.4.0/libacl/libobj.h /usr/src/debug/acl/2.4.0/libacl/acl_copy_entry.c /usr/src/debug/acl/2.4.0/libmisc/walk_tree.c /usr/src/debug/acl/2.4.0/libmisc/xattrat.c /usr/src/debug/acl/2.4.0/libacl/acl_extended_file_nofollow.c /usr/src/debug/acl/2.4.0/libacl/acl_from_mode.c /usr/src/debug/acl/2.4.0/libacl/perm_copy_fd.c /usr/src/debug/acl/2.4.0/include/acl.h /usr/src/debug/acl/2.4.0/libacl/acl_get_permset.c /usr/src/debug/acl/2.4.0/libacl/acl_set_permset.c /usr/src/debug/acl/2.4.0/libmisc/high_water_alloc.c /usr/src/debug/acl/2.4.0/libmisc/removexattrat_compat.c /usr/src/debug/acl/2.4.0/include/fchmodat_compat.h /usr/src/debug/acl/2.4.0/libacl/acl_add_perm.c /usr/src/debug/acl/2.4.0/libacl/acl_get_perm.c /usr/src/debug/acl/2.4.0/libacl/acl_from_text.c /usr/src/debug/acl/2.4.0/libmisc/uid_gid_lookup.c /usr/src/debug/acl/2.4.0/include/acl_ea.h /usr/src/debug/acl/2.4.0/
+ libacl/acl_equiv_mode.c /usr/src/debug/acl/2.4.0/libacl/acl_to_any_text.c /usr/src/debug/acl/2.4.0/include/misc.h /usr/src/debug/acl/2.4.0/libacl/acl_get_entry.c /usr/src/debug/acl/2.4.0/libmisc/next_line.c /usr/src/debug/acl/2.4.0/libmisc/proc-self-fd.c /usr/src/debug/acl/2.4.0/libacl/acl_get_file_at.c /usr/src/debug/acl/2.4.0/libacl/acl_set_file_at.c /usr/src/debug/acl/2.4.0/libmisc/proc-self-fd.h /usr/src/debug/acl/2.4.0/libacl/__libobj.c /usr/src/debug/acl/2.4.0/libacl/acl_get_fd.c /usr/src/debug/acl/2.4.0/libacl/acl_set_fd.c /usr/src/debug/acl/2.4.0/libacl/__acl_apply_mask_to_mode.c /usr/src/debug/acl/2.4.0/libacl/__acl_to_any_text.c /usr/src/debug/acl/2.4.0/libacl/acl_free.c /usr/src/debug/acl/2.4.0/libacl/acl_init.c /usr/src/debug/acl/2.4.0/libacl/acl_size.c /usr/src/debug/acl/2.4.0/libacl/acl_check.c /usr/src/debug/acl/2.4.0/libmisc/quote.c /usr/src/debug/acl/2.4.0/libacl/acl_error.c /usr/src/debug/acl/2.4.0/libacl/perm_copy_file.c /usr/src/debug/acl/2.4.0/libacl/acl_delete_
+ def_file.c"
+packages/x86-64-v3-poky-linux/acl/acl-staticdev: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl-staticdev: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/acl: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/acl: PKGSIZE changed from 84304 to 92440 (+10%)
+packages/x86-64-v3-poky-linux/acl/acl: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl: SRC_URI changed from "https://download.savannah.gnu.org/releases/acl/acl-2.3.2.tar.gz file://0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch file://0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch file://run-ptest" to "https://download.savannah.gnu.org/releases/acl/acl-2.4.0.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/acl: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/libacl: PV changed from "2.3.2" to "2.4.0"
+packages/x86-64-v3-poky-linux/acl/libacl: RDEPENDS: removed all items "libattr (['>= 2.5.2'])"
+packages/x86-64-v3-poky-linux/acl/libacl: PKGSIZE changed from 38898 to 47090 (+21%)
+packages/x86-64-v3-poky-linux/acl/libacl: PKGV changed from 2.3.2 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/acl/libacl: FILELIST: removed "/usr/lib/libacl.so.1.1.2302", added "/usr/lib/libacl.so.1.2.2400"
+Changes to packages/x86-64-v3-poky-linux/acl (sysroot):
+  /usr/lib/libacl.so.1 changed symlink target from libacl.so.1.1.2302 to libacl.so.1.2.2400
+  /usr/lib/libacl.so changed symlink target from libacl.so.1.1.2302 to libacl.so.1.2.2400
+  /usr/lib/libacl.so.1.1.2302 moved to /usr/lib/libacl.so.1.2.2400
+Changes to packages/x86_64-linux/acl-native (sysroot):
+  /usr/lib/libacl.so.1 changed symlink target from libacl.so.1.1.2302 to libacl.so.1.2.2400
+  /usr/lib/libacl.so changed symlink target from libacl.so.1.1.2302 to libacl.so.1.2.2400
+  /usr/lib/libacl.so.1.1.2302 moved to /usr/lib/libacl.so.1.2.2400
 
---===============5826051345165596214==
+--===============3404021505099657088==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/opkg/opkg-ptest: FILELIST: added "/usr/lib/opkg/ptest/tests/build/test-openembedded-build.sh"
+packages/x86-64-v3-poky-linux/acl/acl-dbg: RRECOMMENDS: removed "libattr-dbg"
+packages/x86-64-v3-poky-linux/acl/acl-dbg: PKGSIZE changed from 368440 to 439288 (+19%)
+packages/x86-64-v3-poky-linux/acl/acl-dev: RRECOMMENDS: removed "libattr-dev"
+packages/x86-64-v3-poky-linux/acl/acl-doc: FILELIST: added "/usr/share/man/man3/acl_set_file_at.3 /usr/share/man/man3/acl_delete_def_file_at.3 /usr/share/man/man3/acl_get_file_at.3 /usr/share/man/man3/acl_extended_file_at.3"
+packages/x86-64-v3-poky-linux/acl/acl-locale-ka: PKGSIZE changed from 13107 to 10125 (-23%)
+packages/x86-64-v3-poky-linux/acl/acl-locale-pl: PKGSIZE changed from 9321 to 7204 (-23%)
+packages/x86-64-v3-poky-linux/acl/acl-ptest: RDEPENDS: removed "libattr (['>= 2.5.2'])"
+packages/x86-64-v3-poky-linux/acl/acl-ptest: PKGSIZE changed from 42237 to 25258 (-40%)
+packages/x86-64-v3-poky-linux/acl/acl-ptest: FILELIST: removed "/usr/lib/acl/ptest/sbits-restore.test /usr/lib/acl/ptest/utf8-filenames.test /usr/lib/acl/ptest/misc.test /usr/lib/acl/ptest/getfacl-lfs.test /usr/lib/acl/ptest/setfacl-X.test /usr/lib/acl/ptest/malformed-restore.test /usr/lib/acl/ptest/getfacl-noacl.test /usr/lib/acl/ptest/getfacl-recursive.test /usr/lib/acl/ptest/cp.test"
+packages/x86-64-v3-poky-linux/acl/acl-src: PKGSIZE changed from 204219 to 234173 (+15%)
+packages/x86-64-v3-poky-linux/acl/libacl: RDEPENDS: removed all items "libattr (['>= 2.5.2'])"
+packages/x86-64-v3-poky-linux/acl/libacl: PKGSIZE changed from 38898 to 47090 (+21%)
+packages/x86-64-v3-poky-linux/acl/libacl: FILELIST: removed "/usr/lib/libacl.so.1.1.2302", added "/usr/lib/libacl.so.1.2.2400"
+Changes to packages/x86-64-v3-poky-linux/acl (sysroot):
+  /usr/lib/libacl.so.1 changed symlink target from libacl.so.1.1.2302 to libacl.so.1.2.2400
+  /usr/lib/libacl.so changed symlink target from libacl.so.1.1.2302 to libacl.so.1.2.2400
+  /usr/lib/libacl.so.1.1.2302 moved to /usr/lib/libacl.so.1.2.2400
+Changes to packages/x86_64-linux/acl-native (sysroot):
+  /usr/lib/libacl.so.1 changed symlink target from libacl.so.1.1.2302 to libacl.so.1.2.2400
+  /usr/lib/libacl.so changed symlink target from libacl.so.1.1.2302 to libacl.so.1.2.2400
+  /usr/lib/libacl.so.1.1.2302 moved to /usr/lib/libacl.so.1.2.2400
 
---===============5826051345165596214==
+--===============3404021505099657088==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-opkg-upgrade-0.9.0-0.10.0.patch"
+Content-Disposition: attachment; filename="0001-acl-upgrade-2.3.2-2.4.0.patch"
 
-RnJvbSA0ZTZhOTRmZjdiNmI5MzM3ZjI2NjczZDkzMGJjNzRmMGViODA3MGEzIE1vbiBTZXAgMTcg
+RnJvbSAwNTEwMDdmMDIxOTcxNjVjNzk1ZTM3MmM4NzMyNDM3ZjcxNjY4NDBlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMzAgSnVuIDIwMjYgMDU6MTY6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
-cGtnOiB1cGdyYWRlIDAuOS4wIC0+IDAuMTAuMAoKLS0tCiAuLi4tb3BrZy5sb2NrLWluLXJ1bi1p
-bnN0ZWFkLW9mLXZhci1ydW4ucGF0Y2ggfCAgNCArLQogLi4uL29wa2cvb3BrZy8wMDAyLWNvbmZp
-Zy5oLmluLWZpeC10eXBvLnBhdGNoIHwgMjcgLS0tLS0tCiAuLi4wMDMtY21ha2UtZml4LVdJVEhf
-QUNMLWFuZC1VU0VfWEFUVFIucGF0Y2ggfCA5NSAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4vb3Br
-Zy97b3BrZ18wLjkuMC5iYiA9PiBvcGtnXzAuMTAuMC5iYn0gICAgfCAgNCArLQogNCBmaWxlcyBj
-aGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEyNyBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEw
-MDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy9vcGtnLzAwMDItY29uZmlnLmguaW4tZml4
-LXR5cG8ucGF0Y2gKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3Br
-Zy9vcGtnLzAwMDMtY21ha2UtZml4LVdJVEhfQUNMLWFuZC1VU0VfWEFUVFIucGF0Y2gKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy97b3BrZ18wLjkuMC5iYiA9PiBvcGtnXzAuMTAu
-MC5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy9vcGtn
-LzAwMDEtb3BrZ19jb25mLWNyZWF0ZS1vcGtnLmxvY2staW4tcnVuLWluc3RlYWQtb2YtdmFyLXJ1
-bi5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnL29wa2cvMDAwMS1vcGtnX2NvbmYt
-Y3JlYXRlLW9wa2cubG9jay1pbi1ydW4taW5zdGVhZC1vZi12YXItcnVuLnBhdGNoCmluZGV4IDk4
-ZGFmNzQ2ZWMuLjg4YWFkYmQ1MWMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9v
-cGtnL29wa2cvMDAwMS1vcGtnX2NvbmYtY3JlYXRlLW9wa2cubG9jay1pbi1ydW4taW5zdGVhZC1v
-Zi12YXItcnVuLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnL29wa2cvMDAw
-MS1vcGtnX2NvbmYtY3JlYXRlLW9wa2cubG9jay1pbi1ydW4taW5zdGVhZC1vZi12YXItcnVuLnBh
-dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA4MmIyOWRjZmUzMDMzZDgyODU4OTBiZjQ2ZTU4ZjQ2
-NGQ5OTQ0MTk2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAxYjFlYTc0ZDczNzUxNjhl
-YWRjNTYyZDMxNmE1OTBlMGRjYWUxMjYwIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
-Sm9uYXRoYW4gTGl1IDxuZXQxNDdAZ21haWwuY29tPgogRGF0ZTogTW9uLCAyMSBTZXAgMjAxNSAy
-MDoyMzoyMyArMTAwMAogU3ViamVjdDogW1BBVENIXSBvcGtnX2NvbmY6IGNyZWF0ZSBvcGtnLmxv
-Y2sgaW4gL3J1biBpbnN0ZWFkIG9mIC92YXIvcnVuCkBAIC0xNyw3ICsxNyw3IEBAIFNpZ25lZC1v
-ZmYtYnk6IEpvbmF0aGFuIExpdSA8bmV0MTQ3QGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2xpYm9wa2cvb3Br
-Z19jb25mLmggYi9saWJvcGtnL29wa2dfY29uZi5oCi1pbmRleCAzZmE2Y2E5Li5iMTI2NzJlIDEw
-MDY0NAoraW5kZXggNjUwYjU5Yy4uZjljZjk4MSAxMDA2NDQKIC0tLSBhL2xpYm9wa2cvb3BrZ19j
-b25mLmgKICsrKyBiL2xpYm9wa2cvb3BrZ19jb25mLmgKIEBAIC00Miw3ICs0Miw3IEBAIGV4dGVy
-biAiQyIgewpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2cvb3BrZy8wMDAy
-LWNvbmZpZy5oLmluLWZpeC10eXBvLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2cv
-b3BrZy8wMDAyLWNvbmZpZy5oLmluLWZpeC10eXBvLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEw
-MDY0NAppbmRleCA2MjZiYmQwMWI2Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9vcGtnL29wa2cvMDAwMi1jb25maWcuaC5pbi1maXgtdHlwby5wYXRjaAorKysgL2Rldi9u
-dWxsCkBAIC0xLDI3ICswLDAgQEAKLUZyb20gNWE4MWZhYWRiYzIzOTdkNTU0YmM1OThkNTM1ZmQy
-ZDQ0Y2JjOGQxMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEV0aWVubmUgQ29yZG9u
-bmllciA8ZWNvcmRvbm5pZXJAc25hcC5jb20+Ci1EYXRlOiBNb24sIDIwIE9jdCAyMDI1IDE4OjU3
-OjU2ICswMjAwCi1TdWJqZWN0OiBbUEFUQ0hdIGNvbmZpZy5oLmluOiBmaXggdHlwbwotCi1VcHN0
-cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdC55b2N0b3Byb2plY3Qub3JnL29wa2cv
-Y29tbWl0Lz9pZD1kNzIzYTkwYmZlNjQwOWM3YWQ5ODNlZDkxMTIyNWQ0YWVmYmZkMDllXQotU2ln
-bmVkLW9mZi1ieTogRXRpZW5uZSBDb3Jkb25uaWVyIDxlY29yZG9ubmllckBzbmFwLmNvbT4KLS0t
-LQotIGNvbmZpZy5oLmluIHwgMiArLQotIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwg
-MSBkZWxldGlvbigtKQotCi1kaWZmIC0tZ2l0IGEvY29uZmlnLmguaW4gYi9jb25maWcuaC5pbgot
-aW5kZXggNGZhOTg0Mi4uODc3YjhjNyAxMDA2NDQKLS0tLSBhL2NvbmZpZy5oLmluCi0rKysgYi9j
-b25maWcuaC5pbgotQEAgLTIsNyArMiw3IEBACi0gI2NtYWtlZGVmaW5lMDEgV0lUSF9YWgotICNj
-bWFrZWRlZmluZTAxIFdJVEhfQlpJUDIKLSAjY21ha2VkZWZpbmUwMSBXSVRIX0xaNAotLSNjbWFr
-ZWRlZmluZTAxIFdJVEhfTFpTVEQKLSsjY21ha2VkZWZpbmUwMSBXSVRIX1pTVEQKLSAjY21ha2Vk
-ZWZpbmUwMSBXSVRIX0NVUkwKLSAjY21ha2VkZWZpbmUwMSBXSVRIX1NTTENVUkwKLSAjY21ha2Vk
-ZWZpbmUwMSBXSVRIX0FDTAotLS0gCi0yLjQzLjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL29wa2cvb3BrZy8wMDAzLWNtYWtlLWZpeC1XSVRIX0FDTC1hbmQtVVNFX1hBVFRS
-LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2cvb3BrZy8wMDAzLWNtYWtlLWZpeC1X
-SVRIX0FDTC1hbmQtVVNFX1hBVFRSLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRl
-eCBhMDQxOTY1NTE1Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtn
-L29wa2cvMDAwMy1jbWFrZS1maXgtV0lUSF9BQ0wtYW5kLVVTRV9YQVRUUi5wYXRjaAorKysgL2Rl
-di9udWxsCkBAIC0xLDk1ICswLDAgQEAKLUZyb20gNmQyZWI2OWJiN2I4ZjFhZGE2MjMyZWJhNGVi
-OWMyMjNiZTM4NmQyOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEV0aWVubmUgQ29y
-ZG9ubmllciA8ZWNvcmRvbm5pZXJAc25hcC5jb20+Ci1EYXRlOiBUaHUsIDI3IE5vdiAyMDI1IDE5
-OjA1OjE2ICswMTAwCi1TdWJqZWN0OiBbUEFUQ0hdIGNtYWtlOiBmaXggV0lUSF9BQ0wgYW5kIFVT
-RV9YQVRUUgotCi0tIENNYWtlTGlzdHMudHh0IHdhcyB1c2luZyBVU0VfQUNMLCBidXQgY29uZmln
-LmguaW4gd2FzIHVzaW5nIFdJVEhfQUNMLgotICBVc2UgdGhlIGNvbnNpc3RlbnQgbG9naWMgdGhh
-dCBvcHRpb25hbCBkZXBlbmRlbmNpZXMgdXNlIHRoZSBwcmVmaXggSEFWRV8sCi0gIGFuZCB0aHVz
-IHNpbmNlIHVzZSBXSVRIX0FDTCBjb25zaXN0ZW50bHkgKGJ1aWxkIGRlcGVuZGVuY3kgbGliYWNs
-KS4KLQotLSBvcGtnX2FyY2hpdmUuYyB3YXMgdXNpbmcgaWZkZWYgaW5zdGVhZCBvZiBpZiBmb3Ig
-Ym90aCBVU0VfQUNMIGFuZCBVU0VfWEFUVFIuCi0KLS0gRU5BQkxFX1hBVFRSIGFuZCBFTkFCTEVf
-QUNMIHdlcmUgYm90aCAibm8iIHBlciBkZWZhdWx0IGluIGF1dG9jb25mLCBhbmQgdGhpcyBkZWZh
-dWx0Ci0gIHZhbHVlIHdhcyBtaXN0YWtlbmx5IGNoYW5nZWQgZHVyaW5nIHRoZSBjbWFrZSBtaWdy
-YXRpb24uIENoYW5nZSBpdCBiYWNrIHRvIE9GRiBwZXIgZGVmYXVsdC4KLQotVXBzdHJlYW0tU3Rh
-dHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9vcGtnL2NvbW1pdC8/
-aWQ9NmQyZWI2OWJiN2I4ZjFhZGE2MjMyZWJhNGViOWMyMjNiZTM4NmQyOV0KLVNpZ25lZC1vZmYt
-Ynk6IEV0aWVubmUgQ29yZG9ubmllciA8ZWNvcmRvbm5pZXJAc25hcC5jb20+Ci1TaWduZWQtb2Zm
-LWJ5OiBBbGV4IFN0ZXdhcnQgPGFsZXguc3Rld2FydEBlbWVyc29uLmNvbT4KLS0tLQotIENNYWtl
-TGlzdHMudHh0ICAgICAgICAgfCA2ICsrKystLQotIGNvbmZpZy5oLmluICAgICAgICAgICAgfCAy
-ICstCi0gbGlib3BrZy9DTWFrZUxpc3RzLnR4dCB8IDIgKy0KLSBsaWJvcGtnL29wa2dfYXJjaGl2
-ZS5jIHwgNCArKy0tCi0gNCBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDYgZGVsZXRp
-b25zKC0pCi0KLWRpZmYgLS1naXQgYS9DTWFrZUxpc3RzLnR4dCBiL0NNYWtlTGlzdHMudHh0Ci1p
-bmRleCBmMmMwMWIxLi4zMTZlMzQzIDEwMDY0NAotLS0tIGEvQ01ha2VMaXN0cy50eHQKLSsrKyBi
-L0NNYWtlTGlzdHMudHh0Ci1AQCAtMTMsNiArMTMsNyBAQCBzZXQoUFJPSkVDVF9WRVJTSU9OICIk
-e1BST0pFQ1RfVkVSU0lPTn0rZ2l0IikKLSBzZXQoVkVSU0lPTiAke1BST0pFQ1RfVkVSU0lPTn0p
-Ci0gCi0gb3B0aW9uKFNUQVRJQ19MSUJPUEtHICJTdGF0aWNhbGx5IGxpbmsgbGlib3BrZyBpbnRv
-IG9wa2ciIE9GRikKLSsjIE9wdGlvbnMgd2hpY2ggYWRkIG9wdGlvbmFsIGRlcGVuZGVuY2llcyBh
-cmUgcHJlZml4ZWQgd2l0aCAiV0lUSF8iCi0gIyBUaGUgY3VycmVudCBsaWJvcGtnIEFQSSBpcyBk
-ZXByZWNhdGVkIHNvIG9ubHkgYnVpbGQgaXQgaWYgcmVxdWVzdGVkCi0gb3B0aW9uKFdJVEhfTElC
-T1BLR19BUEkgIkVuYWJsZSBkZXByZWNhdGVkIGxpYm9wa2cgQVBJIiBPRkYpCi0gb3B0aW9uKFdJ
-VEhfWFogIkVuYWJsZSB4eiBjb21wcmVzc29yIHN1cHBvcnQiIE9OKQotQEAgLTIzLDggKzI0LDkg
-QEAgb3B0aW9uKFdJVEhfQ1VSTCAiRW5hYmxlIGRvd25sb2FkaW5nIHdpdGggY3VybCIgT04pCi0g
-aW5jbHVkZShDTWFrZURlcGVuZGVudE9wdGlvbikKLSBjbWFrZV9kZXBlbmRlbnRfb3B0aW9uKFdJ
-VEhfU1NMQ1VSTCAiRW5hYmxlIGNlcnRpZmljYXRlIGF1dGhlbnRpY2F0aW9uIHdpdGggY3VybCIg
-T04gIldJVEhfQ1VSTCIgT0ZGKQotIG9wdGlvbihXSVRIX1NIQTI1NiAiRW5hYmxlIHNoYTI1NnN1
-bSBjaGVjayIgT0ZGKQotLW9wdGlvbihVU0VfQUNMICJFbmFibGUgQUNMIHN1cHBvcnQiIE9OKQot
-LW9wdGlvbihVU0VfWEFUVFIgIkVuYWJsZSB4YXR0ciBzdXBwb3J0IiBPTikKLStvcHRpb24oV0lU
-SF9BQ0wgIkVuYWJsZSBBQ0wgc3VwcG9ydCIgT0ZGKQotKyMgT3B0aW9ucyB3aGljaCBkb24ndCBh
-ZGQgb3B0aW9uYWwgZGVwZW5kZW5jaWVzIGFyZSBwcmVmaXhlZCB3aXRoICJVU0VfIgotK29wdGlv
-bihVU0VfWEFUVFIgIkVuYWJsZSB4YXR0ciBzdXBwb3J0IiBPRkYpCi0gb3B0aW9uKFVTRV9TT0xW
-RVJfTElCU09MViAiRW5hYmxlIGxpYnNvbHYgc29sdmVyIHN1cHBvcnQgaWYgdHJ1ZS4gRW5hYmxl
-IHRoZSBpbnRlcm5hbCBzb2x2ZXIgaWYgZmFsc2UuIiBPTikKLSBpZihVU0VfU09MVkVSX0xJQlNP
-TFYpCi0gICAgIHNldChVU0VfU09MVkVSX0lOVEVSTkFMIE9GRiBDQUNIRSBCT09MICJEaXNhYmxl
-IGludGVybmFsIHNvbHZlciIpCi1kaWZmIC0tZ2l0IGEvY29uZmlnLmguaW4gYi9jb25maWcuaC5p
-bgotaW5kZXggODc3YjhjNy4uZjJkNzRjNSAxMDA2NDQKLS0tLSBhL2NvbmZpZy5oLmluCi0rKysg
-Yi9jb25maWcuaC5pbgotQEAgLTYsNyArNiw3IEBACi0gI2NtYWtlZGVmaW5lMDEgV0lUSF9DVVJM
-Ci0gI2NtYWtlZGVmaW5lMDEgV0lUSF9TU0xDVVJMCi0gI2NtYWtlZGVmaW5lMDEgV0lUSF9BQ0wK
-LS0jY21ha2VkZWZpbmUwMSBXSVRIX1hBVFRSCi0rI2NtYWtlZGVmaW5lMDEgVVNFX1hBVFRSCi0g
-I2NtYWtlZGVmaW5lMDEgVVNFX1NPTFZFUl9MSUJTT0xWCi0gI2NtYWtlZGVmaW5lMDEgVVNFX1NP
-TFZFUl9JTlRFUk5BTAotICNjbWFrZWRlZmluZTAxIFdJVEhfR1BHTUUKLWRpZmYgLS1naXQgYS9s
-aWJvcGtnL0NNYWtlTGlzdHMudHh0IGIvbGlib3BrZy9DTWFrZUxpc3RzLnR4dAotaW5kZXggNjI4
-Y2I4Yy4uMzkwNjRjMiAxMDA2NDQKLS0tLSBhL2xpYm9wa2cvQ01ha2VMaXN0cy50eHQKLSsrKyBi
-L2xpYm9wa2cvQ01ha2VMaXN0cy50eHQKLUBAIC0xODIsNyArMTgyLDcgQEAgaWYoV0lUSF9TU0xD
-VVJMKQotICAgICB0YXJnZXRfbGlua19saWJyYXJpZXMobGlib3BrZyBPcGVuU1NMOjpDcnlwdG8g
-T3BlblNTTDo6U1NMKQotIGVuZGlmKCkKLSAKLS1pZihVU0VfQUNMKQotK2lmKFdJVEhfQUNMKQot
-ICAgICBwa2dfY2hlY2tfbW9kdWxlcyhhY2wgUkVRVUlSRUQgSU1QT1JURURfVEFSR0VUIGxpYmFj
-bCkKLSAgICAgdGFyZ2V0X2xpbmtfbGlicmFyaWVzKGxpYm9wa2cgUGtnQ29uZmlnOjphY2wpCi0g
-ZW5kaWYoKQotZGlmZiAtLWdpdCBhL2xpYm9wa2cvb3BrZ19hcmNoaXZlLmMgYi9saWJvcGtnL29w
-a2dfYXJjaGl2ZS5jCi1pbmRleCA0OGY4MGMwLi5mYjQwZGIzIDEwMDY0NAotLS0tIGEvbGlib3Br
-Zy9vcGtnX2FyY2hpdmUuYwotKysrIGIvbGlib3BrZy9vcGtnX2FyY2hpdmUuYwotQEAgLTkxNCwx
-MSArOTE0LDExIEBAIHN0cnVjdCBvcGtnX2FyICphcl9vcGVuX3BrZ19kYXRhX2FyY2hpdmUoY29u
-c3QgY2hhciAqZmlsZW5hbWUpCi0gICAgIGFyLT5leHRyYWN0X2ZsYWdzID0gQVJDSElWRV9FWFRS
-QUNUX09XTkVSIHwgQVJDSElWRV9FWFRSQUNUX1BFUk0gfAotICAgICAgICAgQVJDSElWRV9FWFRS
-QUNUX1RJTUUgfCBBUkNISVZFX0VYVFJBQ1RfVU5MSU5LIHwgQVJDSElWRV9FWFRSQUNUX05PX09W
-RVJXUklURTsKLSAKLS0jaWZkZWYgVVNFX0FDTAotKyNpZiBXSVRIX0FDTAotICAgICBhci0+ZXh0
-cmFjdF9mbGFncyB8PSBBUkNISVZFX0VYVFJBQ1RfQUNMOwotICNlbmRpZgotIAotLSNpZmRlZiBV
-U0VfWEFUVFIKLSsjaWYgVVNFX1hBVFRSCi0gICAgIGFyLT5leHRyYWN0X2ZsYWdzIHw9IEFSQ0hJ
-VkVfRVhUUkFDVF9GRkxBR1MgfCBBUkNISVZFX0VYVFJBQ1RfWEFUVFI7Ci0gI2VuZGlmCi0gCi0t
-LSAKLTIuNDMuMAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy9vcGtn
-XzAuOS4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2cvb3BrZ18wLjEwLjAuYmIKc2lt
-aWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2cv
-b3BrZ18wLjkuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2cvb3BrZ18w
-LjEwLjAuYmIKaW5kZXggNzU1MWYxYmM0OS4uZGViY2Q5NGEzMCAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL29wa2cvb3BrZ18wLjkuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvb3BrZy9vcGtnXzAuMTAuMC5iYgpAQCAtMTUsMTIgKzE1LDEwIEBAIFBFID0gIjEiCiBT
-UkNfVVJJID0gImh0dHA6Ly9kb3dubG9hZHMueW9jdG9wcm9qZWN0Lm9yZy9yZWxlYXNlcy8ke0JQ
-Tn0vJHtCUE59LSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly9vcGtnLmNvbmYgXAog
-ICAgICAgICAgICBmaWxlOi8vMDAwMS1vcGtnX2NvbmYtY3JlYXRlLW9wa2cubG9jay1pbi1ydW4t
-aW5zdGVhZC1vZi12YXItcnVuLnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDItY29uZmln
-LmguaW4tZml4LXR5cG8ucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vMDAwMy1jbWFrZS1maXgt
-V0lUSF9BQ0wtYW5kLVVTRV9YQVRUUi5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRl
-c3QgXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0NDBlZjMyMTg2MmUw
-MWY4M2RhNGQwMjg4NGEwY2JiNGQ5ZDdiMzJmODJmYWE4MWE2YTg1NDkzZjBjODlkMGY1IgorU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjRkMDk5ZTAxMGE1ZDI2MmIzNDE4NGZlZTQ3NjZiYzYwYThjNzQz
-OTc0MWZiMjEwYWExMWQ1MTcwNGFmZDA0ZDEiCiAKICMgVGhpcyBuZWVkcyB0byBiZSBiZWZvcmUg
-cHRlc3QgaW5oZXJpdCwgb3RoZXJ3aXNlIGFsbCBwdGVzdCBmaWxlcyBlbmQgcGFja2FnZWQKICMg
-aW4gbGlib3BrZyBwYWNrYWdlIGlmIE9QS0dMSUJESVIgPT0gbGliZGlyLCBiZWNhdXNlIGRlZmF1
-bHQKLS0gCjIuNDcuMQoK
+CkRhdGU6IFR1ZSwgMzAgSnVuIDIwMjYgMDU6NDg6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
+Y2w6IHVwZ3JhZGUgMi4zLjIgLT4gMi40LjAKCi0tLQogLi4udF91aWQtZml4LW1lbW9yeS13YXN0
+aW5nLWxvb3AtaWYtdXNlLnBhdGNoIHwgNDkgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4uaXNjLnRl
+c3QtRG9uLXQtbWl4LXN0ZG91dC1hbmQtc3RkZXJyLnBhdGNoIHwgMzUgLS0tLS0tLS0tLS0tLQog
+Li4uL2F0dHIve2FjbF8yLjMuMi5iYiA9PiBhY2xfMi40LjAuYmJ9ICAgICAgIHwgIDQgKy0KIDMg
+ZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDg3IGRlbGV0aW9ucygtKQogZGVsZXRlIG1v
+ZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2F0dHIvYWNsLzAwMDEtbGlibWlzYy1fX2Fj
+bF9nZXRfdWlkLWZpeC1tZW1vcnktd2FzdGluZy1sb29wLWlmLXVzZS5wYXRjaAogZGVsZXRlIG1v
+ZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2F0dHIvYWNsLzAwMDEtdGVzdC1taXNjLnRl
+c3QtRG9uLXQtbWl4LXN0ZG91dC1hbmQtc3RkZXJyLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvYXR0ci97YWNsXzIuMy4yLmJiID0+IGFjbF8yLjQuMC5iYn0gKDkwJSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdHRyL2FjbC8wMDAxLWxpYm1pc2MtX19hY2xf
+Z2V0X3VpZC1maXgtbWVtb3J5LXdhc3RpbmctbG9vcC1pZi11c2UucGF0Y2ggYi9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9hdHRyL2FjbC8wMDAxLWxpYm1pc2MtX19hY2xfZ2V0X3VpZC1maXgtbWVtb3J5
+LXdhc3RpbmctbG9vcC1pZi11c2UucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4
+IDUwNTJiZGFhMmYuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXR0ci9h
+Y2wvMDAwMS1saWJtaXNjLV9fYWNsX2dldF91aWQtZml4LW1lbW9yeS13YXN0aW5nLWxvb3AtaWYt
+dXNlLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsNDkgKzAsMCBAQAotRnJvbSA1NmFiZTQzMmI2
+NTgwMWYzMTI3N2ZiOWEzYmNhMGY5ZTMxNTAyMzE1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQot
+RnJvbTogTWF0dGhpYXMgR2Vyc3RuZXIgPG1hdHRoaWFzLmdlcnN0bmVyQHN1c2UuZGU+Ci1EYXRl
+OiBUaHUsIDI1IEFwciAyMDI0IDEyOjQzOjQ5ICswMjAwCi1TdWJqZWN0OiBbUEFUQ0hdIGxpYm1p
+c2M6IF9fYWNsX2dldF91aWQoKTogZml4IG1lbW9yeSB3YXN0aW5nIGxvb3AgaWYgdXNlcgotIGRv
+ZXMgbm90IGV4aXN0Ci0KLUkgbm90aWNlZCB0aGF0IGBhY2xfZnJvbV90ZXh0KClgIHVuZXhwZWN0
+ZWRseSByZXR1cm5zIEVOT01FTSBmb3IgaW52YWxpZAotdXNlciBuYW1lcy4gVGhlIHJlYXNvbiBm
+b3IgdGhpcyBpcyBhIG1pc3NpbmcgYnJlYWsgc3RhdGVtZW50IGluIHRoZSBmb3IKLWxvb3AgaW4g
+YF9fYWNsX2dldF91aWQoKWAsIHdoaWNoIGNhdXNlcyB0aGUgbG9vcCB0byBhY3QgYXMgaWYgRVJB
+TkdFIHdhcwotcmV0dXJuZWQgZnJvbSBgZ2V0cHduYW1fcigpYCwgdGhlcmVieSBleHBvbmVudGlh
+bGx5IGluY3JlYXNpbmcgdGhlCi1idWZmZXIgc2l6ZSB0byAoaW4gbXkgY2FzZSkgbXVsdGlwbGUg
+Z2lnYWJ5dGVzLCB1bnRpbCBgZ3Jvd19idWZmZXIoKWAKLXJlcG9ydHMgRU5PTUVNLCB3aGljaCB0
+ZXJtaW5hdGVzIHRoZSBgX19hY2xfZ2V0X3VpZCgpYCBmdW5jdGlvbi4KLQotVGhpcyBpcyBhIHBy
+ZXR0eSBjb3N0bHkgIm5vIHN1Y2ggdXNlciIgbG9va3VwIHRoYXQgY2FuIGRpc3R1cmIgYQotcHJv
+Y2VzcydzIGhlYXAgbWVtb3J5IG1hbmFnZW1lbnQsIGJ1dCBjYW4gYWxzbyBjYXVzZSBhIHByb2Nl
+c3MgdG8gZmFpbAotZS5nLiBpZiBpdCBpcyBtdWx0aXRocmVhZGVkIGFuZCBvdGhlciB0aHJlYWRz
+IGVuY291bnRlciBhbiBFTk9NRU0sCi1iZWZvcmUgYF9fYWNsX2dldF91aWQoKWAgZnJlZXMgdGhl
+IGdpZ2FudGljIGhlYXAgYnVmZmVyIGFuZCByZXR1cm5zLgotVGhlIGFsbG9jYXRlZCBtZW1vcnkg
+aXNuJ3QgYWN0dWFsbHkgdXNlZC4gVGhlcmVmb3JlIG9uIExpbnV4IGl0IHNob3VsZAotbm90IGFm
+ZmVjdCBvdGhlciBwcm9jZXNzZXMgYnkgZGVmYXVsdCwgZHVlIHRvIGl0cyBvdmVyY29tbWl0IG1l
+bW9yeQotYW5kIGxhenkgbWVtb3J5IGFsbG9jYXRpb24gc3RyYXRlZ3kuCi0KLUZpeCB0aGlzIGJ5
+IHByb3Blcmx5IHRlcm1pbmF0aW5nIHRoZSBmb3IgbG9vcCBvbiBhbnkgY29uZGl0aW9ucyBleGNl
+cHQKLWFuIEVSQU5HRSBlcnJvciBiZWluZyByZXBvcnRlZC4gVGhlIHNhbWUgYnJlYWsgc3RhdGVt
+ZW50IGNvcnJlY3RseQotZXhpc3RzIGluIGBfX2FjbF9nZXRfZ2lkKClgIGFscmVhZHkuCi0KLUZp
+eGVzOiAzNzM3ZjAwICgidXNlIHRocmVhZC1zYWZlIGdldHB3bmFtX3IgYW5kIGdldGdybmFtX3Ii
+KQotU2lnbmVkLW9mZi1ieTogQW5kcmVhcyBHcnVlbmJhY2hlciA8YWdydWVuYmFAcmVkaGF0LmNv
+bT4KLQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydAotU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0
+b24gPHJvc3MuYnVydG9uQGFybS5jb20+Ci0tLS0KLSBsaWJtaXNjL3VpZF9naWRfbG9va3VwLmMg
+fCAxICsKLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKLQotZGlmZiAtLWdpdCBhL2xp
+Ym1pc2MvdWlkX2dpZF9sb29rdXAuYyBiL2xpYm1pc2MvdWlkX2dpZF9sb29rdXAuYwotaW5kZXgg
+YTRmMjFmNi4uNzRiYWFiNCAxMDA2NDQKLS0tLSBhL2xpYm1pc2MvdWlkX2dpZF9sb29rdXAuYwot
+KysrIGIvbGlibWlzYy91aWRfZ2lkX2xvb2t1cC5jCi1AQCAtOTEsNiArOTEsNyBAQCBfX2FjbF9n
+ZXRfdWlkKGNvbnN0IGNoYXIgKnRva2VuLCB1aWRfdCAqdWlkX3ApCi0gCQlpZiAoZXJyID09IEVS
+QU5HRSkKLSAJCQljb250aW51ZTsKLSAJCWVycm5vID0gZXJyID8gZXJyIDogRUlOVkFMOwotKwkJ
+YnJlYWs7Ci0gCX0KLSAJZnJlZShidWZmZXIpOwotIAlyZXR1cm4gcmVzdWx0ID8gMCA6IC0xOwot
+LS0gCi0yLjQzLjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXR0ci9hY2wv
+MDAwMS10ZXN0LW1pc2MudGVzdC1Eb24tdC1taXgtc3Rkb3V0LWFuZC1zdGRlcnIucGF0Y2ggYi9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9hdHRyL2FjbC8wMDAxLXRlc3QtbWlzYy50ZXN0LURvbi10LW1p
+eC1zdGRvdXQtYW5kLXN0ZGVyci5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXgg
+NWFhM2YzMjI0Yy4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdHRyL2Fj
+bC8wMDAxLXRlc3QtbWlzYy50ZXN0LURvbi10LW1peC1zdGRvdXQtYW5kLXN0ZGVyci5wYXRjaAor
+KysgL2Rldi9udWxsCkBAIC0xLDM1ICswLDAgQEAKLUZyb20gNDdmODAzOWVjOWJkMDhiNjI5Nzc1
+YzhlNzg4ZDExZTQxZmE5NWYxNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEFuZHJl
+YXMgR3J1ZW5iYWNoZXIgPGFncnVlbmJhQHJlZGhhdC5jb20+Ci1EYXRlOiBNb24sIDI0IE1hciAy
+MDI1IDIxOjE0OjA5ICswMTAwCi1TdWJqZWN0OiBbUEFUQ0hdIHRlc3QvbWlzYy50ZXN0OiBEb24n
+dCBtaXggc3Rkb3V0IGFuZCBzdGRlcnIKLQotSW4gZGlmZmVyZW50IGVudmlyb25tZW50cywgd2Ug
+bWF5IG5vdCBnZXQgdGhlIHN0ZG91dCBhbmQgc3RkZXJyIG91dHB1dAotaW4gdGhlIG9yZGVyIHRo
+ZSBydW4gc2NyaXB0IGV4cGVjdHMsIHNvIGNoZWNrIGJvdGggc2VwYXJhdGVseS4KLQotRml4ZXM6
+IGh0dHBzOi8vc2F2YW5uYWgubm9uZ251Lm9yZy9idWdzLz82Njk0NAotU2lnbmVkLW9mZi1ieTog
+QW5kcmVhcyBHcnVlbmJhY2hlciA8YWdydWVuYmFAcmVkaGF0LmNvbT4KLQotVXBzdHJlYW0tU3Rh
+dHVzOiBCYWNrcG9ydAotU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFy
+bS5jb20+Ci0tLS0KLSB0ZXN0L21pc2MudGVzdCB8IDMgKystCi0gMSBmaWxlIGNoYW5nZWQsIDIg
+aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQotCi1kaWZmIC0tZ2l0IGEvdGVzdC9taXNjLnRl
+c3QgYi90ZXN0L21pc2MudGVzdAotaW5kZXggMDZiMzEzNi4uNTdjMDJlNSAxMDA2NDQKLS0tLSBh
+L3Rlc3QvbWlzYy50ZXN0Ci0rKysgYi90ZXN0L21pc2MudGVzdAotQEAgLTQ0MCw4ICs0NDAsOSBA
+QCBEYW5nbGluZyBzeW1saW5rIHRlc3QgaHR0cHM6Ly9zYXZhbm5haC5ub25nbnUub3JnL2J1Z3Mv
+PzI4MTMxCi0gCT4gb3RoZXI6OnIteAotIAk+IAotIAkkIHNldGZhY2wgLVIgLW0gdTpiaW46cncg
+ZAotLQkkIGdldGZhY2wgLVJMIGQKLSsJJCBnZXRmYWNsIC1STCBkID4gL2Rldi9udWxsCi0gCT4g
+Z2V0ZmFjbDogZC9iOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5Ci0rCSQgZ2V0ZmFjbCAtUkwg
+ZCAyPiAvZGV2L251bGwKLSAJPiAjIGZpbGU6IGQKLSAJPiAjIG93bmVyOiAlVFVTRVIKLSAJPiAj
+IGdyb3VwOiAlVEdST1VQCi0tLSAKLTIuNDMuMAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC9hdHRyL2FjbF8yLjMuMi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0dHIvYWNs
+XzIuNC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1z
+dXBwb3J0L2F0dHIvYWNsXzIuMy4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9h
+dHRyL2FjbF8yLjQuMC5iYgppbmRleCBhNDA1Y2MyNjkyLi5lZjllZTQ5MmEwIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdHRyL2FjbF8yLjMuMi5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9hdHRyL2FjbF8yLjQuMC5iYgpAQCAtMTYsMTEgKzE2LDkgQEAgTElDX0ZJTEVT
+X0NIS1NVTSA9ICJmaWxlOi8vZG9jL0NPUFlJTkc7bWQ1PWM3ODFkNzBlZDJiNGQ0ODk5NWI3OTA0
+MDMyMTdhMjQ5IFwKIERFUEVORFMgPSAiYXR0ciIKIAogU1JDX1VSSSA9ICIke1NBVkFOTkFIX0dO
+VV9NSVJST1J9L2FjbC8ke0JQfS50YXIuZ3ogXAotICAgICAgICAgICBmaWxlOi8vMDAwMS1saWJt
+aXNjLV9fYWNsX2dldF91aWQtZml4LW1lbW9yeS13YXN0aW5nLWxvb3AtaWYtdXNlLnBhdGNoIFwK
+LSAgICAgICAgICAgZmlsZTovLzAwMDEtdGVzdC1taXNjLnRlc3QtRG9uLXQtbWl4LXN0ZG91dC1h
+bmQtc3RkZXJyLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovL3J1bi1wdGVzdCBcCiAgICAgICAg
+ICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1ZjJiZGJhZDYyOTcwN2FhN2Q4NWM2MjNmOTk0
+YWE4YTFkMmRlYzU1YTczZGU1MjA1YmFjMGJmNjA1OGEyZjdjIgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjczYzg1M2MzZDQ0ZTFmNjkzZTVhOTZhOTg2ZjFiZDE5ZDNkMGRhYzJjN2Q0NTNlNzk2MTc3
+Nzc0YmM0ZTVmNmEiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIGdldHRleHQgcHRlc3QKIAotLSAKMi40
+Ny4xCgo=
 
---===============5826051345165596214==--
+--===============3404021505099657088==--
 
