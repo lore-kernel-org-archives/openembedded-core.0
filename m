@@ -2,97 +2,86 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B248C43458
-	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 08:13:52 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16463.1782807227831243576
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0C47C43458
+	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 08:18:02 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16124.1782807478806591603
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2026 01:13:48 -0700
+ Tue, 30 Jun 2026 01:17:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=sN2yDwzD;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=ukGZAKKF;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id DA77B1A0D52;
-	Tue, 30 Jun 2026 08:13:45 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id C9EDBC51473;
+	Tue, 30 Jun 2026 08:18:06 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AF5FB60233;
-	Tue, 30 Jun 2026 08:13:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id ED2AB106F1CC9;
-	Tue, 30 Jun 2026 10:13:43 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3081E60233;
+	Tue, 30 Jun 2026 08:17:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 471C2106F1CBE;
+	Tue, 30 Jun 2026 10:17:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782807224; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1782807475; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=Y5++6RqWyeOU79RZEro59GVvt3/FLtaz8Il2klaMuyE=;
-	b=sN2yDwzDrD9aoyBo5fJlUWyizd6W/jKyTkVkYSNSBMOge0UXBKAAFOEhKw3RXwsetcCz4z
-	ytwKfVWBSzGgZmUIYAq+KpAUCOPBTKMVcIChXKrEspXYHTh7JtFk304S8TWMZid+SogLhJ
-	TgGsfSv4A+5TCDGo67NzFW4G0qZqXhX7Fbd5CqXNgtaSEQ9osJmpy2/IkRzCHIaiHLn416
-	yhhyXxY+TUhYmOun35gEkaJsHjCgMsKikPdTTQI/4yuZj/exMz57j8I1KrmJViIs3Uhs/0
-	fPdeI69ENiW5QfmRr0oIeAgqU8KzIVRNeNv0/zFnRaR97Hsgc0m7tp3sKGsRVg==
+	bh=4DW0/sGvH1ktfgnCKo8qlxRhTLNBaPRbUi1PM/ymdrQ=;
+	b=ukGZAKKFeIVh9FfFU1bZAZqVs08t1POFyfTbzwxv+6Byh2uvwOwlmIWB5bamPd3jIYsxWt
+	8mCSOKXfskcMQLrMI92vePNL7aNEkM0SL3nnIqFxbWPRdHEX4srhO4ImSdFU2eBau14Soe
+	e2LjiX9+vOvmrEbLItFpZmL6nXW2kBgS2iTykwguklwH1PgNA7M1KxSWoyHF+zxS/kLP3h
+	+mDYlmVovvLnb548eq3zmJbUwBhv1NM12avOB4cOkHFb5jUaAwMmhJWyl1OeR9gelgqwxz
+	gJy1M9Pyg6pjqFZ/f8aM133nUfR9SzFHpMysjLGDhZXOonykzaQcK+FoanQfyw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 30 Jun 2026 10:13:42 +0200
-Message-Id: <DJM8EZJFQZCJ.2860UZRX5PB0Q@bootlin.com>
-Subject: Re: [OE-core] [PATCH 1/3] classes/meson: use ninja explicitly when
- compiling
-Cc: <daniel.turull@ericsson.com>
+Date: Tue, 30 Jun 2026 10:17:54 +0200
+Message-Id: <DJM8I70PCCB1.3GWRSQAJKNDNE@bootlin.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <ross.burton@arm.com>, <openembedded-core@lists.openembedded.org>
+To: <Moritz.Haase@bmw.de>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] json-c: upgrade 0.18 -> 0.19
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260629141559.1305873-1-ross.burton@arm.com>
-In-Reply-To: <20260629141559.1305873-1-ross.burton@arm.com>
+References: <20260629061229.702229-1-Moritz.Haase@bmw.de>
+In-Reply-To: <20260629061229.702229-1-Moritz.Haase@bmw.de>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 08:13:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239865
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 08:18:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239866
 
-On Mon Jun 29, 2026 at 4:15 PM CEST, Ross Burton via lists.openembedded.org=
- wrote:
-> "meson compile" is essentially a glorified wrapper around calling ninja
-> that doesn't support all of the options that ninja does, so calling it
-> directly means builds are fractionally faster and we get direct control
-> over the flags that ninja is passed.
+On Mon Jun 29, 2026 at 8:12 AM CEST, Moritz Haase via lists.openembedded.or=
+g wrote:
+> Release notes are available at [0].
 >
-> A longer rationale can be found in the Gentoo change by Eli Schwartz
-> that caused this patch, who is both a Gentoo and Meson developer:
+> [0]: https://github.com/json-c/json-c/blob/json-c-0.19/ChangeLog
 >
-> https://github.com/gentoo/gentoo/commit/66011abd663671947fe07835f0d9cc360=
-f5de317
->
-> The only change is that the compile target doesn't support the optional
-> convenience target type, but this is rarely used.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
 > ---
->  meta/classes-recipe/meson.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meso=
-n.bbclass
-> index 9bed293603c..a4643591103 100644
-> --- a/meta/classes-recipe/meson.bbclass
-> +++ b/meta/classes-recipe/meson.bbclass
-> @@ -180,7 +180,7 @@ meson_do_configure() {
-> =20
->  do_compile[progress] =3D "outof:^\[(\d+)/(\d+)\]\s+"
->  meson_do_compile() {
-> -    meson compile -v ${PARALLEL_MAKE} ${MESON_TARGET}
-> +    ninja --verbose ${PARALLEL_MAKE} ${MESON_TARGET}
->  }
-> =20
->  meson_do_install() {
 
-Hi Ross, Hi Daniel,
+Hi Moritz,
 
-I just note this this patch is conflicting with the one from Daniel [1],
-as it does use 'MESON_TARGET =3D "systemd-hwdb:executable"'. Depending on
-which patch is merged first, the other might have to be rebased and
-fixed.
+Thanks for your patch.
 
-[1]: https://lore.kernel.org/all/20260626073812.769193-4-daniel.turull@eric=
-sson.com/
+It looks like the upgrade is breaking the ptests:
+
+Failed ptests:
+{'json-c': ['test_json_parse_cli.test']}
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/3927
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/3941
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/624
+
+Ptest logs can be found here:
+
+https://valkyrie.yocto.io/pub/non-release/20260630-46/testresults/qemuarm64=
+-ptest/core-image-ptest-json-c/
+https://valkyrie.yocto.io/pub/non-release/20260630-46/testresults/qemux86-6=
+4-ptest/core-image-ptest-json-c/
+https://valkyrie.yocto.io/pub/non-release/20260630-46/testresults/qemux86-6=
+4-musl-ptest/core-image-ptest-json-c/
+
+I can see at least this line in the logs;
+
+FAIL: test_json_parse_cli.test
+
+Can you have a look at the issue?
 
 Thanks,
 Mathieu
