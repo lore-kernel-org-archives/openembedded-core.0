@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC495C43602
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F20C43327
 	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 11:50:58 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.36])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19491.1782820248813605663
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19492.1782820250027409145
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2026 04:50:49 -0700
+ Tue, 30 Jun 2026 04:50:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=ZQzioJWW;
- spf=pass (domain: ericsson.com, ip: 52.101.65.36, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=Btdjsi66;
+ spf=pass (domain: ericsson.com, ip: 40.107.159.50, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CPzpuo/sq2q6JjExxYavMqmYvohm34TtuZkbzwLvtzSU6q9JAsqsFDCobbpW5l0W7tA2uIeNEwVjMQmpcRxTSa47vsaug4p/nwC7hdeUUmhurQ0Zf+AnM3YPpkkqRVPlDiDqYa+37neG71lzi9Ykzl8Jot+zKeFtiUoa6zULL5okse0tBhHdEuwdgjDC0KHAdSJ0o82zSFknkffACMsKKU9bqeWxlK9kOCl6ifXY2Q8txRpsE6jhgs6Q0EIOYXIjwOIJI77bcyup5O4+SbMsL0d4RSNt7rjhvkdrrwia7uBMEXAzRpb3eDiCQAqe2wUzPZfynhWq/38DI+G5llPG/Q==
+ b=lwWhEtbNFJwUbihPsY6ZTr1l0thIBs7ECzZiiDF7v3Hykv2+CfGMiyH6jFWO7+gR37U8AyU61wZkkHjIP7lY+D+A1PA90xEr4DW/BdMmne0XDhTG/PckOqQj0tmulGBmle1qudarq1f4tRe0TeRW+QnOU+imcxXTRPDnVojKs95Y9aZmDWlWvqviMjsr1kR8K62n2BId454j6er1kFhXTH3tQi5e5JufzqP1iICeKJZ7m6a/B9VEw4JNtkwd12yryih23y4xMFVm2eJidbsiIPD7x5rhzUTDWDXm+evm0j6mMnQ9vCo9zT6z4Oa8kK68M/SPNCWmcLlbsYvbIUutfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SnHr1lQdRTQRmVRGFxMHMXXKDAGu8NL4+eY5AJHSQkI=;
- b=cDfFasSZmP4zMmxPI5mz8qvQuLUXVy6VRgDOurBvpvqsjoVKlJnEf3KY1E9upMyhwtTG76d3zRjPHYwckCQ8ksRqpFYT21+VK3qi4cSOTusRflqiKvQPNgmI0xu0EILehvOzQXR+5Wrhxwdtoj5/dpiJvM/3Rtp4AspMiQWVW+p/MUamXJwUvfSNZbzahxuqEx+EGu2x03/3rz3iIdBgT5PYb0o+rYb+ON+iUB1yykVvsNjVQBjt9Ejft4k2F7x2vfSNyGemzAhMACe75ik54eRe6K/4GGaa3kwwEOJ08gFd57bwjZkG3Y9Sqfx0aTnYoaSQVjZpCbCq8IpcV1C+mQ==
+ bh=Kd8F/39UczCYH43DakJaD072SxQeuiJLZbNKGVPQvCg=;
+ b=rdKvkoux88jH8fW+n1nbLMyzKUSsVbt4ax9rAO5a6qYd0ig37M7EIHLzPS3l41n9O7qjgb69MCYnGmD5CL7xDasHFUW6DAHhYq+OkLlSSloASOQ+wQMuUiKi2BccwozSvo7CIAf2fEDjpL0FrJFzGqDjENxwuY78Y/YpxcsjP/1EX2ZAHG/pbwsQa5l0Yyoz6orMgZM/eZsmnR3svP+inKH9X3BZCbUDOfkd/zP38bH2wM3Dq7r8DE2pxVTK8WDfcnYreDBMd4OJfsoykS1iX6F1pw2FfXAkLcgMm1WkDxwG175BQFAlSjEY4dsuR78jcd1ISLigExPdoxhDz6mzmg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=arm.com smtp.mailfrom=ericsson.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
@@ -25,18 +25,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SnHr1lQdRTQRmVRGFxMHMXXKDAGu8NL4+eY5AJHSQkI=;
- b=ZQzioJWW2uGVu1hzcfTcSW6okrJKaiXMlyZC2iVVe9eBpTd0R6QVgTBxj6l89oRd5OX/Ff9SJ7inTCA2KTD4D7d1ni8R36v1j6+TQlN6/HG4BXnVYcTfvPCLsL5S95dFFXRat6s7qDEr3mS81qQW3xPyg4tyd8ZZTJsCaFN+btHX+uFoJMKPI/ecR7kK0d0/z+td2N+PqqJsFsxrHsXjPnmSfHwWOl3pJbYhDzIxz6OjXxpVnz4qVmWhty0vaSjnQHbXnh9spctxLgHeSoOwIUhiAvU4TeBrsy/jU8B7qpH37RBLYGLn5NOUQvYPNDkmhsXlCG9whf8rTujzRCmqig==
-Received: from AS9P250CA0001.EURP250.PROD.OUTLOOK.COM (2603:10a6:20b:532::7)
- by AMDPR07MB11168.eurprd07.prod.outlook.com (2603:10a6:20b:717::21) with
+ bh=Kd8F/39UczCYH43DakJaD072SxQeuiJLZbNKGVPQvCg=;
+ b=Btdjsi66uVq988wWXcIhXn15CmSfymUtfI9OPXgv4JvQxWOpe2GbsQBjKQfM/AvJRu9Ee+i5QOsY9r2OyDr2OpWS/sK6g+V+hNPhyIk+GlYn/R8LRV7Xr97MJV/0WrfeVFI63k5VVO3n39Xyg5CAwFqkWBqsMWqx0OoOuCw/A4MunRNNDfpgw4GxC/WLvvAJuVYZ5+yQ3AcFKWf5NRh64bZJt27pMUi/ov5RhnJdYLJKQflmvRkQDV9UsKftHCoL9PIDQtEMHZW84hsOhLxlINQ5MsazhZIQRh2b17Q7bN7PJOnibxX58BMui5bNxM7dP8WYAfFY3kTBs6XUkUIM7A==
+Received: from DB9PR02CA0022.eurprd02.prod.outlook.com (2603:10a6:10:1d9::27)
+ by GV1PR07MB9142.eurprd07.prod.outlook.com (2603:10a6:150:8a::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Tue, 30 Jun
- 2026 11:50:39 +0000
-Received: from AM4PEPF00027A61.eurprd04.prod.outlook.com
- (2603:10a6:20b:532:cafe::82) by AS9P250CA0001.outlook.office365.com
- (2603:10a6:20b:532::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 30 Jun
+ 2026 11:50:41 +0000
+Received: from DU6PEPF0000A7DF.eurprd02.prod.outlook.com
+ (2603:10a6:10:1d9:cafe::62) by DB9PR02CA0022.outlook.office365.com
+ (2603:10a6:10:1d9::27) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.19 via Frontend Transport; Tue,
- 30 Jun 2026 11:50:39 +0000
+ 30 Jun 2026 11:50:41 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=ericsson.com;
@@ -44,162 +44,137 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- AM4PEPF00027A61.mail.protection.outlook.com (10.167.16.70) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Tue, 30 Jun 2026 11:50:39 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.67) with Microsoft SMTP Server
+ DU6PEPF0000A7DF.mail.protection.outlook.com (10.167.8.36) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Tue, 30 Jun 2026 11:50:41 +0000
+Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.64) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 30 Jun 2026 13:50:39 +0200
+ 15.2.2562.37; Tue, 30 Jun 2026 13:50:41 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 6E1664020B6E;
+	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 82F9E95803;
 	Tue, 30 Jun 2026 13:50:38 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 4D19B700DF4C; Tue, 30 Jun 2026 13:50:38 +0200 (CEST)
+	id 4921F700DF4B; Tue, 30 Jun 2026 13:50:38 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <qi.chen@windriver.com>, <alex.kanavin@gmail.com>,
 	<richard.purdie@linuxfoundation.org>, <Ross.Burton@arm.com>,
 	<mathieu.dubois-briand@bootlin.com>, Daniel Turull
 	<daniel.turull@ericsson.com>
-Subject: [PATCH v3 3/3] systemd: add native hwdb generator for hosts without STATX_MNT_ID
-Date: Tue, 30 Jun 2026 13:50:24 +0200
-Message-ID: <20260630115028.4001775-4-daniel.turull@ericsson.com>
+Subject: [PATCH v3 2/3] systemd: upgrade to 261
+Date: Tue, 30 Jun 2026 13:50:23 +0200
+Message-ID: <20260630115028.4001775-3-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260630115028.4001775-1-daniel.turull@ericsson.com>
 References: <20260630115028.4001775-1-daniel.turull@ericsson.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00027A61:EE_|AMDPR07MB11168:EE_
-X-MS-Office365-Filtering-Correlation-Id: 06b3f7ad-84ae-4e97-78f1-08ded69dceb1
+X-MS-TrafficTypeDiagnostic: DU6PEPF0000A7DF:EE_|GV1PR07MB9142:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f5f4615-3195-4f3e-271e-08ded69dcfad
 X-SMTP-Server: smtp-central.internal.ericsson.com
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|82310400026|36860700016|6133799003|3023799007|18002099003|22082099003|11063799006|56012099006;
+	BCL:0;ARA:13230040|23010399003|36860700016|376014|82310400026|1800799024|13003099007|22082099003|18002099003|11063799006|56012099006|6133799003|3023799007;
 X-Microsoft-Antispam-Message-Info: 
-	nV0w7eFPlb1w1bHniTrOvYeMBNOrNxU0X8cmBCMgsxIYZX3hrJlmSrXj1mslZIWrEHB1kDDrLDiWviMqF0ddYEs0bCM4JaAgSUX/UiW9UJL4n+w5TO3QvAb/c/HjYgcSRoqAjjfv527o3Upx6YSSOu1O8yZZFddsTyI1bvQ5MKor75yL3+DLFglI/rJvtBYDBSDG6UoxxYiy6CmrGOx9WdlLXxvZvQwsugFrxhQzTYJZy4y6AoO9ZHMmQYY29c3G6culk5ZNdwuIgRmYKWoS7it1/R0Ae4jvHzHh2a66wLSO3ySq3aLsrwuRVedOqFrJrz2HaNeeeNGuK1i44drRL9pj/0a3uj68YGMBExYcEuzsR5UFQhoGAtJSN6EXWno1ImVwwc10Vtt1I0nUpEqLk7RlglJ7kuCTzhMGiqDZ7oGezDU87dNOmUf9u8Ft1LYlBy+3b7hndxqTuGbq50NDYS8irlP1H8NAJg5OR1sZgz+2nzfRehSVqJOLhNjDJcttDmhT9K++zgzs2QXzGjG0Rb4i5sx/SakKHIaPHDs7VKAO3mQSkM0omND5wJZkFnC60XZNDyq4FYR1dRVLqjnYYvmgiHZxdRu26JHZ5GdaOkBLGATAahv+dq1eX6p9QiMeKq/UQjly1hLIVGlzin+0mLZzGTWyAX3lc31ouCPf58hQPCPCkysEkmYqpYaOJ1BfT961PJ6MXgx8nbohOXTOKg==
+	yvvwKfvLsKxVWkNmk9Ik8KttL03BoJNfj1qjKVTQVWYkoPDB+H17rpfBKXI8AF5q1bsUB2HRH3URH2C1GOfCTxfNsK54EgvHw22sy95vUMi7qW7lWwUNiEtbqgJ7a95PfkZOX7iHg1/5mWODIlH3Oubjhn1X4zyd9lzIfafuENFY8Qta4qw55KmPiq+4lLbyeXnbaz116Omcp8YfWASjyBhaZMb09fDjknJh0MKXy/hjVuWY744h4tM67heIlAdq57lp75EPpnN49d9L4gcVGX3hyN/criOLGxLfWkJwWtlQ5PVYorDfjTjD8LNoMxYE+8CnG2a61dr+x14vhfvdmOjpRxvck7GWzWhruXeeRZV3IA3Ft/MEI1Z/oLKmmW8Q1K/RDgEJQcdN9efoYKq3rmo5pd60oSZSO9rXD2JtLTcZ1Dw6iCZj+VfgxMIpASkimaAZ+EJX5Y06FzpBiWI8bKNo1GE28yAfIL8iqOKVLaYA5+BPjVqC2Gu1WtGGF/gk0g+DNE6Nr8IsMxU2UwWXkh5mVwtEYrC1wLxTE1Yl8BCd4rjMlaZJi8DcXggcxcq06Biv2YffXCD//B4AGBhTdBFzotSsg6+XW/yZJ8/nBdgtyO2QuO7AHU+LWtHIlDUQo0nzpgc15LDF8wv3LamAE5HBOvpabbe94H8xs+GuEg3plwUU2W8LkdExHFd/klNIko4RuZBUEKy6PO/CrCHY+A==
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(82310400026)(36860700016)(6133799003)(3023799007)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(376014)(82310400026)(1800799024)(13003099007)(22082099003)(18002099003)(11063799006)(56012099006)(6133799003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	7Rghksveyk2xDV3y9Rv1qD21oSvOiw0+PHdaBjOvnAUVE4l09pPBNUwKyPMThcOVAucSvCiT0YfDF+dTmKAY0dtLllj5NBP0y/Xv9HLv4KRj3lVewOGdgYlmPa0hJOyHkN/NgIKD2IgmtvzurSa6i1wTL6yrDFVJdYoxycPP39oSHLER6dKJnGRD6GOV4X0P6GiTZh+yB+RlCHZTDMeARhIso7y8yvQT7mDTaK1F36A1KKAqyLC0q9w3lTNUlrNOsQmjnCam5SF2D+5BsKeqJcTxiMns/VFTQP8Xko8ee0veR0+sxLgiKBbkdd+d7c/0V7NcRNCE1zShAenLrgJdvOycMiPHntgD8IdpsScHGuwR66mGh+YegkLXJJJ1+3IBG3thQqDuvOccAZqSmAL7xzfIz3VsmsqJ/kk2lu8R0USe9HdwYkF6QAciR3iAREx5
+	ZURl5zJTzDP8g4XAmpXCQDrd0EG/2H3EHxNCYPx8ZABC3QTXzj0IjBVOJilVbB0hZ3zSqrRvQp8a1kQSKuzyREznbQ7Iso4Dgjrltr7G3/pyjhsgOMIQm5haifOg4GLMIP5z6AwQpqPv4n1l4SV7iyAQ3hSBhzqKdYpp4WSD0GrxYRC3A+q2C+W+EbZ+BskPudpjn1C4FyVBSaNPgIrKlZmd4zZJY376SOeI75n3BEKdWamH4G1fwwQbIj+YmAHurnDQ1I52oQJUHi5SNCWH2blTT5xUXvGBd6FIdVd4tG2eSEWh9J+XGhqo1+gWyyXxU1hC0gyhkAkeYIINzVTKu/VLKd9TQ6mj3/2Q3+ydHVLauH1O/QJ3fpmSafDHYL6q/XC1/cfhaEdKhv4ePuovmJWR4wRcaIPqGEH0UwZjz5HoE79czIZAU9LgCBNv3JVK
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 11:50:39.8531
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 11:50:41.4839
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06b3f7ad-84ae-4e97-78f1-08ded69dceb1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f5f4615-3195-4f3e-271e-08ded69dcfad
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	AM4PEPF00027A61.eurprd04.prod.outlook.com
+	DU6PEPF0000A7DF.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMDPR07MB11168
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR07MB9142
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 11:50:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239881
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239883
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-systemd 261 requires STATX_MNT_ID (kernel >=3D 5.8) for path resolution.
-On older hosts (e.g. RHEL 8 with kernel 4.18), the QEMU-emulated
-udevadm hwdb fails during image construction.
+Changes: https://github.com/systemd/systemd/compare/v259.5...v261-stable
 
-Add systemd-hwdb-native recipe that builds systemd-hwdb natively with:
-- A patch restoring /proc/self/fdinfo mount-ID fallback for kernels
-  lacking STATX_MNT_ID (applied only to native recipes)
-- A patch forcing compat mode in hwdb generation to avoid embedding
-  build-host paths in hwdb.bin (reproducibility)
+- Drop backported patches no longer needed (libfido2_cflags,
+  tpm2-util PCR bank, fdset_new debug)
+- Remove sysvinit-path/sysvrcnd-path meson options and
+  systemd-sysv-install skeleton (removed upstream in 260)
+- Add explicit meson disables for auto-detected features in
+  systemd-systemctl-native to prevent host sysroot contamination
+- Refresh 0003-Do-not-create-var-log-README.patch
 
-Update the update_udev_hwdb intercept to prefer the native
-systemd-hwdb over QEMU emulation, with a test -s check to catch
-silent failures from either path.
-
-Tested on RHEL 8.10 and Ubuntu 22.04.5
+Tested on qemu target with testsuite systemd
 
 AI-Generated: Claude-opus-4.6
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-
 ---
-I'm not sure who should be the maitainer of the new native recipe.
-is it Qi Chen, who is the maintainer for the rest of systemd recipes,
-unassigned or me? The question I'm asking is because all need to be
-updated at the same time.
----
- meta/conf/distro/include/maintainers.inc      |   1 +
- .../systemd/systemd-hwdb-native_261.bb        |  32 ++++
- .../systemd/systemd-systemctl-native_261.bb   |   3 +
- ...idfd_open-and-STATX_MNT_ID-on-older-.patch | 176 ++++++++++++++++++
- ...t-mode-for-reproducible-cross-builds.patch |  36 ++++
- meta/recipes-core/systemd/systemd_261.bb      |   2 +-
- scripts/postinst-intercepts/update_udev_hwdb  |  24 ++-
- 7 files changed, 269 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd-hwdb-native_261.bb
- create mode 100644 meta/recipes-core/systemd/systemd/Handle-missing-pidfd_=
-open-and-STATX_MNT_ID-on-older-.patch
- create mode 100644 meta/recipes-core/systemd/systemd/hwdb-use-compat-mode-=
-for-reproducible-cross-builds.patch
+ ...ve_259.5.bb =3D> systemd-boot-native_261.bb} |  0
+ ...temd-boot_259.5.bb =3D> systemd-boot_261.bb} |  0
+ ...9.5.bb =3D> systemd-systemctl-native_261.bb} |  8 +-
+ meta/recipes-core/systemd/systemd.inc         |  8 +-
+ ...meson-use-libfido2_cflags-dependency.patch | 54 -----------
+ .../0003-Do-not-create-var-log-README.patch   | 10 +-
+ ...il-fix-PCR-bank-guessing-without-EFI.patch | 62 ------------
+ ...-detailed-debug-logging-to-fdset_new.patch | 97 -------------------
+ .../{systemd_259.5.bb =3D> systemd_261.bb}      | 12 +--
+ 9 files changed, 18 insertions(+), 233 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot-native_259.5.bb =3D> system=
+d-boot-native_261.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-boot_259.5.bb =3D> systemd-boot_=
+261.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-systemctl-native_259.5.bb =3D> s=
+ystemd-systemctl-native_261.bb} (54%)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-meson-use-libfid=
+o2_cflags-dependency.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0004-tpm2-util-fix-PC=
+R-bank-guessing-without-EFI.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0018-shared-fdset-add=
+-detailed-debug-logging-to-fdset_new.patch
+ rename meta/recipes-core/systemd/{systemd_259.5.bb =3D> systemd_261.bb} (9=
+9%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
-clude/maintainers.inc
-index 4c6307086c..b51c66ea18 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -831,6 +831,7 @@ RECIPE_MAINTAINER:pn-systemd-boot-native =3D "Viswanath=
- Kraleti <quic_vkraleti@qui
- RECIPE_MAINTAINER:pn-systemd-bootchart =3D "Chen Qi <Qi.Chen@windriver.com=
->"
- RECIPE_MAINTAINER:pn-systemd-bootconf =3D "Chen Qi <Qi.Chen@windriver.com>=
-"
- RECIPE_MAINTAINER:pn-systemd-conf =3D "Chen Qi <Qi.Chen@windriver.com>"
-+RECIPE_MAINTAINER:pn-systemd-hwdb-native =3D "Unassigned <unassigned@yocto=
-project.org>"
- RECIPE_MAINTAINER:pn-systemd-machine-units =3D "Chen Qi <Qi.Chen@windriver=
-.com>"
- RECIPE_MAINTAINER:pn-systemd-serialgetty =3D "Chen Qi <Qi.Chen@windriver.c=
-om>"
- RECIPE_MAINTAINER:pn-systemd-systemctl-native =3D "Chen Qi <Qi.Chen@windri=
-ver.com>"
-diff --git a/meta/recipes-core/systemd/systemd-hwdb-native_261.bb b/meta/re=
-cipes-core/systemd/systemd-hwdb-native_261.bb
-new file mode 100644
-index 0000000000..d328fc3c44
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd-hwdb-native_261.bb
-@@ -0,0 +1,32 @@
-+# SPDX-License-Identifier: MIT
-+FILESEXTRAPATHS:prepend :=3D "${THISDIR}/systemd:"
-+
-+SUMMARY =3D "Hardware database management tool from systemd"
-+
-+require systemd.inc
-+
-+DEPENDS =3D "gperf-native libcap-native util-linux-native python3-jinja2-n=
-ative"
-+
-+# TODO: Remove STATX_MNT_ID patch once minimum supported build host kernel=
- is >=3D 5.8 (RHEL 8 EOL: 2029)
-+SRC_URI +=3D "file://Handle-missing-pidfd_open-and-STATX_MNT_ID-on-older-.=
-patch \
-+            file://hwdb-use-compat-mode-for-reproducible-cross-builds.patc=
-h \
-+           "
-+
-+inherit pkgconfig meson native
-+
-+MESON_TARGET =3D "systemd-hwdb"
-+
-+# Override prefix so compiled-in UDEVLIBEXECDIR (/usr/lib/udev) matches th=
-e
-+# target rootfs layout. This allows --root $D --usr to find hwdb.d source
-+# files and write hwdb.bin to the correct location.
-+EXTRA_OEMESON +=3D "--prefix /usr"
-+EXTRA_OEMESON +=3D "-Dhwdb=3Dtrue -Dlink-udev-shared=3Dfalse"
+diff --git a/meta/recipes-core/systemd/systemd-boot-native_259.5.bb b/meta/=
+recipes-core/systemd/systemd-boot-native_261.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot-native_259.5.bb
+rename to meta/recipes-core/systemd/systemd-boot-native_261.bb
+diff --git a/meta/recipes-core/systemd/systemd-boot_259.5.bb b/meta/recipes=
+-core/systemd/systemd-boot_261.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_259.5.bb
+rename to meta/recipes-core/systemd/systemd-boot_261.bb
+diff --git a/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb b/=
+meta/recipes-core/systemd/systemd-systemctl-native_261.bb
+similarity index 54%
+rename from meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb
+rename to meta/recipes-core/systemd/systemd-systemctl-native_261.bb
+index bf9c9f4776..28fddc79df 100644
+--- a/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb
++++ b/meta/recipes-core/systemd/systemd-systemctl-native_261.bb
+@@ -10,8 +10,14 @@ inherit pkgconfig meson native
+=20
+ MESON_TARGET =3D "systemctl"
+ MESON_INSTALL_TAGS =3D "systemctl"
++# Explicitly disable features that meson auto-detects from the native sysr=
+oot.
++# Only systemctl is built here; these prevent spurious dependencies and en=
+sure
++# reproducible builds regardless of what is installed on the build host.
+ EXTRA_OEMESON +=3D "-Dlink-systemctl-shared=3Dfalse"
+-EXTRA_OEMESON +=3D "-Dsysvinit-path=3D -Dsysvrcnd-path=3D"
 +EXTRA_OEMESON +=3D "-Dpam=3Ddisabled -Daudit=3Ddisabled -Dselinux=3Ddisabl=
 ed"
 +EXTRA_OEMESON +=3D "-Dacl=3Ddisabled -Dapparmor=3Ddisabled -Dseccomp=3Ddis=
@@ -208,326 +183,412 @@ abled"
 ido2=3Ddisabled"
 +EXTRA_OEMESON +=3D "-Dpcre2=3Ddisabled -Dp11kit=3Ddisabled -Dopenssl=3Ddis=
 abled"
-+
-+do_install() {
-+    install -d ${D}${bindir}
-+    install -m 0755 ${B}/systemd-hwdb ${D}${bindir}/systemd-hwdb
-+}
-diff --git a/meta/recipes-core/systemd/systemd-systemctl-native_261.bb b/me=
-ta/recipes-core/systemd/systemd-systemctl-native_261.bb
-index 28fddc79df..ac09c804a5 100644
---- a/meta/recipes-core/systemd/systemd-systemctl-native_261.bb
-+++ b/meta/recipes-core/systemd/systemd-systemctl-native_261.bb
-@@ -6,6 +6,9 @@ require systemd.inc
 =20
- DEPENDS =3D "gperf-native libcap-native util-linux-native python3-jinja2-n=
-ative"
+ # Systemctl is supposed to operate on target, but the target sysroot is no=
+t
+ # determined at run-time, but rather set during configure
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/syst=
+emd/systemd.inc
+index f107c4c5da..d9048e9187 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -15,14 +15,10 @@ LICENSE:libsystemd =3D "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM =3D "file://LICENSE.GPL2;md5=3Dc09786363500a9acc29b147e6e=
+72d2c6 \
+                     file://LICENSE.LGPL2.1;md5=3Dbe0aaf4a380f73f7e00b420a0=
+07368f2"
 =20
-+# TODO: Remove STATX_MNT_ID patch once minimum supported build host kernel=
- is >=3D 5.8 (RHEL 8 EOL: 2029)
-+SRC_URI +=3D "file://Handle-missing-pidfd_open-and-STATX_MNT_ID-on-older-.=
-patch"
-+
- inherit pkgconfig meson native
+-SRCREV =3D "b3d8fc43e9cb531d958c17ef2cd93b374bc14e8a"
+-SRCBRANCH =3D "v259-stable"
++SRCREV =3D "de9dbc37ad4aa637e200ac02a0545095997055df"
++SRCBRANCH =3D "v261-stable"
+ SRC_URI =3D "git://github.com/systemd/systemd.git;protocol=3Dhttps;branch=
+=3D${SRCBRANCH};tag=3Dv${PV}"
 =20
- MESON_TARGET =3D "systemctl"
-diff --git a/meta/recipes-core/systemd/systemd/Handle-missing-pidfd_open-an=
-d-STATX_MNT_ID-on-older-.patch b/meta/recipes-core/systemd/systemd/Handle-m=
-issing-pidfd_open-and-STATX_MNT_ID-on-older-.patch
-new file mode 100644
-index 0000000000..c63423cc96
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/Handle-missing-pidfd_open-and-STATX=
-_MNT_ID-on-older-.patch
-@@ -0,0 +1,176 @@
-+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-+From: Daniel Turull <daniel.turull@ericsson.com>
-+Date: Mon, 23 Jun 2026 12:00:00 +0200
-+Subject: [PATCH] Handle missing pidfd_open and STATX_MNT_ID on older kerne=
-ls
-+
-+On hosts lacking pidfd_open (kernel < 5.3) or STATX_MNT_ID (kernel < 5.8,
-+e.g. RHEL 8), native tools (systemctl --root, systemd-hwdb --root) fail
-+during path resolution. Fix by:
-+
-+- Treating ENOSYS/EOPNOTSUPP from pidfd_open as graceful fallback.
-+- Adding fd_get_mount_id() to read mnt_id from /proc/self/fdinfo (availabl=
-e
-+  since kernel 3.15) and using it as fallback when statx returns -EUNATCH =
-in
-+  fds_inode_and_mount_same() and chase_statx().
-+
-+This restores the /proc/self/fdinfo fallback that existed in systemd 259
-+(fd_fdinfo_mnt_id in mountpoint-util.c) but was removed upstream in 260+.
-+
-+This patch is only applied to native recipes (systemd-systemctl-native,
-+systemd-hwdb-native) where /proc/self/fdinfo is guaranteed available.
-+Do NOT apply to the target systemd recipe.
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Assisted-by: kiro:claude-opus-4.6
-+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-+---
-+ src/basic/chase.c   | 20 ++++++++++++++-
-+ src/basic/fd-util.c | 63 +++++++++++++++++++++++++++++++++++++++++++--
-+ src/basic/fd-util.h |  1 +
-+ src/basic/pidref.c  |  4 +--
-+ 4 files changed, 83 insertions(+), 5 deletions(-)
-+
-+--- a/src/basic/pidref.c	2026-06-25 14:01:12.007875484 +0200
-++++ b/src/basic/pidref.c	2026-06-25 14:01:55.098770206 +0200
-+@@ -106,8 +106,8 @@ int pidref_set_pid(PidRef *pidref, pid_t
-+=20
-+         fd =3D pidfd_open(pid, 0);
-+         if (fd < 0) {
-+-                /* Graceful fallback in case the kernel is out of fds */
-+-                if (!ERRNO_IS_RESOURCE(errno))
-++                /* Graceful fallback in case the kernel is out of fds or =
-lacks pidfd support */
-++                if (!ERRNO_IS_RESOURCE(errno) && !ERRNO_IS_NOT_SUPPORTED(=
-errno))
-+                         return log_debug_errno(errno, "Failed to open pid=
-fd for pid " PID_FMT ": %m", pid);
-+=20
-+                 fd =3D -EBADF;
-+--- a/src/basic/fd-util.h	2026-06-25 14:01:12.009875526 +0200
-++++ b/src/basic/fd-util.h	2026-06-25 14:01:20.909060415 +0200
-+@@ -188,6 +188,7 @@ static inline int dir_fd_is_root_or_cwd(
-+ }
-+=20
-+ int fds_inode_and_mount_same(int fd1, int fd2);
-++int fd_get_mount_id(int fd, uint64_t *ret);
-+=20
-+ int resolve_xat_fdroot(int *fd, const char **path, char **ret_buffer);
-+=20
-+--- a/src/basic/fd-util.c	2026-06-25 14:01:12.011875567 +0200
-++++ b/src/basic/fd-util.c	2026-06-25 14:01:40.007456905 +0200
-+@@ -1082,6 +1082,38 @@ int path_is_root_at(int dir_fd, const ch
-+         return fds_inode_and_mount_same(dir_fd, XAT_FDROOT);
-+ }
-+=20
-++int fd_get_mount_id(int fd, uint64_t *ret) {
-++        char path[STRLEN("/proc/self/fdinfo/") + DECIMAL_STR_MAX(int)];
-++        _cleanup_close_ int real_fd =3D -EBADF;
-++        _cleanup_free_ char *p =3D NULL;
-++        uint64_t mnt_id;
-++        int r;
-++
-++        assert(ret);
-++
-++        /* /proc/self/fdinfo/ requires a real fd; resolve AT_FDCWD/XAT_FD=
-ROOT via O_PATH. */
-++        if (fd =3D=3D AT_FDCWD || fd =3D=3D XAT_FDROOT) {
-++                real_fd =3D open(fd =3D=3D XAT_FDROOT ? "/" : ".", O_PATH=
-|O_CLOEXEC);
-++                if (real_fd < 0)
-++                        return -errno;
-++                fd =3D real_fd;
-++        }
-++
-++        assert(fd >=3D 0);
-++        xsprintf(path, "/proc/self/fdinfo/%i", fd);
-++
-++        r =3D get_proc_field(path, "mnt_id", &p);
-++        if (r < 0)
-++                return r;
-++
-++        r =3D safe_atou64(p, &mnt_id);
-++        if (r < 0)
-++                return r;
-++
-++        *ret =3D mnt_id;
-++        return 0;
-++}
-++
-+ int fds_inode_and_mount_same(int fd1, int fd2) {
-+         struct statx sx1, sx2;
-+         int r;
-+@@ -1092,7 +1124,20 @@ int fds_inode_and_mount_same(int fd1, in
-+         r =3D xstatx(fd1, /* path =3D */ NULL, AT_EMPTY_PATH,
-+                    STATX_TYPE|STATX_INO|STATX_MNT_ID,
-+                    &sx1);
-+-        if (r < 0)
-++        if (r =3D=3D -EUNATCH) {
-++                uint64_t mnt_id;
-++
-++                /* Kernel lacks STATX_MNT_ID; fall back to /proc/self/fdi=
-nfo. */
-++                r =3D xstatx(fd1, /* path =3D */ NULL, AT_EMPTY_PATH,
-++                           STATX_TYPE|STATX_INO, &sx1);
-++                if (r < 0)
-++                        return r;
-++                r =3D fd_get_mount_id(fd1, &mnt_id);
-++                if (r < 0)
-++                        return r;
-++                sx1.stx_mnt_id =3D mnt_id;
-++                sx1.stx_mask |=3D STATX_MNT_ID;
-++        } else if (r < 0)
-+                 return r;
-+=20
-+         if (fd1 =3D=3D fd2) /* Shortcut things if fds are the same (only =
-after validating the fd) */
-+@@ -1101,7 +1146,19 @@ int fds_inode_and_mount_same(int fd1, in
-+         r =3D xstatx(fd2, /* path =3D */ NULL, AT_EMPTY_PATH,
-+                    STATX_TYPE|STATX_INO|STATX_MNT_ID,
-+                    &sx2);
-+-        if (r < 0)
-++        if (r =3D=3D -EUNATCH) {
-++                uint64_t mnt_id;
-++
-++                r =3D xstatx(fd2, /* path =3D */ NULL, AT_EMPTY_PATH,
-++                           STATX_TYPE|STATX_INO, &sx2);
-++                if (r < 0)
-++                        return r;
-++                r =3D fd_get_mount_id(fd2, &mnt_id);
-++                if (r < 0)
-++                        return r;
-++                sx2.stx_mnt_id =3D mnt_id;
-++                sx2.stx_mask |=3D STATX_MNT_ID;
-++        } else if (r < 0)
-+                 return r;
-+=20
-+         r =3D statx_mount_same(&sx1, &sx2);
-+--- a/src/basic/chase.c	2026-06-25 14:01:12.013875609 +0200
-++++ b/src/basic/chase.c	2026-06-25 14:01:47.117604514 +0200
-+@@ -40,7 +40,9 @@
-+         (CHASE_MUST_BE_DIRECTORY|CHASE_MUST_BE_REGULAR|CHASE_MUST_BE_SOCK=
-ET)
-+=20
-+ static int chase_statx(int fd, struct statx *ret) {
-+-        return xstatx_full(fd,
-++        int r;
-++
-++        r =3D xstatx_full(fd,
-+                         /* path=3D */ NULL,
-+                         /* statx_flags=3D */ 0,
-+                         XSTATX_MNT_ID_BEST,
-+@@ -48,6 +50,23 @@ static int chase_statx(int fd, struct st
-+                         /* optional_mask=3D */ 0,
-+                         /* mandatory_attributes=3D */ 0,
-+                         ret);
-++        if (r =3D=3D -EUNATCH) {
-++                uint64_t mnt_id;
-++
-++                /* Kernel lacks STATX_MNT_ID; fall back to /proc/self/fdi=
-nfo. */
-++                r =3D xstatx(fd, /* path=3D */ NULL, /* statx_flags=3D */=
- 0,
-++                           STATX_TYPE|STATX_UID|STATX_INO,
-++                           ret);
-++                if (r < 0)
-++                        return r;
-++                r =3D fd_get_mount_id(fd, &mnt_id);
-++                if (r < 0)
-++                        return r;
-++                ret->stx_mnt_id =3D mnt_id;
-++                ret->stx_mask |=3D STATX_MNT_ID;
-++        }
-++
-++        return r;
-+ }
-+=20
-+ static int chase_openat2(int root_fd, int dir_fd, const char *path, Chase=
-Flags chase_flags) {
-diff --git a/meta/recipes-core/systemd/systemd/hwdb-use-compat-mode-for-rep=
-roducible-cross-builds.patch b/meta/recipes-core/systemd/systemd/hwdb-use-c=
-ompat-mode-for-reproducible-cross-builds.patch
-new file mode 100644
-index 0000000000..bb90105cbd
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/hwdb-use-compat-mode-for-reproducib=
-le-cross-builds.patch
-@@ -0,0 +1,36 @@
-+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-+From: Daniel Turull <daniel.turull@ericsson.com>
-+Date: Wed, 25 Jun 2026 10:00:00 +0200
-+Subject: [PATCH] hwdb: use compat mode to avoid embedding source paths
-+
-+Use compat=3Dtrue in systemd-hwdb's verb_update() so that source
-+filenames, line numbers, and priorities are not embedded in hwdb.bin.
-+
-+Without this, when --root $D is used during cross-compilation, the
-+absolute build paths (e.g. /tmp/work/.../rootfs/usr/lib/udev/hwdb.d/...)
-+are written into the database, causing:
-+- Non-reproducible builds (different TMPDIR =E2=86=92 different hwdb.bin)
-+- Build directory path leakage into the target image
-+
-+The compat format matches what udevadm hwdb (the deprecated path)
-+has always produced, and is the expected format for cross-built images.
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+AI-Generated: Claude Opus 4.6
-+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-+---
-+ src/hwdb/hwdb.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+--- a/src/hwdb/hwdb.c
-++++ b/src/hwdb/hwdb.c
-+@@ -27,7 +27,7 @@ static int verb_update(int argc, char *argv[], uintptr_t=
- _data, void *userdata)
-+         if (hwdb_bypass())
-+                 return 0;
-+=20
-+-        return hwdb_update(arg_root, arg_hwdb_bin_dir, arg_strict, false)=
-;
-++        return hwdb_update(arg_root, arg_hwdb_bin_dir, arg_strict, true);
-+ }
-+=20
-+ static int help(void) {
-diff --git a/meta/recipes-core/systemd/systemd_261.bb b/meta/recipes-core/s=
-ystemd/systemd_261.bb
-index eedce348c3..22bd4ca5fc 100644
---- a/meta/recipes-core/systemd/systemd_261.bb
+ CVE_PRODUCT =3D "systemd"
+=20
+ CVE_STATUS[CVE-2019-3815] =3D "not-applicable-platform: only applied to RH=
+EL"
+-CVE_STATUS[CVE-2026-40223] =3D "fixed-version: fixed in 259.2"
+-CVE_STATUS[CVE-2026-40224] =3D "fixed-version: fixed in 259.3"
+-CVE_STATUS[CVE-2026-40225] =3D "fixed-version: fixed in 259.5"
+-CVE_STATUS[CVE-2026-40226] =3D "fixed-version: fixed in 259.4"
+diff --git a/meta/recipes-core/systemd/systemd/0001-meson-use-libfido2_cfla=
+gs-dependency.patch b/meta/recipes-core/systemd/systemd/0001-meson-use-libf=
+ido2_cflags-dependency.patch
+deleted file mode 100644
+index 4bc1e10ee7..0000000000
+--- a/meta/recipes-core/systemd/systemd/0001-meson-use-libfido2_cflags-depe=
+ndency.patch
++++ /dev/null
+@@ -1,54 +0,0 @@
+-From 97142fd1db4124de5d5bdd3f49cc5a390286e522 Mon Sep 17 00:00:00 2001
+-From: Dan McGregor <danmcgr@protonmail.com>
+-Date: Wed, 11 Mar 2026 18:26:05 -0600
+-Subject: [PATCH] meson: use libfido2_cflags dependency
+-
+-Add the libfido2 dependency to cryptenroll and cryptsetup's
+-meson files. If libfido2's not installed in the default path
+-the build wasn't finding its headers correctly.
+-
+-Signed-off-by: Dan McGregor <danmcgr@protonmail.com>
+-Upstream-Status: Backport [https://github.com/systemd/systemd/commit/9ce90=
+5e35f690e7a10cd286be2b50594d0857f5e]
+----
+- src/cryptenroll/meson.build                  | 1 +
+- src/cryptsetup/cryptsetup-tokens/meson.build | 2 +-
+- src/cryptsetup/meson.build                   | 1 +
+- 3 files changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/cryptenroll/meson.build b/src/cryptenroll/meson.build
+-index 488ceea14d..11265c8b41 100644
+---- a/src/cryptenroll/meson.build
+-+++ b/src/cryptenroll/meson.build
+-@@ -23,6 +23,7 @@ executables +=3D [
+-                 'dependencies' : [
+-                         libcryptsetup,
+-                         libdl,
+-+                        libfido2_cflags,
+-                         libopenssl,
+-                         libp11kit_cflags,
+-                 ],
+-diff --git a/src/cryptsetup/cryptsetup-tokens/meson.build b/src/cryptsetup=
+/cryptsetup-tokens/meson.build
+-index 804e18bc67..0fd6309201 100644
+---- a/src/cryptsetup/cryptsetup-tokens/meson.build
+-+++ b/src/cryptsetup/cryptsetup-tokens/meson.build
+-@@ -58,7 +58,7 @@ modules +=3D [
+-                 'sources' : cryptsetup_token_systemd_fido2_sources,
+-                 'dependencies' : [
+-                         libcryptsetup,
+--                        libfido2,
+-+                        libfido2_cflags,
+-                 ],
+-         },
+-         template + {
+-diff --git a/src/cryptsetup/meson.build b/src/cryptsetup/meson.build
+-index d9778259c2..b36354fb0a 100644
+---- a/src/cryptsetup/meson.build
+-+++ b/src/cryptsetup/meson.build
+-@@ -19,6 +19,7 @@ executables +=3D [
+-                 'sources' : systemd_cryptsetup_sources,
+-                 'dependencies' : [
+-                         libcryptsetup,
+-+                        libfido2_cflags,
+-                         libmount_cflags,
+-                         libopenssl,
+-                         libp11kit_cflags,
+diff --git a/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-R=
+EADME.patch b/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-=
+README.patch
+index 1d3c4f83c0..0128c83d9f 100644
+--- a/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-README.p=
+atch
++++ b/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-README.p=
+atch
+@@ -1,7 +1,7 @@
+ From a7f6a296707642d05463aec22ea3dfce7d06c989 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Tue, 21 Jan 2025 05:02:00 +0100
+-Subject: [PATCH 03/16] Do not create /var/log/README
++Subject: [PATCH] Do not create /var/log/README
+=20
+ /var/log/README is a link to /usr/share/doc/systemd/README.logs. The
+ latter is packaged in systemd-doc and likely not installed, which leaves
+@@ -15,19 +15,15 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@a=
+xis.com>
+  1 file changed, 3 deletions(-)
+=20
+ diff --git a/tmpfiles.d/legacy.conf.in b/tmpfiles.d/legacy.conf.in
+-index cdef21fa9b..03798c953e 100644
++index cdef21fa9b..7890abcdef 100644
+ --- a/tmpfiles.d/legacy.conf.in
+ +++ b/tmpfiles.d/legacy.conf.in
+-@@ -13,9 +13,6 @@
++@@ -13,6 +13,3 @@
+ =20
+  d /run/lock 0755 root root -
+  L /var/lock - - - - ../run/lock
+ -{% if CREATE_LOG_DIRS %}
+ -L$ /var/log/README - - - - ../..{{DOC_DIR}}/README.logs
+ -{% endif %}
+-=20
+- {% if HAVE_SYSV_COMPAT %}
+- # /run/lock/subsys is used for serializing SysV service execution, and
+ --=20
+ 2.34.1
+-
+diff --git a/meta/recipes-core/systemd/systemd/0004-tpm2-util-fix-PCR-bank-=
+guessing-without-EFI.patch b/meta/recipes-core/systemd/systemd/0004-tpm2-ut=
+il-fix-PCR-bank-guessing-without-EFI.patch
+deleted file mode 100644
+index c590b01cd3..0000000000
+--- a/meta/recipes-core/systemd/systemd/0004-tpm2-util-fix-PCR-bank-guessin=
+g-without-EFI.patch
++++ /dev/null
+@@ -1,62 +0,0 @@
+-From 3cef11c710e95bb5f891181e9b2a6d8f174712c3 Mon Sep 17 00:00:00 2001
+-From: Patrick Wicki <patrick.wicki@subset.ch>
+-Date: Fri, 20 Mar 2026 15:56:56 +0100
+-Subject: [PATCH] tpm2-util: fix PCR bank guessing without EFI
+-
+-Since 7643e4a89 efi_get_active_pcr_banks() is used to determine the
+-active PCR banks. Without EFI support, this returns -EOPNOTSUPP. This in
+-turns leads to cryptenroll and cryptsetup attach failures unless the PCR
+-bank is explicitly set, i.e.
+-
+-$ systemd-cryptenroll $LUKS_PART --tpm2-device=3Dauto --tpm2-pcrs=3D'7'
+-[...]
+-Could not read pcr values: Operation not supported
+-
+-But it works fine with --tpm2-pcrs=3D'7:sha256'.
+-
+-Similarly, unsealing during cryptsetup attach also fails if the bank
+-needs to be determined:
+-
+-Failed to unseal secret using TPM2: Operation not supported
+-
+-Catch the -EOPNOTSUPP and fallback to the guessing strategy.
+-
+-Upstream-Status: Backport [https://github.com/systemd/systemd/pull/41231]
+-
+-Signed-off-by: Patrick Wicki <patrick.wicki@siemens.com>
+----
+- src/shared/tpm2-util.c | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/src/shared/tpm2-util.c b/src/shared/tpm2-util.c
+-index cf11b50695..c0590fe575 100644
+---- a/src/shared/tpm2-util.c
+-+++ b/src/shared/tpm2-util.c
+-@@ -2702,11 +2702,11 @@ int tpm2_get_best_pcr_bank(
+-         uint32_t efi_banks;
+-         r =3D efi_get_active_pcr_banks(&efi_banks);
+-         if (r < 0) {
+--                if (r !=3D -ENOENT)
+-+                if (!IN_SET(r, -ENOENT, -EOPNOTSUPP))
+-                         return r;
+-=20
+-                 /* If variable is not set use guesswork below */
+--                log_debug("Boot loader didn't set the LoaderTpm2ActivePcr=
+Banks EFI variable, we have to guess the used PCR banks.");
+-+                log_debug("Boot loader didn't set the LoaderTpm2ActivePcr=
+Banks EFI variable or EFI support is unavailable, we have to guess the used=
+ PCR banks.");
+-         } else if (efi_banks =3D=3D UINT32_MAX)
+-                 log_debug("Boot loader set the LoaderTpm2ActivePcrBanks E=
+FI variable to indicate that the GetActivePcrBanks() API is not available i=
+n the firmware. We have to guess the used PCR banks.");
+-         else {
+-@@ -2811,11 +2811,11 @@ int tpm2_get_good_pcr_banks(
+-         uint32_t efi_banks;
+-         r =3D efi_get_active_pcr_banks(&efi_banks);
+-         if (r < 0) {
+--                if (r !=3D -ENOENT)
+-+                if (!IN_SET(r, -ENOENT, -EOPNOTSUPP))
+-                         return r;
+-=20
+-                 /* If the variable is not set we have to guess via the co=
+de below */
+--                log_debug("Boot loader didn't set the LoaderTpm2ActivePcr=
+Banks EFI variable, we have to guess the used PCR banks.");
+-+                log_debug("Boot loader didn't set the LoaderTpm2ActivePcr=
+Banks EFI variable or EFI support is unavailable, we have to guess the used=
+ PCR banks.");
+-         } else if (efi_banks =3D=3D UINT32_MAX)
+-                 log_debug("Boot loader set the LoaderTpm2ActivePcrBanks E=
+FI variable to indicate that the GetActivePcrBanks() API is not available i=
+n the firmware. We have to guess the used PCR banks.");
+-         else {
+diff --git a/meta/recipes-core/systemd/systemd/0018-shared-fdset-add-detail=
+ed-debug-logging-to-fdset_new.patch b/meta/recipes-core/systemd/systemd/001=
+8-shared-fdset-add-detailed-debug-logging-to-fdset_new.patch
+deleted file mode 100644
+index 63fa7fefec..0000000000
+--- a/meta/recipes-core/systemd/systemd/0018-shared-fdset-add-detailed-debu=
+g-logging-to-fdset_new.patch
++++ /dev/null
+@@ -1,97 +0,0 @@
+-From 0565f9f27323a8f9e62d85f2add542af99cea06a Mon Sep 17 00:00:00 2001
+-From: AshishKumar Mishra <ashishkumar.mishra@bmwtechworks.in>
+-Date: Wed, 21 Jan 2026 14:13:29 +0530
+-Subject: [PATCH] systemd: Add detailed debug logging to fdset_new_fill()
+-
+-Currently, when fdset_new_fill() fails to open /proc/self/fd or
+-encounters an error while processing individual file descriptors
+-(such as fcntl or fstat failures), it returns a silent error code.
+-
+-For debugging rarely reproducible failures it becomes difficult to
+-know the exact cause of failure
+-This commit updates the function to use log_debug_errno() for all
+-error paths and hence  provides better visibility into why FD collection
+-failed, including the path of the problematic FD (via fd_get_path)
+-and its inode type.
+-
+-Upstream-Status: Backport [https://github.com/systemd/systemd/pull/40385]
+-
+-Signed-off-by: AshishKumar Mishra <ashishkumar.mishra@bmwtechworks.in>
+----
+- src/shared/fdset.c | 35 ++++++++++++++++++++++++++---------
+- 1 file changed, 26 insertions(+), 9 deletions(-)
+-
+-diff --git a/src/shared/fdset.c b/src/shared/fdset.c
+-index 832e7fda60..f340f41b0e 100644
+---- a/src/shared/fdset.c
+-+++ b/src/shared/fdset.c
+-@@ -8,6 +8,7 @@
+- #include "alloc-util.h"
+- #include "async.h"
+- #include "dirent-util.h"
+-+#include "errno-util.h"
+- #include "fd-util.h"
+- #include "fdset.h"
+- #include "log.h"
+-@@ -179,9 +180,10 @@ int fdset_new_fill(
+-         d =3D opendir("/proc/self/fd");
+-         if (!d) {
+-                 if (errno =3D=3D ENOENT && proc_mounted() =3D=3D 0)
+--                        return -ENOSYS;
+-+                        return log_debug_errno(SYNTHETIC_ERRNO(ENOSYS),
+-+                                               "Failed to open /proc/self=
+/fd/, /proc/ is not mounted.");
+-=20
+--                return -errno;
+-+                return log_debug_errno(errno, "Failed to open /proc/self/=
+fd/: %m ");
+-         }
+-=20
+-         s =3D fdset_new();
+-@@ -210,9 +212,14 @@ int fdset_new_fill(
+-                          * been passed in can be collected and fds which =
+have been created locally can be
+-                          * ignored, under the assumption that only the la=
+tter have O_CLOEXEC set. */
+-=20
+--                        fl =3D fcntl(fd, F_GETFD);
+--                        if (fl < 0)
+--                                return -errno;
+-+                        fl =3D RET_NERRNO(fcntl(fd, F_GETFD));
+-+                        if (fl < 0) {
+-+                                _cleanup_free_ char *path =3D NULL;
+-+                                (void) fd_get_path(fd, &path);
+-+                                return log_debug_errno(fl,
+-+                                                       "Failed to get fla=
+g of fd=3D%d (%s): %m ",
+-+                                                       fd, strna(path));
+-+                        }
+-=20
+-                         if (FLAGS_SET(fl, FD_CLOEXEC) !=3D !!filter_cloex=
+ec)
+-                                 continue;
+-@@ -221,13 +228,23 @@ int fdset_new_fill(
+-                 /* We need to set CLOEXEC manually only if we're collecti=
+ng non-CLOEXEC fds. */
+-                 if (filter_cloexec <=3D 0) {
+-                         r =3D fd_cloexec(fd, true);
+--                        if (r < 0)
+--                                return r;
+-+                        if (r < 0) {
+-+                                _cleanup_free_ char *path =3D NULL;
+-+                                (void) fd_get_path(fd, &path);
+-+                                return log_debug_errno(r,
+-+                                                       "Failed to set CLO=
+EXEC flag fd=3D%d (%s): %m ",
+-+                                                       fd, strna(path));
+-+                        }
+-                 }
+-=20
+-                 r =3D fdset_put(s, fd);
+--                if (r < 0)
+--                        return r;
+-+                if (r < 0) {
+-+                        _cleanup_free_ char *path =3D NULL;
+-+                        (void) fd_get_path(fd, &path);
+-+                        return log_debug_errno(r,
+-+                                               "Failed to put fd=3D%d (%s=
+) into fdset: %m ",
+-+                                               fd, strna(path));
+-+                }
+-         }
+-=20
+-         *ret =3D TAKE_PTR(s);
+---=20
+-2.34.1
+-
+diff --git a/meta/recipes-core/systemd/systemd_259.5.bb b/meta/recipes-core=
+/systemd/systemd_261.bb
+similarity index 99%
+rename from meta/recipes-core/systemd/systemd_259.5.bb
+rename to meta/recipes-core/systemd/systemd_261.bb
+index f3ec0edae7..eedce348c3 100644
+--- a/meta/recipes-core/systemd/systemd_259.5.bb
 +++ b/meta/recipes-core/systemd/systemd_261.bb
-@@ -910,7 +910,7 @@ pkg_prerm:${PN}:libc-glibc () {
- 	fi
- }
+@@ -32,9 +32,6 @@ SRC_URI +=3D " \
+            file://systemd-pager.sh \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-ti=
+m.patch \
+            file://0003-Do-not-create-var-log-README.patch \
+-           file://0001-meson-use-libfido2_cflags-dependency.patch \
+-           file://0018-shared-fdset-add-detailed-debug-logging-to-fdset_ne=
+w.patch \
+-           file://0004-tpm2-util-fix-PCR-bank-guessing-without-EFI.patch \
+            "
 =20
--PACKAGE_WRITE_DEPS +=3D "qemuwrapper-cross"
-+PACKAGE_WRITE_DEPS +=3D "qemuwrapper-cross systemd-hwdb-native"
+ PAM_PLUGINS =3D " \
+@@ -226,9 +223,6 @@ EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
+                   -Ddbus=3Ddisabled \
+                   -Dtests=3Dfalse \
+                   -Dlibc=3D${TCLIBC} \
+-                  -Drc-local=3D'' \
+-                  -Dsysvinit-path=3D'' \
+-                  -Dsysvrcnd-path=3D'' \
+                   "
 =20
- pkg_postinst:udev-hwdb () {
- 	if test -n "$D"; then
-diff --git a/scripts/postinst-intercepts/update_udev_hwdb b/scripts/postins=
-t-intercepts/update_udev_hwdb
-index 8b3f5de791..d7a4ffc294 100644
---- a/scripts/postinst-intercepts/update_udev_hwdb
-+++ b/scripts/postinst-intercepts/update_udev_hwdb
-@@ -19,7 +19,23 @@ case "${PREFERRED_PROVIDER_udev}" in
- 		;;
- esac
-=20
--rm -f $D${UDEVLIBDIR}/udev/hwdb.bin
--PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D $D${UDEVADM} hwdb --update=
- --root $D ${UDEV_EXTRA_ARGS} ||
--	PSEUDO_UNLOAD=3D1 qemuwrapper -L $D $D${UDEVADM} hwdb --update --root $D =
-${UDEV_EXTRA_ARGS}
--chown root:root $D${UDEVLIBDIR}/udev/hwdb.bin
-+hwdb_bin=3D"$D${UDEVLIBDIR}/udev/hwdb.bin"
-+rm -f "$hwdb_bin"
-+
-+# Use native systemd-hwdb to generate hwdb.bin at build time.
-+# This avoids QEMU user-mode emulation and works on host kernels < 5.8
-+# (e.g. RHEL 8) where systemd 261+ would fail due to missing STATX_MNT_ID.
-+NATIVE_HWDB=3D"${STAGING_DIR_NATIVE}/usr/bin/systemd-hwdb"
-+if test -x "$NATIVE_HWDB" && test "${PREFERRED_PROVIDER_udev}" =3D "system=
-d"; then
-+	PSEUDO_UNLOAD=3D1 $NATIVE_HWDB update --root $D ${UDEV_EXTRA_ARGS}
-+else
-+	PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D $D${UDEVADM} hwdb --updat=
-e --root $D ${UDEV_EXTRA_ARGS} ||
-+		PSEUDO_UNLOAD=3D1 qemuwrapper -L $D $D${UDEVADM} hwdb --update --root $D=
- ${UDEV_EXTRA_ARGS}
-+fi
-+
-+if ! test -s "$hwdb_bin"; then
-+	echo "ERROR: hwdb.bin was not created at $hwdb_bin" >&2
-+	echo "The hwdb generation command exited successfully but produced no out=
-put." >&2
-+	exit 1
-+fi
-+chown root:root "$hwdb_bin"
+ # Hardcode target binary paths to avoid using paths from sysroot or worse
+@@ -582,6 +576,8 @@ FILES:${PN}-extra-utils =3D "\
+                         ${bindir}/systemd-cgtop \
+                         ${bindir}/systemd-stdio-bridge \
+                         ${base_sbindir}/mount.ddi \
++                        ${base_sbindir}/mount.mstack \
++                        ${base_sbindir}/mount.storage \
+                         ${systemd_system_unitdir}/initrd.target.wants/syst=
+emd-pcrphase-initrd.path \
+                         ${systemd_system_unitdir}/sysinit.target.wants/sys=
+temd-pcrphase.path \
+                         ${systemd_system_unitdir}/sysinit.target.wants/sys=
+temd-pcrphase-sysinit.path \
+@@ -678,6 +674,7 @@ FILES:${PN} =3D " ${base_bindir}/* \
+                 ${datadir}/polkit-1 \
+                 ${datadir}/${BPN} \
+                 ${datadir}/factory \
++                ${datadir}/user-tmpfiles.d \
+                 ${sysconfdir}/credstore/ \
+                 ${sysconfdir}/credstore.encrypted/ \
+                 ${sysconfdir}/dbus-1/ \
+@@ -687,6 +684,7 @@ FILES:${PN} =3D " ${base_bindir}/* \
+                 ${sysconfdir}/sysctl.d/ \
+                 ${sysconfdir}/systemd/ \
+                 ${sysconfdir}/tmpfiles.d/ \
++                ${sysconfdir}/user-tmpfiles.d/ \
+                 ${sysconfdir}/xdg/ \
+                 ${sysconfdir}/init.d/README \
+                 ${sysconfdir}/resolv-conf.systemd \
+@@ -797,11 +795,13 @@ FILES:udev +=3D "${base_sbindir}/udevd \
+                ${nonarch_libdir}/udev/rules.d/60-persistent-storage.rules =
+\
+                ${nonarch_libdir}/udev/rules.d/60-persistent-storage-mtd.ru=
+les \
+                ${nonarch_libdir}/udev/rules.d/60-persistent-storage-tape.r=
+ules \
++               ${nonarch_libdir}/udev/rules.d/60-tpm2-id.rules \
+                ${nonarch_libdir}/udev/rules.d/60-persistent-v4l.rules \
+                ${nonarch_libdir}/udev/rules.d/60-sensor.rules \
+                ${nonarch_libdir}/udev/rules.d/60-serial.rules \
+                ${nonarch_libdir}/udev/rules.d/61-autosuspend-manual.rules =
+\
+                ${nonarch_libdir}/udev/rules.d/64-btrfs.rules \
++               ${nonarch_libdir}/udev/rules.d/65-integration.rules \
+                ${nonarch_libdir}/udev/rules.d/70-camera.rules \
+                ${nonarch_libdir}/udev/rules.d/70-joystick.rules \
+                ${nonarch_libdir}/udev/rules.d/70-memory.rules \
 
