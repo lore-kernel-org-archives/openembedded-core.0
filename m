@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F20C43327
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C69D7C43458
 	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 11:50:58 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19492.1782820250027409145
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19141.1782820248848758537
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2026 04:50:50 -0700
+ Tue, 30 Jun 2026 04:50:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=Btdjsi66;
- spf=pass (domain: ericsson.com, ip: 40.107.159.50, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=DlcX1Njy;
+ spf=pass (domain: ericsson.com, ip: 52.101.83.46, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lwWhEtbNFJwUbihPsY6ZTr1l0thIBs7ECzZiiDF7v3Hykv2+CfGMiyH6jFWO7+gR37U8AyU61wZkkHjIP7lY+D+A1PA90xEr4DW/BdMmne0XDhTG/PckOqQj0tmulGBmle1qudarq1f4tRe0TeRW+QnOU+imcxXTRPDnVojKs95Y9aZmDWlWvqviMjsr1kR8K62n2BId454j6er1kFhXTH3tQi5e5JufzqP1iICeKJZ7m6a/B9VEw4JNtkwd12yryih23y4xMFVm2eJidbsiIPD7x5rhzUTDWDXm+evm0j6mMnQ9vCo9zT6z4Oa8kK68M/SPNCWmcLlbsYvbIUutfg==
+ b=U99ai3hZbqPSoaUd2rkTQMN4JkH2H/PoKwxJ66tfFagC7AyTa3BGilVhqBhA7LJ7nFyjXi5LKUijZrfiCtdhgg1aSXLmZy9eTUpG7ETrehIBwxG0HeyAMRAnjKoiM8bbcmmYOrL4ET+a3KqZ76KRqW66I12Tu4gI2TLwThAOgVyuq6fdBw/yBeE0vlYB/Gw6wqUbk7Mp6swMkAR8jXWmV/hz4f21f2i1Mn4CPTg/QWNxyj8VjjIR8cExcUQ8Y/LKDjAScEPtjlGXNSAFuiRdDzXhkbzpSfnLy1oCSAXvBVI1BkfniKgwrfL2K9Iz/QPm4naQ13gagRrJFZxkCiGQRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kd8F/39UczCYH43DakJaD072SxQeuiJLZbNKGVPQvCg=;
- b=rdKvkoux88jH8fW+n1nbLMyzKUSsVbt4ax9rAO5a6qYd0ig37M7EIHLzPS3l41n9O7qjgb69MCYnGmD5CL7xDasHFUW6DAHhYq+OkLlSSloASOQ+wQMuUiKi2BccwozSvo7CIAf2fEDjpL0FrJFzGqDjENxwuY78Y/YpxcsjP/1EX2ZAHG/pbwsQa5l0Yyoz6orMgZM/eZsmnR3svP+inKH9X3BZCbUDOfkd/zP38bH2wM3Dq7r8DE2pxVTK8WDfcnYreDBMd4OJfsoykS1iX6F1pw2FfXAkLcgMm1WkDxwG175BQFAlSjEY4dsuR78jcd1ISLigExPdoxhDz6mzmg==
+ bh=zdM3n1/K8I8qoDt4PrFuWEjfbR1KN3NuBO3FB+aYVO8=;
+ b=isfzbz9f01CUiPG4n1Xa4RnLpKX24+MU/nyk47XAeouF58RDOzTJVrIMCq6QLiFUzr3BNx0/QBfl9iiJ3B4CI8MEFdYts21Sme5/2JOWuFpIlcR/OAy/k5zr+Sq5R4r62jwG1id1g4xhyowufWHto/i7tz+9o9ssg8Mz4OrDakjGHI1auQUvWFQf0PyAQw4OzAsJaxSCG+X7Ezba1ukpdOBXKSXUtfzO3FlR+77eblPntWtAp2Q6rdLezQTHYdLLCM6Abt2EjLkrf4THgu6YOYsMNdlB4aQoYmb/mqMp0qrY4eZkAxTO1YSYN8xNOn6nozYmrqDn6zlRTn2PzqbY9Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=arm.com smtp.mailfrom=ericsson.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
@@ -25,18 +25,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kd8F/39UczCYH43DakJaD072SxQeuiJLZbNKGVPQvCg=;
- b=Btdjsi66uVq988wWXcIhXn15CmSfymUtfI9OPXgv4JvQxWOpe2GbsQBjKQfM/AvJRu9Ee+i5QOsY9r2OyDr2OpWS/sK6g+V+hNPhyIk+GlYn/R8LRV7Xr97MJV/0WrfeVFI63k5VVO3n39Xyg5CAwFqkWBqsMWqx0OoOuCw/A4MunRNNDfpgw4GxC/WLvvAJuVYZ5+yQ3AcFKWf5NRh64bZJt27pMUi/ov5RhnJdYLJKQflmvRkQDV9UsKftHCoL9PIDQtEMHZW84hsOhLxlINQ5MsazhZIQRh2b17Q7bN7PJOnibxX58BMui5bNxM7dP8WYAfFY3kTBs6XUkUIM7A==
-Received: from DB9PR02CA0022.eurprd02.prod.outlook.com (2603:10a6:10:1d9::27)
- by GV1PR07MB9142.eurprd07.prod.outlook.com (2603:10a6:150:8a::16) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=zdM3n1/K8I8qoDt4PrFuWEjfbR1KN3NuBO3FB+aYVO8=;
+ b=DlcX1NjyhLWqhqZjQfaXLFxFA2csb3s4g20YdR2bbvy2+horFSvtwXW1rhPL3K9YDBbGd0Y9xfof/qu93Cb4WXutiuy8PuV5TUAdpRMQbfpuTdNbjADf859MUu0/HnsXYybFQE3hnoqXIalWmejWik76uS+Yttn3H7TGe6/a7IMLKw2s4oHnTa63kBjyv83gsnQi6uQPfGqJyXSC0wS20pTzwD8KjXHXHHL35OPYukgWXbPp4f1w+sYw7VTThMOb6qMVAJel7maHrR0RD5XjAUNXdy5Ed7S4Mc4eHWeCy8NNIycqRBJphwdhyh7FgjODpM6cd6cLrVyrK2cJO3tOMA==
+Received: from DUZPR01CA0238.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b5::9) by PAVPR07MB9262.eurprd07.prod.outlook.com
+ (2603:10a6:102:314::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 30 Jun
- 2026 11:50:41 +0000
-Received: from DU6PEPF0000A7DF.eurprd02.prod.outlook.com
- (2603:10a6:10:1d9:cafe::62) by DB9PR02CA0022.outlook.office365.com
- (2603:10a6:10:1d9::27) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 11:50:42 +0000
+Received: from DU2PEPF00028CFE.eurprd03.prod.outlook.com
+ (2603:10a6:10:4b5:cafe::3e) by DUZPR01CA0238.outlook.office365.com
+ (2603:10a6:10:4b5::9) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.19 via Frontend Transport; Tue,
- 30 Jun 2026 11:50:41 +0000
+ 30 Jun 2026 11:50:42 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=ericsson.com;
@@ -44,27 +44,27 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- DU6PEPF0000A7DF.mail.protection.outlook.com (10.167.8.36) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Tue, 30 Jun 2026 11:50:41 +0000
-Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.64) with Microsoft SMTP Server
+ DU2PEPF00028CFE.mail.protection.outlook.com (10.167.242.182) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Tue, 30 Jun 2026 11:50:42 +0000
+Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.69) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.2562.37; Tue, 30 Jun 2026 13:50:41 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 82F9E95803;
+	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 764D64020B40;
 	Tue, 30 Jun 2026 13:50:38 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 4921F700DF4B; Tue, 30 Jun 2026 13:50:38 +0200 (CEST)
+	id 4541A700DF49; Tue, 30 Jun 2026 13:50:38 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <qi.chen@windriver.com>, <alex.kanavin@gmail.com>,
 	<richard.purdie@linuxfoundation.org>, <Ross.Burton@arm.com>,
 	<mathieu.dubois-briand@bootlin.com>, Daniel Turull
 	<daniel.turull@ericsson.com>
-Subject: [PATCH v3 2/3] systemd: upgrade to 261
-Date: Tue, 30 Jun 2026 13:50:23 +0200
-Message-ID: <20260630115028.4001775-3-daniel.turull@ericsson.com>
+Subject: [PATCH v3 1/3] dlopen-deps.inc: treat soname list as ordered alternatives
+Date: Tue, 30 Jun 2026 13:50:22 +0200
+Message-ID: <20260630115028.4001775-2-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260630115028.4001775-1-daniel.turull@ericsson.com>
 References: <20260630115028.4001775-1-daniel.turull@ericsson.com>
@@ -73,522 +73,84 @@ Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF0000A7DF:EE_|GV1PR07MB9142:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f5f4615-3195-4f3e-271e-08ded69dcfad
+X-MS-TrafficTypeDiagnostic: DU2PEPF00028CFE:EE_|PAVPR07MB9262:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8af7a65-4167-460d-a550-08ded69dd008
 X-SMTP-Server: smtp-central.internal.ericsson.com
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|36860700016|376014|82310400026|1800799024|13003099007|22082099003|18002099003|11063799006|56012099006|6133799003|3023799007;
+	BCL:0;ARA:13230040|36860700016|376014|82310400026|1800799024|23010399003|56012099006|11063799006|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	yvvwKfvLsKxVWkNmk9Ik8KttL03BoJNfj1qjKVTQVWYkoPDB+H17rpfBKXI8AF5q1bsUB2HRH3URH2C1GOfCTxfNsK54EgvHw22sy95vUMi7qW7lWwUNiEtbqgJ7a95PfkZOX7iHg1/5mWODIlH3Oubjhn1X4zyd9lzIfafuENFY8Qta4qw55KmPiq+4lLbyeXnbaz116Omcp8YfWASjyBhaZMb09fDjknJh0MKXy/hjVuWY744h4tM67heIlAdq57lp75EPpnN49d9L4gcVGX3hyN/criOLGxLfWkJwWtlQ5PVYorDfjTjD8LNoMxYE+8CnG2a61dr+x14vhfvdmOjpRxvck7GWzWhruXeeRZV3IA3Ft/MEI1Z/oLKmmW8Q1K/RDgEJQcdN9efoYKq3rmo5pd60oSZSO9rXD2JtLTcZ1Dw6iCZj+VfgxMIpASkimaAZ+EJX5Y06FzpBiWI8bKNo1GE28yAfIL8iqOKVLaYA5+BPjVqC2Gu1WtGGF/gk0g+DNE6Nr8IsMxU2UwWXkh5mVwtEYrC1wLxTE1Yl8BCd4rjMlaZJi8DcXggcxcq06Biv2YffXCD//B4AGBhTdBFzotSsg6+XW/yZJ8/nBdgtyO2QuO7AHU+LWtHIlDUQo0nzpgc15LDF8wv3LamAE5HBOvpabbe94H8xs+GuEg3plwUU2W8LkdExHFd/klNIko4RuZBUEKy6PO/CrCHY+A==
+	YfKfHW9tFV/ZBWBXMxSqaPfAxTXfeR8h5xnjJpOoqZNBtQH19DV42JE83B7NTjLGniAAEUbApZ/sAmkG13JP1cYdPkLfax4NMbfOZ4lJnv0zeYTxMl2IlSeoj3mn+554q2bMnpvtsAFrF5JsunAa0FEtL/3wrjfvyNceue0cOR53tgK9+R2Me3zKYW4k8QiZRJDDttO07mBIAomfEb7CCPN1tLcPOIBqZDB0sQIkvJHlUrOt/RO34yeC5l99/mzDGNdMRnMRfVRZUH7V4XRHB5znJ1r6Onoyn0MeSxA5BOCCrWRCKuxFhwjKeXtShu1CoZrY+DYV3Azm5FrEuZY2MCON9DdVpDU2t6d8VAULXqSLP0CQmv85QkmS5KTaDIOaTbdVZIKkqSjNETCC9ynSO0WdRBiMQmzFS/dEiSJ6rBhzo6IhEayBR7NZkaIR86PqeKmoCGrvBzConLJDzcisPqbzgUiZLk0J8UfEwSLMq7xUX7ZN0IxQmdYY+wiJsO2rLbUBy66S0pUfW3b9lbH3YJvvlqARiLhdoCzrZWVEleNOz7LbgZr+KnGtDhIkftZydcjADdUr1UHpGqiu6jn5wGoQy22roGcAt4FRCjqUZCmmbFHFFg1DpHIGE/oCdxw0fRAFEck2gXkC8e6cJ8qV/DinMzPZcB+z8/muBu7pRIC72BQ4Wzhj8cdcaLtM2xdOaopgDfNjBFPpA9wGF0eQIQ==
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(376014)(82310400026)(1800799024)(13003099007)(22082099003)(18002099003)(11063799006)(56012099006)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(1800799024)(23010399003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	ZURl5zJTzDP8g4XAmpXCQDrd0EG/2H3EHxNCYPx8ZABC3QTXzj0IjBVOJilVbB0hZ3zSqrRvQp8a1kQSKuzyREznbQ7Iso4Dgjrltr7G3/pyjhsgOMIQm5haifOg4GLMIP5z6AwQpqPv4n1l4SV7iyAQ3hSBhzqKdYpp4WSD0GrxYRC3A+q2C+W+EbZ+BskPudpjn1C4FyVBSaNPgIrKlZmd4zZJY376SOeI75n3BEKdWamH4G1fwwQbIj+YmAHurnDQ1I52oQJUHi5SNCWH2blTT5xUXvGBd6FIdVd4tG2eSEWh9J+XGhqo1+gWyyXxU1hC0gyhkAkeYIINzVTKu/VLKd9TQ6mj3/2Q3+ydHVLauH1O/QJ3fpmSafDHYL6q/XC1/cfhaEdKhv4ePuovmJWR4wRcaIPqGEH0UwZjz5HoE79czIZAU9LgCBNv3JVK
+	dRkb9u6PSvRugQwp0bXofUDgxUyF5Dq8bgai7+Heu9v1NBietFN3EkVACbzpTW6NC3J4mIEWID1wKk5WT4LDGFd4RhQIuJ16/PZ/vM4rjSYMkln3y2xQLO5ShzWKN/2txt1dzvqbecxNWLurJbzFyCfx8rL5qW0CACFfC/82L4hP+cg7ORPV1tchkdXAFRagKchHL1AWSVpYtBT+29igmDnXHV6gWtWNRygDkzwmUjMG/Y7lKJCx1Z51+pyYkIsadf+4zbQtM5UIZe3mAmdB27B+7GmiWdIzwqyEkV1YisjvZxLD7xEjhORFsvMb88BblRE8zjfnGv7IYEGjwdxVE/c4SF0Iv4uf70nu/bOGDQ+6f1WU5nBYkNHGgnCKh8TMaj8vxiWsFnK7aRgQWTa6svEiF2PkOORhxGixhkG5AQsl/lcwZfA9dyiDkC/LJoPX
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 11:50:41.4839
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 11:50:42.0812
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f5f4615-3195-4f3e-271e-08ded69dcfad
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8af7a65-4167-460d-a550-08ded69dd008
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF0000A7DF.eurprd02.prod.outlook.com
+	DU2PEPF00028CFE.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR07MB9142
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR07MB9262
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 11:50:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239883
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239882
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-Changes: https://github.com/systemd/systemd/compare/v259.5...v261-stable
+The .note.dlopen format defines the soname array as a list of
+alternatives (e.g. ["libcrypt.so.2", "libcrypt.so.1"]). The previous
+code warned for every soname that was not found, even when an earlier
+entry in the list already satisfied the dependency.
 
-- Drop backported patches no longer needed (libfido2_cflags,
-  tpm2-util PCR bank, fdset_new debug)
-- Remove sysvinit-path/sysvrcnd-path meson options and
-  systemd-sysv-install skeleton (removed upstream in 260)
-- Add explicit meson disables for auto-detected features in
-  systemd-systemctl-native to prevent host sysroot contamination
-- Refresh 0003-Do-not-create-var-log-README.patch
-
-Tested on qemu target with testsuite systemd
+Select the first available provider and only warn when no alternative
+can be resolved.
 
 AI-Generated: Claude-opus-4.6
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
- ...ve_259.5.bb =3D> systemd-boot-native_261.bb} |  0
- ...temd-boot_259.5.bb =3D> systemd-boot_261.bb} |  0
- ...9.5.bb =3D> systemd-systemctl-native_261.bb} |  8 +-
- meta/recipes-core/systemd/systemd.inc         |  8 +-
- ...meson-use-libfido2_cflags-dependency.patch | 54 -----------
- .../0003-Do-not-create-var-log-README.patch   | 10 +-
- ...il-fix-PCR-bank-guessing-without-EFI.patch | 62 ------------
- ...-detailed-debug-logging-to-fdset_new.patch | 97 -------------------
- .../{systemd_259.5.bb =3D> systemd_261.bb}      | 12 +--
- 9 files changed, 18 insertions(+), 233 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot-native_259.5.bb =3D> system=
-d-boot-native_261.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-boot_259.5.bb =3D> systemd-boot_=
-261.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-systemctl-native_259.5.bb =3D> s=
-ystemd-systemctl-native_261.bb} (54%)
- delete mode 100644 meta/recipes-core/systemd/systemd/0001-meson-use-libfid=
-o2_cflags-dependency.patch
- delete mode 100644 meta/recipes-core/systemd/systemd/0004-tpm2-util-fix-PC=
-R-bank-guessing-without-EFI.patch
- delete mode 100644 meta/recipes-core/systemd/systemd/0018-shared-fdset-add=
--detailed-debug-logging-to-fdset_new.patch
- rename meta/recipes-core/systemd/{systemd_259.5.bb =3D> systemd_261.bb} (9=
-9%)
+ meta/recipes-core/systemd/dlopen-deps.inc | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot-native_259.5.bb b/meta/=
-recipes-core/systemd/systemd-boot-native_261.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot-native_259.5.bb
-rename to meta/recipes-core/systemd/systemd-boot-native_261.bb
-diff --git a/meta/recipes-core/systemd/systemd-boot_259.5.bb b/meta/recipes=
--core/systemd/systemd-boot_261.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot_259.5.bb
-rename to meta/recipes-core/systemd/systemd-boot_261.bb
-diff --git a/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb b/=
-meta/recipes-core/systemd/systemd-systemctl-native_261.bb
-similarity index 54%
-rename from meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb
-rename to meta/recipes-core/systemd/systemd-systemctl-native_261.bb
-index bf9c9f4776..28fddc79df 100644
---- a/meta/recipes-core/systemd/systemd-systemctl-native_259.5.bb
-+++ b/meta/recipes-core/systemd/systemd-systemctl-native_261.bb
-@@ -10,8 +10,14 @@ inherit pkgconfig meson native
-=20
- MESON_TARGET =3D "systemctl"
- MESON_INSTALL_TAGS =3D "systemctl"
-+# Explicitly disable features that meson auto-detects from the native sysr=
-oot.
-+# Only systemctl is built here; these prevent spurious dependencies and en=
-sure
-+# reproducible builds regardless of what is installed on the build host.
- EXTRA_OEMESON +=3D "-Dlink-systemctl-shared=3Dfalse"
--EXTRA_OEMESON +=3D "-Dsysvinit-path=3D -Dsysvrcnd-path=3D"
-+EXTRA_OEMESON +=3D "-Dpam=3Ddisabled -Daudit=3Ddisabled -Dselinux=3Ddisabl=
-ed"
-+EXTRA_OEMESON +=3D "-Dacl=3Ddisabled -Dapparmor=3Ddisabled -Dseccomp=3Ddis=
-abled"
-+EXTRA_OEMESON +=3D "-Dlibcryptsetup=3Ddisabled -Dlibcurl=3Ddisabled -Dlibf=
-ido2=3Ddisabled"
-+EXTRA_OEMESON +=3D "-Dpcre2=3Ddisabled -Dp11kit=3Ddisabled -Dopenssl=3Ddis=
-abled"
-=20
- # Systemctl is supposed to operate on target, but the target sysroot is no=
-t
- # determined at run-time, but rather set during configure
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/syst=
-emd/systemd.inc
-index f107c4c5da..d9048e9187 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -15,14 +15,10 @@ LICENSE:libsystemd =3D "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM =3D "file://LICENSE.GPL2;md5=3Dc09786363500a9acc29b147e6e=
-72d2c6 \
-                     file://LICENSE.LGPL2.1;md5=3Dbe0aaf4a380f73f7e00b420a0=
-07368f2"
-=20
--SRCREV =3D "b3d8fc43e9cb531d958c17ef2cd93b374bc14e8a"
--SRCBRANCH =3D "v259-stable"
-+SRCREV =3D "de9dbc37ad4aa637e200ac02a0545095997055df"
-+SRCBRANCH =3D "v261-stable"
- SRC_URI =3D "git://github.com/systemd/systemd.git;protocol=3Dhttps;branch=
-=3D${SRCBRANCH};tag=3Dv${PV}"
-=20
- CVE_PRODUCT =3D "systemd"
-=20
- CVE_STATUS[CVE-2019-3815] =3D "not-applicable-platform: only applied to RH=
-EL"
--CVE_STATUS[CVE-2026-40223] =3D "fixed-version: fixed in 259.2"
--CVE_STATUS[CVE-2026-40224] =3D "fixed-version: fixed in 259.3"
--CVE_STATUS[CVE-2026-40225] =3D "fixed-version: fixed in 259.5"
--CVE_STATUS[CVE-2026-40226] =3D "fixed-version: fixed in 259.4"
-diff --git a/meta/recipes-core/systemd/systemd/0001-meson-use-libfido2_cfla=
-gs-dependency.patch b/meta/recipes-core/systemd/systemd/0001-meson-use-libf=
-ido2_cflags-dependency.patch
-deleted file mode 100644
-index 4bc1e10ee7..0000000000
---- a/meta/recipes-core/systemd/systemd/0001-meson-use-libfido2_cflags-depe=
-ndency.patch
-+++ /dev/null
-@@ -1,54 +0,0 @@
--From 97142fd1db4124de5d5bdd3f49cc5a390286e522 Mon Sep 17 00:00:00 2001
--From: Dan McGregor <danmcgr@protonmail.com>
--Date: Wed, 11 Mar 2026 18:26:05 -0600
--Subject: [PATCH] meson: use libfido2_cflags dependency
--
--Add the libfido2 dependency to cryptenroll and cryptsetup's
--meson files. If libfido2's not installed in the default path
--the build wasn't finding its headers correctly.
--
--Signed-off-by: Dan McGregor <danmcgr@protonmail.com>
--Upstream-Status: Backport [https://github.com/systemd/systemd/commit/9ce90=
-5e35f690e7a10cd286be2b50594d0857f5e]
-----
-- src/cryptenroll/meson.build                  | 1 +
-- src/cryptsetup/cryptsetup-tokens/meson.build | 2 +-
-- src/cryptsetup/meson.build                   | 1 +
-- 3 files changed, 3 insertions(+), 1 deletion(-)
--
--diff --git a/src/cryptenroll/meson.build b/src/cryptenroll/meson.build
--index 488ceea14d..11265c8b41 100644
----- a/src/cryptenroll/meson.build
--+++ b/src/cryptenroll/meson.build
--@@ -23,6 +23,7 @@ executables +=3D [
--                 'dependencies' : [
--                         libcryptsetup,
--                         libdl,
--+                        libfido2_cflags,
--                         libopenssl,
--                         libp11kit_cflags,
--                 ],
--diff --git a/src/cryptsetup/cryptsetup-tokens/meson.build b/src/cryptsetup=
-/cryptsetup-tokens/meson.build
--index 804e18bc67..0fd6309201 100644
----- a/src/cryptsetup/cryptsetup-tokens/meson.build
--+++ b/src/cryptsetup/cryptsetup-tokens/meson.build
--@@ -58,7 +58,7 @@ modules +=3D [
--                 'sources' : cryptsetup_token_systemd_fido2_sources,
--                 'dependencies' : [
--                         libcryptsetup,
---                        libfido2,
--+                        libfido2_cflags,
--                 ],
--         },
--         template + {
--diff --git a/src/cryptsetup/meson.build b/src/cryptsetup/meson.build
--index d9778259c2..b36354fb0a 100644
----- a/src/cryptsetup/meson.build
--+++ b/src/cryptsetup/meson.build
--@@ -19,6 +19,7 @@ executables +=3D [
--                 'sources' : systemd_cryptsetup_sources,
--                 'dependencies' : [
--                         libcryptsetup,
--+                        libfido2_cflags,
--                         libmount_cflags,
--                         libopenssl,
--                         libp11kit_cflags,
-diff --git a/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-R=
-EADME.patch b/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-=
-README.patch
-index 1d3c4f83c0..0128c83d9f 100644
---- a/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-README.p=
-atch
-+++ b/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-README.p=
-atch
-@@ -1,7 +1,7 @@
- From a7f6a296707642d05463aec22ea3dfce7d06c989 Mon Sep 17 00:00:00 2001
- From: Peter Kjellerstedt <pkj@axis.com>
- Date: Tue, 21 Jan 2025 05:02:00 +0100
--Subject: [PATCH 03/16] Do not create /var/log/README
-+Subject: [PATCH] Do not create /var/log/README
-=20
- /var/log/README is a link to /usr/share/doc/systemd/README.logs. The
- latter is packaged in systemd-doc and likely not installed, which leaves
-@@ -15,19 +15,15 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@a=
-xis.com>
-  1 file changed, 3 deletions(-)
-=20
- diff --git a/tmpfiles.d/legacy.conf.in b/tmpfiles.d/legacy.conf.in
--index cdef21fa9b..03798c953e 100644
-+index cdef21fa9b..7890abcdef 100644
- --- a/tmpfiles.d/legacy.conf.in
- +++ b/tmpfiles.d/legacy.conf.in
--@@ -13,9 +13,6 @@
-+@@ -13,6 +13,3 @@
- =20
-  d /run/lock 0755 root root -
-  L /var/lock - - - - ../run/lock
- -{% if CREATE_LOG_DIRS %}
- -L$ /var/log/README - - - - ../..{{DOC_DIR}}/README.logs
- -{% endif %}
--=20
-- {% if HAVE_SYSV_COMPAT %}
-- # /run/lock/subsys is used for serializing SysV service execution, and
- --=20
- 2.34.1
--
-diff --git a/meta/recipes-core/systemd/systemd/0004-tpm2-util-fix-PCR-bank-=
-guessing-without-EFI.patch b/meta/recipes-core/systemd/systemd/0004-tpm2-ut=
-il-fix-PCR-bank-guessing-without-EFI.patch
-deleted file mode 100644
-index c590b01cd3..0000000000
---- a/meta/recipes-core/systemd/systemd/0004-tpm2-util-fix-PCR-bank-guessin=
-g-without-EFI.patch
-+++ /dev/null
-@@ -1,62 +0,0 @@
--From 3cef11c710e95bb5f891181e9b2a6d8f174712c3 Mon Sep 17 00:00:00 2001
--From: Patrick Wicki <patrick.wicki@subset.ch>
--Date: Fri, 20 Mar 2026 15:56:56 +0100
--Subject: [PATCH] tpm2-util: fix PCR bank guessing without EFI
--
--Since 7643e4a89 efi_get_active_pcr_banks() is used to determine the
--active PCR banks. Without EFI support, this returns -EOPNOTSUPP. This in
--turns leads to cryptenroll and cryptsetup attach failures unless the PCR
--bank is explicitly set, i.e.
--
--$ systemd-cryptenroll $LUKS_PART --tpm2-device=3Dauto --tpm2-pcrs=3D'7'
--[...]
--Could not read pcr values: Operation not supported
--
--But it works fine with --tpm2-pcrs=3D'7:sha256'.
--
--Similarly, unsealing during cryptsetup attach also fails if the bank
--needs to be determined:
--
--Failed to unseal secret using TPM2: Operation not supported
--
--Catch the -EOPNOTSUPP and fallback to the guessing strategy.
--
--Upstream-Status: Backport [https://github.com/systemd/systemd/pull/41231]
--
--Signed-off-by: Patrick Wicki <patrick.wicki@siemens.com>
-----
-- src/shared/tpm2-util.c | 8 ++++----
-- 1 file changed, 4 insertions(+), 4 deletions(-)
--
--diff --git a/src/shared/tpm2-util.c b/src/shared/tpm2-util.c
--index cf11b50695..c0590fe575 100644
----- a/src/shared/tpm2-util.c
--+++ b/src/shared/tpm2-util.c
--@@ -2702,11 +2702,11 @@ int tpm2_get_best_pcr_bank(
--         uint32_t efi_banks;
--         r =3D efi_get_active_pcr_banks(&efi_banks);
--         if (r < 0) {
---                if (r !=3D -ENOENT)
--+                if (!IN_SET(r, -ENOENT, -EOPNOTSUPP))
--                         return r;
--=20
--                 /* If variable is not set use guesswork below */
---                log_debug("Boot loader didn't set the LoaderTpm2ActivePcr=
-Banks EFI variable, we have to guess the used PCR banks.");
--+                log_debug("Boot loader didn't set the LoaderTpm2ActivePcr=
-Banks EFI variable or EFI support is unavailable, we have to guess the used=
- PCR banks.");
--         } else if (efi_banks =3D=3D UINT32_MAX)
--                 log_debug("Boot loader set the LoaderTpm2ActivePcrBanks E=
-FI variable to indicate that the GetActivePcrBanks() API is not available i=
-n the firmware. We have to guess the used PCR banks.");
--         else {
--@@ -2811,11 +2811,11 @@ int tpm2_get_good_pcr_banks(
--         uint32_t efi_banks;
--         r =3D efi_get_active_pcr_banks(&efi_banks);
--         if (r < 0) {
---                if (r !=3D -ENOENT)
--+                if (!IN_SET(r, -ENOENT, -EOPNOTSUPP))
--                         return r;
--=20
--                 /* If the variable is not set we have to guess via the co=
-de below */
---                log_debug("Boot loader didn't set the LoaderTpm2ActivePcr=
-Banks EFI variable, we have to guess the used PCR banks.");
--+                log_debug("Boot loader didn't set the LoaderTpm2ActivePcr=
-Banks EFI variable or EFI support is unavailable, we have to guess the used=
- PCR banks.");
--         } else if (efi_banks =3D=3D UINT32_MAX)
--                 log_debug("Boot loader set the LoaderTpm2ActivePcrBanks E=
-FI variable to indicate that the GetActivePcrBanks() API is not available i=
-n the firmware. We have to guess the used PCR banks.");
--         else {
-diff --git a/meta/recipes-core/systemd/systemd/0018-shared-fdset-add-detail=
-ed-debug-logging-to-fdset_new.patch b/meta/recipes-core/systemd/systemd/001=
-8-shared-fdset-add-detailed-debug-logging-to-fdset_new.patch
-deleted file mode 100644
-index 63fa7fefec..0000000000
---- a/meta/recipes-core/systemd/systemd/0018-shared-fdset-add-detailed-debu=
-g-logging-to-fdset_new.patch
-+++ /dev/null
-@@ -1,97 +0,0 @@
--From 0565f9f27323a8f9e62d85f2add542af99cea06a Mon Sep 17 00:00:00 2001
--From: AshishKumar Mishra <ashishkumar.mishra@bmwtechworks.in>
--Date: Wed, 21 Jan 2026 14:13:29 +0530
--Subject: [PATCH] systemd: Add detailed debug logging to fdset_new_fill()
--
--Currently, when fdset_new_fill() fails to open /proc/self/fd or
--encounters an error while processing individual file descriptors
--(such as fcntl or fstat failures), it returns a silent error code.
--
--For debugging rarely reproducible failures it becomes difficult to
--know the exact cause of failure
--This commit updates the function to use log_debug_errno() for all
--error paths and hence  provides better visibility into why FD collection
--failed, including the path of the problematic FD (via fd_get_path)
--and its inode type.
--
--Upstream-Status: Backport [https://github.com/systemd/systemd/pull/40385]
--
--Signed-off-by: AshishKumar Mishra <ashishkumar.mishra@bmwtechworks.in>
-----
-- src/shared/fdset.c | 35 ++++++++++++++++++++++++++---------
-- 1 file changed, 26 insertions(+), 9 deletions(-)
--
--diff --git a/src/shared/fdset.c b/src/shared/fdset.c
--index 832e7fda60..f340f41b0e 100644
----- a/src/shared/fdset.c
--+++ b/src/shared/fdset.c
--@@ -8,6 +8,7 @@
-- #include "alloc-util.h"
-- #include "async.h"
-- #include "dirent-util.h"
--+#include "errno-util.h"
-- #include "fd-util.h"
-- #include "fdset.h"
-- #include "log.h"
--@@ -179,9 +180,10 @@ int fdset_new_fill(
--         d =3D opendir("/proc/self/fd");
--         if (!d) {
--                 if (errno =3D=3D ENOENT && proc_mounted() =3D=3D 0)
---                        return -ENOSYS;
--+                        return log_debug_errno(SYNTHETIC_ERRNO(ENOSYS),
--+                                               "Failed to open /proc/self=
-/fd/, /proc/ is not mounted.");
--=20
---                return -errno;
--+                return log_debug_errno(errno, "Failed to open /proc/self/=
-fd/: %m ");
--         }
--=20
--         s =3D fdset_new();
--@@ -210,9 +212,14 @@ int fdset_new_fill(
--                          * been passed in can be collected and fds which =
-have been created locally can be
--                          * ignored, under the assumption that only the la=
-tter have O_CLOEXEC set. */
--=20
---                        fl =3D fcntl(fd, F_GETFD);
---                        if (fl < 0)
---                                return -errno;
--+                        fl =3D RET_NERRNO(fcntl(fd, F_GETFD));
--+                        if (fl < 0) {
--+                                _cleanup_free_ char *path =3D NULL;
--+                                (void) fd_get_path(fd, &path);
--+                                return log_debug_errno(fl,
--+                                                       "Failed to get fla=
-g of fd=3D%d (%s): %m ",
--+                                                       fd, strna(path));
--+                        }
--=20
--                         if (FLAGS_SET(fl, FD_CLOEXEC) !=3D !!filter_cloex=
-ec)
--                                 continue;
--@@ -221,13 +228,23 @@ int fdset_new_fill(
--                 /* We need to set CLOEXEC manually only if we're collecti=
-ng non-CLOEXEC fds. */
--                 if (filter_cloexec <=3D 0) {
--                         r =3D fd_cloexec(fd, true);
---                        if (r < 0)
---                                return r;
--+                        if (r < 0) {
--+                                _cleanup_free_ char *path =3D NULL;
--+                                (void) fd_get_path(fd, &path);
--+                                return log_debug_errno(r,
--+                                                       "Failed to set CLO=
-EXEC flag fd=3D%d (%s): %m ",
--+                                                       fd, strna(path));
--+                        }
--                 }
--=20
--                 r =3D fdset_put(s, fd);
---                if (r < 0)
---                        return r;
--+                if (r < 0) {
--+                        _cleanup_free_ char *path =3D NULL;
--+                        (void) fd_get_path(fd, &path);
--+                        return log_debug_errno(r,
--+                                               "Failed to put fd=3D%d (%s=
-) into fdset: %m ",
--+                                               fd, strna(path));
--+                }
--         }
--=20
--         *ret =3D TAKE_PTR(s);
----=20
--2.34.1
--
-diff --git a/meta/recipes-core/systemd/systemd_259.5.bb b/meta/recipes-core=
-/systemd/systemd_261.bb
-similarity index 99%
-rename from meta/recipes-core/systemd/systemd_259.5.bb
-rename to meta/recipes-core/systemd/systemd_261.bb
-index f3ec0edae7..eedce348c3 100644
---- a/meta/recipes-core/systemd/systemd_259.5.bb
-+++ b/meta/recipes-core/systemd/systemd_261.bb
-@@ -32,9 +32,6 @@ SRC_URI +=3D " \
-            file://systemd-pager.sh \
-            file://0001-binfmt-Don-t-install-dependency-links-at-install-ti=
-m.patch \
-            file://0003-Do-not-create-var-log-README.patch \
--           file://0001-meson-use-libfido2_cflags-dependency.patch \
--           file://0018-shared-fdset-add-detailed-debug-logging-to-fdset_ne=
-w.patch \
--           file://0004-tpm2-util-fix-PCR-bank-guessing-without-EFI.patch \
-            "
-=20
- PAM_PLUGINS =3D " \
-@@ -226,9 +223,6 @@ EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
-                   -Ddbus=3Ddisabled \
-                   -Dtests=3Dfalse \
-                   -Dlibc=3D${TCLIBC} \
--                  -Drc-local=3D'' \
--                  -Dsysvinit-path=3D'' \
--                  -Dsysvrcnd-path=3D'' \
-                   "
-=20
- # Hardcode target binary paths to avoid using paths from sysroot or worse
-@@ -582,6 +576,8 @@ FILES:${PN}-extra-utils =3D "\
-                         ${bindir}/systemd-cgtop \
-                         ${bindir}/systemd-stdio-bridge \
-                         ${base_sbindir}/mount.ddi \
-+                        ${base_sbindir}/mount.mstack \
-+                        ${base_sbindir}/mount.storage \
-                         ${systemd_system_unitdir}/initrd.target.wants/syst=
-emd-pcrphase-initrd.path \
-                         ${systemd_system_unitdir}/sysinit.target.wants/sys=
-temd-pcrphase.path \
-                         ${systemd_system_unitdir}/sysinit.target.wants/sys=
-temd-pcrphase-sysinit.path \
-@@ -678,6 +674,7 @@ FILES:${PN} =3D " ${base_bindir}/* \
-                 ${datadir}/polkit-1 \
-                 ${datadir}/${BPN} \
-                 ${datadir}/factory \
-+                ${datadir}/user-tmpfiles.d \
-                 ${sysconfdir}/credstore/ \
-                 ${sysconfdir}/credstore.encrypted/ \
-                 ${sysconfdir}/dbus-1/ \
-@@ -687,6 +684,7 @@ FILES:${PN} =3D " ${base_bindir}/* \
-                 ${sysconfdir}/sysctl.d/ \
-                 ${sysconfdir}/systemd/ \
-                 ${sysconfdir}/tmpfiles.d/ \
-+                ${sysconfdir}/user-tmpfiles.d/ \
-                 ${sysconfdir}/xdg/ \
-                 ${sysconfdir}/init.d/README \
-                 ${sysconfdir}/resolv-conf.systemd \
-@@ -797,11 +795,13 @@ FILES:udev +=3D "${base_sbindir}/udevd \
-                ${nonarch_libdir}/udev/rules.d/60-persistent-storage.rules =
-\
-                ${nonarch_libdir}/udev/rules.d/60-persistent-storage-mtd.ru=
-les \
-                ${nonarch_libdir}/udev/rules.d/60-persistent-storage-tape.r=
-ules \
-+               ${nonarch_libdir}/udev/rules.d/60-tpm2-id.rules \
-                ${nonarch_libdir}/udev/rules.d/60-persistent-v4l.rules \
-                ${nonarch_libdir}/udev/rules.d/60-sensor.rules \
-                ${nonarch_libdir}/udev/rules.d/60-serial.rules \
-                ${nonarch_libdir}/udev/rules.d/61-autosuspend-manual.rules =
-\
-                ${nonarch_libdir}/udev/rules.d/64-btrfs.rules \
-+               ${nonarch_libdir}/udev/rules.d/65-integration.rules \
-                ${nonarch_libdir}/udev/rules.d/70-camera.rules \
-                ${nonarch_libdir}/udev/rules.d/70-joystick.rules \
-                ${nonarch_libdir}/udev/rules.d/70-memory.rules \
+diff --git a/meta/recipes-core/systemd/dlopen-deps.inc b/meta/recipes-core/=
+systemd/dlopen-deps.inc
+index e0b333398c..82a2ccd389 100644
+--- a/meta/recipes-core/systemd/dlopen-deps.inc
++++ b/meta/recipes-core/systemd/dlopen-deps.inc
+@@ -66,15 +66,18 @@ python package_generate_dlopen_deps() {
+                     elf =3D oe.qa.ELFFile(f)
+                     elf.open()
+                     for dep in parse(extract_segment(f, ".note.dlopen"), e=
+lf.isLittleEndian()):
++                        # soname list contains alternatives; find the firs=
+t available provider
++                        found =3D False
+                         for soname in dep["soname"]:
+                             if soname in shlibs:
+-                                # TODO assumes the first match is good
+                                 package, version =3D list(shlibs[soname].v=
+alues())[0]
+                                 dependency =3D dep_map[dep["priority"]]
+                                 bb.note(f"{pkg}: adding {dependency} on {p=
+ackage} via .note.dlopen")
+                                 d.appendVar(f"{dependency}:{pkg}", f" {pac=
+kage} (>=3D {version})")
+-                            else:
+-                                bb.warn(f"cannot find {soname}")
++                                found =3D True
++                                break
++                        if not found:
++                            bb.warn(f"cannot find any provider for dlopen =
+dependency: {dep['soname']}")
+                 except oe.qa.NotELFFileError as e:
+                     bb.note(f"Cannot extract ELF notes: {e}")
+                     pass
 
