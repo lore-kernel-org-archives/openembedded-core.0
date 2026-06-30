@@ -1,242 +1,209 @@
-Return-Path: <roland.kovacs@est.tech>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC41EC43458
-	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 08:25:22 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.65])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16581.1782807918068290339
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9526C43458
+	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 08:50:32 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.34])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16817.1782809431187880324
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2026 01:25:18 -0700
+ Tue, 30 Jun 2026 01:50:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=x6dXH8Ra;
- spf=pass (domain: est.tech, ip: 52.101.70.65, mailfrom: roland.kovacs@est.tech)
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=ahctDYXa;
+ spf=pass (domain: cherry.de, ip: 52.101.66.34, mailfrom: quentin.schulz@cherry.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fH6R+IxtsJX7iDWRsIGHEHChd4gDfDsTIZd2JDecm7MbtctNRNeqqwQpO0h112kODGyW6bXHTjITfc04+udLVB6ih8Y0shCcUJLm8Cgelil83XzegR4Ytzx2ey4YHUlZoPjPk6aRrXCuuSJPGCw74ZjgN1tXqQ43+NZASdoKp49GEGwrb6qTEbQA1dWmtUI2ADZu7rHzhGcY2PAqiqtcZnGViJm9zdXfrnnlRydvDGjPtVhksDsgwjNMRb1oiJU6DzAC2tmiLROM2gLodiFbp9L3ci2FBqitwST3VOU00lHPNb8PJDaIpRRne37MkG40K2Lg0oqIFFh1gB2NJz5ORQ==
+ b=XLhgE1uGpDn9xCdzgNi1iSq0taoB4I4qNKcgFqW/LNSZZeUzKpzDrg+eJVgtHC7cZKBe6pccSL1u0eqmqkVTRiKXseotD20X/3FyTg5Orb7AiIcF471HW7gGYgdebbpZCrcgbn+0yJ9NgTu7mgAibvqP/Hp3r8GBOHjGXqXr5ukJc7UezoN2AvyNjjeFtKyLrxaI17lAO6yqgRm2MYnj9iZ6Z/e+75PET3sFFrw3CgflXRvMzYs90bV97ksCBbk41elaFA1Sc0o5eMpPva/vV3F4SExJ+tL2EJc480knnwK40/wg6Z8TsLdzqA0zj+WHDrN1bRv6ABogsaee/9XEZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u2Ni7NsLXtE4qJGyUCrlXhkWQTjuAKvam+flKlz6784=;
- b=HKUsR2nP8nch0y3EZWsnW5T9arAys0eVf29G5HdITyg1fs9fTXMfot6DSiywO2F40JtJ/69Xxmhg4fCthKa0PrtFvMZZJ59NYUDJ5F3ye5mBpUCv5CVXfsU0QZqM6l5k/hdZ1G6A8vZMO1zSVzRXdSEzJOxEglH1kBccOU2uo2f7fWl7qgXRBg0ZfFUNArr2Q56zXAkI1CLxsA+xaF4snfFIZT+zk10PRP7afLv1BAhox3gQvk4zmK/8416YlEDiVQ+Epyc0somvfOT3iWHAreFmxx6koQtNdR+uCwoNMA8BXIq4lqcG5/cw+EvRcTigR2HrR5OXgdNrJfX+8WeCcg==
+ bh=X0zhLzSu7V+lGoXOD3GIRm+hWSmFC3LyRbQATKBBRUE=;
+ b=dXJWPVG0o+JTm+DykfZyzQuEtypzCAnSGV7UmwAL/Wngw3U32YSAaefkh1a3+kudbSnYWWP/UJ+A5S9yaA0u2uEY/LJ7QskP2+6go2JMO3H7/8eV1qZDnK0ZBWMe/i9eKS4M7LYMLsx/FnId0sl2bIUrxCoY6Etfa7z712sErbA1wYMwwdpXuhZlEkjRILw1mc4KsWR2QB0dfNP0EWfke40KylLWxysB0VhdB4cwPJqYS6QRKumbcjFFxylSLatWsTgZ+aM+ycNxxdnZ6Jx9vRM0fK/XA+tuFr0YDDgqg8+dPIQHiRQElo5/nStEro27/lVFiEKQH1B2JTMPQN8yNw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u2Ni7NsLXtE4qJGyUCrlXhkWQTjuAKvam+flKlz6784=;
- b=x6dXH8Ra/3djFq1k32bUVGXl+6qupVdzlpB6nVCXCWzo5ORpQgR67EAy1egVWLrI3oAxeYsOiBcXhbB7JpOZ9foFPCU9sNAwHiSK690ZdoC43eb2eVn9IunE/Rkn5BsUP7df4EJliM43cgtieNTCe+2Psky01YfckX3jr+nNzkWQ6Ifoc7jDderAkU9bqpXCn96EvnBbmkXAFMfziFJP2mEPa5i+7uqUYKjSmozSpTLZz27BmgrKP+ZnwQ/b7jlJCzQ3YUe/nD3Ib+eoIFyTcsoMXXIWoKCzVVFw6sJnZ6DR53CvmQpR+syJrEgBOrLLbgwBfUmlLZdlYu0jjpOpiA==
+ bh=X0zhLzSu7V+lGoXOD3GIRm+hWSmFC3LyRbQATKBBRUE=;
+ b=ahctDYXajU4ByYt4C9FZ4EJEZNGPxATUCOVeM977eRgCrSQ08RqOCXLJ3JzYzR9pls9ZcF1KcOruHxhNsGXQUaz7xV+Ma6eNxDcsvwpW3ilE5Iwg18bfFBi+F7q8mKkqRgemsq8bzFrZ0MBoWlnVPaQAW9dC5JxFEcu9xUvwrSs=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM7P189MB0725.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:111::20)
- by AM7P189MB1026.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:17e::7) with
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com (2603:10a6:10:1e5::22)
+ by AM7PR04MB6808.eurprd04.prod.outlook.com (2603:10a6:20b:109::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Tue, 30 Jun
- 2026 08:25:13 +0000
-Received: from AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
- ([fe80::ab4f:3151:4330:625d]) by AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
- ([fe80::ab4f:3151:4330:625d%5]) with mapi id 15.21.0181.008; Tue, 30 Jun 2026
- 08:25:13 +0000
-From: Roland Kovacs <roland.kovacs@est.tech>
-To: openembedded-core@lists.openembedded.org
-Subject: [scarthgap][PATCH] binutils: fix CVE-2025-69649, and CVE-2025-69652
-Date: Tue, 30 Jun 2026 10:25:09 +0200
-Message-ID: <20260630082509.34865-1-roland.kovacs@est.tech>
-X-Mailer: git-send-email 2.54.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DB9PR06CA0019.eurprd06.prod.outlook.com
- (2603:10a6:10:1db::24) To AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:111::20)
+ 2026 08:50:27 +0000
+Received: from DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00]) by DBBPR04MB7737.eurprd04.prod.outlook.com
+ ([fe80::5960:fb4b:9313:2b00%5]) with mapi id 15.21.0159.018; Tue, 30 Jun 2026
+ 08:50:27 +0000
+Message-ID: <ba5c264c-bac2-4d8b-a93a-ba41e5c4b52e@cherry.de>
+Date: Tue, 30 Jun 2026 10:50:25 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2] meson: Apply clang specific OVERRIDES for
+ bindgen
+To: contact@schnwalter.eu, openembedded-core@lists.openembedded.org
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Ross Burton <ross.burton@arm.com>
+References: <20260630-fix-rust-bindgen-for-big-little-arch-v2-1-e6262b34d069@schnwalter.eu>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20260630-fix-rust-bindgen-for-big-little-arch-v2-1-e6262b34d069@schnwalter.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: WA2P291CA0026.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1f::22) To DBBPR04MB7737.eurprd04.prod.outlook.com
+ (2603:10a6:10:1e5::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7P189MB0725:EE_|AM7P189MB1026:EE_
-X-MS-Office365-Filtering-Correlation-Id: ceb3ff16-1be9-411f-e21c-08ded6811b44
+X-MS-TrafficTypeDiagnostic: DBBPR04MB7737:EE_|AM7PR04MB6808:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7880b573-c514-4dbe-c5ea-08ded684a19c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|18002099003|56012099006|11063799006|6133799003;
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|3023799007|4133799003|13003099007|22082099003|18002099003|5023799004|11063799006|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	9T7iWwUub5XbeNwHBzob1RRrS4slHq0hts0DJmeTcJ/I/+XFdfmKRzu1H3by+m+Kf7SKkUJCRZ5XwCJ0wAM2I6l3b8jhE4sLpbmJAWmW3aU27PHvIXmkOwy+DosJmaQd2KuBXRDGvC9NR4BztMyc1oVt8ThjjTJQPMVkl8bFw70929A5OsfFnHtmD7EhDuhCtbGgaz3sKwJcZKm+XVC1IJgGl7Gob32corK2OOjthE5SQIFiXSGezCbEw5YawCmyb2U9hniBuS9lvWiHw86l1RMwnkOFB4x7BrQZ7hJSg1Tn/sS6VzGc7fYxx0NGkEEiT4rgY3YaqSItqHCvx0X93rHy3KnFNh8L0URTNBXrNLMKSdtObtyiEwQcBhkWASycPCNZZWlhyj7hBYnFUpcbB2BKbnP9IHJdoNl9ewYekHqBYjW/agcWKwtr8lZnHnjBAuuhW2H7a6htQ5v/wndKXpPujUinPeqvoasxhBgUBvRNZNb/KzUn706ZpVWTDw5WeeTeC1gg0gPb25Wm5AaR8hNe1VFXAb0yFWz6HG7y6J9OweaFn4Q1gpjAmddsU6sTnUM9DL8siAQvPLsdjbfbflI3vQYjce/RfNXnbv8sz4k=
+	GRZWFl7yeV36DFOVVql+PFGiHfO0Gan+Kkl1BddeB8eO3eIXDv6Hw5sqkj+AdtbTuQ8Lnv0dRwAKkEBfj+IrC9hjrZn2FDDEQ/7vjeSnUnc9VMP8HrogIratpMd0fHQ0vrpjd2R8Ib55nkei2IUMniTEYIUxSoWCW6cAIza25xEkW8UZ/7muvkzh5B9GWrhWGvVZ1CAJl5kNMhuQpZcpiPnIjztmntYFcWO4GmIibqvT84ZW6hj+86IbszpQNa6qpjBBlXyCjWqK7cVMn2LrfG6sg1t9a/fQKD7x2DzQcGQh9FYwhdJrUrs90o7zPFw714az71PWQv0I19/ZyRf2578Je1G/mW3+nF2tf+n2Fo2MJ3Ny5ov1kqSIyu5F0O4qhgk8i41X5yYXAMHQXTSyO2uyfYrTtwF2cHFydPzzKDTdzpDwsWJpPMdswsZyy1rc6uGsIt6G6GgsZYiMzj5rPeUWont9li9flkFkmWqh+32A71CKL4FQ2Zh2SvrZa0VN3TnS96PKOw4oWrVALwRItyVRcgtMcJyGcREQOZsPgLQFyrbvTASmbfeRSa/BPQy5ZUvd0iyUrJ7KRSFumMTYNePtkL6m/oT8Mgo1fMWJIrQpVh2wZkigwgMgHRiDekz8AC97hbp5WRHBaGxgHVPwnlA+xx+8u0L5+IPrqgWC3oM=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7P189MB0725.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(18002099003)(56012099006)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(3023799007)(4133799003)(13003099007)(22082099003)(18002099003)(5023799004)(11063799006)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?03YmoHMkXLU2re05p3RAkg+o+pn7eYgBz4x8+mnlpA6KPt9ew1ivDIUQwGS8?=
- =?us-ascii?Q?rF9wXCF2YRnNyRohXIl4V+8585KIIMmNrs76qYt3aw2LVj/DkXFwRqk8GZsE?=
- =?us-ascii?Q?ZZuNj0MUE62zbH2IfC8EDfQFuEZsqnypcxnULwjUdbeV68PMyb78d0okf/Mq?=
- =?us-ascii?Q?mLfHkt+M+5UUhyJrtppdBkVbSsZh859IZXriNmHpJFg7X/b2F3t4vOqB6LIy?=
- =?us-ascii?Q?dBVz4A+ktqM2naPNdifiPpNbqTbLA3x7zamTBDL4ptsZLnEwSQQCc1h4HnOB?=
- =?us-ascii?Q?cQnS8hOFmf5mQqBAvdD2uVzc7fEVuBTe/FAai8eCy15Lrc0a1DJ88YhAlSm9?=
- =?us-ascii?Q?vxxz8qnjWyJqIwteO1vrR2O0/7QowzqiFxzvVKSVeDTGlVAfFW5bnfdtfdpo?=
- =?us-ascii?Q?+pZOTZXcY19h/+JzT5n1blQA1usO7a25Ab+FWbvSSJB6WuzD8WQC2gY+yK9V?=
- =?us-ascii?Q?In8o+LlyJV3ThBhHD0LV9BC+1LSTy9IufJ+3Jyw+8QRfU2Gm+ewwdiC1l1aU?=
- =?us-ascii?Q?aduq8hubg2liK5/P4TTch6EUfAEBcYnEjEosq+p8fFcev+DsM9RybgCHkZX9?=
- =?us-ascii?Q?66DT1BOx6ni3byDei00OjxOPIKiLq9cX6vQcCxN7jI9UIklYQPDliJC6FgzR?=
- =?us-ascii?Q?iA+Tfsf6wwJj6Yjbs6r+sDXchY0UJ1omh/CYcoSTWHYIE8+h4jZNvq/G49st?=
- =?us-ascii?Q?dvHoBuHjqLzMeKdu5Rx9rpOdXo+l3bc6blKxcvzmVkeoodfIpJki/8iLk4q6?=
- =?us-ascii?Q?xjqED3xhst+pIHnrA4AZZgMUzZTbmExmYHOIxTYVGTlco/NVKiuKxOZywinW?=
- =?us-ascii?Q?Io3nK+hHRuWvo5AIDFc9r4jqLBiOifk+29Z95zhqJHw9TfB9v+bvo1rTBAle?=
- =?us-ascii?Q?uWRQYOLySmaKjC0c6W4VBZpkZIBrO2izz2+rKtLLtTtTS93HyoRv08EiSCoJ?=
- =?us-ascii?Q?xmaWNDxRjrRzFtBd1zet3JTcvqB8AnQEDCqtBATJOaFmjUTwMAJSo9zvLBdO?=
- =?us-ascii?Q?AZRXH9UxH5mVEeyK+Zsa3VpBwnSiqHGAmgCFOxf+PFy2TvYPaF/67Wa2qk5t?=
- =?us-ascii?Q?VRI03yEy97ZJbd+7YjQyr42MDCYVyw5DTTRCQ4iFCB+JfAavlda+vJ1IcJh0?=
- =?us-ascii?Q?k7g9udRhYdMfNR++nIqpTR30XBX8gn/swO9xVK2RGFQmXRmDhtkmnn5JNHek?=
- =?us-ascii?Q?6x3riUJ1HxLO0h986IqhzpHuPwosmXY1HEpeBj7sutbvEXGeo5ad0Kb5XtdT?=
- =?us-ascii?Q?KqhlPGFaxUjXri91vfc/4KDQeb+h0FxPSPWyaKfLw28tzy2asXxgh5g9zVmv?=
- =?us-ascii?Q?T2t+IiTN14ysMuZsLFMuALP0+SeaV1HNiENr7zR58elzbTdsTKMQ5G89Xnqn?=
- =?us-ascii?Q?zj+lCPfhtNcRqg6pgYtcaYQ11FjIvoLmCUha/cyLGDnsisLftG3sBi1HB6s3?=
- =?us-ascii?Q?dmlHGtzJshLXHc0A7OCB7b9JLF9FoL0/nlC1VUlWRr+B+KWKy66NaYsMPlH/?=
- =?us-ascii?Q?ldZrbLVCbz8iERDK1H94T1aocZWB+BycZ27tLxARa6vviWFsoRbuhieRYjqK?=
- =?us-ascii?Q?BLpIgQFXO9AD22QjanvhuOYVo9feAUzZUXYqLyvq/0dcKLsazr3TT27INhA1?=
- =?us-ascii?Q?573CNgSAkuaLdjnqHKeCWn1TCLj2Oq/gTQgEtHbW8O4HCM+2t/JfLkEkCIlb?=
- =?us-ascii?Q?wV/FwPjXM+ytHWYk8kaRRqLgW/Fc1FYi4cisQ/ewjcfTN+IH4hLL8rD7QHxX?=
- =?us-ascii?Q?cMbNh4DVtA=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: ceb3ff16-1be9-411f-e21c-08ded6811b44
-X-MS-Exchange-CrossTenant-AuthSource: AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
+	=?utf-8?B?TjJ3elQ4d3pzcjdHNlpkVUJOQVhwUnRYalZjYXVmdzlHby85MG9kbm53RGhx?=
+ =?utf-8?B?R3NGaU5iSHRkSmFUWDIwREJvTnRTc3paT3Z4R1VIV0hFdW5xR05RcWRndU5C?=
+ =?utf-8?B?YWdYNjJZWEkxVXo5YnpnMjNaZGJQOExPVS9wU1l4QnRYSHRnV01GM1ZSVjJM?=
+ =?utf-8?B?ckp6Y0QzQkYvSTkrVUg4bmx6Z1FKdWNLOUx5aFZ6VVU5S0FtT2V6YXZmSmtY?=
+ =?utf-8?B?UGI5N0VhcUovV1JTRGQzUFc1TXBpZFQwTHF4Q1luK1RIbmZHQXY5bHFDVXFp?=
+ =?utf-8?B?elcweTlxUlVGZ1c3RXpacHNkMGkzZmFpZHZrR0c1RmRTbzYvVnhUanlldGR5?=
+ =?utf-8?B?QjN5TUpVakJrbzlJT3lkbUMvUTlPK0hObVdEZ2xxT2Qrdk1wa01IZnRJYVVi?=
+ =?utf-8?B?d0RQUlM4dFM2YVRpYnAwV1d0aVZwOW14dmlNZGdjWkxiZDV1VHVKRFhkZko3?=
+ =?utf-8?B?K25OczE4cXA3a3daL1Z2dy80Yiszd3lqZlNZaWMyeDlBblhnOHZodkRzS09y?=
+ =?utf-8?B?N2gvNm9WS1BPL3k0cGUzekVmbmxvalhlOVNuUkNtVVNOQWVlTEh0NTNwd0g0?=
+ =?utf-8?B?UVpxRzg3OVAxaUt4OGFLczJUeHoreHBxYmFWVGFNV0VUMmpKMzRkdHpDQlNP?=
+ =?utf-8?B?WVA0RDJDMlVjK0NqZy9uTVpuTW41SEwxL0UyeUU5S0JBY0gvY25WUHE2RDRT?=
+ =?utf-8?B?ZzloREJJOW5hZUYzbGlBTTlHNXhVYTFlaG03VUk0TVAreUV3ZTFtaFNwSnpk?=
+ =?utf-8?B?Y2lwQWxGY1hLcnA5TjZDYmpkZEtSQm9XR01MMk5HbktyRm95SzlDL1BHUzVR?=
+ =?utf-8?B?dWczSVpEdzhJYkFWWERqL1RjMHpFdnBDcHdSU2ZtdGQyUWc1K1lXT1NyU2dP?=
+ =?utf-8?B?TUxuV1hFazE2b1VvMzJIWHBnU1BUVjVKTTY1RldvSkpUSElBb2xzNlJRNXR2?=
+ =?utf-8?B?RW5pNUpMVnNFR2tJc3R4L21XYXg1U2dUdk1XUmVBRnpicUFmbnF0UXZSQlBk?=
+ =?utf-8?B?N2U3R3g4Uk9RNFNkNUduQkpoOUdEMkNhUFBoN29hdjFQc0xtSGxrZ0Rqekpp?=
+ =?utf-8?B?U29naUtwTjg4SkZ3THBuNU8xRStqaVM2Wk8rQms1WC9Sd0xkS0RNdTBTWER5?=
+ =?utf-8?B?STViT29QOVFMZzFNTW5sNDdVUXJxenNoZHAyQlhiV09Kdlc2UWdLNzRkWFVv?=
+ =?utf-8?B?S085ZkxFajUveE5WTTFIeHNEMHBGd3ROMUdRMC9Wckx0TFZGL1ZMWGZHdW5T?=
+ =?utf-8?B?N1FoK29sMW9UeWhJWWZEUXlCN2VVVFpMbkdHUjhCNzVZZWQrUEtVWGVCQ2Mr?=
+ =?utf-8?B?MlR5UGJ2ejRaOUNSaUNpWWlXK2krczVaL1JmTmMxbGlubXdnWmo2RXdmUGsx?=
+ =?utf-8?B?dHU0V2RHbmdHSVRJN1dOWW1PNlFna2ZsUFhycHR0bDZteFBWTWlLK2JoQkI3?=
+ =?utf-8?B?SlVIVHZKdmJQQ3ozNmQ4V0NPdVorS3h1R2I2VXkvQUxhYlN0ckdUaU92VDRi?=
+ =?utf-8?B?am41Y2VvR0ZUdTVNR0hWcXVObmxpam9mTEhuME9lOFZTWlc2Wkt0R2tJdit4?=
+ =?utf-8?B?c2RtL2tHR1ZqNUIzOEgzZkVWVTBzRHpwZnJMejVqMCs3NkJxWkRyeStxWk0y?=
+ =?utf-8?B?S1ViMHRUZng0MzgvRTJmdFBFYWpHb0h1d0lXM25MT2NUNnBhOG9pcXV6T1NJ?=
+ =?utf-8?B?VHNETDU4Y2VPb28zb3ovYloveEZvempBeGlhS0FWUFdqWG5jL09zWkxTVWxN?=
+ =?utf-8?B?bDZsL1BHbjFPamNGL044cEhNNFM1RGRxTE9vUkkvMkxrOU1GNjFxWDVKZWZ3?=
+ =?utf-8?B?dXBvK1Q5ZExZbkd6NXFNb2lOUWF4VGw1T2gxUTdwSlRIbDFLSVI1aXNwZ1pa?=
+ =?utf-8?B?L2ZscFJHZm9nVFo4ZG8vYjB6OVAxLzdJaWtDVWgwSXIrWHFjWXlRT2IvcTIw?=
+ =?utf-8?B?T2gxQjBSWDliNzRIeEc0V2lYb3p5NDl2Z2NubjZlRk5oUFVUb0xueXIybE5s?=
+ =?utf-8?B?aFZ5YmtEQUo0NkVzcFk2bnpwNko3bnZZemVQQ0lKQkMvbnd4ZlpNZ1NMb3pu?=
+ =?utf-8?B?TFBFMVNYRm5uSG1ZSFF3VFBjUkNUUy9DdElublA4QWhLdVBJZkFEWk9WTnBF?=
+ =?utf-8?B?ZzJyOTlXUzJZRzNiQU9PaEQvQTBWcnhJZHphRitNVDNpOE8vTEJQMVFnZ21I?=
+ =?utf-8?B?bnpaUWJyekZIL0N0YWhRQlMzdkQvb3k0Zkt0UytndTlML0hhVFJHL3FndDBS?=
+ =?utf-8?B?SjlTMHJjQm5SU2dJRkZ0K2V3WVhudFRjRUZxVk5tQVZub2FLdG1lak4zOU0z?=
+ =?utf-8?B?Rmp1dUlZVXJuT2FrdjB2Ry9JS1BqRWhhcVlESTlhenRPd0VaZUJxUT09?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7880b573-c514-4dbe-c5ea-08ded684a19c
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7737.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 08:25:13.0999
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 08:50:27.1452
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PA7jHi5XBkXPwb7PNZJ1ZLZg1lUHDptdzZFbDeK3iTPDtfAF9CvbgDCKTXD6rLwDLoygGkHpLzDYsS0JklOhRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7P189MB1026
+X-MS-Exchange-CrossTenant-UserPrincipalName: W46XZosD/Gs55rY/XXBF4OY+2rDjt1PujQsC8+D1cf1PFFEWfWa7DymfsLC0Sdt4hOjOunAlwDUDeVCE03+sX5HRj+fERviDXfpJ0/i/W1U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6808
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 08:25:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239868
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 08:50:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239869
 
-CVE-2025-69649:
-  Null pointer dereference in readelf before 2.46 results in segfault when
-  processing a crafted ELF binary with malformed header fields.
-  No evidence of memory corruption beyond the null pointer dereference, nor
-  any possibility of code execution, was observed.
+Hi Walter,
 
-CVE-2025-69652:
-  Null pointer dereference in readelf when processing a crafted ELF binary
-  with malformed DWARF abbrev or debug information which leads to SIGABORT.
-  No evidence of memory corruption or code execution was observed; the impa=
-ct
-  is limited to denial of service.
+On 6/29/26 11:41 PM, Walter Werner SCHNEIDER via lists.openembedded.org 
+wrote:
+> The Rust bindgen uses libclang to parse target headers, so the arguments
+> passed to bindgen_clang_arguments must be valid clang arguments.
+> 
+> Changing TCOVERRIDE to toolchain-clang applies various fixes to those
+> arguments, including big.LITTLE architecture values fix for -mcpu.
+> 
 
-Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
----
- .../binutils/binutils-2.42.inc                |  2 +
- .../binutils/binutils/CVE-2025-69649.patch    | 36 +++++++++++++++++
- .../binutils/binutils/CVE-2025-69652.patch    | 39 +++++++++++++++++++
- 3 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69649.=
-patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69652.=
-patch
+Please remember someone (possibly you) is going to read this commit in a 
+few years without context, so it'd be nice to explain what the issue is 
+and why that fixes it. See the attempt I made in the original patch[1], 
+maybe you can borrow some of it or improve it.
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipe=
-s-devtools/binutils/binutils-2.42.inc
-index 1a865c45f4..da954fc138 100644
---- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -74,5 +74,7 @@ SRC_URI =3D "\
-      file://0030-CVE-2025-11840.patch \
-      file://CVE-2025-69647.patch \
-      file://CVE-2025-69648.patch \
-+     file://CVE-2025-69649.patch \
-+     file://CVE-2025-69652.patch \
- "
- S  =3D "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch b=
-/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch
-new file mode 100644
-index 0000000000..4865ad6535
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch
-@@ -0,0 +1,36 @@
-+From 9d26af3871d5b8f8dd9c6b17987845e1f774eac4 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Mon, 8 Dec 2025 15:58:33 +1030
-+Subject: [PATCH] PR 33697, fuzzer segfault
-+
-+	PR 33697
-+	* readelf.c (process_relocs): Don't segfault on no sections.
-+
-+CVE: CVE-2025-69649
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbinut=
-ils-gdb.git;h=3D66a3492ce68e1ae45b2489bd9a815c39ea5d7f66]
-+
-+Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
-+---
-+ binutils/readelf.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/binutils/readelf.c b/binutils/readelf.c
-+index 5e4ad6ea6ad..8c1987ffaec 100644
-+--- a/binutils/readelf.c
-++++ b/binutils/readelf.c
-+@@ -8961,9 +8961,9 @@ process_relocs (Filedata * filedata)
-+       size_t i;
-+       bool found =3D false;
-+=20
-+-      for (i =3D 0, section =3D filedata->section_headers;
-+-	   i < filedata->file_header.e_shnum;
-+-	   i++, section++)
-++      section =3D filedata->section_headers;
-++      if (section !=3D NULL)
-++	for (i =3D 0; i < filedata->file_header.e_shnum; i++, section++)
-+ 	{
-+ 	  if (   section->sh_type !=3D SHT_RELA
-+ 	      && section->sh_type !=3D SHT_REL
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch b=
-/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch
-new file mode 100644
-index 0000000000..a085d20095
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch
-@@ -0,0 +1,39 @@
-+From 034627143b85563fe4b4e416422d9dea8e66bd6f Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Mon, 8 Dec 2025 16:04:44 +1030
-+Subject: [PATCH] PR 33701, abort in byte_get_little_endian
-+
-+	PR 33701
-+	* dwarf.c (process_debug_info): Set debug_info_p NULL when
-+	DEBUG_INFO_UNAVAILABLE.
-+
-+CVE: CVE-2025-69652
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbinut=
-ils-gdb.git;h=3D44b79abd0fa12e7947252eb4c6e5d16ed6033e01]
-+
-+Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
-+---
-+ binutils/dwarf.c | 8 +++++---
-+ 1 file changed, 5 insertions(+), 3 deletions(-)
-+
-+diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-+index 615e051b2bf..13b11b46e41 100644
-+--- a/binutils/dwarf.c
-++++ b/binutils/dwarf.c
-+@@ -4222,9 +4222,11 @@ process_debug_info (struct dwarf_section * section,
-+ 	      break;
-+ 	    }
-+=20
-+-	  debug_info *debug_info_p =3D
-+-	    (debug_information && unit < alloc_num_debug_info_entries)
-+-	    ? debug_information + unit : NULL;
-++	  debug_info *debug_info_p =3D NULL;
-++	  if (debug_information
-++	      && num_debug_info_entries !=3D DEBUG_INFO_UNAVAILABLE
-++	      && unit < alloc_num_debug_info_entries)
-++	    debug_info_p =3D debug_information + unit;
-+=20
-+ 	  assert (!debug_info_p
-+ 		  || (debug_info_p->num_loc_offsets
-+--=20
-+2.34.1
-+
---=20
-2.34.1
+[1] 
+https://lore.kernel.org/openembedded-core/20260212-mesa-opencl-big-little-v1-1-7f328328d149@cherry.de/
 
+> Note that the target attribute depends on the system beeing built for,
+> it is either the host system, the target system or the SDK system.
+> 
+
+I don't understand to what this sentence applies in the diff.
+
+> Fixes: a647a0ff4c4e ("meson: correct bindgen_clang_argments")
+> Signed-off-by: Walter Werner Schneider <contact@schnwalter.eu>
+> ---
+> I'm testing in a different repo clone, so I botched the code before
+> sending to the mailing list.
+> 
+> Changes in v2:
+> - Fixed new line escape.
+> - Link to v1: https://lore.kernel.org/r/20260629-fix-rust-bindgen-for-big-little-arch-v1-1-7f7d70c9d593@schnwalter.eu
+> ---
+>   meta/classes-recipe/meson.bbclass | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meson.bbclass
+> index 9bed293603..238c418e26 100644
+> --- a/meta/classes-recipe/meson.bbclass
+> +++ b/meta/classes-recipe/meson.bbclass
+> @@ -59,11 +59,15 @@ def rust_tool(d, target_var):
+>       return "rust = %s" % repr(cmd)
+>   
+>   def bindgen_args(d):
+> -    args = '${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} --target=${TARGET_SYS}'
+> +    args = '${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} --target=${HOST_SYS}'
+
+Try to avoid changing small things that are seemingly unrelated, or 
+explicitly document the change in the commit log if it is required, here 
+the added whitespace seems a good candidate for unrelated change. Except 
+in meta/classes-recipe/cmake.bbclass, TOOLCHAIN_OPTIONS never has a 
+whitespace before the variable is used (the variable seems to have a 
+leading space when it's defined, that might explain why).
+
+I couldn't get from the commit log why we need to change from TARGET_SYS 
+to HOST_SYS. Can you explain?
+
+>       # For SDK packages TOOLCHAIN_OPTIONS don't contain full sysroot path
+>       if bb.data.inherits_class("nativesdk", d):
+>           args += ' --sysroot=${STAGING_DIR_HOST}${SDKPATHNATIVE}${prefix_nativesdk}'
+> -    items = d.expand(args).split()
+> +    # Rust bindgen uses libclang under the hood. Apply variable overrides for
+> +    # clang; Fixes big.LITTLE -mcpu values.
+> +    localdata = d.createCopy()
+> +    localdata.setVar('TCOVERRIDE', 'toolchain-clang');
+
+I think we should make sure the copy is done before we check if 
+bb.data.inherits_class("nativesdk", X) because it could be that someone 
+has made some "interesting" design choices of inheriting nativesdk only 
+for clang and not gcc. Theoretical and very unlikely scenario but who 
+knows, better have sound logic here.
+
+I don't know if it's worth it, but you could avoid a datastore copy if 
+TCOVERRIDE already is toolchain-clang. See 
+https://lore.kernel.org/openembedded-core/20260212-mesa-opencl-big-little-v1-1-7f328328d149@cherry.de/
+
+Thanks for looking into it!
+
+Cheers,
+Quentin
 
