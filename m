@@ -2,60 +2,60 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1577C44501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6CCCC44500
 	for <webhook@archiver.kernel.org>; Tue, 30 Jun 2026 07:19:30 +0000 (UTC)
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15494.1782803964169842154
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15495.1782803966299823442
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jun 2026 00:19:24 -0700
+ Tue, 30 Jun 2026 00:19:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=EjpnJdaA;
- spf=pass (domain: mvista.com, ip: 74.125.82.178, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-30edfd9cff9so1041321eec.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 00:19:24 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=ab2ugHlb;
+ spf=pass (domain: mvista.com, ip: 74.125.82.172, mailfrom: hprajapati@mvista.com)
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-30c09f29b64so84257eec.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 00:19:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1782803963; x=1783408763; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1782803966; x=1783408766; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SJSpfnjEcRRrnYCNDdGYizq+0NhaAD43pRh8bYBS/BQ=;
-        b=EjpnJdaAclwK+oNzzwCDwYog+ugCoAxL8IklA10Cl8NbtQXwKCWy2JxdtYRY2GG/7r
-         OHk3QhdifDwPcEkglSw53QDKXJLDHSGocnwAoysOPLDPDIe79/pMV6X0MIWsYQ2Zuy1l
-         hnTdJC8558ZOtjFjjeg0pdKBSdTXo4VaRNDBs=
+        bh=kEMmiX31aGmIbC3i8Vl6lZI1Fo2WJ9FwNRZfyzQptrc=;
+        b=ab2ugHlbsDgJMPrRzZDgWkT0JzYqPavGkx9zArB+HAEg9N2x61NPF8PlW0JhiRyD/6
+         jlBnkLbwkLvTPOEK4jyncd2Z1nOxl7GS3Vghgex2TWjLPv8i5wH8FMVjMZPZkOJK1OeR
+         sMWkXXo4BQDnv2lVzqeVQ72aFw4U3ZQiuBPtw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782803963; x=1783408763;
+        d=1e100.net; s=20251104; t=1782803966; x=1783408766;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=SJSpfnjEcRRrnYCNDdGYizq+0NhaAD43pRh8bYBS/BQ=;
-        b=mPpi+9txE2NUnVOLpTYU661ol2iTceHzWhnoPTg6nYYvxu17Y518hUIAxatFUMJ3Zh
-         DL+kNjc3AQy+IUOD5ctjg5fRTj9Bp6Cxv4ycukOWWqKDYC+Ea5iU8DGOg/vC/S8tpKI2
-         MZ6Ffne8HHWeRoHtc/R5xYFPWRwf9w3Rk0R6sdtWkWv+QIjT3NLS3+oENvT4RVgj5WnX
-         /p7NiNFpC9dFIbyj8MLMS47YaJzQNyREs4QmHIP8nXQtmXXIzTdYhpHFMYeErTbPOOtU
-         juD9JotHD/V3SHCzWyp1Neen5GfO5ArddAYLqmdooCPTIdm3GVY0Reced3na+3lI/vl5
-         0OVA==
-X-Gm-Message-State: AOJu0Yx1f55HgDOuSj5I7rV+d2+lV+U8Mh9Q+2vy8s0bbg1k+P97b3N4
-	p0WCqAIutN8ns3vBlJ/9ps8qMQZwsgxlL1h9qFpQ1bD+hQeWkD27aVSUSl8XI2trlH7DXpVfV0w
-	F/uT3ueA=
-X-Gm-Gg: AfdE7cnfXfGrGdEi7xkCSs6p6lsy3mFxE9HFY+9GBPT8ttacyhkHw1drG5IYD6umlCA
-	PooBvnbcmKEm0tplc77DrLMoz97cHms8FGu0QLWifSw2vMq06qf+bmTvHZbFkZnE4Z4LmLJcLVt
-	9+lC2lhDKpRZNbA5usF1zNecQRtInatrXidbqgRxC1vP4oNdda1+HM5Qi9Zx0Y3pf7+lQiCZhBZ
-	bnUUWdRQGdRwIPLS/Y/2AGWd5SOPUB1JbQqwSkRTe3HrIvBsQYuI5qPvzeiUBwqIB+BGhM4+1ta
-	E8Vg3nUBtq52eyHtTUHb/M231i1HR+aktfC2ot3UAAjJzxo+6o0D/2yTYjASLHOrF3+xmV76G3d
-	xsCjkpG5TeZ5VkZc/6Y2oBUzsm+FJR9L322ehSDOpPjU712GDc8olkYyxtJmohhII/Z4TJL5BwJ
-	VkcIjNbMbVPyAUyIXP7h4wt1OhQw==
-X-Received: by 2002:a05:7300:8193:b0:30b:f6cd:fdca with SMTP id 5a478bee46e88-30ee131d85fmr2205975eec.17.1782803963214;
-        Tue, 30 Jun 2026 00:19:23 -0700 (PDT)
+        bh=kEMmiX31aGmIbC3i8Vl6lZI1Fo2WJ9FwNRZfyzQptrc=;
+        b=dJYej8HVYzysYJMGqU/A0Ka9HUUxF7KB1zBz4t9EmHztyo1tB7dWP0+OuxwQxdkIwp
+         MA6rAq4iB1zRE0Cz0gN0P6g8gB52P2b9JVTkr6rFIBD2KuKowav4nPAXO8pZpgD77cgM
+         ELqhM+orPpFfVj40vBFqWilp1KKLvhztyUdWoepZCdim5oiUvVXR4teb0Qm+WD6Fw1BS
+         S3Va2G7tUbHjfXjDV+zTN0iAa0TsPRGAF8bwKBPXrRR33RynGlovSVe7QHoIkWlopWIp
+         tpZaXWIVOd7IrrTYXt1UrARECM+WYCSm9rxTHV/WBpLCKQ7aDjr4/JYjVVk4sozBFSUb
+         oLUA==
+X-Gm-Message-State: AOJu0Yy9OhFcGBtZhl9JFV/57o62cAbyoTJS6dRXplI0oFoH/2lbzKBX
+	wR1E4zSD11BWoqqiim2sYIHwF0zoU6zyqK1vrU8dxrbs8kGXcADV2fjbgOmsrOkCrlc935WQDjb
+	HUCIDOr0=
+X-Gm-Gg: AfdE7cm/sjRbc1cX0vAvvlWIYt4mbB36ECEPJJq+Bg/PnJYhwPWQecGMuBnYTr5GUAJ
+	lHMTcGCzHkMtA9TwdRztMKHnyUXhHEfrkU7lQiuw6goVtRpm6mSBaNFC8JieGwLmSdi8nvbeTCH
+	+K6kCJ+0Hi6glQfjUUlm+EZGXU7L/09cymnSam/gWrpjQMoMa6roUvoLkoWBPIsnbVG2Wlev2lC
+	j8A8xrEbJQjSOSSdgK6J65gv+SUpFmv2H9bZ8jCYf1ZP5mR0zRhli6tfTXeZMNXnXcXvXYwaO4A
+	xDez8F+62YGDzOqfPk1VVGhQhrjSWzLSj02rGFgt2AC2vIDflt7Ax8X1xTj2IpeaSjmRiRjdEM/
+	UdltRoyOoYSN1trzu4fKl+Q/8IrYdpC3cW5wG3Hk2gLG4mT/F0yFArxFIGl+wK6WiWxOFwKJWEF
+	cXjlGa+y2gLdBC03XcU30BoI3HXQ==
+X-Received: by 2002:a05:7300:c88:b0:30c:ab96:7305 with SMTP id 5a478bee46e88-30eea0bbfa2mr557514eec.21.1782803965558;
+        Tue, 30 Jun 2026 00:19:25 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([103.250.136.242])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2fb6514sm4311038eec.7.2026.06.30.00.19.21
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee2fb6514sm4311038eec.7.2026.06.30.00.19.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 00:19:22 -0700 (PDT)
+        Tue, 30 Jun 2026 00:19:25 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCHv2 3/5] vim: Fix for CVE-2026-28417, CVE-2026-32249, CVE-2026-45130
-Date: Tue, 30 Jun 2026 12:48:57 +0530
-Message-ID: <20260630071903.155470-3-hprajapati@mvista.com>
+Subject: [scarthgap][PATCHv2 4/5] vim: Security fix for CVE-2026-28420 & CVE-2026-46483
+Date: Tue, 30 Jun 2026 12:48:58 +0530
+Message-ID: <20260630071903.155470-4-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260630071903.155470-1-hprajapati@mvista.com>
 References: <20260630071903.155470-1-hprajapati@mvista.com>
@@ -66,381 +66,285 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 30 Jun 2026 07:19:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239855
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239856
 
-Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
+Pick patch from [1] & [2] also mentioned at NVD report in 3 & 4
 
-[1] https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d68514fcc1
-[2] https://github.com/vim/vim/commit/36d6e87542cf823d833e451e09a90ee429899cec
-[3] https://github.com/vim/vim/commit/92993329178cb1f72d700fff45ca86e1c2d369f8
-[4] https://nvd.nist.gov/vuln/detail/CVE-2026-28417
-[5] https://nvd.nist.gov/vuln/detail/CVE-2026-32249
-[6] https://nvd.nist.gov/vuln/detail/CVE-2026-45130
+[1] https://github.com/vim/vim/commit/bb6de2105b160e729c340631435cd62f3e69bd32
+[2] https://github.com/vim/vim/commit/3fb5e58fbc63d86a3e65f1a141b0d67af2aa38a1
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-28420
+[4] https://nvd.nist.gov/vuln/detail/CVE-2026-46483
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../vim/files/CVE-2026-28417.patch            |  92 ++++++++++++++
- .../vim/files/CVE-2026-32249.patch            | 117 ++++++++++++++++++
- .../vim/files/CVE-2026-45130.patch            | 115 +++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   3 +
- 4 files changed, 327 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-28417.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-32249.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-45130.patch
+ .../vim/files/CVE-2026-28420.patch            | 162 ++++++++++++++++++
+ .../vim/files/CVE-2026-46483.patch            |  77 +++++++++
+ meta/recipes-support/vim/vim.inc              |   2 +
+ 3 files changed, 241 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-28420.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-46483.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-28417.patch b/meta/recipes-support/vim/files/CVE-2026-28417.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-28420.patch b/meta/recipes-support/vim/files/CVE-2026-28420.patch
 new file mode 100644
-index 0000000000..c36bd9c234
+index 0000000000..f5b2f42f6a
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-28417.patch
-@@ -0,0 +1,92 @@
-+From 79348dbbc09332130f4c86045e1541d68514fcc1 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/vim/files/CVE-2026-28420.patch
+@@ -0,0 +1,162 @@
++From bb6de2105b160e729c340631435cd62f3e69bd32 Mon Sep 17 00:00:00 2001
 +From: Christian Brabandt <cb@256bit.org>
-+Date: Sun, 22 Feb 2026 21:24:48 +0000
-+Subject: [PATCH] patch 9.2.0073: [security]: possible command injection using
-+ netrw
++Date: Mon, 23 Feb 2026 20:29:43 +0000
++Subject: [PATCH] patch 9.2.0076: [security]: buffer-overflow in terminal
++ handling
 +
-+Problem:  [security]: Insufficient validation of hostname and port in
-+          netrw URIs allows command injection via shell metacharacters
++Problem:  When processing terminal output with many combining characters
++          from supplementary planes (4-byte UTF-8), a heap-buffer
++          overflow occurs. Additionally, the loop iterating over
++          cell characters can read past the end of the vterm array
 +          (ehdgks0627, un3xploitable).
-+Solution: Implement stricter RFC1123 hostname and IP validation.
-+          Use shellescape() for the provided hostname and port.
++Solution: Use VTERM_MAX_CHARS_PER_CELL * 4 for ga_grow() to ensure
++          sufficient space. Add a boundary check to the character
++          loop to prevent index out-of-bounds access.
 +
 +Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-m3xh-9434-g336
++https://github.com/vim/vim/security/advisories/GHSA-rvj2-jrf9-2phg
 +
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d68514fcc1]
-+CVE: CVE-2026-28417
++Upstream-Status: Backport [https://github.com/vim/vim/commit/bb6de2105b160e729c340631435cd62f3e69bd32]
++CVE: CVE-2026-28420
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ .../pack/dist/opt/netrw/autoload/netrw.vim    | 34 +++++++++++++------
-+ 1 file changed, 24 insertions(+), 10 deletions(-)
++ src/terminal.c                                |  5 +-
++ .../samples/terminal_max_combining_chars.txt  | 80 +++++++++++++++++++
++ src/testdir/test_terminal3.vim                | 14 ++++
++ 3 files changed, 97 insertions(+), 2 deletions(-)
++ create mode 100644 src/testdir/samples/terminal_max_combining_chars.txt
 +
-+diff --git a/runtime/pack/dist/opt/netrw/autoload/netrw.vim b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+index 1c98104..7ebcd92 100644
-+--- a/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-++++ b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+@@ -5,6 +5,7 @@
-+ " 2025 Aug 07 by Vim Project (use correct "=~#" for netrw_stylesize option #17901)
-+ " 2025 Aug 07 by Vim Project (netrw#BrowseX() distinguishes remote files #17794)
-+ " 2025 Aug 22 by Vim Project netrw#Explore handle terminal correctly #18069
-++" 2026 Feb 27 by Vim Project Make the hostname validation more strict
-+ " Copyright:  Copyright (C) 2016 Charles E. Campbell {{{1
-+ "             Permission is hereby granted to use and distribute this code,
-+ "             with or without modifications, provided that this copyright
-+@@ -2575,13 +2576,26 @@ endfunction
-+ 
-+ " s:NetrwValidateHostname:  Validate that the hostname is valid {{{2
-+ " Input:
-+-"   hostname
-++"   hostname, may include an optional username, e.g. user@hostname
-++"   allow a alphanumeric hostname or an IPv(4/6) address
-+ " Output:
-+ "  true if g:netrw_machine is valid according to RFC1123 #Section 2
-+ function s:NetrwValidateHostname(hostname)
-+-    " RFC1123#section-2 mandates, a valid hostname starts with letters or digits
-+-    " so reject everyhing else
-+-    return a:hostname =~? '^[a-z0-9]'
-++  " Username:
-++  let user_pat = '\%([a-zA-Z0-9._-]\+@\)\?'
-++  " Hostname: 1-64 chars, alphanumeric/dots/hyphens.
-++  " No underscores. No leading/trailing dots/hyphens.
-++  let host_pat = '[a-zA-Z0-9]\%([-a-zA-Z0-9.]{,62}[a-zA-Z0-9]\)\?$'
-++
-++  " IPv4: 1-3 digits separated by dots
-++  let ipv4_pat = '\%(\d\{1,3}\.\)\{3\}\d\{1,3\}$'
-++
-++  " IPv6: Hex, colons, and optional brackets
-++  let ipv6_pat = '\[\?\%([a-fA-F0-9:]\{2,}\)\+\]\?$'
-++
-++  return a:hostname =~? '^'.user_pat.host_pat ||
-++       \ a:hostname =~? '^'.user_pat.ipv4_pat ||
-++       \ a:hostname =~? '^'.user_pat.ipv6_pat
-+ endfunction
-+ 
-+ " NetUserPass: set username and password for subsequent ftp transfer {{{2
-+@@ -8948,15 +8962,15 @@ endfunction
-+ " s:MakeSshCmd: transforms input command using USEPORT HOSTNAME into {{{2
-+ "               a correct command for use with a system() call
-+ function s:MakeSshCmd(sshcmd)
-+-    if s:user == ""
-+-        let sshcmd = substitute(a:sshcmd,'\<HOSTNAME\>',s:machine,'')
-+-    else
-+-        let sshcmd = substitute(a:sshcmd,'\<HOSTNAME\>',s:user."@".s:machine,'')
-++    let machine = shellescape(s:machine, 1)
-++    if s:user != ''
-++        let machine    = shellescape(s:user, 1).'@'.machine
-+     endif
-++    let sshcmd = substitute(a:sshcmd,'\<HOSTNAME\>',machine,'')
-+     if exists("g:netrw_port") && g:netrw_port != ""
-+-        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.g:netrw_port,'')
-++        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.shellescape(g:netrw_port,1),'')
-+     elseif exists("s:port") && s:port != ""
-+-        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.s:port,'')
-++        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.shellescape(s:port,1),'')
-+     else
-+         let sshcmd= substitute(sshcmd,"USEPORT ",'','')
-+     endif
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/vim/files/CVE-2026-32249.patch b/meta/recipes-support/vim/files/CVE-2026-32249.patch
-new file mode 100644
-index 0000000000..18691c3f4c
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-32249.patch
-@@ -0,0 +1,117 @@
-+From 36d6e87542cf823d833e451e09a90ee429899cec Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Wed, 11 Mar 2026 14:16:29 +0100
-+Subject: [PATCH] patch 9.2.0137: [security]: crash with composing char in
-+ collection range
-+
-+Problem:  Using a composing character as the end of a range inside a
-+          collection may corrupt the NFA postfix stack
-+          (Nathan Mills, after v9.1.0011)
-+Solution: When a character is used as the endpoint of a range, do not emit
-+          its composing characters separately. Range handling only uses
-+          the base codepoint.
-+
-+supported by AI
-+
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-9phh-423r-778r
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/36d6e87542cf823d833e451e09a90ee429899cec]
-+CVE: CVE-2026-32249
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/regexp_nfa.c                 | 17 +++++++++++++++--
-+ src/testdir/test_regexp_utf8.vim | 19 +++++++++++++++++++
-+ 2 files changed, 34 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/regexp_nfa.c b/src/regexp_nfa.c
-+index 6ad682b..7905ec1 100644
-+--- a/src/regexp_nfa.c
-++++ b/src/regexp_nfa.c
-+@@ -1765,6 +1765,7 @@ collection:
-+ 	    if (*endp == ']')
++diff --git a/src/terminal.c b/src/terminal.c
++index 921b234..78990ac 100644
++--- a/src/terminal.c
+++++ b/src/terminal.c
++@@ -3533,12 +3533,13 @@ handle_pushline(int cols, const VTermScreenCell *cells, void *user)
++     {
++ 	for (col = 0; col < len; col += cells[col].width)
++ 	{
++-	    if (ga_grow(&ga, MB_MAXBYTES) == FAIL)
+++	    if (ga_grow(&ga, VTERM_MAX_CHARS_PER_CELL * 4) == FAIL)
 + 	    {
-+ 		int plen;
-++		bool range_endpoint;
-+ 		/*
-+ 		 * Try to reverse engineer character classes. For example,
-+ 		 * recognize that [0-9] stands for \d and [A-Za-z_] for \h,
-+@@ -1812,6 +1813,7 @@ collection:
-+ 		while (regparse < endp)
-+ 		{
-+ 		    int	    oldstartc = startc;
-++		    range_endpoint = false;
-+ 
-+ 		    startc = -1;
-+ 		    got_coll_char = FALSE;
-+@@ -1975,6 +1977,7 @@ collection:
-+ 		    if (emit_range)
-+ 		    {
-+ 			int	endc = startc;
-++			range_endpoint = true;
-+ 
-+ 			startc = oldstartc;
-+ 			if (startc > endc)
-+@@ -2053,7 +2056,14 @@ collection:
-+ 			}
-+ 		    }
-+ 
-+-		    if (enc_utf8 && (utf_ptr2len(regparse) != (plen = utfc_ptr2len(regparse))))
-++		    //
-++		    // If this character was consumed as the end of a range, do not emit its
-++		    // composing characters separately.  Range handling only uses the base
-++		    // codepoint; emitting the composing part again would duplicate the
-++		    // character in the postfix stream and corrupt the NFA stack.
-++		    //
-++		    if (!range_endpoint && enc_utf8 &&
-++			    (utf_ptr2len(regparse) != (plen = utfc_ptr2len(regparse))))
-+ 		    {
-+ 			int i = utf_ptr2len(regparse);
-+ 
-+@@ -3187,7 +3197,10 @@ nfa_max_width(nfa_state_T *startstate, int depth)
-+ 		    ++len;
-+ 		if (state->c != NFA_ANY)
-+ 		{
-+-		    // skip over the characters
-++		    // Skip over the compiled collection.
-++		    // malformed NFAs must not crash width estimation.
-++		    if (state->out1 == NULL || state->out1->out == NULL)
-++			return -1;
-+ 		    state = state->out1->out;
-+ 		    continue;
-+ 		}
-+diff --git a/src/testdir/test_regexp_utf8.vim b/src/testdir/test_regexp_utf8.vim
-+index a4353f1..3b58416 100644
-+--- a/src/testdir/test_regexp_utf8.vim
-++++ b/src/testdir/test_regexp_utf8.vim
-+@@ -615,6 +615,25 @@ func Test_search_multibyte_match_ascii()
-+     call assert_equal(['ſſ','ſ'], noic_match3, "No-Ignorecase Collection Regex-engine: " .. &re)
-+   endfor
-+   bw!
-++  set ignorecase&vim re&vim
-++endfun
-++
-++func Test_regex_collection_range_with_composing_crash()
-++  " Regression test: composing char in collection range caused NFA crash/E874
-++  new
-++  call setline(1, ['00', '0ֻ', '01'])
-++  let patterns = [ '0[0-0ֻ]\@<!','0[0ֻ]\@<!']
-++
-++  for pat in patterns
-++    " Should compile and execute without crash or error
-++    for re in range(3)
-++      let regex = '\%#=' .. re .. pat
-++      call search(regex)
-++      call assert_fails($"/{regex}\<cr>", 'E486:')
-++    endfor
-++  endfor
-++
-++  bwipe!
++ 		ga.ga_len = 0;
++ 		break;
++ 	    }
++-	    for (i = 0; (c = cells[col].chars[i]) > 0 || i == 0; ++i)
+++	    for (i = 0; i < VTERM_MAX_CHARS_PER_CELL &&
+++		    ((c = cells[col].chars[i]) > 0 || i == 0); ++i)
++ 		ga.ga_len += utf_char2bytes(c == NUL ? ' ' : c,
++ 			(char_u *)ga.ga_data + ga.ga_len);
++ 	    cell2cellattr(&cells[col], &p[col]);
++diff --git a/src/testdir/samples/terminal_max_combining_chars.txt b/src/testdir/samples/terminal_max_combining_chars.txt
++new file mode 100644
++index 0000000..a4f508d
++--- /dev/null
+++++ b/src/testdir/samples/terminal_max_combining_chars.txt
++@@ -0,0 +1,80 @@
+++padding line 000
+++padding line 001
+++padding line 002
+++padding line 003
+++padding line 004
+++padding line 005
+++padding line 006
+++padding line 007
+++padding line 008
+++padding line 009
+++padding line 010
+++padding line 011
+++padding line 012
+++padding line 013
+++padding line 014
+++padding line 015
+++padding line 016
+++padding line 017
+++padding line 018
+++padding line 019
+++padding line 020
+++padding line 021
+++padding line 022
+++padding line 023
+++padding line 024
+++padding line 025
+++padding line 026
+++padding line 027
+++padding line 028
+++padding line 029
+++padding line 030
+++padding line 031
+++padding line 032
+++padding line 033
+++padding line 034
+++padding line 035
+++padding line 036
+++padding line 037
+++padding line 038
+++padding line 039
+++padding line 040
+++padding line 041
+++padding line 042
+++padding line 043
+++padding line 044
+++padding line 045
+++padding line 046
+++padding line 047
+++padding line 048
+++padding line 049
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
+++AAAAAAAAAAAAAAAAAAAAAAAAAAAA𐀀󠄀󠄁󠄂󠄃󠄄
++diff --git a/src/testdir/test_terminal3.vim b/src/testdir/test_terminal3.vim
++index 218b4e6..cb1946f 100644
++--- a/src/testdir/test_terminal3.vim
+++++ b/src/testdir/test_terminal3.vim
++@@ -1037,4 +1037,18 @@ func Test_terminal_visual_empty_listchars()
++   call StopVimInTerminal(buf)
 + endfunc
 + 
+++func Test_terminal_max_combining_chars()
+++  " somehow doesn't work on MS-Windows
+++  CheckUnix
+++  let cmd = "cat samples/terminal_max_combining_chars.txt\<CR>"
+++  let buf = Run_shell_in_terminal({'term_rows': 15, 'term_cols': 35})
+++  call TermWait(buf)
+++  call term_sendkeys(buf, cmd)
+++  " last char is a space with many combining chars
+++  call WaitForAssert({-> assert_match("AAAAAAAAAAAAAAAAAAAAAAAAAAAA.", term_getline(buf, 14))})
+++
+++  call term_sendkeys(buf, "exit\r")
+++  exe buf . "bwipe!"
+++endfunc
+++
 + " vim: shiftwidth=2 sts=2 expandtab
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-support/vim/files/CVE-2026-45130.patch b/meta/recipes-support/vim/files/CVE-2026-45130.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-46483.patch b/meta/recipes-support/vim/files/CVE-2026-46483.patch
 new file mode 100644
-index 0000000000..0a1a93de99
+index 0000000000..2fc6f80c25
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-45130.patch
-@@ -0,0 +1,115 @@
-+From 92993329178cb1f72d700fff45ca86e1c2d369f8 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/vim/files/CVE-2026-46483.patch
+@@ -0,0 +1,77 @@
++From 3fb5e58fbc63d86a3e65f1a141b0d67af2aa38a1 Mon Sep 17 00:00:00 2001
 +From: Christian Brabandt <cb@256bit.org>
-+Date: Wed, 6 May 2026 20:50:00 +0200
-+Subject: [PATCH] patch 9.2.0450: [security]: heap buffer overflow in
-+ spellfile.c read_compound()
++Date: Thu, 14 May 2026 15:35:28 +0000
++Subject: [PATCH] patch 9.2.0479: [security]: runtime(tar): command injection
++ in tar plugin
 +
-+Problem:  read_compound() in spellfile.c computes the size of the regex
-+          pattern buffer using signed-int arithmetic on the attacker
-+          controlled SN_COMPOUND sectionlen.  With sectionlen=0x40000008
-+          and UTF-8 encoding active the multiplication wraps to 27 while
-+          the per-byte loop writes up to ~1B bytes, overflowing the heap.
-+          Reachable when loading a crafted .spl file (e.g. via 'set spell'
-+          after a modeline sets 'spelllang').  The cp/ap/crp allocations
-+          have the same int + 1 overflow class (Daniel Cervera)
-+Solution: Use type size_t as buffer size and reject values larger than
-+          COMPOUND_MAX_LEN (100000).  Apply the same size_t treatment to
-+          the cp/ap/crp allocations.
++Problem:  [security]: runtime(tar): command injection in tar plugin
++          (Christopher Lusk)
++Solution: Use the correct shellescape(args, 1) form for a :! command
 +
 +Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-q4jv-r9gj-6cwv
++https://github.com/vim/vim/security/advisories/GHSA-2fpv-9ff7-xg5w
 +
-+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/92993329178cb1f72d700fff45ca86e1c2d369f8]
-+CVE: CVE-2026-45130
++Upstream-Status: Backport [https://github.com/vim/vim/commit/3fb5e58fbc63d86a3e65f1a141b0d67af2aa38a1]
++CVE: CVE-2026-46483
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ src/spellfile.c                | 20 ++++++++++++++------
-+ src/testdir/test_spellfile.vim |  4 ++++
-+ 2 files changed, 18 insertions(+), 6 deletions(-)
++ runtime/autoload/tar.vim        |  5 +++--
++ src/testdir/test_plugin_tar.vim | 19 +++++++++++++++++++
++ 2 files changed, 22 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/spellfile.c b/src/spellfile.c
-+index 0b9536d..768e9fd 100644
-+--- a/src/spellfile.c
-++++ b/src/spellfile.c
-+@@ -296,6 +296,9 @@
-+ #define CF_WORD		0x01
-+ #define CF_UPPER	0x02
++diff --git a/runtime/autoload/tar.vim b/runtime/autoload/tar.vim
++index 74a5b38..95d2be0 100644
++--- a/runtime/autoload/tar.vim
+++++ b/runtime/autoload/tar.vim
++@@ -18,6 +18,7 @@
++ "   2025 May 19 by Vim Project: restore working directory after read/write
++ "   2025 Jul 13 by Vim Project: warn with path traversal attacks
++ "   2025 Jul 16 by Vim Project: update minimum vim version
+++"   2026 May 14 by Vim Project: use correct shellescape() call in Vimuntar()
++ "
++ "	Contains many ideas from Michael Toren's <tar.vim>
++ "
++@@ -800,9 +801,9 @@ fun! tar#Vimuntar(...)
++   " if necessary, decompress the tarball; then, extract it
++   if tartail =~ '\.tgz'
++    if executable("gunzip")
++-    silent exe "!gunzip ".shellescape(tartail)
+++    silent exe "!gunzip ".shellescape(tartail, 1)
++    elseif executable("gzip")
++-    silent exe "!gzip -d ".shellescape(tartail)
+++    silent exe "!gzip -d ".shellescape(tartail, 1)
++    else
++     echoerr "unable to decompress<".tartail."> on this system"
++     if simplify(curdir) != simplify(tarhome)
++diff --git a/src/testdir/test_plugin_tar.vim b/src/testdir/test_plugin_tar.vim
++index ebf74d7..8e776a4 100644
++--- a/src/testdir/test_plugin_tar.vim
+++++ b/src/testdir/test_plugin_tar.vim
++@@ -126,3 +126,22 @@ def g:Test_tar_evil()
 + 
-++// Max allowed length for COMPOUND section
-++#define COMPOUND_MAX_LEN	100000
++   bw!
++ enddef
 ++
-+ /*
-+  * Loop through all the siblings of a node (including the node)
-+  */
-+@@ -1225,6 +1228,8 @@ read_compound(FILE *fd, slang_T *slang, int len)
-+     char_u	*crp;
-+     int		cnt;
-+     garray_T	*gap;
-++    size_t	patsize;
-++    size_t	flagsize;
-+ 
-+     if (todo < 2)
-+ 	return SP_FORMERROR;	// need at least two bytes
-+@@ -1281,16 +1286,19 @@ read_compound(FILE *fd, slang_T *slang, int len)
-+     // "a[bc]/a*b+" -> "^\(a[bc]\|a*b\+\)$".
-+     // Inserting backslashes may double the length, "^\(\)$<Nul>" is 7 bytes.
-+     // Conversion to utf-8 may double the size.
-+-    c = todo * 2 + 7;
-++    if ((size_t)todo > COMPOUND_MAX_LEN)
-++	return SP_FORMERROR;
-++    patsize = (size_t)todo * 2 + 7;
-+     if (enc_utf8)
-+-	c += todo * 2;
-+-    pat = alloc(c);
-++	patsize += (size_t)todo * 2;
-++    flagsize = (size_t)todo + 1;
-++    pat = alloc(patsize);
-+     if (pat == NULL)
-+ 	return SP_OTHERERROR;
-+ 
-+     // We also need a list of all flags that can appear at the start and one
-+     // for all flags.
-+-    cp = alloc(todo + 1);
-++    cp = alloc(flagsize);
-+     if (cp == NULL)
-+     {
-+ 	vim_free(pat);
-+@@ -1299,7 +1307,7 @@ read_compound(FILE *fd, slang_T *slang, int len)
-+     slang->sl_compstartflags = cp;
-+     *cp = NUL;
-+ 
-+-    ap = alloc(todo + 1);
-++    ap = alloc(flagsize);
-+     if (ap == NULL)
-+     {
-+ 	vim_free(pat);
-+@@ -1311,7 +1319,7 @@ read_compound(FILE *fd, slang_T *slang, int len)
-+     // And a list of all patterns in their original form, for checking whether
-+     // compounding may work in match_compoundrule().  This is freed when we
-+     // encounter a wildcard, the check doesn't work then.
-+-    crp = alloc(todo + 1);
-++    crp = alloc(flagsize);
-+     slang->sl_comprules = crp;
-+ 
-+     pp = pat;
-+diff --git a/src/testdir/test_spellfile.vim b/src/testdir/test_spellfile.vim
-+index b72974e..d345492 100644
-+--- a/src/testdir/test_spellfile.vim
-++++ b/src/testdir/test_spellfile.vim
-+@@ -334,6 +334,10 @@ func Test_spellfile_format_error()
-+   " SN_COMPOUND: incorrect comppatlen
-+   call Spellfile_Test(0z080000000007040101000000020165, 'E758:')
-+ 
-++  " SN_COMPOUND: oversized sectionlen
-++  let v = eval('0z08004000000803010161' .. repeat('61', 50) .. 'FF')
-++  call Spellfile_Test(v, 'E759:')
+++def g:Test_extract_command_injection()
+++  CheckExecutable gunzip
+++  CheckExecutable touch
+++  var tgz = eval('0z1F8B08087795056A000364756D6D792E74617200EDCE2B12C2300004D01C254' ..
+++   '7480269CE534080A8495BD1DBF3996106C3A08A7ACFACD8157B59A7690BFB4A0FC3707C666E357D' ..
+++   'E65BC8B5A47CC8A5D61A522EA5B510D3CEBF5ED679197B8CE17CEDB7F9D4C76FBB5F3D000000000' ..
+++   '000000000FCD11D32415E2C00280000')
+++  var dirname = tempname()
 ++
-+   " SN_INFO: missing info
-+   call Spellfile_Test(0z0F0000000005040101, '')
-+ 
+++  mkdir(dirname, 'R')
+++  var tar = dirname .. "/';%$(touch pwned)'.tgz"
+++  writefile(tgz, tar)
+++  new
+++  exe "e " .. fnameescape(tar)
+++  exe ":Vimuntar " .. dirname
+++  assert_false(filereadable(dirname .. "/pwned"))
+++  bw!
+++enddef
 +-- 
 +2.34.1
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index b7cdd61c93..53590befc4 100644
+index 53590befc4..9a4b21f530 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -28,6 +28,9 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-44656.patch \
-            file://CVE-2026-41411.patch \
-            file://CVE-2026-28421.patch \
-+           file://CVE-2026-32249.patch \
-+           file://CVE-2026-28417.patch \
-+           file://CVE-2026-45130.patch \
+@@ -31,6 +31,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-32249.patch \
+            file://CVE-2026-28417.patch \
+            file://CVE-2026-45130.patch \
++           file://CVE-2026-46483.patch \
++           file://CVE-2026-28420.patch \
             "
  
  PV .= ".1683"
