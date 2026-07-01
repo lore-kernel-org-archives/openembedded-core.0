@@ -2,107 +2,148 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A32EC43458
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27FD9C43602
 	for <webhook@archiver.kernel.org>; Wed,  1 Jul 2026 07:54:32 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.39992.1782892464468722238
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.39676.1782892465595579176
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2026 00:54:24 -0700
+ Wed, 01 Jul 2026 00:54:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=QB/q70Bq;
- spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: twoerner@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-9204711e831so28138885a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 00:54:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=muPXFfeA;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-923220bf1d5so35591585a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 00:54:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782892463; x=1783497263; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=59cZcbO/PWTRbqTAzgcn7rD7lcatOE2sPDAYm336I7o=;
-        b=QB/q70BqyUT6fGqcn24y2mWhouuwvDRHC3fnxAt3NrY/W8610NpVRbRWd0wvUnFQNU
-         8QGCzk3z8DLD/oITL90n3yhZBAsHdlPJ40MvvaVAKzb6KoKzgti7+yM6Y22KpPwWYac9
-         uPfU7DECwvxDHAw18EtV172I5owJ8u8twczEv+KK6x0INZgTSEfu5umURHMonRkZzLZe
-         6oi9CVaFCJzhf3uILERbU72Au1nPS/8sDm2zYmTiQIqSTOHndDdgi0egEGY3ji42Iu4j
-         UbowXnjZ31CWrTsDilJaOYq/kG0r5hezrOe/kzJEj0uWinBk+NrTUUdLvTHo7mcw0vhq
-         R6yQ==
+        d=gmail.com; s=20251104; t=1782892464; x=1783497264; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ITcap7cZxn44injB7pVCvRB0fkfKTxrDTlhvPp5AVsg=;
+        b=muPXFfeA3wmzx3FFDecwBgBELYu6Bjs9dieUHMqsmaWWswQBUtE5RXmqyxmRLqKH8U
+         sE9d+gQ4SBW5YSuCzWZ+UfMyblw1NP/Q6TnFSg6IG8QetrHHjk5uWyl5EoDqPjatKatG
+         xSD1NcUAgTGSfwZ4OjRk7ILbF67pWLAlJ9ytYO9XZA9W36mfYaXoihhZoe8m+qfJMByT
+         VfIxL3Ets+cga3ffN7eR9rBSRZ0Bh2fqOhpFCFuv+iba8g8Z+xNBy2pe1w2JSbVq/epn
+         +KdOQaniZkUq/6GUqPQ4kKb3I1mgh1hxVAe6omj5AYy9o05RBXrESU5fmVqV96KmlDFl
+         IfYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782892463; x=1783497263;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=59cZcbO/PWTRbqTAzgcn7rD7lcatOE2sPDAYm336I7o=;
-        b=pEHoZ3i982i1DRWCoqiZLTrQniCCx+af6xBAqKXM/4b8CfQC4krSnPHrLdHacoeh3V
-         +DGtfzp2I7ypnjkAEHEjotIZKhg7V7V8ar5/W+KKFvZh0PXC+10roxwCmZgmug1GWTES
-         I8gEa03qUsf2WfYebpJB/+yz9aekMO3q2sODKF3aKl2QaXHbce86WW4va6IbW/s2B4Yd
-         3tqXygSYGnQaRetK3U8AZN3fe1E7FXh76f/XI4CftZHzsrD44Irv+6mRxw0JzqB8ROou
-         cudssMX9sPmvUpduXBa/ej9OpZzsOU30BnMiDTaLWN5UObICdE8QLMTuQFTR0JW6j7tg
-         JzQQ==
-X-Gm-Message-State: AOJu0YyUBxoVQCuk6SEgr3c/PLczFwbWf6yAUT4OpOtANgm2gqt+M2H9
-	uBlCkN54etXMzXtHETJYEDlbOKMBZLFzvsCCmFz7PQOwvDj7Q5T3idamB1o1Sg==
-X-Gm-Gg: AfdE7ck1otWi0dxMdQEOMkkeiaVpyj/kiGiSvtHtr7K74/9gEe2OYB+mZPkUKP9h+ZW
-	tSs3rKKrCrnCHqL7vN4MKQMLk8bRIXzqNvtEJvT2ASMh3XVWdcUMCkVArdIP7DHs2ls8zTUlVOa
-	N1IUg59LM2LspaZmUWvq/ew8ztFKe1D5eUYXZwTGxctKDSY25MvdQi7s6/ra3XhT726MYAb9ort
-	9l5c95jYG4uC1n+IP3j51yD5tT4yIUwoXs+3xcPBPUTD9OXBY4Obun6mxXvRVQOOA58+E/Y7jNE
-	o+WQ/p82cFL7A5QtOXz7QRB2pnayztqRhXkjGSzpcr+oGfchWsscPZit/UAv5lM+3BWI/B0qXlj
-	S14AFmpLnbvDQE4AwNYdAnYEve2Gs60BWdCelXaMmDJdlVWgJgHhxxvECHtcYjsRoQlDIOCGM+x
-	crGHQaZ2wbsNxawzq8AA4rRo7LAWdgNFj2lL2Jm96O4OLQoLO9i+rRvIGjeQhwsZHvyA==
-X-Received: by 2002:a05:620a:390f:b0:92e:5d19:bf84 with SMTP id af79cd13be357-92e78539318mr64541385a.69.1782892463233;
-        Wed, 01 Jul 2026 00:54:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782892464; x=1783497264;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=ITcap7cZxn44injB7pVCvRB0fkfKTxrDTlhvPp5AVsg=;
+        b=qVYrqvObOnKwFO2K524hIFCZZIKnix6sLlpjnENTGvV8hlJsVkKuPJujLD27tb6hbr
+         m5bzlBntoVCEHsAhCAKCHDn0cd6Nk3y4eL/XPm8AGHaNDiX2mxTkDIpb9/ELvKBE7q4K
+         UZ8MGEXtVOISmJvu9q3M5MvgrhnI6iNL7JNp87pE92vL97m4fZuAjkMXoVGp+0TBmdFu
+         qNZe+DyN6gPnbHwlh+81CyzsxQfOzWdwLZvuZTtqVjscVa9MotHTv2puGeIfXIUHu9YS
+         P1TA++dp0pm+7fHWanNbFgfWlaFayaOTTiMNvoPmGx3rmBhTHi2JfFczo3HcNTZH3qZc
+         gJpw==
+X-Gm-Message-State: AOJu0Yz0nsdZcvGlHs8B/U6McG/DM+vNReNeed807T/FAFpLWmuWrO5R
+	J2pO/pm6I/NprMZecxa/7dr1pmhNYuZsj4pROO1jn6wr0r7IEvmE41OIdJ7+sg==
+X-Gm-Gg: AfdE7cnGhZPVHM7gEgMh19CgxL+jcE1U8uPJ9Wy7KiNCmyh2ehD146EroCMOT2ujX/O
+	FoDtlxRXw6IG+sApmYh5PdhENeLHHiNPefq/U3rYs5lzBrrsYG8uHrBtfpCkH4eoDdpRUSFx04r
+	XPUcootyMEi0jxrTw79H+bu7fqunJibHoS/5GHICeK0IMulEhuTachXDZaZjbf/5LSStpaBDXbq
+	j3JoGbtRpW/nUSIyEkdfK6la04BuW2+HxA1tfBNtQ8uB4W5Xl/RcA6mNg5kXS2PriN0SE4ZR9Xx
+	69FVas6HaDIgRPzWQD3NlW7tZgq88Wz8paL80YOMW3v3A2O3xJfz8Y33bbaZ0cWfGzRymLix5KW
+	skig7uYaYd3PTHUYbP0ty+Ry4fgD2AwbqbuB9cBkoF8fhaS1AScmirrYuCBgPySXgVX03cIlqS5
+	I3muLO5s2aLc90AR6Z6AJ6zgfZQcnQRKv4nE65q4RgHvTd8Niq0QF3VR4MGWcefxyDbQ==
+X-Received: by 2002:a05:620a:19a7:b0:92e:56f7:c5fb with SMTP id af79cd13be357-92e781c1014mr71383785a.12.1782892464452;
+        Wed, 01 Jul 2026 00:54:24 -0700 (PDT)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e62371ba1sm502294485a.42.2026.07.01.00.54.22
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e62371ba1sm502294485a.42.2026.07.01.00.54.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 00:54:22 -0700 (PDT)
+        Wed, 01 Jul 2026 00:54:23 -0700 (PDT)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/4] wic: ship the tools it needs where it is packaged
-Date: Wed,  1 Jul 2026 03:54:07 -0400
-Message-ID: <20260701075411.1092848-1-twoerner@gmail.com>
+Subject: [PATCH 1/4] wic-tools.inc: add
+Date: Wed,  1 Jul 2026 03:54:08 -0400
+Message-ID: <20260701075411.1092848-2-twoerner@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260701075411.1092848-1-twoerner@gmail.com>
+References: <20260701075411.1092848-1-twoerner@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 07:54:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239948
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239949
 
-wic shells out to a number of host-side tools (parted, mkdosfs, mcopy,
-the mkfs.* family, mdir, sfdisk, e2fsck, resize2fs, ...) but does not
-declare them as dependencies. For the bitbake do_image_wic task this is
-covered by the wic-tools recipe. Wherever else wic is installed as a
-package it gets none of them, and its offline lookup (wic ls/cp/write)
-falls back to the host PATH, so wic works only by chance depending on
-what the host has installed:
+wic invokes a range of host-side tools (parted, mkdosfs, mcopy,
+mkfs.*, grub-mkimage, ...) at image-creation time, depending on the
+partition types and bootloaders in a .wks file. The set wic could
+invoke is enumerated in its NATIVE_RECIPES table, and matches the
+helpers wic-tools lists in its DEPENDS.
 
-  wic.WicError: Can't find executable 'mcopy'
+Refactor that helper list into a shared wic-tools.inc (WIC_TOOLS) and
+switch wic-tools to it, so the canonical list lives in one place and
+can be reused by other recipes that need the same set.
 
-This series makes wic carry its own tool dependencies wherever it is
-packaged, and then takes advantage of that to offer it in the SDK:
-
-  1. move the helper-tool list shared with wic-tools into wic-tools.inc
-  2. have nativesdk-wic RDEPEND that list, so wic is complete wherever it
-     is packaged
-  3. simplify buildtools-extended-tarball to just nativesdk-wic
-  4. add nativesdk-wic to the standard SDK host packagegroup
-
-The native and target wic variants are unaffected; the tools are added
-to the nativesdk variant only. cdrtools (mkisofs) is native-only with
-no nativesdk variant and so is not included.
-
-Trevor Woerner (4):
-  wic-tools.inc: add
-  wic: add runtime dependencies on the tools it invokes
-  buildtools-extended-tarball: use nativesdk-wic
-  nativesdk-packagegroup-sdk-host: add wic
-
- .../meta/buildtools-extended-tarball.bb       |  4 +---
- meta/recipes-core/meta/wic-tools.bb           | 15 ++++++------
- meta/recipes-core/meta/wic-tools.inc          | 24 +++++++++++++++++++
- .../nativesdk-packagegroup-sdk-host.bb        |  1 +
- meta/recipes-support/wic/wic_0.3.0.bb         | 18 ++++++++++++++
- 5 files changed, 52 insertions(+), 10 deletions(-)
+AI-Generated: codex/claude-opus 4.8 (xhigh)
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/recipes-core/meta/wic-tools.bb  | 15 ++++++++-------
+ meta/recipes-core/meta/wic-tools.inc | 24 ++++++++++++++++++++++++
+ 2 files changed, 32 insertions(+), 7 deletions(-)
  create mode 100644 meta/recipes-core/meta/wic-tools.inc
 
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index 45fb873dd6bd..b81729d9ff1b 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -2,13 +2,14 @@ SUMMARY = "A meta recipe to build native tools used by wic."
+ 
+ LICENSE = "MIT"
+ 
+-DEPENDS = "\
+-           wic-native \
+-           parted-native gptfdisk-native dosfstools-native \
+-           mtools-native bmaptool-native grub-native cdrtools-native \
+-           btrfs-tools-native squashfs-tools-native pseudo-native \
+-           e2fsprogs-native util-linux-native tar-native erofs-utils-native \
+-           virtual/cross-binutils \
++require wic-tools.inc
++
++# wic itself, the shared WIC_TOOLS helpers as -native build dependencies,
++# plus the extras specific to building the native sysroot: native-only
++# cdrtools, pseudo and the cross binutils.
++DEPENDS = "wic-native \
++           ${@' '.join('%s-native' % t for t in d.getVar('WIC_TOOLS').split())} \
++           cdrtools-native pseudo-native virtual/cross-binutils \
+            "
+ DEPENDS:append:x86 = " syslinux-native syslinux grub-efi systemd-boot"
+ DEPENDS:append:x86-64 = " syslinux-native syslinux grub-efi systemd-boot"
+diff --git a/meta/recipes-core/meta/wic-tools.inc b/meta/recipes-core/meta/wic-tools.inc
+new file mode 100644
+index 000000000000..a1d622e9d345
+--- /dev/null
++++ b/meta/recipes-core/meta/wic-tools.inc
+@@ -0,0 +1,24 @@
++# Recipes providing the host-side tools wic may invoke at image-creation
++# time, as listed in wic's NATIVE_RECIPES table. Names are given without
++# a class suffix so they can be mapped to -native, nativesdk- or any
++# other variant as needed.
++#
++# This list is limited to tools that exist both as -native and as
++# nativesdk- packages. Tools that are not available in every variant
++# (for example native-only cdrtools) and architecture-gated tools (for
++# example syslinux) are intentionally left out and handled separately.
++
++WIC_TOOLS = "\
++    parted \
++    gptfdisk \
++    dosfstools \
++    mtools \
++    bmaptool \
++    grub \
++    btrfs-tools \
++    squashfs-tools \
++    e2fsprogs \
++    util-linux \
++    tar \
++    erofs-utils \
++"
 -- 
 2.50.0.173.g8b6f19ccfc3a
+
 
