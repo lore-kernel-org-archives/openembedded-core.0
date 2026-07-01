@@ -1,131 +1,107 @@
-Return-Path: <Moritz.Haase@bmw.de>
+Return-Path: <anna-lena.marx@inovex.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76B6FC43458
-	for <webhook@archiver.kernel.org>; Wed,  1 Jul 2026 09:02:33 +0000 (UTC)
-Received: from esa6.hc324-48.eu.iphmx.com (esa6.hc324-48.eu.iphmx.com [207.54.71.69])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.40625.1782896549848068885
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E1F9C43458
+	for <webhook@archiver.kernel.org>; Wed,  1 Jul 2026 10:00:58 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.41144.1782900052255187894
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2026 02:02:31 -0700
+ Wed, 01 Jul 2026 03:00:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=HSELifmU;
- spf=permerror, err=parse error for token &{10 18 256wvd6dc.spf.checkpoint-spf.com}: parse error for token &{10 18 %{ir}.256wvd6dc.spf.checkpoint-spf.com}: invalid domain name (domain: bmw.de, ip: 207.54.71.69, mailfrom: prvs=635ba791b=moritz.haase@bmw.de)
+ dkim=pass header.i=@inovex.de header.s=google header.b=En1nQt0w;
+ spf=pass (domain: inovex.de, ip: 209.85.221.50, mailfrom: anna-lena.marx@inovex.de)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-471eee9b7d5so102314f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 03:00:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1782896550; x=1814432550;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=uOFrid40mAu1M+xqdHSGoEbvWhab4WX9PFugjcUBKUY=;
-  b=HSELifmUTLdfYkA2T9KU3IIzkcLdiqx+dwrrqfyDVsHJVCPGEZFqoNxc
-   RouBu1lXnDhwRJbJtVVALOLsla67wF6TM75gPh54TeIPOvyfIyzt43CHs
-   20qfPafQ3Jkby6xIaLAbfuJrGE3p3ZUFgeMdZxFJOvUxO7GTYju2yePSJ
-   I=;
-X-CSE-ConnectionGUID: SuE9pcrDR3GVA/9vEIH7Zg==
-X-CSE-MsgGUID: 7YF4J7zwTjWlqvag5/4oWQ==
-Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
- esa6.hc324-48.eu.iphmx.com with ESMTP/TLS; 01 Jul 2026 11:02:27 +0200
-Received: from unknown (HELO esabb6.muc) ([10.31.187.137]) by esagw3.muc with
- ESMTP/TLS; 01 Jul 2026 11:02:27 +0200
-Received: from smucmp16h.bmwgroup.net (HELO smucmp16h.europe.bmw.corp)
- ([10.30.13.150]) by esabb6.muc with ESMTP/TLS; 01 Jul 2026 11:02:28 +0200
-Received: from smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) by
- smucmp16h.europe.bmw.corp (2a03:1e80:a15:58f::1:150) with Microsoft SMTP
- Server (version=TLS; Wed, 1 Jul 2026 11:02:27 +0200
-Received: from q1054628.de-cci.bmwgroup.net (10.30.85.210) by
- smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) with Microsoft SMTP
- Server (version=TLS; Wed, 1 Jul 2026 11:02:27 +0200
-X-CSE-ConnectionGUID: NPU0ay6rROicdRYkTG8fOg==
-X-CSE-MsgGUID: KboSIZCFSXyytyKoyMCIkg==
-X-CSE-ConnectionGUID: wCLqIOPeQIWPP3VoAziV5A==
-X-CSE-MsgGUID: WtJ7nfIDTL2XS6QKQ8UyoQ==
-From: Moritz Haase <Moritz.Haase@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Moritz Haase <Moritz.Haase@bmw.de>, <alex.kanavin@gmail.com>,
-	<mathieu.dubois-briand@bootlin.com>
-Subject: [PATCH v2] json-c: upgrade 0.18 -> 0.19
-Date: Wed, 1 Jul 2026 11:02:08 +0200
-Message-ID: <20260701090208.3598070-1-Moritz.Haase@bmw.de>
-X-Mailer: git-send-email 2.54.0
+        d=inovex.de; s=google; t=1782900050; x=1783504850; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6mRljbJaYRq0YY1Rkjv7MdZ7IBAuF38FRBjJ9PvU3UA=;
+        b=En1nQt0wZYalgNW31SRglsWXlYAw5MFLq/5qbXnHLfMYImPMP47OfO5Xv7vdd3wWfd
+         ZVAwEjPMErxg2qELPUODfIkaxgMtmxnHEtNRCChg0L6z33w+13lyiWiQsKfHPfj7SW0I
+         dqAxcwe1PHD3EmBIgzyA151xnEmKqwWxPW/xfPPjvDWdBn42zwhrV8s0AsOyS2um0hWL
+         M6ujOkSLVyTOh7JcW1uf60InYa4hCfRcbTGf2zLar0HWkiPCW653xLzIWOqZAD/K1DR5
+         DtF9WzxKSyQkLMcUu3jtPu14Wjn6HNDJ2bzoXnKa4iGqwhJlaiygAcyuCJixR3CDKsyX
+         gUsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782900050; x=1783504850;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6mRljbJaYRq0YY1Rkjv7MdZ7IBAuF38FRBjJ9PvU3UA=;
+        b=m27g2bsCtpJ8XZxy6WtCgPQS6nkN+RmOPq+wL+pwZprltTJzyWVGEokgPSbLCVGdms
+         AZvqyNmH4PntpaOcgy/Me5daKsUa4hsgK/HO8Up+V67B67iFvhxHNm6Vqdz8cWX2o1O4
+         wxc6OuwVGlNCZgY+2hd6I51oBVHE/tBZwXEfx752+Q89T5ZXRLxFvqLQy218QJ3ojf5f
+         f4zE3bQFM53vOMehCe1schc4aJ0k4Bkw8YhqgDFIyWbtgQ1SGQ9YszXS0zdOB0yXsKfU
+         MH4OKY2SysLK3gDBaAMn+BcThpsukBSDWH1TyaeD4n7U9naskjH9gVUdro2hwV2nNdn3
+         c63Q==
+X-Gm-Message-State: AOJu0YzqmHEKJJBegmCIW5j5fGIHfzLlEHl17LIAO93HPICWPwr0kjcA
+	q+/ET3Dqu/4w8aqHkp0H5PZe9T0rRiqNlxhkrii6FMkol9lYOxu0LyAuQDcVcBq52/zBU7Rt42M
+	rQ8H3U7LcxHj1+9WDpWWDBKb6/4+lLBzu3bHhELRZA41DDiYpc+N0ltEjyuN4t6bIdvF8xmELTV
+	QLx0WBY1vx+rKEf/uGBXRK/Ya4GV8AH4VnUCbOXeWGjwmMVZwf5lV1TazzNYDghS91lalPLNBXx
+	Q==
+X-Gm-Gg: AfdE7ck/zEzdWkYlxQWnhedK0B3UbIRqRVf/OA1PP6RjJO4XdX/KmJs6YdqgZOgr0gu
+	lq/rVy3uv/o2NQvqwDgIASTcZPnzesTlAalSbFtm94BsMCcBx7XetusuYzOe0TwnHxPTeewWQgY
+	FVtN4xOhoE3cnPEIkvvgR6myYbKBb4V1N235joFuYAdt/1mnHLLUqbXOqh+4AjTk9hT0ktFjHv7
+	sdoWJNjlJBJZv1vLzXJ5hM23ONZgpcN1R4sGzTakrez9RptQFc6zzvy8ZUB/AYR44TOVlyueOOT
+	oWXYlWby0x3Rxr7aTPtYrMLctkscPt+3tbrr8suyJnOpJVsVc1RKd5ky08KsDhiz142Fuw0DQRI
+	XxjUWtpnudG1E67NzJz9G2vuyLkta1wj5jZ5cOop+pJUXgGQYcoEfYBm9VGZibXRu2K7uEKStvB
+	LSjW5RGLD+Obpk0z2/pnD1ZmNKHpdX0z7JDHXORwXJjfN4dkrqAGO/Lj7oejNcCi4zNp7P4FS0Z
+	o2h2qrWQkmFPf2MiQ==
+X-Received: by 2002:a05:6000:4310:b0:475:f0c2:5aff with SMTP id ffacd0b85a97d-4775b08079emr1498397f8f.53.1782900049353;
+        Wed, 01 Jul 2026 03:00:49 -0700 (PDT)
+Received: from Phoenix.vpn.inovex ([185.113.124.99])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4756636d2cfsm17512224f8f.17.2026.07.01.03.00.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 03:00:48 -0700 (PDT)
+From: Anna-Lena Marx <anna-lena.marx@inovex.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Anna-Lena Marx <anna-lena.marx@inovex.de>
+Subject: [PATCH] classes-recipe/sbom-cve-check: fix sstate cache mismatch in sbom path
+Date: Wed,  1 Jul 2026 12:00:45 +0200
+Message-ID: <20260701100045.3903557-1-anna-lena.marx@inovex.de>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: smucmp17f.europe.bmw.corp (2a03:1e80:a15:58f::1:64) To
- smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 09:02:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239958
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 10:00:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239959
 
-Release notes are available at [0].
+Using ${IMAGE_NAME} to construct the sbom_path causes the do_sbom_cve_check
+task to fail in subsequent builds when the image generation is restored from
+the sstate cache.
+${IMAGE_NAME} utilizes the DATETIME variable via ${IMAGE_VERSION_SUFFIX},
+which is re-evaluated during the current execution.
+This results in a timestamp mismatch with the actually deployed cached
+SPDX artifact.
 
-Newly added tests (see [1]) require the 'json_parse' app at (test) runtime.
-Thus, apps are now being built and the 'json_parse' app is deployed in the
-'ptest' package. We do not package the apps separately as upstream doesn't
-consider them to be ready for that (see [2]). This approach is based on the
-discussion in [3].
+Switching the path construction to use ${IMAGE_LINK_NAME} ensures the task
+reliably targets the stable symlink in the deploy directory,
+restoring cache determinism and preventing "No such file or directory"
+errors on rebuilds.
 
-[0]: https://github.com/json-c/json-c/blob/json-c-0.19/ChangeLog
-[1]: https://github.com/json-c/json-c/blob/d9d8cab82291637671f6c90cf06e578750a08718/tests/test_json_parse_cli.test#L18
-[2]: https://github.com/json-c/json-c/blob/d9d8cab82291637671f6c90cf06e578750a08718/apps/CMakeLists.txt#L122-L124
-[3]: https://lists.openembedded.org/g/openembedded-core/topic/120026557#
-
-Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-CC: alex.kanavin@gmail.com
-CC: mathieu.dubois-briand@bootlin.com
+Signed-off-by: Anna-Lena Marx <anna-lena.marx@inovex.de>
 ---
-changes in v2:
-- Build and deploy apps required to fix ptest failure, as discussed in [3].
+ meta/classes-recipe/sbom-cve-check.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
----
- .../json-c/{json-c_0.18.bb => json-c_0.19.bb} | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
- rename meta/recipes-devtools/json-c/{json-c_0.18.bb => json-c_0.19.bb} (70%)
+diff --git a/meta/classes-recipe/sbom-cve-check.bbclass b/meta/classes-recipe/sbom-cve-check.bbclass
+index 451595f1d7..fe145a2212 100644
+--- a/meta/classes-recipe/sbom-cve-check.bbclass
++++ b/meta/classes-recipe/sbom-cve-check.bbclass
+@@ -14,7 +14,7 @@ python do_sbom_cve_check() {
+     """
+     Task: Run sbom-cve-check analysis on SBOM.
+     """
+-    sbom_path = d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.spdx.json")
++    sbom_path = d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.spdx.json")
+     image_name = d.getVar("IMAGE_NAME")
+     link_name = d.getVar("IMAGE_LINK_NAME")
+     run_sbom_cve_check(d, sbom_path, image_name, link_name)
+-- 
+2.55.0
 
-diff --git a/meta/recipes-devtools/json-c/json-c_0.18.bb b/meta/recipes-devtools/json-c/json-c_0.19.bb
-similarity index 70%
-rename from meta/recipes-devtools/json-c/json-c_0.18.bb
-rename to meta/recipes-devtools/json-c/json-c_0.19.bb
-index c112aacf4bceb0c41dbe2e1643d2d7e0944bf250..d530a37f1713e4c1aa3d2b35bf677d79b6a09d02 100644
---- a/meta/recipes-devtools/json-c/json-c_0.18.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.19.bb
-@@ -9,25 +9,30 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
- SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
-            file://run-ptest \
-            "
--SRC_URI[sha256sum] = "876ab046479166b869afc6896d288183bbc0e5843f141200c677b3e8dfb11724"
-+SRC_URI[sha256sum] = "37ad0249902e301bd9052bf712e511fcc6acff4ecaad4b5900aad9ce564e26de"
- 
- # NVD uses full tag name including date
--CVE_VERSION = "0.18-20240915"
-+CVE_VERSION = "0.19-20260627"
- 
- UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
- UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
- 
- RPROVIDES:${PN} = "libjson"
- 
--# Apps aren't needed/packaged and their CMakeLists.txt is incompatible with CMake 4+.
--EXTRA_OECMAKE = "-DDISABLE_WERROR=ON \
--                 -DBUILD_APPS=OFF \
--"
-+EXTRA_OECMAKE = "-DDISABLE_WERROR=ON"
- 
- inherit cmake ptest
- 
-+# xxd is required by the 'json_parse_cli' test.
-+RDEPENDS:${PN}-ptest += "xxd"
-+
- do_install_ptest() {
--    install -d ${D}/${PTEST_PATH}/tests
-+    install -d ${D}/${PTEST_PATH}/{apps,tests}
-+
-+    # The 'json_parse_cli' test executes the 'json_parse' app via '../apps/json_parse', so we
-+    # package it accordingly.
-+    install ${B}/apps/json_parse ${D}/${PTEST_PATH}/apps
-+
-     install ${B}/tests/test* ${D}/${PTEST_PATH}/tests
-     install ${S}/tests/*.test ${D}/${PTEST_PATH}/tests
-     install ${S}/tests/*.expected ${D}/${PTEST_PATH}/tests
 
