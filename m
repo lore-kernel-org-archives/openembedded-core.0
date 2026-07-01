@@ -2,14 +2,14 @@ Return-Path: <tgaige.opensource@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3329C43458
-	for <webhook@archiver.kernel.org>; Wed,  1 Jul 2026 10:49:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BD62C43602
+	for <webhook@archiver.kernel.org>; Wed,  1 Jul 2026 10:49:09 +0000 (UTC)
 Received: from relay-r17-hz12.hornetsecurity.com (relay-r17-hz12.hornetsecurity.com [94.100.138.217])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.41954.1782902943898793041
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.41952.1782902940449681509
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2026 03:49:04 -0700
+ Wed, 01 Jul 2026 03:49:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@witekio.com header.s=selector1 header.b=cJ0E58XO;
+ dkim=pass header.i=@witekio.com header.s=selector1 header.b=okY0Gtuu;
  spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.138.217, mailfrom: tgaige@witekio.com)
 ARC-Authentication-Results: i=2; mx-gate81-hz12.hornetsecurity.com 1;
  spf=pass reason=mailfrom (ip=40.107.159.137, headerfrom=witekio.com)
@@ -18,56 +18,56 @@ ARC-Authentication-Results: i=2; mx-gate81-hz12.hornetsecurity.com 1;
  header.d=witekio.com header.s=selector1 header.a=rsa-sha256; dmarc=pass
  header.from=witekio.com orig.disposition=pass
 ARC-Message-Signature: a=rsa-sha256;
- bh=TxOMcAoJt9Zjx0yFpQC74kOPO/68y1Exs/i4d1LNsdE=; c=relaxed/relaxed;
+ bh=yHjOZiLb6QIwBGeZCGV2ls8jbuAmnEHbkIbSF9mnln0=; c=relaxed/relaxed;
  d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=2; s=hse1;
- t=1782902941;
- b=bKZgZzVboX8Xx36rF/JTYxDov7zDlr+1RhNIFyuzP6re0iq1rzxcq7CXyLlW5zUFOBxybULo
- ozpcwPSAVuAAspPpiG38tIxpIYo63RPNJEpms068L/TuS1HmmDDmbG0DUjlW30vEFHzJnz6Eh/Y
- q4DrIf2O2onCOK5xNZHi+qIq6ceqHocQGGPwAPLoVXLm6KytTFGJI0C+pZSdl+J3Q71CoLjzbCX
- ckER5AJvpYy5XwDQiP2YXAmhBAUlnYMYsu/l3BsLmNwFDZ/UY2SjTeWfVS7gclq1Mvw9L6QQVo8
- ZX8VAmXEhoLaA2lR/N+ukPlduruFGOJYiZKnPl++SAAEA==
+ t=1782902938;
+ b=GNOoavXDMenhpFPkvNI1rkmq2a9wnh3SjT9T+oXaJgO5ozxsAPJYQZqEX5lXnfqPfP+xX9Yx
+ vpLYuICr1z/KzrMOJnNuLefPx8tIOf+Yx7y4nYh2wJG2ftD41y0XOTzREexsa+WQ9rPL7e/u2Ie
+ 9Qur0tnCljQT9szPDFhvErmLrH1ECV764t5k/bS/H2xVauZrWz5g5U+vLtr2ojfcuQFvbK672CJ
+ uR2h/YhepjN4otv0D2km+QL+GcIBkJI/5syd/DH4j1WojYmikdnkERIOMYCoAFG6hQEdqyuVMrM
+ sYIGmFZa328ntCWxhzvi7zpXKXsJd+PvpN64m2hiy1VHw==
 ARC-Seal: a=rsa-sha256; cv=pass; d=hornetsecurity.com; i=2; s=hse1;
- t=1782902941;
- b=NERAHpXmWZGTO39o2vBKI2pm7nXeXJ+nuU7iTLvLG35j0ln4rjdZGO00fwqd/RDYU8kCzEa2
- hDbeJ5qvhISUdivZzD9BgnWfn8eeCaYB02RfnWx+q8agusruu0CQCrGfhVr8kPHbhxEszMhSUR9
- f+3KgJo7by5NG1i6o0YqaNSTy6hT33pn+hJbIU+B1fKX0NZiC9ViBDgECuLg8/XQ4n1CXxPwWBd
- fiWDxJCTfJ545aRYQkQAzEL90Y7T95I5rCPtu2EPUYSRtFVJ90/AAC3Iw6j2LmSO0T0EbJz8qaV
- pOmblD9FWNsmX440udMEwBv6fJyAiwDT/Op72LwQJDVpg==
+ t=1782902938;
+ b=eTbPsTyxKOjY3mors9OMAhB+DevcJL3i8XFkBy+A0vkRKaH1n9BhjnRAJc21pmJHnits65y9
+ o7EKRoxDDilTK2DIcnYbyu1/IZJt81iGCZfiPxVonQ2kKx3AXpLq9SGk0QholgAMw3m7GLFq/Ha
+ mDfvk46yyqjpWkCpAeCucJzVuXN9hfweBtUgPqNKt+qwZIgCsjvb3mDOxekUCXjyh9exqFpE0I7
+ 8ReCsTW896it9rC0q2VZMZBBHx9S3ZAHS6pHBvOZKFTofNPbjqAcQadWq3DCIgXg3kTkTSOR9+K
+ oXBWGNt35+ieIuMUXYSOcqxwbG3HDAKwNOdjnRnRqQxyQ==
 Received: from mail-norwayeastazon11023137.outbound.protection.outlook.com ([40.107.159.137]) by mx-gate81-hz12.hornetsecurity.com;
- Wed, 01 Jul 2026 12:49:01 +0200
+ Wed, 01 Jul 2026 12:48:58 +0200
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZCMffRdgPsmyyyfjVvOMC67xE12XswEz9yn+KgwSNN3lv3d1++lBHsyS+OYI0oQMREQwZc3o9BBwrlAKiz3xvN5q+f6MiVtjJsj8RIZpptVXPh6acfLqGYZG3vEFWjnZcd6tTUDBALumVkaHl/EFod2sqWZChM+ENX8kEneDaj27AXE/aUOJ6qUs7XvEWX47FzLI/xa6PPsT6akWdow6cqqO1JnLf09K6PF6FTbV4/oc7Cp3KOGDFbBAWqcEZdGbhcwKlE0b2jOn/h98uD+CYWD1uEQLhs1pXTFfo5JUcFkE0mXzVl4mE+vnW4Pypedop3zFDvZ/5NRp83fZnoKSPQ==
+ b=Z3G963CrP+D1u3Oc7EuFjpqpYOT4d6xpehJpEiX0u49YR4LrWeGe2QfjDuQUhdiYwHoEtIOSAZLMadPITvlbBfMZs4yFMYy1j4whBFwkKcjDRPCiGYuhlelFIXDkjt3uOP9Bt14pouptlZa3pKohNz/F6S2FkL/2TjfY/ts84ofVcl4wQa/FczgeWcUYDaplUrZxeXgSP1OwoNCkxynExKQXOfOJBlh6riC2K8Fjubz/1JuPrl+CC2m9Ppgi1CQaA6C5eSgky6ogS1wjdIDwbDcyBWxBHBSmEbkHHcsW993BrQPrFB5un+u4DV0tnX48b3rdjRjoQOy5OTZDXu/vNQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TxOMcAoJt9Zjx0yFpQC74kOPO/68y1Exs/i4d1LNsdE=;
- b=b582+tbVHBQAlmRSMiDZQQo8od9bwavn25P+P6JCmxnULcf7LUQX3k6n0MOUcOO2lsmmbM75OHrs1oYBfVkTAlwFhy35rtmShk89RF4XFZACL3X5rmOKIUfyhsmlvhRFTHeizgleoUWhdfj5sIuLi4k104SWFIRfQURvdjqCJrTSsYymCehhMOeEVR7410sXhQe/Sszl2w/efQMgcSRc+9ZfONBvFW7h+ddazPg2hihLvQVtUHCt1St8pIPrOTihXJRCrSGXb3a3owtm8nAwJBq1TfoB6UXH58HEyIy5iOc7yU1p91a/LFXdyGka40NfM0pkaZxYoy33+3hAEleTAA==
+ bh=yHjOZiLb6QIwBGeZCGV2ls8jbuAmnEHbkIbSF9mnln0=;
+ b=jg+eKYQ3AyCE6SRkCbVxGtpIWltLU65TrTUJbsBspgqLbB2vTSlqKtSw7JiazAcQ33TG/Jjarsyw3gKjuYnWnnk5aPn801/+wfr4+TeHFXlAJjPasIeVUISpL3fDms/Yzuz2ysS1mcUWHP1zRpsJyHeV6KXQTlQz4BIpcMKVkBhIdUL9YGjX1rRRY91OmCjz84y5kSPpm/OBSuLmgTAAamEoOCM3E5LJKLa037NAQpzUOFXeIwQurwaMFEFHc7Uw5Ued2ftUdPXnI0TirEKwwJce4pz+A0ZCUzl4nFO12lhHGm5YWiYrhOvUIAzNKI98C6KcYKdA8cmnYLg7k5FsFQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
  dkim=pass header.d=witekio.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TxOMcAoJt9Zjx0yFpQC74kOPO/68y1Exs/i4d1LNsdE=;
- b=cJ0E58XOQRg/uam7mv0YqooiVJO8F1Cet6C6T2uZcEbM7r34xrON457zQILdWZ+svDjmXb4uZQAEJZZBOhzEt5HP+X7CE5eN6VgnGJtKP3SRknhBfubskWkIfAVBEoirs273ymk7N2aw6SObkZcUMbDXIHTFFnM3e4KHPLn+2drKevuOj9npO49tbQvGdZXFLmiOHbD5u55VR3D8f68bA+cOIU1Sueah0kMRxfD1Ks242S0CW1k2RTfd1hi1ogXAet0zW1Q/Vv+aTx/55vF5pjjDSZdCELqf5HQWqwjbfkYx7dV1+pkSKlSiiku9l1QM9rb6/hPPZ3IjvOmLMFuhPA==
+ bh=yHjOZiLb6QIwBGeZCGV2ls8jbuAmnEHbkIbSF9mnln0=;
+ b=okY0GtuuvXLyzQ9r0xcuDoscKAW61qNPrvTKvT3/sQas2IP1C1A8MudpcN9jpoOGxLBOLTNrNs0p3lQUr/v8wsTYsI2CO/4HAEToDMWrEE/B9CSMsB7qSZ4wP6tz7rweFs8jihyXfoy+2NZHA80lyR+snH8Kx8XYE8DTeRVWBn3NOna41LL0ZxzrWvMYb5lSw5NxLoU78XAPFcOM3QuvTKGdNB79xC/fpQBn1pflf6+9cntmO32eZskwBdH9ODKjHvWaDY5Ui5K5T7ftPDF3uKsb5cN4DJ7cioVtJ5LxLMlXCC2DlJKrjgIL+S8UUuybv0l+3y2lXsdiAEamRMbNeQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=witekio.com;
 Received: from PAXP192MB1405.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:1ad::24)
  by DU2PPF9A909934E.EURP192.PROD.OUTLOOK.COM (2603:10a6:18:3::99c) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 1 Jul 2026
- 10:48:50 +0000
+ 10:48:49 +0000
 Received: from PAXP192MB1405.EURP192.PROD.OUTLOOK.COM
  ([fe80::a160:226a:5870:e1d6]) by PAXP192MB1405.EURP192.PROD.OUTLOOK.COM
  ([fe80::a160:226a:5870:e1d6%5]) with mapi id 15.21.0181.008; Wed, 1 Jul 2026
- 10:48:50 +0000
+ 10:48:49 +0000
 From: tgaige.opensource@witekio.com
 To: openembedded-core@lists.openembedded.org
 Cc: hsimeliere.opensource@witekio.com,
 	"Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
-Subject: [scarthgap][PATCH 4/4] dhcpcd: patch CVE-2026-56117
-Date: Wed,  1 Jul 2026 12:48:37 +0200
-Message-ID: <20260701104837.3577369-4-tgaige.opensource@witekio.com>
+Subject: [scarthgap][PATCH 3/4] dhcpcd: patch CVE-2026-56116
+Date: Wed,  1 Jul 2026 12:48:36 +0200
+Message-ID: <20260701104837.3577369-3-tgaige.opensource@witekio.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260701104837.3577369-1-tgaige.opensource@witekio.com>
 References: <20260701104837.3577369-1-tgaige.opensource@witekio.com>
@@ -79,63 +79,63 @@ X-ClientProxiedBy: LO4P123CA0042.GBRP123.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXP192MB1405:EE_|DU2PPF9A909934E:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f50b8a1-aabb-4958-964b-08ded75e55d6
+X-MS-Office365-Filtering-Correlation-Id: 61157a65-6342-4df4-fce5-08ded75e5520
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|10070799003|23010399003|52116014|376014|366016|1800799024|13003099007|18002099003|22082099003|3023799007|56012099006|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	bGem4rBRywgTPQe49BT374QZqj+L9VlymXzuW60k7b75z2zojnHp3JqwonUBbDsRTFs2OJ5/lFTzRvccxZ5xeq57Yj846s+X7g7H3Q+kgNfgdhADyJLMYzptS3HB3ko7Pb+GrWC+j+efQKbWMlune4ZWMj9/d8pXWRjRB8DyxiRItqG1dTOMTxMLB4UMQxW7+VrSnxfZw8ZOStJoKy6Vt4jpHqOmB2IkwJK1V5COn6z3PkFgzKFKZEHMdsei4KIoKLgJn6B1okzus1fPsjM6Bw8YnfaXyXRfvgjLNzFTBODBU1o3/iX24/hzx/1VK9FBtHwYRE8O/eS8Ke+aZulBTuujJMCznTpS8+sj4PuntJZzSB31+Zv3hsp3Aw/73SJ0cvl6tVVaKP8jnzgHHBN7rx3f7vpcERKsEbgGP1mNSdrFZhDCbBqndpYXgOop4P09aCh123ZJGAy6B8s6SKbE0ZrsXj+nrm9g8TGOf6QMxRhmCIxUQBJGpoiz4m3Ux8RIgC/kxLhET3MGehH1n4TClAaeQ2FgO+63lyFkTr8I5A2HiCgFyEL/MWIZ6JncIRdY5/DRMANmCthSj4er4WN1R2ZkeyASnp4klHGoYPmKdbqSCHVQbpfMOCR+tQavivhjdJMDoJuTzcK7FHK4myKRcShyPLF/FLJJgP3M9DzP370=
+	vQfVc+IjUlY6xNVM67tGLJaZVuTOoWzIzWbUTr4o+ZT/gMAAoxCOOO5qhvQUx2MbLH+7BXgE8vbqwKOF1PSLpl3UQ3xYKGu2sA9uFxtf6H6SFN9s7cXFTJY3Kp/HWTKVqP25/9Js3vK3wxyKVvte7WWxTalIVRp4fjqrqaRSTNIU4oc5HINtGamfMjoDlQCzO+kpL6zywU0MfvZX7iA+R2hJD7MJcWRKkuwIaPP3EcLDMdpH3XtE3Ks6SMA6Y3iBioTRbkzJ3RRKCg3Tti8NvHBuivSGasUNX441ut/oCJSywhndHr25Y9SVTFmHEQTkmV3pnEXFe8NF9gUjjH/+/IrcZSDfQHhIg/DmyBzcjU/bW14O/UweyczMkWHAG9qSeaaQ0GNmmWrVX9D4rb/ohwb/USzlPiyyzOW/iPSSLklF5byNkelNRwOH+fP+nTayooVLPh/I1tKje8w1ymSoaGCJqfppSwjmQnLCDqKz73CPJ1fnqwY/6CLPJB1Np/Yi+yqgguSeA7HUsE0iV2W2zGRntvLRMXLIwGe7s7lJdxQFW73ZWrZUmdhVGsB2Ea2KTP9uYcFvB1nCuQyiAtbdLelV91g5GHBlwgO40RPBLHvme9o6/v9c+RWvccs3/ShjOZNyfxMkndr0pAQ72NhfdrTDrrqFxRvG9zpDYI9h3U8=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXP192MB1405.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(52116014)(376014)(366016)(1800799024)(13003099007)(18002099003)(22082099003)(3023799007)(56012099006)(6133799003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?QuQakwv1aQbOhtE3rNn/tLIrTWxPA9VRai6X6B675lAR6fiCJ5WkmXjm8N3r?=
- =?us-ascii?Q?3NZcA2cKscB405+D3JGr0nwJID9kgRPTTDHkbqXqpNdI2Tg43O04qvbZFX9K?=
- =?us-ascii?Q?f45k/g2XRNJ5xNg8TC3je4Z6BxW3cBNXwyr4bHCJpAFDBZS1IGTJa4fMdjPT?=
- =?us-ascii?Q?K3FvKGeb8ieAeRG2oi6ojY+5MNijlYgBNItnq8rzwcJyBqw7FQIqBTadcT6L?=
- =?us-ascii?Q?ZUYb+rcdPfY139L8oYxgL+ZPRktO+RsdZLr4bMCTlHSo1KZBaoBh6uoT1+eL?=
- =?us-ascii?Q?COYgMXuHMTtVw1DeKAtZSuv9FXdEMgkyxq/frKUYhkjCADZIfrWDDUs0TxEZ?=
- =?us-ascii?Q?YANT7s1ID6WO3VZE7AQYzsHY/xjSJdYMcUUQ35gtuEyh5mm/+081BdvoaCYW?=
- =?us-ascii?Q?JUObpRIS5t8ykw1Zx0lPL3KS0IwguEUO62Zl/WMA0LyY1TGPd3oLi8oQ6lhT?=
- =?us-ascii?Q?HCYM/ACN0o3daKkBTB/8EDrDtBL6O/Jv4fevS7IREmfzCKsLbi2OwQqHo+vv?=
- =?us-ascii?Q?fODPkz4N+34oI0u8xrf3qiV8qJrO2kHE58hPNfeZqe2uMB3ntko1WKAvK4wr?=
- =?us-ascii?Q?jquAGBJL1O74+VugPAoWWzQi8XS7NuXA+4rC8kV9T3SbVruMPj/rYUENBWRE?=
- =?us-ascii?Q?g0yI1mWmPs9BriTJ1wXIedNUii+3/OG1raeVXj9nJ5BIhzlemLuCjr+DFQU9?=
- =?us-ascii?Q?DkwfEtwhisTnO6T8mXAbLnMifdk2zNh1fY0MaXMoXid9zubSWsbhw0jtLZeY?=
- =?us-ascii?Q?ku5dM7YfZXG3WvgsDfOWOzuyiE7RWt350TIkTz/446A7MRfMGAoeiTVXH1Xi?=
- =?us-ascii?Q?nVaM1NosnYrVHRWcd0tnyFmIIfynfUbpd806kWJWch352xSZhOt1Ie0K1vbi?=
- =?us-ascii?Q?USRt6KB7c7mpayXKoCWHGnYjTNMwqFScWgZXg0WG4GWXsQUFRHihDq57LRXE?=
- =?us-ascii?Q?aT979QnwgfgasETM4BlnEyIR35ul+bxc1e4y0ubYDPeAlQKimAr03G4p9dPR?=
- =?us-ascii?Q?iBh6I20z3F8S3heHxUECWdt9hVLvZkyOlmiq2GtCy9HByxmkGkA9kwHTuFo0?=
- =?us-ascii?Q?6/OE1Ot/HBbbAdOOmCzxcLwEYyrnz6lpHkZaTGmml+35QN/+XNDjUwyLFZyg?=
- =?us-ascii?Q?qBOg8AzXwI9OiOfOratU4x+jf7YreLaDb78ZnsZcqCXr3v10yn4FZ4LnxUBM?=
- =?us-ascii?Q?3QhMO/S9qvJskmP9I5aNgWX5SlrMigIcfAQaOIADVKQW9XdswvnY894cen+K?=
- =?us-ascii?Q?49xVdtA3b0kucmt7tyowHjc1ZuJwhG9xjSW7TME1w8KIGcudgKqZw2G4lykm?=
- =?us-ascii?Q?Pa9DZAldAWs2c6vWuaQVm/LZzVLCNHxR+uVE44kBOVBUiceskQve+csWGedV?=
- =?us-ascii?Q?s0DT1UOVNthLrj3eT1cNsAP8OhdUpZ3y2i9BUx5xe9z4RKY9I7IRsdDUxu16?=
- =?us-ascii?Q?Gqr9KhL+lQ3puHFGViSqQaejb8iv7S5EH9m+2iULRbd0xbt/XSC3cfvWt7/b?=
- =?us-ascii?Q?norWqN1FLOPlweSXEnIESPV22SXQ06bd4RmsUzY5AczzzLebPUjjmkq2rUx1?=
- =?us-ascii?Q?Tmq2u5ylVGe41RLxbeBAMPoaDQyQL54Qculo3UQW10Yd5XA/+fKkMVLDce8D?=
- =?us-ascii?Q?vX6sd7TOv+8zdtWWWaKHPZq2f9TYCbWUV4zUaQJXRhlQsOq7HIhwttT1uxvK?=
- =?us-ascii?Q?dAdHw1oIQcdcggQfYgGv3cUfWBOZ70eh/1spvT4dpCYWt4H4XJcXxyInNO+l?=
- =?us-ascii?Q?DjrUKkP/7AebQNdFDUygMMF2gQ4F5ZpWjq1RLGTY08aXwNt9CHlhfdAwikOC?=
-X-MS-Exchange-AntiSpam-MessageData-1: GyyMbQjxqSqL4Q==
+	=?us-ascii?Q?m606JKgM0xZ4YEwbntBgRAXdb33CNtdxHpgJIAIAodY3TCYNQG3c9Ufevcl3?=
+ =?us-ascii?Q?TsPuW+hyXd+CXH6Y0EitOG8cCuTSxP4S0ZtPg0djbKdNFxH1WBiuk5S7lc/k?=
+ =?us-ascii?Q?W+9uAYM0m4bKtkUUKtRrju6+SU8lVXfcHvRC9SpGkLW9IkeJRttmxs9mGK9H?=
+ =?us-ascii?Q?UEVooabuPyxNNPi2DuIkapB05DE7OtCpDjYcG5KAx/cqLQB8UX8F7HSXjwd5?=
+ =?us-ascii?Q?5QnptGuxDergmRumN0rH5SjNeZe2sLbm+UqvXOC5sMoq5ag5B9H5RxiQ9zcy?=
+ =?us-ascii?Q?B8HcZai8O+kUA97JkZGnQpa3Vu0BhWottGshcAUHmmRc2uVhVPToK7FeEoBY?=
+ =?us-ascii?Q?hfS7WVF4qAmDf4Jo7FiNTv7fJFkJyshwaUhD0RppQ5lVeealouxxTInXKpES?=
+ =?us-ascii?Q?FR1nqeUSj6kJgIPhFSOJpdnE3Xw5kUr+bajLNDOGumQTqlnohUMNUiPeFs5S?=
+ =?us-ascii?Q?dU1zBCe1+IqIx3NeogOgx3SJ0RvqR64phHS32QX3sCmGWHXcr+U7e2I89D6E?=
+ =?us-ascii?Q?NVBUIhfe8yrp44yijbVXk6iYbRpDw0bDifqHztJgY6WOiJTT9G+eT0+cn2J5?=
+ =?us-ascii?Q?5c8O9QB6sqCjPSCNwIG8UT1LES5UQ3F8ebW2QiWhTDfNFQjFxcbTSN7Yqe83?=
+ =?us-ascii?Q?tutQ20dFesnunNyyRW6/9u+eOQUdpkAE48m+REFgPZo88LyEHMFUJWCh9oQ7?=
+ =?us-ascii?Q?ioTNL/cG0OFOAO+LZdTBjjr1huDnd42lum5i2rCgkAHRU5s/kJafEOreIWge?=
+ =?us-ascii?Q?EkdH2PFPk+tifoyH8BVsQxVEy7OHENPvh/1epZMFQ69jtXLso1DKsjXNry4L?=
+ =?us-ascii?Q?/LuAUZFq8XHnR1DijLCkG+ByGavvC+Oxq0KyfJod+z/C0VvgNMsn6AZOhZQr?=
+ =?us-ascii?Q?vgbv0D3N22Gl+4yxTP46VIqMuHKryQuJ/j5Mp+lHd6mbOrDJcwUAVERSbcuR?=
+ =?us-ascii?Q?R1rcsOB66ix+I6OCzHRvghri/nKyuz/GpBhAEKtFbEgFtwMYz2Xlg0StQf5U?=
+ =?us-ascii?Q?vpkOxT8WZSAP7H3P+UJ6kgQKVt0T7FUnBlKnRPwte4arOncdNE+0ze02QNqS?=
+ =?us-ascii?Q?Xfr9LDi6LDDxhJdFlNsKMeA+dNQ9ZQ4PoutgRf6pLf/Jvt5SoLzwTRt6t7t/?=
+ =?us-ascii?Q?CxqbVE8uJSQYd0Lk/a9Gdi/+1DLlctnB/rUxQMjkvMCh21NWQx/zEt679+e2?=
+ =?us-ascii?Q?MkrNteeTBkQF13LiXQaNODOlvm3jttXucxg6kCpT0ZIQukTS9ccrCh2HdIVW?=
+ =?us-ascii?Q?OshblA6UjYqGsuwa9tfK7m+PHdD5OvsNsGNtiBFwh9Kc0h5e1PLJtSsIaHos?=
+ =?us-ascii?Q?FbIHmVrEnL/cTv0hMrcRUg1PHmy0Dhre6becYM5tq7DR4McVqvlHDMkJOsVO?=
+ =?us-ascii?Q?nkpHZiPCHAA5qmlPzzOjCXG3JOkdrL5p/EsYOCHfW4h65NgYm5ukhNIcqCSD?=
+ =?us-ascii?Q?qmFQ94dO2sHOt3VXxuWUEx1yQZde3RtdrFjQxAhY4gAogUD6Tw4Ct9c8HSsS?=
+ =?us-ascii?Q?FgAjhGjDvcv44ZlGQfS6dmbgKFEBp+2fOKdg5deyrVv1ni1s03DYdv4YmLof?=
+ =?us-ascii?Q?KL9oAToBwL/bIo3QRozkQEbO49xZfLYqoxzcikkGQW3mtJlG8Rz/xFNd6duU?=
+ =?us-ascii?Q?JWwXq4dZxJ3n2dG1PSZw69rqv5uKY3h1ZFQ5ceLDD7ZLAOYFw9yq0SM65RPu?=
+ =?us-ascii?Q?GDt/7Rg157uOVCBHrSGu3kmEVzza7UnjdDAxXgvSP3M9FIc4wBdStODBN1O3?=
+ =?us-ascii?Q?xyI24fAUW6Vjr0xM449plihiACtsDj24DzgnbPZnSRVd0dHKjugjBiPES1Rs?=
+X-MS-Exchange-AntiSpam-MessageData-1: U7LMflKpv81e+Q==
 X-Exchange-RoutingPolicyChecked: 
-	DCHeaV2kvySYeVCZ5eSQy4z1HQPov+bUQxT10HWi84YF/FAg+haN2IMC9Rfo72K2bHW7GylyIaFBPzAcVnCZm+gxIWw9K4AAY1LvWXwp7RFZG9l8KcXDy04aoItrBwtDMIB5efK3/MGMsTvkDKrgnzdegffCHFx0OBedLdpA7bb5cn766qPdvn1JjnnKmN9W58wSpJ54d4TMepZbE7qJkRXb3dtIt1Azb9Se7pBo20rE6XLTtfG2furiz7bzOTWZPqY8NtnNebnCanTDkbx/uxq4ZC89wZ60523j+3/jD3zEdIlliyvabwAkou22DEnnUeftCU61muO0IPhRgMaePg==
+	J+7rHipVtM2E8OZg/KoHryZZ3gIPDli6ekkJGoV7gHrrU9Zp6SV+yiGoh67aCLyNl/GywcM2kvdXoLChZP4VXn1ZIK4vKUnLn2s8oBgZGt2HUlwqHVk3i53iMDROEe4Oa+mgGJbdQBCIkTQPoDdXdPSZ6pO9GpTI2eoPKSxJc4H4R1ThqQj5T9YwNloGMY4Hlzcvv7elaOfpDE01qleI7tnOLnQrKkRYFxmK9o5TkPTXQ+GjlCUOsQ+4KuEh4XH+7xHZ3ctuQMRqtG8zV8yDi6puMqyVcqsODH6DsHEM7hJ5CzAAurFa5I0t9xVmrLLlvTObSjvqMON9VSIKBvv9qQ==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	fb5djCXa5NX5RN9Ck2PJKMX66t8FY+9VmbMKPwJVOh97n19kh4SkMlk5IHJjWVt14UzSCqmwDod7mLfP2oyCaqMyjMKDrMOCGfy6fXXJ4JQSoDL+XkYlACcA64r3YjuAxTK2Om9SSPTxpnkpZhOo3NDfPiT0PzFh5hqA87HFw9Q2NKu1tgF2RTdkXuP3cyozCbxpADiUnM9Rt+J+iM4T2///X/k1kwm/ope2GfLLyJcLeeSJqYYVO1Eq6QXS9gIvqXxp/G1MzsyBntfTtLjAjlhrfu13kOmkiDH5YDqFwTzl4M5Lxx+2JG6ZLo8eYWolsxzeRG2eTQa8GtzLclamV7WV3F8zsS64nINaXc/2UvjbN81Wh69xAYdSLepjgLyUhuNwJhXdLu8/fw97X7pkajqnj4wkaRPjU16NRc2VvPATp23/ld01Z6OfXhpnZOw6fG7y6Buwz69SDprIawnhEfCKbCiP8Z7ekefqOCk7xSnkgm2wZhfyHGFka7BAlRfpp+v5CRqxXEOPhaQMpoVxIkifCmEUgAQ7hpHaZ9uI61uOaN0vcBumK7vt5sRSH0aPBxkp0km7pzrTBgDqEDY1olE39aZij6Pi1kRCvnXUuklkpw0v5mYxiZ5eBvVpC/dy
+	NcLGkpkrfS5Kdy59AZJC16a4wPYt06+Ogm9YWyYsj8tQw9SWpmhl8yPiizUxEVmQmS7Y8vLqfaa0ymc1+PbOBCcykJ/RQ0es4mAa0hpIS3cS3054OrKN6hkvTcVWQmUre/U5T8JoNrfrP6ge5Qlvh8FeCq+WmQzI7o8h5oRrBKOksTc0zC6ipcPFkKxdhk8XnGysipfT5xqj4P1efNQsWKE8wzYbj/0cnZ5Bn+T4DkKU/l2N+dYWzxFlHYN0kyyBpMS06nwScl7qaT6iRqud3ujeCy0AP27kfw+GbHpZG4+02zs6fAlKPyha91aJyhMvxL1Atn1XrAn0NK50oHkjY07ma06q8IZgO3MXos2zM7PEIwq8K0437SuvMXImR/QUihyiwO6adJh8LaLsA62tsf3kC+ak2rv4ZBccDaYyIT2i638l3FbR00vn1j+Qq0mR9GUlUrBdbiMpCfcC+ejveHjMYf93/MCv4iEFLgzYJGWjTzKi1nUOzzDU6fgHbbBryMsQS5QnL50fhycFcg9Ysns2z9GAhR0aiWaj2avaenFqoD8JIK3ugLZrG28Gj1b30Y9bx32suRXpqdMSrHrCL5269aNIwyg7HnV1dG+5hdjTbzG8u9B/UGhuBPKuceQE
 X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f50b8a1-aabb-4958-964b-08ded75e55d6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61157a65-6342-4df4-fce5-08ded75e5520
 X-MS-Exchange-CrossTenant-AuthSource: PAXP192MB1405.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 10:48:50.1141
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 10:48:48.9525
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5/yBhKJ3ajE6GIlEsQDE2/uqGVWusiNlA3IXKuZOA4CdAyzx7+U+83a8NI9AVs9O6BE/boTb+JP4tLnozDLUow==
+X-MS-Exchange-CrossTenant-UserPrincipalName: zCC3MHh85JiWLZu1MR/Jx/uTw0qEHOZ96C5dWf3DgHZiXiF/C97eqZM5+HdRdLWTSCTbzrb2q2nbL0gsECMOYg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PPF9A909934E
 X-cloud-security-sender: tgaige@witekio.com
 X-cloud-security-recipient: openembedded-core@lists.openembedded.org
@@ -143,213 +143,571 @@ X-cloud-security-crypt: load encryption module
 X-cloud-security-Mailarchiv: E-Mail archived for: tgaige.opensource@witekio.com
 X-cloud-security-Mailarchivtype: outbound
 X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate81-hz12.hornetsecurity.com with 4gqxZy3PG4z1PGlC
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate81-hz12.hornetsecurity.com with 4gqxZv0scFz1PKSK
 X-cloud-security-connect: mail-norwayeastazon11023137.outbound.protection.outlook.com[40.107.159.137], TLS=1, IP=40.107.159.137
-X-cloud-security-Digest: 6928200c15c7bc311606e76a98740877
-X-cloud-security: scantime:1.039
+X-cloud-security-Digest: c4e1dc3ddcd4b2440ef92e408001eff8
+X-cloud-security: scantime:1.067
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 10:49:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239974
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 10:49:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239973
 
 From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
 
-Backport patch [1] mentionned in [2]
+Backport patch [1] mentionned in [2] and commit [3] which is dependency
+of [1]
 
-[1] https://github.com/NetworkConfiguration/dhcpcd/commit/78ea09ed1633a583dbcde6e7bab9df4639ec8a34
+[1] https://github.com/NetworkConfiguration/dhcpcd/commit/708b4a56bae080a5b18c2e0c4c6fbe103131a2b0
 
-[2] https://security-tracker.debian.org/tracker/CVE-2026-56117
+[2] https://security-tracker.debian.org/tracker/CVE-2026-56116
+
+[3] https://github.com/NetworkConfiguration/dhcpcd/commit/f1cf924ad691bc1e6bf33013407fbf838fa40fbe
 
 Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 ---
- .../dhcpcd/dhcpcd_10.0.6.bb                   |   1 +
- .../dhcpcd/files/CVE-2026-56117.patch         | 167 ++++++++++++++++++
- 2 files changed, 168 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch
+ .../dhcpcd/dhcpcd_10.0.6.bb                   |   2 +
+ .../dhcpcd/files/CVE-2026-56116-pre.patch     | 482 ++++++++++++++++++
+ .../dhcpcd/files/CVE-2026-56116.patch         |  31 ++
+ 3 files changed, 515 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116-pre.patch
+ create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116.patch
 
 diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb
-index 4a031cefea..afe504c251 100644
+index bc87b91503..4a031cefea 100644
 --- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb
 +++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb
-@@ -19,6 +19,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+@@ -17,6 +17,8 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
+            file://CVE-2026-56113.patch \
             file://CVE-2026-56114.patch \
-            file://CVE-2026-56116-pre.patch \
-            file://CVE-2026-56116.patch \
-+           file://CVE-2026-56117.patch \
++           file://CVE-2026-56116-pre.patch \
++           file://CVE-2026-56116.patch \
             "
  
  SRCREV = "1c8ae59836fa87b4c63c598087f0460ec20ed862"
-diff --git a/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch
+diff --git a/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116-pre.patch b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116-pre.patch
 new file mode 100644
-index 0000000000..4316d2a11f
+index 0000000000..f9309de80a
 --- /dev/null
-+++ b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch
-@@ -0,0 +1,167 @@
-+From 753b93ca9e72ce48e7f231301d13939158d3394c Mon Sep 17 00:00:00 2001
-+From: Roy Marples <roy@marples.name>
-+Date: Mon, 22 Jun 2026 23:41:53 +0100
-+Subject: [PATCH] control: Avoid hangup in the recvdata path
++++ b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116-pre.patch
+@@ -0,0 +1,482 @@
++From b13d64e33c4b02c4806857c49e4ccaa64b6015de Mon Sep 17 00:00:00 2001
++From: Daniel Goertzen <daniel.goertzen@gmail.com>
++Date: Fri, 8 Mar 2024 19:27:57 -0600
++Subject: [PATCH 1/2] add RFC4191 support (#297)
 +
-+Instead return an error and bubble it up where it can be
-+hangup / freed more cleanly.
++* add RFC4191 support
++
++- handles route information options from RAs.
++- refactor `sa_fromprefix()` to expose lower level functionality
++- refactor `ipv6nd_rtprefix()` to be usable outside of `struct ra` context
++
++* changes as requested by RM
++
++- mostly minor/cosmetic changes
++- functional change: "no longer a default router" warning moved to capture changes from routeinfo options
++
++* simplify routeinfo_find/new
++
++(cherry picked from commit f1cf924ad691bc1e6bf33013407fbf838fa40fbe)
++
++This commit is a dependency of commit 708b4a56bae080a5b18c2e0c4c6fbe103131a2b0.
++
++Upstream-Status: Backport [https://github.com/NetworkConfiguration/dhcpcd/commit/f1cf924ad691bc1e6bf33013407fbf838fa40fbe]
++Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
++---
++ src/ipv6.c   |  29 ++++++++++-
++ src/ipv6nd.c | 135 +++++++++++++++++++++++++++++++++++++++++++++++----
++ src/ipv6nd.h |  19 +++++++-
++ src/sa.c     |  46 ++++++++++++------
++ src/sa.h     |   1 +
++ 5 files changed, 201 insertions(+), 29 deletions(-)
++
++diff --git a/src/ipv6.c b/src/ipv6.c
++index eb8c617a..ce985d4e 100644
++--- a/src/ipv6.c
+++++ b/src/ipv6.c
++@@ -2318,7 +2318,9 @@ inet6_raroutes(rb_tree_t *routes, struct dhcpcd_ctx *ctx)
++ {
++ 	struct rt *rt;
++ 	struct ra *rap;
+++	const struct routeinfo *rinfo;
++ 	const struct ipv6_addr *addr;
+++	struct in6_addr netmask;
++ 
++ 	if (ctx->ra_routers == NULL)
++ 		return 0;
++@@ -2326,6 +2328,27 @@ inet6_raroutes(rb_tree_t *routes, struct dhcpcd_ctx *ctx)
++ 	TAILQ_FOREACH(rap, ctx->ra_routers, next) {
++ 		if (rap->expired)
++ 			continue;
+++
+++		/* add rfc4191 route information routes */
+++		TAILQ_FOREACH (rinfo, &rap->rinfos, next) {
+++			if(rinfo->lifetime == 0)
+++				continue;
+++			if ((rt = inet6_makeroute(rap->iface, rap)) == NULL)
+++				continue;
+++
+++			in6_addr_fromprefix(&netmask, rinfo->prefix_len);
+++
+++			sa_in6_init(&rt->rt_dest, &rinfo->prefix);
+++			sa_in6_init(&rt->rt_netmask, &netmask);
+++			sa_in6_init(&rt->rt_gateway, &rap->from);
+++#ifdef HAVE_ROUTE_PREF
+++			rt->rt_pref = ipv6nd_rtpref(rinfo->flags);
+++#endif
+++
+++			rt_proto_add(routes, rt);
+++		}
+++
+++		/* add subnet routes */
++ 		TAILQ_FOREACH(addr, &rap->addrs, next) {
++ 			if (addr->prefix_vltime == 0)
++ 				continue;
++@@ -2333,11 +2356,13 @@ inet6_raroutes(rb_tree_t *routes, struct dhcpcd_ctx *ctx)
++ 			if (rt) {
++ 				rt->rt_dflags |= RTDF_RA;
++ #ifdef HAVE_ROUTE_PREF
++-				rt->rt_pref = ipv6nd_rtpref(rap);
+++				rt->rt_pref = ipv6nd_rtpref(rap->flags);
++ #endif
++ 				rt_proto_add(routes, rt);
++ 			}
++ 		}
+++
+++		/* add default route */
++ 		if (rap->lifetime == 0)
++ 			continue;
++ 		if (ipv6_anyglobal(rap->iface) == NULL)
++@@ -2347,7 +2372,7 @@ inet6_raroutes(rb_tree_t *routes, struct dhcpcd_ctx *ctx)
++ 			continue;
++ 		rt->rt_dflags |= RTDF_RA;
++ #ifdef HAVE_ROUTE_PREF
++-		rt->rt_pref = ipv6nd_rtpref(rap);
+++		rt->rt_pref = ipv6nd_rtpref(rap->flags);
++ #endif
++ 		rt_proto_add(routes, rt);
++ 	}
++diff --git a/src/ipv6nd.c b/src/ipv6nd.c
++index 9bf7c5df..9264dce7 100644
++--- a/src/ipv6nd.c
+++++ b/src/ipv6nd.c
++@@ -71,6 +71,20 @@
++ #define	ND_OPT_PI_FLAG_ROUTER	0x20	/* Router flag in PI */
++ #endif
++ 
+++#ifndef ND_OPT_RI
+++#define ND_OPT_RI	24
+++struct nd_opt_ri {		/* Route Information option RFC4191 */
+++	uint8_t	 nd_opt_ri_type;
+++	uint8_t	 nd_opt_ri_len;
+++	uint8_t	 nd_opt_ri_prefixlen;
+++	uint8_t	 nd_opt_ri_flags_reserved;
+++	uint32_t nd_opt_ri_lifetime;
+++	struct in6_addr nd_opt_ri_prefix;
+++};
+++__CTASSERT(sizeof(struct nd_opt_ri) == 24);
+++#define OPT_RI_FLAG_PREFERENCE(flags) ((flags & 0x18) >> 3)
+++#endif
+++
++ #ifndef ND_OPT_RDNSS
++ #define ND_OPT_RDNSS			25
++ struct nd_opt_rdnss {           /* RDNSS option RFC 6106 */
++@@ -132,6 +146,8 @@ __CTASSERT(sizeof(struct nd_opt_dnssl) == 8);
++ //
++ 
++ static void ipv6nd_handledata(void *, unsigned short);
+++static struct routeinfo *routeinfo_findalloc(struct ra *, const struct in6_addr *, uint8_t);
+++static void routeinfohead_free(struct routeinfohead *);
++ 
++ /*
++  * Android ships buggy ICMP6 filter headers.
++@@ -612,10 +628,10 @@ ipv6nd_startexpire(struct interface *ifp)
++ }
++ 
++ int
++-ipv6nd_rtpref(struct ra *rap)
+++ipv6nd_rtpref(uint8_t flags)
++ {
++ 
++-	switch (rap->flags & ND_RA_FLAG_RTPREF_MASK) {
+++	switch (flags & ND_RA_FLAG_RTPREF_MASK) {
++ 	case ND_RA_FLAG_RTPREF_HIGH:
++ 		return RTPREF_HIGH;
++ 	case ND_RA_FLAG_RTPREF_MEDIUM:
++@@ -624,7 +640,7 @@ ipv6nd_rtpref(struct ra *rap)
++ 	case ND_RA_FLAG_RTPREF_LOW:
++ 		return RTPREF_LOW;
++ 	default:
++-		logerrx("%s: impossible RA flag %x", __func__, rap->flags);
+++		logerrx("%s: impossible RA flag %x", __func__, flags);
++ 		return RTPREF_INVALID;
++ 	}
++ 	/* NOTREACHED */
++@@ -649,7 +665,7 @@ ipv6nd_sortrouters(struct dhcpcd_ctx *ctx)
++ 				continue;
++ 			if (!ra1->isreachable && ra2->reachable)
++ 				continue;
++-			if (ipv6nd_rtpref(ra1) <= ipv6nd_rtpref(ra2))
+++			if (ipv6nd_rtpref(ra1->flags) <= ipv6nd_rtpref(ra2->flags))
++ 				continue;
++ 			/* All things being equal, prefer older routers. */
++ 			/* We don't need to check time, becase newer
++@@ -827,6 +843,7 @@ ipv6nd_removefreedrop_ra(struct ra *rap, int remove_ra, int drop_ra)
++ 	if (remove_ra)
++ 		TAILQ_REMOVE(rap->iface->ctx->ra_routers, rap, next);
++ 	ipv6_freedrop_addrs(&rap->addrs, drop_ra, NULL);
+++	routeinfohead_free(&rap->rinfos);
++ 	free(rap->data);
++ 	free(rap);
++ }
++@@ -1105,6 +1122,8 @@ ipv6nd_handlera(struct dhcpcd_ctx *ctx,
++ 	struct nd_opt_prefix_info pi;
++ 	struct nd_opt_mtu mtu;
++ 	struct nd_opt_rdnss rdnss;
+++	struct nd_opt_ri ri;
+++	struct routeinfo *rinfo;
++ 	uint8_t *p;
++ 	struct ra *rap;
++ 	struct in6_addr pi_prefix;
++@@ -1206,6 +1225,7 @@ ipv6nd_handlera(struct dhcpcd_ctx *ctx,
++ 		rap->from = from->sin6_addr;
++ 		strlcpy(rap->sfrom, sfrom, sizeof(rap->sfrom));
++ 		TAILQ_INIT(&rap->addrs);
+++		TAILQ_INIT(&rap->rinfos);
++ 		new_rap = true;
++ 		rap->isreachable = true;
++ 	} else
++@@ -1237,9 +1257,6 @@ ipv6nd_handlera(struct dhcpcd_ctx *ctx,
++ 	rap->flags = nd_ra->nd_ra_flags_reserved;
++ 	old_lifetime = rap->lifetime;
++ 	rap->lifetime = ntohs(nd_ra->nd_ra_router_lifetime);
++-	if (!new_rap && rap->lifetime == 0 && old_lifetime != 0)
++-		logwarnx("%s: %s: no longer a default router (lifetime = 0)",
++-		    ifp->name, rap->sfrom);
++ 	if (nd_ra->nd_ra_curhoplimit != 0)
++ 		rap->hoplimit = nd_ra->nd_ra_curhoplimit;
++ 	else
++@@ -1502,6 +1519,46 @@ ipv6nd_handlera(struct dhcpcd_ctx *ctx,
++ 			    rdnss.nd_opt_rdnss_len > 1)
++ 				rap->hasdns = 1;
++ 			break;
+++		case ND_OPT_RI:
+++			if (ndo.nd_opt_len > 3) {
+++				logmessage(loglevel, "%s: invalid route info option",
+++				    ifp->name);
+++				break;
+++			}
+++			memset(&ri, 0, sizeof(ri));
+++			memcpy(&ri, p, olen); /* may be smaller than sizeof(ri), pad with zero */
+++			if(ri.nd_opt_ri_prefixlen > 128) {
+++				logmessage(loglevel, "%s: invalid route info prefix length",
+++				    ifp->name);
+++				break;
+++			}
+++
+++			/* rfc4191 3.1 - RI for ::/0 applies to default route */
+++			if(ri.nd_opt_ri_prefixlen == 0) {
+++				rap->lifetime = ntohl(ri.nd_opt_ri_lifetime);
+++
+++				/* Update preference leaving other flags intact */
+++				rap->flags = ((rap->flags & (~ (unsigned int)ND_RA_FLAG_RTPREF_MASK))
+++					| ri.nd_opt_ri_flags_reserved) & 0xff;
+++
+++				break;
+++			}
+++
+++			/* Update existing route info instead of rebuilding all routes so that
+++			previously announced but now absent routes can stay alive.  To kill a
+++			route early, an RI with lifetime=0 needs to be received (rfc4191 3.1)*/
+++			rinfo = routeinfo_findalloc(rap, &ri.nd_opt_ri_prefix, ri.nd_opt_ri_prefixlen);
+++			if(rinfo == NULL) {
+++				logerr(__func__);
+++				break;
+++			}
+++
+++			/* Update/initialize other route info params */
+++			rinfo->flags = ri.nd_opt_ri_flags_reserved;
+++			rinfo->lifetime = ntohl(ri.nd_opt_ri_lifetime);
+++			rinfo->acquired = rap->acquired;
+++
+++			break;
++ 		default:
++ 			continue;
++ 		}
++@@ -1537,6 +1594,10 @@ ipv6nd_handlera(struct dhcpcd_ctx *ctx,
++ 		ia->prefix_pltime = 0;
++ 	}
++ 
+++	if (!new_rap && rap->lifetime == 0 && old_lifetime != 0)
+++		logwarnx("%s: %s: no longer a default router (lifetime = 0)",
+++		    ifp->name, rap->sfrom);
+++
++ 	if (new_data && !has_address && rap->lifetime && !ipv6_anyglobal(ifp))
++ 		logwarnx("%s: no global addresses for default route",
++ 		    ifp->name);
++@@ -1699,7 +1760,7 @@ ipv6nd_env(FILE *fp, const struct interface *ifp)
++ 			return -1;
++ 		if (efprintf(fp, "%s_hoplimit=%u", ndprefix, rap->hoplimit) == -1)
++ 			return -1;
++-		pref = ipv6nd_rtpref(rap);
+++		pref = ipv6nd_rtpref(rap->flags);
++ 		if (efprintf(fp, "%s_flags=%s%s%s%s%s", ndprefix,
++ 		    rap->flags & ND_RA_FLAG_MANAGED    ? "M" : "",
++ 		    rap->flags & ND_RA_FLAG_OTHER      ? "O" : "",
++@@ -1804,6 +1865,7 @@ ipv6nd_expirera(void *arg)
++ 	uint32_t elapsed;
++ 	bool expired, valid;
++ 	struct ipv6_addr *ia;
+++	struct routeinfo *rinfo, *rinfob;
++ 	size_t len, olen;
++ 	uint8_t *p;
++ 	struct nd_opt_hdr ndo;
++@@ -1823,7 +1885,8 @@ ipv6nd_expirera(void *arg)
++ 		if (rap->iface != ifp || rap->expired)
++ 			continue;
++ 		valid = false;
++-		if (rap->lifetime) {
+++		/* lifetime may be set to infinite by rfc4191 route information */
+++		if (rap->lifetime && rap->lifetime != ND6_INFINITE_LIFETIME) {
++ 			elapsed = (uint32_t)eloop_timespec_diff(&now,
++ 			    &rap->acquired, NULL);
++ 			if (elapsed >= rap->lifetime || rap->doexpire) {
++@@ -1879,6 +1942,20 @@ ipv6nd_expirera(void *arg)
++ 			}
++ 		}
++ 
+++		/* Expire route information */
+++		TAILQ_FOREACH_SAFE(rinfo, &rap->rinfos, next, rinfob) {
+++			if (rinfo->lifetime == ND6_INFINITE_LIFETIME &&
+++			    !rap->doexpire)
+++				continue;
+++			elapsed = (uint32_t)eloop_timespec_diff(&now,
+++			    &rinfo->acquired, NULL);
+++			if (elapsed >= rinfo->lifetime || rap->doexpire) {
+++				logwarnx("%s: expired route %s",
+++				    rap->iface->name, rinfo->sprefix);
+++				TAILQ_REMOVE(&rap->rinfos, rinfo, next);
+++			}
+++		}
+++
++ 		/* Work out expiry for ND options */
++ 		elapsed = (uint32_t)eloop_timespec_diff(&now,
++ 		    &rap->acquired, NULL);
++@@ -2135,3 +2212,43 @@ ipv6nd_startrs(struct interface *ifp)
++ 	eloop_timeout_add_msec(ifp->ctx->eloop, delay, ipv6nd_startrs1, ifp);
++ 	return;
++ }
+++
+++static struct routeinfo *routeinfo_findalloc(struct ra *rap, const struct in6_addr *prefix, uint8_t prefix_len)
+++{
+++	struct routeinfo *ri;
+++	char buf[INET6_ADDRSTRLEN];
+++	const char *p;
+++
+++	TAILQ_FOREACH(ri, &rap->rinfos, next) {
+++		if (ri->prefix_len == prefix_len &&
+++		    IN6_ARE_ADDR_EQUAL(&ri->prefix, prefix))
+++			return ri;
+++	}
+++
+++	ri = malloc(sizeof(struct routeinfo));
+++	if (ri == NULL)
+++		return NULL;
+++
+++	memcpy(&ri->prefix, prefix, sizeof(ri->prefix));
+++	ri->prefix_len = prefix_len;
+++	p = inet_ntop(AF_INET6, prefix, buf, sizeof(buf));
+++	if (p)
+++		snprintf(ri->sprefix,
+++			sizeof(ri->sprefix),
+++			"%s/%d",
+++			p, prefix_len);
+++	else
+++		ri->sprefix[0] = '\0';
+++	TAILQ_INSERT_TAIL(&rap->rinfos, ri, next);
+++	return ri;
+++}
+++
+++static void routeinfohead_free(struct routeinfohead *head)
+++{
+++	struct routeinfo *ri;
+++
+++	while ((ri = TAILQ_FIRST(head))) {
+++		TAILQ_REMOVE(head, ri, next);
+++		free(ri);
+++	}
+++}
++diff --git a/src/ipv6nd.h b/src/ipv6nd.h
++index b702c3bd..837b7d0f 100644
++--- a/src/ipv6nd.h
+++++ b/src/ipv6nd.h
++@@ -37,6 +37,20 @@
++ #include "dhcpcd.h"
++ #include "ipv6.h"
++ 
+++/* rfc4191 */
+++struct routeinfo {
+++	TAILQ_ENTRY(routeinfo) next;
+++	struct in6_addr prefix;
+++	uint8_t prefix_len;
+++	uint32_t lifetime;
+++	uint8_t flags;
+++	struct timespec acquired;
+++	char sprefix[INET6_ADDRSTRLEN];
+++};
+++
+++TAILQ_HEAD(routeinfohead, routeinfo);
+++
+++
++ struct ra {
++ 	TAILQ_ENTRY(ra) next;
++ 	struct interface *iface;
++@@ -45,13 +59,14 @@ struct ra {
++ 	uint8_t *data;
++ 	size_t data_len;
++ 	struct timespec acquired;
++-	unsigned char flags;
+++	uint8_t flags;
++ 	uint32_t lifetime;
++ 	uint32_t reachable;
++ 	uint32_t retrans;
++ 	uint32_t mtu;
++ 	uint8_t hoplimit;
++ 	struct ipv6_addrhead addrs;
+++	struct routeinfohead rinfos;
++ 	bool hasdns;
++ 	bool expired;
++ 	bool willexpire;
++@@ -105,7 +120,7 @@ int ipv6nd_open(bool);
++ int ipv6nd_openif(struct interface *);
++ #endif
++ void ipv6nd_recvmsg(struct dhcpcd_ctx *, struct msghdr *);
++-int ipv6nd_rtpref(struct ra *);
+++int ipv6nd_rtpref(uint8_t);
++ void ipv6nd_printoptions(const struct dhcpcd_ctx *,
++     const struct dhcp_opt *, size_t);
++ void ipv6nd_startrs(struct interface *);
++diff --git a/src/sa.c b/src/sa.c
++index f1e2e16e..05009d3b 100644
++--- a/src/sa.c
+++++ b/src/sa.c
++@@ -300,11 +300,39 @@ sa_toprefix(const struct sockaddr *sa)
++ 	return prefix;
++ }
++ 
+++static void
+++ipbytes_fromprefix(uint8_t *ap, int prefix, int max_prefix)
+++{
+++	int bytes, bits, i;
+++
+++	bytes = prefix / NBBY;
+++	bits = prefix % NBBY;
+++
+++	for (i = 0; i < bytes; i++)
+++		*ap++ = 0xff;
+++	if (bits) {
+++		uint8_t a;
+++
+++		a = 0xff;
+++		a  = (uint8_t)(a << (8 - bits));
+++		*ap++ = a;
+++	}
+++	bytes = (max_prefix - prefix) / NBBY;
+++	for (i = 0; i < bytes; i++)
+++		*ap++ = 0x00;
+++}
+++
+++void
+++in6_addr_fromprefix(struct in6_addr *addr, int prefix)
+++{
+++	ipbytes_fromprefix((uint8_t *)addr, prefix, 128);
+++}
+++
++ int
++ sa_fromprefix(struct sockaddr *sa, int prefix)
++ {
++ 	uint8_t *ap;
++-	int max_prefix, bytes, bits, i;
+++	int max_prefix;
++ 
++ 	switch (sa->sa_family) {
++ #ifdef INET
++@@ -328,22 +356,8 @@ sa_fromprefix(struct sockaddr *sa, int prefix)
++ 		return -1;
++ 	}
++ 
++-	bytes = prefix / NBBY;
++-	bits = prefix % NBBY;
++-
++ 	ap = (uint8_t *)sa + sa_addroffset(sa);
++-	for (i = 0; i < bytes; i++)
++-		*ap++ = 0xff;
++-	if (bits) {
++-		uint8_t a;
++-
++-		a = 0xff;
++-		a  = (uint8_t)(a << (8 - bits));
++-		*ap++ = a;
++-	}
++-	bytes = (max_prefix - prefix) / NBBY;
++-	for (i = 0; i < bytes; i++)
++-		*ap++ = 0x00;
+++	ipbytes_fromprefix(ap, prefix, max_prefix);
++ 
++ #ifndef NDEBUG
++ 	/* Ensure the calculation is correct */
++diff --git a/src/sa.h b/src/sa.h
++index a848defd..902229af 100644
++--- a/src/sa.h
+++++ b/src/sa.h
++@@ -67,6 +67,7 @@ bool sa_is_loopback(const struct sockaddr *);
++ void *sa_toaddr(struct sockaddr *);
++ int sa_toprefix(const struct sockaddr *);
++ int sa_fromprefix(struct sockaddr *, int);
+++void in6_addr_fromprefix(struct in6_addr *, int);
++ const char *sa_addrtop(const struct sockaddr *, char *, socklen_t);
++ int sa_cmp(const struct sockaddr *, const struct sockaddr *);
++ void sa_in_init(struct sockaddr *, const struct in_addr *);
++-- 
++2.43.0
++
+diff --git a/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116.patch b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116.patch
+new file mode 100644
+index 0000000000..52d4eb5aa7
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116.patch
+@@ -0,0 +1,31 @@
++From 6d1a9c5118dc7910667888ef69c3f79379f427ee Mon Sep 17 00:00:00 2001
++From: Roy Marples <roy@marples.name>
++Date: Tue, 23 Jun 2026 00:34:58 +0100
++Subject: [PATCH 2/2] IPv6ND: Free routeinfo when it expires (#670)
 +
 +Reported-by: CuB3y0nd <root@cubeyond.net>
 +
-+(cherry picked from commit 78ea09ed1633a583dbcde6e7bab9df4639ec8a34)
++(cherry picked from commit 708b4a56bae080a5b18c2e0c4c6fbe103131a2b0)
 +
-+CVE: CVE-2026-56117
-+Upstream-Status: Backport [https://github.com/NetworkConfiguration/dhcpcd/commit/78ea09ed1633a583dbcde6e7bab9df4639ec8a34]
++CVE: CVE-2026-56116
++Upstream-Status: Backport [https://github.com/NetworkConfiguration/dhcpcd/commit/708b4a56bae080a5b18c2e0c4c6fbe103131a2b0]
 +Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 +---
-+ src/control.c         | 47 ++++++++++++++++++++++++-------------------
-+ src/control.h         |  2 +-
-+ src/privsep-control.c |  7 ++++++-
-+ 3 files changed, 33 insertions(+), 23 deletions(-)
++ src/ipv6nd.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/src/control.c b/src/control.c
-+index 17fd13aa..20480f69 100644
-+--- a/src/control.c
-++++ b/src/control.c
-+@@ -115,10 +115,8 @@ control_handle_read(struct fd_list *fd)
-+ 	bytes = read(fd->fd, buffer, sizeof(buffer) - 1);
-+ 	if (bytes == -1)
-+ 		logerr(__func__);
-+-	if (bytes == -1 || bytes == 0) {
-+-		control_hangup(fd);
-+-		return -1;
-+-	}
-++	if (bytes == -1 || bytes == 0)
-++		return (int)bytes;
-+ 
-+ #ifdef PRIVSEP
-+ 	if (IN_PRIVSEP(fd->ctx)) {
-+@@ -134,15 +132,13 @@ control_handle_read(struct fd_list *fd)
-+ 		if (err == 1 &&
-+ 		    ps_ctl_sendargs(fd, buffer, (size_t)bytes) == -1) {
-+ 			logerr(__func__);
-+-			control_free(fd);
-+ 			return -1;
-+ 		}
-+-		return 0;
-++		return 1;
-+ 	}
-+ #endif
-+ 
-+-	control_recvdata(fd, buffer, (size_t)bytes);
-+-	return 0;
-++	return control_recvdata(fd, buffer, (size_t)bytes);
-+ }
-+ 
-+ static int
-+@@ -205,23 +201,31 @@ static void
-+ control_handle_data(void *arg, unsigned short events)
-+ {
-+ 	struct fd_list *fd = arg;
-++	int err;
-+ 
-+ 	if (!(events & (ELE_READ | ELE_WRITE | ELE_HANGUP)))
-+ 		logerrx("%s: unexpected event 0x%04x", __func__, events);
-+ 
-+ 	if (events & ELE_WRITE && !(events & ELE_HANGUP)) {
-+-		if (control_handle_write(fd) == -1)
-+-			return;
-++		err = control_handle_write(fd);
-++		if (err == -1)
-++			goto hangup;
-+ 	}
-+ 	if (events & ELE_READ) {
-+-		if (control_handle_read(fd) == -1)
-+-			return;
-++		err = control_handle_read(fd);
-++		if (err == -1 || err == 0)
-++			goto hangup;
-+ 	}
-+ 	if (events & ELE_HANGUP)
-+-		control_hangup(fd);
-++		goto hangup;
-++
-++	return;
-++
-++hangup:
-++	control_hangup(fd);
-+ }
-+ 
-+-void
-++int
-+ control_recvdata(struct fd_list *fd, char *data, size_t len)
-+ {
-+ 	char *p = data, *e;
-+@@ -243,12 +247,13 @@ control_recvdata(struct fd_list *fd, char *data, size_t len)
-+ 			if (e == NULL) {
-+ 				errno = EINVAL;
-+ 				logerrx("%s: no terminator", __func__);
-+-				return;
-++				return -1;
++diff --git a/src/ipv6nd.c b/src/ipv6nd.c
++index 9264dce7..75655ab1 100644
++--- a/src/ipv6nd.c
+++++ b/src/ipv6nd.c
++@@ -1953,6 +1953,7 @@ ipv6nd_expirera(void *arg)
++ 				logwarnx("%s: expired route %s",
++ 				    rap->iface->name, rinfo->sprefix);
++ 				TAILQ_REMOVE(&rap->rinfos, rinfo, next);
+++				free(rinfo);
 + 			}
-+-			if ((size_t)argc >= sizeof(argvp) / sizeof(argvp[0])) {
-++			if ((size_t)argc + 1 >=
-++			    sizeof(argvp) / sizeof(argvp[0])) {
-+ 				errno = ENOBUFS;
-+ 				logerrx("%s: no arg buffer", __func__);
-+-				return;
-++				return -1;
-+ 			}
-+ 			*ap++ = p;
-+ 			argc++;
-+@@ -268,12 +273,12 @@ control_recvdata(struct fd_list *fd, char *data, size_t len)
-+ 		*ap = NULL;
-+ 		if (dhcpcd_handleargs(fd->ctx, fd, argc, argvp) == -1) {
-+ 			logerr(__func__);
-+-			if (errno != EINTR && errno != EAGAIN) {
-+-				control_free(fd);
-+-				return;
-+-			}
-++			if (errno != EINTR && errno != EAGAIN)
-++				return -1;
 + 		}
-+ 	}
-++
-++	return 1;
-+ }
 + 
-+ struct fd_list *
-+diff --git a/src/control.h b/src/control.h
-+index f5e2bc7e..c5511dd7 100644
-+--- a/src/control.h
-++++ b/src/control.h
-+@@ -75,5 +75,5 @@ struct fd_list *control_new(struct dhcpcd_ctx *, int, unsigned int);
-+ void control_free(struct fd_list *);
-+ void control_delete(struct fd_list *);
-+ int control_queue(struct fd_list *, void *, size_t);
-+-void control_recvdata(struct fd_list *fd, char *, size_t);
-++int control_recvdata(struct fd_list *fd, char *, size_t);
-+ #endif
-+diff --git a/src/privsep-control.c b/src/privsep-control.c
-+index 40bfb164..954126c0 100644
-+--- a/src/privsep-control.c
-++++ b/src/privsep-control.c
-+@@ -108,6 +108,7 @@ ps_ctl_dispatch(void *arg, struct ps_msghdr *psm, struct msghdr *msg)
-+ 	struct iovec *iov = msg->msg_iov;
-+ 	struct fd_list *fd;
-+ 	unsigned int fd_flags = FD_SENDLEN;
-++	int err;
-+ 
-+ 	switch (psm->ps_flags) {
-+ 	case PS_CTL_PRIV:
-+@@ -131,7 +132,11 @@ ps_ctl_dispatch(void *arg, struct ps_msghdr *psm, struct msghdr *msg)
-+ 		if (fd == NULL)
-+ 			return -1;
-+ 		ctx->ps_control_client = fd;
-+-		control_recvdata(fd, iov->iov_base, iov->iov_len);
-++		err = control_recvdata(fd, iov->iov_base, iov->iov_len);
-++		if (err == -1 || err == 0) {
-++			control_free(fd);
-++			ctx->ps_control_client = NULL;
-++		}
-+ 		break;
-+ 	case PS_CTL_EOF:
-+ 		ctx->ps_control_client = NULL;
 +-- 
 +2.43.0
 +
