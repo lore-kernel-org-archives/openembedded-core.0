@@ -1,253 +1,339 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B7AC43458
-	for <webhook@archiver.kernel.org>; Wed,  1 Jul 2026 10:31:38 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.41697.1782901896567759593
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E889C43458
+	for <webhook@archiver.kernel.org>; Wed,  1 Jul 2026 10:40:18 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.5])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.41822.1782902411487557893
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2026 03:31:36 -0700
+ Wed, 01 Jul 2026 03:40:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=bGOr0ZmT;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493bb510ce4so3467755e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 03:31:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782901895; cv=none;
-        d=google.com; s=arc-20260327;
-        b=W73Y7xAQJY692PdSQdbLHGk0k/9ig7tp7YX2xxeRHGkclbu9eKpJ9vI0fq/iXHzYhy
-         m5+UKt5c6i1JiGi5hIfgPzdl9c1oidhIUBcEaxaTmjkNclyoPH5nk9p3+FfvfqVEwEbA
-         ty4YxDvFhec64+ALVAKoVZhfhf3b/JoKeBURLHZ3RlVlf76Xt/75gBac+QQxmuwBoBAC
-         4LkhxdgHCCynCrWOBQkLH3pcpm3XaKgB08GOiO6JW3GW8ppP1ol0iydA7bhJwZKdGaqA
-         HhlY8MBwR3xXzAHtVTSLSWPhpaICEwVN41Yfrj9yKnDc4F8gYgfyJt0zg4YTaZ9q2HSC
-         RJ7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=K8fKihA7XdCRl5HmVdDF/HprLDv4JbFEZI4Z4KrvbvY=;
-        fh=KfexivCAq1M7mA4u0gN+WHiyC0Tv6IZUAoy0KhRUlZM=;
-        b=jznkPsF4VNOqPWCCRXiRoci1fN7QF02R2iLwlt5dwnPMVbdB0apkBQzpBWj29BsoQ1
-         nVDxCO8AnK6p8WOYbaXsoZO8TGjLpjbjZqdlGT11YcSsd97cTlY16N9vSyZkqF7gPGbi
-         tAxBQaoqXJGv5/Ifa6yz0dTRubYfRcmRIi3yBO2QlyTDDI0/Pdl+LcAOPEln/THZBJqO
-         ywjkfbEC+jjkukspHNFuEbc8qCN683TQ6h/bVJn8tkLGHikzO7bQWLODhnNPOB/7J9jO
-         qOFFJYQYqwvTNlg9t1hwylenUtzUan40pvbd+AQ6/m2HVbex+narZ0syXQ54c8vOZJHS
-         ovYA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1782901895; x=1783506695; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=K8fKihA7XdCRl5HmVdDF/HprLDv4JbFEZI4Z4KrvbvY=;
-        b=bGOr0ZmT3mH+YBKazOaGfksWNAOFEoZ3EPYarjSxjrWFPxGWB/EoOekaBCFKYwx9AB
-         Pg2g1WcjiQ51QJiwLssgmsA1cdxvWLQ3DKgXsKYGLsR67Rx3OrXXILE8LmnJ3iAVMdwl
-         UTUWTOMCVjPw1mIpxV1dCJorwvWUzG/1RA8gg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782901895; x=1783506695;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K8fKihA7XdCRl5HmVdDF/HprLDv4JbFEZI4Z4KrvbvY=;
-        b=lFXCdi2sdr4+25jfq1n0jMGrKj1VuWioF+Vtj3yqssuC6/qdCLXLgLDtmZKCqGdUWt
-         Xc6dXMF/zALJ21NPoa3LuBJYQaQKnyfgTBe+pSsLWhtky7FvKvaW35mhap15EudHLtRw
-         SfcoBw17pPTah2vPCilMopx6HNMFlu4gGY6PbHTb04FPWvXukCCTgfj4bpjLbA2u2ygO
-         w84YMqKQF3YszWg7GRlouMCuc8KYaS4ndj0PUPbsLf65X0XFgLjBy/8TGxBq8z2rYqnu
-         G5Z/K7KGFNqxj6wkfar74/XteLnT+KvEH7in9fq7YRz2DyonqwLOnfojxoANOyXiOJOT
-         ALOQ==
-X-Gm-Message-State: AOJu0YyR43/947dOB3dHK25ezvH5KBhRRg44wdt6V/utj0hb5M7bGhZo
-	0eAxBKikciameGKhxKeN90zbTitTvgncCK5NMMlgdQ6Ho1zTtwzkw/TF/EajFEEPJuIWyNganjT
-	Mz532l6A55/TomwF6ordLQQYvMhJbovXCQsAWA+muNQ==
-X-Gm-Gg: AfdE7cnclc0GE3rIBSryGSNomrzhRCj6MPmgClw5OXsCRlc2xiw0AXFbrJEtOtPmUVn
-	AslGlq4nuLHCQ1t8h0DaTejhAG/3MrjmWA5NGiJZl1br7RBOiTIpVJEB2qc2toWNZTZ0VP+dRgx
-	BWjS6MHbwPlDQVTWkjhKfAKKAoEqGSTqaextYnAFTAyoDPNyK6eZWJWqYarcwCTLC648jQYgSvP
-	+FdqmReV+L6dmUgJ6AVkrDFOSDG4DoJFQfnJBzPT7pSeuWYFXinQg8X+3RvVETANu4I0KxpG25v
-	UEEMPnc6yPiu9lJ+7qjeX/csiBLfdw==
-X-Received: by 2002:a05:600c:6308:b0:493:b915:4a6f with SMTP id
- 5b1f17b1804b1-493c2b38138mr16279285e9.8.1782901894656; Wed, 01 Jul 2026
- 03:31:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260701100045.3903557-1-anna-lena.marx@inovex.de>
-In-Reply-To: <20260701100045.3903557-1-anna-lena.marx@inovex.de>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Wed, 1 Jul 2026 12:31:08 +0200
-X-Gm-Features: AVVi8Ced_qkhktV_quiUr2E3VpQcou3i9qusd6C_8pGycuZxvSv-O_AbEqi1afk
-Message-ID: <CAMSfU+6RkR=8Ze0DMg-376Pw=_pE+kC75osYiwMtHmTCbdp5Bw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] classes-recipe/sbom-cve-check: fix sstate cache
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=AqAZAIzm;
+ spf=pass (domain: siemens.com, ip: 52.101.72.5, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X9nAsfah/LXCiLDVOoyJvFFY8k+opIOubPHZb2QHnXMlIJcxY3/f4Bdkx5P2fHOmPpdA2f8xAcSH1QKOrv1QlpAwh0oI3kBpxduO+YNzGimrW1ObLyZIDjxnQJ9qgd3N2y+Tlh1/MN/fqd592JmNgm04qNb2fbioS+mxtqzwWE91U1sz5bkf4JjLZ0GKatuvBveNYyrzDG3B5C3xXqpjFe2c6Mx5VY3A42+6XZakvquhaqNWObjf2Nbi7AddK8fkaJ8aTyyYJR8lDL0bLAfn9hvM34CsU/HXycdEWYmc3LzEepUlPBMIKf7IUpU6+0Xs5Kir6S3+t73FeFYRC5tivw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tmMRCCYxQSR6SYnu3oI435n+UuHsb5a05DzgIrjzun4=;
+ b=lgmIk3GcX/3Wl8IZJSja6WjGnVEymFDS7bQuGTpCLxlUbxCVzVFZIhhxU/7dCIVxp6aAsjn19igv7yrtDHd1d/TwJN6WphuxHlsukf9vtTucuF6QIqnv3ein0JtnAyziF5Bow0plJfrudPkkkZAlxhh9OGmAMkgn5rXC0kMGZzpF6NeJVJhGBHM6MIzIvfGlXVqbhrxXDOzFv00zp2RY2pR6lUi4lEcrkHG6v1Fe3exc1vighWTx5aEmVVwqp3qY0yZNyBhqHIHEfZS87xa0Lfby39vrLsE+rU0YxV1e1WBba00EvAqqafGdRGksWRF32lkPnrcPqRM7Ac/LaoumzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tmMRCCYxQSR6SYnu3oI435n+UuHsb5a05DzgIrjzun4=;
+ b=AqAZAIzmCokL7q976zgq0rPq0zLTQ9bOeWvMJp4A23DZEEhjstdD1iVvj6i21cNhNse+V5tURuj8Kv+XbZy5+zhvR7BASzFim3rZrTL69MX8QgCA8S6Q/SsKSCVjiIJybt2/cBtyx0jAoMV6dpcHzOtlNV1Xsflkfoc+TruLvvx0FPajZT1LIH+lldrexIos3GSOdaKy9G0jyku0RbqPsgoP7SaiGPA13y58Bdgmt7WIubUySv8OOYxEoSsicHjhD3+JJ4ir0PNDTWgRyWaB/FsM6O5Y2+RlJ1yvFQiWrrtfQrOXd2sry7naDnW8wJPWsQtP1INVMLwhi2epIK/d9A==
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
+ by GV2PR10MB9930.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:341::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 1 Jul 2026
+ 10:40:07 +0000
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008%4]) with mapi id 15.21.0181.008; Wed, 1 Jul 2026
+ 10:40:07 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "yoann.congal@smile.fr" <yoann.congal@smile.fr>,
+	"anna-lena.marx@inovex.de" <anna-lena.marx@inovex.de>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Ryan Eatmon <reatmon@ti.com>
+Subject: RE: [OE-core] [PATCH] classes-recipe/sbom-cve-check: fix sstate cache
  mismatch in sbom path
-To: anna-lena.marx@inovex.de
-Cc: openembedded-core@lists.openembedded.org, Ryan Eatmon <reatmon@ti.com>
-Content-Type: multipart/alternative; boundary="00000000000019c18d06558a3270"
+Thread-Topic: [OE-core] [PATCH] classes-recipe/sbom-cve-check: fix sstate
+ cache mismatch in sbom path
+Thread-Index: AQHdCUCEloJ2LV5vGEO4tcKpH9Ki5bZYdvMAgAABPeA=
+Date: Wed, 1 Jul 2026 10:40:07 +0000
+Message-ID: 
+ <AS8PR10MB50732D19DC22A9F050502AEFFDF62@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260701100045.3903557-1-anna-lena.marx@inovex.de>
+ <CAMSfU+6RkR=8Ze0DMg-376Pw=_pE+kC75osYiwMtHmTCbdp5Bw@mail.gmail.com>
+In-Reply-To: 
+ <CAMSfU+6RkR=8Ze0DMg-376Pw=_pE+kC75osYiwMtHmTCbdp5Bw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=d395c6ac-bd48-4072-a058-e3379d393a2a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-07-01T10:35:34Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|GV2PR10MB9930:EE_
+x-ms-office365-filtering-correlation-id: ccfe2028-a9ee-463d-5d50-08ded75d1e6f
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|11063799006|4143699003|22082099003|18002099003|56012099006|8096899003|55112099003|3023799007|38070700021|13003099007;
+x-microsoft-antispam-message-info: 
+ rukQYPbnqaecSGsZkJ2g/NjaMGI72ck28Jtjoj8jJJNkUOiiAqcAm51KcSS2RhGQyRRupphc0rvu0nTrczKF22guC73GMA7Fq0qTGiJLs1TKzqm4FdUGdwlPCumE7PDIT/IQAGostHhSduJJ/gC1q+qya8qOY0P+hgqjAbLup0/zdkwXpoEZKmRKKIucmAZXQZQlj6T8k7izhGTEn/a893kl/gtqeLpe73f/nlezORSmk3sf445KL+AiRiS/ChNMJMRJw9rTPU3tLd+WJcevjmgFAD2piOW196SRzCEyxUrze1ZvybwsODOSJmZ8YvjmwtHfLiK9oyfjppoX9hhkobEx+Cr9fJMMoOkVsdTBJZe691nKUqEnzioAJLi+qYWfJE42LR3aPpEhqCi69Vt8UYyqpUkpaOdIazW7bVdfK6G//NoBSDEVtqs4bfMOu+ZfOh9IpAFX5rB/mEKns1xbo7k4YO18kdbko5H/9GXYFHax19pq4OgQHGU9mgpLtb5dp1Sr2ptoXRb/erG5M7X3NZtZV9NIDLzExmeoSmg9WKb1a8v35P8qNiotgSM7s8KjyKQwadw7JUK1I9ctOuRzmPm+bUHDtDCDN9qYCDLbxefHc0oyGuyGO1lLaU8rv2Yxt6QTK4JkJ0xjYyeUpPjucCmo0ktjDAqdA69CEIe5CFk=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(11063799006)(4143699003)(22082099003)(18002099003)(56012099006)(8096899003)(55112099003)(3023799007)(38070700021)(13003099007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?V3VhZThPQzhKMGdkYzV0OGh5VEZrTTU2SGx6dUprUWZxZ2lnTFdRM2FQSXNh?=
+ =?utf-8?B?WkQ1dWxJMlBCZUdjQzkrSWMyREVoUHVpSGdGREI4Y0c5bjBqSHpVTHhnelhW?=
+ =?utf-8?B?RlliU2RNVXQ2dnhudGFZZWhKZ3IrUXFNd0pleFlRaFZ3dlVyWXZtT2VPMHZ0?=
+ =?utf-8?B?c3p1djNCNlNhYVpVQ29OMGZjdk5vdjVsT3czVGdRdmRCTGtFZ0h1d1BMM2p1?=
+ =?utf-8?B?YWRxWS8xQTFwSGtNRzFrNGhiSFBCUTFlSFdpU2cvM0ptY3ZoV1pCbGZkZmtR?=
+ =?utf-8?B?WGVPYVhUMTdzSWUrYnNkbnJrVjd0WS9vck56K0FjNElzTnlxamZ1WDExQzdl?=
+ =?utf-8?B?a2cvQW1ibDZZdTIwTUdMZHM5cXJMZS93T3o3eklsUUw1TmVGekFPaXJBYlJR?=
+ =?utf-8?B?U0lQMk1iY3VKT3FucFhuaWNmWFNwOWszb1dOOTV3Z0ZMTEZjUE45WFY1NHRM?=
+ =?utf-8?B?K05rZkVocWkxc0JjVDQrYW9QQlpWQS85Z3R1bWNrRFR0QkcwSEtJY1c3cjlD?=
+ =?utf-8?B?b0E4clVOVG9sWUVLSGRpZkVub29tTlBCeElxZm5PMVdPY0U2c0pMWm9vVWZU?=
+ =?utf-8?B?VmlJMVNpWk9XVWN2NGZxWTViQkRvTmhmV29UU1NpVDZMSzhJczNUZlN5a0w2?=
+ =?utf-8?B?SmdBT0NGQzROOVVVOWhhSS94eWJpajY1bXlXWXhXSEdiSjVSY3lTM2JaQ3Z6?=
+ =?utf-8?B?aFM5ZzI1UGsveHZrcVZaQzRNTDNoa1NDUjdhMVV6T3hQVlRYbktRYjlkVWhw?=
+ =?utf-8?B?TWF1SU9EOGt5TjlnMmo2c1A5WTl5WTFXSFJKNmdack5Fb1Z4SWVzK00zbWZh?=
+ =?utf-8?B?S3B5eU5laFV2emI4Skd2bmE4WUJaNG1rYjVMSXFVVWE0aDFzNGEvTjdCekE3?=
+ =?utf-8?B?TklRQU5uT0pJMDJEOVQySHgxbEpndG9IS0JrSjQ2anRoa1N1U0RmUFY5MWxK?=
+ =?utf-8?B?dWZwMGphZVdCemNpVXhWWkFxbTE0MENZYmFLakxzNFhURXpXeWhyWmNVKzNB?=
+ =?utf-8?B?cGw5QmFaeW5lZm9mdFFpeDlRblF2aVJHb3NmK3FibVNrZ2xhWmxUQ0J6U3E5?=
+ =?utf-8?B?dzVsMXdRWkgxOVRpaENkUzZSM1lkTDluV2dvUXdUSnp4UzIzNmhYV3h0azBa?=
+ =?utf-8?B?cXpzQW9SNUg5RnlyN2VFYzArNGl1REFOdkI4TkhPUEZaVlRFSzUyQkhlSkxl?=
+ =?utf-8?B?czJGd1lZRml1N3psVDRRenBZZlI3R3NVbkh3MHpkR3A0MmdTazZrWXhhSFhO?=
+ =?utf-8?B?QnZiWXluWC9FL09sQjZySTJPOUVQYzd3cEp3ekt0Y1BUN1NzdWFXaStBMkdP?=
+ =?utf-8?B?bkdxRjBFS3lqNG9BUmpKSlRPVVFFbndJM0RTMXR6WHppQ0hnMnpZSTFtM1hm?=
+ =?utf-8?B?NEo0SWE5ejFvNkMrRU92UnZnSFhDTHhKUTIrSHJrbTJLK3lKcEFka3gvZEg4?=
+ =?utf-8?B?NWZyVi94NCsyZ1RJZ3ZYYmlJYkZjMkRLWHBrcWRlaHpZeURTMjZIQXI5a0lu?=
+ =?utf-8?B?WUhkTHV4QWtxTkZtbVFLTDJibHRIUkFUZm9kSzcvMlhCM0RWSXRMM2FPem1x?=
+ =?utf-8?B?dzBucGFtVVU3VVk2ZVhmNHVaaG1TU0xkWFBqV1RWbEZ6OW01QW1yaldHY0l5?=
+ =?utf-8?B?Ykk5UHhPU1RYTmVneHh6U0ZvZ1ZmY0NiVGRiUGJ3MDltVnpwZ3Z2TEpQR2pR?=
+ =?utf-8?B?OVRsN1gxY1B3MmNCbVZycW9weGRZNkVzS3k0cVFrZ2psRmxNUDhDcGUydEl0?=
+ =?utf-8?B?ZW1lSnRZM2JRQkZwZHMrK2d3K1BYa2lTQWZNMkQyUEpTRGhnK1pEZzgzUy9O?=
+ =?utf-8?B?T1FYTEpqUTJKOUwvampVbVlya3JXc0twUTVmNFlEYVlWSVhzWHVNRExMNmZ1?=
+ =?utf-8?B?SWxsY3Y0b2VWbGFiY0hreFJKWGZueS9FbGtBVFE5bWVWODR3YnNkUW9kdHR3?=
+ =?utf-8?B?ZFhSek42TjlieG95NU11SW45WXJNRnRCTE81aktTendNb09xY1ZTbkR5dDJv?=
+ =?utf-8?B?Qm5hY1pCNFNwQURLdGZsU1lveUM4NmdFS21FWUx4YjROeks4OUt5Z2s2UDhm?=
+ =?utf-8?B?SjRjRWxuZzNWUDlXSXRTWW5CV3g5QzU1TDkyQ3MyemlMUmw5KzFIVnJzaWtV?=
+ =?utf-8?B?WEpybGlXbFhEeWUvV1BTOFJSTGtPMFlzNGpoR1pDR2V2N3JyYUhxNm5DaWpw?=
+ =?utf-8?B?VTZHZHpzbjYrajgxRnpyS0E0NXVwMCszcTlCaEQ4L2NHQTN5bVlNYnoreTFV?=
+ =?utf-8?B?TVJGc2NncjdtOFp1ai9LMTNKUlN5bHRLV1EvMVp1OE1tNnFxc3F3bE1JajVH?=
+ =?utf-8?B?QXRCMlNEeE8rQ1RmSnBiOXA4L1JhblZ3Z20xc1cxQWVuTEFidXorUT09?=
+Content-Type: multipart/alternative;
+	boundary="_000_AS8PR10MB50732D19DC22A9F050502AEFFDF62AS8PR10MB5073EURP_"
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccfe2028-a9ee-463d-5d50-08ded75d1e6f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2026 10:40:07.5580
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Qa0VPfYH6rpIPgKwC5Cdscs+8Yx5OT5M1ORs22u5OtCy4D2sJxqmygtJdHvpu/AZ27pKhIxi/cygZRfqRKNzgA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR10MB9930
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 10:31:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239960
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 10:40:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239961
 
---00000000000019c18d06558a3270
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--_000_AS8PR10MB50732D19DC22A9F050502AEFFDF62AS8PR10MB5073EURP_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Le mer. 1 juil. 2026 =C3=A0 12:00, Anna-Lena Marx via lists.openembedded.or=
-g
-<anna-lena.marx=3Dinovex.de@lists.openembedded.org> a =C3=A9crit :
+VGhpcyBwYXRjaCBkb2VzIG5vdCBsb29rIGNvcnJlY3QgYXMgaXQgYmFzaWNhbGx5IHJldmVydHMg
+cHJldmlvdXMgcGF0Y2gsIHJldHVybmluZyB0byBicm9rZW4gYnVpbGRzIHdpdGggZW1wdHkgaW1h
+Z2UgbGluayBuYW1lLg0KDQpUaGVyZSBpcyBJIHRoaW5rIGEgYmV0dGVyIHBhdGNoIGZvciB0aGlz
+IG9uIHRoZSBtYWlsaW5nIGxpc3QgLSBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9v
+cGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzIzOTczOQ0KDQpUaGUgbWFpbiBwcm9ibGVtIGlzIHRo
+YXQgc3BkeCB0YXNrcyBjcmVhdGUgc3N0YXRlIG9iamVjdHMgZm9yIGltYWdlcy4NCkltYWdlIHRh
+c2tzIGFyZSBub3Qgc3VwcG9zZWQgdG8gZG8gdGhhdC4NCkkgdGhpbmsgSeKAmWxsIHNlbmQgYSBw
+YXRjaCBmb3IgdGhhdCBzb21lIGRheS4NCg0KUGV0ZXINCg0KRnJvbTogb3BlbmVtYmVkZGVkLWNv
+cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFlvYW5uIENvbmdhbCB2aWEgbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZw0KU2VudDogV2VkbmVzZGF5LCBKdWx5IDEsIDIwMjYgMTI6MzEgUE0NClRvOiBhbm5h
+LWxlbmEubWFyeEBpbm92ZXguZGUNCkNjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnOyBSeWFuIEVhdG1vbiA8cmVhdG1vbkB0aS5jb20+DQpTdWJqZWN0OiBSZTogW09F
+LWNvcmVdIFtQQVRDSF0gY2xhc3Nlcy1yZWNpcGUvc2JvbS1jdmUtY2hlY2s6IGZpeCBzc3RhdGUg
+Y2FjaGUgbWlzbWF0Y2ggaW4gc2JvbSBwYXRoDQoNCg0KDQpMZSBtZXIuIDEganVpbC4gMjAyNiDD
+oCAxMjowMCwgQW5uYS1MZW5hIE1hcnggdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8aHR0cDov
+L2xpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IDxhbm5hLWxlbmEubWFyeD1pbm92ZXguZGVAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86aW5vdmV4LmRlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
+PiBhIMOpY3JpdCA6DQpVc2luZyAke0lNQUdFX05BTUV9IHRvIGNvbnN0cnVjdCB0aGUgc2JvbV9w
+YXRoIGNhdXNlcyB0aGUgZG9fc2JvbV9jdmVfY2hlY2sNCnRhc2sgdG8gZmFpbCBpbiBzdWJzZXF1
+ZW50IGJ1aWxkcyB3aGVuIHRoZSBpbWFnZSBnZW5lcmF0aW9uIGlzIHJlc3RvcmVkIGZyb20NCnRo
+ZSBzc3RhdGUgY2FjaGUuDQoke0lNQUdFX05BTUV9IHV0aWxpemVzIHRoZSBEQVRFVElNRSB2YXJp
+YWJsZSB2aWEgJHtJTUFHRV9WRVJTSU9OX1NVRkZJWH0sDQp3aGljaCBpcyByZS1ldmFsdWF0ZWQg
+ZHVyaW5nIHRoZSBjdXJyZW50IGV4ZWN1dGlvbi4NClRoaXMgcmVzdWx0cyBpbiBhIHRpbWVzdGFt
+cCBtaXNtYXRjaCB3aXRoIHRoZSBhY3R1YWxseSBkZXBsb3llZCBjYWNoZWQNClNQRFggYXJ0aWZh
+Y3QuDQoNClN3aXRjaGluZyB0aGUgcGF0aCBjb25zdHJ1Y3Rpb24gdG8gdXNlICR7SU1BR0VfTElO
+S19OQU1FfSBlbnN1cmVzIHRoZSB0YXNrDQpyZWxpYWJseSB0YXJnZXRzIHRoZSBzdGFibGUgc3lt
+bGluayBpbiB0aGUgZGVwbG95IGRpcmVjdG9yeSwNCnJlc3RvcmluZyBjYWNoZSBkZXRlcm1pbmlz
+bSBhbmQgcHJldmVudGluZyAiTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeSINCmVycm9ycyBvbiBy
+ZWJ1aWxkcy4NCg0KU2lnbmVkLW9mZi1ieTogQW5uYS1MZW5hIE1hcnggPGFubmEtbGVuYS5tYXJ4
+QGlub3ZleC5kZTxtYWlsdG86YW5uYS1sZW5hLm1hcnhAaW5vdmV4LmRlPj4NCi0tLQ0KDQpQaW5n
+IFJ5YW4sIGlzbid0IHdoYXQgeW91IHdvcmtlZCBvbiBhcyB3ZWxsPw0KVGhhdCBwYXRjaCBmcm9t
+IEFubmEtTGVuYSBsb29rcyBsaWtlIGEgZml4IGZvciB0aGUgcmVncmVzc2lvbiBjcmVhdGVkIGJ5
+IFswXSB5b3UgdGFsa2VkIGFib3V0Lg0KDQpBbm5hLUxlbmEsIGRvIHlvdSB0aGluayB5b3VyIGZp
+eCBpcyBsaW5rZWQgdG8gWzBdPw0KDQpbMF06IGh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcv
+b3BlbmVtYmVkZGVkLWNvcmUvY29tbWl0Lz9pZD1iOWYwNjBlYTZkNTRjYzQxOWRmOWZmNWY4ODIy
+YTM1MzY5MzQ2MDZmDQoNCiBtZXRhL2NsYXNzZXMtcmVjaXBlL3Nib20tY3ZlLWNoZWNrLmJiY2xh
+c3MgfCAyICstDQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+DQoNCmRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMtcmVjaXBlL3Nib20tY3ZlLWNoZWNrLmJiY2xh
+c3MgYi9tZXRhL2NsYXNzZXMtcmVjaXBlL3Nib20tY3ZlLWNoZWNrLmJiY2xhc3MNCmluZGV4IDQ1
+MTU5NWYxZDcuLmZlMTQ1YTIyMTIgMTAwNjQ0DQotLS0gYS9tZXRhL2NsYXNzZXMtcmVjaXBlL3Ni
+b20tY3ZlLWNoZWNrLmJiY2xhc3MNCisrKyBiL21ldGEvY2xhc3Nlcy1yZWNpcGUvc2JvbS1jdmUt
+Y2hlY2suYmJjbGFzcw0KQEAgLTE0LDcgKzE0LDcgQEAgcHl0aG9uIGRvX3Nib21fY3ZlX2NoZWNr
+KCkgew0KICAgICAiIiINCiAgICAgVGFzazogUnVuIHNib20tY3ZlLWNoZWNrIGFuYWx5c2lzIG9u
+IFNCT00uDQogICAgICIiIg0KLSAgICBzYm9tX3BhdGggPSBkLmV4cGFuZCgiJHtERVBMT1lfRElS
+X0lNQUdFfS8ke0lNQUdFX05BTUV9LnNwZHguanNvbiIpDQorICAgIHNib21fcGF0aCA9IGQuZXhw
+YW5kKCIke0RFUExPWV9ESVJfSU1BR0V9LyR7SU1BR0VfTElOS19OQU1FfS5zcGR4Lmpzb24iKQ0K
+ICAgICBpbWFnZV9uYW1lID0gZC5nZXRWYXIoIklNQUdFX05BTUUiKQ0KICAgICBsaW5rX25hbWUg
+PSBkLmdldFZhcigiSU1BR0VfTElOS19OQU1FIikNCiAgICAgcnVuX3Nib21fY3ZlX2NoZWNrKGQs
+IHNib21fcGF0aCwgaW1hZ2VfbmFtZSwgbGlua19uYW1lKQ0KLS0NCjIuNTUuMA0KDQoNCg0KDQoN
+Ci0tDQpZb2FubiBDb25nYWwNClNtaWxlIEVDUw0K
 
-> Using ${IMAGE_NAME} to construct the sbom_path causes the do_sbom_cve_che=
-ck
-> task to fail in subsequent builds when the image generation is restored
-> from
-> the sstate cache.
-> ${IMAGE_NAME} utilizes the DATETIME variable via ${IMAGE_VERSION_SUFFIX},
-> which is re-evaluated during the current execution.
-> This results in a timestamp mismatch with the actually deployed cached
-> SPDX artifact.
->
-> Switching the path construction to use ${IMAGE_LINK_NAME} ensures the tas=
-k
-> reliably targets the stable symlink in the deploy directory,
-> restoring cache determinism and preventing "No such file or directory"
-> errors on rebuilds.
->
-> Signed-off-by: Anna-Lena Marx <anna-lena.marx@inovex.de>
-> ---
->
+--_000_AS8PR10MB50732D19DC22A9F050502AEFFDF62AS8PR10MB5073EURP_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Ping Ryan, isn't what you worked on as well?
-That patch from Anna-Lena looks like a fix for the regression created by
-[0] you talked about.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpBcHRvczt9DQpAZm9udC1mYWNlDQoJe2Zv
+bnQtZmFtaWx5OlJhbGV3YXk7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFs
+LCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCglmb250LXNpemU6
+MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJBcHRvcyIsc2Fucy1zZXJpZjt9DQphOmxpbmssIHNwYW4u
+TXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRl
+eHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5nbWFpbHNpZ25hdHVyZXByZWZpeA0KCXtt
+c28tc3R5bGUtbmFtZTpnbWFpbF9zaWduYXR1cmVfcHJlZml4O30NCi5Nc29DaHBEZWZhdWx0DQoJ
+e21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXpl
+OjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzIuMHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30N
+CmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0t
+W2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRt
+YXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4N
+CjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRh
+PSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJv
+ZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiIHN0eWxlPSJ3b3JkLXdy
+YXA6YnJlYWstd29yZCI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+QXJpYWwmcXVvdDssc2Fucy1zZXJpZiI+VGhpcyBwYXRjaCBkb2VzIG5vdCBsb29rIGNvcnJlY3Qg
+YXMgaXQgYmFzaWNhbGx5IHJldmVydHMgcHJldmlvdXMgcGF0Y2gsIHJldHVybmluZyB0byBicm9r
+ZW4gYnVpbGRzIHdpdGggZW1wdHkgaW1hZ2UgbGluayBuYW1lLjxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWYiPjxvOnA+Jm5ic3A7PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWYiPlRoZXJlIGlz
+IEkgdGhpbmsgYSBiZXR0ZXIgcGF0Y2ggZm9yIHRoaXMgb24gdGhlIG1haWxpbmcgbGlzdCAtDQo8
+YSBocmVmPSJodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29y
+ZS9tZXNzYWdlLzIzOTczOSI+aHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVt
+YmVkZGVkLWNvcmUvbWVzc2FnZS8yMzk3Mzk8L2E+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJpZiI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7
+Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJpZiI+VGhlIG1haW4gcHJvYmxl
+bSBpcyB0aGF0IHNwZHggdGFza3MgY3JlYXRlIHNzdGF0ZSBvYmplY3RzIGZvciBpbWFnZXMuPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJpZiI+
+SW1hZ2UgdGFza3MgYXJlIG5vdCBzdXBwb3NlZCB0byBkbyB0aGF0LjxvOnA+PC9vOnA+PC9zcGFu
+PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0
+O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWYiPkkgdGhpbmsgSeKAmWxs
+IHNlbmQgYSBwYXRjaCBmb3IgdGhhdCBzb21lIGRheS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZh
+bWlseTomcXVvdDtBcmlhbCZxdW90OyxzYW5zLXNlcmlmIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBw
+dDtmb250LWZhbWlseTomcXVvdDtBcmlhbCZxdW90OyxzYW5zLXNlcmlmIj5QZXRlcjxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
+Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtw
+YWRkaW5nOjBjbSAwY20gMGNtIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9u
+ZTtib3JkZXItdG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBj
+bSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFu
+PjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
+YnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ow0K
+PGI+T24gQmVoYWxmIE9mIDwvYj5Zb2FubiBDb25nYWwgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmc8YnI+DQo8Yj5TZW50OjwvYj4gV2VkbmVzZGF5LCBKdWx5IDEsIDIwMjYgMTI6MzEgUE08YnI+
+DQo8Yj5Ubzo8L2I+IGFubmEtbGVuYS5tYXJ4QGlub3ZleC5kZTxicj4NCjxiPkNjOjwvYj4gb3Bl
+bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsgUnlhbiBFYXRtb24gJmx0O3Jl
+YXRtb25AdGkuY29tJmd0Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRD
+SF0gY2xhc3Nlcy1yZWNpcGUvc2JvbS1jdmUtY2hlY2s6IGZpeCBzc3RhdGUgY2FjaGUgbWlzbWF0
+Y2ggaW4gc2JvbSBwYXRoPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPkxlJm5ic3A7bWVyLiAxIGp1aWwuIDIwMjYgw6AmbmJzcDsxMjowMCwg
+QW5uYS1MZW5hIE1hcnggdmlhIDxhIGhyZWY9Imh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3Jn
+Ij4NCmxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+ICZsdDthbm5hLWxlbmEubWFyeD08YSBocmVm
+PSJtYWlsdG86aW5vdmV4LmRlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPmlub3ZleC5kZUBsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnPC9hPiZndDsgYSDDqWNyaXQmbmJzcDs6PG86cD48L286cD48L3A+
+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xp
+ZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44
+cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Vc2luZyAke0lNQUdF
+X05BTUV9IHRvIGNvbnN0cnVjdCB0aGUgc2JvbV9wYXRoIGNhdXNlcyB0aGUgZG9fc2JvbV9jdmVf
+Y2hlY2s8YnI+DQp0YXNrIHRvIGZhaWwgaW4gc3Vic2VxdWVudCBidWlsZHMgd2hlbiB0aGUgaW1h
+Z2UgZ2VuZXJhdGlvbiBpcyByZXN0b3JlZCBmcm9tPGJyPg0KdGhlIHNzdGF0ZSBjYWNoZS48YnI+
+DQoke0lNQUdFX05BTUV9IHV0aWxpemVzIHRoZSBEQVRFVElNRSB2YXJpYWJsZSB2aWEgJHtJTUFH
+RV9WRVJTSU9OX1NVRkZJWH0sPGJyPg0Kd2hpY2ggaXMgcmUtZXZhbHVhdGVkIGR1cmluZyB0aGUg
+Y3VycmVudCBleGVjdXRpb24uPGJyPg0KVGhpcyByZXN1bHRzIGluIGEgdGltZXN0YW1wIG1pc21h
+dGNoIHdpdGggdGhlIGFjdHVhbGx5IGRlcGxveWVkIGNhY2hlZDxicj4NClNQRFggYXJ0aWZhY3Qu
+PGJyPg0KPGJyPg0KU3dpdGNoaW5nIHRoZSBwYXRoIGNvbnN0cnVjdGlvbiB0byB1c2UgJHtJTUFH
+RV9MSU5LX05BTUV9IGVuc3VyZXMgdGhlIHRhc2s8YnI+DQpyZWxpYWJseSB0YXJnZXRzIHRoZSBz
+dGFibGUgc3ltbGluayBpbiB0aGUgZGVwbG95IGRpcmVjdG9yeSw8YnI+DQpyZXN0b3JpbmcgY2Fj
+aGUgZGV0ZXJtaW5pc20gYW5kIHByZXZlbnRpbmcgJnF1b3Q7Tm8gc3VjaCBmaWxlIG9yIGRpcmVj
+dG9yeSZxdW90Ozxicj4NCmVycm9ycyBvbiByZWJ1aWxkcy48YnI+DQo8YnI+DQpTaWduZWQtb2Zm
+LWJ5OiBBbm5hLUxlbmEgTWFyeCAmbHQ7PGEgaHJlZj0ibWFpbHRvOmFubmEtbGVuYS5tYXJ4QGlu
+b3ZleC5kZSIgdGFyZ2V0PSJfYmxhbmsiPmFubmEtbGVuYS5tYXJ4QGlub3ZleC5kZTwvYT4mZ3Q7
+PGJyPg0KLS0tPG86cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj5QaW5nJm5ic3A7UnlhbiwgaXNuJ3Qgd2hhdCB5b3Ugd29ya2VkIG9uIGFz
+IHdlbGw/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij5UaGF0IHBhdGNoIGZyb20gQW5uYS1MZW5hIGxvb2tzIGxpa2UgYSBmaXggZm9yIHRoZSByZWdy
+ZXNzaW9uIGNyZWF0ZWQgYnkgWzBdIHlvdSB0YWxrZWQgYWJvdXQuPG86cD48L286cD48L3A+DQo8
+L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
+CjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkFubmEtTGVuYSwgZG8geW91IHRo
+aW5rIHlvdXIgZml4IGlzIGxpbmtlZCB0byBbMF0/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlswXTogPGEgaHJlZj0iaHR0cHM6Ly9naXQub3Bl
+bmVtYmVkZGVkLm9yZy9vcGVuZW1iZWRkZWQtY29yZS9jb21taXQvP2lkPWI5ZjA2MGVhNmQ1NGNj
+NDE5ZGY5ZmY1Zjg4MjJhMzUzNjkzNDYwNmYiPg0KaHR0cHM6Ly9naXQub3BlbmVtYmVkZGVkLm9y
+Zy9vcGVuZW1iZWRkZWQtY29yZS9jb21taXQvP2lkPWI5ZjA2MGVhNmQ1NGNjNDE5ZGY5ZmY1Zjg4
+MjJhMzUzNjkzNDYwNmY8L2E+Jm5ic3A7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJsb2Nr
+cXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7
+cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6
+MGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+
+Jm5ic3A7bWV0YS9jbGFzc2VzLXJlY2lwZS9zYm9tLWN2ZS1jaGVjay5iYmNsYXNzIHwgMiArLTxi
+cj4NCiZuYnNwOzEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKTxi
+cj4NCjxicj4NCmRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMtcmVjaXBlL3Nib20tY3ZlLWNoZWNr
+LmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMtcmVjaXBlL3Nib20tY3ZlLWNoZWNrLmJiY2xhc3M8YnI+
+DQppbmRleCA0NTE1OTVmMWQ3Li5mZTE0NWEyMjEyIDEwMDY0NDxicj4NCi0tLSBhL21ldGEvY2xh
+c3Nlcy1yZWNpcGUvc2JvbS1jdmUtY2hlY2suYmJjbGFzczxicj4NCisrKyBiL21ldGEvY2xhc3Nl
+cy1yZWNpcGUvc2JvbS1jdmUtY2hlY2suYmJjbGFzczxicj4NCkBAIC0xNCw3ICsxNCw3IEBAIHB5
+dGhvbiBkb19zYm9tX2N2ZV9jaGVjaygpIHs8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyZxdW90
+OyZxdW90OyZxdW90Ozxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7VGFzazogUnVuIHNib20tY3Zl
+LWNoZWNrIGFuYWx5c2lzIG9uIFNCT00uPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsmcXVvdDsm
+cXVvdDsmcXVvdDs8YnI+DQotJm5ic3A7ICZuYnNwOyBzYm9tX3BhdGggPSBkLmV4cGFuZCgmcXVv
+dDske0RFUExPWV9ESVJfSU1BR0V9LyR7SU1BR0VfTkFNRX0uc3BkeC5qc29uJnF1b3Q7KTxicj4N
+CismbmJzcDsgJm5ic3A7IHNib21fcGF0aCA9IGQuZXhwYW5kKCZxdW90OyR7REVQTE9ZX0RJUl9J
+TUFHRX0vJHtJTUFHRV9MSU5LX05BTUV9LnNwZHguanNvbiZxdW90Oyk8YnI+DQombmJzcDsgJm5i
+c3A7ICZuYnNwO2ltYWdlX25hbWUgPSBkLmdldFZhcigmcXVvdDtJTUFHRV9OQU1FJnF1b3Q7KTxi
+cj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7bGlua19uYW1lID0gZC5nZXRWYXIoJnF1b3Q7SU1BR0Vf
+TElOS19OQU1FJnF1b3Q7KTxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7cnVuX3Nib21fY3ZlX2No
+ZWNrKGQsIHNib21fcGF0aCwgaW1hZ2VfbmFtZSwgbGlua19uYW1lKTxicj4NCi0tIDxicj4NCjIu
+NTUuMDxicj4NCjxicj4NCjxicj4NCjxicj4NCjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3Rl
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyIGNsZWFyPSJhbGwiPg0K
+PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCjxzcGFu
+IGNsYXNzPSJnbWFpbHNpZ25hdHVyZXByZWZpeCI+LS0gPC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0K
+PGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1mYW1p
+bHk6UmFsZXdheSI+WW9hbm4gQ29uZ2FsPC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPGRpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTpSYWxld2F5Ij5TbWls
+ZSBFQ1M8L3NwYW4+PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rp
+dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-Anna-Lena, do you think your fix is linked to [0]?
-
-[0]:
-https://git.openembedded.org/openembedded-core/commit/?id=3Db9f060ea6d54cc4=
-19df9ff5f8822a3536934606f
-
-
-
->  meta/classes-recipe/sbom-cve-check.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes-recipe/sbom-cve-check.bbclass
-> b/meta/classes-recipe/sbom-cve-check.bbclass
-> index 451595f1d7..fe145a2212 100644
-> --- a/meta/classes-recipe/sbom-cve-check.bbclass
-> +++ b/meta/classes-recipe/sbom-cve-check.bbclass
-> @@ -14,7 +14,7 @@ python do_sbom_cve_check() {
->      """
->      Task: Run sbom-cve-check analysis on SBOM.
->      """
-> -    sbom_path =3D d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.spdx.json"=
-)
-> +    sbom_path =3D
-> d.expand("${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.spdx.json")
->      image_name =3D d.getVar("IMAGE_NAME")
->      link_name =3D d.getVar("IMAGE_LINK_NAME")
->      run_sbom_cve_check(d, sbom_path, image_name, link_name)
-> --
-> 2.55.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#239959):
-> https://lists.openembedded.org/g/openembedded-core/message/239959
-> Mute This Topic: https://lists.openembedded.org/mt/120061528/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> yoann.congal@smile.fr]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Yoann Congal
-Smile ECS
-
---00000000000019c18d06558a3270
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 1 =
-juil. 2026 =C3=A0=C2=A012:00, Anna-Lena Marx via <a href=3D"http://lists.op=
-enembedded.org">lists.openembedded.org</a> &lt;anna-lena.marx=3D<a href=3D"=
-mailto:inovex.de@lists.openembedded.org">inovex.de@lists.openembedded.org</=
-a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Using ${IMAGE_NAME} to construct the sbom_path causes the do_sbo=
-m_cve_check<br>
-task to fail in subsequent builds when the image generation is restored fro=
-m<br>
-the sstate cache.<br>
-${IMAGE_NAME} utilizes the DATETIME variable via ${IMAGE_VERSION_SUFFIX},<b=
-r>
-which is re-evaluated during the current execution.<br>
-This results in a timestamp mismatch with the actually deployed cached<br>
-SPDX artifact.<br>
-<br>
-Switching the path construction to use ${IMAGE_LINK_NAME} ensures the task<=
-br>
-reliably targets the stable symlink in the deploy directory,<br>
-restoring cache determinism and preventing &quot;No such file or directory&=
-quot;<br>
-errors on rebuilds.<br>
-<br>
-Signed-off-by: Anna-Lena Marx &lt;<a href=3D"mailto:anna-lena.marx@inovex.d=
-e" target=3D"_blank">anna-lena.marx@inovex.de</a>&gt;<br>
----<br></blockquote><div><br></div><div>Ping=C2=A0Ryan, isn&#39;t what you =
-worked on as well?</div><div>That patch from Anna-Lena looks like a fix for=
- the regression created by [0] you talked about.</div><div><br></div><div>A=
-nna-Lena, do you think your fix is linked to [0]?</div><div><br></div><div>=
-[0]: <a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=
-=3Db9f060ea6d54cc419df9ff5f8822a3536934606f">https://git.openembedded.org/o=
-penembedded-core/commit/?id=3Db9f060ea6d54cc419df9ff5f8822a3536934606f</a>=
-=C2=A0</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">
-=C2=A0meta/classes-recipe/sbom-cve-check.bbclass | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes-recipe/sbom-cve-check.bbclass b/meta/classes-reci=
-pe/sbom-cve-check.bbclass<br>
-index 451595f1d7..fe145a2212 100644<br>
---- a/meta/classes-recipe/sbom-cve-check.bbclass<br>
-+++ b/meta/classes-recipe/sbom-cve-check.bbclass<br>
-@@ -14,7 +14,7 @@ python do_sbom_cve_check() {<br>
-=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Task: Run sbom-cve-check analysis on SBOM.<br>
-=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 sbom_path =3D d.expand(&quot;${DEPLOY_DIR_IMAGE}/${IMAGE_NAM=
-E}.spdx.json&quot;)<br>
-+=C2=A0 =C2=A0 sbom_path =3D d.expand(&quot;${DEPLOY_DIR_IMAGE}/${IMAGE_LIN=
-K_NAME}.spdx.json&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0image_name =3D d.getVar(&quot;IMAGE_NAME&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0link_name =3D d.getVar(&quot;IMAGE_LINK_NAME&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0run_sbom_cve_check(d, sbom_path, image_name, link_name)=
-<br>
--- <br>
-2.55.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#239959): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/239959" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/239959</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120061528/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/120061528/4316185</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
-get=3D"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><br><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><fon=
-t face=3D"Raleway, regular">Smile ECS</font></div></div></div></div>
-
---00000000000019c18d06558a3270--
+--_000_AS8PR10MB50732D19DC22A9F050502AEFFDF62AS8PR10MB5073EURP_--
 
