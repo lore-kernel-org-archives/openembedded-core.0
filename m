@@ -2,140 +2,138 @@ Return-Path: <tgaige.opensource@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5484C43458
-	for <webhook@archiver.kernel.org>; Wed,  1 Jul 2026 10:48:48 +0000 (UTC)
-Received: from mx-relay48-hz1-if1.hornetsecurity.com (mx-relay48-hz1-if1.hornetsecurity.com [94.100.128.58])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.42191.1782902918570903814
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08FEBC43602
+	for <webhook@archiver.kernel.org>; Wed,  1 Jul 2026 10:48:59 +0000 (UTC)
+Received: from relay-r17-hz12.hornetsecurity.com (relay-r17-hz12.hornetsecurity.com [94.100.138.217])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.42195.1782902934106521878
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2026 03:48:39 -0700
+ Wed, 01 Jul 2026 03:48:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@witekio.com header.s=selector1 header.b=e4cdNiwM;
- spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.128.58, mailfrom: tgaige@witekio.com)
-ARC-Authentication-Results: i=2; mx-gate48-hz1.hornetsecurity.com 1; spf=pass
- reason=mailfrom (ip=40.107.159.129, headerfrom=witekio.com)
+ dkim=pass header.i=@witekio.com header.s=selector1 header.b=mDoNNFbB;
+ spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.138.217, mailfrom: tgaige@witekio.com)
+ARC-Authentication-Results: i=2; mx-gate81-hz12.hornetsecurity.com 1;
+ spf=pass reason=mailfrom (ip=40.107.159.137, headerfrom=witekio.com)
  smtp.mailfrom=witekio.com
  smtp.helo=osppr02cu001.outbound.protection.outlook.com; dkim=pass
  header.d=witekio.com header.s=selector1 header.a=rsa-sha256; dmarc=pass
  header.from=witekio.com orig.disposition=pass
 ARC-Message-Signature: a=rsa-sha256;
- bh=HXbvQH12eDbnLFxXzk+8PJ7zY3XnK97abBSyocKID1E=; c=relaxed/relaxed;
+ bh=fsDWWIjyGljet+d4855tH1CyhONoe0T+VTozQTJ8ZkA=; c=relaxed/relaxed;
  d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=2; s=hse1;
- t=1782902916;
- b=kHbipxVFJBVfY/2rkL+E2MnK6o5lt6shEtJKLlXzrXRTxuLd4L++a7hCpX/jTIDxqzoOqx/R
- 2Yj/fh4kQ3+F4WEz+uWvFkpXUELUqkQ6yTkEEqTUf4lH2w7XOYQi9j0/ohDeFy27+/d1ZgEw7Qg
- DrH5mRbszLDF7rqBGma7SgkCDh6CBVPQV8SRK3C+KWtOmpKJJorpHo8P/jffBNMrFnNNTEkWTPN
- iI1qcCv9LYb2VbPcjPubMJO3BgJ/rmmYmd3MCq1A20LaXhKo65aKKHd/gcxvI6qeGJhFoe40M34
- yIrCYNnFZ4X2zYscRcQqR/RLT1ZFL72sWLOxeEWIkvLvQ==
+ t=1782902931;
+ b=BgS78jW0bgyysxu7Z08rVPhwkxXJdWeuq/qkHJvNXoaKrhwyqjIGEZt4KpPNtGFyTGrcI3oQ
+ jOkYsDXFEkx8QtQRynu8gCdf0iXu3R/ZWIdkbtELC3GMj1UIr/zXTSbOEJNnvQ79ZzD5yyooLg3
+ 0hJNEPROIwCo6V/o/7l9KHTzq8Z3XBkEVt5ETpyCMPMfhQ1Gd/2LOOrZmyRP1H4lxJJjjSRIurR
+ wqKod6tsJSgMqZ0PqQEJ0WSMHunDPtEvpFlRILJG/1hDsRsOuHA2D4wdZwXJBfVA8Pb7IY2stss
+ 7fz9ore5dn6nOMkuliuON8jAjjVbaHyhidejPZvTCCFCQ==
 ARC-Seal: a=rsa-sha256; cv=pass; d=hornetsecurity.com; i=2; s=hse1;
- t=1782902916;
- b=aPH2STP+FSopfSVEkYqRU5Gav1cMXX9bBQUA+uHY15I5Ja0kCJC/LH2IjSw77P0mrluls1o7
- lHwGjWHjuSypX0OKUpGdBQFs81G7Kwq2k8NymHzZ2Qa5WFCDXozioXwGFdhsPKQFxRBM5L91mt2
- qYuPI3sv/twtZcA4PtS/XNIY3cFcAez+Ur2L7Z5CGoEu+nek80Q7/KE3TbW1lE/ej/F/PfRX+J2
- 7oDSogNt9AjZc7YX9206o+nKEaKuDtYvvX//H3X6KD3oC1s0RUAcNqbo8GqEF/w/vSThHiGgWg/
- y6PCRsxDDo2OrMHeO/1Kv6uBjxjIQ0MFkyNWPDu4KpfhQ==
-Received: from mail-norwayeastazon11023129.outbound.protection.outlook.com ([40.107.159.129]) by mx-gate48-hz1;
- Wed, 01 Jul 2026 12:48:36 +0200
+ t=1782902931;
+ b=EzYn+a8LHkipQONNxXIHBuZMqsuB7Y1S/LGJlAqYhIVenpSIbCsnNKoKZZEIzNkR00B1ypMZ
+ ZQqyBYH6fQ+aM6V6aGJo69F5s9q8CIrwNGiRinoiOjOsa6nA2lc4TtIO7RqVXYf81JJqhNtfi8h
+ msKKeJ7r4wVAPnrMokI9dco6lNkVr3tmoNYvxiOxQuTPKyV/lBmzgB2zE/PC2exvUrxl7ezp0fo
+ ayh/Febr9F18SUq5NC3wspjHrMxfYmNcSfxv0BoKDG2wnWnCFIF5il0oPmgXyJOYX8YGOxN4Dtt
+ jdQlo6yQWn9icjysd//VBGbKjdByNw9IU2w6gtkftQ0eA==
+Received: from mail-norwayeastazon11023137.outbound.protection.outlook.com ([40.107.159.137]) by mx-gate81-hz12.hornetsecurity.com;
+ Wed, 01 Jul 2026 12:48:51 +0200
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YfX47o/F0+t6l/ULhNz0Z+w8ARLTxxVvWuAXw6Zuo7Vie2XhuI5f48Qfh/JLiBEsEMgXAvg/WjNT1mCP4qCFnAgGzJTnecSlWquU/fSyMsXiGtmPI271Lp+59TVClQiyOwPtBvdaWqpY+xZa3kWlz3pFtLvJJ8YQpN7kbEjZuhWX+m3m4HQewaMIP6ANSOgu9LKM+DMv5igtWsd6hRMDBxAS7xnMZUtnoRCqO3TkZCrhoo7bHhx28fShTXi/4mkIJscAWD06o0oshYq070rk0lAjkNspOSRS02Dolz1s79kaannN3RVEUMfbbPJxLCPcTSQnQk7YbhLFZN6wrQHydw==
+ b=BaJtLdihcMH+WASwWfeCJOi4DCsaPsV8Wb9EGmA8eeWPeJiiQwPVOHi6lCJS55HEf+EIATjaj3jEtrFIIRAWJl44zFdLPxE+VNVI8b/EglH6rO19Na9Fwbtj/or3hDI7nRSdWJQ1e9z/F8GwECpLXqabkFBLYUgqpKFr09oykgJenXKFDJl58LaRmO3G6qJJ9A5fApE9edktgH19DcT5aL9ABLxREHlpYo/SfLvNqwkRkjlnkkKUTtu9kxcmKE2mI2VLabPXVdwC+nAunlZkQpKWmkKiv9t0tAbn/96kTajGmN7NArIe0d1zzLj1Q15ctG+iAP5GmnNTQWW9/Up4xg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HXbvQH12eDbnLFxXzk+8PJ7zY3XnK97abBSyocKID1E=;
- b=DJSU1mKBkVmHKVJso8CRE8cLepIgU7lLMY84MZCXwxmYWeH9jZomGXZmuGl04vhlBOP1roQt7CVTjAm35iOJAfdwNdodBPR5Z5HffF89xs1pklfnEVvqC18jrpirQyxPP1iSWZjAfjRiRM5S/98DFZpAWJMltybGjTMxasJ0OXDSHebgSfY0shV4mU1BEJ/8fE8xwD5+Dycd4e/I6/EACqVCYIpkFZtq6LiK9SubFBHyhzYr477A3r0uUajMX6lL6HScF70KJTSjAusgtX4Ab1c3gFE1BMnuEBcKbzEcd3Qel1K9U4p/9zwnRi+9gK7zvMqHh08HJxfprYC7A0xYJA==
+ bh=fsDWWIjyGljet+d4855tH1CyhONoe0T+VTozQTJ8ZkA=;
+ b=ZAScmjaYOEnux5UQvPvvxb+tVNMdlQCOQuLUdXdMMvEI+jhSuvI23k+jQdLhMCeqPYCvneM5D7S3w8Vnbndq+dVOlNxHGjZpVM6uUGu9TNXXKh7bghaXnRoWpjqRGauRqyH1nzGWHk3/q6mGwfujxKAsi43nnyBVaxtR8yeXX039NN9jhgvrTRT3oEU3BN9GJ/JOLREXb6N4vZm2Izd/OcTPX6QZ3AfUJD4yJAZkmJ/h489Ezujnt66RGt7isrxp4puWtYVSmHT3lP53dZhYn0uoNv5dVmsK4OcRqQQJoXTvkdHu1CBe9UBUAhfrlaO/FdQI8NAUKCnqPqZ3XjoiVw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
  dkim=pass header.d=witekio.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HXbvQH12eDbnLFxXzk+8PJ7zY3XnK97abBSyocKID1E=;
- b=e4cdNiwMIyNl/3DUrh6SCI+jwUbEJUJA3+FAVdtUzpDFt0x0eadqYPhj34Yyi6Duf/SOrYUEKtvlyp+6a74YL32f36Zy2zMoDbsM5kLWhordz6eGaCNlCPOS8e7m6VGjicHM6brV3kepkA7orb3iqrnV/h/B5C0+qpb5lhhtzKLrdQK3pCATzZDYJ5WW6/aUxll4ZBmy8sQxMdgLj/3m5OdEIkBnwqwoJrKO9VJuPcTE8FLZEFli2g1Cec9VjwYv2y/owI5OlpM2/3nnHk+oYjeX73TN1UahsWYz3D876taSz9UMx1IWkuWH+7Sa1Tn4Eh/nasUK0e09bL9j4hKP4A==
+ bh=fsDWWIjyGljet+d4855tH1CyhONoe0T+VTozQTJ8ZkA=;
+ b=mDoNNFbBwcMB+8Oai6UO4pGnE9Iieoccs4IeDYXyvGb380+eqRubx8llZ77lsuW5kgWttAIbfYRzvJZnB1Cv39mG1pG8m77ReZ9mDxa69RYDaVVQHWVLAs5JbUxZVvwxqYFtTm8pYa4n16f0CkQ94TuLzRS13HNF9OExkJHYaz2sLGm6e+SYDaKZ5HSnFTqNhq6msdqvzZPVt64UkyD/3KAmm75itUjhP1gRSB0PlTOBxalizT4vfmyne5m282MB1xDtPXLOwlixTuCtRo7IBaHq2TpBSuxk5ss2xTo20GCN6hMCd88ZKvpoFSkAwUb8zZ0+qkCTOufb1JE3RYbXOg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=witekio.com;
 Received: from PAXP192MB1405.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:1ad::24)
  by DU2PPF9A909934E.EURP192.PROD.OUTLOOK.COM (2603:10a6:18:3::99c) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 1 Jul 2026
- 10:48:21 +0000
+ 10:48:46 +0000
 Received: from PAXP192MB1405.EURP192.PROD.OUTLOOK.COM
  ([fe80::a160:226a:5870:e1d6]) by PAXP192MB1405.EURP192.PROD.OUTLOOK.COM
  ([fe80::a160:226a:5870:e1d6%5]) with mapi id 15.21.0181.008; Wed, 1 Jul 2026
- 10:48:21 +0000
+ 10:48:46 +0000
 From: tgaige.opensource@witekio.com
 To: openembedded-core@lists.openembedded.org
 Cc: hsimeliere.opensource@witekio.com,
 	"Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
-Subject: [wrynose][PATCH 4/4] dhcpcd: patch CVE-2026-56117
-Date: Wed,  1 Jul 2026 12:48:08 +0200
-Message-ID: <20260701104808.3577244-4-tgaige.opensource@witekio.com>
+Subject: [scarthgap][PATCH 1/4] dhcpcd: patch CVE-2026-56113
+Date: Wed,  1 Jul 2026 12:48:34 +0200
+Message-ID: <20260701104837.3577369-1-tgaige.opensource@witekio.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260701104808.3577244-1-tgaige.opensource@witekio.com>
-References: <20260701104808.3577244-1-tgaige.opensource@witekio.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0091.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2bc::8) To PAXP192MB1405.EURP192.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P123CA0042.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:152::11) To PAXP192MB1405.EURP192.PROD.OUTLOOK.COM
  (2603:10a6:102:1ad::24)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PAXP192MB1405:EE_|DU2PPF9A909934E:EE_
-X-MS-Office365-Filtering-Correlation-Id: 432eee06-10d9-4419-5dc8-08ded75e44a7
+X-MS-Office365-Filtering-Correlation-Id: 5f22a4f7-33c3-4de2-6198-08ded75e53a1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|10070799003|23010399003|52116014|376014|366016|1800799024|13003099007|18002099003|22082099003|3023799007|56012099006|6133799003;
+	BCL:0;ARA:13230040|10070799003|23010399003|52116014|376014|366016|1800799024|13003099007|18002099003|3023799007|56012099006|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	FinOgS33HvoZgLSHGuldYjEu8Qa4SsNbVjjY266u7pMQQm0EWozqVw2CtRVA+CTAAPU3Tqe++U4/IzD4APkXEZzM8pGt1X2k11dihTOJ+/o0k0DXbxH8h7vlRk2burrMV9xa6q6mwZWdAn2E9+rHdo4iMtA9ZrcMbna5HhLM7ZlHWdG+mwNKPeqCWMS7uX3Y/hIa1u1/FAZnDaNxuy62pfPe6mrvhkR7c4rNMzHOr0sYOmqzDbi8k2CsUTZzJkQ9p271saRDFliEbeOWJtIE9i5F89y5M5EZO6TTgTa6qk4NdCVkrevzxoKAgRyUpy+93vbisB2nESSZYCOZHJs470/sqX7QDUWC8Dvl1QkjOs0bNzWIqin1xluG+Qo7CdxVJDt/N5kq84j8scr4hoa9QT60EVUVCRwr0/EYSgXkdt/TFDYsSwVi/48IT1SGJOG616AwaacvqaV8p+HqwQnQ3ymH7FEPUREApyEImeQeBBhKUH6+Eua87iL0jRuMwkq94vkYVCYreb/xlOqT7Gw3ru7JkUalA04U1Asxat9teCeKfCUMW6At3j/q89FHYY2xmQ9dy+iWfdShfC3dKLGprEARVXEFmNI/1WW6Bw6lgQV/KMAWhgyNaJ4yB/lsNLzfaksWX8ejEzHOICsYGay5KjpZXHdF1a1I8+ubAztFBps=
+	WbU7vq9ZVShHfAlcTbi/C3q1KDplcSyvQA7zfyxjYckEVjFu8ujDr5E7r80PcmgnbufgQt2qQxmZs+nqIyNli2hwhHbaarPbUMjCtxJAVl2Un3MDKdKCe8uEPdwPbETmJ4LWZ+WPrC4tqtF1vsXDBbvbgWRqOXX2SLWseRSvErOjMf3qfeadcNVGFfm9oQ5hnsArA76HZIrp1ao68CRBVhLJpc2hh82gIcwNPffeIgVN94yVdbFM5CNi7DhL6Q/NAPVvL92XTlsLAyzKcK6xxlClk5MQ5tKKK2nhl/KXJefsgsQo5LQuHeKGiE+c3tPRsfz/kXOJIcR1B4Cm6JIxZNiVTr1j5vMJTh7dXgBajxVvp9cUG/tTQv3w5y1eOzLVXhrCJk/z3Eciej2yWHOLT353gJykDoAvMLVkJG0TKOLp75qYgzbbyKIBUWTlQ/npU4hm25zPO6vCGPGuRzwWNiE2tKL+ur5cqiem57gkr0C920bwwVkcfUqRAhpIiST00qj/Vp/5FGt4fzsIg+YqBuX7fhXtzNndSU8vMKWbi2pXVWGBCieLgfanveHdFqfBlqDEw7iF4GOsWAA5OBNt50hXVr4EYgPdYTtSTnK32Fsgc+8+HQNI8/zYoSi/2reGZWtl7ngUze0gU9N3MBlUqEeLRKzQ4+/DvzEGkk1ZKI4=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXP192MB1405.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(52116014)(376014)(366016)(1800799024)(13003099007)(18002099003)(22082099003)(3023799007)(56012099006)(6133799003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXP192MB1405.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(52116014)(376014)(366016)(1800799024)(13003099007)(18002099003)(3023799007)(56012099006)(6133799003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?eUD0kwKA4Qhb1CU9NyktZgLc+IEdA/g8GXQw6l8TenXHGh5QylC5W1lnVUKO?=
- =?us-ascii?Q?A1ADWEkIFfjN8GJScCkwya99wwrJ1/OTpAP0xAJM9szWosUtYTia1vDAW1O4?=
- =?us-ascii?Q?JrGn/9LRIKHpw2PxnH0/K8MCqmGYqxxnohE6ZCDADHi4Y/pIB7fh9PqbLHMy?=
- =?us-ascii?Q?1Jl7H0KY3M9tbNTPU34jG2867UKAp81LvTxuIxevb2q9V3ElWJqd7QJKtL8p?=
- =?us-ascii?Q?WBQpLFb9uAkAiNdpxUk0TArS4ul4gBhutUMKhGgoNjDO47Rq5QHmDHQBo97j?=
- =?us-ascii?Q?H1/pJXZwx0OwH59uCA9g7QdJj82Y4n1Tbfe0OoIN7+Mt39yFGXhSPAxpJ4H2?=
- =?us-ascii?Q?VABiUUTLIt2YtsXEOjQDUloD66QFBXzQEx80006UpeQlB6DQUCsu7gbetYDm?=
- =?us-ascii?Q?fjNplZCmWRvJCJNXYFvaBg1UP9rk354KKo2OCskQE6kn3XPeNxNSf3xBArMv?=
- =?us-ascii?Q?lTo4rGqcIFRYoSjQrEniRUxZM2Y5uHAvQWOLvE8Xlbg5TpNtK9q64ceqz8O7?=
- =?us-ascii?Q?0K5nWGYIBVmU+vBBCt0tFyNvvUMtWnrrEFDBDU2+lCJO8fCpSGpcVADeyEFN?=
- =?us-ascii?Q?Q0QbKS/+WsrxEuzjHyNyVE3CJpfVhu+/dilgUqYsld0HFi2IO7LOfHTFHDTN?=
- =?us-ascii?Q?erL7+4XeNYwmghLvkseaZ8GLANNis7zARzyjHgqTRpviTuOVUnJAoLfId3fy?=
- =?us-ascii?Q?xwE/VwUxgVHDX43NVU/31aeiNjiUPQ1S+j5qmFiLiWMBM7QJa3xWz+9PkwTc?=
- =?us-ascii?Q?r/H4xYK1R9kTdzQIV0PCIWS0j208LnATn9abSl7ysPouJjMZ27Qa+c9rtGIV?=
- =?us-ascii?Q?9+Q6u/G18UDkt4ko0XRpOnV1RRAC/3BfeReZ+vZwfR7EfNJ1jCQ9ApgRjVhj?=
- =?us-ascii?Q?mKMPPLObcVI20nDtZ5akTEJM6ScHLwzt/Ip1dOwIcXgBWjsmxfgmsXKli9aA?=
- =?us-ascii?Q?nOWr35LJv54gHYbe9J155mhE2QZEkVHobpdZOIkj8bAqdNKOw+rMGFp84KCc?=
- =?us-ascii?Q?iMi5RxizLpjKhRyXDbLfGGNNMvsXPli94nny59bRTDhgqLLhAhAIZVWBGTfj?=
- =?us-ascii?Q?D46V7OBjA7Rca6Ms6w7bEmTwOocHSz8b3J6RviM+SnUqduDjxHW4PVsEfmAU?=
- =?us-ascii?Q?rH2fvtlT0zh4BNrSes4k6DP3Ax+oEY8+Fa6ltxg09nq5M+DQ8WagGyCj0zgA?=
- =?us-ascii?Q?GD6kzULlEctKioRQ2FCBCQZ425pgPpwA3Z7TbeU1xE3p4gNIrgVsaPOAshRI?=
- =?us-ascii?Q?E4Q2LTWKESpp5OvKYyu/Q9qPNmIPmkKwimXGcN6DvPu0Rg9Z54P7F9Me3mHL?=
- =?us-ascii?Q?8wSOVvORfw3/D54y30hSXD9ZDXFPn9ff4cst6R7AhUrxGpwHzsfhdRNURWfA?=
- =?us-ascii?Q?2/C9O2X177sjYAS+byBkvrROk+byFxwxm1u2b1HwPO3ytGvwlH7SvdF7BNov?=
- =?us-ascii?Q?C6HGNucJprZzQTpl/wjD31M1WF2XuypMEpkj52WKtnV0xKAjKfWBQFFl+iFz?=
- =?us-ascii?Q?m/ifL70Bi1VRaFjacCjGf9qKyZi1qVdSSboGHs6bs6UmFrSbvCbgWla952Ck?=
- =?us-ascii?Q?FbC7Mz7h4pHY83SI0dJj10u12PI0RhLdqCCafwU+8ufDmRLj8744jZHQrvTQ?=
- =?us-ascii?Q?Zyls0Mq5IpXWsh51cb1rti4yjB8aadUsKdDbkkFAJvZfu+RV8hJgwqpMkmez?=
- =?us-ascii?Q?uFBrFMLWYgIbw2mI0V/o36kxSiHMTOuwvBj8o/0AKKDTcHp8o306IF+1cKud?=
- =?us-ascii?Q?WDIqWDAkDdCrX9elOYMeN9YwexhcdvXc4HuPW0T0YFhTC4er+7h92j7dROYL?=
-X-MS-Exchange-AntiSpam-MessageData-1: OADlQ5UDrMBm3g==
+	=?us-ascii?Q?dl1rbbDndsqdtHYy/t9Su2zUwTMharzKOgVuiQFXN0SYpGciUWoam/mHKziL?=
+ =?us-ascii?Q?U7wyXBP4dRNJRFYvRB7iGuAc8ZO017O78MfmM9e/CfLoBjBFFbeCZ2B6Wc8d?=
+ =?us-ascii?Q?NQGPfB8ypwpv/5dmus6cz54GVoNa9YI+fUEmP2W99gfQ/7/6UPiYPguuuEvv?=
+ =?us-ascii?Q?QNfCKRwAz9rtUwtxKuhziCLFdMuTKlzMoxgSHEFWGI7Tca7D8cY0lGhE3MMH?=
+ =?us-ascii?Q?mHvvOzVFtIlcZH4lD86yhcqZblfHJz3MpJzYkPmFHJ+C1IwU41YVBFRILU5O?=
+ =?us-ascii?Q?XAtuyE0ncfUhEPr1hGOyopxjCrtNEeC9mGzOLv5ho3PmhrKY8dKSgxjWpPch?=
+ =?us-ascii?Q?aCXMKdGjzb+duw+F+8dMA69RvAoXJGlLTHpoaDJIgPFH2DgR5+brfux+bjfs?=
+ =?us-ascii?Q?hr4Ly+07V3AezhOFQ6tsbbIrbPteQOEhdxCnSyCA+ZKNTqXcRC5XAQlbuAAx?=
+ =?us-ascii?Q?C69e1Iq59UKr/rirkaClYDXmzO2klLOplCDwgATuFSMl+6s6R0GffA1WckIg?=
+ =?us-ascii?Q?Z1JlrZqZuCR6K+9xL4iSnIn/rmQHBvq0uEWTv1/jUc5yESXRK4exHT121/F4?=
+ =?us-ascii?Q?lOy9KbcuDq4fw2wLSVIFtWr13yETBkDH474F/ZfvhiqCraaW3r7jG/xZ3OUL?=
+ =?us-ascii?Q?kksJXoGpziVSATvElqlt7tJ+hPiMrypFA2Z0F8VSpggF6k+qpK9hQTeiSutP?=
+ =?us-ascii?Q?z5yBCasquKzuoaEKlktLQrW9mlNf+mZ2Hfk1e4yGlts0q/OU9J0Y+eIlsBjM?=
+ =?us-ascii?Q?st7Ft18Oq6cIUuJjO5R8yW44XdN+K//6mp0oYfyPTbydkd33PWp5u0i9z/Dw?=
+ =?us-ascii?Q?NFbPc49UU9Zm+Daw+yvWirKBOTeYGy/YImmCMf39d/FEN9BCM4eXKA38uTX+?=
+ =?us-ascii?Q?4w1gPfQDqIR5xKGOZYJb6xsPjWndnsPi+HQxd99pnbLvDJvL8ADeL4Ha0JCO?=
+ =?us-ascii?Q?iq9pxSfcgMaHojth9toPi1E2vILi/s38cY1zUzL6ewdLVwlsDjTOnH/MrKag?=
+ =?us-ascii?Q?l6nxUc6xM97rtHv5Y0Q/GBEUJR4/q1hmUIh4zC9H3nK051SCEj6sA3EUyQrj?=
+ =?us-ascii?Q?+IS5sJiccnpv4hN/fi39yMqI5Xv4wnt4VvZ9QF3fUdWN/QZbfrTnz/DFXBIa?=
+ =?us-ascii?Q?lzLQJcknNY5ajuocXQNL+eHKhw5PLy2+xbS+8Ym2YTIQrG0tw9GSdYM2q/p9?=
+ =?us-ascii?Q?d8m/Xi5a/89eFUnmHNGF3exVOH6+CFptveZ/tC+S8kPzXy0bKuFBo/JqDX4v?=
+ =?us-ascii?Q?0NfAGQqnos6PcYu1baeGrWaNtA3niwfoVZxE87sOlFAVeCXXT0Bnrj8twXKW?=
+ =?us-ascii?Q?Ez4i7FbacGkMm6xCqSR8jQPY+XHEv5fr9UsgMug/zE1xWOmX5u03/c0SVjfp?=
+ =?us-ascii?Q?/zMrkAJxgy7c494+Fsg6vD9z9/Xi1+zQD8ri6ma7n35sQrtHH4NEsrGzrLh5?=
+ =?us-ascii?Q?y6o2V06XagIofE1glnp1sIcPyaI9hKfcF2i8BfSfUymKvbIxkKYdSVa8I0/m?=
+ =?us-ascii?Q?CtCJ58MK/X9JkX3kV11bJLbmKl8AJmFjF1mGJjulrC3y32knWBFcKJygW5mh?=
+ =?us-ascii?Q?Y37RPq/sjW1beD+08L0nAf/stSHMmg5YS6F7uCm279iu36CdxsiJ3FgC00Hh?=
+ =?us-ascii?Q?LefLypk/CafIhZ5CIAn67Klu6l+pqra0RaQB3YNLxFQCaYUV1afrRws4et8b?=
+ =?us-ascii?Q?6fZX3GqD9uMJT2OoNnXHaivYUB7yTFLxPTV4elTJ1IPVvqofrqEq0tu7x/62?=
+ =?us-ascii?Q?YCg2Uq5gx12U33m7OUt55+h3cHYREUffc7bbCPtkbOGJ2TVhIHh2/S+zCjxb?=
+X-MS-Exchange-AntiSpam-MessageData-1: 17DyZmNNfJeLEg==
 X-Exchange-RoutingPolicyChecked: 
-	A+NTuZy9x7Z/EC4PveaLin1PvMpZ6hXV6paaUHLKiDENRXfjGoJ8yO2dchajxnOUOxqJnLhPuPz59s2pDNt26p3cvf0YJeHx+yF4Hq0H+MuIdO+ZZ2LtETKOiMKGudhs2a/75oExVWdurUySOu2a470qrcbPEKLeY0vGlj89R5r/jSYFXVaex75um2ReAzOZEJ3/R/RulXG+ga5m4UZLFOVmpulrzPKKpkpy4cWcALAR9QmSo19lAySaILbz4ZiUFMqMDqarrz0IiMCjJ5/dYnKJy1zm5y86dsKcZYzYHLIxfx2UoGCbxIJ12FiNtru5MWrDnMmGMFY63lmFOT8a9Q==
+	oeyEURW54hN+mnx1kBxBodb+IKrICM65X/bBpY/0WC9gnAeCqXwsqOXNsAdc+2aU2t2Ylom9+jFbwW6q5HpnhfxKcKswU3jFEfbgVKeh5IsYye9cY6H4V0BvfNllEYzLX7HtB2gygFegY3pJFeGW5b1L6twiUEqJCqE73TUvWSlCX/s196YhMEozoE9mIcE+dEvT80so3mUTVvl+CHWMd1LRid5yo1kejGAjg5fh7Zu2M4vuFVz84TkSU1GXwQ5v28RkmSXXVGWC61msCUncVRgyMtQWKdZcjIgeSmOmSzJqKNwF42BjY0uj+F8W031vaoUTcBMCSlhnp70ZvQ3NhQ==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	JmaK24bRik1D8hsyiYEutL3veJKko8MmH2M5T+ClL3mNc05SS7h2HKdVLVcCioxEi4WHtNclKPSn8MEVK4boIebXE7aPkwgYaJiTbbsfw1tYWrw+QnGeKfRpQvwrdTvNTydMXIxdeJj+ZVbsbbC451lTIg7muXFpCfn9eholA5+xueiSY8gItfnyX/5bcBbpkXfBy0bLqhRMDxfrnomPZ6WJ4yiimX9+I3PfzEYjPjwsd5sgCnNg/vHpqd08APr8qkGvjYEiB054ONYms7ysps5SIBDWgFDmpnqrBu+eilG6/zAEweZb7m+jILJdA6VgwoLkpqD31FawAn/sOgFDljz62EHkyuC/FgCqGUFaKV6zgkLqlcGP4k8+7+Jaoxc94WcAFPC19PaG/QSttMoS8j0dnBSLoecstss/4eMks3EPqxyIb2VymQlNUGK2LjTX+b+nbAFnbO+XBi++rsqtdNT5WscAWDb0qRA+cjmtLwX4Ut7XyNZRrhrFOaFKzZy+qLOn5EWrq2/gfyupBueJ3pHtYsyRRWZDtOyXM3zlMepkc+2GnYnVOr0pbh6qpRR9dFehB13eG6FaFy1V7o8uUzUVoBqrDylqxP60INLE+lhnjJdsPN2G27zcy1X0erqd
+	Ubu9djeyYkb6sEzQ+Xe27jg4wuG503hgrB1VIK6PIxYsoHWHPezLVs2mp1lN7vTWHYYy3mJdqWe5pmeofh3N+KEUJDycFhlys+MZ9ZRBRjAwCIMMQCVBsETFf0+ti9BczgdRPXXQS2abByEGc1dufMig+29I1PbAuUEG4OccgGokqpvsLjd67ArCqqwlO8A82u9GC7iHaS9puiFm80lGpLUQw+Zumhy5KJPmkO6J/mIJBJCtiE3e+wrDMiUR6tKul09DoOxWrGy29yo7KCOjxAp0/erk217epfZ//eboM6O15cIThGk5Q9D/mmGhYfxGdNnCBzxL54SAc1mwILocyIl9GEspqdzucEyraXFFE6Z1gwtie0wvW8PyZAJnaxM/H8K9tZ8jtQnwa+SnXrRicuuWgAHb0XiW3keKvnlMUBnTJ6FlGwGe3q8bs/tQcDj3C0KC2+JFpR7Dit/P1bFzawWQ2YdUk55wZq3avC7FdSp959M8OkktW5iQFSf3MBmXsygkVIPAd0478utFMYzD+f7Kj3qJo086lkwRAkrhiqR/r5Fx2buOx0YcbywGowkIz6rdInm90H3lbsiaYQj1HCrI2vmFeb3pyOAM+kguaFt0aOWycmovATC2zGjFKWc/
 X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 432eee06-10d9-4419-5dc8-08ded75e44a7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f22a4f7-33c3-4de2-6198-08ded75e53a1
 X-MS-Exchange-CrossTenant-AuthSource: PAXP192MB1405.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 10:48:21.2941
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 10:48:46.4067
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oSZzApNCkSFguYUkQOnFnZ0uQA7Xg8MBvHAeIbEv0XDWV8pJQPXh7pthP5y34yZQOrksKbp+rCA+/z/UmaoiGw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: cAjTMkDiKLCmDxorpqbTlc5yF7+/egwk2NKEmOTr5FBvfYJ2rXqQBwjniIN1vdHvYb1RW7SOoirvvWRkvx6Y/A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PPF9A909934E
 X-cloud-security-sender: tgaige@witekio.com
 X-cloud-security-recipient: openembedded-core@lists.openembedded.org
@@ -143,213 +141,138 @@ X-cloud-security-crypt: load encryption module
 X-cloud-security-Mailarchiv: E-Mail archived for: tgaige.opensource@witekio.com
 X-cloud-security-Mailarchivtype: outbound
 X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate48-hz1 with 4gqxZS6X5Xz1wshH
-X-cloud-security-connect: mail-norwayeastazon11023129.outbound.protection.outlook.com[40.107.159.129], TLS=1, IP=40.107.159.129
-X-cloud-security-Digest: 622207450390023b0330261a4d8a14a7
-X-cloud-security: scantime:1.329
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate81-hz12.hornetsecurity.com with 4gqxZm2sPnz1P7Lg
+X-cloud-security-connect: mail-norwayeastazon11023137.outbound.protection.outlook.com[40.107.159.137], TLS=1, IP=40.107.159.137
+X-cloud-security-Digest: 8988821d5af9378ef213a25076e0217c
+X-cloud-security: scantime:1.094
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 10:48:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239970
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 10:48:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239971
 
 From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
 
 Backport patch [1] mentionned in [2]
 
-[1] https://github.com/NetworkConfiguration/dhcpcd/commit/78ea09ed1633a583dbcde6e7bab9df4639ec8a34
+[1] https://github.com/NetworkConfiguration/dhcpcd/commit/5733d3c59a5651f64357ac11c98b4f39895c8d25
 
-[2] https://security-tracker.debian.org/tracker/CVE-2026-56117
+[2] https://security-tracker.debian.org/tracker/CVE-2026-56113
 
 Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 ---
- .../dhcpcd/dhcpcd_10.3.1.bb                   |   1 +
- .../dhcpcd/files/CVE-2026-56117.patch         | 167 ++++++++++++++++++
- 2 files changed, 168 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch
+ .../dhcpcd/dhcpcd_10.0.6.bb                   |  1 +
+ .../dhcpcd/files/CVE-2026-56113.patch         | 92 +++++++++++++++++++
+ 2 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56113.patch
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
-index e214c03416..eb257cb27c 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
-@@ -18,6 +18,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
-            file://CVE-2026-56113.patch \
-            file://CVE-2026-56114.patch \
-            file://CVE-2026-56116.patch \
-+           file://CVE-2026-56117.patch \
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb
+index 6bde9b1f51..65dcbe52ec 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb
+@@ -15,6 +15,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+            file://dhcpcd.service \
+            file://dhcpcd@.service \
+            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
++           file://CVE-2026-56113.patch \
             "
  
- SRCREV = "42ff6d2548209af3185473e6cb6f9d235c48bbf4"
-diff --git a/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch
+ SRCREV = "1c8ae59836fa87b4c63c598087f0460ec20ed862"
+diff --git a/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56113.patch b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56113.patch
 new file mode 100644
-index 0000000000..2aabced897
+index 0000000000..6727bc1a69
 --- /dev/null
-+++ b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch
-@@ -0,0 +1,167 @@
-+From d4b53e813f6119a4f090f6ba10a91778ce3cd1d5 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56113.patch
+@@ -0,0 +1,92 @@
++From 9f953ada0df6e7a568f006f3ae0ff10a77a95924 Mon Sep 17 00:00:00 2001
 +From: Roy Marples <roy@marples.name>
-+Date: Mon, 22 Jun 2026 23:41:53 +0100
-+Subject: [PATCH] control: Avoid hangup in the recvdata path
++Date: Tue, 23 Jun 2026 02:17:10 +0100
++Subject: [PATCH] DHCPv6: When deprecating addresses, restart on prefix
++ deletions
 +
-+Instead return an error and bubble it up where it can be
-+hangup / freed more cleanly.
++As that might invalidate the next address to iterate on.
 +
 +Reported-by: CuB3y0nd <root@cubeyond.net>
 +
-+(cherry picked from commit 78ea09ed1633a583dbcde6e7bab9df4639ec8a34)
++(cherry picked from commit 5733d3c59a5651f64357ac11c98b4f39895c8d25)
 +
-+CVE: CVE-2026-56117
-+Upstream-Status: Backport [https://github.com/NetworkConfiguration/dhcpcd/commit/78ea09ed1633a583dbcde6e7bab9df4639ec8a34]
++CVE: CVE-2026-56113
++Upstream-Status: Backport [https://github.com/NetworkConfiguration/dhcpcd/commit/5733d3c59a5651f64357ac11c98b4f39895c8d25]
 +Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 +---
-+ src/control.c         | 47 ++++++++++++++++++++++++-------------------
-+ src/control.h         |  2 +-
-+ src/privsep-control.c |  7 ++++++-
-+ 3 files changed, 33 insertions(+), 23 deletions(-)
++ src/dhcp6.c | 21 ++++++++++++++++++---
++ 1 file changed, 18 insertions(+), 3 deletions(-)
 +
-+diff --git a/src/control.c b/src/control.c
-+index ec1c633c..e6115f66 100644
-+--- a/src/control.c
-++++ b/src/control.c
-+@@ -115,10 +115,8 @@ control_handle_read(struct fd_list *fd)
-+ 	bytes = read(fd->fd, buffer, sizeof(buffer) - 1);
-+ 	if (bytes == -1)
-+ 		logerr(__func__);
-+-	if (bytes == -1 || bytes == 0) {
-+-		control_hangup(fd);
-+-		return -1;
-+-	}
-++	if (bytes == -1 || bytes == 0)
-++		return (int)bytes;
++diff --git a/src/dhcp6.c b/src/dhcp6.c
++index bdc3664e..5154bf41 100644
++--- a/src/dhcp6.c
+++++ b/src/dhcp6.c
++@@ -2480,12 +2480,13 @@ dhcp6_findia(struct interface *ifp, struct dhcp6_message *m, size_t l,
++ }
 + 
-+ #ifdef PRIVSEP
-+ 	if (IN_PRIVSEP(fd->ctx)) {
-+@@ -134,15 +132,13 @@ control_handle_read(struct fd_list *fd)
-+ 		if (err == 1 &&
-+ 		    ps_ctl_sendargs(fd, buffer, (size_t)bytes) == -1) {
-+ 			logerr(__func__);
-+-			control_free(fd);
-+ 			return -1;
++ #ifndef SMALL
++-static void
+++static bool
++ dhcp6_deprecatedele(struct ipv6_addr *ia)
++ {
++ 	struct ipv6_addr *da, *dan, *dda;
++ 	struct timespec now;
++ 	struct dhcp6_state *state;
+++	bool freed = false;
++ 
++ 	timespecclear(&now);
++ 	TAILQ_FOREACH_SAFE(da, &ia->pd_pfxs, pd_next, dan) {
++@@ -2511,11 +2512,14 @@ dhcp6_deprecatedele(struct ipv6_addr *ia)
++ 			if (IN6_ARE_ADDR_EQUAL(&dda->addr, &da->addr))
++ 				break;
 + 		}
-+-		return 0;
-++		return 1;
-+ 	}
-+ #endif
-+ 
-+-	control_recvdata(fd, buffer, (size_t)bytes);
-+-	return 0;
-++	return control_recvdata(fd, buffer, (size_t)bytes);
-+ }
-+ 
-+ static int
-+@@ -205,23 +201,31 @@ static void
-+ control_handle_data(void *arg, unsigned short events)
-+ {
-+ 	struct fd_list *fd = arg;
-++	int err;
-+ 
-+ 	if (!(events & (ELE_READ | ELE_WRITE | ELE_HANGUP)))
-+ 		logerrx("%s: unexpected event 0x%04x", __func__, events);
-+ 
-+ 	if (events & ELE_WRITE && !(events & ELE_HANGUP)) {
-+-		if (control_handle_write(fd) == -1)
-+-			return;
-++		err = control_handle_write(fd);
-++		if (err == -1)
-++			goto hangup;
-+ 	}
-+ 	if (events & ELE_READ) {
-+-		if (control_handle_read(fd) == -1)
-+-			return;
-++		err = control_handle_read(fd);
-++		if (err == -1 || err == 0)
-++			goto hangup;
-+ 	}
-+ 	if (events & ELE_HANGUP)
-+-		control_hangup(fd);
-++		goto hangup;
-++
-++	return;
-++
-++hangup:
-++	control_hangup(fd);
-+ }
-+ 
-+-void
-++int
-+ control_recvdata(struct fd_list *fd, char *data, size_t len)
-+ {
-+ 	char *p = data, *e;
-+@@ -243,12 +247,13 @@ control_recvdata(struct fd_list *fd, char *data, size_t len)
-+ 			if (e == NULL) {
-+ 				errno = EINVAL;
-+ 				logerrx("%s: no terminator", __func__);
-+-				return;
-++				return -1;
-+ 			}
-+-			if ((size_t)argc >= sizeof(argvp) / sizeof(argvp[0])) {
-++			if ((size_t)argc + 1 >=
-++			    sizeof(argvp) / sizeof(argvp[0])) {
-+ 				errno = ENOBUFS;
-+ 				logerrx("%s: no arg buffer", __func__);
-+-				return;
-++				return -1;
-+ 			}
-+ 			*ap++ = p;
-+ 			argc++;
-+@@ -268,12 +273,12 @@ control_recvdata(struct fd_list *fd, char *data, size_t len)
-+ 		*ap = NULL;
-+ 		if (dhcpcd_handleargs(fd->ctx, fd, argc, argvp) == -1) {
-+ 			logerr(__func__);
-+-			if (errno != EINTR && errno != EAGAIN) {
-+-				control_free(fd);
-+-				return;
-+-			}
-++			if (errno != EINTR && errno != EAGAIN)
-++				return -1;
++-		if (dda != NULL) {
+++		if (dda != ia && dda != NULL) {
++ 			TAILQ_REMOVE(&state->addrs, dda, next);
++ 			ipv6_freeaddr(dda);
+++			freed = true;
 + 		}
 + 	}
 ++
-++	return 1;
+++	return freed;
++ }
++ #endif
++ 
++@@ -2523,7 +2527,11 @@ static void
++ dhcp6_deprecateaddrs(struct ipv6_addrhead *addrs)
++ {
++ 	struct ipv6_addr *ia, *ian;
+++#ifndef SMALL
+++	bool again;
+++#endif
++ 
+++again:
++ 	TAILQ_FOREACH_SAFE(ia, addrs, next, ian) {
++ 		if (ia->flags & IPV6_AF_EXTENDED)
++ 			;
++@@ -2545,7 +2553,9 @@ dhcp6_deprecateaddrs(struct ipv6_addrhead *addrs)
++ 		/* If we delegated from this prefix, deprecate or remove
++ 		 * the delegations. */
++ 		if (ia->flags & IPV6_AF_DELEGATEDPFX)
++-			dhcp6_deprecatedele(ia);
+++			again = dhcp6_deprecatedele(ia);
+++		else
+++			again = false;
++ #endif
++ 
++ 		if (ia->flags & IPV6_AF_REQUEST) {
++@@ -2558,6 +2568,11 @@ dhcp6_deprecateaddrs(struct ipv6_addrhead *addrs)
++ 		if (ia->flags & IPV6_AF_EXTENDED)
++ 			ipv6_deleteaddr(ia);
++ 		ipv6_freeaddr(ia);
+++#ifndef SMALL
+++		/* Deletion may invalidate the next pointer so restart */
+++		if (again)
+++			goto again;
+++#endif
++ 	}
 + }
 + 
-+ struct fd_list *
-+diff --git a/src/control.h b/src/control.h
-+index ef592268..1f09fc8f 100644
-+--- a/src/control.h
-++++ b/src/control.h
-+@@ -76,5 +76,5 @@ struct fd_list *control_new(struct dhcpcd_ctx *, int, unsigned int);
-+ void control_free(struct fd_list *);
-+ void control_delete(struct fd_list *);
-+ int control_queue(struct fd_list *, void *, size_t);
-+-void control_recvdata(struct fd_list *fd, char *, size_t);
-++int control_recvdata(struct fd_list *fd, char *, size_t);
-+ #endif
-+diff --git a/src/privsep-control.c b/src/privsep-control.c
-+index b9ea7f9c..3cdeedea 100644
-+--- a/src/privsep-control.c
-++++ b/src/privsep-control.c
-+@@ -110,6 +110,7 @@ ps_ctl_dispatch(void *arg, struct ps_msghdr *psm, struct msghdr *msg)
-+ 	struct iovec *iov = msg->msg_iov;
-+ 	struct fd_list *fd;
-+ 	unsigned int fd_flags = FD_SENDLEN;
-++	int err;
-+ 
-+ 	switch (psm->ps_flags) {
-+ 	case PS_CTL_PRIV:
-+@@ -133,7 +134,11 @@ ps_ctl_dispatch(void *arg, struct ps_msghdr *psm, struct msghdr *msg)
-+ 		if (fd == NULL)
-+ 			return -1;
-+ 		ctx->ps_control_client = fd;
-+-		control_recvdata(fd, iov->iov_base, iov->iov_len);
-++		err = control_recvdata(fd, iov->iov_base, iov->iov_len);
-++		if (err == -1 || err == 0) {
-++			control_free(fd);
-++			ctx->ps_control_client = NULL;
-++		}
-+ 		break;
-+ 	case PS_CTL_EOF:
-+ 		ctx->ps_control_client = NULL;
 +-- 
 +2.43.0
 +
