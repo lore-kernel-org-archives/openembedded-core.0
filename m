@@ -1,95 +1,153 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DFE6C43327
-	for <webhook@archiver.kernel.org>; Wed,  1 Jul 2026 11:28:29 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.42567.1782905298854633418
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC72AC43458
+	for <webhook@archiver.kernel.org>; Wed,  1 Jul 2026 11:58:40 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43271.1782907117698373607
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jul 2026 04:28:19 -0700
+ Wed, 01 Jul 2026 04:58:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=KanzyzLS;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 8C031C79ABF
-	for <openembedded-core@lists.openembedded.org>; Wed,  1 Jul 2026 11:28:27 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7C5F260288;
-	Wed,  1 Jul 2026 11:28:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 85504104C9E41;
-	Wed,  1 Jul 2026 13:28:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782905295; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=p0m8j0IQddi98OkRxvg57aClss++3fqrEB+FXvdezn0=;
-	b=KanzyzLSB7RauK/WyqQc7cTJhJz7LMc6eEB70QDg+Z4RL0ujJEjDyHb+82KDT2GUWDVto8
-	AB2wAoO7vbH4QYiI07M7ibbM5ws51p1H7x/7qDkSKxlDydho9PKJdN8iPsGeqk6MghCOw5
-	jYhLKLFJo3qBFTerysTUMBicZbcsh3ejDmcfj+/LGKTEfLMp7va3SI3gu86dzG8DPh30Gl
-	LkMxOriziReg/IzPPIjjdnzbbO+wOKHIW/3dmw0WKvxpkSh9r2gnkbIfSjiawkkudWiVjm
-	yuRDsw47nrE9zU+euQzK/XJtGz5N9YPilC5EJ3FrIm+cfO3/757ImblhtcJDKg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 01 Jul 2026 13:28:13 +0200
-Message-Id: <DJN76GVF0HS6.3OSE79EMVNASR@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <ross.burton@arm.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/3] classes/insane: increase shebang size
- limit
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260630140800.4018491-1-ross.burton@arm.com>
-In-Reply-To: <20260630140800.4018491-1-ross.burton@arm.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=oV2FIwXl;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493b27c7451so17397025e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 04:58:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782907116; x=1783511916; darn=lists.openembedded.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FYgOMk5gfSwcM6S9B3hRpmvSjppXFnUuJF8I+jCMLj8=;
+        b=oV2FIwXl5qpVYYcqRu02PPVM2oNpozIOfk/pc7JhLpP/XXjLccGh7ymaG+xaaq2WXo
+         CA76U24NOWj/PX3pTWx11YmQN61B5uL7j8D3bCAWo26C5PSJc6NyZEjLyweAXqrBhZmM
+         OSlm0KNMBkf82Tm76BTBIHOdBqBKRAeLz6K5TLG16QNedpyJuZwS9jy4DSnpywujHtOP
+         34h69zywCsbbmU2GPQiksOqUQyTa5oej8mvKuVUAV3C14FshumQ2aip3bFpa3gBWFKKA
+         qbkVqOBMmA8BEDDLlHCpNLo9P1mOgmu4OX5KJ2HGUgGCjz8q0otrIh7FOtvYpjP+7qFD
+         Aurg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782907116; x=1783511916;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=FYgOMk5gfSwcM6S9B3hRpmvSjppXFnUuJF8I+jCMLj8=;
+        b=Z4S9ty6iVxdS8S4mp/JpuFrLalSLnwsb1KIOMLkljTEBhC1HISa+8QrOffMslvIQiB
+         vKHQUJysgHafOE6joqUOrkR2+GJCRFIzNEsD/yAQRBZtwUFJ5nP1dSq2w+V8hRokGQVy
+         KNaaXd6MBeB0fc1/4E7gzEILmxVg2n9B8R+c0nG72j04n/we0TC3qp6bm20FRENbh5dd
+         R37iZ0ru+cyZaHFmmkOq9DMEGtMd5hfdFn2iz7ADm8PtYn+wkyjoJuZF9pzT6+zKVssT
+         EgsIjeDmrAeWo7Zd1+/+rXWgORdQTtkbZypa7DbjLvZq8SRLPF6HbiCP0Y6tpdXDPDO1
+         PJ3g==
+X-Gm-Message-State: AOJu0YzRUEaooUonqYKrF77m/hJ9ORV5RA18h6B9f7xX6O3caHjWSdPy
+	0GK3AlLtdycbHHrhcrYrlFY1m6TLk3gljYDCe6naevNRV4pyfxZevdOuDexxPw==
+X-Gm-Gg: AfdE7cmzTlm664tGo7Nyk0VuP2sKIyMOXL/tbNzL1c76Z8MXw4tELHCwrl55hBOU6z6
+	yxzy9fBM4Zui0+pnL46chSuzGsRQlQ347wstz8sovMEVFN3CD9dgIOpO2ZmCTQa4xwFBJFZHDda
+	HGgoFRoIcx4Po9KLS0+bPSKBRJC9TGX94yCFc9jyuHu2rMXMN4/OB5IvcQ/AZHOSGXDR5zX+ZEH
+	dXUsSBDknsR/unDvePzxr7QnACFS536i7DCuDm8GGNdVJ1Lzef0iWngYyiN6ByO/3m3JfAiizkw
+	/fpGd5lFQl7dvtGt96+ILjf5r8Je5fwvl+aIlRQHUGOg4AEeN34y9UmjzIC1qjasy4XQsoIdrVs
+	4/TKifzG+AguARaJQiip7hDS7maQuf3jElIj+XNmAjDpN1PaUTZG88PNF4qk/p1BuSpSKxOCqrI
+	agaaNGLWTnOO6t9bOyg/Nh6kMRUmRzp6sgHkWi6WAWFf2YR6G3K88BI9MMaH4PWdk=
+X-Received: by 2002:a05:600d:6454:20b0:493:a87f:52e5 with SMTP id 5b1f17b1804b1-493bc248efcmr62302525e9.10.1782907115886;
+        Wed, 01 Jul 2026 04:58:35 -0700 (PDT)
+Received: from [192.168.5.15] (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4756636cf98sm12680161f8f.22.2026.07.01.04.58.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 04:58:35 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Wed, 01 Jul 2026 12:58:13 +0100
+Subject: [PATCH 3/3] qemuarmv8a32: add QEMU machine for AArch32 ARMv8-A
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260701-tune-a32-v1-3-a43f28b1d7a4@gmail.com>
+References: <20260701-tune-a32-v1-0-a43f28b1d7a4@gmail.com>
+In-Reply-To: <20260701-tune-a32-v1-0-a43f28b1d7a4@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>, 
+ Alex Kiernan <alexk@a-squared-projects.uk>
+X-Mailer: b4 0.15.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 11:28:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239976
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jul 2026 11:58:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/239980
 
-On Tue Jun 30, 2026 at 4:07 PM CEST, Ross Burton via lists.openembedded.org=
- wrote:
-> Since Linux 5.1 the shebang buffer has been 256 bytes[1], so update the
-> check to match.
->
-> Also rewrite the test, create a variable for the magic number (that has
-> the same name as the kernel #define), don't pointlessly try to decode
-> the bytes as UTF-8, and consolidate the test logic to entirely inside
-> the try block.
->
-> [1] linux 6eb3c3d0a52dc ("exec: increase BINPRM_BUF_SIZE to 256")
-> ---
+Add a QEMU machine for exercising an AArch32-only ARMv8-A target
+(Cortex-A32) under emulation, defaulting to the cortexa32-crypto tune.
+QEMU has no Cortex-A32 model, so it runs on the 'virt' machine with
+qemu-system-arm and -cpu max, which provides the ARMv8-A AArch32 feature
+set including the crypto extensions needed by the crypto tune. The kernel
+is built as a zImage and u-boot uses qemu_arm_defconfig, matching the
+other 32-bit ARM QEMU machines.
 
-Hi Ross,
+Map KMACHINE to qemuarma15 so the existing linux-yocto BSP is reused, and
+add qemuarmv8a32 to linux-yocto's COMPATIBLE_MACHINE so a kernel can be
+built for it.
 
-Thanks for your patch.
+AI-Generated: Claude Code (Claude Opus 4.8)
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Alex Kiernan <alexk@a-squared-projects.uk>
+---
+ meta/conf/machine/qemuarmv8a32.conf           | 36 +++++++++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_6.18.bb |  2 +-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
 
-I believe you also need to update the test_sysroot_max_shebang selftest
-/ sysroot-shebang-test-native recipe:
+diff --git a/meta/conf/machine/qemuarmv8a32.conf b/meta/conf/machine/qemuarmv8a32.conf
+new file mode 100644
+index 000000000000..8e49a56ae720
+--- /dev/null
++++ b/meta/conf/machine/qemuarmv8a32.conf
+@@ -0,0 +1,36 @@
++#@TYPE: Machine
++#@NAME: QEMU ARMv8 AArch32 machine on Cortex-A32
++#@DESCRIPTION: Machine configuration for running an AArch32 system on QEMU
++
++DEFAULTTUNE = "cortexa32-crypto"
++
++require conf/machine/include/arm/armv8a/tune-cortexa32.inc
++require conf/machine/include/qemu.inc
++
++KERNEL_IMAGETYPE = "zImage"
++
++PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
++UBOOT_MACHINE ?= "qemu_arm_defconfig"
++
++SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
++
++# For runqemu
++QB_SYSTEM_NAME = "qemu-system-arm"
++QB_MACHINE = "-machine virt"
++# QEMU doesn't know about Cortex-A32
++QB_CPU = "-cpu max"
++QB_SMP ?= "-smp 4"
++QB_CPU_KVM = "-cpu host -machine gic-version=3"
++# For graphics to work we need to define the VGA device as well as the necessary USB devices
++QB_GRAPHICS = "-device virtio-gpu-pci"
++QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
++# Virtio Networking support
++QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
++QB_NETWORK_DEVICE = "-device virtio-net-pci,netdev=net0,mac=@MAC@"
++# Virtio block device
++QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-pci,drive=disk0"
++# Virtio serial console
++QB_SERIAL_OPT = "-device virtio-serial-pci -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
++QB_TCPSERIAL_OPT = "-device virtio-serial-pci -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1,nodelay=on -device virtconsole,chardev=virtcon"
++
++KMACHINE:qemuarmv8a32 = "qemuarma15"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.18.bb b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
+index 2b1298dedf9c..a818506bb6f3 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
+@@ -52,7 +52,7 @@ KCONF_BSP_AUDIT_LEVEL = "1"
+ 
+ KERNEL_DEVICETREE:qemuarmv5 = "arm/versatile-pb.dtb"
+ 
+-COMPATIBLE_MACHINE = "^(qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64|qemuriscv64|qemuriscv32|qemuloongarch64)$"
++COMPATIBLE_MACHINE = "^(qemuarm|qemuarmv5|qemuarmv8a32|qemuarm64|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64|qemuriscv64|qemuriscv32|qemuloongarch64)$"
+ 
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
 
-2026-07-01 11:25:35,511 - oe-selftest - INFO - FAIL: sysroot.SysrootTests.t=
-est_sysroot_max_shebang (subunit.RemotedTestCase)
-2026-07-01 11:25:35,511 - oe-selftest - INFO - ----------------------------=
-------------------------------------------
-2026-07-01 11:25:35,511 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/selftest/cases/sysroot.py", line 49, in test_sysro=
-ot_max_shebang
-    self.assertTrue(expected in res.output, msg=3Dres.output)
-  File "/usr/lib/python3.12/unittest/case.py", line 727, in assertTrue
-    raise self.failureException(msg)
-AssertionError: False is not true : NOTE: Reconnecting to bitbake server...
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4183
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4010
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+-- 
+2.43.0
 
 
