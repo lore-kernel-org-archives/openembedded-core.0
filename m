@@ -1,116 +1,138 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB7C5C43327
-	for <webhook@archiver.kernel.org>; Thu,  2 Jul 2026 13:34:53 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.69787.1782999289150714132
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F93C43458
+	for <webhook@archiver.kernel.org>; Thu,  2 Jul 2026 13:52:54 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.70128.1783000364494052010
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jul 2026 06:34:49 -0700
+ Thu, 02 Jul 2026 06:52:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eLOXI8wY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493c00f74baso10311975e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2026 06:34:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1782999287; x=1783604087; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=RWMHbGesOP5+G5i/mqmjugcpNVAC8zEthCe/KYUsIBQ=;
-        b=eLOXI8wYT9Lj0sc+QEy+5wjmd8Qr9TxNFsj+LZckNeepyevbADm/us8I0tMp4Qe2uX
-         qg+U44nZ+vv5l4iA2nsgG2zSH4208CtCncKyNN9YGz4t4pezls1rGMEMJGB/5DGEMnI2
-         zA5goBvfo05iPMO2Z1ysVVKF2iriaVun9Vv3A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782999287; x=1783604087;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RWMHbGesOP5+G5i/mqmjugcpNVAC8zEthCe/KYUsIBQ=;
-        b=O/Z3SllbC505IhwMqjsgKXoL7VW836J3P2MNDdmDq/cPhb2/oE/rHuNApH3AEGunZX
-         A/Ui3mXX+paXnCihRcG8U4h/m60g5+Nhson95ihiCePhSUV9GiuPIt/zLpijhAv7374w
-         0Nu3ayIgE4iMvnGeLm0A8UAUFylO/biuLstNaRi/GFZHfl8b6bEYBLg5nkj3NjFBcIml
-         jbGzxO+FBGqFnGNGY7+njOQ2aMVIbY8zNb1U4z5CFdf+jyDpjEFysijZKHwkfS8XdJyh
-         WFWFEVVgWIXdE2nun9L67DQhDZva00yj/YOhJ7zzm4W79b/FGr7lAKH6TEo9QHYMsVsj
-         DLaQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+f6FC8lj014MrSpYeLZbytdvD2G8kn/JLHwMoJ0LC5PoyRvr2OAKR6clGwQ9wnMFVHRfONxLD6z5FrO7BzvtoMzw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwhSWP0lEVwQJhGCIxFmYOzPPx9c8nayeVsUrHE0FlVjH4/wMvI
-	prfH557KbakkslNltIWbQQWXyurOJggScBUqAvfwpofEQwY/2Mgn8/iG8SBdVc7ytcg=
-X-Gm-Gg: AfdE7ck8quMg/GKCNKXCcTpkLCNanBU+8vMuExxX2wwmGnQTQ/6Mo0CEBpXiiZ7w1et
-	e12wRs/fLLa+YIk9JZ+3O5Vg1DRQm/Zm9L5UmsVhbVSD7mDBsCwC7ELfCJo+oB3lIyUPN00ecIH
-	mVS7QtlvLQKDQfwmdrrk3D0EtWHXC0d6NZDeKYhteGCXKeJsvUg5z6U2LMP+E9h/XV/jbMchpYR
-	e0VwDcitdXJ/5/EJHml153iti/6wcaanj8z+dg9RKq6UmIzrRJSJukJYxjXv7UtNQSslNDb1MOA
-	s7cB8vYFofsFRuWhrESUMht+/4h4KHl1pu0zsZ/QGkpEL3ptwNaBJ4l38RJhzGZbXgIPnYYop5B
-	GnhAxA/zkSeVG3GsiZw5Ur0bdSbnbDWajiT2DEmsX+W6QAnEO6EzzrLwcX0akUCFeHhNjnI593y
-	Y4nCuLCN8P1BO/admf4FvOBM7PEXhE/hlZTlu3YZFDoM3mHr57WjtagQIG6D9R96PRVY7RzXQQR
-	tE=
-X-Received: by 2002:a05:600c:1554:b0:493:a435:d870 with SMTP id 5b1f17b1804b1-493c2b902bdmr89628505e9.27.1782999284844;
-        Thu, 02 Jul 2026 06:34:44 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:144:7f9c:c394:defe? ([2001:8b0:aba:5f3c:144:7f9c:c394:defe])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477db3dba0esm8687828f8f.7.2026.07.02.06.34.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 06:34:44 -0700 (PDT)
-Message-ID: <abbb21f83c63fecd56c11da7ba4442094e96ccda.camel@linuxfoundation.org>
-Subject: Re: [PATCH v3 0/3] systemd: update to 261 and be compatible with
- rhel8
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Daniel Turull <daniel.turull@ericsson.com>, "alex.kanavin@gmail.com"
-	 <alex.kanavin@gmail.com>, "mathieu.dubois-briand@bootlin.com"
-	 <mathieu.dubois-briand@bootlin.com>
-Cc: "qi.chen@windriver.com" <qi.chen@windriver.com>, 
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, "Ross.Burton@arm.com"
-	 <Ross.Burton@arm.com>
-Date: Thu, 02 Jul 2026 14:34:43 +0100
-In-Reply-To: <7ad0d4852da4b1f13d6637f1e6e7dc6c674e2731.camel@ericsson.com>
-References: <20260630115028.4001775-1-daniel.turull@ericsson.com>
-		 <DJNY5PFZT70X.2O5P68RPD0PJU@bootlin.com>
-		 <afbb3cf90ff55c3b4e693b8a28a6903b7f34f946.camel@ericsson.com>
-		 <DJNZTL96C89O.1S6YFZXO1KCJI@bootlin.com>
-		 <CANNYZj-duZWDtw2XP8SYg8gqhEbVDhnATLByJw+kAN2EjY0ZNg@mail.gmail.com>
-	 <7ad0d4852da4b1f13d6637f1e6e7dc6c674e2731.camel@ericsson.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=wdZc6/rB;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 55DC11A0DDF;
+	Thu,  2 Jul 2026 13:52:42 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 23B355FF03;
+	Thu,  2 Jul 2026 13:52:42 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8514F104C957F;
+	Thu,  2 Jul 2026 15:52:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1783000361; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=qj03otANxasgBl4QsSeANqsbxh0jO68tCMsks3lH/IA=;
+	b=wdZc6/rBHStW8/RdcuADU23l1X4hI10MGIw0olfim1EJVYWS+7Pd2wP317rWuAMsEKAHHu
+	8A5qAGD821scsfAPUhWE86ZjkvUQb8MJIqOCW/ejg0qIPsZiF9ZdhQc3rDSMuen+E1vjVg
+	XToLgcRz0Q6m+Dbmi/OtYLgjszDsPiO6UF8FtvD5SNsxUT0udhisDKz44uNjlAz2ME8cFG
+	2ZMXeU0md2aFXz+fhJzjaKBwLOq2Zxp3uy3lTmM96rEHFiJz5VJjMIgahvjLQx+bP/umYD
+	VzXngp6cRnoazcMVh2h8N/GrNmt+kXaDpKlWTslmXa73eoVyH8HCS40JuiSwug==
+From: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
+Date: Thu, 02 Jul 2026 15:52:38 +0200
+Subject: [scarthgap][PATCH v2] openssh: CVE-2026-35387 patch also fixes
+ CVE-2026-35414
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260702-openssh-cve-2026-35414-v2-1-6ff7fb38872f@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WOSw7CIBRFt2IY+0z59KMj99F0APhaMAoNINE03
+ bulLsDhubm/hUQMFiO5HBYSMNtovduAHQ9EG+kmBHvbmLCKNVVbMfAzuhgN6IxQROC1oAKqVpx
+ FW3PacUm28BxwtO+9uB9+HF/qjjqVtj5qGZKZ5DwUs7Ex+fDZT2RaIn/3MgUKSnUN10x3bKyvy
+ vv0sO6k/ZMM67p+AcUc0gXbAAAA
+X-Change-ID: 20260702-openssh-cve-2026-35414-07494753183a
+To: openembedded-core@lists.openembedded.org
+Cc: olivier.benjamin@bootlin.com, mathieu.dubois-briand@bootlin.com, 
+ thomas.petazzoni@bootlin.com, pascal.eberhard@se.com, wahid.essid@se.com, 
+ "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>, 
+ "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
+X-Mailer: b4 0.15.2
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2026 13:34:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240051
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2026 13:52:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240052
 
-On Thu, 2026-07-02 at 13:19 +0000, Daniel Turull wrote:
-> On Thu, 2026-07-02 at 13:03 +0200, Alexander Kanavin wrote:
-> > On Thu, 2 Jul 2026 at 11:55, Mathieu Dubois-Briand
-> > <mathieu.dubois-briand@bootlin.com> wrote:
-> >=20
-> > > I suspect we had the same issue with v2, we just have been a bit
-> > > (un)lucky as it never ran on a Debian 11 worker.
-> >=20
-> > Debian 11 has host glibc that is too old for systemd. There are
-> > other
-> > distros that use an even older glibc, and they do not fail because
-> > they use buildtools. So we need to adjust the autobuilder to start
-> > using buildtools on debian 11 as well.
-> >=20
-> > Alex
->=20
-> Yes, I can reproduce th problems with glibc on debian 11.
->=20
-> I have tested inside a debian 11 container and using buildtools-
-> extendend-tarball should fix the issue.
+The openssh commit fd1c7e131f331942d20f42f31e79912d570081fa fixes 2 CVEs:
+CVE-2026-35414 and CVE-2026-35387.
 
-If we start putting buildtools everywhere, we may as well just stop
-testing on most of the distros :(.
+CVE-2026-35414:
+| OpenSSH before 10.3 mishandles the authorized_keys principals option
+| in uncommon scenarios involving a principals list in conjunction
+| with a Certificate Authority that makes certain use of comma
+| characters.
 
-I'm already worried about the implications of buildtools on RHEL9
-derivatives :(.
+The match_principals_option() function is fixed. Before this fix:
+When matching an authorized_keys principals="" option against a list of
+principals in a certificate, an incorrect algorithm was used that could
+allow inappropriate matching in cases where a principal name in the
+certificate contains a comma character. Exploitation of the condition
+requires an authorized_keys principals="" option that lists more than
+one principal *and* a CA that will issue a certificate that encodes more
+than one of these principal names separated by a comma (typical CAs
+strongly constrain which principal names they will place in a
+certificate). This condition only applies to user- trusted CA keys in
+authorized_keys, the main certificate authentication path
+(TrustedUserCAKeys/AuthorizedPrincipalsFile) is not affected.
 
-Cheers,
+CVE-2026-35387:
+| OpenSSH before 10.3 can use unintended ECDSA algorithms. Listing of
+| any ECDSA algorithm in PubkeyAcceptedAlgorithms or
+| HostbasedAcceptedAlgorithms is misinterpreted to mean all ECDSA
+| algorithms.
 
-Richard
+The rest of the patch allows to correctly match ECDSA signature algorithms
+against algorithm allowlists.
 
+The full explanation can be found on debian repository:
+https://salsa.debian.org/ssh-team/openssh/-/commit/ae190b6440b7c599d759527965334eeb49cc75b3
 
+Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+---
+Changes in v2:
+- Update commit message to clarify why the patch is fixing 2 CVEs
+- Link to v1: https://patch.msgid.link/20260702-openssh-cve-2026-35414-v1-1-bb863c2c82f5@bootlin.com
+---
+ .../{CVE-2026-35387.patch => CVE-2026-35414-CVE-2026-35387.patch}       | 2 +-
+ meta/recipes-connectivity/openssh/openssh_9.6p1.bb                      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-35387.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-35414-CVE-2026-35387.patch
+similarity index 99%
+rename from meta/recipes-connectivity/openssh/openssh/CVE-2026-35387.patch
+rename to meta/recipes-connectivity/openssh/openssh/CVE-2026-35414-CVE-2026-35387.patch
+index c4806bd9935c..4839d76fa808 100644
+--- a/meta/recipes-connectivity/openssh/openssh/CVE-2026-35387.patch
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-35414-CVE-2026-35387.patch
+@@ -14,7 +14,7 @@ Reported by Christos Papakonstantinou of Cantina and Spearbit.
+ 
+ OpenBSD-Commit-ID: c790e2687c35989ae34a00e709be935c55b16a86
+ 
+-CVE: CVE-2026-35387
++CVE: CVE-2026-35414 CVE-2026-35387
+ Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/fd1c7e131f331942d20f42f31e79912d570081fa]
+ Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
+ ---
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+index ea158b56b419..4193bc8a5b41 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+@@ -35,7 +35,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://CVE-2025-61985.patch \
+            file://CVE-2025-61984_CVE-2026-35386.patch \
+            file://CVE-2026-35385.patch \
+-           file://CVE-2026-35387.patch \
++           file://CVE-2026-35414-CVE-2026-35387.patch \
+            file://CVE-2026-35388.patch \
+            "
+ SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
+
+---
+base-commit: 2814f0962f56c8d1afa4de76d2895ba9b5cb767d
+change-id: 20260702-openssh-cve-2026-35414-07494753183a
+
+Best regards,
+--  
+Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 
 
