@@ -1,111 +1,114 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3C3FC43458
-	for <webhook@archiver.kernel.org>; Thu,  2 Jul 2026 15:22:38 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.72293.1783005749618067249
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA7D9C43458
+	for <webhook@archiver.kernel.org>; Thu,  2 Jul 2026 17:12:49 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.74345.1783012363015584845
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jul 2026 08:22:29 -0700
+ Thu, 02 Jul 2026 10:12:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=FiJkoAfB;
- spf=pass (domain: baylibre.com, ip: 209.85.219.41, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8eff5ce3b95so16871676d6.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2026 08:22:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=BORJM5Vy;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8ea70ca4fc8so7806236d6.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2026 10:12:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783012362; cv=none;
+        d=google.com; s=arc-20260327;
+        b=lAyg78nG+NTRIDNy7hRWM6o0D/flSDv/nuGDgDQdcnLxlfvX5dqfI90zPpTZcmerwJ
+         Zn66Oc1pCQCpBUWUSBQ3NLAvmmXwnHVIcil6vOILYGHCv63F66PD7fWbBbdA0+U/DlNm
+         EBoSjgBIupSki493fvt7gZF6xZcXd5kOAVm++DQCB5iURE+zOn8VmKxf5YFO2QHNlHON
+         dCc/W2H9qRB+rzNaI2mGjmUlhpPqrQWvfLheUF6lpS0oDd0J7eQUbCRcEnBl5Yx8FByF
+         Eh+5EZDsSuTpYZF9jQXNroGrgrIWGZjU4yjkMsGFjg4+3wqlhRFdewhcnhvP1ORXVW8k
+         gN1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=GTFQtT45JhYEgqS6Q0t81kZk2s7lc5mcQHRJ1ebYyrY=;
+        fh=jalLMzWPjSFYQ8BXTRC3XbuNnPhi7LuTXzN2Y0v25RI=;
+        b=nYHXk+zvfy2Vs6pmOhV/44Z+dzzgrfycIjrE9S8WKePHVtMPO25+sgudcYnS8Dj45o
+         nWDV3Q43m/sBLMflCnkVExxb29LYG4A5H2kcQpQj1BB9Pa1ZlYsGJ3h+hEUx1xl9IvX3
+         RqyZ7bEwBai9H4zua4iHfFoL30im9kev+Nc/GdVV5sr7l/XrL53i8qE+Qg7mSjTn9R8A
+         sTq0mS7GVmRoBzJ9I87l2056IioZD0ruwdI6P2RHriLfcmdhIPqasuli/brbQxLfta8o
+         bpLLXkvcF1XyIsPlN7Inw1HEtB1WWl68P2AmhobUsflHaLLcaQQvVUaohQRRlqSBBpeW
+         /tHA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783005748; x=1783610548; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lpEqPX+3vUoKU7DBXoSoh3owWBloA8LHKsvLMyfYVlU=;
-        b=FiJkoAfBoHiEu+eek5JDxRlMAWte+rhn6aWw0WmtkXNeH0GnmlDZXF/XRuI7DV5RcV
-         knfmui16YUyJL4aTDazpQ6MkT//hq54PWXeJGKchM8xvNsFFQv0efz910TBzI40E06Jn
-         7qRyh4XU62U4a0jtG1pPfCguyYeGDSaFkBih5u9MkgNLzfNCLjk0ZOA73EV/wF0vZPs2
-         wr2L7orM+7GtS98t5rX+M8RWt6tY6uX7gtc2ESlo1EVyPwHMvQDVRsHm0WNcYF+LMlAr
-         VtZuNeqFqLWgxYvOmLcI/vze181BdTSVtdJUYhQQZ4PSW/CzNEVF+achPlrw8HWIjXyC
-         8+lw==
+        d=gmail.com; s=20251104; t=1783012362; x=1783617162; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GTFQtT45JhYEgqS6Q0t81kZk2s7lc5mcQHRJ1ebYyrY=;
+        b=BORJM5VyhxA/5nMIa2bLEsEi62G4wJ98liF3A8COlJsUxVbWXGKuYKPR9jZdG8egRj
+         fbXlM3CCwSpydOqyYtF1YbtjRDt5BEV9kDmcAIaTkjRdswRK2IiaCBk59sc9MAMVY2oL
+         FZC5JK/extFZ7019HRO8GpVw6YuWyqbOoQUeOjQv1sjjEYxz/HuNCLoBLeMU8Aci3t+b
+         v9V6HPprbRfY5DcKj/sVSMy3nzcIw9cawYAwm+JS7CMk5t5JfsPEaW8X7EamsdL9sF5Y
+         Uobo15ISKqx9jYIqnjUPe6lCObA9Zc8/3nIVTCPL19nXd6wgckyPGUxC3UX0WaisznSS
+         4JSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783005748; x=1783610548;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lpEqPX+3vUoKU7DBXoSoh3owWBloA8LHKsvLMyfYVlU=;
-        b=P9MfovUJRwCTCE7n/8D9h3pyaJuUR2jc/isKDyBLaVKmITduuLq6zH5tAB9e24X0Ev
-         klyS0KgIhu0lLt5TdSRCrk42FzhnpEA76QJA2gD8iyH3y8mhVw0IqhKsOhjGQMHs3m/+
-         uc9G3zue99IxCPHYmWswip+me7q1mIltcdVpY1m+Ogo/l8AY+JXRCSvr3TaT8s7jok/H
-         nLjOcwjRJSgj8vsLkMujSuVTlC/XGrjU6FUKwZpDUHgghcWg7sohr++7fs5xAMb2LdU9
-         B5wXun8xXuSIv/tSdpVfv2pxmoVHd9Xi2QPlorrS/MkkPSuvaXNfuYFNW/hN4zgI7i3L
-         KLLw==
-X-Gm-Message-State: AOJu0YxBFMNg3CAVniqLDED+jB58XU/c+vPCh1UVytJbG3p6p/R5VbSV
-	CC/ZOYwUmNDEi2n0F82UZN3DbcqxE5BLPCMnczJPf8DSZsEyUJTOmIDGNYZq9tNcFCRoFblqMUo
-	QX69X70oavg==
-X-Gm-Gg: AfdE7cn60EbZ9oTBQ74TGrt+rDcUjoguv6hfuymOIQidDzjIj/ItSdgv7bGaUSo+URf
-	gnTpZX9heZi8lkK8knJh10P0tDFuWW0oH9+E0OwM5utNTx6VOemYR0SVh4i4bXz/5jT1zGkTUS7
-	1NupTCI0DJqQDaovA6LHpqEwMqKGPz7ib9chjie/kRPABrpHtwUOaqwIwW95O2v1ll2HjjDLLUU
-	1u7cbLUAn2TAn348nu20AqqrzvgPJaVeA8MG3J5qWyfiRabJWtWspoOcE+K0cAfLHt6/Z3utdu4
-	hCSd3qkLorLaFEqjFoXceJti5SmKxHTAmXRFxpJ7VfAsdzDuV4SI5Mv2ihm1UsY2esua4Pzn9O/
-	Sj5meseITCqjCcP3ccn+aGEvMvdrmefShfWpNmSbhpMj/pU64x2My7Xxu1wmlJTq3hEsgzi/YlM
-	p1iA/nerU/zLcvzBUH+q6bc1WdLWY=
-X-Received: by 2002:a05:6214:dcf:b0:8f1:2607:ad86 with SMTP id 6a1803df08f44-8f42149c5f5mr70803406d6.4.1783005748523;
-        Thu, 02 Jul 2026 08:22:28 -0700 (PDT)
-Received: from localhost ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f46e27d555sm28510916d6.7.2026.07.02.08.22.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 08:22:27 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: yoann.congal@smile.fr
-Subject: [OE-core][PATCH 5/6] patchtest: tests: test_python_pylint.py: use more Pythonic comparison, fix indent
-Date: Thu,  2 Jul 2026 11:22:12 -0400
-Message-ID: <20260702152213.1439717-6-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260702152213.1439717-1-tgamblin@baylibre.com>
-References: <20260702152213.1439717-1-tgamblin@baylibre.com>
+        d=1e100.net; s=20251104; t=1783012362; x=1783617162;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GTFQtT45JhYEgqS6Q0t81kZk2s7lc5mcQHRJ1ebYyrY=;
+        b=fyaabif+4KYSK5e/qNkZ42lmgOfpuvA0tDK6qihKl+pH5U6aTa1GUNG+SBL8kicDmp
+         wuhmYRCEuCUs68pwSy+/mNj+1FX8cPhGhpkBhX4FvjLG2YQjEuc2LsI/TObIciAqUDeh
+         /O/t6lulQ7/yUmqY1MYI+uKphuuwU8bRrvvXm4r34uR5j4DoiJ7U4tnQCaMPWbPu/wpF
+         v3l0evXLkpBJVAaviaKB0ap4guf8Ow9Ptog/W++cjGBPT3tMntXUO7Cv+umYEmNiaTw5
+         nB2T/WbvAnYNlHNtZLmmvP3WIIDXfsSbgmiuqpSxTXzFAKRdMUIEqhLptfdqEBgScCs6
+         cOjQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoQodqD5yQmsowp0M1hzFu3DbIh1n/j1dFw5C4EETxDjpsLkqRfo0TXO38EkWMsShkJD2/p5O2QujCBR/ZqD84VVA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwwBithlOUTSYuCRAlntEfzI3UvY4htgjBDPP8i1naDhgATNid1
+	hTNH9GNiy+qhDEU/REM4kkAgAzVGOqP7ArvJfnB7jmPdVupV9IUNOPagIOlLlbBjBrzRyQFCZg0
+	EkGruq9SBB7QwbUrAp+79fyJCVVMGqtI=
+X-Gm-Gg: AfdE7cmBi8pBHasZTg7wc8dEaZfI4YC6fUb847rZIYGeZTfEkZW9SMxg4wg39JKf/3s
+	AU3TBZGDqigIfe7H/KX1MQ2rfd0rm6WZRmAHQY85ihCvl/DOkArm0Fi/S+UbnjViwoXboipWFWg
+	NdPIf4YQRNIwqSibIjHrMuCksbCiEcrwF+P1DRGN3u91+ekyjMJVLNIgHDV4KmPQQh/kxNDouCg
+	jlLuViYp84sm/lsJ3daoIn0eiuzBw1HwnBTxO7w2J8+XIqz+pejvtk+PJT9UbkMc0LcKJxboxm4
+	ELds70Dzj6qey1XwnBjan7e07E2f
+X-Received: by 2002:a05:6214:20a4:b0:8ef:1c10:65fa with SMTP id
+ 6a1803df08f44-8f5bc5b45damr12115336d6.8.1783012361821; Thu, 02 Jul 2026
+ 10:12:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260630115028.4001775-1-daniel.turull@ericsson.com>
+ <DJNY5PFZT70X.2O5P68RPD0PJU@bootlin.com> <afbb3cf90ff55c3b4e693b8a28a6903b7f34f946.camel@ericsson.com>
+ <DJNZTL96C89O.1S6YFZXO1KCJI@bootlin.com> <CANNYZj-duZWDtw2XP8SYg8gqhEbVDhnATLByJw+kAN2EjY0ZNg@mail.gmail.com>
+ <7ad0d4852da4b1f13d6637f1e6e7dc6c674e2731.camel@ericsson.com> <abbb21f83c63fecd56c11da7ba4442094e96ccda.camel@linuxfoundation.org>
+In-Reply-To: <abbb21f83c63fecd56c11da7ba4442094e96ccda.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 2 Jul 2026 19:12:29 +0200
+X-Gm-Features: AVVi8CeAS7zuy8I6dPgnb87-6stGzNsZ8g9jmvIfFOhai1Ave8OO_mGQUA8NlGU
+Message-ID: <CANNYZj8RjYjcdT3yNGKHaS1jxYR9+e7qu_ZXAVwginXBpuiwyA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] systemd: update to 261 and be compatible with rhel8
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Daniel Turull <daniel.turull@ericsson.com>, 
+	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>, 
+	"qi.chen@windriver.com" <qi.chen@windriver.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"Ross.Burton@arm.com" <Ross.Burton@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2026 15:22:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240063
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Jul 2026 17:12:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240065
 
-- Use "!=" instead of "is not" when checking for a renamed file
-- Fix the pylint readlines() block so that indentation is consistent
-  with the rest of the module (four spaces instead of eight)
+On Thu, 2 Jul 2026 at 15:34, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- meta/lib/patchtest/tests/test_python_pylint.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> If we start putting buildtools everywhere, we may as well just stop
+> testing on most of the distros :(.
+>
+> I'm already worried about the implications of buildtools on RHEL9
+> derivatives :(.
 
-diff --git a/meta/lib/patchtest/tests/test_python_pylint.py b/meta/lib/patchtest/tests/test_python_pylint.py
-index ec9129bc79..37d1de9436 100644
---- a/meta/lib/patchtest/tests/test_python_pylint.py
-+++ b/meta/lib/patchtest/tests/test_python_pylint.py
-@@ -47,7 +47,7 @@ class PyLint(base.Base):
-         for pythonpatch in self.pythonpatches:
-             # a condition checking whether a file is renamed or not
-             # unidiff doesn't support this yet
--            if pythonpatch.target_file is not pythonpatch.path:
-+            if pythonpatch.target_file != pythonpatch.path:
-                 path = pythonpatch.target_file[2:]
-             else:
-                 path = pythonpatch.path
-@@ -55,9 +55,9 @@ class PyLint(base.Base):
-             reporter = TextReporter(pylint_output)
-             lint.Run([self.pylint_options, pythonpatch.path], reporter=reporter, exit=False)
-             for line in pylint_output.readlines():
--                    if not '*' in line:
--                        if line.strip():
--                            self.pylint_test[line.strip().split(' ',1)[0]] = line.strip().split(' ',1)[1]
-+                if not '*' in line:
-+                    if line.strip():
-+                        self.pylint_test[line.strip().split(' ',1)[0]] = line.strip().split(' ',1)[1]
- 
-         for issue in self.pylint_test:
-              if self.pylint_test[issue] not in self.pylint_pretest.values():
--- 
-2.54.0
+The reasons for using buildtools are well understood: it's when the
+host software (gcc, python) is too old to try to be compatible with.
 
+Debian 11 is almost 5 years old at this point (one year older than
+rhel 9) and goes EOL in just eight weeks. It also has a glibc version
+that systemd explicitly does not support and fails to build with. I
+think this fits the reasons.
+
+Alex
 
