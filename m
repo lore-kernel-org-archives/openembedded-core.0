@@ -1,172 +1,116 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <leon.anavi@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61FB0C43458
-	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 14:05:22 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.93935.1783087515420160760
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86A25C43458
+	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 14:29:32 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.94390.1783088966408715804
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2026 07:05:15 -0700
+ Fri, 03 Jul 2026 07:29:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=fl64SvKG;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47488efcf30so408682f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 07:05:15 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=A1tyogHM;
+ spf=pass (domain: konsulko.com, ip: 209.85.128.51, mailfrom: leon.anavi@konsulko.com)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-493c83474ddso6029815e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 07:29:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783087513; x=1783692313; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zoD6Y+edj+FdPa+Y5gSoSVgxwUjdrMfGApP0phIgeXI=;
-        b=fl64SvKGjF1LwltEtFxnCu2RaRWrpsPmLHB7Yh4bT2Od6ytYMWsUsnCZh79XuiQnsU
-         oXN4eFACqH09aaZu8OEyE7u9JzJfYolHKAfa/SM8Gj+77JJMr+wCenAXVRLd3R5chl1p
-         tQBv++k/FHJ0T2L2+Bhp53mX3pd42JJWSDaL8=
+        d=konsulko.com; s=google; t=1783088965; x=1783693765; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NisV8/e1zgNcnTlrnEhGjWhFAHBQyAxaZCODy2NGJE0=;
+        b=A1tyogHMuU1AXY0XSB/eGZ799BNCrC48f6xp5C62/HjoGTBZmFDKeXoBcr+s8U0xuI
+         r/Xc9Hql27hlluiCLUPGxLc3XXGJxLjBVLs4PgkxXk5qe7H+mIbPsufJOYe8UhTd4Khz
+         B3ro9a26l0msYgKnk5h6Bt5QVHjNGVyeRnpZU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783087513; x=1783692313;
-        h=in-reply-to:references:from:subject:to:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zoD6Y+edj+FdPa+Y5gSoSVgxwUjdrMfGApP0phIgeXI=;
-        b=XJCrgqqJryiHGF/wvNyX9OHeLAyXpj2ZfQN89tGIIEnNwG2ZAPcp0bTdXbrrQKjrh/
-         UDz4Q3QZiFF+0o6kIYU7LzMKxl26bDKp6AcSexAntwu/w7y7TR9x2gumsEE4+Dxc0zGN
-         DEXXgHtbOw76zyNQ9BBSlujN0mGo8fuav5nfUkw/pafmDPpmCKzTIbFZvtXfbaojvNI1
-         sSN8YO+cWO/GOQLQLzKSDg2yZAgM00dkrVl9A9UdEjV8L4S5wBSdWrgwDS6TLxgBuFoo
-         E1jJ28ClnsXbCoXoHSsvVDxt6xYb4ICVlAJMVH0HXnlNYXYgmZmeJNwoZRshJhv/EAVG
-         vQew==
-X-Forwarded-Encrypted: i=1; AHgh+RopF9TijmNSnGOzwawZrmUzdZA1bJxkGonqxO0CO4BBfGmhWRaL8pqHVg1aDlGbyufmZhVKCDVWqqwgbA62pjiO4g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyKQrdAQoLT9xr83j0Y7OXQeLosILRX0G8V7VnS5MY4RhBHiXWf
-	ZoC0dHfOdd/TU2B+piCumuJOnVEXIftFs6izDyB5t2zYwA8/qh9gbsS0tJKcg/2JauU=
-X-Gm-Gg: AfdE7ck9Qie3QZKTriq5nOAL21QyWUYBbeP4zJGbCUV7CvdFOeXr82CFJ8YD4dVRasO
-	i7LQGsVhchgrit04v/DpUIBoZpYXD/kGhDSZoH71rP/9u+XH+WQTwHACt71gpZl+fIfMEwumKz2
-	9PlNfeShOlzGQ1H+Qchkf1afsVA36ehODeWkL1oLgMKbosPqc+EjPqYBgHD+SP2ORdLAKnA+Sj3
-	boO3QzVPkr4SXZFWG3k3fCTTbMWi6RV/m2IhpxRek3350m50kdz4sNNhCo60JmgdiTWW4PG189q
-	JBw+m95Pmih1o+nE+iJEeoOf+OOkC1I52iUDbse/39oIigLcqbA94GY9lidRf7SPg6RtbPTBud6
-	ZGJ/IzaYPjLao0KQktKY2Fmb7/9xhqmY8E7wjG2M/Z24A9YdQECbJ3wlVE8am4BDx7lr61JAqzc
-	Li7ouEKLCxhgsxA1WZJeQrFCO/xqNLOjzkdPnurrm9p9sw+4gV9T4SpQ0QtnCcYF5wMcFHarprq
-	KW51g==
-X-Received: by 2002:a05:6000:2589:b0:475:f0f0:9eee with SMTP id ffacd0b85a97d-4775b1769a8mr15962008f8f.51.1783087513526;
-        Fri, 03 Jul 2026 07:05:13 -0700 (PDT)
-Received: from localhost (2a01cb001331aa0075403fb2c9c4e210.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:7540:3fb2:c9c4:e210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477dd94c9b5sm19858321f8f.20.2026.07.03.07.05.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jul 2026 07:05:13 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 03 Jul 2026 16:05:12 +0200
-Message-Id: <DJOZRR1VTCJW.2SE2Y5O7ORO5Y@smile.fr>
-Cc: <jinwang.li@oss.qualcomm.com>, <xiuzhuo.shang@oss.qualcomm.com>,
- <mengshi.wu@oss.qualcomm.com>, <cheng.jiang@oss.qualcomm.com>,
- <quic_chezhou@quicinc.com>, <shuai.zhang@oss.qualcomm.com>
-To: "Wei Deng" <wei.deng@oss.qualcomm.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [wrynose][PATCH 2/4] bluez5: Fix sending extra bytes with
- MGMT_OP_ADD_EXT_ADV_DATA
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260626093920.1079859-1-wei.deng@oss.qualcomm.com>
- <20260626093920.1079859-2-wei.deng@oss.qualcomm.com>
-In-Reply-To: <20260626093920.1079859-2-wei.deng@oss.qualcomm.com>
+        d=1e100.net; s=20251104; t=1783088965; x=1783693765;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NisV8/e1zgNcnTlrnEhGjWhFAHBQyAxaZCODy2NGJE0=;
+        b=mQc1B59NkY4yW0BpMS0QLJhvQlGxT7XYg3ZYtFm7fHhT783CshvclxNtr2KNXolpLR
+         Bo6IPTNm8g/C+JDHJPfmrPwlk8WpeboT+WVs16pc2NWo0rCFqAaY9dzOw+oQPV2f2Aet
+         RLE7VAR2/Yv1t0XEk9t+U3uaw/VVyB1JCmwwzgoD3WaOVZKsG3t2ZbIkSYmwvPweOVH9
+         uOMuakxT18BQ7/R07Fq0TqJoWJenc6xNdyi8a51yHJ7NuVUwbSew/HkAWzEDNoqVpkbu
+         2UYltP1KKdOispvbFzBzz0hSnO2y2MnpXY3pXUaXR3DnN/7HnXS8pUOQs77ofPVHM3ky
+         zbkw==
+X-Gm-Message-State: AOJu0YxraWv2564PI5TOKq4ViEQvN64K4ScKsYo7sLfs4SUSxu2nlrtg
+	R0RxtAi8djsChCr0/bk2WJrLaK3PP+WJTgDgU1nR7P65G7tuUELjPWzThSvLVQzIUYmjyydLncB
+	LbZU0
+X-Gm-Gg: AfdE7cm2KX1sKKUD3qxgalIIVi2aD6Dl5C1SzSRejQX4sWNW7AG4HFUd5r3NJb8jie3
+	/DTYgv5zMb0v0AMJWRugz4/Sn3jitFz2TetcXQr/7jmDksH4oPtA9VfamJWQiKEHe62XxpLUdwr
+	A3WU8up03j+OjtIQ8/fq+B/qbs2rdWkuyMM16Gm6CVr7RP2mkyr2nqCAIjo2aSqjsXCwicLwLIL
+	Y2lJYMq7/yX15ZHSECVa2QSB7klVxWPaRF15l9DTs5P1D1O7Xn3i4uwBVhxp4A7vYhU1bMER2lR
+	IjWTFvCibrkjEf3coAE0/xyoV6d64VSqEEgm8T8EQQ0bN3bcbuWePv8lCgjcJ5DVJbLXRhP2Lim
+	u3GXno0FgenMQCEMuq7S2AZvTa8nC7+f2qDSdpcUz0FPfUsGMk1qdLb/AdoUL2+Lvzm1yvpDthi
+	gKcZJkDrZCjI2pifRThqYYePfELnrQbwkumzkHDpcwRyTKvL5O1riSTUrQoQ==
+X-Received: by 2002:a05:600c:a087:b0:490:e974:e006 with SMTP id 5b1f17b1804b1-493d0f3a14emr1242595e9.29.1783088964565;
+        Fri, 03 Jul 2026 07:29:24 -0700 (PDT)
+Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63ba971sm211163155e9.13.2026.07.03.07.29.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 07:29:24 -0700 (PDT)
+From: Leon Anavi <leon.anavi@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Leon Anavi <leon.anavi@konsulko.com>
+Subject: [PATCH] meta: Add pam to the defaults if using systemd
+Date: Fri,  3 Jul 2026 17:29:16 +0300
+Message-ID: <20260703142916.2868287-1-leon.anavi@konsulko.com>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 14:05:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240112
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 14:29:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240113
 
-On Fri Jun 26, 2026 at 11:39 AM CEST, Wei Deng wrote:
-> From: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
->
-> MGMT_OP_ADD_EXT_ADV_DATA expects the command to be of struct mgmt_cp_add_=
-ext_adv_data not mgmt_cp_add_advertising.
->
-> Signed-off-by: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
->  ...sending-extra-bytes-with-MGMT_OP_ADD.patch | 33 +++++++++++++++++++
->  2 files changed, 34 insertions(+)
->  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-advertis=
-ing-Fix-sending-extra-bytes-with-MGMT_OP_ADD.patch
->
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-c=
-onnectivity/bluez5/bluez5.inc
-> index c09a759244e..1600107b878 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -72,6 +72,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/bluetooth/bluez-=
-${PV}.tar.xz \
->             file://0001-tools-Work-around-broken-stdin-handling-in-home-m=
-ade.patch \
->             file://0001-gatt-client-Fix-use-after-free-caused-by-reentran=
-t-c.patch \
->             file://0001-transport-Fix-set-volume-failure-with-invalid-dev=
-ice.patch \
-> +           file://0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_=
-ADD.patch \
->             "
->  S =3D "${UNPACKDIR}/bluez-${PV}"
-> =20
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-advertising-Fix=
--sending-extra-bytes-with-MGMT_OP_ADD.patch b/meta/recipes-connectivity/blu=
-ez5/bluez5/0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_ADD.patch
-> new file mode 100644
-> index 00000000000..0a737413679
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/bluez5/bluez5/0001-advertising-Fix-sendin=
-g-extra-bytes-with-MGMT_OP_ADD.patch
-> @@ -0,0 +1,33 @@
-> +From b16441fbb7a24325f7c7d0c5ecedc88b46ddd439 Mon Sep 17 00:00:00 2001
-> +From: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
-> +Date: Thu, 4 Jun 2026 17:32:27 +0800
-> +Subject: [PATCH] advertising: Fix sending extra bytes with
-> + MGMT_OP_ADD_EXT_ADV_DATA
-> +
-> +MGMT_OP_ADD_EXT_ADV_DATA expects the command to be of size of
-> +struct mgmt_cp_add_ext_adv_data not mgmt_cp_add_advertising.
-> +
-> +Upstream-Status: Backport [2a6968b40378dca5650e18e03ad0407738c47be5]
+Add pam to the list of DISTRO_FEATURES_DEFAULTS if variable
+VIRTUAL-RUNTIME_init_manager has been set to systemd. Otherwise
+having systemd in conjunction with wayland but without pam leads
+to a conflict with the REQUIRED_DISTRO_FEATURES for weston related
+recipes.
 
-Hello,
+This adjustment is required following these recent changes that
+switched VIRTUAL-RUNTIME_init_manager to systemd by default and added
+wayland to DISTRO_FEATURES_DEFAULTS which affects "nodistro":
 
-For next patches, please provide a full URL when possible, that is way
-easier to check.
-In that case: https://github.com/bluez/bluez/commit/2a6968b40378dca5650e18e=
-03ad0407738c47be5
+- 159148f4de2595556fef6e8678578df83383857b
+  meta: Support opting out of any distro features
+  (Please note that this commit also extended DISTRO_FEATURES_DEFAULTS
+  with wayland and vulkan.)
 
-That said, I'll proceed with the series.
+- 0b4061c5d50261f826d0edb4b478d2d305274b7c
+  conf: Switch to systemd by default and simplify init manager selection
 
-Thanks!
+This fixes issues with test_machine_world when running the
+yocto-check-layer script for BSP layers that include weston in the
+dependency chain, for example meta-tegra:
 
-> +Signed-off-by: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-> +Signed-off-by: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
-> +---
-> + src/advertising.c | 3 +--
-> + 1 file changed, 1 insertion(+), 2 deletions(-)
-> +
-> +diff --git a/src/advertising.c b/src/advertising.c
-> +index 8970e65f7..0cb37d4ae 100644
-> +--- a/src/advertising.c
-> ++++ b/src/advertising.c
-> +@@ -1487,8 +1487,7 @@ static void add_adv_params_callback(uint8_t status=
-, uint16_t length,
-> + 		}
-> + 	}
-> +=20
-> +-	param_len =3D sizeof(struct mgmt_cp_add_advertising) + adv_data_len +
-> +-							scan_rsp_len;
-> ++	param_len =3D sizeof(*cp) + adv_data_len + scan_rsp_len;
-> +=20
-> + 	cp =3D malloc0(param_len);
-> + 	if (!cp) {
-> +--=20
-> +2.43.0
-> +
+ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
+Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'l4t-graphics-demos', 'weston']
 
+The weston recipe has pam in REQUIRED_DISTRO_FEATURES if systemd is
+enabled. Therefore, it makes sense to also add pam to the defaults
+through DISTRO_FEATURES_DEFAULTS.
 
---=20
-Yoann Congal
-Smile ECS
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+---
+ meta/conf/distro/include/default-distrovars.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 69c6db589b..2eadfcbd74 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -29,6 +29,7 @@ DISTRO_FEATURES_DEFAULTS ?= " \
+     acl alsa bluetooth debuginfod ext2 ipv4 ipv6 \
+     wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp pulseaudio \
+     gobject-introspection-data ldconfig opengl ptest multiarch wayland vulkan \
++    ${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', 'pam', '', d)} \
+     "
+ IMAGE_FEATURES ?= ""
+ 
+-- 
+2.47.3
 
 
