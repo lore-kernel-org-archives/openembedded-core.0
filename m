@@ -2,60 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60810C44502
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97469C44506
 	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 08:30:09 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.87929.1783067401313523358
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.88741.1783067402641202967
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2026 01:30:01 -0700
+ Fri, 03 Jul 2026 01:30:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OzXUgKMb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so1823255e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 01:30:01 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SD58Rf50;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-475cb71a4ebso311938f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 01:30:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1783067399; x=1783672199; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1783067401; x=1783672201; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5/3+C+xF7zdeBlAPHGTw2aLlOEB0qr4bm4BfPxONYcM=;
-        b=OzXUgKMbmM/c3r7izDuSWIn7EjGw30a1Ljxq2h5z6ix84etmtfvdmQZ2bZWxYcUKzA
-         6/1nwScLjelFDfGLtpwbWetUPrYOKP016Kc32keTEoEc1TQcJo5ABOI+Ym0GYZ9kGsP9
-         wSgNrdyY7jAS4T42FxhQRzUfhY4S0RWlYkbfM=
+        bh=HmjodCcss52XDz0Xw7dLja5Yd1qxUXj94hkvEqHcTMI=;
+        b=SD58Rf506kgb+GSWoeGxmYtjMr2N/QH/9V47q8+cmKHFfAqplr0/EIIVNl4zHEr+sK
+         xh9h7C6j7hOd01FlQOQJ85ZkaOw4+yYvnERZxvv/N6uF31Fy0yi6EiEAsvAe6jX/CCgp
+         0NK8D3veAsAp0AhZb43qpnm9ICteYEIczh/io=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783067399; x=1783672199;
+        d=1e100.net; s=20251104; t=1783067401; x=1783672201;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=5/3+C+xF7zdeBlAPHGTw2aLlOEB0qr4bm4BfPxONYcM=;
-        b=otrjaoT90emW8HRNkONLWUtobRIMKY5OZ56EVrf2feRn/+qcTc6h5nDJTDzg+AvxCQ
-         RWpxAKlUiUA8BxOhAbrLAjp2q3TBgCdLWy32frXYas+MZXYMGUs2jJH9gWuxLld2yBSY
-         FXMaGi/Rht62TUCWvPR0sjmaX8yEsCynKyfcdJ0EnUU42frulaT1k+BDDPElM3zpdxd2
-         sX3XJ640QXlmQUDmsIidzR/5e+Gjmfogacpglr6g/5pgoQmu1bkasOKbMnrCDQ2+aEO8
-         geMSSuFqcK8FUr0bXwo9sQpC6fRfI6X38Ezg6N6ryLVK2s6evtzK9g1G4pHjKbNgLX+i
-         zmsQ==
-X-Gm-Message-State: AOJu0YywYw9BLPaQW/e4Yphu6SOYd0/kpTVTnHwgD3wKSSQ3lO4Uwcgk
-	cbOctmuIv/UwyFyPIvwD0WO41aonZoQjOKlWesV15d0K33O5bY+lf/JJV0AXfQbzlumIPbhlN5N
-	Q4YjuTKc=
-X-Gm-Gg: AfdE7ckh5y/+sk1tJEO4jOC2YIjVm2ABu7MvBnEPzFR/Mv+rqzCNOG5h+W9gMu7HhIi
-	26A4WkBxpwyjo9TyWMv0NOiqfzn+nneYXhvcZemzI+t7wMl1CsrLYgQE5ZU/bTtxB6DiNVcrMM+
-	oE0D9Hu1uHQnNi5NJQyzbr1QuHfi6yb/5kshL27HWofIUOXti37Ge/zZIjsoHBTvqGJodPgt8D9
-	izF8lKV0WHCXy8xDV+xUuP5DCo9j8xSGrUI5w4zM9yD/VSt/kOqmqDYXXE7vjPFL0UolxtcVR63
-	B5c4dEtb5jWwHGbOeC0CNN4GjK81tNoFvTP7bCuJ25AGFZJSgP9w1XnrKYs4IT5rZXWL1WwPkYU
-	lNHw6Y2VQSEo3R/MfAA3pPSUIGifgc25jpcGJmciluddyQND/r6x1WnyeAuIOGtieiCo3uRuxAA
-	xna083LyEZ7IIFwJKF5BcioSp8TuRYCChz0xJGCD8+zA==
-X-Received: by 2002:a7b:cd89:0:b0:492:4363:e7d6 with SMTP id 5b1f17b1804b1-493c2baab82mr79960945e9.37.1783067399534;
-        Fri, 03 Jul 2026 01:29:59 -0700 (PDT)
+        bh=HmjodCcss52XDz0Xw7dLja5Yd1qxUXj94hkvEqHcTMI=;
+        b=CdNDzCG1pUK+snQVf4pg5mc/nLan3qw5AFL1zusFoT5P9XomwR7BxAR2dI5hK6PbEm
+         808KRbbKiT9jw2REU+U6rB8/BXWQPG3R+oe3JOFb0Ldpo6ory8RIisXILY5ZmP/vU7We
+         Khh/4rnlajf8zO0RXbknahOTRseRz7/LU1uyqsfLu7D4TotbqR928KOKXL35cc10vIsx
+         PrReF3MBn3/tu/oSzoHpUJhkmI3MVRvFrkn7Ywjy1XjcANjUhsOwuLwN5IYj0WPByXNr
+         v0eXRSDoraM/GQxKgWqwvYlscoktBfpnls65ROWYziMqCcnnroFSfhAPUjweSvcAgG/F
+         PVww==
+X-Gm-Message-State: AOJu0Yy+7TSb0hHTfqVCAuwjBzwis4pDYYGeIRR7mUeG6cU4UecqQquH
+	dhL7Ut5BGMNGXAThkc0M2Xebe8qwbLKKzMGi90DN/y58nL/ESwBSJqI8TMb9nFceWIxeBqdg0Lj
+	dcPVjkjk=
+X-Gm-Gg: AfdE7cn/FWuTh2krk8zOugJ+4rMx5WAyUrnc/XZiJE/dI6fq9Xwjmw85srBNaFmpZLu
+	dNeEn8vlhhqdC5ciZrZNOnTfzH6Ibo24aQw9xazphobafaK4g0U4jEdn+b1cazBh5tI934NbVyW
+	xyohp4rEqReR89X+IpbwMiUTZyrANGNkgfRxgB9RiMKNu0zAzt4JtgcLir1HGwTlettI/eNX5Bs
+	FDPxXjL078xE+ljrJGUJ3KuIw87uuSlPog7FPLcd77giSnZNDrG6BqX7dIAc3FNNEyjCrgY7Gr9
+	E/voaDs+6lbXw/ht7sGAelVF+eYW8ITFBsDS3R4mmxGXc7Dg210X1z9lGJBGExPSNmBwV7baB6W
+	o9h1JGjf47Ct22ZwlNRs6+0VQOdnr3IJvdQPkSF4rVO+e6E/7Gqh7OrcmaHUvyKaTYwjhLKWduH
+	4ohOEl4zkx7XUS6KV2j7e7kjwOwAaVVQ+xiVnjJZRKdw==
+X-Received: by 2002:a05:6000:469b:b0:475:3a97:8e2c with SMTP id ffacd0b85a97d-47758327af3mr10543903f8f.16.1783067400767;
+        Fri, 03 Jul 2026 01:30:00 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:ad8d:cf49:9149:eae0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477db3dbb79sm15684554f8f.2.2026.07.03.01.29.58
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477db3dbb79sm15684554f8f.2.2026.07.03.01.29.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 01:29:58 -0700 (PDT)
+        Fri, 03 Jul 2026 01:29:59 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 03/15] python3-typing-extensions: upgrade 4.15.0 -> 4.16.0
-Date: Fri,  3 Jul 2026 09:29:43 +0100
-Message-ID: <20260703082955.1585712-3-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 04/15] jansson: upgrade 2.15.0 -> 2.15.1
+Date: Fri,  3 Jul 2026 09:29:44 +0100
+Message-ID: <20260703082955.1585712-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260703082955.1585712-1-richard.purdie@linuxfoundation.org>
 References: <20260703082955.1585712-1-richard.purdie@linuxfoundation.org>
@@ -65,28 +65,86 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 08:30:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240085
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240086
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...extensions_4.15.0.bb => python3-typing-extensions_4.16.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-typing-extensions_4.15.0.bb => python3-typing-extensions_4.16.0.bb} (90%)
+ ...se-default-symver-when-the-linker-su.patch | 45 -------------------
+ .../{jansson_2.15.0.bb => jansson_2.15.1.bb}  |  6 +--
+ 2 files changed, 2 insertions(+), 49 deletions(-)
+ delete mode 100644 meta/recipes-extended/jansson/jansson/0001-configure-only-use-default-symver-when-the-linker-su.patch
+ rename meta/recipes-extended/jansson/{jansson_2.15.0.bb => jansson_2.15.1.bb} (69%)
 
-diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.15.0.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.16.0.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-typing-extensions_4.15.0.bb
-rename to meta/recipes-devtools/python/python3-typing-extensions_4.16.0.bb
-index 4ff85bb2407..cede81e1289 100644
---- a/meta/recipes-devtools/python/python3-typing-extensions_4.15.0.bb
-+++ b/meta/recipes-devtools/python/python3-typing-extensions_4.16.0.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=fcf6b249c2641540219a727f35d8d2c2"
- # The name on PyPi is slightly different.
- PYPI_PACKAGE = "typing_extensions"
+diff --git a/meta/recipes-extended/jansson/jansson/0001-configure-only-use-default-symver-when-the-linker-su.patch b/meta/recipes-extended/jansson/jansson/0001-configure-only-use-default-symver-when-the-linker-su.patch
+deleted file mode 100644
+index eb0c459f68d..00000000000
+--- a/meta/recipes-extended/jansson/jansson/0001-configure-only-use-default-symver-when-the-linker-su.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-From 7c44ab421c725ea6fed358f435c5461c0096f852 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 24 Jun 2026 14:04:19 -0700
+-Subject: [PATCH] configure: only use --default-symver when the linker supports
+- it
+-
+-jansson enables symbol versioning on glibc by passing
+--Wl,--default-symver to the linker. This is a GNU ld option which is
+-not understood by every linker, e.g. ld.lld errors out with:
+-
+-  ld.lld: error: unknown argument '--default-symver'
+-
+-Probe the linker with a link test before adding the flag so the build
+-works with both GNU ld and lld. When the linker does not accept the
+-option the symbol versioning provided by the explicit version script
+-is still applied; only the implicit default version is dropped.
+-
+-Upstream-Status: Submitted [https://github.com/akheron/jansson/pull/744]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- configure.ac | 11 ++++++++++-
+- 1 file changed, 10 insertions(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index e5c126a..1bb8b34 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -135,7 +135,16 @@ AC_SUBST(JSON_BSYMBOLIC_LDFLAGS)
+-
+- # Enable symbol versioning on GNU libc
+- JSON_SYMVER_LDFLAGS=
+--AC_CHECK_DECL([__GLIBC__], [JSON_SYMVER_LDFLAGS=-Wl,--default-symver])
+-+AC_CHECK_DECL([__GLIBC__], [
+-+    saved_LDFLAGS="$LDFLAGS"
+-+    LDFLAGS="$LDFLAGS -Wl,--default-symver"
+-+    AC_MSG_CHECKING([whether the linker accepts -Wl,--default-symver])
+-+    AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
+-+        [AC_MSG_RESULT([yes])
+-+         JSON_SYMVER_LDFLAGS=-Wl,--default-symver],
+-+        [AC_MSG_RESULT([no])])
+-+    LDFLAGS="$saved_LDFLAGS"
+-+])
+- AC_SUBST([JSON_SYMVER_LDFLAGS])
+-
+- AC_ARG_ENABLE([dtoa],
+diff --git a/meta/recipes-extended/jansson/jansson_2.15.0.bb b/meta/recipes-extended/jansson/jansson_2.15.1.bb
+similarity index 69%
+rename from meta/recipes-extended/jansson/jansson_2.15.0.bb
+rename to meta/recipes-extended/jansson/jansson_2.15.1.bb
+index 1a0b6f24acf..60bbc5ba6dd 100644
+--- a/meta/recipes-extended/jansson/jansson_2.15.0.bb
++++ b/meta/recipes-extended/jansson/jansson_2.15.1.bb
+@@ -5,11 +5,9 @@ LICENSE = "MIT & dtoa"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=d9911525d4128bee234ee2d3ccaa2537"
  
--SRC_URI[sha256sum] = "0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466"
-+SRC_URI[sha256sum] = "dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5"
+ GITHUB_BASE_URI = "https://github.com/akheron/jansson/releases"
+-SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
+-           file://0001-configure-only-use-default-symver-when-the-linker-su.patch \
+-		  "
++SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
  
- inherit pypi python_flit_core
+-SRC_URI[sha256sum] = "070a629590723228dc3b744ae90e965a569efb9c535b3309b52e80e75d8eb3be"
++SRC_URI[sha256sum] = "0c7114dc0b2d22a670724a1f95922029d7077c19dbf79a584cb8084d2f267f2f"
+ 
+ inherit autotools pkgconfig github-releases
  
 
