@@ -1,162 +1,140 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEEA9C43602
-	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 10:07:25 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.89958.1783073236807211727
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76634C43458
+	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 10:54:48 +0000 (UTC)
+Received: from esa4.hc324-48.eu.iphmx.com (esa4.hc324-48.eu.iphmx.com [207.54.71.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.89915.1783076062523947929
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2026 03:07:16 -0700
+ Fri, 03 Jul 2026 03:54:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=TgjoMTyd;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A31A22D7
-	for <openembedded-core@lists.openembedded.org>; Fri,  3 Jul 2026 03:07:12 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1CBCD3F905
-	for <openembedded-core@lists.openembedded.org>; Fri,  3 Jul 2026 03:07:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783073236; bh=VJcHMQ2VrkFwJnvLUwaWwioxVDLCSDo7JF1XmCsHm9U=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=TgjoMTyd++usz07y6/a5JR7gGie4SToOiKLlAs5l1F4SBhFHf7IajR9FYd/9Uld99
-	 WSW9eAvAmEJ/9tYwkeBs/P665BZmSWxACv160Len2mmcbryJYYTVpPhjKvxS7RLGbE
-	 1UOVpp0n6QqQgpSC5ipikFdvq0Gvcu1i5iBpRCuQ=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 3/3] classes/insane: increase shebang size limit
-Date: Fri,  3 Jul 2026 11:07:10 +0100
-Message-ID: <20260703100710.2901608-3-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260703100710.2901608-1-ross.burton@arm.com>
-References: <20260703100710.2901608-1-ross.burton@arm.com>
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=ZPZHhjko;
+ spf=permerror, err=parse error for token &{10 18 256wvd6dc.spf.checkpoint-spf.com}: parse error for token &{10 18 %{ir}.256wvd6dc.spf.checkpoint-spf.com}: invalid domain name (domain: bmw.de, ip: 207.54.71.48, mailfrom: prvs=637cd645a=moritz.haase@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1783076064; x=1814612064;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=N11w8WS78mBpbf1Bu5jZ50WLPOviNXhliJNDh3/dOws=;
+  b=ZPZHhjkoo/fm77jYXJ4s0uzPtKP7X/+Z91GiUmtK5bdg9ZZQBVI2hX/y
+   BPT6dPT6hiQeRlKthzUXaMG/WXpZxthW7SgzCgTOxnDEM9eegf71Mzyb+
+   ugecxhFYU7LmqVRT4NZ9qduzWehmTO2Q++BgUL2qpOMeYTCwQtTd/VuUC
+   E=;
+X-CSE-ConnectionGUID: Ub7LJa5wSeGvMi/tvef/5Q==
+X-CSE-MsgGUID: T2R4Q/b0TxiGUm7b3n/4VA==
+Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
+ esa4.hc324-48.eu.iphmx.com with ESMTP/TLS; 03 Jul 2026 12:54:22 +0200
+Received: from unknown (HELO esabb3.muc) ([10.31.187.134]) by esagw2.muc with
+ ESMTP/TLS; 03 Jul 2026 12:54:22 +0200
+Received: from smucmp19h.bmwgroup.net (HELO smucmp19h.europe.bmw.corp)
+ ([10.30.13.174]) by esabb3.muc with ESMTP/TLS; 03 Jul 2026 12:54:20 +0200
+Received: from smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) by
+ smucmp19h.europe.bmw.corp (2a03:1e80:a15:58f::1:81) with Microsoft SMTP
+ Server (version=TLS; Fri, 3 Jul 2026 12:54:20 +0200
+Received: from q1054628.de-cci.bmwgroup.net (10.30.85.212) by
+ smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) with Microsoft SMTP
+ Server (version=TLS; Fri, 3 Jul 2026 12:54:20 +0200
+X-CSE-ConnectionGUID: 8/3ATOe6TgaWAm6A6RaqwQ==
+X-CSE-MsgGUID: OxcRRpaaRRmA2iFTpxcsRQ==
+X-CSE-ConnectionGUID: OPK1+5mfQ9+NRfKZcQBUiw==
+X-CSE-MsgGUID: OB7ZVNyjR7CBp4116jvTZQ==
+From: Moritz Haase <Moritz.Haase@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Moritz Haase <Moritz.Haase@bmw.de>, <alex.kanavin@gmail.com>,
+	<mathieu.dubois-briand@bootlin.com>
+Subject: [PATCH v3] json-c: upgrade 0.18 -> 0.19
+Date: Fri, 3 Jul 2026 12:53:49 +0200
+Message-ID: <20260703105349.1664278-1-Moritz.Haase@bmw.de>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: smucmp18a.europe.bmw.corp (2a03:1e80:a15:58f::1:50) To
+ smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 10:07:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240105
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 10:54:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240106
 
-Since Linux 5.1 the shebang buffer has been 256 bytes[1], so update the
-check to match.
+Release notes are available at [0].
 
-Also rewrite the test, create a variable for the magic number (that has
-the same name as the kernel #define), read double that so we either have
-a full line, or definitely are over the buffer, don't pointlessly try to
-decode the bytes as UTF-8, and consolidate the test logic to entirely
-inside the try block.
+Newly added tests (see [1]) require the 'json_parse' app at (test) runtime.
+Thus, apps are now being built and the 'json_parse' app is deployed in the
+'ptest' package. We do not package the apps separately as upstream doesn't
+consider them to be ready for that (see [2]). This approach is based on the
+discussion in [3].
 
-Also update the tests: sysroot-shebang-test needs updating to write a
-longer shebang, and generalise the test case so that the string being
-searched for isn't so specific.
+[0]: https://github.com/json-c/json-c/blob/json-c-0.19/ChangeLog
+[1]: https://github.com/json-c/json-c/blob/d9d8cab82291637671f6c90cf06e578750a08718/tests/test_json_parse_cli.test#L18
+[2]: https://github.com/json-c/json-c/blob/d9d8cab82291637671f6c90cf06e578750a08718/apps/CMakeLists.txt#L122-L124
+[3]: https://lists.openembedded.org/g/openembedded-core/topic/120026557#
 
-[1] linux 6eb3c3d0a52dc ("exec: increase BINPRM_BUF_SIZE to 256")
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
+CC: alex.kanavin@gmail.com
+CC: mathieu.dubois-briand@bootlin.com
 ---
- .../sysroot-test/sysroot-shebang-test_1.0.bb  |  4 ++--
- meta/classes-global/insane.bbclass            | 23 ++++++++-----------
- meta/lib/oeqa/selftest/cases/sysroot.py       |  3 +--
- 3 files changed, 13 insertions(+), 17 deletions(-)
+changes in v3:
+- Deploy required app differently to hopefully fix failures seen
+  on Autobuilder (see [4]).
 
-diff --git a/meta-selftest/recipes-test/sysroot-test/sysroot-shebang-test=
-_1.0.bb b/meta-selftest/recipes-test/sysroot-test/sysroot-shebang-test_1.=
-0.bb
-index 6c834be8976..106ddd54262 100644
---- a/meta-selftest/recipes-test/sysroot-test/sysroot-shebang-test_1.0.bb
-+++ b/meta-selftest/recipes-test/sysroot-test/sysroot-shebang-test_1.0.bb
-@@ -1,11 +1,11 @@
--SUMMARY =3D "Check that shebang does not exceed 128 characters"
-+SUMMARY =3D "Check that shebang does not exceed 256 characters"
- LICENSE =3D "CLOSED"
- INHIBIT_DEFAULT_DEPS =3D "1"
-=20
- EXCLUDE_FROM_WORLD =3D "1"
- do_install() {
-     install -d ${D}${bindir}
--    echo '#!BiM3cnVd1Amtv6PG+FynrQiVMbZnX5ELgF21q3EkuB+44JEGWtq8TvBJ7EGi=
-dfVs3eR3wVOUbLnjYDlKUWcm7YC/ute7f+KDHbwxziRUSUBZAUqgjiQdfQ0HnxajI0ozbM863=
-E9JV9k13yZKYfh9/zR77Y6Dl4Dd3zOWS75LSpkAXV' > ${D}${bindir}/max-shebang
-+    echo '#!4Shfcy9Ej8gPKDGNkyhmtxrwPinmpZQ1pCS3snbdqlNx7YfmTpHkeJakCMaD=
-nQXx4c4TmtyJpGBn5F7IO1FShYG9EwtALDOsRKEDOJKRj2L7hW92wZTzlqx4mMqREqNa7Hrwq=
-l4DYVv8vmEMhIwvtHO3UaVpgvLY9Y3HhfopUVUMZJi5Xs9KKkRisrM0HBePG67tbeWL9ZstNu=
-PKH1ikyeNB7PprwLrsjZ6EngCrhFTfYzRSuXhdrQQBBsLZBRDsy5QE' > ${D}${bindir}/m=
-ax-shebang
-     chmod 755 ${D}${bindir}/max-shebang
- }
-=20
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/ins=
-ane.bbclass
-index 1818ce2168d..c1d8b165866 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -83,25 +83,22 @@ QAPATHTEST[shebang-size] =3D "package_qa_check_sheban=
-g_size"
- def package_qa_check_shebang_size(path, name, d, elf):
-     global cpath
-=20
-+    # From kernel 5.1 onwards (specifically linux 6eb3c3d0a52dc ("exec: =
-increase
-+    # BINPRM_BUF_SIZE to 256")) the shebang buffer was increased from 12=
-8 bytes
-+    # to 256 bytes.
-+    BINPRM_BUF_SIZE =3D 256
+changes in v2:
+- Build and deploy apps required to fix ptest failure, as discussed in [3].
+
+[4]: https://lists.openembedded.org/g/openembedded-core/topic/120061116#msg240021
+
+---
+ .../json-c/{json-c_0.18.bb => json-c_0.19.bb}    | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+ rename meta/recipes-devtools/json-c/{json-c_0.18.bb => json-c_0.19.bb} (72%)
+
+diff --git a/meta/recipes-devtools/json-c/json-c_0.18.bb b/meta/recipes-devtools/json-c/json-c_0.19.bb
+similarity index 72%
+rename from meta/recipes-devtools/json-c/json-c_0.18.bb
+rename to meta/recipes-devtools/json-c/json-c_0.19.bb
+index c112aacf4bceb0c41dbe2e1643d2d7e0944bf250..6f357b45b97c602cb19523089fb63ada2a1384f5 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.18.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.19.bb
+@@ -9,23 +9,23 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+ SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "876ab046479166b869afc6896d288183bbc0e5843f141200c677b3e8dfb11724"
++SRC_URI[sha256sum] = "37ad0249902e301bd9052bf712e511fcc6acff4ecaad4b5900aad9ce564e26de"
+ 
+ # NVD uses full tag name including date
+-CVE_VERSION = "0.18-20240915"
++CVE_VERSION = "0.19-20260627"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
+ UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
+ 
+ RPROVIDES:${PN} = "libjson"
+ 
+-# Apps aren't needed/packaged and their CMakeLists.txt is incompatible with CMake 4+.
+-EXTRA_OECMAKE = "-DDISABLE_WERROR=ON \
+-                 -DBUILD_APPS=OFF \
+-"
++EXTRA_OECMAKE = "-DDISABLE_WERROR=ON"
+ 
+ inherit cmake ptest
+ 
++# xxd is required by the 'json_parse_cli' test.
++RDEPENDS:${PN}-ptest += "xxd"
 +
-     if elf or cpath.islink(path) or not cpath.isfile(path):
-         return
-=20
-     try:
-         with open(path, 'rb') as f:
--            stanza =3D f.readline(130)
-+            stanza =3D f.readline(BINPRM_BUF_SIZE * 2)
-+            if stanza.startswith(b'#!') and len(stanza) > BINPRM_BUF_SIZ=
-E:
-+                oe.qa.handle_error("shebang-size", "%s: %s maximum sheba=
-ng size exceeded, the maximum size is %d" % (name, package_qa_clean_path(=
-path, d, name), BINPRM_BUF_SIZE), d)
-+                return
-     except IOError:
--        return
--
--    if stanza.startswith(b'#!'):
--        try:
--            stanza.decode("utf-8")
--        except UnicodeDecodeError:
--            #If it is not a text file, it is not a script
--            return
--
--        if len(stanza) > 129:
--            oe.qa.handle_error("shebang-size", "%s: %s maximum shebang s=
-ize exceeded, the maximum size is 128." % (name, package_qa_clean_path(pa=
-th, d, name)), d)
--            return
-+        pass
-=20
- QAPATHTEST[libexec] =3D "package_qa_check_libexec"
- def package_qa_check_libexec(path,name, d, elf):
-diff --git a/meta/lib/oeqa/selftest/cases/sysroot.py b/meta/lib/oeqa/self=
-test/cases/sysroot.py
-index ef854f6feeb..bdf7ad35a53 100644
---- a/meta/lib/oeqa/selftest/cases/sysroot.py
-+++ b/meta/lib/oeqa/selftest/cases/sysroot.py
-@@ -44,9 +44,8 @@ TESTSTRING:pn-sysroot-test-arch2 =3D "%s"
-         Expected:  Fail when a shebang bigger than the max shebang-size =
-is reached.
-         Author:    Paulo Neves <ptsneves@gmail.com>
-         """
--        expected =3D "maximum shebang size exceeded, the maximum size is=
- 128. [shebang-size]"
-         res =3D bitbake("sysroot-shebang-test-native -c populate_sysroot=
-", ignore_status=3DTrue)
--        self.assertTrue(expected in res.output, msg=3Dres.output)
-+        self.assertTrue("[shebang-size]" in res.output, msg=3Dres.output=
-)
-         self.assertTrue(res.status !=3D 0)
-=20
-     def test_sysroot_la(self):
---=20
-2.43.0
-
+ do_install_ptest() {
+     install -d ${D}/${PTEST_PATH}/tests
+     install ${B}/tests/test* ${D}/${PTEST_PATH}/tests
+@@ -33,6 +33,10 @@ do_install_ptest() {
+     install ${S}/tests/*.expected ${D}/${PTEST_PATH}/tests
+     install ${S}/tests/test-defs.sh ${D}/${PTEST_PATH}/tests
+     install ${S}/tests/*json ${D}/${PTEST_PATH}/tests
++
++    # The 'json_parse_cli' test executes the 'json_parse' app via '../apps/json_parse', so we
++    # package it accordingly.
++    install -D -t ${D}/${PTEST_PATH}/apps/ ${B}/apps/json_parse
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
 
