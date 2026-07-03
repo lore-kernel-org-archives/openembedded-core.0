@@ -1,652 +1,308 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C14A9C43458
-	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 07:30:47 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.88142.1783063844629708801
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F73BC43458
+	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 08:10:38 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.38])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.87740.1783066230633815391
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2026 00:30:45 -0700
+ Fri, 03 Jul 2026 01:10:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=ZiEuxwCw;
- spf=pass (domain: ericsson.com, ip: 52.101.72.53, mailfrom: edaturu@ericsson.com)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=mx/wNLTz;
+ spf=pass (domain: est.tech, ip: 40.107.162.38, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dIq0YpQcHyb3xvopvlDdgGL4hNYN6KQluWBN9GUprWD/ODLXC5MZdiop8zBc1MoaFzEjKLSZadCcpP9zRjo0fhbum5QhRmg1V+SMJ2vQE9hkumPgpZPgFuSFFM/qGa2Vgxokzs+4obPEJrlo+IERNBeMKq3yuwILuqRj1UdtqEGm6eQesSh0ilDesGGdvNsT/9ZBJQ5qxbRcOBWm/c9b5Pl4/hSNl2FpV/bqMgh9yWQP1tu05K69q589ckoUO7D97XAaW150NFKnHJnLaZiV0uRutso62rGJocf9PB0+7Qdbq6Eov+gLpTUcSJhj96xwc3jIjIr5ZJmC5GJo28NRjw==
+ b=w4Tx5XqQDAEjLreIBr4yqWLm2NsxzKpMI893SJwCtebBUJvO0kSY/qtqDyOvU4nBm+jLW+i0KYNouzwF18bjvXzBIRELV6GZJbE45725OJcCz5q+znWPrB4m6tCXPllrl5AyCTMyvcaf/jjYN/Mz0FCcOjHOe48XQvnyLgj6YY7k8Bkl53WU+3pWcfDjSJwwDPn2IPgWlMz3YsG7YWNTM5oXY06VPPMCBw2NHEib14Nnb39DkxHaGlnwlC4DmT9y2SH3foGl+G92UMJnaKdUF1r4Bbb7JcWnHVzD7vWNVuI0ktcFhWDBn7VmgNt9hU8Q3iZACrHPgMHY63ZZQsEUHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lb9z5DqKKXW8mkL9/MxfHyfVPFH5+Yy3gvqDNne75Y8=;
- b=D74zKyHT2Ws4HEXclct83NFOV1ZRoc7nKkO2DzGTVTge0je1gK8b6E+nq6FcjwaXEwdCFEPhBo+sah1kTXWbYm+hTh3jgPrIFMqp4WbyQdmgV7V2HAPYc2PjC8snk5dyJpuLWwsxaXMw5HQGQSoaS0buvHwtcMsQ3vFDHmqR6MpK5zIYgnBpKdnKi+koM6XFQu0WmKHkmGvDY5O86SbNm83hK1YAiIJPx+s7ilzqmd/wjLS551kAZXNxpnAdekMH4FUYbnoJ+/vev6odYpNTmxpuCd0MoLflho7dYMaim2LnSArWLPW8fH8r5/rMDxBERhg7mnC7btFFLcCnU7a6kw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=arm.com smtp.mailfrom=ericsson.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
+ bh=hOQTAI3znV/Ez0bc2l94n3S/Ua9AOeDJymeghBYjk/k=;
+ b=MJXcoIqENemhAUEdm7SvVbwE+vtExT1xrzRHhcWjsz+XN+VTP+GXFMJLphJopiI6LfDoa1MtIh2T7/5HvTftiLf9LN+Rxcx/5BpioEBbtlcoZF48gBty4z+bxP1p4kx1Lf7+wA65eG9bDV9msmiN+2ZH2r05Yo5OULRB4VE3gfi1PBX1FYH0EdldSBa2hTKPkphAu4lNsm9ClPXb2cAT3NFPZ75aPG9zUYcY/Mc9VibguVRAhrOk9Rs3apj2qXBP4++7vNZFwJoUkJ+IYDbysxo2gIVo2eakfb8xM3GfseTTcBTVSypPoFSnzcfVx4daSMAdITsNqOUCLnX0D9OWlA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lb9z5DqKKXW8mkL9/MxfHyfVPFH5+Yy3gvqDNne75Y8=;
- b=ZiEuxwCw91Z4YgBhcGiYeLrbnj7Zw0TO0yv2J5d7dEYlPFYPH6EhxUC9VNtaBmlpFFaKkuQnQvrtR+CEZYPyBXn4s92hHUD5tmHwxmO3ZuFokP/HaY1dKGq9sYD0otyomLEzA3dRufxIO3dOGp7WC8CbjihPFJuJ5ign9aDWFByA7FnNBREpRFYrGsyiqW9/OWK4YD6XeXGP4G371T9KPCUxgSgNwggh7hwaYmPoBLKi1GJvQqvHK5dNAR6pMsVkslhfhXQwJTp5yV+vPbJK7Lrx+yuDDmpgwZnk3E2a0PH5woER35XvPmQhX/fYcqyKXCfnVjJIuv1iHLKRnzYu5A==
-Received: from DUZPR01CA0291.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b7::9) by DB9PR07MB8524.eurprd07.prod.outlook.com
- (2603:10a6:10:368::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 3 Jul
- 2026 07:30:37 +0000
-Received: from DB1PEPF000509F7.eurprd02.prod.outlook.com
- (2603:10a6:10:4b7:cafe::1f) by DUZPR01CA0291.outlook.office365.com
- (2603:10a6:10:4b7::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.11 via Frontend Transport; Fri, 3
- Jul 2026 07:30:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- DB1PEPF000509F7.mail.protection.outlook.com (10.167.242.153) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Fri, 3 Jul 2026 07:30:37 +0000
-Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.65) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 3 Jul 2026 09:30:36 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id D14206BEF5;
-	Fri,  3 Jul 2026 09:30:11 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 39E86700DBB0; Fri,  3 Jul 2026 09:30:09 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <daniel.turull@ericsson.com>, <openembedded-core@lists.openembedded.org>,
-	<ross.burton@arm.com>, <mathieu.dubois-briand@bootlin.com>
-CC: <anders.heimer@est.tech>, <qi.chen@windriver.com>,
-	<alex.kanavin@gmail.com>, <richard.purdie@linuxfoundation.org>,
-	<joerg.sommer@navimatix.de>
-Subject: [PATCH v4 2/2] systemd: add native hwdb generator via merged systemd-tools-native
-Date: Fri, 3 Jul 2026 09:29:32 +0200
-Message-ID: <20260703072948.2939128-3-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260703072948.2939128-1-daniel.turull@ericsson.com>
-References: <20260703072948.2939128-1-daniel.turull@ericsson.com>
+ bh=hOQTAI3znV/Ez0bc2l94n3S/Ua9AOeDJymeghBYjk/k=;
+ b=mx/wNLTzsbxgwiTUsShjCHUNJDZkQjp6kffHRKYVJCaotBde1A9gm2JuaDmEqzUMwm3O9OOS/mZdX+bX+qNKN6jHrZYXZw3I0W+LXWdV7qns67l8qE4urFWFnR1sIZTsVhuE3Wz4B1pqCAzMkelTRpWXlCawrLw7kTyWXBmuWpAHS4pdfq0Oxih+PnTipCzu6WLrFJiAA5nUHqRVIQLQ2IIsJ6fjbAc+iETc30a/N7ZQ+h56LYzgAB7JExxQCDPj9DwlWx2srcdOtKV5s7t7Ka84cObT9AeCxgOS/EuMZIWIXgZ6Ictz0J2FLt+bfZDsmictX3dlXZJNFRJb5Jw9Xg==
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by AM0P189MB0611.EURP189.PROD.OUTLOOK.COM (2603:10a6:208:194::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Fri, 3 Jul
+ 2026 08:10:26 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85%8]) with mapi id 15.21.0181.010; Fri, 3 Jul 2026
+ 08:10:26 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: Paul Barker <paul@pbarker.dev>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] perf: Fix BUILD_BPF_SKEL PACKAGECONFIG to not define
+ variable when disabled
+Thread-Topic: [PATCH] perf: Fix BUILD_BPF_SKEL PACKAGECONFIG to not define
+ variable when disabled
+Thread-Index: AQHdB8fvirDXhuRVikKY32vxM7wcs7ZaPfIAgAE5A5c=
+Date: Fri, 3 Jul 2026 08:10:26 +0000
+Message-ID: 
+ <DU7PPF66507B2D77DE28C2625D56E23570AF3F42@DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM>
+References: <20260629130515.39891-1-jaipaul.cheernam@est.tech>
+ <a12a5df376af88c24d747bb106a03d0ceff01542.camel@pbarker.dev>
+In-Reply-To: <a12a5df376af88c24d747bb106a03d0ceff01542.camel@pbarker.dev>
+Accept-Language: en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-reactions: allow
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU7PPF66507B2D7:EE_|AM0P189MB0611:EE_
+x-ms-office365-filtering-correlation-id: 55ccb274-077d-4f54-e323-08ded8da89e8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|38070700021|18002099003|22082099003|56012099006|11063799006|5023799004|4143699003|6133799003|13003099007|8096899003;
+x-microsoft-antispam-message-info: 
+ PDQ7BTpv7AWbdbsCO2UsOSMeY1vnonos/ToetPEC5BCqTvtsPZr2LzneJJmX25BV04yw5WNmuf01EgosAJrJnzfT+bZ/nVxjaeEcXQ0hafADIuwn8yMd59TJqVj2JMCDNCeYufjxhZod52hXf/Ht5RZbNMr605vu44MNOUWA54yR7bJaYF1y0+kTxTcLSXjGLb5+kUdjKqFHjQ1I6xixZGB6bPgBliLT9lhe0vgx8cm6ctNc643U2mW8z8kr5ewD26uvCKox6uB5Wgu8BWZ/ltZFA6qYGIuq2y/n2u7qGbpYpzmnzDdiwUgZx+dExWcV89kRqXFzfTfOhk/Yr0rJ8swlX2Na2n0yMrSxBGpnPOCoA4S/Kkhkkh3ed4NsNUwHNSys77sx9YBps/YETTyYFrYvzftfKfbpy9CeO0Tf/l0h+0cSdbZbSszjziDaazdFYeheq4W42I3vw3k8360CnjZDdDFgW2JJFkJ3cYHU3U1W6jyFfWgzhvKk2CdFEFyBADYNSTYGl8HbDvxU4EPMKej6i0gl934fR4HNmTgjxtHxcoqkC4j7Wl/wOJ+ks0IgP7/N2KVoXJlk2XsY2Hvz+5cgG3uFR9OUqr5h/ptZ/2VRRxBQC4Tzzv3A6TjB4SRFkPmwPlQQe8yhzrfOEJarXBSWACSEA1y+53URsdx0ffg=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(38070700021)(18002099003)(22082099003)(56012099006)(11063799006)(5023799004)(4143699003)(6133799003)(13003099007)(8096899003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?RytiWGRlT0xnS09VMTRXN3p4bCtJZTVIdWtwRjVFVWtVUXdhZTZOVzUrRjdU?=
+ =?utf-8?B?Y2NITGRVQ09PSWxxR1R2WnJiNk5NeTlWcGtyYTQyZkhheGpqT29jM1liSm5T?=
+ =?utf-8?B?RWhGT0gyQUVidjdmM2t0cmM0YysxRjBZMW5Cc3dkVy9VeXFINUJZRUtYMEFY?=
+ =?utf-8?B?Nm5pcWcxbXZnV1hTaGppMm5mOFBJOWZTN0grVDB5OEJzRk9MUHRaaEYxU29h?=
+ =?utf-8?B?T0F0TCtteHNSb2V5bEZyTW1ubW9Vald2bSswSmVqcUsvS1NOR2J0dC9jWmtK?=
+ =?utf-8?B?T3N3RkZvQklYdGI1MWxjT0oxVENFYjBFOTJpVkIyNnM4OVJ5L3ErZjBmVDQy?=
+ =?utf-8?B?OGJNVnJPYXFzdHRUTHRnbmNnWU4wWlhhWlBBYWFzQUJFK1JwOTRCbG5jQzhM?=
+ =?utf-8?B?TmZZTGV6WXFjNnUvV0ZlNVJlaHp1QmxIaS9BcUR0TlBhS0VTVWd2bmlJU1NI?=
+ =?utf-8?B?elVmVXp5cEEzalB0ZGFrMHcrck5NcE5UekRXY2Q0cFNKZmZjd1Zrdi9LczNT?=
+ =?utf-8?B?dzBaK0N5MWsrM2w4U2g3cHByeno0cFN6dSsraG5HWXRpUDJIYlFpQ2FlQUR5?=
+ =?utf-8?B?OUpzMnJtUmduU0JXRVhrTEl4eTRERVMvUlF4a3pVUnhOVmVOR3RsVWE4am4w?=
+ =?utf-8?B?QVk4TlloUXV5RzZuaStsM3JBVUVGTWtrajRXMFlNT3c3U3VYNkU5a0ZvZFVT?=
+ =?utf-8?B?aTBZKzBLVTJwNU1RRGl0V0dnNkpoeHM0Y01Ld1pMK09hajgxaXdNM2tvTEZq?=
+ =?utf-8?B?Mm52emxBOHJFQis0QUx2ak5wZ3ZjK2NOTkdlSTZzZm9TeEd4OXEzLzNIL3RK?=
+ =?utf-8?B?YTZMM0xyWmdpVlo1a0x5V1UrT0JPdFRRSXBRWWxWcXZxVmtTZW8yUDNpdkhQ?=
+ =?utf-8?B?SmhkVEN4dVdqTFJJaU9XNWlEakd2cklrRFlyQXpibWd3cVJQY01BaGZVMkow?=
+ =?utf-8?B?KzE3ditJdjZmdTFkeUo0TlIyOTFoUnhsdzVlY09SWEtuVGt0ZEVtTitOU2ZQ?=
+ =?utf-8?B?am1mL2o5cWR0UVdJMUZwZzVJYk43MDdGWTN1MDBoNjhZNXo5V0tuT2JDT3Y0?=
+ =?utf-8?B?Y1M2VDFWTzNUK0h5b0hmK0l5UytaM1dQbkxHKzJtWnBFZFBKVmVNUjBMZkl2?=
+ =?utf-8?B?bzU2VjI4dXJBQWZ1WnZJQXZqeDNLQVhhL01lTHo2ZlpqMnlBUzhucnhRTDlr?=
+ =?utf-8?B?UXNmek1JY2FhMDBiTmR2bVNQQURKa0U5ejQxNDlsb0VadEVkSjJ1UENaMlQz?=
+ =?utf-8?B?eGo5QzR6MjkwUzhsclpSMVBPZm5ZcVI2d3Eva1ZXZGJSdXhQNkNzNnFiOVVG?=
+ =?utf-8?B?UGZSZkx3dVZLc3NMQUNRSG4zbzRYOGNGS05nbVNKZmpQcUphTzNDaFkrQVUz?=
+ =?utf-8?B?bHg2UUJiMnlGV1FNQVpEcDU4WWtwakxXVGgzYzg4clBLODBzem85dGVTaStJ?=
+ =?utf-8?B?RHFWOG8xZTBENWVyb2xaRUFrdC9jcHBBb2szUkhCYlV3cHRhQXJTN0dNcStm?=
+ =?utf-8?B?b0tMVklKZ0JrMW9RMExPVzR4NFlaeEF2bzhvYTZwdVUzcGtteTBwbENEUVJr?=
+ =?utf-8?B?V2UvWXNFNzFvTmRBTXN4a1M2VjdMSjZETGZoRXJvNEJ3M0p3VWlsU0J2VWpr?=
+ =?utf-8?B?QkVLcnBHTGRQTSt1NEVrVFNoM09FZ3lYaFVWenNhWkIxMFNSSGk4VGZRUkZ4?=
+ =?utf-8?B?bXBuRnVNMkFmNmJ4QmVMYnNDeUZOUW1PTVVaYUQySi9pMDRYcTYveUVidkNT?=
+ =?utf-8?B?RmQ4WktzRjQyVUlqSnAzb3NXRDhkWC84MlBBMmVBeWQxV1prWWNrYWNYNHoz?=
+ =?utf-8?B?dkt4RWpjbUtoQ1dLaE9lUGpZUW90ZXBjQWRWMy9Ua2QrQkhTV1NpcUx6RS94?=
+ =?utf-8?B?SGZvcGVVaEpCUy9QaVE4bTd0NW5GakN6Tzk0WGoyL2xDRE9UYVlnSlkzcUFa?=
+ =?utf-8?B?UndBRmNKekp6NjQ2VmwyU1FHalhETmRSaHd6R0liWHR6TFQ4NCt5UXdaeGVj?=
+ =?utf-8?B?cHhzU01nU3hQcUtBZkZJT2I3R2RrQXJvSXFqVXptYUlBaGRzek0wNHk2SmxE?=
+ =?utf-8?B?K2tzQitsZUJpL2hCeTE1eFVEUUs3aTM2cGVWbFF6SmpYVm9HNDJmY1dqUGRU?=
+ =?utf-8?B?RUZhQlJ0S1Y0eDJNdy9GQ0lXSnBNWFd2eFNCSnh6bFM0SjA0TU5qM09pRHBx?=
+ =?utf-8?B?SEVmeTQ5TVBwQTJXVWN2S3FIWWVTR2xvK0tqMk5NNFY1ZXhCRFJSYWtENmti?=
+ =?utf-8?B?c0VkMlM0QnlxZXlzWWlJRzRGdHEyZzNrQTZWcGRBcUk3SnNqS1l5QnlGeTRJ?=
+ =?utf-8?B?VnYwQk9LNXFzNHE0R3hmRTBSenhCS25BK2svZm1TeFczTTIrZVlaMkc1ck0z?=
+ =?utf-8?Q?9mYH2tdAoChxwLLY=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_DU7PPF66507B2D77DE28C2625D56E23570AF3F42DU7PPF66507B2D7_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509F7:EE_|DB9PR07MB8524:EE_
-X-MS-Office365-Filtering-Correlation-Id: c08926d0-4a8b-45ca-6efb-08ded8d4fa0e
-X-SMTP-Server: smtp-central.internal.ericsson.com
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|1800799024|23010399003|376014|82310400026|18002099003|22082099003|56012099006|11063799006|6133799003|3023799007|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	4ufoilx7ahOfX5vbrJgsLI6nV74Xb6si727kby2gK5wXSp+JS79t4sDRXF98pwQ9OgKAcWnnzqjE+mA3GjbaQUSA1ipFYCSUDq0WOvSNb63/V2Fy9bQ9gyWH9hrusxlCCsyNh43v8nbLlA3cX3N9bVV/ir+c+snDsOEqG7fnoEtWsp/jIXPOKVU93wmQ8Yd5l+kIUH9BqmrhLOLbGHGxq19nHP9vyfyhebIhcnEzoNzml4ki/+81b23CPoJ1DoMpXG/xv0FzABpmrOI3m5e5T7jXsO7xKWe8/e/INsRaWP5VC63BsK4MJKkRzfLry474sUo5mSYToidqlQQifBSNhazp7OXygX3JRhSq7BnSwGKpnkpH9MYfLdupJhmC/K6buiIJWeulFm/rNkwplPTPu7VjRS0SlB2fgajT9mujkaw3vBJGldI3jig1KmRi2meobxtOVAaDGqmJ2oBLadC8xyToQaffc7m2NvVVegiIZBi/MlXoR8hPNNIAW8syOD/jN25B+xaOqtplbbY6DtJXZaivLCvE0CPZlATWKZpdxG0aHFQQNtiNRzaRd46OtSPdFJezPB+lZ+QSgS0NIWp85IIARj1p/gi7MywECkLCk/kwLYcN6KJw36DxUIvTJPFJIll0aE8VDOfdzCFw6RKD2fVLnZd4xBB9xj05LmL7X4xP98ro4h/KR12Z/H5fVEwSz/YizyeL6QAY7m+v1hdGPQ==
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(23010399003)(376014)(82310400026)(18002099003)(22082099003)(56012099006)(11063799006)(6133799003)(3023799007)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	2MfaAyzKMsT+JUQ30px8DdhfE9A6ovDLc9I2db1BWBB8AqnWdsfTPDO2qLqfJuFvOyORtfsdJW/jms8TEq983XD3q8ehOjHkmxLozUD6+1xl07+Wj2hxLXGY31IFIDgmYksgpDzbcffL10mfRaEY2GoPb1dcK8ugVDZYR2dkoBvcZau9rc8Hw8hfbjTw83RmIeDeL3NBbkpdmubVwgfotct2IMEXM3wyBLa/dD20zMQF5JCjXyw+AYAqCf1mJgYrk3CxL37yLAInCFXvo0XmeQM9Ys8PYba/CQ1gO4oFgQQ7fTg5IKBNloTK0NqwBPJnaZ3SBNN2CGfaSGxAUaPZz1WF4wg2jkBFyQCECVsydOlFoJpYY13sDtbovKIvYmTqjlVLkVVLgFNYn/8szdsTE9fNp8gWJ4YOHkV8H9s999RfYUNjs6RhWf+zWWWvU1LP
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 07:30:37.2282
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55ccb274-077d-4f54-e323-08ded8da89e8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2026 08:10:26.1018
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c08926d0-4a8b-45ca-6efb-08ded8d4fa0e
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB1PEPF000509F7.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR07MB8524
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6xlbmr2c+Dt/a1JQtUp3+CHBU/VCHC0ET4Z3R1RFHhIGIs+C+933tYOVM6ApjvOMljUXKhAbHy3hDe2wMlcRkW3Gh5zQKhhKJQWtQH6LQWI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0P189MB0611
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 07:30:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240080
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 08:10:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240081
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+--_000_DU7PPF66507B2D77DE28C2625D56E23570AF3F42DU7PPF66507B2D7_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-systemd 261 requires STATX_MNT_ID (kernel >=3D 5.8) for path resolution.
-On older hosts (e.g. RHEL 8 with kernel 4.18), the QEMU-emulated
-udevadm hwdb fails during image construction.
+SGkgUGF1bCwNCg0KVGhhbmtzIGZvciBwb2ludGluZyBvdXQgLg0KDQpZZXMsIHdlIGhhdmUgb2xk
+ZXIgS2VybmVsIHRoYW4gNi4xMCBhbmQgd2Ugd2lsbCBoYXZlIGEgZml4IGluIGxvY2FsIC4NCg0K
+UmVnYXJkcywNCkphaXBhdWwNCg0KT24gMjAyNi0wNy0wMiwgMTU6MjksICJQYXVsIEJhcmtlciIg
+PHBhdWxAcGJhcmtlci5kZXY+IHdyb3RlOg0KDQpPbiBNb24sIDIwMjYtMDYtMjkgYXQgMTU6MDUg
+KzAyMDAsIEphaXBhdWwgQ2hlZXJuYW0gd3JvdGU6DQo+IFRoZSBrZXJuZWwncyBNYWtlZmlsZS5j
+b25maWcgaGFzIHR3byBCVUlMRF9CUEZfU0tFTCBjaGVja3M6DQo+IC0gTGluZSAyMTk6IGlmZXEg
+KCQoQlVJTERfQlBGX1NLRUwpLDEpIC0gdmFsdWUgY2hlY2sgKHdvcmtzIHdpdGggPTApDQo+IC0g
+TGluZSA2Njg6IGlmZGVmIEJVSUxEX0JQRl9TS0VMIC0gZGVmaW5lZCBjaGVjayAodHJpZ2dlcnMg
+Zm9yIEFOWSB2YWx1ZSkNCj4NCj4gVGhlIHByZXZpb3VzIGZpeCAoZjQ4ZjZmYjkxYykgcGFzc2Vk
+IEJVSUxEX0JQRl9TS0VMPTAgd2hpY2ggY29ycmVjdGx5DQo+IHNraXBzIHRoZSBmaXJzdCBjaGVj
+ayBidXQgc3RpbGwgdHJpZ2dlcnMgdGhlIHNlY29uZCAnaWZkZWYnIGNoZWNrLA0KPiBjYXVzaW5n
+IGEgYnVpbGQgZmFpbHVyZSB3aGVuIGNsYW5nIGlzIG5vdCBhdmFpbGFibGUgb3IgdG9vIG9sZC4N
+Cj4NCj4gQ2hhbmdlIGZyb206DQo+ICAgUEFDS0FHRUNPTkZJR1ticGYtc2tlbF0gPSAiLEJVSUxE
+X0JQRl9TS0VMPTAiDQo+IFRvOg0KPiAgIFBBQ0tBR0VDT05GSUdbYnBmLXNrZWxdID0gIkJVSUxE
+X0JQRl9TS0VMPTEsIg0KPg0KPiBXaGVuIGJwZi1za2VsIGlzIG5vdCBpbiBQQUNLQUdFQ09ORklH
+ICh0aGUgZGVmYXVsdCksIG5vdGhpbmcgaXMNCj4gcGFzc2VkIHRvIG1ha2UgYW5kIEJVSUxEX0JQ
+Rl9TS0VMIHJlbWFpbnMgdW5kZWZpbmVkLCB3aGljaCBjb3JyZWN0bHkNCj4gc2tpcHMgYm90aCBj
+aGVja3MuIFdoZW4gZW5hYmxlZCwgQlVJTERfQlBGX1NLRUw9MSBpcyBwYXNzZWQuDQo+DQo+IEFs
+c28gbW92ZSB0aGUgUEFDS0FHRUNPTkZJRyBlbnRyeSB0byBiZSBncm91cGVkIHdpdGggdGhlIG90
+aGVyDQo+IFBBQ0tBR0VDT05GSUcgb3B0aW9ucyBmb3IgY29uc2lzdGVuY3kuDQo+DQo+IFNpZ25l
+ZC1vZmYtYnk6IEphaXBhdWwgQ2hlZXJuYW0gPGphaXBhdWwuY2hlZXJuYW1AZXN0LnRlY2g8bWFp
+bHRvOmphaXBhdWwuY2hlZXJuYW1AZXN0LnRlY2g+Pg0KDQpIaSBKYWlwYXVsLA0KDQpCYXNlZCBv
+biB0aGUgbGluZSBudW1iZXJzIGFuZCBjb25kaXRpb25hbHMgeW91J3ZlIHB1dCBpbiB0aGUgY29t
+bWl0DQptZXNzYWdlLCBJIGFzc3VtZSB5b3UncmUgdHJ5aW5nIHRvIGJ1aWxkIHBlcmYgd2l0aCBh
+IGtlcm5lbCBzb3VyY2UgdHJlZQ0KdGhhdCBkb2Vzbid0IGNvbnRhaW4gY29tbWl0IDk5MjU0OTVk
+OTZlZiAoInBlcmYgYnVpbGQ6IERlZmF1bHQNCkJVSUxEX0JQRl9TS0VMLCB3YXJuL2Rpc2FibGUg
+Zm9yIG1pc3NpbmcgZGVwcyIpIFsxXSwgaS5lLiBiZWZvcmUgTGludXgNCjYuMTAuDQoNClsxXTog
+aHR0cHM6Ly9naXQua2VybmVsLm9yZy90b3J2YWxkcy9jLzk5MjU0OTVkOTZlZmMxNGQ4ODViYTY2
+YzU2OTZmNjY0ZmUwZTY2M2MNCg0KVGhlIGJwZi1za2VsIFBBQ0tBR0VDT05GSUcgaGFuZGxpbmcg
+aW4gbWFzdGVyL3dyeW5vc2UgYXBwZWFycyB0byBiZQ0KY29ycmVjdCBmb3Iga2VybmVsIHZlcnNp
+b25zIDYuMTAgYW5kIGxhdGVyLiBVbmZvcnR1bmF0ZWx5LCB0aGVyZSdzIG5vDQpzaW5nbGUgY2hl
+Y2sgdGhhdCB3aWxsIHdvcmsgYWNyb3NzIGFsbCBrZXJuZWwgdmVyc2lvbnM6DQoNCi0gV2l0aCBM
+aW51eCA2LjkgJiBlYXJsaWVyLA0KICAgICBCVUlMRF9CUEZfU0tFTD0xICAgICAgIC0+IGVuYWJs
+ZWQNCiAgICAgQlVJTERfQlBGX1NLRUw9MCAgICAgICAtPiBlbmFibGVkDQogICAgIEJVSUxEX0JQ
+Rl9TS0VMIHVuZGVmICAgLT4gZGlzYWJsZWQNCg0KLSBXaXRoIExpbnV4IDYuMTAgJiBsYXRlciwN
+CiAgICAgQlVJTERfQlBGX1NLRUw9MSAgICAgICAtPiBlbmFibGVkDQogICAgIEJVSUxEX0JQRl9T
+S0VMPTAgICAgICAgLT4gZGlzYWJsZWQNCiAgICAgQlVJTERfQlBGX1NLRUwgdW5kZWYgICAtPiBl
+bmFibGVkDQoNCkkgY2FuJ3Qgc2VlIGFueSB2YWx1ZSB0aGF0IGNvbnNpc3RlbnRseSBkaXNhYmxl
+cyB0aGF0IGFjcm9zcyBhbGwga2VybmVsDQp2ZXJzaW9ucyA6KA0KDQpTbywgeW91J2xsIG5lZWQg
+dG8gaGFuZGxlIHRoaXMgYXBwcm9wcmlhdGVseSBkZXBlbmRpbmcgb24geW91ciBrZXJuZWwNCnZl
+cnNpb24uDQoNCkJlc3QgcmVnYXJkcywNCg0KLS0NClBhdWwgQmFya2VyDQoNCg0KUmVnYXJkcywN
+CkphaXBhdWwgQ2hlZXJuYW0NCg0K8J+UlyBFU1QgV2Vic2l0ZTxodHRwczovL3d3dy5lc3QudGVj
+aC8+DQrwn5SXIEVTVCBMaW5rZWRJbjxodHRwczovL3d3dy5saW5rZWRpbi5jb20vY29tcGFueS9l
+cmljc3Nvbi1zb2Z0d2FyZS10ZWNobm9sb2d5Lz4NCg0K
 
-Build systemd-hwdb natively so image construction no longer depends on
-QEMU-emulated udevadm on such hosts, with:
-- A patch restoring /proc/self/fdinfo mount-ID fallback for kernels
-  lacking STATX_MNT_ID (applied only to the native tools recipe)
-- A patch forcing compat mode in hwdb generation to avoid embedding
-  build-host paths in hwdb.bin (reproducibility)
+--_000_DU7PPF66507B2D77DE28C2625D56E23570AF3F42DU7PPF66507B2D7_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Update the update_udev_hwdb intercept to prefer the native
-systemd-hwdb over QEMU emulation, with a test -s check to catch
-silent failures from either path.
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdiBzdHlsZT0i
+ZGlyZWN0aW9uOiBsdHI7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXJpYWwsIEhlbHZldGljYSwgc2Fu
+cy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpIaSBQYXVs
+LCZuYnNwOzwvZGl2Pg0KPGRpdiBzdHlsZT0iZGlyZWN0aW9uOiBsdHI7IGZvbnQtZmFtaWx5OiBB
+cHRvcywgQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xv
+cjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgc3R5bGU9ImRpcmVjdGlvbjog
+bHRyOyBmb250LWZhbWlseTogQXB0b3MsIEFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZv
+bnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KVGhhbmtzIGZvciBwb2ludGlu
+ZyBvdXQgLiZuYnNwOzwvZGl2Pg0KPGRpdiBzdHlsZT0iZGlyZWN0aW9uOiBsdHI7IGZvbnQtZmFt
+aWx5OiBBcHRvcywgQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0
+OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgc3R5bGU9ImRpcmVj
+dGlvbjogbHRyOyBmb250LWZhbWlseTogQXB0b3MsIEFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2Vy
+aWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KWWVzLCB3ZSBoYXZl
+IG9sZGVyIEtlcm5lbCB0aGFuIDYuMTAgYW5kIHdlIHdpbGwgaGF2ZSBhIGZpeCBpbiBsb2NhbCAu
+Jm5ic3A7PC9kaXY+DQo8ZGl2IHN0eWxlPSJkaXJlY3Rpb246IGx0cjsgZm9udC1mYW1pbHk6IEFw
+dG9zLCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9y
+OiByZ2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwvZGl2Pg0KPGRpdiBzdHlsZT0iZGlyZWN0aW9uOiBs
+dHI7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9u
+dC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpSZWdhcmRzLDwvZGl2Pg0KPGRp
+diBzdHlsZT0iZGlyZWN0aW9uOiBsdHI7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXJpYWwsIEhlbHZl
+dGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+
+DQpKYWlwYXVsJm5ic3A7PC9kaXY+DQo8ZGl2IHN0eWxlPSJkaXJlY3Rpb246IGx0cjsgZm9udC1m
+YW1pbHk6IEFwdG9zLCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEy
+cHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwvZGl2Pg0KT24gMjAyNi0wNy0wMiwg
+MTU6MjksICZxdW90O1BhdWwgQmFya2VyJnF1b3Q7ICZsdDtwYXVsQHBiYXJrZXIuZGV2Jmd0OyB3
+cm90ZTo8YnI+DQo8YnI+DQo8ZGl2Pk9uIE1vbiwgMjAyNi0wNi0yOSBhdCAxNTowNSArMDIwMCwg
+SmFpcGF1bCBDaGVlcm5hbSB3cm90ZTo8L2Rpdj4NCjxkaXY+Jmd0OyBUaGUga2VybmVsJ3MgTWFr
+ZWZpbGUuY29uZmlnIGhhcyB0d28gQlVJTERfQlBGX1NLRUwgY2hlY2tzOjwvZGl2Pg0KPGRpdj4m
+Z3Q7IC0gTGluZSAyMTk6IGlmZXEgKCQoQlVJTERfQlBGX1NLRUwpLDEpIC0gdmFsdWUgY2hlY2sg
+KHdvcmtzIHdpdGggPTApPC9kaXY+DQo8ZGl2PiZndDsgLSBMaW5lIDY2ODogaWZkZWYgQlVJTERf
+QlBGX1NLRUwgLSBkZWZpbmVkIGNoZWNrICh0cmlnZ2VycyBmb3IgQU5ZIHZhbHVlKTwvZGl2Pg0K
+PGRpdj4mZ3Q7PC9kaXY+DQo8ZGl2PiZndDsgVGhlIHByZXZpb3VzIGZpeCAoZjQ4ZjZmYjkxYykg
+cGFzc2VkIEJVSUxEX0JQRl9TS0VMPTAgd2hpY2ggY29ycmVjdGx5PC9kaXY+DQo8ZGl2PiZndDsg
+c2tpcHMgdGhlIGZpcnN0IGNoZWNrIGJ1dCBzdGlsbCB0cmlnZ2VycyB0aGUgc2Vjb25kICdpZmRl
+ZicgY2hlY2ssPC9kaXY+DQo8ZGl2PiZndDsgY2F1c2luZyBhIGJ1aWxkIGZhaWx1cmUgd2hlbiBj
+bGFuZyBpcyBub3QgYXZhaWxhYmxlIG9yIHRvbyBvbGQuPC9kaXY+DQo8ZGl2PiZndDs8L2Rpdj4N
+CjxkaXY+Jmd0OyBDaGFuZ2UgZnJvbTo8L2Rpdj4NCjxkaXY+Jmd0OyZuYnNwOyZuYnNwOyBQQUNL
+QUdFQ09ORklHW2JwZi1za2VsXSA9ICZxdW90OyxCVUlMRF9CUEZfU0tFTD0wJnF1b3Q7PC9kaXY+
+DQo8ZGl2PiZndDsgVG86PC9kaXY+DQo8ZGl2PiZndDsmbmJzcDsmbmJzcDsgUEFDS0FHRUNPTkZJ
+R1ticGYtc2tlbF0gPSAmcXVvdDtCVUlMRF9CUEZfU0tFTD0xLCZxdW90OzwvZGl2Pg0KPGRpdj4m
+Z3Q7PC9kaXY+DQo8ZGl2PiZndDsgV2hlbiBicGYtc2tlbCBpcyBub3QgaW4gUEFDS0FHRUNPTkZJ
+RyAodGhlIGRlZmF1bHQpLCBub3RoaW5nIGlzPC9kaXY+DQo8ZGl2PiZndDsgcGFzc2VkIHRvIG1h
+a2UgYW5kIEJVSUxEX0JQRl9TS0VMIHJlbWFpbnMgdW5kZWZpbmVkLCB3aGljaCBjb3JyZWN0bHk8
+L2Rpdj4NCjxkaXY+Jmd0OyBza2lwcyBib3RoIGNoZWNrcy4gV2hlbiBlbmFibGVkLCBCVUlMRF9C
+UEZfU0tFTD0xIGlzIHBhc3NlZC48L2Rpdj4NCjxkaXY+Jmd0OzwvZGl2Pg0KPGRpdj4mZ3Q7IEFs
+c28gbW92ZSB0aGUgUEFDS0FHRUNPTkZJRyBlbnRyeSB0byBiZSBncm91cGVkIHdpdGggdGhlIG90
+aGVyPC9kaXY+DQo8ZGl2PiZndDsgUEFDS0FHRUNPTkZJRyBvcHRpb25zIGZvciBjb25zaXN0ZW5j
+eS48L2Rpdj4NCjxkaXY+Jmd0OzwvZGl2Pg0KPGRpdj4mZ3Q7IFNpZ25lZC1vZmYtYnk6IEphaXBh
+dWwgQ2hlZXJuYW0gJmx0OzxhIGhyZWY9Im1haWx0bzpqYWlwYXVsLmNoZWVybmFtQGVzdC50ZWNo
+IiBkYXRhLW91dGxvb2staWQ9ImQ2NjM4YzljLWM3NTYtNGIxYS04ZWI1LThmZDdiOGU0NjVlNiI+
+amFpcGF1bC5jaGVlcm5hbUBlc3QudGVjaDwvYT4mZ3Q7PC9kaXY+DQo8ZGl2IHN0eWxlPSJkaXJl
+Y3Rpb246IGx0cjsiPjxicj4NCjwvZGl2Pg0KPGRpdj5IaSBKYWlwYXVsLDwvZGl2Pg0KPGRpdiBz
+dHlsZT0iZGlyZWN0aW9uOiBsdHI7Ij48YnI+DQo8L2Rpdj4NCjxkaXY+QmFzZWQgb24gdGhlIGxp
+bmUgbnVtYmVycyBhbmQgY29uZGl0aW9uYWxzIHlvdSd2ZSBwdXQgaW4gdGhlIGNvbW1pdDwvZGl2
+Pg0KPGRpdj5tZXNzYWdlLCBJIGFzc3VtZSB5b3UncmUgdHJ5aW5nIHRvIGJ1aWxkIHBlcmYgd2l0
+aCBhIGtlcm5lbCBzb3VyY2UgdHJlZTwvZGl2Pg0KPGRpdj50aGF0IGRvZXNuJ3QgY29udGFpbiBj
+b21taXQgOTkyNTQ5NWQ5NmVmICgmcXVvdDtwZXJmIGJ1aWxkOiBEZWZhdWx0PC9kaXY+DQo8ZGl2
+PkJVSUxEX0JQRl9TS0VMLCB3YXJuL2Rpc2FibGUgZm9yIG1pc3NpbmcgZGVwcyZxdW90OykgWzFd
+LCBpLmUuIGJlZm9yZSBMaW51eDwvZGl2Pg0KPGRpdj42LjEwLjwvZGl2Pg0KPGRpdiBzdHlsZT0i
+ZGlyZWN0aW9uOiBsdHI7Ij48YnI+DQo8L2Rpdj4NCjxkaXY+WzFdOiA8YSBocmVmPSJodHRwczov
+L2dpdC5rZXJuZWwub3JnL3RvcnZhbGRzL2MvOTkyNTQ5NWQ5NmVmYzE0ZDg4NWJhNjZjNTY5NmY2
+NjRmZTBlNjYzYyIgZGF0YS1vdXRsb29rLWlkPSI3NjZlY2U5MS1iMDEzLTQ1ZDUtOWMzYi0wZDFi
+MzRkMDFhOGEiPg0KaHR0cHM6Ly9naXQua2VybmVsLm9yZy90b3J2YWxkcy9jLzk5MjU0OTVkOTZl
+ZmMxNGQ4ODViYTY2YzU2OTZmNjY0ZmUwZTY2M2M8L2E+PC9kaXY+DQo8ZGl2IHN0eWxlPSJkaXJl
+Y3Rpb246IGx0cjsiPjxicj4NCjwvZGl2Pg0KPGRpdj5UaGUgYnBmLXNrZWwgUEFDS0FHRUNPTkZJ
+RyBoYW5kbGluZyBpbiBtYXN0ZXIvd3J5bm9zZSBhcHBlYXJzIHRvIGJlPC9kaXY+DQo8ZGl2PmNv
+cnJlY3QgZm9yIGtlcm5lbCB2ZXJzaW9ucyA2LjEwIGFuZCBsYXRlci4gVW5mb3J0dW5hdGVseSwg
+dGhlcmUncyBubzwvZGl2Pg0KPGRpdj5zaW5nbGUgY2hlY2sgdGhhdCB3aWxsIHdvcmsgYWNyb3Nz
+IGFsbCBrZXJuZWwgdmVyc2lvbnM6PC9kaXY+DQo8ZGl2IHN0eWxlPSJkaXJlY3Rpb246IGx0cjsi
+Pjxicj4NCjwvZGl2Pg0KPGRpdj4tIFdpdGggTGludXggNi45ICZhbXA7IGVhcmxpZXIsPC9kaXY+
+DQo8ZGl2PiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBCVUlMRF9CUEZfU0tFTD0xJm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IC0mZ3Q7IGVuYWJsZWQ8L2Rpdj4NCjxkaXY+Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IEJVSUxEX0JQRl9TS0VMPTAmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsgLSZndDsgZW5hYmxlZDwvZGl2Pg0KPGRpdj4mbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsgQlVJTERfQlBGX1NLRUwgdW5kZWYmbmJzcDsmbmJzcDsgLSZndDsgZGlzYWJs
+ZWQ8L2Rpdj4NCjxkaXYgc3R5bGU9ImRpcmVjdGlvbjogbHRyOyI+PGJyPg0KPC9kaXY+DQo8ZGl2
+Pi0gV2l0aCBMaW51eCA2LjEwICZhbXA7IGxhdGVyLDwvZGl2Pg0KPGRpdj4mbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsgQlVJTERfQlBGX1NLRUw9MSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyAtJmd0OyBlbmFibGVkPC9kaXY+DQo8ZGl2PiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyBCVUlMRF9CUEZfU0tFTD0wJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IC0m
+Z3Q7IGRpc2FibGVkPC9kaXY+DQo8ZGl2PiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBCVUlMRF9C
+UEZfU0tFTCB1bmRlZiZuYnNwOyZuYnNwOyAtJmd0OyBlbmFibGVkPC9kaXY+DQo8ZGl2IHN0eWxl
+PSJkaXJlY3Rpb246IGx0cjsiPjxicj4NCjwvZGl2Pg0KPGRpdj5JIGNhbid0IHNlZSBhbnkgdmFs
+dWUgdGhhdCBjb25zaXN0ZW50bHkgZGlzYWJsZXMgdGhhdCBhY3Jvc3MgYWxsIGtlcm5lbDwvZGl2
+Pg0KPGRpdj52ZXJzaW9ucyA6KDwvZGl2Pg0KPGRpdiBzdHlsZT0iZGlyZWN0aW9uOiBsdHI7Ij48
+YnI+DQo8L2Rpdj4NCjxkaXY+U28sIHlvdSdsbCBuZWVkIHRvIGhhbmRsZSB0aGlzIGFwcHJvcHJp
+YXRlbHkgZGVwZW5kaW5nIG9uIHlvdXIga2VybmVsPC9kaXY+DQo8ZGl2PnZlcnNpb24uPC9kaXY+
+DQo8ZGl2IHN0eWxlPSJkaXJlY3Rpb246IGx0cjsiPjxicj4NCjwvZGl2Pg0KPGRpdj5CZXN0IHJl
+Z2FyZHMsPC9kaXY+DQo8ZGl2IHN0eWxlPSJkaXJlY3Rpb246IGx0cjsiPjxicj4NCjwvZGl2Pg0K
+PGRpdj4tLTwvZGl2Pg0KPGRpdj5QYXVsIEJhcmtlcjwvZGl2Pg0KPGRpdiBzdHlsZT0iZGlyZWN0
+aW9uOiBsdHI7Ij48YnI+DQo8L2Rpdj4NCjxkaXYgc3R5bGU9ImRpcmVjdGlvbjogbHRyOyI+PGJy
+Pg0KPC9kaXY+DQo8ZGl2IGlkPSJtcy1vdXRsb29rLW1vYmlsZS1zaWduYXR1cmUiPg0KPGRpdj5S
+ZWdhcmRzLDwvZGl2Pg0KPGRpdiBzdHlsZT0iZGlyZWN0aW9uOiBsdHI7IGZvbnQtZmFtaWx5OiBB
+cHRvcywgQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xv
+cjogcmdiKDAsIDAsIDApOyI+DQpKYWlwYXVsIENoZWVybmFtPC9kaXY+DQo8ZGl2IHN0eWxlPSJk
+aXJlY3Rpb246IGx0cjsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5z
+LXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwv
+ZGl2Pg0KPGRpdiBzdHlsZT0iZGlyZWN0aW9uOiBsdHI7IGZvbnQtZmFtaWx5OiBBcHRvcywgQXJp
+YWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAs
+IDAsIDApOyI+DQo8c3BhbiBzdHlsZT0idGV4dC10cmFuc2Zvcm06IG5vbmU7Ij7wn5SXIDxhIGhy
+ZWY9Imh0dHBzOi8vd3d3LmVzdC50ZWNoLyIgaWQ9Im1lbnVyMnE3IiBjbGFzcz0iZnVpLUxpbmsg
+X19fMXExc2hpYiBmMmhrdzF3IGYzcm10dmEgZjFld3RxY2wgZnlpbmQ4ZSBmMWs2ZmR1aCBmMXc3
+Z3BkdiBmazZmb3VjIGZqb3k1NjggZmlnc29rNiBmMXMxODRhbyBmMW1rOGxhaSBmbmJtam45IGYx
+bzcwMGF2IGYxM212ZjM2IGYxY21sdWZ4IGY5bjNkaTYgZjFpZHMxOHkgZjF0eDN5ejcgZjFkZW84
+NnYgZjFlaDA2bTEgZjFpZXNjdmggZmhncXgxOSBmMW9seXJqZSBmMXA5M2VpciBmMW5ldjQxYSBm
+MWg4aGI3NyBmMWxxdno2dSBmMTBhdzc1dCBmc2xlM2ZxIGYxN2FlNXpuIiB0aXRsZT0iaHR0cHM6
+Ly93d3cuZXN0LnRlY2gvIiByZWw9Im5vcmVmZXJyZXIgbm9vcGVuZXIiIGRhdGEtb3V0bG9vay1p
+ZD0iNWExMzE1NzktYmUyYi00OTFhLWEyMmMtNWQ0ODNmYzFhOTEzIj4NCkVTVCBXZWJzaXRlPC9h
+Pjxicj4NCvCflJcgPGEgaHJlZj0iaHR0cHM6Ly93d3cubGlua2VkaW4uY29tL2NvbXBhbnkvZXJp
+Y3Nzb24tc29mdHdhcmUtdGVjaG5vbG9neS8iIGlkPSJtZW51cjJxOSIgY2xhc3M9ImZ1aS1MaW5r
+IF9fXzFxMXNoaWIgZjJoa3cxdyBmM3JtdHZhIGYxZXd0cWNsIGZ5aW5kOGUgZjFrNmZkdWggZjF3
+N2dwZHYgZms2Zm91YyBmam95NTY4IGZpZ3NvazYgZjFzMTg0YW8gZjFtazhsYWkgZm5ibWpuOSBm
+MW83MDBhdiBmMTNtdmYzNiBmMWNtbHVmeCBmOW4zZGk2IGYxaWRzMTh5IGYxdHgzeXo3IGYxZGVv
+ODZ2IGYxZWgwNm0xIGYxaWVzY3ZoIGZoZ3F4MTkgZjFvbHlyamUgZjFwOTNlaXIgZjFuZXY0MWEg
+ZjFoOGhiNzcgZjFscXZ6NnUgZjEwYXc3NXQgZnNsZTNmcSBmMTdhZTV6biIgdGl0bGU9Imh0dHBz
+Oi8vd3d3LmxpbmtlZGluLmNvbS9jb21wYW55L2VyaWNzc29uLXNvZnR3YXJlLXRlY2hub2xvZ3kv
+IiByZWw9Im5vcmVmZXJyZXIgbm9vcGVuZXIiIGRhdGEtb3V0bG9vay1pZD0iYTU0ZDcxYTQtN2Qy
+YS00ZjI5LWJjZjEtZjk1NzYwNGYzNzVlIj4NCkVTVCBMaW5rZWRJbjwvYT48L3NwYW4+PC9kaXY+
+DQo8ZGl2IHN0eWxlPSJkaXJlY3Rpb246IGx0cjsgZm9udC1mYW1pbHk6IEFwdG9zLCBBcmlhbCwg
+SGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwg
+MCk7Ij4NCjxicj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-Rather than add a second native recipe, merge systemctl and
-systemd-hwdb into a single systemd-tools-native recipe that builds both
-tools from one meson configure. Both are satisfied by target-absolute
-paths (--prefix /usr for hwdb's UDEVLIBEXECDIR, --sysconfdir /etc for
-systemctl); systemctl --root enable/disable and hwdb generation were
-verified to behave identically to the previous separate builds. All
-in-tree consumers (systemd.bbclass, systemd_261.bb, keymaps,
-initscripts, modutils-initscripts) are updated to the new name.
-
-Tested on RHEL 8.10 and Ubuntu 22.04.5
-
-AI-Generated: Claude-opus-4.6
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-
----
-systemd-tools-native is assigned to Chen Qi in maintainers.inc, matching
-the rest of the systemd recipes; adjust if a different owner is preferred.
----
- meta/classes-recipe/systemd.bbclass           |   4 +-
- meta/conf/distro/include/maintainers.inc      |   2 +-
- meta/recipes-bsp/keymaps/keymaps_1.0.bb       |   2 +-
- .../initscripts/initscripts_1.0.bb            |   2 +-
- .../systemd/systemd-systemctl-native_261.bb   |  25 ---
- .../systemd/systemd-tools-native_261.bb       |  42 +++++
- ...idfd_open-and-STATX_MNT_ID-on-older-.patch | 176 ++++++++++++++++++
- ...t-mode-for-reproducible-cross-builds.patch |  36 ++++
- meta/recipes-core/systemd/systemd_261.bb      |   2 +-
- .../modutils-initscripts.bb                   |   2 +-
- scripts/postinst-intercepts/update_udev_hwdb  |  24 ++-
- 11 files changed, 281 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-core/systemd/systemd-systemctl-native_261.=
-bb
- create mode 100644 meta/recipes-core/systemd/systemd-tools-native_261.bb
- create mode 100644 meta/recipes-core/systemd/systemd/Handle-missing-pidfd_=
-open-and-STATX_MNT_ID-on-older-.patch
- create mode 100644 meta/recipes-core/systemd/systemd/hwdb-use-compat-mode-=
-for-reproducible-cross-builds.patch
-
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/syst=
-emd.bbclass
-index 26eaaf1922..8c6b6cae36 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -21,8 +21,8 @@ python __anonymous() {
-     # Inhibit update-rcd from doing any work so that systemd images don't =
-have
-     # redundant init files.
-     if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
--        d.appendVar("DEPENDS", " systemd-systemctl-native")
--        d.appendVar("PACKAGE_WRITE_DEPS", " systemd-systemctl-native")
-+        d.appendVar("DEPENDS", " systemd-tools-native")
-+        d.appendVar("PACKAGE_WRITE_DEPS", " systemd-tools-native")
-         d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
- }
-=20
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
-clude/maintainers.inc
-index 4c6307086c..53a274c0a2 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -833,7 +833,7 @@ RECIPE_MAINTAINER:pn-systemd-bootconf =3D "Chen Qi <Qi.=
-Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-systemd-conf =3D "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-systemd-machine-units =3D "Chen Qi <Qi.Chen@windriver=
-.com>"
- RECIPE_MAINTAINER:pn-systemd-serialgetty =3D "Chen Qi <Qi.Chen@windriver.c=
-om>"
--RECIPE_MAINTAINER:pn-systemd-systemctl-native =3D "Chen Qi <Qi.Chen@windri=
-ver.com>"
-+RECIPE_MAINTAINER:pn-systemd-tools-native =3D "Chen Qi <Qi.Chen@windriver.=
-com>"
- RECIPE_MAINTAINER:pn-systemtap =3D "Victor Kamensky <victor.kamensky7@gmai=
-l.com>"
- RECIPE_MAINTAINER:pn-systemtap-native =3D "Victor Kamensky <victor.kamensk=
-y7@gmail.com>"
- RECIPE_MAINTAINER:pn-sysvinit =3D "Ross Burton <ross.burton@arm.com>"
-diff --git a/meta/recipes-bsp/keymaps/keymaps_1.0.bb b/meta/recipes-bsp/key=
-maps/keymaps_1.0.bb
-index b7e6ef6cb1..171f7f7c0b 100644
---- a/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-+++ b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-@@ -36,7 +36,7 @@ do_install () {
-     fi
- }
-=20
--PACKAGE_WRITE_DEPS:append =3D " ${@bb.utils.contains('DISTRO_FEATURES','sy=
-stemd sysvinit','systemd-systemctl-native','',d)}"
-+PACKAGE_WRITE_DEPS:append =3D " ${@bb.utils.contains('DISTRO_FEATURES','sy=
-stemd sysvinit','systemd-tools-native','',d)}"
- pkg_postinst:${PN} () {
- 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','true','fals=
-e',d)}; then
- 		if [ -n "$D" ]; then
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipe=
-s-core/initscripts/initscripts_1.0.bb
-index 23411b6a71..48c1b6244f 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -41,7 +41,7 @@ S =3D "${UNPACKDIR}"
- KERNEL_VERSION =3D ""
-=20
- DEPENDS:append =3D " update-rc.d-native"
--PACKAGE_WRITE_DEPS:append =3D " ${@bb.utils.contains('DISTRO_FEATURES','sy=
-stemd','systemd-systemctl-native','',d)}"
-+PACKAGE_WRITE_DEPS:append =3D " ${@bb.utils.contains('DISTRO_FEATURES','sy=
-stemd','systemd-tools-native','',d)}"
-=20
- PACKAGES =3D+ "${PN}-functions ${PN}-sushell"
- RDEPENDS:${PN} =3D "initd-functions \
-diff --git a/meta/recipes-core/systemd/systemd-systemctl-native_261.bb b/me=
-ta/recipes-core/systemd/systemd-systemctl-native_261.bb
-deleted file mode 100644
-index 28fddc79df..0000000000
---- a/meta/recipes-core/systemd/systemd-systemctl-native_261.bb
-+++ /dev/null
-@@ -1,25 +0,0 @@
--FILESEXTRAPATHS:prepend :=3D "${THISDIR}/systemd:"
--
--SUMMARY =3D "Systemctl executable from systemd"
--
--require systemd.inc
--
--DEPENDS =3D "gperf-native libcap-native util-linux-native python3-jinja2-n=
-ative"
--
--inherit pkgconfig meson native
--
--MESON_TARGET =3D "systemctl"
--MESON_INSTALL_TAGS =3D "systemctl"
--# Explicitly disable features that meson auto-detects from the native sysr=
-oot.
--# Only systemctl is built here; these prevent spurious dependencies and en=
-sure
--# reproducible builds regardless of what is installed on the build host.
--EXTRA_OEMESON +=3D "-Dlink-systemctl-shared=3Dfalse"
--EXTRA_OEMESON +=3D "-Dpam=3Ddisabled -Daudit=3Ddisabled -Dselinux=3Ddisabl=
-ed"
--EXTRA_OEMESON +=3D "-Dacl=3Ddisabled -Dapparmor=3Ddisabled -Dseccomp=3Ddis=
-abled"
--EXTRA_OEMESON +=3D "-Dlibcryptsetup=3Ddisabled -Dlibcurl=3Ddisabled -Dlibf=
-ido2=3Ddisabled"
--EXTRA_OEMESON +=3D "-Dpcre2=3Ddisabled -Dp11kit=3Ddisabled -Dopenssl=3Ddis=
-abled"
--
--# Systemctl is supposed to operate on target, but the target sysroot is no=
-t
--# determined at run-time, but rather set during configure
--# More details are here https://github.com/systemd/systemd/issues/35897#is=
-suecomment-2665405887
--EXTRA_OEMESON +=3D "--sysconfdir ${sysconfdir_native}"
-diff --git a/meta/recipes-core/systemd/systemd-tools-native_261.bb b/meta/r=
-ecipes-core/systemd/systemd-tools-native_261.bb
-new file mode 100644
-index 0000000000..82700442eb
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd-tools-native_261.bb
-@@ -0,0 +1,42 @@
-+# SPDX-License-Identifier: MIT
-+FILESEXTRAPATHS:prepend :=3D "${THISDIR}/systemd:"
-+
-+SUMMARY =3D "systemd native tools (systemctl and systemd-hwdb)"
-+
-+require systemd.inc
-+
-+DEPENDS =3D "gperf-native libcap-native util-linux-native python3-jinja2-n=
-ative"
-+
-+# TODO: Remove STATX_MNT_ID patch once minimum supported build host kernel=
- is >=3D 5.8 (RHEL 8 EOL: 2029)
-+SRC_URI +=3D "file://Handle-missing-pidfd_open-and-STATX_MNT_ID-on-older-.=
-patch \
-+            file://hwdb-use-compat-mode-for-reproducible-cross-builds.patc=
-h \
-+           "
-+
-+inherit pkgconfig meson native
-+
-+# Build both tools from a single configured tree.
-+MESON_TARGET =3D "systemctl systemd-hwdb"
-+
-+# Target-absolute paths that satisfy both tools from one meson configure:
-+#  - systemd-hwdb needs prefix=3D/usr so the compiled-in UDEVLIBEXECDIR
-+#    (/usr/lib/udev) matches the target rootfs layout, letting
-+#    "update --root $D --usr" find hwdb.d sources and write hwdb.bin there=
-.
-+#  - systemctl needs sysconfdir=3D/etc; it operates on the target rootfs b=
-ut the
-+#    sysroot is fixed at configure time rather than run time.
-+#    See https://github.com/systemd/systemd/issues/35897#issuecomment-2665=
-405887
-+EXTRA_OEMESON +=3D "--prefix /usr --sysconfdir /etc"
-+EXTRA_OEMESON +=3D "-Dhwdb=3Dtrue -Dlink-udev-shared=3Dfalse -Dlink-system=
-ctl-shared=3Dfalse"
-+
-+# Explicitly disable features that meson auto-detects from the native sysr=
-oot.
-+# These prevent spurious dependencies and ensure reproducible builds regar=
-dless
-+# of what is installed on the build host.
-+EXTRA_OEMESON +=3D "-Dpam=3Ddisabled -Daudit=3Ddisabled -Dselinux=3Ddisabl=
-ed"
-+EXTRA_OEMESON +=3D "-Dacl=3Ddisabled -Dapparmor=3Ddisabled -Dseccomp=3Ddis=
-abled"
-+EXTRA_OEMESON +=3D "-Dlibcryptsetup=3Ddisabled -Dlibcurl=3Ddisabled -Dlibf=
-ido2=3Ddisabled"
-+EXTRA_OEMESON +=3D "-Dpcre2=3Ddisabled -Dp11kit=3Ddisabled -Dopenssl=3Ddis=
-abled"
-+
-+do_install() {
-+    install -d ${D}${bindir}
-+    install -m 0755 ${B}/systemctl ${D}${bindir}/systemctl
-+    install -m 0755 ${B}/systemd-hwdb ${D}${bindir}/systemd-hwdb
-+}
-diff --git a/meta/recipes-core/systemd/systemd/Handle-missing-pidfd_open-an=
-d-STATX_MNT_ID-on-older-.patch b/meta/recipes-core/systemd/systemd/Handle-m=
-issing-pidfd_open-and-STATX_MNT_ID-on-older-.patch
-new file mode 100644
-index 0000000000..65866fa01a
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/Handle-missing-pidfd_open-and-STATX=
-_MNT_ID-on-older-.patch
-@@ -0,0 +1,176 @@
-+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-+From: Daniel Turull <daniel.turull@ericsson.com>
-+Date: Mon, 23 Jun 2026 12:00:00 +0200
-+Subject: [PATCH] Handle missing pidfd_open and STATX_MNT_ID on older kerne=
-ls
-+
-+On hosts lacking pidfd_open (kernel < 5.3) or STATX_MNT_ID (kernel < 5.8,
-+e.g. RHEL 8), native tools (systemctl --root, systemd-hwdb --root) fail
-+during path resolution. Fix by:
-+
-+- Treating ENOSYS/EOPNOTSUPP from pidfd_open as graceful fallback.
-+- Adding fd_get_mount_id() to read mnt_id from /proc/self/fdinfo (availabl=
-e
-+  since kernel 3.15) and using it as fallback when statx returns -EUNATCH =
-in
-+  fds_inode_and_mount_same() and chase_statx().
-+
-+This restores the /proc/self/fdinfo fallback that existed in systemd 259
-+(fd_fdinfo_mnt_id in mountpoint-util.c) but was removed upstream in 260+.
-+
-+This patch is only applied to the native tools recipe
-+(systemd-tools-native) where /proc/self/fdinfo is guaranteed available.
-+Do NOT apply to the target systemd recipe.
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Assisted-by: kiro:claude-opus-4.6
-+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-+---
-+ src/basic/chase.c   | 20 ++++++++++++++-
-+ src/basic/fd-util.c | 63 +++++++++++++++++++++++++++++++++++++++++++--
-+ src/basic/fd-util.h |  1 +
-+ src/basic/pidref.c  |  4 +--
-+ 4 files changed, 83 insertions(+), 5 deletions(-)
-+
-+--- a/src/basic/pidref.c	2026-06-25 14:01:12.007875484 +0200
-++++ b/src/basic/pidref.c	2026-06-25 14:01:55.098770206 +0200
-+@@ -106,8 +106,8 @@ int pidref_set_pid(PidRef *pidref, pid_t
-+=20
-+         fd =3D pidfd_open(pid, 0);
-+         if (fd < 0) {
-+-                /* Graceful fallback in case the kernel is out of fds */
-+-                if (!ERRNO_IS_RESOURCE(errno))
-++                /* Graceful fallback in case the kernel is out of fds or =
-lacks pidfd support */
-++                if (!ERRNO_IS_RESOURCE(errno) && !ERRNO_IS_NOT_SUPPORTED(=
-errno))
-+                         return log_debug_errno(errno, "Failed to open pid=
-fd for pid " PID_FMT ": %m", pid);
-+=20
-+                 fd =3D -EBADF;
-+--- a/src/basic/fd-util.h	2026-06-25 14:01:12.009875526 +0200
-++++ b/src/basic/fd-util.h	2026-06-25 14:01:20.909060415 +0200
-+@@ -188,6 +188,7 @@ static inline int dir_fd_is_root_or_cwd(
-+ }
-+=20
-+ int fds_inode_and_mount_same(int fd1, int fd2);
-++int fd_get_mount_id(int fd, uint64_t *ret);
-+=20
-+ int resolve_xat_fdroot(int *fd, const char **path, char **ret_buffer);
-+=20
-+--- a/src/basic/fd-util.c	2026-06-25 14:01:12.011875567 +0200
-++++ b/src/basic/fd-util.c	2026-06-25 14:01:40.007456905 +0200
-+@@ -1082,6 +1082,38 @@ int path_is_root_at(int dir_fd, const ch
-+         return fds_inode_and_mount_same(dir_fd, XAT_FDROOT);
-+ }
-+=20
-++int fd_get_mount_id(int fd, uint64_t *ret) {
-++        char path[STRLEN("/proc/self/fdinfo/") + DECIMAL_STR_MAX(int)];
-++        _cleanup_close_ int real_fd =3D -EBADF;
-++        _cleanup_free_ char *p =3D NULL;
-++        uint64_t mnt_id;
-++        int r;
-++
-++        assert(ret);
-++
-++        /* /proc/self/fdinfo/ requires a real fd; resolve AT_FDCWD/XAT_FD=
-ROOT via O_PATH. */
-++        if (fd =3D=3D AT_FDCWD || fd =3D=3D XAT_FDROOT) {
-++                real_fd =3D open(fd =3D=3D XAT_FDROOT ? "/" : ".", O_PATH=
-|O_CLOEXEC);
-++                if (real_fd < 0)
-++                        return -errno;
-++                fd =3D real_fd;
-++        }
-++
-++        assert(fd >=3D 0);
-++        xsprintf(path, "/proc/self/fdinfo/%i", fd);
-++
-++        r =3D get_proc_field(path, "mnt_id", &p);
-++        if (r < 0)
-++                return r;
-++
-++        r =3D safe_atou64(p, &mnt_id);
-++        if (r < 0)
-++                return r;
-++
-++        *ret =3D mnt_id;
-++        return 0;
-++}
-++
-+ int fds_inode_and_mount_same(int fd1, int fd2) {
-+         struct statx sx1, sx2;
-+         int r;
-+@@ -1092,7 +1124,20 @@ int fds_inode_and_mount_same(int fd1, in
-+         r =3D xstatx(fd1, /* path =3D */ NULL, AT_EMPTY_PATH,
-+                    STATX_TYPE|STATX_INO|STATX_MNT_ID,
-+                    &sx1);
-+-        if (r < 0)
-++        if (r =3D=3D -EUNATCH) {
-++                uint64_t mnt_id;
-++
-++                /* Kernel lacks STATX_MNT_ID; fall back to /proc/self/fdi=
-nfo. */
-++                r =3D xstatx(fd1, /* path =3D */ NULL, AT_EMPTY_PATH,
-++                           STATX_TYPE|STATX_INO, &sx1);
-++                if (r < 0)
-++                        return r;
-++                r =3D fd_get_mount_id(fd1, &mnt_id);
-++                if (r < 0)
-++                        return r;
-++                sx1.stx_mnt_id =3D mnt_id;
-++                sx1.stx_mask |=3D STATX_MNT_ID;
-++        } else if (r < 0)
-+                 return r;
-+=20
-+         if (fd1 =3D=3D fd2) /* Shortcut things if fds are the same (only =
-after validating the fd) */
-+@@ -1101,7 +1146,19 @@ int fds_inode_and_mount_same(int fd1, in
-+         r =3D xstatx(fd2, /* path =3D */ NULL, AT_EMPTY_PATH,
-+                    STATX_TYPE|STATX_INO|STATX_MNT_ID,
-+                    &sx2);
-+-        if (r < 0)
-++        if (r =3D=3D -EUNATCH) {
-++                uint64_t mnt_id;
-++
-++                r =3D xstatx(fd2, /* path =3D */ NULL, AT_EMPTY_PATH,
-++                           STATX_TYPE|STATX_INO, &sx2);
-++                if (r < 0)
-++                        return r;
-++                r =3D fd_get_mount_id(fd2, &mnt_id);
-++                if (r < 0)
-++                        return r;
-++                sx2.stx_mnt_id =3D mnt_id;
-++                sx2.stx_mask |=3D STATX_MNT_ID;
-++        } else if (r < 0)
-+                 return r;
-+=20
-+         r =3D statx_mount_same(&sx1, &sx2);
-+--- a/src/basic/chase.c	2026-06-25 14:01:12.013875609 +0200
-++++ b/src/basic/chase.c	2026-06-25 14:01:47.117604514 +0200
-+@@ -40,7 +40,9 @@
-+         (CHASE_MUST_BE_DIRECTORY|CHASE_MUST_BE_REGULAR|CHASE_MUST_BE_SOCK=
-ET)
-+=20
-+ static int chase_statx(int fd, struct statx *ret) {
-+-        return xstatx_full(fd,
-++        int r;
-++
-++        r =3D xstatx_full(fd,
-+                         /* path=3D */ NULL,
-+                         /* statx_flags=3D */ 0,
-+                         XSTATX_MNT_ID_BEST,
-+@@ -48,6 +50,23 @@ static int chase_statx(int fd, struct st
-+                         /* optional_mask=3D */ 0,
-+                         /* mandatory_attributes=3D */ 0,
-+                         ret);
-++        if (r =3D=3D -EUNATCH) {
-++                uint64_t mnt_id;
-++
-++                /* Kernel lacks STATX_MNT_ID; fall back to /proc/self/fdi=
-nfo. */
-++                r =3D xstatx(fd, /* path=3D */ NULL, /* statx_flags=3D */=
- 0,
-++                           STATX_TYPE|STATX_UID|STATX_INO,
-++                           ret);
-++                if (r < 0)
-++                        return r;
-++                r =3D fd_get_mount_id(fd, &mnt_id);
-++                if (r < 0)
-++                        return r;
-++                ret->stx_mnt_id =3D mnt_id;
-++                ret->stx_mask |=3D STATX_MNT_ID;
-++        }
-++
-++        return r;
-+ }
-+=20
-+ static int chase_openat2(int root_fd, int dir_fd, const char *path, Chase=
-Flags chase_flags) {
-diff --git a/meta/recipes-core/systemd/systemd/hwdb-use-compat-mode-for-rep=
-roducible-cross-builds.patch b/meta/recipes-core/systemd/systemd/hwdb-use-c=
-ompat-mode-for-reproducible-cross-builds.patch
-new file mode 100644
-index 0000000000..bb90105cbd
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/hwdb-use-compat-mode-for-reproducib=
-le-cross-builds.patch
-@@ -0,0 +1,36 @@
-+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-+From: Daniel Turull <daniel.turull@ericsson.com>
-+Date: Wed, 25 Jun 2026 10:00:00 +0200
-+Subject: [PATCH] hwdb: use compat mode to avoid embedding source paths
-+
-+Use compat=3Dtrue in systemd-hwdb's verb_update() so that source
-+filenames, line numbers, and priorities are not embedded in hwdb.bin.
-+
-+Without this, when --root $D is used during cross-compilation, the
-+absolute build paths (e.g. /tmp/work/.../rootfs/usr/lib/udev/hwdb.d/...)
-+are written into the database, causing:
-+- Non-reproducible builds (different TMPDIR =E2=86=92 different hwdb.bin)
-+- Build directory path leakage into the target image
-+
-+The compat format matches what udevadm hwdb (the deprecated path)
-+has always produced, and is the expected format for cross-built images.
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+AI-Generated: Claude Opus 4.6
-+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-+---
-+ src/hwdb/hwdb.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+--- a/src/hwdb/hwdb.c
-++++ b/src/hwdb/hwdb.c
-+@@ -27,7 +27,7 @@ static int verb_update(int argc, char *argv[], uintptr_t=
- _data, void *userdata)
-+         if (hwdb_bypass())
-+                 return 0;
-+=20
-+-        return hwdb_update(arg_root, arg_hwdb_bin_dir, arg_strict, false)=
-;
-++        return hwdb_update(arg_root, arg_hwdb_bin_dir, arg_strict, true);
-+ }
-+=20
-+ static int help(void) {
-diff --git a/meta/recipes-core/systemd/systemd_261.bb b/meta/recipes-core/s=
-ystemd/systemd_261.bb
-index eedce348c3..05440e92bb 100644
---- a/meta/recipes-core/systemd/systemd_261.bb
-+++ b/meta/recipes-core/systemd/systemd_261.bb
-@@ -910,7 +910,7 @@ pkg_prerm:${PN}:libc-glibc () {
- 	fi
- }
-=20
--PACKAGE_WRITE_DEPS +=3D "qemuwrapper-cross"
-+PACKAGE_WRITE_DEPS +=3D "qemuwrapper-cross systemd-tools-native"
-=20
- pkg_postinst:udev-hwdb () {
- 	if test -n "$D"; then
-diff --git a/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.=
-bb b/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
-index fb7b09393a..a1b70b9219 100644
---- a/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
-+++ b/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
-@@ -19,7 +19,7 @@ do_install () {
- 	install -m 0755 ${S}/modutils.sh ${D}${sysconfdir}/init.d/
- }
-=20
--PACKAGE_WRITE_DEPS:append =3D " ${@bb.utils.contains('DISTRO_FEATURES','sy=
-stemd','systemd-systemctl-native','',d)}"
-+PACKAGE_WRITE_DEPS:append =3D " ${@bb.utils.contains('DISTRO_FEATURES','sy=
-stemd','systemd-tools-native','',d)}"
- pkg_postinst:${PN} () {
- 	if type systemctl >/dev/null 2>/dev/null; then
- 		if [ -n "$D" ]; then
-diff --git a/scripts/postinst-intercepts/update_udev_hwdb b/scripts/postins=
-t-intercepts/update_udev_hwdb
-index 8b3f5de791..d7a4ffc294 100644
---- a/scripts/postinst-intercepts/update_udev_hwdb
-+++ b/scripts/postinst-intercepts/update_udev_hwdb
-@@ -19,7 +19,23 @@ case "${PREFERRED_PROVIDER_udev}" in
- 		;;
- esac
-=20
--rm -f $D${UDEVLIBDIR}/udev/hwdb.bin
--PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D $D${UDEVADM} hwdb --update=
- --root $D ${UDEV_EXTRA_ARGS} ||
--	PSEUDO_UNLOAD=3D1 qemuwrapper -L $D $D${UDEVADM} hwdb --update --root $D =
-${UDEV_EXTRA_ARGS}
--chown root:root $D${UDEVLIBDIR}/udev/hwdb.bin
-+hwdb_bin=3D"$D${UDEVLIBDIR}/udev/hwdb.bin"
-+rm -f "$hwdb_bin"
-+
-+# Use native systemd-hwdb to generate hwdb.bin at build time.
-+# This avoids QEMU user-mode emulation and works on host kernels < 5.8
-+# (e.g. RHEL 8) where systemd 261+ would fail due to missing STATX_MNT_ID.
-+NATIVE_HWDB=3D"${STAGING_DIR_NATIVE}/usr/bin/systemd-hwdb"
-+if test -x "$NATIVE_HWDB" && test "${PREFERRED_PROVIDER_udev}" =3D "system=
-d"; then
-+	PSEUDO_UNLOAD=3D1 $NATIVE_HWDB update --root $D ${UDEV_EXTRA_ARGS}
-+else
-+	PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D $D${UDEVADM} hwdb --updat=
-e --root $D ${UDEV_EXTRA_ARGS} ||
-+		PSEUDO_UNLOAD=3D1 qemuwrapper -L $D $D${UDEVADM} hwdb --update --root $D=
- ${UDEV_EXTRA_ARGS}
-+fi
-+
-+if ! test -s "$hwdb_bin"; then
-+	echo "ERROR: hwdb.bin was not created at $hwdb_bin" >&2
-+	echo "The hwdb generation command exited successfully but produced no out=
-put." >&2
-+	exit 1
-+fi
-+chown root:root "$hwdb_bin"
+--_000_DU7PPF66507B2D77DE28C2625D56E23570AF3F42DU7PPF66507B2D7_--
 
