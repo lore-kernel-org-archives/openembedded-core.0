@@ -2,189 +2,107 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D563C43458
-	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 08:50:42 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.88146.1783068635979997224
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 257A9C43458
+	for <webhook@archiver.kernel.org>; Fri,  3 Jul 2026 08:55:12 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.89053.1783068907474902118
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2026 01:50:36 -0700
+ Fri, 03 Jul 2026 01:55:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=pkWCW8lg;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4938d5f86f3so2379505e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 01:50:35 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Av3eWUMm;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493b61b52b6so1886055e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 01:55:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783068634; x=1783673434; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B1U0NhtkRap0y6N4x0Y3N24enB7Qj137Q9NtuQEXRfs=;
-        b=pkWCW8lgmFsOEZYeiduvDWrrmbEcUYHA5PZy1tDb1r6eIQf1xnP4eHa8d4xpp2XKXg
-         41ff/8Xjh/9+IF0evxgpBXUlyX3d4CpoOazQErH7gIG3BHvpCvXzmd1XTHVhIRTxPhqU
-         n+KS7gz+vODsQ9nQNwc1L5NvKda+nMVEi8UOc=
+        d=smile.fr; s=google; t=1783068906; x=1783673706; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=lf/JaJlMJKVaIXtuTiOzNpi7iHNTeLJ9tEvTyvew1pY=;
+        b=Av3eWUMmQHwbIQ1BiWg9gxXT/tyqxkeSWsUWAI5oLqoWQoiHy6UkuaJK2NzX88h8cl
+         3sbj5Szdb0LtOQatDNvJOcEFaRFrDzF7K8UpmjskWb6f7MGuZMrZYWrwXHVTP4JuAYMa
+         BjHXAyjMS5xCRKtuQHcY8L80HtX3vqtO8fMIE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783068634; x=1783673434;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B1U0NhtkRap0y6N4x0Y3N24enB7Qj137Q9NtuQEXRfs=;
-        b=Ba4xXBz09FEc/w/olI2xW0oalaIcbuGtJ0rloxcoYsASLuIfJERNZSVEQ2HnJ7/JJU
-         +UpnduFEAzbjvmTVZIFVn7cpaKRYiO3pBq0Is3Ff7elkNQdebHjWDsrdtwCpwTmcF2Vg
-         KaojE7Qc8+eZiMbmJNqVrIUX2YwmP9vclY73SPTUVcRmhU/AbrsNEBbSBaSuUIeaB3pt
-         Ztq7aRKWVvcsYXXjqJAKDD2gKSZAQeLqaP+0AV/qJzbi5rN6/obhG7jgomZp5+aHK5tK
-         eUVbQiJUtvr8SppBE7x3CDF3+v3TWZJQoyuv9S9u9z4tPwR2xQ7f7WQlxRF6xQ+Cz/9k
-         3jUg==
-X-Forwarded-Encrypted: i=1; AFNElJ9DtcRUloOz6MFflrQlQZJsadKR4v7MRDnWB5J6Te2Vu5l8kMBd3qOrWAPfnCySlL1QX0aPXppaWdsZDfx3FxVXMA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzRhMoYDGb51H6dtAZmSgRdBWgF3nkARgFXW+l9Gn6ClzxXzkJR
-	GGdx2SjWhmXKfBEHnU9zP2OuD881BgJcKDbPxC3EbNZZYqWk8lWvuT6juufKJpvGPj0=
-X-Gm-Gg: AfdE7ckhly3wqbNoqT2ATtIghwwGNzh/I50lar6SMB+rz/PqECy30ehrg9BQzom28Jn
-	lwyFVJSKVUVRmHAxEXPHGMD6RrVGacIbsZ7kdLJjVC5eLOzMOEOKditgncM+3TApNxlxYSBggSG
-	TKJ7rLfsVJEDsKSYDzD3djlo2ciKTZfPzHDLGtAHvyf38h20E47qgZmR1Cv8WFi+CAdJF+NDC2t
-	E8YZYKVbE3n0EcM0dvCfWTkqq7hZINhDuCZCXxEYahCCmLnv2rI/aZkvkK0lHCNdrbtUmg3AziF
-	4FuJ6A2FNqVnB+eXfPqULyT9nRHsM7GhA+R/DvzV6cVUv/hv7Z7IKXh0uUtOBu4NallaCP4MBpp
-	TT5adPEIkhS6juxSviAIrKs/8rSy0lLHkM0AyrbcyzcqfUszzkhAStjiTYBSFoo3XX+MrLMVNKv
-	isSY57P+nieqKCAYK3kJ4UWjcvj10P/uH7Lk8JqWOCk8N5ho/PTnbrUPB6O8q3LJGzsDe5Ls9/K
-	Cujkg==
-X-Received: by 2002:a05:600c:4690:b0:493:bee0:4360 with SMTP id 5b1f17b1804b1-493c9b6c137mr45188455e9.17.1783068633743;
-        Fri, 03 Jul 2026 01:50:33 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783068906; x=1783673706;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lf/JaJlMJKVaIXtuTiOzNpi7iHNTeLJ9tEvTyvew1pY=;
+        b=LPX83n/BtxCNqQjyuExs7/16lZ/1EfyPa3rwQUslfV4BHdcnjVAzHbxmEhkoZL4xdK
+         RqIf8I65dKXfWCc/y3FJFo0r0qcPPIIAsUVnDTFZh3+OqWQzYaja4kcNzo60Sg5SOdHZ
+         a7O7usdmJZGzZ+yU7p5i+1zgjwyaRos3DS0LCvc3fmqhh/z9OL1/sqbAxEuafbf9q7pU
+         MHiVXaOcfgRvfbgLHGGDzvSNqYkMFaZ3GcClWz/pQirBaWq4wLfDyquhD9FBAaRQMUeW
+         ufT7KU8ix1ONUvnncHdf7QVDluyIatf9igCMets0w7eoaPcsVIrAtruhED6Mc0vkvZRe
+         K+OQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+DIhdisu6zteKCNoA/Y6GmsNVhpKqKx8y2QD0m6bkYgM4CHgb16t9xScaOm0tpF9x8tWdEXwmgumeq1RLY+bBsEA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxNN6zzB0zKhMlv4xApBo0sddR1sb8RaFB2dKFyKOKrUDwY0T/4
+	eycQq0fX11o6H8bqP8SiiNqMFU6l8qfaGd4hnge9qWxwMqkPMvmtFNaFnnyzNaUY3CIFr3Bz4K0
+	KyK0MvcA8SA==
+X-Gm-Gg: AfdE7cn79dtoHqcFAvN0lEvPF2K7UnlceBIZXWL5ESIWyS136ewz6hJddlF4VVuKu+M
+	OJ77fyLrDzX3VO8FUnElEtTuEF6N9xf3gzkZIcs00ihqBcvZhPZTfbxc009wMlxUNJS4eQRKfIj
+	2EnxJCpisB6UYkdBbic+TamkH/gXC68Ouy5j8FkNxg5pdnhcXm0j/R27q67Mn7iEm0oB3Xjbd+1
+	k2/yFmDY8uM3UYinqoAAuYVmtVBIC5A2thDKpL9y6b/CrchzGRw/yaqJ9pXgwYqZBmL+wk2exvG
+	IUABwEmTwp3iw6GMfx4uCOyriaEXgke2RgO2iN9vDSX+fqRnxaYa6M9bc/wL+ijtAEgJ4U/0vP/
+	R6k1u4Jd+tHRf/NQt4wcZRCpahewrAQv82a4CsFoIAxOgwDmgg8VYJoyRPbSv2dXHpkqBwjBhz+
+	ODCtGMhIrh3vKR9UkNqRvOZdU0nlpHMbx7awIRJAOsB4P9Ryb3m4YZfVdgrYrYuH9VZivqYpdja
+	BAGmEfeD7etIP/K
+X-Received: by 2002:a05:600c:4e4c:b0:492:465c:56f6 with SMTP id 5b1f17b1804b1-493c3cd54f8mr133757775e9.10.1783068905561;
+        Fri, 03 Jul 2026 01:55:05 -0700 (PDT)
 Received: from localhost (2a01cb001331aa0075403fb2c9c4e210.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:7540:3fb2:c9c4:e210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493ccdab3a8sm35911775e9.6.2026.07.03.01.50.33
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477db3dbbe6sm15564079f8f.6.2026.07.03.01.55.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jul 2026 01:50:33 -0700 (PDT)
+        Fri, 03 Jul 2026 01:55:05 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 03 Jul 2026 10:50:32 +0200
-Message-Id: <DJOT2TN5WGAT.3LHSPDSQB54O3@smile.fr>
-Subject: Re: [OE-core] [wrynose][PATCH v3] curl: fix CVE-2026-5773 - wrong
- reuse of SMB connection
+Date: Fri, 03 Jul 2026 10:55:04 +0200
+Message-Id: <DJOT6ANHNV3F.1FEBM29Y1OF79@smile.fr>
+Subject: Re: [OE-core] [wrynose] [PATCH 3/6] curl: ignore CVE-2026-5773
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <jaipaul.cheernam@est.tech>, <openembedded-core@lists.openembedded.org>
+Cc: <xe-linux-external@cisco.com>
+To: <adongare@cisco.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260623120850.29881-1-jaipaul.cheernam@est.tech>
- <20260624075504.63472-1-jaipaul.cheernam@est.tech>
-In-Reply-To: <20260624075504.63472-1-jaipaul.cheernam@est.tech>
+References: <20260629131453.1077612-1-adongare@cisco.com>
+ <20260629131453.1077612-3-adongare@cisco.com>
+In-Reply-To: <20260629131453.1077612-3-adongare@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 08:50:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240098
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Jul 2026 08:55:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240099
 
-On Wed Jun 24, 2026 at 9:55 AM CEST, Jaipaul Cheernam via lists.openembedde=
-d.org wrote:
-> Remove PROTOPT_CONN_REUSE from SMB handler flags to prevent
-> connection pooling. Without this, a second SMB request to the same
-> host reuses a connection authenticated for a different share.
+On Mon Jun 29, 2026 at 3:14 PM CEST, Anil Dongare -X (adongare - E INFOCHIP=
+S PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+> From: Anil Dongare <adongare@cisco.com>
 >
-> Reference: https://curl.se/docs/CVE-2026-5773.html
+> - CVE-2026-5773 affects curl before 8.20.0 when an authenticated SMB conn=
+ection
+>   can be reused for a different set of credentials.
+> - In wrynose, SMB support is available only through PACKAGECONFIG[smb] an=
+d is not
+>   enabled by default, so record this CVE as configuration-not-applicable =
+for the
+>   default recipe configuration.
 >
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> Reference:
+> - https://curl.se/docs/CVE-2026-5773.html
+> - https://nvd.nist.gov/vuln/detail/CVE-2026-5773
+> - https://github.com/openembedded/openembedded-core/blob/wrynose/meta/rec=
+ipes-support/curl/curl_8.19.0.bb
+>
+> Signed-off-by: Anil Dongare <adongare@cisco.com>
 > ---
->  .../curl/curl/CVE-2026-5773.patch             | 48 +++++++++++++++++++
->  meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
->  2 files changed, 49 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5773.patch
 
 Hello,
 
-This patch does not apply cleanly on the lastest origin/wrynose:
-commit 5d1aa5c806c0 ("build-appliance-image: Update to wrynose head revisio=
-ns")):
-|  $ bitbake -cpatch curl
-| [...]
-| ERROR: curl-8.19.0-r0 do_patch: QA Issue: Fuzz detected:
-|=20
-| Applying patch CVE-2026-5773.patch
-| patching file lib/smb.c
-| Hunk #2 succeeded at 1259 with fuzz 1.
-|=20
-|=20
-| The context lines in the patches can be updated with devtool:
-|=20
-|     devtool modify curl
-|     devtool finish --force-patch-refresh curl <layer_path>
-|=20
-| Don't forget to review changes done by devtool!
-|=20
-| Patch log indicates that patches do not apply cleanly. [patch-fuzz]
-| ERROR: curl-8.19.0-r0 do_patch: Fatal QA errors were found, failing task.
-
-Can you rebase and send a v4?
+Jaipaul Cheernam is working on fixing this CVE:
+https://lore.kernel.org/all/20260624075504.63472-1-jaipaul.cheernam@est.tec=
+h/
+I will hold your patch for now, maybe you can help Jaipaul get their
+patch merged? (like testing/review the future v4)
 
 Thanks!
-
->
-> diff --git a/meta/recipes-support/curl/curl/CVE-2026-5773.patch b/meta/re=
-cipes-support/curl/curl/CVE-2026-5773.patch
-> new file mode 100644
-> index 0000000000..970e04b33f
-> --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/CVE-2026-5773.patch
-> @@ -0,0 +1,48 @@
-> +From 74a169575d6412dc0ff532acdf94de35a6c2a571 Mon Sep 17 00:00:00 2001
-> +From: Daniel Stenberg <daniel@haxx.se>
-> +Date: Sun, 5 Apr 2026 18:23:35 +0200
-> +Subject: [PATCH] protocol: disable connection reuse for SMB(S)
-> +
-> +Connections should only be reused when using the same "share" (and
-> +perhaps some additional conditions), but instead of fixing this flaw,
-> +this change completely disables connection reuse for SMB. This protocol
-> +is about to get dropped soon anyway.
-> +
-> +Reported-by: Osama Hamad
-> +Closes #21238
-> +Signed-off-by: Daniel Stenberg <daniel@haxx.se>
-> +
-> +CVE: CVE-2026-5773
-> +Upstream-Status: Backport [https://github.com/curl/curl/commit/74a169575=
-d6412dc0ff532acdf94de35a6c2a571]
-> +
-> +Note: The upstream fix targets lib/protocol.c which was introduced in
-> +curl 8.20.0. In 8.19.0 the SMB handler flags are still in lib/smb.c,
-> +so this patch removes PROTOPT_CONN_REUSE there instead. The effect is
-> +identical: SMB connections are no longer pooled for reuse.
-> +
-> +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-> +---
-> + lib/smb.c | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/lib/smb.c b/lib/smb.c
-> +index ccd4f3f69d..2a9f08388f 100644
-> +--- a/lib/smb.c
-> ++++ b/lib/smb.c
-> +@@ -1242,7 +1242,7 @@
-> + #endif
-> +   CURLPROTO_SMB,                        /* protocol */
-> +   CURLPROTO_SMB,                        /* family */
-> +-  PROTOPT_CONN_REUSE,                   /* flags */
-> ++  PROTOPT_NONE,                         /* flags */
-> +   PORT_SMB,                             /* defport */
-> + };
-> +=20
-> +@@ -1259,7 +1259,7 @@
-> + #endif
-> +   CURLPROTO_SMBS,                       /* protocol */
-> +   CURLPROTO_SMB,                        /* family */
-> +-  PROTOPT_SSL | PROTOPT_CONN_REUSE,     /* flags */
-> ++  PROTOPT_SSL,                          /* flags */
-> +   PORT_SMBS,                            /* defport */
-> + };
-> diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-supp=
-ort/curl/curl_8.19.0.bb
-> index d58b774011..3326f478b5 100644
-> --- a/meta/recipes-support/curl/curl_8.19.0.bb
-> +++ b/meta/recipes-support/curl/curl_8.19.0.bb
-> @@ -15,6 +15,7 @@ SRC_URI =3D " \
->      file://disable-tests \
->      file://no-test-timeout.patch \
->      file://CVE-2026-6276.patch \
-> +    file://CVE-2026-5773.patch \
->      file://mbedtls.patch \
->  "
-> =20
-
-
 --=20
 Yoann Congal
 Smile ECS
