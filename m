@@ -1,175 +1,173 @@
-Return-Path: <auh@yoctoproject.org>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DFE1C43602
-	for <webhook@archiver.kernel.org>; Sat,  4 Jul 2026 05:19:56 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.106542.1783142386827123922
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A97AC43458
+	for <webhook@archiver.kernel.org>; Sat,  4 Jul 2026 17:35:45 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.108907.1783150221577759542
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jul 2026 22:19:46 -0700
+ Sat, 04 Jul 2026 00:30:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=d8dayn9s;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DShetqY2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019f2b9188a5-75c7f624-6aec-43aa-97e2-caad1f2d8250-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1783142385;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=drfYa5NsQUyZXK8UIfKyUd9IdgPC6YaJ9Veepl8rs+0=;
-	b=d8dayn9syVql25awTSAozfLREB70gbQxYUArZNpdVs6G7rzD95kH1tXUiaDk2noR
-	0ELumyB/TgpGK4gKQUr6DjgXk3hpgylhgm4Ghs8fLXeY212YWGhXCXzqip8uPFQ8/XC
-	DxHm+gsqNp7t3sfQBREHOahD2kQNmNIZ+uwnM5fA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783142385;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=drfYa5NsQUyZXK8UIfKyUd9IdgPC6YaJ9Veepl8rs+0=;
-	b=DShetqY2nYGpJ6BLnZz/j1dvgyJSRTmHE87DwTAGhoJT6Ga9Db33/8P02OXj7hMi
-	Do6U7gD0lPZaUItiS/xpgULv2OwZ6MVuZKIN5mGZgRFcJwA17bw/X5gdAkt/Cw3Az2t
-	mfVGeD/XXUkBRxpGDgca6eKpvda99YYqPWdtKuvU=
-Content-Type: multipart/mixed; boundary="===============7728099534318293314=="
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=OB7H8Kdn;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: jakubszczudlo40@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4759b4f0897so576143f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jul 2026 00:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783150220; x=1783755020; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=u4T2HJ1Abz04e9I+RY7bgLSGHPJ8fZARsiZK5luVbgQ=;
+        b=OB7H8KdnSMU6iytgoMjF2wFQwlnTwVkYnjkKIxHUZp2bOdZ7K1LgjGkkI9YE4Tti6K
+         t/+1j61Cm7lG/x0DppP/VsRj4DruAhXROmH7MyWkVAv9P8ZXPueMBgu6BhYRhU61nOfW
+         SEP2DCbCXbZqLSl8NIdetddNVsECsvzYwQObgvSamO+ugvNzkEZIb11aYfI6zQ0Ae740
+         F7SrjddSjgzbcD/j7sm5FP4VL4w+R9AVNwD7hjYebiIQOYHpS1Drac9dBoVGZuvdJCL3
+         X1Jmk6enRvFCnzMA7xmMQZxTr1VgLLrWkIiUpwSUHzJq+Tg7iu0TKVCYv1hHJU2/iDom
+         dqRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783150220; x=1783755020;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=u4T2HJ1Abz04e9I+RY7bgLSGHPJ8fZARsiZK5luVbgQ=;
+        b=Ucm7oQMhW7MnTkAEbnoVKO5WOJmmc68Xon78sOdrsKaIzC1YJdGubEBAE7H9m9opH1
+         3yxdKcAJeg8l1KNLciyDSn6CDZS3DCoaoRLyX0Nt7xQjrSQQWD4F+smKgyPWx/Pjaqwc
+         f0yIcnRbIb++wBOBhiLm/CEZWlbdpedWe/Y1Ht1mht3wIV6iYfTWbTThSvACLsgHFwXz
+         wcugxM9Zn5axBLBavicRggRZxBYC3CAdfcZjR3xVMarF8nzdus+n/pS+f+Tp2gRkPO/I
+         XzYUpTcVpJpgT6NnoBI5vP/KLxQ6J1MvzCtkjbhCU4QMXn7NDTyl77+rhGOedOU3uie7
+         BTJg==
+X-Gm-Message-State: AOJu0Yx1wHvUCJWdCejAw/WcKBTU+T2Gt63pfgvYEyVf6aQ4A802OLBP
+	yL04zgzUlkP35LsO1gPmb7ck+D6H0vreaIenmhNNazVrALxq6k4K44da7LaYgA==
+X-Gm-Gg: AfdE7ckE6EfhZZwq7IyGrgke+PnrofzObrNdNEmB1lKuDL5LQI0X7lwEbAz5XtwafF7
+	OteM8Rterg6txoN2ZkWF2Kn1VbK2M2lrl6p5N/fSyzo5/QTsk6xKEB8h/QH+oS5UyUOCay7pZXe
+	5Sdwwy/DlAH1hdpy/4FYbS2sDs67leX6Axq9wOWtGPV0RMETJiG/8yH7kwPSa3gVwFSVAywzGnk
+	kxtkn8yWIB1xVfTwRk7wcKhQI6t/eJKF+Y0HkRnLy4hy/cz2TqK7O5JOcYG0bKcXA6H4LSOQJc0
+	AJncqGlNvbMP0efVofFc67ZKrT58cqMOf3miyP6UBPgWDkRNZvsc5Ky1y8VB5D/TvtUbz/PukHQ
+	eSJfsNEyjuzKT6QK0AmZ2s5vrL2ltRDDCk9gFXN4U4v7BayxcyPbpNIYNi+DQAHtSs6YS1zdVKu
+	Uj2bwvjTC3VZd8m10hRXgQPf89kqIcYlq3UUgCBn2m5xxwqnf+EoFftOeeJWPSajlhekk=
+X-Received: by 2002:a05:6000:46d6:b0:473:1706:7efb with SMTP id ffacd0b85a97d-47aacab49efmr1688003f8f.43.1783150219655;
+        Sat, 04 Jul 2026 00:30:19 -0700 (PDT)
+Received: from Nitro5-JS.kielce.vectranet.pl (bge41.neoplus.adsl.tpnet.pl. [83.28.68.41])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039b0cesm5737806f8f.22.2026.07.04.00.30.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jul 2026 00:30:18 -0700 (PDT)
+From: "Jakub Szczudlo" <jakubszczudlo40@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hongxu Jia <hongxu.jia@windriver.com>,
+	Jakub Szczudlo <jakubszczudlo40@gmail.com>
+Subject: [scarthgap][PATCH] Update libgcrypt to 1.10.4
+Date: Sat,  4 Jul 2026 09:29:34 +0200
+Message-ID: <20260704072934.5991-1-jakubszczudlo40@gmail.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyproject-metadata: upgrading to 0.12.1 SUCCEEDED
-Message-ID: <0101019f2b9188a5-75c7f624-6aec-43aa-97e2-caad1f2d8250-000000@us-west-2.amazonses.com>
-Date: Sat, 4 Jul 2026 05:19:45 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.04-54.240.27.191
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 04 Jul 2026 05:19:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240129
+ <openembedded-core@lists.openembedded.org>; Sat, 04 Jul 2026 17:35:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240131
 
---===============7728099534318293314==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Release notes are here:
+https://dev.gnupg.org/T8233.html
+Version cointains fix for CVE-2026-41989
 
-Hello,
-
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pyproject-metadata* to *0.12.1* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-python3-pyproject-metadata-upgrade-0.11.0-0.12.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 7796eed4cfd49d7e24d3481fd147b9bfe9b046dc Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 4 Jul 2026 05:17:57 +0000
-Subject: [PATCH] python3-pyproject-metadata: upgrade 0.11.0 -> 0.12.1
-
+Signed-off-by: Jakub Szczudlo <jakubszczudlo40@gmail.com>
 ---
- ...-metadata_0.11.0.bb => python3-pyproject-metadata_0.12.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyproject-metadata_0.11.0.bb => python3-pyproject-metadata_0.12.1.bb} (89%)
+ ...ilding-error-with-O2-in-sysroot-path.patch | 64 -------------------
+ ...ibgcrypt_1.10.3.bb => libgcrypt_1.10.4.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 66 deletions(-)
+ delete mode 100644 meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch
+ rename meta/recipes-support/libgcrypt/{libgcrypt_1.10.3.bb => libgcrypt_1.10.4.bb} (92%)
 
-diff --git a/meta/recipes-devtools/python/python3-pyproject-metadata_0.11.0.bb b/meta/recipes-devtools/python/python3-pyproject-metadata_0.12.1.bb
-similarity index 89%
-rename from meta/recipes-devtools/python/python3-pyproject-metadata_0.11.0.bb
-rename to meta/recipes-devtools/python/python3-pyproject-metadata_0.12.1.bb
-index 1e485df338..9918cae075 100644
---- a/meta/recipes-devtools/python/python3-pyproject-metadata_0.11.0.bb
-+++ b/meta/recipes-devtools/python/python3-pyproject-metadata_0.12.1.bb
-@@ -16,7 +16,7 @@ PYPI_PACKAGE = "pyproject_metadata"
+diff --git a/meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch b/meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch
+deleted file mode 100644
+index dee4969f35..0000000000
+--- a/meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch
++++ /dev/null
+@@ -1,64 +0,0 @@
+-From b99952adc6ee611641709610d2e4dc90ba9acf37 Mon Sep 17 00:00:00 2001
+-From: "simit.ghane" <simit.ghane@lge.com>
+-Date: Tue, 7 May 2024 14:09:03 +0530
+-Subject: [PATCH] Fix building error with '-O2' in sysroot path
+-
+-* cipher/Makefile.am (o_flag_munging): Tweak the sed script.
+-* random/Makefile.am (o_flag_munging): Ditto.
+---
+-
+-Characters like '-O2' or '-Ofast' will be replaced by '-O1' and '-O0'
+-respectively when compiling cipher and random in the filesystem
+-paths as well if they happen to contain '-O2' or '-Ofast
+-
+-If we are cross compiling libgcrypt and sysroot contains such
+-characters, we would
+-get compile errors because the sysroot path has been modified.
+-
+-Fix this by adding blank spaces and tabs before the original matching
+-pattern in the sed command.
+-
+-Signed-off-by: simit.ghane <simit.ghane@lge.com>
+-
+-ChangeLog entries added by wk
+-
+-Note that there is also the configure option --disable-O-flag-munging;
+-see the README.
+-
+-Upstream-Status: Backport [https://dev.gnupg.org/rCb99952adc6ee611641709610d2e4dc90ba9acf37 https://dev.gnupg.org/rC5afadba008918d651afefb842ae123cc18454c74]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- cipher/Makefile.am | 2 +-
+- random/Makefile.am | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/cipher/Makefile.am b/cipher/Makefile.am
+-index 2c39586e..a914ed2b 100644
+---- a/cipher/Makefile.am
+-+++ b/cipher/Makefile.am
+-@@ -168,7 +168,7 @@ gost-s-box$(EXEEXT_FOR_BUILD): gost-s-box.c
+- 
+- 
+- if ENABLE_O_FLAG_MUNGING
+--o_flag_munging = sed -e 's/-O\([2-9sgz][2-9sgz]*\)/-O1/' -e 's/-Ofast/-O1/g'
+-+o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O1 /g' -e 's/[[:blank:]]-Ofast/ -O1 /g'
+- else
+- o_flag_munging = cat
+- endif
+-diff --git a/random/Makefile.am b/random/Makefile.am
+-index 0c935a05..340df38a 100644
+---- a/random/Makefile.am
+-+++ b/random/Makefile.am
+-@@ -56,7 +56,7 @@ jitterentropy-base.c jitterentropy.h jitterentropy-base-user.h
+- 
+- # The rndjent module needs to be compiled without optimization.  */
+- if ENABLE_O_FLAG_MUNGING
+--o_flag_munging = sed -e 's/-O\([1-9sgz][1-9sgz]*\)/-O0/g' -e 's/-Ofast/-O0/g'
+-+o_flag_munging = sed -e 's/[[:blank:]]-O\([1-9sgz][1-9sgz]*\)/ -O0 /g' -e 's/[[:blank:]]-Ofast/ -O0 /g'
+- else
+- o_flag_munging = cat
+- endif
+--- 
+-2.44.1
+-
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.10.4.bb
+similarity index 92%
+rename from meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
+rename to meta/recipes-support/libgcrypt/libgcrypt_1.10.4.bb
+index 3d49d586bb..a3b5bd06cc 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.10.4.bb
+@@ -25,9 +25,8 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://no-native-gpg-error.patch \
+            file://no-bench-slope.patch \
+            file://run-ptest \
+-           file://0001-Fix-building-error-with-O2-in-sysroot-path.patch \
+            "
+-SRC_URI[sha256sum] = "8b0870897ac5ac67ded568dcfadf45969cfa8a6beb0fd60af2a9eadc2a3272aa"
++SRC_URI[sha256sum] = "d6d2f835a79711ceba54b53d1081d388d24fb0341d79a268a6557e12908a90a0"
  
- inherit pypi python_flit_core
+ BINCONFIG = "${bindir}/libgcrypt-config"
  
--SRC_URI[sha256sum] = "c72fa49418bb7c5a10f25e050c418009898d1c051721d19f98a6fb6da59a66cf"
-+SRC_URI[sha256sum] = "8809a4df6fe08279b39a8890669506ed3158e0617855ac9aff098fcbe772ae4c"
- 
- RDEPENDS:${PN} += " \
-     python3-logging \
 -- 
-2.47.1
+2.47.3
 
-
---===============7728099534318293314==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pyproject-metadata-upgrade-0.11.0-0.12.1.patch"
-
-RnJvbSA3Nzk2ZWVkNGNmZDQ5ZDdlMjRkMzQ4MWZkMTQ3YjliZmU5YjA0NmRjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgNCBKdWwgMjAyNiAwNToxNzo1NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcHlwcm9qZWN0LW1ldGFkYXRhOiB1cGdyYWRlIDAuMTEuMCAtPiAwLjEyLjEKCi0tLQog
-Li4uLW1ldGFkYXRhXzAuMTEuMC5iYiA9PiBweXRob24zLXB5cHJvamVjdC1tZXRhZGF0YV8wLjEy
-LjEuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1weXByb2pl
-Y3QtbWV0YWRhdGFfMC4xMS4wLmJiID0+IHB5dGhvbjMtcHlwcm9qZWN0LW1ldGFkYXRhXzAuMTIu
-MS5iYn0gKDg5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtcHlwcm9qZWN0LW1ldGFkYXRhXzAuMTEuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1weXByb2plY3QtbWV0YWRhdGFfMC4xMi4xLmJiCnNpbWlsYXJpdHkg
-aW5kZXggODklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1weXByb2plY3QtbWV0YWRhdGFfMC4xMS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwcm9qZWN0LW1ldGFkYXRhXzAuMTIuMS5iYgppbmRleCAx
-ZTQ4NWRmMzM4Li45OTE4Y2FlMDc1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtcHlwcm9qZWN0LW1ldGFkYXRhXzAuMTEuMC5iYgorKysgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwcm9qZWN0LW1ldGFkYXRhXzAuMTIuMS5i
-YgpAQCAtMTYsNyArMTYsNyBAQCBQWVBJX1BBQ0tBR0UgPSAicHlwcm9qZWN0X21ldGFkYXRhIgog
-CiBpbmhlcml0IHB5cGkgcHl0aG9uX2ZsaXRfY29yZQogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-YzcyZmE0OTQxOGJiN2M1YTEwZjI1ZTA1MGM0MTgwMDk4OThkMWMwNTE3MjFkMTlmOThhNmZiNmRh
-NTlhNjZjZiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4ODA5YTRkZjZmZTA4Mjc5YjM5YTg4OTA2
-Njk1MDZlZDMxNThlMDYxNzg1NWFjOWFmZjA5OGZjYmU3NzJhZTRjIgogCiBSREVQRU5EUzoke1BO
-fSArPSAiIFwKICAgICBweXRob24zLWxvZ2dpbmcgXAotLSAKMi40Ny4xCgo=
-
---===============7728099534318293314==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata: PV changed from "0.11.0" to "0.12.1"
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyproject_metadata/pyproject_metadata-0.11.0.tar.gz;downloadfilename=pyproject_metadata-0.11.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyproject_metadata/pyproject_metadata-0.12.1.tar.gz;downloadfilename=pyproject_metadata-0.12.1.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata: PKGV changed from 0.11.0 [default] to 0.12.1 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata-dbg: PV changed from "0.11.0" to "0.12.1"
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata-dbg: PKGV changed from 0.11.0 [default] to 0.12.1 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata-dev: PV changed from "0.11.0" to "0.12.1"
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata-dev: PKGV changed from 0.11.0 [default] to 0.12.1 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata-doc: PV changed from "0.11.0" to "0.12.1"
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata-doc: PKGV changed from 0.11.0 [default] to 0.12.1 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata-locale: PV changed from "0.11.0" to "0.12.1"
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata-locale: PKGV changed from 0.11.0 [default] to 0.12.1 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata-src: PV changed from "0.11.0" to "0.12.1"
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata-src: PKGV changed from 0.11.0 [default] to 0.12.1 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata-staticdev: PV changed from "0.11.0" to "0.12.1"
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata-staticdev: PKGV changed from 0.11.0 [default] to 0.12.1 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata: PV changed from "0.11.0" to "0.12.1"
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata: PKGSIZE changed from 166428 to 176342 (+6%)
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pyproject_metadata-0.11.0.dist-info -> /usr/lib/python3.14/site-packages/pyproject_metadata-0.12.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/pyproject_metadata-0.11.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pyproject_metadata-0.12.1.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata: PKGV changed from 0.11.0 [default] to 0.12.1 [default]
-Changes to packages/x86-64-v3-poky-linux/python3-pyproject-metadata (sysroot):
-  /usr/lib/python3.14/site-packages/pyproject_metadata-0.11.0.dist-info moved to /usr/lib/python3.14/site-packages/pyproject_metadata-0.12.1.dist-info
-
---===============7728099534318293314==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-pyproject-metadata/python3-pyproject-metadata: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pyproject_metadata-0.11.0.dist-info -> /usr/lib/python3.14/site-packages/pyproject_metadata-0.12.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/pyproject_metadata-0.11.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pyproject_metadata-0.12.1.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-pyproject-metadata (sysroot):
-  /usr/lib/python3.14/site-packages/pyproject_metadata-0.11.0.dist-info moved to /usr/lib/python3.14/site-packages/pyproject_metadata-0.12.1.dist-info
-
---===============7728099534318293314==--
 
