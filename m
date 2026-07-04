@@ -1,173 +1,166 @@
-Return-Path: <philip@balister.org>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A6AFC43458
-	for <webhook@archiver.kernel.org>; Sat,  4 Jul 2026 17:35:47 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.110728.1783162603539396281
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1113CC43458
+	for <webhook@archiver.kernel.org>; Sat,  4 Jul 2026 18:03:58 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.118263.1783188231748810299
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Jul 2026 03:56:43 -0700
+ Sat, 04 Jul 2026 11:03:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=KS5KWtRK;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: jakubszczudlo40@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493b27c7451so22516395e9.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jul 2026 03:56:43 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=bvkx+z0j;
+ spf=pass (domain: mvista.com, ip: 209.85.216.54, mailfrom: sdoshi@mvista.com)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-381507c9380so837731a91.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Jul 2026 11:03:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783162602; x=1783767402; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1783188231; x=1783793031; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=u4T2HJ1Abz04e9I+RY7bgLSGHPJ8fZARsiZK5luVbgQ=;
-        b=KS5KWtRK6VQ3ZPq/awOdARRx0Gd9tdcRCNPh1RiRc9PDsSY5Hq4IiPU0MzMfsOgvod
-         dxYdrWTeUL+3F9TGI9j9e0v0BNRAY5i3Zvr4tS1q5AuR4PEWKM8MkuObh1t8IyMvnlll
-         1Lf11fnIq4DIPgF98p64UVExZDKDf9fImRTx37HKnO3c+IvvCyrBXvhBLkFFvJ+PrgtM
-         mz2v9yCfpUbmvtkjDNbR1c9PumRbyhbMr6Urhg4PnSJKnC07hKkUQxqU0Qeo1Us9a4cV
-         jACwgd1XCnonEk19K5OpPzGR3m7bRUXxg5/91rYDPrYu1h+C1jId9uRKB9nIroKzWp2o
-         sOPg==
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Q7CVH4dUPT7F2r27FAu4lk/ptAOlQ9XLSK0mVLdGHZE=;
+        b=bvkx+z0jh9abUL5ApSKFmbqT5bAtM5JFKLo1Zq6cs2UBt8nyVBVd5O4fksiRsC58uS
+         ItrX3vobNaP5InqKhOWsno/7XjzHqKPqqsR2sxmUtp2K1GXpvKTjqJr/n/B2J2dIcSU2
+         5Ad823vrfa6ED/c55vpKuwRn9dRXQ0IEVYfDA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783162602; x=1783767402;
+        d=1e100.net; s=20251104; t=1783188231; x=1783793031;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u4T2HJ1Abz04e9I+RY7bgLSGHPJ8fZARsiZK5luVbgQ=;
-        b=ZrA8hxlFnAOugEUIIBrb4gbRnEpSWSywyfgVtVaaNe4on4bnqTdTJ8jNGhwWkiRJh5
-         Qm1rd6ZyKHjeiz0trvnZGmZwCrUiYG5oC+0bOuSgZiIkoI9FEg5TmnB121TcNxx4F3XZ
-         I5KSfAtTedzdM/VvkxqWeD87olQK0y17Uu/aMuI36oPULR2PmzjvTUGYQw2Q3CAfFXQV
-         BgJhFR4DmRleYkBKOfoo89vSkWpWEAvKO25zmkCTb5N1h3Ui2wJotY9CG+OtxG0fwowT
-         8sjulzx7aD8jdwkv905hpqFsfFAcCozluBf9ajwuDIFFSXfZEDUV6k+BlhSV55Jy0JYN
-         FSwg==
-X-Gm-Message-State: AOJu0YyUJ2gSfpFrtvQvS/wbU7tzuiE7guVh+mu6oD+BbTsJWjdys5gG
-	XnNl3IInvkE/x0wI3eRwPlAD/ZlUH2hU2/PR5RpwW3Hl95MZbTjeAf1khJKE8g==
-X-Gm-Gg: AfdE7clgs3oU95QMMdfbb7wGZvw3KxGyaq+eBU+ljXCk0vcmFdddkH89Kse4/2J8K7A
-	Sx8UhMbvKrL1ex5y5Y4bjVxQUBoNmQZEpkNnCz5G7JWXnL6yq0+yStRzsuN/AxOFZq0sisHxEi9
-	1BFanGXDSBagDrqa4+aljj0bucdt5r0BEfuWB38KoLkTFwnLmAzRgjMDNRV+nWX7Y42BjuvTgtC
-	p2I+3j+ghyY3z67P22liKZnsUYWbwQWxMVG7YxhsLv8LNnqapTlrBOKpc1dEJlF6L9BS6MNNuZr
-	wYPDl9a/cTUWabD5CXFVOJbK6KmOvQkk2+ObWPrKBLpka/ahk6rV7R2XeIM6eUCa3unvDoeM+18
-	N5chCJuZzHkNhkiq/wspc/tGqAIgHKDDklsH1nn8xU0MrkXC4RRKIrumWqMVa5xlvheybB6ebew
-	buVkzLZCE43H4kBYRb73Z4HjpI9ABAcoGbLS7722Je3FExGX/LL6s/PUPjJOS/Vq3Ci8c=
-X-Received: by 2002:a05:600c:4744:b0:492:6f5c:fd8c with SMTP id 5b1f17b1804b1-493d15942f3mr25900785e9.15.1783162601509;
-        Sat, 04 Jul 2026 03:56:41 -0700 (PDT)
-Received: from Nitro5-JS.kielce.vectranet.pl (bge41.neoplus.adsl.tpnet.pl. [83.28.68.41])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c636ec8asm171319765e9.1.2026.07.04.03.56.40
+         :message-id:reply-to:content-type;
+        bh=Q7CVH4dUPT7F2r27FAu4lk/ptAOlQ9XLSK0mVLdGHZE=;
+        b=Zg0L8+ScJDanu+AMDgvZPXCLSiBpwaHOkuqSFJUuOcJSuvJMwdPmh8aRYZ9ocZf4uD
+         7ATWdxleSOirn7Vn6OEPLcZcqKLO16oLaEbb9mfATrmKIA2ku3ec0S2vL49Ewb7QSmJx
+         46qPuy29aIfRcZhJI3b6meFSKRQRqMIbHGnpIN9SMkdXhcE7tOR0QAvfX9HK4s/tkWSM
+         A52+IBI4mhJjUnD1AtZ+qS954grGqHIyLtMZ3oFxTkxjiI+zYdEXEXBClL52JuFAZRqU
+         7paEY31qZIoBw0RuAlKNYKVpQg9QLr7iGLlemT08ACzMG7+Cu3u6WxUSlUopBLVJ0wth
+         EWhw==
+X-Gm-Message-State: AOJu0YwsarvOpSumSggdE+sW4bmi3s74krFINGw8FnJuYv83InQKaKJH
+	4N5d/FypEZcmjdRCjjKC9Z9APlepq0kFstt1qZZ+g8irv3RT/EttJPS05fCiuAD8/rB9+cBFpol
+	qXEHrQlg=
+X-Gm-Gg: AfdE7cn87B9v3YWj4FMM+DDuoiUdfyV/OunkagL29d0+JJ3BkwaGlEEldTKXz9V8gNn
+	BAlR+uRddU/kSglvPpYKofqmholmOwb/t5qb1KwjPss1AgzwRRcWL1Z3MkuYk/ya8kskV8cql49
+	gr22+7JY9r6GLzmSIJZKXdih0oWUd4hC06QPnO2L9dQH82HjNqeRcD7vwvJcOPdKBJTq9A3IMFh
+	HLWjEQgBjfRkKTtnjCpr0057Y5GoEmgOMYXiRqWRbQGTzawrmSWjWp5jRALvLcl5mjLePP/t/pS
+	HhQumBSbNH9rBWO0iDI7L9W6eQvPOdC0uHDmT3llTGOYMw5IKqEorK1grxehFlwfPYNhrjKdVvb
+	kO5Mrl7jCrAsyNWffdcz+4OHyPf0R93cNRWUeMB8GpFVXdfRdcbQ1PX9kEsKlxSY9/IOCHwB7Xv
+	V3UZK0d4irYV8ygA7qn8NW
+X-Received: by 2002:a17:90b:4ec5:b0:380:f389:447b with SMTP id 98e67ed59e1d1-38280a9fefemr4013639a91.11.1783188231037;
+        Sat, 04 Jul 2026 11:03:51 -0700 (PDT)
+Received: from MVIN00030.mvista.com ([157.32.46.2])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f0bb7fe46sm39749609eec.14.2026.07.04.11.03.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 03:56:41 -0700 (PDT)
-From: "Jakub Szczudlo" <jakubszczudlo40@gmail.com>
+        Sat, 04 Jul 2026 11:03:50 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Hongxu Jia <hongxu.jia@windriver.com>,
-	Jakub Szczudlo <jakubszczudlo40@gmail.com>
-Subject: [scarthgap][PATCH] libgcrypt: upgrade 1.10.3 -> 1.10.4
-Date: Sat,  4 Jul 2026 12:55:23 +0200
-Message-ID: <20260704105523.3264-1-jakubszczudlo40@gmail.com>
-X-Mailer: git-send-email 2.47.3
+Cc: Siddharth Doshi <sdoshi@mvista.com>
+Subject: [OE-core][master][PATCH] tiff: upgrade 4.7.1 -> 4.7.2
+Date: Sat,  4 Jul 2026 23:31:37 +0530
+Message-Id: <20260704180137.17826-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 04 Jul 2026 17:35:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240132
+ <openembedded-core@lists.openembedded.org>; Sat, 04 Jul 2026 18:03:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240133
 
-Release notes are here:
-https://dev.gnupg.org/T8233.html
-Version cointains fix for CVE-2026-41989
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Signed-off-by: Jakub Szczudlo <jakubszczudlo40@gmail.com>
+Note:
+Removed CVE-2026-4775 as it is already fixed in 4.7.2
+
+Detailed Information:
+https://libtiff.gitlab.io/libtiff/releases/v4.7.2.html
+
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- ...ilding-error-with-O2-in-sysroot-path.patch | 64 -------------------
- ...ibgcrypt_1.10.3.bb => libgcrypt_1.10.4.bb} |  3 +-
- 2 files changed, 1 insertion(+), 66 deletions(-)
- delete mode 100644 meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch
- rename meta/recipes-support/libgcrypt/{libgcrypt_1.10.3.bb => libgcrypt_1.10.4.bb} (92%)
+ .../libtiff/tiff/CVE-2026-4775.patch          | 55 -------------------
+ .../libtiff/{tiff_4.7.1.bb => tiff_4.7.2.bb}  |  3 +-
+ 2 files changed, 1 insertion(+), 57 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2026-4775.patch
+ rename meta/recipes-multimedia/libtiff/{tiff_4.7.1.bb => tiff_4.7.2.bb} (95%)
 
-diff --git a/meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch b/meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2026-4775.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2026-4775.patch
 deleted file mode 100644
-index dee4969f35..0000000000
---- a/meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch
+index 1f3c026b28..0000000000
+--- a/meta/recipes-multimedia/libtiff/tiff/CVE-2026-4775.patch
 +++ /dev/null
-@@ -1,64 +0,0 @@
--From b99952adc6ee611641709610d2e4dc90ba9acf37 Mon Sep 17 00:00:00 2001
--From: "simit.ghane" <simit.ghane@lge.com>
--Date: Tue, 7 May 2024 14:09:03 +0530
--Subject: [PATCH] Fix building error with '-O2' in sysroot path
+@@ -1,55 +0,0 @@
+-From 782a11d6b5b61c6dc21e714950a4af5bf89f023c Mon Sep 17 00:00:00 2001
+-From: Even Rouault <even.rouault@spatialys.com>
+-Date: Sun, 22 Feb 2026 23:32:47 +0100
+-Subject: [PATCH] TIFFReadRGBAImage(): prevent integer overflow and later heap
+- overflow on images with huge width in YCbCr tile decoding functions
 -
--* cipher/Makefile.am (o_flag_munging): Tweak the sed script.
--* random/Makefile.am (o_flag_munging): Ditto.
----
+-Fixes https://gitlab.com/libtiff/libtiff/-/issues/787
 -
--Characters like '-O2' or '-Ofast' will be replaced by '-O1' and '-O0'
--respectively when compiling cipher and random in the filesystem
--paths as well if they happen to contain '-O2' or '-Ofast
--
--If we are cross compiling libgcrypt and sysroot contains such
--characters, we would
--get compile errors because the sysroot path has been modified.
--
--Fix this by adding blank spaces and tabs before the original matching
--pattern in the sed command.
--
--Signed-off-by: simit.ghane <simit.ghane@lge.com>
--
--ChangeLog entries added by wk
--
--Note that there is also the configure option --disable-O-flag-munging;
--see the README.
--
--Upstream-Status: Backport [https://dev.gnupg.org/rCb99952adc6ee611641709610d2e4dc90ba9acf37 https://dev.gnupg.org/rC5afadba008918d651afefb842ae123cc18454c74]
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-CVE: CVE-2026-4775
+-Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/782a11d6b5b61c6dc21e714950a4af5bf89f023c]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ----
-- cipher/Makefile.am | 2 +-
-- random/Makefile.am | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
+- libtiff/tif_getimage.c | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
 -
--diff --git a/cipher/Makefile.am b/cipher/Makefile.am
--index 2c39586e..a914ed2b 100644
----- a/cipher/Makefile.am
--+++ b/cipher/Makefile.am
--@@ -168,7 +168,7 @@ gost-s-box$(EXEEXT_FOR_BUILD): gost-s-box.c
+-diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
+-index 4543ddda..fa82d091 100644
+---- a/libtiff/tif_getimage.c
+-+++ b/libtiff/tif_getimage.c
+-@@ -2216,7 +2216,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr44tile)
+-     uint32_t *cp1 = cp + w + toskew;
+-     uint32_t *cp2 = cp1 + w + toskew;
+-     uint32_t *cp3 = cp2 + w + toskew;
+--    int32_t incr = 3 * w + 4 * toskew;
+-+    const tmsize_t incr = 3 * (tmsize_t)w + 4 * (tmsize_t)toskew;
 - 
+-     (void)y;
+-     /* adjust fromskew */
+-@@ -2356,7 +2356,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr44tile)
+- DECLAREContigPutFunc(putcontig8bitYCbCr42tile)
+- {
+-     uint32_t *cp1 = cp + w + toskew;
+--    int32_t incr = 2 * toskew + w;
+-+    const tmsize_t incr = 2 * (tmsize_t)toskew + w;
 - 
-- if ENABLE_O_FLAG_MUNGING
---o_flag_munging = sed -e 's/-O\([2-9sgz][2-9sgz]*\)/-O1/' -e 's/-Ofast/-O1/g'
--+o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O1 /g' -e 's/[[:blank:]]-Ofast/ -O1 /g'
-- else
-- o_flag_munging = cat
-- endif
--diff --git a/random/Makefile.am b/random/Makefile.am
--index 0c935a05..340df38a 100644
----- a/random/Makefile.am
--+++ b/random/Makefile.am
--@@ -56,7 +56,7 @@ jitterentropy-base.c jitterentropy.h jitterentropy-base-user.h
-- 
-- # The rndjent module needs to be compiled without optimization.  */
-- if ENABLE_O_FLAG_MUNGING
---o_flag_munging = sed -e 's/-O\([1-9sgz][1-9sgz]*\)/-O0/g' -e 's/-Ofast/-O0/g'
--+o_flag_munging = sed -e 's/[[:blank:]]-O\([1-9sgz][1-9sgz]*\)/ -O0 /g' -e 's/[[:blank:]]-Ofast/ -O0 /g'
-- else
-- o_flag_munging = cat
-- endif
---- 
--2.44.1
--
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.10.4.bb
-similarity index 92%
-rename from meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
-rename to meta/recipes-support/libgcrypt/libgcrypt_1.10.4.bb
-index 3d49d586bb..a3b5bd06cc 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.10.4.bb
-@@ -25,9 +25,8 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-            file://no-native-gpg-error.patch \
-            file://no-bench-slope.patch \
-            file://run-ptest \
--           file://0001-Fix-building-error-with-O2-in-sysroot-path.patch \
-            "
--SRC_URI[sha256sum] = "8b0870897ac5ac67ded568dcfadf45969cfa8a6beb0fd60af2a9eadc2a3272aa"
-+SRC_URI[sha256sum] = "d6d2f835a79711ceba54b53d1081d388d24fb0341d79a268a6557e12908a90a0"
+-     (void)y;
+-     fromskew = (fromskew / 4) * (4 * 2 + 2);
+-@@ -2512,7 +2512,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr41tile)
+- DECLAREContigPutFunc(putcontig8bitYCbCr22tile)
+- {
+-     uint32_t *cp2;
+--    int32_t incr = 2 * toskew + w;
+-+    const tmsize_t incr = 2 * (tmsize_t)toskew + w;
+-     (void)y;
+-     fromskew = (fromskew / 2) * (2 * 2 + 2);
+-     cp2 = cp + w + toskew;
+-@@ -2615,7 +2615,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr21tile)
+- DECLAREContigPutFunc(putcontig8bitYCbCr12tile)
+- {
+-     uint32_t *cp2;
+--    int32_t incr = 2 * toskew + w;
+-+    const tmsize_t incr = 2 * (tmsize_t)toskew + w;
+-     (void)y;
+-     fromskew = (fromskew / 1) * (1 * 2 + 2);
+-     cp2 = cp + w + toskew;
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb b/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
+similarity index 95%
+rename from meta/recipes-multimedia/libtiff/tiff_4.7.1.bb
+rename to meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
+index 750565e11c..3462803cb2 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.7.1.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
+@@ -9,10 +9,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=4ab490c3088a0acff254eb2f8c577547"
+ CVE_PRODUCT = "libtiff"
  
- BINCONFIG = "${bindir}/libgcrypt-config"
+ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+-        file://CVE-2026-4775.patch \
+ 	   "
  
+-SRC_URI[sha256sum] = "f698d94f3103da8ca7438d84e0344e453fe0ba3b7486e04c5bf7a9a3fabe9b69"
++SRC_URI[sha256sum] = "672bd7d10aee4606171afb864f3570b83340f6a33e2c186dc0512f7145ffdf6a"
+ 
+ # exclude betas
+ UPSTREAM_CHECK_REGEX = "tiff-(?P<pver>\d+(\.\d+)+).tar"
 -- 
-2.47.3
+2.34.1
 
 
