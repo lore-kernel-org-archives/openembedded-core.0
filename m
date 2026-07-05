@@ -2,340 +2,236 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34546C44501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A48EEC44503
 	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:42:46 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.139204.1783291362796790354
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.140013.1783291365155652447
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 15:42:43 -0700
+ Sun, 05 Jul 2026 15:42:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=SSIeNwvQ;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490cf3000f0so23871195e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:42 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=xBf3Iedc;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-471eeac43bfso2681518f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783291361; x=1783896161; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f9B45MqJ9gFRJqqgqOcA25QivJteALey21QE+Bixj7E=;
-        b=SSIeNwvQ/nrskQqSDzYzvPgG8OdlcX2jbuMS2mO0Q/HZ2UGr893c2X3osDPX9SmQx8
-         t+A+qsxZS1liM3IlDgUXfEuaz9VXCVMtlbheoKHQN3Q3F4d0b9Wpu2KGNitEuYrntTDt
-         zdiGMCRG4n2dpuFqFwi2HWN5o3tkZnMJ+kHOc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783291361; x=1783896161;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=smile.fr; s=google; t=1783291363; x=1783896163; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=f9B45MqJ9gFRJqqgqOcA25QivJteALey21QE+Bixj7E=;
-        b=WHo2JYGqb4RNV2RSwd6PBhpH6TRQJMopZzHvLsbvtGSSGGGU59gSrJmYfusoAkrkzC
-         qIqdOM3jD8qQd1KHFRFcUkZ0iE75nm/Cbyu+bxG/8lHcmkjefj711y4uKNWmpiULgY9A
-         8AkIi7ZlWv9pI6SxmDaZAwsatu+QHuWWeAT5DZr+9b6+Ra63cw2l0zKYHcbWUSHeptYd
-         NtBGY/bw/VMP9g4vnV9mUv2LlUapeVOI2Izlj3sH5UKQRnhKWv+YbaJsu4q1a6Ejw6RJ
-         0rQurA9cYy582X6dFzWkXUAj+deUIC+smnMA0vu9HgRBVPN3D0HAuq/9q34+GzPzbhcu
-         8/WQ==
-X-Gm-Message-State: AOJu0Yz0u+8AoT6xnk1O7LEwLpXzvryf0//KhWCcCMJKXJc4ZzRgeO+C
-	57bkblva0TMJlxIfM2zpfkv6hoPWD1NzmvQn3OcgS9+EM4VlbsBbXreucI+9AkVmNwhrr5zYZmx
-	1tSgLG4U=
-X-Gm-Gg: AfdE7cleKrgEHfrun1CD3reYMEQ5lj6MB8bwAPgGXSGMMoryUdZhl/eDb/GJGYlB+Es
-	mavASgqPKHfbQDGh7+B4R0mt0YDq+lnMYftuKn3hXf0+w/xez/5mF42lE2gfd8FKi2O4cOZY/ij
-	e8UEnzznTTzWIEZ0zG/u6h2ocFiKclLpXwN2PYku1RSqsggM9jsqYyFUGlLrBaozgMWRmaXg17y
-	PH18LoXQvupF1OVD5OzXV7pGHpb9wQdu9B8UEcIlDGBRM6qirE2YQ4eTrBTyKWh+38KMLBn0urz
-	EI7r96tjjQAzVKVW3uFPlj7ewZRmLEoxUC1DLKKp7/1Sn0GEM+zEwJDcBudTaUNI56HbxDEZd+u
-	FmbrunCiQgo84XIS70gfI6a1su29hHZmAiqZfDmF+/k/IoquQ+5VV/O4d7k0tef7b++JhHMvFEM
-	J68EjdfKUUuLZX70S1q1q8ZCGYMQ==
-X-Received: by 2002:a05:600c:1908:b0:493:be3e:cc3 with SMTP id 5b1f17b1804b1-493d11f03fcmr93678495e9.21.1783291360581;
-        Sun, 05 Jul 2026 15:42:40 -0700 (PDT)
+        bh=qD7yUIraP9yiXWn1h25hN2sTqdyLSUwad1qUY2ZhqQc=;
+        b=xBf3Iedc2m8rhIaA1tkU9U4W/jh9U4tmcNWNRhi6SGJP0rtVXmBOXLL0Heevcff6Ka
+         sJGj7vBkU31LPFDLNhpkYcK/EULZ2obaRh6Gl+kllnLmnsIn7ZBL3DziTRwYMb0h+VgC
+         FTLvXD72dGESahI7oPMJnI1yCdA+cC5ptWG+U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783291363; x=1783896163;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qD7yUIraP9yiXWn1h25hN2sTqdyLSUwad1qUY2ZhqQc=;
+        b=gfV50P1jIDCFTvHWRTaAg4YbFN8YCudo+5FJrcQRqBtKxsBEEnJ0xrIdWAyT2YG38q
+         MqZJFcxJeeQc0a4mO8Wi3oEkTU0nSxmMh+PcmVmnll3M7Lq1AHZj04KZANLpburyJSM/
+         +YK0f1vcE4Xfxc/v2HONJMLkr2NiW4NTn6nN6VJrPU7xRcciOupuIV4200lyZWVf2fKE
+         J+G5nEeb26Frqo68BmCkQtSQGSvQIJWdBlMPY1C5m8xJ9SGvpUO5qRUuMT53X2yZQU8h
+         XPRqNcydeuLST7UYjC0rG2158ee+zWex5saYe0yOxId30gQsv/d0xEzbjBHzV2sGfm51
+         L6rA==
+X-Gm-Message-State: AOJu0YyP9S9Pq2yuPvxDflFjmcyxSrJXX0AdLYiypyR0U6xjoA91sEBB
+	uJ65H68pYMPPV56wWsH4I8DtyTPFxuapwFgkyZq8laoecHqjhi5Ynw91May4DW0W/9pGFS99N3l
+	8lw8mRoo=
+X-Gm-Gg: AfdE7cm1d9ee5UeksfSk/owjoiAT+dzpbdxHzkTu6gU9JQvKWaYCoY9jZQnsDe9xdKm
+	G+AIAswp2slFXyYnpq35dJ/1VxZzDgDyDH1u7pmVZPBthvsWm0Jgm+mYHew1oFFZVv+tp+sCtt+
+	VGuRDCQBgQg6udrdfAg/4yC0GPrjRFX+YELU1GgL3HauQ7kSOmTj+KWZcc8rTzYlSSewxiiSy/A
+	UGrqvFIrcuPOcIbiSSq6lyybICqQZRCaSXG1YN3yqMFjeTqa65fG4ntl/bpB01gGFpWup8zbyPZ
+	wIyxpKhAhTQ+UoVQeZvmKBsg8fn/v7glJeqJrpzz2XNCjohbOZEielu8bpfX0RHLqS5I1c9o7t/
+	c5gU+FhFShiukp84nyuCAWKjnlbVtTWF68n9ZevAfZEgq2mjjeT5srf2k7w7itiY2Uy1uf4q2P/
+	IFxjmwyuyGYJa9u8pgKkIpws54SerAixgLMf3v
+X-Received: by 2002:adf:e5cd:0:b0:475:f0c2:75a1 with SMTP id ffacd0b85a97d-47aac9bed0amr6684532f8f.50.1783291363249;
+        Sun, 05 Jul 2026 15:42:43 -0700 (PDT)
 Received: from FRSMI25-LASER.lan ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 15:42:40 -0700 (PDT)
+        Sun, 05 Jul 2026 15:42:42 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 00/55] Patch review
-Date: Mon,  6 Jul 2026 00:40:50 +0200
-Message-ID: <cover.1783289522.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 05/55] linux-yocto/6.18: update to v6.18.25
+Date: Mon,  6 Jul 2026 00:40:55 +0200
+Message-ID: <84cc0f0d988c782516c151281808b93626e006a8.1783289522.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1783289522.git.yoann.congal@smile.fr>
+References: <cover.1783289522.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:42:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240154
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240159
 
-Please review this set of changes for wrynose and have comments back by
-end of day Tuesday, July 7. Since this is a relatively big series, if
-you plan to review it but need more time to do so, ping me and I'll
-delay the pull-request.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Notable changes:
-* kernel upgrade -> v6.18.35 cherry-picked from master
-* clang/llvm upgrade -> 22.1.18 (following master)
-* Licensing fixes
+Updating linux-yocto/6.18 to the latest korg -stable release that comprises
+the following commits:
 
-A previous version of the series, with 4 more patches that I removed and
-should not change test outcome, passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/4151
-* oe-selftest-armhost failed with Bug 16236 - AB-INT: test_list_pkg_files: ResourceWarning: unclosed transport
-  retried as https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/4280
+    a256b1e6892e7 Linux 6.18.25
+    ce383ba615339 rxrpc: Fix missing validation of ticket length in non-XDR key preparsing
+    2937f17bbeefb crypto: ccp: Don't attempt to copy ID to userspace if PSP command failed
+    051e51aa55fd4 crypto: ccp: Don't attempt to copy PDH cert to userspace if PSP command failed
+    111dcc6d0f016 crypto: ccp: Don't attempt to copy CSR to userspace if PSP command failed
+    28324a3b62d9c net/packet: fix TOCTOU race on mmap'd vnet_hdr in tpacket_snd()
+    6473ed16df1fe ALSA: caiaq: take a reference on the USB device in create_card()
+    f8397fc0ff9a4 ALSA: hda/realtek: Add quirk for Legion S7 15IMH
+    1d30e8d4a07c1 ALSA: usb-audio: apply quirk for MOONDROP JU Jiu
+    c76cf339b8797 f2fs: fix use-after-free of sbi in f2fs_compress_write_end_io()
+    028103656b842 writeback: Fix use after free in inode_switch_wbs_work_fn()
+    feefd5d5b5ee2 ksmbd: reset rcount per connection in ksmbd_conn_wait_idle_sess_id()
+    5e7b8f3c539d6 ksmbd: use check_add_overflow() to prevent u16 DACL size overflow
+    790304c02bf9b ksmbd: fix out-of-bounds write in smb2_get_ea() EA alignment
+    3e5360b422dd7 ksmbd: validate num_aces and harden ACE walk in smb_inherit_dacl()
+    299db777ea0cf ksmbd: validate response sizes in ipc_validate_msg()
+    078fae8f50ade smb: client: fix OOB read in smb2_ioctl_query_info QUERY_INFO path
+    38a69f08ee82c smb: client: require a full NFS mode SID before reading mode bits
+    3943e4565aae7 smb: server: fix max_connections off-by-one in tcp accept path
+    283027aa93380 smb: server: fix active_num_conn leak on transport allocation failure
+    90089584b2e25 ksmbd: require minimum ACE size in smb_check_perm_dacl()
+    3fa185e320197 fuse: fuse_dev_ioctl_clone() should wait for device file to be initialized
+    9ef130452eaf1 fuse: quiet down complaints in fuse_conn_limit_write
+    1381635aeb7f8 fuse: Check for large folio with SPLICE_F_MOVE
+    0c7fca880a40a fuse: abort on fatal signal during sync init
+    7de93abfaae1b fuse: reject oversized dirents in page cache
+    59970b2586fef f2fs: fix to avoid uninit-value access in f2fs_sanity_check_node_footer
+    047c0aef6af37 f2fs: fix to avoid memory leak in f2fs_rename()
+    963d2e24d9d92 f2fs: fix UAF caused by decrementing sbi->nr_pages[] in f2fs_write_end_io()
+    748c5d08f1a92 f2fs: fix to do sanity check on dcc->discard_cmd_cnt conditionally
+    0112e6279420d fs/ntfs3: validate rec->used in journal-replay file record check
+    f218fb82877b1 scripts/dtc: Remove unused dts_version in dtc-lexer.l
+    c846ed5ac80fa lib/crypto: tests: Drop the default to CRYPTO_SELFTESTS
+    ca47b87f24571 kunit: configs: Enable all crypto library tests in all_tests.config
+    95c05443aa34e lib/crypto: tests: Introduce CRYPTO_LIB_ENABLE_ALL_FOR_KUNIT
+    b0ca42c018837 lib/crypto: tests: Add a .kunitconfig file
+    05f723be4d641 kunit: configs: Enable all CRC tests in all_tests.config
+    04c61029a3b76 lib/crc: tests: Add a .kunitconfig file
+    6897bdfa505f9 lib/crc: tests: Add CRC_ENABLE_ALL_FOR_KUNIT
+    e70c01412893c lib/crc: tests: Make crc_kunit test only the enabled CRC variants
+    28f77fca44497 sched/debug: Fix avg_vruntime() usage
+    c6c87a23de4bd arm64: errata: Work around early CME DVMSync acknowledgement
+    ee5ce483d4280 arm64: cputype: Add C1-Pro definitions
+    456d6040bb3b2 arm64: tlb: Pass the corresponding mm to __tlbi_sync_s1ish()
+    e785d2751b1db arm64: tlb: Introduce __tlbi_sync_s1ish_{kernel,batch}() for TLB maintenance
+    243cec136a748 arm64: tlb: Optimize ARM64_WORKAROUND_REPEAT_TLBI
+    609624576b6fd arm64: tlb: Allow XZR argument to TLBI ops
+    00ce8d6789dae ksmbd: validate owner of durable handle on reconnect
+    3d6682726c2d3 ksmbd: fix use-after-free in __ksmbd_close_fd() via durable scavenger
+    377bbec04e167 scripts: generate_rust_analyzer.py: define scripts
+    07cbb1bd42437 crypto: krb5enc - fix async decrypt skipping hash verification
+    41d151254caa7 crypto: krb5enc - fix sleepable flag handling in encrypt dispatch
+    b7cddf6c01751 drm/amdgpu: replace PASID IDR with XArray
+    e97593f32bd57 net: ethernet: mtk_eth_soc: initialize PPE per-tag-layer MTU registers
+    c5cedee5d9738 ipv6: add NULL checks for idev in SRv6 paths
+    ecc0eb147806f crypto: authencesn - Fix src offset when decrypting in-place
 
-I've started a new build with this version of the series:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4156
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 268090b61118eb9358f57e753a42380b9ea91253)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ .../linux/linux-yocto-rt_6.18.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_6.18.bb            |  6 ++---
+ meta/recipes-kernel/linux/linux-yocto_6.18.bb | 24 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-The following changes since commit 5d1aa5c806c061a2994f4decb59016610f093213:
-
-  build-appliance-image: Update to wrynose head revisions (2026-06-24 14:17:46 +0100)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-nut
-
-for you to fetch changes up to 728e70d7c681402d8e797691825bfd9929aa79cb:
-
-  clang/llvm: Upgrade to 22.1.8 release (2026-07-06 00:04:52 +0200)
-
-----------------------------------------------------------------
-
-Alexander Kanavin (1):
-  strace: remove skip-bpf.patch
-
-Anil Dongare (4):
-  cargo: Fix CVE-2026-5222
-  cargo: Fix CVE-2026-5223
-  cups: fix CVE-2026-27447
-  cups: fix CVE-2026-41079
-
-Anton Skorup (1):
-  libxml2: patch CVE-2026-11979
-
-Ashishkumar Parmar (3):
-  qemu: Fix CVE-2026-2243
-  qemu: Fix CVE-2026-0665
-  qemu: Fix CVE-2025-14876
-
-Bruce Ashfield (8):
-  linux-yocto/6.18: update to v6.18.25
-  linux-yocto/6.18: update to v6.18.26
-  linux-yocto/6.18: update to v6.18.28
-  linux-yocto/6.18: update to v6.18.32
-  linux-yocto/6.18: qat/intel configuration warning fixes
-  linux-yocto/6.18: update to v6.18.33
-  linux-yocto/6.18: update to v6.18.34
-  linux-yocto/6.18: update to v6.18.35
-
-Daniel Turull (3):
-  libssh2: fix CVE-2026-55200
-  libssh2: fix CVE-2026-55199
-  bc: set CVE_PRODUCT
-
-Deepesh Varatharajan (1):
-  clang/llvm: Upgrade to 22.1.8 release
-
-Hiago De Franco (1):
-  nospdx: also drop do_create_recipe_sbom
-
-Himanshu Jadon (1):
-  tar: Fix CVE-2026-5704
-
-Hitendra Prajapati (2):
-  vim: fix for CVE-2026-41411 & CVE-2026-44656
-  vim: fix for CVE-2026-45130 & CVE-2026-46483
-
-Jaipaul Cheernam (2):
-  binutils: Fix CVE-2026-6846
-  cmake-native: prevent host libidn2 contamination
-
-Jinwang Li (1):
-  bluez5: fix set volume failure
-
-João Marcos Costa (1):
-  ptest-packagelists.inc: disable glib-2.0 for RISCV64
-
-Khem Raj (1):
-  baremetal-helloworld: Fix override order
-
-Kris Gavvala (1):
-  python3: skiptest tracemalloc_track_race
-
-Mengshi Wu (1):
-  bluez5: fix gatt cache sync issue
-
-Nate Kent (1):
-  sudo: fix pam-wheel sed for sudo 1.9.17p2 sudoers
-
-Otavio Salvador (1):
-  quota: use native rpcgen and a single-word RPCGEN_CPP
-
-Peter Kjellerstedt (1):
-  common-licenses/PHP-3.0: Correct the license text
-
-Richard Purdie (3):
-  libxpm: upgrade 3.5.18 -> 3.5.19
-  python3-click: Fixes for new pytest and flaky ptest
-  sstate: Reduce native sysroot execution race potential
-
-Roland Kovacs (1):
-  gnupg: fix CVE-2026-57062
-
-Ross Burton (2):
-  tcl: disable the timer tests in run-ptest
-  libjitterentropy: fix license statement
-
-Sai Sneha (1):
-  i2c-tools: add LGPL-2.1-or-later license for libi2c
-
-Shubham Pushpkar (1):
-  libsolv: Fix CVE-2026-9149
-
-Siva Balasubramanian (1):
-  qemuboot.bbclass: add missing task dependency on kernel deploy
-
-Theo Gaige (Schneider Electric) (5):
-  dhcpcd: patch CVE-2026-56113
-  dhcpcd: patch CVE-2026-56114
-  dhcpcd: patch CVE-2026-56116
-  dhcpcd: patch CVE-2026-56117
-  perl: patch CVE-2026-8376
-
-Walter Werner Schneider (1):
-  devtool: provide explicit error for missing "script" command
-
-Wei Deng (1):
-  bluez5: set L2CAP IMTU for OBEX profile listeners
-
-Wei Gao (1):
-  dmidecode: fix x86-only tools being installed on ARM targets
-
-Xiaozhan Li (1):
-  texinfo: add missing perl module runtime dependencies
-
-Xiuzhuo Shang (1):
-  bluez5: Fix sending extra bytes with MGMT_OP_ADD_EXT_ADV_DATA
-
-Yoann Congal (1):
-  dropbear: Add missing WTFPL & Unlicense in LICENSE and
-    LIC_FILES_CHKSUM
-
- meta/classes-global/sstate.bbclass            |   4 +
- meta/classes-recipe/nospdx.bbclass            |   1 +
- meta/classes-recipe/qemuboot.bbclass          |   1 +
- meta/conf/distro/include/maintainers.inc      |   2 +-
- .../distro/include/ptest-packagelists.inc     |   4 +-
- meta/files/common-licenses/PHP-3.0            |  76 +--
- meta/recipes-connectivity/bluez5/bluez5.inc   |   4 +
- ...sending-extra-bytes-with-MGMT_OP_ADD.patch |  33 ++
- ...2CAP-IMTU-for-OBEX-profile-listeners.patch | 118 ++++
- ...x-stored-gatt-cache-DB-Hash-value-no.patch |  84 +++
- ...t-volume-failure-with-invalid-device.patch |  46 ++
- .../dhcpcd/dhcpcd_10.3.1.bb                   |   4 +
- .../dhcpcd/files/CVE-2026-56113.patch         |  92 +++
- .../dhcpcd/files/CVE-2026-56114.patch         |  34 ++
- .../dhcpcd/files/CVE-2026-56116.patch         |  31 +
- .../dhcpcd/files/CVE-2026-56117.patch         | 167 ++++++
- .../recipes-core/dropbear/dropbear_2025.89.bb |   8 +-
- .../libxml/libxml2/CVE-2026-11979.patch       |  81 +++
- meta/recipes-core/libxml/libxml2_2.15.2.bb    |   1 +
- .../meta/nativesdk-buildtools-perl-dummy.bb   |   2 +
- .../binutils/binutils-2.46.inc                |   1 +
- .../binutils/binutils/CVE-2026-6846.patch     |  59 ++
- meta/recipes-devtools/clang/common-clang.inc  |   2 +-
- meta/recipes-devtools/clang/common.inc        |   2 +-
- .../cmake/cmake-native_4.3.1.bb               |   1 +
- .../dmidecode/dmidecode_3.7.bb                |   1 +
- .../i2c-tools/i2c-tools_4.4.bb                |   5 +-
- .../perl/files/CVE-2026-8376-01.patch         |  62 ++
- .../perl/files/CVE-2026-8376-02.patch         |  49 ++
- meta/recipes-devtools/perl/perl_5.42.0.bb     |   2 +
- ...7494c991c9197902fdf4995e11b2da3e9762.patch | 173 ++++++
- .../python/python3-click/pytest-fix.patch     |  29 +
- .../python/python3-click_8.3.1.bb             |   1 +
- .../recipes-devtools/python/python3_3.14.5.bb |   7 +
- meta/recipes-devtools/qemu/qemu.inc           |   4 +
- .../qemu/qemu/CVE-2025-14876_p1.patch         |  52 ++
- .../qemu/qemu/CVE-2025-14876_p2.patch         |  56 ++
- .../qemu/qemu/CVE-2026-0665.patch             |  38 ++
- .../qemu/qemu/CVE-2026-2243.patch             |  45 ++
- .../rust/files/CVE-2026-5222.patch            |  92 +++
- .../rust/files/CVE-2026-5223.patch            | 125 ++++
- meta/recipes-devtools/rust/rust-source.inc    |   2 +
- .../strace/strace/skip-bpf.patch              |  25 -
- meta/recipes-devtools/strace/strace_6.19.bb   |   1 -
- meta/recipes-devtools/tcltk/tcl/run-ptest     |   2 +
- meta/recipes-devtools/tcltk8/tcl8/run-ptest   |   2 +
- .../baremetal-helloworld_git.bb               |   2 +-
- meta/recipes-extended/bc/bc_1.08.2.bb         |   3 +
- meta/recipes-extended/cups/cups.inc           |   4 +
- .../cups/CVE-2026-27447-regression_p1.patch   |  46 ++
- .../cups/CVE-2026-27447-regression_p2.patch   |  58 ++
- .../cups/cups/CVE-2026-27447.patch            | 120 ++++
- .../cups/cups/CVE-2026-41079.patch            |  73 +++
- .../libsolv/libsolv/CVE-2026-9149.patch       | 152 +++++
- .../libsolv/libsolv_0.7.36.bb                 |   1 +
- meta/recipes-extended/quota/quota_4.11.bb     |   6 +-
- meta/recipes-extended/sudo/sudo_1.9.17p2.bb   |   2 +-
- .../tar/tar/CVE-2026-5704-dependent_p1.patch  | 484 +++++++++++++++
- .../tar/tar/CVE-2026-5704-dependent_p2.patch  | 169 ++++++
- .../tar/tar/CVE-2026-5704-regression.patch    | 176 ++++++
- .../tar/tar/CVE-2026-5704.patch               | 556 ++++++++++++++++++
- meta/recipes-extended/tar/tar_1.35.bb         |   4 +
- meta/recipes-extended/texinfo/texinfo_7.3.bb  |   4 +
- .../{libxpm_3.5.18.bb => libxpm_3.5.19.bb}    |   2 +-
- .../linux/linux-yocto-rt_6.18.bb              |   6 +-
- .../linux/linux-yocto-tiny_6.18.bb            |   6 +-
- meta/recipes-kernel/linux/linux-yocto_6.18.bb |  24 +-
- .../gnupg/gnupg/CVE-2026-57062.patch          |  43 ++
- meta/recipes-support/gnupg/gnupg_2.5.17.bb    |   1 +
- .../libjitterentropy_3.6.3.bb                 |   3 +-
- .../libssh2/libssh2/CVE-2026-55199.patch      |  44 ++
- .../libssh2/libssh2/CVE-2026-55200.patch      |  36 ++
- .../recipes-support/libssh2/libssh2_1.11.1.bb |   2 +
- .../vim/files/CVE-2026-41411.patch            |  75 +++
- .../vim/files/CVE-2026-44656.patch            | 124 ++++
- .../vim/files/CVE-2026-45130.patch            | 115 ++++
- .../vim/files/CVE-2026-46483.patch            |  77 +++
- meta/recipes-support/vim/vim.inc              |   4 +
- scripts/lib/devtool/__init__.py               |   3 +
- 79 files changed, 3938 insertions(+), 118 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_ADD.patch
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-transport-Fix-set-volume-failure-with-invalid-device.patch
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56113.patch
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56114.patch
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116.patch
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-6846.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
- create mode 100644 meta/recipes-devtools/python/python3-click/ffcc7494c991c9197902fdf4995e11b2da3e9762.patch
- create mode 100644 meta/recipes-devtools/python/python3-click/pytest-fix.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-0665.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-2243.patch
- create mode 100644 meta/recipes-devtools/rust/files/CVE-2026-5222.patch
- create mode 100644 meta/recipes-devtools/rust/files/CVE-2026-5223.patch
- delete mode 100644 meta/recipes-devtools/strace/strace/skip-bpf.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-27447-regression_p1.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-27447-regression_p2.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-27447.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-41079.patch
- create mode 100644 meta/recipes-extended/libsolv/libsolv/CVE-2026-9149.patch
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2026-5704-dependent_p1.patch
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2026-5704-dependent_p2.patch
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2026-5704-regression.patch
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2026-5704.patch
- rename meta/recipes-graphics/xorg-lib/{libxpm_3.5.18.bb => libxpm_3.5.19.bb} (88%)
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2026-57062.patch
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-55199.patch
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-41411.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-44656.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-45130.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-46483.patch
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
+index c6b46d229d8..bc601df34d0 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
+@@ -15,13 +15,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "61009d487b66b56d967a7d05e9ef15a05be8ca66"
+-SRCREV_meta ?= "f94e250f9bd55d855b1a41e3cd72beebb3849ae3"
++SRCREV_machine ?= "b47fc8aaa6f14b240bd96eb35e73d3d8ba638d21"
++SRCREV_meta ?= "177495c151446a679945c20611499537d72ebcd9"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.18;destsuffix=${KMETA};protocol=https"
+ 
+-LINUX_VERSION ?= "6.18.24"
++LINUX_VERSION ?= "6.18.25"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
+index ef40c4864f5..638fdd18bf8 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
+@@ -9,7 +9,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ include recipes-kernel/linux/cve-exclusion.inc
+ include recipes-kernel/linux/cve-exclusion_6.18.inc
+ 
+-LINUX_VERSION ?= "6.18.24"
++LINUX_VERSION ?= "6.18.25"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -18,8 +18,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "b1ba5428513b52c2bd6acfd3ad0a910f699bc395"
+-SRCREV_meta ?= "f94e250f9bd55d855b1a41e3cd72beebb3849ae3"
++SRCREV_machine ?= "61a746df3dd151cccb3078ee6e1092d227b2514a"
++SRCREV_meta ?= "177495c151446a679945c20611499537d72ebcd9"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.18.bb b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
+index 5a1c22b93d7..05eccdc05ae 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
+@@ -17,25 +17,25 @@ KBRANCH:qemux86-64 ?= "v6.18/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.18/standard/base"
+ KBRANCH:qemumips64 ?= "v6.18/standard/mti-malta"
+ 
+-SRCREV_machine:qemuarm ?= "36c7eede87754f5077c67b79f86a8110969c3386"
+-SRCREV_machine:qemuarm64 ?= "b1ba5428513b52c2bd6acfd3ad0a910f699bc395"
+-SRCREV_machine:qemuloongarch64 ?= "b1ba5428513b52c2bd6acfd3ad0a910f699bc395"
++SRCREV_machine:qemuarm ?= "6788c0f14b51b8c84f0153d58b00d5115f2ee8e5"
++SRCREV_machine:qemuarm64 ?= "61a746df3dd151cccb3078ee6e1092d227b2514a"
++SRCREV_machine:qemuloongarch64 ?= "61a746df3dd151cccb3078ee6e1092d227b2514a"
+ SRCREV_machine:qemumips ?= "62ea92a539f58803a222be98b81118403074206e"
+-SRCREV_machine:qemuppc ?= "b1ba5428513b52c2bd6acfd3ad0a910f699bc395"
+-SRCREV_machine:qemuriscv64 ?= "b1ba5428513b52c2bd6acfd3ad0a910f699bc395"
+-SRCREV_machine:qemuriscv32 ?= "b1ba5428513b52c2bd6acfd3ad0a910f699bc395"
+-SRCREV_machine:qemux86 ?= "b1ba5428513b52c2bd6acfd3ad0a910f699bc395"
+-SRCREV_machine:qemux86-64 ?= "b1ba5428513b52c2bd6acfd3ad0a910f699bc395"
++SRCREV_machine:qemuppc ?= "61a746df3dd151cccb3078ee6e1092d227b2514a"
++SRCREV_machine:qemuriscv64 ?= "61a746df3dd151cccb3078ee6e1092d227b2514a"
++SRCREV_machine:qemuriscv32 ?= "61a746df3dd151cccb3078ee6e1092d227b2514a"
++SRCREV_machine:qemux86 ?= "61a746df3dd151cccb3078ee6e1092d227b2514a"
++SRCREV_machine:qemux86-64 ?= "61a746df3dd151cccb3078ee6e1092d227b2514a"
+ SRCREV_machine:qemumips64 ?= "9fb4ff0187c85426f21fd40d4c61b742800f65c4"
+-SRCREV_machine ?= "b1ba5428513b52c2bd6acfd3ad0a910f699bc395"
+-SRCREV_meta ?= "f94e250f9bd55d855b1a41e3cd72beebb3849ae3"
++SRCREV_machine ?= "61a746df3dd151cccb3078ee6e1092d227b2514a"
++SRCREV_meta ?= "177495c151446a679945c20611499537d72ebcd9"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "c0d886e4af574740bcffafda40ae692918ca87f9"
++SRCREV_machine:class-devupstream ?= "a256b1e6892e7fe840f0f9746316fa938e9a421f"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v6.18/base"
+ 
+@@ -43,7 +43,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.18;destsuffix=${KMETA};protocol=https"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "6.18.24"
++LINUX_VERSION ?= "6.18.25"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
 
