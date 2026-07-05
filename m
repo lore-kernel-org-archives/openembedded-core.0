@@ -2,50 +2,50 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59E21C4450F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D9B2C4450D
 	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:43:20 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.140035.1783291389472231523
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.139230.1783291389877391392
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 15:43:09 -0700
+ Sun, 05 Jul 2026 15:43:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=IyllqY+V;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4758b2a9e2aso1395864f8f.2
+ dkim=pass header.i=@smile.fr header.s=google header.b=235ZipvK;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490cf3000f0so23873445e9.1
         for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:43:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1783291388; x=1783896188; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HHneKjrssSU/9eabrpPUkMpRgOBj5iPmJgBpdAh3EuA=;
-        b=IyllqY+V1yNAAGsv3UT8GaoiUxIUVWnUDDPObard7qrPiGhATi9C7SbHB3nHbU/w0Z
-         jWHNnAaou//qXiaY1+ulGMhSpdAfCH7rar69mST6b6lw7qPhlZsb9PgXUNBkNo5+Moi0
-         zEUF1Fi88pyT91bJJ/rb6k0DnSyveO62cc2Bs=
+        bh=WCaQkGUUyJm1fhF98POSNhfIU+DAkZxA69aWTTEUumc=;
+        b=235ZipvK0JE5M4nY9KcvZBVjNlzIjUr//l4ibJTcSjyG4NdoNJdbtNCXC5oefut24g
+         ZA4NLd8qbI7a88818cUGiGhqFYDctBAU4r8esC46B8+EMp2JvWt65X6BsQ1jH2gYvS7z
+         a+SixeVpvnS66PAn8zBUG/o/DvAIO+p/86YsU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1783291388; x=1783896188;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=HHneKjrssSU/9eabrpPUkMpRgOBj5iPmJgBpdAh3EuA=;
-        b=XvP20GRpPleXXw3/GbciP/wVcquYW7nIeNc1X5mQNqsIjg/z51JegOWuQlCZHvsYcN
-         J+XXOdcQg9S0oi9nyl+gt1EhcW8BCd4bSPZoeRJ6niHZEmgcif7MUeTk8v979cAO7PRn
-         q+Bj/RBoF4VBxB4tBb2Rr+uZxzHeJUKKrJI8b5WjQEaCDuwSdlh9pIr/2bRsX2lZVk3r
-         q4YhVTtwbqMiKzBT1o1GyjFkVXl8A4eOIczWp1jI262dZcWFWn9AHY1MvwmMcFsZY8fS
-         9lmZkaLPEVDNWYVbPhZhvj3NQ6f7JQuB4C0jicUgCvmXposmEkEwTtj6DycmRQOgZZU/
-         ZbZQ==
-X-Gm-Message-State: AOJu0YxY2S/XSK+kCxYtZ+Xqu+AzBld35hokaoK+SW7/xMriQabFpux2
-	HHhwbmAXHVbc7SsF1UkywTswr1SITgyH+ok1FXd07YLhe2Q0aE73IrbcBQV/TOI4PGnp08xu3GT
-	9EaKqgNU=
-X-Gm-Gg: AfdE7cm+gWhZvqTtUdWkfRBvOf5485uLGo5tXtvYkmTVoJhWovYc+P5sMRDr6uPRdRp
-	Jg6J/luPjrBmyELweVCDZT2V4wPKKxUbh+0ZQIRC5tSMe2YxcttiHEQ3SvYTnPMhp+KtiYim/TP
-	X7FxF6GwS5PIMPGovAIENEjCzXyAz/mRhYf4yoLrWqOCNBLFIh7Lsz+ueCDVR6cEPgETKksB7T0
-	6/AI34zI0HO7NntNaCo6YeyEWLo2efDpj0sKe27Lp69LXNI/7YIDDZXRcojDR11+i8wVWQLSoVD
-	ql7SXDVos5glRy+iVczrSUd68ltEePY1q59hZgJER2dlhGuNuygJpI0RdyFjv+uhVt8qXgQ9Lrn
-	D0px0GJZbOj+0uzJ/bj1Aab4oRmyORDizJKImZBXQyiMLIRt5y+aGzombHfoAxX2YRTWg3zSRh8
-	qA9jLiwPP4yFL1U8qTHQNrdGNx6avnZsK6z3yj
-X-Received: by 2002:a5d:6e81:0:b0:474:2040:59ed with SMTP id ffacd0b85a97d-47aace8ef11mr6422724f8f.42.1783291387613;
-        Sun, 05 Jul 2026 15:43:07 -0700 (PDT)
+        bh=WCaQkGUUyJm1fhF98POSNhfIU+DAkZxA69aWTTEUumc=;
+        b=pPhaOfkJNey/WOdzbbRCaQQeraItFofJIX+x+4K66GQAfddeCAfkZDweLVuYxz+450
+         wXu3L++vxwkzuzEZNvw99tcsJpxm7DuxgDlAwkedEVGln/8sq31EOMFJVaTDia9rY77E
+         XAZ0qWyzPu0wKjdiKmTBqlDsZKbTMBzhn6qNvORg5fY/U1RM2ZcJGG6chO5WGMuua72G
+         eAN4nIBAxFb7enPQui68/QSsEjcQxUUGw+CsdD+MlGYnK9tYOiZWLdRkZ6GrDQl6Twg5
+         cyZllMUT12/ZhtfAxFIJThQtTBAn6FtGE6KHJbSU1HdEPm4SeJRSsOnpd6KtHzeEvCm3
+         dvrw==
+X-Gm-Message-State: AOJu0YwSgjFwV55X9xpWBTyI7LVHWwHf1V5K6d8ytemq4KB3fr6uTT7P
+	jDKDU2Oj8qHHd49CzJO0M50b4IwgK5cMmBlnxxVJ4LM+B4niDnNRBm3hC2ChYdpcNs6tQ8vLeUm
+	iYcqLFaY=
+X-Gm-Gg: AfdE7cnec2qpWHvvqwPKvdjLgWKbcBcQR1/opyTxHHCgWLnXxxfvKgRXznibZ6g/2M2
+	4CmA69T8DcbfWbZTxn0iBOwjeV5vHzGXfDIOebCE/+okj4EbFMqQYu3rgTb/1xZPDkaMZLXCV0m
+	kxge+G4I6xAy+cmmD2ELTaz6sx47T78GqCqr0QTKCazrJyvwrEfoS0ZyzJ6jdaoXNatIi9rIWys
+	39dffLP0MOV1fl5RiICBWPhmjANUxnbQ3z8ciS3O9zGmJZKOghBat5JP5q0XCvCQmiDToeiNUye
+	NdzSn4aw8jEUkdySfpcV0CZ+UDm4jci2AwyE601/Q+7hJK+NxfdjVrlKFXyLmTnxIKWOkL0Wy9f
+	oK1JfL6aFJGykAABR7BE6/nr4SqHU8kXzVaphDKRPk7JGq70s3+V09TZvaKMfr21MmFUkjpwVAa
+	CuaE2kUwFzj1mShCOlQEJLmws+eQ==
+X-Received: by 2002:a05:600c:314f:b0:493:b2c1:b2f9 with SMTP id 5b1f17b1804b1-493d11cf274mr90792875e9.8.1783291388115;
+        Sun, 05 Jul 2026 15:43:08 -0700 (PDT)
 Received: from FRSMI25-LASER.lan ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.43.07
         for <openembedded-core@lists.openembedded.org>
@@ -53,9 +53,9 @@ Received: from FRSMI25-LASER.lan ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
         Sun, 05 Jul 2026 15:43:07 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 41/55] i2c-tools: add LGPL-2.1-or-later license for libi2c
-Date: Mon,  6 Jul 2026 00:41:31 +0200
-Message-ID: <f67c2a1cf40eaaaa94b867891c625f935ba5ab6c.1783289522.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 42/55] strace: remove skip-bpf.patch
+Date: Mon,  6 Jul 2026 00:41:32 +0200
+Message-ID: <81af90dd1c49853d6189fa491b766a7b05d2f6cf.1783289522.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783289522.git.yoann.congal@smile.fr>
 References: <cover.1783289522.git.yoann.congal@smile.fr>
@@ -65,39 +65,63 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:43:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240195
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240196
 
-From: Sai Sneha <saisneha196@gmail.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-The libi2c library included in i2c-tools is licensed under
-LGPL-2.1-or-later, as stated in the upstream README and the
-COPYING.LGPL file. Update LICENSE and LIC_FILES_CHKSUM to reflect
-this.
+Issue was resolved in https://github.com/strace/strace/commit/982e5ff96a670473187ccdf6e2d8ddb3c40c82e1
 
-Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=16313
-
-Signed-off-by: Sai Sneha <saisneha196@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c2b1410faa150384562bada22c1c8f7c944c7951)
+(cherry picked from commit 52fd493a9851a44bc836a712800584cd93564240)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../strace/strace/skip-bpf.patch              | 25 -------------------
+ meta/recipes-devtools/strace/strace_6.19.bb   |  1 -
+ 2 files changed, 26 deletions(-)
+ delete mode 100644 meta/recipes-devtools/strace/strace/skip-bpf.patch
 
-diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb
-index f4881f3c2fe..55d434ed212 100644
---- a/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb
-+++ b/meta/recipes-devtools/i2c-tools/i2c-tools_4.4.bb
-@@ -2,8 +2,9 @@ SUMMARY = "Set of i2c tools for linux"
- HOMEPAGE = "https://i2c.wiki.kernel.org/index.php/I2C_Tools"
- DESCRIPTION = "The i2c-tools package contains a heterogeneous set of I2C tools for Linux: a bus probing tool, a chip dumper, register-level SMBus access helpers, EEPROM decoding scripts, EEPROM programming tools, and a python module for SMBus access. All versions of Linux are supported, as long as I2C support is included in the kernel."
- SECTION = "base"
--LICENSE = "GPL-2.0-or-later"
--LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-+LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-+                    file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c"
- 
- SRC_URI = "${KERNELORG_MIRROR}/software/utils/i2c-tools/${BP}.tar.gz \
- "
+diff --git a/meta/recipes-devtools/strace/strace/skip-bpf.patch b/meta/recipes-devtools/strace/strace/skip-bpf.patch
+deleted file mode 100644
+index b058b0ba03d..00000000000
+--- a/meta/recipes-devtools/strace/strace/skip-bpf.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-These tests failed when upgrading to 6.18. Skip them for now until the issue can be resolved
+-as the upgrade is needed for newer kernel versons.
+-
+-Upstream-Status: Inappropriate [issue reported at https://github.com/strace/strace/issues/370]
+-
+-Index: strace-6.16/tests/bpf-v.gen.test
+-===================================================================
+---- strace-6.16.orig/tests/bpf-v.gen.test
+-+++ strace-6.16/tests/bpf-v.gen.test
+-@@ -1,4 +1,5 @@
+- #!/bin/sh -efu
+- # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (bpf-v -a20 -v -e trace=bpf); do not edit.
+- . "${srcdir=.}/init.sh"
+-+skip_ "Test doesn't work atm"
+- run_strace_match_diff -a20 -v -e trace=bpf
+-Index: strace-6.16/tests/bpf.gen.test
+-===================================================================
+---- strace-6.16.orig/tests/bpf.gen.test
+-+++ strace-6.16/tests/bpf.gen.test
+-@@ -1,4 +1,5 @@
+- #!/bin/sh -efu
+- # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (bpf -a20 ); do not edit.
+- . "${srcdir=.}/init.sh"
+-+skip_ "Test doesn't work atm"
+- run_strace_match_diff -a20 
+diff --git a/meta/recipes-devtools/strace/strace_6.19.bb b/meta/recipes-devtools/strace/strace_6.19.bb
+index 7b8d4851fb5..39c9b8cd451 100644
+--- a/meta/recipes-devtools/strace/strace_6.19.bb
++++ b/meta/recipes-devtools/strace/strace_6.19.bb
+@@ -12,7 +12,6 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/strace-${PV}.tar.xz \
+            file://ptest-spacesave.patch \
+            file://0001-strace-fix-reproducibilty-issues.patch \
+            file://skip-load.patch \
+-           file://skip-bpf.patch \
+            file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch \
+            file://0002-tests-Replace-off64_t-with-off_t.patch \
+ 		   file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch \
 
