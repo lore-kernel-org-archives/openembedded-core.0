@@ -2,195 +2,223 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B505C43458
-	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:42:45 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.139206.1783291364071562634
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89324C44502
+	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:42:46 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.139207.1783291364875117975
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 15:42:44 -0700
+ Sun, 05 Jul 2026 15:42:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3Q0xhc59;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-475417f010dso1234106f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:43 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=JAOcJHfs;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-474560436c3so2305802f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783291362; x=1783896162; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1783291363; x=1783896163; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hqVBp0FMx5u7D4u2Zqy1T1Jxmr6TggyRgVTuN1CCnxY=;
-        b=3Q0xhc59qjzQo0cJMdCIdr3MgT4fIDyEJHkhQ2jzt6XYWWTJzoNq2ta+DjDWKaE9AC
-         b9J+zleXf+/qx7P7kcLj+mS3bWC32ZArNbEkS9M32da3eevVOyDkSXdyna+tMB8I8bd+
-         mnuUzShI1D3baQv058+DwMyTUwBNKK2PZdWkY=
+        bh=+cWth7lRGFmMDqsp0T3PbEzeOqvQ/TgySl/uJ1sUhww=;
+        b=JAOcJHfsC0bhB+Oaa1cNa5vfe/9HHZMWrbxsiN2vSpWTf6+ogRol/dMtXFumYCAyK+
+         +qkyxNCPZKPBOmHWFNJmHyIEVNozPTxgYb5+68939R/cabu/von9vwzcaEqG/EWj2ADp
+         EzT83lxeB+Q7Hvxf3VPhfQTFxICXZ1B7uUl9g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783291362; x=1783896162;
+        d=1e100.net; s=20251104; t=1783291363; x=1783896163;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=hqVBp0FMx5u7D4u2Zqy1T1Jxmr6TggyRgVTuN1CCnxY=;
-        b=sR7OMzaBJh+vAMYDhVn7o71N2De5xk8AU8tqAIC4jMMyu4C1+NLIBtlDp0veFIL4Lj
-         5nEkSR8ioegQBvl+FTxFgWyoNYmmbz/1fLVFxS46tBlbQSH/oC8IkDOzqY9+RCSUrQ1p
-         CCd+Wyx9M6CgXHpQ7ycSngMbfHoqV/UjJQ7B4cjKolCGx/0N5vivRm2y9eJk+25v/LoB
-         9kRSXBR5X17gn4GRgTna0BWWsc5BmKrb5yksajU/lEuxcK0SnPkCNFylNy6iCWHilz3P
-         Tpr+qCRkyINqnZsHKbKqkncx/ReVjgXelchq8UDyc+4goqvmjXsI57oWk9Z+FMfUx5PE
-         Q77A==
-X-Gm-Message-State: AOJu0YzXMcKADzp93OqsaLzfhzR0HlB9eiS0T2ZNPlFxZkuZarZdIW5f
-	3NudiUEVt7uqyHEN0vCrzVM03uxmBDA7H19pwI0usFLiS5JdKhopNTuNltIkpM0BoiaeY/vb/M8
-	tOQMp+Uc=
-X-Gm-Gg: AfdE7ckvKDrOUwy6UrhBXZpNPkgG2Hq9cbPKeXmdSIjWYgY5kv8oSQ0Dl1znRU7GwfE
-	AiYTix95nsJkpH3WVjcuVqvcZKwtsmSlT8pmdSQjhi6vqMjpGuv/f2e/8D0Ty3xUEOCMyFjtbxP
-	HjbsQbnwp2nUAKstDzIEmUCRZ7YbPYuz0TBIxXtqPHG7I6iBk0/d8/s5DhBU9CDz0iiJ7maF2VX
-	MQocdwjrhnTa5bXZy87AEHWIA+2Yie/y8NqJ6KPz8xQqSPHJ0sKo3M5QaSutRPkAnTACTWAtNpg
-	hZbURY2hlDtrMmZ4s8Hb8LDRsqKZjE4fg03JKgHDVX7MSPceLhItR3KYe4PQ1KaBafjO7HJPSuA
-	eUn0waz8Bh7gB+fXeLhPhQBaPaZRHxo67OWankkwZMvabeueW9AFTz25Jo3EvStokMsEGzzgaM0
-	k1TkSlcp5NWAh4aiaFt5VNNTXeVQ==
-X-Received: by 2002:adf:f3c8:0:b0:470:a7d8:75f5 with SMTP id ffacd0b85a97d-47aab77041emr6253084f8f.42.1783291362249;
+        bh=+cWth7lRGFmMDqsp0T3PbEzeOqvQ/TgySl/uJ1sUhww=;
+        b=Ohb2gF9R0MovdAEknCMUgbregOrSQfkMituD0h+G76jcTiEf6s2XcbVa59Nlwv+zpv
+         /UzDkdNnbVLtpqv1EtyBKCqZvTNkIaoqzBUApLJfrz9TQiOf12ZOITPDYuN0iy7xlqSF
+         /r4FXOtzRcd6BQSBW3srG1DkGsGL4KvQtpsu+XfMWMlctxi3+5OUPVHsCdfKK8iv7J/i
+         tmuYtJkDyV3fWkZQRuaa3sACzPKAGGpGEKKHdjU2mED3u1JB0ZDntiuJlFG2YBDMFMmd
+         j11VY18mQjSYU1cevfxbldVAORCfJN9CvbihjK9AYoF4DuUyX4p1DKodpI/lSPW9xBQK
+         sArw==
+X-Gm-Message-State: AOJu0YxTmmwLDYEIPkanAA5sSru6DtFaFJKdKfJ9pWv2AVbE0fc58nlH
+	CRpPObWMja9ZWn76HHB28oZUJXUQFrBmCdylEc+W4eDlTZMohw8XiXQB0hkTkHSr0HGBVfB1hF5
+	LkSzFKNg=
+X-Gm-Gg: AfdE7cnWPwu93mqgFIK9Gn6Lv0D/cyIWZilcyTzDPxHoksvb4XqlYAoUlp1dxx4yJN8
+	ixUxCVZ9PJzFz8Hzgjb8l8eshHjMZor/iprqJUN1zv9KuKSK2E2MwAX0ntE9K+pSTaIeTKH3pYA
+	bKp8XQceB0SjnLSAUmcu0r2Ip6kyLTcWNmjy11bVnJQ1UhJUE3HokTyhxTUH+og85Mm0Hg+AJOe
+	74zCpyHlVUE0uVZLeMpyxyB3tQ6aW6PnRYKtxdE/Kf/fnp/oUyTYGWYWtfOam4NxHiKJTPNua9v
+	3YsvM8KMMPBghkeTsAaJIF/RqbK5nZv5O+yjzgqXt/uiz4KMHg/Y3csj5b01PvC7MprxsyGOtdo
+	t59TBO3k8TYBnuBzLnPRmhgW22k5u0hmRwUBppy07QANpjGQINxxWe3gIkO0a5SxB/eLts3nrbA
+	NW/Ht5tMngmAv9ZBJBZtRTTsxFEA==
+X-Received: by 2002:a05:6000:4805:b0:474:9991:60d0 with SMTP id ffacd0b85a97d-47aaa516fcfmr10457552f8f.12.1783291362734;
         Sun, 05 Jul 2026 15:42:42 -0700 (PDT)
 Received: from FRSMI25-LASER.lan ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 15:42:41 -0700 (PDT)
+        Sun, 05 Jul 2026 15:42:42 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 03/55] bluez5: fix gatt cache sync issue
-Date: Mon,  6 Jul 2026 00:40:53 +0200
-Message-ID: <42e311bae67ea0d4bfe1ff7e223bdf93e049c0ae.1783289522.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 04/55] bluez5: set L2CAP IMTU for OBEX profile listeners
+Date: Mon,  6 Jul 2026 00:40:54 +0200
+Message-ID: <f355092d9193c3dc0b17f0e5c6388ebf3fe798a9.1783289522.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783289522.git.yoann.congal@smile.fr>
 References: <cover.1783289522.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:42:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240157
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:42:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240158
 
-From: Mengshi Wu <mengshi.wu@oss.qualcomm.com>
+From: Wei Deng <wei.deng@oss.qualcomm.com>
 
-There is a timing issue to update DB Hash value.
+Backport upstream fix that adds an imtu field to default_settings for
+OBEX profiles (OPP, FTP, PBAP, MAS, MNS) and applies it to the L2CAP
+listening socket via bt_io_set(). Without this, the listening socket
+advertises the L2CAP minimum of 672 bytes in L2CAP_CONFIGURATION_RSP,
+limiting the peer's outgoing PDU size and degrading Rx throughput.
 
-The gatt_client_service_changed() callback in src/device.c
-is called from service_changed_complete() in gatt-client.c,
-which is invoked after db_hash_read_cb() has already updated
-the hash. Adding store_gatt_db(device) here guarantees the
-db is persisted with the correct, up-to-date hash for both
-the addition and removal cases.
-
-Upstream-Status: Backport [bluez/bluez@0fd01e9]
-Signed-off-by: Mengshi Wu <mengshi.wu@oss.qualcomm.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 137eeffd4faa50cc9f2574712217d97b1457a8f7)
+Upstream-Status: Backport [bluez/bluez@646014a]
+Signed-off-by: Wei Deng <wei.deng@oss.qualcomm.com>
+(cherry picked from commit 13cb97f6279e71320f6454fd5b89c3845b826c49)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...x-stored-gatt-cache-DB-Hash-value-no.patch | 84 +++++++++++++++++++
- 2 files changed, 85 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+ ...2CAP-IMTU-for-OBEX-profile-listeners.patch | 118 ++++++++++++++++++
+ 2 files changed, 119 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
 
 diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 1600107b878..4e51cc9a213 100644
+index 4e51cc9a213..ad07e0d3c4f 100644
 --- a/meta/recipes-connectivity/bluez5/bluez5.inc
 +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -73,6 +73,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-gatt-client-Fix-use-after-free-caused-by-reentrant-c.patch \
+@@ -74,6 +74,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
             file://0001-transport-Fix-set-volume-failure-with-invalid-device.patch \
             file://0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_ADD.patch \
-+           file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
+            file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
++           file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
             "
  S = "${UNPACKDIR}/bluez-${PV}"
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
 new file mode 100644
-index 00000000000..69323bdc5ee
+index 00000000000..332b11464eb
 --- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch
-@@ -0,0 +1,84 @@
-+From 9ec8cad56e47c0555a056e928e6568d543b3ae0c Mon Sep 17 00:00:00 2001
-+From: Mengshi Wu <mengshi.wu@oss.qualcomm.com>
-+Date: Wed, 1 Apr 2026 19:30:04 +0800
-+Subject: [PATCH v1] src/device: Fix stored gatt cache DB Hash value not update
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch
+@@ -0,0 +1,118 @@
++From 646014a6a246fe99df27da12d2de7bcd2e04d0df Mon Sep 17 00:00:00 2001
++From: Wei Deng <wei.deng@oss.qualcomm.com>
++Date: Thu, 4 Jun 2026 15:00:24 +0530
++Subject: [PATCH] profile: Set L2CAP IMTU for OBEX profile listeners
 +
-+There is an asymmetry in behavior: when services are added during
-+the same connection (via Service Changed indication), the persistent
-+storage (disk) is not updated with the new DB hash, but when services
-+are removed, it is updated.
++The default_settings entries for OBEX profiles (OPP, FTP, PBAP, MAS,
++MNS) have no imtu field, so ext_start_servers() creates the L2CAP
++listening socket without an explicit IMTU. This causes the socket to
++advertise the L2CAP minimum of 672 bytes in L2CAP_CONFIGURATION_RSP,
++limiting the peer's outgoing PDU size and degrading Rx throughput.
 +
-+During the same connection, We check DB hash value stored at
-+/var/lib/bluetooth/<adaptor addr>/cache/<remote addr>.
-+When established connection, the stored DB Hash value is A.Then we
-+add new services, the stored DB Hash value is still A which should
-+change to B. However, if we remove the existing services, the stored
-+DB Hash value changed to C.
++Add an imtu field to default_settings and set it to 32767 for all
++OBEX profiles that use L2CAP. Copy the value in ext_set_defaults()
++and apply it to the listening socket via bt_io_set() after
++bt_io_listen() succeeds.
 +
-+When performing addition, it goes like this:
-+
-+discover_primary_cb()
-+  └─> gatt_db_insert_service()      ← NEW service inserted into db
-+        └─> gatt_service_added()    ← callback fires immediately
-+              └─> store_gatt_db()   ← SAVED TO DISK (hash still OLD)
-+  ...
-+  └─> discovery_op_complete(success=true)
-+        └─> read_db_hash(op)             ← sends ATT Read By Type
-+              └─> [ATT response arrives]
-+                    └─> db_hash_read_cb()
-+                          ├─> gatt_db_attribute_write(op->hash, ...)
-+                          │     └─> hash UPDATED IN MEMORY
-+                          └─> discovery_op_complete(true, 0)
-+                                ├─> [no services to remove, no
-+                                │    store_gatt_db called]
-+                                └─> service_changed_complete()
-+
-+Whereas removal perform like this:
-+discovery_op_complete(success=true)  [1st call]
-+  └─> read_db_hash(op)
-+      └─> op->hash is NULL → sends ATT request → early return
-+...
-+[ATT response arrives]
-+db_hash_read_cb()
-+  └─> gatt_db_attribute_write(op->hash, ) ← hash UPDATED IN MEMORY
-+  └─> discovery_op_complete(true, 0)          [2nd call]
-+      └─> read_db_hash(op)  → op->hash already set → returns false
-+      └─> gatt_db_remove_service()
-+          └─> gatt_service_removed()
-+              └─> store_gatt_db() ← SAVED TO DISK (hash is NEW)
-+
-+There is a timing issue to update DB Hash value.
-+
-+The gatt_client_service_changed() callback in src/device.c is called
-+from service_changed_complete() in gatt-client.c, which is invoked
-+after db_hash_read_cb() has already updated the hash. Adding
-+store_gatt_db(device) here guarantees the db is persisted with the
-+correct, up-to-date hash for both the addition and removal cases.
-+
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/0fd01e98cf94616a5c1c39749314cdd4a1654687]
-+Signed-off-by: Mengshi Wu <mengshi.wu@oss.qualcomm.com>
++Signed-off-by: Wei Deng <wei.deng@oss.qualcomm.com>
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/646014a6a246fe99df27da12d2de7bcd2e04d0df]
 +---
-+ src/device.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
++ src/profile.c | 19 +++++++++++++++++--
++ 1 file changed, 17 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/device.c b/src/device.c
-+index 3ea683667..cfbde307b 100644
-+--- a/src/device.c
-++++ b/src/device.c
-+@@ -6267,7 +6267,11 @@ static void gatt_client_service_changed(uint16_t start_handle,
-+ 							uint16_t end_handle,
-+ 							void *user_data)
-+ {
-++	struct btd_device *device = user_data;
++diff --git a/src/profile.c b/src/profile.c
++index dfc5f7161..65df0f7a0 100644
++--- a/src/profile.c
+++++ b/src/profile.c
++@@ -55,6 +55,8 @@
++ #define MAS_DEFAULT_CHANNEL	16
++ #define MNS_DEFAULT_CHANNEL	17
++ 
+++#define BT_RX_MTU		32767
 ++
-+ 	DBG("start 0x%04x, end: 0x%04x", start_handle, end_handle);
++ #define BTD_PROFILE_PSM_AUTO	-1
++ #define BTD_PROFILE_CHAN_AUTO	-1
++ 
++@@ -678,6 +680,7 @@ struct ext_profile {
++ 
++ 	uint16_t version;
++ 	uint16_t features;
+++	uint16_t imtu;
++ 
++ 	GSList *records;
++ 	GSList *servers;
++@@ -1423,6 +1426,9 @@ static uint32_t ext_start_servers(struct ext_profile *ext,
++ 			if (psm == 0)
++ 				bt_io_get(io, NULL, BT_IO_OPT_PSM, &psm,
++ 							BT_IO_OPT_INVALID);
+++			if (ext->imtu)
+++				bt_io_set(io, NULL, BT_IO_OPT_IMTU, ext->imtu,
+++							BT_IO_OPT_INVALID);
++ 			l2cap->io = io;
++ 			l2cap->proto = BTPROTO_L2CAP;
++ 			l2cap->psm = psm;
++@@ -2075,6 +2081,7 @@ static struct default_settings {
++ 					struct ext_io *rfcomm);
++ 	uint16_t	version;
++ 	uint16_t	features;
+++	uint16_t	imtu;
++ } defaults[] = {
++ 	{
++ 		.uuid		= SPP_UUID,
++@@ -2142,6 +2149,7 @@ static struct default_settings {
++ 		.authorize	= false,
++ 		.get_record	= get_opp_record,
++ 		.version	= 0x0102,
+++		.imtu		= BT_RX_MTU,
++ 	}, {
++ 		.uuid		= OBEX_FTP_UUID,
++ 		.name		= "File Transfer",
++@@ -2151,6 +2159,7 @@ static struct default_settings {
++ 		.authorize	= true,
++ 		.get_record	= get_ftp_record,
++ 		.version	= 0x0103,
+++		.imtu		= BT_RX_MTU,
++ 	}, {
++ 		.uuid		= OBEX_SYNC_UUID,
++ 		.name		= "Synchronization",
++@@ -2167,6 +2176,7 @@ static struct default_settings {
++ 		.authorize	= true,
++ 		.get_record	= get_pse_record,
++ 		.version	= 0x0101,
+++		.imtu		= BT_RX_MTU,
++ 	}, {
++ 		.uuid		= OBEX_PCE_UUID,
++ 		.name		= "Phone Book Access Client",
++@@ -2182,7 +2192,8 @@ static struct default_settings {
++ 		.mode		= BT_IO_MODE_ERTM,
++ 		.authorize	= true,
++ 		.get_record	= get_mas_record,
++-		.version	= 0x0100
+++		.version	= 0x0100,
+++		.imtu		= BT_RX_MTU,
++ 	}, {
++ 		.uuid		= OBEX_MNS_UUID,
++ 		.name		= "Message Notification",
++@@ -2191,7 +2202,8 @@ static struct default_settings {
++ 		.mode		= BT_IO_MODE_ERTM,
++ 		.authorize	= true,
++ 		.get_record	= get_mns_record,
++-		.version	= 0x0104
+++		.version	= 0x0104,
+++		.imtu		= BT_RX_MTU,
++ 	},
++ };
++ 
++@@ -2249,6 +2261,9 @@ static void ext_set_defaults(struct ext_profile *ext)
++ 		if (settings->features)
++ 			ext->features = settings->features;
++ 
+++		if (settings->imtu)
+++			ext->imtu = settings->imtu;
 ++
-++	store_gatt_db(device);
-+ }
-+
-+ static void gatt_debug(const char *str, void *user_data)
-+--
++ 		if (settings->name)
++ 			ext->name = g_strdup(settings->name);
++ 	}
++-- 
 +2.34.1
++
 
