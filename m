@@ -2,60 +2,60 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18BD7C44510
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2833DC44511
 	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:43:09 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.140023.1783291378115800151
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.140022.1783291377758512511
  for <openembedded-core@lists.openembedded.org>;
  Sun, 05 Jul 2026 15:42:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ESaZiboX;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-475cb71a4ebso2509540f8f.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=Xi5wob3m;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493b7612475so21166375e9.3
         for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1783291376; x=1783896176; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lnSDeJ0uQymNjX7oD6bq2EMatxeiNM6a+uJRjE/2Q/o=;
-        b=ESaZiboX1qc9uBYiPkOodEOBA+b/AfmG9XLZcfp7ukkH+V1kkwEoFKL++RLDUts23L
-         AVHsKd3FEYovEXRj2CS8qj/K+aSn4qBRZl9CF6I7OtLV3Anr4UAw6hZE5LlKylbJNLwX
-         phEq96z+0pXjydDlp7egDjJO3bLK3Vw2AamGY=
+        bh=WdM50T8gSg+40Dlgp2m9AavaxD7tEC9bbp4G+1J3hbw=;
+        b=Xi5wob3msLQh6FV7AcZ1yhmAH+Ye68F/PChjyw2gL6w0S1x9StXuAuUhg3JpDoa72T
+         ve0Amp8VaRV/qSaA8gtE8syjF8GIIH8cOmNdqgJd1ob75dR5QTKzMYUd+gX4bvMbmvIB
+         xeGdP+XLtnrm746ZO+fcuEjbU9K/obbv/Ne/g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1783291376; x=1783896176;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=lnSDeJ0uQymNjX7oD6bq2EMatxeiNM6a+uJRjE/2Q/o=;
-        b=T1hVZInnGzEhzLO87Rt1K+COBWY6/kMXktq5xzl+21fJgzcvN26XG9MdIm70+21Pjs
-         mN9VKS/ny+pUtvMpvucIUMLjMFvYDBCQi5MzqYT/9wfee6XJwNxfPJEarJXstps4KLWA
-         Iw0f5dIyLaM/uwOqeKVjDqEz+ynGBepLv7GMMfhpEkMfEosvItxdz5KEn2HVROJUU4Yo
-         H4TxBBs7d+HZVZmc1Sai767whkD8Vp3oGR7+a8Lcluky4ch7+n4gKmoU53coC3JISTWX
-         +JiiRh1lZCAH1rOz59ercc3c9eJx4GBQM4UVoM5+JPAtUvknW2B4vgRv42fnSfEMZTTy
-         SiVw==
-X-Gm-Message-State: AOJu0Yycwm/9T2HJmXpCDhyFdxP46LPIDWSxGFkrZOgP33LNlAv+nwyi
-	3vTKeANuRZ+/L3ZSfY44Q9/SSMuXwgzq9B8m/RcqmE00EFrbZndiYtdwJ7zfkBvafdGryihUE0M
-	0cZvi8Qs=
-X-Gm-Gg: AfdE7clVCSZ31HOSGPDtQGkUGIAFSxLluGDlsB8OgPAdi8ElIegeoxCh73ogDyohVod
-	FUwlxpQWRxh4akG+TRzB55oqH4JwwJSJLLAWYkULSiqBbnAn9X7QRVv7XPlQgHCIPh7PCailmHm
-	u2bJeoBcOlJYxw4L66W9mCDf3TYIRFqExbK6sAvWoIVUSCg4uGZj0z7lXi2gTsJUk3Fio/10iZG
-	PFFSYhP7N75hTaD6bOZQLURobxtDxdC42Qtk7H5rvBjHHndPiQoJhG2TgLkkXf3jzdmdn1lDAUV
-	eycYf+50qwI08vCsP2HCKlRvzD6mWOeH7NrVD1y/x4OkrTlVCfNyR4lThcY3htnE5dgLx+lao6j
-	4Xu1pYL2UIhi42Mrw7xahcs8DeU8oeLmZJCNe3RA6zDgFv+6OxNrytpqGVZjdZVGp57K3IwQaYV
-	xssaBDIMc/1I6YjtQ8RVMVA5BOxw==
-X-Received: by 2002:a05:6000:2f88:b0:475:f0c2:759f with SMTP id ffacd0b85a97d-47aac9bcedcmr8899369f8f.48.1783291373263;
-        Sun, 05 Jul 2026 15:42:53 -0700 (PDT)
+        bh=WdM50T8gSg+40Dlgp2m9AavaxD7tEC9bbp4G+1J3hbw=;
+        b=eGEOTaB7vnm1J+eQO+DcDG8mmC8XGxR804GazeXM+yF1Okh7EYcvm/uTn/HYPZTFtX
+         gqQD/QQArWwTBoXxQyAxwVgPYPwB8JhvPPCRiQELc6QWMYmdXd/u7TBbKeWRR15V+Gid
+         3seRiUQap3u6l3Ah4EXFwjjDtZy4WuVeH9BH3EE6LGhlOQQ5cBMpyC0bge/9p0oDBRB+
+         a/enYXBO9mP1G4A1zZyjD5gwkXdXtw5JSxjuzFzWgcWIRWKZnrD1u69z3MOZp+Tm5y95
+         aCI46U2gn+/9Pm7uZEaxZ0TZUE34ZG5SuzZu0Vt9kZKVN90WXcUYs3immRWn1i+82KGV
+         bcSQ==
+X-Gm-Message-State: AOJu0YzVkQwJUM1/nSnY8Na1IYbnzk76mDq9ITKDfke0LqLbAzjaUl+/
+	J7+rT7gJwaVyv0GoPdT5t/DcmEmEdBR/TUmPPNErezYZg+/mVMjQQyPK3jKtl1okOowfZ486XeE
+	5d7UomOI=
+X-Gm-Gg: AfdE7clqRVp+c1VjKstzz0BS+5VoSFgekT+MIaFgDoa0NcJ9/ec2yk0Pynh480C12SG
+	Sa16Yg31rZWxivmOT1blWl76yiMMwZOpWAUfJXEFcPzMprOl7ekpXaaMAufWEu3Z1n3RzZfGJ+u
+	YH1iJBXr+2O3lFXJ4KIxJ98dzINNk/veWlOBHDEbkINxWQacwDr5giw0BLJ/dD2cuCttvJxfb9B
+	+iB7McPrtbG7JUBSIjFVAUOLVNRzKgm3vCEexOV4GoGMGaOL4xMVqJppuXDvJWzwuPiOydFtAkI
+	hhQKC4wLYBuCwpoQqhWaHTIAXXWfKKTZqYCtjjUm7/ByPFWX9UmWhETfJPB2ihwmG2MK/ceRVUB
+	YXugik2bnzWl4rL0W5p2kBulGhZdHJNHFHfvwEzbsFd1ToZGxUReF6YP1EgdE7nulm0Wk8WjP0Z
+	zCkSpkKZo8eWOmVGXPz8/wSZrjMQ==
+X-Received: by 2002:a05:600c:c118:b0:492:3e66:6c84 with SMTP id 5b1f17b1804b1-493d11f918cmr76271695e9.30.1783291375900;
+        Sun, 05 Jul 2026 15:42:55 -0700 (PDT)
 Received: from FRSMI25-LASER.lan ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 15:42:52 -0700 (PDT)
+        Sun, 05 Jul 2026 15:42:55 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 19/55] cargo: Fix CVE-2026-5223
-Date: Mon,  6 Jul 2026 00:41:09 +0200
-Message-ID: <3ece9abc2962df2fd236001dc328f741c4d1a95e.1783289522.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 23/55] vim: fix for CVE-2026-41411 & CVE-2026-44656
+Date: Mon,  6 Jul 2026 00:41:13 +0200
+Message-ID: <440cb36c0d5f773dbff6aeb9ae27fd0f48fa0ebe.1783289522.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783289522.git.yoann.congal@smile.fr>
 References: <cover.1783289522.git.yoann.congal@smile.fr>
@@ -65,164 +65,253 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:43:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240177
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240176
 
-From: Anil Dongare <adongare@cisco.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-This patch applies the upstream fix as referenced in [2], using the commit shown in [1].
+Pick patch from [1] & [2] also mentioned at NVD report in [3] & [4]
 
-[1] https://github.com/rust-lang/cargo/commit/285cebf58911eca5b7f177f5d0b1c53e1f646577
-[2] https://security-tracker.debian.org/tracker/CVE-2026-5223
+[1] https://github.com/vim/vim/commit/c78194e41d5a0b05b0ddf383b6679b1503f977fb
+[2] https://github.com/vim/vim/commit/190cb3c2b9c769a3972bcfd991a7b5b6cb771ef0
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-41411
+[4] https://nvd.nist.gov/vuln/detail/CVE-2026-44656
 
-Signed-off-by: Anil Dongare <adongare@cisco.com>
+More info :
+CVE-2026-41411 - Disallow backticks before attempting to expand filenames.
+CVE-2026-44656 - Prevent shell execution from 'path' backticks via modelines.
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../rust/files/CVE-2026-5223.patch            | 125 ++++++++++++++++++
- meta/recipes-devtools/rust/rust-source.inc    |   1 +
- 2 files changed, 126 insertions(+)
- create mode 100644 meta/recipes-devtools/rust/files/CVE-2026-5223.patch
+ .../vim/files/CVE-2026-41411.patch            |  75 +++++++++++
+ .../vim/files/CVE-2026-44656.patch            | 124 ++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |   2 +
+ 3 files changed, 201 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-41411.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-44656.patch
 
-diff --git a/meta/recipes-devtools/rust/files/CVE-2026-5223.patch b/meta/recipes-devtools/rust/files/CVE-2026-5223.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-41411.patch b/meta/recipes-support/vim/files/CVE-2026-41411.patch
 new file mode 100644
-index 00000000000..5041dedac5c
+index 00000000000..13d613c2044
 --- /dev/null
-+++ b/meta/recipes-devtools/rust/files/CVE-2026-5223.patch
-@@ -0,0 +1,125 @@
-+From 285cebf58911eca5b7f177f5d0b1c53e1f646577 Mon Sep 17 00:00:00 2001
-+From: Josh Triplett <josh@joshtriplett.org>
-+Date: Mon, 30 Mar 2026 10:35:55 -0700
-+Subject: [PATCH] CVE-2026-5223: prohibit unpacking symlinks and other
-+ unexpected entries
++++ b/meta/recipes-support/vim/files/CVE-2026-41411.patch
+@@ -0,0 +1,75 @@
++From c78194e41d5a0b05b0ddf383b6679b1503f977fb Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Wed, 15 Apr 2026 20:17:17 +0000
++Subject: [PATCH] patch 9.2.0357: [security]: command injection via backticks
++ in tag files
 +
-+Cargo has historically not allowed creating .crate packages containing
-+symlinks. (It packages the symlink target in place of the symlink,
-+instead.) So, any package containing a symlink would have to be
-+hand-constructed. Such packages are also not allowed on crates.io, so it
-+could only come from an alternate registry.
++Problem:  [security]: command injection via backticks in tag files
++          (Srinivas Piskala Ganesh Babu, Andy Ngo)
++Solution: Disallow backticks before attempting to expand filenames.
 +
-+Rather than dealing with symlink traversal attacks when unpacking a
-+crate, just prohibit symlinks entirely.
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-cwgx-gcj7-6qh8
 +
-+In the process, also prohibit other kinds of unusual entries. As an
-+exception, allow character devices but warn about them, because some
-+exist in crates on crates.io.
++Supported by AI
 +
-+CVE: CVE-2026-5223
-+Upstream-Status: Backport [https://github.com/rust-lang/cargo/commit/285cebf58911eca5b7f177f5d0b1c53e1f646577]
++Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+(cherry picked from commit 285cebf58911eca5b7f177f5d0b1c53e1f646577)
-+Signed-off-by: Anil Dongare <adongare@cisco.com>
++CVE: CVE-2026-41411
++Upstream-Status: Backport [https://github.com/vim/vim/commit/c78194e41d5a0b05b0ddf383b6679b1503f977fb]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ src/tools/cargo/src/cargo/sources/registry/mod.rs | 10 +++++-
-+ src/tools/cargo/tests/testsuite/registry.rs       | 39 ++++++++++-------------
-+ 2 files changed, 26 insertions(+), 23 deletions(-)
++ src/tag.c                    |  4 +++-
++ src/testdir/test_tagjump.vim | 22 ++++++++++++++++++++++
++ 2 files changed, 25 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/tools/cargo/src/cargo/sources/registry/mod.rs b/src/tools/cargo/src/cargo/sources/registry/mod.rs
-+index 04d4ec3..d152a1e 100644
-+--- a/src/tools/cargo/src/cargo/sources/registry/mod.rs
-++++ b/src/tools/cargo/src/cargo/sources/registry/mod.rs
-+@@ -197,7 +197,7 @@ use cargo_util::paths::{self, exclude_from_backups_and_indexing};
-+ use flate2::read::GzDecoder;
-+ use serde::Deserialize;
-+ use serde::Serialize;
-+-use tar::Archive;
-++use tar::{Archive, EntryType};
-+ use tracing::debug;
++diff --git a/src/tag.c b/src/tag.c
++index d3e27e6023..0f12e384b5 100644
++--- a/src/tag.c
+++++ b/src/tag.c
++@@ -4137,8 +4137,10 @@ expand_tag_fname(char_u *fname, char_u *tag_fname, int expand)
 + 
-+ use crate::core::dependency::Dependency;
-+@@ -1088,6 +1088,14 @@ fn unpack(
-+             )
-+         }
++     /*
++      * Expand file name (for environment variables) when needed.
+++     * Disallow backticks, they could execute arbitrary shell
+++     * commands.  This is not needed for tag filenames.
++      */
++-    if (expand && mch_has_wildcard(fname))
+++    if (expand && mch_has_wildcard(fname) && vim_strchr(fname, '`') == NULL)
++     {
++ 	ExpandInit(&xpc);
++ 	xpc.xp_context = EXPAND_FILES;
++diff --git a/src/testdir/test_tagjump.vim b/src/testdir/test_tagjump.vim
++index bbab3c70e8..c0fa7b02e6 100644
++--- a/src/testdir/test_tagjump.vim
+++++ b/src/testdir/test_tagjump.vim
++@@ -1693,4 +1693,26 @@ func Test_tag_excmd_with_number_vim9script()
++   bwipe!
++ endfunc
 + 
-++        // Prevent unpacking symlinks and other unexpected entry types
-++        match entry.header().entry_type() {
-++            EntryType::Regular | EntryType::Directory => {}
-++            t => anyhow::bail!(
-++                "invalid tarball downloaded, contains an entry at {entry_path:?} with invalid type {t:?}",
-++            ),
-++        }
+++" Test that backtick expressions in tag filenames are not expanded.
+++" This prevents command injection via malicious tags files.
+++func Test_tag_backtick_filename_not_expanded()
+++  let pwned_file = 'Xtags_pwnd'
+++  call assert_false(filereadable(pwned_file))
 ++
-+         // Prevent unpacking the lockfile from the crate itself.
-+         if entry_path
-+             .file_name()
-+diff --git a/src/tools/cargo/tests/testsuite/registry.rs b/src/tools/cargo/tests/testsuite/registry.rs
-+index 5a30dad..4a4e836 100644
-+--- a/src/tools/cargo/tests/testsuite/registry.rs
-++++ b/src/tools/cargo/tests/testsuite/registry.rs
-+@@ -3274,8 +3274,7 @@ fn package_lock_inside_package_is_overwritten() {
-+ }
-+ 
-+ #[cargo_test]
-+-fn package_lock_as_a_symlink_inside_package_is_overwritten() {
-+-    let registry = registry::init();
-++fn package_lock_as_a_symlink_inside_package_is_invalid() {
-+     let p = project()
-+         .file(
-+             "Cargo.toml",
-+@@ -3298,21 +3297,23 @@ fn package_lock_as_a_symlink_inside_package_is_overwritten() {
-+         .symlink(".cargo-ok", "src/lib.rs")
-+         .publish();
-+ 
-+-    p.cargo("check").run();
-++    p.cargo("check")
-++        .with_status(101)
-++        .with_stderr_data(str![[r#"
-++[UPDATING] `dummy-registry` index
-++[LOCKING] 1 package to latest compatible version
-++[DOWNLOADING] crates ...
-++[DOWNLOADED] bar v0.0.1 (registry `dummy-registry`)
-++[ERROR] failed to download replaced source registry `crates-io`
-+ 
-+-    let id = SourceId::for_registry(registry.index_url()).unwrap();
-+-    let hash = cargo::util::hex::short_hash(&id);
-+-    let pkg_root = paths::cargo_home()
-+-        .join("registry")
-+-        .join("src")
-+-        .join(format!("-{}", hash))
-+-        .join("bar-0.0.1");
-+-    let ok = pkg_root.join(".cargo-ok");
-+-    let librs = pkg_root.join("src/lib.rs");
-++Caused by:
-++  failed to unpack package `bar v0.0.1 (registry `dummy-registry`)`
-+ 
-+-    // Is correctly overwritten and doesn't affect the file linked to
-+-    assert_eq!(ok.metadata().unwrap().len(), 7);
-+-    assert_eq!(fs::read_to_string(librs).unwrap(), "pub fn f() {}");
-++Caused by:
-++  invalid tarball downloaded, contains an entry at "bar-0.0.1/.cargo-ok" with invalid type Symlink
+++  let tagline = "main\t`touch " .. pwned_file .. "`\t/^int main/;\"\tf"
+++  call writefile([tagline], 'Xbt_tags', 'D')
+++  call writefile(['int main(int argc, char **argv) {', '}'], 'Xbt_main.c', 'D')
 ++
-++"#]])
-++        .run();
-+ }
-+ 
-+ #[cargo_test]
-+@@ -4751,13 +4752,7 @@ Caused by:
-+   failed to unpack package `bar v1.0.0 (registry `dummy-registry`)`
-+ 
-+ Caused by:
-+-  failed to unpack entry at `bar-1.0.0/smuggled`
-+-
-+-Caused by:
-+-  failed to unpack `[ROOT]/home/.cargo/registry/src/-[HASH]/bar-1.0.0/smuggled`
-+-
-+-Caused by:
-+-  [..] when creating dir [ROOT]/home/.cargo/registry/src/-[HASH]/bar-1.0.0/smuggled
-++  invalid tarball downloaded, contains an entry at "bar-1.0.0/smuggled" with invalid type Symlink
-+ 
-+ "#]])
-+         .run();
+++  set tags=Xbt_tags
+++  sp Xbt_main.c
+++
+++  " The :tag command should fail to find the file, but must NOT execute
+++  " the backtick shell command.
+++  call assert_fails('tag main', 'E429:')
+++  call assert_false(filereadable(pwned_file))
+++
+++  set tags&
+++  bwipe!
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
 +-- 
-+2.44.4
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index 36407fa9750..d897b2c262c 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -12,6 +12,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
-             file://0001-Adjust-loongarch-assembly-test.patch;patchdir=${RUSTSRC} \
-             file://0001-Fix-multiple-option-or-permutations-test-for-big-end.patch;patchdir=${RUSTSRC} \
-             file://CVE-2026-5222.patch;patchdir=${RUSTSRC} \
-+            file://CVE-2026-5223.patch;patchdir=${RUSTSRC} \
- "
- SRC_URI[rust.sha256sum] = "174fce10ce012317ca995810296d8af199318838180b03d68a853e0f02d4b571"
++2.34.1
++
+diff --git a/meta/recipes-support/vim/files/CVE-2026-44656.patch b/meta/recipes-support/vim/files/CVE-2026-44656.patch
+new file mode 100644
+index 00000000000..971e4c145bf
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-44656.patch
+@@ -0,0 +1,124 @@
++From 190cb3c2b9c769a3972bcfd991a7b5b6cb771ef0 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Sun, 3 May 2026 16:10:03 +0000
++Subject: [PATCH] patch 9.2.0435: [security]: backticks in 'path' may cause
++ shell execution on completion
++
++Problem:  [security]: Backticks enclosed shell commands in the 'path'
++          option value are executed during completion (q1uf3ng).
++Solution: Skip path entries containing backticks, add P_SECURE to 'path'
++          option, so that it cannot be set from a modeline (for symmetry with
++          the 'cdpath' option)
++
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-hwg5-3cxw-wvvg
++
++Supported by AI.
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++CVE: CVE-2026-44656
++Upstream-Status: Backport [https://github.com/vim/vim/commit/190cb3c2b9c769a3972bcfd991a7b5b6cb771ef0]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ runtime/doc/options.txt            |  3 +++
++ src/findfile.c                     |  4 ++++
++ src/optiondefs.h                   |  2 +-
++ src/testdir/test_find_complete.vim | 17 +++++++++++++++++
++ src/testdir/test_modeline.vim      | 14 ++++++++++++++
++ 5 files changed, 39 insertions(+), 1 deletion(-)
++
++diff --git a/runtime/doc/options.txt b/runtime/doc/options.txt
++index f083d6ff10..8a4d782262 100644
++--- a/runtime/doc/options.txt
+++++ b/runtime/doc/options.txt
++@@ -6750,6 +6750,9 @@ A jump table for the options with a short description can be found at |Q_op|.
++ <	Replace the ';' with a ':' or whatever separator is used.  Note that
++ 	this doesn't work when $INCL contains a comma or white space.
++ 
+++	This option cannot be set from a |modeline| or in the |sandbox|, for
+++	security reasons.
+++
++ 						*'perldll'*
++ 'perldll'		string	(default depends on the build)
++ 			global
++diff --git a/src/findfile.c b/src/findfile.c
++index 0c5d1cf252..fccbc05a76 100644
++--- a/src/findfile.c
+++++ b/src/findfile.c
++@@ -2412,6 +2412,10 @@ expand_path_option(
++     {
++ 	buflen = copy_option_part(&path_option, buf, MAXPATHL, " ,");
++ 
+++	// do not expand backticks, could have been set via a modeline
+++	if (vim_strchr(buf, '`') != NULL)
+++	    continue;
+++
++ 	if (buf[0] == '.' && (buf[1] == NUL || vim_ispathsep(buf[1])))
++ 	{
++ 	    size_t  plen;
++diff --git a/src/optiondefs.h b/src/optiondefs.h
++index a5e1fe99df..dac06119fc 100644
++--- a/src/optiondefs.h
+++++ b/src/optiondefs.h
++@@ -1954,7 +1954,7 @@ static struct vimoption options[] =
++ 			    (char_u *)&p_pm, PV_NONE,
++ 			    did_set_backupext_or_patchmode, NULL,
++ 			    {(char_u *)"", (char_u *)0L} SCTX_INIT},
++-    {"path",	    "pa",   P_STRING|P_EXPAND|P_VI_DEF|P_COMMA|P_NODUP,
+++    {"path",	    "pa",   P_STRING|P_EXPAND|P_VI_DEF|P_SECURE|P_COMMA|P_NODUP,
++ 			    (char_u *)&p_path, PV_PATH, NULL, NULL,
++ 			    {
++ #if defined(AMIGA) || defined(MSWIN)
++diff --git a/src/testdir/test_find_complete.vim b/src/testdir/test_find_complete.vim
++index 079fb78043..8b8b71c303 100644
++--- a/src/testdir/test_find_complete.vim
+++++ b/src/testdir/test_find_complete.vim
++@@ -161,4 +161,21 @@ func Test_find_complete()
++   set path&
++ endfunc
++ 
+++" Verify that backticks in 'path' are not executed
+++func Test_find_completion_backtick_in_path()
+++  CheckUnix
+++  CheckExecutable id
+++
+++  new Xpoc.c
+++  setl path+=`id>Xrce_marker`
+++  " Triggering completion must not execute the backtick command.
+++  call getcompletion('', 'file_in_path')
+++  call assert_false(filereadable('Xrce_marker'))
+++  call feedkeys(":find \t\n", "xt")
+++  call assert_false(filereadable('Xrce_marker'))
+++
+++  bwipe!
+++  call delete('Xrce_marker')
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++diff --git a/src/testdir/test_modeline.vim b/src/testdir/test_modeline.vim
++index 79fc7d14d5..20fb7e0677 100644
++--- a/src/testdir/test_modeline.vim
+++++ b/src/testdir/test_modeline.vim
++@@ -493,4 +493,18 @@ func Test_modeline_nowrap_lcs_extends()
++   set equalalways&
++ endfunc
++ 
+++" Verify that backticks in 'path' set from a modeline are not executed
+++func Test_path_modeline()
+++  let lines =<< trim END
+++    // vim: set path+=foobar :
+++  END
+++  call writefile(lines, 'Xpoc.c', 'D')
+++
+++  set nomodelinestrict modeline
+++  call assert_fails('split Xpoc.c', 'E520:')
+++
+++  bwipe!
+++  set modelinestrict& modeline&
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index d6fdf457069..efd24650f4a 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -16,6 +16,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
+            file://disable_acl_header_check.patch \
+            file://0001-src-Makefile-improve-reproducibility.patch \
+            file://no-path-adjust.patch \
++           file://CVE-2026-44656.patch \
++           file://CVE-2026-41411.patch \
+            "
  
+ PV .= ".0340"
 
