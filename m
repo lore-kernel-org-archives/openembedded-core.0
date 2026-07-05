@@ -2,60 +2,60 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AB47C43602
-	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:42:45 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.139205.1783291363131476273
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDD2EC43602
+	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:42:56 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.139216.1783291374554035602
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 15:42:43 -0700
+ Sun, 05 Jul 2026 15:42:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=V5eSjVam;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-476d8e647e9so2022168f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:42 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=nxj73xf0;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493b27c7451so30442015e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783291361; x=1783896161; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1783291373; x=1783896173; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gSOQr1j24zkJ1M4Cuy8YiK4CjYhtWbf6k+EdfEUa7/o=;
-        b=V5eSjVamjM5GR+R3Z/H71GXOMzU5J2mf63C8xwHZL5Ni4VgcH7RpKyXVC8hH0rm2i6
-         aseu3H4w9jOyg1AuNB+ZqoRje5snAG8nMwtIRo3fHWliJLnOtTyfziM8K6mYSswSxVOk
-         EKuMJiPXnjGV1h0oHYU/1BIQAhxSs4qV9dRQQ=
+        bh=s8eiqg/4S9xHRcEkeF8TmAdlHo0m5Pl2dQYhRIwtKCY=;
+        b=nxj73xf01FByz9dwqvPJV8uv5EDNoZJBQS+I3RFhANCrbqvah5O9PMXIe6DfT7FaRX
+         qCojM2q8oAh4TRzedpQieFyKTO9Fw5RX1iJbuJk1gkLS6keEYHd6BqKoVhNyTGqcZ2Ur
+         i7F2+X6jV0UGV0XZZOSfwPvI2sjUw7JufTx6U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783291361; x=1783896161;
+        d=1e100.net; s=20251104; t=1783291373; x=1783896173;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=gSOQr1j24zkJ1M4Cuy8YiK4CjYhtWbf6k+EdfEUa7/o=;
-        b=SXgmzn6MaVgjF3xaa+yv1M23TzucYjVLN/4IxKA/qPkSE0pL9aQrV/N8jRKax1+kOi
-         BwBdDZx9T16ba3MIGlomCXsG8SQJLRfjkI3NOOcNq1wzvB0kDTcaeuxZwHCKtSvI8pDF
-         H3jloRUCVOmxPciMW36vXgbzUsNwcdskTH3DnDUaJIPS9iq0eqCrXbnhPa78V1MmqiGG
-         SXun2kiDJNol9/QQlhwUIG/vzshJsBz9DwsZJ0SW1x0fGUf01jD7+0gFNKDoiZTAhok7
-         aNvpusq+TmjzkjgncaQf8OQj0HFwPmJxhdAKZQcG6Wzd5kB4o6Jkew1osCZqXuB+hbOx
-         twaQ==
-X-Gm-Message-State: AOJu0YzRF8zONLziFb6xI01vPiTyjSy8/mWuvnPC4mZYNrfIH0rmNcOO
-	ZL0niLiaUXhm1ovdeP5g5QpAkLbb9K2BKsVxeOhKBOwzODGKG3EbITn2BJvC6MgPWMLRuMbOVjy
-	nxSgFYPQ=
-X-Gm-Gg: AfdE7cmt8Y2gFB4+3qZj1EI5n0ZYYZuc6rY2CGKHs4Tqtyu9NZOFcRrQhUHyobmRtHI
-	rv6N/S0vtF/LiUU8XkeB0gR0ddl8lTWDZtM0gOpqAN0t4S9ll8k0E+ZHCrVEHe1H2J0kTS/7gkG
-	dl+BOHUCIdh4e2i6MtxhiVhq4AS1ZdI4wtzNkOGk700b8VYu42Pir818J94QkIu44nauzWZU2aJ
-	FfI68iGL4tFFJjl2fHLv0X9DOirBFXWiazJZstLUxT1HCkz5d+zvcoyq7Jt1xvDBLoQWQX8slNz
-	tWAU5QA8TTyxa63YXadx3yY+rYEnBXoCr7hUE1y8EIvF04+VcCDv2eg2CzvlnvjVYrqGbuGQ1fn
-	sFII8pI7ipFOmsSJFY/fY6Sy4dtdkjHEmd0WWznaxSEvuwiUwv2A0rZQNAzrHuRbf6LM6uGhPJd
-	9TIiDH2kLCwVBKuUeEGZH+QS1ez7zAFwMqFeL6
-X-Received: by 2002:a05:6000:4284:b0:46e:8226:96b1 with SMTP id ffacd0b85a97d-47aae0da376mr9301050f8f.42.1783291361168;
-        Sun, 05 Jul 2026 15:42:41 -0700 (PDT)
+        bh=s8eiqg/4S9xHRcEkeF8TmAdlHo0m5Pl2dQYhRIwtKCY=;
+        b=KxnXua6vCCUlqi+i6LcXVoORzGTZZiEhGwgO213UQJPdaBlFwGXbg7VpSqQyIA0286
+         FY0riZKRz24IJS7/Hg0PtQu7DOXbD5A8RNlrAw4LdlZyTnM5bfiiOOtZMi5t+liOkNgz
+         ngi4e8M4WOF1e2TX3s8WtYyEayKtHHOgkN03fJht3gCOGCgtqqt0IGlVtjvRqJfsbK6s
+         wmXoMG09slp3NiD2NWYjEZTRugl7hZBVg9gZFe5S+rDIRTydQSjYg5D6GxgwAISKJXGp
+         wENIjBteSU4Ukjz5i7tpTXbrOp455pq0wFcf8dV9G08AWgOi2XBTEVNPqTe6boH9Cu6R
+         ImwA==
+X-Gm-Message-State: AOJu0Yw2SNysBAY4bBKh8NafsFpMIPD29mF3GqxmOjmll90rGBLlP5g3
+	hApncKYOOp6GHiD/+T0K91TDYQE/edrSODauEGcWlE8yXNBN4zTJbfAnldpcOue7qC5kO7gWbmh
+	1yFSHYuA=
+X-Gm-Gg: AfdE7cnBBI+eBf22czCfhSVCU/Y8nPZFq+wt8eTWeaLw6MIRVQlCeJyd2/5TveXlcVs
+	kEd4oPCWxuYRHsUgTPbRgHTkxmfQmbtpj65zMgKIlSdor9NvAwgBMf/1LMcI9aZB6naGgRNdjbX
+	lT2bZbbV28p/DeoHYKxNHdxO+9GnxLS938PUqSzjX28AXchptXPi2WXzmc/M3J3umkN/Nyj/stR
+	DApXFek5bM7KVrhBPfaBZpAhL1uW8tDupoXvOQPYexwejUiuOW2ca22MYEwCqkV5S//5NqIVR8R
+	+dYgjnqVALcT2gaYXfC1rhx5jW8RqDDd3oFM6jDROcWpsywYHrKpZKXs5XnaUtakebsMvOYr2PR
+	z9J863DJcWg4MH9NeZzpVpZiKohUGg+K2nfWipQqjgowvWNi/H9/gcRjIyVmHsrBdKhdLYQ//pL
+	S+4Nt+camlVBXB+83qj8Hj6fPkgg==
+X-Received: by 2002:a05:600c:a48:b0:493:cbdc:7cd2 with SMTP id 5b1f17b1804b1-493d127f015mr87993305e9.3.1783291372707;
+        Sun, 05 Jul 2026 15:42:52 -0700 (PDT)
 Received: from FRSMI25-LASER.lan ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.40
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 15:42:40 -0700 (PDT)
+        Sun, 05 Jul 2026 15:42:52 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 01/55] bluez5: fix set volume failure
-Date: Mon,  6 Jul 2026 00:40:51 +0200
-Message-ID: <b12aa0f5d5afc8e5fbcefb007857aad1d77c9fc5.1783289522.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 18/55] cargo: Fix CVE-2026-5222
+Date: Mon,  6 Jul 2026 00:41:08 +0200
+Message-ID: <6c39ce6376c45e85fba491a8719c7ff31bf2a5cd.1783289522.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783289522.git.yoann.congal@smile.fr>
 References: <cover.1783289522.git.yoann.congal@smile.fr>
@@ -64,87 +64,132 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:42:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240155
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:42:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240172
 
-From: Jinwang Li <jinwang.li@oss.qualcomm.com>
+From: Anil Dongare <adongare@cisco.com>
 
-Backport upstream fix for AVRCP volume initialization failure when
-AVRCP connects before AVDTP.
+This patch applies the upstream fix as referenced in [2], using the commit shown in [1].
 
-Upstream-Status: Backport [bluez/bluez@121e5ca]
-Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit ec27d1e5cf5010a51dca698274fea342f28958ea)
+[1] https://github.com/rust-lang/cargo/commit/c4d63a44234de22dc745231c416b80ed848d997f
+[2] https://security-tracker.debian.org/tracker/CVE-2026-5222
+
+Signed-off-by: Anil Dongare <adongare@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...t-volume-failure-with-invalid-device.patch | 46 +++++++++++++++++++
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-transport-Fix-set-volume-failure-with-invalid-device.patch
+ .../rust/files/CVE-2026-5222.patch            | 92 +++++++++++++++++++
+ meta/recipes-devtools/rust/rust-source.inc    |  1 +
+ 2 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-devtools/rust/files/CVE-2026-5222.patch
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index c792cc9c66c..c09a759244e 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -71,6 +71,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-Revert-shared-shell-Don-t-init-input-for-non-interac.patch \
-            file://0001-tools-Work-around-broken-stdin-handling-in-home-made.patch \
-            file://0001-gatt-client-Fix-use-after-free-caused-by-reentrant-c.patch \
-+           file://0001-transport-Fix-set-volume-failure-with-invalid-device.patch \
-            "
- S = "${UNPACKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-transport-Fix-set-volume-failure-with-invalid-device.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-transport-Fix-set-volume-failure-with-invalid-device.patch
+diff --git a/meta/recipes-devtools/rust/files/CVE-2026-5222.patch b/meta/recipes-devtools/rust/files/CVE-2026-5222.patch
 new file mode 100644
-index 00000000000..b5846dec47f
+index 00000000000..e323e67651f
 --- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-transport-Fix-set-volume-failure-with-invalid-device.patch
-@@ -0,0 +1,46 @@
-+From 8a80f70c23ca5f93b1db7e3956cc7ee28c1fa767 Mon Sep 17 00:00:00 2001
-+From: Jinwang Li <jinwang.li@oss.qualcomm.com>
-+Date: Mon, 9 Mar 2026 19:18:26 +0800
-+Subject: [PATCH] transport: Fix set volume failure with invalid device volume
++++ b/meta/recipes-devtools/rust/files/CVE-2026-5222.patch
+@@ -0,0 +1,92 @@
++From c4d63a44234de22dc745231c416b80ed848d997f Mon Sep 17 00:00:00 2001
++From: Arlo Siemsen <arkixml@gmail.com>
++Date: Mon, 25 May 2026 09:49:43 +0200
++Subject: [PATCH] CVE-2026-5222: avoid stripping .git suffix when for non git
++ registries
 +
-+When AVRCP is connected before AVDTP, an invalid device volume causes
-+the target to reject registration for the EVENT_VOLUME_CHANGED
-+notification, which breaks subsequent volume updates.
++CVE: CVE-2026-5222
++Upstream-Status: Backport [https://github.com/rust-lang/cargo/commit/c4d63a44234de22dc745231c416b80ed848d997f]
 +
-+Fix this by initializing the volume to the maximum value in the AVRCP
-+target init path when it is invalid, allowing the controller to
-+subscribe to AVRCP_EVENT_VOLUME_CHANGED.
-+
-+Fixes: fa7828bddd21 ("transport: Fix not being able to initialize volume properly")
-+Suggested-by: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-+Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/121e5ca79be559c5374f8a54c6fb6e233e383379]
++(cherry picked from commit c4d63a44234de22dc745231c416b80ed848d997f)
++Signed-off-by: Anil Dongare <adongare@cisco.com>
 +---
-+ profiles/audio/avrcp.c | 9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
++ src/tools/cargo/src/cargo/sources/git/source.rs |  7 ++++
++ src/tools/cargo/src/cargo/util/canonical_url.rs | 44 ++++++++++++++-----------
++ 2 files changed, 31 insertions(+), 20 deletions(-)
 +
-+diff --git a/profiles/audio/avrcp.c b/profiles/audio/avrcp.c
-+index 724b46c59..326dfdab7 100644
-+--- a/profiles/audio/avrcp.c
-++++ b/profiles/audio/avrcp.c
-+@@ -4296,9 +4296,16 @@ static void target_init(struct avrcp *session)
-+ 	if (target->version < 0x0104)
-+ 		return;
++diff --git a/src/tools/cargo/src/cargo/sources/git/source.rs b/src/tools/cargo/src/cargo/sources/git/source.rs
++index d6dbe03..a7b3205 100644
++--- a/src/tools/cargo/src/cargo/sources/git/source.rs
+++++ b/src/tools/cargo/src/cargo/sources/git/source.rs
++@@ -470,6 +470,13 @@ mod test {
++         assert_eq!(ident1, ident2);
++     }
 + 
-+-	if (avrcp_volume_supported(target))
-++	if (avrcp_volume_supported(target)) {
-+ 		session->supported_events |=
-+ 				(1 << AVRCP_EVENT_VOLUME_CHANGED);
-++		/* Check if transport volume hasn't been initialized then set it
-++		 * to max so it works properly if the controller attempts to
-++		 * subscribe to AVRCP_EVENT_VOLUME_CHANGED.
-++		 */
-++		if (media_transport_get_a2dp_volume(session->dev) < 0)
-++			media_transport_set_a2dp_volume(session->dev, 127);
-++	}
+++    #[test]
+++    fn test_canonicalize_idents_does_not_strip_dot_git_for_sparse() {
+++        let ident1 = ident(&src("sparse+https://crates.io/fake-registry"));
+++        let ident2 = ident(&src("sparse+https://crates.io/fake-registry.git"));
+++        assert_ne!(ident1, ident2);
+++    }
+++
++     fn src(s: &str) -> SourceId {
++         SourceId::for_git(&s.into_url().unwrap(), GitReference::DefaultBranch).unwrap()
++     }
++diff --git a/src/tools/cargo/src/cargo/util/canonical_url.rs b/src/tools/cargo/src/cargo/util/canonical_url.rs
++index 7516e03..2716d2d 100644
++--- a/src/tools/cargo/src/cargo/util/canonical_url.rs
+++++ b/src/tools/cargo/src/cargo/util/canonical_url.rs
++@@ -33,27 +33,31 @@ impl CanonicalUrl {
++             url.path_segments_mut().unwrap().pop_if_empty();
++         }
 + 
-+ 	session->supported_events |=
-+ 				(1 << AVRCP_EVENT_ADDRESSED_PLAYER_CHANGED) |
++-        // For GitHub URLs specifically, just lower-case everything. GitHub
++-        // treats both the same, but they hash differently, and we're gonna be
++-        // hashing them. This wants a more general solution, and also we're
++-        // almost certainly not using the same case conversion rules that GitHub
++-        // does. (See issue #84)
++-        if url.host_str() == Some("github.com") {
++-            url = format!("https{}", &url[url::Position::AfterScheme..])
++-                .parse()
++-                .unwrap();
++-            let path = url.path().to_lowercase();
++-            url.set_path(&path);
++-        }
+++        // Perform further canonicalization specific to git registries, which
+++        // do not contain a `+` specifier.
+++        if !url.scheme().contains('+') {
+++            // For GitHub URLs specifically, just lower-case everything. GitHub
+++            // treats both the same, but they hash differently, and we're gonna be
+++            // hashing them. This wants a more general solution, and also we're
+++            // almost certainly not using the same case conversion rules that GitHub
+++            // does. (See issue #84)
+++            if url.host_str() == Some("github.com") {
+++                url = format!("https{}", &url[url::Position::AfterScheme..])
+++                    .parse()
+++                    .unwrap();
+++                let path = url.path().to_lowercase();
+++                url.set_path(&path);
+++            }
++ 
++-        // Repos can generally be accessed with or without `.git` extension.
++-        let needs_chopping = url.path().ends_with(".git");
++-        if needs_chopping {
++-            let last = {
++-                let last = url.path_segments().unwrap().next_back().unwrap();
++-                last[..last.len() - 4].to_owned()
++-            };
++-            url.path_segments_mut().unwrap().pop().push(&last);
+++            // Repos can generally be accessed with or without `.git` extension.
+++            let needs_chopping = url.path().ends_with(".git");
+++            if needs_chopping {
+++                let last = {
+++                    let last = url.path_segments().unwrap().next_back().unwrap();
+++                    last[..last.len() - 4].to_owned()
+++                };
+++                url.path_segments_mut().unwrap().pop().push(&last);
+++            }
++         }
++ 
++         Ok(CanonicalUrl(url))
 +-- 
-+2.34.1
-+
++2.44.4
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index f11bbea9b34..36407fa9750 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -11,6 +11,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+             file://0001-Update-amdgpu-data-layout.patch;patchdir=${RUSTSRC} \
+             file://0001-Adjust-loongarch-assembly-test.patch;patchdir=${RUSTSRC} \
+             file://0001-Fix-multiple-option-or-permutations-test-for-big-end.patch;patchdir=${RUSTSRC} \
++            file://CVE-2026-5222.patch;patchdir=${RUSTSRC} \
+ "
+ SRC_URI[rust.sha256sum] = "174fce10ce012317ca995810296d8af199318838180b03d68a853e0f02d4b571"
+ 
 
