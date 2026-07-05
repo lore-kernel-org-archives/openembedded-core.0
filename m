@@ -2,60 +2,60 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2DC8C44502
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5D31C44500
 	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:42:56 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.139212.1783291372119780336
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.139215.1783291373807785000
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 15:42:52 -0700
+ Sun, 05 Jul 2026 15:42:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=rY6Xs3Zc;
- spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4758b2a9e2aso1395777f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:51 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=QrwMPz6t;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493c19bad03so21176275e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783291370; x=1783896170; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1783291372; x=1783896172; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+pNW5DYaAlsLD4OkOmOEHjoHHuF6rPu6WOW9FOeBUtI=;
-        b=rY6Xs3ZcdqbEdfOK2YCkeBozBvGRh06rHVaUZGrYtvmfC0iF6Mb4S6Q8R7Bncn9F4b
-         jRnYgc58AIl9AYnEUFEMIqmwiyPRps6nfb8xp1CKJIbu7bLLTVe9nQMIjzy95LJ0zic3
-         ld4oHGpT1IjRxj4oA9Y/HQBp1OvxopLteTCAg=
+        bh=k9BpYvYHgkJPJ6j+boGFmlCwngJCB5RCjtsHl+WCETY=;
+        b=QrwMPz6tBbhFtfBchIQX/1leLBW+tBg38vJoloGYwaWVERZMY64yN6+0pwH+E+3utJ
+         ZbypOX9aXAKDHqyYFQJPZ7chuVxsXD3drjLOXKxYO7JvQweLSwt61mxHuvzXXyNBbY9l
+         8E+gNyqxWRVGYm64RyRFWhxfMuHt7qc8waLNo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783291370; x=1783896170;
+        d=1e100.net; s=20251104; t=1783291372; x=1783896172;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=+pNW5DYaAlsLD4OkOmOEHjoHHuF6rPu6WOW9FOeBUtI=;
-        b=LzFYwvQhM0jBiIa7YdyvCDxg5eMpkr3mtsCohF78KT669n9+sRTLUkDkeYqb94dro+
-         hh0VS0jkTwxDyxoSveQtKuFmQConHSm/DpNjJ9/T3ehhiqCcp+FCbkBn+e2+/7DLzfSI
-         E1vhzu+jY50niVyBFoUU0GspRoPOU6P4LRn8qxWF2eGNRun3gA2grl7he99zBWitoeXd
-         yILqzmk5WDcuCPwD6iwMZbM3RxaFnoLy8iksd/FUBSBbfqMHOBGTpUxsp0jZl7sSCsTE
-         lgxCCCrFW7CRm1jrLOhXgyzKC6CKzTgEkzVRDTW24wYv82nxfB0TJwjCqcD8navFumL6
-         pAXQ==
-X-Gm-Message-State: AOJu0Yw6NOWtb4MGtiCZHNK6pUP6dxSAFYh0NienruGYybZIEjU/w3mq
-	SgIQ2e6GUnIQHP1FUV+ZJChRhkNhSHYoN6Mz43vfoaf+TOZwf4V1vPtgGdR2c0k+QJHqOcYOViR
-	dE0Xfvfs=
-X-Gm-Gg: AfdE7cmvs8tR8xjfyKVe8W3KqFapQolZfLBU8p/FY29bEuCzYQUJdnyevdWtDSilMd0
-	DjQ7Pua9DmCUoGuX0RP3hfPHAcvavKa+uFXCRnSCVih6BmMORdwJvdIJI999MosY53ssqGriq0+
-	ZAbDeA6bjyozcQdoaBLSB6Znftt4+oo2uVbpz1kHUs743zFOTH/0fU1JD3PVbJMgT4CHUZlL30x
-	QVXVf+2ie6pv3zXHC4caPhYhb79uq/LdMeUzF2/OP0fgFTVWB/1STifAt1Ue5gQnsh9aHFutwvI
-	A+Nkd7KR7DzyZbIYjQlpyIKe1hPm51OddUTLoYP9O+7zJ1afR5m+Yyf8UhQFPa/XeC1mcBUrzxw
-	5VJqxlzzJRnost4kbsMb9yDhtKY/I5VIfQkhMfxvvJowKCopWj7Scienk8+Sp9rJVqNc8C/BJSW
-	b1Mw8P1ZK4ZI0i47qpwo/GJ8Kn9oXKDG423Bak
-X-Received: by 2002:a05:6000:718:b0:474:4525:eb32 with SMTP id ffacd0b85a97d-47aaa60dea9mr8374993f8f.11.1783291370271;
-        Sun, 05 Jul 2026 15:42:50 -0700 (PDT)
+        bh=k9BpYvYHgkJPJ6j+boGFmlCwngJCB5RCjtsHl+WCETY=;
+        b=N3C1JwWD+vQ098WbvVBXQHeFHM9wOmco1sn304Gryy/TKL8V0YHyfNWVAvu54mzpmZ
+         48MHenjzwMH4G7sn30nJXSH3qEch7bDn9t01LfdnE8yYVKm+H8t/spLruqAvc86hWWB+
+         mjXC3My2gNOVW5qN5yrM2+qgDf9iqPz9BfTLrjjXiP2D414L8osGmmFkKhJ6MvN75ZEd
+         EHf7p8a0Mhf/hfQnAq56qFWDxA0/SRgMobJ39p76/9Yhditt1gBgvEBhbO19xofmLV8Y
+         wxwavRlJp4pbTy6Kokk/QV9tZf8SdldR9v5fYbid8mgfkMli9iFJu71pqHB9CxpSwbwb
+         MpMA==
+X-Gm-Message-State: AOJu0YwSj2ld1gHtt1x4QQ147OABEO/m7ShDQZEtQPRtCBjCHohjJZXA
+	BibMlNUqvG/5Di3ohaoHMIAsCL/H91HoCIlXkiiHyFmnT72BhTNy9VW0WeHZspf5JZHHteTGcST
+	diGk5jvM=
+X-Gm-Gg: AfdE7clFPBs5dsRA3yqE+29pUto7BgIFwbsD031KtLixTvJJyUr9RyDfZAqZaMc62gc
+	920O4Dy2nNPm0uOBU0VOfRqIFG1isNvAXJP4K91vXH3UdALEV2pfs9wpY6SPDB7t85qDrb5eIBZ
+	2aBowRtuCZIvgkMqaV7En5nujIJhLFTNirCfYc5OI58GOPDn7phJlUEDoKQixfvrO1AGhEsblAq
+	sEFynL+DGHIu9Be/eYDh20DFJCGk0d486Onn1HVtvxfR3creC2DEYhyU4u8GS+d/6eHYt0v39t1
+	sMGscV8c0BkYKQqK6V4d5AGFE1KUENgovyB23+r4cvtvPzkoV0ERm3EK4gzja5Lyt7BlyhE5Cy1
+	iP8XQqjoKXV87GGvCx3fqQLnXt0YEDYFBF1gshBkoLBqdyFB/49zmqVkxB7qitQefl/stz7vbxW
+	QV2XMZHaiRvQ067wpLWgH6U+ZQOw==
+X-Received: by 2002:a05:600c:19cd:b0:493:d282:8298 with SMTP id 5b1f17b1804b1-493d88d2f58mr28457805e9.16.1783291372086;
+        Sun, 05 Jul 2026 15:42:52 -0700 (PDT)
 Received: from FRSMI25-LASER.lan ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.49
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 15:42:50 -0700 (PDT)
+        Sun, 05 Jul 2026 15:42:51 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 15/55] binutils: Fix CVE-2026-6846
-Date: Mon,  6 Jul 2026 00:41:05 +0200
-Message-ID: <5c66730fa2a54d991cb744b38a32c8ef370fa437.1783289522.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 17/55] libxpm: upgrade 3.5.18 -> 3.5.19
+Date: Mon,  6 Jul 2026 00:41:07 +0200
+Message-ID: <2018b1c49ed6f44303f832857a009c7c5c9f55a5.1783289522.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783289522.git.yoann.congal@smile.fr>
 References: <cover.1783289522.git.yoann.congal@smile.fr>
@@ -65,102 +65,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:42:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240169
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240171
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This patch applies the upstream fix as referenced in [2], using the commit shown in [1].
+A vulnerability in the `xpmNextWord()` function could cause an internal pointer to read beyond the file's end due to improper validation of file boundaries. This issue was fixed in libXpm 3.5.19.
 
-[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=7a089e0302382f4d4e077941156e1eaa68d01393
-[2] https://security-tracker.debian.org/tracker/CVE-2026-6846
+The changes between 3.5.18 and 3.5.19 contain only the fix to CVE-2026-4367.
 
-Tested with binutils-testsuite (bitbake binutils-testsuite -c check):
-  binutils: PASSED: 327, FAILED: 0, SKIPPED: 5
-  gas:      PASSED: 2091, FAILED: 0, SKIPPED: 4
-  ld:       PASSED: 1899, FAILED: 0, SKIPPED: 129
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-(cherry picked from commit 48a578533a584cc550f308490e9ff6443192c79c)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Enoch Ng <enoch.ng@windriver.com>
+(cherry picked from commit 1fc25a668ee8bbabf7e8e369b2d94867cd22243b)
+[YC: changelog: https://gitlab.freedesktop.org/xorg/lib/libxpm/-/compare/libXpm-3.5.18...libXpm-3.5.19 ]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../binutils/binutils-2.46.inc                |  1 +
- .../binutils/binutils/CVE-2026-6846.patch     | 59 +++++++++++++++++++
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-6846.patch
+ .../xorg-lib/{libxpm_3.5.18.bb => libxpm_3.5.19.bb}             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-lib/{libxpm_3.5.18.bb => libxpm_3.5.19.bb} (88%)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.46.inc b/meta/recipes-devtools/binutils/binutils-2.46.inc
-index 13d2a02108a..cab270cea5d 100644
---- a/meta/recipes-devtools/binutils/binutils-2.46.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.46.inc
-@@ -39,4 +39,5 @@ SRC_URI = "\
-      file://0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
-      file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
-      file://CVE-2026-4647.patch \
-+     file://CVE-2026-6846.patch \
- "
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2026-6846.patch b/meta/recipes-devtools/binutils/binutils/CVE-2026-6846.patch
-new file mode 100644
-index 00000000000..e7d1c3aa007
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2026-6846.patch
-@@ -0,0 +1,59 @@
-+From 7a089e0302382f4d4e077941156e1eaa68d01393 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Mon, 6 Apr 2026 22:58:22 +0930
-+Subject: [PATCH] PR 34049 buffer overflow in xcoff_link_add_symbols
-+
-+The fact that coffcode.h:coff_set_alignment_hook for rs6000 removes
-+sections can result in target_index > section_count.  Thus any array
-+indexed by target_index must not be sized by section_count.
-+
-+	PR ld/34049
-+	* xcofflink.c (xcoff_link_add_symbols): Size reloc_info array
-+	using max target_index.
-+
-+CVE: CVE-2026-6846
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=7a089e0302382f4d4e077941156e1eaa68d01393]
-+
-+Signed-off-by: Alan Modra <amodra@gmail.com>
-+(cherry picked from commit 7a089e0302382f4d4e077941156e1eaa68d01393)
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ bfd/xcofflink.c | 15 ++++++++++++++-
-+ 1 file changed, 14 insertions(+), 1 deletion(-)
-+
-+diff --git a/bfd/xcofflink.c b/bfd/xcofflink.c
-+index 1781182fa6a..7f1c0df760f 100644
-+--- a/bfd/xcofflink.c
-++++ b/bfd/xcofflink.c
-+@@ -1335,6 +1335,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_info *info)
-+   } *reloc_info = NULL;
-+   bfd_size_type amt;
-+   unsigned short visibility;
-++  unsigned int max_target_index;
-+ 
-+   keep_syms = obj_coff_keep_syms (abfd);
-+ 
-+@@ -1398,7 +1399,19 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_info *info)
-+      order by VMA within a given section, so we handle this by
-+      scanning along the relocs as we process the csects.  We index
-+      into reloc_info using the section target_index.  */
-+-  amt = abfd->section_count + 1;
-++  max_target_index = 0;
-++  for (o = abfd->section_last; o != NULL; o = o->prev)
-++    if (o->target_index != 0)
-++      {
-++	/* The last section added from the object file will have the
-++	   highest target_index.  See coffgen.c coff_real_object_p and
-++	   make_a_section_from_file.  Sections added by
-++	   xcoff_link_create_extra_sections will have a zero
-++	   target_index.  */
-++	max_target_index = o->target_index;
-++	break;
-++      }
-++  amt = max_target_index + 1;
-+   amt *= sizeof (struct reloc_info_struct);
-+   reloc_info = bfd_zmalloc (amt);
-+   if (reloc_info == NULL)
-+-- 
-+2.43.7
-+
+diff --git a/meta/recipes-graphics/xorg-lib/libxpm_3.5.18.bb b/meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-lib/libxpm_3.5.18.bb
+rename to meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
+index 94bf28232e9..32e052fd424 100644
+--- a/meta/recipes-graphics/xorg-lib/libxpm_3.5.18.bb
++++ b/meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
+@@ -22,6 +22,6 @@ PACKAGES =+ "sxpm cxpm"
+ FILES:cxpm = "${bindir}/cxpm"
+ FILES:sxpm = "${bindir}/sxpm"
+ 
+-SRC_URI[sha256sum] = "b4ed79bfc718000edee837d551c35286f0b84576db0ce07bbbebe60a4affa1e4"
++SRC_URI[sha256sum] = "ad3576d689221a39dc728f0e0dc02ca7bb6a0d724c9a77fd1bfa1e9af83be900"
+ 
+ BBCLASSEXTEND = "native"
 
