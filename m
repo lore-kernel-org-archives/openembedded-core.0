@@ -2,63 +2,67 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54058C43458
-	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 08:30:05 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.127366.1783240201060937130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BE41C43458
+	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 08:32:35 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.128231.1783240351668953378
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 01:30:01 -0700
+ Sun, 05 Jul 2026 01:32:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UdQmuc1Y;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4758bd3731bso1370169f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 01:30:00 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BPxFG7NB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-493ce08a75bso7255955e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 01:32:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1783240199; x=1783844999; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1783240350; x=1783845150; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x81VHaTj2n/Z+5oHccFeyK6eEAwejAdCsWZ+SrE42zE=;
-        b=UdQmuc1YYxfiMskzqoiMdSo5BbdHsDfpUrwLkZm1R9EGceZdOyU3McpwKicgnQkB6I
-         ZQAfFe2TYdpl1v6PP805ZdXicIKup3Jz5oivvXKKaRStINSBmdnqRW8q2wLs8QSY+eP9
-         ihzn9pwHSqSg/CObTFnAOKY+7XOYQK4FprWcI=
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rrwG45gQoPaThfoFe2wcdRkRKKcLXmTPorpFzaZK9Xw=;
+        b=BPxFG7NBP+cj9SzUbeG5XpTh9kU56sbvn7olTZXhYniciQ0hr0d6ddP6zQki1n6v50
+         JHW4+SSJmkQeKqQ8wmLabI2BW5N9lwJph8stcwtEFS5ELbFqY8kmAOl6ofGNJKrePNck
+         PNO7FjiGicVUsCmJ8+VtIGtePY6XQd2B422hY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783240199; x=1783844999;
+        d=1e100.net; s=20251104; t=1783240350; x=1783845150;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x81VHaTj2n/Z+5oHccFeyK6eEAwejAdCsWZ+SrE42zE=;
-        b=oz2tJELUgB2cO/z+a+gExPQyLoVO0ka7SZROO8U4aXajyxh/7Luy9/+4a/R8v+gcBa
-         mFLsjVMQveCGMsfNLsqeseaS5IB7FI/ZlzqavHDjgOAey5CxfyRvSSjzVs6oqTpd76dm
-         SHo+yiJ+RMdCQocNr7wTkIT+lEmlf53NtUN0/d9sJsQMM5gYrqyN69HUzfE0YYKQyTgf
-         S/heEvxf0lxtsnm1+8T35lPw3KysYcDhCNRMPUHCKhO3O/p5/7GUYX4yPXvyCQyRIG7R
-         /MTUz0qDPIKowACnvLETgYr1FVECLyl9gHvKM9b/YxKaqZimxpaxrWe56Ta/dQ1Bj+hs
-         3ehA==
-X-Forwarded-Encrypted: i=1; AHgh+RoeXqUQJFXuSf7QkzM0zRs3u4bEdqSwhm2RjKUhbighYsx6NKZaW08RBCfuOA0XEM7ZpVlh6NFEZpbCgKdVhUXqZA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxYuVn6c7NUpoW+t9h2NOE3KHba5orMui3uQxpci20rFH4YijrP
-	S8u9tJCI7zc7yPN7qXZfJQ3Avl1pDdhXGFAH2nVj488kWzqUp176DZ+ViBjb0oIFHBo=
-X-Gm-Gg: AfdE7clKmRj7nvFDLF5XP7eVWbqldScziVlCEE5vRwTkAhZCRuEIwcZ+ALqc90zaT3X
-	mDcwh53DcCKmVCUWiUbibWEYp/jpz02TedFJ6wiG04bm2XM8f7n3O0GxAQbuljD3V5a3BQGtu0C
-	6VAXeqoQGXxkU41ZiMSwzgAvBbNDL2STLUyAyFdrVKPZ9n48ZqvJykOsqqeyPzBWWdyBdw7zo97
-	FPeqqzUUBFOQB7vdnu1PvCdSmZ8H59ny+/4JmqXifzxskYIhq51i9tH332Y2Z7SyLgDVOz7b/aJ
-	Ejkvj04X2hZhPmcdNl7iJMqt4+tllr0MUDY6uVPNDWsNr4t/nNarOXs9+fRvAxd4w0T9+fpTbtY
-	PYod4xLJOqafNGhFoIfREv1QmyfBTlz4qQ8MqJDZRSjO0S/ZmVjvh94ouUy+brT3grn67RMEUpO
-	WkZ2TLcXcP7mgsTrhLw3iZLT2tjZQSLrgb5vAcY7ek2mn6DrcuzM6QIL+0wuc66yLzdjfksFP5B
-	c0=
-X-Received: by 2002:a05:6000:200f:b0:473:c2ec:7a79 with SMTP id ffacd0b85a97d-47abb08cb6emr6181731f8f.12.1783240199087;
-        Sun, 05 Jul 2026 01:29:59 -0700 (PDT)
+        bh=rrwG45gQoPaThfoFe2wcdRkRKKcLXmTPorpFzaZK9Xw=;
+        b=g/5khOM0oiWJKnMOrd3dVVsCxDPUohIYkFCMHOJr0kdSifxety33uxudLj7Ca5giyD
+         MM14e2lxmLhA2R8GEOvAaIJc07QZ+J5z/6PU3bX8AJWoBUKu1JEiyhTQ0/kegSMWxw8k
+         mRI8z6GzTviGfXBXBQ6P0l6mD9JOrjYseSDR/krkxjNYslC/HTOzGSq+iuhb4n2usSv6
+         BteybD7bxK27309dyxOhjFmlsn6Xfk+PNKFpdGX0f+lUWWeLGmEoKX3i92gBLArlFBFK
+         gqzVfuU53KNgLmjX7M3WtEUzuGsNiFDrpQ6pyOAej6L2bv4a+j4/NMkRvnFMz2mojCDB
+         yodw==
+X-Gm-Message-State: AOJu0YwJMjv1gkSeCYktaHLngaMJfMhfcjUhx0QjXx7OyJTMj9XnIhR8
+	MVwKX0Jz0VC2qGRWfV7+x+1SFtRGWLZyrzhJMuxQE0OgmjpT8pmJ/MEu43mA+ug2XsU=
+X-Gm-Gg: AfdE7clUk/JnfHge/QyRJe7+gycoYma39BprpCGKhXDdMG02yUIXE1CrqMRTEOjhHr+
+	mnCklLGRLmNHi3lUxPnnL4x0Wf+w1pIzjbw35g9P2L93jEUVOMmL5+P5738Obqb9oTYFoAfq6aL
+	I033vAB6TruoldOh30ZNfwnUO6FOWIXYMf6lXb2SzWjbpICgDnAbHzMAyIolZ3KLnnZqmB/gLJa
+	mA94y5INR8ARRk/4z1wjL5Fmx49+dAZASBJCqKe6qKq1LIkl9l6cqkjj5fAi7OtbnCu79c4u+Fa
+	/Kg5nHQqXUgsOmIuFyIFjeNTeH7GBNojgDUbZV+mHi4KHYE2C5hhqmrmNq87vGP1Yf289oK66UR
+	DQYIOdjH30CgdotD2AFR5BtPlHknoqbOQAVzZ0BWFDMGjpKFZ2qfHso+WFkjEgy6DloA8B9hnTN
+	lPTrkRaPwHTAFApaHSC37iRpBE0aP0Vns4dbEA0nCkjfl61u0QIuL701hOJqkhW3c987CU1zn8g
+	hY=
+X-Received: by 2002:a05:600c:a00d:b0:493:b764:ff98 with SMTP id 5b1f17b1804b1-493d11d66c5mr68651215e9.11.1783240349623;
+        Sun, 05 Jul 2026 01:32:29 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:952e:67c8:1422:6cf? ([2001:8b0:aba:5f3c:952e:67c8:1422:6cf])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039bcdasm14868021f8f.21.2026.07.05.01.29.56
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0a55be4sm13115062f8f.31.2026.07.05.01.32.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 01:29:58 -0700 (PDT)
-Message-ID: <c3823daaaff5a77fb92f1ecdbeb2711605f93a21.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v4 00/10] Implement SPDX for deploy tasks
+        Sun, 05 Jul 2026 01:32:28 -0700 (PDT)
+Message-ID: <208d3e13b95e992d4eaf54f8210592c06ce46050.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 05/15] mesa/mesa-tools-native: Upgrade 26.1.2
+ -> 26.1.4
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: JPEWhacker@gmail.com, openembedded-core@lists.openembedded.org
-Date: Sun, 05 Jul 2026 09:29:56 +0100
-In-Reply-To: <20260630210422.1903245-1-JPEWhacker@gmail.com>
-References: <20260624141706.2164567-1-JPEWhacker@gmail.com>
-	 <20260630210422.1903245-1-JPEWhacker@gmail.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	alex.kanavin@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Sun, 05 Jul 2026 09:32:28 +0100
+In-Reply-To: <DJQHRJ8J3RC1.Q0KLD14LY2ZA@bootlin.com>
+References: <20260703082955.1585712-1-richard.purdie@linuxfoundation.org>
+	 <20260703082955.1585712-5-richard.purdie@linuxfoundation.org>
+	 <CANNYZj-7NkZiXow508-rdrovftFp6S6yuGKVDYMHBPp7MR440w@mail.gmail.com>
+	 <DJQHRJ8J3RC1.Q0KLD14LY2ZA@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-9 
@@ -66,62 +70,33 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 08:30:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240143
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 08:32:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240144
 
-On Tue, 2026-06-30 at 15:01 -0600, Joshua Watt via lists.openembedded.org w=
-rote:
-> The SPDX use case for file system image has been well defined since SPDX
-> was first implemented, however there has always been a desire to also
-> express SPDX output for other non-image deliverables (primarily, those
-> that have a do_deploy task or similar). These types of tasks cannot
-> easily use the traditional method of having a separate SPDX task that
-> runs to create their SPDX output as this causes lots of problems with
-> the way dependencies are specified. Instead, it is desirable for these
-> tasks to directly produce SPDX output that can be consumed by other
-> tasks that depend on them.
+On Sun, 2026-07-05 at 10:23 +0200, Mathieu Dubois-Briand wrote:
+> On Fri Jul 3, 2026 at 11:36 PM CEST, Alexander Kanavin via lists.openembe=
+dded.org wrote:
+> > On Fri, 3 Jul 2026 at 10:30, Richard Purdie via lists.openembedded.org
+> > <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+> > > -SRC_URI[sha256sum] =3D "bac2bca9121897a2b8162e79636b50ac998fca799c8e=
+6cf914edd85962babdf0"
+> > > -PV =3D "26.1.2"
+> > > +SRC_URI[sha256sum] =3D "072705caa9adf4740f1489194b13e278ad959166863b=
+5271fe423a86353c9ab6"
+> > > +PV =3D "26.1.4"
+> >=20
+> > This will probably fail to build for qemuarmv5, for that I have a patch=
+:
+> > https://git.openembedded.org/openembedded-core-contrib/tree/meta/recipe=
+s-graphics/mesa/files/0001-src-util-u_math.c-do-not-use-arm-fpu-instruction=
+s-if.patch?h=3Dakanavin/package-version-updates
+> >=20
+> > Alex
 >=20
-> This patch series adds support for this. Any sstate task that starts
-> with "do_deploy" can now be added to the SPDX_DEPLOY_TASKS list and it
-> will run a postfunc to generate SPDX output that describes what is being
-> deployed. For classical do_deploy tasks, this is setup to be easy by
-> automatically capturing all the deployed output files in the SPDX data,
-> but other tasks can be added as well.
->=20
-> Finally, the do_create_image_spdx task is removed and replaced with a
-> SPDX deploy postfunc using this new system. This means that any task
-> that depends on do_image_complete will automatically also get the SPDX
-> output for the image, simplifying the dependency handling.
->=20
-> V2: Fixed SPDX documents missing at SBoM creation time when the
-> documents were not a direct dependency of the SBoM, and were present in
-> a sstate object. Previously, these sstate objects were not restored
-> because they were "covered" by the later sstate tasks, but now they are
-> restored if they are depended on by a task that creates SPDX output.
->=20
-> V3: Fixed a bug where dependencies that are not in the taskhash could be
-> missing when the final SBoM is created and added tests.
->=20
-> V4: Fixed some testing errors that revealed that EFI providers have to
-> be MACHINE_ARCH (and consequently, wic-tools)
->=20
-> Joshua Watt (10):
-> =C2=A0 spdx: Skip dependencies that are not in the taskhash
-> =C2=A0 spdx: Add ability for deploy tasks to create SPDX
-> =C2=A0 oeqa: Add SPDX deploy SBoM test
-> =C2=A0 classes-global/sstate: Keep SPDX generating setscene dependencies
-> =C2=A0 Add SPDX deploy tasks to various recipes
-> =C2=A0 spdx: Replace do_create_image_spdx with deploy task
-> =C2=A0 grub-efi: Change to MACHINE_ARCH
-> =C2=A0 systemd-boot: Change to MACHINE_ARCH
-> =C2=A0 multilib: Add systemd-boot to NON_MULTILIB_RECIPES
-> =C2=A0 wic-tools: Change to MACHINE_ARCH
+> Just to confirm, we indeed have this error: https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/59/builds/4097
 
-There is something not quite right in here which I suspect, but havve't
-currently conclusively prove caused:
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/4276
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4216
+I've queued my .4 with Alex's patch, thanks.
 
 Cheers,
 
