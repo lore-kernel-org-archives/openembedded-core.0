@@ -2,254 +2,270 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F53CC4450C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 283EBC44502
 	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:43:08 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.140026.1783291380554380149
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.139223.1783291384044626228
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 15:43:00 -0700
+ Sun, 05 Jul 2026 15:43:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=i0tcMtOa;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-493d1e8aa46so10713705e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:43:00 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=xWo2RH7r;
+ spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4798bea72f9so1391870f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783291379; x=1783896179; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1783291382; x=1783896182; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rISr30Fl96h6/PycNPojAQLWCTS68LQ3lk64oYnw4EM=;
-        b=i0tcMtOaXeBtjUgypYfYWO+cjgOdGexK5E8FsCwhvxvqJfgyadaOKh9G6HSKbjH10O
-         eLLBhSYr5BaxFb4nwWdNs7TY1zYtUiDCZzsFSSs2jO+QWAV/gjv34j+eJeP4Qi18RnSz
-         USQp4f65P+tgQAPAWQPSJBXQhPyiLQTaAv+as=
+        bh=rqwRFcJBP2ZeRxBbKsgXWP3iUER67Y2i32nPIOCdyHI=;
+        b=xWo2RH7raSRuUFzgr0n4jM23sWx/4sQum/P1k7R+fEBG9VLnYOK2DkneTmYnc97lE6
+         WvQ0PKhGWm0adF724x6eVVoWjeS+mWeKiU2z1+v8zH8+WR+xDFpQtvtUguz2noEW8LHy
+         CBgZfooayfevhsJFKMYIYZ+viPHeNsTiTo/bU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783291379; x=1783896179;
+        d=1e100.net; s=20251104; t=1783291382; x=1783896182;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=rISr30Fl96h6/PycNPojAQLWCTS68LQ3lk64oYnw4EM=;
-        b=WgH3DzpzJbCitcIWA3L6y2vFZVgbYsmIlSH2kcUNJGKbp1br25ng5DNNWkPGeUrOds
-         7PqOzXWBOVdoZbZUqfivRZw3wbEw1zM14ATYytuesCSIbj3IRbdzw57JggrMhGdAeaqG
-         mwPbNN7peiZIvWAMwBaVJBnCngfi6jTeUWrFg2kJYR466JUxgo4lGdaaQ0ePgodz/DcS
-         tI0KitGvY7kuQJp6DPBUKsVkAPBaTR2jWDOefv7aVf5itDEh1lJyoeOY4GevTHjjAnKa
-         xYSWqKIqSIyxxqTMs/t5IVXVuZvVKR/T04Z3GvnC8oyPbVLBmRMmUtNV4XmdTmSnOntK
-         MSPA==
-X-Gm-Message-State: AOJu0YztnaW4ak6/p7cI1eFNwBHgEoFs4N/TE5MW3pjrROnPu1AaWh6v
-	mcS0WnZR6+WBvPZarDSu4eCWMRifE/oitk/fqfr78YmZ51S4j1iwatyd2W9jtue8u/9moGi3Xnn
-	tczP5hUI=
-X-Gm-Gg: AfdE7cnXNSlj8YZXe3PRGmvbB0MiRHsJhuhhrlGg9NeufhmK8L/JoajdAZtV/BJlGAr
-	4UCQ/msisD7tS+DM2R99CSybv5pofqwcrRuOatTO/ha4PSXRz7qGsG9GQ9NL8xcos/FbnIpMd+W
-	9KM9MfBssdII6JRIXZ4FzdqeXvkd1HoF2uAMVRxVp6egUmmnwvClDmw8x53bbQbWvBmkbAhemBb
-	w/kVb61A5vnRZdPN/HMme63TdgKtUgibKeOFKwJj0rebnPu2BEFbKjjnGbuFCij9Dy0eh7SFMSF
-	2xOil8e1TTw+rxwCyPZBPsZ5scJvVMC0HcizeTzoyl7tA9SmW4fCjJ6YnRNLzVmsmjbDyIn4Ns+
-	ueomQZGEmouaIA089f/OywWwmoNONhgSeHK5SLYnhdKRehKKs2tevPSFzME5hJRQ44vFT+viSmj
-	4PGCOzznkA/X7nT+Q6v8sKka7xCg==
-X-Received: by 2002:a05:600c:3493:b0:493:d115:d835 with SMTP id 5b1f17b1804b1-493d22abbd8mr80367425e9.8.1783291378669;
-        Sun, 05 Jul 2026 15:42:58 -0700 (PDT)
+        bh=rqwRFcJBP2ZeRxBbKsgXWP3iUER67Y2i32nPIOCdyHI=;
+        b=djhzsft3c7FaLIJ1IS5r3+Zk8vVEPXXOckQlnQ+a7ORxZdJS+q4xsdFiWOg/YNsTTi
+         f2Rp/PE2OI6Qpwib4XWeGXuKRUtGEeU18Xeayh4EvZp0L2xLdH1JXObg/i9Utf8B+EXj
+         jjP/In1uYPbW/AooaGoobJQq+MVDD/mwr7odBrvrMWEIvpx/WcRMUrAmUM5Z4hUNGcSI
+         efJQHp8kX3k3Y2iYuHZ3fdKFpxPJT2SWWy87xcOO5hZEPWxM3uoVGttNPwaSN5Ld8+xI
+         SMC0Mt6U2F0J3e35uGnV89ohOYt1Jy35x7NKwC3S/1uiVRukZWIduY36qCroncE6r5eC
+         QaZQ==
+X-Gm-Message-State: AOJu0YzhnorQ/RJKS4HTYXOjvextQtRYi7oRJJpUGuILATwj9abaOaBB
+	c9eyyU5VRZ+mZM1TYQlzp9a0SAxW/G3Z8FaSb89oo85o1e/Sf+dd9MXZu8ZwIdigJl0XUyK/M3U
+	Gnp/hwsA=
+X-Gm-Gg: AfdE7cmGgy5ySDaNikEsoIW5wnF1xE4ohRCpGbp8hj4jw8fCs2nCp6IKfLgbvX4id8y
+	5g6ZNbBBXhWTiuUiutUUnr7seUz1gzW3cAM8cd1FJaPTUAuix12ofi1Nz9x7p8HyTRTEp90gYCe
+	S0DFzGq2CkUeqjxGR5WyEkuf1UZt4PeLm/TPcCTByn3f244d/DKND84AyAdJAtZMUREiCf7ZIwO
+	fvBVZKlg2EJcbDYPSl2AdfaU2gM/D3bJ+zJm/2I08RWGNtKkkGlPcLTBOSJ0tm735uWC3LoJc9n
+	HM7K1V/lXiXyXi5k0jSKddoM5lbtrWRCDDh2m8tuhH/Jp8erg5DNFzNxU6JdJK+7NaNcHfWqgGm
+	CHv5Z5RvzNGtSdwspioCvBbSBj/L870IvvKC/21/PPCxLXLanDlKIalgT4wJdfgaIw6uYeIGZCJ
+	yIvZuskdb6/u19HIdl/6fD86nNPA==
+X-Received: by 2002:adf:f00f:0:b0:475:f0c2:5b04 with SMTP id ffacd0b85a97d-47aad54d643mr6225608f8f.58.1783291382281;
+        Sun, 05 Jul 2026 15:43:02 -0700 (PDT)
 Received: from FRSMI25-LASER.lan ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.58
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.43.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 15:42:58 -0700 (PDT)
+        Sun, 05 Jul 2026 15:43:02 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 27/55] libsolv: Fix CVE-2026-9149
-Date: Mon,  6 Jul 2026 00:41:17 +0200
-Message-ID: <e182a3ccad90bd055430f4e89a2c7f1587452a2f.1783289522.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 33/55] dhcpcd: patch CVE-2026-56117
+Date: Mon,  6 Jul 2026 00:41:23 +0200
+Message-ID: <0b05d28a94bbfee89ebc8b7faef7da9b30dc1c32.1783289522.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783289522.git.yoann.congal@smile.fr>
 References: <cover.1783289522.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:43:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240181
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240187
 
-From: Shubham Pushpkar <spushpka@cisco.com>
+From: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 
-This patch applies the upstream fix as referenced in [1], using the CVE advisory shown in [2].
-[1] https://github.com/openSUSE/libsolv/commit/210386037c892a720972ad35a3d8f7073b4d763b
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-9149
+Backport patch [1] mentionned in [2]
 
-Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
+[1] https://github.com/NetworkConfiguration/dhcpcd/commit/78ea09ed1633a583dbcde6e7bab9df4639ec8a34
+
+[2] https://security-tracker.debian.org/tracker/CVE-2026-56117
+
+Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libsolv/libsolv/CVE-2026-9149.patch       | 152 ++++++++++++++++++
- .../libsolv/libsolv_0.7.36.bb                 |   1 +
- 2 files changed, 153 insertions(+)
- create mode 100644 meta/recipes-extended/libsolv/libsolv/CVE-2026-9149.patch
+ .../dhcpcd/dhcpcd_10.3.1.bb                   |   1 +
+ .../dhcpcd/files/CVE-2026-56117.patch         | 167 ++++++++++++++++++
+ 2 files changed, 168 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch
 
-diff --git a/meta/recipes-extended/libsolv/libsolv/CVE-2026-9149.patch b/meta/recipes-extended/libsolv/libsolv/CVE-2026-9149.patch
-new file mode 100644
-index 00000000000..11acf758b58
---- /dev/null
-+++ b/meta/recipes-extended/libsolv/libsolv/CVE-2026-9149.patch
-@@ -0,0 +1,152 @@
-+From 175bd2008d3b3a4b54253bd6657cc46948360534 Mon Sep 17 00:00:00 2001
-+From: Petr Písař <ppisar@redhat.com>
-+Date: Thu, 23 Apr 2026 18:04:24 +0200
-+Subject: [PATCH 2/2] Cope with integer overflow in data size arithmetics in
-+ repo_add_solv()
-+
-+When parsing solv files with maliciously large "maxsize" or "allsize"
-+data size, e.g. this maxsize value at offset 0x29--0x2E:
-+
-+    00000000  53 4f 4c 56 00 00 00 08  00 00 00 01 00 00 00 00  |SOLV............|
-+    00000010  00 00 00 00 00 00 00 00  00 00 00 01 00 00 00 01  |................|
-+    00000020  00 00 00 00 00 00 00 00  00 8f ff ff bf 77 86 8d  |.............w..|
-+    00000030  20 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ...............|
-+    00000040  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-+    *
-+    00002030  00                                                |.|
-+    00002031
-+
-+read_id() function will decode and return 4294959095 value, and a subsequent
-+assignment:
-+
-+    int maxsize;
-+    [...]
-+    maxsize = read_id(&data, 0);
-+
-+will experience an integer overflow on plaforms where signed int has 4-byte
-+size (e.g. x86_64).
-+
-+The same flaw is possible at the next line:
-+
-+    allsize = read_id(&data, 0);
-+
-+Subsequent arithmetics will interpreter the value as a very large negative
-+number, possibly doing wrong decisions:
-+
-+    maxsize += 5; /* so we can read the next schema of an array */
-+    if (maxsize > allsize)
-+      maxsize = allsize;
-+
-+and finally, the negative value passed to solv_calloc():
-+
-+    buf = solv_calloc(maxsize + DATA_READ_CHUNK + 4, 1);  /* 4 extra bytes to detect overflows */
-+
-+will be coerced to an unsigned type (size_t) leading to allocating a smaller
-+buffer then intended. Then writing to the small buffer will experience a heap
-+buffer overflow:
-+
-+    l = maxsize;
-+    if (l < DATA_READ_CHUNK)
-+      l = DATA_READ_CHUNK;
-+    if (l > allsize)
-+      l = allsize;
-+    if (!l || fread(buf, l, 1, data.fp) != 1)
-+
-+This flaw can be demostrated by passing that solv file to the dumpsolv tool which
-+will crash if compiled with ASAN:
-+
-+    $ /tmp/b/tools/dumpsolv /tmp/vuln_1_101_1_negative_maxsize.solv
-+    =================================================================
-+    ==17608==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7c0a2ede00b1 at pc 0x7fea30451468 b
-+    p 0x7ffe07220a50 sp 0x7ffe07220220
-+    WRITE of size 8192 at 0x7c0a2ede00b1 thread T0
-+	#0 0x7fea30451467 in fread.part.0 (/lib64/libasan.so.8+0x51467) (BuildId: 80bfc4ae44fdec6ef5fecfb01
-+    e2b57d28660991c)
-+	#1 0x7fea3028eef1 in repo_add_solv /home/test/libsolv/src/repo_solv.c:1034
-+	#2 0x0000004041cc in main /home/test/libsolv/tools/dumpsolv.c:471
-+	#3 0x7fea3003c680 in __libc_start_call_main (/lib64/libc.so.6+0x3680) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
-+	#4 0x7fea3003c797 in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so.6+0x3797) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
-+	#5 0x000000400694 in _start (/tmp/b/tools/dumpsolv+0x400694) (BuildId: 0a70b5b14e5cd81f90a309bb2ff3219dfbf30bb8)
-+
-+    0x7c0a2ede00b1 is located 0 bytes after 1-byte region [0x7c0a2ede00b0,0x7c0a2ede00b1)
-+    allocated by thread T0 here:
-+	#0 0x7fea304ef41f in malloc (/lib64/libasan.so.8+0xef41f) (BuildId: 80bfc4ae44fdec6ef5fecfb01e2b57d28660991c)
-+	#1 0x7fea302e4b4c in solv_calloc /home/test/libsolv/src/util.c:77
-+	#2 0x7fea3028ee38 in repo_add_solv /home/test/libsolv/src/repo_solv.c:1025
-+	#3 0x0000004041cc in main /home/test/libsolv/tools/dumpsolv.c:471
-+	#4 0x7fea3003c680 in __libc_start_call_main (/lib64/libc.so.6+0x3680) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
-+	#5 0x7fea3003c797 in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so.6+0x3797) (BuildId: c04494d63bca865bedf571a4075ef8867ccf9fa9)
-+	#6 0x000000400694 in _start (/tmp/b/tools/dumpsolv+0x400694) (BuildId: 0a70b5b14e5cd81f90a309bb2ff3219dfbf30bb8)
-+
-+    SUMMARY: AddressSanitizer: heap-buffer-overflow /home/test/libsolv/src/repo_solv.c:1034 in repo_add_solv
-+
-+This patch catches the integer overflow, sets an error and jumps to the end of
-+the function just after deallocation of the buffer (which would contain an
-+undefined pointer). This patch also handles a possible integer overflow at
-+"maxsize += 5" line.
-+
-+I originally wanted to replace read_id() with read_u32(), but
-+complemtary repowriter_write() function also stored the value as
-+a signed integer, so I guess the the Id type is inteded there.
-+
-+There are probably other ways how to fix it, like passing INT_MAX-5
-+limit to read_id(), though the error message would be less
-+understandable.
-+
-+It's also possible to reject this patch with an explanation that loading
-+untrusted solv files is not supported. Though some kind of
-+fortification would be welcomed by people who debug solver problems
-+from reported solv files.
-+
-+Reported by Aisle Research.
-+
-+CVE: CVE-2026-9149
-+Upstream-Status: Backport [https://github.com/openSUSE/libsolv/commit/210386037c892a720972ad35a3d8f7073b4d763b]
-+
-+(cherry picked from commit 210386037c892a720972ad35a3d8f7073b4d763b)
-+Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
-+---
-+ src/repo_solv.c | 14 ++++++++++++++
-+ 1 file changed, 14 insertions(+)
-+
-+diff --git a/src/repo_solv.c b/src/repo_solv.c
-+index 629ac683..00639aa0 100644
-+--- a/src/repo_solv.c
-++++ b/src/repo_solv.c
-+@@ -18,6 +18,7 @@
-+ #include <stdlib.h>
-+ #include <unistd.h>
-+ #include <string.h>
-++#include <limits.h>
-+ 
-+ #include "repo_solv.h"
-+ #include "util.h"
-+@@ -1078,6 +1079,18 @@ repo_add_solv(Repo *repo, FILE *fp, int flags)
-+ 
-+   maxsize = read_id(&data, 0);
-+   allsize = read_id(&data, 0);
-++  if (maxsize < 0 || allsize < 0)
-++    {
-++      data.error = pool_error(pool, SOLV_ERROR_CORRUPT, "negative data size in solv header");
-++      id = 0;
-++      goto data_error;
-++    }
-++  if (maxsize > INT_MAX - 5)
-++    {
-++      data.error = pool_error(pool, SOLV_ERROR_OVERFLOW, "data size overflow in solv header");
-++      id = 0;
-++      goto data_error;
-++    }
-+   maxsize += 5;	/* so we can read the next schema of an array */
-+   if (maxsize > allsize)
-+     maxsize = allsize;
-+@@ -1403,6 +1416,7 @@ printf("=> %s %s %p\n", pool_id2str(pool, keys[key].name), pool_id2str(pool, key
-+     }
-+   solv_free(buf);
-+ 
-++data_error:
-+   if (data.error)
-+     {
-+       /* free solvables */
-+-- 
-+2.35.6
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.36.bb b/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
-index f3c3738d7c1..cca2511ea57 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
-@@ -12,6 +12,7 @@ SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https;ta
-            file://0001-compress_buf-fix-musl-segfaults.patch \
-            file://run-ptest \
-            file://CVE-2026-9150.patch \
-+           file://CVE-2026-9149.patch \
- "
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
+index e214c03416e..eb257cb27c1 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
+@@ -18,6 +18,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+            file://CVE-2026-56113.patch \
+            file://CVE-2026-56114.patch \
+            file://CVE-2026-56116.patch \
++           file://CVE-2026-56117.patch \
+            "
  
- SRCREV = "1e377699be108ec82bb798ec9c223d45d84a733c"
+ SRCREV = "42ff6d2548209af3185473e6cb6f9d235c48bbf4"
+diff --git a/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch
+new file mode 100644
+index 00000000000..2aabced8974
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch
+@@ -0,0 +1,167 @@
++From d4b53e813f6119a4f090f6ba10a91778ce3cd1d5 Mon Sep 17 00:00:00 2001
++From: Roy Marples <roy@marples.name>
++Date: Mon, 22 Jun 2026 23:41:53 +0100
++Subject: [PATCH] control: Avoid hangup in the recvdata path
++
++Instead return an error and bubble it up where it can be
++hangup / freed more cleanly.
++
++Reported-by: CuB3y0nd <root@cubeyond.net>
++
++(cherry picked from commit 78ea09ed1633a583dbcde6e7bab9df4639ec8a34)
++
++CVE: CVE-2026-56117
++Upstream-Status: Backport [https://github.com/NetworkConfiguration/dhcpcd/commit/78ea09ed1633a583dbcde6e7bab9df4639ec8a34]
++Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
++---
++ src/control.c         | 47 ++++++++++++++++++++++++-------------------
++ src/control.h         |  2 +-
++ src/privsep-control.c |  7 ++++++-
++ 3 files changed, 33 insertions(+), 23 deletions(-)
++
++diff --git a/src/control.c b/src/control.c
++index ec1c633c..e6115f66 100644
++--- a/src/control.c
+++++ b/src/control.c
++@@ -115,10 +115,8 @@ control_handle_read(struct fd_list *fd)
++ 	bytes = read(fd->fd, buffer, sizeof(buffer) - 1);
++ 	if (bytes == -1)
++ 		logerr(__func__);
++-	if (bytes == -1 || bytes == 0) {
++-		control_hangup(fd);
++-		return -1;
++-	}
+++	if (bytes == -1 || bytes == 0)
+++		return (int)bytes;
++ 
++ #ifdef PRIVSEP
++ 	if (IN_PRIVSEP(fd->ctx)) {
++@@ -134,15 +132,13 @@ control_handle_read(struct fd_list *fd)
++ 		if (err == 1 &&
++ 		    ps_ctl_sendargs(fd, buffer, (size_t)bytes) == -1) {
++ 			logerr(__func__);
++-			control_free(fd);
++ 			return -1;
++ 		}
++-		return 0;
+++		return 1;
++ 	}
++ #endif
++ 
++-	control_recvdata(fd, buffer, (size_t)bytes);
++-	return 0;
+++	return control_recvdata(fd, buffer, (size_t)bytes);
++ }
++ 
++ static int
++@@ -205,23 +201,31 @@ static void
++ control_handle_data(void *arg, unsigned short events)
++ {
++ 	struct fd_list *fd = arg;
+++	int err;
++ 
++ 	if (!(events & (ELE_READ | ELE_WRITE | ELE_HANGUP)))
++ 		logerrx("%s: unexpected event 0x%04x", __func__, events);
++ 
++ 	if (events & ELE_WRITE && !(events & ELE_HANGUP)) {
++-		if (control_handle_write(fd) == -1)
++-			return;
+++		err = control_handle_write(fd);
+++		if (err == -1)
+++			goto hangup;
++ 	}
++ 	if (events & ELE_READ) {
++-		if (control_handle_read(fd) == -1)
++-			return;
+++		err = control_handle_read(fd);
+++		if (err == -1 || err == 0)
+++			goto hangup;
++ 	}
++ 	if (events & ELE_HANGUP)
++-		control_hangup(fd);
+++		goto hangup;
+++
+++	return;
+++
+++hangup:
+++	control_hangup(fd);
++ }
++ 
++-void
+++int
++ control_recvdata(struct fd_list *fd, char *data, size_t len)
++ {
++ 	char *p = data, *e;
++@@ -243,12 +247,13 @@ control_recvdata(struct fd_list *fd, char *data, size_t len)
++ 			if (e == NULL) {
++ 				errno = EINVAL;
++ 				logerrx("%s: no terminator", __func__);
++-				return;
+++				return -1;
++ 			}
++-			if ((size_t)argc >= sizeof(argvp) / sizeof(argvp[0])) {
+++			if ((size_t)argc + 1 >=
+++			    sizeof(argvp) / sizeof(argvp[0])) {
++ 				errno = ENOBUFS;
++ 				logerrx("%s: no arg buffer", __func__);
++-				return;
+++				return -1;
++ 			}
++ 			*ap++ = p;
++ 			argc++;
++@@ -268,12 +273,12 @@ control_recvdata(struct fd_list *fd, char *data, size_t len)
++ 		*ap = NULL;
++ 		if (dhcpcd_handleargs(fd->ctx, fd, argc, argvp) == -1) {
++ 			logerr(__func__);
++-			if (errno != EINTR && errno != EAGAIN) {
++-				control_free(fd);
++-				return;
++-			}
+++			if (errno != EINTR && errno != EAGAIN)
+++				return -1;
++ 		}
++ 	}
+++
+++	return 1;
++ }
++ 
++ struct fd_list *
++diff --git a/src/control.h b/src/control.h
++index ef592268..1f09fc8f 100644
++--- a/src/control.h
+++++ b/src/control.h
++@@ -76,5 +76,5 @@ struct fd_list *control_new(struct dhcpcd_ctx *, int, unsigned int);
++ void control_free(struct fd_list *);
++ void control_delete(struct fd_list *);
++ int control_queue(struct fd_list *, void *, size_t);
++-void control_recvdata(struct fd_list *fd, char *, size_t);
+++int control_recvdata(struct fd_list *fd, char *, size_t);
++ #endif
++diff --git a/src/privsep-control.c b/src/privsep-control.c
++index b9ea7f9c..3cdeedea 100644
++--- a/src/privsep-control.c
+++++ b/src/privsep-control.c
++@@ -110,6 +110,7 @@ ps_ctl_dispatch(void *arg, struct ps_msghdr *psm, struct msghdr *msg)
++ 	struct iovec *iov = msg->msg_iov;
++ 	struct fd_list *fd;
++ 	unsigned int fd_flags = FD_SENDLEN;
+++	int err;
++ 
++ 	switch (psm->ps_flags) {
++ 	case PS_CTL_PRIV:
++@@ -133,7 +134,11 @@ ps_ctl_dispatch(void *arg, struct ps_msghdr *psm, struct msghdr *msg)
++ 		if (fd == NULL)
++ 			return -1;
++ 		ctx->ps_control_client = fd;
++-		control_recvdata(fd, iov->iov_base, iov->iov_len);
+++		err = control_recvdata(fd, iov->iov_base, iov->iov_len);
+++		if (err == -1 || err == 0) {
+++			control_free(fd);
+++			ctx->ps_control_client = NULL;
+++		}
++ 		break;
++ 	case PS_CTL_EOF:
++ 		ctx->ps_control_client = NULL;
++-- 
++2.43.0
++
 
