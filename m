@@ -2,60 +2,60 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EFFFC44506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F4AEC44508
 	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:43:08 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.140029.1783291383495788102
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.140027.1783291381220901258
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 15:43:03 -0700
+ Sun, 05 Jul 2026 15:43:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ME2El5oj;
- spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-474303f3c72so1336054f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:43:03 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=d3OcqYS0;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-46ed4f66256so2139427f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783291382; x=1783896182; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1783291379; x=1783896179; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZGR5j+D74ziDX0JVcB3wcM8A2fhVEbGA081tRfOF8gk=;
-        b=ME2El5ojIcm5K/JFLzIesaEXWkV6ivLwRZNJd1UHhiUsaltxQaZTs2CsGwWnAApuOu
-         mrRN0lLuOajwJ0DxmyvuAEmm5EXvqNKY2gA0Pg1BRajoYALxTC0wFnBa4/l0rLes7yPd
-         715QRvaOU6fO/90J05nEsBG8waZ98aS7E1RTs=
+        bh=Xqi6PkueZki8e1Ynz3l6Wg8blP+sg+KFUDTl5BGi818=;
+        b=d3OcqYS074VWJAQ/iEsKubIpTn/C3Bx3j7uFiNuGNfCqfvAv71aCQFfKu7rhw+BfFd
+         LZr7iiZCjl8HPxX7H3tS67SoR+gOrmPvZnHJyQLpts1SwSZvlRrH7v0PFBDueDfZFyBP
+         gPRonGBezSEUeW0Xyb1xOsgnEhd9EqsOFa2ao=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783291382; x=1783896182;
+        d=1e100.net; s=20251104; t=1783291379; x=1783896179;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ZGR5j+D74ziDX0JVcB3wcM8A2fhVEbGA081tRfOF8gk=;
-        b=KS9Jhsx3Ml6NJn4Czy+SdiikZ6Jng9L8amCB0GiHZaVcYqpZa0CAee0N0zgPCg+Jpz
-         gdS4+nCNNTu+Y3rLlXnR7x4S7k8E1GvFz1G3xVpkirbC3OXYhEolN4fQWBjBEKBIN4Qv
-         2v/V6+T1wHYekzjRI1SDo0t9xDx2QFA13qlieEnhOhseaeW1HqDGjEQvdurcOw36sJHF
-         ZsbhO2Vz3GtBauubzaUmLfU9trOIe/PA8I4MHS0oZprPscyX/u6rPl4KWnIgpSS7+DXG
-         6bQj2hRWvKTSji0kURLyBx0/ZVlu6076gzwWTrQ92pttoyDqZ+EkF4ds6Srv5kSKjCLV
-         2/ZA==
-X-Gm-Message-State: AOJu0YzabkFrLCq/TXaEsBLRoYvOAGX0WC/jOGvLqNg/xDRJ+ZXOJZBL
-	UWhdqfMqvmIFrOzZv7qejxCPZo6Prt+/jmxO+6EDlu8h4owbFBZDawHfQ9G2f7XfPPg6p0W5/3w
-	j996Nhus=
-X-Gm-Gg: AfdE7clTsoPUsAePvRDiGwaZYSAKx0b2xy/JxtbWu8Py0Z7CB1lSsy+JbuCKwMHz2+v
-	U/V13Sg+vIL7Dxjj5GqzWRcdKNx0v7VnB4/o3GzDVTwecE/uBOsEfdijZIFefmNAmiPIozwkFhU
-	j32vQ1kkGCwM8y6qJBFgXDaaYLLHGNU1yMvaqllMI4ud6K1XBqF4xYHzhasEZctV2Bnv6McEf28
-	EeqZdrleUlxT2DH8fy4L4WJBU6klsYX89r0//3cDogasqlaRQs1hw5X27YSmrbmZwcQ5qU7MU0N
-	OZ9HyGHs/yhQ+IKITDVVx5g7FG2vjRTU0lWGMcKWiOSBW9+SSBNyl1ofNMKGqZDYmetB5zv3jJT
-	jXcjCidqhOjpP3XYRmpBVwKxROZh8I7IjtKmUlGBDC+Z9NpaZUufU7hQ4WCcXbRfHhdiMY0VOcN
-	wvGx/I10aFcQaMO9sdIjZI2QigOA==
-X-Received: by 2002:a05:6000:1785:b0:47a:1f6b:ddb8 with SMTP id ffacd0b85a97d-47aaadc9ee6mr10196854f8f.39.1783291381684;
-        Sun, 05 Jul 2026 15:43:01 -0700 (PDT)
+        bh=Xqi6PkueZki8e1Ynz3l6Wg8blP+sg+KFUDTl5BGi818=;
+        b=gnalWoGzmVykwoADra27wrXBVBgv/WItS6y+BKWor7FkYfWH17HqpL/t8fMtebsD8x
+         nknQg0W5gFJ0IIjwE4lhUXo8Dz2TufHvaO3WPfblDr5vxMEYj76BBrQSFvdlbzbnMOMx
+         6mDekIvA+VmfuTA7XJ+oh0mYJNKptYgLZq4BwGPuWlWKUrHyIc2TTKyfD8ctMDGKEfUd
+         Kqkg/Ra4OJ47iy+n1lrtGAUdBslJ+lpobnoxbQ0nqeWbDzCYoFaovrXJjXpCXwWEOQWh
+         70H75F/uxTnHAp53vx9BXBObID2y1bRD/NVLL9latFrHeD3r10t40MGXpquMjhjZVVs2
+         0eGA==
+X-Gm-Message-State: AOJu0YzsFE9TWMnKekJkGsb7BS9zLFsSm5owII2iqf2H0Pn0MF/FpOVj
+	ufuysduiZ+7+21gnV5ra7bPe6HfKRQfIRUV1dk64DkyltfUbTnPc2ut7/RZVjRr1vxvuolA9oSD
+	LxTgVlf8=
+X-Gm-Gg: AfdE7ckcGH5ro/9Wj+OaVMEmOrn0IlEWKLWKIwWfp8x8vPwDHl3MIO8XMdBxD2QOHoJ
+	IxAyX1eERDt25G6qIPCDZ2BHX1jsF/QMzw8quIaGvfxqIAsY8cOe+el5MC7QBtbEfGOm30zFrJE
+	/FtCYCfQG9bh74oG2gPw+CqRIcbNiSwh1BpYIZDDF9/6a4lQvftrP+sSFwtBW6yGVNB/l9ZI96x
+	Ws0tEuD+gjTDXYls0iBFOyVpAtFDQSedyHBzC8Zh0JFwvtpXcGhpZDDklzNSSB1ylxhXj7VNTzi
+	LzJ9xQM/L6qvIAKlXVKIoRNMzXdybZEfJdp6U6CgAT+tNXb+c9CeHsRPTvWlcHF09BKqDkJHWKb
+	2Fw5guZZ7gHutSrPu/mVnrvnb/m0cNeuOxaNld18OII2mLTexqG9K3+WvfElTp0gvQkTlL/6OBj
+	1Xms+Pzq2UcqYhSf92pypHD2ks8Q==
+X-Received: by 2002:adf:f389:0:b0:46f:5d62:d914 with SMTP id ffacd0b85a97d-47aabb4cf45mr6714116f8f.12.1783291379387;
+        Sun, 05 Jul 2026 15:42:59 -0700 (PDT)
 Received: from FRSMI25-LASER.lan ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.43.01
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 15:43:01 -0700 (PDT)
+        Sun, 05 Jul 2026 15:42:58 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 32/55] dhcpcd: patch CVE-2026-56116
-Date: Mon,  6 Jul 2026 00:41:22 +0200
-Message-ID: <1201816880c79ad203ab358e801db58519f2b63a.1783289522.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 28/55] gnupg: fix CVE-2026-57062
+Date: Mon,  6 Jul 2026 00:41:18 +0200
+Message-ID: <9a21841bcc01c123e1d270b9d4675311e4027a8c.1783289522.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783289522.git.yoann.congal@smile.fr>
 References: <cover.1783289522.git.yoann.congal@smile.fr>
@@ -65,71 +65,81 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:43:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240186
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240182
 
-From: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
+From: Roland Kovacs <roland.kovacs@est.tech>
 
-Backport patch [1] mentionned in [2]
+CMS (Cryptographic Message Syntax) parsing in gpgsm in GnuPG through 2.5.20
+mishandles the CMS format for AES-GCM because aes-ICVlen is supposed to be
+12 bytes but 4 bytes is accepted.
 
-[1] https://github.com/NetworkConfiguration/dhcpcd/commit/708b4a56bae080a5b18c2e0c4c6fbe103131a2b0
-
-[2] https://security-tracker.debian.org/tracker/CVE-2026-56116
-
-Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
+Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../dhcpcd/dhcpcd_10.3.1.bb                   |  1 +
- .../dhcpcd/files/CVE-2026-56116.patch         | 31 +++++++++++++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116.patch
+ .../gnupg/gnupg/CVE-2026-57062.patch          | 43 +++++++++++++++++++
+ meta/recipes-support/gnupg/gnupg_2.5.17.bb    |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2026-57062.patch
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
-index 8195cea029f..e214c03416e 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
-@@ -17,6 +17,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
-            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
-            file://CVE-2026-56113.patch \
-            file://CVE-2026-56114.patch \
-+           file://CVE-2026-56116.patch \
-            "
- 
- SRCREV = "42ff6d2548209af3185473e6cb6f9d235c48bbf4"
-diff --git a/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116.patch b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116.patch
+diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2026-57062.patch b/meta/recipes-support/gnupg/gnupg/CVE-2026-57062.patch
 new file mode 100644
-index 00000000000..a329f92e6f9
+index 00000000000..d18b9e9cb3d
 --- /dev/null
-+++ b/meta/recipes-connectivity/dhcpcd/files/CVE-2026-56116.patch
-@@ -0,0 +1,31 @@
-+From d37f45a39aed5fd5d0d2c87f62b22f5eed7495bd Mon Sep 17 00:00:00 2001
-+From: Roy Marples <roy@marples.name>
-+Date: Tue, 23 Jun 2026 00:34:58 +0100
-+Subject: [PATCH] IPv6ND: Free routeinfo when it expires (#670)
++++ b/meta/recipes-support/gnupg/gnupg/CVE-2026-57062.patch
+@@ -0,0 +1,43 @@
++From 09d686f5ca09f1161f1e433473968d15b563687f Mon Sep 17 00:00:00 2001
++From: Werner Koch <wk@gnupg.org>
++Date: Thu, 18 Jun 2026 10:51:34 +0200
++Subject: [PATCH] gpgsm: Require a minimum tag length for GCM decryption.
 +
-+Reported-by: CuB3y0nd <root@cubeyond.net>
++* sm/decrypt.c (gpgsm_decrypt): Require a minimum authtaglen.
++--
 +
-+(cherry picked from commit 708b4a56bae080a5b18c2e0c4c6fbe103131a2b0)
++Reported-by: Thai Duong <thai@calif.io>
++This is similar to OpenSSL's
++CVE-id: CVE-2026-34182
 +
-+CVE: CVE-2026-56116
-+Upstream-Status: Backport [https://github.com/NetworkConfiguration/dhcpcd/commit/708b4a56bae080a5b18c2e0c4c6fbe103131a2b0]
-+Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
++CVE: CVE-2026-57062
++Upstream-Status: Backport [https://github.com/gpg/gnupg/commit/4c7e68cf3d335328821bdbb70db309a60d0e4fd4]
++
++Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
 +---
-+ src/ipv6nd.c | 1 +
-+ 1 file changed, 1 insertion(+)
++ sm/decrypt.c | 9 ++++++++-
++ 1 file changed, 8 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/ipv6nd.c b/src/ipv6nd.c
-+index ccf71241..557ff50e 100644
-+--- a/src/ipv6nd.c
-++++ b/src/ipv6nd.c
-+@@ -1789,6 +1789,7 @@ ipv6nd_expirera(void *arg)
-+ 				logwarnx("%s: expired route %s",
-+ 				    rap->iface->name, rinfo->sprefix);
-+ 				TAILQ_REMOVE(&rap->rinfos, rinfo, next);
-++				free(rinfo);
-+ 			}
-+ 		}
-+ 
++diff --git a/sm/decrypt.c b/sm/decrypt.c
++index c4bc57657..09ed7f8a7 100644
++--- a/sm/decrypt.c
+++++ b/sm/decrypt.c
++@@ -1399,7 +1399,14 @@ gpgsm_decrypt (ctrl_t ctrl, estream_t in_fp, estream_t out_fp)
++                 }
++               if (DBG_CRYPTO)
++                 log_printhex (authtag, authtaglen, "Authtag ...:");
++-              rc = gcry_cipher_checktag (dfparm.hd, authtag, authtaglen);
+++              if (authtaglen < 12)
+++                {
+++                  log_info ("authentication tag is too short (%zu octets)\n",
+++                            authtaglen);
+++                  rc = gpg_error (GPG_ERR_CHECKSUM);
+++                }
+++              else
+++                rc = gcry_cipher_checktag (dfparm.hd, authtag, authtaglen);
++               xfree (authtag);
++               if (rc)
++                 log_error ("data is not authentic: %s\n", gpg_strerror (rc));
 +-- 
-+2.43.0
++2.34.1
 +
+diff --git a/meta/recipes-support/gnupg/gnupg_2.5.17.bb b/meta/recipes-support/gnupg/gnupg_2.5.17.bb
+index fd6588769ca..6b2af1c96c9 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.5.17.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.5.17.bb
+@@ -19,6 +19,7 @@ UPSTREAM_CHECK_URI = "https://gnupg.org/ftp/gcrypt/gnupg/"
+ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0002-use-pkgconfig-instead-of-npth-config.patch \
+            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
++           file://CVE-2026-57062.patch \
+            "
+ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
+                                 file://relocate.patch"
 
