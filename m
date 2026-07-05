@@ -2,60 +2,60 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5D31C44500
-	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:42:56 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.139215.1783291373807785000
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17EF3C44503
+	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:42:57 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.140020.1783291371586049783
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 15:42:54 -0700
+ Sun, 05 Jul 2026 15:42:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=QrwMPz6t;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493c19bad03so21176275e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:53 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=axoDdjb1;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493c2b3dc8bso16237555e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783291372; x=1783896172; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1783291370; x=1783896170; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=k9BpYvYHgkJPJ6j+boGFmlCwngJCB5RCjtsHl+WCETY=;
-        b=QrwMPz6tBbhFtfBchIQX/1leLBW+tBg38vJoloGYwaWVERZMY64yN6+0pwH+E+3utJ
-         ZbypOX9aXAKDHqyYFQJPZ7chuVxsXD3drjLOXKxYO7JvQweLSwt61mxHuvzXXyNBbY9l
-         8E+gNyqxWRVGYm64RyRFWhxfMuHt7qc8waLNo=
+        bh=0/hL7uobbIbgpviv2YQsidqT4LNZ5G5BnKqcPG+VyjQ=;
+        b=axoDdjb1jaHJEbmF1jujGyhpuQ8AmfUgbFQTYgJuMomWtnHCXEsW2SbIVOAllVYZei
+         pDoUY6GnOpUQRbwn3zYEgG/l5CLRS54qheMJtlAZYKbpJkdTjt8oXJD0Mdb1lhGq9nYC
+         lk+y5116+4IjHnpJuF0dCZFDGPVj29EN7yAOQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783291372; x=1783896172;
+        d=1e100.net; s=20251104; t=1783291370; x=1783896170;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=k9BpYvYHgkJPJ6j+boGFmlCwngJCB5RCjtsHl+WCETY=;
-        b=N3C1JwWD+vQ098WbvVBXQHeFHM9wOmco1sn304Gryy/TKL8V0YHyfNWVAvu54mzpmZ
-         48MHenjzwMH4G7sn30nJXSH3qEch7bDn9t01LfdnE8yYVKm+H8t/spLruqAvc86hWWB+
-         mjXC3My2gNOVW5qN5yrM2+qgDf9iqPz9BfTLrjjXiP2D414L8osGmmFkKhJ6MvN75ZEd
-         EHf7p8a0Mhf/hfQnAq56qFWDxA0/SRgMobJ39p76/9Yhditt1gBgvEBhbO19xofmLV8Y
-         wxwavRlJp4pbTy6Kokk/QV9tZf8SdldR9v5fYbid8mgfkMli9iFJu71pqHB9CxpSwbwb
-         MpMA==
-X-Gm-Message-State: AOJu0YwSj2ld1gHtt1x4QQ147OABEO/m7ShDQZEtQPRtCBjCHohjJZXA
-	BibMlNUqvG/5Di3ohaoHMIAsCL/H91HoCIlXkiiHyFmnT72BhTNy9VW0WeHZspf5JZHHteTGcST
-	diGk5jvM=
-X-Gm-Gg: AfdE7clFPBs5dsRA3yqE+29pUto7BgIFwbsD031KtLixTvJJyUr9RyDfZAqZaMc62gc
-	920O4Dy2nNPm0uOBU0VOfRqIFG1isNvAXJP4K91vXH3UdALEV2pfs9wpY6SPDB7t85qDrb5eIBZ
-	2aBowRtuCZIvgkMqaV7En5nujIJhLFTNirCfYc5OI58GOPDn7phJlUEDoKQixfvrO1AGhEsblAq
-	sEFynL+DGHIu9Be/eYDh20DFJCGk0d486Onn1HVtvxfR3creC2DEYhyU4u8GS+d/6eHYt0v39t1
-	sMGscV8c0BkYKQqK6V4d5AGFE1KUENgovyB23+r4cvtvPzkoV0ERm3EK4gzja5Lyt7BlyhE5Cy1
-	iP8XQqjoKXV87GGvCx3fqQLnXt0YEDYFBF1gshBkoLBqdyFB/49zmqVkxB7qitQefl/stz7vbxW
-	QV2XMZHaiRvQ067wpLWgH6U+ZQOw==
-X-Received: by 2002:a05:600c:19cd:b0:493:d282:8298 with SMTP id 5b1f17b1804b1-493d88d2f58mr28457805e9.16.1783291372086;
-        Sun, 05 Jul 2026 15:42:52 -0700 (PDT)
+        bh=0/hL7uobbIbgpviv2YQsidqT4LNZ5G5BnKqcPG+VyjQ=;
+        b=CenIpsZG57Sw00OyqH/Xz4C7HzF9BLkJFVRDkPYtd0Ax7c/ymt49yNLXl3WCi6pfEe
+         f6hwZYuOmW+lbUwjFMmu/rtfLjoOABRJdSmGdpSTxik4qegGCHgwOaz5/YfMYeTxH01T
+         Qhm1ybej44nChLCZYfjuwMMWRGZRYiT+QszQBHf/48xeln6G5rlbKX9qtpwKmg4G0kHW
+         xj7rZVCyLRI8fZk+2hiyupEu+7ho206jQpUAU3weKwvsnD08/VeO3041n+DKA5dNluy4
+         nXIyWGomMHqS2k+t43Tw3u+w3B2KOrLXtofJ7tyUjN4Hcg165rY8YsUGXiOKFmuSJx4g
+         qYsQ==
+X-Gm-Message-State: AOJu0YxGOc8joBwIrBmZVP0sr4zGtZlB8ysyCl2L0YP3t5FoNgJThL0l
+	za9QfIYUf57bZdXZBo+ZWU5XryLLy9BV8tQ8FWcZe035HO0vtBZmfcGHGzZ6nRB+xG6iITLpdUL
+	G7dj3Z7M=
+X-Gm-Gg: AfdE7cnq81kmfesETAgngcKwCEeIhUdwJy62+SflCZu8jggBoxK3OC93eLoaIOzHPxV
+	ZqXlMCplThQ054gqFU4KeMt1kvQSrRSzh/Uj43isKiJ/ra6IsJ/XNIHMlEqosiL/pctmc35tYUL
+	xZtRsa0/f+JOc9Fv3GXDMi0lHZ2Zb+bfLuEZVUyQyVRidYCBbaH5DJwCHAy7AqUivVmgenZSLK2
+	a1EzW/8s0XkQRug+HJGgPdj2JnaNMzMVQQmGhlHv4FmkhwF8ODxIuok7BfFmY+RTCp3jQK2VP8J
+	tGEFZfZZR+VqyynDU2ecSGSyXXH9ask4XJsvKD/2tr/MMYqQ/eg0/ZVGMHxUGhP96xfYdyAOqjI
+	XeVAv9xkkZIHCQ055P7STESkgbFrktEoKtuK8losl9vnljpBueJ4jG0nIiVeMsIM0PM/oz/aAFM
+	f2y2LoQk8LUrdkiKaa70vYil+/Dw==
+X-Received: by 2002:adf:d006:0:b0:473:24e3:fa8f with SMTP id ffacd0b85a97d-47aae0da7f2mr6967956f8f.47.1783291369775;
+        Sun, 05 Jul 2026 15:42:49 -0700 (PDT)
 Received: from FRSMI25-LASER.lan ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.51
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 15:42:51 -0700 (PDT)
+        Sun, 05 Jul 2026 15:42:49 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 17/55] libxpm: upgrade 3.5.18 -> 3.5.19
-Date: Mon,  6 Jul 2026 00:41:07 +0200
-Message-ID: <2018b1c49ed6f44303f832857a009c7c5c9f55a5.1783289522.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 14/55] libssh2: fix CVE-2026-55199
+Date: Mon,  6 Jul 2026 00:41:04 +0200
+Message-ID: <a45940722142878efdec770c0a4b61d4d6c91751.1783289522.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783289522.git.yoann.congal@smile.fr>
 References: <cover.1783289522.git.yoann.congal@smile.fr>
@@ -64,38 +64,91 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:42:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240171
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:42:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240168
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-A vulnerability in the `xpmNextWord()` function could cause an internal pointer to read beyond the file's end due to improper validation of file boundaries. This issue was fixed in libXpm 3.5.19.
+Backport patch to fix CVE-2026-55199.
+https://nvd.nist.gov/vuln/detail/CVE-2026-55199
 
-The changes between 3.5.18 and 3.5.19 contain only the fix to CVE-2026-4367.
+Upstream fix:
+  https://github.com/libssh2/libssh2/commit/17626857d20b3c9a1addfa45979dadcee1cd84a4
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Enoch Ng <enoch.ng@windriver.com>
-(cherry picked from commit 1fc25a668ee8bbabf7e8e369b2d94867cd22243b)
-[YC: changelog: https://gitlab.freedesktop.org/xorg/lib/libxpm/-/compare/libXpm-3.5.18...libXpm-3.5.19 ]
+Tested with ptest:
+Before: PASSED: 3, FAILED: 0, SKIPPED: 0
+After: PASSED: 3, FAILED: 0, SKIPPED: 0
+
+Reviewed-by: Anders Heimer <anders.heimer@est.tech>
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+(cherry picked from commit 5b52af4a02849c1ce74491056a2d13e4e3b6ad2d)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../xorg-lib/{libxpm_3.5.18.bb => libxpm_3.5.19.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxpm_3.5.18.bb => libxpm_3.5.19.bb} (88%)
+ .../libssh2/libssh2/CVE-2026-55199.patch      | 44 +++++++++++++++++++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-55199.patch
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxpm_3.5.18.bb b/meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
-similarity index 88%
-rename from meta/recipes-graphics/xorg-lib/libxpm_3.5.18.bb
-rename to meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
-index 94bf28232e9..32e052fd424 100644
---- a/meta/recipes-graphics/xorg-lib/libxpm_3.5.18.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxpm_3.5.19.bb
-@@ -22,6 +22,6 @@ PACKAGES =+ "sxpm cxpm"
- FILES:cxpm = "${bindir}/cxpm"
- FILES:sxpm = "${bindir}/sxpm"
+diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-55199.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-55199.patch
+new file mode 100644
+index 00000000000..81815486ada
+--- /dev/null
++++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-55199.patch
+@@ -0,0 +1,44 @@
++From b5cb1c1781ba5f275485f65855d61faaba6542b2 Mon Sep 17 00:00:00 2001
++From: TristanInSec <tristan.mtn@gmail.com>
++Date: Wed, 15 Apr 2026 14:51:08 -0400
++Subject: [PATCH] packet: check `_libssh2_get_string()` return in `EXT_INFO`
++ handler
++
++The `SSH_MSG_EXT_INFO` handler discards the return values from
++`_libssh2_get_string()` when parsing extension name/value pairs. When
++the buffer is exhausted before all claimed extensions are parsed,
++the loop continues with no-op iterations until `nr_extensions` reaches
++zero.
++
++The `nr_extensions >= 1024` cap limits the worst case, but the loop
++should still break on parse failure for correctness and consistency
++with other parsers in this file (e.g. `SSH_MSG_CHANNEL_OPEN`,
++`SSH_MSG_KEXINIT`) that check `_libssh2_get_string()` return values.
++
++Closes #1864
++
++CVE: CVE-2026-55199
++Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/17626857d20b3c9a1addfa45979dadcee1cd84a4]
++
++Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
++---
++ src/packet.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/src/packet.c b/src/packet.c
++index 6da14e9f..ebaddae5 100644
++--- a/src/packet.c
+++++ b/src/packet.c
++@@ -868,8 +868,10 @@ _libssh2_packet_add(LIBSSH2_SESSION * session, unsigned char *data,
++ 
++                     nr_extensions -= 1;
++ 
++-                    _libssh2_get_string(&buf, &name, &name_len);
++-                    _libssh2_get_string(&buf, &value, &value_len);
+++                    if(_libssh2_get_string(&buf, &name, &name_len))
+++                        break;
+++                    if(_libssh2_get_string(&buf, &value, &value_len))
+++                        break;
++ 
++                     if(name && value) {
++                         _libssh2_debug((session,
+diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+index 5ffc40b8fcf..2407ed34d94 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://0001-Return-error-if-user-KEX-methods-are-invalid.patch \
+            file://CVE-2026-7598.patch \
+            file://CVE-2026-55200.patch \
++           file://CVE-2026-55199.patch \
+            "
  
--SRC_URI[sha256sum] = "b4ed79bfc718000edee837d551c35286f0b84576db0ce07bbbebe60a4affa1e4"
-+SRC_URI[sha256sum] = "ad3576d689221a39dc728f0e0dc02ca7bb6a0d724c9a77fd1bfa1e9af83be900"
- 
- BBCLASSEXTEND = "native"
+ SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
 
