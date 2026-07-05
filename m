@@ -1,98 +1,112 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 678EBC43458
-	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 09:37:47 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.128899.1783244257500153507
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71AFEC43458
+	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 09:45:37 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.128967.1783244734546226387
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 02:37:37 -0700
+ Sun, 05 Jul 2026 02:45:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=10dOkyTO;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 42B7A1A0E67
-	for <openembedded-core@lists.openembedded.org>; Sun,  5 Jul 2026 09:37:35 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 116D6601A2;
-	Sun,  5 Jul 2026 09:37:35 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C1BD311BB9280;
-	Sun,  5 Jul 2026 11:37:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1783244254; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=DKNkGuK370VaNBVMlJCZMlmmCO88AtQoXCTtn6KADqQ=;
-	b=10dOkyTOg/b4uCc4GGqTpXFG8+o05yl/TpIuFXfqfiWosMTdlU312s0aceZZJya49yIw0z
-	cECtflvAv3ZFa2kI5w/VMaO9pq3CtTibqUCUswPizbU92ekMCnvTnnNucOZ9UHaUgf0xtk
-	Nbv4uEYYdpfdkr/c4vFw4CAELLJrTI5UPfLXte0NwMJLqBwIqsNkF8HmkQNrDYKjFE5XhA
-	cPYr4UAMhqL94DWRO9yqm4BpdcropfgWlw8DOqr9y2j8O8WhlNY9o1mWHESl/+IDKTUf84
-	XV6UHG5q5YX2kxOGMtm+jKRIYJjIUwawdTEfCT70qnyYQzNT0S2uzryol7Uvig==
-From: Benjamin Robin <benjamin.robin@bootlin.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D2amzh+m;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493c486f012so7910115e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 02:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1783244733; x=1783849533; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MV6320e8WJpj6djRmR8AZ8BkSChnYsSI8xVcM8sU2+g=;
+        b=D2amzh+mEywJfehd6nR7uwaV4wikNsnvc3xtwMZZ78DXaSrmLVzHsIvF9dIVTsmNBn
+         J9/durZfbhRiDnYdYh/kWAJm/axEgc+gS7R7ObwxD0T7MLzkeD+LCjP32bJV/fRO8ojF
+         cWbx+My8vyz4CPWcml+jghPfuShsTkgK8ZHTM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783244733; x=1783849533;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MV6320e8WJpj6djRmR8AZ8BkSChnYsSI8xVcM8sU2+g=;
+        b=aim2ACWOdpiP6j8vLyBynvro9DtVf94mCXRH+GmY9hJVUSEUwuHIDFdJM0nOJ1l4xq
+         yiRVddHH56sBaMJzRWX7b+IxgWCWfbrWXfat6Ve3MC4fTx8wMTZauHyOJ7KWKW6lhodu
+         PdKUEExveA5wKXgKpKRu+BFiy+bS6PSGHqs6vrz6f6AOekKiKP4nVuzcYTOioyeDbGLR
+         9+37lej7iXyAupHYr6XMCSs+ZEW7rLRoa7Lr1Am3Zsu3dsY/9WbMX5HIYAx/yKeLWgrP
+         JCMVZccYE7GhNGbnn1NCQ49mVNyKYaCCIqClOPLBK3GmSu7FAl/eUM20kogelqP9OYc5
+         Ubjw==
+X-Forwarded-Encrypted: i=1; AFNElJ9iqWtR32MCdJOiGZQlyj8nKDils3aoAbF9xl8gbuIaObwtOVkGVE783LvXtUzkelFdn3dCKW2+1HE+VFyy1YEyVQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Ywih2qo/CMPm1VA+nS9EHUkUALYPaiKySDKIl5XCPLXpmJvh7HS
+	YQCTh/fYh6NhWc4iRSL/y2O57SNlI3LwyTP1gZw18q2oOogotC8RtlVWhzlDV6x+1PU=
+X-Gm-Gg: AfdE7cmwbqgKW1Ih1KfUHNmpp1hwiZElDR0h4lJ/XOl8AkRYeXZGFOst20SdTkZ8PjD
+	MTrtdisM9dAXjhRBdOzRhVUI84RmCJ2YG47uJGaBaeZOyFUkR9WH++Q5a8UhrnQwy6yZZfqumrt
+	ZVPt3FHAusOiBh6GTqXdRA2c0DQ4vPg2ls4dgBPgwlR+ZMspoGwiBennEoUqIXyrjpp6gcaoVxO
+	+3OE9+Pr1OW9YZ/LExzKbecR6/QdojwT6tny5w1h25Jax7xenqDXXU6rJhqumpVAfenV2iOLlxW
+	Jcs+uVZmXfIY7W5RNqkj7psScFbIfIZNTVSrSwqGOwRWi+GG1g7FgfAbzsw5vMcgcVRDTDMQvhV
+	gaEHlt1SwGVJt2uf7WvD+gfzwPgZLbgEUa8lN8e9exP/ILoVHoXJ1rimARADguFQd7al6nj2S5Q
+	HR4cTK74hqzz6hRo/xfDbNZvQtJQ5GdV4IRSkHoIIvcEptaN9jMytUZmb51wChmvtDSB33lnISH
+	q0=
+X-Received: by 2002:a05:600c:2905:b0:493:bd66:3efb with SMTP id 5b1f17b1804b1-493d11f9072mr48934555e9.29.1783244732627;
+        Sun, 05 Jul 2026 02:45:32 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:952e:67c8:1422:6cf? ([2001:8b0:aba:5f3c:952e:67c8:1422:6cf])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d6da9sm14659181f8f.12.2026.07.05.02.45.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Jul 2026 02:45:31 -0700 (PDT)
+Message-ID: <d81936f4d8a3bed25ad0bd34e6f2503798906044.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 05/15] mesa/mesa-tools-native: Upgrade 26.1.2
+ -> 26.1.4
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, olivier.benjamin@bootlin.com,
- mathieu.dubois-briand@bootlin.com
-Subject: Re: [OE-core] [PATCH] glib-2.0: Upgrade 2.88.1 -> 2.89.1
-Date: Sun, 05 Jul 2026 11:37:32 +0200
-Message-ID: <SIA-K_G0Q1GK-Xo_yctzzw@bootlin.com>
-In-Reply-To: 
- <CANNYZj_ffP48T3+YOkt9iQumB+G0Fs2LLhv8QtiS=KfYYdDd=g@mail.gmail.com>
-References: 
- <20260703-glib-2-0-cve-2026-58016-master-v1-1-e16967ddff16@bootlin.com>
- <CANNYZj_ffP48T3+YOkt9iQumB+G0Fs2LLhv8QtiS=KfYYdDd=g@mail.gmail.com>
-MIME-Version: 1.0
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 05 Jul 2026 10:45:31 +0100
+In-Reply-To: <CANNYZj9mveU24cR_VQky=rTAFze_2gffU22a9WJ_jetLsaxLTA@mail.gmail.com>
+References: <20260703082955.1585712-1-richard.purdie@linuxfoundation.org>
+	 <20260703082955.1585712-5-richard.purdie@linuxfoundation.org>
+	 <CANNYZj-7NkZiXow508-rdrovftFp6S6yuGKVDYMHBPp7MR440w@mail.gmail.com>
+	 <DJQHRJ8J3RC1.Q0KLD14LY2ZA@bootlin.com>
+	 <208d3e13b95e992d4eaf54f8210592c06ce46050.camel@linuxfoundation.org>
+	 <CANNYZj9mveU24cR_VQky=rTAFze_2gffU22a9WJ_jetLsaxLTA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 09:37:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240147
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 09:45:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240148
 
-On Friday, July 3, 2026 at 11:48=E2=80=AFPM, Alexander Kanavin wrote:
-> On Fri, 3 Jul 2026 at 16:34, Benjamin Robin via lists.openembedded.org
-> <benjamin.robin=3Dbootlin.com@lists.openembedded.org> wrote:
-> >
-> > This upgrade fixes CVE-2026-58016
-> >
-> > A flaw was found in GLib. A state confusion issue exists in
-> > g_dbus_node_info_new_for_xml() in the gio/gdbusintrospection.c file when
-> > processing malformed D-Bus introspection XML, specifically with a <node>
-> > element nested within other elements like <method>, <signal>, <property>
-> > or <arg>. This issue can cause an unsigned integer overflow and lead to=
- an
-> > out-of-bounds read, resulting in a denial of service.
-> >
-> > The CVE NVD entry is wrong, it indicates that the CVE is fixed in 2.88.1
-> > but the fix was realized in 2.89.0, see [1]. The fix is not present in =
-2.88.2.
-> >
-> > [1] https://gitlab.gnome.org/GNOME/glib/-/commit/c9da977c178fbfc0e4caf9=
-9f9fdf5dc433d6fcc2
-> >  .../glib-2.0/{glib-2.0-initial_2.88.1.bb =3D> glib-2.0-initial_2.89.1.=
-bb} | 0
-> >  meta/recipes-core/glib-2.0/{glib-2.0_2.88.1.bb =3D> glib-2.0_2.89.1.bb=
-}   | 0
+On Sun, 2026-07-05 at 10:43 +0200, Alexander Kanavin wrote:
+> On Sun, 5 Jul 2026 at 10:32, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
 >=20
-> 2.89.1 is a pre-release, we cannot take it. You need to backport the
-> patch, or get the upstream to release 2.88.3 with it.
+> > > Just to confirm, we indeed have this error:
+> > > https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/40=
+97
+> >=20
+> > I've queued my .4 with Alex's patch, thanks.
+>=20
+> This patch is coming from a big rollup of everything that was
+> released in June:
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dakanavin/=
+package-version-updates
+>=20
+> This set is now ready, but it has been cooking long enough that
+> meanwhile upstreams have released even newer versions, and patches
+> were sent for them, so to avoid clutter and duplicates, let's merge
+> the newer versions first, then I'll rebase and send. E.g. mesa is
+> updated to .3 in my set, but latest is already .4.
 
-Indeed, I did not know that. SECURITY.md contains the following:
-| Under GLib=E2=80=99s versioning scheme, stable release series have an eve=
-n minor
-| component (for example, 2.66.0, 2.66.1, 2.68.3), and development release =
-series
-| have an odd minor component (2.67.1, 2.69.0).
+I've had this happen to me a couple of times as well, where upstream
+release a new point release, obsoleting the thing I was testing.
 
-So I sent a v2 that backport the patch.
+It is important to get the newer point releases that happen 'fast' as
+they often do that for important bug fixes.
 
-Thanks,
-=2D-=20
-Benjamin Robin, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+We'll work things out but I am keen to try and get us then keep us up
+to date.
 
+Cheers,
 
-
+Richard
 
