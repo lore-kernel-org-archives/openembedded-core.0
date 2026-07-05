@@ -2,60 +2,60 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82EA6C4450B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7841C4450F
 	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:42:57 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.140016.1783291367994050487
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.139217.1783291376418206242
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 15:42:48 -0700
+ Sun, 05 Jul 2026 15:42:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=v4x50nyy;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493c19bad03so21176065e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:47 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=p7fNNtic;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493b779003fso11293445e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:42:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783291366; x=1783896166; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1783291375; x=1783896175; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oNUZX8Y1NL8RN90sKYPrSGSTI+XSXGdu1V0Av18Tiik=;
-        b=v4x50nyycWolNatJRU9XpjIat5kMGUnXVonsgusbCyC8+Xy/mci07ZXg1EPBXl4Gq6
-         kcUHycUiU4dzRBChBl3vVsQ4BjfHmXOzKITcLWi34Oy3CHcLBJG5T1XeJ5pd0XFOjbQ6
-         2s2FiPkdHpRnoyKOW71CqmO4jW2MI/IFTRJw4=
+        bh=8OS7j5fmaQytDbieZqQl5tGAc/dS+Ujbzuqsx2noPk4=;
+        b=p7fNNtic5HaRUUGAdT/fvfvo5cDzWdd5NMoN3yt6t/14z8DE91fAdN7Gy8lXB3z3GC
+         v/CWjrV89wSacBQy+Z+XjcwqNdF4RLEd/erEM62qINEhrdoUlsMHtyo3XQMiRg8vVC94
+         agUmh7Jn6v6Wnpsn20q19IaOtUARIlFPQ50iQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783291366; x=1783896166;
+        d=1e100.net; s=20251104; t=1783291375; x=1783896175;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=oNUZX8Y1NL8RN90sKYPrSGSTI+XSXGdu1V0Av18Tiik=;
-        b=ZVvbUPP8/GW+UdbH4ku+byqB8wcT3p3IPD2wK1KqxKbNCTZ5oTuccqICs4gaXtI3aO
-         bbl0aKYEoGKfcOTR8qFYu5OClJb8d0+VRFQDlHS5i0I8XhZxx6a09i9yo03/KWJO+xZ2
-         r7c6tDuoLHo5VEQWMvGzDpPQKsoH4/rS3GECX36mewNM0bqDVpCigivqk+vTExmtiZsj
-         Oo6hJmGZHeye30w/E+EafF/4O9mYWSgJaPKLgdArhi//ePWqLcvciPJzMzVya0IsM1+k
-         ahTOfnvS3QzhVfxX3g0RQQjtn0dLOs46+TMeIEtn813+D4NU4zj94OrTdK0MYiXzHnr9
-         qK4g==
-X-Gm-Message-State: AOJu0YzWXooPgiJfZ3Hfh9v55Nu70bTitSbXzd4qi7gEXEaIl1J16VgQ
-	wK5xbYTV39k329fWn1/7BaZncWT1bW9yGsDdUgRDwsGLKmIcutTgB/vNY12Q3JoRSDI2dLYqCj2
-	mBGfnN94=
-X-Gm-Gg: AfdE7cnH2UoDtRLf3L0oMq3gxWADCCLPFIG0hZ52FmTKPxSX1P6VEvYag4JMGaWAtPq
-	ETFcwPLgwmvN4rK+aCaIBsGeBVkb6knA6rzYKNSYzysM5DI4X1MusRC4zv9c+HcJBijrIsHwyd6
-	e0dDKS2rmyHxsWauBghUDLgOpJH5q/I1wGYlrN89eHVISoYQKnJosH2gHyAcaPCB8ojV+ewUd1y
-	HNyo+AhZYQ3OSTiMz2EEY38oGgSo8q3sehAIv+3EiWxOG4hMJCkGIbcr9GAp5pMYCkTHkOeC5gm
-	IP2VNLTAPs0RmG0VUZidmOFQ34Aw4oRm1SGQitbS5JnSUWPIVsiqbSNKJqH2nNQmrnLCcxoXG8R
-	LlcSSeOp+5qaI1x+N/14MxuhP7yfGNkMfsvssPwvLdwTTkzWUsnkWDqccN0r9XzL+VrfUxsWGid
-	neakw9NucRhjPYKaLDQ4Y8dau/iA==
-X-Received: by 2002:a05:600c:348e:b0:493:b6e4:fb2b with SMTP id 5b1f17b1804b1-493d11f1a32mr81445235e9.25.1783291366102;
-        Sun, 05 Jul 2026 15:42:46 -0700 (PDT)
+        bh=8OS7j5fmaQytDbieZqQl5tGAc/dS+Ujbzuqsx2noPk4=;
+        b=fjk1UfWQ86O+N+pgXA+GyCBZIqtLGaBVhMPsQ/o6SWBkDxErc8iYu7GmI1nli9uQiN
+         1vTXvdUbWy+l7s6VTNsbutF3RdneRjkRuXDE/jOTC4jdOJVzECfOI4qKf0D7r2BIrZgg
+         C7BybFsfl8OuLdUm3+XK/3QVxnjnZMFWMJEq43KZMJDkWXUTElJj4NZkFd2LgFmrmwdc
+         oTBzz+4tK/1cckb0aWiEGRhf8sOFTYjn+8nHznEA0Za8BoPaPn63rfhTt+DXAgE0EhSb
+         wwdiUl8PePqN3LESkMn/qVOt8nGXYx5qU7SfIs8/EuhmA6+iELSNc99zgl3zFA2K7G62
+         ROww==
+X-Gm-Message-State: AOJu0YyqxAxaMmTGZD0zhMXOGR2S1PvfBhdlqz4iQ/LmjOcckUIsAaBc
+	iR9s0VHG+AQStfILjSo/iV6vH7NmJu0zh8B4dVs1IRvsDuO5334THF9nb0g9/IIalDQ87Ud7COf
+	DcxGIpk0=
+X-Gm-Gg: AfdE7clC8RjKU9FpnmkbwpVN7benLPucxTZ54AdDBYD+mTLDqgHoC2OAWxyY+quN41w
+	epqqOPzhmLZxWYktBxHJZw9dlLjr3kM4Zre4Lofs40DmYPEcd2C9S6+q4O83/bhutgdi9xH5KIL
+	WaINpr0o7H7mdR/HJ4uo9v1TW2zFvLGHiGchjz9qmK37pg6V/Z0K8PyO8UawHvQDKSMa9C8Piru
+	S43Gs0bjuc4VnKzhoYUuPZRffv22XnJeXWx5IQlZPeTd/T+JE8E2+5uAweJsM2YJBQR/7AUC4+E
+	TOW4Z8iXyRLX81Ht5oW9DyNwfc7DrUSfEIIx1qrqoHxzxW65XccHb2vhznKelYgfQ1xKSIt65FV
+	2cmvmdC7zbypvVeab+s+HZVE3fNv76N40BFAwq6WbzSDPWDEQa5vYRro78CWAFHT1cM5BDx26iV
+	Na+5dqb1y6neWyo3Xqt0miRvhBlN9Gfv4Ja7f4
+X-Received: by 2002:a05:600c:154c:b0:493:b7a6:3dac with SMTP id 5b1f17b1804b1-493d1d33cfcmr87701245e9.33.1783291374653;
+        Sun, 05 Jul 2026 15:42:54 -0700 (PDT)
 Received: from FRSMI25-LASER.lan ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.42.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 15:42:45 -0700 (PDT)
+        Sun, 05 Jul 2026 15:42:54 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 09/55] linux-yocto/6.18: qat/intel configuration warning fixes
-Date: Mon,  6 Jul 2026 00:40:59 +0200
-Message-ID: <98c44f0c864ae69ec26de49427139b2b2ebf2e6a.1783289522.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 21/55] qemu: Fix CVE-2026-0665
+Date: Mon,  6 Jul 2026 00:41:11 +0200
+Message-ID: <21b58c5b455ebc0cd325b17540b25c0ff77d39bf.1783289522.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783289522.git.yoann.congal@smile.fr>
 References: <cover.1783289522.git.yoann.congal@smile.fr>
@@ -65,139 +65,79 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:42:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240163
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240174
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Ashishkumar Parmar <asparmar@cisco.com>
 
-Integrating the following commit(s) to linux-yocto/.:
+This patch applies the upstream stable-10.2 backport for CVE-2026-0665.
+The upstream fix commit is referenced in [1], and the public CVE advisory
+is referenced in [2].
 
-1/2 [
-    Author: Yogesh Tyagi
-    Email: yogesh.tyagi@intel.com
-    Subject: qat: fix CONFIG_CRYPTO_CTS mismatch warnings
-    Date: Mon, 18 May 2026 22:21:02 +0530
+[1] https://gitlab.com/qemu-project/qemu/-/commit/058e1774d678031ec207441a51efcf8ae94cc6af
+[2] https://github.com/advisories/GHSA-4pq4-6gr5-cr69
 
-    [NOTE]: 'CONFIG_CRYPTO_CTS' last val (m) and .config val (y) do not match
-    [INFO]: CONFIG_CRYPTO_CTS : y ## .config: 8103 :configs/v6.18/ktypes/base/base.cfg (y) configs/v6.18/standard/features/qat/qat.cfg (m)
-    [INFO]: raw config text:
-
-            config CRYPTO_CTS
-                    tristate "CTS (Cipher Text Stealing)"
-                    select CRYPTO_SKCIPHER
-                    select CRYPTO_MANAGER
-                    depends on CRYPTO
-                    help
-                      CBC-CS3 variant of CTS (Cipher Text Stealing) (NIST
-                      Addendum to SP800-38A (October 2010))
-
-                      This mode is required for Kerberos gss mechanism support
-                      for AES encryption.
-
-            Config 'CRYPTO_CTS' has the following Direct dependencies (CRYPTO_CTS=y):
-                    CRYPTO(=y)
-            Parent dependencies are:
-                 CRYPTO [y]
-
-    [INFO]: selection details for 'CONFIG_CRYPTO_CTS':
-            Symbols currently y-selecting this symbol:
-              - FS_ENCRYPTION_ALGS
-
-            Symbols currently n-selecting this symbol (no effect):
-              - RXGK
-              - CRYPTO_KRB5
-
-    base.cfg pins CRYPTO_CTS=y while features/qat/qat.cfg requests =m.
-    FS_ENCRYPTION_ALGS=y forces the symbol to =y at .config time, which is
-    the correct outcome -- QAT consumes CRYPTO_CTS via the in-kernel
-    crypto API and works against either built-in or modular CTS. Add the
-    symbol to the y_or_m_enabled.cfg whitelist so the audit no longer
-    flags this mismatch, matching the existing handling of CRYPTO_CCM
-    and CRYPTO_GCM.
-
-    Signed-off-by: Yogesh Tyagi <yogesh.tyagi@intel.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-2/2 [
-    Author: Yogesh Tyagi
-    Email: yogesh.tyagi@intel.com
-    Subject: bsp/intel-{x86,common}: drop CONFIG_HIGHMEM64G
-    Date: Mon, 18 May 2026 22:21:03 +0530
-
-    CONFIG_HIGHMEM64G was removed from the kernel in v6.18-rc1 by:
-
-        commit bbeb69ce301323e84f1677484eb8e4cd8fb1f9f8
-        Author: Arnd Bergmann <arnd@arndb.de>
-        Date:   Wed Feb 26 22:37:09 2025 +0100
-
-            x86/mm: Remove CONFIG_HIGHMEM64G support
-
-    The two intel 32-bit BSP fragments still carry CONFIG_HIGHMEM64G=y,
-    which against a v6.18 kernel produces:
-
-        [INFO]: the following symbols were not found in the active configuration:
-            - CONFIG_HIGHMEM64G
-
-    emitted by do_kernel_configcheck whenever MACHINE selects one of these
-    BSPs (e.g. MACHINE=intel-core2-32).
-
-    The replacement on x86-PAE kernels is the unconditional 64GiB ceiling
-    that landed alongside the removal commit; no fragment-level opt-in is
-    required. Drop the obsolete symbol from both fragments. This mirrors
-    the recent "x86: drop CONFIG_BIG_SMP" cleanup (3260f662) for symbols
-    upstream removed in the same series.
-
-    Signed-off-by: Yogesh Tyagi <yogesh.tyagi@intel.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7ba0465eef261d649368c46ed1d2e1b24240c01f)
+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_6.18.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2026-0665.patch             | 38 +++++++++++++++++++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-0665.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-index 031c81c2b30..b5775d2fd14 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
-@@ -16,7 +16,7 @@ python () {
- }
- 
- SRCREV_machine ?= "dda294005f893c24b6322a7bdf58d7575f4ad21f"
--SRCREV_meta ?= "2d12860e7692327b02ec4d707585fe101b8c4d38"
-+SRCREV_meta ?= "a5384458147b581e6beac32ee5cec4e4422d58b1"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.18;destsuffix=${KMETA};protocol=https"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-index 824546e6618..70577b74b59 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
-@@ -19,7 +19,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "8b43828d68f73df49a408e5bba88eade55b0ca09"
--SRCREV_meta ?= "2d12860e7692327b02ec4d707585fe101b8c4d38"
-+SRCREV_meta ?= "a5384458147b581e6beac32ee5cec4e4422d58b1"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.18.bb b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-index 88b8949cf41..96ea7122d6e 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
-@@ -28,7 +28,7 @@ SRCREV_machine:qemux86 ?= "8b43828d68f73df49a408e5bba88eade55b0ca09"
- SRCREV_machine:qemux86-64 ?= "8b43828d68f73df49a408e5bba88eade55b0ca09"
- SRCREV_machine:qemumips64 ?= "9fb4ff0187c85426f21fd40d4c61b742800f65c4"
- SRCREV_machine ?= "8b43828d68f73df49a408e5bba88eade55b0ca09"
--SRCREV_meta ?= "2d12860e7692327b02ec4d707585fe101b8c4d38"
-+SRCREV_meta ?= "a5384458147b581e6beac32ee5cec4e4422d58b1"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 1d493ee1a32..518ef69789d 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -38,6 +38,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://qemu-guest-agent.udev \
+            file://CVE-2024-6519.patch \
+            file://CVE-2026-2243.patch \
++           file://CVE-2026-0665.patch \
+            "
+ # file index at download.qemu.org isn't reliable: https://gitlab.com/qemu-project/qemu-web/-/issues/9
+ UPSTREAM_CHECK_URI = "https://www.qemu.org"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2026-0665.patch b/meta/recipes-devtools/qemu/qemu/CVE-2026-0665.patch
+new file mode 100644
+index 00000000000..ed8623c2257
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2026-0665.patch
+@@ -0,0 +1,38 @@
++From 77705f3f91dc1ede803228a0eaf4593103466e3a Mon Sep 17 00:00:00 2001
++From: Vulnerability Report <vr@darknavy.com>
++Date: Fri, 9 Jan 2026 10:35:48 +0800
++Subject: [PATCH] hw/i386/kvm: fix PIRQ bounds check in xen_physdev_map_pirq()
++
++Reject pirq == s->nr_pirqs in xen_physdev_map_pirq().
++
++CVE: CVE-2026-0665
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/058e1774d678031ec207441a51efcf8ae94cc6af]
++
++Fixes: aa98ee38a5 ("hw/xen: Implement emulated PIRQ hypercall support")
++Fixes: CVE-2026-0665
++Reported-by: DARKNAVY (@DarkNavyOrg) <vr@darknavy.com>
++Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
++Signed-off-by: Vulnerability Report <vr@darknavy.com>
++Link: https://lore.kernel.org/r/13FE03BE60EA78D6+20260109023548.4047-1-vr@darknavy.com
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++(cherry picked from commit c7504ba2a560fd884557f6e5142f03b491aad0c7)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++(cherry picked from commit 058e1774d678031ec207441a51efcf8ae94cc6af)
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++---
++ hw/i386/kvm/xen_evtchn.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
++index dd566c496..173e0818c 100644
++--- a/hw/i386/kvm/xen_evtchn.c
+++++ b/hw/i386/kvm/xen_evtchn.c
++@@ -1877,7 +1877,7 @@ int xen_physdev_map_pirq(struct physdev_map_pirq *map)
++             return pirq;
++         }
++         map->pirq = pirq;
++-    } else if (pirq > s->nr_pirqs) {
+++    } else if (pirq >= s->nr_pirqs) {
++         return -EINVAL;
++     } else {
++         /*
 
