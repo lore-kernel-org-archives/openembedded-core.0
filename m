@@ -2,60 +2,60 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF3FC44503
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 736FAC43602
 	for <webhook@archiver.kernel.org>; Sun,  5 Jul 2026 22:43:19 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.140041.1783291395174905941
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.140044.1783291396792962155
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 15:43:15 -0700
+ Sun, 05 Jul 2026 15:43:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=hBpXA2l3;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-493b786d6c0so11849615e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:43:14 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=oDJed6vC;
+ spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47c2b362ee2so981213f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 15:43:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783291393; x=1783896193; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1783291395; x=1783896195; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=IuDhw5n5waWRnthmHu21Upl/cVhitH9pHLWdLtm1rao=;
-        b=hBpXA2l3DAorRS7wvTbwwB1lPq177T50bFrm41vsphmQ2BvG9kKgy4RXDzu3u0QHJ9
-         VdxOuirLtUPNVRAYZYUJAL1FlycB/XP3qV6Jd77Po32Bap9FNH5tbLuEpH2HSaZeQEIf
-         dVutJDgePWia6iZ1xypvctJP+92bIDU9/Rymo=
+         :reply-to;
+        bh=n6j+/GloXsE40TU4m40xM800zK/s+nWy6UHwsAQ0DGo=;
+        b=oDJed6vCMWX4ShsXljjrZI1wgOwBzF7osCgdvWSlDKjL80pW4t/vHXLNnPjHCzZHQU
+         0VqZImZWHGShyivoZvo8mT+dMCuGrkOe5J0R1aCNSmLi0BzAEU3XpCnfx+7Zt4Bj4k8x
+         xlPG7d9CD0PS7eB3CxmrLBr8wr/tpkLO8fBKM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783291393; x=1783896193;
+        d=1e100.net; s=20251104; t=1783291395; x=1783896195;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=IuDhw5n5waWRnthmHu21Upl/cVhitH9pHLWdLtm1rao=;
-        b=dCGuf20E2VaeocrFAeVI7rZGXNRla2UyAdJu0tx/tMZjo3Pesx+/337+SlOSM0+3Fm
-         gLivRx6Imtg23SB27VheEdWA5oR3eSouAlO4CHEd89RkzmlkZ134eQMQZ4GZhx7caHul
-         tD2GrXNkC10alyfvEWavINV3OAAKkmpFMAxoB/p1OYn3xiUHYht/hwGDUARjyfWK2Nmi
-         Zje8BJPYnLGC3FpqjRfcGXG4JYcI+BFMN/tIaD9YBvrgRJhaQzbhMRkTY7txBYxkylD1
-         SbTEZ53LaW8MfRO494ek2FZbgTGHeSIa0xu1plu6PhXM5DfhlrQtLn/FMhT+/LOvYRRT
-         uOkw==
-X-Gm-Message-State: AOJu0YyG/WewUnNXzLLChR/xaAnOnq5jsqc9rKe7ImRKB3ntlJ260eWM
-	A3QIXosL7HUGIJMbXJQJ5yAR4/vLE6Z2/wFpeqto+18C1Isfkr5vv9GT03/Fwzc+kh5rcp52Qak
-	RpkjPohg=
-X-Gm-Gg: AfdE7cnjYbJ7WFIRtzQoOCy4g5y77Ate82XI2ly5ZtWK+E2KLDApJGb1ccwBTezZx4E
-	v+j8MXQ7rNL0K/2dVHMbmTGVKBmWSX1XCSVzqEuAuFNJECYqzHWHYrhKBoL91uNdJMFlg7f1vsN
-	JGxpADN8WNWMdldYHMF/LGr2/WYhkBxE0qFgCSPKmmB/5NDMIKMk3e+ljheGqJDZ00blWcd2zQj
-	0GOp3DpvGSLxNL+edD23RG8E6CbQVOJuq/86DriuhfHpYn02wg5yIA5THQ/Z1KGFmN6qTUkYlOD
-	K8CpffS7WS2X2LDx4UImbzR5Eug2hNRcvug3dylYzdCAJUngv6RMZEbwwp3yLLIpsmCyCDWhz+3
-	cPUlbF5noMYdMxeMFQwrX1R0O68tAWcidIu7wCXB1GP3cymhG+wBK6cMxrDDVn3pzydtfupFmgJ
-	FArTuaz9Rk/HJFPEnJ3lpzWW4r6Q==
-X-Received: by 2002:a05:600c:870c:b0:492:1e7f:d41e with SMTP id 5b1f17b1804b1-493d11db13cmr86051195e9.10.1783291393351;
-        Sun, 05 Jul 2026 15:43:13 -0700 (PDT)
+         :cc:subject:date:message-id:reply-to;
+        bh=n6j+/GloXsE40TU4m40xM800zK/s+nWy6UHwsAQ0DGo=;
+        b=pbAA+W4Oq6rDSMrpJzv9yWzQUzbGfbSeJWVvTQ2Ath8AO5lrTl8wTXpSgl3svqwn3b
+         tA1gE4DTKsg9Ez/z0mxKLFIe5/BBbaDrKGlOhLG5GUoWSai4AhOTZgvldrsYheI9iQO8
+         s4dYrlbvP/NhDeOq3b3zkcUBsKEr16Dna38lzHhRfTBYckpw3bKzZ1Vd7aW+68YamQl6
+         EZ2bQ/T8KnEQ8TN1uAJAy1Vic3/HAj3hHQ/xBIrtBm6Wox6VqZNlwS7yWnwFMuABf/dK
+         iI1LxOVntPlrqbpVoR6oZgDHZXAgd0QN/5cdI0MG4Ma8x1dEJu3mxdEJ7wB9kQryfEe3
+         AU6g==
+X-Gm-Message-State: AOJu0YzyUSRatMv1HUK81SoJu+5sDy2hggd8IRqkcCoFEAUWkLLGyHYX
+	GgqFpKhJAnEwU+8UGWKbh6kmUXAUmjaJtpUm+AzvRjG/etHBZJfjBu3buLgo9EgeYpQsu63oC66
+	whZ1PHME=
+X-Gm-Gg: AfdE7cl2YOzdXerbYa0rM9sENzg6jBYAV3rGd5hDkxhyh1Gs5UGuNXmknAZR5+qvVkr
+	YcAFZHqN6QS7coBHyrCMiYwMV/9TGylnoZHCiRMR0MU2p5BdJS1BqwrRFFJwNmT4CdD0RH6RhaB
+	ULFIR6DZ+s+nz/HnSE8lmsnCc8YItK69f2dmSbLdgrw9vf1KI7ds7W+xSlN2Z/YaSu2cPsF8aki
+	tNBywtj8OXgQ8fc5aQl0udb2aFaYZw0P6ZLTF0XmMo+Di3hgxiVlyx4GiJ0KeXJ5OjvL4eZd92a
+	ChUHRkUjR2IJ2bQcReUmt6jOVtn2hR1DOG9Tol5eW5LMvQfY+ghACDPNdS2gClD9aYvZCj9gVsV
+	h95/xKtn0Jq0rOhJAQI1j2JBOPVS5e078MxY7EBmUaOIdF1JHvr+REMR4EuPaBLbFbKEBkM+ZfY
+	VY0UvdJNTuzcBWw8kZhMQ1dBSV1A==
+X-Received: by 2002:a05:6000:24c9:b0:475:f0c2:75a9 with SMTP id ffacd0b85a97d-47aad07bbfdmr9757584f8f.58.1783291394955;
+        Sun, 05 Jul 2026 15:43:14 -0700 (PDT)
 Received: from FRSMI25-LASER.lan ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.43.12
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm17943606f8f.30.2026.07.05.15.43.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 15:43:13 -0700 (PDT)
+        Sun, 05 Jul 2026 15:43:14 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 50/55] qemuboot.bbclass: add missing task dependency on kernel deploy
-Date: Mon,  6 Jul 2026 00:41:40 +0200
-Message-ID: <b68223b54813fdbe9b7b2f6b4037e4145391d887.1783289522.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 53/55] libxml2: patch CVE-2026-11979
+Date: Mon,  6 Jul 2026 00:41:43 +0200
+Message-ID: <728062c048eb709398808885b802bfc527162417.1783289522.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783289522.git.yoann.congal@smile.fr>
 References: <cover.1783289522.git.yoann.congal@smile.fr>
@@ -65,46 +65,123 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 22:43:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240204
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240207
 
-From: Siva Balasubramanian <sivakumar.bs@gmail.com>
+From: Anton Skorup <anton@skorup.se>
 
-do_write_qemuboot_conf had no dependency on the kernel deploy task,
-so if the kernel was rebuilt without invalidating the rootfs sstate,
-the task was skipped and .qemuboot.conf was left stale while new
-image artifacts were deployed with a new timestamp suffix.
+Pick patch from [1] linked from [2].
 
-Add do_write_qemuboot_conf[depends] on KERNEL_DEPLOY_DEPEND using a
-Python inline expression that skips the dependency when
-INITRAMFS_IMAGE_BUNDLE=1. When the initramfs is bundled into the
-kernel, linux-yocto:do_deploy depends on the initramfs image
-completing first, so an unconditional kernel deploy dependency on
-do_write_qemuboot_conf would create a circular dependency.
+[1] https://gitlab.gnome.org/GNOME/libxml2/-/commit/c2e233fc1b341685fc99621b2768b503f777a72e
+[2] https://gitlab.gnome.org/GNOME/libxml2/-/work_items/1124
 
-KERNEL_DEPLOY_DEPEND is defined with ?= in image.bbclass and is
-already used by do_build[depends] for the same reason.
-
-Fixes: https://bugzilla.yoctoproject.org/show_bug.cgi?id=14520
-Signed-off-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
+Signed-off-by: Anton Skorup <anton.skorup@axis.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ed97056104ed2b97a687f956b49be7241862be53)
+(cherry picked from commit 3dd117b14be1b7c257df15c383ea33be481511ec)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/classes-recipe/qemuboot.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ .../libxml/libxml2/CVE-2026-11979.patch       | 81 +++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.15.2.bb    |  1 +
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch
 
-diff --git a/meta/classes-recipe/qemuboot.bbclass b/meta/classes-recipe/qemuboot.bbclass
-index 56106b19581..d1794c7899d 100644
---- a/meta/classes-recipe/qemuboot.bbclass
-+++ b/meta/classes-recipe/qemuboot.bbclass
-@@ -128,6 +128,7 @@ inherit image-artifact-names
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch
+new file mode 100644
+index 00000000000..a14e566681e
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch
+@@ -0,0 +1,81 @@
++From dfad0660f7dab3b5f8317b703b16ad0b0d12697d Mon Sep 17 00:00:00 2001
++From: Daniel Garcia Moreno <daniel.garcia@suse.com>
++Date: Fri, 22 May 2026 12:21:20 +0200
++Subject: [PATCH] xmlcatalog: overflow check for large --shell commands
++
++Fix https://gitlab.gnome.org/GNOME/libxml2/-/work_items/1124
++
++CVE: CVE-2026-11979
++Signed-off-by: Anton Skorup <anton.skorup@axis.com>
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/c2e233fc1b341685fc99621b2768b503f777a72e]
++---
++ test/catalogs/test.sh | 11 +++++++++++
++ xmlcatalog.c          | 16 ++++++++++++++++
++ 2 files changed, 27 insertions(+)
++
++diff --git a/test/catalogs/test.sh b/test/catalogs/test.sh
++index 7e5eaa76..84e8b90a 100755
++--- a/test/catalogs/test.sh
+++++ b/test/catalogs/test.sh
++@@ -10,6 +10,17 @@ fi
++ 
++ exitcode=0
++ 
+++# Test xmlcatalog --shell command line
+++# Case 1: Really long argument (470 chars)
+++input=""; for i in {1..470}; do input="${input}A"; done
+++echo $input | $xmlcatalog --shell test/catalogs/dockbook.xml || exit 1
+++# Case 2: public + long argument
+++input="public "; for i in {1..470}; do input="${input}A"; done
+++echo $input | $xmlcatalog --shell test/catalogs/dockbook.xml || exit 1
+++# Case 3: public + lots of args
+++input="public "; for i in {1..80}; do input="${input} x"; done
+++echo $input | $xmlcatalog --shell test/catalogs/dockbook.xml || exit 1
+++
++ for i in test/catalogs/*.script ; do
++     name=$(basename $i .script)
++     xml="./test/catalogs/$name.xml"
++diff --git a/xmlcatalog.c b/xmlcatalog.c
++index b400c7cb..5113e930 100644
++--- a/xmlcatalog.c
+++++ b/xmlcatalog.c
++@@ -135,6 +135,12 @@ static void usershell(void) {
++ 	       (*cur != '\n') && (*cur != '\r')) {
++ 	    if (*cur == 0)
++ 		break;
+++            /* Do not read beyond the command array capacity */
+++            if (i >= (int)sizeof(command) - 2) {
+++                printf("Invalid command %s\n", cur);
+++                i = 0;
+++                break;
+++            }
++ 	    command[i++] = *cur++;
++ 	}
++ 	command[i] = 0;
++@@ -152,6 +158,11 @@ static void usershell(void) {
++ 	while ((*cur != '\n') && (*cur != '\r') && (*cur != 0)) {
++ 	    if (*cur == 0)
++ 		break;
+++            if (i >= (int)sizeof(arg) - 2) {
+++                printf("Invalid arg %s\n", arg);
+++                i = 0;
+++                break;
+++            }
++ 	    arg[i++] = *cur++;
++ 	}
++ 	arg[i] = 0;
++@@ -164,6 +175,11 @@ static void usershell(void) {
++ 	cur = arg;
++ 	memset(argv, 0, sizeof(argv));
++ 	while (*cur != 0) {
+++            if (i >= (int)sizeof(argv) / (int)sizeof(char*)) {
+++                printf("Too much arguments\n");
+++                break;
+++            }
+++
++ 	    while ((*cur == ' ') || (*cur == '\t')) cur++;
++ 	    if (*cur == '\'') {
++ 		cur++;
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.15.2.bb b/meta/recipes-core/libxml/libxml2_2.15.2.bb
+index 99560f4b243..9181949ea54 100644
+--- a/meta/recipes-core/libxml/libxml2_2.15.2.bb
++++ b/meta/recipes-core/libxml/libxml2_2.15.2.bb
+@@ -18,6 +18,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
+            file://run-ptest \
+            file://install-tests.patch \
+            file://0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch \
++           file://CVE-2026-11979.patch \
+            "
  
- # Create qemuboot.conf
- addtask do_write_qemuboot_conf after do_rootfs before do_image
-+do_write_qemuboot_conf[depends] += "${@ '' if bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE')) else (d.getVar('KERNEL_DEPLOY_DEPEND') or '')}"
- 
- def qemuboot_vars(d):
-     build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
+ SRC_URI[archive.sha256sum] = "c8b9bc81f8b590c33af8cc6c336dbff2f53409973588a351c95f1c621b13d09d"
 
