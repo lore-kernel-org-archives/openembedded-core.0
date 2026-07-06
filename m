@@ -1,113 +1,152 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58EC3C43458
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 16:44:50 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.155579.1783356286896846307
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE8DFC43602
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:00:00 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.122])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.155941.1783357193339076282
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 09:44:47 -0700
+ Mon, 06 Jul 2026 09:59:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=OWEIJxs3;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47ddf7b09aaso932790f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 09:44:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783356285; x=1783961085; darn=lists.openembedded.org;
-        h=in-reply-to:references:content-transfer-encoding:mime-version:to:cc
-         :from:subject:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V+WE5NB5WoWo3XK5roRWNaStkR+S5cijwnrH7DHPKaU=;
-        b=OWEIJxs36rqxzeaVEYo23E+BBEH16lo4iBS5E4rAkDnIQjQ7KQGml8nl2/QEMs2IWQ
-         492KvqXpTH//BReX1CfqxyBi1GkYH2ZR2daAlO6U7AzlgpWUZUxke48QccQWGz1gq2hv
-         JAaefer22KIroMHU7IM6yDDTqE8u7My6LlL00=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783356285; x=1783961085;
-        h=in-reply-to:references:content-transfer-encoding:mime-version:to:cc
-         :from:subject:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V+WE5NB5WoWo3XK5roRWNaStkR+S5cijwnrH7DHPKaU=;
-        b=JiNuOVGhD9eLcYIAikyNkSEVCLibRxBt8cmGGorKwhDCq/X9TWaf7vL2UhtWw4C6IU
-         BVXnJ9rUAKi7MwMK7ktA0BIO66wsf4ZBiTDzr99D+W8CcA0JHsRRpV6g6uRbUnoczMW9
-         MzQxq8dYTbHaW5npir+D9noo94BGkPQThZ98RDmg+nQNhb0RwFK81Gwt/+WuMHSrjRxj
-         pDwjCNHb45rVK03qJM4YcFPzb7vHi1RFa3Uqk5j3qjMgRbJ7M+LhCxltisYUuCgqg94L
-         zrYGGU1slXVSzBZmrjze1MGHccRQMdz3Aj7NUgWje+Tsss5P8nmFh84L3LOj/pHFtG0P
-         go5w==
-X-Forwarded-Encrypted: i=1; AHgh+RoCdqNG+5/6bdiDwKuOEEdjQMHW8Pr+CS+ERvQpcsaUn3P+mS4730bleIY3T/YpJSFCqa7LvkYkgYRpBN1fUjU2Hg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Ywfz8GRfyhtpKlvQ5ioPccUeoqB+P3rWIkf2qgjvU3rfecRlyk9
-	X0UM89FKIA910htAOWJEE4CXkSxkKZw/xBu2tN5266k1kmz9J1qoxJkm10hXfuuJCUM=
-X-Gm-Gg: AfdE7clc3nsxUIpOymJri+e4J2ltYbO4h3L1oc5cJrKfppCBPYcyncWPiqDcok9NzVF
-	5mfQ0RpVExUJqHwtJrOTq0P6sTStNtZj4GHVUGg25PW5iEau1YkN7c5nGJb/+Rz7blxP04jERzO
-	5cRujT4eprzMX2cmrfOW3ZHR+vqr0Gen0gnS8eZD+du2wDA00A0aTciWozJFeNnMSvvjkST4+8J
-	fs1v6zTr9rP0qEcrRBnPwDkXnIsmIXb5NUNXxvFH4rMv0AeAl9vNKsuCSHcqm82le70YzKuO8kn
-	MCptW8/5aQ7rQvxHFZDKGAlKwPjwJro5qlTmbqHBxBSDKFaZgm2SWKFkzOSWadk7V0snS4Q+wjo
-	RT8oPxDqunZpeCcyEFQMdRsMATtnrPk7rKauwxR/nL6cFPL5uigvvxBVCCDTN7DODKxectBsAji
-	0h87fMTB80AYc=
-X-Received: by 2002:a05:600c:8119:b0:493:cce0:3757 with SMTP id 5b1f17b1804b1-493df062c33mr15617035e9.4.1783356284721;
-        Mon, 06 Jul 2026 09:44:44 -0700 (PDT)
-Received: from localhost ([212.133.41.25])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493ccd9d607sm372886885e9.2.2026.07.06.09.44.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 09:44:44 -0700 (PDT)
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 06 Jul 2026 18:44:43 +0200
-Message-Id: <DJRN1II8LYOQ.1UZ61N9NS4OI8@smile.fr>
-Subject: Re: [OE-core] [scarthgap] [PATCH] libcap: Fix CVE-2026-4878
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <xe-linux-external@cisco.com>, <to@cisco.com>
-To: <jeremy.rosen@smile.fr>, <adongare@cisco.com>,
- <openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=iybUr724;
+ spf=pass (domain: navimatix.de, ip: 52.101.69.122, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=A5Fnperr6L89pMd5V4drNda8nAYDt+jPsnlkqhR1/Tv2eB4Y9iCqnBALr6x57Bcrcqz9Kvp2pV2dH//oFZDXVPI27rx1MZa1ws8NkQ4zLOrYYQ5Z7NTpK4/Htrm8fhivuspV7WQHOqVuDQi4YwuxI2LTlES1w8e9ABk+rNelOCNGPNIv/pPN3bukr1jnigPYfo4w4+oQ11CEZ9uWsOWH85dMc4Cf4BK9F2rbkE8CiPFUxhYh9SP1kQV/IinPVBxCh2rBMnqaYwLQFTT+i9cM0wrCDBWyLxbMqJF1UynxS4DI0NE0TMOSePvMyjFQT1Ic7w5VG+I5n7a/9HrgSlzxsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TzyE1yhVR5t/H9fSP3H3vpyL3NGqCfrs2f8aSnq1L5Y=;
+ b=FUORZqHf37bpGbT9Gwb2a2eTrm+IrMqZOS6FFZ7hXP7Y4dvFbMx18O+nx/5aMne7z9sidlRe3u03Jy35NtWX+mbD97GiPwMy4b5WPO1dlDK58xhOKeT6WBUTca2Lx6pmLdFIBTMptaaUR+rNxw14T0GLkPydnUBLQLgssFQgyph7MgQq0o7lZ7nUOnkUVDo51+bi83GCp1n/cmTijdgY0lB4m40zKdbcfGFFCbCDAOyuL1yXvl3w+wtdp5MFvLonPGqrIf1u1KiEWIHflLZNKUQcUkEYiut4+YB8JnXUe/3d15IY4LQHY5V9INLHEvLGGV9q462KFgmBZXdfKhD4dQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TzyE1yhVR5t/H9fSP3H3vpyL3NGqCfrs2f8aSnq1L5Y=;
+ b=iybUr724/PntdXiyDctjE8Sq0miUU6P1nZpdMtD7wVvgYkA3122r/8vIADuYVlg3sJT6si1AoQ5D6oNB6A3DB9Xsca3gxY2Agj5IFQONVqrevyepsshKs3SUBx/b536bU5lkQQd0a5N8kOdVmKqStEZnb5QDk6aGv+Ei/uEdjbI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8) by AMDPR01MB11651.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:719::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 6 Jul
+ 2026 16:59:50 +0000
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ ([fe80::d5c3:2dea:3d98:25fd]) by
+ GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
+ with mapi id 15.21.0181.008; Mon, 6 Jul 2026 16:59:49 +0000
+Date: Mon, 6 Jul 2026 18:59:48 +0200
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+To: openembedded-core@lists.openembedded.org, joerg.sommer@navimatix.de
+CC: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+Subject: [PATCH 2/4] systemd: Simplify code to handle resolv.conf with
+ resolved
+Message-ID: <fa22f8137bed27504223bc3ee58a2f88eec502dc.1783357184.git.joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.53.0
+References: <5380f2caab9ad346667be7997955839e0825c8bc.1783357184.git.joerg.sommer@navimatix.de>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Mailer: aerc 0.20.0
-References: <20260601134257.47867-1-adongare@cisco.com>
- <DJ3QY884Q2R3.3DTBWW97HDVD8@smile.fr>
-In-Reply-To: <DJ3QY884Q2R3.3DTBWW97HDVD8@smile.fr>
+In-Reply-To: <5380f2caab9ad346667be7997955839e0825c8bc.1783357184.git.joerg.sommer@navimatix.de>
+X-ClientProxiedBy: BE1P281CA0292.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:8a::15) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|AMDPR01MB11651:EE_
+X-MS-Office365-Filtering-Correlation-Id: 289a9600-0f98-445f-9e47-08dedb7ffd85
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|22082099003|18002099003|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	HuArV13e/5JHrE75XSuK6CTKiXzi7RzkfKDaH4pvn1TZod25991PGh1WfKiNh7X2El8zOqkNzS7CJTcKGe8FSTZ3ubZp5bXqWjD47all8LMH84xJsv6dzGUqr0pau4XCuOuhJTyIOSLmeUuyZsLkFq6H4lrO66jmVrB/Kcd5yQikFe2ZLjN0hXMzqvsftNBoQs6eFf06bQm4Y801F4zUIJ6Zcz82ZwlLjNslgdeBx1WzLQa7bBLrS3d3ZwrNiS1x+vUJ+I233LtSqnQ+ZIee6TYGJnWR/oaQSSC/VuCl2guXLNL4fISqEGWBkYdAvpW/i9RmZgaGhIf8Lr1GeTmg1PuCyGhyUbpZ0TBE7X6BCQfU7YycKpBCPr1Nzo3nPXqY2xJhQ2ukDFrSI3TlalICz2CD4yezJ6aQzme3trowN6jGxxNXXbZ6hIMis3x8dWoDHOC0eBu6jgsZWefESt+5hrV4PZrpbFsEw/hWvuKRhyfy8eZNAYBt2NXc/cNVSKwzUmS2HgSuNdAjSb/fJSDiSCuZ18jatMaosdJGu5p5lnya+m1gSnGXc6aG7oxJ4BjwFHZfxwgcAhce9NEHc8cdKSJoCBm6GsV8k4U76v+0MPWuI8laNITcFfOlitkw45VL93S4LtzYoDOH4U16vFWlWeIvqh5AjMDBxlVK5ksWSvU=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?zn40uWlyEINiL3due/lexPPBqaBLtY5dT0gj1Ua0tCKD7HAdBvXH+fiOhzTg?=
+ =?us-ascii?Q?TPOMLRwDR8JrFHDLg3KVGZaS95nuHwan55EoFnW/EWP8LFRDpdWdvfFKiUtU?=
+ =?us-ascii?Q?+AmvnecFiJCZKpVk/TdjF/BVhrYkmIhikgswR06Vcd2YC3ifsbQpo9BWPC0W?=
+ =?us-ascii?Q?jvgy+3gHofRsYFxkvZWtQe5h+5oC0Ep6WZ6hwYeUtozxtluJ+KXXy0z3VogI?=
+ =?us-ascii?Q?15J38jFt1YDfjGsT/qC984DJxyCvepfDZfCZw8e7xBb0OcmWZvZT9unXmGQd?=
+ =?us-ascii?Q?pmVovSnQTVjGHy8/QzMqZqea7ICGrmWDNhq6OsJLYDT7yFeSBzsskO+P4sdE?=
+ =?us-ascii?Q?Qlf6pfKi/F0Ol0Cl5VnlgXl5izYsQE00yjs/ON59D3YyjwWNPINNCD7LNwKK?=
+ =?us-ascii?Q?vQZaqlB16RyioZxCa4F0IZh1ndPoOofumwgptLJMFLDWotNO/sl85xpMqpoM?=
+ =?us-ascii?Q?QlhGCfKlYquGW0Xhzv+wqNPT/8kT3f/qyGXDM4Ck9Wa07Uw5VIt2fqSCERip?=
+ =?us-ascii?Q?aSkiCxMrCzgq31PNFgoLoj46ba50itK2GKq0g9Jt78w6ttqkpKW8INBZweXw?=
+ =?us-ascii?Q?SdaSUM8a3cuPCZbMg+zvmOJpWTlseQilKVUM2abkyOKA78VAah4R9LNSO/x9?=
+ =?us-ascii?Q?ECiS11xXWDVrk7X2b3flUOnotCGqoNcmy0RN6pdMLlcg1u0H0UBEROJwDQPl?=
+ =?us-ascii?Q?uj2lD+ukx0UMcp+VZkE6E+31bxhv4GW3Eh+xqZ3xEMuUvf6ptZXQcG75Ftgb?=
+ =?us-ascii?Q?AyrZEquDIod+kPrATAQDsfT8AN4qrUTwAqHiEBIfPIdOc61IREGwOGYxg1o9?=
+ =?us-ascii?Q?+ZbkxfAObLE2amaS0fANd6U33pk+EWtE6y+VDKngRdb5joICcHO1SIZIGhi7?=
+ =?us-ascii?Q?ywOh7v6E5gkuhZ8IgLh/n6qUT+24X4N/WjXBxA16ZKMVKUb9GSw3jAybvIn6?=
+ =?us-ascii?Q?0RYLOcm2jk5NHcWDBXM3+hduImtljvf9rpbRXoOBqIyNdWGBqDgGOJIp7oim?=
+ =?us-ascii?Q?vijLFH5FdonvO1q5n1KrXr2pRMhmxTpbSU7m7INxM+68VUF2a0cqoPkpIaYf?=
+ =?us-ascii?Q?hr+KO+5wf+6UPBhmGF9NccArUTexMIGj1ezlzjq31IES7dPxHrwNmBAzQ4qS?=
+ =?us-ascii?Q?2HFhf/+A2fCXbVREPVDeMiV4y+L2EjG4MVvFt4yMEYC7x245GXohkHAELF9t?=
+ =?us-ascii?Q?zhL4dqDncIQG90a99SJt5RllBCQM3CZPG5GZ59H7JJJj2/XIrHFaINwCuYV3?=
+ =?us-ascii?Q?8Fdr7wDDXXQCGznEBF4f4kmfE1CotpYAZ1SHAGUCwIordGbDztqD/bYTyNoA?=
+ =?us-ascii?Q?4zRK3MgDYW04izK9EI7779Wj6t9nogMQ9SHnRb9p4log0Qtls/XtMXtPaTcP?=
+ =?us-ascii?Q?Ab5MYpWRqRi7dj8McT/82/4Lwlr8UeeP8OWlBsE7YrxJiVpELlQz+I48RJET?=
+ =?us-ascii?Q?6WswlYpp4rP6c0lbBErdi8D1zJ9PHLKHOme8o/MI9M5962q5pAy9Q/T61++s?=
+ =?us-ascii?Q?PQiQS6JBVst95g2vSUBxC4adp5HIzL7OFCBtlU+XmkQQ/SwC2K6XO8IGH2Ix?=
+ =?us-ascii?Q?W2WUdiXegYRfzaJ05R9A17yIsroCeNiSmZfKJPBhFwzBWoLF8kUllqy+f6hn?=
+ =?us-ascii?Q?iyPn8hXzpp8HmRWqo79AfxNdawqfUorivJdd3iGRGGsDCIUZeBDzrKi56A5v?=
+ =?us-ascii?Q?+bkb7kT1UeLmjXE/czFmhD2y4bBnFRPg4nvaWGpfo+WxXxFKXGcMswW5/lyA?=
+ =?us-ascii?Q?Y2MdNUpSZ65MXUZGHfSvajME9NKFszc=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 289a9600-0f98-445f-9e47-08dedb7ffd85
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 16:59:49.7320
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ff79p/mtj20IkxCo0g/No84BgPjVN1OJf1Bu4p8GtM4X1d2+/w/P5CaBAQ0Opo5Oc6n8tkU4okStRrHINUYUsD+hD4XACTKK4rT3w50VANc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMDPR01MB11651
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 16:44:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240280
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 17:00:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240282
 
-On Mon Jun 8, 2026 at 4:44 PM CEST, J?r?my Rosen via lists.openembedded.org=
- wrote:
-> Hello Anil
->
-> from what I can tell, this CVE was fixed in master but not in wrynose
-> please submit a patch for wrynose then ping this thread so we can apply
-> to scarthgap
+From: J=F6rg Sommer <joerg.sommer@navimatix.de>
 
-Hello Anil,
+Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
+---
+ meta/recipes-core/systemd/systemd_259.5.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Gentle ping for this patch, do you plan to send the needed patch for
-wrynose?
-
-Thanks!
->
->
-> thanks a lot
-> Jeremy
->
->
-> On Mon Jun 1, 2026 at 3:42 PM CEST, Anil Dongare -X (adongare - E INFOCHI=
-PS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
->> From: Anil Dongare <adongare@cisco.com>
->>
->> Pick the upstream patch [1] as mentioned in [2].
->>
->> [1] https://git.kernel.org/pub/scm/libs/libcap/libcap.git/patch/?id=3D28=
-6ace1259992bd0c5d9016715833f2e148ac596
->> [2] https://security-tracker.debian.org/tracker/CVE-2026-4878
->>
->> Signed-off-by: Anil Dongare <adongare@cisco.com>
->> ---
->>  .../libcap/files/CVE-2026-4878.patch          | 162 ++++++++++++++++++
->>  meta/recipes-support/libcap/libcap_2.69.bb    |   1 +
->>  2 files changed, 163 insertions(+)
->>  create mode 100644 meta/recipes-support/libcap/files/CVE-2026-4878.patc=
-h
-
+diff --git a/meta/recipes-core/systemd/systemd_259.5.bb b/meta/recipes-core=
+/systemd/systemd_259.5.bb
+index f3ec0edae7..0fbfcaba42 100644
+--- a/meta/recipes-core/systemd/systemd_259.5.bb
++++ b/meta/recipes-core/systemd/systemd_259.5.bb
+@@ -330,9 +330,9 @@ do_install() {
+ 		echo 'f /run/systemd/resolve/resolv.conf 0644 root root' >>${D}${exec_pr=
+efix}/lib/tmpfiles.d/systemd.conf
+ 		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.s=
+ystemd
+ 	else
+-		resolv_conf=3D"${@bb.utils.contains('RESOLV_CONF', 'stub-resolv', 'run/s=
+ystemd/resolve/stub-resolv.conf', 'run/systemd/resolve/resolv.conf', d)}"
+-		sed -i -e "s%^L! /etc/resolv.conf.*$%L! /etc/resolv.conf - - - - ../${re=
+solv_conf}%g" ${D}${exec_prefix}/lib/tmpfiles.d/systemd-resolve.conf
+-		ln -s ../${resolv_conf} ${D}${sysconfdir}/resolv-conf.systemd
++		rc=3D"../run/systemd/resolve/${@bb.utils.contains('RESOLV_CONF', 'stub-r=
+esolv', 'stub-', '', d)}resolv.conf"
++		sed -i -e "s%^L! /etc/resolv.conf.*$%L! /etc/resolv.conf - - - - $rc%" $=
+{D}${exec_prefix}/lib/tmpfiles.d/systemd-resolve.conf
++		ln -s $rc ${D}${sysconfdir}/resolv-conf.systemd
+ 	fi
+ 	if ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'false', 'true', d)}; t=
+hen
+ 		rm ${D}${exec_prefix}/lib/tmpfiles.d/x11.conf
 --=20
-Yoann Congal
+2.53.0
+
 
