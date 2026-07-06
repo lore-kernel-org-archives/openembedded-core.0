@@ -2,75 +2,76 @@ Return-Path: <sudumbha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D38BFC43458
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:42:44 +0000 (UTC)
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.156906.1783359757741019010
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8E9DC43458
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:47:34 +0000 (UTC)
+Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.157006.1783360052640219169
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 10:42:37 -0700
+ Mon, 06 Jul 2026 10:47:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=krP9rW0t;
- spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: sudumbha@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=jCZ3qPTp;
+ spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: sudumbha@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=4075; q=dns/txt;
-  s=iport01; t=1783359757; x=1784569357;
+  d=cisco.com; i=@cisco.com; l=3999; q=dns/txt;
+  s=iport01; t=1783360052; x=1784569652;
   h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=x6dmTw24aP7iczJZV9iE3B2YpYsj+cLUyUrfgW2TQy8=;
-  b=krP9rW0tDIgMQf1VyeGh7YzUniLVGQ8+LYQ8lcBz5uKz9pJ4HZFshEIx
-   /V7Y5Cw8/7/MAtgEKRu14bDn14LUbelMMAwNst98l9qJOUNY5sBaeYjDc
-   k40KjE2EAHi+aMLP4S3uZVmKmytdzHZ345Ta3UwcgFYuu9Y4+MR2r0taP
-   A//gJ4DAAz2XBn71RLWlxd+a0BqwB1aW2AjTqXwUuukiuGehGmaHbjEb9
-   j66/RrCorQ+YIEu77JWHFpqCPo69yxCPPCmTnPkwkMosRx6gkji+znYxO
-   sotv6kLERO58d20g3ETjs8hcSNQxkHLdzCzhX162RD9NQblKR4g+AsQcf
+  bh=HaTgndWN80SFi2FYDpJ7FJxQdDUjggqhWG3+8oGnTlA=;
+  b=jCZ3qPTpeDPwHxO8xD86vh+qwVrTdR2b1zjJOzPTcZNGeMHF9yQ1lVkp
+   MmspGAfpG52EcnxxGnlJ+Ld7xKYRlPikzIe86Kv9FWwLAwAPJOMr0FvtJ
+   R9SWX5KAB5nYnxbyldjKsdmLc7zDl0iDtrkaVBAWaaQ1CPSepJupBrXA4
+   03I69RAxRBKaZ3ctsrA+LCCY+nskrVVBfdiO/Uy39l/zD2KzuYL0i9yoJ
+   /OPtmirB7e1MP6ilIN+bLdbjfAHGVqwrJl/56TOJ2cw/V/5ReP+tBEo9w
+   dDc9/ulOOYJUGJxS3vT55Eq1XeZftM8cJX0HtAOHkSUvRH/7dk9mo8JEF
    A==;
-X-CSE-ConnectionGUID: b0FHywvwSBqxsuZVtHjBjQ==
-X-CSE-MsgGUID: 5r66/0OyTGCcxQyUV6W9KA==
-X-IPAS-Result: =?us-ascii?q?A0BDAgCw6Etq/47/Ja1aHgEBCxIMggULgld0X0JJA5Qng?=
- =?us-ascii?q?iGBFopRkjeBfg8BAQEPOBkEAQGSVQImNAkOAQIEAwIDAQEBAQEBAQEBAQELA?=
- =?us-ascii?q?QEFAQEBAgEHBYEOE4ZPDYZaAS0LAXIDAQJPCyMhgwIBgjoDNgIBEQa5eoF5M?=
- =?us-ascii?q?4EBg1oFCQJDUNhJDYJWAQUGFAGBOIU/gnyFI1sYAYR8JxsbgXKBFYE7gTh2g?=
- =?us-ascii?q?QWBGkIBAgEYiAsEgiKBDIFaj0ZIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BI?=
- =?us-ascii?q?z4XgQwbBwWBHYFrgQKEeSMfAzl/gTB1SnktgQMSHgqBUoEqAwsYDUgRLDcUG?=
- =?us-ascii?q?wQ+bgeMfBcPgj0BgQ0BByICIoFbL5MukkiBNZ5pcQoog3WMIY8+hXwaM4QEl?=
- =?us-ascii?q?BeSUZkIjgqECZJHhGiBaDyBRwsHcBWDIlMZD444g2uBf4MUyUckNQIJAzABB?=
- =?us-ascii?q?wIHDwKBc5F9AQE?=
-IronPort-Data: A9a23:OMYIr6tG/dDVfm+rFjGGS3upSufnVAdfMUV32f8akzHdYApBsoF/q
- tZmKTyGPPbfZDaheo90btuz9UIG7cLTxoBnQAs9+SE9Fi8bgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuFZTdJ5xYuajhKs/3b9ks11BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw8L5ZIXBR6
- +MjAikddQ2xuf6Wwpi5c7w57igjBJGD0II3oHpsy3TdSP0hW52GG/iM7t5D1zB2jcdLdRrcT
- 5NGMnw0M1KaPkAJYwtNYH49tL/Aan3XaCBUtVefpaMf6GnIxws327/oWDbQUoHSGJ0FxxrH/
- Qoq+UykGE9Ec4S42Aaq2Xm8v/7yo33ECaE7QejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
- FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2YcLtcnr8QxAzct0
- zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
-IronPort-HdrOrdr: A9a23:CaSMWa02URey9Cp2+LM3jQqjBIIkLtp133Aq2lEZdPUzSL37qy
- nAppomPHPP5Qr5O0tQ+uxoWpPgfZq0z/cciuMs1NyZMzUO1lHFEGgb1+vf6gylPTHi/ehA0q
- olWa1/BNrsSWVet6/BkWyF+xJK+qjhzEhu7t2uq0tQcQ==
-X-Talos-CUID: 9a23:cpHIvGD9GIPm74X6EyM/2m4FBd46SVfE3GzNEXGkKWRDSoTAHA==
-X-Talos-MUID: =?us-ascii?q?9a23=3AZat4jAwt9myO6J7V0hj1G3j4GguaqPm0Vh5KybI?=
- =?us-ascii?q?Xh+avPjxJKgqj0gvmYaZyfw=3D=3D?=
+X-CSE-ConnectionGUID: rBy/a/xNSdqPazCBSDviQw==
+X-CSE-MsgGUID: 7pcNI1zvQuW+2+yDq7tD8A==
+X-IPAS-Result: =?us-ascii?q?A0BEAgAC6Utq/47/Ja1aglmCV3RfQkkDlCeCIYEWilGSN?=
+ =?us-ascii?q?4F+DwEBAQ84GQQBAZJVAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECA?=
+ =?us-ascii?q?QcFgQ4Thk8NhloBLQsBcgMBAk8LIyGDAgGCOgM2AgERBrlvgXkzgQGDWgUJA?=
+ =?us-ascii?q?kNQ2EkNglYBBQYUAYE4hT+CfIUjWxgBhHwnGxuBcoEVgTuBOHaBBYEaQgECA?=
+ =?us-ascii?q?RiICwSCIoEMgVqPRkiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHB?=
+ =?us-ascii?q?YEdgWuBAoR5Ix8DOX+BMHVKeS2BAxIeCoFSgSoDCxgNSBEsNxQbBD5uB4x8F?=
+ =?us-ascii?q?w+CPQGBDQEHIgIigVsvpXagHnEKKIN1jCGPPoV8GjOEBJQXklGZCI4KhAmSR?=
+ =?us-ascii?q?4RogWg8gUcLB3AVgyJTGQ+OOINrgX+DFMlHJDUCCQMvAQEHAgcOAwuBaJF9A?=
+ =?us-ascii?q?QE?=
+IronPort-Data: A9a23:vBi426PSYxg/+vbvrR30lsFynXyQoLVcMsEvi/4bfWQNrUorhGMDn
+ zFKCGDVP/bcYzagctB2b96y/B4H6Jbdn4JmS3M5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
+ ykmQoCeaphyFTmE+kvF3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WV7lV
+ e/a+ZWFZgf6g2AsaAr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
+ 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
+ I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj6+9EHQY/ep0+wepuOWhc3
+ tYjBC4MVw/W0opawJrjIgVtrt4oIM+uOMYUvWttiGmES/0nWpvEBa7N4Le03h9p2ZsIRqmYP
+ ZdEL2MzNnwsYDUXUrsTIIkjkPqtjHn2WzZZs1mS46Ew5gA/ySQsiOWxbIGPI4XiqcN9wV6Tg
+ EOf7XrAHy5Zbp+O5SPa7l78r7qa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
+ AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++MvkCSB3MPSXhKb9lOWNIKeAHGH
+ 2Shx7vBbQGDepXMIZ5B3t94dQ+PBBU=
+IronPort-HdrOrdr: A9a23:RzArAaoR/8qduSMoFBpIl1waV5obeYIsimQD101hICG9Ffbo9f
+ xG88506faZslsssRIb6LO90cu7IE80nKQdieJ6AV7IZmbbUQWTQL2KlbGD/xTQXwvj6+Vaya
+ BsN4J6CNH2EBxGqPyS2njcLz7lq+P3l5xBQozlvhNQcT0=
+X-Talos-CUID: =?us-ascii?q?9a23=3ADewBEmuZ+zPA5pQ4zLja2RgS6Is/WGyaxTDABXS?=
+ =?us-ascii?q?0EF5gWpa/cnOO+Zp7xp8=3D?=
+X-Talos-MUID: =?us-ascii?q?9a23=3Ai23Luwyd42+Phma5yOYbA/W5e5WaqPu2A2YsyIc?=
+ =?us-ascii?q?YgtS7dnYzKhuE0yibEqZyfw=3D=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,151,1779148800"; 
-   d="scan'208";a="505081473"
+   d="scan'208";a="505443211"
 Received: from rcdn-l-core-05.cisco.com ([173.37.255.142])
-  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Jul 2026 17:42:36 +0000
+  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Jul 2026 17:47:31 +0000
 Received: from sjc-ads-12007.cisco.com (sjc-ads-12007.cisco.com [171.70.97.7])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-05.cisco.com (Postfix) with ESMTPS id 9C49A180000B4
-	for <openembedded-core@lists.openembedded.org>; Mon,  6 Jul 2026 17:42:36 +0000 (GMT)
+	by rcdn-l-core-05.cisco.com (Postfix) with ESMTPS id 93EED180007CB
+	for <openembedded-core@lists.openembedded.org>; Mon,  6 Jul 2026 17:47:31 +0000 (GMT)
 Received: by sjc-ads-12007.cisco.com (Postfix, from userid 1840713)
-	id 43419CB6A93; Mon,  6 Jul 2026 10:42:36 -0700 (PDT)
+	id 3BD5ECB6A93; Mon,  6 Jul 2026 10:47:31 -0700 (PDT)
 From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][master][PATCH] binutils: fix CVE-2026-3441 and CVE-2026-3442
-Date: Mon,  6 Jul 2026 10:39:34 -0700
-Message-ID: <20260706173934.4044670-2-sudumbha@cisco.com>
+Subject: [OE-core][wrynose][PATCH] binutils: fix CVE-2026-3441 and CVE-2026-3442
+Date: Mon,  6 Jul 2026 10:46:52 -0700
+Message-ID: <20260706174652.4053594-2-sudumbha@cisco.com>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -80,8 +81,8 @@ X-Outbound-Node: rcdn-l-core-05.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 17:42:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240335
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 17:47:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240336
 
 From: Sudhir Dumbhare <sudumbha@cisco.com>
 
@@ -100,9 +101,6 @@ https://nvd.nist.gov/vuln/detail/CVE-2026-3442
 https://www.suse.com/security/cve/CVE-2026-3441.html
 https://www.suse.com/security/cve/CVE-2026-3442.html
 
-Tested with binutils-testsuite (bitbake binutils-testsuite -c check):
-  binutils: PASSED: 327, FAILED: 0, SKIPPED: 5
-
 Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 ---
  .../binutils/binutils-2.46.inc                |  1 +
@@ -111,22 +109,22 @@ Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-3441_CVE-2026-3442.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.46.inc b/meta/recipes-devtools/binutils/binutils-2.46.inc
-index cab270cea5..4eb1b2e098 100644
+index 4948e9b576..6d8f37f78b 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.46.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.46.inc
-@@ -40,4 +40,5 @@ SRC_URI = "\
+@@ -39,4 +39,5 @@ SRC_URI = "\
+      file://0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
       file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
       file://CVE-2026-4647.patch \
-      file://CVE-2026-6846.patch \
 +     file://CVE-2026-3441_CVE-2026-3442.patch \
  "
 diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2026-3441_CVE-2026-3442.patch b/meta/recipes-devtools/binutils/binutils/CVE-2026-3441_CVE-2026-3442.patch
 new file mode 100644
-index 0000000000..5b79144761
+index 0000000000..be63bb295c
 --- /dev/null
 +++ b/meta/recipes-devtools/binutils/binutils/CVE-2026-3441_CVE-2026-3442.patch
 @@ -0,0 +1,51 @@
-+From de8bd9410e3548fe7f7dc4dd759a6ef55ecb0d71 Mon Sep 17 00:00:00 2001
++From be1339394f1b64ba8b5d4f55343522cbea26131b Mon Sep 17 00:00:00 2001
 +From: Alan Modra <amodra@gmail.com>
 +Date: Sat, 28 Feb 2026 13:16:40 +1030
 +Subject: [PATCH] xcofflink buffer overflows
@@ -178,6 +176,6 @@ index 0000000000..5b79144761
 +2.51.0
 +
 -- 
-2.35.6
+2.51.0
 
 
