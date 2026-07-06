@@ -2,121 +2,124 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9A41C43458
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:19:14 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.156378.1783358345676177693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C57B5C43458
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:26:34 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.155558.1783358793155116709
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 10:19:06 -0700
+ Mon, 06 Jul 2026 10:26:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=lJEX9g/M;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493c2b3dc8bso22872045e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:19:05 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ZaIz2Oc9;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493bc8fda98so36468875e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:26:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783358344; x=1783963144; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
+        d=smile.fr; s=google; t=1783358791; x=1783963591; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ya5TI114UA8mSAPYn35oCu7KSXC2JX3W0mF9abjv+s0=;
-        b=lJEX9g/MdDeFnOTeCmwNzldWkSktztgMxIFfgIaV0GMpfiDMUp8MMtUZ8FYheZWaYy
-         yWoqd/B2jFwxT/UO+QJFKC9tu3G2IFyZwjUvPnZQJYo9gJWX7ErrvNZOYJ71cAyRLVuQ
-         5iKgx2XPmKtOX8yR7HCX8a7n/INDaMfVKKQyU=
+         :message-id:reply-to:content-type;
+        bh=s8ZMwjQCXZc0G5cGRu+Pa1CQ45k6IzvdczuLkWrNP4E=;
+        b=ZaIz2Oc9kEnQThRRga4qNVneXbU37GUueckuCLCcq/DlPU7/yWs7DnZkDAd0tvS/Jc
+         evaHVx9eylbdxBaKLwmv+mLGBDO12LT46Jwv706tOBKaaBfdVbEOBHvjv8I1dfjcW3dQ
+         C6REWH5UvYNdM2zFLnWG1CQ8Y+AAn1/6oyzVU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783358344; x=1783963144;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
+        d=1e100.net; s=20251104; t=1783358791; x=1783963591;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ya5TI114UA8mSAPYn35oCu7KSXC2JX3W0mF9abjv+s0=;
-        b=nw27ubELW4DjVckDAXfeZF+jUHdjGgzwzKiNrbKMR0boD0MJd1vNeK0u1Hu1inuFxw
-         rP2RMGikHB4ZX74k54iFLttGJycuwn/95uLc47AsO7J4j2NVb/WDjG18Ekm3t8HzX5wm
-         HdhkFopUPphnq3Cmk6EXnaoMNOe1LAMGvmuN100caiQ0mYXQ6cjS8pEMKZ/KbTwtq/PI
-         g+K1pr9zH+TaBXK+8BDqvbQRMtbfrbf4qdW1tuHAvykg+Bt4nqo+9cubp2EccRlnwW6L
-         LdYH/PxcvoHcAYFXcy0QeR5qOIAzWejALt1J6Fh2fRWAI+QqS1eSsDZKWkRR+QDJV+28
-         5+mw==
-X-Forwarded-Encrypted: i=1; AHgh+RqJLgspu1SIw8VP403MzYaXBgto2QD7nIEknEd+2hZcYVB0YZ4+bKhDLyD4tFVMjb+yKVoKY9M7qAyK3/gSWzozcw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxN5R4GOk/BS7gzwvTmvGtJ9TMf6X0aX2MrOBkQUxYXqo1jaYzV
-	JVKgh4NZnuOme7Iay9AaCQkWKYV/a+gVcOfvzOnwZ+mbG0Qm6Jf4G+tDIwDgqG/hFDWZjevnCn3
-	xBY0ay0UhqQ==
-X-Gm-Gg: AfdE7cknOWzChLOjJHG7qr2JItMXL/pdLCAgpZy8v7ij1tvqPt89rHVFUAGVT29yzQ8
-	J0FwXiMK7EKuzmqONtqqm6RLlKek3GZ8TZ+uHuhTafhYZobuCsj3ntgKevctypPFcOseRGU4pER
-	vj5+eSlV2NqLOK4KVCqYH0vqev/DV/bjPohAFBtuI5TTsc7mf+LtaRXUH7j0bc9Oy1enoTVYr3L
-	13NE2dQcT6B/O74Xnx3KykyyKs6N18XQJhuD+W7We1/iefphE8y2NRV71pVNGTWAS8sbo22sjQU
-	gKo/xhcFJBFEmJlXUhvo1I3/LHQJ6BKcXQXDyQswYvJA3o24IYO/5kC8opWOI/pH6GTtGMQXPD9
-	n7NfeQM3G4S4nyL/5uM7UBBTV/K2f0h4cEXyX124d/RTPvEuxPXktxwlo+cWJlilzdk8k0B6V7+
-	fKlM7m+kCg1ik=
-X-Received: by 2002:a05:600c:1d1a:b0:493:b783:ad59 with SMTP id 5b1f17b1804b1-493df07390amr19579715e9.14.1783358343945;
-        Mon, 06 Jul 2026 10:19:03 -0700 (PDT)
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=s8ZMwjQCXZc0G5cGRu+Pa1CQ45k6IzvdczuLkWrNP4E=;
+        b=IDgdM2DYkxpAsTRQlmM/guaEP5koSgs7H4Ort0vPNciEvzgBMfBlQRohhXn3L3B+wM
+         MIvakKiNQ8fUoBbwXKzQdZ+5fmUOfltU5xA0t+1XHB3SjRp0fKWsKSjlvmjP8K33b0ZV
+         RavUmqcEUFMMQ9sbpJoR18jBY8M3xkZGh/oxNk+hp8qKoPWrf3Phcs34etJ66gIg/ffe
+         nAz8MDGX7ZNIFMaF2HNcjqk9BBr+FIyymgGzqP6pXWyBL6yr7uU0Z82w5FXxpn0v4fk5
+         pKcPjFkW22VTqvZm2nYL1qv8zEeLuN+06nR59JxA4lDkaPG8v8NYCJTPmNZdqLKyYnie
+         0jRQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp641sbI876jUsI6HSzOnL0q5xCYb9t1WnF5g7qoQLjGWNDYlnl6pEro4tuJ2NfP+EvVNpWKc5ApOAMIt7IovMwUg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzkrUlRQIbHfXC9pXfY2C8Xlc2zhHuOeA3U6NFSKFEhuJF6UUne
+	0E9wbASPmyGB8JkrbH1bkSgna/e2NgqZIq/0jtym8sJdjzaVkp82I4g7E4y82DlOiU8=
+X-Gm-Gg: AfdE7clwGP24BMLTlqx4SDysMaVS7Vf2K2aEnjuYrNDW+VwV1l0xSC/tyFK7+tNme7H
+	eRLtrqkoSQMb6e0nQfhEwgxc9mZJUiZLTFCkhPgdlShwD5MJo62z2M9PspHd+ibZOQ2GQ7mm2Rg
+	nJ3qAVOJSYIbKne6lqmjawS1gfD4bOUvAFEvmS/mRhybTytsV6qrSVzMUVXjawcrei/vxiAQ4ay
+	6lnldsNpWyI61LE0RiddTyJzqhTy8ok5U6rrqMgzGuqhSR/DqiVtz+oHpPYHzmlRnfm/fDn65Ts
+	Oo1Otj0zCYiffzgo2zZM+WjezSUgEImN11wxWdijPln2GjBbkVY2Sf7i2W+qNih6GjVnRPW8yYp
+	OcNNB7TVu36kUc6fzLzw1YTT5xSgheTdaePv5bFgivfx9Mou3l2NojXn8Fjcs56erIdC4K8KcVM
+	Ifwb9qU9lbfP07KtZjeH3oNw==
+X-Received: by 2002:a05:600d:110:b0:493:c337:db18 with SMTP id 5b1f17b1804b1-493df042299mr12379545e9.16.1783358791292;
+        Mon, 06 Jul 2026 10:26:31 -0700 (PDT)
 Received: from localhost ([212.133.41.25])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c636ea60sm342095195e9.3.2026.07.06.10.19.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493df703cb2sm6414925e9.1.2026.07.06.10.26.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 10:19:03 -0700 (PDT)
+        Mon, 06 Jul 2026 10:26:30 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 06 Jul 2026 19:19:02 +0200
-Message-Id: <DJRNRSGCJSS1.3IN9OYGAAPQRV@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH 1/6] rsync: Fix CVE-2026-29518
+Date: Mon, 06 Jul 2026 19:26:29 +0200
+Message-Id: <DJRNXI1MR0G3.NRVNAMF6V3KW@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH 1/2] gnutls: set status for
+ CVE-2026-3832
 From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <xe-linux-external@cisco.com>
-To: "Yoann Congal" <yoann.congal@smile.fr>, <asparmar@cisco.com>,
+To: "Yoann Congal" <yoann.congal@smile.fr>, <sudumbha@cisco.com>,
  <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260612121514.2282121-1-asparmar@cisco.com>
- <DJFJLZY26OV8.76VQNOV5VDTV@smile.fr>
-In-Reply-To: <DJFJLZY26OV8.76VQNOV5VDTV@smile.fr>
+References: <20260613102520.3703528-1-sudumbha@cisco.com>
+ <DJFO0C5H4J4B.2E5D9ZA8FAU4F@smile.fr>
+In-Reply-To: <DJFO0C5H4J4B.2E5D9ZA8FAU4F@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 17:19:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240332
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 17:26:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240333
 
-On Mon Jun 22, 2026 at 1:31 PM CEST, Yoann Congal wrote:
-> On Fri Jun 12, 2026 at 2:13 PM CEST, Ashishkumar Parmar X (asparmar - E I=
-NFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
->> From: Ashishkumar Parmar <asparmar@cisco.com>
+On Mon Jun 22, 2026 at 4:58 PM CEST, Yoann Congal wrote:
+> On Sat Jun 13, 2026 at 12:25 PM CEST, Sudhir Dumbhare via lists.openembed=
+ded.org wrote:
+>> From: Sudhir Dumbhare <sudumbha@cisco.com>
 >>
->> Pick the upstream backport [1] for CVE-2026-29518 as mentioned in [3],
->> where a non-chrooted rsync daemon could be exposed to a parent path
->> TOCTOU race that allowed file access outside the module.
+>> Analysis:
+>>   - CVE-2026-3832 affects GnuTLS OCSP multi-record response handling.
+>>   - The vulnerable OCSP response handling code was introduced in GnuTLS =
+3.8.8.
+>>   - This vulnerable code is not present in the current GnuTLS 3.8.4.
+>>   - Hence ignoring the CVE for this version.
 >>
->> Also include the dependent upstream fix that followed the CVE fix:
->> - CVE-2026-29518_p2.patch [2] secures sender read-path opens by
->>   opening files from the module root, closing the same race on the
->>   read side.
+>> Reference:
+>> https://nvd.nist.gov/vuln/detail/CVE-2026-3832
+>> https://security-tracker.debian.org/tracker/CVE-2026-3832
+>> https://gitlab.com/gnutls/gnutls/-/issues/1801
 >>
->> [1] https://github.com/RsyncProject/rsync/commit/1a5ad81add1004354a3d8ba=
-841b94ffe19cd2505
->> [2] https://github.com/RsyncProject/rsync/commit/99b36291d06ca66229942c7=
-a525a1f5566f10c85
->> [3] https://www.cve.org/CVERecord?id=3DCVE-2026-29518
->>
->> Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
+>> Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 >> ---
 >
-> Hello,
->
-> It looks like this whole series is needed for wrynose (rsync 3.4.1).
-> Can you send fixes there first, and, then, ping here?
+> I think the CVE applies to wrynose. Can you send a fix there, and then,
+> ping back here?
 
-Hello Ashishkumar,
+Hello,
 
-Gentle ping for this patch series. Do you plan to send the needed
-wrynose series?
+Gentle ping for this series. Do you plan to send the needed wrynose
+patches?
 
 Regards,
 
 >
 > Thanks!
 >
->>  .../rsync/files/CVE-2026-29518_p1.patch       | 330 ++++++++++++++++++
->>  .../rsync/files/CVE-2026-29518_p2.patch       |  73 ++++
->>  meta/recipes-devtools/rsync/rsync_3.2.7.bb    |   2 +
->>  3 files changed, 405 insertions(+)
->>  create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p1.=
-patch
->>  create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p2.=
-patch
+>>  meta/recipes-support/gnutls/gnutls_3.8.4.bb | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-=
+support/gnutls/gnutls_3.8.4.bb
+>> index ccb6a2b4b2..6d43c58df2 100644
+>> --- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
+>> +++ b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
+>> @@ -124,3 +124,5 @@ pkg_postinst_ontarget:${PN}-fips () {
+>>          ${bindir}/fipshmac ${libdir}/libhogweed.so.6.* > ${libdir}/.lib=
+hogweed.so.6.hmac
+>>      fi
+>>  }
+>> +
+>> +CVE_STATUS[CVE-2026-3832] =3D "fixed-version: vulnerable multi-record O=
+CSP response handling was introduced in 3.8.8 and is not present in 3.8.4"
+
 
 --=20
 Yoann Congal
