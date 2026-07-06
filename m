@@ -2,39 +2,39 @@ Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAAE3C43458
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 10:45:16 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.148319.1783334714529951981
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 012FBC44501
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 10:45:17 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.147379.1783334714864769544
  for <openembedded-core@lists.openembedded.org>;
  Mon, 06 Jul 2026 03:45:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=NkcSN79W;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=q+EwkxLA;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 9524B4E40CAC
-	for <openembedded-core@lists.openembedded.org>; Mon,  6 Jul 2026 10:45:12 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 403F91A0E8E
+	for <openembedded-core@lists.openembedded.org>; Mon,  6 Jul 2026 10:45:13 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6408E601A2;
-	Mon,  6 Jul 2026 10:45:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7876711BBA077;
-	Mon,  6 Jul 2026 12:45:11 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0EECF601A2;
+	Mon,  6 Jul 2026 10:45:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2F31711BBA00F;
+	Mon,  6 Jul 2026 12:45:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1783334711; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1783334712; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=ro1hV8xCnkSsL/QB5XDoDxzY4tcV9TJ3gA5DA9AsdfU=;
-	b=NkcSN79Wdh9YuQ33UVzXiUWqoYtly9zx+nt9wZJsRb8xsrinRwF9cUpWdXvPup+npnugqv
-	IvVF2PKnpc44JeH79q20pCd5LnWhDGoibU8cJzkXGeVoPIK0HGVYCFgmEkaG3KrWMwCFn2
-	PwMrntaibBodykJHlnQNPNFO6LLSIXET4c9EJfEGwn1dq0lIxf0S0P3EB1b+5RP5hzkMEA
-	Jio6CScXP3CrP2gNoGBHuoaQPbcOU6sQ7DZ4Vvwi3WVxeX7foiXmJk6zFDTf2PJzMg8hf2
-	CdT3gip83RN4zsU6r7muXjEd7vOPkmbFAEsmrTs/QJysVTPk2va9Rov6mbggcQ==
+	bh=g5y1PH2vEAmyvduImqFJtJ3ad/q1rYp4LUON897QuEo=;
+	b=q+EwkxLAuSyGw1yqXhR+m8dJBJevjmDC+tSl4qchKSbanT77nli3W5625QLTI3y+aNtCBR
+	jUYH1OmQx99cLZuEWNmz4mbx36Q6DVmXqlCj0A7XbO0wrAN/x68SccZLdZiXaYk0lM70Fa
+	9GyVmPPPefPKvnlC+AibD3v6c+vIIj5ApdfYVGEMNwdRl2pW7esCRLy6ImEo8TRlJGHPcv
+	FKltcYoSN1rzXn6EgXAAJPJq1GMb7RsE+dLg5WDZnYMK7Uxtfajwxgl9z10JLY/G5MRpAC
+	5Y78fzdXbHapPyXZie8LvXEzdC5BTMaxkdhV8W9QBKHiLjW4I7q05Zp2fIQxHg==
 From: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
-Date: Mon, 06 Jul 2026 12:45:06 +0200
-Subject: [PATCH 1/2] python3: fix CVE-2026-11940
+Date: Mon, 06 Jul 2026 12:45:07 +0200
+Subject: [PATCH 2/2] python3: fix CVE-2026-11972
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260706-fix-cves-python-master-v1-1-9a2a86be5bfd@bootlin.com>
+Message-Id: <20260706-fix-cves-python-master-v1-2-9a2a86be5bfd@bootlin.com>
 References: <20260706-fix-cves-python-master-v1-0-9a2a86be5bfd@bootlin.com>
 In-Reply-To: <20260706-fix-cves-python-master-v1-0-9a2a86be5bfd@bootlin.com>
 To: openembedded-core@lists.openembedded.org
@@ -46,101 +46,93 @@ X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:45:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240243
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:45:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240241
 
-tarfile.extractall() with the 'data' or 'tar' filter could be bypassed
-by a crafted archive where a hardlink references a symlink stored at a
-deeper name than the hardlink itself.
+When using the "tarfile" module with a file opened in "streaming mode"
+(mode="r|") the tarfile module did not properly handle EOF, making archive
+parsing take exponentially longer.
 
 Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 ---
- .../python/python3/CVE-2026-11940.patch            | 67 ++++++++++++++++++++++
+ .../python/python3/CVE-2026-11972.patch            | 59 ++++++++++++++++++++++
  meta/recipes-devtools/python/python3_3.14.6.bb     |  1 +
- 2 files changed, 68 insertions(+)
+ 2 files changed, 60 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2026-11940.patch b/meta/recipes-devtools/python/python3/CVE-2026-11940.patch
+diff --git a/meta/recipes-devtools/python/python3/CVE-2026-11972.patch b/meta/recipes-devtools/python/python3/CVE-2026-11972.patch
 new file mode 100644
-index 000000000000..05a5802c3965
+index 000000000000..7dc9c6697112
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2026-11940.patch
-@@ -0,0 +1,67 @@
-+From e24b4e95524fbe8cd0f46aa3292e8040f0e07c83 Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Tue, 23 Jun 2026 15:58:47 +0200
-+Subject: [PATCH 1/2] gh-151558: Fix symlink escape via `tarfile`
-+ hardlink-extraction fallback (GH-151559)
++++ b/meta/recipes-devtools/python/python3/CVE-2026-11972.patch
+@@ -0,0 +1,59 @@
++From 2d256d4bfd654bdcaf2d96733799be73b8ff8f69 Mon Sep 17 00:00:00 2001
++From: Petr Viktorin <encukou@gmail.com>
++Date: Tue, 23 Jun 2026 15:13:30 +0200
++Subject: [PATCH 2/2] gh-151981: Make tarfile._Stream.seek break at EOF
++ (GH-151982)
 +
-+CVE: CVE-2026-11940
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/27dd970bf6b17ebca7c8ed486a40ab043ed7af8f]
++CVE: CVE-2026-11972
++Upstream-Status: Backport [https://github.com/python/cpython/commit/f50bf13566189c8d0ce5a814f33eff3d89951896]
 +
 +Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
 +---
-+ Lib/tarfile.py           |  3 +++
-+ Lib/test/test_tarfile.py | 24 ++++++++++++++++++++++++
-+ 2 files changed, 27 insertions(+)
++ Lib/tarfile.py           |  4 +++-
++ Lib/test/test_tarfile.py | 16 ++++++++++++++++
++ 2 files changed, 19 insertions(+), 1 deletion(-)
 +
 +diff --git a/Lib/tarfile.py b/Lib/tarfile.py
-+index e6734db24f64..63f23490e8a1 100644
++index 63f23490e8a1..399f906efdff 100644
 +--- a/Lib/tarfile.py
 ++++ b/Lib/tarfile.py
-+@@ -2782,6 +2782,9 @@ def makelink_with_filter(self, tarinfo, targetpath,
-+                     "makelink_with_filter: if filter_function is not None, "
-+                     + "extraction_root must also not be None")
-+             try:
-++                filter_function(
-++                    unfiltered.replace(name=tarinfo.name, deep=False),
-++                    extraction_root)
-+                 filtered = filter_function(unfiltered, extraction_root)
-+             except _FILTER_ERRORS as cause:
-+                 raise LinkFallbackError(tarinfo, unfiltered.name) from cause
++@@ -524,7 +524,9 @@ def seek(self, pos=0):
++         if pos - self.pos >= 0:
++             blocks, remainder = divmod(pos - self.pos, self.bufsize)
++             for i in range(blocks):
++-                self.read(self.bufsize)
+++                data = self.read(self.bufsize)
+++                if not data:
+++                    break
++             self.read(remainder)
++         else:
++             raise StreamError("seeking backwards is not allowed")
 +diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-+index d974c7d46ec1..0fc7413be8db 100644
++index 0fc7413be8db..045377d620cc 100644
 +--- a/Lib/test/test_tarfile.py
 ++++ b/Lib/test/test_tarfile.py
-+@@ -4344,6 +4344,30 @@ def test_sneaky_hardlink_fallback(self):
-+                     self.expect_file("boom", symlink_to='../../link_here')
-+                     self.expect_file("c", symlink_to='b')
++@@ -4786,6 +4786,22 @@ def valueerror_filter(tarinfo, path):
++         with self.check_context(arc.open(errorlevel='boo!'), filtererror_filter):
++             self.expect_exception(TypeError)  # errorlevel is not int
 +
-++    @symlink_test
-++    def test_sneaky_hardlink_fallback_deep(self):
-++        # (CVE-2026-11940)
-++        with ArchiveMaker() as arc:
-++            arc.add("a/b/s", symlink_to=os.path.join("..", "escape"))
-++            arc.add("s", hardlink_to=os.path.join("a", "b", "s"))
+++    @support.subTests('format', [tarfile.GNU_FORMAT, tarfile.PAX_FORMAT])
+++    def test_getmembers_big_size(self, format):
+++        # gh-151981: A loop in seek() for streaming files tried to read the
+++        # declared number of blocks even at EOF
+++        tinfo = tarfile.TarInfo("huge-file")
+++        tinfo.size = 1 << 64
+++        bio = io.BytesIO()
+++        # Write header without data
+++        bio.write(tinfo.tobuf(format))
 ++
-++        with self.check_context(arc.open(), 'data'):
-++            e = self.expect_exception(
-++                tarfile.LinkFallbackError,
-++                "link 's' would be extracted as a copy of "
-++                + "'a/b/s', which was rejected")
-++            self.assertIsInstance(e.__cause__,
-++                                  tarfile.LinkOutsideDestinationError)
+++        # Reset & try to get contents
+++        bio.seek(0)
+++        with tarfile.open(fileobj=bio, mode="r|") as tar:
+++            with self.assertRaises(tarfile.ReadError):
+++                tar.getmembers()
 ++
-++        for filter in 'tar', 'fully_trusted':
-++            with self.subTest(filter), self.check_context(arc.open(), filter):
-++                if not os_helper.can_symlink():
-++                    self.expect_file("a/")
-++                    self.expect_file("a/b/")
-++                else:
-++                    self.expect_file("a/b/s", symlink_to=os.path.join('..', 'escape'))
-++                    self.expect_file("s", symlink_to=os.path.join('..', 'escape'))
-++
-+     @symlink_test
-+     def test_exfiltration_via_symlink(self):
-+         # (CVE-2025-4138)
++
++ class OverwriteTests(archiver_tests.OverwriteTests, unittest.TestCase):
++     testdir = os.path.join(TEMPDIR, "testoverwrite")
 +--
 +2.54.0
 diff --git a/meta/recipes-devtools/python/python3_3.14.6.bb b/meta/recipes-devtools/python/python3_3.14.6.bb
-index 6dfd22fc0fb6..23fc152950ea 100644
+index 23fc152950ea..a45a4561339f 100644
 --- a/meta/recipes-devtools/python/python3_3.14.6.bb
 +++ b/meta/recipes-devtools/python/python3_3.14.6.bb
-@@ -22,6 +22,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+@@ -23,6 +23,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
             file://0001-Update-test_sysconfig-for-posix_user-purelib.patch \
             file://0001-prefer-valid-entrypoints.patch \
-+           file://CVE-2026-11940.patch \
+            file://CVE-2026-11940.patch \
++           file://CVE-2026-11972.patch \
             "
  SRC_URI:append:class-native = " \
             file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
