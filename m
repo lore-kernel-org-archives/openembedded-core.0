@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87877C44507
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E712C43602
 	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:17:12 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.156290.1783358231496225607
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.155282.1783358229042771981
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 10:17:11 -0700
+ Mon, 06 Jul 2026 10:17:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=g21jCx/+;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so1371124f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:17:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=rVpz0KnA;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-476a130c138so3424991f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:17:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783358230; x=1783963030; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1783358227; x=1783963027; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YPmqa10LIOJC3kkYhcrR9WP5dlB61CQOFLIcAwr6iOk=;
-        b=g21jCx/+EDMjDP0Xzz+6Q5BmaqXsBVzLgOG7QsqH9szG9UDXf/xHtTtom4mY+25Vah
-         XPZj0ccsL3RmWxkV6HbSPkJ9z24H1g7u5Q4NJbTJMBqcM6hWyzpecocZjjEYUMdObD6t
-         9RWRb5aNmrSLYI1u2zaCRknB5sMWITx2PUktgss2zya8COBzGIPuFWlqWIprUxPpjsDq
-         /X1oLzNke4R8Nr6fxUeq1y3VJ70yNUuDZDTh/BRx2qnf26GDFQnR++5L8riQLRIy5CkL
-         5ybeZDhCMVR9u32B3gUhqc/XlvpzUJ4DPUgVBkZ6aLivWuzRAoYKIt9GNPO86UHqe1By
-         k7SQ==
+        bh=tQ2Y5vZc8BNIC9VJv6t3OST+wQLvPAhrEqkCAThN4HQ=;
+        b=rVpz0KnAf9OKGNo6IdNq7jkPuTQlOaLLfvPAhBqJH6C690oPJK/Tdx6FsI8lo4xdK0
+         zme7SsI22d79s5je56KtUWqzTCmAUuYJVQylJqOBIB0678OY7FxOmzI6mAxwRBcdNpMu
+         0e+KXIy6La8+4BMUF1lrVZLlL6gpOsFN+MyT80dlwoiTD6zcsMwqp+1eOWLfALHL2tDn
+         6tGuuPspwrVmY/c2tmINyJrI4dhi630gdU5A6ut1tVEWjfKpxaKreps/teOouIZHPAtx
+         w57o/33rNqlcin809GoOVLKbd33f5lH6Sm4XN70eKaANYF47kmb/Dp/2IHvVgl4RGf0E
+         GjAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783358230; x=1783963030;
+        d=1e100.net; s=20251104; t=1783358227; x=1783963027;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YPmqa10LIOJC3kkYhcrR9WP5dlB61CQOFLIcAwr6iOk=;
-        b=sYqk+a0A+MzhxaekHsEq3UxpfQ7bim+yzmKmKgOkcMh0ODAD4VdmcvosvNpPCkoG+5
-         ejncbc2rVZejTxxpVnG8qyLM45kDff5CCj0l0mUZtDICDj4aU33ARQiWjxmGgWun8ZiG
-         AgBrZnotgaqsGBPpo+tBD0NEYfUHsGmCznHSLPdCto/JGeBPJD4qEHdCClrS79gLqRXO
-         L5H8VBkVmBXMqU8tEjGDvCKv6QA/nfyc2flveUNM6ZG4CbWFFncKd+PNckqDPD64KwQE
-         xEu/OBbcntNiltI5qiXHvWfAyNxbQ2Mj8vfzWgpWHJ+5Rjc320RJ0dT+4c157cxuzQBR
-         Gslw==
-X-Gm-Message-State: AOJu0Yzz/eYqrAMOOomBYS2F5uc/foFKSfq7yeDJRzcvt+q7ARKt/Us1
-	FRhnNpmkN3KtgVaE8N5wPJol9KSP9r5kM8T4+5zCNYiTXHKkROxcdtqCcnoZnQ==
-X-Gm-Gg: AfdE7cmq4dtU2aRaB3vzEzu51VSDF5s8rMRWRhnrz1HDVzWiT2Y6mxhKUyBy0CTCILe
-	dWenxRVyRuQcTsosuvcMJKqU9cH2zbKmBcJwOAleitNQRW06D+LeaOu/Q9yOoLtoQj2OQQMbcgw
-	BAL4pXO7uLdcLMQ5X8ZMBHBspnWoNGEYzy1TI9eYwgP3ve6OCMwQyR9KRUgKOWRHo3WqvM4JAEi
-	Kv23dJFW1ZDOyjrS3Vw9TBAP9yhfDyMiW+ZyT4i+2Z2q7g43V8Zqk3vEbCk4l7yN2FJGt7ks+8k
-	MmTp0eEumREdSUX6nc0LGl2gGqQs8OnboUnzb80o8HbecW5/JiZonJ2L0opXvv53NR5ck0yeVkH
-	xS1iAtgtXkmX8HJ0KDFjPKXFwnZB2qCFzODd5uSgC4cXLYVCXJIl8FszTc8v3aRCJNWX7bNdcDe
-	3Er0SiWvvvUNs1i4EfCWEFC2PsF7Vidh6cEVsZmyJJn42J5OjJ
-X-Received: by 2002:a05:600c:548b:b0:493:c337:db0e with SMTP id 5b1f17b1804b1-493df080c83mr20099115e9.18.1783358229545;
-        Mon, 06 Jul 2026 10:17:09 -0700 (PDT)
+        bh=tQ2Y5vZc8BNIC9VJv6t3OST+wQLvPAhrEqkCAThN4HQ=;
+        b=gzSpCH1xnLitpn450U0pH1X14cqasFZJAcLXHX0CBvAxw/AKnRQmQ1ua6rKEksbqwj
+         bYRiWbXm7vVtKcSVV4/bhRAgqITg8e5YE+pyN+zk+3p0mcCI2X2VRDB4AWfo1Fw1E/wC
+         LXoQpp2ciZTd20NREzbcX1xjuQYDm4xnmAqQUSMRxlnZi46fkhg2MMvkru6S9NVAh7tI
+         r7RPBm+FcMZt0Xob+gxUsfHYBLTjvSPkjCX8kmcB9ZR/NPj3T0CRw0ZdBg5hT1CSE/+Q
+         g7rwrUnMZRtJ/N59b2pMfiT8zmcQ3m0WheJvdC+HSoFbninBnCgeZSXOh7aHGhT5Biiu
+         u6NQ==
+X-Gm-Message-State: AOJu0YyoLS8YPuuo0+wOWSBbcbLRtRtlcy3lnQu9qhZ8aHT66ryNUsmx
+	ZWlSxj1jme6fsvbkw06S3H3a/QosFfsRPpt0KnZ4u100Cy3pnDfHUOtchhboQw==
+X-Gm-Gg: AfdE7ck0E3ENYmwjz+9qh9eNXnmgLrlMYtnTr12CSIyt26adj6BD0Zt+IE+Ldi0yhk0
+	PkcXKhClMSYmhunJ51FBLeVHr2TC0I+sAnhetS3pvCyIjyNAyFxSmUGVct2eWgFFnfXzYuGsfd1
+	Bebwl9HX2XUIg/BvXcan6IT9w9tqGFAsvwMjs5zMRXOVZV7lFVAG6dkr5OsjDhKn0CzEs06TEjZ
+	4/8Xqd3CUpOwOot9gZXMlbGWDg7cUXlxT8AAATvdM0zMsNaxmji+uR3YVz/lCRrbZ3ZbXs0J2BB
+	Gum+XUVRNtCrT7aWnpA711gVeMDPVjE8jYikTu7vLUnwaEiwErkj3su2pmBZh6UspYh7Z22Hb9C
+	YC2+Cozej1RwssTAKFcs2JzMnS+AA3EVMdat+weOL7OISeHMZL5nb6j6uUbK5gOMQ45KZnF5Wi/
+	l0M6fXwFxlpADLn2vhfWqavvcuro+LDm9xIeTdu5snpEHeQutH
+X-Received: by 2002:a05:600c:83cf:b0:492:490b:a604 with SMTP id 5b1f17b1804b1-493df090d52mr14574545e9.37.1783358227124;
+        Mon, 06 Jul 2026 10:17:07 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63ba971sm640541005e9.13.2026.07.06.10.17.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63ba971sm640541005e9.13.2026.07.06.10.17.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 10:17:09 -0700 (PDT)
+        Mon, 06 Jul 2026 10:17:06 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 06/45] attr: upgrade 2.5.2 -> 2.6.0
-Date: Mon,  6 Jul 2026 19:16:20 +0200
-Message-ID: <20260706171701.70536-6-alex.kanavin@gmail.com>
+Subject: [PATCH 03/45] acl: upgrade 2.3.2 -> 2.4.0
+Date: Mon,  6 Jul 2026 19:16:17 +0200
+Message-ID: <20260706171701.70536-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260706171701.70536-1-alex.kanavin@gmail.com>
 References: <20260706171701.70536-1-alex.kanavin@gmail.com>
@@ -67,114 +67,277 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 17:17:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240292
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240289
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Drop patch (issue fixed upstream).
-
-Adjust file names in ptest packaging.
+Backport a patch to tar to avoid name clashes.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ibgen.h-for-posix-version-of-basenam.patch | 35 -------------------
- meta/recipes-support/attr/attr/run-ptest      |  2 +-
- .../attr/{attr_2.5.2.bb => attr_2.6.0.bb}     |  7 ++--
- 3 files changed, 4 insertions(+), 40 deletions(-)
- delete mode 100644 meta/recipes-support/attr/attr/0001-attr.c-Include-libgen.h-for-posix-version-of-basenam.patch
- rename meta/recipes-support/attr/{attr_2.5.2.bb => attr_2.6.0.bb} (88%)
+ ...0001-Avoid-acl_-prefix-for-functions.patch | 90 +++++++++++++++++++
+ meta/recipes-extended/tar/tar_1.35.bb         | 22 ++---
+ ...t_uid-fix-memory-wasting-loop-if-use.patch | 49 ----------
+ ...isc.test-Don-t-mix-stdout-and-stderr.patch | 35 --------
+ .../attr/{acl_2.3.2.bb => acl_2.4.0.bb}       |  4 +-
+ 5 files changed, 102 insertions(+), 98 deletions(-)
+ create mode 100644 meta/recipes-extended/tar/tar/0001-Avoid-acl_-prefix-for-functions.patch
+ delete mode 100644 meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch
+ delete mode 100644 meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch
+ rename meta/recipes-support/attr/{acl_2.3.2.bb => acl_2.4.0.bb} (90%)
 
-diff --git a/meta/recipes-support/attr/attr/0001-attr.c-Include-libgen.h-for-posix-version-of-basenam.patch b/meta/recipes-support/attr/attr/0001-attr.c-Include-libgen.h-for-posix-version-of-basenam.patch
+diff --git a/meta/recipes-extended/tar/tar/0001-Avoid-acl_-prefix-for-functions.patch b/meta/recipes-extended/tar/tar/0001-Avoid-acl_-prefix-for-functions.patch
+new file mode 100644
+index 0000000000..a736d5f229
+--- /dev/null
++++ b/meta/recipes-extended/tar/tar/0001-Avoid-acl_-prefix-for-functions.patch
+@@ -0,0 +1,90 @@
++From 78a6e620515a0ca7e3481a9d8277225c800262a7 Mon Sep 17 00:00:00 2001
++From: Pavel Cahyna <pcahyna@redhat.com>
++Date: Wed, 24 Jun 2026 18:45:30 +0200
++Subject: [PATCH] Avoid acl_ prefix for functions
++
++The acl.h header from libacl uses acl_ prefix for its functions. Avoid
++defining functions with the same name in order to protect its namespace.
++
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=08c3fc2e9337094aff01a511170fd35fdb8f1ee3]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ src/xattrs.c | 26 +++++++++++++-------------
++ 1 file changed, 13 insertions(+), 13 deletions(-)
++
++diff --git a/src/xattrs.c b/src/xattrs.c
++index 86a7e59..bf2c4f0 100644
++--- a/src/xattrs.c
+++++ b/src/xattrs.c
++@@ -139,13 +139,13 @@ static struct
++ #ifdef HAVE_POSIX_ACLS
++ 
++ /* acl-at wrappers, TODO: move to gnulib in future? */
++-static acl_t acl_get_file_at (int, const char *, acl_type_t);
++-static int acl_set_file_at (int, const char *, acl_type_t, acl_t);
+++static acl_t tar_acl_get_file_at (int, const char *, acl_type_t);
+++static int tar_acl_set_file_at (int, const char *, acl_type_t, acl_t);
++ static int file_has_acl_at (int, char const *, struct stat const *);
++-static int acl_delete_def_file_at (int, char const *);
+++static int tar_acl_delete_def_file_at (int, char const *);
++ 
++-/* acl_get_file_at */
++-#define AT_FUNC_NAME acl_get_file_at
+++/* tar_acl_get_file_at */
+++#define AT_FUNC_NAME tar_acl_get_file_at
++ #define AT_FUNC_RESULT acl_t
++ #define AT_FUNC_FAIL (acl_t)NULL
++ #define AT_FUNC_F1 acl_get_file
++@@ -159,8 +159,8 @@ static int acl_delete_def_file_at (int, char const *);
++ #undef AT_FUNC_POST_FILE_PARAM_DECLS
++ #undef AT_FUNC_POST_FILE_ARGS
++ 
++-/* acl_set_file_at */
++-#define AT_FUNC_NAME acl_set_file_at
+++/* tar_acl_set_file_at */
+++#define AT_FUNC_NAME tar_acl_set_file_at
++ #define AT_FUNC_F1 acl_set_file
++ #define AT_FUNC_POST_FILE_PARAM_DECLS   , acl_type_t type, acl_t acl
++ #define AT_FUNC_POST_FILE_ARGS          , type, acl
++@@ -170,8 +170,8 @@ static int acl_delete_def_file_at (int, char const *);
++ #undef AT_FUNC_POST_FILE_PARAM_DECLS
++ #undef AT_FUNC_POST_FILE_ARGS
++ 
++-/* acl_delete_def_file_at */
++-#define AT_FUNC_NAME acl_delete_def_file_at
+++/* tar_acl_delete_def_file_at */
+++#define AT_FUNC_NAME tar_acl_delete_def_file_at
++ #define AT_FUNC_F1 acl_delete_def_file
++ #define AT_FUNC_POST_FILE_PARAM_DECLS
++ #define AT_FUNC_POST_FILE_ARGS
++@@ -299,7 +299,7 @@ xattrs__acls_set (struct tar_stat_info const *st,
++       /* No "default" IEEE 1003.1e ACL set for directory.  At this moment,
++          FILE_NAME may already have inherited default acls from parent
++          directory;  clean them up. */
++-      if (acl_delete_def_file_at (chdir_fd, file_name))
+++      if (tar_acl_delete_def_file_at (chdir_fd, file_name))
++         WARNOPT (WARN_XATTR_WRITE,
++                 (0, errno,
++                  _("acl_delete_def_file_at: Cannot drop default POSIX ACLs "
++@@ -316,7 +316,7 @@ xattrs__acls_set (struct tar_stat_info const *st,
++       return;
++     }
++ 
++-  if (acl_set_file_at (chdir_fd, file_name, type, acl) == -1)
+++  if (tar_acl_set_file_at (chdir_fd, file_name, type, acl) == -1)
++     /* warn even if filesystem does not support acls */
++     WARNOPT (WARN_XATTR_WRITE,
++ 	     (0, errno,
++@@ -357,10 +357,10 @@ acls_get_text (int parentfd, const char *file_name, acl_type_t type,
++   char *val = NULL;
++   acl_t acl;
++ 
++-  if (!(acl = acl_get_file_at (parentfd, file_name, type)))
+++  if (!(acl = tar_acl_get_file_at (parentfd, file_name, type)))
++     {
++       if (errno != ENOTSUP)
++-        call_arg_warn ("acl_get_file_at", file_name);
+++        call_arg_warn ("tar_acl_get_file_at", file_name);
++       return;
++     }
++ 
+diff --git a/meta/recipes-extended/tar/tar_1.35.bb b/meta/recipes-extended/tar/tar_1.35.bb
+index d15e7f8a4e..eb71863231 100644
+--- a/meta/recipes-extended/tar/tar_1.35.bb
++++ b/meta/recipes-extended/tar/tar_1.35.bb
+@@ -6,7 +6,17 @@ SECTION = "base"
+ LICENSE = "GPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
+ 
+-SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2"
++SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2 \
++           file://run-ptest \
++           file://0001-tests-fix-TESTSUITE_AT.patch \
++           file://0002-tests-check-for-recently-fixed-bug.patch \
++           file://0003-Exclude-VCS-directory-with-writing-from-an-archive.patch \
++           file://CVE-2026-5704-dependent_p1.patch \
++           file://CVE-2026-5704-dependent_p2.patch \
++           file://CVE-2026-5704.patch \
++           file://CVE-2026-5704-regression.patch \
++           file://0001-Avoid-acl_-prefix-for-functions.patch \
++           "
+ 
+ SRC_URI[sha256sum] = "7edb8886a3dc69420a1446e1e2d061922b642f1cf632d2cd0f9ee7e690775985"
+ 
+@@ -37,16 +47,6 @@ do_install:append:class-target() {
+ }
+ 
+ # add for ptest support
+-SRC_URI += " \
+-    file://run-ptest \
+-    file://0001-tests-fix-TESTSUITE_AT.patch \
+-    file://0002-tests-check-for-recently-fixed-bug.patch \
+-    file://0003-Exclude-VCS-directory-with-writing-from-an-archive.patch \
+-    file://CVE-2026-5704-dependent_p1.patch \
+-    file://CVE-2026-5704-dependent_p2.patch \
+-    file://CVE-2026-5704.patch \
+-    file://CVE-2026-5704-regression.patch \
+-"
+ 
+ inherit ptest
+ 
+diff --git a/meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch b/meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch
 deleted file mode 100644
-index 1e2bea5067..0000000000
---- a/meta/recipes-support/attr/attr/0001-attr.c-Include-libgen.h-for-posix-version-of-basenam.patch
+index 5052bdaa2f..0000000000
+--- a/meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch
 +++ /dev/null
-@@ -1,35 +0,0 @@
--From 6d9e827bcacf387bb3cfae64bd4fe520168ccad4 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 3 Dec 2023 19:29:27 -0800
--Subject: [PATCH] attr.c: Include libgen.h for posix version of basename API
+@@ -1,49 +0,0 @@
+-From 56abe432b65801f31277fb9a3bca0f9e31502315 Mon Sep 17 00:00:00 2001
+-From: Matthias Gerstner <matthias.gerstner@suse.de>
+-Date: Thu, 25 Apr 2024 12:43:49 +0200
+-Subject: [PATCH] libmisc: __acl_get_uid(): fix memory wasting loop if user
+- does not exist
 -
--Musl has removed the definition from string.h [1] which results in
--compile failures with clang
+-I noticed that `acl_from_text()` unexpectedly returns ENOMEM for invalid
+-user names. The reason for this is a missing break statement in the for
+-loop in `__acl_get_uid()`, which causes the loop to act as if ERANGE was
+-returned from `getpwnam_r()`, thereby exponentially increasing the
+-buffer size to (in my case) multiple gigabytes, until `grow_buffer()`
+-reports ENOMEM, which terminates the `__acl_get_uid()` function.
 -
--| ../attr-2.5.1/tools/attr.c:69:13: error: call to undeclared function 'basename'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
--|    69 |         progname = basename(argv[0]);
--|       |                    ^
+-This is a pretty costly "no such user" lookup that can disturb a
+-process's heap memory management, but can also cause a process to fail
+-e.g. if it is multithreaded and other threads encounter an ENOMEM,
+-before `__acl_get_uid()` frees the gigantic heap buffer and returns.
+-The allocated memory isn't actually used. Therefore on Linux it should
+-not affect other processes by default, due to its overcommit memory
+-and lazy memory allocation strategy.
 -
--[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
+-Fix this by properly terminating the for loop on any conditions except
+-an ERANGE error being reported. The same break statement correctly
+-exists in `__acl_get_gid()` already.
 -
--Upstream-Status: Submitted [https://savannah.nongnu.org/bugs/index.php?64972]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Fixes: 3737f00 ("use thread-safe getpwnam_r and getgrnam_r")
+-Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
 ----
-- tools/attr.c | 1 +
+- libmisc/uid_gid_lookup.c | 1 +
 - 1 file changed, 1 insertion(+)
 -
--diff --git a/tools/attr.c b/tools/attr.c
--index 312aef1..90dab83 100644
----- a/tools/attr.c
--+++ b/tools/attr.c
--@@ -26,6 +26,7 @@
-- #include <stdlib.h>
-- #include <unistd.h>
-- #include <errno.h>
--+#include <libgen.h>
-- #include <string.h>
-- #include <locale.h>
-- 
+-diff --git a/libmisc/uid_gid_lookup.c b/libmisc/uid_gid_lookup.c
+-index a4f21f6..74baab4 100644
+---- a/libmisc/uid_gid_lookup.c
+-+++ b/libmisc/uid_gid_lookup.c
+-@@ -91,6 +91,7 @@ __acl_get_uid(const char *token, uid_t *uid_p)
+- 		if (err == ERANGE)
+- 			continue;
+- 		errno = err ? err : EINVAL;
+-+		break;
+- 	}
+- 	free(buffer);
+- 	return result ? 0 : -1;
 --- 
 -2.43.0
 -
-diff --git a/meta/recipes-support/attr/attr/run-ptest b/meta/recipes-support/attr/attr/run-ptest
-index 028671a9bd..50970d5b65 100644
---- a/meta/recipes-support/attr/attr/run-ptest
-+++ b/meta/recipes-support/attr/attr/run-ptest
-@@ -3,7 +3,7 @@
- failed=0
- all=0
+diff --git a/meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch b/meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch
+deleted file mode 100644
+index 5aa3f3224c..0000000000
+--- a/meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 47f8039ec9bd08b629775c8e788d11e41fa95f14 Mon Sep 17 00:00:00 2001
+-From: Andreas Gruenbacher <agruenba@redhat.com>
+-Date: Mon, 24 Mar 2025 21:14:09 +0100
+-Subject: [PATCH] test/misc.test: Don't mix stdout and stderr
+-
+-In different environments, we may not get the stdout and stderr output
+-in the order the run script expects, so check both separately.
+-
+-Fixes: https://savannah.nongnu.org/bugs/?66944
+-Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- test/misc.test | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/test/misc.test b/test/misc.test
+-index 06b3136..57c02e5 100644
+---- a/test/misc.test
+-+++ b/test/misc.test
+-@@ -440,8 +440,9 @@ Dangling symlink test https://savannah.nongnu.org/bugs/?28131
+- 	> other::r-x
+- 	> 
+- 	$ setfacl -R -m u:bin:rw d
+--	$ getfacl -RL d
+-+	$ getfacl -RL d > /dev/null
+- 	> getfacl: d/b: No such file or directory
+-+	$ getfacl -RL d 2> /dev/null
+- 	> # file: d
+- 	> # owner: %TUSER
+- 	> # group: %TGROUP
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-support/attr/acl_2.3.2.bb b/meta/recipes-support/attr/acl_2.4.0.bb
+similarity index 90%
+rename from meta/recipes-support/attr/acl_2.3.2.bb
+rename to meta/recipes-support/attr/acl_2.4.0.bb
+index a405cc2692..ef9ee492a0 100644
+--- a/meta/recipes-support/attr/acl_2.3.2.bb
++++ b/meta/recipes-support/attr/acl_2.4.0.bb
+@@ -16,11 +16,9 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=c781d70ed2b4d48995b790403217a249 \
+ DEPENDS = "attr"
  
--for f in *.test; do
-+for f in *.run; do
-     ./run $f
-     case "$?" in
-         0)
-diff --git a/meta/recipes-support/attr/attr_2.5.2.bb b/meta/recipes-support/attr/attr_2.6.0.bb
-similarity index 88%
-rename from meta/recipes-support/attr/attr_2.5.2.bb
-rename to meta/recipes-support/attr/attr_2.6.0.bb
-index 390445b959..aa5e7eb98f 100644
---- a/meta/recipes-support/attr/attr_2.5.2.bb
-+++ b/meta/recipes-support/attr/attr_2.6.0.bb
-@@ -16,10 +16,9 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=2d0aa14b3fce4694e4f615e30186335f \
- 
- SRC_URI = "${SAVANNAH_GNU_MIRROR}/attr/${BP}.tar.gz \
+ SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.tar.gz \
+-           file://0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch \
+-           file://0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch \
             file://run-ptest \
--           file://0001-attr.c-Include-libgen.h-for-posix-version-of-basenam.patch \
- "
+            "
+-SRC_URI[sha256sum] = "5f2bdbad629707aa7d85c623f994aa8a1d2dec55a73de5205bac0bf6058a2f7c"
++SRC_URI[sha256sum] = "73c853c3d44e1f693e5a96a986f1bd19d3d0dac2c7d453e796177774bc4e5f6a"
  
--SRC_URI[sha256sum] = "39bf67452fa41d0948c2197601053f48b3d78a029389734332a6309a680c6c87"
-+SRC_URI[sha256sum] = "d42fa374513180bb48cb11a46696f488240e5124ff1e6ad88b0abff706985612"
+ inherit autotools gettext ptest
  
- inherit ptest update-alternatives autotools gettext
- 
-@@ -35,7 +34,7 @@ ALTERNATIVE_TARGET[getfattr] = "${bindir}/getfattr"
- do_install_ptest() {
-     install -m755 ${S}/test/run ${S}/test/sort-getfattr-output ${D}${PTEST_PATH}/
- 
--    for t in $(makefile-getvar ${S}/test/Makemodule.am TESTS); do
-+    for t in $(makefile-getvar ${B}/Makefile TESTS); do
-         install -m644 ${S}/$t ${D}${PTEST_PATH}/
-     done
- }
-@@ -44,7 +43,7 @@ do_install_ptest:append:libc-musl() {
-     # With glibc strerror(ENOTSUP) is "Operation not supported" but
-     # musl is "Not supported".
-     # https://savannah.nongnu.org/bugs/?62370
--    sed -i -e 's|f: Operation not supported|f: Not supported|g' ${D}${PTEST_PATH}/attr.test
-+    sed -i -e 's|f: Operation not supported|f: Not supported|g' ${D}${PTEST_PATH}/attr.run
- }
- 
- RDEPENDS:${PN}-ptest = "attr \
 -- 
 2.47.3
 
