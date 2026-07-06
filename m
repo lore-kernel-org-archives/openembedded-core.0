@@ -2,47 +2,47 @@ Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 002A1C44500
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:00:01 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.83])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.154928.1783357198616161068
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2192C44501
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:00:00 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.122])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.155941.1783357193339076282
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 09:59:59 -0700
+ Mon, 06 Jul 2026 09:59:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=WjglB4dH;
- spf=pass (domain: navimatix.de, ip: 52.101.69.83, mailfrom: joerg.sommer@navimatix.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=S8rNeVQt;
+ spf=pass (domain: navimatix.de, ip: 52.101.69.122, mailfrom: joerg.sommer@navimatix.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YuCXwOcS7ZpBWMtkpCUQ4im2pupzxVu38h5jd2Xob5xnqGzfDuKcWCMNUdEDnqPRDfxK0pwUaHkIM2qVFpuCTZC4FINJ+C/gU+u/SaO8L0F9W7BvF2fNj3/BW7UJ8EHNF/GUdGRWbNOFRbV1XkooT1TCHwOtYoKn96P5J9Fkq1kdNss+vUqmBlST/t1RcmcrswYh/YTzxH9P+IjLcymZ4QIwxyjywvaJe1QPmeKrduGPXweNd1nxgpleoZLeh/HkeinFvpJy4o2gW/ffYQhm1K6kJhlh8cilnR/I+LU3UsNIl+O/sqepPlaP2JGvcykOCML/mbR0DParifZzj+K3JA==
+ b=FTm2gWAC0fuzI66iVUIFjmatLhZjyWuLIJte0gv6UnL6YaaW1mhgkMf4pzWmf0A7tbvOrI12aAa+RyLwthKsd9X5KL+3vOL7BSl9wgw6/DmAdVXTgGlz+gsk939/MagmXcN7qQ3EgRnJdpJK7P6yIEaDLOCjvFBrtO7hIGVUOq9UJ/8sOS7hzupjhvUrHU9iZ87LFN/AUXEImqC0vtvADvbIMJIzZTXxk+wgUWXYhiFg8tmB3f6TO6gu1wjSpercO2Ny69v28JE6EzFcz+bXQyJaaMcq/jWiTMPSYm3s4GbJ1NV/H+DSycRLkGg5PPWiLW/0bdbjopRBMQsWP8CCTA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WV8IX8FYlpqEebYymbmqaLdFhU1b9Qh7ZXWkJ3Ndg6I=;
- b=gRMzQE6jvAZVikws7FoFtkQoH6zI3BIRraZKgBxG6GHIYqbEKHNtiNPsHwxYin54jI8KH11M4a7U6gb8NYtz7vnf8xPNKm1DnkbHoQcmnWk1bJ2UA7w0svPasYgZ9SOQHpJ4Gh1eMh9DBk00uoR/q4CpINsq53aUTCeNPHxQtZG2KeVKS+kcig6bTsnduSf0wrZx1PHRzYR6JfQjP2axnjSM6S/eVe6lEVBhPxNwt4dxxOsZonIuBUtcKknvI77vMMBqUH5ikYmONnuT5TT2Zhtzjq7bGxYJ5EMZ+xb0sJKR8m36ilgoddOC9Cpbv0BXqehjVpoAPbXViR5IGwwyuA==
+ bh=+TXe2gFWe05+jhswK+czpiluw6bnuU3cddZ7pcLL898=;
+ b=VFZsnDG/3KeGYr89nD47LNjNgPiD6BEqlJUxi3Qcw3P+mJo8IB4091iXhP4rw4I2rakf1IDVpi/gqxXV0SH5bHOzmUxo7Lv/Pns2Y9uu94BSN2Adho/+u7CvmgRJ529ufw2/Dru9Aokw07TCu32hiqFcevyJKUmKJll+cMdSXjgwc/+Rxr5RPjQjm2rvpg0BFw6fNdAEYHhQy0043qMb6FbKC+Wg7gN6YNpfrEWCeqUesj+Wdy4vhIy4aXtC0VFHaPeAnib11fRg0Aaq64nT5mT9UltshrZYFNopSjtn06m8GSZAGppWkNdVQSgiyC67idINr/xE6xxy2mlPv3Md7w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
  dkim=pass header.d=navimatix.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WV8IX8FYlpqEebYymbmqaLdFhU1b9Qh7ZXWkJ3Ndg6I=;
- b=WjglB4dHnaZTX/lt8JGnmdrxH4TMrgErWqUFbdJ9biaSSLbuw4KuKoeIT1ta41jaOfSV7+lFiMGY8PpBWopBX3ubNT+sGUAOEa7pZvtKiUL4IfQhpur8Vw/xDtA21c7ZPZ/i3bWgdJk46FLjIzihS3DdM0ptsJqFi5ZGCRTDwhQ=
+ bh=+TXe2gFWe05+jhswK+czpiluw6bnuU3cddZ7pcLL898=;
+ b=S8rNeVQt020EX1qK6ShqbUwF7rMXCLZVGXwt0fsuim+AlitTC4YI/DcYnj6FGctw3c+aGZbwj3eE5OyWWmkXqz4O9bg8cT9bb2RYMALsxU3HFUT0K54las+xlHgQRu3nRjT0IoY/y4eD7oNTNnOeMtWOrhZDoTTTPU0rzQ7J2Tg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=navimatix.de;
 Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  (2603:10a6:150:2cb::8) by AMDPR01MB11651.eurprd01.prod.exchangelabs.com
  (2603:10a6:20b:719::16) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 6 Jul
- 2026 16:59:55 +0000
+ 2026 16:59:52 +0000
 Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  ([fe80::d5c3:2dea:3d98:25fd]) by
  GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
- with mapi id 15.21.0181.008; Mon, 6 Jul 2026 16:59:55 +0000
-Date: Mon, 6 Jul 2026 18:59:53 +0200
+ with mapi id 15.21.0181.008; Mon, 6 Jul 2026 16:59:52 +0000
+Date: Mon, 6 Jul 2026 18:59:50 +0200
 From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
 To: openembedded-core@lists.openembedded.org, joerg.sommer@navimatix.de
 CC: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-Subject: [PATCH 4/4] systemd: Ship /srv with the package
-Message-ID: <f5a84b83c1d675a4aae0b7b8c65209353820e887.1783357184.git.joerg.sommer@navimatix.de>
+Subject: [PATCH 3/4] base-files: Install /etc/mtab in a systemd-friendly way
+Message-ID: <4baea9df11ee5e91a5a425a63d91fcb4b22d03a2.1783357184.git.joerg.sommer@navimatix.de>
 X-Mailer: git-send-email 2.53.0
 References: <5380f2caab9ad346667be7997955839e0825c8bc.1783357184.git.joerg.sommer@navimatix.de>
 Content-Type: text/plain; charset=iso-8859-1
@@ -55,94 +55,93 @@ X-ClientProxiedBy: BE1P281CA0298.DEUP281.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|AMDPR01MB11651:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c7513ec-7336-4261-307a-08dedb80009c
+X-MS-Office365-Filtering-Correlation-Id: f9ff0c3c-8322-4f21-9ff7-08dedb7fff24
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|22082099003|18002099003|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	j5u0cQDYx50ZnyLNkZOCCel4OIZah+OUwr62+cd0kceiHukawZUZSI/VyoFIacCViT9Y12AGDPHykDa8MyC5BpETMLa0aepzss1W0pJ46S4wjez65KTj7sbxy401KJS2k3zasap+Ndsz1GutH0TwuXtcdv7pXtRVPh2uF1HE8QK8aF/rI+mzA1pgQTMUUuGYsfWqAD7uUjouobb7EJ3prjpsOeUDFViIB5p6vNYi8IRcCZ/KP2ZPouj2E0fNSeDw5571KoXFk5pOIrvpUCpUVP34HCHoY5OuKv6FO1tqDljV7KW52eNdJyatMrmhoz5+V3FhN4TWTl8FwCzVMdvgG6TjV5w5OVJuo+zgH0RlC8JTfXbJuSKhvn0EzIpSTwn+i0LOI5u83FFbh6W4yg0fgXJEnIVjg/ayiTNaV8BWsiXc8/BHaBRu/7MbWrhLxoskP7e6ilFacaV3LuzkIW6KQvfhj64lwMb3BslqfBXDYCTfaf87hakBG6zn6+l/iUB65BFt0qxGqeNzLqkarNt45EU4p2ReUYA3ShUJ/YZJQKkUaLG845Wt7SAnyxcdh2QL74o1fZcAs1jKqA3hpeX+36pjUCiG5XkNmnxG0mmzsSCLvCYUS/SeV20UuQsMipsqd5lLeErwI/spt+Y+iD6LA1KvBDR/q9ZPKPIvWn3ssik=
+	UjT/yT4gmsLIP6iCZZQziKYwDdHm6HnVYi9ojmiKZDi0LIa1Odt3KyWREdBRuRr/k4IGKsMFTLFaCdzEmPA/IKbMqkaGeYMWi5IB6/+Tq88slXTEbGkGOi/a5LdvSlMU44SB+0535JFXDoyJE2YwqBQQKnZT7aPxWzLLo2hzZUUAYhXY4wzqFZOoKgnjkhGBTsPYWIlSzNOSkPff8yh565Ssbp9hlFFeiLffwWGsav7iAhbydKv8GmsCJQmOs4C99MkxDHvh3tnbDyaw8QK4hYQ0LoXvYElIany5CeRWOt3BuRBs/uz6sXSA9d6MduuWxUoSLiz9b0pkPjwIkY5iCuw8rxKs/avwFEIBlV+PiXqDpZ9XHVqvkUkCvZKe/wsYzm3dlK/DJOuUf00qoB+8s9FetizrWWHGnA0fbI4mMag4fnp8panIapCaGu9lfr272qqUV5p1YRU03uTuuOzM0lFExSAxjt4sdGJZym1B7mWic3nyfw9+LBvLJLZaAr7bBCgT6rwMnxSW5ur3fCyB82V7FTm06Mh64jSoLgJ3oNFoTFOrq6GcdLyBJIToWlSu2lsI+VlSm8zbYfvvgVaG2HGetOooP1pt6mAsjdz+j8l3yXz5K6iVQEAxZ36K/nfZYOHAEKzXV9KHL5Smw233hfrm+RxseCMU8BR9Xjp+af8=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?2EVbRTUznBo1wtt8xSWdaRrA+kywctuOarJnbiB/B1W6XUwq8e5bSO7kdDR6?=
- =?us-ascii?Q?V6Wnjro7jTHjkLMObPu3d+QpLAlhwiWLXEDD675qVzJlLdrExmiEp7EdOSHm?=
- =?us-ascii?Q?P4VzqCWARO/iwXDqs4hDqOH3iSsZyeKCqhCGWd0hbxg1TG5WrYJPF6L5wyPj?=
- =?us-ascii?Q?9Esf1x59DfJJ75L20wTtqLdDhnoFsde58np/FNMLNT9RSk5c8FDvRzFZh0sU?=
- =?us-ascii?Q?HoyMMSubX01iib1OJepzsS8kVG4lNapxejDx0DUHvwiEp3OkAQGlq1NLc7BQ?=
- =?us-ascii?Q?IiBx1MPWnWQGrdKZMeP5INswbxGL6sXX6i/xiqh5o/RtprbMRp2pTKT5Q3Zv?=
- =?us-ascii?Q?qSaqnuFZYbt8jSjeLyLZMzXWr/SNrxOUSppDhmXbZTEMh6qdHi5l078L6TSa?=
- =?us-ascii?Q?qhBm3wKGrX/hzYVctO10dBaxRVkUNVyBPsovrsPtFFZNuGrWYAoLplovINfr?=
- =?us-ascii?Q?EjwEyDxln75QeQw+3A3ByLXTacSnm8Dy0oZ2G4DmAg0Xz8JR8t0VU1xJorL4?=
- =?us-ascii?Q?E382MRxGKuojpGf7T/UrddmFBUC7oZw+zf+oIwUJed5kG8WJdPiA7rLBcdOt?=
- =?us-ascii?Q?LqytiY+fliuv51IP36YGk+zfex4vGyea0ZawFS/2/y5EGZh++0FvI7FKIVIH?=
- =?us-ascii?Q?Ol4NWAcFBOX8oNp/VLmkb+yurcH/Gzm0Ch/h13hrgi93X2e9lctoltKgY0L6?=
- =?us-ascii?Q?NecZZbkqpd13qTbUHetpW90TKVmPf9lWsiUOz7Y1DotztpypWEAt6CRqMsaP?=
- =?us-ascii?Q?X3HGdB1DCvA6Cx01AyxMkP8B6Bbuj3UcU5OH7ksqDBNrUc2DXs0rrhrnYj2K?=
- =?us-ascii?Q?pOv81gjQq8BRV5Zmk/ztqsNpbSu6bOqHd46XiU3Gio85WqxHGbh6svCB8KEE?=
- =?us-ascii?Q?HZGlcEqrS6YiowRIIqeZIR55z5j87V7YheMQaQKuwq2N/wwzvkDFqsJHnF33?=
- =?us-ascii?Q?OA/btn10F+HfvrwV+DPcvOtw/cCbqNQ4MII2d54bzpxM5QhonzAWcfIvtkJs?=
- =?us-ascii?Q?xYR7pkIKxyE4VC+yAyPNs9HqwDVkwE4AIgLZ0VsP7ovfvfpGnBLNHTEkhoIp?=
- =?us-ascii?Q?b43VeylsucbjrhmTqLWmhoPClxUfVcdDK21fZg2y6kJr4zwrojr3vEhPMbX+?=
- =?us-ascii?Q?gZ4hKkVOcjgzlfH8eMp4gxVbXJH3PMk4mgsiuDW9q/mNMFaCVTychnLTUxvp?=
- =?us-ascii?Q?JSq4z2O+NZtFTHyNM/jqdZCmGnB6yUCKMjOiWZndryFAKCbDNxZJOR2661uV?=
- =?us-ascii?Q?nf8Ngmy8xj6ZYfk3Smq4qQS0DtLF6nxOrcD4uRcxmju3xB0FiqmaZrv4tfuv?=
- =?us-ascii?Q?UoHPzfTSb3HGzTB2UM7ohj8R8zZi+4eKkHnRktyEOPI1lOr52PWEFzV1vtvy?=
- =?us-ascii?Q?giXOhIixptbZVaDOa/UuO8nAkZDGhynGRBORTUTkgriTRiH5FnfmmUq/lpQ7?=
- =?us-ascii?Q?fJ0NeD9ZWAj9vKKyfe6D40OUBr6akGeA6DkJyMMZUOfoG4KIvex1QIQBCSyJ?=
- =?us-ascii?Q?dlK+GNVby+91k4BN3qxZSE968vM0Evam3WdHaliPbZcL2k3R47AV1I/CmcY1?=
- =?us-ascii?Q?kC/JLD++e72XiZUrqT0lFhQC4Ux3whBBpVDfvjWawoSJn+HGLvRhGhHu/Wmk?=
- =?us-ascii?Q?N/CBTjr+Gu5oXF/MizmpqT4RmcubBIuuWttrW3jsAAByaaB3pu/lXLepM4rX?=
- =?us-ascii?Q?ivUFibfzWYyEPHYN4mXa409QGMbpGTq5/TchvkFpGwnz9GOBCN/OvTEDkbVS?=
- =?us-ascii?Q?9sZHFNPswzFt6sZoP4A8JxmPZ9u17oY=3D?=
+	=?us-ascii?Q?z9+8WytGtPJYJddno6oSjxLimkQ75a1JQOukeGPaWqnHiVcaIHNHBH2Z0gfQ?=
+ =?us-ascii?Q?84Fy48LcCruyLkmvy6bVwZNtpTZ5piLZqpI/tH1ayyB89hQl+mxMkzUu6uRW?=
+ =?us-ascii?Q?zJqQ1S+ZlqerwN+8VxuZ7e7ZGhXk1IsCujoBRc5+DRH2nD0O6HFf4B+Q5oiQ?=
+ =?us-ascii?Q?sGDbd0HRIRiEuGO5MJD48qLOG1X9+kMLvTjfU4/mz7xcv6NxtYfJvx0u42uw?=
+ =?us-ascii?Q?Jq1Fe0boAFKhqLl+j/ocEZlq2kEz/OoP57/vNqgJMAa/+PMo2FF7wYivEIq2?=
+ =?us-ascii?Q?7LiVpquYyCKc0t5vRrDs/X6hNHnImD55/i/5bqlZDPXLZ4s8tg0359H4P3a2?=
+ =?us-ascii?Q?sNfV3zN2OQ6GlCBdg/2lTJGpcCeQ2QO8SrCVkv+Wc042v9rNkBlUEj2bjUnK?=
+ =?us-ascii?Q?LD4OtSs41A8yCytuoFdveR6ANE/MuNl+qbriPU57zbXrnvkJoHdQn0h/Q+DV?=
+ =?us-ascii?Q?CmV03I2CiTXqXghgx1TvmjimXkrh09mzcPWl0XbOT6GxlJcYZr7pxLT6FJU3?=
+ =?us-ascii?Q?uHy2MOmDcfOcqyOL+RBdFKElFtmUKe5OebRod0/V4eLqFyTyt6ChZAAI14Xs?=
+ =?us-ascii?Q?9feLA/d+VV+Ezd3vmHL+mA8Iq+V1/9RLiE8bUMVTfK0WTxnRiex1vDCmf80B?=
+ =?us-ascii?Q?QHyg1CFg20BiwpjrVl8oQU/aP45NpDOKKSuJfL0F6LZD3ZIFQwlLu9j1VQqt?=
+ =?us-ascii?Q?vHfERi8Z2AEEJbhC8ZwUH7KnlAa6SgRTRzOv8EK4Tv/Mf7QKGRk//uTmvxad?=
+ =?us-ascii?Q?bzh1UFt5Ut9CRzJ68kOwTnIoA7KvxdsANf+l0ti1LIY53OqQYICM+rlTuA5K?=
+ =?us-ascii?Q?+sJxmdYg/Zd1unrmoJzops2TSwZxsviwZbAmuiuWds7HF5VTNC57Xr+miChh?=
+ =?us-ascii?Q?Lmb46kHIS/Pd7Qwyl0hDyZLf/hZKkQoHvMn+KCz2WhLzdOovopdQfPDz8iT8?=
+ =?us-ascii?Q?GDK2HQrfkibqwq3kGYY5c6uK4KffUGXHKB7VAVznYS8aPVVzbXzZRuGiS1xz?=
+ =?us-ascii?Q?rnxGYo4MoGcuGmoEyeEkJA4tDkrFC2hlpbWD5SGq13JxSqlAbXNxUrL7ZDku?=
+ =?us-ascii?Q?Ad1GzoeoCIBHvJaGg9qkjz2v4YObQe/l/12kK5HGf3sRcsJL8aJITh/dQlI3?=
+ =?us-ascii?Q?If4TGoX6/fhIqOQZzHc/7IdIY3powWxzMEzIQASmlOVSjJnjG91kA5EPpI1K?=
+ =?us-ascii?Q?yYbL2uTtTK0tnPgWPivSWU6+x+WVB96AgZI0zfi6suGXx1wTqWgGJhyA1GJM?=
+ =?us-ascii?Q?BceIUVqpbdrZO/z2VRd2j6Qmop8oaeA+KXcihWpO8TecgNWrbPxElT/+xIui?=
+ =?us-ascii?Q?PapZtywZkmonpNrY5W7P7+cxrQbzpcl3CpT3he3zdXSPqkSmt76hHK6R3Gn1?=
+ =?us-ascii?Q?k9J1MPYzAH2ZXpRDS0vmltJ7tK0Jj3kFNyBrPLn6kAz7zhr6g+bmt/gnkerq?=
+ =?us-ascii?Q?xMUxUZ5Mde8SviI9+5r1swWPHYzgTWBCw8DzusQNThhKnBBGy+fMJcSD5sXk?=
+ =?us-ascii?Q?RCsAOWNs7+1cqjAB4mXBzmOPvEkFIcmVlu5lYD+5hdZFfuz1dxrKYylB9ohB?=
+ =?us-ascii?Q?3h36z0fACmEgzZu52NA5FY914JnoOYgyvmoKYXutJW23rzBjor4vqvAJ+gmv?=
+ =?us-ascii?Q?eTwc0q1Bo2KUSu9mbj3WEDKazyqONp+oHeQX3KOfkQ6RPVu5TSLcfrteVuCr?=
+ =?us-ascii?Q?DHKxN00d3rn+gcWQpI4I+5prcrBGF45sH8A9ce9AVFtkA9rXoE29EQT8uba9?=
+ =?us-ascii?Q?mlnj+8pNSQcbQu9cjfg5CD6c3KujtoE=3D?=
 X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c7513ec-7336-4261-307a-08dedb80009c
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9ff0c3c-8322-4f21-9ff7-08dedb7fff24
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 16:59:54.9232
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 16:59:52.4456
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: As3vcGM0vkfy6wRk7METCxMP8NyPXsHrQYTGYBGIY6lO0+IdVRHvfHaxX+woPjtqKes912iuAbCi/AT/VRMirulLGLj6Wthw6AfeHlGiVew=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4JhOY2F4lr6nonoF6OIfXEshLtRPswSMdugnWyp4vYcvja/SNlNQPFaBAKGHJoTUpTow/vwhwSj4Y5XbdSxFYll780nCNJxJAwObQ71TgWU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMDPR01MB11651
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 17:00:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240284
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240283
 
 From: J=F6rg Sommer <joerg.sommer@navimatix.de>
 
-If *volatile-binds* gets removed from RDEPENDS, the /srv directory is not
-part of the image, and tmpfiles tries to create it on boot, but fails on a
-read-only rootfs:
+The old mtab pointed to /proc/mounts which itself is a symlink. Systemd
+therefore tries to replace it with a symlink to /proc/self/mounts, but fail=
+s
+on a read-only rootfs:
 
-systemd-tmpfiles: /srv does not exist and cannot be created as the file sys=
-tem is read-only.
+    systemd-tmpfiles: symlink(../proc/self/mounts, /etc/mtab) failed: Read-=
+only file system
 
 Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
 ---
- meta/recipes-core/systemd/systemd_259.5.bb | 2 +-
+ meta/recipes-core/base-files/base-files_3.0.14.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_259.5.bb b/meta/recipes-core=
-/systemd/systemd_259.5.bb
-index 0fbfcaba42..447974373f 100644
---- a/meta/recipes-core/systemd/systemd_259.5.bb
-+++ b/meta/recipes-core/systemd/systemd_259.5.bb
-@@ -266,7 +266,7 @@ do_install() {
- 			sed -i -e 's#/root#${ROOT_HOME}#g' ${D}${exec_prefix}/lib/sysusers.d/ba=
-sic.conf
- 		fi
- 	fi
--	install -d ${D}/${base_sbindir}
-+	install -d ${D}${base_sbindir} ${D}${servicedir}
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recip=
+es-core/base-files/base-files_3.0.14.bb
+index d4d777b485..aafc0aa923 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -109,7 +109,7 @@ do_install () {
+ 	install -m 0644 ${S}/host.conf ${D}${sysconfdir}/host.conf
+ 	install -m 0644 ${S}/motd ${D}${sysconfdir}/motd
 =20
- 	if ! ${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', 'tru=
-e', 'false', d)}; then
- 		# Remove the serial-getty generator and instead use explicit services
+-	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
++	ln -sf ../proc/self/mounts ${D}${sysconfdir}/mtab
+=20
+ 	# deal with hostname
+ 	if [ "${hostname}" ]; then
 --=20
 2.53.0
 
