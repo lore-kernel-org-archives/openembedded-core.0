@@ -1,140 +1,96 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8F2DC43458
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 13:50:48 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.151469.1783345846866433420
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB139C44500
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 14:06:19 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.150848.1783346770230251409
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 06:50:47 -0700
+ Mon, 06 Jul 2026 07:06:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=dHUwDF/q;
- spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4728c12ba97so1750278f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 06:50:46 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bR08LR91;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-493c83474ddso28269275e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 07:06:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783345845; x=1783950645; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k064ppXfFDp7J1crH6OjoF4rqSzvHDYfT/tVLqodYp4=;
-        b=dHUwDF/qEp6ElR/gSN6ZreXHQxYsosAQVKzz34swo+EiAyGFm63/KWU+3+OQMdSJiC
-         vZ2Eadk07zuQ+gnygHrKwvFCPQ0XxRxHov7WQukzrsj6nOjZBzaN38HdEkmMHLdWfNrI
-         t939Y6m6nrQF3UXj+WZQidEZ0ue3yoIEQViEs=
+        d=linuxfoundation.org; s=google; t=1783346768; x=1783951568; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=t1Do3UufrJyjDYIOS28G3XZVL4NCdxG4P1M32A78PIY=;
+        b=bR08LR911n8CTbkrRTmybt6Pq2lWINc+jtIVdar9D8RRmHFGz96MxdXrgg0HE1s5qg
+         P71amnhWQfGw2p8Dx87AOg/ATtA5TX4MWo7Fxg7QJL0RrV90b6l8BIexss9NWwUOXMqr
+         ZBD4uZSRvXyALW0Zk2mvmics+648ajfFOyv+8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783345845; x=1783950645;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=k064ppXfFDp7J1crH6OjoF4rqSzvHDYfT/tVLqodYp4=;
-        b=ho17FiDHVnqefrAC0gALTmxIxWXw6PDg+C/tS3zeJguOVFpifhsHmF5CMUEHsXYDCi
-         vQGBXXojFdg9oQ0DWlxMsfrVB8QR6dpG4Y+Dm+IBmh7amuOjFWNleL25zg/JL0QdIUpW
-         FW1YNE48x9UOEiwj9+2hQH/mz1wG8H3O8DX8CgX6GWFZLadupNBOkC0OjkDYcLeAZnl6
-         asWEz6Npe8UkgiNQbR9V0UGjxb3t0zrqeuP5V+Hgo1exMq/W5qPyOoa+A/DPbV+TNuin
-         vYG0SrK7t8lOk6jhrQFBoO2qiTXnoxwPA+S+bptCJ6BDAng9FScLtsKFAn507KwHWgXN
-         2w8Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrBxntj2ffDCeJnoe4yQZMdjdjJpyFX/kPzgYnk8eXNM5+BBdcfdnd5gws8RSBQlCi1EjXwMcsPOGZ+cUNHvgG4Dg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzZM/nwiSt35powrCzaDfTpWtmAMVVKUjzdH0K36yCD+bxqR9ey
-	mXxtGCjarowKyp/DNnNgWds4cKxcUrYbNzlymqEs4iV9R9/TsMF2ehvpGSuBvfFHMfc=
-X-Gm-Gg: AfdE7cmmytrZ/wX3G9CSPMsFo+VYZMjLoua7DFKhyKkI+ykyDbwzis98cBp7yz57BqW
-	wqN7lc2yopDLuVwtS2S29To+9g3SS9okYvouzEdVrPjnV3o3+G32y+FTPDQFUBW9bd0TJwNoaCv
-	TfFNri1nd2bLwSAREF6dUbXJsHLHNCwQmSJlpHAjCUyhVVI3FdJGY8/XIm56om0M4x6WjoL9XDr
-	1IBEP9OYGEIBveilWp+7TgcMUhvIex4MKfog3QzlHylUzpkIvkMSSEmSXiZsXpfmU+xeNiWuAeH
-	SPZP3BU190muXs2jZooukyrmfNhhT5Js+zW3rLNMG8gEF2QA+75mir8vy5tiX0NUHt7kbvtmd0T
-	6D0BYg2XvPRo9fAfyXyOWSDPRp1f4ohG+NPDnIFJen/OA1wEswdJBr2EImhYwRF8YpujkLDj1Ae
-	L9zGlFZVDQA08iBfg=
-X-Received: by 2002:a05:600c:6d86:b0:492:2f3c:d0ed with SMTP id 5b1f17b1804b1-493df0786f2mr5208995e9.30.1783345845007;
-        Mon, 06 Jul 2026 06:50:45 -0700 (PDT)
-Received: from localhost ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493ccdb62d3sm310660745e9.8.2026.07.06.06.50.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 06:50:44 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 06 Jul 2026 15:50:44 +0200
-Message-Id: <DJRJCATTYQ54.2XO9156CH6Z7T@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH 2/2] util-linux: Fix CVE-2026-3184
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Bruno VERNAY" <bruno.vernay@se.com>
-To: <jeremy.rosen@smile.fr>, <hsimeliere.opensource@witekio.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260520105959.3115597-1-hsimeliere.opensource@witekio.com>
- <20260520105959.3115597-2-hsimeliere.opensource@witekio.com>
- <DJ4MKBK72LA7.1ZVS07CUD82E@smile.fr>
-In-Reply-To: <DJ4MKBK72LA7.1ZVS07CUD82E@smile.fr>
+        d=1e100.net; s=20251104; t=1783346768; x=1783951568;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=t1Do3UufrJyjDYIOS28G3XZVL4NCdxG4P1M32A78PIY=;
+        b=QrN2FDrwRcrRHNwcoVcogoUJUBgTpuq5i8ryn4OsgV4HIKFguHRdTUU2+N948H3pgW
+         P75ZtJyyIU0p/ojrDsUpaSinyNmF51fQWzk75hDfwbLiJRwVovvYPLXN4a1xbAv7rxe4
+         FtnoHk9AMUaJ08xGdxHCvebsD0I5NE6mzutT7e+uZ/SSMkr5AmYWJcULKpEqRrTCE3dY
+         +KIEe2kMsZpmUsCAGzOZoxhn4HzTmeFwD4wWSpboUfFCPAmIbH9dsEgYJd95DBSZV53T
+         ZGjpu/Tn3gIb431qVuaGpcdGKWInKSy5am/KHhZSCQFqbw4aT2Y6mFy6p93/mJ9wyAHi
+         kCdQ==
+X-Gm-Message-State: AOJu0YytmVKZMKtx94RB1ffFmnLAEzl65JXWBMXTrUiAGBoTcOZDDNGs
+	KQchtw8u0MZcxdkK4Bx3+FDkeIZBuJcMuXXKMB5xpMPB3OtAFVeFKWLjXRksNcWmB4siMTlo9o7
+	7J2JZiDo=
+X-Gm-Gg: AfdE7cl6x1FT1f70zDpqY5h2VwKb9oqrgwOLBcFtMIbe821YAzgacyscC9m+P/Oq5y4
+	xL5s8fA+iA6s8GvcFJg+v0hoFnXijQEYtCJzl5Ew5UZF5B48Bpt7My92cZdcjeC5NahKLirLpAM
+	N4XkDtJ8qUJiUE3rIiFN+cxY4P+0rNdYZqMOyn2wDVLIGAm9YL/eJyeSZQlqYZ5YjORO589KVRq
+	Fhg0r6RzEjJy+BdxdyGe0/EWQ/JVjP20XYWM+yM3ywOIIOJcMpi64531m7Q1viXBgvg4AdLxfTd
+	4YIQXUKD0MZFZDf0kDMEoZN3rDndGwh14H9y7nim2UW+OAc3UM/DtUmiCeLiukJpnJhg/PgTYP9
+	ziTUrrsv+DP/U09M2haA38ILt+pYseN3r1hjvijJaQmY/pYIhdpESpFJY7R94A1sCHq6pSSts50
+	o2JuHeEgx9yKcEWcC1KhANIhyscM+tZOjE8OA0z+c8oA==
+X-Received: by 2002:a05:600c:8010:b0:493:bef8:ba8 with SMTP id 5b1f17b1804b1-493df0a6fbfmr6468805e9.39.1783346768271;
+        Mon, 06 Jul 2026 07:06:08 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3cdb:498e:44d8:3112])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63bfba1sm426975175e9.15.2026.07.06.07.06.07
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 07:06:07 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] staging: Fix vardepsexclude
+Date: Mon,  6 Jul 2026 15:06:05 +0100
+Message-ID: <20260706140606.1021674-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 13:50:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240272
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 14:06:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240273
 
-On Tue Jun 9, 2026 at 5:30 PM CEST, J=C3=A9r=C3=A9my Rosen via lists.openem=
-bedded.org wrote:
-> Hello Hugo
->
-> This patch seems to also be needed in master and wrynose, but I could
-> not find a submission for these branches
->
-> please submit for those two and then ping this mail so we can continue
+Set staging_populate_sysroot_dir vardepsexclude correctly (which does reference the variables)
+and remove the incorrect pieces from extend_recipe_sysroot.
 
-Hello Hugo,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-global/staging.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-As far as I can tell, this patch is still needed for wrynose.
-Can you send it so I can accept this for scarthgap?
-
-Thanks!
-
->
-> (note that the other patch in the serie is applied correctly, so I will
-> continue to review it independentlya)
->
-> Regards
-> Jeremy Rosen
->
-> On Wed May 20, 2026 at 12:59 PM CEST, Hugo Simeliere via lists.openembedd=
-ed.org wrote:
->> From: "Hugo SIMELIERE (Schneider Electric)" <hsimeliere.opensource@witek=
-io.com>
->>
->> Pick patch from [1] as mentioned in Debian report in [2].
->>
->> [1] https://github.com/util-linux/util-linux/commit/8b29aeb081e297e48c4c=
-1ac53d88ae07e1331984
->> [2] https://security-tracker.debian.org/tracker/CVE-2026-3184
->>
->> Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensourc=
-e@witekio.com>
->> Reviewed-by: Bruno VERNAY <bruno.vernay@se.com>
->> ---
->>  meta/recipes-core/util-linux/util-linux.inc   |  1 +
->>  .../util-linux/util-linux/CVE-2026-3184.patch | 63 +++++++++++++++++++
->>  2 files changed, 64 insertions(+)
->>  create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-318=
-4.patch
->>
->> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-=
-core/util-linux/util-linux.inc
->> index 8380419634..961a7318aa 100644
->> --- a/meta/recipes-core/util-linux/util-linux.inc
->> +++ b/meta/recipes-core/util-linux/util-linux.inc
->> @@ -47,6 +47,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-linu=
-x/v${MAJOR_VERSION}/util-lin
->>             file://CVE-2025-14104-01.patch \
->>             file://CVE-2025-14104-02.patch \
->>             file://CVE-2026-27456.patch \
->> +           file://CVE-2026-3184.patch \
->>             "
->> =20
->>  SRC_URI[sha256sum] =3D "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b968=
-10bd572e167dfed0f"
-
-
-
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
+index 7494b8ba1bb..f0b3c6eedc4 100644
+--- a/meta/classes-global/staging.bbclass
++++ b/meta/classes-global/staging.bbclass
+@@ -247,6 +247,7 @@ def staging_populate_sysroot_dir(targetsysroot, nativesysroot, native, d):
+     staging_processfixme(fixme, targetdir, targetsysroot, nativesysroot, d)
+     for p in sorted(postinsts):
+         bb.note("Running postinst {}, output:\n{}".format(p, subprocess.check_output([p], stderr=subprocess.STDOUT)))
++staging_populate_sysroot_dir[vardepsexclude] += "MACHINE_ARCH PACKAGE_EXTRA_ARCHS BUILD_ARCH"
+ 
+ #
+ # Manifests here are complicated. The main sysroot area has the unpacked sstate
+@@ -643,7 +644,7 @@ python extend_recipe_sysroot() {
+ 
+     bb.utils.unlockfile(lock)
+ }
+-extend_recipe_sysroot[vardepsexclude] += "MACHINE_ARCH PACKAGE_EXTRA_ARCHS SDK_ARCH BUILD_ARCH SDK_OS BB_TASKDEPDATA SSTATETASKS"
++extend_recipe_sysroot[vardepsexclude] += "BB_TASKDEPDATA SSTATETASKS"
+ 
+ do_prepare_recipe_sysroot[deptask] = "do_populate_sysroot"
+ python do_prepare_recipe_sysroot () {
 
