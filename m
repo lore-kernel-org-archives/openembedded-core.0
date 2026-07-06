@@ -1,142 +1,106 @@
-Return-Path: <Moritz.Haase@bmw.de>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A91CC44500
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 10:46:07 +0000 (UTC)
-Received: from esa11.hc324-48.eu.iphmx.com (esa11.hc324-48.eu.iphmx.com [207.54.69.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.147390.1783334755844961194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F5F3C43458
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 10:48:57 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.148379.1783334932335560070
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 03:45:56 -0700
+ Mon, 06 Jul 2026 03:48:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=BaYEF72s;
- spf=permerror, err=parse error for token &{10 18 256wvd6dc.spf.checkpoint-spf.com}: parse error for token &{10 18 %{ir}.256wvd6dc.spf.checkpoint-spf.com}: invalid domain name (domain: bmw.de, ip: 207.54.69.30, mailfrom: prvs=64019c500=moritz.haase@bmw.de)
+ dkim=pass header.i=@smile.fr header.s=google header.b=G2UMhfKT;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-493c2c0b9a8so25969095e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 03:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1783334756; x=1814870756;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=nj0616Xt0KTy5UdFi2rd2cel6hFgZkKBdRjRtPV+/y4=;
-  b=BaYEF72sDkQF8LWWvh9qmAgp5cPYllkcRdwQxL1IzxjKJIUYtu71jX2C
-   22X1XyqZ5Sijqz03NJS4qLGym/+oI5mf9Vdrp/Rhq8hRuNrlyswTveSr1
-   mSpxydboR1yAMFzd6k/vK3wfmvvL8wuOrsYr347fJdKA7WKPCZxaJ5aSD
-   U=;
-X-CSE-ConnectionGUID: k+IqXFWpQZqAo6znvfbhmQ==
-X-CSE-MsgGUID: 0e99tAXWShisn9iU5UmpoA==
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
- esa11.hc324-48.eu.iphmx.com with ESMTP/TLS; 06 Jul 2026 12:45:53 +0200
-Received: from unknown (HELO esabb6.muc) ([10.31.187.137]) by esagw4.muc with
- ESMTP/TLS; 06 Jul 2026 12:45:55 +0200
-Received: from smucmp17c.bmwgroup.net (HELO smucmp17c.europe.bmw.corp)
- ([10.30.13.153]) by esabb6.muc with ESMTP/TLS; 06 Jul 2026 12:45:54 +0200
-Received: from smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) by
- smucmp17c.europe.bmw.corp (2a03:1e80:a15:58f::1:46) with Microsoft SMTP
- Server (version=TLS; Mon, 6 Jul 2026 12:45:53 +0200
-Received: from q1054628.de-cci.bmwgroup.net (10.30.85.209) by
- smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) with Microsoft SMTP
- Server (version=TLS; Mon, 6 Jul 2026 12:45:53 +0200
-X-CSE-ConnectionGUID: fHXOBACgR5qp+GqWF7kX6w==
-X-CSE-MsgGUID: 5hGYgjT2QzOfpvQ/fK9GFQ==
-X-CSE-ConnectionGUID: WDVoW+ObT1KN845ogTwE5A==
-X-CSE-MsgGUID: UJzWvEimQ0GuTBFXULIg1Q==
-From: Moritz Haase <Moritz.Haase@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Moritz Haase <Moritz.Haase@bmw.de>, <alex.kanavin@gmail.com>,
-	<mathieu.dubois-briand@bootlin.com>, <Ross.Burton@arm.com>
-Subject: [PATCH v4] json-c: upgrade 0.18 -> 0.19
-Date: Mon, 6 Jul 2026 12:45:39 +0200
-Message-ID: <20260706104539.3313976-1-Moritz.Haase@bmw.de>
-X-Mailer: git-send-email 2.54.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: smucmp17d.europe.bmw.corp (2a03:1e80:a15:58f::1:66) To
- smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44)
+        d=smile.fr; s=google; t=1783334930; x=1783939730; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zfoMnDQMFno+CzKY+OEki7zFHdYk3RX/wBAD/BZu75k=;
+        b=G2UMhfKTsudCFFS5TD6rJb/Yxq0RCAA4NGqR/zZ8npS4FAa9qHtjxQZ7Y5uUPHF1Rf
+         rvNVYFniE+1ioR/oDPs4ZvuZ+cEVHIfk8XbfXC8py2gecOKLA1cfRO5rU0YNV1irc4Wd
+         ZaW7xE5GQjb7ByU3/pCcJ5LaQ0LnuDgJKQdsE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783334930; x=1783939730;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zfoMnDQMFno+CzKY+OEki7zFHdYk3RX/wBAD/BZu75k=;
+        b=H7uc1xImyZNhSO7UjTIygCOKng3SALPDo2++IHTuc8R8R+iOrr4W7XjUoaoxoeJEqL
+         hDBj4k7aZ1x8nl2zyeEQ24F//BP4f3xSYj+oE7Qc0yXFhZd5knP7MOPQS13yr6ehtbBo
+         oPdZHppMTnGqklYmVcSDVV9xuqSg3RR1QR+AtDPMaIgR4aQSUeJt6HZBEwunrYCPJ7Lp
+         f437o9GcrAukqIklFpYfoBUDgbnJZD7QgtpGzmk1EYvv8XO/bffsuRJ5DPFpOB/+9hnD
+         dTh+2i7EgRywZMXG0YmjCwnNdNP6Iv8yFqRuR/bYQaMwCr7HhmN6wJ7lviEF4+2rFT40
+         h5Fg==
+X-Forwarded-Encrypted: i=1; AHgh+RrLNNApa57pst3r0OstYMrRZmOKfWdg8HaJPDQL9DXxKsGKrVO18kcK3AwtdbGOo5qWfb5nH1LSVEEGPTMOcZPx0g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx9LAJQwczm2orcq8ChFNVJ9aZ8XZSilndM5uahJ508318+KJVf
+	p8PQx4ScclW+DdZFbUf9jqvIDsIoZuUDGPyQ4TUQr6hIml03a2qfHx4avefyDtYJDx4=
+X-Gm-Gg: AfdE7ck+XBdiL45KzRCjikumHoQgsa8jDxoctUm/Uisum3qPfWQYy2dak/2K5RdwUZR
+	NiPqv1WvIixBel4evgP+f9J+yK22ZQF3rudBMBVxSKltCaQmDYiIVKcSuE6tAuzduJ/vs5fXQ18
+	4QLDz29CRG7o5Kqn4RVu3hAbrWDOBCA3sD0yOZ2cMwQ0oi6PJNWJm0MEXPvwXreRGqw0zjkEsAH
+	Bqy6mLVisiqKhxOjJbV5LiSl7/SGG9vpiIw4N8zQjRSmpGzkEKvU2DIcbhPpsYU8Wd/RfbtpN8n
+	+bLDJHXh5UXjVzlcq8/LPAhiRhtYkOPvsWv5r5mZhlU2R1NGUQtyn63FTn/bFw+3fHuTV705fhK
+	w4brA29je/697JuERHEOeG4hO5VI4Q77sS4MJ54eW9ISksUfBQ3OrcFFhl8ogUYMPgXTEEPtmUJ
+	IMef552fKJr/kdlwMnC8EwVnCZ7Q==
+X-Received: by 2002:a05:600c:8716:b0:493:cefc:d113 with SMTP id 5b1f17b1804b1-493d11ceed3mr102218245e9.5.1783334930550;
+        Mon, 06 Jul 2026 03:48:50 -0700 (PDT)
+Received: from localhost ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493bef23feasm331597435e9.2.2026.07.06.03.48.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jul 2026 03:48:50 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 06 Jul 2026 12:48:49 +0200
+Message-Id: <DJRFH0SEFKOW.32G7TAT5KOGXA@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH 1/7] gnutls: Fix CVE-2026-33846
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Bruno VERNAY" <bruno.vernay@se.com>
+To: "Yoann Congal" <yoann.congal@smile.fr>,
+ <hsimeliere.opensource@witekio.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260520081403.3052797-1-hsimeliere.opensource@witekio.com>
+ <DJ0529SO7U38.2KY8QAKJ8TRSU@smile.fr> <DJ0JDC0E8QIM.2PLQBKV0K6TIN@smile.fr>
+In-Reply-To: <DJ0JDC0E8QIM.2PLQBKV0K6TIN@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:46:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240244
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:48:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240245
 
-Release notes are available at [0].
+On Thu Jun 4, 2026 at 10:10 PM CEST, Yoann Congal wrote:
+> On Thu Jun 4, 2026 at 10:57 AM CEST, Yoann Congal wrote:
+>> On Wed May 20, 2026 at 10:13 AM CEST, Hugo Simeliere via lists.openembed=
+ded.org wrote:
+>>> From: "Hugo SIMELIERE (Schneider Electric)" <hsimeliere.opensource@wite=
+kio.com>
+>>>
+>>> Pick patch from [1] as mentioned in Debian report in [2].
+>>> Pick pre-patch [3] to minimize conflicts.
+>>>
+>>> [1] https://gitlab.com/gnutls/gnutls/-/commit/65ab33fa54e34fba69d793735=
+b7df3d383d1ff78
+>
+> Hello (again),
+>
+> This patch is in the 3.8.13 tag but not in the 3.8.12 tag used on
+> wrynose. There was a 3.8.13 wrynose upgrade sent but I can't accept it.
+> So, this patch (as well as at least 2/7, I have not checked the others) m=
+ust
+> be sent to wrynose before I can accept them on scarthgap. Can you do
+> that and ping back here when it's done?
 
-Newly added tests (see [1]) require the 'json_parse' app at (test) runtime.
-Thus, apps are now being built and the 'json_parse' app is deployed in the
-'ptest' package. We do not package the apps separately as upstream doesn't
-consider them to be ready for that (see [2]). This approach is based on the
-discussion in [3].
+Hello,
 
-[0]: https://github.com/json-c/json-c/blob/json-c-0.19/ChangeLog
-[1]: https://github.com/json-c/json-c/blob/d9d8cab82291637671f6c90cf06e578750a08718/tests/test_json_parse_cli.test#L18
-[2]: https://github.com/json-c/json-c/blob/d9d8cab82291637671f6c90cf06e578750a08718/apps/CMakeLists.txt#L122-L124
-[3]: https://lists.openembedded.org/g/openembedded-core/topic/120026557#
+I will now drop this series. If the above situation changes, please send
+a new patch.
 
-Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-CC: alex.kanavin@gmail.com
-CC: mathieu.dubois-briand@bootlin.com
-CC: Ross.Burton@arm.com
----
-changes in v4:
-- Remove explicit ptest RDEPENDS to xxd, as it will be provided by busybox to
-  avoid pulling in a number of dependencies.
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
-changes in v3:
-- Deploy required app differently to hopefully fix failures seen
-  on Autobuilder (see [4]).
-
-changes in v2:
-- Build and deploy apps required to fix ptest failure, as discussed in [3].
-
-[4]: https://lists.openembedded.org/g/openembedded-core/topic/120061116#msg240021
-[5]: https://lists.openembedded.org/g/openembedded-core/topic/patch_v3_json_c_upgrade/120097794
----
- .../json-c/{json-c_0.18.bb => json-c_0.19.bb}    | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/json-c/{json-c_0.18.bb => json-c_0.19.bb} (70%)
-
-diff --git a/meta/recipes-devtools/json-c/json-c_0.18.bb b/meta/recipes-devtools/json-c/json-c_0.19.bb
-similarity index 70%
-rename from meta/recipes-devtools/json-c/json-c_0.18.bb
-rename to meta/recipes-devtools/json-c/json-c_0.19.bb
-index c112aacf4bceb0c41dbe2e1643d2d7e0944bf250..e42d4f6f567f077c338dc8d00af7004ec0d93271 100644
---- a/meta/recipes-devtools/json-c/json-c_0.18.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.19.bb
-@@ -9,20 +9,17 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
- SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
-            file://run-ptest \
-            "
--SRC_URI[sha256sum] = "876ab046479166b869afc6896d288183bbc0e5843f141200c677b3e8dfb11724"
-+SRC_URI[sha256sum] = "37ad0249902e301bd9052bf712e511fcc6acff4ecaad4b5900aad9ce564e26de"
- 
- # NVD uses full tag name including date
--CVE_VERSION = "0.18-20240915"
-+CVE_VERSION = "0.19-20260627"
- 
- UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
- UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
- 
- RPROVIDES:${PN} = "libjson"
- 
--# Apps aren't needed/packaged and their CMakeLists.txt is incompatible with CMake 4+.
--EXTRA_OECMAKE = "-DDISABLE_WERROR=ON \
--                 -DBUILD_APPS=OFF \
--"
-+EXTRA_OECMAKE = "-DDISABLE_WERROR=ON"
- 
- inherit cmake ptest
- 
-@@ -33,6 +30,13 @@ do_install_ptest() {
-     install ${S}/tests/*.expected ${D}/${PTEST_PATH}/tests
-     install ${S}/tests/test-defs.sh ${D}/${PTEST_PATH}/tests
-     install ${S}/tests/*json ${D}/${PTEST_PATH}/tests
-+
-+    # The 'json_parse_cli' test executes the 'json_parse' app via
-+    # '../apps/json_parse' so we package it accordingly.
-+    #
-+    # Note that the test also depends on xxd, which is provided via busybox and
-+    # thus not listed as an explicit RDEPENDS.
-+    install -D -t ${D}/${PTEST_PATH}/apps/ ${B}/apps/json_parse
- }
- 
- BBCLASSEXTEND = "native nativesdk"
 
