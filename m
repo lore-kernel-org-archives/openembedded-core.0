@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3E7AC4450A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A9EC44508
 	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:17:22 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.156292.1783358234757512994
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.155298.1783358239296923272
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 10:17:15 -0700
+ Mon, 06 Jul 2026 10:17:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=eRJtUKbM;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47afb758487so351206f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:17:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=mivHINe+;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-493d3135e9bso12605145e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:17:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783358233; x=1783963033; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1783358237; x=1783963037; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=hZwqwoSzSO0OcfF0AcxYyN2q7H33YnL543DJ6THmD3Y=;
-        b=eRJtUKbM+Q7nLlSeU0w2LKTGFevqD+zNwJ/svL4diSr7X7QyYjJVRw+dNnPSDd0mgM
-         QZ4N5ZS2KUtOMb3z5+zRPumM/JqC+Rz1BNHUY2NYMNGU2A/Trwu/ztVUifbSvase/gX1
-         pDWtYY5SPcyuT9sbYYStsq8w9ZRd+WWdmhQL+NrKZau2AxFM8Etbe54DioAOooCWuTgE
-         HYheJ+x9xLDk8tE7qJqkIAPiaWBOMCr87A/6kNWS8Wq/d9xqr/oEkV4Ges33xfv5ndB/
-         hMXW1XYCBJDC+cTHL8vhbD679TdhSCkkmOaxsxMMMXqA7sXWUlGSFh77VbOHgVX89r1v
-         CnGQ==
+        bh=AxSiQHIP9gSUr4VEFMNpLwj2JtsDtTVp+uBftbLM+6w=;
+        b=mivHINe+egq0mUkIj2Kzzm5n+U672EDrD5piW6t1MnzF/N+GaZ1T/A6DlFz34krlLP
+         HOjrzCBYZWklOwsgIGQASmNMlm7IMzoVSAzrfWqF5sDR7pUHQTYsxcSnqwD+StwpDllZ
+         7iGLNT3bE5uku5I2M1P6rNHDaXhdV/yUPEeMjAwnStKrJhQGZQm2fW48hLMzxZXwGfKq
+         mHbaBxpCfqMZHo20/gMuk4QmFHVv39wtIjY33zDi2XCfOmIqHjcaGIUhGKQhUvn7JUMk
+         6U7DpvVRf/NNjOwU3EcncIqdySGCnhd9n5PVCKUDuHZXPqAZdFEYtXXVIzHTwJS476yq
+         Mpbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783358233; x=1783963033;
+        d=1e100.net; s=20251104; t=1783358237; x=1783963037;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hZwqwoSzSO0OcfF0AcxYyN2q7H33YnL543DJ6THmD3Y=;
-        b=DdVBP+lOpGJVviXRN1X4EN4gfijQC0mtRlUS2GQEgtGHlTKY7QJMJKRQ9PlbBjPF39
-         1jfQ3dJ2Wb0qWEjftuBaUDNg/buodogIKqU8RC5n7PHze7VPx/Bc7Iym+20HXR+fEYxp
-         MMWxTIt7AQb7iqwLCO01bnOnxKlAvxJ2e+gXQnEMTXMOlj7jFi1L+HKnq+DcNak4gcF3
-         FaRPV7lhBUeibDLD3JpijAdfI0MpMZpWREs4F4a9A3cAaOXCoHe4T8Vc6mAZkKacgCYT
-         z+HHkv7hrXwwNjYE4BG2DF8RNi6KrlPXHfdc/+cJz72BbokJiay5s85W1l/tyOuRToTl
-         FPJQ==
-X-Gm-Message-State: AOJu0YyPiOH93P8MOLuvJ7QqcXK6fe1nmpaxmvAct7IU8J5E8Ldwtrqa
-	FP0Tp1Necp92Xqyd7wnCtLZP9JuEFnL/WVYqbvsz61pWAXT7ThlIrQg+40r+CQ==
-X-Gm-Gg: AfdE7cm5OPajOWU9cyr9H9/NRnXJH4vEwu+X90aaOZwePruRZ/7g9mbn4HvDD9r3w7w
-	aWTynxze1kqQaFJ4JI6CvEYXidYDabgZ7QpyUdO0SzaD9QgMoAJE+1o+wq2ga41kZ5cTSSYfKoF
-	HQzMkLnI36NjnX/PVMZmDh6P31mmlwPgIumVfzKq2k7MENrcHLHP6zvn1f7CfOSubDr4clwebDx
-	VlvT+h4rNejJ6n7Tf0n+VHCXq7vsMCcHrhSyrLHcQwBFS+oGMHSGcBH3rHHBjxPV9LHoLqTLQii
-	ZHNdRXzyoP25Cedgi6S3gt/FLLNt2WpYngjw9CcFtrGuipKA+WKo/ArTOBK92W1gq9jd5FDyytd
-	iOLtgkCg9BsdUk1dFWRmuH53MHg33qN8IVUHh0tYgojU2gDtbNRVL3OMFwgJfdWtaUP5daVow0O
-	sWKMtcMN3A4rK6NjLOCg8tYE+2AiojYQC/EKFIJJc1PeeczX5Z
-X-Received: by 2002:a05:600c:3514:b0:493:b7cb:c5f with SMTP id 5b1f17b1804b1-493df05f8d4mr15477675e9.11.1783358232678;
-        Mon, 06 Jul 2026 10:17:12 -0700 (PDT)
+        bh=AxSiQHIP9gSUr4VEFMNpLwj2JtsDtTVp+uBftbLM+6w=;
+        b=XM3I5doHQyKSSkoaK/nG+k8SrQqQ8j3sj5PUKa7nszBkJyTyPOlBk1aju9Edzyn928
+         5E7tvtpLp+wmq18jGK50D20r1mwkCTvcyW+j23N++7oZ4g5NeriGV7s3K/SHOuopJeJ7
+         PJzrSxIUxEqR/vMoDORaBVRr8qdiB4EP68OOH4T4ieFMcYS2SErVoeA4uhTY8AzzRlod
+         cT/faR0R1UkBddSICuSCjhP41TWraGdzjY6yfVxq2XTLZMZ1g+/O7iSzHWEVPBjdU/3u
+         5n5In+8JlO4DrL25MICMBGn7StYX9xYpAOg5xjK1NNxNW2Ib5QSQDkp6dC3K2Dbdm5Hk
+         K/bA==
+X-Gm-Message-State: AOJu0YzT/Ypg455xt+p/YxKtjPM5/t8iCDNDi6prd49ND1kVD1QQJHka
+	7UyUCVJk2AC2G6/4zFRgECViQ9q5Oon5qd7XfGd6LZdKVCpVjIYIluOveYtBpQ==
+X-Gm-Gg: AfdE7cn2hg2dTQzTyfPR/ZX67i2CQXAxUJYlJcM26wUxY13YBNi4m30pBQYyrQWGAeB
+	dyhkxwc+1gzZ6Y7ZSY7muYd4aHZ9X7AvxFFhtBhLj4bJT7UfctNyvHxs3asWiNoNejM3jNbmyjY
+	KIixf0KCjZY0NGy9o7HLJFAcboOGo8WHHPqaLy7FY+56hs6doyEXzR3AYW20gy4WC7xZHjJECHZ
+	/to7DU6wWXQBnIN60b07T6q0TlVfQUvAISGdTS76Un21c7/7d0XFclUCbtGEIOHC7BwL+jirtEY
+	QCeqrW+qzHAz2z1amj5y+IpSd6gaEv1NM6a3kXA3kpe+kB9IXV8ABbCC99hb+d6XxJM4FFlHjzX
+	wGmWSc4So13Q7gxftFdiad929PNS1elLZqoGYqUJ7L3zi9+yNn2wNdD96wrd+Ml6PLWXGGieznV
+	bpVsmTnyYKamMFzYpR/M6Fp84axKp1P/QS9KRR39aMmf11LfWN
+X-Received: by 2002:a05:600c:3b01:b0:493:c389:d436 with SMTP id 5b1f17b1804b1-493df041c46mr15626935e9.9.1783358237277;
+        Mon, 06 Jul 2026 10:17:17 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63ba971sm640541005e9.13.2026.07.06.10.17.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63ba971sm640541005e9.13.2026.07.06.10.17.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 10:17:12 -0700 (PDT)
+        Mon, 06 Jul 2026 10:17:16 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 10/45] fmt: upgrade 12.1.0 -> 12.2.0
-Date: Mon,  6 Jul 2026 19:16:24 +0200
-Message-ID: <20260706171701.70536-10-alex.kanavin@gmail.com>
+Subject: [PATCH 15/45] gtk-doc: upgrade 1.35.1 -> 1.36.1
+Date: Mon,  6 Jul 2026 19:16:29 +0200
+Message-ID: <20260706171701.70536-15-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260706171701.70536-1-alex.kanavin@gmail.com>
 References: <20260706171701.70536-1-alex.kanavin@gmail.com>
@@ -67,132 +67,298 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 17:17:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240296
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240301
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-License-Update: clarify presence of fmt exception:
-https://github.com/fmtlib/fmt/commit/91d1aced0a846161135310249664506b4a56e196
+Convert to meson, remove autotools-specific tweaks and patches:
+- conditionaltests.patch adds an option already available in meson
+- 0001-Do-not-error-out-if-xsltproc-is-not-found.patch
+(see below).
 
-Backport a patch to address 32 bit x86 fails (which do not have a native int128 type).
+Add a patch and a meson option to avoid unneeded check for runtime python
+module dependencies.
+
+Move dependencies needed to run gtk-doc to gtk-doc bbclass
+(so they aren't built and pulled in until actually needed).
+
+This allows dropping the 'working-scripts' logic in the recipe,
+except for xsltproc-native whose location is used during gtk-doc build.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ix-fallback-uint128-bitwise-not-4813.patch | 42 +++++++++++++++++++
- ...01-Workaround-an-ABI-issue-in-spdlog.patch |  8 ++--
- .../fmt/{fmt_12.1.0.bb => fmt_12.2.0.bb}      | 10 +++--
- 3 files changed, 52 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-devtools/fmt/fmt/0001-Fix-fallback-uint128-bitwise-not-4813.patch
- rename meta/recipes-devtools/fmt/{fmt_12.1.0.bb => fmt_12.2.0.bb} (60%)
+ meta/classes-recipe/gtk-doc.bbclass           |  2 +-
+ ...t-error-out-if-xsltproc-is-not-found.patch | 28 ----------
+ ...code-paths-to-perl-python-in-scripts.patch |  2 +-
+ ...an-option-to-not-check-for-runtime-d.patch | 56 +++++++++++++++++++
+ .../gtk-doc/files/conditionaltests.patch      | 42 --------------
+ .../gtk-doc/files/no-clobber.patch            |  2 +-
+ .../gtk-doc/files/pkg-config-native.patch     |  2 +-
+ .../{gtk-doc_1.35.1.bb => gtk-doc_1.36.1.bb}  | 33 +++--------
+ 8 files changed, 68 insertions(+), 99 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-xsltproc-is-not-found.patch
+ create mode 100644 meta/recipes-gnome/gtk-doc/files/0001-meson.build-add-an-option-to-not-check-for-runtime-d.patch
+ delete mode 100644 meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
+ rename meta/recipes-gnome/gtk-doc/{gtk-doc_1.35.1.bb => gtk-doc_1.36.1.bb} (51%)
 
-diff --git a/meta/recipes-devtools/fmt/fmt/0001-Fix-fallback-uint128-bitwise-not-4813.patch b/meta/recipes-devtools/fmt/fmt/0001-Fix-fallback-uint128-bitwise-not-4813.patch
+diff --git a/meta/classes-recipe/gtk-doc.bbclass b/meta/classes-recipe/gtk-doc.bbclass
+index 33f6617e1b..5f4745e433 100644
+--- a/meta/classes-recipe/gtk-doc.bbclass
++++ b/meta/classes-recipe/gtk-doc.bbclass
+@@ -36,7 +36,7 @@ DEPENDS:append = " gtk-doc-native"
+ export STAGING_DIR_HOST
+ 
+ inherit pkgconfig qemu
+-DEPENDS:append = "${@' qemu-native' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
++DEPENDS:append = "${@' qemu-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native python3-pygments-native' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
+ 
+ inherit_defer ${@bb.utils.contains('GTKDOC_ENABLED', 'True', 'python3native', '', d)}
+ 
+diff --git a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-xsltproc-is-not-found.patch b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-xsltproc-is-not-found.patch
+deleted file mode 100644
+index 575ca5d32f..0000000000
+--- a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-error-out-if-xsltproc-is-not-found.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 5d64ab3a7c18904231d611b1262d1289b7282930 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Wed, 7 Sep 2016 14:52:04 +0300
+-Subject: [PATCH] Do not error out if xsltproc is not found.
+-
+-This allows us to drop the hard xsltproc dependency, if we're not
+-going to actually run the gtkdoc scripts (when api documentation is
+-disabled).
+-
+-Upstream-Status: Inappropriate [oe-core specific]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index f238de9..909771d 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -37,7 +37,7 @@ dnl Check for xsltproc
+- dnl
+- AC_PATH_PROG([XSLTPROC], [xsltproc])
+- if test -z "$XSLTPROC"; then
+--	AC_MSG_ERROR([xsltproc not found])
+-+	AC_MSG_WARN([xsltproc not found])
+- fi
+- 
+- dnl
+diff --git a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch
+index 600ea40f3d..c9d78145ff 100644
+--- a/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch
++++ b/meta/recipes-gnome/gtk-doc/files/0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch
+@@ -1,4 +1,4 @@
+-From 98fc3c6e6ac36a2351ee7ff260bf74a7866c8483 Mon Sep 17 00:00:00 2001
++From 00a3a827aca9e053cb0d69bea50a61fece341f0f Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 31 Aug 2016 16:44:46 +0300
+ Subject: [PATCH] Do not hardocode paths to perl/python in scripts.
+diff --git a/meta/recipes-gnome/gtk-doc/files/0001-meson.build-add-an-option-to-not-check-for-runtime-d.patch b/meta/recipes-gnome/gtk-doc/files/0001-meson.build-add-an-option-to-not-check-for-runtime-d.patch
 new file mode 100644
-index 0000000000..ef5c6e9f82
+index 0000000000..88ec64cdb3
 --- /dev/null
-+++ b/meta/recipes-devtools/fmt/fmt/0001-Fix-fallback-uint128-bitwise-not-4813.patch
-@@ -0,0 +1,42 @@
-+From d838c8c7923730afb751350ecac2b169256f1445 Mon Sep 17 00:00:00 2001
-+From: Vinay Kumar <vkslog69@gmail.com>
-+Date: Thu, 18 Jun 2026 12:22:12 +0530
-+Subject: [PATCH] Fix fallback uint128 bitwise not (#4813)
++++ b/meta/recipes-gnome/gtk-doc/files/0001-meson.build-add-an-option-to-not-check-for-runtime-d.patch
+@@ -0,0 +1,56 @@
++From ffa3ed38663cc806f914691c63ca7d8fab959eef Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Sun, 21 Jun 2026 11:11:04 +0200
++Subject: [PATCH] meson.build: add an option to not check for runtime
++ dependencies at build time
 +
-+Upstream-Status: Backport [https://github.com/fmtlib/fmt/commit/588b3a0f8f6a8bcf2a959cae882d5b2703e86737]
++pygments and parametrized are run-time dependencies, and should
++not be enforced at build time as they are never actually used then.
++
++This is especially useful in cross-compilation, as the modules
++are checked in the python installation on the build host, and that
++has no relevance to the target environment that the build outputs
++will be executed in.
++
++https://gitlab.gnome.org/GNOME/gtk-doc/-/merge_requests/105
++Upstream-Status: Backport [link above]
 +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 +---
-+ include/fmt/format.h | 3 +++
-+ test/format-test.cc  | 5 +++++
-+ 2 files changed, 8 insertions(+)
++ meson.build       | 9 ++++++---
++ meson_options.txt | 6 ++++++
++ 2 files changed, 12 insertions(+), 3 deletions(-)
 +
-+diff --git a/include/fmt/format.h b/include/fmt/format.h
-+index f33c8b87..ca95f6df 100644
-+--- a/include/fmt/format.h
-++++ b/include/fmt/format.h
-+@@ -326,6 +326,9 @@ class uint128 {
-+       -> uint128 {
-+     return {lhs.hi_ & rhs.hi_, lhs.lo_ & rhs.lo_};
-+   }
-++  friend constexpr auto operator~(const uint128& n) -> uint128 {
-++    return {~n.hi_, ~n.lo_};
-++  }
-+   friend FMT_CONSTEXPR auto operator+(const uint128& lhs, const uint128& rhs)
-+       -> uint128 {
-+     auto result = uint128(lhs);
-+diff --git a/test/format-test.cc b/test/format-test.cc
-+index 61a53c72..7e48b751 100644
-+--- a/test/format-test.cc
-++++ b/test/format-test.cc
-+@@ -81,6 +81,11 @@ TEST(uint128_test, minus) {
-+   EXPECT_EQ(n - 2, 40);
-+ }
++diff --git a/meson.build b/meson.build
++index 30f1520..e087cff 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -8,9 +8,12 @@ fs = import('fs')
++ gnome = import('gnome')
++ python = import('python')
 + 
-++TEST(uint128_test, bitwise_not) {
-++  auto n = ~uint128(0x123456789abcdef0, 0x0fedcba987654321);
-++  EXPECT_EQ(n, uint128(0xedcba9876543210f, 0xf0123456789abcde));
-++}
++-required_python_modules = ['pygments']
++-if get_option('tests')
++-  required_python_modules += ['parameterized']
+++required_python_modules = []
+++if get_option('check_runtime_deps')
+++  required_python_modules = ['pygments']
+++  if get_option('tests')
+++    required_python_modules += ['parameterized']
+++  endif
++ endif
++ 
++ python3 = python.find_installation('python3', modules: required_python_modules)
++diff --git a/meson_options.txt b/meson_options.txt
++index d44dbb4..84463b2 100644
++--- a/meson_options.txt
+++++ b/meson_options.txt
++@@ -21,3 +21,9 @@ option(
++   type: 'boolean', value: true,
++   description: 'Build the test suite (requires glib and the parameterized python module)'
++ )
 ++
-+ TEST(uint128_test, plus_assign) {
-+   auto n = uint128(32);
-+   n += uint128(10);
-diff --git a/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch b/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch
-index 442506f834..afae644d49 100644
---- a/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch
-+++ b/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch
+++option(
+++  'check_runtime_deps',
+++  type: 'boolean', value: true,
+++  description: 'Check for runtime dependencies during build configuration'
+++)
+diff --git a/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch b/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
+deleted file mode 100644
+index 81017f61ce..0000000000
+--- a/meta/recipes-gnome/gtk-doc/files/conditionaltests.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From e4d003318a87ff895b1fcdad1ba4ca3f4f730cf9 Mon Sep 17 00:00:00 2001
+-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Date: Tue, 27 Jun 2017 21:00:58 +0100
+-Subject: [PATCH] gtk-doc: Handle floating gtk-doc dependency
+-
+-Allow the tests to be explicitly disabled to avoid floating dependnecy
+-issues. This is not really an issue with RSS but is on previous releases.
+-
+-RP 2017/6/27
+-Upstream-Status: Pending
+----
+- configure.ac | 10 ++++++++++
+- 1 file changed, 10 insertions(+)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 909771d..9db9fbc 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -82,6 +82,11 @@ if test "x$GCC" = "xyes"; then
+- 	fi
+- fi
+- 
+-+AC_ARG_ENABLE([tests],
+-+	AS_HELP_STRING([--enable-tests],
+-+	[enable tests (default=yes)]),,
+-+	[enable_tests="yes"])
+-+
+- dnl if glib is available we can enable the tests
+- PKG_CHECK_MODULES(TEST_DEPS, [glib-2.0 >= 2.6.0 gobject-2.0 >= 2.6.0],
+- 	[	glib_prefix="`$PKG_CONFIG --variable=prefix glib-2.0`"
+-@@ -92,6 +97,11 @@ PKG_CHECK_MODULES(TEST_DEPS, [glib-2.0 >= 2.6.0 gobject-2.0 >= 2.6.0],
+- 		build_tests="no"
+- 	]
+- )
+-+if test "x$enable_tests" != "xyes"; then
+-+	gtk_doc_use_libtool="no"
+-+	build_tests="no"
+-+fi
+-+
+- AM_CONDITIONAL(GTK_DOC_USE_LIBTOOL, test -n "$LIBTOOL" -a x$gtk_doc_use_libtool = xyes )
+- dnl this enables the rule in test/Makefile.am
+- AM_CONDITIONAL(BUILD_TESTS, test x$build_tests = xyes)
+diff --git a/meta/recipes-gnome/gtk-doc/files/no-clobber.patch b/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
+index a75c2bceb7..a9c7154fc4 100644
+--- a/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
++++ b/meta/recipes-gnome/gtk-doc/files/no-clobber.patch
 @@ -1,4 +1,4 @@
--From 32f4a4a634c99d4e00cc6149786a9180ad651f76 Mon Sep 17 00:00:00 2001
-+From 6ee6b54766c50ae8df9478efd91075543e89f66e Mon Sep 17 00:00:00 2001
- From: Victor Zverovich <viz@meta.com>
- Date: Sat, 22 Mar 2025 06:57:04 -0700
- Subject: [PATCH] Workaround an ABI issue in spdlog
-@@ -10,10 +10,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 4 insertions(+), 2 deletions(-)
+-From bcf24419dc1965086793b4ff66a2f9b06574f974 Mon Sep 17 00:00:00 2001
++From 01a52d8cf076e2692d947c8ed2681cb794eaa3c0 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 21 Mar 2018 14:47:29 +0000
+ Subject: [PATCH] gtk-doc: don't regenerate gtk-doc in do_install
+diff --git a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
+index b1c6c25dc4..de16ea0cc6 100644
+--- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
++++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
+@@ -1,4 +1,4 @@
+-From 24ddd2afb4fcdb8b7c88af5caec0c18ec9e7ff4e Mon Sep 17 00:00:00 2001
++From 0800f184cffc837276ea65b86e4efc7942eb1d7e Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Mon, 5 Sep 2016 22:25:44 +0100
+ Subject: [PATCH] Use native pkg-config when looking for gtk-doc.
+diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.35.1.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.36.1.bb
+similarity index 51%
+rename from meta/recipes-gnome/gtk-doc/gtk-doc_1.35.1.bb
+rename to meta/recipes-gnome/gtk-doc/gtk-doc_1.36.1.bb
+index c9ab7ff1e9..dcdeebe258 100644
+--- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.35.1.bb
++++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.36.1.bb
+@@ -5,55 +5,38 @@ HOMEPAGE = "https://www.gtk.org/docs/"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
  
- diff --git a/include/fmt/format.h b/include/fmt/format.h
--index 4a653007..82f80efd 100644
-+index 5044befd..f33c8b87 100644
- --- a/include/fmt/format.h
- +++ b/include/fmt/format.h
--@@ -793,7 +793,9 @@ enum { inline_buffer_size = 500 };
-+@@ -774,7 +774,9 @@ enum { inline_buffer_size = 500 };
-   * converted to `std::string` with `to_string(out)`.
-   */
-  template <typename T, size_t SIZE = inline_buffer_size,
-@@ -24,7 +24,7 @@ index 4a653007..82f80efd 100644
-  class basic_memory_buffer : public detail::buffer<T> {
-   private:
-    T store_[SIZE];
--@@ -2746,7 +2748,7 @@ class bigint {
-+@@ -2769,7 +2771,7 @@ class bigint {
-    }
-  
-   public:
-diff --git a/meta/recipes-devtools/fmt/fmt_12.1.0.bb b/meta/recipes-devtools/fmt/fmt_12.2.0.bb
-similarity index 60%
-rename from meta/recipes-devtools/fmt/fmt_12.1.0.bb
-rename to meta/recipes-devtools/fmt/fmt_12.2.0.bb
-index 22cab6f138..ca8fcb66ec 100644
---- a/meta/recipes-devtools/fmt/fmt_12.1.0.bb
-+++ b/meta/recipes-devtools/fmt/fmt_12.2.0.bb
-@@ -1,14 +1,16 @@
- SUMMARY = "open-source formatting library for C++"
- DESCRIPTION = "{fmt} is an open-source formatting library for C++. It can be used as a safe and fast alternative to (s)printf and iostreams."
- HOMEPAGE = "https://fmt.dev"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=b9257785fc4f3803a4b71b76c1412729"
-+LICENSE = "MIT-with-fmt-exception"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=6ec080902ed8f82f5a97ed13e8042634 \
-+                    file://doc/LICENSE-exception;md5=b9257785fc4f3803a4b71b76c1412729"
+-GNOMEBASEBUILDCLASS = "autotools"
+ inherit gnomebase
  
--SRC_URI = "git://github.com/fmtlib/fmt;branch=master;protocol=https;tag=${PV} \
-+SRC_URI = "git://github.com/fmtlib/fmt;branch=main;protocol=https;tag=${PV} \
-            file://0001-Workaround-an-ABI-issue-in-spdlog.patch \
-            file://run-ptest \
-+           file://0001-Fix-fallback-uint128-bitwise-not-4813.patch \
+-# Configure the scripts correctly (and build their dependencies) only if they are actually
+-# going to be used; otheriwse we need only the m4/makefile includes from the gtk-doc tarball.
+-PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "api-documentation", "working-scripts", "", d)}"
++DEPENDS += "libxslt-native"
+ 
+-# This will cause target gtk-doc to hardcode paths of native dependencies
+-# into its scripts. This means that target gtk-doc package is broken;
+-# hopefully no one minds because its scripts are not used for anything during build
+-# and shouldn't be used on targets.
+-PACKAGECONFIG[working-scripts] = ",,libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets python3-pygments"
+-PACKAGECONFIG[tests] = "--enable-tests,--disable-tests,glib-2.0"
++PACKAGECONFIG ??= ""
+ 
+-CACHED_CONFIGUREVARS += "ac_cv_path_XSLTPROC=xsltproc"
++PACKAGECONFIG[tests] = "-Dtests=true,-Dtests=false,glib-2.0"
+ 
+-SRC_URI[archive.sha256sum] = "611c9f24edd6d88a8ae9a79d73ab0dc63c89b81e90ecc31d6b9005c5f05b25e2"
++EXTRA_OEMESON = "-Dyelp_manual=false -Dcheck_runtime_deps=false"
++
++SRC_URI[archive.sha256sum] = "0e517a5f97069831181be177516bde8aa8b3922398f2bdb09e265d22aecadbc5"
+ SRC_URI += "file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch \
+-           file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
+-           file://conditionaltests.patch \
+            file://no-clobber.patch \
++           file://0001-meson.build-add-an-option-to-not-check-for-runtime-d.patch \
             "
--SRCREV = "407c905e45ad75fc29bf0f9bb7c5c2fd3475976f"
-+SRCREV = "1be298e1bd68957e4cd352e1f676f00e07dcfb57"
+ SRC_URI:append:class-native = " file://pkg-config-native.patch"
  
- inherit cmake ptest
+ BBCLASSEXTEND = "native nativesdk"
  
+-# Do not check for XML catalogs when building because that
+-# information is not used for anything during build. Recipe
+-# dependencies make sure we have all the right bits.
+-do_configure:prepend() {
+-        sed -i -e 's,^JH_CHECK_XML_CATALOG.*,,' ${S}/configure.ac
+-}
+-
+ do_install:append () {
+     # configure values for python3 and pkg-config encoded in scripts
+     for fn in ${bindir}/gtkdoc-depscan \
+         ${bindir}/gtkdoc-mkhtml2 \
+         ${datadir}/gtk-doc/python/gtkdoc/config_data.py \
+         ${datadir}/gtk-doc/python/gtkdoc/config.py; do
+-        sed -e 's,${RECIPE_SYSROOT_NATIVE}/usr/bin/pkg-config,${bindir}/pkg-config,' \
++        sed -e 's,${RECIPE_SYSROOT_NATIVE}/usr/bin/,,' \
+             -e 's,${HOSTTOOLS_DIR}/python3,${bindir}/python3,' \
+             -e '1s|^#!.*|#!/usr/bin/env python3|' \
+             -i ${D}$fn
+     done
+ }
+ 
+-FILES:${PN} += "${datadir}/sgml"
+-FILES:${PN}-doc = ""
+-
+ SYSROOT_PREPROCESS_FUNCS:append:class-native = " gtkdoc_makefiles_sysroot_preprocess"
+ gtkdoc_makefiles_sysroot_preprocess() {
+         # Patch the gtk-doc makefiles so that the qemu wrapper is used to run transient binaries
 -- 
 2.47.3
 
