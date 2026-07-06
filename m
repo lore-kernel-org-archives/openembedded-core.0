@@ -1,230 +1,110 @@
-Return-Path: <gustavo.nihei@espressif.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8434C44500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ED12C43458
 	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 19:03:54 +0000 (UTC)
-Received: from TYDPR03CU002.outbound.protection.outlook.com (TYDPR03CU002.outbound.protection.outlook.com [52.101.127.73])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.157624.1783364630416767617
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.158645.1783364629212445566
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 12:03:50 -0700
+ Mon, 06 Jul 2026 12:03:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@espressifsystems.onmicrosoft.com header.s=selector1-espressifsystems-onmicrosoft-com header.b=kwcIDJHY;
- spf=pass (domain: espressif.com, ip: 52.101.127.73, mailfrom: gustavo.nihei@espressif.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VWvPTzYrzEeHGAhIMqS/GpZ2RP+MOjG1L7TiyqoRQvioTcWP9CVuNWljXAKw1ISfAw0rg6lRt1fI/6PAVz7L8mOO1XhC3ydPu5uLQUgft+IqY55uf+fb3ANwlOO7GLUghJmqbUqnppcDqZ5ejN8aEqQaaBfxtHTtV6rYg97OqtZPPNcNaRuJ7e+eWKMGFAkJRDz9mNvpl5igBMkat0COXy4mPrbGqF6yN2khmleG0VHo8B6S4/I/8Gl8yQ/csWJbb0RFKjr3gYJs+Q4UTgc6n1qnvB2v2EiWubAWqJ2GJEgy36Be5OmGh+Nf819RVOVbu6E8sh5gtGx1Gqy9xsKcpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N2hrjLhrp3DVgxSkIP+XrZ0wq0FTYxD4kRc/SZdNmvo=;
- b=FxTU6cqWT+qrqNconBcj+lQxwPeB4d0GpIG9UiH2BH1oWxYMfHbnPj2lfkYVP/wyi8h3XxydG8XuMgTfUy8XoUPO6vsCFfS3R9Vqihltaxnud0dOKLmBA7GWQFrLDChtbyAL/Cf/t3jbt5S5JcG4lFv0T563vX84yXFahPIwO01pb31XTe7thvAIIF07w9J/ZiWvSwMxn9W+yKjPiVTOHPBhIxiih4kyI5DLV0ShJievujSHVNa4VBhTIq+uJe0lZ701g/fbisQjBBfU00r5NranvuaEIWfUqjRP5YgBfTG94JCmAVpsri8vmhLLWpeBV8RRLOPukV6FnL7VbFVQww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=espressif.com; dmarc=pass action=none
- header.from=espressif.com; dkim=pass header.d=espressif.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=hho2Q1bv;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-493b779003fso17090785e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 12:03:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=espressifsystems.onmicrosoft.com;
- s=selector1-espressifsystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N2hrjLhrp3DVgxSkIP+XrZ0wq0FTYxD4kRc/SZdNmvo=;
- b=kwcIDJHY1pFAs+yt6dk+Wmk4Y9rmteBufHKJtCsjFKyIdVCs3y2mbwbdtEPRXBqP4k3kz9XK444ZnmmV3bQhFNXcHH9iOzlgx3ldra/jysoBpM3vpeR6fw+beLGernRQd78GxhnCr35c669bELZ42xnNOMCucgpNzVl7kHUjHtc=
-Received: from PUZPR04MB5419.apcprd04.prod.outlook.com (2603:1096:301:bb::12)
- by TY0PR04MB6472.apcprd04.prod.outlook.com (2603:1096:400:272::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Mon, 6 Jul
- 2026 19:03:42 +0000
-Received: from PUZPR04MB5419.apcprd04.prod.outlook.com
- ([fe80::af90:4b51:a7c:3d9e]) by PUZPR04MB5419.apcprd04.prod.outlook.com
- ([fe80::af90:4b51:a7c:3d9e%5]) with mapi id 15.21.0202.007; Mon, 6 Jul 2026
- 19:03:42 +0000
-From: Gustavo Nihei <gustavo.nihei@espressif.com>
-To: Yoann Congal <yoann.congal@smile.fr>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: [wrynose] Backport request: opensbi ELFFLAGS fix
-Thread-Topic: [wrynose] Backport request: opensbi ELFFLAGS fix
-Thread-Index: AQHdDXkINwO7dpOpO0+c/x0U3JksGQ==
-Date: Mon, 6 Jul 2026 19:03:42 +0000
-Message-ID: 
- <PUZPR04MB5419066CE4B576BF812F3F23EBF12@PUZPR04MB5419.apcprd04.prod.outlook.com>
-Accept-Language: en-US, pt-BR
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=espressif.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PUZPR04MB5419:EE_|TY0PR04MB6472:EE_
-x-ms-office365-filtering-correlation-id: 6cba9254-7475-44f4-3917-08dedb914c19
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|23010399003|366016|10070799003|376014|13003099007|38070700021|3023799007|56012099006|18002099003|8096899003;
-x-microsoft-antispam-message-info: 
- GU1Kz1T8WQoxhLmJl4dg7L/vLZbDPFrLR4uxR5pTDeIdOhCn4+v6c/S8MkQ6L3CF+DRkrjh/X8RAM8GILG9pOCC7jVLbesYKmtqJ+qoi1j9xuFCWziCSEKvT8JSnh0hnHIOaK8QWuE4ycvP9YnBHQvbPIPQAwauiKd2UJH2ykccjLO73qR9Cg1UvskFfb7il+N9FtPxoHwciUC0+9mPs1jcHiCgtSkaDYCju2ZIs0HLn3keMtSY3viNjuTl3B/C5RF9iFZUcaoKRhw8tW/1aCPBJiePm6jLWoxgwrAieVRBURzu+ssH6dmwCiYxMbFT12nnWu2OkAh8w1MZNWz8J888Md7jCeDZIAAHPMSeETY8Vp+CkYM+i5n/EAaaiCmxSvb+y7NW5v+TulxYH0HoUX6W82Axoot5s2a/C0UTzdaoMeuw9hwEn2f36CBjmKyO5wT/qy5P+CYYwY8lb8kt40X1SNdgknzj2aTv78Epgx3XLxf3bEdslLjFw7dgdD22SpMeOCmPPgrvDl44PdcNsTU70gPcW9nk9sawrLzUbuR7Isz6Ue712i4/UBo7wJeA6SSGlGQzfUb+6EBecJU3wfRWz+y8KAfW4aP4a5T6Z8gm7KoaJDRX9AoQ+AImK4M+dyT2Lk4ZSPUYWf76EIiU+DQr9Dl3JZ7wB97haC/Mo290=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR04MB5419.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(10070799003)(376014)(13003099007)(38070700021)(3023799007)(56012099006)(18002099003)(8096899003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?BodwQ/Jw+VCxg6JyhPuUSajxuOmEgqzhuiUiBQXm5AWpw8ThDERr+ZgQgA?=
- =?iso-8859-1?Q?70QCjdQDBjZEW02NnjyF+7tRTMDbqFfSOwFuj9EHQhVRhpHkyTdslY1Cfz?=
- =?iso-8859-1?Q?j/sV6vofAbaxzQX51Z39kIUwtsmEEWl1KFxr3JkAYkYfuafXgR7/UT+wqr?=
- =?iso-8859-1?Q?WSDmTJU28WvMXJy8dH78cxo2/5pOAcjhX/z88YajwbfAVgMiu4Ihw4fpZz?=
- =?iso-8859-1?Q?i/6uRlPvvxvaj0xzCHv2Lx/vmHXZdmqcnr81VIEzbIXyFwjKj9WqmJaUzD?=
- =?iso-8859-1?Q?UaVoX+tlNRuAMNfoYHLk94tDCcSK519RmU+zpPUZA9josOGxR6JoulzYnR?=
- =?iso-8859-1?Q?Sa1EPozJr9LnrKPzkbC2qEQeeBXy5JBVwIsBIV9BBMnO8ePYk5FaZkcrkD?=
- =?iso-8859-1?Q?wf9ZGKjX1ONEWFooWatBE7JUwZeIPYHLUKmgckOBI+rJPUB9crrruMHPzO?=
- =?iso-8859-1?Q?Ynfg2XNkj76Dh6kZy7U9rxBbiE0AJY1XZ0MLG9Ig4yUpIln0Im5ZKtKDW2?=
- =?iso-8859-1?Q?ur8fFM6pcX9xDGLeLL7dWwap53iDzqfigQdHtfqCyN7wpG+rkiegupuHij?=
- =?iso-8859-1?Q?j5dKYAstYfuA+nuTCpIUbVJY/q074Yw1GLAmDLzItXqeQIn8SyZIGKswwy?=
- =?iso-8859-1?Q?nXeiTxNJ01R/ApKsaHQKc7CF3Lumkm3lBYR5/ItOVrnYluEK91nUzz2dCl?=
- =?iso-8859-1?Q?mbdBl0bIwGffnTccgiGZvH/WFKMx/Op9iT2azqIPcJKgP2RzCyB7kXos0V?=
- =?iso-8859-1?Q?C0Wjh/vQUojWU85wDu/PhPs0D9zlrrPVfGaudYaGaMGAwTW68aQfSPPfxz?=
- =?iso-8859-1?Q?61SnxgpFOoL8G+Fnzc2QgLCoYeniGmbce6WZzho9xoecEzS/3wg+bj9lGP?=
- =?iso-8859-1?Q?4KDtALEenGS0u/nKTWuRTruXNZB/NGaONise0hjzyHpKX9cmPl8vuZ2Erj?=
- =?iso-8859-1?Q?mO1E5K4DhPLsr/KqzbuzHYJ2oOevMy8q+7LN96rw1w9J2Uep20ezQqcyLr?=
- =?iso-8859-1?Q?q9drl8UBZkoGZRXuWeWdKeezqB5y4eFXALEXvbd1jJ+Qqgks1Sljo3dewz?=
- =?iso-8859-1?Q?S/pcxSPUB7ccp1f4zrBZKm/U1Jlk/MtqbkH10F8XuliiVovFvgYARLVO9k?=
- =?iso-8859-1?Q?Seim2Fw5IuI92XoQoYrUnEd7tkCr88kw6lNK0Y0n+x7MvOnchFiw59bOYE?=
- =?iso-8859-1?Q?S2k82b77cS3lb1NGW60Zb5Q91nzy4bQYKpANSZsn0RleL94QUJN+GgQ2um?=
- =?iso-8859-1?Q?eM4knvz1CVSzSdABRv4YJ6RID6QYvzSX0offl6fmsZ2/UTUOYtvWnQ3iHJ?=
- =?iso-8859-1?Q?x5FYHMll67rkeYTffVeHlNnFN2vNtnFJh5tFon/pHxHBF+yInNg+0M8TPm?=
- =?iso-8859-1?Q?KTH01W1stkgvsZ3JjWTkSjkuXvqFHvUczmkpHGshefnNmkHX/VTlLArEtK?=
- =?iso-8859-1?Q?ObL4aRMgtNQw/kW2uqFpECfwJMzVXZNOlfQ+1CPA/IO4DYHxd9P6CfHZw9?=
- =?iso-8859-1?Q?gI+HbYLHQ9b36nFXd3fDH6aSUQfY6bihVC8YixUa34PRLkMiIjCY+hB1bg?=
- =?iso-8859-1?Q?Rym5HZiQaMTsXyk47oguQj1UH/T6X+8bhSwNdIClI5k3kFpEUpH7k9+cua?=
- =?iso-8859-1?Q?IgmUapP8we0o4/Nrz594cPsdQc7uamCrlzlkgMbzaRsNIsT/OB9edxGuBP?=
- =?iso-8859-1?Q?3w6Nh9tiAMb2E+8AYSnwufJ/5lo8Tcdc/j3DqY/rOf6ZGsB+yhgdW1HHRU?=
- =?iso-8859-1?Q?o7jGil90qrf8wT3SIwO9j4zAUvjA1/xfsOxVJ11VIdhCUE1fjJWkwFtMVK?=
- =?iso-8859-1?Q?hWOlBSI22B9jyQJrP4gclFcLGF/1S9LKTaaVheDJm1a7Jj/IkxSA3T5h4D?=
- =?iso-8859-1?Q?ps?=
-x-ms-exchange-antispam-messagedata-1: SEE0pK8NLjGpIg==
-Content-Type: multipart/alternative;
-	boundary="_000_PUZPR04MB5419066CE4B576BF812F3F23EBF12PUZPR04MB5419apcp_"
-MIME-Version: 1.0
-X-OriginatorOrg: espressif.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR04MB5419.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6cba9254-7475-44f4-3917-08dedb914c19
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jul 2026 19:03:42.6584
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5faf27fd-3557-4294-9545-8ea74a409f39
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jeaid5NaK94vCZBvSy5O6qrVwwWkUYZhWL1MFYAyS19Dei9KfcwNOiwMvCMo/D0kVuousaZUX4NGmjgsni0x6gKMcek55814ZFG1tj96cWw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR04MB6472
+        d=smile.fr; s=google; t=1783364626; x=1783969426; darn=lists.openembedded.org;
+        h=in-reply-to:references:content-transfer-encoding:mime-version:to
+         :from:subject:message-id:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VY9Ipyb8kJ1z4bzu2EZJT3GKl8829z9eueokmqhmSwg=;
+        b=hho2Q1bv1gF1C7yKmaN5AWzAF8t02tRSQ6jHMMF8GhcMOCqOgcf8sSm+lWTW6f9+UF
+         ksNeIe3NkJiHyxmEvBVZu5sVp6seToMouOb6V3WA7fNAx/gXjHtjM3sVPHoxTcpORzGu
+         1ToIcwz2xjcRjJawi8STKKFaKpxxAZxkk2A5c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783364626; x=1783969426;
+        h=in-reply-to:references:content-transfer-encoding:mime-version:to
+         :from:subject:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VY9Ipyb8kJ1z4bzu2EZJT3GKl8829z9eueokmqhmSwg=;
+        b=V4Q3pqefmBjkuqWS3TsO+qM8jeqB0oLw3dtPrxG9PdtFkTXUTwx6JDky54+e92weB2
+         rR2FOdsG0v1M+1LFP6lSRsZkM490Ad9kpBrX2fWe7HXbCuX37c3ZTaYdw9jmQB+Igli7
+         2N15GhbqlB8tmfZxkBroBSf/S2PP6Dug6HEkaoHSoJle7dzC9x/8VuIOknFtg9t7q7bj
+         aLY9t8SegZyaqMLmiibEXQqb4lDnwEEhOdPMOU5nsnpX59K9EyHq4EgwL5ScjElDuzXQ
+         ryZyk1w8ZD+VXsvFIYMhiX7xMBr/Y2PoN1H51fX7wluodLLmEr81FcaaviohUNHNmpRH
+         vd9A==
+X-Forwarded-Encrypted: i=1; AHgh+RodWuDrxNDA0uNPH2PxjhI+ykBnk65Qdb1R4x9ubRnb9m4rbTQEr27XYjHIfhsRp47uXVnRZLIdjCB7e9JwugQTRA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzHPSEQjocF6/B2MYT6mPzx86ENTx0tnN4XWrNWjSlXf5tGdDpo
+	Wy/Y2xntH7uUaY+bsXBRtTRIisJvFIyS2ols7umAs9hSkA3fgXa8kMEC9rc73OXNhHE=
+X-Gm-Gg: AfdE7cnrL+BWFFAOviBjrp/t6m6b7LBQGM0DgfhyriaJw5YReTqN3BYO5do+WYKbWI2
+	VJHt+o3NQrEnqdzd7Zm2mqog08IRkf4D0t73V2MQGziWq4OWbubrQ5mWDe96eh4P5aLlcnjmAS8
+	VFOF4R4LcaG/hGc1e+YbQOlZjKXkmVfnS1pRDpyZG5YNYgiMk6zbD9fbCCic+UpTgJXCrE5w5IQ
+	PcNHwEkg0SyYfwlhfKIFE0VWLDdAkAxTfm/t8CfYncR6dedzVyccPvkUBdBHwKN2Qws23m1O/L8
+	bSoJRCvQ9WkpYHwjkf4hucOSvkKJ6x/8lWw4/JKDD5jNyA9ZX0srAukEpekQeyOh6fIQnmnloIe
+	6vuInVH3ZCbdTnmRWy6O2yvKBf1XZ+xgI5r2kaRR00fWND57UM8k6j0lu2uueDA371uI1SKbuT2
+	sWUJWGEUjy6OM=
+X-Received: by 2002:a05:600c:8286:b0:492:4911:8a with SMTP id 5b1f17b1804b1-493df040410mr21202085e9.12.1783364626349;
+        Mon, 06 Jul 2026 12:03:46 -0700 (PDT)
+Received: from localhost ([212.133.41.25])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e01c00d2sm4431315e9.6.2026.07.06.12.03.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jul 2026 12:03:46 -0700 (PDT)
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 06 Jul 2026 21:03:42 +0200
+Message-Id: <DJRPZXISQBC0.136QWVTP6XF53@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCHv2 5/5] vim: Fix for
+ CVE-2026-52858,CVE-2026-52859,CVE-2026-52860
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <hprajapati@mvista.com>, <openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: aerc 0.20.0
+References: <20260630071903.155470-1-hprajapati@mvista.com>
+ <20260630071903.155470-5-hprajapati@mvista.com>
+In-Reply-To: <20260630071903.155470-5-hprajapati@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 19:03:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240339
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240338
 
---_000_PUZPR04MB5419066CE4B576BF812F3F23EBF12PUZPR04MB5419apcp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+On Tue Jun 30, 2026 at 9:18 AM CEST, Hitendra Prajapati via lists.openembed=
+ded.org wrote:
+> Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
+>
+> [1] https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553=
+cbf8d
+> [2] https://github.com/vim/vim/commit/63680c6d3d52477817b49cd1a66e7aabe8a=
+7aa19
+> [3] https://github.com/vim/vim/commit/c8c63673bc4253212820626aeeb75999d9a=
+539d2
+> [4] https://nvd.nist.gov/vuln/detail/CVE-2026-52858
+> [5] https://nvd.nist.gov/vuln/detail/CVE-2026-52859
+> [6] https://nvd.nist.gov/vuln/detail/CVE-2026-52860
+>
+> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ---
+>  .../vim/files/CVE-2026-52858.patch            | 167 +++++++
+>  .../vim/files/CVE-2026-52859.patch            | 274 +++++++++++
+>  .../vim/files/CVE-2026-52860.patch            | 446 ++++++++++++++++++
+>  meta/recipes-support/vim/vim.inc              |   3 +
+>  4 files changed, 890 insertions(+)
+>  create mode 100644 meta/recipes-support/vim/files/CVE-2026-52858.patch
+>  create mode 100644 meta/recipes-support/vim/files/CVE-2026-52859.patch
+>  create mode 100644 meta/recipes-support/vim/files/CVE-2026-52860.patch
 
-Hi Yoann,
+Hello,
 
-Please consider backporting the following master commit to the wrynose stab=
-le branch:
+As noted in [0], CVE-2026-52860 needs a fix on master. It was sent with
+"[OE-core][master][PATCH] vim: upgrade 9.2.0569 -> 9.2.0782" but not
+merged yet. I'll remove 5/5 from the current series, it will have to be
+handled separately.
 
-  9bf56df6decf3b0a07e5a0814f4ad2d6317568f9
-  "opensbi: don't override ELFFLAGS, silence ldflags QA for bare-metal ELFs=
-"
-  https://git.openembedded.org/openembedded-core/commit/?id=3D9bf56df6decf3=
-b0a07e5a0814f4ad2d6317568f9
+[0]: https://patchwork.yoctoproject.org/project/oe-core/patch/2026063004434=
+3.12138-3-hprajapati@mvista.com/#40047
 
-It fixes opensbi_1.8.1.bb clobbering OpenSBI's mandatory firmware link flag=
-s (notably -Wl,--gc-sections), which bloats the firmware and drops the M-mo=
-de hardening. wrynose ships the same opensbi_1.8.1.bb and the commit cherry=
--picks cleanly.
-
-Target stable branch: wrynose
-
-Thanks,
-Gustavo
-
---_000_PUZPR04MB5419066CE4B576BF812F3F23EBF12PUZPR04MB5419apcp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Hi Yoann,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Please consider backporting the following master commit to the wrynose stab=
-le branch:</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-&nbsp; 9bf56df6decf3b0a07e5a0814f4ad2d6317568f9</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-&nbsp; &quot;opensbi: don't override ELFFLAGS, silence ldflags QA for bare-=
-metal ELFs&quot;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-&nbsp; <a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=
-=3D9bf56df6decf3b0a07e5a0814f4ad2d6317568f9">
-https://git.openembedded.org/openembedded-core/commit/?id=3D9bf56df6decf3b0=
-a07e5a0814f4ad2d6317568f9</a></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-It fixes opensbi_1.8.1.bb clobbering OpenSBI's mandatory firmware link flag=
-s (notably -Wl,--gc-sections), which bloats the firmware and drops the M-mo=
-de hardening. wrynose ships the same opensbi_1.8.1.bb and the commit cherry=
--picks cleanly.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Target stable branch: wrynose</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Thanks,</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Gustavo</div>
-</body>
-</html>
-
---_000_PUZPR04MB5419066CE4B576BF812F3F23EBF12PUZPR04MB5419apcp_--
+Regards,
+--=20
+Yoann Congal
 
