@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C554C4450C
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:17:44 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.156320.1783358257371479414
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A41C7C43602
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:17:54 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.155332.1783358265228295453
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 10:17:37 -0700
+ Mon, 06 Jul 2026 10:17:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=MV5+4WFv;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493c733f15aso33163395e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:17:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Mvmdk338;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47d6c634f45so1283791f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783358256; x=1783963056; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1783358263; x=1783963063; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ompalEan5s7jl+bh0PyUsjVaR/z20fAdpIC6yPQEtto=;
-        b=MV5+4WFveNn7a0QfSJ/H1TMkDowU94iWuvduqnSpLZOIYT6XCfq7EN+7TLjp9SyaTy
-         Nu9tAIUYeRwVDDsioYXCFXu5l/08ESUuqiz8hGa2k0pnbYuPilaqiKrSqPWxelKtTUUP
-         AfujEjvcwwxujuqLqwdk91lEJ8BiPKV583PVW9hF3eolARxJ2DZAg3RaywbDWpPMuFQG
-         pwofSYMLgHnKgI14GhHvltVO5uS+TXrnEkJABpFqtm1AtIj2PWBiPoVubfPN+jGlZeu9
-         bic20BirLReyOjKAw2RZCqKhZz+7F4xz/jBSHWIlGd/+MgamqP7RPfcCaq0+1PvYXMSk
-         jCJg==
+        bh=tTsRyQ9WttroH55RwOgJBuVFbqWx6UiZYQsSauobAig=;
+        b=Mvmdk338iMty9yEKGUh3VDAb6M/u94k1UcCW6xq2Y1tx9CDJKXhdfE30qwLdLCN0zS
+         56LXCuzFFanfzW0RbTs5hGZiEKQ4TVmrk0PBwW3YYYFXVMCwzmX1FF5gMbRv/4BJJPHQ
+         vS4pvvXhenN4/dKe/IDAfv05cnukB9a1czGVrSteeFeD8WvJckv8WM0tvzLNum5GWL+V
+         8/TELZJM+kzAiVvQwcAsshsRbmjQ0icSljXaq30KYqqAMVoOPeZTA12wsdW6n3jWwXOp
+         i8zXcSm6F6PUvBunsaj8b62+7r4JzvaP3VnSi1pdWYfHbOjbxVtUaoWmWkOB3DAbD5gF
+         jahg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783358256; x=1783963056;
+        d=1e100.net; s=20251104; t=1783358263; x=1783963063;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ompalEan5s7jl+bh0PyUsjVaR/z20fAdpIC6yPQEtto=;
-        b=NWQpin5AKdyoh3b9Q0D99rRvWhGKz0P8HTrmeNmqE3gU+UaXSttZU429MxpAcg1Jeo
-         LYm5pfLnPBEaaTfBIFY6PTyzScVZJjQkxHssUZwcFznCPVqGfUmSFcZPyXZwnjiQco1i
-         VTmbc1nNTFf4U/7VUe78a6r8GIYRUDDUtyA1IZZ64ZWVZr1RbJwGlUI8HoVxjCU8Fvo5
-         UPSez+4pue7MZcBgn3RCWkWfQ1AxgMOtSNyDU2uOc5foX1kXsuBfTT2dOHUPEwYZPMvs
-         pRfsKhw/COwVEyzrWkOGPlQlGt/LZFwESp4Sb+KQx4hdsHXBBOa1Rzdyc+iFOklJtaln
-         AJdA==
-X-Gm-Message-State: AOJu0YyYb9+fmxj6ZtuSJFqNNGpTaKOx0mCI8/pkMKN5GifBKQIeXABj
-	ni04ELBlp84NmTU+voFEtujuRxkRIVPWYatSwhh5AzG2WNtKBvglcUx38fV0zA==
-X-Gm-Gg: AfdE7clPZkBOmfpwk3GEH76G1hgfFPWHXIW1HG6bi3RyUBEpr0unmeag/9izTRLnQuA
-	fWcF6ZUHAGLqnLdg68dovEpZ6gd29kjpJzYR1ZLLrtb+xmVJ4jbQI+lVjXWNy9yfdWCsRzbZ2yN
-	TkeH7PyFNifEe0jcA7/+c+nnlYFCHYaJLogn4tihVWbxg216R1FejQiNPcySW++fbt10m+RZpqg
-	7oNfJ9/pmjhIeP9hSSxSRqBsKUHqdMBG+DK3aqgLGqmiyVWuTWYjtfQ09eH0wp0j3FuTzkC2STk
-	u1CAaHfJscmr5Spwyau9I/UgtfD6JZQnhWv2Nj7gvDKYAnmLhQ6Vh6LAbaaUNiF8netMFPkVAAa
-	00+0wQryZTwMr083VoY3sPr2vhoSWW83MJI6mjBML/XE/V2xOBe0owJhZyvsS5Vpk1H/mpxJXzq
-	Oq0QNeaHqU+BuuCj3xynuLta5B8aRClsgRmwRvCC0W1wlRgihk
-X-Received: by 2002:a05:600c:1d1a:b0:493:b783:ad59 with SMTP id 5b1f17b1804b1-493df07390amr19513305e9.14.1783358255546;
-        Mon, 06 Jul 2026 10:17:35 -0700 (PDT)
+        bh=tTsRyQ9WttroH55RwOgJBuVFbqWx6UiZYQsSauobAig=;
+        b=J2vH2y4EiNs+ujjThB9wv2im3TlwUqW3/WHEp/1vDmKaLzqqwgIgIeS12ZVpu6m7Hj
+         ZykZL6oAxYIqc1fuD4K+Aivu5sU86lLpyef1Tl/hz2u5ZfqKkZ06O11pOaGQiU5ys8G2
+         9J82cPDeHLwFfYBsw4hTTqGjNX/IYToGgv2vlaErd0KGaRUPeEXvOHDwbK8yoX0Ia75p
+         ul6H9KeN9uwTfSe425+D7VS7dP3mTLTcTDKeo9R2Qk47mmhpuVhDvAo6511RppP2pNJt
+         laDxCkq66KPdS64Xan6b5qBTDk77dMUskWG+whbevSHsfsCe51b4kIx46XWYa602xYPp
+         H4bg==
+X-Gm-Message-State: AOJu0YyPvB1JwtXO/rbPQpBk7OGt67KPO09Q2zcwY1XfNtRz0cWu0jj+
+	f+Z/Ed601oMjfNpE3BwOh4hRSE1WkJAYofwHnG8Yxb926AHWbr4pWfHwfU7fLw==
+X-Gm-Gg: AfdE7cmvim9ZQm8ji5ylrgUbMOs2473mhEhLFz5xxqTEoQK3DDxjrs+ymmziyqPfRKq
+	DQaAUXIySK2mY7BKdydUbLFTEp5Eo5Nh7yx27RZ+7vRfC4yY2ZBcOwbphCbVLj122/IO/QaMc5F
+	92kypQ1Or5lQRSBf3OqfLEXaSbiLFs8nvMgU7CtNTqoRIIWv78fHl39I2RSDQ1rxpkkMmIgbT0a
+	bObLWXGYilW9+LBwxzCsIPIBc4qxi27jAnrVvWllw5u1N8+8ZRwczZ/laF3GFezthsm7KrSqwKI
+	AULcwM8UixL1LMErDov9LKkK0zEJM/B/B14yug2JZrzg8059MJBY2BacWa5G3Ur24ONhCbxTOUr
+	feAun/zchqZsCN85dnln/0Zfye7BOSe7i+3S97aaUACsrFOGLzAyA/5WXuM6bBoJixK2TJFUAMv
+	22yoP74pg4leRg/v3Gz32EChNI3GAuEnAqQOpEY1S92+saWvvkbekckaFwCok=
+X-Received: by 2002:a05:600c:1f91:b0:492:70f4:8d1e with SMTP id 5b1f17b1804b1-493df04064emr17414485e9.11.1783358263343;
+        Mon, 06 Jul 2026 10:17:43 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63ba971sm640541005e9.13.2026.07.06.10.17.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63ba971sm640541005e9.13.2026.07.06.10.17.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 10:17:35 -0700 (PDT)
+        Mon, 06 Jul 2026 10:17:43 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 35/45] shared-mime-info: upgrade 2.4 -> 2.5.1
-Date: Mon,  6 Jul 2026 19:16:49 +0200
-Message-ID: <20260706171701.70536-35-alex.kanavin@gmail.com>
+Subject: [PATCH 45/45] xkeyboard-config: upgrade 2.47 -> 2.48
+Date: Mon,  6 Jul 2026 19:16:59 +0200
+Message-ID: <20260706171701.70536-45-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260706171701.70536-1-alex.kanavin@gmail.com>
 References: <20260706171701.70536-1-alex.kanavin@gmail.com>
@@ -66,143 +66,33 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 17:17:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240321
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 17:17:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240331
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-Explicitly disable tests, as they now have xdgmime dependency.
-
-Drop backports.
-
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ild-with-libxml2-2.12.0-and-clang-17.patch | 26 ---------
- ...dle-build-with-older-versions-of-GCC.patch | 54 -------------------
- ...-info_2.4.bb => shared-mime-info_2.5.1.bb} |  6 +--
- 3 files changed, 3 insertions(+), 83 deletions(-)
- delete mode 100644 meta/recipes-support/shared-mime-info/shared-mime-info/0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch
- delete mode 100644 meta/recipes-support/shared-mime-info/shared-mime-info/0002-Handle-build-with-older-versions-of-GCC.patch
- rename meta/recipes-support/shared-mime-info/{shared-mime-info_2.4.bb => shared-mime-info_2.5.1.bb} (85%)
+ .../{xkeyboard-config_2.47.bb => xkeyboard-config_2.48.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.47.bb => xkeyboard-config_2.48.bb} (91%)
 
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info/0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch b/meta/recipes-support/shared-mime-info/shared-mime-info/0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch
-deleted file mode 100644
-index 936f72ccf8..0000000000
---- a/meta/recipes-support/shared-mime-info/shared-mime-info/0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From 665383306c725f299a1b373f947cda01949d49e4 Mon Sep 17 00:00:00 2001
--From: David Faure <faure@kde.org>
--Date: Sun, 19 Nov 2023 11:18:11 +0100
--Subject: [PATCH] Fix build with libxml2-2.12.0 and clang-17
--
--Fixes #219
--
--Upstream-Status: Backport [https://gitlab.freedesktop.org/xdg/shared-mime-info/-/commit/c918fe77e255150938e83a6aec259f153d303573]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/test-subclassing.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/test-subclassing.c b/src/test-subclassing.c
--index dd099e4..0758164 100644
----- a/src/test-subclassing.c
--+++ b/src/test-subclassing.c
--@@ -1,4 +1,5 @@
-- #include <libxml/tree.h>
--+#include <libxml/parser.h>
-- #include <stdio.h>
-- #include <string.h>
-- 
---- 
--2.43.0
--
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info/0002-Handle-build-with-older-versions-of-GCC.patch b/meta/recipes-support/shared-mime-info/shared-mime-info/0002-Handle-build-with-older-versions-of-GCC.patch
-deleted file mode 100644
-index 2af6b461b6..0000000000
---- a/meta/recipes-support/shared-mime-info/shared-mime-info/0002-Handle-build-with-older-versions-of-GCC.patch
-+++ /dev/null
-@@ -1,54 +0,0 @@
--From 461d00fcd5c5842b9a56f7462d55d46bf21163cc Mon Sep 17 00:00:00 2001
--From: Patrick Williams <patrick@stwcx.xyz>
--Date: Fri, 1 Dec 2023 11:19:02 -0600
--Subject: [PATCH] Handle build with older versions of GCC
--
--Older versions of GCC (prior to 9.1) did not put the `std::filesystem`
--support directly into libstdcpp, but in a separate `libstdc++fs`.  Add
--meson logic to detect if an extra linker flag is necessary.
--
--Fixes #223.
--
--Tested on AlmaLinux 8 which uses GCC-8.
--
--Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/xdg/shared-mime-info/-/merge_requests/278]
-----
-- meson.build | 14 ++++++++++++++
-- 1 file changed, 14 insertions(+)
--
--diff --git a/meson.build b/meson.build
--index ecc012f..93acd40 100644
----- a/meson.build
--+++ b/meson.build
--@@ -11,6 +11,7 @@ config = configuration_data()
-- i18n = import('i18n')
-- 
-- cc = meson.get_compiler('c')
--+cxx = meson.get_compiler('cpp')
-- 
-- ###############################################################################
-- # Project configuration
--@@ -46,6 +47,19 @@ if not xdgmime_found
--     ''')
-- endif
-- 
--+###############################################################################
--+# Check if GCC needs -lstdc++fs (before 9.1)
--+
--+if not cxx.links('''
--+        #include <filesystem>
--+        int main() {
--+            return std::filesystem::is_directory(
--+                std::filesystem::status("/tmp")) ? 0 : 1;
--+        }
--+        ''', name: 'std++fs-check')
--+    add_project_link_arguments('-lstdc++fs', language : 'cpp')
--+endif
--+
-- ###############################################################################
-- # Dependencies
-- 
---- 
--2.41.0
--
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb
-similarity index 85%
-rename from meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb
-rename to meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb
-index f27061d5d1..f4551c8f59 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info_2.5.1.bb
-@@ -9,15 +9,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- DEPENDS = "libxml2 glib-2.0 shared-mime-info-native xmlto-native"
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.47.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb
+similarity index 91%
+rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.47.bb
+rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb
+index cbca31fd62..dc0d1e1677 100644
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.47.bb
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.48.bb
+@@ -13,7 +13,7 @@ LICENSE = "MIT & MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=faa756e04053029ddc602caf99e5ef1d"
  
- SRC_URI = "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master \
--           file://0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch \
--           file://0002-Handle-build-with-older-versions-of-GCC.patch"
--SRCREV = "9a6d6b8e963935f145f3a1ef446552de6996dada"
-+           "
-+SRCREV = "fd8ab89c20093f1bfba8fa9e302ba584fffd0fd7"
+ SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "e59984416a72d58b46a52bfec1b1361aa7d84354628227ee2783626c7a6db6b6"
++SRC_URI[sha256sum] = "b77041324f0109f77161ee43743fe04baa485866af8460d31e476ad3f7648fd5"
  
- inherit meson pkgconfig gettext mime
- 
- EXTRA_OEMESON = " \
-                  -Dupdate-mimedb=true \
-                  -Dbuild-translations=${@'false' if d.getVar('USE_NLS') == 'no' else 'true'} \
-+                 -Dbuild-tests=false \
-                 "
- 
- FILES:${PN} += "${datadir}/mime"
+ SECTION = "x11/libs"
+ DEPENDS = "util-macros libxslt-native"
 -- 
 2.47.3
 
