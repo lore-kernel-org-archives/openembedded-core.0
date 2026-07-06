@@ -2,142 +2,149 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A921C43458
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 08:14:43 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.146475.1783325673021736649
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C6F3C43458
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 08:15:03 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.55])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.146480.1783325694287507165
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 01:14:33 -0700
+ Mon, 06 Jul 2026 01:14:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=gNWvatAT;
- spf=pass (domain: est.tech, ip: 40.107.159.45, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=j53CSZXP;
+ spf=pass (domain: est.tech, ip: 40.107.159.55, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d8798pfXIfiACOjHwzmwK/try8E/P5VJ+m7OPY3S4VBi341SsRv9BYVxYJ/la6caWpIh+tPGubhweYlr+BirP/9AUg6hvDJr8zjQ8e2mVnu1qKDnOl3w389xBOI+TzpgPVR+7xB4G2VL1l0ekshSpmonxZHq/1V1oV0lO2l1DOkFJocK9I1XbQGv7vO1x6BcoTUexY3ByZS9BiTHhW1nkomLBHSwUQGklpLr0va93ZTEDQ5BWsKOZlKnFuNZB5mBudcDgFRRXjrTD4jJnSgpDS/3MwJfP9YOIfwhqd66UpqqvSzETFECnSG0/io94xW/HnO6jieAzVPBfrOX0Ty7+A==
+ b=R0Um8BdQvlgZan8kRpKRcJnpQk90INr1KepGW02IZJAbMLz2gLWjqa1j0wWkhtGnZMlETynJG3qytV3td7g+0fYLjVnxP9tQRtNV19Jn8gsoZsLzqBKmJMkrJJTm4Ex/nBMu9xCpUsv6wmE0JXVt/YaBm4znCGxi7YEfIT5p0Xow6HwBjbxcq/jVYuIIRVUNNI+1BmUCwCouTDPZSjq+gs1xZUoYjv8+HeJhxp2HkAfKIWbejxiH7iceM2huoNgmjRR5nRSBCbFwUeA3k+lql0KBHxeIMPL0z30CIkFwmsuLHGYu+o3w8eX5X1mYMZNfrcmN7XwmQIevb8epreQMkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oQipondIBmju/FlYKYJhbUsu+njcm94XgVIC6Yp3m7w=;
- b=FeDFV4pBnptpghhc2Bufn1tEv6nKGWwBpGHwA+7+Rs8fTX4XdjCcgxMpzpjQ2AmaoOUiJIbaZkOZQvHjACek6X9dYR/2nXsyhKWRv+IiM+v61Xl6iNvZfUr6bnmBFqr0+j95RTrbTLw9PGpE3IpNQ0trcZNR8pGjiaErJ7R5yisxYMB+TdpvAkk2lMK+Gq/rNKpS4qPgm0hHzMVF9U4OgryS4VqPZ3w4p1uhLc8D+k2/FdbmjUGmR/TStrmXNu8/u5BuMHqJ0YYIM/qj+n/ktFgEdkGefmjlHFbDVPCAEH0HDj4AJgBsBG1koNi4keFMKLVznPOHnjpWxpoAVhSbBw==
+ bh=i8dfYN3m+Wlq0b75UCxO1m/ziLzl6V9dLlrlOMpYZck=;
+ b=XkziJRePaVyE/Od5AnbZBHIS3ZqrVRjVbDzCACajWEPpP1fDEDhlsXtsT60zz+LRoSovkVrpSF3hCHBPOw6aTErrcu7HLXXIxE9uvm1lBRYmELs9gOnUL6AcUgBW+mCN0Am3GGIGCwzVhMMXprNzdUzc6xf8o+tb1MBgkRdGIKKkDZRZWo248PbwZt+jweJxo1sqO8XRrLiXr2opkUedcq4e04dOhDf54JH/LDsfUgfFt/PMz9uaUSl49W4yDj6r36X47B2jzAUN+CiE/mPlWG3QpCgY5JKcIEgSLlxKLTcTNzvZPcVcfD+iaQjijHs2g6bu74xbd3gEad6f1YCnIw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oQipondIBmju/FlYKYJhbUsu+njcm94XgVIC6Yp3m7w=;
- b=gNWvatATPte/xT/9S/o0aSieed+XKOxLCe+xpOJ8Or7XZmjMVpsCyO/yqpW/LLs0/kxCziq6iCnIJkiQgG0NUK3O4JOxftv1HInVqSPyPyvdFBN8JEEJ8XRndZWABSQXUGyF8NC6XcZdm1P/v6ikcmexSQ8LiDIy8KhLWQ7VFyIYrA11u+AtEmBsqvhwA+jDY5yApSdPuDO3yGqyQbtNaYUTD2kSdx3sTajfwzA591iFLtfTifFpAIaH2dbr0teSL8U/QQPuCUWIhKZSeWHptw7U2JB0M4poN4mUe+LDevxeY1YirkB0eK75cfB+fBZ/etn0YTXa178jo4RZ4ifNUg==
+ bh=i8dfYN3m+Wlq0b75UCxO1m/ziLzl6V9dLlrlOMpYZck=;
+ b=j53CSZXPPpjyteuFQ5Nrk55KZyrrL5sG5ObRt7JTuBkvFqff4ap01SGZavhDEfw2vthjkaVqzN5+MhqFyhT2+iSe2ifOpUy/kCIeL4bdHfhnrMV5C31MxFyexU52bJ4S1txkJdbiYLWORfKvhR7QzQBW4EVjQOyqd+RK7+XxFJNuB13vlzUwvaZlHOyUUaho3uwhYiEV/Vwl5iG3ISkcUHSltt05G5h/klEnoXMVmE+J6u/lWRgZ8ZVNdc3Gew6Alc547q6IqHn2St13e3plfysFaM/e9Fybn9KRGppjZjHVljJea93Ll/hg28zXo/ajMzlKkyAfOU+lZm5Q1FWxng==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by PR3P189MB1083.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:2a::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Mon, 6 Jul
- 2026 08:14:23 +0000
+ 2026 08:14:51 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%8]) with mapi id 15.21.0181.012; Mon, 6 Jul 2026
- 08:14:23 +0000
+ 08:14:51 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Subject: [wrynose][PATCH v5] curl: fix CVE-2026-5773 - wrong reuse of SMB connection
-Date: Mon,  6 Jul 2026 10:14:17 +0200
-Message-ID: <20260706081417.10420-1-jaipaul.cheernam@est.tech>
+Subject: [scarthgap][PATCH v3] curl: fix CVE-2026-5773 - wrong reuse of SMB connection
+Date: Mon,  6 Jul 2026 10:14:49 +0200
+Message-ID: <20260706081449.10444-1-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20260623120850.29881-1-jaipaul.cheernam@est.tech>
-References: <20260623120850.29881-1-jaipaul.cheernam@est.tech>
+In-Reply-To: <20260623074847.3424-1-jaipaul.cheernam@est.tech>
+References: <20260623074847.3424-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0230.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:315::6) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P123CA0640.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:296::21) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|PR3P189MB1083:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f562e18-dc72-4258-c147-08dedb36964f
+X-MS-Office365-Filtering-Correlation-Id: af01e511-6472-4db2-d6fb-08dedb36a746
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|18002099003|22082099003|3023799007|56012099006|11063799006;
 X-Microsoft-Antispam-Message-Info: 
-	l5hPZUdNt8itmX6huh+vztumdgs5CRg5T8p4bSPioV8kmRpMR8Vg5bE/u85CtqVKY/TArlGG6KBzJEo/e3LOyGFJ178PR250DAXDaz5zWmFlE1Yqq7/Hn+9oAYKu+GDrfhcWaKrWrCVAbuy6P4w1KO0S0xVWfHgE7GPQdm5hLEHS3NcrwVCkecslQn8uRvc/t02W8xBbLkor9pzKvzsZc7otJq/w9adxDl/WfLVXqb4S+55VaPERTE6XfBPORu1ML/9keYUv3eV9ptN67B64cJpdPwtUy0/mge02rw4xfwyPgJZOaVgxLPuIdYSRr3AOYblbHmC+IXrL9BY/hDirXlO9j5d7NU0G0lVKyuvZkKvFZs5tcLS2P37I2YS6P89QUZbuqV3+F8kawy89oAoWLQZgx2ss1nVVbuUUIfbC4eX/NDeZPs9AryL+y0nIDvOkyl8CKa3T9uzuPEfBomauBnQNq3EcHxGi7WET2/T0vZ4MQEOgSIUmdpovX9Nh5s0POV8Y6NbKJvrPzWcfJLNSNymeRx6iHgWGckzgxDiRQqZZQt+hwNiGxGgJ+DsDKyTUwCH7rdf8V8M85YPMO1BL0Rgq4pcM4REHvExc78XAp0Y9ZUlo+4AdRu9rhlxfFCLH
+	+OBDRmgjOdf/ZfjsSV+Bv8b/tZtWj8pR/a8C/5JW4xvyhwUO5VwZze1yijkRKgHNdzQlYbeMwywX65Ontdwnt4AHWmQd6xey9bFSlKBArljrWIfP1b816WlUYI7RWw2jbfn6B3h+McscrreV0Q4d8tZRxZhOlVj9rXUzuhHGj6lUNZbkFTi0PL/EYuHFIRVlEPT6p24nvzHw4pEJph/kxuyYlUmfalQFTF5aBr2ImRtvZFDZfUrDJiwuTgcnU3mWOzW8IiOnHB+pNMMTjR23X/4paLlv6Qns21CDhm7JNI5/XrM5oEz1AM2ethITE2gE7je18Q4OaFUFiZGIdfDsC2I5MMttPSPT7XwDKlGkxcGOho1nwweeSGYBKIWRugmH4LbbhIc1liFw9RjJK/KTIhC67OK4OYXIm1J9AVmfUtHve0t6H23mzgNs2roJ7ssMrmNR+as3R19nKjFth5lxI3nCk+JwPDJpHjp10V3Lm89TZjWqnf7FdSsM+iDvtTWojmnnrgskRY6ZLkoGrXgvwJhSLbjF+6qjvdPu0Qe3MUU4G5cOMdPeaiZiAdayn6vuqAie9IOeBsLPzn/8+T8uMAX84djrVN3gGDHSvcurrjs=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(18002099003)(22082099003)(3023799007)(56012099006)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?YAsaspcI1j2PdOHo769J6/x1EDooqtNsTrqoN5O1IVL3pZ9MpsQhtA9J777T?=
- =?us-ascii?Q?WPaJSwwoDEpv4MX0ZkP17h2n9mRjnb1iIBPcNzaraGeiE0EiHjW6adxfsuda?=
- =?us-ascii?Q?1ZGMA6KrtfQerTB/HZxb9+mWAl9rQJ+HOOKNaV5nNRiT4Ti+P+rBTv7Mh3R7?=
- =?us-ascii?Q?cIcfvdV5NSpLpMPkhHPJFf91+QfqximPegro3LiVrnXj87xaVELNtM7xnf07?=
- =?us-ascii?Q?UJjgRmf2lb3WUVeCsMz4JaKhbS7tUzqnORZ8LUFjhoZSLv2bOd7fhf7b7HAr?=
- =?us-ascii?Q?Bk/JuCOi5B/ibE1vrzT7/1pup1dG/N1+Cdj2s74y+sKKgW3pMxUfjPVOm1BW?=
- =?us-ascii?Q?5AOceedwM47Q5gIfO6sF8hLEcA6iajdX7b7EoIKuXIc5FtMkr0165rNSUr6P?=
- =?us-ascii?Q?ZnOQHTOotr6acnyJCCDbJWn4B2gE7Xppamgj27+pk/FMgeKwnA3yQc2milBW?=
- =?us-ascii?Q?0uVTxz6Trg4CPjNbCaW68RkenOU+JsYc7S2/6zBWyNVddzv358G7EHbg1Y7I?=
- =?us-ascii?Q?Lccbb5PV8T2QzRq0fOzMUBLX7nFxv/wDFyv6QT3U3DFzmDjOHyLYowHYLhbC?=
- =?us-ascii?Q?zCBiTmUfyee81H2sIa57jmAMUx/R0y6Qy6HS9s9s2PXeIJDfVZqFYGfHD3Qm?=
- =?us-ascii?Q?QshPCwm6t0DXz9aEMX6xpgEBi7W9V2ZrsOfqG4/4eXfjw/VHqu92gEz1dNKs?=
- =?us-ascii?Q?Jptk5ydCAHEm39Z/we4CpHNbaUBUdMYCSWof4AoT5kcG3uHnnudfgQ59UFQg?=
- =?us-ascii?Q?zFTHhEWXX4ljQVg11vpQMAN+cULLuSKEPoOzJivb03zWbamLPIeKt6lNEcs9?=
- =?us-ascii?Q?/1FdSyMEWNZI7dGM4MwSzmg434+vHHHzXVeBpsjASSBf2RJYJSdc+2Ns5M8C?=
- =?us-ascii?Q?fxt9M+6oIiSvwihVPrKrLwJY3wmBej51+XB9dVJ9PHauUrFdaYKf9ORUTI/I?=
- =?us-ascii?Q?4PZLfMN1XVqG/5CCHgH/kaEaz8y+eraqg0P1UNtxFS5iWqWC8wWjP2sUg/6y?=
- =?us-ascii?Q?4RtVsm209rEH5s/kON2ZJr59EJ4apvSMnbu1XDhKqB0ENtxATpPkSh82dU7r?=
- =?us-ascii?Q?Rr2vc5pPpctZWmMl4iDSUaqrpea1iCjpddQtTUlHtBaCSPO7cOn42Pmy3/Qq?=
- =?us-ascii?Q?5ofL55tAqkG/OZhUmJe+iWGwWfAgg4VJs6UGFqCPlGR5t8CfVSrwHNi3Ta+/?=
- =?us-ascii?Q?toVmJdiMwALbry/15feUKeE33MAtYC5F0TrD7KG5pq7bwq8DXBnEyHhgDwg/?=
- =?us-ascii?Q?VsiTK/7SgmjFqcykcGMD46tt/kMa81nOVeB8FrsvyO0sIH9L4Mr3ugGdmDZJ?=
- =?us-ascii?Q?WXQaMsEzZDK6wXqkMq+1329Ewd5/CR+oKPaZlteY48KRHcEzqt2ReHkagC4x?=
- =?us-ascii?Q?DKBBH2R47Np1bzr7dgLclDbS+j5CHFHhDgVxqSG7vmXZ+ElFQW2YZkmDOxak?=
- =?us-ascii?Q?9reuUSci8rplV703EoTWJEItm1XOkOGSQwWn75XV4+h0/9ZsKs5VC1Pi7/Ph?=
- =?us-ascii?Q?AIiwCa1bHmTJHahwixiP5obKthdHm9d6/BFb4I2S0YuJQkoR7xUxiMZUBj/X?=
- =?us-ascii?Q?gWSOVFkIUjiV68fj7iIxLXd9IW/Lm4zP+l2hibyOONfqLkRDtlHYOix8KXBD?=
- =?us-ascii?Q?D/fi/iGQLwe4HyiOv2/CHsTwNybIa/X+8KsQY33PaqElunAb+XQl/3p80EWC?=
- =?us-ascii?Q?GAlT/ywoqXNgJwucHRgNVYzXxuUF2oWf8djWEXy2o15XNfavrToEvHkTrzcu?=
- =?us-ascii?Q?TTdMrxZNlA=3D=3D?=
+	=?us-ascii?Q?ENpFwaT6V0W2duCqLtaWyM/I5prrdGEORcJX+qubRVEO4z/EZV5IyWxzkQJW?=
+ =?us-ascii?Q?8pp+WgRAR9NT3g51VbbV3iX/1hYaimWwmoGmVmz3Tnx0Jv7IAJnGxzB7oM6n?=
+ =?us-ascii?Q?QX57RHR7gpyRX227QSYdkbSqRrzlnyglHkCkjxAgs9NXBrPxlu0Uwx/Rj5uO?=
+ =?us-ascii?Q?9cqAQlzdwXwL/BLgICM4BGJTONir8pfraQNd49PQEwPbUFbT7dJXmGe1/9+K?=
+ =?us-ascii?Q?CBcSsF1IMFq9D5WZMCLcM+Q1uVx3ADsCI8GSei2mwGpt9Ep4/z38QhmWsnNO?=
+ =?us-ascii?Q?N0rBvj7KTkmnYwZpgP+90GT+i3vHOQobEN3p/Bk4wQhh2b6twIM6/PNQVles?=
+ =?us-ascii?Q?e3yzsvMMUTgVehQbdm1ATFYItj826q1Y2u7rWB6511VPTuy9gibR1F2uQm8W?=
+ =?us-ascii?Q?eOSd839SsXlUAjTw++feMQqH/1WLkmomgvOi4xOpqpO6fRsKrUkXRl99s4CH?=
+ =?us-ascii?Q?RCQQ2pu3BIb4FyUgSm3TT/3kTgg+VdtqQJg4ytZLN3IXwFJywQd/2Y3qz0x7?=
+ =?us-ascii?Q?/PhCqv26rvB/7Kovk8XQ5g55atZlfqW3wotYb47DPRxtPvdgJI923/fkpKBi?=
+ =?us-ascii?Q?Fv+MSx6eXRHYerkbLEOkgmuuw/QFJDPZAc25HvMWwvMw1z5R7Cf8I5olGPEJ?=
+ =?us-ascii?Q?axNf+LvQN2WXIO2FFWltmdSLTpRm0vKSWQ7HdddA+YqaHUroYnGaH9uWe4yQ?=
+ =?us-ascii?Q?vy7+2JlYbM5X8iL8YbZDx3S1vzRHFaLskKGPYUsHEgNXZGDtE1SEqM74mr/+?=
+ =?us-ascii?Q?LWa1bj+FioKKqEbENTE1dTEhBMW+fRKUDYA6SBxPbiQISBBcyObxjSF/hrWF?=
+ =?us-ascii?Q?wv9HO10AIbTpB9uzZIJLbbqe41w31IgUf1jKByFFTWzk2akVVreaD4UnsvL7?=
+ =?us-ascii?Q?pnkUzxolV0/05ClZnAN8nZ7nVbySNOzlznYgcFZUV2kKVFGOITVzzVw8WzWE?=
+ =?us-ascii?Q?/Xz4XuQMH4liOjhgYTk0/EpwAzgSrKjLECw9I8wCspWIMQAi0u+iqZorWL8X?=
+ =?us-ascii?Q?1m6KAWzt+BHXfeIN2LjE8to3RZk/T9VuCt/B29UFRmErSPldnTp/g2O34OMi?=
+ =?us-ascii?Q?aML4QHt+tjekRk2VLz2uWrd+CcC8yuJGBIN7Sb0fBDb8qDtA4UXm+S/KwpiB?=
+ =?us-ascii?Q?XigaQKSTXvHpAcI0WekqzOffs0bBIaEtGWSeMRGUUoYm3JardmRkUM04XeQN?=
+ =?us-ascii?Q?yRGbmxJ81O5ccYzDDnQodi61+cmTL4Uk76SYyR2hr0PuyCh+edLLhzOOtZnf?=
+ =?us-ascii?Q?Sea9XvXOEwGFeD2H8wkGr3F3vlKn8WjZVb7BJLRRFhWS0uVPeKrhN01imY6P?=
+ =?us-ascii?Q?pLqCpBHk3U4P2NGuDrjJbzCUpjC+Hplq9nBhMV6INVLTJE7wN6K3EyOoUsZ7?=
+ =?us-ascii?Q?0Y9SAvAIiSWP0rgTQHV4Gs6yTlEL1rxyGRGv6XK6N2E2i9E9KGUGX9KsuiYS?=
+ =?us-ascii?Q?HyE2HU6yycrqsl5+l6PN5luHwn4gNc6Cde9WDTO5ib5h6yK3es2rJOVRJDja?=
+ =?us-ascii?Q?4wEqQuV2rBM5uwYSCqFrjYpQrEpdEqc4uBAlX86XWzg/m+yanPwGLr2pvuTa?=
+ =?us-ascii?Q?ytjMk/xZ3gu7XRIP1lg3yYFA+1OKigDNu86coG/ZtZwMF6uccayEy97RvQzC?=
+ =?us-ascii?Q?y5gfy4K6+QN1cj5yE3Xmr+9OLCXz66G1bSfb5ETS9PCOrjLcpYQYcDjflX9A?=
+ =?us-ascii?Q?6KvCBN7+1rPab33GBqgpXRa7CC5pN6PijKLQLbc8i85E9twJCC6qDWqJUA07?=
+ =?us-ascii?Q?upwur5bl5w=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f562e18-dc72-4258-c147-08dedb36964f
+X-MS-Exchange-CrossTenant-Network-Message-Id: af01e511-6472-4db2-d6fb-08dedb36a746
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 08:14:23.0931
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 08:14:51.5498
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uSXTeinslusk/0dAbNzyUNyQ5nfK9Zk1MlPOE6/pJ1M7+lXu/iu5HV+Z7OgP/HMrDxFPp43hC2ENlM5FQYcTT7H/kx/hwf6DC4GgTQSU1Hg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: y0d5/2Wlu3RSZ82H++jgRETDHzkAAfJkmqDC8vKZxNqYfxgGjg2rR/tJgIeP6MXeDqfYKxfMUMX+ufjqNayWRtOcqNvFhnuLcP9DGXxcgAs=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P189MB1083
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 08:14:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240219
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 08:15:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240220
 
-Remove PROTOPT_CONN_REUSE from SMB handler flags to prevent
-connection pooling. Without this, a second SMB request to the same
-host reuses a connection authenticated for a different share.
+libcurl's SMB handler marks connections for reuse (connkeep) without
+verifying that subsequent requests target the same share. This allows
+a second SMB request to the same host to reuse a connection
+authenticated for a different share, potentially accessing data
+without proper authorization.
+
+The upstream fix removes connection reuse for SMB entirely in
+lib/protocol.c, a file introduced in curl 8.20.0. For 8.7.1, the
+equivalent fix is changing connkeep() to connclose() in lib/smb.c,
+which prevents the connection from being returned to the pool.
+
+Tested with SMBv1 server (Docker dperson/samba):
+  Without patch: "Re-using existing connection" for different shares
+  With patch: New connection per request, no reuse
+
+Binary verified: Curl_conncontrol arg changes from 0 (KEEP) to 1 (CLOSE)
 
 Reference: https://curl.se/docs/CVE-2026-5773.html
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
-Changes v4 -> v5:
-  - Removed incorrect Signed-off-by from Daniel (upstream commit has none)
-
-Changes v3 -> v4:
-  - Rebased on latest wrynose (5d1aa5c806c0)
-  - Refreshed patch context to eliminate fuzz on hunk #2
- .../curl/curl/CVE-2026-5773.patch             | 47 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
- 2 files changed, 48 insertions(+)
+ .../curl/curl/CVE-2026-5773.patch             | 40 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
+ 2 files changed, 41 insertions(+)
  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5773.patch
 
 diff --git a/meta/recipes-support/curl/curl/CVE-2026-5773.patch b/meta/reci=
 pes-support/curl/curl/CVE-2026-5773.patch
 new file mode 100644
-index 0000000000..a997371242
+index 0000000000..42ec2b5a5f
 --- /dev/null
 +++ b/meta/recipes-support/curl/curl/CVE-2026-5773.patch
-@@ -0,0 +1,47 @@
-+From e5c7f93734345260820ca46b29db85f75d277399 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,40 @@
++From 74a169575d6412dc0ff532acdf94de35a6c2a571 Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
 +Date: Sun, 5 Apr 2026 18:23:35 +0200
 +Subject: [PATCH] protocol: disable connection reuse for SMB(S)
@@ -155,49 +162,43 @@ index 0000000000..a997371242
 412dc0ff532acdf94de35a6c2a571]
 +
 +Note: The upstream fix targets lib/protocol.c which was introduced in
-+curl 8.20.0. In 8.19.0 the SMB handler flags are still in lib/smb.c,
-+so this patch removes PROTOPT_CONN_REUSE there instead. The effect is
-+identical: SMB connections are no longer pooled for reuse.
++curl 8.20.0. In 8.7.1 the equivalent is changing connkeep() to
++connclose() in lib/smb.c, which prevents the connection from being
++returned to the pool. The effect is identical.
 +
 +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ lib/smb.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ lib/smb.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
 +
 +diff --git a/lib/smb.c b/lib/smb.c
-+index 00297ad..c15fdce 100644
++index 7c73cbcec..a1f5c9b31 100644
 +--- a/lib/smb.c
 ++++ b/lib/smb.c
-+@@ -1242,7 +1242,7 @@ const struct Curl_scheme Curl_scheme_smb =3D {
-+ #endif
-+   CURLPROTO_SMB,                        /* protocol */
-+   CURLPROTO_SMB,                        /* family */
-+-  PROTOPT_CONN_REUSE,                   /* flags */
-++  PROTOPT_NONE,                         /* flags */
-+   PORT_SMB,                             /* defport */
-+ };
++@@ -461,8 +461,7 @@ static CURLcode smb_connect(struct Curl_easy *data, bo=
+ol *done)
++   if(!smbc->send_buf)
++     return CURLE_OUT_OF_MEMORY;
 +=20
-+@@ -1259,6 +1259,6 @@ const struct Curl_scheme Curl_scheme_smbs =3D {
-+ #endif
-+   CURLPROTO_SMBS,                       /* protocol */
-+   CURLPROTO_SMB,                        /* family */
-+-  PROTOPT_SSL | PROTOPT_CONN_REUSE,     /* flags */
-++  PROTOPT_SSL,                          /* flags */
-+   PORT_SMBS,                            /* defport */
-+ };
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-suppor=
-t/curl/curl_8.19.0.bb
-index d58b774011..3326f478b5 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -15,6 +15,7 @@ SRC_URI =3D " \
-     file://disable-tests \
-     file://no-test-timeout.patch \
-     file://CVE-2026-6276.patch \
++-  /* Multiple requests are allowed with this connection */
++-  connkeep(conn, "SMB default");
+++  connclose(conn, "SMB default");
++=20
++   /* Parse the username, domain, and password */
++   slash =3D strchr(conn->user, '/');
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support=
+/curl/curl_8.7.1.bb
+index 14d63d6373..d026731751 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -36,6 +36,7 @@ SRC_URI =3D " \
+     file://CVE-2026-1965-2.patch \
+     file://CVE-2026-3783.patch \
+     file://CVE-2026-3784.patch \
 +    file://CVE-2026-5773.patch \
-     file://mbedtls.patch \
  "
 =20
+ SRC_URI:append:class-nativesdk =3D " \
 --=20
 2.34.1
 
