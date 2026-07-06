@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E91A4C44500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA2FBC43458
 	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:17:43 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.156327.1783358262376645577
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.156317.1783358253716467149
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 10:17:42 -0700
+ Mon, 06 Jul 2026 10:17:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=cRHheLRi;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so22918355e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:17:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=MV3UV+TD;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493b61b52b6so22901495e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:17:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783358261; x=1783963061; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1783358252; x=1783963052; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=efRp3ZvQTPAbyRQBPN1zm62AGExsKo1S7JkUPhe1/KM=;
-        b=cRHheLRiswid8bKR4O6fDY+iYItRkmpW3C9/4PdUc1Quiyd59E2vq2K4rhSsdVV0r3
-         emM20AoK/UCeqrd+JVpPjsx6LYgbaGMKRAf2iE9FG0RwRimWjuSVjw4x9/59cmTXBxwW
-         jizBbtLSxx7LpxT8I3+tIuVbPp1mpVRr2I5Nycilgo8PPN1Z8hS6YzXBN794kgUfAqJe
-         McVnxFloM8yh5/05d57qCfU3k4bD2yvzi+6+n6Yd08lPEkz27emM89j3bkHdjV61bqjJ
-         EZ4I9KjJxRr1GxEJweM/OV88GG2tLdbT6u5PKU0dW4einM/EpDfwF9lSWeygtegXB1jQ
-         dpzA==
+         :message-id:reply-to:content-type;
+        bh=2QeSXOmoWO0DAdvoTiqYtRP3N7sTSjDJ3drECZFqPjo=;
+        b=MV3UV+TDBN+fzT+1+A2NYUCnFUastrtOO7ykLXwwL/XKW9OQJZhURN5PibIPSFaUS7
+         4+cKMQ/NjChpyc3YqGXl58fn6uYlkjqsmlBfKFVVV4lsf8lZcPBniuXQT7zE3MdPCdKM
+         QK/cFnmMqZWXAMjUaSkcbqbRIOTvkYTWnlSXhsOuOfsXpDaoknzPvw7k0psaQOS5eQuR
+         siahDPbtwNkE33T+dWC4vu2tZ643y+I01bEcucQucjG6yjyLe1ukqeFYiIVmmo6Vrez5
+         K9zd2M6NcT2gNu+jI6hmu0evw1yPdqq+uGavbWJecOqHKOqcW56si3zVBPPjYUKNgcvv
+         4lGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783358261; x=1783963061;
+        d=1e100.net; s=20251104; t=1783358252; x=1783963052;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=efRp3ZvQTPAbyRQBPN1zm62AGExsKo1S7JkUPhe1/KM=;
-        b=bTaRL3CAxE/+5H5fBq0+e6ti9M5/AD4vVyUec+3vXby5IWIKUbonygiXdwkSV9Ucjr
-         mQ5ykw/xPV741Z+LLQGwLnRiJ2FBVs5I/lGT6HeykDrjwKvt+EsQax47JkDxjmXVOwbO
-         uaDs7DKsLGKraXnjiGQFGUprqeBieqtNLks3uCqeQz8Rk46j76Iu5iq6kgWurvavcMtk
-         Tjoc9nHfJ8KMgwAkVy4RNACN3D8VpOzbBvnJiR8o1tXz2rOhlf2yvijcMHJyiauB+pOq
-         EeNEUDONHTSukDJ9od2HyFlc+f2h7ZUt27LIIHDoH9Klf8zu0zc7MldPAT6KVPBCi6QH
-         mQTQ==
-X-Gm-Message-State: AOJu0YyhyZdEPp/2iVQDFEwJy2gxGAlbqp9ENo4RDQvnnC/FHjP4B1o1
-	xS4s3um7ugFrneT7NudOFOnDnWkVqkampSOUJt0DLOXu9SdL2uZelBdDEbK9JQ==
-X-Gm-Gg: AfdE7ck1MOzOQ0NSIa90nFY64CiQNUN5PrdV3vOfWcwIHyMrunm3A1Q6bFgeqQPykV1
-	AuGZW4VCmSAGRkoNVfpPo7pHEytcUTjB+aWUaBJgo2dVMwCdRYeUCJUfvB9A+bbm8yhlXRUioXs
-	JCOW1NB3RxYgVWpBA2kzUpgBnYmpsvShjGvYmg1Uq1lBspArczPeCacXT2vS11avElRAXE/woXN
-	gJe9q6o6UugrvvUgSTGh7Z3IL6qtax1d6uKFkujUlYRaZAhoI4siHCVaSjlHv8ChDwE8rnitPjA
-	WHXEWNCrLqAov4zIocURLEtbuaaEqTTtpNLg1BGcnb5NOS13jMyNA9PNfXYP7X7x94+ZIKNS3qd
-	pBS9/BqOFL4HQVlcl6pnZY+RyQeJrdLpl6VR0J+8vSFRDc8hTMUg5Uy/GmOBJnsB6y/5Uz/aeyq
-	hv3UEbmuhQ56f+YDGVbB4sGmS0hCTjjv3p1YcjFw4v9e6nlmHO
-X-Received: by 2002:a05:600c:6385:b0:493:bfea:2780 with SMTP id 5b1f17b1804b1-493df4af8d1mr8666895e9.9.1783358260547;
-        Mon, 06 Jul 2026 10:17:40 -0700 (PDT)
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2QeSXOmoWO0DAdvoTiqYtRP3N7sTSjDJ3drECZFqPjo=;
+        b=CBf/qUakH1tiXqkGUNsS2epyQlzIlbI5qkDgRFrwcf6r8NUAX33DyWRO6wMXwfDwQL
+         WefzJyGRe9Oe28/O4rl+2O45YPe9im0VuEB9605c4W2z3wW4Q9SmnPy0+BgOElmyU4du
+         j4y/Nn8so+oXBcAXpZEkGpUdVNM8D3xwwLSX7wRvw3gTSKIlSzAjOo0Z8LOmq7ieYHEK
+         MOK/WpKZcq6khqUJh/jzd61FIKBgwb1AzWPuO1B494+ZJAUbmSYAXWlOB9hfO3sh0dQ+
+         nHSqcmDVWMBi3Nbe2Bn++UUE/94lnIODvzgMtk0/VyGUH6gJb/6di33/o97RG+Zasvfz
+         cS/g==
+X-Gm-Message-State: AOJu0Yw7POs0BALgOaxH7myuFfBY2g+clOc2Fgxe3xBB6pt2Tmu4B3Zx
+	yyxNwEtX1KGmCZAFuPpmr1bLGnx87PZwRbGtOOkNYAnWwZIsdGWWOHG3q/6Rqw==
+X-Gm-Gg: AfdE7ck+56T73wW0C7hXCQ/UvN0clrA62DotQeXe8+Wl7+XP0K84GYqNBbBVYJSa2N6
+	8M+XvGmalPr3GxfKlCVW+U70kLSGDHrSjx5FMWV7vgvcI+TDkNiqffqlU43H+6Xq71oZRKdydlI
+	MhY43Ed2TMGsa+mquXHz+atbyIMmtNdksqdZaUKEk2K/lX5gKhc/A1kuIA5fff72e1RyMWPCs9E
+	L1iRgjdSjem+RYk/w9pDgryZLvxyk4nGujeZSCnyuX322KC4GliFL6QeOKpl949YzvbVecVmhBx
+	OHLIL9ZjPrSI5WZTm5ikiOgnPWzB8g9+6Wf5S9IubF+cI2vC/rQJDPZjCER/0tV2eL2VzZfhofV
+	kOVjspzj/21tmKOI0YcCvLhqv+BJPc2YLNcQ4lTLCxcQyA4wejnJRoxOo942hwK+k3yqSMJA1Iy
+	nEIUWvzNXuQdmODPLSYPaa2SVAhfjlCgxtWnbuCrAq/7fgvZ8R
+X-Received: by 2002:a05:600c:4e03:b0:492:6447:7a7f with SMTP id 5b1f17b1804b1-493df84d585mr3912485e9.6.1783358251919;
+        Mon, 06 Jul 2026 10:17:31 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63ba971sm640541005e9.13.2026.07.06.10.17.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63ba971sm640541005e9.13.2026.07.06.10.17.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 10:17:40 -0700 (PDT)
+        Mon, 06 Jul 2026 10:17:31 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 41/45] vulkan-samples: upgrade to latest revision
-Date: Mon,  6 Jul 2026 19:16:55 +0200
-Message-ID: <20260706171701.70536-41-alex.kanavin@gmail.com>
+Subject: [PATCH 31/45] python3-setuptools-scm: upgrade 10.0.5 -> 10.2.0
+Date: Mon,  6 Jul 2026 19:16:45 +0200
+Message-ID: <20260706171701.70536-31-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260706171701.70536-1-alex.kanavin@gmail.com>
 References: <20260706171701.70536-1-alex.kanavin@gmail.com>
@@ -67,27 +67,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 17:17:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240327
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240317
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-graphics/vulkan/vulkan-samples_git.bb | 2 +-
+ ...etuptools-scm_10.0.5.bb => python3-setuptools-scm_10.2.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-setuptools-scm_10.0.5.bb => python3-setuptools-scm_10.2.0.bb} (89%)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index c7e09b4b7d..75d7a39eb6 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -9,7 +9,7 @@ SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protoc
-            "
+diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb b/meta/recipes-devtools/python/python3-setuptools-scm_10.2.0.bb
+similarity index 89%
+rename from meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb
+rename to meta/recipes-devtools/python/python3-setuptools-scm_10.2.0.bb
+index 3e86c4fd2c..d3ff181ad6 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-scm_10.2.0.bb
+@@ -6,7 +6,7 @@ argument or in a SCM managed file."
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=838c366f69b72c5df05c96dff79b35f2"
  
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "ab1e93d4a5dadf4c804fb6abbbe0b27dfa912b5a"
-+SRCREV = "383471195757abdd43339c464db60449619d4f84"
+-SRC_URI[sha256sum] = "bbba8fe754516cdefd017f4456721775e6ef9662bd7887fb52ae26813d4838c3"
++SRC_URI[sha256sum] = "ec8ea1738b92e42146a46e29a0e9de9ad462744c63cf9778677b95dfd605adde"
  
- UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
+ PYPI_PACKAGE = "setuptools_scm"
  
 -- 
 2.47.3
