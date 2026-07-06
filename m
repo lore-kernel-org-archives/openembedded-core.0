@@ -2,172 +2,135 @@ Return-Path: <sivakumar.bs@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B590C43458
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 06:31:13 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.144530.1783319465399786706
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22695C43458
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 06:39:13 +0000 (UTC)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.144610.1783319948302066584
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jul 2026 23:31:05 -0700
+ Sun, 05 Jul 2026 23:39:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=HY8aY61D;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: sivakumar.bs@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-37cab825ec9so2531578a91.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 23:31:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=tFRxCybK;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: sivakumar.bs@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8ee43b3e5abso18255566d6.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Jul 2026 23:39:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783319947; cv=none;
+        d=google.com; s=arc-20260327;
+        b=q/Kvt2rwAVi35d4eMWE/NZTAtFaq7AbBZQrc8Qk8sjaPdofCgHTLYWIFIdRVOUcSmp
+         4JvPnFFrQ3PsSX7np+N43CsOVApobAAldihh0QUdWDJ4mlnZny4bm752lOjgfansWwO6
+         o9nVe1r6MqSwHckxNYR4YdEl349aO6LhAyAMOnodDQ/PfXykuL9iBf3AhXrFr74I8HwO
+         TRxevJ2NTCD5ebE34hmemWGM9DpyU6AP9X8BM0jQ3dpBkrj+lqE3TsW9FNVO6PRmRnj+
+         rYcBxnjL8QLMUniNgqW7kTfR2CRmppFkSi0da0S/nM7GmXfmNZyHJn4IENSZGt2NculC
+         qaUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=al1Bk0EcSRbUip9lTFvfuKsEEsTxluE86ZwHgomGIic=;
+        fh=uQWOQHiNUS1MJniOlqe3c/XNDtNi4hMRPdx/zJDRbu0=;
+        b=OcYQZTFTIuKEphC7gihFPjqbDFGubxlO3TpDfsjH5kzasxQWvX1UuaFfvMACYE5vot
+         YcD+AG0IkwcShyVZB5geZFGgQnXXj5fo1OlwmLrnjvMK5WHgZrKpvZeNZ+YmnRqfdbX7
+         dyzWVyf2sPLVy1liIdB/qW5oFfrExbdnvrjtH3IeCiwo5/K1k+qxtbADjn05GqxGjZIi
+         pRNFobMpk802KtrKFN3ZqeGO25rSe/nT/vZ5guTSyjKgLjU00N7iSGwmeCV+h9lyGSxs
+         iFw4bkhRk0wblrA9cxNxHeIjaggi0dMLqth8kcoGEiK7RzRhEDQ6UFRWV5DY20+0PjI9
+         NjXg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783319465; x=1783924265; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DPUE34VzA28P6M7VHXM/Zf+VfEpaT2omqRcHkMDh4Vs=;
-        b=HY8aY61D60Zi1e/oZAfkbm3dvMLpr0m+JXEEi3DH25GpDhSqUglW5NNT0clpIhpaEw
-         XX9i9WDz56mNZTpJd/LmvavkD5dOCADnR6nxVOwtgkB/TLdWtNotp+hDuMeVFlHzsT5Q
-         NVNA3sTAqvErhn+VkS+uPXuhbMG3nouZwS60p6Ri73nAQQ+xS5Sf0eDNDG89ELutj14b
-         AqVHVCvfkeCxhnuTDmJIuq8bV4voRAp0FqF6VaHwLmASAGNoqmYd4FTE7kHar1T+32Mx
-         R8Ax76gQyQOb5T89Vac71mBcmntCDTbhe4qfaXDhQVV6b8pRs5kSMz/C3eYt/NM+Q4aZ
-         wpSw==
+        d=gmail.com; s=20251104; t=1783319947; x=1783924747; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=al1Bk0EcSRbUip9lTFvfuKsEEsTxluE86ZwHgomGIic=;
+        b=tFRxCybKKuFrq1ArFcopb5sCp1RRcUBf7z0Q110SoZzsJXmgoedxu4egDNP8OnznOj
+         UsPMQGe1/kmfrjs0ayRQqCGJR2RL5lSIrH/IZrSQNQtCA4CTwHFcLz9+4uBJXXDLeWRh
+         xWAw/gvkLQTA63kQl6RFYgHND1bYOe2No6MT/57GKZT6dtvZ0oD5H+95oBd70Iehe27G
+         yiemmsEP8Gkf4aOm9rPsuM28yTmjNf4IzYoKLjTgBTYzPi+D1tvCFAo0x/grIo1Dhbvy
+         hKODIO9QLBTgH5Qs8x66GImpE6u8bmgqBxXzlTP+Z7l0kTU77nWq9ytOVShUkRMabea5
+         Hdug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783319465; x=1783924265;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DPUE34VzA28P6M7VHXM/Zf+VfEpaT2omqRcHkMDh4Vs=;
-        b=MiLh3hJZB0fviWraph1+XpMBykmbErdPdGWBdO0abWVAGGpaUOX+T0GFl7w5qIRDVN
-         mVTzT4N3SCR5ivj/rvoEkE+LDkNQaUCV8VR1ImGG+A/b43g43EoiyUmp4fES+l56oH1d
-         fNGgQmeZNx3dgZquIBGkBuJx4AId4Su3lWaiKtZKd8iVHFSQAXpdM9BEcLcHCMxQRriS
-         xc0gZ5hvgf7fNQnzypGcgMQ3cf2E8k8+8+fUSoJBDzhtxKGoToj3QBQe1oyJlCgdovSZ
-         A8SHirHzVEUG6JOnt1WQI9i4V/Md6+z0NlwgfqthTY/Q3BFePVXk2mvFNdbQxnY/LF1T
-         lGew==
-X-Gm-Message-State: AOJu0YyUHH0stUBTRWYid4V2suKHu7hhd9hSzCM0ZT1GZAnvOvwFyqkt
-	fO7ZzguQwkIeAVV1qU/HyC3tFPyVNRgEp7qxw2csxbsIw2gOJX0DNISa4kftUZ9lMyE=
-X-Gm-Gg: AfdE7ckJy9vKmZG0DJv8VcHRPlGaxG9aCbW6BmQAo7N84z7Vk8cFPb8/UxAA33MznLj
-	JW6UtffB6NTJGKrHd4WpnQBHEh0znbMuDiMzJM8V8dAMuwwh03dowzCPA36Hpdobu3BNCNcrGoE
-	NG2qtuhMQxsRXVmX4QaRPK+ReC+hrazOOW6oL6NDXQGhJDtG5LokALqS6gssU8cowlLdTS6vIXv
-	Y64SuuZViIQby+INM1R/XnTwPIZ+/kj+QzR78sbvsRL3t2qqS7IJIVrovUeRxQZGNH5V5NOgEuc
-	jmgoZAz8firrhIYCwuVtf97zu0Ft5QVR4qIIpdL1RwW3eSyFnrAmG3eKzXnkfnAWsKqDrptmT+p
-	u0pffpauQ1fQOWP6ICVV+vcYTFxI/4kK8Y+Q+nlFp4RKrVSnWXamc4tScXaOahQxCtj7ycqVqYs
-	aid3Y0ns5ZgiGDe7RzcPr8X9I0E5Vwu03yyitfY1bMRnCS5Uv1cfZLqWKBa9Y=
-X-Received: by 2002:a05:6a20:4303:b0:3bb:21ad:40d8 with SMTP id adf61e73a8af0-3c03e4d70f6mr9277132637.39.1783319464600;
-        Sun, 05 Jul 2026 23:31:04 -0700 (PDT)
-Received: from naduvan.timesys.com ([136.185.139.100])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f0bb7fe46sm56770247eec.14.2026.07.05.23.31.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 23:31:04 -0700 (PDT)
-From: Siva Balasubramanian <sivakumar.bs@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>,
-	Chen Qi <Qi.Chen@windriver.com>,
-	Siva Balasubramanian <sivakumar.bs@gmail.com>
-Subject: [OE-core][wrynose][PATCH v2] util-linux: backport pam_lastlog2 libpam linking fix
-Date: Mon,  6 Jul 2026 12:00:55 +0530
-Message-Id: <20260706063055.1914103-1-sivakumar.bs@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260625090231.2575081-1-sivakumar.bs@gmail.com>
-References: <20260625090231.2575081-1-sivakumar.bs@gmail.com>
+        d=1e100.net; s=20251104; t=1783319947; x=1783924747;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=al1Bk0EcSRbUip9lTFvfuKsEEsTxluE86ZwHgomGIic=;
+        b=n8vdlLqwDs9ZYPw8DqR0P63jRowI8tuJdkm0n9kRiwdGRV6cWwWiXngyc86gDZgKRI
+         eRQ/yriaifG6LmCVInvYHAca7S+Zv2yvvm1Gseg7DDiWDm6gJ3TUrBHu6SI7RcPkduN3
+         C18YVaYRh0Cfj6WiC/rkEGBSanuPLSIbMyHIUf9cXW3AeL4Za9KxJ4eO1L/2qzxDoFLV
+         /aFq8rVyOXrg3rw/XLC3prgA17rqGSxj4EdaC0VFEaATm9fAOkHPJ7dp1NJ5DXiLf/9x
+         HBKmQF6soZBXIz8ncUL8NtH1EHTX+QQAXwfltWrkZtbDhVlY9OxqXMPQ6Yt75VyO+xoH
+         4ndQ==
+X-Gm-Message-State: AOJu0YwvGERe5KKv545J5Rl/273n3QUMSF0C2ddmazqPzFtIn8hkLL3e
+	oy/r6MwTBmIpYZPCtoYRlhBzXshcmHUOKCuexIV5b5qPYB4lgu/A6y3N/a+5OHWk/dm0ZosRRYL
+	TCE/F4sNSevwHo9TVzzV2h6ivtwJChbE=
+X-Gm-Gg: AfdE7cnFmObdY7EyLc9Oozhyg40dLunrWHmPVIOz8OVIJfI0xhA10VWWmoIIBaA/It1
+	owVuazFr2r6skb4MeCUjQaKGeDwswyJlGmzE8i1c2BUyV3E2r8urgVxJsSN3hOT70friZDnMmmz
+	z4GUi/LxPCbXOsYKQRXqr2suBmABz9Va+ESs03R8AhJbwF6CgjSG8wfV9taqoxKJ/f9qmrKZrTN
+	0POy7JxxTcRJL9d9vQUCSNA/X/sPLKe7RmDt8SsIpm8L85RHPAJljFjvOetBIr7gEQz2z/jkx9U
+	WIOkSXh91Nqq/bpzIiQztjKObA==
+X-Received: by 2002:a05:6214:2a88:b0:8cc:ea95:2261 with SMTP id
+ 6a1803df08f44-8f74bd99985mr137261516d6.36.1783319947068; Sun, 05 Jul 2026
+ 23:39:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260625150015.2832246-1-sivakumar.bs@gmail.com> <DJP0OZECQ9MR.1AGCZVSYCIK1H@smile.fr>
+In-Reply-To: <DJP0OZECQ9MR.1AGCZVSYCIK1H@smile.fr>
+From: Siva Kumar Balasubramanian <sivakumar.bs@gmail.com>
+Date: Mon, 6 Jul 2026 12:08:41 +0530
+X-Gm-Features: AVVi8Cf0Gv1q5ZADaEoeOSYXp_tkV3hd1SXB3ISsOlEL2gwZKPDx8sob_Jw-KZQ
+Message-ID: <CACFV95LP_GOsVBP1NOYaT7iS76pNQ2f0qmpODhAf0jD2in6ZhA@mail.gmail.com>
+Subject: Re: [OE-core] [wrynose][PATCH] util-linux: backport pam_lastlog2
+ libpam linking fix
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org, Chen Qi <Qi.Chen@windriver.com>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 06:31:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240214
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 06:39:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240215
 
-pam_lastlog2.so uses pam_syslog() and other libpam symbols but the
-autotools build did not link the module against libpam. With the
-linker default of --as-needed, libpam was discarded and did not end
-up in the module's ELF NEEDED entries. The module then fails to load
-via dlopen() in processes that do not themselves link libpam (e.g.
-systemd on recent Fedora, or weston on journald-based systems without
-syslog):
+Hello Yoann,
 
-  PAM unable to dlopen(/usr/lib/security/pam_lastlog2.so): undefined symbol: pam_syslog
-  PAM adding faulty module: /usr/lib/security/pam_lastlog2.so
+Thanks for the review.
 
-Backport the upstream fix (in 2.41.5) that moves -lpam into LIBADD so
-it is placed after the object files and retained as a NEEDED entry.
-Against 2.41.3 only the LIBADD line needs changing.
 
-[YOCTO #16320]
+> Please don't rewrite patch message when backporting.
+>
+> Only append backporting info at the end. We depend quite heavily on
+> patch being similar to upstream patches and modifications like your
+> makes it hard to check.
+>
+> Please send a v2 with the commit message preserved.
+>
 
-Signed-off-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
----
-v2:
- - Preserve the upstream commit message verbatim in the backported
-   patch and only append the backport info (Upstream-Status, dropped
-   LDFLAGS hunk note), per review feedback from Yoann Congal.
- - Point Upstream-Status at the util-linux master commit
-   5683ed6320e00205146cbb3d0c76462733530eca (PR #4358). It is also in
-   the v2.41 stable branch as c8d0af0421f6 (released in 2.41.5) and is
-   already present in 2.42.x, so this backport targets the wrynose
-   branch (still on util-linux 2.41.3).
- - Retag the subject for the wrynose branch.
+https://patchwork.yoctoproject.org/project/oe-core/patch/20260706063055.1914103-1-sivakumar.bs@gmail.com/
 
- meta/recipes-core/util-linux/util-linux.inc   |  1 +
- ...ix-libpam-linking-in-autotools-build.patch | 43 +++++++++++++++++++
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/0001-pam_lastlog2-fix-libpam-linking-in-autotools-build.patch
+Understood, and sorry about that. v2 keeps Karel's upstream commit
+message verbatim and only appends the backport info at the end
+(Upstream-Status plus a short note about the dropped LDFLAGS hunk).
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 0235862666..3cdc1e2c0f 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -21,6 +21,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://0001-ts-kill-decode-use-RTMIN-from-kill-L-instead-of-hard.patch \
-            file://0001-tests-script-Disable-size-option-test.patch \
-            file://0001-loopdev-add-LOOPDEV_FL_NOFOLLOW-to-prevent-symlink-a.patch \
-+           file://0001-pam_lastlog2-fix-libpam-linking-in-autotools-build.patch \
-            "
- 
- SRC_URI[sha256sum] = "3330d873f0fceb5560b89a7dc14e4f3288bbd880e96903ed9b50ec2b5799e58b"
-diff --git a/meta/recipes-core/util-linux/util-linux/0001-pam_lastlog2-fix-libpam-linking-in-autotools-build.patch b/meta/recipes-core/util-linux/util-linux/0001-pam_lastlog2-fix-libpam-linking-in-autotools-build.patch
-new file mode 100644
-index 0000000000..90532dde7a
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/0001-pam_lastlog2-fix-libpam-linking-in-autotools-build.patch
-@@ -0,0 +1,43 @@
-+From 5683ed6320e00205146cbb3d0c76462733530eca Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Tue, 19 May 2026 10:54:57 +0200
-+Subject: [PATCH] pam_lastlog2: fix libpam linking in autotools build
-+
-+Move -lpam from LDFLAGS to LIBADD. When -lpam is in LDFLAGS it
-+appears on the linker command line before object files, so the
-+--as-needed linker flag (default on Fedora) discards it before
-+seeing any undefined PAM symbols. This results in pam_lastlog2.so
-+missing libpam.so in its ELF NEEDED entries.
-+
-+The module then fails to load with dlopen() if the calling process
-+does not itself link against libpam (e.g., systemd in Fedora 44+):
-+
-+  PAM unable to dlopen(pam_lastlog2.so): undefined symbol: pam_syslog
-+
-+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2453457
-+Signed-off-by: Karel Zak <kzak@redhat.com>
-+
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/5683ed6320e00205146cbb3d0c76462733530eca]
-+[Dropped the LDFLAGS hunk: the -lpam in LDFLAGS was introduced upstream
-+ after 2.41.3 and is not present in this tree, so only the LIBADD hunk
-+ applies here.]
-+Signed-off-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
-+---
-+ pam_lastlog2/src/Makemodule.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/pam_lastlog2/src/Makemodule.am b/pam_lastlog2/src/Makemodule.am
-+index 40d597c58..876171e9f 100644
-+--- a/pam_lastlog2/src/Makemodule.am
-++++ b/pam_lastlog2/src/Makemodule.am
-+@@ -11,7 +11,7 @@ pam_lastlog2_la_CFLAGS = \
-+ 	 $(SOLIB_CFLAGS) \
-+ 	 -I$(ul_liblastlog2_incdir)
-+
-+-pam_lastlog2_la_LIBADD = liblastlog2.la
-++pam_lastlog2_la_LIBADD = liblastlog2.la -lpam
-+
-+ pam_lastlog2_la_LDFLAGS = $(SOLIB_LDFLAGS) -module -avoid-version -shared
-+ if HAVE_VSCRIPT
-+--
-+2.43.0
--- 
-2.34.1
+> Also, I can't find the corresponding commit on oe-core/master. If this is in
+> util-linux/2.42.x branch, can you tell me what is the commit?
+>
 
+This is not for the oe-core/master. It is already on
+util-linux 2.42.2, which contains the fix, so nothing is needed there.
+This backport targets the wrynose branch, which is still on util-linux
+2.41.3. I've retagged v2 as [OE-core][wrynose][PATCH v2]
+
+The upstream commit is:
+
+  util-linux master: 5683ed6320e00205146cbb3d0c76462733530eca
+  ("pam_lastlog2: fix libpam linking in autotools build", PR #4358)
+
+It was cherry-picked to the util-linux v2.41 stable branch as
+c8d0af0421f6 and released in 2.41.5, and is present in 2.42.x. v2 now
+points Upstream-Status at the master commit.
+
+One note carried over into the backport: against 2.41.3 only the
+LIBADD line changes. The upstream commit also removes -lpam from
+LDFLAGS, but that LDFLAGS reference was added upstream after 2.41.3
+and is not present in the wrynose tree, so only the LIBADD hunk
+applies (and carrying the LDFLAGS hunk would fail to apply).
+
+Thanks,
+Siva
 
