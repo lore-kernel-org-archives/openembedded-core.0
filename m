@@ -2,95 +2,103 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9ACDC43458
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 10:37:36 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.148204.1783334250889008239
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEAE4C43458
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 10:43:26 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.148285.1783334598795294850
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 03:37:31 -0700
+ Mon, 06 Jul 2026 03:43:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=gt4IoYSy;
- spf=pass (domain: smile.fr, ip: 209.85.208.179, mailfrom: yoann.congal@smile.fr)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-39b293079d1so23918801fa.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 03:37:30 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=rjl87CYt;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493c7902f47so16771205e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 03:43:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783334249; x=1783939049; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+        d=smile.fr; s=google; t=1783334597; x=1783939397; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jUhXOqn0z8D58UEATslwT684I2GGdDzzKj/E9yBpiWc=;
-        b=gt4IoYSyHY06yp0qX2rqNTVeMRimn3qOa8RGwd872WYwxqVlfTmZwSb22yTK94aR2f
-         zNSC4PzfSGPhD6NesaYUZw7mykmgyx+WoUYVfLThicLy6vKLp4Nj3yyfHGwU3F/ifRsN
-         lsMkbcUGBu4USDbLgXRjb6EEbKqQzaZ8d7yqI=
+         :message-id:reply-to;
+        bh=9rh2HYfiLL7A0+QKRn+0BJldlxt4GW8NFliuJvx0Lv4=;
+        b=rjl87CYtBYt/15H6Sl7Li/S786T0kWghFmXX2NKTsOHFOJi43pRHcWijI+rQbPvIIg
+         TiGZUDg1IPTtg5e6REZYZO7N2T1Iwg4Rwu5Ui/+DCriB11IDwZznwZrTFhQUfUrr9kVw
+         yHqppnqbEAQLbRK4eFL+NM9jny8IuoviRcmlc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783334249; x=1783939049;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+        d=1e100.net; s=20251104; t=1783334597; x=1783939397;
+        h=in-reply-to:references:from:subject:to:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jUhXOqn0z8D58UEATslwT684I2GGdDzzKj/E9yBpiWc=;
-        b=UVpV2WfaVDtMVWerATs0ohGRxUpx6WX8hWTkg3MS16sk98Dv5DjIjNHsgnlwu8dHuT
-         PdefrQsuipXhyqQnNYhB81uAlMzWWre331La5C7tyAJYvgQzZ6LyUgqn9UXBf3CtC6cf
-         wmlgNyqnpMGN+jTrYl6Vmj16Qeu9QG1nguxg1jHd+0WDprvEpxUQolGuaYdsMuNUOSqq
-         W6ZCjjOJkbRzwp2eop2wLbdDcS9XgqPokRJW0CR3OtfZcrLw+kjFcZLy+3pYtxKwr0QM
-         bLvB3GzG5DzLlrOVmD5Pa3gMroo2ba1Dy9QC7UkIcRjF5CqhooWFJQm+kbRlTe4wc8/l
-         BSXA==
-X-Forwarded-Encrypted: i=1; AHgh+RpSYIOg1lJVzXBdLoU4+uxbI+vaEs8ZMlmHasvImaG1RWG0bNvHQkuAkuMgD7CohAm5DBRdnqmdIFLTKlzk+zwnKw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzdzbgo1CtbQfSYtpmMrybYhbMrfiMy6fllk0aAzxRn67wuxStN
-	BjMM7CVmXefBuUKeL/uLf01M/pk2ucgWPt829Mbyu8KmC3FGy01vZnhOsqj1BN/ehBE=
-X-Gm-Gg: AfdE7clAow6r6Ev9ocaZnYEjpj21cQkE4A/vI8jJOUl3xk0B3v5n1If6kW7a2wSD5rN
-	jK3ZdSxUlAo6Ea2mQK9bj1rE8ebkRxKedb5F1prELykzPHCgRPtWDCrAlIsmFXJ1/Myxoxlp4Se
-	TsDplgyiZE+sp4swyLiPUKuepqEAQ47JWKVSFRWBbMLlP6DDBzozFvuNCHMwUyxpEUsrHoI31tF
-	vHa3mNuszyGMHZpDhmJIP/a9LBSZGXuoibcFwQPIjZrjsu3EY5jTNKnlo3HKF9+itVQfxZ5yy19
-	vREjd7wFa4LaZQCd0Mo8k2e18zJXPeS2PqFH/PHUrEoibnPzHuiTzCA9TBTWNSVeLMldRmMeVxy
-	jXvln1sTTVnfRAAaaPzzX/M7VXj9dhx/LQDmEP6GnNHcoS3ubd5DmJkzt+fqrefRbKvv1Ph0BGG
-	cznnRnoI+NTQpabgU=
-X-Received: by 2002:a05:651c:e15:b0:39b:224f:93a1 with SMTP id 38308e7fff4ca-39c60015dc6mr122391fa.38.1783334248823;
-        Mon, 06 Jul 2026 03:37:28 -0700 (PDT)
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9rh2HYfiLL7A0+QKRn+0BJldlxt4GW8NFliuJvx0Lv4=;
+        b=jD8RTeaMjDzYBxQNwd3+978u9k/of/LC6P9vI+dii31YtlyxI2xTmH5e/rJKFeiybm
+         3fygo9unNtpk+UtXiIqTOjNDmC+wvGFWl2LknCMuFakVyjDV9frXmx8sOosiTL2NSuD0
+         BuvbYGRmh1CjOafMiCqDNgIBf5obqswPoq0jTpfeSMjcB6t6WJ76EKFm3CybQ5vchjTf
+         BzDMhnU63O79zMlt1KO3xRom9Lc6YkYUdC5flcdt6laIMMT45t1vDsSDpt86q+HxXY/o
+         FETjf6GfE+rw235Yicv4QK5EQ8+jggbmf1VLc/2xOY0rye9P/McnIl+rTqFYXy3SuwOC
+         4uXg==
+X-Forwarded-Encrypted: i=1; AHgh+RqlKWvdOLVhhGF1f4TceiZ0KHYUVdKXCadukTk2hu1DyTC/pWoacLB6Sqx4RLBOqlotrqcNRwHtOfDrbc79CLcMUw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz9jlj+nfBgNH9uR1TSt818iWLA5HHZXD2D70kJvbozR4fxkKuE
+	NMzcZ0KpMRxu9Ahztt4q1TZstbcTdlZ8vdfSvt0hTZ8tKCBxBLIYmtACQWgvnbdZQZQ=
+X-Gm-Gg: AfdE7cmRSzdDiFwgxAp47FNsSWYgBaTkmyZwB4labdgXO0Wfvkg+fGFwPp9A2zVHc1r
+	ixQV5hYbtTRO8VddxZfSIPtbIaAlLaxJ9rSjG3fJADpDAfH9O4r4Lm+ozqOSf2Q2dM0YOe56iEL
+	xhML30EB9yS61Ux040I8JVOqNE3n8meWN5PZ2yx7Tpy4wO/lFDpoBlQ9qSmIsmelNCVTuUoRE9h
+	uF2cGuU69S6BJqI1y/yK6LoY4fKXxQOkmQe1RXj9JnuJ/ul2j4gSQHJKeVmGY71zfXwwLcslqp6
+	V8VjUJPiVwQy//sFVF7lpV+gGtIspi7ZfG9cgVSO2f6meu5q8SwxcFymr0r0UeG1xuzwH8Nk7O+
+	HGGW7ntYUeKhI7WwdIHHgQs0y56gvx1poSket3e3/+MzMx/NC0Vr64d218fu59UHYpjCIrOka6D
+	Qb/bQrjshRSJ7mfD0=
+X-Received: by 2002:a05:600c:4ec7:b0:493:b6ee:fcb7 with SMTP id 5b1f17b1804b1-493d11d9562mr109114105e9.14.1783334596824;
+        Mon, 06 Jul 2026 03:43:16 -0700 (PDT)
 Received: from localhost ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39b4adf5c82sm21399101fa.19.2026.07.06.03.37.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63ba971sm600690425e9.13.2026.07.06.03.43.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 03:37:28 -0700 (PDT)
+        Mon, 06 Jul 2026 03:43:16 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 06 Jul 2026 12:37:27 +0200
-Message-Id: <DJRF8BCY4XXV.2VZYPEYOAW7QR@smile.fr>
-To: "Yoann Congal" <yoann.congal@smile.fr>, "Song, Jiaying (CN)"
- <Jiaying.Song.CN@windriver.com>, "Wang, Jinfeng (CN)"
- <Jinfeng.Wang.CN@windriver.com>, "openembedded-core@lists.openembedded.org"
+Date: Mon, 06 Jul 2026 12:43:16 +0200
+Message-Id: <DJRFCRJIMZNZ.3NT5QJ0BLOY9H@smile.fr>
+To: "Yoann Congal" <yoann.congal@smile.fr>, "Sudhir Dumbhare -X (sudumbha -
+ E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>,
  <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH 09/12] python3-pyasn1: fix
- CVE-2026-30922
+Subject: Re: [OE-core][scarthgap][PATCH v2 2/2] binutils: fix CVE-2026-4647
 From: "Yoann Congal" <yoann.congal@smile.fr>
 X-Mailer: aerc 0.20.0
-References: <20260409061639.1688205-1-jinfeng.wang.cn@windriver.com>
- <20260409061639.1688205-10-jinfeng.wang.cn@windriver.com>
- <DI17NNT0X7YI.3HOA397O2P5FL@smile.fr>
- <IA4PR11MB942062CFC3DECE261B819667B8362@IA4PR11MB9420.namprd11.prod.outlook.com> <DICTHBF30UIC.SLD2UTBGTJVU@smile.fr>
-In-Reply-To: <DICTHBF30UIC.SLD2UTBGTJVU@smile.fr>
+References: <DICS8ZZ99Q7C.25QI9TUSM1VCB@smile.fr>
+ <20260513172734.3995341-1-sudumbha@cisco.com>
+ <20260513172734.3995341-2-sudumbha@cisco.com>
+ <DIZQ028FNO2G.2274D51E2O012@smile.fr>
+In-Reply-To: <DIZQ028FNO2G.2274D51E2O012@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:37:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240239
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:43:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240240
 
-On Fri May 8, 2026 at 1:01 AM CEST, Yoann Congal wrote:
-> On Mon Apr 27, 2026 at 8:04 AM CEST, Jiaying (CN) Song wrote:
->> Hi Yoann,=20
+On Wed Jun 3, 2026 at 11:09 PM CEST, Yoann Congal wrote:
+> On Wed May 13, 2026 at 7:27 PM CEST, Sudhir Dumbhare -X (sudumbha - E INF=
+OCHIPS PRIVATE LIMITED at Cisco) wrote:
+>> From: Sudhir Dumbhare <sudumbha@cisco.com>
 >>
->> This patch is for scarthgap where pyasn1 is at 0.5.1. The 0.6.2 -> 0.6.3=
- upgrade would only apply to master. According to https://github.com/pyasn1=
-/pyasn1/security/advisories/GHSA-jr27-m4p2-rc6r ,=20
->> all versions <=3D 0.6.2 are affected, so for scarthgap, this patch is st=
-ill needed to fix the CVE.
+>> This patch applies the upstream fix [1], which addresses an out-of-bound=
+s
+>> read issue in XCOFF relocation processing, as described in [2].
+>>
+>> [1] https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;h=3D9e99d=
+bc1f19ffaf18d0250788951706066ebe7f2
+>> [2] https://sourceware.org/bugzilla/show_bug.cgi?id=3D33919
+>>
+>> Reference:
+>> https://bugzilla.suse.com/show_bug.cgi?id=3D1260338
+>> https://www.suse.com/security/cve/CVE-2026-4647.html
+>> https://nvd.nist.gov/vuln/detail/CVE-2026-4647
+>>
+>> Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
+>> ---
 >
-> Yes, agreed but the trouble was that is was not fixed on master and,
-> therefore, could not be fixed on scarthgap.
+> Hello,
 >
-> Now the situation has changed, it is fixed on master by upgrading to
-> 0.6.3 but wrynose is now vulnerable.
-> Can you send a fix to wrynose? I can't merge a fix to scarthgap without
-> one for wrynose.
+> Same as 1/2, this look like it's needed on master/wrynose. Can you send
+> the fix there and ping back here?
+>
+> Thanks!
 
 Hello,
 
