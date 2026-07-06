@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 024BAC43602
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4493BC44508
 	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 17:17:44 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.156326.1783358261622752750
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.155328.1783358260913840898
  for <openembedded-core@lists.openembedded.org>;
  Mon, 06 Jul 2026 10:17:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=JUW9sHPK;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493d1e8aa46so17682695e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:17:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=LNT+tIjt;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493b27c7451so534675e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783358260; x=1783963060; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1783358259; x=1783963059; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jXB3w62LlV3NAGKEEyjiAp78bJbqX0kFiljxvyUefx0=;
-        b=JUW9sHPK3Mq4hDcsmxCnlttVR8WSiCTOL4E+WxGBiD39H59Pb/FBUq5LFwgEY7mbKu
-         3QE54cUEwkA766nhcj1zPdneNY6SUfuib5Zfn+K7mmTGqqZdsckOvGRuJHJ/mIXN+itv
-         bheRSx/DdR4qzEFI5iVS5ZavPt7HlcrJ7DCx93vY2/BwudxQ2TQqqFs0jxL04yO2Vgji
-         Exi58bON7fyGp7RzZGbD/IDG3d/EHfQXv2b2vqphzHoawNDPpKQGq6USuE1KNJYsq66y
-         hVrtvX4bJX+xE3eJ0cKFpZirv3zwi+Du4H9rpoj0FlftkocPouY6xH4OqJP4bKF9fygZ
-         SB3A==
+         :message-id:reply-to;
+        bh=+Vc/C/GnmVVESAeTWs4iGKr07CPAYLCS1S+VhRL1kiw=;
+        b=LNT+tIjtBTJSIl+rWtgs1+CPpaMlZh8TnWAJLRTO+7VURzLIiNOmrU9o5WpRpSsWeN
+         4LSdXF2IK2ELu2Xrpdj6UDioLFsSXzvUMCWNCvy2GMrSPncRozaLOpjggUPYO5AOU+hg
+         1zAAsdMz9fdFW4DKCp9jfOyjunuWsQgHkVENtwqMFyGJc87PHmCIQsBaGRcj4fSFWZD7
+         YvK2xgJIuOsFjuVPvylu0P8Ug+cVKssblV1Yv/qU8EjnO5eVJWpHDYAo5x5vR+mB+9MC
+         5Ne6a/YUCbVN9Rswo8lcaaNJxqAAa0LXIRanz8x7woid+HekBFPuZCxUvnElxTUMfpEI
+         2sRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783358260; x=1783963060;
+        d=1e100.net; s=20251104; t=1783358259; x=1783963059;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jXB3w62LlV3NAGKEEyjiAp78bJbqX0kFiljxvyUefx0=;
-        b=iQCG11xakmV2q/4kCSxprfhoyrI+7YEWSzaDmE6U3GLt/nbBh/cT5LFQb5K5tTmng6
-         5LB5TGsej8KZ4x7bNqWZsH9giuCBa42PEIX5a1EPX1S2aOznKR7P2nDQ7Eb5W5zW7YQD
-         N+08Pxf4xBkA58+SkeOTW83kgOy+Fci4i68SPITuFuw8STYa+Hk0kBIRvmbPycXKdCaz
-         VGcqjGO3o/jX4FB183tzW0Am2Ar/dT8zQP2cD1g1xpX6nROo04ODteBbJmOPykwE4Qs0
-         Zo7PulsWLeijgkfx9jDyXW7e8Oy9y59hGcdvVjtIm0xxzhHSg1LGJQVt+/mX+OHwdrBr
-         Ex6w==
-X-Gm-Message-State: AOJu0YzlI5CNRr7xUdUqeFZPhWannXAt59HzSz1+aZe0OnF/LR/SE/10
-	H37o5w94QILxi7U4uHvf5OJ80oV2eKEM833+3rtcdaXSWWp4rdHRyi5fg40DRQ==
-X-Gm-Gg: AfdE7cnO4yVgRjP2/97WeV+d7d94G6BzMEiUrsDyAC4MYZSJk+9JaOocLj5RhIRne2P
-	KtaHPA9nqwa78eT/LovTq9zGivjfbrxP6PhIwuiKsXPDKCSpriTiKT6w/+9xMczzmpKG7REYRq7
-	uW2UaZrn4MXfShnJrE/0MII8moVt2X+dFGLxhPlkukYqH644X7sLcW87FDfYhdGpZd/LndytTxp
-	UzZqVtLH/kyUq9xinU4DEWkjdgKIsN/eG1Th4YTD1PWsTr1BVDO2w4vYwBF4tjeWBdZcoh135qQ
-	0nTcs71x+Gibe1cQG0jTjyzRSzgAq+pMoXfnyvAYJUPnIx/YYvDagGVICG22Mk8pZmGGXHVCNhC
-	Qz8NQ/XdfXjwTFUvZTdb1vncnJQpHLOVcNgSXTcY1ZeZ518J03irT2/wVS6kAZoRF7SY0omSlU5
-	6VyuL1ULyacUxePaXTKDxY6T7WPgWjc14zukjx+rAKWBjEatkD
-X-Received: by 2002:a05:600c:3556:b0:493:b4cf:d37f with SMTP id 5b1f17b1804b1-493df314e83mr11630725e9.16.1783358259830;
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+Vc/C/GnmVVESAeTWs4iGKr07CPAYLCS1S+VhRL1kiw=;
+        b=PyiYFBEQ9DKGyT0/tlBbZAQKtQ2KieEubyFbSb8WtaNTFYahtUsvURwd2dQ7vpuvvq
+         J6Q6SLlBOnrugG0lT8LbAu4h46j8WVnROSZ9mAheO1ipJ5aBWTKpJK7pVhpnpHdAM10k
+         Tv2kWAB6sdVwAnnXrfAcqUnqUmi0dqBbsPD9FCPZbk+TVjRtIP215ihHcCbXFE/1IuPe
+         nHwFYN/dbFr3dWkvJtE+J2Wezd/n438Er/ursMOyLDBYwNw/ZENhZry2RKa1wrAKPRYv
+         yWYiIz0X+PUVBlC1mX+txtkkzz0X8yM4kFwipB/wqPAs2OZl9roIhV4C5sqqAZwuTPPR
+         YU2w==
+X-Gm-Message-State: AOJu0Yw2Iqo5Ls8EsMZ4qzJ6eN3yuQ5BBKoh9+28bivqq/e7vxI8DZHf
+	BKHY9n662rBeaOuisQtpOw/wifWKYzWxuC0xKbie+ZvqN/Kh95QvXHxxNRxvrQ==
+X-Gm-Gg: AfdE7clXautXRdn1BXYw95YrJEQQeqxWHMWP1SMd0fX9ZpRBaBV3bnIbqOFmvnn9mQP
+	4ZYQGO0YuBQmElBWSoXb/oa4ksT3Tpb/tQ8QK4IMTg+9rMrxknj6tvII66MOpFVaUgx3p4XVzJA
+	Vn6F9bTZG5NYGe4+5U9IGCN3s+6Q1GddW83nX2VsM+oFlRp8da0ax1sGUQGPJfFwTJtUXS4kXpp
+	uX3DsbwFp2hbvetCKLg2d+gYqTIAJHzA+71us9bbBaWTrWKL7Wo7p4puwBzTgjNru89fatJvW7f
+	N9ijWlJGogApIVvT2cdHcLBM5DXNb0Ni1aJ34ijavdteZxXv5eZIN3AeWRWoC1iZUBgI1Uhmgjh
+	2rkYIMgrt1v+Wkg2oXT5jJRfGXAjET9bvyytShO2phgqSJEga90CMsHeh/xv/5qkPOI/IwqcLiE
+	SAjnOJMEMTZ2wsLuN7Yxdfcc2uJ2XaL6QnUEfXw6ep8tx4jv5pKSOrhzXQb7Q=
+X-Received: by 2002:a05:600c:3511:b0:490:b26c:64ad with SMTP id 5b1f17b1804b1-493decbf0e3mr19807315e9.5.1783358259170;
         Mon, 06 Jul 2026 10:17:39 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63ba971sm640541005e9.13.2026.07.06.10.17.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63ba971sm640541005e9.13.2026.07.06.10.17.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 10:17:39 -0700 (PDT)
+        Mon, 06 Jul 2026 10:17:38 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 40/45] ttyrun: upgrade 2.42.1 -> 2.43.0
-Date: Mon,  6 Jul 2026 19:16:54 +0200
-Message-ID: <20260706171701.70536-40-alex.kanavin@gmail.com>
+Subject: [PATCH 39/45] tcl: upgrade 9.0.3 -> 9.0.4
+Date: Mon,  6 Jul 2026 19:16:53 +0200
+Message-ID: <20260706171701.70536-39-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260706171701.70536-1-alex.kanavin@gmail.com>
 References: <20260706171701.70536-1-alex.kanavin@gmail.com>
@@ -67,32 +67,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 17:17:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240326
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240325
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-core/ttyrun/{ttyrun_2.42.1.bb => ttyrun_2.43.0.bb} | 2 +-
+ meta/recipes-devtools/tcltk/{tcl_9.0.3.bb => tcl_9.0.4.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/ttyrun/{ttyrun_2.42.1.bb => ttyrun_2.43.0.bb} (94%)
+ rename meta/recipes-devtools/tcltk/{tcl_9.0.3.bb => tcl_9.0.4.bb} (97%)
 
-diff --git a/meta/recipes-core/ttyrun/ttyrun_2.42.1.bb b/meta/recipes-core/ttyrun/ttyrun_2.43.0.bb
-similarity index 94%
-rename from meta/recipes-core/ttyrun/ttyrun_2.42.1.bb
-rename to meta/recipes-core/ttyrun/ttyrun_2.43.0.bb
-index c9dd4d564d..74204013c2 100644
---- a/meta/recipes-core/ttyrun/ttyrun_2.42.1.bb
-+++ b/meta/recipes-core/ttyrun/ttyrun_2.43.0.bb
-@@ -7,7 +7,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f5118f167b055bfd7c3450803f1847af"
+diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.3.bb b/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
+similarity index 97%
+rename from meta/recipes-devtools/tcltk/tcl_9.0.3.bb
+rename to meta/recipes-devtools/tcltk/tcl_9.0.4.bb
+index ce8598fee6..8cabd77d7f 100644
+--- a/meta/recipes-devtools/tcltk/tcl_9.0.3.bb
++++ b/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
+@@ -22,7 +22,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl-core${PV}-src.tar.gz \
+            file://0003-tcl-install-tcl-to-lib64-instead-of-lib-on-64bit-tar.patch \
+            file://0004-tcl-update-the-header-location.patch \
+            "
+-SRC_URI[sha256sum] = "407a073ee8f718200c3a004bc2186deccc33356ee5112a71d8b01b55230f4ee4"
++SRC_URI[sha256sum] = "5d265f3499b588681825d8093177830707b7035ad866b17189a3a6ab6dade0ff"
  
- SRC_URI = "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master;tag=v${PV}"
--SRCREV = "77083b1cbbd463a25cf1a94fc026b5401575bc5e"
-+SRCREV = "f85c8ebba0b482e677de1f2c4d8b67b588fe654d"
- 
- CVE_PRODUCT = "s390-tools"
- 
+ UPSTREAM_CHECK_URI = "https://www.tcl.tk/software/tcltk/download.html"
+ UPSTREAM_CHECK_REGEX = "tcl(?P<pver>\d+(\.\d+)+)-src"
 -- 
 2.47.3
 
