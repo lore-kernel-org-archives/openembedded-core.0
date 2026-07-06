@@ -1,101 +1,88 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AFBCC43458
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 14:31:00 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.152363.1783348252744124757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5959C43458
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 16:09:38 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.154772.1783354170438973130
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 07:30:53 -0700
+ Mon, 06 Jul 2026 09:09:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=drL9ndBt;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4938d5f86f3so20624725e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 07:30:52 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=B9OPfcuj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-475417f010dso1770208f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 09:09:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783348251; x=1783953051; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zDWno+hznHqOvOcwGvUzMPVDzs8QqvTHnxL64AXlsgg=;
-        b=drL9ndBtY/AMWnyC2rmxgiBtuxdsGC0RnyvA3cokHjJqK3VeaOnZKkzlowhDS3dGHV
-         q3Zv6yPT2M96E6u4EWZxt9fv8hqTGq8cOFEHuXT0zUJSDZweSbmn7AbWnHRvOcBIogfY
-         6X2yXGWQitrD6t2ZvDwP6ZAB58kc7OOI83FlA=
+        d=linuxfoundation.org; s=google; t=1783354169; x=1783958969; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EAukFZhHkUSKX6zIrT1TB3ROwqm6Xt7yxI3S4k+kWxE=;
+        b=B9OPfcujeZ9Xn4b20Vz3GdzikAvpW1ypw5EjwfXRZwBoKGmk+6Y7CxXat9gmV4sdBd
+         0t/S1HR6OxR6vcHi5oJHnUIqTTfU9zRCJnZ3DDlFKbrZ/EjzSkP6HmeYJ/CXhqtEG84G
+         KzW2AzxBEaYAvuB7fskaN/xQjffuu/5C94Usc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783348251; x=1783953051;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zDWno+hznHqOvOcwGvUzMPVDzs8QqvTHnxL64AXlsgg=;
-        b=Dgwx6vLbjspBzjBTRF+KC4wWO3NuVTQIwlJqiv6tuD99lJqEsroy7yQErF1qzE6Vky
-         YSZrWyZ3NuPZXIkB0Hry0AhR7gHRBwP4EynPImofXunCTekrOv15wVxF6d26v6tUH4Ud
-         OaLSIP/R0DX/fAMBTz79hDibd917bH7EuaKzAu+0KEOkN5GlfxuRvhGdi5b8vJI7+DPa
-         XVTC7tM7uyvQVseS+7jKz4IWc97Aw1rA3jByyF6IUvp+cV19z+YrImg+lMuO56m16b0x
-         rsUupiEicqOAHa6pozohUkR1q7UVHlFEwH/8z31OfIdd5exV6C5MA/z0bvjIhvlXHw7F
-         Jcxg==
-X-Forwarded-Encrypted: i=1; AHgh+RqNTaOkJXZTLDTWWMCbrbbwABhfvVVB7s8naQ4pw7htgdFs+2RtZDgx1LzhDnx6l8Ygnz9azlDNLsxeSYRmKp9kNg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxmLCqWUgMWSxX5LvQg6Ddp0/VCRd/zEQZHbQ4vpVogHc/7o4TG
-	/ku6DUVUMsdYNotzDNH1isHqN/tUP0KHWAJUSzxD4yvwkX7dFaaXR50fJyXl/5DqiPII3x4UxDn
-	C/Iyiijs=
-X-Gm-Gg: AfdE7clk5gXBNJAGt1x90neCxuHEgDQ7/YfcCPpl6K9vFzyShJ+UiBwy/uW3ybEuMtx
-	WfKs6WSmednn6EPWdaUaC9bCEppaM6xy60Y9yAL21tSZTnDklEDveGbijFgNCisnO3yBc8G5a+9
-	l+bdoGnth9/J6M6c0dBz5exz4UDxxjHj/9DcBwrB7c3ClkcWhKEaog7AcXweHE/K789Sp4VXf9v
-	7otvnzx+36ZUTeboWnDyRBv/irsnEg03Kp7maMqptoHWKmXBF5TK7es48JCx0Ec7g/lZYhHI88e
-	64/RfEJlqA8itY7GNmDXW2t9oxQMOux62Z539bfMy91+iB0eSvNQfbe2in5Rf0RJWmW9UD1IFES
-	k6jMp2esqt2RyPyFRKfgWQzFKc24dInJNVXBs6ytXi5fcPD1EQUOs7+9ZTq2IDx50cza5W8oxo5
-	fjo421VzDYH8QFpSk=
-X-Received: by 2002:a05:600c:5352:b0:493:72d2:e96f with SMTP id 5b1f17b1804b1-493c9b43f6amr122401485e9.5.1783348250799;
-        Mon, 06 Jul 2026 07:30:50 -0700 (PDT)
-Received: from localhost ([2001:861:8010:5750:6d3a:72ff:5857:d2a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9de1e785sm24954334f8f.8.2026.07.06.07.30.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 07:30:50 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 06 Jul 2026 16:30:49 +0200
-Message-Id: <DJRK6ZWTJOER.251NKDM8K0T0@smile.fr>
-Subject: Re: [OE-core] [poky][scarthgap][PATCH v4] systemd: backport patch
- to fix journal-file issue
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <sureshannaiah.mailbox@gmail.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260525192952.2813974-1-sureshannaiah.mailbox@gmail.com>
-In-Reply-To: <20260525192952.2813974-1-sureshannaiah.mailbox@gmail.com>
+        d=1e100.net; s=20251104; t=1783354169; x=1783958969;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EAukFZhHkUSKX6zIrT1TB3ROwqm6Xt7yxI3S4k+kWxE=;
+        b=oWPRrzd2+9dIto6tMXgNltL/dc4ELGg7EKeOwjVxX7Fi9WuhQD5EGwSuoWvutgtPZr
+         LfTunEX3EWJrZ6Df4Vcbgh5eu3QOIo3u7yFJKZ2PAoxwolutsfwNatfg+S3bnXrRvQY5
+         KsJq7D8LmO2AonwkF9qS829zHDFxzcKTacne0cnt26GJmjom0WzpjmQmGTX9pbEtVXuE
+         cDmySsZYvbqFrbIQ42qfiAclsDWDeCQCBftHNybTF/p9OwvLj/2W/6ynkw1w4CkJQT+V
+         DWbC8mbeLHNRMRtGvdsJOS1iDwe0nnSsWwgtoMVtVp5Jr+AnSxs1y615CWm1fczpeH5Y
+         yKhQ==
+X-Gm-Message-State: AOJu0YwlyrEY6AzOdZwOgIc3+Eu8rpt0iht2laD93zRNw5ZSanH2WAvG
+	ftbaCvInLJ/dqfTEUzdN0p1uzwryNk2h3WePN5mV2g0idIiQTV4Jb8GBnTHluO3X0eL8A2d84dX
+	7RhzU39U=
+X-Gm-Gg: AfdE7cldYvysL2Juek1BZ49bLjow4FiPe/wG7AUCzLYsa+YZqxY6/bxMdrZixAqg/68
+	NfbxIgvB/ueVPL2dnDxSQtSl2Ob95eGL5IWcxHPzbNXybMeuknmn+bNx9h10wGjXDX8FmtyRGzD
+	uyKk7/hsq7yjemzOcvhfTt7aDtXKlqN8I8W+pjtJPzBoefWoSgotWSIHKbxDsmoP6kwN3gILcqR
+	W0+MSZ7Xa5M68oPo7rAAxZepUZDyHcMYQsxM7VEYWSXS5Jm0oSOEyOGoJBNopV71xJTcYR5DjKR
+	3LOl013ZEg1BEvjKtPkukFwSxuAyc8njW+JOBfvnSo/gMaA7QWmEtj7vV1iIcd8akzzirh2Fg+i
+	pW5vLXBh6WBioqihPdCFTIV9sUvJ0IolQaLx4jn/bpqbG4wjeBxZUmzK5iGvDlO+LsTonCkahft
+	+xjC+qg9dJ2KDrdo3aoO5oPekiMz8UZKvw537IbU5LSEIhONOkQM/L
+X-Received: by 2002:a5d:4801:0:b0:473:53b7:e390 with SMTP id ffacd0b85a97d-47de666b175mr982490f8f.11.1783354168363;
+        Mon, 06 Jul 2026 09:09:28 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3cdb:498e:44d8:3112])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960af0sm23735221f8f.30.2026.07.06.09.09.27
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 09:09:27 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] patchelf: upgrade 0.18.0+git -> 0.19.0
+Date: Mon,  6 Jul 2026 17:09:26 +0100
+Message-ID: <20260706160926.1263007-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 14:31:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240277
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 16:09:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240278
 
-On Mon May 25, 2026 at 9:29 PM CEST, Suresh H A via lists.openembedded.org =
-wrote:
-> Backport patch to fix systemd journal-file assertion on removed or corrup=
-ted files.
->
-> Extracted from systemd MR:
-> https://github.com/systemd/systemd/pull/40378
->
-> Signed-off-by: Suresh H A <sureshannaiah.mailbox@gmail.com>
-> ---
->  ...not-trigger-assertion-on-removed-or-.patch | 65 +++++++++++++++++++
->  meta/recipes-core/systemd/systemd_255.21.bb   |  1 +
->  2 files changed, 66 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-file-d=
-o-not-trigger-assertion-on-removed-or-.patch
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/patchelf/patchelf_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Hello,
-
-As far as I can tell, this patch is needed on wrynose (and master, but
-there is a work in progress 260 upgrade).
-
-Can ou send it there so I can accept this on scarthgap?
-
-Thanks!
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/meta/recipes-devtools/patchelf/patchelf_git.bb b/meta/recipes-devtools/patchelf/patchelf_git.bb
+index daeae961424..6ce77213537 100644
+--- a/meta/recipes-devtools/patchelf/patchelf_git.bb
++++ b/meta/recipes-devtools/patchelf/patchelf_git.bb
+@@ -6,9 +6,9 @@ LICENSE = "GPL-3.0-only"
+ 
+ SRC_URI = "git://github.com/NixOS/patchelf;protocol=https;branch=master \
+ "
+-SRCREV = "b49de1b3384e7928bf0df9a889fe5a4e7b3fbddf"
++SRCREV = "1e279e99b952c765824fa0401abb8dc0d944e4ea"
+ 
+-PV = "0.18.0+git"
++PV = "0.19.0"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e"
+ 
 
