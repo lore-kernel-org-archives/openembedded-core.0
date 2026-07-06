@@ -1,143 +1,142 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <Moritz.Haase@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 012FBC44501
-	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 10:45:17 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.147379.1783334714864769544
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A91CC44500
+	for <webhook@archiver.kernel.org>; Mon,  6 Jul 2026 10:46:07 +0000 (UTC)
+Received: from esa11.hc324-48.eu.iphmx.com (esa11.hc324-48.eu.iphmx.com [207.54.69.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.147390.1783334755844961194
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 03:45:15 -0700
+ Mon, 06 Jul 2026 03:45:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=q+EwkxLA;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 403F91A0E8E
-	for <openembedded-core@lists.openembedded.org>; Mon,  6 Jul 2026 10:45:13 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 0EECF601A2;
-	Mon,  6 Jul 2026 10:45:13 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2F31711BBA00F;
-	Mon,  6 Jul 2026 12:45:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1783334712; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=g5y1PH2vEAmyvduImqFJtJ3ad/q1rYp4LUON897QuEo=;
-	b=q+EwkxLAuSyGw1yqXhR+m8dJBJevjmDC+tSl4qchKSbanT77nli3W5625QLTI3y+aNtCBR
-	jUYH1OmQx99cLZuEWNmz4mbx36Q6DVmXqlCj0A7XbO0wrAN/x68SccZLdZiXaYk0lM70Fa
-	9GyVmPPPefPKvnlC+AibD3v6c+vIIj5ApdfYVGEMNwdRl2pW7esCRLy6ImEo8TRlJGHPcv
-	FKltcYoSN1rzXn6EgXAAJPJq1GMb7RsE+dLg5WDZnYMK7Uxtfajwxgl9z10JLY/G5MRpAC
-	5Y78fzdXbHapPyXZie8LvXEzdC5BTMaxkdhV8W9QBKHiLjW4I7q05Zp2fIQxHg==
-From: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
-Date: Mon, 06 Jul 2026 12:45:07 +0200
-Subject: [PATCH 2/2] python3: fix CVE-2026-11972
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=BaYEF72s;
+ spf=permerror, err=parse error for token &{10 18 256wvd6dc.spf.checkpoint-spf.com}: parse error for token &{10 18 %{ir}.256wvd6dc.spf.checkpoint-spf.com}: invalid domain name (domain: bmw.de, ip: 207.54.69.30, mailfrom: prvs=64019c500=moritz.haase@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1783334756; x=1814870756;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nj0616Xt0KTy5UdFi2rd2cel6hFgZkKBdRjRtPV+/y4=;
+  b=BaYEF72sDkQF8LWWvh9qmAgp5cPYllkcRdwQxL1IzxjKJIUYtu71jX2C
+   22X1XyqZ5Sijqz03NJS4qLGym/+oI5mf9Vdrp/Rhq8hRuNrlyswTveSr1
+   mSpxydboR1yAMFzd6k/vK3wfmvvL8wuOrsYr347fJdKA7WKPCZxaJ5aSD
+   U=;
+X-CSE-ConnectionGUID: k+IqXFWpQZqAo6znvfbhmQ==
+X-CSE-MsgGUID: 0e99tAXWShisn9iU5UmpoA==
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+ esa11.hc324-48.eu.iphmx.com with ESMTP/TLS; 06 Jul 2026 12:45:53 +0200
+Received: from unknown (HELO esabb6.muc) ([10.31.187.137]) by esagw4.muc with
+ ESMTP/TLS; 06 Jul 2026 12:45:55 +0200
+Received: from smucmp17c.bmwgroup.net (HELO smucmp17c.europe.bmw.corp)
+ ([10.30.13.153]) by esabb6.muc with ESMTP/TLS; 06 Jul 2026 12:45:54 +0200
+Received: from smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) by
+ smucmp17c.europe.bmw.corp (2a03:1e80:a15:58f::1:46) with Microsoft SMTP
+ Server (version=TLS; Mon, 6 Jul 2026 12:45:53 +0200
+Received: from q1054628.de-cci.bmwgroup.net (10.30.85.209) by
+ smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44) with Microsoft SMTP
+ Server (version=TLS; Mon, 6 Jul 2026 12:45:53 +0200
+X-CSE-ConnectionGUID: fHXOBACgR5qp+GqWF7kX6w==
+X-CSE-MsgGUID: 5hGYgjT2QzOfpvQ/fK9GFQ==
+X-CSE-ConnectionGUID: WDVoW+ObT1KN845ogTwE5A==
+X-CSE-MsgGUID: UJzWvEimQ0GuTBFXULIg1Q==
+From: Moritz Haase <Moritz.Haase@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Moritz Haase <Moritz.Haase@bmw.de>, <alex.kanavin@gmail.com>,
+	<mathieu.dubois-briand@bootlin.com>, <Ross.Burton@arm.com>
+Subject: [PATCH v4] json-c: upgrade 0.18 -> 0.19
+Date: Mon, 6 Jul 2026 12:45:39 +0200
+Message-ID: <20260706104539.3313976-1-Moritz.Haase@bmw.de>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260706-fix-cves-python-master-v1-2-9a2a86be5bfd@bootlin.com>
-References: <20260706-fix-cves-python-master-v1-0-9a2a86be5bfd@bootlin.com>
-In-Reply-To: <20260706-fix-cves-python-master-v1-0-9a2a86be5bfd@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: olivier.benjamin@bootlin.com, mathieu.dubois-briand@bootlin.com, 
- pascal.eberhard@se.com, wahid.essid@se.com, 
- "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
-X-Mailer: b4 0.15.2
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: smucmp17d.europe.bmw.corp (2a03:1e80:a15:58f::1:66) To
+ smucmp21a.europe.bmw.corp (2a03:1e80:a01:524::1:44)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:45:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240241
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jul 2026 10:46:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240244
 
-When using the "tarfile" module with a file opened in "streaming mode"
-(mode="r|") the tarfile module did not properly handle EOF, making archive
-parsing take exponentially longer.
+Release notes are available at [0].
 
-Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+Newly added tests (see [1]) require the 'json_parse' app at (test) runtime.
+Thus, apps are now being built and the 'json_parse' app is deployed in the
+'ptest' package. We do not package the apps separately as upstream doesn't
+consider them to be ready for that (see [2]). This approach is based on the
+discussion in [3].
+
+[0]: https://github.com/json-c/json-c/blob/json-c-0.19/ChangeLog
+[1]: https://github.com/json-c/json-c/blob/d9d8cab82291637671f6c90cf06e578750a08718/tests/test_json_parse_cli.test#L18
+[2]: https://github.com/json-c/json-c/blob/d9d8cab82291637671f6c90cf06e578750a08718/apps/CMakeLists.txt#L122-L124
+[3]: https://lists.openembedded.org/g/openembedded-core/topic/120026557#
+
+Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
+CC: alex.kanavin@gmail.com
+CC: mathieu.dubois-briand@bootlin.com
+CC: Ross.Burton@arm.com
 ---
- .../python/python3/CVE-2026-11972.patch            | 59 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.14.6.bb     |  1 +
- 2 files changed, 60 insertions(+)
+changes in v4:
+- Remove explicit ptest RDEPENDS to xxd, as it will be provided by busybox to
+  avoid pulling in a number of dependencies.
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2026-11972.patch b/meta/recipes-devtools/python/python3/CVE-2026-11972.patch
-new file mode 100644
-index 000000000000..7dc9c6697112
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2026-11972.patch
-@@ -0,0 +1,59 @@
-+From 2d256d4bfd654bdcaf2d96733799be73b8ff8f69 Mon Sep 17 00:00:00 2001
-+From: Petr Viktorin <encukou@gmail.com>
-+Date: Tue, 23 Jun 2026 15:13:30 +0200
-+Subject: [PATCH 2/2] gh-151981: Make tarfile._Stream.seek break at EOF
-+ (GH-151982)
-+
-+CVE: CVE-2026-11972
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/f50bf13566189c8d0ce5a814f33eff3d89951896]
-+
-+Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
-+---
-+ Lib/tarfile.py           |  4 +++-
-+ Lib/test/test_tarfile.py | 16 ++++++++++++++++
-+ 2 files changed, 19 insertions(+), 1 deletion(-)
-+
-+diff --git a/Lib/tarfile.py b/Lib/tarfile.py
-+index 63f23490e8a1..399f906efdff 100644
-+--- a/Lib/tarfile.py
-++++ b/Lib/tarfile.py
-+@@ -524,7 +524,9 @@ def seek(self, pos=0):
-+         if pos - self.pos >= 0:
-+             blocks, remainder = divmod(pos - self.pos, self.bufsize)
-+             for i in range(blocks):
-+-                self.read(self.bufsize)
-++                data = self.read(self.bufsize)
-++                if not data:
-++                    break
-+             self.read(remainder)
-+         else:
-+             raise StreamError("seeking backwards is not allowed")
-+diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-+index 0fc7413be8db..045377d620cc 100644
-+--- a/Lib/test/test_tarfile.py
-++++ b/Lib/test/test_tarfile.py
-+@@ -4786,6 +4786,22 @@ def valueerror_filter(tarinfo, path):
-+         with self.check_context(arc.open(errorlevel='boo!'), filtererror_filter):
-+             self.expect_exception(TypeError)  # errorlevel is not int
-+
-++    @support.subTests('format', [tarfile.GNU_FORMAT, tarfile.PAX_FORMAT])
-++    def test_getmembers_big_size(self, format):
-++        # gh-151981: A loop in seek() for streaming files tried to read the
-++        # declared number of blocks even at EOF
-++        tinfo = tarfile.TarInfo("huge-file")
-++        tinfo.size = 1 << 64
-++        bio = io.BytesIO()
-++        # Write header without data
-++        bio.write(tinfo.tobuf(format))
-++
-++        # Reset & try to get contents
-++        bio.seek(0)
-++        with tarfile.open(fileobj=bio, mode="r|") as tar:
-++            with self.assertRaises(tarfile.ReadError):
-++                tar.getmembers()
-++
-+
-+ class OverwriteTests(archiver_tests.OverwriteTests, unittest.TestCase):
-+     testdir = os.path.join(TEMPDIR, "testoverwrite")
-+--
-+2.54.0
-diff --git a/meta/recipes-devtools/python/python3_3.14.6.bb b/meta/recipes-devtools/python/python3_3.14.6.bb
-index 23fc152950ea..a45a4561339f 100644
---- a/meta/recipes-devtools/python/python3_3.14.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.6.bb
-@@ -23,6 +23,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Update-test_sysconfig-for-posix_user-purelib.patch \
-            file://0001-prefer-valid-entrypoints.patch \
-            file://CVE-2026-11940.patch \
-+           file://CVE-2026-11972.patch \
+changes in v3:
+- Deploy required app differently to hopefully fix failures seen
+  on Autobuilder (see [4]).
+
+changes in v2:
+- Build and deploy apps required to fix ptest failure, as discussed in [3].
+
+[4]: https://lists.openembedded.org/g/openembedded-core/topic/120061116#msg240021
+[5]: https://lists.openembedded.org/g/openembedded-core/topic/patch_v3_json_c_upgrade/120097794
+---
+ .../json-c/{json-c_0.18.bb => json-c_0.19.bb}    | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+ rename meta/recipes-devtools/json-c/{json-c_0.18.bb => json-c_0.19.bb} (70%)
+
+diff --git a/meta/recipes-devtools/json-c/json-c_0.18.bb b/meta/recipes-devtools/json-c/json-c_0.19.bb
+similarity index 70%
+rename from meta/recipes-devtools/json-c/json-c_0.18.bb
+rename to meta/recipes-devtools/json-c/json-c_0.19.bb
+index c112aacf4bceb0c41dbe2e1643d2d7e0944bf250..e42d4f6f567f077c338dc8d00af7004ec0d93271 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.18.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.19.bb
+@@ -9,20 +9,17 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+ SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
+            file://run-ptest \
             "
- SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-
--- 
-2.54.0
-
+-SRC_URI[sha256sum] = "876ab046479166b869afc6896d288183bbc0e5843f141200c677b3e8dfb11724"
++SRC_URI[sha256sum] = "37ad0249902e301bd9052bf712e511fcc6acff4ecaad4b5900aad9ce564e26de"
+ 
+ # NVD uses full tag name including date
+-CVE_VERSION = "0.18-20240915"
++CVE_VERSION = "0.19-20260627"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
+ UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
+ 
+ RPROVIDES:${PN} = "libjson"
+ 
+-# Apps aren't needed/packaged and their CMakeLists.txt is incompatible with CMake 4+.
+-EXTRA_OECMAKE = "-DDISABLE_WERROR=ON \
+-                 -DBUILD_APPS=OFF \
+-"
++EXTRA_OECMAKE = "-DDISABLE_WERROR=ON"
+ 
+ inherit cmake ptest
+ 
+@@ -33,6 +30,13 @@ do_install_ptest() {
+     install ${S}/tests/*.expected ${D}/${PTEST_PATH}/tests
+     install ${S}/tests/test-defs.sh ${D}/${PTEST_PATH}/tests
+     install ${S}/tests/*json ${D}/${PTEST_PATH}/tests
++
++    # The 'json_parse_cli' test executes the 'json_parse' app via
++    # '../apps/json_parse' so we package it accordingly.
++    #
++    # Note that the test also depends on xxd, which is provided via busybox and
++    # thus not listed as an explicit RDEPENDS.
++    install -D -t ${D}/${PTEST_PATH}/apps/ ${B}/apps/json_parse
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
 
