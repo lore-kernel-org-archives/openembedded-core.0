@@ -2,128 +2,206 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28395C43458
-	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 14:19:28 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.174394.1783433963489235121
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A157EC43458
+	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 14:24:28 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.175600.1783434260092719403
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jul 2026 07:19:23 -0700
+ Tue, 07 Jul 2026 07:24:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=wZ7b62oh;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47de0093c42so2318689f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 07:19:23 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=vOHIva7R;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493b61b52b6so30994825e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 07:24:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783433962; x=1784038762; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1783434258; x=1784039058; darn=lists.openembedded.org;
         h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=poCx4roC29JtKC4oQhQB/o843wKuCgZkz2SNeCuVssw=;
-        b=wZ7b62ohsDjSvNKY7PCAkiT9a6PcXuNJxummzMwII2+m3wPYCLoElCLTR5WbISCKsk
-         EDOxpujrDpt6QlYymH59RcapH59vIEOsvWgkigHkVdJJxyFRb0Dq6vSaNGAb3BIixIbM
-         FgQ283iz2O/hZ2JV6koBCLl1XYiFnnV++dKv4=
+        bh=wXG/Bqo54lfRzFn97lav/WK9ifamLjBD1S0Ylf4nv1I=;
+        b=vOHIva7RMc63jqiI2WkyZocbs6piHhKsa8ZjSLfF4Lovy0BW05Z9aZsgOB/JVr3MQ3
+         TiWtEUtYcJC0WjMBmmQNb3gnTQfZS7B7o/btT5pbrSS3iqYWJZhfoxjyvgrTDt8zmdbB
+         4Bmu1fIvUX5yUXiMH80hHG2maRwhk+DyOMebI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783433962; x=1784038762;
+        d=1e100.net; s=20251104; t=1783434258; x=1784039058;
         h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=poCx4roC29JtKC4oQhQB/o843wKuCgZkz2SNeCuVssw=;
-        b=UeP25cx/ihjiFnUncIEc/y425TBA97uFwKoE1kq5mZXz8Kcwd0K8kw7JnzjgENr0yP
-         IpOHarkFmdYBwqUMZiB7qOJT/9Haj/n3JByNui8xU/QC7aZ1VnkSLz0GJcmP5u9T0yjy
-         rk1Ozs8CMO2k5+xA+afLbuXCnDlXMoVfWNBe3xmTiYADgpT3bq7viYnIgSOsZNJTqAUL
-         kloTnrB8REFkdHjWpsajeRfyOsmvCjFGUGNKMR+RJdTJf8AHpN3XjmOIM5QbpwuHesEm
-         T9Wvt9+vfeSZYzfbfAVDEv0oFQ0VAwS7XZUFqgT+4xXWpA8oDc1P/F4dkme5pAALn8yT
-         xroA==
-X-Forwarded-Encrypted: i=1; AHgh+RqyECjRUD3g6x8RgCEVHcbR/oNAXPJmnugVD8M+ieN/IeO8ynSECKsN5izBuKI6pLRw+UWGN5rj3nGX4r6v7evxJQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx6rO/5BVT9son33JPgqB0EkIsf0MWzr5jhBzVb/isdjpfSjeVx
-	gR5NbJSz7xnAijFSmznXCnFEwCRsgRtd353pEpqW6rqiNR8yiyocgDk49VHfda9mM+RHV8kxaAx
-	OF2TTNQg=
-X-Gm-Gg: AfdE7cmzZnYZRv/w5YQvkZqkR/3Y3OHHe+M408dZ2OCB5oeNY+UNdaQIZ03bXHMQAVo
-	zjB0z3ADXb6DhKnbxMAB1qosrXVtrDNBHgHloM6RLbMVYu1Nmylzc+oOlBnSGK2ZiFQ1KMn3T94
-	oPpXnAZRh4kYr9D3skyu30IN0Pbxhwm4xmocCvzC7C25OK7rC8OU7b6YU1cNksYyonOuVs2HbBG
-	u+mHOWkuaCO0LsdCnZ6rb5jp7hEiuHz24ZJ3m+XRovdApCb9a/QN62i2zEgGefLxN6wVRyHjf84
-	o4bqJqpoOlBBmn3duUcSVigDeJbqoHnmh8yLdSOaJQygHyma/9WueSdWlyL0U44zxFyjD2uopMG
-	DU26t50Ec/2/pWb1OV+mKH9VxMuLYlMikvXUoGUwbtadv4QDS1HYxEx9fbZaRSkBjkvx0KxWZWc
-	0h8np2IY36VRyi2L+GmzkHwCE7BY55UOtqiy2nq8K6W8Iegpw355Zm8Mu5A8jz3KEBgKaQpRvm
-X-Received: by 2002:adf:e005:0:20b0:441:1e8e:d8fd with SMTP id ffacd0b85a97d-47de66be4f2mr4250198f8f.29.1783433959948;
-        Tue, 07 Jul 2026 07:19:19 -0700 (PDT)
+        bh=wXG/Bqo54lfRzFn97lav/WK9ifamLjBD1S0Ylf4nv1I=;
+        b=atFoTVejRv9siFJQK023OsxpX/Leg4zyorQAcdl9b7Wpy8erWWtGdsbZUBu0yY/EWi
+         Fvr7y85UGXdajVmw0PgncfiPtKGJVNv5SjbAYk2EUviNULoju/LbfmqFnAE7E2+HMyLa
+         ugVAbF4AzUIhRtriHwpJTakGgqc2QtamIsHW6luohey2om7/WPka+/NE0q+g2m778QPD
+         upc0DHscEyaHzycJ4qLSJrmNlEXF5+2c4T8K5EBiDExIxv+hmDQMIGgMVveg1pA4zqKi
+         csUXPgcu7WlPZiynKe9OulPeyDvmss9NTB6X18/Qr1MRckzUBouqOfUsGBRtzBMAMSHM
+         6oFA==
+X-Forwarded-Encrypted: i=1; AHgh+RpxwzbPv021+BLRWLHt+Ypx77W6xtb556NVS0N2TamJiZZCUNz5Crf4/3tFdi0s2Wtpk5ATKYHb3UdDViYarD5BRA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxZOvXfcmHFzUN6r3Tuy4JIvfN8+2whjBlVg3sfeDzicAOrECui
+	2n/N2zzDZAbdpxEZI4tOMo9zBpqlzHq0MoALPqDxMKyj6sLB6uvqgH5YONb9AJFPhx0=
+X-Gm-Gg: AfdE7ckXD0eK4g88/aVIfjK7u1CR9YmqZ34VZ4egfD0MjE+Jw3I8P4Qwg3j/QIxU8tx
+	uz/pxdz0gBM6Fyk+S2I+2iueJ8RXwIFXRpq+Do5zYJJWFgtp2m4iqv5m+J6uFljoEvsQzkj1xn2
+	+2tAo+klWYHtPvFdXURZsJ4Nq2SID/AHj0cf00DOJSFWICA61Qhbo+Xja24yxXdl+DdhpzMqmeQ
+	oz7jMcaroGlrfVNNJCOOFbpok0KzJ79jAXsO6mU4vjU9BoBFOgWM8jxONZnPqqkmAmNo/WRTdoy
+	tpvkVy2ZFmTqqOXJw8AUzrDTygB30kHtppEQUhgbSG14ojk/98GdJJO+V4ct+x1I0A0YDgjeucr
+	N8suPpRHA66LL9DOVSe4li3Np9pjCCdi8AAgAH/oMsS9a8BL0h3k14zg9rYdatthxs4kdSqAbIU
+	PD4E+1wPIWRcli8vUZIOIM351oQHKpj4RLIVgMWuhknov/cJKqWJn8AVxJT6Mcf0rCA5MESRoL
+X-Received: by 2002:a05:600c:3514:b0:493:b7cb:c5f with SMTP id 5b1f17b1804b1-493df05f8d4mr55834975e9.11.1783434258138;
+        Tue, 07 Jul 2026 07:24:18 -0700 (PDT)
 Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9de1d905sm34664145f8f.2.2026.07.07.07.19.19
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9de1e6ccsm34660301f8f.5.2026.07.07.07.24.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jul 2026 07:19:19 -0700 (PDT)
+        Tue, 07 Jul 2026 07:24:17 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 07 Jul 2026 16:19:19 +0200
-Message-Id: <DJSEKQDGSPHQ.2M0JQNBI2DWOP@smile.fr>
-Subject: Re: [OE-core][wrynose][PATCH] create-spdx-image-3.0: correct
- SSTATE_SKIP_CREATION key for do_create_image_sbom_spdx
+Date: Tue, 07 Jul 2026 16:24:17 +0200
+Message-Id: <DJSEOJECWK9X.ANVISE5T9476@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH v2] bind: Upgrade 9.18.44 -> 9.18.49
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <reatmon@ti.com>, <openembedded-core@lists.openembedded.org>
+To: "Ashishkumar Parmar -X (asparmar - E INFOCHIPS PRIVATE LIMITED at
+ Cisco)" <asparmar@cisco.com>, "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260707135830.4070072-1-reatmon@ti.com>
-In-Reply-To: <20260707135830.4070072-1-reatmon@ti.com>
+References: <20260630060410.1203985-1-asparmar@cisco.com>
+ <DJS9H2DLIVVC.2DDDZVKTEK2TS@smile.fr>
+ <PH0PR11MB5902116D97221B6725047B50CFF02@PH0PR11MB5902.namprd11.prod.outlook.com>
+In-Reply-To: <PH0PR11MB5902116D97221B6725047B50CFF02@PH0PR11MB5902.namprd11.prod.outlook.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 14:19:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240390
-
-On Tue Jul 7, 2026 at 3:58 PM CEST, Ryan Eatmon via lists.openembedded.org =
-wrote:
-> From: "Eric Meyers via lists.openembedded.org" <eric.meyers15310=3Dgmail.=
-com@lists.openembedded.org>
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 14:24:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240391
 
 Hello,
 
-FYI, I've cherry-picked that into my review branch to avoid this mangled
-"From:" line.
+On Tue Jul 7, 2026 at 3:24 PM CEST, Ashishkumar Parmar -X (asparmar - E INF=
+OCHIPS PRIVATE LIMITED at Cisco) wrote:
+> Thanks, Yoann.
+>
+> Yes, feature changes are usually not something we should take in stable.
+>
+> For this BIND work, I first submitted the individual CVE backport patches=
+ for scarthgap:
+>
+> - CVE-2026-1519:
+>   https://patchwork.yoctoproject.org/project/oe-core/patch/20260610100404=
+.2993940-1-asparmar@cisco.com/
+> - CVE-2026-5950:
+>   https://patchwork.yoctoproject.org/project/oe-core/patch/20260610100404=
+.2993940-2-asparmar@cisco.com/
+> - CVE-2026-3592:
+>   https://patchwork.yoctoproject.org/project/oe-core/patch/20260610100404=
+.2993940-3-asparmar@cisco.com/
+> - CVE-2026-3039:
+>   https://patchwork.yoctoproject.org/project/oe-core/patch/20260610100404=
+.2993940-4-asparmar@cisco.com/
+> - CVE-2026-5946:
+>   https://patchwork.yoctoproject.org/project/oe-core/patch/20260610100404=
+.2993940-5-asparmar@cisco.com/
+>
+> During review, the feedback was that BIND is one of the rare projects
+> where the upstream stable branch matches OE stable policy, and that
+> upgrading along the 9.18 branch would be preferable to carrying a
+> large CVE backport patch stack. That is why I superseded the backport
+> series and sent the 9.18.44 -> 9.18.49
+> upgrade instead:
+>
+> https://patchwork.yoctoproject.org/project/oe-core/patch/20260630060410.1=
+203985-1-asparmar@cisco.com/
+
+Sorry, I totally forgot that I was the one suggesting the upgrade.
+
+> For the specific 9.18.45 changelog item you pointed out, the change is
+> limited to ISC's upstream system test suite. It raises the Python
+> requirement for running `bin/tests/system` and tracks those test-suite
+> Python dependencies in `bin/tests/system/requirements.txt`.
+>
+> OE-Core's `bind` recipe does not enable or package that upstream
+> system test suite and does not inherit `ptest`, so this change is not
+> part of the target build, installed packages, runtime dependencies, or
+> runtime behavior.
+>
+> So the reason for the upgrade is that it follows the earlier review
+> direction to use the BIND 9.18 stable branch, while this particular
+> feature change is test-suite-only and not target-visible in OE-Core.
+
+I agree with proceeding with the upgrade.
+Can you put a shorter explanation of the above in your commit message to
+help future reviewer?
 
 Thanks!
 
 >
-> The override was "task-create-image-sbom" but BitBake derives it as
-> "task-create-image-sbom-spdx" (do_ stripped, underscores to hyphens), so
-> the skip was never applied. The task then cached an ${IMAGE_NAME}-stamped
-> SBOM in sstate, letting a stale spdx.json be restored via setscene. A
-> later do_sbom_cve_check would compute the current IMAGE_NAME and fail wit=
-h
-> "No such file or directory" on the missing timestamped SBOM. Correct the
-> key so the image SBOM is always regenerated, never restored from sstate.
+> Regards,
+> Ashish
+> ________________________________
+> From: Yoann Congal <yoann.congal@smile.fr>
+> Sent: 07 July 2026 15:49
+> To: Ashishkumar Parmar -X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisc=
+o) <asparmar@cisco.com>; openembedded-core@lists.openembedded.org <openembe=
+dded-core@lists.openembedded.org>
+> Cc: xe-linux-external (Internal Group) <xe-linux-external@cisco.com>
+> Subject: Re: [OE-core][scarthgap][PATCH v2] bind: Upgrade 9.18.44 -> 9.18=
+.49
 >
-> Signed-off-by: Eric Meyers <eric.meyers@arthrex.com>
-> Cc: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/classes-recipe/create-spdx-image-3.0.bbclass | 2 +-
->  meta/classes-recipe/nospdx.bbclass                | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> On Tue Jun 30, 2026 at 8:04 AM CEST, Ashishkumar Parmar X (asparmar - E I=
+NFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+>> From: Ashishkumar Parmar <asparmar@cisco.com>
+>>
+>> This upgrade fixes CVE-2026-1519, CVE-2026-3039, CVE-2026-3592, CVE-2026=
+-5946 and CVE-2026-5950.
+>>
+>> Changelog
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> https://downloads.isc.org/isc/bind9/9.18.49/doc/arm/html/notes.html
 >
-> diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass b/meta/cla=
-sses-recipe/create-spdx-image-3.0.bbclass
-> index 15a91e90e2..cf79ef5b01 100644
-> --- a/meta/classes-recipe/create-spdx-image-3.0.bbclass
-> +++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
-> @@ -71,7 +71,7 @@ python do_create_image_sbom_spdx() {
->  }
->  addtask do_create_image_sbom_spdx after do_create_rootfs_spdx do_create_=
-image_spdx before do_build
->  SSTATETASKS +=3D "do_create_image_sbom_spdx"
-> -SSTATE_SKIP_CREATION:task-create-image-sbom =3D "1"
-> +SSTATE_SKIP_CREATION:task-create-image-sbom-spdx =3D "1"
->  do_create_image_sbom_spdx[sstate-inputdirs] =3D "${SPDXIMAGEDEPLOYDIR}"
->  do_create_image_sbom_spdx[sstate-outputdirs] =3D "${DEPLOY_DIR_IMAGE}"
->  do_create_image_sbom_spdx[stamp-extra-info] =3D "${MACHINE_ARCH}"
-> diff --git a/meta/classes-recipe/nospdx.bbclass b/meta/classes-recipe/nos=
-pdx.bbclass
-> index 7c99fcd1ec..aec73ca54c 100644
-> --- a/meta/classes-recipe/nospdx.bbclass
-> +++ b/meta/classes-recipe/nospdx.bbclass
-> @@ -10,4 +10,4 @@ deltask do_create_spdx_runtime
->  deltask do_create_package_spdx
->  deltask do_create_rootfs_spdx
->  deltask do_create_image_spdx
-> -deltask do_create_image_sbom
-> +deltask do_create_image_sbom_spdx
+> That changelog contains:
+> | Notes for BIND 9.18.45
+> |   Feature Changes
+> |    Update requirements for system test suite.
+> |      Python 3.10 or newer is now required for running the system test
+> |      suite. The required Python packages and their version requirements
+> |      are now tracked in the file bin/tests/system/requirements.txt. [GL
+> |      #5690] [GL #5614]
+>
+> Feature changes are not usually acceptable for stable. Can you justify
+> why this is the case here?
+>
+> Thanks!
+>
+>>
+>> Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
+>> ---
+>>  .../bind/{bind_9.18.44.bb =3D> bind_9.18.49.bb}                   | 2 +=
+-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>  rename meta/recipes-connectivity/bind/{bind_9.18.44.bb =3D> bind_9.18.4=
+9.bb} (97%)
+>>
+>> diff --git a/meta/recipes-connectivity/bind/bind_9.18.44.bb b/meta/recip=
+es-connectivity/bind/bind_9.18.49.bb
+>> similarity index 97%
+>> rename from meta/recipes-connectivity/bind/bind_9.18.44.bb
+>> rename to meta/recipes-connectivity/bind/bind_9.18.49.bb
+>> index d424edcb4e..723a09e739 100644
+>> --- a/meta/recipes-connectivity/bind/bind_9.18.44.bb
+>> +++ b/meta/recipes-connectivity/bind/bind_9.18.49.bb
+>> @@ -20,7 +20,7 @@ SRC_URI =3D "https://ftp.isc.org/isc/bind9/${PV}/${BPN=
+}-${PV}.tar.xz \
+>>             file://0001-avoid-start-failure-with-bind-user.patch \
+>>             "
+>>
+>> -SRC_URI[sha256sum] =3D "81f5035a25c576af1a93f0061cf70bde6d00a0c7bd1274a=
+bf73f5b5389a6f82d"
+>> +SRC_URI[sha256sum] =3D "c43ce4548ebed788cd9df63658a7de105ceafba43fcd63f=
+a352b1093e525cd24"
+>>
+>>  UPSTREAM_CHECK_URI =3D "https://ftp.isc.org/isc/bind9/"
+>>  # follow the ESV versions divisible by 2
+>
+>
+> --
+> Yoann Congal
+> Smile ECS
 
 
 --=20
