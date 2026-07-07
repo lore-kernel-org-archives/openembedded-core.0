@@ -1,115 +1,105 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86403C43458
-	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 14:40:08 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.175912.1783435198902586620
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 699C1C43602
+	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 14:40:28 +0000 (UTC)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.175923.1783435219890619575
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jul 2026 07:39:59 -0700
+ Tue, 07 Jul 2026 07:40:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Xz/oJ0yz;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493b77b150aso39014015e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 07:39:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=SBCrIGFa;
+ spf=pass (domain: gmail.com, ip: 209.85.221.170, mailfrom: twoerner@gmail.com)
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5bd742ef278so812378e0c.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 07:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783435197; x=1784039997; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=5eMv961btD5+qA63gyGnD0csrSV2/Oy3VIX2k2A3K8g=;
-        b=Xz/oJ0yzaDorZXZBvpsq6AxraIUJ83gWzsFIxWQ+BK/FYIoy/lNjjQo++4A9boiSK0
-         O/e+4c1Y5J8smd5IxOAyY0lz0JSNPhf9f1TAz//y5kWqNQpVEikWQ1B/hPCv6JQDHy4z
-         W2ctGM+byXskBN9qjHyNdHBMAklbp5+EyiIb8=
+        d=gmail.com; s=20251104; t=1783435219; x=1784040019; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LuKNRaf2LnbuvpFPN47vT/ODN8O3ViMjL2qBptYjSaw=;
+        b=SBCrIGFaWIBFMepDXbw0Y0s4ls1gMyzrRtehRKrWHJFjKzWcOJy95IQCPps+zTbGo+
+         Q7jRkSm1QujDkwJYQwaMf82brg0VX0N464YRZ+x2sNKT51hQAQefXmpsFWHfJFRtTZf+
+         brKDnMJ4Cxqlaox2Z98A/PGZPgO4eXDGl/6Oha7GlMreFMG4F3AShJJjvdUJyrF4a/yC
+         FHGV1+ZCF1ZArMPdSegaFPeE12iWs0v4l3v/5c6mEA+3SkpRLYY3lcMCQivH2p1b253x
+         ZjliuLSN16EhutASrF+8T8SjO/AGdAAtXhmVBXMP2EJupSEtaU7mNqA/kW51w4yVpIde
+         fwYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783435197; x=1784039997;
-        h=in-reply-to:references:from:subject:to:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5eMv961btD5+qA63gyGnD0csrSV2/Oy3VIX2k2A3K8g=;
-        b=B9fI0WHgQ21hDMN0dm2DwhjTpWUKyA7tiAewBV4I+cMJ8huAGqwEOcsgP4bmHjclZB
-         LiJkynVcOTmQDoDcHhONXB4PJVarKqE0fmobWUQDeBMXWQL27NDigJ2Im1idtGPkNG7i
-         iDBiLvWGTpx+mJLX4AyCxwE8FAkih0d7OiqszlRZZuZIpDcMcx3PNz7LhrJJD0qUqcZG
-         GHp1rGuGgaV0sZDsqjSGMvi8UwmXP55fI+xwXm4+UYA6MF0Aovv6NXZdmdGBlpePcpjF
-         IUpFPFgjBngoR25W7dsla/GZt33ZbwUHrAuXfc3uxr7Is0AujyVmwJpTxoqkZZITCXbS
-         5V3Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpqRw2Xqe7l9oQpdD7Xm7H7zZjtWGpTUvqM1v4xBDypqT02sKD5/AIEFrXHJeAI7cC7ihuanvRyqIwco25q1gNbNg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxcGz4E9QGVitX24XgiBfT9mO6OfNnLG09WHKSVD2KhSAiRhnNM
-	qR5kDTIcO+gap+nfNH9TBFcvEwkfFUZc0scVa9O0cto1hjasgZdWm6JlttopVgQIfCeL+FIoTuO
-	U9tAHkLM=
-X-Gm-Gg: AfdE7cksG11utAOlFX5KMYJhGDgPqy+i+avJfb3lX3Xy1Q3W7Pv+CY9Y3K1CIxqYX8k
-	ptZwBAcEe+7KO3SYWOblvLLZHJYnPe46EArVDAY9amvpp1QpL4z24nG9vtvkiz9cgJWHuJUGC4l
-	rIbBlw255zUemhg0nfVhcIU38f7VL2XvVLeKoFZJPAp8MpBDlsmvO2QMedB93Xkil7C0R4dzkm5
-	tMqqgdsJ4s1EH1OgXGcs/Abhnq2IfG/faruReAydIL9ufhjz2QlZgylzp2nTtmA6XoXNYiPvXSN
-	7ujDnQ//r7w2iLMU4IVnKIMwM1uRlviP8MdMxAs5Zdu0e4sFOIUgG5ZRtz47VQAhp688vAHBCgz
-	l8n+8PuHklpzr/94/tkyFb6NIDJpbxab2IcM5i03Phl3+4ezfx3H+e5kYEhvKuvX/UbiKroIajM
-	N6ELacfdp4U+kzdonZLNsbdGbwIaC3vqD5qhneJQ7ypf5MQVLrFCvax4zy2PwzjbiQltRgY/+0y
-	IkvxCZ05q4=
-X-Received: by 2002:a05:600c:4e8b:b0:493:b877:fbc with SMTP id 5b1f17b1804b1-493df080c50mr59721415e9.21.1783435196842;
-        Tue, 07 Jul 2026 07:39:56 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e0fbb410sm63182065e9.12.2026.07.07.07.39.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jul 2026 07:39:56 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 07 Jul 2026 16:39:56 +0200
-Message-Id: <DJSF0IKOYWX0.IQEKXHTTCXD3@smile.fr>
-Cc: <kris.gavvala@windriver.com>
-To: <Kris.Gavvala@windriver.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap][PATCH] python3: skiptest
- tracemalloc_track_race
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260703042107.2148608-1-kris.gavvala@windriver.com>
-In-Reply-To: <20260703042107.2148608-1-kris.gavvala@windriver.com>
+        d=1e100.net; s=20251104; t=1783435219; x=1784040019;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LuKNRaf2LnbuvpFPN47vT/ODN8O3ViMjL2qBptYjSaw=;
+        b=PCOHsa2S84hBY6o06HCp6t3g+mc09I/3fqROgBi5FDmeenH63YPoQ0Ypb+qnkmy7tO
+         Nqv/ViHtH88MDrZzVEpW2jCwJgIApHOEXjhWSxZVYiGG9sTPLIAj5YNyQ0NwOcPFMC4w
+         7z6hK5lN0GI0lpQiG36ZIeQ+lNEyy9YhNZWd0BtFvU/RBLacnTdWT3MuGu3FcggbjTib
+         6iYwZDuyDUvrAem5u/OdAFTFM/i3q3Vr8LkMdNTga/eKcAOWC/xW81FqFMNIWf//opyU
+         HuposA2drXG2FwWcofBQT32GkTdYQJOdLWD/MyZv2xZ8Nde2GeOxuMTaVvlAv5IFE3/5
+         Jfww==
+X-Gm-Message-State: AOJu0YzkgK++Y4ay0YyarDpV9ThL/yvh5AuJzkEnnhFkOyi/fOlM0m/x
+	sJcswkrBMP1T2HvKQ5rEmkb/vshSO2knaqX/oY4j1JxwfU1x+3HxXUFKvudrcMcH
+X-Gm-Gg: AfdE7clRT/tpV6EEUH9LKEH0v/zf7DDmDrk/mwDqIPwMRZ0wadg9a0/i/XBLvc43cCZ
+	lPfCPyfRwwC18O5V5PbtKZ7N+THwQaEh1wxST0mqRvW5Q3k5+x8Zzt7UtCwa+lFK1BaWScLwZS/
+	gWn7U+t8ls5PJCCJkIZ92jIHZxqaHsaT9FspO3XpJuwZb67SDr6IHL+gu4tc9ckQGdE9+pqL1T0
+	pBmoCuNPTUxB2YA8SVLiw1JPljgkb82Z0z21qgwX/8014XbBweHA2C+hnNIqLpzMFf9Eg34Yd4i
+	O96k6c3G9sPztDf6kDGmgrm4gMZ9V6vGj0swHhAOzZxRtEy288cqN5GAr24ywwc8ehbuw6gq9c9
+	ygxcxRMaitoZFqgOn4dkaesRBMvf9YWCF2OATxgmywBZKV/garhdX0ShFlYu+CNTaL08aLbXOZ9
+	bfSBGZS/CjcM54sF6X6u3AWVqHnWpq+ZqmkIOCnqhm2/4feaRdN1pkHoE=
+X-Received: by 2002:a05:6122:1794:b0:5a4:ac74:f5ba with SMTP id 71dfb90a1353d-5be908893e7mr3014284e0c.11.1783435218550;
+        Tue, 07 Jul 2026 07:40:18 -0700 (PDT)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5be02934c13sm7107780e0c.3.2026.07.07.07.40.17
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 07:40:17 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 0/3] wic: give installed wic the tools it needs
+Date: Tue,  7 Jul 2026 10:40:06 -0400
+Message-ID: <20260707144009.708407-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 14:40:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240395
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 14:40:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240396
 
-On Fri Jul 3, 2026 at 6:21 AM CEST, Kris via lists.openembedded.org Gavvala=
- wrote:
-> In python3 ptests, tracemalloc_track_race fails with a segfault.
-> To avoid ptest failures for now, skip the test.
->
-> Fixes [YOCTO #16182]
-> Upstream Issue: https://github.com/python/cpython/issues/143143
->
-> This patch contains the following additional changes to backport from
-> master to scarthgap:
->
-> - SKIPPED_TESTS is defined outside the sed expression for better clarity
->  ( see https://git.openembedded.org/openembedded-core/commit/?id=3Dd9a44e=
-7390d7c8f2c2b73572825a6f8ceeb729ac )
->
-> - class-target override is removed since ptests are only used in target b=
-uilds
->  ( see https://git.openembedded.org/openembedded-core/commit/?id=3D8ba5db=
-86ac364b85fa6c1ee36fa5a037c0ee818a )
->
-> Signed-off-by: Kris Gavvala <kris.gavvala@windriver.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 7504490ba5e6ce0317dd12bdb961542062f05830)
-> ---
+wic shells out to a range of host-side tools but does not declare them,
+so wherever it is installed as a package (rather than run from the
+bitbake do_image_wic task, which has the wic-tools native sysroot on
+PATH) it works only by chance depending on what the host happens to
+have installed. This series makes an installed wic carry its own tools
+and makes putting wic into the SDK an explicit, opt-in choice.
 
-Hello,
+Changes since v1:
+ - Dropped the wic-tools.inc refactor. With wic no longer added to the
+   SDK by default and the tarball entries removed, there was nothing
+   left to share, so the tool list now lives directly in the wic recipe
+   as RDEPENDS instead of a new .inc.
+ - buildtools-extended-tarball no longer swaps the parted/dosfstools/
+   gptfdisk entries for nativesdk-wic; those three tools never belonged
+   in this tarball (it ships build prerequisites, not image helpers), so
+   they are simply removed.
+ - wic is no longer added to nativesdk-packagegroup-sdk-host
+   unconditionally. It is gated behind a new SDK_INCLUDE_WIC knob
+   (default "no"), since pulling in wic also pulls in the long list of
+   tools it might need.
 
-I think it would make more sense with d9a44e7390 backported as a
-separate commit and most likely 8ba5db86ac also.
+The wic/wic-tools split and the machine-specific bootloader firmware
+that wic-tools drags in are left for a separate follow-up.
 
-Can you send a series with those backported individualy instead of
-squashed together?
+Trevor Woerner (3):
+  wic: add runtime dependencies on the tools it invokes
+  buildtools-extended-tarball: drop wic helper tools
+  nativesdk-packagegroup-sdk-host: optionally add wic
 
-Thanks!
+ .../meta/buildtools-extended-tarball.bb       |  3 ---
+ .../nativesdk-packagegroup-sdk-host.bb        |  6 +++++
+ meta/recipes-support/wic/wic_0.3.0.bb         | 23 +++++++++++++++++++
+ 3 files changed, 29 insertions(+), 3 deletions(-)
 
---=20
-Yoann Congal
-Smile ECS
-
+-- 
+2.50.0.173.g8b6f19ccfc3a
 
