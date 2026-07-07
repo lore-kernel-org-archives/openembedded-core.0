@@ -1,170 +1,148 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 038DEC43458
-	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 13:45:28 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.173664.1783431925884593363
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11711C43458
+	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 13:53:18 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.117])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.174903.1783432396666666502
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jul 2026 06:45:26 -0700
+ Tue, 07 Jul 2026 06:53:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=0zDRCSsB;
- spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-47362928f65so3994610f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 06:45:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783431924; x=1784036724; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U1w4ADb1pxcZMmWyYx5a3rxnWuzRPUzQG2U1M+e6mis=;
-        b=0zDRCSsBgC49r7KCtlkNY4Oq04bAu99OrNZomZT5R4ylmM5p1MzFvxKFvVaWs8IzvY
-         XKKnObc4Mr4x+IM4K0EMdweYtLjOrguMCKDFUQlNh/3ZZjUvKHOVjlhdK7YXZfckCbQZ
-         K+A5HXZX0sILeJ/yPk0xRtxrH10ImJdPTFeiQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783431924; x=1784036724;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U1w4ADb1pxcZMmWyYx5a3rxnWuzRPUzQG2U1M+e6mis=;
-        b=auLFCoEZc9y7CGNKwrKtBS70c4wec9IFXd9iUp39nK5dtNja+CZuE/B8WCKJiTEYUz
-         dsvHm91Q5SN7wf7RwZ6Aq3HC+uSjltj7Qt9Pls6aTh51Me5Cf1z/y4yd6GWyRIe1J7nL
-         P64RpizHVfD5enbnq0EQECa5ZySkdZh9wWBTlDUIj1raHUzygXQuwrd1fbZUgNfI4xRU
-         8ygDCRhLvx5QapP/xkdwi7GF+sjVrUiPsMoWeWpnLTE6tykn7AGj676I+ZIn6uf09sRU
-         PMVAl7vTziLBfmctjAJIs/Gvgj415IEh0MwpY2Ij+zOTUOCUwtxhPGFPICqXlr8UrELS
-         jE9g==
-X-Forwarded-Encrypted: i=1; AHgh+RrM/Vn65IJwiq0yhmy7b3D9O4EtzU1Yb/50PbZGlsmWo2gOIlIIRxNyYXgucbBQK2ap34rbf66N6M9C81ot+Xg5sw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw09r1RP3QaJkTPP5V91FuXNz5EaTN8ukEgnYfVerTE/7fTpXFc
-	zU3ZXnYdtysQQmCVMXlgip4lEBULA93JEBpzBPstjrZE0H3XazYMqhSN90Fd71+dpRMOv+02xOZ
-	i2MTbIww=
-X-Gm-Gg: AfdE7cmMdnaBSxJQXnRmNG+KAiU3Z5wB8qaGc1KV3rT6Dd4uiMYz4NYg50VEIfXtKSE
-	x1H7ARW6R+xEke2+OQ7miv7h+dfLQda9gsM+ENjAG0/FxmyiHtmeewC+TD18Tx/IXnwnpY7PHsh
-	Lg3dRHxZpRGdYxAvSuFa0mbxZp61Z3RAvA07i2I015gMo41iQUHL1pob4BHPY7T7jXM/dEaDcI7
-	7Cy71hcbAEow880AsDdd3dQqNqhrx5VGuZLWONdB6bwzld/3fG0WMvk6Vo0WgRbphXGRgpwyA98
-	ctJtywzFMKyIHq5u2oVTboNjUMnKmzp+HHehfVrvVkJoUbViMA0pa/AgHz0Le7qMVKU9g/o2F2c
-	QFwPvQb2vFoSNT6og+sD7Huy+Hc7MXcuhonXpvhZn1nzfdPHgyltKcEBOgllrcxG9tBDNHd2XMV
-	LsCE+ckAQng9KXu/Is8PFSIUz5fB1Ssx1JeYyWOS1Rpc+QkDH8c9QvxVmxqNlWjzhkI0mHKJJS
-X-Received: by 2002:a05:6000:4694:b0:475:f0d1:eb6c with SMTP id ffacd0b85a97d-47de666d439mr3906858f8f.57.1783431923821;
-        Tue, 07 Jul 2026 06:45:23 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039b126sm33606557f8f.24.2026.07.07.06.45.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jul 2026 06:45:23 -0700 (PDT)
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=mRhvlOpr;
+ spf=pass (domain: navimatix.de, ip: 40.107.159.117, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=A5HnwsRmWLP8anrW6CV8WeKMUU/UkA66/dacLJQfavc1lfl3j1P8iLqc0uMwIOpw3Ca0lAVJ2FgNpZ9woEb9NqlEOWlSUkn3Duea2FvacLePRdD6c1lKPqJyBvjm2u0szYb9C9yh0bVyRlnugFCzIifGVf3bwReppmuy8JCl+ZNVh1EpYdh2ksKxBk1GYDjfmFlBB1U/o7ExMjqkx9j5bYvWOcGp2oM/7JiZNacLwcSp6JItHIiGq3Gs6sThWeB/QNzH8q7voOs5WEFVAiBaBDnENBeC0INN202aVvtUyGGrIJK4Ak8KneOnorgOpMXnvkzS3N2hXB2IudWFINAc9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m/s0zDs9rFgsZYuucg5Rh57+8O1ki6YVQM37uw/HviI=;
+ b=xSu5fz6cD5JYbjb/E4DA5/l4/acKTkSZyCijAEf+G3ZDJeMSAfKKYLwPXvX+TuEH3q1D2NmMyWi7TJT3nNnIwq+iLbove4denwXBrHyTk4MwhfoxpQb9Vzao7aA6gJC9tIAsyEzSr/SHRuIPm9Uj6+krRjqPdHwSXhoHlFmtws5nOkmHK5HLH1ZTbqJjPdmcnl3NYnqQa23QxkakgUWXeltfzb67owsinHtxry8OnOXVhQ4cfQ9Kl7B4dJyxANsjipiXtat6/3uwDy9X9BlRUSQWgGQA4YK9MuAsjaa2pU443opRh6wqLH5+0TAIT9Gt327SpDKSkN6uoTF4Jr/xCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m/s0zDs9rFgsZYuucg5Rh57+8O1ki6YVQM37uw/HviI=;
+ b=mRhvlOprLJ3i77MtdJtjHPdPSLxpwjK1CPWVp5+D9fm+SVQuIUezo3zf3zhX6zzaO9v47GjnTcCMQ4FsIMiXZj4nCdRkHVrfyt0xlB3Q6bztAI72Jhoku+6GjOU438w9q5FD/iyVWC0XDFx9OjK6MIQxxN2ty3xYXKH1emZnlJQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8) by AS8PR01MB7189.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:25c::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Tue, 7 Jul
+ 2026 13:53:11 +0000
+Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ ([fe80::d5c3:2dea:3d98:25fd]) by
+ GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%3])
+ with mapi id 15.21.0181.008; Tue, 7 Jul 2026 13:53:11 +0000
+Date: Tue, 7 Jul 2026 15:53:09 +0200
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+To: openembedded-core@lists.openembedded.org, joerg.sommer@navimatix.de
+CC: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+Subject: [PATCH] base-files: Replace /srv, /var by $servicedir, $localstatedir
+Message-ID: <b032b8a153fccb0cb0cd0dff38fbcecec27f5d0e.1783432389.git.joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.53.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 07 Jul 2026 15:45:23 +0200
-Message-Id: <DJSDUQYWTQ41.S7H4ENLDNW1R@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH] binutils: fix CVE-2025-69649, and
- CVE-2025-69652
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <roland.kovacs@est.tech>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260630082509.34865-1-roland.kovacs@est.tech>
-In-Reply-To: <20260630082509.34865-1-roland.kovacs@est.tech>
+X-ClientProxiedBy: BE1P281CA0283.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:84::9) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+ (2603:10a6:150:2cb::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|AS8PR01MB7189:EE_
+X-MS-Office365-Filtering-Correlation-Id: 87cefe14-feee-4b25-c496-08dedc2f1513
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|18002099003|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	c3HBMjGblz1OOohfnb6hwhV3jbto0xccCQZGtdMXHU1o3Is+ETOSoNfmr4fwqVvS8q8DPADpi+TKJVH96hXRsHxMvSStSuJdr7aHne9nwFBA9SQJMQVp8fGLn+SA5slidLAgTW603Uhf98clIj9tKCztDccTJdky+mqARTPFH9VIcN+aU+h4YJjSFN4C0jJrN5SyhaabS+vQvkiyFNKgP5Ia4Hxty1+7JvXeWtcLOm5S5wBtSbr1wMkjY+GHo/S0+ORptxm+mSpGq2FKUMBsITlcEyotzaLgG6OTFWXTPB7J5SPonRRsBrJEABpMDt9y4QcUCrIXreYzcIt0ZybUM4XNIgxLKH6eIiQKPaXJzkMZenhtf1fAj97QXFlDPS02RmilIO6sKcnP/NnGlR2mEqou/tVjAqyIKRvNFyk+NYr1UDkTNluRiCuY3q0Zn17N5n8YpTqV39V4eOkhJlcif+mXWljEmsTx2XO51mJqSzHq6doi0ecZeGz1EcvGZtXTjKDuoCOpub68Z9y2RaYHDoJDHc8iFtWPawK5fsMfCOX+OoW9X7anQia5FWh2qP8ETeC/M+OIcWWrYMVak7aHa8lwcQnPK0uPOEshP3gFmrtlXn6LZSz3IsNCCg3tjis480KHOMeb2hJMwfrmJFfQtP0OcmYV9J06rMqyzHt5Ewc=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(18002099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?jCLpkB7s5rNtbwcOs948gWjjLmXg2/bd+kwXFXDHWMc2W2t9vLLZfYdh/1uD?=
+ =?us-ascii?Q?9M49V24Zs1ezuWMEJ6M7JQMQ3ss1W+m65yBFjRQ8dkl4JN9L80cCHXoFleJf?=
+ =?us-ascii?Q?b++CL4pgxggChJvAy0zf0yRrAw6qMdePqid4zUwmk5m8U9mJ/LFSqJF3eJ3K?=
+ =?us-ascii?Q?GHBdXFMj7mGOBmj5T5mY2EYAYWIZsSrKh8l5JIx4AJRd7S0hl3xSMeRXlFmg?=
+ =?us-ascii?Q?fdbMg/LmRWB6aBpoYLmpXUlgiNAma+s/6luUt2jr6O/wfW26RDw5SmZNxXqN?=
+ =?us-ascii?Q?QeA1OYMyeBXvFCZAcgze5PgEIKGGAVtDx3O3wheF8K3QVAzTJ7FkABXbo4cD?=
+ =?us-ascii?Q?ZefqmxEGg3y2YDBqRa61kM2ofGFRIYVRzPBYxUXMz2ND5W2OpJAK0Lf6tljt?=
+ =?us-ascii?Q?ArtWm2B04bZlGGcSl8WmdEUw3BVTC1z97ylRkC84u/3JQCWwHO/vuwVbjF+y?=
+ =?us-ascii?Q?J7uaBvx/bOugNqKeqZmb9E9I5g7SLRI04ffrNRypPpdPnnMewkkHNEsD42IJ?=
+ =?us-ascii?Q?YSbVPxVFuZQJ3g/dsPchBfkRh90B16YNU0lNwMP2fzAPsqEM2U5W64IS6tpz?=
+ =?us-ascii?Q?U6BC1nNnJM0r/Uh2QGs1bk/RBEh0d35m3cSsKlv7lILFvd+wGkwkH41GYEYR?=
+ =?us-ascii?Q?GkjUBWbvrimZb21PE8U+cqHILEA7rpn1qRQpCh3UawvjB4L5iwe8xxQi0LRM?=
+ =?us-ascii?Q?9V8552JUltxpKASCV/RX7BqQUEJ4ICX0DJfdYrPnXW0ZwkHp2kt81wFdIAsi?=
+ =?us-ascii?Q?RTWV8f+vecc2WAgqAR3CAHLelp/a7sW79l/+h+2VCvvmchy/8JIsRTvwAcmK?=
+ =?us-ascii?Q?mmkRK83tkbl7Hjr8h4VjcC6FbvtwjnarNUwIwOn8eBuUGp/ggmPB7cyZUQgT?=
+ =?us-ascii?Q?wDfGLBFyuDXUYeZtPEYJWEd7QP1/dayojlIeDi+sX5mgtEYsTb5Ry9MyQ7h4?=
+ =?us-ascii?Q?xa5KzFCVrSfC8tRGRBQtzPgLxD8GPTn+9MgoXDaQJpQxguRG2wqSdHlw5su+?=
+ =?us-ascii?Q?cEYliIROIJd17djEP3CPFDsvqUvbuxbuVwVs440+yx4sellFQQ5sYvZmffwh?=
+ =?us-ascii?Q?RyMQh+QxOggctP9AEkC/4dRKb/uKDoVJVKEgJP59IAbCYwILwlk+p5zoVHGE?=
+ =?us-ascii?Q?b9VPzQh3OUj2XlMf1/ZWdf4qcRmNLj4rKUQZY14oXSTEHsNPMuYEKzdHSMmx?=
+ =?us-ascii?Q?EKowuvsfT7fzWixaphLB1cL/4Lb+M4lup7yyEgZNScHGtC2EVIS1ZPVJNDcX?=
+ =?us-ascii?Q?9FtCPaRpXM6kw6/oOQFs80/IGIyUpRfKccuiuJ9bS8QH/eOu91F2809dPytb?=
+ =?us-ascii?Q?8pKv33z2feY7V75Rn+r/CliLsF/YQlDW17rZr/qzfYszm+FDROnluw9dIxir?=
+ =?us-ascii?Q?3Z1tPh2XHytipoZcn0GO8JcyOl8HmH9BcbZ22omF/LC6pIbfpXTtM9jpEv7N?=
+ =?us-ascii?Q?ouSsQSZQAcgtnv9BXax+638PJhuQBU8uMrdnVDpXwn/Gy0X2EKL2kfj90w/r?=
+ =?us-ascii?Q?UiGsQWwglPiLOSsqqrX4SIQtIpBdPw6cm8sQcA1Z7tVaS9jCkt5pL53h3/YC?=
+ =?us-ascii?Q?+R31L1zw97t4LMtIS30sJxqEyljrjJR4lADS1FcGmp4Kf7yQfx0EOhmV07yD?=
+ =?us-ascii?Q?kvnnFWivvyBkyu3pis18sWpmgCSSEW3MEfe02gm6tazNafHhjsG7TayGyzI5?=
+ =?us-ascii?Q?sMjBomvCc+PefN8dfBiu5bSo72DhFHMkBevEuswrr4/YzvRXsZvTL314IBlr?=
+ =?us-ascii?Q?PlaQ8j4Z7NJb0tzi25TbAgwBDlE3Vf0=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87cefe14-feee-4b25-c496-08dedc2f1513
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 13:53:10.9983
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XYv97U5qKH6JqfRWtnO+y2OzjnGxvvRFq6N3hAT7SexV+P9GAQWb2qKNhLiTrbVEPMtwUGi5WjdpfXioIVg7ceyOZffbB4FlnBRmHPRVHH8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR01MB7189
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 13:45:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240387
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 13:53:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240388
 
-Hello,
+From: J=F6rg Sommer <joerg.sommer@navimatix.de>
 
-On Tue Jun 30, 2026 at 10:25 AM CEST, Roland Kov=C3=A1cs via lists.openembe=
-dded.org wrote:
-> CVE-2025-69649:
->   Null pointer dereference in readelf before 2.46 results in segfault whe=
-n
->   processing a crafted ELF binary with malformed header fields.
->   No evidence of memory corruption beyond the null pointer dereference, n=
-or
->   any possibility of code execution, was observed.
->
-> CVE-2025-69652:
->   Null pointer dereference in readelf when processing a crafted ELF binar=
-y
->   with malformed DWARF abbrev or debug information which leads to SIGABOR=
-T.
->   No evidence of memory corruption or code execution was observed; the im=
-pact
->   is limited to denial of service.
->
-> Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
-> ---
->  .../binutils/binutils-2.42.inc                |  2 +
->  .../binutils/binutils/CVE-2025-69649.patch    | 36 +++++++++++++++++
->  .../binutils/binutils/CVE-2025-69652.patch    | 39 +++++++++++++++++++
->  3 files changed, 77 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-6964=
-9.patch
->  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-6965=
-2.patch
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/reci=
-pes-devtools/binutils/binutils-2.42.inc
-> index 1a865c45f4..da954fc138 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-> @@ -74,5 +74,7 @@ SRC_URI =3D "\
->       file://0030-CVE-2025-11840.patch \
->       file://CVE-2025-69647.patch \
->       file://CVE-2025-69648.patch \
-> +     file://CVE-2025-69649.patch \
-> +     file://CVE-2025-69652.patch \
->  "
->  S  =3D "${WORKDIR}/git"
-> diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch=
- b/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch
-> new file mode 100644
-> index 0000000000..4865ad6535
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch
-> @@ -0,0 +1,36 @@
-> +From 9d26af3871d5b8f8dd9c6b17987845e1f774eac4 Mon Sep 17 00:00:00 2001
-> +From: Alan Modra <amodra@gmail.com>
-> +Date: Mon, 8 Dec 2025 15:58:33 +1030
-> +Subject: [PATCH] PR 33697, fuzzer segfault
-> +
-> +	PR 33697
-> +	* readelf.c (process_relocs): Don't segfault on no sections.
-> +
-> +CVE: CVE-2025-69649
-> +Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbin=
-utils-gdb.git;h=3D66a3492ce68e1ae45b2489bd9a815c39ea5d7f66]
-> +
-> +Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
-> +---
-> + binutils/readelf.c | 6 +++---
-> + 1 file changed, 3 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/binutils/readelf.c b/binutils/readelf.c
-> +index 5e4ad6ea6ad..8c1987ffaec 100644
-> +--- a/binutils/readelf.c
-> ++++ b/binutils/readelf.c
-> +@@ -8961,9 +8961,9 @@ process_relocs (Filedata * filedata)
-> +       size_t i;
-> +       bool found =3D false;
-> +=20
-> +-      for (i =3D 0, section =3D filedata->section_headers;
-> +-	   i < filedata->file_header.e_shnum;
-> +-	   i++, section++)
-> ++      section =3D filedata->section_headers;
-> ++      if (section !=3D NULL)
-> ++	for (i =3D 0; i < filedata->file_header.e_shnum; i++, section++)
-> + 	{
-> + 	  if (   section->sh_type !=3D SHT_RELA
-> + 	      && section->sh_type !=3D SHT_REL
+Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
+---
+ meta/recipes-core/base-files/base-files_3.0.14.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This backport is sensibly different from the upstream commit. Upstream
-has a short for loop but your patch is at the start of a really long
-one!
-
-Can you justify why your backport is safe & correct?
-
-Thanks!
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recip=
+es-core/base-files/base-files_3.0.14.bb
+index aafc0aa923..1f24f282b6 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -47,12 +47,12 @@ dirs755 =3D "/boot /dev ${base_bindir} ${base_sbindir} =
+${base_libdir} \
+            /home ${prefix}/src ${localstatedir}/local \
+            /media"
+=20
+-dirs755-lsb =3D "/srv  \
++dirs755-lsb =3D "${servicedir} \
+                ${prefix}/local ${prefix}/local/bin ${prefix}/local/games \
+                ${prefix}/local/include ${prefix}/local/lib ${prefix}/local=
+/sbin \
+                ${prefix}/local/share ${prefix}/local/src \
+                ${prefix}/lib/locale"
+-dirs2775-lsb =3D "/var/mail"
++dirs2775-lsb =3D "${localstatedir}/mail"
+=20
+ volatiles =3D "${@bb.utils.contains('FILESYSTEM_PERMS_TABLES', 'files/fs-p=
+erms-volatile-log.txt', 'log', '', d)} \
+              ${@bb.utils.contains('FILESYSTEM_PERMS_TABLES', 'files/fs-per=
+ms-volatile-tmp.txt', 'tmp', '', d)}"
 --=20
-Yoann Congal
-Smile ECS
+2.53.0
 
 
