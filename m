@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B8B8C44507
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BC1CC44503
 	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 05:50:05 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.168346.1783403394367065018
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.167394.1783403394337120045
  for <openembedded-core@lists.openembedded.org>;
  Mon, 06 Jul 2026 22:49:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JK0VMTxV;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=k3SOWp/U;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019f3b2030f1-74e275a1-3e7b-41b2-8266-7a289156e6ef-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QNaJzSjk;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Ygyqg1YA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019f3b203107-358ad985-2145-48b4-b69e-fc24d7414734-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1783403393;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=A+cgvynith9aGDvuZ6JbhoHTf+sXwi3ttxqO6sdyrVM=;
-	b=JK0VMTxVDdw5vZ0Rd5SwSTXuvhJEjW15yOBzZAdvZCvwxFdwlhOJ40hKKdvBJo2i
-	vdsKnMjR/S22O7fot1qlec8Ps8hDnv70jtK6iEfHByGMD6GMIduJvAfIc7z3dGnmjiI
-	KQAJoPCCcDZr7ffGBbVcLfeo8o39tYfAWx+A/si4=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=23ybDlMujFhY5aD1+o4avCf6iGdBJqoDNJXxxGESzcs=;
+	b=QNaJzSjkhK67ETrCboIcWGAIQJI9iwBxfMla5zUkL1R2PDphqNDZdP4ssm8l99Md
+	HId3Drtan1OErOn728pp3SuGkOETKewC4GvhyrTiGngp6xGFyEFT5/RlLdjKOi8AHn0
+	eyOqYpWWE6cCATNYSJ/YcNGa6RJCMixpxGENr8d4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783403393;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=A+cgvynith9aGDvuZ6JbhoHTf+sXwi3ttxqO6sdyrVM=;
-	b=k3SOWp/UWI/dGJ+egIDGO0xudDqipxuSKzsDn2NhMDOZe543uRCrSFQenGTmWcZS
-	gPDFFRZLHHWjcA4002BVR20NeA6PaJYVr0eXenjMW8yvFYSHtMPazJRGwRMqCHCaSrs
-	btutH8AW08FvEWQhU44Qy6v4J8GToMvz8NkggCfU=
-Content-Type: multipart/mixed; boundary="===============4248421554173149491=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=23ybDlMujFhY5aD1+o4avCf6iGdBJqoDNJXxxGESzcs=;
+	b=Ygyqg1YA0jvDR+Ihthtp9t5s8kAVXMUCsmUTvLvAfUrbpMnvJ4uCK/Nldli8zrte
+	2iYj+b4Yf2L60dFf0sExD4Aa3pgAnvBv8SNz8vE+vAcjR4nPcudlus2KPq67ZeRthGD
+	GgQCJMDB66+9hnE1cc4atx4NJm4M5q+BPpD2fWAc=
+Content-Type: multipart/mixed; boundary="===============1402967003654465777=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] dropbear: upgrading to 2026.92 SUCCEEDED
-Message-ID: <0101019f3b2030f1-74e275a1-3e7b-41b2-8266-7a289156e6ef-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] openssh: upgrading to 10.4p1 SUCCEEDED
+Message-ID: <0101019f3b203107-358ad985-2145-48b4-b69e-fc24d7414734-000000@us-west-2.amazonses.com>
 Date: Tue, 7 Jul 2026 05:49:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.07-54.240.27.29
+X-SES-Outgoing: 2026.07.07-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 05:50:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240353
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240352
 
---===============4248421554173149491==
+--===============1402967003654465777==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *dropbear* to *2026.92* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *openssh* to *10.4p1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-dropbear-upgrade-2026.91-2026.92.patch
+    - apply the patch: git am 0001-openssh-upgrade-10.3p1-10.4p1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,228 +71,185 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 080fb7c083ffa4e2dc925d8e02e78861fade21fe Mon Sep 17 00:00:00 2001
+From 12343e45729a6b60f7c7345ac410ec6682d19f76 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 7 Jul 2026 05:27:39 +0000
-Subject: [PATCH] dropbear: upgrade 2026.91 -> 2026.92
+Date: Tue, 7 Jul 2026 05:23:05 +0000
+Subject: [PATCH] openssh: upgrade 10.3p1 -> 10.4p1
 
 ---
- .../0001-urandom-xauth-changes-to-options.h.patch         | 6 +++---
- .../dropbear/dropbear/0005-dropbear-enable-pam.patch      | 8 ++++----
- .../dropbear/0006-dropbear-configuration-file.patch       | 2 +-
- .../dropbear/{dropbear_2026.91.bb => dropbear_2026.92.bb} | 2 +-
- 4 files changed, 9 insertions(+), 9 deletions(-)
- rename meta/recipes-core/dropbear/{dropbear_2026.91.bb => dropbear_2026.92.bb} (98%)
+ ...1-regress-banner.sh-log-input-and-output-files-on-erro.patch | 2 +-
+ .../openssh/{openssh_10.3p1.bb => openssh_10.4p1.bb}            | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh_10.3p1.bb => openssh_10.4p1.bb} (99%)
 
-diff --git a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-index a662230b88..b0f8e61998 100644
---- a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-+++ b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+index f424288e37..3128aaefc7 100644
+--- a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
++++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
 @@ -1,4 +1,4 @@
--From cdc6a4a57a86d8116a92a5d905993e65cf723556 Mon Sep 17 00:00:00 2001
-+From e5f6c6e8d2b6315e509c610e7d13e7dd2b465a85 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard@openedhand.com>
- Date: Wed, 31 Aug 2005 10:45:47 +0000
- Subject: [PATCH] urandom-xauth-changes-to-options.h
-@@ -9,10 +9,10 @@ Upstream-Status: Inappropriate [configuration]
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/src/default_options.h b/src/default_options.h
--index 6e970bb..ccc8b47 100644
-+index ffaf062..2eb7de1 100644
- --- a/src/default_options.h
- +++ b/src/default_options.h
--@@ -323,7 +323,7 @@ group1 in Dropbear server too */
-+@@ -347,7 +347,7 @@ group1 in Dropbear server too */
-  
-  /* The command to invoke for xauth when using X11 forwarding.
-   * "-q" for quiet */
-diff --git a/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch b/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch
-index 6743f506e9..bfb78b1ee1 100644
---- a/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch
-+++ b/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch
-@@ -1,4 +1,4 @@
--From 253ca01f0fc50dbaeb2ff8bcece0c34256eba94f Mon Sep 17 00:00:00 2001
-+From dce5d03ed4d28c6374e593b7ef2cc4688f795fbd Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Wed, 2 Dec 2015 11:36:02 +0200
- Subject: [PATCH] Enable pam
-@@ -15,10 +15,10 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/src/default_options.h b/src/default_options.h
--index ccc8b47..12768d1 100644
-+index 2eb7de1..be85bee 100644
- --- a/src/default_options.h
- +++ b/src/default_options.h
--@@ -228,7 +228,7 @@ group1 in Dropbear server too */
-+@@ -240,7 +240,7 @@ group1 in Dropbear server too */
-  
-  /* Authentication Types - at least one required.
-     RFC Draft requires pubkey auth, and recommends password */
-@@ -27,7 +27,7 @@ index ccc8b47..12768d1 100644
-  
-  /* Note: PAM auth is quite simple and only works for PAM modules which just do
-   * a simple "Login: " "Password: " (you can edit the strings in svr-authpam.c).
--@@ -236,7 +236,7 @@ group1 in Dropbear server too */
-+@@ -248,7 +248,7 @@ group1 in Dropbear server too */
-   * but there's an interface via a PAM module. It won't work for more complex
-   * PAM challenge/response.
-   * You can't enable both PASSWORD and PAM. */
-diff --git a/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch b/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch
-index 44861088cc..7509efb88c 100644
---- a/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch
-+++ b/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch
-@@ -1,4 +1,4 @@
--From 16b147f97f0938cddb55ec1c90bc919c13f26fc0 Mon Sep 17 00:00:00 2001
-+From 50d64008f722f0f9719fc6c1b44582316022b93e Mon Sep 17 00:00:00 2001
- From: Mingli Yu <Mingli.Yu@windriver.com>
- Date: Thu, 6 Sep 2018 15:54:00 +0800
- Subject: [PATCH] dropbear configuration file
-diff --git a/meta/recipes-core/dropbear/dropbear_2026.91.bb b/meta/recipes-core/dropbear/dropbear_2026.92.bb
-similarity index 98%
-rename from meta/recipes-core/dropbear/dropbear_2026.91.bb
-rename to meta/recipes-core/dropbear/dropbear_2026.92.bb
-index cdddd64fe2..44a4dcde03 100644
---- a/meta/recipes-core/dropbear/dropbear_2026.91.bb
-+++ b/meta/recipes-core/dropbear/dropbear_2026.92.bb
-@@ -27,7 +27,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+-From 5cc897fe2effe549e1e280c2f606bce8b532b61e Mon Sep 17 00:00:00 2001
++From e27e91936310d2c865134a6f5a6bd99549233b4e Mon Sep 17 00:00:00 2001
+ From: Mikko Rapeli <mikko.rapeli@linaro.org>
+ Date: Mon, 11 Sep 2023 09:55:21 +0100
+ Subject: [PATCH] regress/banner.sh: log input and output files on error
+diff --git a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb b/meta/recipes-connectivity/openssh/openssh_10.4p1.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssh/openssh_10.3p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_10.4p1.bb
+index a050475532..7d316eec76 100644
+--- a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_10.4p1.bb
+@@ -25,7 +25,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
+            file://sshd_check_keys \
+            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
             "
+-SRC_URI[sha256sum] = "56682a36bb92dcf4b4f016fd8ec8e74059b79a8de25c15d670d731e7d18e45f4"
++SRC_URI[sha256sum] = "ef6026dd2aea8d56059638d5d3262902c892ceba9f88395835e0d06d3fb63238"
  
--SRC_URI[sha256sum] = "defa924475abf6bc1e74abc00173e46bfdc804bd47caafa14f5a4ef0cc76da34"
-+SRC_URI[sha256sum] = "91dcb5234de8dea68dd82c55411c9fc986b457ab58372a780ee8a870419c2f7e"
- MIRRORS += "http://matt.ucc.asn.au/dropbear/releases/ https://dropbear.nl/mirror/releases/"
+ CVE_STATUS[CVE-2007-2768] = "not-applicable-config: This CVE is specific to OpenSSH with the pam opie which we don't build/use here."
  
- PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
 -- 
 2.47.1
 
 
---===============4248421554173149491==
+--===============1402967003654465777==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-openssh-upgrade-10.3p1-10.4p1.patch"
+
+RnJvbSAxMjM0M2U0NTcyOWE2YjYwZjdjNzM0NWFjNDEwZWM2NjgyZDE5Zjc2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgNyBKdWwgMjAyNiAwNToyMzowNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9w
+ZW5zc2g6IHVwZ3JhZGUgMTAuM3AxIC0+IDEwLjRwMQoKLS0tCiAuLi4xLXJlZ3Jlc3MtYmFubmVy
+LnNoLWxvZy1pbnB1dC1hbmQtb3V0cHV0LWZpbGVzLW9uLWVycm8ucGF0Y2ggfCAyICstCiAuLi4v
+b3BlbnNzaC97b3BlbnNzaF8xMC4zcDEuYmIgPT4gb3BlbnNzaF8xMC40cDEuYmJ9ICAgICAgICAg
+ICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMo
+LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gve29wZW5zc2hfMTAu
+M3AxLmJiID0+IG9wZW5zc2hfMTAuNHAxLmJifSAoOTklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoLzAwMDEtcmVncmVzcy1iYW5uZXIuc2gt
+bG9nLWlucHV0LWFuZC1vdXRwdXQtZmlsZXMtb24tZXJyby5wYXRjaCBiL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoLzAwMDEtcmVncmVzcy1iYW5uZXIuc2gtbG9nLWlu
+cHV0LWFuZC1vdXRwdXQtZmlsZXMtb24tZXJyby5wYXRjaAppbmRleCBmNDI0Mjg4ZTM3Li4zMTI4
+YWFlZmM3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3Bl
+bnNzaC8wMDAxLXJlZ3Jlc3MtYmFubmVyLnNoLWxvZy1pbnB1dC1hbmQtb3V0cHV0LWZpbGVzLW9u
+LWVycm8ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5z
+c2gvMDAwMS1yZWdyZXNzLWJhbm5lci5zaC1sb2ctaW5wdXQtYW5kLW91dHB1dC1maWxlcy1vbi1l
+cnJvLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1Y2M4OTdmZTJlZmZlNTQ5ZTFlMjgwYzJm
+NjA2YmNlOGI1MzJiNjFlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBlMjdlOTE5MzYz
+MTBkMmM4NjUxMzRhNmY1YTZiZDk5NTQ5MjMzYjRlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
+RnJvbTogTWlra28gUmFwZWxpIDxtaWtrby5yYXBlbGlAbGluYXJvLm9yZz4KIERhdGU6IE1vbiwg
+MTEgU2VwIDIwMjMgMDk6NTU6MjEgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gcmVncmVzcy9iYW5u
+ZXIuc2g6IGxvZyBpbnB1dCBhbmQgb3V0cHV0IGZpbGVzIG9uIGVycm9yCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaF8xMC4zcDEuYmIgYi9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaF8xMC40cDEuYmIKc2ltaWxhcml0
+eSBpbmRleCA5OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3No
+L29wZW5zc2hfMTAuM3AxLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29w
+ZW5zc2gvb3BlbnNzaF8xMC40cDEuYmIKaW5kZXggYTA1MDQ3NTUzMi4uN2QzMTZlZWM3NiAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hfMTAuM3Ax
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoXzEwLjRw
+MS5iYgpAQCAtMjUsNyArMjUsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vZnRwLm9wZW5ic2Qub3Jn
+L3B1Yi9PcGVuQlNEL09wZW5TU0gvcG9ydGFibGUvb3BlbnNzaC0ke1BWfS50YQogICAgICAgICAg
+ICBmaWxlOi8vc3NoZF9jaGVja19rZXlzIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtcmVncmVz
+cy1iYW5uZXIuc2gtbG9nLWlucHV0LWFuZC1vdXRwdXQtZmlsZXMtb24tZXJyby5wYXRjaCBcCiAg
+ICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1NjY4MmEzNmJiOTJkY2Y0YjRmMDE2
+ZmQ4ZWM4ZTc0MDU5Yjc5YThkZTI1YzE1ZDY3MGQ3MzFlN2QxOGU0NWY0IgorU1JDX1VSSVtzaGEy
+NTZzdW1dID0gImVmNjAyNmRkMmFlYThkNTYwNTk2MzhkNWQzMjYyOTAyYzg5MmNlYmE5Zjg4Mzk1
+ODM1ZTBkMDZkM2ZiNjMyMzgiCiAKIENWRV9TVEFUVVNbQ1ZFLTIwMDctMjc2OF0gPSAibm90LWFw
+cGxpY2FibGUtY29uZmlnOiBUaGlzIENWRSBpcyBzcGVjaWZpYyB0byBPcGVuU1NIIHdpdGggdGhl
+IHBhbSBvcGllIHdoaWNoIHdlIGRvbid0IGJ1aWxkL3VzZSBoZXJlLiIKIAotLSAKMi40Ny4xCgo=
+
+--===============1402967003654465777==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/dropbear/dropbear-dbg: PKGV changed from 2026.91 [default] to 2026.92 [default]
-packages/x86-64-v3-poky-linux/dropbear/dropbear-dbg: PKGSIZE changed from 1939632 to 1940104 (+0%)
-packages/x86-64-v3-poky-linux/dropbear/dropbear-dbg: PV changed from "2026.91" to "2026.92"
-packages/x86-64-v3-poky-linux/dropbear/dropbear-dev: PKGV changed from 2026.91 [default] to 2026.92 [default]
-packages/x86-64-v3-poky-linux/dropbear/dropbear-dev: PV changed from "2026.91" to "2026.92"
-packages/x86-64-v3-poky-linux/dropbear/dropbear-doc: PKGV changed from 2026.91 [default] to 2026.92 [default]
-packages/x86-64-v3-poky-linux/dropbear/dropbear-doc: PV changed from "2026.91" to "2026.92"
-packages/x86-64-v3-poky-linux/dropbear/dropbear-locale: PKGV changed from 2026.91 [default] to 2026.92 [default]
-packages/x86-64-v3-poky-linux/dropbear/dropbear-locale: PV changed from "2026.91" to "2026.92"
-packages/x86-64-v3-poky-linux/dropbear/dropbear-src: PKGV changed from 2026.91 [default] to 2026.92 [default]
-packages/x86-64-v3-poky-linux/dropbear/dropbear-src: PKGSIZE changed from 2005289 to 2007294 (+0%)
-packages/x86-64-v3-poky-linux/dropbear/dropbear-src: PV changed from "2026.91" to "2026.92"
-packages/x86-64-v3-poky-linux/dropbear/dropbear-src: FILELIST: directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/misc -> /usr/src/debug/dropbear/2026.92/libtomcrypt/src/misc, directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/mac/hmac -> /usr/src/debug/dropbear/2026.92/libtomcrypt/src/mac/hmac, directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/headers -> /usr/src/debug/dropbear/2026.92/libtomcrypt/src/headers, directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/modes/ctr -> /usr/src/debug/dropbear/2026.92/libtomcrypt/src/modes/ctr, directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/hashes/helper -> /usr/src/debug/dropbear/2026.92/libtomcrypt/src/hashes/helper, directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/pk/ecc -> /usr/src/debug/dropbear/2026.92/libtomcrypt/src/pk/ecc, directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/ciphers/aes -> /usr/src/debug/dropbear/2026.92/libtomcr
- ypt/src/ciphers/aes, directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/misc/base64 -> /usr/src/debug/dropbear/2026.92/libtomcrypt/src/misc/base64, directory renamed /usr/src/debug/dropbear/2026.91/libtommath -> /usr/src/debug/dropbear/2026.92/libtommath, directory renamed /usr/src/debug/dropbear/2026.91/src -> /usr/src/debug/dropbear/2026.92/src, directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/misc/crypt -> /usr/src/debug/dropbear/2026.92/libtomcrypt/src/misc/crypt, directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/mac/poly1305 -> /usr/src/debug/dropbear/2026.92/libtomcrypt/src/mac/poly1305, directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/math -> /usr/src/debug/dropbear/2026.92/libtomcrypt/src/math, directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/hashes/sha2 -> /usr/src/debug/dropbear/2026.92/libtomcrypt/src/hashes/sha2, directory renamed /usr/src/debug/dropbear/2026.91/libtomcrypt/src/stream/chach
- a -> /usr/src/debug/dropbear/2026.92/libtomcrypt/src/stream/chacha
-packages/x86-64-v3-poky-linux/dropbear/dropbear-staticdev: PKGV changed from 2026.91 [default] to 2026.92 [default]
-packages/x86-64-v3-poky-linux/dropbear/dropbear-staticdev: PV changed from "2026.91" to "2026.92"
-packages/x86-64-v3-poky-linux/dropbear/dropbear: PKGV changed from 2026.91 [default] to 2026.92 [default]
-packages/x86-64-v3-poky-linux/dropbear/dropbear: PV changed from "2026.91" to "2026.92"
-packages/x86-64-v3-poky-linux/dropbear: SRC_URI changed from "http://matt.ucc.asn.au/dropbear/releases/dropbear-2026.91.tar.bz2 file://0001-urandom-xauth-changes-to-options.h.patch file://init file://dropbearkey.service file://dropbear@.service file://dropbear.socket file://dropbear.default file://0005-dropbear-enable-pam.patch file://0006-dropbear-configuration-file.patch file://dropbear" to "http://matt.ucc.asn.au/dropbear/releases/dropbear-2026.92.tar.bz2 file://0001-urandom-xauth-changes-to-options.h.patch file://init file://dropbearkey.service file://dropbear@.service file://dropbear.socket file://dropbear.default file://0005-dropbear-enable-pam.patch file://0006-dropbear-configuration-file.patch file://dropbear"
-packages/x86-64-v3-poky-linux/dropbear: PKGV changed from 2026.91 [default] to 2026.92 [default]
-packages/x86-64-v3-poky-linux/dropbear: PV changed from "2026.91" to "2026.92"
+packages/x86-64-v3-poky-linux/openssh: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh: SRC_URI changed from "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.3p1.tar.gz file://sshd_config file://ssh_config file://init file://sshd file://sshd.service file://sshd.socket file://sshd@.service file://sshdgenkeys.service file://volatiles.99_sshd file://run-ptest file://sshd_check_keys file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch" to "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.4p1.tar.gz file://sshd_config file://ssh_config file://init file://sshd file://sshd.service file://sshd.socket file://sshd@.service file://sshdgenkeys.service file://volatiles.99_sshd file://run-ptest file://sshd_check_keys file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch"
+packages/x86-64-v3-poky-linux/openssh/openssh-dbg: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-dbg: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-dbg: PKGSIZE changed from 27513296 to 41197392 (+50%)
+packages/x86-64-v3-poky-linux/openssh/openssh-dbg: FILELIST: added "/usr/lib/openssh/ptest/regress/unittests/crypto/.debug/test_crypto /usr/lib/openssh/ptest/regress/unittests/servconf/.debug/test_servconf"
+packages/x86-64-v3-poky-linux/openssh/openssh-dev: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-dev: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-doc: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-doc: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-doc: PKGSIZE changed from 358277 to 360446 (+1%)
+packages/x86-64-v3-poky-linux/openssh/openssh-keygen: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-keygen: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-keygen: PKGSIZE changed from 440512 to 592064 (+34%)
+packages/x86-64-v3-poky-linux/openssh/openssh-locale: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-locale: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-misc: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-misc: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-misc: PKGSIZE changed from 1793237 to 2485461 (+39%)
+packages/x86-64-v3-poky-linux/openssh/openssh-ptest: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-ptest: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-ptest: PKGSIZE changed from 6053215 to 8475073 (+40%)
+packages/x86-64-v3-poky-linux/openssh/openssh-ptest: FILELIST: added "/usr/lib/openssh/ptest/regress/unittests/crypto/test_crypto /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1 /usr/lib/openssh/ptest/regress/unittests/crypto/test_ed25519.o /usr/lib/openssh/ptest/regress/unittests/crypto/testdata/draft-ietf-lamps-pq-composite-sigs.json /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_2 /usr/lib/openssh/ptest/regress/unittests/sshsig/testdata/mldsa44-ed25519 /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1.pub /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1.fp.bb /usr/lib/openssh/ptest/regress/unittests/crypto/test_ed25519.c /usr/lib/openssh/ptest/regress/unittests/servconf/test_servconf /usr/lib/openssh/ptest/regress/unittests/crypto/tests.c /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_2.pub /usr/lib/openssh/ptest/regress/unittests/crypto/test_mldsa_edds
+ a.o /usr/lib/openssh/ptest/regress/unittests/crypto/test_mldsa_eddsa.c /usr/lib/openssh/ptest/regress/unittests/crypto/tests.o /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1-cert.pub /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1_pw /usr/lib/openssh/ptest/regress/unittests/crypto/test_mlkem.c /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_2.fp.bb /usr/lib/openssh/ptest/regress/unittests/crypto/test_mlkem.o /usr/lib/openssh/ptest/regress/unittests/servconf/tests.c /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1-cert.fp /usr/lib/openssh/ptest/regress/unittests/sshsig/testdata/mldsa44-ed25519.pub /usr/lib/openssh/ptest/regress/unittests/sshsig/testdata/mldsa44-ed25519.sig /usr/lib/openssh/ptest/regress/unittests/servconf/tests.o /usr/lib/openssh/ptest/regress/unittests/crypto/test_mldsa.o /usr/lib/openssh/ptest/regress/unittests/crypto/test_mldsa.c /usr/lib/openssh/ptest/regress
+ /unittests/sshkey/testdata/mldsa44_ed25519_1.fp /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_2.fp /usr/lib/openssh/ptest/regress/unittests/servconf/Makefile /usr/lib/openssh/ptest/regress/unittests/crypto/Makefile /usr/lib/openssh/ptest/regress/unittests/crypto/testdata/nistkats-44.json"
+packages/x86-64-v3-poky-linux/openssh/openssh-scp: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-scp: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-sftp-server: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-sftp-server: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-sftp: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-sftp: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-src: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-src: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-src: PKGSIZE changed from 4160479 to 4692018 (+13%)
+packages/x86-64-v3-poky-linux/openssh/openssh-src: FILELIST: directory renamed /usr/src/debug/openssh/10.3p1/regress/unittests/sshbuf -> /usr/src/debug/openssh/10.4p1/regress/unittests/sshbuf, directory renamed /usr/src/debug/openssh/10.3p1/regress/unittests/conversion -> /usr/src/debug/openssh/10.4p1/regress/unittests/conversion, directory renamed /usr/src/debug/openssh/10.3p1/regress/unittests/hostkeys -> /usr/src/debug/openssh/10.4p1/regress/unittests/hostkeys, directory renamed /usr/src/debug/openssh/10.3p1/regress/unittests/match -> /usr/src/debug/openssh/10.4p1/regress/unittests/match, directory renamed /usr/src/debug/openssh/10.3p1/regress -> /usr/src/debug/openssh/10.4p1/regress, directory renamed /usr/src/debug/openssh/10.3p1/regress/unittests/sshsig -> /usr/src/debug/openssh/10.4p1/regress/unittests/sshsig, directory renamed /usr/src/debug/openssh/10.3p1/regress/unittests/sshkey -> /usr/src/debug/openssh/10.4p1/regress/unittests/sshkey, directory renamed /usr/src/debug/open
+ ssh/10.3p1/regress/unittests/misc -> /usr/src/debug/openssh/10.4p1/regress/unittests/misc, directory renamed /usr/src/debug/openssh/10.3p1/regress/unittests/authopt -> /usr/src/debug/openssh/10.4p1/regress/unittests/authopt, directory renamed /usr/src/debug/openssh/10.3p1/regress/unittests/kex -> /usr/src/debug/openssh/10.4p1/regress/unittests/kex, directory renamed /usr/src/debug/openssh/10.3p1/regress/unittests/test_helper -> /usr/src/debug/openssh/10.4p1/regress/unittests/test_helper, directory renamed /usr/src/debug/openssh/10.3p1/regress/unittests/utf8 -> /usr/src/debug/openssh/10.4p1/regress/unittests/servconf, directory renamed /usr/src/debug/openssh/10.3p1/regress/unittests/bitmap -> /usr/src/debug/openssh/10.4p1/regress/unittests/bitmap, removed "/usr/src/debug/openssh/10.3p1/rijndael.h /usr/src/debug/openssh/10.3p1/ssh-ecdsa.c /usr/src/debug/openssh/10.3p1/ssh-agent.c /usr/src/debug/openssh/10.3p1/auth.c /usr/src/debug/openssh/10.3p1/kexecdh.c /usr/src/debug/openssh/10.3p1
+ /openbsd-compat/strmode.c /usr/src/debug/openssh/10.3p1/auth.h /usr/src/debug/openssh/10.3p1/serverloop.c /usr/src/debug/openssh/10.3p1/sshkey.c /usr/src/debug/openssh/10.3p1/sftp-common.c /usr/src/debug/openssh/10.3p1/cipher-chachapoly.h /usr/src/debug/openssh/10.3p1/serverloop.h /usr/src/debug/openssh/10.3p1/sftp-glob.c /usr/src/debug/openssh/10.3p1/openbsd-compat/getopt_long.c /usr/src/debug/openssh/10.3p1/sftp-common.h /usr/src/debug/openssh/10.3p1/sntrup761.c /usr/src/debug/openssh/10.3p1/sshkey.h /usr/src/debug/openssh/10.3p1/auth-pam.h /usr/src/debug/openssh/10.3p1/openbsd-compat/bsd-getpeereid.c /usr/src/debug/openssh/10.3p1/addrmatch.c /usr/src/debug/openssh/10.3p1/auth-pam.c /usr/src/debug/openssh/10.3p1/kexdh.c /usr/src/debug/openssh/10.3p1/ssh-pkcs11.h /usr/src/debug/openssh/10.3p1/sshconnect.h /usr/src/debug/openssh/10.3p1/ssh-sk-helper.c /usr/src/debug/openssh/10.3p1/ssh-keygen.c /usr/src/debug/openssh/10.3p1/ssh-pkcs11.c /usr/src/debug/openssh/10.3p1/sshconnect.c /usr
+ /src/debug/openssh/10.3p1/progressmeter.h /usr/src/debug/openssh/10.3p1/kex.c /usr/src/debug/openssh/10.3p1/mux.c /usr/src/debug/openssh/10.3p1/openbsd-compat/port-linux.h /usr/src/debug/openssh/10.3p1/monitor_fdpass.c /usr/src/debug/openssh/10.3p1/sftp-usergroup.h /usr/src/debug/openssh/10.3p1/sshbuf-getput-crypto.c /usr/src/debug/openssh/10.3p1/kex.h /usr/src/debug/openssh/10.3p1/openbsd-compat/blowfish.c /usr/src/debug/openssh/10.3p1/progressmeter.c /usr/src/debug/openssh/10.3p1/monitor_fdpass.h /usr/src/debug/openssh/10.3p1/openbsd-compat/port-linux.c /usr/src/debug/openssh/10.3p1/platform-listen.c /usr/src/debug/openssh/10.3p1/authfd.h /usr/src/debug/openssh/10.3p1/match.h /usr/src/debug/openssh/10.3p1/sftp-usergroup.c /usr/src/debug/openssh/10.3p1/sandbox-seccomp-filter.c /usr/src/debug/openssh/10.3p1/ssh-rsa.c /usr/src/debug/openssh/10.3p1/openbsd-compat/strtonum.c /usr/src/debug/openssh/10.3p1/authfd.c /usr/src/debug/openssh/10.3p1/match.c /usr/src/debug/openssh/10.3p1/openb
+ sd-compat/xcrypt.c /usr/src/debug/openssh/10.3p1/auth2-methods.c /usr/src/debug/openssh/10.3p1/dispatch.c /usr/src/debug/openssh/10.3p1/platform.c /usr/src/debug/openssh/10.3p1/servconf.h /usr/src/debug/openssh/10.3p1/platform.h /usr/src/debug/openssh/10.3p1/scp.c /usr/src/debug/openssh/10.3p1/dispatch.h /usr/src/debug/openssh/10.3p1/servconf.c /usr/src/debug/openssh/10.3p1/nchan.c /usr/src/debug/openssh/10.3p1/openbsd-compat/openbsd-compat.h /usr/src/debug/openssh/10.3p1/kexc25519.c /usr/src/debug/openssh/10.3p1/kex-names.c /usr/src/debug/openssh/10.3p1/addr.h /usr/src/debug/openssh/10.3p1/ssh-ed25519.c /usr/src/debug/openssh/10.3p1/loginrec.h /usr/src/debug/openssh/10.3p1/sftp-realpath.c /usr/src/debug/openssh/10.3p1/ssh-pkcs11-client.c /usr/src/debug/openssh/10.3p1/sshlogin.c /usr/src/debug/openssh/10.3p1/addr.c /usr/src/debug/openssh/10.3p1/sshlogin.h /usr/src/debug/openssh/10.3p1/loginrec.c /usr/src/debug/openssh/10.3p1/readconf.h /usr/src/debug/openssh/10.3p1/digest.h /usr/src
+ /debug/openssh/10.3p1/openbsd-compat/bcrypt_pbkdf.c /usr/src/debug/openssh/10.3p1/openbsd-compat/recallocarray.c /usr/src/debug/openssh/10.3p1/readconf.c /usr/src/debug/openssh/10.3p1/entropy.h /usr/src/debug/openssh/10.3p1/libcrux_mlkem768_sha3.h /usr/src/debug/openssh/10.3p1/entropy.c /usr/src/debug/openssh/10.3p1/auth-shadow.c /usr/src/debug/openssh/10.3p1/cipher-chachapoly-libcrypto.c /usr/src/debug/openssh/10.3p1/digest-openssl.c /usr/src/debug/openssh/10.3p1/openbsd-compat/freezero.c /usr/src/debug/openssh/10.3p1/openbsd-compat/getopt.h /usr/src/debug/openssh/10.3p1/fatal.c /usr/src/debug/openssh/10.3p1/sftp-server-main.c /usr/src/debug/openssh/10.3p1/ssh-sk.h /usr/src/debug/openssh/10.3p1/ssh_api.h /usr/src/debug/openssh/10.3p1/readpass.c /usr/src/debug/openssh/10.3p1/openbsd-compat/getrrsetbyname.h /usr/src/debug/openssh/10.3p1/ssh_api.c /usr/src/debug/openssh/10.3p1/sshbuf.c /usr/src/debug/openssh/10.3p1/openbsd-compat/getrrsetbyname.c /usr/src/debug/openssh/10.3p1/sshbuf.h
+  /usr/src/debug/openssh/10.3p1/channels.h /usr/src/debug/openssh/10.3p1/sshsig.h /usr/src/debug/openssh/10.3p1/auth2-pubkeyfile.c /usr/src/debug/openssh/10.3p1/channels.c /usr/src/debug/openssh/10.3p1/sshsig.c /usr/src/debug/openssh/10.3p1/srclimit.h /usr/src/debug/openssh/10.3p1/log.c /usr/src/debug/openssh/10.3p1/msg.c /usr/src/debug/openssh/10.3p1/xmalloc.c /usr/src/debug/openssh/10.3p1/hmac.c /usr/src/debug/openssh/10.3p1/umac.c /usr/src/debug/openssh/10.3p1/log.h /usr/src/debug/openssh/10.3p1/msg.h /usr/src/debug/openssh/10.3p1/srclimit.c /usr/src/debug/openssh/10.3p1/xmalloc.h /usr/src/debug/openssh/10.3p1/hmac.h /usr/src/debug/openssh/10.3p1/auth-rhosts.c /usr/src/debug/openssh/10.3p1/umac.h /usr/src/debug/openssh/10.3p1/cipher-aesctr.h /usr/src/debug/openssh/10.3p1/packet.c /usr/src/debug/openssh/10.3p1/cipher.h /usr/src/debug/openssh/10.3p1/packet.h /usr/src/debug/openssh/10.3p1/cipher.c /usr/src/debug/openssh/10.3p1/misc-agent.c /usr/src/debug/openssh/10.3p1/ssherr-nolibcr
+ ypto.c /usr/src/debug/openssh/10.3p1/kexgen.c /usr/src/debug/openssh/10.3p1/session.h /usr/src/debug/openssh/10.3p1/smult_curve25519_ref.c /usr/src/debug/openssh/10.3p1/session.c /usr/src/debug/openssh/10.3p1/ssh-sk-client.c /usr/src/debug/openssh/10.3p1/openbsd-compat/charclass.h /usr/src/debug/openssh/10.3p1/ttymodes.c /usr/src/debug/openssh/10.3p1/utf8.c /usr/src/debug/openssh/10.3p1/auth-options.h /usr/src/debug/openssh/10.3p1/monitor.h /usr/src/debug/openssh/10.3p1/sshbuf-io.c /usr/src/debug/openssh/10.3p1/sshd-auth.c /usr/src/debug/openssh/10.3p1/ttymodes.h /usr/src/debug/openssh/10.3p1/utf8.h /usr/src/debug/openssh/10.3p1/openbsd-compat/fmt_scaled.c /usr/src/debug/openssh/10.3p1/auth-options.c /usr/src/debug/openssh/10.3p1/monitor.c /usr/src/debug/openssh/10.3p1/sshpty.c /usr/src/debug/openssh/10.3p1/sshtty.c /usr/src/debug/openssh/10.3p1/kexgexc.c /usr/src/debug/openssh/10.3p1/mac.c /usr/src/debug/openssh/10.3p1/sshpty.h /usr/src/debug/openssh/10.3p1/mac.h /usr/src/debug/ope
+ nssh/10.3p1/kexgexs.c /usr/src/debug/openssh/10.3p1/auth2.c /usr/src/debug/openssh/10.3p1/ssh-add.c /usr/src/debug/openssh/10.3p1/ssh.c /usr/src/debug/openssh/10.3p1/ssh-sandbox.h /usr/src/debug/openssh/10.3p1/pkcs11.h /usr/src/debug/openssh/10.3p1/auth-passwd.c /usr/src/debug/openssh/10.3p1/bitmap.c /usr/src/debug/openssh/10.3p1/openbsd-compat/setproctitle.c /usr/src/debug/openssh/10.3p1/dh.c /usr/src/debug/openssh/10.3p1/sftp-server.c /usr/src/debug/openssh/10.3p1/ssh-keyscan.c /usr/src/debug/openssh/10.3p1/ssh-keysign.c /usr/src/debug/openssh/10.3p1/sshbuf-misc.c /usr/src/debug/openssh/10.3p1/bitmap.h /usr/src/debug/openssh/10.3p1/dh.h /usr/src/debug/openssh/10.3p1/sftp.h /usr/src/debug/openssh/10.3p1/hostfile.h /usr/src/debug/openssh/10.3p1/platform-tracing.c /usr/src/debug/openssh/10.3p1/hostfile.c /usr/src/debug/openssh/10.3p1/sftp.c /usr/src/debug/openssh/10.3p1/openbsd-compat/bsd-closefrom.c /usr/src/debug/openssh/10.3p1/openbsd-compat/port-net.c /usr/src/debug/openssh/10.3p
+ 1/misc.h /usr/src/debug/openssh/10.3p1/sftp-client.h /usr/src/debug/openssh/10.3p1/misc.c /usr/src/debug/openssh/10.3p1/sftp-client.c /usr/src/debug/openssh/10.3p1/openbsd-compat/port-net.h /usr/src/debug/openssh/10.3p1/ssherr.h /usr/src/debug/openssh/10.3p1/authfile.h /usr/src/debug/openssh/10.3p1/openbsd-compat/openssl-compat.h /usr/src/debug/openssh/10.3p1/canohost.c /usr/src/debug/openssh/10.3p1/atomicio.c /usr/src/debug/openssh/10.3p1/openbsd-compat/pwcache.c /usr/src/debug/openssh/10.3p1/authfile.c /usr/src/debug/openssh/10.3p1/openbsd-compat/openssl-compat.c /usr/src/debug/openssh/10.3p1/cleanup.c /usr/src/debug/openssh/10.3p1/poly1305.h /usr/src/debug/openssh/10.3p1/auth2-none.c /usr/src/debug/openssh/10.3p1/atomicio.h /usr/src/debug/openssh/10.3p1/ed25519-openssl.c /usr/src/debug/openssh/10.3p1/canohost.h /usr/src/debug/openssh/10.3p1/poly1305.c /usr/src/debug/openssh/10.3p1/openbsd-compat/glob.c /usr/src/debug/openssh/10.3p1/ssh-pkcs11-helper.c /usr/src/debug/openssh/10.3p
+ 1/uidswap.c /usr/src/debug/openssh/10.3p1/openbsd-compat/glob.h /usr/src/debug/openssh/10.3p1/kexgex.c /usr/src/debug/openssh/10.3p1/uidswap.h /usr/src/debug/openssh/10.3p1/kexmlkem768x25519.c /usr/src/debug/openssh/10.3p1/kexsntrup761x25519.c /usr/src/debug/openssh/10.3p1/auth2-passwd.c /usr/src/debug/openssh/10.3p1/openbsd-compat/libressl-api-compat.c /usr/src/debug/openssh/10.3p1/ssherr-libcrypto.c /usr/src/debug/openssh/10.3p1/sshbuf-getput-basic.c /usr/src/debug/openssh/10.3p1/auth2-hostbased.c /usr/src/debug/openssh/10.3p1/openbsd-compat/base64.c /usr/src/debug/openssh/10.3p1/moduli.c /usr/src/debug/openssh/10.3p1/clientloop.c /usr/src/debug/openssh/10.3p1/krl.h /usr/src/debug/openssh/10.3p1/sshd-session.c /usr/src/debug/openssh/10.3p1/ssherr.c /usr/src/debug/openssh/10.3p1/openbsd-compat/mktemp.c /usr/src/debug/openssh/10.3p1/krl.c /usr/src/debug/openssh/10.3p1/clientloop.h /usr/src/debug/openssh/10.3p1/auth2-pubkey.c /usr/src/debug/openssh/10.3p1/auth2-chall.c /usr/src/debug
+ /openssh/10.3p1/crypto_api.h /usr/src/debug/openssh/10.3p1/openbsd-compat/bsd-misc.h /usr/src/debug/openssh/10.3p1/openbsd-compat/vis.c /usr/src/debug/openssh/10.3p1/openbsd-compat/readpassphrase.h /usr/src/debug/openssh/10.3p1/sshconnect2.c /usr/src/debug/openssh/10.3p1/openbsd-compat/readpassphrase.c /usr/src/debug/openssh/10.3p1/openbsd-compat/blf.h /usr/src/debug/openssh/10.3p1/openbsd-compat/bsd-misc.c /usr/src/debug/openssh/10.3p1/openbsd-compat/vis.h /usr/src/debug/openssh/10.3p1/openbsd-compat/timingsafe_bcmp.c /usr/src/debug/openssh/10.3p1/platform-misc.c /usr/src/debug/openssh/10.3p1/auth2-kbdint.c /usr/src/debug/openssh/10.3p1/groupaccess.h /usr/src/debug/openssh/10.3p1/dns.c /usr/src/debug/openssh/10.3p1/monitor_wrap.c /usr/src/debug/openssh/10.3p1/monitor_wrap.h /usr/src/debug/openssh/10.3p1/dns.h /usr/src/debug/openssh/10.3p1/groupaccess.c /usr/src/debug/openssh/10.3p1/compat.c /usr/src/debug/openssh/10.3p1/platform-pledge.c /usr/src/debug/openssh/10.3p1/sshd.c /usr/sr
+ c/debug/openssh/10.3p1/compat.h", added "/usr/src/debug/openssh/10.4p1/rijndael.h /usr/src/debug/openssh/10.4p1/ssh-ecdsa.c /usr/src/debug/openssh/10.4p1/ssh-agent.c /usr/src/debug/openssh/10.4p1/auth.c /usr/src/debug/openssh/10.4p1/regress/unittests/crypto/tests.c /usr/src/debug/openssh/10.4p1/kexecdh.c /usr/src/debug/openssh/10.4p1/openbsd-compat/strmode.c /usr/src/debug/openssh/10.4p1/auth.h /usr/src/debug/openssh/10.4p1/serverloop.c /usr/src/debug/openssh/10.4p1/sshkey.c /usr/src/debug/openssh/10.4p1/sftp-common.c /usr/src/debug/openssh/10.4p1/cipher-chachapoly.h /usr/src/debug/openssh/10.4p1/serverloop.h /usr/src/debug/openssh/10.4p1/sftp-glob.c /usr/src/debug/openssh/10.4p1/openbsd-compat/getopt_long.c /usr/src/debug/openssh/10.4p1/sftp-common.h /usr/src/debug/openssh/10.4p1/sntrup761.c /usr/src/debug/openssh/10.4p1/sshkey.h /usr/src/debug/openssh/10.4p1/auth-pam.h /usr/src/debug/openssh/10.4p1/openbsd-compat/bsd-getpeereid.c /usr/src/debug/openssh/10.4p1/addrmatch.c /usr/src/
+ debug/openssh/10.4p1/ssh-mldsa-eddsa.c /usr/src/debug/openssh/10.4p1/auth-pam.c /usr/src/debug/openssh/10.4p1/kexdh.c /usr/src/debug/openssh/10.4p1/ssh-pkcs11.h /usr/src/debug/openssh/10.4p1/sshconnect.h /usr/src/debug/openssh/10.4p1/ssh-sk-helper.c /usr/src/debug/openssh/10.4p1/ssh-keygen.c /usr/src/debug/openssh/10.4p1/ssh-pkcs11.c /usr/src/debug/openssh/10.4p1/sshconnect.c /usr/src/debug/openssh/10.4p1/progressmeter.h /usr/src/debug/openssh/10.4p1/kex.c /usr/src/debug/openssh/10.4p1/mux.c /usr/src/debug/openssh/10.4p1/openbsd-compat/port-linux.h /usr/src/debug/openssh/10.4p1/monitor_fdpass.c /usr/src/debug/openssh/10.4p1/sftp-usergroup.h /usr/src/debug/openssh/10.4p1/sshbuf-getput-crypto.c /usr/src/debug/openssh/10.4p1/kex.h /usr/src/debug/openssh/10.4p1/openbsd-compat/blowfish.c /usr/src/debug/openssh/10.4p1/progressmeter.c /usr/src/debug/openssh/10.4p1/monitor_fdpass.h /usr/src/debug/openssh/10.4p1/openbsd-compat/port-linux.c /usr/src/debug/openssh/10.4p1/platform-listen.c /usr
+ /src/debug/openssh/10.4p1/authfd.h /usr/src/debug/openssh/10.4p1/match.h /usr/src/debug/openssh/10.4p1/sftp-usergroup.c /usr/src/debug/openssh/10.4p1/sandbox-seccomp-filter.c /usr/src/debug/openssh/10.4p1/ssh-rsa.c /usr/src/debug/openssh/10.4p1/openbsd-compat/strtonum.c /usr/src/debug/openssh/10.4p1/authfd.c /usr/src/debug/openssh/10.4p1/match.c /usr/src/debug/openssh/10.4p1/openbsd-compat/xcrypt.c /usr/src/debug/openssh/10.4p1/auth2-methods.c /usr/src/debug/openssh/10.4p1/dispatch.c /usr/src/debug/openssh/10.4p1/platform.c /usr/src/debug/openssh/10.4p1/servconf.h /usr/src/debug/openssh/10.4p1/platform.h /usr/src/debug/openssh/10.4p1/scp.c /usr/src/debug/openssh/10.4p1/dispatch.h /usr/src/debug/openssh/10.4p1/servconf.c /usr/src/debug/openssh/10.4p1/nchan.c /usr/src/debug/openssh/10.4p1/openbsd-compat/openbsd-compat.h /usr/src/debug/openssh/10.4p1/kexc25519.c /usr/src/debug/openssh/10.4p1/kex-names.c /usr/src/debug/openssh/10.4p1/addr.h /usr/src/debug/openssh/10.4p1/ssh-ed25519.c /u
+ sr/src/debug/openssh/10.4p1/loginrec.h /usr/src/debug/openssh/10.4p1/sftp-realpath.c /usr/src/debug/openssh/10.4p1/ssh-pkcs11-client.c /usr/src/debug/openssh/10.4p1/sshlogin.c /usr/src/debug/openssh/10.4p1/addr.c /usr/src/debug/openssh/10.4p1/sshlogin.h /usr/src/debug/openssh/10.4p1/loginrec.c /usr/src/debug/openssh/10.4p1/readconf.h /usr/src/debug/openssh/10.4p1/regress/unittests/crypto/test_mlkem.c /usr/src/debug/openssh/10.4p1/digest.h /usr/src/debug/openssh/10.4p1/openbsd-compat/bcrypt_pbkdf.c /usr/src/debug/openssh/10.4p1/openbsd-compat/recallocarray.c /usr/src/debug/openssh/10.4p1/readconf.c /usr/src/debug/openssh/10.4p1/entropy.h /usr/src/debug/openssh/10.4p1/entropy.c /usr/src/debug/openssh/10.4p1/auth-shadow.c /usr/src/debug/openssh/10.4p1/cipher-chachapoly-libcrypto.c /usr/src/debug/openssh/10.4p1/digest-openssl.c /usr/src/debug/openssh/10.4p1/openbsd-compat/freezero.c /usr/src/debug/openssh/10.4p1/openbsd-compat/getopt.h /usr/src/debug/openssh/10.4p1/fatal.c /usr/src/debu
+ g/openssh/10.4p1/sftp-server-main.c /usr/src/debug/openssh/10.4p1/ssh-sk.h /usr/src/debug/openssh/10.4p1/ssh_api.h /usr/src/debug/openssh/10.4p1/readpass.c /usr/src/debug/openssh/10.4p1/openbsd-compat/getrrsetbyname.h /usr/src/debug/openssh/10.4p1/ssh_api.c /usr/src/debug/openssh/10.4p1/sshbuf.c /usr/src/debug/openssh/10.4p1/openbsd-compat/getrrsetbyname.c /usr/src/debug/openssh/10.4p1/sshbuf.h /usr/src/debug/openssh/10.4p1/channels.h /usr/src/debug/openssh/10.4p1/sshsig.h /usr/src/debug/openssh/10.4p1/auth2-pubkeyfile.c /usr/src/debug/openssh/10.4p1/libcrux-mlkem-mldsa.c /usr/src/debug/openssh/10.4p1/channels.c /usr/src/debug/openssh/10.4p1/sshsig.c /usr/src/debug/openssh/10.4p1/srclimit.h /usr/src/debug/openssh/10.4p1/log.c /usr/src/debug/openssh/10.4p1/msg.c /usr/src/debug/openssh/10.4p1/regress/unittests/crypto/test_mldsa_eddsa.c /usr/src/debug/openssh/10.4p1/xmalloc.c /usr/src/debug/openssh/10.4p1/hmac.c /usr/src/debug/openssh/10.4p1/umac.c /usr/src/debug/openssh/10.4p1/log.h /
+ usr/src/debug/openssh/10.4p1/msg.h /usr/src/debug/openssh/10.4p1/srclimit.c /usr/src/debug/openssh/10.4p1/xmalloc.h /usr/src/debug/openssh/10.4p1/hmac.h /usr/src/debug/openssh/10.4p1/auth-rhosts.c /usr/src/debug/openssh/10.4p1/umac.h /usr/src/debug/openssh/10.4p1/cipher-aesctr.h /usr/src/debug/openssh/10.4p1/packet.c /usr/src/debug/openssh/10.4p1/cipher.h /usr/src/debug/openssh/10.4p1/packet.h /usr/src/debug/openssh/10.4p1/cipher.c /usr/src/debug/openssh/10.4p1/misc-agent.c /usr/src/debug/openssh/10.4p1/ssherr-nolibcrypto.c /usr/src/debug/openssh/10.4p1/kexgen.c /usr/src/debug/openssh/10.4p1/session.h /usr/src/debug/openssh/10.4p1/smult_curve25519_ref.c /usr/src/debug/openssh/10.4p1/libcrux_internal.h /usr/src/debug/openssh/10.4p1/session.c /usr/src/debug/openssh/10.4p1/ssh-sk-client.c /usr/src/debug/openssh/10.4p1/openbsd-compat/charclass.h /usr/src/debug/openssh/10.4p1/ttymodes.c /usr/src/debug/openssh/10.4p1/utf8.c /usr/src/debug/openssh/10.4p1/auth-options.h /usr/src/debug/opens
+ sh/10.4p1/monitor.h /usr/src/debug/openssh/10.4p1/sshbuf-io.c /usr/src/debug/openssh/10.4p1/sshd-auth.c /usr/src/debug/openssh/10.4p1/ttymodes.h /usr/src/debug/openssh/10.4p1/utf8.h /usr/src/debug/openssh/10.4p1/openbsd-compat/fmt_scaled.c /usr/src/debug/openssh/10.4p1/auth-options.c /usr/src/debug/openssh/10.4p1/monitor.c /usr/src/debug/openssh/10.4p1/sshpty.c /usr/src/debug/openssh/10.4p1/regress/unittests/crypto/test_mldsa.c /usr/src/debug/openssh/10.4p1/sshtty.c /usr/src/debug/openssh/10.4p1/kexgexc.c /usr/src/debug/openssh/10.4p1/mac.c /usr/src/debug/openssh/10.4p1/sshpty.h /usr/src/debug/openssh/10.4p1/mac.h /usr/src/debug/openssh/10.4p1/kexgexs.c /usr/src/debug/openssh/10.4p1/auth2.c /usr/src/debug/openssh/10.4p1/ssh-add.c /usr/src/debug/openssh/10.4p1/ssh.c /usr/src/debug/openssh/10.4p1/ssh-sandbox.h /usr/src/debug/openssh/10.4p1/pkcs11.h /usr/src/debug/openssh/10.4p1/auth-passwd.c /usr/src/debug/openssh/10.4p1/bitmap.c /usr/src/debug/openssh/10.4p1/openbsd-compat/setproctit
+ le.c /usr/src/debug/openssh/10.4p1/dh.c /usr/src/debug/openssh/10.4p1/sftp-server.c /usr/src/debug/openssh/10.4p1/ssh-keyscan.c /usr/src/debug/openssh/10.4p1/ssh-keysign.c /usr/src/debug/openssh/10.4p1/sshbuf-misc.c /usr/src/debug/openssh/10.4p1/bitmap.h /usr/src/debug/openssh/10.4p1/dh.h /usr/src/debug/openssh/10.4p1/sftp.h /usr/src/debug/openssh/10.4p1/hostfile.h /usr/src/debug/openssh/10.4p1/platform-tracing.c /usr/src/debug/openssh/10.4p1/hostfile.c /usr/src/debug/openssh/10.4p1/sftp.c /usr/src/debug/openssh/10.4p1/openbsd-compat/bsd-closefrom.c /usr/src/debug/openssh/10.4p1/openbsd-compat/port-net.c /usr/src/debug/openssh/10.4p1/misc.h /usr/src/debug/openssh/10.4p1/sftp-client.h /usr/src/debug/openssh/10.4p1/misc.c /usr/src/debug/openssh/10.4p1/sftp-client.c /usr/src/debug/openssh/10.4p1/openbsd-compat/port-net.h /usr/src/debug/openssh/10.4p1/ssherr.h /usr/src/debug/openssh/10.4p1/authfile.h /usr/src/debug/openssh/10.4p1/openbsd-compat/openssl-compat.h /usr/src/debug/openssh/10
+ .4p1/canohost.c /usr/src/debug/openssh/10.4p1/atomicio.c /usr/src/debug/openssh/10.4p1/openbsd-compat/pwcache.c /usr/src/debug/openssh/10.4p1/authfile.c /usr/src/debug/openssh/10.4p1/openbsd-compat/openssl-compat.c /usr/src/debug/openssh/10.4p1/cleanup.c /usr/src/debug/openssh/10.4p1/poly1305.h /usr/src/debug/openssh/10.4p1/auth2-none.c /usr/src/debug/openssh/10.4p1/atomicio.h /usr/src/debug/openssh/10.4p1/ed25519-openssl.c /usr/src/debug/openssh/10.4p1/canohost.h /usr/src/debug/openssh/10.4p1/poly1305.c /usr/src/debug/openssh/10.4p1/openbsd-compat/glob.c /usr/src/debug/openssh/10.4p1/ssh-pkcs11-helper.c /usr/src/debug/openssh/10.4p1/uidswap.c /usr/src/debug/openssh/10.4p1/openbsd-compat/glob.h /usr/src/debug/openssh/10.4p1/kexgex.c /usr/src/debug/openssh/10.4p1/uidswap.h /usr/src/debug/openssh/10.4p1/kexmlkem768x25519.c /usr/src/debug/openssh/10.4p1/kexsntrup761x25519.c /usr/src/debug/openssh/10.4p1/auth2-passwd.c /usr/src/debug/openssh/10.4p1/ssherr-libcrypto.c /usr/src/debug/open
+ ssh/10.4p1/sshbuf-getput-basic.c /usr/src/debug/openssh/10.4p1/auth2-hostbased.c /usr/src/debug/openssh/10.4p1/openbsd-compat/base64.c /usr/src/debug/openssh/10.4p1/moduli.c /usr/src/debug/openssh/10.4p1/regress/unittests/crypto/test_ed25519.c /usr/src/debug/openssh/10.4p1/clientloop.c /usr/src/debug/openssh/10.4p1/krl.h /usr/src/debug/openssh/10.4p1/regress/unittests/utf8/tests.c /usr/src/debug/openssh/10.4p1/sshd-session.c /usr/src/debug/openssh/10.4p1/ssherr.c /usr/src/debug/openssh/10.4p1/openbsd-compat/mktemp.c /usr/src/debug/openssh/10.4p1/krl.c /usr/src/debug/openssh/10.4p1/clientloop.h /usr/src/debug/openssh/10.4p1/auth2-pubkey.c /usr/src/debug/openssh/10.4p1/auth2-chall.c /usr/src/debug/openssh/10.4p1/crypto_api.h /usr/src/debug/openssh/10.4p1/openbsd-compat/bsd-misc.h /usr/src/debug/openssh/10.4p1/openbsd-compat/vis.c /usr/src/debug/openssh/10.4p1/openbsd-compat/readpassphrase.h /usr/src/debug/openssh/10.4p1/sshconnect2.c /usr/src/debug/openssh/10.4p1/openbsd-compat/readpa
+ ssphrase.c /usr/src/debug/openssh/10.4p1/openbsd-compat/blf.h /usr/src/debug/openssh/10.4p1/openbsd-compat/bsd-misc.c /usr/src/debug/openssh/10.4p1/openbsd-compat/vis.h /usr/src/debug/openssh/10.4p1/openbsd-compat/timingsafe_bcmp.c /usr/src/debug/openssh/10.4p1/platform-misc.c /usr/src/debug/openssh/10.4p1/auth2-kbdint.c /usr/src/debug/openssh/10.4p1/groupaccess.h /usr/src/debug/openssh/10.4p1/dns.c /usr/src/debug/openssh/10.4p1/monitor_wrap.c /usr/src/debug/openssh/10.4p1/monitor_wrap.h /usr/src/debug/openssh/10.4p1/dns.h /usr/src/debug/openssh/10.4p1/groupaccess.c /usr/src/debug/openssh/10.4p1/compat.c /usr/src/debug/openssh/10.4p1/platform-pledge.c /usr/src/debug/openssh/10.4p1/sshd.c /usr/src/debug/openssh/10.4p1/compat.h"
+packages/x86-64-v3-poky-linux/openssh/openssh-ssh: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-ssh: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-ssh: PKGSIZE changed from 925913 to 1016025 (+10%)
+packages/x86-64-v3-poky-linux/openssh/openssh-sshd: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-sshd: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh-sshd: PKGSIZE changed from 3168810 to 3486104 (+10%)
+packages/x86-64-v3-poky-linux/openssh/openssh-staticdev: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh-staticdev: PV changed from "10.3p1" to "10.4p1"
+packages/x86-64-v3-poky-linux/openssh/openssh: PKGV changed from 10.3p1 [default] to 10.4p1 [default]
+packages/x86-64-v3-poky-linux/openssh/openssh: PV changed from "10.3p1" to "10.4p1"
 
---===============4248421554173149491==
-Content-Type: application/octet-stream
+--===============1402967003654465777==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-dropbear-upgrade-2026.91-2026.92.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-RnJvbSAwODBmYjdjMDgzZmZhNGUyZGM5MjVkOGUwMmU3ODg2MWZhZGUyMWZlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgNyBKdWwgMjAyNiAwNToyNzozOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRy
-b3BiZWFyOiB1cGdyYWRlIDIwMjYuOTEgLT4gMjAyNi45MgoKLS0tCiAuLi4vMDAwMS11cmFuZG9t
-LXhhdXRoLWNoYW5nZXMtdG8tb3B0aW9ucy5oLnBhdGNoICAgICAgICAgfCA2ICsrKy0tLQogLi4u
-L2Ryb3BiZWFyL2Ryb3BiZWFyLzAwMDUtZHJvcGJlYXItZW5hYmxlLXBhbS5wYXRjaCAgICAgIHwg
-OCArKysrLS0tLQogLi4uL2Ryb3BiZWFyLzAwMDYtZHJvcGJlYXItY29uZmlndXJhdGlvbi1maWxl
-LnBhdGNoICAgICAgIHwgMiArLQogLi4uL2Ryb3BiZWFyL3tkcm9wYmVhcl8yMDI2LjkxLmJiID0+
-IGRyb3BiZWFyXzIwMjYuOTIuYmJ9IHwgMiArLQogNCBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlv
-bnMoKyksIDkgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvZHJvcGJlYXIv
-e2Ryb3BiZWFyXzIwMjYuOTEuYmIgPT4gZHJvcGJlYXJfMjAyNi45Mi5iYn0gKDk4JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9kcm9wYmVhci9kcm9wYmVhci8wMDAxLXVyYW5kb20t
-eGF1dGgtY2hhbmdlcy10by1vcHRpb25zLmgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9kcm9w
-YmVhci9kcm9wYmVhci8wMDAxLXVyYW5kb20teGF1dGgtY2hhbmdlcy10by1vcHRpb25zLmgucGF0
-Y2gKaW5kZXggYTY2MjIzMGI4OC4uYjBmOGU2MTk5OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWNvcmUvZHJvcGJlYXIvZHJvcGJlYXIvMDAwMS11cmFuZG9tLXhhdXRoLWNoYW5nZXMtdG8tb3B0
-aW9ucy5oLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2Ryb3BiZWFyL2Ryb3BiZWFyLzAw
-MDEtdXJhbmRvbS14YXV0aC1jaGFuZ2VzLXRvLW9wdGlvbnMuaC5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gY2RjNmE0YTU3YTg2ZDgxMTZhOTJhNWQ5MDU5OTNlNjVjZjcyMzU1NiBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZTVmNmM2ZThkMmI2MzE1ZTUwOWM2MTBlN2QxM2U3ZGQy
-YjQ2NWE4NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJpY2hhcmQgUHVyZGllIDxy
-aWNoYXJkQG9wZW5lZGhhbmQuY29tPgogRGF0ZTogV2VkLCAzMSBBdWcgMjAwNSAxMDo0NTo0NyAr
-MDAwMAogU3ViamVjdDogW1BBVENIXSB1cmFuZG9tLXhhdXRoLWNoYW5nZXMtdG8tb3B0aW9ucy5o
-CkBAIC05LDEwICs5LDEwIEBAIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbY29uZmln
-dXJhdGlvbl0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IAogZGlmZiAtLWdpdCBhL3NyYy9kZWZhdWx0X29wdGlvbnMuaCBiL3NyYy9kZWZhdWx0X29wdGlv
-bnMuaAotaW5kZXggNmU5NzBiYi4uY2NjOGI0NyAxMDA2NDQKK2luZGV4IGZmYWYwNjIuLjJlYjdk
-ZTEgMTAwNjQ0CiAtLS0gYS9zcmMvZGVmYXVsdF9vcHRpb25zLmgKICsrKyBiL3NyYy9kZWZhdWx0
-X29wdGlvbnMuaAotQEAgLTMyMyw3ICszMjMsNyBAQCBncm91cDEgaW4gRHJvcGJlYXIgc2VydmVy
-IHRvbyAqLworQEAgLTM0Nyw3ICszNDcsNyBAQCBncm91cDEgaW4gRHJvcGJlYXIgc2VydmVyIHRv
-byAqLwogIAogIC8qIFRoZSBjb21tYW5kIHRvIGludm9rZSBmb3IgeGF1dGggd2hlbiB1c2luZyBY
-MTEgZm9yd2FyZGluZy4KICAgKiAiLXEiIGZvciBxdWlldCAqLwpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWNvcmUvZHJvcGJlYXIvZHJvcGJlYXIvMDAwNS1kcm9wYmVhci1lbmFibGUtcGFtLnBh
-dGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvZHJvcGJlYXIvZHJvcGJlYXIvMDAwNS1kcm9wYmVhci1l
-bmFibGUtcGFtLnBhdGNoCmluZGV4IDY3NDNmNTA2ZTkuLmJmYjc4YjFlZTEgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1jb3JlL2Ryb3BiZWFyL2Ryb3BiZWFyLzAwMDUtZHJvcGJlYXItZW5hYmxl
-LXBhbS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9kcm9wYmVhci9kcm9wYmVhci8wMDA1
-LWRyb3BiZWFyLWVuYWJsZS1wYW0ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDI1M2NhMDFm
-MGZjNTBkYmFlYjJmZjhiY2VjZTBjMzQyNTZlYmE5NGYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CitGcm9tIGRjZTVkMDNlZDRkMjhjNjM3NGU1OTNiN2VmMmNjNDY4OGY3OTVmYmQgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCiBGcm9tOiBKdXNzaSBLdWtrb25lbiA8anVzc2kua3Vra29uZW5AaW50
-ZWwuY29tPgogRGF0ZTogV2VkLCAyIERlYyAyMDE1IDExOjM2OjAyICswMjAwCiBTdWJqZWN0OiBb
-UEFUQ0hdIEVuYWJsZSBwYW0KQEAgLTE1LDEwICsxNSwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBKdXNz
-aSBLdWtrb25lbiA8anVzc2kua3Vra29uZW5AaW50ZWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAy
-IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9zcmMvZGVmYXVs
-dF9vcHRpb25zLmggYi9zcmMvZGVmYXVsdF9vcHRpb25zLmgKLWluZGV4IGNjYzhiNDcuLjEyNzY4
-ZDEgMTAwNjQ0CitpbmRleCAyZWI3ZGUxLi5iZTg1YmVlIDEwMDY0NAogLS0tIGEvc3JjL2RlZmF1
-bHRfb3B0aW9ucy5oCiArKysgYi9zcmMvZGVmYXVsdF9vcHRpb25zLmgKLUBAIC0yMjgsNyArMjI4
-LDcgQEAgZ3JvdXAxIGluIERyb3BiZWFyIHNlcnZlciB0b28gKi8KK0BAIC0yNDAsNyArMjQwLDcg
-QEAgZ3JvdXAxIGluIERyb3BiZWFyIHNlcnZlciB0b28gKi8KICAKICAvKiBBdXRoZW50aWNhdGlv
-biBUeXBlcyAtIGF0IGxlYXN0IG9uZSByZXF1aXJlZC4KICAgICBSRkMgRHJhZnQgcmVxdWlyZXMg
-cHVia2V5IGF1dGgsIGFuZCByZWNvbW1lbmRzIHBhc3N3b3JkICovCkBAIC0yNyw3ICsyNyw3IEBA
-IGluZGV4IGNjYzhiNDcuLjEyNzY4ZDEgMTAwNjQ0CiAgCiAgLyogTm90ZTogUEFNIGF1dGggaXMg
-cXVpdGUgc2ltcGxlIGFuZCBvbmx5IHdvcmtzIGZvciBQQU0gbW9kdWxlcyB3aGljaCBqdXN0IGRv
-CiAgICogYSBzaW1wbGUgIkxvZ2luOiAiICJQYXNzd29yZDogIiAoeW91IGNhbiBlZGl0IHRoZSBz
-dHJpbmdzIGluIHN2ci1hdXRocGFtLmMpLgotQEAgLTIzNiw3ICsyMzYsNyBAQCBncm91cDEgaW4g
-RHJvcGJlYXIgc2VydmVyIHRvbyAqLworQEAgLTI0OCw3ICsyNDgsNyBAQCBncm91cDEgaW4gRHJv
-cGJlYXIgc2VydmVyIHRvbyAqLwogICAqIGJ1dCB0aGVyZSdzIGFuIGludGVyZmFjZSB2aWEgYSBQ
-QU0gbW9kdWxlLiBJdCB3b24ndCB3b3JrIGZvciBtb3JlIGNvbXBsZXgKICAgKiBQQU0gY2hhbGxl
-bmdlL3Jlc3BvbnNlLgogICAqIFlvdSBjYW4ndCBlbmFibGUgYm90aCBQQVNTV09SRCBhbmQgUEFN
-LiAqLwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZHJvcGJlYXIvZHJvcGJlYXIvMDAw
-Ni1kcm9wYmVhci1jb25maWd1cmF0aW9uLWZpbGUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9k
-cm9wYmVhci9kcm9wYmVhci8wMDA2LWRyb3BiZWFyLWNvbmZpZ3VyYXRpb24tZmlsZS5wYXRjaApp
-bmRleCA0NDg2MTA4OGNjLi43NTA5ZWZiODhjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29y
-ZS9kcm9wYmVhci9kcm9wYmVhci8wMDA2LWRyb3BiZWFyLWNvbmZpZ3VyYXRpb24tZmlsZS5wYXRj
-aAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9kcm9wYmVhci9kcm9wYmVhci8wMDA2LWRyb3BiZWFy
-LWNvbmZpZ3VyYXRpb24tZmlsZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMTZiMTQ3Zjk3
-ZjA5MzhjZGRiNTVlYzFjOTBiYzkxOWMxM2YyNmZjMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gNTBkNjQwMDhmNzIyZjBmOTcxOWZjNmMxYjQ0NTgyMzE2MDIyYjkzZSBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206IE1pbmdsaSBZdSA8TWluZ2xpLll1QHdpbmRyaXZlci5jb20+
-CiBEYXRlOiBUaHUsIDYgU2VwIDIwMTggMTU6NTQ6MDAgKzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0g
-ZHJvcGJlYXIgY29uZmlndXJhdGlvbiBmaWxlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29y
-ZS9kcm9wYmVhci9kcm9wYmVhcl8yMDI2LjkxLmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvZHJvcGJl
-YXIvZHJvcGJlYXJfMjAyNi45Mi5iYgpzaW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBt
-ZXRhL3JlY2lwZXMtY29yZS9kcm9wYmVhci9kcm9wYmVhcl8yMDI2LjkxLmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtY29yZS9kcm9wYmVhci9kcm9wYmVhcl8yMDI2LjkyLmJiCmluZGV4IGNkZGRk
-NjRmZTIuLjQ0YTRkY2RlMDMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Ryb3BiZWFy
-L2Ryb3BiZWFyXzIwMjYuOTEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZHJvcGJlYXIvZHJv
-cGJlYXJfMjAyNi45Mi5iYgpAQCAtMjcsNyArMjcsNyBAQCBTUkNfVVJJID0gImh0dHA6Ly9tYXR0
-LnVjYy5hc24uYXUvZHJvcGJlYXIvcmVsZWFzZXMvZHJvcGJlYXItJHtQVn0udGFyLmJ6MiBcCiAg
-ICAgICAgICAgICR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCAncGFtJywg
-JyR7UEFNX1NSQ19VUkl9JywgJycsIGQpfSBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gImRlZmE5MjQ0NzVhYmY2YmMxZTc0YWJjMDAxNzNlNDZiZmRjODA0YmQ0N2NhYWZh
-MTRmNWE0ZWYwY2M3NmRhMzQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTFkY2I1MjM0ZGU4ZGVh
-NjhkZDgyYzU1NDExYzlmYzk4NmI0NTdhYjU4MzcyYTc4MGVlOGE4NzA0MTljMmY3ZSIKIE1JUlJP
-UlMgKz0gImh0dHA6Ly9tYXR0LnVjYy5hc24uYXUvZHJvcGJlYXIvcmVsZWFzZXMvIGh0dHBzOi8v
-ZHJvcGJlYXIubmwvbWlycm9yL3JlbGVhc2VzLyIKIAogUEFNX1NSQ19VUkkgPSAiZmlsZTovLzAw
-MDUtZHJvcGJlYXItZW5hYmxlLXBhbS5wYXRjaCBcCi0tIAoyLjQ3LjEKCg==
+packages/x86-64-v3-poky-linux/openssh/openssh-dbg: PKGSIZE changed from 27513296 to 41197392 (+50%)
+packages/x86-64-v3-poky-linux/openssh/openssh-keygen: PKGSIZE changed from 440512 to 592064 (+34%)
+packages/x86-64-v3-poky-linux/openssh/openssh-misc: PKGSIZE changed from 1793237 to 2485461 (+39%)
+packages/x86-64-v3-poky-linux/openssh/openssh-ptest: PKGSIZE changed from 6053215 to 8475073 (+40%)
+packages/x86-64-v3-poky-linux/openssh/openssh-ptest: FILELIST: added "/usr/lib/openssh/ptest/regress/unittests/crypto/test_mldsa_eddsa.c /usr/lib/openssh/ptest/regress/unittests/sshsig/testdata/mldsa44-ed25519.sig /usr/lib/openssh/ptest/regress/unittests/crypto/test_mldsa_eddsa.o /usr/lib/openssh/ptest/regress/unittests/crypto/Makefile /usr/lib/openssh/ptest/regress/unittests/crypto/test_mlkem.c /usr/lib/openssh/ptest/regress/unittests/servconf/Makefile /usr/lib/openssh/ptest/regress/unittests/crypto/test_mlkem.o /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1_pw /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_2.pub /usr/lib/openssh/ptest/regress/unittests/crypto/tests.o /usr/lib/openssh/ptest/regress/unittests/servconf/tests.c /usr/lib/openssh/ptest/regress/unittests/servconf/tests.o /usr/lib/openssh/ptest/regress/unittests/crypto/tests.c /usr/lib/openssh/ptest/regress/unittests/crypto/test_mldsa.o /usr/lib/openssh/ptest/regress/un
+ ittests/servconf/test_servconf /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1.fp /usr/lib/openssh/ptest/regress/unittests/crypto/test_mldsa.c /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_2.fp.bb /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1.pub /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1-cert.fp /usr/lib/openssh/ptest/regress/unittests/crypto/test_ed25519.c /usr/lib/openssh/ptest/regress/unittests/crypto/testdata/draft-ietf-lamps-pq-composite-sigs.json /usr/lib/openssh/ptest/regress/unittests/crypto/test_crypto /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1.fp.bb /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1-cert.pub /usr/lib/openssh/ptest/regress/unittests/crypto/test_ed25519.o /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_1 /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mlds
+ a44_ed25519_2 /usr/lib/openssh/ptest/regress/unittests/crypto/testdata/nistkats-44.json /usr/lib/openssh/ptest/regress/unittests/sshsig/testdata/mldsa44-ed25519.pub /usr/lib/openssh/ptest/regress/unittests/sshkey/testdata/mldsa44_ed25519_2.fp /usr/lib/openssh/ptest/regress/unittests/sshsig/testdata/mldsa44-ed25519"
+packages/x86-64-v3-poky-linux/openssh/openssh-src: PKGSIZE changed from 4160479 to 4692018 (+13%)
+packages/x86-64-v3-poky-linux/openssh/openssh-sshd: PKGSIZE changed from 3168810 to 3486104 (+10%)
 
---===============4248421554173149491==--
+--===============1402967003654465777==--
 
