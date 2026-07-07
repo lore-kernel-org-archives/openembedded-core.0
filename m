@@ -1,221 +1,280 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <leon.anavi@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D21CFC43602
-	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 10:52:14 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.171703.1783421527975192157
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0129EC43458
+	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 11:04:55 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.170823.1783422294197643922
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jul 2026 03:52:08 -0700
+ Tue, 07 Jul 2026 04:04:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A6cgD4Wt;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493b779003fso20183085e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 03:52:07 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=I4Wy3R7b;
+ spf=pass (domain: konsulko.com, ip: 209.85.214.177, mailfrom: leon.anavi@konsulko.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so30590985ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 04:04:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783422293; cv=none;
+        d=google.com; s=arc-20260327;
+        b=HIb9J69ZiRc1ONA4o/faBwS6hKqrc8sz+OcCa+06h1nIb06daz1PkUWBA5R1lJjz2q
+         OHDiq/opIGMEGZ+HPWYxmGHCJvj24hDl7LYV4mFCv2uPoqLr+ARLgxeK2xDvkn09JfAO
+         xMz2BAkJBT0YTES7yE5AT28rpGqRxQfr++HSz7IlrPxYJa0iQ+90+ICZRdtI1YElB3Y9
+         WbIOKvoG7KVdE5Igu+WIGefJJdTKMutnbIlpDdakEWD9JQ1o0DLiN/WxpnWzZwUv2vlb
+         bsOJXWIPrXvHFMilEgJQrLVhkDkQPShFqZq79Jz5rsF0HOJTMXgaXySTD0jca4f5uy1u
+         gbfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=IBxIc00FcqyZc+Al6qVqaKav0/dX0sJ2Vm0YROnqKHg=;
+        fh=E22hnrDeFOhblX6O88lo3ne3xDOhxPQXcBK1pwgmqrY=;
+        b=b4CSMzbv/QVhK6JtR8mJ0xask6UPMm2SgrETmiuMnKS6pdVH8ZG3RN12MmfuATOxMj
+         ZC9tiEZD9yEkS/1QdEUxkZVp+An40CPXgxUk6sROOf4gxwKlHaKtvislWbZAqRt4VcvO
+         FIEzKnAmeAL/v35ppgGgFkFeWdlEvzsOqY/etxCK/WOD1qbyNj8QCyeKnUCxq4TAbdHK
+         gX0Jx7ioExYbmlffByS/IApzJjI35poKLqNZYiJdYk2pRfFTmFLKNToe44Dyb0RFejAc
+         TA4tK8V1J8/FqglI3Y8dbKIizBs6vuV+OsP6EeHJdJNn49Y1OfVm5IFuX9PDtmyaal/P
+         qUTg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1783421526; x=1784026326; darn=lists.openembedded.org;
-        h=mime-version:user-agent:references:in-reply-to:date:to:from:subject
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=1cGncPZ49bHaI9E9ny5GrmYS/cYfEqr3Sra1KC94E+c=;
-        b=A6cgD4WtQHt07sAE/oCL9Kt5l9LlV+aOOHWfj9ikqJ8314Vu6MTitd6nUlsEdArurn
-         ebrv/gYB9C/5lDDno3WQm2rRLKphKieHnoncy/w08LNPPxWxMDxgJopPnGpNbVmpsZkl
-         FH7FyiNDFw1p61w9/ryVMdUpRt6KjBFi3blnE=
+        d=konsulko.com; s=google; t=1783422293; x=1784027093; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IBxIc00FcqyZc+Al6qVqaKav0/dX0sJ2Vm0YROnqKHg=;
+        b=I4Wy3R7bQVBSoPFWXXKxQt4yOa19K8Y3m+ENkHCC/AWNDag9M90G/0j3rQBsah47AS
+         ghAZZV0JWcHEe9qUFlliih+24RCLufGHz/cWE0O1sMcrdn/bV/jQr/qSEYGowX3iUCsC
+         j5ggq7kaygDaw2jvLG18C0z5UzofTHcfnP9zo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783421526; x=1784026326;
-        h=mime-version:user-agent:references:in-reply-to:date:to:from:subject
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1cGncPZ49bHaI9E9ny5GrmYS/cYfEqr3Sra1KC94E+c=;
-        b=o9SWp7kKxJ6vhe2svLTuOLGa2f1RGyiGrXSAtknIkJVNhiieuzOVDCc081EpqwN+sC
-         oQ3WWic9FcIvj04iQIV4rk6Nu0HKYRmkiaEKYHKdA5sqClpnR6O4MtuiVOZz/OknFTHy
-         Bep8aLAi2tl/GItrEY3cNvdlh2b0QJqb++lIfGeqg1rJIABUc1HdBCPdEsbazRKv0xzK
-         7dQDyvzML1uWc+i7jDgDUVCJUoqtpD1H3ISYS4fL7UlbdKp81mnv6Uh31Dbegj44yHAk
-         q1ZtdA7YKukhWZxesBPu/cQvsMycFmzMpzc+t87I1wW3U1Ssig9yKP84kLwyoZzzCBRy
-         J9KQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro48+bJA7hnLLkFFSiHPOg4xM5tni7mwH93c6rznEhiAKs9kbeACVeOC6McGcY3ANnOa+CjpAGTuWd36DluFwW+iQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Ywjj8xmrRaGCZo80c15pcnVgOHhe1hN1vgQETW9ghCP9ROvA2nY
-	A8l58iesSAio7CG9/DSyIfMuBGMTaf8Cw3pnn9jDxi8g3pC7714p+2PIMJTYc6GX+LA=
-X-Gm-Gg: AfdE7cmjbNxefVUa+G1qlQr+L2XqIWrsL2ra2m0QU1/rpCmTvPusjFCXQPdA2/r6q/u
-	QEGTOZWOwILzWd1hHFztFU3vY6syDDDBT7u0mnezDRl1z6bdKlUTFL+OZQkvQC6uXrE66pNSFJL
-	RELxBiyqKvpI5d8d5E/acVO+Rh4vLTrDVsZ+hsJy3cGOImKh/phgKK5h2eeSCHOJ9Fy1kLoKNIc
-	8AVhwoKiIB1O+B9c7khJ33e+SOBh2rdA1bqg+LTu7oBgVOkg3TYfu92Cox2yOUBhQiIaOd7NQZo
-	lEDTzvK0DlXpgywTLff6U6kN2mZ3RpQe7p17wPJGlm0lwHn2R2bUh0IdhDVY56RulnOyzaNpnEg
-	oFP5XTFGlmx6fIfrRN/ING0hJVNeJ31V2RNfValTNJQPGrxfsQXUAZ0ttwT+nTtq6ruh8k/4nTY
-	04Y7ZPQlLEdvZ+Zcc6+hwWQsndGX55uJ+w1ZvcpCAwWFsrGqrnyo0aHY3zUcHKdYoyKNhDMJ1VN
-	uif8rx3ayddog==
-X-Received: by 2002:a05:600c:83c7:b0:493:c453:600f with SMTP id 5b1f17b1804b1-493df037c78mr48457645e9.6.1783421526049;
-        Tue, 07 Jul 2026 03:52:06 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:811b:f9c7:ebf9:3cb? ([2001:8b0:aba:5f3c:811b:f9c7:ebf9:3cb])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0f2186bsm32542085f8f.36.2026.07.07.03.52.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 03:52:04 -0700 (PDT)
-Message-ID: <801aa151527e456bc8ced89d11bc2e4fd6f8fcce.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 0/7] Remove 'extend_recipe_sysroot' from
- 'BB_HASHEXCLUDE_COMMON'
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: adam.blank.g@gmail.com, openembedded-core@lists.openembedded.org
-Date: Tue, 07 Jul 2026 11:52:03 +0100
-In-Reply-To: <18BFB944C29B5CD2.114350@lists.openembedded.org>
-References: <20260418-extend_recipe_sysroot-v1-0-8aeb383ba743@gmail.com>
-	 <18BFB944C29B5CD2.114350@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="=-eKIVZNXFFEjntA2dv4Ci"
-User-Agent: Evolution 3.56.2-9 
+        d=1e100.net; s=20251104; t=1783422293; x=1784027093;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=IBxIc00FcqyZc+Al6qVqaKav0/dX0sJ2Vm0YROnqKHg=;
+        b=VJEXsP0kRubmE5ObOSqu0sKk7To4VYVf7EH6HQS4AZf1+1dp9wi8o1Q4g/LxGfzG2e
+         yR73CD+tuayXuMwajjunt0k+IWdZaOmxePjf4DWQeu4SERndkxPlKuXP5QwjFRt6a4ke
+         dOuVU9FHBLaZI1mezmcKPzUoaI937U7FhlokfbHH6WE+dX5yH/avcvoyOREYggWEXcL2
+         paoLnmjO8iF3fmtBhxPv4LVLaH37UkrNFqgvm3sFH+bY+I5BBLPvIuuc2MkKznHLZNQe
+         uVg75M2B7IzbFNXgSNhFpKktirbnZ1NlBBVykIMJkAWy5no7Scs+0Lqu96fUPbKfK5bq
+         GDcQ==
+X-Gm-Message-State: AOJu0YzAGL0YE5QsQDUUxjiBb1IcFQo0maIabd8XhNOrvbud1v/miOm3
+	6M7seHAlg/in8PCkDLQp9okAqs6VgHEVPXcc1E/xfWhG5RM/Kyn+6gH44o4Gx4Vg0ETuZ69vifu
+	eJYigJuhL0VhOSp1chzDB9YmnH7p3viE/0FG3YrKvpw==
+X-Gm-Gg: AfdE7cl4teNMIvLf7HK6sscKeNIkB4pvpvIfCjVUwIfbtTP9ijE59dHiR73l1DEjrH1
+	pYtwbDDrMSIpd0dYNBOcsT+fc+T2dpvm7KrAe1Su4M1LPwWLaD2B9g/0+3U4JxoZHwg2ckrwnY2
+	e6Vf7nqBC4o3m7M344o5laTJ+qb7pNYPwL9GXMlCC9Swc5n1At33x37iVCKBAcpq6KwG9A8mvpf
+	5ddIXQ4Sih6Up6i0XXBV6IZIRYyLzXsozhOkGzozhkx1QvDlvkVKfF7QNbKsjiO/vQ2ul+y6goI
+	pzZX+C8p68O4OJqHfQlHmjLt30YenKMMM1BF9r2FY54iDL4tvx8Okm7UndcgulHbjE0iP3G4I17
+	/L2EIdEo=
+X-Received: by 2002:a17:903:3904:b0:2c6:c9de:cd0e with SMTP id
+ d9443c01a7336-2ccbf042ea7mr48329815ad.23.1783422293431; Tue, 07 Jul 2026
+ 04:04:53 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260703142916.2868287-1-leon.anavi@konsulko.com> <40bc682b0d30a05ea7043ca1a5ac1699c72ae268.camel@pbarker.dev>
+In-Reply-To: <40bc682b0d30a05ea7043ca1a5ac1699c72ae268.camel@pbarker.dev>
+From: Leon Anavi <leon.anavi@konsulko.com>
+Date: Tue, 7 Jul 2026 14:04:42 +0300
+X-Gm-Features: AVVi8CcZp7zvZWNyZnuMgQqAbTsxn3cLwB33e4teEl1_Kh_PLoC-2HK463Jhae0
+Message-ID: <CALtQ3O1769bnQtb68yuBWOAMhxEyo7+Jp5+U0=S+2X94ruRLFA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] meta: Add pam to the defaults if using systemd
+To: Paul Barker <paul@pbarker.dev>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000048e7820656035c4a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 10:52:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240379
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 11:04:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240380
 
---=-eKIVZNXFFEjntA2dv4Ci
+--00000000000048e7820656035c4a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-07-06 at 15:21 +0100, Richard Purdie via lists.openembedded.or=
-g wrote:
-> On Sat, 2026-04-18 at 20:34 +0200, Adam Blank via lists.openembedded.org =
-wrote:
-> > It has lain there for a while, obscuring certain aspects of
-> > how task signatures are calculated.
-> >=20
-> > This changeset does not change the current status quo, but
-> > rather changes the way in which it is implemented. It can be
-> > followed by changes which further refine what is excluded and
-> > how, from those tasks which refer to 'extend_recipe_sysroot'.
-> >=20
-> > Related discussion:
-> > https://lore.kernel.org/openembedded-core/aa893eb861bf4dd18e3e84e6bbebd=
-ee3b0367d1b.camel@linuxfoundation.org/
-> >=20
-> > Signed-off-by: Adam Blank <adam.blank.g@gmail.com>
+Hi Paul,
+
+On Mon, Jul 6, 2026 at 12:52=E2=80=AFPM Paul Barker <paul@pbarker.dev> wrot=
+e:
+
+> On Fri, 2026-07-03 at 17:29 +0300, Leon Anavi via lists.openembedded.org
+> wrote:
+> > Add pam to the list of DISTRO_FEATURES_DEFAULTS if variable
+> > VIRTUAL-RUNTIME_init_manager has been set to systemd. Otherwise
+> > having systemd in conjunction with wayland but without pam leads
+> > to a conflict with the REQUIRED_DISTRO_FEATURES for weston related
+> > recipes.
+> >
+> > This adjustment is required following these recent changes that
+> > switched VIRTUAL-RUNTIME_init_manager to systemd by default and added
+> > wayland to DISTRO_FEATURES_DEFAULTS which affects "nodistro":
+> >
+> > - 159148f4de2595556fef6e8678578df83383857b
+> >   meta: Support opting out of any distro features
+> >   (Please note that this commit also extended DISTRO_FEATURES_DEFAULTS
+> >   with wayland and vulkan.)
+> >
+> > - 0b4061c5d50261f826d0edb4b478d2d305274b7c
+> >   conf: Switch to systemd by default and simplify init manager selectio=
+n
+> >
+> > This fixes issues with test_machine_world when running the
+> > yocto-check-layer script for BSP layers that include weston in the
+> > dependency chain, for example meta-tegra:
+> >
+> > ERROR: Required build target 'meta-world-pkgdata' has no buildable
+> providers.
+> > Missing or unbuildable dependency chain was: ['meta-world-pkgdata',
+> 'l4t-graphics-demos', 'weston']
+> >
+> > The weston recipe has pam in REQUIRED_DISTRO_FEATURES if systemd is
+> > enabled. Therefore, it makes sense to also add pam to the defaults
+> > through DISTRO_FEATURES_DEFAULTS.
+> >
+> > Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
 > > ---
-> > Adam Blank (7):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 package_pkgdata: fix typo to stop callin=
-g undefined function
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 staging: add 'vardepsexclude' to 'stagin=
-g_populate_sysroot_dir'
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 staging: add 'extend_recipe_sysroot' to =
-'vardepsexclude'
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cross: add 'extend_recipe_sysroot' to 'v=
-ardepsexclude'
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 native: add 'extend_recipe_sysroot' to '=
-vardepsexclude'
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wic-tool: add 'extend_recipe_sysroot' to=
- 'vardepsexclude'
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitbake.conf: remove 'extend_recipe_sysr=
-oot' from BB_HASHEXCLUDE_COMMON
-> >=20
-> > =C2=A0meta/classes-global/package_pkgdata.bbclass | 4 +++-
-> > =C2=A0meta/classes-global/staging.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 5 ++++-
-> > =C2=A0meta/classes-recipe/cross.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
-> > =C2=A0meta/classes-recipe/native.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
-> > =C2=A0meta/conf/bitbake.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 2 +-
-> > =C2=A0meta/recipes-core/meta/wic-tools.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 1 +
-> > =C2=A06 files changed, 11 insertions(+), 3 deletions(-)
->=20
-> I finally found a bit of time to look at this. I took some of it, I
-> ended up reworking some of the patches as they needed rewording to
-> justify them and explain the changes being made.
->=20
-> I didn't take the extend_recipe_sysroot removal from bitbake.conf as
-> I'm still not convinced we have all the issues that might cause
-> identified. The function name typo and the incorrect vardepsexclude are
-> fixed though (or will be once a couple of patches pass testing/review
-> and merge).
+> >  meta/conf/distro/include/default-distrovars.inc | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/meta/conf/distro/include/default-distrovars.inc
+> b/meta/conf/distro/include/default-distrovars.inc
+> > index 69c6db589b..2eadfcbd74 100644
+> > --- a/meta/conf/distro/include/default-distrovars.inc
+> > +++ b/meta/conf/distro/include/default-distrovars.inc
+> > @@ -29,6 +29,7 @@ DISTRO_FEATURES_DEFAULTS ?=3D " \
+> >      acl alsa bluetooth debuginfod ext2 ipv4 ipv6 \
+> >      wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp pulseaudio \
+> >      gobject-introspection-data ldconfig opengl ptest multiarch wayland
+> vulkan \
+> > +    ${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd',
+> 'pam', '', d)} \
+> >      "
+> >  IMAGE_FEATURES ?=3D ""
+>
+> Hi Leon,
+>
+> I'm not sure we want to enable pam for everyone using systemd, there may
+> be many systemd users who don't use weston.
+>
+> If we do want to enable pam whenever systemd is in use, the better place
+> to do it is in meta/conf/distro/include/init-manager-systemd.inc.
+>
 
-I still wasn't 100% happy with this so I did go a little further and
-hacked up the attached script. It does have one hardcoded path but you
-can get the idea of what I'm trying to do.
+Thank you for the feedback. I incorporated your suggestions into
+init-manager-systemd.inc and submitted v2 of the patch. I also updated the
+commit message to reflect the new approach:
+https://lists.openembedded.org/g/openembedded-core/message/240374
 
-You can start with a clean TMPDIR and run "bitbake world -S none". You
-can then edit bitbake.conf and remove extend_recipe_sysroot from
-BB_HASHEXCLUDE_COMMON and run that command a second time.
-
-If you them run the attached script in tmp/stamps, after a bit of
-processing, you will see:
-
-Added {'staging_processfixme[func]', 'staging_copydir', 'BB_RUNTASK', 'oe.u=
-tils.get_multilib_datastore', 'sstate_clean_manifest', 'extend_recipe_sysro=
-ot', 'DEFAULTTUNE', 'RECIPE_SYSROOT', 'oe.sstatesig.find_sstate_manifest', =
-'TUNE_PKGARCH:tune-x86-64-v3', 'STAGING_DIR', 'extend_recipe_sysroot[func]'=
-, 'RECIPE_SYSROOT_NATIVE', 'COMPONENTS_DIR', 'staging_copydir[func]', 'stag=
-ing_copyfile[func]', 'sstate_clean_manifest[func]', 'staging_populate_sysro=
-ot_dir', 'setscene_depvalid', 'PN', 'oe.path.remove', 'TUNE_PKGARCH', 'RECI=
-PE_SYSROOT_MANIFEST_SUBDIR', 'TARGET_ARCH', 'staging_populate_sysroot_dir[f=
-unc]', 'staging_processfixme', 'setscene_depvalid[func]', 'staging_copyfile=
-'}
-Removed set()
-
-That means those variables were added as dependencies somewhere in the
-build for at least one task. This was basically my worry with the
-patch. We need to work out where/why those are being added and triage
-them in order to be able to remove extend_recipe_sysroot from the hash
-exclusion. Some of them may be acceptable, some of them may not, a lot
-depends on context.
-
-I'm still not sure it is worth the work in changing that, but we do now
-at least have a way of checking the effect of such a change.
-
-Cheers,
-
-Richard
-
---=-eKIVZNXFFEjntA2dv4Ci
-Content-Disposition: attachment; filename="compsig.py"
-Content-Type: text/x-python3; name="compsig.py"; charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwppbXBvcnQgc3lzCmltcG9ydCBvcwppbXBvcnQgcmUKCnN5
-cy5wYXRoLmluc2VydCgwLCBvcy5wYXRoLmpvaW4ob3MucGF0aC5kaXJuYW1lKG9zLnBhdGguZGly
-bmFtZShzeXMuYXJndlswXSkpLCAnbGliJykpCnN5cy5wYXRoLmluc2VydCgwLCAnL21lZGlhL2J1
-aWxkL3Bva3kvYml0YmFrZS9saWInKQoKZnJvbSBiYiBpbXBvcnQgX192ZXJzaW9uX18gYXMgbGli
-YmJfdmVyc2lvbgoKX192ZXJzaW9uX18gPSAiMi4xOS4wIgoKaWYgX192ZXJzaW9uX18gIT0gbGli
-YmJfdmVyc2lvbjoKICAgIHN5cy5leGl0KCJCaXRiYWtlIGNvcmUgbGlicmFyeSB2ZXJzaW9uIGFu
-ZCBwcm9ncmFtIHZlcnNpb24gbWlzbWF0Y2ghIikKCmltcG9ydCBiYgppbXBvcnQgYmIuY29tcHJl
-c3MuenN0ZAppbXBvcnQganNvbgoKY2xhc3MgU2V0RW5jb2Rlcihqc29uLkpTT05FbmNvZGVyKToK
-ICAgIGRlZiBkZWZhdWx0KHNlbGYsIG9iaik6CiAgICAgICAgaWYgaXNpbnN0YW5jZShvYmosIHNl
-dCkgb3IgaXNpbnN0YW5jZShvYmosIGZyb3plbnNldCk6CiAgICAgICAgICAgIHJldHVybiBkaWN0
-KF9zZXRfb2JqZWN0PWxpc3Qoc29ydGVkKG9iaikpKQogICAgICAgIHJldHVybiBqc29uLkpTT05F
-bmNvZGVyLmRlZmF1bHQoc2VsZiwgb2JqKQoKZGVmIFNldERlY29kZXIoZGN0KToKICAgIGlmICdf
-c2V0X29iamVjdCcgaW4gZGN0OgogICAgICAgIHJldHVybiBmcm96ZW5zZXQoZGN0Wydfc2V0X29i
-amVjdCddKQogICAgcmV0dXJuIGRjdAoKZGVmIGRpY3RfZGlmZihhLCBiLCBpZ25vcmVkX3ZhcnM9
-c2V0KCkpOgogICAgc2EgPSBzZXQoYS5rZXlzKCkpCiAgICBzYiA9IHNldChiLmtleXMoKSkKICAg
-IGNvbW1vbiA9IHNhICYgc2IKICAgIGNoYW5nZWQgPSBzZXQoKQogICAgZm9yIGkgaW4gY29tbW9u
-OgogICAgICAgIGlmIGFbaV0gIT0gYltpXSBhbmQgaSBub3QgaW4gaWdub3JlZF92YXJzOgogICAg
-ICAgICAgICBjaGFuZ2VkLmFkZChpKQogICAgYWRkZWQgPSBzYiAtIHNhCiAgICByZW1vdmVkID0g
-c2EgLSBzYgogICAgcmV0dXJuIGNoYW5nZWQsIGFkZGVkLCByZW1vdmVkCgpkZWYgZ2V0X2RhdGEo
-Zm4pOgogICAgdHJ5OgogICAgICAgIHdpdGggYmIuY29tcHJlc3MuenN0ZC5vcGVuKGZuLCAicnQi
-LCBlbmNvZGluZz0idXRmLTgiLCBudW1fdGhyZWFkcz0xKSBhcyBmOgogICAgICAgICAgICBhX2Rh
-dGEgPSBqc29uLmxvYWQoZiwgb2JqZWN0X2hvb2s9U2V0RGVjb2RlcikKICAgIGV4Y2VwdCAoVHlw
-ZUVycm9yLCBPU0Vycm9yKSBhcyBlcnI6CiAgICAgICAgYmIuZXJyb3IoIkZhaWxlZCB0byBvcGVu
-IHNpZ2RhdGEgZmlsZSAnJXMnOiAlcyIgJSAoZm4sIHN0cihlcnIpKSkKICAgICAgICByYWlzZSBl
-cnIKICAgIHJldHVybiBhX2RhdGEKCnBhdHRlcm4gPSByZS5jb21waWxlKHInXltcZC5dK1wuKGRv
-X1thLXpfXSspXC5zaWdkYXRhXC4uKicpCgp0YXNrc3BsaXQgPSB7fQpmb3Igcm9vdCwgZGlycywg
-ZmlsZXMgaW4gb3Mud2FsaygiLiIpOgogICAgZm9yIGYgaW4gZmlsZXM6CiAgICAgICAgaWYgIi5z
-aWdkYXRhLiIgbm90IGluIGY6CiAgICAgICAgICAgICBjb250aW51ZQogICAgICAgIG0gPSBwYXR0
-ZXJuLm1hdGNoKGYpCiAgICAgICAgaWYgbm90IG06CiAgICAgICAgICAgICBjb250aW51ZQogICAg
-ICAgIHRhc2sgPSBtLmdyb3VwKDEpICsgIi0iICsgcm9vdAogICAgICAgIGlmIHRhc2sgbm90IGlu
-IHRhc2tzcGxpdDoKICAgICAgICAgICAgdGFza3NwbGl0W3Rhc2tdID0gW10KICAgICAgICB0YXNr
-c3BsaXRbdGFza10uYXBwZW5kKHJvb3QgKyAiLyIgKyBmKQoKYWRkcyA9IHNldCgpCnJlbW92ZXMg
-PSBzZXQoKQoKZm9yIHRhc2sgaW4gdGFza3NwbGl0OgogICAgZmlsZXMgPSB0YXNrc3BsaXRbdGFz
-a10KICAgIGlmIGxlbihmaWxlcykgPT0gMToKICAgICAgICBjb250aW51ZQogICAgaWYgbGVuKGZp
-bGVzKSAhPSAyOgogICAgICAgIHByaW50KCJJbnZhbGlkIG51bWJlciBvZiBzaWdkYXRhIGZpbGVz
-ICVzIiAlIGZpbGVzKQogICAgICAgIGNvbnRpbnVlCgogICAgZmlsZXMgPSBzb3J0ZWQoZmlsZXMs
-IGtleT1sYW1iZGEgZjogb3MucGF0aC5nZXRtdGltZShmKSkKICAgIGFfZGF0YSA9IGdldF9kYXRh
-KGZpbGVzWzBdKQogICAgYl9kYXRhID0gZ2V0X2RhdGEoZmlsZXNbMV0pCiAgICBjaGFuZ2VkLCBh
-ZGRlZCwgcmVtb3ZlZCA9IGRpY3RfZGlmZihhX2RhdGFbJ2dlbmRlcHMnXSwgYl9kYXRhWydnZW5k
-ZXBzJ10sIGFfZGF0YVsnYmFzZWhhc2hfaWdub3JlX3ZhcnMnXSAmIGJfZGF0YVsnYmFzZWhhc2hf
-aWdub3JlX3ZhcnMnXSkKICAgIGFkZHMudXBkYXRlKGFkZGVkKQogICAgcmVtb3Zlcy51cGRhdGUo
-cmVtb3ZlZCkKCnByaW50KCJBZGRlZCAlcyIgJSBhZGRzKQpwcmludCgiUmVtb3ZlZCAlcyIgJSBy
-ZW1vdmVzKQo=
+Best regards, Leon
 
 
---=-eKIVZNXFFEjntA2dv4Ci--
+>
+> An alternative, though not the most satisfying, may be to add a
+> REQUIRED_DISTRO_FEATURES check to the l4t-graphics-demos recipe in
+> meta-tegra.
+>
+> Best regards,
+>
+> --
+> Paul Barker
+>
+>
+
+--00000000000048e7820656035c4a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi=C2=A0Paul,<br><br></div><div class=3D"=
+gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On=
+ Mon, Jul 6, 2026 at 12:52=E2=80=AFPM Paul Barker &lt;<a href=3D"mailto:pau=
+l@pbarker.dev">paul@pbarker.dev</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On Fri, 2026-07-03 at 17:29 +0300, Leon An=
+avi via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=
+=3D"_blank">lists.openembedded.org</a><br>
+wrote:<br>
+&gt; Add pam to the list of DISTRO_FEATURES_DEFAULTS if variable<br>
+&gt; VIRTUAL-RUNTIME_init_manager has been set to systemd. Otherwise<br>
+&gt; having systemd in conjunction with wayland but without pam leads<br>
+&gt; to a conflict with the REQUIRED_DISTRO_FEATURES for weston related<br>
+&gt; recipes.<br>
+&gt; <br>
+&gt; This adjustment is required following these recent changes that<br>
+&gt; switched VIRTUAL-RUNTIME_init_manager to systemd by default and added<=
+br>
+&gt; wayland to DISTRO_FEATURES_DEFAULTS which affects &quot;nodistro&quot;=
+:<br>
+&gt; <br>
+&gt; - 159148f4de2595556fef6e8678578df83383857b<br>
+&gt;=C2=A0 =C2=A0meta: Support opting out of any distro features<br>
+&gt;=C2=A0 =C2=A0(Please note that this commit also extended DISTRO_FEATURE=
+S_DEFAULTS<br>
+&gt;=C2=A0 =C2=A0with wayland and vulkan.)<br>
+&gt; <br>
+&gt; - 0b4061c5d50261f826d0edb4b478d2d305274b7c<br>
+&gt;=C2=A0 =C2=A0conf: Switch to systemd by default and simplify init manag=
+er selection<br>
+&gt; <br>
+&gt; This fixes issues with test_machine_world when running the<br>
+&gt; yocto-check-layer script for BSP layers that include weston in the<br>
+&gt; dependency chain, for example meta-tegra:<br>
+&gt; <br>
+&gt; ERROR: Required build target &#39;meta-world-pkgdata&#39; has no build=
+able providers.<br>
+&gt; Missing or unbuildable dependency chain was: [&#39;meta-world-pkgdata&=
+#39;, &#39;l4t-graphics-demos&#39;, &#39;weston&#39;]<br>
+&gt; <br>
+&gt; The weston recipe has pam in REQUIRED_DISTRO_FEATURES if systemd is<br=
+>
+&gt; enabled. Therefore, it makes sense to also add pam to the defaults<br>
+&gt; through DISTRO_FEATURES_DEFAULTS.<br>
+&gt; <br>
+&gt; Signed-off-by: Leon Anavi &lt;<a href=3D"mailto:leon.anavi@konsulko.co=
+m" target=3D"_blank">leon.anavi@konsulko.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/conf/distro/include/default-distrovars.inc | 1 +<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/co=
+nf/distro/include/default-distrovars.inc<br>
+&gt; index 69c6db589b..2eadfcbd74 100644<br>
+&gt; --- a/meta/conf/distro/include/default-distrovars.inc<br>
+&gt; +++ b/meta/conf/distro/include/default-distrovars.inc<br>
+&gt; @@ -29,6 +29,7 @@ DISTRO_FEATURES_DEFAULTS ?=3D &quot; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 acl alsa bluetooth debuginfod ext2 ipv4 ipv6 \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccom=
+p pulseaudio \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 gobject-introspection-data ldconfig opengl ptest m=
+ultiarch wayland vulkan \<br>
+&gt; +=C2=A0 =C2=A0 ${@oe.utils.conditional(&#39;VIRTUAL-RUNTIME_init_manag=
+er&#39;, &#39;systemd&#39;, &#39;pam&#39;, &#39;&#39;, d)} \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &quot;<br>
+&gt;=C2=A0 IMAGE_FEATURES ?=3D &quot;&quot;<br>
+<br>
+Hi Leon,<br>
+<br>
+I&#39;m not sure we want to enable pam for everyone using systemd, there ma=
+y<br>
+be many systemd users who don&#39;t use weston.<br>
+<br>
+If we do want to enable pam whenever systemd is in use, the better place<br=
+>
+to do it is in meta/conf/distro/include/init-manager-systemd.inc.<br></bloc=
+kquote><div><br></div><div>Thank you for the feedback. I incorporated your =
+suggestions into init-manager-systemd.inc and submitted v2 of the patch. I =
+also updated the commit message to reflect the new approach:<br><a href=3D"=
+https://lists.openembedded.org/g/openembedded-core/message/240374">https://=
+lists.openembedded.org/g/openembedded-core/message/240374</a><br><br>Best r=
+egards, Leon</div><div><span style=3D"background-color:transparent">=C2=A0<=
+/span></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+An alternative, though not the most satisfying, may be to add a<br>
+REQUIRED_DISTRO_FEATURES check to the l4t-graphics-demos recipe in<br>
+meta-tegra.<br>
+<br>
+Best regards,<br>
+<br>
+-- <br>
+Paul Barker<br>
+<br>
+</blockquote></div></div>
+
+--00000000000048e7820656035c4a--
 
