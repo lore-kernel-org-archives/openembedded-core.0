@@ -1,339 +1,253 @@
-Return-Path: <Harish.Sadineni@windriver.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E97E0C43602
-	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 08:36:17 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.168930.1783413367102722992
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17F14C43458
+	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 08:40:18 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.168977.1783413607056490196
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jul 2026 01:36:08 -0700
+ Tue, 07 Jul 2026 01:40:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=oUj+71Pn;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1648a4fd34=harish.sadineni@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6678I8sq1011263
-	for <openembedded-core@lists.openembedded.org>; Tue, 7 Jul 2026 08:36:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=4xWLNzGJS5ujY4BtBkd6Zb
-	RJ7WXPgfvJTT1LKqFPmFE=; b=oUj+71Pn+1RUsEMfbb+XDlPA6q1QbcUWEr6VjD
-	fTXvW48TIJ3hqOXPvlWUXlvR7amGgxKicpNbL/ldMH61iB0RFmmZoWTUwxeGq8p6
-	JISz94cYVDZuzWuNLlYqF7rutn665UFe5otk4beEa3FNcys+wzw0fO5gNpKJKWEk
-	H7O7VBhYWrGQ6ismTbmGuK+PTEurPSpg6wMPbpxKK5/HXd/CNna6DVYK2Q++aojr
-	TVA6EPZDvL0WKmkK/YhF2QEGhAYkTLucSZyjVnfrrh+bPjMemzze9zCbt0NxVWIa
-	rM2ZBtcqBt43MU8vu1bi+yHIZ9ZiXjGWYmkGDvX7Mfgw5X0w==
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011041.outbound.protection.outlook.com [40.107.208.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f6s58bv1y-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 07 Jul 2026 08:36:05 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eVPDtsMYZ0pK4IRFxtuEy1K1tshfCIJlGhWRjOVKOW5y92/7ijUq1Xw+bd2zFrmmmNpBo3WvWIYUfLSQB25Jg91fpfIptHlBtK0S838wwN185WmPLGIbiRtD6K9ggk+D7W2CgyijkNzyoIeTERU65y9E1btsnpfCRLNkBS5JPHCpk0jVpBYxogvLpHXEnS7KKVeVQevGHfpAcRfSihZm2GGeP4DVSY7JB7q8JEI985qHJfCgIpT4ppKIZ7jmU21bp81umKoc6H/J+oVMkCQ9x6bVGuFO/N0EEJ4nEWEYHd8lDXxQNzVHB0y+1G1gcIH/iqF4Fe1v1NFiRCVhEKZfMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4xWLNzGJS5ujY4BtBkd6ZbRJ7WXPgfvJTT1LKqFPmFE=;
- b=NXrCILxLg6iG5txbmbh/gX13z6NUTZThFPk/kmkfdXUubdcGNuFbyGUe8L3wcSsTKtRY0HIbPyDbigYm3zz0Oq+KFN4Q7VoQtcgahQlChAWh6auGvdm4PHnPwm3HPEHkbGL7ljDMeyGkPtQMP1KNn9Avmw2104IfrlRd99Hvg4z9xmXe8mtjlsqYuAhtZFpWvi2CqePv38WjQHf2e1nhX3aWjE573zdmsOZYZfN/qjzUdm/g6znWy0GiLzrATBv9qqbzy7o+MA/zvBWAEBRnsSe+QuMlkXruvktSuGsQ2dOL0+0xRpVuZdHOOwnv2qtKSFWqebRowBQajlU8N4kX/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
- by SAWPR11MB9921.namprd11.prod.outlook.com (2603:10b6:806:54a::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Tue, 7 Jul 2026
- 08:36:03 +0000
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9%6]) with mapi id 15.21.0181.012; Tue, 7 Jul 2026
- 08:36:02 +0000
-Content-Type: multipart/alternative;
- boundary="------------WaYxEK9KXt78PST2Lnv0rD0i"
-Message-ID: <07613951-39f2-4025-b260-17c1936d31d9@windriver.com>
-Date: Tue, 7 Jul 2026 14:05:46 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 2/4] kernel-yocto-rust: use clang toolchain for
- riscv64 when Rust is enabled
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, raj.khem@gmail.com, tgamblin@baylibre.com
-References: <20260706112905.41381-1-Harish.Sadineni@windriver.com>
- <20260706112905.41381-2-Harish.Sadineni@windriver.com>
- <DJS60V3OTZ8P.1G7BQBL5EUH7G@bootlin.com>
-Content-Language: en-US
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
-In-Reply-To: <DJS60V3OTZ8P.1G7BQBL5EUH7G@bootlin.com>
-X-ClientProxiedBy: YQ1P288CA0007.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:c01:9e::12) To PH0PR11MB5658.namprd11.prod.outlook.com
- (2603:10b6:510:e2::23)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=qUsR6+JV;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-39af6402933so32242501fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 01:40:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783413605; cv=none;
+        d=google.com; s=arc-20260327;
+        b=n5q1Gi73MY9A02F6OYTul4mZa3iDt8f2Qd8YDl6klfaCHQm8vMz6usJlFZ54IZuFHa
+         mQ2aDtb6rqcT42aCLqEeXomucc1iC4rR7/ks5daDQrvnXO20tR/RBa3VsYFe3z9ON1kH
+         cYRl2FS5Vo8IicCBCqH6Dq7cRAejskvw4CwuoPE0JzNeLD5B3EeWQmSQ6hwQhFVhVZbx
+         nN7M5Tj2aB17K60Uf/Abj9SFjahYQ4QWkO9NYcWWXKSj9e3YQf79cH10xJt9iIrv+ggv
+         ilcCkTBuN2ExYgR/j1JyyLFtdu0BPhYnbQNFdLAX0J4PB7M+iWCU1mJzNKmkpBZySt1l
+         kXSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6bqfJGNd9g7OGlSlI8PzSUzFJ0LXg6YA+W5T4gi/HZw=;
+        fh=mgthSpsUGsLDTxrpKiNJt8Eq3L6W4Ada1QHtZF6j/hk=;
+        b=Uj5Bck7lKpaApBXkhtD0TUeS68zT9Kpx8EZraqIgWlgg3bcXc6tzZyQjz2ekIimOFn
+         r3zBI0X5vqK6zRtWTxx59pPEyde8hoP0pTOtuXdccY8wQ43oREkHzQOFtHbGafUMrNyW
+         hmnB0Af4v9WeL41RKYLS68cdvBrLd48kLJ9bZcCDM7roi0v30fPol4+WNt4NgwlSWXAF
+         pTLlXhi1aeA/26NL97jEukKqECegZxe4gUX5Nbv69mM/T9L/k6TxbfG2DTmMdgiFFFAs
+         YSG2z00faC74bMoogcjtt6MUdmmMnaC2YaaysVjpRWHYWBOFR9DoYvtdcpJQkXkIvNjw
+         zRUw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783413605; x=1784018405; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6bqfJGNd9g7OGlSlI8PzSUzFJ0LXg6YA+W5T4gi/HZw=;
+        b=qUsR6+JVDVykljx0aC+ielFCQapbIoDQKQX6tr1UV0/jrL57hsETtWQyb+6Gb1+F/A
+         cvd6bVKc/ioDWIlruI/6wmoExJgDKoIRQuUjYg7jCob9/N0a556vXbb8pHifgDeO1st4
+         hTUygTxJoFaWpP9oIkwpDaD/Wi/nbshFHrni3jt429lxFqMNyDf6RtiRZzt+KVMhzCSn
+         mekcCtXC+yPtea09tzs44OS0AacXb1TAVz2ToOGWHPBstvhQPIV2t5eET628vy10sKyi
+         e+7YDtd1Hu6tA7ZqBXIufef1D4eLsF1fRVYGLC3tc9vMzI2xdpyySz9cdaclFICRAeSE
+         MgOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783413605; x=1784018405;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6bqfJGNd9g7OGlSlI8PzSUzFJ0LXg6YA+W5T4gi/HZw=;
+        b=gLAL7w6SU0FElHfY6ckK34T8x4HiWB1lvdpUP/iNEbRIOPkrEJ6rKl1TwxaCXpJ+fQ
+         HBX5MjFdLmn9J38Fwj5seLd7t5fp6I5hssqoCZ50w2WCC0AFjmupo+5e6ZOgIu1TsVSE
+         AjoEnHj+0uhlJKGJ9D43mIkWFWe0TPx/knkeoVwuFRMlzc5Fn2DKr9nRuxpnsEHSujbK
+         qY5KlNMhUskoixpec9I/qKxfM/0UjpeLrcxNETKg9wMp+tZsN07gEh0sr4b7w0AVmDKr
+         4apeV7zZWPOV6DbJBoTagCpTSrUPu6PjUl2Nd5q0C2NmyKJQVE0X+1OwjBwBaCP4Jeqp
+         NFgQ==
+X-Gm-Message-State: AOJu0Yy4R7FJYyaEkhtpsBDgg/CoHy+pYt7R+h9ssb3w4CgWp23/fRO5
+	AlxRyJe6iZFUO2LUtUC6b5BFmtv3eF5weL+L53ZbTZaqdAU8RtCITX69iakjYnmoTVTw4HOu+QU
+	c4BzZzz9b3CVP9MZhUrcgKmt1fhazZ8U=
+X-Gm-Gg: AfdE7clZi5hSv82I2gjl7RAsw0yf/2Y3PHgHEGRIAsbZ1g08lydug/XuoCQBPLo0ryX
+	ZFM2zpB0d5QGomN6XF0r/8oIYLfF1GqXs4yrEpb4hCC8HuJ/rccWy5MpIHOAQDCQuo059uellx2
+	0M6z5lXWCMqd1uCtbu9xoMFottiUFUt6VSzD//xnC73xuXZnCBiZ51KN7cEtPo3m+AU6coqe33e
+	Dyk/WQQJ/72NiVJJ2scn+pdS9kFr5EriEWpL1Vn5LwrYtkG9iDbDIjCMXeKXlKDazq3IVaME2oJ
+	vorNMl4XYoaARRYVARaV9om4NUU6ZvcFO0EW
+X-Received: by 2002:a2e:2ac4:0:b0:39b:3082:cfe4 with SMTP id
+ 38308e7fff4ca-39c60050411mr7811981fa.38.1783413604509; Tue, 07 Jul 2026
+ 01:40:04 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|SAWPR11MB9921:EE_
-X-MS-Office365-Filtering-Correlation-Id: 635fb563-8a87-4073-6420-08dedc02c033
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|11063799006|4143699003|56012099006|18002099003|5023799004|22082099003|8096899003|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	M34DeAwqGWd+1TogoGfACo1HuImcyhsxY+oN62iaLMMn8rMHF1gUQbD8QsF1sy3047Oxe28zdv+3Fm/4BX2W/rb6w3Mkh/AkWuJcxnkK8BKHlMewmf1MmBMnHpnOjL9fQdLXncD0h3InjAWtpm9qHBrXgFL/UxUqK/o6bBQytcYRwRP+HswS7Jd7XOsvH4jqrKo4Q8QTyUSYD48iAtdaaXMMN/pTMiiLfQdGERogxVeYHzncY5DTJ1F7wJInRlcAiM5Wgnb9V4tfsBeSxFEcdflQhjp2LNppmt2XhAmyfQgADV0DtO0rxUru+6Hgfhupe3TmXh1SX+HLSlasjXIHLOLQDZtLI012QB0uggPkVa/63jlcxWTkfBCJo8Q87wTYRdpHD3ctRDj3arwDRvMFWkUcAT9/BvmY/894nDJ1RZ/u54Tn65SJPxSPxiPsKjeoeDHJAeIK7MadSrIe47mHLh6K31VAxazC2sJ4bzvEKJQXTCOCD37SBB7s1njVrwjinyQI4KUMjIhlArHt7uEgOsgq650AyPIjr1lH5eVqF3o2mWEIwLFe4hqRZCvcl/Mexys12mVZmlGNMH8zAHrB5p0mMvraF0nhyK+/kG2NFyE=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(11063799006)(4143699003)(56012099006)(18002099003)(5023799004)(22082099003)(8096899003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?THNqSXliNWpsdnU5eHgvNGFZemNRejVDV0xscnE0dVlYd1JHM0NJbzUwWThF?=
- =?utf-8?B?c2hnekxLdkprUlk5RTNyU0lVUzRhVVFnU2RKMi8yc1V0eGY2MDZHNHFjNzlo?=
- =?utf-8?B?aDhHU09peXhSenNyb1pmNTBleFg5V2xxVkhobFJaZ0N4dm0yQzl1RWtYMlpa?=
- =?utf-8?B?V2pnNVhlYk5kdzNtdFVXZW52N1dzMEhyRXVKdlF0aU9tSVUreFAzcjhuTTdW?=
- =?utf-8?B?YkFJRjJ0dzlFaUFOSTFzSWRWOWM2YXdJSmFpUkdQdXFNT1psb2V0alJad2Jt?=
- =?utf-8?B?aGh0R2NjY1RqKzRXUTNWWEc2WWVwdW9yM2NsVkF1YXVWWHNwTGhJRmxRZDlY?=
- =?utf-8?B?ZG1WMVM0Qi9YdHQzRFo1QlpFc0pTNXUzQ0o0TTJPUTh2VStuaGduREg2ZHg2?=
- =?utf-8?B?UGlqd3pNNCtQd0VnbzVtRzFSZmlrdDZlZWVMNmZyaGN5b0FYM1hZSU5nb1lH?=
- =?utf-8?B?MER6WjFtOFYyaEQ5TjBmbzNqY05IUlNsaDdiMDRHK2ZoVlhxSzVJdVIxK0Fr?=
- =?utf-8?B?aTZCVTl6dVBZa2lQblo5RFJQUTBWL0RNZHNFb2pXYlg0OTVtRElBbURDQ1I2?=
- =?utf-8?B?OVhob3ZvK0t6U0hFVlNBajhINFdnZ0FQT3QwYTlobTdFL1ZCcVpMV2tUUDhT?=
- =?utf-8?B?MnBjakg2OVVXcUphTHl1b1YzVS9aS1V5K0Z3eGNtdWJXWVFnSUdwVEt0ZlBX?=
- =?utf-8?B?T3JOMk1IVzY2TGNsSHowUHdoclZJQ0lEZVVtbDlraWxJYWhoWFA2L2xEaFFy?=
- =?utf-8?B?d0tOUE81Y2s3d0FwM0tlTTVrYjJEcHNxLzlLbFJJK2hjRWlPbklWWW9hck5T?=
- =?utf-8?B?Vk83QVovK0RyU2tlRVN0ZHkyaE93ZjdPdU9ER0xwd21FRzZVeWs3RTVxRHZv?=
- =?utf-8?B?TmRQY1E0dk5KTjE1QnJ6enlFL1lvQ0VmaEYyaWtOdi9DY3JzMVhVTmxmY0Fa?=
- =?utf-8?B?aGJoQXdGU2lCWlVXQ0lBM0k1RlI0NHlYbHdPUDRpNFBjNmF3M3FEbnAyMG9H?=
- =?utf-8?B?MjZpRURtc01KUzZhWHZGYUcwOTVGRzFvMmxVeFBnR01zVXc3c21yNG5PYkVp?=
- =?utf-8?B?QVhoREE2eTlrYktBN2p3RTFnM1VNdlZ4R3ZBVWw3K0hxRS9lYUpWb1pVcVN4?=
- =?utf-8?B?cU9xVFovY2NMQ3gwS25SQjJiUkhKQUp5a09DZDBLVGgyc2M0T0ljTzZGQngr?=
- =?utf-8?B?Q0ZqTHZOVHFzU0VCeTN0OVovakF0Z2p3WTdVRjlDZzdsQ0lrQzNjRlBSemdi?=
- =?utf-8?B?UDU4YXdrb3R6eFBIME1VRXcycWJjemlLYzBURURndW9LUWc1R1BpZXJyQ2o2?=
- =?utf-8?B?SzFQRDE0Y0NySkplekFrYUhLUVNlbGs3RUlrV0xpSUwwK2Ntb2RCVU9yWXJh?=
- =?utf-8?B?LzZvK1h3VmNQTzJPR093UjNzZTZqWStNOUJkRTRHV3pJMC9RUzVKdTRFbEhs?=
- =?utf-8?B?djhSdnduZnE4M0p1cmRiazlQZFYycVVQVGNmcVlYTE1rOHEvWG41Y2grY0gy?=
- =?utf-8?B?WFZDc0lPY1NXN0JkblZoTWJpUHlKWExYOEtOWG5nZklGRDk3aFV2VXQ0UURx?=
- =?utf-8?B?bXlzTHpMTk5DQTNHOWpBWk40c1Rna1dHYW9XcFcwYnNrU1lyV2wxVWQyU1Jw?=
- =?utf-8?B?cXdJWE5OL0M0aWgzNmRDeE52UTZmV1MzdHBRVjNxaGdWQUcweStJb2MwNTho?=
- =?utf-8?B?aHB0K3QvU1BEQzhOZDNJYmRkMTNxRzJscHRQWk0rcmFjNkJQTjFkc1ZlUTRL?=
- =?utf-8?B?dWhwUHVhbFVKTHo4eU1iS1BOUjhQOUttOVMxRVJNMDdwTUM1ZEhFR05WMTFx?=
- =?utf-8?B?UndBeE5YZjh0QWRXTjFuRXZWdTJmWFVHRFJzZmxLQWFwcUl4ZHdlK0JoTHFR?=
- =?utf-8?B?RHE4WmV3dUU3R2VnbG1yR2c1RFF2SmhQU0VmUkpqTlBBcDdDeUlvQTQvOVI0?=
- =?utf-8?B?Y3NoNGpjcDVYVW1vSzIvaVVvRzQzazlzVEJIbGhtU0c0VFJwSDR4NjJNM3hG?=
- =?utf-8?B?MFhueDdkOGVzZmlUS3ZyV0dtdU43QThVTW1LTWZ2SVAwWmljdUo3M2FVUTNv?=
- =?utf-8?B?Y1hCZ2d0YzBaZzV6V1lRRXFwMFhCMENXbFI2MFkwdk1ZMnJ1QjRLREMwZlFh?=
- =?utf-8?B?N2k1cnJrdHladW1xNDdLeXo1MkRncW55Q1RUbFVtdWg5NHcyU0lZdTE5SWcx?=
- =?utf-8?B?dk8vMWVERVdaRElIWEVqRGdraDlaNjNvSTlxeWk1K3JkZXhLOEo0NzVFdXNz?=
- =?utf-8?B?UXl3cTljeE1wb3VsU1oxNzFzcjloVWdwYVpjdVBNbXFKVW12THliY2xzeG9r?=
- =?utf-8?B?MG43Z2xuTnhsZmJZdGFCNUN0VmlNZWtYV0RBd3B2UC9CWWlrNmp2czNUSVBZ?=
- =?utf-8?Q?wHpdhaKH53YYLw38=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	RCU4CAu6p7VaFA/Vl6nHXhIeTaesLRDc2Wrs/QmmEaM454oDghcIgHlgx3zXjujhvj4FSelogs5aqU1G43dPFOIffB+jbyhcfF5M3xvut8LNNJAaqV3c9l9ix3wNMpsMC/ojw71Va3/pZQxyNRd6LWo3w/bZtFE1UJXpmPBYJfId4Vz+HX1uYsEvkiKpZ/lN5hh9Wcu76gydaQexYQB427qqOMUJNS8Y6Rq4dT2nctgZqds5FZ4lqFykIvsflBilQcy7JKGtdONiV/WekytnVM77zaqAQ0Py8z9+7qMSEPQBWWj2SLEjIqweMxXs2Q18v5yRTrlASTtg8zrSpZNYpg==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 635fb563-8a87-4073-6420-08dedc02c033
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 08:36:02.7154
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KY/MobBCw9ls+tSo6SuJuVkPqeaeaB9VJ5YV40qjrzOAjTvIVOReiTlRBwcmuzGfZn1Rrp8zCOyakkQC4OV2RpAdYAmMEvPQcnDBYnlQL5w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAWPR11MB9921
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDA4MiBTYWx0ZWRfX+XQ1IKBBhDIU
- ZLsKn9RDm7UCmbJAr+HHByBcQwZBe5ZmtC40JSMtf549T7og84PZN9GBmS4RZU/J44smIRRkDSw
- 3gAsa2O3m3LPGcqv9Kxul6hLwaKBqm5tzZw1LzGYlCVJWpcDnZnu
-X-Proofpoint-ORIG-GUID: SESIg4iq4RILf-G1WtnxoXXSmtZF9Xs8
-X-Proofpoint-GUID: TOAvheZd641IILTC4g3uirAT6QDLYyXU
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDA4MiBTYWx0ZWRfXyGvYiR32LTnG
- XK5MQgMX+NU+PrR3oExKnCUtRZh41bMK1ZflgfY1lSZGnWVXI8PkLst5sR1pIVYYfZQrvfZrRlm
- w6NksXi2/c0YkFTL86VqOCv62bChaT95cMrUsWXfLbHEqovEABmVf3W+qowmL48pca5E0v7jElP
- Z9lp/nkLnSnnbfxC1uOHgyBCwmh22M85bjqzELqLfIqi3VWUpmQOPK5hYaI/iBoBjoLr1g6iPZU
- cZHQd8sJoTTkaJwo0PfLxi/U2SJwIfBXijUFo0KsioltkYbCLBzaL4kjeK9rhbLIp7UTbbbWduT
- coeQb0oJAJb+xMeZpfeGJ/7JUDveR0U5By/MrywBnXiKDaKabA8jlVkyNpVSmqB0q95OLp0BEdh
- bY+XtKR4UKpIsDxboJUtilMqgSRkLUsUKX+j5HX/XfDMo0UhHS7KYuKEqI3jwGhDWzo4XzKRUrU
- Hwzj8eQNqmUijjxFt6g==
-X-Authority-Analysis: v=2.4 cv=H5frBeYi c=1 sm=1 tr=0 ts=6a4cba75 cx=c_pps
- a=+KlkUUL6BOGgxGViHu3/Fg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=VwQbUJbxAAAA:8
- a=iGHA9ds3AAAA:8 a=P-IC7800AAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
- a=NSLVPOaNHC3vjR67bJoA:9 a=QEXdDO2ut3YA:10 a=yj-aMKAYKbz0kkd27lYA:9
- a=AJkUTW_G0EWBiW7X:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
- a=nM-MV4yxpKKO9kiQg6Ot:22 a=d3PnA9EDa4IxuAV0gXij:22 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-07_02,2026-07-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 phishscore=0 suspectscore=0 impostorscore=0
- malwarescore=0 spamscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607070082
+References: <20260701-tune-a32-v1-0-a43f28b1d7a4@gmail.com>
+ <20260701-tune-a32-v1-3-a43f28b1d7a4@gmail.com> <CAPoiz9xUkXsbJN7N4xB7uPaQ3XW-akpmcEB5JY=pBZ7oAddHcw@mail.gmail.com>
+In-Reply-To: <CAPoiz9xUkXsbJN7N4xB7uPaQ3XW-akpmcEB5JY=pBZ7oAddHcw@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 7 Jul 2026 09:39:53 +0100
+X-Gm-Features: AVVi8CcuEYA7LIgw7bCSAoFPe-lIBngBfEStftTHBqSxvYA4-ZyhhdLg92mYXj8
+Message-ID: <CAO5Uq5SK=bObAsCOxodCVyuD=KQ8xuGTmYWY8LRALFbrMzRxBQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] qemuarmv8a32: add QEMU machine for AArch32 ARMv8-A
+To: Jon Mason <jdmason@kudzu.us>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alex Kiernan <alexk@a-squared-projects.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 08:36:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240367
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 08:40:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240368
 
---------------WaYxEK9KXt78PST2Lnv0rD0i
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-
-On 07-07-2026 01:07 pm, Mathieu Dubois-Briand wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+On Mon, Jul 6, 2026 at 10:33=E2=80=AFPM Jon Mason <jdmason@kudzu.us> wrote:
 >
-> On Mon Jul 6, 2026 at 1:29 PM CEST, Harish via lists.openembedded.org Sadineni wrote:
->> From: Harish Sadineni<Harish.Sadineni@windriver.com>
->>
->> Enable LLVM/Clang toolchain for riscv64 kernel builds when Rust support
->> is enabled, as Rust is only supported with LLVM toolchains for this
->> architecture.
->>
->> This aligns with upstream kernel Rust architecture requirements as
->> documented in:
->> https://docs.kernel.org/rust/arch-support.html
->>
->> Signed-off-by: Harish Sadineni<Harish.Sadineni@windriver.com>
->> ---
-> Hi Harish,
+> On Wed, Jul 1, 2026 at 7:58=E2=80=AFAM Alex Kiernan via lists.openembedde=
+d.org
+> <alex.kiernan=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > Add a QEMU machine for exercising an AArch32-only ARMv8-A target
+> > (Cortex-A32) under emulation, defaulting to the cortexa32-crypto tune.
+> > QEMU has no Cortex-A32 model, so it runs on the 'virt' machine with
+> > qemu-system-arm and -cpu max, which provides the ARMv8-A AArch32 featur=
+e
+> > set including the crypto extensions needed by the crypto tune. The kern=
+el
+> > is built as a zImage and u-boot uses qemu_arm_defconfig, matching the
+> > other 32-bit ARM QEMU machines.
+> >
+> > Map KMACHINE to qemuarma15 so the existing linux-yocto BSP is reused, a=
+nd
+> > add qemuarmv8a32 to linux-yocto's COMPATIBLE_MACHINE so a kernel can be
+> > built for it.
+> >
+> > AI-Generated: Claude Code (Claude Opus 4.8)
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > Signed-off-by: Alex Kiernan <alexk@a-squared-projects.uk>
+> > ---
+> >  meta/conf/machine/qemuarmv8a32.conf           | 36 +++++++++++++++++++=
+++++++++
+> >  meta/recipes-kernel/linux/linux-yocto_6.18.bb |  2 +-
+> >  2 files changed, 37 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/conf/machine/qemuarmv8a32.conf b/meta/conf/machine/qe=
+muarmv8a32.conf
+> > new file mode 100644
+> > index 000000000000..8e49a56ae720
+> > --- /dev/null
+> > +++ b/meta/conf/machine/qemuarmv8a32.conf
+> > @@ -0,0 +1,36 @@
+> > +#@TYPE: Machine
+> > +#@NAME: QEMU ARMv8 AArch32 machine on Cortex-A32
+> > +#@DESCRIPTION: Machine configuration for running an AArch32 system on =
+QEMU
+> > +
+> > +DEFAULTTUNE =3D "cortexa32-crypto"
+> > +
+> > +require conf/machine/include/arm/armv8a/tune-cortexa32.inc
+> > +require conf/machine/include/qemu.inc
+> > +
+> > +KERNEL_IMAGETYPE =3D "zImage"
+> > +
+> > +PREFERRED_PROVIDER_virtual/bootloader ?=3D "u-boot"
+> > +UBOOT_MACHINE ?=3D "qemu_arm_defconfig"
+> > +
+> > +SERIAL_CONSOLES ?=3D "115200;ttyAMA0 115200;hvc0"
+> > +
+> > +# For runqemu
+> > +QB_SYSTEM_NAME =3D "qemu-system-arm"
+> > +QB_MACHINE =3D "-machine virt"
+> > +# QEMU doesn't know about Cortex-A32
+> > +QB_CPU =3D "-cpu max"
 >
-> Thanks for your patch.
+> I have concerns that this isn't doing what is expected.  Looking at
+> qemu-system-arm -machine virt -cpu
+> I'm seeing
+> ...
+>   cortex-a15
+>   cortex-a7
+>   cortex-a8
+>   cortex-a9
+> ...
+> and not any of the armv8 cores.  So, I think that you aren't going to
+> get any of the ARMv8 features with 'max', despite them possibly being
+> in the tune referenced above, which might cause crashes or other
+> unintended issues.
+
+Totally agree... this is the part I really wasn't happy with.
+
+> You might be okay on qemu-system-aarch64, given the ARMv8 cores there.
+> Maybe you can try emulating the cortex-a35 core and running it in
+> 32bit mode
 >
->>   meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
->> index 4e230d405a..ee0d5abaeb 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto.inc
->> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->> @@ -91,3 +91,7 @@ do_devshell:prepend() {
->>       d.setVar("HOSTPKG_CONFIG", "pkg-config-native")
->>       d.appendVar("OE_TERMINAL_EXPORTS", " HOSTPKG_CONFIG")
->>   }
->> +
->> +# For riscv64, Rust support in kernel only works with LLVM/Clang only.
->> +#https://docs.kernel.org/rust/arch-support.html
->> +TOOLCHAIN:riscv64 ="${@bb.utils.contains('KERNEL_FEATURES', 'rust', 'clang', '', d)}"
-> So I believe this is wrong, as you are setting TOOLCHAIN to nothing if
-> rust is not in KERNEL_FEATURES.
->
-> This is failing on the autobuilder with:
-> Parsing recipes...ERROR: ParseError at /srv/pokybuild/yocto-worker/qemuriscv64/build/layers/openembedded-core/meta/classes-global/base.bbclass:36: Could not inherit file classes/toolchain/.bbclass
-> ERROR: Parsing halted due to errors, see error messages above
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/1836
->
-> Can you have a look at the issue?
-Hi Mathieu,
 
-Thanks for catching this and for sharing the autobuilder failure.
+At some point I had this working, but I went around it repeatedly and
+failed to get it to work again :(
 
-I will send a new version shortly.
+The commented out pieces I have (which I'm 99% sure I had working):
 
-Thanks,
-Harish
+QB_SYSTEM_NAME =3D "qemu-system-aarch64"
+QB_CPU =3D "-cpu cortex-a32"
+QB_CPU_KVM =3D "-cpu host,aarch64=3Doff -machine gic-version=3D3"
 
+Any pointers on what I might be missing?
 
+> If I'm wrong, please provide a link to the documentation stating that
+> max on qemu-system-arm does what you say, because I'm not seeing it on
+> https://www.qemu.org/docs/master/system/arm/virt.html
 >
 > Thanks,
-> Mathieu
+> Jon
 >
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
---------------WaYxEK9KXt78PST2Lnv0rD0i
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+> > +QB_SMP ?=3D "-smp 4"
+> > +QB_CPU_KVM =3D "-cpu host -machine gic-version=3D3"
+> > +# For graphics to work we need to define the VGA device as well as the=
+ necessary USB devices
+> > +QB_GRAPHICS =3D "-device virtio-gpu-pci"
+> > +QB_OPT_APPEND =3D "-device qemu-xhci -device usb-tablet -device usb-kb=
+d"
+> > +# Virtio Networking support
+> > +QB_TAP_OPT =3D "-netdev tap,id=3Dnet0,ifname=3D@TAP@,script=3Dno,downs=
+cript=3Dno"
+> > +QB_NETWORK_DEVICE =3D "-device virtio-net-pci,netdev=3Dnet0,mac=3D@MAC=
+@"
+> > +# Virtio block device
+> > +QB_ROOTFS_OPT =3D "-drive id=3Ddisk0,file=3D@ROOTFS@,if=3Dnone,format=
+=3Draw -device virtio-blk-pci,drive=3Ddisk0"
+> > +# Virtio serial console
+> > +QB_SERIAL_OPT =3D "-device virtio-serial-pci -chardev null,id=3Dvirtco=
+n -device virtconsole,chardev=3Dvirtcon"
+> > +QB_TCPSERIAL_OPT =3D "-device virtio-serial-pci -chardev socket,id=3Dv=
+irtcon,port=3D@PORT@,host=3D127.0.0.1,nodelay=3Don -device virtconsole,char=
+dev=3Dvirtcon"
+> > +
+> > +KMACHINE:qemuarmv8a32 =3D "qemuarma15"
+> > diff --git a/meta/recipes-kernel/linux/linux-yocto_6.18.bb b/meta/recip=
+es-kernel/linux/linux-yocto_6.18.bb
+> > index 2b1298dedf9c..a818506bb6f3 100644
+> > --- a/meta/recipes-kernel/linux/linux-yocto_6.18.bb
+> > +++ b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
+> > @@ -52,7 +52,7 @@ KCONF_BSP_AUDIT_LEVEL =3D "1"
+> >
+> >  KERNEL_DEVICETREE:qemuarmv5 =3D "arm/versatile-pb.dtb"
+> >
+> > -COMPATIBLE_MACHINE =3D "^(qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|=
+qemuppc64|qemumips|qemumips64|qemux86-64|qemuriscv64|qemuriscv32|qemuloonga=
+rch64)$"
+> > +COMPATIBLE_MACHINE =3D "^(qemuarm|qemuarmv5|qemuarmv8a32|qemuarm64|qem=
+ux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64|qemuriscv64|qemuriscv=
+32|qemuloongarch64)$"
+> >
+> >  # Functionality flags
+> >  KERNEL_EXTRA_FEATURES ?=3D "features/netfilter/netfilter.scc"
+> >
+> > --
+> > 2.43.0
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#239980): https://lists.openembedded.org/g/openembed=
+ded-core/message/239980
+> > Mute This Topic: https://lists.openembedded.org/mt/120062731/3616920
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+jdmason@kudzu.us]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 07-07-2026 01:07 pm, Mathieu
-      Dubois-Briand wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:DJS60V3OTZ8P.1G7BQBL5EUH7G@bootlin.com">
-      <pre wrap="" class="moz-quote-pre">CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and know the content is safe.
 
-On Mon Jul 6, 2026 at 1:29 PM CEST, Harish via lists.openembedded.org Sadineni wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">From: Harish Sadineni <a class="moz-txt-link-rfc2396E" href="mailto:Harish.Sadineni@windriver.com">&lt;Harish.Sadineni@windriver.com&gt;</a>
 
-Enable LLVM/Clang toolchain for riscv64 kernel builds when Rust support
-is enabled, as Rust is only supported with LLVM toolchains for this
-architecture.
-
-This aligns with upstream kernel Rust architecture requirements as
-documented in:
-<a class="moz-txt-link-freetext" href="https://docs.kernel.org/rust/arch-support.html">https://docs.kernel.org/rust/arch-support.html</a>
-
-Signed-off-by: Harish Sadineni <a class="moz-txt-link-rfc2396E" href="mailto:Harish.Sadineni@windriver.com">&lt;Harish.Sadineni@windriver.com&gt;</a>
----
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-Hi Harish,
-
-Thanks for your patch.
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre"> meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 4e230d405a..ee0d5abaeb 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -91,3 +91,7 @@ do_devshell:prepend() {
-     d.setVar(&quot;HOSTPKG_CONFIG&quot;, &quot;pkg-config-native&quot;)
-     d.appendVar(&quot;OE_TERMINAL_EXPORTS&quot;, &quot; HOSTPKG_CONFIG&quot;)
- }
-+
-+# For riscv64, Rust support in kernel only works with LLVM/Clang only.
-+# <a class="moz-txt-link-freetext" href="https://docs.kernel.org/rust/arch-support.html">https://docs.kernel.org/rust/arch-support.html</a>
-+TOOLCHAIN:riscv64 = <a class="moz-txt-link-rfc2396E" href="mailto:${@bb.utils.contains('KERNEL_FEATURES','rust','clang','',d)}">&quot;${@bb.utils.contains('KERNEL_FEATURES', 'rust', 'clang', '', d)}&quot;</a>
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-So I believe this is wrong, as you are setting TOOLCHAIN to nothing if
-rust is not in KERNEL_FEATURES.
-
-This is failing on the autobuilder with:
-Parsing recipes...ERROR: ParseError at /srv/pokybuild/yocto-worker/qemuriscv64/build/layers/openembedded-core/meta/classes-global/base.bbclass:36: Could not inherit file classes/toolchain/.bbclass
-ERROR: Parsing halted due to errors, see error messages above
-
-<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/1836">https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/1836</a>
-
-Can you have a look at the issue?</pre>
-    </blockquote>
-    Hi Mathieu,<br>
-    <p class="isSelectedEnd"><span>Thanks for catching this and for
-        sharing the autobuilder failure.<br>
-        <br>
-        I will send a new version shortly.<br>
-        <br>
-        Thanks,<br>
-        Harish</span></p>
-    <br>
-    <blockquote type="cite" cite="mid:DJS60V3OTZ8P.1G7BQBL5EUH7G@bootlin.com">
-      <pre wrap="" class="moz-quote-pre">
-
-Thanks,
-Mathieu
-
---
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-<a class="moz-txt-link-freetext" href="https://bootlin.com">https://bootlin.com</a>
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------WaYxEK9KXt78PST2Lnv0rD0i--
+--=20
+Alex Kiernan
 
