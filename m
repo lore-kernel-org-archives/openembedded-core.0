@@ -1,211 +1,183 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A157EC43458
-	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 14:24:28 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.175600.1783434260092719403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FC67C43602
+	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 14:34:38 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.22])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.175804.1783434874181325360
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jul 2026 07:24:20 -0700
+ Tue, 07 Jul 2026 07:34:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=vOHIva7R;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493b61b52b6so30994825e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 07:24:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783434258; x=1784039058; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wXG/Bqo54lfRzFn97lav/WK9ifamLjBD1S0Ylf4nv1I=;
-        b=vOHIva7RMc63jqiI2WkyZocbs6piHhKsa8ZjSLfF4Lovy0BW05Z9aZsgOB/JVr3MQ3
-         TiWtEUtYcJC0WjMBmmQNb3gnTQfZS7B7o/btT5pbrSS3iqYWJZhfoxjyvgrTDt8zmdbB
-         4Bmu1fIvUX5yUXiMH80hHG2maRwhk+DyOMebI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783434258; x=1784039058;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wXG/Bqo54lfRzFn97lav/WK9ifamLjBD1S0Ylf4nv1I=;
-        b=atFoTVejRv9siFJQK023OsxpX/Leg4zyorQAcdl9b7Wpy8erWWtGdsbZUBu0yY/EWi
-         Fvr7y85UGXdajVmw0PgncfiPtKGJVNv5SjbAYk2EUviNULoju/LbfmqFnAE7E2+HMyLa
-         ugVAbF4AzUIhRtriHwpJTakGgqc2QtamIsHW6luohey2om7/WPka+/NE0q+g2m778QPD
-         upc0DHscEyaHzycJ4qLSJrmNlEXF5+2c4T8K5EBiDExIxv+hmDQMIGgMVveg1pA4zqKi
-         csUXPgcu7WlPZiynKe9OulPeyDvmss9NTB6X18/Qr1MRckzUBouqOfUsGBRtzBMAMSHM
-         6oFA==
-X-Forwarded-Encrypted: i=1; AHgh+RpxwzbPv021+BLRWLHt+Ypx77W6xtb556NVS0N2TamJiZZCUNz5Crf4/3tFdi0s2Wtpk5ATKYHb3UdDViYarD5BRA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxZOvXfcmHFzUN6r3Tuy4JIvfN8+2whjBlVg3sfeDzicAOrECui
-	2n/N2zzDZAbdpxEZI4tOMo9zBpqlzHq0MoALPqDxMKyj6sLB6uvqgH5YONb9AJFPhx0=
-X-Gm-Gg: AfdE7ckXD0eK4g88/aVIfjK7u1CR9YmqZ34VZ4egfD0MjE+Jw3I8P4Qwg3j/QIxU8tx
-	uz/pxdz0gBM6Fyk+S2I+2iueJ8RXwIFXRpq+Do5zYJJWFgtp2m4iqv5m+J6uFljoEvsQzkj1xn2
-	+2tAo+klWYHtPvFdXURZsJ4Nq2SID/AHj0cf00DOJSFWICA61Qhbo+Xja24yxXdl+DdhpzMqmeQ
-	oz7jMcaroGlrfVNNJCOOFbpok0KzJ79jAXsO6mU4vjU9BoBFOgWM8jxONZnPqqkmAmNo/WRTdoy
-	tpvkVy2ZFmTqqOXJw8AUzrDTygB30kHtppEQUhgbSG14ojk/98GdJJO+V4ct+x1I0A0YDgjeucr
-	N8suPpRHA66LL9DOVSe4li3Np9pjCCdi8AAgAH/oMsS9a8BL0h3k14zg9rYdatthxs4kdSqAbIU
-	PD4E+1wPIWRcli8vUZIOIM351oQHKpj4RLIVgMWuhknov/cJKqWJn8AVxJT6Mcf0rCA5MESRoL
-X-Received: by 2002:a05:600c:3514:b0:493:b7cb:c5f with SMTP id 5b1f17b1804b1-493df05f8d4mr55834975e9.11.1783434258138;
-        Tue, 07 Jul 2026 07:24:18 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9de1e6ccsm34660301f8f.5.2026.07.07.07.24.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jul 2026 07:24:17 -0700 (PDT)
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=dKCRhOnA;
+ spf=pass (domain: est.tech, ip: 40.107.162.22, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iFVe5gG9Bv0Pl1qYm9FxJKRS3pt5zpQ1WQ+ouT4/pD6Zp1nyflj4VtvkKldBH+5WJFqfdOcP466aFvZ5Dz4OcBURg+97a7hxkETDBdbXeI0FfJM8dQ6cv7m9Gs1TqbTh7yve/xg11CtBUoCKh2aExtcP5zMoMO/3/pdJUIhvFAeC9I2gwk+X8WtEWWQnZuyl8pLGk9gCGIf2gy5bz9cbqlUwPPwi1OkM9pH2LHFRitV1Smp8zTIwXJJ3BzAXQdUfKK4vpHcfwZ7UXZiMjTVDtryFudZ3SdOprvye0kWfx34j33/4JzxBuHUIC1+nEgu+MCSMo9E3+n81saj/OAM71w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q4IFcydbjkeB3mp8ZzEDy5MWbVzwPutCItMlJ11u+AA=;
+ b=k6CR5f3OhpLa4m9W8t81uWUgZTmCqFmecJBXuzcCV85yf7LiWwgooCrc+nlR0Otb7HI45UjFnT3corOVQIApNp9J3t0/TsW7JlbKQTSMrnW0QITxjTkxPMgJi8QPuywX78kr++2St9B29L9upVlNGN+hS6Zca877n6GAvLUNNA15QKXcqAgRlk+c3hTtAAexfdg55g5pUROQ85DrUYa1Yt6LA4iq0XLV7qHafZLKNGY0x/R3uELivsu/hrq/CQ4jFc5mKGsIgFXuAOROyzI05ZeG9m3RKUCagDVL22qiQgCHqjI9rc0JwA1HMVpqNrN1GhrXvuAfVPdFzH2H+Vnq2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q4IFcydbjkeB3mp8ZzEDy5MWbVzwPutCItMlJ11u+AA=;
+ b=dKCRhOnAhEGWKXxNpt0FLkyp6VK7tZBJ6KD3I5eIsl3r9RgnlIpurP15W96XdXJLlvJoCw2tADr+zuHyBqXNUthL7W0Cy+3Np/Tbe6EQPW7zCW+k2lONxDbJvEvBkI/gRcx6EbB+SUeM0+tZIsYuJlVdKMcgByu4z4r6Qbrgk6x83mLb126NXF7U3dozcwvqtrqePhXGBtoYt7EZGApL9WgZ1C5R+Z29dq7bYa+UXutOSLiFim0XPtdCXO/y2xEnf16SCQNndOOCPEa5JGElwC3ZfNTzXAah0u1Cm2GPpP5q2oApedF/1fQ18MYzzzRyrEDXhZG7oUo0lduSr2tTXg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by DB8P189MB0902.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:149::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Tue, 7 Jul
+ 2026 14:34:29 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85%8]) with mapi id 15.21.0181.012; Tue, 7 Jul 2026
+ 14:34:28 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Subject: [PATCH] gzip: fix CVE-2026-41992
+Date: Tue,  7 Jul 2026 16:34:19 +0200
+Message-ID: <20260707143421.34255-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 07 Jul 2026 16:24:17 +0200
-Message-Id: <DJSEOJECWK9X.ANVISE5T9476@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH v2] bind: Upgrade 9.18.44 -> 9.18.49
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: "Ashishkumar Parmar -X (asparmar - E INFOCHIPS PRIVATE LIMITED at
- Cisco)" <asparmar@cisco.com>, "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260630060410.1203985-1-asparmar@cisco.com>
- <DJS9H2DLIVVC.2DDDZVKTEK2TS@smile.fr>
- <PH0PR11MB5902116D97221B6725047B50CFF02@PH0PR11MB5902.namprd11.prod.outlook.com>
-In-Reply-To: <PH0PR11MB5902116D97221B6725047B50CFF02@PH0PR11MB5902.namprd11.prod.outlook.com>
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0230.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a6::19) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|DB8P189MB0902:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2ce29ca-b540-4ad0-6533-08dedc34d8ea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|11063799006|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	AsJAwy4O9aWZNQIM3kfRFOzOQ/tt/YoeXT6v1pI+ukCh7vDIfeJQDabdaTIXwO6dyFPzD2rWsQaFmPT3LDmjbAyJuR27AwNL1zV2+W2NN7wAX4epgjEv3GGPkZ+bs7XHspoFUIODiEy0BeyjSlt7MsvQ/q62SrEr1hJ98ES19c9QADPKXuWRpqu8DuDLNNao0atoi37KH8+hgGuheuNvTiyEnF8yvrGTuoTt5kugU3a+YJ2DZcuFRGAK4cqx1Tw1uz1nGHxbr9bLZ0sh2A3ihmm7cNynbaE2s3vTEyI53/Nwy2A0bSmLXB+Tk1EzebUG5sXQe6qX5cJwIn+oTKfDhovxAS8JXTUCykg1LxSPZTDUvWjQ2Lq82ia70r3bXqx03bOXMLWc3AAo8yU6gbUnbxexfkykpZ64MhJBSpkxejFcFyf4sbcODFW9W2XpTbUD3BHvmm83ohzzPYDWGJqL83Akjw+2lx5I5akKmRFN7cFhMpqMl70NgwXbNpI1EYlmnZkjKJ12fT/aMmw1ptVs8SmdwtsNOX7KusYaDT1Jj0prbtFfICreQhUkyh33y1Qydib+I8yrymGWgBxzMTsXfctN+f4bwRSwTLAH2+RBbxEjPS2LZIF4GMHfYyWXgufo9aIaMoLtA2TLoKoIDsvT9ssQgDiIy27iQlijxPMyh5s=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?T/FSaHJqO9LldUEkhRfvQ+x7pLWrQTeHgQzjCoZx+UBHkwirQn4d4lIIhZt6?=
+ =?us-ascii?Q?p8r392d1tTEOn1xq1U8ndc6WlzbB0qPoboM10fI7feRBXt9mkWjF8pVT6xVi?=
+ =?us-ascii?Q?UTy5LNAbl+XbESgVt+PwyNRhaeU771xSycmqvduVKpneqvP3jaFhsWfDAma5?=
+ =?us-ascii?Q?CTQzMWzSQw/s2aQhIcT9i7jmYRPWjI1QgblnaGoj+CnaL5yIvRiwmUlFXJr5?=
+ =?us-ascii?Q?7/ZddwerhNjgTTv3XHl502p0qD+FMgRy3LKwZc+hTDo5Appwuhbj/ykc212k?=
+ =?us-ascii?Q?9D0n8DbAzc4++Vso6VUkqMWmzjv+qyWb32MNHuUes8vDD0d917HmYwunYHLA?=
+ =?us-ascii?Q?dk6AYF1CO8+A8fyBMIFaglO2a8hVNJnVBKQoEayaGScTnI4v5pJclXHIJl2N?=
+ =?us-ascii?Q?A4ZclryElV1me3QMk8WriprpBM5iGjbU8Lt245KMDCRYeWmasZ9zpo/larM8?=
+ =?us-ascii?Q?Mr5VMzxJybdFF58Zpo4LLVbsNtIN9PH/jRLFqUO9hGFCuCw3NUbQvr7ZpJgU?=
+ =?us-ascii?Q?7L8/4vc2Tg58v3NZ3G9Z6TKzZ5lln2K4QhiRhNicCTOAb6Du6zPVR3wKnnBo?=
+ =?us-ascii?Q?iNhNIPLvDcuUQsjIkJj5atbBQ5ztftIc+G01kPIHuv+BZ24ww6cboy46phMw?=
+ =?us-ascii?Q?w5/WruoMscyPm8LOJGZhHq9njC+35OHVdkttI8qizwOWC9oRRRTilO9PQS/L?=
+ =?us-ascii?Q?k7kXuvJ+9hP7RF+MizAVg31yZf5eG5pzF1OveVsAeyBZx4pW4oajVs05C6J2?=
+ =?us-ascii?Q?/iyc7A899GKQqVy4YmUN4X9DUJy5N/c8GkXdyyXJPlirsTGv8pNjkSwKJO0l?=
+ =?us-ascii?Q?dyWgTIJpvlOBfnVR8hvjGHshzS6XIzHnZOumXGeP3RavxvzQF/vWLO27MgZt?=
+ =?us-ascii?Q?T3n9mFYaPfED+oIG0gOjx+s98B5nOzcQdq18N8UjY/9HumUT/nimjsla6uqm?=
+ =?us-ascii?Q?BPSaNEBm35jcG20M25AfW820bsTgqxA7AOG5KJQJ4b6+ya8qo5E3AHy02WYU?=
+ =?us-ascii?Q?NhSbRRQ2iwqUFBELxT6mfoBA95afP6Iy6gno49kVTe2VeIcuwXsJf0VaDmER?=
+ =?us-ascii?Q?l0ymFYRkkcCDaa6tOxfzS9VQm7kqaKiMFMxVb3UlT0FI/OesVsGeVvYNsc88?=
+ =?us-ascii?Q?/TlXTOAcjemZMOd6BQD/q93eo3xeDj4ZQqG5s8FveQ7UIstiXO2/kv7DO/dx?=
+ =?us-ascii?Q?xdfwdoSPUrzNQn7oxaFpOWZJSm5TeVC1wWzB/6pbkPoo0/B6wMJ3jV01w5rk?=
+ =?us-ascii?Q?i2WyAN6mLRL0+1S86zzX4TvbE9woVompm0gqedPSIAp0hFgz0J7mM0TWmx8M?=
+ =?us-ascii?Q?CJQdNyQUrKV4IiiKCsNVvJwuVRSGxerP9JqipgJ4CEMf/2lfSFVIHTc7eyux?=
+ =?us-ascii?Q?pgf2u0jHutVOeYqruyxq10m644r/4GgCINgWcHqwKWKWIwGtT0JUdUfIF8O8?=
+ =?us-ascii?Q?cyxIfW7VHTNOFzRNSS753R0Obeg87+m4dm7QvmHImpDs1n5BpXo04ldy3dF/?=
+ =?us-ascii?Q?0wKMrDJqUBbtbEKhUd5L4rs6yF3hX9a7FbNe71f1w9/hAqFRP7cI4fZwCp/8?=
+ =?us-ascii?Q?ZBh07k/Dyza7fn3p09ZUUSOAMJ5Z8/2fFh48vx6Gwc3D2G0bTLU6XT+dyvO8?=
+ =?us-ascii?Q?2RI0BT5NH8C87qENnKvN4w2elBPl38dvArC2AAQYqnL8sO+mhwZxptuLlC7G?=
+ =?us-ascii?Q?VMCVv/D+fcsgNV7GQ/icIQ69E4e3JxUAJDVCzLuCn5C7g+/L1/72Jcsqplfu?=
+ =?us-ascii?Q?093unCX7Dw=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2ce29ca-b540-4ad0-6533-08dedc34d8ea
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 14:34:27.1998
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: is8Cqlk9EU9Ibtea8hUC1gufqj3wpEgFrScStoqJl0BcSoHk2RFbT27Sza5gRimGlJV04qNStpopnjExLvoipjP2TI1iIZm1Ine1NGWqzPs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB0902
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 14:24:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240391
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 14:34:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240392
 
-Hello,
+Backport upstream fix for a global buffer overflow in the LZH
+decompression logic (unlzh.c). The left[] and right[] global arrays
+shared across LZW and LZH decompression routines are not reinitialized
+between files processed in the same invocation, allowing an
+out-of-bounds read in the LZH decoder.
 
-On Tue Jul 7, 2026 at 3:24 PM CEST, Ashishkumar Parmar -X (asparmar - E INF=
-OCHIPS PRIVATE LIMITED at Cisco) wrote:
-> Thanks, Yoann.
->
-> Yes, feature changes are usually not something we should take in stable.
->
-> For this BIND work, I first submitted the individual CVE backport patches=
- for scarthgap:
->
-> - CVE-2026-1519:
->   https://patchwork.yoctoproject.org/project/oe-core/patch/20260610100404=
-.2993940-1-asparmar@cisco.com/
-> - CVE-2026-5950:
->   https://patchwork.yoctoproject.org/project/oe-core/patch/20260610100404=
-.2993940-2-asparmar@cisco.com/
-> - CVE-2026-3592:
->   https://patchwork.yoctoproject.org/project/oe-core/patch/20260610100404=
-.2993940-3-asparmar@cisco.com/
-> - CVE-2026-3039:
->   https://patchwork.yoctoproject.org/project/oe-core/patch/20260610100404=
-.2993940-4-asparmar@cisco.com/
-> - CVE-2026-5946:
->   https://patchwork.yoctoproject.org/project/oe-core/patch/20260610100404=
-.2993940-5-asparmar@cisco.com/
->
-> During review, the feedback was that BIND is one of the rare projects
-> where the upstream stable branch matches OE stable policy, and that
-> upgrading along the 9.18 branch would be preferable to carrying a
-> large CVE backport patch stack. That is why I superseded the backport
-> series and sent the 9.18.44 -> 9.18.49
-> upgrade instead:
->
-> https://patchwork.yoctoproject.org/project/oe-core/patch/20260630060410.1=
-203985-1-asparmar@cisco.com/
+Reference: https://nvd.nist.gov/vuln/detail/CVE-2026-41992
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ .../gzip/gzip-1.14/CVE-2026-41992.patch       | 32 +++++++++++++++++++
+ meta/recipes-extended/gzip/gzip_1.14.bb       |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.pat=
+ch
 
-Sorry, I totally forgot that I was the one suggesting the upgrade.
-
-> For the specific 9.18.45 changelog item you pointed out, the change is
-> limited to ISC's upstream system test suite. It raises the Python
-> requirement for running `bin/tests/system` and tracks those test-suite
-> Python dependencies in `bin/tests/system/requirements.txt`.
->
-> OE-Core's `bind` recipe does not enable or package that upstream
-> system test suite and does not inherit `ptest`, so this change is not
-> part of the target build, installed packages, runtime dependencies, or
-> runtime behavior.
->
-> So the reason for the upgrade is that it follows the earlier review
-> direction to use the BIND 9.18 stable branch, while this particular
-> feature change is test-suite-only and not target-visible in OE-Core.
-
-I agree with proceeding with the upgrade.
-Can you put a shorter explanation of the above in your commit message to
-help future reviewer?
-
-Thanks!
-
->
-> Regards,
-> Ashish
-> ________________________________
-> From: Yoann Congal <yoann.congal@smile.fr>
-> Sent: 07 July 2026 15:49
-> To: Ashishkumar Parmar -X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisc=
-o) <asparmar@cisco.com>; openembedded-core@lists.openembedded.org <openembe=
-dded-core@lists.openembedded.org>
-> Cc: xe-linux-external (Internal Group) <xe-linux-external@cisco.com>
-> Subject: Re: [OE-core][scarthgap][PATCH v2] bind: Upgrade 9.18.44 -> 9.18=
-.49
->
-> On Tue Jun 30, 2026 at 8:04 AM CEST, Ashishkumar Parmar X (asparmar - E I=
-NFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
->> From: Ashishkumar Parmar <asparmar@cisco.com>
->>
->> This upgrade fixes CVE-2026-1519, CVE-2026-3039, CVE-2026-3592, CVE-2026=
--5946 and CVE-2026-5950.
->>
->> Changelog
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D
->> https://downloads.isc.org/isc/bind9/9.18.49/doc/arm/html/notes.html
->
-> That changelog contains:
-> | Notes for BIND 9.18.45
-> |   Feature Changes
-> |    Update requirements for system test suite.
-> |      Python 3.10 or newer is now required for running the system test
-> |      suite. The required Python packages and their version requirements
-> |      are now tracked in the file bin/tests/system/requirements.txt. [GL
-> |      #5690] [GL #5614]
->
-> Feature changes are not usually acceptable for stable. Can you justify
-> why this is the case here?
->
-> Thanks!
->
->>
->> Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
->> ---
->>  .../bind/{bind_9.18.44.bb =3D> bind_9.18.49.bb}                   | 2 +=
--
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>  rename meta/recipes-connectivity/bind/{bind_9.18.44.bb =3D> bind_9.18.4=
-9.bb} (97%)
->>
->> diff --git a/meta/recipes-connectivity/bind/bind_9.18.44.bb b/meta/recip=
-es-connectivity/bind/bind_9.18.49.bb
->> similarity index 97%
->> rename from meta/recipes-connectivity/bind/bind_9.18.44.bb
->> rename to meta/recipes-connectivity/bind/bind_9.18.49.bb
->> index d424edcb4e..723a09e739 100644
->> --- a/meta/recipes-connectivity/bind/bind_9.18.44.bb
->> +++ b/meta/recipes-connectivity/bind/bind_9.18.49.bb
->> @@ -20,7 +20,7 @@ SRC_URI =3D "https://ftp.isc.org/isc/bind9/${PV}/${BPN=
-}-${PV}.tar.xz \
->>             file://0001-avoid-start-failure-with-bind-user.patch \
->>             "
->>
->> -SRC_URI[sha256sum] =3D "81f5035a25c576af1a93f0061cf70bde6d00a0c7bd1274a=
-bf73f5b5389a6f82d"
->> +SRC_URI[sha256sum] =3D "c43ce4548ebed788cd9df63658a7de105ceafba43fcd63f=
-a352b1093e525cd24"
->>
->>  UPSTREAM_CHECK_URI =3D "https://ftp.isc.org/isc/bind9/"
->>  # follow the ESV versions divisible by 2
->
->
-> --
-> Yoann Congal
-> Smile ECS
-
-
+diff --git a/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.patch b/me=
+ta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.patch
+new file mode 100644
+index 0000000000..5d3534fcb1
+--- /dev/null
++++ b/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.patch
+@@ -0,0 +1,32 @@
++From 63dbf6b3b9e6e781df1a6a64e609b10e23969681 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Wed, 15 Apr 2026 12:00:17 -0700
++Subject: gzip: don't mishandle .lzh after .Z
++
++Problem reported by Michal Majchrowicz.
++* unlzh.c (read_c_len): Clear left and right when n =3D=3D 0.
++
++CVE: CVE-2026-41992
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gzip.git=
+/commit/?id=3D63dbf6b3b9e6e781df1a6a64e609b10e23969681]
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ unlzh.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/unlzh.c b/unlzh.c
++index 3320196..a6cf109 100644
++--- a/unlzh.c
+++++ b/unlzh.c
++@@ -232,6 +232,12 @@ read_c_len ()
++         c =3D getbits(CBIT);
++         for (i =3D 0; i < NC; i++) c_len[i] =3D 0;
++         for (i =3D 0; i < 4096; i++) c_table[i] =3D c;
+++
+++        /* Needed in case LEFT and RIGHT are reused from a previous
+++           LZW decompression.  It may be overkill to clear all of both
+++           arrays, but nobody has had time to analyze this carefully.  */
+++        memzero(left, (2 * NC - 1) * sizeof *left);
+++        memzero(right, (2 * NC - 1) * sizeof *left);
++     } else {
++         i =3D 0;
++         while (i < n) {
+diff --git a/meta/recipes-extended/gzip/gzip_1.14.bb b/meta/recipes-extende=
+d/gzip/gzip_1.14.bb
+index c7837cdae0..99174a58c5 100644
+--- a/meta/recipes-extended/gzip/gzip_1.14.bb
++++ b/meta/recipes-extended/gzip/gzip_1.14.bb
+@@ -6,6 +6,7 @@ LICENSE =3D "GPL-3.0-or-later"
+=20
+ SRC_URI =3D "${GNU_MIRROR}/gzip/${BP}.tar.gz \
+            file://run-ptest \
++           file://CVE-2026-41992.patch \
+            "
+ SRC_URI:append:class-target =3D " file://wrong-path-fix.patch"
+=20
 --=20
-Yoann Congal
-Smile ECS
+2.34.1
 
 
