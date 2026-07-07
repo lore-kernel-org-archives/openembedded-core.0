@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E61C44501
-	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 05:50:04 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.167395.1783403397058438519
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 061A0C44506
+	for <webhook@archiver.kernel.org>; Tue,  7 Jul 2026 05:50:05 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.167393.1783403394067245227
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jul 2026 22:49:57 -0700
+ Mon, 06 Jul 2026 22:49:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CmY0I3hW;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DcPlbDy9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019f3b203be0-09f79489-0bee-4857-8a17-5bcf8d8d53f5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NyRpJ+Rz;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=vBUBiKf0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019f3b203dbb-4269ac51-0060-4537-84a0-188c5c83ce34-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1783403396;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=unovA0cnSvQlmXaVwtkiuiF7lDCEDfYYzNO3bkKSoV0=;
-	b=CmY0I3hWcm3giUztt6TDVB31Z4aLzv1fBJfYMPEWf/j2dEIvdjiSOmEbT42CGhS7
-	qAoTMqdJRzUhiS2Y7s0lWw6rGvtaM09n8Ah47sGZtr6eMsP28y0uIaLMbs8mZWg8NRw
-	cG+uf2ANxTCKMLmrCdXZP3uWxo2+p8BN0JvtmLMg=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=kRDA/bnA7cdNaSdqcWnFk6sTp44vPwHS8zlDV/ZOfq4=;
+	b=NyRpJ+RzZNHy6jC/Ro6wQDWOHhxSPt0TiVww2odOmeDsSTPAm0XWV2KIUYRqRLcw
+	Y4uHWBvz3IZfwHJahXml/dsB5JX1+Fb2suiH8vnz7xMCEptrhts91VModQEJZEusIEj
+	XgnflgO8rPrAfO2e9UUy6H5TfjhI2mfBJlxxMRzc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783403396;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=unovA0cnSvQlmXaVwtkiuiF7lDCEDfYYzNO3bkKSoV0=;
-	b=DcPlbDy981MSSiN0KGQF/uJeqN3/44GeNiLDNWPoO7bX6w3KI94q6pSfvQAueJNg
-	OyT0l66y28HTDl4W3rBrl7rVwECoxkPHJP4dIUieuIUYPZc3GplUwYHK0QI9CjsHQcp
-	Kl2L6GzvdDnzXmBvXELc/jZlzd6cpkmgsdbDwJZ4=
-Content-Type: multipart/mixed; boundary="===============8672134371325109555=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=kRDA/bnA7cdNaSdqcWnFk6sTp44vPwHS8zlDV/ZOfq4=;
+	b=vBUBiKf0DvtQOIo7qtW05mgdfMCJl8MIegQC1VRZ99UKP8aZUUlYEdaW/DDIxwFP
+	MyklXw06XLE1EG74TJ2Ts9kpgEtcLIQA7X0J9n4dl7NXWHWqJSeJW6Dr0ItG1R9bQU+
+	OtimSwd+LUPCh6nnkG59E4XvjT7h7qwkrvBO+cd0=
+Content-Type: multipart/mixed; boundary="===============8913119665459618418=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] patchelf: upgrading to 0.19.1 SUCCEEDED
-Message-ID: <0101019f3b203be0-09f79489-0bee-4857-8a17-5bcf8d8d53f5-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] repo: upgrading to 2.65 SUCCEEDED
+Message-ID: <0101019f3b203dbb-4269ac51-0060-4537-84a0-188c5c83ce34-000000@us-west-2.amazonses.com>
 Date: Tue, 7 Jul 2026 05:49:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.07-54.240.27.192
+X-SES-Outgoing: 2026.07.07-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 05:50:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240356
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jul 2026 05:50:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240354
 
---===============8672134371325109555==
+--===============8913119665459618418==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *patchelf* to *0.19.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *repo* to *2.65* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-patchelf-upgrade-0.19.0-0.19.1.patch
+    - apply the patch: git am 0001-repo-upgrade-2.64-2.65.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,89 +71,88 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a1508500fc61c98f83de8199bc7d28e5da21e296 Mon Sep 17 00:00:00 2001
+From 05970058baef65afe43c9edddc4232c965acc4c8 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 7 Jul 2026 05:30:30 +0000
-Subject: [PATCH] patchelf: upgrade 0.19.0 -> 0.19.1
+Date: Tue, 7 Jul 2026 05:49:49 +0000
+Subject: [PATCH] repo: upgrade 2.64 -> 2.65
 
 ---
- meta/recipes-devtools/patchelf/patchelf_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/repo/{repo_2.64.bb => repo_2.65.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/repo/{repo_2.64.bb => repo_2.65.bb} (94%)
 
-diff --git a/meta/recipes-devtools/patchelf/patchelf_git.bb b/meta/recipes-devtools/patchelf/patchelf_git.bb
-index 6ce7721353..6c88da1b09 100644
---- a/meta/recipes-devtools/patchelf/patchelf_git.bb
-+++ b/meta/recipes-devtools/patchelf/patchelf_git.bb
-@@ -6,9 +6,9 @@ LICENSE = "GPL-3.0-only"
+diff --git a/meta/recipes-devtools/repo/repo_2.64.bb b/meta/recipes-devtools/repo/repo_2.65.bb
+similarity index 94%
+rename from meta/recipes-devtools/repo/repo_2.64.bb
+rename to meta/recipes-devtools/repo/repo_2.65.bb
+index 8cbf223571..2a235b7ec5 100644
+--- a/meta/recipes-devtools/repo/repo_2.64.bb
++++ b/meta/recipes-devtools/repo/repo_2.65.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
- SRC_URI = "git://github.com/NixOS/patchelf;protocol=https;branch=master \
- "
--SRCREV = "1e279e99b952c765824fa0401abb8dc0d944e4ea"
-+SRCREV = "7688b17c18d16f67fa8d5a82a2404c2e3a18648d"
+ SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v${PV} \
+            "
+-SRCREV = "2d54384a5e59fddd0626ec091cc0ad11511d834e"
++SRCREV = "35bbf701d04de5c6a71937279bc3d16f6ce36808"
  
--PV = "0.19.0"
-+PV = "0.19.1"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e"
+ MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
  
 -- 
 2.47.1
 
 
---===============8672134371325109555==
+--===============8913119665459618418==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-repo-upgrade-2.64-2.65.patch"
+
+RnJvbSAwNTk3MDA1OGJhZWY2NWFmZTQzYzllZGRkYzQyMzJjOTY1YWNjNGM4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgNyBKdWwgMjAyNiAwNTo0OTo0OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJl
+cG86IHVwZ3JhZGUgMi42NCAtPiAyLjY1CgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBv
+L3tyZXBvXzIuNjQuYmIgPT4gcmVwb18yLjY1LmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9yZXBvL3tyZXBvXzIuNjQuYmIgPT4gcmVwb18yLjY1LmJifSAoOTQlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi42NC5iYiBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9yZXBvL3JlcG9fMi42NS5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJv
+bSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNjQuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi42NS5iYgppbmRleCA4Y2JmMjIzNTcxLi4yYTIz
+NWI3ZWM1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNjQu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjY1LmJiCkBAIC0xMSw3
+ICsxMSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2
+Mzg3ZjE0NjU1ZmM4NTRkZGMzYzZiZDU3IgogCiBTUkNfVVJJID0gImdpdDovL2dlcnJpdC5nb29n
+bGVzb3VyY2UuY29tL2dpdC1yZXBvLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbjt0YWc9
+diR7UFZ9IFwKICAgICAgICAgICAgIgotU1JDUkVWID0gIjJkNTQzODRhNWU1OWZkZGQwNjI2ZWMw
+OTFjYzBhZDExNTExZDgzNGUiCitTUkNSRVYgPSAiMzViYmY3MDFkMDRkZTVjNmE3MTkzNzI3OWJj
+M2QxNmY2Y2UzNjgwOCIKIAogTUlSUk9SUyArPSAiZ2l0Oi8vZ2Vycml0Lmdvb2dsZXNvdXJjZS5j
+b20vZ2l0LXJlcG8uZ2l0IGdpdDovL2dpdGh1Yi5jb20vR2Vycml0Q29kZVJldmlldy9naXQtcmVw
+by5naXQiCiAKLS0gCjIuNDcuMQoK
+
+--===============8913119665459618418==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/patchelf: PV changed from "0.19.0" to "0.19.1"
-packages/x86-64-v3-poky-linux/patchelf: PKGV changed from 0.19.0 [default] to 0.19.1 [default]
-packages/x86-64-v3-poky-linux/patchelf/patchelf-dbg: PV changed from "0.19.0" to "0.19.1"
-packages/x86-64-v3-poky-linux/patchelf/patchelf-dbg: PKGSIZE changed from 3999336 to 4002952 (+0%)
-packages/x86-64-v3-poky-linux/patchelf/patchelf-dbg: PKGV changed from 0.19.0 [default] to 0.19.1 [default]
-packages/x86-64-v3-poky-linux/patchelf/patchelf-dev: PV changed from "0.19.0" to "0.19.1"
-packages/x86-64-v3-poky-linux/patchelf/patchelf-dev: PKGV changed from 0.19.0 [default] to 0.19.1 [default]
-packages/x86-64-v3-poky-linux/patchelf/patchelf-doc: PV changed from "0.19.0" to "0.19.1"
-packages/x86-64-v3-poky-linux/patchelf/patchelf-doc: PKGSIZE changed from 10089 to 10228 (+1%)
-packages/x86-64-v3-poky-linux/patchelf/patchelf-doc: PKGV changed from 0.19.0 [default] to 0.19.1 [default]
-packages/x86-64-v3-poky-linux/patchelf/patchelf-locale: PV changed from "0.19.0" to "0.19.1"
-packages/x86-64-v3-poky-linux/patchelf/patchelf-locale: PKGV changed from 0.19.0 [default] to 0.19.1 [default]
-packages/x86-64-v3-poky-linux/patchelf/patchelf-src: PV changed from "0.19.0" to "0.19.1"
-packages/x86-64-v3-poky-linux/patchelf/patchelf-src: PKGSIZE changed from 320787 to 321453 (+0%)
-packages/x86-64-v3-poky-linux/patchelf/patchelf-src: FILELIST: directory renamed /usr/src/debug/patchelf/0.19.0/src -> /usr/src/debug/patchelf/0.19.1/src
-packages/x86-64-v3-poky-linux/patchelf/patchelf-src: PKGV changed from 0.19.0 [default] to 0.19.1 [default]
-packages/x86-64-v3-poky-linux/patchelf/patchelf-staticdev: PV changed from "0.19.0" to "0.19.1"
-packages/x86-64-v3-poky-linux/patchelf/patchelf-staticdev: PKGV changed from 0.19.0 [default] to 0.19.1 [default]
-packages/x86-64-v3-poky-linux/patchelf/patchelf-zsh-completion: PV changed from "0.19.0" to "0.19.1"
-packages/x86-64-v3-poky-linux/patchelf/patchelf-zsh-completion: PKGV changed from 0.19.0 [default] to 0.19.1 [default]
-packages/x86-64-v3-poky-linux/patchelf/patchelf: PV changed from "0.19.0" to "0.19.1"
-packages/x86-64-v3-poky-linux/patchelf/patchelf: PKGSIZE changed from 301288 to 305384 (+1%)
-packages/x86-64-v3-poky-linux/patchelf/patchelf: PKGV changed from 0.19.0 [default] to 0.19.1 [default]
+packages/x86-64-v3-poky-linux/repo: SRC_URI changed from "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v2.64" to "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v2.65"
+packages/x86-64-v3-poky-linux/repo: PV changed from "2.64" to "2.65"
+packages/x86-64-v3-poky-linux/repo: PKGV changed from 2.64 [default] to 2.65 [default]
+packages/x86-64-v3-poky-linux/repo/repo-dbg: PV changed from "2.64" to "2.65"
+packages/x86-64-v3-poky-linux/repo/repo-dbg: PKGV changed from 2.64 [default] to 2.65 [default]
+packages/x86-64-v3-poky-linux/repo/repo-dev: PV changed from "2.64" to "2.65"
+packages/x86-64-v3-poky-linux/repo/repo-dev: PKGV changed from 2.64 [default] to 2.65 [default]
+packages/x86-64-v3-poky-linux/repo/repo-doc: PV changed from "2.64" to "2.65"
+packages/x86-64-v3-poky-linux/repo/repo-doc: PKGV changed from 2.64 [default] to 2.65 [default]
+packages/x86-64-v3-poky-linux/repo/repo-locale: PV changed from "2.64" to "2.65"
+packages/x86-64-v3-poky-linux/repo/repo-locale: PKGV changed from 2.64 [default] to 2.65 [default]
+packages/x86-64-v3-poky-linux/repo/repo-src: PV changed from "2.64" to "2.65"
+packages/x86-64-v3-poky-linux/repo/repo-src: PKGV changed from 2.64 [default] to 2.65 [default]
+packages/x86-64-v3-poky-linux/repo/repo-staticdev: PV changed from "2.64" to "2.65"
+packages/x86-64-v3-poky-linux/repo/repo-staticdev: PKGV changed from 2.64 [default] to 2.65 [default]
+packages/x86-64-v3-poky-linux/repo/repo: PV changed from "2.64" to "2.65"
+packages/x86-64-v3-poky-linux/repo/repo: PKGV changed from 2.64 [default] to 2.65 [default]
+packages/x86-64-v3-poky-linux/repo/repo: PKGSIZE changed from 44984 to 45914 (+2%)
 
---===============8672134371325109555==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-patchelf-upgrade-0.19.0-0.19.1.patch"
-
-RnJvbSBhMTUwODUwMGZjNjFjOThmODNkZTgxOTliYzdkMjhlNWRhMjFlMjk2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgNyBKdWwgMjAyNiAwNTozMDozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBh
-dGNoZWxmOiB1cGdyYWRlIDAuMTkuMCAtPiAwLjE5LjEKCi0tLQogbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3BhdGNoZWxmL3BhdGNoZWxmX2dpdC5iYiB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIg
-aW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcGF0Y2hlbGYvcGF0Y2hlbGZfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3BhdGNoZWxmL3BhdGNoZWxmX2dpdC5iYgppbmRleCA2Y2U3NzIxMzUzLi42Yzg4ZGExYjA5IDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGF0Y2hlbGYvcGF0Y2hlbGZfZ2l0LmJi
-CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wYXRjaGVsZi9wYXRjaGVsZl9naXQuYmIKQEAg
-LTYsOSArNiw5IEBAIExJQ0VOU0UgPSAiR1BMLTMuMC1vbmx5IgogCiBTUkNfVVJJID0gImdpdDov
-L2dpdGh1Yi5jb20vTml4T1MvcGF0Y2hlbGY7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hc3RlciBc
-CiAiCi1TUkNSRVYgPSAiMWUyNzllOTliOTUyYzc2NTgyNGZhMDQwMWFiYjhkYzBkOTQ0ZTRlYSIK
-K1NSQ1JFViA9ICI3Njg4YjE3YzE4ZDE2ZjY3ZmE4ZDVhODJhMjQwNGMyZTNhMTg2NDhkIgogCi1Q
-ViA9ICIwLjE5LjAiCitQViA9ICIwLjE5LjEiCiAKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
-L0NPUFlJTkc7bWQ1PWM2Nzg5NTdiMGM4ZTk2NGFhNmM3MGZkNzc2NDFhNzFlIgogCi0tIAoyLjQ3
-LjEKCg==
-
---===============8672134371325109555==--
+--===============8913119665459618418==--
 
