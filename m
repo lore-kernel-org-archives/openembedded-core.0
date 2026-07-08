@@ -1,216 +1,112 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E60DC43458
-	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 11:40:45 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6247.1783510835759844410
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE3B9C43458
+	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 11:44:55 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6575.1783511089062735938
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2026 04:40:36 -0700
+ Wed, 08 Jul 2026 04:44:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=boP50G55;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493b6f1b14bso2386425e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 04:40:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=f4PRn/Qy;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ee88fce476so5661736d6.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 04:44:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783511088; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JHCuzPiUPRRlkLtCamx+q5j+QnVJXx1fQLb7h13cWCDM9ay3AH3MJyLNcWPC25nQnp
+         SXFh9I+zQlBUeYgd3oDtS8L8fYMKBLjgzN6a85FIKOgkhMpKUQLJLHEE2swoiHOsDQ2U
+         ZK4SZdYBpkBH0Rrua2d+74+rK2/ybCjXSEtoRqJ5/w/JjqBc5AKwP//54Gns4AHLwsjF
+         L2RpTiUOE43onwJueujyD7HaNsaO+O4mRM3L2gBJvYVKt9RGqs+icbcNt0R7RhNfipTd
+         lA0cYP6hvHGr6ygWELpzYhTKgWZwt9iyrZTuWnLtIhjC9U8+nwElOPBYDGWxV/EHmPXm
+         ojjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=AnM7KrB73YaJH9n6Zj0TQnrntb9LY6S+LTXPTTykIz4=;
+        fh=R/gOVhL9AklIGeyFPdeYJD/o5ogGCVFv1ocyTGipaQ4=;
+        b=TXS5TAa38X0puLqzwWjxxWgT/aBRqJSpoOoZFngAcmIfPfr90kCQJr6y66Ux8rnGNx
+         OK2Y2hvnP/YVNlq3bagBhFdx+wnhqb5RZglfjPariZtiQ2u4hdTMzRamPcF7c18W53p9
+         nHMhik0RqdRcuOhPTYSkUGqZm/N29OPFlCejmhvbMqMme+iKpiSgxpduMGibV/BwQZLM
+         tVs3Pzlp6Gzx9GnJRSm4hIeJ1y5PJy1ZLI344XVrXxMmFUyQKjxwMZqXcgG/lgjQ60xv
+         BUt7u5sokE/m/GAtQ/057xYoSnCuO+BG8brpQsAaixpOcREEZ1eN5fsRJYfX++8xopH8
+         O7OQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1783510834; x=1784115634; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OxwFk2mu8HFGyfBVBg7csO1Xrpjk24nUSnHwp8bBQMo=;
-        b=boP50G55R95Tyexl47Nwe5rghmR/5XewpALuLphg7tMQowRFHAuz8yJHQV97e7z3st
-         K5NKxUZs5s/hTnLja1Dx2tOsXKcQxk41j9/ib8tcQmgtAhpyGU1P0cJj001i3xtFKMY8
-         bDNziLJcwUykzq3QPeFqNZIBgz/vXrnaoAzKY=
+        d=gmail.com; s=20251104; t=1783511088; x=1784115888; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AnM7KrB73YaJH9n6Zj0TQnrntb9LY6S+LTXPTTykIz4=;
+        b=f4PRn/Qy+hMVeYZJarJmeihUzSYhgi4BAgU/9ldRN6HNAJ7NYY7g14T03UnP2hDltL
+         8SI53xd+aVNRFOXe2d2iXBGPjytgsGNtBQvWwppsP/pgx4Cqzj7MoICC+Yz9drF/ezNr
+         QLri5l2V8sAerStgHriTIAoN/2UuRHx+t0cx/poYFlZVOFdSszRC1WATtS1rH/zq0oCu
+         kuRYbVZ3ZeXG2O7Y2OHt54YfM8N1ECbBNbjRNWrwKwiNCfdeXBosTyOpJnqn1efSZ0lR
+         9MxYtAfBUnNavvQ8yY4OBkNLlBICdVkLSILa8IMu01EwaJQn+K685Eyy9UJr0FEkIBPT
+         SuXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783510834; x=1784115634;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OxwFk2mu8HFGyfBVBg7csO1Xrpjk24nUSnHwp8bBQMo=;
-        b=ntLy8gJLZRO3PZfVgVXxaq/1HzzcXUNgXiMHPjn4PthFwO/CeCyr338kiUsgYqhBtS
-         j3ZMz2S0iNzhg5QgjhlOpGt/lXNB3DBvsxHCCs1tI5xLtVbjx2X0slWpuusZKRP7GCBQ
-         qw3fy3SS7u/b37hBA59C+kVOFmTmtVpw4RbJv4Eg8U6dXKi+keSZBBRNWLBkw6AuC+xz
-         Ib5uOkpAHiIdFlAjUPUMooswtB2xiCQetJj3goUoh5cZB5wuoqYlZhMc5vYLfDUKtJSq
-         F4ckCZ1DVSuXlUISUoIwAJwHIKNuSVRB21ZWZAvdIdFdAYC0XDKSZyrXEq6QeuHRwwq7
-         s9Jg==
-X-Gm-Message-State: AOJu0YzuYOiP5jSIZwxqq4W/nROm0c60LoQ3hjpiYHezMujlhwhG0Yih
-	98mUhdSTFSXWhZnCmCVQWAKX3RUxiqzJ+kqxLeVFpe+ZxidqXRrbYcsx0cxxX2QfhAJ2eFvD6hQ
-	eZVe0E6M=
-X-Gm-Gg: AfdE7cn0fX9tK9pDzejB7JdiJ53zdT6JQgKc+B4rMfD/W2+dfZ7UpTjsXzHlhS+KRP9
-	7002quIpvrKkQjIgYR9WIYVnycbaLnNU/IrFHzbS8a4CSEEsr0A5gVOL2gLWDSFmBL0uXntq0eF
-	diCQb43Im1VCPbn4MrzpFKGmimIbVziVxzG6W8YgqGK0Ossd8FcXV5SJ2ob55Wcn5F/Ky58UeF5
-	SFt5zWaETyAG82QKT7Wi+R3T/abacfYssJpGGhrlc2HHY0v0hWkiQdfJKQM6PQt0IzjkGJ2gTmb
-	+nMI7nnpyAtCEVFz3GB56YBMTyHCvWUPJT9Hl0xGC92Ll0SKSNlv55j/5+2oZvSEoVuVblCDytw
-	Z4GfkfmUtNqynMjQEvqOzaCHtYFt13uCnSb+XAxtFHsz3KCsT8xUgUb5UT2JZQEDvhrgFmiu9iA
-	srsrrjDhoY1pxjCQfP1s4TPAEqHF5thxi4UAHeAw3iWQ==
-X-Received: by 2002:a05:600c:8486:b0:493:e365:7630 with SMTP id 5b1f17b1804b1-493e6844d66mr27875725e9.14.1783510833955;
-        Wed, 08 Jul 2026 04:40:33 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b60a:b356:19ef:1131])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e0f51193sm131183165e9.12.2026.07.08.04.40.32
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 04:40:33 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/11] python3-cffi: upgrade 2.0.0 -> 2.1.0
-Date: Wed,  8 Jul 2026 12:40:20 +0100
-Message-ID: <20260708114021.3484868-10-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260708114021.3484868-1-richard.purdie@linuxfoundation.org>
-References: <20260708114021.3484868-1-richard.purdie@linuxfoundation.org>
+        d=1e100.net; s=20251104; t=1783511088; x=1784115888;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AnM7KrB73YaJH9n6Zj0TQnrntb9LY6S+LTXPTTykIz4=;
+        b=NIcPeqK0oFsJif5YUWpYgleFjYEzPEZRqyIJqFrASCFXyBhJmrhYKQi4kluz/c7Ilh
+         jc4JcXg0R4UOF8MZpQ/TuarrAOv0k+k34cubYPOtBBPnV8yL36qBK0lf69VbKOf41lpq
+         JO8oaCRgeT2jHJJc6bckKTPQFUbe2lTb0v5a+S07FmfecgIhiuvhPnO+PB+EAwNIOBzq
+         rbbIpQTgVjs2cV2kKDyjVNzVW155oysEVKz7sqAmi6ElNs8vevgbiuVR+Mr0YlbfUhv4
+         95MQmgbcHfPmyiKLevx6lQz28sQ5AGHipL4/vgfZBt2ArTobg65r5zDv5Y0MiFq4FZNP
+         kxlg==
+X-Forwarded-Encrypted: i=1; AHgh+RoItru6IrpAZG6LRN6ShSIC4mtNPDx98CAa0drn5HnAOPgwKrS/EBZw3xYa5DhrETiNJs+Qg4RzIc145umbbM24CQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxfJkvWewXNtRlOkUWhQa4xs9SBsbbGSNWVaHpz2go1nIXskme9
+	t/jEb4ULqeSX+eQkS/UCQBf5GP7nWSb/JWoEopk0KQPN0vcFpmTt3dNaUv84+Aayn5D+dL1mGC6
+	iSM13cApBI02zbZlTzxdGIlE6XA7PcCE=
+X-Gm-Gg: AfdE7cmYnL4mcGDc0a/hHNRGNyFILs009kIAmVYovz6yYtqRN4I39y8Vxja8iTk55YA
+	Lrlq7i70qyqJHZ2XiOJdQSrcghE7hM3VHCRhRNvU2YrJsNVBzQxnOEJLT34vU2EvwDcTvRaYs/e
+	rkWKsW2+KB4b1ay5ibH+nTBqdo04LZ87A+hlpEtiMj608b3LV+qWIf/yIVj+57X+6+6OfvKood6
+	IMYHXs02Xkzt5jxzJPY8TMaMU7m6/Ffv0L3W6NadXgiye44pUydcKeclACMS2wHqnz9HHd2EFe9
+	4rerXjIsMven6k1dcJ65VoPt78UAy/Y=
+X-Received: by 2002:a05:6214:5d81:b0:8fd:6e22:c7ea with SMTP id
+ 6a1803df08f44-8fec3908a88mr18362306d6.59.1783511087983; Wed, 08 Jul 2026
+ 04:44:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260708092252.1211669-1-HimaniRamesh.Barde@windriver.com>
+ <20260708092252.1211669-3-HimaniRamesh.Barde@windriver.com>
+ <DJT3J5GX38YG.338OF4LLBVU92@bootlin.com> <CH3PR11MB8774FCDCE3E2497D8793893B8FFF2@CH3PR11MB8774.namprd11.prod.outlook.com>
+In-Reply-To: <CH3PR11MB8774FCDCE3E2497D8793893B8FFF2@CH3PR11MB8774.namprd11.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 8 Jul 2026 13:44:36 +0200
+X-Gm-Features: AVVi8CcWsyGjDNHJIjNSyB3pvAuFekG_P-9ZbC33sU30GFqpd7nCOy_EFHr8N_A
+Message-ID: <CANNYZj-3-Tj5ZRAgenGOyGXm1FPo269_MX0mrjrZqKTReg6MXQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] python3-setuptools-scm: upgrade 10.0.5 -> 10.1.2
+To: HimaniRamesh.Barde@windriver.com
+Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"tgamblin@baylibre.com" <tgamblin@baylibre.com>, "MacLeod, Randy" <Randy.MacLeod@windriver.com>, 
+	"Komati, Shiva" <Shiva.Komati@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 11:40:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240473
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 11:44:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240475
 
-Drop backported patch.
+On Wed, 8 Jul 2026 at 13:40, Barde, Himani Ramesh via
+lists.openembedded.org
+<HimaniRamesh.Barde=3Dwindriver.com@lists.openembedded.org> wrote:
+> Thanks for the pointer. I'll drop patch 2/2 since Alex's upgrade to 10.2.=
+0 supersedes it.
+>
+> However, patch 1/2 (exporting SETUPTOOLS_SCM_PRETEND_VERSION) is still re=
+quired - setuptools-scm 10.2.0 will fail at do_compile the same way 10.1.2 =
+did, since it still probes SCM metadata via vcs-versioning when built from =
+PyPI tarballs without a .git directory. Alex's upgrade will need this fix a=
+s a prerequisite.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...parsing-more-resilient-to-changes-in.patch | 110 ------------------
- ...n3-cffi_2.0.0.bb => python3-cffi_2.1.0.bb} |   5 +-
- 2 files changed, 2 insertions(+), 113 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-cffi/0001-Make-test_parsing-more-resilient-to-changes-in.patch
- rename meta/recipes-devtools/python/{python3-cffi_2.0.0.bb => python3-cffi_2.1.0.bb} (82%)
+I don't think it will. I tested this update, and it does not fail.
+What is the error that you are seeing?
 
-diff --git a/meta/recipes-devtools/python/python3-cffi/0001-Make-test_parsing-more-resilient-to-changes-in.patch b/meta/recipes-devtools/python/python3-cffi/0001-Make-test_parsing-more-resilient-to-changes-in.patch
-deleted file mode 100644
-index 2919b78a6ef..00000000000
---- a/meta/recipes-devtools/python/python3-cffi/0001-Make-test_parsing-more-resilient-to-changes-in.patch
-+++ /dev/null
-@@ -1,110 +0,0 @@
--From 6f345f658a7012bca0859d23436a11b9902711ae Mon Sep 17 00:00:00 2001
--From: Wang Mingyu <wangmy@fujitsu.com>
--Date: Fri, 6 Feb 2026 01:53:23 +0000
--Subject: [PATCH] Make test_parsing more resilient to changes in
-- pycparser  (#224)
--
--* Make test_parsing more resilient to changes in pycparser
--
--Several tests expect precise error messages from pycparser, which pycparser
--doesn't guarantee. While testing CFFI with pycparser 3.0, some tests needed
--to be made more resilient. I've used the .startswith() approach already used
--in this file, instead of exact string matching.
--
--Ref #223
--
--* Loosen error message assertion even more
--
--Upstream-Status: Backport [https://github.com/python-cffi/cffi/commit/c36c02fa6f4f1d12a9cead81861c6f42af47da22]
--
--Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-----
-- testing/cffi0/test_parsing.py | 18 +++++++++---------
-- 1 file changed, 9 insertions(+), 9 deletions(-)
--
--diff --git a/testing/cffi0/test_parsing.py b/testing/cffi0/test_parsing.py
--index f10b989..7009e34 100644
----- a/testing/cffi0/test_parsing.py
--+++ b/testing/cffi0/test_parsing.py
--@@ -197,7 +197,7 @@ def test_dont_remove_comment_in_line_directives():
-- 
--         some syntax error here
--     """)
---    assert str(e.value) == "parse error\nbaz.c:9:14: before: syntax"
--+    assert str(e.value).startswith("parse error\nbaz.c:9:")
--     #
--     e = pytest.raises(CDefError, ffi.cdef, """
--         #line 7 "foo//bar.c"
--@@ -205,21 +205,21 @@ def test_dont_remove_comment_in_line_directives():
--         some syntax error here
--     """)
--     #
---    assert str(e.value) == "parse error\nfoo//bar.c:8:14: before: syntax"
--+    assert str(e.value).startswith("parse error\nfoo//bar.c:8:")
--     ffi = FFI(backend=FakeBackend())
--     e = pytest.raises(CDefError, ffi.cdef, """
--         \t # \t 8 \t "baz.c" \t
-- 
--         some syntax error here
--     """)
---    assert str(e.value) == "parse error\nbaz.c:9:14: before: syntax"
--+    assert str(e.value).startswith("parse error\nbaz.c:9:")
--     #
--     e = pytest.raises(CDefError, ffi.cdef, """
--         # 7 "foo//bar.c"
-- 
--         some syntax error here
--     """)
---    assert str(e.value) == "parse error\nfoo//bar.c:8:14: before: syntax"
--+    assert str(e.value).startswith("parse error\nfoo//bar.c:8:")
-- 
-- def test_multiple_line_directives():
--     ffi = FFI(backend=FakeBackend())
--@@ -233,7 +233,7 @@ def test_multiple_line_directives():
--         #line 8 "yadda.c"
--         extern int zz;
--     """)
---    assert str(e.value) == "parse error\nbaz.c:7:14: before: syntax"
--+    assert str(e.value).startswith("parse error\nbaz.c:7:")
--     #
--     e = pytest.raises(CDefError, ffi.cdef,
--     """ # 5 "foo.c"
--@@ -245,7 +245,7 @@ def test_multiple_line_directives():
--         # 8 "yadda.c"
--         extern int zz;
--     """)
---    assert str(e.value) == "parse error\nbaz.c:7:14: before: syntax"
--+    assert str(e.value).startswith("parse error\nbaz.c:7:")
-- 
-- def test_commented_line_directive():
--     ffi = FFI(backend=FakeBackend())
--@@ -262,7 +262,7 @@ def test_commented_line_directive():
--         some syntax error
--     """)
--     #
---    assert str(e.value) == "parse error\nbar.c:9:14: before: syntax"
--+    assert str(e.value).startswith("parse error\nbar.c:9:")
--     e = pytest.raises(CDefError, ffi.cdef, """
--         /*
--         # 5 "foo.c"
--@@ -275,7 +275,7 @@ def test_commented_line_directive():
--         */
--         some syntax error
--     """)
---    assert str(e.value) == "parse error\nbar.c:9:14: before: syntax"
--+    assert str(e.value).startswith("parse error\nbar.c:9:")
-- 
-- def test_line_continuation_in_defines():
--     ffi = FFI(backend=FakeBackend())
--@@ -365,7 +365,7 @@ def test_unknown_name():
--     e = pytest.raises(CDefError, ffi.cast, "foobarbazunknown*", 0)
--     assert str(e.value).startswith('cannot parse "foobarbazunknown*"')
--     e = pytest.raises(CDefError, ffi.cast, "int(*)(foobarbazunknown)", 0)
---    assert str(e.value).startswith('cannot parse "int(*)(foobarbazunknown)"')
--+    assert 'foobarbazunknown' in str(e.value)
-- 
-- def test_redefine_common_type():
--     prefix = "" if sys.version_info < (3,) else "b"
---- 
--2.43.0
--
-diff --git a/meta/recipes-devtools/python/python3-cffi_2.0.0.bb b/meta/recipes-devtools/python/python3-cffi_2.1.0.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-cffi_2.0.0.bb
-rename to meta/recipes-devtools/python/python3-cffi_2.1.0.bb
-index 269595f5c3f..718e43e3399 100644
---- a/meta/recipes-devtools/python/python3-cffi_2.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-cffi_2.1.0.bb
-@@ -4,10 +4,9 @@ LICENSE = "MIT-0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c0158ab9b75875f3bb7fea081d388818"
- DEPENDS += "libffi python3-pycparser"
- 
--SRC_URI[sha256sum] = "44d1b5909021139fe36001ae048dbdde8214afa20200eda0f64c068cac5d5529"
-+SRC_URI[sha256sum] = "efc1cdd798b1aaf39b4610bba7aad28c9bea9b910f25c784ccf9ec1fa719d1f9"
- 
--SRC_URI += "file://run-ptest \
--            file://0001-Make-test_parsing-more-resilient-to-changes-in.patch"
-+SRC_URI += "file://run-ptest"
- 
- inherit pypi python_setuptools_build_meta ptest pkgconfig
- 
+Alex
 
