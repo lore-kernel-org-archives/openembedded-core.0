@@ -2,71 +2,76 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03656C43458
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B388C44508
 	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 17:37:03 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14390.1783532220783973461
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14022.1783532219264483929
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2026 10:37:00 -0700
+ Wed, 08 Jul 2026 10:36:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=hgaCA2gz;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=ECeLFnXO;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F7011756
-	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2026 10:36:56 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 43B9A1756
+	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2026 10:36:54 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0C50B3F905
-	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2026 10:36:59 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 41E0F3F905
+	for <openembedded-core@lists.openembedded.org>; Wed,  8 Jul 2026 10:36:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783532220; bh=mMlQJoo365q+UeAXyEssm21iRoUvak9i9iVLgzJu3Hw=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=hgaCA2gz/J8Epq3YgMI1X64fMwP8eC08LFaMnIqou1ht7clmxlOGf7q4kKhKnUL6t
-	 MJfCQXpSxwrwi+II3TyC9mAh4jVXFx4SRgMqQSCVi5UqutPD80s01RdcljzO3h6V+f
-	 SVVfIsKcHPQxQj46Na7iUPmQfNpPvBLHe5IDEnTk=
+	t=1783532218; bh=k6JiRLWhImasv0afZRiHfCADQd4QmNnob5o46beI8uw=;
+	h=From:To:Subject:Date:From;
+	b=ECeLFnXOhH/YykpO8sOWfxwIZ89kCurdzUAU8DUOQ2fnXpraBWwut1p9AMmhCie70
+	 FQcCPlSWK0BH0zxq353Vj7efRAgqvj/zWQk4lAgF9DmTq14UyMFElnhuC8uVGoKVHr
+	 DzP6xUPbNvK379IqX4mPQUQjbKFd2PI9FdDTccJA=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] glibc: disable nscd by default
-Date: Wed,  8 Jul 2026 18:36:51 +0100
-Message-ID: <20260708173651.1435387-4-ross.burton@arm.com>
+Subject: [PATCH 1/4] glibc: inherit update-rc.d
+Date: Wed,  8 Jul 2026 18:36:48 +0100
+Message-ID: <20260708173651.1435387-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260708173651.1435387-1-ross.burton@arm.com>
-References: <20260708173651.1435387-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 17:37:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240503
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240500
 
-nscd is the Name Service Caching Daemon, which is useful when fetching
-data from the configured Name Service Switch services is slow, for
-example if NIS or LDAP is used.
-
-This is unusual for typical OpenEmbedded deployments, and if caching is
-needed there are a number of solutions (including nscd) that should be
-considered.
+The nscd package has an init script, so we should be inheriting the
+update-rc.d class like we inherit the the systemd class.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-core/glibc/glibc_2.43.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/glibc/glibc-package.inc | 3 +++
+ meta/recipes-core/glibc/glibc.inc         | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/gl=
-ibc/glibc_2.43.bb
-index a52dcfd364..67f9e63f2c 100644
---- a/meta/recipes-core/glibc/glibc_2.43.bb
-+++ b/meta/recipes-core/glibc/glibc_2.43.bb
-@@ -87,7 +87,7 @@ EXTRA_OECONF +=3D "${@get_libc_fpu_setting(bb, d)}"
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-cor=
+e/glibc/glibc-package.inc
+index 21f2200d19..d4941a21a1 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -297,3 +297,6 @@ CONFFILES:nscd =3D "${sysconfdir}/nscd.conf"
 =20
- EXTRA_OECONF:append:x86-64 =3D " --enable-cet"
+ SYSTEMD_PACKAGES =3D "nscd"
+ SYSTEMD_SERVICE:nscd =3D "nscd.service"
++
++INITSCRIPT_PACKAGES =3D "nscd"
++INITSCRIPT_NAME =3D "nscd"
+diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/=
+glibc.inc
+index 3bb935e223..7403eb845a 100644
+--- a/meta/recipes-core/glibc/glibc.inc
++++ b/meta/recipes-core/glibc/glibc.inc
+@@ -9,7 +9,7 @@ HASHEQUIV_HASH_VERSION .=3D ".1"
 =20
--PACKAGECONFIG ??=3D "nscd memory-tagging"
-+PACKAGECONFIG ??=3D "memory-tagging"
+ PROVIDES =3D "virtual/libc"
+ PROVIDES +=3D "virtual/libintl virtual/libiconv"
+-inherit autotools texinfo systemd
++inherit autotools texinfo systemd update-rc.d
 =20
- PACKAGECONFIG[nscd] =3D "--enable-nscd,--disable-nscd"
- PACKAGECONFIG[memory-tagging] =3D "--enable-memory-tagging,--disable-mem=
-ory-tagging"
+ LEAD_SONAME =3D "libc.so"
+=20
 --=20
 2.43.0
 
