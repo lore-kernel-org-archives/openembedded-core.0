@@ -2,78 +2,78 @@ Return-Path: <asparmar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58DC2C44501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85CEFC43602
 	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 05:03:52 +0000 (UTC)
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2011.1783487024274398689
+Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1957.1783487024151082495
  for <openembedded-core@lists.openembedded.org>;
  Tue, 07 Jul 2026 22:03:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=O7oAoJ3L;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: asparmar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=JsIXwi7B;
+ spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=9173; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=8852; q=dns/txt;
   s=iport01; t=1783487024; x=1784696624;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=jebe/M/qQdP3TfZUZDKmPKWtX7EEZdd+E4bzcMsB9Iw=;
-  b=O7oAoJ3L99w6HBgIWJ04W/wBAmusQXb3kW+oMMEhZUvCi6wcSOF+4Usz
-   DyACwiJHjx7bTUGgXjLKA2NRO2YOhnlTVj1Kq/j39MxXhkbK0R1iYvc1y
-   7EBAD4TOUcKHZbezLJD1D0TYZau4dOExG1qgryFXrwvRcCwFc/j6sB7EZ
-   leqGUwfR9NToDTrq0tbD7k4j3/YJsdg5/cFg6KValf/GHd7lpnD492dRF
-   ZqXoWkulrh7+54BsyHxrpCi8OHllVgCxMvvbqtC795rB7J/EaiykJkRsa
-   4nP1TcvWVZl5QSvqyyCUidpNhCghTjRL0E+xclo7ltCaJJRzFE//eISwQ
-   A==;
-X-CSE-ConnectionGUID: 64fp+ZD/ROSzbCMKteclWw==
-X-CSE-MsgGUID: qGXH0pWGTfaeu/FrekBwKA==
-X-IPAS-Result: =?us-ascii?q?A0AaAAAS2U1q/5T/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
- =?us-ascii?q?AcBAQsBglZ0X0JJA4xviVgDnhsUgWoPAQEBD0QNBAEBhQUCjU0CJjQJDgECB?=
- =?us-ascii?q?AMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GWgECAQMyARgBLRAcA?=
- =?us-ascii?q?wECLysjCBAJgwIBgnMCARG3ARo3giyBAYMoAYFU2ywBCxQBBYEzAYU+iB9bG?=
- =?us-ascii?q?AFEhDgnGxuBcoEVgTuCLoEFgVwCA4EghwIEgiJ6EoFaHjKCY4F6ikpIgR4DW?=
- =?us-ascii?q?SwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQwbBwWBHYFggQKEeSMfAzl/gTB1S?=
- =?us-ascii?q?nktgQIBEh4KgVKCHAMLGA1IESw3FBsEPm4HjSgXD4FOaQcBehMBK0Y5NR0bH?=
- =?us-ascii?q?BcNHB4RklcMGyePZYIhgTWfWgoog3WMIY9ChXgaM4QElBeSUQuYfY4KlTSBH?=
- =?us-ascii?q?IRogWg8gVlwFYMiCUoZD44oBQsLg2CFE8lHJDUCCQMvAQEHAgcOAwuBaJF9A?=
- =?us-ascii?q?QE?=
-IronPort-Data: A9a23:HY33nql9HMSlFMluqUMgGP/o5gzQJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
- xIXXG2COveKY2r2LotxPd+2oBgCvcTcyoBnSQRprig2QVtH+JHPbTi7wugcHM8zwunrFh8PA
- xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
- Y20+ZC31GONgWYubDpLs/3b8XuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
- /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
- OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FdNE9P40M00Jz
- 9sjOjomSzOfiumy/63uH4GAhux7RCXqFJkUtnclyXTSCuwrBMmaBa7L/tRfmjw3g6iiH96HO
- JFfMmUpNkmdJUQTaj/7C7pm9AusrnDkazRCrVuPjaE2+GPUigd21dABNfKJK4bSG5gEzh3wS
- mTu5kvJIkkCC/OjxzOI7zWCnOLMtzzYcddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
- mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1dF3hKaccts4k9QjlCO
- kK1ou4FzAdH6NW9IU9xPJ/Oxd9uEUD59VM/WBI=
-IronPort-HdrOrdr: A9a23:6JOi1qheA42TCOQPjIL75nJVj3BQXgIji2hC6mlwRA09TyVXra
- +TdZMgpHjJYVkqOU3I9ersBEDEewK/yXcX2/h0AV7dZmnbUQKTRekIh7cKgQeQfhEWndQy6U
- 4PScRD4fTLfD5HZL7BkWqFOudl5sWb+6a1guqb5XJsQQZ2L5xE1W5Ce3+m+okcfng8OXL/f6
- DsnvZ6mw==
-X-Talos-CUID: 9a23:yqXNRWDpxk+wuaP6E3c7+lZXKOxiSFrm3n37BmykBG1td6LAHA==
-X-Talos-MUID: 9a23:UeOpmguYuf1jfhphRs2nnR5SFJ9w3IuSBkkAjNIoocSHHzNTEmLI
+  bh=fiqPagzHEXLfSPenz3oIDoWbnz4Aj6f0KghOUhqAxfs=;
+  b=JsIXwi7BIrRFK/39gdcqiPzNxPJWUeEYQ8skrG28q5Xr0/WDN4wEuIPl
+   vjeDnvdhUED8KqRmmSeogq1P+ZeVxI88vEsveFF/JLVd+xd1X5c4iYaHX
+   c5tT+AgyesEVUs4fEMczrN3XrQm7ihDERge/LtAeQUIcrdnSpAAokG6R7
+   ToIdtF3Wp5v7Exy8WC7KvTWQKq/5KgihVFKa1IM1dl/67QJY6P0B4pGUu
+   t26AHrItMkqn8LvGO4YfOZ0OXYW1NaHCRA+WPBoDyP5dy6gWXFdiejh/w
+   nqUT3sIMTRpXvbP8SpSPlgW3Kgk4FP/lR3c4kTBcgdhxV3RQvNuKnqQF7
+   g==;
+X-CSE-ConnectionGUID: tpT/7FuWTouudAq8U7kicA==
+X-CSE-MsgGUID: 8Y7KdvngS5u/+hzTdPDztA==
+X-IPAS-Result: =?us-ascii?q?A0BHAgB+2U1q/43/Ja1aHgEBCxIMggULgld0X0JJA5ZHA?=
+ =?us-ascii?q?54bgX4PAQEBD0QNBAEBhQUCjU0CJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBB?=
+ =?us-ascii?q?QEBAQIBBwWBDhOGTw2GWgECAQMyARgBLRAcAwECLysjCBmDAgGCcwIBEbcBG?=
+ =?us-ascii?q?jeCLIEBgygBgVTbLAELFAEFgTOFP4gfWxgBhHwnGxuBcoEUAYE7gi6BBYFcA?=
+ =?us-ascii?q?gOCA4YfBIINFXoSgVoehQ+CQIgKSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdg?=
+ =?us-ascii?q?SM+F4EMGwcFgR2BYIEChHkjHwM5f4EwdUp5LYECARIeCoFSghwDCxgNSBEsN?=
+ =?us-ascii?q?xQbBD5uB40oFw+CHhkHgQ4BKxcYUAZIG0QPkygBBwySK6EPCiiDdYwhj0KFe?=
+ =?us-ascii?q?BozqmwLmH2OCpZQhGiBaDyBWXAVgyIJShkPjioDCwuDYIUTyUckNQIJAy8BA?=
+ =?us-ascii?q?QcCBw4DC4FohGGNHAEB?=
+IronPort-Data: A9a23:1eEHMq/ADwbSpKfQJ2FZDrUD0X+TJUtcMsCJ2f8bNWPcYEJGY0x3n
+ 2IdWmmHbq6NamT1eotwOt6y8k5U7ZaEytFkHQFrrXhEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4mvyyHjEAX9gWAsbTpLs/vrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2kqJbFfpchqPl1J6
+ OEUASldU0+AhumflefTpulE3qzPLeHxN48Z/3UlxjbDALN+HdbIQr7B4plT2zJYasJmRKmFI
+ ZFGL2AyMVKZP0Qn1lQ/UPrSmM+hnWH2aThRsnqepLE85C7YywkZPL3FbYKIJoXQH50O9qqej
+ jL3oEf1HBcVD4GCjnmF4E6gvsPdgQquDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
+ 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4CeY27kSJj6HT+QvcXjRCRT9aY9tgv8gzLdA36
+ mK0cxrSLWQHmNWopbi1rN94cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:mjI+Bakc9VeLQS8kuOazHKOxnGvpDfL03DAbv31ZSRFFG/FwWf
+ rAoB19726StN9/YhAdcLy7VZVoBEmsl6KdgrNhWYtKIjOHhILAFugLhuHfKn/bakjDH4Vmu5
+ uIHZITNDTYNykdsS+D2njaL/8QhP+a7auvmeDSi11pTQ1sduVcyj0RMHfjLqWzLzM2fqbQ0/
+ Gnl7J6mwY=
+X-Talos-CUID: =?us-ascii?q?9a23=3AYLbmaGovjKcacDLi1ucdEfrmUdw9TjqC4mrvH0i?=
+ =?us-ascii?q?lFGpAUe2oFlyR84oxxg=3D=3D?=
+X-Talos-MUID: 9a23:7VPhWgjL6DLLSpA70cDpVsMpZPY3wKiwDk82zIhB+MmWCSBIFyWBpWHi
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,153,1779148800"; 
-   d="scan'208";a="492065983"
-Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 08 Jul 2026 05:03:43 +0000
+   d="scan'208";a="505412203"
+Received: from rcdn-l-core-04.cisco.com ([173.37.255.141])
+  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 08 Jul 2026 05:03:43 +0000
 Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 121CC1800016D;
+	by rcdn-l-core-04.cisco.com (Postfix) with ESMTPS id 088D4180001A0;
 	Wed,  8 Jul 2026 05:03:43 +0000 (GMT)
 Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
-	id AF5A6CBF204; Tue,  7 Jul 2026 22:03:42 -0700 (PDT)
+	id A4A7FCBF202; Tue,  7 Jul 2026 22:03:42 -0700 (PDT)
 From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	Ashishkumar Parmar <asparmar@cisco.com>
-Subject: [OE-core][wrynose][PATCH 5/6] rsync: Fix CVE-2026-43617
-Date: Tue,  7 Jul 2026 22:02:23 -0700
-Message-Id: <20260708050224.3660629-5-asparmar@cisco.com>
+Subject: [OE-core][wrynose][PATCH 3/6] rsync: Fix CVE-2026-43618
+Date: Tue,  7 Jul 2026 22:02:21 -0700
+Message-Id: <20260708050224.3660629-3-asparmar@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260708050224.3660629-1-asparmar@cisco.com>
 References: <20260708050224.3660629-1-asparmar@cisco.com>
@@ -82,244 +82,288 @@ Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
-X-Outbound-Node: rcdn-l-core-11.cisco.com
+X-Outbound-Node: rcdn-l-core-04.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 05:03:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240419
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240420
 
 From: Ashishkumar Parmar <asparmar@cisco.com>
 
 This patch applies the upstream v3.4.3 backport for
-CVE-2026-43617. The upstream fix commit is referenced in [1],
+CVE-2026-43618. The upstream fix commit is referenced in [1],
 and the public CVE advisory is referenced in [2].
 
-[1] https://github.com/RsyncProject/rsync/commit/c38f20c5ffabacd0c0c483786ab224a36e14bf43
-[2] https://github.com/RsyncProject/rsync/security/advisories/GHSA-rjfm-3w2m-jf4f
+[1] https://github.com/RsyncProject/rsync/commit/c44c90e9460c666c965446a8c0957f0b9fa4c66a
+[2] https://github.com/RsyncProject/rsync/security/advisories/GHSA-g37v-g3gj-pmwq
 
 Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 ---
- .../rsync/files/CVE-2026-43617.patch          | 200 ++++++++++++++++++
+ .../rsync/files/CVE-2026-43618.patch          | 244 ++++++++++++++++++
  meta/recipes-devtools/rsync/rsync_3.4.1.bb    |   1 +
- 2 files changed, 201 insertions(+)
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-43617.patch
+ 2 files changed, 245 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-43618.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-43617.patch b/meta/recipes-devtools/rsync/files/CVE-2026-43617.patch
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2026-43618.patch b/meta/recipes-devtools/rsync/files/CVE-2026-43618.patch
 new file mode 100644
-index 0000000000..dce31d3827
+index 0000000000..8dac47253f
 --- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2026-43617.patch
-@@ -0,0 +1,200 @@
-+From d811094dc63486a8b6acf23963daccc23e9dbf43 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/rsync/files/CVE-2026-43618.patch
+@@ -0,0 +1,244 @@
++From a93cfc86b6daa2dfd754bcbe261cf01afef056f4 Mon Sep 17 00:00:00 2001
 +From: Andrew Tridgell <andrew@tridgell.net>
-+Date: Wed, 31 Dec 2025 13:50:35 +1100
-+Subject: [PATCH] clientserver: fix hostname ACL bypass when using daemon
-+ chroot
++Date: Wed, 29 Apr 2026 11:10:59 +1000
++Subject: [PATCH] token: harden compressed-token decoding against integer
++ overflow
 +
-+On an rsync daemon configured with "daemon chroot", the reverse-DNS
-+lookup of the connecting client was performed *after* the chroot
-+had been entered. If the chroot did not contain the files glibc
-+needs for resolution (/etc/resolv.conf, /etc/nsswitch.conf,
-+/etc/hosts, NSS service modules), the lookup failed and
-+client_name() returned "UNKNOWN". Hostname-based deny rules
-+("hosts deny = *.evil.example") therefore could not match, and
-+an attacker controlling their PTR record could connect from a
-+hostname the administrator had intended to deny. IP-based ACLs
-+were unaffected.
++The receiver's three compressed-token decoders --
++recv_deflated_token (zlib), recv_zstd_token, and
++recv_compressed_token (lz4) -- accumulated rx_token (a 32-bit
++signed counter) without overflow checking. A malicious sender
++could craft a compressed-token stream that walked rx_token past
++INT32_MAX, with careful manipulation leaking process memory
++contents to the wire (environment variables, passwords, heap
++pointers, library pointers -- significantly weakening ASLR
++and facilitating further exploitation).
 +
-+Do the reverse DNS lookup before chroot/setuid; client_name()
-+caches its result, so the post-chroot call uses the cached value
-+and hostname-based ACLs work even when DNS is unavailable
-+post-chroot.
++Cap rx_token at MAX_TOKEN_INDEX = 0x7ffffffe. Fold the
++bookkeeping into recv_compressed_token_num() and
++recv_compressed_token_run() shared by all three decoders. Reject
++negative or out-of-range token values explicitly. Also cap the
++simple_recv_token literal-block length at the source: any
++wire-supplied length > CHUNK_SIZE is ill-formed (the matching
++simple_send_token never writes a chunk larger than CHUNK_SIZE),
++so reject before looping on attacker-controlled bytes.
 +
-+Adds testsuite/daemon-chroot-acl.test as end-to-end regression
-+coverage. The test sets up an empty chroot directory, configures
-+"hosts deny = <localhost-resolved-name>" with daemon chroot, and
-+asserts the connection is refused with @ERROR access denied.
-+Uses unshare --user --map-root-user for non-root CAP_SYS_CHROOT;
-+skips cleanly on non-Linux or when user namespaces aren't
-+available.
++Reach: an authenticated daemon connection with compression
++enabled (the default for protocols >= 30 when both peers
++advertise it). Disabling compression on the daemon
++("refuse options = compress" in rsyncd.conf) is the available
++workaround.
 +
-+Reporter: Joshua Rogers (MegaManSec).
++Reporter: Omar Elsayed (seks99x).
 +
 +Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 +
-+CVE: CVE-2026-43617
-+Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/c38f20c5ffabacd0c0c483786ab224a36e14bf43]
++CVE: CVE-2026-43618
++Upstream-Status: Backport [https://github.com/RsyncProject/rsync/commit/c44c90e9460c666c965446a8c0957f0b9fa4c66a]
 +
 +Backport Changes:
-+- Omitted upstream .github/workflows/macos-build.yml because the
-+  Yocto recipe does not carry upstream CI workflow files. Security
-+  source changes and regression test coverage were retained.
++- Resolved token.c context differences against Wrynose's 3.4.1
++  source while preserving the upstream checked-token decoder logic.
++  No source files were omitted.
 +
-+(cherry picked from commit c38f20c5ffabacd0c0c483786ab224a36e14bf43)
++(cherry picked from commit c44c90e9460c666c965446a8c0957f0b9fa4c66a)
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ clientserver.c                   |  22 ++++++
-+ testsuite/daemon-chroot-acl.test | 111 +++++++++++++++++++++++++++++++
-+ 2 files changed, 133 insertions(+)
-+ create mode 100644 testsuite/daemon-chroot-acl.test
++ receiver.c |  11 +++++-
++ token.c    | 102 ++++++++++++++++++++++++++++++-----------------------
++ 2 files changed, 67 insertions(+), 46 deletions(-)
 +
-+diff --git a/clientserver.c b/clientserver.c
-+index b6eba098..3333aa96 100644
-+--- a/clientserver.c
-++++ b/clientserver.c
-+@@ -1310,6 +1310,28 @@ int start_daemon(int f_in, int f_out)
-+ 	if (lp_proxy_protocol() && !read_proxy_protocol_header(f_in))
-+ 		return -1;
++diff --git a/receiver.c b/receiver.c
++index 8cf8366b..a487ad5a 100644
++--- a/receiver.c
+++++ b/receiver.c
++@@ -318,7 +318,12 @@ static int receive_data(int f_in, char *fname_r, int fd_r, OFF_T size_r,
++ 		}
++ 	}
 + 
-++	/* Do reverse DNS lookup before chroot/setuid. The result is cached,
-++	 * so the later client_name() call will use this cached value. This
-++	 * ensures hostname-based ACLs work even when DNS is unavailable
-++	 * after chroot.
-++	 *
-++	 * "reverse lookup" can be set globally OR per-module, so we also
-++	 * scan each module: a deployment with "reverse lookup = no" in the
-++	 * global section but "reverse lookup = yes" in a specific module
-++	 * still triggers a post-chroot lookup at access-check time
-++	 * (rsync_module() in this file), which would also fail in the
-++	 * chroot and turn hostname-based deny rules into silent bypasses. */
-++	{
-++		int need_reverse = lp_reverse_lookup(-1);
-++		int j, num_modules = lp_num_modules();
-++		for (j = 0; !need_reverse && j < num_modules; j++) {
-++			if (lp_reverse_lookup(j))
-++				need_reverse = 1;
++-	while ((i = recv_token(f_in, &data)) != 0) {
+++	while (1) {
+++		data = NULL;
+++		i = recv_token(f_in, &data);
+++		if (i == 0)
+++			break;
+++
++ 		if (INFO_GTE(PROGRESS, 1))
++ 			show_progress(offset, total_size);
++ 
++@@ -326,6 +331,10 @@ static int receive_data(int f_in, char *fname_r, int fd_r, OFF_T size_r,
++ 			maybe_send_keepalive(time(NULL), MSK_ALLOW_FLUSH | MSK_ACTIVE_RECEIVER);
++ 
++ 		if (i > 0) {
+++			if (!data) {
+++				rprintf(FERROR, "Invalid literal token with no data [%s]\n", who_am_i());
+++				exit_cleanup(RERR_PROTOCOL);
+++			}
++ 			if (DEBUG_GTE(DELTASUM, 3)) {
++ 				rprintf(FINFO,"data recv %d at %s\n",
++ 					i, big_num(offset));
++diff --git a/token.c b/token.c
++index c108b3af..02dabd8d 100644
++--- a/token.c
+++++ b/token.c
++@@ -291,6 +291,14 @@ static int32 simple_recv_token(int f, char **data)
++ 		int32 i = read_int(f);
++ 		if (i <= 0)
++ 			return i;
+++		/* simple_send_token caps each literal chunk at CHUNK_SIZE;
+++		 * reject anything larger so a hostile peer cannot drive the
+++		 * read_buf below past our static CHUNK_SIZE buffer. */
+++		if (i > CHUNK_SIZE) {
+++			rprintf(FERROR, "invalid uncompressed token length %ld [%s]\n",
+++				(long)i, who_am_i());
+++			exit_cleanup(RERR_PROTOCOL);
 ++		}
-++		if (need_reverse)
-++			(void)client_name(client_addr(f_in));
++ 		residue = i;
++ 	}
++ 
++@@ -493,9 +501,52 @@ static char *cbuf;
++ static char *dbuf;
++ 
++ /* for decoding runs of tokens */
+++#define MAX_TOKEN_INDEX ((int32)0x7ffffffe)
+++
++ static int32 rx_token;
++ static int32 rx_run;
++ 
+++static NORETURN void invalid_compressed_token(void)
+++{
+++	rprintf(FERROR, "invalid token number in compressed stream\n");
+++	exit_cleanup(RERR_PROTOCOL);
+++}
+++
+++static int32 recv_compressed_token_num(int f, int32 flag)
+++{
+++	if (flag & TOKEN_REL) {
+++		int32 incr = flag & 0x3f;
+++		if (rx_token > MAX_TOKEN_INDEX - incr)
+++			invalid_compressed_token();
+++		rx_token += incr;
+++		flag >>= 6;
+++	} else {
+++		rx_token = read_int(f);
+++		if (rx_token < 0 || rx_token > MAX_TOKEN_INDEX)
+++			invalid_compressed_token();
 ++	}
 ++
-+ 	p = lp_daemon_chroot();
-+ 	if (*p) {
-+ 		log_init(0); /* Make use we've initialized syslog before chrooting. */
-+diff --git a/testsuite/daemon-chroot-acl.test b/testsuite/daemon-chroot-acl.test
-+new file mode 100644
-+index 00000000..9d1c1b63
-+--- /dev/null
-++++ b/testsuite/daemon-chroot-acl.test
-+@@ -0,0 +1,111 @@
-++#!/bin/sh
+++	if (flag & 1) {
+++		rx_run = read_byte(f);
+++		rx_run += read_byte(f) << 8;
+++		if (rx_run <= 0 || rx_token > MAX_TOKEN_INDEX - rx_run)
+++			invalid_compressed_token();
+++		recv_state = r_running;
+++	}
 ++
-++# Copyright (C) 2026 by Andrew Tridgell
-++
-++# This program is distributable under the terms of the GNU GPL (see
-++# COPYING).
-++
-++# Regression test for GHSA-rjfm-3w2m-jf4f: a hostname-based "hosts deny"
-++# rule must still match when the daemon performs a 'daemon chroot' and
-++# the chroot does not contain the NSS files glibc needs for reverse DNS.
-++#
-++# Pre-fix, reverse DNS happened *after* the daemon chroot. With an empty
-++# chroot the NSS lookup failed, client_name() returned "UNKNOWN", and a
-++# deny rule referring to the connecting hostname silently failed to
-++# match.
-++#
-++# Two scenarios are exercised so we can distinguish the case the fix
-++# definitely covers from the per-module path that may still be
-++# vulnerable:
-++#   A. global  "reverse lookup = yes"           (covered by b6abdb4c)
-++#   B. only module "reverse lookup = yes"       (gap to verify)
-++
-++. "$suitedir/rsync.fns"
-++
-++case `uname -s` in
-++Linux*) ;;
-++*) test_skipped "test is Linux-specific (uses chroot+unshare)" ;;
-++esac
-++
-++# We need CAP_SYS_CHROOT. Re-exec under a user namespace if not root.
-++if ! chroot / /bin/true 2>/dev/null; then
-++    if [ -z "$RSYNC_UNSHARED" ] && unshare --user --map-root-user true 2>/dev/null; then
-++	echo "Re-running under unshare --user --map-root-user..."
-++	RSYNC_UNSHARED=1 exec unshare --user --map-root-user "$SHELL_PATH" $RUNSHFLAGS "$0"
-++    fi
-++    test_skipped "need CAP_SYS_CHROOT (root or unshare --user --map-root-user)"
-++fi
-++
-++# We need 127.0.0.1 to reverse-resolve to a real hostname while NSS is
-++# still working (i.e. before the daemon's chroot). The daemon will
-++# look that name up itself as part of its hostname-based ACL check;
-++# we then deny that name and assert the connection is rejected.
-++client_hostname=`getent hosts 127.0.0.1 2>/dev/null | awk 'NR==1 {print $2}'`
-++if [ -z "$client_hostname" ] || [ "$client_hostname" = "127.0.0.1" ]; then
-++    test_skipped "no reverse DNS for 127.0.0.1"
-++fi
-++
-++chrootdir="$scratchdir/chroot"
-++rm -rf "$chrootdir"
-++mkdir -p "$chrootdir/modroot"
-++echo "from chroot" > "$chrootdir/modroot/file1"
-++
-++conf="$scratchdir/test-rsyncd.conf"
-++logfile="$scratchdir/rsyncd.log"
-++
-++write_conf() {
-++    cat >"$conf" <<EOF
-++use chroot = no
-++log file = $logfile
-++daemon chroot = $chrootdir
-++reverse lookup = $1
-++hosts deny = $client_hostname
-++max verbosity = 4
-++
-++[chrootmod]
-++    path = /modroot
-++    read only = yes
-++    reverse lookup = $2
-++EOF
+++	return -1 - rx_token;
 ++}
 ++
-++# Run a transfer and return 0 if the daemon refused with @ERROR access
-++# denied (the expected outcome when the deny rule matches).
-++run_check() {
-++    label="$1"
-++
-++    rm -f "$logfile"
-++    rm -rf "$todir"
-++    mkdir -p "$todir"
-++
-++    out="$scratchdir/run.out"
-++
-++    RSYNC_CONNECT_PROG="$RSYNC --config=$conf --daemon" \
-++	$RSYNC -av localhost::chrootmod/ "$todir/" >"$out" 2>&1
-++    rc=$?
-++
-++    echo "----- $label (rsync exit $rc):"
-++    cat "$out"
-++    echo "----- daemon log:"
-++    [ -f "$logfile" ] && cat "$logfile"
-++    echo "-----"
-++
-++    grep -q '@ERROR.*access denied' "$out"
+++static int32 recv_compressed_token_run(void)
+++{
+++	if (rx_run <= 0 || rx_token >= MAX_TOKEN_INDEX)
+++		invalid_compressed_token();
+++	++rx_token;
+++	if (--rx_run == 0)
+++		recv_state = r_idle;
+++	return -1 - rx_token;
 ++}
 ++
-++# Scenario A: global reverse lookup. Covered by b6abdb4c.
-++write_conf yes yes
-++if ! run_check "Scenario A (global reverse lookup = yes)"; then
-++    test_fail "Scenario A: hostname deny rule was bypassed"
-++fi
-++
-++# Scenario B: only the per-module reverse-lookup setting is enabled.
-++# The b6abdb4c fix only pre-warms client_name()'s cache when the
-++# global setting is on, so the post-chroot lookup in this path may
-++# still produce "UNKNOWN" and bypass the deny rule.
-++write_conf no yes
-++if ! run_check "Scenario B (per-module reverse lookup only)"; then
-++    test_fail "Scenario B: hostname deny rule was bypassed (per-module reverse lookup with daemon chroot still has the bypass)"
-++fi
-++
-++exit 0
++ /* Receive a deflated token and inflate it */
++ static int32 recv_deflated_token(int f, char **data)
++ {
++@@ -586,17 +637,7 @@ static int32 recv_deflated_token(int f, char **data)
++ 			}
++ 
++ 			/* here we have a token of some kind */
++-			if (flag & TOKEN_REL) {
++-				rx_token += flag & 0x3f;
++-				flag >>= 6;
++-			} else
++-				rx_token = read_int(f);
++-			if (flag & 1) {
++-				rx_run = read_byte(f);
++-				rx_run += read_byte(f) << 8;
++-				recv_state = r_running;
++-			}
++-			return -1 - rx_token;
+++			return recv_compressed_token_num(f, flag);
++ 
++ 		case r_inflating:
++ 			rx_strm.next_out = (Bytef *)dbuf;
++@@ -616,10 +657,7 @@ static int32 recv_deflated_token(int f, char **data)
++ 			break;
++ 
++ 		case r_running:
++-			++rx_token;
++-			if (--rx_run == 0)
++-				recv_state = r_idle;
++-			return -1 - rx_token;
+++			return recv_compressed_token_run();
++ 		}
++ 	}
++ }
++@@ -828,17 +866,7 @@ static int32 recv_zstd_token(int f, char **data)
++ 				return 0;
++ 			}
++ 			/* here we have a token of some kind */
++-			if (flag & TOKEN_REL) {
++-				rx_token += flag & 0x3f;
++-				flag >>= 6;
++-			} else
++-				rx_token = read_int(f);
++-			if (flag & 1) {
++-				rx_run = read_byte(f);
++-				rx_run += read_byte(f) << 8;
++-				recv_state = r_running;
++-			}
++-			return -1 - rx_token;
+++			return recv_compressed_token_num(f, flag);
++ 
++ 		case r_inflated: /* zstd doesn't get into this state */
++ 			break;
++@@ -869,10 +897,7 @@ static int32 recv_zstd_token(int f, char **data)
++ 			break;
++ 
++ 		case r_running:
++-			++rx_token;
++-			if (--rx_run == 0)
++-				recv_state = r_idle;
++-			return -1 - rx_token;
+++			return recv_compressed_token_run();
++ 		}
++ 	}
++ }
++@@ -992,17 +1017,7 @@ static int32 recv_compressed_token(int f, char **data)
++ 			}
++ 
++ 			/* here we have a token of some kind */
++-			if (flag & TOKEN_REL) {
++-				rx_token += flag & 0x3f;
++-				flag >>= 6;
++-			} else
++-				rx_token = read_int(f);
++-			if (flag & 1) {
++-				rx_run = read_byte(f);
++-				rx_run += read_byte(f) << 8;
++-				recv_state = r_running;
++-			}
++-			return -1 - rx_token;
+++			return recv_compressed_token_num(f, flag);
++ 
++ 		case r_inflating:
++ 			avail_out = LZ4_decompress_safe(next_in, dbuf, avail_in, size);
++@@ -1018,10 +1033,7 @@ static int32 recv_compressed_token(int f, char **data)
++ 			break;
++ 
++ 		case r_running:
++-			++rx_token;
++-			if (--rx_run == 0)
++-				recv_state = r_idle;
++-			return -1 - rx_token;
+++			return recv_compressed_token_run();
++ 		}
++ 	}
++ }
 diff --git a/meta/recipes-devtools/rsync/rsync_3.4.1.bb b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
-index 2145d4ce7e..d0d57defe8 100644
+index 47e195ef24..f84f269692 100644
 --- a/meta/recipes-devtools/rsync/rsync_3.4.1.bb
 +++ b/meta/recipes-devtools/rsync/rsync_3.4.1.bb
-@@ -28,6 +28,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+@@ -26,6 +26,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://CVE-2026-43619_p4.patch \
+            file://CVE-2026-43619_p5.patch \
             file://CVE-2026-43619_p6.patch \
-            file://CVE-2026-43618.patch \
-            file://CVE-2026-43620.patch \
-+           file://CVE-2026-43617.patch \
++           file://CVE-2026-43618.patch \
             "
  SRC_URI[sha256sum] = "2924bcb3a1ed8b551fc101f740b9f0fe0a202b115027647cf69850d65fd88c52"
  
