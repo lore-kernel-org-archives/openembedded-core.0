@@ -2,16 +2,16 @@ Return-Path: <mark.yang@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 793D8C44503
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56DDBC43602
 	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 02:30:11 +0000 (UTC)
-Received: from lgeamrelo12.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.255.1783477805587012535
+Received: from lgeamrelo13.lge.com (lgeamrelo13.lge.com [156.147.23.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.261.1783477805539997134
  for <openembedded-core@lists.openembedded.org>;
  Tue, 07 Jul 2026 19:30:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.52, mailfrom: mark.yang@lge.com)
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: mark.yang@lge.com)
 Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
-	by 156.147.23.52 with ESMTP; 8 Jul 2026 11:30:03 +0900
+	by 156.147.23.53 with ESMTP; 8 Jul 2026 11:30:03 +0900
 X-Original-SENDERIP: 156.147.1.126
 X-Original-MAILFROM: mark.yang@lge.com
 Received: from unknown (HELO jenkins-X670-AORUS-ELITE-AX..) (10.177.121.125)
@@ -21,46 +21,66 @@ X-Original-MAILFROM: mark.yang@lge.com
 From: mark.yang@lge.com
 To: openembedded-core@lists.openembedded.org
 Cc: "mark.yang" <mark.yang@lge.com>
-Subject: [OE-core][PATCH 0/3] kernel: make the kernel toolchain switchable to clang
-Date: Wed,  8 Jul 2026 11:28:53 +0900
-Message-Id: <20260708022856.2087339-1-mark.yang@lge.com>
+Subject: [OE-core][PATCH 1/3] module.bbclass/make-mod-scripts: inhibit default dependencies
+Date: Wed,  8 Jul 2026 11:28:54 +0900
+Message-Id: <20260708022856.2087339-2-mark.yang@lge.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260708022856.2087339-1-mark.yang@lge.com>
+References: <20260708022856.2087339-1-mark.yang@lge.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 02:30:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240415
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240414
 
 From: "mark.yang" <mark.yang@lge.com>
 
-Building the kernel with clang currently means overriding TOOLCHAIN and
-the KERNEL_* variables in a bbappend. The kernel builds, but modules and
-make-mod-scripts keep the gcc defaults and run the shared kernel build
-tree with the other compiler. kbuild then re-runs syncconfig against the
-shared .config and silently drops compiler-dependent options: a
-CONFIG_CFI_CLANG kernel loses kCFI as soon as any module is built.
-Documentation/kbuild/llvm.rst requires the same toolchain for every make
-invocation against one tree.
+Modules and make-mod-scripts build against the shared kernel build tree
+with the kernel toolchain, so the default virtual/libc and
+virtual/compilerlibs dependencies are unused. Inhibit them and add the
+cross toolchain explicitly like kernel.bbclass does.
 
-This series adds a KERNEL_TOOLCHAIN switch so the kernel, modules and
-make-mod-scripts move to clang together. gcc remains the default.
+This also avoids dragging compiler-rt and libcxx into every module
+build when TOOLCHAIN is set to clang.
 
-Tested on qemux86-64 with clang and gcc: both toolchains
-build linux-yocto, make-mod-scripts and cryptodev-module, the shared
-.config stays consistent across module builds (also with ld-is-lld),
-and core-image-sato boots.
+Signed-off-by: mark.yang <mark.yang@lge.com>
+---
+ meta/classes-recipe/module.bbclass                           | 5 +++++
+ meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 5 +++++
+ 2 files changed, 10 insertions(+)
 
-mark.yang (3):
-  module.bbclass/make-mod-scripts: inhibit default dependencies
-  kernel-yocto: export CLANG_FLAGS for the kconfiglib config audit
-  kernel-arch: add KERNEL_TOOLCHAIN for building the kernel with clang
-
- meta/classes-recipe/kernel-arch.bbclass             | 13 ++++++++++++-
- meta/classes-recipe/kernel-yocto.bbclass            |  7 +++++++
- meta/classes-recipe/module.bbclass                  |  5 +++++
- .../make-mod-scripts/make-mod-scripts_1.0.bb        |  5 +++++
- 4 files changed, 29 insertions(+), 1 deletion(-)
-
+diff --git a/meta/classes-recipe/module.bbclass b/meta/classes-recipe/module.bbclass
+index 6b2c09f441..a65744d33e 100644
+--- a/meta/classes-recipe/module.bbclass
++++ b/meta/classes-recipe/module.bbclass
+@@ -6,6 +6,11 @@
+ 
+ inherit module-base kernel-module-split pkgconfig
+ 
++# Modules build with the kernel toolchain against the shared kernel build tree
++# and do not need the default userspace toolchain/libc dependencies.
++INHIBIT_DEFAULT_DEPS = "1"
++DEPENDS += "virtual/cross-cc virtual/cross-binutils"
++
+ EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
+ 
+ MODULES_INSTALL_TARGET ?= "modules_install"
+diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+index 4b0630313f..97521c89e9 100644
+--- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
++++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+@@ -18,6 +18,11 @@ DEV_PKG_DEPENDENCY = ""
+ DEPENDS += "bc-native bison-native"
+ DEPENDS += "gmp-native"
+ 
++# The scripts build uses the kernel toolchain against the shared kernel build
++# tree and does not need the default userspace toolchain/libc dependencies.
++INHIBIT_DEFAULT_DEPS = "1"
++DEPENDS += "virtual/cross-cc virtual/cross-binutils"
++
+ EXTRA_OEMAKE = " HOSTCC="${BUILD_CC}" HOSTCFLAGS="${BUILD_CFLAGS}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
+ EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" CROSS_COMPILE=${TARGET_PREFIX}"
+ 
 
