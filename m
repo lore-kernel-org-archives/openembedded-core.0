@@ -1,111 +1,116 @@
-Return-Path: <pidge@baylibre.com>
+Return-Path: <leon.anavi@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86507C43458
-	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 14:23:41 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9905.1783520611556885736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6EA6C43458
+	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 14:37:21 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9954.1783521431238916438
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2026 07:23:31 -0700
+ Wed, 08 Jul 2026 07:37:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=AJzkdCwR;
- spf=pass (domain: baylibre.com, ip: 209.85.128.46, mailfrom: pidge@baylibre.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493c7902f47so5669025e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 07:23:31 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=MHyNu8/d;
+ spf=pass (domain: konsulko.com, ip: 209.85.128.53, mailfrom: leon.anavi@konsulko.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493c59f740cso5560935e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 07:37:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783520610; x=1784125410; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=C0A1vzlBTa1+SIkc1iLMi1a7pabGVN9Lvk5d9ZUbspU=;
-        b=AJzkdCwR6lSNiwbBvgiWN49wlLlumtLCO5hjePM/aziJUnm2Bidh4jbJOkyXnE4Z7Z
-         yT7icPcUwS0vGLF9iq4bIs5JUIsW3SUc1N3YzqYkBJqO5b8AfRjXxi4peDfhtNxiPgJ/
-         ONa9pqsxRosjFpN33ReW3HQ5kTBVnuU0qBxhvOvQtWM8oojoqnDZTjV8Nch3j2ck2z+9
-         yoBGsmChoECUhyiqSDGxVQS3hVxhxDkEe4qoPm1lDmfENQcuwjlS2GvKgJKn7pDSLo3h
-         G/9hPGjauIyGohczi3xMpUY0JJqkiOxL9AzjA7nEuxOeTXDuNHyK8PjWUwJUw5/4GqMl
-         PBcQ==
+        d=konsulko.com; s=google; t=1783521429; x=1784126229; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=H42/ewa0yCkL7raZbY8PdhJtxQmgR/d59AQpI6D55Cc=;
+        b=MHyNu8/dUjdlsSbLQyVytxyATyDpgtB1PohvzzxFxytG0RrqJFedXSsqtbk9g4SEbp
+         mESWBMxwAwTTzRl1EE4ZPXhBpIhNcrbjqGuk+6lM1zX05yASXbH80+QfPUh07ht/xKIX
+         KnFwx7tResR1yNUx+OY+YoLLEZ69L9ODjur08=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783520610; x=1784125410;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=C0A1vzlBTa1+SIkc1iLMi1a7pabGVN9Lvk5d9ZUbspU=;
-        b=I+4bKWKjLL26o/3YnwWDYh5G76EqVZjpHXnfgaWxfY6NOWtTXUqSISo1lo+ilCmu78
-         waIfMoXh7E6z7igFeQS3/s9rWlzfSp6hu3uCi6738Un35AQ57NRk60iq9TPyQek3oSHL
-         LaG/9WHhLAkKQTrsrCjLA1LcjvI2i7cYlvwlVJKH6qyTFR71GUuwaicbMKU4w+QT6Ize
-         O0Bl0dDGj5JI2EgSy/RD8mhEDnGjnhwYCALKmC3Z+YBsTKx6qwbx0lPlk5p+X8ZjP9ww
-         LlaG/gEoDCCR3dA4kvujHq2ilSUb5mJAZcmUnDIG7GUOMCLI8WXl7l3Pn18QQSeQT/S4
-         qpmA==
-X-Gm-Message-State: AOJu0YyLRgvI5vGM3nHVwZ0Gn8LYflY78qVtY2eNt7zB86zKHIt32jjk
-	e8gd8qaphVVSgIg0zgd/LGGREc5Pa+0M0yCJA/+JDIQNDnMsaclO8gXvyhpYwDkUMwyq8nklTxu
-	xgx9P2sA=
-X-Gm-Gg: AfdE7cn8q4bQOukQKBKD3WWvMxnP1R659Eyvyftjb0w8goEUTdTJ8Fg9utxzTR2TAl7
-	bZ7HtqvTRTVgW0ngHzVOd3qanGKszqm2iIKmwRGOeI8dfXihSI9qoeEDrHkxPR0miLUaTkpoG2p
-	47j5R0vTrS1++yknIXgGqgupX576mYMldo5nlYl90Amj63PPwFQ+fw4Hh8Sk6/qNfUJunKbjhqK
-	u2Zsxnss7NdkphMriXRZ4gWW7q2oLKM6d514WTi3gScYo5g3QrP1eOnP7vS9EjtH3qYf1GCEvMY
-	hq+aaHZS8VDA/z0lJ4HHGnWHG+SrOJLT5rWqw8mSBZaTZqmPc5WNTsF889HObbl1g1aYpOb2MRd
-	t7ofLs2hsbksn0A9sn5FAfAnyBG9B1IGpW2OFXucnheG+ehZuJ0PDVYdcNul5T8YmdTEwwtqrPt
-	iTPNd3xDL1OPY1qpdtGiso
-X-Received: by 2002:a05:600c:8b53:b0:492:67df:3dfa with SMTP id 5b1f17b1804b1-493e6875dc0mr29820325e9.34.1783520609910;
-        Wed, 08 Jul 2026 07:23:29 -0700 (PDT)
-Received: from ban.tailbdf2c4.ts.net ([80.233.37.32])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e0f41014sm143586895e9.6.2026.07.08.07.23.28
+        d=1e100.net; s=20251104; t=1783521429; x=1784126229;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=H42/ewa0yCkL7raZbY8PdhJtxQmgR/d59AQpI6D55Cc=;
+        b=GxXDQMMkrE0WfHgZMdQQdVnkpWg63OxfrbXRs9p4klzJRpoIdzPk4P/VKWCtdwDnds
+         v101ib1KY/y2qMsh69k8tteSocvwPrx9ZO23xtAF/v0omf5gDwST/NSpjOGCxyNU1+dm
+         ziMAw93G4rt0o4jQ2HNVXPsx3HuYTvP0gt/2qBMTUKpAfqjLmdgk3w1XiqcWUYux/zeY
+         tyuCcPQ+idqNvIymSX3tBcHYI7m5BL84HjklRgZha27TXmlZP0xRpgJY1zYMnMjvgKrg
+         UJH5NJ2jv1C2oacxvQGggTRxNnRNKFq01zd1SZ0CpO8MhcJmM/PTObXE9gUh91OqcQ6M
+         5BLQ==
+X-Gm-Message-State: AOJu0Yy4GFT9HqmiGxsQ41HhRuiROeWdyyQ4vScAQp0FZp0uAclmoNDr
+	51U8S6ojUarMPc5bTZcZk1votxXRdtsNbO7CCZG2Ie+C6hjd6AOaUUVwU3GbVxn7x870lyDRNsk
+	NY0N4
+X-Gm-Gg: AfdE7cltEhEEAfRxmSPJuGerlJFj+VJwYCn4BKbk71N8BbKHn+DRrXR0jOL1OrUfMnj
+	6Jp0z0hVprenJOjPzWfpdAhzgPDu7WH7zDdNdnvJjsOVH3H0dX2vdTxguOZWetPZNWfyW07Xhvb
+	jkipMR2DC9P24pR92vDLO7gyihX5sJWwP0vHRR8e23tmtUIdqf+HqfGQUkU++jUYtHYxpATP2SH
+	lzDY/vdIMU73OtpMK0aOfru8f3hMNeA0dauLweF/oQh/EWCEYMpx67bCgznhZyQ48i3SJRfawFu
+	9fVJJYoDtVnLMN8v49NoIVCcxEilL+rpm83NSsToHSZC/zgezYAOvzmGEqMef236buKEgmW2CI6
+	T4kijiyw+6KUdMU+UiklqylwZTJ8ksyyi7HKBwWR+un8cBzviPGSB9pwb8MLGNtSNWxxPgpqqdj
+	rcvFX4RDgEGxFBiOjmWhSQQJK8ZQNYXWlLjEOOAmZ1hvyvgTqQh6hGzIooexg9V0glFQ3GknOyD
+	dqB/Q/r3wrk2/O2XdM9FGI2LmH5wjRpzloWiihynA==
+X-Received: by 2002:a05:600c:3acb:b0:493:b91c:6bf with SMTP id 5b1f17b1804b1-493e68c6d73mr27550455e9.18.1783521429423;
+        Wed, 08 Jul 2026 07:37:09 -0700 (PDT)
+Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039ad21sm42328520f8f.20.2026.07.08.07.37.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 07:23:29 -0700 (PDT)
-From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+        Wed, 08 Jul 2026 07:37:08 -0700 (PDT)
+From: Leon Anavi <leon.anavi@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Cc: yoann.congal@smile.fr,
-	=?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
-Subject: [wrynose][PATCH] ovmf: fix tpm PACKAGECONFIG to use TPM2_ENABLE
-Date: Wed,  8 Jul 2026 15:23:26 +0100
-Message-ID: <20260708142326.916446-1-pidge@baylibre.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Leon Anavi <leon.anavi@konsulko.com>
+Subject: [[PATCHv3] meta: Add pam to the defaults if using systemd
+Date: Wed,  8 Jul 2026 17:37:04 +0300
+Message-ID: <20260708143704.2643050-1-leon.anavi@konsulko.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 14:23:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240486
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 14:37:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240487
 
-The tpm PACKAGECONFIG passed "-D TPM_ENABLE=TRUE/FALSE", but ovmf
-renamed that macro to TPM2_ENABLE in edk2 commit 4de8d61bcec0
-("OvmfPkg: rework TPM configuration", first released in
-edk2-stable202202). Since then TPM_ENABLE has been an unknown macro
-that edk2 ignores, so TPM2 support was never compiled in, even for
-MACHINEs with 'tpm'/'tpm2' in MACHINE_FEATURES.
+Add pam to DISTRO_FEATURES_DEFAULTS in init-manager-systemd.inc.
+This way pam will available if variable VIRTUAL-RUNTIME_init_manager
+has been set to systemd. Otherwise having systemd in conjunction
+with wayland but without pam leads to a conflict with the
+REQUIRED_DISTRO_FEATURES for weston related recipes.
 
-Use TPM2_ENABLE (as defined in
-OvmfPkg/Include/Dsc/OvmfTpmDefines.dsc.inc and consumed by
-OvmfPkgX64.dsc) so the tpm PACKAGECONFIG actually enables TPM2 support.
+This adjustment is required following these recent changes that
+switched VIRTUAL-RUNTIME_init_manager to systemd by default and added
+wayland to DISTRO_FEATURES_DEFAULTS which affect "nodistro":
 
-The same commit also added a separate TPM1_ENABLE macro (TPM 1.2
-support, default TRUE), but its dsc.inc snippets are only included
-inside OvmfPkgX64.dsc's "!if $(TPM2_ENABLE) == TRUE" block, so it has
-no effect unless TPM2_ENABLE is TRUE. No separate PACKAGECONFIG knob is
-needed.
+- 159148f4de2595556fef6e8678578df83383857b
+  meta: Support opting out of any distro features
+  (Please note that this commit also extended DISTRO_FEATURES_DEFAULTS
+  with wayland and vulkan.)
 
-Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
+- 0b4061c5d50261f826d0edb4b478d2d305274b7c
+  conf: Switch to systemd by default and simplify init manager selection
+
+This fixes issues with test_machine_world when running the
+yocto-check-layer script for BSP layers that include weston in the
+dependency chain, for example meta-tegra:
+
+ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
+Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'l4t-graphics-demos', 'weston']
+
+The weston recipe has pam in REQUIRED_DISTRO_FEATURES if systemd is
+enabled. Therefore, it makes sense to also add pam to the defaults
+through DISTRO_FEATURES_DEFAULTS in init-manager-systemd.inc.
+
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
 ---
- meta/recipes-core/ovmf/ovmf_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/init-manager-systemd.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 19bcc4a96f..01f840c215 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -14,7 +14,7 @@ PACKAGECONFIG += "${@bb.utils.contains('MACHINE_FEATURES', 'tpm', 'tpm', '', d)}
- PACKAGECONFIG += "${@bb.utils.contains('MACHINE_FEATURES', 'tpm2', 'tpm', '', d)}"
- PACKAGECONFIG[debug] = ",,,"
- PACKAGECONFIG[secureboot] = ",,,"
--PACKAGECONFIG[tpm] = "-D TPM_ENABLE=TRUE,-D TPM_ENABLE=FALSE,,"
-+PACKAGECONFIG[tpm] = "-D TPM2_ENABLE=TRUE,-D TPM2_ENABLE=FALSE,,"
- 
- # GCC12 trips on it
- #see https://src.fedoraproject.org/rpms/edk2/blob/rawhide/f/0032-Basetools-turn-off-gcc12-warning.patch
+diff --git a/meta/conf/distro/include/init-manager-systemd.inc b/meta/conf/distro/include/init-manager-systemd.inc
+index 63fd225ca5..9460be51af 100644
+--- a/meta/conf/distro/include/init-manager-systemd.inc
++++ b/meta/conf/distro/include/init-manager-systemd.inc
+@@ -1,5 +1,6 @@
+ # Use systemd for system initialization
+ DISTRO_FEATURES:append = " systemd usrmerge"
++DISTRO_FEATURES_DEFAULTS:append = " pam"
+ VIRTUAL-RUNTIME_init_manager ??= "systemd"
+ VIRTUAL-RUNTIME_initscripts ??= ""
+ VIRTUAL-RUNTIME_login_manager ??= "shadow-base"
 -- 
-2.43.0
+2.47.3
 
 
