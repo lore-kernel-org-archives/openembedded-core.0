@@ -1,140 +1,105 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0224AC43458
-	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 09:14:57 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4482.1783502094982580908
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D25D5C43458
+	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 09:31:00 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4599.1783502914230086933
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2026 02:14:55 -0700
+ Wed, 08 Jul 2026 02:28:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=JSLUIcMr;
- spf=pass (domain: mvista.com, ip: 209.85.216.47, mailfrom: sdoshi@mvista.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3810c5d691bso362009a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 02:14:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1783502094; x=1784106894; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sZX1842nUUIh1p8Z/3LfUliZKEUUB6h3pH7gGonlx38=;
-        b=JSLUIcMr+C0qvkluBy+Zrr0NIawWCQgaJxU1SS198565IFkU3a84mfA9s+MPknyXL6
-         0YwAj9Bvzl5Ssq/2Kd95fvNEn0/vqjE5TdAwVvoIhBPvWfL1wUB8Qop6hmAXS3A4zJhi
-         rw4z2svnmmJG/eJI2XwdiklO8RPYXmcQZyBvk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783502094; x=1784106894;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sZX1842nUUIh1p8Z/3LfUliZKEUUB6h3pH7gGonlx38=;
-        b=gC91gXy2YwxnxxObYJm9qMduseZzdexEhx4I9I/ACMQvb5utz31s76d9AS3LdQx1HC
-         QK1+h22xqi2GjBfXa7xcvFnXf1FJbVKsJ2+JhONTpX10BY0LNAUaG/Tki7cpIkND6S6D
-         6g9N+YxLXVHar3B4qnAr0AAenCHG33SS86ztA2dTKouqtY6TohBpZxKO0R56RfqpdY/U
-         QEGAGSoeYQkftfNE9nbNQuxIQ2GVXVoBuvaN+8UUu7AkdB2uW/dz2EG40t5kX2M7bAdf
-         Mg44MH02rk/N15HKKYUIK94jekh8xH86vMzHsCRknIHctzV4gv3raqsD2TdvwMttDB54
-         oWhA==
-X-Gm-Message-State: AOJu0Yw6VcJkcicT2pQ2Gl96wXG0HcMbuw3NpbgkanUVgBtFTIYaUVH3
-	0aOFr0u6yX5MclcF1Dot3hFSD9V3MRH0kSWqamdE5fiz8g5dnIogO5I78XKAHPiGtSEy1VGu9R4
-	LBW5/35g=
-X-Gm-Gg: AfdE7cllwYDrbjuLq4cLHSQfI+JaNqbZ+rZxGftrp+Cl9gqKLg+es+m7YvJoX3JXDAJ
-	0ujxIa92G42yQouRKAEM+615rrv/4siNvq9bqHl4kzo/yNE6Eq3raZwHF5TqwqhJAnmKNYsGLmC
-	nF3QxXZ9aEsVz87SO1VVnEmljbM6YkbrLsOuJ/efPp1OrQosYO+G9G8DNxVchnoFMvz25Ov99r1
-	qZVLabdQPioWs/Ro6wMxsvcJh1/KRj1f8UfAce9N94JwbhJP/+DdSWE4I01VCKZvKvdK+w8kGeV
-	fHRxd1QIXuMFHrebDa2p5T/Hojs93x9L0Wl3a4zkkPLnrbDs7VZZAU61ChtbhdtjPQEqBGidPQ/
-	vEFKb1SWvJx1Pt9cQ5ufHc33QQDynuZHkRIrB6WVjZpN1xTesZgvKsMOeqaRcl6wHNjGEsqYdr4
-	0S0PjwpXSZGDNiksgd4/grA7k=
-X-Received: by 2002:a17:90b:3bc7:b0:387:e0bb:57f5 with SMTP id 98e67ed59e1d1-38941cc8620mr1872942a91.38.1783502094185;
-        Wed, 08 Jul 2026 02:14:54 -0700 (PDT)
-Received: from MVIN00030.mvista.com ([157.32.44.237])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174a5b26csm17410076eec.15.2026.07.08.02.14.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 02:14:53 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][master][PATCH] log4cplus: upgrade 2.1.2 -> 2.2.0.1
-Date: Wed,  8 Jul 2026 14:42:44 +0530
-Message-Id: <20260708091244.150085-1-sdoshi@mvista.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=W5Frpm39;
+ spf=none, err=permanent DNS error (domain: oak-lpgbuild10.wrs.com, ip: 205.220.178.238, mailfrom: prvs=1649fb9606=hbarde@oak-lpgbuild10.wrs.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6688Br7m3613463;
+	Wed, 8 Jul 2026 09:22:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=QC0VOq4p5
+	UpBJWxosZ8pDp5mgDY7z18dT07n6987iKs=; b=W5Frpm39hZmfAEig3Zf58X0Lf
+	dfroXsIFPQK2GXJQ0p8wR9lTcy8gHRXkJVpHUhjLPi/lexZcOlbFodik1GdsuzFl
+	PiCpypbH6mvKtE/W8CQ6OVk04cEMRmD5L+EWjVewtpfEJpbe3Uxwy37/mLJzwKCx
+	RVeG5NJHtNrFp5xUC/YFJZ3TpcMpyryk1n4YlUORGECvqfQ95Mk76UB5eDFflEBD
+	HFqjBUvNXcFetN7Y2ydwDWfxZCNi+oOaiVtQO3eTpy7jLVmeV80yJ/N9LlVYOWU0
+	AEmhJqR9TuvrqGQCYeT4pAWS64GzqgAo4qhSgtYnSkuTDKMhgJ4fjN8aqEZcg==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f6qcwdyhf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 08 Jul 2026 09:22:57 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 8 Jul 2026 02:22:56 -0700
+Received: from oak-lpgbuild10.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 8 Jul 2026 02:22:56 -0700
+Received: by oak-lpgbuild10.wrs.com (Postfix, from userid 1762445298)
+	id C79F2A88D8E; Wed,  8 Jul 2026 09:22:55 +0000 (UTC)
+From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <tgamblin@baylibre.com>, <randy.macleod@windriver.com>,
+        <Shiva.Komati@windriver.com>,
+        Himani Ramesh Barde
+	<HimaniRamesh.Barde@windriver.com>
+Subject: [PATCH 0/2]python3-setuptools-scm: fix build and upgrade to 10.1.2
+Date: Wed, 8 Jul 2026 09:22:50 +0000
+Message-ID: <20260708092252.1211669-1-HimaniRamesh.Barde@windriver.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
+X-Authority-Analysis: v=2.4 cv=D4537PRj c=1 sm=1 tr=0 ts=6a4e16f1 cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=klDOsUkWDRETUCZYPvoE:22 a=gDZZjt-lw1u9C-BfYNEA:9 a=zZCYzV9kfG8A:10
+X-Proofpoint-ORIG-GUID: 36WeZs7_lUKGTmQJ4MKx_cWrHGM85bPM
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDA4OSBTYWx0ZWRfX2DsMXaulJ49S
+ rtLg0nwPjIwXcWfuTUYRRKI4Ho9VNJubEdxvhbJ29CMW3g/Hl5hU45UemMsQVAHGe6ggS7jUyTd
+ w9MUTu4i9OlhacvPmR0DLSLuzYC/cCaegcITdJQO182fs4qL4Cle
+X-Proofpoint-GUID: 36WeZs7_lUKGTmQJ4MKx_cWrHGM85bPM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDA4OSBTYWx0ZWRfXwhBOj6Hwr58u
+ ZO1U+gADvN9WW3KeC+8Vmju9gao+hm3r7Bb3z+HFoSPHByNasrKUbhwMxMKdSEAkBk5y4wdsNJA
+ igNFR5U3Nc4JN2i4lelGz2tbHSD2SOT/W6cWpftVhyY2pxVAlMlSe3FMolyTLhPxEqOAnN0a4lw
+ WJvvqVQkKPA6gmq/7Bnz8xp8QNUY/wF3S8Sxe60k533E0qhHYiQCg+gxNgPfxhXXg0Pj4UQ/Su1
+ ixD+A2agrgO9c7JbU0UazSbPXfC1HN011kHxQyk54oNXxGEsKTIq9ViF0M7aUCF6AEoBaY2zqxr
+ YFIKGeoiLjg+bAzrNz8rqkJQpmDj8jgMh898HE8ixwquBbWUY9cdyPB/DzWIGHuxv+Kox01SMi7
+ 09MhgLgOOhkDC3qc/uxAHRTX3Iu8KUILQGcqM+dt/zRLS0IfCQbbvS3iH1Z1MQDfScSG5c6PM3C
+ n0t6Ie/cnzS9ZXTOnVQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-08_01,2026-07-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ adultscore=0 priorityscore=1501 spamscore=0 phishscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607080089
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 09:14:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240447
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 09:31:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240448
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+The AUH attempted to upgrade python3-setuptools-scm to 10.1.2 but
+failed at do_compile because setuptools-scm tries to determine its
+version from SCM metadata, which isn't available in OE tarball builds.
 
-Updated SRC_URI, Homepage, BugTracker, UPSTREAM_CHECK_URI to point to
-github page of log4cplus instead of sourceforge as per:
-[1] https://github.com/log4cplus/log4cplus/wiki#download
+Patch 1 exports SETUPTOOLS_SCM_PRETEND_VERSION to bypass SCM-based
+version detection. Patch 2 completes the upgrade to 10.1.2.
 
-For detailed information, see the link below:
-[1] https://github.com/log4cplus/log4cplus/compare/REL_2_1_2...REL_2_2_0_1
-[2] https://github.com/log4cplus/log4cplus/blob/REL_2_2_0_1/ChangeLog
+Build-tested: python3-setuptools-scm, python3-vcs-versioning, and
+python3-pytest all build successfully with this series applied.
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
----
- .../log4cplus/log4cplus_2.1.2.bb              | 19 -----------------
- .../log4cplus/log4cplus_2.2.0.1.bb            | 21 +++++++++++++++++++
- 2 files changed, 21 insertions(+), 19 deletions(-)
- delete mode 100644 meta/recipes-devtools/log4cplus/log4cplus_2.1.2.bb
- create mode 100644 meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb
 
-diff --git a/meta/recipes-devtools/log4cplus/log4cplus_2.1.2.bb b/meta/recipes-devtools/log4cplus/log4cplus_2.1.2.bb
-deleted file mode 100644
-index 9a3c31e887..0000000000
---- a/meta/recipes-devtools/log4cplus/log4cplus_2.1.2.bb
-+++ /dev/null
-@@ -1,19 +0,0 @@
--SUMMARY = "log4cplus provides a simple C++ logging API for log management"
--SECTION = "libs"
--HOMEPAGE = "http://sourceforge.net/projects/log4cplus/"
--DESCRIPTION = "log4cplus is a simple to use C++ logging API providing thread-safe, flexible, and arbitrarily granular control over log management and configuration. It is modelled after the Java log4j API."
--BUGTRACKER = "http://sourceforge.net/p/log4cplus/bugs/"
--
--LICENSE = "Apache-2.0 & BSD-2-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=41e8e060c26822886b592ab4765c756b"
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}-stable/${PV}/${BP}.tar.gz \
--          "
--SRC_URI[sha256sum] = "e2673815ea34886f29b2213fff19cc1a6707a7e65099927a19ea49b4eb018822"
--
--UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/"
--UPSTREAM_CHECK_REGEX = "log4cplus-stable/(?P<pver>\d+(\.\d+)+)/"
--
--inherit autotools pkgconfig
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb b/meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb
-new file mode 100644
-index 0000000000..9ba83d8d64
---- /dev/null
-+++ b/meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb
-@@ -0,0 +1,21 @@
-+SUMMARY = "log4cplus provides a simple C++ logging API for log management"
-+SECTION = "libs"
-+HOMEPAGE = "https://github.com/log4cplus/log4cplus"
-+DESCRIPTION = "log4cplus is a simple to use C++ logging API providing thread-safe, flexible, and arbitrarily granular control over log management and configuration. It is modelled after the Java log4j API."
-+BUGTRACKER = "https://github.com/log4cplus/log4cplus/issues"
-+
-+LICENSE = "Apache-2.0 & BSD-2-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=41e8e060c26822886b592ab4765c756b"
-+
-+# Replace dots with underscores to match GitHub's tag format (e.g., 2.2.0.1 -> REL_2_2_0_1)
-+GITHUB_TAG = "REL_${@d.getVar('PV').replace('.', '_')}"
-+
-+SRC_URI = "https://github.com/log4cplus/log4cplus/releases/download/${GITHUB_TAG}/log4cplus-${PV}.tar.gz"
-+SRC_URI[sha256sum] = "374175c22fabe752eb1c20138e732b69ae191e641f92d32c9432985cd860a2df"
-+
-+UPSTREAM_CHECK_URI = "https://github.com/log4cplus/log4cplus/releases"
-+UPSTREAM_CHECK_REGEX = "log4cplus-(?P<pver>\d+(\.\d+)+)\.tar"
-+
-+inherit autotools pkgconfig
-+
-+BBCLASSEXTEND = "native"
+Himani Ramesh Barde (2):
+  python3-setuptools-scm: avoid SCM-based version detection
+  python3-setuptools-scm: upgrade 10.0.5 -> 10.1.2
+
+ ...uptools-scm_10.0.5.bb => python3-setuptools-scm_10.1.2.bb} | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-setuptools-scm_10.0.5.bb => python3-setuptools-scm_10.1.2.bb} (84%)
+
 -- 
-2.34.1
+2.54.0
 
 
