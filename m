@@ -2,111 +2,192 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8478C43458
-	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 09:32:50 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4655.1783503093837182885
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D931BC44501
+	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 09:36:10 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4742.1783503277622582496
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2026 02:31:34 -0700
+ Wed, 08 Jul 2026 02:34:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=QTG6Eg6t;
- spf=none, err=permanent DNS error (domain: oak-lpgbuild10.wrs.com, ip: 205.220.178.238, mailfrom: prvs=1649fb9606=hbarde@oak-lpgbuild10.wrs.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6688Btb33613483;
-	Wed, 8 Jul 2026 09:23:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=KqIlzqqOps2p2Kdt4qNLcKYzgIXMd6xgX166M605Cpk=; b=
-	QTG6Eg6tlIqgVLt64+Z/a84SM59TeGRbO6QzUxCcW5XPbqBFgHuk4Ppcuqqi50Ah
-	RtIDsJ4KWX3HN6Eul1J0UCqRBx89gglcVHPw90j5T/iu2kbGIgjoWFIgniXl6VFh
-	hZSgzPx2TO0P1XirlZ2LxBi80MEKdtycBOkr4mB6+auMo8apKwggQaZ3gqyyi53h
-	lW5RPM0czj/drnyEpJ3Xam+aJVJcYzucZcUQJJXeX8hoQJAh+MmBBwlFiNSHx266
-	Y0iqa6k75foyDjHSU0gMTDzH8fV/o5gyhWxJbkhJlLr8aMWf02XjhYA140oz/ccx
-	ZzrIY7fQ6bl4GOR9hYtl8Q==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f6qcwdyhs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 08 Jul 2026 09:23:07 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 8 Jul 2026 02:23:06 -0700
-Received: from oak-lpgbuild10.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 8 Jul 2026 02:23:06 -0700
-Received: by oak-lpgbuild10.wrs.com (Postfix, from userid 1762445298)
-	id A641FA88D8E; Wed,  8 Jul 2026 09:23:06 +0000 (UTC)
-From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <tgamblin@baylibre.com>, <randy.macleod@windriver.com>,
-        <Shiva.Komati@windriver.com>,
-        Himani Ramesh Barde
-	<HimaniRamesh.Barde@windriver.com>
-Subject: [PATCH 2/2] python3-setuptools-scm: upgrade 10.0.5 -> 10.1.2
-Date: Wed, 8 Jul 2026 09:22:52 +0000
-Message-ID: <20260708092252.1211669-3-HimaniRamesh.Barde@windriver.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260708092252.1211669-1-HimaniRamesh.Barde@windriver.com>
-References: <20260708092252.1211669-1-HimaniRamesh.Barde@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=FPS3Y+pq;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: jakubszczudlo40@gmail.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8478a25f268so336273b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 02:34:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783503277; cv=none;
+        d=google.com; s=arc-20260327;
+        b=lzFLDSFgX3XcVG9rp6rCu6BsEyVngoufQPm2Bv1BjlLswFVg3kpKVXkPkUqB0r4Z7i
+         9vd/wDFZl36NsUnGqsTqVl32Hh8gcQ6MactUE1CayJRPOFBIlEEZkHbWbqS/XzCuYVb5
+         tTIaJQbHoU+obeMzagy8eHBv7f5Cvg5kJFtqcN/yYHRvEY5XWObsP6+2Y43np2mUHKBr
+         /pVIM0D0orAZ06gI9iq5fxGHLdG6AorGjgoC8cvK3YoFx3PRG+PDg5pw1iwKQBcvDg9U
+         XA88eHZb5rpNDICsE4rRVvflUNgOZcnX3YGKAaIivXumI4s/peCU/X6u2AkOq4csQJmC
+         FKig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=dp9A9eOa6RZ9JPG+pOPzBCzajT+6Wnrahw8fs3lTbGU=;
+        fh=d05bKGwTIeOoMwHQ7qG1swnNH5uyLxPXQikaX14OzmQ=;
+        b=cADm1rRznsGAqG0BxQItExHbrscBR5n5vyPh2volDvomXYUsX5QWW4+ql7UPJtnr1F
+         9+pIGxTQhYa7CPZ4eurOyLXs0S0whKCfoAfXl7+lWE/Yj7Suh8D6dHzs5BuBbuBC3yT3
+         6YZEvEueJoPK0jNlmDjvwGv/RnCgw7k5B5rNS+X2ujDa5S7csFH0/JyiX6oL01oZCQZB
+         CAGH5/PJTzBQhyDBreHDfERv6e+xBuWLtazU0sMJyonKNdI+L0j/SYrVDlin91A2UJlD
+         maoc3FX4+w5W0sRUlWTpTXEdkHaJOyVjBjaSefl63FA15Fjy6YLiegHGhQJwnsTQ2Szw
+         P0/w==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783503277; x=1784108077; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dp9A9eOa6RZ9JPG+pOPzBCzajT+6Wnrahw8fs3lTbGU=;
+        b=FPS3Y+pqvhXGiz6764R+iYJl+VS86iPpkV/qAm7gKBs9miCPjOJ322LRi3xWnHXG8i
+         q6lWnqmqFUkQtKn9lRMHWVxXtkI6MaLOVPWlwju/3TIWxXp8IOcKhTqdJd8yPs/I5IAG
+         lEAFzZZfIqTEH/1wgOMb6LOi0VHZctxzmPOsehPwgmUvqJFhySrXyGpLKYTvwu8QOoda
+         nE9rwGa4RTPZnaVBY8iY80lRdpZtMl/wdaQkIrhXhfI5SZ3HNcAlhQD6Hf+7QpQ2ACwV
+         HY4LS0oZmPoeOINwCNAs1pXnOKES4cCmJ5M2cu9XMAbDoOev0R4PXfRL0hM3ecqhjj+9
+         2CbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783503277; x=1784108077;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=dp9A9eOa6RZ9JPG+pOPzBCzajT+6Wnrahw8fs3lTbGU=;
+        b=iLBlDik2yluEOVfvanbSVULlh5APsBGmXQRDKUf0bX60jwXgLQsV/ffVAw6zdqneHv
+         PbcnT5Rq0mgQtyYP/R8gCeqM/g+O+ubNPTgd2SdFSXtgCHrJiehEXWL/TxfU+0tvAWqp
+         rB/Bs7zQSPrnXqUKQqNFCkSBQ4ct/YFQL5tKVhA4dSIYY4gbiIfjBvhibpqspdVvJwxv
+         bfkhkZkM2BJ42a2qtqy7ffqm6SKDMVN2bW5UoX8ZWwSRVC5TYyHh9uBKHb70cMac8eV5
+         oFiHv9r8mP24iSwdNN4udA4pu/zNNSAP5Q0c4V0x8KUqg2bk0VymT0BlrBBp4VUFqwD4
+         aMhA==
+X-Gm-Message-State: AOJu0YwpH/zMFHdxrPMynqKLpEWFZiQG29h0YyxW2Uy/YTb+ZHnG+PYC
+	QgUU6qiWEIxnEwcgszwextL38nWXUlB1bf3uz78sYewbmBRU2fa124NclLQry4arAWxsbdoF8Vy
+	4nssMwu88EPckdNov9x2bziuL1nVkXLw=
+X-Gm-Gg: AfdE7cmGbY3QyUY8xtJVZovnGNXlSes5SzCS3nZk04rVMY28/8YTmJeDluNOwnF6BiT
+	g3Sj0x6T0HNjlIWmhRaYr0/ddzcZbxWYbkIQxtzIeXmiCoWF3kAHm1zUrJq/dZBy2jkVXg9rYXV
+	UwpOa4ynhAxECfXSmB1WKslnNAux/NSZli4tS9iQQQjHemBR2Rb4Xd/GZbU2HALQRp7dIFk+qzF
+	WxUFPjTVWUCayMbkm5xXtQFAx5iIgvqXdVrVtNukBuaDV3g/0+e2qBc/sb5DY9gE31uyRQJ8i9t
+	ZpX4zaEXrEe1q8yyHcvKTpFdTcuWyVg=
+X-Received: by 2002:a05:6a00:4191:b0:848:2e53:3f63 with SMTP id
+ d2e1a72fcca58-84842edc78bmr1951215b3a.21.1783503276839; Wed, 08 Jul 2026
+ 02:34:36 -0700 (PDT)
 MIME-Version: 1.0
-X-Authority-Analysis: v=2.4 cv=D4537PRj c=1 sm=1 tr=0 ts=6a4e16fb cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8 a=dWB_wDoaOQRvAvalUzMA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: an_0yIQjJEsh9LhHSttDSC8IgSxc8KvA
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDA4OSBTYWx0ZWRfXzp9O1ex3UFjD
- 86HV+fix3QM8WA2LBL+A0mMh5Xr3CEKI8qcmqsEVe0n5vCvcHg+UnY/R0lZWj1wdqEiBdJQjROw
- 6Ub//kiF6x9nwK7Mj7Fm4lhuQSMa9E/v7lTJ02JsoTa64lxw7Y3a
-X-Proofpoint-GUID: an_0yIQjJEsh9LhHSttDSC8IgSxc8KvA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDA4OSBTYWx0ZWRfXyC0NA7EKs1m1
- yuwqAiPZYDBiCl6WM9JFrEnxdeloY9RykARyM5yr2av3Kuvm/jHAZC/lTpUWR8S00xXvpalO2AJ
- UAw4xwVllfOHUe5dMbJ4CbSGYCHDjjceybQFtZafo2c4JE2tWsWXvcM7uESkgNMZmT79hzqAWeJ
- CcqnEDIh+xblHyge3sR2xQvvi+F1+26zHVsVgh90utkdNeuGaFrxiTvXRnVHXEDTvNcfpZubqbX
- Ztjr0vk3F3H8UNfQUJgu2bG+UlZIkirwGXUYabB4+vprv9NmmN++vMhVjHYI44zcNIYz0Q3/BMd
- MMVk1AfPDz1elQoJG5yEL/FPpKdXlz8rHZXrT4j+EoiQdYmeIKm9ITbA9FAvV1a+dwJEl3dNVfo
- tlnic8gRniBXlaurFBOIDEG7kjJbXYeaspymxWZblLHqfSwajvowgeDu7I7gxu3BIg5aMuJuem7
- l6iqOlvLhHezdT1tHaQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-08_01,2026-07-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
- adultscore=0 priorityscore=1501 spamscore=0 phishscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607080089
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20260707064301.32102-1-jakubszczudlo40@gmail.com> <DJT32W69PZMH.3CI3ARE9YG46W@bootlin.com>
+In-Reply-To: <DJT32W69PZMH.3CI3ARE9YG46W@bootlin.com>
+From: "Jakub Szczudlo" <jakubszczudlo40@gmail.com>
+Date: Wed, 8 Jul 2026 11:34:25 +0200
+X-Gm-Features: AVVi8CfW1Q_EJN_QW2rSo0SBszJ2ohM7fx8LH1F1M95Sd0oTgXYAS6Eu079hwPo
+Message-ID: <CA+gq5Jj3XPOgEQBEHLSq2sx4+-VkCrWScpUpHZLAeVFHaBH0hA@mail.gmail.com>
+Subject: Re: [OE-core] [scarthgap][PATCH] libgcrypt: upgrade 1.10.3 -> 1.10.4
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Hongxu Jia <hongxu.jia@windriver.com>, Yoann Congal <yoann.congal@smile.fr>
+Content-Type: multipart/alternative; boundary="0000000000004595da06561637f9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 09:32:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240450
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 09:36:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240451
 
-Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
----
- ...etuptools-scm_10.0.5.bb => python3-setuptools-scm_10.1.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-setuptools-scm_10.0.5.bb => python3-setuptools-scm_10.1.2.bb} (89%)
+--0000000000004595da06561637f9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb b/meta/recipes-devtools/python/python3-setuptools-scm_10.1.2.bb
-similarity index 89%
-rename from meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb
-rename to meta/recipes-devtools/python/python3-setuptools-scm_10.1.2.bb
-index 58eb963910..824758e3ee 100644
---- a/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-scm_10.1.2.bb
-@@ -6,7 +6,7 @@ argument or in a SCM managed file."
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=838c366f69b72c5df05c96dff79b35f2"
- 
--SRC_URI[sha256sum] = "bbba8fe754516cdefd017f4456721775e6ef9662bd7887fb52ae26813d4838c3"
-+SRC_URI[sha256sum] = "24079818acc46e99aae0d65b8d511fafe965970d9cbd060c7b9f7275ded520fb"
- 
- PYPI_PACKAGE = "setuptools_scm"
- 
--- 
-2.54.0
+=C5=9Br., 8 lip 2026, 11:31 u=C5=BCytkownik Mathieu Dubois-Briand <
+mathieu.dubois-briand@bootlin.com> napisa=C5=82:
 
+> On Tue Jul 7, 2026 at 8:43 AM CEST, Jakub Szczudlo via
+> lists.openembedded.org wrote:
+> > Release notes are here:
+> > https://dev.gnupg.org/T8233.html
+> > Update contains fix for CVE-2026-41989 and because of building error
+> patch need to be
+> > updated to fix compile flags in new version.
+> >
+> > Signed-off-by: Jakub Szczudlo <jakubszczudlo40@gmail.com>
+> > ---
+> > v3:
+> >  - Correct patch file name to be the same as patch title
+> > v2:
+> >  - Added new patch to fix building error with '-O2' in sysroot path for
+> libgcrypt 1.10.4, patch
+> >    was taken from wrynose and backported.
+>
+> Hi Jakub,
+>
+> Thanks for your patch, but please remember to add the [scarthgap] prefix
+> in the subject when targeting stable branches.
+>
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
+sure, this was a mistake, I also send patch with corrected prefixes here:
+
+https://lists.openembedded.org/g/openembedded-core/message/240364?p=3D%2C%2=
+C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Clibgcrypt%2C20%2C2%2C0=
+%2C120153110
+
+Best regards,
+Jakub Szczudlo
+
+--0000000000004595da06561637f9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div dir=3D"auto">=C5=9Br., 8 lip 2026, 11:31 u=C5=BCytko=
+wnik Mathieu Dubois-Briand &lt;<a href=3D"mailto:mathieu.dubois-briand@boot=
+lin.com" target=3D"_blank" rel=3D"noreferrer">mathieu.dubois-briand@bootlin=
+.com</a>&gt; napisa=C5=82:</div><div class=3D"gmail_quote"><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">On Tue Jul 7, 2026 at 8:43 AM CEST, Jakub Szczudlo via <a hr=
+ef=3D"http://lists.openembedded.org" rel=3D"noreferrer noreferrer noreferre=
+r" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
+&gt; Release notes are here:<br>
+&gt; <a href=3D"https://dev.gnupg.org/T8233.html" rel=3D"noreferrer norefer=
+rer noreferrer" target=3D"_blank">https://dev.gnupg.org/T8233.html</a><br>
+&gt; Update contains fix for CVE-2026-41989 and because of building error p=
+atch need to be<br>
+&gt; updated to fix compile flags in new version.<br>
+&gt;<br>
+&gt; Signed-off-by: Jakub Szczudlo &lt;<a href=3D"mailto:jakubszczudlo40@gm=
+ail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">jakubszczudlo40@gm=
+ail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; v3:<br>
+&gt;=C2=A0 - Correct patch file name to be the same as patch title<br>
+&gt; v2:<br>
+&gt;=C2=A0 - Added new patch to fix building error with &#39;-O2&#39; in sy=
+sroot path for libgcrypt 1.10.4, patch<br>
+&gt;=C2=A0 =C2=A0 was taken from wrynose and backported.<br>
+<br>
+Hi Jakub,<br>
+<br>
+Thanks for your patch, but please remember to add the [scarthgap] prefix<br=
+>
+in the subject when targeting stable branches.<br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer noreferrer noreferrer" ta=
+rget=3D"_blank">https://bootlin.com</a><br>
+<br>
+</blockquote></div>
+<br>sure, this was a mistake, I also send patch with corrected prefixes her=
+e:<div dir=3D"auto"><br><div dir=3D"auto"><a href=3D"https://lists.openembe=
+dded.org/g/openembedded-core/message/240364?p=3D%2C%2C%2C20%2C0%2C0%2C0%3A%=
+3Arecentpostdate%2Fsticky%2C%2Clibgcrypt%2C20%2C2%2C0%2C120153110">https://=
+lists.openembedded.org/g/openembedded-core/message/240364?p=3D%2C%2C%2C20%2=
+C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky%2C%2Clibgcrypt%2C20%2C2%2C0%2C12015=
+3110</a></div><div dir=3D"auto"><br></div><div dir=3D"auto">Best regards,</=
+div><div dir=3D"auto">Jakub Szczudlo</div></div></div>
+
+--0000000000004595da06561637f9--
 
