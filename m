@@ -1,112 +1,157 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE3B9C43458
-	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 11:44:55 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6575.1783511089062735938
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8023C43458
+	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 11:51:15 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.58])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6421.1783511469073216824
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2026 04:44:49 -0700
+ Wed, 08 Jul 2026 04:51:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=f4PRn/Qy;
- spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ee88fce476so5661736d6.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 04:44:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783511088; cv=none;
-        d=google.com; s=arc-20260327;
-        b=JHCuzPiUPRRlkLtCamx+q5j+QnVJXx1fQLb7h13cWCDM9ay3AH3MJyLNcWPC25nQnp
-         SXFh9I+zQlBUeYgd3oDtS8L8fYMKBLjgzN6a85FIKOgkhMpKUQLJLHEE2swoiHOsDQ2U
-         ZK4SZdYBpkBH0Rrua2d+74+rK2/ybCjXSEtoRqJ5/w/JjqBc5AKwP//54Gns4AHLwsjF
-         L2RpTiUOE43onwJueujyD7HaNsaO+O4mRM3L2gBJvYVKt9RGqs+icbcNt0R7RhNfipTd
-         lA0cYP6hvHGr6ygWELpzYhTKgWZwt9iyrZTuWnLtIhjC9U8+nwElOPBYDGWxV/EHmPXm
-         ojjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AnM7KrB73YaJH9n6Zj0TQnrntb9LY6S+LTXPTTykIz4=;
-        fh=R/gOVhL9AklIGeyFPdeYJD/o5ogGCVFv1ocyTGipaQ4=;
-        b=TXS5TAa38X0puLqzwWjxxWgT/aBRqJSpoOoZFngAcmIfPfr90kCQJr6y66Ux8rnGNx
-         OK2Y2hvnP/YVNlq3bagBhFdx+wnhqb5RZglfjPariZtiQ2u4hdTMzRamPcF7c18W53p9
-         nHMhik0RqdRcuOhPTYSkUGqZm/N29OPFlCejmhvbMqMme+iKpiSgxpduMGibV/BwQZLM
-         tVs3Pzlp6Gzx9GnJRSm4hIeJ1y5PJy1ZLI344XVrXxMmFUyQKjxwMZqXcgG/lgjQ60xv
-         BUt7u5sokE/m/GAtQ/057xYoSnCuO+BG8brpQsAaixpOcREEZ1eN5fsRJYfX++8xopH8
-         O7OQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783511088; x=1784115888; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AnM7KrB73YaJH9n6Zj0TQnrntb9LY6S+LTXPTTykIz4=;
-        b=f4PRn/Qy+hMVeYZJarJmeihUzSYhgi4BAgU/9ldRN6HNAJ7NYY7g14T03UnP2hDltL
-         8SI53xd+aVNRFOXe2d2iXBGPjytgsGNtBQvWwppsP/pgx4Cqzj7MoICC+Yz9drF/ezNr
-         QLri5l2V8sAerStgHriTIAoN/2UuRHx+t0cx/poYFlZVOFdSszRC1WATtS1rH/zq0oCu
-         kuRYbVZ3ZeXG2O7Y2OHt54YfM8N1ECbBNbjRNWrwKwiNCfdeXBosTyOpJnqn1efSZ0lR
-         9MxYtAfBUnNavvQ8yY4OBkNLlBICdVkLSILa8IMu01EwaJQn+K685Eyy9UJr0FEkIBPT
-         SuXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783511088; x=1784115888;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AnM7KrB73YaJH9n6Zj0TQnrntb9LY6S+LTXPTTykIz4=;
-        b=NIcPeqK0oFsJif5YUWpYgleFjYEzPEZRqyIJqFrASCFXyBhJmrhYKQi4kluz/c7Ilh
-         jc4JcXg0R4UOF8MZpQ/TuarrAOv0k+k34cubYPOtBBPnV8yL36qBK0lf69VbKOf41lpq
-         JO8oaCRgeT2jHJJc6bckKTPQFUbe2lTb0v5a+S07FmfecgIhiuvhPnO+PB+EAwNIOBzq
-         rbbIpQTgVjs2cV2kKDyjVNzVW155oysEVKz7sqAmi6ElNs8vevgbiuVR+Mr0YlbfUhv4
-         95MQmgbcHfPmyiKLevx6lQz28sQ5AGHipL4/vgfZBt2ArTobg65r5zDv5Y0MiFq4FZNP
-         kxlg==
-X-Forwarded-Encrypted: i=1; AHgh+RoItru6IrpAZG6LRN6ShSIC4mtNPDx98CAa0drn5HnAOPgwKrS/EBZw3xYa5DhrETiNJs+Qg4RzIc145umbbM24CQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxfJkvWewXNtRlOkUWhQa4xs9SBsbbGSNWVaHpz2go1nIXskme9
-	t/jEb4ULqeSX+eQkS/UCQBf5GP7nWSb/JWoEopk0KQPN0vcFpmTt3dNaUv84+Aayn5D+dL1mGC6
-	iSM13cApBI02zbZlTzxdGIlE6XA7PcCE=
-X-Gm-Gg: AfdE7cmYnL4mcGDc0a/hHNRGNyFILs009kIAmVYovz6yYtqRN4I39y8Vxja8iTk55YA
-	Lrlq7i70qyqJHZ2XiOJdQSrcghE7hM3VHCRhRNvU2YrJsNVBzQxnOEJLT34vU2EvwDcTvRaYs/e
-	rkWKsW2+KB4b1ay5ibH+nTBqdo04LZ87A+hlpEtiMj608b3LV+qWIf/yIVj+57X+6+6OfvKood6
-	IMYHXs02Xkzt5jxzJPY8TMaMU7m6/Ffv0L3W6NadXgiye44pUydcKeclACMS2wHqnz9HHd2EFe9
-	4rerXjIsMven6k1dcJ65VoPt78UAy/Y=
-X-Received: by 2002:a05:6214:5d81:b0:8fd:6e22:c7ea with SMTP id
- 6a1803df08f44-8fec3908a88mr18362306d6.59.1783511087983; Wed, 08 Jul 2026
- 04:44:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260708092252.1211669-1-HimaniRamesh.Barde@windriver.com>
- <20260708092252.1211669-3-HimaniRamesh.Barde@windriver.com>
- <DJT3J5GX38YG.338OF4LLBVU92@bootlin.com> <CH3PR11MB8774FCDCE3E2497D8793893B8FFF2@CH3PR11MB8774.namprd11.prod.outlook.com>
-In-Reply-To: <CH3PR11MB8774FCDCE3E2497D8793893B8FFF2@CH3PR11MB8774.namprd11.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 8 Jul 2026 13:44:36 +0200
-X-Gm-Features: AVVi8CcWsyGjDNHJIjNSyB3pvAuFekG_P-9ZbC33sU30GFqpd7nCOy_EFHr8N_A
-Message-ID: <CANNYZj-3-Tj5ZRAgenGOyGXm1FPo269_MX0mrjrZqKTReg6MXQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] python3-setuptools-scm: upgrade 10.0.5 -> 10.1.2
-To: HimaniRamesh.Barde@windriver.com
-Cc: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"tgamblin@baylibre.com" <tgamblin@baylibre.com>, "MacLeod, Randy" <Randy.MacLeod@windriver.com>, 
-	"Komati, Shiva" <Shiva.Komati@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=A9jpllvk;
+ spf=pass (domain: est.tech, ip: 52.101.66.58, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cHYLt4q+9nFZkT5SNu4DsaQwoIT/jmmbsrDAIQPMbFU49y7eayHcRdbNx6Yx6jJuua1oQ8i2TjXJH41SYN3MUvNF/soEPa5DCh5ZDXTbc8S6WfGUxIyFfLrtwuCxHSQ4p9X+KOEucGcR8tQ3n9ATbZzf1ER0JrrCYCFbpnjc38Maxh/vzvjWla35KoGiOkOsTaCvOFJgY6rkeR6hw6SIgXQNIPohlkK5BrBaluhDpzkzhnhg7d9/6SxtIriIycsiju3mmcT52SXV5/fpvkWxsIPZfFH9wiIQFdjsHqjvzdejFCjQSFtxpgVlrwOC6KT1+Dise6sKJZrUq96432MmZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8DGnWPHxx+g7env2yvcweeIE4T4IPY10j808MQWa4JQ=;
+ b=JrRFqcVaBPJCFWHxi6GXS71LmA+6OhlUaoO44Yvz7E4JVhbDFh/8lCYSKAGGPFgfcxSFEFvdBs1V8N9AOG1Rw3uxnN9lbEaAXVsfZg4LwlhTr2j6iQhAs3bhtCLo3ZwUcxypNfECUShxqzQyEdyvTZAY1XGk6PhfGr/azpc3fjai55gGvZs/uXSAzOh6U1JE7cJ8j+fAV+bpDPLh8tGrJL9sozoGPLheyTLvjTXPewCZHOsLMiTe8jHUkNNa7VwTdE8bp4r6LYY4//BG1O6/nw+uI9bnsVnT/LujXvgGNDSfbHk1uRWTQqLYc10MCypH/7TUzx2Ku7FC2vCTwkD/rw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8DGnWPHxx+g7env2yvcweeIE4T4IPY10j808MQWa4JQ=;
+ b=A9jpllvkPr/F4gjLi/q7OyhqfHZS4dkDR/DOgyvOF2sKImaaUD9WpoMx4F4cJ1RtxP/z/svjTeWBmzO2jVi5umVqU8fOrmpvH9n7p6eNfXh2Lbr71ZGBcwyz9pOElPL1cp48tSsJJ+84INn3f69lVLcNXDKeCGuIvQP/0vcVyWmeDyDAt52YMd8MqAoTfSHXrTlEYBpOOiZzAOtTWPDKHEiv6kQsiOuAGalTVHIXC6AbMq1JjW0Mzn2H2qdYcSRmBgkWQaiaiap1kMYQnLkwAy5jvvf70L0k4gwbPDfSEUY+kBYaHH1OMSVJU5kNCHIri/5MsLuMdVSVJj3R8WRpcg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by VI0P189MB3473.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2d2::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 8 Jul 2026
+ 11:51:01 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85%8]) with mapi id 15.21.0181.012; Wed, 8 Jul 2026
+ 11:51:01 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Subject: [scarthgap][PATCH] glibc-testsuite: inherit nospdx to fix do_create_spdx failure
+Date: Wed,  8 Jul 2026 13:50:52 +0200
+Message-ID: <20260708115052.71740-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DU7P191CA0008.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:54e::12) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|VI0P189MB3473:EE_
+X-MS-Office365-Filtering-Correlation-Id: b8582b79-693d-475a-cec1-08dedce72e91
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|6133799003|11063799006|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	qBc5aRp3H2UuRDJaGHZeareERmBINt19YtJFfUhhcLsVth29DiyDpWD7yMrESNGVF0I+NpRAM/qUuNz1iKqxxCqpP1LpT75e8jEkXn360DVOSVEa1c03mSqfYNRhMPrwvUvDNty7rKQfnSSqZmkhjDioI0L+FAIijVIGBJGqCAFjB0iT43/Zd27+6aPiVsPyDgH/hINnxgRWtrTLLVFlCCpo5eiRGalVetlXbEOAHLk1WQf+rfApKiDyNMXHKZ6c8vHSj4vMEncLDZyEwmCypEP0kESeOffsWB/7rRWbNXgub61w7NJXHqkYapFdhjV2BHTvpwUVIvKn2eYFerjUi+eMo9HjBo257qOBpzwAFp/vbM5jeaccS/u+Z5EpI9M9q3NY4lyXCWKKpMlxtgo555RmvJKwyPE59w+Zf0DBPP7xt28UlMoDwTfXPCCjnva1qxM8nCKff+i1LNcmq/NtZnJLZj8X9F6IpGB7LPOsqpobCS8dtNlDTNSP7i3XxdSE5ojPZnN1vbNW6uFXpNYv3OcwfwUcKSlxgnIbCiTsp+1S0JlqKOaOUa7mjDMHzgcOOWALK899/PeYNBfC804edRf2zcgVbu/fYD101rxyYPYKv1ZM3+w1wBm8FF1WEkERaWutR/W1wAFpJlH3HRIA7AUeuEfWqjTZ4+gKwQV0++4=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(6133799003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?2Drv6LYgzbbsKxzhwlC98a6HJJoj5k3/nQHjO1pjtEoEnkaZVUjwezgCbvlu?=
+ =?us-ascii?Q?V1NU69YPaRDd3VyLu4Jdl5R6mK+isuyhvwyjwh75H8qxLRWMK49cX6A8SmkG?=
+ =?us-ascii?Q?oY9hmk4DAAWzWPaGLoM3RaQeTy3h6vuw3no5M1t5DrzQHk7nhIwNBushLm6N?=
+ =?us-ascii?Q?w71RHdLYDhYGh8YtFI1FKR7DPUiYCRB/Og0/GAv2rT17gWxLJPkH9Us9v00T?=
+ =?us-ascii?Q?YwIDwZ8ewsDkOcFlug4WbGLlwE3p0Hu5V5gRCG68yLG2kWrd3o/mOOzZNdte?=
+ =?us-ascii?Q?1Rfk+IDtUO4vwpR21ZzY7CvnFkV7SWAkEL2gMQ1R8UrzCUvNhi6mwMIqjbp4?=
+ =?us-ascii?Q?csDW5W64BsdPxmHQFBRkoWLFgaZWIiB4nZQOA2FjEZveyTmXhj5vvNkSGDQQ?=
+ =?us-ascii?Q?Xz9tnlU+YkZe4MlolXi8dYcQxxliebVJQi6+k8f+m87KSmNqDWO6ChYfEAc1?=
+ =?us-ascii?Q?oITh9R4BJeViPqnnp9/m7JD9na7wqRiDeiipr4W7RZ0pDpxntiZ+U0p+jKlh?=
+ =?us-ascii?Q?a1m30nSoOmk5QhHXM7Hp8p1KAdwGj3Gn/6wTFaOwiHNGT8C5MYNdepoR2MPW?=
+ =?us-ascii?Q?By0lKE9/AKMAhGpMlDQdB869xm/E0dLmP7TLONV1m6gcOgC/he80jMRV1UQT?=
+ =?us-ascii?Q?iKaKxgIJPAuvSfLS1897JX4Lv6FkV537AHiZhnXvX7ueX73NCD/uAYRWge6N?=
+ =?us-ascii?Q?028ObKENKnWQkPsCZW94ttveXcmL2i56OQ8K9j80r6Yf2neRTsNm3HgnDatW?=
+ =?us-ascii?Q?CLUy3nh8juNSWCJmYOtFkDuDNdTOgSPn6p7e3GyE4I8qm7grnv5EfdXapFb7?=
+ =?us-ascii?Q?JFHi8wjn6vdIexPptTfiiogMxx8KmdD3+RT3aEGOfVVVGCtkagv+2aCe7ViC?=
+ =?us-ascii?Q?PxRiqg2jdjQCS3uJCdeC/oTWRlXKqane0667f3Av9GnbzOJM4YcSXyabEwPT?=
+ =?us-ascii?Q?4MRp0kdxb+tQG/fnuOltkvau5yCdkfIPAuQ8B3JBbaPgC9CrA6IX91uQbP9S?=
+ =?us-ascii?Q?FMRqaWd0ANrAcDj9LaBGK5yI5m0Z4fSmwpf9zShyShHLgaxpzOxUGcGvTzrz?=
+ =?us-ascii?Q?IEMvONWogHJanlpcKCVLYykzbRaiqYrxW3A4s55YUKqacOIu4yuSgtUWpSTy?=
+ =?us-ascii?Q?bfv2tKmOkvHIhx6G3+kprxieBCG1ZC4NbXCKkgj72zR/3SfzhgrT92DJ7jwS?=
+ =?us-ascii?Q?tQRnM6MRxdNfiCaF7cOq4yWa7o54YLi9f0PB8RygPvOvcYWAMdcjVF02s1Z/?=
+ =?us-ascii?Q?KXMDssMb1KxqImXmnjR1I7BD1iWbtsCwNoMq2COXfYU5kN3/YLyrLT/aCKh0?=
+ =?us-ascii?Q?ysEPlDHBPlzfsMawq9kmSDwFVihH27iRqO0joHxniabmL6DjrT1dziN/bU0Y?=
+ =?us-ascii?Q?cyP8LTte7bpQtqvzVMGJ0PcQpLOdFgf2xlozvNgLdvXvGz/hQben/dwDxgCK?=
+ =?us-ascii?Q?vxtk9hlPYZDBnQ6re4zzf+Mpl+r1v6aZXP1cPit7NeJANMKSeOwB/56k/dRv?=
+ =?us-ascii?Q?8m9gh5ofp4Qc81DwvDfeMwtwXLWx1MGUL0wx5n3Q44Rz8YqpgHDbil62f0SN?=
+ =?us-ascii?Q?2Z5urq6N0M9ee13SJ3yQqu4Cv/daQGMSTRU1/sVyUWAZY6HiTaK4qcjZ3SOe?=
+ =?us-ascii?Q?rPx/0CLvnMK9byu4GWtMYvb3z6BnL6HYszzIIOV/TfH/psnIjnXlC07jRUL6?=
+ =?us-ascii?Q?UTdSedT6nT3xjXmuF635U8YYsgV93U9FkJIbNf5rGmHH6dRJ4vTK6B2zao4y?=
+ =?us-ascii?Q?Yigy97LHggv8sXPmI0OaYo3TsiL9nkU=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8582b79-693d-475a-cec1-08dedce72e91
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 11:51:01.1169
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rPMKjJ5y4OsgAlsNvP1sPnvGnFScIVCryQ02G5ts8n7GvSLJ0OTIjLMAehnJftB8e4VGtJ7i8YZNxuAdK/z3iLDHXjbs0/TmFcseZMt7w/Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3473
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 11:44:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240475
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 11:51:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240476
 
-On Wed, 8 Jul 2026 at 13:40, Barde, Himani Ramesh via
-lists.openembedded.org
-<HimaniRamesh.Barde=3Dwindriver.com@lists.openembedded.org> wrote:
-> Thanks for the pointer. I'll drop patch 2/2 since Alex's upgrade to 10.2.=
-0 supersedes it.
->
-> However, patch 1/2 (exporting SETUPTOOLS_SCM_PRETEND_VERSION) is still re=
-quired - setuptools-scm 10.2.0 will fail at do_compile the same way 10.1.2 =
-did, since it still probes SCM metadata via vcs-versioning when built from =
-PyPI tarballs without a .git directory. Alex's upgrade will need this fix a=
-s a prerequisite.
+The glibc-testsuite recipe fails during do_create_spdx with:
 
-I don't think it will. I tested this update, and it does not fail.
-What is the error that you are seeing?
+  ERROR: glibc-testsuite-2.39+git-r1 do_create_spdx: Recipe glibc-testsuite
+  is trying to create package sln which was already written by recipe glibc=
+.
+  This will cause corruption, please resolve this and only provide the
+  package from one recipe or the other or only build one of the recipes.
 
-Alex
+This happens because glibc-testsuite includes glibc_2.39.bb via 'require'
+to reuse its source and build configuration for running 'make check'. As a
+result, it inherits all of glibc's PACKAGES definitions (including sln).
+While the recipe already inherits 'nopackages' to suppress packaging, the
+nopackages class does not disable SPDX tasks. The do_create_spdx task then
+attempts to generate SPDX data for packages like 'sln', conflicting with
+the real glibc recipe that owns that package.
+
+This issue was exposed by the SPDX 3.0 backport (commit 9c9b954504,
+Nov 2025) which introduced stricter package-level SPDX generation.
+
+Fix this by adding 'inherit nospdx'. glibc-testsuite does not run on
+target or factor into the build supply chain, since its purpose is to
+run tests in QEMU at build time.
+
+(cherry picked from commit 32801348ca231978498612f3ebee121ca27459c1)
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ meta/recipes-core/glibc/glibc-testsuite_2.39.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.39.bb b/meta/recipes=
+-core/glibc/glibc-testsuite_2.39.bb
+index 2e076f4b0f..e0e3e8ba84 100644
+--- a/meta/recipes-core/glibc/glibc-testsuite_2.39.bb
++++ b/meta/recipes-core/glibc/glibc-testsuite_2.39.bb
+@@ -31,6 +31,7 @@ do_check:append () {
+ }
+=20
+ inherit nopackages
++inherit nospdx
+ deltask do_stash_locale
+ deltask do_install
+ deltask do_populate_sysroot
+--=20
+2.34.1
+
 
