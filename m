@@ -1,379 +1,794 @@
-Return-Path: <PritamSrichandan.Sahoo@windriver.com>
+Return-Path: <amaury.couderc@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D2A8C43458
-	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 13:01:21 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8657.1783602071924370312
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F375CC43458
+	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 14:07:17 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.5])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10222.1783606028317320295
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2026 06:01:12 -0700
+ Thu, 09 Jul 2026 07:07:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=LvWaMn4i;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=16502cbfe2=pritamsrichandan.sahoo@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 669BPT3v2241599
-	for <openembedded-core@lists.openembedded.org>; Thu, 9 Jul 2026 13:01:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=zZgn6OoQkWK/NkKK2r706q
-	COIvLrxJr898lkESBEnB4=; b=LvWaMn4imRvRXvelpkj1k/AwkvT9QpEMfLTYef
-	ONWPsHC9u/Ga6/B/+TjdosVkP4AlssHJb0tEddZDD8b9317dz1dwoshxJXP/hLUa
-	E39kglj8SDfOF9S1TJsE+jitB0PAtGYHHlniNF/hhyOe6nWLsRf16BUkKCkPmAxh
-	H/CQMqkmmyZfWRyvJsBsI7b/OEMX3K44sItoyiNCHXA5Mj0YBL7j6TQtBOVkwlx0
-	AcpaOYoTO+7F1mcfr6kS8RjsDVawdCmrbBRBWU5HBuU+4LW0s27WV9oI/oItuj++
-	DqvAlAtUlNcfYqRfz2shrvTeKAKQ0PXGvBSFYfz5aziYk/5A==
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013069.outbound.protection.outlook.com [40.93.201.69])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fa1aq8x31-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 09 Jul 2026 13:01:09 +0000 (GMT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=RbZyWCnx;
+ spf=pass (domain: est.tech, ip: 40.107.162.5, mailfrom: amaury.couderc@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VemxF35pIfRg4VD/6alPdYWbuijODTht+OYx/huI/Z52qUQa6UPjZPMr4sMWaUilAwVsPpPRN0UKE4jvjU9BNiMGbunwI4hI1+Yxu0tse8JOK9NIqsKfTdsBBroaE90roz8hJ7JmFNCv/LSZ//l0YRDEY87BvPFLLpXRjFW4sRUO4uPnn1ULg8c++/AMQJQXHiSiDLw5AEX/oMe9afq2zkO5wOC0Hqyz4w16/64CI5oKNw8X1jMcdXepGPXqLaFerAwcSXVMZmEbDW8ZQkwlHcrgkSiTUIE/h+ocZHAaeP2Ac9h0VVSWXXm9JPwmfqsT0xPVqhZDuHI9Ae8OG6/U5A==
+ b=xcz5DubM+4ZBZgCx96KA0758o/Hf1Yv4Td+uvO4WSM8BSe1CJ9JBymiYRSd/GuNkgzbowNI0lQNFFp+grLPQxx4nzXl2PjjUQGX1g6Q7YaIs3eqLh6wVAtcqW1t3GtOSo6JdFTE9wCONGsGFuKKEli2b01IP9aWjUUxNVCOo/lCcQbtyABzLo47V+bQSCMmAAKs1EiTvb5hdqVfgPgRIJT2W7d0hTAvMvQfifPfdP3MeF72IT1tKDBT+nLtMGZNOt9KNriET/WB20UNna8LW+/3kf7HeRvA4p9Vqlte72Q7DNE13GgelEN5JubF5Pe6ZzykFZv8qCqzL5JkdxpEc+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zZgn6OoQkWK/NkKK2r706qCOIvLrxJr898lkESBEnB4=;
- b=prGRkE9pr9c2Jiz9v3p8dez7MhaaSoOODvvQbRlO0DSfelO6smrH2wD6+ZblPkmwR3Q75GNTvE9woHX/p5GY4h9sNWDmTg89oRLbsCJ0XNO95IUlLYPX8zc3lXhnU2+2ymELoKOf/0nY+wfuL5j4dtTaTcGoZ+jy68lwasOiUAYw+K2lLK/qXmX3luLZENVq/MjkPNuprDBXk8CHWxBokBEmUWlTToF1vyP5hfpPA9rtgM7/jfvrVYTX0qNGT1u+8jvtsR8sfGCqpJDE/s83K4Ov8/mykCSnqRNUh+hhzEsezmgCynGs+3NqwTjf47EaB6/GDt8zT2loweDjgwk7Rg==
+ bh=rBIo/nWDtdNU2teVkFOMhJEq3VkT3o9V9jurwwI1Oas=;
+ b=xVKvIR625THgKILVPdHfUqX0jG0wslfljs5zsEyKi7QWvnxGs8QPmmT1ZeCfpXjqJkiMaLTC0+otGhC+JxqxwuB0BYDr4QYASTN4cppaB8j4BgdWqFz2PzhT09y2RSirwoMP/02Ol0AOLBtY/5QXv1QSe25vfxuGDraG/vLKFXu5J8m7Pl3o777Q9rIrtPCkY7nesyNZDNmiE0qOInQ3gAohu9x48muCtzSXIb46C/Jo4N+LaGnqgQZl7pv76jqo+yoKQ2q29GzrQwycrmaxLmaz+4ilJDQ1SihIf+p1ZnPD+s2oCt/jQMS3v/SaWdITTqEXtSwcd1GDjmQWSXohzA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB7372.namprd11.prod.outlook.com (2603:10b6:610:145::15)
- by IA3PR11MB9373.namprd11.prod.outlook.com (2603:10b6:208:57f::8) with
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rBIo/nWDtdNU2teVkFOMhJEq3VkT3o9V9jurwwI1Oas=;
+ b=RbZyWCnxFiN11CgpiAKl22CXPKX+6M7ajy0JsFMnnSqXwjYfFM3rIdd4Ss0NrKlB7PCqQJZT9+rE/BN5O6IcE3Bs9s17dCckA2bpsbwKpa5Hugptj0v0xdoHmZ6U9zk5B9sTIQTbM2kw316KITAf18BJY6XIIpWS2WZEx79CPrtcHL0UjsDpWmluznwmudNj1flF5vn6SXst/ICXD5WyBzD2Eu2LRlFZGm2Ot00Zvxn02ErtBJbMNSf2//xDXj16tBf57uNPw2Y7VSvigcISOzcMW4VYPC+Oi3TTxo04V2uM7S3MP0ovmAv+VgFVUkX/quBQap0D46XBJEov410RuQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6ad::11)
+ by PR3P189MB0923.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4f::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.16; Thu, 9 Jul
- 2026 13:01:02 +0000
-Received: from CH3PR11MB7372.namprd11.prod.outlook.com
- ([fe80::172e:2e0:9ec1:b61e]) by CH3PR11MB7372.namprd11.prod.outlook.com
- ([fe80::172e:2e0:9ec1:b61e%7]) with mapi id 15.21.0181.014; Thu, 9 Jul 2026
- 13:01:02 +0000
-From: "Sahoo, Pritam Srichandan" <PritamSrichandan.Sahoo@windriver.com>
-To: Yoann Congal <yoann.congal@smile.fr>,
-        "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "MacLeod, Randy" <Randy.MacLeod@windriver.com>,
-        "Term Zhao, Yi"
-	<Yi.Zhao@windriver.com>,
-        "Komati, Shiva" <Shiva.Komati@windriver.com>,
-        "Term
- Chen, Qi" <Qi.Chen@windriver.com>,
-        "Chen, Libo (CN)"
-	<Libo.Chen.CN@windriver.com>,
-        "Term Wang, Jinfeng (CN)"
-	<Jinfeng.Wang.CN@windriver.com>,
-        "Masih, Shailesh"
-	<Shailesh.Masih@windriver.com>,
-        "Holmberg, Tomas"
-	<Tomas.Holmberg@windriver.com>,
-        "Term Yan, Haixiao (CN)"
-	<Haixiao.Yan.CN@windriver.com>
-Subject: Re: [wrynose][PATCH v2 0/2] gnutls: fix CVE-2026-33846
-Thread-Topic: [wrynose][PATCH v2 0/2] gnutls: fix CVE-2026-33846
-Thread-Index: AQHdD2QsuvOR2/Kx9Eu9xaDYAMYenbZk3SgAgABJ4o8=
-Date: Thu, 9 Jul 2026 13:01:02 +0000
-Message-ID: 
- <CH3PR11MB7372DA5EE39BC4F2383F80439BFE2@CH3PR11MB7372.namprd11.prod.outlook.com>
-References: <20260709053106.1630373-1-PritamSrichandan.Sahoo@windriver.com>
- <DJTWIYN2I01L.2JFKT13QMGQS6@smile.fr>
-In-Reply-To: <DJTWIYN2I01L.2JFKT13QMGQS6@smile.fr>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Enabled=True;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SiteId=8ddb2873-a1ad-4a18-ae4e-4644631433be;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SetDate=2026-07-09T13:02:44.811Z;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Name=INTERNAL;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ContentBits=1;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Method=Standard;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH3PR11MB7372:EE_|IA3PR11MB9373:EE_
-x-ms-office365-filtering-correlation-id: f5b46e67-642b-4afd-803d-08deddba2128
-x-ld-processed: 8ddb2873-a1ad-4a18-ae4e-4644631433be,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|10070799003|1800799024|23010399003|376014|38070700021|22082099003|18002099003|56012099006|4143699003|8096899003|11063799006|13003099007;
-x-microsoft-antispam-message-info: 
- pEdeBDpVv0fCgR2gMqbQETvM/kxgSt08/CjZeSA43hCmFwc78WtXbGnbcl3f3BT3Enr7zrqgeAorGY3gaXQA4Nhs5+NhkenMcuaAboErx+LTaV5oO5MTKQTu1oQ7EWb/XP3+b3I443yxw8C6J1pABDXIFf27CVLhywOVyFl4pGux16/WfcjizwoB1LiplHK8LzFPzmIX44dvCSbEvfboj2q3bg2+0ExvReHpImHinHkT8oVPZGtSr8g6cl/Dr/EzIGSRpXSN7C0Gr5qyFJANx1+aIUWLxwOTbmZFFbfWJFZX1V4OSm8Q13QJtrLLOUU6Zpw8TphCKsT9zwk8A/FlsNnmDJxWfMIb2wWi7v0UyDZKZoOYS+0o1rrbeLKLIVE9Swnh49AS02TAOJtQDy1Lyyz+m9ypkzqydeT9+fIvBGXD4gwQ29k9QqFFfg9ZVKV4qTnV+Lb77ih73RQYLdFJ3FOp+pDt35IeQOalzLhlRs4nCGRD4kqPSoyy4rYTNTARlLNl28zk4ksIV3kknnWDZjkIBQEpEapZvzGHOhkOGzTqL5yLTiKlGw8mXt9NJrHTOwkpFXAVG6EAe8kDBqpaRoulaKWsDc3GeD3j5o4t7A1ATxXD/BvdewOOjVJEoVZ3nhXEEriT7Fs2HErti30hH4HbATVKBjZNJ205RYgzaG0=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB7372.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(23010399003)(376014)(38070700021)(22082099003)(18002099003)(56012099006)(4143699003)(8096899003)(11063799006)(13003099007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?Dpqx6aKelOwvEKmpttKf7Rz0tc/uQzRbjyIV0D6+q8heAxmOrLAEblHaHXxZ?=
- =?us-ascii?Q?RJMSyVQilsjzovyltml7dO298S6F7Ua9ay8Rzzw1XsyQba5kP3bJa/7EDCkr?=
- =?us-ascii?Q?XJV9LY+idk4OF/0Z7pxw9YOjF/cWwMivmZS7plJeu8cd5dN0PsnDtUCY2gIU?=
- =?us-ascii?Q?Ly9BMebZ8spDRei3OB5vgkc2PtS5eCDMXyS6wXFWw3E2OwDTYy1gmFKPs2Iw?=
- =?us-ascii?Q?FZdiZV8Cf0dzXJLWTcrV+PXx1CEMXPADzqByoVZfTkhhqiLjbSElgUcAxDMl?=
- =?us-ascii?Q?P4Ju1A+4iCFDOIpleE7SMS+cqh9/5jBBmwcpHKEHnKL71kRCWYyT4xlS4Yth?=
- =?us-ascii?Q?2EaskHFWt7jGWWkjrI22I6VpkbpoQdr6GYWG74FgmBQ50JZIkgL5Su6/A2H5?=
- =?us-ascii?Q?Tuqnmy+TTZcy+Rmmkzf0enavoSuICsplrpv8qkIzUphuNtXBbNpecA/nKJBR?=
- =?us-ascii?Q?OvwJydoiAIR3x0GkahJMunRmCCGKX5TaVqqMwIgfwvh+5MVbgxja51l4xGIL?=
- =?us-ascii?Q?+DBqhQ9jSoWzJLPN3jUjC0boVNpAdJWJ98onCuYo2yfp3KFYNWBs+pIvAb14?=
- =?us-ascii?Q?ORUJNCm75CTnKU254+oPEdFf7tUzJ1CdM7HHlVOLS7fVSrLdgk55ilciMuD5?=
- =?us-ascii?Q?0zpM62ENAuxhr7rLDrFizoXTZ6Fk4kjLvgzoxv2+/JIEZHmD7ewSC0tRvIwd?=
- =?us-ascii?Q?oC0IlJ5L6rT1r5/XUswlKhS838RzNidguoH0cbExBBTMQ83yfQxFXEESRsje?=
- =?us-ascii?Q?rQyDQxoudiuzu92MIztl8eFPt5XtHztlpiRM8E2lZc5GQdSrB3PlBtZLUi6o?=
- =?us-ascii?Q?47TPS/N1W1O6ESCvv9FROnqSfTDs/1aFprfAL63h+dApcY/rMisKRl7gh/Xh?=
- =?us-ascii?Q?taggENSuHa5KI3AjAygulBjel8WEMZ5MBEuQMTZbqZVyzJ8u5q6qKsgkoiJO?=
- =?us-ascii?Q?/zwQYxPm4ijrOTkRIiG+3+3PJsr35nmnTfhZ9IuqL31lhmPJPJoZK9tnCThp?=
- =?us-ascii?Q?wte16ts6fMEUm5vRISczD7c201OLRdkQGFKPP59AIBkYu9fyKKq7cGEg87+O?=
- =?us-ascii?Q?ZHyr8hfKgX9yfipmpjK0bUS5Ljt50Rvbh/ayaGl79n4XGwWCDgI+xvK7Yebc?=
- =?us-ascii?Q?Xfe3cwgKjZZwp/0mvyj0AtiEEf7XHJCBm7/ZAOaAzmIfbfs/L8Jueuw9Jxbu?=
- =?us-ascii?Q?4w/CAmwjhKWC9dzyyx4IBzzPsNw8NDgOvqHpqkU8vzSVy1cTpi46T6COHbbl?=
- =?us-ascii?Q?aTB3bzoN7tTMDGHYyEc+zmJemj+Or5cKcK57eOK8STcJsSIPjdJvSe27vxuy?=
- =?us-ascii?Q?VDSl/xESQl1H1qtCOtiLiTzAvvZXpbQgb3taefpoS3UUEvEhNWsGRP7lYohd?=
- =?us-ascii?Q?2IWAWqZfc+ACGmsplV9lUXfOXuIeq86Pp0WynjfBE4nEWVCxIhw6fgfN6/+D?=
- =?us-ascii?Q?V/yYeThSNoC6sA4f5vBtAbJyiWy25prDhquuNmQJc4YVx3QKKNCtfMJkg8Uw?=
- =?us-ascii?Q?WTl06SYheAo0ox9pwzFHX75Nb320kNPUqDBTaIGNJseceHcLXK83kSm1K5hD?=
- =?us-ascii?Q?cC+eDktjGu7Vifl06HTCTHVDtzwQYV3Kt0o3mEP3EpY9k0tG34EaQqXRksP0?=
- =?us-ascii?Q?++NsfWpZUL31kB4RoaMDnmeVU5dBl40BlwhORB6ohTDOG7lNLX4uy4aU0wAJ?=
- =?us-ascii?Q?AoDwXQybfIbDnQ11mE+ajbf/PgRCez1dh70fzeQPXzund0OFTeckx3zgwAO6?=
- =?us-ascii?Q?1eMSzkXtVWNuCJJgUgZm6w0qHWbA3gvtyMBIUJb50O3aG8upEqTEdeqLs8cI?=
-x-ms-exchange-antispam-messagedata-1: V6HyWZFVlB0FhM1wE8FFx4BKU1Thc3OKumY=
-Content-Type: multipart/alternative;
-	boundary="_000_CH3PR11MB7372DA5EE39BC4F2383F80439BFE2CH3PR11MB7372namp_"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Thu, 9 Jul
+ 2026 14:07:03 +0000
+Received: from AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ ([fe80::1afd:f059:542:3d95]) by AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ ([fe80::1afd:f059:542:3d95%4]) with mapi id 15.21.0181.008; Thu, 9 Jul 2026
+ 14:07:03 +0000
+From: amaury.couderc@est.tech
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 1/2] [wrynose] expat: fix CVE-2026-41080
+Date: Thu,  9 Jul 2026 16:06:35 +0200
+Message-ID: <20260709140651.48230-1-amaury.couderc@est.tech>
+X-Mailer: git-send-email 2.43.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: DU2PR04CA0261.eurprd04.prod.outlook.com
+ (2603:10a6:10:28e::26) To AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6ad::11)
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
-	SW9z7UVrCSw2ZGttysAe9NKRO2dzvssaiY7/UEem+eMo+dtS7B/w8qY7ueiWBBwHJqPDA6TZg9BHedDqsgsQrBMcRw3ad7gh1TxIS2IyBtbgQ9TURE33qAWGDgcRXVD2mqRR6K0lkx33qCpwJR0aWdEKGiyvh316GZxPNqVViep0fFQAJb+/uFUtBqa5AjjfIBWImYOH6WFdUhfZi9hN7ulYbzebhn0Fi/yd8aS08ZX0IK32yCD9dOXIa+Sbc/fa2XKY2+Np2dvtCWRvYMXxsGz4ItAkEle6czZOVdS6cB5fiGT+VN37pd9uXP9RS4voYEto6ZF2Xjp9Ev9RsSawMQ==
-X-OriginatorOrg: windriver.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMBP189MB3196:EE_|PR3P189MB0923:EE_
+X-MS-Office365-Filtering-Correlation-Id: 293caf7e-2b36-431d-6f1c-08deddc35a5a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|13003099007|5023799004|18002099003|11063799006|6133799003|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	s36N813r7YVLBI/KB+w+tnHzhVvkd+I1JDeDXOW8vBL1MKLRicgqezGy4xOAiAQjUzkJZhQXnIpqnVeZSq4tFQQw1VbGH7L/H3Dnuna4M3eIacfDbM4GpXCc/FlNYxUpMAzLp90DdVxKXsi6Jo18Tg3+OdHivkNf35SKoPZQGKPVzSvLu3rvtqGW6g6oOoSgG7rOdUseD9W7nEpXYGdqn67ejLf+GISOL/I82CckKGGxS6TVxZAr5PLZabP2Qw0YgxzFiBqd/sPMSpUMhKdCzuxFSvXAPKLaYj+HBIj6Rjy48S0gg+loKRTwfkQPfGKjkSqE8BkwXkGPXayLgyfexmfr/uOMQU9JlixbhsEnrNa4Tw1JWuw8aRPplsi565lE+Rji5qOi9iGuYKF51h8FHn1cbMchzC+qKzlWyaUFTjQ4mSQ3JxgWmteoHn4tgiepaN2voxyQZGBBHUf6cznIlI9nJJSry6eBiowgbYgh388bQKVqjmi3nlYC3CrMMLzEND7+oesF1zEV34gvWkfBoznhd2i3Ngn1uo4Rl+HubrLZZGy8VDlyyXLS+799azI6xdJmO7JIARc/hezV7k99K5v2wOx6eCOZJFDJwPfcO49z5ZUWJdKCAPMJrWjcSetXT+r0Jrcu+9HnBOqNytB/7DfV0dkiJicvWpqNHgj3jGw=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AMBP189MB3196.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(13003099007)(5023799004)(18002099003)(11063799006)(6133799003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?pT1BQDppyu7StNIFM6COVBfG7jndfWXTuzvQH08qZ6mArAWQ0WJXr+8YkOVq?=
+ =?us-ascii?Q?SgwPSuSLonMNvEajc77t8rO1FcFwrzY1Auj1eEBHHGgX3TLzltSUeRWrnOX9?=
+ =?us-ascii?Q?JgP1iBncz6OHXdJQoZXpm8fKUnpRlmxuE1AbelZht6grTcLJd4O1vUpoTZ9I?=
+ =?us-ascii?Q?/p//VtCMT6SUybw10yAW7vIhHUSGKAPbw0qJgCd62t3SuLBgnXbwO0k26NY6?=
+ =?us-ascii?Q?VuidUN4pwIfo5fhGxyEDgaCuCLAMlIqUNYfvf3btUto5t9BuRr0FPYTKEWe0?=
+ =?us-ascii?Q?xh4ifU7Hjb909oBRcO2v54N0KV0evFjIb07tZNngq/3K+FRbx7F6o4aRbcEf?=
+ =?us-ascii?Q?L5ce/AGvfOp8hQh85Dm/FNnwDuUtSqybvs6RbzQ/0cNggOEJ1n3EoQK99lfG?=
+ =?us-ascii?Q?WP/G0jW1Me1siOrM6lXJopkfQ4H/wDDXGAayw42Ryr03It02Fi8Vsg0Oc2pE?=
+ =?us-ascii?Q?OF4uiWfoKIP2GXbXUCqCMxyQsuQiZwL0iVPxbVoaxEHJclP2a1rQf2mVFSOl?=
+ =?us-ascii?Q?/qu5rlodVYJekhNhUp2t0I/YHiB6Rpkj+o+aDRRS63lTcC08ZPo5q+i6+7X6?=
+ =?us-ascii?Q?YD6/Fmlkt42zK7X3f2Wt+X2Cwi1QONx28fH9/W0BWuAlTClNlV5HMCfHDvtC?=
+ =?us-ascii?Q?PB6HXG9Qnb+nw9tivNMbyBa468APn6nlMHSik0uStGj5hRIBaRklTyJF/YpM?=
+ =?us-ascii?Q?mY+8pXrUl4V68D+t6owPYdqXzdkdS5VXdNp+HxE6gZUGYf0ww/QL9KPA2lJm?=
+ =?us-ascii?Q?zrxODuMLomdhZ4ltFD+O0OrisMqCwBH6V3wrE8fRM6jyvKLf/+kYnaqrPoMt?=
+ =?us-ascii?Q?CoBYDsF9/kVbQX+W5+arSlObmxLjGczAPOXjShGzOXECVoHPfXQPLHnFOM3v?=
+ =?us-ascii?Q?+xrTmr20MrJ/Tn+nODQcQO9exohQaJzPW/xnT8kHZVcm3jtGhYlTTP583X+k?=
+ =?us-ascii?Q?9TqK2zFU8oOHu/6DBGdB9dqJQl3RPO1XL6pZIAvgYcj8RpvXtRu9TCH/CgMd?=
+ =?us-ascii?Q?VZK2CNpg0WRqJqekmOJjmalp4BqfVvzeOTBBXMjxZpTQZcBuAbKicB6/v60G?=
+ =?us-ascii?Q?bHEraiZcfR/9nTMqeRV0jtFetAmwSN0mNlps8s/iMA9wlyJNL4s+DsnYT1QF?=
+ =?us-ascii?Q?XoChszWh5SyRBKFeSfotbgnUw2vJMFj6SpOt1kKghqJC3TJcDcOFu8z/AJW+?=
+ =?us-ascii?Q?dYrMjSCzMAR4xNgM5MF9FrxglQuF2PDSkylPZIwhBfxET+kceSl0ZvwZRbcT?=
+ =?us-ascii?Q?XaCSo1z0F1ZNLHBrYkxb1FwpL0aPTFqbcDb8W7uLs7cZhlCe39RfUWMgouP9?=
+ =?us-ascii?Q?nNdWfXfu4F9CeBhIxHtyWBj4mfWyTI1g7j/zzfllKU3jJFLrz61PC0l/kZ3S?=
+ =?us-ascii?Q?zevOokedfSTfYbxfskq8BSo2YRNIItqh/J0I08hBVLKcFZZVDHK2EUuZ6m9g?=
+ =?us-ascii?Q?EwC7CV6Iy9GAU9qGIiY7NzkrH8asf7dR8XlKos7U6/hBLsQrqJLtgkSZFl+8?=
+ =?us-ascii?Q?rR+MttZgWn4rhR8UBMrxv5swvYV/6hIVzQoCBOdqnfsmqIH7/jwvgwrsjAfi?=
+ =?us-ascii?Q?j1WUTjkmPxcAAieGQnFOIECe3UUN3OAdFHxdTF/Ut0cjhgAMNIVeb+2l2FmI?=
+ =?us-ascii?Q?JHKFJJPpsdD0MxhICsFrgl9AP2fOLTAibbAzJrGbCdxlsLfTiGhDToNtsc/f?=
+ =?us-ascii?Q?eql/mqec0NPmX7HFoUIY1bP+WOPJdQkJAebGdxfyhzdJcDc1qT5cfHfN/XlW?=
+ =?us-ascii?Q?MWuqw09P4g=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 293caf7e-2b36-431d-6f1c-08deddc35a5a
+X-MS-Exchange-CrossTenant-AuthSource: AMBP189MB3196.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB7372.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5b46e67-642b-4afd-803d-08deddba2128
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2026 13:01:02.1998
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 14:07:03.8360
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: D9hXY+Cwmc2AT6Rl6hKIl22UaPr/oxeUP1K/b6tMj1SI7fL/vcEJqi7RxVU/Dv4ul7xlym4pUwYSagk8H58MBcI4eerfHYzSYAInCM5xN9c/9/jNnftEKCju9Zouahk9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9373
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: shFRKMOh3n53dRBV1RCYVTenSjXzuK1L
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDEyNiBTYWx0ZWRfX5bO+8MKAVQBi
- 7dBZnLPOGTFn1f+P9LEd1tRJ7h9VkFpkpjZ2q1Cvq6IwNFhL3QXNIldHbDmG0H/oYwovjhBZJ/k
- aDC/UzW2Zk/K0x4bJUAuy0V9M52uIy/ZUxWMeg7hdaXrKjLOUsQT
-X-Authority-Analysis: v=2.4 cv=XIkAjwhE c=1 sm=1 tr=0 ts=6a4f9b96 cx=c_pps
- a=/NeaHkXls/iJsjBnUIdqww==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22
- a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8 a=Q4-j1AaZAAAA:8 a=yj-aMKAYKbz0kkd27lYA:9
- a=CjuIK1q_8ugA:10 a=H-DuLdEmo-TWDic6:21 a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10
- a=FdTzh2GWekK77mhwV6Dw:22 a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-GUID: cvtGmerIwXLGEvdCWRTzWCPt5Q-qtW_D
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDEyNiBTYWx0ZWRfX9s+J6QHDz0ic
- RRPQI3Lv/Cx22S82vqcM5klMJauRKxicxbyH9OEZiHvzUqP+fhTmgexI8qzGiRP+/+F/LWgAt4p
- aov54WV+ip4yE9b0gbXOGf1EuY0GAN8Wwog1DHOFAJTPQAqiBjuXSviNC58/zSp2GZrxLHEe11A
- SAkm+2U9/LoLTEnK0HJS9TyrBUv0a19NapCVm3qtlDq2eICmRGeY6qjmifrM4B6T8LwNsXSdRrU
- ndbHRp0RkWEz5Wd/CGbht71eS0TZ7IZv1M1B6ys78kfS6yl9tO5ZRNln18bQRQMiSOQptxm+x9V
- 6Al6kzHc7j4edQnJdDrdJppqFW0MzWG4oh15WlUDmki97/lizo+cWiA0OtfinP7kiJkM7ygmkEZ
- CyVdwj0SrTyvAVdeXrfqFbkhhSxJOcCBJN1h6snGwoAdw/rmBdjsTGBAVN2mDlh4a93i/BfKHn8
- gqiV863PEs1bbV/GA1g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-09_02,2026-07-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 impostorscore=0 malwarescore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 suspectscore=0 priorityscore=1501
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607090126
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Mu3vqEf80NRuDb1K20dp6uMdw9uMzGlCicPwt8lb2hi4TnT/mNd/KXysz1DuXE74xjmTg20gygTqgSFoGPiJ6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P189MB0923
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 13:01:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240580
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 14:07:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240581
 
---_000_CH3PR11MB7372DA5EE39BC4F2383F80439BFE2CH3PR11MB7372namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: Amaury Couderc <amaury.couderc@est.tech>
 
-Hi Yoann,
+The existing hash flooding protection (based on SipHash) only used 4 to 8
+bytes of entropy for a salt, when 16 bytes of salt are supported by the
+implementation of SipHash used by Expat. Now full 16 bytes of entropy are
+used to improve protection against hash flooding attacks.
 
-Thanks for letting me know. I've now subscribed to the list.
+Introduces new API function XML_SetHashSalt16Bytes and deprecates the
+legacy XML_SetHashSalt which is limited to 4-8 bytes.
 
-Thanks,
-Pritam Srichandan Sahoo
-________________________________
-From: Yoann Congal <yoann.congal@smile.fr>
-Sent: Thursday, July 9, 2026 14:06
-To: Sahoo, Pritam Srichandan <PritamSrichandan.Sahoo@windriver.com>; openem=
-bedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.or=
-g>
-Cc: MacLeod, Randy <Randy.MacLeod@windriver.com>; Term Zhao, Yi <Yi.Zhao@wi=
-ndriver.com>; Komati, Shiva <Shiva.Komati@windriver.com>; Term Chen, Qi <Qi=
-.Chen@windriver.com>; Chen, Libo (CN) <Libo.Chen.CN@windriver.com>; Term Wa=
-ng, Jinfeng (CN) <Jinfeng.Wang.CN@windriver.com>; Masih, Shailesh <Shailesh=
-.Masih@windriver.com>; Holmberg, Tomas <Tomas.Holmberg@windriver.com>; Term=
- Yan, Haixiao (CN) <Haixiao.Yan.CN@windriver.com>
-Subject: Re: [wrynose][PATCH v2 0/2] gnutls: fix CVE-2026-33846
+The fix is split into 2 patches for reviewability:
+  1. Main CVE fix: migrates hash salt to 128-bit struct sipkey, extracts
+     16 bytes of entropy, removes dead get_hash_secret_salt function
+     (copy_salt_to_sipkey accesses the struct directly), adds
+     XML_SetHashSalt16Bytes API, deprecates XML_SetHashSalt, adds symbol
+     export, backport feature macro, tests, and documentation.
+  2. Windows/cmake: adds the missing .def export for the new symbol.
 
-CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and =
-know the content is safe.
+Note: the prerequisite commits that Peter Marko needed for scarthgap
+(clang-tidy misc-no-recursion fix and WASI getpid removal) are already
+present in expat 2.7.5, so they are not needed here.
 
-On Thu Jul 9, 2026 at 7:31 AM CEST, Pritam Srichandan Sahoo wrote:
-> Changes in v2:
-> - Added a separate commit to fix musl build failure for the
->   mini-dtls-fragments test (missing LDADD for gnulib).
->
-> v1:
-> - Only contained the CVE fix. The musl build failed due to
->   missing link to gnulib in the new test binary.
->
-> v2:
-> - Added the musl build fix as a separate commit. Build now
->   succeeds with musl.
->
-> Tested with:
->   echo 'MACHINE =3D "qemuarm64"' >> conf/local.conf
->   echo 'TCLIBC =3D "musl"' >> conf/local.conf
->   bitbake gnutls
->
-> Pritam Srichandan Sahoo (2):
->   gnutls: fix CVE-2026-33846
->   gnutls: link mini-dtls-fragments test to gnulib
->
->  ...ts-mini-dtls-framents-link-to-gnulib.patch |  25 +
->  .../gnutls/gnutls/CVE-2026-33846.patch        | 862 ++++++++++++++++++
->  meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   2 +
->  3 files changed, 889 insertions(+)
->  create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-mini-dt=
-ls-framents-link-to-gnulib.patch
->  create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-33846.pat=
-ch
+Backport patch to fix CVE-2026-41080
+https://nvd.nist.gov/vuln/detail/CVE-2026-41080
 
-Hello,
+Upstream fix:
+https://github.com/libexpat/libexpat/pull/1183
 
-This series never reached lore
-https://lore.kernel.org/all/20260709053106.1630373-1-PritamSrichandan.Sahoo=
-@windriver.com/
-And, by extention patchwork I use to track patch.
+CVE: CVE-2026-41080
 
-Before sending the upgraded version, please check that you are a member
-of the list: https://lists.openembedded.org/g/openembedded-core sould
-display " You are subscribed to this group."
+Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
+---
+ .../expat/expat/CVE-2026-41080-1.patch        | 517 ++++++++++++++++++
+ .../expat/expat/CVE-2026-41080-2.patch        |  33 ++
+ meta/recipes-core/expat/expat_2.7.5.bb        |   2 +
+ 3 files changed, 552 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-2.patch
 
-Thanks!
---
-Yoann Congal
-Smile ECS
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-41080-1.patch b/meta/re=
+cipes-core/expat/expat/CVE-2026-41080-1.patch
+new file mode 100644
+index 0000000000..e93ad093f2
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-41080-1.patch
+@@ -0,0 +1,517 @@
++From fa1ebd60bfcc6d32f329803e5e837251e2387ed1 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sun, 30 Mar 2025 19:26:55 +0200
++Subject: [PATCH v2 1/2] expat: fix CVE-2026-41080
++
++The existing hash flooding protection in libexpat (based on SipHash)
++only used 4 to 8 bytes of entropy for a salt, when 16 bytes are
++supported by the SipHash implementation. This allows attackers to more
++feasibly guess the hash salt and craft inputs that cause hash
++collisions, leading to denial of service.
++
++Backport upstream changes that:
++- Migrate hash salt storage to larger struct sipkey (128-bit)
++- Drop unused parameter from generate_hash_secret_salt
++- Drop unneeded void * casts in generate_hash_secret_salt
++- Extract full 16 bytes of entropy for hash flooding protection
++- Introduce internal flag m_hash_secret_salt_set
++- Remove now-dead get_hash_secret_salt function (copy_salt_to_sipkey
++  accesses the struct directly)
++- Add XML_SetHashSalt16Bytes API function
++- Deprecate XML_SetHashSalt
++- Add symbol export in libexpat.map.in (LIBEXPAT_2.7.6)
++- Add backport feature macro XML_BACKPORT_SET_HASH_SALT_16_BYTES
++- Add test_hash_salt_setter unit test
++- Update documentation and Changes file
++
++Squashed backport of upstream PR #1183 commits 909201a8, bc193afc,
++08697a9b, f5eacefb, fa1ebd60, f76124e7, e3349d85, c8c5caf4,
++592d5fa3, 8ad3ef57, ec9fcd2e, and 8017e11e.
++
++CVE: CVE-2026-41080
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1183]
++Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
++---
++ Changes             |  17 ++++++
++ doc/reference.html  |  55 +++++++++++++++++--
++ lib/expat.h         |  15 ++++++
++ lib/internal.h      |   2 +
++ lib/libexpat.map.in |   5 ++
++ lib/xmlparse.c      | 124 +++++++++++++++++++++++++++++++++----------
++ tests/basic_tests.c |  25 +++++++++
++ 7 files changed, 212 insertions(+), 31 deletions(-)
++
++diff --git a/Changes b/Changes
++index 2b3704a6..1d8227ec 100644
++--- a/Changes
+++++ b/Changes
++@@ -29,6 +29,23 @@
++ !! THANK YOU!                        Sebastian Pipping -- Berlin, 2026-03=
+-17 !!
++ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!=
+!!!!!!
++=20
+++Patches
+++        Security fixes:
+++       #47 #1183  CVE-2026-41080 -- The existing hash flooding protection
+++                    (based on SipHash) only used 4 to 8 bytes of entropy =
+for
+++                    a salt, when 16 bytes of salt are supported by the
+++                    implementation of SipHash used by Expat. Now full 16 =
+bytes
+++                    of entropy are used to improve protection against has=
+h
+++                    flooding attacks.
+++                      Existing API function XML_SetHashSalt is now deprec=
+ated
+++                    because of its limitations, and its use should be
+++                    considered a vulnerability. Please either use the new=
+ API
+++                    function XML_SetHashSalt16Bytes (with known-high-qual=
+ity
+++                    entropy input only!) instead, or leave the derivation=
+ of
+++                    a 16-bytes hash salt from high quality entropy to Exp=
+at's
+++                    internal machinery (by *not* calling either of the tw=
+o
+++                    XML_SetHashSalt* functions).
+++
++ Release 2.7.5 Tue March 17 2026
++         Security fixes:
++            #1158  CVE-2026-32776 -- Fix NULL function pointer dereference=
+ for
++diff --git a/doc/reference.html b/doc/reference.html
++index 5faa8d65..64b9fd67 100644
++--- a/doc/reference.html
+++++ b/doc/reference.html
++@@ -404,7 +404,11 @@
++                 </li>
++=20
++                 <li>
++-                  <a href=3D"#XML_SetHashSalt">XML_SetHashSalt</a>
+++                  <a href=3D"#XML_SetHashSalt">XML_SetHashSalt</a> (depre=
+cated)
+++                </li>
+++
+++                <li>
+++                  <a href=3D"#XML_SetHashSalt16Bytes">XML_SetHashSalt16By=
+tes</a>
++                 </li>
++=20
++                 <li>
++@@ -3449,22 +3453,35 @@ XML_SetParamEntityParsing(XML_Parser p,
++       </div>
++=20
++       <h4 id=3D"XML_SetHashSalt">
++-        XML_SetHashSalt
+++        XML_SetHashSalt (deprecated)
++       </h4>
++=20
++       <pre class=3D"fcndec">
++ int XMLCALL
++-XML_SetHashSalt(XML_Parser p,
+++XML_SetHashSalt(XML_Parser parser,
++                 unsigned long hash_salt);
++ </pre>
++       <div class=3D"fcndef">
++         Sets the hash salt to use for internal hash calculations. Helps i=
+n preventing DoS
++         attacks based on predicting hash function behavior. In order to h=
+ave an effect
++         this must be called before parsing has started. Returns 1 if succ=
+essful, 0 when
++-        called after <code>XML_Parse</code> or <code>XML_ParseBuffer</cod=
+e>.
+++        called after <code>XML_Parse</code> or <code>XML_ParseBuffer</cod=
+e> or when
+++        <code>parser</code> is <code>NULL</code>.
+++        <p>
+++          <b>Note:</b> Function <code>XML_SetHashSalt</code> is
+++          <strong>deprecated</strong>. Please use function <code><a href=
+=3D
+++          "#XML_SetHashSalt16Bytes">XML_SetHashSalt16Bytes</a></code> ins=
+tead for better
+++          security. <code>XML_SetHashSalt</code> only provides 4 to 8 byt=
+es of entropy
+++          (depending on the size of type <code>unsigned long</code>) whil=
+e the SipHash
+++          implementation used by Expat can leverage up to 16 bytes of ent=
+ropy =E2=80=94 at least
+++          twice as much. Function <code><a href=3D
+++          "#XML_SetHashSalt16Bytes">XML_SetHashSalt16Bytes</a></code> of =
+Expat &gt;=3D2.7.6
+++          (and where backported) matches the amount of entropy supported =
+by SipHash.
+++        </p>
+++
++         <p>
++           <b>Note:</b> This call is optional, as the parser will auto-gen=
+erate a new
++-          random salt value if no value has been set at the start of pars=
+ing.
+++          random salt value internally if no value has been set by the st=
+art of parsing.
++         </p>
++=20
++         <p>
++@@ -3475,6 +3492,34 @@ XML_SetHashSalt(XML_Parser p,
++         </p>
++       </div>
++=20
+++      <h4 id=3D"XML_SetHashSalt16Bytes">
+++        XML_SetHashSalt16Bytes
+++      </h4>
+++
+++      <pre class=3D"fcndec">
+++/* Added in Expat 2.7.6. */
+++XML_Bool XMLCALL
+++XML_SetHashSalt16Bytes(XML_Parser parser,
+++                       const uint8_t entropy[16]);
+++</pre>
+++      <div class=3D"fcndef">
+++        Sets the hash salt to use for internal hash calculations. Helps i=
+n preventing DoS
+++        attacks based on predicting hash function behavior. In order to h=
+ave an effect
+++        this must be called before parsing has started. Returns <code>XML=
+_TRUE</code> if
+++        successful, <code>XML_FALSE</code> when called after <code>XML_Pa=
+rse</code> or
+++        <code>XML_ParseBuffer</code> or when <code>parser</code> is <code=
+>NULL</code>.
+++        <p>
+++          <b>Note:</b> Setting a salt that is <em>not</em> from a source =
+of high quality
+++          entropy (like <code>getentropy(3)</code>) will make the parser =
+vulnerable to
+++          hash flooding attacks.
+++        </p>
+++
+++        <p>
+++          <b>Note:</b> This call is optional, as the parser will auto-gen=
+erate a new
+++          random salt value internally if no value has been set by the st=
+art of parsing.
+++        </p>
+++      </div>
+++
++       <h4 id=3D"XML_UseForeignDTD">
++         XML_UseForeignDTD
++       </h4>
++diff --git a/lib/expat.h b/lib/expat.h
++index 18dbaebd..7693f62c 100644
++--- a/lib/expat.h
+++++ b/lib/expat.h
++@@ -45,6 +45,7 @@
++ #ifndef Expat_INCLUDED
++ #  define Expat_INCLUDED 1
++=20
+++#  include <stdint.h> // for uint8_t
++ #  include <stdlib.h>
++ #  include "expat_external.h"
++=20
++@@ -917,10 +918,25 @@ XML_SetParamEntityParsing(XML_Parser parser,
++    function behavior. This must be called before parsing is started.
++    Returns 1 if successful, 0 when called after parsing has started.
++    Note: If parser =3D=3D NULL, the function will do nothing and return 0=
+.
+++   DEPRECATED since Expat 2.7.6.
++ */
++ XMLPARSEAPI(int)
++ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt);
++=20
+++/* Sets the hash salt to use for internal hash calculations.
+++   Helps in preventing DoS attacks based on predicting hash function beha=
+vior.
+++   This must be called before parsing is started.
+++   Returns XML_TRUE if successful, XML_FALSE when called after parsing ha=
+s
+++   started or when parser is NULL.
+++   Added in Expat 2.7.6.
+++*/
+++XMLPARSEAPI(XML_Bool)
+++XML_SetHashSalt16Bytes(XML_Parser parser, const uint8_t entropy[16]);
+++
+++/* Backport feature macro: signals that XML_SetHashSalt16Bytes is availab=
+le
+++   even though XML_COMBINED_VERSION < 20800. */
+++#  define XML_BACKPORT_SET_HASH_SALT_16_BYTES 1
+++
++ /* If XML_Parse or XML_ParseBuffer have returned XML_STATUS_ERROR, then
++    XML_GetErrorCode returns information about the error.
++ */
++diff --git a/lib/internal.h b/lib/internal.h
++index 61266ebb..1995c17b 100644
++--- a/lib/internal.h
+++++ b/lib/internal.h
++@@ -113,6 +113,7 @@
++ #if defined(_WIN32)                                                      =
+      \
++     && (! defined(__USE_MINGW_ANSI_STDIO)                                =
+      \
++         || (1 - __USE_MINGW_ANSI_STDIO - 1 =3D=3D 0))
+++#  define EXPAT_FMT_LLX(midpart) "%" midpart "I64x"
++ #  define EXPAT_FMT_ULL(midpart) "%" midpart "I64u"
++ #  if defined(_WIN64) // Note: modifiers "td" and "zu" do not work for Mi=
+nGW
++ #    define EXPAT_FMT_PTRDIFF_T(midpart) "%" midpart "I64d"
++@@ -122,6 +123,7 @@
++ #    define EXPAT_FMT_SIZE_T(midpart) "%" midpart "u"
++ #  endif
++ #else
+++#  define EXPAT_FMT_LLX(midpart) "%" midpart "llx"
++ #  define EXPAT_FMT_ULL(midpart) "%" midpart "llu"
++ #  if ! defined(ULONG_MAX)
++ #    error Compiler did not define ULONG_MAX for us
++diff --git a/lib/libexpat.map.in b/lib/libexpat.map.in
++index 52e59ed3..8527eb54 100644
++--- a/lib/libexpat.map.in
+++++ b/lib/libexpat.map.in
++@@ -117,3 +117,8 @@ LIBEXPAT_2.7.2 {
++ @_EXPAT_COMMENT_DTD_OR_GE@ XML_SetAllocTrackerActivationThreshold;
++ @_EXPAT_COMMENT_DTD_OR_GE@ XML_SetAllocTrackerMaximumAmplification;
++ } LIBEXPAT_2.6.0;
+++
+++LIBEXPAT_2.7.6 {
+++ global:
+++  XML_SetHashSalt16Bytes;
+++} LIBEXPAT_2.7.2;
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index 0248b665..75a7e5d0 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -604,7 +604,7 @@ static ELEMENT_TYPE *getElementType(XML_Parser parser,=
+ const ENCODING *enc,
++=20
++ static XML_Char *copyString(const XML_Char *s, XML_Parser parser);
++=20
++-static unsigned long generate_hash_secret_salt(XML_Parser parser);
+++static struct sipkey generate_hash_secret_salt(void);
++ static XML_Bool startParsing(XML_Parser parser);
++=20
++ static XML_Parser parserCreate(const XML_Char *encodingName,
++@@ -777,7 +777,8 @@ struct XML_ParserStruct {
++   XML_Bool m_useForeignDTD;
++   enum XML_ParamEntityParsing m_paramEntityParsing;
++ #endif
++-  unsigned long m_hash_secret_salt;
+++  struct sipkey m_hash_secret_salt_128;
+++  XML_Bool m_hash_secret_salt_set;
++ #if XML_GE =3D=3D 1
++   ACCOUNTING m_accounting;
++   MALLOC_TRACKER m_alloc_tracker;
++@@ -1192,69 +1193,65 @@ gather_time_entropy(void) {
++=20
++ #endif /* ! defined(HAVE_ARC4RANDOM_BUF) && ! defined(HAVE_ARC4RANDOM) */
++=20
++-static unsigned long
++-ENTROPY_DEBUG(const char *label, unsigned long entropy) {
+++static struct sipkey
+++ENTROPY_DEBUG(const char *label, struct sipkey entropy_128) {
++   if (getDebugLevel("EXPAT_ENTROPY_DEBUG", 0) >=3D 1u) {
++-    fprintf(stderr, "expat: Entropy: %s --> 0x%0*lx (%lu bytes)\n", label=
+,
++-            (int)sizeof(entropy) * 2, entropy, (unsigned long)sizeof(entr=
+opy));
+++    fprintf(stderr,
+++            "expat: Entropy: %s --> [0x" EXPAT_FMT_LLX(
+++                "016") ", 0x" EXPAT_FMT_LLX("016") "] (16 bytes)\n",
+++            label, (unsigned long long)entropy_128.k[0],
+++            (unsigned long long)entropy_128.k[1]);
++   }
++-  return entropy;
+++  return entropy_128;
++ }
++=20
++-static unsigned long
++-generate_hash_secret_salt(XML_Parser parser) {
++-  unsigned long entropy;
++-  (void)parser;
+++static struct sipkey
+++generate_hash_secret_salt(void) {
+++  struct sipkey entropy;
++=20
++   /* "Failproof" high quality providers: */
++ #if defined(HAVE_ARC4RANDOM_BUF)
++   arc4random_buf(&entropy, sizeof(entropy));
++   return ENTROPY_DEBUG("arc4random_buf", entropy);
++ #elif defined(HAVE_ARC4RANDOM)
++-  writeRandomBytes_arc4random((void *)&entropy, sizeof(entropy));
+++  writeRandomBytes_arc4random(&entropy, sizeof(entropy));
++   return ENTROPY_DEBUG("arc4random", entropy);
++ #else
++   /* Try high quality providers first .. */
++ #  ifdef _WIN32
++-  if (writeRandomBytes_rand_s((void *)&entropy, sizeof(entropy))) {
+++  if (writeRandomBytes_rand_s(&entropy, sizeof(entropy))) {
++     return ENTROPY_DEBUG("rand_s", entropy);
++   }
++ #  elif defined(HAVE_GETRANDOM) || defined(HAVE_SYSCALL_GETRANDOM)
++-  if (writeRandomBytes_getrandom_nonblock((void *)&entropy, sizeof(entrop=
+y))) {
+++  if (writeRandomBytes_getrandom_nonblock(&entropy, sizeof(entropy))) {
++     return ENTROPY_DEBUG("getrandom", entropy);
++   }
++ #  endif
++ #  if ! defined(_WIN32) && defined(XML_DEV_URANDOM)
++-  if (writeRandomBytes_dev_urandom((void *)&entropy, sizeof(entropy))) {
+++  if (writeRandomBytes_dev_urandom(&entropy, sizeof(entropy))) {
++     return ENTROPY_DEBUG("/dev/urandom", entropy);
++   }
++ #  endif /* ! defined(_WIN32) && defined(XML_DEV_URANDOM) */
++   /* .. and self-made low quality for backup: */
++=20
++-  entropy =3D gather_time_entropy();
+++  entropy.k[0] =3D 0;
+++  entropy.k[1] =3D gather_time_entropy();
++ #  if ! defined(__wasi__)
++   /* Process ID is 0 bits entropy if attacker has local access */
++-  entropy ^=3D getpid();
+++  entropy.k[1] ^=3D getpid();
++ #  endif
++=20
++   /* Factors are 2^31-1 and 2^61-1 (Mersenne primes M31 and M61) */
++   if (sizeof(unsigned long) =3D=3D 4) {
++-    return ENTROPY_DEBUG("fallback(4)", entropy * 2147483647);
+++    entropy.k[1] *=3D 2147483647;
+++    return ENTROPY_DEBUG("fallback(4)", entropy);
++   } else {
++-    return ENTROPY_DEBUG("fallback(8)",
++-                         entropy * (unsigned long)2305843009213693951ULL)=
+;
+++    entropy.k[1] *=3D 2305843009213693951ULL;
+++    return ENTROPY_DEBUG("fallback(8)", entropy);
++   }
++ #endif
++ }
++=20
++-static unsigned long
++-get_hash_secret_salt(XML_Parser parser) {
++-  const XML_Parser rootParser =3D getRootParserOf(parser, NULL);
++-  assert(! rootParser->m_parentParser);
++-
++-  return rootParser->m_hash_secret_salt;
++-}
++-
++ static enum XML_Error
++ callProcessor(XML_Parser parser, const char *start, const char *end,
++               const char **endPtr) {
++@@ -1323,8 +1320,10 @@ callProcessor(XML_Parser parser, const char *start,=
+ const char *end,
++ static XML_Bool /* only valid for root parser */
++ startParsing(XML_Parser parser) {
++   /* hash functions must be initialized before setContext() is called */
++-  if (parser->m_hash_secret_salt =3D=3D 0)
++-    parser->m_hash_secret_salt =3D generate_hash_secret_salt(parser);
+++  if (parser->m_hash_secret_salt_set !=3D XML_TRUE) {
+++    parser->m_hash_secret_salt_128 =3D generate_hash_secret_salt();
+++    parser->m_hash_secret_salt_set =3D XML_TRUE;
+++  }
++   if (parser->m_ns) {
++     /* implicit context only set for root parser, since child
++        parsers (i.e. external entity parsers) will inherit it
++@@ -1612,7 +1611,9 @@ parserInit(XML_Parser parser, const XML_Char *encodi=
+ngName) {
++   parser->m_useForeignDTD =3D XML_FALSE;
++   parser->m_paramEntityParsing =3D XML_PARAM_ENTITY_PARSING_NEVER;
++ #endif
++-  parser->m_hash_secret_salt =3D 0;
+++  parser->m_hash_secret_salt_128.k[0] =3D 0;
+++  parser->m_hash_secret_salt_128.k[1] =3D 0;
+++  parser->m_hash_secret_salt_set =3D XML_FALSE;
++=20
++ #if XML_GE =3D=3D 1
++   memset(&parser->m_accounting, 0, sizeof(ACCOUNTING));
++@@ -1779,7 +1780,8 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser,=
+ const XML_Char *context,
++      from hash tables associated with either parser without us having
++      to worry which hash secrets each table has.
++   */
++-  unsigned long oldhash_secret_salt;
+++  struct sipkey oldhash_secret_salt_128;
+++  XML_Bool oldhash_secret_salt_set;
++   XML_Bool oldReparseDeferralEnabled;
++=20
++   /* Validate the oldParser parameter before we pull everything out of it=
+ */
++@@ -1825,7 +1827,8 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser,=
+ const XML_Char *context,
++      from hash tables associated with either parser without us having
++      to worry which hash secrets each table has.
++   */
++-  oldhash_secret_salt =3D parser->m_hash_secret_salt;
+++  oldhash_secret_salt_128 =3D parser->m_hash_secret_salt_128;
+++  oldhash_secret_salt_set =3D parser->m_hash_secret_salt_set;
++   oldReparseDeferralEnabled =3D parser->m_reparseDeferralEnabled;
++=20
++ #ifdef XML_DTD
++@@ -1880,7 +1883,8 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser,=
+ const XML_Char *context,
++     parser->m_externalEntityRefHandlerArg =3D oldExternalEntityRefHandler=
+Arg;
++   parser->m_defaultExpandInternalEntities =3D oldDefaultExpandInternalEnt=
+ities;
++   parser->m_ns_triplets =3D oldns_triplets;
++-  parser->m_hash_secret_salt =3D oldhash_secret_salt;
+++  parser->m_hash_secret_salt_128 =3D oldhash_secret_salt_128;
+++  parser->m_hash_secret_salt_set =3D oldhash_secret_salt_set;
++   parser->m_reparseDeferralEnabled =3D oldReparseDeferralEnabled;
++   parser->m_parentParser =3D oldParser;
++ #ifdef XML_DTD
++@@ -2327,6 +2331,7 @@ XML_SetParamEntityParsing(XML_Parser parser,
++ #endif
++ }
++=20
+++// DEPRECATED since Expat 2.7.6.
++ int XMLCALL
++ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt) {
++   if (parser =3D=3D NULL)
++@@ -2337,10 +2342,46 @@ XML_SetHashSalt(XML_Parser parser, unsigned long h=
+ash_salt) {
++   /* block after XML_Parse()/XML_ParseBuffer() has been called */
++   if (parserBusy(rootParser))
++     return 0;
++-  rootParser->m_hash_secret_salt =3D hash_salt;
+++
+++  rootParser->m_hash_secret_salt_128.k[0] =3D 0;
+++  rootParser->m_hash_secret_salt_128.k[1] =3D hash_salt;
+++
+++  if (hash_salt !=3D 0) { // to remain backwards compatible
+++    rootParser->m_hash_secret_salt_set =3D XML_TRUE;
+++
+++    if (sizeof(unsigned long) =3D=3D 4)
+++      ENTROPY_DEBUG("explicit(4)", rootParser->m_hash_secret_salt_128);
+++    else
+++      ENTROPY_DEBUG("explicit(8)", rootParser->m_hash_secret_salt_128);
+++  }
+++
++   return 1;
++ }
++=20
+++XML_Bool XMLCALL
+++XML_SetHashSalt16Bytes(XML_Parser parser, const uint8_t entropy[16]) {
+++  if (parser =3D=3D NULL)
+++    return XML_FALSE;
+++
+++  if (entropy =3D=3D NULL)
+++    return XML_FALSE;
+++
+++  const XML_Parser rootParser =3D getRootParserOf(parser, NULL);
+++  assert(! rootParser->m_parentParser);
+++
+++  /* block after XML_Parse()/XML_ParseBuffer() has been called */
+++  if (parserBusy(rootParser))
+++    return XML_FALSE;
+++
+++  sip_tokey(&(rootParser->m_hash_secret_salt_128), entropy);
+++
+++  rootParser->m_hash_secret_salt_set =3D XML_TRUE;
+++
+++  ENTROPY_DEBUG("explicit(16)", rootParser->m_hash_secret_salt_128);
+++
+++  return XML_TRUE;
+++}
+++
++ enum XML_Status XMLCALL
++ XML_Parse(XML_Parser parser, const char *s, int len, int isFinal) {
++   if ((parser =3D=3D NULL) || (len < 0) || ((s =3D=3D NULL) && (len !=3D =
+0))) {
++@@ -7842,8 +7883,10 @@ keylen(KEY s) {
++=20
++ static void
++ copy_salt_to_sipkey(XML_Parser parser, struct sipkey *key) {
++-  key->k[0] =3D 0;
++-  key->k[1] =3D get_hash_secret_salt(parser);
+++  const XML_Parser rootParser =3D getRootParserOf(parser, NULL);
+++  assert(! rootParser->m_parentParser);
+++
+++  *key =3D rootParser->m_hash_secret_salt_128;
++ }
++=20
++ static unsigned long FASTCALL
++diff --git a/tests/basic_tests.c b/tests/basic_tests.c
++index 02d1d5fd..26662fee 100644
++--- a/tests/basic_tests.c
+++++ b/tests/basic_tests.c
++@@ -204,6 +204,30 @@ START_TEST(test_hash_collision) {
++ END_TEST
++ #undef COLLIDING_HASH_SALT
++=20
+++START_TEST(test_hash_salt_setter) {
+++  const uint8_t entropy[16] =3D {'0', '1', '2', '3', '4', '5', '6', '7',
+++                               '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+++  XML_Parser parser =3D XML_ParserCreate(NULL);
+++
+++  // NULL parser should be rejected
+++  assert_true(XML_SetHashSalt16Bytes(NULL, entropy) =3D=3D XML_FALSE);
+++
+++  // NULL entropy should be rejected
+++  assert_true(XML_SetHashSalt16Bytes(parser, NULL) =3D=3D XML_FALSE);
+++
+++  // Setting should be allowed more than once
+++  assert_true(XML_SetHashSalt16Bytes(parser, entropy) =3D=3D XML_TRUE);
+++  assert_true(XML_SetHashSalt16Bytes(parser, entropy) =3D=3D XML_TRUE);
+++
+++  // But not after parsing has started
+++  assert_true(XML_Parse(parser, "", 0, XML_FALSE /* isFinal */)
+++              =3D=3D XML_STATUS_OK);
+++  assert_true(XML_SetHashSalt16Bytes(parser, entropy) =3D=3D XML_FALSE);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
++ /* Regression test for SF bug #491986. */
++ START_TEST(test_danish_latin1) {
++   const char *text =3D "<?xml version=3D'1.0' encoding=3D'iso-8859-1'?>\n=
+"
++@@ -6292,6 +6316,7 @@ make_basic_test_case(Suite *s) {
++   tcase_add_test(tc_basic, test_bom_utf16_le);
++   tcase_add_test(tc_basic, test_nobom_utf16_le);
++   tcase_add_test(tc_basic, test_hash_collision);
+++  tcase_add_test(tc_basic, test_hash_salt_setter);
++   tcase_add_test(tc_basic, test_illegal_utf8);
++   tcase_add_test(tc_basic, test_utf8_auto_align);
++   tcase_add_test(tc_basic, test_utf16);
++--=20
++2.34.1
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-41080-2.patch b/meta/re=
+cipes-core/expat/expat/CVE-2026-41080-2.patch
+new file mode 100644
+index 0000000000..0410f8b070
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-41080-2.patch
+@@ -0,0 +1,33 @@
++From 3cdd1df2644388aff25dd0ed7128c7bb1de1a7d8 Mon Sep 17 00:00:00 2001
++From: Christoph Reiter <reiter.christoph@gmail.com>
++Date: Wed, 10 Jun 2026 21:27:51 +0200
++Subject: [PATCH 2/2] cmake|windows: add missing export for new
++ XML_SetHashSalt16Bytes
++
++A new XML_SetHashSalt16Bytes symbol was added in #1183, but it
++wasn't added to the def file, so the export is missing when building
++libexpat on Windows with cmake.
++
++Add the new symbol to the .def template.
++
++CVE: CVE-2026-41080
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/3cd=
+d1df2644388aff25dd0ed7128c7bb1de1a7d8]
++
++Signed-off-by: Christoph Reiter <reiter.christoph@gmail.com>
++Signed-off-by: Amaury Couderc <amaury.couderc@est.tech>
++---
++ lib/libexpat.def.cmake | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/lib/libexpat.def.cmake b/lib/libexpat.def.cmake
++index 9b9e22cb..948135a5 100644
++--- a/lib/libexpat.def.cmake
+++++ b/lib/libexpat.def.cmake
++@@ -83,3 +83,5 @@ EXPORTS
++ ; added with version 2.7.2
++ @_EXPAT_COMMENT_DTD_OR_GE@ XML_SetAllocTrackerMaximumAmplification @72
++ @_EXPAT_COMMENT_DTD_OR_GE@ XML_SetAllocTrackerActivationThreshold @73
+++; added with version 2.7.6
+++  XML_SetHashSalt16Bytes @74
++--=20
++2.34.1
+diff --git a/meta/recipes-core/expat/expat_2.7.5.bb b/meta/recipes-core/exp=
+at/expat_2.7.5.bb
+index 4f2578292d..ffb312cd9d 100644
+--- a/meta/recipes-core/expat/expat_2.7.5.bb
++++ b/meta/recipes-core/expat/expat_2.7.5.bb
+@@ -10,6 +10,8 @@ VERSION_TAG =3D "${@d.getVar('PV').replace('.', '_')}"
+=20
+ SRC_URI =3D "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.=
+bz2  \
+            file://run-ptest \
++           file://CVE-2026-41080-1.patch \
++           file://CVE-2026-41080-2.patch \
+            "
+=20
+ GITHUB_BASE_URI =3D "https://github.com/libexpat/libexpat/releases/"
+--=20
+2.34.1
 
-
---_000_CH3PR11MB7372DA5EE39BC4F2383F80439BFE2CH3PR11MB7372namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Hi Yoann,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Thanks for letting me know. I've now subscribed to the list.</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Thanks,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Pritam Srichandan Sahoo</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Yoann Congal &lt;yoan=
-n.congal@smile.fr&gt;<br>
-<b>Sent:</b> Thursday, July 9, 2026 14:06<br>
-<b>To:</b> Sahoo, Pritam Srichandan &lt;PritamSrichandan.Sahoo@windriver.co=
-m&gt;; openembedded-core@lists.openembedded.org &lt;openembedded-core@lists=
-.openembedded.org&gt;<br>
-<b>Cc:</b> MacLeod, Randy &lt;Randy.MacLeod@windriver.com&gt;; Term Zhao, Y=
-i &lt;Yi.Zhao@windriver.com&gt;; Komati, Shiva &lt;Shiva.Komati@windriver.c=
-om&gt;; Term Chen, Qi &lt;Qi.Chen@windriver.com&gt;; Chen, Libo (CN) &lt;Li=
-bo.Chen.CN@windriver.com&gt;; Term Wang, Jinfeng (CN) &lt;Jinfeng.Wang.CN@w=
-indriver.com&gt;;
- Masih, Shailesh &lt;Shailesh.Masih@windriver.com&gt;; Holmberg, Tomas &lt;=
-Tomas.Holmberg@windriver.com&gt;; Term Yan, Haixiao (CN) &lt;Haixiao.Yan.CN=
-@windriver.com&gt;<br>
-<b>Subject:</b> Re: [wrynose][PATCH v2 0/2] gnutls: fix CVE-2026-33846</fon=
-t>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">CAUTION: This email comes from a non Wind River em=
-ail account!<br>
-Do not click links or open attachments unless you recognize the sender and =
-know the content is safe.<br>
-<br>
-On Thu Jul 9, 2026 at 7:31 AM CEST, Pritam Srichandan Sahoo wrote:<br>
-&gt; Changes in v2:<br>
-&gt; - Added a separate commit to fix musl build failure for the<br>
-&gt;&nbsp;&nbsp; mini-dtls-fragments test (missing LDADD for gnulib).<br>
-&gt;<br>
-&gt; v1:<br>
-&gt; - Only contained the CVE fix. The musl build failed due to<br>
-&gt;&nbsp;&nbsp; missing link to gnulib in the new test binary.<br>
-&gt;<br>
-&gt; v2:<br>
-&gt; - Added the musl build fix as a separate commit. Build now<br>
-&gt;&nbsp;&nbsp; succeeds with musl.<br>
-&gt;<br>
-&gt; Tested with:<br>
-&gt;&nbsp;&nbsp; echo 'MACHINE =3D &quot;qemuarm64&quot;' &gt;&gt; conf/loc=
-al.conf<br>
-&gt;&nbsp;&nbsp; echo 'TCLIBC =3D &quot;musl&quot;' &gt;&gt; conf/local.con=
-f<br>
-&gt;&nbsp;&nbsp; bitbake gnutls<br>
-&gt;<br>
-&gt; Pritam Srichandan Sahoo (2):<br>
-&gt;&nbsp;&nbsp; gnutls: fix CVE-2026-33846<br>
-&gt;&nbsp;&nbsp; gnutls: link mini-dtls-fragments test to gnulib<br>
-&gt;<br>
-&gt;&nbsp; ...ts-mini-dtls-framents-link-to-gnulib.patch |&nbsp; 25 +<br>
-&gt;&nbsp; .../gnutls/gnutls/CVE-2026-33846.patch&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; | 862 ++++++++++++++++++<br>
-&gt;&nbsp; meta/recipes-support/gnutls/gnutls_3.8.12.bb&nbsp; |&nbsp;&nbsp;=
- 2 +<br>
-&gt;&nbsp; 3 files changed, 889 insertions(+)<br>
-&gt;&nbsp; create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests=
--mini-dtls-framents-link-to-gnulib.patch<br>
-&gt;&nbsp; create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3=
-3846.patch<br>
-<br>
-Hello,<br>
-<br>
-This series never reached lore<br>
-<a href=3D"https://lore.kernel.org/all/20260709053106.1630373-1-PritamSrich=
-andan.Sahoo@windriver.com/">https://lore.kernel.org/all/20260709053106.1630=
-373-1-PritamSrichandan.Sahoo@windriver.com/</a><br>
-And, by extention patchwork I use to track patch.<br>
-<br>
-Before sending the upgraded version, please check that you are a member<br>
-of the list: <a href=3D"https://lists.openembedded.org/g/openembedded-core"=
->https://lists.openembedded.org/g/openembedded-core</a> sould<br>
-display &quot; You are subscribed to this group.&quot;<br>
-<br>
-Thanks!<br>
---<br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_CH3PR11MB7372DA5EE39BC4F2383F80439BFE2CH3PR11MB7372namp_--
 
