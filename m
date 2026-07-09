@@ -2,579 +2,996 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22549C4450D
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 12:21:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2F64C4450C
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 12:21:41 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3046.1783578115393982775
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2838.1783576434203633253
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2026 23:21:55 -0700
+ Wed, 08 Jul 2026 22:53:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=MM7xR0tG;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=16502c5656=himaniramesh.barde@windriver.com)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ZnEtiqHF;
+ spf=none, err=permanent DNS error (domain: oak-lpgbuild11.wrs.com, ip: 205.220.166.238, mailfrom: prvs=1650dddb60=psahoo1@oak-lpgbuild11.wrs.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6694Y1nw1575003
-	for <openembedded-core@lists.openembedded.org>; Wed, 8 Jul 2026 22:51:18 -0700
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6694gwf91591028;
+	Wed, 8 Jul 2026 22:31:11 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=1ijA5W2ds9h/PXJh8wZyLm
-	wkZ+WVZsBuEBN61ahUJOw=; b=MM7xR0tGpMoMF0z1LjBz4wzhqgTXXt3sO60ci0
-	fastWR/NEOaaqf1qc8W8qqWWW1TxifohsySHCKPWVbpCLKjG3k2pSImg/jCs+JOw
-	VH25DF9BWYHCg1r0cRGOKvayoSHi7iPbQAB6kk6P0mMAfxwgAaeS6eZEzhE/VWrf
-	pPf6W6aoXQKlnwMs0Z0y92zDC00n/PPgS00xT0kRY5UiqorKuLfKZhBKmviNoQVc
-	G7ajkdU2d9QF3n+rsDuZJb9gKkQaw0hUx18w7eLAj0/st+RxTz1TJ/wLRYLQ+5vz
-	t3lDWLnk3w7MKuTwnZSCToWXkT+nlJhbTsXbbhr6OLkWqeEA==
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013019.outbound.protection.outlook.com [40.93.201.19])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fa1gy89t7-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 08 Jul 2026 22:51:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rniGQCrpJRjmtbTV+FeTeaWKFdVeDAlwGIA6oQIWPFzlw1uZxb6Jx8hw3UgVfppDphfnOiptXbd7igD+r+MSSPOzhSBuIdOO+14wqRTTkBokmZY8J3greS1ErlJIxil+v6yx4LH5QTrYr5lBii9z7wlV6ip3LpSOBDkHmZlz5kir+ufsOkXNpWvfMxnBrTrekcoQ9Vim9eGamlSTgsAGxN5VsusM3z1D/0QUdKkJhp7klnVdkZCpIcjj2jOp93mpMxfy54xrPyKyJpSAiKo7sHy0US7puULP4lVWxKFIix9r0cvtwVo4AJxgs/DcZlFeAbR8Kh1R3L22Lr4Gx+7KjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1ijA5W2ds9h/PXJh8wZyLmwkZ+WVZsBuEBN61ahUJOw=;
- b=uwffnuEmitBks35B5I9EJijH3awhKgaUhFJYSton9md2ywykJl/xElsk957JSkpUqaFPBnq8XUGq3P4qHVe5mFFIkfEDgAU8zxW6IUJrbwEGnKqkSwbGlsCL3eeOpUrAZfQsNWnIkbzaY1791XYq2j/FPYhXQ5QBxFbxgNWX+35c5Vj20+HQAeSbSaFQThMpQhShuuINAhuzWTtw8eJYWHo9myBdxw4bMXsHpKYpfEREBVUscwW372GObZ+9Xs3BrUF1jerjQWKnKD/p4jtpN6ESwAn++rEEnQupALw0AUfh1sxfa2DXjvyaaLmQ9gGQW/mkis6T/uJ1dCdcx0ItVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8774.namprd11.prod.outlook.com (2603:10b6:610:1cd::15)
- by SA1PR11MB6806.namprd11.prod.outlook.com (2603:10b6:806:24d::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Thu, 9 Jul
- 2026 05:51:14 +0000
-Received: from CH3PR11MB8774.namprd11.prod.outlook.com
- ([fe80::8925:311f:7018:b3ec]) by CH3PR11MB8774.namprd11.prod.outlook.com
- ([fe80::8925:311f:7018:b3ec%5]) with mapi id 15.21.0181.009; Thu, 9 Jul 2026
- 05:51:14 +0000
-From: "Barde, Himani Ramesh" <HimaniRamesh.Barde@windriver.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "tgamblin@baylibre.com" <tgamblin@baylibre.com>,
-        "MacLeod, Randy"
-	<Randy.MacLeod@windriver.com>,
-        "Komati, Shiva" <Shiva.Komati@windriver.com>
-Subject: Re: [OE-core] [PATCH 2/2] python3-setuptools-scm: upgrade 10.0.5 -> 10.1.2
-Thread-Topic: [OE-core] [PATCH 2/2] python3-setuptools-scm: upgrade 10.0.5 ->
- 10.1.2
-Thread-Index: AQHdDrtqh1m4Mbp0E0KuL5mQygG9GLZjYZOAgAAIdH6AABFORw==
-Date: Thu, 9 Jul 2026 05:51:14 +0000
-Message-ID: 
- <CH3PR11MB8774C007D411DA9C4E26E9858FFF2@CH3PR11MB8774.namprd11.prod.outlook.com>
-References: <20260708092252.1211669-1-HimaniRamesh.Barde@windriver.com>
- <20260708092252.1211669-3-HimaniRamesh.Barde@windriver.com>
- <DJT3J5GX38YG.338OF4LLBVU92@bootlin.com>
- <CH3PR11MB8774FCDCE3E2497D8793893B8FFF2@CH3PR11MB8774.namprd11.prod.outlook.com>
-In-Reply-To: 
- <CH3PR11MB8774FCDCE3E2497D8793893B8FFF2@CH3PR11MB8774.namprd11.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Enabled=True;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SiteId=8ddb2873-a1ad-4a18-ae4e-4644631433be;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SetDate=2026-07-09T05:51:13.702Z;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Name=INTERNAL;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ContentBits=1;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Method=Standard;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH3PR11MB8774:EE_|SA1PR11MB6806:EE_
-x-ms-office365-filtering-correlation-id: e1831701-6f7b-4419-1a2d-08dedd7e1678
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|10070799003|366016|6049299003|23010399003|376014|1800799024|38070700021|13003099007|4053099003|4013099003|6133799003|11063799006|4143699003|56012099006|5023799004|22082099003|18002099003|8096899003;
-x-microsoft-antispam-message-info: 
- wd7dhVj+YCbnZJbQFaf2q6cIMV3uhF5QVStVcmeIXCtaLOWZsO3yje+df3shyQw2f321dpa0NLoc3hxJy79Su7J73s5XhOUSyiXKY7Wr3DgzxyEcKsXExdr4zUJQAD/bRVAfox+2+Rf9EXJIvg6KgVZxB4rNBe46oyWBQhjcg3UbNUeSuUznf/2QlB3kekycN0INY31TfRXTEGBb7dD7HNK02PgKWQ6Bkl9DNjuoJ+Z+y3B5nR8hffq23+s8Eu38VnroLU3KOenFuRS6la3GthVqHyO5Kk0D8PVCX30Mql1egSgX17JoWgi50ZgbOAq2gX3Wt2k544AVsTHq6jz0ANuMLSreRwIma18FrlFu+tyE117QjDvGzzYY8O5KyOYNQLEXptB/jNUZji46q25HvoKrl/gbpGhqOMBPzbCuxnkyTxY/HMiIHSGRlZYc6t5MvFNfNfhBKSZlZJzup+vUTZ9mnSDvdJG5dcs3jShY+oxdk34AVmAyZd79xGS5KiMRxjouWhMza8858dit33G22DzJYcSmgTEBNJbLGATh41zkq+eM9BVVar0TVc+qH0NhrqGOafbBqg26KAJlv35XlgPDQf7mheHBQEpjiU7ACRE+ABVSV2dqFg375eveu6vYPlN5jeASz8zrPdiR31iDdQ4Y2wwV5SlQbOjhdXF9hHg=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8774.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(6049299003)(23010399003)(376014)(1800799024)(38070700021)(13003099007)(4053099003)(4013099003)(6133799003)(11063799006)(4143699003)(56012099006)(5023799004)(22082099003)(18002099003)(8096899003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?ageflBo5fGYxtlVxzx5YbrzOro2lKV/mRaLxiB+KefhmW58Yn+KDagMNZ0?=
- =?iso-8859-1?Q?7lm9KSf6Jk9zDk2Yo50sO5NWIpXfCwuhWhGI5Wdx9KVbL4CJ58OuMllTpX?=
- =?iso-8859-1?Q?Zim4h5uwo+Kvcz2skXnkuqmnDQx8NaMhb32O26zZIkwdRuYvUbxfCT7s0g?=
- =?iso-8859-1?Q?sltEokRFVrkmMI1u0XO+wr8t0wAtQ5HcusVSKg0GQWljOCMBi/1078wU98?=
- =?iso-8859-1?Q?IH8X6n+n7e3BKxaLGE422lSn0uBTJHNq90hvgDhVqmrdrMYx6hJwROqD8e?=
- =?iso-8859-1?Q?JYNHzm+IEhqFCtylyGDRvAAkDy8Hv5Wozz/7n7SZ9E8hdj8P3t4MFzU/oE?=
- =?iso-8859-1?Q?P/VfZNppe82tOQ2XqhePYgafchdST9NuqwS1wf727XftP2LECs83A+9y2D?=
- =?iso-8859-1?Q?ZEzbnmLMY0de9Cxn+G9jbfyV9Yedr6WP/EjGxsl7Iogxa+D9EUxDh1XIEA?=
- =?iso-8859-1?Q?cmKoqihMK50Zfb0kctGfjGb6Mqe+/Rwsi+z4hAtN5m+RZ1klFFC+pLnjx6?=
- =?iso-8859-1?Q?xwNc7nhqGytcL/A6g7YE4qrNXYm5Uw+V8/iuUpi+suTwQVu1gFJhTTiG3Q?=
- =?iso-8859-1?Q?yX+VjhkzQMjHsKWpwJlDp9z+gH3a36w+hmpV+JW2C3M9GSZZ77ZpkGXtcC?=
- =?iso-8859-1?Q?Dx/GyBKaeNZ/lHlSAzApEf87CyiSZYHnvlTArb+DBg85unbcPf7vBoSZGU?=
- =?iso-8859-1?Q?73+DOdSygyLIKmn3/gMvYt3iYmvPK7MgXN1lhfJnHKf2IeMIBuK0PVz3VJ?=
- =?iso-8859-1?Q?d8Df6XzCUKm0agwOJcucMLcQKMXvQSKZlfWbqisB5YkAkvEAjyMHuwvxDY?=
- =?iso-8859-1?Q?qWrngAkQ473UOWCvBh08pJWYEJBmUWGqBTidHmrfVz1r8f1aY5SMsFtVP0?=
- =?iso-8859-1?Q?OclJvmqG0DMiZx45XiDLCuDOGSDpNwiTjlkUkLgeG7Oypna0KgruCQsHax?=
- =?iso-8859-1?Q?LUrmnnrAdhhC+gxiUN3c/4aU4wzh/PE4PTL/Ed3D2Nul6EbKLNpahJuas8?=
- =?iso-8859-1?Q?b//TuO06gFgF6LDG/csHSDuk/XgV9m5XusLOYIBq+sxulU/4WN4JAFtGi5?=
- =?iso-8859-1?Q?tQtVX7xnVnvpKvSFQkO9uxfvCViRui1if+9qj8g4/3lo1xFqPMvTXFpGH+?=
- =?iso-8859-1?Q?VCHpClv6wl5LFcLcNbIY7XTtWQkDktMoASsV32leQRdjfUi6AlOuqeE3A4?=
- =?iso-8859-1?Q?a48+GbWQZtqb95xuH7a73elxf5hzpqyH47kt4+LqtuVCmJA6VcNJj1k9G/?=
- =?iso-8859-1?Q?uqPV7OyzNxZbyvULMqcfpS+z1WXya+HPlJ6ZYbb8g5sNdNGS537YTBM2Ar?=
- =?iso-8859-1?Q?NGNODERaQJb3Iv7L3jg0C2oydPIFT0CUI5BRp87L1Io14UJAdG3TcZsDmz?=
- =?iso-8859-1?Q?7HkVix5kStuzZUICHbbwqtqI11AftfTzNJTMsKkTR8sGViDFG26iQBEho5?=
- =?iso-8859-1?Q?y8D2z2mn9YKJPzKzfLxWu3hwG5lAe89eKcO2mkthlkYG/qk50oxflhM8j8?=
- =?iso-8859-1?Q?7vpMHzbTA1vkEPBfehndMj94cawvlKulLEXiMHI8cTP50Ufx3qAHDS1Tuj?=
- =?iso-8859-1?Q?0ekgWzir0OIkFIVU2xGG2TavssbSlK2YQ0QuFi7s5x1Lfj5dQl0dU6NwUi?=
- =?iso-8859-1?Q?DVyBufhTy9O2EUbggbOz2jRpUsFKHp1XHZ/38tjKAjDt82hkKDudhLGd6Z?=
- =?iso-8859-1?Q?ha9o/TxUEcvlMuzlWQHkNGxENXpcvNf/1qiHU+vLcY0gMxuDjD876WYvXH?=
- =?iso-8859-1?Q?pmNgCjzAcVSmqLHxXhnBmM4vpT9cds7IaP/+W0Wdk/P4XZItEVcBp6hnpF?=
- =?iso-8859-1?Q?zHQoIea+VsFS3W/DJelpbnu0e37clATJni2LELg3qUPjIMn7hdo6MLsUo+?=
- =?iso-8859-1?Q?ZV?=
-x-ms-exchange-antispam-messagedata-1: aartuDAdUPLSooMGJAygDXfNEQAnYPBwDqE=
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=PhylnRpp5vqbwHYDo9i4PXaFBKBr5TxIzv/f3izHSo8=; b=
+	ZnEtiqHFgv53hYjro8gT1EGfiP0yXZRVUc2PragFxZ2XqeAJUIwrYI03b+xbGbVk
+	OqMOK+Q9R8Sl/scVZSXrUfofTIIOLJ/sOm9zilPS/ZJJVoOdex2xweu4k6eey/mN
+	TQlu6XIVUXuYLcHXLwp1uTqEaOI/SiVigoKMwDWyiDv/wY7jzMJb2p++Tc0TaJqM
+	KEh1pHVNUjOT8e35nrm28jmQkz9RPykoLi2ytUCYSOuTQHifXTosCN39gxsaENYZ
+	TFeC9vzGSE0ikIHPzxOhbjo/xSyT40V9GYCEofXgVID36ECvvp3wvG392ug5aXmB
+	aIrnt+YlCvl46+giSw1cOA==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fa1gy88tr-4
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 08 Jul 2026 22:31:11 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 8 Jul 2026 22:31:09 -0700
+Received: from oak-lpgbuild11.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 8 Jul 2026 22:31:09 -0700
+Received: by oak-lpgbuild11.wrs.com (Postfix, from userid 1762445297)
+	id 28C1140405AD; Thu,  9 Jul 2026 05:31:09 +0000 (UTC)
+From: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <Randy.MacLeod@windriver.com>, <Yi.Zhao@windriver.com>,
+        <Shiva.Komati@windriver.com>, <Qi.Chen@windriver.com>,
+        <Libo.Chen.CN@windriver.com>, <Jinfeng.Wang.CN@windriver.com>,
+        <Shailesh.Masih@windriver.com>, <Tomas.Holmberg@windriver.com>,
+        <Haixiao.Yan.CN@windriver.com>, <yoann.congal@smile.fr>,
+        "Pritam Srichandan
+ Sahoo" <PritamSrichandan.Sahoo@windriver.com>
+Subject: [wrynose][PATCH v2 1/2] gnutls: fix CVE-2026-33846
+Date: Thu, 9 Jul 2026 05:31:05 +0000
+Message-ID: <20260709053106.1630373-2-PritamSrichandan.Sahoo@windriver.com>
+X-Mailer: git-send-email 2.49.1
+In-Reply-To: <20260709053106.1630373-1-PritamSrichandan.Sahoo@windriver.com>
+References: <20260709053106.1630373-1-PritamSrichandan.Sahoo@windriver.com>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
-	P73QYBlYtIKfckV/BKbmJmIbl5nL46BmmnxF9GK0m47PkFssugqe2pGz34A1pDKGVTFUlhlFoyCur1pF6Uisrilmc8IZoeOtQJFBHlBYK4+76enNDKmOHCZzkaaYZr1LgZ/egQaWmYfB1CEytlZbmbTSZQkkN1r9Ud/up1bVH9NYi8U5ULm/Pn8ccOcrRyw8aDq+Jndga21oRfGe6w+ntXk6x+rH601y+yTmVA1r6v5fZBN86jfeOpljJjmHgxu+QfNlHtpDE5TxPhW1TaHLgK9HKoZyPz/iau5wWQdO8Cmz9utqn02/FVMEFCTVQLhavtE8D5viNupU8tu4F78UbQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8774.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1831701-6f7b-4419-1a2d-08dedd7e1678
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2026 05:51:14.5367
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Vv+XCh1UjXWX8fuW8UgG4hS+bVgl+izY13bJNZJXPH3g9YY8P6zIM9IwcYmtmDV2sbdelMkE5tk6lPsqSlyzau0A1+mDR6sY+cIKCZSHh4u5cz1eeqBWs9bStmSF1Ivy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6806
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: Lt2FyVsBrn0cmBq0LzV3_ZDbwoYvvLAc
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDA1MiBTYWx0ZWRfX6lAdRWf4nIRD
- fpIgoAIlcdY/2YL1onnNVnYZsax2Hlgcc48yh1ih+0tz4zvc9AUYHPuSgGpvJUe0t3DR1SBaIwg
- hVkmEoA6Rus3hUYtj9Vg0q2N5AYHDqSyGVRaxnvX6ljt9F+i5kjq
-X-Proofpoint-GUID: Ax323LvqC8tOQumLfKMUVCziqlZrtRpe
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDA1MiBTYWx0ZWRfXzHwI+rNbCETr
- obnmrt3IGFjJrk9TtzWFKLmTY1QHryVsbGpEwbSy8Kn1m6gE+2ohp1ASD5CLvD5x5OQT9e6xxHD
- KFouCZK0V45afhYwVvQRGG1+LoZQuWNx5fcFOmWMV9UQW5VvC0RCbRdlpymuPpqBfU7zKah3kN9
- YkAPziyKksPoC4slMvmLdvFhijhVtLTwGSfB2Mh9q61aaMDmHGWVhY/kymMpPyExw2EmJuR8ONt
- m4U0+hyoPk56fRgL3kLPoy9ESPhDdqBrUBA5jvd51AjJurBnNznipKnSOXZ/2tfjVM5itWNDGkq
- HudsCTWLQI/RKRRApj9s95mEpW24mdg1iUZ/FeDD77T9Hsbx6EJGcUlgVXkGOEXSJH4wqaBrwpO
- B1XQ9o9eU9Ybgif6iE+BjMB39S980mmXrGCAPwLOTzVxADsFUvJax3OKiOxZHWOJv6rOl8ibjPK
- IQyHnp3730WKRV2gcHA==
-X-Authority-Analysis: v=2.4 cv=P7IKQCAu c=1 sm=1 tr=0 ts=6a4f36d6 cx=c_pps
- a=DoKDTACKjh9G6IJ+hAMtGg==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=P-IC7800AAAA:8 a=t7CeM3EgAAAA:8
- a=Q4-j1AaZAAAA:8 a=IpJZQVW2AAAA:8 a=UBFVfQAFWYhimOpKR3UA:9 a=wPNLvfGTeEIA:10
- a=XwdRNx1Jg5vhRtRX:21 a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10
- a=dWB_wDoaOQRvAvalUzMA:9 a=B2y7HmGcmWMA:10 a=d3PnA9EDa4IxuAV0gXij:22
- a=FdTzh2GWekK77mhwV6Dw:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=IawgGOuG5U0WyFbmm1f5:22
+X-Proofpoint-ORIG-GUID: my_Hp_lx7w7ZnIVm_ywyXtGOI3zf_IgU
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDA0OSBTYWx0ZWRfX1MbUvTKomSw8
+ /kZ9frZsOv485pt3Cb+35gzPgcvR4B12kmtyQRt2PCQTc6a1F7RgHRq5JxhWJuUYCYo19cc3voS
+ PByWMzolGWe9e3ElaZl1WBLq0dffOYMfFLnkljeWtjS5Ti7TgIQL
+X-Proofpoint-GUID: my_Hp_lx7w7ZnIVm_ywyXtGOI3zf_IgU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDA0OSBTYWx0ZWRfX5saLV0Uf8adL
+ JeEhTBp7XOvnioFvxWXyUmzNsUrsicyqJdVfHjmopz223hQWxo692j3Eoi/6lT0TLj0W6gsCbA5
+ rJBm1Dn6fw1Ax/hWZOaeIngXDP5JLlA9ezU2up1eVoKFWiOwhGWbQkkhjjVUC24tNfCk2yjakQi
+ c8eLtK+gHBsX1G7vgYZqF9LrC9NVn1TwxVMP3S7xnGVP4cwSWQ2ki+rETkno0N+3C8PEMdGtN95
+ YmdTwTLA9Fy32vH8Fx25WfXmGTGsAeH7ly2gDRKcPx7Zt4RAv0TEW74OPK94Q/K/ruRS1FiR0tl
+ G6MJqpxu//LbVB1c03u2DKXDsQhLefXEpdnbpIia6TfGH7HFhoLulm9PezrMcByKJVKi75ApZZQ
+ MLALAQ0xdvnFcHjCv5d0iN6ZaPJMcYMYeRSqGuCyR5nTo799sY5/t9QOt8V3JtIuLgmVeRqqn0P
+ vI30rFWDOj8594pjxgw==
+X-Authority-Analysis: v=2.4 cv=P7IKQCAu c=1 sm=1 tr=0 ts=6a4f321f cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=iKiJcTA2PjBS6x5JeXcw:22 a=p0WdMEafAAAA:8 a=mDV3o1hIAAAA:8 a=GwUem0DFAAAA:8
+ a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8 a=7RbUZwKBeKb-oNkpkekA:9 a=O8hF6Hzn-FEA:10
+ a=r0dl5i_q2XGqDZkti5dn:22 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-08_05,2026-07-08_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 priorityscore=1501 adultscore=0 clxscore=1015
+ spamscore=0 bulkscore=0 priorityscore=1501 adultscore=0 clxscore=1011
  malwarescore=0 phishscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607090052
-Content-Language: en-US
-Content-Type: multipart/mixed;
-	boundary="_004_CH3PR11MB8774C007D411DA9C4E26E9858FFF2CH3PR11MB8774namp_"
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607090049
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:21:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240877
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:21:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240875
 
---_004_CH3PR11MB8774C007D411DA9C4E26E9858FFF2CH3PR11MB8774namp_
-Content-Type: multipart/alternative;
-	boundary="_000_CH3PR11MB8774C007D411DA9C4E26E9858FFF2CH3PR11MB8774namp_"
+Backport upstream fixes for DTLS handshake fragment reassembly
+vulnerability (CVE-2026-33846).
 
---_000_CH3PR11MB8774C007D411DA9C4E26E9858FFF2CH3PR11MB8774namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Includes:
+- 4f94e5cfe1f2: add basic DTLS fragment reassembly test
+- 9deffca528c2: shorten merge_handshake_packet using recv_buf
+- 65ab33fa54e3: add validation checks for DTLS fragment length and bounds
+- cf3f1955e58c: add reproducer for DTLS fragment reassembly bug (#1816)
+- bb427ff74dba: add fragmented ClientHello test coverage
+- 092c65d004e2: match DTLS datagrams by handshake sequence number
+- a2b41be83a1a: add test for mismatched message_seq handling (#1839)
 
-Hi Alex,
+These commits are included in gnutls 3.8.13 and are backported by
+both Debian (gnutls28_3.8.9-3+deb13u4) and CentOS 10-stream
+(gnutls-3.8.10-4.el10) using identical commit selection.
 
+Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
+---
+ .../gnutls/gnutls/CVE-2026-33846.patch        | 862 ++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   1 +
+ 2 files changed, 863 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch
 
-The error occurs when building python3-setuptools-scm >=3D 10.1.2.
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch
+new file mode 100644
+index 0000000000..5c85a531b3
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch
+@@ -0,0 +1,862 @@
++From 4f94e5cfe1f252a431e41642b0752e7e0daf43b9 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Fri, 20 Mar 2026 16:09:40 +0100
++Subject: [PATCH 1/7] tests/mini-dtls-fragments: implement a basic DTLS test
++
++Upstream-Status: Backport
++[1] https://gitlab.com/gnutls/gnutls/-/commit/4f94e5cfe1f252a431e41642b0752e7e0daf43b9
++[2] https://gitlab.com/gnutls/gnutls/-/commit/9deffca528c23bbb218f5ec3bd4bb1bf4cbd1fc0
++[3] https://gitlab.com/gnutls/gnutls/-/commit/65ab33fa54e34fba69d793735b7df3d383d1ff78
++[4] https://gitlab.com/gnutls/gnutls/-/commit/cf3f1955e58cbcc10373b841bb101fb058565d87
++[5] https://gitlab.com/gnutls/gnutls/-/commit/bb427ff74dba849d40753ed9c8511e873f762743
++[6] https://gitlab.com/gnutls/gnutls/-/commit/092c65d004e2f125f2fea3db84d801ac49a09f78
++[7] https://gitlab.com/gnutls/gnutls/-/commit/a2b41be83a1a3529c551ccf54958da91a656550e
++
++CVE: CVE-2026-33846
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
++---
++ tests/Makefile.am           |   7 +-
++ tests/mini-dtls-fragments.c | 208 ++++++++++++++++++++++++++++++++++++
++ 2 files changed, 214 insertions(+), 1 deletion(-)
++ create mode 100644 tests/mini-dtls-fragments.c
++
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index aeeaaf79d..586f1952d 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -241,7 +241,8 @@ ctests += mini-record-2 simple gnutls_hmac_fast set_pkcs12_cred cert certuniquei
++ 	 x509cert-dntypes id-on-xmppAddr tls13-compat-mode ciphersuite-name \
++ 	 x509-upnconstraint xts-key-check cipher-padding pkcs7-verify-double-free \
++ 	 fips-rsa-sizes tls12-rehandshake-ticket pathbuf tls-force-ems \
++-	 psk-importer privkey-derive dh-compute2 ecdh-compute2
+++	 psk-importer privkey-derive dh-compute2 ecdh-compute2 \
+++	 mini-dtls-fragments
++ 
++ ctests += tls-channel-binding
++ 
++@@ -513,6 +514,10 @@ pathbuf_CPPFLAGS = $(AM_CPPFLAGS) \
++ 	-I$(top_srcdir)/gl	\
++ 	-I$(top_builddir)/gl
++ 
+++mini_dtls_fragments_CPPFLAGS = $(AM_CPPFLAGS) \
+++	-I$(top_srcdir)/gl	\
+++	-I$(top_builddir)/gl
+++
++ if ENABLE_PKCS11
++ if !WINDOWS
++ ctests += tls13/post-handshake-with-cert-pkcs11 pkcs11/tls-neg-pkcs11-no-key \
++diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
++new file mode 100644
++index 000000000..ee75feeb6
++--- /dev/null
+++++ b/tests/mini-dtls-fragments.c
++@@ -0,0 +1,208 @@
+++/*
+++ * Copyright (C) 2026 Red Hat, Inc.
+++ *
+++ * Author: Alexander Sosedkin
+++ *
+++ * This file is part of GnuTLS.
+++ *
+++ * GnuTLS is free software; you can redistribute it and/or modify it
+++ * under the terms of the GNU General Public License as published by
+++ * the Free Software Foundation; either version 3 of the License, or
+++ * (at your option) any later version.
+++ *
+++ * GnuTLS is distributed in the hope that it will be useful, but
+++ * WITHOUT ANY WARRANTY; without even the implied warranty of
+++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++ * General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU Lesser General Public License
+++ * along with this program.  If not, see <https://www.gnu.org/licenses/>
+++ */
+++
+++#ifdef HAVE_CONFIG_H
+++#include "config.h"
+++#endif
+++
+++#include <stdio.h>
+++#include <stdlib.h>
+++
+++#if defined(_WIN32)
+++
+++int main(void)
+++{
+++	exit(77);
+++}
+++
+++#else
+++
+++#include <assert.h>
+++#include <errno.h>
+++#include <stdbool.h>
+++#include <stdint.h>
+++#include <string.h>
+++#include <gnutls/gnutls.h>
+++#include <gnutls/dtls.h>
+++#include "cert-common.h"
+++#include "utils.h"
+++
+++#include "attribute.h"
+++
+++static void server_log_func(int level, const char *str)
+++{
+++	fprintf(stderr, "server|<%d>| %s", level, str);
+++}
+++
+++static void client_log_func(int level, const char *str)
+++{
+++	fprintf(stderr, "client|<%d>| %s", level, str);
+++}
+++
+++#define QUEUE_SIZE 1024
+++#define PACKET_SIZE 2048
+++
+++typedef struct {
+++	uint8_t buf[PACKET_SIZE];
+++	size_t len;
+++} packet_t;
+++typedef struct {
+++	packet_t packets[QUEUE_SIZE];
+++	size_t head;
+++	size_t tail;
+++} queue_t;
+++
+++static queue_t c2s, s2c;
+++
+++static int queue_put(queue_t *q, const void *buf, size_t len)
+++{
+++	assert(len <= PACKET_SIZE);
+++	memcpy(q->packets[q->tail].buf, buf, len);
+++	q->packets[q->tail].len = len;
+++	q->tail++;
+++	q->tail %= QUEUE_SIZE;
+++	assert(q->tail != q->head);
+++	return len;
+++}
+++
+++static ssize_t queue_get(queue_t *q, gnutls_session_t s, void *buf, size_t len)
+++{
+++	if (q->head == q->tail) {
+++		gnutls_transport_set_errno(s, EAGAIN);
+++		return -1;
+++	}
+++	size_t n = q->packets[q->head].len;
+++	memcpy(buf, q->packets[q->head].buf, n);
+++	q->head++;
+++	q->head %= QUEUE_SIZE;
+++	return n;
+++}
+++
+++static void queue_reset(queue_t *q)
+++{
+++	q->head = q->tail = 0;
+++}
+++
+++static int pull_timeout(gnutls_transport_ptr_t tr, unsigned ms)
+++{
+++	return 1;
+++}
+++
+++static ssize_t server_pull(gnutls_transport_ptr_t tr, void *b, size_t l)
+++{
+++	return queue_get(&c2s, (gnutls_session_t)tr, b, l);
+++}
+++
+++static ssize_t client_pull(gnutls_transport_ptr_t tr, void *b, size_t l)
+++{
+++	return queue_get(&s2c, (gnutls_session_t)tr, b, l);
+++}
+++
+++static ssize_t server_push(gnutls_transport_ptr_t tr, const void *b, size_t l)
+++{
+++	return queue_put(&s2c, b, l);
+++}
+++
+++static ssize_t client_push_normal(gnutls_transport_ptr_t tr, const void *b,
+++				  size_t l)
+++{
+++	return queue_put(&c2s, b, l);
+++}
+++
+++static void test(gnutls_push_func client_push)
+++{
+++	gnutls_session_t client, server;
+++	gnutls_certificate_credentials_t ccred, scred;
+++	int cr = 0, sr = 0;
+++	bool cdone = false, sdone = false;
+++
+++	if (debug)
+++		gnutls_global_set_log_level(4711);
+++
+++	gnutls_certificate_allocate_credentials(&scred);
+++	gnutls_certificate_set_x509_key_mem(scred, &server_cert, &server_key,
+++					    GNUTLS_X509_FMT_PEM);
+++	gnutls_certificate_allocate_credentials(&ccred);
+++
+++	gnutls_init(&server, GNUTLS_SERVER | GNUTLS_DATAGRAM);
+++	gnutls_init(&client, GNUTLS_CLIENT | GNUTLS_DATAGRAM);
+++
+++	gnutls_priority_set_direct(server, "NORMAL:-VERS-ALL:+VERS-DTLS1.2",
+++				   NULL);
+++	gnutls_priority_set_direct(client, "NORMAL:-VERS-ALL:+VERS-DTLS1.2",
+++				   NULL);
+++
+++	gnutls_credentials_set(server, GNUTLS_CRD_CERTIFICATE, scred);
+++	gnutls_credentials_set(client, GNUTLS_CRD_CERTIFICATE, ccred);
+++
+++	gnutls_dtls_set_timeouts(client, get_dtls_retransmit_timeout(),
+++				 get_timeout());
+++	gnutls_dtls_set_timeouts(server, get_dtls_retransmit_timeout(),
+++				 get_timeout());
+++
+++	gnutls_transport_set_ptr(client, client);
+++	gnutls_transport_set_push_function(client, client_push);
+++	gnutls_transport_set_pull_function(client, client_pull);
+++	gnutls_transport_set_pull_timeout_function(client, pull_timeout);
+++
+++	gnutls_transport_set_ptr(server, server);
+++	gnutls_transport_set_push_function(server, server_push);
+++	gnutls_transport_set_pull_function(server, server_pull);
+++	gnutls_transport_set_pull_timeout_function(server, pull_timeout);
+++
+++	while (!cdone || !sdone) {
+++		gnutls_global_set_log_function(client_log_func);
+++		if (!cdone)
+++			cr = gnutls_handshake(client);
+++		if (!cr || gnutls_error_is_fatal(cr))
+++			cdone = true;
+++
+++		gnutls_global_set_log_function(server_log_func);
+++		if (!sdone)
+++			sr = gnutls_handshake(server);
+++		if (!sr || gnutls_error_is_fatal(sr))
+++			sdone = true;
+++	}
+++
+++	if (cr)
+++		fail("client: %s\n", gnutls_strerror(cr));
+++	if (sr)
+++		fail("server: %s\n", gnutls_strerror(sr));
+++
+++	success("OK\n");
+++
+++	queue_reset(&c2s);
+++	queue_reset(&s2c);
+++
+++	gnutls_deinit(client);
+++	gnutls_deinit(server);
+++	gnutls_certificate_free_credentials(ccred);
+++	gnutls_certificate_free_credentials(scred);
+++}
+++
+++void doit(void)
+++{
+++	global_init();
+++	test(client_push_normal);
+++	gnutls_global_deinit();
+++}
+++
+++#endif /* _WIN32 */
++-- 
++2.54.0
++
++
++From 9deffca528c23bbb218f5ec3bd4bb1bf4cbd1fc0 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Fri, 17 Apr 2026 17:49:31 +0200
++Subject: [PATCH 2/7] buffers: shorten merge_handshake_packet using recv_buf
++
++I had vague concerns about thread-safety of this,
++but then this pattern already exists within the file.
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++---
++ lib/buffers.c | 52 +++++++++++++++++----------------------------------
++ 1 file changed, 17 insertions(+), 35 deletions(-)
++
++diff --git a/lib/buffers.c b/lib/buffers.c
++index 672380b05..d54c77022 100644
++--- a/lib/buffers.c
+++++ b/lib/buffers.c
++@@ -967,9 +967,11 @@ static int merge_handshake_packet(gnutls_session_t session,
++ 	int exists = 0, i, pos = 0;
++ 	int ret;
++ 
+++	handshake_buffer_st *recv_buf =
+++		session->internals.handshake_recv_buffer;
+++
++ 	for (i = 0; i < session->internals.handshake_recv_buffer_size; i++) {
++-		if (session->internals.handshake_recv_buffer[i].htype ==
++-		    hsk->htype) {
+++		if (recv_buf[i].htype == hsk->htype) {
++ 			exists = 1;
++ 			pos = i;
++ 			break;
++@@ -1005,44 +1007,24 @@ static int merge_handshake_packet(gnutls_session_t session,
++ 		_gnutls_write_uint24(0, &hsk->header[6]);
++ 		_gnutls_write_uint24(hsk->length, &hsk->header[9]);
++ 
++-		_gnutls_handshake_buffer_move(
++-			&session->internals.handshake_recv_buffer[pos], hsk);
+++		_gnutls_handshake_buffer_move(&recv_buf[pos], hsk);
++ 
++ 	} else {
++-		if (hsk->start_offset <
++-			    session->internals.handshake_recv_buffer[pos]
++-				    .start_offset &&
++-		    hsk->end_offset + 1 >=
++-			    session->internals.handshake_recv_buffer[pos]
++-				    .start_offset) {
++-			memcpy(&session->internals.handshake_recv_buffer[pos]
++-					.data.data[hsk->start_offset],
+++		if (hsk->start_offset < recv_buf[pos].start_offset &&
+++		    hsk->end_offset + 1 >= recv_buf[pos].start_offset) {
+++			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
++ 			       hsk->data.data, hsk->data.length);
++-			session->internals.handshake_recv_buffer[pos]
++-				.start_offset = hsk->start_offset;
++-			session->internals.handshake_recv_buffer[pos]
++-				.end_offset = MIN(
++-				hsk->end_offset,
++-				session->internals.handshake_recv_buffer[pos]
++-					.end_offset);
++-		} else if (hsk->end_offset >
++-				   session->internals.handshake_recv_buffer[pos]
++-					   .end_offset &&
++-			   hsk->start_offset <=
++-				   session->internals.handshake_recv_buffer[pos]
++-						   .end_offset +
++-					   1) {
++-			memcpy(&session->internals.handshake_recv_buffer[pos]
++-					.data.data[hsk->start_offset],
+++			recv_buf[pos].start_offset = hsk->start_offset;
+++			recv_buf[pos].end_offset =
+++				MIN(hsk->end_offset, recv_buf[pos].end_offset);
+++		} else if (hsk->end_offset > recv_buf[pos].end_offset &&
+++			   hsk->start_offset <= recv_buf[pos].end_offset + 1) {
+++			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
++ 			       hsk->data.data, hsk->data.length);
++ 
++-			session->internals.handshake_recv_buffer[pos]
++-				.end_offset = hsk->end_offset;
++-			session->internals.handshake_recv_buffer[pos]
++-				.start_offset = MIN(
++-				hsk->start_offset,
++-				session->internals.handshake_recv_buffer[pos]
++-					.start_offset);
+++			recv_buf[pos].end_offset = hsk->end_offset;
+++			recv_buf[pos].start_offset = MIN(
+++				hsk->start_offset, recv_buf[pos].start_offset);
++ 		}
++ 		_gnutls_handshake_buffer_clear(hsk);
++ 	}
++-- 
++2.54.0
++
++
++From 65ab33fa54e34fba69d793735b7df3d383d1ff78 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Fri, 17 Apr 2026 18:21:36 +0200
++Subject: [PATCH 3/7] buffers: add more checks to DTLS reassembly
++
++Previously, gnutls didn't check that DTLS fragments claimed
++a consistent message_length value.
++Additionally, a crucial array size check was missing,
++enabling an attacker to cause a heap overwrite.
++The updated version rejects fragments with mismatching length
++and adds a missing boundary check.
++
++Reported-by: Haruto Kimura (Stella)
++Reported-by: Oscar Reparaz
++Reported-by: Zou Dikai
++Fixes: #1816
++Fixes: #1838
++Fixes: #1839
++Fixes: CVE-2026-33846
++Fixes: GNUTLS-SA-2026-04-29-1
++CVSS: 7.4 High CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H
++CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++---
++ lib/buffers.c | 20 ++++++++++++++++++++
++ 1 file changed, 20 insertions(+)
++
++diff --git a/lib/buffers.c b/lib/buffers.c
++index d54c77022..5d4d16276 100644
++--- a/lib/buffers.c
+++++ b/lib/buffers.c
++@@ -1010,6 +1010,26 @@ static int merge_handshake_packet(gnutls_session_t session,
++ 		_gnutls_handshake_buffer_move(&recv_buf[pos], hsk);
++ 
++ 	} else {
+++		if (hsk->length != recv_buf[pos].length) {
+++			/* inconsistent across fragments */
+++			_gnutls_handshake_buffer_clear(hsk);
+++			return gnutls_assert_val(
+++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
+++		}
+++		/* start_offset + data.length <= hsk->length <= max_length */
+++		if (hsk->length < hsk->start_offset + hsk->data.length) {
+++			/* impossible claims, overflow requested */
+++			_gnutls_handshake_buffer_clear(hsk);
+++			return gnutls_assert_val(
+++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
+++		}
+++		if (hsk->length > recv_buf[pos].data.max_length) {
+++			/* we don't have this much allocated, overflow guard */
+++			_gnutls_handshake_buffer_clear(hsk);
+++			return gnutls_assert_val(
+++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
+++		}
+++
++ 		if (hsk->start_offset < recv_buf[pos].start_offset &&
++ 		    hsk->end_offset + 1 >= recv_buf[pos].start_offset) {
++ 			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
++-- 
++2.54.0
++
++
++From cf3f1955e58cbcc10373b841bb101fb058565d87 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Wed, 1 Apr 2026 19:51:45 +0200
++Subject: [PATCH 4/7] tests/mini-dtls-fragments: extend with a #1816 reproducer
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++---
++ tests/mini-dtls-fragments.c | 120 ++++++++++++++++++++++++++++++++++++
++ 1 file changed, 120 insertions(+)
++
++diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
++index ee75feeb6..8d5a18acd 100644
++--- a/tests/mini-dtls-fragments.c
+++++ b/tests/mini-dtls-fragments.c
++@@ -106,6 +106,11 @@ static int pull_timeout(gnutls_transport_ptr_t tr, unsigned ms)
++ 	return 1;
++ }
++ 
+++static int c2s_pull_timeout_once(gnutls_transport_ptr_t tr, unsigned ms)
+++{
+++	return c2s.head != c2s.tail ? 1 : 0;
+++}
+++
++ static ssize_t server_pull(gnutls_transport_ptr_t tr, void *b, size_t l)
++ {
++ 	return queue_get(&c2s, (gnutls_session_t)tr, b, l);
++@@ -198,10 +203,125 @@ static void test(gnutls_push_func client_push)
++ 	gnutls_certificate_free_credentials(scred);
++ }
++ 
+++static void test_malicious1816(void)
+++{
+++	/* dgram1: msg_len=50, frag_offset=25, frag_len=25 */
+++	static const uint8_t dgram1_hdr[] = {
+++		0x16, /* type: handshake */
+++		0xfe, 0xfd, /* version: DTLS 1.2 */
+++		0x00, 0x00, /* epoch: 0 */
+++		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* seq: 0 */
+++		0x00, 0x25, /* record_length: 37 */
+++		0x01, /* msg_type: ClientHello */
+++		0x00, 0x00, 0x32, /* msg_length: 50 */
+++		0x00, 0x00, /* msg_seq: 0 */
+++		0x00, 0x00, 0x19, /* frag_offset: 25 */
+++		0x00, 0x00, 0x19, /* frag_length: 25 */
+++	};
+++	/* dgram2: msg_len=3000, frag_offset=0, frag_len=48 */
+++	static const uint8_t dgram2_hdr[] = {
+++		0x16, /* type: handshake */
+++		0xfe, 0xfd, /* version: DTLS 1.2 */
+++		0x00, 0x00, /* epoch: 0 */
+++		0x00, 0x00, 0x00, 0x00, 0x00, 0x01, /* seq: 1 */
+++		0x00, 0x3c, /* record_length: 60 */
+++		0x01, /* msg_type: ClientHello */
+++		0x00, 0x0b, 0xb8, /* msg_length: 3000 */
+++		0x00, 0x00, /* msg_seq: 0 */
+++		0x00, 0x00, 0x00, /* frag_offset: 0 */
+++		0x00, 0x00, 0x30, /* frag_length: 48 */
+++	};
+++	/* dgram3: msg_len=3000, frag_offset=40, frag_len=1475 */
+++	static const uint8_t dgram3_hdr[] = {
+++		0x16, /* type: handshake */
+++		0xfe, 0xfd, /* version: DTLS 1.2 */
+++		0x00, 0x00, /* epoch: 0 */
+++		0x00, 0x00, 0x00, 0x00, 0x00, 0x02, /* seq: 2 */
+++		0x05, 0xcf, /* record_length: 1487 */
+++		0x01, /* msg_type: ClientHello */
+++		0x00, 0x0b, 0xb8, /* msg_length: 3000 */
+++		0x00, 0x00, /* msg_seq: 0 */
+++		0x00, 0x00, 0x28, /* frag_offset: 40 */
+++		0x00, 0x05, 0xc3, /* frag_length: 1475 */
+++	};
+++	/* dgram4: msg_len=3000, frag_offset=1500, frag_len=1475 */
+++	static const uint8_t dgram4_hdr[] = {
+++		0x16, /* type: handshake */
+++		0xfe, 0xfd, /* version: DTLS 1.2 */
+++		0x00, 0x00, /* epoch: 0 */
+++		0x00, 0x00, 0x00, 0x00, 0x00, 0x03, /* seq: 3 */
+++		0x05, 0xcf, /* record_length: 1487 */
+++		0x01, /* msg_type: ClientHello */
+++		0x00, 0x0b, 0xb8, /* msg_length: 3000 */
+++		0x00, 0x00, /* msg_seq: 0 */
+++		0x00, 0x05, 0xdc, /* frag_offset: 1500 */
+++		0x00, 0x05, 0xc3, /* frag_length: 1475 */
+++	};
+++	gnutls_session_t server;
+++	gnutls_certificate_credentials_t scred;
+++	uint8_t dgram[1500];
+++	int sr;
+++
+++	if (debug)
+++		gnutls_global_set_log_level(4711);
+++
+++	gnutls_certificate_allocate_credentials(&scred);
+++	gnutls_certificate_set_x509_key_mem(scred, &server_cert, &server_key,
+++					    GNUTLS_X509_FMT_PEM);
+++
+++	gnutls_init(&server, GNUTLS_SERVER | GNUTLS_DATAGRAM);
+++	gnutls_priority_set_direct(server, "NORMAL:+VERS-DTLS1.2", NULL);
+++	gnutls_credentials_set(server, GNUTLS_CRD_CERTIFICATE, scred);
+++
+++	gnutls_dtls_set_timeouts(server, get_dtls_retransmit_timeout(),
+++				 get_timeout());
+++
+++	gnutls_transport_set_ptr(server, server);
+++	gnutls_transport_set_push_function(server, server_push);
+++	gnutls_transport_set_pull_function(server, server_pull);
+++	gnutls_transport_set_pull_timeout_function(server,
+++						   c2s_pull_timeout_once);
+++
+++	memset(dgram, 0, sizeof(dgram));
+++	memcpy(dgram, dgram1_hdr, 25);
+++	queue_put(&c2s, dgram, 25 + 25);
+++
+++	memset(dgram, 0, sizeof(dgram));
+++	memcpy(dgram, dgram2_hdr, 25);
+++	queue_put(&c2s, dgram, 25 + 48);
+++
+++	memset(dgram, 0, sizeof(dgram));
+++	memcpy(dgram, dgram3_hdr, 25);
+++	queue_put(&c2s, dgram, 25 + 1475);
+++
+++	memset(dgram, 0, sizeof(dgram));
+++	memcpy(dgram, dgram4_hdr, 25);
+++	queue_put(&c2s, dgram, 25 + 1475);
+++
+++	gnutls_global_set_log_function(server_log_func);
+++	do {
+++		sr = gnutls_handshake(server); /* invalid write if vulnerable */
+++	} while (c2s.head != c2s.tail && !gnutls_error_is_fatal(sr));
+++	if (sr != GNUTLS_E_UNEXPECTED_PACKET_LENGTH)
+++		fail("server: expected GNUTLS_E_UNEXPECTED_PACKET_LENGTH, "
+++		     "got: %s\n",
+++		     gnutls_strerror(sr));
+++
+++	success("OK\n");
+++
+++	queue_reset(&c2s);
+++	queue_reset(&s2c);
+++
+++	gnutls_deinit(server);
+++	gnutls_certificate_free_credentials(scred);
+++}
+++
++ void doit(void)
++ {
++ 	global_init();
++ 	test(client_push_normal);
+++	success("malicious reassembly bug exploitation (#1816):\n");
+++	test_malicious1816();
++ 	gnutls_global_deinit();
++ }
++ 
++-- 
++2.54.0
++
++
++From bb427ff74dba849d40753ed9c8511e873f762743 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Mon, 20 Apr 2026 16:08:11 +0200
++Subject: [PATCH 5/7] tests/mini-dtls-fragments: extend with fragmenting
++ ClientHello
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++---
++ tests/mini-dtls-fragments.c | 107 ++++++++++++++++++++++++++++++++++++
++ 1 file changed, 107 insertions(+)
++
++diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
++index 8d5a18acd..93490bac2 100644
++--- a/tests/mini-dtls-fragments.c
+++++ b/tests/mini-dtls-fragments.c
++@@ -132,6 +132,39 @@ static ssize_t client_push_normal(gnutls_transport_ptr_t tr, const void *b,
++ 	return queue_put(&c2s, b, l);
++ }
++ 
+++static void write_u16(uint8_t *p, uint16_t val)
+++{
+++	p[0] = val >> 8;
+++	p[1] = val & 0xff;
+++}
+++
+++static void write_u24(uint8_t *p, uint32_t val)
+++{
+++	p[0] = (val >> 16) & 0xff;
+++	p[1] = (val >> 8) & 0xff;
+++	p[2] = val & 0xff;
+++}
+++
+++static void write_u48(uint8_t *p, uint64_t seq)
+++{
+++	int i;
+++	for (i = 5; i >= 0; i--) {
+++		p[i] = seq & 0xff;
+++		seq >>= 8;
+++	}
+++}
+++
+++static uint64_t read_u48(const uint8_t *p)
+++{
+++	uint64_t seq = 0;
+++	int i;
+++	for (i = 5; i >= 0; i--) {
+++		seq <<= 8;
+++		seq |= p[i];
+++	}
+++	return seq;
+++}
+++
++ static void test(gnutls_push_func client_push)
++ {
++ 	gnutls_session_t client, server;
++@@ -316,12 +349,86 @@ static void test_malicious1816(void)
++ 	gnutls_certificate_free_credentials(scred);
++ }
++ 
+++static ssize_t queue_put_renumbered(queue_t *q, const uint8_t *data, size_t l,
+++				    int delta_n)
+++{
+++	if (delta_n == 0 || l < 13 || data[3] != 0 || data[4] != 0)
+++		return queue_put(&c2s, data, l);
+++
+++	uint8_t *p = malloc(l);
+++	assert(p);
+++	memcpy(p, data, l);
+++	write_u48(p + 5, read_u48(p + 5) + delta_n);
+++	ssize_t ret = queue_put(q, p, l);
+++	free(p);
+++	return ret;
+++}
+++
+++static void split_client_hello(const uint8_t *data, size_t len, uint8_t **frag1,
+++			       size_t *frag1_len, uint8_t **frag2,
+++			       size_t *frag2_len)
+++{
+++	size_t body_size = len - 25;
+++	*frag1_len = 13 + 12 + 1;
+++	*frag2_len = 13 + 12 + (body_size - 1);
+++
+++	*frag1 = malloc(13 + 12 + 1);
+++	assert(*frag1);
+++	*frag2 = malloc(13 + 12 + body_size - 1);
+++	assert(*frag2);
+++
+++	/* first fragment: record header + handshake header + first body byte */
+++	memcpy(*frag1, data, 13); /* record header */
+++	write_u16(*frag1 + 11, 12 + 1); /* record length */
+++	memcpy(*frag1 + 13, data + 13, 12); /* handshake header */
+++	write_u24(*frag1 + 19, 0); /* fragment_offset = 0 */
+++	write_u24(*frag1 + 22, 1); /* fragment_length = 1 */
+++	(*frag1)[25] = data[25]; /* first body byte */
+++
+++	/* second fragment: record header + handshake header + remaining body */
+++	memcpy(*frag2, data, 13); /* record header */
+++	write_u16(*frag2 + 11, *frag2_len - 13); /* record length */
+++	write_u48(*frag2 + 5, read_u48(*frag2 + 5) + 1); /* sequence number */
+++	memcpy(*frag2 + 13, data + 13, 12); /* handshake header */
+++	write_u24(*frag2 + 19, 1); /* fragment_offset = 1 */
+++	write_u24(*frag2 + 22, body_size - 1); /* shortened fragment_length */
+++	memcpy(*frag2 + 25, data + 26, body_size - 1); /* remaining body */
+++}
+++
+++static ssize_t client_push_split_hello(gnutls_transport_ptr_t tr, const void *b,
+++				       size_t l)
+++{
+++	static int seq_offset = 0; /* for renumbering follow-up epoch0 ones */
+++
+++	const uint8_t *data = (const uint8_t *)b;
+++	uint8_t *frag1, *frag2;
+++	size_t frag1_len, frag2_len;
+++
+++	/* Pass through anything that isn't an epoch0 ClientHello with body */
+++	if (l < 13 + 12 + 1 || /* too short for DTLS record header */
+++	    data[0] != 22 || /* not a handshake record */
+++	    data[3] != 0 || data[4] != 0 || /* not epoch 0 */
+++	    data[13] != 1) /* not ClientHello */
+++		return queue_put_renumbered(&c2s, b, l, seq_offset);
+++
+++	/* epoch0 Client Hello: special treatment of splitting into fragments */
+++	split_client_hello(data, l, &frag1, &frag1_len, &frag2, &frag2_len);
+++	queue_put(&c2s, frag1, frag1_len);
+++	queue_put(&c2s, frag2, frag2_len);
+++	free(frag1);
+++	free(frag2);
+++	seq_offset++;
+++	return l;
+++}
+++
++ void doit(void)
++ {
++ 	global_init();
++ 	test(client_push_normal);
++ 	success("malicious reassembly bug exploitation (#1816):\n");
++ 	test_malicious1816();
+++	success("split client hello smoke-test\n");
+++	test(client_push_split_hello);
++ 	gnutls_global_deinit();
++ }
++ 
++-- 
++2.54.0
++
++
++From 092c65d004e2f125f2fea3db84d801ac49a09f78 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Mon, 20 Apr 2026 16:32:02 +0200
++Subject: [PATCH 6/7] buffers: match DTLS datagrams by sequence number
++
++DTLS handshake fragment reassembly previously matched incoming fragments
++by handshake type only, without checking the sequence number.
++This allowed fragments from different handshake messages
++to be merged into the same reassembly buffer.
++
++Now sequence number is accounted for during reassembly,
++ensuring fragments are only merged when they belong
++to the same handshake message.
++
++Reported-by: Zou Dikai
++Fixes: #1839
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++---
++ lib/buffers.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/lib/buffers.c b/lib/buffers.c
++index 5d4d16276..62f140ed3 100644
++--- a/lib/buffers.c
+++++ b/lib/buffers.c
++@@ -971,7 +971,8 @@ static int merge_handshake_packet(gnutls_session_t session,
++ 		session->internals.handshake_recv_buffer;
++ 
++ 	for (i = 0; i < session->internals.handshake_recv_buffer_size; i++) {
++-		if (recv_buf[i].htype == hsk->htype) {
+++		if (recv_buf[i].htype == hsk->htype &&
+++		    recv_buf[i].sequence == hsk->sequence) {
++ 			exists = 1;
++ 			pos = i;
++ 			break;
++-- 
++2.54.0
++
++
++From a2b41be83a1a3529c551ccf54958da91a656550e Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Mon, 20 Apr 2026 16:36:08 +0200
++Subject: [PATCH 7/7] tests/mini-dtls-fragments: #1839 mismatching message_seq
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++---
++ tests/mini-dtls-fragments.c | 54 ++++++++++++++++++++++++++++++++-----
++ 1 file changed, 47 insertions(+), 7 deletions(-)
++
++diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
++index 93490bac2..499a92a92 100644
++--- a/tests/mini-dtls-fragments.c
+++++ b/tests/mini-dtls-fragments.c
++@@ -165,7 +165,7 @@ static uint64_t read_u48(const uint8_t *p)
++ 	return seq;
++ }
++ 
++-static void test(gnutls_push_func client_push)
+++static void test(gnutls_push_func client_push, bool expect_success)
++ {
++ 	gnutls_session_t client, server;
++ 	gnutls_certificate_credentials_t ccred, scred;
++@@ -218,12 +218,22 @@ static void test(gnutls_push_func client_push)
++ 			sr = gnutls_handshake(server);
++ 		if (!sr || gnutls_error_is_fatal(sr))
++ 			sdone = true;
+++
+++		if (c2s.head == c2s.tail && s2c.head == s2c.tail)
+++			break; /* speed the test up */
++ 	}
++ 
++-	if (cr)
++-		fail("client: %s\n", gnutls_strerror(cr));
++-	if (sr)
++-		fail("server: %s\n", gnutls_strerror(sr));
+++	if (expect_success) {
+++		if (cr)
+++			fail("client: %s\n", gnutls_strerror(cr));
+++		if (sr)
+++			fail("server: %s\n", gnutls_strerror(sr));
+++
+++	} else {
+++		if (cr == 0 && sr == 0)
+++			fail("handshake unexpectedly succeeded: %s / %s\n",
+++			     gnutls_strerror(cr), gnutls_strerror(sr));
+++	}
++ 
++ 	success("OK\n");
++ 
++@@ -421,14 +431,44 @@ static ssize_t client_push_split_hello(gnutls_transport_ptr_t tr, const void *b,
++ 	return l;
++ }
++ 
+++static ssize_t client_push_split_hello_bad_seq(gnutls_transport_ptr_t tr,
+++					       const void *b, size_t l)
+++{
+++	/* gnutls wasn't matching on message_seq on merging, see #1839 */
+++	static int seq_offset = 0; /* for renumbering follow-up epoch0 ones */
+++
+++	const uint8_t *data = (const uint8_t *)b;
+++	uint8_t *frag1, *frag2;
+++	size_t frag1_len, frag2_len;
+++
+++	/* Pass through anything that isn't an epoch0 ClientHello with body */
+++	if (l < 13 + 12 + 1 || /* too short for DTLS record header */
+++	    data[0] != 22 || /* not a handshake record */
+++	    data[3] != 0 || data[4] != 0 || /* not epoch 0 */
+++	    data[13] != 1) /* not ClientHello */
+++		return queue_put_renumbered(&c2s, b, l, seq_offset);
+++
+++	/* epoch0 Client Hello: special treatment of splitting into fragments */
+++	split_client_hello(data, l, &frag1, &frag1_len, &frag2, &frag2_len);
+++	queue_put(&c2s, frag1, frag1_len);
+++	frag2[18]++; /* WRONG, message_seq mismatch must be rejected, #1839 */
+++	queue_put(&c2s, frag2, frag2_len);
+++	free(frag1);
+++	free(frag2);
+++	seq_offset++;
+++	return l;
+++}
+++
++ void doit(void)
++ {
++ 	global_init();
++-	test(client_push_normal);
+++	test(client_push_normal, true);
++ 	success("malicious reassembly bug exploitation (#1816):\n");
++ 	test_malicious1816();
++ 	success("split client hello smoke-test\n");
++-	test(client_push_split_hello);
+++	test(client_push_split_hello, true);
+++	success("split client hello smoke-test and mangle sequence number\n");
+++	test(client_push_split_hello_bad_seq, false);
++ 	gnutls_global_deinit();
++ }
++ 
++-- 
++2.54.0
++
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
+index 8554ab943d..3ae7a2eb78 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
+@@ -24,6 +24,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://run-ptest \
+            file://Add-ptest-support.patch \
+            file://c99.patch \
++           file://CVE-2026-33846.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
+-- 
+2.53.0
 
-This was reported by the AUH on June 23 (subject: "[OE-core] [AUH] python3-=
-setuptools-scm: upgrading to 10.1.2 FAILED"):
-
-File ".../setuptools_scm-10.1.2/src/setuptools_scm/_get_version.py", line 5=
-5, in get_version
-    from vcs_versioning._environment import VcsEnvironment
-ModuleNotFoundError: No module named 'vcs_versioning._environment'
-
-ERROR Backend subprocess exited when trying to invoke get_requires_for_buil=
-d_wheel
-
-setuptools-scm's build backend calls get_version() during get_requires_for_=
-build_wheel, which tries to import vcs_versioning._environment (a vcs-versi=
-oning 2.x API). The sysroot has vcs-versioning 1.1.1, which lacks that modu=
-le.
-
-SETUPTOOLS_SCM_PRETEND_VERSION is setuptools-scm's own documented mechanism=
- for this situation. But if you prefer a different approach (e.g., upgradin=
-g vcs-versioning to 2.x), happy to defer.
-
-
-Thanks,
-Himani
-________________________________
-From: Barde, Himani Ramesh <HimaniRamesh.Barde@windriver.com>
-Sent: Wednesday, July 8, 2026 3:54 PM
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>; openembedded=
--core@lists.openembedded.org <openembedded-core@lists.openembedded.org>
-Cc: tgamblin@baylibre.com <tgamblin@baylibre.com>; MacLeod, Randy <Randy.Ma=
-cLeod@windriver.com>; Komati, Shiva <Shiva.Komati@windriver.com>
-Subject: Re: [OE-core] [PATCH 2/2] python3-setuptools-scm: upgrade 10.0.5 -=
-> 10.1.2
-
-Hi Mathieu,
-
-Thanks for the pointer. I'll drop patch 2/2 since Alex's upgrade to 10.2.0 =
-supersedes it.
-
-However, patch 1/2 (exporting SETUPTOOLS_SCM_PRETEND_VERSION) is still requ=
-ired - setuptools-scm 10.2.0 will fail at do_compile the same way 10.1.2 di=
-d, since it still probes SCM metadata via vcs-versioning when built from Py=
-PI tarballs without a .git directory. Alex's upgrade will need this fix as =
-a prerequisite.
-
-Thanks,
-Himani
-________________________________
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Sent: Wednesday, July 8, 2026 3:22 PM
-To: Barde, Himani Ramesh <HimaniRamesh.Barde@windriver.com>; openembedded-c=
-ore@lists.openembedded.org <openembedded-core@lists.openembedded.org>
-Cc: tgamblin@baylibre.com <tgamblin@baylibre.com>; MacLeod, Randy <Randy.Ma=
-cLeod@windriver.com>; Komati, Shiva <Shiva.Komati@windriver.com>
-Subject: Re: [OE-core] [PATCH 2/2] python3-setuptools-scm: upgrade 10.0.5 -=
-> 10.1.2
-
-CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and =
-know the content is safe.
-
-On Wed Jul 8, 2026 at 11:22 AM CEST, Himani Ramesh Barde via lists.openembe=
-dded.org wrote:
-> Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
-> ---
->  ...etuptools-scm_10.0.5.bb =3D> python3-setuptools-scm_10.1.2.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-devtools/python/{python3-setuptools-scm_10.0.5.bb =
-=3D> python3-setuptools-scm_10.1.2.bb} (89%)
->
-> diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.b=
-b b/meta/recipes-devtools/python/python3-setuptools-scm_10.1.2.bb
-> similarity index 89%
-> rename from meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb
-> rename to meta/recipes-devtools/python/python3-setuptools-scm_10.1.2.bb
-> index 58eb963910..824758e3ee 100644
-> --- a/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb
-> +++ b/meta/recipes-devtools/python/python3-setuptools-scm_10.1.2.bb
-> @@ -6,7 +6,7 @@ argument or in a SCM managed file."
->  LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D "[file://LICENSE;md5=3D838c366f69b72c5df05c96dff79b=
-35f2]file://LICENSE;md5=3D838c366f69b72c5df05c96dff79b35f2"
->
-> -SRC_URI[sha256sum] =3D "bbba8fe754516cdefd017f4456721775e6ef9662bd7887fb=
-52ae26813d4838c3"
-> +SRC_URI[sha256sum] =3D "24079818acc46e99aae0d65b8d511fafe965970d9cbd060c=
-7b9f7275ded520fb"
->
->  PYPI_PACKAGE =3D "setuptools_scm"
->
-
-Hi Himani,
-
-We already have an upgrade to version 10.2.0 on the list:
-
-https://lore.kernel.org/openembedded-core/20260706171701.70536-31-alex.kana=
-vin@gmail.com/T/#u
-
-Thanks,
-Mathieu
-
---
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
-
---_000_CH3PR11MB8774C007D411DA9C4E26E9858FFF2CH3PR11MB8774namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Hi Alex,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-The error occurs when building python3-setuptools-scm &gt;=3D 10.1.2.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-This was reported by the AUH on June 23 (subject: &quot;[OE-core] [AUH] pyt=
-hon3-setuptools-scm: upgrading to 10.1.2 FAILED&quot;):</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(200, 38, 19);">
-<b><br>
-</b></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(200, 38, 19);">
-<b>File &quot;.../setuptools_scm-10.1.2/src/setuptools_scm/_get_version.py&=
-quot;, line 55, in get_version</b></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(200, 38, 19);">
-<b>&nbsp; &nbsp; from vcs_versioning._environment import VcsEnvironment</b>=
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(200, 38, 19);">
-<b>ModuleNotFoundError: No module named 'vcs_versioning._environment'</b></=
-div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(200, 38, 19);">
-<b><br>
-</b></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(200, 38, 19);">
-<b>ERROR Backend subprocess exited when trying to invoke get_requires_for_b=
-uild_wheel</b></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(200, 38, 19);">
-<b><br>
-</b></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-setuptools-scm's build backend calls get_version() during get_requires_for_=
-build_wheel, which tries to import vcs_versioning._environment (a vcs-versi=
-oning 2.x API). The sysroot has vcs-versioning 1.1.1, which lacks that modu=
-le.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-SETUPTOOLS_SCM_PRETEND_VERSION is setuptools-scm's own documented mechanism=
- for this situation. But if you prefer a different approach (e.g., upgradin=
-g vcs-versioning to 2.x), happy to defer.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Thanks,</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Himani</div>
-<hr style=3D"display: inline-block; width: 98%;">
-<div id=3D"divRplyFwdMsg">
-<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
-11pt; color: rgb(0, 0, 0);">
-<b>From:</b>&nbsp;Barde, Himani Ramesh &lt;HimaniRamesh.Barde@windriver.com=
-&gt;<br>
-<b>Sent:</b>&nbsp;Wednesday, July 8, 2026 3:54 PM<br>
-<b>To:</b>&nbsp;Mathieu Dubois-Briand &lt;mathieu.dubois-briand@bootlin.com=
-&gt;; openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.=
-openembedded.org&gt;<br>
-<b>Cc:</b>&nbsp;tgamblin@baylibre.com &lt;tgamblin@baylibre.com&gt;; MacLeo=
-d, Randy &lt;Randy.MacLeod@windriver.com&gt;; Komati, Shiva &lt;Shiva.Komat=
-i@windriver.com&gt;<br>
-<b>Subject:</b>&nbsp;Re: [OE-core] [PATCH 2/2] python3-setuptools-scm: upgr=
-ade 10.0.5 -&gt; 10.1.2</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-Hi Mathieu,</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-Thanks for the pointer. I'll drop patch 2/2 since Alex's upgrade to 10.2.0 =
-supersedes it.</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-However, patch 1/2 (exporting SETUPTOOLS_SCM_PRETEND_VERSION) is still requ=
-ired - setuptools-scm 10.2.0 will fail at do_compile the same way 10.1.2 di=
-d, since it still probes SCM metadata via vcs-versioning when built from Py=
-PI tarballs without a .git directory.
- Alex's upgrade will need this fix as a prerequisite.</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-<br>
-</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-Thanks,</div>
-<div style=3D"direction: ltr; font-family: Aptos, Aptos_EmbeddedFont, Aptos=
-_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb=
-(0, 0, 0);">
-Himani</div>
-<hr style=3D"direction: ltr; display: inline-block; width: 98%;">
-<div id=3D"x_divRplyFwdMsg">
-<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
-11pt; color: rgb(0, 0, 0);">
-<b>From:</b>&nbsp;Mathieu Dubois-Briand &lt;mathieu.dubois-briand@bootlin.c=
-om&gt;<br>
-<b>Sent:</b>&nbsp;Wednesday, July 8, 2026 3:22 PM<br>
-<b>To:</b>&nbsp;Barde, Himani Ramesh &lt;HimaniRamesh.Barde@windriver.com&g=
-t;; openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.op=
-enembedded.org&gt;<br>
-<b>Cc:</b>&nbsp;tgamblin@baylibre.com &lt;tgamblin@baylibre.com&gt;; MacLeo=
-d, Randy &lt;Randy.MacLeod@windriver.com&gt;; Komati, Shiva &lt;Shiva.Komat=
-i@windriver.com&gt;<br>
-<b>Subject:</b>&nbsp;Re: [OE-core] [PATCH 2/2] python3-setuptools-scm: upgr=
-ade 10.0.5 -&gt; 10.1.2</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
-</div>
-<div style=3D"direction: ltr; font-size: 11pt;">CAUTION: This email comes f=
-rom a non Wind River email account!<br>
-Do not click links or open attachments unless you recognize the sender and =
-know the content is safe.<br>
-<br>
-On Wed Jul 8, 2026 at 11:22 AM CEST, Himani Ramesh Barde via lists.openembe=
-dded.org wrote:<br>
-&gt; Signed-off-by: Himani Ramesh Barde &lt;HimaniRamesh.Barde@windriver.co=
-m&gt;<br>
-&gt; ---<br>
-&gt;&nbsp; ...etuptools-scm_10.0.5.bb =3D&gt; python3-setuptools-scm_10.1.2=
-.bb} | 2 +-<br>
-&gt;&nbsp; 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;&nbsp; rename meta/recipes-devtools/python/{python3-setuptools-scm_10.0=
-.5.bb =3D&gt; python3-setuptools-scm_10.1.2.bb} (89%)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_10.0.=
-5.bb b/meta/recipes-devtools/python/python3-setuptools-scm_10.1.2.bb<br>
-&gt; similarity index 89%<br>
-&gt; rename from meta/recipes-devtools/python/python3-setuptools-scm_10.0.5=
-.bb<br>
-&gt; rename to meta/recipes-devtools/python/python3-setuptools-scm_10.1.2.b=
-b<br>
-&gt; index 58eb963910..824758e3ee 100644<br>
-&gt; --- a/meta/recipes-devtools/python/python3-setuptools-scm_10.0.5.bb<br=
->
-&gt; +++ b/meta/recipes-devtools/python/python3-setuptools-scm_10.1.2.bb<br=
->
-&gt; @@ -6,7 +6,7 @@ argument or in a SCM managed file.&quot;<br>
-&gt;&nbsp; LICENSE =3D &quot;MIT&quot;<br>
-&gt;&nbsp; LIC_FILES_CHKSUM =3D &quot;[file://LICENSE;md5=3D838c366f69b72c5=
-df05c96dff79b35f2]file://LICENSE;md5=3D838c366f69b72c5df05c96dff79b35f2&quo=
-t;<br>
-&gt;<br>
-&gt; -SRC_URI[sha256sum] =3D &quot;bbba8fe754516cdefd017f4456721775e6ef9662=
-bd7887fb52ae26813d4838c3&quot;<br>
-&gt; +SRC_URI[sha256sum] =3D &quot;24079818acc46e99aae0d65b8d511fafe965970d=
-9cbd060c7b9f7275ded520fb&quot;<br>
-&gt;<br>
-&gt;&nbsp; PYPI_PACKAGE =3D &quot;setuptools_scm&quot;<br>
-&gt;<br>
-<br>
-Hi Himani,<br>
-<br>
-We already have an upgrade to version 10.2.0 on the list:<br>
-<br>
-<a href=3D"https://lore.kernel.org/openembedded-core/20260706171701.70536-3=
-1-alex.kanavin@gmail.com/T/#u" id=3D"OWAe8501cec-869a-9ac4-d876-6c0fa51da39=
-e" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">https://lore.kernel.or=
-g/openembedded-core/20260706171701.70536-31-alex.kanavin@gmail.com/T/#u</a>=
-<br>
-<br>
-Thanks,<br>
-Mathieu<br>
-<br>
---<br>
-Mathieu Dubois-Briand, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" id=3D"OWA80cf433e-9838-649f-5a47-a534a8bf5e=
-e3" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">https://bootlin.com</=
-a><br>
-<br>
-</div>
-</body>
-</html>
-
---_000_CH3PR11MB8774C007D411DA9C4E26E9858FFF2CH3PR11MB8774namp_--
-
---_004_CH3PR11MB8774C007D411DA9C4E26E9858FFF2CH3PR11MB8774namp_
-Content-Type: text/x-patch;
-	name="0001-python3-setuptools-scm-upgrade-10.0.5-10.1.2.patch"
-Content-Description: 0001-python3-setuptools-scm-upgrade-10.0.5-10.1.2.patch
-Content-Disposition: attachment;
-	filename="0001-python3-setuptools-scm-upgrade-10.0.5-10.1.2.patch";
-	size=1308; creation-date="Thu, 09 Jul 2026 05:47:36 GMT";
-	modification-date="Thu, 09 Jul 2026 05:48:11 GMT"
-Content-Transfer-Encoding: base64
-
-RnJvbSBjNWIwNzA5YmIxMWQ3Njg2MzI3Mzg0MWI3NWIwOWM3NzFlNDMyNTliIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMjMgSnVuIDIwMjYgMDU6MDk6MzcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXNldHVwdG9vbHMtc2NtOiB1cGdyYWRlIDEwLjAuNSAtPiAxMC4xLjIKCi0tLQogLi4u
-ZXR1cHRvb2xzLXNjbV8xMC4wLjUuYmIgPT4gcHl0aG9uMy1zZXR1cHRvb2xzLXNjbV8xMC4xLjIu
-YmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1zZXR1cHRvb2xz
-LXNjbV8xMC4wLjUuYmIgPT4gcHl0aG9uMy1zZXR1cHRvb2xzLXNjbV8xMC4xLjIuYmJ9ICg4OSUp
-CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVw
-dG9vbHMtc2NtXzEwLjAuNS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1zZXR1cHRvb2xzLXNjbV8xMC4xLjIuYmIKc2ltaWxhcml0eSBpbmRleCA4OSUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMtc2NtXzEw
-LjAuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNl
-dHVwdG9vbHMtc2NtXzEwLjEuMi5iYgppbmRleCAzZTg2YzRmZDJjLi5kNzYyZGM3ZWQxIDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy1z
-Y21fMTAuMC41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1z
-ZXR1cHRvb2xzLXNjbV8xMC4xLjIuYmIKQEAgLTYsNyArNiw3IEBAIGFyZ3VtZW50IG9yIGluIGEg
-U0NNIG1hbmFnZWQgZmlsZS4iCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAi
-ZmlsZTovL0xJQ0VOU0U7bWQ1PTgzOGMzNjZmNjliNzJjNWRmMDVjOTZkZmY3OWIzNWYyIgogCi1T
-UkNfVVJJW3NoYTI1NnN1bV0gPSAiYmJiYThmZTc1NDUxNmNkZWZkMDE3ZjQ0NTY3MjE3NzVlNmVm
-OTY2MmJkNzg4N2ZiNTJhZTI2ODEzZDQ4MzhjMyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIyNDA3
-OTgxOGFjYzQ2ZTk5YWFlMGQ2NWI4ZDUxMWZhZmU5NjU5NzBkOWNiZDA2MGM3YjlmNzI3NWRlZDUy
-MGZiIgogCiBQWVBJX1BBQ0tBR0UgPSAic2V0dXB0b29sc19zY20iCiAKLS0gCjIuNDcuMQoK
-
---_004_CH3PR11MB8774C007D411DA9C4E26E9858FFF2CH3PR11MB8774namp_--
 
