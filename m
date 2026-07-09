@@ -2,51 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10633C4450A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E6ECC4450B
 	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 10:07:07 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5799.1783591621804624029
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5882.1783591621950841476
  for <openembedded-core@lists.openembedded.org>;
  Thu, 09 Jul 2026 03:07:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Bl9aqoTX;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493bc8fda98so12242265e9.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=jebyfySS;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493b1710405so9952805e9.2
         for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1783591620; x=1784196420; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dsbQy9NmPX6sYahorbvQpJ++Ovjh/WKyTPviDqZ5VFY=;
-        b=Bl9aqoTXy+lxwXSRzzwn3EXaecpnCXPz6nyJ5sbScBtTvn2PI7SvdKDQ6kSkx7LjYg
-         jt4uDVH58MV9QXPE9a2KP2kLKBgMIuG86Nyy39N60lbep0zC+c65y1/89qTlLJBDVWKz
-         8xUVMYDRc/vNE6ChVdNF/bWtAR40WjzS9JuK0=
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=2QCFozG/Tceugm4ykmuPZuEoWjurn/3cErAXNO06G0I=;
+        b=jebyfySSXBjArFBkciLQJhFPJT+f9YFK/JgK04il+0gLbiWliPiDiJvxm318yWLLBD
+         czE9MmTBikPdy/FVzmFl6rYQlJmPIk5YgA0qTz24lFs+tUC2ExO1m//QRH0Bc8MSlEG4
+         YgoVliIyV5gDYU6kVCbeeLPTGHWAun2YiB3Jg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1783591620; x=1784196420;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dsbQy9NmPX6sYahorbvQpJ++Ovjh/WKyTPviDqZ5VFY=;
-        b=EVIS8SMSRaiPDJR67Po6QXQr6OnKrIwu54n0FQbUi1bzvTxGh2dQ2flZztaKZdqyh2
-         z6RBGBG6G+wgSRwXIRivN1Bi2nTNc6gumSDeYv9w+lAyOh5oPhC0gatwhOrw0e0BA3gn
-         DFqmXgcLScVC01WMnTGIGAQmY2Vse1gcAntkVBhrFr9XYaiaQ5uAAQrYWzn0D6Eke48V
-         VLT9+tLIJggBPtLeQP8Gjz1O2I3KSUP4CE2v6tFszy07eUJeeN7aNHSlpI++aL85V8UK
-         B20IJIsPFHLLzL6VahxrKf1uqB3/KMwp8GPFllqh3XRGVO3m0i193NtoygSV+kUnDmaa
-         kMAg==
-X-Gm-Message-State: AOJu0Ywajg5FTcTuvl5UPENwLfwWVwG6JMvjMxRBkDyLA6bPQO2FKx9w
-	6nZRhsPg4qzY2PnampsluVgOG2ZlBBEFBZIbJ0uy8NYQeLK/J/kVMaa34UYTBOLY6bf4mKaP4uj
-	oBLexTZA=
-X-Gm-Gg: AfdE7ckgp1yaaevWcjzcpvHQXpI7PcPw5zLHWhPV0DdQTGixSdZHkUUyP4fJWI6mTu2
-	CpRXJZBW0VbRERrwXA/rdMCxiMR7dqg0B+Xin4ppkvFN7HFcymcIB1kiSFHH3h611g3zHjJMFkx
-	/7RMtBhijVTN0W9dkoiaG0wWINcEbi9rzDz2I7P5QS2EWDDTpIUO/rlDnDeVd8owOwjAElz1lV9
-	sSeLbv5CApnSVXJNQAvsEcglthaF2MivbVg0SpbTFp2+bOGh3zykOxYIVHXExkfidgVFUpnvEql
-	i9CS63+B80+q2IuBGPf3uCURCizZueV5JHH49Uu8TUPW5l5i+aXX8JzMo0LJLxatxVb8w9GT6UD
-	Dfz6aPKC03nlEZyMYDg7HXRoBxd9abjZoZcxFFh6E8sl1UeBekfablD1YXHtJI7iclBu6K4fgr+
-	npk+dY9rCj727sBsQM8oAR/nSEg/lwPMahpKwZ2Xa40O+sa7LD2REcMHbR4xzx5OS3Em4+aaWJv
-	ggvPeEKrY+r9UKdyQ==
-X-Received: by 2002:a05:600c:8b17:b0:493:e6f7:ad75 with SMTP id 5b1f17b1804b1-493e6f7afb1mr58825185e9.11.1783591619613;
-        Thu, 09 Jul 2026 03:06:59 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=2QCFozG/Tceugm4ykmuPZuEoWjurn/3cErAXNO06G0I=;
+        b=PARhuxUhcqOZNlQmclQEowMUOsSK9yoXgSA20e/V9giIhzI5oIpLA4zgyclKApyodY
+         DsWV3hCAl0wIZTslA602Ud4harMV3ABy+ZTmR90RzAPdjStkGn3XD/dQr9FlUIgXa+A2
+         DRCjzhA+WWA1JhRoApWt0HN8QcaUqMQhUnhqOWjuCYEE+3wJiKGFBauoxfnyXmSg7Jga
+         47D1oicqyDPGbQ/lZERhGmiisAMCMEn9TSspRG/670K3nwc3BpTiDtNfN/nXOMqmE2Ay
+         NVovbVsFEa+B9lXSxfzwfqZ6pKTeSBUpPryfZNfNEDMjuEnFZF3fNd5lSOytvypltXaO
+         X0kw==
+X-Gm-Message-State: AOJu0YxjPHApNxR4k4FWYUd5BHygTS4bEqVWFVBInbYcRIyzcIi/lX/Z
+	Pa1MEzrOh8DYuHqsEBWcIrRfJfSym2lOGoxNO2ilqyPGUWKijjanzG2OaaPHUyEUFmYfQ5zMEi9
+	5H0r030Y=
+X-Gm-Gg: AfdE7ck+ObvcDDXYye9zfvfQE/VTf4g2gr9XfiELWE3SYmKnYJR5ADgwSkjGUxzIV7t
+	JdM245ySzuma+C9pVgwSuJ4fQu6Iz+J3LXmTx9A80zb+BRyvGv/LD001a2N+RTOyjCkKqVZPa03
+	jjq+LLd6Ate/EifoPJfjoaBegFa5NWwt2daV429qHcgxCRjaIFVbl+IYi52rm2bs2o2dMaJ0lFa
+	KggdJSyXqKdUFpkwi9v/i8ot2QL2yi3qrAhB2qnmd4Gy0JQmVyb2qwsF1hrSw8hEZ0aLwL/PYZZ
+	WunrtUyX2bxPHFVvHMEblw9lMOZr8HyZRTUdmGTL2C7gpwjYSc0X26saXG9KRE+QURaiu/JLmk+
+	gGD8SpZhJnb/jVZxMLENSo6IbVdm/OaRVNTr965zPD2+X9TDvsLJLPSIv0ph3T3DLCO6MNErp6c
+	eEYXMo5cxwCZkOY/VjlAIXjvL94AZtRsjSs88mFMYxw8nI5FaP9zwtc1tSFpbMpo+5+pm6XetbX
+	jvhnLcK2NbYC8DHPg==
+X-Received: by 2002:a05:600c:4fd4:b0:493:b61c:72c3 with SMTP id 5b1f17b1804b1-493e6878b65mr60740895e9.32.1783591620060;
+        Thu, 09 Jul 2026 03:07:00 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00fd88810a86c49142.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fd88:810a:86c4:9142])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm149687135e9.2.2026.07.09.03.06.59
         for <openembedded-core@lists.openembedded.org>
@@ -54,192 +54,94 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00fd88810a86c49142.ipv6.abo.wan
         Thu, 09 Jul 2026 03:06:59 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/25] Patch review
-Date: Thu,  9 Jul 2026 12:06:16 +0200
-Message-ID: <cover.1783590688.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 01/25] libssh2: fix CVE-2026-55200
+Date: Thu,  9 Jul 2026 12:06:17 +0200
+Message-ID: <a610461f9040644bec9f1b9be23dcfff121df888.1783590688.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1783590688.git.yoann.congal@smile.fr>
+References: <cover.1783590688.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 10:07:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240547
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240548
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Friday, July 10. This is a bit shorter period than usual,
-ping me if you need more time (I've spent some time to understand the
-below AB error).
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-*Somewhat* passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/4178
-3 sub builds failed:
-* oe-selftest-armhost#4305
-* oe-selftest-debian#4250
-* oe-selftest-fedora#4075
-Sadly, I did not got successful retries. I think this is related to:
-15289 – [scarthgap] AB-INT: sstatetests.SStatePrintdiff.test_gcc_runtime_vs_gcc_source failure
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=15289
-I'm still trying to understand what is happening but now I think this
-issue is *NOT* related to this series. The main issue for this series is
-that it prevented to fully run the oe-selftests. I plan to get a
-green-ish build before doing the pull-request.
+Backport patch to fix CVE-2026-55200.
+https://nvd.nist.gov/vuln/detail/CVE-2026-55200
 
-The following changes since commit 2814f0962f56c8d1afa4de76d2895ba9b5cb767d:
+Upstream fix:
+  https://github.com/libssh2/libssh2/commit/97acf3dfda80c91c3a8c9f2372546301d4a1a7a8
 
-  build-appliance-image: Update to scarthgap head revisions (2026-07-02 13:50:35 +0100)
+Tested with ptest:
+Before: PASSED: 3, FAILED: 0, SKIPPED: 0
+After: PASSED: 3, FAILED: 0, SKIPPED: 0
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-for you to fetch changes up to 728706a9dc79a8c70429b805fc40429bcd8e09fc:
-
-  cve-update: Avoid NFS caching issues (2026-07-08 16:32:46 +0200)
-
-----------------------------------------------------------------
-
-Adarsh Jagadish Kamini (1):
-  curl: fix CVE-2026-6276
-
-Anil Dongare (2):
-  cargo: Fix CVE-2026-5222
-  cargo: Fix CVE-2026-5223
-
-Ashishkumar Parmar (3):
-  qemu: Fix CVE-2025-14876
-  qemu: Fix CVE-2026-0665
-  qemu: Fix CVE-2026-2243
-
-Benjamin Robin (Schneider Electric) (1):
-  openssh: CVE-2026-35387 patch also fixes CVE-2026-35414
-
-Daniel Turull (2):
-  libssh2: fix CVE-2026-55200
-  libssh2: fix CVE-2026-55199
-
-Esa Jaaskela (1):
-  linux-yocto/6.6: update CVE exclusions (6.6.142)
-
-Harish Sadineni (1):
-  binutils: Add CVE-2025-69646 to "CVE:" tag
-
-Himanshu Jadon (1):
-  tar: Fix CVE-2026-5704
-
-Hitendra Prajapati (4):
-  vim: fix for CVE-2026-34982, CVE-2026-34714 & CVE-2026-35177
-  vim: fix for CVE-2026-28421, CVE-2026-41411 & CVE-2026-44656
-  vim: Fix for CVE-2026-28417, CVE-2026-32249, CVE-2026-45130
-  vim: Security fix for CVE-2026-28420 & CVE-2026-46483
-
-Jaipaul Cheernam (1):
-  curl: fix CVE-2026-5773 - wrong reuse of SMB connection
-
-Jakub Szczudlo (1):
-  libgcrypt: upgrade 1.10.3 -> 1.10.4
-
-Nate Kent (1):
-  sudo: fix pam-wheel sed for sudo 1.9.17p2 sudoers
-
-Paul Barker (1):
-  cve-update: Avoid NFS caching issues
-
-Shubham Pushpkar (1):
-  binutils: Fix CVE-2026-6846
-
-Theo Gaige (Schneider Electric) (4):
-  dhcpcd: patch CVE-2026-56113
-  dhcpcd: patch CVE-2026-56114
-  dhcpcd: patch CVE-2026-56117
-  perl: patch CVE-2026-8376
-
- .../dhcpcd/dhcpcd_10.0.6.bb                   |    3 +
- .../dhcpcd/files/CVE-2026-56113.patch         |   92 +
- .../dhcpcd/files/CVE-2026-56114.patch         |   34 +
- .../dhcpcd/files/CVE-2026-56117.patch         |  167 +
- ...ch => CVE-2026-35414-CVE-2026-35387.patch} |    2 +-
- .../openssh/openssh_9.6p1.bb                  |    2 +-
- .../meta/cve-update-nvd2-native.bb            |    9 +-
- .../binutils/binutils-2.42.inc                |    1 +
- .../binutils/binutils/CVE-2025-69648.patch    |    2 +-
- .../binutils/binutils/CVE-2026-6846.patch     |   57 +
- .../perl/files/CVE-2026-8376-01.patch         |   62 +
- .../perl/files/CVE-2026-8376-02.patch         |   49 +
- meta/recipes-devtools/perl/perl_5.38.4.bb     |    2 +
- meta/recipes-devtools/qemu/qemu.inc           |    4 +
- .../qemu/qemu/CVE-2025-14876_p1.patch         |   52 +
- .../qemu/qemu/CVE-2025-14876_p2.patch         |   56 +
- .../qemu/qemu/CVE-2026-0665.patch             |   38 +
- .../qemu/qemu/CVE-2026-2243.patch             |   45 +
- .../rust/files/CVE-2026-5222.patch            |   92 +
- .../rust/files/CVE-2026-5223.patch            |  114 +
- meta/recipes-devtools/rust/rust-source.inc    |    2 +
- meta/recipes-extended/sudo/sudo_1.9.17p2.bb   |    2 +-
- .../tar/tar/CVE-2026-5704-dependent_p1.patch  |  484 +++
- .../tar/tar/CVE-2026-5704-dependent_p2.patch  |  169 +
- .../tar/tar/CVE-2026-5704-regression.patch    |  176 +
- .../tar/tar/CVE-2026-5704.patch               |  556 +++
- meta/recipes-extended/tar/tar_1.35.bb         |    4 +
- .../linux/cve-exclusion_6.6.inc               | 3418 +++++++++++++----
- .../curl/curl/CVE-2026-5773.patch             |   40 +
- .../curl/curl/CVE-2026-6276.patch             |  135 +
- meta/recipes-support/curl/curl_8.7.1.bb       |    2 +
- ...ilding-error-with-O2-in-sysroot-path.patch |   64 -
- ...r-handle-substitution-in-sed-command.patch |   49 +
- ...ibgcrypt_1.10.3.bb => libgcrypt_1.10.4.bb} |    4 +-
- .../libssh2/libssh2/CVE-2026-55199.patch      |   44 +
- .../libssh2/libssh2/CVE-2026-55200.patch      |   36 +
- .../recipes-support/libssh2/libssh2_1.11.1.bb |    2 +
- .../vim/files/CVE-2026-28417.patch            |   92 +
- .../vim/files/CVE-2026-28420.patch            |  162 +
- .../vim/files/CVE-2026-28421.patch            |  148 +
- .../vim/files/CVE-2026-32249.patch            |  117 +
- .../vim/files/CVE-2026-34714.patch            |  109 +
- .../vim/files/CVE-2026-34982.patch            |  105 +
- .../vim/files/CVE-2026-35177.patch            |   60 +
- .../vim/files/CVE-2026-41411.patch            |   75 +
- .../vim/files/CVE-2026-44656.patch            |  130 +
- .../vim/files/CVE-2026-45130.patch            |  115 +
- .../vim/files/CVE-2026-46483.patch            |   77 +
- meta/recipes-support/vim/vim.inc              |   11 +
- 49 files changed, 6449 insertions(+), 822 deletions(-)
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56113.patch
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56114.patch
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2026-56117.patch
- rename meta/recipes-connectivity/openssh/openssh/{CVE-2026-35387.patch => CVE-2026-35414-CVE-2026-35387.patch} (99%)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-6846.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-0665.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-2243.patch
- create mode 100644 meta/recipes-devtools/rust/files/CVE-2026-5222.patch
- create mode 100644 meta/recipes-devtools/rust/files/CVE-2026-5223.patch
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2026-5704-dependent_p1.patch
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2026-5704-dependent_p2.patch
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2026-5704-regression.patch
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2026-5704.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5773.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6276.patch
- delete mode 100644 meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch
- create mode 100644 meta/recipes-support/libgcrypt/files/0002-random-cipher-handle-substitution-in-sed-command.patch
- rename meta/recipes-support/libgcrypt/{libgcrypt_1.10.3.bb => libgcrypt_1.10.4.bb} (92%)
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-55199.patch
+Reviewed-by: Anders Heimer <anders.heimer@est.tech>
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+(cherry picked from commit 42c8c6ec3066dc47b9eeeba0247ffa927193abff)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ .../libssh2/libssh2/CVE-2026-55200.patch      | 36 +++++++++++++++++++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
+ 2 files changed, 37 insertions(+)
  create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-28417.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-28420.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-28421.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-32249.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-34714.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-34982.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-35177.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-41411.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-44656.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-45130.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-46483.patch
 
+diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch
+new file mode 100644
+index 00000000000..9a71277cce4
+--- /dev/null
++++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-55200.patch
+@@ -0,0 +1,36 @@
++From df0b03ee5ef12f3a46fccc0fc688ebfb91702972 Mon Sep 17 00:00:00 2001
++From: Will Cosgrove <will@panic.com>
++Date: Fri, 12 Jun 2026 15:57:44 -0700
++Subject: [PATCH] transport.c: Additional boundary checks for packet length
++ (#2052)
++
++Add additional bounds checking on packet length to prevent OOB write.
++
++Credit: [TristanInSec](https://github.com/TristanInSec)
++
++CVE: CVE-2026-55200
++Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/97acf3dfda80c91c3a8c9f2372546301d4a1a7a8]
++
++Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
++---
++ src/transport.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/src/transport.c b/src/transport.c
++index e1120656..d147505b 100644
++--- a/src/transport.c
+++++ b/src/transport.c
++@@ -639,8 +639,12 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
++                 total_num = 4;
++ 
++                 p->packet_length = _libssh2_ntohu32(block);
++-                if(p->packet_length < 1)
+++                if(p->packet_length < 1) {
++                     return LIBSSH2_ERROR_DECRYPT;
+++                }
+++                else if(p->packet_length > LIBSSH2_PACKET_MAXPAYLOAD) {
+++                    return LIBSSH2_ERROR_OUT_OF_BOUNDARY;
+++                }
++ 
++                 /* total_num may include size field, however due to existing
++                  * logic it needs to be removed after the entire packet is read
+diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+index 2284d054b10..d6ee97f7ed0 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+@@ -11,6 +11,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://run-ptest \
+            file://0001-Return-error-if-user-KEX-methods-are-invalid.patch \
+            file://CVE-2026-7598.patch \
++           file://CVE-2026-55200.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
 
