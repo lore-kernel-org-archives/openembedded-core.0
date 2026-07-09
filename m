@@ -1,182 +1,293 @@
-Return-Path: <Harish.Sadineni@windriver.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2BB4C44503
-	for <webhook@archiver.kernel.org>; Wed,  8 Jul 2026 18:58:13 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16048.1783537084727325456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CB4BC43458
+	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 05:06:39 +0000 (UTC)
+Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2427.1783573597471553411
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2026 11:58:04 -0700
+ Wed, 08 Jul 2026 22:06:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=QCdvPjcp;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1649b348d9=harish.sadineni@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668GJ8M0132053
-	for <openembedded-core@lists.openembedded.org>; Wed, 8 Jul 2026 18:58:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=yWYVd5YXdOaPi2sefFQLF9mQMAR8lPr5bMrCYIXLKEs=; b=
-	QCdvPjcpVwD77zmemDj4BObNpyhT/6OCecvKPAPiXrFktehLKB3q+DaFB9/ZK1Bd
-	RJPLBwzTwjl2PS/kFhBBn2cDOExgvFfk2NOsoC1dE9GgIJCHE6FovLWEgdOs4wIx
-	Pxim0Mik8858uL9FK4sSMmC4ZhISqofCPNCRSqSZKkzfVC3J+nO4Gcxfvnw7TDqF
-	CP/mP37KwWx97cz0Sbmwlx40lg9q6TPSuMQtqTVjljr63z/iVMD1B+hTMOWr5hO9
-	FwSloHd4ng5aFcqnt49u3h1QAwpZyuOqJPsnmpSQV7bgiEAdVqozwAfMEGjOQ6DS
-	qMJVYKeCZTNcEEIY++hy8A==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012023.outbound.protection.outlook.com [52.101.53.23])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4f6s58ewku-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 08 Jul 2026 18:58:03 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yCb8diQgQ1BxnQEZDU8y/wHjvvd0Hiu35UJhWar/dHOU0eMT7oxyClwarhPIdvTgzAoMqMjzOGeo3pnUosFgPbO4FZXTp/mqagVDgN3vnfjrXiT6wYlgveG+3hr3ze2g8oiNYaTyPrS2x95IgO1+Zu5BtYk5ynuaCIKc7Zk273hptogeS8FTPM/VojNV5pewt2d63jhNIBYPQ08n6lvvO0OzEOnSndjd/j6KfGpPuJkOxyThTkcHN2o2CLzvfkCA4EtjZimUEvGh/BXY7//OdJCWtEwO/AM3a4Arz0SSDmhI3KYSSb7E9EIMfggbin6MR0wMkO9Ruxcw7ptlK1/ZcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yWYVd5YXdOaPi2sefFQLF9mQMAR8lPr5bMrCYIXLKEs=;
- b=sToOA2Te+CMw9Mf4gIWxFs2NwGs8RriiZdcxiwxSUUy6QBMSJu3X+JZ3rymU9mxPEU2ZbUm3y93BXFl0c2vhcEaHJwFe36OQQkWg/YpJku7MIBJxV11FBlyEq+g27NPb79ERkuZr6QRdnCwFdgmktX50v+HiztEhopyX+DPVJNioC0D1Jg2DANc13ioMFeOxSbFBxjs/+18SxzM9OojZfTGCADCtRf0XF5YNfSa1jSpvccf7/czjW6j1kfp+lqL3lw9v1cNTTytDpreysBNvXHw2pVJHf3bCWSbgxij3Eldp+tiOlK9dSR6+wQl0YjNbyBqtGjpbPFXJLsITUcVR3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
- by PH7PR11MB6697.namprd11.prod.outlook.com (2603:10b6:510:1ab::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 8 Jul 2026
- 18:58:00 +0000
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9%6]) with mapi id 15.21.0181.014; Wed, 8 Jul 2026
- 18:58:00 +0000
-From: Harish.Sadineni@windriver.com
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=LXvCqMj4;
+ spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: deeratho@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=7265; q=dns/txt;
+  s=iport01; t=1783573597; x=1784783197;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vpW6s8bxpcXfTdZH/CZvwYiVD3vNDfwRHVN87FE1kM8=;
+  b=LXvCqMj4dVKKP07304bd45waLRrqOrDRFscQk2SdB3N3TlZeldPSoZo2
+   oYmUWRxbZ4vd34Bv2+UftYrHVxCA132biX39eZpz9112xfAHHDQ3rL5W4
+   biG+JzUvXe/AXn08VFQVcgUY8kqj2RSuz9+Nh9pknLkVzIG4gMoAfLh/c
+   wm2KLsJYmX1JN3pxXFQzyLfTd22yMY/IZ8G0vjGQncvy/UTZhC4OMNZhw
+   HH5DsaM9Rt2+AB4bQRO3vR/Vbdeju0qulKJdN4SD9AZcJ6Dcy/ecBQNFq
+   aL9abIEUWrRHBJsXg4G9x7qPU7D1l4jWvk+nQOxDbk0cGn4pKmDGrKJkd
+   g==;
+X-CSE-ConnectionGUID: Vl3dylt4TuKxGbFVKFz7gg==
+X-CSE-MsgGUID: 37sKDkRBQwOcJX1fxIP2Uw==
+X-IPAS-Result: =?us-ascii?q?A0BDAgAQK09q/5D/Ja1SCB4BAQsSDIIFC4JXdF9CSZQpg?=
+ =?us-ascii?q?TVsnh6Bfg8BAQEPSgcEAQGSVAImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFA?=
+ =?us-ascii?q?QEBAgEHBYEOE4ZPDYZaATgBcgMBAlojGQiDAgGCcwMRt0iCLIEBg1oFCQJDU?=
+ =?us-ascii?q?NsuAQsUAYE4hT+IH1sYAYR8JxsbgXKBFYNpgQWBXAQYgQ0ShmwEgiKBDIFaH?=
+ =?us-ascii?q?lCPGEiBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHBYEdgV+BAoR5I?=
+ =?us-ascii?q?x8DOX+BL3VKeS2BARIeCoFSghY6AwsYDUgRLDcUGwQ+bgeNPBcPgUxgCwYBA?=
+ =?us-ascii?q?TxRASsgZQw0CDEuETgFkkMdkkWBOJ9aCiiDdYwhlToaM4QEgVeSQIshhzCZC?=
+ =?us-ascii?q?I4KlTSBHIRpgWg8gVlwFYMiCUoZD44uCguIc4E9x3I8NQIJMgEBBwIHDgMLg?=
+ =?us-ascii?q?WiQAIEeYAEB?=
+IronPort-Data: A9a23:ix6N/qrEbUGyYoiKJ6r4Md202/peBmJJZBIvgKrLsJaIsI4StFCzt
+ garIBnSaK2KZzGnKNpwa4i//BxVuJDdndRkSlBtqS08H34T9OPIVI+TRqvS04x+DSFioGZPt
+ Zh2hgzodZhsJpPkjk7zdOCn9j8kif3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYgLNNwJcaDpOtfrc8EM35ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
+ 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0thzWm1f8
+ eBEFC0ufj+JqdyV7qDkReY506zPLOGzVG8ekmtrwTecCbMtRorOBv2Vo9RZxzw3wMtJGJ4yZ
+ eJANmEpN0uGOUASfA5LVPrSn8/w7pX7WzFVpUicuaowy2PS1wd2lrPqNbI5f/TXHZoOwRjE9
+ juuE2LRWU4BF/Cc8xC87VWnpN+WkzPaYNgvC+jtnhJtqBjJroAJMzURTVa9rPyzh0KyVt4aI
+ EsO9wIqrLMu7wqsVtT7UhiyrXKIsxJaXMBfe9DW8ymXwabSpgLcDW8eQ3sZN5ottdQ9Qnoh0
+ Vrhc87VOAGDeYa9ERq1nop4ZxvrUcTJBQfuvRM5cDY=
+IronPort-HdrOrdr: A9a23:dO0Onq8faBfjOyMO/VNuk+DoI+orL9Y04lQ7vn2ZLiYlEPBw+P
+ rBoB1273LJYVUqKRIdcK67WZVoKEm0nfUe3WB7B9iftWfd1FdAVLsD0aLShxv9Bib56ulRkY
+ 1kc6R4FZnMKGISt7ee3OF9eOxQp+VuN8uT9IPj80s=
+X-Talos-CUID: =?us-ascii?q?9a23=3AEJEzRGk8gcQUsZV9uYNy/xJ3CknXOUPZl3vBJ1P?=
+ =?us-ascii?q?kNXtKWJKfZ2Gz1rE7nMU7zg=3D=3D?=
+X-Talos-MUID: 9a23:7y4/VQgBrW0W1r9YdUD9AcMpb5hzwIitMmo0jrINmfndOzxRA22gk2Hi
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,154,1779148800"; 
+   d="scan'208";a="507376481"
+Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
+  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 Jul 2026 05:06:36 +0000
+Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id 02B551800021E
+	for <openembedded-core@lists.openembedded.org>; Thu,  9 Jul 2026 05:06:36 +0000 (GMT)
+Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
+	id 1E524CC037D; Thu,  9 Jul 2026 10:36:34 +0530 (IST)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, bruce.ashfield@gmail.com,
-        raj.khem@gmail.com
-Subject: [PATCH v3 3/4] kernel-yocto-rust: Add lld-native to DEPENDS
-Date: Wed,  8 Jul 2026 11:57:23 -0700
-Message-ID: <20260708185724.2183159-4-Harish.Sadineni@windriver.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20260708185724.2183159-1-Harish.Sadineni@windriver.com>
-References: <20260708185724.2183159-1-Harish.Sadineni@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LV3P220CA0022.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:408:234::23) To PH0PR11MB5658.namprd11.prod.outlook.com
- (2603:10b6:510:e2::23)
+Subject: [OE-core][wrynose][PATCH] libcap: Fix CVE-2026-4878
+Date: Thu,  9 Jul 2026 10:36:27 +0530
+Message-Id: <20260709050627.1152464-1-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|PH7PR11MB6697:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae3daafb-d7ff-481b-7d04-08dedd22d4e1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|52116014|23010399003|376014|366016|22082099003|18002099003|11063799006|56012099006|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	KAp0+nz82P3HZgPKQwlX2X3HHjsSuFSmVbUgz6xQOX/07zMR7fS9jkXfFJLnliydEBPn+92iMqshYe/bpQiHdHy8raQ6S2v+RNJrUw41DqD01DfKUfgOuTfk5LBwCQb/ydrJQIQIfUAm+BC0RQZDK/vQ/F0xiS3VRz2E1BeujAtMidVds1OjFsmxe1nqWdIsjEogMs/DddFBWSeIRlwlJjpj0YHvSGPcGHmjZef2SVY77HlT5lTxxtupF+55GNQYfbM2fsDXVPZoauv2+lr0Q/6VAIo7waA62vga0rCQqpS8Wl0+b5FNa/yT2WX57PpNwv9up1/A0Pr7r74vvrmHBmb6VTLyrpwGH5SDSOGyiUPG2zJZhN6xTQcUjGzvmz+Tsow4GSb48EHR8ubcjOGqX8uySsoatcS1XLdGtRyL+OK8HDb1eWXxtw1fgOtcAOv94+Dx+BSxz/ydYHcp40YTe1p1vDY7RsFwTQ8ihN0iKRJhBRT0nhbcamsOUujPa2mn0+R5jsDizzgXwWH6CkPNf0MolLZxKlPuS+wdgXLCOFK4Jg8Zi7I2NuoScN1dB1mrLJeeAhsxq4uq507QIccNIUijMv1/zra0+5fJROX5l/nqu5ubAwLS97w0dKIOWVMAwMCwebW5ieac01fEe/jVfvD2yaRqNp3F3pPeARY0EIkVnLfV8/byorKYxoD+uU9j5jmQXTYSCgs+UDYjGKEJUEXwXnnhnbAGbLTdpPSLObA=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(23010399003)(376014)(366016)(22082099003)(18002099003)(11063799006)(56012099006)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Zqn/a8L7MwgDTQV6wkg97nyWr4nyd2OgjVJdjYVmnc1K+1WZWzykPc6vH9Em?=
- =?us-ascii?Q?bvFe6Ont6C5M8ec640FHOyt+CecbwtV8+PNEscDw+/W494QbE1UimecMUmEx?=
- =?us-ascii?Q?i4WNA7MjWYxSOiEQGUwkW9YBLxa8iQYb8hedon4TkmT4R2YhHTyqmX+VMLwt?=
- =?us-ascii?Q?SuOX0jP42jA598hKc0Y7a0wW3fhOrDcAZhtGmewYYD+ZRCzkAm15pBOC0pLi?=
- =?us-ascii?Q?1Op19vU6NVGH2CazJKBApZTnA4SurnZc13ILXxSjsy7Mga7vZnGl5Q3f1QhV?=
- =?us-ascii?Q?ss2zum07A8HRlJGNkUVoPeYfP12kFHZpg5bBrHHyj3ekaZRxgrG0+1aAO9s5?=
- =?us-ascii?Q?RPQoQXia1PCGfmTCxU83Apwm1ZcXtFFQEYsLXWqCxn8ANowMU1JIYWvxqPMn?=
- =?us-ascii?Q?bG9/l2M9Z9M1rMIoCc29HbLLdfkP8gjnNHN+DIpTQUnoUqa1bbFhx5xjc59K?=
- =?us-ascii?Q?xL5GRIxN2P9relG1cMVKkllL5qxc9OrxR7W/U0Et7EK2KIbTyOJcNBiEqBzT?=
- =?us-ascii?Q?YX9YNFuETuGzRdk72VW96sh8zwLJ1zJmrimIJEgxcIwzwrKwMyTUPiyzuDWX?=
- =?us-ascii?Q?clIUBjEaU6IX1QLsyF11O2laIyXdXwY5ps48PS2dLAj9JzbWinclq4adaHp0?=
- =?us-ascii?Q?oxGv+0UHOJ9F5QvCil6vFZvKZLuF2EN3aZ5taadIqLC3c3WXFFUy+TiZq1pG?=
- =?us-ascii?Q?/JQ+McxsKXN56NueO77lYOZ2NyVJvR6tlEi48N8zVYf9jHW8WPih+pOVwvuR?=
- =?us-ascii?Q?dxj5YGvnPD5Z+qE7dc+bE8MBqxmL5aYYToEDayrGJmlTpwMew6ZdYBBcbzrf?=
- =?us-ascii?Q?vznl14fKMsgCZ6+I+1102KAXswhnigpKm0qJ/cch/4SSSckydYzkfa+ztcMT?=
- =?us-ascii?Q?2yrXZ2HWT/BayMhbAZ/wNaK0s8V6mX39MWFrARqsZ40QQZNu2Cv2gFykAJrk?=
- =?us-ascii?Q?a21gTtLwsdxYpA6o8QXIwv5kJR1rw2XT/7OASKkyPGXUJRJki2BwX+NpLHSw?=
- =?us-ascii?Q?a/GLwJxu72a+a5viX+UDCSl/oUsNSeAFmUYrjm36ooJEDlULDJD5U8tddlTE?=
- =?us-ascii?Q?EloHbB0h6Gd1IrurU+ZAWD+S85Kp6s7M7yv6rRCxFneyYLc3EWv7FqFJ8nzt?=
- =?us-ascii?Q?oabKBEwTcmcEyVHA1DcQ25hfZbnaMUmONig+vcA+Pv5fG/BMNkAMHhCHQq+l?=
- =?us-ascii?Q?cEOKSUBrnOtlwIrHn7gIpnrnC0mqiGrfk8LGGJ3bVMQcHTpvHRRPo4l/jtou?=
- =?us-ascii?Q?LjuKqbuKwuhbknFk2GSE+NQQYneZogPDWKDSNF5QH5BPfn3QgB0J3/YgoTnY?=
- =?us-ascii?Q?w2KKqrx98VerLP9v5/OyFc8gHs3t1jaKf51bT68mTuIriPCb0WQBOzgoOeWP?=
- =?us-ascii?Q?1oDV2F5SL+iTuO87InmulclsQlI9lPeNHNU9G9CQZ23KmEpYEWUCN0fyS4Ih?=
- =?us-ascii?Q?wQvH+a4qjfPJKitmRhGkfA2KNvKD7cAGdCK+SUf0Cg6bMFncHP3jNH1tmZsr?=
- =?us-ascii?Q?P4nY0hOoeemolnc+lOWPGkFnt71HGC6HjBpifK04DmOHvZQO2FrAsbEZ3Z2I?=
- =?us-ascii?Q?iHWHsQssRdc1f5UrO4brDciN4DR0IPgA5pS+HP8AjtAoBbvUozzqF0Phhieb?=
- =?us-ascii?Q?ftscURjvOM0DCOopKGiU9rg/y4vrRNiPn2X2vEXOyV6MB4Q/72BAqVC0zdoS?=
- =?us-ascii?Q?mzzy3hh9OFeRIoQr6yZ0ayrebuoQxcNKK4ABSoqWHOxLlJtgQYQLFLXIDysq?=
- =?us-ascii?Q?zGQ3GK9DMGmWg8fCHmFFRT0FsoBx4dg=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	mtdFQLWxTOq4OhIryXOptvtA8ShQC4/ZpUc45WpZIEejAdAjliA+i0E48e+KQcJZlpeTEPWlrhW8Xfd6xCefA6Fu5Yk4jhhyKgMur/n58fqSczcZCnugp5FtWIW885WlO/fPf8MQsuhJ5Yx7YGP+Md208kru8zgzgl1M5r0rBf4n/3RhLgGWBpbSRviB/Jey/I/BAWIJUrbKWgaP8VR/EWZr2C/+18UQugUpm3a9mkjK7kksvr1ZPRJPgG94Sf069JMgOeZhKkqDapNoSPRJngqrend+Kpf9pYnllYV9U55sZ0VViDVcfVSnopxFuvbm3b91q8S55wcw4SD1GwU0kQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae3daafb-d7ff-481b-7d04-08dedd22d4e1
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 18:58:00.5403
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 18wiYQdNXGRL+XUC/06ZRhI8kvAGf2IvpYFxXdk7Lh1zyNXNwGuPdkGXEXYN+mMQun1BnmYSK0jvvfvV/eoRKE13Y4lr6Cd3v7HTxlN0d7c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6697
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDE4NSBTYWx0ZWRfX0Y4v7ZEw5FMr
- M2ZkeeFQA9mJph/izCwR7KucF+I9pn+otkaO30m+pUUllcsGgudf9OwEeV9ILyOxo7FSMYP9+we
- /IV/DA3U718L8Eee2CaWohpxJbVGG2/PPMNiu0P+w8xYFbG5+COU
-X-Proofpoint-ORIG-GUID: GWKdmwqK4mBWbHpNVKi_69APznSyWNDg
-X-Proofpoint-GUID: xvP--EBaBLzR8a6mS1BBMOYyIRh22tYc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDE4NSBTYWx0ZWRfXzPHnKqGEvRkM
- IxP/N5aqTaMeQcDEPMZu6Ugsly3yitzWObJtfAp7U75W0PToUl7Kz8YX5/n2qJh6C7aMHGK5VS0
- i+bKyAM3ji35+wkdJ6Z4cDp+LiRIYQL5/lMQ3uQDbgIwrLEo6CDqZYBxpu3a9YPttMox8Y1CkNh
- hD+Y5a5YzF8TYllxf3c6SM0LrO0SxmauaqCoOxStt6T4D6RZF8dadmP0Yw56dsGibOLxS5ozYxc
- Sd8EA6n+H2rY7U96J9qT8VIA9aqghgY2KBvPskmVGZ1qIPjT3GCL/i+8LXMZTJ7UdBR+McLqPrG
- sjN3fmiv16SH3g6VY9/vsSQk+552sJJmojXvoy4kgXEkwq/TFLIlMXqgzecseFqO0jD7cDmET+P
- jMjfFjRlgTiBd7LbBQjMsrB7MQxKqqrsGZkn2UZjTY6K1g7ASuWvu3kPUDRKuaun1mrDjrED9AK
- Nb3F1G024/vr5hyuypQ==
-X-Authority-Analysis: v=2.4 cv=H5frBeYi c=1 sm=1 tr=0 ts=6a4e9dbb cx=c_pps
- a=ubW7OWQb4uJshPNbXurJQw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=Q4-j1AaZAAAA:8
- a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=LuRbOgls0ZB7qaaZkpYA:9
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-08_03,2026-07-08_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 phishscore=0 suspectscore=0 impostorscore=0
- malwarescore=0 spamscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607080185
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
+X-Outbound-Node: rcdn-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jul 2026 18:58:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240513
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 05:06:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240515
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+From: Deepak Rathore <deeratho@cisco.com>
 
-Add lld-native to DEPENDS, As lld linker is required while building kernel
-with clang.
+This patch applies the upstream backport for CVE-2026-4878.
+Wrynose libcap 2.77 still has the path-based cap_set_file()
+race fixed by upstream. The upstream fix commit is referenced in [1],
+and the public CVE advisory is referenced in [2].
 
-Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+The fix switches named file capability updates to an opened file
+descriptor and adds quicktest coverage for symlinked paths.
+
+[1] https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=286ace1259992bd0c5d9016715833f2e148ac596
+[2] https://www.cve.org/CVERecord?id=CVE-2026-4878
+
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
- meta/classes-recipe/kernel-yocto-rust.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ .../libcap/files/CVE-2026-4878.patch          | 163 ++++++++++++++++++
+ meta/recipes-support/libcap/libcap_2.77.bb    |   4 +-
+ 2 files changed, 166 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libcap/files/CVE-2026-4878.patch
 
-diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes-recipe/kernel-yocto-rust.bbclass
-index 49f2bfc1ae..1badb37476 100644
---- a/meta/classes-recipe/kernel-yocto-rust.bbclass
-+++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
-@@ -25,3 +25,6 @@ do_kernel_configme:append () {
- # More details in: https://lists.openembedded.org/g/openembedded-core/message/229336
- # Disable ccache for kernel build if kernel rust support is enabled to workaround this.
- CCACHE_DISABLE ?= "1"
+diff --git a/meta/recipes-support/libcap/files/CVE-2026-4878.patch b/meta/recipes-support/libcap/files/CVE-2026-4878.patch
+new file mode 100644
+index 0000000..955b540
+--- /dev/null
++++ b/meta/recipes-support/libcap/files/CVE-2026-4878.patch
+@@ -0,0 +1,163 @@
++From 286ace1259992bd0c5d9016715833f2e148ac596 Mon Sep 17 00:00:00 2001
++From: "Andrew G. Morgan" <morgan@kernel.org>
++Date: Thu, 12 Mar 2026 07:38:05 -0700
++Subject: [PATCH] Address a potential TOCTOU race condition in cap_set_file().
 +
-+DEPENDS:append:riscv64 = " lld-native"
-+RUST_KERNEL_TASK_DEPENDS:append:riscv64 = " lld-native:do_populate_sysroot"
++This issue was researched and reported by Ali Raza (@locus-x64). It
++has been assigned CVE-2026-4878.
++
++The finding is that while cap_set_file() checks if a file is a regular
++file before applying or removing a capability attribute, a small
++window existed after that check when the filepath could be overwritten
++either with new content or a symlink to some other file. To do this
++would imply that the caller of cap_set_file() was directing it to a
++directory over which a local attacker has write access, and performed
++the operation frequently enough that an attacker had a non-negligible
++chance of exploiting the race condition. The code now locks onto the
++intended file, eliminating the race condition.
++
++CVE: CVE-2026-4878
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/libs/libcap/libcap.git/commit/?id=286ace1259992bd0c5d9016715833f2e148ac596]
++
++Signed-off-by: Andrew G. Morgan <morgan@kernel.org>
++(cherry picked from commit 286ace1259992bd0c5d9016715833f2e148ac596)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ libcap/cap_file.c  | 69 +++++++++++++++++++++++++++++++++++++++-------
++ progs/quicktest.sh | 14 +++++++++-
++ 2 files changed, 72 insertions(+), 11 deletions(-)
++
++diff --git a/libcap/cap_file.c b/libcap/cap_file.c
++index 0bc07f7..f02bf9f 100644
++--- a/libcap/cap_file.c
+++++ b/libcap/cap_file.c
++@@ -8,8 +8,13 @@
++ #define _DEFAULT_SOURCE
++ #endif
++ 
+++#ifndef _GNU_SOURCE
+++#define _GNU_SOURCE
+++#endif
+++
++ #include <sys/types.h>
++ #include <byteswap.h>
+++#include <fcntl.h>
++ #include <sys/stat.h>
++ #include <unistd.h>
++ 
++@@ -322,26 +327,70 @@ int cap_set_file(const char *filename, cap_t cap_d)
++     struct vfs_ns_cap_data rawvfscap;
++     int sizeofcaps;
++     struct stat buf;
+++    char fdpath[64];
+++    int fd, ret;
+++
+++    _cap_debug("setting filename capabilities");
+++    fd = open(filename, O_RDONLY|O_NOFOLLOW);
+++    if (fd >= 0) {
+++	ret = cap_set_fd(fd, cap_d);
+++	close(fd);
+++	return ret;
+++    }
++ 
++-    if (lstat(filename, &buf) != 0) {
++-	_cap_debug("unable to stat file [%s]", filename);
+++    /*
+++     * Attempting to set a file capability on a file the process can't
+++     * read the content of. This is considered a non-standard use case
+++     * and the following (slower) code is complicated because it is
+++     * trying to avoid a TOCTOU race condition.
+++     */
+++
+++    fd = open(filename, O_PATH|O_NOFOLLOW);
+++    if (fd < 0) {
+++	_cap_debug("cannot find file at path [%s]", filename);
+++	return -1;
+++    }
+++    if (fstat(fd, &buf) != 0) {
+++	_cap_debug("unable to stat file [%s] descriptor %d",
+++		   filename, fd);
+++	close(fd);
++ 	return -1;
++     }
++     if (S_ISLNK(buf.st_mode) || !S_ISREG(buf.st_mode)) {
++-	_cap_debug("file [%s] is not a regular file", filename);
+++	_cap_debug("file [%s] descriptor %d for non-regular file",
+++		   filename, fd);
+++	close(fd);
++ 	errno = EINVAL;
++ 	return -1;
++     }
++ 
++-    if (cap_d == NULL) {
++-	_cap_debug("removing filename capabilities");
++-	return removexattr(filename, XATTR_NAME_CAPS);
+++    /*
+++     * While the fd remains open, this named file is locked to the
+++     * origin regular file. The size of the fdpath variable is
+++     * sufficient to support a 160+ bit number.
+++     */
+++    if (snprintf(fdpath, sizeof(fdpath), "/proc/self/fd/%d", fd)
+++	>= sizeof(fdpath)) {
+++	_cap_debug("file descriptor too large %d", fd);
+++	errno = EINVAL;
+++	ret = -1;
+++
+++    } else if (cap_d == NULL) {
+++	_cap_debug("dropping file caps on [%s] via [%s]",
+++		   filename, fdpath);
+++	ret = removexattr(fdpath, XATTR_NAME_CAPS);
+++
++     } else if (_fcaps_save(&rawvfscap, cap_d, &sizeofcaps) != 0) {
++-	return -1;
++-    }
+++	_cap_debug("problem converting cap_d to vfscap format");
+++	ret = -1;
++ 
++-    _cap_debug("setting filename capabilities");
++-    return setxattr(filename, XATTR_NAME_CAPS, &rawvfscap, sizeofcaps, 0);
+++    } else {
+++	_cap_debug("setting filename capabilities");
+++	ret = setxattr(fdpath, XATTR_NAME_CAPS, &rawvfscap,
+++		       sizeofcaps, 0);
+++    }
+++    close(fd);
+++    return ret;
++ }
++ 
++ /*
++diff --git a/progs/quicktest.sh b/progs/quicktest.sh
++index e6c48e6..5dc72f9 100755
++--- a/progs/quicktest.sh
+++++ b/progs/quicktest.sh
++@@ -148,7 +148,19 @@ pass_capsh --caps="cap_setpcap=p" --inh=cap_chown --current
++ pass_capsh --strict --caps="cap_chown=p" --inh=cap_chown --current
++ 
++ # change the way the capability is obtained (make it inheritable)
+++chmod 0000 ./privileged
++ ./setcap cap_setuid,cap_setgid=ei ./privileged
+++if [ $? -ne 0 ]; then
+++    echo "FAILED to set file capability"
+++    exit 1
+++fi
+++chmod 0755 ./privileged
+++ln -s privileged unprivileged
+++./setcap -r ./unprivileged
+++if [ $? -eq 0 ]; then
+++    echo "FAILED by removing a capability from a symlinked file"
+++    exit 1
+++fi
++ 
++ # Note, the bounding set (edited with --drop) only limits p
++ # capabilities, not i's.
++@@ -246,7 +258,7 @@ EOF
++     pass_capsh --iab='!%cap_chown,^cap_setpcap,cap_setuid'
++     fail_capsh --mode=PURE1E --iab='!%cap_chown,^cap_setuid'
++ fi
++-/bin/rm -f ./privileged
+++/bin/rm -f ./privileged ./unprivileged
++ 
++ echo "testing namespaced file caps"
++ 
++-- 
++2.35.6
+diff --git a/meta/recipes-support/libcap/libcap_2.77.bb b/meta/recipes-support/libcap/libcap_2.77.bb
+index 9968cd5..66ac0f1 100644
+--- a/meta/recipes-support/libcap/libcap_2.77.bb
++++ b/meta/recipes-support/libcap/libcap_2.77.bb
+@@ -12,7 +12,9 @@ LIC_FILES_CHKSUM = "file://License;md5=2965a646645b72ecee859b43c592dcaa \
+ 
+ DEPENDS = "hostperl-runtime-native gperf-native"
+ 
+-SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz"
++SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
++           file://CVE-2026-4878.patch \
++           "
+ SRC_URI:append:class-nativesdk = " \
+            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
+            "
 -- 
-2.49.0
+2.35.6
 
 
