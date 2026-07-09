@@ -2,84 +2,85 @@ Return-Path: <sudumbha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55996C44501
-	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 05:28:19 +0000 (UTC)
-Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2559.1783574894477542523
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52E5DC43458
+	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 05:31:59 +0000 (UTC)
+Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2599.1783575110227325297
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jul 2026 22:28:14 -0700
+ Wed, 08 Jul 2026 22:31:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Czeua6cG;
- spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: sudumbha@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=WGgjtaMA;
+ spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: sudumbha@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=cisco.com; i=@cisco.com; l=1640; q=dns/txt;
-  s=iport01; t=1783574894; x=1784784494;
+  s=iport01; t=1783575110; x=1784784710;
   h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=GYkPNrqZS7LQUAek9PiB1C+Ab1MFZL4rNCwqf7GT5W8=;
-  b=Czeua6cGiYrT7LROIQ0eQ7fTxGsTAEXLamX0VswDuKc6GSWJDTf/LtMV
-   5ETCJ+Z5b3EmHSz2fVNU9DWRvI/im1dMLyg4+0pPP/UxCOQ7qe/OUTT2y
-   Ux6TmR7tS2OqvRteVw1yLAYmpsqjS6e3LVa/AG4Bi2o43igSqJDzzhiPw
-   ETt64qT84V9f/P+rB0OwstM1RmnKFhdvHtyDs2QIlKG5PbUKtAadI3e4H
-   hIO0vi4rRG+bSjS6F+kl//GyV1pPqPpgjIqc5NzzPohL7qRC4rCv7qBic
-   cLjrAPlm1WNCl1NU8SzgV7H6XssWTQkmzBfMk4Nq/sycA+gH7k+M7dXxL
-   A==;
-X-CSE-ConnectionGUID: Z9p8xGheSfO5n2jSwwLYNg==
-X-CSE-MsgGUID: NLS5a9CFR4S3MnHsrQeVXg==
-X-IPAS-Result: =?us-ascii?q?A0BCAgCkME9q/4//Ja1aglmCV3RfQkkDlCagP4F+DwEBA?=
+  bh=O5Z1+EZU1XeVzWBK8KoCCX/7DB3LjwongV0Qg53Bq/g=;
+  b=WGgjtaMA6J1iulcaFBc3IqUW8wW/cp04osm6tnIo7AL55IYYm7OiIL6k
+   YPwyDy8quNTKvFlx9XrpKS3u4I+YlrAVxGF86nAlkekBgv2WEhgYf0Dml
+   RXNFegruWLFi7uhZiCZ3VxwzANI2mV0MNiZpi8Ud3F5TR1X42jQ09UVdZ
+   D6MHa850akih4CXau4eUo99oOQ1onGFGg74LxeTxlZVpOq6oYD6VoRpRy
+   UgEFG3OnCOmJDJtVharwzlJEmfio1bghHGkR7qj/Bj+Jj7YH6f+6RZG5A
+   XQPSoTlLIOyoKxnML4qjs8rLbcrj1gKAB1ZNdriK2sNbMSvYN0rybUyJc
+   Q==;
+X-CSE-ConnectionGUID: 7fTdWCA4SJ6cc5vhXU44FQ==
+X-CSE-MsgGUID: C/66oN2nSDuNNF/ZOpDy9Q==
+X-IPAS-Result: =?us-ascii?q?A0BCAgCiMU9q/5X/Ja1aglmCV3RfQkkDlCagP4F+DwEBA?=
  =?us-ascii?q?Q8uDxQEAQGSVAImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE?=
- =?us-ascii?q?4ZPDYZdBTEBGAFdWAREgwIBgnMCARG3XIIsgQGDKAExBQkCQ1DbLgELFAGBO?=
+ =?us-ascii?q?4ZPDYZdBTEBGAFdWAREgwIBgnMCARG3XoIsgQGDKAExBQkCQ1DbLgELFAGBO?=
  =?us-ascii?q?IU/iB9zAYR8JxsbgXKBFYNpgQWBXAEBAhiBLmWFeASCInoShAqNVkiBHgNZL?=
  =?us-ascii?q?AFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDBsHBYEdgV+BAoR5Ix8DOX+BL3VKe?=
  =?us-ascii?q?S2BARIeCoFSghY6AwsYDUgRLDcUGwQ+bgeNPBcPgj6BDiyCLKV2oQ8KKIN1j?=
  =?us-ascii?q?CGNPod8GjOqbJkIjgoWljqEaYFoPIFHCwdwFYMiCUoZD444g2uBf4MUyUckN?=
  =?us-ascii?q?QIMLwEBBwIHDgMLgWiRfgEB?=
-IronPort-Data: A9a23:5X0/dq7XwXtJd3VNaGb8DQxRtGnGchMFZxGqfqrLsTDasY5as4F+v
- mNNDzqCa66Ia2SnLtkga47jpk1T65fVnNRkHAY9/yA1Zn8b8sCt6fZ1gavT04J+CuWZESqLO
- u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
- 5Wo/qUzBHf/g2Qqaj1Mu/rawP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
- +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
- jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eD9wAqvZYAWx1+
- 9tFLmoPVQ+co9OQz+fuIgVsrpxLwMjDJogTvDRkiDreF/tjGc6FSKTR7tge1zA17ixMNa+BP
- IxCNnw1MUmGOkEUUrsUIMpWcOOAnWTzbjhSqFu9rqss6G+Vxwt0uFToGIeNJYfaGp4Fzy50o
- Erg21+kC0AxGubD8mGg9FK3nNbCoxP0Ddd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzBaCDVAc9ch8sQxQFTGy
- 2O0oj8gPhQ32JX9dJ5X3u38Qe+aUcTNEVI/WA==
-IronPort-HdrOrdr: A9a23:gZyfO6vIo/otllyU31HUNrtn7skDRtV00zEX/kB9WHVpm6uj5q
- KTdZsguyMc5Ax9ZJhCo6HiBEDjexLhHPdOiOF7V4tKNzOIhILHFu1fBPPZowHIKmnZ6vNX07
- tmfuxVDd39CkU/sOPBiTPIdurJBLK8gceVbSC09QYIcT1X
-X-Talos-CUID: 9a23:ZuMkSWFWnQ2GoVNGqmJVpVZECu8lf0bT6yrWeU2DFnlNeZuaHAo=
-X-Talos-MUID: 9a23:j+5CowgJUIm854bDKBwFRsMpEuNTvq3/I243za5dns+kLjZJNgmtg2Hi
+IronPort-Data: A9a23:9/P3cKwviA1jKY9nmrd6t+dmxyrEfRIJ4+MujC+fZmUNrF6WrkUDy
+ GYcXWrQOqmDN2b1f94nYYuwp0MG6MOGn9c2HQE9q1hgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 46aT/H3Ygf/hWYrajJMsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJB44AYEn0c8rOkMQ/
+ vdFNjA9U0zfqdvjldpXSsE07igiBNPgMIVavjRryivUSK98B5vCWK7No9Rf2V/chOgXQq2YP
+ JVfM2cyKk2cMnWjOX9PYH46tPy1imT6eT1RgFmUvqEwpWPUyWSd1ZCxYYqIJo3TFZo9ckCwj
+ SWYoWPfWBchGMG57xTCwFW0qv6epHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPAXC4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:WGl3c6GaXmV2if1TpLqE2MeALOsnbusQ8zAXPidKOH5om6Oj+f
+ xG8M536faWskdzZJhDo7G90cC7KBu2n6KdirN/AV7NZmXbUROTTL1K3M/F3yDqHTH4+6p20K
+ dtdLU7NfjLZGIK6PoTJGKDYrEdKB7tytHNudvj
+X-Talos-CUID: 9a23:8Jb9r2yuyxE8KLILuJLgBgVLFPwpTVb0kEzyfUSzVHhpeIDJFXGprfY=
+X-Talos-MUID: =?us-ascii?q?9a23=3AG2hTvw0BAkkGkgK/7nkwRNlX+zUjyOPwVkcry5M?=
+ =?us-ascii?q?9l9SiEwI3CRCFoCXme9py?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,154,1779148800"; 
-   d="scan'208";a="507387389"
-Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
-  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 Jul 2026 05:28:13 +0000
+   d="scan'208";a="498549187"
+Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
+  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 Jul 2026 05:31:49 +0000
 Received: from sjc-ads-12007.cisco.com (sjc-ads-12007.cisco.com [171.70.97.7])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id 998E31800025B
-	for <openembedded-core@lists.openembedded.org>; Thu,  9 Jul 2026 05:28:13 +0000 (GMT)
+	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id 46CFE180001EE
+	for <openembedded-core@lists.openembedded.org>; Thu,  9 Jul 2026 05:31:49 +0000 (GMT)
 Received: by sjc-ads-12007.cisco.com (Postfix, from userid 1840713)
-	id 2923BCB6A93; Wed,  8 Jul 2026 22:28:13 -0700 (PDT)
+	id AA90CCB6A93; Wed,  8 Jul 2026 22:31:48 -0700 (PDT)
 From: "Sudhir Dumbhare -X (sudumbha - E INFOCHIPS PRIVATE LIMITED at Cisco)" <sudumbha@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][master][PATCH] openssh: set status for CVE-2026-3497
-Date: Wed,  8 Jul 2026 22:27:31 -0700
-Message-ID: <20260709052730.1736113-2-sudumbha@cisco.com>
-X-Mailer: git-send-email 2.51.0
+Subject: [OE-core][wrynose][PATCH] openssh: set status for CVE-2026-3497
+Date: Wed,  8 Jul 2026 22:30:45 -0700
+Message-ID: <20260709053044.2081827-2-sudumbha@cisco.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-12007.cisco.com [171.70.97.7];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.97.7, sjc-ads-12007.cisco.com
-X-Outbound-Node: rcdn-l-core-06.cisco.com
+X-Outbound-Node: rcdn-l-core-12.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 05:28:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240520
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 05:31:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240521
 
 From: Sudhir Dumbhare <sudumbha@cisco.com>
 
@@ -114,6 +115,6 @@ index a050475532..8669d080b6 100644
  PAM_SRC_URI = "file://sshd"
  
 -- 
-2.51.0
+2.53.0
 
 
