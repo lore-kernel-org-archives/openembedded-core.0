@@ -2,51 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 930B7C44507
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9AB8C44509
 	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 10:07:06 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5801.1783591623508109488
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5884.1783591624014797532
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2026 03:07:03 -0700
+ Thu, 09 Jul 2026 03:07:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=UqefPTWH;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493c5220cb7so12939215e9.3
+ dkim=pass header.i=@smile.fr header.s=google header.b=hH5G0WMC;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493bb510ce4so5713115e9.1
         for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:07:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1783591622; x=1784196422; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=GDj86slT/MePzt6WHoLlsW/qUuLYhq+nxTY0OQIOCuw=;
-        b=UqefPTWH/Lqof0rYUBrUo8FtL7g6SACEVisCpoIcsuy4/84V3XQskjaGsu9+ih75tQ
-         nZ6f3XG82pqoNCsRMo+roBqrLsESgcBRR+nK52N/M56G53YVhkEVLCju2bSwcbj7I7D/
-         T6W6FoeaYeyn25N+K5cN0X1JOvP/LPZ3475+k=
+        bh=t5VPrSHavVfy869WW692ro24kYliKX/7kj8ba71JJ7Q=;
+        b=hH5G0WMCjIoqapTNvm/pbG4sJ465LkWBjkKsUqoyax37s6oWRiY2U6jJIEXj0wP8zi
+         298yRCjZzel4D+1ECcYADYBOqab7jky/WUBPjGgYwJHKbWSXYTocwJjmWvABY1HvTkcE
+         UeIpsNyT0mwPSbrR5kYlESbmUrsYMyFXRmogo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1783591622; x=1784196422;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=GDj86slT/MePzt6WHoLlsW/qUuLYhq+nxTY0OQIOCuw=;
-        b=dOzfHUhkBcyZcy6GTBFKXtO7YL7ckrC2xiuicTlgA3MJi6WS0bHlo76q6Ls7YSnYwu
-         EVLhmIKvwsgyZAi+mXB3qZguegq9FGJZiQSeSfLpTqTzKrAIe7okGGtr+6wun8uP5dk9
-         RMVI3s/KoQk/V/jbBG8zR6oc04FJSz0um516n4xwy2JEY951zMLEd/FbFvP4N4wDWJvX
-         pNq6KxT5ZC3kMEPRV6hNHwUTREZDA0mTBh7IQvg3DrtAoqAHb8TkRkah7SjMvCquVVF8
-         TDp0+5GEp5/nuBCPleiq0R5yqM2cDI2DXKQP80Bn8iD2uGHkYTNwow89eJGjBHInYSyk
-         xlWg==
-X-Gm-Message-State: AOJu0Yy+ZmerKuEhztp1jjc8LwQTlcIYv8csM54LypIWmHmWZDtSQbrg
-	nr50Uy9o8cAAEs/KFTGGsk4XoWZF38Ws1nJpVofNUDrGXRVBDVqoLNM0zJ1SSsd3ShBNbt7gTME
-	l2Vpc1nc=
-X-Gm-Gg: AfdE7cko+xgns+ZHN7I/wfSJ7LNzEm+zl5zk1WQ/m/YXfaWfE1AKb+ymJJf+oDUNKDj
-	1hq4vmcK4qSkmOkgdcb1spZsNlbeJrs5wwKoOr4mV1+s8G26sR1TgXGGlR+qCiFJjRz9eC6U1QR
-	pwZStyND5cLPQ8ier59+sPgBBpq0j6geN3Fe+hMQS78xiOaiphKn+MmpP4Ui6nTE81EHJwG6Ndg
-	HQFStdFeaeyTzXlt3KHlkw3RY+UI5ZRDpNTx3+AkdB2vIas/grZhRnxMnZiONXAgR4Rb8E+sRh5
-	glK8U5FkugLOjaZu8rjHfw+4JMKH83v2c2wVoovrqCdHeliiK3w57AeGQbahaQb5tCV1HeAXA7l
-	EMV2Oz+NtB39znqDyqooYhjO7zqo1ZrEllVzAqvUtcobMalyEkcsGtVJQ7NE3YsiDGn7wJZejhr
-	tN2chkNT8TAcjIzbUD1UYzmuFV4ypg8swuBVj85WBgSDihR46kW3bBWLpScDh4wOP1ReSuGoaHx
-	LqbYxnvFAlcBhgwOvc3bNhPTsnA
-X-Received: by 2002:a05:600c:e54a:10b0:492:3754:15f2 with SMTP id 5b1f17b1804b1-493e68d4081mr42142345e9.32.1783591621681;
-        Thu, 09 Jul 2026 03:07:01 -0700 (PDT)
+        bh=t5VPrSHavVfy869WW692ro24kYliKX/7kj8ba71JJ7Q=;
+        b=GBRvuEkA5FUZ9USY0mj6/+LeJ3YDYd4CJ48UlqaAOpfGpy/tvR+Xj/s/RUhJBtpS/Y
+         NMwtFB2i7mBGYe5/i4Fko/YtaUK/JEa/DG0wgNijKDu7NW1tL5y32IPoqzF7SJ5sTGzn
+         rc90U7Mlv8YX/lhjvGuRka5fmvrYBr1Tui7AMRUXsyxVUgqFU3K9AtMxIkNkF61QimF5
+         6w/6WFAAmxgo96wEGl6wlz992FfguWU8pshSBWdumJzEMWjcohx5gQFNzdlzdwQ8zHVD
+         PhAeNAU2r8atX7DxwU32tUNkZc0M2Y888y++kTB7IgUEfyRopiyvKjdx5Ok3n0UazJFf
+         /gpQ==
+X-Gm-Message-State: AOJu0Yw7clanOiJSpDcW5M1m1g96F8F6kyvUVZWGzdiNOWXV4dyLgNjR
+	qh6dPcCMYzCa3tlDJMkI8qr5SJwNTzIvyOBIkuURhB/rn5jqHVRVIwapktkBa5zf73fK4QaD7Ph
+	dutYT54k=
+X-Gm-Gg: AfdE7cmjWTWtY3I+G4Hs9BCGxdqmlzU/UucfD/Uaii5nuk3zMeHsbZirPDm8ehkr+Gc
+	ysv6F24WZF7BI90OLkFEpFkFGfp56u6XHbTNfGUIfv3shWiojE0T7iEzch4qz5WZKy8ErsdR+dW
+	hYV//CwyMQ0xVa3nYwP7ISoocArrEydJyn0sN9SJyyvLrutVgN5mDk8p54QL7u7ldSmBwXKzzN1
+	Lp5QogrRFEm0KsFY/+hGzxIhjUFpT5lj4z7XdXvDZzM6eOvj2pr15D0mhjbQhgaevPvcgwl2id4
+	OacQ6G4FgAOoIN0X8FArM1I4Q7kTjbcIHN1y3HUt8WLQrn5T1Mrh66kE/bJpC2KujVxBMSl3C4+
+	4hhUfPGYiQ9pQh65FviOCsLA20h+kTkkhTiiIe+pBdfOQiaTGj9nmR3jCabfGzQ3+6dLeZGMpoJ
+	yQ4VPpSwCNoAdcWs5K6pNsCAYpJivie2UjGwQr9zBD+Ace5Vgu4CdsZWGJqQtXTSXIVAqQKlPwz
+	Pj9PLOJm9TLzZRPUw==
+X-Received: by 2002:a05:600c:528e:b0:492:4363:e7eb with SMTP id 5b1f17b1804b1-493e68f03damr64806985e9.32.1783591622172;
+        Thu, 09 Jul 2026 03:07:02 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00fd88810a86c49142.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fd88:810a:86c4:9142])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm149687135e9.2.2026.07.09.03.07.01
         for <openembedded-core@lists.openembedded.org>
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00fd88810a86c49142.ipv6.abo.wan
         Thu, 09 Jul 2026 03:07:01 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 04/25] sudo: fix pam-wheel sed for sudo 1.9.17p2 sudoers
-Date: Thu,  9 Jul 2026 12:06:20 +0200
-Message-ID: <55f7bf8cd9516971d6d01c1c890bc4c1df62b008.1783590688.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 05/25] curl: fix CVE-2026-5773 - wrong reuse of SMB connection
+Date: Thu,  9 Jul 2026 12:06:21 +0200
+Message-ID: <7736f905e78162ac657d7a1c790dfa5701dd6b19.1783590688.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783590688.git.yoann.congal@smile.fr>
 References: <cover.1783590688.git.yoann.congal@smile.fr>
@@ -66,38 +66,93 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 10:07:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240550
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240552
 
-From: Nate Kent <nathan@otiv.ai>
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-[YOCTO #16321]
+libcurl's SMB handler marks connections for reuse (connkeep) without
+verifying that subsequent requests target the same share. This allows
+a second SMB request to the same host to reuse a connection
+authenticated for a different share, potentially accessing data
+without proper authorization.
 
-In version 1.9.17p2, the line that the recipe uses to add the 'wheel'
-group to the sudoers file does not exist. This updates the sed usage to
-the actual line in question.
+The upstream fix removes connection reuse for SMB entirely in
+lib/protocol.c, a file introduced in curl 8.20.0. For 8.7.1, the
+equivalent fix is changing connkeep() to connclose() in lib/smb.c,
+which prevents the connection from being returned to the pool.
 
-Signed-off-by: Nate Kent <nathan@otiv.ai>
-Tested-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 76231f202a437be221c2580d4fa0fc100c453e92)
+Tested with SMBv1 server (Docker dperson/samba):
+  Without patch: "Re-using existing connection" for different shares
+  With patch: New connection per request, no reuse
+
+Binary verified: Curl_conncontrol arg changes from 0 (KEEP) to 1 (CLOSE)
+
+Reference: https://curl.se/docs/CVE-2026-5773.html
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-extended/sudo/sudo_1.9.17p2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../curl/curl/CVE-2026-5773.patch             | 40 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5773.patch
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
-index c934dfdce27..90672ed7afd 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
-@@ -34,7 +34,7 @@ do_install:append () {
- 		install -D -m 644 ${WORKDIR}/sudo.pam ${D}/${sysconfdir}/pam.d/sudo
- 		if ${@bb.utils.contains('PACKAGECONFIG', 'pam-wheel', 'true', 'false', d)} ; then
- 			echo 'auth       required     pam_wheel.so use_uid' >>${D}${sysconfdir}/pam.d/sudo
--			sed -i 's/# \(%wheel ALL=(ALL) ALL\)/\1/' ${D}${sysconfdir}/sudoers
-+			sed -i 's/# \(%wheel ALL=(ALL:ALL) ALL\)/\1/' ${D}${sysconfdir}/sudoers
- 		fi
- 	fi
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-5773.patch b/meta/recipes-support/curl/curl/CVE-2026-5773.patch
+new file mode 100644
+index 00000000000..42ec2b5a5ff
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-5773.patch
+@@ -0,0 +1,40 @@
++From 74a169575d6412dc0ff532acdf94de35a6c2a571 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Sun, 5 Apr 2026 18:23:35 +0200
++Subject: [PATCH] protocol: disable connection reuse for SMB(S)
++
++Connections should only be reused when using the same "share" (and
++perhaps some additional conditions), but instead of fixing this flaw,
++this change completely disables connection reuse for SMB. This protocol
++is about to get dropped soon anyway.
++
++Reported-by: Osama Hamad
++Closes #21238
++
++CVE: CVE-2026-5773
++Upstream-Status: Backport [https://github.com/curl/curl/commit/74a169575d6412dc0ff532acdf94de35a6c2a571]
++
++Note: The upstream fix targets lib/protocol.c which was introduced in
++curl 8.20.0. In 8.7.1 the equivalent is changing connkeep() to
++connclose() in lib/smb.c, which prevents the connection from being
++returned to the pool. The effect is identical.
++
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ lib/smb.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/lib/smb.c b/lib/smb.c
++index 7c73cbcec..a1f5c9b31 100644
++--- a/lib/smb.c
+++++ b/lib/smb.c
++@@ -461,8 +461,7 @@ static CURLcode smb_connect(struct Curl_easy *data, bool *done)
++   if(!smbc->send_buf)
++     return CURLE_OUT_OF_MEMORY;
++ 
++-  /* Multiple requests are allowed with this connection */
++-  connkeep(conn, "SMB default");
+++  connclose(conn, "SMB default");
++ 
++   /* Parse the username, domain, and password */
++   slash = strchr(conn->user, '/');
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 14d63d63733..d0267317517 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -36,6 +36,7 @@ SRC_URI = " \
+     file://CVE-2026-1965-2.patch \
+     file://CVE-2026-3783.patch \
+     file://CVE-2026-3784.patch \
++    file://CVE-2026-5773.patch \
+ "
  
+ SRC_URI:append:class-nativesdk = " \
 
