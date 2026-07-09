@@ -2,119 +2,129 @@ Return-Path: <roland.kovacs@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA26C43458
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB9DDC44506
 	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 12:37:50 +0000 (UTC)
 Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.44])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.8179.1783600668873458940
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2026 05:37:50 -0700
+ Thu, 09 Jul 2026 05:37:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=oZFXDvy5;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=ToEszMhl;
  spf=pass (domain: est.tech, ip: 52.101.84.44, mailfrom: roland.kovacs@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p069c0ANB8Idp5ImoP1ERv72NGnGjGwmc2BIqYt7Yp5/k8Ew8sp9t79+9vvR6PmJHiMvbfyYrcq/sCidOb9x0WXbfO1E+uzac98cZq/CqDgRSt2GOtkJGH7oc8vFeghxms8bYhzwtpih6bs9Odpa39+XbMeIMcbHbSUpydniLJngnRdviqBp2F5+waj3G0pIYsPV4CQ2vxCAuorS7Rtq1PeKVXrOmjKtDK3bhhe1p/8O5KR/qDX5jy2ZWGtbeVmc1bR3M5MuLs9cSCYIshXDh5gi6B9Fb6tnRVqI6N8TNOKnm/NHUXDmrpCey0xIFHzGiXMGlEbqz5OfF1c0UrIdTQ==
+ b=wrFOciedlCeK5LnwKtWjkLf1/fFxyBgnzH97hgDURcnaVFSlnnp+J47bEMduZykYFbUVDcMUoPsBSRUQxZiJ+tWI4SjuLVHm4AjGtIFiStibl21ebaW5zI3z+ldfthEkqKK4HAjudIUfqgNhe2SapV6RPl6LgALA3zVyLMcXx2wqIDcBDVrgPTks6t1qA3KE7/CAZNrzToPVckfQs5gzPtdLmiDUdLjgB53HDnlMpYFTTbdyx/K4NMtPj3ZDxVyIsh1sHMr2ppwOQ4MNT0Sj0syxt9tNXEC/1PiRajIAKQAkQ6rcmbek8p22s58SZfdmxtaJg835BKXzU0sFFw9XaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+Xuxf4krXwGUBxQIPcM68ZSccRs8HCsLTRVstuiTLIc=;
- b=u5yoCc9WmwEwTaNIONh2aywRbrTY30TX7WATERLU1XRMV586vdTG4VOeE6wo1Oo1me2NK+Y9xciksXAgZUZ5RhKDEBwKwgOE2yGyPPMSCf6RtBrvRB0PijxoVEMQ7IfLYKd8ortOEVFX5sA8agioc+LBb8hUomXQLZvGCtKXTpUv+vHKmQkU1enIWHNXcwsVQUKSfo/07KcLcx7bofyhLBER2Ds/xnIWcFQ0Jn/9vQT76qjmcWfIO7OFTzsfFGyKIE5m3CeOaN+wc3BRDVtv7d4zP0v4Svui6ZYpNa0CipTa8QRZPmwMsDzAzOUkjB2yoH5bMorCwgKltNTevJAAvA==
+ bh=d5aqz959nSfFg26OEgOkZaqGqyDJH86ImNgugEiCWZk=;
+ b=eTw5IXxnz1MPI6Tj3PH/qL3AY1vxI5NtNmTDoSo54xdoVYK5pdO8XnVq+jWhiI9F1byqVXiPc1q4bFLxeWfpEBEfEeuoHqu8GixsEviIiV9x/vx/ZcwWwz0/mEQ1HH8Uw67qV/VhlOepL0sqQ7M9sHeK6Rf42GJX5PIK+/uvpH14wdgPYFstkVYldhUK+2ztcksTUk+UUUMriuezhOd07cPx1F8ZFR2Tcv1jRjtmJOxUclD2TUOK1U5EpPhWJN302cTui4m+Kj3JCyjkh+vGkIFSkrReMBshMMFX2+J8PaEkDBXK40K8W2wux6hWfvEMHMGIOpCTsJgIDNUPk3QE0Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+Xuxf4krXwGUBxQIPcM68ZSccRs8HCsLTRVstuiTLIc=;
- b=oZFXDvy53BugGlUpw33tCVNedJHqT8j47Ts3/1ETBDrgjeatnPsEeXDS6h/u68sBzDDlAm0DfcPO5jXnjolzZm5TGd7ZiXdx6eeUXD1Q/kRDeaxcvS/hFf2YTf2SbqNCduks95KFzQcHIlgAOdiUDfPNAAaD3pfkmrhV4COKaZA0UV5q1+1aD/kl2nhUKaSr1WTSq+D3E55iOc5cBHjO3rjgb0iSDRs6G8lpCYc9WG7Wb/XJXSVUmfEioPV8XXkQIBwe2YLIrTolhTswywip4LpvICfbcIYJ96J/AFdtYvZSC4wVevsmpG09ko1YJ8qwMx6jgg2i9lzDStFWujiZ2Q==
+ bh=d5aqz959nSfFg26OEgOkZaqGqyDJH86ImNgugEiCWZk=;
+ b=ToEszMhl1PTHwzTuvThh99rsWtnisFeNpG9fzoUA3AmtUz2kM0H4htjFY1ymHr0LQq+kTxKUcL1MY8HN4cWIlICkVFL8kgk7QvCsBh5jBxctkhOspsJRkSNgUb+PPU8+znU4J/7Ow2GtrwJ7DLMmhp+5henYuejhkS5+bIM09voR6Gq0Qu+VYdBfuBNMvr0s4kGtYFWam9e/SSK7E9IFwAi6SM0xJxeTnXaEYhRSr0qCHvM/HQoLan67h33novt7Wxnl43p+U5MZlCXZYCD+8akSnQkr2slDt/pqYsW2FtPbBOjoo3I8ievl6dnRIIAgS8++QJEpVedvH+rkCRT/Pg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DB8P189MB0732.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:127::14)
  by DU2PPFB830855DA.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::a9f) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Thu, 9 Jul
- 2026 12:37:43 +0000
+ 2026 12:37:45 +0000
 Received: from DB8P189MB0732.EURP189.PROD.OUTLOOK.COM
  ([fe80::6c51:738c:1290:f77b]) by DB8P189MB0732.EURP189.PROD.OUTLOOK.COM
  ([fe80::6c51:738c:1290:f77b%4]) with mapi id 15.21.0181.012; Thu, 9 Jul 2026
- 12:37:43 +0000
+ 12:37:45 +0000
 From: Roland Kovacs <roland.kovacs@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [scarthgap][PATCH v2 0/1] binutils: fix CVE-2025-69649, and CVE-2025-69652
-Date: Thu,  9 Jul 2026 14:37:39 +0200
-Message-ID: <20260709123740.150315-1-roland.kovacs@est.tech>
+Subject: [scarthgap][PATCH v2 1/1] binutils: fix CVE-2025-69649, and CVE-2025-69652
+Date: Thu,  9 Jul 2026 14:37:40 +0200
+Message-ID: <20260709123740.150315-2-roland.kovacs@est.tech>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260709123740.150315-1-roland.kovacs@est.tech>
+References: <20260709123740.150315-1-roland.kovacs@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0688.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:37b::17) To DB8P189MB0732.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P265CA0136.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c4::12) To DB8P189MB0732.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:10:127::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DB8P189MB0732:EE_|DU2PPFB830855DA:EE_
-X-MS-Office365-Filtering-Correlation-Id: cd7a53ae-7fda-4715-c7fb-08deddb6df13
+X-MS-Office365-Filtering-Correlation-Id: fdb86e99-8c32-48d6-f3ab-08deddb6e008
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|11063799006|56012099006|18002099003|6133799003;
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|11063799006|56012099006|18002099003|22082099003|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	gHoc6TlGO3+lB9esFyR0So/kWj/WlXVjLkWmvYp6gTNWkx25CTu24mdIQEPn00na6rRrQ78TWWLZbDZVzI6rd2vo/JpyONeP6vSLEottXuYr8oMpU/u8cFRZQR7ZUA72XQ90wR9UVnWoU5IXB87hCfCe350qRkCFxjJ6F0+K7IvkcE/uOkm6kvx5hbFtf52JBaBIjNhzwE7RzuZXRgfbrcELvlWTSCsxz7TObbobVVZ5Oxm9r2URz/zQrW3oQUv6ucoGO/txsAFgvNDMRx1qmLQetsIn4dWpF89/l1MLpxIKjx48E0k42RSsCRTOZUbJPteNZKcVI8KOelyGUu7kTSl6/VnhsA80Qs5CbJwim7HDaR+brGQYOmkzbBSuFJyQZvnz6ImuGOW0fdweDrizM8ZkcKBAEWeDrEKgSfpYAecVThDZh6Zd2ZbG6qU5lFwjWldSAY3xpbex1x0U5IcgnS367R1mvCgP+3uS7BAf8EL3+jSN3cimwEMUUrzqIxeOdLksN7T/2wYaQPHO6Ze7GYD4HdXjE1eeCAuvC3ddqKQCXPt+5zROtqw+ixV2SPEmS3aPuI9/ErGCsLjhMkSb/S5aVT+i6DL7pitoptcKzat7WQlg1kl7TCrcyeTBVIYMvqMzhLoipkxuwHYxE006BEqMCqyyg8M970l+s0jUKsY=
+	4EuR9YGQEFInqpptOQX0ZTmaFWwdObZyH5ilx0XL2dciDbgbWTFXCElX6OUUxPhVLM78e91WXYo4vzRAgLHdLl+WpjqN5AInFqeU0ABkxo5NXNo8CW8izph12IJEXn7Ed0b14wOIvIwkrzUBuMfchzBggGdWVtQf3O0M1PXkz84xi9Pb+j8jNjdOl88rSKI+Ds9zHKP15GADA/mUkfsR4x7TvuuVUdYviyI8GyEIeQODHdaJpGMcV2FtfwOZmVPBkcP2JELguxZFmPW9tYvd5+Gq1XnHq4VMkzC9E5zBx6kLQYBf3KgMKaUKuzVMpqPLQW6dt24GKOSemOymmJQB3pzdo/2Zkmtg9a8FPDmSuq4kET1ZHBfS6lN96vzBSPMDRrfbhukMdHDjUnwwkdBfGih4kpzJPsJvdjKwl7SAgwwySw2Zv2l/YDckvO949yBta/qY0bKAS/PZT7vvpnpyDJg3g1kWA6FG5r4TZoolxp0vM8W4hsovOTaDe/mDy/LwSCi7vdXCLicEPKKsZTNPwzazR7l1zGNyCcKvKxm+QwPuSJdhJKiXxpA2gaDKPcYzhy6j3kKF2gGoICpDBdo25tKzqPzfjnJFgS44ZP1joIE3k7KY9lmEMxtPUh7eGs31
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8P189MB0732.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(11063799006)(56012099006)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8P189MB0732.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(11063799006)(56012099006)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?CgS9nLyYC6wMG3VB204b9YiYtLGdS41U6jpEuixvj7CCopqKqhWftcZkSY1T?=
- =?us-ascii?Q?FCyV/hseo/736Qstne9JMjI94SdnaXILsXkfFHT1YEvE5H2yqbWwipYAE6UJ?=
- =?us-ascii?Q?5RX0ybVkpsomvb9SjGCLri8RClgBdFmO9ugu8piOzzrrudlXQqmcy+rOAlXR?=
- =?us-ascii?Q?0rkDm2e67DSIHS4/hjOFToLylZ3yhu4MiP2HPzrc1wSYt9vnLi0WDI3jLYQD?=
- =?us-ascii?Q?jk5pvrfLbm8Dg9ON84u2QtUzDhRVdRtndHOHWeT5qQcmTti3kIVgQC15p49p?=
- =?us-ascii?Q?hCai1eBAwhleeNY6AK507S6jejqQuzX0AVV41RWdsBhW8rd3K+1I7RT3F9HX?=
- =?us-ascii?Q?Z4FmgionsgVunkkYYOTkgTsdFyDTjj9Pj1kuPuRznlmozJiCR43HzNaQZ+rW?=
- =?us-ascii?Q?gVsSC/NYoOqo60UzZflZ5/Hg+sVj5w43L2rDYEvDhaQvGsGz64QxAR75t6ew?=
- =?us-ascii?Q?N8/Kal+cnKK4gw6MkZYzSljwwMnXbk5Es4HmW3Enho/4QoEy1oArNblYL1Xu?=
- =?us-ascii?Q?DinciiwpPI+0ujC5l/Nvenxff6UQ5t7BxOReum/YbfCn5SXjd5w4POtoF7DV?=
- =?us-ascii?Q?aRT7kDQ+fOs3hz+HVGtPpz7LvRkkr1wCucmjb31Rb5Sr4uwgbPIBIc5HxfU+?=
- =?us-ascii?Q?uYQmoBFlXxPeyFFpIl+rOHAQ/VIl2FM3P8+z/XPvp4N/5q954zK+iNcK8GLS?=
- =?us-ascii?Q?n7JoSKFVdxBAxigRqCjb9R9E8jNdVqEXEeDUb0V02qLdANdJzh54YP8UPcgK?=
- =?us-ascii?Q?cVoC3m7Nd+AdrYoZ0VhhJqezd4k2HOvx4IZJb7NVUmhMiUIXjVcwxGBmYOvA?=
- =?us-ascii?Q?eYCX9eIbKQDCUwEIsBykFS1mMBC7MZwwU5DP/H7DQZ4/hUxa4b4iAw6ML4IH?=
- =?us-ascii?Q?kpno2Hpz1GEFd9XN1+4qC+CJDzf5lvfLQ74ftofRIPpcQlgc9xikoac+fPMB?=
- =?us-ascii?Q?IoIm25hLnYycMHQOCdPiduFlC5PcGiNKEk7Oc1c2oaXl57XlcIgFTXaAZ/Xk?=
- =?us-ascii?Q?AFiorc6rlA51EUQpQR60zSQGjR/lcl9r40ATV2JE6aG9RPvBmg8RAbKfKG2K?=
- =?us-ascii?Q?jKFf18o1anT8w2R3bITPpYoVOF7dwukgpp0gTJuBzkUqk2xoitZyJGMViQoa?=
- =?us-ascii?Q?+8ODXWBHYFK19YKX/blbhQJnbukbdWcx70JUE78U72wUmbML6dajC5OxdOiy?=
- =?us-ascii?Q?PkyS7Tjni4KAR0fUYyxnmw/X8gh6ughgCe8Uz+Oj7ngfY1OrBfh1ZlVORbH5?=
- =?us-ascii?Q?9JxhpHL2K4e58NObWVnQgn0Ai3yl9fBXz2RYttAOB5/WVNfmw0+6SGjtWRix?=
- =?us-ascii?Q?9ZWNrcKxeCR12wgQOWIvq8tgLga56wzM7YYGQfDIEXTiPJyomRrfHoF8/DJK?=
- =?us-ascii?Q?Ly22YKYA+EJNmqQp0QnsA2/yKtjGCGjjtHFpgtqR2qMk/u94NNP67S+EAc9W?=
- =?us-ascii?Q?xrO0/e6pJ+LBn/KIndYXY2M7uEBB91rwrv0OF+StsDL07lJLozMx6SrIN+Zh?=
- =?us-ascii?Q?6e1nxDaJ83Kaw5LNnmMHbMrrWPj4I9K/IvLRTCF0wtup+dUBeKzQVGO2nf0f?=
- =?us-ascii?Q?GnzulNFHjU+DlhfwhQX6J4z6u/Ga92i6iuOxmwUe7tiNuYs5PeTHtDuLu8Qr?=
- =?us-ascii?Q?7/wj5nVFnBKfj/TtsxctKfXq036UNOGEhXadizYdSLH7BdunwWk0aT/Qt5TF?=
- =?us-ascii?Q?KkAjTo1cPG6s7rqzMN/HhiJbZYpA+I4ZwEoDsrh4Gnw8CSkvjWyv4xMvRTiv?=
- =?us-ascii?Q?d7HLQx6hPg=3D=3D?=
+	=?us-ascii?Q?ngMLU+cGRDJfIFTQwJm/TRLNWVM/dv7pT3zLj47CGdsk1htq6vEBlgTtMcre?=
+ =?us-ascii?Q?asjeEot/K6QsWrXZ84pjQOce66AZUA25W8xdRPx4L0Jew+mBBnWsanbPNZ5m?=
+ =?us-ascii?Q?9fD4NRFrk043TlbvuQDxUFM2mxUjM+0khtSGe5O4aw7wgPDWwiXZzwDC5LD0?=
+ =?us-ascii?Q?K0jvLGpiRT+XWY5S6B1YyYgG+qLcHLQJijFg8TeceVtQp8TtvPoS0uBjtaGM?=
+ =?us-ascii?Q?VFQH1uvftDST6KH83iFWRgmTUwUx/Qa0MWSm24xmKrvGj3RYJ+7wC0IErUtN?=
+ =?us-ascii?Q?+7tArnJj5hl+rncYlB8J0XLZOaItkS4qD5I/bE1R1lsxO7Qf1jvTXBMYNC+K?=
+ =?us-ascii?Q?GcS5eyLAUMNoQ5ELr2FOVkQeda2KwuooiPIAJK2/bmKvBHmXkdwl4De7H5l+?=
+ =?us-ascii?Q?9P7goFcOZu+1g3FCOgIy5ABzm28dLqTgyRcW0VEyT3pSPNS+E2SWdaK57Pv2?=
+ =?us-ascii?Q?HRd2Ya+cqcIqsYBSw8/ZrObH9u43ihf7enMsubelp6nVIHWY025++oiaQJj6?=
+ =?us-ascii?Q?7smKbnBBoSw1q/c+Mng1TPeok29Ki7C0ZJRyVrMeuS4BQFoKwqKjnc/b5t0O?=
+ =?us-ascii?Q?zUJDdY1phORzm83sYNV5LJkG4ZqD7iywYlSpqB3olYr/x2P/jwviVpHm0AU1?=
+ =?us-ascii?Q?Dd4OYAnTBiO2biXZclTLEbD3tR+TgN6MvFf92/aU0ylUFDE2plhMlWRtAMNm?=
+ =?us-ascii?Q?2+0bWY0sTlstiXcZ1SPeqmGTX9O7FWwDFg7iRwrXIM2nSPp50tZIugmd6X0S?=
+ =?us-ascii?Q?qYA0xtn34JYvjzmc4imz1xyEr7QoEElLiXvzIh05H1aczJcGZyNNQJTfWsJG?=
+ =?us-ascii?Q?U27bXPdoVTD32VnaBGaJHiQFfH4yibK3uP4FSah/wh5cMjiGYFUH3Vi+r+vz?=
+ =?us-ascii?Q?9tRICun6vhXlQjj41/qH6E/ZOQEiqaRX1awz5VfHLnu3K/YNo9BI1/1/1SUf?=
+ =?us-ascii?Q?p0tc6XMCmGH1ofaPqlZ540k87/TdqCJkteh2l06NSkWjbLTLuQfncMDUc1g0?=
+ =?us-ascii?Q?HHIYmpU/Pa540Z8rwqEyxv05248qpPXxcrdZAArmZzOoTDTGEygRR39xK/Ou?=
+ =?us-ascii?Q?CCfds/x5VLJUos4csCx3HOcG4zv9C1w+jlTpQKD4DwCzEXf5mtV09G1luijM?=
+ =?us-ascii?Q?6dVi1yWydUEbd3VRnX++219PV9nU0wHWtj8sxKwOopH2Zg0j0sy888XnvpUW?=
+ =?us-ascii?Q?lBJ7RJSG3/N/aM5xsCmtssWnZY2zIC5MIEEfg0SkMTOs2wQAWZvoVOmH68ZH?=
+ =?us-ascii?Q?OkY3PGmu76g9Q6y/SgowxaxNjLC3OeBRL3db5fgyOO0xT79cUUe6n9buW2Dx?=
+ =?us-ascii?Q?91GB8SeqQ1nwLH+O6kNfcJta/DGP0Q/+5O2Cjcc7viAOoSBVaiGHkNfOOwZ+?=
+ =?us-ascii?Q?ejG+79y8fH36ms8dvOWx77PPilDJJ3hNeOGXpOQmWov6niO496EGovhPXqfj?=
+ =?us-ascii?Q?LyBkkeENNl/2BtQSJY9gnP27/MHE4Anja8noVyNr3AJANQKw/nW30w524Ehn?=
+ =?us-ascii?Q?vj9P5g+x/jnLhK2P5ylH+rXG1vyRGqVBx2/kWAijn3F/qeHo58S8r1efj5ww?=
+ =?us-ascii?Q?MYgRh95vDVQbsJSfaf8+pO3r2IKSwuztQug81qxk9o1lM+p84OLGPP7pcWHv?=
+ =?us-ascii?Q?tknVA8qfMWFlPBhlur1Su7YQQ8FSQUsLQOgBqPCVO4cF+8OJak4liUkLiwuB?=
+ =?us-ascii?Q?y4U5DboobUCTopQXc/EBfBPchDEJRcm0h4XQi3iV3ufNLnJBK0JOy8AxawS4?=
+ =?us-ascii?Q?Hz+xNm4CvA=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd7a53ae-7fda-4715-c7fb-08deddb6df13
+X-MS-Exchange-CrossTenant-Network-Message-Id: fdb86e99-8c32-48d6-f3ab-08deddb6e008
 X-MS-Exchange-CrossTenant-AuthSource: DB8P189MB0732.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 12:37:43.1801
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 12:37:45.0551
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n4uWslots0BaJB1+LuGo8kPGnCwXKB6QAnHdiF2liaDfICihdsEQ/Z95hICdKcJnu47stipTTKxyYNf1qS/zyQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: OSlZ8WKaSH/WC4HWbpqfy8p2UrzWELmsRBpGUJ39/B6D6kvMY2jd/ASprzXPdTbG15jSVQj6ldC3k4kwjcFqoA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PPFB830855DA
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 12:37:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240576
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240575
 
-Changes compared to v1:
-  - Add note to CVE-2025-69649 patch on difference compared to upstream
-    change.
+CVE-2025-69649:
+  Null pointer dereference in readelf before 2.46 results in segfault when
+  processing a crafted ELF binary with malformed header fields.
+  No evidence of memory corruption beyond the null pointer dereference, nor
+  any possibility of code execution, was observed.
 
-Roland Kovacs (1):
-  binutils: fix CVE-2025-69649, and CVE-2025-69652
+CVE-2025-69652:
+  Null pointer dereference in readelf when processing a crafted ELF binary
+  with malformed DWARF abbrev or debug information which leads to SIGABORT.
+  No evidence of memory corruption or code execution was observed; the impa=
+ct
+  is limited to denial of service.
 
+Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
+---
  .../binutils/binutils-2.42.inc                |  2 +
  .../binutils/binutils/CVE-2025-69649.patch    | 44 +++++++++++++++++++
  .../binutils/binutils/CVE-2025-69652.patch    | 39 ++++++++++++++++
@@ -124,6 +134,121 @@ patch
  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69652.=
 patch
 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipe=
+s-devtools/binutils/binutils-2.42.inc
+index 7e83f72632..7edd051e9f 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -74,5 +74,7 @@ SRC_URI =3D "\
+      file://0030-CVE-2025-11840.patch \
+      file://CVE-2025-69644-CVE-2025-69647.patch \
+      file://CVE-2025-69648.patch \
++     file://CVE-2025-69649.patch \
++     file://CVE-2025-69652.patch \
+ "
+ S  =3D "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch b=
+/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch
+new file mode 100644
+index 0000000000..8852ba4cb5
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69649.patch
+@@ -0,0 +1,44 @@
++From 37c8055eed3178a46417045dda63db7af21fd046 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Mon, 8 Dec 2025 15:58:33 +1030
++Subject: [PATCH] PR 33697, fuzzer segfault
++
++	PR 33697
++	* readelf.c (process_relocs): Don't segfault on no sections.
++
++CVE: CVE-2025-69649
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbinut=
+ils-gdb.git;h=3D66a3492ce68e1ae45b2489bd9a815c39ea5d7f66]
++
++Note:
++  The difference between this patch on v2.42 and upstream v2.46 is due to
++  the loop body printing the relocations in-line, which then in commit
++  8e8d0b63ff15896cc2c228c01f18dfcf2a4a9305 have been factored out to a
++  separate 'display_relocations()' function.
++
++  See: [https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dblobdiff;f=3D=
+binutils/readelf.c;h=3Dfa0de3a7e0d9c2acc18fe047a7019e09f1ce3894;hp=3Dc10064=
+80b7bc3e83dd87fb20d215342375614af9;hb=3D8e8d0b63ff15896cc2c228c01f18dfcf2a4=
+a9305;hpb=3D31c21e2c13d85793b525f74aa911eb28700ed89c]
++
++Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
++---
++ binutils/readelf.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/binutils/readelf.c b/binutils/readelf.c
++index 5e4ad6ea6ad..8c1987ffaec 100644
++--- a/binutils/readelf.c
+++++ b/binutils/readelf.c
++@@ -8961,9 +8961,9 @@ process_relocs (Filedata * filedata)
++       size_t i;
++       bool found =3D false;
++=20
++-      for (i =3D 0, section =3D filedata->section_headers;
++-	   i < filedata->file_header.e_shnum;
++-	   i++, section++)
+++      section =3D filedata->section_headers;
+++      if (section !=3D NULL)
+++	for (i =3D 0; i < filedata->file_header.e_shnum; i++, section++)
++ 	{
++ 	  if (   section->sh_type !=3D SHT_RELA
++ 	      && section->sh_type !=3D SHT_REL
++--=20
++2.34.1
++
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch b=
+/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch
+new file mode 100644
+index 0000000000..a3380ae420
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2025-69652.patch
+@@ -0,0 +1,39 @@
++From cb4f8fe24cc86a9f050be4cf9c619940f632ea6a Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Mon, 8 Dec 2025 16:04:44 +1030
++Subject: [PATCH] PR 33701, abort in byte_get_little_endian
++
++	PR 33701
++	* dwarf.c (process_debug_info): Set debug_info_p NULL when
++	DEBUG_INFO_UNAVAILABLE.
++
++CVE: CVE-2025-69652
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbinut=
+ils-gdb.git;h=3D44b79abd0fa12e7947252eb4c6e5d16ed6033e01]
++
++Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
++---
++ binutils/dwarf.c | 8 +++++---
++ 1 file changed, 5 insertions(+), 3 deletions(-)
++
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c
++index 615e051b2bf..13b11b46e41 100644
++--- a/binutils/dwarf.c
+++++ b/binutils/dwarf.c
++@@ -4222,9 +4222,11 @@ process_debug_info (struct dwarf_section * section,
++ 	      break;
++ 	    }
++=20
++-	  debug_info *debug_info_p =3D
++-	    (debug_information && unit < alloc_num_debug_info_entries)
++-	    ? debug_information + unit : NULL;
+++	  debug_info *debug_info_p =3D NULL;
+++	  if (debug_information
+++	      && num_debug_info_entries !=3D DEBUG_INFO_UNAVAILABLE
+++	      && unit < alloc_num_debug_info_entries)
+++	    debug_info_p =3D debug_information + unit;
++=20
++ 	  assert (!debug_info_p
++ 		  || (debug_info_p->num_loc_offsets
++--=20
++2.34.1
++
 --=20
 2.34.1
 
