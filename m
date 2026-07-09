@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4550EC44511
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F707C44512
 	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 10:07:18 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5892.1783591634006286168
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5813.1783591637000892889
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2026 03:07:14 -0700
+ Thu, 09 Jul 2026 03:07:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3r4Xa8Re;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493c2c0b9a8so13372975e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:07:13 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=zhzlQJva;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493c7902f47so12975915e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:07:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783591632; x=1784196432; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1783591635; x=1784196435; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=+5ixoMjfre4AlUzquQZGaN5hdzW8fXUrjOnsZnTgh2s=;
-        b=3r4Xa8Re9IbVI0NLJ0ZNiiuWzDhVWnMf1aF9TWI0rN3UFZpeOwNim71HDn28RcpEYc
-         oduxEJFYmCN8nsTxu2wci/V+XJa0arrHSVN1t3Ub2FRdO4Txy7nIU/QLG5euTePdF66b
-         xjTdSy/CIyPDYs0FJv+5Azy9KDKatZ1LTjsbE=
+        bh=h8BGweVKLAK2jp88CuzujD4VIOxjC7CxdeK7L6SNjCo=;
+        b=zhzlQJva1s//IgP+WQNhelVh8RelGVY8UkyeYyXHp0OIbaOyle0ep59oraCQ2Be1Z9
+         uRKR4s5Ls3F7hBdwkfkP2yb23kp9IHv9Ji/G9iRByTctJBsiMs4Dtl4PIbteg3psCW+I
+         zhRT3ke84QDo5iV+mSq9saR/OhPJ0uPr9k6h0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783591632; x=1784196432;
+        d=1e100.net; s=20251104; t=1783591635; x=1784196435;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=+5ixoMjfre4AlUzquQZGaN5hdzW8fXUrjOnsZnTgh2s=;
-        b=QqGAWO0nSPPtapjThUhRrOcPMFATaCsUlHx1mahNZeNlIxAWPjMjEXnjBwfCFOk+Ow
-         4hkDBF8V9D4FcbNYYlxeRKPVL+4QYlEY8HpvNEadz3c6CZOH5J8F7/20utpmkVA2i3DU
-         vJi4eO0MuhXhmWszDGciS4gNx7csI8+ZTAj4+PLQyTv+zn/H2fZo4MHOejmEdan0q5PC
-         nXHjq/m+DBaHYwSvad3zHVT+FbWtRECQ0RWGCtC0mMqiwt8KnMPsp5iHRupH/ClZCfgV
-         xT9Cy/m1z+7oZUlPLn8BMbJgomKpjG0V/GIUEls45V4B/PD3cGSbGkM1yhyUvMUKp7GJ
-         tTgw==
-X-Gm-Message-State: AOJu0Yzn4wZoHeqC0waOXXYr+zBw+y9BBSK0JMyVrQqLlONnkBm3X0rl
-	I7U3HhmQJzanS2Xuu16Rvrx9f4V1++xUP1k5ZurzvylzMtcV5LEZKJLek8XPR1uJYWlrlgbdABd
-	Yzd+RC2w=
-X-Gm-Gg: AfdE7cnqb7p9xapaO5Cyl1igwoh2AfXSFqQjCzAHp2f5zmvH4BoqVd1PGaszeHSz/O+
-	+A2rcfvwBsySStJYZdPvOJiSdVcNcNeEy3QcjFR2MDYm7a/zRkza/A89F6xuJ2mc4BC4ZHlKrW5
-	SIBTbs+IZHGbcDkk4qdJJpLXNkTKJ2rfPRBm4pQA99qPXfeWAjVG3dHGZbJWZoEFO4Xux5hoJsi
-	QA++HhCc+l3rL6E/mHfpDOmn58PuaQMYFiQfEovhnu0Zokzq3KLNFN2zrO5iMYJw1CDbYvO0LZ7
-	kWfJflEFBK1kUj3y0niPEWY0qiCQMGLyVirj/dxrWMJ2CJKeGglQ9oic8rbL+6opqYYYXqQtUUg
-	8FtuDg0myobQz3e+VjeQI4In1zLSLJIDS8z5v0DRnODzGC0rioX0ZyzKVh8NfwWe+zYsNYZDaw4
-	OLhM9PDPN9gw/vZ7jj1ciOzYLW+a3eqA1gsG0o+jKC/ziJBsbMTswy3mqgzVK8b/RN3VovJ3Ro/
-	0lMPPgdSXbQ5AePyQ==
-X-Received: by 2002:a05:600c:a55:b0:490:469c:556b with SMTP id 5b1f17b1804b1-493e68bef13mr64258305e9.12.1783591632206;
-        Thu, 09 Jul 2026 03:07:12 -0700 (PDT)
+        bh=h8BGweVKLAK2jp88CuzujD4VIOxjC7CxdeK7L6SNjCo=;
+        b=Aw0pxZ/sI7Q5Yur0BPRIUNQuIO89/F5cL7z+0KvgewWwGlhs3y8XbMM5dX0cm5+uJY
+         czCgeFG83ym/2/8ujEf2dGIfvuVgDOCkaPlpseId46QI9KdWPxtQPhm5TePQu+Yv1e9m
+         LaVaEbFOWSdxo5akjqZgmKGLCFGCqnt2GeKlh5/ZfrxXW5c8jmyPACy//CqwSD0+Itf5
+         LZC8/RgBgVdcNPAfGEiWwnEhzliMOiH/0Uyz1jqRQI8pRp0PBuYpfkHHOfP021WhgJuY
+         KZbccWTr1bD0LDoP0woSCyFA2r7jzCFJc8PEun5LIgsStEHGDUO0P9ptg25Q9uqqyv5A
+         OIgw==
+X-Gm-Message-State: AOJu0Yyd1WKviIUbwiVzbDVkTF3u5A5nf7J+HGEOf44V7EXw2Nln2c9X
+	38xs4i3QPO/d0uQHYknlJy9VznbJlq2iDPdWinXct87U/fS590zRpWMMMV+UrsqYrINZ5nfQRwu
+	t5p+O26Q=
+X-Gm-Gg: AfdE7cnysxIsEkOaHaKly+r5p9xGjY/B908OyDsvBR3zF7cUeNaagVJnl1lE6iRioxj
+	4KC1oZshYpknjTaOl/HnLI3Nkf+Cf2uplGlBxeHmC1zF0pQvfgmNgLxj4qGGpvWR4+d8d51OdhN
+	pTb9tpjmLORRCjRVypbChezAhEx8fM9SSIx72Rdx3vXNx6paZH616ggjEVWqm8OhYvNV0Jd082K
+	Havcy2pAwiHafJUYmGdbW3wqDY1xR5O5rpWB9TdT74Veki5PRiSYgOhmcarQJsJVBwwE8632Kil
+	iDkHBMnSEHqANnlCYtyH+E6vQiVLdese6Xt7C/lQDWnXmgqqa3fpsVp6e8gH2Q0EU7cGAEpLI1w
+	eXoawFecXooMnZNqIvyMiGs+cN1amXWjOaTg8/IRZR5gmbgwmz/QC/89yIKNIQ7pBF85ar4uBTN
+	E0+7tSFzA5p0myrtudxv4ngMJkqbKUA+GX3GfaT0TdqpDE9tcnm4pqs+JzQL9zRE5t5bTwFf0qQ
+	cXM1/CLEgrzeAuPhw==
+X-Received: by 2002:a05:600c:1d0b:b0:493:b6ee:fcb7 with SMTP id 5b1f17b1804b1-493e68432c5mr62154355e9.14.1783591635149;
+        Thu, 09 Jul 2026 03:07:15 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00fd88810a86c49142.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fd88:810a:86c4:9142])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm149687135e9.2.2026.07.09.03.07.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm149687135e9.2.2026.07.09.03.07.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 03:07:11 -0700 (PDT)
+        Thu, 09 Jul 2026 03:07:14 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 19/25] qemu: Fix CVE-2026-0665
-Date: Thu,  9 Jul 2026 12:06:35 +0200
-Message-ID: <a34f992a27addb9cdbf9f490b65b1944b674d562.1783590688.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 23/25] openssh: CVE-2026-35387 patch also fixes CVE-2026-35414
+Date: Thu,  9 Jul 2026 12:06:39 +0200
+Message-ID: <bcc34529fab97dc9e17ed51a38f52af23f85593e.1783590688.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783590688.git.yoann.congal@smile.fr>
 References: <cover.1783590688.git.yoann.congal@smile.fr>
@@ -66,81 +66,79 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 10:07:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240566
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240570
 
-From: Ashishkumar Parmar <asparmar@cisco.com>
+From: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 
-This patch applies the upstream v10.0.8 stable backport for
-CVE-2026-0665. The upstream fix commit is referenced in [1],
-and the public CVE advisory is referenced in [2]. The individual
-backported commit links are recorded in the embedded patch headers
-when the fix expands to multiple commits.
+The openssh commit fd1c7e131f331942d20f42f31e79912d570081fa fixes 2 CVEs:
+CVE-2026-35414 and CVE-2026-35387.
 
-[1] https://gitlab.com/qemu-project/qemu/-/commit/4ba877461e6b1a8637b15ff1a8c77ba97639c927
-[2] https://access.redhat.com/security/cve/CVE-2026-0665
+CVE-2026-35414:
+| OpenSSH before 10.3 mishandles the authorized_keys principals option
+| in uncommon scenarios involving a principals list in conjunction
+| with a Certificate Authority that makes certain use of comma
+| characters.
 
-Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
+The match_principals_option() function is fixed. Before this fix:
+When matching an authorized_keys principals="" option against a list of
+principals in a certificate, an incorrect algorithm was used that could
+allow inappropriate matching in cases where a principal name in the
+certificate contains a comma character. Exploitation of the condition
+requires an authorized_keys principals="" option that lists more than
+one principal *and* a CA that will issue a certificate that encodes more
+than one of these principal names separated by a comma (typical CAs
+strongly constrain which principal names they will place in a
+certificate). This condition only applies to user- trusted CA keys in
+authorized_keys, the main certificate authentication path
+(TrustedUserCAKeys/AuthorizedPrincipalsFile) is not affected.
+
+CVE-2026-35387:
+| OpenSSH before 10.3 can use unintended ECDSA algorithms. Listing of
+| any ECDSA algorithm in PubkeyAcceptedAlgorithms or
+| HostbasedAcceptedAlgorithms is misinterpreted to mean all ECDSA
+| algorithms.
+
+The rest of the patch allows to correctly match ECDSA signature algorithms
+against algorithm allowlists.
+
+The full explanation can be found on debian repository:
+https://salsa.debian.org/ssh-team/openssh/-/commit/ae190b6440b7c599d759527965334eeb49cc75b3
+
+Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2026-0665.patch             | 38 +++++++++++++++++++
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-0665.patch
+ ...CVE-2026-35387.patch => CVE-2026-35414-CVE-2026-35387.patch} | 2 +-
+ meta/recipes-connectivity/openssh/openssh_9.6p1.bb              | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/openssh/openssh/{CVE-2026-35387.patch => CVE-2026-35414-CVE-2026-35387.patch} (99%)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index f973c0a8d1e..73b2f3e6074 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -50,6 +50,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2024-6519.patch \
-            file://CVE-2025-14876_p1.patch \
-            file://CVE-2025-14876_p2.patch \
-+           file://CVE-2026-0665.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-35387.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-35414-CVE-2026-35387.patch
+similarity index 99%
+rename from meta/recipes-connectivity/openssh/openssh/CVE-2026-35387.patch
+rename to meta/recipes-connectivity/openssh/openssh/CVE-2026-35414-CVE-2026-35387.patch
+index c4806bd9935..4839d76fa80 100644
+--- a/meta/recipes-connectivity/openssh/openssh/CVE-2026-35387.patch
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-35414-CVE-2026-35387.patch
+@@ -14,7 +14,7 @@ Reported by Christos Papakonstantinou of Cantina and Spearbit.
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2026-0665.patch b/meta/recipes-devtools/qemu/qemu/CVE-2026-0665.patch
-new file mode 100644
-index 00000000000..9264ba38cc6
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2026-0665.patch
-@@ -0,0 +1,38 @@
-+From 91e98ce0a879010ef5b5ab5778cc71c0e9e92a57 Mon Sep 17 00:00:00 2001
-+From: Vulnerability Report <vr@darknavy.com>
-+Date: Fri, 9 Jan 2026 10:35:48 +0800
-+Subject: [PATCH] hw/i386/kvm: fix PIRQ bounds check in xen_physdev_map_pirq()
-+
-+Reject pirq == s->nr_pirqs in xen_physdev_map_pirq().
-+
-+CVE: CVE-2026-0665
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/4ba877461e6b1a8637b15ff1a8c77ba97639c927]
-+
-+Fixes: aa98ee38a5 ("hw/xen: Implement emulated PIRQ hypercall support")
-+Fixes: CVE-2026-0665
-+Reported-by: DARKNAVY (@DarkNavyOrg) <vr@darknavy.com>
-+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
-+Signed-off-by: Vulnerability Report <vr@darknavy.com>
-+Link: https://lore.kernel.org/r/13FE03BE60EA78D6+20260109023548.4047-1-vr@darknavy.com
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+(cherry picked from commit c7504ba2a560fd884557f6e5142f03b491aad0c7)
-+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-+(cherry picked from commit 4ba877461e6b1a8637b15ff1a8c77ba97639c927)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ hw/i386/kvm/xen_evtchn.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-+index 02b8cbf8d..5a1ad3782 100644
-+--- a/hw/i386/kvm/xen_evtchn.c
-++++ b/hw/i386/kvm/xen_evtchn.c
-+@@ -1843,7 +1843,7 @@ int xen_physdev_map_pirq(struct physdev_map_pirq *map)
-+             return pirq;
-+         }
-+         map->pirq = pirq;
-+-    } else if (pirq > s->nr_pirqs) {
-++    } else if (pirq >= s->nr_pirqs) {
-+         return -EINVAL;
-+     } else {
-+         /*
+ OpenBSD-Commit-ID: c790e2687c35989ae34a00e709be935c55b16a86
+ 
+-CVE: CVE-2026-35387
++CVE: CVE-2026-35414 CVE-2026-35387
+ Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/fd1c7e131f331942d20f42f31e79912d570081fa]
+ Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
+ ---
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+index ea158b56b41..4193bc8a5b4 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+@@ -35,7 +35,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://CVE-2025-61985.patch \
+            file://CVE-2025-61984_CVE-2026-35386.patch \
+            file://CVE-2026-35385.patch \
+-           file://CVE-2026-35387.patch \
++           file://CVE-2026-35414-CVE-2026-35387.patch \
+            file://CVE-2026-35388.patch \
+            "
+ SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
 
