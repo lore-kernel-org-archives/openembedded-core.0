@@ -2,451 +2,222 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E958C44508
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7175C4450B
 	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 10:07:17 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5807.1783591628970496682
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5809.1783591630190176467
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2026 03:07:09 -0700
+ Thu, 09 Jul 2026 03:07:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=fR6P6DSu;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493c52cde9eso6351085e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:07:08 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=PGfkvrHZ;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-471eeac43bfso1580466f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783591627; x=1784196427; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=e52foYiClEJHnDtuNLVMghfzBSpD6whg02BHmFzwCQE=;
-        b=fR6P6DSum6oY5+OAPLSBC0M4Qp+nX8YdN8Qtwu5mhFP0PZ3Utkpks31q+mhxIpGEOE
-         GMTAGVig/lKMlZRi5dr/mYwhqQL+IqM9cwSJaoX/lWhgeDScGv1oLS+ujk29e0ptP8rW
-         AFiUdgwXAvAxtvTFUXleWGUCoFA+2Cnd8/CiU=
+        d=smile.fr; s=google; t=1783591628; x=1784196428; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Xu6kVuNEdPDZQ9qsKHKyqPydRsS7HPjUtVmcp+DmPFs=;
+        b=PGfkvrHZ6nE410cDeZNrqmHEaUFCW0Rw9u/p26gVvxzxUx/DB4RoFIsqtuDo2ZK2UN
+         fWDGPNQefYXIKRi1LmeCVZ+t5pKLww6GJpi8cpQ6BiblZ89B+5U28AXSDgOfr5j7oHxg
+         gfQS3LanwdYYqeexsksA7YO8GzVXpKdywhDEc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783591627; x=1784196427;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=e52foYiClEJHnDtuNLVMghfzBSpD6whg02BHmFzwCQE=;
-        b=X1jlHndQXCCRVBb/aaAqPeRsWO8QIs144Lxbi/1G4abGUAhaJh9oIY6VgHgBRQov3o
-         xNn3xOZxDF6NWraEqCECnK47/zlrXIjmzEr4TpMx7VMVAdcUiHM4Lhh2op2YgTPbOv2H
-         MSRrPE3JtETs8YMFpOF4ZxNmg/C+08XWsMYkZ3Z262j5ixYSMSsY8SYYehQd2aNdGG24
-         oLefykbi/TQ3DxVAltPCLVckFX/10FvyieOLSLR64Gh/8T9cp/9ikr5phL1vyQLZxdAt
-         8PArxMBClxLMYI7AOzbzLDrdbtN6+yOHIeTulElJeG4+G/umH6QGX1rrpbzzsuyPO0tQ
-         kBDg==
-X-Gm-Message-State: AOJu0YzG8zqz5sT75v+eUTof4o2htZOFSTL6XNeDaAeebwybltMTk93/
-	qTZ1t0a3tnNRtqt687En4WH/NMuUbujr+yYmpkoBbfYGtTyrrXp4rSS5X20A7QhIX3G3TUh4p76
-	T8lSuEdk=
-X-Gm-Gg: AfdE7ckXBU+D+Nt736gA9YfXMDyCioo1jzK0Vy1JoSHNZ2DXsTDH9em+oLqiF5ipMNL
-	oIMutGTWhi1KnimAgtSGLuQAklptoOl0RBMs9PrhO0RgYG5nfRGy6mfrHk6SyQme74S/m4bVKwK
-	x3BlL/ThYnu8OnmNaZ5cwDcksXcAtRFQxcfdiCoqKZYOJoxTdbojW5O2gtUFvbFyPF+DeA43FUe
-	l0Ux1ejLKyENusG7f7i8aYew/Ovl0Rw7WjY0E1QrSnRxScjAOi+FVTycVsptjemY8d2q5ZDaagn
-	883RLaQxE/22RqcM9Nc4/VGyGOMW6GTvjb8WM8FBiVcpgtlIL+STDcUsFigh5ndAwMInUmzfL1X
-	R0Vix77ooPMTxMd5n65XSPEIH1Sl+hJPjJdgf/0ZCu2F01TRlJmWPwwEPk09P1RzZrv0UfY80sk
-	5CF3ZJj7DtJkQN4oyhnHySCqtLX9i65WcYq0nhioF2t8sFlEzClenviIM0wISZTVS8qOyHua6B2
-	biRmhT3K35QGzrAiQ==
-X-Received: by 2002:a05:600c:3e0f:b0:493:9cb3:53fc with SMTP id 5b1f17b1804b1-493e7e84c21mr52149175e9.11.1783591627041;
-        Thu, 09 Jul 2026 03:07:07 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783591628; x=1784196428;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Xu6kVuNEdPDZQ9qsKHKyqPydRsS7HPjUtVmcp+DmPFs=;
+        b=Rh25F3x3gh0d+QZUrbxI8+MnkfYyQcoi+Xxt2/s8svm9iCfeCriyYXDZDz5Ri0D5Yp
+         uQxeoSQ+JatFpaPFUO/WXE7yEf4MWFiuXuUGaXL5rYg3YQ+jsCbDIES58jvghWBQ74YE
+         gx938/1VODJYz74XOzkekGp+SfHvQ+8h45aZKKbeEt/Q9o9Hx7VbObyiVxwhuagyyqF3
+         HnHspZnH7irUS31peWz4xKFFk+/sCqj9xm+EBzkalIeqYQlwE3LaKxymK5w8FR1EH2zS
+         xUSHDEl5j2B8qKoToHm5AVZaPJ/AF3aGQs/kEYpq9ulMJlywGUNcpMG6rWOGqYkNu8fQ
+         w9KQ==
+X-Gm-Message-State: AOJu0Yw5QssGH6Duk9un5nGHayCFGANqyAJXb9L3+8+t/EZqd1UbbNH8
+	zONLAhykyUhQowwK+q+JLLnau1GomuN1sLnpd2cJEGIcQVvxS5vF2smSv7JERVUQM7ry7jeuyyG
+	H9ZAa51A=
+X-Gm-Gg: AfdE7cnhSvnMD4UBgNj54UJh9XtoC2487IuOoz1Jl3AlrmyoNbiTJIyees6RhuDdio5
+	b8y3wS4Vd/bjsj9GN+11veYJpbbebF2pB8cu0rXgbIK7MU4aMWcncRKTTIfAQFEajd0+WgtfZYX
+	7iX7tgpHwgjHoF8Dd/SgF3Fdox9YdeD5jSCvmK8X26jmSxMTdsIO5EmuOIYMIjyZufCP8Cwli/b
+	GSeiheWH0KAy5GpaMQEA/pX6usw5XJ+4Cs1IHs3RVDPFFi0S4mnWVzaz4fQZltu5Ll3duMLLIPm
+	CAlIlFzY88D8gQJD2Dgn3KfLw66TnhNXxMsCej9UlTTEKUxJ2I6lNgooNJ/9V8R7LUOZUvwA51M
+	LGaM0r4QlBm7HsdP7BUqUXkt++DdD+J0BU5YWQ8llbOcnceYOhMAtz+RMdieE1CgEIbFMh7DUbM
+	41QZy+tovA1w88ZYqk5f2gAO8lSTjLHoFvVqGmmW+m14mv2uUgswDZRSuGwaDcDRRhqk+fZEHBQ
+	sGra3H96aYuYsqPzw==
+X-Received: by 2002:a05:600c:a43:b0:493:d741:5d72 with SMTP id 5b1f17b1804b1-493e68db0fdmr66288125e9.38.1783591628187;
+        Thu, 09 Jul 2026 03:07:08 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00fd88810a86c49142.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fd88:810a:86c4:9142])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm149687135e9.2.2026.07.09.03.07.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm149687135e9.2.2026.07.09.03.07.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 03:07:06 -0700 (PDT)
+        Thu, 09 Jul 2026 03:07:07 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 12/25] vim: Fix for CVE-2026-28417, CVE-2026-32249, CVE-2026-45130
-Date: Thu,  9 Jul 2026 12:06:28 +0200
-Message-ID: <f2c03bf44550fccbd00832dfae1bfb60a940ad54.1783590688.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 14/25] perl: patch CVE-2026-8376
+Date: Thu,  9 Jul 2026 12:06:30 +0200
+Message-ID: <a690843c02ef9c79d52391b18016794d74aa5416.1783590688.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783590688.git.yoann.congal@smile.fr>
 References: <cover.1783590688.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 10:07:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240559
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240561
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 
-Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
+Backport patches from [1]
 
-[1] https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d68514fcc1
-[2] https://github.com/vim/vim/commit/36d6e87542cf823d833e451e09a90ee429899cec
-[3] https://github.com/vim/vim/commit/92993329178cb1f72d700fff45ca86e1c2d369f8
-[4] https://nvd.nist.gov/vuln/detail/CVE-2026-28417
-[5] https://nvd.nist.gov/vuln/detail/CVE-2026-32249
-[6] https://nvd.nist.gov/vuln/detail/CVE-2026-45130
+[1] https://github.com/Perl/perl5/pull/24433
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../vim/files/CVE-2026-28417.patch            |  92 ++++++++++++++
- .../vim/files/CVE-2026-32249.patch            | 117 ++++++++++++++++++
- .../vim/files/CVE-2026-45130.patch            | 115 +++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   3 +
- 4 files changed, 327 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-28417.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-32249.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-45130.patch
+ .../perl/files/CVE-2026-8376-01.patch         | 62 +++++++++++++++++++
+ .../perl/files/CVE-2026-8376-02.patch         | 49 +++++++++++++++
+ meta/recipes-devtools/perl/perl_5.38.4.bb     |  2 +
+ 3 files changed, 113 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-28417.patch b/meta/recipes-support/vim/files/CVE-2026-28417.patch
+diff --git a/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch b/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
 new file mode 100644
-index 00000000000..c36bd9c2344
+index 00000000000..56ab85d2be9
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-28417.patch
-@@ -0,0 +1,92 @@
-+From 79348dbbc09332130f4c86045e1541d68514fcc1 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Sun, 22 Feb 2026 21:24:48 +0000
-+Subject: [PATCH] patch 9.2.0073: [security]: possible command injection using
-+ netrw
++++ b/meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
+@@ -0,0 +1,62 @@
++From b0810dddd6b789ead00c346ead873370710f103e Mon Sep 17 00:00:00 2001
++From: Tony Cook <tony@develop-help.com>
++Date: Tue, 12 May 2026 14:47:31 +1000
++Subject: [PATCH 1/2] perl/perl-security#147: test cases
 +
-+Problem:  [security]: Insufficient validation of hostname and port in
-+          netrw URIs allows command injection via shell metacharacters
-+          (ehdgks0627, un3xploitable).
-+Solution: Implement stricter RFC1123 hostname and IP validation.
-+          Use shellescape() for the provided hostname and port.
++The suggested case from the ticket and an alternative.
 +
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-m3xh-9434-g336
++(cherry picked from commit e842efdafe7c51a687a4907e4887988fe6a025ef)
 +
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d68514fcc1]
-+CVE: CVE-2026-28417
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++CVE: CVE-2026-8376
++Upstream-Status: Backport [https://github.com/Perl/perl5/commit/e842efdafe7c51a687a4907e4887988fe6a025ef]
++Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 +---
-+ .../pack/dist/opt/netrw/autoload/netrw.vim    | 34 +++++++++++++------
-+ 1 file changed, 24 insertions(+), 10 deletions(-)
++ t/re/pat_psycho.t | 18 ++++++++++++++++--
++ 1 file changed, 16 insertions(+), 2 deletions(-)
 +
-+diff --git a/runtime/pack/dist/opt/netrw/autoload/netrw.vim b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+index 1c98104..7ebcd92 100644
-+--- a/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-++++ b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+@@ -5,6 +5,7 @@
-+ " 2025 Aug 07 by Vim Project (use correct "=~#" for netrw_stylesize option #17901)
-+ " 2025 Aug 07 by Vim Project (netrw#BrowseX() distinguishes remote files #17794)
-+ " 2025 Aug 22 by Vim Project netrw#Explore handle terminal correctly #18069
-++" 2026 Feb 27 by Vim Project Make the hostname validation more strict
-+ " Copyright:  Copyright (C) 2016 Charles E. Campbell {{{1
-+ "             Permission is hereby granted to use and distribute this code,
-+ "             with or without modifications, provided that this copyright
-+@@ -2575,13 +2576,26 @@ endfunction
++diff --git a/t/re/pat_psycho.t b/t/re/pat_psycho.t
++index 336039521d..73a7992372 100644
++--- a/t/re/pat_psycho.t
+++++ b/t/re/pat_psycho.t
++@@ -10,7 +10,7 @@
++ use strict;
++ use warnings;
++ use 5.010;
++-
+++use Config;
 + 
-+ " s:NetrwValidateHostname:  Validate that the hostname is valid {{{2
-+ " Input:
-+-"   hostname
-++"   hostname, may include an optional username, e.g. user@hostname
-++"   allow a alphanumeric hostname or an IPv(4/6) address
-+ " Output:
-+ "  true if g:netrw_machine is valid according to RFC1123 #Section 2
-+ function s:NetrwValidateHostname(hostname)
-+-    " RFC1123#section-2 mandates, a valid hostname starts with letters or digits
-+-    " so reject everyhing else
-+-    return a:hostname =~? '^[a-z0-9]'
-++  " Username:
-++  let user_pat = '\%([a-zA-Z0-9._-]\+@\)\?'
-++  " Hostname: 1-64 chars, alphanumeric/dots/hyphens.
-++  " No underscores. No leading/trailing dots/hyphens.
-++  let host_pat = '[a-zA-Z0-9]\%([-a-zA-Z0-9.]{,62}[a-zA-Z0-9]\)\?$'
-++
-++  " IPv4: 1-3 digits separated by dots
-++  let ipv4_pat = '\%(\d\{1,3}\.\)\{3\}\d\{1,3\}$'
-++
-++  " IPv6: Hex, colons, and optional brackets
-++  let ipv6_pat = '\[\?\%([a-fA-F0-9:]\{2,}\)\+\]\?$'
-++
-++  return a:hostname =~? '^'.user_pat.host_pat ||
-++       \ a:hostname =~? '^'.user_pat.ipv4_pat ||
-++       \ a:hostname =~? '^'.user_pat.ipv6_pat
-+ endfunction
++ sub run_tests;
 + 
-+ " NetUserPass: set username and password for subsequent ftp transfer {{{2
-+@@ -8948,15 +8962,15 @@ endfunction
-+ " s:MakeSshCmd: transforms input command using USEPORT HOSTNAME into {{{2
-+ "               a correct command for use with a system() call
-+ function s:MakeSshCmd(sshcmd)
-+-    if s:user == ""
-+-        let sshcmd = substitute(a:sshcmd,'\<HOSTNAME\>',s:machine,'')
-+-    else
-+-        let sshcmd = substitute(a:sshcmd,'\<HOSTNAME\>',s:user."@".s:machine,'')
-++    let machine = shellescape(s:machine, 1)
-++    if s:user != ''
-++        let machine    = shellescape(s:user, 1).'@'.machine
-+     endif
-++    let sshcmd = substitute(a:sshcmd,'\<HOSTNAME\>',machine,'')
-+     if exists("g:netrw_port") && g:netrw_port != ""
-+-        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.g:netrw_port,'')
-++        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.shellescape(g:netrw_port,1),'')
-+     elseif exists("s:port") && s:port != ""
-+-        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.s:port,'')
-++        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.shellescape(s:port,1),'')
-+     else
-+         let sshcmd= substitute(sshcmd,"USEPORT ",'','')
-+     endif
++@@ -31,7 +31,7 @@ BEGIN {
++ 
++ skip_all('$PERL_SKIP_PSYCHO_TEST set') if $ENV{PERL_SKIP_PSYCHO_TEST};
++ 
++-plan tests => 15;  # Update this when adding/deleting tests.
+++plan tests => 17;  # Update this when adding/deleting tests.
++ 
++ run_tests() unless caller;
++ 
++@@ -211,6 +211,20 @@ EOF
++ 
++ 
++     }
+++
+++  SKIP:
+++    { # sec #147
+++        $Config{ptrsize} == 4
+++          or skip "these only fail on x32 and use too much memory on x64", 2;
+++        local $::TODO = "This crashes";
+++        # original case
+++        fresh_perl_like('/\x{10000}{1073741824}/',
+++                        qr/Regexp out of space/, {}, "ssize_t overflow");
+++
+++        # synthesized but similar case
+++        fresh_perl_like('/(?:\x{10001}\x{10000}){536870912}/',
+++                        qr/Regexp out of space/, {}, "ssize_t overflow again");
+++    }
++ } # End of sub run_tests
++ 
++ 1;
 +-- 
-+2.34.1
++2.43.0
 +
-diff --git a/meta/recipes-support/vim/files/CVE-2026-32249.patch b/meta/recipes-support/vim/files/CVE-2026-32249.patch
+diff --git a/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch b/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
 new file mode 100644
-index 00000000000..18691c3f4ce
+index 00000000000..08ab11d87b5
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-32249.patch
-@@ -0,0 +1,117 @@
-+From 36d6e87542cf823d833e451e09a90ee429899cec Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Wed, 11 Mar 2026 14:16:29 +0100
-+Subject: [PATCH] patch 9.2.0137: [security]: crash with composing char in
-+ collection range
++++ b/meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
+@@ -0,0 +1,49 @@
++From 3cc827ca6bdb7b7cfbebe30286db57b7edae0e65 Mon Sep 17 00:00:00 2001
++From: Tony Cook <tony@develop-help.com>
++Date: Tue, 12 May 2026 14:51:00 +1000
++Subject: [PATCH 2/2] perl/perl-security#147: test against the actual character
++ lengths
 +
-+Problem:  Using a composing character as the end of a range inside a
-+          collection may corrupt the NFA postfix stack
-+          (Nathan Mills, after v9.1.0011)
-+Solution: When a character is used as the endpoint of a range, do not emit
-+          its composing characters separately. Range handling only uses
-+          the base codepoint.
++(cherry picked from commit 5e7f119eb2bb1181be908701f22bf7068e722f1c)
 +
-+supported by AI
-+
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-9phh-423r-778r
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/36d6e87542cf823d833e451e09a90ee429899cec]
-+CVE: CVE-2026-32249
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++CVE: CVE-2026-8376
++Upstream-Status: Backport [https://github.com/Perl/perl5/commit/5e7f119eb2bb1181be908701f22bf7068e722f1c]
++Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 +---
-+ src/regexp_nfa.c                 | 17 +++++++++++++++--
-+ src/testdir/test_regexp_utf8.vim | 19 +++++++++++++++++++
-+ 2 files changed, 34 insertions(+), 2 deletions(-)
++ regcomp_study.c   | 7 +++++++
++ t/re/pat_psycho.t | 1 -
++ 2 files changed, 7 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/regexp_nfa.c b/src/regexp_nfa.c
-+index 6ad682b..7905ec1 100644
-+--- a/src/regexp_nfa.c
-++++ b/src/regexp_nfa.c
-+@@ -1765,6 +1765,7 @@ collection:
-+ 	    if (*endp == ']')
-+ 	    {
-+ 		int plen;
-++		bool range_endpoint;
-+ 		/*
-+ 		 * Try to reverse engineer character classes. For example,
-+ 		 * recognize that [0-9] stands for \d and [A-Za-z_] for \h,
-+@@ -1812,6 +1813,7 @@ collection:
-+ 		while (regparse < endp)
-+ 		{
-+ 		    int	    oldstartc = startc;
-++		    range_endpoint = false;
-+ 
-+ 		    startc = -1;
-+ 		    got_coll_char = FALSE;
-+@@ -1975,6 +1977,7 @@ collection:
-+ 		    if (emit_range)
-+ 		    {
-+ 			int	endc = startc;
-++			range_endpoint = true;
-+ 
-+ 			startc = oldstartc;
-+ 			if (startc > endc)
-+@@ -2053,7 +2056,14 @@ collection:
-+ 			}
-+ 		    }
-+ 
-+-		    if (enc_utf8 && (utf_ptr2len(regparse) != (plen = utfc_ptr2len(regparse))))
-++		    //
-++		    // If this character was consumed as the end of a range, do not emit its
-++		    // composing characters separately.  Range handling only uses the base
-++		    // codepoint; emitting the composing part again would duplicate the
-++		    // character in the postfix stream and corrupt the NFA stack.
-++		    //
-++		    if (!range_endpoint && enc_utf8 &&
-++			    (utf_ptr2len(regparse) != (plen = utfc_ptr2len(regparse))))
-+ 		    {
-+ 			int i = utf_ptr2len(regparse);
-+ 
-+@@ -3187,7 +3197,10 @@ nfa_max_width(nfa_state_T *startstate, int depth)
-+ 		    ++len;
-+ 		if (state->c != NFA_ANY)
-+ 		{
-+-		    // skip over the characters
-++		    // Skip over the compiled collection.
-++		    // malformed NFAs must not crash width estimation.
-++		    if (state->out1 == NULL || state->out1->out == NULL)
-++			return -1;
-+ 		    state = state->out1->out;
-+ 		    continue;
-+ 		}
-+diff --git a/src/testdir/test_regexp_utf8.vim b/src/testdir/test_regexp_utf8.vim
-+index a4353f1..3b58416 100644
-+--- a/src/testdir/test_regexp_utf8.vim
-++++ b/src/testdir/test_regexp_utf8.vim
-+@@ -615,6 +615,25 @@ func Test_search_multibyte_match_ascii()
-+     call assert_equal(['ſſ','ſ'], noic_match3, "No-Ignorecase Collection Regex-engine: " .. &re)
-+   endfor
-+   bw!
-++  set ignorecase&vim re&vim
-++endfun
++diff --git a/regcomp_study.c b/regcomp_study.c
++index db7ab3a409..9248e1de2b 100644
++--- a/regcomp_study.c
+++++ b/regcomp_study.c
++@@ -2862,6 +2862,13 @@ Perl_study_chunk(pTHX_
++                                                (U8 *) SvEND(data->last_found))
++                                 - (U8*)s;
++                         l -= old;
 ++
-++func Test_regex_collection_range_with_composing_crash()
-++  " Regression test: composing char in collection range caused NFA crash/E874
-++  new
-++  call setline(1, ['00', '0ֻ', '01'])
-++  let patterns = [ '0[0-0ֻ]\@<!','0[0ֻ]\@<!']
+++                        if (l > 0 &&
+++                            (mincount >= SSize_t_MAX / (SSize_t)l
+++                             || old > SSize_t_MAX - mincount * (SSize_t)l)) {
+++                            FAIL("Regexp out of space");
+++                        }
 ++
-++  for pat in patterns
-++    " Should compile and execute without crash or error
-++    for re in range(3)
-++      let regex = '\%#=' .. re .. pat
-++      call search(regex)
-++      call assert_fails($"/{regex}\<cr>", 'E486:')
-++    endfor
-++  endfor
-++
-++  bwipe!
-+ endfunc
-+ 
-+ " vim: shiftwidth=2 sts=2 expandtab
++                         /* Get the added string: */
++                         last_str = newSVpvn_utf8(s  + old, l, UTF);
++                         last_chrs = UTF ? utf8_length((U8*)(s + old),
++diff --git a/t/re/pat_psycho.t b/t/re/pat_psycho.t
++index 73a7992372..9fd764fd5e 100644
++--- a/t/re/pat_psycho.t
+++++ b/t/re/pat_psycho.t
++@@ -216,7 +216,6 @@ EOF
++     { # sec #147
++         $Config{ptrsize} == 4
++           or skip "these only fail on x32 and use too much memory on x64", 2;
++-        local $::TODO = "This crashes";
++         # original case
++         fresh_perl_like('/\x{10000}{1073741824}/',
++                         qr/Regexp out of space/, {}, "ssize_t overflow");
 +-- 
-+2.34.1
++2.43.0
 +
-diff --git a/meta/recipes-support/vim/files/CVE-2026-45130.patch b/meta/recipes-support/vim/files/CVE-2026-45130.patch
-new file mode 100644
-index 00000000000..0a1a93de99b
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-45130.patch
-@@ -0,0 +1,115 @@
-+From 92993329178cb1f72d700fff45ca86e1c2d369f8 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Wed, 6 May 2026 20:50:00 +0200
-+Subject: [PATCH] patch 9.2.0450: [security]: heap buffer overflow in
-+ spellfile.c read_compound()
-+
-+Problem:  read_compound() in spellfile.c computes the size of the regex
-+          pattern buffer using signed-int arithmetic on the attacker
-+          controlled SN_COMPOUND sectionlen.  With sectionlen=0x40000008
-+          and UTF-8 encoding active the multiplication wraps to 27 while
-+          the per-byte loop writes up to ~1B bytes, overflowing the heap.
-+          Reachable when loading a crafted .spl file (e.g. via 'set spell'
-+          after a modeline sets 'spelllang').  The cp/ap/crp allocations
-+          have the same int + 1 overflow class (Daniel Cervera)
-+Solution: Use type size_t as buffer size and reject values larger than
-+          COMPOUND_MAX_LEN (100000).  Apply the same size_t treatment to
-+          the cp/ap/crp allocations.
-+
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-q4jv-r9gj-6cwv
-+
-+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/92993329178cb1f72d700fff45ca86e1c2d369f8]
-+CVE: CVE-2026-45130
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/spellfile.c                | 20 ++++++++++++++------
-+ src/testdir/test_spellfile.vim |  4 ++++
-+ 2 files changed, 18 insertions(+), 6 deletions(-)
-+
-+diff --git a/src/spellfile.c b/src/spellfile.c
-+index 0b9536d..768e9fd 100644
-+--- a/src/spellfile.c
-++++ b/src/spellfile.c
-+@@ -296,6 +296,9 @@
-+ #define CF_WORD		0x01
-+ #define CF_UPPER	0x02
-+ 
-++// Max allowed length for COMPOUND section
-++#define COMPOUND_MAX_LEN	100000
-++
-+ /*
-+  * Loop through all the siblings of a node (including the node)
-+  */
-+@@ -1225,6 +1228,8 @@ read_compound(FILE *fd, slang_T *slang, int len)
-+     char_u	*crp;
-+     int		cnt;
-+     garray_T	*gap;
-++    size_t	patsize;
-++    size_t	flagsize;
-+ 
-+     if (todo < 2)
-+ 	return SP_FORMERROR;	// need at least two bytes
-+@@ -1281,16 +1286,19 @@ read_compound(FILE *fd, slang_T *slang, int len)
-+     // "a[bc]/a*b+" -> "^\(a[bc]\|a*b\+\)$".
-+     // Inserting backslashes may double the length, "^\(\)$<Nul>" is 7 bytes.
-+     // Conversion to utf-8 may double the size.
-+-    c = todo * 2 + 7;
-++    if ((size_t)todo > COMPOUND_MAX_LEN)
-++	return SP_FORMERROR;
-++    patsize = (size_t)todo * 2 + 7;
-+     if (enc_utf8)
-+-	c += todo * 2;
-+-    pat = alloc(c);
-++	patsize += (size_t)todo * 2;
-++    flagsize = (size_t)todo + 1;
-++    pat = alloc(patsize);
-+     if (pat == NULL)
-+ 	return SP_OTHERERROR;
-+ 
-+     // We also need a list of all flags that can appear at the start and one
-+     // for all flags.
-+-    cp = alloc(todo + 1);
-++    cp = alloc(flagsize);
-+     if (cp == NULL)
-+     {
-+ 	vim_free(pat);
-+@@ -1299,7 +1307,7 @@ read_compound(FILE *fd, slang_T *slang, int len)
-+     slang->sl_compstartflags = cp;
-+     *cp = NUL;
-+ 
-+-    ap = alloc(todo + 1);
-++    ap = alloc(flagsize);
-+     if (ap == NULL)
-+     {
-+ 	vim_free(pat);
-+@@ -1311,7 +1319,7 @@ read_compound(FILE *fd, slang_T *slang, int len)
-+     // And a list of all patterns in their original form, for checking whether
-+     // compounding may work in match_compoundrule().  This is freed when we
-+     // encounter a wildcard, the check doesn't work then.
-+-    crp = alloc(todo + 1);
-++    crp = alloc(flagsize);
-+     slang->sl_comprules = crp;
-+ 
-+     pp = pat;
-+diff --git a/src/testdir/test_spellfile.vim b/src/testdir/test_spellfile.vim
-+index b72974e..d345492 100644
-+--- a/src/testdir/test_spellfile.vim
-++++ b/src/testdir/test_spellfile.vim
-+@@ -334,6 +334,10 @@ func Test_spellfile_format_error()
-+   " SN_COMPOUND: incorrect comppatlen
-+   call Spellfile_Test(0z080000000007040101000000020165, 'E758:')
-+ 
-++  " SN_COMPOUND: oversized sectionlen
-++  let v = eval('0z08004000000803010161' .. repeat('61', 50) .. 'FF')
-++  call Spellfile_Test(v, 'E759:')
-++
-+   " SN_INFO: missing info
-+   call Spellfile_Test(0z0F0000000005040101, '')
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index b7cdd61c93e..53590befc4d 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -28,6 +28,9 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-44656.patch \
-            file://CVE-2026-41411.patch \
-            file://CVE-2026-28421.patch \
-+           file://CVE-2026-32249.patch \
-+           file://CVE-2026-28417.patch \
-+           file://CVE-2026-45130.patch \
+diff --git a/meta/recipes-devtools/perl/perl_5.38.4.bb b/meta/recipes-devtools/perl/perl_5.38.4.bb
+index 5ab49ed3d77..9f4cc1c4044 100644
+--- a/meta/recipes-devtools/perl/perl_5.38.4.bb
++++ b/meta/recipes-devtools/perl/perl_5.38.4.bb
+@@ -18,6 +18,8 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://determinism.patch \
+            file://0001-cpan-Sys-Syslog-Makefile.PL-Fix-_PATH_LOG-for-determ.patch \
+            file://0001-Fix-intermittent-failure-of-test-t-op-sigsystem.t.patch \
++           file://CVE-2026-8376-01.patch \
++           file://CVE-2026-8376-02.patch \
             "
- 
- PV .= ".1683"
+ SRC_URI:append:class-native = " \
+            file://perl-configpm-switch.patch \
 
