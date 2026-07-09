@@ -1,138 +1,119 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C19D2C44501
-	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 20:36:20 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.589.1783629372712118074
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41058C43458
+	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 21:05:52 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1242.1783631146616363921
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2026 13:36:13 -0700
+ Thu, 09 Jul 2026 14:05:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=g1jrLxYO;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20260709203609155f839ddd000207ff-5wkxwb@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260709203609155f839ddd000207ff
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 09 Jul 2026 22:36:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=rl8ZL3X1FmaaLIRDeF80+2WuoPYeDOQzY8fInBomK1I=;
- b=g1jrLxYOm6GaP2AoYjGHCAvjYEMTZVv92k197BsG6Ueg6ipBL/zaLXge61WHe/+hAUJSal
- /NWKw+jWLuDq8ncPAcYghUOrHSoeO7rOCtz/1tCyYzeDhZIzGTaLPDzdopo9x1JCNY5jy5pw
- 8CiFt4L3FuSJNI2XFDX9gDc0fyvn/iEq2ZB1jfvMUO2zKBmPHBLmlRlsHW4GgSC6ye3zhnwi
- 7wGkoUMd1eeKlla8X+5hln8CwWva1Wdb2bnqWQPiz9IXr4zvjJjIv2RoellpBh3LDpFhkvRh
- xc7pX9kc+YnpsA8tsdz89Udvw7Fv9LsriZHTwsYBt4ZSpfny/HYFljeQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] go: upgrade 1.26.4 -> 1.26.5
-Date: Thu,  9 Jul 2026 22:35:36 +0200
-Message-ID: <20260709203536.1105770-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+ dkim=pass header.i=@smile.fr header.s=google header.b=hTeIE3Fg;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4759b4f0897so205825f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 14:05:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1783631145; x=1784235945; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=pPDHo3TOftOiQqu+KqJ508SGLUaTIGl1VbuJgdoW+YI=;
+        b=hTeIE3FgvcTMIB44lA8jIpKLL2/RZKTreWAkpGnvSaLlmQHEiy12195b0Eazq+ECqz
+         dr8SlMWD1CWVo5z+00uxt3N6hnbgjiZFLEMTVxvN6GavRP6jQjWZYdP5m8+F68OkeyBy
+         uTVPhEfd7VDlSBYbV+yrFuetfZrjicz5LicAo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783631145; x=1784235945;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pPDHo3TOftOiQqu+KqJ508SGLUaTIGl1VbuJgdoW+YI=;
+        b=WKstlndeYyZOaZb+b+IwB020qtJN0rfC5FvW4v3wzs8IrNskwuWT2BZmuws1tsEDWv
+         S50wiWAHv0Vi86fqANqRJyRSIIX8f3tCPPR8i2NQYl1tBMhBb84k29jO3Yas0TNY83en
+         jdZfDqXcMcORg4CfY4gF3EFcEDw1wPUkjorE8sWrf7Jw1FTeY+1rPAh4ENZoDx5X5CWB
+         ruItUUsMz6xYIwDIfDgEksaYp3L5TJSVaiX52R2FuutW5p6abTx0w6BV3sKtFzFk/VFy
+         3hpmmpXpxr7voSAHXyXfValdLet8jB58jx+TXK8ykI9mJ/I2f6erFvrLXdCpnESYVUmz
+         a7Iw==
+X-Forwarded-Encrypted: i=1; AHgh+RqZpanQo+aS26HiqLp7GrMbNb5O69h301QZ9QxcmWCgeTE4fJvYabCDFcHrn8S3x9bVBVj38t+bNze07wMmGF35yw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzkG3+9QmgzJR/7QFyZQM+fcpX07Ip5in71EuxkK1hghC0v+Ery
+	U3bOjC+JHPVysriLvcLppL/0gy45Er/i5ApREZlHgG8i2bgvD+aeyx0/Jy2sbemtGd0=
+X-Gm-Gg: AfdE7cmck0GseRkAowk64VhuFOluE6nrVIPECZq3wYPYesK4/R73af7YdFmGGwEz8hd
+	lAgbtTH9UkDvJ/97tyXwmteS+uRmqqeA8BlYZnHLxztLH6k/p0Ih01ZHREGB74YcBGtj4+P4hYL
+	bUXG8GX1ZnaQecvSKR38acHLI/bdAwyRW4GlrXs+L24F/L0sW7uZEEkyH1EtfRUgoqScLxy6crC
+	YZaCPONc/ljhjwiIUqh5zIEflgUkkQmoedy/yKyuqlJyRoHkUR6yRt0LVXMXEDd87+r2+RXOzsS
+	xd3cBePR6uhPaqfo1JwpbhsDDJAhAcOnpkFMA72ebOB0XVLfAMImgSDOCmv1juE6oce7iH/415F
+	XwcQkOx43Ep5s2jiHMeEzPeWYzFMbAyay5ZEnLBiyTQj6MiVUzr0Sml4zCS9cju834JS3c2eWxT
+	0M+jzZ6BGQ6gKcEOBwqvYag41gMlPW34pa/EgC9CORE1pWj5mNkzt/gfWE+LDIBNGXT0agW86as
+	Pyh
+X-Received: by 2002:a05:6000:200c:b0:474:6a5b:860b with SMTP id ffacd0b85a97d-47df07f0039mr8919826f8f.37.1783631144786;
+        Thu, 09 Jul 2026 14:05:44 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960816sm52339672f8f.29.2026.07.09.14.05.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jul 2026 14:05:44 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 09 Jul 2026 23:05:44 +0200
+Message-Id: <DJUCGZSG6Q42.3GE2OCSOP0W3T@smile.fr>
+Subject: Re: [OE-core] [wrynose][PATCH 3/3] python3: fix CVE-2026-11972
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <olivier.benjamin@bootlin.com>, <mathieu.dubois-briand@bootlin.com>,
+ <pascal.eberhard@se.com>, <wahid.essid@se.com>
+To: <benjamin.robin@bootlin.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260706-fix-cves-python-wrynose-v1-0-b53e09c2b62a@bootlin.com>
+ <20260706-fix-cves-python-wrynose-v1-3-b53e09c2b62a@bootlin.com>
+In-Reply-To: <20260706-fix-cves-python-wrynose-v1-3-b53e09c2b62a@bootlin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 20:36:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240592
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 21:05:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240593
 
-From: Peter Marko <peter.marko@siemens.com>
+On Mon Jul 6, 2026 at 1:00 PM CEST, Benjamin Robin via lists.openembedded.o=
+rg wrote:
+> When using the "tarfile" module with a file opened in "streaming mode"
+> (mode=3D"r|") the tarfile module did not properly handle EOF, making arch=
+ive
+> parsing take exponentially longer.
+>
+> Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootli=
+n.com>
+> ---
+>  .../python/python3/CVE-2026-11972.patch            | 59 ++++++++++++++++=
+++++++
+>  meta/recipes-devtools/python/python3_3.14.6.bb     |  1 +
+>  2 files changed, 60 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/python/python3/CVE-2026-11972.patch b/=
+meta/recipes-devtools/python/python3/CVE-2026-11972.patch
+> new file mode 100644
+> index 000000000000..7dc9c6697112
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3/CVE-2026-11972.patch
+> @@ -0,0 +1,59 @@
+> +From 2d256d4bfd654bdcaf2d96733799be73b8ff8f69 Mon Sep 17 00:00:00 2001
+> +From: Petr Viktorin <encukou@gmail.com>
+> +Date: Tue, 23 Jun 2026 15:13:30 +0200
+> +Subject: [PATCH 2/2] gh-151981: Make tarfile._Stream.seek break at EOF
+> + (GH-151982)
+> +
+> +CVE: CVE-2026-11972
+> +Upstream-Status: Backport [https://github.com/python/cpython/commit/f50b=
+f13566189c8d0ce5a814f33eff3d89951896]
 
-Upgrade to latest 1.26.x release [1]:
+Hello,
 
-$ git --no-pager log --oneline go1.26.4..go1.26.5
-c19862e5f8 (tag: go1.26.5) [release-branch.go1.26] go1.26.5
-f9ef7f5598 [release-branch.go1.26] os: properly handle trailing slashes in paths in Root
-ca8ca590cc [release-branch.go1.26] crypto/tls: omit PSK in ECH outer client hello
-7397dd7495 [release-branch.go1.26] net: fix TestLookupCNAME
-044c995af7 [release-branch.go1.26] runtime: tolerate vendor suffixes in Linux kernel release strings
-814591410b [release-branch.go1.26] cmd/compile,sync/atomic: make Add And & Or SQCST on PPC64
-2055b1a15d [release-branch.go1.26] syscall: add //go:norace to rawSyscall on darwin
-d7c9c818f9 [release-branch.go1.26] runtime: in moveSliceNoCap, round size down to a whole multiple of element size
-dc80258a97 [release-branch.go1.26] internal/runtime/gc: require AVX512DQ for greentea
-6efcff6602 [release-branch.go1.26] os/signal: make NotifyContext Cause match context.Canceled
-fe91cea4f2 [release-branch.go1.26] cmd/go: use fsys.ReadDir for IsStandardPackage
-ec988a9af1 [release-branch.go1.26] os: notify testlog from (*File).Chdir
+Upstream patch had a "Co-authored-by: Stan Ulbrych <stan@python.org>"
+that I readded on my branch. Can you send a patch to master to re-add it th=
+ere
+too?
 
-Fixes CVE-2026-39822 and CVE-2026-42505.
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
-Release information: [2]
-
-[1] https://github.com/golang/go/compare/go1.26.4...go1.26.5
-[2] https://groups.google.com/g/golang-announce/c/OrmQE_Yp5Sc
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-devtools/go/{go-1.26.4.inc => go-1.26.5.inc}   | 2 +-
- ...o-binary-native_1.26.4.bb => go-binary-native_1.26.5.bb} | 6 +++---
- ...cross-canadian_1.26.4.bb => go-cross-canadian_1.26.5.bb} | 0
- .../go/{go-cross_1.26.4.bb => go-cross_1.26.5.bb}           | 0
- .../go/{go-crosssdk_1.26.4.bb => go-crosssdk_1.26.5.bb}     | 0
- .../go/{go-runtime_1.26.4.bb => go-runtime_1.26.5.bb}       | 0
- meta/recipes-devtools/go/{go_1.26.4.bb => go_1.26.5.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.26.4.inc => go-1.26.5.inc} (90%)
- rename meta/recipes-devtools/go/{go-binary-native_1.26.4.bb => go-binary-native_1.26.5.bb} (80%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.26.4.bb => go-cross-canadian_1.26.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.26.4.bb => go-cross_1.26.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.26.4.bb => go-crosssdk_1.26.5.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.26.4.bb => go-runtime_1.26.5.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.26.4.bb => go_1.26.5.bb} (100%)
-
-diff --git a/meta/recipes-devtools/go/go-1.26.4.inc b/meta/recipes-devtools/go/go-1.26.5.inc
-similarity index 90%
-rename from meta/recipes-devtools/go/go-1.26.4.inc
-rename to meta/recipes-devtools/go/go-1.26.5.inc
-index 8bc6f4d4de..a4302b2790 100644
---- a/meta/recipes-devtools/go/go-1.26.4.inc
-+++ b/meta/recipes-devtools/go/go-1.26.5.inc
-@@ -16,4 +16,4 @@ SRC_URI += "\
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
-     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
- "
--SRC_URI[main.sha256sum] = "4f668a32fbfc1132e6a881fb968c2f1dada631492a339211735fbb255a42602d"
-+SRC_URI[main.sha256sum] = "495be4bc87176ac567392e5b4116abd98466d33d7b49d41e764ccc6976b2dc42"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.26.4.bb b/meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-similarity index 80%
-rename from meta/recipes-devtools/go/go-binary-native_1.26.4.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-index 3757b9f6a5..97a8270be2 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.26.4.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.26.5.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "1153d3d50e0ac764b447adfe05c2bcf08e889d42a02e0fe0259bd47f6733ad7f"
--SRC_URI[go_linux_arm64.sha256sum] = "ef758ae7c6cf9267c9c0ef080b8965f453d89ab2d25d9eb22de4405925238768"
--SRC_URI[go_linux_ppc64le.sha256sum] = "53f49b8c7eace2d30389327b4a516b13321f90377fdf5929a6b63174609bc22e"
-+SRC_URI[go_linux_amd64.sha256sum] = "5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053"
-+SRC_URI[go_linux_arm64.sha256sum] = "fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd696d49"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "c5d60e2b303bb612f20cd82786594b64874e73b35134025e27d3390bf284ae43"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.26.4.bb b/meta/recipes-devtools/go/go-cross-canadian_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.26.4.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.26.5.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.26.4.bb b/meta/recipes-devtools/go/go-cross_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.26.4.bb
-rename to meta/recipes-devtools/go/go-cross_1.26.5.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.26.4.bb b/meta/recipes-devtools/go/go-crosssdk_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.26.4.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.26.5.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.26.4.bb b/meta/recipes-devtools/go/go-runtime_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.26.4.bb
-rename to meta/recipes-devtools/go/go-runtime_1.26.5.bb
-diff --git a/meta/recipes-devtools/go/go_1.26.4.bb b/meta/recipes-devtools/go/go_1.26.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.26.4.bb
-rename to meta/recipes-devtools/go/go_1.26.5.bb
 
