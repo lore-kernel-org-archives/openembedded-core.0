@@ -2,159 +2,451 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3789C44509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E958C44508
 	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 10:07:17 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5810.1783591632434396806
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5807.1783591628970496682
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2026 03:07:12 -0700
+ Thu, 09 Jul 2026 03:07:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=S6BNsGog;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493c7902f47so12975165e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:07:12 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=fR6P6DSu;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493c52cde9eso6351085e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:07:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783591631; x=1784196431; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=P3etCHOUtgrargOsAUyr6TshCsDa6Y2PpKT6TU+YTYY=;
-        b=S6BNsGog/Ld/8KUJYXKl7Pl9wSm3c4Uny7IP8RpjIffJICN18jE4CP/zKNIA+0ikPa
-         yxY/G56dIfdHk2bzevBqE9tp+yIoDmq6zdBB5MsdH6s9Ll7S9hAHuIombYtnNIM9pd6E
-         mLTWKWE20jgIHC3u8h7hAc2C6E4t9bY2l5sdo=
+        d=smile.fr; s=google; t=1783591627; x=1784196427; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=e52foYiClEJHnDtuNLVMghfzBSpD6whg02BHmFzwCQE=;
+        b=fR6P6DSum6oY5+OAPLSBC0M4Qp+nX8YdN8Qtwu5mhFP0PZ3Utkpks31q+mhxIpGEOE
+         GMTAGVig/lKMlZRi5dr/mYwhqQL+IqM9cwSJaoX/lWhgeDScGv1oLS+ujk29e0ptP8rW
+         AFiUdgwXAvAxtvTFUXleWGUCoFA+2Cnd8/CiU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783591631; x=1784196431;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=P3etCHOUtgrargOsAUyr6TshCsDa6Y2PpKT6TU+YTYY=;
-        b=C8QCm/6liLtH5ipulUEaMWx+nqDoTYYESy9ETCxuhM7MCaqcnAB4Jwj1+tr74GS839
-         lLk/7Rw4iz5kVqPASVhY+MPJxOx1grp49D4+F7+FwVUWXK1Q3CNu7Lvvd6LkerqOHTbN
-         pnNbMoI/sP1v1QxnJ+dcuwqbODefsDjX2UoJ2yP3eVJ4r8JtvzGAcaxslx0nRNJ22TpC
-         5yDGdWmOtkkw4YddM0l+9F/lXuBgTrujZvwNPmpEyZ5oKuiiMSvvbnsUpXd70WzxzCok
-         9VYY6bEyMwKVL4/5cDQwADo6zjR39vHS52jAKgb0s/Q6cg141dBJnxMlzeajMsXFkWgs
-         vqjg==
-X-Gm-Message-State: AOJu0YyYh/fLN8tB1uNIAt6kJHcNJ1LNFUaH01nHlAfWo8LkP+e8GRN9
-	fHgPMYYFu3xrclYMnN73zEhAJl0FDH1l10WWMmD10vBfpbVFs2OkWBxZWUnNfgYkmuD1V8Bs771
-	/t0vQ7Fk=
-X-Gm-Gg: AfdE7cmE8zGVswlUdruCPvFwwcdNEfXjnLldsQQsmw7KvlUxppXchdkNGg7KSNHs/TQ
-	eGIQulP1kkIfP2RI4niEbpUlFHFMwJLvm/XFEeaLusTrMvRs5dJWMDV1lmD6PxVdYR1eCvA/kqH
-	yoxkjiHCjk5aKLfsCeQe+OSHilG4jwVBMkpgcW2nqwXLRIzaIkFm/ZxxBHD4O6DU8/k4GALTloB
-	Iq+Jv1C5rFsrjp7zXF/atjlOKn5kW8KbidVT7zYTV1jXEuH/F9dMDipGhp3TtDC7ssv6iQzjy5y
-	v077PQJ4I7rcbC0cqmhCVrW9rmiyOV5WQUk/NUm229NdA6QYGHvmQiGuhyU7Wnq1sPv3MOt+TEF
-	9gOmFBfaU+sTe814xFL+LFovwwFO2itw4rNKlnWFpBL27Kwg+Tae12yDt3gHl3F1fKMMo2YROxD
-	CL1DFsoik2RkgJR6lqKUfrpRtQCGFEKDXHpcx7TtlAur8mqmsOD7nwGRm2mxbT7TaxVs3lrYGgw
-	7R9rkwwOCVBA7r+xQ==
-X-Received: by 2002:a05:600c:630a:b0:493:c84c:2b57 with SMTP id 5b1f17b1804b1-493e686c848mr61109365e9.29.1783591630556;
-        Thu, 09 Jul 2026 03:07:10 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783591627; x=1784196427;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=e52foYiClEJHnDtuNLVMghfzBSpD6whg02BHmFzwCQE=;
+        b=X1jlHndQXCCRVBb/aaAqPeRsWO8QIs144Lxbi/1G4abGUAhaJh9oIY6VgHgBRQov3o
+         xNn3xOZxDF6NWraEqCECnK47/zlrXIjmzEr4TpMx7VMVAdcUiHM4Lhh2op2YgTPbOv2H
+         MSRrPE3JtETs8YMFpOF4ZxNmg/C+08XWsMYkZ3Z262j5ixYSMSsY8SYYehQd2aNdGG24
+         oLefykbi/TQ3DxVAltPCLVckFX/10FvyieOLSLR64Gh/8T9cp/9ikr5phL1vyQLZxdAt
+         8PArxMBClxLMYI7AOzbzLDrdbtN6+yOHIeTulElJeG4+G/umH6QGX1rrpbzzsuyPO0tQ
+         kBDg==
+X-Gm-Message-State: AOJu0YzG8zqz5sT75v+eUTof4o2htZOFSTL6XNeDaAeebwybltMTk93/
+	qTZ1t0a3tnNRtqt687En4WH/NMuUbujr+yYmpkoBbfYGtTyrrXp4rSS5X20A7QhIX3G3TUh4p76
+	T8lSuEdk=
+X-Gm-Gg: AfdE7ckXBU+D+Nt736gA9YfXMDyCioo1jzK0Vy1JoSHNZ2DXsTDH9em+oLqiF5ipMNL
+	oIMutGTWhi1KnimAgtSGLuQAklptoOl0RBMs9PrhO0RgYG5nfRGy6mfrHk6SyQme74S/m4bVKwK
+	x3BlL/ThYnu8OnmNaZ5cwDcksXcAtRFQxcfdiCoqKZYOJoxTdbojW5O2gtUFvbFyPF+DeA43FUe
+	l0Ux1ejLKyENusG7f7i8aYew/Ovl0Rw7WjY0E1QrSnRxScjAOi+FVTycVsptjemY8d2q5ZDaagn
+	883RLaQxE/22RqcM9Nc4/VGyGOMW6GTvjb8WM8FBiVcpgtlIL+STDcUsFigh5ndAwMInUmzfL1X
+	R0Vix77ooPMTxMd5n65XSPEIH1Sl+hJPjJdgf/0ZCu2F01TRlJmWPwwEPk09P1RzZrv0UfY80sk
+	5CF3ZJj7DtJkQN4oyhnHySCqtLX9i65WcYq0nhioF2t8sFlEzClenviIM0wISZTVS8qOyHua6B2
+	biRmhT3K35QGzrAiQ==
+X-Received: by 2002:a05:600c:3e0f:b0:493:9cb3:53fc with SMTP id 5b1f17b1804b1-493e7e84c21mr52149175e9.11.1783591627041;
+        Thu, 09 Jul 2026 03:07:07 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00fd88810a86c49142.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fd88:810a:86c4:9142])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm149687135e9.2.2026.07.09.03.07.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm149687135e9.2.2026.07.09.03.07.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 03:07:10 -0700 (PDT)
+        Thu, 09 Jul 2026 03:07:06 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/25] binutils: Fix CVE-2026-6846
-Date: Thu,  9 Jul 2026 12:06:33 +0200
-Message-ID: <bab9ec27c2c5bd5a25efb39e3f34c064b4a3f1cd.1783590688.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 12/25] vim: Fix for CVE-2026-28417, CVE-2026-32249, CVE-2026-45130
+Date: Thu,  9 Jul 2026 12:06:28 +0200
+Message-ID: <f2c03bf44550fccbd00832dfae1bfb60a940ad54.1783590688.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783590688.git.yoann.congal@smile.fr>
 References: <cover.1783590688.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 10:07:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240563
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240559
 
-From: Shubham Pushpkar <spushpka@cisco.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-This patch applies the upstream fix as referenced in [2], using the commit shown in [1].
+Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
 
-[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=7a089e0302382f4d4e077941156e1eaa68d01393
-[2] https://security-tracker.debian.org/tracker/CVE-2026-6846
+[1] https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d68514fcc1
+[2] https://github.com/vim/vim/commit/36d6e87542cf823d833e451e09a90ee429899cec
+[3] https://github.com/vim/vim/commit/92993329178cb1f72d700fff45ca86e1c2d369f8
+[4] https://nvd.nist.gov/vuln/detail/CVE-2026-28417
+[5] https://nvd.nist.gov/vuln/detail/CVE-2026-32249
+[6] https://nvd.nist.gov/vuln/detail/CVE-2026-45130
 
-Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../binutils/binutils-2.42.inc                |  1 +
- .../binutils/binutils/CVE-2026-6846.patch     | 57 +++++++++++++++++++
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-6846.patch
+ .../vim/files/CVE-2026-28417.patch            |  92 ++++++++++++++
+ .../vim/files/CVE-2026-32249.patch            | 117 ++++++++++++++++++
+ .../vim/files/CVE-2026-45130.patch            | 115 +++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |   3 +
+ 4 files changed, 327 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-28417.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-32249.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-45130.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
-index 7e83f72632f..3ed80a82924 100644
---- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -74,5 +74,6 @@ SRC_URI = "\
-      file://0030-CVE-2025-11840.patch \
-      file://CVE-2025-69644-CVE-2025-69647.patch \
-      file://CVE-2025-69648.patch \
-+     file://CVE-2026-6846.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2026-6846.patch b/meta/recipes-devtools/binutils/binutils/CVE-2026-6846.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-28417.patch b/meta/recipes-support/vim/files/CVE-2026-28417.patch
 new file mode 100644
-index 00000000000..8eaca87583d
+index 00000000000..c36bd9c2344
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2026-6846.patch
-@@ -0,0 +1,57 @@
-+From 2a340616f7e6591f83e85777d1d1f6108c33f5b8 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Mon, 6 Apr 2026 22:58:22 +0930
-+Subject: [PATCH] PR 34049 buffer overflow in xcoff_link_add_symbols
++++ b/meta/recipes-support/vim/files/CVE-2026-28417.patch
+@@ -0,0 +1,92 @@
++From 79348dbbc09332130f4c86045e1541d68514fcc1 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Sun, 22 Feb 2026 21:24:48 +0000
++Subject: [PATCH] patch 9.2.0073: [security]: possible command injection using
++ netrw
 +
-+The fact that coffcode.h:coff_set_alignment_hook for rs6000 removes
-+sections can result in target_index > section_count.  Thus any array
-+indexed by target_index must not be sized by section_count.
++Problem:  [security]: Insufficient validation of hostname and port in
++          netrw URIs allows command injection via shell metacharacters
++          (ehdgks0627, un3xploitable).
++Solution: Implement stricter RFC1123 hostname and IP validation.
++          Use shellescape() for the provided hostname and port.
 +
-+	PR ld/34049
-+	* xcofflink.c (xcoff_link_add_symbols): Size reloc_info array
-+	using max target_index.
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-m3xh-9434-g336
 +
-+CVE: CVE-2026-6846
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=7a089e0302382f4d4e077941156e1eaa68d01393]
++Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+(cherry picked from commit 7a089e0302382f4d4e077941156e1eaa68d01393)
-+Signed-off-by: Shubham Pushpkar <spushpka@cisco.com>
++Upstream-Status: Backport [https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d68514fcc1]
++CVE: CVE-2026-28417
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ bfd/xcofflink.c | 15 ++++++++++++++-
-+ 1 file changed, 14 insertions(+), 1 deletion(-)
++ .../pack/dist/opt/netrw/autoload/netrw.vim    | 34 +++++++++++++------
++ 1 file changed, 24 insertions(+), 10 deletions(-)
 +
-+diff --git a/bfd/xcofflink.c b/bfd/xcofflink.c
-+index 6ef9abcd8..196967ed0 100644
-+--- a/bfd/xcofflink.c
-++++ b/bfd/xcofflink.c
-+@@ -1300,6 +1300,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_info *info)
-+   } *reloc_info = NULL;
-+   bfd_size_type amt;
-+   unsigned short visibility;
-++  unsigned int max_target_index;
++diff --git a/runtime/pack/dist/opt/netrw/autoload/netrw.vim b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
++index 1c98104..7ebcd92 100644
++--- a/runtime/pack/dist/opt/netrw/autoload/netrw.vim
+++++ b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
++@@ -5,6 +5,7 @@
++ " 2025 Aug 07 by Vim Project (use correct "=~#" for netrw_stylesize option #17901)
++ " 2025 Aug 07 by Vim Project (netrw#BrowseX() distinguishes remote files #17794)
++ " 2025 Aug 22 by Vim Project netrw#Explore handle terminal correctly #18069
+++" 2026 Feb 27 by Vim Project Make the hostname validation more strict
++ " Copyright:  Copyright (C) 2016 Charles E. Campbell {{{1
++ "             Permission is hereby granted to use and distribute this code,
++ "             with or without modifications, provided that this copyright
++@@ -2575,13 +2576,26 @@ endfunction
++ 
++ " s:NetrwValidateHostname:  Validate that the hostname is valid {{{2
++ " Input:
++-"   hostname
+++"   hostname, may include an optional username, e.g. user@hostname
+++"   allow a alphanumeric hostname or an IPv(4/6) address
++ " Output:
++ "  true if g:netrw_machine is valid according to RFC1123 #Section 2
++ function s:NetrwValidateHostname(hostname)
++-    " RFC1123#section-2 mandates, a valid hostname starts with letters or digits
++-    " so reject everyhing else
++-    return a:hostname =~? '^[a-z0-9]'
+++  " Username:
+++  let user_pat = '\%([a-zA-Z0-9._-]\+@\)\?'
+++  " Hostname: 1-64 chars, alphanumeric/dots/hyphens.
+++  " No underscores. No leading/trailing dots/hyphens.
+++  let host_pat = '[a-zA-Z0-9]\%([-a-zA-Z0-9.]{,62}[a-zA-Z0-9]\)\?$'
+++
+++  " IPv4: 1-3 digits separated by dots
+++  let ipv4_pat = '\%(\d\{1,3}\.\)\{3\}\d\{1,3\}$'
+++
+++  " IPv6: Hex, colons, and optional brackets
+++  let ipv6_pat = '\[\?\%([a-fA-F0-9:]\{2,}\)\+\]\?$'
+++
+++  return a:hostname =~? '^'.user_pat.host_pat ||
+++       \ a:hostname =~? '^'.user_pat.ipv4_pat ||
+++       \ a:hostname =~? '^'.user_pat.ipv6_pat
++ endfunction
++ 
++ " NetUserPass: set username and password for subsequent ftp transfer {{{2
++@@ -8948,15 +8962,15 @@ endfunction
++ " s:MakeSshCmd: transforms input command using USEPORT HOSTNAME into {{{2
++ "               a correct command for use with a system() call
++ function s:MakeSshCmd(sshcmd)
++-    if s:user == ""
++-        let sshcmd = substitute(a:sshcmd,'\<HOSTNAME\>',s:machine,'')
++-    else
++-        let sshcmd = substitute(a:sshcmd,'\<HOSTNAME\>',s:user."@".s:machine,'')
+++    let machine = shellescape(s:machine, 1)
+++    if s:user != ''
+++        let machine    = shellescape(s:user, 1).'@'.machine
++     endif
+++    let sshcmd = substitute(a:sshcmd,'\<HOSTNAME\>',machine,'')
++     if exists("g:netrw_port") && g:netrw_port != ""
++-        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.g:netrw_port,'')
+++        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.shellescape(g:netrw_port,1),'')
++     elseif exists("s:port") && s:port != ""
++-        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.s:port,'')
+++        let sshcmd= substitute(sshcmd,"USEPORT",g:netrw_sshport.' '.shellescape(s:port,1),'')
++     else
++         let sshcmd= substitute(sshcmd,"USEPORT ",'','')
++     endif
++-- 
++2.34.1
 +
-+   keep_syms = obj_coff_keep_syms (abfd);
+diff --git a/meta/recipes-support/vim/files/CVE-2026-32249.patch b/meta/recipes-support/vim/files/CVE-2026-32249.patch
+new file mode 100644
+index 00000000000..18691c3f4ce
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-32249.patch
+@@ -0,0 +1,117 @@
++From 36d6e87542cf823d833e451e09a90ee429899cec Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Wed, 11 Mar 2026 14:16:29 +0100
++Subject: [PATCH] patch 9.2.0137: [security]: crash with composing char in
++ collection range
 +
-+@@ -1363,7 +1364,19 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_info *info)
-+      order by VMA within a given section, so we handle this by
-+      scanning along the relocs as we process the csects.  We index
-+      into reloc_info using the section target_index.  */
-+-  amt = abfd->section_count + 1;
-++  max_target_index = 0;
-++  for (o = abfd->section_last; o != NULL; o = o->prev)
-++    if (o->target_index != 0)
-++      {
-++	/* The last section added from the object file will have the
-++	   highest target_index.  See coffgen.c coff_real_object_p and
-++	   make_a_section_from_file.  Sections added by
-++	   xcoff_link_create_extra_sections will have a zero
-++	   target_index.  */
-++	max_target_index = o->target_index;
-++	break;
-++      }
-++  amt = max_target_index + 1;
-+   amt *= sizeof (struct reloc_info_struct);
-+   reloc_info = bfd_zmalloc (amt);
-+   if (reloc_info == NULL)
-+--
-+2.35.6
++Problem:  Using a composing character as the end of a range inside a
++          collection may corrupt the NFA postfix stack
++          (Nathan Mills, after v9.1.0011)
++Solution: When a character is used as the endpoint of a range, do not emit
++          its composing characters separately. Range handling only uses
++          the base codepoint.
++
++supported by AI
++
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-9phh-423r-778r
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++Upstream-Status: Backport [https://github.com/vim/vim/commit/36d6e87542cf823d833e451e09a90ee429899cec]
++CVE: CVE-2026-32249
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/regexp_nfa.c                 | 17 +++++++++++++++--
++ src/testdir/test_regexp_utf8.vim | 19 +++++++++++++++++++
++ 2 files changed, 34 insertions(+), 2 deletions(-)
++
++diff --git a/src/regexp_nfa.c b/src/regexp_nfa.c
++index 6ad682b..7905ec1 100644
++--- a/src/regexp_nfa.c
+++++ b/src/regexp_nfa.c
++@@ -1765,6 +1765,7 @@ collection:
++ 	    if (*endp == ']')
++ 	    {
++ 		int plen;
+++		bool range_endpoint;
++ 		/*
++ 		 * Try to reverse engineer character classes. For example,
++ 		 * recognize that [0-9] stands for \d and [A-Za-z_] for \h,
++@@ -1812,6 +1813,7 @@ collection:
++ 		while (regparse < endp)
++ 		{
++ 		    int	    oldstartc = startc;
+++		    range_endpoint = false;
++ 
++ 		    startc = -1;
++ 		    got_coll_char = FALSE;
++@@ -1975,6 +1977,7 @@ collection:
++ 		    if (emit_range)
++ 		    {
++ 			int	endc = startc;
+++			range_endpoint = true;
++ 
++ 			startc = oldstartc;
++ 			if (startc > endc)
++@@ -2053,7 +2056,14 @@ collection:
++ 			}
++ 		    }
++ 
++-		    if (enc_utf8 && (utf_ptr2len(regparse) != (plen = utfc_ptr2len(regparse))))
+++		    //
+++		    // If this character was consumed as the end of a range, do not emit its
+++		    // composing characters separately.  Range handling only uses the base
+++		    // codepoint; emitting the composing part again would duplicate the
+++		    // character in the postfix stream and corrupt the NFA stack.
+++		    //
+++		    if (!range_endpoint && enc_utf8 &&
+++			    (utf_ptr2len(regparse) != (plen = utfc_ptr2len(regparse))))
++ 		    {
++ 			int i = utf_ptr2len(regparse);
++ 
++@@ -3187,7 +3197,10 @@ nfa_max_width(nfa_state_T *startstate, int depth)
++ 		    ++len;
++ 		if (state->c != NFA_ANY)
++ 		{
++-		    // skip over the characters
+++		    // Skip over the compiled collection.
+++		    // malformed NFAs must not crash width estimation.
+++		    if (state->out1 == NULL || state->out1->out == NULL)
+++			return -1;
++ 		    state = state->out1->out;
++ 		    continue;
++ 		}
++diff --git a/src/testdir/test_regexp_utf8.vim b/src/testdir/test_regexp_utf8.vim
++index a4353f1..3b58416 100644
++--- a/src/testdir/test_regexp_utf8.vim
+++++ b/src/testdir/test_regexp_utf8.vim
++@@ -615,6 +615,25 @@ func Test_search_multibyte_match_ascii()
++     call assert_equal(['ſſ','ſ'], noic_match3, "No-Ignorecase Collection Regex-engine: " .. &re)
++   endfor
++   bw!
+++  set ignorecase&vim re&vim
+++endfun
+++
+++func Test_regex_collection_range_with_composing_crash()
+++  " Regression test: composing char in collection range caused NFA crash/E874
+++  new
+++  call setline(1, ['00', '0ֻ', '01'])
+++  let patterns = [ '0[0-0ֻ]\@<!','0[0ֻ]\@<!']
+++
+++  for pat in patterns
+++    " Should compile and execute without crash or error
+++    for re in range(3)
+++      let regex = '\%#=' .. re .. pat
+++      call search(regex)
+++      call assert_fails($"/{regex}\<cr>", 'E486:')
+++    endfor
+++  endfor
+++
+++  bwipe!
++ endfunc
++ 
++ " vim: shiftwidth=2 sts=2 expandtab
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/vim/files/CVE-2026-45130.patch b/meta/recipes-support/vim/files/CVE-2026-45130.patch
+new file mode 100644
+index 00000000000..0a1a93de99b
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-45130.patch
+@@ -0,0 +1,115 @@
++From 92993329178cb1f72d700fff45ca86e1c2d369f8 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Wed, 6 May 2026 20:50:00 +0200
++Subject: [PATCH] patch 9.2.0450: [security]: heap buffer overflow in
++ spellfile.c read_compound()
++
++Problem:  read_compound() in spellfile.c computes the size of the regex
++          pattern buffer using signed-int arithmetic on the attacker
++          controlled SN_COMPOUND sectionlen.  With sectionlen=0x40000008
++          and UTF-8 encoding active the multiplication wraps to 27 while
++          the per-byte loop writes up to ~1B bytes, overflowing the heap.
++          Reachable when loading a crafted .spl file (e.g. via 'set spell'
++          after a modeline sets 'spelllang').  The cp/ap/crp allocations
++          have the same int + 1 overflow class (Daniel Cervera)
++Solution: Use type size_t as buffer size and reject values larger than
++          COMPOUND_MAX_LEN (100000).  Apply the same size_t treatment to
++          the cp/ap/crp allocations.
++
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-q4jv-r9gj-6cwv
++
++Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++Upstream-Status: Backport [https://github.com/vim/vim/commit/92993329178cb1f72d700fff45ca86e1c2d369f8]
++CVE: CVE-2026-45130
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/spellfile.c                | 20 ++++++++++++++------
++ src/testdir/test_spellfile.vim |  4 ++++
++ 2 files changed, 18 insertions(+), 6 deletions(-)
++
++diff --git a/src/spellfile.c b/src/spellfile.c
++index 0b9536d..768e9fd 100644
++--- a/src/spellfile.c
+++++ b/src/spellfile.c
++@@ -296,6 +296,9 @@
++ #define CF_WORD		0x01
++ #define CF_UPPER	0x02
++ 
+++// Max allowed length for COMPOUND section
+++#define COMPOUND_MAX_LEN	100000
+++
++ /*
++  * Loop through all the siblings of a node (including the node)
++  */
++@@ -1225,6 +1228,8 @@ read_compound(FILE *fd, slang_T *slang, int len)
++     char_u	*crp;
++     int		cnt;
++     garray_T	*gap;
+++    size_t	patsize;
+++    size_t	flagsize;
++ 
++     if (todo < 2)
++ 	return SP_FORMERROR;	// need at least two bytes
++@@ -1281,16 +1286,19 @@ read_compound(FILE *fd, slang_T *slang, int len)
++     // "a[bc]/a*b+" -> "^\(a[bc]\|a*b\+\)$".
++     // Inserting backslashes may double the length, "^\(\)$<Nul>" is 7 bytes.
++     // Conversion to utf-8 may double the size.
++-    c = todo * 2 + 7;
+++    if ((size_t)todo > COMPOUND_MAX_LEN)
+++	return SP_FORMERROR;
+++    patsize = (size_t)todo * 2 + 7;
++     if (enc_utf8)
++-	c += todo * 2;
++-    pat = alloc(c);
+++	patsize += (size_t)todo * 2;
+++    flagsize = (size_t)todo + 1;
+++    pat = alloc(patsize);
++     if (pat == NULL)
++ 	return SP_OTHERERROR;
++ 
++     // We also need a list of all flags that can appear at the start and one
++     // for all flags.
++-    cp = alloc(todo + 1);
+++    cp = alloc(flagsize);
++     if (cp == NULL)
++     {
++ 	vim_free(pat);
++@@ -1299,7 +1307,7 @@ read_compound(FILE *fd, slang_T *slang, int len)
++     slang->sl_compstartflags = cp;
++     *cp = NUL;
++ 
++-    ap = alloc(todo + 1);
+++    ap = alloc(flagsize);
++     if (ap == NULL)
++     {
++ 	vim_free(pat);
++@@ -1311,7 +1319,7 @@ read_compound(FILE *fd, slang_T *slang, int len)
++     // And a list of all patterns in their original form, for checking whether
++     // compounding may work in match_compoundrule().  This is freed when we
++     // encounter a wildcard, the check doesn't work then.
++-    crp = alloc(todo + 1);
+++    crp = alloc(flagsize);
++     slang->sl_comprules = crp;
++ 
++     pp = pat;
++diff --git a/src/testdir/test_spellfile.vim b/src/testdir/test_spellfile.vim
++index b72974e..d345492 100644
++--- a/src/testdir/test_spellfile.vim
+++++ b/src/testdir/test_spellfile.vim
++@@ -334,6 +334,10 @@ func Test_spellfile_format_error()
++   " SN_COMPOUND: incorrect comppatlen
++   call Spellfile_Test(0z080000000007040101000000020165, 'E758:')
++ 
+++  " SN_COMPOUND: oversized sectionlen
+++  let v = eval('0z08004000000803010161' .. repeat('61', 50) .. 'FF')
+++  call Spellfile_Test(v, 'E759:')
+++
++   " SN_INFO: missing info
++   call Spellfile_Test(0z0F0000000005040101, '')
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index b7cdd61c93e..53590befc4d 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -28,6 +28,9 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-44656.patch \
+            file://CVE-2026-41411.patch \
+            file://CVE-2026-28421.patch \
++           file://CVE-2026-32249.patch \
++           file://CVE-2026-28417.patch \
++           file://CVE-2026-45130.patch \
+            "
+ 
+ PV .= ".1683"
 
