@@ -2,406 +2,236 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 458ECC44510
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B0FBC44513
 	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 10:07:18 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5804.1783591627602935274
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5896.1783591637633991338
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2026 03:07:07 -0700
+ Thu, 09 Jul 2026 03:07:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=HjqWdZs6;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-493c7902f47so12974265e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:07:07 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=mmnT81b9;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493c52cde9eso6352315e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783591626; x=1784196426; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=s78DQD9pLNJ+PIFZRBtDK711a+6GaDeOHPmI/BGmLR4=;
-        b=HjqWdZs69WZ8Dm5wYLE3udAHpvG5oFRoFqYxcoWsOArCouYfEe3ikqFKuHwNd8LRUc
-         eL5xJpKgQP7cYZS0FbfAHTbsusaIlkebhqqYWfAQ5IQKFsyEpaH8mrECiA53u+wGkwlb
-         rU+Xo96kBIF42iXvKNRGHMdWWoA9BtGdpB2qQ=
+        d=smile.fr; s=google; t=1783591636; x=1784196436; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=t6REyVUFqq3ti33XFhlR6bYoJYZxmwB2dQUi4WnXh7Q=;
+        b=mmnT81b9J2x825LTpfUXHKKN7knrX2z+8AAnzqi3ULT1B7MvtuQmaUi9m9xO44Md6H
+         bsp8lK1NVFcgE1XCbgIUTIjZ6I5MEPtXSSycHKwYFxgxZChz+CApDiBpEpoSgXlF2KEu
+         kwZUcfBD84+E1kAKdgPb1qsOENePslxdIK/jc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783591626; x=1784196426;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=s78DQD9pLNJ+PIFZRBtDK711a+6GaDeOHPmI/BGmLR4=;
-        b=e8cYrEQhXCIVyvet+T8EyIc3BJ7uBRsBZKSacfI4T2FoCdsq63DEzBZqfnEJWIQfGM
-         IT3zfzXlG0Oc5U4/QMg/vE9wgoGc/4dcx6A1KfCOWUNsSGN1/7U9BHa7VG78D/GMgd8A
-         Xzv9FQqK8c5jcV1aqTsBU44Dy036pxO9uh3VVVUL68E2yUVDuqPEVybEYyHv32dDR93a
-         yPLTPwgewPLUZHfi4i8qqoM3FJLk9haFsug07GJLpcFK9aUUJr/Aj6Lrsmf16yPWgOJx
-         XdUaE1FG78tsXkkpqlyNSvSO/xIo/nGp7aquKgiMFm0EcmOl9P3nvlKA1aEoKNKnpP8b
-         aeWw==
-X-Gm-Message-State: AOJu0Ywgr2BuXko0DQDrucIzWSXMmpt1s1IN0tZxCIPd+Rk1yXHY29iu
-	9p3BvI7uxsiNbTdhYnaMOnzevs/dmP9ZAtzNsmKzD3zIeJzxDKWvCJCYjgPGrVG0Xl3qotrba1P
-	thYf9rRE=
-X-Gm-Gg: AfdE7cmw+vjkS6hNdZcmQC/k0Ji8nzy/RCWwdErXowkxZLwLPMq7yheABB86r/FFsKk
-	v3M54k1hwN+AbaX8xmXEcK70r0R46VzjnM2oP7oOslrnawLIgOVMiEa7980VMeLsCN81WIkbwmm
-	uT4lP77YsziGQLsWvjchrwt3p05Bdjbs27DhxUzxwCFqJDGb0/6z6F3/RLVMs8kvlO/ySBeUWB0
-	mas01MVk0O6pBr99KxdFymAUU0QLvIOOQTN8BtbntcHxV8cIpjbUqRBMtfEQPlboR1KGJLveeGl
-	Axqa2FSiNi26kgMYt9kV0U+EQYUeF4yDx8D0CINXr+27DTPFOzkcIBR8Y8LBS1O6ZMn5dTR0iOF
-	n/WbLKiOdtrGTIIh+Wi+IERCv4X+YYHat3SfP9COr2TqxovX7xWo7gjHoqcz+z4uNYMRBEHpuUV
-	9LnngM/A6QLoannknVzYmqTcGClbVoxFN79MYM3o2utP1kDPvEmPxOyCmZFKDrwmNxf2GbDpOlM
-	erPHBVYmll/z0j+pw==
-X-Received: by 2002:a05:600c:8b34:b0:493:b03c:5650 with SMTP id 5b1f17b1804b1-493e685f1dbmr59763945e9.19.1783591625719;
-        Thu, 09 Jul 2026 03:07:05 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783591636; x=1784196436;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=t6REyVUFqq3ti33XFhlR6bYoJYZxmwB2dQUi4WnXh7Q=;
+        b=PE+LAV2qqHB8AqrSkRPd9b1qjnirpUWkObahTNHkddkkKbRzI9CzahrGPG6bYUX0tp
+         Qg9hBqVvB27/m5aRXlMOZIqU7zLTdu+b9IJmLtjyqc1XwE+McdfUezcosDSy8y/KbyUw
+         vXPBkTUR+TrHdnKKk5BZ+D08DAAUpu64fbxRhofmQP4a1P63PBB/p9ft/ZZlmbZfxMny
+         YdOEDVSQtfXNsftuwtDXW5duYrmZfNR6Arzq6U/z1K0gtUWuZKw+J5ZM2TuZaGOudAB1
+         zrruq/Ch4Eu3FTrMiIGpKx3UHsutoqWeaSOdiQeK8ANXrnevuErlNDS4DeyrNvQ1jLd9
+         bG0A==
+X-Gm-Message-State: AOJu0Yx88DCJdyxlRDtKx/9e94hXhETy/KzVtCO8Jw0Zu+e48p/n1FFO
+	G3I+qXtBZ2eyJ9IZx1XUE8XzBDf6GndT/4ifn/LUPI841wnYSHwJo+6GTlCd12hatSSTGVqOuqO
+	sd9rj/vs=
+X-Gm-Gg: AfdE7ckK4n0JNVKGUmRAWhJQ+5CmKwAxrHD4/WEgkaMN/mdmpn6qq7LZvcIeMYgvcE1
+	WgmL26lopn08YwaHLXhn8LYNd60REz3PS6lLHeOOfO8VFMEq1sYdSF4ACQKVfx4sK/gGlmzmBYS
+	hSV6zJDUjhc1aALER0Ko1du7yaLhccfcU8Z4RrH9uJBaTbs9hJi1RLLCtVo7DksV15dy/Z7wm+a
+	v6MyDC1DL4BqXl+8y6KGfnR5OKVaZDggsq89ZI9pZnvZ77uIrmAOxuBKivH7pn8EwBmI4mQQlNh
+	M2Ur5t7vM9w0ow++E3hhBn7MHTqGT48oFTTgqRKo4Rbz1GTadQjUjt4fqV+1xuGoUinZ2HRb6zj
+	A9/EPV123c2loMUlTVKgNE5QChCJ+h98d5zZlJW7LYjfS8IyhR75gLtDPHAJfDtG3yWISAECPG+
+	B+IRnmnNteNozzdZkiOmrfhk/xWdK812hs8X5rpGgIKNPJMQc/sMuX32D0fD1gQXUPgMGX8hZVM
+	Ek7sIC1aESLHzyvsA==
+X-Received: by 2002:a05:600c:a44:b0:493:c35c:b4d1 with SMTP id 5b1f17b1804b1-493e6898b47mr65970265e9.7.1783591635774;
+        Thu, 09 Jul 2026 03:07:15 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00fd88810a86c49142.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fd88:810a:86c4:9142])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm149687135e9.2.2026.07.09.03.07.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm149687135e9.2.2026.07.09.03.07.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 03:07:05 -0700 (PDT)
+        Thu, 09 Jul 2026 03:07:15 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/25] vim: fix for CVE-2026-34982, CVE-2026-34714 & CVE-2026-35177
-Date: Thu,  9 Jul 2026 12:06:26 +0200
-Message-ID: <8ac3bc9efbac82abf66f5ad41d4bccfdf11fefd5.1783590688.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 24/25] libgcrypt: upgrade 1.10.3 -> 1.10.4
+Date: Thu,  9 Jul 2026 12:06:40 +0200
+Message-ID: <e2f9d6db6a0aa3b807afcba2f713ee6f08947437.1783590688.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783590688.git.yoann.congal@smile.fr>
 References: <cover.1783590688.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 10:07:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240557
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240571
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Jakub Szczudlo <jakubszczudlo40@gmail.com>
 
-Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
+Release notes are here:
+https://dev.gnupg.org/T8233.html
+Update contains fix for CVE-2026-41989 and because of building error patch need to be
+updated to fix compile flags in new version.
 
-[1] https://github.com/vim/vim/commit/75661a66a1db1e1f3f1245c615f13a7de44c0587
-[2] https://github.com/vim/vim/commit/664701eb7576edb7c7c7d9f2d600815ec1f43459
-[3] https://github.com/vim/vim/commit/7088926316d8d4a7572a242d0765e99adfc8b083
-[4] https://nvd.nist.gov/vuln/detail/CVE-2026-34982
-[5] https://nvd.nist.gov/vuln/detail/CVE-2026-34714
-[6] https://nvd.nist.gov/vuln/detail/CVE-2026-35177
-
-More info :
-CVE-2026-34982 - vim: arbitrary command execution via modeline sandbox bypass.
-CVE-2026-34714 - vim: Arbitrary code execution via crafted file.
-CVE-2026-35177 - vim zip.vim plugin: Arbitrary file overwrite via path traversal bypass.
-
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Jakub Szczudlo <jakubszczudlo40@gmail.com>
+[YC: upgrades contains
+"mpi/ec-inline: refactor i386 assembly to reduce register usage" which
+looks like optimisation but it is actually a fix for a build failure.
+See: https://dev.gnupg.org/T6892.html]
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../vim/files/CVE-2026-34714.patch            | 109 ++++++++++++++++++
- .../vim/files/CVE-2026-34982.patch            | 105 +++++++++++++++++
- .../vim/files/CVE-2026-35177.patch            |  60 ++++++++++
- meta/recipes-support/vim/vim.inc              |   3 +
- 4 files changed, 277 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-34714.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-34982.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-35177.patch
+ ...ilding-error-with-O2-in-sysroot-path.patch | 64 -------------------
+ ...r-handle-substitution-in-sed-command.patch | 49 ++++++++++++++
+ ...ibgcrypt_1.10.3.bb => libgcrypt_1.10.4.bb} |  4 +-
+ 3 files changed, 51 insertions(+), 66 deletions(-)
+ delete mode 100644 meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch
+ create mode 100644 meta/recipes-support/libgcrypt/files/0002-random-cipher-handle-substitution-in-sed-command.patch
+ rename meta/recipes-support/libgcrypt/{libgcrypt_1.10.3.bb => libgcrypt_1.10.4.bb} (92%)
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-34714.patch b/meta/recipes-support/vim/files/CVE-2026-34714.patch
+diff --git a/meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch b/meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch
+deleted file mode 100644
+index dee4969f35e..00000000000
+--- a/meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch
++++ /dev/null
+@@ -1,64 +0,0 @@
+-From b99952adc6ee611641709610d2e4dc90ba9acf37 Mon Sep 17 00:00:00 2001
+-From: "simit.ghane" <simit.ghane@lge.com>
+-Date: Tue, 7 May 2024 14:09:03 +0530
+-Subject: [PATCH] Fix building error with '-O2' in sysroot path
+-
+-* cipher/Makefile.am (o_flag_munging): Tweak the sed script.
+-* random/Makefile.am (o_flag_munging): Ditto.
+---
+-
+-Characters like '-O2' or '-Ofast' will be replaced by '-O1' and '-O0'
+-respectively when compiling cipher and random in the filesystem
+-paths as well if they happen to contain '-O2' or '-Ofast
+-
+-If we are cross compiling libgcrypt and sysroot contains such
+-characters, we would
+-get compile errors because the sysroot path has been modified.
+-
+-Fix this by adding blank spaces and tabs before the original matching
+-pattern in the sed command.
+-
+-Signed-off-by: simit.ghane <simit.ghane@lge.com>
+-
+-ChangeLog entries added by wk
+-
+-Note that there is also the configure option --disable-O-flag-munging;
+-see the README.
+-
+-Upstream-Status: Backport [https://dev.gnupg.org/rCb99952adc6ee611641709610d2e4dc90ba9acf37 https://dev.gnupg.org/rC5afadba008918d651afefb842ae123cc18454c74]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- cipher/Makefile.am | 2 +-
+- random/Makefile.am | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/cipher/Makefile.am b/cipher/Makefile.am
+-index 2c39586e..a914ed2b 100644
+---- a/cipher/Makefile.am
+-+++ b/cipher/Makefile.am
+-@@ -168,7 +168,7 @@ gost-s-box$(EXEEXT_FOR_BUILD): gost-s-box.c
+- 
+- 
+- if ENABLE_O_FLAG_MUNGING
+--o_flag_munging = sed -e 's/-O\([2-9sgz][2-9sgz]*\)/-O1/' -e 's/-Ofast/-O1/g'
+-+o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O1 /g' -e 's/[[:blank:]]-Ofast/ -O1 /g'
+- else
+- o_flag_munging = cat
+- endif
+-diff --git a/random/Makefile.am b/random/Makefile.am
+-index 0c935a05..340df38a 100644
+---- a/random/Makefile.am
+-+++ b/random/Makefile.am
+-@@ -56,7 +56,7 @@ jitterentropy-base.c jitterentropy.h jitterentropy-base-user.h
+- 
+- # The rndjent module needs to be compiled without optimization.  */
+- if ENABLE_O_FLAG_MUNGING
+--o_flag_munging = sed -e 's/-O\([1-9sgz][1-9sgz]*\)/-O0/g' -e 's/-Ofast/-O0/g'
+-+o_flag_munging = sed -e 's/[[:blank:]]-O\([1-9sgz][1-9sgz]*\)/ -O0 /g' -e 's/[[:blank:]]-Ofast/ -O0 /g'
+- else
+- o_flag_munging = cat
+- endif
+--- 
+-2.44.1
+-
+diff --git a/meta/recipes-support/libgcrypt/files/0002-random-cipher-handle-substitution-in-sed-command.patch b/meta/recipes-support/libgcrypt/files/0002-random-cipher-handle-substitution-in-sed-command.patch
 new file mode 100644
-index 00000000000..fef167e535e
+index 00000000000..35c7527e835
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-34714.patch
-@@ -0,0 +1,109 @@
-+From 664701eb7576edb7c7c7d9f2d600815ec1f43459 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Mon, 30 Mar 2026 08:20:43 +0000
-+Subject: [PATCH] patch 9.2.0272: [security]: 'tabpanel' can be set in a
-+ modeline
++++ b/meta/recipes-support/libgcrypt/files/0002-random-cipher-handle-substitution-in-sed-command.patch
+@@ -0,0 +1,49 @@
++From e96df0c82e086bf348753d2d0fa37fa6191b4b14 Mon Sep 17 00:00:00 2001
++From: "simit.ghane" <simit.ghane@lge.com>
++Date: Tue, 11 Jun 2024 07:22:28 +0530
++Subject: [PATCH] random:cipher: handle substitution in sed command
 +
-+Problem:  'tabpanel' can be set in a modeline
-+Solution: Set the P_MLE flag for the 'tabpanel' option, disable
-+          autocmd_add()/autocomd_delete() functions in restricted/secure
-+          mode.
++Upstream-Status: Backport [https://github.com/gpg/libgcrypt/commit/e96df0c82e086bf348753d2d0fa37fa6191b4b14]
 +
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-2gmj-rpqf-pxvh
++* cipher/Makefile.am (o_flag_munging): Add 'g' flag for first sed
++expression.
++* random/Makefile.am (o_flag_munging): Likewise.
++--
 +
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
++It was there earlier and accidentally removed from
++Makefile.am of cipher and random
 +
-+CVE: CVE-2026-34714
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/664701eb7576edb7c7c7d9f2d600815ec1f43459]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Signed-off-by: simit.ghane <simit.ghane@lge.com>
++[jk: add changelog to commit message]
++Signed-off-by: Jussi Kivilinna <jussi.kivilinna@iki.fi>
 +---
-+ src/autocmd.c                 |  3 +++
-+ src/optiondefs.h              |  2 +-
-+ src/testdir/test_autocmd.vim  |  5 +++++
-+ src/testdir/test_tabpanel.vim | 16 ++++++++++++++++
-+ src/version.c                 |  2 ++
-+ 5 files changed, 27 insertions(+), 1 deletion(-)
++ cipher/Makefile.am | 2 +-
++ random/Makefile.am | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/autocmd.c b/src/autocmd.c
-+index 94f9c1fba4..8a6b363aad 100644
-+--- a/src/autocmd.c
-++++ b/src/autocmd.c
-+@@ -3069,6 +3069,9 @@ autocmd_add_or_delete(typval_T *argvars, typval_T *rettv, int delete)
-+     rettv->v_type = VAR_BOOL;
-+     rettv->vval.v_number = VVAL_FALSE;
++diff --git a/cipher/Makefile.am b/cipher/Makefile.am
++index ea9014cc98..149c9f2101 100644
++--- a/cipher/Makefile.am
+++++ b/cipher/Makefile.am
++@@ -169,7 +169,7 @@ gost-s-box$(EXEEXT_FOR_BUILD): gost-s-box.c
 + 
-++    if (check_restricted() || check_secure())
-++	return;
-++
-+     if (check_for_list_arg(argvars, 0) == FAIL)
-+ 	return;
 + 
-+diff --git a/src/optiondefs.h b/src/optiondefs.h
-+index 62d142e637..bd02d04f47 100644
-+--- a/src/optiondefs.h
-++++ b/src/optiondefs.h
-+@@ -2570,7 +2570,7 @@ static struct vimoption options[] =
-+ 			    (char_u *)&p_tpm, PV_NONE, NULL, NULL,
-+ 			    {(char_u *)10L, (char_u *)0L} SCTX_INIT},
-+ #if defined(FEAT_TABPANEL)
-+-    {"tabpanel",  "tpl",    P_STRING|P_VI_DEF|P_RALL,
-++    {"tabpanel",  "tpl",    P_STRING|P_VI_DEF|P_RALL|P_MLE,
-+ 			    (char_u *)&p_tpl, PV_NONE, NULL, NULL,
-+ 			    {(char_u *)"", (char_u *)0L} SCTX_INIT},
-+     {"tabpanelopt","tplo",  P_STRING|P_ALLOCED|P_VI_DEF|P_ONECOMMA|P_COLON
-+diff --git a/src/testdir/test_autocmd.vim b/src/testdir/test_autocmd.vim
-+index 43605f7e11..1fea13b00a 100644
-+--- a/src/testdir/test_autocmd.vim
-++++ b/src/testdir/test_autocmd.vim
-+@@ -5501,4 +5501,9 @@ func Test_VimResized_and_window_width_not_equalized()
-+   call StopVimInTerminal(buf)
-+ endfunc
++ if ENABLE_O_FLAG_MUNGING
++-o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O1 /' -e 's/[[:blank:]]-Ofast/ -O1 /g'
+++o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O1 /g' -e 's/[[:blank:]]-Ofast/ -O1 /g'
++ else
++ o_flag_munging = cat
++ endif
++diff --git a/random/Makefile.am b/random/Makefile.am
++index c7100ef8b8..a42e430649 100644
++--- a/random/Makefile.am
+++++ b/random/Makefile.am
++@@ -56,7 +56,7 @@ jitterentropy-base.c jitterentropy.h jitterentropy-base-user.h
 + 
-++func Test_autocmd_add_secure()
-++  call assert_fails('sandbox call autocmd_add([{"event": "BufRead", "cmd": "let x = 1"}])', 'E48:')
-++  call assert_fails('sandbox call autocmd_delete([{"event": "BufRead"}])', 'E48:')
-++endfunc
-++
-+ " vim: shiftwidth=2 sts=2 expandtab
-+diff --git a/src/testdir/test_tabpanel.vim b/src/testdir/test_tabpanel.vim
-+index ecc12b59be..b0d4202dc4 100644
-+--- a/src/testdir/test_tabpanel.vim
-++++ b/src/testdir/test_tabpanel.vim
-+@@ -770,4 +770,20 @@ function Test_tabpanel_with_cmdline_pum()
-+ 
-+   call StopVimInTerminal(buf)
-+ endfunc
-++
-++func Test_tabpanel_no_modeline()
-++  let _tpl = &tabpanel
-++  let _mls = &modelineexpr
-++
-++  set nomodelineexpr
-++  setlocal modeline
-++  new
-++  call writefile(['/* vim: set tabpanel=test: */'], 'Xtabpanel.txt', 'D')
-++  call assert_fails(':e Xtabpanel.txt', 'E992:')
-++
-++  let &tabpanel = _tpl
-++  let &modelineexpr = _mls
-++  bw!
-++endfunc
-++
-+ " vim: shiftwidth=2 sts=2 expandtab
-+diff --git a/src/version.c b/src/version.c
-+index 4f47ec2688..309ddf7f7c 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -724,6 +724,8 @@ static char *(features[]) =
-+ 
-+ static int included_patches[] =
-+ {   /* Add new patch number below this line */
-++/**/
-++    1687,
-+ /**/
-+     1686,
-+ /**/
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-support/vim/files/CVE-2026-34982.patch b/meta/recipes-support/vim/files/CVE-2026-34982.patch
-new file mode 100644
-index 00000000000..e896f3b44d5
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-34982.patch
-@@ -0,0 +1,105 @@
-+From 75661a66a1db1e1f3f1245c615f13a7de44c0587 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Tue, 31 Mar 2026 18:29:00 +0000
-+Subject: [PATCH] patch 9.2.0276: [security]: modeline security bypass
-+
-+Problem:  [security]: modeline security bypass
-+Solution: disallow mapset() from secure mode, set the P_MLE flag for the
-+          'complete', 'guitabtooltip' and 'printheader' options.
-+
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-8h6p-m6gr-mpw9
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+CVE: CVE-2026-34982
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/75661a66a1db1e1f3f1245c615f13a7de44c0587]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/map.c                     |  3 +++
-+ src/optiondefs.h              |  6 +++---
-+ src/testdir/test_modeline.vim | 25 +++++++++++++++++++++++++
-+ 3 files changed, 31 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/map.c b/src/map.c
-+index fbecf4aced..7677243625 100644
-+--- a/src/map.c
-++++ b/src/map.c
-+@@ -2746,6 +2746,9 @@ f_mapset(typval_T *argvars, typval_T *rettv UNUSED)
-+     int		dict_only;
-+     mapblock_T	*mp_result[2] = {NULL, NULL};
-+ 
-++    if (check_secure())
-++	return;
-++
-+     // If first arg is a dict, then that's the only arg permitted.
-+     dict_only = argvars[0].v_type == VAR_DICT;
-+     if (in_vim9script()
-+diff --git a/src/optiondefs.h b/src/optiondefs.h
-+index 77155a63e8..62d142e637 100644
-+--- a/src/optiondefs.h
-++++ b/src/optiondefs.h
-+@@ -683,7 +683,7 @@ static struct vimoption options[] =
-+     {"compatible",  "cp",   P_BOOL|P_RALL,
-+ 			    (char_u *)&p_cp, PV_NONE, did_set_compatible, NULL,
-+ 			    {(char_u *)TRUE, (char_u *)FALSE} SCTX_INIT},
-+-    {"complete",    "cpt",  P_STRING|P_ALLOCED|P_VI_DEF|P_ONECOMMA|P_NODUP,
-++    {"complete",    "cpt",  P_STRING|P_ALLOCED|P_VI_DEF|P_ONECOMMA|P_NODUP|P_MLE,
-+ 			    (char_u *)&p_cpt, PV_CPT, did_set_complete, expand_set_complete,
-+ 			    {(char_u *)".,w,b,u,t,i", (char_u *)0L}
-+ 			    SCTX_INIT},
-+@@ -1326,7 +1326,7 @@ static struct vimoption options[] =
-+ 			    {(char_u *)NULL, (char_u *)0L}
-+ #endif
-+ 			    SCTX_INIT},
-+-    {"guitabtooltip",  "gtt", P_STRING|P_VI_DEF|P_RWIN,
-++    {"guitabtooltip",  "gtt", P_STRING|P_VI_DEF|P_RWIN|P_MLE,
-+ #if defined(FEAT_GUI_TABLINE)
-+ 			    (char_u *)&p_gtt, PV_NONE, NULL, NULL,
-+ 			    {(char_u *)"", (char_u *)0L}
-+@@ -2044,7 +2044,7 @@ static struct vimoption options[] =
-+ 			    {(char_u *)NULL, (char_u *)0L}
-+ #endif
-+ 			    SCTX_INIT},
-+-    {"printheader", "pheader",  P_STRING|P_VI_DEF|P_GETTEXT,
-++    {"printheader", "pheader",  P_STRING|P_VI_DEF|P_GETTEXT|P_MLE,
-+ #ifdef FEAT_PRINTER
-+ 			    (char_u *)&p_header, PV_NONE, NULL, NULL,
-+ 			    // untranslated to avoid problems when 'encoding'
-+diff --git a/src/testdir/test_modeline.vim b/src/testdir/test_modeline.vim
-+index 1f8686328a..c00032ba72 100644
-+--- a/src/testdir/test_modeline.vim
-++++ b/src/testdir/test_modeline.vim
-+@@ -361,4 +361,29 @@ func Test_modeline_disable()
-+   call assert_equal(2, &sw)
-+ endfunc
-+ 
-++func Test_modeline_forbidden()
-++  let tempfile = tempname()
-++  let lines =<< trim END
-++    some test text for completion
-++    vim: set complete=F{->system('touch_should_not_run')} :
-++  END
-++  call writefile(lines, tempfile, 'D')
-++  call assert_fails($'new {tempfile}', 'E992:')
-++  bw!
-++  let lines =<< trim END
-++    some text
-++    vim: set guitabtooltip=%{%mapset()%}:
-++  END
-++  call writefile(lines, tempfile)
-++  call assert_fails($'new {tempfile}', 'E992:')
-++  bw!
-++  let lines =<< trim END
-++    some text
-++    vim: set printheader=%{mapset('n',0,{})%)%}:
-++  END
-++  call writefile(lines, tempfile, 'D')
-++  call assert_fails($'new {tempfile}', 'E992:')
-++  bw!
-++endfunc
-++
-+ " vim: shiftwidth=2 sts=2 expandtab
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-support/vim/files/CVE-2026-35177.patch b/meta/recipes-support/vim/files/CVE-2026-35177.patch
-new file mode 100644
-index 00000000000..66e5e975e4d
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-35177.patch
-@@ -0,0 +1,60 @@
-+From 7088926316d8d4a7572a242d0765e99adfc8b083 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Wed, 1 Apr 2026 16:23:49 +0000
-+Subject: [PATCH] patch 9.2.0280: [security]: path traversal issue in zip.vim
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Problem:  [security]: path traversal issue in zip.vim
-+          (Michał Majchrowicz)
-+Solution: Detect more such attacks and warn the user.
-+
-+Github Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-jc86-w7vm-8p24
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+CVE: CVE-2026-35177
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/7088926316d8d4a7572a242d0765e99adfc8b083]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ runtime/autoload/zip.vim | 8 +++++++-
-+ 1 files changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/runtime/autoload/zip.vim b/runtime/autoload/zip.vim
-+index c46ec44708..e57fbcfde0 100644
-+--- a/runtime/autoload/zip.vim
-++++ b/runtime/autoload/zip.vim
-+@@ -16,6 +16,7 @@
-+ " 2024 Aug 21 by Vim Project: simplify condition to detect MS-Windows
-+ " 2025 Mar 11 by Vim Project: handle filenames with leading '-' correctly
-+ " 2025 Jul 12 by Vim Project: drop ../ on write to prevent path traversal attacks
-++" 2026 Apr 01 by Vim Project: Detect more path traversal attacks
-+ " License:	Vim License  (see vim's :help license)
-+ " Copyright:	Copyright (C) 2005-2019 Charles E. Campbell {{{1
-+ "		Permission is hereby granted to use and distribute this code,
-+@@ -246,6 +247,11 @@ fun! zip#Write(fname)
-+     return
-+   endif
-+ 
-++  if simplify(a:fname) =~ '\.\.[/\\]'
-++    call s:Mess('Error', "***error*** (zip#Write) Path Traversal Attack detected, not writing!")
-++    return
-++  endif
-++
-+   let curdir= getcwd()
-+   let tmpdir= tempname()
-+   if tmpdir =~ '\.'
-+@@ -344,7 +350,7 @@ fun! zip#Extract()
-+   if fname =~ '/$'
-+     call s:Mess('Error', "***error*** (zip#Extract) Please specify a file, not a directory")
-+     return
-+-  elseif fname =~ '^[.]\?[.]/'
-++  elseif fname =~ '^[.]\?[.]/' || simplify(fname) =~ '\.\.[/\\]'
-+     call s:Mess('Error', "***error*** (zip#Browse) Path Traversal Attack detected, not extracting!")
-+     return
-+   endif
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 1396ac4fbc7..e9b5df291d2 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -22,6 +22,9 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-28418.patch \
-            file://CVE-2026-28419.patch \
-            file://CVE-2026-39881.patch \
-+           file://CVE-2026-34982.patch \
-+           file://CVE-2026-34714.patch \
-+           file://CVE-2026-35177.patch \
++ # The rndjent module needs to be compiled without optimization.  */
++ if ENABLE_O_FLAG_MUNGING
++-o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O0 /' -e 's/[[:blank:]]-Ofast/ -O0 /g'
+++o_flag_munging = sed -e 's/[[:blank:]]-O\([2-9sgz][2-9sgz]*\)/ -O0 /g' -e 's/[[:blank:]]-Ofast/ -O0 /g'
++ else
++ o_flag_munging = cat
++ endif
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.10.4.bb
+similarity index 92%
+rename from meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
+rename to meta/recipes-support/libgcrypt/libgcrypt_1.10.4.bb
+index 3d49d586bb7..96e3a692b6f 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.10.4.bb
+@@ -25,9 +25,9 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://no-native-gpg-error.patch \
+            file://no-bench-slope.patch \
+            file://run-ptest \
+-           file://0001-Fix-building-error-with-O2-in-sysroot-path.patch \
++           file://0002-random-cipher-handle-substitution-in-sed-command.patch \
             "
+-SRC_URI[sha256sum] = "8b0870897ac5ac67ded568dcfadf45969cfa8a6beb0fd60af2a9eadc2a3272aa"
++SRC_URI[sha256sum] = "d6d2f835a79711ceba54b53d1081d388d24fb0341d79a268a6557e12908a90a0"
  
- PV .= ".1683"
+ BINCONFIG = "${bindir}/libgcrypt-config"
+ 
 
