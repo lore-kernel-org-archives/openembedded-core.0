@@ -2,62 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F01BFC4450D
-	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 10:07:17 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5811.1783591633340939278
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 458ECC44510
+	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 10:07:18 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5804.1783591627602935274
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2026 03:07:13 -0700
+ Thu, 09 Jul 2026 03:07:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=o02V65Ww;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493b779003fso3741055e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:07:13 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=HjqWdZs6;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-493c7902f47so12974265e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783591631; x=1784196431; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1783591626; x=1784196426; darn=lists.openembedded.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YJ83YOfjsYRmWhQ8EXfPiORsqBU5IdpoU9XMHSdoXNo=;
-        b=o02V65WwuE2U0KaEBfJbcPa4vXuF6uaHpKEzScHgxgPn5Ud+dt2yh3q8zHR77HByJf
-         XmRpIPgOJTKLhJxX9J7asIJVMsk0HiPWqIJDrY3ifXSnaOO5w3GndWaQJ5JrmdDjqFRu
-         rfrBY4QoXuyd8GmaiM7tL5zHbQ3kD7o4vWrH8=
+        bh=s78DQD9pLNJ+PIFZRBtDK711a+6GaDeOHPmI/BGmLR4=;
+        b=HjqWdZs69WZ8Dm5wYLE3udAHpvG5oFRoFqYxcoWsOArCouYfEe3ikqFKuHwNd8LRUc
+         eL5xJpKgQP7cYZS0FbfAHTbsusaIlkebhqqYWfAQ5IQKFsyEpaH8mrECiA53u+wGkwlb
+         rU+Xo96kBIF42iXvKNRGHMdWWoA9BtGdpB2qQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783591631; x=1784196431;
+        d=1e100.net; s=20251104; t=1783591626; x=1784196426;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YJ83YOfjsYRmWhQ8EXfPiORsqBU5IdpoU9XMHSdoXNo=;
-        b=exHd2WWoPFmh6SFUAWHJ3gqvIv/aYz5G8ke7f0fVhkyBdosNfBnmu0gjM6Fy2Ia7ot
-         zqZgQt6upW+lW1aGFHe4ENWHIwLvbi6fOThgtbtyC6G7+25goXp5d/NNrNKvmfCe0LpD
-         OxY1ohOULBKljdu/CFH3+TpWh9Zr5/dCRp5ZvBgeJh0RyMdL221v1BiUnUFTgOqZC1Px
-         HYjE4+c57IcpyuMI7SWFaXRnvuUtr1gw1dedI0TDWZX8sCyoc++pCk8MrjAAfnVr/4Mr
-         kaSPrIWqr97wIi059dS51blT8Tcv3YVr6X3kdLO9AdhAxzyLfpNAYRBOyjf7PWuKgOMN
-         79nA==
-X-Gm-Message-State: AOJu0YwDuvLK8Xtkn9hg/Dea0ABg0W1PhOoAuRITASl9Niu8AhdufbEI
-	Fihm6EtCj7wP0C02KWQtrVsH2vXNMIzrI86o2WaUCB+XflxL0rcv0JSlu9//XSb4Hmr20BwwZ9f
-	2qqK7iGQ=
-X-Gm-Gg: AfdE7cmIFK2u84AmOVoPTjG6/BJ20OvHd+iMKMgVC/dxsWrz2OfuBwU4hNEBYU+sXfi
-	Uw1jToEXiyMdx7onlLVEU2VlBRXC+deJH29qYl1oMsVkynGxUKWNPlg77E3/DVWtd66N/n6QF51
-	RBCJs8FEmcSww3ODjcwh+gAYFtN3P5K3bKnBd7NmQRGX6cSQMfMMErKT7CcylEbAfFcMCnBigVZ
-	UftKfakSVHjGBnzxh5qxwZ18OBjTsSXMPz3SthjcmROquDdNhJ+gvf+86oYOdJOEORVrGtaeP/K
-	47MRiS8FEq6Ph4v6yudX4xJXWPGmcH+41COlhldmMcs9hZRFTem1tBYW8+l4yrk+GuF6gZD6mTc
-	UyK51UxDHww4Ri8S8D3kxjA80Cr7tmriKkfPV7m8G3MZG9av9BNLTuDKhMk2f5jVwBsSAJx54gA
-	rRHwY8goM4VXsrm/fGzMiWaUtAU1nJj/fEy0xBPkMpbmbNAfNU6buWg6JeCluIkP3sJpbAoFXHa
-	Dmpu1uBdbslmbBQYQ==
-X-Received: by 2002:a05:600d:8496:20b0:493:ae5d:8c40 with SMTP id 5b1f17b1804b1-493e68e9ff7mr43205745e9.27.1783591631522;
-        Thu, 09 Jul 2026 03:07:11 -0700 (PDT)
+        bh=s78DQD9pLNJ+PIFZRBtDK711a+6GaDeOHPmI/BGmLR4=;
+        b=e8cYrEQhXCIVyvet+T8EyIc3BJ7uBRsBZKSacfI4T2FoCdsq63DEzBZqfnEJWIQfGM
+         IT3zfzXlG0Oc5U4/QMg/vE9wgoGc/4dcx6A1KfCOWUNsSGN1/7U9BHa7VG78D/GMgd8A
+         Xzv9FQqK8c5jcV1aqTsBU44Dy036pxO9uh3VVVUL68E2yUVDuqPEVybEYyHv32dDR93a
+         yPLTPwgewPLUZHfi4i8qqoM3FJLk9haFsug07GJLpcFK9aUUJr/Aj6Lrsmf16yPWgOJx
+         XdUaE1FG78tsXkkpqlyNSvSO/xIo/nGp7aquKgiMFm0EcmOl9P3nvlKA1aEoKNKnpP8b
+         aeWw==
+X-Gm-Message-State: AOJu0Ywgr2BuXko0DQDrucIzWSXMmpt1s1IN0tZxCIPd+Rk1yXHY29iu
+	9p3BvI7uxsiNbTdhYnaMOnzevs/dmP9ZAtzNsmKzD3zIeJzxDKWvCJCYjgPGrVG0Xl3qotrba1P
+	thYf9rRE=
+X-Gm-Gg: AfdE7cmw+vjkS6hNdZcmQC/k0Ji8nzy/RCWwdErXowkxZLwLPMq7yheABB86r/FFsKk
+	v3M54k1hwN+AbaX8xmXEcK70r0R46VzjnM2oP7oOslrnawLIgOVMiEa7980VMeLsCN81WIkbwmm
+	uT4lP77YsziGQLsWvjchrwt3p05Bdjbs27DhxUzxwCFqJDGb0/6z6F3/RLVMs8kvlO/ySBeUWB0
+	mas01MVk0O6pBr99KxdFymAUU0QLvIOOQTN8BtbntcHxV8cIpjbUqRBMtfEQPlboR1KGJLveeGl
+	Axqa2FSiNi26kgMYt9kV0U+EQYUeF4yDx8D0CINXr+27DTPFOzkcIBR8Y8LBS1O6ZMn5dTR0iOF
+	n/WbLKiOdtrGTIIh+Wi+IERCv4X+YYHat3SfP9COr2TqxovX7xWo7gjHoqcz+z4uNYMRBEHpuUV
+	9LnngM/A6QLoannknVzYmqTcGClbVoxFN79MYM3o2utP1kDPvEmPxOyCmZFKDrwmNxf2GbDpOlM
+	erPHBVYmll/z0j+pw==
+X-Received: by 2002:a05:600c:8b34:b0:493:b03c:5650 with SMTP id 5b1f17b1804b1-493e685f1dbmr59763945e9.19.1783591625719;
+        Thu, 09 Jul 2026 03:07:05 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00fd88810a86c49142.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:fd88:810a:86c4:9142])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm149687135e9.2.2026.07.09.03.07.10
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e5a5d174sm149687135e9.2.2026.07.09.03.07.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 03:07:10 -0700 (PDT)
+        Thu, 09 Jul 2026 03:07:05 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 18/25] qemu: Fix CVE-2025-14876
-Date: Thu,  9 Jul 2026 12:06:34 +0200
-Message-ID: <04fae4fb45022104757c7f36b3bae9978d7c1265.1783590688.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 10/25] vim: fix for CVE-2026-34982, CVE-2026-34714 & CVE-2026-35177
+Date: Thu,  9 Jul 2026 12:06:26 +0200
+Message-ID: <8ac3bc9efbac82abf66f5ad41d4bccfdf11fefd5.1783590688.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783590688.git.yoann.congal@smile.fr>
 References: <cover.1783590688.git.yoann.congal@smile.fr>
@@ -67,161 +67,341 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 10:07:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240564
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 10:07:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240557
 
-From: Ashishkumar Parmar <asparmar@cisco.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-This patch applies the upstream v10.0.8 stable backport for
-CVE-2025-14876. The upstream fix commit is referenced in [1],
-and the public CVE advisory is referenced in [2]. The individual
-backported commit links are recorded in the embedded patch headers
-when the fix expands to multiple commits.
+Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
 
-[1] https://gitlab.com/qemu-project/qemu/-/commit/e649201bb96ae7e91a69d57392c8907ec085111e
-[2] https://access.redhat.com/security/cve/CVE-2025-14876
+[1] https://github.com/vim/vim/commit/75661a66a1db1e1f3f1245c615f13a7de44c0587
+[2] https://github.com/vim/vim/commit/664701eb7576edb7c7c7d9f2d600815ec1f43459
+[3] https://github.com/vim/vim/commit/7088926316d8d4a7572a242d0765e99adfc8b083
+[4] https://nvd.nist.gov/vuln/detail/CVE-2026-34982
+[5] https://nvd.nist.gov/vuln/detail/CVE-2026-34714
+[6] https://nvd.nist.gov/vuln/detail/CVE-2026-35177
 
-Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
+More info :
+CVE-2026-34982 - vim: arbitrary command execution via modeline sandbox bypass.
+CVE-2026-34714 - vim: Arbitrary code execution via crafted file.
+CVE-2026-35177 - vim zip.vim plugin: Arbitrary file overwrite via path traversal bypass.
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  2 +
- .../qemu/qemu/CVE-2025-14876_p1.patch         | 52 +++++++++++++++++
- .../qemu/qemu/CVE-2025-14876_p2.patch         | 56 +++++++++++++++++++
- 3 files changed, 110 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p2.patch
+ .../vim/files/CVE-2026-34714.patch            | 109 ++++++++++++++++++
+ .../vim/files/CVE-2026-34982.patch            | 105 +++++++++++++++++
+ .../vim/files/CVE-2026-35177.patch            |  60 ++++++++++
+ meta/recipes-support/vim/vim.inc              |   3 +
+ 4 files changed, 277 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-34714.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-34982.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-35177.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index ff8877e54b7..f973c0a8d1e 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -48,6 +48,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2025-11234-01.patch \
-            file://CVE-2025-11234-02.patch \
-            file://CVE-2024-6519.patch \
-+           file://CVE-2025-14876_p1.patch \
-+           file://CVE-2025-14876_p2.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p1.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-34714.patch b/meta/recipes-support/vim/files/CVE-2026-34714.patch
 new file mode 100644
-index 00000000000..1f47ff2ebcc
+index 00000000000..fef167e535e
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p1.patch
-@@ -0,0 +1,52 @@
-+From 96ac1b4f958287776ec2199749beaaad60148a85 Mon Sep 17 00:00:00 2001
-+From: zhenwei pi <pizhenwei@tensorfer.com>
-+Date: Sun, 21 Dec 2025 10:43:20 +0800
-+Subject: [PATCH] hw/virtio/virtio-crypto: verify asym request size
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-support/vim/files/CVE-2026-34714.patch
+@@ -0,0 +1,109 @@
++From 664701eb7576edb7c7c7d9f2d600815ec1f43459 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Mon, 30 Mar 2026 08:20:43 +0000
++Subject: [PATCH] patch 9.2.0272: [security]: 'tabpanel' can be set in a
++ modeline
 +
-+The total lenght of request is limited by cryptodev config, verify it
-+to avoid unexpected request from guest.
++Problem:  'tabpanel' can be set in a modeline
++Solution: Set the P_MLE flag for the 'tabpanel' option, disable
++          autocmd_add()/autocomd_delete() functions in restricted/secure
++          mode.
 +
-+CVE: CVE-2025-14876
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/e649201bb96ae7e91a69d57392c8907ec085111e]
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-2gmj-rpqf-pxvh
 +
-+Fixes: CVE-2025-14876
-+Fixes: 0e660a6f90a ("crypto: Introduce RSA algorithm")
-+Reported-by: 이재영 <nakamurajames123@gmail.com>
-+Signed-off-by: zhenwei pi <zhenwei.pi@linux.dev>
-+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-+Message-Id: <20251221024321.143196-2-zhenwei.pi@linux.dev>
-+(cherry picked from commit 91c6438caffc880e999a7312825479685d659b44)
-+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-+(cherry picked from commit e649201bb96ae7e91a69d57392c8907ec085111e)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++CVE: CVE-2026-34714
++Upstream-Status: Backport [https://github.com/vim/vim/commit/664701eb7576edb7c7c7d9f2d600815ec1f43459]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ hw/virtio/virtio-crypto.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
++ src/autocmd.c                 |  3 +++
++ src/optiondefs.h              |  2 +-
++ src/testdir/test_autocmd.vim  |  5 +++++
++ src/testdir/test_tabpanel.vim | 16 ++++++++++++++++
++ src/version.c                 |  2 ++
++ 5 files changed, 27 insertions(+), 1 deletion(-)
 +
-+diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-+index 4aaced74b..6927f7d1a 100644
-+--- a/hw/virtio/virtio-crypto.c
-++++ b/hw/virtio/virtio-crypto.c
-+@@ -767,11 +767,18 @@ virtio_crypto_handle_asym_req(VirtIOCrypto *vcrypto,
-+     uint32_t len;
-+     uint8_t *src = NULL;
-+     uint8_t *dst = NULL;
-++    uint64_t max_len;
++diff --git a/src/autocmd.c b/src/autocmd.c
++index 94f9c1fba4..8a6b363aad 100644
++--- a/src/autocmd.c
+++++ b/src/autocmd.c
++@@ -3069,6 +3069,9 @@ autocmd_add_or_delete(typval_T *argvars, typval_T *rettv, int delete)
++     rettv->v_type = VAR_BOOL;
++     rettv->vval.v_number = VVAL_FALSE;
 + 
-+     asym_op_info = g_new0(CryptoDevBackendAsymOpInfo, 1);
-+     src_len = ldl_le_p(&req->para.src_data_len);
-+     dst_len = ldl_le_p(&req->para.dst_data_len);
-+ 
-++    max_len = (uint64_t)src_len + dst_len;
-++    if (unlikely(max_len > vcrypto->conf.max_size)) {
-++        virtio_error(vdev, "virtio-crypto asym request is too large");
-++        goto err;
-++    }
+++    if (check_restricted() || check_secure())
+++	return;
 ++
-+     if (src_len > 0) {
-+         src = g_malloc0(src_len);
-+         len = iov_to_buf(iov, out_num, 0, src, src_len);
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p2.patch
++     if (check_for_list_arg(argvars, 0) == FAIL)
++ 	return;
++ 
++diff --git a/src/optiondefs.h b/src/optiondefs.h
++index 62d142e637..bd02d04f47 100644
++--- a/src/optiondefs.h
+++++ b/src/optiondefs.h
++@@ -2570,7 +2570,7 @@ static struct vimoption options[] =
++ 			    (char_u *)&p_tpm, PV_NONE, NULL, NULL,
++ 			    {(char_u *)10L, (char_u *)0L} SCTX_INIT},
++ #if defined(FEAT_TABPANEL)
++-    {"tabpanel",  "tpl",    P_STRING|P_VI_DEF|P_RALL,
+++    {"tabpanel",  "tpl",    P_STRING|P_VI_DEF|P_RALL|P_MLE,
++ 			    (char_u *)&p_tpl, PV_NONE, NULL, NULL,
++ 			    {(char_u *)"", (char_u *)0L} SCTX_INIT},
++     {"tabpanelopt","tplo",  P_STRING|P_ALLOCED|P_VI_DEF|P_ONECOMMA|P_COLON
++diff --git a/src/testdir/test_autocmd.vim b/src/testdir/test_autocmd.vim
++index 43605f7e11..1fea13b00a 100644
++--- a/src/testdir/test_autocmd.vim
+++++ b/src/testdir/test_autocmd.vim
++@@ -5501,4 +5501,9 @@ func Test_VimResized_and_window_width_not_equalized()
++   call StopVimInTerminal(buf)
++ endfunc
++ 
+++func Test_autocmd_add_secure()
+++  call assert_fails('sandbox call autocmd_add([{"event": "BufRead", "cmd": "let x = 1"}])', 'E48:')
+++  call assert_fails('sandbox call autocmd_delete([{"event": "BufRead"}])', 'E48:')
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++diff --git a/src/testdir/test_tabpanel.vim b/src/testdir/test_tabpanel.vim
++index ecc12b59be..b0d4202dc4 100644
++--- a/src/testdir/test_tabpanel.vim
+++++ b/src/testdir/test_tabpanel.vim
++@@ -770,4 +770,20 @@ function Test_tabpanel_with_cmdline_pum()
++ 
++   call StopVimInTerminal(buf)
++ endfunc
+++
+++func Test_tabpanel_no_modeline()
+++  let _tpl = &tabpanel
+++  let _mls = &modelineexpr
+++
+++  set nomodelineexpr
+++  setlocal modeline
+++  new
+++  call writefile(['/* vim: set tabpanel=test: */'], 'Xtabpanel.txt', 'D')
+++  call assert_fails(':e Xtabpanel.txt', 'E992:')
+++
+++  let &tabpanel = _tpl
+++  let &modelineexpr = _mls
+++  bw!
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++diff --git a/src/version.c b/src/version.c
++index 4f47ec2688..309ddf7f7c 100644
++--- a/src/version.c
+++++ b/src/version.c
++@@ -724,6 +724,8 @@ static char *(features[]) =
++ 
++ static int included_patches[] =
++ {   /* Add new patch number below this line */
+++/**/
+++    1687,
++ /**/
++     1686,
++ /**/
++-- 
++2.50.1
++
+diff --git a/meta/recipes-support/vim/files/CVE-2026-34982.patch b/meta/recipes-support/vim/files/CVE-2026-34982.patch
 new file mode 100644
-index 00000000000..60432c8ebb9
+index 00000000000..e896f3b44d5
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2025-14876_p2.patch
-@@ -0,0 +1,56 @@
-+From 17f89320724d16437a26a250c82b1649777387f1 Mon Sep 17 00:00:00 2001
-+From: zhenwei pi <pizhenwei@tensorfer.com>
-+Date: Sun, 21 Dec 2025 10:43:21 +0800
-+Subject: [PATCH] cryptodev-builtin: Limit the maximum size
++++ b/meta/recipes-support/vim/files/CVE-2026-34982.patch
+@@ -0,0 +1,105 @@
++From 75661a66a1db1e1f3f1245c615f13a7de44c0587 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Tue, 31 Mar 2026 18:29:00 +0000
++Subject: [PATCH] patch 9.2.0276: [security]: modeline security bypass
++
++Problem:  [security]: modeline security bypass
++Solution: disallow mapset() from secure mode, set the P_MLE flag for the
++          'complete', 'guitabtooltip' and 'printheader' options.
++
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-8h6p-m6gr-mpw9
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++CVE: CVE-2026-34982
++Upstream-Status: Backport [https://github.com/vim/vim/commit/75661a66a1db1e1f3f1245c615f13a7de44c0587]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/map.c                     |  3 +++
++ src/optiondefs.h              |  6 +++---
++ src/testdir/test_modeline.vim | 25 +++++++++++++++++++++++++
++ 3 files changed, 31 insertions(+), 3 deletions(-)
++
++diff --git a/src/map.c b/src/map.c
++index fbecf4aced..7677243625 100644
++--- a/src/map.c
+++++ b/src/map.c
++@@ -2746,6 +2746,9 @@ f_mapset(typval_T *argvars, typval_T *rettv UNUSED)
++     int		dict_only;
++     mapblock_T	*mp_result[2] = {NULL, NULL};
++ 
+++    if (check_secure())
+++	return;
+++
++     // If first arg is a dict, then that's the only arg permitted.
++     dict_only = argvars[0].v_type == VAR_DICT;
++     if (in_vim9script()
++diff --git a/src/optiondefs.h b/src/optiondefs.h
++index 77155a63e8..62d142e637 100644
++--- a/src/optiondefs.h
+++++ b/src/optiondefs.h
++@@ -683,7 +683,7 @@ static struct vimoption options[] =
++     {"compatible",  "cp",   P_BOOL|P_RALL,
++ 			    (char_u *)&p_cp, PV_NONE, did_set_compatible, NULL,
++ 			    {(char_u *)TRUE, (char_u *)FALSE} SCTX_INIT},
++-    {"complete",    "cpt",  P_STRING|P_ALLOCED|P_VI_DEF|P_ONECOMMA|P_NODUP,
+++    {"complete",    "cpt",  P_STRING|P_ALLOCED|P_VI_DEF|P_ONECOMMA|P_NODUP|P_MLE,
++ 			    (char_u *)&p_cpt, PV_CPT, did_set_complete, expand_set_complete,
++ 			    {(char_u *)".,w,b,u,t,i", (char_u *)0L}
++ 			    SCTX_INIT},
++@@ -1326,7 +1326,7 @@ static struct vimoption options[] =
++ 			    {(char_u *)NULL, (char_u *)0L}
++ #endif
++ 			    SCTX_INIT},
++-    {"guitabtooltip",  "gtt", P_STRING|P_VI_DEF|P_RWIN,
+++    {"guitabtooltip",  "gtt", P_STRING|P_VI_DEF|P_RWIN|P_MLE,
++ #if defined(FEAT_GUI_TABLINE)
++ 			    (char_u *)&p_gtt, PV_NONE, NULL, NULL,
++ 			    {(char_u *)"", (char_u *)0L}
++@@ -2044,7 +2044,7 @@ static struct vimoption options[] =
++ 			    {(char_u *)NULL, (char_u *)0L}
++ #endif
++ 			    SCTX_INIT},
++-    {"printheader", "pheader",  P_STRING|P_VI_DEF|P_GETTEXT,
+++    {"printheader", "pheader",  P_STRING|P_VI_DEF|P_GETTEXT|P_MLE,
++ #ifdef FEAT_PRINTER
++ 			    (char_u *)&p_header, PV_NONE, NULL, NULL,
++ 			    // untranslated to avoid problems when 'encoding'
++diff --git a/src/testdir/test_modeline.vim b/src/testdir/test_modeline.vim
++index 1f8686328a..c00032ba72 100644
++--- a/src/testdir/test_modeline.vim
+++++ b/src/testdir/test_modeline.vim
++@@ -361,4 +361,29 @@ func Test_modeline_disable()
++   call assert_equal(2, &sw)
++ endfunc
++ 
+++func Test_modeline_forbidden()
+++  let tempfile = tempname()
+++  let lines =<< trim END
+++    some test text for completion
+++    vim: set complete=F{->system('touch_should_not_run')} :
+++  END
+++  call writefile(lines, tempfile, 'D')
+++  call assert_fails($'new {tempfile}', 'E992:')
+++  bw!
+++  let lines =<< trim END
+++    some text
+++    vim: set guitabtooltip=%{%mapset()%}:
+++  END
+++  call writefile(lines, tempfile)
+++  call assert_fails($'new {tempfile}', 'E992:')
+++  bw!
+++  let lines =<< trim END
+++    some text
+++    vim: set printheader=%{mapset('n',0,{})%)%}:
+++  END
+++  call writefile(lines, tempfile, 'D')
+++  call assert_fails($'new {tempfile}', 'E992:')
+++  bw!
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++-- 
++2.35.7
++
+diff --git a/meta/recipes-support/vim/files/CVE-2026-35177.patch b/meta/recipes-support/vim/files/CVE-2026-35177.patch
+new file mode 100644
+index 00000000000..66e5e975e4d
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-35177.patch
+@@ -0,0 +1,60 @@
++From 7088926316d8d4a7572a242d0765e99adfc8b083 Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Wed, 1 Apr 2026 16:23:49 +0000
++Subject: [PATCH] patch 9.2.0280: [security]: path traversal issue in zip.vim
 +MIME-Version: 1.0
 +Content-Type: text/plain; charset=UTF-8
 +Content-Transfer-Encoding: 8bit
 +
-+This backend driver is used for demonstration purposes only, unlimited
-+size leads QEMU OOM.
++Problem:  [security]: path traversal issue in zip.vim
++          (Michał Majchrowicz)
++Solution: Detect more such attacks and warn the user.
 +
-+CVE: CVE-2025-14876
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/3464e88bc98d72acc3a9674054b9ed0c3d4e9b90]
++Github Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-jc86-w7vm-8p24
 +
-+Fixes: CVE-2025-14876
-+Fixes: 1653a5f3fc7 ("cryptodev: introduce a new cryptodev backend")
-+Reported-by: 이재영 <nakamurajames123@gmail.com>
-+Signed-off-by: zhenwei pi <zhenwei.pi@linux.dev>
-+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-+Message-Id: <20251221024321.143196-3-zhenwei.pi@linux.dev>
-+(cherry picked from commit 7b913094c703641a0442bb1d1165323a019c591c)
-+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-+(cherry picked from commit 3464e88bc98d72acc3a9674054b9ed0c3d4e9b90)
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++CVE: CVE-2026-35177
++Upstream-Status: Backport [https://github.com/vim/vim/commit/7088926316d8d4a7572a242d0765e99adfc8b083]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ backends/cryptodev-builtin.c | 9 +++------
-+ 1 file changed, 3 insertions(+), 6 deletions(-)
++ runtime/autoload/zip.vim | 8 +++++++-
++ 1 files changed, 7 insertions(+), 1 deletion(-)
 +
-+diff --git a/backends/cryptodev-builtin.c b/backends/cryptodev-builtin.c
-+index 940104ee5..a4c544b6d 100644
-+--- a/backends/cryptodev-builtin.c
-++++ b/backends/cryptodev-builtin.c
-+@@ -53,6 +53,8 @@ typedef struct CryptoDevBackendBuiltinSession {
++diff --git a/runtime/autoload/zip.vim b/runtime/autoload/zip.vim
++index c46ec44708..e57fbcfde0 100644
++--- a/runtime/autoload/zip.vim
+++++ b/runtime/autoload/zip.vim
++@@ -16,6 +16,7 @@
++ " 2024 Aug 21 by Vim Project: simplify condition to detect MS-Windows
++ " 2025 Mar 11 by Vim Project: handle filenames with leading '-' correctly
++ " 2025 Jul 12 by Vim Project: drop ../ on write to prevent path traversal attacks
+++" 2026 Apr 01 by Vim Project: Detect more path traversal attacks
++ " License:	Vim License  (see vim's :help license)
++ " Copyright:	Copyright (C) 2005-2019 Charles E. Campbell {{{1
++ "		Permission is hereby granted to use and distribute this code,
++@@ -246,6 +247,11 @@ fun! zip#Write(fname)
++     return
++   endif
 + 
-+ #define CRYPTODEV_BUITLIN_MAX_AUTH_KEY_LEN    512
-+ #define CRYPTODEV_BUITLIN_MAX_CIPHER_KEY_LEN  64
-++/* demonstration purposes only, use a limited size to avoid QEMU OOM */
-++#define CRYPTODEV_BUITLIN_MAX_REQUEST_SIZE  (1024 * 1024)
-+ 
-+ struct CryptoDevBackendBuiltin {
-+     CryptoDevBackend parent_obj;
-+@@ -98,12 +100,7 @@ static void cryptodev_builtin_init(
-+                          1u << QCRYPTODEV_BACKEND_SERVICE_MAC;
-+     backend->conf.cipher_algo_l = 1u << VIRTIO_CRYPTO_CIPHER_AES_CBC;
-+     backend->conf.hash_algo = 1u << VIRTIO_CRYPTO_HASH_SHA1;
-+-    /*
-+-     * Set the Maximum length of crypto request.
-+-     * Why this value? Just avoid to overflow when
-+-     * memory allocation for each crypto request.
-+-     */
-+-    backend->conf.max_size = LONG_MAX - sizeof(CryptoDevBackendOpInfo);
-++    backend->conf.max_size = CRYPTODEV_BUITLIN_MAX_REQUEST_SIZE;
-+     backend->conf.max_cipher_key_len = CRYPTODEV_BUITLIN_MAX_CIPHER_KEY_LEN;
-+     backend->conf.max_auth_key_len = CRYPTODEV_BUITLIN_MAX_AUTH_KEY_LEN;
-+     cryptodev_builtin_init_akcipher(backend);
+++  if simplify(a:fname) =~ '\.\.[/\\]'
+++    call s:Mess('Error', "***error*** (zip#Write) Path Traversal Attack detected, not writing!")
+++    return
+++  endif
+++
++   let curdir= getcwd()
++   let tmpdir= tempname()
++   if tmpdir =~ '\.'
++@@ -344,7 +350,7 @@ fun! zip#Extract()
++   if fname =~ '/$'
++     call s:Mess('Error', "***error*** (zip#Extract) Please specify a file, not a directory")
++     return
++-  elseif fname =~ '^[.]\?[.]/'
+++  elseif fname =~ '^[.]\?[.]/' || simplify(fname) =~ '\.\.[/\\]'
++     call s:Mess('Error', "***error*** (zip#Browse) Path Traversal Attack detected, not extracting!")
++     return
++   endif
++-- 
++2.35.7
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 1396ac4fbc7..e9b5df291d2 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -22,6 +22,9 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-28418.patch \
+            file://CVE-2026-28419.patch \
+            file://CVE-2026-39881.patch \
++           file://CVE-2026-34982.patch \
++           file://CVE-2026-34714.patch \
++           file://CVE-2026-35177.patch \
+            "
+ 
+ PV .= ".1683"
 
