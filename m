@@ -1,105 +1,130 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <roland.kovacs@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A579C43458
-	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 10:11:00 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5899.1783591859072739055
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA26C43458
+	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 12:37:50 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8179.1783600668873458940
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2026 03:10:59 -0700
+ Thu, 09 Jul 2026 05:37:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=RulsQJ4J;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8f18d92172aso23113146d6.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 03:10:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783591858; cv=none;
-        d=google.com; s=arc-20260327;
-        b=b38/VKebXUGnJDaQb8Hp2fNIbI6/Fl+RP5hI4OOKWNnXwqynK/eYcdm1Rs327cabd0
-         DCa+X2d/DpyLf+XAa/5Agwg6XcttItTQbsMjI5qOfKE8r8A878iDqzSuFw6nQZ2YZVmp
-         CYIEICILCAMARLTd/wV3KDHhUVONxhPevxBRGIU7mH8qG+13UPutWT6J+eJdX49+YKWR
-         rhcv4fuuqtwHnY0ZyCDSsS1KROIYNrx0sYrfYETwRWWkxFYnyzUfa3HM0bdXEgFCvesb
-         GVIhQcue3yWf8napifjmWTuvYGpW7kbQh48qZ7UedQpQmgpIs/Vx82yNLYTST8om4rVj
-         IXlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=CJ9sxZvBYmxD9UapJqNjxbNAg5NbhWTqmvoDEiMOwWE=;
-        fh=cPBSa2bPcOK65+sz6qCMWy/OU7OhGJNaXGJCXkhGLPo=;
-        b=bZjuZc5euT+h34q219h/SCm+fdYpal0kfvGp2UVn+MqEbQNvnQWrRCSpVwAhGWrpY1
-         xEhoz7mxB/2JCW2eB2mc4gx0gtGYZQZxmuwoYV+1zqO8/jf0ipEXnx2CCVXz34Q58phr
-         8oIunduApaTmvDj18P6vibf0ClJLYnqgkNSij0RbqPCmIEiXu1Fx9HToxevH9YXphHPT
-         tXc0GtUzaFOxd9ORmBiv6Y+Gfd+bwVFcBZm0nCO55oomRJq1U5sfPrh2jcN1GzHBVEH9
-         IWCmA6Aka49/mEZDdMIhMJkB2Cyt6LJzLXRxzCBG2Hewaia4XtcXja89MqMX9pBFjSxt
-         1doA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783591858; x=1784196658; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CJ9sxZvBYmxD9UapJqNjxbNAg5NbhWTqmvoDEiMOwWE=;
-        b=RulsQJ4J2ygGWLH6amePxVnXhia/95LqYwR1KXiXckqmc19qsJio5jrrwQ6STSf0hP
-         byTJud0ZnREafvh5UB76862cncqUggv/yE8yKTJiHVQgvakCeleb4GMDlFl/q58Lxg6z
-         DXwNphe+n/vyzrNtZRxJG42wapDieFZJKFOnmJl4VQRMLg6k1iPY23rsgzc+qMj4GNes
-         t/pdC1o8l5zTzmL9u9Yx9Dbro0lEgCIlWFrSz41OHwwT0qcF1BEP+FDQIEwWbVPIqQuj
-         nwMA/jhzon932BHyYaiuxcyWfyAJFOpDLwYXIHrjPOv6F2kAiTdX9aHYPCTUQtWhWtw+
-         AGig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783591858; x=1784196658;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=CJ9sxZvBYmxD9UapJqNjxbNAg5NbhWTqmvoDEiMOwWE=;
-        b=Y/AbfwFYrj4EVBAm/tRgPxILkuICQ7JaY3y+uT5UOK3OFoxvLy+GY1zoRFJ0kz/n1K
-         /aJAaY53kjIlQOv/I00Xx3fPmdpGWnS8uxnnq1aNFzMbw6rVhbU2cI5wXPJ2eaDE8R/B
-         S5syoriPgsB2TFO5E7bnbhqXLOAU+7UQGBmKwYHs+v+ypufMwFUIuUi8ySJDpHmesBj6
-         b8xMBgIlf2IDSG8t8OI5L26erAkaGiXl3JiAAZ8/vtP1iKteNiPBJHvLWGOwt5vjxlbY
-         ri3O9sS9hHx8d2MLXZkn5uEreUPwYL5TPP1PCLYAa8oYYuWDdmwzsLjJ2OfgJZzO+KPN
-         ddsg==
-X-Gm-Message-State: AOJu0YzNQ4mT2lFd9e4A3LWiAFCRyCalG94EcdL1N/uWIRgFOzwtLhmR
-	g9eab034H8gvfS6V000paY87KNb/0GcDKQ8LABaZMqRtgSDVYCr3n2oarrEOi0Wu2qfJwvOCpmk
-	T9NyFYdyT/m6enx+NPy1PNeQISu80qdO/+Q==
-X-Gm-Gg: AfdE7ck34VgcejS+ytMaR2FjWfdqVi0mW7pZrudeNIWQ6BzlQjhAwO13QL0gq9MyuhA
-	plnhvm5KfBZfy+H1kKBVcGUuPpQC7s1XtYM4ENz+REzmVPh0k7yU7/lJFGU39ZBAu/gR64rOwhQ
-	Kp11yfZHczULW/tdKTm3WBKj6E8D8GmkP0iVnCFFtMkxK8OF3VCKhxKHLRzyPFRKKJG18KkUdHj
-	rjNhMRJYALV94QyDqXmshJ5DXP7YlH0HjOd5oJsNrReb18UvPfltnrtbsFhD5L+C6+ufDWYT3K2
-	dsqAMFJ2YqwA71rs0W95Cro4KLl56sw=
-X-Received: by 2002:ad4:5aea:0:b0:8dd:d13a:8c84 with SMTP id
- 6a1803df08f44-8fec03f0092mr68977876d6.8.1783591857348; Thu, 09 Jul 2026
- 03:10:57 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=oZFXDvy5;
+ spf=pass (domain: est.tech, ip: 52.101.84.44, mailfrom: roland.kovacs@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=p069c0ANB8Idp5ImoP1ERv72NGnGjGwmc2BIqYt7Yp5/k8Ew8sp9t79+9vvR6PmJHiMvbfyYrcq/sCidOb9x0WXbfO1E+uzac98cZq/CqDgRSt2GOtkJGH7oc8vFeghxms8bYhzwtpih6bs9Odpa39+XbMeIMcbHbSUpydniLJngnRdviqBp2F5+waj3G0pIYsPV4CQ2vxCAuorS7Rtq1PeKVXrOmjKtDK3bhhe1p/8O5KR/qDX5jy2ZWGtbeVmc1bR3M5MuLs9cSCYIshXDh5gi6B9Fb6tnRVqI6N8TNOKnm/NHUXDmrpCey0xIFHzGiXMGlEbqz5OfF1c0UrIdTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+Xuxf4krXwGUBxQIPcM68ZSccRs8HCsLTRVstuiTLIc=;
+ b=u5yoCc9WmwEwTaNIONh2aywRbrTY30TX7WATERLU1XRMV586vdTG4VOeE6wo1Oo1me2NK+Y9xciksXAgZUZ5RhKDEBwKwgOE2yGyPPMSCf6RtBrvRB0PijxoVEMQ7IfLYKd8ortOEVFX5sA8agioc+LBb8hUomXQLZvGCtKXTpUv+vHKmQkU1enIWHNXcwsVQUKSfo/07KcLcx7bofyhLBER2Ds/xnIWcFQ0Jn/9vQT76qjmcWfIO7OFTzsfFGyKIE5m3CeOaN+wc3BRDVtv7d4zP0v4Svui6ZYpNa0CipTa8QRZPmwMsDzAzOUkjB2yoH5bMorCwgKltNTevJAAvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+Xuxf4krXwGUBxQIPcM68ZSccRs8HCsLTRVstuiTLIc=;
+ b=oZFXDvy53BugGlUpw33tCVNedJHqT8j47Ts3/1ETBDrgjeatnPsEeXDS6h/u68sBzDDlAm0DfcPO5jXnjolzZm5TGd7ZiXdx6eeUXD1Q/kRDeaxcvS/hFf2YTf2SbqNCduks95KFzQcHIlgAOdiUDfPNAAaD3pfkmrhV4COKaZA0UV5q1+1aD/kl2nhUKaSr1WTSq+D3E55iOc5cBHjO3rjgb0iSDRs6G8lpCYc9WG7Wb/XJXSVUmfEioPV8XXkQIBwe2YLIrTolhTswywip4LpvICfbcIYJ96J/AFdtYvZSC4wVevsmpG09ko1YJ8qwMx6jgg2i9lzDStFWujiZ2Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DB8P189MB0732.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:127::14)
+ by DU2PPFB830855DA.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::a9f) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Thu, 9 Jul
+ 2026 12:37:43 +0000
+Received: from DB8P189MB0732.EURP189.PROD.OUTLOOK.COM
+ ([fe80::6c51:738c:1290:f77b]) by DB8P189MB0732.EURP189.PROD.OUTLOOK.COM
+ ([fe80::6c51:738c:1290:f77b%4]) with mapi id 15.21.0181.012; Thu, 9 Jul 2026
+ 12:37:43 +0000
+From: Roland Kovacs <roland.kovacs@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [scarthgap][PATCH v2 0/1] binutils: fix CVE-2025-69649, and CVE-2025-69652
+Date: Thu,  9 Jul 2026 14:37:39 +0200
+Message-ID: <20260709123740.150315-1-roland.kovacs@est.tech>
+X-Mailer: git-send-email 2.55.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0688.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:37b::17) To DB8P189MB0732.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:10:127::14)
 MIME-Version: 1.0
-References: <cover.1783457902.git.john.ripple@keysight.com> <20260707211507.2585072-3-john.ripple@keysight.com>
-In-Reply-To: <20260707211507.2585072-3-john.ripple@keysight.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 9 Jul 2026 12:10:45 +0200
-X-Gm-Features: AUfX_mwpLJCH0KzAam3ofTEjhjPSJjbivkNVUmQaPtGTGiY0bSsBKSv9ypZcBvw
-Message-ID: <CANNYZj-tgEqdVRKHz+yHrT8RtvouHeEnO9At4tJ5y=cdTz98Gw@mail.gmail.com>
-Subject: Re: [OE-core] [meta][PATCH 3/3] oeqa/utils/metadata: Handle empty git
- repos in git_rev_info
-To: john.ripple@keysight.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB8P189MB0732:EE_|DU2PPFB830855DA:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd7a53ae-7fda-4715-c7fb-08deddb6df13
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|11063799006|56012099006|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info: 
+	gHoc6TlGO3+lB9esFyR0So/kWj/WlXVjLkWmvYp6gTNWkx25CTu24mdIQEPn00na6rRrQ78TWWLZbDZVzI6rd2vo/JpyONeP6vSLEottXuYr8oMpU/u8cFRZQR7ZUA72XQ90wR9UVnWoU5IXB87hCfCe350qRkCFxjJ6F0+K7IvkcE/uOkm6kvx5hbFtf52JBaBIjNhzwE7RzuZXRgfbrcELvlWTSCsxz7TObbobVVZ5Oxm9r2URz/zQrW3oQUv6ucoGO/txsAFgvNDMRx1qmLQetsIn4dWpF89/l1MLpxIKjx48E0k42RSsCRTOZUbJPteNZKcVI8KOelyGUu7kTSl6/VnhsA80Qs5CbJwim7HDaR+brGQYOmkzbBSuFJyQZvnz6ImuGOW0fdweDrizM8ZkcKBAEWeDrEKgSfpYAecVThDZh6Zd2ZbG6qU5lFwjWldSAY3xpbex1x0U5IcgnS367R1mvCgP+3uS7BAf8EL3+jSN3cimwEMUUrzqIxeOdLksN7T/2wYaQPHO6Ze7GYD4HdXjE1eeCAuvC3ddqKQCXPt+5zROtqw+ixV2SPEmS3aPuI9/ErGCsLjhMkSb/S5aVT+i6DL7pitoptcKzat7WQlg1kl7TCrcyeTBVIYMvqMzhLoipkxuwHYxE006BEqMCqyyg8M970l+s0jUKsY=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8P189MB0732.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(11063799006)(56012099006)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?CgS9nLyYC6wMG3VB204b9YiYtLGdS41U6jpEuixvj7CCopqKqhWftcZkSY1T?=
+ =?us-ascii?Q?FCyV/hseo/736Qstne9JMjI94SdnaXILsXkfFHT1YEvE5H2yqbWwipYAE6UJ?=
+ =?us-ascii?Q?5RX0ybVkpsomvb9SjGCLri8RClgBdFmO9ugu8piOzzrrudlXQqmcy+rOAlXR?=
+ =?us-ascii?Q?0rkDm2e67DSIHS4/hjOFToLylZ3yhu4MiP2HPzrc1wSYt9vnLi0WDI3jLYQD?=
+ =?us-ascii?Q?jk5pvrfLbm8Dg9ON84u2QtUzDhRVdRtndHOHWeT5qQcmTti3kIVgQC15p49p?=
+ =?us-ascii?Q?hCai1eBAwhleeNY6AK507S6jejqQuzX0AVV41RWdsBhW8rd3K+1I7RT3F9HX?=
+ =?us-ascii?Q?Z4FmgionsgVunkkYYOTkgTsdFyDTjj9Pj1kuPuRznlmozJiCR43HzNaQZ+rW?=
+ =?us-ascii?Q?gVsSC/NYoOqo60UzZflZ5/Hg+sVj5w43L2rDYEvDhaQvGsGz64QxAR75t6ew?=
+ =?us-ascii?Q?N8/Kal+cnKK4gw6MkZYzSljwwMnXbk5Es4HmW3Enho/4QoEy1oArNblYL1Xu?=
+ =?us-ascii?Q?DinciiwpPI+0ujC5l/Nvenxff6UQ5t7BxOReum/YbfCn5SXjd5w4POtoF7DV?=
+ =?us-ascii?Q?aRT7kDQ+fOs3hz+HVGtPpz7LvRkkr1wCucmjb31Rb5Sr4uwgbPIBIc5HxfU+?=
+ =?us-ascii?Q?uYQmoBFlXxPeyFFpIl+rOHAQ/VIl2FM3P8+z/XPvp4N/5q954zK+iNcK8GLS?=
+ =?us-ascii?Q?n7JoSKFVdxBAxigRqCjb9R9E8jNdVqEXEeDUb0V02qLdANdJzh54YP8UPcgK?=
+ =?us-ascii?Q?cVoC3m7Nd+AdrYoZ0VhhJqezd4k2HOvx4IZJb7NVUmhMiUIXjVcwxGBmYOvA?=
+ =?us-ascii?Q?eYCX9eIbKQDCUwEIsBykFS1mMBC7MZwwU5DP/H7DQZ4/hUxa4b4iAw6ML4IH?=
+ =?us-ascii?Q?kpno2Hpz1GEFd9XN1+4qC+CJDzf5lvfLQ74ftofRIPpcQlgc9xikoac+fPMB?=
+ =?us-ascii?Q?IoIm25hLnYycMHQOCdPiduFlC5PcGiNKEk7Oc1c2oaXl57XlcIgFTXaAZ/Xk?=
+ =?us-ascii?Q?AFiorc6rlA51EUQpQR60zSQGjR/lcl9r40ATV2JE6aG9RPvBmg8RAbKfKG2K?=
+ =?us-ascii?Q?jKFf18o1anT8w2R3bITPpYoVOF7dwukgpp0gTJuBzkUqk2xoitZyJGMViQoa?=
+ =?us-ascii?Q?+8ODXWBHYFK19YKX/blbhQJnbukbdWcx70JUE78U72wUmbML6dajC5OxdOiy?=
+ =?us-ascii?Q?PkyS7Tjni4KAR0fUYyxnmw/X8gh6ughgCe8Uz+Oj7ngfY1OrBfh1ZlVORbH5?=
+ =?us-ascii?Q?9JxhpHL2K4e58NObWVnQgn0Ai3yl9fBXz2RYttAOB5/WVNfmw0+6SGjtWRix?=
+ =?us-ascii?Q?9ZWNrcKxeCR12wgQOWIvq8tgLga56wzM7YYGQfDIEXTiPJyomRrfHoF8/DJK?=
+ =?us-ascii?Q?Ly22YKYA+EJNmqQp0QnsA2/yKtjGCGjjtHFpgtqR2qMk/u94NNP67S+EAc9W?=
+ =?us-ascii?Q?xrO0/e6pJ+LBn/KIndYXY2M7uEBB91rwrv0OF+StsDL07lJLozMx6SrIN+Zh?=
+ =?us-ascii?Q?6e1nxDaJ83Kaw5LNnmMHbMrrWPj4I9K/IvLRTCF0wtup+dUBeKzQVGO2nf0f?=
+ =?us-ascii?Q?GnzulNFHjU+DlhfwhQX6J4z6u/Ga92i6iuOxmwUe7tiNuYs5PeTHtDuLu8Qr?=
+ =?us-ascii?Q?7/wj5nVFnBKfj/TtsxctKfXq036UNOGEhXadizYdSLH7BdunwWk0aT/Qt5TF?=
+ =?us-ascii?Q?KkAjTo1cPG6s7rqzMN/HhiJbZYpA+I4ZwEoDsrh4Gnw8CSkvjWyv4xMvRTiv?=
+ =?us-ascii?Q?d7HLQx6hPg=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd7a53ae-7fda-4715-c7fb-08deddb6df13
+X-MS-Exchange-CrossTenant-AuthSource: DB8P189MB0732.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 12:37:43.1801
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: n4uWslots0BaJB1+LuGo8kPGnCwXKB6QAnHdiF2liaDfICihdsEQ/Z95hICdKcJnu47stipTTKxyYNf1qS/zyQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PPFB830855DA
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 10:11:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240574
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 12:37:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240576
 
-On Tue, 7 Jul 2026 at 23:15, John Ripple via lists.openembedded.org
-<john.ripple=keysight.com@lists.openembedded.org> wrote:
-> +    try:
-> +        info['commit'] = repo.head.commit.hexsha
-> +        info['commit_count'] = repo.head.commit.count()
-> +        info['commit_time'] = repo.head.commit.committed_date
-> +    except (ValueError, TypeError):
-> +        pass
+Changes compared to v1:
+  - Add note to CVE-2025-69649 patch on difference compared to upstream
+    change.
 
-Suppressing generic exceptions like this to avoid a specific problem
-is problematic, as it can quietly suppress different, real problems.
-I'd say any layers handled by this function must have a commit, and if
-they don't it's a user error. How did this come up?
+Roland Kovacs (1):
+  binutils: fix CVE-2025-69649, and CVE-2025-69652
 
-Alex
+ .../binutils/binutils-2.42.inc                |  2 +
+ .../binutils/binutils/CVE-2025-69649.patch    | 44 +++++++++++++++++++
+ .../binutils/binutils/CVE-2025-69652.patch    | 39 ++++++++++++++++
+ 3 files changed, 85 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69649.=
+patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-69652.=
+patch
+
+--=20
+2.34.1
+
 
