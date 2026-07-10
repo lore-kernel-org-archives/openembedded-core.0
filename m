@@ -2,317 +2,795 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D547C4450D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F811C4450F
 	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 16:37:14 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1858.1783701430622107991
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1852.1783701425337274502
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jul 2026 09:37:10 -0700
+ Fri, 10 Jul 2026 09:37:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=DeifoGjA;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-493f60208a5so6393675e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 09:37:10 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=TeWbaWby;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493ba701891so9982555e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 09:37:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783701429; x=1784306229; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tsEASsnRT8LuZZrM46wcdAXBk2kJbCTQHq2aKYF869w=;
-        b=DeifoGjAN+Yupm+XHSrlbdgoezuISKWQFaiC6slzws4ywzShHaSUWOIVe4m+KD/MwV
-         X7AOWN8nGK3VW0td6Yk/4iO93MbrCMvsZs37pprjAeuSgMq8yt7I2CyAqydszYsfyZe4
-         vn2naOmiEdku0BBgz7Rc9XXDDIdhdh73/4de4=
+        d=smile.fr; s=google; t=1783701423; x=1784306223; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=pFJydgOp+PkWbjJ8RdqdGto70lXvxKY/GwS6+G0ENP8=;
+        b=TeWbaWbyhRlENBeAtEssE5VHsQNAuHG5g4Rj/x16ihnI2i5bt0sSy4/cHkKs3piM3L
+         eSOZLtZmuY0A8GBtfdxDat7PKByCs9bZRHpMDFZUjDKlbr8HlqWeUbQ2DYyqVU9adQQ3
+         vjorGA7xCWobBE/u45JsBqCeSiR2wr8E07mPs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783701429; x=1784306229;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tsEASsnRT8LuZZrM46wcdAXBk2kJbCTQHq2aKYF869w=;
-        b=kP/MYCmTJAg160FAj+ctceKZjP3OkEFWkI3bePfwc98P+l7RUVLe43xqOiQolpj4KL
-         URjSpSWvEStk6a6hV3zmGLmuAqWteajC3LO5hwCglEacYMySz0Ii3fO8MQJli6lgjeRG
-         zhk+7jOjDxt4bhzh4VE1lMyJvu2K8pKPekXyGoZqDunxQxrGml9puLLz248vz35dHJJl
-         079wXep3miBUo7+L1zLLRmdAclqmY0Xz3N5Uumubrv8paQniw7aYyAc30lgMvJtlfJEF
-         d/tMFNrcIxFx++ChFlqOKR+ABmQ+az9sBsAdJL/AGoVD02KHKbnd6Gjj1YH7hwpVt5BE
-         JJng==
-X-Gm-Message-State: AOJu0Yx/kCZFD59hUKWDR2V8GkZ2ouesWoe7g38yW+IpaEN9/+aSMGc7
-	i18pEMwaLywQu3TqHkArKQocstuwUHms/P18Ip5fWbmjf7Y7R/wdstv7lxdGEnaK+OICF5PBVkp
-	yOSXSwZg=
-X-Gm-Gg: AfdE7cljSpOJSQSs9dVwi1NnNp2gQdfzur/ro1YjmXC5m/QTPfTSaf2lBmxztXAKCqm
-	jUWFgACQKmqu1HUyB9r9k1Bc5+275SVlmW3N6k7PXfRe9lT1sj79cGOemnvhtO3jkmfpGCV2lXs
-	o/QGPCu2Gm8z+N5Dm0Q4UwADf7AAL4gSxaMe3nGVnAARH4IGA6NC6fdXYLNyOkLkxfL9jMOxzFZ
-	3AAXxSBLiU8jiX+oVQjMVmKXIyiYOFNuGQtvUpQkd287vlb0wIHTzOCT10jLPH6BcDnkn0wXh5J
-	w9MpYnx7C30oFgLQalWgpgUvAo3AzmigcAEJlkNX3YnnvyLio02On3VSpC8MPi/o+pH2oEZlLeu
-	CEZpRYo4nx63h9uD94EAHL5OaKT3uzDwQNqESNJtICeTuZ29P841knZv7IliX7RNzFse/FzmyFk
-	5Tl63965TQ2m1o/lRwZ523PxE9yB0pXuUXHi5fcw1itJMyojo3Tsi9UfKm2nC7Lr1VwKSBKnNwN
-	KI12o1WDzpTKDOhLz4=
-X-Received: by 2002:a05:600c:e558:10b0:493:e57e:7aa5 with SMTP id 5b1f17b1804b1-493e68c6e63mr85071195e9.22.1783701428647;
-        Fri, 10 Jul 2026 09:37:08 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783701423; x=1784306223;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=pFJydgOp+PkWbjJ8RdqdGto70lXvxKY/GwS6+G0ENP8=;
+        b=hmnIHkGBxcQZXfQPvm0AwfiH7pdOlCBfptuOw9Q9tT5s5icdtYODQB0uef8zeB3dr5
+         m7xMlVfCbVCGZyNxNeiKlypHYbBOyeUgfxO8Q5Pwc607ijoQjLqMbWCtBmSsj77prlZp
+         4Ly1EF1Ofp5QDy4MeuNt+a47JsFAOBpXXVkgZzDY2JK4+Khc+baxZnNU57QIfWHASfU8
+         uqjE99Bpq917naYBuy7f9JWJOOoRnE8FCrt2jKFrrt6Sgq1uys/H/xbowd+xsFsgGTSn
+         w65q4na8zjNIgAJ+kGkdlW56W19o9H5iK7oLqf8+6R2Lv+IL9J/zP476/6EBjf/6ywnT
+         2VSA==
+X-Gm-Message-State: AOJu0YydHd66ctE/oi2NczctPrINCfWzKsXFSvX7UhU/nom11O4iT5VO
+	7jb+UMiX2EzBopQhhaH5okAeCmM9+Q32dNTkGl1bqQpeGDWQq/aTpJxp2VpLFd3HwjRTcSv2JOL
+	G7YaPCFI=
+X-Gm-Gg: AfdE7cmsKmOctLNrLz7vkVv1gNU+inS/U5ZVk4/psZiaKMz2GrkepsGBHZPJ9LAQX+t
+	sDSLPFp1aMTslCOnitmJFXOdt/x1WaAVN0B0bv/oZI62oQscwmd09ZibAYWR9UYjl7mox4X+SQ3
+	QHhgYM3EOc/SZLh5Gcu/O13YpEZ/8zQ7hWCADkKqj1CwRtF24P/ogZyd7NeDXbPvrgSQzbwRvP2
+	69+Q/8yLFOfipJQAgODzYKajNvhD5AQompkiifTYug1NyF94Ai6JfC7Vmffvz9czYNwXH4lwC1G
+	aXF0+aCznSW7dTOY5ndnGkasHa8zhMluKOqijp3veCm323WZSjxhb0zEG6Du5C1QLdrjBMmQZGl
+	B7Q6ad9y3VwXF9Ph04hC3arBUpFI87qWW7GByUzSJztwhOAgqCT2l5GhHPRWZixo+GyejmlHi08
+	nnwHHbENTVTKne7zpwXyO77wPFlvlfzGtR08fRznDhCr5swKCkD1/Bc5ilA64xvVYAVHorOMCTK
+	BZ0YKAWfBRYzITU5fE=
+X-Received: by 2002:a05:600c:6289:b0:493:b647:1acd with SMTP id 5b1f17b1804b1-493e68dbd98mr121707075e9.36.1783701422995;
+        Fri, 10 Jul 2026 09:37:02 -0700 (PDT)
 Received: from localhost.localdomain (2a02-8440-2608-8c5f-3a92-eb6f-dc01-ac58.rev.sfr.net. [2a02:8440:2608:8c5f:3a92:eb6f:dc01:ac58])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6d4f9fsm150758695e9.4.2026.07.10.09.37.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6d4f9fsm150758695e9.4.2026.07.10.09.37.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 09:37:08 -0700 (PDT)
+        Fri, 10 Jul 2026 09:37:02 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 11/18] glib-2.0: fix CVE-2026-58016
-Date: Fri, 10 Jul 2026 18:36:26 +0200
-Message-ID: <de9befbf242b87d5dd611f77caada1d209405fe1.1783697455.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 03/18] expat: patch CVE-2026-45186
+Date: Fri, 10 Jul 2026 18:36:18 +0200
+Message-ID: <fa8ad49818da9faf2428a62f9d127dc22f0db252.1783697455.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783697455.git.yoann.congal@smile.fr>
 References: <cover.1783697455.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 16:37:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240672
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240664
 
-From: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+From: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 
-A flaw was found in GLib. A state confusion issue exists in
-g_dbus_node_info_new_for_xml() in the gio/gdbusintrospection.c file when
-processing malformed D-Bus introspection XML, specifically with a <node>
-element nested within other elements like <method>, <signal>, <property>
-or <arg>. This issue can cause an unsigned integer overflow and lead to an
-out-of-bounds read, resulting in a denial of service.
+Backport patches from [1] also mentioned in [2].
 
-The CVE NVD entry is wrong, it indicates that the CVE is fixed in 2.88.1
-but the fix was realized in 2.89.0, see [1]. The fix is not present in 2.88.2.
+[1] https://github.com/libexpat/libexpat/pull/1216
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/commit/c9da977c178fbfc0e4caf99f9fdf5dc433d6fcc2
+[2] https://security-tracker.debian.org/tracker/CVE-2026-45186
 
-Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d52f4d582cc71ada3c8ebe54be1a5b70278ea1ca)
-[YC: re-added the removed Signed-off-bys from the patches]
+Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../glib-2.0/files/CVE-2026-58016-1.patch     | 94 ++++++++++++++++++
- .../glib-2.0/files/CVE-2026-58016-2.patch     | 98 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib.inc           |  2 +
- 3 files changed, 194 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
- create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
+ .../expat/expat/CVE-2026-45186-01.patch       |  70 ++++
+ .../expat/expat/CVE-2026-45186-02.patch       | 318 ++++++++++++++++++
+ .../expat/expat/CVE-2026-45186-03.patch       |  46 +++
+ .../expat/expat/CVE-2026-45186-04.patch       |  32 ++
+ .../expat/expat/CVE-2026-45186-05.patch       |  32 ++
+ .../expat/expat/CVE-2026-45186-06.patch       |  87 +++++
+ .../expat/expat/CVE-2026-45186-07.patch       |  52 +++
+ meta/recipes-core/expat/expat_2.7.5.bb        |   7 +
+ 8 files changed, 644 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
 
-diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
 new file mode 100644
-index 00000000000..2c4b248b97b
+index 00000000000..478978f4ca2
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
-@@ -0,0 +1,94 @@
-+From 38eee3870fbcf6bdf8e6b1281bc7a98d32b68521 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Thu, 16 Apr 2026 15:27:37 +0100
-+Subject: [PATCH 1/2] gdbusintrospection: Fix XML parser state handling for
-+ <node> element nesting
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
+@@ -0,0 +1,70 @@
++From b659bf974f29b991870ba1f66af687c73e07fbf8 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Berkay=20Eren=20=C3=9Cr=C3=BCn?= <berkay.ueruen@siemens.com>
++Date: Fri, 13 Mar 2026 13:26:45 +0100
++Subject: [PATCH 1/7] Make "counting_start_element_handler" count default attrs
 +
-+The check for whether a `<node>` element in D-Bus introspection XML was
-+nested correctly was broken. `<node>` elements can only be at the top
-+level, or nested immediately within another `<node>` element.
++(cherry picked from commit 0802a5892030610144b736dec6e2f63e8600fe85)
 +
-+Fix the check and add some unit tests for it.
-+
-+Spotted by linhlhq as #YWH-PGM9867-204. The fix is mine, and the unit test
-+uses example XML strings adapted from their report.
-+
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+
-+Fixes: #3932
-+
-+CVE: CVE-2026-58016
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/c9da977c178fbfc0e4caf99f9fdf5dc433d6fcc2]
-+
-+Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/0802a5892030610144b736dec6e2f63e8600fe85]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
 +---
-+ gio/gdbusintrospection.c        |  2 +-
-+ gio/tests/gdbus-introspection.c | 33 +++++++++++++++++++++++++++++++++
-+ 2 files changed, 34 insertions(+), 1 deletion(-)
++ tests/basic_tests.c | 8 ++++----
++ tests/handlers.c    | 2 +-
++ tests/handlers.h    | 1 +
++ 3 files changed, 6 insertions(+), 5 deletions(-)
 +
-+diff --git a/gio/gdbusintrospection.c b/gio/gdbusintrospection.c
-+index c7be334ce2f7..6f722ee6153d 100644
-+--- a/gio/gdbusintrospection.c
-++++ b/gio/gdbusintrospection.c
-+@@ -1272,7 +1272,7 @@ parser_start_element (GMarkupParseContext  *context,
-+   /* ---------------------------------------------------------------------------------------------------- */
-+   if (strcmp (element_name, "node") == 0)
-+     {
-+-      if (!(g_slist_length (stack) >= 1 || strcmp (stack->next->data, "node") != 0))
-++      if (stack->next != NULL && strcmp (stack->next->data, "node") != 0)
-+         {
-+           g_set_error_literal (error,
-+                                G_MARKUP_ERROR,
-+diff --git a/gio/tests/gdbus-introspection.c b/gio/tests/gdbus-introspection.c
-+index 44cb7a96af45..daca313f77e7 100644
-+--- a/gio/tests/gdbus-introspection.c
-++++ b/gio/tests/gdbus-introspection.c
-+@@ -299,6 +299,38 @@ test_extra_data (void)
-+   g_dbus_node_info_unref (info);
++diff --git a/tests/basic_tests.c b/tests/basic_tests.c
++index 02d1d5f..8c025a2 100644
++--- a/tests/basic_tests.c
+++++ b/tests/basic_tests.c
++@@ -2466,9 +2466,9 @@ START_TEST(test_attributes) {
++                          {XCS("id"), XCS("one")},
++                          {NULL, NULL}};
++   AttrInfo tag_info[] = {{XCS("c"), XCS("3")}, {NULL, NULL}};
++-  ElementInfo info[] = {{XCS("doc"), 3, XCS("id"), NULL},
++-                        {XCS("tag"), 1, NULL, NULL},
++-                        {NULL, 0, NULL, NULL}};
+++  ElementInfo info[] = {{XCS("doc"), 3, 0, XCS("id"), NULL},
+++                        {XCS("tag"), 1, 0, NULL, NULL},
+++                        {NULL, 0, 0, NULL, NULL}};
++   info[0].attributes = doc_info;
++   info[1].attributes = tag_info;
++ 
++@@ -5543,7 +5543,7 @@ START_TEST(test_deep_nested_attribute_entity) {
++            (long unsigned)(N_LINES - 1));
++ 
++   AttrInfo doc_info[] = {{XCS("name"), XCS("deepText")}, {NULL, NULL}};
++-  ElementInfo info[] = {{XCS("foo"), 1, NULL, NULL}, {NULL, 0, NULL, NULL}};
+++  ElementInfo info[] = {{XCS("foo"), 1, 0, NULL, NULL}, {NULL, 0, 0, NULL, NULL}};
++   info[0].attributes = doc_info;
++ 
++   XML_Parser parser = XML_ParserCreate(NULL);
++diff --git a/tests/handlers.c b/tests/handlers.c
++index e456df2..bd1b54e 100644
++--- a/tests/handlers.c
+++++ b/tests/handlers.c
++@@ -137,7 +137,7 @@ counting_start_element_handler(void *userData, const XML_Char *name,
++     fail("ID does not have the correct name");
++     return;
++   }
++-  for (i = 0; i < info->attr_count; i++) {
+++  for (i = 0; i < info->attr_count + info->default_attr_count; i++) {
++     attr = info->attributes;
++     while (attr->name != NULL) {
++       if (! xcstrcmp(atts[0], attr->name))
++diff --git a/tests/handlers.h b/tests/handlers.h
++index fcde27a..27a53f2 100644
++--- a/tests/handlers.h
+++++ b/tests/handlers.h
++@@ -88,6 +88,7 @@ typedef struct attrInfo {
++ typedef struct elementInfo {
++   const XML_Char *name;
++   int attr_count;
+++  int default_attr_count;
++   const XML_Char *id_name;
++   AttrInfo *attributes;
++ } ElementInfo;
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
+new file mode 100644
+index 00000000000..6c90e15b47d
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
+@@ -0,0 +1,318 @@
++From 32848241057dfaa4c68fae475f51fbe1a182c004 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Berkay=20Eren=20=C3=9Cr=C3=BCn?= <berkay.ueruen@siemens.com>
++Date: Fri, 13 Mar 2026 13:27:31 +0100
++Subject: [PATCH 2/7] test(attlist): Cover duplicate attribute names
++
++Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
++(cherry picked from commit e569f47181c43dca5d262089e541ddf9a9c09927)
++
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/e569f47181c43dca5d262089e541ddf9a9c09927]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
++---
++ tests/basic_tests.c | 282 ++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 282 insertions(+)
++
++diff --git a/tests/basic_tests.c b/tests/basic_tests.c
++index 8c025a2..83c453c 100644
++--- a/tests/basic_tests.c
+++++ b/tests/basic_tests.c
++@@ -2489,6 +2489,279 @@ START_TEST(test_attributes) {
 + }
-+
-++static void
-++test_invalid (void)
-++{
-++  const struct
-++    {
-++      const char *xml;
-++      GMarkupError expected_error_code;
-++    }
-++  vectors[] =
-++    {
-++      { "", G_MARKUP_ERROR_EMPTY },
-++      { "<node><interface name=\"I\"><method name=\"M\"><node><interface name=\"I2\"></interface></node></method>", G_MARKUP_ERROR_INVALID_CONTENT },
-++      { "<node><interface name=\"I\"><signal name=\"S\"><node><interface name=\"I2\"><signal name=\"S2\"></signal></interface></node></signal>", G_MARKUP_ERROR_INVALID_CONTENT },
-++      { "<node><interface name=\"I\"><property name=\"P\" type=\"s\" access=\"read\"><node><interface name=\"I2\"></interface></node></property>", G_MARKUP_ERROR_INVALID_CONTENT },
-++      { "<node><interface name=\"I\"><method name=\"M\"><arg type=\"\"><node><interface name=\"I2\"><method name=\"M2\"></method></interface></node></arg>", G_MARKUP_ERROR_INVALID_CONTENT },
-++    };
++ END_TEST
++ 
+++START_TEST(test_duplicate_cdata_attribute) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
 ++
-++  for (size_t i = 0; i < G_N_ELEMENTS (vectors); i++)
-++    {
-++      GDBusNodeInfo *node;
-++      GError *local_error = NULL;
+++  Test the following statement from the linked specification:
+++    When more than one definition is provided for the same attribute of a given
+++    element type, the first declaration is binding and later declarations are
+++    ignored.
+++  */
 ++
-++      g_test_message ("Testing parsing of %s gives an error", vectors[i].xml);
+++  const char *text
+++      = "<!DOCTYPE doc [\n"
+++        "  <!ATTLIST doc attribute CDATA 'expected' attribute CDATA 'ignored'>\n"
+++        "]>\n"
+++        "<doc/>\n";
+++  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected")}, {NULL, NULL}};
+++  ElementInfo info[]
+++      = {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
 ++
-++      node = g_dbus_node_info_new_for_xml (vectors[i].xml, &local_error);
-++      g_assert_error (local_error, G_MARKUP_ERROR, (int) vectors[i].expected_error_code);
-++      g_assert_null (node);
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
 ++
-++      g_clear_error (&local_error);
-++    }
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
 ++}
+++END_TEST
 ++
-+ /* ---------------------------------------------------------------------------------------------------- */
+++START_TEST(test_duplicate_id_attribute_1) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one definition is provided for the same attribute of a given
+++    element type, the first declaration is binding and later declarations are
+++    ignored.
+++  */
+++
+++  const char *text
+++      = "<!DOCTYPE doc [\n"
+++        "  <!ATTLIST doc identifier CDATA 'expected' identifier ID #REQUIRED>\n"
+++        "]>\n"
+++        "<doc/>\n";
+++  AttrInfo doc_info[] = {{XCS("identifier"), XCS("expected")}, {NULL, NULL}};
+++  ElementInfo info[]
+++      = {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
+++START_TEST(test_duplicate_id_attribute_2) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one definition is provided for the same attribute of a given
+++    element type, the first declaration is binding and later declarations are
+++    ignored.
+++  */
+++
+++  const char *text
+++      = "<!DOCTYPE doc [\n"
+++        "  <!ATTLIST doc identifier ID #REQUIRED identifier CDATA 'unexpected'>\n"
+++        "]>\n"
+++        "<doc/>\n";
+++  AttrInfo doc_info[] = {{NULL, NULL}};
+++
+++  ElementInfo info[]
+++      = {{XCS("doc"), 0, 0, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
+++START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one AttlistDecl is provided for a given element type,
+++    the contents of all those provided are merged.
+++  */
+++  const char *text = "<!DOCTYPE doc [\n"
+++                     "  <!ATTLIST doc attribute CDATA 'expected'>\n"
+++                     "  <!ATTLIST doc attribute CDATA 'ignored'>\n"
+++                     "]>\n"
+++                     "<doc/>\n";
+++  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected")}, {NULL, NULL}};
+++  ElementInfo info[]
+++      = {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
+++START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl_2) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one AttlistDecl is provided for a given element type,
+++    the contents of all those provided are merged.
+++  */
+++  const char *text = "<!DOCTYPE doc [\n"
+++                     "  <!ATTLIST doc attribute CDATA 'expected_doc'>\n"
+++                     "  <!ATTLIST tag attribute CDATA 'expected_tag'>\n"
+++                     "  <!ATTLIST doc attribute CDATA 'ignored_doc'>\n"
+++                     "]>\n"
+++                     "<doc><tag></tag></doc>\n";
+++  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected_doc")}, {NULL, NULL}};
+++  AttrInfo tag_info[] = {{XCS("attribute"), XCS("expected_tag")}, {NULL, NULL}};
+++  ElementInfo info[] = {{XCS("doc"), 0, 1, NULL, doc_info},
+++                        {XCS("tag"), 0, 1, NULL, tag_info},
+++                        {NULL, 0, 0, NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
+++START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl_3) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one AttlistDecl is provided for a given element type,
+++    the contents of all those provided are merged.
+++  */
+++  const char *text
+++      = "<!DOCTYPE doc [\n"
+++        "  <!ATTLIST doc attribute CDATA 'expected_doc'>\n"
+++        "  <!ATTLIST tag attribute CDATA 'expected_tag'>\n"
+++        "  <!ATTLIST doc second_attribute CDATA 'second_expected_doc' attribute CDATA 'ignored_doc'>\n"
+++        "]>\n"
+++        "<doc><tag></tag></doc>\n";
+++  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected_doc")},
+++                         {XCS("second_attribute"), XCS("second_expected_doc")},
+++                         {NULL, NULL}};
+++  AttrInfo tag_info[] = {{XCS("attribute"), XCS("expected_tag")}, {NULL, NULL}};
+++  ElementInfo info[] = {{XCS("doc"), 0, 2, NULL, doc_info},
+++                        {XCS("tag"), 0, 1, NULL, tag_info},
+++                        {NULL, 0, 0, NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
+++START_TEST(test_duplicate_id_attribute_multiple_attlistdecl) {
+++  /*
+++  https://www.w3.org/TR/xml/#attdecls
+++
+++  Test the following statement from the linked specification:
+++    When more than one AttlistDecl is provided for a given element type,
+++    the contents of all those provided are merged.
+++  */
+++  const char *text = "<!DOCTYPE doc [\n"
+++                     "  <!ATTLIST doc identifier ID #REQUIRED>\n"
+++                     "  <!ATTLIST tag identifier CDATA 'identifier_tag'>\n"
+++                     "  <!ATTLIST doc identifier CDATA 'ignored'>\n"
+++                     "]>\n"
+++                     "<doc identifier='doc_identity'><tag></tag></doc>\n";
+++  AttrInfo doc_info[]
+++      = {{XCS("identifier"), XCS("doc_identity")}, {NULL, NULL}};
+++  AttrInfo tag_info[]
+++      = {{XCS("identifier"), XCS("identifier_tag")}, {NULL, NULL}};
+++  ElementInfo info[] = {{XCS("doc"), 1, 0, XCS("identifier"), doc_info},
+++                        {XCS("tag"), 0, 1, NULL, tag_info},
+++                        {NULL, 0, 0, NULL, NULL}};
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++
+++  ParserAndElementInfo parserAndElementInfos = {
+++      parser,
+++      info,
+++  };
+++
+++  XML_SetStartElementHandler(parser, counting_start_element_handler);
+++  XML_SetUserData(parser, &parserAndElementInfos);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
++ /* Test reset works correctly in the middle of processing an internal
++  * entity.  Exercises some obscure code in XML_ParserReset().
++  */
++@@ -6374,6 +6647,15 @@ make_basic_test_case(Suite *s) {
++   tcase_add_test__ifdef_xml_dtd(tc_basic, test_empty_foreign_dtd);
++   tcase_add_test(tc_basic, test_set_base);
++   tcase_add_test(tc_basic, test_attributes);
+++  tcase_add_test(tc_basic, test_duplicate_cdata_attribute);
+++  tcase_add_test(tc_basic, test_duplicate_id_attribute_1);
+++  tcase_add_test(tc_basic, test_duplicate_id_attribute_2);
+++  tcase_add_test(tc_basic, test_duplicate_cdata_attribute_multiple_attlistdecl);
+++  tcase_add_test(tc_basic,
+++                 test_duplicate_cdata_attribute_multiple_attlistdecl_2);
+++  tcase_add_test(tc_basic,
+++                 test_duplicate_cdata_attribute_multiple_attlistdecl_3);
+++  tcase_add_test(tc_basic, test_duplicate_id_attribute_multiple_attlistdecl);
++   tcase_add_test__if_xml_ge(tc_basic, test_reset_in_entity);
++   tcase_add_test(tc_basic, test_resume_invalid_parse);
++   tcase_add_test(tc_basic, test_resume_resuspended);
++-- 
++2.43.0
 +
-+ int
-+@@ -316,6 +348,7 @@ main (int   argc,
-+   g_test_add_func ("/gdbus/introspection-generate", test_generate);
-+   g_test_add_func ("/gdbus/introspection-default-direction", test_default_direction);
-+   g_test_add_func ("/gdbus/introspection-extra-data", test_extra_data);
-++  g_test_add_func ("/gdbus/introspection/invalid", test_invalid);
-+
-+   ret = session_bus_run ();
-+
-+--
-+2.54.0
-diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
 new file mode 100644
-index 00000000000..a61e35ad8a7
+index 00000000000..f3b0614b8df
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-2.patch
-@@ -0,0 +1,98 @@
-+From a75052ceeebea434f271b670766acd5416bc83b9 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Thu, 16 Apr 2026 15:08:10 +0100
-+Subject: [PATCH 2/2] gdbusintrospection: Add some assertions before array
-+ dereferences
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
+@@ -0,0 +1,46 @@
++From 468d6f44264e7ad73f3045f6487baccc846014e6 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Mon, 20 Apr 2026 13:44:43 +0200
++Subject: [PATCH 3/7] tests: Define .attributes the first time around
 +
-+The state handling inside the D-Bus introspection XML parser is
-+complicated, and it’s possible that these dereferences of the
-+`len - 1`th element might get reached when the array is empty.
++(cherry picked from commit 05307d352a5aa858cdda57ec53a53b597b3a4a82)
 +
-+Make failures like that more debuggable by adding an assertion on the
-+length beforehand.
-+
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+
-+Helps: #3932
-+
-+CVE: CVE-2026-58016
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/656ad4582cb1d7a7fa8bafe3ce8aec6aa3c17da0]
-+
-+Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/05307d352a5aa858cdda57ec53a53b597b3a4a82]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
 +---
-+ gio/gdbusintrospection.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
++ tests/basic_tests.c | 10 ++++------
++ 1 file changed, 4 insertions(+), 6 deletions(-)
 +
-+diff --git a/gio/gdbusintrospection.c b/gio/gdbusintrospection.c
-+index 6f722ee6153d..ed0d291f99f0 100644
-+--- a/gio/gdbusintrospection.c
-++++ b/gio/gdbusintrospection.c
-+@@ -1110,6 +1110,7 @@ parse_data_get_annotation (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->annotations, g_new0 (GDBusAnnotationInfo, 1));
-++  g_assert (data->annotations->len > 0);
-+   return data->annotations->pdata[data->annotations->len - 1];
++diff --git a/tests/basic_tests.c b/tests/basic_tests.c
++index 83c453c..810ff5e 100644
++--- a/tests/basic_tests.c
+++++ b/tests/basic_tests.c
++@@ -2466,11 +2466,9 @@ START_TEST(test_attributes) {
++                          {XCS("id"), XCS("one")},
++                          {NULL, NULL}};
++   AttrInfo tag_info[] = {{XCS("c"), XCS("3")}, {NULL, NULL}};
++-  ElementInfo info[] = {{XCS("doc"), 3, 0, XCS("id"), NULL},
++-                        {XCS("tag"), 1, 0, NULL, NULL},
+++  ElementInfo info[] = {{XCS("doc"), 3, 0, XCS("id"), doc_info},
+++                        {XCS("tag"), 1, 0, NULL, tag_info},
++                         {NULL, 0, 0, NULL, NULL}};
++-  info[0].attributes = doc_info;
++-  info[1].attributes = tag_info;
++ 
++   XML_Parser parser = XML_ParserCreate(NULL);
++   assert_true(parser != NULL);
++@@ -5816,8 +5814,8 @@ START_TEST(test_deep_nested_attribute_entity) {
++            (long unsigned)(N_LINES - 1));
++ 
++   AttrInfo doc_info[] = {{XCS("name"), XCS("deepText")}, {NULL, NULL}};
++-  ElementInfo info[] = {{XCS("foo"), 1, 0, NULL, NULL}, {NULL, 0, 0, NULL, NULL}};
++-  info[0].attributes = doc_info;
+++  ElementInfo info[]
+++      = {{XCS("foo"), 1, 0, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
++ 
++   XML_Parser parser = XML_ParserCreate(NULL);
++   ParserAndElementInfo parserPlusElemenInfo = {parser, info};
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
+new file mode 100644
+index 00000000000..d30ffa3f512
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
+@@ -0,0 +1,32 @@
++From 0582bcabb773d4600d7c85516132b016f0163deb Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Mon, 13 Apr 2026 01:34:03 +0200
++Subject: [PATCH 4/7] tests: Make counting_start_element_handler enforce
++ complete attribute lists
++
++(cherry picked from commit 4176aff73840711060913e0ac6aa1168d8ba5c8d)
++
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/4176aff73840711060913e0ac6aa1168d8ba5c8d]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
++---
++ tests/handlers.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/tests/handlers.c b/tests/handlers.c
++index bd1b54e..8cda3a8 100644
++--- a/tests/handlers.c
+++++ b/tests/handlers.c
++@@ -155,6 +155,9 @@ counting_start_element_handler(void *userData, const XML_Char *name,
++     /* Remember, two entries in atts per attribute (see above) */
++     atts += 2;
++   }
+++
+++  // Self-test that the test case's list of expected attributes is complete
+++  assert_true(atts[0] == NULL);
 + }
++ 
++ void XMLCALL
++-- 
++2.43.0
 +
-+@@ -1119,6 +1120,7 @@ parse_data_get_arg (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->args, g_new0 (GDBusArgInfo, 1));
-++  g_assert (data->args->len > 0);
-+   return data->args->pdata[data->args->len - 1];
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
+new file mode 100644
+index 00000000000..6d98a3cd091
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
+@@ -0,0 +1,32 @@
++From ebe5486739006105629b0bca6022f664566e56de Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sun, 8 Mar 2026 22:14:41 +0100
++Subject: [PATCH 5/7] lib: Extract a constant for upcoming reuse
++
++(cherry picked from commit fb35f2d2040d114f355bae8a7450942533237530)
++
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/fb35f2d2040d114f355bae8a7450942533237530]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
++---
++ lib/xmlparse.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index 0248b66..e833520 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -7719,8 +7719,9 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
++       newE->prefix = (PREFIX *)lookup(oldParser, &(newDtd->prefixes),
++                                       oldE->prefix->name, 0);
++     for (i = 0; i < newE->nDefaultAtts; i++) {
+++      const XML_Char *const attributeName = oldE->defaultAtts[i].id->name;
++       newE->defaultAtts[i].id = (ATTRIBUTE_ID *)lookup(
++-          oldParser, &(newDtd->attributeIds), oldE->defaultAtts[i].id->name, 0);
+++          oldParser, &(newDtd->attributeIds), attributeName, 0);
++       newE->defaultAtts[i].isCdata = oldE->defaultAtts[i].isCdata;
++       if (oldE->defaultAtts[i].value) {
++         newE->defaultAtts[i].value
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
+new file mode 100644
+index 00000000000..1b47776a172
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
+@@ -0,0 +1,87 @@
++From 41f9f3c8479e8f8547d5bce6355b0484c2744d1e Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sun, 8 Mar 2026 23:05:49 +0100
++Subject: [PATCH 6/7] lib: Introduce ELEMENT_TYPE.defaultAttsNames
++
++(cherry picked from commit 7f0f1b9e70d937072d2e9e37ae9edf27784cc080)
++
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/7f0f1b9e70d937072d2e9e37ae9edf27784cc080]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
++---
++ lib/xmlparse.c | 17 +++++++++++++++++
++ 1 file changed, 17 insertions(+)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index e833520..b7e2d72 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -388,6 +388,7 @@ typedef struct {
++   int nDefaultAtts;
++   int allocDefaultAtts;
++   DEFAULT_ATTRIBUTE *defaultAtts;
+++  HASH_TABLE defaultAttsNames;
++ } ELEMENT_TYPE;
++ 
++ typedef struct {
++@@ -3853,6 +3854,8 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
++                                          sizeof(ELEMENT_TYPE));
++     if (! elementType)
++       return XML_ERROR_NO_MEMORY;
+++    if (! elementType->defaultAttsNames.parser)
+++      hashTableInit(&(elementType->defaultAttsNames), parser);
++     if (parser->m_ns && ! setElementTypePrefix(parser, elementType))
++       return XML_ERROR_NO_MEMORY;
++   }
++@@ -7561,6 +7564,7 @@ dtdReset(DTD *p, XML_Parser parser) {
++     ELEMENT_TYPE *e = (ELEMENT_TYPE *)hashTableIterNext(&iter);
++     if (! e)
++       break;
+++    hashTableDestroy(&(e->defaultAttsNames));
++     if (e->allocDefaultAtts != 0)
++       FREE(parser, e->defaultAtts);
++   }
++@@ -7602,6 +7606,7 @@ dtdDestroy(DTD *p, XML_Bool isDocEntity, XML_Parser parser) {
++     ELEMENT_TYPE *e = (ELEMENT_TYPE *)hashTableIterNext(&iter);
++     if (! e)
++       break;
+++    hashTableDestroy(&(e->defaultAttsNames));
++     if (e->allocDefaultAtts != 0)
++       FREE(parser, e->defaultAtts);
++   }
++@@ -7695,6 +7700,10 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
++                                   sizeof(ELEMENT_TYPE));
++     if (! newE)
++       return 0;
+++
+++    if (! newE->defaultAttsNames.parser)
+++      hashTableInit(&(newE->defaultAttsNames), parser);
+++
++     if (oldE->nDefaultAtts) {
++       /* Detect and prevent integer overflow.
++        * The preprocessor guard addresses the "always false" warning
++@@ -7730,6 +7739,12 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
++           return 0;
++       } else
++         newE->defaultAtts[i].value = NULL;
+++
+++      NAMED *const nameAddedOrFound = (NAMED *)lookup(
+++          parser, &(newE->defaultAttsNames), attributeName, sizeof(NAMED));
+++      if (! nameAddedOrFound) {
+++        return 0;
+++      }
++     }
++   }
++ 
++@@ -8474,6 +8489,8 @@ getElementType(XML_Parser parser, const ENCODING *enc, const char *ptr,
++                                sizeof(ELEMENT_TYPE));
++   if (! ret)
++     return NULL;
+++  if (! ret->defaultAttsNames.parser)
+++    hashTableInit(&(ret->defaultAttsNames), getRootParserOf(parser, NULL));
++   if (ret->name != name)
++     poolDiscard(&dtd->pool);
++   else {
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
+new file mode 100644
+index 00000000000..5551d10243c
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
+@@ -0,0 +1,52 @@
++From 141a3c12639f9a4066293e81dbedde4c15b0881f Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sun, 8 Mar 2026 23:06:29 +0100
++Subject: [PATCH 7/7] lib: Leverage ELEMENT_TYPE.defaultAttsNames for attribute
++ collision detection
++
++.. to resolve quadratic runtime behavior
++
++(cherry picked from commit 4cd4eb0683e04cd45a2ffc81a08ca2a2663994b5)
++
++CVE: CVE-2026-45186
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/4cd4eb0683e04cd45a2ffc81a08ca2a2663994b5]
++Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
++---
++ lib/xmlparse.c | 14 ++++++++++----
++ 1 file changed, 10 insertions(+), 4 deletions(-)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index b7e2d72..04195cb 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -7189,10 +7189,10 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
++   if (value || isId) {
++     /* The handling of default attributes gets messed up if we have
++        a default which duplicates a non-default. */
++-    int i;
++-    for (i = 0; i < type->nDefaultAtts; i++)
++-      if (attId == type->defaultAtts[i].id)
++-        return 1;
+++    NAMED *const nameFound
+++        = (NAMED *)lookup(parser, &(type->defaultAttsNames), attId->name, 0);
+++    if (nameFound)
+++      return 1;
++     if (isId && ! type->idAtt && ! attId->xmlns)
++       type->idAtt = attId;
++   }
++@@ -7239,6 +7239,12 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
++   att->isCdata = isCdata;
++   if (! isCdata)
++     attId->maybeTokenized = XML_TRUE;
+++
+++  NAMED *const nameAddedOrFound = (NAMED *)lookup(
+++      parser, &(type->defaultAttsNames), attId->name, sizeof(NAMED));
+++  if (! nameAddedOrFound)
+++    return 0;
+++
++   type->nDefaultAtts += 1;
++   return 1;
 + }
++-- 
++2.43.0
 +
-+@@ -1128,6 +1130,7 @@ parse_data_get_out_arg (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->out_args, g_new0 (GDBusArgInfo, 1));
-++  g_assert (data->out_args->len > 0);
-+   return data->out_args->pdata[data->out_args->len - 1];
-+ }
-+
-+@@ -1137,6 +1140,7 @@ parse_data_get_method (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->methods, g_new0 (GDBusMethodInfo, 1));
-++  g_assert (data->methods->len > 0);
-+   return data->methods->pdata[data->methods->len - 1];
-+ }
-+
-+@@ -1146,6 +1150,7 @@ parse_data_get_signal (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->signals, g_new0 (GDBusSignalInfo, 1));
-++  g_assert (data->signals->len > 0);
-+   return data->signals->pdata[data->signals->len - 1];
-+ }
-+
-+@@ -1155,6 +1160,7 @@ parse_data_get_property (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->properties, g_new0 (GDBusPropertyInfo, 1));
-++  g_assert (data->properties->len > 0);
-+   return data->properties->pdata[data->properties->len - 1];
-+ }
-+
-+@@ -1164,6 +1170,7 @@ parse_data_get_interface (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->interfaces, g_new0 (GDBusInterfaceInfo, 1));
-++  g_assert (data->interfaces->len > 0);
-+   return data->interfaces->pdata[data->interfaces->len - 1];
-+ }
-+
-+@@ -1173,6 +1180,7 @@ parse_data_get_node (ParseData *data,
-+ {
-+   if (create_new)
-+     g_ptr_array_add (data->nodes, g_new0 (GDBusNodeInfo, 1));
-++  g_assert (data->nodes->len > 0);
-+   return data->nodes->pdata[data->nodes->len - 1];
-+ }
-+
-+--
-+2.54.0
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index dee94ec0600..fb35f84eec5 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -233,6 +233,8 @@ SRC_URI += "\
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
-            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
-            file://skip-timeout.patch \
-+           file://CVE-2026-58016-1.patch \
-+           file://CVE-2026-58016-2.patch \
+diff --git a/meta/recipes-core/expat/expat_2.7.5.bb b/meta/recipes-core/expat/expat_2.7.5.bb
+index 4f2578292d9..210398fb505 100644
+--- a/meta/recipes-core/expat/expat_2.7.5.bb
++++ b/meta/recipes-core/expat/expat_2.7.5.bb
+@@ -10,6 +10,13 @@ VERSION_TAG = "${@d.getVar('PV').replace('.', '_')}"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+            file://run-ptest \
++           file://CVE-2026-45186-01.patch \
++           file://CVE-2026-45186-02.patch \
++           file://CVE-2026-45186-03.patch \
++           file://CVE-2026-45186-04.patch \
++           file://CVE-2026-45186-05.patch \
++           file://CVE-2026-45186-06.patch \
++           file://CVE-2026-45186-07.patch \
             "
- SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+ 
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
 
