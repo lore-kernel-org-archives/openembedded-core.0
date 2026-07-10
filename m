@@ -2,10 +2,10 @@ Return-Path: <mark.yang@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9BAC44507
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B16C44501
 	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 07:44:23 +0000 (UTC)
 Received: from lgeamrelo13.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7958.1783669459323100269
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7955.1783669459169776366
  for <openembedded-core@lists.openembedded.org>;
  Fri, 10 Jul 2026 00:44:20 -0700
 Authentication-Results: mx.groups.io;
@@ -21,9 +21,9 @@ X-Original-MAILFROM: mark.yang@lge.com
 From: mark.yang@lge.com
 To: openembedded-core@lists.openembedded.org
 Cc: "mark.yang" <mark.yang@lge.com>
-Subject: [PATCH 2/4] python3-ply: set CVE_PRODUCT and CVE_STATUS for CVE-2025-56005 as disputed
-Date: Fri, 10 Jul 2026 16:43:02 +0900
-Message-ID: <20260710074415.3341616-2-mark.yang@lge.com>
+Subject: [PATCH 4/4] libx11-compose-data: set CVE_PRODUCT to empty value
+Date: Fri, 10 Jul 2026 16:43:04 +0900
+Message-ID: <20260710074415.3341616-4-mark.yang@lge.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260710074415.3341616-1-mark.yang@lge.com>
 References: <20260710074415.3341616-1-mark.yang@lge.com>
@@ -33,32 +33,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 07:44:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240601
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240600
 
 From: "mark.yang" <mark.yang@lge.com>
 
-For python3-ply, the CVE_PRODUCT should be set to ply, not python:ply.
-NVD registers ply as dabeaz:ply, so the default python:ply vendor prefix never matches and no CVEs are reported.
+This recipe only builds and installs the compose data files (nls/) from
+the libX11 sources and contains no compiled libX11 code, so libx11 CVEs
+do not apply to it. When the x11 DISTRO_FEATURE is enabled this recipe
+is skipped and libx11 itself is built and scanned instead.
 
-CVE-2025-56005 is disputed.
-See https://nvd.nist.gov/vuln/detail/CVE-2025-56005
+Referred glibc-locale case:
+https://github.com/openembedded/openembedded-core/commit/1f9a963b9ff7ebe052ba54b9fcbdf7d09478dd17
 
 Signed-off-by: mark.yang <mark.yang@lge.com>
 ---
- meta/recipes-devtools/python/python3-ply_3.11.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../recipes-graphics/xorg-lib/libx11-compose-data_1.8.12.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-ply_3.11.bb b/meta/recipes-devtools/python/python3-ply_3.11.bb
-index 2c5fa3f215..ce45bbc1bd 100644
---- a/meta/recipes-devtools/python/python3-ply_3.11.bb
-+++ b/meta/recipes-devtools/python/python3-ply_3.11.bb
-@@ -14,4 +14,8 @@ RDEPENDS:${PN}:class-target += "\
-     python3-shell \
- "
+diff --git a/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.8.12.bb b/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.8.12.bb
+index 562a8cbf16..4bf9f07aba 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.8.12.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.8.12.bb
+@@ -29,3 +29,9 @@ do_install() {
+ PACKAGES = "${PN}"
  
-+CVE_PRODUCT = "ply"
-+# https://nvd.nist.gov/vuln/detail/CVE-2025-56005 Disputed
-+CVE_STATUS[CVE-2025-56005] = "disputed: PoC fails to demonstrate code execution; picklefile is a developer-controlled parser-table cache parameter"
+ FILES:${PN} = "${datadir}/X11/locale ${libdir}/X11/locale"
 +
- BBCLASSEXTEND = "native nativesdk"
++# This recipe only builds and installs the compose data files (nls/) from
++# the libX11 sources and contains no compiled libX11 code, so libx11 CVEs
++# do not apply to it. When the x11 DISTRO_FEATURE is enabled this recipe
++# is skipped and libx11 itself is built and scanned instead.
++CVE_PRODUCT = ""
 
