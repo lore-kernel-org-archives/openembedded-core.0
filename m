@@ -2,1014 +2,1078 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E34A0C44507
-	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 16:37:24 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1959.1783701436873369551
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00286C44509
+	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 16:37:25 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1961.1783701438345966139
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jul 2026 09:37:17 -0700
+ Fri, 10 Jul 2026 09:37:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=yzuTUfhQ;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493c52cde9eso9709765e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 09:37:16 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=aOnfy4iZ;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493e8d4f4dcso9826635e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 09:37:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783701435; x=1784306235; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3rujqNHW/MZQdMhlzKvT+HCdTHpx9ifRvlOX3Dg4lCc=;
-        b=yzuTUfhQqfzPcUpjbB2pYE0ZE7ZEnZf9w0O1M6cZmS2lsXM1mvk/Ol6d7O8TdBMUaS
-         O1uRkmGefgrTBdSYwOPbck1FCY4hqO/u22OtEd8V1fBq6XNyeOfVA+2LY5PikNQXlZh9
-         LkHvyHLV2J/ZbKJWMw9ZnV9MsnQM/Dg8v4s8M=
+        d=smile.fr; s=google; t=1783701436; x=1784306236; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=R14PumXbFuOD/7B/+fGiQFsisW6cke7HKbABD+nSlBE=;
+        b=aOnfy4iZ4vydgvBCMV+fqT4H0rmb7wgXSzaiXeFEHTZOn47iFCKdns7p6sYECY2sfb
+         RfDdiU6gIAilJ9BMq1ilp18WmW03bRe2nc7o2a9kXOMAWUhv2qOQdbE1guw/vHtqp3jS
+         ermmVQIWi3PCZ8mvT/K/R3FrIDOJYB94ClU2M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783701435; x=1784306235;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3rujqNHW/MZQdMhlzKvT+HCdTHpx9ifRvlOX3Dg4lCc=;
-        b=pdFy2R/RSEDCbqvuxgbTG3VIo4+gyUSdOdZB6yxkn7fFK4ixXJQbRODZlwfy1HEoV+
-         JKbgJ8Scg3LAOeY2fL7ltn1Gg4LVaccBAcJEAf9agFqM9jgI00tKnPApBFAhAqt/j+RS
-         rK3kEBpVVtCot8+u1AjVlHxeI+hRP6/AlY09hkpC8y6GZCOJLGZyDAxLd5SI6g4OKZV1
-         aLOdlNUy0dABBkTg23KPmokq+mt+cVCr/1Id8H3v52pISEeZorZ/ynSyNnxl3ckxc1Dc
-         mowheWqj9s+pXno3mdwpFH9JXDhIwD4VXH9+k7UOrRVJWm8ZJL8FsqC4Wlz/m4losrd6
-         +GIw==
-X-Gm-Message-State: AOJu0Yxq4uM7qz3/zAyTiBCjmhlxLdOr1RkPX2h7CTi6kDOMzcSr5jFw
-	J8sULUtNvdyxqTAYdKnAIsQxtOI/sRTPnfgfZVaJVcw3vUV8i8ZEr7or8eZOUt29bzhnSLC90IH
-	kn8cdS8I=
-X-Gm-Gg: AfdE7cl10FdQ0AaZ5Jz/9fAeE/dsBLwy4xfT/+4aE+psnwwpo+FQbg8tNGDXMwbD8tt
-	kSmJfvGVp1tdPrWtT4idVK1zT4mmFTa7JVrS9FzcuHiE7kUl7MjE48gKuxMIkPvznV/FGW8ctjr
-	HhDd/bq1hG8W2EEJ/QIC3nYJr8lpG18JI6mZIUpwtKX0HWCXOwtk55w1Q/XhlxETaKGVQjlF+8u
-	YIlvNzAAJ515r/D4Gb+Se3AiQy1gXQycULRCTeZiL9YX5Pzbd9A50ky2TMlcoNhMu/K0rpBGYoQ
-	w6smw+UEUKnmWUV8YVgYPnJFTE7pdwB41fjPRTOg6m+JbiFBGi5O99J5k+natwkrgEZqNpaHsMZ
-	fzdBYhsSKJtslqz9N3dVkoxhy5J9EBuZmQaDcBstb+VRYcWQ8l44ednscpPv55H0yZN2l4DI/ia
-	xGj64AyphH8HvZPYsoAd/HkahnHoGrHBwHYVBmQrRyFind3quiKqpPYSIpkg3J3hfg90bMJLERN
-	zFYBsagBWPvrWbNWkM=
-X-Received: by 2002:a05:600c:4ec8:b0:493:e8bc:a75b with SMTP id 5b1f17b1804b1-493e8bca80fmr108563215e9.30.1783701434447;
-        Fri, 10 Jul 2026 09:37:14 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783701437; x=1784306237;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=R14PumXbFuOD/7B/+fGiQFsisW6cke7HKbABD+nSlBE=;
+        b=gaFFATz95qKA0PERk1t6bjYbCtLySgtD1TMQhqWv7Qmf5xnvRZi7B9+NGxf+1pmqpp
+         2Vjz9a361aeuoZf1pQMgvTYcFO3ZPse6FWiW74KFMo9q/oj4217QnsnL+cNKiuyx4lmY
+         gKXrof2g7wA1G4NO1OP95lz2mCzYJQqzoJPgNjgzD3v81BMBykYn8tcpCrbf1lQQHpoX
+         8FN5AYNbuqMEbWCjpBOopHZ4zBcsHu/9ztCHVcT6rvgowTRdaAEST9RH06D78KOwoP2A
+         KohpH8CuERIzh+hmdzszP8z0q4ZGWvDA4ijLeZrzVyOne9rMjxkgjLqGEtHedf318zzL
+         6Jpw==
+X-Gm-Message-State: AOJu0Yy7//Kdw/mVVc3E7nMBYfX7cEOCeZ0z8nXv6k3nw0rbF+Oy5R3r
+	8I8o1IJnPjrE9BCOIzeEitdOB8YmbhzynG9cECzpTBdaByuly4VeVXyjwdqAuQ/wy/QtBVjhQzz
+	cDSYF2fA=
+X-Gm-Gg: AfdE7ckNX4OmL2X04Opf0t2UK4QK3PQGCpfa7+BMWCdcYsDx4nx0seX0XRtgmwSLzpo
+	akFeI+l5CCcioxxFHiZOveha6xCo1hSivmiReZj9zf/6CA5e+ThSdpR05+Jr1js78NNvWmQQx14
+	B4jrjWSMMtKfSTRjyQI1bAOq91NqxVRqmQ4LIJ7fnNtxozA9gYWZ08PvTOi+NT6Y9QNixO0M+gq
+	9DtQwlaw05cJ+pEPUBw1Xps8YCwK3gcEwNKqquYuxIZanqEwC36I/qPuMsm8XINzhJ8ySR5bH2P
+	IKFIqyUwT7izmNeEpF0BKbHfOPrwlgxJ1THbJoy5YyvSTi00t1qWnqTcVFHvFNetGZ2DYJqrWi6
+	6fj9Mv13pXBnaALliJOq1ApRkfwanAknz1t2gS5QJ2cohdyKyjgczXoQQtSH1uBLfXDFhHi6Uiu
+	AsTG8XdcDzeapazYZ2roG41+UW3fIFi50kWR6n6TttAoy7S4A0O38leQpq1fHUwWLAog0L+TvXC
+	Jw+WEim6nAsGVUjo4g=
+X-Received: by 2002:a05:600c:8119:b0:490:9d1b:f086 with SMTP id 5b1f17b1804b1-493e686ad70mr126343455e9.14.1783701436175;
+        Fri, 10 Jul 2026 09:37:16 -0700 (PDT)
 Received: from localhost.localdomain (2a02-8440-2608-8c5f-3a92-eb6f-dc01-ac58.rev.sfr.net. [2a02:8440:2608:8c5f:3a92:eb6f:dc01:ac58])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6d4f9fsm150758695e9.4.2026.07.10.09.37.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6d4f9fsm150758695e9.4.2026.07.10.09.37.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 09:37:14 -0700 (PDT)
+        Fri, 10 Jul 2026 09:37:15 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 16/18] vim: Fix for CVE-2026-52858,CVE-2026-52859,CVE-2026-52860
-Date: Fri, 10 Jul 2026 18:36:31 +0200
-Message-ID: <7b6fdaa381f86ef49ba0a7611a607b8231dd4027.1783697455.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 18/18] gnutls: fix CVE-2026-33846
+Date: Fri, 10 Jul 2026 18:36:33 +0200
+Message-ID: <73299cef1b7cd6446c918c361fd2c47534126361.1783697455.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783697455.git.yoann.congal@smile.fr>
 References: <cover.1783697455.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 16:37:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240678
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240679
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
 
-Pick patch from [1], [2] & [3] also mentioned at NVD report in [4,5 & 6]
+Backport upstream fixes for DTLS handshake fragment reassembly
+vulnerability (CVE-2026-33846).
 
-[1] https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d
-[2] https://github.com/vim/vim/commit/63680c6d3d52477817b49cd1a66e7aabe8a7aa19
-[3] https://github.com/vim/vim/commit/c8c63673bc4253212820626aeeb75999d9a539d2
-[4] https://nvd.nist.gov/vuln/detail/CVE-2026-52858
-[5] https://nvd.nist.gov/vuln/detail/CVE-2026-52859
-[6] https://nvd.nist.gov/vuln/detail/CVE-2026-52860
+Includes:
+- 4f94e5cfe1f2: add basic DTLS fragment reassembly test
+- 9deffca528c2: shorten merge_handshake_packet using recv_buf
+- 65ab33fa54e3: add validation checks for DTLS fragment length and bounds
+- cf3f1955e58c: add reproducer for DTLS fragment reassembly bug (#1816)
+- bb427ff74dba: add fragmented ClientHello test coverage
+- 092c65d004e2: match DTLS datagrams by handshake sequence number
+- a2b41be83a1a: add test for mismatched message_seq handling (#1839)
+- 68b2fb63c8df: link mini-dtls-fragments test to gnulib
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+These commits are included in gnutls 3.8.13 and are backported by
+both Debian (gnutls28_3.8.9-3+deb13u4) and CentOS 10-stream
+(gnutls-3.8.10-4.el10) using identical commit selection.
+
+Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../vim/files/CVE-2026-52858.patch            | 167 +++++++
- .../vim/files/CVE-2026-52859.patch            | 274 +++++++++++
- .../vim/files/CVE-2026-52860.patch            | 446 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   3 +
- 4 files changed, 890 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52858.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52859.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52860.patch
+ ...fragments-implement-a-basic-DTLS-tes.patch | 258 ++++++++++++++++++
+ ...merge_handshake_packet-using-recv_bu.patch |  96 +++++++
+ ...s-add-more-checks-to-DTLS-reassembly.patch |  65 +++++
+ ...fragments-extend-with-a-1816-reprodu.patch | 159 +++++++++++
+ ...fragments-extend-with-fragmenting-Cl.patch | 149 ++++++++++
+ ...ch-DTLS-datagrams-by-sequence-number.patch |  42 +++
+ ...fragments-1839-mismatching-message_s.patch | 104 +++++++
+ ...ts-mini-dtls-framents-link-to-gnulib.patch |  27 ++
+ meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   8 +
+ 9 files changed, 908 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-fragments-implement-a-basic-DTLS-tes.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0002-buffers-shorten-merge_handshake_packet-using-recv_bu.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0003-buffers-add-more-checks-to-DTLS-reassembly.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0004-tests-mini-dtls-fragments-extend-with-a-1816-reprodu.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0005-tests-mini-dtls-fragments-extend-with-fragmenting-Cl.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0006-buffers-match-DTLS-datagrams-by-sequence-number.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0008-tests-mini-dtls-framents-link-to-gnulib.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-52858.patch b/meta/recipes-support/vim/files/CVE-2026-52858.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-fragments-implement-a-basic-DTLS-tes.patch b/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-fragments-implement-a-basic-DTLS-tes.patch
 new file mode 100644
-index 00000000000..38d477eeb9b
+index 00000000000..8519bb2d2d6
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-52858.patch
-@@ -0,0 +1,167 @@
-+From 4b850457e12e1a678dd209f2868154f7553cbf8d Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Fri, 29 May 2026 19:05:53 +0000
-+Subject: [PATCH] patch 9.2.0561: [security]: possible code execution with
-+ python3complete
++++ b/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-fragments-implement-a-basic-DTLS-tes.patch
+@@ -0,0 +1,258 @@
++From 9dce4b38fd94997c0fb2b3e33e997d1c33256e0e Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Fri, 20 Mar 2026 16:09:40 +0100
++Subject: [PATCH 1/8] tests/mini-dtls-fragments: implement a basic DTLS test
 +
-+Problem:  [security]: possible code execution with python3complete
-+Solution: Disable execution of import/from statements
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
 +
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-52mc-rq6p-rc7c
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d]
-+CVE: CVE-2026-52858
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/4f94e5cfe1f252a431e41642b0752e7e0daf43b9]
++CVE: CVE-2026-33846
++Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
 +---
-+ runtime/autoload/README.txt          |  1 +
-+ runtime/autoload/python3complete.vim | 17 ++++++++++++++---
-+ runtime/autoload/pythoncomplete.vim  | 17 ++++++++++++++---
-+ runtime/doc/filetype.txt             | 15 ++++++++++++++-
-+ 4 files changed, 43 insertions(+), 7 deletions(-)
++ tests/Makefile.am           |   7 +-
++ tests/mini-dtls-fragments.c | 208 ++++++++++++++++++++++++++++++++++++
++ 2 files changed, 214 insertions(+), 1 deletion(-)
++ create mode 100644 tests/mini-dtls-fragments.c
 +
-+diff --git a/runtime/autoload/README.txt b/runtime/autoload/README.txt
-+index 3b18d3dde5..b22581963e 100644
-+--- a/runtime/autoload/README.txt
-++++ b/runtime/autoload/README.txt
-+@@ -17,6 +17,7 @@ htmlcomplete.vim	HTML
-+ javascriptcomplete.vim  Javascript
-+ phpcomplete.vim		PHP
-+ pythoncomplete.vim	Python
-++python3complete.vim Python
-+ rubycomplete.vim	Ruby
-+ syntaxcomplete.vim	from syntax highlighting
-+ xmlcomplete.vim		XML (uses files in the xml directory)
-+diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
-+index 3e54433f41..2b6a652525 100644
-+--- a/runtime/autoload/python3complete.vim
-++++ b/runtime/autoload/python3complete.vim
-+@@ -14,6 +14,10 @@
-+ "   i.e. "import url<c-x,c-o>"
-+ " Continue parsing on invalid line??
-+ "
-++" v 0.10 by Vim project
-++"   * disables importing local modules, unless the global Vim variable
-++"     g:pythoncomplete_allow_import is set to non-zero
-++"
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+ "   * Fixed parsing of *args and **kwargs type arguments
-+@@ -132,11 +136,20 @@ class Completer(object):
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index db5aa4e3a..ee95198ff 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -241,7 +241,8 @@ ctests += mini-record-2 simple gnutls_hmac_fast set_pkcs12_cred cert certuniquei
++ 	 x509cert-dntypes id-on-xmppAddr tls13-compat-mode ciphersuite-name \
++ 	 x509-upnconstraint xts-key-check cipher-padding pkcs7-verify-double-free \
++ 	 fips-rsa-sizes tls12-rehandshake-ticket pathbuf tls-force-ems \
++-	 psk-importer privkey-derive dh-compute2 ecdh-compute2
+++	 psk-importer privkey-derive dh-compute2 ecdh-compute2 \
+++	 mini-dtls-fragments
 + 
-+     def evalsource(self,text,line=0):
-+         sc = self.parser.parse(text,line)
-++        try: allow_imports = int(
-++          vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
-++        except Exception:
-++          allow_imports = 0
-+         src = sc.get_code()
-+         dbg("source: %s" % src)
-+         try: exec(src,self.compldict)
-+         except: dbg("parser: %s, %s" % (sys.exc_info()[0],sys.exc_info()[1]))
-+         for l in sc.locals:
-++            # Executing import/from statements harvested from the buffer runs
-++            # arbitrary package code; only do so when the user opted in.
-++            if not allow_imports and (l.startswith('import')
-++                                            or l.startswith('from ')):
-++                continue
-+             try: exec(l,self.compldict)
-+             except: dbg("locals: %s, %s [%s]" % (sys.exc_info()[0],sys.exc_info()[1],l))
++ ctests += tls-channel-binding
 + 
-+@@ -300,13 +313,11 @@ class Scope(object):
-+     def get_code(self):
-+         str = ""
-+         if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
-+-        for l in self.locals:
-+-            if l.startswith('import'): str += l+'\n'
-+         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
-+         for sub in self.subscopes:
-+             str += sub.get_code()
-+         for l in self.locals:
-+-            if not l.startswith('import'): str += l+'\n'
-++            if not l.startswith('import') and not l.startswith('from '): str += l+'\n'
++@@ -505,6 +506,10 @@ pathbuf_CPPFLAGS = $(AM_CPPFLAGS) \
++ 	-I$(top_srcdir)/gl	\
++ 	-I$(top_builddir)/gl
 + 
-+         return str
-+ 
-+diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
-+index aa28bb721f..10147767ef 100644
-+--- a/runtime/autoload/pythoncomplete.vim
-++++ b/runtime/autoload/pythoncomplete.vim
-+@@ -12,6 +12,10 @@
-+ "   i.e. "import url<c-x,c-o>"
-+ " Continue parsing on invalid line??
-+ "
-++" v 0.10 by Vim project
-++"   * disables importing local modules, unless the global Vim variable
-++"     g:pythoncomplete_allow_import is set to non-zero
-++"
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+ "   * Fixed parsing of *args and **kwargs type arguments
-+@@ -146,11 +150,20 @@ class Completer(object):
-+ 
-+     def evalsource(self,text,line=0):
-+         sc = self.parser.parse(text,line)
-++        try: allow_imports = int(
-++          vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
-++        except Exception:
-++          allow_imports = 0
-+         src = sc.get_code()
-+         dbg("source: %s" % src)
-+         try: exec(src) in self.compldict
-+         except: dbg("parser: %s, %s" % (sys.exc_info()[0],sys.exc_info()[1]))
-+         for l in sc.locals:
-++            # Executing import/from statements harvested from the buffer runs
-++            # arbitrary package code; only do so when the user opted in.
-++            if not allow_imports and (l.startswith('import')
-++                                            or l.startswith('from ')):
-++                continue
-+             try: exec(l) in self.compldict
-+             except: dbg("locals: %s, %s [%s]" % (sys.exc_info()[0],sys.exc_info()[1],l))
-+ 
-+@@ -315,13 +328,11 @@ class Scope(object):
-+     def get_code(self):
-+         str = ""
-+         if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
-+-        for l in self.locals:
-+-            if l.startswith('import'): str += l+'\n'
-+         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
-+         for sub in self.subscopes:
-+             str += sub.get_code()
-+         for l in self.locals:
-+-            if not l.startswith('import'): str += l+'\n'
-++            if not l.startswith('import') and not l.startswith('from '): str += l+'\n'
-+ 
-+         return str
-+ 
-+diff --git a/runtime/doc/filetype.txt b/runtime/doc/filetype.txt
-+index 461f801ccc..24d833cd54 100644
-+--- a/runtime/doc/filetype.txt
-++++ b/runtime/doc/filetype.txt
-+@@ -982,7 +982,20 @@ By default the following options are set, in accordance with PEP8: >
-+ To disable this behavior, set the following variable in your vimrc: >
-+ 
-+ 	let g:python_recommended_style = 0
-+-
-++<
-++Python omni-completion |compl-omni| is provided by python3complete.vim (or
-++pythoncomplete.vim) for Vim builds with the |+python|/|+python3| interpreter.
-++By default it does not inspect the import / from statements found in the
-++buffer. This means completion of names defined in the buffer itself (classes,
-++functions, variables) works, but completion of members of imported modules is
-++not offered.
+++mini_dtls_fragments_CPPFLAGS = $(AM_CPPFLAGS) \
+++	-I$(top_srcdir)/gl	\
+++	-I$(top_builddir)/gl
 ++
-++To enable completion of imported module members, set: >
-++	let g:pythoncomplete_allow_import = 1
-++<
-++WARNING: enabling this causes omni-completion to execute the import statements
-++found in the buffer through Python's import machinery, which runs the imported
-++modules' top-level code. Only enable this for code you trust.
-+ 
-+ QF QUICKFIX					    *qf.vim* *ft-qf-plugin*
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/vim/files/CVE-2026-52859.patch b/meta/recipes-support/vim/files/CVE-2026-52859.patch
-new file mode 100644
-index 00000000000..7a91dab4961
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-52859.patch
-@@ -0,0 +1,274 @@
-+From 63680c6d3d52477817b49cd1a66e7aabe8a7aa19 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Sat, 30 May 2026 16:34:40 +0000
-+Subject: [PATCH] patch 9.2.0565: [security]: out-of-bounds read in
-+ update_snapshot()
-+
-+Problem:  Out-of-bounds read in update_snapshot() when a terminal cell
-+          fills all VTERM_MAX_CHARS_PER_CELL slots (a base character
-+          plus five combining marks): the loop over cell.chars[] has no
-+          upper bound and libvterm leaves the array unterminated when full, so
-+          it reads past the array and appends out-of-bounds values to a
-+          buffer sized for only VTERM_MAX_CHARS_PER_CELL characters.
-+Solution: Bound the loop with i < VTERM_MAX_CHARS_PER_CELL, mirroring
-+          the loop in handle_pushline() (Christian Brabandt).
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/63680c6d3d52477817b49cd1a66e7aabe8a7aa19]
-+CVE: CVE-2026-52859
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/terminal.c                          |   3 +-
-+ src/testdir/samples/combining_chars.txt | 200 ++++++++++++++++++++++++
-+ src/testdir/test_terminal3.vim          |  15 ++
-+ 3 files changed, 217 insertions(+), 1 deletion(-)
-+ create mode 100644 src/testdir/samples/combining_chars.txt
-+
-+diff --git a/src/terminal.c b/src/terminal.c
-+index 6a9c286e29..f42125bf22 100644
-+--- a/src/terminal.c
-++++ b/src/terminal.c
-+@@ -2265,7 +2265,8 @@ update_snapshot(term_T *term)
-+ 			    int	    i;
-+ 			    int	    c;
-+ 
-+-			    for (i = 0; (c = cell.chars[i]) > 0 || i == 0; ++i)
-++			    for (i = 0; i < VTERM_MAX_CHARS_PER_CELL &&
-++				    ((c = cell.chars[i]) > 0 || i == 0); ++i)
-+ 				ga.ga_len += utf_char2bytes(c == NUL ? ' ' : c,
-+ 					     (char_u *)ga.ga_data + ga.ga_len);
-+ 			}
-+diff --git a/src/testdir/samples/combining_chars.txt b/src/testdir/samples/combining_chars.txt
++ if ENABLE_PKCS11
++ if !WINDOWS
++ ctests += tls13/post-handshake-with-cert-pkcs11 pkcs11/tls-neg-pkcs11-no-key \
++diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
 +new file mode 100644
-+index 0000000000..d9a3c171fb
++index 000000000..ee75feeb6
 +--- /dev/null
-++++ b/src/testdir/samples/combining_chars.txt
-+@@ -0,0 +1,200 @@
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-++á́́́́ጁ
-+diff --git a/src/testdir/test_terminal3.vim b/src/testdir/test_terminal3.vim
-+index 04c7c925e3..738a4c6284 100644
-+--- a/src/testdir/test_terminal3.vim
-++++ b/src/testdir/test_terminal3.vim
-+@@ -1241,4 +1241,19 @@ func Test_terminal_csi_args_overflow()
-+   call StopVimInTerminal(buf)
-+ endfunc
-+ 
-++func Test_terminal_output_combining_chars()
-++  CheckUnix
-++  new
-++  let cmd = "cat samples/combining_chars.txt"
-++  let buf = term_start(cmd, {'curwin': 1, 'term_finish': 'open', 'term_rows': 10, 'term_cols': 30})
-++  call WaitForAssert({-> assert_match('finished', term_getstatus(buf))})
-++  call TermWait(buf)
-++  let lines = getbufline(buf, 1, '$')
-++  " get byte lengths to confirm combining chars present
-++  let lens = map(copy(lines), 'len(v:val)')
-++  let expected = repeat([11], 190) + repeat([14], 10)
-++  call assert_equal(expected, lens)
-++  bw!
-++endfunc
+++++ b/tests/mini-dtls-fragments.c
++@@ -0,0 +1,208 @@
+++/*
+++ * Copyright (C) 2026 Red Hat, Inc.
+++ *
+++ * Author: Alexander Sosedkin
+++ *
+++ * This file is part of GnuTLS.
+++ *
+++ * GnuTLS is free software; you can redistribute it and/or modify it
+++ * under the terms of the GNU General Public License as published by
+++ * the Free Software Foundation; either version 3 of the License, or
+++ * (at your option) any later version.
+++ *
+++ * GnuTLS is distributed in the hope that it will be useful, but
+++ * WITHOUT ANY WARRANTY; without even the implied warranty of
+++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++ * General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU Lesser General Public License
+++ * along with this program.  If not, see <https://www.gnu.org/licenses/>
+++ */
 ++
-+ " vim: shiftwidth=2 sts=2 expandtab
+++#ifdef HAVE_CONFIG_H
+++#include "config.h"
+++#endif
+++
+++#include <stdio.h>
+++#include <stdlib.h>
+++
+++#if defined(_WIN32)
+++
+++int main(void)
+++{
+++	exit(77);
+++}
+++
+++#else
+++
+++#include <assert.h>
+++#include <errno.h>
+++#include <stdbool.h>
+++#include <stdint.h>
+++#include <string.h>
+++#include <gnutls/gnutls.h>
+++#include <gnutls/dtls.h>
+++#include "cert-common.h"
+++#include "utils.h"
+++
+++#include "attribute.h"
+++
+++static void server_log_func(int level, const char *str)
+++{
+++	fprintf(stderr, "server|<%d>| %s", level, str);
+++}
+++
+++static void client_log_func(int level, const char *str)
+++{
+++	fprintf(stderr, "client|<%d>| %s", level, str);
+++}
+++
+++#define QUEUE_SIZE 1024
+++#define PACKET_SIZE 2048
+++
+++typedef struct {
+++	uint8_t buf[PACKET_SIZE];
+++	size_t len;
+++} packet_t;
+++typedef struct {
+++	packet_t packets[QUEUE_SIZE];
+++	size_t head;
+++	size_t tail;
+++} queue_t;
+++
+++static queue_t c2s, s2c;
+++
+++static int queue_put(queue_t *q, const void *buf, size_t len)
+++{
+++	assert(len <= PACKET_SIZE);
+++	memcpy(q->packets[q->tail].buf, buf, len);
+++	q->packets[q->tail].len = len;
+++	q->tail++;
+++	q->tail %= QUEUE_SIZE;
+++	assert(q->tail != q->head);
+++	return len;
+++}
+++
+++static ssize_t queue_get(queue_t *q, gnutls_session_t s, void *buf, size_t len)
+++{
+++	if (q->head == q->tail) {
+++		gnutls_transport_set_errno(s, EAGAIN);
+++		return -1;
+++	}
+++	size_t n = q->packets[q->head].len;
+++	memcpy(buf, q->packets[q->head].buf, n);
+++	q->head++;
+++	q->head %= QUEUE_SIZE;
+++	return n;
+++}
+++
+++static void queue_reset(queue_t *q)
+++{
+++	q->head = q->tail = 0;
+++}
+++
+++static int pull_timeout(gnutls_transport_ptr_t tr, unsigned ms)
+++{
+++	return 1;
+++}
+++
+++static ssize_t server_pull(gnutls_transport_ptr_t tr, void *b, size_t l)
+++{
+++	return queue_get(&c2s, (gnutls_session_t)tr, b, l);
+++}
+++
+++static ssize_t client_pull(gnutls_transport_ptr_t tr, void *b, size_t l)
+++{
+++	return queue_get(&s2c, (gnutls_session_t)tr, b, l);
+++}
+++
+++static ssize_t server_push(gnutls_transport_ptr_t tr, const void *b, size_t l)
+++{
+++	return queue_put(&s2c, b, l);
+++}
+++
+++static ssize_t client_push_normal(gnutls_transport_ptr_t tr, const void *b,
+++				  size_t l)
+++{
+++	return queue_put(&c2s, b, l);
+++}
+++
+++static void test(gnutls_push_func client_push)
+++{
+++	gnutls_session_t client, server;
+++	gnutls_certificate_credentials_t ccred, scred;
+++	int cr = 0, sr = 0;
+++	bool cdone = false, sdone = false;
+++
+++	if (debug)
+++		gnutls_global_set_log_level(4711);
+++
+++	gnutls_certificate_allocate_credentials(&scred);
+++	gnutls_certificate_set_x509_key_mem(scred, &server_cert, &server_key,
+++					    GNUTLS_X509_FMT_PEM);
+++	gnutls_certificate_allocate_credentials(&ccred);
+++
+++	gnutls_init(&server, GNUTLS_SERVER | GNUTLS_DATAGRAM);
+++	gnutls_init(&client, GNUTLS_CLIENT | GNUTLS_DATAGRAM);
+++
+++	gnutls_priority_set_direct(server, "NORMAL:-VERS-ALL:+VERS-DTLS1.2",
+++				   NULL);
+++	gnutls_priority_set_direct(client, "NORMAL:-VERS-ALL:+VERS-DTLS1.2",
+++				   NULL);
+++
+++	gnutls_credentials_set(server, GNUTLS_CRD_CERTIFICATE, scred);
+++	gnutls_credentials_set(client, GNUTLS_CRD_CERTIFICATE, ccred);
+++
+++	gnutls_dtls_set_timeouts(client, get_dtls_retransmit_timeout(),
+++				 get_timeout());
+++	gnutls_dtls_set_timeouts(server, get_dtls_retransmit_timeout(),
+++				 get_timeout());
+++
+++	gnutls_transport_set_ptr(client, client);
+++	gnutls_transport_set_push_function(client, client_push);
+++	gnutls_transport_set_pull_function(client, client_pull);
+++	gnutls_transport_set_pull_timeout_function(client, pull_timeout);
+++
+++	gnutls_transport_set_ptr(server, server);
+++	gnutls_transport_set_push_function(server, server_push);
+++	gnutls_transport_set_pull_function(server, server_pull);
+++	gnutls_transport_set_pull_timeout_function(server, pull_timeout);
+++
+++	while (!cdone || !sdone) {
+++		gnutls_global_set_log_function(client_log_func);
+++		if (!cdone)
+++			cr = gnutls_handshake(client);
+++		if (!cr || gnutls_error_is_fatal(cr))
+++			cdone = true;
+++
+++		gnutls_global_set_log_function(server_log_func);
+++		if (!sdone)
+++			sr = gnutls_handshake(server);
+++		if (!sr || gnutls_error_is_fatal(sr))
+++			sdone = true;
+++	}
+++
+++	if (cr)
+++		fail("client: %s\n", gnutls_strerror(cr));
+++	if (sr)
+++		fail("server: %s\n", gnutls_strerror(sr));
+++
+++	success("OK\n");
+++
+++	queue_reset(&c2s);
+++	queue_reset(&s2c);
+++
+++	gnutls_deinit(client);
+++	gnutls_deinit(server);
+++	gnutls_certificate_free_credentials(ccred);
+++	gnutls_certificate_free_credentials(scred);
+++}
+++
+++void doit(void)
+++{
+++	global_init();
+++	test(client_push_normal);
+++	gnutls_global_deinit();
+++}
+++
+++#endif /* _WIN32 */
 +-- 
-+2.34.1
++2.53.0
 +
-diff --git a/meta/recipes-support/vim/files/CVE-2026-52860.patch b/meta/recipes-support/vim/files/CVE-2026-52860.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/0002-buffers-shorten-merge_handshake_packet-using-recv_bu.patch b/meta/recipes-support/gnutls/gnutls/0002-buffers-shorten-merge_handshake_packet-using-recv_bu.patch
 new file mode 100644
-index 00000000000..1e370847f63
+index 00000000000..aaf51992c27
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-52860.patch
-@@ -0,0 +1,446 @@
-+From c8c63673bc4253212820626aeeb75999d9a539d2 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Thu, 4 Jun 2026 21:06:09 +0000
-+Subject: [PATCH] patch 9.2.0597: [security]: possible code execution with
-+ python complete
++++ b/meta/recipes-support/gnutls/gnutls/0002-buffers-shorten-merge_handshake_packet-using-recv_bu.patch
+@@ -0,0 +1,96 @@
++From 3ff7f6be9bb08463dd06765ab501430c4965ee05 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Fri, 17 Apr 2026 17:49:31 +0200
++Subject: [PATCH 2/8] buffers: shorten merge_handshake_packet using recv_buf
 +
-+Problem:  [security]: another possible code execution with python complete
-+          (David Carliez)
-+Solution: Strip default expressions and annotations from generated
-+          source for pythoncomplete and python3complete.
++I had vague concerns about thread-safety of this,
++but then this pattern already exists within the file.
 +
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-65p9-mwwx-7468
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
 +
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/c8c63673bc4253212820626aeeb75999d9a539d2]
-+CVE: CVE-2026-52860
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/9deffca528c23bbb218f5ec3bd4bb1bf4cbd1fc0]
++CVE: CVE-2026-33846
++Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
 +---
-+ runtime/autoload/python3complete.vim        |  43 +++-
-+ runtime/autoload/pythoncomplete.vim         |  43 +++-
-+ src/testdir/Make_all.mak                    |   2 +
-+ src/testdir/test_plugin_python3complete.vim | 224 ++++++++++++++++++++
-+ 4 files changed, 304 insertions(+), 8 deletions(-)
-+ create mode 100644 src/testdir/test_plugin_python3complete.vim
++ lib/buffers.c | 52 +++++++++++++++++----------------------------------
++ 1 file changed, 17 insertions(+), 35 deletions(-)
 +
-+diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
-+index 2b6a652525..c4ef19d82f 100644
-+--- a/runtime/autoload/python3complete.vim
-++++ b/runtime/autoload/python3complete.vim
-+@@ -1,8 +1,8 @@
-+ "python3complete.vim - Omni Completion for python
-+ " Maintainer: <vacancy>
-+ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
-+-" Version: 0.9
-+-" Last Updated: 2022 Mar 30
-++" Version: 0.10
-++" Last Updated: 2026 Jun 04
-+ "
-+ " Roland Puntaier: this file contains adaptations for python3 and is parallel to pythoncomplete.vim
-+ "
-+@@ -17,6 +17,11 @@
-+ " v 0.10 by Vim project
-+ "   * disables importing local modules, unless the global Vim variable
-+ "     g:pythoncomplete_allow_import is set to non-zero
-++"   * strip default values and annotations from function parameter lists
-++"     before exec(), and whitelist class base lists to dotted names: the
-++"     previous code passed buffer-supplied expressions to exec() which
-++"     Python evaluates at definition time, allowing arbitrary code
-++"     execution via crafted def/class headers
-+ "
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+@@ -100,6 +105,24 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
++diff --git a/lib/buffers.c b/lib/buffers.c
++index 672380b05..d54c77022 100644
++--- a/lib/buffers.c
+++++ b/lib/buffers.c
++@@ -967,9 +967,11 @@ static int merge_handshake_packet(gnutls_session_t session,
++ 	int exists = 0, i, pos = 0;
++ 	int ret;
 + 
-+ import sys, tokenize, io, types
-+ from token import NAME, DEDENT, NEWLINE, STRING
-++import re
+++	handshake_buffer_st *recv_buf =
+++		session->internals.handshake_recv_buffer;
 ++
-++# Used by Class.get_code(): a base class expression is only included in the
-++# code passed to exec() if it is a pure dotted name (e.g. "Base", "mod.Base",
-++# "pkg.sub.Cls").  Anything containing calls, subscripts, "=", ":" or other
-++# operators is dropped, since exec()-ing it would evaluate buffer-supplied
-++# expressions.  See the security note in the file header.
-++_DOTTED_NAME_RE = re.compile(r'^[A-Za-z_]\w*(\s*\.\s*[A-Za-z_]\w*)*$')
-++
-++def _strip_param(p):
-++    # Return the bare parameter name from a parameter spec harvested by
-++    # _parenparse(), discarding any default value or annotation.  Default
-++    # values and annotations would otherwise be evaluated by exec() at
-++    # function-definition time.  Star prefixes ("*args", "**kw") and bare
-++    # "*" / "/" are preserved as written.
-++    p = p.split('=', 1)[0]
-++    p = p.split(':', 1)[0]
-++    return p.strip()
++ 	for (i = 0; i < session->internals.handshake_recv_buffer_size; i++) {
++-		if (session->internals.handshake_recv_buffer[i].htype ==
++-		    hsk->htype) {
+++		if (recv_buf[i].htype == hsk->htype) {
++ 			exists = 1;
++ 			pos = i;
++ 			break;
++@@ -1005,44 +1007,24 @@ static int merge_handshake_packet(gnutls_session_t session,
++ 		_gnutls_write_uint24(0, &hsk->header[6]);
++ 		_gnutls_write_uint24(hsk->length, &hsk->header[9]);
 + 
-+ debugstmts=[]
-+ def dbg(s): debugstmts.append(s)
-+@@ -347,7 +370,13 @@ class Class(Scope):
-+         return c
-+     def get_code(self):
-+         str = '%sclass %s' % (self.currentindent(),self.name)
-+-        if len(self.supers) > 0: str += '(%s)' % ','.join(self.supers)
-++        # Only include base class expressions that are pure dotted names.
-++        # Anything else (calls, subscripts, conditionals, ...) is dropped
-++        # because exec() would evaluate it at class-definition time.  See
-++        # the security note in the file header.
-++        safe_supers = [s.strip() for s in self.supers
-++                       if _DOTTED_NAME_RE.match(s.strip())]
-++        if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
-+         str += ':\n'
-+         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-+         if len(self.subscopes) > 0:
-+@@ -364,8 +393,14 @@ class Function(Scope):
-+     def copy_decl(self,indent=0):
-+         return Function(self.name,self.params,indent, self.docstr)
-+     def get_code(self):
-++        # Strip default values and annotations from each parameter before
-++        # joining: exec() evaluates these at definition time and a hostile
-++        # buffer could otherwise execute arbitrary code via crafted def
-++        # headers.  See file header for details.
-++        safe_params = [_strip_param(p) for p in self.params]
-++        safe_params = [p for p in safe_params if p]
-+         str = "%sdef %s(%s):\n" % \
-+-            (self.currentindent(),self.name,','.join(self.params))
-++            (self.currentindent(),self.name,','.join(safe_params))
-+         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-+         str += "%spass\n" % self.childindent()
-+         return str
-+diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
-+index 10147767ef..39b1efd299 100644
-+--- a/runtime/autoload/pythoncomplete.vim
-++++ b/runtime/autoload/pythoncomplete.vim
-+@@ -1,8 +1,8 @@
-+ "pythoncomplete.vim - Omni Completion for python
-+ " Maintainer: <vacancy>
-+ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
-+-" Version: 0.9
-+-" Last Updated: 2020 Oct 9
-++" Version: 0.10
-++" Last Updated: 2026 Jun 04
-+ "
-+ " Changes
-+ " TODO:
-+@@ -15,6 +15,11 @@
-+ " v 0.10 by Vim project
-+ "   * disables importing local modules, unless the global Vim variable
-+ "     g:pythoncomplete_allow_import is set to non-zero
-++"   * strip default values and annotations from function parameter lists
-++"     before exec(), and whitelist class base lists to dotted names: the
-++"     previous code passed buffer-supplied expressions to exec() which
-++"     Python evaluates at definition time, allowing arbitrary code
-++"     execution via crafted def/class headers
-+ "
-+ " v 0.9
-+ "   * Fixed docstring parsing for classes and functions
-+@@ -95,6 +100,24 @@ function! s:DefPython()
-+ python << PYTHONEOF
-+ import sys, tokenize, cStringIO, types
-+ from token import NAME, DEDENT, NEWLINE, STRING
-++import re
-++
-++# Used by Class.get_code(): a base class expression is only included in the
-++# code passed to exec() if it is a pure dotted name (e.g. "Base", "mod.Base",
-++# "pkg.sub.Cls").  Anything containing calls, subscripts, "=", ":" or other
-++# operators is dropped, since exec()-ing it would evaluate buffer-supplied
-++# expressions.  See the security note in the file header.
-++_DOTTED_NAME_RE = re.compile(r'^[A-Za-z_]\w*(\s*\.\s*[A-Za-z_]\w*)*$')
-++
-++def _strip_param(p):
-++    # Return the bare parameter name from a parameter spec harvested by
-++    # _parenparse(), discarding any default value or annotation.  Default
-++    # values and annotations would otherwise be evaluated by exec() at
-++    # function-definition time.  Star prefixes ("*args", "**kw") and bare
-++    # "*" / "/" are preserved as written.
-++    p = p.split('=', 1)[0]
-++    p = p.split(':', 1)[0]
-++    return p.strip()
++-		_gnutls_handshake_buffer_move(
++-			&session->internals.handshake_recv_buffer[pos], hsk);
+++		_gnutls_handshake_buffer_move(&recv_buf[pos], hsk);
 + 
-+ debugstmts=[]
-+ def dbg(s): debugstmts.append(s)
-+@@ -362,7 +385,13 @@ class Class(Scope):
-+         return c
-+     def get_code(self):
-+         str = '%sclass %s' % (self.currentindent(),self.name)
-+-        if len(self.supers) > 0: str += '(%s)' % ','.join(self.supers)
-++        # Only include base class expressions that are pure dotted names.
-++        # Anything else (calls, subscripts, conditionals, ...) is dropped
-++        # because exec() would evaluate it at class-definition time.  See
-++        # the security note in the file header.
-++        safe_supers = [s.strip() for s in self.supers
-++                       if _DOTTED_NAME_RE.match(s.strip())]
-++        if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
-+         str += ':\n'
-+         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-+         if len(self.subscopes) > 0:
-+@@ -379,8 +408,14 @@ class Function(Scope):
-+     def copy_decl(self,indent=0):
-+         return Function(self.name,self.params,indent, self.docstr)
-+     def get_code(self):
-++        # Strip default values and annotations from each parameter before
-++        # joining: exec() evaluates these at definition time and a hostile
-++        # buffer could otherwise execute arbitrary code via crafted def
-++        # headers.  See file header for details.
-++        safe_params = [_strip_param(p) for p in self.params]
-++        safe_params = [p for p in safe_params if p]
-+         str = "%sdef %s(%s):\n" % \
-+-            (self.currentindent(),self.name,','.join(self.params))
-++            (self.currentindent(),self.name,','.join(safe_params))
-+         if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
-+         str += "%spass\n" % self.childindent()
-+         return str
-+diff --git a/src/testdir/Make_all.mak b/src/testdir/Make_all.mak
-+index f8c7f8bb46..b06d1af431 100644
-+--- a/src/testdir/Make_all.mak
-++++ b/src/testdir/Make_all.mak
-+@@ -250,6 +250,7 @@ NEW_TESTS = \
-+ 	test_plugin_man \
-+ 	test_plugin_matchparen \
-+ 	test_plugin_netrw \
-++	test_plugin_python3complete \
-+ 	test_plugin_osc52 \
-+ 	test_plugin_tar \
-+ 	test_plugin_termdebug \
-+@@ -528,6 +529,7 @@ NEW_TESTS_RES = \
-+ 	test_plugin_man.res \
-+ 	test_plugin_matchparen.res \
-+ 	test_plugin_netrw.res \
-++	test_plugin_python3complete.res \
-+ 	test_plugin_osc52.res \
-+ 	test_plugin_tar.res \
-+ 	test_plugin_termdebug.res \
-+diff --git a/src/testdir/test_plugin_python3complete.vim b/src/testdir/test_plugin_python3complete.vim
-+new file mode 100644
-+index 0000000000..e2b0c6616d
-+--- /dev/null
-++++ b/src/testdir/test_plugin_python3complete.vim
-+@@ -0,0 +1,224 @@
-++" Tests for the Python omni-completion plugin (runtime/autoload/python3complete.vim).
-++"
-++CheckFeature python3
-++
-++" Run omni-completion against the given buffer contents and assert that the
-++" marker file was not created.  Pre-patch behaviour exec()s reconstructed
-++" def/class headers, which evaluates the buffer-supplied expression and
-++" creates the marker file.  Post-patch, the expressions are stripped.
-++func s:CompleteAndExpectNoMarker(buffer_lines, marker_path, msg)
-++  call delete(a:marker_path)
-++  defer delete(a:marker_path)
-++  let g:pythoncomplete_allow_import = 0
-++  new
-++  setfiletype python
-++  call setline(1, a:buffer_lines)
-++  call cursor(line('$'), col([line('$'), '$']))
-++
-++  " The PoC trigger -- direct invocation of the omnifunc with an empty base.
-++  " This is the same path Vim takes for CTRL-X CTRL-O.
-++  silent! call python3complete#Complete(0, '')
-++
-++  call assert_false(filereadable(a:marker_path),
-++        \ a:msg . ' (marker ' . a:marker_path . ' was created)')
-++
-++  bwipe!
-++  unlet! g:pythoncomplete_allow_import
-++endfunc
-++
-++func Test_python3complete_no_exec_via_function_default()
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'def f(x=open(' . string(marker) . ', "w").close()):',
-++        \ '    pass',
-++        \ 'f.',
-++        \ ], marker,
-++        \ 'function default expression was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_no_exec_via_function_annotation()
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'def f(x: open(' . string(marker) . ', "w").close()):',
-++        \ '    pass',
-++        \ 'f.',
-++        \ ], marker,
-++        \ 'function annotation expression was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_no_exec_via_class_base()
-++  let marker = tempname()
-++  " "or object" gives the class a valid base after the side-effecting
-++  " open().close() expression returns None.  Without "or object" the
-++  " exec would raise TypeError, but the file would still be created
-++  " before the exception -- the assertion would still hold.  Using
-++  " "or object" keeps the buffer parseable as valid Python.
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'class Foo(open(' . string(marker) . ', "w").close() or object):',
-++        \ '    pass',
-++        \ 'Foo.',
-++        \ ], marker,
-++        \ 'class base expression was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_no_exec_with_multiple_params()
-++  " The strip must apply to every parameter, not just the first.
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'def f(a, b=1, c=open(' . string(marker) . ', "w").close(), d=2):',
-++        \ '    pass',
-++        \ 'f.',
-++        \ ], marker,
-++        \ 'non-first parameter default was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_no_exec_via_starargs_default()
-++  " "*args" and "**kw" must still be preserved after stripping; ensure a
-++  " default following them is also stripped.
-++  let marker = tempname()
-++  call s:CompleteAndExpectNoMarker([
-++        \ 'def f(*args, key=open(' . string(marker) . ', "w").close(), **kw):',
-++        \ '    pass',
-++        \ 'f.',
-++        \ ], marker,
-++        \ 'keyword-only default after *args was evaluated during omni-completion')
-++endfunc
-++
-++func Test_python3complete_normal_completion_still_works()
-++  " Positive control: completion against a buffer with a legitimate class
-++  " must still produce completion items.  The stripping logic should not
-++  " break the normal completion path.
-++  let g:pythoncomplete_allow_import = 0
-++
-++  new
-++  setfiletype python
-++  call setline(1, [
-++        \ 'class MyHelper:',
-++        \ '    def alpha(self): pass',
-++        \ '    def beta(self): pass',
-++        \ 'h = MyHelper()',
-++        \ 'h.',
-++        \ ])
-++  call cursor(5, 3)
-++
-++  " First call returns the column to start completion at; second returns
-++  " the list of completion items.
-++  let start = python3complete#Complete(1, '')
-++  call assert_true(start >= 0,
-++        \ 'python3complete#Complete(1, "") returned ' . start)
-++
-++  let items = python3complete#Complete(0, '')
-++  " Items should be a list (possibly empty if the parser can't resolve "h",
-++  " but should not be a parse error from our stripping changes).
-++  call assert_equal(type([]), type(items),
-++        \ 'python3complete#Complete(0, "") did not return a list')
-++
-++  bwipe!
-++  unlet! g:pythoncomplete_allow_import
-++endfunc
-++
-++func Test_python3complete_inherited_completion_via_dotted_base()
-++  " Positive control for the class-base whitelist: a dotted-name base class
-++  " (the common, safe case) must still be carried into the reconstructed
-++  " source so that completion on a subclass can resolve inherited members.
-++  let g:pythoncomplete_allow_import = 0
-++
-++  new
-++  setfiletype python
-++  call setline(1, [
-++        \ 'class Base:',
-++        \ '    def shared(self): pass',
-++        \ 'class Derived(Base):',
-++        \ '    def own(self): pass',
-++        \ 'd = Derived()',
-++        \ 'd.',
-++        \ ])
-++  call cursor(6, 3)
-++
-++  let items = python3complete#Complete(0, '')
-++  call assert_equal(type([]), type(items),
-++        \ 'completion against a subclass with a dotted base did not return a list')
-++
-++  bwipe!
-++  unlet! g:pythoncomplete_allow_import
-++endfunc
-++
-++" Build a tiny Python module that creates a marker file as a side effect of
-++" being imported, add its directory to sys.path, run omni-completion against
-++" a buffer containing `import vimtest_marker_mod`, and report whether the
-++" marker file was created.  Used by the two allow_import tests below.
-++func s:RunImportCompletion(allow_import_value)
-++  let g:pythoncomplete_allow_import = a:allow_import_value
-++  let marker = tempname()
-++  let module_dir = tempname()
-++  call mkdir(module_dir, 'R')
-++
-++  call writefile([
-++        \ 'open(' . string(marker) . ', "w").close()',
-++        \ ], module_dir . '/vimtest_marker_mod.py')
-++
-++  defer delete(marker)
-++
-++  " Pass module_dir to Python via a g: variable so vim.eval() can read it.
-++  let g:pythoncomplete_test_module_dir = module_dir
-++  py3 << EOF
-++import sys, vim
-++_p = vim.eval('g:pythoncomplete_test_module_dir')
-++if _p not in sys.path:
-++    sys.path.insert(0, _p)
-++# Drop any cached copy so the module body re-runs and the marker side
-++# effect fires on import.
-++sys.modules.pop('vimtest_marker_mod', None)
-++EOF
-++
-++  new
-++  setfiletype python
-++  call setline(1, [
-++        \ 'import vimtest_marker_mod',
-++        \ 'vimtest_marker_mod.',
-++        \ ])
-++  call cursor(2, 2)
-++
-++  silent! call python3complete#Complete(0, '')
-++
-++  let ran = filereadable(marker)
-++
-++  bwipe!
-++  unlet g:pythoncomplete_allow_import
-++
-++  " Teardown: restore sys.path, drop the cached module so a subsequent
-++  " test run starts clean, clean up the temp module dir.
-++  py3 << EOF
-++import sys, vim
-++_p = vim.eval('g:pythoncomplete_test_module_dir')
-++if _p in sys.path:
-++    sys.path.remove(_p)
-++sys.modules.pop('vimtest_marker_mod', None)
-++EOF
-++  unlet g:pythoncomplete_test_module_dir
-++  call delete(module_dir, 'rf')
-++  call delete(marker)
-++  unlet! g:pythoncomplete_allow_import
-++
-++  return ran
-++endfunc
-++
-++func Test_python3complete_allow_import_off_blocks_imports()
-++  " GHSA-52mc-rq6p-rc7c mitigation: with the default flag value (0), an
-++  " `import` line harvested from the buffer must NOT be exec()'d.  The
-++  " marker module's side effect (creating a file when its body runs) is
-++  " the observable proof that the exec did or did not happen.
-++  call assert_false(s:RunImportCompletion(0),
-++        \ 'g:pythoncomplete_allow_import=0 did not block the buffer import')
-++endfunc
-++
-++func Test_python3complete_allow_import_on_runs_imports()
-++  " Symmetric positive control: with the flag set to non-zero, the harvested
-++  " import IS exec()'d and the module loads.  Without this control the
-++  " negative test above could pass for unrelated reasons (e.g. completion
-++  " failing to parse the buffer at all).
-++  call assert_true(s:RunImportCompletion(1),
-++        \ 'g:pythoncomplete_allow_import=1 did not run the buffer import')
-++endfunc
-++
-++" vim: shiftwidth=2 sts=2 expandtab
++ 	} else {
++-		if (hsk->start_offset <
++-			    session->internals.handshake_recv_buffer[pos]
++-				    .start_offset &&
++-		    hsk->end_offset + 1 >=
++-			    session->internals.handshake_recv_buffer[pos]
++-				    .start_offset) {
++-			memcpy(&session->internals.handshake_recv_buffer[pos]
++-					.data.data[hsk->start_offset],
+++		if (hsk->start_offset < recv_buf[pos].start_offset &&
+++		    hsk->end_offset + 1 >= recv_buf[pos].start_offset) {
+++			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
++ 			       hsk->data.data, hsk->data.length);
++-			session->internals.handshake_recv_buffer[pos]
++-				.start_offset = hsk->start_offset;
++-			session->internals.handshake_recv_buffer[pos]
++-				.end_offset = MIN(
++-				hsk->end_offset,
++-				session->internals.handshake_recv_buffer[pos]
++-					.end_offset);
++-		} else if (hsk->end_offset >
++-				   session->internals.handshake_recv_buffer[pos]
++-					   .end_offset &&
++-			   hsk->start_offset <=
++-				   session->internals.handshake_recv_buffer[pos]
++-						   .end_offset +
++-					   1) {
++-			memcpy(&session->internals.handshake_recv_buffer[pos]
++-					.data.data[hsk->start_offset],
+++			recv_buf[pos].start_offset = hsk->start_offset;
+++			recv_buf[pos].end_offset =
+++				MIN(hsk->end_offset, recv_buf[pos].end_offset);
+++		} else if (hsk->end_offset > recv_buf[pos].end_offset &&
+++			   hsk->start_offset <= recv_buf[pos].end_offset + 1) {
+++			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
++ 			       hsk->data.data, hsk->data.length);
++ 
++-			session->internals.handshake_recv_buffer[pos]
++-				.end_offset = hsk->end_offset;
++-			session->internals.handshake_recv_buffer[pos]
++-				.start_offset = MIN(
++-				hsk->start_offset,
++-				session->internals.handshake_recv_buffer[pos]
++-					.start_offset);
+++			recv_buf[pos].end_offset = hsk->end_offset;
+++			recv_buf[pos].start_offset = MIN(
+++				hsk->start_offset, recv_buf[pos].start_offset);
++ 		}
++ 		_gnutls_handshake_buffer_clear(hsk);
++ 	}
 +-- 
-+2.34.1
++2.53.0
 +
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 6eafc53c746..e34cc17fe57 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -20,6 +20,9 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://CVE-2026-41411.patch \
-            file://CVE-2026-45130.patch \
-            file://CVE-2026-46483.patch \
-+           file://CVE-2026-52858.patch \
-+           file://CVE-2026-52859.patch \
-+           file://CVE-2026-52860.patch \
+diff --git a/meta/recipes-support/gnutls/gnutls/0003-buffers-add-more-checks-to-DTLS-reassembly.patch b/meta/recipes-support/gnutls/gnutls/0003-buffers-add-more-checks-to-DTLS-reassembly.patch
+new file mode 100644
+index 00000000000..d9c3c0d3c68
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/0003-buffers-add-more-checks-to-DTLS-reassembly.patch
+@@ -0,0 +1,65 @@
++From dcd891a02e11dc13417800042d5272777fca0e97 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Fri, 17 Apr 2026 18:21:36 +0200
++Subject: [PATCH 3/8] buffers: add more checks to DTLS reassembly
++
++Previously, gnutls didn't check that DTLS fragments claimed
++a consistent message_length value.
++Additionally, a crucial array size check was missing,
++enabling an attacker to cause a heap overwrite.
++The updated version rejects fragments with mismatching length
++and adds a missing boundary check.
++
++Reported-by: Haruto Kimura (Stella)
++Reported-by: Oscar Reparaz
++Reported-by: Zou Dikai
++Fixes: #1816
++Fixes: #1838
++Fixes: #1839
++Fixes: CVE-2026-33846
++Fixes: GNUTLS-SA-2026-04-29-1
++CVSS: 7.4 High CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H
++CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/65ab33fa54e34fba69d793735b7df3d383d1ff78]
++CVE: CVE-2026-33846
++Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
++---
++ lib/buffers.c | 20 ++++++++++++++++++++
++ 1 file changed, 20 insertions(+)
++
++diff --git a/lib/buffers.c b/lib/buffers.c
++index d54c77022..5d4d16276 100644
++--- a/lib/buffers.c
+++++ b/lib/buffers.c
++@@ -1010,6 +1010,26 @@ static int merge_handshake_packet(gnutls_session_t session,
++ 		_gnutls_handshake_buffer_move(&recv_buf[pos], hsk);
++ 
++ 	} else {
+++		if (hsk->length != recv_buf[pos].length) {
+++			/* inconsistent across fragments */
+++			_gnutls_handshake_buffer_clear(hsk);
+++			return gnutls_assert_val(
+++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
+++		}
+++		/* start_offset + data.length <= hsk->length <= max_length */
+++		if (hsk->length < hsk->start_offset + hsk->data.length) {
+++			/* impossible claims, overflow requested */
+++			_gnutls_handshake_buffer_clear(hsk);
+++			return gnutls_assert_val(
+++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
+++		}
+++		if (hsk->length > recv_buf[pos].data.max_length) {
+++			/* we don't have this much allocated, overflow guard */
+++			_gnutls_handshake_buffer_clear(hsk);
+++			return gnutls_assert_val(
+++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
+++		}
+++
++ 		if (hsk->start_offset < recv_buf[pos].start_offset &&
++ 		    hsk->end_offset + 1 >= recv_buf[pos].start_offset) {
++ 			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
++-- 
++2.53.0
++
+diff --git a/meta/recipes-support/gnutls/gnutls/0004-tests-mini-dtls-fragments-extend-with-a-1816-reprodu.patch b/meta/recipes-support/gnutls/gnutls/0004-tests-mini-dtls-fragments-extend-with-a-1816-reprodu.patch
+new file mode 100644
+index 00000000000..9b4760450fa
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/0004-tests-mini-dtls-fragments-extend-with-a-1816-reprodu.patch
+@@ -0,0 +1,159 @@
++From 2fa72585f927d340827eccdf91bb69cf60ac169e Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Wed, 1 Apr 2026 19:51:45 +0200
++Subject: [PATCH 4/8] tests/mini-dtls-fragments: extend with a #1816 reproducer
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/cf3f1955e58cbcc10373b841bb101fb058565d87]
++CVE: CVE-2026-33846
++Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
++---
++ tests/mini-dtls-fragments.c | 120 ++++++++++++++++++++++++++++++++++++
++ 1 file changed, 120 insertions(+)
++
++diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
++index ee75feeb6..8d5a18acd 100644
++--- a/tests/mini-dtls-fragments.c
+++++ b/tests/mini-dtls-fragments.c
++@@ -106,6 +106,11 @@ static int pull_timeout(gnutls_transport_ptr_t tr, unsigned ms)
++ 	return 1;
++ }
++ 
+++static int c2s_pull_timeout_once(gnutls_transport_ptr_t tr, unsigned ms)
+++{
+++	return c2s.head != c2s.tail ? 1 : 0;
+++}
+++
++ static ssize_t server_pull(gnutls_transport_ptr_t tr, void *b, size_t l)
++ {
++ 	return queue_get(&c2s, (gnutls_session_t)tr, b, l);
++@@ -198,10 +203,125 @@ static void test(gnutls_push_func client_push)
++ 	gnutls_certificate_free_credentials(scred);
++ }
++ 
+++static void test_malicious1816(void)
+++{
+++	/* dgram1: msg_len=50, frag_offset=25, frag_len=25 */
+++	static const uint8_t dgram1_hdr[] = {
+++		0x16, /* type: handshake */
+++		0xfe, 0xfd, /* version: DTLS 1.2 */
+++		0x00, 0x00, /* epoch: 0 */
+++		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* seq: 0 */
+++		0x00, 0x25, /* record_length: 37 */
+++		0x01, /* msg_type: ClientHello */
+++		0x00, 0x00, 0x32, /* msg_length: 50 */
+++		0x00, 0x00, /* msg_seq: 0 */
+++		0x00, 0x00, 0x19, /* frag_offset: 25 */
+++		0x00, 0x00, 0x19, /* frag_length: 25 */
+++	};
+++	/* dgram2: msg_len=3000, frag_offset=0, frag_len=48 */
+++	static const uint8_t dgram2_hdr[] = {
+++		0x16, /* type: handshake */
+++		0xfe, 0xfd, /* version: DTLS 1.2 */
+++		0x00, 0x00, /* epoch: 0 */
+++		0x00, 0x00, 0x00, 0x00, 0x00, 0x01, /* seq: 1 */
+++		0x00, 0x3c, /* record_length: 60 */
+++		0x01, /* msg_type: ClientHello */
+++		0x00, 0x0b, 0xb8, /* msg_length: 3000 */
+++		0x00, 0x00, /* msg_seq: 0 */
+++		0x00, 0x00, 0x00, /* frag_offset: 0 */
+++		0x00, 0x00, 0x30, /* frag_length: 48 */
+++	};
+++	/* dgram3: msg_len=3000, frag_offset=40, frag_len=1475 */
+++	static const uint8_t dgram3_hdr[] = {
+++		0x16, /* type: handshake */
+++		0xfe, 0xfd, /* version: DTLS 1.2 */
+++		0x00, 0x00, /* epoch: 0 */
+++		0x00, 0x00, 0x00, 0x00, 0x00, 0x02, /* seq: 2 */
+++		0x05, 0xcf, /* record_length: 1487 */
+++		0x01, /* msg_type: ClientHello */
+++		0x00, 0x0b, 0xb8, /* msg_length: 3000 */
+++		0x00, 0x00, /* msg_seq: 0 */
+++		0x00, 0x00, 0x28, /* frag_offset: 40 */
+++		0x00, 0x05, 0xc3, /* frag_length: 1475 */
+++	};
+++	/* dgram4: msg_len=3000, frag_offset=1500, frag_len=1475 */
+++	static const uint8_t dgram4_hdr[] = {
+++		0x16, /* type: handshake */
+++		0xfe, 0xfd, /* version: DTLS 1.2 */
+++		0x00, 0x00, /* epoch: 0 */
+++		0x00, 0x00, 0x00, 0x00, 0x00, 0x03, /* seq: 3 */
+++		0x05, 0xcf, /* record_length: 1487 */
+++		0x01, /* msg_type: ClientHello */
+++		0x00, 0x0b, 0xb8, /* msg_length: 3000 */
+++		0x00, 0x00, /* msg_seq: 0 */
+++		0x00, 0x05, 0xdc, /* frag_offset: 1500 */
+++		0x00, 0x05, 0xc3, /* frag_length: 1475 */
+++	};
+++	gnutls_session_t server;
+++	gnutls_certificate_credentials_t scred;
+++	uint8_t dgram[1500];
+++	int sr;
+++
+++	if (debug)
+++		gnutls_global_set_log_level(4711);
+++
+++	gnutls_certificate_allocate_credentials(&scred);
+++	gnutls_certificate_set_x509_key_mem(scred, &server_cert, &server_key,
+++					    GNUTLS_X509_FMT_PEM);
+++
+++	gnutls_init(&server, GNUTLS_SERVER | GNUTLS_DATAGRAM);
+++	gnutls_priority_set_direct(server, "NORMAL:+VERS-DTLS1.2", NULL);
+++	gnutls_credentials_set(server, GNUTLS_CRD_CERTIFICATE, scred);
+++
+++	gnutls_dtls_set_timeouts(server, get_dtls_retransmit_timeout(),
+++				 get_timeout());
+++
+++	gnutls_transport_set_ptr(server, server);
+++	gnutls_transport_set_push_function(server, server_push);
+++	gnutls_transport_set_pull_function(server, server_pull);
+++	gnutls_transport_set_pull_timeout_function(server,
+++						   c2s_pull_timeout_once);
+++
+++	memset(dgram, 0, sizeof(dgram));
+++	memcpy(dgram, dgram1_hdr, 25);
+++	queue_put(&c2s, dgram, 25 + 25);
+++
+++	memset(dgram, 0, sizeof(dgram));
+++	memcpy(dgram, dgram2_hdr, 25);
+++	queue_put(&c2s, dgram, 25 + 48);
+++
+++	memset(dgram, 0, sizeof(dgram));
+++	memcpy(dgram, dgram3_hdr, 25);
+++	queue_put(&c2s, dgram, 25 + 1475);
+++
+++	memset(dgram, 0, sizeof(dgram));
+++	memcpy(dgram, dgram4_hdr, 25);
+++	queue_put(&c2s, dgram, 25 + 1475);
+++
+++	gnutls_global_set_log_function(server_log_func);
+++	do {
+++		sr = gnutls_handshake(server); /* invalid write if vulnerable */
+++	} while (c2s.head != c2s.tail && !gnutls_error_is_fatal(sr));
+++	if (sr != GNUTLS_E_UNEXPECTED_PACKET_LENGTH)
+++		fail("server: expected GNUTLS_E_UNEXPECTED_PACKET_LENGTH, "
+++		     "got: %s\n",
+++		     gnutls_strerror(sr));
+++
+++	success("OK\n");
+++
+++	queue_reset(&c2s);
+++	queue_reset(&s2c);
+++
+++	gnutls_deinit(server);
+++	gnutls_certificate_free_credentials(scred);
+++}
+++
++ void doit(void)
++ {
++ 	global_init();
++ 	test(client_push_normal);
+++	success("malicious reassembly bug exploitation (#1816):\n");
+++	test_malicious1816();
++ 	gnutls_global_deinit();
++ }
++ 
++-- 
++2.53.0
++
+diff --git a/meta/recipes-support/gnutls/gnutls/0005-tests-mini-dtls-fragments-extend-with-fragmenting-Cl.patch b/meta/recipes-support/gnutls/gnutls/0005-tests-mini-dtls-fragments-extend-with-fragmenting-Cl.patch
+new file mode 100644
+index 00000000000..83c201926d1
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/0005-tests-mini-dtls-fragments-extend-with-fragmenting-Cl.patch
+@@ -0,0 +1,149 @@
++From cee203d6ba4d49332a49e46a7d59e9ef7b33a741 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Mon, 20 Apr 2026 16:08:11 +0200
++Subject: [PATCH 5/8] tests/mini-dtls-fragments: extend with fragmenting
++ ClientHello
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/bb427ff74dba849d40753ed9c8511e873f762743]
++CVE: CVE-2026-33846
++Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
++---
++ tests/mini-dtls-fragments.c | 107 ++++++++++++++++++++++++++++++++++++
++ 1 file changed, 107 insertions(+)
++
++diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
++index 8d5a18acd..93490bac2 100644
++--- a/tests/mini-dtls-fragments.c
+++++ b/tests/mini-dtls-fragments.c
++@@ -132,6 +132,39 @@ static ssize_t client_push_normal(gnutls_transport_ptr_t tr, const void *b,
++ 	return queue_put(&c2s, b, l);
++ }
++ 
+++static void write_u16(uint8_t *p, uint16_t val)
+++{
+++	p[0] = val >> 8;
+++	p[1] = val & 0xff;
+++}
+++
+++static void write_u24(uint8_t *p, uint32_t val)
+++{
+++	p[0] = (val >> 16) & 0xff;
+++	p[1] = (val >> 8) & 0xff;
+++	p[2] = val & 0xff;
+++}
+++
+++static void write_u48(uint8_t *p, uint64_t seq)
+++{
+++	int i;
+++	for (i = 5; i >= 0; i--) {
+++		p[i] = seq & 0xff;
+++		seq >>= 8;
+++	}
+++}
+++
+++static uint64_t read_u48(const uint8_t *p)
+++{
+++	uint64_t seq = 0;
+++	int i;
+++	for (i = 5; i >= 0; i--) {
+++		seq <<= 8;
+++		seq |= p[i];
+++	}
+++	return seq;
+++}
+++
++ static void test(gnutls_push_func client_push)
++ {
++ 	gnutls_session_t client, server;
++@@ -316,12 +349,86 @@ static void test_malicious1816(void)
++ 	gnutls_certificate_free_credentials(scred);
++ }
++ 
+++static ssize_t queue_put_renumbered(queue_t *q, const uint8_t *data, size_t l,
+++				    int delta_n)
+++{
+++	if (delta_n == 0 || l < 13 || data[3] != 0 || data[4] != 0)
+++		return queue_put(&c2s, data, l);
+++
+++	uint8_t *p = malloc(l);
+++	assert(p);
+++	memcpy(p, data, l);
+++	write_u48(p + 5, read_u48(p + 5) + delta_n);
+++	ssize_t ret = queue_put(q, p, l);
+++	free(p);
+++	return ret;
+++}
+++
+++static void split_client_hello(const uint8_t *data, size_t len, uint8_t **frag1,
+++			       size_t *frag1_len, uint8_t **frag2,
+++			       size_t *frag2_len)
+++{
+++	size_t body_size = len - 25;
+++	*frag1_len = 13 + 12 + 1;
+++	*frag2_len = 13 + 12 + (body_size - 1);
+++
+++	*frag1 = malloc(13 + 12 + 1);
+++	assert(*frag1);
+++	*frag2 = malloc(13 + 12 + body_size - 1);
+++	assert(*frag2);
+++
+++	/* first fragment: record header + handshake header + first body byte */
+++	memcpy(*frag1, data, 13); /* record header */
+++	write_u16(*frag1 + 11, 12 + 1); /* record length */
+++	memcpy(*frag1 + 13, data + 13, 12); /* handshake header */
+++	write_u24(*frag1 + 19, 0); /* fragment_offset = 0 */
+++	write_u24(*frag1 + 22, 1); /* fragment_length = 1 */
+++	(*frag1)[25] = data[25]; /* first body byte */
+++
+++	/* second fragment: record header + handshake header + remaining body */
+++	memcpy(*frag2, data, 13); /* record header */
+++	write_u16(*frag2 + 11, *frag2_len - 13); /* record length */
+++	write_u48(*frag2 + 5, read_u48(*frag2 + 5) + 1); /* sequence number */
+++	memcpy(*frag2 + 13, data + 13, 12); /* handshake header */
+++	write_u24(*frag2 + 19, 1); /* fragment_offset = 1 */
+++	write_u24(*frag2 + 22, body_size - 1); /* shortened fragment_length */
+++	memcpy(*frag2 + 25, data + 26, body_size - 1); /* remaining body */
+++}
+++
+++static ssize_t client_push_split_hello(gnutls_transport_ptr_t tr, const void *b,
+++				       size_t l)
+++{
+++	static int seq_offset = 0; /* for renumbering follow-up epoch0 ones */
+++
+++	const uint8_t *data = (const uint8_t *)b;
+++	uint8_t *frag1, *frag2;
+++	size_t frag1_len, frag2_len;
+++
+++	/* Pass through anything that isn't an epoch0 ClientHello with body */
+++	if (l < 13 + 12 + 1 || /* too short for DTLS record header */
+++	    data[0] != 22 || /* not a handshake record */
+++	    data[3] != 0 || data[4] != 0 || /* not epoch 0 */
+++	    data[13] != 1) /* not ClientHello */
+++		return queue_put_renumbered(&c2s, b, l, seq_offset);
+++
+++	/* epoch0 Client Hello: special treatment of splitting into fragments */
+++	split_client_hello(data, l, &frag1, &frag1_len, &frag2, &frag2_len);
+++	queue_put(&c2s, frag1, frag1_len);
+++	queue_put(&c2s, frag2, frag2_len);
+++	free(frag1);
+++	free(frag2);
+++	seq_offset++;
+++	return l;
+++}
+++
++ void doit(void)
++ {
++ 	global_init();
++ 	test(client_push_normal);
++ 	success("malicious reassembly bug exploitation (#1816):\n");
++ 	test_malicious1816();
+++	success("split client hello smoke-test\n");
+++	test(client_push_split_hello);
++ 	gnutls_global_deinit();
++ }
++ 
++-- 
++2.53.0
++
+diff --git a/meta/recipes-support/gnutls/gnutls/0006-buffers-match-DTLS-datagrams-by-sequence-number.patch b/meta/recipes-support/gnutls/gnutls/0006-buffers-match-DTLS-datagrams-by-sequence-number.patch
+new file mode 100644
+index 00000000000..16272915129
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/0006-buffers-match-DTLS-datagrams-by-sequence-number.patch
+@@ -0,0 +1,42 @@
++From bd8f76ce12a57962a62ce2818a6263fb04304c3f Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Mon, 20 Apr 2026 16:32:02 +0200
++Subject: [PATCH 6/8] buffers: match DTLS datagrams by sequence number
++
++DTLS handshake fragment reassembly previously matched incoming fragments
++by handshake type only, without checking the sequence number.
++This allowed fragments from different handshake messages
++to be merged into the same reassembly buffer.
++
++Now sequence number is accounted for during reassembly,
++ensuring fragments are only merged when they belong
++to the same handshake message.
++
++Reported-by: Zou Dikai
++Fixes: #1839
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/092c65d004e2f125f2fea3db84d801ac49a09f78]
++CVE: CVE-2026-33846
++Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
++---
++ lib/buffers.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/lib/buffers.c b/lib/buffers.c
++index 5d4d16276..62f140ed3 100644
++--- a/lib/buffers.c
+++++ b/lib/buffers.c
++@@ -971,7 +971,8 @@ static int merge_handshake_packet(gnutls_session_t session,
++ 		session->internals.handshake_recv_buffer;
++ 
++ 	for (i = 0; i < session->internals.handshake_recv_buffer_size; i++) {
++-		if (recv_buf[i].htype == hsk->htype) {
+++		if (recv_buf[i].htype == hsk->htype &&
+++		    recv_buf[i].sequence == hsk->sequence) {
++ 			exists = 1;
++ 			pos = i;
++ 			break;
++-- 
++2.53.0
++
+diff --git a/meta/recipes-support/gnutls/gnutls/0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch b/meta/recipes-support/gnutls/gnutls/0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch
+new file mode 100644
+index 00000000000..34bae2f57bf
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch
+@@ -0,0 +1,104 @@
++From f7a5e7f3a7d05c7d558abd2f56f86e4c201be48b Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Mon, 20 Apr 2026 16:36:08 +0200
++Subject: [PATCH 7/8] tests/mini-dtls-fragments: #1839 mismatching message_seq
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/a2b41be83a1a3529c551ccf54958da91a656550e]
++CVE: CVE-2026-33846
++Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
++---
++ tests/mini-dtls-fragments.c | 54 ++++++++++++++++++++++++++++++++-----
++ 1 file changed, 47 insertions(+), 7 deletions(-)
++
++diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
++index 93490bac2..499a92a92 100644
++--- a/tests/mini-dtls-fragments.c
+++++ b/tests/mini-dtls-fragments.c
++@@ -165,7 +165,7 @@ static uint64_t read_u48(const uint8_t *p)
++ 	return seq;
++ }
++ 
++-static void test(gnutls_push_func client_push)
+++static void test(gnutls_push_func client_push, bool expect_success)
++ {
++ 	gnutls_session_t client, server;
++ 	gnutls_certificate_credentials_t ccred, scred;
++@@ -218,12 +218,22 @@ static void test(gnutls_push_func client_push)
++ 			sr = gnutls_handshake(server);
++ 		if (!sr || gnutls_error_is_fatal(sr))
++ 			sdone = true;
+++
+++		if (c2s.head == c2s.tail && s2c.head == s2c.tail)
+++			break; /* speed the test up */
++ 	}
++ 
++-	if (cr)
++-		fail("client: %s\n", gnutls_strerror(cr));
++-	if (sr)
++-		fail("server: %s\n", gnutls_strerror(sr));
+++	if (expect_success) {
+++		if (cr)
+++			fail("client: %s\n", gnutls_strerror(cr));
+++		if (sr)
+++			fail("server: %s\n", gnutls_strerror(sr));
+++
+++	} else {
+++		if (cr == 0 && sr == 0)
+++			fail("handshake unexpectedly succeeded: %s / %s\n",
+++			     gnutls_strerror(cr), gnutls_strerror(sr));
+++	}
++ 
++ 	success("OK\n");
++ 
++@@ -421,14 +431,44 @@ static ssize_t client_push_split_hello(gnutls_transport_ptr_t tr, const void *b,
++ 	return l;
++ }
++ 
+++static ssize_t client_push_split_hello_bad_seq(gnutls_transport_ptr_t tr,
+++					       const void *b, size_t l)
+++{
+++	/* gnutls wasn't matching on message_seq on merging, see #1839 */
+++	static int seq_offset = 0; /* for renumbering follow-up epoch0 ones */
+++
+++	const uint8_t *data = (const uint8_t *)b;
+++	uint8_t *frag1, *frag2;
+++	size_t frag1_len, frag2_len;
+++
+++	/* Pass through anything that isn't an epoch0 ClientHello with body */
+++	if (l < 13 + 12 + 1 || /* too short for DTLS record header */
+++	    data[0] != 22 || /* not a handshake record */
+++	    data[3] != 0 || data[4] != 0 || /* not epoch 0 */
+++	    data[13] != 1) /* not ClientHello */
+++		return queue_put_renumbered(&c2s, b, l, seq_offset);
+++
+++	/* epoch0 Client Hello: special treatment of splitting into fragments */
+++	split_client_hello(data, l, &frag1, &frag1_len, &frag2, &frag2_len);
+++	queue_put(&c2s, frag1, frag1_len);
+++	frag2[18]++; /* WRONG, message_seq mismatch must be rejected, #1839 */
+++	queue_put(&c2s, frag2, frag2_len);
+++	free(frag1);
+++	free(frag2);
+++	seq_offset++;
+++	return l;
+++}
+++
++ void doit(void)
++ {
++ 	global_init();
++-	test(client_push_normal);
+++	test(client_push_normal, true);
++ 	success("malicious reassembly bug exploitation (#1816):\n");
++ 	test_malicious1816();
++ 	success("split client hello smoke-test\n");
++-	test(client_push_split_hello);
+++	test(client_push_split_hello, true);
+++	success("split client hello smoke-test and mangle sequence number\n");
+++	test(client_push_split_hello_bad_seq, false);
++ 	gnutls_global_deinit();
++ }
++ 
++-- 
++2.53.0
++
+diff --git a/meta/recipes-support/gnutls/gnutls/0008-tests-mini-dtls-framents-link-to-gnulib.patch b/meta/recipes-support/gnutls/gnutls/0008-tests-mini-dtls-framents-link-to-gnulib.patch
+new file mode 100644
+index 00000000000..9c4cfa8a944
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/0008-tests-mini-dtls-framents-link-to-gnulib.patch
+@@ -0,0 +1,27 @@
++From ed40056cdcfdf9ff815f4e2df93f0a263769a563 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Thu, 30 Apr 2026 13:08:01 +0200
++Subject: [PATCH 8/8] tests/mini-dtls-framents: link to gnulib
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++
++Upstream-Status: Backport [https://github.com/gnutls/gnutls/commit/68b2fb63c8df61d1480121a859f8c955f4910c01]
++Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
++---
++ tests/Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -509,6 +509,7 @@ pathbuf_CPPFLAGS = $(AM_CPPFLAGS) \
++ mini_dtls_fragments_CPPFLAGS = $(AM_CPPFLAGS) \
++ 	-I$(top_srcdir)/gl	\
++ 	-I$(top_builddir)/gl
+++mini_dtls_fragments_LDADD = $(LDADD) ../gl/libgnu.la
++ 
++ if ENABLE_PKCS11
++ if !WINDOWS
++-- 
++2.53.0
++
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
+index 8554ab943d6..b92470768c2 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
+@@ -24,6 +24,14 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://run-ptest \
+            file://Add-ptest-support.patch \
+            file://c99.patch \
++           file://0001-tests-mini-dtls-fragments-implement-a-basic-DTLS-tes.patch \
++           file://0002-buffers-shorten-merge_handshake_packet-using-recv_bu.patch \
++           file://0003-buffers-add-more-checks-to-DTLS-reassembly.patch \
++           file://0004-tests-mini-dtls-fragments-extend-with-a-1816-reprodu.patch \
++           file://0005-tests-mini-dtls-fragments-extend-with-fragmenting-Cl.patch \
++           file://0006-buffers-match-DTLS-datagrams-by-sequence-number.patch \
++           file://0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch \
++           file://0008-tests-mini-dtls-framents-link-to-gnulib.patch \
             "
  
- PV .= ".0340"
+ SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
 
