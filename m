@@ -1,162 +1,165 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD77BC43458
-	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 06:57:32 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7251.1783666648613022500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE02EC43458
+	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 07:27:42 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7812.1783668461581582829
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2026 23:57:28 -0700
+ Fri, 10 Jul 2026 00:27:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=H6zqsCZa;
- spf=pass (domain: mvista.com, ip: 209.85.214.179, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ccdb73f0e1so5227055ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 23:57:28 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=sVaWqEON;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493bb510ce4so3775125e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 00:27:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1783666648; x=1784271448; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=868Xi56BT/vFfLdmyA7Rv71aBwx1Mq2lDwVlu6Jy91c=;
-        b=H6zqsCZaWj7ICB4/3UJP7EFN0zWyWbzhBR7Tq4o9fUko4j6OJ1YaRRRztLvKGQHETT
-         SkDDe9J6GDPcoSdYDOvk7ZsfqJMu7aqoGX7XPKYZBlsEwfvE2OL5BR3uZ8BHpW3jsqjp
-         Qn7hT07pqqG62j6dRvUEg9X44craefYULTvxc=
+        d=smile.fr; s=google; t=1783668460; x=1784273260; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=gU+QQT4qpoaVmHNftFTO0tkPl5FK6vQ6fCUIXwCZA4U=;
+        b=sVaWqEON+Mdz39Bvzc3Bc9Q7MNT0IQCsZ+D4m5JnwDSSIAXuiZBuKy3I04PPpJwKcl
+         n0NswI7CM8uMT/WpYiI4+q0Py5GR8Mzc/mxQSYYnlhERIiaIzR0lY4jy2ys2C6flEqpH
+         DLVxPzCOUc2yxClacxmfoxGi+qTOSpr63OheY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783666648; x=1784271448;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=868Xi56BT/vFfLdmyA7Rv71aBwx1Mq2lDwVlu6Jy91c=;
-        b=c+06t1nuBlOdoTGebvK1krj2XLlhJSw/Cze0U8eSQ+DVth387d9eEl3FFpbPDJDK1R
-         sCuljUYYNE9P9prLmkO0ohQz7oYlh8pbQ4FjG+flVJoFNRGRnk+gCcDDzJzJITkzsPHk
-         Wp0ryHuFQU5ehtALfSpwmjjXvnd4NMzRGJGYfkALX96ySHFQq6lCQXTrmgrBl9wSw1re
-         2e5x+BHivUaa0Y7QZjD45AtHfp6RerX1KVPKbN2EK5EcS6f1uN04gJ256lBOL1wdFUc4
-         VKZhqDGS9UjbNtKDz79vHvygBWNwSX+W92Brd93RDrk8jM0IYYIiN7o1CHEjkqZmaRS5
-         52LA==
-X-Gm-Message-State: AOJu0YzTMsykp0/nMXBjfbl8Aqy3HI1gD1GFegoWPbqU55wHOk+WM5k3
-	1GZst3+P03FhTFzp/gRnwV2RJsRMzV/XC9+IF+rrRTVOQQzWADzNg9WifsI2jlMiRS0nXDO8WT2
-	5Q3bGzVM=
-X-Gm-Gg: AfdE7ckGgBVyk/3Mze0QC93N6ZjXM+1q7+B5hHfV8HAIWiQHABhvKoOhyKzDenQ14cm
-	1WbsynJNsRKnSSewqMv9R2gdn25fKE5bsp7uFucQWWgxPIqfZL4NzopZb2CR8+zB+87CJnsB/Cz
-	VLDrvsKtb+BcOcJU2dI+0/movpZDwiJ1vyLyOM7u7JSSHRgVunZpdpRqZSzbn74pJidqcFYp6K5
-	mI+5CNIVe9mfVV6dvpSxhaZJ98jyVAgTVTHaHZSpFlM+wjTf4LYQLN5Dqy8JrkcVcXJK6WJtOYh
-	teSgYJ08g6lfrL3pXjAXETkZqxLXCgkSjUaQBIgVfpouI8tmJ4N1GErwbL2mUc27N2Wde9h9PIn
-	lPacC6BCV4c8FefumVWS8OJDbZgZO9LCDaGn67puOFH0/Q4LMdJikupHpfXP1/i8NLxdrlb6R6p
-	XqoCm6IDinwRHYPqx2TGkFnl3IUno3
-X-Received: by 2002:a05:6a21:a38d:b0:3a3:327:c5c8 with SMTP id adf61e73a8af0-3c0bcb58531mr12143035637.0.1783666647733;
-        Thu, 09 Jul 2026 23:57:27 -0700 (PDT)
-Received: from MVIN00352.mvista.com ([2401:4900:1cc4:6156:5a18:8857:b507:5e46])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31198cb2b99sm18490611eec.26.2026.07.09.23.57.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 23:57:26 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][patch] tzdata/tzcode-native: upgrade 2026b -> 2026c
-Date: Fri, 10 Jul 2026 12:27:15 +0530
-Message-ID: <20260710065715.41949-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+        d=1e100.net; s=20251104; t=1783668460; x=1784273260;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gU+QQT4qpoaVmHNftFTO0tkPl5FK6vQ6fCUIXwCZA4U=;
+        b=cnxYNcAyVwzF19Dj+4uhJPpLreBIUEuEHTIRaNK4mGMdCBRDRT5ctzUvbizMWd+g16
+         0sT8ODeQSeAjeIbDpQiMVX5qhe+ynnYFNE3Cw5OVxPu5HboFdE64NYlqtECQ4SmJq/w3
+         E5ilL51SYVbDRYsJ+svsZYkwBZxx6U0UYdU8B4UzsqOqEJhM8qfay5D3eunyNgEbqs4w
+         UI4hKWj53jr/f1ztD6fzl/UOy4pFGVEvUfxWJE2vTPPtxts1hzhsKv/HJzwdqnxebgt/
+         vd2q6mFxnsJbZ4Ga4/W6W5mdwimilaL9m3CraznFBxgQocR/Z531Q0fj265/CdbhPuob
+         s+pw==
+X-Gm-Message-State: AOJu0YwYrUdbJy7CRN8LtZWPLEWFaNeW4uXF3JwqkwRGQzDcrWnByITs
+	+7D8Zu4r9MvShaRI1mRQo/8ykbq41qtIfhJAUH1eP7srXCQYfYaXRGGPV987CCdJt+k=
+X-Gm-Gg: AfdE7ckWbTwA5/9hEtFOpQ3r2Jb5q17hnfBxKzMf9+svVEGoUWybdaiPuoalJpXFhtT
+	bcJ39RzcZGrCQk3dMb7NCKW9F1dpfJA5ULPDE+EDMPx/Q0z5DM+088V08ir8sGGHvJBNvb6zxUn
+	NbtLlBBTmZesWEdYggj4iGyNiB7nDdhnK+TAhP077/MFrfsCptZHarZZy/s3L9xa5ng8g9aM7rc
+	AztvWCLitsI//vL8p4BVXlRhyTV+zCe+aQV8u4ibm9kS2FIeDtCWT1l0Zo1ymAT7AFOJ1j96ove
+	BOciiVA79God3a0nJr9l3N0833pel6SyXe9B3TiRuqMnLiE29XhXZrSMgHJIvc59Iw4VbEgbr17
+	AqYKFVhRCfLPKFmGXXwV9IsnUxLRJ21NFvF6oRh+f7vRVTugOq6zBmrYOOl3jQIRtB8TxNEkz2o
+	m4f3opnJyE3h9kNupPB2pYGs7eoALczj+3STgqyev/ljcqaFk6ayC8UcAPhx8v8uRJSJB9x3+MT
+	7DSeHRbIwVm/MaI
+X-Received: by 2002:a05:600d:6413:10b0:493:f2b3:9cf9 with SMTP id 5b1f17b1804b1-493f2b39efemr15889135e9.36.1783668459739;
+        Fri, 10 Jul 2026 00:27:39 -0700 (PDT)
+Received: from localhost (2a01cb001331aa005f82d0ccbe50ecf8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:5f82:d0cc:be50:ecf8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6d4f9fsm115880625e9.4.2026.07.10.00.27.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jul 2026 00:27:39 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Fri, 10 Jul 2026 09:27:39 +0200
+Message-Id: <DJUPP65UURBF.TY8K27J2AQTP@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] dropbear: Disable DSS correctly
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <openembedded-core@lists.openembedded.org>
+To: "Alex Kiernan" <alex.kiernan@gmail.com>, <mac@mcrowe.com>
+X-Mailer: aerc 0.20.0
+References: <20260629165056.2489582-1-mac@mcrowe.com>
+ <DJS7O5671XMZ.OZRLCFBNZFYP@smile.fr> <ak_xh2CM7n4X8_c_@mcrowe.com>
+ <CAO5Uq5Sh7MuFmb=xhQ=kaeyZcBaCDgjfTZ-Uwa25+swo66e3TA@mail.gmail.com>
+In-Reply-To: <CAO5Uq5Sh7MuFmb=xhQ=kaeyZcBaCDgjfTZ-Uwa25+swo66e3TA@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 06:57:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240595
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 07:27:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240596
 
-This release contains the following changes:
+On Thu Jul 9, 2026 at 9:33 PM CEST, Alex Kiernan wrote:
+> On Thu, Jul 9, 2026 at 8:07=E2=80=AFPM Mike Crowe via lists.openembedded.=
+org
+> <mac=3Dmcrowe.com@lists.openembedded.org> wrote:
+>>
+>> Hi Yoann,
+>>
+>> On Tuesday 07 July 2026 at 10:54:38 +0200, Yoann Congal wrote:
+>> > On Mon Jun 29, 2026 at 6:50 PM CEST, Mike Crowe via lists.openembedded=
+.org wrote:
+>> > > From: Mike Crowe <mac@mcrowe.com>
+>> > >
+>> > > Take upstream patch that stops sysoptions.h unconditionally turning
+>> > > DROPBEAR_DSS back on even when it has been disabled (which is the
+>> > > default).
+>> > >
+>> > > Signed-off-by: Mike Crowe <mac@mcrowe.com>
+>> > > ---
+>> > >  ...PBEAR_DSS-is-only-forced-for-fuzzing.patch | 29 ++++++++++++++++=
++++
+>> > >  .../recipes-core/dropbear/dropbear_2022.83.bb |  1 +
+>> > >  2 files changed, 30 insertions(+)
+>> > >  create mode 100644 meta/recipes-core/dropbear/dropbear/0001-Fix-so-=
+DROPBEAR_DSS-is-only-forced-for-fuzzing.patch
+>> > >
+>> > > diff --git a/meta/recipes-core/dropbear/dropbear/0001-Fix-so-DROPBEA=
+R_DSS-is-only-forced-for-fuzzing.patch b/meta/recipes-core/dropbear/dropbea=
+r/0001-Fix-so-DROPBEAR_DSS-is-only-forced-for-fuzzing.patch
+>> > > new file mode 100644
+>> > > index 0000000000..b9705a2bbb
+>> > > --- /dev/null
+>> > > +++ b/meta/recipes-core/dropbear/dropbear/0001-Fix-so-DROPBEAR_DSS-i=
+s-only-forced-for-fuzzing.patch
+>> > > @@ -0,0 +1,29 @@
+>> > > +From c7dfaebd5f6a4cde4198f4d2a7baabaa1f632274 Mon Sep 17 00:00:00 2=
+001
+>> > > +From: Matt Johnston <matt@ucc.asn.au>
+>> > > +Date: Tue, 6 Dec 2022 22:34:11 +0800
+>> > > +Subject: [PATCH] Fix so DROPBEAR_DSS is only forced for fuzzing
+>> > > +
+>> > > +Regression from 787391ea3b5af2acf5e3c83372510f0c79477ad7,
+>> > > +was missing fuzzing conditional
+>> > > +
+>> > > +Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/c=
+043efb47c3173072fa636ca0da0d19875d4511f]
+>> >
+>> > This patch is missing your signed-off-by.
+>>
+>> Well, it's not my patch. :)
+>>
+>> I wasn't aware that I was expected to add one to the patch itself for a
+>> backport.
+>>
+>> https://docs.yoctoproject.org/scarthgap/contributor-guide/recipe-style-g=
+uide.html
+>> doesn't seem to say that a SoB should be added to the patch. It does say=
+:
+>>
+>> | Of course, if another person later takes care of submitting this patch
+>> | upstream, the status should be changed to Submitted [where], and an
+>> | additional Signed-off-by: line should be added to the patch by the per=
+son
+>> | claiming responsibility for upstreaming.
+>>
+>> which sort of implies that a SoB should be added for original patches th=
+at
+>> are suitable for upstreaming but this patch is a backport which originat=
+ed
+>> upstream (without a SoB) which isn't the same thing.
+>>
+>> Adding a SoB to an unmodified upstream backport patch feels like
+>> appropriation on my part, but I can do so if that's the policy.
+>>
+>
+> You're certifying that the patch you're submitting is appropriately
+> licensed; it says nothing about who authored it.
 
-   Briefly:
-     Alberta moved to permanent -06 on 2026-06-18.
-     Morocco moves to permanent +00 on 2026-09-20.
-     More integer overflow bugs have been fixed in zic.
+I agree with Alex: As the one requesting the backport, you are the one
+signing-off on this particular operation. The original author had
+nothing to do with that.
 
-   Changes to future timestamps
+I created a bug to request clarification in the doc on this point:
+16356 =E2=80=93 Clarify trailers usage (Signed-off-by, ...) in imported pat=
+ches
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16356
 
-     Alberta’s 2026-03-08 spring forward was its last foreseeable clock
-     change, as it moved to permanent -06 thereafter.  (Thanks to Roozbeh
-     Pournader and others.)  Model this with its traditional abbreviation
-     CST.  Although the change to permanent -06 legally took place on
-     2026-06-18, temporarily model the change to occur on 2026-11-01 at
-     02:00 instead, for the same reason we introduced a similarly
-     temporary hack for British Columbia in 2026b.
-
-       Although another TZDB release will likely be needed soon because
-       Northwest Territories will likely follow Alberta, the legal
-       formalities have not yet taken place.
-
-     Morocco plans to move back to permanent UTC, without daylight
-     saving time transitions, on 2026-09-20 at 02:00.  This also
-     affects Western Sahara.
-
-   Changes to code
-
-     zic no longer overflows integers when processing outlandish input
-     like ‘Zone Ouch 0 - LMT 9223372036854775807’, ‘Zone Ouch 0
-     2562047788015215 LMT’, ‘Zone Ouch -2562047788015215:30:08 - LMT’,
-     and ‘Zone Ouch -2562047788015215:30:08 - %%z’.  This avoids
-     undefined behavior in C.  (Problems reported by Naveed Khan.)
-
-     On platforms that have EFTYPE, tzalloc now fails with errno set to
-     EFTYPE, not EINVAL, if it detects that the TZif file has an
-     invalid format or is not a regular file.  Formerly it did this
-     only on NetBSD, and only when the file was not a regular file.
-
-     Unprivileged programs no longer require TZif files to be regular
-     files or reject relative names containing ".." components.  This
-     reverts to the more-permissive 2025b behavior, as the stricter
-     behavior did not catch on in FreeBSD.
-
-     zic now reports any failure to remove a temporary file when
-     cleaning up after a previous failure.  (Problem reported by Tom
-     Lane.)
-
-   Changes to commentary
-
-     Northwest Territories is expected to move to permanent -06 prior to
-     2026-11-01 02:00, when clocks would otherwise fall back.  (Thanks to
-     Tim Parenti and James Bellaire.)  Model this with its traditional
-     abbreviation CST.  Unfortunately the change is not yet official, so
-     it is currently present only as comments that can be uncommented as
-     needed.
-
-   Changes to build procedure
-
-     The undocumented ‘typecheck’ Makefile check rule has been removed.
-     It stopped working in 2025a and evidently nobody noticed.
-     The rule was superseded by ‘check_time_t_alternatives’ in 2013d.
-
-Ref: https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/NVHSX2PAQIT44U5FCCEVNJJYXQMMTJSA/
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index ff02416ed3..47f9ac2855 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
- 
--PV = "2026b"
-+PV = "2026c"
- 
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
-@@ -16,5 +16,5 @@ S = "${UNPACKDIR}/tz"
- 
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.sha256sum] = "37e9ed8427f5d3521c22fc58e293cbfb043d70eedf1003870b33f363f61ca344"
--SRC_URI[tzdata.sha256sum] = "114543d9f19a6bfeb5bca43686aea173d38755a3db1f2eec112647ae92c6f544"
-+SRC_URI[tzcode.sha256sum] = "b1cffc3ace4c4c7cd0efba2f7add86ec3d0b79da48bcf03582671fd3c8feace8"
-+SRC_URI[tzdata.sha256sum] = "e4a178a4477f3d0ea77cc31828ff72aa38feff8d61aa13e7e99e142e9d902be4"
--- 
-2.43.0
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
 
