@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEED0C4450A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9B21C4450E
 	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 16:37:13 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1949.1783701426519276037
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1954.1783701432105959952
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jul 2026 09:37:06 -0700
+ Fri, 10 Jul 2026 09:37:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=QAAwlH6B;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-475cb71a4ebso1099424f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 09:37:06 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Y5W05Gi2;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493e497643fso7168185e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 09:37:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783701425; x=1784306225; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1783701430; x=1784306230; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=HZ1LqezeGrE6RoYLj+1Ype3a2wkhoeDrXG1grhqlBLc=;
-        b=QAAwlH6B47L1s7kMMyEJutpO7vbARwTR12J/trCxdx25u2Bl35YePKOmjHjsByW2XJ
-         I4Y8+qMgH0j0IFdkSTDOPhHhJwljEvW3xdr7CttHe5YgxZ+IIlapxiPBnXtjM+lhNZUW
-         vFQYmknUlrLRGgUsOYrpNkWRZ29Zdo+nlz9Qw=
+        bh=Rjb71hM8t83ahj6hK3oRTkhtztznAj2oOC+XdB7lx90=;
+        b=Y5W05Gi2IUOXjrFtGakxWzCsRbsZS+qdB8oMKzYo9rw4t4hxaKw7RgGx6oBfUyzVZS
+         mHb+bMMXLtPJmq59ec/jOA0hqHOKNjeiRGOztwx1VaLx4peq4HJdFaLJ+3wI/0DlbDq+
+         1AWCWYlRGgLMvwEBW+5+Aop1U1VnVmmSTQeBY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783701425; x=1784306225;
+        d=1e100.net; s=20251104; t=1783701430; x=1784306230;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=HZ1LqezeGrE6RoYLj+1Ype3a2wkhoeDrXG1grhqlBLc=;
-        b=g5SBwhUZRndbAb6EqxOGP6ydda0kLnZAQMYaXPcHwLz6TIUYW3bWSmSBkDvjnlYntq
-         R9vyL3O14ITdVChSxwY+MvAbg2nhYloUqSTu5ES7MfVdmeHNAwtSJ+MCbQ2CacOc+GcA
-         wkl7ir2swggeOot/1XPYWZx/Tr7wkzgH7bILhZKxwYALZrLHWeqeArEu16lAZ3O28lXf
-         I7EcpQiIBYo1gDHbxgTtu6hASOwv4nlzFv4DbbBuNlk0VD+gH1q4E7BnDACR6urfOXae
-         a0z/TqGWlvS4jFFp1rDUrSht/51mZIwS+Qnjt3abtpvwjMLdAG1nzAFFg0NmafKHg+2b
-         7Hew==
-X-Gm-Message-State: AOJu0YwGfxgqYTERYyMEvAkzwLttOAGBrbLfPHMdPXCQ9d8ecak0aYac
-	S2p7ldV9K35pnrkMgzAxV0c7WNQf8OkWYy3/6mykEPHnQ9LHqGSvNnWoUNNzRjPYjhduGVnfIot
-	Xein37jk=
-X-Gm-Gg: AfdE7cnUnBBxnmoP5DCVy/azi8ML6SdAB64jooxc7QLobSXfM6egpQ5TWjd5I8tVXAT
-	Sz965pKxI5GupTxI4+iMSBJ/lUA5i83+Ib0AGgbHp3HJvYX2KCkg93VdjJUtlCr7w3VU2MCEKqn
-	A7X0y1gG0DGSnYsOH0x592konUKyQyXgrO/wkTmD2aVXpzgGr07VfxQ6bxxHOqGG3yX95Uqmew4
-	zWZXVvVoJ4O9ueUaX0h9UMXCcCXHBZhMHJwjYa+VR3UxNJsbuQl25esunTEQA6yR35xLKvTr05C
-	HzfgjCzA5T9UhAqfLg9V0ZgLfQNdPkpwb4tw1VpJldKpdd9+wYlfd8KOjPES94B7jQkFcKzxre5
-	dXBtZoeH7bPbmQUB42z3i8TfYtcQ7YPmgWJ3Ijr3v/CJZ6/1hif2Kk3NgrjsdbAQ4BIT3X+nlOV
-	khQfITsSGDQ3YTWGGDtoN6NS5+HWerncOi0r94jcVi1crZOmYB5v3941HU3zwpS53E7zVXDADIU
-	VdUssYd/nxw46CDQL4eEVHft7bLhQ==
-X-Received: by 2002:a05:600c:c1c8:10b0:493:c3c9:218c with SMTP id 5b1f17b1804b1-493e68cebf6mr101421365e9.30.1783701424414;
-        Fri, 10 Jul 2026 09:37:04 -0700 (PDT)
+        bh=Rjb71hM8t83ahj6hK3oRTkhtztznAj2oOC+XdB7lx90=;
+        b=g//DrOfjRkjZx0AP/cDzpr+E64YosBVC5X6iROB4+capzCNkQIRq/61zjlJits7RBr
+         vdHHPM/FkV17mNzx4kqpYs/itB5NGyrfiQG4xc+awDpT9dIBpNd5XPTZ8+iYxjZFde1B
+         z2fA+MeaX6HSiGgQH8VvRyHkXhhQJdDT0WXjVUEU5VuSgO1kdGWtFT5ko0zDjo9abWVI
+         E0zwMPO7UrbYsNRsE+4wp69W2G1kmVQCbrexEPoWbywEIf82qqHLPFhx+rUGPjlE60q8
+         r0eUBRbxmbt26RIB8MH+2wHmb+xRMs1aw/X0o1iTRS/eaSbsLyW4BuUy1MZpiZusXcP7
+         nbCA==
+X-Gm-Message-State: AOJu0YwiFUsdo/gDtWyrveB1E/A2uY9TdS2VBLTMdeZ7PoBuTi8ECDvP
+	wb9JngXluKBY0TJgw6JUMhKnhcREbn/04hhxVIGJlolNvqPqMWq1lziDNuyVVDIL+361rK2M09d
+	nVeVUryw=
+X-Gm-Gg: AfdE7cn09RRvIOBBKTb1/iRsn5OHM5zHaWEaCTgrp6HphIXR60O7+sP849hnKgrxNjT
+	uk7sIGYkz5Vfh/vxlwQGRWsiNBw/T0LCYHT8TAoPNhqx6ELl/oWL2TvEYXEboxkTWcZhFAbBlvo
+	+0/4/+qrrRJJVatdFSyzf7c0sCyH8L/+HXzv089EGB8AaIsGBcKoWOZtzGbwD+IaB/SXGPG3Bny
+	JtGk9PGDhCB7CAZvu+n7X+5zpdfTFQGFTzl/DemZOHQEqfPWusfleLXFKvmYvD/3TazhX0GTjyq
+	jugkNQP6fd6LFWYJ3DgEFV97m9+Wy7l0pw1iSfb84KxV/LfNtBm5VNq7b+Nls3+X17+ejnw2I4k
+	JumVzK1OUwy7VKITsXQMp9YAYvdAwGUqe5QAi52d3ynb9Zy5FUk7O6k13onXHcu8QZRDVQONfLD
+	2bMOiwpWMH03+D+Cs5tAFlC65fYY8MPwlAFcelVvToyzfeWPJVdKsptk2ppX0++9KuKM60Otx0R
+	3BrQi7j983L2FhSN/A=
+X-Received: by 2002:a05:600c:1d1e:b0:492:7084:32af with SMTP id 5b1f17b1804b1-493e68bf03amr127273865e9.23.1783701430211;
+        Fri, 10 Jul 2026 09:37:10 -0700 (PDT)
 Received: from localhost.localdomain (2a02-8440-2608-8c5f-3a92-eb6f-dc01-ac58.rev.sfr.net. [2a02:8440:2608:8c5f:3a92:eb6f:dc01:ac58])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6d4f9fsm150758695e9.4.2026.07.10.09.37.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6d4f9fsm150758695e9.4.2026.07.10.09.37.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 09:37:04 -0700 (PDT)
+        Fri, 10 Jul 2026 09:37:09 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 05/18] python3: upgrade 3.14.5 -> 3.14.6
-Date: Fri, 10 Jul 2026 18:36:20 +0200
-Message-ID: <dec22c685f9db46804b9c532bc35c5592a664303.1783697455.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 12/18] util-linux: upgrade 2.41.3 -> 2.41.5
+Date: Fri, 10 Jul 2026 18:36:27 +0200
+Message-ID: <743ed34569e6c0db29b91a4e6035ace4a39bb55a.1783697455.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1783697455.git.yoann.congal@smile.fr>
 References: <cover.1783697455.git.yoann.congal@smile.fr>
@@ -66,111 +66,184 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 16:37:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240666
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240673
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Siva Balasubramanian <sivakumar.bs@gmail.com>
 
-Release notes: [1]
+2.41.4 and 2.41.5 are point releases in the same 2.41 stable series and
+contain only bug fixes and security fixes (no new features, no API/ABI
+breaks), so the upgrade complies with the stable branch policy.
 
-Resolves following CVEs from reports:
-* CVE-2026-3276
-* CVE-2026-7210
-* CVE-2026-7774
-* CVE-2026-8328
-* CVE-2026-9669
+Among the fixes pulled in:
+ - Several mount(8) TOCTOU / symlink hardening fixes (incl. CVE-2026-27456)
+ - libblkid integer overflow in parse_dos_extended() and a use-after-free
+   in partition probing
+ - pam_lastlog2: fix libpam linking in the autotools build so
+   pam_lastlog2.so links against libpam (fixes the runtime "undefined
+   symbol: pam_syslog" / dlopen failure) [YOCTO #16320]
 
-Resolves also:
-* shutil.move symlink-based bypass (CVE assignment unknown)
+Drop two backports that are now part of the release:
+ - 0001-loopdev-add-LOOPDEV_FL_NOFOLLOW-to-prevent-symlink-a.patch
+   (upstream f55f9906, released in 2.41.4)
+ - the pam_lastlog2 libpam linking backport (upstream 5683ed6320e0,
+   cherry-picked to the 2.41 stable branch as c8d0af0421f6, released in
+   2.41.5)
 
-Removed obsolete CVE_STATUS entries.
-Removed patch included in this release.
+Full changes: https://github.com/util-linux/util-linux/compare/v2.41.3...v2.41.5
 
-[1] https://docs.python.org/3/whatsnew/changelog.html#python-3-14-6-final
-[2] https://security-tracker.debian.org/tracker/CVE-2026-7210
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8ad179c8dd8809ab8861147e5967e7d199ad0fe4)
+Signed-off-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...eadingMock-call-count-race-condition.patch | 37 -------------------
- .../{python3_3.14.5.bb => python3_3.14.6.bb}  |  7 +---
- 2 files changed, 2 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/0001-Fix-ThreadingMock-call-count-race-condition.patch
- rename meta/recipes-devtools/python/{python3_3.14.5.bb => python3_3.14.6.bb} (98%)
+ ...2.41.3.bb => util-linux-libuuid_2.41.5.bb} |   0
+ meta/recipes-core/util-linux/util-linux.inc   |   3 +-
+ ...DEV_FL_NOFOLLOW-to-prevent-symlink-a.patch | 114 ------------------
+ ...l-linux_2.41.3.bb => util-linux_2.41.5.bb} |   0
+ 4 files changed, 1 insertion(+), 116 deletions(-)
+ rename meta/recipes-core/util-linux/{util-linux-libuuid_2.41.3.bb => util-linux-libuuid_2.41.5.bb} (100%)
+ delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-loopdev-add-LOOPDEV_FL_NOFOLLOW-to-prevent-symlink-a.patch
+ rename meta/recipes-core/util-linux/{util-linux_2.41.3.bb => util-linux_2.41.5.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-Fix-ThreadingMock-call-count-race-condition.patch b/meta/recipes-devtools/python/python3/0001-Fix-ThreadingMock-call-count-race-condition.patch
+diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.41.5.bb
+similarity index 100%
+rename from meta/recipes-core/util-linux/util-linux-libuuid_2.41.3.bb
+rename to meta/recipes-core/util-linux/util-linux-libuuid_2.41.5.bb
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 02358626669..aec8721ca32 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -20,9 +20,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://0001-lsfd-mkfds-foreign-sockets-skip-when-lacking-sock_di.patch \
+            file://0001-ts-kill-decode-use-RTMIN-from-kill-L-instead-of-hard.patch \
+            file://0001-tests-script-Disable-size-option-test.patch \
+-           file://0001-loopdev-add-LOOPDEV_FL_NOFOLLOW-to-prevent-symlink-a.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "3330d873f0fceb5560b89a7dc14e4f3288bbd880e96903ed9b50ec2b5799e58b"
++SRC_URI[sha256sum] = "f586e35d320ff537aab3ffeca37e9ecd482ccbe013590db4429a414d8aa6a728"
+ 
+ CVE_PRODUCT = "util-linux"
+diff --git a/meta/recipes-core/util-linux/util-linux/0001-loopdev-add-LOOPDEV_FL_NOFOLLOW-to-prevent-symlink-a.patch b/meta/recipes-core/util-linux/util-linux/0001-loopdev-add-LOOPDEV_FL_NOFOLLOW-to-prevent-symlink-a.patch
 deleted file mode 100644
-index aba3188a59a..00000000000
---- a/meta/recipes-devtools/python/python3/0001-Fix-ThreadingMock-call-count-race-condition.patch
+index 0951c9f5fbe..00000000000
+--- a/meta/recipes-core/util-linux/util-linux/0001-loopdev-add-LOOPDEV_FL_NOFOLLOW-to-prevent-symlink-a.patch
 +++ /dev/null
-@@ -1,37 +0,0 @@
--From 388e023fe1197c1ffed374520ed45df4ac72b8f5 Mon Sep 17 00:00:00 2001
--From: Sai Sneha <saisneha196@gmail.com>
--Date: Thu, 21 May 2026 13:08:07 +0530
--Subject: [PATCH] Fix ThreadingMock call_count race condition
+@@ -1,114 +0,0 @@
+-From f55f9906b4f6eeb2b4a4120317df9de935253c10 Mon Sep 17 00:00:00 2001
+-From: Karel Zak <kzak@redhat.com>
+-Date: Thu, 19 Feb 2026 13:59:46 +0100
+-Subject: [PATCH] loopdev: add LOOPDEV_FL_NOFOLLOW to prevent symlink attacks
 -
--ThreadingMock._increment_mock_call() was not thread-safe.
--Multiple threads calling the mock simultaneously could lose
--increments due to race conditions on call_count and other
--attributes.
+-Add a new LOOPDEV_FL_NOFOLLOW flag for loop device context that
+-prevents symlink following in both path canonicalization and file open.
 -
--Fix by overriding _increment_mock_call in ThreadingMixin
--and wrapping it with the existing _mock_calls_events_lock.
+-When set:
+-- loopcxt_set_backing_file() uses strdup() instead of
+-  ul_canonicalize_path() (which calls realpath() and follows symlinks)
+-- loopcxt_setup_device() adds O_NOFOLLOW to open() flags
 -
--Upstream-Status: Backport [https://github.com/python/cpython/pull/150176]
+-The flag is set for non-root (restricted) mount operations in
+-libmount's loop device hook. This prevents a TOCTOU race condition
+-where an attacker could replace the backing file (specified in
+-/etc/fstab) with a symlink to an arbitrary root-owned file between
+-path resolution and open().
 -
--Signed-off-by: Sai Sneha <saisneha196@gmail.com>
+-Vulnerable Code Flow:
+-
+-  mount /mnt/point (non-root, SUID)
+-    mount.c: sanitize_paths() on user args (mountpoint only)
+-    mnt_context_mount()
+-      mnt_context_prepare_mount()
+-        mnt_context_apply_fstab()           <-- source path from fstab
+-        hooks run at MNT_STAGE_PREP_SOURCE
+-          hook_loopdev.c: setup_loopdev()
+-            backing_file = fstab source path ("/home/user/disk.img")
+-            loopcxt_set_backing_file()       <-- calls realpath() as ROOT
+-              ul_canonicalize_path()         <-- follows symlinks!
+-            loopcxt_setup_device()
+-              open(lc->filename, O_RDWR|O_CLOEXEC)  <-- no O_NOFOLLOW
+-
+-Two vulnerabilities in the path:
+-
+-1) loopcxt_set_backing_file() calls ul_canonicalize_path() which uses
+-   realpath() -- this follows symlinks as euid=0. If the attacker swaps
+-   the file to a symlink before this call, lc->filename becomes the
+-   resolved target path (e.g., /root/secret.img).
+-
+-2) loopcxt_setup_device() opens lc->filename without O_NOFOLLOW. Even
+-   if canonicalization happened correctly, the file can be swapped to a
+-   symlink between canonicalize and open.
+-
+-Addresses: https://github.com/util-linux/util-linux/security/advisories/GHSA-qq4x-vfq4-9h9g
+-Signed-off-by: Karel Zak <kzak@redhat.com>
+-(cherry picked from commit 5e390467b26a3cf3fecc04e1a0d482dff3162fc4)
+-
+-CVE: CVE-2026-27456
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
 ----
-- Lib/unittest/mock.py | 4 ++++
-- 1 file changed, 4 insertions(+)
+- include/loopdev.h           | 3 ++-
+- lib/loopdev.c               | 7 ++++++-
+- libmount/src/hook_loopdev.c | 3 ++-
+- 3 files changed, 10 insertions(+), 3 deletions(-)
 -
--diff --git a/Lib/unittest/mock.py b/Lib/unittest/mock.py
--index 16f3699e89..56cdc37942 100644
----- a/Lib/unittest/mock.py
--+++ b/Lib/unittest/mock.py
--@@ -3113,6 +3113,10 @@ def _mock_call(self, *args, **kwargs):
+-diff --git a/include/loopdev.h b/include/loopdev.h
+-index e5ec1c98a..6bdb1393a 100644
+---- a/include/loopdev.h
+-+++ b/include/loopdev.h
+-@@ -140,7 +140,8 @@ enum {
+- 	LOOPDEV_FL_NOIOCTL	= (1 << 6),
+- 	LOOPDEV_FL_DEVSUBDIR	= (1 << 7),
+- 	LOOPDEV_FL_CONTROL	= (1 << 8),	/* system with /dev/loop-control */
+--	LOOPDEV_FL_SIZELIMIT	= (1 << 9)
+-+	LOOPDEV_FL_SIZELIMIT	= (1 << 9),
+-+	LOOPDEV_FL_NOFOLLOW	= (1 << 10)	/* O_NOFOLLOW, don't follow symlinks */
+- };
 - 
--         return ret_value
+- /*
+-diff --git a/lib/loopdev.c b/lib/loopdev.c
+-index 2359bf781..76685be70 100644
+---- a/lib/loopdev.c
+-+++ b/lib/loopdev.c
+-@@ -1267,7 +1267,10 @@ int loopcxt_set_backing_file(struct loopdev_cxt *lc, const char *filename)
+- 	if (!lc)
+- 		return -EINVAL;
 - 
--+    def _increment_mock_call(self, /, *args, **kwargs):
--+        with self._mock_calls_events_lock:
--+            super()._increment_mock_call(*args, **kwargs)
--+
--     def wait_until_called(self, *, timeout=_timeout_unset):
--         """Wait until the mock object is called.
+--	lc->filename = canonicalize_path(filename);
+-+	if (lc->flags & LOOPDEV_FL_NOFOLLOW)
+-+		lc->filename = strdup(filename);
+-+	else
+-+		lc->filename = canonicalize_path(filename);
+- 	if (!lc->filename)
+- 		return -errno;
 - 
+-@@ -1408,6 +1411,8 @@ int loopcxt_setup_device(struct loopdev_cxt *lc)
+- 
+- 	if (lc->config.info.lo_flags & LO_FLAGS_DIRECT_IO)
+- 		flags |= O_DIRECT;
+-+	if (lc->flags & LOOPDEV_FL_NOFOLLOW)
+-+		flags |= O_NOFOLLOW;
+- 
+- 	if ((file_fd = open(lc->filename, mode | flags)) < 0) {
+- 		if (mode != O_RDONLY && (errno == EROFS || errno == EACCES))
+-diff --git a/libmount/src/hook_loopdev.c b/libmount/src/hook_loopdev.c
+-index 444d69d6f..34351116c 100644
+---- a/libmount/src/hook_loopdev.c
+-+++ b/libmount/src/hook_loopdev.c
+-@@ -272,7 +272,8 @@ static int setup_loopdev(struct libmnt_context *cxt,
+- 	}
+- 
+- 	DBG(LOOP, ul_debugobj(cxt, "not found; create a new loop device"));
+--	rc = loopcxt_init(&lc, 0);
+-+	rc = loopcxt_init(&lc,
+-+			mnt_context_is_restricted(cxt) ? LOOPDEV_FL_NOFOLLOW : 0);
+- 	if (rc)
+- 		goto done_no_deinit;
+- 	if (mnt_opt_has_value(loopopt)) {
 --- 
--2.34.1
-diff --git a/meta/recipes-devtools/python/python3_3.14.5.bb b/meta/recipes-devtools/python/python3_3.14.6.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.14.5.bb
-rename to meta/recipes-devtools/python/python3_3.14.6.bb
-index fd407c96035..e7db713ded1 100644
---- a/meta/recipes-devtools/python/python3_3.14.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.6.bb
-@@ -35,13 +35,12 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Skip-flaky-test_default_timeout-tests.patch \
-            file://0001-test_only_active_thread-skip-problematic-test.patch \
-            file://0001-prefer-valid-entrypoints.patch \
--           file://0001-Fix-ThreadingMock-call-count-race-condition.patch \
-            "
- SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-            "
- 
--SRC_URI[sha256sum] = "7e32597b99e5d9a39abed35de4693fa169df3e5850d4c334337ffd6a19a36db6"
-+SRC_URI[sha256sum] = "143b1dddefaec3bd2e21e3b839b34a2b7fb9842272883c576420d605e9f30c63"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-@@ -531,7 +530,5 @@ py3_sysroot_cleanup () {
- 	rm -rf ${SYSROOT_DESTDIR}${libdir}/python${PYTHON_MAJMIN}/test
- }
- 
--CVE_STATUS[CVE-2026-4786] = "cpe-stable-backport: backported to v3.14.5"
--CVE_STATUS[CVE-2026-5713] = "cpe-stable-backport: backported to v3.14.5"
- CVE_STATUS[CVE-2026-6019] = "cpe-stable-backport: backported to v3.14.5"
--CVE_STATUS[CVE-2026-6100] = "cpe-stable-backport: backported to v3.14.5"
-+CVE_STATUS[CVE-2026-7210] = "cpe-stable-backport: backported to v3.14.6"
+-2.43.0
+-
+diff --git a/meta/recipes-core/util-linux/util-linux_2.41.3.bb b/meta/recipes-core/util-linux/util-linux_2.41.5.bb
+similarity index 100%
+rename from meta/recipes-core/util-linux/util-linux_2.41.3.bb
+rename to meta/recipes-core/util-linux/util-linux_2.41.5.bb
 
