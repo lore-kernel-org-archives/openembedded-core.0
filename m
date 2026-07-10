@@ -1,83 +1,109 @@
-Return-Path: <benjamin.robin@bootlin.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 592FDC43458
-	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 07:48:23 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7986.1783669697652992537
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66365C44501
+	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 07:49:33 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8004.1783669769994044114
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jul 2026 00:48:18 -0700
+ Fri, 10 Jul 2026 00:49:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=OQ6runeB;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 722821A0F23;
-	Fri, 10 Jul 2026 07:48:15 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3F2FE60342;
-	Fri, 10 Jul 2026 07:48:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7DBF611BD240D;
-	Fri, 10 Jul 2026 09:48:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1783669694; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=fdasboYcpwdcVcxLYPT12iUBLTSWgT9sqnFIhOcXamg=;
-	b=OQ6runeBWCN1Rua6EIkQyqR3hcmPL8wJ7VuJ9E8SLP17QM5rDXhH7Lkv6tiX0ym2hM5cbk
-	ggPm5k8cFu/rLjgpOECK2SX3zaFO0NBpxq96OBOTqs8MFmMLKN1aQAwnsl+gBElQUAHhvf
-	DeFEqGFkQZLF6VEW89KVtqOP8g8x9YvZl3w0tSjAOAJkTLxlLEizZV4O9+SpSdwjzxPWWo
-	8K4z4xTOotipqQQPJYYKGyNkY5jWCCvbvQfzVuKwha2If07oC42eZrKClwUzhzbqNRpOui
-	GrHVHuo5JtX69WVVfWkg00ibVsnPcgTXE4Crx++NteuftTss073Tl7EySBTbIA==
-From: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
-Date: Fri, 10 Jul 2026 09:48:13 +0200
-Subject: [PATCH] python3: add back Co-authored-by in CVE-2026-11972 patch
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=idyGdFwC;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=vgFoKuj6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019f4b00c440-036b85ac-17b8-4b90-8357-98447d985b2d-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1783669769;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=ME2/6cRdrKhKSnLAxJb3ceUdRIRKmCW9vb+uoLuzXM0=;
+	b=idyGdFwCIG0x9A0QhoRJ978nq1dNDonmGOi2ybkTQgBvXlZII3kY0n0wASmMSLG4
+	dymsvjbJUIjzbNPp4El6YLxVD2cIj9hoJUkrEP7m815aETxmULmXr6u0J1eqfdhEy7m
+	0yy/uuRb0cy6OM/819nn6ce/Oh1lKUjA0shvOp+s=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783669769;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=ME2/6cRdrKhKSnLAxJb3ceUdRIRKmCW9vb+uoLuzXM0=;
+	b=vgFoKuj6wg/xry+NNMGP6EphQHqHbTuh+tntn+1hTlbXme7yEXonNGvbw3oUu7OJ
+	r5nC1mHGFhfi7kGUu1oRWtZZcfG6+CdYFKgw6aJPSzbcTgWaUiQT4kgTsIvxngz/OkW
+	Hy46SiblzqniYs66fWKE5cDWram68xtNW6JLcMFo=
+Content-Type: multipart/mixed; boundary="===============2630317184889120805=="
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-fix-cves-python-master-fix-v1-1-653636ec864b@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQqDMBBA4avIrDuQ+FNpr1JcxDjWEYySSUNFv
- LtRl99bvA2EPJPAO9vAU2Th2SXoRwZ2MO5LyF0y5Cp/qlor7PmPNpLgsoZhdjgZCeSvrAujy+L
- Vt3VXQRosnlK+5p/mtvzakWw4j7DvByNE9H9+AAAA
-X-Change-ID: 20260710-fix-cves-python-master-fix-13a1439fb7d5
+From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Cc: olivier.benjamin@bootlin.com, mathieu.dubois-briand@bootlin.com, 
- yoann.congal@smile.fr, 
- "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
-X-Mailer: b4 0.15.2
-X-Last-TLS-Session-Version: TLSv1.3
+Subject: [AUH] libva-utils: upgrading to 2.24.0 FAILED
+Message-ID: <0101019f4b00c440-036b85ac-17b8-4b90-8357-98447d985b2d-000000@us-west-2.amazonses.com>
+Date: Fri, 10 Jul 2026 07:49:29 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.07.10-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 07:48:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240602
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 07:49:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240607
 
-It had been deleted by mistake due to a lack of knowledge regarding how
-to handle it.
+--===============2630317184889120805==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
----
- meta/recipes-devtools/python/python3/CVE-2026-11972.patch | 2 ++
- 1 file changed, 2 insertions(+)
+Hello,
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2026-11972.patch b/meta/recipes-devtools/python/python3/CVE-2026-11972.patch
-index 7dc9c6697112..12a79754febd 100644
---- a/meta/recipes-devtools/python/python3/CVE-2026-11972.patch
-+++ b/meta/recipes-devtools/python/python3/CVE-2026-11972.patch
-@@ -4,6 +4,8 @@ Date: Tue, 23 Jun 2026 15:13:30 +0200
- Subject: [PATCH 2/2] gh-151981: Make tarfile._Stream.seek break at EOF
-  (GH-151982)
- 
-+Co-authored-by: Stan Ulbrych <stan@python.org>
-+
- CVE: CVE-2026-11972
- Upstream-Status: Backport [https://github.com/python/cpython/commit/f50bf13566189c8d0ce5a814f33eff3d89951896]
- 
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *libva-utils* to *2.24.0* has Failed (devtool error).
 
----
-base-commit: 5a5f2ec43cbb9096f1fc52ba4c2a4f94526f103d
-change-id: 20260710-fix-cves-python-master-fix-13a1439fb7d5
+Detailed error information:
 
-Best regards,
---  
-Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+Running 'devtool upgrade' for recipe libva-utils failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1979 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-6c077d133983e1322efc57e9cc386375ba3f500c"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:6c077d133983e1322efc57e9cc386375ba3f500c"
+meta-yocto-bsp       
+meta-poky            = "master:366fa2f21bfb0d9c4de492e0204a0dd38ce241ab"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto c3ba9e07e61841f1bc2c9932d957b44e5827a852
+WARNING: Command 'git rebase c3ba9e07e61841f1bc2c9932d957b44e5827a852' failed:
+Auto-merging configure.ac
+CONFLICT (content): Merge conflict in configure.ac
+Auto-merging meson.build
+CONFLICT (content): Merge conflict in meson.build
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/libva-utils
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/libva-utils/libva-utils_2.24.0.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/libva-utils.txt
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============2630317184889120805==--
 
