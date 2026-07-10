@@ -2,32 +2,32 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F4C6C44506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5A3FC44509
 	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 12:54:39 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11843.1783688071195590991
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11941.1783688072463177680
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jul 2026 05:54:31 -0700
+ Fri, 10 Jul 2026 05:54:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=mhvMOOn2;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=LYcR5ES6;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 708DC1EA6
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 05:54:26 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4E7B169C
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 05:54:27 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 57A063F85F
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 05:54:30 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B72753F85F
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 05:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783688070; bh=TxBSV3jU266rjs9+dko1DvI3QVnabhkY9F2oe2d8qSo=;
+	t=1783688072; bh=Cdce0r3gLAenux/3fO9/Wb5CP0znKeuRuCPvkpoNUh0=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=mhvMOOn2JWCqRa42C75bgdx7GiJ0Hb6xuvfamltnozK5Xw1cdNkUSTTt73u6vt5su
-	 XGcU64ShjU7uwkMDkS77E2JAsZYLA+lFnNmL6SFiqpFFFctQeNrEQpAlGbPFkjwhpd
-	 1jalc91y8k7DixiJlO6vBR/K3ON0pLPJMZF8ZXNs=
+	b=LYcR5ES6amdaTw9H0cy3eVmegiR6hK1OLd5gQnWC3pkQBMOTtxH8ey/L1nq8IiQtA
+	 /RfH+IAobL6+Q4nw/JrLWFvqtDYyWP6DD0EKQzpWGFxHjWQLKT9lquo4YQLMLzFTql
+	 Xm9Hxd7z4tsiyqZqN+h2NvWv/dwq/3Fmnmgvhk+I=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/5] classes/systemd: remove obsolete DEPENDS
-Date: Fri, 10 Jul 2026 13:54:22 +0100
-Message-ID: <20260710125425.220975-2-ross.burton@arm.com>
+Subject: [PATCH 4/5] initscripts: remove obsolete systemd masking
+Date: Fri, 10 Jul 2026 13:54:24 +0100
+Message-ID: <20260710125425.220975-4-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260710125425.220975-1-ross.burton@arm.com>
 References: <20260710125425.220975-1-ross.burton@arm.com>
@@ -37,35 +37,70 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 12:54:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240636
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240638
 
-Recipes that use systemd don't need systemctl at build time, so this
-dependency can be removed.
+systemd no longer has sysvinit compatibility[1], so it won't try and run
+the init script in this recipe that is also implemented by systemd.
 
-It was added in [1] but no rationale was given or is obvious.
+Remove the explicit systemd unit masking, effectively reverting [2].
 
-[1] oe-core e9444649f4 ("systemd: Restore mask and preset targets, fix in=
-stance creation")
+[1] oe-core d9ec9e20eeb ("systemd: Stop supporting sysvinit compatibility=
+")
+[2] oe-core 844f897710 ("initscripts: mask initscripts from systemd")
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-recipe/systemd.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+ .../initscripts/initscripts_1.0.bb            | 26 -------------------
+ 1 file changed, 26 deletions(-)
 
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/sy=
-stemd.bbclass
-index 5d8e6086b2..df464baddd 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -21,7 +21,6 @@ python __anonymous() {
-     # Inhibit update-rcd from doing any work so that systemd images don'=
-t have
-     # redundant init files.
-     if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
--        d.appendVar("DEPENDS", " systemd-systemctl-native")
-         d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/reci=
+pes-core/initscripts/initscripts_1.0.bb
+index 23411b6a71..ae386a6281 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -41,7 +41,6 @@ S =3D "${UNPACKDIR}"
+ KERNEL_VERSION =3D ""
+=20
+ DEPENDS:append =3D " update-rc.d-native"
+-PACKAGE_WRITE_DEPS:append =3D " ${@bb.utils.contains('DISTRO_FEATURES','=
+systemd','systemd-systemctl-native','',d)}"
+=20
+ PACKAGES =3D+ "${PN}-functions ${PN}-sushell"
+ RDEPENDS:${PN} =3D "initd-functions \
+@@ -154,32 +153,7 @@ do_install () {
+ 	update-rc.d -r ${D} dmesg.sh start 38 S .
  }
 =20
+-MASKED_SCRIPTS =3D " \
+-  banner \
+-  bootmisc \
+-  checkfs \
+-  checkroot \
+-  devpts \
+-  dmesg \
+-  hostname \
+-  mountall \
+-  mountnfs \
+-  populate-volatile \
+-  read-only-rootfs-hook \
+-  rmnologin \
+-  sysfs \
+-  urandom"
+-
+ pkg_postinst:${PN} () {
+-	if type systemctl >/dev/null 2>/dev/null; then
+-		if [ -n "$D" ]; then
+-			OPTS=3D"--root=3D$D"
+-		fi
+-		for SERVICE in ${MASKED_SCRIPTS}; do
+-			systemctl $OPTS mask $SERVICE.service
+-		done
+-	fi
+-
+     # Delete any old volatile cache script, as directories may have move=
+d
+     if [ -z "$D" ]; then
+         rm -f "/etc/volatile.cache"
 --=20
 2.43.0
 
