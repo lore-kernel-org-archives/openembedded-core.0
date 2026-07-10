@@ -1,1079 +1,527 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <Ishaan.Desai@ibm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00286C44509
-	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 16:37:25 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1961.1783701438345966139
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04249C43458
+	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 17:05:15 +0000 (UTC)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.166.1783703113946381869
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jul 2026 09:37:18 -0700
+ Fri, 10 Jul 2026 10:05:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=aOnfy4iZ;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493e8d4f4dcso9826635e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 09:37:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783701436; x=1784306236; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=R14PumXbFuOD/7B/+fGiQFsisW6cke7HKbABD+nSlBE=;
-        b=aOnfy4iZ4vydgvBCMV+fqT4H0rmb7wgXSzaiXeFEHTZOn47iFCKdns7p6sYECY2sfb
-         RfDdiU6gIAilJ9BMq1ilp18WmW03bRe2nc7o2a9kXOMAWUhv2qOQdbE1guw/vHtqp3jS
-         ermmVQIWi3PCZ8mvT/K/R3FrIDOJYB94ClU2M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783701437; x=1784306237;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=R14PumXbFuOD/7B/+fGiQFsisW6cke7HKbABD+nSlBE=;
-        b=gaFFATz95qKA0PERk1t6bjYbCtLySgtD1TMQhqWv7Qmf5xnvRZi7B9+NGxf+1pmqpp
-         2Vjz9a361aeuoZf1pQMgvTYcFO3ZPse6FWiW74KFMo9q/oj4217QnsnL+cNKiuyx4lmY
-         gKXrof2g7wA1G4NO1OP95lz2mCzYJQqzoJPgNjgzD3v81BMBykYn8tcpCrbf1lQQHpoX
-         8FN5AYNbuqMEbWCjpBOopHZ4zBcsHu/9ztCHVcT6rvgowTRdaAEST9RH06D78KOwoP2A
-         KohpH8CuERIzh+hmdzszP8z0q4ZGWvDA4ijLeZrzVyOne9rMjxkgjLqGEtHedf318zzL
-         6Jpw==
-X-Gm-Message-State: AOJu0Yy7//Kdw/mVVc3E7nMBYfX7cEOCeZ0z8nXv6k3nw0rbF+Oy5R3r
-	8I8o1IJnPjrE9BCOIzeEitdOB8YmbhzynG9cECzpTBdaByuly4VeVXyjwdqAuQ/wy/QtBVjhQzz
-	cDSYF2fA=
-X-Gm-Gg: AfdE7ckNX4OmL2X04Opf0t2UK4QK3PQGCpfa7+BMWCdcYsDx4nx0seX0XRtgmwSLzpo
-	akFeI+l5CCcioxxFHiZOveha6xCo1hSivmiReZj9zf/6CA5e+ThSdpR05+Jr1js78NNvWmQQx14
-	B4jrjWSMMtKfSTRjyQI1bAOq91NqxVRqmQ4LIJ7fnNtxozA9gYWZ08PvTOi+NT6Y9QNixO0M+gq
-	9DtQwlaw05cJ+pEPUBw1Xps8YCwK3gcEwNKqquYuxIZanqEwC36I/qPuMsm8XINzhJ8ySR5bH2P
-	IKFIqyUwT7izmNeEpF0BKbHfOPrwlgxJ1THbJoy5YyvSTi00t1qWnqTcVFHvFNetGZ2DYJqrWi6
-	6fj9Mv13pXBnaALliJOq1ApRkfwanAknz1t2gS5QJ2cohdyKyjgczXoQQtSH1uBLfXDFhHi6Uiu
-	AsTG8XdcDzeapazYZ2roG41+UW3fIFi50kWR6n6TttAoy7S4A0O38leQpq1fHUwWLAog0L+TvXC
-	Jw+WEim6nAsGVUjo4g=
-X-Received: by 2002:a05:600c:8119:b0:490:9d1b:f086 with SMTP id 5b1f17b1804b1-493e686ad70mr126343455e9.14.1783701436175;
-        Fri, 10 Jul 2026 09:37:16 -0700 (PDT)
-Received: from localhost.localdomain (2a02-8440-2608-8c5f-3a92-eb6f-dc01-ac58.rev.sfr.net. [2a02:8440:2608:8c5f:3a92:eb6f:dc01:ac58])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6d4f9fsm150758695e9.4.2026.07.10.09.37.15
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 09:37:15 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
+ dkim=pass header.i=@ibm.com header.s=pp1 header.b=Q+/omuOT;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: ibm.com, ip: 148.163.156.1, mailfrom: ishaan.desai@ibm.com)
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66AEmGNS1906941
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 17:05:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=YZV7sg/+rjLYnUrnzSvbi12EqWNgSw620jahvgAYe
+	Bo=; b=Q+/omuOTrOWeBSeGH6Ma3JHxLbWOx7kJcT/PDOwdeXKwjLnOYK+pIoLBL
+	tf2ZlOR9yJDWH90G4IEtVaM6U+3JlYyY5BY4hf0f969+qmB6n0jY0xMBaBbgDhSS
+	owJVfTa6vUqNmm2BSwRWXtfuWJuwtORt6iQRjJqanjxf/qf2XA/mz/URvwVpvEDp
+	opG7Chtzbrb7cjJd+IIbMd8rw4N3sRc0GEI8Bo32jKInGN58p3TkFh9AGDtRDUGn
+	Lcn4Du34V5oVTPBOHO0R6Pp+tTc5z1QIACm3u2OSvS+jK9t2bQD2gXQGa26Wsu4Q
+	KQllnAqNePZgLHtDJ8NYuQCOgdr1g==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6sur7hyn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 17:05:13 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66AH5B8e003410
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 17:05:12 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f7dgkjy9b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 17:05:12 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66AH5ArQ9175782
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 10 Jul 2026 17:05:10 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F406358052;
+	Fri, 10 Jul 2026 17:05:09 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9F65158050;
+	Fri, 10 Jul 2026 17:05:09 +0000 (GMT)
+Received: from pfw153.pfw.tadn.ibm.com (unknown [9.5.7.52])
+	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 10 Jul 2026 17:05:09 +0000 (GMT)
+From: Ishaan Desai <Ishaan.Desai@ibm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 18/18] gnutls: fix CVE-2026-33846
-Date: Fri, 10 Jul 2026 18:36:33 +0200
-Message-ID: <73299cef1b7cd6446c918c361fd2c47534126361.1783697455.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1783697455.git.yoann.congal@smile.fr>
-References: <cover.1783697455.git.yoann.congal@smile.fr>
+Cc: Ishaan Desai <Ishaan.Desai@ibm.com>
+Subject: [PATCH] memory-control: add recipe and bbclass for cgroup v2 memory limiting
+Date: Fri, 10 Jul 2026 12:05:00 -0500
+Message-ID: <20260710170500.3863193-1-Ishaan.Desai@ibm.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEwMDE2OCBTYWx0ZWRfX6IlxBCd5BqpM
+ KkK0ecqiMQqtJwHvyGQtWjTgckvsJTSpc74Mx0NcVovs/TRanjsApzauSM55A/tGGfnc8xUkPxA
+ LCytsypgEjS/Fox3U2FpZpHlS0RA7xo=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEwMDE2OCBTYWx0ZWRfX0EcrNF35E1Gc
+ cOC3c+WY8zP3L8QlPULC7pgsk5FNqyES4JwDRHBjd65mEV3/brLmbSVZuuaVhLvbH8D/zlG03Kj
+ 89aVN0UH6JJRh7x7L2ANRKbJ/15dGqBA3/lBrncwxwSRuK7NJ71DA9gjB/xUD0/P630XXoUCm1P
+ U2/cQfVRZnBWdjlX0PLeOaK2HGXuMXxvDw3vjTw+tWiDBIV1sYFVhwiktbP9zlO03MB29R+rxyU
+ j+XMQ08jaBhVGCfOmAsQc+KO+XeA8JIouW96In2BhlVLc9m0vaC8qxKM+te5N3UegXHX8ot9Ql0
+ T0iJE2nnl/ACab16ME5cEGDETlMgvWqWQMy9aVk8XQzjG4OiJERtjCogF2mTWqOop7Z0xhzpEht
+ 988Du+IZnN6oz4XyEa69p/72bcy8t6boX2gHU03u/J7u0vOedQUNgsxwvK8y/qPbzwYUd8zv+0z
+ X6eD+avHGAIY2itKl4A==
+X-Proofpoint-GUID: WDFtcUKRgBF7NwVBKYffww9_IIyoFhVG
+X-Authority-Analysis: v=2.4 cv=Oot/DS/t c=1 sm=1 tr=0 ts=6a512649 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=uAbxVGIbfxUO_5tXvNgY:22 a=Q4-j1AaZAAAA:8 a=iGHA9ds3AAAA:8 a=VnNF1IyMAAAA:8
+ a=YDHw8K1o7AQTAJipLJUA:9 a=OlMNXAcGbEZC_NE3:21 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=nM-MV4yxpKKO9kiQg6Ot:22
+X-Proofpoint-ORIG-GUID: WDFtcUKRgBF7NwVBKYffww9_IIyoFhVG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-10_04,2026-07-10_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 lowpriorityscore=0 clxscore=1011 impostorscore=0 phishscore=0
+ malwarescore=0 suspectscore=0 spamscore=0 adultscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607100168
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 16:37:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240679
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 17:05:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240680
 
-From: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
+Adds a CLI tool and bbclass for applying per-service memory limits via
+systemd resource control and Linux cgroups v2.
 
-Backport upstream fixes for DTLS handshake fragment reassembly
-vulnerability (CVE-2026-33846).
+The memory-control command inspects MemoryMax and MemoryHigh settings
+for any running systemd service and lists all services with a drop-in
+applied.
 
-Includes:
-- 4f94e5cfe1f2: add basic DTLS fragment reassembly test
-- 9deffca528c2: shorten merge_handshake_packet using recv_buf
-- 65ab33fa54e3: add validation checks for DTLS fragment length and bounds
-- cf3f1955e58c: add reproducer for DTLS fragment reassembly bug (#1816)
-- bb427ff74dba: add fragmented ClientHello test coverage
-- 092c65d004e2: match DTLS datagrams by handshake sequence number
-- a2b41be83a1a: add test for mismatched message_seq handling (#1839)
-- 68b2fb63c8df: link mini-dtls-fragments test to gnulib
+memory-control.bbclass allows any recipe to set a memory limit at build
+time by inheriting the class and setting MEMORY_LIMIT. Two OOM policies
+are available via MEMORY_OOM_POLICY: "reboot" (default) reboots on OOM,
+and "kill" terminates only the offending process.
 
-These commits are included in gnutls 3.8.13 and are backported by
-both Debian (gnutls28_3.8.9-3+deb13u4) and CentOS 10-stream
-(gnutls-3.8.10-4.el10) using identical commit selection.
+AI-Generated: Uses IBM Bob
 
-Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Ishaan Desai <Ishaan.Desai@ibm.com>
 ---
- ...fragments-implement-a-basic-DTLS-tes.patch | 258 ++++++++++++++++++
- ...merge_handshake_packet-using-recv_bu.patch |  96 +++++++
- ...s-add-more-checks-to-DTLS-reassembly.patch |  65 +++++
- ...fragments-extend-with-a-1816-reprodu.patch | 159 +++++++++++
- ...fragments-extend-with-fragmenting-Cl.patch | 149 ++++++++++
- ...ch-DTLS-datagrams-by-sequence-number.patch |  42 +++
- ...fragments-1839-mismatching-message_s.patch | 104 +++++++
- ...ts-mini-dtls-framents-link-to-gnulib.patch |  27 ++
- meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   8 +
- 9 files changed, 908 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-fragments-implement-a-basic-DTLS-tes.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0002-buffers-shorten-merge_handshake_packet-using-recv_bu.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0003-buffers-add-more-checks-to-DTLS-reassembly.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0004-tests-mini-dtls-fragments-extend-with-a-1816-reprodu.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0005-tests-mini-dtls-fragments-extend-with-fragmenting-Cl.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0006-buffers-match-DTLS-datagrams-by-sequence-number.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/0008-tests-mini-dtls-framents-link-to-gnulib.patch
+ meta/classes-recipe/memory-control.bbclass    |  95 +++++++++
+ .../memory-control/cgroups-v2.cfg             |  19 ++
+ .../memory-control/memory-control.sh          | 196 ++++++++++++++++++
+ .../memory-control/memory-control@.service    |  13 ++
+ .../memory-control/memory-control_1.0.bb      |  53 +++++
+ 5 files changed, 376 insertions(+)
+ create mode 100644 meta/classes-recipe/memory-control.bbclass
+ create mode 100644 meta/recipes-support/memory-control/memory-control/cgroups-v2.cfg
+ create mode 100755 meta/recipes-support/memory-control/memory-control/memory-control.sh
+ create mode 100644 meta/recipes-support/memory-control/memory-control/memory-control@.service
+ create mode 100644 meta/recipes-support/memory-control/memory-control_1.0.bb
 
-diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-fragments-implement-a-basic-DTLS-tes.patch b/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-fragments-implement-a-basic-DTLS-tes.patch
+diff --git a/meta/classes-recipe/memory-control.bbclass b/meta/classes-recipe/memory-control.bbclass
 new file mode 100644
-index 00000000000..8519bb2d2d6
+index 0000000000..4b45720a1d
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-fragments-implement-a-basic-DTLS-tes.patch
-@@ -0,0 +1,258 @@
-+From 9dce4b38fd94997c0fb2b3e33e997d1c33256e0e Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Fri, 20 Mar 2026 16:09:40 +0100
-+Subject: [PATCH 1/8] tests/mini-dtls-fragments: implement a basic DTLS test
++++ b/meta/classes-recipe/memory-control.bbclass
+@@ -0,0 +1,95 @@
++# memory-control.bbclass - write a systemd drop-in memory limit into the image
++#
++# Usage:
++#   inherit memory-control
++#   MEMORY_LIMIT = "512M"           # required; K/M/G or raw bytes
++#   MEMORY_OOM_POLICY = "kill"      # optional; "reboot" (default) or "kill"
++#
++# "reboot": system reboots on OOM (vm.panic_on_oom=2; typical platform default).
++# "kill":   only the offending process is killed, system keeps running.
++#           Writes /etc/sysctl.d/memory-control.conf with vm.panic_on_oom=1,
++#           which sorts after vm.conf and overrides it at boot.
++#
++# MemoryHigh is set to 70% of MemoryMax so the kernel has room to reclaim
++# file-backed pages before hitting the hard ceiling.
++#
++# Kernel config prerequisite:
++#   CONFIG_CGROUPS=y and CONFIG_MEMCG=y must be enabled.  A reference kernel
++#   config fragment is installed to ${datadir}/memory-control/cgroups-v2.cfg.
++#   To apply it, copy the fragment to your kernel recipe's files directory and
++#   add it to SRC_URI in your kernel bbappend:
++#
++#     SRC_URI:append:<machine> = " file://cgroups-v2.cfg"
 +
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++MEMORY_LIMIT ?= ""
++MEMORY_LIMIT_SERVICE ?= "${PN}.service"
++MEMORY_OOM_POLICY ?= "reboot"
 +
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/4f94e5cfe1f252a431e41642b0752e7e0daf43b9]
-+CVE: CVE-2026-33846
-+Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
-+---
-+ tests/Makefile.am           |   7 +-
-+ tests/mini-dtls-fragments.c | 208 ++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 214 insertions(+), 1 deletion(-)
-+ create mode 100644 tests/mini-dtls-fragments.c
++RDEPENDS:${PN} += "memory-control"
 +
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index db5aa4e3a..ee95198ff 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -241,7 +241,8 @@ ctests += mini-record-2 simple gnutls_hmac_fast set_pkcs12_cred cert certuniquei
-+ 	 x509cert-dntypes id-on-xmppAddr tls13-compat-mode ciphersuite-name \
-+ 	 x509-upnconstraint xts-key-check cipher-padding pkcs7-verify-double-free \
-+ 	 fips-rsa-sizes tls12-rehandshake-ticket pathbuf tls-force-ems \
-+-	 psk-importer privkey-derive dh-compute2 ecdh-compute2
-++	 psk-importer privkey-derive dh-compute2 ecdh-compute2 \
-++	 mini-dtls-fragments
-+ 
-+ ctests += tls-channel-binding
-+ 
-+@@ -505,6 +506,10 @@ pathbuf_CPPFLAGS = $(AM_CPPFLAGS) \
-+ 	-I$(top_srcdir)/gl	\
-+ 	-I$(top_builddir)/gl
-+ 
-++mini_dtls_fragments_CPPFLAGS = $(AM_CPPFLAGS) \
-++	-I$(top_srcdir)/gl	\
-++	-I$(top_builddir)/gl
-++
-+ if ENABLE_PKCS11
-+ if !WINDOWS
-+ ctests += tls13/post-handshake-with-cert-pkcs11 pkcs11/tls-neg-pkcs11-no-key \
-+diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
-+new file mode 100644
-+index 000000000..ee75feeb6
-+--- /dev/null
-++++ b/tests/mini-dtls-fragments.c
-+@@ -0,0 +1,208 @@
-++/*
-++ * Copyright (C) 2026 Red Hat, Inc.
-++ *
-++ * Author: Alexander Sosedkin
-++ *
-++ * This file is part of GnuTLS.
-++ *
-++ * GnuTLS is free software; you can redistribute it and/or modify it
-++ * under the terms of the GNU General Public License as published by
-++ * the Free Software Foundation; either version 3 of the License, or
-++ * (at your option) any later version.
-++ *
-++ * GnuTLS is distributed in the hope that it will be useful, but
-++ * WITHOUT ANY WARRANTY; without even the implied warranty of
-++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++ * General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU Lesser General Public License
-++ * along with this program.  If not, see <https://www.gnu.org/licenses/>
-++ */
-++
-++#ifdef HAVE_CONFIG_H
-++#include "config.h"
-++#endif
-++
-++#include <stdio.h>
-++#include <stdlib.h>
-++
-++#if defined(_WIN32)
-++
-++int main(void)
-++{
-++	exit(77);
-++}
-++
-++#else
-++
-++#include <assert.h>
-++#include <errno.h>
-++#include <stdbool.h>
-++#include <stdint.h>
-++#include <string.h>
-++#include <gnutls/gnutls.h>
-++#include <gnutls/dtls.h>
-++#include "cert-common.h"
-++#include "utils.h"
-++
-++#include "attribute.h"
-++
-++static void server_log_func(int level, const char *str)
-++{
-++	fprintf(stderr, "server|<%d>| %s", level, str);
-++}
-++
-++static void client_log_func(int level, const char *str)
-++{
-++	fprintf(stderr, "client|<%d>| %s", level, str);
-++}
-++
-++#define QUEUE_SIZE 1024
-++#define PACKET_SIZE 2048
-++
-++typedef struct {
-++	uint8_t buf[PACKET_SIZE];
-++	size_t len;
-++} packet_t;
-++typedef struct {
-++	packet_t packets[QUEUE_SIZE];
-++	size_t head;
-++	size_t tail;
-++} queue_t;
-++
-++static queue_t c2s, s2c;
-++
-++static int queue_put(queue_t *q, const void *buf, size_t len)
-++{
-++	assert(len <= PACKET_SIZE);
-++	memcpy(q->packets[q->tail].buf, buf, len);
-++	q->packets[q->tail].len = len;
-++	q->tail++;
-++	q->tail %= QUEUE_SIZE;
-++	assert(q->tail != q->head);
-++	return len;
-++}
-++
-++static ssize_t queue_get(queue_t *q, gnutls_session_t s, void *buf, size_t len)
-++{
-++	if (q->head == q->tail) {
-++		gnutls_transport_set_errno(s, EAGAIN);
-++		return -1;
-++	}
-++	size_t n = q->packets[q->head].len;
-++	memcpy(buf, q->packets[q->head].buf, n);
-++	q->head++;
-++	q->head %= QUEUE_SIZE;
-++	return n;
-++}
-++
-++static void queue_reset(queue_t *q)
-++{
-++	q->head = q->tail = 0;
-++}
-++
-++static int pull_timeout(gnutls_transport_ptr_t tr, unsigned ms)
-++{
-++	return 1;
-++}
-++
-++static ssize_t server_pull(gnutls_transport_ptr_t tr, void *b, size_t l)
-++{
-++	return queue_get(&c2s, (gnutls_session_t)tr, b, l);
-++}
-++
-++static ssize_t client_pull(gnutls_transport_ptr_t tr, void *b, size_t l)
-++{
-++	return queue_get(&s2c, (gnutls_session_t)tr, b, l);
-++}
-++
-++static ssize_t server_push(gnutls_transport_ptr_t tr, const void *b, size_t l)
-++{
-++	return queue_put(&s2c, b, l);
-++}
-++
-++static ssize_t client_push_normal(gnutls_transport_ptr_t tr, const void *b,
-++				  size_t l)
-++{
-++	return queue_put(&c2s, b, l);
-++}
-++
-++static void test(gnutls_push_func client_push)
-++{
-++	gnutls_session_t client, server;
-++	gnutls_certificate_credentials_t ccred, scred;
-++	int cr = 0, sr = 0;
-++	bool cdone = false, sdone = false;
-++
-++	if (debug)
-++		gnutls_global_set_log_level(4711);
-++
-++	gnutls_certificate_allocate_credentials(&scred);
-++	gnutls_certificate_set_x509_key_mem(scred, &server_cert, &server_key,
-++					    GNUTLS_X509_FMT_PEM);
-++	gnutls_certificate_allocate_credentials(&ccred);
-++
-++	gnutls_init(&server, GNUTLS_SERVER | GNUTLS_DATAGRAM);
-++	gnutls_init(&client, GNUTLS_CLIENT | GNUTLS_DATAGRAM);
-++
-++	gnutls_priority_set_direct(server, "NORMAL:-VERS-ALL:+VERS-DTLS1.2",
-++				   NULL);
-++	gnutls_priority_set_direct(client, "NORMAL:-VERS-ALL:+VERS-DTLS1.2",
-++				   NULL);
-++
-++	gnutls_credentials_set(server, GNUTLS_CRD_CERTIFICATE, scred);
-++	gnutls_credentials_set(client, GNUTLS_CRD_CERTIFICATE, ccred);
-++
-++	gnutls_dtls_set_timeouts(client, get_dtls_retransmit_timeout(),
-++				 get_timeout());
-++	gnutls_dtls_set_timeouts(server, get_dtls_retransmit_timeout(),
-++				 get_timeout());
-++
-++	gnutls_transport_set_ptr(client, client);
-++	gnutls_transport_set_push_function(client, client_push);
-++	gnutls_transport_set_pull_function(client, client_pull);
-++	gnutls_transport_set_pull_timeout_function(client, pull_timeout);
-++
-++	gnutls_transport_set_ptr(server, server);
-++	gnutls_transport_set_push_function(server, server_push);
-++	gnutls_transport_set_pull_function(server, server_pull);
-++	gnutls_transport_set_pull_timeout_function(server, pull_timeout);
-++
-++	while (!cdone || !sdone) {
-++		gnutls_global_set_log_function(client_log_func);
-++		if (!cdone)
-++			cr = gnutls_handshake(client);
-++		if (!cr || gnutls_error_is_fatal(cr))
-++			cdone = true;
-++
-++		gnutls_global_set_log_function(server_log_func);
-++		if (!sdone)
-++			sr = gnutls_handshake(server);
-++		if (!sr || gnutls_error_is_fatal(sr))
-++			sdone = true;
-++	}
-++
-++	if (cr)
-++		fail("client: %s\n", gnutls_strerror(cr));
-++	if (sr)
-++		fail("server: %s\n", gnutls_strerror(sr));
-++
-++	success("OK\n");
-++
-++	queue_reset(&c2s);
-++	queue_reset(&s2c);
-++
-++	gnutls_deinit(client);
-++	gnutls_deinit(server);
-++	gnutls_certificate_free_credentials(ccred);
-++	gnutls_certificate_free_credentials(scred);
-++}
-++
-++void doit(void)
-++{
-++	global_init();
-++	test(client_push_normal);
-++	gnutls_global_deinit();
-++}
-++
-++#endif /* _WIN32 */
-+-- 
-+2.53.0
++python memory_control_do_install() {
++    import os
 +
-diff --git a/meta/recipes-support/gnutls/gnutls/0002-buffers-shorten-merge_handshake_packet-using-recv_bu.patch b/meta/recipes-support/gnutls/gnutls/0002-buffers-shorten-merge_handshake_packet-using-recv_bu.patch
++    limit_str = d.getVar('MEMORY_LIMIT') or ''
++    if not limit_str:
++        return
++
++    service    = d.getVar('MEMORY_LIMIT_SERVICE')
++    destdir    = d.getVar('D')
++    oom_policy = (d.getVar('MEMORY_OOM_POLICY') or 'reboot').strip().lower()
++
++    if oom_policy not in ('reboot', 'kill'):
++        bb.fatal("memory-control: MEMORY_OOM_POLICY='%s' is invalid; "
++                 "use 'reboot' or 'kill'" % oom_policy)
++
++    limit_str = limit_str.strip()
++    units = {'K': 1024, 'KB': 1024,
++             'M': 1024**2, 'MB': 1024**2,
++             'G': 1024**3, 'GB': 1024**3}
++    number_part = ''.join(c for c in limit_str if c.isdigit())
++    unit_part   = ''.join(c for c in limit_str if not c.isdigit()).upper()
++
++    if not number_part:
++        bb.fatal("memory-control: MEMORY_LIMIT='%s' is not a valid size" % limit_str)
++
++    bytes_val  = int(number_part) * units.get(unit_part, 1)
++    bytes_high = int(bytes_val * 0.7)
++
++    dropin_dir = os.path.join(destdir, 'etc', 'systemd', 'system', service + '.d')
++    os.makedirs(dropin_dir, exist_ok=True)
++
++    dropin_path = os.path.join(dropin_dir, 'memory-control.conf')
++    with open(dropin_path, 'w') as f:
++        f.write('# generated by memory-control.bbclass\n')
++        f.write('# MEMORY_LIMIT = "%s"  MEMORY_OOM_POLICY = "%s"\n' % (limit_str, oom_policy))
++        f.write('[Service]\n')
++        f.write('MemoryMax=%d\n' % bytes_val)
++        f.write('MemoryHigh=%d\n' % bytes_high)
++        f.write('MemorySwapMax=0\n')
++        if oom_policy == 'kill':
++            # keep the unit alive after the cgroup OOM kill
++            f.write('OOMPolicy=continue\n')
++            # make this unit the preferred victim for the system-wide OOM killer
++            # so it is killed as a process rather than causing a kernel panic
++            f.write('OOMScoreAdjust=500\n')
++
++    bb.note("memory-control: wrote %s for %s (%s, policy=%s)" % (
++            dropin_path, service, limit_str, oom_policy))
++
++    if oom_policy == 'kill':
++        # override vm.panic_on_oom=2 from vm.conf; value 1 kills only the
++        # process inside the cgroup that hit MemoryMax instead of panicking.
++        sysctl_dir  = os.path.join(destdir, 'etc', 'sysctl.d')
++        os.makedirs(sysctl_dir, exist_ok=True)
++        sysctl_path = os.path.join(sysctl_dir, 'memory-control.conf')
++        if not os.path.exists(sysctl_path):
++            with open(sysctl_path, 'w') as f:
++                f.write('# generated by memory-control.bbclass\n')
++                f.write('vm.panic_on_oom=1\n')
++            bb.note("memory-control: wrote %s" % sysctl_path)
++}
++
++do_install[postfuncs] += "memory_control_do_install"
++
++FILES:${PN} += "/etc/systemd/system/${MEMORY_LIMIT_SERVICE}.d/memory-control.conf"
++FILES:${PN} += "${@ '/etc/sysctl.d/memory-control.conf' if (d.getVar('MEMORY_OOM_POLICY') or 'reboot').strip().lower() == 'kill' else '' }"
+diff --git a/meta/recipes-support/memory-control/memory-control/cgroups-v2.cfg b/meta/recipes-support/memory-control/memory-control/cgroups-v2.cfg
 new file mode 100644
-index 00000000000..aaf51992c27
+index 0000000000..00661668de
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0002-buffers-shorten-merge_handshake_packet-using-recv_bu.patch
-@@ -0,0 +1,96 @@
-+From 3ff7f6be9bb08463dd06765ab501430c4965ee05 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Fri, 17 Apr 2026 17:49:31 +0200
-+Subject: [PATCH 2/8] buffers: shorten merge_handshake_packet using recv_buf
++++ b/meta/recipes-support/memory-control/memory-control/cgroups-v2.cfg
+@@ -0,0 +1,19 @@
++# kernel config fragment required for cgroup v2 memory accounting
 +
-+I had vague concerns about thread-safety of this,
-+but then this pattern already exists within the file.
++CONFIG_CGROUPS=y
++CONFIG_MEMCG=y
++CONFIG_MEMCG_SWAP=y
++CONFIG_MEMCG_KMEM=y
++CONFIG_CGROUP_SCHED=y
++CONFIG_FAIR_GROUP_SCHED=y
++CONFIG_CFS_BANDWIDTH=y
++CONFIG_CGROUP_PIDS=y
++CONFIG_CGROUP_FREEZER=y
++CONFIG_CGROUP_DEVICE=y
++CONFIG_CGROUP_CPUACCT=y
++CONFIG_CGROUP_PERF=y
++CONFIG_CGROUP_BPF=y
++CONFIG_BLK_CGROUP=y
++CONFIG_PSI=y
++CONFIG_PSI_DEFAULT_DISABLED=n
++CONFIG_SWAP=y
+diff --git a/meta/recipes-support/memory-control/memory-control/memory-control.sh b/meta/recipes-support/memory-control/memory-control/memory-control.sh
+new file mode 100755
+index 0000000000..251c902ca6
+--- /dev/null
++++ b/meta/recipes-support/memory-control/memory-control/memory-control.sh
+@@ -0,0 +1,196 @@
++#!/bin/bash
++# memory-control - inspect cgroup v2 memory limits for systemd services
++#
++# requires: kernel CONFIG_MEMCG=y + cgroups v2 (mount | grep cgroup2),
++#           systemd 243+, bash 4.0+
++#
++# usage:
++#   memory-control get <service>     show MemoryMax/MemoryHigh
++#   memory-control status <service>  show live usage and memory.stat
++#   memory-control list              list services with a drop-in
++#   .service suffix is optional
++#
++# build-time configuration (recipe or .bbappend):
++#
++#   inherit memory-control
++#   MEMORY_LIMIT      = "512M"       # K/M/G or raw bytes
++#   MEMORY_OOM_POLICY = "kill"       # "reboot" (default) or "kill"
++#
++#   machine overrides work as normal bitbake syntax:
++#     MEMORY_LIMIT:mymachine = "512M"
++#
++#   if the unit name differs from <PN>.service:
++#     MEMORY_LIMIT_SERVICE = "my-custom-unit.service"
++#
++#   accepted sizes: 256K  512M  1G  536870912 (raw bytes)
++#
++# what gets written at build time:
++#
++#   /etc/systemd/system/<service>.service.d/memory-control.conf  (always)
++#     MemoryMax=<bytes>        hard limit; cgroup OOM killer fires if exceeded
++#     MemoryHigh=<70% of max>  reclaim/throttle starts here; 30% gap to max
++#     MemorySwapMax=0          swap disabled
++#     OOMPolicy=continue       kill policy only; unit stays alive after kill
++#     OOMScoreAdjust=500       kill policy only; preferred system-wide OOM target
++#
++#   /etc/sysctl.d/memory-control.conf  (kill policy only)
++#     vm.panic_on_oom=1        sorts after vm.conf, overrides =2 at boot
++#
++# oom policy:
++#   reboot  BMC reboots on OOM; matches vm.panic_on_oom=2 (platform default)
++#   kill    only the offending process dies; BMC keeps running
++#           when MemoryMax is hit:
++#             - cgroup OOM killer fires (scoped to this cgroup only),
++#               vm.panic_on_oom is not consulted
++#             - OOMPolicy=continue keeps the unit alive after the kill
++#             - OOMScoreAdjust=500 makes this the preferred target if global
++#               RAM is also exhausted, avoiding a kernel panic
++#
++# troubleshooting:
++#   cgroups v2 not mounted:
++#     mount | grep cgroup2
++#     # add systemd.unified_cgroup_hierarchy=1 to kernel cmdline if missing
++#
++#   memory controller missing:
++#     cat /sys/fs/cgroup/cgroup.controllers   # "memory" must appear
++#     # rebuild kernel with CONFIG_MEMCG=y if not
++#
++#   drop-in not loaded:
++#     systemctl cat <service>                 # check for memory-control.conf
++#     systemctl daemon-reload && systemctl restart <service>
++#
++#   check kill policy is active:
++#     systemctl show <service> -p OOMPolicy -p MemoryMax -p MemoryHigh
++#     sysctl vm.panic_on_oom                  # should be 1
++#
++#   MemoryMax shows infinity after daemon-reload:
++#     ls /etc/systemd/system/<service>.service.d/
++#     ls /usr/lib/systemd/system/<service>.service.d/
++#     # look for a conflicting drop-in
++#
++#   service keeps getting killed (limit too low):
++#     watch memory-control status <service>   # find peak usage
++#     # set MEMORY_LIMIT to peak + ~30% in the .bbappend and rebuild
++set -e
 +
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++CGROUP_BASE=/sys/fs/cgroup
 +
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/9deffca528c23bbb218f5ec3bd4bb1bf4cbd1fc0]
-+CVE: CVE-2026-33846
-+Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
-+---
-+ lib/buffers.c | 52 +++++++++++++++++----------------------------------
-+ 1 file changed, 17 insertions(+), 35 deletions(-)
++usage() {
++    cat <<EOF
++usage: $(basename "$0") <command> [service]
 +
-+diff --git a/lib/buffers.c b/lib/buffers.c
-+index 672380b05..d54c77022 100644
-+--- a/lib/buffers.c
-++++ b/lib/buffers.c
-+@@ -967,9 +967,11 @@ static int merge_handshake_packet(gnutls_session_t session,
-+ 	int exists = 0, i, pos = 0;
-+ 	int ret;
-+ 
-++	handshake_buffer_st *recv_buf =
-++		session->internals.handshake_recv_buffer;
-++
-+ 	for (i = 0; i < session->internals.handshake_recv_buffer_size; i++) {
-+-		if (session->internals.handshake_recv_buffer[i].htype ==
-+-		    hsk->htype) {
-++		if (recv_buf[i].htype == hsk->htype) {
-+ 			exists = 1;
-+ 			pos = i;
-+ 			break;
-+@@ -1005,44 +1007,24 @@ static int merge_handshake_packet(gnutls_session_t session,
-+ 		_gnutls_write_uint24(0, &hsk->header[6]);
-+ 		_gnutls_write_uint24(hsk->length, &hsk->header[9]);
-+ 
-+-		_gnutls_handshake_buffer_move(
-+-			&session->internals.handshake_recv_buffer[pos], hsk);
-++		_gnutls_handshake_buffer_move(&recv_buf[pos], hsk);
-+ 
-+ 	} else {
-+-		if (hsk->start_offset <
-+-			    session->internals.handshake_recv_buffer[pos]
-+-				    .start_offset &&
-+-		    hsk->end_offset + 1 >=
-+-			    session->internals.handshake_recv_buffer[pos]
-+-				    .start_offset) {
-+-			memcpy(&session->internals.handshake_recv_buffer[pos]
-+-					.data.data[hsk->start_offset],
-++		if (hsk->start_offset < recv_buf[pos].start_offset &&
-++		    hsk->end_offset + 1 >= recv_buf[pos].start_offset) {
-++			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
-+ 			       hsk->data.data, hsk->data.length);
-+-			session->internals.handshake_recv_buffer[pos]
-+-				.start_offset = hsk->start_offset;
-+-			session->internals.handshake_recv_buffer[pos]
-+-				.end_offset = MIN(
-+-				hsk->end_offset,
-+-				session->internals.handshake_recv_buffer[pos]
-+-					.end_offset);
-+-		} else if (hsk->end_offset >
-+-				   session->internals.handshake_recv_buffer[pos]
-+-					   .end_offset &&
-+-			   hsk->start_offset <=
-+-				   session->internals.handshake_recv_buffer[pos]
-+-						   .end_offset +
-+-					   1) {
-+-			memcpy(&session->internals.handshake_recv_buffer[pos]
-+-					.data.data[hsk->start_offset],
-++			recv_buf[pos].start_offset = hsk->start_offset;
-++			recv_buf[pos].end_offset =
-++				MIN(hsk->end_offset, recv_buf[pos].end_offset);
-++		} else if (hsk->end_offset > recv_buf[pos].end_offset &&
-++			   hsk->start_offset <= recv_buf[pos].end_offset + 1) {
-++			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
-+ 			       hsk->data.data, hsk->data.length);
-+ 
-+-			session->internals.handshake_recv_buffer[pos]
-+-				.end_offset = hsk->end_offset;
-+-			session->internals.handshake_recv_buffer[pos]
-+-				.start_offset = MIN(
-+-				hsk->start_offset,
-+-				session->internals.handshake_recv_buffer[pos]
-+-					.start_offset);
-++			recv_buf[pos].end_offset = hsk->end_offset;
-++			recv_buf[pos].start_offset = MIN(
-++				hsk->start_offset, recv_buf[pos].start_offset);
-+ 		}
-+ 		_gnutls_handshake_buffer_clear(hsk);
-+ 	}
-+-- 
-+2.53.0
++  get <service>    show MemoryMax/MemoryHigh
++  status <service> show live usage and memory.stat
++  list             list services with a memory-control drop-in
++  -h, --help       show this text
 +
-diff --git a/meta/recipes-support/gnutls/gnutls/0003-buffers-add-more-checks-to-DTLS-reassembly.patch b/meta/recipes-support/gnutls/gnutls/0003-buffers-add-more-checks-to-DTLS-reassembly.patch
++Limits are set at build time:
++  inherit memory-control
++  MEMORY_LIMIT      = "512M"
++  MEMORY_OOM_POLICY = "kill"
++
++Drop-in location:
++  /etc/systemd/system/<service>.service.d/memory-control.conf
++EOF
++    exit 0
++}
++
++to_human() {
++    local val=$1
++    case "$val" in
++        max|infinity|"") echo "unlimited"; return ;;
++    esac
++    [[ "$val" =~ ^[0-9]+[KMG]$ ]] && { echo "$val"; return; }
++    [[ "$val" =~ ^[0-9]+$ ]] || { echo "unlimited"; return; }
++    if   (( val >= 1024**3 )); then echo "$((val / 1024**3))G"
++    elif (( val >= 1024**2 )); then echo "$((val / 1024**2))M"
++    elif (( val >= 1024    )); then echo "$((val / 1024))K"
++    else echo "${val}B"
++    fi
++}
++
++resolve_service() {
++    local input=$1
++    [[ "$input" =~ \.service$ ]] || input="${input}.service"
++
++    local fragment
++    fragment=$(systemctl show "$input" -p FragmentPath --value 2>/dev/null)
++
++    if [[ -z "$fragment" || ! -f "$fragment" ]]; then
++        for dir in /etc/systemd/system /lib/systemd/system /usr/lib/systemd/system; do
++            [[ -f "$dir/$input" ]] && { fragment="$dir/$input"; break; }
++        done
++    fi
++
++    if [[ -z "$fragment" || ! -f "$fragment" ]]; then
++        echo "error: no unit file found for '$input'" >&2
++        return 1
++    fi
++
++    service=$(basename "$fragment")
++}
++
++cmd_get() {
++    local service=$1
++    [[ -n "$service" ]] || { echo "error: service name required" >&2; exit 1; }
++    resolve_service "$service" || exit 1
++
++    echo "service:    $service"
++    echo "MemoryMax:  $(to_human "$(systemctl show "$service" -p MemoryMax  --value)")"
++    echo "MemoryHigh: $(to_human "$(systemctl show "$service" -p MemoryHigh --value)")"
++}
++
++cmd_status() {
++    local service=$1
++    [[ -n "$service" ]] || { echo "error: service name required" >&2; exit 1; }
++    resolve_service "$service" || exit 1
++
++    local state
++    state=$(systemctl is-active "$service" 2>/dev/null || true)
++    echo "service: $service"
++    echo "state:   $state"
++
++    if [[ "$state" == "active" ]]; then
++        local mem_max mem_high mem_cur
++        mem_max=$(systemctl show "$service"  -p MemoryMax     --value)
++        mem_high=$(systemctl show "$service" -p MemoryHigh    --value)
++        mem_cur=$(systemctl show "$service"  -p MemoryCurrent --value)
++        echo "current: $(to_human "$mem_cur")"
++        echo "high:    $(to_human "$mem_high")"
++        echo "max:     $(to_human "$mem_max")"
++        [[ "$mem_max" =~ ^[0-9]+$ ]] && echo "usage:   $(( mem_cur * 100 / mem_max ))%"
++    fi
++
++    local cgroup_path
++    cgroup_path=$(systemctl show "$service" -p ControlGroup --value)
++    [[ -z "$cgroup_path" ]] && return
++    printf "\ncgroup: %s\n" "$cgroup_path"
++
++    local mem_stat="${CGROUP_BASE}${cgroup_path}/memory.stat"
++    [[ -f "$mem_stat" ]] || return
++    printf "\nmemory.stat:\n"
++    grep -E "^(anon|file|shmem|kernel)" "$mem_stat" | while read -r key val; do
++        printf "  %-20s %s\n" "$key" "$(to_human "$val")"
++    done
++}
++
++cmd_list() {
++    local found=0
++    for dir in /etc/systemd/system/*.service.d; do
++        [[ -d "$dir" && -f "$dir/memory-control.conf" ]] || continue
++        local unit
++        unit=$(basename "$dir" .d)
++        printf "%-40s %s\n" "${unit%.service}" \
++            "$(to_human "$(systemctl show "$unit" -p MemoryMax --value 2>/dev/null || echo unknown)")"
++        found=1
++    done
++    (( found )) || echo "no services with memory-control drop-ins found"
++}
++
++case "${1:-}" in
++    get)       cmd_get    "$2" ;;
++    status)    cmd_status "$2" ;;
++    list)      cmd_list ;;
++    -h|--help) usage ;;
++    *)         usage ;;
++esac
+diff --git a/meta/recipes-support/memory-control/memory-control/memory-control@.service b/meta/recipes-support/memory-control/memory-control/memory-control@.service
 new file mode 100644
-index 00000000000..d9c3c0d3c68
+index 0000000000..20efea5a9c
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0003-buffers-add-more-checks-to-DTLS-reassembly.patch
-@@ -0,0 +1,65 @@
-+From dcd891a02e11dc13417800042d5272777fca0e97 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Fri, 17 Apr 2026 18:21:36 +0200
-+Subject: [PATCH 3/8] buffers: add more checks to DTLS reassembly
++++ b/meta/recipes-support/memory-control/memory-control/memory-control@.service
+@@ -0,0 +1,13 @@
++[Unit]
++Description=Memory Control for %i
++Documentation=man:systemd.resource-control(5)
++Before=%i.service
++PartOf=%i.service
 +
-+Previously, gnutls didn't check that DTLS fragments claimed
-+a consistent message_length value.
-+Additionally, a crucial array size check was missing,
-+enabling an attacker to cause a heap overwrite.
-+The updated version rejects fragments with mismatching length
-+and adds a missing boundary check.
++[Service]
++Type=oneshot
++RemainAfterExit=yes
++ExecStart=/bin/true
 +
-+Reported-by: Haruto Kimura (Stella)
-+Reported-by: Oscar Reparaz
-+Reported-by: Zou Dikai
-+Fixes: #1816
-+Fixes: #1838
-+Fixes: #1839
-+Fixes: CVE-2026-33846
-+Fixes: GNUTLS-SA-2026-04-29-1
-+CVSS: 7.4 High CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H
-+CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/65ab33fa54e34fba69d793735b7df3d383d1ff78]
-+CVE: CVE-2026-33846
-+Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
-+---
-+ lib/buffers.c | 20 ++++++++++++++++++++
-+ 1 file changed, 20 insertions(+)
-+
-+diff --git a/lib/buffers.c b/lib/buffers.c
-+index d54c77022..5d4d16276 100644
-+--- a/lib/buffers.c
-++++ b/lib/buffers.c
-+@@ -1010,6 +1010,26 @@ static int merge_handshake_packet(gnutls_session_t session,
-+ 		_gnutls_handshake_buffer_move(&recv_buf[pos], hsk);
-+ 
-+ 	} else {
-++		if (hsk->length != recv_buf[pos].length) {
-++			/* inconsistent across fragments */
-++			_gnutls_handshake_buffer_clear(hsk);
-++			return gnutls_assert_val(
-++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
-++		}
-++		/* start_offset + data.length <= hsk->length <= max_length */
-++		if (hsk->length < hsk->start_offset + hsk->data.length) {
-++			/* impossible claims, overflow requested */
-++			_gnutls_handshake_buffer_clear(hsk);
-++			return gnutls_assert_val(
-++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
-++		}
-++		if (hsk->length > recv_buf[pos].data.max_length) {
-++			/* we don't have this much allocated, overflow guard */
-++			_gnutls_handshake_buffer_clear(hsk);
-++			return gnutls_assert_val(
-++				GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
-++		}
-++
-+ 		if (hsk->start_offset < recv_buf[pos].start_offset &&
-+ 		    hsk->end_offset + 1 >= recv_buf[pos].start_offset) {
-+ 			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
-+-- 
-+2.53.0
-+
-diff --git a/meta/recipes-support/gnutls/gnutls/0004-tests-mini-dtls-fragments-extend-with-a-1816-reprodu.patch b/meta/recipes-support/gnutls/gnutls/0004-tests-mini-dtls-fragments-extend-with-a-1816-reprodu.patch
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-support/memory-control/memory-control_1.0.bb b/meta/recipes-support/memory-control/memory-control_1.0.bb
 new file mode 100644
-index 00000000000..9b4760450fa
+index 0000000000..3740b783b6
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0004-tests-mini-dtls-fragments-extend-with-a-1816-reprodu.patch
-@@ -0,0 +1,159 @@
-+From 2fa72585f927d340827eccdf91bb69cf60ac169e Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Wed, 1 Apr 2026 19:51:45 +0200
-+Subject: [PATCH 4/8] tests/mini-dtls-fragments: extend with a #1816 reproducer
++++ b/meta/recipes-support/memory-control/memory-control_1.0.bb
+@@ -0,0 +1,53 @@
++SUMMARY = "Inspect and apply cgroup v2 memory limits for systemd services"
++DESCRIPTION = "Provides a CLI tool to inspect MemoryMax/MemoryHigh settings \
++for any systemd service, and a bbclass to bake per-service drop-ins into an \
++image at build time."
++HOMEPAGE = "https://www.openembedded.org"
++BUGTRACKER = "https://bugzilla.yoctoproject.org"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 +
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++inherit systemd
 +
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/cf3f1955e58cbcc10373b841bb101fb058565d87]
-+CVE: CVE-2026-33846
-+Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
-+---
-+ tests/mini-dtls-fragments.c | 120 ++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 120 insertions(+)
++SRC_URI = " \
++    file://memory-control.sh \
++    file://memory-control@.service \
++    file://cgroups-v2.cfg \
++"
 +
-+diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
-+index ee75feeb6..8d5a18acd 100644
-+--- a/tests/mini-dtls-fragments.c
-++++ b/tests/mini-dtls-fragments.c
-+@@ -106,6 +106,11 @@ static int pull_timeout(gnutls_transport_ptr_t tr, unsigned ms)
-+ 	return 1;
-+ }
-+ 
-++static int c2s_pull_timeout_once(gnutls_transport_ptr_t tr, unsigned ms)
-++{
-++	return c2s.head != c2s.tail ? 1 : 0;
-++}
-++
-+ static ssize_t server_pull(gnutls_transport_ptr_t tr, void *b, size_t l)
-+ {
-+ 	return queue_get(&c2s, (gnutls_session_t)tr, b, l);
-+@@ -198,10 +203,125 @@ static void test(gnutls_push_func client_push)
-+ 	gnutls_certificate_free_credentials(scred);
-+ }
-+ 
-++static void test_malicious1816(void)
-++{
-++	/* dgram1: msg_len=50, frag_offset=25, frag_len=25 */
-++	static const uint8_t dgram1_hdr[] = {
-++		0x16, /* type: handshake */
-++		0xfe, 0xfd, /* version: DTLS 1.2 */
-++		0x00, 0x00, /* epoch: 0 */
-++		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* seq: 0 */
-++		0x00, 0x25, /* record_length: 37 */
-++		0x01, /* msg_type: ClientHello */
-++		0x00, 0x00, 0x32, /* msg_length: 50 */
-++		0x00, 0x00, /* msg_seq: 0 */
-++		0x00, 0x00, 0x19, /* frag_offset: 25 */
-++		0x00, 0x00, 0x19, /* frag_length: 25 */
-++	};
-++	/* dgram2: msg_len=3000, frag_offset=0, frag_len=48 */
-++	static const uint8_t dgram2_hdr[] = {
-++		0x16, /* type: handshake */
-++		0xfe, 0xfd, /* version: DTLS 1.2 */
-++		0x00, 0x00, /* epoch: 0 */
-++		0x00, 0x00, 0x00, 0x00, 0x00, 0x01, /* seq: 1 */
-++		0x00, 0x3c, /* record_length: 60 */
-++		0x01, /* msg_type: ClientHello */
-++		0x00, 0x0b, 0xb8, /* msg_length: 3000 */
-++		0x00, 0x00, /* msg_seq: 0 */
-++		0x00, 0x00, 0x00, /* frag_offset: 0 */
-++		0x00, 0x00, 0x30, /* frag_length: 48 */
-++	};
-++	/* dgram3: msg_len=3000, frag_offset=40, frag_len=1475 */
-++	static const uint8_t dgram3_hdr[] = {
-++		0x16, /* type: handshake */
-++		0xfe, 0xfd, /* version: DTLS 1.2 */
-++		0x00, 0x00, /* epoch: 0 */
-++		0x00, 0x00, 0x00, 0x00, 0x00, 0x02, /* seq: 2 */
-++		0x05, 0xcf, /* record_length: 1487 */
-++		0x01, /* msg_type: ClientHello */
-++		0x00, 0x0b, 0xb8, /* msg_length: 3000 */
-++		0x00, 0x00, /* msg_seq: 0 */
-++		0x00, 0x00, 0x28, /* frag_offset: 40 */
-++		0x00, 0x05, 0xc3, /* frag_length: 1475 */
-++	};
-++	/* dgram4: msg_len=3000, frag_offset=1500, frag_len=1475 */
-++	static const uint8_t dgram4_hdr[] = {
-++		0x16, /* type: handshake */
-++		0xfe, 0xfd, /* version: DTLS 1.2 */
-++		0x00, 0x00, /* epoch: 0 */
-++		0x00, 0x00, 0x00, 0x00, 0x00, 0x03, /* seq: 3 */
-++		0x05, 0xcf, /* record_length: 1487 */
-++		0x01, /* msg_type: ClientHello */
-++		0x00, 0x0b, 0xb8, /* msg_length: 3000 */
-++		0x00, 0x00, /* msg_seq: 0 */
-++		0x00, 0x05, 0xdc, /* frag_offset: 1500 */
-++		0x00, 0x05, 0xc3, /* frag_length: 1475 */
-++	};
-++	gnutls_session_t server;
-++	gnutls_certificate_credentials_t scred;
-++	uint8_t dgram[1500];
-++	int sr;
-++
-++	if (debug)
-++		gnutls_global_set_log_level(4711);
-++
-++	gnutls_certificate_allocate_credentials(&scred);
-++	gnutls_certificate_set_x509_key_mem(scred, &server_cert, &server_key,
-++					    GNUTLS_X509_FMT_PEM);
-++
-++	gnutls_init(&server, GNUTLS_SERVER | GNUTLS_DATAGRAM);
-++	gnutls_priority_set_direct(server, "NORMAL:+VERS-DTLS1.2", NULL);
-++	gnutls_credentials_set(server, GNUTLS_CRD_CERTIFICATE, scred);
-++
-++	gnutls_dtls_set_timeouts(server, get_dtls_retransmit_timeout(),
-++				 get_timeout());
-++
-++	gnutls_transport_set_ptr(server, server);
-++	gnutls_transport_set_push_function(server, server_push);
-++	gnutls_transport_set_pull_function(server, server_pull);
-++	gnutls_transport_set_pull_timeout_function(server,
-++						   c2s_pull_timeout_once);
-++
-++	memset(dgram, 0, sizeof(dgram));
-++	memcpy(dgram, dgram1_hdr, 25);
-++	queue_put(&c2s, dgram, 25 + 25);
-++
-++	memset(dgram, 0, sizeof(dgram));
-++	memcpy(dgram, dgram2_hdr, 25);
-++	queue_put(&c2s, dgram, 25 + 48);
-++
-++	memset(dgram, 0, sizeof(dgram));
-++	memcpy(dgram, dgram3_hdr, 25);
-++	queue_put(&c2s, dgram, 25 + 1475);
-++
-++	memset(dgram, 0, sizeof(dgram));
-++	memcpy(dgram, dgram4_hdr, 25);
-++	queue_put(&c2s, dgram, 25 + 1475);
-++
-++	gnutls_global_set_log_function(server_log_func);
-++	do {
-++		sr = gnutls_handshake(server); /* invalid write if vulnerable */
-++	} while (c2s.head != c2s.tail && !gnutls_error_is_fatal(sr));
-++	if (sr != GNUTLS_E_UNEXPECTED_PACKET_LENGTH)
-++		fail("server: expected GNUTLS_E_UNEXPECTED_PACKET_LENGTH, "
-++		     "got: %s\n",
-++		     gnutls_strerror(sr));
-++
-++	success("OK\n");
-++
-++	queue_reset(&c2s);
-++	queue_reset(&s2c);
-++
-++	gnutls_deinit(server);
-++	gnutls_certificate_free_credentials(scred);
-++}
-++
-+ void doit(void)
-+ {
-+ 	global_init();
-+ 	test(client_push_normal);
-++	success("malicious reassembly bug exploitation (#1816):\n");
-++	test_malicious1816();
-+ 	gnutls_global_deinit();
-+ }
-+ 
-+-- 
-+2.53.0
++SYSTEMD_SERVICE:${PN} = ""
++SYSTEMD_AUTO_ENABLE = "disable"
 +
-diff --git a/meta/recipes-support/gnutls/gnutls/0005-tests-mini-dtls-fragments-extend-with-fragmenting-Cl.patch b/meta/recipes-support/gnutls/gnutls/0005-tests-mini-dtls-fragments-extend-with-fragmenting-Cl.patch
-new file mode 100644
-index 00000000000..83c201926d1
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0005-tests-mini-dtls-fragments-extend-with-fragmenting-Cl.patch
-@@ -0,0 +1,149 @@
-+From cee203d6ba4d49332a49e46a7d59e9ef7b33a741 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Mon, 20 Apr 2026 16:08:11 +0200
-+Subject: [PATCH 5/8] tests/mini-dtls-fragments: extend with fragmenting
-+ ClientHello
++RDEPENDS:${PN} = "bash systemd"
 +
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++do_install() {
++    install -d ${D}${bindir}
++    install -m 0755 ${UNPACKDIR}/memory-control.sh ${D}${bindir}/memory-control
 +
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/bb427ff74dba849d40753ed9c8511e873f762743]
-+CVE: CVE-2026-33846
-+Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
-+---
-+ tests/mini-dtls-fragments.c | 107 ++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 107 insertions(+)
++    install -d ${D}${systemd_system_unitdir}
++    install -m 0644 ${UNPACKDIR}/memory-control@.service \
++                    ${D}${systemd_system_unitdir}/
 +
-+diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
-+index 8d5a18acd..93490bac2 100644
-+--- a/tests/mini-dtls-fragments.c
-++++ b/tests/mini-dtls-fragments.c
-+@@ -132,6 +132,39 @@ static ssize_t client_push_normal(gnutls_transport_ptr_t tr, const void *b,
-+ 	return queue_put(&c2s, b, l);
-+ }
-+ 
-++static void write_u16(uint8_t *p, uint16_t val)
-++{
-++	p[0] = val >> 8;
-++	p[1] = val & 0xff;
-++}
-++
-++static void write_u24(uint8_t *p, uint32_t val)
-++{
-++	p[0] = (val >> 16) & 0xff;
-++	p[1] = (val >> 8) & 0xff;
-++	p[2] = val & 0xff;
-++}
-++
-++static void write_u48(uint8_t *p, uint64_t seq)
-++{
-++	int i;
-++	for (i = 5; i >= 0; i--) {
-++		p[i] = seq & 0xff;
-++		seq >>= 8;
-++	}
-++}
-++
-++static uint64_t read_u48(const uint8_t *p)
-++{
-++	uint64_t seq = 0;
-++	int i;
-++	for (i = 5; i >= 0; i--) {
-++		seq <<= 8;
-++		seq |= p[i];
-++	}
-++	return seq;
-++}
-++
-+ static void test(gnutls_push_func client_push)
-+ {
-+ 	gnutls_session_t client, server;
-+@@ -316,12 +349,86 @@ static void test_malicious1816(void)
-+ 	gnutls_certificate_free_credentials(scred);
-+ }
-+ 
-++static ssize_t queue_put_renumbered(queue_t *q, const uint8_t *data, size_t l,
-++				    int delta_n)
-++{
-++	if (delta_n == 0 || l < 13 || data[3] != 0 || data[4] != 0)
-++		return queue_put(&c2s, data, l);
-++
-++	uint8_t *p = malloc(l);
-++	assert(p);
-++	memcpy(p, data, l);
-++	write_u48(p + 5, read_u48(p + 5) + delta_n);
-++	ssize_t ret = queue_put(q, p, l);
-++	free(p);
-++	return ret;
-++}
-++
-++static void split_client_hello(const uint8_t *data, size_t len, uint8_t **frag1,
-++			       size_t *frag1_len, uint8_t **frag2,
-++			       size_t *frag2_len)
-++{
-++	size_t body_size = len - 25;
-++	*frag1_len = 13 + 12 + 1;
-++	*frag2_len = 13 + 12 + (body_size - 1);
-++
-++	*frag1 = malloc(13 + 12 + 1);
-++	assert(*frag1);
-++	*frag2 = malloc(13 + 12 + body_size - 1);
-++	assert(*frag2);
-++
-++	/* first fragment: record header + handshake header + first body byte */
-++	memcpy(*frag1, data, 13); /* record header */
-++	write_u16(*frag1 + 11, 12 + 1); /* record length */
-++	memcpy(*frag1 + 13, data + 13, 12); /* handshake header */
-++	write_u24(*frag1 + 19, 0); /* fragment_offset = 0 */
-++	write_u24(*frag1 + 22, 1); /* fragment_length = 1 */
-++	(*frag1)[25] = data[25]; /* first body byte */
-++
-++	/* second fragment: record header + handshake header + remaining body */
-++	memcpy(*frag2, data, 13); /* record header */
-++	write_u16(*frag2 + 11, *frag2_len - 13); /* record length */
-++	write_u48(*frag2 + 5, read_u48(*frag2 + 5) + 1); /* sequence number */
-++	memcpy(*frag2 + 13, data + 13, 12); /* handshake header */
-++	write_u24(*frag2 + 19, 1); /* fragment_offset = 1 */
-++	write_u24(*frag2 + 22, body_size - 1); /* shortened fragment_length */
-++	memcpy(*frag2 + 25, data + 26, body_size - 1); /* remaining body */
-++}
-++
-++static ssize_t client_push_split_hello(gnutls_transport_ptr_t tr, const void *b,
-++				       size_t l)
-++{
-++	static int seq_offset = 0; /* for renumbering follow-up epoch0 ones */
-++
-++	const uint8_t *data = (const uint8_t *)b;
-++	uint8_t *frag1, *frag2;
-++	size_t frag1_len, frag2_len;
-++
-++	/* Pass through anything that isn't an epoch0 ClientHello with body */
-++	if (l < 13 + 12 + 1 || /* too short for DTLS record header */
-++	    data[0] != 22 || /* not a handshake record */
-++	    data[3] != 0 || data[4] != 0 || /* not epoch 0 */
-++	    data[13] != 1) /* not ClientHello */
-++		return queue_put_renumbered(&c2s, b, l, seq_offset);
-++
-++	/* epoch0 Client Hello: special treatment of splitting into fragments */
-++	split_client_hello(data, l, &frag1, &frag1_len, &frag2, &frag2_len);
-++	queue_put(&c2s, frag1, frag1_len);
-++	queue_put(&c2s, frag2, frag2_len);
-++	free(frag1);
-++	free(frag2);
-++	seq_offset++;
-++	return l;
-++}
-++
-+ void doit(void)
-+ {
-+ 	global_init();
-+ 	test(client_push_normal);
-+ 	success("malicious reassembly bug exploitation (#1816):\n");
-+ 	test_malicious1816();
-++	success("split client hello smoke-test\n");
-++	test(client_push_split_hello);
-+ 	gnutls_global_deinit();
-+ }
-+ 
-+-- 
-+2.53.0
++    install -d ${D}${datadir}/memory-control
++    install -m 0644 ${UNPACKDIR}/cgroups-v2.cfg \
++                    ${D}${datadir}/memory-control/
++}
 +
-diff --git a/meta/recipes-support/gnutls/gnutls/0006-buffers-match-DTLS-datagrams-by-sequence-number.patch b/meta/recipes-support/gnutls/gnutls/0006-buffers-match-DTLS-datagrams-by-sequence-number.patch
-new file mode 100644
-index 00000000000..16272915129
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0006-buffers-match-DTLS-datagrams-by-sequence-number.patch
-@@ -0,0 +1,42 @@
-+From bd8f76ce12a57962a62ce2818a6263fb04304c3f Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Mon, 20 Apr 2026 16:32:02 +0200
-+Subject: [PATCH 6/8] buffers: match DTLS datagrams by sequence number
++pkg_postinst:${PN}() {
++    #!/bin/sh
++    if [ -n "$D" ]; then
++        exit 0
++    fi
++    if [ -f /sys/fs/cgroup/cgroup.controllers ]; then
++        grep -q memory /sys/fs/cgroup/cgroup.controllers || \
++            echo "memory-control: WARNING: memory controller not available in cgroups v2"
++    else
++        echo "memory-control: WARNING: cgroups v2 not detected"
++    fi
++}
 +
-+DTLS handshake fragment reassembly previously matched incoming fragments
-+by handshake type only, without checking the sequence number.
-+This allowed fragments from different handshake messages
-+to be merged into the same reassembly buffer.
-+
-+Now sequence number is accounted for during reassembly,
-+ensuring fragments are only merged when they belong
-+to the same handshake message.
-+
-+Reported-by: Zou Dikai
-+Fixes: #1839
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/092c65d004e2f125f2fea3db84d801ac49a09f78]
-+CVE: CVE-2026-33846
-+Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
-+---
-+ lib/buffers.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/buffers.c b/lib/buffers.c
-+index 5d4d16276..62f140ed3 100644
-+--- a/lib/buffers.c
-++++ b/lib/buffers.c
-+@@ -971,7 +971,8 @@ static int merge_handshake_packet(gnutls_session_t session,
-+ 		session->internals.handshake_recv_buffer;
-+ 
-+ 	for (i = 0; i < session->internals.handshake_recv_buffer_size; i++) {
-+-		if (recv_buf[i].htype == hsk->htype) {
-++		if (recv_buf[i].htype == hsk->htype &&
-++		    recv_buf[i].sequence == hsk->sequence) {
-+ 			exists = 1;
-+ 			pos = i;
-+ 			break;
-+-- 
-+2.53.0
-+
-diff --git a/meta/recipes-support/gnutls/gnutls/0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch b/meta/recipes-support/gnutls/gnutls/0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch
-new file mode 100644
-index 00000000000..34bae2f57bf
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch
-@@ -0,0 +1,104 @@
-+From f7a5e7f3a7d05c7d558abd2f56f86e4c201be48b Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Mon, 20 Apr 2026 16:36:08 +0200
-+Subject: [PATCH 7/8] tests/mini-dtls-fragments: #1839 mismatching message_seq
-+
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/a2b41be83a1a3529c551ccf54958da91a656550e]
-+CVE: CVE-2026-33846
-+Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
-+---
-+ tests/mini-dtls-fragments.c | 54 ++++++++++++++++++++++++++++++++-----
-+ 1 file changed, 47 insertions(+), 7 deletions(-)
-+
-+diff --git a/tests/mini-dtls-fragments.c b/tests/mini-dtls-fragments.c
-+index 93490bac2..499a92a92 100644
-+--- a/tests/mini-dtls-fragments.c
-++++ b/tests/mini-dtls-fragments.c
-+@@ -165,7 +165,7 @@ static uint64_t read_u48(const uint8_t *p)
-+ 	return seq;
-+ }
-+ 
-+-static void test(gnutls_push_func client_push)
-++static void test(gnutls_push_func client_push, bool expect_success)
-+ {
-+ 	gnutls_session_t client, server;
-+ 	gnutls_certificate_credentials_t ccred, scred;
-+@@ -218,12 +218,22 @@ static void test(gnutls_push_func client_push)
-+ 			sr = gnutls_handshake(server);
-+ 		if (!sr || gnutls_error_is_fatal(sr))
-+ 			sdone = true;
-++
-++		if (c2s.head == c2s.tail && s2c.head == s2c.tail)
-++			break; /* speed the test up */
-+ 	}
-+ 
-+-	if (cr)
-+-		fail("client: %s\n", gnutls_strerror(cr));
-+-	if (sr)
-+-		fail("server: %s\n", gnutls_strerror(sr));
-++	if (expect_success) {
-++		if (cr)
-++			fail("client: %s\n", gnutls_strerror(cr));
-++		if (sr)
-++			fail("server: %s\n", gnutls_strerror(sr));
-++
-++	} else {
-++		if (cr == 0 && sr == 0)
-++			fail("handshake unexpectedly succeeded: %s / %s\n",
-++			     gnutls_strerror(cr), gnutls_strerror(sr));
-++	}
-+ 
-+ 	success("OK\n");
-+ 
-+@@ -421,14 +431,44 @@ static ssize_t client_push_split_hello(gnutls_transport_ptr_t tr, const void *b,
-+ 	return l;
-+ }
-+ 
-++static ssize_t client_push_split_hello_bad_seq(gnutls_transport_ptr_t tr,
-++					       const void *b, size_t l)
-++{
-++	/* gnutls wasn't matching on message_seq on merging, see #1839 */
-++	static int seq_offset = 0; /* for renumbering follow-up epoch0 ones */
-++
-++	const uint8_t *data = (const uint8_t *)b;
-++	uint8_t *frag1, *frag2;
-++	size_t frag1_len, frag2_len;
-++
-++	/* Pass through anything that isn't an epoch0 ClientHello with body */
-++	if (l < 13 + 12 + 1 || /* too short for DTLS record header */
-++	    data[0] != 22 || /* not a handshake record */
-++	    data[3] != 0 || data[4] != 0 || /* not epoch 0 */
-++	    data[13] != 1) /* not ClientHello */
-++		return queue_put_renumbered(&c2s, b, l, seq_offset);
-++
-++	/* epoch0 Client Hello: special treatment of splitting into fragments */
-++	split_client_hello(data, l, &frag1, &frag1_len, &frag2, &frag2_len);
-++	queue_put(&c2s, frag1, frag1_len);
-++	frag2[18]++; /* WRONG, message_seq mismatch must be rejected, #1839 */
-++	queue_put(&c2s, frag2, frag2_len);
-++	free(frag1);
-++	free(frag2);
-++	seq_offset++;
-++	return l;
-++}
-++
-+ void doit(void)
-+ {
-+ 	global_init();
-+-	test(client_push_normal);
-++	test(client_push_normal, true);
-+ 	success("malicious reassembly bug exploitation (#1816):\n");
-+ 	test_malicious1816();
-+ 	success("split client hello smoke-test\n");
-+-	test(client_push_split_hello);
-++	test(client_push_split_hello, true);
-++	success("split client hello smoke-test and mangle sequence number\n");
-++	test(client_push_split_hello_bad_seq, false);
-+ 	gnutls_global_deinit();
-+ }
-+ 
-+-- 
-+2.53.0
-+
-diff --git a/meta/recipes-support/gnutls/gnutls/0008-tests-mini-dtls-framents-link-to-gnulib.patch b/meta/recipes-support/gnutls/gnutls/0008-tests-mini-dtls-framents-link-to-gnulib.patch
-new file mode 100644
-index 00000000000..9c4cfa8a944
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0008-tests-mini-dtls-framents-link-to-gnulib.patch
-@@ -0,0 +1,27 @@
-+From ed40056cdcfdf9ff815f4e2df93f0a263769a563 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Thu, 30 Apr 2026 13:08:01 +0200
-+Subject: [PATCH 8/8] tests/mini-dtls-framents: link to gnulib
-+
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+
-+Upstream-Status: Backport [https://github.com/gnutls/gnutls/commit/68b2fb63c8df61d1480121a859f8c955f4910c01]
-+Signed-off-by: Pritam Srichandan Sahoo <PritamSrichandan.Sahoo@windriver.com>
-+---
-+ tests/Makefile.am | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -509,6 +509,7 @@ pathbuf_CPPFLAGS = $(AM_CPPFLAGS) \
-+ mini_dtls_fragments_CPPFLAGS = $(AM_CPPFLAGS) \
-+ 	-I$(top_srcdir)/gl	\
-+ 	-I$(top_builddir)/gl
-++mini_dtls_fragments_LDADD = $(LDADD) ../gl/libgnu.la
-+ 
-+ if ENABLE_PKCS11
-+ if !WINDOWS
-+-- 
-+2.53.0
-+
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-index 8554ab943d6..b92470768c2 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-@@ -24,6 +24,14 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://run-ptest \
-            file://Add-ptest-support.patch \
-            file://c99.patch \
-+           file://0001-tests-mini-dtls-fragments-implement-a-basic-DTLS-tes.patch \
-+           file://0002-buffers-shorten-merge_handshake_packet-using-recv_bu.patch \
-+           file://0003-buffers-add-more-checks-to-DTLS-reassembly.patch \
-+           file://0004-tests-mini-dtls-fragments-extend-with-a-1816-reprodu.patch \
-+           file://0005-tests-mini-dtls-fragments-extend-with-fragmenting-Cl.patch \
-+           file://0006-buffers-match-DTLS-datagrams-by-sequence-number.patch \
-+           file://0007-tests-mini-dtls-fragments-1839-mismatching-message_s.patch \
-+           file://0008-tests-mini-dtls-framents-link-to-gnulib.patch \
-            "
- 
- SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
++FILES:${PN} = " \
++    ${bindir}/memory-control \
++    ${systemd_system_unitdir}/memory-control@.service \
++    ${datadir}/memory-control \
++"
 
