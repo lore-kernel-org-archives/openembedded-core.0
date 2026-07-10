@@ -2,42 +2,40 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD473C44507
-	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 13:42:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77DBDC44501
+	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 13:42:50 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12938.1783690936660911339
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12958.1783690961818207751
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jul 2026 06:42:16 -0700
+ Fri, 10 Jul 2026 06:42:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=qcqVB2X2;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=uVTiWMV5;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B17BB1EA6
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 06:42:11 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 130DF1EA6
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 06:42:37 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B3CD33F66F
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 06:42:15 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 110593F66F
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 06:42:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783690936; bh=cPOY3bNLnflDjBULSy5Ts2BpwcIaTOCxqORBo5pn2ig=;
+	t=1783690961; bh=+wdVAs5I4fXWgOFm3inufPBXw8++yNBPLwPXmm8bkAo=;
 	h=From:To:Subject:Date:From;
-	b=qcqVB2X2OWBKecwvMg3SFXTyr03IAwzgFBpswE2SLewWbUz04bbB4DLpaPRcbvdQ/
-	 Lxu8hBJ8fMdxN9hcfyW0hhy8s4hVOgpLv/2pyJkh9dCZg1ttL9eEQIBloE2T6vaOxs
-	 jThFBdM5/+jJ1OIEY7jzNstUriQcWYRQWUv/OzTI=
+	b=uVTiWMV5HekJ3HsmJEiyFHPtcND6N2TMc0f72cqBHM+GZTWUM8wUAKTXernMhOnlE
+	 zUF/Le2XTwm4JiZWDh29dM488Ou8fJLfYoKOgazfZwStIP9BSQvHPUR4Whiasa12pM
+	 Ao+RJcIC8uKfyrMw4mOYfLae6BqR7dsFnZKm9SbE=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] fontconfig: upgrade 2.18.1 -> 2.18.2
-Date: Fri, 10 Jul 2026 14:42:13 +0100
-Message-ID: <20260710134214.2097873-1-ross.burton@arm.com>
+Subject: [PATCH v2 1/2] fontconfig: upgrade 2.18.1 -> 2.18.2
+Date: Fri, 10 Jul 2026 14:42:38 +0100
+Message-ID: <20260710134239.2098960-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 13:42:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240651
-
-From: Upgrade Helper <auh@yoctoproject.org>
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 13:42:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240653
 
 Upstream release notes:
 
