@@ -1,143 +1,162 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71A23C43458
-	for <webhook@archiver.kernel.org>; Thu,  9 Jul 2026 22:08:00 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.558.1783634877408822223
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD77BC43458
+	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 06:57:32 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7251.1783666648613022500
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jul 2026 15:07:57 -0700
+ Thu, 09 Jul 2026 23:57:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=0xy0FP+C;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47ddf7b09aaso206281f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 15:07:57 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=H6zqsCZa;
+ spf=pass (domain: mvista.com, ip: 209.85.214.179, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ccdb73f0e1so5227055ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 23:57:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783634876; x=1784239676; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:cc:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=dP43QteRnJ4nCDKM52r3ESs0kEE+gXnJxzoS3o8d+Rk=;
-        b=0xy0FP+C8rE8rnoQKkCmtn5Tke08ns3py+xIvG/uvPWB0zV4bEOsGBZ//QZBEoDcmt
-         LQ9peQe5hLdMeRO4zgkMw3zTTDSx86JIDTw5gakKWOEdMh2lm5hQplBN3/IpvpIW5J6k
-         b3mzQDf5+pDNU50me/rqpVsd5sWV/M/MujpKA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783634876; x=1784239676;
-        h=in-reply-to:references:subject:to:cc:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=mvista.com; s=google; t=1783666648; x=1784271448; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dP43QteRnJ4nCDKM52r3ESs0kEE+gXnJxzoS3o8d+Rk=;
-        b=ETjLa6ovf08Mqm9vol0NbeNDHjVXSmuRQa52KxXX4MIYBKr4FLkP7Efl3c/n/6durV
-         PZgsd/Jmugn8Vcr82dclKARz5KrgpKXBi7XwxUNZ/SF7/E5//ilQdFbQFNoWqCDvwf1w
-         2ZZRG5XcEUsiXg9Zr4uMK7vK/cSfyhGaUoN//c1wNZqn3oqUB5xwg3E94wETQLB4ngC4
-         Q2ZvWccK2CzBIasQ2jfRmQnvdVPP6p592OT/uBd/N1xyHH7O3AdFvom30q0vX7tq/aC2
-         etY6ZleN5YSzgBxW6lnaf7z+x+mDQDvTzfGbWJfDQJ7ZmLYLAKvENXk6nf18QpGhycFi
-         nwTA==
-X-Forwarded-Encrypted: i=1; AHgh+RpE/82vwOMjuPUoqXZpZ/nsbu3C/zr23oaxYkra9zc62X1RIRYZpVW6FlMEQPvH8DWuUILxDMsqEcDxKN2X0kaMnA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yza4PFCj0XQTYBxErLjX1VXSjH1XYJYxb4uKpk+8FoYqtvpeVUI
-	Wdk3UqE6Exl6tSiDIvx+b/DJ5FsP3MuMvCi8cPWsqg6jBNZ7UGf8Ted0OMsXBN1c9ls=
-X-Gm-Gg: AfdE7ckeIyfHAgp3c6dzrYpRpuRsdQ2fDtIuDhXz7UukWkK0ZaTazrIbGAQY667S34o
-	wcm3Cwx96bIv6MdygZFgX5dz5Gkvi/AJQejdAg/NhRZm3iwITUvjKIsrVlOaoo0rGX3ZcCasGoP
-	H/mcjYJ7C4Tycc1pTF5IwCX0XYMGyGXuvbSPVblThIUSm6k0FCCrTUs7CnJApu0xM9nfLJAlHKW
-	JNTgzsaDaBQkje2JREdeWPMizMyOsXJwF59Yh++wr4HSsRPj5YNuuJZHN2CWW9FHwKQA/ocPVmI
-	yvYK5yL2OZ6qOM/aJtvqo/zitQitpFppnCxO1RHG5OHXZ56A2jYeMDbyKaMp6pkb0DUIKl9Q3tV
-	ayQ0W+TH6cFwS0oFAEUHcMy1zkNAm1Xh4NvZg9XM3PCMWrLT4uTiDeFmRqswOFp6/8nj9Lhrw0P
-	9i72kw0TKwxsBxXZgAKw0UJiz6P/bXU6l54/Lm5hmgEVMLUAN184tntGSdhV/G4yS8xcHPRxqv4
-	bRg
-X-Received: by 2002:a05:6000:1a8d:b0:46e:997e:b4c5 with SMTP id ffacd0b85a97d-47df07318ebmr9880878f8f.18.1783634875603;
-        Thu, 09 Jul 2026 15:07:55 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0960b06sm54379029f8f.28.2026.07.09.15.07.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jul 2026 15:07:55 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+        bh=868Xi56BT/vFfLdmyA7Rv71aBwx1Mq2lDwVlu6Jy91c=;
+        b=H6zqsCZaWj7ICB4/3UJP7EFN0zWyWbzhBR7Tq4o9fUko4j6OJ1YaRRRztLvKGQHETT
+         SkDDe9J6GDPcoSdYDOvk7ZsfqJMu7aqoGX7XPKYZBlsEwfvE2OL5BR3uZ8BHpW3jsqjp
+         Qn7hT07pqqG62j6dRvUEg9X44craefYULTvxc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783666648; x=1784271448;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=868Xi56BT/vFfLdmyA7Rv71aBwx1Mq2lDwVlu6Jy91c=;
+        b=c+06t1nuBlOdoTGebvK1krj2XLlhJSw/Cze0U8eSQ+DVth387d9eEl3FFpbPDJDK1R
+         sCuljUYYNE9P9prLmkO0ohQz7oYlh8pbQ4FjG+flVJoFNRGRnk+gCcDDzJzJITkzsPHk
+         Wp0ryHuFQU5ehtALfSpwmjjXvnd4NMzRGJGYfkALX96ySHFQq6lCQXTrmgrBl9wSw1re
+         2e5x+BHivUaa0Y7QZjD45AtHfp6RerX1KVPKbN2EK5EcS6f1uN04gJ256lBOL1wdFUc4
+         VKZhqDGS9UjbNtKDz79vHvygBWNwSX+W92Brd93RDrk8jM0IYYIiN7o1CHEjkqZmaRS5
+         52LA==
+X-Gm-Message-State: AOJu0YzTMsykp0/nMXBjfbl8Aqy3HI1gD1GFegoWPbqU55wHOk+WM5k3
+	1GZst3+P03FhTFzp/gRnwV2RJsRMzV/XC9+IF+rrRTVOQQzWADzNg9WifsI2jlMiRS0nXDO8WT2
+	5Q3bGzVM=
+X-Gm-Gg: AfdE7ckGgBVyk/3Mze0QC93N6ZjXM+1q7+B5hHfV8HAIWiQHABhvKoOhyKzDenQ14cm
+	1WbsynJNsRKnSSewqMv9R2gdn25fKE5bsp7uFucQWWgxPIqfZL4NzopZb2CR8+zB+87CJnsB/Cz
+	VLDrvsKtb+BcOcJU2dI+0/movpZDwiJ1vyLyOM7u7JSSHRgVunZpdpRqZSzbn74pJidqcFYp6K5
+	mI+5CNIVe9mfVV6dvpSxhaZJ98jyVAgTVTHaHZSpFlM+wjTf4LYQLN5Dqy8JrkcVcXJK6WJtOYh
+	teSgYJ08g6lfrL3pXjAXETkZqxLXCgkSjUaQBIgVfpouI8tmJ4N1GErwbL2mUc27N2Wde9h9PIn
+	lPacC6BCV4c8FefumVWS8OJDbZgZO9LCDaGn67puOFH0/Q4LMdJikupHpfXP1/i8NLxdrlb6R6p
+	XqoCm6IDinwRHYPqx2TGkFnl3IUno3
+X-Received: by 2002:a05:6a21:a38d:b0:3a3:327:c5c8 with SMTP id adf61e73a8af0-3c0bcb58531mr12143035637.0.1783666647733;
+        Thu, 09 Jul 2026 23:57:27 -0700 (PDT)
+Received: from MVIN00352.mvista.com ([2401:4900:1cc4:6156:5a18:8857:b507:5e46])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31198cb2b99sm18490611eec.26.2026.07.09.23.57.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 23:57:26 -0700 (PDT)
+From: Vijay Anusuri <vanusuri@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][patch] tzdata/tzcode-native: upgrade 2026b -> 2026c
+Date: Fri, 10 Jul 2026 12:27:15 +0530
+Message-ID: <20260710065715.41949-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 10 Jul 2026 00:07:54 +0200
-Message-Id: <DJUDSLR3YAV6.3UE0XNXCDULBT@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <olivier.benjamin@bootlin.com>, <mathieu.dubois-briand@bootlin.com>,
- <pascal.eberhard@se.com>, <wahid.essid@se.com>
-To: <benjamin.robin@bootlin.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [wrynose][PATCH] glib-2.0: fix CVE-2026-58016
-X-Mailer: aerc 0.20.0
-References: <20260703-glib-2-0-cve-2026-58016-wrynose-v1-1-46befa36c6d1@bootlin.com>
-In-Reply-To: <20260703-glib-2-0-cve-2026-58016-wrynose-v1-1-46befa36c6d1@bootlin.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jul 2026 22:08:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240594
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 06:57:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240595
 
-On Fri Jul 3, 2026 at 4:36 PM CEST, Benjamin Robin via lists.openembedded.o=
-rg wrote:
-> A flaw was found in GLib. A state confusion issue exists in
-> g_dbus_node_info_new_for_xml() in the gio/gdbusintrospection.c file when
-> processing malformed D-Bus introspection XML, specifically with a <node>
-> element nested within other elements like <method>, <signal>, <property>
-> or <arg>. This issue can cause an unsigned integer overflow and lead to a=
-n
-> out-of-bounds read, resulting in a denial of service.
->
-> The CVE NVD entry is wrong, it indicates that the CVE is fixed in 2.88.1
-> but the fix was realized in 2.89.0, see [1]. The fix is not present in 2.=
-88.2.
->
-> [1] https://gitlab.gnome.org/GNOME/glib/-/commit/c9da977c178fbfc0e4caf99f=
-9fdf5dc433d6fcc2
->
-> Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootli=
-n.com>
-> ---
->  .../glib-2.0/files/CVE-2026-58016-1.patch          | 92 ++++++++++++++++=
-+++++
->  .../glib-2.0/files/CVE-2026-58016-2.patch          | 96 ++++++++++++++++=
-++++++
->  meta/recipes-core/glib-2.0/glib.inc                |  2 +
->  3 files changed, 190 insertions(+)
->
-> diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch b/me=
-ta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
-> new file mode 100644
-> index 000000000000..ee6321361455
-> --- /dev/null
-> +++ b/meta/recipes-core/glib-2.0/files/CVE-2026-58016-1.patch
-> @@ -0,0 +1,92 @@
-> +From 38eee3870fbcf6bdf8e6b1281bc7a98d32b68521 Mon Sep 17 00:00:00 2001
-> +From: Philip Withnall <pwithnall@gnome.org>
-> +Date: Thu, 16 Apr 2026 15:27:37 +0100
-> +Subject: [PATCH 1/2] gdbusintrospection: Fix XML parser state handling f=
-or
-> + <node> element nesting
-> +
-> +The check for whether a `<node>` element in D-Bus introspection XML was
-> +nested correctly was broken. `<node>` elements can only be at the top
-> +level, or nested immediately within another `<node>` element.
-> +
-> +Fix the check and add some unit tests for it.
-> +
-> +Spotted by linhlhq as #YWH-PGM9867-204. The fix is mine, and the unit te=
-st
-> +uses example XML strings adapted from their report.
-> +
-> +Fixes: #3932
-> +
-> +CVE: CVE-2026-58016
-> +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
-c9da977c178fbfc0e4caf99f9fdf5dc433d6fcc2]
-> +
-> +Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
+This release contains the following changes:
 
-Hello,
+   Briefly:
+     Alberta moved to permanent -06 on 2026-06-18.
+     Morocco moves to permanent +00 on 2026-09-20.
+     More integer overflow bugs have been fixed in zic.
 
-Upstream patch had a "Signed-off-by:" that I readded on my branch.
-Can you send a patch to master to re-add it there too?
+   Changes to future timestamps
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+     Alberta’s 2026-03-08 spring forward was its last foreseeable clock
+     change, as it moved to permanent -06 thereafter.  (Thanks to Roozbeh
+     Pournader and others.)  Model this with its traditional abbreviation
+     CST.  Although the change to permanent -06 legally took place on
+     2026-06-18, temporarily model the change to occur on 2026-11-01 at
+     02:00 instead, for the same reason we introduced a similarly
+     temporary hack for British Columbia in 2026b.
+
+       Although another TZDB release will likely be needed soon because
+       Northwest Territories will likely follow Alberta, the legal
+       formalities have not yet taken place.
+
+     Morocco plans to move back to permanent UTC, without daylight
+     saving time transitions, on 2026-09-20 at 02:00.  This also
+     affects Western Sahara.
+
+   Changes to code
+
+     zic no longer overflows integers when processing outlandish input
+     like ‘Zone Ouch 0 - LMT 9223372036854775807’, ‘Zone Ouch 0
+     2562047788015215 LMT’, ‘Zone Ouch -2562047788015215:30:08 - LMT’,
+     and ‘Zone Ouch -2562047788015215:30:08 - %%z’.  This avoids
+     undefined behavior in C.  (Problems reported by Naveed Khan.)
+
+     On platforms that have EFTYPE, tzalloc now fails with errno set to
+     EFTYPE, not EINVAL, if it detects that the TZif file has an
+     invalid format or is not a regular file.  Formerly it did this
+     only on NetBSD, and only when the file was not a regular file.
+
+     Unprivileged programs no longer require TZif files to be regular
+     files or reject relative names containing ".." components.  This
+     reverts to the more-permissive 2025b behavior, as the stricter
+     behavior did not catch on in FreeBSD.
+
+     zic now reports any failure to remove a temporary file when
+     cleaning up after a previous failure.  (Problem reported by Tom
+     Lane.)
+
+   Changes to commentary
+
+     Northwest Territories is expected to move to permanent -06 prior to
+     2026-11-01 02:00, when clocks would otherwise fall back.  (Thanks to
+     Tim Parenti and James Bellaire.)  Model this with its traditional
+     abbreviation CST.  Unfortunately the change is not yet official, so
+     it is currently present only as comments that can be uncommented as
+     needed.
+
+   Changes to build procedure
+
+     The undocumented ‘typecheck’ Makefile check rule has been removed.
+     It stopped working in 2025a and evidently nobody noticed.
+     The rule was superseded by ‘check_time_t_alternatives’ in 2013d.
+
+Ref: https://lists.iana.org/hyperkitty/list/tz-announce@iana.org/thread/NVHSX2PAQIT44U5FCCEVNJJYXQMMTJSA/
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index ff02416ed3..47f9ac2855 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+ 
+-PV = "2026b"
++PV = "2026c"
+ 
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${UNPACKDIR}/tz"
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "37e9ed8427f5d3521c22fc58e293cbfb043d70eedf1003870b33f363f61ca344"
+-SRC_URI[tzdata.sha256sum] = "114543d9f19a6bfeb5bca43686aea173d38755a3db1f2eec112647ae92c6f544"
++SRC_URI[tzcode.sha256sum] = "b1cffc3ace4c4c7cd0efba2f7add86ec3d0b79da48bcf03582671fd3c8feace8"
++SRC_URI[tzdata.sha256sum] = "e4a178a4477f3d0ea77cc31828ff72aa38feff8d61aa13e7e99e142e9d902be4"
+-- 
+2.43.0
 
 
