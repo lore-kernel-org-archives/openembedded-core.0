@@ -1,131 +1,124 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <sudumbha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 798BBC43458
-	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 10:02:28 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9380.1783677738676204591
- for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jul 2026 03:02:19 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=PdJqV77q;
- spf=pass (domain: smile.fr, ip: 209.85.218.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c15cb6f5c12so134282566b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 03:02:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1783677737; x=1784282537; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TYOp7Tk9pj/okOEXvvuIT4uWBAmQrPyjkTpKYeBkNAI=;
-        b=PdJqV77qMrs7dNQp/Ep9Uyt74fIqYlWD98vXJHA6pcnHIWEsvnfV2FDcbO9inJyoF1
-         aXVrfkJrhCnmK+WNEgp94jvA3urvEo/Xp1nVtTMAnyqGzbhs/8NIhx3UgFLPMyNH6n7m
-         FZyjcCb/gJRkIPtcGAo3b94Ocx8n/tRpTKlB8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783677737; x=1784282537;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TYOp7Tk9pj/okOEXvvuIT4uWBAmQrPyjkTpKYeBkNAI=;
-        b=ToZwwMZQkjdRLGkF5Y2mFoZfHK51DM0TeYwOf3kke+aVEgoRNmN4mJhOTCc2/KmFEP
-         tpYRWlogCy103lcgWZV1jmTJZ/ZvxAai3GKkpCgvf1SDGFX+EQ4jy4nK9x++B6CXMEWu
-         Cyu/c1c+BNuFek9/hxsGuijARcMgHqr+TY3hVlE2kUuH3jMH4GuNiuuWsaOXi8gkk+Y5
-         QrHeadloiSRMtfv7hl7npm8iXTTqb8l24suwzggipQ+NUAeod3KNhtbHK1yrLOjBy2FZ
-         tlD4uupc2rAZ/pxB/2C7RlOmH0Ay+tfEHlPgCmxU1MRg+3SX+u/bmejEj/txdBI4sxan
-         f3yg==
-X-Forwarded-Encrypted: i=1; AHgh+RqRf4xjrlYfQbahzKfYUti3T905AUE2KcHT3QhjmyH5YtwcPnhqnD4LDx1iKTs1eBfa3xgZQn7ioa7ws/aLbJlXcA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyvThkIM/9lpti0qoyMywb/5owWN7P4DPOQKQRKps2GLEw7trRn
-	qEcwUSR6kuHNH+6fQQvjJHv7MUoQZA1Q+dmmfhj7EcchBKCz1CuVKjWfaBMYxUdUEi9TcCKZpZ7
-	1QLG7NlM=
-X-Gm-Gg: AfdE7cmw+jXWGFCGcp4o1sa6X6ERfAH4H4booDwkxStvty4mHaWdCT4qpka6vZAp6hJ
-	giCanK0q/Z+zKVeAXaOn3WNixiwt9OPecQa8ILY5AHSlrzSTpxqC5x7ezL7fl0bUNnBIFjOzX4/
-	PB1tflnCIXj1Ff58NvGk3Tb5vTlQXA2Jw57sZM965SY5WT9gqFrCyYzvel624HGaoO7Dj57Lhx1
-	4b7K+26z7s0zcQBjzYBno02kiGY7QUwnRA4t8AS0rjjCigGI6nMbxbo+s1CC5MIqme+1PetzMDI
-	rtadC/SFK6cTRSxq0AQ1xYsW4IJPz+bS9PZLhgQZzl2C8gKSWTaKzcusnAzHcZZZlVRC8yyWRXz
-	QnM2CjmHNzkwGlmK7qYl6xrJWer21hJ0WfoY9+eLj1xX0ST2g7pOj1et8q8JHA0SAe0MgpcKTOW
-	OU7oxbq5yZNXeA2B543ZfdjxspfRi/2iYfhJvLMKAQHdfLCcn0o8shELELk48wQ8oNlWWbX5Yie
-	nQ3vA==
-X-Received: by 2002:a17:906:ee8c:b0:c12:7b74:7812 with SMTP id a640c23a62f3a-c15ce108461mr470977066b.59.1783677736665;
-        Fri, 10 Jul 2026 03:02:16 -0700 (PDT)
-Received: from localhost (2a01cb001331aa005f82d0ccbe50ecf8.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:5f82:d0cc:be50:ecf8])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15deea5cf6sm279189466b.16.2026.07.10.03.02.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jul 2026 03:02:16 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 10 Jul 2026 12:02:15 +0200
-Message-Id: <DJUSZJTUMA4P.2YSMPEY5JDSXH@smile.fr>
-To: <pidge@baylibre.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] ovmf: fix tpm PACKAGECONFIG to use
- TPM2_ENABLE
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260708142249.916053-1-pidge@baylibre.com>
-In-Reply-To: <20260708142249.916053-1-pidge@baylibre.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87C0CC43458
+	for <webhook@archiver.kernel.org>; Fri, 10 Jul 2026 10:19:28 +0000 (UTC)
+Subject: Re: [scarthgap][PATCH 1/2] gnutls: set status for CVE-2026-3832
+To: openembedded-core@lists.openembedded.org
+From: "Sudhir Dumbhare" <sudumbha@cisco.com>
+X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.83)
+X-Originating-Platform: Windows Edge 150
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Fri, 10 Jul 2026 03:19:20 -0700
+References: <20260613102520.3703528-1-sudumbha@cisco.com> <DJFO0C5H4J4B.2E5D9ZA8FAU4F@smile.fr> <DJRNXI1MR0G3.NRVNAMF6V3KW@smile.fr>
+In-Reply-To: <DJRNXI1MR0G3.NRVNAMF6V3KW@smile.fr>
+Message-ID: <427939.1783678760195366168@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="NwQAdQf9RTLE1M4OUFTN"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 10:02:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240627
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 10:19:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240628
 
-On Wed Jul 8, 2026 at 4:22 PM CEST, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=
-=A1in via lists.openembedded.org wrote:
-> The tpm PACKAGECONFIG passed "-D TPM_ENABLE=3DTRUE/FALSE", but ovmf
-> renamed that macro to TPM2_ENABLE in edk2 commit 4de8d61bcec0
-> ("OvmfPkg: rework TPM configuration", first released in
-> edk2-stable202202). Since then TPM_ENABLE has been an unknown macro
-> that edk2 ignores, so TPM2 support was never compiled in, even for
-> MACHINEs with 'tpm'/'tpm2' in MACHINE_FEATURES.
+--NwQAdQf9RTLE1M4OUFTN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Hello Yoann,
+Thank you for your review and for pointing this out.
+Reference: https://lore.kernel.org/all/417029.1783573706225625480@lists.ope=
+nembedded.org/
 
-By looking at the version only, should'nt this be backported to
-scarthgap as well? It has ovmf edk2-stable202402.
+I have submitted the patch series for the wrynose branch here:
+[wrynose][PATCH 1/2] gnutls: Fix CVE-2026-3832 ( https://lists.openembedded=
+.org/g/openembedded-core/message/240625 )
+[wrynose][PATCH 2/2] gnutls: Fix CVE-2026-42009 ( https://lists.openembedde=
+d.org/g/openembedded-core/message/240626 )
 
-Thanks!
+Thanks and Regards,
+Sudhir
 
->
-> Use TPM2_ENABLE (as defined in
-> OvmfPkg/Include/Dsc/OvmfTpmDefines.dsc.inc and consumed by
-> OvmfPkgX64.dsc) so the tpm PACKAGECONFIG actually enables TPM2 support.
->
-> The same commit also added a separate TPM1_ENABLE macro (TPM 1.2
-> support, default TRUE), but its dsc.inc snippets are only included
-> inside OvmfPkgX64.dsc's "!if $(TPM2_ENABLE) =3D=3D TRUE" block, so it has
-> no effect unless TPM2_ENABLE is TRUE. No separate PACKAGECONFIG knob is
-> needed.
->
-> I'm sending a backport to wrynose of this in another email.
->
-> Signed-off-by: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@baylibr=
-e.com>
-> ---
->  meta/recipes-core/ovmf/ovmf_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/=
-ovmf_git.bb
-> index bda33e2631..ab276bad1f 100644
-> --- a/meta/recipes-core/ovmf/ovmf_git.bb
-> +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM =3D "file://OvmfPkg/License.txt;md5=3D=
-06357ddc23f46577c2aeaeaf7b776
->  PACKAGECONFIG ??=3D "${@bb.utils.contains_any('MACHINE_FEATURES', 'tpm t=
-pm2', 'tpm', '', d)}"
->  PACKAGECONFIG[debug] =3D ",,,"
->  PACKAGECONFIG[secureboot] =3D ",,,"
-> -PACKAGECONFIG[tpm] =3D "-D TPM_ENABLE=3DTRUE,-D TPM_ENABLE=3DFALSE,,"
-> +PACKAGECONFIG[tpm] =3D "-D TPM2_ENABLE=3DTRUE,-D TPM2_ENABLE=3DFALSE,,"
-> =20
->  SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=3Dmaster;proto=
-col=3Dhttps;tag=3D${PV} \
->             file://0001-ovmf-update-path-to-native-BaseTools.patch \
+--NwQAdQf9RTLE1M4OUFTN
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div><span><span><!--ScriptorStartFragment--></span></span></div>
+<div class=3D"scriptor-paragraph"><span><span><!--ScriptorStartFragment--><=
+/span></span>
+<div class=3D"scriptor-paragraph"><span attribution=3D"{&quot;name&quot;:&q=
+uot;Copilot&quot;,&quot;oid&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00=
+C&quot;,&quot;id&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&qu=
+ot;userInfo&quot;:{&quot;name&quot;:&quot;Copilot&quot;,&quot;oid&quot;:&qu=
+ot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&quot;id&quot;:&quot;E64C3D4F=
+-5E12-4514-AD9B-893A6FAFD00C&quot;},&quot;timestamp&quot;:1783678200000,&qu=
+ot;dataSource&quot;:0}">Hello Yoann,</span></div>
+<div class=3D"scriptor-paragraph"><span attribution=3D"{&quot;name&quot;:&q=
+uot;Copilot&quot;,&quot;oid&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00=
+C&quot;,&quot;id&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&qu=
+ot;userInfo&quot;:{&quot;name&quot;:&quot;Copilot&quot;,&quot;oid&quot;:&qu=
+ot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&quot;id&quot;:&quot;E64C3D4F=
+-5E12-4514-AD9B-893A6FAFD00C&quot;},&quot;timestamp&quot;:1783678200000,&qu=
+ot;dataSource&quot;:0}">Thank you for your review and for pointing this out=
+.</span></div>
+<div class=3D"scriptor-paragraph"><span attribution=3D"{&quot;name&quot;:&q=
+uot;Copilot&quot;,&quot;oid&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00=
+C&quot;,&quot;id&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&qu=
+ot;userInfo&quot;:{&quot;name&quot;:&quot;Copilot&quot;,&quot;oid&quot;:&qu=
+ot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&quot;id&quot;:&quot;E64C3D4F=
+-5E12-4514-AD9B-893A6FAFD00C&quot;},&quot;timestamp&quot;:1783678200000,&qu=
+ot;dataSource&quot;:0}">Reference: <a title=3D"https://lore.kernel.org/all/=
+417029.1783573706225625480@lists.openembedded.org/" href=3D"https://lore.ke=
+rnel.org/all/417029.1783573706225625480@lists.openembedded.org/" target=3D"=
+_blank" rel=3D"noopener">https://lore.kernel.org/all/417029.178357370622562=
+5480@lists.openembedded.org/</a></span></div>
+<span><span><br class=3D"scriptor-paragraph" /></span></span>
+<div class=3D"scriptor-paragraph"><span attribution=3D"{&quot;name&quot;:&q=
+uot;Copilot&quot;,&quot;oid&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00=
+C&quot;,&quot;id&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&qu=
+ot;userInfo&quot;:{&quot;name&quot;:&quot;Copilot&quot;,&quot;oid&quot;:&qu=
+ot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&quot;id&quot;:&quot;E64C3D4F=
+-5E12-4514-AD9B-893A6FAFD00C&quot;},&quot;timestamp&quot;:1783678200000,&qu=
+ot;dataSource&quot;:0}">I have submitted the patch series for the wrynose b=
+ranch here:</span></div>
+<span><span></span></span><span attribution=3D"{&quot;name&quot;:&quot;Copi=
+lot&quot;,&quot;oid&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,=
+&quot;id&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&quot;userI=
+nfo&quot;:{&quot;name&quot;:&quot;Copilot&quot;,&quot;oid&quot;:&quot;E64C3=
+D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&quot;id&quot;:&quot;E64C3D4F-5E12-45=
+14-AD9B-893A6FAFD00C&quot;},&quot;timestamp&quot;:1783678200000,&quot;dataS=
+ource&quot;:0}"></span>
+<div class=3D"scriptor-paragraph"><a title=3D"https://lists.openembedded.or=
+g/g/openembedded-core/message/240625" href=3D"https://lists.openembedded.or=
+g/g/openembedded-core/message/240625" target=3D"_blank" rel=3D"noopener">[w=
+rynose][PATCH 1/2] gnutls: Fix CVE-2026-3832</a></div>
+<span><span><a title=3D"https://lists.openembedded.org/g/openembedded-core/=
+message/240626" href=3D"https://lists.openembedded.org/g/openembedded-core/=
+message/240626" target=3D"_blank" rel=3D"noopener">[wrynose][PATCH 2/2] gnu=
+tls: Fix CVE-2026-42009</a><br /><br /></span></span>
+<div class=3D"scriptor-paragraph"><span attribution=3D"{&quot;name&quot;:&q=
+uot;Copilot&quot;,&quot;oid&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00=
+C&quot;,&quot;id&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&qu=
+ot;userInfo&quot;:{&quot;name&quot;:&quot;Copilot&quot;,&quot;oid&quot;:&qu=
+ot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&quot;id&quot;:&quot;E64C3D4F=
+-5E12-4514-AD9B-893A6FAFD00C&quot;},&quot;timestamp&quot;:1783678200000,&qu=
+ot;dataSource&quot;:0}">Thanks and Regards,</span></div>
+<div class=3D"scriptor-paragraph"><span attribution=3D"{&quot;name&quot;:&q=
+uot;Copilot&quot;,&quot;oid&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00=
+C&quot;,&quot;id&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&qu=
+ot;userInfo&quot;:{&quot;name&quot;:&quot;Copilot&quot;,&quot;oid&quot;:&qu=
+ot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&quot;id&quot;:&quot;E64C3D4F=
+-5E12-4514-AD9B-893A6FAFD00C&quot;},&quot;timestamp&quot;:1783678200000,&qu=
+ot;dataSource&quot;:0}">Sudhir<!--ScriptorEndFragment--></span></div>
+</div>
+<div class=3D"scriptor-paragraph"><span attribution=3D"{&quot;name&quot;:&q=
+uot;Copilot&quot;,&quot;oid&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00=
+C&quot;,&quot;id&quot;:&quot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&qu=
+ot;userInfo&quot;:{&quot;name&quot;:&quot;Copilot&quot;,&quot;oid&quot;:&qu=
+ot;E64C3D4F-5E12-4514-AD9B-893A6FAFD00C&quot;,&quot;id&quot;:&quot;E64C3D4F=
+-5E12-4514-AD9B-893A6FAFD00C&quot;},&quot;timestamp&quot;:1783678200000,&qu=
+ot;dataSource&quot;:0}"><!--ScriptorEndFragment--></span></div>
 
---=20
-Yoann Congal
-Smile ECS
-
+--NwQAdQf9RTLE1M4OUFTN--
 
