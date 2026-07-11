@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E20E4C43458
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0834C44501
 	for <webhook@archiver.kernel.org>; Sat, 11 Jul 2026 06:06:22 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.259.1783749979621012549
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.265.1783749979803075658
  for <openembedded-core@lists.openembedded.org>;
  Fri, 10 Jul 2026 23:06:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZjR5vjol;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=YGzXiX/p;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019f4fc8aa56-61735077-f6a3-4e9e-8cbf-238e7bf8754c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BJC7Nwrb;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=VeKxLOWU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019f4fc8aac7-1d57c218-2700-4a1c-9510-23bf8b7df2d5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1783749978;
+	t=1783749979;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=GAyDznKx8zFV0rgTAEpxewOnP8irSP3SI2lphDEZgm4=;
-	b=ZjR5vjolLSPqAHkvwaDJYosrZqIDIpENgob8ZTb6LGxmXHvcMDp4wlhelblo8U3n
-	2Wnz5iMLrUp/b02tXxe8XNKCAsZLxcjq1/9j9IhxW1S80Lx/Ss1mrUTXFG62/dhg2kR
-	ZMVsUcW9tUQaPC4xPZ2JPzrOma37q1bHoBHXzrjU=
+	bh=4zMHoB2/kXr7SzGSHg0zVf/m2jbEFDlqkrasz56BhMw=;
+	b=BJC7NwrbTDXgr7uWGa1HXbADTGJ5rv9ufL5zIVC68txCZaJabhqNW0OQZLnrp2Op
+	ZMOT8XYzSvnvqn+t06SILYwiZCYuYm2gLk4pp68IPS0+KyXKj9Hv58cuyi295f5PZmm
+	MsDOab+e8TYwnARAcJc5w4Ajs9IyL6Ytgq6yGPvU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783749978;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783749979;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=GAyDznKx8zFV0rgTAEpxewOnP8irSP3SI2lphDEZgm4=;
-	b=YGzXiX/pbfbgWGMVZ2kwtm5wE5Aj85qm7pgWV2Z+1xxe/c27MolNbOQtn6U27O39
-	pWJJcVIoXm2AhKaH2Bwa7clllMm0AI8/3AEGKWu1cpP+LFMagEQyIY5u8eR8Yql81Ge
-	cQ1OTbYq/A7fP/CxiYQOrOg7imld5T+r1xR6iEnw=
-Content-Type: multipart/mixed; boundary="===============8169936832247321195=="
+	bh=4zMHoB2/kXr7SzGSHg0zVf/m2jbEFDlqkrasz56BhMw=;
+	b=VeKxLOWU/zH893iayyN+bm9XipOXIOswlBWFlb18P9YpsSVFilk+TIHVVrRolx+d
+	fUdRBpbXuoFj/JWp/3qiHgjaoZRDy12Kx4Rixg4GUHhEcbMosiE9ECcL2Z/lA2ynhJn
+	tXjX8lw001yh5+M3bMlu9br1rP9xrjLNcsCDam8E=
+Content-Type: multipart/mixed; boundary="===============7838533588487788176=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pkgconf: upgrading to 3.0.0 SUCCEEDED
-Message-ID: <0101019f4fc8aa56-61735077-f6a3-4e9e-8cbf-238e7bf8754c-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-hypothesis: upgrading to 6.156.6 FAILED
+Message-ID: <0101019f4fc8aac7-1d57c218-2700-4a1c-9510-23bf8b7df2d5-000000@us-west-2.amazonses.com>
 Date: Sat, 11 Jul 2026 06:06:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.11-54.240.27.192
+X-SES-Outgoing: 2026.07.11-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 11 Jul 2026 06:06:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240701
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240702
 
---===============8169936832247321195==
+--===============7838533588487788176==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *pkgconf* to *3.0.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.156.6* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-pkgconf-upgrade-2.5.1-3.0.0.patch
+    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.155.7-6.156.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,194 +78,269 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a79ddc5a8587f4befb7d7c2380b392c3ba3b6cd1 Mon Sep 17 00:00:00 2001
+From fd811e369a2d09825f303a18605a5ffef43069b0 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 11 Jul 2026 05:24:48 +0000
-Subject: [PATCH] pkgconf: upgrade 2.5.1 -> 3.0.0
+Date: Sat, 11 Jul 2026 05:27:18 +0000
+Subject: [PATCH] python3-hypothesis: upgrade 6.155.7 -> 6.156.6
 
 ---
- .../{pkgconf_2.5.1.bb => pkgconf_3.0.0.bb}    | 24 +++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/pkgconf/{pkgconf_2.5.1.bb => pkgconf_3.0.0.bb} (79%)
+ ...hon3-hypothesis_6.155.7.bb => python3-hypothesis_6.156.6.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.155.7.bb => python3-hypothesis_6.156.6.bb} (91%)
 
-diff --git a/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb b/meta/recipes-devtools/pkgconf/pkgconf_3.0.0.bb
-similarity index 79%
-rename from meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
-rename to meta/recipes-devtools/pkgconf/pkgconf_3.0.0.bb
-index 7d9205e560..c4d228a323 100644
---- a/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
-+++ b/meta/recipes-devtools/pkgconf/pkgconf_3.0.0.bb
-@@ -1,3 +1,23 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- COPYING
-+# +++ COPYING
-+# @@ -1,5 +1,4 @@
-+# -Copyright (c) 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018
-+# -    pkgconf authors (see AUTHORS file in source directory).
-+# +Copyright (c) 2011-2026 pkgconf authors (see AUTHORS file in source directory).
-+#  
-+#  Permission to use, copy, modify, and/or distribute this software for any
-+#  purpose with or without fee is hereby granted, provided that the above
-+# 
-+#
-+
- SUMMARY = "pkgconf provides compiler and linker configuration for development frameworks."
- DESCRIPTION = "pkgconf is a program which helps to configure compiler and linker \
- flags for development frameworks. It is similar to pkg-config from \
-@@ -12,7 +32,7 @@ RPROVIDES:${PN} += "pkgconfig"
- # The pkgconf license seems to be functionally equivalent to BSD-2-Clause or
- # ISC, but has different wording, so needs its own name.
- LICENSE = "pkgconf"
--LIC_FILES_CHKSUM = "file://COPYING;md5=2214222ec1a820bd6cc75167a56925e0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1e33c297f35e165ecf4fbc81974dc9ca"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb b/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb
+index 70ae7877a1..4fed84131a 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.155.7.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
- SRC_URI = "\
-     https://distfiles.ariadne.space/pkgconf/pkgconf-${PV}.tar.xz \
-@@ -20,7 +40,7 @@ SRC_URI = "\
-     file://pkg-config-native.in \
-     file://pkg-config-esdk.in \
- "
--SRC_URI[sha256sum] = "cd05c9589b9f86ecf044c10a2269822bc9eb001eced2582cfffd658b0a50c243"
-+SRC_URI[sha256sum] = "40c814bd28bbbe331468a84bde67c53ae382dd226baec043f3e7c5ba3f2129e4"
- UPSTREAM_CHECK_REGEX = "pkgconf-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)\.tar"
+-SRC_URI[sha256sum] = "d8d6091753d0669db3c90c5e5b346cb37c72f3dd9378c8413acb1fd5da63f7ea"
++SRC_URI[sha256sum] = "96de02faefa3ce079873541da96f42595583bb001e8e4219294ed7d4501cc4cc"
  
- inherit autotools pkgconfig
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 -- 
 2.47.1
 
 
---===============8169936832247321195==
+--===============7838533588487788176==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 405656 to 767168 (+89%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 27212 to 41977 (+54%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: FILELIST: added "/usr/share/man/man1/spdxtool.1 /usr/share/doc/pkgconf/DCO /usr/share/man/man1/pccritic.1 /usr/share/doc/pkgconf/CONTRIBUTING.md /usr/share/doc/pkgconf/COPYING"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGSIZE changed from 44352 to 67754 (+53%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 300257 to 552220 (+84%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: FILELIST: removed "/usr/lib/libpkgconf.so.7.0.0 /usr/lib/libpkgconf.so.7", added "/usr/lib/libpkgconf.so.8.0.0 /usr/bin/pccritic /usr/bin/spdxtool /usr/lib/libpkgconf.so.8"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 174738 to 298069 (+71%)
-Changes to packages/x86-64-v3-poky-linux/pkgconf (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.7.0.0 to libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7.0.0 moved to /usr/lib/libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7 moved to /usr/lib/libpkgconf.so.8
-Changes to packages/x86_64-linux/pkgconf-native (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.7.0.0 to libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7.0.0 moved to /usr/lib/libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7 moved to /usr/lib/libpkgconf.so.8
-  /usr/bin/pccritic was added
-  /usr/bin/spdxtool was added
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1979 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============8169936832247321195==
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-2d76bd64a92f74f4cda2ee71f0615bc1792a314d"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:2d76bd64a92f74f4cda2ee71f0615bc1792a314d"
+meta-yocto-bsp       
+meta-poky            = "master:366fa2f21bfb0d9c4de492e0204a0dd38ce241ab"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 486 Local 467 Mirrors 0 Missed 19 Current 396 (96% match, 97% complete)
+done.
+Removing 4 stale sstate objects for arch x86-64-v3...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 480 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pytest_9.1.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 494 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-unittest-automake-output_0.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 510 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 521 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_26.1.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 531 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-sortedcontainers_2.4.0.bb:do_create_spdx_setscene)
+NOTE: Running task 594 of 2173 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_recipe_qa)
+NOTE: recipe python3-pytest-9.1.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-attrs-26.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_recipe_qa: Started
+NOTE: recipe python3-pytest-9.1.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-unittest-automake-output-0.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe ptest-runner-2.5.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-sortedcontainers-2.4.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-attrs-26.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 673 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_26.1.0.bb:do_package_setscene)
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_recipe_qa: Succeeded
+NOTE: Running setscene task 675 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.6.bb:do_create_spdx_setscene)
+NOTE: Running task 781 of 2173 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_fetch)
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_fetch: Started
+NOTE: recipe python3-3.14.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_fetch: Succeeded
+NOTE: Running task 875 of 2173 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_unpack)
+NOTE: recipe python3-3.14.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 700 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.6.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 743 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_spdx_setscene)
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_unpack: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_unpack: Succeeded
+NOTE: Running task 945 of 2173 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_patch)
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.14.6-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_patch: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 751 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_create_spdx_setscene)
+NOTE: recipe python3-3.14.6-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 768 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe python3-attrs-26.1.0-r0: task do_package_setscene: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_patch: Succeeded
+NOTE: Running task 948 of 2173 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_deploy_source_date_epoch)
+NOTE: Running task 949 of 2173 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_populate_lic)
+NOTE: recipe glibc-2.43+git-r1: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_populate_lic: Started
+NOTE: recipe glibc-2.43+git-r1: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gcc-runtime-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 777 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 781 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_83.0.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 788 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.43.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glibc-2.43+git-r1: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-attrs-26.1.0-r0: task do_package_setscene: Succeeded
+NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe glibc-2.43+git-r1: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 793 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 794 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-attrs_26.1.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 795 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 827 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_83.0.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 831 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.1.bb:do_create_recipe_spdx_setscene)
+NOTE: Running setscene task 838 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_83.0.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-attrs-26.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-attrs-26.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 841 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 842 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe python3-setuptools-native-83.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 843 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-wheel_0.47.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-build-native-1.5.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-build-native-1.5.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 845 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_create_spdx_setscene)
+NOTE: recipe python3-wheel-native-0.47.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 846 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.0.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe python3-wheel-native-0.47.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-build-native-1.5.0-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-wheel-native-0.47.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 847 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.5.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 849 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.6.bb:do_create_spdx_setscene)
+NOTE: recipe python3-build-native-1.5.0-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running setscene task 851 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe python3-build-native-1.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-native-3.14.6-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-installer-native-1.0.1-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: recipe python3-build-native-1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 853 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 854 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyproject-hooks_1.2.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-native-3.14.6-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 859 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.6.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe python3-pyproject-hooks-native-1.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-packaging-native-26.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-native-3.14.6-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe python3-pyproject-hooks-native-1.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-packaging-native-26.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 866 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.0.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-native-3.14.6-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Running task 1177 of 2173 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_create_recipe_spdx)
+NOTE: recipe python3-installer-native-1.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-installer-native-1.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 877 of 882 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe gcc-cross-x86_64-16.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 879 of 882 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.46.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.46.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.46.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1790 of 2173 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2154 of 2173 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_configure)
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_configure: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_configure: Succeeded
+NOTE: Running task 2155 of 2173 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_configure_ptest_base)
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2156 of 2173 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_compile)
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| * Getting build dependencies for wheel...
+| 
+| Traceback (most recent call last):
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.156.6/recipe-sysroot-native/usr/lib/python3.14/site-packages/pyproject_hooks/_impl.py", line 402, in _call_hook
+|     raise BackendUnavailable(
+|     ...<4 lines>...
+|     )
+| pyproject_hooks._impl.BackendUnavailable: Cannot import 'maturin'
+| 
+| ERROR Backend 'maturin' is not available.
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.156.6/temp/run.do_compile.894982:151 exit 1 from 'pyproject-build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.156.6/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.156.6/sources/hypothesis-6.156.6'
+| WARNING: Backtrace (BB generated script):
+| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.156.6/temp/run.do_compile.894982, line 151
+| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.156.6/temp/run.do_compile.894982, line 146
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.156.6/temp/run.do_compile.894982, line 163
+NOTE: recipe python3-hypothesis-6.156.6-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 2156 tasks of which 2145 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260711052702.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260711052702.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.156.6/temp/log.do_compile.894982
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: python3-hypothesis-6.156.6-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.156.6/temp/run.do_compile.894982' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-hypothesis/6.156.6/temp/log.do_compile.894982
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-hypothesis_6.156.6.bb:do_compile) failed with exit code '1'
+
+--===============7838533588487788176==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-pkgconf-upgrade-2.5.1-3.0.0.patch"
+ filename="0001-python3-hypothesis-upgrade-6.155.7-6.156.6.patch"
 
-RnJvbSBhNzlkZGM1YTg1ODdmNGJlZmI3ZDdjMjM4MGIzOTJjM2JhM2I2Y2QxIE1vbiBTZXAgMTcg
+RnJvbSBmZDgxMWUzNjlhMmQwOTgyNWYzMDNhMTg2MDVhNWZmZWY0MzA2OWIwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTEgSnVsIDIwMjYgMDU6MjQ6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-a2djb25mOiB1cGdyYWRlIDIuNS4xIC0+IDMuMC4wCgotLS0KIC4uLi97cGtnY29uZl8yLjUuMS5i
-YiA9PiBwa2djb25mXzMuMC4wLmJifSAgICB8IDI0ICsrKysrKysrKysrKysrKysrLS0KIDEgZmls
-ZSBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3twa2djb25mXzIuNS4xLmJiID0+IHBrZ2NvbmZfMy4w
-LjAuYmJ9ICg3OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYv
-cGtnY29uZl8yLjUuMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3BrZ2NvbmZf
-My4wLjAuYmIKc2ltaWxhcml0eSBpbmRleCA3OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8yLjUuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8zLjAuMC5iYgppbmRleCA3ZDkyMDVlNTYwLi5jNGQyMjhh
-MzIzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi9wa2djb25mXzIu
-NS4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3BrZ2NvbmZfMy4wLjAu
-YmIKQEAgLTEsMyArMSwyMyBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVz
-IGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5n
-IGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRl
-eHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3Vt
-bWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2Ut
-VXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVh
-cnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcKKyMgKysr
-IENPUFlJTkcKKyMgQEAgLTEsNSArMSw0IEBACisjIC1Db3B5cmlnaHQgKGMpIDIwMTEsIDIwMTIs
-IDIwMTMsIDIwMTQsIDIwMTUsIDIwMTYsIDIwMTcsIDIwMTgKKyMgLSAgICBwa2djb25mIGF1dGhv
-cnMgKHNlZSBBVVRIT1JTIGZpbGUgaW4gc291cmNlIGRpcmVjdG9yeSkuCisjICtDb3B5cmlnaHQg
-KGMpIDIwMTEtMjAyNiBwa2djb25mIGF1dGhvcnMgKHNlZSBBVVRIT1JTIGZpbGUgaW4gc291cmNl
-IGRpcmVjdG9yeSkuCisjICAKKyMgIFBlcm1pc3Npb24gdG8gdXNlLCBjb3B5LCBtb2RpZnksIGFu
-ZC9vciBkaXN0cmlidXRlIHRoaXMgc29mdHdhcmUgZm9yIGFueQorIyAgcHVycG9zZSB3aXRoIG9y
-IHdpdGhvdXQgZmVlIGlzIGhlcmVieSBncmFudGVkLCBwcm92aWRlZCB0aGF0IHRoZSBhYm92ZQor
-IyAKKyMKKwogU1VNTUFSWSA9ICJwa2djb25mIHByb3ZpZGVzIGNvbXBpbGVyIGFuZCBsaW5rZXIg
-Y29uZmlndXJhdGlvbiBmb3IgZGV2ZWxvcG1lbnQgZnJhbWV3b3Jrcy4iCiBERVNDUklQVElPTiA9
-ICJwa2djb25mIGlzIGEgcHJvZ3JhbSB3aGljaCBoZWxwcyB0byBjb25maWd1cmUgY29tcGlsZXIg
-YW5kIGxpbmtlciBcCiBmbGFncyBmb3IgZGV2ZWxvcG1lbnQgZnJhbWV3b3Jrcy4gSXQgaXMgc2lt
-aWxhciB0byBwa2ctY29uZmlnIGZyb20gXApAQCAtMTIsNyArMzIsNyBAQCBSUFJPVklERVM6JHtQ
-Tn0gKz0gInBrZ2NvbmZpZyIKICMgVGhlIHBrZ2NvbmYgbGljZW5zZSBzZWVtcyB0byBiZSBmdW5j
-dGlvbmFsbHkgZXF1aXZhbGVudCB0byBCU0QtMi1DbGF1c2Ugb3IKICMgSVNDLCBidXQgaGFzIGRp
-ZmZlcmVudCB3b3JkaW5nLCBzbyBuZWVkcyBpdHMgb3duIG5hbWUuCiBMSUNFTlNFID0gInBrZ2Nv
-bmYiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0yMjE0MjIyZWMxYTgy
-MGJkNmNjNzUxNjdhNTY5MjVlMCIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7
-bWQ1PTFlMzNjMjk3ZjM1ZTE2NWVjZjRmYmM4MTk3NGRjOWNhIgogCiBTUkNfVVJJID0gIlwKICAg
-ICBodHRwczovL2Rpc3RmaWxlcy5hcmlhZG5lLnNwYWNlL3BrZ2NvbmYvcGtnY29uZi0ke1BWfS50
-YXIueHogXApAQCAtMjAsNyArNDAsNyBAQCBTUkNfVVJJID0gIlwKICAgICBmaWxlOi8vcGtnLWNv
-bmZpZy1uYXRpdmUuaW4gXAogICAgIGZpbGU6Ly9wa2ctY29uZmlnLWVzZGsuaW4gXAogIgotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gImNkMDVjOTU4OWI5Zjg2ZWNmMDQ0YzEwYTIyNjk4MjJiYzllYjAw
-MWVjZWQyNTgyY2ZmZmQ2NThiMGE1MGMyNDMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDBjODE0
-YmQyOGJiYmUzMzE0NjhhODRiZGU2N2M1M2FlMzgyZGQyMjZiYWVjMDQzZjNlN2M1YmEzZjIxMjll
-NCIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInBrZ2NvbmYtKD9QPHB2ZXI+XGQrXC5cZCtcLig/
-ITlcZCspXGQrKVwudGFyIgogCiBpbmhlcml0IGF1dG90b29scyBwa2djb25maWcKLS0gCjIuNDcu
-MQoK
+CkRhdGU6IFNhdCwgMTEgSnVsIDIwMjYgMDU6Mjc6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xNTUuNyAtPiA2LjE1Ni42CgotLS0KIC4uLmhv
+bjMtaHlwb3RoZXNpc182LjE1NS43LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE1Ni42LmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
+LjE1NS43LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE1Ni42LmJifSAoOTElKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
+MTU1LjcuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
+c182LjE1Ni42LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTU1LjcuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTU2LjYu
+YmIKaW5kZXggNzBhZTc4NzdhMS4uNGZlZDg0MTMxYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNTUuNy5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE1Ni42LmJiCkBA
+IC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
+ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkOGQ2MDkxNzUzZDA2NjlkYjNjOTBjNWU1
+YjM0NmNiMzdjNzJmM2RkOTM3OGM4NDEzYWNiMWZkNWRhNjNmN2VhIgorU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjk2ZGUwMmZhZWZhM2NlMDc5ODczNTQxZGE5NmY0MjU5NTU4M2JiMDAxZThlNDIxOTI5
+NGVkN2Q0NTAxY2M0Y2MiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
+cnMgXAotLSAKMi40Ny4xCgo=
 
---===============8169936832247321195==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/pkgconf: SRC_URI changed from "https://distfiles.ariadne.space/pkgconf/pkgconf-2.5.1.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in" to "https://distfiles.ariadne.space/pkgconf/pkgconf-3.0.0.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in"
-packages/x86-64-v3-poky-linux/pkgconf: PKGV changed from 2.5.1 [default] to 3.0.0 [default]
-packages/x86-64-v3-poky-linux/pkgconf: PV changed from "2.5.1" to "3.0.0"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: FILELIST: removed "/usr/lib/.debug/libpkgconf.so.7.0.0", added "/usr/bin/.debug/spdxtool /usr/bin/.debug/pccritic /usr/lib/.debug/libpkgconf.so.8.0.0"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGV changed from 2.5.1 [default] to 3.0.0 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 405656 to 767168 (+89%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PV changed from "2.5.1" to "3.0.0"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGV changed from 2.5.1 [default] to 3.0.0 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 27212 to 41977 (+54%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PV changed from "2.5.1" to "3.0.0"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: FILELIST: added "/usr/share/doc/pkgconf/CONTRIBUTING.md /usr/share/doc/pkgconf/COPYING /usr/share/man/man1/spdxtool.1 /usr/share/man/man1/pccritic.1 /usr/share/doc/pkgconf/DCO"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGV changed from 2.5.1 [default] to 3.0.0 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGSIZE changed from 44352 to 67754 (+53%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PV changed from "2.5.1" to "3.0.0"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-locale: PKGV changed from 2.5.1 [default] to 3.0.0 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-locale: PV changed from "2.5.1" to "3.0.0"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: FILELIST: directory renamed /usr/src/debug/pkgconf/2.5.1/cli/bomtool -> /usr/src/debug/pkgconf/3.0.0/cli/bomtool, removed "/usr/src/debug/pkgconf/2.5.1/libpkgconf/bsdstubs.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/bsdstubs.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/parser.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/personality.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/pkg.c /usr/src/debug/pkgconf/2.5.1/cli/getopt_long.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/path.c /usr/src/debug/pkgconf/2.5.1/cli/getopt_long.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/buffer.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/tuple.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/iter.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/argvsplit.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/dependency.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/audit.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/queue.c /usr/src/debug/pkgconf/2.5.1/cli/renderer-msvc.c /usr/src/debug/pkgconf/2.5.1/libpkgcon
- f/cache.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/libpkgconf.h /usr/src/debug/pkgconf/2.5.1/cli/renderer-msvc.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/fileio.c /usr/src/debug/pkgconf/2.5.1/cli/main.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/fragment.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/client.c", added "/usr/src/debug/pkgconf/3.0.0/libpkgconf/bsdstubs.h /usr/src/debug/pkgconf/3.0.0/libpkgconf/bsdstubs.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/bytecode.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/parser.c /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/software.h /usr/src/debug/pkgconf/3.0.0/libpkgconf/personality.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/pkg.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/output.c /usr/src/debug/pkgconf/3.0.0/cli/getopt_long.h /usr/src/debug/pkgconf/3.0.0/cli/pccritic/critic.h /usr/src/debug/pkgconf/3.0.0/libpkgconf/path.c /usr/src/debug/pkgconf/3.0.0/cli/getopt_long.c /usr/src/debug/pkgconf/3.0.0/cli/pccritic/critic.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/
- path.h /usr/src/debug/pkgconf/3.0.0/libpkgconf/buffer.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/tuple.c /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/core.h /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/generate.h /usr/src/debug/pkgconf/3.0.0/libpkgconf/bufferset.c /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/generate.c /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/core.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/iter.h /usr/src/debug/pkgconf/3.0.0/libpkgconf/argvsplit.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/dependency.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/variable.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/audit.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/version.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/queue.c /usr/src/debug/pkgconf/3.0.0/cli/renderer-msvc.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/cache.c /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/util.h /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/main.c /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/util.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/libp
- kgconf.h /usr/src/debug/pkgconf/3.0.0/cli/renderer-msvc.h /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/serialize.c /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/simplelicensing.h /usr/src/debug/pkgconf/3.0.0/libpkgconf/fileio.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/license.c /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/simplelicensing.c /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/serialize.h /usr/src/debug/pkgconf/3.0.0/cli/main.c /usr/src/debug/pkgconf/3.0.0/cli/spdxtool/software.c /usr/src/debug/pkgconf/3.0.0/libpkgconf/fragment.c /usr/src/debug/pkgconf/3.0.0/cli/core.h /usr/src/debug/pkgconf/3.0.0/libpkgconf/client.c /usr/src/debug/pkgconf/3.0.0/cli/pccritic/main.c /usr/src/debug/pkgconf/3.0.0/cli/core.c"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGV changed from 2.5.1 [default] to 3.0.0 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 300257 to 552220 (+84%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PV changed from "2.5.1" to "3.0.0"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-staticdev: PKGV changed from 2.5.1 [default] to 3.0.0 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-staticdev: PV changed from "2.5.1" to "3.0.0"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: FILELIST: removed "/usr/lib/libpkgconf.so.7 /usr/lib/libpkgconf.so.7.0.0", added "/usr/lib/libpkgconf.so.8.0.0 /usr/bin/pccritic /usr/lib/libpkgconf.so.8 /usr/bin/spdxtool"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGV changed from 2.5.1 [default] to 3.0.0 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 174738 to 298069 (+71%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PV changed from "2.5.1" to "3.0.0"
-Changes to packages/x86-64-v3-poky-linux/pkgconf (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.7.0.0 to libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7.0.0 moved to /usr/lib/libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7 moved to /usr/lib/libpkgconf.so.8
-Changes to packages/x86_64-linux/pkgconf-native (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.7.0.0 to libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7.0.0 moved to /usr/lib/libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7 moved to /usr/lib/libpkgconf.so.8
-  /usr/bin/pccritic was added
-  /usr/bin/spdxtool was added
-
---===============8169936832247321195==--
+--===============7838533588487788176==--
 
