@@ -2,63 +2,63 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 853D8C44509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7166FC4450A
 	for <webhook@archiver.kernel.org>; Sat, 11 Jul 2026 05:24:43 +0000 (UTC)
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1281.1783747478425962518
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1263.1783747475796344285
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jul 2026 22:24:38 -0700
+ Fri, 10 Jul 2026 22:24:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=gNsa1C1r;
- spf=pass (domain: underview.tech, ip: 74.125.224.42, mailfrom: vince@underview.tech)
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-664c535f1a0so2787412d50.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 22:24:38 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=JK1Xaf2b;
+ spf=pass (domain: underview.tech, ip: 74.125.224.49, mailfrom: vince@underview.tech)
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-667bae10ba3so1392194d50.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 22:24:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1783747477; x=1784352277; darn=lists.openembedded.org;
+        d=underview.tech; s=google; t=1783747475; x=1784352275; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MeNURGUIoqy0zws7p58ZAqHPmxh7+qhDi7LJH/CksWQ=;
-        b=gNsa1C1rq4g7dFRCH3v5DKW30IrDly10Z4jIOGvSALF5BH6GBECWkaCRLXyKQRkuxH
-         zUkYsdXax74RaVAyuKc1F/9GdY8r5yLDoLlHMmKEcGsiss1Jl7/2qe/yuIOjcSmqSHBu
-         44WU/Ep0Yz4hDSb/nJ42IuP+642Sq2ill3uQnRcn3GGbik2dlis8POs7XuTQLaBtIozl
-         VXnoTVu9kjTk6Ls4GZ2qUSR+nrAYxM3EeL96rHLBKADPixH75XWosvBdevjw3iqDokNJ
-         Zo9RquFNlsKypLwXxTQkpuqeVN8VZCzXiQ+EA8OX4yIQBERkSCmCMbggg55FSNyCpulM
-         1hZg==
+        bh=7yC3cW7+v8iI92/PASnEH3u9HXahgAhPwLQ+UpPIwAs=;
+        b=JK1Xaf2bj23xD0xZAdEakjGmOhUlV6eis6/US5pswj4RGc0OankuLXXZET43QrDgKH
+         e+QWNixjtwVZdxRiRVUkdnWzl1B3nG4+ifTTYaVFI6WRXcLngDlrEQsS7aKQygV06mOH
+         5NcU04egj5ntSQWx3iFhBfJuxnO7UG53od5ba8gmMDZsxLoYotJzwF7MgeVryfxW2uKp
+         +qvIz2DPfxU9foE6EGsGBeFPenx01XhsnYHFe5LJoa4n5UDZQnxrVu7cDMXxCQEnS89c
+         rps/iDU53HUO/BoJjv+iwGsj7gTUv0Xn45beA7qpmrhSCJzUse20k7C/i2y4xy+MnEGi
+         CtOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783747477; x=1784352277;
+        d=1e100.net; s=20251104; t=1783747475; x=1784352275;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MeNURGUIoqy0zws7p58ZAqHPmxh7+qhDi7LJH/CksWQ=;
-        b=rqRALhy1yRK9V5KtfMOK+zYQvKxZzMehyscjwOm8AL9cNc0XT+bGrvXzq5t9m06NvS
-         0z2nkQy7UZa33SlYdDJnGg5mzByzyLcw6nEAS+ugCwKZ5r3QyYy9u8j8TiWJzxAhPjd6
-         nAxIRIXzdhESnYJOt70YdPB93WfwGfcFafxdehK9UzsreLol7lG1et+o+v5iMepUA619
-         jqB68aqjUZ53XG3Tspzl7V5exFVQfJacNr6h6mvIjkET4PqioacmRikqmOp3qa7vCNbh
-         6rr7uylP7srzUOKOL1shIS5XF3BnlzuqIDeUUJMKbL9WVV0NyK5dGk4UfeHhbE0ArYwW
-         z09g==
-X-Gm-Message-State: AOJu0YyubYySqIzBgwNcEx1SOWip4C9oe5ZxsmagTQRWOESGFn+E03If
-	sJBRMU27HQI/8Ns+c0W+K2Ucorv99Fvrnjz9GHgx8zbdYyyyI8RgJkIjmjCaKSxZdw9t3CMTZL2
-	/0kUFo9Q=
-X-Gm-Gg: AfdE7cm3aOGQe7tB4SS4eLiuUbRaM4JF5YoBHXfkoncbAhJEVQ9bOoPuwmISQIDkATm
-	EPwU/X68zKaBjDbVfnymA0s7t8UM+6rlnJWCW1EDGr0AtkhDenOR4xsS5+wjzcEefeEvuvwhmJ+
-	7sPTuWmgvLk6ATkk0kLV/3HcguM4q63wxqf+xISYNZnrkCbCgYbbGQQrb5m1kkRqLprbOO3VJ5y
-	JGTWF6T9gu4k3CKHh7hma6Hr+nrCCBtfg02YyFFj539jhDYRCEmtXGmSUibvnz2NRt2BjgPJndG
-	i2HaVSUhY/dTh70L6c+CnRv95rShth6WzKySmCFXf1KB6Q18HXqbZL9nlMua+n2Ma1ZrTmgBZ5V
-	Ds8QhlFlMkNO3f54Cg+4gJIazbOc3aMH9OHNuYv4udPOydNlSTLJ+KSc4CnOIAKtD8x+tg4i3EU
-	qjcIwzTfKJQDaGfA==
-X-Received: by 2002:a05:690e:12c4:b0:664:9d5f:c96f with SMTP id 956f58d0204a3-667d7b638bbmr1391329d50.32.1783747477446;
-        Fri, 10 Jul 2026 22:24:37 -0700 (PDT)
+        bh=7yC3cW7+v8iI92/PASnEH3u9HXahgAhPwLQ+UpPIwAs=;
+        b=jtzJP3e52Ma3iFiQvIUQaiq4rdBipEhNa6iPuJLDMLM2GF+bP0bQTb7A7kXkfP2SEZ
+         9gq3ojOlvc9EPSqwcDs17tM545Ndycay/w4WsDrUu5vLlN/MqDXJKaNUOBOP29KOM2By
+         bnFVw89y0dCY4dlZxV84jOWQ/UMjCpy0W1VJ0LYMgCiwcZPWFd55heoatVPdwU9TuQyh
+         xuRitGK5Ebs3oXElcVlBoONA1GtpVziFYzm5xWgsFLFPib7zg92UJXFl43/xeHmx/YNF
+         byMqXxleNC2cQsLb/TS6w8zJgQRRLgIrT/ylH+wqQB4VUAWyOg3jwx/aJfCr/e+PFXLM
+         l83Q==
+X-Gm-Message-State: AOJu0YyVE6U3MPaiVjM0zUQDlSI+3DpC4yQQwQgI8PRl0yVDp6IRLkHE
+	efKexIqAiovYXOtOCeA9sxF64kHLA5BNWQb60Pt/VSVN4d6xNvH7u8259Z/zp4eObOeYqtL9a80
+	JY7rgGvM=
+X-Gm-Gg: AfdE7cnyUP1+TBAOQpKr8W2PDoNPm2Cmlv1e7miBODOBJXlGR5DUGarehCxK19HXbL8
+	atUOyH9bb4zCwTh8ffNBXxKMWGrw2riOvdz/C9FF698q+gDduB2xlq4pQ5WRUhFQ1gC3z4is+nS
+	7/9eg+SUW0c7jgsCS9+06ly6XzUHWI7by5QP9ZvT4sLBPJ9XoG7m77opWxgM+ZLsp9PXikM6Yrr
+	k63uR9xSgk4+51Z3n6EBGZfCPn1Bz4z1SDidByZ2+NFTQqZAdQ81BfEsQtwKG0co5lp5dXX9ttD
+	D7V78MMziOuLgCZQXIX6MKi1Hn2r5AcccZ3Mrrlf38EWoF8MKZd1jOVtTusM69eP2yLRR9O9MNo
+	7CpU/p5k8VbEEjD20btprG6/9TdsNOl8q4os1MqwXIcBMH6WaQJEACBhWVsmiCirK+lAUKUbhR+
+	Cyw76UMyvkfGZqi8UQ1zocaMcv
+X-Received: by 2002:a53:c5d1:0:b0:667:c879:a262 with SMTP id 956f58d0204a3-667d7b209c4mr937034d50.47.1783747474860;
+        Fri, 10 Jul 2026 22:24:34 -0700 (PDT)
 Received: from vince-server.attlocal.net ([2600:1700:b540:3af0::42])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66787a49befsm8643784d50.16.2026.07.10.22.24.36
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66787a49befsm8643784d50.16.2026.07.10.22.24.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 22:24:37 -0700 (PDT)
+        Fri, 10 Jul 2026 22:24:34 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH 08/19] watchdog: rename kernel prefix
-Date: Sat, 11 Jul 2026 01:23:52 -0400
-Message-ID: <20260711052403.1292286-8-vince@underview.tech>
+Subject: [PATCH 06/19] ofono: rename kernel prefix
+Date: Sat, 11 Jul 2026 01:23:50 -0400
+Message-ID: <20260711052403.1292286-6-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260711052403.1292286-1-vince@underview.tech>
 References: <20260711052403.1292286-1-vince@underview.tech>
@@ -68,7 +68,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 11 Jul 2026 05:24:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240688
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240687
 
 Utilize preset variable KERNEL_PACKAGE_NAME
 to ensure uninformative with builds if
@@ -76,33 +76,28 @@ KERNEL_PACKAGE_NAME variable were to change.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- meta/recipes-extended/watchdog/watchdog_5.16.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-connectivity/ofono/ofono_2.19.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/watchdog/watchdog_5.16.bb b/meta/recipes-extended/watchdog/watchdog_5.16.bb
-index c166ace665..72287aa2a0 100644
---- a/meta/recipes-extended/watchdog/watchdog_5.16.bb
-+++ b/meta/recipes-extended/watchdog/watchdog_5.16.bb
-@@ -24,7 +24,7 @@ SRC_URI[sha256sum] = "b8e7c070e1b72aee2663bdc13b5cc39f76c9232669cfbb1ac0adc7275a
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/watchdog/files/watchdog/"
- UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
+diff --git a/meta/recipes-connectivity/ofono/ofono_2.19.bb b/meta/recipes-connectivity/ofono/ofono_2.19.bb
+index 74fa70f609..3e10858726 100644
+--- a/meta/recipes-connectivity/ofono/ofono_2.19.bb
++++ b/meta/recipes-connectivity/ofono/ofono_2.19.bb
+@@ -13,7 +13,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+            "
+ SRC_URI[sha256sum] = "d554525ad2db1ccd2fe3ed733e437d76997e7f443c085b87e6be1fded020bc8f"
  
--inherit autotools update-rc.d systemd pkgconfig
-+inherit autotools update-rc.d systemd pkgconfig kernel-vars
+-inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data
++inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data kernel-vars
  
- EXTRA_OECONF += " --disable-nfs "
- CACHED_CONFIGUREVARS += "ac_cv_path_PATH_SENDMAIL=${sbindir}/sendmail"
-@@ -65,8 +65,8 @@ FILES:${PN}-keepalive = " \
+ INITSCRIPT_NAME = "ofono"
+ INITSCRIPT_PARAMS = "defaults 22"
+@@ -44,4 +44,4 @@ RDEPENDS:${PN}-tests = "\
+     ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'python3-pygobject', '', d)} \
  "
  
- RDEPENDS:${PN} += "${PN}-config"
--RRECOMMENDS:${PN} += "kernel-module-softdog"
-+RRECOMMENDS:${PN} += "${KERNEL_PACKAGE_NAME}-module-softdog"
- 
- RDEPENDS:${PN}-keepalive += "${PN}-config"
- RCONFLICTS:${PN}-keepalive += "${PN}"
--RRECOMMENDS:${PN}-keepalive += "kernel-module-softdog"
-+RRECOMMENDS:${PN}-keepalive += "${KERNEL_PACKAGE_NAME}-module-softdog"
+-RRECOMMENDS:${PN} += "kernel-module-tun mobile-broadband-provider-info"
++RRECOMMENDS:${PN} += "${KERNEL_PACKAGE_NAME}-module-tun mobile-broadband-provider-info"
 -- 
 2.43.0
 
