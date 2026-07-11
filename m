@@ -1,169 +1,219 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yogesh.tyagi@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C75C44509
-	for <webhook@archiver.kernel.org>; Sat, 11 Jul 2026 12:36:41 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4207.1783773395694853252
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58CDFC43458
+	for <webhook@archiver.kernel.org>; Sat, 11 Jul 2026 15:44:32 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7225.1783784670935842911
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Jul 2026 05:36:36 -0700
+ Sat, 11 Jul 2026 08:44:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KiP2TZPz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493ec555a26so12077965e9.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Jul 2026 05:36:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1783773394; x=1784378194; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=x6t1CxPluAxRvg/qbjCcREkAx8BZwFyoq1SvSlwHPE0=;
-        b=KiP2TZPz7n8oPuvqvS2tEBz9Z84ztl/88/iY1/nZavLQwxdj0a7vpyyPATONZt54Pr
-         bS9Yj5p+5t+MEQWi/p8X7OPeH/vYgyO6MuHHOBeAmyXvVwQZiaGzIcWE/YKzEFt83yiT
-         qrhkPUz1HkL8EhbJQDbIV6jn3lUUow3wQuCpI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783773394; x=1784378194;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=x6t1CxPluAxRvg/qbjCcREkAx8BZwFyoq1SvSlwHPE0=;
-        b=js0v7zAxkWsuKR88R3QUwlzU4gYFxomnlV5VY5ArFq3Td8eahc0nmFC4suuHwtViv7
-         KHveoL08kGCVhfa4EW1zQZAxM3yiYe55RwffskiuEGC00EDxw+eMmVTweIMT3DRP+XpZ
-         sFw8pqysMOwnDenoGYRtQYXR7nXazG45DRb5JFyEHzDYYUWQZp8QbnQ6rm8gzHYFdF2B
-         hl7ONRktfW5UnfmB5xO5XDx+91d5Zos+uoUWKKHORkcF1ChOZA9wZ1JG/aXx39TYsIr9
-         snD0H8GnxjNjsgu5zwhpC1P4B0Jhw9B19WpRFf3VfrV6KVA5GQyyI4Svw/wHlpIJrX2O
-         9u4A==
-X-Gm-Message-State: AOJu0Yx2jeb38mm07PkZSjAP8wz2dA/DrX2cSb62g5OKtlCKQ6yyoNvx
-	aTKt0CjMON/7sXdeBRUZtIMKc3GoM/uXyyyxhDSzrwbmRsSBHCqY6dHY/F4C9pCsKB23Ijyi2Z+
-	XXFWElZY=
-X-Gm-Gg: AfdE7clJQUbfi8mWM0ii/0yU6VdwUIVvgVERg8ARMcDXQZO9JgafUXB3xA6GvHccZCR
-	ohtYcmgrBI8jhG0iUqjVpPfvdwLaO1hRUjC70Qm4bEpqAyYpjKZz5HmsF8JcHDT8RlX718rVXAJ
-	4Z3EMzbPjCBRTpI5rPRU0TaYVxwSmvMB1AeOiWbTuE3R7oo77ynZu/zK2kMqO3Nu2jFEm2eDr2o
-	EKHOTt02FvDwZ3yv62A4u003+KT2HdbdLUBJFIhWayZTYnz7Go9XMnrOlD94w6qwedu/dTWeZho
-	hxg68baOy74aNcyVohgU3IAOxw4uHixUZW1qFK4YSdU7kesPFddufnxi+3c9Kt3xCu54I7xtQ0g
-	AxeqR/36uZ32j9lSelFpHm2PILas0QJmmYKJ0onUchhfYmYfBkg70LygHP3qVoX/0/E0XQLStW6
-	v/+3bBx6BfW8+CfO15rNqJfvCoIUSoIUN5jK/T63DJEW2nfUAHS9W/
-X-Received: by 2002:a05:600c:1f91:b0:493:e79e:daa6 with SMTP id 5b1f17b1804b1-493f8826e69mr22735495e9.33.1783773393906;
-        Sat, 11 Jul 2026 05:36:33 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:2004:2e5c:aef2:b707])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039af67sm77172097f8f.17.2026.07.11.05.36.32
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 05:36:33 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/8] webkitgtk: upgrade 2.52.4 -> 2.52.5
-Date: Sat, 11 Jul 2026 13:36:24 +0100
-Message-ID: <20260711123626.1583730-6-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260711123626.1583730-1-richard.purdie@linuxfoundation.org>
-References: <20260711123626.1583730-1-richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@intel.com header.s=Intel header.b=JrwIO1TY;
+ spf=pass (domain: intel.com, ip: 198.175.65.9, mailfrom: yogesh.tyagi@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783784671; x=1815320671;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=a7bwV+Hx0+tJvq+34p7a34BWP3MTZdUKRFJuuYVWTV8=;
+  b=JrwIO1TYs7k+6E43FEDIc9mu2D9jyR8LZev0ehojPQj8k5pI2qTTuy3h
+   yMrmV6ZnW5kLcgJqjDEWYi+uFtpcXm4o0tYz65LmqxowK0Mxls5C7n2HD
+   9GR2vtT0p6x8WVsHXUv662Rs9YpLormxvQ5k8AVPyQXIxy532AXUG10D6
+   WxmHQ3WZg8rPRQtH6bzciO9aXCWkPQlz8W9FasK7Lxwx6eQ9tQFiu9FPL
+   KD8Gq+Vs+9F6rHai961LO0Tybjp3tc4XTa6TT3kLNmqD2OV8Wtly05X5e
+   xRgYrdz/85/su/Sv++bPx0bWPxnx7DuQ5CKEqEPzmaB8NnH8XOwb2Qsmy
+   w==;
+X-CSE-ConnectionGUID: /Y5wQMmESe+HprOdxIPuXQ==
+X-CSE-MsgGUID: JFmLvvZTSbi9O93RonEPtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="107262009"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="107262009"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 08:44:30 -0700
+X-CSE-ConnectionGUID: T66R2YnETvOGa0qEvtzTkw==
+X-CSE-MsgGUID: LzXBH5XQRNmXLeIAdxdBKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="248762305"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 08:44:30 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Sat, 11 Jul 2026 08:44:29 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Sat, 11 Jul 2026 08:44:29 -0700
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.0) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Sat, 11 Jul 2026 08:44:27 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v5zQkzROqzyYaATw8lK5t9ZOZhxi/1cYg22SvbAV3HOIMQScAuucHAd7M/5LyLJAmq8jsO2atJdHGI450RUwX0UoO+dUjj5yocuZvkd7Ad0L3931bk8rNrYqHEm8ugWVXgsPwhHUs5mAXJGK54xYa0KiOhgi4m6owCGJphMLmNT/oXqKGLY0rGlrqPb3UtdGf2lBPCtzyjNqIUg2eoRb13gqv06eyC40Yn5+bfk0Zc93wzUSM46YVonA7TwSTqhvc/+INs0owNJs8wGFLD/LN+uX8mPNfad+eT9fOTh5y61Jna6rOIcLYVajGU52NKqphjNqL9uYZEMQtz/9rpULGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a7bwV+Hx0+tJvq+34p7a34BWP3MTZdUKRFJuuYVWTV8=;
+ b=X/1Dm5dgLd5uEn/tWjGPA7/vIOwMxvlihbamP/vzU6i1SWXjnR1VXW13bMlj5yXvJwSbW3hgnBmVlbGfPO+hUUqruIT5VRIaFMxnMmQeh9i/Sw0a+kTAGEHtxmfSNk8FalwYu/40EXndIFB1UzPEqy+tbk6adJa9b+Zw5ybmQNFluX6OMq7E6D2m1Y/8Yk1dH4H1kcdiNU6dr3IO7IPmcTriIbyUVQHQSl88Y/5mUWI/2Nf/N7MMgjmjGf5ymwvrtHku5ktbc+jpoXgbDIEl42bja498xxpw30/QjS+/SXVHHBlMztVPvTqadamSYVLjyDSFO8W8h5upiRIJC8fcwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM3PPF807974CA6.namprd11.prod.outlook.com
+ (2603:10b6:f:fc00::f33) by SA1PR11MB5876.namprd11.prod.outlook.com
+ (2603:10b6:806:22a::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.18; Sat, 11 Jul
+ 2026 15:44:25 +0000
+Received: from DM3PPF807974CA6.namprd11.prod.outlook.com
+ ([fe80::178f:c528:9f84:e182]) by DM3PPF807974CA6.namprd11.prod.outlook.com
+ ([fe80::178f:c528:9f84:e182%8]) with mapi id 15.21.0181.017; Sat, 11 Jul 2026
+ 15:44:24 +0000
+From: "Tyagi, Yogesh" <yogesh.tyagi@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "bruce.ashfield@gmail.com"
+	<bruce.ashfield@gmail.com>
+CC: "raj.khem@gmail.com" <raj.khem@gmail.com>
+Subject: Re: [OE-core] [PATCH] bindgen-cli: set CLANG_PATH in native wrapper
+ to native clang
+Thread-Topic: [OE-core] [PATCH] bindgen-cli: set CLANG_PATH in native wrapper
+ to native clang
+Thread-Index: AQHdDtcjFGJEHVa2GEiQ3lNKm86bs7ZoepoA
+Date: Sat, 11 Jul 2026 15:44:24 +0000
+Message-ID: <53769c211d718b4b4591c3ab2e310ac67da921fe.camel@intel.com>
+References: <20260630190004.1083997-1-yogesh.tyagi@intel.com>
+	 <6a4e457c.dfaa6ae2.334193.82f9@mx.google.com>
+In-Reply-To: <6a4e457c.dfaa6ae2.334193.82f9@mx.google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM3PPF807974CA6:EE_|SA1PR11MB5876:EE_
+x-ms-office365-filtering-correlation-id: 76d86451-47e9-4da1-b702-08dedf6348bc
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|38070700021|56012099006|11063799006|5023799004|4143699003|18002099003|22082099003;
+x-microsoft-antispam-message-info: cPHhQLnYjh6OKmJ4Uc2hhhmygPP56zt8X0LhMbnTuXHXdkdGKHRwv7j7A6TKIydsPM55c+SDUAupHGY5UcPVYWeF35Jrt0auGXYq4ntOjXCzLKgUckVR2QcBGiQOYXLTL3Pr4nkydufG8fseS+/kTcnAG1B+RZn7GS43BGOAbyoovWXdj7N7vZHoij0wGkqorpICP6EG94Mq7OLnUxvEMm+n8fC8mMkAH7yt1labY4YE0QeJvcxlcXzdTmwGNQOJWWQgrg7+Y0pHIn2DwUAyt5d/VZKoqj0k7ELYRRgO8qUVEZiWIZdfplg7UY7964Iy7eccxihL5ySb5HZAGzjC3WdpvKSLLU1lO87cRjKRdX7jBHGkoTKVNZXwWhsVhGIqXz7aMGDXTuue3CauvLrXIjL3XzeYeu0R7pmnFp71UfM+lq/n/uYTRbP/v1KgEEOyaQTCYSQXX5B+oKtuCHHvoIJornNPTip/bH1FAgldssH0P6T0nLcMDffJ5Cm6IQLoW+w2UL9Q7D2ktRa87tOrUvSVbt0MbIP84rL4RmG8fAmFMQg7GrakROUJWNGlyzM6FLDkHjixLNT/m8bCn6TnBnGg/Q6FsH60OGRXzJ/k6bjNG8/4F139xA0rt1BXCXKNlztMPqzj3tEKYL9uBzE50wmMQNL6okuLPaiMYQUdqipRhhe5H2f6IuAP3VN50MGiwkcO6230zbC3JXl/8+656pq28l73+mEFIBbVh0ibMlI=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PPF807974CA6.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(38070700021)(56012099006)(11063799006)(5023799004)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?emZlOWRmQVQ2T3JhNUtmNjhleitQangrclozc1U2K0lHWmJqSW45UkpiRWls?=
+ =?utf-8?B?V21NVVppamlxcEJ1NVNoY0dveEpFakwxWmZZTHVVZjlOaHU2M1V4cHk5U3BJ?=
+ =?utf-8?B?dzMydldIUy9NMW1BdzZkNXFaWDNYM0x1Rmk3aTRXazcxSUxZWmxsYi9tbzZU?=
+ =?utf-8?B?d1loYXFoaFZTVk5IcmFoU0J5bUpnMGFjT0kxZnFpNFZobkV4Wkk3dVM1bzh3?=
+ =?utf-8?B?RDJBbDhYLy9JdjcySUprSmNaVGFDRnhTR3RQZC8waVhZN3V2MXV1VVpzMXZI?=
+ =?utf-8?B?MVdNeXc4SFlHYjI0bjNKMWI2U0RVa1pxTS9nYU1IMGpPUjBWZzNHMnZFb2ZC?=
+ =?utf-8?B?RytVa3JWOUg5RW1jaXpjcVFvL3Z4aDgweHFsWGVNMUtNTWU5YlFwQnR6KzY1?=
+ =?utf-8?B?b1BrTjZPaW5rWlJHUC91NndZeXFsbG81MVJzR0xxMHE3c2lLVDZxNm16OEhH?=
+ =?utf-8?B?ODBQcFVGS3FUTzltK0F2dUhKRzB2VHVpZ3NDbGJ5OWEyWjFmeW4zQU0ycnBw?=
+ =?utf-8?B?azNaN2NsbUZoaHU4ZlcrOTJTRU0yNStON1BOemRqL2NJQXppUVcyN2szcXZh?=
+ =?utf-8?B?N1dZTlFVb2x5eHVnMU45NVJxVlFsbUNLWlByeVVEZE1pa0dxZldJS2dvOHhK?=
+ =?utf-8?B?ck9Lei9tNW11N2dtV1JEUmNnaGVyWjhNTHdBU1c1dVdURzZQN2pZTEVTUGJS?=
+ =?utf-8?B?aks0cnlpczBLU1hobUNRTEVRS1BCZWZDNVpOaGpYdUVkZTdUeXNzcWJxRzQ3?=
+ =?utf-8?B?QVFQM2w5S1hlMllFVVg2OStFV2ZOb3hkbm5yR3dFZUdyZkFBc1hGcFJoL3dL?=
+ =?utf-8?B?T29CcmVObm5MME5raVluS2tzOUttMjI3MTJrLzErSDc3RDVOaDVXa1luMXVj?=
+ =?utf-8?B?c0F4ZSs0VDk5eUlNWHAxWXh6a254bTZ6eXAvTXdya2YvRExGaDN3MWhPSHlK?=
+ =?utf-8?B?RVBwVEhMTitpalBnbGVkODNlK3ZyaUN6YnMvcFZScm5pYmtVTnpJazZBbml1?=
+ =?utf-8?B?a0Z3ZndQdG5lWk5NRVhYTEZnQTJvenJVNGZvUnZvOFRIVTg5Y1Zra0VBSy9Q?=
+ =?utf-8?B?QWxKSWZqMW1NR1NuUjYrdzgxbEVFakM0WUlGMUFPMFZSYkd0K1Z5SmZhQ2xW?=
+ =?utf-8?B?UGluMlVITVlXdldSaHFqSjdUM0tnd1lPVTJ3dkxQYStpa2JjUjFGTFFoK0NX?=
+ =?utf-8?B?MDFDMmIzcE1ab1MxSmxLTGFvMDRDWjdiWkhxN0wyNEt6YkFWRHZSV0I4SzB6?=
+ =?utf-8?B?Slo3UUVHWWZlS29xTm5Xa0pPQnl2WWxoVVRvY2tqRXpmVW9VWUgyTE0rQnlS?=
+ =?utf-8?B?QXdWZTBDQXIydDZoNVA4a2J0bEZ0RW5aSGxNUGltNVZ1WUNnYzVNOHdJelF5?=
+ =?utf-8?B?aDA5SFJFRStlS3RQa1JxZjFrQ1ZCMGx0ei9PNEcvTjhpMHpxTGJaUEZQb1Ar?=
+ =?utf-8?B?WTM1SitvQWxxeTJlbi9TMDdKQW12NTJJVEJabkxSN1RIeWQwRmVhN2V3dkRN?=
+ =?utf-8?B?Ykd3Wkh6bG9JM0tLNFloYkZQSTlzb2hocnFQbGFodEdVRnVFWjFHWW5SQytk?=
+ =?utf-8?B?Wm1sZ0l0WFZLcnc4bVhaUlpiVDJGY3BrckdLa2N6bDZBRXNLeXcvblJHckYz?=
+ =?utf-8?B?WTJXY2ZTVHFhVENYWDZxOVR2OGdPRWppemxUc2xCTkpTNy9uR0MxL3p1WldR?=
+ =?utf-8?B?SkgzZ0JTaTJpY0NacExmb254a3RVb1A5QU53QWVxckcrMFJVQUo5MUxJcldH?=
+ =?utf-8?B?UkQ1Mmd0TFJ5VjBoY3E3ZDl5aUFlTC95VFVQUnJBRFRUUlRNczBEa21Lejcx?=
+ =?utf-8?B?cVZKNGdoNFNXWnlRQm5uaS9yQkJhOTJxOTBzN2VOYWlqVXUyR1hiN3MwMkln?=
+ =?utf-8?B?ZmdDVVcxOE8wMm1VSG1ET2V3VjVBeXZyT2dkYnBDWVMyb28zcVRkWk9WRVVh?=
+ =?utf-8?B?QVIvdGVtYVZrSDF4ZUpYa1dJQWZWaW5Wa3NhUzdMQ20yT1dzWHozZ3ROK0Y3?=
+ =?utf-8?B?VTNyaWZKSGhtMjNOa3RkUWtEL21IU1dqbkRUTUJmUm5KdEw3N2U4KzVoQlNa?=
+ =?utf-8?B?WkpGYk5qQlNJeDBvVGREMDR0cGNvNFhJZ1NSUnNSaU0ybTZRNmRwaW9icDhh?=
+ =?utf-8?B?VXU1ZDI0bk40YTN6UDZOZGtoRkJMbzAyNGJlK095cFFTU3RJVXFnd0Y0ODdo?=
+ =?utf-8?B?R1VHNjZHN1ZrNkgwOCs4ZWFBYlZYcEpOaUR6RUJJU3BUMVM2WUlKQ1IrNjd2?=
+ =?utf-8?B?L0tBOXNCdVdrSWdFdURDaExJZFpEazNDQ1Z2ZmVJb2ZZOEFsSXE1dlhqMmRK?=
+ =?utf-8?B?TWJOS2U5S00wQ0RrZTMxK2xlSHpMbGVnNDgyZytDWlVPTzRYMkdzRnd0Zk9F?=
+ =?utf-8?Q?baC8XX9bURT8SbaU=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1E402871344C02449986CA1953F1B897@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Exchange-RoutingPolicyChecked: EPx8p0+E0mYgK/alC4/flaNZP7nBtFcjA6RyK1f4Xrc7bZF52Z6UJB03De0+8YfKlWUJ2LBShh/oPZXM+Z3obmuYlAG4iXkLkqBlWPcI71abC1fkBKo4Cir+ez4qhsytGaQkubqHnoEA9a5XjNAbE5mkld2361YIMnmwCJ00biSCBw3uRf0yZLtr8/M2rpHtckq/5EzFsoTAOUjmamKfi3x+qQ6DfoLjBoo46jwio8MP3yhT9++UsTrO5LD1GW9oPZI7hl9Gr8ASjcFIHg0TdcTuEgAn2sOFYWSN1f1voFv2uOs4UAJTxy+Pu2ap433yLFsMNIVZ6l2V8poa1weEsg==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM3PPF807974CA6.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76d86451-47e9-4da1-b702-08dedf6348bc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jul 2026 15:44:24.7748
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cE6+jYXIvGFfs+rYKe093uIdweaFOCrSZG/FS1ZC+KhgV9FUY4DSNbmI/6bQPR52ivqiveTPKd5qhO5S9FTq8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5876
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Jul 2026 12:36:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240715
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Jul 2026 15:44:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240718
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...1-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch | 2 +-
- ...1-FindGObjectIntrospection.cmake-prefix-variables-obta.patch | 2 +-
- ...1-Source-cmake-FindGLib.cmake-do-not-set-include-dirs-.patch | 2 +-
- meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch      | 2 +-
- meta/recipes-sato/webkit/webkitgtk/reproducibility.patch        | 2 +-
- meta/recipes-sato/webkit/webkitgtk/sys_futex.patch              | 2 +-
- meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch        | 2 +-
- .../webkit/{webkitgtk_2.52.4.bb => webkitgtk_2.52.5.bb}         | 2 +-
- 8 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.52.4.bb => webkitgtk_2.52.5.bb} (98%)
-
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-index 4aad11e3119..4680f7122a1 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-@@ -1,4 +1,4 @@
--From 73c15fceb9bcb3896c56de0ab712e76d2eca0b19 Mon Sep 17 00:00:00 2001
-+From 7fb043d96ff7439ce6449a6579d6fe3f1309c04d Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Fri, 11 Aug 2023 14:20:48 +0800
- Subject: [PATCH] Add a variable to control macro
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-index b05ebe5fbb8..7af54167338 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-@@ -1,4 +1,4 @@
--From 6ec23f12926c93746fdd30a9b5547a76878c9a4c Mon Sep 17 00:00:00 2001
-+From 01b76242ff5a63c267faa58fbe64bb71038f6d6e Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 27 Oct 2015 16:02:19 +0200
- Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Source-cmake-FindGLib.cmake-do-not-set-include-dirs-.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Source-cmake-FindGLib.cmake-do-not-set-include-dirs-.patch
-index 03b3db24444..b9fc7253e54 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-Source-cmake-FindGLib.cmake-do-not-set-include-dirs-.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-Source-cmake-FindGLib.cmake-do-not-set-include-dirs-.patch
-@@ -1,4 +1,4 @@
--From e625e06202f992936b43790ee2c992611facba04 Mon Sep 17 00:00:00 2001
-+From 0c8334d3b9b69f097546f5fb08310acced202e24 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Sun, 21 Jun 2026 22:57:24 +0200
- Subject: [PATCH] Source/cmake/FindGLib.cmake: do not set include dirs from
-diff --git a/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch b/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch
-index 8fff6f5f818..c8c4c55f655 100644
---- a/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch
-@@ -1,4 +1,4 @@
--From 30ce10321a6f49aa27284139dafcf3517f95d13c Mon Sep 17 00:00:00 2001
-+From cbfb155a4a5682d350aac6a1b8ff924ccfde7604 Mon Sep 17 00:00:00 2001
- From: Alberto Garcia <berto@igalia.com>
- Date: Fri, 19 Dec 2025 10:10:41 +0000
- Subject: [PATCH] Use WTF_CPU_UNKNOWN when building for riscv64
-diff --git a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
-index 1fc3ccaf62d..01682e277cd 100644
---- a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
-@@ -1,4 +1,4 @@
--From 983fe4a8fd6fb6512fdf78d9a32be345c252e64d Mon Sep 17 00:00:00 2001
-+From 8f8fda07abd3ecf03584caf1364d25ef0df06d27 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Mon, 3 Jan 2022 14:18:34 +0000
- Subject: [PATCH] webkitgtk: Add reproducibility fix
-diff --git a/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch b/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
-index dd9d93a662e..f1b76e51693 100644
---- a/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
-@@ -1,4 +1,4 @@
--From ddd3c2ff59abeea528d228ad5d5641fc3a3e5f83 Mon Sep 17 00:00:00 2001
-+From 01add097b3e79f84778f83f676e4d4cffdbde0e9 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 18 Dec 2024 20:24:22 -0800
- Subject: [PATCH] Fix build on newer 32bit architectures with only 64bit time_t
-diff --git a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-index b37673293f0..9333b640a63 100644
---- a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-@@ -1,4 +1,4 @@
--From d2df5d7398dea93b4c7907299dc5030274894b15 Mon Sep 17 00:00:00 2001
-+From d94e29f2f184b2d2a3503e248b2876deb0170281 Mon Sep 17 00:00:00 2001
- From: Michael Catanzaro <mcatanzaro@redhat.com>
- Date: Mon, 5 Feb 2024 11:00:49 -0600
- Subject: [PATCH] =?UTF-8?q?LowLevelInterpreter.cpp:339:21:=20error:=20?=
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.52.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.52.5.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.52.4.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.52.5.bb
-index 6e1dd4fd19b..1a834733ce9 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.52.4.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.52.5.bb
-@@ -18,7 +18,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://fix-ftbfs-riscv64.patch \
-            file://0001-Source-cmake-FindGLib.cmake-do-not-set-include-dirs-.patch \
-            "
--SRC_URI[sha256sum] = "cf4076a1ca2a64788edca8c452d8ebb68d5e2965e588fe46a388a016513edce4"
-+SRC_URI[sha256sum] = "8a531a9abd2215936e8a8a914c077b586c0228b31d652f205286a8ec90f3364b"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
- 
+T24gV2VkLCAyMDI2LTA3LTA4IGF0IDA1OjQxIC0wNzAwLCBCcnVjZSBBc2hmaWVsZCB3cm90ZToN
+Cj4gT24gVHVlLCBKdWwgMSwgMjAyNiwgWW9nZXNoIFR5YWdpIHdyb3RlOg0KPiA+IFNldCBDTEFO
+R19QQVRIIHRvIHRoZSBuYXRpdmUgY2xhbmcgaW4gdGhlIGJpbmRnZW4gd3JhcHBlciBzbyBjbGFu
+Zy0NCj4gPiBzeXMNCj4gPiB1c2VzIHRoZSBydW5uYWJsZSBob3N0IGJpbmFyeSBmaXJzdCwgc2hv
+cnQtY2lyY3VpdGluZyB0aGUgbGx2bS0NCj4gPiBjb25maWcNCj4gPiBsb29rdXAuIFRoZSBuYXRp
+dmUgd3JhcHBlciBhbHJlYWR5IGV4cG9ydHMgTElCQ0xBTkdfUEFUSCB0aGUgc2FtZQ0KPiA+IHdh
+eS4NCj4gDQo+IFRoZSByZWFzb25pbmcgaXMgc291bmQsIGFuZCBiZXlvbmQgdGhlIG1lc2EgcnVz
+dGljbCBjYXNlIHRoaXMgYWxzbw0KPiBoZWxwcw0KPiB0aGUgcnVzdC1pbi1rZXJuZWwgYnVpbGQ6
+IGtlcm5lbC15b2N0by1ydXN0LmJiY2xhc3MgcHVsbHMgaW4gYm90aA0KPiBjbGFuZy1uYXRpdmUg
+YW5kIGJpbmRnZW4tY2xpLW5hdGl2ZSwgc28gbmF0aXZlIGJpbmRnZW4gY2FuIGhpdCB0aGUNCj4g
+c2FtZQ0KPiB0YXJnZXQtY2xhbmctdmlhLWxsdm0tY29uZmlnIGxvb2t1cC4gUGlubmluZyBDTEFO
+R19QQVRIIHRvIHRoZSBuYXRpdmUNCj4gY2xhbmcgdGhhdCBtYXRjaGVzIHRoZSBuYXRpdmUgbGli
+Y2xhbmcgaXMgdGhlIGNvbnNpc3RlbnQgdGhpbmcgdG8gZG8NCj4gdGhlcmUgdG9vLCBzbzoNCj4g
+DQo+IFJldmlld2VkLWJ5OiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29t
+Pg0KPiANCj4gT25lIHRoaW5nIHdoaWxlIHlvdSdyZSBoZXJlOiB0aGUgcmVjaXBlIGlzIEJCQ0xB
+U1NFWFRFTkQgPSAibmF0aXZlDQo+IG5hdGl2ZXNkayIsIGJ1dCB0aGUgd3JhcHBlciBmaXggaXMg
+ZG9faW5zdGFsbDphcHBlbmQ6Y2xhc3MtbmF0aXZlKCkNCj4gb25seS4NCj4gVW5sZXNzIEknbSBt
+aXNyZWFkaW5nIGl0LCB0aGF0IGxlYXZlcyB0aGUgbmF0aXZlc2RrIGJpbmRnZW4gd3JhcHBlcg0K
+PiB3aXRoDQo+IGp1c3QgTElCQ0xBTkdfUEFUSCBhbmQgbm8gQ0xBTkdfUEFUSCwgc28gYW4gU0RL
+IHRoYXQgcnVucyBiaW5kZ2VuDQo+IChlLmcuDQo+IHJ1c3Qga2VybmVsLW1vZHVsZSBkZXZlbG9w
+bWVudCBpbiB0aGUgU0RLLCB3aGljaCBpcyBiZWluZyB3aXJlZCB1cA0KPiBzZXBhcmF0ZWx5KSB3
+b3VsZCBzdGlsbCBoaXQgdGhlIGlkZW50aWNhbCAiY291bGQgbm90IHJ1biBleGVjdXRhYmxlDQo+
+IC4uLi9jbGFuZy1OTiIgZmFpbHVyZS4gSWYgdGhhdCdzIHJpZ2h0LCBjb3VsZCB5b3UgZXh0ZW5k
+IHRoZQ0KPiBDTEFOR19QQVRIDQo+IGV4cG9ydCB0byB0aGUgbmF0aXZlc2RrIHdyYXBwZXIgYXMg
+d2VsbD8gQSBzaGFyZWQgaGVscGVyIChvciBhDQo+IGNsYXNzLW5hdGl2ZS9jbGFzcy1uYXRpdmVz
+ZGsgcGFpciBwb2ludGluZyBhdCB0aGUgcmVzcGVjdGl2ZQ0KPiBTVEFHSU5HX0JJTkRJUikgd291
+bGQgY292ZXIgYm90aC4gSWYgbmF0aXZlc2RrIGlzIGFscmVhZHkgaGFuZGxlZA0KPiBzb21lDQo+
+IG90aGVyIHdheSwgaWdub3JlIG1lLg0KDQoNClRoYW5rcyBCcnVjZSwgZ29vZCBjYXRjaCDigJQg
+eW91J3JlIHJpZ2h0IHRoYXQgdGhlIFNESyBjYXNlIHdhcw0KdW5jb3ZlcmVkLg0KDQpPbmUgY2xh
+cmlmaWNhdGlvbjogaW4gdjEgdGhlIHJlY2lwZSBvbmx5IGhhZCBkb19pbnN0YWxsOmFwcGVuZDpj
+bGFzcy0NCm5hdGl2ZSgpLCBzbyB0aGUgbmF0aXZlc2RrIGJpbmRnZW4gaGFkIG5vIHdyYXBwZXIg
+YXQgYWxsIOKAlCBub3QgZXZlbg0KTElCQ0xBTkdfUEFUSC4gU2FtZSBmYWlsdXJlIG1vZGUsIGp1
+c3Qgd2l0aCBub3RoaW5nIHNldCByYXRoZXIgdGhhbg0Kb25seSBDTEFOR19QQVRIIG1pc3Npbmcu
+DQoNCnYyIGFkZHMgYSBjbGFzcy1uYXRpdmVzZGsgd3JhcHBlci4gSSB3ZW50IHdpdGggYW4gZXhw
+bGljaXQgY2xhc3MtDQpuYXRpdmUvY2xhc3MtbmF0aXZlc2RrIHBhaXIgcmF0aGVyIHRoYW4gYSBz
+aGFyZWQgaGVscGVyLCBiZWNhdXNlIHRoZQ0Kc3RhZ2luZyBkaXJzIGFyZW4ndCBzeW1tZXRyaWMg
+YmV0d2VlbiB0aGUgdHdvIGNsYXNzZXMgYW5kIGEgc2hhcmVkDQoicG9pbnQgYXQgdGhlIHJlc3Bl
+Y3RpdmUgU1RBR0lOR19CSU5ESVIiIGhlbHBlciBhY3R1YWxseSBicmVha3M6DQoNCm5hdGl2ZSB1
+c2VzIFNUQUdJTkdfKl9OQVRJVkUsIHdoaWNoIHNpdHMgZW50aXJlbHkgdW5kZXIgYmFzZV9wcmVm
+aXgsIHNvDQpjcmVhdGVfd3JhcHBlcidzIHJlbG9jYXRpb24gcmV3cml0ZXMgaXQgY2xlYW5seS4N
+Cm5hdGl2ZXNkaydzIFNUQUdJTkdfTElCRElSL1NUQUdJTkdfQklORElSIGFyZSBTVEFHSU5HX0RJ
+Ul9IT1NUIChyZWNpcGUtDQpzeXNyb290LCBpLmUuIFRNUERJUikgKyB0aGUgU0RLIHBhdGguIGNy
+ZWF0ZV93cmFwcGVyIG9ubHkgcmVsb2NhdGVzIHRoZQ0KYmFzZV9wcmVmaXggc3Vic3RyaW5nLCBz
+byB0aGUgcmVjaXBlLXN5c3Jvb3QgcHJlZml4IHN0YXlzIGJha2VkIGludG8NCnRoZSBzaGlwcGVk
+IHdyYXBwZXIuIEkgaGl0IGV4YWN0bHkgdGhhdDogZG9fcGFja2FnZV9xYSBmYWlsZWQgd2l0aA0K
+Y29udGFpbnMgcmVmZXJlbmNlIHRvIFRNUERJUiBbYnVpbGRwYXRoc10uDQpTbyB0aGUgbmF0aXZl
+c2RrIHdyYXBwZXIgdXNlcyB0aGUgcGxhaW4gb24tdGFyZ2V0ICR7bGliZGlyfS8ke2JpbmRpcn0N
+Cmluc3RlYWQsIHdoaWNoIHJlbG9jYXRlIGZ1bGx5LiBWZXJpZmllZCBieSBidWlsZGluZyBib3Ro
+IHZhcmlhbnRzOg0KYmluZGdlbi1jbGktbmF0aXZlIGFuZCBuYXRpdmVzZGstYmluZGdlbi1jbGkg
+Ym90aCBidWlsZCBhbmQgcGFzcw0KcGFja2FnZSBRQSwgYW5kIGJvdGggZ2VuZXJhdGVkIHdyYXBw
+ZXJzIGNvbWUgb3V0IHJlbG9jYXRhYmxlIGFzDQpDTEFOR19QQVRIPSRyZWFsZGlyLy4uLy4uL3Vz
+ci9iaW4vY2xhbmcuDQoNClNpbmNlIHRoZSBwYXRjaCBncmV3IGEgbmV3IHRhc2ssIEkgZHJvcHBl
+ZCB5b3VyIFJldmlld2VkLWJ5IGZyb20gdjIg4oCUDQpoYXBweSB0byBjYXJyeSBpdCBpZiB5b3Un
+cmUgZ29vZCB3aXRoIHRoZSBuYXRpdmVzZGsgYWRkaXRpb24uDQoNCj4gDQo+IEJydWNlDQo=
 
