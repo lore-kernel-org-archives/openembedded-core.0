@@ -2,63 +2,63 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 211ADC44506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9EFC44507
 	for <webhook@archiver.kernel.org>; Sat, 11 Jul 2026 05:24:43 +0000 (UTC)
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1264.1783747481970397930
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1283.1783747482781339483
  for <openembedded-core@lists.openembedded.org>;
  Fri, 10 Jul 2026 22:24:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=EQ+Iefzu;
- spf=pass (domain: underview.tech, ip: 74.125.224.48, mailfrom: vince@underview.tech)
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-66666bad8beso2395519d50.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 22:24:41 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=GM1mz/mF;
+ spf=pass (domain: underview.tech, ip: 74.125.224.42, mailfrom: vince@underview.tech)
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-667a0f55a59so2355147d50.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Jul 2026 22:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1783747481; x=1784352281; darn=lists.openembedded.org;
+        d=underview.tech; s=google; t=1783747482; x=1784352282; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=RtVo9jS/+2GoPtPsm1XS68LN1j6eakm0Xf476rZLL7I=;
-        b=EQ+Iefzu1Hwa7LR23US2STkZM/BW88hTLTalGSuxBQ6oCKEH5Km2imnwv/+GovwuKA
-         QaRoj36+a/NOO+cAhknBDgE9sVcPAYpjyDXGyIIoTdJDG5GI1l8nrsYUrA0vQ8Wa/Sg+
-         fI+KPgJU2VK4wJKEsNUteRbxyU8EhttPOhfDIM4pjLt54bRczUjBsYxPbPMHK1JSPAkU
-         QaIf1HmBQsEsCqdXxMa+LnqYc7TO9ZfsvVIX5p/d3n/gSsSTXOqPZ+ssT7Ig0G3Y4bOR
-         BkstIhHDM+z3dyU76s4hYS0+FYyNRpUCfcgi66zAU7DkJO8pdrCB8YUSLDw33bvt6cJz
-         ccEg==
+        bh=Trr/FnSJ5bRv21XqJTunBJln2ck7zq1v3ecb2nfqzOA=;
+        b=GM1mz/mFa7Ixtg+KUEftD/O0LEKRXUQLsGSd/UpybXUJ96op66thYnOIWzaqMMkxVr
+         /uccJhKojVFL0Vke4uxYbKZ73cRM1kAmA8AJM8DLhB33MsgHP0ZETV/7Axv44Al5u2Oc
+         HdqBmqwx9AJKmJIv2C2RJ50uagf29636AxsoXBi+Mce2EJvGH/hw+yyW3wLNc8Vv94Z1
+         1mnw6fuFDNxnngaaW9j7jmgM0DIYl3aqjJmpgxAvp53c7eQxUXLvSCKGgDrp6tjYvQFT
+         +vpqmLZiYVplvikJzcOc9VaGF+C5K57f+evM7XXep7WmphETo5e7hmZnFnH61iA2RfiV
+         oLKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783747481; x=1784352281;
+        d=1e100.net; s=20251104; t=1783747482; x=1784352282;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RtVo9jS/+2GoPtPsm1XS68LN1j6eakm0Xf476rZLL7I=;
-        b=prja6zrreEniJzSGY3pEgexL7vBA9TzrmKdlH2A/H5ELEoXZJg7FS5uOu/Ika+MyJE
-         6jSEfzNLVkaf4hOM2O5aYwXlKqDTVw2aQcV6QzAvch4d+n1fXjXw6PaDZ9jzusIFavzq
-         /oJBtGjvMlQkNj1JFlKzhJVW4MdexGnifhxl0ZP91MZ5fD/rkUNMvh8FkfReuA8oFXY/
-         5MLLmEWs8Hz38V8TDEyzyFY6np9C53EyfF1pBG73IMtrflw8zyV6pej3k6rVbB8xP9mH
-         bbzlBmsUbUEL1MJNW6HJLnxmUYNglxI6DKfGuFYXQPqPhtoej/aUC6El/yk80dBfxncq
-         RF/w==
-X-Gm-Message-State: AOJu0YzmyauDmRZmSJZQhZEL5ijaOE9WZ5B9kPHLIfhQxhIPxH4o9W8E
-	/P4f7Q0hJMk6DTA8FYY2nCbCYNvAz4PJRLL5HytGRs3ikPwRZwtiZu56dCywsWPLWyrkB1gYlVm
-	vKmXBDdw=
-X-Gm-Gg: AfdE7ckEpgjrHBLXACyiUHWCHN+badqS3wMcgC66knx+doeDOPBps1thfE/7P/wsSn2
-	6JSoDk2S+MV6P3nCAdosCFZnIzPvJ1U/QwXXS9EpTbuyo+TCk0+T41typ3lfozIHiSw6I5VWhP+
-	OOTo20zeT7I/F/YDUH2YjLSfQ3lNuOUyniwZVqP57YVv6Oe5Hy8oQgjJFEm9KOA4+20OwGXJ5TS
-	MnbnKViO+HJJZohVrhTty1Czk77mH1qEknS0FyZqSj7+T2DzWfahVylz5CO1uY7X8CZymjJDNrb
-	0pYMLQZu7MLOM/gVZsJ13YU9wdDmtJnvtHbZ5tKBRXrYW6FnWWBwIOIQoubpXFOzPyJEvNLygD1
-	ZEbIcQG+11XO7g4oUx9d+OsxvWUErIMN1656vaxZqV1Aq7WaUa5HWQ4rsB/uMFRsRMhiwsiDkt5
-	TA0SvTMmr7RI6IPA==
-X-Received: by 2002:a05:690e:d01:b0:667:dc6d:7346 with SMTP id 956f58d0204a3-667dc6d7778mr556156d50.20.1783747481046;
-        Fri, 10 Jul 2026 22:24:41 -0700 (PDT)
+        bh=Trr/FnSJ5bRv21XqJTunBJln2ck7zq1v3ecb2nfqzOA=;
+        b=haJOPEeQUasLLcYTmmudhkJeXho5KwVIO8ItJGE/vMDgDf4DF4KSVGtXtcEj5ygiBO
+         xLZkdWgKIdc3i+93gT0BDKkTKNgkX+T9zXmN5ecKsx6poBfdXAnaN6ovGj1dT44DiJrT
+         2wtGjMfcI3mVLn+I9kdLfd15SjtUhIlxkEfLFpcZCmK7g9gMyLgy1lmAn5Kmj35kRKxT
+         sbWDzNjz4svK+GKF1YVxV0Zewtnt58lKy7BhSI0tod0v1MPLeRMWilJWAzV/jjlkMh2O
+         8NpXP1mSV7EqcgAvUG2gqhqmIS/0XvlohFvGnzeOQviGgaR42THyPIHaQCl05yy2y43Q
+         7YPw==
+X-Gm-Message-State: AOJu0YyTtJMM6iCrUarWuy9u4sTFjIMvtvlFQWUL5pqKsD7EabIyJzQH
+	55i8rMm674bK3s4WL1KKfyKmSgRmA3wpulPLxNHL8LQnn1VrKEMCE9oBnb4mKDApaSgZAl2rI9p
+	g5gOnxGQ=
+X-Gm-Gg: AfdE7cmuZeBWBf1yDw6CthrresNjU6R+3gEIwz/TrzLnFrLDbIHjtnNUhdfkDWpCFlO
+	gCw7+R1guRxIm3McI/U1321CZUiodAx7V5WAdlxJcpjkNjj7r29L1BB8FuEYqS7T1sfrDcr7tjt
+	XjaWefDm/WWpaU8jtZpQt9ydm1USO1BmuyZRw5HNYLrVKIOIvfmihPQKU+DgMdbgoKlKjsmYmCj
+	sUp8QHLev2MLziuK3wopg8vAl78TPmad0c2s+ryA7LyEM0Vf8j5cxyomptXuumqhYVpi+rWuCE9
+	y0IGMyVISpJeb2yYN4v4RTmFC12Ihjp3ROxxplXzaFVNgbGvkuq0nfmHM9aOZjIigCotWWBSS12
+	smQSHVStUeY3K+/rbOTC8zssTtyQ7hEOx69ICAI2ayhlYtBLyJ+y16FlmF8JiVhWSK+KWHaAflB
+	PZ+dxAWubPKPIdEw==
+X-Received: by 2002:a05:690e:d48:b0:667:aa5c:d2df with SMTP id 956f58d0204a3-667d7ac5b24mr1232978d50.32.1783747476761;
+        Fri, 10 Jul 2026 22:24:36 -0700 (PDT)
 Received: from vince-server.attlocal.net ([2600:1700:b540:3af0::42])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66787a49befsm8643784d50.16.2026.07.10.22.24.39
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66787a49befsm8643784d50.16.2026.07.10.22.24.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 22:24:39 -0700 (PDT)
+        Fri, 10 Jul 2026 22:24:36 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH 10/19] mdadm: rename kernel prefix
-Date: Sat, 11 Jul 2026 01:23:54 -0400
-Message-ID: <20260711052403.1292286-10-vince@underview.tech>
+Subject: [PATCH 07/19] iptables: rename kernel prefix
+Date: Sat, 11 Jul 2026 01:23:51 -0400
+Message-ID: <20260711052403.1292286-7-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260711052403.1292286-1-vince@underview.tech>
 References: <20260711052403.1292286-1-vince@underview.tech>
@@ -68,7 +68,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 11 Jul 2026 05:24:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240690
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240691
 
 Utilize preset variable KERNEL_PACKAGE_NAME
 to ensure uninformative with builds if
@@ -76,41 +76,52 @@ KERNEL_PACKAGE_NAME variable were to change.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- meta/recipes-extended/mdadm/mdadm_4.6.bb | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ .../iptables/iptables_1.8.13.bb               | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.6.bb b/meta/recipes-extended/mdadm/mdadm_4.6.bb
-index b1d0a27c7f..85e275659a 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.6.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.6.bb
-@@ -15,7 +15,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/utils/mdadm/mdadm.git;protocol=https;bra
- 
- SRCREV = "8b414a0d4753693d67b9a5822994e5f0c91b0b0a"
- 
--inherit pkgconfig ptest systemd
-+inherit pkgconfig ptest systemd kernel-vars
- 
- DEPENDS = "udev"
- 
-@@ -85,12 +85,12 @@ RDEPENDS:${PN}-ptest += " \
- "
- RRECOMMENDS:${PN}-ptest += " \
-     coreutils \
--    kernel-module-loop \
--    kernel-module-linear \
--    kernel-module-raid0 \
--    kernel-module-raid1 \
--    kernel-module-raid10 \
--    kernel-module-raid456 \
-+    ${KERNEL_PACKAGE_NAME}-module-loop \
-+    ${KERNEL_PACKAGE_NAME}-module-linear \
-+    ${KERNEL_PACKAGE_NAME}-module-raid0 \
-+    ${KERNEL_PACKAGE_NAME}-module-raid1 \
-+    ${KERNEL_PACKAGE_NAME}-module-raid10 \
-+    ${KERNEL_PACKAGE_NAME}-module-raid456 \
+diff --git a/meta/recipes-extended/iptables/iptables_1.8.13.bb b/meta/recipes-extended/iptables/iptables_1.8.13.bb
+index 11b287ed3b..89757f72fd 100644
+--- a/meta/recipes-extended/iptables/iptables_1.8.13.bb
++++ b/meta/recipes-extended/iptables/iptables_1.8.13.bb
+@@ -21,7 +21,7 @@ SYSTEMD_SERVICE:${PN} = "\
+     ${@bb.utils.contains('PACKAGECONFIG', 'ipv6', 'ip6tables.service', '', d)} \
  "
  
- FILES:${PN} += "${systemd_unitdir}/*"
+-inherit autotools pkgconfig systemd
++inherit autotools pkgconfig systemd kernel-vars
+ 
+ EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR}"
+ 
+@@ -92,18 +92,18 @@ python populate_packages:prepend() {
+ RDEPENDS:${PN} = "${PN}-module-xt-standard"
+ RRECOMMENDS:${PN} = " \
+     ${PN}-modules \
+-    kernel-module-x-tables \
+-    kernel-module-ip-tables \
+-    kernel-module-iptable-filter \
+-    kernel-module-iptable-nat \
+-    kernel-module-nf-defrag-ipv4 \
+-    kernel-module-nf-conntrack \
+-    kernel-module-nf-conntrack-ipv4 \
+-    kernel-module-nf-nat \
+-    kernel-module-ipt-masquerade \
++    ${KERNEL_PACKAGE_NAME}-module-x-tables \
++    ${KERNEL_PACKAGE_NAME}-module-ip-tables \
++    ${KERNEL_PACKAGE_NAME}-module-iptable-filter \
++    ${KERNEL_PACKAGE_NAME}-module-iptable-nat \
++    ${KERNEL_PACKAGE_NAME}-module-nf-defrag-ipv4 \
++    ${KERNEL_PACKAGE_NAME}-module-nf-conntrack \
++    ${KERNEL_PACKAGE_NAME}-module-nf-conntrack-ipv4 \
++    ${KERNEL_PACKAGE_NAME}-module-nf-nat \
++    ${KERNEL_PACKAGE_NAME}-module-ipt-masquerade \
+     ${@bb.utils.contains('PACKAGECONFIG', 'ipv6', '\
+-        kernel-module-ip6table-filter \
+-        kernel-module-ip6-tables \
++        ${KERNEL_PACKAGE_NAME}-module-ip6table-filter \
++        ${KERNEL_PACKAGE_NAME}-module-ip6-tables \
+     ', '', d)} \
+ "
+ 
 -- 
 2.43.0
 
