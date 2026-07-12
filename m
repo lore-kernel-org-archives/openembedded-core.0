@@ -2,63 +2,63 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEE0C44508
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7245C4450A
 	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 14:29:51 +0000 (UTC)
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14792.1783866581440150518
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14798.1783866585096381116
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Jul 2026 07:29:41 -0700
+ Sun, 12 Jul 2026 07:29:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=GTE1aUGR;
- spf=pass (domain: underview.tech, ip: 74.125.224.42, mailfrom: vince@underview.tech)
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-664db84f074so3717112d50.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 07:29:41 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=Sq+isa7W;
+ spf=pass (domain: underview.tech, ip: 209.85.128.174, mailfrom: vince@underview.tech)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-81e69a2db34so33321157b3.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 07:29:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1783866580; x=1784471380; darn=lists.openembedded.org;
+        d=underview.tech; s=google; t=1783866584; x=1784471384; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ccqQOmdDM/FxPbN/f6xcWjhryokDDB53Pag5RvW67tg=;
-        b=GTE1aUGRu0aBnvKbpZPy9Yx7ffvIAd+rC9Kb7rvwaFh/y9WVNnkU/z9CuW3wmnCqBB
-         incoW/ewQTdm4Tqiydo8hQAruEPBi7PDEaWyWc4OEYKdod1w93IAYPozFEzcIc1MaUDr
-         mJ017XVmbVQizwvm9GekCJ4/F6DVXUXsjA3gc3orpbghuL3CJcsGkcAlkcVgta1ACSLp
-         +AgYM3q0fHbV1D8969pCVxFLsniuqSKpS3FCMchj4VvL21R3zhFd3FVq5x+gX6fAE14m
-         TpoOHuEJWy7gQrLWH2rB9Ei69gSsO8sioZkQfhropJ3k5jmawgi0sRR7cj52yMju6Uim
-         lAvw==
+        bh=R67z6hoJ0NIyO+wE+zoZjMrHko4pBYAtLrCdkO3LGaw=;
+        b=Sq+isa7Wh2G61avmt0AXiynwoTdn3J27RKXA9bvBUzUT8hi9uq40x2R0zrgVN5NJ6I
+         7YM4A4hfQLmtVbiU2FAmgVVfrLAvBAzV7LjDDpGmX/xPxmbFiF9OiwXpvcxxMoipQF52
+         ic+ugFHUmlkusoPUTf+Cvr+B9SSV3/IUPBK0zrqLKTldQtT2HOPS0uW+cxaLNttZvmhE
+         WCGGrc9z4VOkNp/dMbfkHWFcMN0Cd7CwqEsWyxhlAoWo7YiFUOzmsszE7eMdkAsho8wF
+         CP7viYPbiNcMJhJ2TGRZLVnh3p4c+S5S2lerhOTujxv0PPJAeqi9nBRBzjg6VLrPkq2a
+         1HNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783866580; x=1784471380;
+        d=1e100.net; s=20251104; t=1783866584; x=1784471384;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ccqQOmdDM/FxPbN/f6xcWjhryokDDB53Pag5RvW67tg=;
-        b=lxp0JLnDNR0/VUxoBzq+J4+/JNy0kUrlmvKncM3+v2fvxbMjNKZT3PEfGXJIItlNsK
-         jjWoVIUhKqw9CIALA80VplwpYT+Yo3dS+Kb1SPrGQmoItDCm93LrWEPFixPYfOyEspgC
-         CGOyikI8ATsJEi3+Rl2RpcTzht3LLDYsORpXcv3aYSjxVYs0FfzWsqKA9UMVCSgMBMkm
-         eicoRWfqsIaQrbZsVqlSIhyEh1rLZEv80SnXr5tUPqwujyxWM7rzrd1ftd6+q0Cji5uf
-         EjkgZRDiwAuvOt6JTERVJ72eX5yypOv9ViWqNMTRn0tsKAIJ5gOuCYRXRJ7nF47G63sa
-         0oAg==
-X-Gm-Message-State: AOJu0Yx/pmciz7Wqpsnfot1vSiCf+KZ2GcAYhNO7dOuxDbtFof/1dZk9
-	Aw9COSW2NQz85SuBwrNlaXD5vT4AxZW4cJnBqLGmaM8iB1/hHT1QSrozky8pZJSguD7ZoVgxl0j
-	qRrrEgVo=
-X-Gm-Gg: AfdE7cnkRVo+BTEt4sGzB6fWbhAY6kuV2fKyj7U5rAck9QxmhKHk5pnFCxubl+uB9o+
-	7G1uogU6/ftp5n9uwpMWBxHcYsybjo1ihGtrhyxPTNA+6VBEDqWqqZFBPdV6oxufet23iMWNsBg
-	zBxotlPzt+Zj2WCYpTnHBTSN5rtxsWSxVoemoUBPzeilpCUDLyphL0rMlDxOFktOIWSyuQaNwNn
-	DSJdoUbAgHW5nE5SAlR5mxTMBDEFT2zEUQ+fY2IhMwIYj/uRa2+GeuugZsaxIYy6E4yXC9W6Wdi
-	px2l3tK2y1kMnfn/d/yS9UtdsYfg6SOsMAWoGb9IjqJGEm79EjykZfJWBePr1vd+NsotsWwQR8w
-	YXiwQ5iwzIpEhPHbSrE032eQcmBK6MyTsUUGS3O5TU64fgdLjMdF3PS0sjxuJCFP6cdN5fUM3LB
-	YEqLO6evsO6We+lg==
-X-Received: by 2002:a05:690c:c6d0:b0:81e:9ba9:d36c with SMTP id 00721157ae682-81e9ba9de48mr19508807b3.48.1783866580506;
-        Sun, 12 Jul 2026 07:29:40 -0700 (PDT)
+        bh=R67z6hoJ0NIyO+wE+zoZjMrHko4pBYAtLrCdkO3LGaw=;
+        b=XMaP1XXZ4qm8ezynhfYDLml3uz3R9MKo8EekAMGvACVO3t+bZLjbvklDpzEq+v8Y/O
+         qWNRD9AnDDD9Lmuz0b8RQVN5oMbDgGMKz3+vHIrQkLWlWCvHe5SDK6RRG96ZOEBewZ2B
+         5bDQk4RGmrYdgdHXZwvGB5MJ+oJtiPKZ1N7y0Cy+w9Ua/jdeNvT0UIGGLSlFx8svUUBu
+         qNirlzbegqyeJV+kFufjcY4qrXKDPjZdVBzSNgjnuZAtiUwQdvLQxy8x9cAG4CEtDgnP
+         nufl7vwa6MGsEbow5VMIQs9On3Z/nNkMw/M1gmvEaQULmBVEejLMbqrB69hzllHTNQ8F
+         Dxtw==
+X-Gm-Message-State: AOJu0YwTrYA3B0mndZAwDdN2ucBPTwcroBVIEdGd2RiL9lyyt9AEOwKy
+	8tbYZSeQKzC5dUaBhQV2oomOMGdNEFX4mCLi+X0Q8sWNxLDAiWOhVfSGOgI+/gUkRdaUnpyJsUv
+	yruVQjX8=
+X-Gm-Gg: AfdE7ckjub6ryPFFUDzKEwwiyDr34G4R0x7xF99UB+nXLtL19lfBKPbUHirf5arW7wp
+	f0UeL5IlJd5dFQvRt/n9bBaT8Llsk7fdzqFTrl2l474vStOYFZpIOY91habIxFAQGoBW7BUEHHE
+	wbM7QGseRmjcxVMyxbWh8+FolVx/AEURUOO6w2tM+WxEipxXSYzzjhSyuXHd7Vfzcv0I4nS5OsV
+	eUzQFi8kMoMWrDOCcf16nDQ8RHFZnlA5zRM0NIAFjnajuFOSAMlJuVDZYaWiveS4craPysfi6ER
+	Emyo3Ki0pIF0nzWHkaZWflO5tw2bV07iPxPxOc6aHIMk8HDoSygUqcyqrqFtJJfJGf8rWQ3f7vE
+	4xKiHxa/00Em6OfYfITO1GND0HX662n7PTq/Ho03OHPthCI7NCA9/3k9PxAdr9xaaO6CXbvJ67X
+	gubDHzg+akGM3wmw==
+X-Received: by 2002:a05:690c:3391:b0:80c:e8d3:1157 with SMTP id 00721157ae682-81e90085d1emr48334177b3.24.1783866584059;
+        Sun, 12 Jul 2026 07:29:44 -0700 (PDT)
 Received: from vince-server.attlocal.net ([2600:1700:b540:3af0::42])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c23939fsm92857327b3.46.2026.07.12.07.29.39
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c23939fsm92857327b3.46.2026.07.12.07.29.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 07:29:39 -0700 (PDT)
+        Sun, 12 Jul 2026 07:29:43 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v3 18/24] v86d: rename kernel prefix
-Date: Sun, 12 Jul 2026 10:29:10 -0400
-Message-ID: <20260712142916.2573370-18-vince@underview.tech>
+Subject: [PATCH v3 22/24] libnl: rename kernel prefix
+Date: Sun, 12 Jul 2026 10:29:14 -0400
+Message-ID: <20260712142916.2573370-22-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260712142916.2573370-1-vince@underview.tech>
 References: <20260712142916.2573370-1-vince@underview.tech>
@@ -68,7 +68,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 14:29:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240784
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240788
 
 Utilize preset variable KERNEL_PACKAGE_NAME
 to ensure uniformity with builds if
@@ -77,22 +77,22 @@ change.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- meta/recipes-bsp/v86d/v86d_0.1.10.bb | 2 +-
+ meta/recipes-support/libnl/libnl_3.12.0.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-index 3bc9b24487..66dc3b177e 100644
---- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-+++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-@@ -6,7 +6,7 @@ DESCRIPTION = "v86d provides a backend for kernel drivers that need to execute x
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://README;md5=94ac1971e4f2309dc322d598e7b1f7dd"
+diff --git a/meta/recipes-support/libnl/libnl_3.12.0.bb b/meta/recipes-support/libnl/libnl_3.12.0.bb
+index 2b46fb69d9..cbc5eca20e 100644
+--- a/meta/recipes-support/libnl/libnl_3.12.0.bb
++++ b/meta/recipes-support/libnl/libnl_3.12.0.bb
+@@ -54,7 +54,7 @@ RREPLACES:${PN}-genl = "libnl-genl2"
+ RCONFLICTS:${PN}-genl = "libnl-genl2"
  
--RRECOMMENDS:${PN} = "kernel-module-uvesafb"
-+RRECOMMENDS:${PN} = "${KERNEL_PACKAGE_NAME}-module-uvesafb"
+ DEPENDS += "${@bb.utils.contains('PTEST_ENABLED', '1', 'libcheck', '', d)}"
+-RRECOMMENDS:${PN}-ptest += "kernel-module-dummy kernel-module-bonding"
++RRECOMMENDS:${PN}-ptest += "${KERNEL_PACKAGE_NAME}-module-dummy ${KERNEL_PACKAGE_NAME}-module-bonding"
+ RDEPENDS:${PN}-ptest += "iproute2-ip"
  
- SRC_URI = "http://snapshot.debian.org/archive/debian/20110427T035506Z/pool/main/v/${BPN}/${BPN}_${PV}.orig.tar.gz \
-            file://Update-x86emu-from-X.org.patch \
+ do_compile_ptest() {
 -- 
 2.43.0
 
