@@ -1,101 +1,189 @@
-Return-Path: <vince@underview.tech>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64634C43458
-	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 05:52:09 +0000 (UTC)
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9347.1783835519207852938
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B62CAC43458
+	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 06:31:39 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9633.1783837890566120880
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Jul 2026 22:51:59 -0700
+ Sat, 11 Jul 2026 23:31:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=cN57GGNt;
- spf=pass (domain: underview.tech, ip: 74.125.224.43, mailfrom: vince@underview.tech)
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-664c535f1a0so3913169d50.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Jul 2026 22:51:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1783835518; x=1784440318; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/Mw4u9iOt6xITCSyc+2c0c74t3BrvipjIyJ7fyj5AnM=;
-        b=cN57GGNt3ONy0CnSRHWN5mPaLu6objB2x4zk/4GnLkggj7s2qe6xKjfBWnmsstkTza
-         l5QzB3v12G1SUmtL3mxn+xCWCZKBZVy942ljvfiFCubbbOBrH76JXscAmW+H0XWkei0P
-         R2XigB/wn8ihnuLHejlD1QdDTS5C9PLmYvHI3lDW6nPlF/Btovd2arGWL+ZhVZmmHJri
-         T7/Jk5fnBNG+p7qCFTxhiCL8/GK6ysrUQClJlLN4zBUylzQWJaojIiY8K8OJgen2IYvj
-         JvKeiPS8eDDRkoezH2z1hBsOFCsxD8Uf4mXuos6oMkHXd206PS44MFb8+MFW2yZi2ym4
-         0jlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783835518; x=1784440318;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/Mw4u9iOt6xITCSyc+2c0c74t3BrvipjIyJ7fyj5AnM=;
-        b=Dfxr9EUPHtgqUDqz4xQ08qSqVOfTUa5VYHGI9ve8L/tbxOvsMf3Iq7XOgXsW361Jip
-         cLOTB8cEIItQc3cAfVCM4Hq+O/60rnTSWxJ2BIf6n1f+GZJJm7qZHtdXqCkDYX5mO+gD
-         lfTfrUDkzRSwH2hvT/1sLHimzHVT/p39hjrVrWHpDeEdQcKDEK1T3Ryw0MgSaIuX/GXO
-         D0N5Dr5Kp6d66FtuD4ywdMMJB/Sz/fnzkh5mL6ZbY3857MiRWK/AEZRr9pEjoH8Gvp+C
-         z5WpXZBemEglevqKJdtzUy+gTkhYNKp3dYWAACp+yE/4VI3MDUb6030qWB485B9z+brg
-         azUw==
-X-Gm-Message-State: AOJu0YwrQsVmikQahsIcSzlQhOnGWAAdnRKVbbEYAIgMLx8EQ5TcCmr4
-	bPcfy8onVkp3T+EssU7P8hGo6ils6uHQkl5sQBxrXrWKhS2y8n+zvcWFDQpkrWMmcRipvLM7Tzc
-	VtK9Z8wU=
-X-Gm-Gg: AfdE7cn4LyFnF2Xfi5rxdKd2kQjqjlb6baB+ilpzKoVdM4D8qERdEVeeGWxXeVCG1yn
-	ozJBzfDU2Sfkm3XYImuYadbUSWJRGHt1g8cLJie9Jv8shn2lcz+IvuNWCjHWOsLIxbDskbsVfDQ
-	hytjDN3TVRZICMwjLFUMnhrJT19H20ynZUbA+nJKSZTngbEeWiSwdiCBdFtSIppV+6mYD59Z011
-	RA39MLWlZmHfM/H8n7rbNuk/qIFng4AyNA6mr9Blp+tpJSb4Pqpk57X1XAca2UDe3Ge/Ri4TBUj
-	GIxzt3/NSPSqbuBYXy6PW+VHKFIN0oRd4W2sXZ/d0sC3O92RtL2Z3+umunFSUSE/2H4BC7vMYjs
-	pODBJ3ES58azdRlv12ToBhdVUqH0q94A8uG1AkwoD29FHwu3tqL4siPsnzZcSGyrna1aqMsNFUR
-	1sRGBpgbqY8scwuQ==
-X-Received: by 2002:a05:690e:120d:b0:664:edf2:1d5a with SMTP id 956f58d0204a3-667d7c87eadmr3404111d50.72.1783835518258;
-        Sat, 11 Jul 2026 22:51:58 -0700 (PDT)
-Received: from vince-server.attlocal.net ([2600:1700:b540:3af0::42])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6678779e37fsm10764901d50.5.2026.07.11.22.51.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 22:51:56 -0700 (PDT)
-From: Vincent Davis Jr <vince@underview.tech>
-To: openembedded-core@lists.openembedded.org
-Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v2 26/26] make-mod-scripts: preset STAGING_KERNEL_DIR
-Date: Sun, 12 Jul 2026 01:49:54 -0400
-Message-ID: <20260712054954.4063745-26-vince@underview.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260712054954.4063745-1-vince@underview.tech>
-References: <20260712054954.4063745-1-vince@underview.tech>
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=q62vMmKt;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=sbSNMOq+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019f550613ce-d48e07f5-358f-4c77-92f7-69b88a4e0489-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1783837889;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=q0SLwlKVPWZbptnksap4Z/3ixTRnsbxF3PtsXCy0Lzs=;
+	b=q62vMmKtzgpH7N24JlHwwU9Eur6ABawqcDLnGuZ14ruuTWyFGxGMwH/jN6OD8lJi
+	KhKuDTZI6OTCF3h92lmhwNXGEARkG2NmctZZvnlvcO0RQJskc66Sv0KXEnYEvJ9IEix
+	TIINJzWARar0j+/PcvDIYUqnaGpMDS2lJtXTvLJY=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783837889;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=q0SLwlKVPWZbptnksap4Z/3ixTRnsbxF3PtsXCy0Lzs=;
+	b=sbSNMOq+z4nGjYy+K8zy30Fx/ZaJzQsprt7wa0YK6tPnJ/PiyHwh4Ul15aYNM8R1
+	DfhqpESN++Mo1+ZBQoqTLpz549AVr8hU80VdTGjqiIdXcm5Ah/+yPeDuqGPEmXNYClS
+	a2YNqveMVdOXl26ftG0uWmyWCvJ3pfkHIOgeNZyI=
+Content-Type: multipart/mixed; boundary="===============0606132180386557632=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Benjamin Robin <benjamin.robin@bootlin.com>, 
+	Benjamin Robin <benjamin.robin@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH]
+ sbom-cve-check-update-nvd-native,sbom-cve-check-update-cvelist-native:
+ upgrading to 2026.07.12-000007,2026-07-12 SUCCEEDED
+Message-ID: <0101019f550613ce-d48e07f5-358f-4c77-92f7-69b88a4e0489-000000@us-west-2.amazonses.com>
+Date: Sun, 12 Jul 2026 06:31:29 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.07.12-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 05:52:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240751
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 06:31:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240752
 
-STAGING_KERNEL_DIR changes if KERNEL_PACKAGE_NAME
-is not set to default string "kernel". Add workaround
-to find virtual/kernel WORKDIR.
+--===============0606132180386557632==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *sbom-cve-check-update-nvd-native,sbom-cve-check-update-cvelist-native* to *2026.07.12-000007,2026-07-12* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-sbom-cve-check-update-nvd-native-sbom-cve-check-upda.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From fa1dd6a7e787b3a2136e0a047a3e45903052131a Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 12 Jul 2026 05:20:32 +0000
+Subject: [PATCH] 
+ sbom-cve-check-update-nvd-native,sbom-cve-check-update-cvelist-native:
+ upgrade 2026.06.24-000003 -> 2026.07.12-000007,2026-06-24 -> 2026-07-12
+
 ---
- meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ ...24.bb => sbom-cve-check-update-cvelist-native_2026-07-12.bb} | 2 +-
+ ...bb => sbom-cve-check-update-nvd-native_2026.07.12-000007.bb} | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-cvelist-native_2026-06-24.bb => sbom-cve-check-update-cvelist-native_2026-07-12.bb} (89%)
+ rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-nvd-native_2026.06.24-000003.bb => sbom-cve-check-update-nvd-native_2026.07.12-000007.bb} (89%)
 
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 4b0630313f..f4222375c5 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -10,6 +10,11 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-06-24.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-07-12.bb
+similarity index 89%
+rename from meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-06-24.bb
+rename to meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-07-12.bb
+index ca192bc9cf..7efaf6e490 100644
+--- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-06-24.bb
++++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-07-12.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/CVEProject/cvelistV5"
+ SRC_URI = "git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https;destsuffix="
+ SBOM_CVE_CHECK_DB_NAME = "cvelist"
  
- S = "${UNPACKDIR}"
+-SRCREV = "966bddf787997b471325e065cae82702a60c64ff"
++SRCREV = "69911b32ff8b0e45ff9c5e6a4f55ee5ab458339a"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>.+)_baseline"
  
-+python set_kernel_vars() {
-+    set_kernel_staging_vars(d)
-+}
-+
-+do_configure[prefuncs] += "set_kernel_vars"
- do_configure[depends] += "virtual/kernel:do_shared_workdir openssl-native:do_populate_sysroot"
- do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
+ require sbom-cve-check-update-db.inc
+diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.06.24-000003.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.07.12-000007.bb
+similarity index 89%
+rename from meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.06.24-000003.bb
+rename to meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.07.12-000007.bb
+index 73d9e77692..54f3b18445 100644
+--- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.06.24-000003.bb
++++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.07.12-000007.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/fkie-cad/nvd-json-data-feeds"
+ SRC_URI = "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=main;protocol=https;destsuffix="
+ SBOM_CVE_CHECK_DB_NAME = "nvd-fkie"
  
+-SRCREV = "11e62eba27133a54836b7a081d05ff96f72d879b"
++SRCREV = "b17f7478aaeea80d61e5933e077802908fa51fea"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.+)"
+ 
+ require sbom-cve-check-update-db.inc
 -- 
-2.43.0
+2.47.1
 
+
+--===============0606132180386557632==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-sbom-cve-check-update-nvd-native-sbom-cve-check-upda.patch"
+
+RnJvbSBmYTFkZDZhN2U3ODdiM2EyMTM2ZTBhMDQ3YTNlNDU5MDMwNTIxMzFhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTIgSnVsIDIwMjYgMDU6MjA6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSAK
+IHNib20tY3ZlLWNoZWNrLXVwZGF0ZS1udmQtbmF0aXZlLHNib20tY3ZlLWNoZWNrLXVwZGF0ZS1j
+dmVsaXN0LW5hdGl2ZToKIHVwZ3JhZGUgMjAyNi4wNi4yNC0wMDAwMDMgLT4gMjAyNi4wNy4xMi0w
+MDAwMDcsMjAyNi0wNi0yNCAtPiAyMDI2LTA3LTEyCgotLS0KIC4uLjI0LmJiID0+IHNib20tY3Zl
+LWNoZWNrLXVwZGF0ZS1jdmVsaXN0LW5hdGl2ZV8yMDI2LTA3LTEyLmJifSB8IDIgKy0KIC4uLmJi
+ID0+IHNib20tY3ZlLWNoZWNrLXVwZGF0ZS1udmQtbmF0aXZlXzIwMjYuMDcuMTItMDAwMDA3LmJi
+fSB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
+KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zYm9tLWN2ZS1jaGVjay97c2JvbS1jdmUt
+Y2hlY2stdXBkYXRlLWN2ZWxpc3QtbmF0aXZlXzIwMjYtMDYtMjQuYmIgPT4gc2JvbS1jdmUtY2hl
+Y2stdXBkYXRlLWN2ZWxpc3QtbmF0aXZlXzIwMjYtMDctMTIuYmJ9ICg4OSUpCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3Nib20tY3ZlLWNoZWNrL3tzYm9tLWN2ZS1jaGVjay11cGRhdGUt
+bnZkLW5hdGl2ZV8yMDI2LjA2LjI0LTAwMDAwMy5iYiA9PiBzYm9tLWN2ZS1jaGVjay11cGRhdGUt
+bnZkLW5hdGl2ZV8yMDI2LjA3LjEyLTAwMDAwNy5iYn0gKDg5JSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvc2JvbS1jdmUtY2hlY2svc2JvbS1jdmUtY2hlY2stdXBkYXRlLWN2
+ZWxpc3QtbmF0aXZlXzIwMjYtMDYtMjQuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc2JvbS1j
+dmUtY2hlY2svc2JvbS1jdmUtY2hlY2stdXBkYXRlLWN2ZWxpc3QtbmF0aXZlXzIwMjYtMDctMTIu
+YmIKc2ltaWxhcml0eSBpbmRleCA4OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3Nib20tY3ZlLWNoZWNrL3Nib20tY3ZlLWNoZWNrLXVwZGF0ZS1jdmVsaXN0LW5hdGl2ZV8yMDI2
+LTA2LTI0LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvc2JvbS1jdmUtY2hlY2sv
+c2JvbS1jdmUtY2hlY2stdXBkYXRlLWN2ZWxpc3QtbmF0aXZlXzIwMjYtMDctMTIuYmIKaW5kZXgg
+Y2ExOTJiYzljZi4uN2VmYWY2ZTQ5MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3Nib20tY3ZlLWNoZWNrL3Nib20tY3ZlLWNoZWNrLXVwZGF0ZS1jdmVsaXN0LW5hdGl2ZV8yMDI2
+LTA2LTI0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zYm9tLWN2ZS1jaGVjay9zYm9t
+LWN2ZS1jaGVjay11cGRhdGUtY3ZlbGlzdC1uYXRpdmVfMjAyNi0wNy0xMi5iYgpAQCAtNiw3ICs2
+LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL0NWRVByb2plY3QvY3ZlbGlzdFY1
+IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0NWRVByb2plY3QvY3ZlbGlzdFY1LmdpdDti
+cmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcztkZXN0c3VmZml4PSIKIFNCT01fQ1ZFX0NIRUNLX0RC
+X05BTUUgPSAiY3ZlbGlzdCIKIAotU1JDUkVWID0gIjk2NmJkZGY3ODc5OTdiNDcxMzI1ZTA2NWNh
+ZTgyNzAyYTYwYzY0ZmYiCitTUkNSRVYgPSAiNjk5MTFiMzJmZjhiMGU0NWZmOWM1ZTZhNGY1NWVl
+NWFiNDU4MzM5YSIKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIig/UDxwdmVyPi4rKV9i
+YXNlbGluZSIKIAogcmVxdWlyZSBzYm9tLWN2ZS1jaGVjay11cGRhdGUtZGIuaW5jCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc2JvbS1jdmUtY2hlY2svc2JvbS1jdmUtY2hlY2st
+dXBkYXRlLW52ZC1uYXRpdmVfMjAyNi4wNi4yNC0wMDAwMDMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvc2JvbS1jdmUtY2hlY2svc2JvbS1jdmUtY2hlY2stdXBkYXRlLW52ZC1uYXRpdmVfMjAy
+Ni4wNy4xMi0wMDAwMDcuYmIKc2ltaWxhcml0eSBpbmRleCA4OSUKcmVuYW1lIGZyb20gbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3Nib20tY3ZlLWNoZWNrL3Nib20tY3ZlLWNoZWNrLXVwZGF0ZS1udmQt
+bmF0aXZlXzIwMjYuMDYuMjQtMDAwMDAzLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvc2JvbS1jdmUtY2hlY2svc2JvbS1jdmUtY2hlY2stdXBkYXRlLW52ZC1uYXRpdmVfMjAyNi4w
+Ny4xMi0wMDAwMDcuYmIKaW5kZXggNzNkOWU3NzY5Mi4uNTRmM2IxODQ0NSAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3Nib20tY3ZlLWNoZWNrL3Nib20tY3ZlLWNoZWNrLXVwZGF0
+ZS1udmQtbmF0aXZlXzIwMjYuMDYuMjQtMDAwMDAzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9zYm9tLWN2ZS1jaGVjay9zYm9tLWN2ZS1jaGVjay11cGRhdGUtbnZkLW5hdGl2ZV8yMDI2
+LjA3LjEyLTAwMDAwNy5iYgpAQCAtNiw3ICs2LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRo
+dWIuY29tL2ZraWUtY2FkL252ZC1qc29uLWRhdGEtZmVlZHMiCiBTUkNfVVJJID0gImdpdDovL2dp
+dGh1Yi5jb20vZmtpZS1jYWQvbnZkLWpzb24tZGF0YS1mZWVkcy5naXQ7YnJhbmNoPW1haW47cHJv
+dG9jb2w9aHR0cHM7ZGVzdHN1ZmZpeD0iCiBTQk9NX0NWRV9DSEVDS19EQl9OQU1FID0gIm52ZC1m
+a2llIgogCi1TUkNSRVYgPSAiMTFlNjJlYmEyNzEzM2E1NDgzNmI3YTA4MWQwNWZmOTZmNzJkODc5
+YiIKK1NSQ1JFViA9ICJiMTdmNzQ3OGFhZWVhODBkNjFlNTkzM2UwNzc4MDI5MDhmYTUxZmVhIgog
+VVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAidig/UDxwdmVyPi4rKSIKIAogcmVxdWlyZSBz
+Ym9tLWN2ZS1jaGVjay11cGRhdGUtZGIuaW5jCi0tIAoyLjQ3LjEKCg==
+
+--===============0606132180386557632==--
 
