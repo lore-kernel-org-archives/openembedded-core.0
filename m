@@ -2,51 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B62CAC43458
-	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 06:31:39 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9633.1783837890566120880
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7944C44501
+	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 06:31:40 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9792.1783837897593177030
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Jul 2026 23:31:30 -0700
+ Sat, 11 Jul 2026 23:31:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=q62vMmKt;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=sbSNMOq+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019f550613ce-d48e07f5-358f-4c77-92f7-69b88a4e0489-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ST84c/Oe;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=iJIP2Io5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019f55062e05-a9f768d1-66ce-417d-a3ce-f30e685a252a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1783837889;
+	t=1783837896;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=q0SLwlKVPWZbptnksap4Z/3ixTRnsbxF3PtsXCy0Lzs=;
-	b=q62vMmKtzgpH7N24JlHwwU9Eur6ABawqcDLnGuZ14ruuTWyFGxGMwH/jN6OD8lJi
-	KhKuDTZI6OTCF3h92lmhwNXGEARkG2NmctZZvnlvcO0RQJskc66Sv0KXEnYEvJ9IEix
-	TIINJzWARar0j+/PcvDIYUqnaGpMDS2lJtXTvLJY=
+	bh=DRfe9Hm677Mg8U8rVlNaUd8USr3mLOQe5pa8NBfb6fw=;
+	b=ST84c/OelFjJOX2LdgHYXi+JLF1YFKkYsa7ExHl+ym3ghCo3nQym13ucp4+TsufL
+	R/Ix5pPOQd5ow9GKkaovDLMry9Oa76x0NSQ3JzHUKZ2jicLlB11ac3PIUSkrzv/J4Ai
+	ZeAlpsJOWwqEKXAFR7XIUSaoO6iFY8T7WyIFGJfU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783837889;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783837896;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=q0SLwlKVPWZbptnksap4Z/3ixTRnsbxF3PtsXCy0Lzs=;
-	b=sbSNMOq+z4nGjYy+K8zy30Fx/ZaJzQsprt7wa0YK6tPnJ/PiyHwh4Ul15aYNM8R1
-	DfhqpESN++Mo1+ZBQoqTLpz549AVr8hU80VdTGjqiIdXcm5Ah/+yPeDuqGPEmXNYClS
-	a2YNqveMVdOXl26ftG0uWmyWCvJ3pfkHIOgeNZyI=
-Content-Type: multipart/mixed; boundary="===============0606132180386557632=="
+	bh=DRfe9Hm677Mg8U8rVlNaUd8USr3mLOQe5pa8NBfb6fw=;
+	b=iJIP2Io5Oep3aKJreZaeeOxoCIIv/hSrQVYw1v29/OAF50DOpQL8Re11ldW+VDKD
+	PXTlT4MwgNrml++fvoUXkVSm1awk0EyWNE0K0RtP7up7pz5mYd3aPKD5CuhS4fjjxfb
+	3d0AQBkAQmYzIT+9X//RpaEqNx1ndvNkO1lvHO5g=
+Content-Type: multipart/mixed; boundary="===============2795077296166943057=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Benjamin Robin <benjamin.robin@bootlin.com>, 
-	Benjamin Robin <benjamin.robin@bootlin.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH]
- sbom-cve-check-update-nvd-native,sbom-cve-check-update-cvelist-native:
- upgrading to 2026.07.12-000007,2026-07-12 SUCCEEDED
-Message-ID: <0101019f550613ce-d48e07f5-358f-4c77-92f7-69b88a4e0489-000000@us-west-2.amazonses.com>
-Date: Sun, 12 Jul 2026 06:31:29 +0000
+Subject: [AUH] piglit: upgrading to 74fa6fb4422e0c956077a96abbbdb7c38d4edbc7
+ SUCCEEDED
+Message-ID: <0101019f55062e05-a9f768d1-66ce-417d-a3ce-f30e685a252a-000000@us-west-2.amazonses.com>
+Date: Sun, 12 Jul 2026 06:31:36 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.12-54.240.27.193
+X-SES-Outgoing: 2026.07.12-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 06:31:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240752
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 06:31:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240765
 
---===============0606132180386557632==
+--===============2795077296166943057==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -54,10 +52,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *sbom-cve-check-update-nvd-native,sbom-cve-check-update-cvelist-native* to *2026.07.12-000007,2026-07-12* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *piglit* to *74fa6fb4422e0c956077a96abbbdb7c38d4edbc7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sbom-cve-check-update-nvd-native-sbom-cve-check-upda.patch
+    - apply the patch: git am 0001-piglit-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,115 +73,309 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From fa1dd6a7e787b3a2136e0a047a3e45903052131a Mon Sep 17 00:00:00 2001
+From c6e4540c6efcf8960e6e4ed943a24eef1e31822b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 12 Jul 2026 05:20:32 +0000
-Subject: [PATCH] 
- sbom-cve-check-update-nvd-native,sbom-cve-check-update-cvelist-native:
- upgrade 2026.06.24-000003 -> 2026.07.12-000007,2026-06-24 -> 2026-07-12
+Date: Sun, 12 Jul 2026 06:27:29 +0000
+Subject: [PATCH] piglit: upgrade to latest revision
 
 ---
- ...24.bb => sbom-cve-check-update-cvelist-native_2026-07-12.bb} | 2 +-
- ...bb => sbom-cve-check-update-nvd-native_2026.07.12-000007.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-cvelist-native_2026-06-24.bb => sbom-cve-check-update-cvelist-native_2026-07-12.bb} (89%)
- rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-nvd-native_2026.06.24-000003.bb => sbom-cve-check-update-nvd-native_2026.07.12-000007.bb} (89%)
+ ...o-not-obtain-wayland-scanner-path-fr.patch |  4 +--
+ ...sts-use-unsigned-int-instead-of-uint.patch | 27 -------------------
+ ...ake-egl_ext_surface_compression-cond.patch |  2 +-
+ ...r.py-modify-_command-and-not-command.patch |  2 +-
+ ...proper-WAYLAND_INCLUDE_DIRS-variable.patch |  2 +-
+ ...t-shader.c-do-not-hardcode-build-pat.patch |  2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb    |  3 +--
+ 7 files changed, 7 insertions(+), 35 deletions(-)
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-pixel-local-tests-use-unsigned-int-instead-of-uint.patch
 
-diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-06-24.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-07-12.bb
-similarity index 89%
-rename from meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-06-24.bb
-rename to meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-07-12.bb
-index ca192bc9cf..7efaf6e490 100644
---- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-06-24.bb
-+++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-07-12.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/CVEProject/cvelistV5"
- SRC_URI = "git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https;destsuffix="
- SBOM_CVE_CHECK_DB_NAME = "cvelist"
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch b/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
+index 46e5a6d83f..5dd0791316 100644
+--- a/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
++++ b/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
+@@ -1,4 +1,4 @@
+-From abccc17819ad208c0df3edbc8bbcd134e45864f9 Mon Sep 17 00:00:00 2001
++From f211ce648519cb30079be1c410ec8818f9610bfb Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Fri, 23 Aug 2024 15:29:45 +0200
+ Subject: [PATCH] CMakeLists.txt: do not obtain wayland-scanner path from
+@@ -17,7 +17,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 1 insertion(+), 5 deletions(-)
  
--SRCREV = "966bddf787997b471325e065cae82702a60c64ff"
-+SRCREV = "69911b32ff8b0e45ff9c5e6a4f55ee5ab458339a"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>.+)_baseline"
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 95f40ebfe..4c7da07b4 100644
++index 1a38c21f9..45c181e85 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+ @@ -211,11 +211,7 @@ if(PIGLIT_USE_WAYLAND)
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-pixel-local-tests-use-unsigned-int-instead-of-uint.patch b/meta/recipes-graphics/piglit/piglit/0001-pixel-local-tests-use-unsigned-int-instead-of-uint.patch
+deleted file mode 100644
+index 2c01fe7029..0000000000
+--- a/meta/recipes-graphics/piglit/piglit/0001-pixel-local-tests-use-unsigned-int-instead-of-uint.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From 8b98674fedc0ac31e768ccd16165bcb585e413e2 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Thu, 2 Jul 2026 13:56:17 +0200
+-Subject: [PATCH] pixel-local-tests: use unsigned int instead of uint
+-
+-uint is not a valid integer type in C, and this fails
+-to compile under musl libc library.
+-
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/1170]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- tests/spec/ext_shader_pixel_local_storage/pixel-local-tests.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/tests/spec/ext_shader_pixel_local_storage/pixel-local-tests.c b/tests/spec/ext_shader_pixel_local_storage/pixel-local-tests.c
+-index 4776193f2..1ac669d11 100644
+---- a/tests/spec/ext_shader_pixel_local_storage/pixel-local-tests.c
+-+++ b/tests/spec/ext_shader_pixel_local_storage/pixel-local-tests.c
+-@@ -851,7 +851,7 @@ make_test_main_str(char *dst, struct pls_format_data *format_data,
+- 		case GL_RGBA8UI:
+- 		case GL_RG16UI:
+- 		case GL_R32UI: {
+--			uint expected[4];
+-+			unsigned int expected[4];
+- 			for (int comp = 0; comp < 4; comp++) {
+- 				if (comp < format_data[member].num_components)
+- 					expected[comp] = format_data[member].u[comp];
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch
+index c71bf4c8bc..2a16b101e5 100644
+--- a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch
++++ b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch
+@@ -1,4 +1,4 @@
+-From 3e7ec165c718234e1afcdf730bdf20942976e25c Mon Sep 17 00:00:00 2001
++From a2ee9677bce8b4329f6b3d9d14767f9047b1d4d8 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Fri, 22 Nov 2024 22:52:31 +0100
+ Subject: [PATCH] tests/egl/spec: make egl_ext_surface_compression conditional
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch
+index 035e7a4d5a..23c6dcebab 100644
+--- a/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch
++++ b/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch
+@@ -1,4 +1,4 @@
+-From 14e56a6336f36d1112964ce1ff0900ea4b37b483 Mon Sep 17 00:00:00 2001
++From 769193855e55a1b27e525224e53125672dc3c412 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Thu, 22 May 2025 17:34:15 +0200
+ Subject: [PATCH] tests/no_error.py: modify _command and not command
+diff --git a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+index 329fd75975..9498df5900 100644
+--- a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
++++ b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+@@ -1,4 +1,4 @@
+-From 4444dd748b9324508e3168f64cf0b5adc31b5ebd Mon Sep 17 00:00:00 2001
++From 15ac13312ba3303910ab01a48aa86cb6399536a5 Mon Sep 17 00:00:00 2001
+ From: Pascal Bach <pascal.bach@siemens.com>
+ Date: Thu, 4 Oct 2018 14:43:17 +0200
+ Subject: [PATCH] cmake: use proper WAYLAND_INCLUDE_DIRS variable
+diff --git a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+index 9c05e639b3..6eca9a1a02 100644
+--- a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
++++ b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+@@ -1,4 +1,4 @@
+-From f9bfdb8d32c2113c39c3be1bd6fd0934f693ab03 Mon Sep 17 00:00:00 2001
++From 35b1c1d57e59738d1c78a1bace0e4df68f85ca8f Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 10 Nov 2020 17:13:50 +0000
+ Subject: [PATCH] tests/util/piglit-shader.c: do not hardcode build path into
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index a020d67bbf..7f34fe3cee 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -12,11 +12,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+            file://0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch \
+            file://0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch \
+            file://0001-tests-no_error.py-modify-_command-and-not-command.patch \
+-           file://0001-pixel-local-tests-use-unsigned-int-instead-of-uint.patch \
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
  
- require sbom-cve-check-update-db.inc
-diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.06.24-000003.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.07.12-000007.bb
-similarity index 89%
-rename from meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.06.24-000003.bb
-rename to meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.07.12-000007.bb
-index 73d9e77692..54f3b18445 100644
---- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.06.24-000003.bb
-+++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.07.12-000007.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/fkie-cad/nvd-json-data-feeds"
- SRC_URI = "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=main;protocol=https;destsuffix="
- SBOM_CVE_CHECK_DB_NAME = "nvd-fkie"
+-SRCREV = "56f237be32ed66820eb05ea3cb04cb8b957ccd8d"
++SRCREV = "74fa6fb4422e0c956077a96abbbdb7c38d4edbc7"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr"
  
--SRCREV = "11e62eba27133a54836b7a081d05ff96f72d879b"
-+SRCREV = "b17f7478aaeea80d61e5933e077802908fa51fea"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.+)"
- 
- require sbom-cve-check-update-db.inc
 -- 
 2.47.1
 
 
---===============0606132180386557632==
+--===============2795077296166943057==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit: FILELIST: added "/usr/lib/piglit/bin/gl-2.1-point_smooth /usr/lib/piglit/tests/spec/glsl-1.10/execution/samplers/glsl-fs-shadow2D-consecutive-draws.shader_test /usr/lib/piglit/tests/vulkan/shaders/cmat-uniform-ctor.shader_test"
+
+--===============2795077296166943057==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-sbom-cve-check-update-nvd-native-sbom-cve-check-upda.patch"
+ filename="0001-piglit-upgrade-to-latest-revision.patch"
 
-RnJvbSBmYTFkZDZhN2U3ODdiM2EyMTM2ZTBhMDQ3YTNlNDU5MDMwNTIxMzFhIE1vbiBTZXAgMTcg
+RnJvbSBjNmU0NTQwYzZlZmNmODk2MGU2ZTRlZDk0M2EyNGVlZjFlMzE4MjJiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTIgSnVsIDIwMjYgMDU6MjA6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSAK
-IHNib20tY3ZlLWNoZWNrLXVwZGF0ZS1udmQtbmF0aXZlLHNib20tY3ZlLWNoZWNrLXVwZGF0ZS1j
-dmVsaXN0LW5hdGl2ZToKIHVwZ3JhZGUgMjAyNi4wNi4yNC0wMDAwMDMgLT4gMjAyNi4wNy4xMi0w
-MDAwMDcsMjAyNi0wNi0yNCAtPiAyMDI2LTA3LTEyCgotLS0KIC4uLjI0LmJiID0+IHNib20tY3Zl
-LWNoZWNrLXVwZGF0ZS1jdmVsaXN0LW5hdGl2ZV8yMDI2LTA3LTEyLmJifSB8IDIgKy0KIC4uLmJi
-ID0+IHNib20tY3ZlLWNoZWNrLXVwZGF0ZS1udmQtbmF0aXZlXzIwMjYuMDcuMTItMDAwMDA3LmJi
-fSB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zYm9tLWN2ZS1jaGVjay97c2JvbS1jdmUt
-Y2hlY2stdXBkYXRlLWN2ZWxpc3QtbmF0aXZlXzIwMjYtMDYtMjQuYmIgPT4gc2JvbS1jdmUtY2hl
-Y2stdXBkYXRlLWN2ZWxpc3QtbmF0aXZlXzIwMjYtMDctMTIuYmJ9ICg4OSUpCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3Nib20tY3ZlLWNoZWNrL3tzYm9tLWN2ZS1jaGVjay11cGRhdGUt
-bnZkLW5hdGl2ZV8yMDI2LjA2LjI0LTAwMDAwMy5iYiA9PiBzYm9tLWN2ZS1jaGVjay11cGRhdGUt
-bnZkLW5hdGl2ZV8yMDI2LjA3LjEyLTAwMDAwNy5iYn0gKDg5JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvc2JvbS1jdmUtY2hlY2svc2JvbS1jdmUtY2hlY2stdXBkYXRlLWN2
-ZWxpc3QtbmF0aXZlXzIwMjYtMDYtMjQuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc2JvbS1j
-dmUtY2hlY2svc2JvbS1jdmUtY2hlY2stdXBkYXRlLWN2ZWxpc3QtbmF0aXZlXzIwMjYtMDctMTIu
-YmIKc2ltaWxhcml0eSBpbmRleCA4OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3Nib20tY3ZlLWNoZWNrL3Nib20tY3ZlLWNoZWNrLXVwZGF0ZS1jdmVsaXN0LW5hdGl2ZV8yMDI2
-LTA2LTI0LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvc2JvbS1jdmUtY2hlY2sv
-c2JvbS1jdmUtY2hlY2stdXBkYXRlLWN2ZWxpc3QtbmF0aXZlXzIwMjYtMDctMTIuYmIKaW5kZXgg
-Y2ExOTJiYzljZi4uN2VmYWY2ZTQ5MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3Nib20tY3ZlLWNoZWNrL3Nib20tY3ZlLWNoZWNrLXVwZGF0ZS1jdmVsaXN0LW5hdGl2ZV8yMDI2
-LTA2LTI0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zYm9tLWN2ZS1jaGVjay9zYm9t
-LWN2ZS1jaGVjay11cGRhdGUtY3ZlbGlzdC1uYXRpdmVfMjAyNi0wNy0xMi5iYgpAQCAtNiw3ICs2
-LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL0NWRVByb2plY3QvY3ZlbGlzdFY1
-IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0NWRVByb2plY3QvY3ZlbGlzdFY1LmdpdDti
-cmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcztkZXN0c3VmZml4PSIKIFNCT01fQ1ZFX0NIRUNLX0RC
-X05BTUUgPSAiY3ZlbGlzdCIKIAotU1JDUkVWID0gIjk2NmJkZGY3ODc5OTdiNDcxMzI1ZTA2NWNh
-ZTgyNzAyYTYwYzY0ZmYiCitTUkNSRVYgPSAiNjk5MTFiMzJmZjhiMGU0NWZmOWM1ZTZhNGY1NWVl
-NWFiNDU4MzM5YSIKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIig/UDxwdmVyPi4rKV9i
-YXNlbGluZSIKIAogcmVxdWlyZSBzYm9tLWN2ZS1jaGVjay11cGRhdGUtZGIuaW5jCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc2JvbS1jdmUtY2hlY2svc2JvbS1jdmUtY2hlY2st
-dXBkYXRlLW52ZC1uYXRpdmVfMjAyNi4wNi4yNC0wMDAwMDMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvc2JvbS1jdmUtY2hlY2svc2JvbS1jdmUtY2hlY2stdXBkYXRlLW52ZC1uYXRpdmVfMjAy
-Ni4wNy4xMi0wMDAwMDcuYmIKc2ltaWxhcml0eSBpbmRleCA4OSUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3Nib20tY3ZlLWNoZWNrL3Nib20tY3ZlLWNoZWNrLXVwZGF0ZS1udmQt
-bmF0aXZlXzIwMjYuMDYuMjQtMDAwMDAzLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvc2JvbS1jdmUtY2hlY2svc2JvbS1jdmUtY2hlY2stdXBkYXRlLW52ZC1uYXRpdmVfMjAyNi4w
-Ny4xMi0wMDAwMDcuYmIKaW5kZXggNzNkOWU3NzY5Mi4uNTRmM2IxODQ0NSAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3Nib20tY3ZlLWNoZWNrL3Nib20tY3ZlLWNoZWNrLXVwZGF0
-ZS1udmQtbmF0aXZlXzIwMjYuMDYuMjQtMDAwMDAzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9zYm9tLWN2ZS1jaGVjay9zYm9tLWN2ZS1jaGVjay11cGRhdGUtbnZkLW5hdGl2ZV8yMDI2
-LjA3LjEyLTAwMDAwNy5iYgpAQCAtNiw3ICs2LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRo
-dWIuY29tL2ZraWUtY2FkL252ZC1qc29uLWRhdGEtZmVlZHMiCiBTUkNfVVJJID0gImdpdDovL2dp
-dGh1Yi5jb20vZmtpZS1jYWQvbnZkLWpzb24tZGF0YS1mZWVkcy5naXQ7YnJhbmNoPW1haW47cHJv
-dG9jb2w9aHR0cHM7ZGVzdHN1ZmZpeD0iCiBTQk9NX0NWRV9DSEVDS19EQl9OQU1FID0gIm52ZC1m
-a2llIgogCi1TUkNSRVYgPSAiMTFlNjJlYmEyNzEzM2E1NDgzNmI3YTA4MWQwNWZmOTZmNzJkODc5
-YiIKK1NSQ1JFViA9ICJiMTdmNzQ3OGFhZWVhODBkNjFlNTkzM2UwNzc4MDI5MDhmYTUxZmVhIgog
-VVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAidig/UDxwdmVyPi4rKSIKIAogcmVxdWlyZSBz
-Ym9tLWN2ZS1jaGVjay11cGRhdGUtZGIuaW5jCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFN1biwgMTIgSnVsIDIwMjYgMDY6Mjc6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+aWdsaXQ6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIC4uLm8tbm90LW9idGFpbi13
+YXlsYW5kLXNjYW5uZXItcGF0aC1mci5wYXRjaCB8ICA0ICstLQogLi4uc3RzLXVzZS11bnNpZ25l
+ZC1pbnQtaW5zdGVhZC1vZi11aW50LnBhdGNoIHwgMjcgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4u
+YWtlLWVnbF9leHRfc3VyZmFjZV9jb21wcmVzc2lvbi1jb25kLnBhdGNoIHwgIDIgKy0KIC4uLnIu
+cHktbW9kaWZ5LV9jb21tYW5kLWFuZC1ub3QtY29tbWFuZC5wYXRjaCB8ICAyICstCiAuLi5wcm9w
+ZXItV0FZTEFORF9JTkNMVURFX0RJUlMtdmFyaWFibGUucGF0Y2ggfCAgMiArLQogLi4udC1zaGFk
+ZXIuYy1kby1ub3QtaGFyZGNvZGUtYnVpbGQtcGF0LnBhdGNoIHwgIDIgKy0KIG1ldGEvcmVjaXBl
+cy1ncmFwaGljcy9waWdsaXQvcGlnbGl0X2dpdC5iYiAgICB8ICAzICstLQogNyBmaWxlcyBjaGFu
+Z2VkLCA3IGluc2VydGlvbnMoKyksIDM1IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0
+IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtcGl4ZWwtbG9jYWwtdGVz
+dHMtdXNlLXVuc2lnbmVkLWludC1pbnN0ZWFkLW9mLXVpbnQucGF0Y2gKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAxLUNNYWtlTGlzdHMudHh0LWRv
+LW5vdC1vYnRhaW4td2F5bGFuZC1zY2FubmVyLXBhdGgtZnIucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAxLUNNYWtlTGlzdHMudHh0LWRvLW5vdC1vYnRhaW4t
+d2F5bGFuZC1zY2FubmVyLXBhdGgtZnIucGF0Y2gKaW5kZXggNDZlNWE2ZDgzZi4uNWRkMDc5MTMx
+NiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS1D
+TWFrZUxpc3RzLnR4dC1kby1ub3Qtb2J0YWluLXdheWxhbmQtc2Nhbm5lci1wYXRoLWZyLnBhdGNo
+CisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtQ01ha2VMaXN0
+cy50eHQtZG8tbm90LW9idGFpbi13YXlsYW5kLXNjYW5uZXItcGF0aC1mci5wYXRjaApAQCAtMSw0
+ICsxLDQgQEAKLUZyb20gYWJjY2MxNzgxOWFkMjA4YzBkZjNlZGJjOGJiY2QxMzRlNDU4NjRmOSBN
+b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZjIxMWNlNjQ4NTE5Y2IzMDA3OWJlMWM0MTBl
+Yzg4MThmOTYxMGJmYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBL
+YW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+CiBEYXRlOiBGcmksIDIzIEF1ZyAyMDI0IDE1OjI5
+OjQ1ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIENNYWtlTGlzdHMudHh0OiBkbyBub3Qgb2J0YWlu
+IHdheWxhbmQtc2Nhbm5lciBwYXRoIGZyb20KQEAgLTE3LDcgKzE3LDcgQEAgU2lnbmVkLW9mZi1i
+eTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KICAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDUgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9DTWFrZUxp
+c3RzLnR4dCBiL0NNYWtlTGlzdHMudHh0Ci1pbmRleCA5NWY0MGViZmUuLjRjN2RhMDdiNCAxMDA2
+NDQKK2luZGV4IDFhMzhjMjFmOS4uNDVjMTgxZTg1IDEwMDY0NAogLS0tIGEvQ01ha2VMaXN0cy50
+eHQKICsrKyBiL0NNYWtlTGlzdHMudHh0CiBAQCAtMjExLDExICsyMTEsNyBAQCBpZihQSUdMSVRf
+VVNFX1dBWUxBTkQpCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3Bp
+Z2xpdC8wMDAxLXBpeGVsLWxvY2FsLXRlc3RzLXVzZS11bnNpZ25lZC1pbnQtaW5zdGVhZC1vZi11
+aW50LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS1waXhl
+bC1sb2NhbC10ZXN0cy11c2UtdW5zaWduZWQtaW50LWluc3RlYWQtb2YtdWludC5wYXRjaApkZWxl
+dGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMmMwMWZlNzAyOS4uMDAwMDAwMDAwMAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAxLXBpeGVsLWxvY2FsLXRlc3Rz
+LXVzZS11bnNpZ25lZC1pbnQtaW5zdGVhZC1vZi11aW50LnBhdGNoCisrKyAvZGV2L251bGwKQEAg
+LTEsMjcgKzAsMCBAQAotRnJvbSA4Yjk4Njc0ZmVkYzBhYzMxZTc2OGNjZDE2MTY1YmNiNTg1ZTQx
+M2UyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFs
+ZXhAbGludXRyb25peC5kZT4KLURhdGU6IFRodSwgMiBKdWwgMjAyNiAxMzo1NjoxNyArMDIwMAot
+U3ViamVjdDogW1BBVENIXSBwaXhlbC1sb2NhbC10ZXN0czogdXNlIHVuc2lnbmVkIGludCBpbnN0
+ZWFkIG9mIHVpbnQKLQotdWludCBpcyBub3QgYSB2YWxpZCBpbnRlZ2VyIHR5cGUgaW4gQywgYW5k
+IHRoaXMgZmFpbHMKLXRvIGNvbXBpbGUgdW5kZXIgbXVzbCBsaWJjIGxpYnJhcnkuCi0KLVVwc3Ry
+ZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVz
+YS9waWdsaXQvLS9tZXJnZV9yZXF1ZXN0cy8xMTcwXQotU2lnbmVkLW9mZi1ieTogQWxleGFuZGVy
+IEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KLS0tLQotIHRlc3RzL3NwZWMvZXh0X3NoYWRl
+cl9waXhlbF9sb2NhbF9zdG9yYWdlL3BpeGVsLWxvY2FsLXRlc3RzLmMgfCAyICstCi0gMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCi0KLWRpZmYgLS1naXQgYS90
+ZXN0cy9zcGVjL2V4dF9zaGFkZXJfcGl4ZWxfbG9jYWxfc3RvcmFnZS9waXhlbC1sb2NhbC10ZXN0
+cy5jIGIvdGVzdHMvc3BlYy9leHRfc2hhZGVyX3BpeGVsX2xvY2FsX3N0b3JhZ2UvcGl4ZWwtbG9j
+YWwtdGVzdHMuYwotaW5kZXggNDc3NjE5M2YyLi4xYWM2NjlkMTEgMTAwNjQ0Ci0tLS0gYS90ZXN0
+cy9zcGVjL2V4dF9zaGFkZXJfcGl4ZWxfbG9jYWxfc3RvcmFnZS9waXhlbC1sb2NhbC10ZXN0cy5j
+Ci0rKysgYi90ZXN0cy9zcGVjL2V4dF9zaGFkZXJfcGl4ZWxfbG9jYWxfc3RvcmFnZS9waXhlbC1s
+b2NhbC10ZXN0cy5jCi1AQCAtODUxLDcgKzg1MSw3IEBAIG1ha2VfdGVzdF9tYWluX3N0cihjaGFy
+ICpkc3QsIHN0cnVjdCBwbHNfZm9ybWF0X2RhdGEgKmZvcm1hdF9kYXRhLAotIAkJY2FzZSBHTF9S
+R0JBOFVJOgotIAkJY2FzZSBHTF9SRzE2VUk6Ci0gCQljYXNlIEdMX1IzMlVJOiB7Ci0tCQkJdWlu
+dCBleHBlY3RlZFs0XTsKLSsJCQl1bnNpZ25lZCBpbnQgZXhwZWN0ZWRbNF07Ci0gCQkJZm9yIChp
+bnQgY29tcCA9IDA7IGNvbXAgPCA0OyBjb21wKyspIHsKLSAJCQkJaWYgKGNvbXAgPCBmb3JtYXRf
+ZGF0YVttZW1iZXJdLm51bV9jb21wb25lbnRzKQotIAkJCQkJZXhwZWN0ZWRbY29tcF0gPSBmb3Jt
+YXRfZGF0YVttZW1iZXJdLnVbY29tcF07CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhp
+Y3MvcGlnbGl0L3BpZ2xpdC8wMDAxLXRlc3RzLWVnbC1zcGVjLW1ha2UtZWdsX2V4dF9zdXJmYWNl
+X2NvbXByZXNzaW9uLWNvbmQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3Bp
+Z2xpdC8wMDAxLXRlc3RzLWVnbC1zcGVjLW1ha2UtZWdsX2V4dF9zdXJmYWNlX2NvbXByZXNzaW9u
+LWNvbmQucGF0Y2gKaW5kZXggYzcxYmY0YzhiYy4uMmExNmIxMDFlNSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS10ZXN0cy1lZ2wtc3BlYy1tYWtl
+LWVnbF9leHRfc3VyZmFjZV9jb21wcmVzc2lvbi1jb25kLnBhdGNoCisrKyBiL21ldGEvcmVjaXBl
+cy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtdGVzdHMtZWdsLXNwZWMtbWFrZS1lZ2xfZXh0
+X3N1cmZhY2VfY29tcHJlc3Npb24tY29uZC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gM2U3
+ZWMxNjVjNzE4MjM0ZTFhZmNkZjczMGJkZjIwOTQyOTc2ZTI1YyBNb24gU2VwIDE3IDAwOjAwOjAw
+IDIwMDEKK0Zyb20gYTJlZTk2NzdiY2U4YjQzMjlmNmIzZDlkMTQ3NjdmOTA0N2IxZDRkOCBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0
+cm9uaXguZGU+CiBEYXRlOiBGcmksIDIyIE5vdiAyMDI0IDIyOjUyOjMxICswMTAwCiBTdWJqZWN0
+OiBbUEFUQ0hdIHRlc3RzL2VnbC9zcGVjOiBtYWtlIGVnbF9leHRfc3VyZmFjZV9jb21wcmVzc2lv
+biBjb25kaXRpb25hbApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9w
+aWdsaXQvMDAwMS10ZXN0cy1ub19lcnJvci5weS1tb2RpZnktX2NvbW1hbmQtYW5kLW5vdC1jb21t
+YW5kLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS10ZXN0
+cy1ub19lcnJvci5weS1tb2RpZnktX2NvbW1hbmQtYW5kLW5vdC1jb21tYW5kLnBhdGNoCmluZGV4
+IDAzNWU3YTRkNWEuLjIzYzZkY2ViYWIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGlj
+cy9waWdsaXQvcGlnbGl0LzAwMDEtdGVzdHMtbm9fZXJyb3IucHktbW9kaWZ5LV9jb21tYW5kLWFu
+ZC1ub3QtY29tbWFuZC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3Bp
+Z2xpdC8wMDAxLXRlc3RzLW5vX2Vycm9yLnB5LW1vZGlmeS1fY29tbWFuZC1hbmQtbm90LWNvbW1h
+bmQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDE0ZTU2YTYzMzZmMzZkMTExMjk2NGNlMWZm
+MDkwMGVhNGIzN2I0ODMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDc2OTE5Mzg1NWU1
+NWExYjI3ZTUyNTIyNGU1MzEyNTY3MmRjM2M0MTIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
+cm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgogRGF0ZTogVGh1LCAy
+MiBNYXkgMjAyNSAxNzozNDoxNSArMDIwMAogU3ViamVjdDogW1BBVENIXSB0ZXN0cy9ub19lcnJv
+ci5weTogbW9kaWZ5IF9jb21tYW5kIGFuZCBub3QgY29tbWFuZApkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMi1jbWFrZS11c2UtcHJvcGVyLVdBWUxB
+TkRfSU5DTFVERV9ESVJTLXZhcmlhYmxlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Bp
+Z2xpdC9waWdsaXQvMDAwMi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5DTFVERV9ESVJTLXZh
+cmlhYmxlLnBhdGNoCmluZGV4IDMyOWZkNzU5NzUuLjk0OThkZjU5MDAgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDItY21ha2UtdXNlLXByb3Blci1X
+QVlMQU5EX0lOQ0xVREVfRElSUy12YXJpYWJsZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAyLWNtYWtlLXVzZS1wcm9wZXItV0FZTEFORF9JTkNMVURF
+X0RJUlMtdmFyaWFibGUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDQ0NDRkZDc0OGI5MzI0
+NTA4ZTMxNjhmNjRjZjBiNWFkYzMxYjVlYmQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IDE1YWMxMzMxMmJhMzMwMzkxMGFiMDFhNDhhYTg2Y2I2Mzk5NTM2YTUgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2hAc2llbWVucy5jb20+CiBE
+YXRlOiBUaHUsIDQgT2N0IDIwMTggMTQ6NDM6MTcgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gY21h
+a2U6IHVzZSBwcm9wZXIgV0FZTEFORF9JTkNMVURFX0RJUlMgdmFyaWFibGUKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDMtdGVzdHMtdXRpbC1waWds
+aXQtc2hhZGVyLmMtZG8tbm90LWhhcmRjb2RlLWJ1aWxkLXBhdC5wYXRjaCBiL21ldGEvcmVjaXBl
+cy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDMtdGVzdHMtdXRpbC1waWdsaXQtc2hhZGVyLmMt
+ZG8tbm90LWhhcmRjb2RlLWJ1aWxkLXBhdC5wYXRjaAppbmRleCA5YzA1ZTYzOWIzLi42ZWNhOWEx
+YTAyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAz
+LXRlc3RzLXV0aWwtcGlnbGl0LXNoYWRlci5jLWRvLW5vdC1oYXJkY29kZS1idWlsZC1wYXQucGF0
+Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMy10ZXN0cy11
+dGlsLXBpZ2xpdC1zaGFkZXIuYy1kby1ub3QtaGFyZGNvZGUtYnVpbGQtcGF0LnBhdGNoCkBAIC0x
+LDQgKzEsNCBAQAotRnJvbSBmOWJmZGI4ZDMyYzIxMTNjMzljM2JlMWJkNmZkMDkzNGY2OTNhYjAz
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzNWIxYzFkNTdlNTk3MzhkMWM3OGExYmFj
+ZTBlNGRmNjhmODVjYThmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVy
+IEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBUdWUsIDEwIE5vdiAyMDIw
+IDE3OjEzOjUwICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRlc3RzL3V0aWwvcGlnbGl0LXNoYWRl
+ci5jOiBkbyBub3QgaGFyZGNvZGUgYnVpbGQgcGF0aCBpbnRvCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdF9naXQuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
+Y3MvcGlnbGl0L3BpZ2xpdF9naXQuYmIKaW5kZXggYTAyMGQ2N2JiZi4uN2YzNGZlM2NlZSAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXRfZ2l0LmJiCisrKyBi
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0X2dpdC5iYgpAQCAtMTIsMTEgKzEy
+LDEwIEBAIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9tZXNhL3BpZ2xp
+dC5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLUNN
+YWtlTGlzdHMudHh0LWRvLW5vdC1vYnRhaW4td2F5bGFuZC1zY2FubmVyLXBhdGgtZnIucGF0Y2gg
+XAogICAgICAgICAgICBmaWxlOi8vMDAwMS10ZXN0cy1lZ2wtc3BlYy1tYWtlLWVnbF9leHRfc3Vy
+ZmFjZV9jb21wcmVzc2lvbi1jb25kLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtdGVz
+dHMtbm9fZXJyb3IucHktbW9kaWZ5LV9jb21tYW5kLWFuZC1ub3QtY29tbWFuZC5wYXRjaCBcCi0g
+ICAgICAgICAgIGZpbGU6Ly8wMDAxLXBpeGVsLWxvY2FsLXRlc3RzLXVzZS11bnNpZ25lZC1pbnQt
+aW5zdGVhZC1vZi11aW50LnBhdGNoIFwKICAgICAgICAgICAgIgogVVBTVFJFQU1fQ0hFQ0tfQ09N
+TUlUUyA9ICIxIgogCi1TUkNSRVYgPSAiNTZmMjM3YmUzMmVkNjY4MjBlYjA1ZWEzY2IwNGNiOGI5
+NTdjY2Q4ZCIKK1NSQ1JFViA9ICI3NGZhNmZiNDQyMmUwYzk1NjA3N2E5NmFiYmJkYjdjMzhkNGVk
+YmM3IgogIyAod2hlbiBQViBnb2VzIGFib3ZlIDEuMCByZW1vdmUgdGhlIHRyYWlsaW5nIHIpCiBQ
+ViA9ICIxLjArZ2l0ciIKIAotLSAKMi40Ny4xCgo=
 
---===============0606132180386557632==--
+--===============2795077296166943057==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/piglit: SRC_URI changed from "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=main file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch file://0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch file://0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch file://0001-tests-no_error.py-modify-_command-and-not-command.patch file://0001-pixel-local-tests-use-unsigned-int-instead-of-uint.patch" to "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=main file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch file://0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch file://0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch file://0001-tests-no_error.py-modify-_command-and-not-command.patch"
+packages/x86-64-v3-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+packages/x86-64-v3-poky-linux/piglit/piglit: PKGSIZE changed from 2059162120 to 2059184354 (+0%)
+packages/x86-64-v3-poky-linux/piglit/piglit: FILELIST: added "/usr/lib/piglit/tests/spec/glsl-1.10/execution/samplers/glsl-fs-shadow2D-consecutive-draws.shader_test /usr/lib/piglit/tests/vulkan/shaders/cmat-uniform-ctor.shader_test /usr/lib/piglit/bin/gl-2.1-point_smooth"
+packages/x86-64-v3-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+56f237be32 to 1.0+gitr0+74fa6fb442
+
+--===============2795077296166943057==--
 
