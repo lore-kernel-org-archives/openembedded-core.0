@@ -2,63 +2,63 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EFBEC43458
-	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 18:43:25 +0000 (UTC)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.884.1783881804693884143
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7D67C44507
+	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 18:43:26 +0000 (UTC)
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.881.1783881802294653467
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Jul 2026 11:43:24 -0700
+ Sun, 12 Jul 2026 11:43:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=ZMPhiGTN;
- spf=pass (domain: underview.tech, ip: 209.85.128.173, mailfrom: vince@underview.tech)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-81ea0b7d137so5016787b3.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 11:43:24 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=TuhFib9t;
+ spf=pass (domain: underview.tech, ip: 74.125.224.47, mailfrom: vince@underview.tech)
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-664d7863920so2021326d50.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 11:43:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1783881804; x=1784486604; darn=lists.openembedded.org;
+        d=underview.tech; s=google; t=1783881801; x=1784486601; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=sUNYA/hFmr53NcH0LlWOULNRRXKWmYCC1OPxJM2/ppw=;
-        b=ZMPhiGTNc29cCycKm/Ru2mcbnnUtTXGaJigi+D95M8CXaAIDGLARKtP3QGqzwtpphZ
-         HLz1ESMQBvdM0jpeiVmaWHZ2qqLXPLWzewkY3gRUB6dBr55u0PB+3zc5TbGxnqGwVcv5
-         pil4qcmTVriz0i08zx287RzNiEU7yWxZ+25geZE1gKM/CW8RJy9tFBTvePukORmlLjaa
-         EDJ8fHTk2Y2Nz+rsz//1PiCamC2xC2rx1WUYMWExZd2lzhJe93enejKeabpcDvX6K4Cr
-         MpCmKh0690c295JHZpESSlkd8q7UY4uUMeFGN1aqv42CBzTnqdymGY33V/cfHYIVH3Ci
-         Einw==
+        bh=xY0Pn7U6NOSf7/OLBPumK49syT+tCcj+nuXZL9nMcxI=;
+        b=TuhFib9tuhkNQYpGLZIgfDM9bddYCSXsGR1WrO8RmsME7ciBPCpXbbyAnbsKfGnv4P
+         I1yfVxuFoTO0jbD3hi2Qh3bfkPc1kwlXZZrkX/w8QOKqdECEETNRYROKe9dzqCIB33WU
+         WJJh5htWqaG6x1k7tRAEWN+nP54Jb5Avtb4HW4GBjj3/IC6ftq5YFTTTa5Nqyp/QJ3xo
+         vw2tkxkTAEUzsnILc8BdDFLjDSZMQvG55TqNj51YUc1673cOlaTMI3plByRd3bYLwcQJ
+         iVlILKzOfW3yXQsoUBvhi0eBV+08P1lnRVJ6WisJCDX2Cr3z4lhC8eW/Mv5ENM92Mq+T
+         NmoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783881804; x=1784486604;
+        d=1e100.net; s=20251104; t=1783881801; x=1784486601;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sUNYA/hFmr53NcH0LlWOULNRRXKWmYCC1OPxJM2/ppw=;
-        b=WGTkZQwrrVMUf9vJgHr8w0MNvwLsH1polAoS9mc3T+3funtxfzQ3a1oRN9cOFwau0n
-         UnD2apgJzLEXDwAdyRKZ7QqoOy6FCSvjRXLRDpX1km9IE7kv5DWrYT470e1TNI2rneLW
-         amgGvEqVb60I+XPYi8dIuNMHjTlnUpvzovn5aBkv+cLxF0So07H4fmyGPY8zaphvMAMA
-         +igqJjAaGXmgh+VK9BHs167s5IqPYcbHRiIMrSWc3uuUMAkwoZX9r+1Hrqk0rKytAfGB
-         27vF0IBb0LvyTLOU2kfVasPHAEu49KnaPEvv2fFYUG2kBufAwbSMaNeSNlBpJTfPNlY0
-         Grbg==
-X-Gm-Message-State: AOJu0YyQsXsVCjfqC0rDP440gl9w0HVSMuTDU75yYHBtpbMax2qgXNtK
-	i9rgpNbDjdBkXFAS2TQEw0/bhNrv6WuQPyx5C2jD01qYzLcSsDjgpJEPiQj6x2ciJSblEA5O1ib
-	t18n/d8g=
-X-Gm-Gg: AfdE7ckx04dXRdsAz65slcyccm/NhVwyIr02lI7SCuoayFuAvZWO/VClO/2nuQBPxmm
-	2B9BL/PZFr95gMsIxk0/pX3tmsw5BhIMERF9zbMsxsePiO8ubQs8OLFYOcSoFNJZUQSYpPzNUuq
-	2WapJ5fFTdBKgzWzwwgdyg9cUFfypP0xPHACreahMlMKlPwcUbBJfCjEj+zd+On4IlKIDAGkRga
-	D0ihbvJNDzmLm/pU8kfHBeDMtNHLXHEjYlag8q2C5FTpJkHC2ZMmsS0M1DceFgscE9MS97RiSPd
-	S5RH26YvsijFooot86WtaR//O9Cq0mspvcjVpHMC4k2tgyVsR6EXkROO4O/27D8sneSvpQEyBhO
-	1ppIR9USvIF0IIZe1zLhKhTHqJlyaxBD+j6Bhf0kroaKffn3R3krwSmWu53ejFMO/cyUfxjF92h
-	Naq5MzIf3inzzCTw==
-X-Received: by 2002:a05:690e:4181:b0:665:3dac:c3a7 with SMTP id 956f58d0204a3-667d7b8929amr4300995d50.61.1783881803690;
-        Sun, 12 Jul 2026 11:43:23 -0700 (PDT)
+        bh=xY0Pn7U6NOSf7/OLBPumK49syT+tCcj+nuXZL9nMcxI=;
+        b=tNOfDN0Bl+0WmjLqbNOEAWdEkNEI7cJ8JJfJo7VbSUCr0Z9a7BuW8r/sJ5kWHmsjDW
+         zmy7B1xEoLFIC7MSIBo/N7NhSm18GAuUZU3I6gUdNxTmiysZq9nPmb97VmkF3zSZ22LE
+         wTSBWkpUA3fxEL4pDBwgB6oHcF6ygkqZtJdbpbzpB1jh/sSozo2f/wbb7wfaIQWLXJAE
+         w9ZzXhtqlKOY5dS9pNGdCcEnJ5wNvyJJ79cWRnPZPjltRZZwiJ/8kk1r2rc5hk+68ukT
+         qkWu6WyptzmJsjYXoIC2zvYLSPRK0dav4qru5ftGYqYZjMZhSZcg8Bn2F5kiGWXasbaQ
+         UBEA==
+X-Gm-Message-State: AOJu0YzyzBU7EBUQk8Q+8OxERWHWytP0CG1JOsUTxnDcnrHGE9f+J44p
+	NfQEdtuS2BXPW9c2YZgLl0xvtGedxd65Lt1BGaURUybGotbaPWqzFcVHbmYL1vgCp2s3afDmanH
+	j2Z0qxuM=
+X-Gm-Gg: AfdE7cnHWtCoWxCJ5aVp7qsVzWYUwprW2eZGYbxlANM3pPDUOiVfpdBQmx15lReDmdG
+	JBHCEWttH3qhAN8Mm+LWHKvdSo2uPDYhCPUvUkNX0GVxeUJJokFpbn7vk1fh+HqO+49ACmRkvnU
+	TRwyBydCCy7c4hZFczT6Bc4T7eG7o9J0rVKC9UG3Ll/VKwGy6DFztBrtYnF9Mbx76iWWwA0FzDL
+	O/WB6k08fVDT3kN5W1d0Oe99JbqyGHI2bAZ359oKuCeQVgjhHM8uqMwQhvEsWmdArrmQ1Ae2R7g
+	aLuIi6TMOVxszmnyICD5THQxZEq9Wm60PATWS9BlCxzWR9a8KK59G687JaSzx5BZBzUwxluBteQ
+	pmpu8TtvroinoLi/b54sUq/+u1Litjo6nBxmTRbsaW+9BS4Rsek2j4XT877STc3QYa7CxH8MD6j
+	T2a1+7F+rKAMO/YcgJkqVOKbUs
+X-Received: by 2002:a53:c053:0:20b0:667:8b90:2eb8 with SMTP id 956f58d0204a3-667d7f48184mr3731478d50.87.1783881801378;
+        Sun, 12 Jul 2026 11:43:21 -0700 (PDT)
 Received: from vince-server.attlocal.net ([2600:1700:b540:3af0::42])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66787b23b35sm11768236d50.21.2026.07.12.11.43.22
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66787b23b35sm11768236d50.21.2026.07.12.11.43.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 11:43:23 -0700 (PDT)
+        Sun, 12 Jul 2026 11:43:21 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v4 07/27] packagegroup-core-boot: rename kernel prefix
-Date: Sun, 12 Jul 2026 14:42:47 -0400
-Message-ID: <20260712184307.3259642-7-vince@underview.tech>
+Subject: [PATCH v4 04/27] machine: rename kernel prefix
+Date: Sun, 12 Jul 2026 14:42:44 -0400
+Message-ID: <20260712184307.3259642-4-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260712184307.3259642-1-vince@underview.tech>
 References: <20260712184307.3259642-1-vince@underview.tech>
@@ -67,8 +67,8 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 18:43:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240797
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 18:43:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240794
 
 Utilize preset variable KERNEL_PACKAGE_NAME
 to ensure uniformity with builds if
@@ -77,22 +77,75 @@ change.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/machine/include/loongarch/qemuloongarch.inc | 2 +-
+ meta/conf/machine/include/riscv/qemuriscv.inc         | 2 +-
+ meta/conf/machine/qemuppc64.conf                      | 2 +-
+ meta/conf/machine/qemux86-64.conf                     | 2 +-
+ meta/conf/machine/qemux86.conf                        | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-index 5cdd161811..96c07aff52 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-@@ -22,7 +22,7 @@ RDEPENDS:${PN} = "\
-     ${VIRTUAL-RUNTIME_base-utils} \
-     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
-     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
--    ${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER} kernel", "", d)} \
-+    ${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER} ${KERNEL_PACKAGE_NAME}", "", d)} \
-     netbase \
-     ${VIRTUAL-RUNTIME_login_manager} \
-     ${VIRTUAL-RUNTIME_init_manager} \
+diff --git a/meta/conf/machine/include/loongarch/qemuloongarch.inc b/meta/conf/machine/include/loongarch/qemuloongarch.inc
+index e1bcfabc43..9cd26fb6d0 100644
+--- a/meta/conf/machine/include/loongarch/qemuloongarch.inc
++++ b/meta/conf/machine/include/loongarch/qemuloongarch.inc
+@@ -15,7 +15,7 @@ IMAGE_FSTYPES += "ext4 wic.qcow2"
+ 
+ WKS_FILE ?= "qemuloongarch.wks"
+ 
+-MACHINE_EXTRA_RRECOMMENDS += " kernel-modules"
++MACHINE_EXTRA_RRECOMMENDS += "${KERNEL_PACKAGE_NAME}-modules"
+ 
+ #EXTRA_IMAGEDEPENDS += "opensbi"
+ 
+diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
+index bac376ce5a..37d5787ee2 100644
+--- a/meta/conf/machine/include/riscv/qemuriscv.inc
++++ b/meta/conf/machine/include/riscv/qemuriscv.inc
+@@ -15,7 +15,7 @@ IMAGE_FSTYPES += "ext4.zst wic.qcow2"
+ 
+ WKS_FILE ?= "qemuriscv.wks"
+ 
+-MACHINE_EXTRA_RRECOMMENDS += " kernel-modules"
++MACHINE_EXTRA_RRECOMMENDS += "${KERNEL_PACKAGE_NAME}-modules"
+ 
+ EXTRA_IMAGEDEPENDS += "opensbi"
+ RISCV_SBI_PLAT ?= "generic"
+diff --git a/meta/conf/machine/qemuppc64.conf b/meta/conf/machine/qemuppc64.conf
+index 2fbd26a6f9..1cfdeea025 100644
+--- a/meta/conf/machine/qemuppc64.conf
++++ b/meta/conf/machine/qemuppc64.conf
+@@ -20,4 +20,4 @@ QB_KERNEL_CMDLINE_APPEND = "console=hvc0 nohugevmalloc"
+ #QB_OPT_APPEND += "-device qemu-xhci -device usb-tablet -device usb-kbd"
+ QB_OPT_APPEND = "-usb -device usb-tablet"
+ 
+-MACHINE_EXTRA_RRECOMMENDS += " kernel-modules"
++MACHINE_EXTRA_RRECOMMENDS += "${KERNEL_PACKAGE_NAME}-modules"
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+index 8aac7634b7..f0c9a6141b 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -31,7 +31,7 @@ MACHINE_FEATURES += "x86 pci"
+ 
+ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
+ 
+-MACHINE_EXTRA_RRECOMMENDS = "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
++MACHINE_EXTRA_RRECOMMENDS = "${KERNEL_PACKAGE_NAME}-module-snd-ens1370 ${KERNEL_PACKAGE_NAME}-module-snd-rawmidi"
+ 
+ WKS_FILE ?= "qemux86-directdisk.wks"
+ do_image_wic[depends] += "syslinux:do_populate_sysroot syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index 51f080bd2a..22e2ae836e 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -27,7 +27,7 @@ MACHINE_FEATURES += "x86 pci"
+ 
+ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
+ 
+-MACHINE_EXTRA_RRECOMMENDS = "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
++MACHINE_EXTRA_RRECOMMENDS = "${KERNEL_PACKAGE_NAME}-module-snd-ens1370 ${KERNEL_PACKAGE_NAME}-module-snd-rawmidi"
+ 
+ WKS_FILE ?= "qemux86-directdisk.wks"
+ do_image_wic[depends] += "syslinux:do_populate_sysroot syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
 -- 
 2.43.0
 
