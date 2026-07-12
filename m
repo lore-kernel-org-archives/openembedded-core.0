@@ -1,104 +1,138 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yogesh.tyagi@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8483FC43458
-	for <webhook@archiver.kernel.org>; Sat, 11 Jul 2026 20:38:14 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3433.1783802287590385451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20B46C43458
+	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 05:43:37 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9432.1783835014346641892
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Jul 2026 13:38:08 -0700
+ Sat, 11 Jul 2026 22:43:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a/d86jgX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493b1710405so9293685e9.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Jul 2026 13:38:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1783802285; x=1784407085; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=JD5+Jp4qSoZA8veM5UMhN4u6iqC2Z1q6pUkXw2Cf/18=;
-        b=a/d86jgXVqxyhFKMzRg8E8L2tCaGsj6154V6SGzGrpcfLuqmE9WqmA/VnXQmpWst9Y
-         QlR41dEswCIbvnSyxODbqyrCbH32yFFVhmcTPulHHK04IneLwMNhl8N6qLlnOiybM2RT
-         8y/r1ZwmgbMh+MthZWjllbZelLkihMuwPb3fs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783802285; x=1784407085;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JD5+Jp4qSoZA8veM5UMhN4u6iqC2Z1q6pUkXw2Cf/18=;
-        b=CZFzAkCNEzN0G3BUIY81NHKerbnvCvLMHvnyVAncGXs2+IGSYAHaMzpjHlYA5TPbFR
-         mpAd0YMlyPFsL7LYdrJwyIuGcAagXqjoX/xNK7oNpid1+nN9IzOYYh+N4GbEComgWA/N
-         6v5OcUq8kh84l9cUKPhck63/uMEnjZbxLIIH3hP3cdoSX4oRKL471od4pQvdfJvgAWzr
-         RTmIk6N6fcCvJE1VPaEaKLkESv8U/iAuOfKwGoj6QRnfNGZovAeJQJ8hTIxgeyvo5SLd
-         QdYaYoelWtv/GCx+ULLsj79+70p3/5kSDLshsslILcjLdB4Y03D5B39UFqGHfVxhnoeI
-         JKsw==
-X-Forwarded-Encrypted: i=1; AHgh+RpdwA30hwdMlK/xVwLFeveAGi8COl9cQbPMIyqYFmIzjr9p4Zb1SUEXz7PvFV7SivmHyJKv11qo7V2S4wvO/+POYA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw5dDy4XYY+5CWx1T0ejCQVEKH3gPUSPuXbGQ5SkADGp/9GXv6+
-	YJrgv6iv/jSCTXXq9JWqlYHZExs5Ge9VSIgbNTK9xgV+fJA5e99+wZe+9Nl/Ix1GC0A=
-X-Gm-Gg: AfdE7cmDm38y4wUu91z6OenrvzOUleg9w+VQXxP5BrKysAv8GNxyuX7lnmZMou0k018
-	n3AmVXouuqWJeDT6jnrK49jUNQEPVRDhN/mhs8Jlc2fXF2drcSUHIuI9ZBsdHWLbZTvsVcAdKdl
-	dUk0rQN+XwR6GCPR4cdjMct9ATE1lcI6Kk99gPUOWDB9rw61pH1ONmAEk2J0wZi5qSAeq4RYfdJ
-	USFcrgkEU+3kK9CkdDaU9boT9m5G0Sk5ftnSgtm7Z/bhzoH5iXzNNAy7UIO0TwjjZTcGtt6s5bq
-	XX/olugqRJEFD20K1Zg08AX+GZ/qGEeDsY21c/iPgjb20eBBptmD64/VhQberbZoGBMEKqsRsP5
-	YTom/B7likXXIbdJeaOsB5bfMtwqQabb3fjoXRQ98+JbILjbDriGYyttjDatcE1njmxOXvNf3Te
-	EOkA3HzbXI5GlL/x4puFI5EednPUKKfIJybNUaIobTrktHDn4u5hpdzUcH4qbURcP8cnlvaaIqp
-	4DP9Q==
-X-Received: by 2002:a05:600c:4e8b:b0:493:dcad:84da with SMTP id 5b1f17b1804b1-493f87d9899mr37490915e9.1.1783802285417;
-        Sat, 11 Jul 2026 13:38:05 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2004:2e5c:aef2:b707? ([2001:8b0:aba:5f3c:2004:2e5c:aef2:b707])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493f4cbc620sm134687695e9.13.2026.07.11.13.38.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 13:38:04 -0700 (PDT)
-Message-ID: <2b430032b2f96e187381d0c7d530b0c6f04426ab.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] os-release: set BUILD_ID vardepsexclude with
- weak assignment
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: jose.quaresma@oss.qualcomm.com, openembedded-core@lists.openembedded.org
-Date: Sat, 11 Jul 2026 21:38:02 +0100
-In-Reply-To: <20260710155721.214588-1-jose.quaresma@oss.qualcomm.com>
-References: <20260710155721.214588-1-jose.quaresma@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=@intel.com header.s=Intel header.b=N+KhKM7e;
+ spf=pass (domain: intel.com, ip: 198.175.65.11, mailfrom: yogesh.tyagi@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783835014; x=1815371014;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=aDYtT8/jfcLLmwv+1aDKapiJJvB2U0MTe/DsKQ3ZhrU=;
+  b=N+KhKM7eimlYeoD/K8U1QUCuP6vCdKWxFRzM7AmsWIDvYuq8C+ixVME/
+   ZBCNw6hj64WbPlNLSLBcxy14csY+EiUy1T2JmMD56Fnpk8mZn+Re8XOj9
+   oAPoFG0jpc7B4dv6DjSCEtlXnZmGriXAq0+1T9c6fJ5N6Z8of+1YwzHeX
+   iA9mbw7jifCLcQA1/0wqxysENrCiilmMHoLyaAwTB4hq8/jiK7+U+msCl
+   QkPNKltrSu7NwgHaZgnCL7gP6jmUWrZjubf0DHCYv5chqQSZ1wDpBbx2k
+   05RVWw3ayvwI16LXM1baLXQth3mOYmZ4fHicKNLL7SB3ajV/s92XQU+13
+   A==;
+X-CSE-ConnectionGUID: MSDqG+2RS+eA0QUrM+XVNg==
+X-CSE-MsgGUID: eAxN1AK9RtKMcQWg0WeTZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94834019"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="94834019"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 22:43:28 -0700
+X-CSE-ConnectionGUID: fteSRbsYT2CCcptrA/U45w==
+X-CSE-MsgGUID: Jnhb/47ZQ8ep2h5vWhnV0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="293448043"
+Received: from andromeda02.png.intel.com ([10.107.232.49])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 22:43:26 -0700
+From: yogesh.tyagi@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] bindgen-cli: set CLANG_PATH in native and nativesdk wrappers to matching clang
+Date: Sun, 12 Jul 2026 13:43:13 +0800
+Message-ID: <20260712054313.2099693-1-yogesh.tyagi@intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260630190004.1083997-1-yogesh.tyagi@intel.com>
+References: <20260630190004.1083997-1-yogesh.tyagi@intel.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Jul 2026 20:38:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240724
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 05:43:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240725
 
-On Fri, 2026-07-10 at 16:57 +0100, Jose Quaresma via lists.openembedded.org=
- wrote:
-> BUILD_ID is defined using a weak assignment so that we can modify it
-> externally. However, if we do it, we also need to do the same thing
-> for BUILD_ID[vardepsexclude] with the new value we assigned to
-> BUILD_ID.
->=20
-> Signed-off-by: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-> ---
-> =C2=A0meta/recipes-core/os-release/os-release.bb | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-co=
-re/os-release/os-release.bb
-> index e1906d05d8..bbbf9e3e11 100644
-> --- a/meta/recipes-core/os-release/os-release.bb
-> +++ b/meta/recipes-core/os-release/os-release.bb
-> @@ -41,7 +41,7 @@ CPE_DISTRO ??=3D "${DISTRO}"
-> =C2=A0CPE_NAME =3D "cpe:/o:openembedded:${CPE_DISTRO}:${VERSION_ID}"
-> =C2=A0
-> =C2=A0BUILD_ID ?=3D "${DATETIME}"
-> -BUILD_ID[vardepsexclude] =3D "DATETIME"
-> +BUILD_ID[vardepsexclude] ?=3D "DATETIME"
-> =C2=A0
+From: Yogesh Tyagi <yogesh.tyagi@intel.com>
 
-I'm a bit surprised you can't just append to it and leave DATETIME in
-there regardless of whether it is still used or not...
+bindgen uses the clang-sys crate to locate a 'clang' executable for
+querying default include paths. clang-sys's search order is CLANG_PATH,
+then libclang's directory, then 'llvm-config --bindir', then PATH.
 
-Cheers,
+When clang is used as the toolchain, the crossscripts llvm-config wrapper
+honours YOCTO_ALTERNATE_EXE_PATH and reports the target sysroot bindir.
+clang-sys's 'llvm-config --bindir' step then resolves to a target clang
+that cannot execute on the build host, so bindgen fails with:
 
-Richard
+  could not run executable .../recipe-sysroot/usr/bin/clang-NN:
+  No such file or directory (os error 2)
+
+This is hit, for example, when building mesa with the rusticl/opencl
+PACKAGECONFIG, whose do_compile runs the native bindgen against
+rusticl_mesa_bindings.h, and when building rust-in-kernel via
+kernel-yocto-rust.bbclass, which pulls in clang-native and
+bindgen-cli-native.
+
+Set CLANG_PATH to the clang that matches the wrapped libclang so
+clang-sys uses the runnable binary first, short-circuiting the
+llvm-config lookup. The wrapper already exports LIBCLANG_PATH the same
+way.
+
+The recipe is BBCLASSEXTEND = "native nativesdk", but only the native
+variant had a wrapper. Add the equivalent nativesdk wrapper so an SDK
+that runs bindgen (e.g. rust kernel-module development in the SDK) does
+not hit the identical target-clang failure. The native wrapper uses
+STAGING_*_NATIVE; the nativesdk wrapper uses the on-target ${libdir}/
+${bindir} so create_wrapper's relocation rewrites the full path and the
+shipped wrapper carries no build-time (TMPDIR) reference.
+
+Signed-off-by: Yogesh Tyagi <yogesh.tyagi@intel.com>
+---
+v2:
+ - Add the missing nativesdk bindgen wrapper (v1 only wrapped native),
+   so an SDK that runs bindgen does not hit the same target-clang failure.
+ - The nativesdk wrapper uses the on-target ${libdir}/${bindir} rather
+   than STAGING_LIBDIR/STAGING_BINDIR: the latter include the recipe
+   sysroot (TMPDIR) prefix, which create_wrapper's relocation does not
+   strip, so the shipped wrapper failed do_package_qa with a buildpaths
+   (reference to TMPDIR) error.
+
+ .../bindgen-cli/bindgen-cli_0.72.1.bb         | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb b/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb
+index 72dadfe52f..2ef797c156 100644
+--- a/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb
++++ b/meta/recipes-devtools/bindgen-cli/bindgen-cli_0.72.1.bb
+@@ -11,8 +11,25 @@ SRCREV = "d874de8d646d9b8a3e7ba2db2bcd52f2fba8f1f5"
+ 
+ require ${BPN}-crates.inc
+ 
++# bindgen uses the clang-sys crate to locate a 'clang' executable for querying
++# default include paths. clang-sys's search order is: CLANG_PATH, libclang's dir,
++# 'llvm-config --bindir', then PATH. When clang is the toolchain, the crossscripts
++# llvm-config wrapper honours YOCTO_ALTERNATE_EXE_PATH and reports the target
++# sysroot bindir, so clang-sys's 'llvm-config --bindir' step resolves to a target
++# clang that cannot run on the build host (native bindgen then fails with
++# "could not run executable .../clang-NN: No such file or directory", e.g. when
++# building mesa with the rusticl/opencl PACKAGECONFIG). Set CLANG_PATH to the
++# native clang so the runnable host binary is used first.
+ do_install:append:class-native() {
+-	create_wrapper ${D}/${bindir}/bindgen LIBCLANG_PATH="${STAGING_LIBDIR_NATIVE}"
++	create_wrapper ${D}/${bindir}/bindgen \
++		LIBCLANG_PATH="${STAGING_LIBDIR_NATIVE}" \
++		CLANG_PATH="${STAGING_BINDIR_NATIVE}/clang"
++}
++
++do_install:append:class-nativesdk() {
++	create_wrapper ${D}/${bindir}/bindgen \
++		LIBCLANG_PATH="${libdir}" \
++		CLANG_PATH="${bindir}/clang"
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.43.0
+
 
