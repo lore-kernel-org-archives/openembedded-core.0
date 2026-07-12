@@ -2,63 +2,63 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A530C44501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EFBEC43458
 	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 18:43:25 +0000 (UTC)
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.883.1783881803758001781
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.884.1783881804693884143
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Jul 2026 11:43:23 -0700
+ Sun, 12 Jul 2026 11:43:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=I7Y5PG/c;
- spf=pass (domain: underview.tech, ip: 74.125.224.41, mailfrom: vince@underview.tech)
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-667627ae83aso3530495d50.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 11:43:23 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=ZMPhiGTN;
+ spf=pass (domain: underview.tech, ip: 209.85.128.173, mailfrom: vince@underview.tech)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-81ea0b7d137so5016787b3.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 11:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1783881803; x=1784486603; darn=lists.openembedded.org;
+        d=underview.tech; s=google; t=1783881804; x=1784486604; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ylsWSCR3M8HZw3y0Qd9EzvpFU7XBpR/p9T6uh8EiZ00=;
-        b=I7Y5PG/cxml4v9J51JM225NDQ2dm0ehYuT64z+p13bvOAOMQ8OtLgVFJaPps5HMX3H
-         pXCCy6tFm457o2JGOUB1ikgnl++8sT8AmfvyaamdMgA1oCR8xwZYXf0vSSerHSktQJut
-         6Dg2AG02M6uEsR9TRGbA/qgzPov9MbrssITClaL6sBqt/LkuQxK11YTFoX2IjTzGkeHT
-         w3jAizBDPrxXnGrMz6d17xGWhw9iPgwPABOdKc0kwVq3kF7HoOqryvHHDFkbcmWM7fmT
-         tVjy4n3Tl3w8nNB6HfbcAPkMdWvIR/C2cXaTe4i3tNmMJiYGdUMoDMe5wvU2M0S/lrhn
-         felw==
+        bh=sUNYA/hFmr53NcH0LlWOULNRRXKWmYCC1OPxJM2/ppw=;
+        b=ZMPhiGTNc29cCycKm/Ru2mcbnnUtTXGaJigi+D95M8CXaAIDGLARKtP3QGqzwtpphZ
+         HLz1ESMQBvdM0jpeiVmaWHZ2qqLXPLWzewkY3gRUB6dBr55u0PB+3zc5TbGxnqGwVcv5
+         pil4qcmTVriz0i08zx287RzNiEU7yWxZ+25geZE1gKM/CW8RJy9tFBTvePukORmlLjaa
+         EDJ8fHTk2Y2Nz+rsz//1PiCamC2xC2rx1WUYMWExZd2lzhJe93enejKeabpcDvX6K4Cr
+         MpCmKh0690c295JHZpESSlkd8q7UY4uUMeFGN1aqv42CBzTnqdymGY33V/cfHYIVH3Ci
+         Einw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783881803; x=1784486603;
+        d=1e100.net; s=20251104; t=1783881804; x=1784486604;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ylsWSCR3M8HZw3y0Qd9EzvpFU7XBpR/p9T6uh8EiZ00=;
-        b=ITEv9l/lOUym0ZxX3jh18KFkhMSPIJHH5a3v8vzduYg1xrBpC1D2X0spYK33M88dg3
-         FsOlHDgUYc953cvKvYwiTsfAdBhX6eSOFfGRFFjm2WcX712xJA9GBe4zt5LNPEjelD+L
-         X6qOGYx9ZQW+B1fXop9LYyoDyoyfYEg3Vythp8BAlVJrz08qlAMV/GyDlEFjLPKcVLEX
-         P4DliUiIK+QqLr3bnPu7xI1u/OLY8x2M+FY4PvTIEIvbJ65GiPUgpN6fmjLW0YU6VFNN
-         pIkLj9LTdmKqpgQluAtJAN+atNH37zbW0KHWN0wFgtJ8k3EAq2wGuWZq4kdBs4QHuOGl
-         23Zw==
-X-Gm-Message-State: AOJu0Yx/Mo0db51GbO20I8VvVEpUg2MZ1NeuPGwmOcPMt23MD0YTG0DM
-	YmXnzCjOUtV0ZUCdSmsY5MERnzBv0ggSQfaXP6H9ba3uG/uqWzjJ9oGfPm5SQ1Ve8mxT6TfpXO6
-	0yatqsVY=
-X-Gm-Gg: AfdE7cn0QDOoK7vDOBBfFh2XplPW3xnfxSlVco44DiUZkssnc44sPMCFA86XUdv9lbt
-	qjjVAJn7OCS21jn2WBFKf7IjshYN8lu2qn3zPYCL/y8GD5+woKsuZBb10k7uajmvuXqgtR8dN+D
-	WLvKbECALRf+9V1hMqAxiZJE/P8lFGdZZib5QDBa0wfljRTmBNnr/QuSylULNfe8gVZ2t21ARlq
-	vSPbmY2wzfeGDNHMTvAQ5srr3rDzmbxT9N4QQYmm1rdrhMXG5ODgVUKXydnQ0ymqxHLN1Blkg/7
-	VyE+09WJYzrTIyW3Iv7COAMo3ZBY4swA7YQaAwPV4F0xVHF0zcQcNRUQ/NKR6r1fnuKhS76xNa2
-	Ar/QaqwLt2iYerYz/wSrfPGSj/ji8+9I6vgRPzKJEy3lzPpKSwU7LaCEfdsz6cSQLARyTOTn0e/
-	vsOasy/VTt/CkDZw==
-X-Received: by 2002:a05:690e:43ce:b0:664:b559:d504 with SMTP id 956f58d0204a3-667d7a945c0mr3526552d50.9.1783881802810;
-        Sun, 12 Jul 2026 11:43:22 -0700 (PDT)
+        bh=sUNYA/hFmr53NcH0LlWOULNRRXKWmYCC1OPxJM2/ppw=;
+        b=WGTkZQwrrVMUf9vJgHr8w0MNvwLsH1polAoS9mc3T+3funtxfzQ3a1oRN9cOFwau0n
+         UnD2apgJzLEXDwAdyRKZ7QqoOy6FCSvjRXLRDpX1km9IE7kv5DWrYT470e1TNI2rneLW
+         amgGvEqVb60I+XPYi8dIuNMHjTlnUpvzovn5aBkv+cLxF0So07H4fmyGPY8zaphvMAMA
+         +igqJjAaGXmgh+VK9BHs167s5IqPYcbHRiIMrSWc3uuUMAkwoZX9r+1Hrqk0rKytAfGB
+         27vF0IBb0LvyTLOU2kfVasPHAEu49KnaPEvv2fFYUG2kBufAwbSMaNeSNlBpJTfPNlY0
+         Grbg==
+X-Gm-Message-State: AOJu0YyQsXsVCjfqC0rDP440gl9w0HVSMuTDU75yYHBtpbMax2qgXNtK
+	i9rgpNbDjdBkXFAS2TQEw0/bhNrv6WuQPyx5C2jD01qYzLcSsDjgpJEPiQj6x2ciJSblEA5O1ib
+	t18n/d8g=
+X-Gm-Gg: AfdE7ckx04dXRdsAz65slcyccm/NhVwyIr02lI7SCuoayFuAvZWO/VClO/2nuQBPxmm
+	2B9BL/PZFr95gMsIxk0/pX3tmsw5BhIMERF9zbMsxsePiO8ubQs8OLFYOcSoFNJZUQSYpPzNUuq
+	2WapJ5fFTdBKgzWzwwgdyg9cUFfypP0xPHACreahMlMKlPwcUbBJfCjEj+zd+On4IlKIDAGkRga
+	D0ihbvJNDzmLm/pU8kfHBeDMtNHLXHEjYlag8q2C5FTpJkHC2ZMmsS0M1DceFgscE9MS97RiSPd
+	S5RH26YvsijFooot86WtaR//O9Cq0mspvcjVpHMC4k2tgyVsR6EXkROO4O/27D8sneSvpQEyBhO
+	1ppIR9USvIF0IIZe1zLhKhTHqJlyaxBD+j6Bhf0kroaKffn3R3krwSmWu53ejFMO/cyUfxjF92h
+	Naq5MzIf3inzzCTw==
+X-Received: by 2002:a05:690e:4181:b0:665:3dac:c3a7 with SMTP id 956f58d0204a3-667d7b8929amr4300995d50.61.1783881803690;
+        Sun, 12 Jul 2026 11:43:23 -0700 (PDT)
 Received: from vince-server.attlocal.net ([2600:1700:b540:3af0::42])
         by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66787b23b35sm11768236d50.21.2026.07.12.11.43.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 11:43:22 -0700 (PDT)
+        Sun, 12 Jul 2026 11:43:23 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v4 06/27] packagegroup-self-hosted: rename kernel prefix
-Date: Sun, 12 Jul 2026 14:42:46 -0400
-Message-ID: <20260712184307.3259642-6-vince@underview.tech>
+Subject: [PATCH v4 07/27] packagegroup-core-boot: rename kernel prefix
+Date: Sun, 12 Jul 2026 14:42:47 -0400
+Message-ID: <20260712184307.3259642-7-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260712184307.3259642-1-vince@underview.tech>
 References: <20260712184307.3259642-1-vince@underview.tech>
@@ -68,7 +68,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 18:43:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240796
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240797
 
 Utilize preset variable KERNEL_PACKAGE_NAME
 to ensure uniformity with builds if
@@ -77,41 +77,22 @@ change.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- .../packagegroups/packagegroup-self-hosted.bb      | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index c386267781..16835e60df 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -7,7 +7,7 @@ DESCRIPTION = "Packages required to run the build system"
- 
- PACKAGE_ARCH = "${TUNE_PKGARCH}"
- 
--inherit packagegroup  features_check
-+inherit packagegroup features_check
- # rdepends on libx11-dev
- REQUIRED_DISTRO_FEATURES = "x11"
- 
-@@ -51,12 +51,12 @@ PSEUDO = "pseudo"
- PSEUDO:libc-musl = ""
- 
- RRECOMMENDS:packagegroup-self-hosted-host-tools = "\
--    kernel-module-tun \
--    kernel-module-iptable-raw \
--    kernel-module-iptable-nat \
--    kernel-module-iptable-mangle \
--    kernel-module-iptable-filter \
--	"
-+    ${KERNEL_PACKAGE_NAME}-module-tun \
-+    ${KERNEL_PACKAGE_NAME}-module-iptable-raw \
-+    ${KERNEL_PACKAGE_NAME}-module-iptable-nat \
-+    ${KERNEL_PACKAGE_NAME}-module-iptable-mangle \
-+    ${KERNEL_PACKAGE_NAME}-module-iptable-filter \
-+    "
- 
- RDEPENDS:packagegroup-self-hosted-sdk = "\
-     autoconf \
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index 5cdd161811..96c07aff52 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -22,7 +22,7 @@ RDEPENDS:${PN} = "\
+     ${VIRTUAL-RUNTIME_base-utils} \
+     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
+     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
+-    ${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER} kernel", "", d)} \
++    ${@bb.utils.contains("MACHINE_FEATURES", "efi", "${EFI_PROVIDER} ${KERNEL_PACKAGE_NAME}", "", d)} \
+     netbase \
+     ${VIRTUAL-RUNTIME_login_manager} \
+     ${VIRTUAL-RUNTIME_init_manager} \
 -- 
 2.43.0
 
