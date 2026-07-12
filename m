@@ -2,63 +2,63 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D50C43458
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCFBFC44509
 	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 05:51:48 +0000 (UTC)
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9342.1783835506931242986
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9340.1783835502659071467
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Jul 2026 22:51:47 -0700
+ Sat, 11 Jul 2026 22:51:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=LWBQ6s1m;
- spf=pass (domain: underview.tech, ip: 74.125.224.50, mailfrom: vince@underview.tech)
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-667971437d6so3414145d50.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Jul 2026 22:51:46 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=KOXwYdkw;
+ spf=pass (domain: underview.tech, ip: 74.125.224.41, mailfrom: vince@underview.tech)
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-667bae10ba3so1791209d50.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Jul 2026 22:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1783835506; x=1784440306; darn=lists.openembedded.org;
+        d=underview.tech; s=google; t=1783835502; x=1784440302; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YLHYSayuAI0+PNxiORMP6oLepN3WwbNmmuhzSMJKvkU=;
-        b=LWBQ6s1mq7h6ouWXPNcrxxPosx2QTZ2+aQIj3ZqfKINvYk4HSAG4XsupP2IdJh3LfI
-         NOViHK2DfrrMaLA6uLXNGbu71NhDIx6g8cI8Yecu8cXi4XAE0D+AoJhobH3Tzi6vGUAn
-         W/fRaNHro/T/+O9QnSA/hL2vXIRVBX++0GzBEDgXcaOfnluBQtW1KVCSGBOD7Th0Ss8o
-         masyG+QftLeyUv8R48klHxt/Pqg/6bE1IHeIZ2z/oRlJyflyOwfd3CPlic8fMpsYdKgo
-         KJi9g1cyUkt1BGXdwK4fOMYvv3KNNSSWe92kKriGu87k2SfmzcfS7QuBqSq8dt4K2DRg
-         VIhQ==
+        bh=RJgH6M0et/poWJAv7MNUQOJjkPgQBFQG7yvDbEBkxt4=;
+        b=KOXwYdkwr47eembb0dT/TjXukOnzR2chQ5Fdx1UzmvCeoneeOqL7Xm66fEUlw7xrnm
+         1SiBjVkiUTD5KIFbRQO3VaDZpSSL4vK6iP0IlZAL1vxd/HIt7k76Ixi29X5xaG3oP8iz
+         hAFa2tt76P3PwubGX0fIOZMaZTLWmNRtNULzocXFQrFM95/yARrbfD4A+hhaSMiQQdJ0
+         ZBqKNNFoVb+bgRvVzLYH2EB5UM4W8p205zXTGzcD7Gzxzldgiw4R5ZwYYA079YqxiFfS
+         5rkGRHkETiO2YvrSD2GZNcTgwikLFxiwmmg218TWHZ8KC6WGDcbqbp3D0671wvecr8rL
+         zSjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783835506; x=1784440306;
+        d=1e100.net; s=20251104; t=1783835502; x=1784440302;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YLHYSayuAI0+PNxiORMP6oLepN3WwbNmmuhzSMJKvkU=;
-        b=LYdbwzr6QaOSJsmFoNhmTwoccHhEiW8wSyafT/Wqs3+MCDVA4nr2WhmnEMKNkXoFuX
-         xSd4WYNgtYUrWwQY4IfhvyZoHJJzJgjQyVhhSiUWU/5OAdqnSCSOxrA66YNL9XsOvSMZ
-         Z5GUaAOcvxFqFoD0ECX5jBZep89ALfpA6z/cLldXxR7KWC5UGA8xWCnWCIiwkFdzCEYo
-         g3wqQcCoCBy+fy++sgIYOWQWq6X9Y4KUwZsTE/u/X3/nmlahVb9EgFeyIFkdRrLv8XBD
-         OzTAkDeBhN/jsGHd4N2W5CNbzIyCnnC+dUHK6LizYmMl4/6O46O4dwbq1BigCiQnWnyW
-         LOpA==
-X-Gm-Message-State: AOJu0YwfCHC+1LtgbrV487R0eKBmj9aULylheRTE8+UbOEH9kngxt517
-	sF9UUU/63hn8277XrrqJBtxgerfn9oilFEtqD1mg2dvjrrem3LUMsfMdqu/S6fvdy7KkxmJNS59
-	Aulstsd0=
-X-Gm-Gg: AfdE7cnYiqSryDfQf6p+50417Uhixx0To2YQMjINl1RbgPIbbuN6q+4KMbv5qOtfAyY
-	vdHefcJhOIJHLUA/xs3WgNs197JqVJnz1da1/AtqoCcjQyDzCSHO2oztHQGkSK0CFVWxNa5c5j5
-	c4f0Pb9+WJIwalCc4RoDm8ItGK2xob35AmC+t3uEUU7ddLDOJ3zYBY/uoyyJJqNOJRTh3OGj6EL
-	aHCeo6Hk7wM6yE53gQDmG3ge9qv/RwYYNHhuTc5E75/vCw+58Q8UFN/bzF89f9DF86TiuRJG7XY
-	i/d6SciYTf7kbNbeimciorRhlWwZnJVw/xfQpwKlKCeq1jmdF6bwlbnZpAdpnTeyExHmahL+JmQ
-	QEmQbVndWdOjYWiATItEWFcMTw0H4vgFcus1PjKeygom2qgy5urSNxlMJr/lXdp9OEexnLTZXYh
-	1uIT0KqNB4ZF3EH3sbmRxUGg86
-X-Received: by 2002:a05:690c:688e:b0:809:ae5:1d2f with SMTP id 00721157ae682-81e90017f6emr34502087b3.9.1783835506017;
-        Sat, 11 Jul 2026 22:51:46 -0700 (PDT)
+        bh=RJgH6M0et/poWJAv7MNUQOJjkPgQBFQG7yvDbEBkxt4=;
+        b=ZGnPB0T+rd2f4ZjfKw3fMev8XfwDksJV+PXPrZ5qQr0TEcbsV/qDs9M9hJblT4bT74
+         K+KmtMvjgFIorxILwbWlGg0DqymVa+VfTia9VnxllVODDg3VlZ0zveHcZeWhJxkuavZO
+         Gbo+19/na2BO8YOjvNeVJLA0RHyOyZLPShv0OK0Gc2Xtofo0uKmxDerJ5yBKKq+x1QMV
+         nznkpa5fQG8hBzGvd3ZFeMafcuCxfN6FcC6na5rP1BIXfXZiTK9V5oIPmu1kWZ2Qr9W6
+         xkNGdWFMsm0ao28OGNiJ9yl6yFS3KEvXtmgEEIZGrDbVtZrvAF8JkrIy8aAjQJQiiW8B
+         3++Q==
+X-Gm-Message-State: AOJu0YxRuN1E6k79/BqMMvXLt+97xZOL+cmQq/q26Qj/shQx4DpIXf6Q
+	ck4Z+PvxWPP6wlULnapiSNQi5SYTvUKPk75fOLLPNwOajL/XgUZ/cktuct50aDZjoktoA6uM2Cn
+	klGYqyRo=
+X-Gm-Gg: AfdE7cmJC+d5qQMsxelUZTZMbYpydLJkK9ThdqfvHBJ4Mbg91WYg2Ewwga0jHqducHl
+	YyIEE9O1pXxd+apFTzTSISgK1CSCTlsKK6e68RcIelfWzxRh4YWfMyuwpKSuNfsfhLT6A+xRjuB
+	uS82Ehd78Ben0ieQUBLwMoNO9ZxQJiwvoAWEITn+lxAMx090Ye+a7/FgidzUnwoSzaMjxq6M1ac
+	pvSb+M4hoXIaFSno5rH4K4F7gzXtkxOAfbxO7Pnyv6e9i+OwbiZxfo8qXi0vqameMC3VK5VMBr4
+	tRziuo0Sj3JkAM6ICzX+D+tJpn9MhNLQXYpNVf3F5GV4Y4IZwVHvTuDBcFZptavSDKFlhXCbEHU
+	xau0/BiMhxicl9VZCaybTRm3XC/sp2aYm6Io1y3CfTazdfTQCsEoZrroRpA27kkVGeectWLsoLN
+	1iEN8KcHaXiAkOZw==
+X-Received: by 2002:a05:690e:4891:20b0:664:71f:c5aa with SMTP id 956f58d0204a3-667d7abd690mr2534206d50.23.1783835501654;
+        Sat, 11 Jul 2026 22:51:41 -0700 (PDT)
 Received: from vince-server.attlocal.net ([2600:1700:b540:3af0::42])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6678779e37fsm10764901d50.5.2026.07.11.22.51.44
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6678779e37fsm10764901d50.5.2026.07.11.22.51.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 22:51:44 -0700 (PDT)
+        Sat, 11 Jul 2026 22:51:41 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v2 17/26] hwlatdetect: rename kernel prefix
-Date: Sun, 12 Jul 2026 01:49:45 -0400
-Message-ID: <20260712054954.4063745-17-vince@underview.tech>
+Subject: [PATCH v2 14/26] systemd: rename kernel prefix
+Date: Sun, 12 Jul 2026 01:49:42 -0400
+Message-ID: <20260712054954.4063745-14-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260712054954.4063745-1-vince@underview.tech>
 References: <20260712054954.4063745-1-vince@underview.tech>
@@ -68,7 +68,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 05:51:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240742
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240739
 
 Utilize preset variable KERNEL_PACKAGE_NAME
 to ensure uniformity with builds if
@@ -77,19 +77,47 @@ change.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- meta/recipes-rt/rt-tests/hwlatdetect_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd_259.5.bb | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_git.bb b/meta/recipes-rt/rt-tests/hwlatdetect_git.bb
-index 2dcc80965a..7abbe25dec 100644
---- a/meta/recipes-rt/rt-tests/hwlatdetect_git.bb
-+++ b/meta/recipes-rt/rt-tests/hwlatdetect_git.bb
-@@ -23,4 +23,4 @@ do_install() {
+diff --git a/meta/recipes-core/systemd/systemd_259.5.bb b/meta/recipes-core/systemd/systemd_259.5.bb
+index f3ec0edae7..9f082a07d1 100644
+--- a/meta/recipes-core/systemd/systemd_259.5.bb
++++ b/meta/recipes-core/systemd/systemd_259.5.bb
+@@ -483,7 +483,7 @@ FILES:${PN}-binfmt = "${sysconfdir}/binfmt.d/ \
+                       ${nonarch_libdir}/systemd/systemd-binfmt \
+                       ${systemd_system_unitdir}/proc-sys-fs-binfmt_misc.* \
+                       ${systemd_system_unitdir}/systemd-binfmt.service"
+-RRECOMMENDS:${PN}-binfmt = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', 'kernel-module-binfmt-misc', '', d)}"
++RRECOMMENDS:${PN}-binfmt = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${KERNEL_PACKAGE_NAME}-module-binfmt-misc', '', d)}"
  
- FILES:${PN} += "${libdir}/python${PYTHON_BASEVERSION}/dist-packages/hwlatdetect.py"
- RDEPENDS:${PN} = "python3-core "
--RRECOMMENDS:${PN} = "kernel-module-hwlat-detector"
-+RRECOMMENDS:${PN} = "${KERNEL_PACKAGE_NAME}-module-hwlat-detector"
+ RDEPENDS:${PN}-vconsole-setup = "${@bb.utils.contains('PACKAGECONFIG', 'vconsole', 'kbd kbd-consolefonts kbd-keymaps', '', d)}"
+ 
+@@ -561,9 +561,9 @@ RRECOMMENDS:${PN}-container += "\
+                          ${PN}-journal-gatewayd \
+                          ${PN}-journal-remote \
+                          ${PN}-journal-upload \
+-                         kernel-module-dm-mod \
+-                         kernel-module-loop \
+-                         kernel-module-tun \
++                         ${KERNEL_PACKAGE_NAME}-module-dm-mod \
++                         ${KERNEL_PACKAGE_NAME}-module-loop \
++                         ${KERNEL_PACKAGE_NAME}-module-tun \
+                          tar \
+                         "
+ 
+@@ -744,7 +744,10 @@ RDEPENDS:${PN} += "volatile-binds"
+ RRECOMMENDS:${PN} += "${PN}-extra-utils \
+                       udev-hwdb \
+                       e2fsprogs-e2fsck \
+-                      kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 kernel-module-sch-fq-codel \
++                      ${KERNEL_PACKAGE_NAME}-module-autofs4 \
++                      ${KERNEL_PACKAGE_NAME}-module-unix \
++                      ${KERNEL_PACKAGE_NAME}-module-ipv6 \
++                      ${KERNEL_PACKAGE_NAME}-module-sch-fq-codel \
+                       os-release \
+                       systemd-conf \
+                       ${@bb.utils.contains('PACKAGECONFIG', 'logind', 'pam-plugin-umask', '', d)} \
 -- 
 2.43.0
 
