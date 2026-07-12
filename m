@@ -2,63 +2,63 @@ Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B2FBC43458
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71FB2C44506
 	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 18:43:37 +0000 (UTC)
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.949.1783881816507959909
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.948.1783881815694907799
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Jul 2026 11:43:36 -0700
+ Sun, 12 Jul 2026 11:43:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=S67Dq5q6;
- spf=pass (domain: underview.tech, ip: 74.125.224.48, mailfrom: vince@underview.tech)
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-6662551100bso3175101d50.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 11:43:36 -0700 (PDT)
+ dkim=pass header.i=@underview.tech header.s=google header.b=QL2YoNhl;
+ spf=pass (domain: underview.tech, ip: 209.85.128.171, mailfrom: vince@underview.tech)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-81ea9f974ebso1251947b3.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 11:43:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=underview.tech; s=google; t=1783881815; x=1784486615; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9ZE5V+q19E5+KhibF5eu0YBz+rNt1AuLLXF7vNizyN4=;
-        b=S67Dq5q6jm3HFLWooA0Ck/V3SnemS+hs4gnu7teB3+4OYKqpkq0HrI6jxo76Nn4fko
-         rbak5RC2dCj9X/hIaktJv20r+6BJ4s5mTv6kpUnluA5Tj58XVf/MgmqyIeyKhqLWKnbe
-         7DYMTRyuHCmQU7ej8ABSYHt1Jsc3JUMZ18AI+rIpZFd5w8k9FyqWFNaErmCXhLXj6M3Z
-         Q7R8AdAqa7NO/nBC90J4xjSO1eAZp3Wg07WITqndvtFHQKO4NySsWOVyfMHsnrrCTgO3
-         uV75KKO42y+SGEaLSrFVcx0WxLLF6Dty9ZhHGUwTvejB8sW5raAz+CmbwdtvKID4tV1Y
-         zc5Q==
+        bh=bbFY+D1ZBUrfgvpTYCBvCMbZbwi6J3rhxyQH4S9VS/s=;
+        b=QL2YoNhl8LV0aKju0PSCdnvkMAvxdDWKI9L8wMgpJLZS1p+//kCWUgTi1c4byXgNpL
+         aIByYxKrmlJbm6F+sDVa4cNeVuz65f5cHxpqanNFJK2W/F3EFcPF0Dbg1J1biR7ZUyuu
+         hSuX6bEDHAQwNKM6D/9tJ4M1jVA+eVw5SJAxUG6bChxQPISAgHDtu8Ucuvo20K6MQGiK
+         FEo0SypiEczktr8wZKJdXmB0G2v7iYOWHuiwjI5vbngHWCNoK0Ki8GULeRx6DD1wkWaF
+         MkvtkeFwKYPnFO7z9gT0FW9p5i8OXq91cxs9mFVpN0aax5Kb3Rtouu0FZdZBDnj/9/cw
+         0Jhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1783881815; x=1784486615;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9ZE5V+q19E5+KhibF5eu0YBz+rNt1AuLLXF7vNizyN4=;
-        b=bqBBcxJxTx1W8qhViW/Ii1AJZAN3U5dhIauV+58lhfMVYVw6L4ewbaBFBCxDul9OcM
-         dFRfWEV4kTvkFw/aMAFj/0wdjMPjHnKRJIDA+NtASF2jj7tKklIIMYVo4nj+D8jMlHQz
-         FNBoL4aO4VToXnIbt8wN1YEOTREkC0YwNU3TzCA/UU4TqbV332LGwb5fORnjPuELhcAa
-         upr45ZKPIBoOulC6wETqp98MOslRWuwV63lkEWJ61wJJVVd7N+++GpG4oiunURtfJWcb
-         L71EExcDbgxZM3Tk80aBN1/gp9tGfD1ZLKTaUBDiPfU7X/zmTlwPt+SMSHGiwwqBZZX3
-         b59w==
-X-Gm-Message-State: AOJu0Yyqlme+YeUiEeCQG5TD3Q5sulfmk+8r+BN+k3lRiq76YR8FdRZQ
-	kXYrxE0JXzKl9yB+rAQY5ozMpq5TUwh43VB4KLyjxD+NBgu3ZiEyQ5tbgf63styvG6EyNdSE8Hd
-	VOzTS
-X-Gm-Gg: AfdE7cldhwA2y9/FJxnCx2Yb1x/1TR/AP8Qf+qH8UvBsWzPsLAe+wTDhHCniovmjTaM
-	F0N9nrs2MvftTIkpDArlu/bMyds+cf0OuWQUV4Lej6py0opCF2nT6X4zTTCMfiU/xmvy6L8D80N
-	R6yqf28+JBmpoUDH3LB78q2calIbHV8fsffRryRFptpCTBE6PBHmYirANj1tEbeR3U44V04b2g9
-	+4NirJu1LqSEnbsmsk4CEcIKBhSOHYWCoD/I1qT/x7zyqwwHdzWPIIlCuF7vTmJH4Pp6QkfXFKS
-	rm5+Ca5UIyZ2oSKQTQK9p5y9/h9wW6kwHTNoVBS2XJstJhleuvoSqnh5GkHjY0E9j63Cj7pTQcn
-	cfxTGYZHTYV4Z+9EYfZjytOBA5eVREWXRoDquaVAl1PpZ3F9jt0MJwsJg29rWizCfhK9n+Qea04
-	ssyNSiD86MrzWWug==
-X-Received: by 2002:a05:690e:1909:b0:667:e172:afb9 with SMTP id 956f58d0204a3-667e172b2dbmr2981863d50.86.1783881815601;
-        Sun, 12 Jul 2026 11:43:35 -0700 (PDT)
+        bh=bbFY+D1ZBUrfgvpTYCBvCMbZbwi6J3rhxyQH4S9VS/s=;
+        b=htmJrTkL/KtfNv3tqTrf58LGyxImN1NpNF615Z8Dn1vFblCwZarwO2tjjJ5YsulF6D
+         L2QxQbSivUkzxBj2ML46TCXBi/acljiJ0kz0x+flOTo1oqaJ8zOy0bPNgjzMKRhsta+M
+         TdHonYu0YQ58A5eAsChjAN3pUdSsdiiNqT9RWd2LjxOJKYPncisFDonlEeNDdF3xuyBt
+         PfmnJEa9PdG5Bxob1n0nz5lT0F81QLV+zfHxUoCpjyVvYhq390BpHecVmp0b+CcCcZpE
+         726oqMjTcpXan1o4bWG7xtgCX17Qs/N+YthMMbkZUMZDmXy+W+IENq+t2/Drj3XN5gBI
+         nkcQ==
+X-Gm-Message-State: AOJu0YzAKSBa1KY2Kcv95fo4HNhdUhWFvwiHzbS/6BgS/HMOBfZM7GPT
+	F311KC9e+3L8tthGShCWca0D1aT8398sgYdnWYjoK3oXnsiVkx5Km/Aj1MyMEB0ULFGktL1Rlov
+	azV5zdVk=
+X-Gm-Gg: AfdE7cmCIcgjRSQiGupWVfM1zuFusrg8tMGalGpkSq8zent9HICLUiNkU3ElIsIXX7d
+	aCcoxyIvz4J+EwXx8k5EmECebFCoq5rk9bmeT9qHQVcSMMzPNsrAIZak+glq6nXAnvGr1k6khZi
+	fR9UcOeWB+SjGTcnHXXFX6r/eUaDU9sKZZAAHsRdLi8QGc2wo2wtnXdeZU8irucJe4Gi7qbdjzL
+	E3Q77+RoxuuYPjnyMPKXCJVNO+Y8xcam4kH8NhxQqwukV/+kpibW/uwphSWK3ypdVJ1hhzCwC3f
+	CmbIcLDt4RPcHtdpq6XVY5fZVDMZREQ/ncftawnwwtSedvr3QZLbcjl5U+i/zQWWLwRfctXUeod
+	syXT9Rx/SDqnHIWE7XU4vbU1LX9oNIInrmG0Tw6B1/0cC1I1UATSN9xBYPDs8LbV5mF97XhUePs
+	KwEYc4gc4pq6fsq1FCK+HUgp6N
+X-Received: by 2002:a05:690e:4814:b0:664:b979:5d78 with SMTP id 956f58d0204a3-667d7ac493fmr3292924d50.26.1783881814651;
+        Sun, 12 Jul 2026 11:43:34 -0700 (PDT)
 Received: from vince-server.attlocal.net ([2600:1700:b540:3af0::42])
         by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66787b23b35sm11768236d50.21.2026.07.12.11.43.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 11:43:35 -0700 (PDT)
+        Sun, 12 Jul 2026 11:43:34 -0700 (PDT)
 From: Vincent Davis Jr <vince@underview.tech>
 To: openembedded-core@lists.openembedded.org
 Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH v4 21/27] ltp: rename kernel prefix
-Date: Sun, 12 Jul 2026 14:43:01 -0400
-Message-ID: <20260712184307.3259642-21-vince@underview.tech>
+Subject: [PATCH v4 20/27] parted: rename kernel prefix
+Date: Sun, 12 Jul 2026 14:43:00 -0400
+Message-ID: <20260712184307.3259642-20-vince@underview.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260712184307.3259642-1-vince@underview.tech>
 References: <20260712184307.3259642-1-vince@underview.tech>
@@ -68,7 +68,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 18:43:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240811
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240810
 
 Utilize preset variable KERNEL_PACKAGE_NAME
 to ensure uniformity with builds if
@@ -77,22 +77,22 @@ change.
 
 Signed-off-by: Vincent Davis Jr <vince@underview.tech>
 ---
- meta/recipes-extended/ltp/ltp_20260529.bb | 2 +-
+ meta/recipes-extended/parted/parted_3.7.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/ltp/ltp_20260529.bb b/meta/recipes-extended/ltp/ltp_20260529.bb
-index e863503200..58763f5d13 100644
---- a/meta/recipes-extended/ltp/ltp_20260529.bb
-+++ b/meta/recipes-extended/ltp/ltp_20260529.bb
-@@ -121,7 +121,7 @@ RDEPENDS:${PN} = "\
-     tar \
- "
+diff --git a/meta/recipes-extended/parted/parted_3.7.bb b/meta/recipes-extended/parted/parted_3.7.bb
+index a669919dd7..4215cbf4a7 100644
+--- a/meta/recipes-extended/parted/parted_3.7.bb
++++ b/meta/recipes-extended/parted/parted_3.7.bb
+@@ -52,7 +52,7 @@ do_install_ptest() {
+ }
  
--RRECOMMENDS:${PN} += "kernel-module-loop"
-+RRECOMMENDS:${PN} += "${KERNEL_PACKAGE_NAME}-module-loop"
- 
- FILES:${PN} += "${prefix}/* ${prefix}/runtest/* ${prefix}/scenario_groups/* ${prefix}/testcases/bin/* ${prefix}/testcases/bin/*/bin/* ${prefix}/testscripts/* ${prefix}/testcases/open_posix_testsuite/* ${prefix}/testcases/open_posix_testsuite/conformance/* ${prefix}/testcases/open_posix_testsuite/Documentation/* ${prefix}/testcases/open_posix_testsuite/functional/* ${prefix}/testcases/open_posix_testsuite/include/* ${prefix}/testcases/open_posix_testsuite/scripts/* ${prefix}/testcases/open_posix_testsuite/stress/* ${prefix}/testcases/open_posix_testsuite/tools/* ${prefix}/testcases/data/nm01/lib.a ${prefix}/lib/libmem.a"
- 
+ RDEPENDS:${PN}-ptest = "bash coreutils perl util-linux-losetup util-linux-mkswap python3 make gawk e2fsprogs-mke2fs e2fsprogs-tune2fs python3-core dosfstools"
+-RRECOMMENDS:${PN}-ptest += "kernel-module-scsi-debug kernel-module-loop kernel-module-vfat"
++RRECOMMENDS:${PN}-ptest += "${KERNEL_PACKAGE_NAME}-module-scsi-debug ${KERNEL_PACKAGE_NAME}-module-loop ${KERNEL_PACKAGE_NAME}-module-vfat"
+ RDEPENDS:${PN}-ptest:append:libc-glibc = "\
+         glibc-utils \
+         locale-base-en-us \
 -- 
 2.43.0
 
