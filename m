@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58E0AC44509
-	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 06:31:41 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9639.1783837893996591784
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E524BC44506
+	for <webhook@archiver.kernel.org>; Sun, 12 Jul 2026 06:31:40 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9635.1783837891012483213
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Jul 2026 23:31:36 -0700
+ Sat, 11 Jul 2026 23:31:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=kngx2cdr;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=tac6xa3u;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019f55062ca5-6c0363d8-5056-45c8-ba52-2654ddf711c2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=a5HSFBv4;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=2yVbNrbp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019f55061448-69d6f87b-95d6-4693-b558-50dbbc287b04-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1783837895;
+	t=1783837890;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=DC8sDrKFk4Fcws68d73hYiYvzns3NENdiX8tzbiLZ78=;
-	b=kngx2cdrb4IIdIfUMjjki0DCvzyDmNule6rUTev7uUbZg5O9pAymE3WV/whGRC1X
-	W7xp81LyUrcitO45Z9/JIDNuDj7OgQAghLPs2DAKI7IThAZXtLTuWGDzAz7pebt9dY1
-	LXzGGtHxFzebFZUX9+RjXxQ5YHx0aWb1G2XZHRkQ=
+	bh=E5XoSgNPmZcUdCmKy1nSzDWnsQlXXIZZdcjI3tWvIko=;
+	b=a5HSFBv4Q2oG918/Qv32utLgNqoGOT3Bpj5fZplUSdhwPvu1L/mOvszvdi9q02/C
+	HIH1RbAie1ZxtdvA8cioOSVkRJff7hr3RQPXC+tgSgNg+Nh/ljIbFvq6mr7RIxF7N+C
+	R3rqAx/0h2HgCU2sGPeryQbQwGbaFC/TajHjLOBo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783837895;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783837890;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=DC8sDrKFk4Fcws68d73hYiYvzns3NENdiX8tzbiLZ78=;
-	b=tac6xa3uAiw7VXPzCvjIuNFrcmbrOtiSKtrpfsvLS3cMsJS/zMU1XQ2swrZzbjIQ
-	LIuIbMtWZCuRpzwx2TC+H+tvzx84if0M+a+Rm5hyMlu70gn0wO2hOHtMq3nO4gtiRVQ
-	U5aJIg0jV8o/0G77Oj9ZMD3mTG5Q+w/B7V6rrha4=
-Content-Type: multipart/mixed; boundary="===============4430777776890505190=="
+	bh=E5XoSgNPmZcUdCmKy1nSzDWnsQlXXIZZdcjI3tWvIko=;
+	b=2yVbNrbpEaYzwAjDCQOUqV/kwYHq5+GhKMXHrY9YW00DY1Ul5IyXanuOnS7V7yul
+	IxHDUcNwLTY5qBER+Bj0EZXku4o273vjT7uFd9jXvAZFJZTVYholZzbS5PA/b5ErJkO
+	nCMdTWV9oWgHtZupezGfDWc26igasNW/hcNAW+iI=
+Content-Type: multipart/mixed; boundary="===============7223498570502808748=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] gtk-doc: upgrading to 1.36.1 FAILED
-Message-ID: <0101019f55062ca5-6c0363d8-5056-45c8-ba52-2654ddf711c2-000000@us-west-2.amazonses.com>
-Date: Sun, 12 Jul 2026 06:31:35 +0000
+Subject: [AUH] openssl: upgrading to 4.0.1 FAILED
+Message-ID: <0101019f55061448-69d6f87b-95d6-4693-b558-50dbbc287b04-000000@us-west-2.amazonses.com>
+Date: Sun, 12 Jul 2026 06:31:29 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.12-54.240.27.45
+X-SES-Outgoing: 2026.07.12-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 06:31:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240761
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Jul 2026 06:31:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240754
 
---===============4430777776890505190==
+--===============7223498570502808748==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,14 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gtk-doc* to *1.36.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *openssl* to *4.0.1* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade gtk-doc -V 1.36.1
+Running 'devtool upgrade' for recipe openssl failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1979 entries from dependency cache.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 951 .bb files complete (0 cached, 951 parsed). 1979 targets, 40 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
@@ -69,9 +71,9 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-0284bfcf6681bc6c9197c2952aa60a3686d4bf64"
+DISTRO_VERSION       = "6.0.99+snapshot-f7961996f08cbb8c888c44d209c28291975ee24e"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:0284bfcf6681bc6c9197c2952aa60a3686d4bf64"
+meta                 = "tmp-auh-upgrades:f7961996f08cbb8c888c44d209c28291975ee24e"
 meta-yocto-bsp       
 meta-poky            = "master:8a8f9ad79e3d50312566620998dadff0aa29c7a7"
 workspace            = "<unknown>:<unknown>"
@@ -97,9 +99,9 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-0284bfcf6681bc6c9197c2952aa60a3686d4bf64"
+DISTRO_VERSION       = "6.0.99+snapshot-f7961996f08cbb8c888c44d209c28291975ee24e"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:0284bfcf6681bc6c9197c2952aa60a3686d4bf64"
+meta                 = "tmp-auh-upgrades:f7961996f08cbb8c888c44d209c28291975ee24e"
 meta-yocto-bsp       
 meta-poky            = "master:8a8f9ad79e3d50312566620998dadff0aa29c7a7"
 workspace            = "<unknown>:<unknown>"
@@ -113,20 +115,49 @@ NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-
+Adding changed files:   4% |#                                   | ETA:  0:00:02
+Adding changed files:   8% |###                                 | ETA:  0:00:01
+Adding changed files:  12% |####                                | ETA:  0:00:01
+Adding changed files:  16% |######                              | ETA:  0:00:01
+Adding changed files:  21% |#######                             | ETA:  0:00:01
+Adding changed files:  25% |#########                           | ETA:  0:00:01
+Adding changed files:  29% |##########                          | ETA:  0:00:01
+Adding changed files:  33% |############                        | ETA:  0:00:01
+Adding changed files:  38% |#############                       | ETA:  0:00:01
+Adding changed files:  42% |###############                     | ETA:  0:00:01
+Adding changed files:  46% |################                    | ETA:  0:00:00
+Adding changed files:  50% |##################                  | ETA:  0:00:00
+Adding changed files:  54% |###################                 | ETA:  0:00:00
+Adding changed files:  59% |#####################               | ETA:  0:00:00
+Adding changed files:  63% |######################              | ETA:  0:00:00
+Adding changed files:  67% |########################            | ETA:  0:00:00
+Adding changed files:  71% |#########################           | ETA:  0:00:00
+Adding changed files:  76% |###########################         | ETA:  0:00:00
+Adding changed files:  80% |############################        | ETA:  0:00:00
+Adding changed files:  84% |##############################      | ETA:  0:00:00
+Adding changed files:  88% |###############################     | ETA:  0:00:00
+Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:02
 INFO: Extracting current version source...
 INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 INFO: Extracting upgraded version source...
-INFO: Fetching https://download.gnome.org/sources//gtk-doc/1.36/gtk-doc-1.36.1.tar.xz;name=archive...
-INFO: Rebasing devtool onto 98a6c96839c1e64ff91de9ed0c61edf21023dc19
-WARNING: Command 'git rebase 98a6c96839c1e64ff91de9ed0c61edf21023dc19' failed:
-CONFLICT (modify/delete): configure.ac deleted in HEAD and modified in 8d43499 (Do not error out if xsltproc is not found.).  Version 8d43499 (Do not error out if xsltproc is not found.) of configure.ac left in tree.
+INFO: Fetching http://www.openssl.org/source/openssl-4.0.1.tar.gz...
+INFO: Rebasing devtool onto 683bee7f646cf60ae9179a4f78effd55e09036f7
+WARNING: Command 'git rebase 683bee7f646cf60ae9179a4f78effd55e09036f7' failed:
+Auto-merging test/helpers/handshake.c
+CONFLICT (content): Merge conflict in test/helpers/handshake.c
 
-INFO: Rebasing devtool-override-class-native onto 98a6c96839c1e64ff91de9ed0c61edf21023dc19
-ERROR: Execution of 'git checkout devtool-override-class-native' failed with exit code 1:
-error: you need to resolve your current index first
-configure.ac: needs merge
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-nativesdk onto 683bee7f646cf60ae9179a4f78effd55e09036f7
+WARNING: Command 'git rebase 683bee7f646cf60ae9179a4f78effd55e09036f7' failed:
+Auto-merging test/helpers/handshake.c
+CONFLICT (content): Merge conflict in test/helpers/handshake.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/openssl
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/openssl/openssl_4.0.1.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/openssl.txt
 
 
 
@@ -135,5 +166,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4430777776890505190==--
+--===============7223498570502808748==--
 
