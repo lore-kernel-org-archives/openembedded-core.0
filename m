@@ -1,174 +1,152 @@
-Return-Path: <Ishaan.Desai@ibm.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB64C44501
-	for <webhook@archiver.kernel.org>; Mon, 13 Jul 2026 15:01:58 +0000 (UTC)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12909.1783954912060960444
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D467C43458
+	for <webhook@archiver.kernel.org>; Mon, 13 Jul 2026 15:02:18 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12915.1783954927511521210
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jul 2026 08:01:52 -0700
+ Mon, 13 Jul 2026 08:02:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ibm.com header.s=pp1 header.b=ZiCdTE68;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: ibm.com, ip: 148.163.156.1, mailfrom: ishaan.desai@ibm.com)
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66DCDCt32454131;
-	Mon, 13 Jul 2026 15:01:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=GXT3R22cLnoqqAs6ZFYyIK4xuK/Eu07h3BR7I2A8M
-	oY=; b=ZiCdTE68BSmdVD5R77NHNAuZRcNqDi4TkD16gqowAoEg+LxSzY7Pd5ge6
-	D7jG6D9PB25Bx/WIFbApynqUVlrrrkWD55JbqDker8Wvn3P/s+BDm8MsXp9wT8MP
-	LykenkDlaRtw5XiI5qVuMR4tbkST1toPS1LnzYUeyFgmC0jE114ypMA4ahnaGX7G
-	M82T4xDA/Lt9ORLv4mh/axFuAmrB3GIyoEnxcb5C5KF49S7NA+EHHCceoqm79U9e
-	AP+xXNpmm381dvaGerX2F6e8pfsWXlCI2ElDWgYTU7DD6juHimyVVkUMXJyPBBuY
-	lwuMn5ovj+1jhbor+HIFehqTSSBgA==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fbegt1b5r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Jul 2026 15:01:42 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66DEngwO004867;
-	Mon, 13 Jul 2026 15:01:41 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fc05pxcuc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Jul 2026 15:01:41 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66DF1c5q27132566
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 13 Jul 2026 15:01:38 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DCED258063;
-	Mon, 13 Jul 2026 15:01:37 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8163258055;
-	Mon, 13 Jul 2026 15:01:37 +0000 (GMT)
-Received: from pfw153.pfw.tadn.ibm.com (unknown [9.5.7.52])
-	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 13 Jul 2026 15:01:37 +0000 (GMT)
-From: Ishaan Desai <Ishaan.Desai@ibm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ishaan Desai <Ishaan.Desai@ibm.com>,
-        Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: [PATCH] memory-control: fix build failure on non-systemd distros
-Date: Mon, 13 Jul 2026 10:01:20 -0500
-Message-ID: <20260713150121.3809558-1-Ishaan.Desai@ibm.com>
-X-Mailer: git-send-email 2.51.0
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=rZJkGAqF;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=rZJkGAqF;
+ spf=pass (domain: arm.com, ip: 52.101.70.48, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=AH9o9U/P69A8PEjuViSBdZ5q5rO5w2cfUfn9Q39sRd66zkPA+Td3zrf9OZj9kaIt34D0PMpXBJTIQgIGptw7f+0b87m8GfuQAmw55i4qQInW1dTk8qF2yW9QwAjLXU8k92giR9+X3JJGRIvnj9VRw8yn1LaluZiHtnZhTSrAcKivEd94W4zRfYKSv0VYFvB8wR4b3bOK7H3Re2bHKnHvFliPtGFBKdhHjmGdhIse1DG6bpkNZ9W0da2Cx0rg0Ucu1fanocJ/1M9DM8GQBpacloEXjrMPD53Kx6MhSK+kdgvHQZpGJdU70B2nWD8BdeMZErg1jzaSsHerhDcW3NYK8A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cNEq+fDH1UKHm+YV+t8lZlOh4V+4l0ovK5DV9eBwWhs=;
+ b=c6U0ff21TNFL4BlWXzqY4I30j0cvlD8rE1kb/p7ZkKiEuS1A5tykR4OCJ0uqd/7Zm4xtJNsha0foSabLhiNyHqDBCbyFx2sNTaSxdpRkUVXnJGZBD6Hpt5SoinNpGWxVV681XL1Aw23H54BP506Jv3pa+uGYvZPeM93ElbTTQ23m4PxSm7pKsbEw2j9NstLeycyprPYDZjRRVFWn8/7BqYP23qqezSYai2kSgrAH7Sv8cfPFm14v9xRm957spHJVh0oRmtdT2dYHOw2JHXrhr4tNgfs/y4kspI5VzH10K/BSqm12MhfgjJtQCS9i7yWh9NyCoE3jwwWK+n5lwOe5kw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cNEq+fDH1UKHm+YV+t8lZlOh4V+4l0ovK5DV9eBwWhs=;
+ b=rZJkGAqFlSYvtSgQt73RUw/lOzBHnQLeuCE3Jmjx+oGkn9GvvQ9Jjpsk/ZdH3yW/NS68LmX661iHk6sE47bIrDsySemX1M4izvqP1MY7HLmogDzjGkJZayqxIq0Th0P3RnuWbf3pY3ArLq7+avpPSInIBUYym4GHV+9HXGaaep8=
+Received: from AM0PR02CA0173.eurprd02.prod.outlook.com (2603:10a6:20b:28e::10)
+ by DU0PR08MB9276.eurprd08.prod.outlook.com (2603:10a6:10:41c::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
+ 2026 15:02:01 +0000
+Received: from AMS0EPF0000019A.eurprd05.prod.outlook.com
+ (2603:10a6:20b:28e:cafe::4f) by AM0PR02CA0173.outlook.office365.com
+ (2603:10a6:20b:28e::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.19 via Frontend Transport; Mon,
+ 13 Jul 2026 15:02:01 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF0000019A.mail.protection.outlook.com (10.167.16.246) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.9
+ via Frontend Transport; Mon, 13 Jul 2026 15:02:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a1I4xnEI2cCsmQcqUX+STgA2Fo8yhK9n/u84yfPH/P50mZNm78yTD+S4ZKI4ntzBQbxyngbYbahp2mZNYje48eaQa3U2j+qMtxO0z9PNufSxKD4fodmMQI4hszEyD5HwFZ8gJk8GXqUpC1U8m75v0x2vEn0fwi+dXwxK0py/S8BiNIO2y05OvAkXs50KIrUaWJn13emHFwAfIFp004E3QDKiP0ERgvs/H+6r5idSocTzVGajNS7Z4JGexHb95hss9o34x688CtTHpZYhlVyptcBFhx93uEv9eD+ALVwUmMB8PABy2oIfAvoNj6w6wFjwipdVcLcqFiBR+QccpIKz7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cNEq+fDH1UKHm+YV+t8lZlOh4V+4l0ovK5DV9eBwWhs=;
+ b=HKcfZEOTmQeOGQBV6219cYmGR7CKZR9Yey3VCpMjS4O1TfS5idrtWuTRZEVQxf3y8O/UsKLR/+Bx9v+q+agpCF6u61Gz2FpROBHZbAP/gbBoN4XrFLcjGMu+p8KkzRgasZX4SWyXEMoPRpxGToJIrfo5XjEHmovlQ/K8V2/cS+pULzZ5PcdcpglTLOd0OcPAc7SQiZZDhE1YjSUYzFA/ba/ytR2TprrCqa5ymQWeKZOoGiC4npm6nQ4LelKyoDlxA+MyurCwMo/swnc05pJSW4Qv15KN9h29DH4w1c6Nl55asJqUqNuQ0UxqdBMSTFbYKtbTXo7b+mYGuN8kmk3Dgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cNEq+fDH1UKHm+YV+t8lZlOh4V+4l0ovK5DV9eBwWhs=;
+ b=rZJkGAqFlSYvtSgQt73RUw/lOzBHnQLeuCE3Jmjx+oGkn9GvvQ9Jjpsk/ZdH3yW/NS68LmX661iHk6sE47bIrDsySemX1M4izvqP1MY7HLmogDzjGkJZayqxIq0Th0P3RnuWbf3pY3ArLq7+avpPSInIBUYym4GHV+9HXGaaep8=
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
+ by PAWPR08MB11013.eurprd08.prod.outlook.com (2603:10a6:102:468::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.22; Mon, 13 Jul
+ 2026 15:00:59 +0000
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b%6]) with mapi id 15.21.0202.014; Mon, 13 Jul 2026
+ 15:00:59 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [AUH] pkgconf: upgrading to 3.0.1 SUCCEEDED
+Thread-Topic: [AUH] pkgconf: upgrading to 3.0.1 SUCCEEDED
+Thread-Index: AQHdEoiwdUyPIc8fiUWeaIW1IzVyurZri7UA
+Date: Mon, 13 Jul 2026 15:00:59 +0000
+Message-ID: <D920B66C-617D-4E34-9F25-CFDFF6A5EECE@arm.com>
+References: 
+ <0101019f59f41743-700da19d-583f-42ea-a64a-663a24627177-000000@us-west-2.amazonses.com>
+In-Reply-To: 
+ <0101019f59f41743-700da19d-583f-42ea-a64a-663a24627177-000000@us-west-2.amazonses.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3864.600.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM9PR08MB6258:EE_|PAWPR08MB11013:EE_|AMS0EPF0000019A:EE_|DU0PR08MB9276:EE_
+X-MS-Office365-Filtering-Correlation-Id: 746d07fa-9fe2-4ab3-681c-08dee0efb1ae
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|38070700021|18002099003|22082099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info-Original: 
+ 1cz2/4D1xoCtpzINyXYvF9KhBQ6tWIUuKBjbh48pn8GgzO88o2l7zUDW3b1bc39BTFD5v0F8EcTAifeR5R9TP4rxHye63QWL6cjz8PuzhdMtdiHuv22APxd1xKmIrY918rkJb1lN2e+ctUfRa9LBczF0nTStJWOo2sGXyQd+pnEmfRjuah5sJ+BK9n1cxANkiRqzWMnSQbyf7MJDrSTAAKPQp9q/Jnf7VsK4iRBfnNnguN0MCIV0vxzKUweNPxz5b7NVp9s92azEXamwr8wIxgoe4+L8De5bEjwp2EDZAmBBy9RoCsdOXC2VTw6NQaGy5AIohNYz6zHjdVxtTRxD8BcdCKkmUo5GYXpuLNDqMeWsBfJKRQWRb2TkVshik4ZtUASs1ajYSRDmYef5esrfR4UBdvnIC2iQpmLSTppy8LB4K6yI6hvlG3MvRGEHDu9nzL01z686q1M8dEfqdiUnULyv8c/ZCq16JAtWDaOOllk/Ajc6WDErBLTz+UApXtADrMhDUljVUk0RQYBjz/F8a8luljckWeSb0rtnpY/LaTGUsBzJgz6LEi0/XbIUEx6lwpk9gK3m3Z6+cUkOlddGADQdAuzZytzP48yv2uouRQXD+4KXo5OxAi0pcEfFvlpeabIYh2kNNObK9FE/aYXs+tVLdPjefb6uETKXzmJrS+r6MWESqs38+O8SyLuPcCcVsYtGcldwDErgcm9o84FceNNuXEXhf0gJ8w1tF9CBvkQ=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(38070700021)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <786D573D0BE3F141A551369D79448584@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: lGS4rnzTX_GFEsLEeXLUfEt3mm5GmZSq
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDE1MyBTYWx0ZWRfX497h9UUUP7Nb
- 8BoEdSN3ZDJZcxtInkSSIlyPz5sUg5d9CH53jmPgwYAdjxC2UBcEZXZmw01Y/lLh90tBkvXVeeB
- 6DkCjD2La7EKywAoBA/skoA3q8yyE50=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDE1MyBTYWx0ZWRfX1l+auqRfBjaj
- 8+ZmAz5NDW0MJL+4y5ppmpHiP6tByC0xsnJDUb+TJniS7VoGQ7/QWmwFHYY0ev9J03Uf5bj+cf6
- EnoELfpX2c9pt2lY5fm3qF/ndjmxgFzJdLNjujOMktLUSSdnuTSi3A9tvADwvZjuMH0BUx4+zYt
- Td0unf9JFs41Z5rHYJKS4NRqT8a/kMHuRQxLgKLny7pScO7xff99EU5akBdYRQL1vBFKdBjNnYr
- G3SYR6wEe5rrim7wZ+mLC+1K5UV3REBREp0YLXG+Mo0hMR8a/lWJEmtVRVNDqFerDzE7DwaYxCj
- wh93R7Nd8NDkCSQqdujNKEAtgpbfw6fcualIqhHQcBh1Y8E7bo5VCRzSWYqZGYvLbX3DRfyoC0F
- s1j2myxeb9GBHFkdvq+zNV9v1PB4WLKsQqcYOKLjQiN/nGszIdnUjwPDvYc7EiB4kEe14oXljn/
- Uuq9kcti4Gur8ofE4ZQ==
-X-Authority-Analysis: v=2.4 cv=IqMutr/g c=1 sm=1 tr=0 ts=6a54fdd6 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=U7nrCbtTmkRpXpFmAIza:22 a=iGHA9ds3AAAA:8 a=P-IC7800AAAA:8 a=VnNF1IyMAAAA:8
- a=7CQSdrXTAAAA:8 a=Zqy_R5vQTI2Y5lxqZcwA:9 a=nM-MV4yxpKKO9kiQg6Ot:22
- a=d3PnA9EDa4IxuAV0gXij:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-GUID: lGS4rnzTX_GFEsLEeXLUfEt3mm5GmZSq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-13_03,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1011 impostorscore=0 malwarescore=0 adultscore=0
- phishscore=0 suspectscore=0 priorityscore=1501 bulkscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130153
+X-Exchange-RoutingPolicyChecked: 
+ GEDuhof2++b7fM0xO4cXLG7Z9/gzzUFLqjeR2tW71KP1avPnHXzzZK4TRwDl+llabhrYS6SCZtmJBLndtLkefYmWpWXHfhafShbiwTbnuDeM87W1C0UM24JTOni2Z7jfA2RXZxhAh3qVQoEY33gQEsas646vYQkpZjuWtiNkuuA1oWoz95UmU0MFcYo4qcZYeowVv5Kl7m2RltAOzZwRkef6evEoHi3Yxlhn99E9wUCJy5LmclyTEw4Kow8ZdnuEEkg9gbx4MkwtSqvmwUfQEfcs3sfwt8fBbPtz1uCpE4rhwsPyhWCOzpglTziJJDUZZ+GxZfuA/gJ0u8BU6PtWoA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB11013
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AMS0EPF0000019A.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	56fff85d-abd1-451b-6e6b-08dee0ef8c79
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|14060799003|82310400026|35042699022|23010399003|376014|36860700016|1800799024|18002099003|22082099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	TsycUOlGdTmZlBZJK+7ef3zDmkYBXAIE7GmygsE4+6Bt2sHst7/4Nsv40JaZOPZKoezh0OAuzvrAcQNfMKkSGczbdJ6AVkfwNiJAoQOvw16xntODvWPiLi+36WZEKPsWD9CedsJuZ2XM5IPYTeZvthRcLx2qjLrtqS32YBgJ0hnbQN2Y4PqdVn/u67ZwZ3XE7hGoB0cJikDY96AxbIqab/bsMr5r9IS5P/4w7dQ5hS5ktoPQfXRIndwDve8ziJB2uvH5DIy3IJhb+8hSHapzt3PtAodeQBEz34fYGIdili+wl9WKQHiZVvkk9L/wwWvZBEMVuOwq4bvpp4C3EGLZuurjtE0C5mP0/EmUuD/8w+lxNWNSkxnroL5s04YvKUWGp6Yf8qtlSh/kiDV25/TwGEsTreW9LD19j8ibSuBh/9VAmkK1wletrH4O/CrWVedBKy15JZ84d+ubAeDy754QUz3GzayJi5I2ixQcSgBb+FItXtwm4KgzZAkMYNwFDTY+nJuEsh1rVHbsJMfLCKKPiIlIvZrkrocxacPzKU4hjB9gWVmrb1ubCq5FDAUam2e+tb3JR+7eBmSZayP8AIgt3jPN21KnkSANg/vItvG95gEpZ4YyEjXzTY+Mm0yTMTMaASFxHmIa5KnqbPKFsQM5uKEyQyrmzaVVhfGAGOETbAT4rfVXL4g6xflYseCDHniJ5HPOb5VgZ522YCXclgyp7A==
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(82310400026)(35042699022)(23010399003)(376014)(36860700016)(1800799024)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	kK3JBCuceypLOCrT3Mcq2UcByp780g0vb+QR8/vkS7JOM8puIJoAjJZ2jzj5msGhQtYZUd9uCuaGqwdlYFzclJfngFgdY3B8jigUiaW1SbI2tv39PkmzBgmJrf3+Unr2v5IWE8LmAJj/a5mkjDit2qOXHafObEl0gyAehnor4B6xFihtwVDcJXTtFlCkU/iNOBEBgELDh8/YQa1B6oaku74AvjaIew05YtF5P4DGgV1anNn/5yjs7oAQiKatuHVIdW7aJhTlLQPfrEDW8YgqRuOIEY6orqVobrStnuwjpsyM8PVwKMg2rW+ULjxLG3GxBgkXH5KzPmACyUXPWZ1DGlSgKXYJ409KJ07aahc8MKoWaVyPxrZCFtBWnQ1HU4Qa1HZD1pwCQ65lZSnrFTe12+85gfS0eT2TP4KD/OoGZrAgaBxOC3xshzjwQVaRv2rT
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 15:02:01.5659
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 746d07fa-9fe2-4ab3-681c-08dee0efb1ae
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF0000019A.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9276
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Jul 2026 15:01:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240842
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Jul 2026 15:02:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240843
 
-The recipe unconditionally declared RDEPENDS on 'systemd', which is an
-init manager, not an installable package. On distros like poky that do
-not enable the systemd DISTRO_FEATURE, the dependency resolver cannot
-satisfy this, causing the recipe and anything that inherits
-memory-control.bbclass to become unbuildable in a world build:
-
-  ERROR: Nothing RPROVIDES 'systemd'
-  NOTE: Runtime target 'memory-control' is unbuildable
-
-Fix by adding 'inherit features_check' and REQUIRED_DISTRO_FEATURES =
-"systemd" to the recipe so it is cleanly skipped on non-systemd distros,
-removing 'systemd' from RDEPENDS:${PN} in the recipe (the tool shells out
-to systemctl at runtime, but systemd is an init manager present on the
-running system, not a package dependency to install), and guarding the
-RDEPENDS injection in memory-control.bbclass with bb.utils.contains so
-recipes that inherit the class do not pull in the memory-control package
-on non-systemd distros. Also add the missing RECIPE_MAINTAINER entry to
-maintainers.inc.
-
-Reported-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-AI-Generated: Uses IBM Bob
-
-Signed-off-by: Ishaan Desai <Ishaan.Desai@ibm.com>
----
- meta/classes-recipe/memory-control.bbclass                | 4 +++-
- meta/conf/distro/include/maintainers.inc                  | 1 +
- meta/recipes-support/memory-control/memory-control_1.0.bb | 6 ++++--
- 3 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes-recipe/memory-control.bbclass b/meta/classes-recipe/memory-control.bbclass
-index 4b45720a1d..ebde5ed46b 100644
---- a/meta/classes-recipe/memory-control.bbclass
-+++ b/meta/classes-recipe/memory-control.bbclass
-@@ -25,7 +25,9 @@ MEMORY_LIMIT ?= ""
- MEMORY_LIMIT_SERVICE ?= "${PN}.service"
- MEMORY_OOM_POLICY ?= "reboot"
- 
--RDEPENDS:${PN} += "memory-control"
-+# Only inject the runtime dependency when the distro actually has systemd;
-+# memory-control itself requires the systemd DISTRO_FEATURE.
-+RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'memory-control', '', d)}"
- 
- python memory_control_do_install() {
-     import os
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 4c6307086c..8589a67fa4 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -520,6 +520,7 @@ RECIPE_MAINTAINER:pn-matchbox-wm = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-mc = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-mdadm = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-menu-cache = "Ross Burton <ross.burton@arm.com>"
-+RECIPE_MAINTAINER:pn-memory-control = "Ishaan Desai <Ishaan.Desai@ibm.com>"
- RECIPE_MAINTAINER:pn-mesa = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-mesa-demos = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-mesa-gl = "Unassigned <unassigned@yoctoproject.org>"
-diff --git a/meta/recipes-support/memory-control/memory-control_1.0.bb b/meta/recipes-support/memory-control/memory-control_1.0.bb
-index 3740b783b6..56b156be4b 100644
---- a/meta/recipes-support/memory-control/memory-control_1.0.bb
-+++ b/meta/recipes-support/memory-control/memory-control_1.0.bb
-@@ -7,7 +7,9 @@ BUGTRACKER = "https://bugzilla.yoctoproject.org"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
- 
--inherit systemd
-+inherit systemd features_check
-+
-+REQUIRED_DISTRO_FEATURES = "systemd"
- 
- SRC_URI = " \
-     file://memory-control.sh \
-@@ -18,7 +20,7 @@ SRC_URI = " \
- SYSTEMD_SERVICE:${PN} = ""
- SYSTEMD_AUTO_ENABLE = "disable"
- 
--RDEPENDS:${PN} = "bash systemd"
-+RDEPENDS:${PN} = "bash"
- 
- do_install() {
-     install -d ${D}${bindir}
+T24gMTMgSnVsIDIwMjYsIGF0IDA2OjI5LCBhdWhAeW9jdG9wcm9qZWN0Lm9yZyB3cm90ZToNCj4g
+dGhpcyBlbWFpbCBpcyBhIG5vdGlmaWNhdGlvbiBmcm9tIHRoZSBBdXRvIFVwZ3JhZGUgSGVscGVy
+DQo+IHRoYXQgdGhlIGF1dG9tYXRpYyBhdHRlbXB0IHRvIHVwZ3JhZGUgdGhlIHJlY2lwZShzKSAq
+cGtnY29uZiogdG8gKjMuMC4xKiBoYXMgU3VjY2VlZGVkLg0KDQpUaGUgdXBncmFkZSB3b3JrcyBi
+dXQgYnJlYWtzIHRoZSBidWlsZC4gIEnigJltIHRhbGtpbmcgdG8gdXBzdHJlYW0gYWJvdXQgdGhp
+cy4NCg0KUm9zcw==
 
