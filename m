@@ -2,252 +2,239 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BD6DC44501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FDA6C44508
 	for <webhook@archiver.kernel.org>; Mon, 13 Jul 2026 05:30:07 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4462.1783920597785862831
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4505.1783920597800634520
  for <openembedded-core@lists.openembedded.org>;
  Sun, 12 Jul 2026 22:29:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=LdawtT+j;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=dOYe2ibD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019f59f417ac-8d74ad9e-5b2d-405a-8600-c86d6889228b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Sq6Yy5sq;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=wZ9svj70;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019f59f41722-f4eab664-8c64-4b8f-86a0-51876fdcb346-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1783920597;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=OCJahMpSmkHgKp5wOJCbQSyL2UxrIfWrupQVxH2RLd4=;
-	b=LdawtT+jvd1OPxgAzFd8EIQhijAcfks4MkDxeeybclmhWiO+gDAAXadwg+Qj+yOp
-	hszI+ryoR8jP3t3EQiz7ZGNe8XDS0fdfd6SEk6dmZMwrHXaMTcWlowoI1W0fKorNP7q
-	gR6IDW3W1ww7o8bADkB8wUnKxIaquESW47yJiuJA=
+	t=1783920596;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=azYLzeWVr+dGtcnMDomKjvirJURftfMcTa8Zcg7I+kc=;
+	b=Sq6Yy5sq/tlJnNWiPQuzo3GkpbqDJlgWu0mVC9aH1LHOfEH3qxRZ7zMG+TsWAPbz
+	IO5GrWNb1/IKdv43W/QgyqonEYKZsGDJ6wt/T3dNSb31T4+5misdUsvXGQSc8hZZTkX
+	YSASpSGSHeGN29NakjsjFBwSHv3fVZ+KiwyAjgqs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783920597;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=OCJahMpSmkHgKp5wOJCbQSyL2UxrIfWrupQVxH2RLd4=;
-	b=dOYe2ibDLnGPW7PfvI+4AJySf2QxsFMixjOTCbo3MiN3pZeMaZQS4URGIB76Mlfq
-	YMnJ/Ox2qG4jq7WDv+dOeft1iaEvZ7m4qLbOyPxLtWAwh19K9O4/1OWZj0tU/JEiABD
-	TrtzUyqVik4XkbeL8Fd1BA2YIMMNA+Wxjc70SnUg=
-Content-Type: multipart/mixed; boundary="===============0661296612278300171=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1783920596;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=azYLzeWVr+dGtcnMDomKjvirJURftfMcTa8Zcg7I+kc=;
+	b=wZ9svj709d9oXZozb/5ZIjRtbcFqGzh3aJHE3XjWUOQ0/xgb/SFVaIeHGwvIqbmD
+	W9d9dR7eed03YVM90XKgrnCOZopiD6eZDlcJqpSemtacfH9V0OK99xZSlZnfOe2ZotP
+	IDAVck5Ie9OwEBCUblBQyBqv7VyzsQEDt2UuDxy0=
+Content-Type: multipart/mixed; boundary="===============2544292848812661802=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pkgconf: upgrading to 3.0.1 SUCCEEDED
-Message-ID: <0101019f59f417ac-8d74ad9e-5b2d-405a-8600-c86d6889228b-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] libpsl: upgrading to 0.23.0 SUCCEEDED
+Message-ID: <0101019f59f41722-f4eab664-8c64-4b8f-86a0-51876fdcb346-000000@us-west-2.amazonses.com>
 Date: Mon, 13 Jul 2026 05:29:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.07.13-54.240.27.23
+X-SES-Outgoing: 2026.07.13-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 Jul 2026 05:30:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240824
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240822
 
---===============0661296612278300171==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-
-Hello,
-
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *pkgconf* to *3.0.1* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-pkgconf-upgrade-2.5.1-3.0.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 759e330b7c79b7e2ed66cd2dc34a04530636bef4 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 13 Jul 2026 05:25:35 +0000
-Subject: [PATCH] pkgconf: upgrade 2.5.1 -> 3.0.1
-
----
- .../{pkgconf_2.5.1.bb => pkgconf_3.0.1.bb}    | 24 +++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/pkgconf/{pkgconf_2.5.1.bb => pkgconf_3.0.1.bb} (79%)
-
-diff --git a/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb b/meta/recipes-devtools/pkgconf/pkgconf_3.0.1.bb
-similarity index 79%
-rename from meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
-rename to meta/recipes-devtools/pkgconf/pkgconf_3.0.1.bb
-index 7d9205e560..43b8d080a9 100644
---- a/meta/recipes-devtools/pkgconf/pkgconf_2.5.1.bb
-+++ b/meta/recipes-devtools/pkgconf/pkgconf_3.0.1.bb
-@@ -1,3 +1,23 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- COPYING
-+# +++ COPYING
-+# @@ -1,5 +1,4 @@
-+# -Copyright (c) 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018
-+# -    pkgconf authors (see AUTHORS file in source directory).
-+# +Copyright (c) 2011-2026 pkgconf authors (see AUTHORS file in source directory).
-+#  
-+#  Permission to use, copy, modify, and/or distribute this software for any
-+#  purpose with or without fee is hereby granted, provided that the above
-+# 
-+#
-+
- SUMMARY = "pkgconf provides compiler and linker configuration for development frameworks."
- DESCRIPTION = "pkgconf is a program which helps to configure compiler and linker \
- flags for development frameworks. It is similar to pkg-config from \
-@@ -12,7 +32,7 @@ RPROVIDES:${PN} += "pkgconfig"
- # The pkgconf license seems to be functionally equivalent to BSD-2-Clause or
- # ISC, but has different wording, so needs its own name.
- LICENSE = "pkgconf"
--LIC_FILES_CHKSUM = "file://COPYING;md5=2214222ec1a820bd6cc75167a56925e0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1e33c297f35e165ecf4fbc81974dc9ca"
- 
- SRC_URI = "\
-     https://distfiles.ariadne.space/pkgconf/pkgconf-${PV}.tar.xz \
-@@ -20,7 +40,7 @@ SRC_URI = "\
-     file://pkg-config-native.in \
-     file://pkg-config-esdk.in \
- "
--SRC_URI[sha256sum] = "cd05c9589b9f86ecf044c10a2269822bc9eb001eced2582cfffd658b0a50c243"
-+SRC_URI[sha256sum] = "640b0d03a6d9e385d8bdcdac071a5cdf5fbd3f45942d454b711ae46271489b30"
- UPSTREAM_CHECK_REGEX = "pkgconf-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)\.tar"
- 
- inherit autotools pkgconfig
--- 
-2.47.1
-
-
---===============0661296612278300171==
-Content-Type: application/octet-stream
+--===============2544292848812661802==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-pkgconf-upgrade-2.5.1-3.0.1.patch"
 
-RnJvbSA3NTllMzMwYjdjNzliN2UyZWQ2NmNkMmRjMzRhMDQ1MzA2MzZiZWY0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTMgSnVsIDIwMjYgMDU6MjU6MzUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-a2djb25mOiB1cGdyYWRlIDIuNS4xIC0+IDMuMC4xCgotLS0KIC4uLi97cGtnY29uZl8yLjUuMS5i
-YiA9PiBwa2djb25mXzMuMC4xLmJifSAgICB8IDI0ICsrKysrKysrKysrKysrKysrLS0KIDEgZmls
-ZSBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3twa2djb25mXzIuNS4xLmJiID0+IHBrZ2NvbmZfMy4w
-LjEuYmJ9ICg3OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYv
-cGtnY29uZl8yLjUuMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3BrZ2NvbmZf
-My4wLjEuYmIKc2ltaWxhcml0eSBpbmRleCA3OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8yLjUuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8zLjAuMS5iYgppbmRleCA3ZDkyMDVlNTYwLi40M2I4ZDA4
-MGE5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi9wa2djb25mXzIu
-NS4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3BrZ2NvbmZfMy4wLjEu
-YmIKQEAgLTEsMyArMSwyMyBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVz
-IGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5n
-IGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRl
-eHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3Vt
-bWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2Ut
-VXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVh
-cnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcKKyMgKysr
-IENPUFlJTkcKKyMgQEAgLTEsNSArMSw0IEBACisjIC1Db3B5cmlnaHQgKGMpIDIwMTEsIDIwMTIs
-IDIwMTMsIDIwMTQsIDIwMTUsIDIwMTYsIDIwMTcsIDIwMTgKKyMgLSAgICBwa2djb25mIGF1dGhv
-cnMgKHNlZSBBVVRIT1JTIGZpbGUgaW4gc291cmNlIGRpcmVjdG9yeSkuCisjICtDb3B5cmlnaHQg
-KGMpIDIwMTEtMjAyNiBwa2djb25mIGF1dGhvcnMgKHNlZSBBVVRIT1JTIGZpbGUgaW4gc291cmNl
-IGRpcmVjdG9yeSkuCisjICAKKyMgIFBlcm1pc3Npb24gdG8gdXNlLCBjb3B5LCBtb2RpZnksIGFu
-ZC9vciBkaXN0cmlidXRlIHRoaXMgc29mdHdhcmUgZm9yIGFueQorIyAgcHVycG9zZSB3aXRoIG9y
-IHdpdGhvdXQgZmVlIGlzIGhlcmVieSBncmFudGVkLCBwcm92aWRlZCB0aGF0IHRoZSBhYm92ZQor
-IyAKKyMKKwogU1VNTUFSWSA9ICJwa2djb25mIHByb3ZpZGVzIGNvbXBpbGVyIGFuZCBsaW5rZXIg
-Y29uZmlndXJhdGlvbiBmb3IgZGV2ZWxvcG1lbnQgZnJhbWV3b3Jrcy4iCiBERVNDUklQVElPTiA9
-ICJwa2djb25mIGlzIGEgcHJvZ3JhbSB3aGljaCBoZWxwcyB0byBjb25maWd1cmUgY29tcGlsZXIg
-YW5kIGxpbmtlciBcCiBmbGFncyBmb3IgZGV2ZWxvcG1lbnQgZnJhbWV3b3Jrcy4gSXQgaXMgc2lt
-aWxhciB0byBwa2ctY29uZmlnIGZyb20gXApAQCAtMTIsNyArMzIsNyBAQCBSUFJPVklERVM6JHtQ
-Tn0gKz0gInBrZ2NvbmZpZyIKICMgVGhlIHBrZ2NvbmYgbGljZW5zZSBzZWVtcyB0byBiZSBmdW5j
-dGlvbmFsbHkgZXF1aXZhbGVudCB0byBCU0QtMi1DbGF1c2Ugb3IKICMgSVNDLCBidXQgaGFzIGRp
-ZmZlcmVudCB3b3JkaW5nLCBzbyBuZWVkcyBpdHMgb3duIG5hbWUuCiBMSUNFTlNFID0gInBrZ2Nv
-bmYiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0yMjE0MjIyZWMxYTgy
-MGJkNmNjNzUxNjdhNTY5MjVlMCIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7
-bWQ1PTFlMzNjMjk3ZjM1ZTE2NWVjZjRmYmM4MTk3NGRjOWNhIgogCiBTUkNfVVJJID0gIlwKICAg
-ICBodHRwczovL2Rpc3RmaWxlcy5hcmlhZG5lLnNwYWNlL3BrZ2NvbmYvcGtnY29uZi0ke1BWfS50
-YXIueHogXApAQCAtMjAsNyArNDAsNyBAQCBTUkNfVVJJID0gIlwKICAgICBmaWxlOi8vcGtnLWNv
-bmZpZy1uYXRpdmUuaW4gXAogICAgIGZpbGU6Ly9wa2ctY29uZmlnLWVzZGsuaW4gXAogIgotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gImNkMDVjOTU4OWI5Zjg2ZWNmMDQ0YzEwYTIyNjk4MjJiYzllYjAw
-MWVjZWQyNTgyY2ZmZmQ2NThiMGE1MGMyNDMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjQwYjBk
-MDNhNmQ5ZTM4NWQ4YmRjZGFjMDcxYTVjZGY1ZmJkM2Y0NTk0MmQ0NTRiNzExYWU0NjI3MTQ4OWIz
-MCIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInBrZ2NvbmYtKD9QPHB2ZXI+XGQrXC5cZCtcLig/
-ITlcZCspXGQrKVwudGFyIgogCiBpbmhlcml0IGF1dG90b29scyBwa2djb25maWcKLS0gCjIuNDcu
-MQoK
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICpsaWJwc2wqIHRvICowLjIzLjAqIGhhcyBTdWNjZWVkZWQuCgpOZXh0IHN0ZXBzOgogICAg
+LSBhcHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLWxpYnBzbC11cGdyYWRlLTAuMjIuMC0wLjIz
+LjAucGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBzdHJlYW0gcGF0Y2hlcyBhbmQg
+c3VtbWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAogICAgLSBjb21waWxlIGFuIGlt
+YWdlIHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVyZm9ybSBzb21lIGJhc2ljIHNh
+bml0eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNpZ24gaXQgb2ZmOiBnaXQgY29t
+bWl0IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2VuZCBpdCB0byB0aGUgYXBwcm9w
+cmlhdGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5b3UgYmVsaWV2ZSB0aGUgcmVj
+aXBlIHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1lLAp5b3UgY2FuIGZpbGwgUkVD
+SVBFX05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNpcGUgZmlsZSBzbyB0aGF0CmF1
+dG9tYXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0ZW1wdGVkLgoKUGxlYXNlIHJl
+dmlldyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5mb3JtYXRpb24gYW5kIGJ1aWxk
+L3VwZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZpbGUgYSBidWcgYXQgaHR0cHM6
+Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5jZ2k/cHJvZHVjdD1BdXRvbWF0
+ZWQlMjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBncmFkZSBIZWxwZXIKCi0tID44
+IC0tCkZyb20gZWJhZDYwNGVmZDQ0NGMwZDBmYzUxYTQ0OWJhODkzMjdlMDk3NDc1OCBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIgPGF1aEB5b2N0b3Byb2plY3Qu
+b3JnPgpEYXRlOiBNb24sIDEzIEp1bCAyMDI2IDA1OjI5OjUzICswMDAwClN1YmplY3Q6IFtQQVRD
+SF0gbGlicHNsOiB1cGdyYWRlIDAuMjIuMCAtPiAwLjIzLjAKCi0tLQogLi4uL3tsaWJwc2xfMC4y
+Mi4wLmJiID0+IGxpYnBzbF8wLjIzLjAuYmJ9ICAgIHwgMzUgKysrKysrKysrKysrKysrKystLQog
+MSBmaWxlIGNoYW5nZWQsIDMyIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicHNsL3tsaWJwc2xfMC4yMi4wLmJiID0+IGxpYnBzbF8w
+LjIzLjAuYmJ9ICg0MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicHNs
+L2xpYnBzbF8wLjIyLjAuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwc2wvbGlicHNsXzAu
+MjMuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDQxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9saWJwc2wvbGlicHNsXzAuMjIuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBv
+cnQvbGlicHNsL2xpYnBzbF8wLjIzLjAuYmIKaW5kZXggNzQxMDM4ZGRjNS4uN2ZmMWRlZjgwNCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicHNsL2xpYnBzbF8wLjIyLjAuYmIK
+KysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicHNsL2xpYnBzbF8wLjIzLjAuYmIKQEAgLTEs
+MyArMSwzMiBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVl
+biB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBk
+aWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBs
+ZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRo
+ZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicg
+dGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRl
+ZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UKKyMgKysrIExJQ0VOU0UK
+KyMgQEAgLTEsNCArMSw1IEBACisjIC1Db3B5cmlnaHQgKEMpIDIwMTQtMjAyNCBUaW0gUsO8aHNl
+bgorIyArQ29weXJpZ2h0IChDKSBUaW0gUsO8aHNlbiBhbmQgTGlicHNsIENvbnRyaWJ1dG9ycy4K
+KyMgK1NlZSBHaXQgaGlzdG9yeSBmb3IgaW5kaXZpZHVhbCBtb2RpZmljYXRpb24geWVhcnMuCisj
+ICAKKyMgIFBlcm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBh
+bnkgcGVyc29uIG9idGFpbmluZyBhCisjICBjb3B5IG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29j
+aWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLAorIyAtLS0gQ09QWUlO
+RworIyArKysgQ09QWUlORworIyBAQCAtMSw0ICsxLDUgQEAKKyMgLUNvcHlyaWdodCAoQykgMjAx
+NC0yMDI0IFRpbSBSw7xoc2VuCisjICtDb3B5cmlnaHQgKEMpIFRpbSBSw7xoc2VuIGFuZCBMaWJw
+c2wgQ29udHJpYnV0b3JzLgorIyArU2VlIEdpdCBoaXN0b3J5IGZvciBpbmRpdmlkdWFsIG1vZGlm
+aWNhdGlvbiB5ZWFycy4KKyMgIAorIyAgUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJl
+ZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEKKyMgIGNvcHkgb2YgdGhpcyBz
+b2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJl
+IiksCisjIAorIworCiBTVU1NQVJZID0gIlB1YmxpYyBTdWZmaXggTGlzdCBsaWJyYXJ5IgogREVT
+Q1JJUFRJT04gPSAiVGhlIGxpYnBzbCBwYWNrYWdlIHByb3ZpZGVzIGEgbGlicmFyeSBmb3IgYWNj
+ZXNzaW5nIGFuZCBcCiByZXNvbHZpbmcgaW5mb3JtYXRpb24gZnJvbSB0aGUgUHVibGljIFN1ZmZp
+eCBMaXN0IChQU0wpLiBUaGUgUFNMIGlzIGEgc2V0IG9mIFwKQEAgLTcsMTMgKzM2LDEzIEBAIEhP
+TUVQQUdFID0gImh0dHBzOi8vcm9ja2RhYm9vdC5naXRodWIuaW8vbGlicHNsLyIKIEJVR1RSQUNL
+RVIgPSAiaHR0cHM6Ly9naXRodWIuY29tL3JvY2tkYWJvb3QvbGlicHNsL2lzc3VlcyIKIAogTElD
+RU5TRSA9ICJNSVQiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT05Zjll
+MzE3MDk2ZGIyYTU5OGZjNDQyMzdjNWI4YTRmNyBcCi0gICAgICAgICAgICAgICAgICAgIGZpbGU6
+Ly9DT1BZSU5HO21kNT05ZjllMzE3MDk2ZGIyYTU5OGZjNDQyMzdjNWI4YTRmNyBcCitMSUNfRklM
+RVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT00OTI5NmMxODA2ZWY5MmMyODI5N2ZiMjY0
+MTYzZDgxZSBcCisgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9DT1BZSU5HO21kNT00OTI5NmMx
+ODA2ZWY5MmMyODI5N2ZiMjY0MTYzZDgxZSBcCiAgICAgICAgICAgICAgICAgICAgICIKIAogU1JD
+X1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvJHtQVn0vJHtCUH0udGFyLmd6IFwK
+ICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImM0NWMzYWExNzU3NmI5OTg3M2Uw
+NWE5YjA5YTQ0MDQxYjA2NWJiZmEzOTBlNmQ0NzRkMDZmYmZhZWI5Yzc3MjIiCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiZjM5Yjk2MzFiM2QzNjlhMjEyNTllYTQ2NTRmODg3NWMwZWM2OTk1Y2U5NTUx
+YzBlYjVkNDIzZTRjMDExZjkxMSIKIAogR0lUSFVCX0JBU0VfVVJJID0gImh0dHBzOi8vZ2l0aHVi
+LmNvbS9yb2NrZGFib290L2xpYnBzbC9yZWxlYXNlcyIKIAotLSAKMi40Ny4xCgo=
 
---===============0661296612278300171==
+--===============2544292848812661802==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 405656 to 767168 (+89%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 27212 to 41977 (+54%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: FILELIST: added "/usr/share/doc/pkgconf/CONTRIBUTING.md /usr/share/doc/pkgconf/COPYING /usr/share/doc/pkgconf/DCO /usr/share/man/man1/pccritic.1 /usr/share/man/man1/spdxtool.1"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGSIZE changed from 44352 to 67754 (+53%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 300257 to 552220 (+84%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: FILELIST: removed "/usr/lib/libpkgconf.so.7 /usr/lib/libpkgconf.so.7.0.0", added "/usr/bin/spdxtool /usr/lib/libpkgconf.so.8 /usr/lib/libpkgconf.so.8.0.0 /usr/bin/pccritic"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 174738 to 298069 (+71%)
-Changes to packages/x86-64-v3-poky-linux/pkgconf (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.7.0.0 to libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7.0.0 moved to /usr/lib/libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7 moved to /usr/lib/libpkgconf.so.8
+packages/x86-64-v3-poky-linux/libpsl/libpsl: FILELIST: removed "/usr/lib/libpsl.so.5.3.6", added "/usr/lib/libpsl.so.5.3.7"
+Changes to packages/x86-64-v3-poky-linux/libpsl (sysroot):
+  /usr/lib/libpsl.so.5 changed symlink target from libpsl.so.5.3.6 to libpsl.so.5.3.7
+  /usr/lib/libpsl.so changed symlink target from libpsl.so.5.3.6 to libpsl.so.5.3.7
+  /usr/lib/libpsl.so.5.3.6 moved to /usr/lib/libpsl.so.5.3.7
+Changes to packages/x86_64-linux/pkgconf-native (sysroot):
+  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.8.0.0 to libpkgconf.so.7.0.0
+  /usr/lib/libpkgconf.so.8.0.0 moved to /usr/lib/libpkgconf.so.7.0.0
+  /usr/lib/libpkgconf.so.8 moved to /usr/lib/libpkgconf.so.7
+  /usr/bin/pccritic was removed
+  /usr/bin/spdxtool was removed
 
---===============0661296612278300171==
+--===============2544292848812661802==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/pkgconf: PV changed from "2.5.1" to "3.0.1"
-packages/x86-64-v3-poky-linux/pkgconf: SRC_URI changed from "https://distfiles.ariadne.space/pkgconf/pkgconf-2.5.1.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in" to "https://distfiles.ariadne.space/pkgconf/pkgconf-3.0.1.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in"
-packages/x86-64-v3-poky-linux/pkgconf: PKGV changed from 2.5.1 [default] to 3.0.1 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: FILELIST: removed "/usr/lib/.debug/libpkgconf.so.7.0.0", added "/usr/lib/.debug/libpkgconf.so.8.0.0 /usr/bin/.debug/spdxtool /usr/bin/.debug/pccritic"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PV changed from "2.5.1" to "3.0.1"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGV changed from 2.5.1 [default] to 3.0.1 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 405656 to 767168 (+89%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PV changed from "2.5.1" to "3.0.1"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGV changed from 2.5.1 [default] to 3.0.1 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 27212 to 41977 (+54%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: FILELIST: added "/usr/share/doc/pkgconf/DCO /usr/share/doc/pkgconf/COPYING /usr/share/man/man1/pccritic.1 /usr/share/man/man1/spdxtool.1 /usr/share/doc/pkgconf/CONTRIBUTING.md"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PV changed from "2.5.1" to "3.0.1"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGV changed from 2.5.1 [default] to 3.0.1 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGSIZE changed from 44352 to 67754 (+53%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-locale: PV changed from "2.5.1" to "3.0.1"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-locale: PKGV changed from 2.5.1 [default] to 3.0.1 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: FILELIST: directory renamed /usr/src/debug/pkgconf/2.5.1/cli/bomtool -> /usr/src/debug/pkgconf/3.0.1/cli/bomtool, removed "/usr/src/debug/pkgconf/2.5.1/libpkgconf/iter.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/bsdstubs.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/client.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/bsdstubs.h /usr/src/debug/pkgconf/2.5.1/cli/getopt_long.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/audit.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/cache.c /usr/src/debug/pkgconf/2.5.1/cli/getopt_long.h /usr/src/debug/pkgconf/2.5.1/cli/main.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/path.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/argvsplit.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/fileio.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/fragment.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/tuple.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/parser.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/dependency.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/queue.c
-  /usr/src/debug/pkgconf/2.5.1/cli/renderer-msvc.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/buffer.c /usr/src/debug/pkgconf/2.5.1/libpkgconf/personality.c /usr/src/debug/pkgconf/2.5.1/cli/renderer-msvc.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/libpkgconf.h /usr/src/debug/pkgconf/2.5.1/libpkgconf/pkg.c", added "/usr/src/debug/pkgconf/3.0.1/libpkgconf/iter.h /usr/src/debug/pkgconf/3.0.1/libpkgconf/output.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/bytecode.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/bsdstubs.c /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/main.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/bsdstubs.h /usr/src/debug/pkgconf/3.0.1/libpkgconf/client.c /usr/src/debug/pkgconf/3.0.1/cli/getopt_long.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/audit.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/cache.c /usr/src/debug/pkgconf/3.0.1/cli/pccritic/main.c /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/generate.c /usr/src/debug/pkgconf/3.0.1/cli/getopt_long.h /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/genera
- te.h /usr/src/debug/pkgconf/3.0.1/cli/main.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/path.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/argvsplit.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/license.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/path.h /usr/src/debug/pkgconf/3.0.1/libpkgconf/variable.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/fileio.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/fragment.c /usr/src/debug/pkgconf/3.0.1/cli/core.h /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/util.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/tuple.c /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/util.h /usr/src/debug/pkgconf/3.0.1/cli/core.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/version.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/bufferset.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/parser.c /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/software.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/dependency.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/queue.c /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/software.h /usr/src/debug/pkgcon
- f/3.0.1/cli/renderer-msvc.c /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/serialize.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/buffer.c /usr/src/debug/pkgconf/3.0.1/cli/pccritic/critic.h /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/core.c /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/serialize.h /usr/src/debug/pkgconf/3.0.1/cli/renderer-msvc.h /usr/src/debug/pkgconf/3.0.1/libpkgconf/personality.c /usr/src/debug/pkgconf/3.0.1/cli/pccritic/critic.c /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/core.h /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/simplelicensing.c /usr/src/debug/pkgconf/3.0.1/libpkgconf/libpkgconf.h /usr/src/debug/pkgconf/3.0.1/libpkgconf/pkg.c /usr/src/debug/pkgconf/3.0.1/cli/spdxtool/simplelicensing.h"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PV changed from "2.5.1" to "3.0.1"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGV changed from 2.5.1 [default] to 3.0.1 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 300257 to 552220 (+84%)
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-staticdev: PV changed from "2.5.1" to "3.0.1"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf-staticdev: PKGV changed from 2.5.1 [default] to 3.0.1 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: FILELIST: removed "/usr/lib/libpkgconf.so.7.0.0 /usr/lib/libpkgconf.so.7", added "/usr/lib/libpkgconf.so.8 /usr/bin/spdxtool /usr/lib/libpkgconf.so.8.0.0 /usr/bin/pccritic"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PV changed from "2.5.1" to "3.0.1"
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGV changed from 2.5.1 [default] to 3.0.1 [default]
-packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 174738 to 298069 (+71%)
-Changes to packages/x86-64-v3-poky-linux/pkgconf (sysroot):
-  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.7.0.0 to libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7.0.0 moved to /usr/lib/libpkgconf.so.8.0.0
-  /usr/lib/libpkgconf.so.7 moved to /usr/lib/libpkgconf.so.8
+packages/x86-64-v3-poky-linux/libpsl: PKGV changed from 0.22.0 [default] to 0.23.0 [default]
+packages/x86-64-v3-poky-linux/libpsl: PV changed from "0.22.0" to "0.23.0"
+packages/x86-64-v3-poky-linux/libpsl: SRC_URI changed from "https://github.com/rockdaboot/libpsl/releases/download/0.22.0/libpsl-0.22.0.tar.gz" to "https://github.com/rockdaboot/libpsl/releases/download/0.23.0/libpsl-0.23.0.tar.gz"
+packages/x86-64-v3-poky-linux/libpsl/libpsl-bin: PKGV changed from 0.22.0 [default] to 0.23.0 [default]
+packages/x86-64-v3-poky-linux/libpsl/libpsl-bin: PV changed from "0.22.0" to "0.23.0"
+packages/x86-64-v3-poky-linux/libpsl/libpsl-dbg: PKGV changed from 0.22.0 [default] to 0.23.0 [default]
+packages/x86-64-v3-poky-linux/libpsl/libpsl-dbg: PV changed from "0.22.0" to "0.23.0"
+packages/x86-64-v3-poky-linux/libpsl/libpsl-dbg: PKGSIZE changed from 157664 to 157864 (+0%)
+packages/x86-64-v3-poky-linux/libpsl/libpsl-dbg: FILELIST: removed "/usr/lib/.debug/libpsl.so.5.3.6", added "/usr/lib/.debug/libpsl.so.5.3.7"
+packages/x86-64-v3-poky-linux/libpsl/libpsl-dev: PKGV changed from 0.22.0 [default] to 0.23.0 [default]
+packages/x86-64-v3-poky-linux/libpsl/libpsl-dev: PV changed from "0.22.0" to "0.23.0"
+packages/x86-64-v3-poky-linux/libpsl/libpsl-dev: PKGSIZE changed from 6093 to 6067 (-0%)
+packages/x86-64-v3-poky-linux/libpsl/libpsl-doc: PKGV changed from 0.22.0 [default] to 0.23.0 [default]
+packages/x86-64-v3-poky-linux/libpsl/libpsl-doc: PV changed from "0.22.0" to "0.23.0"
+packages/x86-64-v3-poky-linux/libpsl/libpsl-doc: PKGSIZE changed from 3914 to 3927 (+0%)
+packages/x86-64-v3-poky-linux/libpsl/libpsl-locale: PKGV changed from 0.22.0 [default] to 0.23.0 [default]
+packages/x86-64-v3-poky-linux/libpsl/libpsl-locale: PV changed from "0.22.0" to "0.23.0"
+packages/x86-64-v3-poky-linux/libpsl/libpsl-src: PKGV changed from 0.22.0 [default] to 0.23.0 [default]
+packages/x86-64-v3-poky-linux/libpsl/libpsl-src: PV changed from "0.22.0" to "0.23.0"
+packages/x86-64-v3-poky-linux/libpsl/libpsl-src: PKGSIZE changed from 428970 to 427096 (-0%)
+packages/x86-64-v3-poky-linux/libpsl/libpsl-src: FILELIST: directory renamed /usr/src/debug/libpsl/0.22.0/tools -> /usr/src/debug/libpsl/0.23.0/tools, directory renamed /usr/src/debug/libpsl/0.22.0/include -> /usr/src/debug/libpsl/0.23.0/include, directory renamed /usr/src/debug/libpsl/0.22.0/src -> /usr/src/debug/libpsl/0.23.0/src
+packages/x86-64-v3-poky-linux/libpsl/libpsl-staticdev: PKGV changed from 0.22.0 [default] to 0.23.0 [default]
+packages/x86-64-v3-poky-linux/libpsl/libpsl-staticdev: PV changed from "0.22.0" to "0.23.0"
+packages/x86-64-v3-poky-linux/libpsl/libpsl: PKGV changed from 0.22.0 [default] to 0.23.0 [default]
+packages/x86-64-v3-poky-linux/libpsl/libpsl: PV changed from "0.22.0" to "0.23.0"
+packages/x86-64-v3-poky-linux/libpsl/libpsl: FILELIST: removed "/usr/lib/libpsl.so.5.3.6", added "/usr/lib/libpsl.so.5.3.7"
+Changes to packages/x86-64-v3-poky-linux/libpsl (sysroot):
+  /usr/lib/libpsl.so.5 changed symlink target from libpsl.so.5.3.6 to libpsl.so.5.3.7
+  /usr/lib/libpsl.so changed symlink target from libpsl.so.5.3.6 to libpsl.so.5.3.7
+  /usr/lib/libpsl.so.5.3.6 moved to /usr/lib/libpsl.so.5.3.7
+Changes to packages/x86_64-linux/pkgconf-native (sysroot):
+  /usr/lib/libpkgconf.so changed symlink target from libpkgconf.so.8.0.0 to libpkgconf.so.7.0.0
+  /usr/lib/libpkgconf.so.8.0.0 moved to /usr/lib/libpkgconf.so.7.0.0
+  /usr/lib/libpkgconf.so.8 moved to /usr/lib/libpkgconf.so.7
+  /usr/bin/pccritic was removed
+  /usr/bin/spdxtool was removed
 
---===============0661296612278300171==--
+--===============2544292848812661802==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libpsl-upgrade-0.22.0-0.23.0.patch"
+
+RnJvbSBlYmFkNjA0ZWZkNDQ0YzBkMGZjNTFhNDQ5YmE4OTMyN2UwOTc0NzU4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTMgSnVsIDIwMjYgMDU6Mjk6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJwc2w6IHVwZ3JhZGUgMC4yMi4wIC0+IDAuMjMuMAoKLS0tCiAuLi4ve2xpYnBzbF8wLjIyLjAu
+YmIgPT4gbGlicHNsXzAuMjMuMC5iYn0gICAgfCAzNSArKysrKysrKysrKysrKysrKy0tCiAxIGZp
+bGUgY2hhbmdlZCwgMzIgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtc3VwcG9ydC9saWJwc2wve2xpYnBzbF8wLjIyLjAuYmIgPT4gbGlicHNsXzAuMjMu
+MC5iYn0gKDQxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwc2wvbGli
+cHNsXzAuMjIuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnBzbC9saWJwc2xfMC4yMy4w
+LmJiCnNpbWlsYXJpdHkgaW5kZXggNDElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0
+L2xpYnBzbC9saWJwc2xfMC4yMi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9s
+aWJwc2wvbGlicHNsXzAuMjMuMC5iYgppbmRleCA3NDEwMzhkZGM1Li43ZmYxZGVmODA0IDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwc2wvbGlicHNsXzAuMjIuMC5iYgorKysg
+Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwc2wvbGlicHNsXzAuMjMuMC5iYgpAQCAtMSwzICsx
+LDMyIEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVw
+ZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZl
+cmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNl
+IHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNo
+YW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcu
+CisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicp
+CisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRQorIyArKysgTElDRU5TRQorIyBA
+QCAtMSw0ICsxLDUgQEAKKyMgLUNvcHlyaWdodCAoQykgMjAxNC0yMDI0IFRpbSBSw7xoc2VuCisj
+ICtDb3B5cmlnaHQgKEMpIFRpbSBSw7xoc2VuIGFuZCBMaWJwc2wgQ29udHJpYnV0b3JzLgorIyAr
+U2VlIEdpdCBoaXN0b3J5IGZvciBpbmRpdmlkdWFsIG1vZGlmaWNhdGlvbiB5ZWFycy4KKyMgIAor
+IyAgUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBw
+ZXJzb24gb2J0YWluaW5nIGEKKyMgIGNvcHkgb2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRl
+ZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksCisjIC0tLSBDT1BZSU5HCisj
+ICsrKyBDT1BZSU5HCisjIEBAIC0xLDQgKzEsNSBAQAorIyAtQ29weXJpZ2h0IChDKSAyMDE0LTIw
+MjQgVGltIFLDvGhzZW4KKyMgK0NvcHlyaWdodCAoQykgVGltIFLDvGhzZW4gYW5kIExpYnBzbCBD
+b250cmlidXRvcnMuCisjICtTZWUgR2l0IGhpc3RvcnkgZm9yIGluZGl2aWR1YWwgbW9kaWZpY2F0
+aW9uIHllYXJzLgorIyAgCisjICBQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVlIG9m
+IGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcgYQorIyAgY29weSBvZiB0aGlzIHNvZnR3
+YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRoZSAiU29mdHdhcmUiKSwK
+KyMgCisjCisKIFNVTU1BUlkgPSAiUHVibGljIFN1ZmZpeCBMaXN0IGxpYnJhcnkiCiBERVNDUklQ
+VElPTiA9ICJUaGUgbGlicHNsIHBhY2thZ2UgcHJvdmlkZXMgYSBsaWJyYXJ5IGZvciBhY2Nlc3Np
+bmcgYW5kIFwKIHJlc29sdmluZyBpbmZvcm1hdGlvbiBmcm9tIHRoZSBQdWJsaWMgU3VmZml4IExp
+c3QgKFBTTCkuIFRoZSBQU0wgaXMgYSBzZXQgb2YgXApAQCAtNywxMyArMzYsMTMgQEAgSE9NRVBB
+R0UgPSAiaHR0cHM6Ly9yb2NrZGFib290LmdpdGh1Yi5pby9saWJwc2wvIgogQlVHVFJBQ0tFUiA9
+ICJodHRwczovL2dpdGh1Yi5jb20vcm9ja2RhYm9vdC9saWJwc2wvaXNzdWVzIgogCiBMSUNFTlNF
+ID0gIk1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTlmOWUzMTcw
+OTZkYjJhNTk4ZmM0NDIzN2M1YjhhNGY3IFwKLSAgICAgICAgICAgICAgICAgICAgZmlsZTovL0NP
+UFlJTkc7bWQ1PTlmOWUzMTcwOTZkYjJhNTk4ZmM0NDIzN2M1YjhhNGY3IFwKK0xJQ19GSUxFU19D
+SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTQ5Mjk2YzE4MDZlZjkyYzI4Mjk3ZmIyNjQxNjNk
+ODFlIFwKKyAgICAgICAgICAgICAgICAgICAgZmlsZTovL0NPUFlJTkc7bWQ1PTQ5Mjk2YzE4MDZl
+ZjkyYzI4Mjk3ZmIyNjQxNjNkODFlIFwKICAgICAgICAgICAgICAgICAgICAgIgogCiBTUkNfVVJJ
+ID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC8ke1BWfS8ke0JQfS50YXIuZ3ogXAogICAg
+ICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzQ1YzNhYTE3NTc2Yjk5ODczZTA1YTli
+MDlhNDQwNDFiMDY1YmJmYTM5MGU2ZDQ3NGQwNmZiZmFlYjljNzcyMiIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICJmMzliOTYzMWIzZDM2OWEyMTI1OWVhNDY1NGY4ODc1YzBlYzY5OTVjZTk1NTFjMGVi
+NWQ0MjNlNGMwMTFmOTExIgogCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29t
+L3JvY2tkYWJvb3QvbGlicHNsL3JlbGVhc2VzIgogCi0tIAoyLjQ3LjEKCg==
+
+--===============2544292848812661802==--
 
