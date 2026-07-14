@@ -1,93 +1,129 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0496AC44508
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 17:16:28 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1568.1784049383502071201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6430C4450A
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 17:16:37 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1603.1784049393485215549
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 10:16:23 -0700
+ Tue, 14 Jul 2026 10:16:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=DOaHADES;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9CD6B339
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 10:16:18 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7BF433F915
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 10:16:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1784049382; bh=UOPRqdTx+bzMGTU5ab613WVCpyNs+Rhhe79digKbXzA=;
-	h=From:To:Subject:Date:From;
-	b=DOaHADESz3fIS0h0ZCP0F8MtcMCC7E1BcOgIaKosoqedEpEtwrgTfidc2MpL/T65D
-	 a6jblZMkCNwLHrbCwHWDV4Ay8DzffD7K3mukrMiw5UXChVG+1tPhFsPz71usreoavn
-	 OwKz326BbXR6BlKobRL9oFs7DE8v+2d4e4K6+l5Q=
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=I14Aepzo;
+ spf=pass (domain: mvista.com, ip: 209.85.216.41, mailfrom: sdoshi@mvista.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-384c94c9414so1080685a91.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 10:16:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1784049393; x=1784654193; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cXpwYSOTQsr0bQiOOqRXPJhNY7KMdS/1VB3GBss2gG0=;
+        b=I14AepzoScV6qBqdsJorGF/Pj2nI4UrMmVNrHOk4to2Wq0wN7jtmiX2p3i8nHN9g3v
+         NC115Wy63rE1oVE+9al+y4C82XGtGe0/KpW0/5HUgIk4wMg1RT/LOf0XqUXd8gFjxzI0
+         3lmXH0SAQH7O06FSKK9LO/rGNud6wIQhnEleY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784049393; x=1784654193;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cXpwYSOTQsr0bQiOOqRXPJhNY7KMdS/1VB3GBss2gG0=;
+        b=JvogCG7xQxWyRF88KBkUkxuby0UZLwbdpJhYGCqJRLmTQ3XCf81d7ZdALbxaJZeYYi
+         KE9OmKY6+eptkOA2IFFwpLzChqYslVCo+41F9gscTpWDekHAVdmadGYzPmhhU4+o/PUc
+         pn7h+bvsGviiTpm1YhoQ0KJURwkpJRghcCTEkqKw9sBnjWCJxwicIhg5oIwf9xbWgvuh
+         aKEy6RPzmCsM12mjJoMoXPHLU7N3+J7IBdE3QiuFwsFL/uOl5vsBRS0XBRGjD2WxMiJF
+         wqVTqyR4bQ1a7qut3OKcLKBls51s9cDub+M9vInS5SWkFNnVS/vlpEnQWqxbwC9mGQtg
+         4XLg==
+X-Gm-Message-State: AOJu0YzYB4lRLWeVFOvUiqqH21wTu6/0wm4QR3VMi1dX3gpq2o6Tf9NG
+	9uI3qJwpp2vyDLrGEz0PI9DBbC8ix+DK1g+ytWbIjGASyqeahVSz/lxMtrlYo1Nc4/mmLL3YaJp
+	gkWs+3BE=
+X-Gm-Gg: AfdE7clAVpcvurEQVcMyZa5dszsnU3MuzxRK87lULXPjY0QCinCZ0rt6cnyxJIQa1s8
+	tUWWkcdqY0qzQ4ACexCtAKLcu9ezVJYUBB5RtHpoaldtc/nyJuogp5jNRvH8ZdEiY5DxBWJ4/4N
+	mFhLnOhYKxz7BGr4VevvgO7CYTq87IdrrUk6QZQpLg1cezFdXt3A6HF5cAb2p738cSNZRAo3rUH
+	SdoscbKv5VPFK53UqlopCFw66Vx/VDRdGOlVsA2hz7qwV9o4hQEF5k9UJpajjr4VMjqtoHTrJ9f
+	fZ5tlWVkr8uAVMYCQEf+4ZOQOzfACsFJuq9fDL+h6+rfe6AywAobgSUe/E/ggb7z2vmHrJvzUmH
+	vHTbz71RGCMAnav0Bxjz3NcamWhLFSAUQSoawVzPxEz9HXjOhvUdE+ZALEkDOJWtKrnyrQKOBW1
+	cDM0ZoDTbzqvNy873OzTiA8o4=
+X-Received: by 2002:a17:90b:3dc4:b0:387:e0db:bc2b with SMTP id 98e67ed59e1d1-38dc77ec294mr13839802a91.43.1784049392805;
+        Tue, 14 Jul 2026 10:16:32 -0700 (PDT)
+Received: from MVIN00030.mvista.com ([157.32.46.162])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311950eb930sm59355798eec.8.2026.07.14.10.16.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jul 2026 10:16:32 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] meson: upgrade 1.11.1 -> 1.11.2
-Date: Tue, 14 Jul 2026 18:16:18 +0100
-Message-ID: <20260714171618.3067519-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Siddharth Doshi <sdoshi@mvista.com>
+Subject: [OE-core][master][PATCH] pinentry: upgrade 1.3.2 -> 1.3.3
+Date: Tue, 14 Jul 2026 22:44:18 +0530
+Message-Id: <20260714171418.1585070-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 17:16:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240904
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 17:16:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240905
 
-Upstream changelog, ignoring irrelevant changes:
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-  8b7d80f2b Update default Qt version to 6.
-  03bfacaf6 mconf: fix crash printing list-valued option augments
-  aa5f7ae43 codegen: do not use Programs.for_machine
-  d1cc24cc2 mtest: allow ignore reasons in rust unittests
-  f229c604b envconfig: allow running executables if subsystem is not set
-  bb1e84e5e compilers: Don't use -I=3Dpath in TI toolchain
-  c35300613 Revert "compilers: Deduplicate OpenMP linker arguments"
-  690107f50 automatically tag files installed under sbindir
-  b8fe4f73f introspect: do not print umask as octal in JSON
-  69673e5fc cargo: add docsrs to unconditionally added --check-cfg cfg's
-  427947b00 mtest: fix handling of empty lines in TAP YAML block
-  c928e14fa interpreter: fix typos in typed_kwargs
-  cb20fed97 cargo: allow git dependencies with slash in branch name
-  af3d7b29d interpreter: fix typed_kwargs name of add_project_link_argume=
-nts
-  4d0e8635a interpreter: do not apply CARGO_SUBDIR if subproject has a me=
-son.build
-  1b1ac2154 AstInterpreter: Slight Performance Improvement
-  27f1c15eb build: fix install name when using link_whole
-  a892c705c build: fix install name when linking with static library
+For detailed information, see the link below:
+[1] https://github.com/gpg/pinentry/compare/pinentry-1.3.2...pinentry-1.3.3
+[2] https://github.com/gpg/pinentry/blob/pinentry-1.3.3/NEWS
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Note: small modification to libassuan_pkgconf.patch
+
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- .../recipes-devtools/meson/{meson_1.11.1.bb =3D> meson_1.11.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/meson/{meson_1.11.1.bb =3D> meson_1.11.2.bb=
-} (98%)
+ .../pinentry/pinentry/libassuan_pkgconf.patch                | 5 +++--
+ .../pinentry/{pinentry_1.3.2.bb => pinentry_1.3.3.bb}        | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/pinentry/{pinentry_1.3.2.bb => pinentry_1.3.3.bb} (93%)
 
-diff --git a/meta/recipes-devtools/meson/meson_1.11.1.bb b/meta/recipes-d=
-evtools/meson/meson_1.11.2.bb
-similarity index 98%
-rename from meta/recipes-devtools/meson/meson_1.11.1.bb
-rename to meta/recipes-devtools/meson/meson_1.11.2.bb
-index 26d9af6c199..5ac4d789b8a 100644
---- a/meta/recipes-devtools/meson/meson_1.11.1.bb
-+++ b/meta/recipes-devtools/meson/meson_1.11.2.bb
-@@ -14,7 +14,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/meson-${=
-PV}.tar.gz \
-            file://0001-Make-CPU-family-warnings-fatal.patch \
-            file://0002-Support-building-allarch-recipes-again.patch \
-            "
--SRC_URI[sha256sum] =3D "6788ae299979643f8d841bcaf64352558436cae45a035514=
-8a3aeeccf7913866"
-+SRC_URI[sha256sum] =3D "698feae069cef3ecd4d7aaf281d7df359bdfcf555a9a1564=
-383d3b913fa8a736"
- UPSTREAM_CHECK_REGEX =3D "(?P<pver>\d+(\.\d+)+)$"
-=20
- inherit python_setuptools_build_meta github-releases
---=20
-2.43.0
+diff --git a/meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch b/meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch
+index fbd370d9fd..4ae7641c48 100644
+--- a/meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch
++++ b/meta/recipes-support/pinentry/pinentry/libassuan_pkgconf.patch
+@@ -1,5 +1,5 @@
+ From 1bf04756b90832494020c39661ea944a0b11204f Mon Sep 17 00:00:00 2001
+-From: Armin Kuster <akuster@mvista.com>
++From: Siddharth Doshi <sdoshi@mvista.com>
+ Date: Thu, 22 May 2014 10:50:00 +0100
+ Subject: [PATCH] libassuan: Improve pkgconfig support
+ 
+@@ -9,6 +9,7 @@ the libassuan recipe for libassuan.pc generation.
+ Upstream-Status: Inappropriate [OE specific]
+ 
+ Signed-off-by: Armin Kuster <akuster@mvista.com>
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+ ---
+  configure.ac    |  4 +--
+  m4/libassuan.m4 | 94 ++++---------------------------------------------
+@@ -51,7 +52,7 @@ index a2eb5d9..897f407 100644
+ -  fi
+ -
+ -  use_gpgrt_config=""
+--  if test x"$GPGRT_CONFIG" != x -a "$GPGRT_CONFIG" != "no"; then
++-  if test x"$GPGRT_CONFIG" != x && test "$GPGRT_CONFIG" != "no"; then
+ -    if $GPGRT_CONFIG libassuan --exists; then
+ -      LIBASSUAN_CONFIG="$GPGRT_CONFIG libassuan"
+ -      AC_MSG_NOTICE([Use gpgrt-config as libassuan-config])
+diff --git a/meta/recipes-support/pinentry/pinentry_1.3.2.bb b/meta/recipes-support/pinentry/pinentry_1.3.3.bb
+similarity index 93%
+rename from meta/recipes-support/pinentry/pinentry_1.3.2.bb
+rename to meta/recipes-support/pinentry/pinentry_1.3.3.bb
+index a5c8d2258a..325a75a7cb 100644
+--- a/meta/recipes-support/pinentry/pinentry_1.3.2.bb
++++ b/meta/recipes-support/pinentry/pinentry_1.3.3.bb
+@@ -16,7 +16,7 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0001-find-gpg-error-with-pkg-config.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "8e986ed88561b4da6e9efe0c54fa4ca8923035c99264df0b0464497c5fb94e9e"
++SRC_URI[sha256sum] = "c2970f16d6afb66ecddfca767d743936c86239bff936eed7fd7597a678414b63"
+ 
+ inherit autotools pkgconfig
+ 
+-- 
+2.34.1
 
 
