@@ -2,75 +2,74 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40CC2C43458
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 13:29:23 +0000 (UTC)
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9483.1784035753399087769
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E6EEC43458
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 13:29:53 +0000 (UTC)
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9494.1784035789123935561
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 06:29:13 -0700
+ Tue, 14 Jul 2026 06:29:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=nse8Xb0h;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=iiJ2+87I;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.156, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 80C741400134;
-	Tue, 14 Jul 2026 09:29:12 -0400 (EDT)
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=SN0dDXm5;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=D4WlHMFN;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.150, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 443E8EC00B1;
+	Tue, 14 Jul 2026 09:29:48 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Tue, 14 Jul 2026 09:29:12 -0400
+  by phl-compute-02.internal (MEProxy); Tue, 14 Jul 2026 09:29:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1784035752; x=1784122152; bh=vjrXctE95s
-	AGd1zXURH+BX+bej9d8ligwi721/LoOPw=; b=nse8Xb0h/9VPjt9DxKlIJzkyqy
-	bewMUREjK2rKEzIz0joA6ARJzvB4bbDMqkq5/nzw+tA+q8VsdKKZHZanekYKO6Ce
-	G/KizsZwrQEfZAPGlikwbDHChcX7VvwHWitBzaaDWvLKARD/pMMHl2TEn1xf/2PN
-	lUHT4LiOQIfnWLPaEetEYYLEKAEjoOp2zApePnJ9nKrfnNq8/Otganf1mSVQoqGr
-	SrEK8fk9aMMlYyaB9BWS4gt+8Xdn1moafmd2/RlvqweZ1AyBZXInmxUdD5n/DmKE
-	v6n/x4+QU0wssu5d9OABhwl5U5BLKidHAOOmiokKTWVbwylzOcTyuQGuePiA==
+	:subject:to:to; s=fm3; t=1784035788; x=1784122188; bh=JFSvOrtejY
+	Ukc6RXaLLhwPHhYn9UD1AgoO2dZty8aY8=; b=SN0dDXm5hngmDKzaSPuXZ6HVLE
+	Afz9R8xQUQyt5aJfjX/u5yD+YX193YiH3PqA+aIe1GPl1M/BXBI5/vtZsaCnVSdi
+	2HthThhW6A45cJ8C2CvvnuE+qaAwg9Db7GXGshCNNeaNpDQWMq+jfqoPCC9LuAfD
+	GTEmLqc+rgrZtX0zPt4UbaBP8coJTPfxd9PUIcxJMiCfiGqJiEJ3iq401qxLcrQ9
+	Gar071S1j7TavyavHxFhhf/jEd5cWjDiq3fRn+I+n/Q5koS7mLAqwdQCtcPRUpaP
+	zIr76CjwmVIstBbcoJtxbfOatS6I3eTdsqBbmxXXJLXOVMQRGOPz13Ac5BAg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	messagingengine.com; h=cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1784035752; x=1784122152; bh=vjrXctE95sAGd1zXURH+BX+bej9d8ligwi7
-	21/LoOPw=; b=iiJ2+87IDBrJUPTMe7zhNxZ2guHe+kaD/CIcxsfRsAYbnEft4d7
-	j1IT0vFYrSwSCcfmaMh+7CZ0h4tE+SRJ0DHqp5I9JIICQaeGuCLGh6OJXyUEqauB
-	C5ihw6FNd3rC2ktyyvVtrEfUcM9AW5ei7dcWme7hzHH/IYJMvWsKH+VfycGt5oQx
-	QWXmC5p2ZzjnouNOgHSlehEzWEiLAp9JbkJ2wKa9m0Kq3Kj05ETgJt1BokS6SJe9
-	Wv01ltl+Q2Ej4y9kWA2Po8vT9kW8yroTvWXXd+Z0Lla49YQ8ysrchknJ9GwFhekl
-	ld1UX4LCkf2bVclqHNGg3WQzBkiJ2rFryZQ==
-X-ME-Sender: <xms:qDlWaqWzZXW-Icd2JF6Uo9RUIdI3-_3_HhpBlqR_3AcDY5fnQfKRBA>
-    <xme:qDlWatl7_nBKZZApQUpeSl7ytiydJK8MvKAmSKq3yIMQyh1BaF4G41LNZzz3IzqXI
-    _s7hfp3R8qz8DSsWhZaDCd7N9YPaoH4MtAqNV2m-p62G6UqN2aCjUv7>
-X-ME-Received: <xmr:qDlWaja_lYf3aIeu-OdasA9gJuRtcrfW7uLVlrSMaY1Oo1OYMlIV6vxHTDyDX6dPzVov6v7njhwJQhmlHj8RNDuFrlmV1iBfJLveE-M>
-X-ME-Proxy-Cause: dmFkZTEV9FNoo0yKrVf5ijO5XLsnhwHcc3MyIvDGnBWGUAhxU/5vpB9gc7zfEB2aPYMgBs
-    QR8/SL1x5guUwpoSNJNo3UcEhmA58SI8I3EQFTVddY5lpap6y5QmS1S8gN/idjsLNW8PBI
-    2/WcYXkA9xJrzBG7ibiynMdxg7ko589Aljiya1OK21hHiHkJADorWuXzc/kBy+jXRWSppy
-    HBZMAc3eYxUs6EispIfk8RVHhPVSQu1NiVlPa+1hXYnOaxzVU1kyTIAQU4y/UrAMZDwU5F
-    vwZGi6cyHBNpCXjUIztx82q1+eCZ9E+zrKWW5Lk48Gj+cjgF+XzV6gefn/y4xD63EIZkFw
-    MKa6QHvwHa6SCTEQbNr/7hlVXYgcEcelj4ajHWbmuDrnZI+64t4oFlGIt38Hy8+Xdel3Op
-    kMVPm0OhNjhfGNisqJMfmeejXumaDqxDFDxEK6WVhqDaf976nn9u/8Y2iDfJ6MfwhqmOKw
-    e8Kkdn6qpp4SWq7xGUaBzVZGvUpGRN2o32HniWSM1ea7I6+r0a1jbaXEF4v/oKEOTqcZFr
-    um8t/0/emE29BWbTuORZlmdTwTcpdphBVCidAI11ZFH5nUR3AXH7pL/Uu4mtTChoEFVnES
-    ZkHQvqc3+0i/OL9I1LsiRYEcRM2wS9Vq41rPSUs22FQmR/DSiOrOFuFM4lqA
-X-ME-Proxy: <xmx:qDlWagP8dDdkH4KqYhdFQjaU3cL9qYj2Gvi8YPjmZMIgWkuoXdpXmg>
-    <xmx:qDlWagY1P1HbLuLZK_wMUjJdHJBOaQB2XcpCOmxgd6ZmHkvR54wHkg>
-    <xmx:qDlWam1Fq8VxUJc9nvQgSsXj5Fm0ssh3PpTWTsNZEV6TLb60uJ4RUA>
-    <xmx:qDlWaueQsxjkWo2xTa95zIr_BrW-VNUJKTJxW6yplSQBfY114RQUPA>
-    <xmx:qDlWaqZvc-9qiv3tkAuXQS9q6vhCGqRoHtjLvm3qF14LAaWYkXFDysM1>
+	1784035788; x=1784122188; bh=JFSvOrtejYUkc6RXaLLhwPHhYn9UD1AgoO2
+	dZty8aY8=; b=D4WlHMFND7sDvnYa8n1AyXbtSJ9H6uk8WGjNqQhx+CyIyakGrfT
+	sJWG8TorogNhBE4ZHrtU6LrDWbja67FxEA+lxcfxquMGyXRubqRcq+acZWURvWfY
+	l1RieJXDQergfp9c9AlzIOUYBkLY28XqxoeoJu44/UBWCQnTzruk48TxVynGC6jd
+	sZDpVz7aqJaRDBC5Tn3mY5h1iMuckzWNKQ3Mw7icZNd7nlzdNjS8O3K/hCvwNarc
+	I95rnVnKAJ3ovwKqTIuw92ji33l2aK8FUSN/M24Ej5oiRCEsmTwb2If6TMjIcK/c
+	z8+Y4hBccYlG79ZqAlGvKXqKwV45zb4PGkw==
+X-ME-Sender: <xms:zDlWaoFmdXeMo8-N2f3cQ8bdtRJzwAXBmLZBdmf1aFZHs4ts9Ghg2w>
+    <xme:zDlWanUqlIzNLiCtTxB6xUj8ntX-q2dyvo5dnO6mJKarZxxePHBQxreBOgJGyJ1p5
+    ifCHmXgI0sKOjPXbdwVPM7uSxR6BauNq6DWCHy0FM9oWfWpAjelBw>
+X-ME-Received: <xmr:zDlWavwnYMcEqAQGktm1HZa79zoUY6RJ-EgOHiZLr0mBvND-w96W0VjpDXCxjZHVjIHgpQi44bM6Vf1P59DJr8jZUO4NYOAaQAHm1SY>
+X-ME-Proxy-Cause: dmFkZTFR37yoYdNLSvsgdcdUvZ+ruwCtQ7tjVr13D8lBNdFTfi5uMXkSArl8rAJ2e8NYQY
+    NAssP15Dof6tUTH9N27C7KrVu1BzMc9AXdd9PqBuIDd3xCerOXIjYS9KI+5YRDD0xsvRc+
+    Ih5+j1fg3fxgMEECxHBgu5QxAZAsp22WGLYYlHQ4IbI0zy4Av9TbL3MPxSAw81QdH83ftP
+    cKRPa+H37miU3+hO5ZFpZOD1lcYe3Jamt+1AHqaZe7fmWBSi6foufTePrDsINEWXZNbkVx
+    t6YN3HP5LZKAkxrWIwvUrv2wv5OggfepGUZ9ou8TjebsLBgIN+aCcCRHGOwnWPcllZTJa+
+    nxzyxid6z2ojglIj0NRNo7GdPvVbQTvbZHgqsuW5tokoBhc9T1zjrPEP2pxfNlpIiZoX2t
+    u+q0HuSYuHNVXihesaRsd/wwr2Rsgk6U8/mgHFYAu1xAt9Wyk7F88PN0CAqZSenTYT/3Qp
+    vI3vH6cANai0k67QoEjH7lypyYtVkUxLK9lGS7bPVc8AfA1CgHWbCR2bISmcZ+rQHzf9z2
+    dIv5n/SgoQxrqjp6n6vnV7w5w9dJ1zPRq1dkGgwwgUu79/3Lz/THUyzh6EDND8ZmxOBrwN
+    PrCulXHq6ZsxbxAqMX4pzAaWfyFiaM0wGotP4ieDMlseHEUw7F966a/QZWDw
+X-ME-Proxy: <xmx:zDlWalO3B9SxPqw8MzWfKYuqs937-RW_ZXxcDXfHdu3tDZzQUY-BSQ>
+    <xmx:zDlWag4eSBoqrKJ8KofKKwpyZ_LAFPAa_mmRygYaT9i8Xruqec-ZEg>
+    <xmx:zDlWamNLNXK_3OvraFFd4toWNStFPksHte0k8c1vzg2Ig4ot759WSA>
+    <xmx:zDlWaum9RLeRW8MlyUw7wxwL_QLXcD62VzOe2N6-l9S2nDTrkI7ikw>
+    <xmx:zDlWaiqMJrYEzZxpxoiwwVFqZveBABNsn0v10YTGlvhTzm3-OSUfAsTK>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Jul 2026 09:29:11 -0400 (EDT)
-Message-ID: <cca6b5d5382e36e325a075861daf8bede882bcac.camel@pbarker.dev>
-Subject: Re: [OE-core][wrynose][PATCH] util-linux: upgrade 2.41.3 -> 2.41.5
+ 14 Jul 2026 09:29:47 -0400 (EDT)
+Message-ID: <41e73e08d277a3c95cb73815d9515e0e66f92f3a.camel@pbarker.dev>
+Subject: Re: [OE-core][wrynose 12/18] util-linux: upgrade 2.41.3 -> 2.41.5
 From: Paul Barker <paul@pbarker.dev>
-To: Siva Balasubramanian <sivakumar.bs@gmail.com>, 
+To: Yoann Congal <yoann.congal@smile.fr>, 
 	openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>, Chen Qi <Qi.Chen@windriver.com>
-Date: Tue, 14 Jul 2026 14:29:07 +0100
-In-Reply-To: <20260706115516.19878-1-sivakumar.bs@gmail.com>
-References: <20260625090231.2575081-1-sivakumar.bs@gmail.com>
-	 <20260706115516.19878-1-sivakumar.bs@gmail.com>
+Date: Tue, 14 Jul 2026 14:29:44 +0100
+In-Reply-To: <743ed34569e6c0db29b91a4e6035ace4a39bb55a.1783697455.git.yoann.congal@smile.fr>
+References: <cover.1783697455.git.yoann.congal@smile.fr>
+	 <743ed34569e6c0db29b91a4e6035ace4a39bb55a.1783697455.git.yoann.congal@smile.fr>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -116,21 +115,23 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-YphlbEPBoPj38XqeLY0V"
+	protocol="application/pgp-signature"; boundary="=-hGJ9W8cq90saIy3BF+1/"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 13:29:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240891
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 13:29:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240892
 
 
---=-YphlbEPBoPj38XqeLY0V
+--=-hGJ9W8cq90saIy3BF+1/
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-07-06 at 17:25 +0530, Siva Balasubramanian wrote:
+On Fri, 2026-07-10 at 18:36 +0200, Yoann Congal wrote:
+> From: Siva Balasubramanian <sivakumar.bs@gmail.com>
+>=20
 > 2.41.4 and 2.41.5 are point releases in the same 2.41 stable series and
 > contain only bug fixes and security fixes (no new features, no API/ABI
 > breaks), so the upgrade complies with the stable branch policy.
@@ -150,12 +151,16 @@ On Mon, 2026-07-06 at 17:25 +0530, Siva Balasubramanian wrote:
 >  - the pam_lastlog2 libpam linking backport (upstream 5683ed6320e0,
 >    cherry-picked to the 2.41 stable branch as c8d0af0421f6, released in
 >    2.41.5)
+>=20
+> Full changes: https://github.com/util-linux/util-linux/compare/v2.41.3...=
+v2.41.5
+>=20
+> Signed-off-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 
-Hi Siva,
+Hi Yoann,
 
-I just see one backport dropped in this patch. I don't see any
-pam_lastlog2 backport in the current wrynose branch, is this related to
-a patch that wasn't applied or something you're carrying locally?
+Please drop this, I've replied to the original patch.
 
 Best regards,
 
@@ -163,17 +168,17 @@ Best regards,
 Paul Barker
 
 
---=-YphlbEPBoPj38XqeLY0V
+--=-hGJ9W8cq90saIy3BF+1/
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCalY5oxEccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bsZ2AQDW3LCj6zlo8gUKsQ8osmWU+vccRoS2VQe0
-YcgHIopkGwEA9eb3fVmH5oYCb1A8iJR7vs1FKWeX7Q9ezU/ZOXtFIgI=
-=otDC
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCalY5yBEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0brrpAQDiA5Fs3Nv+f8mD2vQgZLcMBy0TX41HboaO
+k6/JtuJs/gEA2qYSKZYH1u76qHbPFo6vBbWH78dKXJP8lx9vAOeh/QY=
+=ifv2
 -----END PGP SIGNATURE-----
 
---=-YphlbEPBoPj38XqeLY0V--
+--=-hGJ9W8cq90saIy3BF+1/--
 
