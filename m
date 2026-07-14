@@ -1,871 +1,552 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <Ishaan.Desai@ibm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95B50C44501
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 14:47:17 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11162.1784040430630172356
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DF76C44501
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 15:50:18 +0000 (UTC)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12061.1784044217338883128
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 07:47:10 -0700
+ Tue, 14 Jul 2026 08:50:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=htoRpmaz;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38dfe7eb825so1079615a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 07:47:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784040430; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oU2tlcLlnJtxE9RDwTcuUBhPp/sWr2z0OfuI4j4FKR0jtWyBj1UayLtYwbpb8t2xNL
-         BbEnw16nZeuQFxd/6MzWJYo67B/Rl90qFQ4LzI42f5/qt2qX/vHYnMybnaxLIKRNOGCe
-         mKwpTEFvs6GQz8X+SwkWDJWHHll5grGrGIzoVirNKEVc6Fa7a/axw1WR/TA+sEvzizgK
-         YLImGqUjQ8aJuI0R3TcSyRdjnzf7+OHxbcn4R2D7ta2O58Er7+je3CPcoyHeZDNkZi7e
-         QmnanyY7n8M+ROP+bzwJAzP2xOuyVrnBQYKntYyCPfZ2zsYxi79YkWLAP1w2KscdZ+or
-         ArSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=Aue0LQ4+TeeIMjCRQfJSE4aop2igCox/fE2vHgqwLBk=;
-        fh=8Q/NCFKWNnnpjgnr+K1amHEs0PxOtvOQ/x+d0eTxrxw=;
-        b=loDovh1waIsy0a6cSYvUzCZ88BPI7hm/qfqjwQTMxkL6st0i7s2Yi/OMSoB2s+RGtR
-         yreB5GUUt9MmUQ6eLpeVrUu3kAbFGRIpGOXujuugDR3BrIIOEtQ17Q/ii0IzfM8V9AqA
-         parHlgnViBpcMNmaaL9xm0f4tWeKoxCZt/Z7jNFT3qD3SRY9TWmEJHEP0qM4mfIiXAMA
-         WvRtJzf4iE8TOknw/hXxk6DNmvFr6SJ65/+pfDcJUznE7ibnjMogWqYOkyD2J4TDd1gz
-         C6Sm0mz2g9RR7cNsKowmYttYrVqbWEFQZp/Da9nOMdcZbDD/k2ffTq1LdqR8x41Sp4so
-         KVyw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784040430; x=1784645230; darn=lists.openembedded.org;
-        h=content-type:to:subject:message-id:date:from:mime-version:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Aue0LQ4+TeeIMjCRQfJSE4aop2igCox/fE2vHgqwLBk=;
-        b=htoRpmazDTTSM5J017e0X+TjLa/MFExKLUaDBBhsFMmR5xCg6BP6kPWpCcubeHSirn
-         IQuQSHGKyCb0dNpJPb3m7FiuEdZB82N7pS3crOduNEJAOF5JSk6ToEEjOw7TkYUNAWZn
-         cZ9bVUYDgj4Uc/cHw1kO/ZF5qKymNNHGyufZGmwaVM9pmOtwL8RbARL6nwf1gBVxkTzo
-         iVV4jH20uXv397SDmVX7e2ADm7p6yT6VQ1B4JWLLUVrjcCgf8wxoPDiQ8kNpDS52moM0
-         O2qZxW0hYX18a/aaiWlJHjkuP0xGcc/DufJ361kO9TflhO9CHMe0lTNDKIVCc8rjNgxZ
-         lhDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784040430; x=1784645230;
-        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Aue0LQ4+TeeIMjCRQfJSE4aop2igCox/fE2vHgqwLBk=;
-        b=Jhpyg9Gon0nWSBncR0emt3dTg3aOEkDD/yR9AbnQYF30M85JPc/ePhIQoS1Q4r6uOX
-         QhcncF7QuXGQpBrDRMaLcrG8b0TPxyrFX+2QyGzBAoz4AlpO1rYmTI1Ghz6jggPnMzxK
-         EeR3e+RcfjWJkIWP8V7Y27c6g2XsmNxTgYpUHo0WoojLcxzWeVf5SkzQ7enGpfNo+vz3
-         pb06ast/dHU1w/byMrudyMaTSb6/xWvz8C8fjQKR3/apNYDdw/IFe578jUGWxIU1OLzL
-         pPB78GxR9fVkC2bPAXgj46wwS0VZk4haxmmUTyMVq5KVXNicGOJxfJg4NPNL/lsZ33Jx
-         DUsQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpDGVfvQr1ZJ5tdyswoGagzJmcgg5r7RQAHZlzffOX1htg5OOSW4l1rw7GB/NvzidKj+nrAXxBfCzh/XY6Dld8+AA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxLpEOo0ADUKrwgc/h0mQQpnPLF/pStAqbIwX1DMmzfB4dVihAz
-	hj/2MccKxpcvP3UY0h1KPIFapMdRV67TNLHdY5sl20sW22gj1cXQCOl0oFHkqOXL8hgFKWYvDsm
-	oXGXMG3G5J42kE6faBS5MNTNdHa1zVPM=
-X-Gm-Gg: AfdE7cnwRiEX9IhwNZ2ceoTg7x723Nyfxl7GfpAvQIPt6689E5lgl+iDH333PNLaCTK
-	SRmlCXxB9icPzqBTKobZkd739ipQCKUY0kYivJ62+Byt+iOZ8BZRIo4g3+USIA5yqEr0UTt8CVA
-	Ccda7bqlq3RU0VTeCugMTYATMJH4aTDekBgwlJ7/MV0yhN2Y/dN3giyCKBbsSFaqZWrRF9VN5RZ
-	UwDXcCkf5Fy4IbzTOeIYIo8YWJlSdJ1is1AjKhtNLIlP/jmLL23tU2DkuicgWXnnkrWs5F2+M8c
-	PbDyd1ZLQ0dTelcNp/TC4+scpmdnyU5EpvgWH1L5qgiU5LJWYZB4C1YX+KIYWUGAHdL7K5X5zNz
-	0uvDhmPojQnUZa1SG7HIobzN9X1VlTyej+NC14KI8OeFD6fPtwWd95vwO8XcMM7hWu3J4zq6Mwh
-	1aJSJktgLweaX73iH2LbL6csjzyknoIH9E0IDX5SmT5rigeynQeUio
-X-Received: by 2002:a17:90b:3a83:b0:382:1a6f:ba3b with SMTP id
- 98e67ed59e1d1-38dc74d04d6mr12272842a91.5.1784040429527; Tue, 14 Jul 2026
- 07:47:09 -0700 (PDT)
+ dkim=pass header.i=@ibm.com header.s=pp1 header.b=PMj7afpj;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: ibm.com, ip: 148.163.156.1, mailfrom: ishaan.desai@ibm.com)
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66EEfeGw1608161
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 15:50:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=cRRzoLrepK93lU6+I49kurxCLzoVw2s7tGWGGXjqj
+	Ds=; b=PMj7afpjQwjzEYN7IRbV4UgjXkOnd23gBqS7ntTVSpYlH0I56ifGlc5P/
+	Tal8YELW2/BjKqtcGtX3a/s8G6PWb7gOFKMWgLerbrWQzpcddOa1CJ35h4BL2/I/
+	86u2oJIS2LxpeWG+gJV++Eewu2iLtOkGq9KYhLzRMOdVlZkyeBEvN0MKdp54kY6V
+	u2lwKZ0w1XsC3fNnn8thxcXAseT0q64/w/tJLeAnmervDqrwRwiYqYDrMC4V4kHh
+	xHgmGEHCcmITzStZ3c8CT/vU4vVNx4F792Qpn96x7np9TM0i0iMNVMXhwZBNxg9i
+	zyHxIdPX14LZ6upyIzOocLH+padGw==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fbepxf139-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 15:50:16 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66EFnclO029559
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 15:50:15 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4fc0hw3nud-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 15:50:15 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66EFo73h26411768
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 14 Jul 2026 15:50:07 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4D0B358055;
+	Tue, 14 Jul 2026 15:50:07 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 120AD5805F;
+	Tue, 14 Jul 2026 15:50:07 +0000 (GMT)
+Received: from pfw153.pfw.tadn.ibm.com (unknown [9.5.7.52])
+	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 14 Jul 2026 15:50:06 +0000 (GMT)
+From: Ishaan Desai <Ishaan.Desai@ibm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ishaan Desai <Ishaan.Desai@ibm.com>
+Subject: [PATCH v3] memory-control: add recipe and bbclass for cgroup v2 memory limiting
+Date: Tue, 14 Jul 2026 10:45:45 -0500
+Message-ID: <20260714154545.4037040-1-Ishaan.Desai@ibm.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-From: Stephen K Jolley <sjolley.yp.pm@gmail.com>
-Date: Tue, 14 Jul 2026 07:46:57 -0700
-X-Gm-Features: AUfX_mwkQo7uClCR1VPFOmi9TgS4vu04FXuxuR192GsJTZX6Dcjq7b8-TeDcXbE
-Message-ID: <CAK5yBb-kYF954roq7DhSe3E0o9bF4Y2jH33XOHVRenyVfPAQnQ@mail.gmail.com>
-Subject: Yocto Project Status 14 July 2026 (WW29)
-To: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	yocto-status@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000001127d906569348ed"
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: onO83JG4f0tWE_5t55GsRxjgnlkxlz88
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE0MDE2MyBTYWx0ZWRfXy9ZBFiop0A8B
+ eqkqjyvWVP25afBIVgy/ZI6gne+XeR9Qak/Pqz4oiOwkxKVBAtNcBpUPImRKrUhI2t89bcBuoAy
+ eRbfytU94ylmboTw29KOtD0n+lPW8gs=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE0MDE2MyBTYWx0ZWRfX/3EPGNSg+5hd
+ HACZ2uEeLU0oSV2EVdrQWIGxQCjj0+Cze13E+hzFaE8M8a3XqNlDGIAjUIV96SjTDYwroyaPcGb
+ eDLyYv9DvvAi3BViK+0TpqlmienDhraEfg1RXZZ3JbueFDlSmLhdZYzN3LwrDBcReKbv21EY2I3
+ gZvgQTq99iSAdvgPQp99CsnSNUgo4QzNS1BAgHhiqconHJVZDohUqJeSGWYwzls0PGoDz09ugEY
+ gvqbfgAETS8pePvqwpvoSuKRn5O2aAGcCcHJ0Z7s+EyoHNra+rDFHPkQJk3qkSLlzbRmpdgydYO
+ 3mX0YkYmOnKZuwIbwVR+tt0FlI9CCXv4gE9Fuct7OlftlmNoOfLkiMLx/FV1jJ+BDolqBXj03g3
+ xPTpW9ZZMOddgqJrIbNQ9etrnXl0s9XQaN6xaO+XR1WyC2O4Qy1uaF2OllIi7udejwictUMgmt7
+ tkgtuhoz4fBYsu3Ekwg==
+X-Authority-Analysis: v=2.4 cv=XbS5Co55 c=1 sm=1 tr=0 ts=6a565ab8 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=iQ6ETzBq9ecOQQE5vZCe:22 a=Q4-j1AaZAAAA:8 a=iGHA9ds3AAAA:8 a=VnNF1IyMAAAA:8
+ a=7CQSdrXTAAAA:8 a=NlPfdOwJ_zJYpz0BUKoA:9 a=IzD9Hpi7bwxJFrhR:21
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-ORIG-GUID: onO83JG4f0tWE_5t55GsRxjgnlkxlz88
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-14_03,2026-07-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607140163
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 14:47:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240896
-
---0000000000001127d906569348ed
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Current Dev Position: YP 6.1 M2
-
-Next Deadline: YP 6.1 M2: w/c 2026-07-20
-
-Next Team Meetings:
-
-   -
-
-   Bug Triage meeting - Thursday 16th July 7:30am PDT (
-   https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
-   -
-
-   Weekly Project Engineering Sync  - Tuesday 14th July 8am PDT (
-   https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09)
-   <https://zoom.us/j/990892712>
-   -
-
-   Yocto Project Patch Review - Thursday 16th July 10am GMT and Monday 20th
-   July 9am PDT (
-   https://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1)
-
-
-Project data dashboard: https://dashboard.yoctoproject.org/
-
-Key Status/Updates:
-
-   -
-
-   YP 6.0.2 is due to release
-   -
-
-   YP 5.0.19 is in review
-   -
-
-   M2 is next week!
-   -
-
-   We have identified a few linux-yocto CVEs which need triaging due to
-   missing version information in the CVE databases (affecting master, wryn=
-ose
-   and scarthgap), see the email sent to the list:
-   https://lists.yoctoproject.org/g/yocto/topic/120036383
-   -
-
-   We are happy to report we worked with Free BSD upstream and have
-   resolved the NFS open/lock issue with a kernel patch that was impacting =
-the
-   autobuilder.
-   -
-
-   Systemd issues with older host kernels (e.g. RHEL 8) is still being
-   worked on
-   https://lists.openembedded.org/g/openembedded-architecture/topic/1198703=
-59
-   -
-
-   We have become aware we should ideally replace eudev with a minimal udev
-   build from systemd instead similar to what some other distros are doing.
-   -
-
-   We=E2=80=99re working through the backlog of patches, the bandwidth for =
-changes
-   needing in depth review/feedback continues to be a challenge.
-   -
-
-   The layer.conf changes are likely to be deferred to 6.2 due to lack of
-   time to gather community consensus before feature freeze.
-   -
-
-   We=E2=80=99re making little progress on intermittent build failures desp=
-ite the
-   problems continuing to impact test builds:
-   -
-
-      several qemu =E2=80=98hang=E2=80=99 type issues on ARM
-      -
-
-      sometimes yocto-check-layer is showing checksum mismatch issues
-      -
-
-      siggen reset issues (=E2=80=9CResourceWarning: unclosed transport=E2=
-=80=9D)
-      -
-
-      groff build race issues
-      -
-
-      intermittent ptest failures in many recipes
-      -
-
-   We would like to know what people are planning to work on for Yocto
-   Project 6.1 and beyond. We have a roadmap document in Google Docs:
-   https://docs.google.com/document/d/12xgAzSjDj5zVlo4eQIbiv1s3QMjtBTCvBFY3=
-_T7OPto
-
-
-Want to contribute? We would appreciate help with the following areas:
-
-   -
-
-   We have several open issues for pseudo and limited maintainer time to
-   work on them. Help from someone familiar with systems programming in C
-   would be greatly appreciated.
-   https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&priority=
-=3DHigh&priority=3DMedium%2B&product=3DPseudo&query_format=3Dadvanced&resol=
-ution=3D---
-   -
-
-   There are a large number of intermittent failures on our autobuilder,
-   any help with investigating, reproducing or solving these issues would b=
-e
-   welcome! https://valkyrie.yocto.io/pub/non-release/abint/
-   -
-
-   Many recipes in openembedded-core would benefit from a new recipe
-   maintainer. Please look at
-   https://git.openembedded.org/openembedded-core/tree/meta/conf/distro/inc=
-lude/maintainers.inc
-   and see if you can adopt any of the unassigned recipes.
-   -
-
-   For more ways to contribute, see
-   https://docs.google.com/document/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuC=
-WbzgjOk/edit?usp=3Dsharing
-
-
-New to the project?
-
-   -
-
-   We have a list of issues we think are good places to start contributing:
-   https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DNEWCOMER
-
-
-Tracking Metrics:
-
-   -
-
-   WDD 2689 (last week 2689) (
-   https://wiki.yoctoproject.org/charts/combo.html)
-   -
-
-   OE-Core/Poky Patch Metrics
-   -
-
-      Total patches found: 1019 (last week 1037)
-      -
-
-      Patches in the Pending State: 145 (14%) [last week 145 (14%)]
-      -
-
-      https://valkyrie.yocto.io/pub/non-release/patchmetrics/
-
-
-Upcoming development releases:
-
-   -
-
-   6.1 M2:
-   -
-
-      Build Date: w/c 2026-07-20
-      -
-
-      Release Date: w/c 2026-08-03
-      -
-
-   6.1 M3:
-   -
-
-      Build Date: w/c 2026-08-31
-      -
-
-      Release Date: w/c 2026-09-14
-      -
-
-   6.1.0:
-   -
-
-      Build Date (M4): w/c 2026-10-12
-      -
-
-      Release Date: w/c 2026-11-02
-
-
-Upcoming dot releases:
-
-   -
-
-   YP 6.0.2 is due to release
-   -
-
-      Release Date w/c 2026-07-06
-      -
-
-   YP 5.0.19 is in review
-   -
-
-      Release Date w/c 2026-07-13
-      -
-
-   YP 6.0.3
-   -
-
-      Build Date w/c 2026-08-10
-      -
-
-      Release Date w/c 2026-08-24
-      -
-
-   YP 5.0.20
-   -
-
-      Build Date w/c 2026-08-17
-      -
-
-      Release Date w/c 2026-08-31
-      -
-
-   For future release dates, see
-   https://wiki.yoctoproject.org/wiki/Release_calendar
-
-
-The Yocto Project=E2=80=99s technical governance is through its Technical S=
-teering
-Committee, more information is available at:
-
-https://wiki.yoctoproject.org/wiki/TSC
-
-The Status reports are stored on the wiki at:
-https://wiki.yoctoproject.org/wiki/Weekly_Status
-
-[If anyone has suggestions for other information you=E2=80=99d like to see =
-on this
-weekly status update, let us know!]
-
-Thanks,
-
-
-
-*Stephen K. Jolley*
-
-*Yocto Project Program Manager*
-
-(    *Cell*:                (208) 244-4460
-
-* *Email*:                 *s
-<stephen.k.jolley@intel.com>jolley.yp.pm@gmail.com <jolley.yp.pm@gmail.com>=
-*
-
---0000000000001127d906569348ed
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><span id=3D"gmail-docs-internal-guid-ed8ec8a4-7fff-f0=
-57-3238-56b095a077fb"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0=
-pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-=
-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;ver=
-tical-align:baseline;white-space:pre-wrap">Current Dev Position: YP 6.1 M2<=
-/span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bo=
-ttom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:=
-rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align:=
-baseline;white-space:pre-wrap">Next Deadline: YP 6.1 M2: w/c 2026-07-20</sp=
-an></p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
-ottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color=
-:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align=
-:baseline;white-space:pre-wrap">Next Team Meetings:</span></p><ul style=3D"=
-margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:=
-disc;font-size:9.5pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgrou=
-nd-color:transparent;font-variant:normal;vertical-align:baseline;white-spac=
-e:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-botto=
-m:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-color=
-:transparent;font-variant:normal;vertical-align:baseline;white-space:pre-wr=
-ap">Bug Triage meeting - Thursday 16th July 7:30am PDT (</span><a href=3D"h=
-ttps://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09" style=3D=
-"text-decoration:none"><span style=3D"font-size:11pt;background-color:trans=
-parent;font-variant:normal;text-decoration:underline;vertical-align:baselin=
-e;white-space:pre-wrap">https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0b=
-Fd5aVpHVVZ6dz09</span></a><span style=3D"font-size:11pt;background-color:tr=
-ansparent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap"=
->)</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:9=
-.5pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transpa=
-rent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D=
-"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"p=
-resentation"><span style=3D"font-size:11pt;background-color:transparent;fon=
-t-variant:normal;vertical-align:baseline;white-space:pre-wrap">Weekly Proje=
-ct Engineering Sync=C2=A0 - Tuesday 14th July 8am PDT (</span><a href=3D"ht=
-tps://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09" style=3D"=
-text-decoration:none"><span style=3D"font-size:11pt;background-color:transp=
-arent;font-variant:normal;text-decoration:underline;vertical-align:baseline=
-;white-space:pre-wrap">https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bk=
-crYjRrcmJsUT09</span></a><a href=3D"https://zoom.us/j/990892712" style=3D"t=
-ext-decoration:none"><span style=3D"font-size:11pt;background-color:transpa=
-rent;font-variant:normal;text-decoration:underline;vertical-align:baseline;=
-white-space:pre-wrap">)</span></a></p></li><li dir=3D"ltr" style=3D"list-st=
-yle-type:disc;font-size:9.5pt;font-family:Arial,sans-serif;color:rgb(0,0,0)=
-;background-color:transparent;font-variant:normal;vertical-align:baseline;w=
-hite-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;mar=
-gin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backgro=
-und-color:transparent;font-variant:normal;vertical-align:baseline;white-spa=
-ce:pre-wrap">Yocto Project Patch Review - Thursday 16th July 10am GMT and M=
-onday 20th July 9am PDT (</span><a href=3D"https://zoom.us/j/97762397148?pw=
-d=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1" style=3D"text-decoration:none"><span=
- style=3D"font-size:11pt;background-color:transparent;font-variant:normal;t=
-ext-decoration:underline;vertical-align:baseline;white-space:pre-wrap">http=
-s://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1</span></a=
-><span style=3D"font-size:11pt;background-color:transparent;font-variant:no=
-rmal;vertical-align:baseline;white-space:pre-wrap">)</span></p></li></ul><b=
-r><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt=
-"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,=
-0);background-color:transparent;font-variant:normal;vertical-align:baseline=
-;white-space:pre-wrap">Project data dashboard: </span><a href=3D"https://da=
-shboard.yoctoproject.org/" style=3D"text-decoration:none"><span style=3D"fo=
-nt-size:11pt;font-family:Arial,sans-serif;background-color:transparent;font=
--variant:normal;text-decoration:underline;vertical-align:baseline;white-spa=
-ce:pre-wrap">https://dashboard.yoctoproject.org/</span></a><span style=3D"f=
-ont-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-colo=
-r:transparent;font-variant:normal;vertical-align:baseline;white-space:pre-w=
-rap">=C2=A0</span></p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
-op:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,s=
-ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal=
-;vertical-align:baseline;white-space:pre-wrap">Key Status/Updates:</span></=
-p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"l=
-ist-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0=
-,0,0);background-color:transparent;font-variant:normal;vertical-align:basel=
-ine;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0p=
-t;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;ba=
-ckground-color:transparent;font-variant:normal;vertical-align:baseline;whit=
-e-space:pre-wrap">YP 6.0.2 is due to release</span></p></li><li dir=3D"ltr"=
- style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;=
-color:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-=
-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;ma=
-rgin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-s=
-ize:11pt;background-color:transparent;font-variant:normal;vertical-align:ba=
-seline;white-space:pre-wrap">YP 5.0.19 is in review</span></p></li><li dir=
-=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,san=
-s-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;v=
-ertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height=
-:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
-=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
-l-align:baseline;white-space:pre-wrap">M2 is next week!</span></p></li><li =
-dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,=
-sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:norma=
-l;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-hei=
-ght:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span styl=
-e=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertic=
-al-align:baseline;white-space:pre-wrap">We have identified a few linux-yoct=
-o CVEs which need triaging due to missing version information in the CVE da=
-tabases (affecting master, wrynose and scarthgap), see the email sent to th=
-e list: </span><a href=3D"https://lists.yoctoproject.org/g/yocto/topic/1200=
-36383" style=3D"text-decoration:none"><span style=3D"font-size:11pt;backgro=
-und-color:transparent;font-variant:normal;text-decoration:underline;vertica=
-l-align:baseline;white-space:pre-wrap">https://lists.yoctoproject.org/g/yoc=
-to/topic/120036383</span></a></p></li><li dir=3D"ltr" style=3D"list-style-t=
-ype:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backg=
-round-color:transparent;font-variant:normal;vertical-align:baseline;white-s=
-pace:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bo=
-ttom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-co=
-lor:transparent;font-variant:normal;vertical-align:baseline;white-space:pre=
--wrap">We are happy to report we worked with Free BSD upstream and have res=
-olved the NFS open/lock issue with a kernel patch that was impacting the au=
-tobuilder.</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;fon=
-t-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:=
-transparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p=
- dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" ro=
-le=3D"presentation"><span style=3D"font-size:11pt;background-color:transpar=
-ent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Syste=
-md issues with older host kernels (e.g. RHEL 8) is still being worked on </=
-span><a href=3D"https://lists.openembedded.org/g/openembedded-architecture/=
-topic/119870359" style=3D"text-decoration:none"><span style=3D"font-size:11=
-pt;background-color:transparent;font-variant:normal;text-decoration:underli=
-ne;vertical-align:baseline;white-space:pre-wrap">https://lists.openembedded=
-.org/g/openembedded-architecture/topic/119870359</span></a></p></li><li dir=
-=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,san=
-s-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;v=
-ertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height=
-:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
-=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
-l-align:baseline;white-space:pre-wrap">We have become aware we should ideal=
-ly replace eudev with a minimal udev build from systemd instead similar to =
-what some other distros are doing.</span></p></li><li dir=3D"ltr" style=3D"=
-list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(=
-0,0,0);background-color:transparent;font-variant:normal;vertical-align:base=
-line;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0=
-pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;b=
-ackground-color:transparent;font-variant:normal;vertical-align:baseline;whi=
-te-space:pre-wrap">We=E2=80=99re working through the backlog of patches, th=
-e bandwidth for changes needing in depth review/feedback continues to be a =
-challenge.</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;fon=
-t-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:=
-transparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p=
- dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" ro=
-le=3D"presentation"><span style=3D"font-size:11pt;background-color:transpar=
-ent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">The l=
-ayer.conf changes are likely to be deferred to 6.2 due to lack of time to g=
-ather community consensus before feature freeze.</span></p></li><li dir=3D"=
-ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-se=
-rif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;verti=
-cal-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.3=
-8;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"fo=
-nt-size:11pt;background-color:transparent;font-variant:normal;vertical-alig=
-n:baseline;white-space:pre-wrap">We=E2=80=99re making little progress on in=
-termittent build failures despite the problems continuing to impact test bu=
-ilds:</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=
-=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,s=
-ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal=
-;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heig=
-ht:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
-=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
-l-align:baseline;white-space:pre-wrap">several qemu =E2=80=98hang=E2=80=99 =
-type issues on ARM</span></p></li><li dir=3D"ltr" style=3D"list-style-type:=
-circle;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgro=
-und-color:transparent;font-variant:normal;vertical-align:baseline;white-spa=
-ce:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bott=
-om:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-colo=
-r:transparent;font-variant:normal;vertical-align:baseline;white-space:pre-w=
-rap">sometimes yocto-check-layer is showing checksum mismatch issues</span>=
-</p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;fon=
-t-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;fon=
-t-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" st=
-yle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentat=
-ion"><span style=3D"font-size:11pt;background-color:transparent;font-varian=
-t:normal;vertical-align:baseline;white-space:pre-wrap">siggen reset issues =
-(=E2=80=9CResourceWarning: unclosed transport=E2=80=9D)</span></p></li><li =
-dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Aria=
-l,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:nor=
-mal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-h=
-eight:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span st=
-yle=3D"font-size:11pt;background-color:transparent;font-variant:normal;vert=
-ical-align:baseline;white-space:pre-wrap">groff build race issues</span></p=
-></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-f=
-amily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-v=
-ariant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
-"><span style=3D"font-size:11pt;background-color:transparent;font-variant:n=
-ormal;vertical-align:baseline;white-space:pre-wrap">intermittent ptest fail=
-ures in many recipes</span></p></li></ul><li dir=3D"ltr" style=3D"list-styl=
-e-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);ba=
-ckground-color:transparent;font-variant:normal;vertical-align:baseline;whit=
-e-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin=
--bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background=
--color:transparent;font-variant:normal;vertical-align:baseline;white-space:=
-pre-wrap">We would like to know what people are planning to work on for Yoc=
-to Project 6.1 and beyond. We have a roadmap document in Google Docs: </spa=
-n><a href=3D"https://docs.google.com/document/d/12xgAzSjDj5zVlo4eQIbiv1s3QM=
-jtBTCvBFY3_T7OPto" style=3D"text-decoration:none"><span style=3D"font-size:=
-11pt;background-color:transparent;font-variant:normal;text-decoration:under=
-line;vertical-align:baseline;white-space:pre-wrap">https://docs.google.com/=
-document/d/12xgAzSjDj5zVlo4eQIbiv1s3QMjtBTCvBFY3_T7OPto</span></a></p></li>=
-</ul><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bot=
-tom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:r=
-gb(0,0,0);background-color:transparent;font-variant:normal;vertical-align:b=
-aseline;white-space:pre-wrap">Want to contribute? We would appreciate help =
-with the following areas:</span></p><ul style=3D"margin-top:0px;margin-bott=
-om:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-f=
-amily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-v=
-ariant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
-"><span style=3D"font-size:11pt;background-color:transparent;font-variant:n=
-ormal;vertical-align:baseline;white-space:pre-wrap">We have several open is=
-sues for pseudo and limited maintainer time to work on them. Help from some=
-one familiar with systems programming in C would be greatly appreciated. </=
-span><a href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661=
-406&amp;priority=3DHigh&amp;priority=3DMedium%2B&amp;product=3DPseudo&amp;q=
-uery_format=3Dadvanced&amp;resolution=3D---" style=3D"text-decoration:none"=
-><span style=3D"font-size:11pt;background-color:transparent;font-variant:no=
-rmal;text-decoration:underline;vertical-align:baseline;white-space:pre-wrap=
-">https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&amp;priori=
-ty=3DHigh&amp;priority=3DMedium%2B&amp;product=3DPseudo&amp;query_format=3D=
-advanced&amp;resolution=3D---</span></a></p></li><li dir=3D"ltr" style=3D"l=
-ist-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0=
-,0,0);background-color:transparent;font-variant:normal;vertical-align:basel=
-ine;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0p=
-t;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;ba=
-ckground-color:transparent;font-variant:normal;vertical-align:baseline;whit=
-e-space:pre-wrap">There are a large number of intermittent failures on our =
-autobuilder, any help with investigating, reproducing or solving these issu=
-es would be welcome! </span><a href=3D"https://valkyrie.yocto.io/pub/non-re=
-lease/abint/" style=3D"text-decoration:none"><span style=3D"font-size:11pt;=
-background-color:transparent;font-variant:normal;text-decoration:underline;=
-vertical-align:baseline;white-space:pre-wrap">https://valkyrie.yocto.io/pub=
-/non-release/abint/</span></a></p></li><li dir=3D"ltr" style=3D"list-style-=
-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);back=
-ground-color:transparent;font-variant:normal;vertical-align:baseline;white-=
-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
-ottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-c=
-olor:transparent;font-variant:normal;vertical-align:baseline;white-space:pr=
-e-wrap">Many recipes in openembedded-core would benefit from a new recipe m=
-aintainer. Please look at </span><a href=3D"https://git.openembedded.org/op=
-enembedded-core/tree/meta/conf/distro/include/maintainers.inc" style=3D"tex=
-t-decoration:none"><span style=3D"font-size:11pt;background-color:transpare=
-nt;font-variant:normal;text-decoration:underline;vertical-align:baseline;wh=
-ite-space:pre-wrap">https://git.openembedded.org/openembedded-core/tree/met=
-a/conf/distro/include/maintainers.inc</span></a><span style=3D"font-size:11=
-pt;background-color:transparent;font-variant:normal;vertical-align:baseline=
-;white-space:pre-wrap"> and see if you can adopt any of the unassigned reci=
-pes.</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size=
-:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transp=
-arent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
-=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
-t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">For mor=
-e ways to contribute, see </span><a href=3D"https://docs.google.com/documen=
-t/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?usp=3Dsharing" style=
-=3D"text-decoration:none"><span style=3D"font-size:11pt;background-color:tr=
-ansparent;font-variant:normal;text-decoration:underline;vertical-align:base=
-line;white-space:pre-wrap">https://docs.google.com/document/d/18oxKWxLorfF8=
-13h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?usp=3Dsharing</span></a></p></li></ul>=
-<br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0=
-pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,=
-0,0);background-color:transparent;font-variant:normal;vertical-align:baseli=
-ne;white-space:pre-wrap">New to the project?</span></p><ul style=3D"margin-=
-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;fo=
-nt-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color=
-:transparent;font-variant:normal;vertical-align:baseline;white-space:pre"><=
-p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" r=
-ole=3D"presentation"><span style=3D"font-size:11pt;background-color:transpa=
-rent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">We h=
-ave a list of issues we think are good places to start contributing: </span=
-><a href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DNEW=
-COMER" style=3D"text-decoration:none"><span style=3D"font-size:11pt;backgro=
-und-color:transparent;font-variant:normal;text-decoration:underline;vertica=
-l-align:baseline;white-space:pre-wrap">https://bugzilla.yoctoproject.org/bu=
-glist.cgi?quicksearch=3DNEWCOMER</span></a></p></li></ul><br><p dir=3D"ltr"=
- style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D=
-"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-co=
-lor:transparent;font-variant:normal;vertical-align:baseline;white-space:pre=
--wrap">Tracking Metrics:</span></p><ul style=3D"margin-top:0px;margin-botto=
-m:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-fa=
-mily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-va=
-riant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
-"><span style=3D"font-size:11pt;background-color:transparent;font-variant:n=
-ormal;vertical-align:baseline;white-space:pre-wrap">WDD 2689 (last week 268=
-9) </span><span style=3D"font-size:11pt;font-family:Consolas,sans-serif;bac=
-kground-color:transparent;font-variant:normal;vertical-align:baseline;white=
--space:pre-wrap">(</span><a href=3D"https://wiki.yoctoproject.org/charts/co=
-mbo.html" style=3D"text-decoration:none"><span style=3D"font-size:11pt;back=
-ground-color:transparent;font-variant:normal;text-decoration:underline;vert=
-ical-align:baseline;white-space:pre-wrap">https://wiki.yoctoproject.org/cha=
-rts/combo.html</span></a><span style=3D"font-size:11pt;font-family:Consolas=
-,sans-serif;background-color:transparent;font-variant:normal;vertical-align=
-:baseline;white-space:pre-wrap">)</span></p></li><li dir=3D"ltr" style=3D"l=
-ist-style-type:disc;font-size:11pt;font-family:Consolas,sans-serif;color:rg=
-b(0,0,0);background-color:transparent;font-variant:normal;vertical-align:ba=
-seline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top=
-:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt=
-;font-family:Arial,sans-serif;background-color:transparent;font-variant:nor=
-mal;vertical-align:baseline;white-space:pre-wrap">OE-Core/Poky Patch Metric=
-s</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"=
-ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-=
-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;ver=
-tical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1=
-.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"=
-font-size:11pt;background-color:transparent;font-variant:normal;vertical-al=
-ign:baseline;white-space:pre-wrap">Total patches found: 1019 (last week 103=
-7)</span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size=
-:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transp=
-arent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
-=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
-t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Patches=
- in the Pending State: 145 (14%) [last week 145 (14%)]</span></p></li><li d=
-ir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Conso=
-las,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:n=
-ormal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line=
--height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><a hre=
-f=3D"https://valkyrie.yocto.io/pub/non-release/patchmetrics/" style=3D"text=
--decoration:none"><span style=3D"font-size:11pt;font-family:Arial,sans-seri=
-f;background-color:transparent;font-variant:normal;text-decoration:underlin=
-e;vertical-align:baseline;white-space:pre-wrap">https://valkyrie.yocto.io/p=
-ub/non-release/patchmetrics/</span></a></p></li></ul></ul><br><p dir=3D"ltr=
-" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=
-=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background=
--color:transparent;font-variant:normal;vertical-align:baseline;white-space:=
-pre-wrap">Upcoming development releases:</span></p><ul style=3D"margin-top:=
-0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-s=
-ize:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tra=
-nsparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p di=
-r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
-=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
-t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">6.1 M2:=
-</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"l=
-tr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-s=
-erif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;vert=
-ical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.=
-38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"f=
-ont-size:11pt;background-color:transparent;font-variant:normal;vertical-ali=
-gn:baseline;white-space:pre-wrap">Build Date: w/c 2026-07-20</span></p></li=
-><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family=
-:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-varian=
-t:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"l=
-ine-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><sp=
-an style=3D"font-size:11pt;background-color:transparent;font-variant:normal=
-;vertical-align:baseline;white-space:pre-wrap">Release Date: w/c 2026-08-03=
-</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-type:disc;font-siz=
-e:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:trans=
-parent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
-=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
-t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">6.1 M3:=
-</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"l=
-tr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-s=
-erif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;vert=
-ical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.=
-38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"f=
-ont-size:11pt;background-color:transparent;font-variant:normal;vertical-ali=
-gn:baseline;white-space:pre-wrap">Build Date: w/c 2026-08-31</span></p></li=
-><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family=
-:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-varian=
-t:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"l=
-ine-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><sp=
-an style=3D"font-size:11pt;background-color:transparent;font-variant:normal=
-;vertical-align:baseline;white-space:pre-wrap">Release Date: w/c 2026-09-14=
-</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-type:disc;font-siz=
-e:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:trans=
-parent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
-=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
-t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">6.1.0:<=
-/span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"lt=
-r" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-se=
-rif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;verti=
-cal-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.3=
-8;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"fo=
-nt-size:11pt;background-color:transparent;font-variant:normal;vertical-alig=
-n:baseline;white-space:pre-wrap">Build Date (M4): w/c 2026-10-12</span></p>=
-</li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-fa=
-mily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-va=
-riant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
-"><span style=3D"font-size:11pt;background-color:transparent;font-variant:n=
-ormal;vertical-align:baseline;white-space:pre-wrap">Release Date: w/c 2026-=
-11-02</span></p></li></ul></ul><br><p dir=3D"ltr" style=3D"line-height:1.38=
-;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-famil=
-y:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-varia=
-nt:normal;vertical-align:baseline;white-space:pre-wrap">Upcoming dot releas=
-es:</span></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr=
-" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif=
-;background-color:transparent;font-variant:normal;vertical-align:baseline;w=
-hite-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;mar=
-gin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;font-va=
-riant:normal;vertical-align:baseline;white-space:pre-wrap">YP 6.0.2 is due =
-to release</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><l=
-i dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Ar=
-ial,sans-serif;background-color:transparent;font-variant:normal;vertical-al=
-ign:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;marg=
-in-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-siz=
-e:11pt;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Re=
-lease Date w/c 2026-07-06</span></p></li></ul><li dir=3D"ltr" style=3D"list=
--style-type:disc;font-size:11pt;font-family:Arial,sans-serif;background-col=
-or:transparent;font-variant:normal;vertical-align:baseline;white-space:pre"=
-><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
- role=3D"presentation"><span style=3D"font-size:11pt;font-variant:normal;ve=
-rtical-align:baseline;white-space:pre-wrap">YP 5.0.19 is in review</span></=
-p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=
-=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-serif;back=
-ground-color:transparent;font-variant:normal;vertical-align:baseline;white-=
-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
-ottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;font-variant=
-:normal;vertical-align:baseline;white-space:pre-wrap">Release Date w/c 2026=
--07-13</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-type:disc;fo=
-nt-size:11pt;font-family:Arial,sans-serif;background-color:transparent;font=
--variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" sty=
-le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentati=
-on"><span style=3D"font-size:11pt;font-variant:normal;vertical-align:baseli=
-ne;white-space:pre-wrap">YP 6.0.3</span></p></li><ul style=3D"margin-top:0p=
-x;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:circle;font-s=
-ize:11pt;font-family:Arial,sans-serif;background-color:transparent;font-var=
-iant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
-"><span style=3D"font-size:11pt;font-variant:normal;vertical-align:baseline=
-;white-space:pre-wrap">Build Date w/c 2026-08-10</span></p></li><li dir=3D"=
-ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-=
-serif;background-color:transparent;font-variant:normal;vertical-align:basel=
-ine;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0p=
-t;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;fo=
-nt-variant:normal;vertical-align:baseline;white-space:pre-wrap">Release Dat=
-e w/c 2026-08-24</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-ty=
-pe:disc;font-size:11pt;font-family:Arial,sans-serif;background-color:transp=
-arent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
-=3D"presentation"><span style=3D"font-size:11pt;font-variant:normal;vertica=
-l-align:baseline;white-space:pre-wrap">YP 5.0.20</span></p></li><ul style=
-=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-t=
-ype:circle;font-size:11pt;font-family:Arial,sans-serif;background-color:tra=
-nsparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p di=
-r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
-=3D"presentation"><span style=3D"font-size:11pt;font-variant:normal;vertica=
-l-align:baseline;white-space:pre-wrap">Build Date w/c 2026-08-17</span></p>=
-</li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-fa=
-mily:Arial,sans-serif;background-color:transparent;font-variant:normal;vert=
-ical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.=
-38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"f=
-ont-size:11pt;font-variant:normal;vertical-align:baseline;white-space:pre-w=
-rap">Release Date w/c 2026-08-31</span></p></li></ul><li dir=3D"ltr" style=
-=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:=
-rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align:=
-baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
-op:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11=
-pt;background-color:transparent;font-variant:normal;vertical-align:baseline=
-;white-space:pre-wrap">For future release dates, see </span><a href=3D"http=
-s://wiki.yoctoproject.org/wiki/Release_calendar" style=3D"text-decoration:n=
-one"><span style=3D"font-size:11pt;background-color:transparent;font-varian=
-t:normal;text-decoration:underline;vertical-align:baseline;white-space:pre-=
-wrap">https://wiki.yoctoproject.org/wiki/Release_calendar</span></a></p></l=
-i></ul><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
-ottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color=
-:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align=
-:baseline;white-space:pre-wrap">The Yocto Project=E2=80=99s technical gover=
-nance is through its Technical Steering Committee, more information is avai=
-lable at:</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt=
-;margin-bottom:0pt"><a href=3D"https://wiki.yoctoproject.org/wiki/TSC" styl=
-e=3D"text-decoration:none"><span style=3D"font-size:11pt;font-family:Arial,=
-sans-serif;background-color:transparent;font-variant:normal;text-decoration=
-:underline;vertical-align:baseline;white-space:pre-wrap">https://wiki.yocto=
-project.org/wiki/TSC</span></a></p><br><p dir=3D"ltr" style=3D"line-height:=
-1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-f=
-amily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-v=
-ariant:normal;vertical-align:baseline;white-space:pre-wrap">The Status repo=
-rts are stored on the wiki at: </span><a href=3D"https://wiki.yoctoproject.=
-org/wiki/Weekly_Status" style=3D"text-decoration:none"><span style=3D"font-=
-size:11pt;font-family:Arial,sans-serif;background-color:transparent;font-va=
-riant:normal;text-decoration:underline;vertical-align:baseline;white-space:=
-pre-wrap">https://wiki.yoctoproject.org/wiki/Weekly_Status</span></a></p><b=
-r><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt=
-"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,=
-0);background-color:transparent;font-variant:normal;vertical-align:baseline=
-;white-space:pre-wrap">[If anyone has suggestions for other information you=
-=E2=80=99d like to see on this weekly status update, let us know!]</span></=
-p></span><br class=3D"gmail-Apple-interchange-newline"></div><div dir=3D"lt=
-r" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D=
-"ltr"><div dir=3D"ltr"><p class=3D"MsoNormal" style=3D"background-image:ini=
-tial;background-position:initial;background-repeat:initial"><span style=3D"=
-font-size:12pt;font-family:Arial,sans-serif">Thanks,<span></span></span></p=
->
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><span style=3D"font-size:12pt;font-fam=
-ily:Arial,sans-serif">=C2=A0<span></span></span></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><b><i><span style=3D"font-size:16pt;co=
-lor:purple">Stephen K. Jolley</span></i></b><span style=3D"font-size:12pt;f=
-ont-family:Arial,sans-serif"><span></span></span></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><b><span style=3D"font-size:8pt;font-f=
-amily:&quot;Courier New&quot;;color:blue">Yocto Project Program Manager</sp=
-an></b></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><span style=3D"font-size:9pt;font-fami=
-ly:Wingdings;color:black">(</span><span style=3D"font-size:9pt;font-family:=
-&quot;MS Sans Serif&quot;,serif;color:teal">=C2=A0=C2=A0=C2=A0=C2=A0</span>=
-<b><span style=3D"font-size:8pt;font-family:&quot;Comic Sans MS&quot;;color=
-:teal">Cell</span></b><span style=3D"font-size:9pt;font-family:&quot;MS San=
-s Serif&quot;,serif;color:teal">:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 </span><span style=3D"font=
--size:9pt;font-family:&quot;MS Sans Serif&quot;,serif">(208) 244-4460</span=
-><span style=3D"font-size:12pt;font-family:Arial,sans-serif"><span></span><=
-/span></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><span style=3D"font-size:9pt;font-fami=
-ly:Wingdings">*=C2=A0</span><b><span lang=3D"FR" style=3D"font-size:8pt;fon=
-t-family:&quot;Comic Sans MS&quot;;color:teal">Email</span></b><span lang=
-=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,serif;=
-color:teal">:</span><span lang=3D"FR" style=3D"font-size:9pt;font-family:&q=
-uot;MS Sans Serif&quot;,serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0</span><u><span=
- lang=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,s=
-erif;color:blue"><span style=3D"color:rgb(17,85,204)"><a href=3D"mailto:ste=
-phen.k.jolley@intel.com" target=3D"_blank">s</a><a href=3D"mailto:jolley.yp=
-.pm@gmail.com" target=3D"_blank">jolley.yp.pm@gmail.com</a></span></span></=
-u></p></div></div></div></div>
-
---0000000000001127d906569348ed--
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 15:50:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240897
+
+Adds a CLI tool and bbclass for applying per-service memory limits via
+systemd resource control and Linux cgroups v2.
+
+The memory-control command inspects MemoryMax and MemoryHigh settings
+for any running systemd service and lists all services with a drop-in
+applied.
+
+memory-control.bbclass allows any recipe to set a memory limit at build
+time by inheriting the class and setting MEMORY_LIMIT. Two OOM policies
+are available via MEMORY_OOM_POLICY: "reboot" (default) reboots on OOM,
+and "kill" terminates only the offending process.
+
+The recipe requires the systemd DISTRO_FEATURE via features_check so it
+is cleanly skipped on non-systemd distros. The bbclass guards its
+RDEPENDS injection with bb.utils.contains for the same reason.
+S is set to ${UNPACKDIR} since all sources are local file:// URIs with
+no upstream tarball to unpack into a versioned subdirectory.
+
+AI-Generated: Uses IBM Bob
+
+Signed-off-by: Ishaan Desai <Ishaan.Desai@ibm.com>
+---
+ meta/classes-recipe/memory-control.bbclass    |  97 +++++++++
+ meta/conf/distro/include/maintainers.inc      |   1 +
+ .../memory-control/cgroups-v2.cfg             |  19 ++
+ .../memory-control/memory-control.sh          | 196 ++++++++++++++++++
+ .../memory-control/memory-control@.service    |  13 ++
+ .../memory-control/memory-control_1.0.bb      |  57 +++++
+ 6 files changed, 383 insertions(+)
+ create mode 100644 meta/classes-recipe/memory-control.bbclass
+ create mode 100644 meta/recipes-support/memory-control/memory-control/cgroups-v2.cfg
+ create mode 100755 meta/recipes-support/memory-control/memory-control/memory-control.sh
+ create mode 100644 meta/recipes-support/memory-control/memory-control/memory-control@.service
+ create mode 100644 meta/recipes-support/memory-control/memory-control_1.0.bb
+
+diff --git a/meta/classes-recipe/memory-control.bbclass b/meta/classes-recipe/memory-control.bbclass
+new file mode 100644
+index 0000000000..ebde5ed46b
+--- /dev/null
++++ b/meta/classes-recipe/memory-control.bbclass
+@@ -0,0 +1,97 @@
++# memory-control.bbclass - write a systemd drop-in memory limit into the image
++#
++# Usage:
++#   inherit memory-control
++#   MEMORY_LIMIT = "512M"           # required; K/M/G or raw bytes
++#   MEMORY_OOM_POLICY = "kill"      # optional; "reboot" (default) or "kill"
++#
++# "reboot": system reboots on OOM (vm.panic_on_oom=2; typical platform default).
++# "kill":   only the offending process is killed, system keeps running.
++#           Writes /etc/sysctl.d/memory-control.conf with vm.panic_on_oom=1,
++#           which sorts after vm.conf and overrides it at boot.
++#
++# MemoryHigh is set to 70% of MemoryMax so the kernel has room to reclaim
++# file-backed pages before hitting the hard ceiling.
++#
++# Kernel config prerequisite:
++#   CONFIG_CGROUPS=y and CONFIG_MEMCG=y must be enabled.  A reference kernel
++#   config fragment is installed to ${datadir}/memory-control/cgroups-v2.cfg.
++#   To apply it, copy the fragment to your kernel recipe's files directory and
++#   add it to SRC_URI in your kernel bbappend:
++#
++#     SRC_URI:append:<machine> = " file://cgroups-v2.cfg"
++
++MEMORY_LIMIT ?= ""
++MEMORY_LIMIT_SERVICE ?= "${PN}.service"
++MEMORY_OOM_POLICY ?= "reboot"
++
++# Only inject the runtime dependency when the distro actually has systemd;
++# memory-control itself requires the systemd DISTRO_FEATURE.
++RDEPENDS:${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'memory-control', '', d)}"
++
++python memory_control_do_install() {
++    import os
++
++    limit_str = d.getVar('MEMORY_LIMIT') or ''
++    if not limit_str:
++        return
++
++    service    = d.getVar('MEMORY_LIMIT_SERVICE')
++    destdir    = d.getVar('D')
++    oom_policy = (d.getVar('MEMORY_OOM_POLICY') or 'reboot').strip().lower()
++
++    if oom_policy not in ('reboot', 'kill'):
++        bb.fatal("memory-control: MEMORY_OOM_POLICY='%s' is invalid; "
++                 "use 'reboot' or 'kill'" % oom_policy)
++
++    limit_str = limit_str.strip()
++    units = {'K': 1024, 'KB': 1024,
++             'M': 1024**2, 'MB': 1024**2,
++             'G': 1024**3, 'GB': 1024**3}
++    number_part = ''.join(c for c in limit_str if c.isdigit())
++    unit_part   = ''.join(c for c in limit_str if not c.isdigit()).upper()
++
++    if not number_part:
++        bb.fatal("memory-control: MEMORY_LIMIT='%s' is not a valid size" % limit_str)
++
++    bytes_val  = int(number_part) * units.get(unit_part, 1)
++    bytes_high = int(bytes_val * 0.7)
++
++    dropin_dir = os.path.join(destdir, 'etc', 'systemd', 'system', service + '.d')
++    os.makedirs(dropin_dir, exist_ok=True)
++
++    dropin_path = os.path.join(dropin_dir, 'memory-control.conf')
++    with open(dropin_path, 'w') as f:
++        f.write('# generated by memory-control.bbclass\n')
++        f.write('# MEMORY_LIMIT = "%s"  MEMORY_OOM_POLICY = "%s"\n' % (limit_str, oom_policy))
++        f.write('[Service]\n')
++        f.write('MemoryMax=%d\n' % bytes_val)
++        f.write('MemoryHigh=%d\n' % bytes_high)
++        f.write('MemorySwapMax=0\n')
++        if oom_policy == 'kill':
++            # keep the unit alive after the cgroup OOM kill
++            f.write('OOMPolicy=continue\n')
++            # make this unit the preferred victim for the system-wide OOM killer
++            # so it is killed as a process rather than causing a kernel panic
++            f.write('OOMScoreAdjust=500\n')
++
++    bb.note("memory-control: wrote %s for %s (%s, policy=%s)" % (
++            dropin_path, service, limit_str, oom_policy))
++
++    if oom_policy == 'kill':
++        # override vm.panic_on_oom=2 from vm.conf; value 1 kills only the
++        # process inside the cgroup that hit MemoryMax instead of panicking.
++        sysctl_dir  = os.path.join(destdir, 'etc', 'sysctl.d')
++        os.makedirs(sysctl_dir, exist_ok=True)
++        sysctl_path = os.path.join(sysctl_dir, 'memory-control.conf')
++        if not os.path.exists(sysctl_path):
++            with open(sysctl_path, 'w') as f:
++                f.write('# generated by memory-control.bbclass\n')
++                f.write('vm.panic_on_oom=1\n')
++            bb.note("memory-control: wrote %s" % sysctl_path)
++}
++
++do_install[postfuncs] += "memory_control_do_install"
++
++FILES:${PN} += "/etc/systemd/system/${MEMORY_LIMIT_SERVICE}.d/memory-control.conf"
++FILES:${PN} += "${@ '/etc/sysctl.d/memory-control.conf' if (d.getVar('MEMORY_OOM_POLICY') or 'reboot').strip().lower() == 'kill' else '' }"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 4c6307086c..8589a67fa4 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -520,6 +520,7 @@ RECIPE_MAINTAINER:pn-matchbox-wm = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-mc = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-mdadm = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-menu-cache = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER:pn-memory-control = "Ishaan Desai <Ishaan.Desai@ibm.com>"
+ RECIPE_MAINTAINER:pn-mesa = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-mesa-demos = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-mesa-gl = "Unassigned <unassigned@yoctoproject.org>"
+diff --git a/meta/recipes-support/memory-control/memory-control/cgroups-v2.cfg b/meta/recipes-support/memory-control/memory-control/cgroups-v2.cfg
+new file mode 100644
+index 0000000000..00661668de
+--- /dev/null
++++ b/meta/recipes-support/memory-control/memory-control/cgroups-v2.cfg
+@@ -0,0 +1,19 @@
++# kernel config fragment required for cgroup v2 memory accounting
++
++CONFIG_CGROUPS=y
++CONFIG_MEMCG=y
++CONFIG_MEMCG_SWAP=y
++CONFIG_MEMCG_KMEM=y
++CONFIG_CGROUP_SCHED=y
++CONFIG_FAIR_GROUP_SCHED=y
++CONFIG_CFS_BANDWIDTH=y
++CONFIG_CGROUP_PIDS=y
++CONFIG_CGROUP_FREEZER=y
++CONFIG_CGROUP_DEVICE=y
++CONFIG_CGROUP_CPUACCT=y
++CONFIG_CGROUP_PERF=y
++CONFIG_CGROUP_BPF=y
++CONFIG_BLK_CGROUP=y
++CONFIG_PSI=y
++CONFIG_PSI_DEFAULT_DISABLED=n
++CONFIG_SWAP=y
+diff --git a/meta/recipes-support/memory-control/memory-control/memory-control.sh b/meta/recipes-support/memory-control/memory-control/memory-control.sh
+new file mode 100755
+index 0000000000..251c902ca6
+--- /dev/null
++++ b/meta/recipes-support/memory-control/memory-control/memory-control.sh
+@@ -0,0 +1,196 @@
++#!/bin/bash
++# memory-control - inspect cgroup v2 memory limits for systemd services
++#
++# requires: kernel CONFIG_MEMCG=y + cgroups v2 (mount | grep cgroup2),
++#           systemd 243+, bash 4.0+
++#
++# usage:
++#   memory-control get <service>     show MemoryMax/MemoryHigh
++#   memory-control status <service>  show live usage and memory.stat
++#   memory-control list              list services with a drop-in
++#   .service suffix is optional
++#
++# build-time configuration (recipe or .bbappend):
++#
++#   inherit memory-control
++#   MEMORY_LIMIT      = "512M"       # K/M/G or raw bytes
++#   MEMORY_OOM_POLICY = "kill"       # "reboot" (default) or "kill"
++#
++#   machine overrides work as normal bitbake syntax:
++#     MEMORY_LIMIT:mymachine = "512M"
++#
++#   if the unit name differs from <PN>.service:
++#     MEMORY_LIMIT_SERVICE = "my-custom-unit.service"
++#
++#   accepted sizes: 256K  512M  1G  536870912 (raw bytes)
++#
++# what gets written at build time:
++#
++#   /etc/systemd/system/<service>.service.d/memory-control.conf  (always)
++#     MemoryMax=<bytes>        hard limit; cgroup OOM killer fires if exceeded
++#     MemoryHigh=<70% of max>  reclaim/throttle starts here; 30% gap to max
++#     MemorySwapMax=0          swap disabled
++#     OOMPolicy=continue       kill policy only; unit stays alive after kill
++#     OOMScoreAdjust=500       kill policy only; preferred system-wide OOM target
++#
++#   /etc/sysctl.d/memory-control.conf  (kill policy only)
++#     vm.panic_on_oom=1        sorts after vm.conf, overrides =2 at boot
++#
++# oom policy:
++#   reboot  BMC reboots on OOM; matches vm.panic_on_oom=2 (platform default)
++#   kill    only the offending process dies; BMC keeps running
++#           when MemoryMax is hit:
++#             - cgroup OOM killer fires (scoped to this cgroup only),
++#               vm.panic_on_oom is not consulted
++#             - OOMPolicy=continue keeps the unit alive after the kill
++#             - OOMScoreAdjust=500 makes this the preferred target if global
++#               RAM is also exhausted, avoiding a kernel panic
++#
++# troubleshooting:
++#   cgroups v2 not mounted:
++#     mount | grep cgroup2
++#     # add systemd.unified_cgroup_hierarchy=1 to kernel cmdline if missing
++#
++#   memory controller missing:
++#     cat /sys/fs/cgroup/cgroup.controllers   # "memory" must appear
++#     # rebuild kernel with CONFIG_MEMCG=y if not
++#
++#   drop-in not loaded:
++#     systemctl cat <service>                 # check for memory-control.conf
++#     systemctl daemon-reload && systemctl restart <service>
++#
++#   check kill policy is active:
++#     systemctl show <service> -p OOMPolicy -p MemoryMax -p MemoryHigh
++#     sysctl vm.panic_on_oom                  # should be 1
++#
++#   MemoryMax shows infinity after daemon-reload:
++#     ls /etc/systemd/system/<service>.service.d/
++#     ls /usr/lib/systemd/system/<service>.service.d/
++#     # look for a conflicting drop-in
++#
++#   service keeps getting killed (limit too low):
++#     watch memory-control status <service>   # find peak usage
++#     # set MEMORY_LIMIT to peak + ~30% in the .bbappend and rebuild
++set -e
++
++CGROUP_BASE=/sys/fs/cgroup
++
++usage() {
++    cat <<EOF
++usage: $(basename "$0") <command> [service]
++
++  get <service>    show MemoryMax/MemoryHigh
++  status <service> show live usage and memory.stat
++  list             list services with a memory-control drop-in
++  -h, --help       show this text
++
++Limits are set at build time:
++  inherit memory-control
++  MEMORY_LIMIT      = "512M"
++  MEMORY_OOM_POLICY = "kill"
++
++Drop-in location:
++  /etc/systemd/system/<service>.service.d/memory-control.conf
++EOF
++    exit 0
++}
++
++to_human() {
++    local val=$1
++    case "$val" in
++        max|infinity|"") echo "unlimited"; return ;;
++    esac
++    [[ "$val" =~ ^[0-9]+[KMG]$ ]] && { echo "$val"; return; }
++    [[ "$val" =~ ^[0-9]+$ ]] || { echo "unlimited"; return; }
++    if   (( val >= 1024**3 )); then echo "$((val / 1024**3))G"
++    elif (( val >= 1024**2 )); then echo "$((val / 1024**2))M"
++    elif (( val >= 1024    )); then echo "$((val / 1024))K"
++    else echo "${val}B"
++    fi
++}
++
++resolve_service() {
++    local input=$1
++    [[ "$input" =~ \.service$ ]] || input="${input}.service"
++
++    local fragment
++    fragment=$(systemctl show "$input" -p FragmentPath --value 2>/dev/null)
++
++    if [[ -z "$fragment" || ! -f "$fragment" ]]; then
++        for dir in /etc/systemd/system /lib/systemd/system /usr/lib/systemd/system; do
++            [[ -f "$dir/$input" ]] && { fragment="$dir/$input"; break; }
++        done
++    fi
++
++    if [[ -z "$fragment" || ! -f "$fragment" ]]; then
++        echo "error: no unit file found for '$input'" >&2
++        return 1
++    fi
++
++    service=$(basename "$fragment")
++}
++
++cmd_get() {
++    local service=$1
++    [[ -n "$service" ]] || { echo "error: service name required" >&2; exit 1; }
++    resolve_service "$service" || exit 1
++
++    echo "service:    $service"
++    echo "MemoryMax:  $(to_human "$(systemctl show "$service" -p MemoryMax  --value)")"
++    echo "MemoryHigh: $(to_human "$(systemctl show "$service" -p MemoryHigh --value)")"
++}
++
++cmd_status() {
++    local service=$1
++    [[ -n "$service" ]] || { echo "error: service name required" >&2; exit 1; }
++    resolve_service "$service" || exit 1
++
++    local state
++    state=$(systemctl is-active "$service" 2>/dev/null || true)
++    echo "service: $service"
++    echo "state:   $state"
++
++    if [[ "$state" == "active" ]]; then
++        local mem_max mem_high mem_cur
++        mem_max=$(systemctl show "$service"  -p MemoryMax     --value)
++        mem_high=$(systemctl show "$service" -p MemoryHigh    --value)
++        mem_cur=$(systemctl show "$service"  -p MemoryCurrent --value)
++        echo "current: $(to_human "$mem_cur")"
++        echo "high:    $(to_human "$mem_high")"
++        echo "max:     $(to_human "$mem_max")"
++        [[ "$mem_max" =~ ^[0-9]+$ ]] && echo "usage:   $(( mem_cur * 100 / mem_max ))%"
++    fi
++
++    local cgroup_path
++    cgroup_path=$(systemctl show "$service" -p ControlGroup --value)
++    [[ -z "$cgroup_path" ]] && return
++    printf "\ncgroup: %s\n" "$cgroup_path"
++
++    local mem_stat="${CGROUP_BASE}${cgroup_path}/memory.stat"
++    [[ -f "$mem_stat" ]] || return
++    printf "\nmemory.stat:\n"
++    grep -E "^(anon|file|shmem|kernel)" "$mem_stat" | while read -r key val; do
++        printf "  %-20s %s\n" "$key" "$(to_human "$val")"
++    done
++}
++
++cmd_list() {
++    local found=0
++    for dir in /etc/systemd/system/*.service.d; do
++        [[ -d "$dir" && -f "$dir/memory-control.conf" ]] || continue
++        local unit
++        unit=$(basename "$dir" .d)
++        printf "%-40s %s\n" "${unit%.service}" \
++            "$(to_human "$(systemctl show "$unit" -p MemoryMax --value 2>/dev/null || echo unknown)")"
++        found=1
++    done
++    (( found )) || echo "no services with memory-control drop-ins found"
++}
++
++case "${1:-}" in
++    get)       cmd_get    "$2" ;;
++    status)    cmd_status "$2" ;;
++    list)      cmd_list ;;
++    -h|--help) usage ;;
++    *)         usage ;;
++esac
+diff --git a/meta/recipes-support/memory-control/memory-control/memory-control@.service b/meta/recipes-support/memory-control/memory-control/memory-control@.service
+new file mode 100644
+index 0000000000..20efea5a9c
+--- /dev/null
++++ b/meta/recipes-support/memory-control/memory-control/memory-control@.service
+@@ -0,0 +1,13 @@
++[Unit]
++Description=Memory Control for %i
++Documentation=man:systemd.resource-control(5)
++Before=%i.service
++PartOf=%i.service
++
++[Service]
++Type=oneshot
++RemainAfterExit=yes
++ExecStart=/bin/true
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-support/memory-control/memory-control_1.0.bb b/meta/recipes-support/memory-control/memory-control_1.0.bb
+new file mode 100644
+index 0000000000..1b196e1b85
+--- /dev/null
++++ b/meta/recipes-support/memory-control/memory-control_1.0.bb
+@@ -0,0 +1,57 @@
++SUMMARY = "Inspect and apply cgroup v2 memory limits for systemd services"
++DESCRIPTION = "Provides a CLI tool to inspect MemoryMax/MemoryHigh settings \
++for any systemd service, and a bbclass to bake per-service drop-ins into an \
++image at build time."
++HOMEPAGE = "https://www.openembedded.org"
++BUGTRACKER = "https://bugzilla.yoctoproject.org"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++inherit systemd features_check
++
++REQUIRED_DISTRO_FEATURES = "systemd"
++
++SRC_URI = " \
++    file://memory-control.sh \
++    file://memory-control@.service \
++    file://cgroups-v2.cfg \
++"
++
++S = "${UNPACKDIR}"
++
++SYSTEMD_SERVICE:${PN} = ""
++SYSTEMD_AUTO_ENABLE = "disable"
++
++RDEPENDS:${PN} = "bash"
++
++do_install() {
++    install -d ${D}${bindir}
++    install -m 0755 ${UNPACKDIR}/memory-control.sh ${D}${bindir}/memory-control
++
++    install -d ${D}${systemd_system_unitdir}
++    install -m 0644 ${UNPACKDIR}/memory-control@.service \
++                    ${D}${systemd_system_unitdir}/
++
++    install -d ${D}${datadir}/memory-control
++    install -m 0644 ${UNPACKDIR}/cgroups-v2.cfg \
++                    ${D}${datadir}/memory-control/
++}
++
++pkg_postinst:${PN}() {
++    #!/bin/sh
++    if [ -n "$D" ]; then
++        exit 0
++    fi
++    if [ -f /sys/fs/cgroup/cgroup.controllers ]; then
++        grep -q memory /sys/fs/cgroup/cgroup.controllers || \
++            echo "memory-control: WARNING: memory controller not available in cgroups v2"
++    else
++        echo "memory-control: WARNING: cgroups v2 not detected"
++    fi
++}
++
++FILES:${PN} = " \
++    ${bindir}/memory-control \
++    ${systemd_system_unitdir}/memory-control@.service \
++    ${datadir}/memory-control \
++"
 
