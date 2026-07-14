@@ -2,73 +2,75 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1ACFC43458
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 12:54:02 +0000 (UTC)
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9057.1784033632784467400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4950C43458
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 12:54:32 +0000 (UTC)
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9070.1784033672350462288
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 05:53:53 -0700
+ Tue, 14 Jul 2026 05:54:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=njAau4EN;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=MfZz6q1M;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.156, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id B1EC1140012A;
-	Tue, 14 Jul 2026 08:53:51 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Tue, 14 Jul 2026 08:53:51 -0400
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=Go5CQGQ5;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=ZKnIImow;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.148, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id 64817EC003B;
+	Tue, 14 Jul 2026 08:54:31 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Tue, 14 Jul 2026 08:54:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1784033631; x=1784120031; bh=4MMNCpZ7Ms
-	nLgwq02g00dvDarAWB2ev00vJaYGSkJKA=; b=njAau4ENWRox+eklFAkNCQ1/u4
-	P4tF9/RNv4QrJvXgegsyhkuqBbzwNtqw5Se7ywpLdmbSeDd68NTexeNV5vqHOyOp
-	xu+9xk7OywqHNKwucNuWhtvvhHDP3VTwL48Ob6BJ4aUSGzgrpvPHVYzT9cwZg0lI
-	2A2/q9FH9AxU1MkalSqpbSvLkGpIOtJ9brEK/vuFUtxoGqIxEpeZ37LpRE4xGzer
-	as0qENuoe4KMvJXfoNqLNV/6Xxba+Y3b9gQYpEssLw5qU2un2ruUxFFvrSKxvz+s
-	JTInvrjoePlnbYIoA3hSrir+X/FM+1sMou3RWfxppLNROuE9kpb4fx96ae4Q==
+	:subject:to:to; s=fm3; t=1784033671; x=1784120071; bh=yt82Zdipdu
+	ojFfV/ijDLF70r+mPMP/5Sza0k69PyauE=; b=Go5CQGQ56tynPHODQHPfrgoJ16
+	W1Nf1zeH9FHxww3QinHnOePbJFV4esJOgcMN8E14aN98bRxJSXFNkZn8i6XMakRg
+	hprzaHhuPM77SBgNQgA0isksrLoCxr5gHRoVMn82/KCunmTXRfHD1q3runTJf8YG
+	+0FxY4hUR8Tj7uhvaAoSx/iltECyGorxgcPiumevwfoobA0sVbXFMrMUpw7mjqBB
+	L0CqAObwYBuPyuDiXF3LRz2py+T2XBr0UavFuWJrOYnL77tNZo/enexRCW01SKZG
+	uLQFJyJ/yUDkrQoqOwug32Qayi9l3DivCSwUSeey/pMmICL3B395IOYSkKnQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	messagingengine.com; h=cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1784033631; x=1784120031; bh=4MMNCpZ7MsnLgwq02g00dvDarAWB2ev00vJ
-	aYGSkJKA=; b=MfZz6q1MCY0RGDWHX5apJ99QMy7w+MBYyXWiBU43xgEunY711Tl
-	eBihs/jNuAMMS4hF11QAkf6QZ67pq9BxeDUKxOdFwat81RXqzLzCTrVa5zQi9HgR
-	0m8QllLyCaEsVNlxdsZu9H3jaJzfXIj1nepJ0+i+b5rhflZq7t2wgUDCUUf8TInG
-	2SWgf8q65brM2WSfJNVjp72ymPUJgGQTN7rFWdOf2Tg6cAPnpuvI/zGYvNUodW6M
-	KTJSuHBmp5t4PS9MEzq23sQOTTtIRduWhozppJuhTc7j7jvNw3PHy+oP6aqo2t1o
-	ifV3K/i3+FovHTkUwTrgdzD+MQS6nEWvifA==
-X-ME-Sender: <xms:XzFWalXQuOXOP74L6kJb0g67_CByYCfz8kaTiE-nA4JnZJxL8aLHLA>
-    <xme:XzFWatAJC1H9Ma7QbQLNq_MoqFKIBqN-YNZumDWxkMOSjnnya5ThBkzkWtlMpPos1
-    VYguiaYN_utY9HhM5gDoj5GFPNWvH7vrx1SAELvaSUr3rp5kpFjIg>
-X-ME-Received: <xmr:XzFWauwVwgwdaY5R8jPoiaHDj70TCIkY9SRXjCguGJzyutFSPF522HGNBDq9OyRUJ6LtTf4Noi83jzAKtYsMXqllbRYnYoWuhEf7Kac>
-X-ME-Proxy-Cause: dmFkZTFuCYgJR2AFKaOdB8OMj/uUCt5qsIlmWUtEh9VUODCAa3rVVc9iDY5H4RKFR8aM5F
-    1xAqiS8uK2M8FT9j5AEJw2YAewV7eFKLDvqrl2CNndH2/9XNIazAVJmtlOIelmt+fe11XE
-    oD93tyBWmYEIcPwLv5zGG1hw0n4A/kagGj8lL2Off6NAiAKRzd4eWRyt2VLlJphPQvopTg
-    GbnzCsfyA3DAYG8knuvuz3tg8pA+RRLnd/O4miMAG2OOQMkDlBsOSQXjyfDoxMiwPzXYHE
-    SQeVjGOZUP1hnQjrzkafoyukSs+NrWa7OtsqRYoTH+H3jBWzGz5TPquMl8l3BZiesLR1SY
-    SgUMz1dCjLsUjLoa+tMC2o0wG8Xb22GtSgSHPJvuQLtx+TwhuNp3lNxQmfs+YclLJI6Bb9
-    ZOJxifltHjTEiy4/ZC2aB3kYBQQcMM1mSlvUDuuPA0YzuiExd/FAKO7BlHPePAujl6/g26
-    xrA5/2mv2+V/nNtReEYFiK55LqiQCCb5wFc0F1xQacluzeorznr0X8znFxNh+zY9DyEOuv
-    NIPEX+Wvf8wVsldb7Vzelbm07KWTvDeyta0SahgADAhu+D0jbfBlt/IeAU37P6L8kRjaUK
-    5sjUBatbBD+FehbfTgFe6tVMUfffxYh8hMGchncbkJ4f8CtFoYCrXIMSVYhA
-X-ME-Proxy: <xmx:XzFWaiDhr5So8likqrYzRjK7tgCd6jsJmHstTADaq1kaRU0jT__WMA>
-    <xmx:XzFWajYWBwfsZd7IL8knJYncS0yrLE2KLvtor8lIMyIqXxUXFcCyUQ>
-    <xmx:XzFWaih6UrTH5MiBT033i7axFStxsVv-hu6h3Q5f0KP8rGMpXJ7l9Q>
-    <xmx:XzFWat78kJu8Tj-vCixPapRFQLDJumbp6QnKW4OJtjHsRrRnjzrvYQ>
-    <xmx:XzFWahxcYYPTAl5EVdUTHd3iyesPyOeq9P9x5RRfW8S2G5ZK5t_FITTF>
+	1784033671; x=1784120071; bh=yt82ZdipduojFfV/ijDLF70r+mPMP/5Sza0
+	k69PyauE=; b=ZKnIImowdR2d8uZBp0XSHKU4b4NgewZ06XJHiEco6fdMtK2htoq
+	dGXB7pzbp587EnZBSx5ewMs9zPXYAXye92pg/GQtMev9VuDrz3Z8P7QOI7FziiV4
+	FblIgG+uoTx+KPJLJF7zqR8hPOMjGQQJBoSZRWIwqh3AJw+FwCyInSDic700Vnxb
+	lnuc/D+R3w2Ui4yEc2+5ppGj24ydeafQ6Pn3GZm7x55HM9oB9XmdiK6P6Zs1c6Rz
+	apZbIjHPVrWCZh7iFGTWz+fCSTzSU0g2h3Y1/XLhWwbdvl2O9RZWQqGaDaQuhKT7
+	aXkb3+20xjirbBXAa7zl5G81h5JFrQfhB+w==
+X-ME-Sender: <xms:hzFWaiCcn9XoClDS8g4qafdMveqv5qgGar4esPc0wEXotmed6X7b6g>
+    <xme:hzFWaijZTeHbjoG3wRX3UXX-7Is938-fHKozhtCh3vXb5j0iAptDT-nrxkIPasnIX
+    do7suhbinUNkOipm-96RKmy3cnuhrf9cRrECKpk0qMNKxVRachVjhor>
+X-ME-Received: <xmr:hzFWajNcaPSPhbSWcLF24ZrfrVP0ucsBvLXGj5s0zBqZwEFs5sVpxcuVCkWNIUsF2NFdVgulsj2l9RrtLwQ8PFSQH9a2fBPjPV6iusI>
+X-ME-Proxy-Cause: dmFkZTEtv5v5PibcqoB/39AVdXXwI9zACrEi4hnjn55hmz02YGgesHYeTFtIg4HoE4jDyh
+    X8WXFczf8wXuoUODLZ+k+RjcykxPgjqjPndaArwT7Wb8jO5vBnggqN2OLpUir8ezwra8R1
+    IjKCqq8756CPOTSLW+IlGJsw8ljTmmgkkMhqHSFcpk8JPwjBSBQanFeCaBQ66DBmHYJ6nb
+    Fm8dgE6hKgyWXN8huH42IzJu710F7nlk5O+Vv1qkPNiPT2qTd1nMPXX7rFaSo7kdhHur9s
+    jRG/zvQGj07MVXRJWWn3QOfwZ3uq7xPB56q6HNKA5VaU8T1EFLrkfjCrcrbLi0+95Q/AWR
+    bb1WTxuoUUwX/BR8SkoEArvgZNeGQcI488hpXG2HSOwAxRdEZQ2uf+2An0iVd0gAuAMY12
+    Xs5qkVsqgvn3E3mTmLfByF6/ROPb7i05LdQmRsJDUj0aAUq9X+d76z85jwybzlOqGvv3I4
+    yIflAy/lrfmzx2U9Mr/GtyU1QSP6QJPgbEs2mPI8QQ5vnW+QWishAkJgbje3sMaAX/Qi8U
+    U8NbXG6Nau/6gUyK69gZ1pI2LCZlsNgDbp0Ivvp7VBtRttWfanTk/GmJYRcpV+y0l7LGWs
+    UV7Y4rxHuEakhDRlR4ifeMSApItwfk16sfN4uaS3JTfaSs5FfGVf/N7N3o6w
+X-ME-Proxy: <xmx:hzFWar5cIzRlW11SGX_UQFGAxhHQi2E-Dfvt8UzyZoXGVpmp6x7jnw>
+    <xmx:hzFWap2uTyVKsqAXXqxKk6-RKzijHuc1tgfn6FL35VmgXXylGCw7DQ>
+    <xmx:hzFWakZSIjbN1IlwxIh09kr0jTGdIY8UsU2iN1ckF_8f_eRmprRcTg>
+    <xmx:hzFWapCepEoDTQqlAXO0Cd9sGZghsiQ3HIUs3Sbti1vwmY1OYMeQKQ>
+    <xmx:hzFWammrzwI7kMWEcGQ86BpWmUFuI1A7YogryiMOpHP0AoSQ-t9ZXTsy>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Jul 2026 08:53:50 -0400 (EDT)
-Message-ID: <d9b4dfb530a0898fd230ad6da09ee7bf90dd063a.camel@pbarker.dev>
-Subject: Re: [scarthgap][PATCH] binutils: Add CVE-2025-69646 to "CVE:" tag
+ 14 Jul 2026 08:54:30 -0400 (EDT)
+Message-ID: <0d568ca133423aa58db4c63c5e55e4f5e3fa33bf.camel@pbarker.dev>
+Subject: Re: [OE-core][scarthgap 06/25] binutils: Add CVE-2025-69646 to
+ "CVE:" tag
 From: Paul Barker <paul@pbarker.dev>
-To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-Date: Tue, 14 Jul 2026 13:53:45 +0100
-In-Reply-To: <20260706090659.2543025-1-Harish.Sadineni@windriver.com>
-References: <20260706090659.2543025-1-Harish.Sadineni@windriver.com>
+To: Yoann Congal <yoann.congal@smile.fr>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 14 Jul 2026 13:54:27 +0100
+In-Reply-To: <a05c20091169759c01e70bf2e31dd7d0164368c9.1783590688.git.yoann.congal@smile.fr>
+References: <cover.1783590688.git.yoann.congal@smile.fr>
+	 <a05c20091169759c01e70bf2e31dd7d0164368c9.1783590688.git.yoann.congal@smile.fr>
 Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  keydata=mQINBGC756sBEADXL6cawsZRrDvICz9Y1SG0/lW1me4xpq36obh7a0IGAzp3ywNRb/4MO
  DTqP4+DD0cIFuDY41/N17g0sNlp8z+/k/IIDmNPtYQOTVmAkrkdDU4BP8dD3Cp1PUw6nrbInfujAJ
@@ -114,30 +116,34 @@ Autocrypt: addr=paul@pbarker.dev; prefer-encrypt=mutual;
  ChZPI3NMLnKZPJC8ZQZ4S8yb5oA3rqTA2DMODvsrEVlaB2cQ6IWHSa/mvBwA8Ias3771cp4fZS7W7
  LUewj8JVy0aJsGTwI4invl
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-fiSuCCZJ0hQ87a1Nt5Ei"
+	protocol="application/pgp-signature"; boundary="=-d3MfZf/CcHQ0BhuC1LJi"
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:54:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240884
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:54:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240885
 
 
---=-fiSuCCZJ0hQ87a1Nt5Ei
+--=-d3MfZf/CcHQ0BhuC1LJi
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-07-06 at 02:06 -0700, Harish.Sadineni@windriver.com wrote:
+On Thu, 2026-07-09 at 12:06 +0200, Yoann Congal wrote:
 > From: Harish Sadineni <Harish.Sadineni@windriver.com>
 >=20
 > CVE-2025-69648 was marked as a duplicate of CVE-2025-69646. The
 > existing patch already fixes the issue associated with both CVEs.
+>=20
+> Update the "CVE:" tag to reference both identifiers.
+>=20
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 
-Hi Harish,
+Hi Yoann,
 
-Where was this marked as a duplicate? We need a link to some evidence of
-this, or at least a more thorough explanation.
+Please drop this, I have replied to the original patch.
 
 Best regards,
 
@@ -145,17 +151,17 @@ Best regards,
 Paul Barker
 
 
---=-fiSuCCZJ0hQ87a1Nt5Ei
+--=-d3MfZf/CcHQ0BhuC1LJi
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCalYxWREccGF1bEBwYmFy
-a2VyLmRldgAKCRCrY1Tsnbr0bsNrAQDM6H5GAcjgqL9KivvSKpiC1rU/YZ/58Umd
-A0l1PoNUAQEA4YE/qsfTxSNSfQO0w3waN+8S1sdE4NwgVJOEBC0WAwE=
-=O7i9
+iIcEABYKAC8WIQSzjPXf5Y1BDWhU2iCrY1Tsnbr0bgUCalYxgxEccGF1bEBwYmFy
+a2VyLmRldgAKCRCrY1Tsnbr0bjV6AQCbBV8BBAf0iolLglCu7Ktqh/BfXEnZOVe7
+ydfLNNvoXQD+M+5awSsmh4FRu0TV4zhs/a1Qgyq1QbLK7FkwS7lb5Aw=
+=xitN
 -----END PGP SIGNATURE-----
 
---=-fiSuCCZJ0hQ87a1Nt5Ei--
+--=-d3MfZf/CcHQ0BhuC1LJi--
 
