@@ -2,63 +2,63 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C158AC4450A
-	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 19:04:19 +0000 (UTC)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1643.1784055856796249819
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25503C4450F
+	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 19:04:20 +0000 (UTC)
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1650.1784055849940238000
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jul 2026 12:04:16 -0700
+ Tue, 14 Jul 2026 12:04:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=HYuxGtRb;
- spf=pass (domain: gmail.com, ip: 209.85.161.47, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-6a382104a85so849629eaf.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:04:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=mvRZhPEX;
+ spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-44aeefa1c00so2032431fac.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 12:04:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784055856; x=1784660656; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1784055849; x=1784660649; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YGv/8T7yDDrALyexZk08k6GntUESVyqbyPAZfm4o5uI=;
-        b=HYuxGtRbmtEXx03i2u4lXe0q4NKlLSWnqqLN3DM6U422mPuxVdOi/7pNjvgw3Wkb3A
-         zbR9dHJeDRPbEWFQXr4aJd42ThPfN7jMtt2aSgSpyg0bzW98VoRDenR8mvm2p1sw40Va
-         DSXNM3fZenIRhX/iVyZgS9tBbUb2gvf1BlxrtwRxSJOpBcJlZPWRJx4zyf7YBunLT5lA
-         8W+jFHFA5UDpCMYkCgY7sIz7QzKgIF13yMabHAqKwkU+Go+KdCwCkCaLk7dMAsKUW5BF
-         W6vVuv0dCnjylB+BBbStlwSr0j8BCXU6lWjDxwaO96kfXTr9r0cY5vXutAbQpoNIKzCO
-         fvOw==
+        bh=2SU1qe1JkusScSXM4S28nNRpp91kZihUrs1kQlMebpI=;
+        b=mvRZhPEXyN1UnYbvibZVHgaspJsH1RYfwnx+gJhT2/YVnvp+i3ZgLG08tjRF+zXzGc
+         gnzuym3AkZuAJsYjdGI8TnyB0wWJlN18jBUBM3vXlLNxeovg/dcMN1nDUoJL7e6twKeD
+         LRLBJTAqmQo4rOmDzYoOwl25BzyihLWc8Pxn1pYZF3YauLV6jneHoTr/w4YVHamu0esa
+         LyollEHujGpWrkO2y1o34xgii48/1RK4BwTw9be51fyQ8UxH5garOXK73aJRKyVTKFr9
+         kaubbVxWpkfCAU82dyhraOKrH5pbMom+AY96KHLsE0hXugnQ+mIEYic/5fgKvJHCDsZ9
+         XILQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784055856; x=1784660656;
+        d=1e100.net; s=20251104; t=1784055849; x=1784660649;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YGv/8T7yDDrALyexZk08k6GntUESVyqbyPAZfm4o5uI=;
-        b=gwQfbZRLRcWeJe6CD/ZCaKL/vPOMpjZMwpI0Ko+9zN09k5XeKVrl5tjh2uXahB27La
-         TJpqrOnZuaFcHp7YuuDuHmJojaIanAvrR3xwIH59zDYdFW5udrDqSgFryQe7pT0CiNao
-         mTMITbQMmyImLKuZr/F4w98dGWxpJYAZZ0x+OJwx9myAzviIMbu3KQt32K/jhxO2wkLR
-         sMBMELTQiSoZhMOwXQQP1Rl4nOXPiyRxGEbj6sYt2y7pnzgXJ/8wLfPLSeTDIao5GEMv
-         bnduMu0mzdr/8/7kUCXrPcYZHuaN22Up9I1qCUk9sHr3lQE+NC16nhYUFYABXJGa3Gh8
-         jITQ==
-X-Gm-Message-State: AOJu0Yx1qIgJpQ7ZowszyzH9txoBRBmGkK92Ktg7JPz/Y1ilhgXqujj5
-	81cdvAYUREPcTe+n7o3cEwoyCKO4MHYKC6tEfTvamKXhuvm6R/vdNuXuJzclGQ==
-X-Gm-Gg: AfdE7ck6xQP5dq/DbFlsb3Dmqy1C8x5N9Nk2WuSwLzSQ9VM5eddf7RqUc09kJ/rxe/f
-	b8tW7ygPSn/3G8gj8cAY+haKE+0aV4/ywqT6Nkr+JST6fRSdPxYuM3nAqud2jOF65gu7+trHjdX
-	a/1cW2UxBqXw4WCgt31WdnIzBUmDkP+FT6QESdZQhjLJ1zthotBBYN0krpy2GqqOlI6i2g9Oc5H
-	/XQWUJjm5csPHo7x2sj3OHpqafr6S2br39gGJoM9245mWDa5vxsV9q1QZZ77B5U2b0sJjt3YlP4
-	hKLBNB//ORCCU2DKw/5qod6MRopsS67ZyHACGIBvyEZ4wIfI7f0tzdPrQV/2MX3OausYgvhC/bY
-	Sa9ahraTihH/iG0GMHyWUPJKhRQYhUwNOdf4YFe5H9x24l4St1w2GfwOODNPjU3Exem1kwJI+4x
-	lcCbS1uNDxRw==
-X-Received: by 2002:a05:6820:1387:b0:6a1:98cf:c13a with SMTP id 006d021491bc7-6a39a598a2fmr8024218eaf.19.1784055855931;
-        Tue, 14 Jul 2026 12:04:15 -0700 (PDT)
+        bh=2SU1qe1JkusScSXM4S28nNRpp91kZihUrs1kQlMebpI=;
+        b=atLBuT8lrZZhXxxG3es0mtuDt1H8doulreD2DNoxCHTxhadnDsly8PIAemyil3qMTK
+         vcf/U9tDBZUzSyc58ckUKX4Z2+f0zvhmOktlYwJvlpqHpVm+/e8jenwmjAO0TrkL1xcV
+         shlRZtTuuXkh9Mg7Yz10vAo5A+sBctNtRgzYQ/FDtp05oKQSnkdHFBDyK0apUYPbC7da
+         GnbHl+aWUBZ/PiS3fOXbspzTAl5AyR3/yY3j0ZNjIzJI7FCuD0o+Fw1v+C3DAXICBpLb
+         J+6fKe6y7K71yjUyAK09cZjHv04BuKv6fAzGPm4LfHJIze5veVpofEgrtXP5S8V0C7Lo
+         CQyA==
+X-Gm-Message-State: AOJu0YxeVV54nN33HKCs2A39/tp/SMB5jpVfUcq/Ricjbsx1K5xeS8Uu
+	bE3ukDefI4P7fJ/23eDiPE4Nqypo7+SiwCwHZ1zGrzbye95we+jQ9+QDaJjcLA==
+X-Gm-Gg: AfdE7clKPrunn6DRNeDy21ZpfREZFgu/777klPGG6VT9jkPi1TXNUF/6Dcz0S8dOxbc
+	IKCPV3Sfd9aMst6vTMXvBsYyd07vhX/3WkS8vGzdZnnGKzRMqxD7/XB6xnUSYfJx/DFFpe9pxNg
+	qCdr3PSF6U852F86Te9OkGG8u9bXK3VSugFnZEuPLRP4nDpAMjNCwqCjOGUM2IIjab8eD1xeCVM
+	YimmQH1+XTHGjuuMC2tUUW5JX+LT10SdXjw+SfK3MEyBA55EWHQqbO+iFxpbg2NC8BpgBlU1s7i
+	pcBKd77UWjMzTzIitP6lnS4J8VRyfNV3GZ93hny273Dat49mOd8e8qnmSavmHbrWJTX+oamAlfC
+	Q4VRYolZIeqxKnHlxrhp0XGFxN9h8AEACn/oGUc6Lui/2NUpO74pTpWEGvllFQUMpJONorxWcNk
+	jxyJu3BjBvZQ==
+X-Received: by 2002:a05:6870:d201:b0:43d:1c8a:5977 with SMTP id 586e51a60fabf-451bb1d97f0mr9670777fac.24.1784055849058;
+        Tue, 14 Jul 2026 12:04:09 -0700 (PDT)
 Received: from localhost.localdomain ([2601:283:4b02:22d0::7b52])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-451916f31d4sm17695629fac.16.2026.07.14.12.04.15
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-451916f31d4sm17695629fac.16.2026.07.14.12.04.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 12:04:15 -0700 (PDT)
+        Tue, 14 Jul 2026 12:04:08 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 09/22] gcc: Update license
-Date: Tue, 14 Jul 2026 12:31:19 -0600
-Message-ID: <20260714190405.3328796-10-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 01/22] scripts/pull-spdx-licenses.py: Add exceptions
+Date: Tue, 14 Jul 2026 12:31:11 -0600
+Message-ID: <20260714190405.3328796-2-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260714190405.3328796-1-JPEWhacker@gmail.com>
 References: <20260714190405.3328796-1-JPEWhacker@gmail.com>
@@ -67,106 +67,159 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 19:04:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240917
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 19:04:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240909
 
-GPL-3.0-with-GCC-exception is a deprecated license ID, so replace it
-with "GPL-3.0-or-later WITH GCC-exception-3.1".
-
-Also, the LICENSE expression in gcc.inc appears to be incomplete,
-missing GPL-2.0-or-later, LGPL-2.1-or-later, and LGPL-3.0-or-later, even
-though the checksums for their corresponding license files are clearly
-checked in LIC_FILES_CHKSUM.
+Adds exceptions to the script that updates the SPDX license files
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-16.1.inc       | 2 +-
- meta/recipes-devtools/gcc/gcc-runtime.inc    | 4 ++--
- meta/recipes-devtools/gcc/libgcc-initial.inc | 2 +-
- meta/recipes-devtools/gcc/libgcc.inc         | 8 ++++----
- meta/recipes-devtools/gcc/libgfortran.inc    | 6 +++---
- 5 files changed, 11 insertions(+), 11 deletions(-)
+ scripts/pull-spdx-licenses.py | 124 ++++++++++++++++++++++++----------
+ 1 file changed, 87 insertions(+), 37 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-16.1.inc b/meta/recipes-devtools/gcc/gcc-16.1.inc
-index 4598aff045..a82e993f08 100644
---- a/meta/recipes-devtools/gcc/gcc-16.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-16.1.inc
-@@ -16,7 +16,7 @@ TOOLCHAIN_NATIVE = "gcc"
- DEPENDS =+ "mpfr gmp libmpc zlib zstd flex-native"
- NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native zstd-native"
+diff --git a/scripts/pull-spdx-licenses.py b/scripts/pull-spdx-licenses.py
+index 597a62133f..7d1715ff24 100755
+--- a/scripts/pull-spdx-licenses.py
++++ b/scripts/pull-spdx-licenses.py
+@@ -13,6 +13,88 @@ from pathlib import Path
+ TOP_DIR = Path(__file__).parent.parent
  
--LICENSE = "GPL-3.0-with-GCC-exception & GPL-3.0-only"
-+LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later AND GPL-3.0-or-later WITH GCC-exception-3.1 AND LGPL-3.0-or-later"
  
- LIC_FILES_CHKSUM = "\
-     file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index e305180c64..cb62fab489 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -4,11 +4,11 @@ SUMMARY = "Runtime libraries from GCC"
- 
- # Over-ride the LICENSE set by gcc-${PV}.inc to remove "& GPLv3"
- # All gcc-runtime packages are now covered by the runtime exception.
--LICENSE = "GPL-3.0-with-GCC-exception"
-+LICENSE = "GPL-3.0-or-later WITH GCC-exception-3.1"
- 
- CXXFLAGS:remove = "-fvisibility-inlines-hidden"
- CFLAGS:append = " -Wno-error=discarded-qualifiers"
-- 
++def update_licenses(dest, version, overwrite, deprecated):
++    print(f"Pulling SPDX license list version {version}")
++    req = urllib.request.Request(
++        f"https://raw.githubusercontent.com/spdx/license-list-data/{version}/json/licenses.json"
++    )
++    with urllib.request.urlopen(req) as response:
++        spdx_licenses = json.load(response)
 +
- EXTRA_OECONF_PATHS = "\
-     --with-gxx-include-dir=${includedir}/c++/${BINV} \
-     --with-sysroot=/not/exist \
-diff --git a/meta/recipes-devtools/gcc/libgcc-initial.inc b/meta/recipes-devtools/gcc/libgcc-initial.inc
-index ce100d7ddc..d067f7eb00 100644
---- a/meta/recipes-devtools/gcc/libgcc-initial.inc
-+++ b/meta/recipes-devtools/gcc/libgcc-initial.inc
-@@ -31,7 +31,7 @@ require libgcc-common.inc
++    with (TOP_DIR / "meta" / "files" / "spdx-licenses.json").open("w") as f:
++        json.dump(spdx_licenses, f, sort_keys=True, indent=2)
++
++    total_count = len(spdx_licenses["licenses"])
++    updated = 0
++    for idx, lic in enumerate(spdx_licenses["licenses"]):
++        lic_id = lic["licenseId"]
++
++        print(f"[{idx + 1} of {total_count}] ", end="")
++
++        dest_license_file = dest / lic_id
++        if dest_license_file.is_file() and not overwrite:
++            print(f"Skipping {lic_id} since it already exists")
++            continue
++
++        print(f"Fetching {lic_id}... ", end="", flush=True)
++
++        req = urllib.request.Request(lic["detailsUrl"])
++        with urllib.request.urlopen(req) as response:
++            lic_data = json.load(response)
++
++        if lic_data["isDeprecatedLicenseId"] and not deprecated:
++            print("Skipping (deprecated)")
++            continue
++
++        with dest_license_file.open("w") as f:
++            f.write(lic_data["licenseText"])
++        updated += 1
++        print("done")
++
++    return updated
++
++
++def update_exceptions(dest, version, overwrite, deprecated):
++    print(f"Pulling SPDX license exceptions list version {version}")
++    req = urllib.request.Request(
++        f"https://raw.githubusercontent.com/spdx/license-list-data/{version}/json/exceptions.json"
++    )
++    with urllib.request.urlopen(req) as response:
++        spdx_exceptions = json.load(response)
++
++    with (TOP_DIR / "meta" / "files" / "spdx-exceptions.json").open("w") as f:
++        json.dump(spdx_exceptions, f, sort_keys=True, indent=2)
++
++    total_count = len(spdx_exceptions["exceptions"])
++    updated = 0
++    for idx, lic in enumerate(spdx_exceptions["exceptions"]):
++        lic_id = lic["licenseExceptionId"]
++
++        print(f"[{idx + 1} of {total_count}] ", end="")
++
++        dest_license_file = dest / lic_id
++        if dest_license_file.is_file() and not overwrite:
++            print(f"Skipping {lic_id} since it already exists")
++            continue
++
++        print(f"Fetching {lic_id}... ", end="", flush=True)
++
++        req = urllib.request.Request(lic["detailsUrl"])
++        with urllib.request.urlopen(req) as response:
++            lic_data = json.load(response)
++
++        if lic_data["isDeprecatedLicenseId"] and not deprecated:
++            print("Skipping (deprecated)")
++            continue
++
++        with dest_license_file.open("w") as f:
++            f.write(lic_data["licenseExceptionText"])
++        updated += 1
++        print("done")
++
++    return updated
++
++
+ def main():
+     parser = argparse.ArgumentParser(
+         description="Update SPDX License files from upstream"
+@@ -55,44 +137,12 @@ def main():
+             data = json.load(response)
+             version = data["tag_name"]
  
- DEPENDS = "virtual/cross-cc"
+-    print(f"Pulling SPDX license list version {version}")
+-    req = urllib.request.Request(
+-        f"https://raw.githubusercontent.com/spdx/license-list-data/{version}/json/licenses.json"
++    license_count = update_licenses(args.dest, version, args.overwrite, args.deprecated)
++    exception_count = update_exceptions(
++        args.dest, version, args.overwrite, args.deprecated
+     )
+-    with urllib.request.urlopen(req) as response:
+-        spdx_licenses = json.load(response)
+-
+-    with (TOP_DIR / "meta" / "files" / "spdx-licenses.json").open("w") as f:
+-        json.dump(spdx_licenses, f, sort_keys=True, indent=2)
+-
+-    total_count = len(spdx_licenses["licenses"])
+-    updated = 0
+-    for idx, lic in enumerate(spdx_licenses["licenses"]):
+-        lic_id = lic["licenseId"]
+-
+-        print(f"[{idx + 1} of {total_count}] ", end="")
+-
+-        dest_license_file = args.dest / lic_id
+-        if dest_license_file.is_file() and not args.overwrite:
+-            print(f"Skipping {lic_id} since it already exists")
+-            continue
+-
+-        print(f"Fetching {lic_id}... ", end="", flush=True)
+-
+-        req = urllib.request.Request(lic["detailsUrl"])
+-        with urllib.request.urlopen(req) as response:
+-            lic_data = json.load(response)
+-
+-        if lic_data["isDeprecatedLicenseId"] and not args.deprecated:
+-            print("Skipping (deprecated)")
+-            continue
+-
+-        with dest_license_file.open("w") as f:
+-            f.write(lic_data["licenseText"])
+-        updated += 1
+-        print("done")
+-
+-    print(f"Updated {updated} licenses")
++    print(f"Updated {license_count} licenses")
++    print(f"Updated {exception_count} exceptions")
  
--LICENSE = "GPL-3.0-with-GCC-exception"
-+LICENSE = "GPL-3.0-or-later WITH GCC-exception-3.1"
+     return 0
  
- PACKAGES = ""
- 
-diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
-index 74e8746b42..e92dadf021 100644
---- a/meta/recipes-devtools/gcc/libgcc.inc
-+++ b/meta/recipes-devtools/gcc/libgcc.inc
-@@ -32,10 +32,10 @@ PACKAGES = "\
- 
- # All libgcc source is marked with the exception.
- #
--LICENSE:${PN} = "GPL-3.0-with-GCC-exception"
--LICENSE:${PN}-dev = "GPL-3.0-with-GCC-exception"
--LICENSE:${PN}-dbg = "GPL-3.0-with-GCC-exception"
--LICENSE:${PN}-src = "GPL-3.0-with-GCC-exception"
-+LICENSE:${PN} = "GPL-3.0-or-later WITH GCC-exception-3.1"
-+LICENSE:${PN}-dev = "GPL-3.0-or-later WITH GCC-exception-3.1"
-+LICENSE:${PN}-dbg = "GPL-3.0-or-later WITH GCC-exception-3.1"
-+LICENSE:${PN}-src = "GPL-3.0-or-later WITH GCC-exception-3.1"
- 
- FILES:${PN}-dev = "\
-     ${base_libdir}/libgcc*.so \
-diff --git a/meta/recipes-devtools/gcc/libgfortran.inc b/meta/recipes-devtools/gcc/libgfortran.inc
-index fa6aecaaa3..1726b40c6a 100644
---- a/meta/recipes-devtools/gcc/libgfortran.inc
-+++ b/meta/recipes-devtools/gcc/libgfortran.inc
-@@ -60,9 +60,9 @@ PACKAGES = "\
-     libgfortran-staticdev \
- "
- 
--LICENSE:${PN} = "GPL-3.0-with-GCC-exception"
--LICENSE:${PN}-dev = "GPL-3.0-with-GCC-exception"
--LICENSE:${PN}-dbg = "GPL-3.0-with-GCC-exception"
-+LICENSE:${PN} = "GPL-3.0-or-later WITH GCC-exception-3.1"
-+LICENSE:${PN}-dev = "GPL-3.0-or-later WITH GCC-exception-3.1"
-+LICENSE:${PN}-dbg = "GPL-3.0-or-later WITH GCC-exception-3.1"
- 
- FILES:${PN} = "${libdir}/libgfortran.so.*"
- FILES:${PN}-dev = "\
 -- 
 2.54.0
 
