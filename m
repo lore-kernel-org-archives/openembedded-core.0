@@ -1,130 +1,109 @@
-Return-Path: <bbnpreetsingh@gmail.com>
+Return-Path: <emailaddress.ashish@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0108C44501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7864C44507
 	for <webhook@archiver.kernel.org>; Tue, 14 Jul 2026 05:01:11 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3448.1784005269623401370
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3434.1784005262657274831
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jul 2026 22:01:09 -0700
+ Mon, 13 Jul 2026 22:01:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=W5sE+Kxr;
- spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: bbnpreetsingh@gmail.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cace91f112so34300275ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jul 2026 22:01:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=LtNH2o+K;
+ spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: emailaddress.ashish@gmail.com)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c88a4d79ba5so2526132a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Jul 2026 22:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784005269; x=1784610069; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=04q+loF4V+vFTxm+fwoaWotiTPTHPGQJVQspvYl7aE0=;
-        b=W5sE+KxrSoxWOJ0OlDalxgLQ0G6rQjfXFZNUu1sovsedQBbRco7xVuCnQGwxIhYFJm
-         22aVkuaW5oExQSc9cIh/Dzi8hC6Ta54caParn5I8/8tbeCB2nY6OMkDeGIEbP3XD69fF
-         xBo0BrH5a1Z1652O1lCm6+WHUm0fEhfqUmB8nLwxfn7Z0z+YdZrZhQiRHZwcbe5zqbAl
-         xz1beDWAozNDLgw8e/fvC+7pSl7PEszJn/XcpcAz500wovOqkKDujjGIytg+hbbgDRdX
-         wvaP57hbdp1U0/3PwJxke4ZvvtU4EJB7LyMzk008l5L5H++qLPUg2jS8jA83irjIv8iL
-         RUyg==
+        d=gmail.com; s=20251104; t=1784005262; x=1784610062; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UD4xYbSTEoHNH4e2JVBjOAIbnvNjaJ6fAoqrvODFMn4=;
+        b=LtNH2o+K7kQemdyKOl9Loahc7xEnKZWT/gvjQDHE91AvaRXXV33Ffp81W/kusEz/Yq
+         JhSDKIUcUv9Q/ZjfNqMNSvZrYULWJ0QjhPpouqnp7Jv4hLUSBiz8ei1VXX9N/tI1O0VE
+         nI0+kh2wV56CN9+26sEgDbkqw5GiAZ+tPhPksObLwQBUn6w0J6DltH/pWWLhbScpHKVz
+         cMJEW7g5yhOAHsd3gp54LOqNxO0BhJfoGsH5IsBH7mXgq2d/YNlJHdUEWwoVIGDUWhAy
+         IvUjC+F7emdPgTf7v6T2Me4lpcqLHpS35cxzYtxe2bLIWLm9RFU0uq4sy85JSI5FCR53
+         ChGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784005269; x=1784610069;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=04q+loF4V+vFTxm+fwoaWotiTPTHPGQJVQspvYl7aE0=;
-        b=ejKCKsoNoEdtLC6a8E5SFI1lgmYkELrjsBf9tV/ScVfloe0eZCu8P6Y59Me2OkRYme
-         /UnSB0PiR0L/D/UQ2Xz6vKGlg2TKYf24Ye6tN7ajb51rnwTtqc3JJCrWiLdYoQ9jDXjQ
-         5KiJ/u70D8qfM/ggp+BlGZngmaY1G+pZbliZ3kjjw8f8BnRVr9OaaN147S4Bhq74kAfS
-         ztV9sX7EfT3vYTkTkzDLcflD3PQASj9cpaV9H/Zi9iY7qzJNjXRuEbL4grAtlQxReYwU
-         spEswNKoErv3hWkQaWenqRGm4n0BuDZlUI5p7hVdJkrm/FCVl+VE2vhj1B8QVEsaIVHg
-         gHDg==
-X-Gm-Message-State: AOJu0Yz9JxMSjB84HVDg2nr/u8SoNRTn67gW6ZHGdDwkc7X/QAUZfito
-	4T8sKSxLQRwD+jkIdCLNGLNXAL9lnMEeJk2PmtqZtH1/CI8713lKUTgApBOXq/mKdu8=
-X-Gm-Gg: AfdE7cmvd63UQxoDGgtIIRIo2H/A6GSpC37eBb35+QZ1C7vieX204VFAPQQ09yC+FOz
-	lFChaF0xrr896MAlk/1inpen6uFRHhOmBzMCQPuScXueyUTxSsPUYnp+mbW2NRelzq0n9h5OMSU
-	ju8FRRht0Zcx0QBF9t1UYOdBkogis7WhI9OdI4SfJTxFxal8FUORDqMxYGUNJDpkzFP34S0Bz7g
-	hlhjeVrcK5ySpTaX0KxOsBkVDfZKlzto5Yo+cALZnTO5gj10vMYHv62Lf+sL8R6Bo6qVddx5nbQ
-	kAOpBGlPEyqmWKhtsTi75NrOTmLBDGXkc8lVIDuiuaPTfXpM9DMligonMW4okMJf2Fdwi44sOf8
-	RDrAWSXdaJBj5PwYNxr63tA41753RRrdkLb+F34jrfob2YSlvv2MFNEMK4q+vGHhDY4nAWOFrUk
-	/YnxQGF9iJCC5V
-X-Received: by 2002:a17:902:fc8f:b0:2c9:c6f3:457a with SMTP id d9443c01a7336-2ce9f01d68fmr105696425ad.31.1784005268915;
-        Mon, 13 Jul 2026 22:01:08 -0700 (PDT)
-Received: from ydev.. ([108.180.130.139])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bdb72fsm109720255ad.6.2026.07.13.22.01.08
+        d=1e100.net; s=20251104; t=1784005262; x=1784610062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UD4xYbSTEoHNH4e2JVBjOAIbnvNjaJ6fAoqrvODFMn4=;
+        b=CEki4GWKYo9pyEeVDC9yxciSxUroOf6+o0UMfrm0JK4aXfiTRdrq9BxL/T+VlwmzHp
+         ASO+KsUVBOsmGeOjqxUqVCvFdpmaruFXGKgd6Qq95aaZ0K8SLbA5EkDT2kfjbUv0CtiB
+         kkBrx8GYwVg9hHTSxeCWUou/1Yu9bib5rModhehlpUKWKEmj7Ed+eaSCpb9hsCecFkGR
+         o4TXDbzT4K0iLWw1oYN+l1JpYW9x6eTYATx1d7q5LcN1kf5IE7lCDMU4YoW0d+73mcRj
+         Og5wQvoLs+qMd/GSDx2/LvohpKoqwSGp5elWac33zeXYvhOW/20BdT2J7GhOC6A2bQgH
+         +jtw==
+X-Gm-Message-State: AOJu0YyR+p0tljWJzMlN1OT31MRxkPW9pijIc+CViH4f01DFWDsUbtbu
+	1cm3vwj3Mek/CUKhjdgOg7BwFhIvdCNiGkquOqBAb+nXz+9sCFe1L1C24FNq3A==
+X-Gm-Gg: AfdE7clZSCVa9DKNUK8KOvb4bF5MyO8cAAULGJeyOjMEHtIQNniNRdTOGh+kTqK9Ij3
+	kW/qq9BB9/1Sdi/zTI41+3lJYUyWV0k+aCyKFj4lC9kWHMjtodBO/Sob9zHKvz/eMnUkJfZOgwE
+	cfYGR4I/Q5ttDq+l704jf1Q5mj53rJgMRpzcXhpnnNOFTX/T0Ux6+4pMM0Kf3rVEwhv407pYcyT
+	XUb5yx1YUQS2oNjXZ/Z0kzaLpHflcIMIiYAfA3O9H32TIA4fL1t3IGu8vk2RZMvlKD/YAnD45Ip
+	/3zf0OZ7jE7/2qdGMMqb2p2YDm/AYrliFI5aEPVhEY3VYkPalzPzei5RA86J1IjDAxL7rV85EjQ
+	xIQXQJRL7IEWbupsfD7XB0dsbpC5VdTsRZoVIni2paefE3tZlY+SHVLcv+eP0zdYcOaQTTgwrDn
+	mzgtp6QRZc8h9DsvxmlSt6c3syOXwaZKgyzB5U4yyp
+X-Received: by 2002:a05:6300:218c:b0:3bf:82c5:ed13 with SMTP id adf61e73a8af0-3c35754ee80mr996968637.38.1784005261644;
+        Mon, 13 Jul 2026 22:01:01 -0700 (PDT)
+Received: from ashishkumar.. ([2406:7400:12b:e084:49b5:3276:f51c:9aff])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b93ae3b45sm23592861c88.15.2026.07.13.22.00.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 22:01:08 -0700 (PDT)
-From: Babanpreet Singh <bbnpreetsingh@gmail.com>
+        Mon, 13 Jul 2026 22:01:00 -0700 (PDT)
+From: AshishKumar Mishra <emailaddress.ashish@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Julien Stephan <jstephan@baylibre.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	Chris Laplante <chris.laplante@agilent.com>,
-	Adrian Freihofer <adrian.freihofer@siemens.com>,
-	Peter Kjellerstedt <pkj@axis.com>,
-	Babanpreet Singh <bbnpreetsingh@gmail.com>
-Subject: [PATCH 2/2] oeqa/selftest/devtool: cover update-recipe --initial-rev
-Date: Tue, 14 Jul 2026 05:01:06 +0000
-Message-ID: <20260714050107.7-2-bbnpreetsingh@gmail.com>
+Cc: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+Subject: [OE-core][PATCH v2] package.bbclass: hardcode emit_pkgdata to run last
+Date: Tue, 14 Jul 2026 10:30:03 +0530
+Message-ID: <20260714050003.210678-1-emailaddress.ashish@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260714050107.7-1-bbnpreetsingh@gmail.com>
-References: <20260714050107.7-1-bbnpreetsingh@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 14 Jul 2026 05:01:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240864
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/240862
 
-The --initial-rev option had no selftest coverage, which let the
-regression fixed by the previous commit go unnoticed since 2023.
-Extend test_devtool_update_recipe to run update-recipe twice more with
---initial-rev: once with the recorded initial revision, which must
-produce the same result as not passing the option, and once with a
-revision in the middle of the local commits, which must export only
-the commits after it.
+Ensure emit_pkgdata runs after all PACKAGEFUNCS to allow layers to
+extend packaging behavior.
+Layers can now append custom functions via PACKAGEFUNCS += "func_name"
+and they will run before emit_pkgdata generates package metadata.
 
-Without the fix in the previous commit, the first --initial-rev
-invocation fails with "Unable to find initial revision - please
-specify it with --initial-rev".
-
-AI-Generated: Uses Claude (claude-fable-5)
-Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
+Signed-off-by: AshishKumar Mishra <emailaddress.ashish@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ meta/classes-global/package.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index b2cd13e9a5..1bad223278 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -1286,6 +1286,28 @@ class DevtoolUpdateTests(DevtoolBase):
-         self._check_repo_status(os.path.dirname(recipefile), expected_status)
-         result = runCmd(cleanup_cmd)
-         self._check_repo_status(os.path.dirname(recipefile), [])
-+        # Now try the same passing --initial-rev: the recorded initial
-+        # revision must give the same result as not passing the option, and a
-+        # later revision must export only the commits after it
-+        result = runCmd('git rev-parse devtool-base', cwd=tempdir)
-+        initial_rev = result.output.strip()
-+        result = runCmd('devtool update-recipe --initial-rev %s %s' % (initial_rev, testrecipe))
-+        result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
-+        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
-+                           ('A ', '.*/0001-Change-the-README.patch$'),
-+                           ('A ', '.*/0002-Add-a-new-file.patch$')]
-+        self._check_repo_status(os.path.dirname(recipefile), expected_status)
-+        result = runCmd(cleanup_cmd)
-+        self._check_repo_status(os.path.dirname(recipefile), [])
-+        result = runCmd('git rev-parse HEAD~1', cwd=tempdir)
-+        midpoint_rev = result.output.strip()
-+        result = runCmd('devtool update-recipe --initial-rev %s %s' % (midpoint_rev, testrecipe))
-+        result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
-+        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
-+                           ('A ', '.*/0001-Add-a-new-file.patch$')]
-+        self._check_repo_status(os.path.dirname(recipefile), expected_status)
-+        result = runCmd(cleanup_cmd)
-+        self._check_repo_status(os.path.dirname(recipefile), [])
+diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
+index 30accaeaa9..cb92b49571 100644
+--- a/meta/classes-global/package.bbclass
++++ b/meta/classes-global/package.bbclass
+@@ -472,8 +472,7 @@ PACKAGEFUNCS += " \
+                 package_do_shlibs \
+                 package_do_pkgconfig \
+                 read_shlibdeps \
+-                package_depchains \
+-                emit_pkgdata"
++                package_depchains"
  
-     def test_devtool_update_recipe_git(self):
-         # Check preconditions
+ python do_package () {
+     # Change the following version to cause sstate to invalidate the package
+@@ -564,9 +563,13 @@ python do_package () {
+             for file in files:
+                 pkgfiles[pkg].append(walkroot + os.sep + file)
+ 
++
++    # We want emit_pkgdata to run last, after everything
+     for f in (d.getVar('PACKAGEFUNCS') or '').split():
+         bb.build.exec_func(f, d)
+ 
++    bb.build.exec_func("emit_pkgdata", d)
++
+     oe.qa.exit_if_errors(d)
+ }
+ 
 -- 
 2.43.0
 
